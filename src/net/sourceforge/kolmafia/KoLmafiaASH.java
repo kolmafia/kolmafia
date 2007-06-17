@@ -193,7 +193,7 @@ public class KoLmafiaASH extends StaticEntity
 
 	public KoLmafiaASH()
 	{
-		this.global = new ScriptScope( new ScriptVariableList(), this.getExistingFunctionScope() );
+		this.global = new ScriptScope( new ScriptVariableList(), getExistingFunctionScope() );
 	}
 
 	private KoLmafiaASH( KoLmafiaASH source, File scriptFile )
@@ -206,16 +206,16 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			this.commandStream = new LineNumberReader( new InputStreamReader( new FileInputStream( scriptFile ) ) );
 
-			this.currentLine = this.getNextLine();
-			this.lineNumber = this.commandStream.getLineNumber();
-			this.nextLine = this.getNextLine();
+			this.currentLine = getNextLine();
+			this.lineNumber = commandStream.getLineNumber();
+			this.nextLine = getNextLine();
 		}
 		catch ( Exception e )
 		{
 			// If any part of the initialization fails,
 			// then throw an exception.
 
-			throw new AdvancedScriptException( this.fileName + " could not be accessed" );
+			throw new AdvancedScriptException( fileName + " could not be accessed" );
 		}
 	}
 
@@ -649,7 +649,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		try
 		{
-			return this.validate( new FileInputStream( scriptFile ) );
+			return validate( new FileInputStream( scriptFile ) );
 		}
 		catch ( AdvancedScriptException e )
 		{
@@ -675,12 +675,12 @@ public class KoLmafiaASH extends StaticEntity
 			return false;
 		}
 
-		this.currentLine = this.getNextLine();
-		this.lineNumber = this.commandStream.getLineNumber();
-		this.nextLine = this.getNextLine();
+		this.currentLine = getNextLine();
+		this.lineNumber = commandStream.getLineNumber();
+		this.nextLine = getNextLine();
 
-		this.global = this.parseScope( null, null, new ScriptVariableList(), this.getExistingFunctionScope(), false );
-		this.printScope( this.global, 0 );
+		this.global = parseScope( null, null, new ScriptVariableList(), getExistingFunctionScope(), false );
+		printScope( global, 0 );
 
 		try
 		{
@@ -695,7 +695,7 @@ public class KoLmafiaASH extends StaticEntity
 		this.commandStream = null;
 
 		if ( this.currentLine != null )
-			throw new AdvancedScriptException( "Script parsing error " + this.getLineAndFile() );
+			throw new AdvancedScriptException( "Script parsing error " + getLineAndFile() );
 
 		return true;
 	}
@@ -719,31 +719,31 @@ public class KoLmafiaASH extends StaticEntity
 
 			if ( !shouldRefresh )
 			{
-				Iterator it = this.imports.keySet().iterator();
+				Iterator it = imports.keySet().iterator();
 
 				while ( it.hasNext() && !shouldRefresh )
 				{
 					File file = (File) it.next();
-					shouldRefresh = ((Long) this.imports.get( file )).longValue() != file.lastModified();
+					shouldRefresh = ((Long) imports.get( file )).longValue() != file.lastModified();
 				}
 			}
 
 			if ( shouldRefresh )
 			{
-				this.imports.clear();
+				imports.clear();
 				lastImportString = "";
 
-				this.global = new ScriptScope( new ScriptVariableList(), this.getExistingFunctionScope() );
+				this.global = new ScriptScope( new ScriptVariableList(), getExistingFunctionScope() );
 				ScriptScope result = this.global;
 
 				String [] importList = importString.split( "," );
 
 				for ( int i = 0; i < importList.length; ++i )
-					result = this.parseFile( importList[i] );
+					result = parseFile( importList[i] );
 			}
 		}
 
-		String currentScript = (this.fileName == null) ? "<>" : "<" + this.fileName + ">";
+		String currentScript = (fileName == null) ? "<>" : "<" + fileName + ">";
 		String notifyList = StaticEntity.getProperty( "previousNotifyList" );
 
 		if ( notifyRecipient != null && notifyList.indexOf( currentScript ) == -1 )
@@ -759,7 +759,7 @@ public class KoLmafiaASH extends StaticEntity
 			boolean wasExecuting = isExecuting;
 
 			isExecuting = true;
-			this.executeScope( this.global, functionName, parameters );
+			executeScope( global, functionName, parameters );
 			isExecuting = wasExecuting;
 		}
 		catch ( AdvancedScriptException e )
@@ -788,7 +788,7 @@ public class KoLmafiaASH extends StaticEntity
 				// (which is a non-comment and a non-blank currentLine
 				// ) or when you've reached EOF.
 
-				this.fullLine = this.commandStream.readLine();
+				this.fullLine = commandStream.readLine();
 
 				// Return null at end of file
 				if ( this.fullLine == null )
@@ -824,7 +824,7 @@ public class KoLmafiaASH extends StaticEntity
 		if ( scriptFile == null || !scriptFile.exists() )
 			throw new AdvancedScriptException( fileName + " could not be found" );
 
-		if ( this.imports.containsKey( scriptFile ) )
+		if ( imports.containsKey( scriptFile ) )
 			return this.global;
 
 		AdvancedScriptException error = null;
@@ -857,8 +857,8 @@ public class KoLmafiaASH extends StaticEntity
 		if ( script.currentLine != null )
 			throw new AdvancedScriptException( "Script parsing error " + script.getLineAndFile() );
 
-		this.imports.put( scriptFile, new Long( scriptFile.lastModified() ) );
-		this.mainMethod = null;
+		imports.put( scriptFile, new Long( scriptFile.lastModified() ) );
+		mainMethod = null;
 
 		return result;
 	}
@@ -869,29 +869,29 @@ public class KoLmafiaASH extends StaticEntity
 		String importString;
 
 		result = startScope == null ? new ScriptScope( variables, parentScope ) : startScope;
-		this.parseNotify();
+		parseNotify();
 
-		while ( (importString = this.parseImport()) != null )
-			result = this.parseFile( importString );
+		while ( (importString = parseImport()) != null )
+			result = parseFile( importString );
 
 		while ( true )
 		{
-			if ( this.parseTypedef( result ) )
+			if ( parseTypedef( result ) )
 			{
-				if ( !this.currentToken().equals( ";" ) )
-					this.parseError( ";", this.currentToken() );
+				if ( !currentToken().equals( ";" ) )
+					parseError( ";", currentToken() );
 
-				this.readToken(); //read ;
+				readToken(); //read ;
 				continue;
 			}
 
-			ScriptType t = this.parseType( result, true, true );
+			ScriptType t = parseType( result, true, true );
 
 			// If there is no data type, it's a command of some sort
 			if ( t == null )
 			{
 				// See if it's a regular command
-				ScriptCommand c = this.parseCommand( expectedType, result, false, whileLoop );
+				ScriptCommand c = parseCommand( expectedType, result, false, whileLoop );
 				if ( c != null )
 				{
 					result.addCommand( c );
@@ -904,33 +904,32 @@ public class KoLmafiaASH extends StaticEntity
 			}
 
 			// If this is a new record definition, enter it
-			if ( t.getType() == TYPE_RECORD && this.currentToken() != null && this.currentToken().equals( ";" ) )
+			if ( t.getType() == TYPE_RECORD && currentToken() != null && currentToken().equals( ";" ) )
 			{
-				this.readToken();	// read ;
+				readToken();	// read ;
 				continue;
 			}
 
-			ScriptFunction f = this.parseFunction( t, result );
+			ScriptFunction f = parseFunction( t, result );
 			if ( f != null )
 			{
 				if ( f.getName().equalsIgnoreCase( "main" ) )
-					this.mainMethod = f;
+					mainMethod = f;
 
 				continue;
 			}
 
-			ScriptVariable v = this.parseVariable( t, result );
-			if ( v != null )
+			if ( parseVariables( t, result ) )
 			{
-				if ( !this.currentToken().equals( ";" ) )
-					this.parseError( ";", this.currentToken() );
+				if ( !currentToken().equals( ";" ) )
+					parseError( ";", currentToken() );
 
-				this.readToken(); //read ;
+				readToken(); //read ;
 				continue;
 			}
 
 			//Found a type but no function or variable to tie it to
-			throw new AdvancedScriptException( "Script parse error " + this.getLineAndFile() );
+			throw new AdvancedScriptException( "Script parse error " + getLineAndFile() );
 		}
 
 		return result;
@@ -938,38 +937,38 @@ public class KoLmafiaASH extends StaticEntity
 
 	private ScriptType parseRecord( ScriptScope parentScope )
 	{
-		if ( this.currentToken() == null || !this.currentToken().equalsIgnoreCase( "record" ) )
+		if ( currentToken() == null || !currentToken().equalsIgnoreCase( "record" ) )
 			return null;
 
-		this.readToken(); // read record
+		readToken(); // read record
 
-		if ( this.currentToken() == null )
-			throw new AdvancedScriptException( "Record name expected " + this.getLineAndFile() );
+		if ( currentToken() == null )
+			throw new AdvancedScriptException( "Record name expected " + getLineAndFile() );
 
 		// Allow anonymous records
 		String recordName = null;
 
-		if ( !this.currentToken().equals( "{" ) )
+		if ( !currentToken().equals( "{" ) )
 		{
 			// Named record
-			recordName = this.currentToken();
+			recordName = currentToken();
 
-			if ( !this.parseIdentifier( recordName ) )
-				throw new AdvancedScriptException( "Invalid record name '" + recordName + "' " + this.getLineAndFile() );
+			if ( !parseIdentifier( recordName ) )
+				throw new AdvancedScriptException( "Invalid record name '" + recordName + "' " + getLineAndFile() );
 
 			if ( isReservedWord( recordName ) )
-				throw new AdvancedScriptException( "Reserved word '" + recordName + "' cannot be a record name " + this.getLineAndFile() );
+				throw new AdvancedScriptException( "Reserved word '" + recordName + "' cannot be a record name " + getLineAndFile() );
 
 			if ( parentScope.findType( recordName ) != null )
-				throw new AdvancedScriptException( "Record name '" + recordName + "' is already defined " + this.getLineAndFile() );
+				throw new AdvancedScriptException( "Record name '" + recordName + "' is already defined " + getLineAndFile() );
 
-			this.readToken(); // read name
+			readToken(); // read name
 		}
 
-		if ( this.currentToken() == null || !this.currentToken().equals( "{" ) )
-			this.parseError( "{", this.currentToken() );
+		if ( currentToken() == null || !currentToken().equals( "{" ) )
+			parseError( "{", currentToken() );
 
-		this.readToken(); // read {
+		readToken(); // read {
 
 		// Loop collecting fields
 		ArrayList fieldTypes = new ArrayList();
@@ -978,42 +977,42 @@ public class KoLmafiaASH extends StaticEntity
 		while ( true )
 		{
 			// Get the field type
-			ScriptType fieldType = this.parseType( parentScope, true, true );
+			ScriptType fieldType = parseType( parentScope, true, true );
 			if ( fieldType == null )
-				throw new AdvancedScriptException( "Type name expected " + this.getLineAndFile() );
+				throw new AdvancedScriptException( "Type name expected " + getLineAndFile() );
 
 			// Get the field name
-			String fieldName = this.currentToken();
+			String fieldName = currentToken();
 			if ( fieldName == null )
-				throw new AdvancedScriptException( "Field name expected " + this.getLineAndFile() );
+				throw new AdvancedScriptException( "Field name expected " + getLineAndFile() );
 
-			if ( !this.parseIdentifier( fieldName ) )
-				throw new AdvancedScriptException( "Invalid field name '" + fieldName + "' " + this.getLineAndFile() );
+			if ( !parseIdentifier( fieldName ) )
+				throw new AdvancedScriptException( "Invalid field name '" + fieldName + "' " + getLineAndFile() );
 
 			if ( isReservedWord( fieldName ) )
-				throw new AdvancedScriptException( "Reserved word '" + fieldName + "' cannot be used as a field name " + this.getLineAndFile() );
+				throw new AdvancedScriptException( "Reserved word '" + fieldName + "' cannot be used as a field name " + getLineAndFile() );
 
 			if ( fieldNames.contains( fieldName ) )
-				throw new AdvancedScriptException( "Field name '" + fieldName + "' is already defined " + this.getLineAndFile() );
+				throw new AdvancedScriptException( "Field name '" + fieldName + "' is already defined " + getLineAndFile() );
 
-			this.readToken(); // read name
+			readToken(); // read name
 
-			if ( this.currentToken() == null || !this.currentToken().equals( ";" ) )
-				this.parseError( ";", this.currentToken() );
+			if ( currentToken() == null || !currentToken().equals( ";" ) )
+				parseError( ";", currentToken() );
 
-			this.readToken(); // read ;
+			readToken(); // read ;
 
 			fieldTypes.add( fieldType );
 			fieldNames.add( fieldName.toLowerCase() );
 
-			if ( this.currentToken() == null )
-				this.parseError( "}", "EOF" );
+			if ( currentToken() == null )
+				parseError( "}", "EOF" );
 
-			if ( this.currentToken().equals( "}" ) )
+			if ( currentToken().equals( "}" ) )
 			     break;
 		}
 
-		this.readToken(); // read }
+		readToken(); // read }
 
 		String [] fieldNameArray = new String[ fieldNames.size() ];
 		ScriptType [] fieldTypeArray = new ScriptType[ fieldTypes.size() ];
@@ -1031,79 +1030,79 @@ public class KoLmafiaASH extends StaticEntity
 
 	private ScriptFunction parseFunction( ScriptType functionType, ScriptScope parentScope )
 	{
-		if ( !this.parseIdentifier( this.currentToken() ) )
+		if ( !parseIdentifier( currentToken() ) )
 			return null;
 
-		if ( this.nextToken() == null || !this.nextToken().equals( "(" ) )
+		if ( nextToken() == null || !nextToken().equals( "(" ) )
 			return null;
 
-		String functionName = this.currentToken();
+		String functionName = currentToken();
 
 		if ( isReservedWord( functionName ) )
-			throw new AdvancedScriptException( "Reserved word '" + functionName + "' cannot be used as a function name " + this.getLineAndFile() );
+			throw new AdvancedScriptException( "Reserved word '" + functionName + "' cannot be used as a function name " + getLineAndFile() );
 
-		this.readToken(); //read Function name
-		this.readToken(); //read (
+		readToken(); //read Function name
+		readToken(); //read (
 
 		ScriptVariableList paramList = new ScriptVariableList();
 		ScriptVariableReferenceList variableReferences = new ScriptVariableReferenceList();
 
-		while ( !this.currentToken().equals( ")" ) )
+		while ( !currentToken().equals( ")" ) )
 		{
-			ScriptType paramType = this.parseType( parentScope, true, false );
+			ScriptType paramType = parseType( parentScope, true, false );
 			if ( paramType == null )
-				this.parseError( ")", this.currentToken() );
+				parseError( ")", currentToken() );
 
-			ScriptVariable param = this.parseVariable( paramType, null );
+			ScriptVariable param = parseVariable( paramType, null );
 			if ( param == null )
-				this.parseError( "identifier", this.currentToken() );
+				parseError( "identifier", currentToken() );
 
 			if ( !paramList.addElement( param ) )
-				throw new AdvancedScriptException( "Variable " + param.getName() + " is already defined " + this.getLineAndFile() );
+				throw new AdvancedScriptException( "Variable " + param.getName() + " is already defined " + getLineAndFile() );
 
-			if ( !this.currentToken().equals( ")" ) )
+			if ( !currentToken().equals( ")" ) )
 			{
-				if ( !this.currentToken().equals( "," ) )
-					this.parseError( ")", this.currentToken() );
+				if ( !currentToken().equals( "," ) )
+					parseError( ")", currentToken() );
 
-				this.readToken(); //read comma
+				readToken(); //read comma
 			}
 
 			variableReferences.addElement( new ScriptVariableReference( param ) );
 		}
 
-		this.readToken(); //read )
+		readToken(); //read )
 
 		// Add the function to the parent scope before we parse the
 		// function scope to allow recursion. Replace an existing
 		// forward reference.
 
 		ScriptUserDefinedFunction result = parentScope.replaceFunction( new ScriptUserDefinedFunction( functionName, functionType, variableReferences ) );
-		if ( this.currentToken() != null && this.currentToken().equals( ";" ) )
+		if ( currentToken() != null && currentToken().equals( ";" ) )
 		{
 			// Yes. Return forward reference
-			this.readToken(); // ;
+			readToken(); // ;
 			return result;
 		}
 
 		ScriptScope scope;
-		if ( this.currentToken() != null && this.currentToken().equals( "{" ) )
+		if ( currentToken() != null && currentToken().equals( "{" ) )
 		{
 			// Scope is a block
 
-			this.readToken(); // {
+			readToken(); // {
 
-			scope = this.parseScope( null, functionType, paramList, parentScope, false );
-			if ( this.currentToken() == null || !this.currentToken().equals( "}" ) )
-				this.parseError( "}", this.currentToken() );
+			scope = parseScope( null, functionType, paramList, parentScope, false );
+			if ( currentToken() == null || !currentToken().equals( "}" ) )
+				parseError( "}", currentToken() );
 
-			this.readToken(); // }
+			readToken(); // }
 		}
 		else
 		{
 			// Scope is a single command
 			scope = new ScriptScope( paramList, parentScope );
-			scope.addCommand( this.parseCommand( functionType, parentScope, false, false ) );
+			scope.addCommand( parseCommand( functionType, parentScope, false, false ) );
 		}
 
 		result.setScope( scope );
@@ -1113,30 +1112,48 @@ public class KoLmafiaASH extends StaticEntity
 		     // returning a boolean. Or something. But without it,
 		     // existing scripts break. Aargh!
 		     && !functionType.equals( TYPE_BOOLEAN ) )
-			throw new AdvancedScriptException( "Missing return value " + this.getLineAndFile() );
+			throw new AdvancedScriptException( "Missing return value " + getLineAndFile() );
 
 		return result;
 	}
 
+	private boolean parseVariables( ScriptType t, ScriptScope parentScope )
+	{
+		while ( true )
+		{
+			ScriptVariable v = parseVariable( t, parentScope );
+			if ( v == null )
+				return false;
+
+			if ( currentToken().equals( "," ) )
+			{
+				readToken(); //read ,
+				continue;
+			}
+
+			return true;
+		}
+	}
+
 	private ScriptVariable parseVariable( ScriptType t, ScriptScope scope )
 	{
-		if ( !this.parseIdentifier( this.currentToken() ) )
+		if ( !parseIdentifier( currentToken() ) )
 			return null;
 
-		String variableName = this.currentToken();
+		String variableName = currentToken();
 		if ( isReservedWord( variableName ) )
-			throw new AdvancedScriptException( "Reserved word '" + variableName + "' cannot be a variable name " + this.getLineAndFile() );
+			throw new AdvancedScriptException( "Reserved word '" + variableName + "' cannot be a variable name " + getLineAndFile() );
 
 		ScriptVariable result = new ScriptVariable( variableName, t );
 		if ( scope != null && !scope.addVariable( result ) )
-			throw new AdvancedScriptException( "Variable " + result.getName() + " is already defined " + this.getLineAndFile() );
+			throw new AdvancedScriptException( "Variable " + result.getName() + " is already defined " + getLineAndFile() );
 
-		this.readToken(); // If parsing of Identifier succeeded, go to next token.
+		readToken(); // If parsing of Identifier succeeded, go to next token.
 		// If we are parsing a parameter declaration, we are done
 		if ( scope == null )
 		{
-			if ( this.currentToken().equals( "=" ) )
-				throw new AdvancedScriptException( "Cannot initialize parameter " + result.getName() + " " + this.getLineAndFile() );
+			if ( currentToken().equals( "=" ) )
+				throw new AdvancedScriptException( "Cannot initialize parameter " + result.getName() + " " + getLineAndFile() );
 			return result;
 		}
 
@@ -1145,10 +1162,10 @@ public class KoLmafiaASH extends StaticEntity
 		ScriptVariableReference lhs = new ScriptVariableReference( result.getName(), scope );
 		ScriptExpression rhs;
 
-		if ( this.currentToken().equals( "=" ) )
+		if ( currentToken().equals( "=" ) )
 		{
-			this.readToken(); // Eat the equals sign
-			rhs = this.parseExpression( scope );
+			readToken(); // Eat the equals sign
+			rhs = parseExpression( scope );
 		}
 		else
 			rhs = t.initialValueExpression();
@@ -1159,26 +1176,26 @@ public class KoLmafiaASH extends StaticEntity
 
 	private boolean parseTypedef( ScriptScope parentScope )
 	{
-		if ( this.currentToken() == null || !this.currentToken().equalsIgnoreCase( "typedef" ) )
+		if ( currentToken() == null || !currentToken().equalsIgnoreCase( "typedef" ) )
 			return false;
-		this.readToken();	// read typedef
+		readToken();	// read typedef
 
-		ScriptType t = this.parseType( parentScope, true, true );
+		ScriptType t = parseType( parentScope, true, true );
 		if ( t == null )
-			throw new AdvancedScriptException( "Missing data type for typedef " + this.getLineAndFile() );
+			throw new AdvancedScriptException( "Missing data type for typedef " + getLineAndFile() );
 
-		String typeName = this.currentToken();
+		String typeName = currentToken();
 
-		if ( !this.parseIdentifier( typeName ) )
-			throw new AdvancedScriptException( "Invalid type name '" + typeName + "' " + this.getLineAndFile() );
+		if ( !parseIdentifier( typeName ) )
+			throw new AdvancedScriptException( "Invalid type name '" + typeName + "' " + getLineAndFile() );
 
 		if ( isReservedWord( typeName ) )
-			throw new AdvancedScriptException( "Reserved word '" + typeName + "' cannot be a type name " + this.getLineAndFile() );
+			throw new AdvancedScriptException( "Reserved word '" + typeName + "' cannot be a type name " + getLineAndFile() );
 
 		if ( parentScope.findType( typeName ) != null )
-			throw new AdvancedScriptException( "Type name '" + typeName + "' is already defined " + this.getLineAndFile() );
+			throw new AdvancedScriptException( "Type name '" + typeName + "' is already defined " + getLineAndFile() );
 
-		this.readToken(); // read name
+		readToken(); // read name
 
 		// Add the type to the type table
 		ScriptNamedType type = new ScriptNamedType( typeName, t );
@@ -1191,99 +1208,99 @@ public class KoLmafiaASH extends StaticEntity
 	{
 		ScriptCommand result;
 
-		if ( this.currentToken() == null )
+		if ( currentToken() == null )
 			return null;
 
-		if ( this.currentToken().equalsIgnoreCase( "break" ) )
+		if ( currentToken().equalsIgnoreCase( "break" ) )
 		{
 			if ( !whileLoop )
-				throw new AdvancedScriptException( "Encountered 'break' outside of loop " + this.getLineAndFile() );
+				throw new AdvancedScriptException( "Encountered 'break' outside of loop " + getLineAndFile() );
 
 			result = new ScriptFlowControl( COMMAND_BREAK );
-			this.readToken(); //break
+			readToken(); //break
 		}
 
-		else if ( this.currentToken().equalsIgnoreCase( "continue" ) )
+		else if ( currentToken().equalsIgnoreCase( "continue" ) )
 		{
 			if ( !whileLoop )
-				throw new AdvancedScriptException( "Encountered 'continue' outside of loop " + this.getLineAndFile() );
+				throw new AdvancedScriptException( "Encountered 'continue' outside of loop " + getLineAndFile() );
 
 			result = new ScriptFlowControl( COMMAND_CONTINUE );
-			this.readToken(); //continue
+			readToken(); //continue
 		}
 
-		else if ( this.currentToken().equalsIgnoreCase( "exit" ) )
+		else if ( currentToken().equalsIgnoreCase( "exit" ) )
 		{
 			result = new ScriptFlowControl( COMMAND_EXIT );
-			this.readToken(); //exit
+			readToken(); //exit
 		}
 
 
-		else if ( (result = this.parseReturn( functionType, scope )) != null )
+		else if ( (result = parseReturn( functionType, scope )) != null )
 			;
 
-		else if ( (result = this.parseBasicScript()) != null )
+		else if ( (result = parseBasicScript()) != null )
 			// basic_script doesn't have a ; token
 			return result;
 
-		else if ( (result = this.parseWhile( functionType, scope )) != null )
+		else if ( (result = parseWhile( functionType, scope )) != null )
 			// while doesn't have a ; token
 			return result;
 
-		else if ( (result = this.parseForeach( functionType, scope )) != null )
+		else if ( (result = parseForeach( functionType, scope )) != null )
 			// foreach doesn't have a ; token
 			return result;
 
-		else if ( (result = this.parseFor( functionType, scope )) != null )
+		else if ( (result = parseFor( functionType, scope )) != null )
 			// for doesn't have a ; token
 			return result;
 
-		else if ( (result = this.parseRepeat( functionType, scope )) != null )
+		else if ( (result = parseRepeat( functionType, scope )) != null )
 			;
 
-		else if ( (result = this.parseConditional( functionType, scope, noElse, whileLoop )) != null )
+		else if ( (result = parseConditional( functionType, scope, noElse, whileLoop )) != null )
 			// loop doesn't have a ; token
 			return result;
 
-		else if ( (result = this.parseCall( scope )) != null )
+		else if ( (result = parseCall( scope )) != null )
 			;
 
-		else if ( (result = this.parseAssignment( scope )) != null )
+		else if ( (result = parseAssignment( scope )) != null )
 			;
 
-		else if ( (result = this.parseRemove( scope )) != null )
+		else if ( (result = parseRemove( scope )) != null )
 			;
 
-		else if ( (result = this.parseValue( scope )) != null )
+		else if ( (result = parseValue( scope )) != null )
 			;
 
 		else
 			return null;
 
-		if ( this.currentToken() == null || !this.currentToken().equals( ";" ) )
-			this.parseError( ";", this.currentToken() );
+		if ( currentToken() == null || !currentToken().equals( ";" ) )
+			parseError( ";", currentToken() );
 
-		this.readToken(); // ;
+		readToken(); // ;
 		return result;
 	}
 
 	private ScriptType parseType( ScriptScope scope, boolean aggregates, boolean records )
 	{
-		if ( this.currentToken() == null )
+		if ( currentToken() == null )
 			return null;
 
-		ScriptType valType = scope.findType( this.currentToken() );
+		ScriptType valType = scope.findType( currentToken() );
 		if ( valType == null )
 		{
-			if ( records && this.currentToken().equalsIgnoreCase( "record" ) )
+			if ( records && currentToken().equalsIgnoreCase( "record" ) )
 			{
-				valType = this.parseRecord( scope );
+				valType = parseRecord( scope );
 
 				if ( valType == null )
 					return null;
 
-				if ( aggregates && this.currentToken().equals( "[" ) )
-					return this.parseAggregateType( valType, scope );
+				if ( aggregates && currentToken().equals( "[" ) )
+					return parseAggregateType( valType, scope );
 
 				return valType;
 			}
@@ -1291,69 +1308,69 @@ public class KoLmafiaASH extends StaticEntity
 			return null;
 		}
 
-		this.readToken();
+		readToken();
 
-		if ( aggregates && this.currentToken().equals( "[" ) )
-			return this.parseAggregateType( valType, scope );
+		if ( aggregates && currentToken().equals( "[" ) )
+			return parseAggregateType( valType, scope );
 
 		return valType;
 	}
 
 	private ScriptType parseAggregateType( ScriptType dataType, ScriptScope scope )
 	{
-		this.readToken();	// [ or ,
-		if ( this.currentToken() == null )
-			throw new AdvancedScriptException( "Missing index token " + this.getLineAndFile() );
+		readToken();	// [ or ,
+		if ( currentToken() == null )
+			throw new AdvancedScriptException( "Missing index token " + getLineAndFile() );
 
-		if ( arrays && this.readIntegerToken( this.currentToken() ) )
+		if ( arrays && readIntegerToken( currentToken() ) )
 		{
-			int size = parseInt( this.currentToken() );
-			this.readToken(); // integer
+			int size = parseInt( currentToken() );
+			readToken(); // integer
 
-			if ( this.currentToken() == null )
-				this.parseError( "]", this.currentToken() );
+			if ( currentToken() == null )
+				parseError( "]", currentToken() );
 
-			if ( this.currentToken().equals( "]" ) )
+			if ( currentToken().equals( "]" ) )
 			{
-				this.readToken();	// ]
+				readToken();	// ]
 
-				if ( this.currentToken().equals( "[" ) )
-					return new ScriptAggregateType( this.parseAggregateType( dataType, scope ) , size );
+				if ( currentToken().equals( "[" ) )
+					return new ScriptAggregateType( parseAggregateType( dataType, scope ) , size );
 
 				return new ScriptAggregateType( dataType, size );
 			}
 
-			if ( this.currentToken().equals( "," ) )
-				return new ScriptAggregateType( this.parseAggregateType( dataType, scope ) , size );
+			if ( currentToken().equals( "," ) )
+				return new ScriptAggregateType( parseAggregateType( dataType, scope ) , size );
 
-			this.parseError( "]", this.currentToken() );
+			parseError( "]", currentToken() );
 		}
 
-		ScriptType indexType = scope.findType( this.currentToken() );
+		ScriptType indexType = scope.findType( currentToken() );
 		if ( indexType == null )
-			throw new AdvancedScriptException( "Invalid type name '" + this.currentToken() + "' " + this.getLineAndFile() );
+			throw new AdvancedScriptException( "Invalid type name '" + currentToken() + "' " + getLineAndFile() );
 
 		if ( !indexType.isPrimitive() )
-			throw new AdvancedScriptException( "Index type '" + this.currentToken() + "' is not a primitive type " + this.getLineAndFile() );
+			throw new AdvancedScriptException( "Index type '" + currentToken() + "' is not a primitive type " + getLineAndFile() );
 
-		this.readToken();	// type name
-		if ( this.currentToken() == null )
-			this.parseError( "]", this.currentToken() );
+		readToken();	// type name
+		if ( currentToken() == null )
+			parseError( "]", currentToken() );
 
-		if ( this.currentToken().equals( "]" ) )
+		if ( currentToken().equals( "]" ) )
 		{
-			this.readToken();	// ]
+			readToken();	// ]
 
-			if ( this.currentToken().equals( "[" ) )
-				return new ScriptAggregateType( this.parseAggregateType( dataType, scope ) , indexType );
+			if ( currentToken().equals( "[" ) )
+				return new ScriptAggregateType( parseAggregateType( dataType, scope ) , indexType );
 
 			return new ScriptAggregateType( dataType, indexType );
 		}
 
-		if ( this.currentToken().equals( "," ) )
-			return new ScriptAggregateType( this.parseAggregateType( dataType, scope ) , indexType );
+		if ( currentToken().equals( "," ) )
+			return new ScriptAggregateType( parseAggregateType( dataType, scope ) , indexType );
 
-		this.parseError( ", or ]", this.currentToken() );
+		parseError( ", or ]", currentToken() );
 		return null;
 	}
 
@@ -1373,22 +1390,22 @@ public class KoLmafiaASH extends StaticEntity
 	{
 		ScriptExpression expression = null;
 
-		if ( this.currentToken() == null || !this.currentToken().equalsIgnoreCase( "return" ) )
+		if ( currentToken() == null || !currentToken().equalsIgnoreCase( "return" ) )
 			return null;
 
-		this.readToken(); //return
+		readToken(); //return
 
-		if ( this.currentToken() != null && this.currentToken().equals( ";" ) )
+		if ( currentToken() != null && currentToken().equals( ";" ) )
 		{
 			if ( expectedType != null && expectedType.equals( TYPE_VOID ) )
 				return new ScriptReturn( null, VOID_TYPE );
 
-			throw new AdvancedScriptException( "Return needs value " + this.getLineAndFile() );
+			throw new AdvancedScriptException( "Return needs value " + getLineAndFile() );
 		}
 		else
 		{
-			if ( (expression = this.parseExpression( parentScope )) == null )
-				throw new AdvancedScriptException( "Expression expected " + this.getLineAndFile() );
+			if ( (expression = parseExpression( parentScope )) == null )
+				throw new AdvancedScriptException( "Expression expected " + getLineAndFile() );
 
 			return new ScriptReturn( expression, expectedType );
 		}
@@ -1396,20 +1413,20 @@ public class KoLmafiaASH extends StaticEntity
 
 	private ScriptConditional parseConditional( ScriptType functionType, ScriptScope parentScope, boolean noElse, boolean loop )
 	{
-		if ( this.currentToken() == null || !this.currentToken().equalsIgnoreCase( "if" ) )
+		if ( currentToken() == null || !currentToken().equalsIgnoreCase( "if" ) )
 			return null;
 
-		if ( this.nextToken() == null || !this.nextToken().equals( "(" ) )
-			this.parseError( "(", this.nextToken() );
+		if ( nextToken() == null || !nextToken().equals( "(" ) )
+			parseError( "(", nextToken() );
 
-		this.readToken(); // if
-		this.readToken(); // (
+		readToken(); // if
+		readToken(); // (
 
-		ScriptExpression expression = this.parseExpression( parentScope );
-		if ( this.currentToken() == null || !this.currentToken().equals( ")" ) )
-			this.parseError( ")", this.currentToken() );
+		ScriptExpression expression = parseExpression( parentScope );
+		if ( currentToken() == null || !currentToken().equals( ")" ) )
+			parseError( ")", currentToken() );
 
-		this.readToken(); // )
+		readToken(); // )
 
 		ScriptIf result = null;
 		boolean elseFound = false;
@@ -1419,20 +1436,20 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			ScriptScope scope;
 
-			if ( this.currentToken() == null || !this.currentToken().equals( "{" ) ) //Scope is a single call
+			if ( currentToken() == null || !currentToken().equals( "{" ) ) //Scope is a single call
 			{
-				ScriptCommand command = this.parseCommand( functionType, parentScope, !elseFound, loop );
+				ScriptCommand command = parseCommand( functionType, parentScope, !elseFound, loop );
 				scope = new ScriptScope( command, parentScope );
 			}
 			else
 			{
-				this.readToken(); //read {
-				scope = this.parseScope( null, functionType, null, parentScope, loop );
+				readToken(); //read {
+				scope = parseScope( null, functionType, null, parentScope, loop );
 
-				if ( this.currentToken() == null || !this.currentToken().equals( "}" ) )
-					this.parseError( "}", this.currentToken() );
+				if ( currentToken() == null || !currentToken().equals( "}" ) )
+					parseError( "}", currentToken() );
 
-				this.readToken(); //read }
+				readToken(); //read }
 			}
 
 			if ( result == null )
@@ -1442,30 +1459,30 @@ public class KoLmafiaASH extends StaticEntity
 			else
 				result.addElseLoop( new ScriptElseIf( scope, expression ) );
 
-			if ( !noElse && this.currentToken() != null && this.currentToken().equalsIgnoreCase( "else" ) )
+			if ( !noElse && currentToken() != null && currentToken().equalsIgnoreCase( "else" ) )
 			{
 				if ( finalElse )
-					throw new AdvancedScriptException( "Else without if " + this.getLineAndFile() );
+					throw new AdvancedScriptException( "Else without if " + getLineAndFile() );
 
-				if ( this.nextToken() != null && this.nextToken().equalsIgnoreCase( "if" ) )
+				if ( nextToken() != null && nextToken().equalsIgnoreCase( "if" ) )
 				{
-					this.readToken(); //else
-					this.readToken(); //if
+					readToken(); //else
+					readToken(); //if
 
-					if ( this.currentToken() == null || !this.currentToken().equals( "(" ) )
-						this.parseError( "(", this.currentToken() );
+					if ( currentToken() == null || !currentToken().equals( "(" ) )
+						parseError( "(", currentToken() );
 
-					this.readToken(); //(
-					expression = this.parseExpression( parentScope );
+					readToken(); //(
+					expression = parseExpression( parentScope );
 
-					if ( this.currentToken() == null || !this.currentToken().equals( ")" ) )
-						this.parseError( ")", this.currentToken() );
+					if ( currentToken() == null || !currentToken().equals( ")" ) )
+						parseError( ")", currentToken() );
 
-					this.readToken(); // )
+					readToken(); // )
 				}
 				else //else without condition
 				{
-					this.readToken(); //else
+					readToken(); //else
 					expression = TRUE_VALUE;
 					finalElse = true;
 				}
@@ -1483,25 +1500,25 @@ public class KoLmafiaASH extends StaticEntity
 
 	private ScriptBasicScript parseBasicScript()
 	{
-		if ( this.currentToken() == null )
+		if ( currentToken() == null )
 			return null;
 
-		if ( !this.currentToken().equalsIgnoreCase( "cli_execute" ) )
+		if ( !currentToken().equalsIgnoreCase( "cli_execute" ) )
 			return null;
 
-		if ( this.nextToken() == null || !this.nextToken().equals( "{" ) )
+		if ( nextToken() == null || !nextToken().equals( "{" ) )
 			return null;
 
-		this.readToken(); // while
-		this.readToken(); // {
+		readToken(); // while
+		readToken(); // {
 
 		ByteArrayStream ostream = new ByteArrayStream();
 
-		while ( this.currentToken() != null && !this.currentToken().equals( "}" ) )
+		while ( currentToken() != null && !currentToken().equals( "}" ) )
 		{
 			try
 			{
-				ostream.write( this.currentLine.getBytes() );
+				ostream.write( currentLine.getBytes() );
 				ostream.write( LINE_BREAK.getBytes() );
 			}
 			catch ( Exception e )
@@ -1512,68 +1529,68 @@ public class KoLmafiaASH extends StaticEntity
 				printStackTrace( e );
 			}
 
-			this.currentLine = "";
-			this.fixLines();
+			currentLine = "";
+			fixLines();
 		}
 
-		if ( this.currentToken() == null )
-			this.parseError( "}", this.currentToken() );
+		if ( currentToken() == null )
+			parseError( "}", currentToken() );
 
-		this.readToken(); // }
+		readToken(); // }
 
 		return new ScriptBasicScript( ostream );
 	}
 
 	private ScriptWhile parseWhile( ScriptType functionType, ScriptScope parentScope )
 	{
-		if ( this.currentToken() == null )
+		if ( currentToken() == null )
 			return null;
 
-		if ( !this.currentToken().equalsIgnoreCase( "while" ) )
+		if ( !currentToken().equalsIgnoreCase( "while" ) )
 			return null;
 
-		if ( this.nextToken() == null || !this.nextToken().equals( "(" ) )
-			this.parseError( "(", this.nextToken() );
+		if ( nextToken() == null || !nextToken().equals( "(" ) )
+			parseError( "(", nextToken() );
 
-		this.readToken(); // while
-		this.readToken(); // (
+		readToken(); // while
+		readToken(); // (
 
-		ScriptExpression expression = this.parseExpression( parentScope );
-		if ( this.currentToken() == null || !this.currentToken().equals( ")" ) )
-			this.parseError( ")", this.currentToken() );
+		ScriptExpression expression = parseExpression( parentScope );
+		if ( currentToken() == null || !currentToken().equals( ")" ) )
+			parseError( ")", currentToken() );
 
-		this.readToken(); // )
+		readToken(); // )
 
-		ScriptScope scope = this.parseLoopScope( functionType, null, parentScope );
+		ScriptScope scope = parseLoopScope( functionType, null, parentScope );
 
 		return new ScriptWhile( scope, expression );
 	}
 
 	private ScriptRepeat parseRepeat( ScriptType functionType, ScriptScope parentScope )
 	{
-		if ( this.currentToken() == null )
+		if ( currentToken() == null )
 			return null;
 
-		if ( !this.currentToken().equalsIgnoreCase( "repeat" ) )
+		if ( !currentToken().equalsIgnoreCase( "repeat" ) )
 			return null;
 
-		this.readToken(); // repeat
+		readToken(); // repeat
 
-		ScriptScope scope = this.parseLoopScope( functionType, null, parentScope );
-		if ( this.currentToken() == null || !this.currentToken().equals( "until" ) )
-			this.parseError( "until", this.currentToken() );
+		ScriptScope scope = parseLoopScope( functionType, null, parentScope );
+		if ( currentToken() == null || !currentToken().equals( "until" ) )
+			parseError( "until", currentToken() );
 
-		if ( this.nextToken() == null || !this.nextToken().equals( "(" ) )
-			this.parseError( "(", this.nextToken() );
+		if ( nextToken() == null || !nextToken().equals( "(" ) )
+			parseError( "(", nextToken() );
 
-		this.readToken(); // until
-		this.readToken(); // (
+		readToken(); // until
+		readToken(); // (
 
-		ScriptExpression expression = this.parseExpression( parentScope );
-		if ( this.currentToken() == null || !this.currentToken().equals( ")" ) )
-			this.parseError( ")", this.currentToken() );
+		ScriptExpression expression = parseExpression( parentScope );
+		if ( currentToken() == null || !currentToken().equals( ")" ) )
+			parseError( ")", currentToken() );
 
-		this.readToken(); // )
+		readToken(); // )
 
 		return new ScriptRepeat( scope, expression );
 	}
@@ -1582,52 +1599,52 @@ public class KoLmafiaASH extends StaticEntity
 	{
 		// foreach key [, key ... ] in aggregate { scope }
 
-		if ( this.currentToken() == null )
+		if ( currentToken() == null )
 			return null;
 
-		if ( !(this.currentToken().equalsIgnoreCase( "foreach" ) ) )
+		if ( !(currentToken().equalsIgnoreCase( "foreach" ) ) )
 			return null;
 
-		this.readToken();	// foreach
+		readToken();	// foreach
 
 		ArrayList names = new ArrayList();
 
 		while ( true )
 		{
-			String name = this.currentToken();
+			String name = currentToken();
 
-			if ( !this.parseIdentifier( name ) )
-				throw new AdvancedScriptException( "Key variable name expected " + this.getLineAndFile() );
+			if ( !parseIdentifier( name ) )
+				throw new AdvancedScriptException( "Key variable name expected " + getLineAndFile() );
 
 			if ( parentScope.findVariable( name ) != null )
-				throw new AdvancedScriptException( "Key variable '" + name + "' is already defined " + this.getLineAndFile() );
+				throw new AdvancedScriptException( "Key variable '" + name + "' is already defined " + getLineAndFile() );
 
 			names.add( name );
-			this.readToken();	// name
+			readToken();	// name
 
-			if ( this.currentToken() != null )
+			if ( currentToken() != null )
 			{
-				if ( this.currentToken().equals( "," ) )
+				if ( currentToken().equals( "," ) )
 				{
-					this.readToken();	// ,
+					readToken();	// ,
 					continue;
 				}
 
-				if ( this.currentToken().equalsIgnoreCase( "in" ) )
+				if ( currentToken().equalsIgnoreCase( "in" ) )
 				{
-					this.readToken();	// in
+					readToken();	// in
 					break;
 				}
 			}
 
-			this.parseError( "in", this.currentToken() );
+			parseError( "in", currentToken() );
 		}
 
 		// Get an aggregate reference
-		ScriptExpression aggregate = this.parseVariableReference( parentScope );
+		ScriptExpression aggregate = parseVariableReference( parentScope );
 
 		if ( aggregate == null || !(aggregate instanceof ScriptVariableReference) || !(aggregate.getType().getBaseType() instanceof ScriptAggregateType) )
-			throw new AdvancedScriptException( "Aggregate reference expected " + this.getLineAndFile() );
+			throw new AdvancedScriptException( "Aggregate reference expected " + getLineAndFile() );
 
 		// Define key variables of appropriate type
 		ScriptVariableList varList = new ScriptVariableList();
@@ -1637,7 +1654,7 @@ public class KoLmafiaASH extends StaticEntity
 		for ( int i = 0; i < names.size(); ++i )
 		{
 			if ( !( type instanceof ScriptAggregateType ) )
-				throw new AdvancedScriptException( "Too many key variables specified " + this.getLineAndFile() );
+				throw new AdvancedScriptException( "Too many key variables specified " + getLineAndFile() );
 
 			ScriptType itype = ((ScriptAggregateType)type).getIndexType();
 			ScriptVariable keyvar = new ScriptVariable( (String)names.get( i ), itype );
@@ -1647,7 +1664,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		// Parse the scope with the list of keyVars
-		ScriptScope scope = this.parseLoopScope( functionType, varList, parentScope );
+		ScriptScope scope = parseLoopScope( functionType, varList, parentScope );
 
 		// Add the foreach node with the list of varRefs
 		return new ScriptForeach( scope, variableReferences, (ScriptVariableReference) aggregate );
@@ -1657,48 +1674,48 @@ public class KoLmafiaASH extends StaticEntity
 	{
 		// foreach key in aggregate {scope }
 
-		if ( this.currentToken() == null )
+		if ( currentToken() == null )
 			return null;
 
-		if ( !(this.currentToken().equalsIgnoreCase( "for" ) ) )
+		if ( !(currentToken().equalsIgnoreCase( "for" ) ) )
 			return null;
 
-		String name = this.nextToken();
+		String name = nextToken();
 
-		if ( !this.parseIdentifier( name ) )
+		if ( !parseIdentifier( name ) )
 			return null;
 
 		if ( parentScope.findVariable( name ) != null )
-			throw new AdvancedScriptException( "Index variable '" + name + "' is already defined " + this.getLineAndFile() );
+			throw new AdvancedScriptException( "Index variable '" + name + "' is already defined " + getLineAndFile() );
 
-		this.readToken();	// for
-		this.readToken();	// name
+		readToken();	// for
+		readToken();	// name
 
-		if ( !(this.currentToken().equalsIgnoreCase( "from" ) ) )
-			this.parseError( "from", this.currentToken() );
+		if ( !(currentToken().equalsIgnoreCase( "from" ) ) )
+			parseError( "from", currentToken() );
 
-		this.readToken();	// from
+		readToken();	// from
 
-		ScriptExpression initial = this.parseExpression( parentScope );
+		ScriptExpression initial = parseExpression( parentScope );
 
 		boolean up = true;
 
-		if ( this.currentToken().equalsIgnoreCase( "upto" ) )
+		if ( currentToken().equalsIgnoreCase( "upto" ) )
 			up = true;
-		else if ( this.currentToken().equalsIgnoreCase( "downto" ) )
+		else if ( currentToken().equalsIgnoreCase( "downto" ) )
 			up = false;
 		else
-			this.parseError( "upto or downto", this.currentToken() );
+			parseError( "upto or downto", currentToken() );
 
-		this.readToken();	// upto/downto
+		readToken();	// upto/downto
 
-		ScriptExpression last = this.parseExpression( parentScope );
+		ScriptExpression last = parseExpression( parentScope );
 
 		ScriptExpression increment = ONE_VALUE;
-		if ( this.currentToken().equalsIgnoreCase( "by" ) )
+		if ( currentToken().equalsIgnoreCase( "by" ) )
 		{
-			this.readToken();	// by
-			increment = this.parseExpression( parentScope );
+			readToken();	// by
+			increment = parseExpression( parentScope );
 		}
 
 		// Create integer index variable
@@ -1708,7 +1725,7 @@ public class KoLmafiaASH extends StaticEntity
 		ScriptVariableList varList = new ScriptVariableList();
 		varList.addElement( indexvar );
 
-		ScriptScope scope = this.parseLoopScope( functionType, varList, parentScope );
+		ScriptScope scope = parseLoopScope( functionType, varList, parentScope );
 
 		return new ScriptFor( scope, new ScriptVariableReference( indexvar ), initial, last, increment, up );
 	}
@@ -1717,82 +1734,82 @@ public class KoLmafiaASH extends StaticEntity
 	{
 		ScriptScope scope;
 
-		if ( this.currentToken() != null && this.currentToken().equals( "{" ) )
+		if ( currentToken() != null && currentToken().equals( "{" ) )
 		{
 			// Scope is a block
 
-			this.readToken(); // {
+			readToken(); // {
 
-			scope = this.parseScope( null, functionType, varList, parentScope, true );
-			if ( this.currentToken() == null || !this.currentToken().equals( "}" ) )
-				this.parseError( "}", this.currentToken() );
+			scope = parseScope( null, functionType, varList, parentScope, true );
+			if ( currentToken() == null || !currentToken().equals( "}" ) )
+				parseError( "}", currentToken() );
 
-			this.readToken(); // }
+			readToken(); // }
 		}
 		else
 		{
 			// Scope is a single command
 			scope = new ScriptScope( varList, parentScope );
-			scope.addCommand( this.parseCommand( functionType, scope, false, true ) );
+			scope.addCommand( parseCommand( functionType, scope, false, true ) );
 		}
 
 		return scope;
 	}
 
 	private ScriptExpression parseCall( ScriptScope scope )
-	{	return this.parseCall( scope, null );
+	{	return parseCall( scope, null );
 	}
 
 	private ScriptExpression parseCall( ScriptScope scope, ScriptExpression firstParam )
 	{
-		if ( this.nextToken() == null || !this.nextToken().equals( "(" ) )
+		if ( nextToken() == null || !nextToken().equals( "(" ) )
 			return null;
 
-		if ( !this.parseIdentifier( this.currentToken() ) )
+		if ( !parseIdentifier( currentToken() ) )
 			return null;
 
-		String name = this.currentToken();
+		String name = currentToken();
 
-		this.readToken(); //name
-		this.readToken(); //(
+		readToken(); //name
+		readToken(); //(
 
 		ScriptExpressionList params = new ScriptExpressionList();
 		if ( firstParam != null )
 			params.addElement( firstParam );
 
-		while ( this.currentToken() != null && !this.currentToken().equals( ")" ) )
+		while ( currentToken() != null && !currentToken().equals( ")" ) )
 		{
-			ScriptExpression val = this.parseExpression( scope );
+			ScriptExpression val = parseExpression( scope );
 			if ( val != null )
 				params.addElement( val );
 
-			if ( !this.currentToken().equals( "," ) )
+			if ( !currentToken().equals( "," ) )
 			{
-				if ( !this.currentToken().equals( ")" ) )
-					this.parseError( ")", this.currentToken() );
+				if ( !currentToken().equals( ")" ) )
+					parseError( ")", currentToken() );
 			}
 			else
 			{
-				this.readToken();
-				if ( this.currentToken().equals( ")" ) )
-					this.parseError( "parameter", this.currentToken() );
+				readToken();
+				if ( currentToken().equals( ")" ) )
+					parseError( "parameter", currentToken() );
 			}
 		}
 
-		if ( !this.currentToken().equals( ")" ) )
-			this.parseError( ")", this.currentToken() );
+		if ( !currentToken().equals( ")" ) )
+			parseError( ")", currentToken() );
 
-		this.readToken(); // )
+		readToken(); // )
 
 		ScriptExpression result = new ScriptCall( name, scope, params );
 
 		ScriptVariable current;
-		while ( result != null && this.currentToken() != null && this.currentToken().equals( "." ) )
+		while ( result != null && currentToken() != null && currentToken().equals( "." ) )
 		{
 			current = new ScriptVariable( result.getType() );
 			current.setExpression( result );
 
-			result = this.parseVariableReference( scope, current );
+			result = parseVariableReference( scope, current );
 		}
 
 		return result;
@@ -1800,105 +1817,105 @@ public class KoLmafiaASH extends StaticEntity
 
 	private ScriptCommand parseAssignment( ScriptScope scope )
 	{
-		if ( this.nextToken() == null )
+		if ( nextToken() == null )
 			return null;
 
-		if ( !this.nextToken().equals( "=" ) && !this.nextToken().equals( "[" ) && !this.nextToken().equals( "." ) )
+		if ( !nextToken().equals( "=" ) && !nextToken().equals( "[" ) && !nextToken().equals( "." ) )
 			return null;
 
-		if ( !this.parseIdentifier( this.currentToken() ) )
+		if ( !parseIdentifier( currentToken() ) )
 			return null;
 
-		ScriptExpression lhs = this.parseVariableReference( scope );
+		ScriptExpression lhs = parseVariableReference( scope );
 		if ( lhs instanceof ScriptCall )
 			return lhs;
 
 		if ( lhs == null || !(lhs instanceof ScriptVariableReference) )
-			throw new AdvancedScriptException( "Variable reference expected " + this.getLineAndFile() );
+			throw new AdvancedScriptException( "Variable reference expected " + getLineAndFile() );
 
-		if ( !this.currentToken().equals( "=" ) )
+		if ( !currentToken().equals( "=" ) )
 			return null;
 
-		this.readToken(); //=
+		readToken(); //=
 
-		ScriptExpression rhs = this.parseExpression( scope );
+		ScriptExpression rhs = parseExpression( scope );
 
 		if ( rhs == null )
-			throw new AdvancedScriptException( "Internal error " + this.getLineAndFile() );
+			throw new AdvancedScriptException( "Internal error " + getLineAndFile() );
 
 		return new ScriptAssignment( (ScriptVariableReference) lhs, rhs );
 	}
 
 	private ScriptExpression parseRemove( ScriptScope scope )
 	{
-		if ( this.currentToken() == null || !this.currentToken().equals( "remove" ) )
+		if ( currentToken() == null || !currentToken().equals( "remove" ) )
 			return null;
 
-		ScriptExpression lhs = this.parseExpression( scope );
+		ScriptExpression lhs = parseExpression( scope );
 
 		if ( lhs == null )
-			throw new AdvancedScriptException( "Bad 'remove' statement " + this.getLineAndFile() );
+			throw new AdvancedScriptException( "Bad 'remove' statement " + getLineAndFile() );
 
 		return lhs;
 	}
 
 	private ScriptExpression parseExpression( ScriptScope scope )
 	{
-		return this.parseExpression( scope, null );
+		return parseExpression( scope, null );
 	}
 
 	private ScriptExpression parseExpression( ScriptScope scope, ScriptOperator previousOper )
 	{
-		if ( this.currentToken() == null )
+		if ( currentToken() == null )
 			return null;
 
 		ScriptExpression lhs = null;
 		ScriptExpression rhs = null;
 		ScriptOperator oper = null;
 
-		if ( this.currentToken().equals( "!" ) )
+		if ( currentToken().equals( "!" ) )
 		{
-			String operator = this.currentToken();
-			this.readToken(); // !
-			if ( (lhs = this.parseValue( scope )) == null )
-				throw new AdvancedScriptException( "Value expected " + this.getLineAndFile() );
+			String operator = currentToken();
+			readToken(); // !
+			if ( (lhs = parseValue( scope )) == null )
+				throw new AdvancedScriptException( "Value expected " + getLineAndFile() );
 
 			lhs = new ScriptExpression( lhs, null, new ScriptOperator( operator ) );
 		}
-		else if ( this.currentToken().equals( "-" ) )
+		else if ( currentToken().equals( "-" ) )
 		{
 			// See if it's a negative numeric constant
-			if ( (lhs = this.parseValue( scope )) != null )
+			if ( (lhs = parseValue( scope )) != null )
 				return lhs;
 
 			// Nope. Must be unary minus.
-			String operator = this.currentToken();
-			this.readToken(); // !
-			if ( (lhs = this.parseValue( scope )) == null )
-				throw new AdvancedScriptException( "Value expected " + this.getLineAndFile() );
+			String operator = currentToken();
+			readToken(); // !
+			if ( (lhs = parseValue( scope )) == null )
+				throw new AdvancedScriptException( "Value expected " + getLineAndFile() );
 
 			lhs = new ScriptExpression( lhs, null, new ScriptOperator( operator ) );
 		}
-		else if ( this.currentToken().equals( "remove" ) )
+		else if ( currentToken().equals( "remove" ) )
 		{
-			String operator = this.currentToken();
-			this.readToken(); // remove
+			String operator = currentToken();
+			readToken(); // remove
 
-			lhs = this.parseVariableReference( scope );
+			lhs = parseVariableReference( scope );
 			if ( lhs == null || !(lhs instanceof ScriptCompositeReference) )
-				throw new AdvancedScriptException( "Aggregate reference expected " + this.getLineAndFile() );
+				throw new AdvancedScriptException( "Aggregate reference expected " + getLineAndFile() );
 
 			lhs = new ScriptExpression( lhs, null, new ScriptOperator( operator ) );
 		}
 		else
 		{
-			if ( (lhs = this.parseValue( scope )) == null )
+			if ( (lhs = parseValue( scope )) == null )
 				return null;
 		}
 
 		do
 		{
-			oper = this.parseOperator( this.currentToken() );
+			oper = parseOperator( currentToken() );
 
 			if ( oper == null )
 				return lhs;
@@ -1906,15 +1923,15 @@ public class KoLmafiaASH extends StaticEntity
 			if ( previousOper != null && !oper.precedes( previousOper ) )
 				return lhs;
 
-			this.readToken(); //operator
+			readToken(); //operator
 
-			if ( (rhs = this.parseExpression( scope, oper )) == null )
-				throw new AdvancedScriptException( "Value expected " + this.getLineAndFile() );
+			if ( (rhs = parseExpression( scope, oper )) == null )
+				throw new AdvancedScriptException( "Value expected " + getLineAndFile() );
 
 			if ( !validCoercion( lhs.getType(), rhs.getType(), oper.toString() ) )
 			{
 				throw new AdvancedScriptException( "Cannot apply operator " + oper + " to " +
-					lhs + " (" + lhs.getType() + ") and " + rhs + " (" + rhs.getType() + ") " + this.getLineAndFile() );
+					lhs + " (" + lhs.getType() + ") and " + rhs + " (" + rhs.getType() + ") " + getLineAndFile() );
 			}
 
 			lhs = new ScriptExpression( lhs, rhs, oper );
@@ -1924,65 +1941,65 @@ public class KoLmafiaASH extends StaticEntity
 
 	private ScriptExpression parseValue( ScriptScope scope )
 	{
-		if ( this.currentToken() == null )
+		if ( currentToken() == null )
 			return null;
 
 		ScriptExpression result = null;
 
 		// Parse parenthesized expressions
-		if ( this.currentToken().equals( "(" ) )
+		if ( currentToken().equals( "(" ) )
 		{
-			this.readToken();	// (
+			readToken();	// (
 
-			result = this.parseExpression( scope );
-			if ( this.currentToken() == null || !this.currentToken().equals( ")" ) )
-				this.parseError( ")", this.currentToken() );
+			result = parseExpression( scope );
+			if ( currentToken() == null || !currentToken().equals( ")" ) )
+				parseError( ")", currentToken() );
 
-			this.readToken();    // )
+			readToken();    // )
 		}
 
 		// Parse constant values
 		// true and false are reserved words
 
-		else if ( this.currentToken().equalsIgnoreCase( "true" ) )
+		else if ( currentToken().equalsIgnoreCase( "true" ) )
 		{
-			this.readToken();
+			readToken();
 			result = TRUE_VALUE;
 		}
 
-		else if ( this.currentToken().equalsIgnoreCase( "false" ) )
+		else if ( currentToken().equalsIgnoreCase( "false" ) )
 		{
-			this.readToken();
+			readToken();
 			result = FALSE_VALUE;
 		}
 
 		// numbers
-		else if ( (result = this.parseNumber()) != null )
+		else if ( (result = parseNumber()) != null )
 			;
 
 		// strings
-		else if ( this.currentToken().equals( "\"" ) || this.currentToken().equals( "\'" ) )
-			result = this.parseString();
+		else if ( currentToken().equals( "\"" ) || currentToken().equals( "\'" ) )
+			result = parseString();
 
 		// typed constants
-		else if ( this.currentToken().equals( "$" ) )
-			result = this.parseTypedConstant( scope );
+		else if ( currentToken().equals( "$" ) )
+			result = parseTypedConstant( scope );
 
 		// Function calls
-		else if ( (result = this.parseCall( scope, result )) != null )
+		else if ( (result = parseCall( scope, result )) != null )
 			;
 
 		// Variable and aggregate references
-		else if ( (result = this.parseVariableReference( scope )) != null )
+		else if ( (result = parseVariableReference( scope )) != null )
 			;
 
 		ScriptVariable current;
-		while ( result != null && this.currentToken() != null && this.currentToken().equals( "." ) )
+		while ( result != null && currentToken() != null && currentToken().equals( "." ) )
 		{
 			current = new ScriptVariable( result.getType() );
 			current.setExpression( result );
 
-			result = this.parseVariableReference( scope, current );
+			result = parseVariableReference( scope, current );
 		}
 
 		return result;
@@ -1990,52 +2007,52 @@ public class KoLmafiaASH extends StaticEntity
 
 	private ScriptValue parseNumber()
 	{
-		if ( this.currentToken() == null )
+		if ( currentToken() == null )
 			return null;
 
 		int sign = 1;
 
-		if ( this.currentToken().equals( "-" ) )
+		if ( currentToken().equals( "-" ) )
 		{
-			String next = this.nextToken();
+			String next = nextToken();
 
 			if ( next == null )
 				return null;
 
-			if ( !next.equals( "." ) && !this.readIntegerToken( next ) )
+			if ( !next.equals( "." ) && !readIntegerToken( next ) )
 				// Unary minus
 				return null;
 
 			sign = -1;
-			this.readToken();	// Read -
+			readToken();	// Read -
 		}
 
-		if ( this.currentToken().equals( "." ) )
+		if ( currentToken().equals( "." ) )
 		{
-			this.readToken();
-			String fraction = this.currentToken();
+			readToken();
+			String fraction = currentToken();
 
-			if ( !this.readIntegerToken( fraction ) )
-				this.parseError( "numeric value", fraction );
+			if ( !readIntegerToken( fraction ) )
+				parseError( "numeric value", fraction );
 
-			this.readToken();	// integer
+			readToken();	// integer
 			return new ScriptValue( sign * parseFloat( "0." + fraction ) );
 		}
 
-		String integer = this.currentToken();
-		if ( !this.readIntegerToken( integer ) )
+		String integer = currentToken();
+		if ( !readIntegerToken( integer ) )
 			return null;
 
-		this.readToken();	// integer
+		readToken();	// integer
 
-		if ( this.currentToken().equals( "." ) )
+		if ( currentToken().equals( "." ) )
 		{
-			String fraction = this.nextToken();
-			if ( !this.readIntegerToken( fraction ) )
+			String fraction = nextToken();
+			if ( !readIntegerToken( fraction ) )
 				return new ScriptValue( sign * parseInt( integer ) );
 
-			this.readToken();	// .
-			this.readToken();	// fraction
+			readToken();	// .
+			readToken();	// fraction
 
 			return new ScriptValue( sign * parseFloat( integer + "." + fraction ) );
 		}
@@ -2061,16 +2078,16 @@ public class KoLmafiaASH extends StaticEntity
 		// the string is closed
 
 		StringBuffer resultString = new StringBuffer();
-		char startCharacter = this.currentLine.charAt(0);
+		char startCharacter = currentLine.charAt(0);
 
 		for ( int i = 1; ; ++i )
 		{
-			if ( i == this.currentLine.length() )
-				throw new AdvancedScriptException( "No closing \" found " + this.getLineAndFile() );
+			if ( i == currentLine.length() )
+				throw new AdvancedScriptException( "No closing \" found " + getLineAndFile() );
 
-			if ( this.currentLine.charAt( i ) == '\\' )
+			if ( currentLine.charAt( i ) == '\\' )
 			{
-				char ch = this.currentLine.charAt( ++i );
+				char ch = currentLine.charAt( ++i );
 
 				switch ( ch )
 				{
@@ -2093,13 +2110,13 @@ public class KoLmafiaASH extends StaticEntity
 					break;
 
 				case 'x':
-					BigInteger hex08 = new BigInteger( this.currentLine.substring( i + 1, i + 3 ), 16 );
+					BigInteger hex08 = new BigInteger( currentLine.substring( i + 1, i + 3 ), 16 );
 					resultString.append( (char) hex08.intValue() );
 					i += 2;
 					break;
 
 				case 'u':
-					BigInteger hex16 = new BigInteger( this.currentLine.substring( i + 1, i + 5 ), 16 );
+					BigInteger hex16 = new BigInteger( currentLine.substring( i + 1, i + 5 ), 16 );
 					resultString.append( (char) hex16.intValue() );
 					i += 4;
 					break;
@@ -2107,63 +2124,63 @@ public class KoLmafiaASH extends StaticEntity
 				default:
 					if ( Character.isDigit( ch ) )
 					{
-						BigInteger octal = new BigInteger( this.currentLine.substring( i, i + 3 ), 8 );
+						BigInteger octal = new BigInteger( currentLine.substring( i, i + 3 ), 8 );
 						resultString.append( (char) octal.intValue() );
 						i += 2;
 					}
 				}
 			}
-			else if ( this.currentLine.charAt( i ) == startCharacter )
+			else if ( currentLine.charAt( i ) == startCharacter )
 			{
-				this.currentLine = this.currentLine.substring( i + 1 ); //+ 1 to get rid of '"' token
+				currentLine = currentLine.substring( i + 1 ); //+ 1 to get rid of '"' token
 				return new ScriptValue( resultString.toString() );
 			}
 			else
 			{
-				resultString.append( this.currentLine.charAt( i ) );
+				resultString.append( currentLine.charAt( i ) );
 			}
 		}
 	}
 
 	private ScriptValue parseTypedConstant( ScriptScope scope )
 	{
-		this.readToken();    // read $
+		readToken();    // read $
 
-		String name = this.currentToken();
-		ScriptType type = this.parseType( scope, false, false );
+		String name = currentToken();
+		ScriptType type = parseType( scope, false, false );
 		if ( type == null || !type.isPrimitive() )
-			throw new AdvancedScriptException( "Unknown type " + name + " " + this.getLineAndFile() );
+			throw new AdvancedScriptException( "Unknown type " + name + " " + getLineAndFile() );
 
-		if ( !this.currentToken().equals( "[" ) )
-			this.parseError( "[", this.currentToken() );
+		if ( !currentToken().equals( "[" ) )
+			parseError( "[", currentToken() );
 
 		StringBuffer resultString = new StringBuffer();
 
 		for ( int i = 1; ; ++i )
 		{
-			if ( i == this.currentLine.length() )
+			if ( i == currentLine.length() )
 			{
-				throw new AdvancedScriptException( "No closing ] found " + this.getLineAndFile() );
+				throw new AdvancedScriptException( "No closing ] found " + getLineAndFile() );
 			}
-			else if ( this.currentLine.charAt( i ) == '\\' )
+			else if ( currentLine.charAt( i ) == '\\' )
 			{
-				resultString.append( this.currentLine.charAt( ++i ) );
+				resultString.append( currentLine.charAt( ++i ) );
 			}
-			else if ( this.currentLine.charAt( i ) == ']' )
+			else if ( currentLine.charAt( i ) == ']' )
 			{
-				this.currentLine = this.currentLine.substring( i + 1 ); //+1 to get rid of ']' token
+				currentLine = currentLine.substring( i + 1 ); //+1 to get rid of ']' token
 				return parseValue( type, resultString.toString().trim());
 			}
 			else
 			{
-				resultString.append( this.currentLine.charAt( i ) );
+				resultString.append( currentLine.charAt( i ) );
 			}
 		}
 	}
 
 	private ScriptOperator parseOperator( String oper )
 	{
-		if ( oper == null || !this.isOperator( oper ) )
+		if ( oper == null || !isOperator( oper ) )
 			return null;
 
 		return new ScriptOperator( oper );
@@ -2182,21 +2199,21 @@ public class KoLmafiaASH extends StaticEntity
 
 	private ScriptExpression parseVariableReference( ScriptScope scope )
 	{
-		if ( this.currentToken() == null || !this.parseIdentifier( this.currentToken() ) )
+		if ( currentToken() == null || !parseIdentifier( currentToken() ) )
 			return null;
 
-		String name = this.currentToken();
+		String name = currentToken();
 		ScriptVariable var = scope.findVariable( name, true );
 
 		if ( var == null )
-			throw new AdvancedScriptException( "Unknown variable '" + name + "' " + this.getLineAndFile() );
+			throw new AdvancedScriptException( "Unknown variable '" + name + "' " + getLineAndFile() );
 
-		this.readToken(); // read name
+		readToken(); // read name
 
-		if ( this.currentToken() == null || (!this.currentToken().equals( "[" ) && !this.currentToken().equals( "." ) ) )
+		if ( currentToken() == null || (!currentToken().equals( "[" ) && !currentToken().equals( "." ) ) )
 			return new ScriptVariableReference( var );
 
-		return this.parseVariableReference( scope, var );
+		return parseVariableReference( scope, var );
 	}
 
 	private ScriptExpression parseVariableReference( ScriptScope scope, ScriptVariable var )
@@ -2204,141 +2221,141 @@ public class KoLmafiaASH extends StaticEntity
 		ScriptType type = var.getType();
 		ScriptExpressionList indices = new ScriptExpressionList();
 
-		boolean parseAggregate = this.currentToken().equals( "[" );
+		boolean parseAggregate = currentToken().equals( "[" );
 
-		while ( this.currentToken() != null && (this.currentToken().equals( "[" ) || this.currentToken().equals( "." ) || (parseAggregate && this.currentToken().equals( "," ))) )
+		while ( currentToken() != null && (currentToken().equals( "[" ) || currentToken().equals( "." ) || (parseAggregate && currentToken().equals( "," ))) )
 		{
 			ScriptExpression index;
 
 			type = type.getBaseType();
 
-			if ( this.currentToken().equals( "[" ) || this.currentToken().equals( "," ) )
+			if ( currentToken().equals( "[" ) || currentToken().equals( "," ) )
 			{
-				this.readToken(); // read [ or . or ,
+				readToken(); // read [ or . or ,
 				parseAggregate = true;
 
 				if ( !(type instanceof ScriptAggregateType) )
 				{
 					if ( indices.isEmpty() )
-						throw new AdvancedScriptException( "Variable '" + var.getName() + "' cannot be indexed " + this.getLineAndFile() );
+						throw new AdvancedScriptException( "Variable '" + var.getName() + "' cannot be indexed " + getLineAndFile() );
 					else
-						throw new AdvancedScriptException( "Too many keys " + this.getLineAndFile() );
+						throw new AdvancedScriptException( "Too many keys " + getLineAndFile() );
 				}
 
 				ScriptAggregateType atype = (ScriptAggregateType) type;
-				index = this.parseExpression( scope );
+				index = parseExpression( scope );
 				if ( index == null )
-					throw new AdvancedScriptException( "Index expression expected " + this.getLineAndFile() );
+					throw new AdvancedScriptException( "Index expression expected " + getLineAndFile() );
 
 				if ( !index.getType().equals( atype.getIndexType() ) )
-					throw new AdvancedScriptException( "Index has wrong data type " + this.getLineAndFile() );
+					throw new AdvancedScriptException( "Index has wrong data type " + getLineAndFile() );
 				type = atype.getDataType();
 			}
 			else
 			{
-				this.readToken(); // read [ or . or ,
+				readToken(); // read [ or . or ,
 
 				// Maybe it's a function call with an implied "this" parameter.
 
-				if ( this.nextToken().equals( "(" ) )
-					return this.parseCall( scope, indices.isEmpty() ? new ScriptVariableReference( var ) : new ScriptCompositeReference( var, indices ) );
+				if ( nextToken().equals( "(" ) )
+					return parseCall( scope, indices.isEmpty() ? new ScriptVariableReference( var ) : new ScriptCompositeReference( var, indices ) );
 
 				if ( !(type instanceof ScriptRecordType) )
-					throw new AdvancedScriptException( "Record expected " + this.getLineAndFile() );
+					throw new AdvancedScriptException( "Record expected " + getLineAndFile() );
 
 				ScriptRecordType rtype = (ScriptRecordType)type;
 
-				String field = this.currentToken();
-				if ( field == null || !this.parseIdentifier( field ) )
-					throw new AdvancedScriptException( "Field name expected " + this.getLineAndFile() );
+				String field = currentToken();
+				if ( field == null || !parseIdentifier( field ) )
+					throw new AdvancedScriptException( "Field name expected " + getLineAndFile() );
 
 				index = rtype.getFieldIndex( field );
 				if ( index == null )
-					throw new AdvancedScriptException( "Invalid field name " + this.getLineAndFile() );
-				this.readToken(); // read name
+					throw new AdvancedScriptException( "Invalid field name " + getLineAndFile() );
+				readToken(); // read name
 				type = rtype.getDataType( index );
 			}
 
 			indices.addElement( index );
 
-			if ( parseAggregate && this.currentToken() != null )
+			if ( parseAggregate && currentToken() != null )
 			{
-				if ( this.currentToken().equals( "]" ) )
+				if ( currentToken().equals( "]" ) )
 				{
-					this.readToken(); // read ]
+					readToken(); // read ]
 					parseAggregate = false;
 				}
 			}
 		}
 
 		if ( parseAggregate )
-			this.parseError( this.currentToken(), "]" );
+			parseError( currentToken(), "]" );
 
 		return new ScriptCompositeReference( var, indices );
 	}
 
 	private String parseDirective( String directive )
 	{
-		if ( this.currentToken() == null || !this.currentToken().equalsIgnoreCase( directive ) )
+		if ( currentToken() == null || !currentToken().equalsIgnoreCase( directive ) )
 			return null;
 
-		this.readToken(); //directive
+		readToken(); //directive
 
-		if ( this.currentToken() == null )
-			this.parseError( "<", this.currentToken() );
+		if ( currentToken() == null )
+			parseError( "<", currentToken() );
 
-		int startIndex = this.currentLine.indexOf( "<" );
-		int endIndex = this.currentLine.indexOf( ">" );
+		int startIndex = currentLine.indexOf( "<" );
+		int endIndex = currentLine.indexOf( ">" );
 
 		if ( startIndex != -1 && endIndex == -1 )
-			throw new AdvancedScriptException( "No closing > found " + this.getLineAndFile() );
+			throw new AdvancedScriptException( "No closing > found " + getLineAndFile() );
 
 		if ( startIndex == -1 )
 		{
-			startIndex = this.currentLine.indexOf( "\"" );
-			endIndex = this.currentLine.indexOf( "\"", startIndex + 1 );
+			startIndex = currentLine.indexOf( "\"" );
+			endIndex = currentLine.indexOf( "\"", startIndex + 1 );
 
 			if ( startIndex != -1 && endIndex == -1 )
-				throw new AdvancedScriptException( "No closing \" found " + this.getLineAndFile() );
+				throw new AdvancedScriptException( "No closing \" found " + getLineAndFile() );
 		}
 
 		if ( startIndex == -1 )
 		{
-			startIndex = this.currentLine.indexOf( "\'" );
-			endIndex = this.currentLine.indexOf( "\'", startIndex + 1 );
+			startIndex = currentLine.indexOf( "\'" );
+			endIndex = currentLine.indexOf( "\'", startIndex + 1 );
 
 			if ( startIndex != -1 && endIndex == -1 )
-				throw new AdvancedScriptException( "No closing \' found " + this.getLineAndFile() );
+				throw new AdvancedScriptException( "No closing \' found " + getLineAndFile() );
 		}
 
 		if ( endIndex == -1 )
 		{
-			endIndex = this.currentLine.indexOf( ";" );
+			endIndex = currentLine.indexOf( ";" );
 			if ( endIndex == -1 )
-				endIndex = this.currentLine.length();
+				endIndex = currentLine.length();
 		}
 
-		String resultString = this.currentLine.substring( startIndex + 1, endIndex );
-		this.currentLine = this.currentLine.substring( endIndex );
+		String resultString = currentLine.substring( startIndex + 1, endIndex );
+		currentLine = currentLine.substring( endIndex );
 
-		if ( this.currentToken().equals( ">" ) || this.currentToken().equals( "\"" ) || this.currentToken().equals( "\'" ) )
-			this.readToken(); //get rid of '>' or '"' token
+		if ( currentToken().equals( ">" ) || currentToken().equals( "\"" ) || currentToken().equals( "\'" ) )
+			readToken(); //get rid of '>' or '"' token
 
-		if ( this.currentToken().equals( ";" ) )
-			this.readToken(); //read ;
+		if ( currentToken().equals( ";" ) )
+			readToken(); //read ;
 
 		return resultString;
 	}
 
 	private void parseNotify()
 	{
-		String resultString = this.parseDirective( "notify" );
+		String resultString = parseDirective( "notify" );
 		if ( notifyRecipient == null )
 			notifyRecipient = resultString;
 	}
 
 	private String parseImport()
-	{	return this.parseDirective( "import" );
+	{	return parseDirective( "import" );
 	}
 
 	private static boolean validCoercion( ScriptType lhs, ScriptType rhs, String oper )
@@ -2395,62 +2412,62 @@ public class KoLmafiaASH extends StaticEntity
 
 	private String currentToken()
 	{
-		this.fixLines();
-		if ( this.currentLine == null )
+		fixLines();
+		if ( currentLine == null )
 			return null;
 
-		if ( !this.currentLine.trim().equals( "/*" ) )
-			return this.currentLine.substring( 0, this.tokenLength( this.currentLine ) );
+		if ( !currentLine.trim().equals( "/*" ) )
+			return currentLine.substring( 0, tokenLength( currentLine ) );
 
-		while ( this.currentLine != null && !this.currentLine.trim().equals( "*/" ) )
+		while ( currentLine != null && !currentLine.trim().equals( "*/" ) )
 		{
-			this.currentLine = "";
-			this.fixLines();
+			currentLine = "";
+			fixLines();
 		}
 
-		if ( this.currentLine == null )
+		if ( currentLine == null )
 			return null;
 
-		this.currentLine = "";
-		return this.currentToken();
+		currentLine = "";
+		return currentToken();
 	}
 
 	private String nextToken()
 	{
-		this.fixLines();
+		fixLines();
 
-		if ( this.currentLine == null )
+		if ( currentLine == null )
 			return null;
 
-		if ( this.tokenLength( this.currentLine ) >= this.currentLine.length() )
+		if ( tokenLength( currentLine ) >= currentLine.length() )
 		{
-			if ( this.nextLine == null )
+			if ( nextLine == null )
 				return null;
 
-			return this.nextLine.substring( 0, this.tokenLength( this.nextLine ) ).trim();
+			return nextLine.substring( 0, tokenLength( nextLine ) ).trim();
 		}
 
-		String result = this.currentLine.substring( this.tokenLength( this.currentLine ) ).trim();
+		String result = currentLine.substring( tokenLength( currentLine ) ).trim();
 
 		if ( result.equals( "" ) )
 		{
-			if ( this.nextLine == null )
+			if ( nextLine == null )
 				return null;
 
-			return this.nextLine.substring( 0, this.tokenLength( this.nextLine ) );
+			return nextLine.substring( 0, tokenLength( nextLine ) );
 		}
 
-		return result.substring( 0, this.tokenLength( result ) );
+		return result.substring( 0, tokenLength( result ) );
 	}
 
 	private void readToken()
 	{
-		this.fixLines();
+		fixLines();
 
-		if ( this.currentLine == null )
+		if ( currentLine == null )
 			return;
 
-		this.currentLine = this.currentLine.substring( this.tokenLength( this.currentLine ) );
+		currentLine = currentLine.substring( tokenLength( currentLine ) );
 	}
 
 	private int tokenLength( String s )
@@ -2461,10 +2478,10 @@ public class KoLmafiaASH extends StaticEntity
 
 		for ( result = 0; result < s.length(); result++ )
 		{
-			if ( result + 1 < s.length() && this.tokenString( s.substring( result, result + 2 ) ) )
+			if ( result + 1 < s.length() && tokenString( s.substring( result, result + 2 ) ) )
 				return result == 0 ? 2 : result;
 
-			if ( result < s.length() && this.tokenString( s.substring( result, result + 1 ) ) )
+			if ( result < s.length() && tokenString( s.substring( result, result + 1 ) ) )
 				return result == 0 ? 1 : result;
 		}
 
@@ -2473,32 +2490,32 @@ public class KoLmafiaASH extends StaticEntity
 
 	private void fixLines()
 	{
-		if ( this.currentLine == null )
+		if ( currentLine == null )
 			return;
 
-		while ( this.currentLine.equals( "" ) )
+		while ( currentLine.equals( "" ) )
 		{
-			this.currentLine = this.nextLine;
-			this.lineNumber = this.commandStream.getLineNumber();
-			this.nextLine = this.getNextLine();
+			currentLine = nextLine;
+			lineNumber = commandStream.getLineNumber();
+			nextLine = getNextLine();
 
-			if ( this.currentLine == null )
+			if ( currentLine == null )
 				return;
 		}
 
-		this.currentLine = this.currentLine.trim();
+		currentLine = currentLine.trim();
 
-		if ( this.nextLine == null )
+		if ( nextLine == null )
 			return;
 
-		while ( this.nextLine.equals( "" ) )
+		while ( nextLine.equals( "" ) )
 		{
-			this.nextLine = this.getNextLine();
-			if ( this.nextLine == null )
+			nextLine = getNextLine();
+			if ( nextLine == null )
 				return;
 		}
 
-		this.nextLine = this.nextLine.trim();
+		nextLine = nextLine.trim();
 	}
 
 	private boolean tokenString( String s )
@@ -2541,7 +2558,7 @@ public class KoLmafiaASH extends StaticEntity
 		while ( it.hasNext() )
 		{
 			currentType = (ScriptType) it.next();
-			this.printType( currentType, indent + 2 );
+			printType( currentType, indent + 2 );
 		}
 
 		indentLine( indent + 1 );
@@ -2553,7 +2570,7 @@ public class KoLmafiaASH extends StaticEntity
 		while ( it.hasNext() )
 		{
 			currentVar = (ScriptVariable) it.next();
-			this.printVariable( currentVar, indent + 2 );
+			printVariable( currentVar, indent + 2 );
 		}
 
 		indentLine( indent + 1 );
@@ -2565,7 +2582,7 @@ public class KoLmafiaASH extends StaticEntity
 		while ( it.hasNext() )
 		{
 			currentFunc = (ScriptFunction) it.next();
-			this.printFunction( currentFunc, indent + 2 );
+			printFunction( currentFunc, indent + 2 );
 		}
 
 		indentLine( indent + 1 );
@@ -2576,16 +2593,16 @@ public class KoLmafiaASH extends StaticEntity
 		while ( it.hasNext() )
 		{
 			currentCommand = (ScriptCommand) it.next();
-			this.printCommand( currentCommand, indent + 2 );
+			printCommand( currentCommand, indent + 2 );
 		}
 	}
 
 	public void showUserFunctions( String filter )
-	{	this.showFunctions( this.global.getFunctions(), filter.toLowerCase() );
+	{	showFunctions( global.getFunctions(), filter.toLowerCase() );
 	}
 
 	public void showExistingFunctions( String filter )
-	{	this.showFunctions( existingFunctions.iterator(), filter.toLowerCase() );
+	{	showFunctions( existingFunctions.iterator(), filter.toLowerCase() );
 	}
 
 	private void showFunctions( Iterator it, String filter )
@@ -2674,31 +2691,31 @@ public class KoLmafiaASH extends StaticEntity
 		while ( it.hasNext() )
 		{
 			current = (ScriptVariableReference) it.next();
-			this.printVariableReference( current, indent + 1 );
+			printVariableReference( current, indent + 1 );
 		}
 
 		if ( func instanceof ScriptUserDefinedFunction )
-			this.printScope( ((ScriptUserDefinedFunction)func).getScope(), indent + 1 );
+			printScope( ((ScriptUserDefinedFunction)func).getScope(), indent + 1 );
 	}
 
 	private void printCommand( ScriptCommand command, int indent )
 	{
 		if ( command instanceof ScriptReturn )
-			this.printReturn( ( ScriptReturn ) command, indent );
+			printReturn( ( ScriptReturn ) command, indent );
 		else if ( command instanceof ScriptConditional )
-			this.printConditional( ( ScriptConditional ) command, indent );
+			printConditional( ( ScriptConditional ) command, indent );
 		else if ( command instanceof ScriptWhile )
-			this.printWhile( ( ScriptWhile ) command, indent );
+			printWhile( ( ScriptWhile ) command, indent );
 		else if ( command instanceof ScriptRepeat )
-			this.printRepeat( ( ScriptRepeat ) command, indent );
+			printRepeat( ( ScriptRepeat ) command, indent );
 		else if ( command instanceof ScriptForeach )
-			this.printForeach( ( ScriptForeach ) command, indent );
+			printForeach( ( ScriptForeach ) command, indent );
 		else if ( command instanceof ScriptFor )
-			this.printFor( ( ScriptFor ) command, indent );
+			printFor( ( ScriptFor ) command, indent );
 		else if ( command instanceof ScriptCall )
-			this.printCall( ( ScriptCall ) command, indent );
+			printCall( ( ScriptCall ) command, indent );
 		else if ( command instanceof ScriptAssignment )
-			this.printAssignment( ( ScriptAssignment ) command, indent );
+			printAssignment( ( ScriptAssignment ) command, indent );
 		else
 		{
 			indentLine( indent );
@@ -2711,7 +2728,7 @@ public class KoLmafiaASH extends StaticEntity
 		indentLine( indent );
 		RequestLogger.updateDebugLog( "<RETURN " + ret.getType() + ">" );
 		if ( !ret.getType().equals( TYPE_VOID ) )
-			this.printExpression( ret.getExpression(), indent + 1 );
+			printExpression( ret.getExpression(), indent + 1 );
 	}
 
 	private void printConditional( ScriptConditional command, int indent )
@@ -2722,8 +2739,8 @@ public class KoLmafiaASH extends StaticEntity
 			ScriptIf loop = (ScriptIf)command;
 			RequestLogger.updateDebugLog( "<IF>" );
 
-			this.printExpression( loop.getCondition(), indent + 1 );
-			this.printScope( loop.getScope(), indent + 1 );
+			printExpression( loop.getCondition(), indent + 1 );
+			printScope( loop.getScope(), indent + 1 );
 
 			Iterator it = loop.getElseLoops();
 			ScriptConditional currentElse;
@@ -2731,21 +2748,21 @@ public class KoLmafiaASH extends StaticEntity
 			while ( it.hasNext() )
 			{
 				currentElse = (ScriptConditional) it.next();
-				this.printConditional( currentElse, indent );
+				printConditional( currentElse, indent );
 			}
 		}
 		else if ( command instanceof ScriptElseIf )
 		{
 			ScriptElseIf loop = (ScriptElseIf)command;
 			RequestLogger.updateDebugLog( "<ELSE IF>" );
-			this.printExpression( loop.getCondition(), indent + 1 );
-			this.printScope( loop.getScope(), indent + 1 );
+			printExpression( loop.getCondition(), indent + 1 );
+			printScope( loop.getScope(), indent + 1 );
 		}
 		else if (command instanceof ScriptElse )
 		{
 			ScriptElse loop = (ScriptElse)command;
 			RequestLogger.updateDebugLog( "<ELSE>" );
-			this.printScope( loop.getScope(), indent + 1 );
+			printScope( loop.getScope(), indent + 1 );
 		}
 	}
 
@@ -2753,16 +2770,16 @@ public class KoLmafiaASH extends StaticEntity
 	{
 		indentLine( indent );
 		RequestLogger.updateDebugLog( "<WHILE>" );
-		this.printExpression( loop.getCondition(), indent + 1 );
-		this.printScope( loop.getScope(), indent + 1 );
+		printExpression( loop.getCondition(), indent + 1 );
+		printScope( loop.getScope(), indent + 1 );
 	}
 
 	private void printRepeat( ScriptRepeat loop, int indent )
 	{
 		indentLine( indent );
 		RequestLogger.updateDebugLog( "<REPEAT>" );
-		this.printScope( loop.getScope(), indent + 1 );
-		this.printExpression( loop.getCondition(), indent + 1 );
+		printScope( loop.getScope(), indent + 1 );
+		printExpression( loop.getCondition(), indent + 1 );
 	}
 
 	private void printForeach( ScriptForeach loop, int indent )
@@ -2776,22 +2793,22 @@ public class KoLmafiaASH extends StaticEntity
 		while ( it.hasNext() )
 		{
 			current = (ScriptVariableReference) it.next();
-			this.printVariableReference( current, indent + 1 );
+			printVariableReference( current, indent + 1 );
 		}
 
-		this.printVariableReference( loop.getAggregate(), indent + 1 );
-		this.printScope( loop.getScope(), indent + 1 );
+		printVariableReference( loop.getAggregate(), indent + 1 );
+		printScope( loop.getScope(), indent + 1 );
 	}
 
 	private void printFor( ScriptFor loop, int indent )
 	{
 		indentLine( indent );
 		RequestLogger.updateDebugLog( "<FOR " + ( loop.getUp() ? "upto" : "downto" ) + " >" );
-		this.printVariableReference( loop.getVariable(), indent + 1 );
-		this.printExpression( loop.getInitial(), indent + 1 );
-		this.printExpression( loop.getLast(), indent + 1 );
-		this.printExpression( loop.getIncrement(), indent + 1 );
-		this.printScope( loop.getScope(), indent + 1 );
+		printVariableReference( loop.getVariable(), indent + 1 );
+		printExpression( loop.getInitial(), indent + 1 );
+		printExpression( loop.getLast(), indent + 1 );
+		printExpression( loop.getIncrement(), indent + 1 );
+		printScope( loop.getScope(), indent + 1 );
 	}
 
 	private void printCall( ScriptCall call, int indent )
@@ -2805,7 +2822,7 @@ public class KoLmafiaASH extends StaticEntity
 		while ( it.hasNext() )
 		{
 			current = (ScriptExpression) it.next();
-			this.printExpression( current, indent + 1 );
+			printExpression( current, indent + 1 );
 		}
 	}
 
@@ -2814,8 +2831,8 @@ public class KoLmafiaASH extends StaticEntity
 		indentLine( indent );
 		ScriptVariableReference lhs = assignment.getLeftHandSide();
 		RequestLogger.updateDebugLog( "<ASSIGN " + lhs.getName() + ">" );
-		this.printIndices( lhs.getIndices(), indent + 1 );
-		this.printExpression( assignment.getRightHandSide(), indent + 1 );
+		printIndices( lhs.getIndices(), indent + 1 );
+		printExpression( assignment.getRightHandSide(), indent + 1 );
 	}
 
 	private void printIndices( ScriptExpressionList indices, int indent )
@@ -2831,7 +2848,7 @@ public class KoLmafiaASH extends StaticEntity
 
 				indentLine( indent );
 				RequestLogger.updateDebugLog( "<KEY>" );
-				this.printExpression( current, indent + 1 );
+				printExpression( current, indent + 1 );
 			}
 		}
 	}
@@ -2839,22 +2856,22 @@ public class KoLmafiaASH extends StaticEntity
 	private void printExpression( ScriptExpression expression, int indent )
 	{
 		if ( expression instanceof ScriptValue )
-			this.printValue( (ScriptValue) expression, indent );
+			printValue( (ScriptValue) expression, indent );
 		else
 		{
-			this.printOperator( expression.getOperator(), indent );
-			this.printExpression( expression.getLeftHandSide(), indent + 1 );
+			printOperator( expression.getOperator(), indent );
+			printExpression( expression.getLeftHandSide(), indent + 1 );
 			if ( expression.getRightHandSide() != null ) // ! operator
-				this.printExpression( expression.getRightHandSide(), indent + 1 );
+				printExpression( expression.getRightHandSide(), indent + 1 );
 		}
 	}
 
 	public void printValue( ScriptValue value, int indent )
 	{
 		if ( value instanceof ScriptVariableReference )
-			this.printVariableReference( (ScriptVariableReference) value, indent );
+			printVariableReference( (ScriptVariableReference) value, indent );
 		else if ( value instanceof ScriptCall )
-			this.printCall( (ScriptCall) value, indent );
+			printCall( (ScriptCall) value, indent );
 		else
 		{
 			indentLine( indent );
@@ -2873,14 +2890,14 @@ public class KoLmafiaASH extends StaticEntity
 		indentLine( indent );
 		RequestLogger.updateDebugLog( "<AGGREF " + varRef.getName() + ">" );
 
-		this.printIndices( varRef.getIndices(), indent + 1 );
+		printIndices( varRef.getIndices(), indent + 1 );
 	}
 
 	public void printVariableReference( ScriptVariableReference varRef, int indent )
 	{
 		if ( varRef instanceof ScriptCompositeReference )
 		{
-			this.printCompositeReference( (ScriptCompositeReference)varRef, indent );
+			printCompositeReference( (ScriptCompositeReference)varRef, indent );
 			return;
 		}
 
@@ -2904,14 +2921,14 @@ public class KoLmafiaASH extends StaticEntity
 		if ( KoLmafia.refusesContinue() || value == null )
 		{
 			// User aborted
-			this.currentState = STATE_EXIT;
+			currentState = STATE_EXIT;
 			return;
 		}
 
 		// Even if an error occurred, since we captured the result,
 		// permit further execution.
 
-		this.currentState = STATE_NORMAL;
+		currentState = STATE_NORMAL;
 		KoLmafia.forceContinue();
 	}
 
@@ -2920,10 +2937,10 @@ public class KoLmafiaASH extends StaticEntity
 		ScriptFunction main;
 		ScriptValue result = null;
 
-		this.currentState = STATE_NORMAL;
+		currentState = STATE_NORMAL;
 		resetTracing();
 
-		main = functionName.equals( "main" ) ? this.mainMethod : topScope.findFunction( functionName, null );
+		main = functionName.equals( "main" ) ? mainMethod : topScope.findFunction( functionName, null );
 
 		if ( main == null && !topScope.getCommands().hasNext() )
 		{
@@ -2948,7 +2965,7 @@ public class KoLmafiaASH extends StaticEntity
 			result = topScope.execute();
 		}
 
-		if ( this.currentState == STATE_EXIT )
+		if ( currentState == STATE_EXIT )
 			return result;
 
 		// Now execute main function, if any
@@ -2956,7 +2973,7 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			trace( "Executing main function" );
 
-			if ( !this.requestUserParams( main, parameters ) )
+			if ( !requestUserParams( main, parameters ) )
 				return null;
 
 			result = main.execute();
@@ -2996,7 +3013,7 @@ public class KoLmafiaASH extends StaticEntity
 				String input = null;
 
 				if ( index >= args )
-					input = this.promptForValue( type, name );
+					input = promptForValue( type, name );
 				else
 					input = parameters[ index ];
 
@@ -3040,7 +3057,7 @@ public class KoLmafiaASH extends StaticEntity
 	}
 
 	private String promptForValue( ScriptType type, String name )
-	{	return this.promptForValue( type, "Please input a value for " + type + " " + name, name );
+	{	return promptForValue( type, "Please input a value for " + type + " " + name, name );
 	}
 
 	private String promptForValue( ScriptType type, String message, String name )
@@ -3096,16 +3113,16 @@ public class KoLmafiaASH extends StaticEntity
 	}
 
 	public void parseError( String expected, String actual )
-	{	throw new AdvancedScriptException( "Expected " + expected + ", found " + actual + " " + this.getLineAndFile() );
+	{	throw new AdvancedScriptException( "Expected " + expected + ", found " + actual + " " + getLineAndFile() );
 	}
 
 	public String getLineAndFile()
 	{
-		if ( this.fileName == null )
+		if ( fileName == null )
 			return "(" + StaticEntity.getProperty( "commandLineNamespace" ) + ")";
 
-		String partialName = this.fileName.substring( this.fileName.lastIndexOf( File.separator ) + 1 );
-		return "(" + partialName + ", line " + this.lineNumber + ")";
+		String partialName = fileName.substring( fileName.lastIndexOf( File.separator ) + 1 );
+		return "(" + partialName + ", line " + lineNumber + ")";
 	}
 
 	public ScriptScope getExistingFunctionScope()
@@ -3881,71 +3898,71 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptScope getParentScope()
-		{	return this.parentScope;
+		{	return parentScope;
 		}
 
 		public boolean addFunction( ScriptFunction f )
-		{	return this.functions.addElement( f );
+		{	return functions.addElement( f );
 		}
 
 		public boolean removeFunction( ScriptFunction f )
-		{	return this.functions.removeElement( f );
+		{	return functions.removeElement( f );
 		}
 
 		public Iterator getFunctions()
-		{	return this.functions.iterator();
+		{	return functions.iterator();
 		}
 
 		public boolean addVariable( ScriptVariable v )
-		{	return this.variables.addElement( v );
+		{	return variables.addElement( v );
 		}
 
 		public Iterator getVariables()
-		{	return this.variables.iterator();
+		{	return variables.iterator();
 		}
 
 		public ScriptVariable findVariable( String name )
-		{	return this.findVariable( name, false );
+		{	return findVariable( name, false );
 		}
 
 		public ScriptVariable findVariable( String name, boolean recurse )
 		{
-			ScriptVariable current = this.variables.findVariable( name );
+			ScriptVariable current = variables.findVariable( name );
 			if ( current != null )
 				return current;
-			if ( recurse && this.parentScope != null )
-				return this.parentScope.findVariable( name, true );
+			if ( recurse && parentScope != null )
+				return parentScope.findVariable( name, true );
 			return null;
 		}
 
 		public boolean addType( ScriptType t )
-		{	return this.types.addElement( t );
+		{	return types.addElement( t );
 		}
 
 		public Iterator getTypes()
-		{	return this.types.iterator();
+		{	return types.iterator();
 		}
 
 		public ScriptType findType( String name )
 		{
-			ScriptType current = this.types.findType( name );
+			ScriptType current = types.findType( name );
 			if ( current != null )
 				return current;
-			if ( this.parentScope != null )
-				return this.parentScope.findType( name );
+			if ( parentScope != null )
+				return parentScope.findType( name );
 			return null;
 		}
 
 		public void addCommand( ScriptCommand c )
-		{	this.commands.addElement( c );
+		{	commands.addElement( c );
 		}
 
 		public boolean assertReturn()
 		{
-			int size = this.commands.size();
+			int size = commands.size();
 			if ( size == 0 )
 				return false;
-			if ( this.commands.get( size - 1 ) instanceof ScriptReturn )
+			if ( commands.get( size - 1 ) instanceof ScriptReturn )
 				return true;
 			return false;
 		}
@@ -3991,7 +4008,7 @@ public class KoLmafiaASH extends StaticEntity
 			// exact matches, you need to throw an exception.
 
 			if ( avoidExactMatch )
-				throw new AdvancedScriptException( "Function '" + f.getName() + "' already defined " + KoLmafiaASH.this.getLineAndFile() );
+				throw new AdvancedScriptException( "Function '" + f.getName() + "' already defined " + getLineAndFile() );
 
 			return true;
 		}
@@ -4001,13 +4018,13 @@ public class KoLmafiaASH extends StaticEntity
 			if ( f.getName().equals( "main" ) )
 				return f;
 
-			ScriptFunction [] options = this.functions.findFunctions( f.getName() );
+			ScriptFunction [] options = functions.findFunctions( f.getName() );
 
 			for ( int i = 0; i < options.length; ++i )
-				if ( options[i] instanceof ScriptUserDefinedFunction && this.isMatchingFunction( (ScriptUserDefinedFunction) options[i], f ) )
+				if ( options[i] instanceof ScriptUserDefinedFunction && isMatchingFunction( (ScriptUserDefinedFunction) options[i], f ) )
 					return (ScriptUserDefinedFunction) options[i];
 
-			this.addFunction( f );
+			addFunction( f );
 			return f;
 		}
 
@@ -4044,13 +4061,13 @@ public class KoLmafiaASH extends StaticEntity
 						if ( currentParam.getType() != currentValue.getType() )
 						{
 							errorMessage = "Illegal parameter #" + paramIndex + " for function " + name +
-								", got " + currentValue.getType() + ", need " + currentParam.getType() + " " + KoLmafiaASH.this.getLineAndFile();
+								", got " + currentValue.getType() + ", need " + currentParam.getType() + " " + getLineAndFile();
 						}
 					}
 					else if ( !validCoercion( currentParam.getType(), currentValue.getType(), "parameter" ) )
 					{
 						errorMessage = "Illegal parameter #" + paramIndex + " for function " + name +
-							", got " + currentValue.getType() + ", need " + currentParam.getType() + " " + KoLmafiaASH.this.getLineAndFile();
+							", got " + currentValue.getType() + ", need " + currentParam.getType() + " " + getLineAndFile();
 					}
 
 					++paramIndex;
@@ -4059,15 +4076,15 @@ public class KoLmafiaASH extends StaticEntity
 				if ( errorMessage == null && (refIterator.hasNext() || valIterator.hasNext()) )
 				{
 					errorMessage = "Illegal amount of parameters for function " + name +
-						", got " + functions[i].getVariableReferences().size() + ", expected " + params.size() + " " + KoLmafiaASH.this.getLineAndFile();
+						", got " + functions[i].getVariableReferences().size() + ", expected " + params.size() + " " + getLineAndFile();
 				}
 
 				if ( errorMessage == null )
 					return functions[i];
 			}
 
-			if ( !isExactMatch && this.parentScope != null )
-				return this.parentScope.findFunction( name, params );
+			if ( !isExactMatch && parentScope != null )
+				return parentScope.findFunction( name, params );
 
 			if ( !isExactMatch && source == existingFunctions && errorMessage != null )
 				throw new AdvancedScriptException( errorMessage );
@@ -4077,14 +4094,14 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptFunction findFunction( String name, ScriptExpressionList params )
 		{
-			ScriptFunction result = this.findFunction( this.functions, name, params, true );
+			ScriptFunction result = findFunction( functions, name, params, true );
 
 			if ( result == null )
-				result = this.findFunction( existingFunctions, name, params, true );
+				result = findFunction( existingFunctions, name, params, true );
 			if ( result == null )
-				result = this.findFunction( this.functions, name, params, false );
+				result = findFunction( functions, name, params, false );
 			if ( result == null )
-				result = this.findFunction( existingFunctions, name, params, false );
+				result = findFunction( existingFunctions, name, params, false );
 
 			// Just in case there's some people who don't want to edit
 			// their scripts to use the new function format, check for
@@ -4093,32 +4110,32 @@ public class KoLmafiaASH extends StaticEntity
 			if ( result == null )
 			{
 				if ( name.endsWith( "to_string" ) )
-					return this.findFunction( "to_string", params );
+					return findFunction( "to_string", params );
 				if ( name.endsWith( "to_boolean" ) )
-					return this.findFunction( "to_boolean", params );
+					return findFunction( "to_boolean", params );
 				if ( name.endsWith( "to_int" ) )
-					return this.findFunction( "to_int", params );
+					return findFunction( "to_int", params );
 				if ( name.endsWith( "to_float" ) )
-					return this.findFunction( "to_float", params );
+					return findFunction( "to_float", params );
 				if ( name.endsWith( "to_item" ) )
-					return this.findFunction( "to_item", params );
+					return findFunction( "to_item", params );
 				if ( name.endsWith( "to_skill" ) )
-					return this.findFunction( "to_skill", params );
+					return findFunction( "to_skill", params );
 				if ( name.endsWith( "to_effect" ) )
-					return this.findFunction( "to_effect", params );
+					return findFunction( "to_effect", params );
 				if ( name.endsWith( "to_monster" ) )
-					return this.findFunction( "to_monster", params );
+					return findFunction( "to_monster", params );
 				if ( name.endsWith( "to_slot" ) )
-					return this.findFunction( "to_slot", params );
+					return findFunction( "to_slot", params );
 				if ( name.endsWith( "to_url" ) )
-					return this.findFunction( "to_url", params );
+					return findFunction( "to_url", params );
 			}
 
 			return result;
 		}
 
 		public Iterator getCommands()
-		{	return this.commands.iterator();
+		{	return commands.iterator();
 		}
 
 		public ScriptValue execute()
@@ -4127,7 +4144,7 @@ public class KoLmafiaASH extends StaticEntity
 			traceIndent();
 
 			ScriptCommand current;
-			Iterator it = this.commands.iterator();
+			Iterator it = commands.iterator();
 
 			while ( it.hasNext() )
 			{
@@ -4136,13 +4153,13 @@ public class KoLmafiaASH extends StaticEntity
 
 				// Abort processing now if command failed
 				if ( !KoLmafia.permitsContinue() )
-					KoLmafiaASH.this.currentState = STATE_EXIT;
+					currentState = STATE_EXIT;
 
 				if ( result == null )
 					result = VOID_VALUE;
 
-				trace( "[" + executionStateString( KoLmafiaASH.this.currentState ) + "] <- " + result.toQuotedString() );
-				switch ( KoLmafiaASH.this.currentState )
+				trace( "[" + executionStateString( currentState ) + "] <- " + result.toQuotedString() );
+				switch ( currentState )
 				{
 				case STATE_RETURN:
 				case STATE_BREAK:
@@ -4179,16 +4196,16 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public String getName()
-		{	return this.name;
+		{	return name;
 		}
 
 		public int compareTo( Object o )
 		{
 			if ( !( o instanceof ScriptSymbol ) )
 				throw new ClassCastException();
-			if ( this.name == null)
+			if ( name == null)
 				return 1;
-			return this.name.compareToIgnoreCase( ((ScriptSymbol)o).name );
+			return name.compareToIgnoreCase( ((ScriptSymbol)o).name );
 		}
 	}
 
@@ -4198,7 +4215,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public boolean addElement( ScriptSymbol n )
 		{
-			if ( this.findSymbol( n.getName() ) != null )
+			if ( findSymbol( n.getName() ) != null )
 			     return false;
 
 			super.addElement( n );
@@ -4208,9 +4225,9 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptSymbol findSymbol( String name )
 		{
 			ScriptSymbol currentSymbol = null;
-			for ( int i = 0; i < this.size(); ++i )
+			for ( int i = 0; i < size(); ++i )
 			{
-				currentSymbol = (ScriptSymbol) this.get(i);
+				currentSymbol = (ScriptSymbol) get(i);
 				if ( currentSymbol.getName().equalsIgnoreCase( name ) )
 					return currentSymbol;
 			}
@@ -4236,11 +4253,11 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptType getType()
-		{	return this.type;
+		{	return type;
 		}
 
 		public ScriptVariableReferenceList getVariableReferences()
-		{	return this.variableReferences;
+		{	return variableReferences;
 		}
 
 		public void setVariableReferences( ScriptVariableReferenceList variableReferences )
@@ -4248,7 +4265,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public Iterator getReferences()
-		{	return this.variableReferences.iterator();
+		{	return variableReferences.iterator();
 		}
 
 		public void saveBindings()
@@ -4264,12 +4281,12 @@ public class KoLmafiaASH extends StaticEntity
 			try
 			{
 				StringBuffer message = new StringBuffer( "Called disabled function: " );
-				message.append( this.getName() );
+				message.append( getName() );
 
 				message.append( "(" );
 
 
-				Iterator it = this.variableReferences.iterator();
+				Iterator it = variableReferences.iterator();
 				ScriptVariableReference current;
 
 				for ( int i = 0; it.hasNext(); ++i )
@@ -4310,57 +4327,57 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public void setScope( ScriptScope s )
-		{	this.scope = s;
+		{	scope = s;
 		}
 
 		public ScriptScope getScope()
-		{	return this.scope;
+		{	return scope;
 		}
 
 		public void saveBindings()
 		{
-			if ( this.scope == null )
+			if ( scope == null )
 				return;
 
 			ArrayList values = new ArrayList();
-			for ( int i = 0; i < this.scope.variables.size(); ++i )
-				values.add( ((ScriptVariable)this.scope.variables.get(i)).getValue() );
+			for ( int i = 0; i < scope.variables.size(); ++i )
+				values.add( ((ScriptVariable)scope.variables.get(i)).getValue() );
 
-			this.callStack.push( values );
+			callStack.push( values );
 		}
 
 		public void restoreBindings()
 		{
-			if ( this.scope == null )
+			if ( scope == null )
 				return;
 
-			ArrayList values = (ArrayList) this.callStack.pop();
-			for ( int i = 0; i < this.scope.variables.size(); ++i )
-				if ( !(((ScriptVariable)this.scope.variables.get(i)).getType() instanceof ScriptAggregateType) )
-					((ScriptVariable)this.scope.variables.get(i)).forceValue( (ScriptValue) values.get(i) );
+			ArrayList values = (ArrayList) callStack.pop();
+			for ( int i = 0; i < scope.variables.size(); ++i )
+				if ( !(((ScriptVariable)scope.variables.get(i)).getType() instanceof ScriptAggregateType) )
+					((ScriptVariable)scope.variables.get(i)).forceValue( (ScriptValue) values.get(i) );
 		}
 
 		public ScriptValue execute()
 		{
-			if ( StaticEntity.isDisabled( this.getName() ) )
+			if ( StaticEntity.isDisabled( getName() ) )
 			{
-				this.printDisabledMessage();
-				return this.getType().initialValue();
+				printDisabledMessage();
+				return getType().initialValue();
 			}
 
-			if ( this.scope == null )
-				throw new RuntimeException( "Calling undefined user function: " + this.getName() );
+			if ( scope == null )
+				throw new RuntimeException( "Calling undefined user function: " + getName() );
 
-			ScriptValue result = this.scope.execute();
+			ScriptValue result = scope.execute();
 
-			if ( result.getType().equals( this.type ) )
+			if ( result.getType().equals( type ) )
 				return result;
 
-			return this.getType().initialValue();
+			return getType().initialValue();
 		}
 
 		public boolean assertReturn()
-		{	return this.scope.assertReturn();
+		{	return scope.assertReturn();
 		}
 	}
 
@@ -4379,13 +4396,13 @@ public class KoLmafiaASH extends StaticEntity
 			super( name.toLowerCase(), type );
 			this.description = description;
 
-			this.variables = new ScriptVariable[ params.length ];
+			variables = new ScriptVariable[ params.length ];
 			Class [] args = new Class[ params.length ];
 
 			for ( int i = 0; i < params.length; ++i )
 			{
-				this.variables[i] = new ScriptVariable( params[i] );
-				this.variableReferences.addElement( new ScriptVariableReference( this.variables[i] ) );
+				variables[i] = new ScriptVariable( params[i] );
+				variableReferences.addElement( new ScriptVariableReference( variables[i] ) );
 				args[i] = ScriptVariable.class;
 			}
 
@@ -4403,25 +4420,25 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public String getDescription()
-		{	return this.description;
+		{	return description;
 		}
 
 		public ScriptValue execute()
 		{
-			if ( StaticEntity.isDisabled( this.getName() ) )
+			if ( StaticEntity.isDisabled( getName() ) )
 			{
-				this.printDisabledMessage();
-				return this.getType().initialValue();
+				printDisabledMessage();
+				return getType().initialValue();
 			}
 
-			if ( this.method == null )
-				throw new RuntimeException( "Internal error: no method for " + this.getName() );
+			if ( method == null )
+				throw new RuntimeException( "Internal error: no method for " + getName() );
 
 			try
 			{
 				// Invoke the method
 
-				return (ScriptValue) this.method.invoke(this, this.variables);
+				return (ScriptValue) method.invoke(this, variables);
 			}
 			catch ( Exception e )
 			{
@@ -4494,7 +4511,7 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue cli_execute( ScriptVariable string )
 		{
 			DEFAULT_SHELL.executeLine( string.toStringValue().toString() );
-			return this.continueValue();
+			return continueValue();
 		}
 
 		public ScriptValue visit_url( ScriptVariable string )
@@ -4622,11 +4639,11 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptValue session_logs( ScriptVariable dayCount )
-		{	return this.getSessionLogs( KoLCharacter.getUserName(), dayCount.intValue() );
+		{	return getSessionLogs( KoLCharacter.getUserName(), dayCount.intValue() );
 		}
 
 		public ScriptValue session_logs( ScriptVariable player, ScriptVariable dayCount )
-		{	return this.getSessionLogs( player.toStringValue().toString(), dayCount.intValue() );
+		{	return getSessionLogs( player.toStringValue().toString(), dayCount.intValue() );
 		}
 
 		private ScriptValue getSessionLogs( String name, int dayCount )
@@ -4681,10 +4698,10 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue adventure( ScriptVariable count, ScriptVariable loc )
 		{
 			if ( count.intValue() <= 0 )
-				return this.continueValue();
+				return continueValue();
 
 			DEFAULT_SHELL.executeLine( "adventure " + count.intValue() + " " + loc.toStringValue() );
-			return this.continueValue();
+			return continueValue();
 		}
 
 		public ScriptValue add_item_condition( ScriptVariable count, ScriptVariable item )
@@ -4699,7 +4716,7 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue buy( ScriptVariable count, ScriptVariable item )
 		{
 			if ( count.intValue() <= 0 )
-				return this.continueValue();
+				return continueValue();
 
 			AdventureResult itemToBuy = new AdventureResult( item.intValue(), 1 );
 			int initialAmount = itemToBuy.getCount( inventory );
@@ -4710,133 +4727,133 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue create( ScriptVariable count, ScriptVariable item )
 		{
 			if ( count.intValue() <= 0 )
-				return this.continueValue();
+				return continueValue();
 
 			DEFAULT_SHELL.executeLine( "create " + count.intValue() + " " + item.toStringValue() );
-			return this.continueValue();
+			return continueValue();
 		}
 
 		public ScriptValue use( ScriptVariable count, ScriptVariable item )
 		{
 			if ( count.intValue() <= 0 )
-				return this.continueValue();
+				return continueValue();
 
 			DEFAULT_SHELL.executeLine( "use " + count.intValue() + " " + item.toStringValue() );
-			return ConsumeItemRequest.lastUpdate.equals( "" ) ? this.continueValue() : FALSE_VALUE;
+			return ConsumeItemRequest.lastUpdate.equals( "" ) ? continueValue() : FALSE_VALUE;
 		}
 
 		public ScriptValue eat( ScriptVariable count, ScriptVariable item )
 		{
 			if ( count.intValue() <= 0 )
-				return this.continueValue();
+				return continueValue();
 
 			DEFAULT_SHELL.executeLine( "eat " + count.intValue() + " " + item.toStringValue() );
-			return ConsumeItemRequest.lastUpdate.equals( "" ) ? this.continueValue() : FALSE_VALUE;
+			return ConsumeItemRequest.lastUpdate.equals( "" ) ? continueValue() : FALSE_VALUE;
 		}
 
 		public ScriptValue drink( ScriptVariable count, ScriptVariable item )
 		{
 			if ( count.intValue() <= 0 )
-				return this.continueValue();
+				return continueValue();
 
 			DEFAULT_SHELL.executeLine( "drink " + count.intValue() + " " + item.toStringValue() );
-			return ConsumeItemRequest.lastUpdate.equals( "" ) ? this.continueValue() : FALSE_VALUE;
+			return ConsumeItemRequest.lastUpdate.equals( "" ) ? continueValue() : FALSE_VALUE;
 		}
 
 		public ScriptValue put_closet( ScriptVariable count, ScriptVariable item )
 		{
 			if ( count.intValue() <= 0 )
-				return this.continueValue();
+				return continueValue();
 
 			DEFAULT_SHELL.executeLine( "closet put " + count.intValue() + " " + item.toStringValue() );
-			return this.continueValue();
+			return continueValue();
 		}
 
 		public ScriptValue put_shop( ScriptVariable price, ScriptVariable limit, ScriptVariable item )
 		{
 			DEFAULT_SHELL.executeLine( "mallsell " + item.toStringValue() + " @ " + price.intValue() + " limit " + limit.intValue() );
-			return this.continueValue();
+			return continueValue();
 		}
 
 		public ScriptValue put_stash( ScriptVariable count, ScriptVariable item )
 		{
 			if ( count.intValue() <= 0 )
-				return this.continueValue();
+				return continueValue();
 
 			DEFAULT_SHELL.executeLine( "stash put " + count.intValue() + " " + item.toStringValue() );
-			return this.continueValue();
+			return continueValue();
 		}
 
 		public ScriptValue put_display( ScriptVariable count, ScriptVariable item )
 		{
 			if ( count.intValue() <= 0 )
-				return this.continueValue();
+				return continueValue();
 
 			DEFAULT_SHELL.executeLine( "display put " + count.intValue() + " " + item.toStringValue() );
-			return this.continueValue();
+			return continueValue();
 		}
 
 		public ScriptValue take_closet( ScriptVariable count, ScriptVariable item )
 		{
 			if ( count.intValue() <= 0 )
-				return this.continueValue();
+				return continueValue();
 
 			DEFAULT_SHELL.executeLine( "closet take " + count.intValue() + " " + item.toStringValue() );
-			return this.continueValue();
+			return continueValue();
 		}
 
 		public ScriptValue take_storage( ScriptVariable count, ScriptVariable item )
 		{
 			if ( count.intValue() <= 0 )
-				return this.continueValue();
+				return continueValue();
 
 			DEFAULT_SHELL.executeLine( "hagnk " + count.intValue() + " " + item.toStringValue() );
-			return this.continueValue();
+			return continueValue();
 		}
 
 		public ScriptValue take_display( ScriptVariable count, ScriptVariable item )
 		{
 			if ( count.intValue() <= 0 )
-				return this.continueValue();
+				return continueValue();
 
 			DEFAULT_SHELL.executeLine( "display take " + count.intValue() + " " + item.toStringValue() );
-			return this.continueValue();
+			return continueValue();
 		}
 
 		public ScriptValue take_stash( ScriptVariable count, ScriptVariable item )
 		{
 			if ( count.intValue() <= 0 )
-				return this.continueValue();
+				return continueValue();
 
 			DEFAULT_SHELL.executeLine( "stash take " + count.intValue() + " " + item.toStringValue() );
-			return this.continueValue();
+			return continueValue();
 		}
 
 		public ScriptValue autosell( ScriptVariable count, ScriptVariable item )
 		{
 			if ( count.intValue() <= 0 )
-				return this.continueValue();
+				return continueValue();
 
 			DEFAULT_SHELL.executeLine( "sell " + count.intValue() + " " + item.toStringValue() );
-			return this.continueValue();
+			return continueValue();
 		}
 
 		public ScriptValue hermit( ScriptVariable count, ScriptVariable item )
 		{
 			if ( count.intValue() <= 0 )
-				return this.continueValue();
+				return continueValue();
 
 			DEFAULT_SHELL.executeLine( "hermit " + count.intValue() + " " + item.toStringValue() );
-			return this.continueValue();
+			return continueValue();
 		}
 
 		public ScriptValue retrieve_item( ScriptVariable count, ScriptVariable item )
 		{
 			if ( count.intValue() <= 0 )
-				return this.continueValue();
+				return continueValue();
 
 			AdventureDatabase.retrieveItem( new AdventureResult( item.intValue(), count.intValue() ) );
-			return this.continueValue();
+			return continueValue();
 		}
 
 		// Major functions which provide item-related
@@ -4853,7 +4870,7 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue refresh_stash()
 		{
 			RequestThread.postRequest( new ClanStashRequest() );
-			return this.continueValue();
+			return continueValue();
 		}
 
 		public ScriptValue available_amount( ScriptVariable arg )
@@ -4949,7 +4966,7 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue refresh_status()
 		{
 			RequestThread.postRequest( CharpaneRequest.getInstance() );
-			return this.continueValue();
+			return continueValue();
 		}
 
 		public ScriptValue restore_hp( ScriptVariable amount )
@@ -4961,7 +4978,7 @@ public class KoLmafiaASH extends StaticEntity
 			int desiredMP = amount.intValue();
 			while ( !KoLmafia.refusesContinue() && desiredMP > KoLCharacter.getCurrentMP() )
 				getClient().recoverMP( desiredMP );
-			return this.continueValue();
+			return continueValue();
 		}
 
 		public ScriptValue my_name()
@@ -5100,7 +5117,7 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue use_skill( ScriptVariable count, ScriptVariable skill )
 		{
 			if ( count.intValue() <= 0 )
-				return this.continueValue();
+				return continueValue();
 
 			// Just in case someone assumed that use_skill would also work
 			// in combat, go ahead and allow it here.
@@ -5108,7 +5125,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( ClassSkillsDatabase.isCombat( skill.intValue() ) )
 			{
 				for ( int i = 0; i < count.intValue() && FightRequest.INSTANCE.getAdventuresUsed() == 0; ++i )
-					this.use_skill( skill );
+					use_skill( skill );
 
 				return TRUE_VALUE;
 			}
@@ -5136,7 +5153,7 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue use_skill( ScriptVariable count, ScriptVariable skill, ScriptVariable target )
 		{
 			if ( count.intValue() <= 0 )
-				return this.continueValue();
+				return continueValue();
 
 			// Just in case someone assumed that use_skill would also work
 			// in combat, go ahead and allow it here.
@@ -5144,7 +5161,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( ClassSkillsDatabase.isCombat( skill.intValue() ) )
 			{
 				for ( int i = 0; i < count.intValue() && FightRequest.INSTANCE.getAdventuresUsed() == 0; ++i )
-					this.use_skill( skill );
+					use_skill( skill );
 
 				return TRUE_VALUE;
 			}
@@ -5163,7 +5180,7 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue steal()
 		{
 			if ( !FightRequest.wonInitiative() )
-				return this.attack();
+				return attack();
 
 			KoLRequest request = new KoLRequest( "fight.php?action=steal" );
 			RequestThread.postRequest( request );
@@ -5200,7 +5217,7 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue equip( ScriptVariable item )
 		{
 			DEFAULT_SHELL.executeLine( "equip " + item.toStringValue() );
-			return this.continueValue();
+			return continueValue();
 		}
 
 		public ScriptValue equip( ScriptVariable slot, ScriptVariable item )
@@ -5210,7 +5227,7 @@ public class KoLmafiaASH extends StaticEntity
 			else
 				DEFAULT_SHELL.executeLine( "equip " + slot.toStringValue() + " " + item.toStringValue() );
 
-			return this.continueValue();
+			return continueValue();
 		}
 
 		public ScriptValue equipped_item( ScriptVariable slot )
@@ -5224,7 +5241,7 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue outfit( ScriptVariable outfit )
 		{
 			DEFAULT_SHELL.executeLine( "outfit " + outfit.toStringValue().toString() );
-			return this.continueValue();
+			return continueValue();
 		}
 
 		public ScriptValue have_outfit( ScriptVariable outfit )
@@ -5266,7 +5283,7 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue use_familiar( ScriptVariable familiar )
 		{
 			DEFAULT_SHELL.executeLine( "familiar " + familiar.toStringValue() );
-			return this.continueValue();
+			return continueValue();
 		}
 
 		public ScriptValue familiar_equipment( ScriptVariable familiar )
@@ -5296,7 +5313,7 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue change_mcd( ScriptVariable level )
 		{
 			DEFAULT_SHELL.executeLine( "mind-control " + level.intValue() );
-			return this.continueValue();
+			return continueValue();
 		}
 
 		public ScriptValue have_chef()
@@ -5494,13 +5511,13 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue entryway()
 		{
 			DEFAULT_SHELL.executeLine( "entryway" );
-			return this.continueValue();
+			return continueValue();
 		}
 
 		public ScriptValue hedgemaze()
 		{
 			DEFAULT_SHELL.executeLine( "hedgemaze" );
-			return this.continueValue();
+			return continueValue();
 		}
 
 		public ScriptValue guardians()
@@ -5512,7 +5529,7 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue chamber()
 		{
 			DEFAULT_SHELL.executeLine( "chamber" );
-			return this.continueValue();
+			return continueValue();
 		}
 
 		public ScriptValue tavern()
@@ -5601,7 +5618,7 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			String filename = var1.toStringValue().toString();
 			ScriptCompositeValue map_variable = (ScriptCompositeValue) var2.getValue();
-			return this.readMap( filename, map_variable, true );
+			return readMap( filename, map_variable, true );
 		}
 
 		public ScriptValue file_to_map( ScriptVariable var1, ScriptVariable var2, ScriptVariable var3 )
@@ -5609,7 +5626,7 @@ public class KoLmafiaASH extends StaticEntity
 			String filename = var1.toStringValue().toString();
 			ScriptCompositeValue map_variable = (ScriptCompositeValue) var2.getValue();
 			boolean compact = var3.intValue() == 1;
-			return this.readMap( filename, map_variable, compact );
+			return readMap( filename, map_variable, compact );
 		}
 
 		private ScriptValue readMap( String filename, ScriptCompositeValue result, boolean compact )
@@ -5639,7 +5656,7 @@ public class KoLmafiaASH extends StaticEntity
 				}
 				else if ( filename.endsWith( ".dat" ) )
 				{
-					return this.readMap( filename.substring( 0, filename.length() - 4 ) + ".txt", result, compact );
+					return readMap( filename.substring( 0, filename.length() - 4 ) + ".txt", result, compact );
 				}
 				else
 				{
@@ -5699,7 +5716,7 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			ScriptCompositeValue map_variable = (ScriptCompositeValue) var1.getValue();
 			String filename = var2.toStringValue().toString();
-			return this.printMap( map_variable, filename, true );
+			return printMap( map_variable, filename, true );
 		}
 
 		public ScriptValue map_to_file( ScriptVariable var1, ScriptVariable var2, ScriptVariable var3 )
@@ -5707,7 +5724,7 @@ public class KoLmafiaASH extends StaticEntity
 			ScriptCompositeValue map_variable = (ScriptCompositeValue) var1.getValue();
 			String filename = var2.toStringValue().toString();
 			boolean compact = var3.intValue() == 1;
-			return this.printMap( map_variable, filename, compact );
+			return printMap( map_variable, filename, compact );
 		}
 
 		private ScriptValue printMap( ScriptCompositeValue map_variable, String filename, boolean compact )
@@ -5981,9 +5998,9 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			ArrayList matches = new ArrayList();
 
-			for ( int i = 0; i < this.size(); ++i )
-				if ( ((ScriptFunction) this.get(i)).getName().equalsIgnoreCase( name ) )
-					matches.add( this.get(i) );
+			for ( int i = 0; i < size(); ++i )
+				if ( ((ScriptFunction) get(i)).getName().equalsIgnoreCase( name ) )
+					matches.add( get(i) );
 
 			ScriptFunction [] matchArray = new ScriptFunction[ matches.size() ];
 			matches.toArray( matchArray );
@@ -6012,82 +6029,82 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptType getType()
-		{	return this.type;
+		{	return type;
 		}
 
 		public ScriptValue getValue()
 		{
-			if ( this.expression != null )
-				this.content = this.expression.execute();
+			if ( expression != null )
+				content = expression.execute();
 
-			return this.content;
+			return content;
 		}
 
 		public ScriptType getValueType()
-		{	return this.getValue().getType();
+		{	return getValue().getType();
 		}
 
 		public Object rawValue()
-		{	return this.getValue().rawValue();
+		{	return getValue().rawValue();
 		}
 
 		public int intValue()
-		{	return this.getValue().intValue();
+		{	return getValue().intValue();
 		}
 
 		public ScriptValue toStringValue()
-		{	return this.getValue().toStringValue();
+		{	return getValue().toStringValue();
 		}
 
 		public float floatValue()
-		{	return this.getValue().floatValue();
+		{	return getValue().floatValue();
 		}
 
 		public void setExpression( ScriptExpression targetExpression )
-		{	this.expression = targetExpression;
+		{	expression = targetExpression;
 		}
 
 		public void forceValue( ScriptValue targetValue )
 		{
-			this.content = targetValue;
-			this.expression = null;
+			content = targetValue;
+			expression = null;
 		}
 
 		public void setValue( ScriptValue targetValue )
 		{
-			if ( this.getType().equals( targetValue.getType() ) )
+			if ( getType().equals( targetValue.getType() ) )
 			{
-				this.content = targetValue;
-				this.expression = null;
+				content = targetValue;
+				expression = null;
 			}
-			else if ( this.getType().equals( TYPE_STRING ) )
+			else if ( getType().equals( TYPE_STRING ) )
 			{
-				this.content = targetValue.toStringValue();
-				this.expression = null;
+				content = targetValue.toStringValue();
+				expression = null;
 			}
-			else if ( this.getType().equals( TYPE_INT ) && targetValue.getType().equals( TYPE_FLOAT ) )
+			else if ( getType().equals( TYPE_INT ) && targetValue.getType().equals( TYPE_FLOAT ) )
 			{
-				this.content = targetValue.toIntValue();
-				this.expression = null;
+				content = targetValue.toIntValue();
+				expression = null;
 			}
-			else if ( this.getType().equals( TYPE_FLOAT ) && targetValue.getType().equals( TYPE_INT ) )
+			else if ( getType().equals( TYPE_FLOAT ) && targetValue.getType().equals( TYPE_INT ) )
 			{
-				this.content = targetValue.toFloatValue();
-				this.expression = null;
+				content = targetValue.toFloatValue();
+				expression = null;
 			}
-			else if ( this.getType().equals( TYPE_ANY ) )
+			else if ( getType().equals( TYPE_ANY ) )
 			{
-				this.content = targetValue;
-				this.expression = null;
+				content = targetValue;
+				expression = null;
 			}
-			else if ( this.getType().getBaseType().equals( TYPE_AGGREGATE ) && targetValue.getType().getBaseType().equals( TYPE_AGGREGATE ) )
+			else if ( getType().getBaseType().equals( TYPE_AGGREGATE ) && targetValue.getType().getBaseType().equals( TYPE_AGGREGATE ) )
 			{
-				this.content = targetValue;
-				this.expression = null;
+				content = targetValue;
+				expression = null;
 			}
 			else
 			{
-				throw new RuntimeException( "Internal error: Cannot assign " + targetValue.getType() + " to " + this.getType() );
+				throw new RuntimeException( "Internal error: Cannot assign " + targetValue.getType() + " to " + getType() );
 			}
 		}
 	}
@@ -6103,7 +6120,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public Iterator getVariables()
-		{	return this.iterator();
+		{	return iterator();
 		}
 	}
 
@@ -6116,19 +6133,19 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptVariableReference( String varName, ScriptScope scope )
-		{	this.target = scope.findVariable( varName, true );
+		{	target = scope.findVariable( varName, true );
 		}
 
 		public boolean valid()
-		{	return this.target != null;
+		{	return target != null;
 		}
 
 		public ScriptType getType()
-		{	return this.target.getType();
+		{	return target.getType();
 		}
 
 		public String getName()
-		{	return this.target.getName();
+		{	return target.getName();
 		}
 
 		public ScriptExpressionList getIndices()
@@ -6136,27 +6153,27 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public int compareTo( Object o )
-		{	return this.target.getName().compareTo( ((ScriptVariableReference)o).target.getName() );
+		{	return target.getName().compareTo( ((ScriptVariableReference)o).target.getName() );
 		}
 
 		public ScriptValue execute()
-		{	return this.target.getValue();
+		{	return target.getValue();
 		}
 
 		public ScriptValue getValue()
-		{	return this.target.getValue();
+		{	return target.getValue();
 		}
 
 		public void forceValue( ScriptValue targetValue )
-		{	this.target.forceValue( targetValue );
+		{	target.forceValue( targetValue );
 		}
 
 		public void setValue( ScriptValue targetValue )
-		{	this.target.setValue( targetValue );
+		{	target.setValue( targetValue );
 		}
 
 		public String toString()
-		{	return this.target.getName();
+		{	return target.getName();
 		}
 	}
 
@@ -6176,22 +6193,22 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptType getType()
 		{
-			ScriptType type = this.target.getType().getBaseType();
-			for ( int i = 0; i < this.indices.size(); ++i )
-				type = ((ScriptCompositeType)type).getDataType( this.indices.get(i) ).getBaseType();
+			ScriptType type = target.getType().getBaseType();
+			for ( int i = 0; i < indices.size(); ++i )
+				type = ((ScriptCompositeType)type).getDataType( indices.get(i) ).getBaseType();
 			return type;
 		}
 
 		public String getName()
-		{	return this.target.getName() + "[]";
+		{	return target.getName() + "[]";
 		}
 
 		public ScriptExpressionList getIndices()
-		{	return this.indices;
+		{	return indices;
 		}
 
 		public ScriptValue execute()
-		{	return this.getValue();
+		{	return getValue();
 		}
 
 		// Evaluate all the indices and step through the slices.
@@ -6203,31 +6220,31 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			if ( !KoLmafia.permitsContinue() )
 			{
-				KoLmafiaASH.this.currentState = STATE_EXIT;
+				currentState = STATE_EXIT;
 				return false;
 			}
 
-			this.slice = (ScriptCompositeValue)this.target.getValue();
-			this.index = null;
+			slice = (ScriptCompositeValue)target.getValue();
+			index = null;
 
 			traceIndent();
-			trace( "AREF: " + this.slice.toString() );
+			trace( "AREF: " + slice.toString() );
 
-			int count = this.indices.size();
+			int count = indices.size();
 			for ( int i = 0; i < count; ++i )
 			{
-				ScriptExpression exp = (ScriptExpression)this.indices.get(i);
+				ScriptExpression exp = (ScriptExpression)indices.get(i);
 
 				traceIndent();
 				trace( "Key #" + ( i + 1 ) + ": " + exp.toQuotedString() );
 
-				this.index = exp.execute();
-				KoLmafiaASH.this.captureValue( this.index );
+				index = exp.execute();
+				captureValue( index );
 
-				trace( "[" + executionStateString( KoLmafiaASH.this.currentState ) + "] <- " + this.index.toQuotedString() );
+				trace( "[" + executionStateString( currentState ) + "] <- " + index.toQuotedString() );
 				traceUnindent();
 
-				if ( KoLmafiaASH.this.currentState == STATE_EXIT )
+				if ( currentState == STATE_EXIT )
 				{
 					traceUnindent();
 					return false;
@@ -6237,18 +6254,18 @@ public class KoLmafiaASH extends StaticEntity
 				if ( i == count - 1 )
 					break;
 
-				ScriptCompositeValue result = (ScriptCompositeValue)this.slice.aref( this.index );
+				ScriptCompositeValue result = (ScriptCompositeValue)slice.aref( index );
 
 				// Create missing intermediate slices
 				if ( result == null )
 				{
-					result = (ScriptCompositeValue)this.slice.initialValue( this.index );
-					this.slice.aset( this.index, result );
+					result = (ScriptCompositeValue)slice.initialValue( index );
+					slice.aset( index, result );
 				}
 
-				this.slice = result;
+				slice = result;
 
-				trace( "AREF <- " + this.slice.toString() );
+				trace( "AREF <- " + slice.toString() );
 			}
 
 			traceUnindent();
@@ -6259,14 +6276,14 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue getValue()
 		{
 			// Iterate through indices to final slice
-			if ( this.getSlice() )
+			if ( getSlice() )
 			{
-				ScriptValue result = this.slice.aref( this.index );
+				ScriptValue result = slice.aref( index );
 
 				if ( result == null )
 				{
-					result = this.slice.initialValue( this.index );
-					this.slice.aset( this.index, result );
+					result = slice.initialValue( index );
+					slice.aset( index, result );
 				}
 
 				traceIndent();
@@ -6282,9 +6299,9 @@ public class KoLmafiaASH extends StaticEntity
 		public void setValue( ScriptValue targetValue )
 		{
 			// Iterate through indices to final slice
-			if ( this.getSlice() )
+			if ( getSlice() )
 			{
-				this.slice.aset( this.index, targetValue );
+				slice.aset( index, targetValue );
 				traceIndent();
 				trace( "ASET: " + targetValue.toQuotedString() );
 				traceUnindent();
@@ -6294,11 +6311,11 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue removeKey()
 		{
 			// Iterate through indices to final slice
-			if ( this.getSlice() )
+			if ( getSlice() )
 			{
-				ScriptValue result = this.slice.remove( this.index );
+				ScriptValue result = slice.remove( index );
 				if ( result == null )
-					result = this.slice.initialValue( this.index );
+					result = slice.initialValue( index );
 				traceIndent();
 				trace( "remove <- " + result.toQuotedString() );
 				traceUnindent();
@@ -6311,8 +6328,8 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			boolean result = false;
 			// Iterate through indices to final slice
-			if ( this.getSlice() )
-				result = this.slice.aref( index ) != null;
+			if ( getSlice() )
+				result = slice.aref( index ) != null;
 			traceIndent();
 			trace( "contains <- " + result );
 			traceUnindent();
@@ -6320,7 +6337,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public String toString()
-		{	return this.target.getName() + "[]";
+		{	return target.getName() + "[]";
 		}
         }
 
@@ -6352,7 +6369,7 @@ public class KoLmafiaASH extends StaticEntity
 			else if ( command.equalsIgnoreCase( "exit" ) )
 				this.command = COMMAND_EXIT;
 			else
-				throw new AdvancedScriptException( "Invalid command '" + command + "' " + KoLmafiaASH.this.getLineAndFile() );
+				throw new AdvancedScriptException( "Invalid command '" + command + "' " + getLineAndFile() );
 		}
 
 		public ScriptFlowControl( int command )
@@ -6376,19 +6393,19 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue execute()
 		{
 			traceIndent();
-			trace( this.toString() );
+			trace( toString() );
 			traceUnindent();
 
 			switch ( this.command )
 			{
 			case COMMAND_BREAK:
-				KoLmafiaASH.this.currentState = STATE_BREAK;
+				currentState = STATE_BREAK;
 				return VOID_VALUE;
 			case COMMAND_CONTINUE:
-				KoLmafiaASH.this.currentState = STATE_CONTINUE;
+				currentState = STATE_CONTINUE;
 				return VOID_VALUE;
 			case COMMAND_EXIT:
-				KoLmafiaASH.this.currentState = STATE_EXIT;
+				currentState = STATE_EXIT;
 				return null;
 			}
 
@@ -6415,7 +6432,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( expectedType != null && returnValue != null )
 			{
 				if ( !validCoercion( returnValue.getType(), expectedType, "return" ) )
-					throw new AdvancedScriptException( "Cannot apply " + returnValue.getType() + " to " + expectedType + " " + KoLmafiaASH.this.getLineAndFile() );
+					throw new AdvancedScriptException( "Cannot apply " + returnValue.getType() + " to " + expectedType + " " + getLineAndFile() );
 			}
 
 			this.expectedType = expectedType;
@@ -6423,61 +6440,61 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptType getType()
 		{
-			if ( this.expectedType != null )
-				return this.expectedType;
+			if ( expectedType != null )
+				return expectedType;
 
-			if ( this.returnValue == null )
+			if ( returnValue == null )
 				return VOID_TYPE;
 
-			return this.returnValue.getType();
+			return returnValue.getType();
 		}
 
 		public ScriptExpression getExpression()
-		{	return this.returnValue;
+		{	return returnValue;
 		}
 
 		public ScriptValue execute()
 		{
 			if ( !KoLmafia.permitsContinue() )
-				KoLmafiaASH.this.currentState = STATE_EXIT;
+				currentState = STATE_EXIT;
 
-			if ( KoLmafiaASH.this.currentState == STATE_EXIT )
+			if ( currentState == STATE_EXIT )
 				return null;
 
-			KoLmafiaASH.this.currentState = STATE_RETURN;
+			currentState = STATE_RETURN;
 
-			if ( this.returnValue == null )
+			if ( returnValue == null )
 				return null;
 
 			traceIndent();
-			trace( "Eval: " + this.returnValue );
+			trace( "Eval: " + returnValue );
 
-			ScriptValue result = this.returnValue.execute();
-			KoLmafiaASH.this.captureValue( result );
+			ScriptValue result = returnValue.execute();
+			captureValue( result );
 
 			trace( "Returning: " + result );
 			traceUnindent();
 
-			if ( KoLmafiaASH.this.currentState != STATE_EXIT )
-				KoLmafiaASH.this.currentState = STATE_RETURN;
+			if ( currentState != STATE_EXIT )
+				currentState = STATE_RETURN;
 
 			if ( result == null )
 				return null;
 
-			if ( this.expectedType.equals( TYPE_STRING ) )
+			if ( expectedType.equals( TYPE_STRING ) )
 				return result.toStringValue();
 
-			if ( this.expectedType.equals( TYPE_FLOAT ) )
+			if ( expectedType.equals( TYPE_FLOAT ) )
 				return result.toFloatValue();
 
-			if ( this.expectedType.equals( TYPE_INT ) )
+			if ( expectedType.equals( TYPE_INT ) )
 				return result.toIntValue();
 
 			return result;
 		}
 
 		public String toString()
-		{	return "return " + this.returnValue;
+		{	return "return " + returnValue;
 		}
 	}
 
@@ -6491,34 +6508,34 @@ public class KoLmafiaASH extends StaticEntity
 			this.scope = scope;
 			this.condition = condition;
 			if ( !condition.getType().equals( TYPE_BOOLEAN ) )
-				throw new AdvancedScriptException( "Cannot apply " + condition.getType() + " to boolean " + KoLmafiaASH.this.getLineAndFile() );
+				throw new AdvancedScriptException( "Cannot apply " + condition.getType() + " to boolean " + getLineAndFile() );
 		}
 
 		public ScriptScope getScope()
-		{	return this.scope;
+		{	return scope;
 		}
 
 		public ScriptExpression getCondition()
-		{	return this.condition;
+		{	return condition;
 		}
 
 		public ScriptValue execute()
 		{
 			if ( !KoLmafia.permitsContinue() )
 			{
-				KoLmafiaASH.this.currentState = STATE_EXIT;
+				currentState = STATE_EXIT;
 				return null;
 			}
 
 			traceIndent();
 			trace( this.toString() );
 
-			trace( "Test: " + this.condition );
+			trace( "Test: " + condition );
 
-			ScriptValue conditionResult = this.condition.execute();
-			KoLmafiaASH.this.captureValue( conditionResult );
+			ScriptValue conditionResult = condition.execute();
+			captureValue( conditionResult );
 
-			trace( "[" + executionStateString( KoLmafiaASH.this.currentState ) + "] <- " + conditionResult );
+			trace( "[" + executionStateString( currentState ) + "] <- " + conditionResult );
 
 			if ( conditionResult == null )
 			{
@@ -6528,11 +6545,11 @@ public class KoLmafiaASH extends StaticEntity
 
 			if ( conditionResult.intValue() == 1 )
 			{
-				ScriptValue result = this.scope.execute();
+				ScriptValue result = scope.execute();
 
 				traceUnindent();
 
-				if ( KoLmafiaASH.this.currentState != STATE_NORMAL )
+				if ( currentState != STATE_NORMAL )
 					return result;
 
 				return TRUE_VALUE;
@@ -6550,26 +6567,26 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptIf( ScriptScope scope, ScriptExpression condition )
 		{
 			super( scope, condition );
-			this.elseLoops = new ArrayList();
+			elseLoops = new ArrayList();
 		}
 
 		public Iterator getElseLoops()
-		{	return this.elseLoops.iterator();
+		{	return elseLoops.iterator();
 		}
 
 		public void addElseLoop( ScriptConditional elseLoop )
-		{	this.elseLoops.add( elseLoop );
+		{	elseLoops.add( elseLoop );
 		}
 
 		public ScriptValue execute()
 		{
 			ScriptValue result = super.execute();
-			if ( KoLmafiaASH.this.currentState != STATE_NORMAL || result == TRUE_VALUE )
+			if ( currentState != STATE_NORMAL || result == TRUE_VALUE )
 				return result;
 
 			// Conditional failed. Move to else clauses
 
-			Iterator it = this.elseLoops.iterator();
+			Iterator it = elseLoops.iterator();
 			ScriptConditional elseLoop;
 
 			while ( it.hasNext() )
@@ -6577,7 +6594,7 @@ public class KoLmafiaASH extends StaticEntity
 				elseLoop = (ScriptConditional) it.next();
 				result = elseLoop.execute();
 
-				if ( KoLmafiaASH.this.currentState != STATE_NORMAL || result == TRUE_VALUE )
+				if ( currentState != STATE_NORMAL || result == TRUE_VALUE )
 					return result;
 			}
 
@@ -6610,16 +6627,16 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			if ( !KoLmafia.permitsContinue() )
 			{
-				KoLmafiaASH.this.currentState = STATE_EXIT;
+				currentState = STATE_EXIT;
 				return null;
 			}
 
 			traceIndent();
 			trace( "else" );
-			ScriptValue result = this.scope.execute();
+			ScriptValue result = scope.execute();
 			traceUnindent();
 
-			if ( KoLmafiaASH.this.currentState != STATE_NORMAL )
+			if ( currentState != STATE_NORMAL )
 				return result;
 
 			return TRUE_VALUE;
@@ -6640,17 +6657,17 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptScope getScope()
-		{	return this.scope;
+		{	return scope;
 		}
 
 		public ScriptValue execute()
 		{
-			ScriptValue result = this.scope.execute();
+			ScriptValue result = scope.execute();
 
 			if ( !KoLmafia.permitsContinue() )
-				KoLmafiaASH.this.currentState = STATE_EXIT;
+				currentState = STATE_EXIT;
 
-			switch ( KoLmafiaASH.this.currentState )
+			switch ( currentState )
 			{
 			case STATE_EXIT:
 				return null;
@@ -6665,7 +6682,7 @@ public class KoLmafiaASH extends StaticEntity
 
 			case STATE_CONTINUE:
 				// Done with this iteration
-				KoLmafiaASH.this.currentState = STATE_NORMAL;
+				currentState = STATE_NORMAL;
 				return result;
 
 			case STATE_NORMAL:
@@ -6689,22 +6706,22 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptVariableReferenceList getVariableReferences()
-		{	return this.variableReferences;
+		{	return variableReferences;
 		}
 
 		public Iterator getReferences()
-		{	return this.variableReferences.iterator();
+		{	return variableReferences.iterator();
 		}
 
 		public ScriptVariableReference getAggregate()
-		{	return this.aggregate;
+		{	return aggregate;
 		}
 
 		public ScriptValue execute()
 		{
 			if ( !KoLmafia.permitsContinue() )
 			{
-				KoLmafiaASH.this.currentState = STATE_EXIT;
+				currentState = STATE_EXIT;
 				return null;
 			}
 
@@ -6712,15 +6729,15 @@ public class KoLmafiaASH extends StaticEntity
 			trace( this.toString() );
 
 			// Evaluate the aggref to get the slice
-			ScriptAggregateValue slice = (ScriptAggregateValue) this.aggregate.execute();
-			KoLmafiaASH.this.captureValue( slice );
-			if ( KoLmafiaASH.this.currentState == STATE_EXIT )
+			ScriptAggregateValue slice = (ScriptAggregateValue) aggregate.execute();
+			captureValue( slice );
+			if ( currentState == STATE_EXIT )
 				return null;
 
 			// Iterate over the slice with bound keyvar
 
-			Iterator it = this.getReferences();
-			return this.executeSlice( slice, it, (ScriptVariableReference) it.next() );
+			Iterator it = getReferences();
+			return executeSlice( slice, it, (ScriptVariableReference) it.next() );
 
 		}
 
@@ -6749,19 +6766,19 @@ public class KoLmafiaASH extends StaticEntity
 				{
 					ScriptAggregateValue nextSlice = (ScriptAggregateValue)slice.aref( key );
 					traceIndent();
-					result = this.executeSlice( nextSlice, it, nextVariable );
+					result = executeSlice( nextSlice, it, nextVariable );
 				}
 				else
 				{
 					// Otherwise, execute scope
 					result = super.execute();
 				}
-				switch ( KoLmafiaASH.this.currentState )
+				switch ( currentState )
 				{
 				case STATE_NORMAL:
 					break;
 				case STATE_BREAK:
-					KoLmafiaASH.this.currentState = STATE_NORMAL;
+					currentState = STATE_NORMAL;
 					// Fall through
 				default:
 					traceUnindent();
@@ -6787,19 +6804,19 @@ public class KoLmafiaASH extends StaticEntity
 			super( scope );
 			this.condition = condition;
 			if ( !condition.getType().equals( TYPE_BOOLEAN ) )
-				throw new AdvancedScriptException( "Cannot apply " + condition.getType() + " to boolean " + KoLmafiaASH.this.getLineAndFile() );
+				throw new AdvancedScriptException( "Cannot apply " + condition.getType() + " to boolean " + getLineAndFile() );
 
 		}
 
 		public ScriptExpression getCondition()
-		{	return this.condition;
+		{	return condition;
 		}
 
 		public ScriptValue execute()
 		{
 			if ( !KoLmafia.permitsContinue() )
 			{
-				KoLmafiaASH.this.currentState = STATE_EXIT;
+				currentState = STATE_EXIT;
 				return null;
 			}
 
@@ -6808,12 +6825,12 @@ public class KoLmafiaASH extends StaticEntity
 
 			while ( true )
 			{
-				trace( "Test: " + this.condition );
+				trace( "Test: " + condition );
 
-				ScriptValue conditionResult = this.condition.execute();
-				KoLmafiaASH.this.captureValue( conditionResult );
+				ScriptValue conditionResult = condition.execute();
+				captureValue( conditionResult );
 
-				trace( "[" + executionStateString( KoLmafiaASH.this.currentState ) + "] <- " + conditionResult );
+				trace( "[" + executionStateString( currentState ) + "] <- " + conditionResult );
 
 				if (  conditionResult == null )
 				{
@@ -6826,14 +6843,14 @@ public class KoLmafiaASH extends StaticEntity
 
 				ScriptValue result = super.execute();
 
-				if ( KoLmafiaASH.this.currentState == STATE_BREAK )
+				if ( currentState == STATE_BREAK )
 				{
-					KoLmafiaASH.this.currentState = STATE_NORMAL;
+					currentState = STATE_NORMAL;
 					traceUnindent();
 					return VOID_VALUE;
 				}
 
-				if ( KoLmafiaASH.this.currentState != STATE_NORMAL )
+				if ( currentState != STATE_NORMAL )
 				{
 					traceUnindent();
 					return result;
@@ -6858,19 +6875,19 @@ public class KoLmafiaASH extends StaticEntity
 			super( scope );
 			this.condition = condition;
 			if ( !condition.getType().equals( TYPE_BOOLEAN ) )
-				throw new AdvancedScriptException( "Cannot apply " + condition.getType() + " to boolean " + KoLmafiaASH.this.getLineAndFile() );
+				throw new AdvancedScriptException( "Cannot apply " + condition.getType() + " to boolean " + getLineAndFile() );
 
 		}
 
 		public ScriptExpression getCondition()
-		{	return this.condition;
+		{	return condition;
 		}
 
 		public ScriptValue execute()
 		{
 			if ( !KoLmafia.permitsContinue() )
 			{
-				KoLmafiaASH.this.currentState = STATE_EXIT;
+				currentState = STATE_EXIT;
 				return null;
 			}
 
@@ -6881,25 +6898,25 @@ public class KoLmafiaASH extends StaticEntity
 			{
 				ScriptValue result = super.execute();
 
-				if ( KoLmafiaASH.this.currentState == STATE_BREAK )
+				if ( currentState == STATE_BREAK )
 				{
-					KoLmafiaASH.this.currentState = STATE_NORMAL;
+					currentState = STATE_NORMAL;
 					traceUnindent();
 					return VOID_VALUE;
 				}
 
-				if ( KoLmafiaASH.this.currentState != STATE_NORMAL )
+				if ( currentState != STATE_NORMAL )
 				{
 					traceUnindent();
 					return result;
 				}
 
-				trace( "Test: " + this.condition );
+				trace( "Test: " + condition );
 
-				ScriptValue conditionResult = this.condition.execute();
-				KoLmafiaASH.this.captureValue( conditionResult );
+				ScriptValue conditionResult = condition.execute();
+				captureValue( conditionResult );
 
-				trace( "[" + executionStateString( KoLmafiaASH.this.currentState ) + "] <- " + conditionResult );
+				trace( "[" + executionStateString( currentState ) + "] <- " + conditionResult );
 
 				if (  conditionResult == null )
 				{
@@ -6939,30 +6956,30 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptVariableReference getVariable()
-		{	return this.variable;
+		{	return variable;
 		}
 
 		public ScriptExpression getInitial()
-		{	return this.initial;
+		{	return initial;
 		}
 
 		public ScriptExpression getLast()
-		{	return this.last;
+		{	return last;
 		}
 
 		public ScriptExpression getIncrement()
-		{	return this.increment;
+		{	return increment;
 		}
 
 		public boolean getUp()
-		{	return this.up;
+		{	return up;
 		}
 
 		public ScriptValue execute()
 		{
 			if ( !KoLmafia.permitsContinue() )
 			{
-				KoLmafiaASH.this.currentState = STATE_EXIT;
+				currentState = STATE_EXIT;
 				return null;
 			}
 
@@ -6970,12 +6987,12 @@ public class KoLmafiaASH extends StaticEntity
 			trace( this.toString() );
 
 			// Get the initial value
-			trace( "Initial: " + this.initial );
+			trace( "Initial: " + initial );
 
-			ScriptValue initialValue = this.initial.execute();
-			KoLmafiaASH.this.captureValue( initialValue );
+			ScriptValue initialValue = initial.execute();
+			captureValue( initialValue );
 
-			trace( "[" + executionStateString( KoLmafiaASH.this.currentState ) + "] <- " + initialValue );
+			trace( "[" + executionStateString( currentState ) + "] <- " + initialValue );
 
 			if (  initialValue == null )
 			{
@@ -6984,12 +7001,12 @@ public class KoLmafiaASH extends StaticEntity
 			}
 
 			// Get the final value
-			trace( "Last: " + this.last );
+			trace( "Last: " + last );
 
-			ScriptValue lastValue = this.last.execute();
-			KoLmafiaASH.this.captureValue( lastValue );
+			ScriptValue lastValue = last.execute();
+			captureValue( lastValue );
 
-			trace( "[" + executionStateString( KoLmafiaASH.this.currentState ) + "] <- " + lastValue );
+			trace( "[" + executionStateString( currentState ) + "] <- " + lastValue );
 
 			if (  lastValue == null )
 			{
@@ -6998,12 +7015,12 @@ public class KoLmafiaASH extends StaticEntity
 			}
 
 			// Get the increment
-			trace( "Increment: " + this.increment );
+			trace( "Increment: " + increment );
 
-			ScriptValue incrementValue = this.increment.execute();
-			KoLmafiaASH.this.captureValue( incrementValue );
+			ScriptValue incrementValue = increment.execute();
+			captureValue( incrementValue );
 
-			trace( "[" + executionStateString( KoLmafiaASH.this.currentState ) + "] <- " + incrementValue );
+			trace( "[" + executionStateString( currentState ) + "] <- " + incrementValue );
 
 			if (  incrementValue == null )
 			{
@@ -7012,26 +7029,26 @@ public class KoLmafiaASH extends StaticEntity
 			}
 
 			int current = initialValue.intValue();
-			int adjustment = this.up ? incrementValue.intValue() : -incrementValue.intValue();
+			int adjustment = up ? incrementValue.intValue() : -incrementValue.intValue();
 			int end = lastValue.intValue();
 
-			while ( ( this.up && current <= end ) ||
-				( !this.up && current >= end ) )
+			while ( ( up && current <= end ) ||
+				( !up && current >= end ) )
 			{
 				// Bind variable to current value
-				this.variable.setValue( new ScriptValue( current ) );
+				variable.setValue( new ScriptValue( current ) );
 
 				// Execute the scope
 				ScriptValue result = super.execute();
 
-				if ( KoLmafiaASH.this.currentState == STATE_BREAK )
+				if ( currentState == STATE_BREAK )
 				{
-					KoLmafiaASH.this.currentState = STATE_NORMAL;
+					currentState = STATE_NORMAL;
 					traceUnindent();
 					return VOID_VALUE;
 				}
 
-				if ( KoLmafiaASH.this.currentState != STATE_NORMAL )
+				if ( currentState != STATE_NORMAL )
 				{
 					traceUnindent();
 					return result;
@@ -7064,7 +7081,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue execute()
 		{
-			KoLmafiaCLI script = new KoLmafiaCLI( this.data.getByteArrayInputStream() );
+			KoLmafiaCLI script = new KoLmafiaCLI( data.getByteArrayInputStream() );
 			script.listenForCommands();
 			return VOID_VALUE;
 		}
@@ -7077,9 +7094,9 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptCall( String functionName, ScriptScope scope, ScriptExpressionList params )
 		{
-			this.target = this.findFunction( functionName, scope, params );
-			if ( this.target == null )
-				throw new AdvancedScriptException( "Undefined reference '" + functionName + "' " + KoLmafiaASH.this.getLineAndFile() );
+			target = findFunction( functionName, scope, params );
+			if ( target == null )
+				throw new AdvancedScriptException( "Undefined reference '" + functionName + "' " + getLineAndFile() );
 			this.params = params;
 		}
 
@@ -7092,31 +7109,31 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptFunction getTarget()
-		{	return this.target;
+		{	return target;
 		}
 
 		public Iterator getExpressions()
-		{	return this.params.iterator();
+		{	return params.iterator();
 		}
 
 		public ScriptType getType()
-		{	return this.target.getType();
+		{	return target.getType();
 		}
 
 		public ScriptValue execute()
 		{
 			if ( !KoLmafia.permitsContinue() )
 			{
-				KoLmafiaASH.this.currentState = STATE_EXIT;
+				currentState = STATE_EXIT;
 				return null;
 			}
 
 			// Save current variable bindings
-			this.target.saveBindings();
+			target.saveBindings();
 			traceIndent();
 
-			Iterator refIterator = this.target.getReferences();
-			Iterator valIterator = this.params.getExpressions();
+			Iterator refIterator = target.getReferences();
+			Iterator valIterator = params.getExpressions();
 
 			ScriptVariableReference paramVarRef;
 			ScriptExpression paramValue;
@@ -7131,7 +7148,7 @@ public class KoLmafiaASH extends StaticEntity
 
 				if ( !valIterator.hasNext() )
 				{
-					this.target.restoreBindings();
+					target.restoreBindings();
 					throw new RuntimeException( "Internal error: illegal arguments" );
 				}
 
@@ -7140,13 +7157,13 @@ public class KoLmafiaASH extends StaticEntity
 				trace( "Param #" + paramCount + ": " + paramValue.toQuotedString() );
 
 				ScriptValue value = paramValue.execute();
-				KoLmafiaASH.this.captureValue( value );
+				captureValue( value );
 
-				trace( "[" + executionStateString( KoLmafiaASH.this.currentState ) + "] <- " + value.toQuotedString() );
+				trace( "[" + executionStateString( currentState ) + "] <- " + value.toQuotedString() );
 
-				if ( KoLmafiaASH.this.currentState == STATE_EXIT )
+				if ( currentState == STATE_EXIT )
 				{
-					this.target.restoreBindings();
+					target.restoreBindings();
 					traceUnindent();
 					return null;
 				}
@@ -7164,26 +7181,26 @@ public class KoLmafiaASH extends StaticEntity
 
 			if ( valIterator.hasNext() )
 			{
-				this.target.restoreBindings();
+				target.restoreBindings();
 				throw new RuntimeException( "Internal error: illegal arguments" );
 			}
 
-			trace( "Entering function " + this.target.getName() );
-			ScriptValue result = this.target.execute();
-			trace( "Function " + this.target.getName() + " returned: " + result );
+			trace( "Entering function " + target.getName() );
+			ScriptValue result = target.execute();
+			trace( "Function " + target.getName() + " returned: " + result );
 
-			if ( KoLmafiaASH.this.currentState != STATE_EXIT )
-				KoLmafiaASH.this.currentState = STATE_NORMAL;
+			if ( currentState != STATE_EXIT )
+				currentState = STATE_NORMAL;
 
 			// Restore initial variable bindings
-			this.target.restoreBindings();
+			target.restoreBindings();
 			traceUnindent();
 
 			return result;
 		}
 
 		public String toString()
-		{	return this.target.getName() + "()";
+		{	return target.getName() + "()";
 		}
 	}
 
@@ -7198,58 +7215,58 @@ public class KoLmafiaASH extends StaticEntity
 			this.rhs = rhs;
 
 			if ( !validCoercion( lhs.getType(), rhs.getType(), "assign" ) )
-				throw new AdvancedScriptException( "Cannot store " + rhs.getType() + " in " + lhs + " of type " + lhs.getType() + " " + KoLmafiaASH.this.getLineAndFile() );
+				throw new AdvancedScriptException( "Cannot store " + rhs.getType() + " in " + lhs + " of type " + lhs.getType() + " " + getLineAndFile() );
 		}
 
 		public ScriptVariableReference getLeftHandSide()
 		{
-			return this.lhs;
+			return lhs;
 		}
 
 		public ScriptExpression getRightHandSide()
 		{
-			return this.rhs;
+			return rhs;
 		}
 
 		public ScriptType getType()
 		{
-			return this.lhs.getType();
+			return lhs.getType();
 		}
 
 		public ScriptValue execute()
 		{
 			if ( !KoLmafia.permitsContinue() )
 			{
-				KoLmafiaASH.this.currentState = STATE_EXIT;
+				currentState = STATE_EXIT;
 				return null;
 			}
 
 			traceIndent();
-			trace( "Eval: " + this.rhs );
+			trace( "Eval: " + rhs );
 
-			ScriptValue value = this.rhs.execute();
-			KoLmafiaASH.this.captureValue( value );
+			ScriptValue value = rhs.execute();
+			captureValue( value );
 
 			trace( "Set: " + value );
 			traceUnindent();
 
-			if ( KoLmafiaASH.this.currentState == STATE_EXIT )
+			if ( currentState == STATE_EXIT )
 				return null;
 
-			if ( this.lhs.getType().equals( TYPE_STRING ) )
-				this.lhs.setValue( value.toStringValue() );
-			else if ( this.lhs.getType().equals( TYPE_INT ) && this.rhs.getType().equals( TYPE_FLOAT ) )
-				this.lhs.setValue( value.toIntValue() );
-			else if ( this.lhs.getType().equals( TYPE_FLOAT ) && this.rhs.getType().equals( TYPE_INT ) )
-				this.lhs.setValue( value.toFloatValue() );
+			if ( lhs.getType().equals( TYPE_STRING ) )
+				lhs.setValue( value.toStringValue() );
+			else if ( lhs.getType().equals( TYPE_INT ) && rhs.getType().equals( TYPE_FLOAT ) )
+				lhs.setValue( value.toIntValue() );
+			else if ( lhs.getType().equals( TYPE_FLOAT ) && rhs.getType().equals( TYPE_INT ) )
+				lhs.setValue( value.toFloatValue() );
 			else
-				this.lhs.setValue( value );
+				lhs.setValue( value );
 
 			return VOID_VALUE;
 		}
 
 		public String toString()
-		{	return this.lhs.getName() + " = " + this.rhs;
+		{	return lhs.getName() + " = " + rhs;
 		}
 	}
 
@@ -7266,7 +7283,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public int getType()
-		{	return this.type;
+		{	return type;
 		}
 
 		public ScriptType getBaseType()
@@ -7274,7 +7291,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public boolean isPrimitive()
-		{	return this.primitive;
+		{	return primitive;
 		}
 
 		public boolean equals( ScriptType type )
@@ -7286,7 +7303,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public String toString()
-		{	return this.name;
+		{	return name;
 		}
 
 		public ScriptType simpleType()
@@ -7295,7 +7312,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue initialValue()
 		{
-			switch ( this.type )
+			switch ( type )
 			{
 			case TYPE_VOID:
 				return VOID_VALUE;
@@ -7333,7 +7350,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue parseValue( String name )
 		{
-			switch ( this.type )
+			switch ( type )
 			{
 			case TYPE_BOOLEAN:
 				return parseBooleanValue( name );
@@ -7368,7 +7385,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptExpression initialValueExpression()
-		{	return this.initialValue();
+		{	return initialValue();
 		}
 
 		public boolean containsAggregate()
@@ -7387,11 +7404,11 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptType getBaseType()
-		{	return this.base.getBaseType();
+		{	return base.getBaseType();
 		}
 
 		public ScriptExpression initialValueExpression()
-		{	return new ScriptTypeInitializer( this.base.getBaseType() );
+		{	return new ScriptTypeInitializer( base.getBaseType() );
 		}
 	}
 
@@ -7450,58 +7467,58 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptType getDataType()
-		{	return this.dataType;
+		{	return dataType;
 		}
 
 		public ScriptType getDataType( Object key )
-		{	return this.dataType;
+		{	return dataType;
 		}
 
 		public ScriptType getIndexType()
-		{	return this.indexType;
+		{	return indexType;
 		}
 
 		public int getSize()
-		{	return this.size;
+		{	return size;
 		}
 
 		public boolean equals( ScriptType o )
 		{
 			return ( o instanceof ScriptAggregateType &&
-				 this.dataType.equals( ((ScriptAggregateType)o).dataType ) &&
-				 this.indexType.equals( ((ScriptAggregateType)o).indexType ) );
+				 dataType.equals( ((ScriptAggregateType)o).dataType ) &&
+				 indexType.equals( ((ScriptAggregateType)o).indexType ) );
 		}
 
 		public ScriptType simpleType()
 		{
-			if ( this.dataType instanceof ScriptAggregateType )
-				return this.dataType.simpleType();
-			return this.dataType;
+			if ( dataType instanceof ScriptAggregateType )
+				return dataType.simpleType();
+			return dataType;
 		}
 
 		public String toString()
 		{
-			return this.simpleType().toString() + " [" + this.indexString() + "]";
+			return simpleType().toString() + " [" + indexString() + "]";
 		}
 
 		public String indexString()
 		{
-			if ( this.dataType instanceof ScriptAggregateType )
+			if ( dataType instanceof ScriptAggregateType )
 			{
-				String suffix = ", " + ((ScriptAggregateType)this.dataType).indexString();
-				if ( this.size != 0 )
-					return this.size + suffix;
-				return this.indexType.toString() + suffix;
+				String suffix = ", " + ((ScriptAggregateType)dataType).indexString();
+				if ( size != 0 )
+					return size + suffix;
+				return indexType.toString() + suffix;
 			}
 
-			if ( this.size != 0 )
-				return String.valueOf( this.size );
-			return this.indexType.toString();
+			if ( size != 0 )
+				return String.valueOf( size );
+			return indexType.toString();
 		}
 
 		public ScriptValue initialValue()
 		{
-			if ( this.size != 0 )
+			if ( size != 0 )
 				return new ScriptArray( this );
 			return new ScriptMap( this );
 		}
@@ -7533,23 +7550,23 @@ public class KoLmafiaASH extends StaticEntity
 
 			this.fieldIndices = new ScriptValue[ fieldNames.length ];
 			for ( int i = 0; i < fieldNames.length; ++i )
-				this.fieldIndices[i] = new ScriptValue( fieldNames[i] );
+				fieldIndices[i] = new ScriptValue( fieldNames[i] );
 		}
 
 		public String [] getFieldNames()
-		{	return this.fieldNames;
+		{	return fieldNames;
                 }
 
 		public ScriptType [] getFieldTypes()
-		{	return this.fieldTypes;
+		{	return fieldTypes;
                 }
 
 		public ScriptValue [] getFieldIndices()
-		{	return this.fieldIndices;
+		{	return fieldIndices;
                 }
 
 		public int fieldCount()
-		{	return this.fieldTypes.length;
+		{	return fieldTypes.length;
                 }
 
 		public ScriptType getIndexType()
@@ -7560,18 +7577,18 @@ public class KoLmafiaASH extends StaticEntity
 		{
                         if ( !( key instanceof ScriptValue ) )
 				throw new RuntimeException( "Internal error: key is not a ScriptValue" );
-			int index = this.indexOf( (ScriptValue)key );
-			if ( index < 0 || index >= this.fieldTypes.length )
+			int index = indexOf( (ScriptValue)key );
+			if ( index < 0 || index >= fieldTypes.length )
 				return null;
-			return this.fieldTypes[index];
+			return fieldTypes[index];
 		}
 
 		public ScriptValue getFieldIndex( String field )
 		{
 			String val = field.toLowerCase();
-			for ( int index = 0; index < this.fieldNames.length; ++ index )
-				if ( val.equals( this.fieldNames[index] ) )
-					return this.fieldIndices[index];
+			for ( int index = 0; index < fieldNames.length; ++ index )
+				if ( val.equals( fieldNames[index] ) )
+					return fieldIndices[index];
 			return null;
 		}
 
@@ -7582,17 +7599,17 @@ public class KoLmafiaASH extends StaticEntity
 			if ( type.equals( TYPE_INT ) )
 			{
 				int index = key.intValue();
-				if ( index < 0 || index >= this.fieldNames.length )
+				if ( index < 0 || index >= fieldNames.length )
 					return null;
-				return this.fieldIndices[ index ];
+				return fieldIndices[ index ];
 			}
 
 			if ( type.equals( TYPE_STRING ) )
 			{
 				String str = key.toString();
-				for ( int index = 0; index < this.fieldNames.length; ++ index )
-					if ( this.fieldNames[index].equals( str ) )
-						return this.fieldIndices[ index ];
+				for ( int index = 0; index < fieldNames.length; ++ index )
+					if ( fieldNames[index].equals( str ) )
+						return fieldIndices[ index ];
 				return null;
 			}
 
@@ -7606,15 +7623,15 @@ public class KoLmafiaASH extends StaticEntity
 			if ( type.equals( TYPE_INT ) )
 			{
 				int index = key.intValue();
-				if ( index < 0 || index >= this.fieldNames.length )
+				if ( index < 0 || index >= fieldNames.length )
 					return -1;
 				return index;
 			}
 
 			if ( type.equals( TYPE_STRING ) )
 			{
-				for ( int index = 0; index < this.fieldNames.length; ++ index )
-					if ( key == this.fieldIndices[index] )
+				for ( int index = 0; index < fieldNames.length; ++ index )
+					if ( key == fieldIndices[index] )
 						return index;
 				return -1;
 			}
@@ -7625,7 +7642,7 @@ public class KoLmafiaASH extends StaticEntity
 		public boolean equals( ScriptType o )
 		{
 			return ( o instanceof ScriptRecordType &&
-				 this.name == ((ScriptRecordType)o).name );
+				 name == ((ScriptRecordType)o).name );
 		}
 
 		public ScriptType simpleType()
@@ -7633,7 +7650,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public String toString()
-		{	return this.name;
+		{	return name;
 		}
 
 		public ScriptValue initialValue()
@@ -7642,8 +7659,8 @@ public class KoLmafiaASH extends StaticEntity
 
 		public boolean containsAggregate()
 		{
-			for ( int i = 0; i < this.fieldTypes.length; ++i )
-				if ( this.fieldTypes[i].containsAggregate() )
+			for ( int i = 0; i < fieldTypes.length; ++i )
+				if ( fieldTypes[i].containsAggregate() )
 					return true;
 			return false;
 		}
@@ -7658,11 +7675,11 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptType getType()
-		{	return this.type;
+		{	return type;
 		}
 
 		public ScriptValue execute()
-		{	return this.type.initialValue();
+		{	return type.initialValue();
 		}
 
 		public String toString()
@@ -7748,67 +7765,67 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue toFloatValue()
 		{
-			if ( this.type.equals( TYPE_FLOAT ) )
+			if ( type.equals( TYPE_FLOAT ) )
 				return this;
 			else
-				return new ScriptValue( (float) this.contentInt );
+				return new ScriptValue( (float) contentInt );
 		}
 
 		public ScriptValue toIntValue()
 		{
-			if ( this.type.equals( TYPE_INT ) )
+			if ( type.equals( TYPE_INT ) )
 				return this;
 			else
-				return new ScriptValue( (int) this.contentFloat );
+				return new ScriptValue( (int) contentFloat );
 		}
 
 		public ScriptType getType()
 		{
-			return this.type.getBaseType();
+			return type.getBaseType();
 		}
 
 		public String toString()
 		{
-			if ( this.type.equals( TYPE_VOID ) )
+			if ( type.equals( TYPE_VOID ) )
 				return "void";
 
-			if ( this.contentString != null )
-				return this.contentString;
+			if ( contentString != null )
+				return contentString;
 
-			if ( this.type.equals( TYPE_BOOLEAN ) )
-				return String.valueOf( this.contentInt != 0 );
+			if ( type.equals( TYPE_BOOLEAN ) )
+				return String.valueOf( contentInt != 0 );
 
-			if ( this.type.equals( TYPE_FLOAT ) )
-				return String.valueOf( this.contentFloat );
+			if ( type.equals( TYPE_FLOAT ) )
+				return String.valueOf( contentFloat );
 
-			return String.valueOf( this.contentInt );
+			return String.valueOf( contentInt );
 		}
 
 		public String toQuotedString()
 		{
-			if ( this.contentString != null )
-				return "\"" + this.contentString + "\"";
-			return this.toString();
+			if ( contentString != null )
+				return "\"" + contentString + "\"";
+			return toString();
 		}
 
 		public ScriptValue toStringValue()
 		{
-			return new ScriptValue( this.toString() );
+			return new ScriptValue( toString() );
 		}
 
 		public Object rawValue()
 		{
-			return this.content;
+			return content;
 		}
 
 		public int intValue()
 		{
-			return this.contentInt;
+			return contentInt;
 		}
 
 		public float floatValue()
 		{
-			return this.contentFloat;
+			return contentFloat;
 		}
 
 		public ScriptValue execute()
@@ -7823,14 +7840,14 @@ public class KoLmafiaASH extends StaticEntity
 
 			ScriptValue it = (ScriptValue) o;
 
-			if ( this.type == BOOLEAN_TYPE || this.type == INT_TYPE )
-				return this.contentInt < it.contentInt ? -1 : this.contentInt == it.contentInt ? 0 : 1;
+			if ( type == BOOLEAN_TYPE || type == INT_TYPE )
+				return contentInt < it.contentInt ? -1 : contentInt == it.contentInt ? 0 : 1;
 
-			if ( this.type == FLOAT_TYPE )
-				return this.contentFloat < it.contentFloat ? -1 : this.contentFloat == it.contentFloat ? 0 : 1;
+			if ( type == FLOAT_TYPE )
+				return contentFloat < it.contentFloat ? -1 : contentFloat == it.contentFloat ? 0 : 1;
 
-			if ( this.contentString != null )
-				return this.contentString.compareTo( it.contentString );
+			if ( contentString != null )
+				return contentString.compareTo( it.contentString );
 
 			return -1;
 		}
@@ -7852,11 +7869,11 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public void dumpValue( PrintStream writer )
-		{	writer.print( this.toStringValue().toString() );
+		{	writer.print( toStringValue().toString() );
 		}
 
 		public void dump( PrintStream writer, String prefix, boolean compact )
-		{	writer.println( prefix + this.toStringValue().toString() );
+		{	writer.println( prefix + toStringValue().toString() );
 		}
 	}
 
@@ -7867,7 +7884,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptCompositeType getCompositeType()
-		{	return (ScriptCompositeType)this.type;
+		{	return (ScriptCompositeType)type;
 		}
 
 		public ScriptValue aref( ScriptValue key )
@@ -7891,19 +7908,19 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptValue initialValue( Object key )
-		{	return ((ScriptCompositeType)this.type).getDataType( key ).initialValue();
+		{	return ((ScriptCompositeType)type).getDataType( key ).initialValue();
 		}
 
 		public void dump( PrintStream writer, String prefix, boolean compact )
 		{
-			ScriptValue [] keys = this.keys();
+			ScriptValue [] keys = keys();
 			if ( keys.length == 0 )
 				return;
 
 			for ( int i = 0; i < keys.length; ++i )
 			{
 				ScriptValue key = keys[i];
-				ScriptValue value = this.aref( key );
+				ScriptValue value = aref( key );
 				String first = prefix + key + "\t";
 				value.dump( writer, first, compact );
 			}
@@ -7929,25 +7946,25 @@ public class KoLmafiaASH extends StaticEntity
 
 			if ( !(type.getDataType( key ) instanceof ScriptCompositeType) )
 			{
-				this.aset( key, parseValue( type.getDataType( key ), data[ index + 1 ] ) );
+				aset( key, parseValue( type.getDataType( key ), data[ index + 1 ] ) );
 				return 2;
 			}
 
 			// Otherwise, recurse until we get the final slice
-			ScriptCompositeValue slice = (ScriptCompositeValue) this.aref( key );
+			ScriptCompositeValue slice = (ScriptCompositeValue) aref( key );
 
 			// Create missing intermediate slice
 			if ( slice == null )
 			{
-				slice = (ScriptCompositeValue) this.initialValue( key );
-				this.aset( key, slice );
+				slice = (ScriptCompositeValue) initialValue( key );
+				aset( key, slice );
 			}
 
 			return slice.read( data, index + 1, compact ) + 1;
 		}
 
 		public String toString()
-		{	return "composite " + this.type.toString();
+		{	return "composite " + type.toString();
 		}
 	}
 
@@ -7958,7 +7975,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptType getDataType()
-		{	return ((ScriptAggregateType)this.type).getDataType();
+		{	return ((ScriptAggregateType)type).getDataType();
 		}
 
 		public int count()
@@ -7970,7 +7987,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public String toString()
-		{	return "aggregate " + this.type.toString();
+		{	return "aggregate " + type.toString();
 		}
 	}
 
@@ -7990,7 +8007,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue aref( ScriptValue index )
 		{
-			ScriptValue [] array = (ScriptValue [])this.content;
+			ScriptValue [] array = (ScriptValue [])content;
 			int i = index.intValue();
 			if ( i < 0 || i > array.length )
 				throw new RuntimeException( "Array index out of bounds" );
@@ -7999,7 +8016,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public void aset( ScriptValue key,  ScriptValue val )
 		{
-			ScriptValue [] array = (ScriptValue [])this.content;
+			ScriptValue [] array = (ScriptValue [])content;
 			int index = key.intValue();
 			if ( index < 0 || index > array.length )
 				throw new RuntimeException( "Array index out of bounds" );
@@ -8018,38 +8035,38 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue remove( ScriptValue key )
 		{
-			ScriptValue [] array = (ScriptValue [])this.content;
+			ScriptValue [] array = (ScriptValue [])content;
 			int index = key.intValue();
 			if ( index < 0 || index > array.length )
 				throw new RuntimeException( "Array index out of bounds" );
 			ScriptValue result = array[ index ];
-			array[ index ] = this.getDataType().initialValue();
+			array[ index ] = getDataType().initialValue();
 			return result;
 		}
 
 		public void clear()
 		{
-			ScriptValue [] array = (ScriptValue [])this.content;
+			ScriptValue [] array = (ScriptValue [])content;
 			for ( int index = 0; index < array.length; ++index )
-				array[ index ] = this.getDataType().initialValue();
+				array[ index ] = getDataType().initialValue();
 		}
 
 		public int count()
 		{
-			ScriptValue [] array = (ScriptValue [])this.content;
+			ScriptValue [] array = (ScriptValue [])content;
 			return array.length;
 		}
 
 		public boolean contains( ScriptValue key )
 		{
-			ScriptValue [] array = (ScriptValue [])this.content;
+			ScriptValue [] array = (ScriptValue [])content;
 			int index = key.intValue();
 			return ( index >= 0 && index < array.length );
 		}
 
 		public ScriptValue [] keys()
 		{
-			int size = ((ScriptValue [])this.content).length;
+			int size = ((ScriptValue [])content).length;
 			ScriptValue [] result = new ScriptValue[ size ];
 			for ( int i = 0; i < size; ++i )
 				result[i] = new ScriptValue(i);
@@ -8067,21 +8084,21 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue aref( ScriptValue key )
 		{
-			TreeMap map = (TreeMap)this.content;
+			TreeMap map = (TreeMap)content;
 			return (ScriptValue)map.get( key );
 		}
 
 		public void aset( ScriptValue key, ScriptValue val )
 		{
-			TreeMap map = (TreeMap)this.content;
+			TreeMap map = (TreeMap)content;
 
-			if ( !this.getDataType().equals( val.getType() ) )
+			if ( !getDataType().equals( val.getType() ) )
 			{
-				if ( this.getDataType().equals( TYPE_STRING ) )
+				if ( getDataType().equals( TYPE_STRING ) )
 					val = val.toStringValue();
-				else if ( this.getDataType().equals( TYPE_INT ) && val.getType().equals( TYPE_FLOAT ) )
+				else if ( getDataType().equals( TYPE_INT ) && val.getType().equals( TYPE_FLOAT ) )
 					val = val.toIntValue();
-				else if ( this.getDataType().equals( TYPE_FLOAT ) && val.getType().equals( TYPE_INT ) )
+				else if ( getDataType().equals( TYPE_FLOAT ) && val.getType().equals( TYPE_INT ) )
 					val = val.toFloatValue();
 			}
 
@@ -8090,31 +8107,31 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue remove( ScriptValue key )
 		{
-			TreeMap map = (TreeMap)this.content;
+			TreeMap map = (TreeMap)content;
 			return (ScriptValue)map.remove( key );
 		}
 
 		public void clear()
 		{
-			TreeMap map = (TreeMap)this.content;
+			TreeMap map = (TreeMap)content;
 			map.clear();
 		}
 
 		public int count()
 		{
-			TreeMap map = (TreeMap)this.content;
+			TreeMap map = (TreeMap)content;
 			return map.size();
 		}
 
 		public boolean contains( ScriptValue key )
 		{
-			TreeMap map = (TreeMap)this.content;
+			TreeMap map = (TreeMap)content;
 			return map.containsKey( key );
 		}
 
 		public ScriptValue [] keys()
 		{
-			Set set = ((TreeMap)this.content).keySet();
+			Set set = ((TreeMap)content).keySet();
 			ScriptValue [] keys = new ScriptValue[ set.size() ];
 			set.toArray( keys );
 			return keys;
@@ -8136,19 +8153,19 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptRecordType getRecordType()
-		{	return (ScriptRecordType)this.type;
+		{	return (ScriptRecordType)type;
 		}
 
 		public ScriptType getDataType( ScriptValue key )
-		{	return ((ScriptRecordType)this.type).getDataType( key );
+		{	return ((ScriptRecordType)type).getDataType( key );
 		}
 
 		public ScriptValue aref( ScriptValue key )
 		{
-			int index = ((ScriptRecordType)this.type).indexOf( key );
+			int index = ((ScriptRecordType)type).indexOf( key );
 			if ( index < 0 )
 				throw new RuntimeException( "Internal error: field index out of bounds" );
-			ScriptValue [] array = (ScriptValue [])this.content;
+			ScriptValue [] array = (ScriptValue [])content;
 			return array[ index ];
 		}
 
@@ -8158,17 +8175,17 @@ public class KoLmafiaASH extends StaticEntity
 			int size = type.fieldCount();
 			if ( index < 0 || index >= size )
 				throw new RuntimeException( "Internal error: field index out of bounds" );
-			ScriptValue [] array = (ScriptValue [])this.content;
+			ScriptValue [] array = (ScriptValue [])content;
 			return array[ index ];
 		}
 
 		public void aset( ScriptValue key, ScriptValue val )
 		{
-			int index = ((ScriptRecordType)this.type).indexOf( key );
+			int index = ((ScriptRecordType)type).indexOf( key );
 			if ( index < 0 )
 				throw new RuntimeException( "Internal error: field index out of bounds" );
 
-			this.aset( index, val );
+			aset( index, val );
 		}
 
 		public void aset( int index, ScriptValue val )
@@ -8178,7 +8195,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( index < 0 || index >= size )
 				throw new RuntimeException( "Internal error: field index out of bounds" );
 
-			ScriptValue [] array = (ScriptValue []) this.content;
+			ScriptValue [] array = (ScriptValue []) content;
 
 			if ( array[ index ].getType().equals( val.getType() ) )
 				array[ index ] = val;
@@ -8194,46 +8211,46 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue remove( ScriptValue key )
 		{
-			int index = ((ScriptRecordType)this.type).indexOf( key );
+			int index = ((ScriptRecordType)type).indexOf( key );
 			if ( index < 0 )
 				throw new RuntimeException( "Internal error: field index out of bounds" );
-			ScriptValue [] array = (ScriptValue [])this.content;
+			ScriptValue [] array = (ScriptValue [])content;
 			ScriptValue result = array[ index ];
-			array[ index ] = this.getDataType( key ).initialValue();
+			array[ index ] = getDataType( key ).initialValue();
 			return result;
 		}
 
 		public void clear()
 		{
-			ScriptType [] dataTypes = ((ScriptRecordType)this.type).getFieldTypes();
-			ScriptValue [] array = (ScriptValue [])this.content;
+			ScriptType [] dataTypes = ((ScriptRecordType)type).getFieldTypes();
+			ScriptValue [] array = (ScriptValue [])content;
 			for ( int index = 0; index < array.length; ++index )
 				array[ index ] = dataTypes[index].initialValue();
 		}
 
 		public ScriptValue [] keys()
-		{	return ((ScriptRecordType)this.type).getFieldIndices();
+		{	return ((ScriptRecordType)type).getFieldIndices();
 		}
 
 		public void dump( PrintStream writer, String prefix, boolean compact )
 		{
-			if ( !compact || this.type.containsAggregate() )
+			if ( !compact || type.containsAggregate() )
 			{
 				super.dump( writer, prefix, compact );
 				return;
 			}
 
 			writer.print( prefix );
-			this.dumpValue( writer );
+			dumpValue( writer );
 			writer.println();
 		}
 
 		public void dumpValue( PrintStream writer )
 		{
-			int size = ((ScriptRecordType)this.type).getFieldTypes().length;
+			int size = ((ScriptRecordType)type).getFieldTypes().length;
 			for ( int i = 0; i < size; ++i )
 			{
-				ScriptValue value = this.aref( i );
+				ScriptValue value = aref( i );
 				if ( i > 0  )
 					writer.print( "\t" );
 				value.dumpValue( writer );
@@ -8242,11 +8259,11 @@ public class KoLmafiaASH extends StaticEntity
 
 		public int read( String [] data, int index, boolean compact )
 		{
-			if ( !compact || this.type.containsAggregate() )
+			if ( !compact || type.containsAggregate() )
 				return super.read( data, index, compact );
 
 			ScriptType [] dataTypes = ((ScriptRecordType)this.type).getFieldTypes();
-			ScriptValue [] array = (ScriptValue []) this.content;
+			ScriptValue [] array = (ScriptValue []) content;
 
 			int size = Math.min( dataTypes.length, data.length - index );
 			int first = index;
@@ -8275,7 +8292,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public String toString()
-		{	return "record " + this.type.toString();
+		{	return "record " + type.toString();
 		}
 	}
 
@@ -8298,20 +8315,20 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptType getType()
 		{
-			ScriptType leftType = this.lhs.getType();
+			ScriptType leftType = lhs.getType();
 
 			// Unary operators have no right hand side
-			if ( this.rhs == null )
+			if ( rhs == null )
 				return leftType;
 
-			ScriptType rightType = this.rhs.getType();
+			ScriptType rightType = rhs.getType();
 
 			// String concatenation always yields a string
-			if ( this.oper.equals( "+" ) && ( leftType.equals( TYPE_STRING ) || rightType.equals( TYPE_STRING ) ) )
+			if ( oper.equals( "+" ) && ( leftType.equals( TYPE_STRING ) || rightType.equals( TYPE_STRING ) ) )
 				return STRING_TYPE;
 
 			// If it's not arithmetic, it's boolean
-			if ( !this.oper.isArithmetic() )
+			if ( !oper.isArithmetic() )
 				return BOOLEAN_TYPE;
 
 			// Coerce int to float
@@ -8324,39 +8341,39 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptExpression getLeftHandSide()
 		{
-			return this.lhs;
+			return lhs;
 		}
 
 		public ScriptExpression getRightHandSide()
 		{
-			return this.rhs;
+			return rhs;
 		}
 
 		public ScriptOperator getOperator()
 		{
-			return this.oper;
+			return oper;
 		}
 
 		public ScriptValue execute()
-		{	return this.oper.applyTo( this.lhs, this.rhs );
+		{	return oper.applyTo( lhs, rhs );
 		}
 
 		public String toString()
 		{
-			if ( this.rhs == null )
-				return this.oper.toString() + " " + this.lhs.toQuotedString();
-			return "( " + this.lhs.toQuotedString() + " " + this.oper.toString() + " " + this.rhs.toQuotedString() + " )";
+			if ( rhs == null )
+				return oper.toString() + " " + lhs.toQuotedString();
+			return "( " + lhs.toQuotedString() + " " + oper.toString() + " " + rhs.toQuotedString() + " )";
 		}
 
 		public String toQuotedString()
-		{	return this.toString();
+		{	return toString();
 		}
 	}
 
 	private static class ScriptExpressionList extends ScriptList
 	{
 		public Iterator getExpressions()
-		{	return this.iterator();
+		{	return iterator();
 		}
 	}
 
@@ -8373,69 +8390,69 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public boolean equals( String op )
-		{	return this.operator.equals( op );
+		{	return operator.equals( op );
 		}
 
 		public boolean precedes( ScriptOperator oper )
 		{
-			return this.operStrength() > oper.operStrength();
+			return operStrength() > oper.operStrength();
 		}
 
 		private int operStrength()
 		{
-			if ( this.operator.equals( "!" ) || this.operator.equals( "contains" ) || this.operator.equals( "remove" ) )
+			if ( operator.equals( "!" ) || operator.equals( "contains" ) || operator.equals( "remove" ) )
 				return 7;
 
-			if ( this.operator.equals( "^" ) )
+			if ( operator.equals( "^" ) )
 				return 6;
 
-			if ( this.operator.equals( "*" ) || this.operator.equals( "/" ) || this.operator.equals( "%" ) )
+			if ( operator.equals( "*" ) || operator.equals( "/" ) || operator.equals( "%" ) )
 				return 5;
 
-			if ( this.operator.equals( "+" ) || this.operator.equals( "-" ) )
+			if ( operator.equals( "+" ) || operator.equals( "-" ) )
 				return 4;
 
-			if ( this.operator.equals( "<" ) || this.operator.equals( ">" ) || this.operator.equals( "<=" ) || this.operator.equals( ">=" ) )
+			if ( operator.equals( "<" ) || operator.equals( ">" ) || operator.equals( "<=" ) || operator.equals( ">=" ) )
 				return 3;
 
-			if ( this.operator.equals( "=" ) || this.operator.equals( "==" ) || this.operator.equals( "!=" ) )
+			if ( operator.equals( "=" ) || operator.equals( "==" ) || operator.equals( "!=" ) )
 				return 2;
 
-			if ( this.operator.equals( "||" ) || this.operator.equals( "&&" ) )
+			if ( operator.equals( "||" ) || operator.equals( "&&" ) )
 				return 1;
 
 			return -1;
 		}
 
 		public boolean isArithmetic()
-		{	return	this.operator.equals( "+" ) ||
-				this.operator.equals( "-" ) ||
-				this.operator.equals( "*" ) ||
-				this.operator.equals( "^" ) ||
-				this.operator.equals( "/" ) ||
-				this.operator.equals( "%" );
+		{	return	operator.equals( "+" ) ||
+				operator.equals( "-" ) ||
+				operator.equals( "*" ) ||
+				operator.equals( "^" ) ||
+				operator.equals( "/" ) ||
+				operator.equals( "%" );
 		}
 
 		public String toString()
-		{	return this.operator;
+		{	return operator;
 		}
 
 		public ScriptValue applyTo( ScriptExpression lhs, ScriptExpression rhs )
 		{
 			// Unary operator with special evaluation of argument
-			if ( this.operator.equals( "remove" ) )
+			if ( operator.equals( "remove" ) )
 				return ((ScriptCompositeReference)lhs).removeKey();
 
 			ScriptValue leftValue = lhs.execute();
-			KoLmafiaASH.this.captureValue( leftValue );
-			if ( KoLmafiaASH.this.currentState == STATE_EXIT )
+			captureValue( leftValue );
+			if ( currentState == STATE_EXIT )
 				return null;
 
 			// Unary Operators
-			if ( this.operator.equals( "!" ) )
+			if ( operator.equals( "!" ) )
 				return new ScriptValue( leftValue.intValue() == 0 );
 
-			if ( this.operator.equals( "-" ) && rhs == null )
+			if ( operator.equals( "-" ) && rhs == null )
 			{
 				if ( lhs.getType().equals( TYPE_INT ) )
 					return new ScriptValue( 0 - leftValue.intValue() );
@@ -8449,56 +8466,56 @@ public class KoLmafiaASH extends StaticEntity
 				throw new RuntimeException( "Internal error: missing right operand." );
 
 			// Binary operators with optional right values
-			if ( this.operator.equals( "||" ) )
+			if ( operator.equals( "||" ) )
 			{
 				if ( leftValue.intValue() == 1 )
 					return TRUE_VALUE;
 				ScriptValue rightValue = rhs.execute();
-				KoLmafiaASH.this.captureValue( rightValue );
-				if ( KoLmafiaASH.this.currentState == STATE_EXIT )
+				captureValue( rightValue );
+				if ( currentState == STATE_EXIT )
 					return null;
 				return rightValue;
 			}
 
-			if ( this.operator.equals( "&&" ) )
+			if ( operator.equals( "&&" ) )
 			{
 				if ( leftValue.intValue() == 0 )
 					return FALSE_VALUE;
 				ScriptValue rightValue = rhs.execute();
-				KoLmafiaASH.this.captureValue( rightValue);
-				if ( KoLmafiaASH.this.currentState == STATE_EXIT )
+				captureValue( rightValue);
+				if ( currentState == STATE_EXIT )
 					return null;
 				return rightValue;
 			}
 
 			// Ensure type compatibility of operands
-			if ( !validCoercion( lhs.getType(), rhs.getType(), this.operator ) )
+			if ( !validCoercion( lhs.getType(), rhs.getType(), operator ) )
 				throw new RuntimeException( "Internal error: left hand side and right hand side do not correspond" );
 
 			// Special binary operator: <aggref> contains <any>
-			if ( this.operator.equals( "contains" ) )
+			if ( operator.equals( "contains" ) )
 			{
 				ScriptValue rightValue = rhs.execute();
-				KoLmafiaASH.this.captureValue( rightValue);
-				if ( KoLmafiaASH.this.currentState == STATE_EXIT )
+				captureValue( rightValue);
+				if ( currentState == STATE_EXIT )
 					return null;
 				return new ScriptValue( leftValue.contains( rightValue) );
 			}
 
 			// Binary operators
 			ScriptValue rightValue = rhs.execute();
-			KoLmafiaASH.this.captureValue( rightValue );
-			if ( KoLmafiaASH.this.currentState == STATE_EXIT )
+			captureValue( rightValue );
+			if ( currentState == STATE_EXIT )
 				return null;
 
 			// String operators
-			if ( this.operator.equals( "+" ) )
+			if ( operator.equals( "+" ) )
 			{
 				if ( lhs.getType().equals( TYPE_STRING ) || rhs.getType().equals( TYPE_STRING ) )
 					return new ScriptValue( leftValue.toStringValue().toString() + rightValue.toStringValue().toString() );
 			}
 
-			if ( this.operator.equals( "=" ) || this.operator.equals( "==" ) )
+			if ( operator.equals( "=" ) || operator.equals( "==" ) )
 			{
 				if ( lhs.getType().equals( TYPE_STRING ) ||
 				     lhs.getType().equals( TYPE_LOCATION ) ||
@@ -8506,7 +8523,7 @@ public class KoLmafiaASH extends StaticEntity
 					return new ScriptValue( leftValue.toString().equalsIgnoreCase( rightValue.toString() ) );
 			}
 
-			if ( this.operator.equals( "!=" ) )
+			if ( operator.equals( "!=" ) )
 			{
 				if ( lhs.getType().equals( TYPE_STRING ) ||
 				     lhs.getType().equals( TYPE_LOCATION ) ||
@@ -8532,84 +8549,84 @@ public class KoLmafiaASH extends StaticEntity
 				rint = rightValue.intValue();
 			}
 
-			if ( this.operator.equals( "+" ) )
+			if ( operator.equals( "+" ) )
 			{
 				if ( isInt )
 					return new ScriptValue( lint + rint );
 				return new ScriptValue( lfloat + rfloat );
 			}
 
-			if ( this.operator.equals( "-" ) )
+			if ( operator.equals( "-" ) )
 			{
 				if ( isInt )
 					return new ScriptValue( lint - rint );
 				return new ScriptValue( lfloat - rfloat );
 			}
 
-			if ( this.operator.equals( "*" ) )
+			if ( operator.equals( "*" ) )
 			{
 				if ( isInt )
 					return new ScriptValue( lint * rint );
 				return new ScriptValue( lfloat * rfloat );
 			}
 
-			if ( this.operator.equals( "^" ) )
+			if ( operator.equals( "^" ) )
 			{
 				if ( isInt )
 					return new ScriptValue( (int) Math.pow( lint, rint ) );
 				return new ScriptValue( (float) Math.pow( lfloat, rfloat ) );
 			}
 
-			if ( this.operator.equals( "/" ) )
+			if ( operator.equals( "/" ) )
 			{
 				if ( isInt )
 					return new ScriptValue( ((float)lint) / ((float)rint) );
 				return new ScriptValue( lfloat / rfloat );
 			}
 
-			if ( this.operator.equals( "%" ) )
+			if ( operator.equals( "%" ) )
 			{
 				if ( isInt )
 					return new ScriptValue( lint % rint );
 				return new ScriptValue( lfloat % rfloat );
 			}
 
-			if ( this.operator.equals( "<" ) )
+			if ( operator.equals( "<" ) )
 			{
 				if ( isInt )
 					return new ScriptValue( lint < rint );
 				return new ScriptValue( lfloat < rfloat );
 			}
 
-			if ( this.operator.equals( ">" ) )
+			if ( operator.equals( ">" ) )
 			{
 				if ( isInt )
 					return new ScriptValue( lint > rint );
 				return new ScriptValue( lfloat > rfloat );
 			}
 
-			if ( this.operator.equals( "<=" ) )
+			if ( operator.equals( "<=" ) )
 			{
 				if ( isInt )
 					return new ScriptValue( lint <= rint );
 				return new ScriptValue( lfloat <= rfloat );
 			}
 
-			if ( this.operator.equals( ">=" ) )
+			if ( operator.equals( ">=" ) )
 			{
 				if ( isInt )
 					return new ScriptValue( lint >= rint );
 				return new ScriptValue( lfloat >= rfloat );
 			}
 
-			if ( this.operator.equals( "=" ) || this.operator.equals( "==" ) )
+			if ( operator.equals( "=" ) || operator.equals( "==" ) )
 			{
 				if ( isInt )
 					return new ScriptValue( lint == rint );
 				return new ScriptValue( lfloat == rfloat );
 			}
 
-			if ( this.operator.equals( "!=" ) )
+			if ( operator.equals( "!=" ) )
 			{
 				if ( isInt )
 					return new ScriptValue( lint != rint );
@@ -8617,7 +8634,7 @@ public class KoLmafiaASH extends StaticEntity
 			}
 
 			// Unknown operator
-			throw new RuntimeException( "Internal error: illegal operator \"" + this.operator + "\"" );
+			throw new RuntimeException( "Internal error: illegal operator \"" + operator + "\"" );
 		}
 	}
 
@@ -8625,7 +8642,7 @@ public class KoLmafiaASH extends StaticEntity
 	{
 		public boolean addElement( Object n )
 		{
-			this.add( n );
+			add( n );
 			return true;
 		}
 	}
