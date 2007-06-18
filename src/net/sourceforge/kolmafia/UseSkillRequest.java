@@ -52,7 +52,6 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	private static final int WALRUS_TONGUE = 1010;
 
 	public static String lastUpdate = "";
-	public static AdventureResult songWeapon = null;
 
 	private int skillId;
 	private String skillName;
@@ -75,7 +74,6 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 	public static final AdventureResult BIG_ROCK = new AdventureResult( 30, 1 );
 	private static final AdventureResult ROLL = new AdventureResult( 47, 1 );
-	private static final AdventureResult HEART = new AdventureResult( 48, 1 );
 
 	// Clover weapons
 	public static final AdventureResult BJORNS_HAMMER = new AdventureResult( 32, 1 );
@@ -83,8 +81,6 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	public static final AdventureResult PASTA_OF_PERIL = new AdventureResult( 68, 1 );
 	public static final AdventureResult FIVE_ALARM_SAUCEPAN = new AdventureResult( 57, 1 );
 	public static final AdventureResult DISCO_BANJO = new AdventureResult( 54, 1 );
-
-	private static final AdventureResult [] CLOVER_WEAPONS = { BJORNS_HAMMER, TURTLESLINGER, FIVE_ALARM_SAUCEPAN, PASTA_OF_PERIL, DISCO_BANJO };
 
 	private UseSkillRequest( String skillName )
 	{
@@ -250,63 +246,10 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	{	return !KoLCharacter.hasEquipped( item ) && EquipmentDatabase.canEquip( item.getName() ) && KoLCharacter.hasItem( item );
 	}
 
-	public static void restoreEquipment()
-	{
-		if ( songWeapon == null || songWeapon == ACCORDION || songWeapon == ROCKNROLL_LEGEND )
-		{
-			songWeapon = null;
-			return;
-		}
-
-		untinkerCloverWeapon( ROCKNROLL_LEGEND );
-		AdventureDatabase.retrieveItem( songWeapon );
-		songWeapon = null;
-	}
-
 	public static void optimizeEquipment( int skillId )
 	{
 		if ( KoLCharacter.canInteract() || !StaticEntity.getBooleanProperty( "switchEquipmentForBuffs" ) )
-		{
-			if ( skillId > 6000 && skillId < 7000 && !KoLCharacter.hasItem( ROCKNROLL_LEGEND ) )
-				AdventureDatabase.retrieveItem( ACCORDION );
-
 			return;
-		}
-
-		// All other accordion thief buffs should prepare a rock
-		// and roll legend.
-
-		if ( skillId > 6000 && skillId < 7000 && skillId != 6014 )
-		{
-			if ( songWeapon == null )
-				songWeapon = prepareAccordion();
-
-			if ( songWeapon == null )
-			{
-				lastUpdate = "You need an accordion to play Accordion Thief songs.";
-				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
-				return;
-			}
-
-			// If there's a stolen accordion equipped, unequip it so the
-			// Rock and Roll Legend in inventory is used to play the song
-
-			if ( songWeapon != ACCORDION && KoLCharacter.hasEquipped( ACCORDION ) )
-				(new EquipmentRequest( EquipmentRequest.UNEQUIP, KoLCharacter.WEAPON )).run();
-
-			if ( songWeapon != null && songWeapon != ACCORDION && !KoLCharacter.hasEquipped( ROCKNROLL_LEGEND ) )
-				AdventureDatabase.retrieveItem( ROCKNROLL_LEGEND );
-		}
-
-		if ( skillId > 6000 && skillId < 7000 && !KoLCharacter.hasItem( ACCORDION ) && !KoLCharacter.hasItem( ROCKNROLL_LEGEND ) )
-		{
-			lastUpdate = "You need an accordion to play Accordion Thief songs.";
-			KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
-			return;
-		}
-
-		// Ode to Booze is usually cast as a single shot.  So,
-		// don't equip the jewel-eyed wizard hat.
 
 		if ( StaticEntity.getBooleanProperty( "switchEquipmentForBuffs" ) )
 			reduceManaConsumption( skillId );
@@ -537,99 +480,20 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			lastUpdate = "Error encountered during cast attempt.";
 	}
 
-	public static AdventureResult prepareAccordion()
+	public static AdventureResult prepareSongWeapon( AdventureResult [] options )
 	{
-		// Can the rock and roll legend be acquired in some way
-		// right now?  If so, retrieve it.
+		for ( int i = 0; i < options.length; ++i )
+		{		
+			if ( !KoLCharacter.hasItem( options[i], true ) )
+				continue;
 
-		if ( KoLCharacter.hasItem( ROCKNROLL_LEGEND, true ) || (!KoLCharacter.hasItem( ACCORDION ) && KoLCharacter.canInteract()) )
-		{
-			if ( !KoLCharacter.hasEquipped( ROCKNROLL_LEGEND ) )
-				AdventureDatabase.retrieveItem( ROCKNROLL_LEGEND );
+			if ( !KoLCharacter.hasEquipped( options[i] ) )
+				AdventureDatabase.retrieveItem( options[i] );
 
-			return ROCKNROLL_LEGEND;
+			return options[i];
 		}
 
-		// He must have at least a stolen accordion
-
-		if ( !KoLCharacter.hasItem( ACCORDION ) )
-			return null;
-
-		if ( !StaticEntity.getBooleanProperty( "switchEquipmentForBuffs" ) )
-			return ACCORDION;
-
-		// Does he have a hot buttered roll?  If not,
-		// untinkering weapons won't help.
-
-		if ( !KoLCharacter.hasItem( ROLL ) )
-			return ACCORDION;
-
-		// Can we get a big rock from a clover weapon?
-
-		AdventureResult cloverWeapon = null;
-		for ( int i = 0; i < CLOVER_WEAPONS.length; ++i )
-			if ( KoLCharacter.hasItem( CLOVER_WEAPONS[i] ) )
-				cloverWeapon = CLOVER_WEAPONS[i];
-
-		// If not, just use existing stolen accordion
-
-		if ( cloverWeapon == null )
-			return ACCORDION;
-
-		// If he's already helped the Untinker, cool - but we don't
-		// want to run adventures to fulfill that quest.
-
-		if ( !canUntinker() )
-			return ACCORDION;
-
-		// Turn it into a big rock
-		untinkerCloverWeapon( cloverWeapon );
-
-		// Build the Rock and Roll Legend
-		AdventureDatabase.retrieveItem( ROCKNROLL_LEGEND );
-		return cloverWeapon;
-	}
-
-	private static boolean canUntinker()
-	{
-		// If you're in a muscle sign, KoLmafia will finish the
-		// quest without problems.
-
-		if ( KoLCharacter.inMuscleSign() )
-			return true;
-
-		// Otherwise, visit the untinker and see what he says.
-		// If he mentions Degrassi Knoll, you haven't given him
-		// his screwdriver yet.
-
-		return UntinkerRequest.canUntinker();
-	}
-
-	public static void untinkerCloverWeapon( AdventureResult item )
-	{
-		(new UntinkerRequest( item.getItemId(), 1 )).run();
-
-		switch ( item.getItemId() )
-		{
-		case 32:	// Bjorn's Hammer
-			RequestThread.postRequest( new UntinkerRequest( 31, 1 ) );
-			break;
-		case 50:	// Rock and Roll Legend
-			RequestThread.postRequest( new UntinkerRequest( 48, 1 ) );
-			break;
-		case 54:	// Disco Banjo
-			RequestThread.postRequest( new UntinkerRequest( 53, 1 ) );
-			break;
-		case 57:	// 5-Alarm Saucepan
-			RequestThread.postRequest( new UntinkerRequest( 56, 1 ) );
-			break;
-		case 60:	// Turtleslinger
-			RequestThread.postRequest( new UntinkerRequest( 58, 1 ) );
-			break;
-		case 68:	// Pasta of Peril
-			RequestThread.postRequest( new UntinkerRequest( 67, 1 ) );
-			break;
-		}
+		return null;
 	}
 
 	public void processResults()

@@ -110,7 +110,6 @@ public abstract class SorceressLair extends StaticEntity
 	public static final AdventureResult HEDGE_KEY = new AdventureResult( 728, 1 );
 
 	private static final AdventureResult BANJO_STRING = new AdventureResult( 52, 1 );
-	private static final AdventureResult [] CLOVER_WEAPONS = { new AdventureResult( 32, 1 ), new AdventureResult( 50, 1 ), new AdventureResult( 57, 1 ), new AdventureResult( 60, 1 ), new AdventureResult( 68, 1 ) };
 
 	// Items for the shadow battle
 
@@ -306,25 +305,6 @@ public abstract class SorceressLair extends StaticEntity
 		// then dismantle the legend and construct the stone banjo.
 
 		AdventureResult stringed = pickOne( new AdventureResult [] { STONE_BANJO, ACOUSTIC_GUITAR, HEAVY_METAL_GUITAR, DISCO_BANJO, UKELELE } );
-
-		AdventureResult cloverWeapon = null;
-		boolean untinkerCloverWeapon = false;
-
-		if ( stringed == STONE_BANJO && !isItemAvailable( STONE_BANJO ) )
-		{
-			cloverWeapon = pickOne( CLOVER_WEAPONS );
-
-			if ( isItemAvailable( BANJO_STRING ) && isItemAvailable( cloverWeapon ) )
-			{
-				untinkerCloverWeapon = true;
-				UseSkillRequest.untinkerCloverWeapon( cloverWeapon );
-
-				ItemCreationRequest irequest = ItemCreationRequest.getInstance( STONE_BANJO.getItemId() );
-				irequest.setQuantityNeeded( 1 );
-				RequestThread.postRequest( irequest );
-			}
-		}
-
 		requirements.add( stringed );
 
 		AdventureResult percussion = pickOne( new AdventureResult [] { BONE_RATTLE, TAMBOURINE, BROKEN_SKULL } );
@@ -397,15 +377,6 @@ public abstract class SorceressLair extends StaticEntity
 
 		// If you untinkered the rock and roll legend at the very
 		// beginning, go ahead and re-create it at the end.
-
-		if ( untinkerCloverWeapon )
-		{
-			RequestThread.postRequest( new UntinkerRequest( STONE_BANJO.getItemId() ) );
-
-			ItemCreationRequest irequest = ItemCreationRequest.getInstance( cloverWeapon.getItemId() );
-			irequest.setQuantityNeeded( 1 );
-			RequestThread.postRequest( irequest );
-		}
 
 		KoLmafia.updateDisplay( "Sorceress entryway complete." );
 	}

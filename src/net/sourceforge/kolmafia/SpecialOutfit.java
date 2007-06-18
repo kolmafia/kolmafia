@@ -234,8 +234,6 @@ public class SpecialOutfit implements Comparable, KoLConstants
 
 		AdventureResult [] implicit = (AdventureResult []) implicitPoints.pop();
 
-		UseSkillRequest.restoreEquipment();
-
 		if ( implicitPoints.size() < markedCheckpoint )
 		{
 			RequestThread.postRequest( new EquipmentRequest( implicitOutfit ) );
