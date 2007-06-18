@@ -68,7 +68,6 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 public class LoginFrame extends KoLFrame
 {
 	private static LoginFrame INSTANCE = null;
-	private LoginPanel panel;
 
 	private String username;
 	private JComboBox servers;
@@ -156,7 +155,7 @@ public class LoginFrame extends KoLFrame
 
 		JPanel containerPanel = new JPanel( new BorderLayout() );
 		containerPanel.add( imagePanel, BorderLayout.NORTH );
-		containerPanel.add( this.panel = new LoginPanel(), BorderLayout.CENTER );
+		containerPanel.add( new LoginPanel(), BorderLayout.CENTER );
 		return containerPanel;
 	}
 
@@ -302,6 +301,9 @@ public class LoginFrame extends KoLFrame
 			LoginFrame.this.honorProxySettings();
 			RequestThread.postRequest( new LoginRequest( LoginFrame.this.username, password ) );
 
+			if ( !KoLmafia.permitsContinue() )
+				return;
+			
 			try
 			{
 				String holiday = MoonPhaseDatabase.getHoliday( DATED_FILENAME_FORMAT.parse( DATED_FILENAME_FORMAT.format( new Date() ) ), true );
@@ -1069,8 +1071,6 @@ public class LoginFrame extends KoLFrame
 
 		public void actionCancelled()
 		{
-			boolean shouldEnable = StaticEntity.getBooleanProperty( "proxySet" );
-
 			LoginFrame.this.proxyHost.setText( StaticEntity.getProperty( "http.proxyHost" ) );
 			LoginFrame.this.proxyPort.setText( StaticEntity.getProperty( "http.proxyPort" ) );
 			LoginFrame.this.proxyLogin.setText( StaticEntity.getProperty( "http.proxyUser" ) );
