@@ -413,8 +413,8 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// all creatable items.  We do this by determining the
 		// number of items inside of the old list.
 
-		boolean changeDetected = false;
 		ItemCreationRequest instance;
+		boolean changeDetected = false;
 
 		for ( int i = 1; i < concoctions.size(); ++i )
 		{
@@ -426,18 +426,23 @@ public class ConcoctionsDatabase extends KoLDatabase
 			if ( instance == null || item.creatable == instance.getQuantityPossible() )
 				continue;
 
-			changeDetected = true;
 			instance.setQuantityPossible( item.creatable );
-
+			int usableIndex = usableList.getIndexOf( item );
+			
 			if ( instance.getQuantityPossible() == 0 )
 			{
 				// We can't make this concoction now
 
 				if ( item.wasPossible() )
 				{
-					creatableList.remove( instance );
+					creatableList.remove( instance );					
 					item.setPossible( false );
+
+					if ( usableIndex != -1 )
+						usableList.fireIntervalRemoved( usableList, usableIndex, usableIndex );
 				}
+				else
+					changeDetected = true;
 			}
 			else
 			{
@@ -447,15 +452,19 @@ public class ConcoctionsDatabase extends KoLDatabase
 				{
 					creatableList.add( instance );
 					item.setPossible( true );
+
+					if ( usableIndex != -1 )
+						usableList.fireIntervalAdded( usableList, usableIndex, usableIndex );
 				}
+				else
+					changeDetected = true;
 			}
 		}
 
 		if ( changeDetected )
 		{
-			creatableList.fireContentsChanged( concoctions, 0, creatableList.size() - 1 );
-
-			usableList.fireContentsChanged( concoctions, 0, usableList.size() - 1 );
+			creatableList.fireContentsChanged( creatableList, 0, creatableList.getSize() - 1 );
+			usableList.fireContentsChanged( usableList, 0, usableList.getSize() - 1 );
 			usableList.applyListFilters();
 		}
 	}
