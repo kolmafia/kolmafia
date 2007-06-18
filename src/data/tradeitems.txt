@@ -154,7 +154,7 @@
 154	Disco 'Fro Pick	9	display	0
 155	El Sombrero De Lopez	9	display	0
 156	guild application	0	none	0
-157	E-Z Cook Oven&trade;	0	all	500
+157	E-Z Cook Oven&trade;	0	all	250
 158	Gnollish pie tin	0	all	15
 159	wad of dough	3	all	25
 160	pie crust	0	all	35
@@ -233,7 +233,7 @@
 233	Doc Galaktik's Restorative Balm	16	all	60
 234	Doc Galaktik's Homeopathic Elixir	16	all	120
 235	Bigger Bugfinder Blade	12	display	0
-236	cocktailcrafting kit	0	all	500
+236	cocktailcrafting kit	0	all	250
 237	bottle of gin	2	all	35
 238	bottle of vodka	2	all	35
 239	Orcish baseball cap	9	all	100
@@ -335,7 +335,7 @@
 335	sabre-toothed lime cub	5	all	91
 336	consolation ribbon	8	none	0
 337	big ol' trophy	0	none	0
-338	tenderizing hammer	0	all	500
+338	tenderizing hammer	0	all	250
 339	Cobb's Knob lab key	0	none	0
 340	Knob Goblin steroids	4	all	125
 341	Knob Goblin love potion	4	all	85
