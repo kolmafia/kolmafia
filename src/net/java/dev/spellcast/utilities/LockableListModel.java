@@ -736,6 +736,10 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 
 		return visibleIndex;
 	}
+	
+	public int getIndexOf( Object o )
+	{	return visibleElements.indexOf( o );
+	}
 
 	/**
 	 * Please refer to {@link javax.swing.ListModel#getElementAt(int)} for more
