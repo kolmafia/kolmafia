@@ -7,6 +7,7 @@ Beach	0/0	shore=1	Muscle Vacation	1 ten-leaf clover
 Beach	0/0	shore=2	Mysticality Vacation
 Beach	0/0	shore=3	Moxie Vacation	1 barbed-wire fence
 Beach	0/0	adventure=45	South of the Border	1 pile of candy
+Beach	0/0	adventure=156	Grim Grimacite Site
 
 Casino	0/0	casino=1	Goat Party
 Casino	0/0	casino=2	Pirate Party

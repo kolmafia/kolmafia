@@ -934,7 +934,7 @@
 934	gingerbread bugbear	1	all	0
 935	imitation nice watch	8	all	0
 936	Hanukkimbo dreidl	5	all	0
-937	menorette	7	all	70
+937	menorette	7	all	75
 938	tiny plastic sword	12	all	0
 939	small Crimbo Pressie	3	all	0
 940	bow	0	all	0
@@ -950,7 +950,7 @@
 950	cherry bomb	2	all	0
 951	extra special Crimbo stocking	3	all	0
 952	spooky hockey mask	9	all	0
-953	penguin-smacking club	7	all	70
+953	penguin-smacking club	7	all	75
 954	orphan baby yeti	5	all	0
 955	fez of etymology	9	all	142
 956	carob chunk noodles	1	all	75
@@ -959,7 +959,7 @@
 959	flange	0	all	10
 960	clockwork key	0	all	100
 961	silk garter snake	5	all	0
-962	velvet choker	7	all	70
+962	velvet choker	7	all	75
 963	tiny plastic seal clubber	8	all	30
 964	tiny plastic turtle tamer	8	all	30
 965	tiny plastic pastamancer	8	all	30
@@ -1079,9 +1079,9 @@
 1079	yellow plastic oyster egg	0	all	50
 1080	oyster basket	13	all	150
 1081	emo roe	5	all	0
-1082	gazing shoes	7	all	70
+1082	gazing shoes	7	all	75
 1083	personal raindrop	5	all	0
-1084	rainbow tie	7	all	70
+1084	rainbow tie	7	all	75
 1085	clockwork widget	0	all	30
 1086	clockwork thingamajig	0	all	30
 1087	clockwork doohickey	0	all	30
@@ -2697,3 +2697,103 @@
 2697	
 2698	
 2699	
+2700
+2701
+2702
+2703
+2704
+2705
+2706
+2707
+2708
+2709
+2710
+2711
+2712
+2713
+2714
+2715
+2716
+2717
+2718
+2719
+2720
+2721
+2722
+2723
+2724
+2725
+2726
+2727
+2728
+2729
+2730
+2731
+2732
+2733
+2734
+2735
+2736
+2737
+2738
+2739
+2740
+2741
+2742
+2743
+2744
+2745
+2746
+2747	chunk of depleted Grimacite	0	all	0
+2748
+2749
+2750
+2751
+2752
+2753
+2754
+2755
+2756
+2757
+2758
+2759
+2760
+2761
+2762
+2763
+2764
+2765
+2766
+2767
+2768
+2769
+2770
+2771
+2772
+2773
+2774
+2775
+2776
+2777
+2778
+2779
+2780
+2781
+2782
+2783
+2784
+2785
+2786
+2787
+2788
+2789
+2790
+2791
+2792
+2793
+2794
+2795
+2796
+2797
+2798
+2799
