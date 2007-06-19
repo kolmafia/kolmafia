@@ -3743,19 +3743,19 @@ public class KoLmafiaASH extends StaticEntity
 		result.addElement( new ScriptExistingFunction( "monster_attack", INT_TYPE, params ) );
 
 		params = new ScriptType[] { MONSTER_TYPE };
-		result.addElement( new ScriptExistingFunction( "monster_attack", ELEMENT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "monster_attack", INT_TYPE, params ) );
 
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "monster_defense", INT_TYPE, params ) );
 
 		params = new ScriptType[] { MONSTER_TYPE };
-		result.addElement( new ScriptExistingFunction( "monster_defense", ELEMENT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "monster_defense", INT_TYPE, params ) );
 
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "monster_hp", INT_TYPE, params ) );
 
 		params = new ScriptType[] { MONSTER_TYPE };
-		result.addElement( new ScriptExistingFunction( "monster_hp", ELEMENT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "monster_hp", INT_TYPE, params ) );
 
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "will_usually_miss", BOOLEAN_TYPE, params ) );
