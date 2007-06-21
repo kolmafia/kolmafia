@@ -1058,20 +1058,22 @@ public class ConcoctionsDatabase extends KoLDatabase
 				return;
 			}
 
+			int usedAmount = 0 - concoction.getCount( queuedIngredients );
+			int decrementAmount = Math.max( 0, Math.min( this.initial - usedAmount, amount ) );
+			int overAmount = amount - decrementAmount;
+
 			// Tiny plastic swords are special in that they
 			// are not used up.
 
 			if ( concoction.getItemId() != 938 )
 			{
 				AdventureResult.addResultToList( queuedIngredients,
-					new AdventureResult( concoction.getItemId(), 0 - amount ) );
+					new AdventureResult( concoction.getItemId(), 0 - decrementAmount ) );
 			}
 
 			if ( adjust )
 				this.queued += amount;
 
-			int usedAmount = 0 - concoction.getCount( queuedIngredients );
-			int overAmount = usedAmount - this.initial;
 			for ( int i = 0; i < this.ingredientArray.length; ++i )
 				concoctions.get( this.ingredientArray[i].getItemId() ).queue( overAmount, false );
 		}

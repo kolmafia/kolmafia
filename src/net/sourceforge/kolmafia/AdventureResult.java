@@ -616,12 +616,18 @@ public class AdventureResult implements Comparable, KoLConstants
 
 		public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus )
 		{
-			Component defaultComponent = super.getListCellRendererComponent( list, value, index, false, false );
+			Component defaultComponent = allowHighlight() ?
+				super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus ) :
+				super.getListCellRendererComponent( list, value, index, false, false );
 
 			if ( value == null || !(value instanceof Concoction) )
 				return defaultComponent;
 
 			return this.getRenderer( defaultComponent, (Concoction) value );
+		}
+
+		public boolean allowHighlight()
+		{	return false;
 		}
 
 		public void appendAmount( StringBuffer stringForm, Concoction item )
@@ -691,6 +697,10 @@ public class AdventureResult implements Comparable, KoLConstants
 		public AdventureResultRenderer()
 		{
 			this.setOpaque( true );
+		}
+
+		public boolean allowHighlight()
+		{	return true;
 		}
 
 		public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus )
