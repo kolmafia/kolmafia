@@ -111,6 +111,13 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 	public ItemManagePanel( LockableListModel elementModel )
 	{
+		this( elementModel,
+			elementModel == tally || elementModel == inventory || elementModel == closet ||
+			elementModel == ConcoctionsDatabase.getCreatables() || elementModel == ConcoctionsDatabase.getUsables() );
+	}
+
+	public ItemManagePanel( LockableListModel elementModel, boolean addRefreshButton )
+	{
 		super( "", null, null, new ShowDescriptionList( elementModel ), false );
 
 		this.elementList = (ShowDescriptionList) this.scrollComponent;
@@ -119,11 +126,8 @@ public class ItemManagePanel extends LabeledScrollPanel
 		this.filterfield = this.getWordFilter();
 		this.centerPanel.add( this.filterfield, BorderLayout.NORTH );
 
-		if ( elementModel == tally || elementModel == inventory || elementModel == closet ||
-			elementModel == ConcoctionsDatabase.getCreatables() || elementModel == ConcoctionsDatabase.getUsables() )
-		{
+		if ( addRefreshButton )
 			this.eastPanel.add( new RefreshButton(), BorderLayout.SOUTH );
-		}
 	}
 
 	public void actionConfirmed()
@@ -183,7 +187,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 	}
 
 	public void setButtons( boolean addFilters, ActionListener [] buttonListeners )
-	{	this.setButtons( true, buttonListeners == null, buttonListeners );
+	{	this.setButtons( addFilters, addFilters && buttonListeners == null, buttonListeners );
 	}
 
 	public void setButtons( boolean addFilters, boolean addCompactFilters, ActionListener [] buttonListeners )
@@ -269,10 +273,10 @@ public class ItemManagePanel extends LabeledScrollPanel
 	public Object [] getDesiredItems( String message )
 	{
 		if ( this.movers == null )
-			return this.getDesiredItems( message, message.equals( "Consume" ) ? USE_MULTIPLE : TAKE_MULTIPLE );
+			return this.getDesiredItems( message, message.equals( "Consume" ) || message.equals( "Queue" ) ? USE_MULTIPLE : TAKE_MULTIPLE );
 
 		if ( this.movers[2].isSelected() )
-			return this.getDesiredItems( message, message.equals( "Consume" ) ? USE_MULTIPLE : TAKE_MULTIPLE );
+			return this.getDesiredItems( message, message.equals( "Consume" ) || message.equals( "Queue" ) ? USE_MULTIPLE : TAKE_MULTIPLE );
 
 		return this.getDesiredItems( message, this.movers[0].isSelected() ? TAKE_ALL : this.movers[1].isSelected() ? TAKE_ALL_BUT_ONE : TAKE_ONE );
 	}

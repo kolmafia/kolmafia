@@ -518,18 +518,20 @@ public class ItemManageFrame extends KoLFrame
 
 		public ConsumePanel( boolean food, boolean booze )
 		{
-			super( "Use Items", "execute", "clear", ConcoctionsDatabase.getUsables(), false );
+			super( "Use Items", "consume", "create", ConcoctionsDatabase.getUsables(), false );
 
 			JLabel test = new JLabel( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
 
 			this.elementList.setCellRenderer( AdventureResult.getCreationQueueRenderer() );
 			this.elementList.setFixedCellHeight( (int) (test.getPreferredSize().getHeight() * 2.5f) );
 
-			this.elementList.setVisibleRowCount( 2 );
+			this.elementList.setVisibleRowCount( 3 );
 			this.elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 
 			this.food = food;
 			this.booze = booze;
+
+			this.eastPanel.add( new ClearQueueButton(), BorderLayout.SOUTH );
 
 			this.setEnabled( true );
 			this.filterItems();
@@ -540,11 +542,22 @@ public class ItemManageFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{	ConcoctionsDatabase.handleQueue();
+		{	ConcoctionsDatabase.handleQueue( true );
 		}
 
 		public void actionCancelled()
-		{	ConcoctionsDatabase.clearQueue();
+		{	ConcoctionsDatabase.handleQueue( false );
+		}
+
+		private class ClearQueueButton extends ThreadedButton
+		{
+			public ClearQueueButton()
+			{	super( "clear" );
+			}
+
+			public void run()
+			{	ConcoctionsDatabase.clearQueue();
+			}
 		}
 
 		private class ConsumableFilterField extends FilterItemField
@@ -591,7 +604,15 @@ public class ItemManageFrame extends KoLFrame
 
 		public QueuePanel( boolean food, boolean booze )
 		{
-			super( "Queue Items", "enqueue", food && booze ? "win game" : food ? "use milk" : "cast ode", ConcoctionsDatabase.getUsables() );
+			super( ConcoctionsDatabase.getUsables(), true );
+
+			this.setButtons( false, new ActionListener [] {
+
+					new EnqueueListener(),
+					new ExecuteListener(),
+					new BuffUpListener()
+
+				} );
 
 			JLabel test = new JLabel( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
 
@@ -630,41 +651,58 @@ public class ItemManageFrame extends KoLFrame
 		{	return new ConsumableFilterField();
 		}
 
-		public void setEnabled( boolean isEnabled )
-		{
-			if ( this.food && this.booze )
-			{
-				this.cancelledButton.setEnabled( false );
-			}
-			else if ( this.food )
-			{
-				this.cancelledButton.setEnabled( KoLCharacter.hasItem( MAGNESIUM, true ) && !activeEffects.contains( TradeableItemDatabase.GOT_MILK ) );
-			}
-			else
-			{
-				this.cancelledButton.setEnabled( KoLCharacter.hasSkill( "The Ode to Booze" ) && !activeEffects.contains( TradeableItemDatabase.ODE ) &&
-					KoLCharacter.getMaximumMP() >= ClassSkillsDatabase.getMPConsumptionById( 6014 ) );
-			}
-
-			super.setEnabled( isEnabled );
-		}
-
 		public void actionConfirmed()
 		{
-			this.getDesiredItems( "Consume" );
-			ConcoctionsDatabase.refreshConcoctions();
 		}
 
 		public void actionCancelled()
 		{
-			if ( this.food )
+		}
+
+		private class EnqueueListener extends ThreadedListener
+		{
+			public void run()
 			{
-				RequestThread.postRequest( new ConsumeItemRequest( MAGNESIUM ) );
+				getDesiredItems( "Queue" );
+				ConcoctionsDatabase.refreshConcoctions();
 			}
-			else
+
+			public String toString()
+			{	return "enqueue";
+			}
+		}
+
+		private class ExecuteListener extends ThreadedListener
+		{
+			public void run()
 			{
-				if ( !activeEffects.contains( new AdventureResult( "Ode to Booze", 1, true ) ) )
-					RequestThread.postRequest( UseSkillRequest.getInstance( "The Ode to Booze", 1 ) );
+				getDesiredItems( "Consume" );
+				ConcoctionsDatabase.refreshConcoctions();
+				ConcoctionsDatabase.handleQueue( true );
+			}
+
+			public String toString()
+			{	return "consume";
+			}
+		}
+
+		private class BuffUpListener extends ThreadedListener
+		{
+			public void run()
+			{
+				if ( QueuePanel.this.food )
+				{
+					RequestThread.postRequest( new ConsumeItemRequest( MAGNESIUM ) );
+				}
+				else
+				{
+					if ( !activeEffects.contains( new AdventureResult( "Ode to Booze", 1, true ) ) )
+						RequestThread.postRequest( UseSkillRequest.getInstance( "The Ode to Booze", 1 ) );
+				}
+			}
+
+			public String toString()
+			{	return QueuePanel.this.food ? "use milk" : "cast ode";
 			}
 		}
 

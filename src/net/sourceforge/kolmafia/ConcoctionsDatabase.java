@@ -286,7 +286,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 	{	return creatableList;
 	}
 
-	public static void handleQueue()
+	public static void handleQueue( boolean consume )
 	{
 		queuedIngredients.clear();
 		RequestThread.openRequestSequence();
@@ -303,7 +303,9 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 			KoLRequest request = null;
 
-			if ( c.getItem() == null && c.getFullness() > 0 )
+			if ( !consume && c.getItem() != null )
+				AdventureDatabase.retrieveItem( c.getItem().getInstance( c.getQueued() ) );
+			else if ( c.getItem() == null && c.getFullness() > 0 )
 				request = new RestaurantRequest( c.getName() );
 			else if ( c.getItem() == null && c.getInebriety() > 0 )
 				request = new MicrobreweryRequest( c.getName() );
