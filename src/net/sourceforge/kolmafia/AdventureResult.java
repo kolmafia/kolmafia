@@ -616,7 +616,7 @@ public class AdventureResult implements Comparable, KoLConstants
 
 		public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus )
 		{
-			Component defaultComponent = super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
+			Component defaultComponent = super.getListCellRendererComponent( list, value, index, false, false );
 
 			if ( value == null || !(value instanceof Concoction) )
 				return defaultComponent;
