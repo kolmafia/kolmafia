@@ -603,7 +603,90 @@ public class AdventureResult implements Comparable, KoLConstants
 	{	return new AdventureResultRenderer();
 	}
 
-	private static class AdventureResultRenderer extends DefaultListCellRenderer
+	public static DefaultListCellRenderer getCreationQueueRenderer()
+	{	return new ConcoctionRenderer();
+	}
+
+	private static class ConcoctionRenderer extends DefaultListCellRenderer
+	{
+		public ConcoctionRenderer()
+		{
+			this.setOpaque( true );
+		}
+
+		public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus )
+		{
+			Component defaultComponent = super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
+
+			if ( value == null || !(value instanceof Concoction) )
+				return defaultComponent;
+
+			return this.getRenderer( defaultComponent, (Concoction) value );
+		}
+
+		public void appendAmount( StringBuffer stringForm, Concoction item )
+		{	stringForm.append( item.getQueued() );
+		}
+
+		public Component getRenderer( Component defaultComponent, Concoction item )
+		{
+			StringBuffer stringForm = new StringBuffer();
+
+			stringForm.append( "<html><b>" );
+			stringForm.append( item.getName() );
+
+			stringForm.append( " (" );
+			appendAmount( stringForm, item );
+
+			stringForm.append( ")" );
+			stringForm.append( "</b><br>&nbsp;" );
+
+			int fullness = TradeableItemDatabase.getFullness( item.getName() );
+			int inebriety = TradeableItemDatabase.getInebriety( item.getName() );
+
+			if ( inebriety > 0 )
+			{
+				stringForm.append( inebriety );
+				stringForm.append( " drunk" );
+			}
+			else
+			{
+				stringForm.append( fullness );
+				stringForm.append( " full" );
+			}
+
+			this.appendRange( stringForm, TradeableItemDatabase.getAdventureRange( item.getName() ), "adv" );
+
+			if ( StaticEntity.getBooleanProperty( "showGainsPerUnit" ) )
+			{
+				if ( inebriety > 0 )
+					stringForm.append( " / drunk" );
+				else
+					stringForm.append( " / full" );
+			}
+
+			this.appendRange( stringForm, TradeableItemDatabase.getMuscleRange( item.getName() ), "mus" );
+			this.appendRange( stringForm, TradeableItemDatabase.getMysticalityRange( item.getName() ), "mys" );
+			this.appendRange( stringForm, TradeableItemDatabase.getMoxieRange( item.getName() ), "mox" );
+
+			defaultComponent.setFont( DEFAULT_FONT );
+			((JLabel)defaultComponent).setText( stringForm.toString() );
+			return defaultComponent;
+		}
+
+		private void appendRange( StringBuffer stringForm, String range, String suffix )
+		{
+			if ( range.equals( "+0.0" ) && !suffix.equals( "adv" ) )
+				return;
+
+			stringForm.append( ", " );
+			stringForm.append( range );
+			stringForm.append( " " );
+			stringForm.append( suffix );
+		}
+	}
+
+	private static class AdventureResultRenderer extends ConcoctionRenderer
 	{
 		public AdventureResultRenderer()
 		{
@@ -691,15 +774,8 @@ public class AdventureResult implements Comparable, KoLConstants
 			return defaultComponent;
 		}
 
-		public Component getRenderer( Component defaultComponent, Concoction item )
+		public void appendAmount( StringBuffer stringForm, Concoction item )
 		{
-			StringBuffer stringForm = new StringBuffer();
-
-			stringForm.append( "<html><b>" );
-			stringForm.append( item.getName() );
-
-			stringForm.append( " (" );
-
 			if ( item.getItem() != null )
 			{
 				int modified = item.getTotal();
@@ -721,52 +797,6 @@ public class AdventureResult implements Comparable, KoLConstants
 				stringForm.append( item.getPrice() );
 				stringForm.append( " meat" );
 			}
-
-			stringForm.append( ")" );
-			stringForm.append( "</b><br>&nbsp;" );
-
-			int fullness = TradeableItemDatabase.getFullness( item.getName() );
-			int inebriety = TradeableItemDatabase.getInebriety( item.getName() );
-
-			if ( inebriety > 0 )
-			{
-				stringForm.append( inebriety );
-				stringForm.append( " drunk" );
-			}
-			else
-			{
-				stringForm.append( fullness );
-				stringForm.append( " full" );
-			}
-
-			this.appendRange( stringForm, TradeableItemDatabase.getAdventureRange( item.getName() ), "adv" );
-
-			if ( StaticEntity.getBooleanProperty( "showGainsPerUnit" ) )
-			{
-				if ( inebriety > 0 )
-					stringForm.append( " / drunk" );
-				else
-					stringForm.append( " / full" );
-			}
-
-			this.appendRange( stringForm, TradeableItemDatabase.getMuscleRange( item.getName() ), "mus" );
-			this.appendRange( stringForm, TradeableItemDatabase.getMysticalityRange( item.getName() ), "mys" );
-			this.appendRange( stringForm, TradeableItemDatabase.getMoxieRange( item.getName() ), "mox" );
-
-			defaultComponent.setFont( DEFAULT_FONT );
-			((JLabel)defaultComponent).setText( stringForm.toString() );
-			return defaultComponent;
-		}
-
-		private void appendRange( StringBuffer stringForm, String range, String suffix )
-		{
-			if ( range.equals( "+0.0" ) && !suffix.equals( "adv" ) )
-				return;
-
-			stringForm.append( ", " );
-			stringForm.append( range );
-			stringForm.append( " " );
-			stringForm.append( suffix );
 		}
 	}
 
