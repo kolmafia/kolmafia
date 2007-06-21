@@ -632,7 +632,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 			JPanel buttonHolder = new JPanel( new BorderLayout() );
 			buttonHolder.add( extraButtons, BorderLayout.NORTH );
-			
+
 			this.actualPanel.add( buttonHolder, BorderLayout.EAST );
 		}
 
@@ -896,7 +896,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 		public void valueChanged( ListSelectionEvent e )
 		{
-			if ( AdventureOptionsFrame.this.updateConditions )
+			if ( AdventureOptionsFrame.this.updateConditions && !KoLmafia.isAdventuring() )
 			{
 				AdventureOptionsFrame.this.conditionField.setText( "" );
 
