@@ -92,8 +92,18 @@ public class ItemManageFrame extends KoLFrame
 		super( "Item Manager" );
 
 		this.addPanel( "Usable", new UsableItemPanel( false ) );
-		this.addPanel( " - Food", new ExperimentalPanel( true, false ) );
-		this.addPanel( " - Booze", new ExperimentalPanel( false, true ) );
+
+		JPanel foodPanel = new JPanel( new BorderLayout() );
+		foodPanel.add( new ConsumePanel( true, false ), BorderLayout.NORTH );
+		foodPanel.add( new QueuePanel( true, false ), BorderLayout.CENTER );
+
+		this.addPanel( " - Food", foodPanel );
+
+		JPanel boozePanel = new JPanel( new BorderLayout() );
+		boozePanel.add( new ConsumePanel( false, true ), BorderLayout.NORTH );
+		boozePanel.add( new QueuePanel( false, true ), BorderLayout.CENTER );
+
+		this.addPanel( " - Booze", boozePanel );
 
 		this.addSeparator();
 
@@ -502,18 +512,92 @@ public class ItemManageFrame extends KoLFrame
 
 	private static final AdventureResult MAGNESIUM = new AdventureResult( "milk of magnesium", 1, false );
 
-	private class ExperimentalPanel extends ItemManagePanel
+	private class ConsumePanel extends ItemManagePanel
+	{
+		private boolean food, booze;
+
+		public ConsumePanel( boolean food, boolean booze )
+		{
+			super( "Use Items", "execute", "clear", ConcoctionsDatabase.getUsables(), false );
+
+			JLabel test = new JLabel( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
+
+			this.elementList.setCellRenderer( AdventureResult.getCreationQueueRenderer() );
+			this.elementList.setFixedCellHeight( (int) (test.getPreferredSize().getHeight() * 2.5f) );
+
+			this.elementList.setVisibleRowCount( 2 );
+			this.elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+
+			this.food = food;
+			this.booze = booze;
+
+			this.setEnabled( true );
+			this.filterItems();
+		}
+
+		public FilterItemField getWordFilter()
+		{	return new ConsumableFilterField();
+		}
+
+		public void actionConfirmed()
+		{	ConcoctionsDatabase.handleQueue();
+		}
+
+		public void actionCancelled()
+		{	ConcoctionsDatabase.clearQueue();
+		}
+
+		private class ConsumableFilterField extends FilterItemField
+		{
+			public ConsumableFilterField()
+			{	this.filter = new ConsumableFilter();
+			}
+
+			public void filterItems()
+			{	ConsumePanel.this.elementList.applyFilter( this.filter );
+			}
+
+			private class ConsumableFilter extends SimpleListFilter
+			{
+				public ConsumableFilter()
+				{	super( ConsumableFilterField.this );
+				}
+
+				public boolean isVisible( Object element )
+				{
+					Concoction creation = (Concoction) element;
+
+					if ( creation.getQueued() == 0 )
+						return false;
+
+					int fullness = TradeableItemDatabase.getFullness( creation.getName() );
+					int inebriety = TradeableItemDatabase.getInebriety( creation.getName() );
+
+					if ( fullness > 0 )
+						return ConsumePanel.this.food && super.isVisible( element );
+					else if ( inebriety > 0 )
+						return ConsumePanel.this.booze && super.isVisible( element );
+					else
+						return false;
+				}
+			}
+		}
+	}
+
+	private class QueuePanel extends ItemManagePanel
 	{
 		private boolean food, booze;
 		private JCheckBox [] filters;
 
-		public ExperimentalPanel( boolean food, boolean booze )
+		public QueuePanel( boolean food, boolean booze )
 		{
-			super( "Use Items", "use item", food && booze ? "win game" : food ? "drink milk" : "cast ode", ConcoctionsDatabase.getUsables() );
+			super( "Queue Items", "enqueue", food && booze ? "win game" : food ? "use milk" : "cast ode", ConcoctionsDatabase.getUsables() );
 
 			JLabel test = new JLabel( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
+
 			this.elementList.setFixedCellHeight( (int) (test.getPreferredSize().getHeight() * 2.5f) );
 
+			this.elementList.setVisibleRowCount( 6 );
 			this.elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 
 			this.food = food;
@@ -567,30 +651,8 @@ public class ItemManageFrame extends KoLFrame
 
 		public void actionConfirmed()
 		{
-			Object [] items = this.getDesiredItems( "Consume" );
-
-			if ( items.length != 1 )
-				return;
-
-			RequestThread.openRequestSequence();
-			SpecialOutfit.createImplicitCheckpoint();
-
-			if ( items[0] instanceof AdventureResult )
-			{
-				RequestThread.postRequest( new ConsumeItemRequest( (AdventureResult) items[0] ) );
-			}
-			else
-			{
-				String [] pieces = ((String)items[0]).split( " => " );
-				int repeat = StaticEntity.parseInt( pieces[1] );
-
-				KoLRequest request = this.food ? (KoLRequest) new RestaurantRequest( pieces[0] ) : new MicrobreweryRequest( pieces[0] );
-				for ( int i = 0; i < repeat; ++i )
-					RequestThread.postRequest( request );
-			}
-
-			SpecialOutfit.restoreImplicitCheckpoint();
-			RequestThread.closeRequestSequence();
+			this.getDesiredItems( "Consume" );
+			ConcoctionsDatabase.refreshConcoctions();
 		}
 
 		public void actionCancelled()
@@ -613,7 +675,7 @@ public class ItemManageFrame extends KoLFrame
 			}
 
 			public void filterItems()
-			{	ExperimentalPanel.this.elementList.applyFilter( this.filter );
+			{	QueuePanel.this.elementList.applyFilter( this.filter );
 			}
 
 			private class ConsumableFilter extends SimpleListFilter
@@ -630,27 +692,27 @@ public class ItemManageFrame extends KoLFrame
 					if ( creation.getTotal() == 0 )
 						return false;
 
-					if ( ExperimentalPanel.this.filters[0].isSelected() )
+					if ( QueuePanel.this.filters[0].isSelected() )
 					{
 						if ( item != null && item.getCount( inventory ) == 0 )
 							return false;
 					}
 
-					if ( ExperimentalPanel.this.filters[1].isSelected() )
+					if ( QueuePanel.this.filters[1].isSelected() )
 					{
 						String range = TradeableItemDatabase.getMuscleRange( creation.getName() );
 						if ( range.equals( "+0.0" ) || range.startsWith( "-" ) )
 							return false;
 					}
 
-					if ( ExperimentalPanel.this.filters[2].isSelected() )
+					if ( QueuePanel.this.filters[2].isSelected() )
 					{
 						String range = TradeableItemDatabase.getMysticalityRange( creation.getName() );
 						if ( range.equals( "+0.0" ) || range.startsWith( "-" ) )
 							return false;
 					}
 
-					if ( ExperimentalPanel.this.filters[3].isSelected() )
+					if ( QueuePanel.this.filters[3].isSelected() )
 					{
 						String range = TradeableItemDatabase.getMoxieRange( creation.getName() );
 						if ( range.equals( "+0.0" ) || range.startsWith( "-" ) )
@@ -661,9 +723,9 @@ public class ItemManageFrame extends KoLFrame
 					int inebriety = TradeableItemDatabase.getInebriety( creation.getName() );
 
 					if ( fullness > 0 )
-						return ExperimentalPanel.this.food && super.isVisible( element );
+						return QueuePanel.this.food && super.isVisible( element );
 					else if ( inebriety > 0 )
-						return ExperimentalPanel.this.booze && super.isVisible( element );
+						return QueuePanel.this.booze && super.isVisible( element );
 					else
 						return false;
 				}

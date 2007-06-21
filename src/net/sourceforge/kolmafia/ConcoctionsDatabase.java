@@ -43,6 +43,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 	private static final SortedListModel EMPTY_LIST = new SortedListModel();
 	public static final SortedListModel creatableList = new SortedListModel();
 	public static final SortedListModel usableList = new SortedListModel();
+	private static SortedListModel queuedIngredients = new SortedListModel();
 
 	private static Concoction stillsLimit = new Concoction( (AdventureResult) null, NOCREATE );
 	private static Concoction adventureLimit = new Concoction( (AdventureResult) null, NOCREATE );
@@ -285,15 +286,71 @@ public class ConcoctionsDatabase extends KoLDatabase
 	{	return creatableList;
 	}
 
+	public static void handleQueue()
+	{
+		queuedIngredients.clear();
+		RequestThread.openRequestSequence();
+		SpecialOutfit.createImplicitCheckpoint();
+
+		Concoction c;
+
+		for ( int i = 0; i < usableList.size(); ++i )
+		{
+			c = (Concoction) usableList.get(i);
+
+			if ( c.getQueued() == 0 )
+				continue;
+
+			KoLRequest request = null;
+
+			if ( c.getItem() == null && c.getFullness() > 0 )
+				request = new RestaurantRequest( c.getName() );
+			else if ( c.getItem() == null && c.getInebriety() > 0 )
+				request = new MicrobreweryRequest( c.getName() );
+			else
+				request = new ConsumeItemRequest( c.getItem().getInstance( c.getQueued() ) );
+
+			if ( request != null )
+			{
+				if ( request instanceof ConsumeItemRequest )
+					RequestThread.postRequest( request );
+				else
+				{
+					for ( int j = 0; j < c.getQueued(); ++j )
+						RequestThread.postRequest( request );
+				}
+			}
+
+			c.queued = 0;
+			usableList.applyListFilters();
+		}
+
+		SpecialOutfit.restoreImplicitCheckpoint();
+		RequestThread.closeRequestSequence();
+	}
+
+	public static void clearQueue()
+	{
+		queuedIngredients.clear();
+		for ( int i = 0; i < concoctions.size(); ++i )
+			concoctions.get(i).queued = 0;
+
+		refreshConcoctions();
+	}
+
 	private static List getAvailableIngredients()
 	{
-		if ( closet.isEmpty() && !(getBooleanProperty( "autoSatisfyWithStash" ) && KoLCharacter.canInteract() && !ClanManager.getStash().isEmpty()) )
+		boolean includeCloset = !closet.isEmpty();
+		boolean includeStash = getBooleanProperty( "autoSatisfyWithStash" ) && KoLCharacter.canInteract() && !ClanManager.getStash().isEmpty();
+		boolean includeQueue = !queuedIngredients.isEmpty();
+
+		if ( !includeCloset && !includeStash && !includeQueue )
 			return inventory;
 
 		ArrayList availableIngredients = new ArrayList();
 		availableIngredients.addAll( inventory );
 
-		if ( !closet.isEmpty() )
+		if ( includeCloset )
 		{
 			AdventureResult [] items = new AdventureResult[ closet.size() ];
 			closet.toArray( items );
@@ -302,10 +359,19 @@ public class ConcoctionsDatabase extends KoLDatabase
 				AdventureResult.addResultToList( availableIngredients, items[i] );
 		}
 
-		if ( getBooleanProperty( "autoSatisfyWithStash" ) && KoLCharacter.canInteract() && !ClanManager.getStash().isEmpty() )
+		if ( includeStash )
 		{
 			AdventureResult [] items = new AdventureResult[ ClanManager.getStash().size() ];
 			ClanManager.getStash().toArray( items );
+
+			for ( int i = 0; i < items.length; ++i )
+				AdventureResult.addResultToList( availableIngredients, items[i] );
+		}
+
+		if ( includeQueue )
+		{
+			AdventureResult [] items = new AdventureResult[ queuedIngredients.size() ];
+			queuedIngredients.toArray( items );
 
 			for ( int i = 0; i < items.length; ++i )
 				AdventureResult.addResultToList( availableIngredients, items[i] );
@@ -414,7 +480,6 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// number of items inside of the old list.
 
 		ItemCreationRequest instance;
-		boolean changeDetected = false;
 
 		for ( int i = 1; i < concoctions.size(); ++i )
 		{
@@ -427,22 +492,16 @@ public class ConcoctionsDatabase extends KoLDatabase
 				continue;
 
 			instance.setQuantityPossible( item.creatable );
-			int usableIndex = usableList.getIndexOf( item );
-			
+
 			if ( instance.getQuantityPossible() == 0 )
 			{
 				// We can't make this concoction now
 
 				if ( item.wasPossible() )
 				{
-					creatableList.remove( instance );					
+					creatableList.remove( instance );
 					item.setPossible( false );
-
-					if ( usableIndex != -1 )
-						usableList.fireIntervalRemoved( usableList, usableIndex, usableIndex );
 				}
-				else
-					changeDetected = true;
 			}
 			else
 			{
@@ -452,21 +511,12 @@ public class ConcoctionsDatabase extends KoLDatabase
 				{
 					creatableList.add( instance );
 					item.setPossible( true );
-
-					if ( usableIndex != -1 )
-						usableList.fireIntervalAdded( usableList, usableIndex, usableIndex );
 				}
-				else
-					changeDetected = true;
 			}
 		}
 
-		if ( changeDetected )
-		{
-			creatableList.fireContentsChanged( creatableList, 0, creatableList.getSize() - 1 );
-			usableList.fireContentsChanged( usableList, 0, usableList.getSize() - 1 );
-			usableList.applyListFilters();
-		}
+		creatableList.applyListFilters();
+		usableList.applyListFilters();
 	}
 
 	public static int getMeatPasteRequired( int itemId, int creationCount )
@@ -839,7 +889,8 @@ public class ConcoctionsDatabase extends KoLDatabase
 		private AdventureResult [] ingredientArray;
 
 		private int modifier, multiplier;
-		private int initial, creatable, total;
+		private int initial, creatable, total, queued;
+		private int fullness, inebriety;
 
 		public Concoction( String name, int price )
 		{
@@ -852,7 +903,10 @@ public class ConcoctionsDatabase extends KoLDatabase
 			this.ingredients = new ArrayList();
 			this.ingredientArray = new AdventureResult[0];
 
-			int consumeType = TradeableItemDatabase.getFullness( name ) == 0 ? CONSUME_DRINK : CONSUME_EAT;
+			this.fullness = TradeableItemDatabase.getFullness( name );
+			this.inebriety = TradeableItemDatabase.getInebriety( name );
+
+			int consumeType = fullness == 0 ? CONSUME_DRINK : CONSUME_EAT;
 
 			switch ( consumeType )
 			{
@@ -916,14 +970,14 @@ public class ConcoctionsDatabase extends KoLDatabase
 			if ( this.sortOrder != ((Concoction)o).sortOrder )
 				return this.sortOrder - ((Concoction)o).sortOrder;
 
-			int fullness1 = TradeableItemDatabase.getFullness( this.name );
-			int fullness2 = TradeableItemDatabase.getFullness( ((Concoction)o).name );
+			int fullness1 = this.fullness;
+			int fullness2 = ((Concoction)o).fullness;
 
 			if ( !StaticEntity.getBooleanProperty( "showGainsPerUnit" ) && fullness1 != fullness2 )
 				return fullness2 - fullness1;
 
-			int inebriety1 = TradeableItemDatabase.getInebriety( this.name );
-			int inebriety2 = TradeableItemDatabase.getInebriety( ((Concoction)o).name );
+			int inebriety1 = this.inebriety;
+			int inebriety2 = ((Concoction)o).inebriety;
 
 			if ( !StaticEntity.getBooleanProperty( "showGainsPerUnit" ) && inebriety1 != inebriety2 )
 				return inebriety2 - inebriety1;
@@ -971,8 +1025,46 @@ public class ConcoctionsDatabase extends KoLDatabase
 		{	return this.total;
 		}
 
+		public int getQueued()
+		{	return this.queued;
+		}
+
 		public int getPrice()
 		{	return this.price;
+		}
+
+		public int getFullness()
+		{	return this.fullness;
+		}
+
+		public int getInebriety()
+		{	return this.inebriety;
+		}
+
+		public void queue( int amount )
+		{	queue( amount, true );
+		}
+
+		public void queue( int amount, boolean adjust )
+		{
+			if ( amount <= 0 )
+				return;
+
+			if ( concoction == null )
+			{
+				this.queued += amount;
+				return;
+			}
+
+			AdventureResult.addResultToList( queuedIngredients,
+				new AdventureResult( concoction.getItemId(), 0 - amount ) );
+
+			if ( adjust )
+				this.queued += amount;
+
+			int overAmount = concoction.getCount( queuedIngredients ) - this.initial;
+			for ( int i = 0; i < this.ingredientArray.length; ++i )
+				concoctions.get( this.ingredientArray[i].getItemId() ).queue( overAmount, false );
 		}
 
 		public void resetCalculations()
@@ -986,10 +1078,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 			if ( this.concoction == null && this.name != null )
 			{
-				int fullness = TradeableItemDatabase.getFullness( this.name );
-				int inebriety = TradeableItemDatabase.getInebriety( this.name );
-
-				if ( fullness > 0 )
+				if ( TradeableItemDatabase.getFullness( this.name ) > 0 )
 					this.initial = KoLCharacter.getAvailableMeat() / this.price;
 				else
 					this.initial = KoLCharacter.getAvailableMeat() / this.price;

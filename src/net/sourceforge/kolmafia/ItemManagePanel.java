@@ -75,6 +75,13 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 	public ItemManagePanel( String title, String confirmedText, String cancelledText, LockableListModel elementModel )
 	{
+		this( title, confirmedText, cancelledText, elementModel,
+			elementModel == tally || elementModel == inventory || elementModel == closet ||
+			elementModel == ConcoctionsDatabase.getCreatables() || elementModel == ConcoctionsDatabase.getUsables() );
+	}
+
+	public ItemManagePanel( String title, String confirmedText, String cancelledText, LockableListModel elementModel, boolean addRefreshButton )
+	{
 		super( title, confirmedText, cancelledText, new ShowDescriptionList( elementModel ), false );
 
 		this.elementList = (ShowDescriptionList) this.scrollComponent;
@@ -86,11 +93,8 @@ public class ItemManagePanel extends LabeledScrollPanel
 		this.filterfield = this.getWordFilter();
 		this.centerPanel.add( this.filterfield, BorderLayout.NORTH );
 
-		if ( elementModel == tally || elementModel == inventory || elementModel == closet ||
-			elementModel == ConcoctionsDatabase.getCreatables() || elementModel == ConcoctionsDatabase.getUsables() )
-		{
+		if ( addRefreshButton )
 			this.eastPanel.add( new RefreshButton(), BorderLayout.SOUTH );
-		}
 	}
 
 	protected FilterItemField getWordFilter()
@@ -344,13 +348,10 @@ public class ItemManagePanel extends LabeledScrollPanel
 			{
 				items[i] = ((AdventureResult)items[i]).getInstance( quantity );
 			}
-			else if ( ((Concoction)items[i]).getItem() != null )
-			{
-				items[i] = ((Concoction)items[i]).getItem().getInstance( quantity );
-			}
 			else
 			{
-				items[i] = (((Concoction)items[i]).getName() + " => " + quantity);
+				((Concoction)items[i]).queue( quantity );
+				items[i] = null;
 			}
 		}
 
