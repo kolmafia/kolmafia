@@ -245,21 +245,17 @@ public class ItemStorageRequest extends SendMessageRequest
 	private void parseStorage()
 	{
 		List storageContents = storage;
-		Matcher storageMatcher = null;
 
 		// Compute the number of pulls remaining based
 		// on the response text.
 
-		if ( !existingFrames.isEmpty() )
-		{
-			storageMatcher = PULLS_PATTERN.matcher( this.responseText );
-			if ( storageMatcher.find() )
-				ItemManageFrame.setPullsRemaining( StaticEntity.parseInt( storageMatcher.group(1) ) );
-			else if ( KoLCharacter.isHardcore() || !KoLCharacter.canInteract() )
-				ItemManageFrame.setPullsRemaining( 0 );
-			else
-				ItemManageFrame.setPullsRemaining( -1 );
-		}
+		Matcher storageMatcher = PULLS_PATTERN.matcher( this.responseText );
+		if ( storageMatcher.find() )
+			ItemManageFrame.setPullsRemaining( StaticEntity.parseInt( storageMatcher.group(1) ) );
+		else if ( KoLCharacter.isHardcore() || !KoLCharacter.canInteract() )
+			ItemManageFrame.setPullsRemaining( 0 );
+		else
+			ItemManageFrame.setPullsRemaining( -1 );
 
 		// Start with an empty list
 
@@ -273,11 +269,9 @@ public class ItemStorageRequest extends SendMessageRequest
 		if ( !storageMatcher.find() )
 			return;
 
-		int lastFindIndex = 0;
 		Matcher optionMatcher = OPTION_PATTERN.matcher( storageMatcher.group() );
-		while ( optionMatcher.find( lastFindIndex ) )
+		while ( optionMatcher.find() )
 		{
-			lastFindIndex = optionMatcher.end();
 			int itemId = StaticEntity.parseInt( optionMatcher.group(1) );
 
 			if ( TradeableItemDatabase.getItemName( itemId ) == null )
