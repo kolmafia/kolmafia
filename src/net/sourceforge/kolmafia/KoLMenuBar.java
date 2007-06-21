@@ -205,7 +205,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		helperMenu.add( new DisplayFrameMenuItem( "Copyright Notice", "LicenseDisplay" ) );
 		helperMenu.add( this.debugMenuItem );
-		helperMenu.add( new DisplayPageMenuItem( "Check for Updates", "https://sourceforge.net/project/showfiles.php?group_id=126572" ) );
+		helperMenu.add( new CheckForUpdatesMenuItem() );
 		helperMenu.add( new DisplayPageMenuItem( "Donate to KoLmafia", "http://kolmafia.sourceforge.net/credits.html" ) );
 
 		helperMenu.add( new JSeparator() );
@@ -225,6 +225,19 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		helperMenu.add( new DisplayPageMenuItem( "KoL Visual Wiki", "http://kol.coldfront.net/thekolwiki/index.php/Main_Page" ) );
 		helperMenu.add( new InvocationMenuItem( "Violet Fog Mapper", VioletFog.class, "showGemelliMap" ) );
 		helperMenu.add( new InvocationMenuItem( "Louvre Mapper", Louvre.class, "showGemelliMap" ) );
+	}
+
+	private class CheckForUpdatesMenuItem extends DisplayPageMenuItem
+	{
+		public CheckForUpdatesMenuItem()
+		{	super( "Check for Updates", "https://sourceforge.net/project/showfiles.php?group_id=126572" );
+		}
+
+		public void run()
+		{
+			CommandDisplayFrame.executeCommand( "update" );
+			super.run();
+		}
 	}
 
 	/**
