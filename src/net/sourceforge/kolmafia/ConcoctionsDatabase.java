@@ -899,7 +899,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 				break;
 			}
 
-			this.price = this.price;
+			this.price = -1;
 		}
 
 		public int compareTo( Object o )
@@ -920,21 +920,21 @@ public class ConcoctionsDatabase extends KoLDatabase
 			int fullness2 = TradeableItemDatabase.getFullness( ((Concoction)o).name );
 
 			if ( !StaticEntity.getBooleanProperty( "showGainsPerUnit" ) && fullness1 != fullness2 )
-				return fullness1 > fullness2 ? -1 : 1;
+				return fullness2 - fullness1;
 
 			int inebriety1 = TradeableItemDatabase.getInebriety( this.name );
 			int inebriety2 = TradeableItemDatabase.getInebriety( ((Concoction)o).name );
 
 			if ( !StaticEntity.getBooleanProperty( "showGainsPerUnit" ) && inebriety1 != inebriety2 )
-				return inebriety1 > inebriety2 ? -1 : 1;
+				return inebriety2 - inebriety1;
 
 			float adventures1 = parseFloat( TradeableItemDatabase.getAdventureRange( this.name ) );
 			float adventures2 = parseFloat( TradeableItemDatabase.getAdventureRange( ((Concoction)o).name ) );
 
 			if ( adventures1 != adventures2 )
-				return adventures1 > adventures2 ? -1 : 1;
+				return (int) (adventures2 - adventures1);
 
-			return this.name.compareToIgnoreCase( this.name );
+			return this.name.compareToIgnoreCase( ((Concoction)o).name );
 		}
 
 		public boolean equals( Object o )
