@@ -206,18 +206,9 @@ public class FightRequest extends KoLRequest
 		// action here.
 
 		if ( action1.equals( "custom" ) )
-		{
 			action1 = CombatSettings.getSetting( encounterLookup, currentRound - 1 );
-
-			if ( action1.startsWith( "steal" ) && !wonInitiative() )
-				action1 = "attack";
-		}
-		else if ( !KoLCharacter.canInteract() && wonInitiative() && monsterData != null && monsterData.shouldSteal() )
-		{
+		else if ( wonInitiative() && !KoLCharacter.canInteract() && monsterData != null && monsterData.shouldSteal() )
 			action1 = "steal";
-			this.addFormField( "action", action1 );
-			return;
-		}
 
 		// If the person wants to use their own script,
 		// then this is where it happens.
@@ -308,18 +299,16 @@ public class FightRequest extends KoLRequest
 
 		// Actually steal if the action says to steal
 
-		if ( action1.startsWith( "steal" ) )
+		if ( action1.indexOf( "steal" ) != -1 )
 		{
-			if ( wonInitiative() && !KoLCharacter.canInteract() )
+			boolean shouldSteal = wonInitiative() && !KoLCharacter.canInteract();
+
+			if ( CombatSettings.getSettingKey( encounterLookup ).equals( "default" ) )
+				shouldSteal &= monsterData != null && monsterData.shouldSteal();
+
+			if ( shouldSteal )
 			{
 				action1 = "steal";
-				this.addFormField( "action", action1 );
-				return;
-			}
-
-			if ( currentRound > 2 )
-			{
-				action1 = "attack";
 				this.addFormField( "action", action1 );
 				return;
 			}

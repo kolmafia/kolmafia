@@ -316,7 +316,7 @@ public abstract class CombatSettings implements KoLConstants
 		writer.close();
 	}
 
-	public static String getSetting( String encounter, int roundCount )
+	public static String getSettingKey( String encounter )
 	{
 		String location = StaticEntity.getProperty( "lastAdventure" ).toLowerCase();
 
@@ -360,12 +360,17 @@ public abstract class CombatSettings implements KoLConstants
 		}
 
 		if ( longestMatch == -1 )
-			return encounter == null || encounter.equals( "default" ) ? "attack" : getSetting( "default", roundCount );
+			return "default";
 
+		return keys[ longestMatch ];
+	}
+
+	public static String getSetting( String encounter, int roundCount )
+	{
 		// Otherwise, you have a tactic for this round against
 		// the given monster.  Return that tactic.
 
-		CombatSettingNode match = (CombatSettingNode) reference.get( keys[ longestMatch ] );
+		CombatSettingNode match = (CombatSettingNode) reference.get( getSettingKey( encounter ) );
 		if ( match.getChildCount() == 0 )
 			return "attack";
 
@@ -441,7 +446,7 @@ public abstract class CombatSettings implements KoLConstants
 			return "attack with weapon";
 
 		if ( action.indexOf( "steal" ) != -1 )
-			return "try to steal an item";
+			return "consider stealing an item";
 
 		if ( action.startsWith( "default" ) || action.startsWith( "abort" ) || action.startsWith( "consult" ) )
 			return action;
