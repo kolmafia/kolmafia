@@ -686,10 +686,9 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( KoLCharacter.hasEquipped( KoLmafia.NOVELTY_BUTTON ) &&
 			this.responseText.indexOf( "You hand him your button and take his glowstick" ) != -1 )
 		{
-			String name = KoLmafia.NOVELTY_BUTTON.getName();
-			if ( KoLCharacter.hasEquipped( name, KoLCharacter.ACCESSORY1 ) )
+			if ( KoLCharacter.hasEquipped( KoLmafia.NOVELTY_BUTTON, KoLCharacter.ACCESSORY1 ) )
 				KoLCharacter.setEquipment( KoLCharacter.ACCESSORY1, EquipmentRequest.UNEQUIP );
-			else if ( KoLCharacter.hasEquipped( name, KoLCharacter.ACCESSORY2 ) )
+			else if ( KoLCharacter.hasEquipped( KoLmafia.NOVELTY_BUTTON, KoLCharacter.ACCESSORY2 ) )
 				KoLCharacter.setEquipment( KoLCharacter.ACCESSORY2, EquipmentRequest.UNEQUIP );
 			else
 				KoLCharacter.setEquipment( KoLCharacter.ACCESSORY3, EquipmentRequest.UNEQUIP );
@@ -725,11 +724,11 @@ public class KoLRequest extends Job implements KoLConstants
 		{
 			KoLCharacter.updateStatus();
 		}
-		
+
 		if ( !(LoginRequest.isInstanceRunning() || this instanceof LogoutRequest) )
 			ConcoctionsDatabase.refreshConcoctions();
 	}
-	
+
 	public void execute()
 	{
 		// If this is the rat quest, then go ahead and pre-set the data

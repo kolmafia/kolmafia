@@ -538,9 +538,6 @@ public abstract class MoodSettings implements KoLConstants
 
 		isExecuting = true;
 
-		AdventureResult initialWeapon = KoLCharacter.getEquipment( KoLCharacter.WEAPON );
-		AdventureResult initialOffhand = KoLCharacter.getEquipment( KoLCharacter.OFFHAND );
-
 		MoodTrigger current = null;
 
 		AdventureResult [] effects = new AdventureResult[ activeEffects.size() ];
