@@ -727,18 +727,8 @@ public class AdventureResult implements Comparable, KoLConstants
 			if ( !ar.isItem() )
 				return defaultComponent;
 
-			int autoSellValue = TradeableItemDatabase.getPriceById( ar.getItemId() );
-
 			StringBuffer stringForm = new StringBuffer();
 			stringForm.append( ar.getName() );
-			stringForm.append( " (" );
-
-			if ( autoSellValue == 0 )
-				stringForm.append( "no-sell" );
-			else
-				stringForm.append( COMMA_FORMAT.format( autoSellValue ) + " meat" );
-
-			stringForm.append( ")" );
 
 			if ( ar.count[0] != 1 )
 			{
