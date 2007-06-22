@@ -532,7 +532,7 @@ public class ItemManageFrame extends KoLFrame
 
 			JTabbedPane queueTabs = getTabbedPane();
 			queueTabs.addTab( "Creations Queued", centerPanel );
-			queueTabs.addTab( "Expected Change", new SimpleScrollPane( ConcoctionsDatabase.getQueue(), 7 ) );
+			queueTabs.addTab( "Ingredients Used", new SimpleScrollPane( ConcoctionsDatabase.getQueue(), 7 ) );
 			actualPanel.add( queueTabs, BorderLayout.CENTER );
 
 			this.food = food;

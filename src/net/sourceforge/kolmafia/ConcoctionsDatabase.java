@@ -380,7 +380,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			queuedIngredients.toArray( items );
 
 			for ( int i = 0; i < items.length; ++i )
-				AdventureResult.addResultToList( availableIngredients, items[i] );
+				AdventureResult.addResultToList( availableIngredients, items[i].getNegation() );
 		}
 
 		return availableIngredients;
@@ -1073,7 +1073,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			if ( concoction.getItemId() != 938 )
 			{
 				AdventureResult.addResultToList( queuedIngredients,
-					concoction.getInstance( 0 - decrementAmount ) );
+					concoction.getInstance( decrementAmount ) );
 			}
 
 			if ( adjust )
