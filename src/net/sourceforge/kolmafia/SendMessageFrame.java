@@ -225,6 +225,12 @@ public class SendMessageFrame extends KoLFrame
 		return label;
 	}
 
+	public boolean shouldAddStatusBar()
+	{
+		return (!StaticEntity.getBooleanProperty( "addStatusBarToFrames" ) &&
+			StaticEntity.getGlobalProperty( "initialDesktop" ).indexOf( this.frameName ) != -1) ||
+			StaticEntity.getGlobalProperty( "initialDesktop" ).indexOf( this.frameName ) == -1;
+	}
 
 	private abstract class AttachmentMenuItem extends ThreadedMenuItem
 	{
