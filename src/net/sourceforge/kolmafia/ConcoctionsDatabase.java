@@ -278,6 +278,10 @@ public class ConcoctionsDatabase extends KoLDatabase
 		return AdventureResult.parseResult( data );
 	}
 
+	public static SortedListModel getQueue()
+	{	return queuedIngredients;
+	}
+
 	public static SortedListModel getUsables()
 	{	return usableList;
 	}
