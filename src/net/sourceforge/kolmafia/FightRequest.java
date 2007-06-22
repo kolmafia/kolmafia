@@ -202,13 +202,6 @@ public class FightRequest extends KoLRequest
 			}
 		}
 
-		if ( !KoLCharacter.canInteract() && wonInitiative() && monsterData != null && monsterData.shouldSteal() )
-		{
-			action1 = "steal";
-			this.addFormField( "action", action1 );
-			return;
-		}
-
 		// If the user wants a custom combat script, parse the desired
 		// action here.
 
@@ -218,6 +211,12 @@ public class FightRequest extends KoLRequest
 
 			if ( action1.startsWith( "steal" ) && !wonInitiative() )
 				action1 = "attack";
+		}
+		else if ( !KoLCharacter.canInteract() && wonInitiative() && monsterData != null && monsterData.shouldSteal() )
+		{
+			action1 = "steal";
+			this.addFormField( "action", action1 );
+			return;
 		}
 
 		// If the person wants to use their own script,
