@@ -741,9 +741,6 @@ public class FightRequest extends KoLRequest
 			encounterLookup = CombatSettings.encounterKey( encounter );
 			monsterData = MonsterDatabase.findMonster( encounter );
 
-			if ( monsterData != null )
-				RequestLogger.printLine( "Internally representing encounter as " + monsterData.getName() + "..." );
-
 			if ( monsterData != null && !handlingChoices && !excludedFromQueue.contains( encounterLookup ) )
 			{
 				for ( int i = 4; i >= 1; --i )
