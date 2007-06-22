@@ -2497,14 +2497,14 @@ public abstract class KoLCharacter extends StaticEntity
 			break;
 
 		case EQUIP_WEAPON:
-			if ( hasEquipped( item.getName(), WEAPON ) )  ++count;
-			if ( hasEquipped( item.getName(), OFFHAND ) )  ++count;
+			if ( hasEquipped( item, WEAPON ) )  ++count;
+			if ( hasEquipped( item, OFFHAND ) )  ++count;
 			break;
 
 		case EQUIP_ACCESSORY:
-			if ( hasEquipped( item.getName(), ACCESSORY1 ) )  ++count;
-			if ( hasEquipped( item.getName(), ACCESSORY2 ) )  ++count;
-			if ( hasEquipped( item.getName(), ACCESSORY3 ) )  ++count;
+			if ( hasEquipped( item, ACCESSORY1 ) )  ++count;
+			if ( hasEquipped( item, ACCESSORY2 ) )  ++count;
+			if ( hasEquipped( item, ACCESSORY3 ) )  ++count;
 			break;
 		}
 
@@ -2518,37 +2518,34 @@ public abstract class KoLCharacter extends StaticEntity
 		return count > 0 && count >= item.getCount();
 	}
 
-	public static boolean hasEquipped( String itemName, int equipmentSlot )
-	{
-		AdventureResult itemInSlot = getEquipment( equipmentSlot );
-		return KoLDatabase.getCanonicalName( itemInSlot.getName() ).equals( KoLDatabase.getCanonicalName( itemName ) );
+	public static boolean hasEquipped( AdventureResult item, int equipmentSlot )
+	{	return getEquipment( equipmentSlot ).getItemId() == item.getItemId();
 	}
 
 	public static boolean hasEquipped( AdventureResult item )
 	{
-		String name = item.getName();
 		switch ( TradeableItemDatabase.getConsumptionType( item.getItemId() ) )
 		{
 		case EQUIP_WEAPON:
-			return hasEquipped( name, WEAPON ) || hasEquipped( name, OFFHAND );
+			return hasEquipped( item, WEAPON ) || hasEquipped( item, OFFHAND );
 
 		case EQUIP_OFFHAND:
-			return hasEquipped( name, OFFHAND );
+			return hasEquipped( item, OFFHAND );
 
 		case EQUIP_HAT:
-			return hasEquipped( name, HAT );
+			return hasEquipped( item, HAT );
 
 		case EQUIP_SHIRT:
-			return hasEquipped( name, SHIRT );
+			return hasEquipped( item, SHIRT );
 
 		case EQUIP_PANTS:
-			return hasEquipped( name, PANTS );
+			return hasEquipped( item, PANTS );
 
 		case EQUIP_ACCESSORY:
-			return hasEquipped( name, ACCESSORY1 ) || hasEquipped( name, ACCESSORY2 ) || hasEquipped( name, ACCESSORY3 );
+			return hasEquipped( item, ACCESSORY1 ) || hasEquipped( item, ACCESSORY2 ) || hasEquipped( item, ACCESSORY3 );
 
 		case EQUIP_FAMILIAR:
-			return hasEquipped( name, FAMILIAR );
+			return hasEquipped( item, FAMILIAR );
 		}
 
 		return false;
