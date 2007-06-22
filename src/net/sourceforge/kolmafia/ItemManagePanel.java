@@ -75,12 +75,12 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 	public ItemManagePanel( String title, String confirmedText, String cancelledText, LockableListModel elementModel )
 	{
-		this( title, confirmedText, cancelledText, elementModel,
+		this( title, confirmedText, cancelledText, elementModel, true,
 			elementModel == tally || elementModel == inventory || elementModel == closet ||
 			elementModel == ConcoctionsDatabase.getCreatables() || elementModel == ConcoctionsDatabase.getUsables() );
 	}
 
-	public ItemManagePanel( String title, String confirmedText, String cancelledText, LockableListModel elementModel, boolean addRefreshButton )
+	public ItemManagePanel( String title, String confirmedText, String cancelledText, LockableListModel elementModel, boolean addFilterField, boolean addRefreshButton )
 	{
 		super( title, confirmedText, cancelledText, new ShowDescriptionList( elementModel ), false );
 
@@ -91,7 +91,9 @@ public class ItemManagePanel extends LabeledScrollPanel
 		this.elementList.setVisibleRowCount( 8 );
 
 		this.filterfield = this.getWordFilter();
-		this.centerPanel.add( this.filterfield, BorderLayout.NORTH );
+
+		if ( addFilterField )
+			this.centerPanel.add( this.filterfield, BorderLayout.NORTH );
 
 		if ( addRefreshButton )
 			this.eastPanel.add( new RefreshButton(), BorderLayout.SOUTH );
@@ -111,12 +113,12 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 	public ItemManagePanel( LockableListModel elementModel )
 	{
-		this( elementModel,
+		this( elementModel, true,
 			elementModel == tally || elementModel == inventory || elementModel == closet ||
 			elementModel == ConcoctionsDatabase.getCreatables() || elementModel == ConcoctionsDatabase.getUsables() );
 	}
 
-	public ItemManagePanel( LockableListModel elementModel, boolean addRefreshButton )
+	public ItemManagePanel( LockableListModel elementModel, boolean addFilterField, boolean addRefreshButton )
 	{
 		super( "", null, null, new ShowDescriptionList( elementModel ), false );
 
@@ -124,7 +126,9 @@ public class ItemManagePanel extends LabeledScrollPanel
 		this.elementModel = (LockableListModel) this.elementList.getModel();
 
 		this.filterfield = this.getWordFilter();
-		this.centerPanel.add( this.filterfield, BorderLayout.NORTH );
+
+		if ( addFilterField )
+			this.centerPanel.add( this.filterfield, BorderLayout.NORTH );
 
 		if ( addRefreshButton )
 			this.eastPanel.add( new RefreshButton(), BorderLayout.SOUTH );

@@ -53,6 +53,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
+import javax.swing.JTabbedPane;
 import javax.swing.ListSelectionModel;
 
 import javax.swing.event.ListDataEvent;
@@ -94,6 +95,7 @@ public class ItemManageFrame extends KoLFrame
 		this.addPanel( "Usable", new UsableItemPanel( false ) );
 
 		JPanel foodPanel = new JPanel( new BorderLayout() );
+
 		foodPanel.add( new ConsumePanel( true, false ), BorderLayout.NORTH );
 		foodPanel.add( new QueuePanel( true, false ), BorderLayout.CENTER );
 
@@ -518,7 +520,7 @@ public class ItemManageFrame extends KoLFrame
 
 		public ConsumePanel( boolean food, boolean booze )
 		{
-			super( "Use Items", "consume", "create", ConcoctionsDatabase.getUsables(), false );
+			super( "", "consume", "create", ConcoctionsDatabase.getUsables(), false, false );
 
 			JLabel test = new JLabel( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
 
@@ -527,6 +529,11 @@ public class ItemManageFrame extends KoLFrame
 
 			this.elementList.setVisibleRowCount( 3 );
 			this.elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+
+			JTabbedPane queueTabs = getTabbedPane();
+			queueTabs.addTab( "Creations Queued", centerPanel );
+			queueTabs.addTab( "Ingredients Used", new SimpleScrollPane( ConcoctionsDatabase.getQueue(), 7 ) );
+			actualPanel.add( queueTabs, BorderLayout.CENTER );
 
 			this.food = food;
 			this.booze = booze;
@@ -604,7 +611,7 @@ public class ItemManageFrame extends KoLFrame
 
 		public QueuePanel( boolean food, boolean booze )
 		{
-			super( ConcoctionsDatabase.getUsables(), true );
+			super( ConcoctionsDatabase.getUsables(), true, true );
 
 			this.setButtons( false, new ActionListener [] {
 
