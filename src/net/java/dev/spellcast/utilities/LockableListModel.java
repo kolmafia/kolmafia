@@ -730,6 +730,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 			}
 		}
 
+		fireContentsChanged( this, 0, visibleElements.size() - 1 );
 		this.currentFilter = newFilter;
 	}
 
