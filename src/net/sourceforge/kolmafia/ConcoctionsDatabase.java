@@ -43,6 +43,8 @@ public class ConcoctionsDatabase extends KoLDatabase
 	private static final SortedListModel EMPTY_LIST = new SortedListModel();
 	public static final SortedListModel creatableList = new SortedListModel();
 	public static final SortedListModel usableList = new SortedListModel();
+
+	private static boolean ignoreRefresh = false;
 	private static SortedListModel queuedIngredients = new SortedListModel();
 
 	private static Concoction stillsLimit = new Concoction( (AdventureResult) null, NOCREATE );
@@ -293,6 +295,8 @@ public class ConcoctionsDatabase extends KoLDatabase
 	public static void handleQueue( boolean consume )
 	{
 		queuedIngredients.clear();
+		ignoreRefresh = true;
+
 		RequestThread.openRequestSequence();
 		SpecialOutfit.createImplicitCheckpoint();
 
@@ -333,6 +337,9 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		SpecialOutfit.restoreImplicitCheckpoint();
 		RequestThread.closeRequestSequence();
+
+		ignoreRefresh = false;
+		refreshConcoctions();
 	}
 
 	public static void clearQueue()
@@ -521,8 +528,11 @@ public class ConcoctionsDatabase extends KoLDatabase
 			}
 		}
 
-		creatableList.applyListFilters();
-		usableList.applyListFilters();
+		if ( !ignoreRefresh )
+		{
+			creatableList.applyListFilters();
+			usableList.applyListFilters();
+		}
 	}
 
 	public static int getMeatPasteRequired( int itemId, int creationCount )
