@@ -51,6 +51,8 @@ public class FightRequest extends KoLRequest
 	private static String wonInitiative = "";
 
 	private static int trackedRound = 0;
+	private static int preparatoryRounds = 0;
+
 	private static boolean isTrackingFights = false;
 	private static boolean isAutomatingFight = false;
 
@@ -78,7 +80,6 @@ public class FightRequest extends KoLRequest
 	private static final Pattern BOSSBAT_PATTERN = Pattern.compile( "until he disengages, two goofy grins on his faces.*?You lose ([\\d,]+)" );
 	private static final Pattern GHUOL_HEAL = Pattern.compile( "feasts on a nearby corpse, and looks refreshed\\." );
 	private static final Pattern NS_HEAL = Pattern.compile( "The Sorceress pulls a tiny red vial out of the folds of her dress and quickly drinks it" );
-
 
 	public static final AdventureResult DICTIONARY1 = new AdventureResult( 536, 1 );
 	public static final AdventureResult DICTIONARY2 = new AdventureResult( 1316, 1 );
@@ -202,13 +203,18 @@ public class FightRequest extends KoLRequest
 			}
 		}
 
+		if ( KoLCharacter.isHardcore() && wonInitiative() && monsterData != null && monsterData.shouldSteal() )
+		{
+			++preparatoryRounds;
+			action1 = "steal";
+			return;
+		}
+
 		// If the user wants a custom combat script, parse the desired
 		// action here.
 
 		if ( action1.equals( "custom" ) )
-			action1 = CombatSettings.getSetting( encounterLookup, currentRound - 1 );
-		else if ( wonInitiative() && !KoLCharacter.canInteract() && monsterData != null && monsterData.shouldSteal() )
-			action1 = "steal";
+			action1 = CombatSettings.getSetting( encounterLookup, currentRound - 1 - preparatoryRounds );
 
 		// If the person wants to use their own script,
 		// then this is where it happens.
@@ -301,20 +307,8 @@ public class FightRequest extends KoLRequest
 
 		if ( action1.indexOf( "steal" ) != -1 )
 		{
-			boolean shouldSteal = wonInitiative() && !KoLCharacter.canInteract();
-
-			if ( CombatSettings.getSettingKey( encounterLookup ).equals( "default" ) )
-				shouldSteal &= monsterData != null && monsterData.shouldSteal();
-
-			if ( shouldSteal )
-			{
-				action1 = "steal";
-				this.addFormField( "action", action1 );
-				return;
-			}
-
-			++currentRound;
-			this.nextRound();
+			action1 = "steal";
+			this.addFormField( "action", action1 );
 			return;
 		}
 
@@ -326,7 +320,7 @@ public class FightRequest extends KoLRequest
 
 			if ( (itemId == DICTIONARY1.getItemId() || itemId == DICTIONARY2.getItemId()) && itemCount < 1 )
 			{
-				KoLmafia.updateDisplay( ABORT_STATE, "Sorry, you don't have a dictionary." );
+				KoLmafia.updateDisplay( ABORT_STATE, "You don't have a dictionary." );
 				action1 = "abort";
 				return;
 			}
@@ -391,6 +385,8 @@ public class FightRequest extends KoLRequest
 				if ( MPRestoreItemList.CONFIGURES[i].isCombatUsable() && inventory.contains( MPRestoreItemList.CONFIGURES[i].getItem() ) )
 				{
 					action1 = "item" + MPRestoreItemList.CONFIGURES[i].getItem().getItemId();
+
+					++preparatoryRounds;
 					this.updateCurrentAction();
 					return;
 				}
@@ -928,13 +924,15 @@ public class FightRequest extends KoLRequest
 		monsterData = null;
 
 		castCleesh = false;
-		currentRound = 0;
 		offenseModifier = 0;
 		defenseModifier = 0;
 		healthModifier = 0;
 
 		action1 = null;
 		action2 = null;
+
+		currentRound = 0;
+		preparatoryRounds = 0;
 	}
 
 	private static int getActionCost()
