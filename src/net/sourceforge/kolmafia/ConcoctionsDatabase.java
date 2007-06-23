@@ -1013,7 +1013,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 				return false;
 
 			if ( this.name == null )
-				return false;
+				return ((Concoction)o).name == null;
 
 			if ( ((Concoction)o).name == null )
 				return false;
