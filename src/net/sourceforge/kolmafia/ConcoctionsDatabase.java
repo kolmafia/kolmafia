@@ -907,6 +907,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		private int modifier, multiplier;
 		private int initial, creatable, total, queued;
 		private int fullness, inebriety;
+		private int visibleTotal;
 
 		public Concoction( String name, int price )
 		{
@@ -1038,7 +1039,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		}
 
 		public int getTotal()
-		{	return this.total;
+		{	return this.visibleTotal;
 		}
 
 		public int getQueued()
@@ -1228,6 +1229,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			// the ingredients so that later calculations can make
 			// the correct calculations.
 
+			this.visibleTotal = this.total;
 			this.unmark();
 		}
 

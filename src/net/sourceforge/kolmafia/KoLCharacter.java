@@ -772,10 +772,7 @@ public abstract class KoLCharacter extends StaticEntity
 	public static void setAvailableMeat( int availableMeat )
 	{
 		if ( KoLCharacter.availableMeat != availableMeat )
-		{
 			KoLCharacter.availableMeat = availableMeat;
-			ConcoctionsDatabase.refreshConcoctions();
-		}
 	}
 
 	/**
@@ -1013,7 +1010,8 @@ public abstract class KoLCharacter extends StaticEntity
 		if ( adventuresLeft != KoLCharacter.adventuresLeft )
 		{
 			KoLCharacter.adventuresLeft = adventuresLeft;
-			ConcoctionsDatabase.refreshConcoctions();
+			if ( (canEat() && !hasChef()) || (canDrink() && !hasBartender()) )
+				ConcoctionsDatabase.refreshConcoctions();
 		}
 	}
 
