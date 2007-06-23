@@ -489,7 +489,6 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "allowEncounterRateBurning", "true" );
 		CLIENT_SETTINGS.put( "allowGenericUse", "false" );
 		CLIENT_SETTINGS.put( "allowNonMoodBurning", "true" );
-		CLIENT_SETTINGS.put( "allowRequestQueueing", "false" );
 		CLIENT_SETTINGS.put( "alwaysGetBreakfast", "false" );
 		CLIENT_SETTINGS.put( "autoBuyRestores", "true" );
 		CLIENT_SETTINGS.put( "autoLogin", "" );
@@ -524,6 +523,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "http.proxyUser", "" );
 		CLIENT_SETTINGS.put( "http.proxyPassword", "" );
 		CLIENT_SETTINGS.put( "proxySet", "false" );
+		CLIENT_SETTINGS.put( "ignoreAutoAttack", "false" );
 		CLIENT_SETTINGS.put( "ignoreLoadBalancer", "false" );
 		CLIENT_SETTINGS.put( "initialDesktop", "AdventureFrame,CommandDisplayFrame,MallSearchFrame,SkillBuffFrame" );
 		CLIENT_SETTINGS.put( "initialFrames", "EventsFrame" );
@@ -584,8 +584,6 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "scriptButtonPosition", "0" );
 		CLIENT_SETTINGS.put( "scriptList", "restore hp | restore mp" );
 		CLIENT_SETTINGS.put( "showAllRequests", "false" );
-		CLIENT_SETTINGS.put( "sortAdventures", "false" );
-		CLIENT_SETTINGS.put( "sortPvpResults", "false" );
 		CLIENT_SETTINGS.put( "swingLookAndFeel", "" );
 		CLIENT_SETTINGS.put( "switchEquipmentForBuffs", "true" );
 		CLIENT_SETTINGS.put( "testSocketTimeout", "true" );

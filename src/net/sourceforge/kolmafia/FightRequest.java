@@ -203,18 +203,19 @@ public class FightRequest extends KoLRequest
 			}
 		}
 
-		if ( KoLCharacter.isHardcore() && wonInitiative() && monsterData != null && monsterData.shouldSteal() )
+		// If the user wants a custom combat script, parse the desired
+		// action here.
+
+		if ( action1.equals( "custom" ) )
+		{
+			action1 = CombatSettings.getSetting( encounterLookup, currentRound - 1 - preparatoryRounds );
+		}
+		else if ( KoLCharacter.isHardcore() && wonInitiative() && monsterData != null && monsterData.shouldSteal() )
 		{
 			++preparatoryRounds;
 			action1 = "steal";
 			return;
 		}
-
-		// If the user wants a custom combat script, parse the desired
-		// action here.
-
-		if ( action1.equals( "custom" ) )
-			action1 = CombatSettings.getSetting( encounterLookup, currentRound - 1 - preparatoryRounds );
 
 		// If the person wants to use their own script,
 		// then this is where it happens.
@@ -307,8 +308,20 @@ public class FightRequest extends KoLRequest
 
 		if ( action1.indexOf( "steal" ) != -1 )
 		{
-			action1 = "steal";
-			this.addFormField( "action", action1 );
+			boolean shouldSteal = KoLCharacter.isHardcore() && wonInitiative();
+
+			if ( CombatSettings.getSettingKey( encounterLookup ).equals( "default" ) )
+				shouldSteal &= monsterData != null && monsterData.shouldSteal();
+
+			if ( shouldSteal )
+			{
+				action1 = "steal";
+				this.addFormField( "action", action1 );
+				return;
+			}
+
+			++preparatoryRounds;
+			this.nextRound();
 			return;
 		}
 
@@ -669,6 +682,9 @@ public class FightRequest extends KoLRequest
 
 		++currentRound;
 		trackedRound = currentRound;
+
+		if ( StaticEntity.getBooleanProperty( "ignoreAutoAttack" ) )
+			++preparatoryRounds;
 
 		if ( shouldLogAction )
 			action.append( "Round 1: " + KoLCharacter.getUserName() + " " );

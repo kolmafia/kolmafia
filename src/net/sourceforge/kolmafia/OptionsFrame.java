@@ -257,25 +257,25 @@ public class OptionsFrame extends KoLFrame
 		private final String [][] options =
 		{
 			{ "showAllRequests", "Show all requests in a mini-browser window" },
-			{ "allowRequestQueueing", "Enable request queueing (may cause hanging)" },
+			{ "mapLoadsMiniBrowser", "Map button loads mini browser instead of relay browser" },
+			{ "avoidInvertingTabs", "Do not invert nested tabs in main window" },
 			{ "useLowBandwidthRadio", "Use lower bandwidth server for KoL Radio" },
 
 			{ "", "" },
 
-			{ "avoidInvertingTabs", "Do not invert nested tabs in main window" },
-			{ "mapLoadsMiniBrowser", "Map button loads mini browser instead of relay browser" },
-			{ "sortAdventures", "Sort adventure lists by moxie evade rating" },
-			{ "cacheMallSearches", "Cache mall searches (does not work on all OSes)" },
+			{ "autoBuyRestores", "Automatically buy more hp/mp restores when needed" },
+			{ "ignoreAutoAttack", "Treat auto-attack as a null combat round for CCS" },
+			{ "useFastOutfitSwitch", "Use fast outfit switching instead of piecewise switching" },
 
 			{ "", "" },
 
 			{ "cloverProtectActive", "Protect against automated clover adventures" },
 			{ "mementoListActive", "Prevent accidental destruction of 'memento' items" },
 			{ "allowGenericUse", "Enable generic item usage in scripted \"use\"" },
+			{ "cacheMallSearches", "Cache mall search terms in mall search interface" },
 
 			{ "", "" },
 
-			{ "useFastOutfitSwitch", "Use fast outfit switching instead of piecewise switching" },
 			{ "switchEquipmentForBuffs", "Allow equipment changing when casting buffs" },
 			{ "allowEncounterRateBurning", "Cast combat rate modifiers during conditional recast" },
 			{ "allowBreakfastBurning", "Cast breakfast skills during conditional recast" },
@@ -283,7 +283,6 @@ public class OptionsFrame extends KoLFrame
 
 			{ "", "" },
 
-			{ "autoBuyRestores", "Automatically buy more hp/mp restores when needed" },
 			{ "autoSatisfyWithNPCs", "Buy items from NPC stores whenever needed" },
 			{ "autoSatisfyWithMall", "Buy items from the mall whenever needed" },
 			{ "autoSatisfyWithStash", "Take items from the clan stash whenever needed" }
@@ -319,7 +318,6 @@ public class OptionsFrame extends KoLFrame
 					StaticEntity.setProperty( this.options[i][0], String.valueOf( this.optionBoxes[i].isSelected() ) );
 
 			this.actionCancelled();
-			System.setProperty( "spellcast.actionButtonsThreaded", StaticEntity.getProperty( "allowRequestQueueing" ) );
 			ConcoctionsDatabase.refreshConcoctions();
 		}
 
@@ -493,11 +491,11 @@ public class OptionsFrame extends KoLFrame
 			{ "useContactsFrame", "Use a popup window for /friends and /who" },
 			{},
 			{ "logChatMessages", "Log chats when using KoLmafia (requires restart)" },
-			{ "useSeparateChannels", "Put different channels into separate displays" }, 
+			{ "useSeparateChannels", "Put different channels into separate displays" },
 			{ "useSeparatePrivates", "Put different private messages into separate displays" }
-			
+
 		};
-		
+
 		private JCheckBox [] optionBoxes;
 		private JCheckBox eSoluActiveOption, eSoluColorlessOption;
 		private JLabel innerGradient, outerGradient;
@@ -507,16 +505,16 @@ public class OptionsFrame extends KoLFrame
 			super( new Dimension( 20, 16 ), new Dimension( 370, 16 ) );
 
 			int tabCount = options.length;
-			
+
 			this.optionBoxes = new JCheckBox[ tabCount ];
 			for ( int i = 0; i < tabCount; ++i )
 				optionBoxes[i] = new JCheckBox();
-			
+
 			this.eSoluActiveOption = new JCheckBox();
 			this.eSoluColorlessOption = new JCheckBox();
-		
+
 			VerifiableElement [] elements = new VerifiableElement[ tabCount + 6 ];
-			
+
 			for ( int i = 0; i < tabCount; ++i )
 			{
 				if ( options[i].length > 0 )
@@ -526,7 +524,7 @@ public class OptionsFrame extends KoLFrame
 			}
 
 			elements[tabCount++] = new VerifiableElement();
-			
+
 			elements[tabCount++] = new VerifiableElement( "Activate eSolu scriptlet for KoLmafia chat", JLabel.LEFT, this.eSoluActiveOption );
 			elements[tabCount++] = new VerifiableElement( "Switch eSolu scriptlet to colorless mode", JLabel.LEFT, this.eSoluColorlessOption );
 
@@ -549,7 +547,7 @@ public class OptionsFrame extends KoLFrame
 			for ( int i = 0; i < options.length; ++i )
 				if ( options[i].length > 0 )
 					StaticEntity.setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
-			
+
 			StaticEntity.setProperty( "eSoluScriptType", this.eSoluActiveOption.isSelected() ?
 				(this.eSoluColorlessOption.isSelected() ? "2" : "1") : "0" );
 
@@ -561,7 +559,7 @@ public class OptionsFrame extends KoLFrame
 			for ( int i = 0; i < options.length; ++i )
 				if ( options[i].length > 0 )
 					optionBoxes[i].setSelected( StaticEntity.getBooleanProperty( options[i][0] ) );
-			
+
 			this.eSoluActiveOption.setSelected( StaticEntity.getIntegerProperty( "eSoluScriptType" ) > 0 );
 			this.eSoluColorlessOption.setSelected( StaticEntity.getIntegerProperty( "eSoluScriptType" ) > 1 );
 
