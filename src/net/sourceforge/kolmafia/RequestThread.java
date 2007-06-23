@@ -55,7 +55,7 @@ public abstract class RequestThread implements KoLConstants
 
 		try
 		{
-			executeRequest( request, !StaticEntity.getBooleanProperty( "allowRequestQueueing" ) );
+			executeRequest( request, true );
 		}
 		catch ( Exception e )
 		{

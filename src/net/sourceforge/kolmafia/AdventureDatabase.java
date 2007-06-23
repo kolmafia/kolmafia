@@ -858,9 +858,6 @@ public class AdventureDatabase extends KoLDatabase
 
 		for ( int i = 0; i < adventureTable[3].size(); ++i )
 			addAdventure( getAdventure(i) );
-
-		if ( StaticEntity.getBooleanProperty( "sortAdventures" ) )
-			adventures.sort();
 	}
 
 	public static void refreshAdventureList( String desiredZone )
@@ -874,9 +871,6 @@ public class AdventureDatabase extends KoLDatabase
 			if ( location.getParentZone().equals( desiredZone ) )
 				adventures.add( location );
 		}
-
-		if ( StaticEntity.getBooleanProperty( "sortAdventures" ) )
-			adventures.sort();
 	}
 
 	public static void addAdventure( KoLAdventure location )
