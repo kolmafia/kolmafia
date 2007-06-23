@@ -249,6 +249,7 @@ public class ConsumeItemRequest extends KoLRequest
 			if ( HPRestoreItemList.CONFIGURES[i].getItem() != null && HPRestoreItemList.CONFIGURES[i].getItem().getItemId() == itemId )
 			{
 				restoresHP = true;
+				HPRestoreItemList.CONFIGURES[i].updateHealthPerUse();
 				hpRestored = (float) HPRestoreItemList.CONFIGURES[i].getHealthPerUse();
 			}
 		}
@@ -258,6 +259,7 @@ public class ConsumeItemRequest extends KoLRequest
 			if ( MPRestoreItemList.CONFIGURES[i].getItem() != null && MPRestoreItemList.CONFIGURES[i].getItem().getItemId() == itemId )
 			{
 				restoresMP = true;
+				MPRestoreItemList.CONFIGURES[i].updateManaPerUse();
 				mpRestored = (float) MPRestoreItemList.CONFIGURES[i].getManaPerUse();
 			}
 		}
