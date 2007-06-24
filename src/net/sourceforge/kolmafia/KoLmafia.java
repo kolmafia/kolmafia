@@ -3291,9 +3291,8 @@ public abstract class KoLmafia implements KoLConstants
 		resetCounters();
 		KoLCharacter.reset();
 
-		LockableListModel familiars = KoLCharacter.getFamiliarList();
-		for ( int i = 0; i < familiars.size(); ++i )
-			((FamiliarData)familiars.get(i)).setItem( EquipmentRequest.UNEQUIP );
+		KoLCharacter.setFamiliar( FamiliarData.NO_FAMILIAR );
+		KoLCharacter.getFamiliarList().clear();
 
 		conditions.clear();
 		this.refreshSession();
