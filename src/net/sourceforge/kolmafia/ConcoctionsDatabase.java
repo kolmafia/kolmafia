@@ -303,8 +303,6 @@ public class ConcoctionsDatabase extends KoLDatabase
 		queuedChanges.push( new Integer( stillChange ) );
 		queuedChanges.push( new Integer( adventureChange ) );
 
-		System.out.println( c.getName() + ": " + stillChange );
-
 		queuedChanges.push( ingredientChange );
 		queuedChanges.push( new Integer( quantity ) );
 		queuedChanges.push( c );
