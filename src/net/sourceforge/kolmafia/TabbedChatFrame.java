@@ -44,6 +44,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import tab.CloseTabbedPane;
+import tab.CloseTabPaneUI;
 import tab.CloseListener;
 
 import com.sun.java.forums.CloseableTabbedPane;
@@ -79,7 +80,7 @@ public class TabbedChatFrame extends ChatFrame implements ChangeListener, CloseL
 
 		if ( tabs instanceof CloseTabbedPane )
 		{
-			((CloseTabbedPane)tabs).setCloseIcon( true );
+			((CloseTabbedPane)tabs).setCloseIconStyle( CloseTabPaneUI.GRAY_CLOSE_ICON );
 			((CloseTabbedPane)tabs).addCloseListener( this );
 		}
 		else
@@ -105,10 +106,10 @@ public class TabbedChatFrame extends ChatFrame implements ChangeListener, CloseL
 			return false;
 
 		String toRemove = tabs.getTitleAt( tabIndexToClose );
-		
+
 		if ( toRemove.equals( GCLI_TAB ) )
 			return false;
-		
+
 		KoLMessenger.removeChat( toRemove );
 		return true;
 	}

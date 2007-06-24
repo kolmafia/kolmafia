@@ -15,7 +15,6 @@
 
 package tab;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -58,8 +57,6 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import javax.swing.border.Border;
-import javax.swing.border.SoftBevelBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.plaf.ActionMapUIResource;
@@ -70,6 +67,8 @@ import javax.swing.plaf.basic.BasicArrowButton;
 import javax.swing.plaf.basic.BasicHTML;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
 import javax.swing.text.View;
+
+import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 /**
  * UI for <code>CloseAndMaxTabbedPane</code>.
@@ -115,63 +114,69 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 	protected static final int BUTTONSIZE = 16;
 	protected static final int WIDTHDELTA = 8;
 
-	private BufferedImage closeImgB;
+	private BufferedImage closeRedImgB;
+	private BufferedImage closeRedImgI;
+	private JButton closeRedB;
 
-	//private BufferedImage maxImgB;
-
-	private BufferedImage closeImgI;
-
-	//private BufferedImage maxImgI;
-
-	private JButton closeB;
-
-	//private JButton maxB;
+	private BufferedImage closeGrayImgB;
+	private BufferedImage closeGrayImgI;
+	private JButton closeGrayB;
 
 	private int overTabIndex = -1;
 
 	private int closeIndexStatus = INACTIVE;
-
 	private int maxIndexStatus = INACTIVE;
 
 	private boolean mousePressed = false;
 
-	private boolean isCloseButtonEnabled = false;
-
-	//private boolean isMaxButtonEnabled = true;
-
 	protected JPopupMenu actionPopupMenu;
-
-	//protected JMenuItem maxItem;
-
 	protected JMenuItem closeItem;
 
 	public CloseTabPaneUI() {
 
 		super();
 
+		// Paint the red close icon
+
 		try {
-            closeImgI = ImageIO.read(getClass().getResource("eclipse_delete_edit.gif"));
+            closeRedImgI = ImageIO.read( JComponentUtilities.getResource("xred.gif"));
         } catch (IOException e1) {
             e1.printStackTrace();
         }
 
+		closeRedImgB = new BufferedImage(BUTTONSIZE, BUTTONSIZE, BufferedImage.TYPE_INT_ARGB);
 
-		closeImgB = new BufferedImage(BUTTONSIZE, BUTTONSIZE, BufferedImage.TYPE_INT_ARGB);
+		closeRedB = new JButton();
+		closeRedB.setSize(BUTTONSIZE, BUTTONSIZE);
 
-		closeB = new JButton();
-		closeB.setSize(BUTTONSIZE, BUTTONSIZE);
+		closeRedB.setMargin(new Insets(0,0,0,0));
+		closeRedB.setBorder(BorderFactory.createEmptyBorder());
+		closeRedB.setContentAreaFilled(false);
 
-		closeB.setMargin(new Insets(0,0,0,0));
-		closeB.setBorder(BorderFactory.createEmptyBorder());
-		closeB.setContentAreaFilled(false);
+		drawButton(closeRedImgB,BUTTONSIZE, BUTTONSIZE);
 
-		//WindowsIconFactory.createFrameCloseIcon().paintIcon(closeB,
-		//		closeImgI.createGraphics(), 0, 0);
-		drawButton(closeImgB,BUTTONSIZE, BUTTONSIZE);
+		// Paint the gray close icon
 
+		try {
+            closeGrayImgI = ImageIO.read( JComponentUtilities.getResource("xgray.gif"));
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+
+		closeGrayImgB = new BufferedImage(BUTTONSIZE, BUTTONSIZE, BufferedImage.TYPE_INT_ARGB);
+
+		closeGrayB = new JButton();
+		closeGrayB.setSize(BUTTONSIZE, BUTTONSIZE);
+
+		closeGrayB.setMargin(new Insets(0,0,0,0));
+		closeGrayB.setBorder(BorderFactory.createEmptyBorder());
+		closeGrayB.setContentAreaFilled(false);
+
+		drawButton(closeGrayImgB,BUTTONSIZE, BUTTONSIZE);
+
+		// Create a popup menu
 
 		actionPopupMenu = new JPopupMenu();
-
 		closeItem = new JMenuItem("Close");
 
 		closeItem.addActionListener(new ActionListener() {
@@ -200,22 +205,31 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 	}
 
 	protected boolean isOneActionButtonEnabled() {
-		return isCloseButtonEnabled ;
+		return closeIconStyle != NO_CLOSE_ICON ;
 	}
 
 	public boolean isCloseEnabled() {
-		return isCloseButtonEnabled;
+		return closeIconStyle != NO_CLOSE_ICON;
 	}
 
+	public static final int NO_CLOSE_ICON = 0;
+	public static final int RED_CLOSE_ICON = 1;
+	public static final int GRAY_CLOSE_ICON = 2;
 
-	public void setCloseIcon(boolean b) {
-		isCloseButtonEnabled = b;
+	private int closeIconStyle = NO_CLOSE_ICON;
+
+	public void setCloseIconStyle( int style ) {
+		closeIconStyle = style;
 		setPopupMenu();
+	}
+
+	public int getCloseIconStyle()
+	{	return closeIconStyle;
 	}
 
 	private void setPopupMenu() {
 		actionPopupMenu.removeAll();
-		if (isCloseButtonEnabled)
+		if (closeIconStyle != NO_CLOSE_ICON)
 			actionPopupMenu.add(closeItem);
 	}
 
@@ -225,11 +239,11 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 		if (!isOneActionButtonEnabled())
 			delta += 6;
 		else {
-			if (isCloseButtonEnabled)
+			if (closeIconStyle != NO_CLOSE_ICON)
 				delta += BUTTONSIZE + WIDTHDELTA;
 		}
 
-		return super.calculateTabWidth(tabPlacement, tabIndex, metrics) + delta + (isCloseButtonEnabled ? 20 : 5);
+		return super.calculateTabWidth(tabPlacement, tabIndex, metrics) + delta + (closeIconStyle != NO_CLOSE_ICON ? 20 : 5);
 	}
 
 	protected int calculateTabHeight(int tabPlacement, int tabIndex,
@@ -302,7 +316,7 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 			updateOverTab(x, y);
 		}
 
-		if (isCloseButtonEnabled)
+		if (closeIconStyle != NO_CLOSE_ICON)
 			updateCloseIcon(x, y);
 	}
 
@@ -629,21 +643,31 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 					cropy);
 			g2.setClip(save);
 
-		} else if (isOver && (tabIndex >= tabStates.size() || tabStates.get( tabIndex ) == Boolean.FALSE) ) {
+		} else if ( closeIconStyle != NO_CLOSE_ICON && isOver ) {
 
 			int dx = tabRect.x + tabRect.width - BUTTONSIZE - WIDTHDELTA;
 			int dy = (tabRect.y + tabRect.height) / 2 - 6;
 
-			if (isCloseButtonEnabled)
+			if ( isSelected && closeIconStyle == GRAY_CLOSE_ICON )
+				paintCloseIcon(g2, dx, dy, true);
+			else if ( !isSelected && closeIconStyle == RED_CLOSE_ICON )
 				paintCloseIcon(g2, dx, dy, false);
 		}
 
 	}
 
-	protected void paintCloseIcon(Graphics g, int dx, int dy, boolean isOver) {
-		paintActionButton(g, dx, dy, closeIndexStatus, isOver, closeB,
-				closeImgB);
-		g.drawImage(closeImgI, dx, dy + 1, null);
+	protected void paintCloseIcon(Graphics g, int dx, int dy, boolean isSelected) {
+
+		if ( isSelected )
+		{
+			paintActionButton(g, dx, dy, closeIndexStatus, false, closeGrayB, closeGrayImgB);
+			g.drawImage(closeGrayImgI, dx, dy + 1, null);
+		}
+		else
+		{
+			paintActionButton(g, dx, dy, closeIndexStatus, false, closeRedB, closeRedImgB);
+			g.drawImage(closeRedImgI, dx, dy + 1, null);
+		}
 	}
 
 	protected void paintActionButton(Graphics g, int dx, int dy, int status,
@@ -1470,12 +1494,24 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 				return;
 			}
 
-			if (closeIndexStatus == PRESSED && (overTabIndex >= tabStates.size() || tabStates.get( overTabIndex ) == Boolean.FALSE) ) {
-				closeIndexStatus = OVER;
-				tabScroller.tabPanel.repaint();
+			if (closeIndexStatus == PRESSED ) {
 
-				((CloseTabbedPane) tabPane).fireCloseTabEvent(e, overTabIndex);
-				return;
+				boolean shouldClose = overTabIndex >= tabStates.size() ||
+					tabStates.get( overTabIndex ) == Boolean.FALSE;
+
+				if ( closeIconStyle == GRAY_CLOSE_ICON )
+					shouldClose &= tabPane.getSelectedIndex() == overTabIndex;
+				else
+					shouldClose &= tabPane.getSelectedIndex() != overTabIndex;
+
+				if ( shouldClose )
+				{
+					closeIndexStatus = OVER;
+					tabScroller.tabPanel.repaint();
+
+					((CloseTabbedPane) tabPane).fireCloseTabEvent(e, overTabIndex);
+					return;
+				}
 			}
 
 			if (maxIndexStatus == PRESSED) {

@@ -40,7 +40,7 @@ public class CloseTabbedPane extends JTabbedPane {
 
 	public CloseTabbedPane() {
 
-		super( TOP, SCROLL_TAB_LAYOUT );		
+		super( TOP, SCROLL_TAB_LAYOUT );
 		super.setOpaque( true );
 
 		paneUI = new CloseTabPaneEnhancedUI();
@@ -75,8 +75,8 @@ public class CloseTabbedPane extends JTabbedPane {
 	 * @param b
 	 *            whether the tabbedPane should have a close icon or not
 	 */
-	public void setCloseIcon(boolean b) {
-		paneUI.setCloseIcon(b);
+	public void setCloseIconStyle(int style) {
+		paneUI.setCloseIconStyle(style);
 	}
 
 
