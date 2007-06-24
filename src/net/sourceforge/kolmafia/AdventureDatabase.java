@@ -504,6 +504,11 @@ public class AdventureDatabase extends KoLDatabase
 		new ChoiceAdventure( "Worm Wood", "choiceAdventure172", "Rogue Windmill",
 		  new String [] { "Good with the Ladies -> Can-Can skirt", "Feelin' Philosophical -> not-a-pipe", "mysticality substats" },
 		  new String [] { "2663", "2660", null } ),
+
+		// Hammering the Armory
+		new ChoiceAdventure( "Beanstalk", "choiceAdventure178", "Penultimate Fantasy Airship",
+		  new String [] { "bronze breastplate", "skip the adventure" },
+		  new String [] { "2126", null } ),
 	};
 
 	static
@@ -683,6 +688,9 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Beyond Any Measure
 		{ "choiceAdventure165", "4" },
+
+		// Hammering the Armory
+		{ "choiceAdventure178", "2" },
 	};
 
 	// Some choice adventures have options that cost meat
