@@ -765,7 +765,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		return 0;
 	}
 
-	public static boolean registerRequest( String urlString )
+	public static boolean registerRequest( boolean isExternal, String urlString )
 	{
 		// First, delegate subclasses, if it's a subclass request.
 
@@ -882,11 +882,13 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			command.append( ' ' );
 			command.append( name );
 
-			StaticEntity.getClient().processResult( new AdventureResult( itemId, 0 - quantity ) );
+			if ( isExternal )
+				StaticEntity.getClient().processResult( new AdventureResult( itemId, 0 - quantity ) );
+
 			needsPlus = true;
 		}
 
-		if ( urlString.startsWith( "combine.php" ) )
+		if ( isExternal && urlString.startsWith( "combine.php" ) )
 			StaticEntity.getClient().processResult( new AdventureResult( MEAT_PASTE, 0 - quantity ) );
 
 		if ( usesTurns )

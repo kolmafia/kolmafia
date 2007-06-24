@@ -538,7 +538,7 @@ public class ItemManageFrame extends KoLFrame
 			this.food = food;
 			this.booze = booze;
 
-			this.eastPanel.add( new ClearQueueButton(), BorderLayout.SOUTH );
+			this.eastPanel.add( new UndoQueueButton(), BorderLayout.SOUTH );
 
 			this.setEnabled( true );
 			this.filterItems();
@@ -556,14 +556,16 @@ public class ItemManageFrame extends KoLFrame
 		{	ConcoctionsDatabase.handleQueue( false );
 		}
 
-		private class ClearQueueButton extends ThreadedButton
+		private class UndoQueueButton extends ThreadedButton
 		{
-			public ClearQueueButton()
-			{	super( "clear" );
+			public UndoQueueButton()
+			{	super( "undo" );
 			}
 
 			public void run()
-			{	ConcoctionsDatabase.clearQueue();
+			{
+				ConcoctionsDatabase.pop();
+				ConcoctionsDatabase.refreshConcoctions();
 			}
 		}
 

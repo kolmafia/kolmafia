@@ -368,7 +368,7 @@ public class RequestLogger extends NullStream implements KoLConstants
 			return;
 		}
 
-		if ( ItemCreationRequest.registerRequest( urlString ) )
+		if ( ItemCreationRequest.registerRequest( isExternal, urlString ) )
 		{
 			wasLastRequestSimple = false;
 			return;

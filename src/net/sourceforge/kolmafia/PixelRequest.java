@@ -87,12 +87,24 @@ public class PixelRequest extends ItemCreationRequest
 				quantity = StaticEntity.parseInt( quantityMatcher.group(1) );
 		}
 
+		StringBuffer pixelString = new StringBuffer();
+		pixelString.append( "Trade " );
+
 		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemId );
 		for ( int i = 0; i < ingredients.length; ++i )
+		{
+			if ( i > 0 )
+				pixelString.append( ", " );
+
+			pixelString.append( ingredients[i].getCount() * quantity );
+			pixelString.append( " " );
+			pixelString.append( ingredients[i].getName() );
+
 			StaticEntity.getClient().processResult( ingredients[i].getInstance( -1 * ingredients[i].getCount() * quantity ) );
+		}
 
 		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( "make " + quantity + " " + TradeableItemDatabase.getItemName( itemId ) );
+		RequestLogger.updateSessionLog( pixelString.toString() );
 
 		return true;
 	}
