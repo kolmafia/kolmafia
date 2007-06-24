@@ -2868,22 +2868,22 @@ public class KoLmafiaCLI extends KoLmafia
 
 				if ( condition.isItem() && option.equals( "set" ) )
 				{
-					int inventoryAmount = condition.getCount( inventory );
+					int currentAmount = condition.getCount( inventory ) + condition.getCount( closet );
 					for ( int j = 0; j < KoLCharacter.FAMILIAR; ++j )
 						if ( KoLCharacter.getEquipment( j ).equals( condition ) )
-							++inventoryAmount;
+							++currentAmount;
 
 					if ( condition.getCount( conditions ) >= condition.getCount() )
 					{
 						RequestLogger.printLine( "Condition already exists: " + condition );
 					}
-					else if ( inventoryAmount >= condition.getCount() )
+					else if ( currentAmount >= condition.getCount() )
 					{
 						RequestLogger.printLine( "Condition already met: " + condition );
 					}
 					else
 					{
-						AdventureResult.addResultToList( conditions, condition.getInstance( condition.getCount() - inventoryAmount ) );
+						AdventureResult.addResultToList( conditions, condition.getInstance( condition.getCount() - currentAmount ) );
 						RequestLogger.printLine( "Condition set: " + condition );
 					}
 				}
