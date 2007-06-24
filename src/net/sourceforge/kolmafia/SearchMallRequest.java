@@ -108,6 +108,10 @@ public class SearchMallRequest extends KoLRequest
 		this.retainAll = retainAll;
 	}
 
+	protected boolean retryOnTimeout()
+	{	return true;
+	}
+
 	public static String getItemName( String searchString )
 	{
 		if ( searchString.startsWith( "\"" ) || searchString.startsWith( "\'" ) )

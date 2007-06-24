@@ -45,6 +45,10 @@ public class ClanRosterRequest extends KoLRequest
 	{	super( "clan_detailedroster.php" );
 	}
 
+	protected boolean retryOnTimeout()
+	{	return true;
+	}
+
 	public void run()
 	{
 		KoLmafia.updateDisplay( "Retrieving detailed roster..." );

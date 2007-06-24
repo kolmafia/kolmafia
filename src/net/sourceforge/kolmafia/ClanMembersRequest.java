@@ -91,6 +91,10 @@ public class ClanMembersRequest extends KoLRequest
 			this.addFormField( "pids[]", changedIds[i], true );
 	}
 
+	protected boolean retryOnTimeout()
+	{	return true;
+	}
+
 	public void run()
 	{
 		if ( this.isLookup )

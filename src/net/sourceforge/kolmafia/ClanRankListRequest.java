@@ -50,6 +50,10 @@ public class ClanRankListRequest extends KoLRequest
 		this.rankList = rankList;
 	}
 
+	protected boolean retryOnTimeout()
+	{	return true;
+	}
+
 	public void run()
 	{
 		KoLmafia.updateDisplay( "Retrieving list of ranks..." );

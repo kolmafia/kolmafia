@@ -163,6 +163,10 @@ public class ChatRequest extends KoLRequest
 		return KoLmafia.getLastMessage();
 	}
 
+	protected boolean retryOnTimeout()
+	{	return true;
+	}
+
 	public void run()
 	{
 		String commandResult = executeChatCommand( this.getFormField( "graf" ) );

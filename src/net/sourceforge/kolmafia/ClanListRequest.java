@@ -48,6 +48,10 @@ public class ClanListRequest extends KoLRequest
 	{	super( "clan_attack.php" );
 	}
 
+	protected boolean retryOnTimeout()
+	{	return true;
+	}
+
 	public static SortedListModel getEnemyClans()
 	{	return enemyClans;
 	}

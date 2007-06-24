@@ -62,6 +62,10 @@ public class MoneyMakingGameRequest extends KoLRequest
 	{	super( "betarchive.php" );
 	}
 
+	protected boolean retryOnTimeout()
+	{	return true;
+	}
+
 	public void run()
 	{
 		KoLmafia.updateDisplay( "Retrieving bet archive..." );

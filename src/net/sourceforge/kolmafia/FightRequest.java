@@ -149,6 +149,10 @@ public class FightRequest extends KoLRequest
 	{	super( "fight.php" );
 	}
 
+	protected boolean retryOnTimeout()
+	{	return true;
+	}
+
 	public static void searchForMonster( Monster possible )
 	{
 		if ( !conditions.isEmpty() && conditions.get(0) instanceof Monster )

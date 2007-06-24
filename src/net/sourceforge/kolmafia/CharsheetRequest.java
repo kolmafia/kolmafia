@@ -65,6 +65,10 @@ public class CharsheetRequest extends KoLRequest
 	 * are retrieved via this retrieval.
 	 */
 
+	protected boolean retryOnTimeout()
+	{	return true;
+	}
+
 	public void run()
 	{
 		KoLmafia.updateDisplay( "Retrieving character data..." );

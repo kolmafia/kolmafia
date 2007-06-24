@@ -45,6 +45,10 @@ public class ContactListRequest extends KoLRequest
 	{	super( "account_contactlist.php" );
 	}
 
+	protected boolean retryOnTimeout()
+	{	return true;
+	}
+
 	public void processResults()
 	{
 		contactList.clear();

@@ -97,6 +97,10 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 			((AscensionDataRequest)o).hardcoreCount - this.hardcoreCount;
 	}
 
+	protected boolean retryOnTimeout()
+	{	return true;
+	}
+
 	public void processResults()
 	{
 		this.responseText = this.responseText.replaceAll( "<a[^>]*?>Back[^<?]</a>", "" ).replaceAll( "<td></td>",

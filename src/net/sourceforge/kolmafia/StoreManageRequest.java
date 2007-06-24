@@ -80,6 +80,10 @@ public class StoreManageRequest extends KoLRequest
 		}
 	}
 
+	protected boolean retryOnTimeout()
+	{	return true;
+	}
+
 	public void run()
 	{
 		switch ( this.requestType )

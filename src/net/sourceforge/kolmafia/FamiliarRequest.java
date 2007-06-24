@@ -68,6 +68,10 @@ public class FamiliarRequest extends KoLRequest
 	{	return this.changeTo == null ? null : this.changeTo.toString();
 	}
 
+	protected boolean retryOnTimeout()
+	{	return true;
+	}
+
 	public void run()
 	{
 		FamiliarData familiar = KoLCharacter.getFamiliar();

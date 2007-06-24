@@ -79,6 +79,10 @@ public class MailboxRequest extends KoLRequest
 		this.beginIndex = beginIndex;
 	}
 
+	protected boolean retryOnTimeout()
+	{	return true;
+	}
+
 	public void run()
 	{
 		// Now you know that there is a request in progress, so you

@@ -75,6 +75,10 @@ public class ClanStashLogRequest extends KoLRequest
 	{	super( "clan_log.php" );
 	}
 
+	protected boolean retryOnTimeout()
+	{	return true;
+	}
+
 	public void run()
 	{
 		KoLmafia.updateDisplay( "Retrieving clan stash log..." );

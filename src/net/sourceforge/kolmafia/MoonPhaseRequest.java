@@ -50,6 +50,10 @@ public class MoonPhaseRequest extends KoLRequest
 	{	super( isCompactMode ? "compactmenu.php" : "topmenu.php" );
 	}
 
+	protected boolean retryOnTimeout()
+	{	return true;
+	}
+
 	/**
 	 * Runs the moon phase request, updating theas appropriate.
 	 */
