@@ -368,22 +368,7 @@ public class RequestLogger extends NullStream implements KoLConstants
 			return;
 		}
 
-		if ( request instanceof ItemCreationRequest )
-		{
-			ItemCreationRequest irequest = (ItemCreationRequest) request;
-
-			updateSessionLog();
-
-			if ( irequest.getAdventuresUsed() == 0 )
-				updateSessionLog( "make " + irequest.getQuantityNeeded() + " " + irequest.getName() );
-			else
-				updateSessionLog( "[" + KoLAdventure.getAdventureCount() + "] Create " + irequest.getQuantityNeeded() + " " + irequest.getName() );
-
-			wasLastRequestSimple = false;
-			return;
-		}
-
-		if ( isExternal && ItemCreationRequest.registerRequest( urlString ) )
+		if ( ItemCreationRequest.registerRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;
 			return;
