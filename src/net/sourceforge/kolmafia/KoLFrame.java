@@ -70,6 +70,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
@@ -144,14 +145,18 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		if ( this.shouldAddStatusBar() )
 		{
 			JEditorPane statusDisplay = new JEditorPane();
+
+			JScrollPane statusBar = commandBuffer.setChatDisplay( statusDisplay );
+			JComponentUtilities.setComponentSize( statusBar, new Dimension( 200, 50 ) );
+
 			JSplitPane doublePane = new JSplitPane( JSplitPane.VERTICAL_SPLIT,
 				new SimpleScrollPane( this.framePanel, SimpleScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, SimpleScrollPane.HORIZONTAL_SCROLLBAR_NEVER ),
-				commandBuffer.setChatDisplay( statusDisplay ) );
+				statusBar );
 
 			this.getContentPane().add( doublePane, BorderLayout.CENTER );
 
 			doublePane.setOneTouchExpandable( true );
-			doublePane.setDividerLocation( 1.0 );
+			doublePane.setDividerLocation( 0.9 );
 		}
 		else
 		{
