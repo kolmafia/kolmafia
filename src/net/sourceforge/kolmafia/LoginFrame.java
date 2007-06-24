@@ -303,7 +303,7 @@ public class LoginFrame extends KoLFrame
 
 			if ( !KoLmafia.permitsContinue() )
 				return;
-			
+
 			try
 			{
 				String holiday = MoonPhaseDatabase.getHoliday( DATED_FILENAME_FORMAT.parse( DATED_FILENAME_FORMAT.format( new Date() ) ), true );
@@ -791,9 +791,9 @@ public class LoginFrame extends KoLFrame
 		private JCheckBox [] optionBoxes;
 
 		private String [][] options =
-			
+
 			System.getProperty( "os.name" ).startsWith( "Win" ) ?
-			
+
 			new String [][]
 			{
 				{ "guiUsesOneWindow", "Restrict interface to a single window" },
@@ -803,9 +803,9 @@ public class LoginFrame extends KoLFrame
 				{ "useDecoratedTabs", "Use shiny decorated tabs instead of OS default" },
 				{ "allowCloseableDesktopTabs", "Allow tabs on main window to be closed" },
 			}
-			
+
 			:
-				
+
 			new String [][]
   			{
   				{ "guiUsesOneWindow", "Restrict interface to a single window" },
@@ -820,7 +820,7 @@ public class LoginFrame extends KoLFrame
 		public UserInterfacePanel()
 		{
 			super( "", new Dimension( 80, 20 ), new Dimension( 280, 20 ) );
-	
+
 			UIManager.LookAndFeelInfo [] installed = UIManager.getInstalledLookAndFeels();
 			Object [] installedLooks = new Object[ installed.length ];
 
@@ -1024,9 +1024,6 @@ public class LoginFrame extends KoLFrame
 
 	public void honorProxySettings()
 	{
-		StaticEntity.setProperty( "proxySet", String.valueOf(
-				this.proxyHost.getText().trim().length() > 0 ) );
-
 		StaticEntity.setProperty( "http.proxyHost", this.proxyHost.getText() );
 		StaticEntity.setProperty( "http.proxyPort", this.proxyPort.getText() );
 		StaticEntity.setProperty( "http.proxyUser", this.proxyLogin.getText() );
