@@ -341,7 +341,12 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 	public static void handleQueue( boolean consume )
 	{
+		queuedChanges.clear();
 		queuedIngredients.clear();
+
+		queuedStillsUsed = 0;
+		queuedAdventuresUsed = 0;
+
 		ignoreRefresh = true;
 
 		RequestThread.openRequestSequence();
