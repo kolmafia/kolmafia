@@ -174,6 +174,48 @@ public class JComponentUtilities implements UtilityConstants
 		return null;
 	}
 
+	public static URL getResource( String filename )
+	{	return getResource( IMAGE_DIRECTORY, filename );
+	}
+
+	public static URL getResource( String directory, String filename )
+	{
+		directory = directory.replaceAll( File.separator.replaceAll( "\\\\", "\\\\\\\\" ), "/" );
+		filename = filename.replaceAll( File.separator.replaceAll( "\\\\", "\\\\\\\\" ), "/" );
+
+		if ( directory.length() > 0 && !directory.endsWith( "/" ) )
+			directory += "/";
+
+		String fullname = directory + filename;
+
+		try
+		{
+			File override = new File( ROOT_LOCATION, fullname );
+			if ( override.exists() )
+				return override.toURL();
+		}
+		catch ( Exception e )
+		{
+			// It's a malformed filename.  Just continue on
+			// with the next possibility.
+		}
+
+		URL result = getResource( SYSTEM_CLASSLOADER, fullname );
+		if ( result != null )
+			return result;
+
+		result = getResource( MAINCLASS_CLASSLOADER, fullname );
+		if ( result != null )
+			return result;
+
+		// if it's gotten this far, the image icon does not exist
+		return null;
+	}
+
+	private static URL getResource( ClassLoader loader, String filename )
+	{	return loader.getResource( filename );
+	}
+
 	private static ImageIcon getImage( ClassLoader loader, String filename )
 	{
 		URL filenameAsURL = loader.getResource( filename );
