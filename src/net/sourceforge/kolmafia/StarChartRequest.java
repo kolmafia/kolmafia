@@ -101,12 +101,6 @@ public class StarChartRequest extends ItemCreationRequest
 			KoLmafia.updateDisplay( ERROR_STATE, "You can't make that item." );
 			return;
 		}
-
-		// Account for the results
-
-		StaticEntity.getClient().processResult( new AdventureResult( STAR, 0 - this.stars ) );
-		StaticEntity.getClient().processResult( new AdventureResult( LINE, 0 - this.lines ) );
-		StaticEntity.getClient().processResult( CHART );
 	}
 
 	public static boolean registerRequest( String urlString )
@@ -121,7 +115,7 @@ public class StarChartRequest extends ItemCreationRequest
 		int lines = StaticEntity.parseInt( lineMatcher.group(1) );
 
 		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( "Star chart " + stars + " stars with " + lines + " lines" );
+		RequestLogger.updateSessionLog( "Draw " + stars + " stars with " + lines + " lines" );
 
 		StaticEntity.getClient().processResult( new AdventureResult( STAR, 0 - stars ) );
 		StaticEntity.getClient().processResult( new AdventureResult( LINE, 0 - lines ) );

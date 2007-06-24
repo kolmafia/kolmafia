@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class ConcoctionsDatabase extends KoLDatabase
@@ -45,6 +46,10 @@ public class ConcoctionsDatabase extends KoLDatabase
 	public static final SortedListModel usableList = new SortedListModel();
 
 	private static boolean ignoreRefresh = false;
+
+	private static int queuedAdventuresUsed = 0;
+	private static int queuedStillsUsed = 0;
+	private static Stack queuedChanges = new Stack();
 	private static SortedListModel queuedIngredients = new SortedListModel();
 
 	private static Concoction stillsLimit = new Concoction( (AdventureResult) null, NOCREATE );
@@ -284,6 +289,33 @@ public class ConcoctionsDatabase extends KoLDatabase
 	{	return queuedIngredients;
 	}
 
+	public static void push( Concoction c, int quantity )
+	{
+		ArrayList ingredientChange = new ArrayList();
+		c.queue( ingredientChange, quantity );
+
+		queuedChanges.push( ingredientChange );
+		queuedChanges.push( new Integer( quantity ) );
+		queuedChanges.push( c );
+	}
+
+	public static void pop()
+	{
+		if ( queuedChanges.isEmpty() )
+			return;
+
+		Concoction c = (Concoction) queuedChanges.pop();
+		Integer quantity = (Integer) queuedChanges.pop();
+		ArrayList ingredientChange = (ArrayList) queuedChanges.pop();
+
+		c.queued -= quantity.intValue();
+		for ( int i = 0; i < ingredientChange.size(); ++i )
+		{
+			AdventureResult.addResultToList( queuedIngredients,
+				((AdventureResult)ingredientChange.get(i)).getNegation() );
+		}
+	}
+
 	public static SortedListModel getUsables()
 	{	return usableList;
 	}
@@ -339,15 +371,6 @@ public class ConcoctionsDatabase extends KoLDatabase
 		RequestThread.closeRequestSequence();
 
 		ignoreRefresh = false;
-		refreshConcoctions();
-	}
-
-	public static void clearQueue()
-	{
-		queuedIngredients.clear();
-		for ( int i = 0; i < concoctions.size(); ++i )
-			concoctions.get(i).queued = 0;
-
 		refreshConcoctions();
 	}
 
@@ -589,14 +612,14 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// Adventures are considered Item #0 in the event that the
 		// concoction will use ADVs.
 
-		adventureLimit.initial = KoLCharacter.getAdventuresLeft();
+		adventureLimit.initial = KoLCharacter.getAdventuresLeft() - queuedAdventuresUsed;
 		adventureLimit.creatable = 0;
 		adventureLimit.total = KoLCharacter.getAdventuresLeft();
 
 		// Stills are also considered Item #0 in the event that the
 		// concoction will use stills.
 
-		stillsLimit.initial = KoLCharacter.getStillsAvailable();
+		stillsLimit.initial = KoLCharacter.getStillsAvailable() - queuedStillsUsed;
 		stillsLimit.creatable = 0;
 		stillsLimit.total = stillsLimit.initial;
 
@@ -1058,11 +1081,11 @@ public class ConcoctionsDatabase extends KoLDatabase
 		{	return this.inebriety;
 		}
 
-		public void queue( int amount )
-		{	queue( amount, true );
+		public void queue( ArrayList ingredientChange, int amount )
+		{	queue( ingredientChange, amount, true );
 		}
 
-		public void queue( int amount, boolean adjust )
+		public void queue( ArrayList ingredientChange, int amount, boolean adjust )
 		{
 			if ( amount <= 0 )
 				return;
@@ -1083,15 +1106,20 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 			if ( concoction.getItemId() != 938 )
 			{
-				AdventureResult.addResultToList( queuedIngredients,
-					concoction.getInstance( decrementAmount ) );
+				AdventureResult ingredient = concoction.getInstance( decrementAmount );
+				AdventureResult.addResultToList( ingredientChange, ingredient );
+				AdventureResult.addResultToList( queuedIngredients, ingredient );
 			}
+
+			queuedAdventuresUsed += ADVENTURE_USAGE[ mixingMethod ] * overAmount;
+			if ( mixingMethod == STILL_BOOZE )
+				queuedStillsUsed += overAmount;
 
 			if ( adjust )
 				this.queued += amount;
 
 			for ( int i = 0; i < this.ingredientArray.length; ++i )
-				concoctions.get( this.ingredientArray[i].getItemId() ).queue( overAmount, false );
+				concoctions.get( this.ingredientArray[i].getItemId() ).queue( ingredientChange, overAmount, false );
 		}
 
 		public void resetCalculations()

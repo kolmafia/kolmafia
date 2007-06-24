@@ -326,11 +326,12 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 				case USE_MULTIPLE:
 
-					int maximum = ConsumeItemRequest.maximumUses( TradeableItemDatabase.getItemId( itemName ), true );
+					int maximum = items[i] instanceof Concoction ? ((Concoction)items[i]).getTotal() :
+						ConsumeItemRequest.maximumUses( TradeableItemDatabase.getItemId( itemName ), true );
 					int standard = ConsumeItemRequest.maximumUses( TradeableItemDatabase.getItemId( itemName ), false );
 
 					quantity = maximum < 2 ? maximum : KoLFrame.getQuantity( message + " " + itemName + "...",
-						Math.min( maximum, itemCount ), Math.min( standard, itemCount ) );
+						itemCount, Math.min( standard, itemCount ) );
 
 					if ( itemCount > 0 && quantity == 0 )
 						return new Object[0];
@@ -358,7 +359,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 			}
 			else
 			{
-				((Concoction)items[i]).queue( quantity );
+				ConcoctionsDatabase.push( (Concoction) items[i], quantity );
 				items[i] = null;
 			}
 		}
