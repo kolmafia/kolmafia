@@ -72,6 +72,10 @@ public class LoginRequest extends KoLRequest
 			StaticEntity.setProperty( "saveStateActive", "true" );
 	}
 
+	protected boolean retryOnTimeout()
+	{	return true;
+	}
+
 	/**
 	 * Handles the challenge in order to send the password securely
 	 * via KoL.
@@ -379,7 +383,7 @@ public class LoginRequest extends KoLRequest
 
 		RequestThread.closeRequestSequence();
 		isLoggingIn = false;
-		
+
 		if ( StaticEntity.getBooleanProperty( "saveStateActive" ) && request instanceof LoginRequest )
 			KoLmafia.addSaveState( lastUsername, lastPassword );
 	}

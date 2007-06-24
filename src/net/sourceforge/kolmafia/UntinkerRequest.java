@@ -73,6 +73,10 @@ public class UntinkerRequest extends KoLRequest
 			this.iterationsNeeded = itemCount;
 	}
 
+	protected boolean retryOnTimeout()
+	{	return true;
+	}
+
 	public void run()
 	{
 		// Check to see if the item can be constructed using meat

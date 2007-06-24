@@ -51,6 +51,10 @@ public class AccountRequest extends PasswordHashRequest
 	{	super( "account.php" );
 	}
 
+	protected boolean retryOnTimeout()
+	{	return true;
+	}
+
 	public void processResults()
 	{
 		super.processResults();

@@ -56,6 +56,10 @@ public class CharpaneRequest extends KoLRequest
 	{	return instance;
 	}
 
+	protected boolean retryOnTimeout()
+	{	return true;
+	}
+
 	public void run()
 	{
 		if ( isRunning )

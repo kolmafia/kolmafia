@@ -74,6 +74,10 @@ public class MuseumRequest extends SendMessageRequest
 		this.isManagement = true;
 	}
 
+	protected boolean retryOnTimeout()
+	{	return !isDeposit && !isWithdrawal;
+	}
+
 	public int getCapacity()
 	{	return 11;
 	}

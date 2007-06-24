@@ -90,6 +90,10 @@ public class ProfileRequest extends KoLRequest implements Comparable
 		this.karma = new Integer(0);
 	}
 
+	protected boolean retryOnTimeout()
+	{	return true;
+	}
+
 	/**
 	 * Internal method used to refresh the fields of the profile
 	 * request based on the response text.  This should be called

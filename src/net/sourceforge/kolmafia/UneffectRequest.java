@@ -65,6 +65,10 @@ public class UneffectRequest extends KoLRequest
 		}
 	}
 
+	protected boolean retryOnTimeout()
+	{	return true;
+	}
+
 	public static final boolean isShruggable( String effectName )
 	{
 		int id = ClassSkillsDatabase.getSkillId( effectToSkill( effectName ) );

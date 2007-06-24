@@ -1071,13 +1071,15 @@ public class KoLRequest extends Job implements KoLConstants
 		}
 		catch ( Exception e1 )
 		{
-			if ( !this.isChatRequest )
-			{
-				RequestLogger.printLine( "Time out during response (" + this.formURLString + ").  This could be bad..." );
+			boolean shouldRetry = retryOnTimeout();
 
-				if ( this.shouldUpdateDebugLog() )
-					RequestLogger.updateDebugLog( "Connection timed out during response." );
-			}
+			if ( shouldRetry )
+				RequestLogger.printLine( "Time out during response (" + this.formURLString + ").  This could be bad..." );
+			else
+				RequestLogger.printLine( "Time out during response (" + this.formURLString + ").  Redirecting..." );
+
+			if ( !isChatRequest && this.shouldUpdateDebugLog() )
+				RequestLogger.updateDebugLog( "Connection timed out during response." );
 
 			try
 			{
@@ -1093,7 +1095,11 @@ public class KoLRequest extends Job implements KoLConstants
 			if ( this instanceof LoginRequest )
 				chooseNewLoginServer();
 
-			return this instanceof ConsumeItemRequest || this instanceof RestaurantRequest || this instanceof MicrobreweryRequest;
+			if ( shouldRetry )
+				return false;
+
+			this.responseCode = 302;
+			this.redirectLocation = "main.php";
 		}
 
 		if ( this.shouldUpdateDebugLog() )
@@ -1127,6 +1133,10 @@ public class KoLRequest extends Job implements KoLConstants
 
 		istream = null;
 		return shouldStop;
+	}
+
+	protected boolean retryOnTimeout()
+	{	return data.isEmpty() || this.getClass() == KoLRequest.class;
 	}
 
 	private boolean handleServerRedirect()

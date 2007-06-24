@@ -110,6 +110,10 @@ public class AdventureRequest extends KoLRequest
 			this.addFormField( "action", adventureId );
 	}
 
+	protected boolean retryOnTimeout()
+	{	return true;
+	}
+
 	/**
 	 * Executes the <code>AdventureRequest</code>.  All items and stats gained
 	 * or lost will be reported to the as well as any errors encountered

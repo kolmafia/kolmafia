@@ -47,6 +47,10 @@ public class QuestLogRequest extends KoLRequest
 	{	return contents.indexOf( quest ) != -1;
 	}
 
+	protected boolean retryOnTimeout()
+	{	return true;
+	}
+
 	public void processResults()
 	{	registerQuests( this.responseText );
 	}

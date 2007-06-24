@@ -47,6 +47,10 @@ public class MindControlRequest extends KoLRequest
 		this.level = level;
 	}
 
+	protected boolean retryOnTimeout()
+	{	return true;
+	}
+
 	public void run()
 	{
 		// Avoid server hits if user gives an invalid level

@@ -129,6 +129,10 @@ public class ItemStorageRequest extends SendMessageRequest
 		this.addFormField( "pwd" );
 	}
 
+	protected boolean retryOnTimeout()
+	{	return this.moveType == RETRIEVE_STORAGE;
+	}
+
 	public int getMoveType()
 	{	return this.moveType;
 	}

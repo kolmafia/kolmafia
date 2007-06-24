@@ -142,6 +142,10 @@ public class FlowerHunterRequest extends KoLRequest
 		this.addFormField( "whichclan", clanId );
 	}
 
+	protected boolean retryOnTimeout()
+	{	return true;
+	}
+
 	public void setTarget( String target )
 	{	this.addFormField( "who", target );
 	}
@@ -275,7 +279,7 @@ public class FlowerHunterRequest extends KoLRequest
 
 		RequestThread.postRequest( new FlowerHunterRequest() );
 		RequestThread.postRequest( new MailboxRequest( "PvP" ) );
-		
+
 		KoLMailMessage attack;
 		String attackText;
 
@@ -285,13 +289,13 @@ public class FlowerHunterRequest extends KoLRequest
 		{
 			attack = (KoLMailMessage) attackIterator.next();
 			attackText = attack.getMessageHTML();
-			
+
 			int stopIndex = attackText.indexOf( "<br><p>" );
 			if ( stopIndex == -1 )
 				stopIndex = attackText.indexOf( "<br><P>" );
 			if ( stopIndex == -1 )
 				continue;
-			
+
 			attackText = attackText.substring( 0, stopIndex );
 			attackText = StaticEntity.globalStringReplace( attackText, "<p>", "\n\n" );
 			attackText = StaticEntity.globalStringReplace( attackText, "<br>", "\n" );
@@ -300,7 +304,7 @@ public class FlowerHunterRequest extends KoLRequest
 				flowerCount + " flowers, " + canadaCount + " white canadians)" );
 
 			attackText = attackText.trim();
-		
+
 			pvpResults.println();
 			pvpResults.println( attack.getTimestamp() );
 			pvpResults.println( attackText );

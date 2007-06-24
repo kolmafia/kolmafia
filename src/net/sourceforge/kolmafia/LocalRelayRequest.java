@@ -107,6 +107,10 @@ public class LocalRelayRequest extends PasswordHashRequest
 		return false;
 	}
 
+	protected boolean retryOnTimeout()
+	{	return true;
+	}
+
 	public void processResponse()
 	{
 		this.statusLine = "HTTP/1.1 200 OK";

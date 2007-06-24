@@ -99,6 +99,10 @@ public class ClanStashRequest extends SendMessageRequest
 
 	}
 
+	protected boolean retryOnTimeout()
+	{	return moveType == REFRESH_ONLY;
+	}
+
 	public String getItemField()
 	{	return this.moveType == ITEMS_TO_STASH ? "item" : "whichitem";
 	}

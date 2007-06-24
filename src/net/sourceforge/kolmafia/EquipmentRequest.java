@@ -157,6 +157,10 @@ public class EquipmentRequest extends PasswordHashRequest
 		this.initializeChangeData( changeItem, equipmentSlot, force );
 	}
 
+	protected boolean retryOnTimeout()
+	{	return true;
+	}
+
 	public static void savePreviousOutfit()
 	{	shouldSavePreviousOutfit = true;
 	}
