@@ -291,8 +291,19 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 	public static void push( Concoction c, int quantity )
 	{
+		int adventureChange = queuedAdventuresUsed;
+		int stillChange = queuedStillsUsed;
+
 		ArrayList ingredientChange = new ArrayList();
 		c.queue( ingredientChange, quantity );
+
+		adventureChange -= queuedAdventuresUsed;
+		stillChange -= queuedStillsUsed;
+
+		queuedChanges.push( new Integer( stillChange ) );
+		queuedChanges.push( new Integer( adventureChange ) );
+
+		System.out.println( c.getName() + ": " + stillChange );
 
 		queuedChanges.push( ingredientChange );
 		queuedChanges.push( new Integer( quantity ) );
@@ -308,12 +319,18 @@ public class ConcoctionsDatabase extends KoLDatabase
 		Integer quantity = (Integer) queuedChanges.pop();
 		ArrayList ingredientChange = (ArrayList) queuedChanges.pop();
 
+		Integer adventureChange = (Integer) queuedChanges.pop();
+		Integer stillChange = (Integer) queuedChanges.pop();
+
 		c.queued -= quantity.intValue();
 		for ( int i = 0; i < ingredientChange.size(); ++i )
 		{
 			AdventureResult.addResultToList( queuedIngredients,
 				((AdventureResult)ingredientChange.get(i)).getNegation() );
 		}
+
+		queuedAdventuresUsed += adventureChange.intValue();
+		queuedStillsUsed += stillChange.intValue();
 	}
 
 	public static SortedListModel getUsables()
@@ -1112,7 +1129,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			}
 
 			queuedAdventuresUsed += ADVENTURE_USAGE[ mixingMethod ] * overAmount;
-			if ( mixingMethod == STILL_BOOZE )
+			if ( mixingMethod == STILL_BOOZE || mixingMethod == STILL_MIXER )
 				queuedStillsUsed += overAmount;
 
 			if ( adjust )
