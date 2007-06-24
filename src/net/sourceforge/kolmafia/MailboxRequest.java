@@ -41,6 +41,7 @@ public class MailboxRequest extends KoLRequest
 	private static final Pattern MULTIPAGE_PATTERN = Pattern.compile( "Messages: \\w*?, page \\d* \\(\\d* - (\\d*) of (\\d*)\\)</b>" );
 	private static final Pattern SINGLEPAGE_PATTERN = Pattern.compile( "Messages: \\w*?, page 1 \\((\\d*) messages\\)</b>" );
 
+	private int beginIndex;
 	private String boxname;
 	private String action;
 
@@ -69,10 +70,13 @@ public class MailboxRequest extends KoLRequest
 {
 		super( "messages.php" );
 		this.addFormField( "box", boxname );
-		this.addFormField( "begin", String.valueOf( beginIndex ) );
+
+		if ( beginIndex != 1 )
+			this.addFormField( "begin", String.valueOf( beginIndex ) );
 
 		this.action = null;
 		this.boxname = boxname;
+		this.beginIndex = beginIndex;
 	}
 
 	public void run()
@@ -142,7 +146,10 @@ public class MailboxRequest extends KoLRequest
 		}
 
 		nextMessageIndex = this.processMessages( nextMessageIndex );
-		KoLmafia.updateDisplay( "Mail retrieved from page 1 of " + this.boxname );
+		KoLmafia.updateDisplay( "Mail retrieved from page " + this.beginIndex + " of " + this.boxname );
+
+		if ( boxname.equals( "PvP" ) && lastMessageId != totalMessages )
+			(new MailboxRequest( "PvP", beginIndex + 1 )).run();
 	}
 
 	private int processMessages( int startIndex )
