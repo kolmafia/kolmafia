@@ -62,11 +62,16 @@ public class PulverizeRequest extends KoLRequest
 		if ( itemId == -1 )
 			return;
 
-		ItemCreationRequest icr = ItemCreationRequest.getInstance( itemId );
-		if ( icr == null || icr.getQuantityPossible() == 0 )
+		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemId );
+		if ( ingredients == null || ingredients.length == 0 )
 			return;
 
-		icr.setQuantityNeeded( icr.getQuantityPossible() );
+		int amountNeeded = ingredients[0].getCount( inventory ) / 5;
+		if ( amountNeeded == 0 )
+			return;
+
+		ItemCreationRequest icr = ItemCreationRequest.getInstance( itemId );
+		icr.setQuantityNeeded( amountNeeded );
 		icr.run();
 	}
 
