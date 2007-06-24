@@ -85,7 +85,6 @@ public abstract class SorceressLair extends StaticEntity
 	private static final AdventureResult SKELETON = new AdventureResult( 642, 1 );
 	private static final AdventureResult KEY_RING = new AdventureResult( 643, 1 );
 
-
 	private static final AdventureResult BORIS = new AdventureResult( 282, 1 );
 	private static final AdventureResult JARLSBERG = new AdventureResult( 283, 1 );
 	private static final AdventureResult SNEAKY_PETE = new AdventureResult( 284, 1 );
@@ -108,8 +107,6 @@ public abstract class SorceressLair extends StaticEntity
 
 	public static final AdventureResult PUZZLE_PIECE = new AdventureResult( 727, 1 );
 	public static final AdventureResult HEDGE_KEY = new AdventureResult( 728, 1 );
-
-	private static final AdventureResult BANJO_STRING = new AdventureResult( 52, 1 );
 
 	// Items for the shadow battle
 
@@ -455,13 +452,10 @@ public abstract class SorceressLair extends StaticEntity
 			RequestThread.postRequest( new ConsumeItemRequest( KEY_RING ) );
 
 		if ( !AdventureDatabase.retrieveItem( SKELETON ) )
+		{
 			requirements.add( SKELETON );
-
-		if ( useCloverForSkeleton && !AdventureDatabase.retrieveItem( CLOVER ) )
-			requirements.add( CLOVER );
-
-		if ( !requirements.isEmpty() )
 			return requirements;
+		}
 
 		do
 		{
@@ -469,20 +463,20 @@ public abstract class SorceressLair extends StaticEntity
 			// maximum HP (whichever is greater) in order to play
 			// the skeleton dice game, UNLESS you have a clover.
 
-			if ( !useCloverForSkeleton && !isItemAvailable( CLOVER ) )
+			int healthNeeded = Math.max( KoLCharacter.getMaximumHP() / 4, 50 );
+			getClient().recoverHP( healthNeeded + 1 );
+
+			// Verify that you have enough HP to proceed with the
+			// skeleton dice game.
+
+			if ( KoLCharacter.getCurrentHP() <= healthNeeded )
 			{
-				int healthNeeded = Math.max( KoLCharacter.getMaximumHP() / 4, 50 );
-				getClient().recoverHP( healthNeeded + 1 );
-
-				// Verify that you have enough HP to proceed with the
-				// skeleton dice game.
-
-				if ( KoLCharacter.getCurrentHP() <= healthNeeded )
-				{
-					KoLmafia.updateDisplay( ERROR_STATE, "You must have more than " + healthNeeded + " HP to proceed." );
-					return requirements;
-				}
+				KoLmafia.updateDisplay( ERROR_STATE, "You must have more than " + healthNeeded + " HP to proceed." );
+				return requirements;
 			}
+
+			if ( isItemAvailable( CLOVER ) )
+				AdventureDatabase.retrieveItem( CLOVER );
 
 			// Next, handle the form for the skeleton key to
 			// get the Really Evil Rhythm. This uses up the
