@@ -33,20 +33,15 @@
 
 package net.sourceforge.kolmafia;
 
-public class DetunedRadioRequest extends KoLRequest
+public class DetunedRadioRequest extends ConsumeItemRequest
 {
 	private static final AdventureResult RADIO = new AdventureResult( 2682, 1 );
 	int volume;
 
 	public DetunedRadioRequest( int volume )
 	{
-		super( "inv_use.php" );
-
-		this.addFormField( "which", "3" );
-		this.addFormField( "pwd" );
-		this.addFormField( "whichitem", "2682" );
+		super( RADIO );
 		this.addFormField( "tuneradio", String.valueOf( volume ) );
-
 		this.volume = volume;
 	}
 
