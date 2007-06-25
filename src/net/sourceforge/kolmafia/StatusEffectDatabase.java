@@ -46,7 +46,6 @@ import java.util.regex.Pattern;
 
 public class StatusEffectDatabase extends KoLDatabase
 {
-	private static Map shortById = new TreeMap();
 	private static Map effectById = new TreeMap();
 	private static Map effectByName = new TreeMap();
 
@@ -65,19 +64,18 @@ public class StatusEffectDatabase extends KoLDatabase
 
 		while ( (data = readData( reader )) != null )
 		{
-			if ( data.length >= 4 )
+			if ( data.length >= 3 )
 			{
 				effectId = Integer.valueOf( data[0] );
 
-				shortById.put( effectId, data[1] );
-				effectById.put( effectId, getDisplayName( data[2] ) );
-				effectByName.put( getCanonicalName( data[2] ), effectId );
-				imageById.put( effectId, data[3] );
+				effectById.put( effectId, getDisplayName( data[1] ) );
+				effectByName.put( getCanonicalName( data[1] ), effectId );
+				imageById.put( effectId, data[2] );
 
-				if ( data.length > 4 )
+				if ( data.length > 3 )
 				{
-					descriptionById.put( effectId, data[2] );
-					effectByDescription.put( data[4], effectId );
+					descriptionById.put( effectId, data[1] );
+					effectByDescription.put( data[3], effectId );
 				}
 			}
 		}
@@ -120,16 +118,6 @@ public class StatusEffectDatabase extends KoLDatabase
 
 	public static final String getEffectName( int effectId )
 	{	return effectId == -1 ? "Unknown effect" : getDisplayName( (String) effectById.get( new Integer( effectId ) ) );
-	}
-
-	/**
-	 * Returns the shorthand for an effect, given its Id.
-	 * @param	effectId	The Id of the effect to lookup
-	 * @return	The short name of the corresponding effect
-	 */
-
-	public static final String getShortName( int effectId )
-	{	return effectId == -1 ? "Unknown" : (String) shortById.get( new Integer( effectId ) );
 	}
 
 	public static final int getEffect( String descriptionId )
