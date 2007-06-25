@@ -5307,7 +5307,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptValue current_mcd()
-		{	return new ScriptValue( KoLCharacter.getMindControlLevel() );
+		{	return new ScriptValue( KoLCharacter.getSignedMLAdjustment() );
 		}
 
 		public ScriptValue change_mcd( ScriptVariable level )

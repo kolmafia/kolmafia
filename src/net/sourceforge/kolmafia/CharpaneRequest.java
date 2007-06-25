@@ -107,6 +107,8 @@ public class CharpaneRequest extends KoLRequest
 			KoLCharacter.setAvailableMeat( 0 );
 			KoLCharacter.setAdventuresLeft( 0 );
 			KoLCharacter.setMindControlLevel( 0 );
+			KoLCharacter.setDetunedRadioVolume( 0 );
+			KoLCharacter.setAnnoyotronLevel( 0 );
 		}
 
 		refreshEffects( responseText );
@@ -121,6 +123,8 @@ public class CharpaneRequest extends KoLRequest
 			handleStatPoints( responseText, "Mus", "Mys", "Mox" );
 			handleMiscPoints( responseText, "HP", "MP", "Meat", "Adv", "", "<b>", "</b>" );
 			handleMindControl( responseText, "MC" );
+			handleDetunedRadio( responseText, "Radio" );
+			handleAnnoyotron( responseText, "AOT5K" );
 		}
 		catch ( Exception e )
 		{
@@ -136,6 +140,8 @@ public class CharpaneRequest extends KoLRequest
 			handleStatPoints( responseText, "Muscle", "Mysticality", "Moxie" );
 			handleMiscPoints( responseText, "hp\\.gif", "mp\\.gif", "meat\\.gif", "hourglass\\.gif", "&nbsp;", "<span.*?>", "</span>" );
 			handleMindControl( responseText, "Mind Control" );
+			handleDetunedRadio( responseText, "Detuned Radio" );
+			handleAnnoyotron( responseText, "Annoy-o-Tron 5k" );
 		}
 		catch ( Exception e )
 		{
@@ -208,6 +214,26 @@ public class CharpaneRequest extends KoLRequest
 			KoLCharacter.setMindControlLevel( StaticEntity.parseInt( matcher.group(2) ) );
 		else
 			KoLCharacter.setMindControlLevel( 0 );
+	}
+
+	private static void handleDetunedRadio( String responseText, String mcString ) throws Exception
+	{
+		Matcher matcher = Pattern.compile( mcString + "</a>: ?(</td><td>)?<b>(\\d+)</b>" ).matcher( responseText );
+
+		if ( matcher.find() )
+			KoLCharacter.setDetunedRadioVolume( StaticEntity.parseInt( matcher.group(2) ) );
+		else
+			KoLCharacter.setDetunedRadioVolume( 0 );
+	}
+
+	private static void handleAnnoyotron( String responseText, String mcString ) throws Exception
+	{
+		Matcher matcher = Pattern.compile( mcString + "</a>: ?(</td><td>)?<b>(\\d+)</b>" ).matcher( responseText );
+
+		if ( matcher.find() )
+			KoLCharacter.setAnnoyotronLevel( StaticEntity.parseInt( matcher.group(2) ) );
+		else
+			KoLCharacter.setAnnoyotronLevel( 0 );
 	}
 
 	private static void refreshEffects( String responseText )

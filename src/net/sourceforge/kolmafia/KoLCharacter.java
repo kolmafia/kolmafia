@@ -325,6 +325,8 @@ public abstract class KoLCharacter extends StaticEntity
 	private static int ascensionSignType = NONE;
 	private static int consumptionRestriction = AscensionSnapshotTable.NOPATH;
 	private static int mindControlLevel = 0;
+	private static int detunedRadioVolume = 0;
+	private static int annoyotronLevel = 0;
 
 	private static String autosellMode = "";
 
@@ -442,6 +444,9 @@ public abstract class KoLCharacter extends StaticEntity
 		ascensionSignType = NONE;
 
 		mindControlLevel = 0;
+		detunedRadioVolume = 0;
+		annoyotronLevel = 0;
+
 		autosellMode = "";
 
 		// Clear some of the standard lists so they don't
@@ -1876,6 +1881,64 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	/**
+	 * Accessor method for the current detuned radio volume
+	 * @return	int
+	 */
+
+	public static int getDetunedRadioVolume()
+	{	return detunedRadioVolume;
+	}
+
+	/**
+	 * Accessor method to set  the current detuned radio volume
+	 * @param	volume	the new level
+	 */
+
+	public static void setDetunedRadioVolume( int volume )
+	{
+		KoLCharacter.detunedRadioVolume = volume;
+		recalculateAdjustments();
+		updateStatus();
+	}
+
+	/**
+	 * Accessor method for the current Annoyotron level
+	 * @return	int
+	 */
+
+	public static int getAnnoyotronLevel()
+	{	return annoyotronLevel;
+	}
+
+	/**
+	 * Accessor method to set  the current Annoyotron level
+	 * @param	volume	the new level
+	 */
+
+	public static void setAnnoyotronLevel( int level )
+	{
+		KoLCharacter.annoyotronLevel = level;
+		recalculateAdjustments();
+		updateStatus();
+	}
+
+	/**
+	 * Accessor method for the current sign-specific monster level modifier
+	 * @return	int
+	 */
+
+	public static int getSignedMLAdjustment()
+	{
+		if ( mindControlLevel > 0 )
+			return mindControlLevel;
+		if ( detunedRadioVolume > 0 )
+			return detunedRadioVolume;
+		if ( annoyotronLevel > 0 )
+			return annoyotronLevel;
+		return 0;
+	}
+
+	/**
 	 * Accessor method for the current autosell mode
 	 * @return	String
 	 */
@@ -2634,8 +2697,8 @@ public abstract class KoLCharacter extends StaticEntity
 
 		int familiarId = currentFamiliar.getId();
 
-		// Look at mind control level
-		newMonsterLevelAdjustment += getMindControlLevel();
+		// Look at sign-specific adjustments
+		newMonsterLevelAdjustment += getSignedMLAdjustment();
 
 		// Look at items
 		for ( int slot = HAT; slot <= FAMILIAR; ++slot )

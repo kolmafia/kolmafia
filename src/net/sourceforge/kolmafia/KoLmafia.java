@@ -2065,18 +2065,39 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void makeMindControlRequest()
 	{
-		String [] levelArray = new String[12];
-		for ( int i = 0; i < 12; ++i )
+		int maxLevel = 0;
+
+		if ( KoLCharacter.inMysticalitySign() )
+			maxLevel = 11;
+		else if ( KoLCharacter.inMuscleSign() )
+			maxLevel = 10;
+		else if ( KoLCharacter.inMoxieSign() )
+			maxLevel = 10;
+		else
+			return;
+
+		String [] levelArray = new String[ maxLevel + 1 ];
+
+		for ( int i = 0; i <= maxLevel; ++i )
 			levelArray[i] = "Level " + i;
 
+		int currentLevel = KoLCharacter.getSignedMLAdjustment();
+
 		String selectedLevel = (String) JOptionPane.showInputDialog(
-			null, "Set the device to what level?", "Change mind control device from level " + KoLCharacter.getMindControlLevel(),
-				JOptionPane.INFORMATION_MESSAGE, null, levelArray, levelArray[ KoLCharacter.getMindControlLevel() ] );
+			null, "Set the device to what level?", "Change monster annoyance from " + currentLevel,
+				JOptionPane.INFORMATION_MESSAGE, null, levelArray, levelArray[ currentLevel ] );
 
 		if ( selectedLevel == null )
 			return;
 
-		RequestThread.postRequest( new MindControlRequest( StaticEntity.parseInt( selectedLevel.split( " " )[1] ) ) );
+		int setting = StaticEntity.parseInt( selectedLevel.split( " " )[1] );
+
+		if ( KoLCharacter.inMysticalitySign() )
+			RequestThread.postRequest( new MindControlRequest( setting ) );
+		else if ( KoLCharacter.inMuscleSign() )
+			RequestThread.postRequest( new DetunedRadioRequest( setting ) );
+		else if ( KoLCharacter.inMoxieSign() )
+			RequestThread.postRequest( new AnnoyotronRequest( setting ) );
 	}
 
 	public void makeCampgroundRestRequest()
