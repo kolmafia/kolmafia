@@ -2241,7 +2241,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					if ( !KoLRequest.isCompactMode )
 						buffer.append( currentEffect.getName() );
 					else
-						buffer.append( "<nobr>" + StatusEffectDatabase.getShortName( effectId ) + "</nobr>" );
+						buffer.append( "<nobr>" + StatusEffectDatabase.getEffectName( effectId ) + "</nobr>" );
 				}
 				else
 					buffer.append( "<td><font size=2>" );
@@ -2301,7 +2301,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					buffer.delete( deleteIndex, buffer.length() );
 
 					buffer.append( "<td align=right><nobr><font size=2>" );
-					buffer.append( StatusEffectDatabase.getShortName( effectId ) );
+					buffer.append( StatusEffectDatabase.getEffectName( effectId ) );
 					buffer.append( "</font></nobr></td>" );
 				}
 
