@@ -49,9 +49,6 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class ExamineItemsFrame extends KoLFrame
 {
-	private ExamineItemsPanel items;
-	private ItemLookupPanel familiars, skills, effects;
-
 	private static LockableListModel allItems = new LockableListModel( TradeableItemDatabase.entrySet() );
 	private static LockableListModel allEffects = new LockableListModel( StatusEffectDatabase.entrySet() );
 	private static LockableListModel allSkills = new LockableListModel( ClassSkillsDatabase.entrySet() );
@@ -61,17 +58,10 @@ public class ExamineItemsFrame extends KoLFrame
 	{
 		super( "Internal Database" );
 
-		this.items = new ExamineItemsPanel( allItems );
-		this.tabs.addTab( "Items", this.items );
-
-		this.familiars = new ItemLookupPanel( allFamiliars, "Familiars", "familiar", "which" );
-		this.tabs.addTab( "Familiars", this.familiars );
-
-		this.skills = new ItemLookupPanel( allSkills, "Skills", "skill", "whichskill" );
-		this.tabs.addTab( "Skills", this.skills );
-
-		this.effects = new ItemLookupPanel( allEffects, "Effects", "effect", "whicheffect" );
-		this.tabs.addTab( "Effects", this.effects );
+		this.tabs.addTab( "Items", new ExamineItemsPanel() );
+		this.tabs.addTab( "Familiars", new ItemLookupPanel( allFamiliars, "Familiars", "familiar", "which" ) );
+		this.tabs.addTab( "Skills", new ItemLookupPanel( allSkills, "Skills", "skill", "whichskill" ) );
+		this.tabs.addTab( "Effects", new ExamineEffectsPanel() );
 
 		this.framePanel.setLayout( new CardLayout( 10, 10 ) );
 		this.framePanel.add( this.tabs, "" );
@@ -148,21 +138,33 @@ public class ExamineItemsFrame extends KoLFrame
 
 		public void showDescription( Entry entry )
 		{
-			String id = String.valueOf( ((Integer)entry.getKey()).intValue() );
-			StaticEntity.openRequestFrame( "desc_" + this.type + ".php?" + this.which + "=" + id );
+			StaticEntity.openRequestFrame( "desc_" + this.type + ".php?" + this.which + "=" + getId( entry ) );
+		}
+
+		public String getId( Entry e )
+		{	return String.valueOf( ((Integer)e.getKey()).intValue() );
 		}
 	}
 
 	private class ExamineItemsPanel extends ItemLookupPanel
 	{
-		public ExamineItemsPanel( LockableListModel list )
-		{	super( list, "Items", "item", "whichitem" );
+		public ExamineItemsPanel()
+		{	super( allItems, "Items", "item", "whichitem" );
 		}
 
-		public void showDescription( Entry entry )
-		{
-			String id = TradeableItemDatabase.getDescriptionId( ((Integer)entry.getKey()).intValue() );
-			StaticEntity.openRequestFrame( "desc_" + this.type + ".php?" + this.which + "=" + id );
+		public String getId( Entry e )
+		{	return TradeableItemDatabase.getDescriptionId( ((Integer)e.getKey()).intValue() );
+		}
+	}
+
+	private class ExamineEffectsPanel extends ItemLookupPanel
+	{
+		public ExamineEffectsPanel()
+		{	super( allEffects, "Effects", "effect", "whicheffect" );
+		}
+
+		public String getId( Entry e )
+		{	return StatusEffectDatabase.getDescriptionId( ((Integer)e.getKey()).intValue() );
 		}
 	}
 
