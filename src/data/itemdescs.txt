@@ -2100,10 +2100,10 @@
 2095	295111879	towel	towels
 2096	407006358	guy made of bee pollen	guys made of bee pollen
 2097	490356098	17-ball	17-balls
-2098
+2098	793894406	filthy lucre
 2099
 2100
-2101
+2101	968837261	bloodstained briquette	bloodstained briquettes
 2102
 2103
 2104
@@ -2286,8 +2286,8 @@
 2281	696941703	Manual of Transmission
 2282	659803917	Manual of Dexterity
 2283
-2284
-2285
+2284	139204890	petrified noodles	clumps of petrified noodles
+2285	583794996	chisel
 2286
 2287	642392529	green glowstick	green glowstyx
 2288	643487866	encoder ring
@@ -2418,9 +2418,9 @@
 2413
 2414
 2415
-2416
-2417
-2418
+2416	968287390	bounty-hunting helmet
+2417	863257288	bounty-hunting rifle
+2418	241547370	bounty-hunting pants
 2419
 2420
 2421
@@ -2443,7 +2443,7 @@
 2438
 2439
 2440
-2441
+2441	591787452	Knob Goblin encryption key
 2442
 2443	199035416	pink glowstick	pink glowstyx
 2444
@@ -2464,11 +2464,11 @@
 2459	125666662	tighty whiteys	pairs of tighty whiteys
 2460	606812905	yak toupee	yak toupees
 2461	
-2462	
-2463	
-2464	
-2465	
-2466	
+2462	364128826	odor extractor
+2463	810074020	Tome of Transcendent Olfaction
+2464	972566031	bowl of Bounty-Os
+2465	527016642	Oreille Divis&eacute;e brandy
+2466	461008515	pompadour'd puppy
 2467	
 2468	
 2469	
@@ -2597,7 +2597,7 @@
 2592	
 2593	
 2594	
-2595	
+2595	842588397	Ben-Gal&trade; Balm	tins of Ben-Gal&trade; Balm
 2596	
 2597	
 2598	
@@ -2684,7 +2684,7 @@
 2679	531024665	sparkler	sparklies
 2680	397831150	snake	sssnakess
 2681	160414339	M-242	M-242s
-2682
+2682	692188284	detuned radio	detuned radios
 2683	425159430	Warehouse 23 crate	Warehouse 23 crates
 2684	
 2685	

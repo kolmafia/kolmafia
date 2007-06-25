@@ -4,6 +4,7 @@ asshat	Stench: +10
 balaclava	Cold: +10
 balloon helmet	DA: +20
 blue traffic cone	Hot: +20
+bounty-hunting helmet	Item: +20.0
 bum cheek	Stench: +10
 Cloaca-Cola helmet	DA: +10
 clockwork hat	Spooky: +10
@@ -38,6 +39,7 @@ acoustic guitarrr	Meat: +2.0
 antique spear	Init: -30.0
 bar whip	Weight: +2
 broken sword	Spooky: +10
+bounty-hunting rifle	Item: +15.0
 bubble bauble bow	Item: +5.0
 can cannon	ML: +3
 can of maces	Sleaze: +10
@@ -114,6 +116,7 @@ safety vest	DR: 3
 Ye Olde Navy Fleece	Meat: +10.0
 
 antique greaves	Init: -10.0
+bounty-hunting pants	Item: +15.0
 clockwork pants	Init: +10.0
 Crimbo pants	Init: +30.0
 demonskin trousers	Hot: +20

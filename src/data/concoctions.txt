@@ -75,22 +75,22 @@ Talisman o' Nam	1	snakehead charrrm	snakehead charrrm
 
 
 # Clover weapons and their subcomponents.  These can be made by all
-# classes by combining items.
+# classes by meatsmithing
 
 ten-leaf clover	16	disassembled clover
 disassembled clover	16	ten-leaf clover
-seal-toothed rock	1	big rock	seal tooth
-Bjorn's Hammer	1	seal-clubbing club	seal-toothed rock
-turtle factory	1	big rock	turtle totem
-Turtleslinger	1	slingshot	turtle factory
-spaghetti with rock-balls	1	big rock	ravioli hat
-Pasta of Peril	1	spaghetti with rock-balls	pasta spoon
-heavy hot sauce	1	big rock	jaba&ntilde;ero pepper
-5-Alarm Saucepan	1	heavy hot sauce	saucepan
-stone banjo	1	big rock	banjo strings
-Disco Banjo	1	disco ball	stone banjo
-heart of rock and roll	1	big rock	hot buttered roll
-Rock and Roll Legend	1	heart of rock and roll	stolen accordion
+seal-toothed rock	4	big rock	seal tooth
+Bjorn's Hammer	4	seal-clubbing club	seal-toothed rock
+turtle factory	4	big rock	chisel
+Turtleslinger	4	slingshot	turtle factory
+spaghetti with rock-balls	4	big rock	petrified noodles
+Pasta of Peril	4	pasta spoon	spaghetti with rock-balls
+heavy hot sauce	4	big rock	jaba&ntilde;ero pepper
+5-Alarm Saucepan	4	saucepan	heavy hot sauce
+stone banjo	4	big rock	banjo strings
+Disco Banjo	4	disco ball	stone banjo
+heart of rock and roll	4	big rock	hot buttered roll
+Rock and Roll Legend	4	stolen accordion	heart of rock and roll
 
 
 # Familiar items and their subcomponents which do not serve any other

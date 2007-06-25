@@ -12,6 +12,7 @@ barskin hat	25	none
 basic meat fez	45	Mox: 7
 basic meat helmet	40	Mox: 5
 blue traffic cone	60	Mox: 15
+bounty-hunting helmet	100	Mox: 25
 bowler	100	Mox: 35
 bubblewrap bottlecap turtleban	70	Mys: 12
 bugbear beanie	30	none
@@ -127,6 +128,7 @@ basic meat pants	40	Mox: 5
 basic meat skirt	40	Mox: 5
 bloody clown pants	50	Mox: 10
 Boss Bat britches	65	Mox: 17
+bounty-hunting pants	100	Mox: 25
 bowlegged pants	100	Mox: 35
 bugbear bungguard	30	none
 Can-Can skirt	90	Mox: 15
@@ -262,6 +264,7 @@ big stick	10	none	2-handed staff
 Bigger Bugfinder Blade	200	Mus: 85	2-handed sword
 bill bec-de-bardiche glaive-guisarme	150	Mus: 60	2-handed polearm?
 Bjorn's Hammer	50	Mus: 10	1-handed club
+bounty-hunting rifle	100	Mox: 25	2-handed rifle
 bow staff	100	Mus: 35	2-handed staff
 broken sword	135	Mus: 52	1-handed sword
 bubble bauble bow	80	Mox: 20	2-handed bow
@@ -283,6 +286,7 @@ cardboard wakizashi	30	none	1-handed sword
 carob cannon	135	Mox: 45	2-handed crossbow
 Cerebral Crossbow	90	Mox: 30	1-handed crossbow
 cheap plastic bottle opener	30	none	1-handed utensil
+chisel	10	none	1-handed knife
 chopsticks	75	Mus: 23	1-handed utensil
 chrome crossbow	120	Mox: 45	2-handed crossbow
 chrome staff	110	Mus: 40	2-handed staff

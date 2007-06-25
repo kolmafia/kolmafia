@@ -39,13 +39,14 @@ h	The Hippy Produce Stand	tomato	70
 h	The Hippy Produce Stand	strawberry	70
 h	The Hippy Produce Stand	lemon	70
 
+m	The Market Demon	Ben-Gal&trade; Balm	24
 m	The Market Demon	can of hair spray	24
 m	The Market Demon	chewing gum on a string	30
-m	The Market Demon	Newbiesport&trade; tent	40
 m	The Market Demon	anti-anti-antidote	40
 m	The Market Demon	fortune cookie	40
-m	The Market Demon	spray paint	50
+m	The Market Demon	Newbiesport&trade; tent	40
 m	The Market Demon	beer cartilage	50
+m	The Market Demon	spray paint	50
 m	The Market Demon	fermenting powder	70
 m	The Market Demon	soda water	70
 m	The Market Demon	casino pass	100
@@ -59,8 +60,8 @@ m	The Market Demon	snake	300
 m	The Market Demon	sparkler	300
 m	The Market Demon	Familiar-Gro&trade; Terrarium	500
 m	The Market Demon	Hatorade	500
-m	The Market Demon	E-Z Cook Oven&trade;	1000
 m	The Market Demon	cocktailcrafting kit	1000
+m	The Market Demon	E-Z Cook Oven&trade;	1000
 
 s	The Meatsmith's Shop	meatsmithing guide	50
 s	The Meatsmith's Shop	sword hilt	100
@@ -149,6 +150,7 @@ j	Little Canadia Jewelers	jewelry-making pliers	1000
 5	The Degrassi Knoll General Store	Gnollish flyswatter	80
 5	The Degrassi Knoll General Store	frilly skirt	80
 5	The Degrassi Knoll General Store	maiden wig	80
+5	The Degrassi Knoll General Store	detuned radio	300
 
 g	The Knob Goblin Laboratory	Knob Goblin seltzer	80
 g	The Knob Goblin Laboratory	Knob Goblin stink bomb	130
