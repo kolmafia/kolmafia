@@ -190,7 +190,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 			if ( ((AdventureResult)item).isItem() )
 				FightFrame.showLocation( "desc_item.php?whichitem=" + TradeableItemDatabase.getDescriptionId( ((AdventureResult)item).getItemId() ) );
 			if ( ((AdventureResult)item).isStatusEffect() )
-				FightFrame.showLocation( "desc_effect.php?whicheffect=" + StatusEffectDatabase.getEffectId( ((AdventureResult)item).getName() ) );
+				FightFrame.showLocation( "desc_effect.php?whicheffect=" + StatusEffectDatabase.getDescriptionId( StatusEffectDatabase.getEffectId( ((AdventureResult)item).getName() ) ) );
 		}
 		else if ( item instanceof ItemCreationRequest )
 		{

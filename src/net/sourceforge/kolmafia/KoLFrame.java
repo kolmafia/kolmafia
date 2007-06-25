@@ -1513,14 +1513,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		public StatusEffectPanel()
 		{
 			super( "Active Effects", "uneffect", "add to mood", new ShowDescriptionList( activeEffects ) );
-
 			this.elementList = (ShowDescriptionList) this.scrollComponent;
-			JPanel extraButtons = new JPanel( new GridLayout( 2, 1, 5, 5 ) );
-
-			extraButtons.add( new GameDescriptionButton() );
-			extraButtons.add( new WikiDescriptionButton() );
-
-			this.buttonPanel.add( extraButtons, BorderLayout.SOUTH );
 		}
 
 		public void actionConfirmed()
@@ -1557,33 +1550,6 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			}
 		}
 
-		private class GameDescriptionButton extends ThreadedButton
-		{
-			public GameDescriptionButton()
-			{	super( "game text" );
-			}
-
-			public void run()
-			{
-				Object [] effects = StatusEffectPanel.this.elementList.getSelectedValues();
-				for ( int i = 0; i < effects.length; ++i )
-					ShowDescriptionList.showGameDescription( effects[i] );
-			}
-		}
-
-		private class WikiDescriptionButton extends ThreadedButton
-		{
-			public WikiDescriptionButton()
-			{	super( "wiki text" );
-			}
-
-			public void run()
-			{
-				Object [] effects = StatusEffectPanel.this.elementList.getSelectedValues();
-				for ( int i = 0; i < effects.length; ++i )
-					ShowDescriptionList.showWikiDescription( effects[i] );
-			}
-		}
 	}
 
 	/**
