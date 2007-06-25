@@ -48,8 +48,12 @@ public class StatusEffectDatabase extends KoLDatabase
 {
 	private static Map shortById = new TreeMap();
 	private static Map effectById = new TreeMap();
-	private static Map imageById = new TreeMap();
 	private static Map effectByName = new TreeMap();
+
+	private static Map imageById = new TreeMap();
+	private static Map descriptionById = new TreeMap();
+	private static Map effectByDescription = new TreeMap();
+
 	private static Map modifierMap = new TreeMap();
 
 	static
@@ -61,7 +65,7 @@ public class StatusEffectDatabase extends KoLDatabase
 
 		while ( (data = readData( reader )) != null )
 		{
-			if ( data.length == 4 )
+			if ( data.length >= 4 )
 			{
 				effectId = Integer.valueOf( data[0] );
 
@@ -69,6 +73,12 @@ public class StatusEffectDatabase extends KoLDatabase
 				effectById.put( effectId, getDisplayName( data[2] ) );
 				effectByName.put( getCanonicalName( data[2] ), effectId );
 				imageById.put( effectId, data[3] );
+
+				if ( data.length > 4 )
+				{
+					descriptionById.put( effectId, data[2] );
+					effectByDescription.put( data[4], effectId );
+				}
 			}
 		}
 
@@ -120,6 +130,16 @@ public class StatusEffectDatabase extends KoLDatabase
 
 	public static final String getShortName( int effectId )
 	{	return effectId == -1 ? "Unknown" : (String) shortById.get( new Integer( effectId ) );
+	}
+
+	public static final int getEffect( String descriptionId )
+	{
+		Object effectId = effectByDescription.get( descriptionId );
+		return effectId == null ? -1 : ((Integer)effectId).intValue();
+	}
+
+	public static final String getDescriptionId( int effectId )
+	{	return (String) descriptionById.get( new Integer( effectId ) );
 	}
 
 	/**

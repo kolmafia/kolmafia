@@ -2219,6 +2219,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			{
 				currentEffect = (AdventureResult) missingEffects.get(i);
 				int effectId = StatusEffectDatabase.getEffectId( currentEffect.getName() );
+				String descriptionId = StatusEffectDatabase.getDescriptionId( effectId );
 
 				buffer.append( "<tr>" );
 
@@ -2230,7 +2231,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					buffer.append( currentEffect.getName() );
 					buffer.append( "\" title=\"" );
 					buffer.append( currentEffect.getName() );
-					buffer.append( "\" onClick='eff(\"" + effectId + "\");'></td>" );
+					buffer.append( "\" onClick='eff(\"" + descriptionId + "\");'></td>" );
 				}
 
 				if ( !KoLRequest.isCompactMode || StaticEntity.getBooleanProperty( "relayTextualizesEffects" ) )
@@ -2260,139 +2261,146 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		while ( startingIndex != -1 )
 		{
 			startingIndex = text.indexOf( "onClick='eff", lastAppendIndex + 1 );
-			if ( startingIndex != -1 )
+
+			if ( startingIndex == -1 )
+				continue;
+
+			int nextAppendIndex = text.indexOf( "(", startingIndex ) + 1;
+			buffer.append( text.substring( lastAppendIndex, nextAppendIndex ) );
+			lastAppendIndex = nextAppendIndex;
+
+			int effectId = StatusEffectDatabase.getEffect(
+				text.substring( nextAppendIndex, text.indexOf( ")", nextAppendIndex ) ) );
+
+			// If the player is in compact mode, then if they wish to textualize
+			// their effects, go ahead and do so.
+
+			if ( effectId == -1 )
 			{
-				int nextAppendIndex = text.indexOf( "(", startingIndex ) + 1;
-				buffer.append( text.substring( lastAppendIndex, nextAppendIndex ) );
-				lastAppendIndex = nextAppendIndex;
-
-				int effectId = StaticEntity.parseInt(
-					text.substring( nextAppendIndex, text.indexOf( ")", nextAppendIndex ) ) );
-
-				// If the player is in compact mode, then if they wish to textualize
-				// their effects, go ahead and do so.
-
-				String effectName = StatusEffectDatabase.getEffectName( effectId );
-
 				if ( KoLRequest.isCompactMode )
-				{
-					if ( effectName != null )
-					{
-						if ( StaticEntity.getBooleanProperty( "relayTextualizesEffects" ) )
-						{
-							nextAppendIndex = text.indexOf( "></td>", startingIndex );
-							buffer.append( text.substring( lastAppendIndex, nextAppendIndex ) );
-							lastAppendIndex = nextAppendIndex + 6;
-
-							int deleteIndex = buffer.lastIndexOf( "<img" );
-							buffer.delete( deleteIndex, buffer.length() );
-
-							buffer.append( "<td align=right><nobr><font size=2>" );
-							buffer.append( StatusEffectDatabase.getShortName( effectId ) );
-							buffer.append( "</font></nobr></td>" );
-						}
-					}
-
 					nextAppendIndex = text.indexOf( "<td>(", startingIndex ) + 5;
-				}
 				else
 					nextAppendIndex = text.indexOf( "(", text.indexOf( "<font size=2>", startingIndex ) ) + 1;
 
 				buffer.append( text.substring( lastAppendIndex, nextAppendIndex ) );
 				lastAppendIndex = nextAppendIndex;
+				continue;
+			}
 
-				if ( effectName == null )
-					continue;
+			String effectName = StatusEffectDatabase.getEffectName( effectId );
 
-				String upkeepAction = MoodSettings.getDefaultAction( "lose_effect", effectName );
-				String removeAction = MoodSettings.getDefaultAction( "gain_effect", effectName );
-
-				if ( upkeepAction.endsWith( "snowcone" ) || upkeepAction.endsWith( "mushroom" ) || upkeepAction.endsWith( "cupcake" ) )
-					upkeepAction = "";
-
-				String skillName = UneffectRequest.effectToSkill( effectName );
-				int skillType = ClassSkillsDatabase.getSkillType( ClassSkillsDatabase.getSkillId( skillName ) );
-
-				// Add a removal link to the duration for buffs which can
-				// be removed.  This is either when the buff can be shrugged
-				// or the buff has a default removal method.
-
-				if ( skillType == ClassSkillsDatabase.BUFF || KoLCharacter.hasItem( UneffectRequest.REMEDY ) )
-					removeAction = "uneffect " + effectName;
-
-				if ( !removeAction.equals( "" ) )
+			if ( KoLRequest.isCompactMode )
+			{
+				if ( StaticEntity.getBooleanProperty( "relayTextualizesEffects" ) )
 				{
-					buffer.append( "<a href=\"/KoLmafia/sideCommand?cmd=" );
+					nextAppendIndex = text.indexOf( "></td>", startingIndex );
+					buffer.append( text.substring( lastAppendIndex, nextAppendIndex ) );
+					lastAppendIndex = nextAppendIndex + 6;
 
-					try
-					{
-						buffer.append( URLEncoder.encode( removeAction, "ISO-8859-1" ) );
-					}
-					catch ( Exception e )
-					{
-						// Hm, something bad happened.  Instead of giving a real link,
-						// give a fake link instead.
+					int deleteIndex = buffer.lastIndexOf( "<img" );
+					buffer.delete( deleteIndex, buffer.length() );
 
-						buffer.append( "win+game" );
-					}
-
-					buffer.append( "\" title=\"" );
-
-					if ( skillType == ClassSkillsDatabase.BUFF )
-						buffer.append( "Shrug off the " );
-					else if ( removeAction.startsWith( "uneffect" ) )
-						buffer.append( "Use a remedy to remove the " );
-					else
-						buffer.append( Character.toUpperCase( removeAction.charAt(0) ) + removeAction.substring(1) + " to remove the " );
-
-					buffer.append( effectName );
-					buffer.append( " effect\"" );
-
-					if ( effectName.equals( "Poisoned" ) || effectName.equals( "Beaten Up" ) )
-						buffer.append( " style=\"color:red\"" );
-
-					buffer.append( ">" );
+					buffer.append( "<td align=right><nobr><font size=2>" );
+					buffer.append( StatusEffectDatabase.getShortName( effectId ) );
+					buffer.append( "</font></nobr></td>" );
 				}
 
-				nextAppendIndex = text.indexOf( ")", lastAppendIndex ) + 1;
-				int duration = StaticEntity.parseInt( text.substring( lastAppendIndex, nextAppendIndex - 1 ) );
+				nextAppendIndex = text.indexOf( "<td>(", startingIndex ) + 5;
+			}
+			else
+				nextAppendIndex = text.indexOf( "(", text.indexOf( "<font size=2>", startingIndex ) ) + 1;
 
-				buffer.append( text.substring( lastAppendIndex, nextAppendIndex - 1 ) );
-				lastAppendIndex = nextAppendIndex;
+			buffer.append( text.substring( lastAppendIndex, nextAppendIndex ) );
+			lastAppendIndex = nextAppendIndex;
 
-				if ( skillType == ClassSkillsDatabase.BUFF || !removeAction.equals( "" ) )
-					buffer.append( "</a>" );
+			String upkeepAction = MoodSettings.getDefaultAction( "lose_effect", effectName );
+			String removeAction = MoodSettings.getDefaultAction( "gain_effect", effectName );
 
-				buffer.append( ")" );
+			if ( upkeepAction.endsWith( "snowcone" ) || upkeepAction.endsWith( "mushroom" ) || upkeepAction.endsWith( "cupcake" ) )
+				upkeepAction = "";
 
-				// Add the up-arrow icon for buffs which can be maintained, based
-				// on information known to the mood maintenance module.
+			String skillName = UneffectRequest.effectToSkill( effectName );
+			int skillType = ClassSkillsDatabase.getSkillType( ClassSkillsDatabase.getSkillId( skillName ) );
 
-				if ( !upkeepAction.equals( "" ) )
+			// Add a removal link to the duration for buffs which can
+			// be removed.  This is either when the buff can be shrugged
+			// or the buff has a default removal method.
+
+			if ( skillType == ClassSkillsDatabase.BUFF || KoLCharacter.hasItem( UneffectRequest.REMEDY ) )
+				removeAction = "uneffect " + effectName;
+
+			if ( !removeAction.equals( "" ) )
+			{
+				buffer.append( "<a href=\"/KoLmafia/sideCommand?cmd=" );
+
+				try
 				{
-					buffer.append( "&nbsp;<a href=\"/KoLmafia/sideCommand?cmd=" );
-
-					try
-					{
-						buffer.append( URLEncoder.encode( upkeepAction, "ISO-8859-1" ) );
-					}
-					catch ( Exception e )
-					{
-						// Hm, something bad happened.  Instead of giving a real link,
-						// give a fake link instead.
-
-						buffer.append( "win+game" );
-					}
-
-					buffer.append( "\" title=\"Increase rounds of " );
-					buffer.append( effectName );
-					buffer.append( "\"><img src=\"/images/" );
-
-					if ( duration <= 5 )
-						buffer.append( "red" );
-
-					buffer.append( "up.gif\" border=0></a>" );
+					buffer.append( URLEncoder.encode( removeAction, "ISO-8859-1" ) );
 				}
+				catch ( Exception e )
+				{
+					// Hm, something bad happened.  Instead of giving a real link,
+					// give a fake link instead.
+
+					buffer.append( "win+game" );
+				}
+
+				buffer.append( "\" title=\"" );
+
+				if ( skillType == ClassSkillsDatabase.BUFF )
+					buffer.append( "Shrug off the " );
+				else if ( removeAction.startsWith( "uneffect" ) )
+					buffer.append( "Use a remedy to remove the " );
+				else
+					buffer.append( Character.toUpperCase( removeAction.charAt(0) ) + removeAction.substring(1) + " to remove the " );
+
+				buffer.append( effectName );
+				buffer.append( " effect\"" );
+
+				if ( effectName.equals( "Poisoned" ) || effectName.equals( "Beaten Up" ) )
+					buffer.append( " style=\"color:red\"" );
+
+				buffer.append( ">" );
+			}
+
+			nextAppendIndex = text.indexOf( ")", lastAppendIndex ) + 1;
+			int duration = StaticEntity.parseInt( text.substring( lastAppendIndex, nextAppendIndex - 1 ) );
+
+			buffer.append( text.substring( lastAppendIndex, nextAppendIndex - 1 ) );
+			lastAppendIndex = nextAppendIndex;
+
+			if ( skillType == ClassSkillsDatabase.BUFF || !removeAction.equals( "" ) )
+				buffer.append( "</a>" );
+
+			buffer.append( ")" );
+
+			// Add the up-arrow icon for buffs which can be maintained, based
+			// on information known to the mood maintenance module.
+
+			if ( !upkeepAction.equals( "" ) )
+			{
+				buffer.append( "&nbsp;<a href=\"/KoLmafia/sideCommand?cmd=" );
+
+				try
+				{
+					buffer.append( URLEncoder.encode( upkeepAction, "ISO-8859-1" ) );
+				}
+				catch ( Exception e )
+				{
+					// Hm, something bad happened.  Instead of giving a real link,
+					// give a fake link instead.
+
+					buffer.append( "win+game" );
+				}
+
+				buffer.append( "\" title=\"Increase rounds of " );
+				buffer.append( effectName );
+				buffer.append( "\"><img src=\"/images/" );
+
+				if ( duration <= 5 )
+					buffer.append( "red" );
+
+				buffer.append( "up.gif\" border=0></a>" );
 			}
 		}
 

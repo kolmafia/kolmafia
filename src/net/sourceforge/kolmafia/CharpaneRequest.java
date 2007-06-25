@@ -222,42 +222,43 @@ public class CharpaneRequest extends KoLRequest
 		{
 			searchIndex = responseText.indexOf( "onClick='eff", lastSearchIndex + 1 );
 
-			if ( searchIndex != -1 )
+			if ( searchIndex == -1 )
+				continue;
+
+			int nextSearchIndex = responseText.indexOf( "(", searchIndex ) + 1;
+			lastSearchIndex = nextSearchIndex;
+
+			String descriptionId = responseText.substring( nextSearchIndex,
+				responseText.indexOf( ")", nextSearchIndex ) );
+
+			int effectId = StatusEffectDatabase.getEffect( descriptionId );
+			if ( effectId == -1 )
+				continue;
+
+			String effectName = StatusEffectDatabase.getEffectName( effectId );
+
+			if ( KoLRequest.isCompactMode )
+				lastSearchIndex = responseText.indexOf( "<td>(", lastSearchIndex ) + 5;
+			else
+				lastSearchIndex = responseText.indexOf( "(", responseText.indexOf( "<font size=2>", lastSearchIndex ) ) + 1;
+
+			nextSearchIndex = responseText.indexOf( ")", lastSearchIndex );
+			String duration = responseText.substring( lastSearchIndex, nextSearchIndex );
+
+			if ( duration.indexOf( "&" ) == -1 && duration.indexOf( "<" ) == -1 )
 			{
-				int nextSearchIndex = responseText.indexOf( "(", searchIndex ) + 1;
-				lastSearchIndex = nextSearchIndex;
-
-				int effectId = StaticEntity.parseInt(
-					responseText.substring( nextSearchIndex, responseText.indexOf( ")", nextSearchIndex ) ) );
-
-				String effectName = StatusEffectDatabase.getEffectName( effectId );
-
-				if ( effectName != null )
+				int durationValue = StaticEntity.parseInt( duration );
+				AdventureResult effect = new AdventureResult( effectName, durationValue, true );
+				if ( effect.getCount( activeEffects ) != durationValue )
 				{
-					if ( KoLRequest.isCompactMode )
-						lastSearchIndex = responseText.indexOf( "<td>(", lastSearchIndex ) + 5;
-					else
-						lastSearchIndex = responseText.indexOf( "(", responseText.indexOf( "<font size=2>", lastSearchIndex ) ) + 1;
-
-					nextSearchIndex = responseText.indexOf( ")", lastSearchIndex );
-					String duration = responseText.substring( lastSearchIndex, nextSearchIndex );
-
-					if ( duration.indexOf( "&" ) == -1 && duration.indexOf( "<" ) == -1 )
-					{
-						int durationValue = StaticEntity.parseInt( duration );
-						AdventureResult effect = new AdventureResult( effectName, durationValue, true );
-						if ( effect.getCount( activeEffects ) != durationValue )
-						{
-							activeEffects.remove( effect );
-							StaticEntity.getClient().processResult( effect );
-						}
-
-						visibleEffects.add( effect );
-					}
-
-					lastSearchIndex = nextSearchIndex;
+					activeEffects.remove( effect );
+					StaticEntity.getClient().processResult( effect );
 				}
+
+				visibleEffects.add( effect );
 			}
+
+			lastSearchIndex = nextSearchIndex;
 		}
 
 		KoLmafia.applyEffects();
