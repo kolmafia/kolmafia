@@ -124,6 +124,7 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int QUILL_PEN = 1957;
 	private static final int MEMO = 1973;
 	private static final int ABSINTHE = 2655;
+	private static final int DETUNED_RADIO = 2682;
 
 	private static final int GIFT1 = 1167;
 	private static final int GIFT2 = 1168;
@@ -587,6 +588,7 @@ public class ConsumeItemRequest extends KoLRequest
 		case MANUAL_OF_LABOR:
 		case MANUAL_OF_TRANSMISSION:
 		case MANUAL_OF_DEXTERITY:
+		case DETUNED_RADIO:
 			StaticEntity.getClient().processResult( lastItemUsed );
 			return;
 
