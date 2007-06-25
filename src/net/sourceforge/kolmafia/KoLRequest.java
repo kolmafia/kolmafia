@@ -62,6 +62,8 @@ import com.velocityreviews.forums.HttpTimeoutHandler;
 public class KoLRequest extends Job implements KoLConstants
 {
 	private static final int INITIAL_CACHE_COUNT = 3;
+	private static final int AUTOMATED_DELAY = 4000;
+
 	private static final Object WAIT_OBJECT = new Object();
 
 	private static final ArrayList BYTEFLAGS = new ArrayList();
@@ -731,10 +733,13 @@ public class KoLRequest extends Job implements KoLConstants
 
 	public void execute()
 	{
+		String urlString = this.getURLString();
+
+		if ( !(this instanceof LocalRelayRequest) && urlString.startsWith( "fight.php" ) )
+			delay( AUTOMATED_DELAY );
+
 		// If this is the rat quest, then go ahead and pre-set the data
 		// to reflect a fight sequence (mini-browser compatibility).
-
-		String urlString = this.getURLString();
 
 		isRatQuest |= urlString.startsWith( "rats.php" );
 		if ( !this.isChatRequest && !urlString.startsWith( "charpane.php" ) && !urlString.startsWith( "rats.php" ) )
@@ -1314,7 +1319,7 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( this.statusChanged && !(this instanceof LocalRelayRequest) )
 			LocalRelayServer.addStatusMessage( "<!-- REFRESH -->" );
 
-		if ( !this.isDelayExempt )
+		if ( !isChatRequest )
 			this.checkForNewEvents();
 
 		if ( isRatQuest )
