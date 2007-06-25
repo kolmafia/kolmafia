@@ -151,7 +151,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		travelMenu.add( new JSeparator() );
 
-		travelMenu.add( new InvocationMenuItem( "Mind Control", StaticEntity.getClient(), "makeMindControlRequest" ) );
+		travelMenu.add( new InvocationMenuItem( "Monster Level", StaticEntity.getClient(), "makeMindControlRequest" ) );
 		travelMenu.add( new InvocationMenuItem( "Untinker Items", StaticEntity.getClient(), "makeUntinkerRequest" ) );
 		travelMenu.add( new InvocationMenuItem( "Loot the Hermit", StaticEntity.getClient(), "makeHermitRequest" ) );
 

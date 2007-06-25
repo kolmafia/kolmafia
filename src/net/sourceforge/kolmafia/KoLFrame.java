@@ -542,7 +542,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			else
 				this.roninLabel.setText( "(Ronin for " + (600 - KoLCharacter.getTotalTurnsUsed()) + ")" );
 
-			this.mcdLabel.setText( "MCD @ " + KoLCharacter.getMindControlLevel() );
+			this.mcdLabel.setText( "ML @ " + KoLCharacter.getSignedMLAdjustment() );
 
 			this.musLabel.setText( this.getStatText( KoLCharacter.getAdjustedMuscle(), KoLCharacter.getBaseMuscle() ) );
 			this.mysLabel.setText( this.getStatText( KoLCharacter.getAdjustedMysticality(), KoLCharacter.getBaseMysticality() ) );
