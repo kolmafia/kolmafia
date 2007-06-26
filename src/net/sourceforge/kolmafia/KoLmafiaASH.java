@@ -4532,12 +4532,19 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptValue visit_url( ScriptVariable string )
+		{	return visit_url( string.toStringValue().toString() );
+		}
+
+		private ScriptValue visit_url( String location )
 		{
-			String location = string.toStringValue().toString();
 			if ( KoLRequest.shouldIgnore( location ) )
 				return STRING_INIT;
 
+			if ( location.startsWith( "fight.php" ) && FightRequest.getActualRound() == 0 )
+				return STRING_INIT;
+
 			KoLRequest request = new KoLRequest( location, true );
+			request.setDelayExempt( false );
 			RequestThread.postRequest( request );
 
 			StaticEntity.externalUpdate( location, request.responseText );
@@ -5163,11 +5170,7 @@ public class KoLmafiaASH extends StaticEntity
 			// in combat, go ahead and allow it here.
 
 			if ( ClassSkillsDatabase.isCombat( skill.intValue() ) )
-			{
-				KoLRequest request = new KoLRequest( "fight.php?action=skill&whichskill=" + skill.intValue() );
-				RequestThread.postRequest( request );
-				return new ScriptValue( request.responseText == null ? "" : request.responseText );
-			}
+				return visit_url( "fight.php?action=skill&whichskill=" + skill.intValue() );
 
 			DEFAULT_SHELL.executeLine( "cast 1 " + skill.toStringValue() );
 			return new ScriptValue( UseSkillRequest.lastUpdate );
@@ -5194,10 +5197,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptValue attack()
-		{
-			KoLRequest request = new KoLRequest( "fight.php?action=attack" );
-			RequestThread.postRequest( request );
-			return new ScriptValue( request.responseText == null ? "" : request.responseText );
+		{	return visit_url( "fight.php?action=attack" );
 		}
 
 		public ScriptValue steal()
@@ -5205,30 +5205,19 @@ public class KoLmafiaASH extends StaticEntity
 			if ( !FightRequest.wonInitiative() )
 				return attack();
 
-			KoLRequest request = new KoLRequest( "fight.php?action=steal" );
-			RequestThread.postRequest( request );
-			return new ScriptValue( request.responseText == null ? "" : request.responseText );
+			return visit_url( "fight.php?action=steal" );
 		}
 
 		public ScriptValue runaway()
-		{
-			KoLRequest request = new KoLRequest( "fight.php?action=runaway" );
-			RequestThread.postRequest( request );
-			return new ScriptValue( request.responseText == null ? "" : request.responseText );
+		{	return visit_url( "fight.php?action=runaway" );
 		}
 
 		public ScriptValue throw_item( ScriptVariable item )
-		{
-			KoLRequest request = new KoLRequest( "fight.php?action=useitem&whichitem=" + item.intValue() );
-			RequestThread.postRequest( request );
-			return new ScriptValue( request.responseText == null ? "" : request.responseText );
+		{	return visit_url( "fight.php?action=useitem&whichitem=" + item.intValue() );
 		}
 
 		public ScriptValue throw_items( ScriptVariable item1, ScriptVariable item2 )
-		{
-			KoLRequest request = new KoLRequest( "fight.php?action=useitem&whichitem=" + item1.intValue() + "&whichitem2=" + item2.intValue() );
-			RequestThread.postRequest( request );
-			return new ScriptValue( request.responseText == null ? "" : request.responseText );
+		{	return visit_url( "fight.php?action=useitem&whichitem=" + item1.intValue() + "&whichitem2=" + item2.intValue() );
 		}
 
 		// Equipment functions.

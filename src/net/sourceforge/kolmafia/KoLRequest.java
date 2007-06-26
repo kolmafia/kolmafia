@@ -62,7 +62,7 @@ import com.velocityreviews.forums.HttpTimeoutHandler;
 public class KoLRequest extends Job implements KoLConstants
 {
 	private static final int INITIAL_CACHE_COUNT = 3;
-	private static final int AUTOMATED_DELAY = 4000;
+	private static final int AUTOMATED_DELAY = 8000;
 
 	private static final Object WAIT_OBJECT = new Object();
 
@@ -297,9 +297,12 @@ public class KoLRequest extends Job implements KoLConstants
 	{	return this.isDelayExempt;
 	}
 
+	public void setDelayExempt( boolean isDelayExempt )
+	{	this.isDelayExempt = isDelayExempt;
+	}
+
 	public KoLRequest constructURLString( String newURLString )
-	{
-		return this.constructURLString( newURLString, true );
+	{	return this.constructURLString( newURLString, true );
 	}
 
 	public KoLRequest constructURLString( String newURLString, boolean usePostMethod )
@@ -735,8 +738,8 @@ public class KoLRequest extends Job implements KoLConstants
 	{
 		String urlString = this.getURLString();
 
-		if ( !(this instanceof LocalRelayRequest) && urlString.startsWith( "fight.php" ) )
-			delay( AUTOMATED_DELAY );
+		if ( !isDelayExempt && (urlString.startsWith( "adventure.php" ) || urlString.startsWith( "fight.php" ) ) )
+			delay( RNG.nextInt( AUTOMATED_DELAY ) + 1000 );
 
 		// If this is the rat quest, then go ahead and pre-set the data
 		// to reflect a fight sequence (mini-browser compatibility).
