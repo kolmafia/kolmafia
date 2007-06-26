@@ -68,7 +68,7 @@
 68	Psalm of Pointiness	notes.gif
 69	Jackasses' Symphony of Destruction	notes.gif
 70	Stevedave's Shanty of Superiority	notes.gif
-71	Ode to Booze	notes.gif
+71	Ode to Booze	notes.gif	626c8ef76cfc003c6ac2e65e9af5fd7a
 72	Sleeping with the Fishes	sleepy.gif
 73	Ticking Clock	clock.gif
 74	Fresh Scent	happy.gif
@@ -196,7 +196,7 @@
 196	Spooky Breath	breath.gif
 197	Stinky Breath	breath.gif
 198	Sleazy Breath	breath.gif
-199	Aspect of the Twinklefairy	scwad.gif
+199	Aspect of the Twinklefairy	scwad.gif	f27e3dcf9fd6b46b30347743c18ccb1b
 200	Hot Blooded	scwad.gif
 201	Cold Blooded	scwad.gif
 202	Spooky Demeanor	scwad.gif
@@ -289,7 +289,7 @@
 289	Bananas!	banana.gif
 290	What's That Smell?	stench.gif
 291	Mad at Science	angry.gif
-292	Tetanus	disease.gif
+292	Tetanus	disease.gif	79289e27b54236f174122c1a7703242a
 293	Half-Eaten Brain	realbrain.gif
 294	Fearless	disease.gif
 295	Socialismydia	disease.gif
