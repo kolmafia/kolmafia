@@ -1754,7 +1754,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static boolean canInteract()
-	{	return ascensions == 0 || (!isHardcore && totalTurnsUsed >= 600);
+	{	return ascensions == 0 || (!isHardcore && totalTurnsUsed >= 1000);
 	}
 
 	/**
