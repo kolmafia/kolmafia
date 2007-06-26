@@ -846,6 +846,7 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			TradeableItemDatabase.findItemDescriptions();
 			StatusEffectDatabase.findStatusEffects();
+			RequestLogger.printLine( "Data tables updated." );
 			return;
 		}
 

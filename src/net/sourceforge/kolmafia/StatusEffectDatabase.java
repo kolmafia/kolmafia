@@ -106,7 +106,7 @@ public class StatusEffectDatabase extends KoLDatabase
 
 		if ( descriptionId != null )
 		{
-			descriptionById.put( effectId, name );
+			descriptionById.put( effectId, descriptionId );
 			effectByDescription.put( descriptionId, effectId );
 		}
 
@@ -268,6 +268,8 @@ public class StatusEffectDatabase extends KoLDatabase
 	{
 		if ( !inventory.contains( UneffectRequest.REMEDY ) )
 			return;
+
+		RequestLogger.printLine( "Checking for new status effects..." );
 
 		KoLRequest updateRequest = new KoLRequest( "uneffect.php" );
 		RequestThread.postRequest( updateRequest );
