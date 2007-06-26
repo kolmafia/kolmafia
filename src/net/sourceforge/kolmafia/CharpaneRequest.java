@@ -265,6 +265,7 @@ public class CharpaneRequest extends KoLRequest
 
 		if ( effectId == -1 )
 		{
+			RequestLogger.printLine( "Status effect database updated." );
 			effectId = StatusEffectDatabase.getEffectId( effectName );
 			StatusEffectDatabase.addDescriptionId( effectId, descriptionId );
 		}
