@@ -280,7 +280,6 @@ public abstract class KoLCharacter extends StaticEntity
 	private static float fixedXPAdjustment = 0.0f;
 	private static float meatDropPercentAdjustment = 0.0f;
 	private static float itemDropPercentAdjustment = 0.0f;
-	private static boolean rigatoniActive = false;
 	private static int damageAbsorption = 0;
 	private static int damageReduction = 0;
 	private static float coldResistance = 0;
@@ -379,7 +378,6 @@ public abstract class KoLCharacter extends StaticEntity
 		fixedXPAdjustment = 0.0f;
 		meatDropPercentAdjustment = 0.0f;
 		itemDropPercentAdjustment = 0.0f;
-		rigatoniActive = false;
 		damageAbsorption = 0;
 		damageReduction = 0;
 		coldResistance = 0;
@@ -1273,15 +1271,6 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static boolean rangedWeapon()
 	{	return EquipmentDatabase.isRanged( getEquipment( WEAPON ).getName() );
-	}
-
-	/**
-	 * Accessor method to determine if character is using Spirit of Rigatoni
-	 * @return	boolean	true if wielding a staff and has skill
-	 */
-
-	public static boolean rigatoniActive()
-	{	return rigatoniActive;
 	}
 
 	/**
@@ -2681,10 +2670,6 @@ public abstract class KoLCharacter extends StaticEntity
 		float newMeatDropPercentAdjustment = 0.0f;
 		float newItemDropPercentAdjustment = 0.0f;
 
-		boolean rigatoniSkill = false;
-		boolean hasStaff = false;
-		boolean newRigatoniActive = false;
-
 		int newDamageAbsorption = 0;
 		int newDamageReduction = 0;
 		float newColdResistance = 0;
@@ -2729,7 +2714,6 @@ public abstract class KoLCharacter extends StaticEntity
 			switch ( slot )
 			{
 			case WEAPON:
-				hasStaff = EquipmentDatabase.isStaff( item.getItemId() );
 				break;
 
 			case FAMILIAR:
@@ -2754,11 +2738,6 @@ public abstract class KoLCharacter extends StaticEntity
 
 			case JEKYLLIN:
 				newItemDropPercentAdjustment += 15 + MoonPhaseDatabase.getMoonlight() * 5;
-				break;
-
-			case SAUCE_GLOVE:
-				if ( classtype.startsWith( "Sa" ) )
-					rigatoniSkill = true;
 				break;
 			}
 		}
@@ -2841,9 +2820,6 @@ public abstract class KoLCharacter extends StaticEntity
 		if ( hasSkill( "Skin of the Leatherback" ) )
 			// Varies according to level, somehow
 			;
-
-		if ( hasSkill( "Spirit of Rigatoni" ) )
-			rigatoniSkill = true;
 
 		if ( hasSkill( "Tolerance of the Kitchen" ) )
 			newHotResistance += 20;
@@ -2948,9 +2924,6 @@ public abstract class KoLCharacter extends StaticEntity
 			break;
 		}
 
-		// Determine if Mysticality is the current To-hit stat
-		newRigatoniActive = rigatoniSkill && hasStaff;
-
 		// Make sure the mana modifier is no more than
 		// three, no matter what.
 
@@ -3005,9 +2978,6 @@ public abstract class KoLCharacter extends StaticEntity
 
 		changed |= itemDropPercentAdjustment != newItemDropPercentAdjustment;
 		itemDropPercentAdjustment = newItemDropPercentAdjustment;
-
-		changed |= rigatoniActive != newRigatoniActive;
-		rigatoniActive = newRigatoniActive;
 
 		changed |= newDamageAbsorption != damageAbsorption;
 		damageAbsorption = newDamageAbsorption;

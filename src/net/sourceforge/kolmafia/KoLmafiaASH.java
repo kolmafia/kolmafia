@@ -5905,8 +5905,6 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue buffed_hit_stat()
 		{
-			if ( KoLCharacter.rigatoniActive() )
-				return new ScriptValue( KoLCharacter.getAdjustedMysticality() );
 			if ( KoLCharacter.rangedWeapon() )
 				return new ScriptValue( KoLCharacter.getAdjustedMoxie() );
 			return new ScriptValue( KoLCharacter.getAdjustedMuscle() );
@@ -5914,8 +5912,6 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue current_hit_stat()
 		{
-			if ( KoLCharacter.rigatoniActive() )
-				return parseStatValue( "mysticality" );
 			if ( KoLCharacter.rangedWeapon() )
 				return parseStatValue( "moxie" );
 			return parseStatValue( "muscle" );

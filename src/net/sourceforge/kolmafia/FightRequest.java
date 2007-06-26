@@ -462,13 +462,6 @@ public class FightRequest extends KoLRequest
 			return true;
 		}
 
-		if ( EquipmentDatabase.isStaff( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getItemId() ) &&
-			KoLCharacter.hasSkill( "Spirit of Rigatoni" ) && KoLCharacter.hasSkill( "Eye of the Stoat" ) )
-		{
-			KoLmafia.updateDisplay( ABORT_STATE, "Thrust smacks are useless with staves and Spirit of Rigatoni." );
-			return true;
-		}
-
 		return false;
 	}
 
