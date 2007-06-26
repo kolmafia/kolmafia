@@ -34,8 +34,10 @@
 package net.sourceforge.kolmafia;
 
 import java.io.BufferedReader;
+import java.io.File;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -165,6 +167,41 @@ public class StatusEffectDatabase extends KoLDatabase
 
 	public static Collection values()
 	{	return effectById.values();
+	}
+
+	public static void addDescriptionId( int effectId, String descriptionId )
+	{
+		if ( effectId == -1 )
+			return;
+
+		Integer id = new Integer( effectId );
+
+		effectByDescription.put( descriptionId, id );
+		descriptionById.put( id, descriptionId );
+
+		File override = new File( DATA_DIRECTORY, "statuseffects.txt" );
+		LogStream ostream = LogStream.openStream( override, true );
+
+		int lastInteger = 0;
+		Iterator it = effectById.keySet().iterator();
+
+		while ( it.hasNext() )
+		{
+			Integer nextInteger = (Integer) it.next();
+			for ( int i = lastInteger; i < nextInteger.intValue(); ++i )
+					ostream.println(i);
+
+			lastInteger = nextInteger.intValue();
+			ostream.print( nextInteger + "\t" + effectById.get( nextInteger ) + "\t" +
+				imageById.get( nextInteger ) );
+
+			if ( descriptionById.containsKey( nextInteger ) )
+				ostream.print( "\t" + descriptionById.get( nextInteger ) );
+
+			ostream.println();
+		}
+
+		ostream.close();
 	}
 
 	/**
