@@ -39,6 +39,8 @@ import java.util.regex.Pattern;
 
 public class CharpaneRequest extends KoLRequest
 {
+	private static ArrayList notifiedEffects = new ArrayList();
+
 	private static boolean isRunning = false;
 	private static boolean isProcessing = false;
 	private static final CharpaneRequest instance = new CharpaneRequest();
@@ -263,8 +265,11 @@ public class CharpaneRequest extends KoLRequest
 		String duration = responseText.substring( durationIndex,
 			responseText.indexOf( ")", durationIndex ) );
 
-		if ( effectId == -1 )
+		if ( effectId == -1 && !notifiedEffects.contains( effectName ) )
+		{
+			notifiedEffects.add( effectName );
 			RequestLogger.printLine( effectName + " => " + descriptionId );
+		}
 
 		if ( duration.indexOf( "&" ) != -1 || duration.indexOf( "<" ) != -1 )
 			return null;
