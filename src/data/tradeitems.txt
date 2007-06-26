@@ -2579,7 +2579,7 @@
 2575
 2576
 2577
-2578
+2578	Staff of the Short Order Cook	12	display	25
 2579
 2580
 2581
@@ -2602,8 +2602,8 @@
 2598
 2599
 2600
-2601
-2602
+2601	Staff of the Midnight Snack	12	display	25
+2602	Staff of Blood and Pudding	12	display	25
 2603
 2604
 2605
@@ -2645,11 +2645,11 @@
 2641	
 2642	
 2643	
-2644	
-2645	
-2646	
-2647	
-2648	
+2644	flaming feather	0	all	55
+2645	frozen feather	0	all	55
+2646	frightful feather	0	all	55
+2647	fetid feather	0	all	55
+2648	flirtatious feather	0	all	55
 2649	
 2650	bottled green pixie	5	all	0
 2651	green pixie spog	7	all	75
@@ -2723,8 +2723,8 @@
 2719
 2720
 2721
-2722
-2723
+2722	Staff of the Greasefire	12	display	25
+2723	Staff of the Grand Flamb&eacute;	12	display	25
 2724
 2725
 2726
@@ -2741,7 +2741,7 @@
 2737
 2738
 2739
-2740
+2740	Staff of the Walk-In Freezer	12	display	25
 2741
 2742
 2743
@@ -2750,7 +2750,7 @@
 2746
 2747	chunk of depleted Grimacite	0	all	0
 2748
-2749
+2749	Staff of the Grease Trap	12	display	25
 2750
 2751
 2752
@@ -2778,15 +2778,15 @@
 2774
 2775
 2776
-2777
-2778
-2779
-2780
-2781
-2782
-2783
-2784
-2785
+2777	filigreed hamethyst earring	8	all	600
+2778	filigreed hamethyst necklace	8	all	600
+2779	filigreed hamethyst ring	8	all	600
+2780	solid baconstone earring	8	all	600
+2781	solid baconstone necklace	8	all	600
+2782	solid baconstone ring	8	all	600
+2783	pulled porquoise earring	8	all	600
+2784	pulled porquoise pendant	8	all	600
+2785	pulled porquoise ring	8	all	600
 2786
 2787
 2788
@@ -2827,7 +2827,7 @@
 2823
 2824
 2825
-2826
+2826	Staff of the Kitchen Floor	12	display	25
 2827	anniversary gift box	3	none	0
 2828
 2829

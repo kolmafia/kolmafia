@@ -63,6 +63,7 @@ rusty grave robbing shovel	Init: -10.0
 serpentine sword	ML: +10
 # Shagadelic Disco Banjo	Meat: +10.0
 squeaky staff	ML: +6
+Staff of the Grand Flamb&eacute;	Cold: +40
 styrofoam crossbow	ML: +3
 styrofoam staff	ML: +3
 styrofoam sword	ML: +3

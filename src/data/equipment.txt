@@ -439,6 +439,14 @@ spooky stick	30	none	2-handed staff
 spork	30	none	1-handed utensil
 squeaky staff	75	Mus: 22	2-handed staff
 Squeezebox of the Ages	90	Mox: 15	2-handed accordion
+Staff of Blood and Pudding	10	Mys: 15	1-handed chefstaff
+Staff of the Grand Flamb&eacute;	10	Mys: 125	1-handed chefstaff
+Staff of the Greasefire	10	Mys: 20	1-handed chefstaff
+Staff of the Grease Trap	10	Mys: 125	1-handed chefstaff
+Staff of the Kitchen Floor	10	Mys: 0	1-handed chefstaff
+Staff of the Midnight Snack	10	Mys: 15	1-handed chefstaff
+Staff of the Short Order Cook	10	Mys: 15	1-handed chefstaff
+Staff of the Walk-In Freezer	10	Mys: 125	1-handed chefstaff
 stainless steel shillelagh	90	Mus: 30	1-handed club
 star boomerang	135	Mox: 52	1-handed boomerang
 star crossbow	165	Mox: 67	2-handed crossbow
@@ -657,6 +665,9 @@ evil flaming eyeball pendant	0	none
 exclusive ultra-rare item	0	none
 eXtreme mittens	0	Mys: 40
 eXtreme nose ring	0	Mys: 10
+filigreed hamethyst earring	0	Mys: 40
+filigreed hamethyst necklace	0	Mys: 40
+filigreed hamethyst ring	0	Mys: 40
 flashing novelty button	0	none
 fuzzy bracelets	0	none
 giant pinky ring	0	Mys: 35
@@ -715,6 +726,9 @@ porquoise bracelet	0	Mys: 10
 porquoise eyebrow ring	0	Mys: 10
 porquoise necklace	0	Mys: 10
 porquoise ring	0	Mys: 10
+pulled porquoise earring	0	Mys: 40
+pulled porquoise pendant	0	Mys: 40
+pulled porquoise ring	0	Mys: 40
 Radio KoL Keychain	0	none
 Radio KoL Antenna Ball	0	none
 Radio KoL Flashlight	0	none
@@ -742,6 +756,9 @@ severed rocking horse head	0	Mys: 10
 shiny ring	0	Mys: 10
 sk8board	0	Mys: 20
 Sneaky Pete's breath spray	0	Mys: 25
+solid baconstone earring	0	Mys: 40
+solid baconstone necklace	0	Mys: 40
+solid baconstone ring	0	Mys: 40
 spade necklace	0	none
 sparkly engagement ring	0	none
 special sauce glove	0	none
