@@ -6,7 +6,7 @@
 6	Wings	wings.gif
 7	Beaten Up	beatenup.gif	Beaten Up
 8	Hardly Poisoned at All	poison.gif	13e148b2f71301e54e27001d6e603584
-9	Knob Goblin Perfume	spraycan.gif
+9	Knob Goblin Perfume	spraycan.gif	12f74ff515842399be4b67bbc3550f79
 10	Steroid Boost	strboost.gif	28abefa0a5f2e63058cdb32e0a23b131
 11	Knob Goblin Lust Frenzy	lovelips.gif
 12	Sharp Weapon	spraycan.gif
@@ -24,7 +24,7 @@
 24	Saucemastery	happy.gif	2817b71ed041fdffb5b4b514c8be662d
 25	Disco State of Mind	discoball.gif	869b501ce3b0e8ba139e7f3807db0c1f
 26	Mariachi Mood	happy.gif
-27	Temporary Lycanthropy	lycanth.gif
+27	Temporary Lycanthropy	lycanth.gif	79bc05cd8f6cdf869c66a840f79ce2d3
 28	Butt-Rock Hair	buttrock.gif
 29	Contemptible Emanations	stench.gif
 30	Incredibly Hulking	strboost.gif	fd5616e89e1c2ecb0b01b61929682d2d
@@ -42,9 +42,9 @@
 42	Sunburned	sunburn.gif
 43	Wussiness	sad.gif	84e619e8ff038d639085cbe8ea74752b
 44	Draggin' Balls	ballhat.gif
-45	1337p4n7Z	whitepants.gif
+45	1337p4n7Z	whitepants.gif	70679877d6ac73627d6576ca7cb72f62
 46	Spiky Hair	spikyhair.gif	89acaef20b7c355d36fdf0990bf6a5ec
-47	Complete Delusion	wolfmask.gif
+47	Complete Delusion	wolfmask.gif	b00a05823151fd7e6c8fe7697c0420ca
 48	The Smile of Mr. A.	gma.gif	59e9f58e87d531b3ef613515a3417210
 49	Macho Profundo	notes.gif	a02c6fb27a3f9f4bf2c48d59584adc56
 50	Empathy	happy.gif	ac32e95f470a7e0999863fa0db58d808
@@ -70,7 +70,7 @@
 70	Stevedave's Shanty of Superiority	notes.gif	2e5a803cf1be5b3d2aaa897e60f29138
 71	Ode to Booze	notes.gif	626c8ef76cfc003c6ac2e65e9af5fd7a
 72	Sleeping with the Fishes	sleepy.gif
-73	Ticking Clock	clock.gif
+73	Ticking Clock	clock.gif	6e54ea1584f2410c94c93032c5a038f0
 74	Fresh Scent	happy.gif	a12c86c626c44ecd48540d1e55bf1204
 75	Hippy Stench	stench.gif	70ff46e1347de854172cb7a644f2854e
 76	Wreathed in Merriment	scook1.gif
@@ -362,16 +362,16 @@
 362	Bats in the Belfry	batwing.gif
 363	Unusual Fashion Sense	confused.gif
 364	Feelin' Philosophical	realbrain.gif	Feelin' Philosophical
-365	Moon June Spooned	moon2.gif
+365	Moon June Spooned	moon2.gif	733e8838261278c9b6173d392a4d09d7
 366	Inspired!	bulb.gif
-367	Ringing Ears	bell.gif
+367	Ringing Ears	bell.gif	547a82f65523083eb7ea2349b1dd97a3
 368	Man's Worst Enemy	teeth.gif
 369	Extremely Poor Taste	sad.gif
 370	The Real Deal	light.gif
 371	Memento Moir&eacute;	photograph.gif
 372	Flashing Eyes	bigeyes.gif
 373	Mmmmmelon	melon.gif
-374	Contagious Bad Luck	bmirror.gif
+374	Contagious Bad Luck	bmirror.gif	86bb1d1be1a84c4554906852f4273f90
 375	Sparkling Consciousness	snowflakes.gif
 376	Sneaky Serpentine Subtlety	nopic.gif
 377	Adrenaline Rush	hoppeddown.gif
