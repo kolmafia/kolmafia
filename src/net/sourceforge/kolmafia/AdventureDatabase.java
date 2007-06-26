@@ -418,6 +418,16 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Choice 150 is Another Adventure About BorderTown
 
+		// Adventurer, $1.99
+		new ChoiceAdventure( "Plains", "choiceAdventure151", "Fun House",
+		  new String [] { "push the nose", "skip the adventure" },
+		  new String [] { null, null } ),
+
+		// Lurking at the Threshold
+		new ChoiceAdventure( "Plains", "choiceAdventure152", "Fun House",
+		  new String [] { "open the door", "skip the adventure" },
+		  new String [] { null, null } ),
+
 		// Melvil Dewey Would Be Ashamed
 		new ChoiceAdventure( "Manor", "choiceAdventure163", "Haunted Library",
 		  new String [] { "Necrotelicomnicon", "Cookbook of the Damned", "Sinful Desires", "skip adventure" },
@@ -683,7 +693,13 @@ public class AdventureDatabase extends KoLDatabase
 		// Ennui is Wasted on the Young
 		{ "choiceAdventure120", "4" },
 
-                // Melvil Dewey Would Be Ashamed
+		// Adventurer, $1.99
+		{ "choiceAdventure151", "2" },
+
+		// Lurking at the Threshold
+		{ "choiceAdventure152", "2" },
+
+		// Melvil Dewey Would Be Ashamed
 		{ "choiceAdventure163", "4" },
 
 		// Beyond Any Measure

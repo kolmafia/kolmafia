@@ -62,7 +62,7 @@
 57	695837819	5-Alarm Saucepan	5-Alarm Saucepans
 58	273862210	turtle factory	turtle factories
 59	278594504	slingshot	slingshots
-60	256792195	Turtleslinger	Turtleslingers
+60	256792195	Mace of the Tortoise	Maces of the Tortoise
 61	490489381	fortune cookie	fortune cookies
 62	499720505	oriole-feather headdress	oriole-feather headdresses
 63	224701221	action figure head
@@ -2444,7 +2444,7 @@
 2439
 2440
 2441	591787452	Knob Goblin encryption key
-2442
+2442	325883819	Cobb's Knob map
 2443	199035416	pink glowstick	pink glowstyx
 2444
 2445	980448847	Deactivated O. A. F.	Deactivated O. A. F.s
@@ -2552,21 +2552,25 @@
 2547	222722891	tin star	
 2548	576823351	outrageous sombrero	
 2549	472113416	"Humorous" T-shirt	
-2550	
+2550	807564363	Peppercorns of Power	
 2551	
-2552	
-2553	
-2554	
-2555	
-2556	
-2557	
-2558	
-2559	
-2560	
-2561	
-2562	
-2563	
-2564	
+#		vial of mojo
+2552	997975507	golden reeds	
+2553
+#		Turtle Chain
+2554	824288182	distilled seal blood
+2555	247415821	high-octane olive oil
+2556
+#		Chelonian Morningstar
+2557	632445399	Squeezebox of the Ages
+2558
+#		Shagadelic Disco Banjo
+2559	723621502	Hammer of Smiting
+2560	811211086	17-Alarm Saucepan
+2561	370831124	Greek Pasta of Peril
+2562
+2563
+2564
 2565	
 2566	
 2567	

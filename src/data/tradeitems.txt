@@ -57,7 +57,7 @@
 57	5-Alarm Saucepan	12	all	150
 58	turtle factory	0	all	3
 59	slingshot	12	all	75
-60	Turtleslinger	12	all	150
+60	Mace of the Tortoise	12	all	150
 61	fortune cookie	1	all	20
 62	oriole-feather headdress	9	all	1
 63	action figure head	0	none	0
@@ -2439,7 +2439,7 @@
 2439
 2440
 2441	Knob Goblin encryption key	0	none	0
-2442
+2442	Cobb's Knob map	3	none	0
 2443	pink glowstick	8	display	0
 2444
 2445	Deactivated O. A. F.	5	all	0
@@ -2547,18 +2547,22 @@
 2547	tin star	8	display	0
 2548	outrageous sombrero	9	display	0
 2549	"Humorous" T-shirt	11	display	0
-2550
+2550	Peppercorns of Power	0	none	0
 2551
-2552
+#	vial of mojo	0	none	0
+2552	golden reeds	0	none	0
 2553
-2554
-2555
+#	Turtle Chain	0	none	0
+2554	distilled seal blood	0	none	0
+2555	high-octane olive oil	0	none	0
 2556
-2557
+#	Chelonian Morningstar	12	none	0
+2557	Squeezebox of the Ages	12	none	0
 2558
-2559
-2560
-2561
+#	Shagadelic Disco Banjo	12	none	0
+2559	Hammer of Smiting	12	none	0
+2560	17-Alarm Saucepan	12	none	0
+2561	Greek Pasta of Peril	12	none	0
 2562
 2563
 2564
