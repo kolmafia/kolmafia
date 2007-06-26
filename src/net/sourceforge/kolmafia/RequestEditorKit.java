@@ -2265,29 +2265,17 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			if ( startingIndex == -1 )
 				continue;
 
+			startingIndex = text.lastIndexOf( "<", startingIndex );
+			AdventureResult effect = CharpaneRequest.extractEffect( text, startingIndex );
+
+			if ( effect == null )
+				continue;
+
+			String effectName = effect.getName();
+
 			int nextAppendIndex = text.indexOf( "(", startingIndex ) + 1;
 			buffer.append( text.substring( lastAppendIndex, nextAppendIndex ) );
 			lastAppendIndex = nextAppendIndex;
-
-			int effectId = StatusEffectDatabase.getEffect(
-				text.substring( nextAppendIndex, text.indexOf( ")", nextAppendIndex ) ) );
-
-			// If the player is in compact mode, then if they wish to textualize
-			// their effects, go ahead and do so.
-
-			if ( effectId == -1 )
-			{
-				if ( KoLRequest.isCompactMode )
-					nextAppendIndex = text.indexOf( "<td>(", startingIndex ) + 5;
-				else
-					nextAppendIndex = text.indexOf( "(", text.indexOf( "<font size=2>", startingIndex ) ) + 1;
-
-				buffer.append( text.substring( lastAppendIndex, nextAppendIndex ) );
-				lastAppendIndex = nextAppendIndex;
-				continue;
-			}
-
-			String effectName = StatusEffectDatabase.getEffectName( effectId );
 
 			if ( KoLRequest.isCompactMode )
 			{
@@ -2301,7 +2289,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					buffer.delete( deleteIndex, buffer.length() );
 
 					buffer.append( "<td align=right><nobr><font size=2>" );
-					buffer.append( StatusEffectDatabase.getEffectName( effectId ) );
+					buffer.append( effectName );
 					buffer.append( "</font></nobr></td>" );
 				}
 
