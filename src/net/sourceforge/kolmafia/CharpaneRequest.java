@@ -294,7 +294,11 @@ public class CharpaneRequest extends KoLRequest
 			searchIndex = responseText.lastIndexOf( "<", onClickIndex );
 
 			AdventureResult effect = extractEffect( responseText, searchIndex );
-			StaticEntity.getClient().processResult( effect );
+			int activeCount = effect.getCount( activeEffects );
+
+			if ( effect.getCount() != activeCount )
+				StaticEntity.getClient().processResult( effect.getInstance( effect.getCount() - activeCount ) );
+
 			visibleEffects.add( effect );
 		}
 
