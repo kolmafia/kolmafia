@@ -79,19 +79,30 @@ Talisman o' Nam	1	snakehead charrrm	snakehead charrrm
 
 ten-leaf clover	16	disassembled clover
 disassembled clover	16	ten-leaf clover
-seal-toothed rock	4	big rock	seal tooth
-Bjorn's Hammer	4	seal-clubbing club	seal-toothed rock
-turtle factory	4	big rock	chisel
-Turtleslinger	4	slingshot	turtle factory
-spaghetti with rock-balls	4	big rock	petrified noodles
-Pasta of Peril	4	pasta spoon	spaghetti with rock-balls
-heavy hot sauce	4	big rock	jaba&ntilde;ero pepper
-5-Alarm Saucepan	4	saucepan	heavy hot sauce
-stone banjo	4	big rock	banjo strings
-Disco Banjo	4	disco ball	stone banjo
-heart of rock and roll	4	big rock	hot buttered roll
-Rock and Roll Legend	4	stolen accordion	heart of rock and roll
 
+seal-toothed rock	4	seal tooth	big rock
+Bjorn's Hammer	4	seal-toothed rock	seal-clubbing club
+Hammer of Smiting	4	Bjorn's Hammer	distilled seal blood
+
+turtle factory	4	chisel	big rock
+Mace of the Tortoise	4	turtle factory	turtle totem
+# Chelonian Morningstar	4	Mace of the Tortoise	Turtle Chain
+
+spaghetti with rock-balls	4	petrified noodles	big rock
+Pasta of Peril	4	spaghetti with rock-balls	pasta spoon
+Greek Pasta of Peril	4	Pasta of Peril	high-octane olive oil
+
+heavy hot sauce	4	jaba&ntilde;ero pepper	big rock
+5-Alarm Saucepan	4	heavy hot sauce	saucepan
+17-Alarm Saucepan	4	5-Alarm Saucepan	Peppercorns of Power
+
+stone banjo	4	banjo strings	big rock
+Disco Banjo	4	stone banjo	disco ball
+# Shagadelic Disco Banjo	4	Disco Banjo	vial of mojo
+
+heart of rock and roll	4	hot buttered roll	big rock
+Rock and Roll Legend	4	heart of rock and roll	stolen accordion
+Squeezebox of the Ages	4	Rock and Roll Legend	golden reeds
 
 # Familiar items and their subcomponents which do not serve any other
 # recalled purpose.

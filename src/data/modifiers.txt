@@ -52,6 +52,7 @@ Frost&trade; brand sword	ML: +3
 giant discarded plastic fork	Init: -10.0
 giant needle	ML: +5
 gnauga hide whip	Item: +3.0
+Greek Pasta of Peril	Init: +25.0
 hippo whip	ML: +10
 ice sickle	ML: +15
 meatspout staff	Meat: +15.0
