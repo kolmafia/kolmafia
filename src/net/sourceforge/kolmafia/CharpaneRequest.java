@@ -39,8 +39,6 @@ import java.util.regex.Pattern;
 
 public class CharpaneRequest extends KoLRequest
 {
-	private static ArrayList notifiedEffects = new ArrayList();
-
 	private static boolean isRunning = false;
 	private static boolean isProcessing = false;
 	private static final CharpaneRequest instance = new CharpaneRequest();
@@ -265,15 +263,10 @@ public class CharpaneRequest extends KoLRequest
 		String duration = responseText.substring( durationIndex,
 			responseText.indexOf( ")", durationIndex ) );
 
-		if ( effectId == -1 && !notifiedEffects.contains( effectName ) )
+		if ( effectId == -1 )
 		{
-			notifiedEffects.add( effectName );
 			effectId = StatusEffectDatabase.getEffectId( effectName );
-
-			String image = StatusEffectDatabase.getImage( effectId );
-			image = image.substring( image.lastIndexOf( "/" ) + 1 );
-
-			RequestLogger.printLine( effectId + "\t" + effectName + "\t" + image + "\t" + descriptionId );
+			StatusEffectDatabase.addDescriptionId( effectId, descriptionId );
 		}
 
 		if ( duration.indexOf( "&" ) != -1 || duration.indexOf( "<" ) != -1 )
