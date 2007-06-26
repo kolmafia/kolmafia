@@ -3189,14 +3189,29 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { ANY_TYPE };
 		result.addElement( new ScriptExistingFunction( "to_float", FLOAT_TYPE, params ) );
 
-		params = new ScriptType[] { ANY_TYPE };
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "to_item", ITEM_TYPE, params ) );
+		params = new ScriptType[] { INT_TYPE };
 		result.addElement( new ScriptExistingFunction( "to_item", ITEM_TYPE, params ) );
 
-		params = new ScriptType[] { ANY_TYPE };
+		params = new ScriptType[] { INT_TYPE };
+		result.addElement( new ScriptExistingFunction( "to_skill", SKILL_TYPE, params ) );
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "to_skill", SKILL_TYPE, params ) );
+		params = new ScriptType[] { EFFECT_TYPE };
 		result.addElement( new ScriptExistingFunction( "to_skill", SKILL_TYPE, params ) );
 
-		params = new ScriptType[] { ANY_TYPE };
+		params = new ScriptType[] { INT_TYPE };
 		result.addElement( new ScriptExistingFunction( "to_effect", EFFECT_TYPE, params ) );
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "to_effect", EFFECT_TYPE, params ) );
+		params = new ScriptType[] { SKILL_TYPE };
+		result.addElement( new ScriptExistingFunction( "to_effect", EFFECT_TYPE, params ) );
+
+		params = new ScriptType[] { INT_TYPE };
+		result.addElement( new ScriptExistingFunction( "to_familiar", EFFECT_TYPE, params ) );
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "to_familiar", EFFECT_TYPE, params ) );
 
 		params = new ScriptType[] { STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "to_monster", MONSTER_TYPE, params ) );
@@ -4123,6 +4138,8 @@ public class KoLmafiaASH extends StaticEntity
 					return findFunction( "to_skill", params );
 				if ( name.endsWith( "to_effect" ) )
 					return findFunction( "to_effect", params );
+				if ( name.endsWith( "to_familiar" ) )
+					return findFunction( "to_familiar", params );
 				if ( name.endsWith( "to_monster" ) )
 					return findFunction( "to_monster", params );
 				if ( name.endsWith( "to_slot" ) )
@@ -4574,6 +4591,12 @@ public class KoLmafiaASH extends StaticEntity
 			return val.getValueType().equals( TYPE_INT ) ? makeEffectValue( val.intValue() ) : val.getValueType().equals( TYPE_SKILL ) ?
 				parseEffectValue( UneffectRequest.skillToEffect( val.toStringValue().toString() ) ) :
 				parseEffectValue( val.toStringValue().toString() );
+		}
+
+		public ScriptValue to_familiar( ScriptVariable val )
+		{
+			return val.getValueType().equals( TYPE_INT ) ? makeFamiliarValue( val.intValue() ) :
+				parseFamiliarValue( val.toStringValue().toString() );
 		}
 
 		public ScriptValue to_monster( ScriptVariable val )
