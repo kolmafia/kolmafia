@@ -7,13 +7,13 @@
 7	Beaten Up	beatenup.gif
 8	Hardly Poisoned at All	poison.gif
 9	Knob Goblin Perfume	spraycan.gif
-10	Steroid Boost	strboost.gif
+10	Steroid Boost	strboost.gif	28abefa0a5f2e63058cdb32e0a23b131
 11	Knob Goblin Lust Frenzy	lovelips.gif
 12	Sharp Weapon	spraycan.gif
 13
 14	Hennaliciousness	henna.gif
 15	Bloody Hand	sad.gif
-16	Leash of Linguini	string.gif
+16	Leash of Linguini	string.gif	2d6d3ab04b40e1523aa9c716a04b3aab
 17	Sugar Rush	hoppedup.gif
 18	Ghostly Shell	turtle.gif
 19	Reptilian Fortitude	turtle.gif
@@ -22,7 +22,7 @@
 22	Patience of the Tortoise	happy.gif
 23	Pasta Oneness	happy.gif
 24	Saucemastery	happy.gif
-25	Disco State of Mind	discoball.gif
+25	Disco State of Mind	discoball.gif	869b501ce3b0e8ba139e7f3807db0c1f
 26	Mariachi Mood	happy.gif
 27	Temporary Lycanthropy	lycanth.gif
 28	Butt-Rock Hair	buttrock.gif
@@ -36,20 +36,20 @@
 36	Mystically Oiled	potion4.gif
 37	Expert Oiliness	potion4.gif
 38	Gr8tness	grapes.gif
-39	Hernia!	hernia.gif
+39	Hernia!	hernia.gif	eb4f2cac29d8c2a73a6b0f1d532f61c9
 40	Red Neck	redneck.gif
 41	Chapped Legs	legs.gif
 42	Sunburned	sunburn.gif
-43	Wussiness	sad.gif
+43	Wussiness	sad.gif	84e619e8ff038d639085cbe8ea74752b
 44	Draggin' Balls	ballhat.gif
 45	1337p4n7Z	whitepants.gif
-46	Spiky Hair	spikyhair.gif
+46	Spiky Hair	spikyhair.gif	89acaef20b7c355d36fdf0990bf6a5ec
 47	Complete Delusion	wolfmask.gif
 48	The Smile of Mr. A.	gma.gif
-49	Macho Profundo	notes.gif
-50	Empathy	happy.gif
+49	Macho Profundo	notes.gif	a02c6fb27a3f9f4bf2c48d59584adc56
+50	Empathy	happy.gif	ac32e95f470a7e0999863fa0db58d808
 51	Tenacity of the Snapper	turtle.gif
-52	Astral Shell	turtle.gif
+52	Astral Shell	turtle.gif	4e66acac6b908fb6f70b49092dcff375
 53	Elemental Saucesphere	elesphere.gif
 54	Jalapeño Saucesphere	pepsphere.gif
 55	Jabañero Saucesphere	pepsphere2.gif
@@ -60,18 +60,18 @@
 60	Aloysius' Antiphon of Aptitude	notes.gif
 61	The Moxious Madrigal	notes.gif
 62	Cletus's Canticle of Celerity	notes.gif
-63	Polka of Plenty	notes.gif
+63	Polka of Plenty	notes.gif	c26a911b8ec2c57f7eef57f9ff5fdc24
 64	The Magical Mojomuscular Melody	notes.gif
 65	Power Ballad of the Arrowsmith	notes.gif
 66	Brawnee's Anthem of Absorption	notes.gif
-67	Fat Leon's Phat Loot Lyric	notes.gif
+67	Fat Leon's Phat Loot Lyric	notes.gif	63e73adb3ecfb0cbf544db435eeeaf00
 68	Psalm of Pointiness	notes.gif
 69	Jackasses' Symphony of Destruction	notes.gif
-70	Stevedave's Shanty of Superiority	notes.gif
+70	Stevedave's Shanty of Superiority	notes.gif	2e5a803cf1be5b3d2aaa897e60f29138
 71	Ode to Booze	notes.gif	626c8ef76cfc003c6ac2e65e9af5fd7a
 72	Sleeping with the Fishes	sleepy.gif
 73	Ticking Clock	clock.gif
-74	Fresh Scent	happy.gif
+74	Fresh Scent	happy.gif	a12c86c626c44ecd48540d1e55bf1204
 75	Hippy Stench	stench.gif
 76	Wreathed in Merriment	scook1.gif
 77	Fury of the Bells	scook2.gif
@@ -87,8 +87,8 @@
 87
 88
 89	Tingly Wrists	feather.gif
-90	Tingly Elbows	feather.gif
-91	Tingly Biceps	feather.gif
+90	Tingly Elbows	feather.gif	54aa2c7ffc56b273ae9a6bfe26f10aad
+91	Tingly Biceps	feather.gif	fbf879a2f5e27198361d24f57cfd1130
 92	Sticky Hands	glove.gif
 93	Clean-Shaven	shaven.gif
 94	Aspect of the GravyPlum Fairy	gravy.gif
@@ -138,7 +138,7 @@
 138	Hombre Muerto Caminando	candyskull.gif
 139	Purple Tongue	tongue.gif
 140	Green Tongue	tongue.gif
-141	Orange Tongue	tongue.gif
+141	Orange Tongue	tongue.gif	61c56f6a7d09a562062c41239da75670
 142	Red Tongue	tongue.gif
 143	Blue Tongue	tongue.gif
 144	Black Tongue	tongue.gif
@@ -178,7 +178,7 @@
 178
 179
 180	Temporary Blindness	hernia.gif
-181	Jazz Hands	glove.gif
+181	Jazz Hands	glove.gif	d847d0fc434d9f9b69d6c029b7b91582
 182
 183	Half-Astral	hoppedup.gif
 184	Cupcake of Choice	cupcake.gif
@@ -208,7 +208,7 @@
 208	Ocelot Eyes	bigeyes.gif
 209	Ponderous Potency	strboost.gif
 210	Concentrated Concentration	farout.gif
-211	Got Milk	milk.gif
+211	Got Milk	milk.gif	225aa10e75476b0ad5fa576c89df3901
 212	Papowerful	papaya.gif
 213	Frog In Your Throat	squashfrog.gif
 214	Salamander In Your Stomach	liver.gif
@@ -218,7 +218,7 @@
 218	Amorous	lips.gif
 219	Bubble, Bubble	sphere.gif
 220	Sticky Fingers	glove.gif
-221	Chalky Hand	glove.gif
+221	Chalky Hand	glove.gif	3e2eed0d70d0e023a11619655a3f48c0
 222	Snarl of the Timberwolf	wolfmask.gif
 223	Dreams and Lights	snowflakes.gif
 224	Scarysauce	skullshld.gif
