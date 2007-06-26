@@ -428,6 +428,46 @@ public class AdventureDatabase extends KoLDatabase
 		  new String [] { "open the door", "skip the adventure" },
 		  new String [] { null, null } ),
 
+		// Turn Your Head and Coffin
+		new ChoiceAdventure( "Cyrpt", "choiceAdventure153", "Defiled Alcove",
+		  new String [] { "muscle substats", "small meat boost", "half-rotten brain", "skip the adventure" },
+		  new String [] { null, null, null, null } ),
+
+		// Doublewide
+		new ChoiceAdventure( "Cyrpt", "choiceAdventure154", "Defiled Alcove",
+		  new String [] { "enter combat", "skip the adventure" },
+		  new String [] { null, null } ),
+
+		// Skull, Skull, Skull
+		new ChoiceAdventure( "Cyrpt", "choiceAdventure155", "Defiled Nook",
+		  new String [] { "moxie substats", "small meat boost", "rusty bonesaw", "skip the adventure" },
+		  new String [] { null, null, null, null } ),
+
+		// Pileup
+		new ChoiceAdventure( "Cyrpt", "choiceAdventure156", "Defiled Nook",
+		  new String [] { "enter combat", "skip the adventure" },
+		  new String [] { null, null } ),
+
+		// Urning Your Keep
+		new ChoiceAdventure( "Cyrpt", "choiceAdventure157", "Defiled Niche",
+		  new String [] { "mysticality substats", "Plus-sized phylactery", "small meat gain", "skip the adventure" },
+		  new String [] { null, null, null, null } ),
+
+		// Lich in the Niche
+		new ChoiceAdventure( "Cyrpt", "choiceAdventure158", "Defiled Niche",
+		  new String [] { "enter combat", "skip the adventure" },
+		  new String [] { null, null } ),
+
+		// Go Slow Past the Drawers
+		new ChoiceAdventure( "Cyrpt", "choiceAdventure159", "Defiled Cranny",
+		  new String [] { "small meat boost", "stats & HP & MP", "Can of Ghuol-B-Gone&trade;", "skip the adventure" },
+		  new String [] { null, null, null, null } ),
+
+		// Lunchtime
+		new ChoiceAdventure( "Cyrpt", "choiceAdventure160", "Defiled Cranny",
+		  new String [] { "enter combat", "skip the adventure" },
+		  new String [] { null, null } ),
+
 		// Melvil Dewey Would Be Ashamed
 		new ChoiceAdventure( "Manor", "choiceAdventure163", "Haunted Library",
 		  new String [] { "Necrotelicomnicon", "Cookbook of the Damned", "Sinful Desires", "skip adventure" },
@@ -698,6 +738,30 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Lurking at the Threshold
 		{ "choiceAdventure152", "2" },
+
+		// Turn Your Head and Coffin
+		{ "choiceAdventure153", "4" },
+
+		// Doublewide
+		{ "choiceAdventure154", "2" },
+
+		// Skull, Skull, Skull
+		{ "choiceAdventure155", "4" },
+
+		// Pileup
+		{ "choiceAdventure156", "2" },
+
+		// Urning Your Keep
+		{ "choiceAdventure157", "4" },
+
+		// Lich in the Niche
+		{ "choiceAdventure158", "2" },
+
+		// Go Slow Past the Drawers
+		{ "choiceAdventure159", "4" },
+
+		// Lunchtime
+		{ "choiceAdventure160", "2" },
 
 		// Melvil Dewey Would Be Ashamed
 		{ "choiceAdventure163", "4" },

@@ -548,8 +548,6 @@ public class MonsterDatabase extends KoLDatabase
 
 			if ( KoLCharacter.rangedWeapon() )
 				hitstat = KoLCharacter.getAdjustedMoxie() - ml;
-			else if ( KoLCharacter.rigatoniActive() )
-				hitstat = KoLCharacter.getAdjustedMysticality() - ml;
 			else
 				hitstat = KoLCharacter.getAdjustedMuscle() - ml;
 

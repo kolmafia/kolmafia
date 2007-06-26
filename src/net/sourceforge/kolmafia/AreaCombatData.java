@@ -148,8 +148,6 @@ public class AreaCombatData implements KoLConstants
 		int hitstat;
 		if ( KoLCharacter.rangedWeapon() )
 			hitstat = KoLCharacter.getAdjustedMoxie() - ml;
-		else if ( KoLCharacter.rigatoniActive() )
-			hitstat = KoLCharacter.getAdjustedMysticality() - ml;
 		else
 			hitstat = KoLCharacter.getAdjustedMuscle() - ml;
 		return hitPercent( hitstat, this.minHit() ) > 0.0f;
@@ -166,11 +164,6 @@ public class AreaCombatData implements KoLConstants
 		{
 			statName = "Moxie";
 			hitstat = moxie;
-		}
-		else if ( KoLCharacter.rigatoniActive() )
-		{
-			statName = "Mysticality";
-			hitstat = KoLCharacter.getAdjustedMysticality() - ml;
 		}
 		else
 		{

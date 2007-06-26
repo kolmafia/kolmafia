@@ -766,6 +766,14 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "choiceAdventure127", "1" );
 		PLAYER_SETTINGS.put( "choiceAdventure151", "2" );
 		PLAYER_SETTINGS.put( "choiceAdventure152", "2" );
+		PLAYER_SETTINGS.put( "choiceAdventure153", "4" );
+		PLAYER_SETTINGS.put( "choiceAdventure154", "2" );
+		PLAYER_SETTINGS.put( "choiceAdventure155", "4" );
+		PLAYER_SETTINGS.put( "choiceAdventure156", "2" );
+		PLAYER_SETTINGS.put( "choiceAdventure157", "4" );
+		PLAYER_SETTINGS.put( "choiceAdventure158", "2" );
+		PLAYER_SETTINGS.put( "choiceAdventure159", "4" );
+		PLAYER_SETTINGS.put( "choiceAdventure160", "2" );
 		PLAYER_SETTINGS.put( "choiceAdventure163", "1" );
 		PLAYER_SETTINGS.put( "choiceAdventure164", "2" );
 		PLAYER_SETTINGS.put( "choiceAdventure165", "2" );

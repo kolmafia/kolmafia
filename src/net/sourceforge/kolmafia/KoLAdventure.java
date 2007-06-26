@@ -793,14 +793,6 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 				KoLmafia.updateDisplay( ERROR_STATE, "Thrust smacks are useless with ranged weapons." );
 				return;
 			}
-
-			if ( ( action.equals( "skill thrust-smack" ) || action.equals( "skill lunging thrust-smack" ) ) &&
-				EquipmentDatabase.isStaff( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getItemId() ) &&
-				KoLCharacter.hasSkill( "Spirit of Rigatoni" ) && KoLCharacter.hasSkill( "Eye of the Stoat" ) )
-			{
-				KoLmafia.updateDisplay( ERROR_STATE, "Thrust smacks are useless with staves and Spirit of Rigatoni." );
-				return;
-			}
 		}
 
 		// If the test is successful, then it is safe to run the
