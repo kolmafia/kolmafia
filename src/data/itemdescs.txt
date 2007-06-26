@@ -2076,9 +2076,9 @@
 2071
 2072	786608588	flashing novelty button	flashing novelty mindys
 2073	793070662	orange glowstick	orange glowstyx
-2074
-2075
-2076
+2074	787455549	anniversary chutney sculpture
+2075	259836862	spandex anniversary shorts
+2076	803043896	jar of anniversary jam
 2077
 2078
 2079	385932960	makeshift turban	makeshift turbans
@@ -2504,10 +2504,10 @@
 2499
 3500
 2501
-2502
-2503
-2504
-2505
+2502	521087234	Really Expensive Jewelry and You
+2503	668101271	extra-fancy ring setting
+2504	681992821	precious piercing post
+2505	200965351	heavy necklace chain
 2506	313202641	beach glass bead	beach glass beads
 2507	274866288	clay peace-sign bead	clay peace-sign beads
 2508	135013634	beach glass necklace	beach glass necklaces
