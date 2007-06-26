@@ -1555,6 +1555,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					break;
 
 				case JEWELRY:
+				case EXPENSIVE_JEWELRY:
 					useType = "jewelry";
 					useLocation = "jewelry.php";
 					break;

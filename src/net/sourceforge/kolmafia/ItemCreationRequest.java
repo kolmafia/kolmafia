@@ -143,6 +143,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			break;
 
 		case JEWELRY:
+		case EXPENSIVE_JEWELRY:
 			formSource = "jewelry.php";
 			break;
 
@@ -258,6 +259,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			return new ItemCreationRequest( "smith.php", itemId, mixingMethod );
 
 		case JEWELRY:
+		case EXPENSIVE_JEWELRY:
 			return new ItemCreationRequest( "jewelry.php", itemId, mixingMethod );
 
 		case ROLLING_PIN:
@@ -745,6 +747,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			return this.quantityNeeded;
 
 		case JEWELRY:
+		case EXPENSIVE_JEWELRY:
 			return 3 * this.quantityNeeded;
 
 		case COOK:

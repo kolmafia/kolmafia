@@ -100,29 +100,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		{
 			try
 			{
-				if ( data.length > 2 )
-				{
-					AdventureResult item = AdventureResult.parseResult( data[0] );
-					int itemId = item.getItemId();
-
-					if ( itemId > 0 )
-					{
-						int mixingMethod = parseInt( data[1] );
-						Concoction concoction = new Concoction( item, mixingMethod );
-
-						for ( int i = 2; i < data.length; ++i )
-							concoction.addIngredient( parseIngredient( data[i] ) );
-
-						if ( !concoction.isBadRecipe() )
-						{
-							concoctions.set( itemId, concoction );
-							continue;
-						}
-					}
-
-					// Bad item or bad ingredients
-					System.out.println( "Bad recipe: " + data[0] );
-				}
+                                addConcoction( data );
 			}
 			catch ( Exception e )
 			{
@@ -151,6 +129,55 @@ public class ConcoctionsDatabase extends KoLDatabase
 		for ( int i = 0; i < concoctions.size(); ++i )
 			if ( concoctions.get(i) != null )
 				usableList.add( concoctions.get(i) );
+	}
+
+	private static final void addConcoction( String [] data )
+	{
+		// Need at least concoction name and mixing method
+		if ( data.length <= 2 )
+			return;
+
+		boolean bogus = false;
+
+		String name = data[0];
+		AdventureResult item = AdventureResult.parseResult( name );
+		int itemId = item.getItemId();
+
+		if ( itemId <= 0 )
+		{
+			System.out.println( "Unknown concoction: " + name );
+			bogus = true;
+		}
+
+		int mixingMethod = parseInt( data[1] );
+		if ( mixingMethod <= 0 || mixingMethod >= METHOD_COUNT )
+		{
+			System.out.println( "Unknown mixing method (" + mixingMethod + ") for concoction: " + name );
+			bogus = true;
+		}
+
+		AdventureResult [] ingredients = new AdventureResult[ data.length - 2 ];
+		for ( int i = 2; i < data.length; ++i )
+		{
+			AdventureResult ingredient = parseIngredient( data[i] );
+			if ( ingredient == null || ingredient.getItemId() == -1 || ingredient.getName() == null )
+			{
+				System.out.println( "Unknown ingredient (" + data[i] + ") for concoction: " + name );
+				bogus = true;
+				continue;
+			}
+				
+			ingredients[ i - 2 ] = ingredient;
+		}
+
+		if ( !bogus )
+		{
+			Concoction concoction = new Concoction( item, mixingMethod );
+
+			for ( int i = 0; i < ingredients.length; ++i )
+				concoction.addIngredient( ingredients[i] );
+			concoctions.set( itemId, concoction );
+		}
 	}
 
 	public static final boolean isKnownCombination( AdventureResult [] ingredients )
@@ -699,6 +726,9 @@ public class ConcoctionsDatabase extends KoLDatabase
 		PERMIT_METHOD[ JEWELRY ] = inventory.contains( PLIERS );
 		ADVENTURE_USAGE[ JEWELRY ] = 3;
 
+		PERMIT_METHOD[ EXPENSIVE_JEWELRY ] = PERMIT_METHOD[ JEWELRY ] && KoLCharacter.canCraftExpensiveJewelry();
+		ADVENTURE_USAGE[ EXPENSIVE_JEWELRY ] = 3;
+
 		// Star charts and pixel chart recipes are available to all
 		// players at all times.
 
@@ -1189,18 +1219,6 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		public int getMixingMethod()
 		{	return this.mixingMethod;
-		}
-
-		public boolean isBadRecipe()
-		{
-			for ( int i = 0; i < this.ingredientArray.length; ++i )
-			{
-				AdventureResult ingredient = this.ingredientArray[i];
-				if ( ingredient == null || ingredient.getItemId() == -1 || ingredient.getName() == null )
-					return true;
-			}
-
-			return false;
 		}
 
 		public AdventureResult [] getIngredients()

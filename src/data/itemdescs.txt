@@ -2584,7 +2584,7 @@
 2575	
 2576	
 2577	
-2578	
+2578	445174128	Staff of the Short Order Cook
 2579	
 2580	
 2581	
@@ -2607,8 +2607,8 @@
 2598	
 2599	
 2600	
-2601	
-2602	
+2601	338816180	Staff of the Midnight Snack
+2602	572669193	Staff of Blood and Pudding
 2603	
 2604	
 2605	
@@ -2650,11 +2650,11 @@
 2641	
 2642	
 2643	
-2644	
-2645	
-2646	
-2647	
-2648	
+2644	507320025	flaming feather
+2645	601242096	frozen feather
+2646	204406419	frightful feather
+2647	428000344	fetid feather
+2648	737526694	flirtatious feather
 2649	
 2650	908181356	bottled green pixie	bottled green pixies
 2651	369275206	green pixie spog	green pixie spogs
@@ -2728,8 +2728,8 @@
 2719
 2720
 2721
-2722
-2723
+2722	594637270	Staff of the Greasefire
+2723	376191389	Staff of the Grand Flamb&eacute;
 2724
 2725
 2726
@@ -2746,7 +2746,7 @@
 2737
 2738
 2739
-2740
+2740	403374369	Staff of the Walk-In Freezer
 2741
 2742
 2743
@@ -2755,7 +2755,7 @@
 2746
 2747	714178698	chunk of depleted Grimacite	chunks of depleted Grimacite
 2748
-2749
+2749	578975886	Staff of the Grease Trap
 2750
 2751
 2752
@@ -2783,15 +2783,15 @@
 2774
 2775
 2776
-2777
-2778
-2779
-2780
-2781
-2782
-2783
-2784
-2785
+2775		filigreed hamethyst earring
+2778	408625270	filigreed hamethyst necklace
+2779	151804649	filigreed hamethyst ring
+2780		solid baconstone earring
+2781		solid baconstone necklace
+2782	576789283	solid baconstone ring
+2783		pulled porquoise earring
+2784		pulled porquoise pendant
+2785		pulled porquoise ring
 2786
 2787
 2788
@@ -2832,7 +2832,7 @@
 2823
 2824
 2825
-2826
+2826	716016442	Staff of the Kitchen Floor
 2827	277422118	anniversary gift box
 2828
 2829

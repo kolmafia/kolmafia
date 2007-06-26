@@ -2173,6 +2173,17 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	/**
+	 * Accessor method to look up whether or not the character can
+	 * craft expensive jewelry
+	 *
+	 * @return	<code>true</code> if this character can smith advanced weapons
+	 */
+
+	public static boolean canCraftExpensiveJewelry()
+	{	return hasSkill( "Really Expensive Jewelrycrafting" );
+	}
+
+	/**
 	 * Accessor method to look up whether or not the character has
 	 * Amphibian Sympathy
 	 *
