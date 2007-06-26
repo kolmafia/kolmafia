@@ -919,8 +919,7 @@ public class TradeableItemDatabase extends KoLDatabase
 
 	public static void findItemDescriptions()
 	{
-		if ( !inventory.contains( UneffectRequest.REMEDY ) )
-			return;
+		RequestLogger.printLine( "Checking for new non-quest items..." );
 
 		KoLRequest updateRequest = new KoLRequest( "closet.php" );
 		RequestThread.postRequest( updateRequest );
