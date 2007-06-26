@@ -273,7 +273,7 @@ public class ChatFrame extends KoLFrame
 
 				ChatPanel.this.lastCommandIndex = ChatPanel.this.commandHistory.size();
 
-				if ( ChatPanel.this.associatedContact.equals( "/gcli" ) )
+				if ( ChatPanel.this.associatedContact.equals( GCLI_TAB ) )
 				{
 					CommandDisplayFrame.executeCommand( message );
 					return;
