@@ -1379,6 +1379,7 @@ public class AdventureDatabase extends KoLDatabase
 		case MALUS:
 		case ROLLING_PIN:
 		case CLOVER:
+		case STAFF:
 
 			break;
 
@@ -1421,6 +1422,7 @@ public class AdventureDatabase extends KoLDatabase
 		case MALUS:
 		case ROLLING_PIN:
 		case CLOVER:
+		case STAFF:
 
 			break;
 
