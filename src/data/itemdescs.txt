@@ -2554,7 +2554,7 @@
 2549	472113416	"Humorous" T-shirt	
 2550	807564363	Peppercorns of Power	
 2551	
-#		vial of mojo
+#	222463880	vial of mojo
 2552	997975507	golden reeds	
 2553
 #		Turtle Chain
@@ -2807,9 +2807,9 @@
 2798
 2799
 2800
-2801
-2802
-2803
+2801	711346519	vial of Gnomochloric acid
+2802	878374857	flask of Gnomochloric acid
+2803	916210085	jug of Gnomochloric acid
 2804
 2805
 2806
