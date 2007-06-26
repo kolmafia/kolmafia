@@ -292,7 +292,10 @@ public class CharpaneRequest extends KoLRequest
 				continue;
 
 			searchIndex = responseText.lastIndexOf( "<", onClickIndex );
-			visibleEffects.add( extractEffect( responseText, searchIndex ) );
+
+			AdventureResult effect = extractEffect( responseText, searchIndex );
+			StaticEntity.getClient().processResult( effect );
+			visibleEffects.add( effect );
 		}
 
 		KoLmafia.applyEffects();
