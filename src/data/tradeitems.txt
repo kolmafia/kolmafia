@@ -2802,9 +2802,9 @@
 2798
 2799
 2800
-2801
-2802
-2803
+2801	vial of Gnomochloric acid	0	all	250
+2802	flask of Gnomochloric acid	0	all	500
+2803	jug of Gnomochloric acid	0	all	2500
 2804
 2805
 2806

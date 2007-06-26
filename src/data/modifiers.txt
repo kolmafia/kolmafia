@@ -61,6 +61,7 @@ penguin whip	Meat: +3.0
 pixel sword	Init: +15.0
 rusty grave robbing shovel	Init: -10.0
 serpentine sword	ML: +10
+# Shagadelic Disco Banjo	Meat: +10.0
 squeaky staff	ML: +6
 styrofoam crossbow	ML: +3
 styrofoam staff	ML: +3
