@@ -745,6 +745,12 @@ public class ConcoctionsDatabase extends KoLDatabase
 		PERMIT_METHOD[ ROLLING_PIN ] = true;
 		ADVENTURE_USAGE[ ROLLING_PIN ] = 0;
 
+		// Rodoric will make chefstaves for mysticality class
+		// characters who can get to the guild.
+
+		PERMIT_METHOD[ STAFF ] = KoLCharacter.isMysticalityClass();
+		ADVENTURE_USAGE[ STAFF ] = 0;
+
 		// It's not possible to ask Uncle Crimbo to make toys
 
 		PERMIT_METHOD[ TOY ] = false;

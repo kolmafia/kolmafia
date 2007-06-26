@@ -290,6 +290,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		case UGH:
 			return new UghRequest( itemId );
 
+		case STAFF:
+			return new ChefstaffRequest( itemId );
+
 		default:
 			return null;
 		}
