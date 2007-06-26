@@ -130,7 +130,11 @@ town_giftshop.php	The Gift Shop	red balloon	100000
 j	Little Canadia Jewelers	piercing post	64
 j	Little Canadia Jewelers	necklace chain	70
 j	Little Canadia Jewelers	ring setting	200
+j	Little Canadia Jewelers	precious piercing post	1000
+j	Little Canadia Jewelers	heavy necklace chain	1000
+j	Little Canadia Jewelers	extra-fancy ring setting	1000
 j	Little Canadia Jewelers	jewelry-making pliers	1000
+j	Little Canadia Jewelers	Really Expensive Jewelry and You	5000
 
 4	The Degrassi Knoll Bakery	Gnollish pie tin	30
 4	The Degrassi Knoll Bakery	wad of dough	50

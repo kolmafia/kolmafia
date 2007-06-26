@@ -178,6 +178,7 @@ pixel pants	50	Mox: 10
 plexiglass pants	180	Mox: 75
 Radio Free Pants	150	Mox: 60
 snowboarder pants	100	Mox: 35
+spandex anniversary shorts	10	none
 stainless steel slacks	90	Mox: 30
 star pants	165	Mox: 67
 sticky meat kilt	45	Mox: 7
@@ -492,6 +493,7 @@ yak whip	20	none	1-handed whip
 9-ball	0	none
 17-ball	0	none
 anniversary balloon	0	none
+anniversary chutney sculpture	0	none
 antique shield	230	Mus: 85
 arrow'd heart balloon	0	none
 barskin buckler	0	none
@@ -678,6 +680,7 @@ incredibly dense meat gem	0	none
 infernal insoles	0	Mys: 15
 intergalactic pom poms	0	none
 Item #13	0	none
+jar of anniversary jam	0	none
 Jarlsberg's earring	0	Mys: 25
 Jekyllin hide belt	0	none
 Junior LAAAAME merit badge	0	none

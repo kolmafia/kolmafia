@@ -123,6 +123,7 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int DUSTY_ANIMAL_SKULL = 1799;
 	private static final int QUILL_PEN = 1957;
 	private static final int MEMO = 1973;
+	private static final int JEWELRY_BOOK = 2502;
 	private static final int ABSINTHE = 2655;
 	private static final int DETUNED_RADIO = 2682;
 
@@ -1066,6 +1067,18 @@ public class ConsumeItemRequest extends KoLRequest
 				StaticEntity.getClient().processResult( lastItemUsed );
 			else
 				KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "Summon Hilarious Objects" ) );
+
+			return;
+
+		case JEWELRY_BOOK:
+
+			// "You read the book, and learn all sorts of advanced
+			// jewelry-making techniques."
+
+			if ( responseText.indexOf( "You read the book" ) == -1 )
+				StaticEntity.getClient().processResult( lastItemUsed );
+			else
+				KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "Really Expensive Jewelrycrafting" ) );
 
 			return;
 

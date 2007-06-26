@@ -2071,9 +2071,9 @@
 2071
 2072	flashing novelty button	8	display	0
 2073	orange glowstick	8	display	0
-2074
-2075
-2076
+2074	anniversary chutney sculpture	13	display	0
+2075	spandex anniversary shorts	10	display	0
+2076	jar of anniversary jam	8	display	0
 2077
 2078
 2079	makeshift turban	9	all	1000
@@ -2499,10 +2499,10 @@
 2499
 3500
 2501
-2502
-2503
-2504
-2505
+2502	Really Expensive Jewelry and You	3	all	2500
+2503	extra-fancy ring setting	0	all	250
+2504	precious piercing post	0	all	250
+2505	heavy necklace chain	0	all	250
 2506	beach glass bead	0	all	35
 2507	clay peace-sign bead	0	all	32
 2508	beach glass necklace	8	all	75

@@ -13,6 +13,7 @@
 16	Summon Snowcone	1	1	5	0
 17	Summon Hilarious Objects	1	1	5	0
 18	Summon Candy Hearts	1	1	0	0
+20	Really Expensive Jewelrycrafting	0	1	0	0
 
 7001	Give In To Your Vampiric Urges	3	5	0	0
 7002	Shake Hands	3	5	0	0
