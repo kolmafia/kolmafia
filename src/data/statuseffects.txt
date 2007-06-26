@@ -12,22 +12,22 @@
 12	Sharp Weapon	spraycan.gif
 13
 14	Hennaliciousness	henna.gif
-15	Bloody Hand	sad.gif
+15	Bloody Hand	sad.gif	21bbf1fc30240ba896c783e810fc737b
 16	Leash of Linguini	string.gif	2d6d3ab04b40e1523aa9c716a04b3aab
 17	Sugar Rush	hoppedup.gif
-18	Ghostly Shell	turtle.gif
-19	Reptilian Fortitude	turtle.gif
+18	Ghostly Shell	turtle.gif	9d5cb67507556bb105664b1dc9e8bf9a
+19	Reptilian Fortitude	turtle.gif	6c7b4a5a3c6807d21493f1253bf8dfd9
 20	Uncertain	confused.gif
-21	Seal Clubbing Frenzy	happy.gif
-22	Patience of the Tortoise	happy.gif
-23	Pasta Oneness	happy.gif
-24	Saucemastery	happy.gif
+21	Seal Clubbing Frenzy	happy.gif	93e55821ba196181627eae905eb1f052
+22	Patience of the Tortoise	happy.gif	13d514f97d8701d2507c8623b88897ff
+23	Pasta Oneness	happy.gif	583619abc0e4380d80629babe3677aed
+24	Saucemastery	happy.gif	2817b71ed041fdffb5b4b514c8be662d
 25	Disco State of Mind	discoball.gif	869b501ce3b0e8ba139e7f3807db0c1f
 26	Mariachi Mood	happy.gif
 27	Temporary Lycanthropy	lycanth.gif
 28	Butt-Rock Hair	buttrock.gif
 29	Contemptible Emanations	stench.gif
-30	Incredibly Hulking	strboost.gif
+30	Incredibly Hulking	strboost.gif	fd5616e89e1c2ecb0b01b61929682d2d
 31	Superhuman Sarcasm	wink.gif
 32	Tomato Power	tomato.gif
 33	Phorcefullness	strboost.gif
@@ -48,20 +48,20 @@
 48	The Smile of Mr. A.	gma.gif
 49	Macho Profundo	notes.gif	a02c6fb27a3f9f4bf2c48d59584adc56
 50	Empathy	happy.gif	ac32e95f470a7e0999863fa0db58d808
-51	Tenacity of the Snapper	turtle.gif
+51	Tenacity of the Snapper	turtle.gif	c05dc4b01f6f2826be599f07620979f7
 52	Astral Shell	turtle.gif	4e66acac6b908fb6f70b49092dcff375
-53	Elemental Saucesphere	elesphere.gif
-54	Jalapeño Saucesphere	pepsphere.gif
+53	Elemental Saucesphere	elesphere.gif	e3d1d1099648703e192a55a9aea17a1e
+54	Jalapeño Saucesphere	pepsphere.gif	432fc725db5720e9237438147bc6516e
 55	Jabañero Saucesphere	pepsphere2.gif
 56	Extreme Muscle Relaxation	happy.gif
 57	Rainy Soul Miasma	raincloud.gif
 58	Teleportitis	confused.gif
 59	Wanged	wang.gif
-60	Aloysius' Antiphon of Aptitude	notes.gif
-61	The Moxious Madrigal	notes.gif
+60	Aloysius' Antiphon of Aptitude	notes.gif	3f875f7c9c4cc7b64f4c7d7b7eea1ef6
+61	The Moxious Madrigal	notes.gif	c77eb3298c1bcba5e0147eba77a5a802
 62	Cletus's Canticle of Celerity	notes.gif
 63	Polka of Plenty	notes.gif	c26a911b8ec2c57f7eef57f9ff5fdc24
-64	The Magical Mojomuscular Melody	notes.gif
+64	The Magical Mojomuscular Melody	notes.gif	80224f21d262123e7e370d440ce36937
 65	Power Ballad of the Arrowsmith	notes.gif
 66	Brawnee's Anthem of Absorption	notes.gif
 67	Fat Leon's Phat Loot Lyric	notes.gif	63e73adb3ecfb0cbf544db435eeeaf00
@@ -113,9 +113,9 @@
 113	Popping Stomach	rockpops.gif
 114	Dwarven Hardiness	happy.gif
 115	Apathy	apathy.gif
-116	Radio Head	radhat.gif
-117	Free Bird	radpants.gif
-118	Shiny Happy Weapon	radsword.gif
+116	Radio Head	radhat.gif	93a84005b9089f8b39237450c0af0ff3
+117	Free Bird	radpants.gif	587b577f3cf49f2d944450aa4751584d
+118	Shiny Happy Weapon	radsword.gif	c182e3297f3732ed05601d63d5980f1d
 119	On the Shoulders of Giants	farout.gif
 120	Shot in the Arse	shotarse.gif
 121	Cock of the Walk	cockghost.gif
@@ -124,11 +124,11 @@
 124	Egg-stra Arm	eggplain.gif
 125	Egg-headedness	eggplain.gif
 126	Egg-cellent Vocabulary	eggplain.gif
-127	Gothy	gothy.gif
+127	Gothy	gothy.gif	06cb86ddd689278c5af31423a8210a72
 128	Flower Power	flower.gif
 129	Eye of the Lihc	eyeball.gif
-130	Springy Fusilli	fusilli.gif
-131	Rage of the Reindeer	reindeer.gif
+130	Springy Fusilli	fusilli.gif	bb44871dd165d4dc9b4d35daa46908ef
+131	Rage of the Reindeer	reindeer.gif	5c8d3b5b4a6d403f95f27f5d29528c59
 132	Engorged Weapon	nicesword.gif
 133	Mysteriously Handsome	happy.gif
 134	Tamarind Torment	chicle.gif
@@ -163,7 +163,7 @@
 163	Carlweather's Cantata of Confrontation	notes.gif
 164	Ur-Kel's Aria of Annoyance	notes.gif
 165	Smooth Movements	footprints.gif
-166	Musk of the Moose	stench.gif
+166	Musk of the Moose	stench.gif	5e788aac76c7451c42ce19d2acf6de18
 167	Spirit of Cayenne	flame.gif
 168	Spirit of Peppermint	snowflake.gif
 169	Spirit of Garlic	stench.gif
@@ -194,13 +194,13 @@
 194	Hot Breath	breath.gif
 195	Cold Breath	breath.gif
 196	Spooky Breath	breath.gif
-197	Stinky Breath	breath.gif
+197	Stinky Breath	breath.gif	8be4aecc48d39b0b8b7a0fd671bd4330
 198	Sleazy Breath	breath.gif
 199	Aspect of the Twinklefairy	scwad.gif	f27e3dcf9fd6b46b30347743c18ccb1b
-200	Hot Blooded	scwad.gif
+200	Hot Blooded	scwad.gif	c3dce41845c995ec4c2bd986cbc28364
 201	Cold Blooded	scwad.gif
 202	Spooky Demeanor	scwad.gif
-203	Stenchtastic	scwad.gif
+203	Stenchtastic	scwad.gif	798bb9ee21a7f86fea8ed2a1c8fc9be1
 204	Supafly	scwad.gif
 205	Provocative Perkiness	hoppedup.gif
 206	Ermine Eyes	bigeyes.gif
@@ -220,7 +220,7 @@
 220	Sticky Fingers	glove.gif
 221	Chalky Hand	glove.gif	3e2eed0d70d0e023a11619655a3f48c0
 222	Snarl of the Timberwolf	wolfmask.gif
-223	Dreams and Lights	snowflakes.gif
+223	Dreams and Lights	snowflakes.gif	360467118bd69ef869a1af2002117e63
 224	Scarysauce	skullshld.gif
 225	Dirge of Dreadfulness	notes.gif
 226	Talking Like a Pirate	piratehead.gif
