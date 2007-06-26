@@ -182,7 +182,7 @@ public class StatusEffectDatabase extends KoLDatabase
 		File override = new File( DATA_DIRECTORY, "statuseffects.txt" );
 		LogStream ostream = LogStream.openStream( override, true );
 
-		int lastInteger = 0;
+		int lastInteger = 1;
 		Iterator it = effectById.keySet().iterator();
 
 		while ( it.hasNext() )
@@ -191,7 +191,7 @@ public class StatusEffectDatabase extends KoLDatabase
 			for ( int i = lastInteger; i < nextInteger.intValue(); ++i )
 					ostream.println(i);
 
-			lastInteger = nextInteger.intValue();
+			lastInteger = nextInteger.intValue() + 1;
 			ostream.print( nextInteger + "\t" + effectById.get( nextInteger ) + "\t" +
 				imageById.get( nextInteger ) );
 
