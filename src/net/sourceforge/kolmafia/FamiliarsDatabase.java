@@ -35,7 +35,6 @@ package net.sourceforge.kolmafia;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.PrintStream;
 
 import java.util.Map;
 import java.util.Set;
@@ -285,7 +284,7 @@ public class FamiliarsDatabase extends KoLDatabase
 	private static void saveDataOverride()
 	{
 		File output = new File( DATA_LOCATION, "familiars.txt" );
-		PrintStream writer = LogStream.openStream( output, true );
+		LogStream writer = LogStream.openStream( output, true );
 
 		writer.println( "# Original familiar arena stats from Vladjimir's arena data" );
 		writer.println( "# http://www.the-rye.dreamhosters.com/familiars/" );

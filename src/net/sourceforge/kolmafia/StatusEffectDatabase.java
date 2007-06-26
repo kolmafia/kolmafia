@@ -62,24 +62,10 @@ public class StatusEffectDatabase extends KoLDatabase
 		BufferedReader reader = getReader( "statuseffects.txt" );
 		String [] data;
 
-		Integer effectId;
-
 		while ( (data = readData( reader )) != null )
 		{
 			if ( data.length >= 3 )
-			{
-				effectId = Integer.valueOf( data[0] );
-
-				effectById.put( effectId, getDisplayName( data[1] ) );
-				effectByName.put( getCanonicalName( data[1] ), effectId );
-				imageById.put( effectId, data[2] );
-
-				if ( data.length > 3 )
-				{
-					descriptionById.put( effectId, data[1] );
-					effectByDescription.put( data[3], effectId );
-				}
-			}
+				addToDatabase( Integer.valueOf( data[0] ), data[1], data[2], data.length > 3 ? data[3] : null );
 		}
 
 		try
@@ -110,6 +96,20 @@ public class StatusEffectDatabase extends KoLDatabase
 
 			printStackTrace( e );
 		}
+	}
+
+	private static void addToDatabase( Integer effectId, String name, String image, String descriptionId )
+	{
+		effectById.put( effectId, getDisplayName( name ) );
+		effectByName.put( getCanonicalName( name ), effectId );
+		imageById.put( effectId, image );
+
+		if ( descriptionId != null )
+		{
+			descriptionById.put( effectId, name );
+			effectByDescription.put( descriptionId, effectId );
+		}
+
 	}
 
 	/**
@@ -167,41 +167,6 @@ public class StatusEffectDatabase extends KoLDatabase
 
 	public static Collection values()
 	{	return effectById.values();
-	}
-
-	public static void addDescriptionId( int effectId, String descriptionId )
-	{
-		if ( effectId == -1 )
-			return;
-
-		Integer id = new Integer( effectId );
-
-		effectByDescription.put( descriptionId, id );
-		descriptionById.put( id, descriptionId );
-
-		File override = new File( DATA_DIRECTORY, "statuseffects.txt" );
-		LogStream ostream = LogStream.openStream( override, true );
-
-		int lastInteger = 1;
-		Iterator it = effectById.keySet().iterator();
-
-		while ( it.hasNext() )
-		{
-			Integer nextInteger = (Integer) it.next();
-			for ( int i = lastInteger; i < nextInteger.intValue(); ++i )
-					ostream.println(i);
-
-			lastInteger = nextInteger.intValue() + 1;
-			ostream.print( nextInteger + "\t" + effectById.get( nextInteger ) + "\t" +
-				imageById.get( nextInteger ) );
-
-			if ( descriptionById.containsKey( nextInteger ) )
-				ostream.print( "\t" + descriptionById.get( nextInteger ) );
-
-			ostream.println();
-		}
-
-		ostream.close();
 	}
 
 	/**
@@ -281,5 +246,73 @@ public class StatusEffectDatabase extends KoLDatabase
 		}
 
 		return modifiers;
+	}
+
+	public static void addDescriptionId( int effectId, String descriptionId )
+	{
+		if ( effectId == -1 )
+			return;
+
+		Integer id = new Integer( effectId );
+
+		effectByDescription.put( descriptionId, id );
+		descriptionById.put( id, descriptionId );
+
+		saveDataOverride();
+	}
+
+	private static final Pattern STATUS_EFFECT_PATTERN = Pattern.compile(
+		"<input type=radio name=whicheffect value=(\\d+)></td><td><img src=\"http://images.kingdomofloathing.com/itemimages/(.*?)\" width=30 height=30></td><td>(.*?) \\(" );
+
+	public static void findStatusEffects()
+	{
+		if ( !inventory.contains( UneffectRequest.REMEDY ) )
+			return;
+
+		KoLRequest updateRequest = new KoLRequest( "uneffect.php" );
+		RequestThread.postRequest( updateRequest );
+		Matcher effectsMatcher = STATUS_EFFECT_PATTERN.matcher( updateRequest.responseText );
+
+		boolean foundChanges = false;
+
+		while ( effectsMatcher.find() )
+		{
+			Integer effectId = Integer.valueOf( effectsMatcher.group(1) );
+			if ( effectById.containsKey( effectId ) )
+				continue;
+
+			foundChanges = true;
+			addToDatabase( effectId, effectsMatcher.group(3), effectsMatcher.group(2), null );
+		}
+
+		if ( foundChanges )
+			saveDataOverride();
+	}
+
+	public static void saveDataOverride()
+	{
+		File output = new File( DATA_DIRECTORY, "statuseffects.txt" );
+		LogStream writer = LogStream.openStream( output, true );
+
+		int lastInteger = 1;
+		Iterator it = effectById.keySet().iterator();
+
+		while ( it.hasNext() )
+		{
+			Integer nextInteger = (Integer) it.next();
+			for ( int i = lastInteger; i < nextInteger.intValue(); ++i )
+					writer.println(i);
+
+			lastInteger = nextInteger.intValue() + 1;
+			writer.print( nextInteger + "\t" + effectById.get( nextInteger ) + "\t" +
+				imageById.get( nextInteger ) );
+
+			if ( descriptionById.containsKey( nextInteger ) )
+				writer.print( "\t" + descriptionById.get( nextInteger ) );
+
+			writer.println();
+		}
+
+		writer.close();
 	}
 }

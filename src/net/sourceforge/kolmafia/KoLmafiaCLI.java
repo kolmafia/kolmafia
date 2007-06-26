@@ -842,6 +842,13 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( command.equals( "newdata" ) )
+		{
+			TradeableItemDatabase.findItemDescriptions();
+			StatusEffectDatabase.findStatusEffects();
+			return;
+		}
+
 		if ( command.equals( "clear" ) || command.equals( "cls" ) )
 		{
 			commandBuffer.clearBuffer();

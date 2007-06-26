@@ -34,6 +34,8 @@
 package net.sourceforge.kolmafia;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -55,10 +57,10 @@ public class TradeableItemDatabase extends KoLDatabase
 
 	private static IntegerArray useTypeById = new IntegerArray();
 	private static IntegerArray priceById = new IntegerArray();
+	private static StringArray descriptionById = new StringArray();
+	private static StringArray pluralById = new StringArray();
 
-	private static StringArray descById = new StringArray();
-
-	private static Map nameByItemId = new TreeMap();
+	private static Map nameById = new TreeMap();
 	private static Map itemIdByName = new TreeMap();
 	private static Map itemIdByPlural = new TreeMap();
 
@@ -95,6 +97,7 @@ public class TradeableItemDatabase extends KoLDatabase
 	private static Map mysticalityByName = new TreeMap();
 	private static Map moxieByName = new TreeMap();
 
+	private static Map accessById = new TreeMap();
 	private static BooleanArray tradeableById = new BooleanArray();
 	private static BooleanArray giftableById = new BooleanArray();
 	private static BooleanArray displayableById = new BooleanArray();
@@ -121,8 +124,9 @@ public class TradeableItemDatabase extends KoLDatabase
 				priceById.set( itemId, StaticEntity.parseInt( data[4] ) );
 
 				itemIdByName.put( getCanonicalName( data[1] ), id );
-				nameByItemId.put( id, getDisplayName( data[1] ) );
+				nameById.put( id, getDisplayName( data[1] ) );
 
+				accessById.put( id, data[3] );
 				tradeableById.set( itemId, data[3].equals( "all" ) );
 				giftableById.set( itemId, data[3].equals( "all" ) || data[3].equals( "gift" ) );
 				displayableById.set( itemId, data[3].equals( "all" ) || data[3].equals( "gift" ) || data[3].equals( "display" ) );
@@ -162,9 +166,13 @@ public class TradeableItemDatabase extends KoLDatabase
 				if ( isDescriptionId )
 				{
 					int itemId = StaticEntity.parseInt( data[0].trim() );
-					descById.set( itemId, data[1] );
+					descriptionById.set( itemId, data[1] );
+
 					if ( data.length == 4 )
+					{
+						pluralById.set( itemId, data[3] );
 						itemIdByPlural.put( getCanonicalName( data[3] ), new Integer( itemId ) );
+					}
 				}
 			}
 		}
@@ -461,6 +469,10 @@ public class TradeableItemDatabase extends KoLDatabase
 	 */
 
 	public static void registerItem( int itemId, String itemName )
+	{	registerItem( itemId, itemName, "" );
+	}
+
+	public static void registerItem( int itemId, String itemName, String descriptionId )
 	{
 		if ( itemName == null )
 			return;
@@ -469,12 +481,12 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		useTypeById.set( itemId, 0 );
 		priceById.set( itemId, -1 );
-		descById.set( itemId, "" );
+		descriptionById.set( itemId, descriptionId );
 
 		Integer id = new Integer( itemId );
 
 		itemIdByName.put( getCanonicalName( itemName ), id );
-		nameByItemId.put( id, getDisplayName( itemName ) );
+		nameById.put( id, getDisplayName( itemName ) );
 	}
 
 	/**
@@ -806,7 +818,7 @@ public class TradeableItemDatabase extends KoLDatabase
 	 */
 
 	public static final String getItemName( int itemId )
-	{	return (String) nameByItemId.get( new Integer( itemId ) );
+	{	return (String) nameById.get( new Integer( itemId ) );
 	}
 
 	/**
@@ -882,7 +894,7 @@ public class TradeableItemDatabase extends KoLDatabase
 	 */
 
 	public static final String getDescriptionId( int itemId )
-	{	return descById.get( itemId );
+	{	return descriptionById.get( itemId );
 	}
 
 	/**
@@ -891,7 +903,7 @@ public class TradeableItemDatabase extends KoLDatabase
 	 */
 
 	public static Set entrySet()
-	{	return nameByItemId.entrySet();
+	{	return nameById.entrySet();
 	}
 
 	/**
@@ -901,5 +913,78 @@ public class TradeableItemDatabase extends KoLDatabase
 
 	public static int maxItemId()
 	{	return maxItemId;
+	}
+
+	private static final Pattern CLOSET_ITEM_PATTERN = Pattern.compile( "<option value='(\\d+)' descid='(.*?)'>(.*?) \\(" );
+
+	public static void findItemDescriptions()
+	{
+		if ( !inventory.contains( UneffectRequest.REMEDY ) )
+			return;
+
+		KoLRequest updateRequest = new KoLRequest( "closet.php" );
+		RequestThread.postRequest( updateRequest );
+		Matcher itemMatcher = CLOSET_ITEM_PATTERN.matcher( updateRequest.responseText );
+
+		boolean foundChanges = false;
+
+		while ( itemMatcher.find() )
+		{
+			int itemId = parseInt( itemMatcher.group(1) );
+			if ( !descriptionById.get( itemId ).equals( "" ) )
+				continue;
+
+			foundChanges = true;
+			registerItem( itemId, itemMatcher.group(3), itemMatcher.group(2) );
+		}
+
+		if ( foundChanges )
+			saveDataOverride();
+	}
+
+	public static void saveDataOverride()
+	{
+		File output = new File( DATA_DIRECTORY, "tradeitems.txt" );
+		LogStream writer = LogStream.openStream( output, true );
+
+		int lastInteger = 1;
+		Iterator it = nameById.keySet().iterator();
+
+		while ( it.hasNext() )
+		{
+			Integer nextInteger = (Integer) it.next();
+			for ( int i = lastInteger; i < nextInteger.intValue(); ++i )
+					writer.println(i);
+
+			lastInteger = nextInteger.intValue() + 1;
+
+			if ( accessById.containsKey( nextInteger ) )
+			{
+				writer.println( nextInteger + "\t" + nameById.get( nextInteger ) + "\t" +
+					useTypeById.get( nextInteger.intValue() ) + "\t" +
+					accessById.get( nextInteger ) + "\t" + priceById.get( nextInteger.intValue() ) );
+			}
+			else
+			{
+				writer.println( nextInteger + "\t" + nameById.get( nextInteger ) +
+					"\t0\tunknown\t-1" );
+			}
+		}
+
+		writer.close();
+
+		output = new File( DATA_DIRECTORY, "itemdescs.txt" );
+		writer = LogStream.openStream( output, true );
+
+		for ( int i = 0; i < descriptionById.size(); ++i )
+		{
+			if ( descriptionById.get(i).equals( "" ) )
+				continue;
+
+			writer.println( i + "\t" + nameById.get( new Integer(i) ) + "\t" +
+				descriptionById.get(i) + "\t" + pluralById.get(i) );
+		}
+
+		writer.close();
 	}
 }
