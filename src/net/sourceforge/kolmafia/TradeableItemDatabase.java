@@ -61,6 +61,7 @@ public class TradeableItemDatabase extends KoLDatabase
 	private static StringArray pluralById = new StringArray();
 
 	private static Map nameById = new TreeMap();
+	private static Map dataNameById = new TreeMap();
 	private static Map itemIdByName = new TreeMap();
 	private static Map itemIdByPlural = new TreeMap();
 
@@ -124,6 +125,7 @@ public class TradeableItemDatabase extends KoLDatabase
 				priceById.set( itemId, StaticEntity.parseInt( data[4] ) );
 
 				itemIdByName.put( getCanonicalName( data[1] ), id );
+				dataNameById.put( id, data[1] );
 				nameById.put( id, getDisplayName( data[1] ) );
 
 				accessById.put( id, data[3] );
@@ -486,6 +488,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		Integer id = new Integer( itemId );
 
 		itemIdByName.put( getCanonicalName( itemName ), id );
+		dataNameById.put( id, itemName );
 		nameById.put( id, getDisplayName( itemName ) );
 	}
 
@@ -959,13 +962,13 @@ public class TradeableItemDatabase extends KoLDatabase
 
 			if ( accessById.containsKey( nextInteger ) )
 			{
-				writer.println( nextInteger + "\t" + nameById.get( nextInteger ) + "\t" +
+				writer.println( nextInteger + "\t" + dataNameById.get( nextInteger ) + "\t" +
 					useTypeById.get( nextInteger.intValue() ) + "\t" +
 					accessById.get( nextInteger ) + "\t" + priceById.get( nextInteger.intValue() ) );
 			}
 			else
 			{
-				writer.println( nextInteger + "\t" + nameById.get( nextInteger ) +
+				writer.println( nextInteger + "\t" + dataNameById.get( nextInteger ) +
 					"\t0\tunknown\t-1" );
 			}
 		}

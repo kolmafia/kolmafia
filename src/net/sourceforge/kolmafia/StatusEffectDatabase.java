@@ -48,7 +48,8 @@ import java.util.regex.Pattern;
 
 public class StatusEffectDatabase extends KoLDatabase
 {
-	private static Map effectById = new TreeMap();
+	private static Map nameById = new TreeMap();
+	private static Map dataNameById = new TreeMap();
 	private static Map effectByName = new TreeMap();
 
 	private static Map imageById = new TreeMap();
@@ -100,7 +101,8 @@ public class StatusEffectDatabase extends KoLDatabase
 
 	private static void addToDatabase( Integer effectId, String name, String image, String descriptionId )
 	{
-		effectById.put( effectId, getDisplayName( name ) );
+		nameById.put( effectId, getDisplayName( name ) );
+		dataNameById.put( effectId, name );
 		effectByName.put( getCanonicalName( name ), effectId );
 		imageById.put( effectId, image );
 
@@ -119,7 +121,7 @@ public class StatusEffectDatabase extends KoLDatabase
 	 */
 
 	public static final String getEffectName( int effectId )
-	{	return effectId == -1 ? "Unknown effect" : getDisplayName( (String) effectById.get( new Integer( effectId ) ) );
+	{	return effectId == -1 ? "Unknown effect" : getDisplayName( (String) nameById.get( new Integer( effectId ) ) );
 	}
 
 	public static final int getEffect( String descriptionId )
@@ -162,11 +164,11 @@ public class StatusEffectDatabase extends KoLDatabase
 	 */
 
 	public static Set entrySet()
-	{	return effectById.entrySet();
+	{	return nameById.entrySet();
 	}
 
 	public static Collection values()
-	{	return effectById.values();
+	{	return nameById.values();
 	}
 
 	/**
@@ -280,7 +282,7 @@ public class StatusEffectDatabase extends KoLDatabase
 		while ( effectsMatcher.find() )
 		{
 			Integer effectId = Integer.valueOf( effectsMatcher.group(1) );
-			if ( effectById.containsKey( effectId ) )
+			if ( nameById.containsKey( effectId ) )
 				continue;
 
 			foundChanges = true;
@@ -297,7 +299,7 @@ public class StatusEffectDatabase extends KoLDatabase
 		LogStream writer = LogStream.openStream( output, true );
 
 		int lastInteger = 1;
-		Iterator it = effectById.keySet().iterator();
+		Iterator it = dataNameById.keySet().iterator();
 
 		while ( it.hasNext() )
 		{
@@ -306,7 +308,7 @@ public class StatusEffectDatabase extends KoLDatabase
 					writer.println(i);
 
 			lastInteger = nextInteger.intValue() + 1;
-			writer.print( nextInteger + "\t" + effectById.get( nextInteger ) + "\t" +
+			writer.print( nextInteger + "\t" + dataNameById.get( nextInteger ) + "\t" +
 				imageById.get( nextInteger ) );
 
 			if ( descriptionById.containsKey( nextInteger ) )
