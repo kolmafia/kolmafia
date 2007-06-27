@@ -2175,14 +2175,14 @@
 2170	967323129	MagiMechTech NanoMechaMech	MagiMechTech NanoMechaMech
 2171	498827218	astronaut pants	pairs of astronaut pants
 2172	870031881	toy jet pack	toy jet packs
-2173
-2174
-2175
-2176
-2177
-2178
-2179
-2180
+2173	800044994	triangular stone
+2174	278620654	mossy stone sphere
+2175	588346637	smooth stone sphere
+2176	250523661	cracked stone sphere
+2177	803312162	rough stone sphere
+2178	632654221	obsidian dagger
+2179	437761145	archaeologist's notebook
+2180	542424624	ancient amulet
 2181	350793311	chocolate lump
 2182	789460148	Harold's hammer head
 2183	937228288	Harold's hammer handle
@@ -2239,14 +2239,14 @@
 2234	458249860	calavera concertina
 2235	345804457	ratarang	ratarangs
 2236	542676786	turtle pheromones	vials of turtle pheromones
-2237
-2238
+2237	680058972	pygmy blowgun
+2238	394311894	pygmy nose-bone
 2239
-2240
+2240	848242124	bottle of alcohol
 2241
-2242
-2243
-2244
+2242	598693688	pygmy pygment
+2243	132676394	headhunter necktie
+2244	257298371	pointed stick
 2245	489535198	knobby helmet turtle	knobby helmet turtles
 2246	830985846	knobby kneepads	pairs of knobby kneepads
 2247	917862110	sewer turtle	sewer turtles
@@ -2342,7 +2342,7 @@
 2337
 2338		black pudding
 2339	459189919	Blackfly Chardonnay
-2340	851939683	black and tan	blacks and tans
+2340	851939683	black & tan	blacks & tans
 2341	386692175	black pepper	shakers of black pepper
 2342	233137570	black forest cake	slices of black forest cake
 2343	332243935	black forest ham	black forest hams
@@ -2534,7 +2534,7 @@
 2529	
 2530	
 2531	
-2532	
+2532	762179710	long pork
 2533	
 2534	
 2535	
@@ -2684,7 +2684,7 @@
 2675	
 2676	
 2677	
-2678	
+2678	724817767	spectre scepter
 2679	531024665	sparkler	sparklies
 2680	397831150	snake	sssnakess
 2681	160414339	M-242	M-242s

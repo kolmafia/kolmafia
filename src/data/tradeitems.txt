@@ -2170,14 +2170,14 @@
 2170	MagiMechTech NanoMechaMech	8	all	50
 2171	astronaut pants	10	all	50
 2172	toy jet pack	8	all	50
-2173
-2174
-2175
-2176
-2177
-2178
-2179
-2180
+2173	triangular stone	0	none	0
+2174	mossy stone sphere	0	none	0
+2175	smooth stone sphere	0	none	0
+2176	cracked stone sphere	0	none	0
+2177	rough stone sphere	0	none	0
+2178	obsidian dagger	12	display	0
+2179	archaeologist's notebook	3	none	0
+2180	ancient amulet	0	none	0
 2181	chocolate lump	3	none	0
 2182	Harold's hammer head	0	none	0
 2183	Harold's hammer handle	0	none	0
@@ -2234,14 +2234,14 @@
 2234	calavera concertina	12	all	45
 2235	ratarang	12	all	65
 2236	turtle pheromones	3	display	25
-2237
-2238
+2237	pygmy blowgun	0	all	122
+2238	pygmy nose-bone	8	all	150
 2239
-2240
+2240	bottle of alcohol	0	all	85
 2241
-2242
-2243
-2244
+2242	pygmy pygment	4	all	155
+2243	headhunter necktie	8	all	167
+2244	pointed stick	12	all	173
 2245	knobby helmet turtle	9	all	1
 2246	knobby kneepads	8	all	20
 2247	sewer turtle	13	all	25
@@ -2337,7 +2337,7 @@
 2337
 2338	black pudding	1	all	40
 2339	Blackfly Chardonnay	2	all	40
-2340	black and tan	2	all	40
+2340	black & tan	2	all	40
 2341	black pepper	0	all	40
 2342	black forest cake	1	all	40
 2343	black forest ham	1	all	40
@@ -2529,7 +2529,7 @@
 2529
 2530
 2531
-2532
+2532	long pork	0	all	55
 2533
 2534
 2535
@@ -2679,7 +2679,7 @@
 2675	
 2676	
 2677	
-2678	
+2678	spectre scepter	0	display	0
 2679	sparkler	3	all	150
 2680	snake	3	all	150
 2681	M-242	3	all	150
