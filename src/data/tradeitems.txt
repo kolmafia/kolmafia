@@ -2265,7 +2265,7 @@
 2265
 2266
 2267
-2268
+2268	Staff of Fats	0	none	0
 2269
 2270
 2271
@@ -2283,7 +2283,7 @@
 2283
 2284	petrified noodles	0	all	100
 2285	chisel	12	all	100
-2286
+2286	Eye of Ed	0	none	0
 2287	green glowstick	8	display	0
 2288	encoder ring	8	gift	5
 2289
@@ -2299,7 +2299,7 @@
 2299
 2300
 2301
-2302
+2302	worm-riding hooks	12	none	0
 2303	libram of candy heart summoning	3	all	0
 2304	white candy heart	4	all	5
 2305	pink candy heart	4	all	5
@@ -2317,15 +2317,15 @@
 2317
 2318
 2319
-2320
-2321
-2322
-2323
-2324
-2325
+2320	worm-riding manual page 1	0	none	0
+2321	worm-riding manual page 2	0	none	0
+2322	worm-riding manual pages 3-15	0	none	0
+2323	headpiece of the staff of Ed	0	none	0
+2324	Staff of Ed, almost	0	none	0
+2325	Staff of Ed	0	none	0
 2326
 2327	can of black paint	4	none	150
-2328	drum machine	3	display	160
+2328	drum machine	0	display	160
 2329
 2330	chocolate-covered diamond-studded roses	0	gift	10000
 2331	bouquet of circular saw blades	0	gift	2500
@@ -2441,7 +2441,7 @@
 2441	Knob Goblin encryption key	0	none	0
 2442	Cobb's Knob map	3	none	0
 2443	pink glowstick	8	display	0
-2444
+2444	Supernova Champagne	1	all	180
 2445	Deactivated O. A. F.	5	all	0
 2446	hardware upgrade	7	all	75
 2447	bad penguin egg	5	all	0
@@ -2578,7 +2578,7 @@
 2574	ant pick	7	all	75
 2575	bronzed locust	0	all	55
 2576	honey-dipped locust	4	all	115
-2577
+2577	giant cactus quill	12	all	155
 2578	Staff of the Short Order Cook	12	display	25
 2579	cactus fruit	1	all	35
 2580	scorpion whip	12	all	25
@@ -2586,10 +2586,10 @@
 2582	brick of sand	3	all	100
 2583	centipede eggs	1	all	66
 2584
-2585
-2586
-2587
-2588
+2585	Colonel Mustard's Lonely Spades Club Jacket	11	all	135
+2586	General Sage's Lonely Diamonds Club Jacket	11	all	135
+2587	Corporal Fennel's Lonely Clubs Club Jacket	11	all	135
+2588	Private Pepper's Lonely Hearts Club Jacket	11	all	135
 2589
 2590
 2591
@@ -2616,7 +2616,7 @@
 2612
 2613	rocky raccoon	0	all	75
 2614
-2615
+2615	savoy truffle	1	all	90
 2616
 2617
 2618
@@ -2643,8 +2643,8 @@
 2639	black cherry soda	4	all	40
 2640	black greaves	10	all	145
 2641	
-2642	
-2643	
+2642	Maxwell's Silver Hammer	12	all	180
+2643	happiness	12	all	95
 2644	flaming feather	0	all	55
 2645	frozen feather	0	all	55
 2646	frightful feather	0	all	55
@@ -2676,7 +2676,7 @@
 2672	library card	3	all	50
 2673	Bohemian rhapsody	0	all	25
 2674	bottle of black cat tonic	3	all	25
-2675	
+2675	handful of moss	4	all	250
 2676	bit-o-cactus	4	all	250
 2677	
 2678	spectre scepter	0	display	0
