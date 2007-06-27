@@ -61,8 +61,14 @@ import com.velocityreviews.forums.HttpTimeoutHandler;
 
 public class KoLRequest extends Job implements KoLConstants
 {
-	private static final int INITIAL_CACHE_COUNT = 3;
-	private static final int AUTOMATED_DELAY = 8000;
+	private static long timestamp = 0;
+
+	private static int LAG_THRESHOLD = 4000;
+	private static int INITIAL_CACHE_COUNT = 3;
+
+	private static int CURRENT_DELAY = 1000;
+	private static int VARIABLE_DELAY = 4000;
+	private static int MAXIMUM_DELAY = 60000;
 
 	private static final Object WAIT_OBJECT = new Object();
 
@@ -736,10 +742,14 @@ public class KoLRequest extends Job implements KoLConstants
 
 	public void execute()
 	{
+		boolean adjustDelay = false;
 		String urlString = this.getURLString();
 
 		if ( !isDelayExempt && urlString.startsWith( "adventure.php" ) )
-			delay( RNG.nextInt( AUTOMATED_DELAY ) + 1000 );
+		{
+			adjustDelay = true;
+			delay( RNG.nextInt( VARIABLE_DELAY ) + CURRENT_DELAY );
+		}
 
 		// If this is the rat quest, then go ahead and pre-set the data
 		// to reflect a fight sequence (mini-browser compatibility).
@@ -791,12 +801,18 @@ public class KoLRequest extends Job implements KoLConstants
 
 		this.statusChanged = false;
 
+		if ( adjustDelay )
+			timestamp = System.currentTimeMillis();
+
 		do
 		{
 			if ( !this.prepareConnection() && KoLmafia.refusesContinue() )
 				break;
 		}
 		while ( !this.postClientData() || !this.retrieveServerReply() );
+
+		if ( adjustDelay && System.currentTimeMillis() - timestamp > LAG_THRESHOLD )
+			CURRENT_DELAY = Math.min( MAXIMUM_DELAY, CURRENT_DELAY << 1 );
 	}
 
 	private void saveLastChoice( String url )
