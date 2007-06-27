@@ -426,6 +426,11 @@ public class AdventureDatabase extends KoLDatabase
 		  new String [] { "3 papayas", "trade 3 papayas for stats", "stats" },
 		  new String [] { "498", null, null } ),
 
+		// Let's Make a Deal!
+		new ChoiceAdventure( "Beach", "choiceAdventure132", "The Arid Extra-Dry Desert",
+		  new String [] { "broken carburetor", "Unlock Oasis" },
+		  new String [] { "2316", null } ),
+
 		// Choice 150 is Another Adventure About BorderTown
 
 		// Adventurer, $1.99
@@ -822,6 +827,9 @@ public class AdventureDatabase extends KoLDatabase
 
 		// No sir, away!  A papaya war is on!
 		{ "127", "2", new AdventureResult( "papaya", -3 ) },
+
+		// Let's Make a Deal!
+		{ "132", "1", new AdventureResult( AdventureResult.MEAT, -5000 ) },
 
 		// The Blackberry Cobbler
 		{ "177", "1", new AdventureResult( "blackberry", -10 ) },

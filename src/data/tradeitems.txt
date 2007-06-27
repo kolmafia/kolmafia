@@ -2313,7 +2313,7 @@
 2313	lavender candygram	4	none	0
 2314	yellow candygram	4	none	0
 2315	green candygram	4	none	0
-2316
+2316	broken carburetor	0	all	4000
 2317
 2318
 2319
