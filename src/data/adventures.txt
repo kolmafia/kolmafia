@@ -8,6 +8,7 @@ Beach	0/0	shore=2	Mysticality Vacation
 Beach	0/0	shore=3	Moxie Vacation	1 barbed-wire fence
 Beach	0/0	adventure=45	South of the Border	1 pile of candy
 Beach	104/0	adventure=121	The Arid Extra-Dry Desert
+Beach	104/0	adventure=122	An Oasis
 Beach	0/0	adventure=156	Grim Grimacite Site
 
 Casino	0/0	casino=1	Goat Party
