@@ -980,8 +980,7 @@ public class TradeableItemDatabase extends KoLDatabase
 			if ( descriptionById.get(i).equals( "" ) )
 				continue;
 
-			writer.println( i + "\t" + nameById.get( new Integer(i) ) + "\t" +
-				descriptionById.get(i) + "\t" + pluralById.get(i) );
+			writer.println( i + "\t" + descriptionById.get(i) + "\t" + nameById.get( new Integer(i) ) + "\t" + pluralById.get(i) );
 		}
 
 		writer.close();
