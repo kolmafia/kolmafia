@@ -170,6 +170,12 @@ public class NPCStoreDatabase extends KoLDatabase
 	{	return contains( itemName, true );
 	}
 
+	public static final int price( String itemName )
+	{
+		MallPurchaseRequest request =  getPurchaseRequest( itemName );
+		return ( request == null ) ? 0 : request.getPrice();
+	}
+
 	public static final boolean contains( String itemName, boolean validate )
 	{
 		MallPurchaseRequest item = getPurchaseRequest( itemName );
