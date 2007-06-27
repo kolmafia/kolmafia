@@ -738,7 +738,7 @@ public class KoLRequest extends Job implements KoLConstants
 	{
 		String urlString = this.getURLString();
 
-		if ( !isDelayExempt && (urlString.startsWith( "adventure.php" ) || urlString.startsWith( "fight.php" ) ) )
+		if ( !isDelayExempt && urlString.startsWith( "adventure.php" ) )
 			delay( RNG.nextInt( AUTOMATED_DELAY ) + 1000 );
 
 		// If this is the rat quest, then go ahead and pre-set the data
