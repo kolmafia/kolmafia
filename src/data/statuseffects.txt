@@ -8,7 +8,7 @@
 8	Hardly Poisoned at All	poison.gif	13e148b2f71301e54e27001d6e603584
 9	Knob Goblin Perfume	spraycan.gif	12f74ff515842399be4b67bbc3550f79
 10	Steroid Boost	strboost.gif	28abefa0a5f2e63058cdb32e0a23b131
-11	Knob Goblin Lust Frenzy	lovelips.gif
+11	Knob Goblin Lust Frenzy	lovelips.gif	3e2c81c59d65d6e8332d64e073f6cc18
 12	Sharp Weapon	spraycan.gif
 13
 14	Hennaliciousness	henna.gif
@@ -25,7 +25,7 @@
 25	Disco State of Mind	discoball.gif	869b501ce3b0e8ba139e7f3807db0c1f
 26	Mariachi Mood	happy.gif
 27	Temporary Lycanthropy	lycanth.gif	79bc05cd8f6cdf869c66a840f79ce2d3
-28	Butt-Rock Hair	buttrock.gif
+28	Butt-Rock Hair	buttrock.gif	04bc18fe47f495a894774fa1bbb9713d
 29	Contemptible Emanations	stench.gif
 30	Incredibly Hulking	strboost.gif	fd5616e89e1c2ecb0b01b61929682d2d
 31	Superhuman Sarcasm	wink.gif
@@ -38,7 +38,7 @@
 38	Gr8tness	grapes.gif
 39	Hernia!	hernia.gif	eb4f2cac29d8c2a73a6b0f1d532f61c9
 40	Red Neck	redneck.gif
-41	Chapped Legs	legs.gif
+41	Chapped Legs	legs.gif	8b5481d9989685d266fcbb5028cd6929
 42	Sunburned	sunburn.gif	309b9f895dcc011a120b12453c1bc7e5
 43	Wussiness	sad.gif	84e619e8ff038d639085cbe8ea74752b
 44	Draggin' Balls	ballhat.gif
@@ -159,7 +159,7 @@
 159	Spooky Weapon	skull.gif
 160	Stinky Weapon	stench.gif
 161	Sleazy Weapon	dripsword.gif
-162	The Sonata of Sneakiness	notes.gif
+162	The Sonata of Sneakiness	notes.gif	b757f23feb7f08bd250f63586e03cf4a
 163	Carlweather's Cantata of Confrontation	notes.gif
 164	Ur-Kel's Aria of Annoyance	notes.gif	59a1ac48440e1ea1f869f2b37753f9cc
 165	Smooth Movements	footprints.gif	173a9c4b4bbef78643fe4ec1a93b1cfc
@@ -169,11 +169,11 @@
 169	Spirit of Garlic	stench.gif
 170	Spirit of Wormwood	skull.gif
 171	Spirit of Bacon Grease	bacon.gif
-172	Yellow Tongue	tongue.gif
+172	Yellow Tongue	tongue.gif	3dbc5202908b9b8e507d7f062360b293
 173	Big Veiny Brain	realbrain.gif
 174	Peeled Eyeballs	eyes.gif
 175	Wasabi Sinuses	hernia.gif
-176	Heavy Petting	happy.gif
+176	Heavy Petting	happy.gif	0bbb62f04a5dd69a88b608fe656a7752
 177
 178
 179
@@ -225,7 +225,7 @@
 225	Dirge of Dreadfulness	notes.gif
 226	Talking Like a Pirate	piratehead.gif
 227	The 'Tussin	happy.gif
-228	Pie in the Face	pieface.gif
+228	Pie in the Face	pieface.gif	9c9794f2ff9a0fcb1090c281c2c442f1
 229	Hip to Be Square Dancin'	footprints.gif
 230	Livin' Large	goldfronts.gif
 231	Wistfully Nostalgic	happy.gif
@@ -246,7 +246,7 @@
 246	Smugness	happy.gif
 247	Good Karma	happy.gif
 248	Pumped Up	strboost.gif
-249	Head on Fire, Ass Catching	fire.gif
+249	Head on Fire, Ass Catching	fire.gif	c4c76755cb4ca109b5685550cab4a4e6
 250	Violent Night	singlenote.gif
 251	White Knuckles	singlenote.gif
 252	Don't Rest Ye, Bold Adventurer	singlenote.gif
@@ -266,7 +266,7 @@
 266	Turned Into a Skeleton	skeldoll.gif	555395c91aca7ddf5a60688c63214f73
 267	Barking Dogs	footprints.gif	cb28fec658f97af4ee56590184223497
 268	Prestidigysfunction	snowflakes.gif	dd5d7d48bca51bd1ddfa197b584a5623
-269	Heart of White	candyheart.gif
+269	Heart of White	candyheart.gif	c444fec2c3237f47d985c83248b81687
 270	Heart of Pink	candyheart.gif	Heart of Pink
 271	Heart of Orange	candyheart.gif	Heart of Orange
 272	Heart of Lavender	candyheart.gif	Heart of Lavender
@@ -298,7 +298,7 @@
 298	Grilled	grilled.gif
 299	"The Disease"	disease.gif
 300	Infinite Loop	nopic.gif
-301	Cunctatitis	disease.gif
+301	Cunctatitis	disease.gif	9a12b9329e0701252387afe75dee34ee
 302	Mild Lycanthropy	moon2.gif
 303	Lycanthropy, Eh?	moon2.gif
 304

@@ -1,3 +1,8 @@
+#	vial of mojo	0	none	0
+#	Turtle Chain	0	none	0
+#	Chelonian Morningstar	12	none	0
+#	Shagadelic Disco Banjo	12	none	0
+
 1	seal-clubbing club	12	all	1
 2	seal tooth	3	all	1
 3	helmet turtle	9	all	1
@@ -2026,19 +2031,19 @@
 2026	Tof0n chow mein	1	all	130
 2027	Tofofu chow mein	1	all	109
 2028	Tofat appendix chow mein	1	all	130
-2029
+2029	hippy protest button	0	unknown	-1
 2030	Lockenstock (TM) sandals	8	all	60
-2031
-2032
-2033
-2034
+2031	didgeridooka	0	unknown	-1
+2032	bullet-proof corduroys	0	unknown	-1
+2033	round purple sunglasses	0	unknown	-1
+2034	wicker shield	0	unknown	-1
 2035	Marquis de Poivre soda	13	display	30
 2036	radium-flavored potato chips	4	display	30
 2037	wintergreen-flavored potato chips	4	display	30
 2038	ennui-flavored potato chips	4	display	30
 2039	x-ray specs	8	gift	5
 2040
-2041
+2041	ferret bait	0	unknown	-1
 2042
 2043
 2044	your father's MacGuffin diary	0	none	0
@@ -2062,13 +2067,13 @@
 2062	black shield	13	all	145
 2063	blackberry	1	all	70
 2064	forged identification documents	0	none	0
-2065
-2066
-2067
+2065	PADL Phone	0	unknown	-1
+2066	kick-ass kicks	0	unknown	-1
+2067	sake bomb	0	unknown	-1
 2068
-2069
-2070
-2071
+2069	beer helmet	0	unknown	-1
+2070	distressed denim pants	0	unknown	-1
+2071	perforated battle paddle	0	unknown	-1
 2072	flashing novelty button	8	display	0
 2073	orange glowstick	8	display	0
 2074	anniversary chutney sculpture	13	display	0
@@ -2238,7 +2243,7 @@
 2238	pygmy nose-bone	8	all	150
 2239
 2240	bottle of alcohol	0	all	85
-2241
+2241	pygmy spear	0	unknown	-1
 2242	pygmy pygment	4	all	155
 2243	headhunter necktie	8	all	167
 2244	pointed stick	12	all	173
@@ -2264,23 +2269,23 @@
 2264
 2265
 2266
-2267
+2267	mega gem	0	unknown	-1
 2268	Staff of Fats	0	none	0
 2269
 2270
-2271
-2272
-2273
-2274
-2275
-2276
+2271	dusty bottle of Merlot	0	unknown	-1
+2272	dusty bottle of Port	0	unknown	-1
+2273	dusty bottle of Pinot Noir	0	unknown	-1
+2274	dusty bottle of Zinfandel	0	unknown	-1
+2275	dusty bottle of Marsala	0	unknown	-1
+2276	dusty bottle of Muscat	0	unknown	-1
 2277	Fernswarthy's key	0	none	0
 2278	Fernswarthy's letter	3	none	0
 2279	dusty old book	0	none	0
 2280	Manual of Labor	3	none	0
 2281	Manual of Transmission	3	none	0
 2282	Manual of Dexterity	3	none	0
-2283
+2283	seal-skull helmet	0	unknown	-1
 2284	petrified noodles	0	all	100
 2285	chisel	12	all	100
 2286	Eye of Ed	0	none	0
@@ -2326,15 +2331,15 @@
 2326
 2327	can of black paint	4	none	150
 2328	drum machine	0	display	160
-2329
+2329	handful of confetti	0	unknown	-1
 2330	chocolate-covered diamond-studded roses	0	gift	10000
 2331	bouquet of circular saw blades	0	gift	2500
 2332	Better Than Cuddling Cake	1	gift	500
 2333	stuffed ninja snowman	0	gift	250
-2334
+2334	holy macguffin	0	unknown	-1
 2335
-2336
-2337
+2336	lead pipe	0	unknown	-1
+2337	reinforced beaded headband	0	unknown	-1
 2338	black pudding	1	all	40
 2339	Blackfly Chardonnay	2	all	40
 2340	black & tan	2	all	40
@@ -2345,29 +2350,29 @@
 2345
 2346
 2347
-2348
-2349
-2350
+2348	water pipe bomb	0	unknown	-1
+2349	gas balloon	0	unknown	-1
+2350	beer bomb	0	unknown	-1
 2351
-2352
-2353
-2354
+2352	fire poi	0	unknown	-1
+2353	bejeweled pledge pin	0	unknown	-1
+2354	communications windchimes	0	unknown	-1
 2355
-2356
-2357
-2358
+2356	tube of dread wax	0	unknown	-1
+2357	Gaia beads	0	unknown	-1
+2358	pink clay bead	0	unknown	-1
 2359
-2360
-2361
+2360	green clay bead	0	unknown	-1
+2361	hippy medical kit	0	unknown	-1
 2362
 2363
 2364
 2365
 2366
-2367
-2368
-2369
-2370
+2367	carbonated soy milk	0	unknown	-1
+2368	flowing hippy skirt	0	unknown	-1
+2369	filthy poultice	0	unknown	-1
+2370	natural fennel soda	0	unknown	-1
 2371
 2372	bunch of bananas	4	all	5
 2373	banana	1	all	1
@@ -2382,11 +2387,11 @@
 2382
 2383
 2384
-2385
-2386
-2387
-2388
-2389
+2385	bottle opener belt buckle	0	unknown	-1
+2386	keg shield	0	unknown	-1
+2387	giant foam finger	0	unknown	-1
+2388	war tongs	0	unknown	-1
+2389	Monstar energy beverage	0	unknown	-1
 2390
 2391
 2392
@@ -2395,14 +2400,14 @@
 2395
 2396
 2397
-2398
+2398	energy drink IV	0	unknown	-1
 2399
 2400
-2401
-2402
+2401	beer bong	0	unknown	-1
+2402	gauze garter	0	unknown	-1
 2403
 2404
-2405
+2405	rock band flyers	0	unknown	-1
 2406	Panda outfit	7	none	0
 2407
 2408
@@ -2497,7 +2502,7 @@
 2497
 2498
 2499
-3500
+2500
 2501
 2502	Really Expensive Jewelry and You	3	all	2500
 2503	extra-fancy ring setting	0	all	250
@@ -2508,8 +2513,8 @@
 2508	beach glass necklace	8	all	75
 2509	peace-sign necklace	8	all	75
 2510
-2511
-2512
+2511	Frat Army FGF	0	unknown	-1
+2512	Hippy Army MPE	0	unknown	-1
 2513
 2514
 2515
@@ -2521,11 +2526,11 @@
 2521
 2522
 2523
-2524
+2524	displaced fish	0	unknown	-1
 2525
 2526
 2527
-2528
+2528	filet of tangy gnat	0	unknown	-1
 2529
 2530
 2531
@@ -2533,9 +2538,9 @@
 2533
 2534
 2535
-2536
-2537
-2538
+2536	canopic jar	0	unknown	-1
+2537	ancient spice	0	unknown	-1
+2538	powdered organs	0	unknown	-1
 2539
 2540
 2541	Mayflower bouquet	7	all	0
@@ -2549,17 +2554,13 @@
 2549	"Humorous" T-shirt	11	display	0
 2550	Peppercorns of Power	0	none	0
 2551
-#	vial of mojo	0	none	0
 2552	golden reeds	0	none	0
 2553
-#	Turtle Chain	0	none	0
 2554	distilled seal blood	0	none	0
 2555	high-octane olive oil	0	none	0
 2556
-#	Chelonian Morningstar	12	none	0
 2557	Squeezebox of the Ages	12	none	0
 2558
-#	Shagadelic Disco Banjo	12	none	0
 2559	Hammer of Smiting	12	none	0
 2560	17-Alarm Saucepan	12	none	0
 2561	Greek Pasta of Peril	12	none	0
@@ -2585,64 +2586,64 @@
 2581	handful of sand	3	all	25
 2582	brick of sand	3	all	100
 2583	centipede eggs	1	all	66
-2584
+2584	wonderwall shield	0	unknown	-1
 2585	Colonel Mustard's Lonely Spades Club Jacket	11	all	135
 2586	General Sage's Lonely Diamonds Club Jacket	11	all	135
 2587	Corporal Fennel's Lonely Clubs Club Jacket	11	all	135
 2588	Private Pepper's Lonely Hearts Club Jacket	11	all	135
-2589
+2589	hot date	0	unknown	-1
 2590
 2591
 2592
 2593
 2594
 2595	Ben-Gal&trade; Balm	4	all	12
-2596
-2597
-2598
+2596	leathery cat skin	0	unknown	-1
+2597	leathery bat skin	0	unknown	-1
+2598	leathery rat skin	0	unknown	-1
 2599
 2600	carbonated water lily	4	all	85
 2601	Staff of the Midnight Snack	12	display	25
 2602	Staff of Blood and Pudding	12	display	25
 2603
-2604
+2604	Tuesday's ruby	0	unknown	-1
 2605	palm frond	4	all	45
 2606
-2607
+2607	palm-frond whip	0	unknown	-1
 2608
 2609
 2610
 2611
-2612
+2612	ancient vinyl coin purse	0	unknown	-1
 2613	rocky raccoon	0	all	75
 2614
 2615	savoy truffle	1	all	90
-2616
+2616	ancient Magi-Wipes	0	unknown	-1
 2617
-2618
+2618	Iiti Kitty phone charm	0	unknown	-1
 2619	jar of swamp gas	0	all	0
-2620	
-2621	
-2622	
-2623	
-2624	
-2625	
-2626	
-2627	
-2628	
-2629	
+2620	unidentified jerky	0	unknown	-1
+2621
+2622
+2623
+2624
+2625
+2626
+2627
+2628
+2629
 2630	Hugo's Weaving Manual	0	none	0
-2631	
+2631
 2632	mother's little helper	4	all	115
-2633	
-2634	
-2635	
-2636	
-2637	
-2638	
+2633
+2634	mummy wrapping	0	unknown	-1
+2635
+2636	mummy mask	0	unknown	-1
+2637
+2638
 2639	black cherry soda	4	all	40
 2640	black greaves	10	all	145
-2641	
+2641
 2642	Maxwell's Silver Hammer	12	all	180
 2643	happiness	12	all	95
 2644	flaming feather	0	all	55
@@ -2650,14 +2651,14 @@
 2646	frightful feather	0	all	55
 2647	fetid feather	0	all	55
 2648	flirtatious feather	0	all	55
-2649	
+2649	Lord Spookyraven's ear trumpet	0	unknown	-1
 2650	bottled green pixie	5	all	0
 2651	green pixie spog	7	all	75
 2652	S.T.L.T.	1	all	100
 2653	honey-dew	1	all	45
 2654	white Xanadian	2	all	50
 2655	tiny bottle of absinthe	3	all	0
-2656	
+2656	Drowsy Sword	0	unknown	-1
 2657	escargotsicle	1	all	65
 2658	bottle of realpagne	2	all	55
 2659	albatross necklace	8	all	150
@@ -2678,29 +2679,29 @@
 2674	bottle of black cat tonic	3	all	25
 2675	handful of moss	4	all	250
 2676	bit-o-cactus	4	all	250
-2677	
+2677	ancient protein powder	0	unknown	-1
 2678	spectre scepter	0	display	0
 2679	sparkler	3	all	150
 2680	snake	3	all	150
 2681	M-242	3	all	150
 2682	detuned radio	0	none	0
 2683	Warehouse 23 crate	3	none	0
-2684	
-2685	
-2686	
-2687	
-2688	
-2689	
-2690	
-2691	
-2692	
-2693	
-2694	
-2695	
-2696	
-2697	
-2698	
-2699	
+2684
+2685
+2686
+2687
+2688
+2689
+2690
+2691
+2692
+2693
+2694
+2695
+2696
+2697
+2698
+2699
 2700
 2701
 2702
@@ -2709,7 +2710,7 @@
 2705	blackberry slippers	8	all	175
 2706	blackberry moccasins	8	all	130
 2707	blackberry combat boots	8	all	150
-2708
+2708	funky dried mushroom	0	unknown	-1
 2709	exotic parrot egg	5	all	500
 2710	cracker	7	all	75
 2711	black facepaint	4	0	150
@@ -2734,7 +2735,7 @@
 2730
 2731
 2732
-2733
+2733	bunch of square grapes	0	unknown	-1
 2734	brown sugar cane	1	all	55
 2735
 2736
@@ -2749,7 +2750,7 @@
 2745
 2746
 2747	chunk of depleted Grimacite	0	all	0
-2748
+2748	furniture dolly	0	unknown	-1
 2749	Staff of the Grease Trap	12	display	25
 2750
 2751
@@ -2829,15 +2830,3 @@
 2825
 2826	Staff of the Kitchen Floor	12	display	25
 2827	anniversary gift box	3	none	0
-2828
-2829
-2830
-2831
-2832
-2833
-2834
-2835
-2836
-2837
-2838
-2839

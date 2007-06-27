@@ -2,6 +2,10 @@
 # compiled by Max Demian.   http://max.subfighter.com/kol/items.php
 # Seed data for plural names provided by the Kingdom of Loathing Visual Wiki,
 # hosted at KoL Coldfront.  http://kol.coldfront.net/thekolwiki/index.php
+#	222463880	vial of mojo
+#		Turtle Chain
+#		Chelonian Morningstar
+#		Shagadelic Disco Banjo
 
 1	868780591	seal-clubbing club	seal-clubbing clubs
 2	617818041	seal tooth	seal teeth
@@ -1253,7 +1257,7 @@
 1248	226168903	Bonerdagon necklace	Bonerdagon necklaces
 1249	944109874	Boss Bat britches	pairs of Boss Bat britches
 1250	994189224	Boss Bat bling	units of Boss Bat bling
-1251 	273357275	Knob shroomkabob	Knob shroomkabobs
+1251	273357275	Knob shroomkabob	Knob shroomkabobs
 1252	825661018	spooky shroomkabob	spooky shroomkabobs
 1253	644012356	pile of jumping beans	piles of jumping beans
 1254	720802249	jumping bean burrito	jumping bean burritos
@@ -2031,19 +2035,19 @@
 2026	442480449	Tof0n chow mein
 2027	949035644	Tofofu chow mein
 2028	232446099	Tofat appendix chow mein
-2029
+2029	922408101	hippy protest button
 2030	951408155	Lockenstock (TM) sandals
-2031
-2032
-2033
-2034
+2031	855347661	didgeridooka
+2032	516499807	bullet-proof corduroys
+2033	144082186	round purple sunglasses
+2034	764491221	wicker shield
 2035	580141358	Marquis de Poivre soda	cans of Marquis de Poivre soda
 2036	916097408	radium-flavored potato chips	bags of radium-flavored potato chips
 2037	185961646	wintergreen-flavored potato chips	bags of wintergreen-flavored potato chips
 2038	603445016	ennui-flavored potato chips	bags of ennui-flavored potato chips
 2039	488460864	x-ray specs	pairs of x-ray specs
 2040
-2041
+2041	665792687	ferret bait
 2042
 2043
 2044	972316396	your father's MacGuffin diary
@@ -2067,13 +2071,13 @@
 2062	293565661	black shield
 2063	620098357	blackberry
 2064	987115231	forged identification documents
-2065
-2066
-2067
+2065	739819882	PADL Phone
+2066	147761182	kick-ass kicks
+2067	810136258	sake bomb
 2068
-2069
-2070
-2071
+2069	721860754	beer helmet
+2070	534039751	distressed denim pants
+2071	874003168	perforated battle paddle
 2072	786608588	flashing novelty button	flashing novelty mindys
 2073	793070662	orange glowstick	orange glowstyx
 2074	787455549	anniversary chutney sculpture
@@ -2243,7 +2247,7 @@
 2238	394311894	pygmy nose-bone
 2239
 2240	848242124	bottle of alcohol
-2241
+2241	828157844	pygmy spear
 2242	598693688	pygmy pygment
 2243	132676394	headhunter necktie
 2244	257298371	pointed stick
@@ -2273,19 +2277,19 @@
 2268	654006777	Staff of Fats
 2269
 2270
-2271
-2272
-2273
-2274
-2275
-2276
+2271	163456429	dusty bottle of Merlot
+2272	289748376	dusty bottle of Port
+2273	905945394	dusty bottle of Pinot Noir
+2274	625138517	dusty bottle of Zinfandel
+2275	278847834	dusty bottle of Marsala
+2276	147519269	dusty bottle of Muscat
 2277	500368595	Fernswarthy's key
 2278	624235254	Fernswarthy's letter
 2279	397860816	dusty old book
 2280	949769197	Manual of Labor
 2281	696941703	Manual of Transmission
 2282	659803917	Manual of Dexterity
-2283
+2283	700561477	seal-skull helmet
 2284	139204890	petrified noodles	clumps of petrified noodles
 2285	583794996	chisel
 2286	818542757	Eye of Ed
@@ -2331,16 +2335,16 @@
 2326	683667482	stone rose
 2327	276983150	can of black paint
 2328	332500630	drum machine
-2329
+2329	268594520	handful of confetti
 2330	610916131	chocolate-covered diamond-studded roses	diamond-covered chocolate-studded roses
 2331	463031002	bouquet of circular saw blades
 2332	986014609	Better Than Cuddling Cake	Better Than Cuddling Cakes
 2333	739544930	stuffed ninja snowman	stuffed ninja snowmen
 2334
 2335
-2336
-2337
-2338		black pudding
+2336	209797948	lead pipe
+2337	213151374	reinforced beaded headband
+2338	716388011	black pudding
 2339	459189919	Blackfly Chardonnay
 2340	851939683	black & tan	blacks & tans
 2341	386692175	black pepper	shakers of black pepper
@@ -2350,29 +2354,29 @@
 2345
 2346
 2347
-2348
-2349
-2350
+2348	470150001	water pipe bomb
+2349	183606177	gas balloon
+2350	263689541	beer bomb
 2351
-2352
-2353
-2354
+2352	784968970	fire poi
+2353	739124687	bejeweled pledge pin
+2354	441541362	communications windchimes
 2355
-2356
-2357
+2356	844938124	tube of dread wax
+2357	386374860	Gaia beads
 2358
 2359
 2360
-2361
+2361	564212733	hippy medical kit
 2362
 2363
 2364
 2365
 2366
-2367
-2368
-2369
-2370
+2367	824720036	carbonated soy milk
+2368	553895362	flowing hippy skirt
+2369	280768369	filthy poultice
+2370	417026602	natural fennel soda
 2371
 2372	345583176	bunch of bananas	bunches of bananas
 2373	551016401	banana	bananas
@@ -2387,11 +2391,11 @@
 2382
 2383
 2384
-2385
-2386
-2387
-2388
-2389
+2385	874194460	bottle opener belt buckle
+2386	268412638	keg shield
+2387	709828596	giant foam finger
+2388	203037613	war tongs
+2389	762465625	Monstar energy beverage
 2390
 2391
 2392
@@ -2400,11 +2404,11 @@
 2395
 2396
 2397
-2398
+2398	139612153	energy drink IV
 2399
 2400
-2401
-2402
+2401	269933574	beer bong
+2402	971643916	gauze garter
 2403
 2404
 2405
@@ -2463,19 +2467,19 @@
 2458	585616844	barskin loincloth	barskin loincloths
 2459	125666662	tighty whiteys	pairs of tighty whiteys
 2460	606812905	yak toupee	yak toupees
-2461	
+2461
 2462	364128826	odor extractor
 2463	810074020	Tome of Transcendent Olfaction
 2464	972566031	bowl of Bounty-Os
 2465	527016642	Oreille Divis&eacute;e brandy
 2466	461008515	pompadour'd puppy
-2467	
+2467
 2468	136659520	callussed fingerbone
-2469	
-2470	
-2471	
-2472	
-2473	
+2469
+2470
+2471
+2472
+2473
 2474	647139951	clown skin	clown skins
 2475	227709910	clown wig	clown wigs
 2476	580579263	clownskin belt	clownskin belts
@@ -2502,7 +2506,7 @@
 2497
 2498
 2499
-3500
+2500
 2501
 2502	521087234	Really Expensive Jewelry and You
 2503	668101271	extra-fancy ring setting
@@ -2512,142 +2516,138 @@
 2507	274866288	clay peace-sign bead	clay peace-sign beads
 2508	135013634	beach glass necklace	beach glass necklaces
 2509	391131347	peace-sign necklace	peace-sign necklaces
-2510	
-2511	
-2512	
-2513	
-2514	
-2515	
-2516	
-2517	
-2518	
-2519	
-2520	
-2521	
-2522	
-2523	
-2524	
-2525	
-2526	
-2527	
-2528	
-2529	
-2530	
-2531	
+2510
+2511	738860128	Frat Army FGF
+2512	322746900	Hippy Army MPE
+2513
+2514
+2515
+2516
+2517
+2518
+2519
+2520
+2521
+2522
+2523
+2524	442025843	displaced fish
+2525
+2526
+2527
+2528	985581987	filet of tangy gnat
+2529
+2530
+2531
 2532	762179710	long pork
-2533	
-2534	
-2535	
-2536	
-2537	
-2538	
-2539	
-2540	
+2533
+2534
+2535
+2536	402083452	canopic jar
+2537	898002086	ancient spice
+2538	724169350	powdered organs
+2539
+2540
 2541	771351446	Mayflower bouquet	Mayflower bouquets
 2542	379926519	lesser grodulated violet	lesser grodulated violets
 2543	593800005	tin magnolia	tin magnolias
 2544	423673086	begpwnia	begpwnias
 2545	928534008	upsy daisy	upsy daisies
 2546	213398305	half-orchid	half-orchids
-2547	222722891	tin star	
-2548	576823351	outrageous sombrero	
-2549	472113416	&quot;Humorous&quot; T-shirt	
-2550	807564363	Peppercorns of Power	
-2551	
-#	222463880	vial of mojo
-2552	997975507	golden reeds	
+2547	222722891	tin star
+2548	576823351	outrageous sombrero
+2549	472113416	&quot;Humorous&quot; T-shirt
+2550	807564363	Peppercorns of Power
+2551
+2552	997975507	golden reeds
 2553
-#		Turtle Chain
 2554	824288182	distilled seal blood
 2555	247415821	high-octane olive oil
 2556
-#		Chelonian Morningstar
 2557	632445399	Squeezebox of the Ages
 2558
-#		Shagadelic Disco Banjo
 2559	723621502	Hammer of Smiting
 2560	811211086	17-Alarm Saucepan
 2561	370831124	Greek Pasta of Peril
 2562	592454967	half-rotten brain
 2563	723337113	rusty bonesaw
 2564	778300928	plus-sized phylactery
-2565		can of Ghuol-B-Gone&trade;
-2566	
-2567	
-2568	
+2565	can of Ghuol-B-Gone&trade;
+2566
+2567
+2568
 2569	820254596	ant agonist
 2570	901944647	ant hoe
 2571	914338533	ant rake
-2572	
-2573	
+2572
+2573
 2574	577092879	ant pick
 2575	991245163	bronzed locust
-2576	300470894	honey-dipped locust	
+2576	300470894	honey-dipped locust
 2577	604989033	giant cactus quill
 2578	445174128	Staff of the Short Order Cook
 2579	241600811	cactus fruit
 2580	661963442	scorpion whip
 2581	492792629	handful of sand	sandfuls of hand
 2582	634159997	brick of sand
-2583	956043901	centipede eggs	
-2584	
+2583	956043901	centipede eggs
+2584	662372736	wonderwall shield
 2585	635680553	Colonel Mustard's Lonely Spades Club Jacket
 2586	229924188	General Sage's Lonely Diamonds Club Jacket
 2587	854115819	Corporal Fennel's Lonely Clubs Club Jacket
 2588	449989440	Private Pepper's Lonely Hearts Club Jacket
-2589	
-2590	
-2591	
-2592	
-2593	
-2594	
+2589	138166057	hot date
+2590
+2591
+2592
+2593
+2594
 2595	842588397	Ben-Gal&trade; Balm	tins of Ben-Gal&trade; Balm
-2596	
-2597	
-2598	
-2599	
-2600	496663617	carbonated water lily	
+2596	390000537	leathery cat skin
+2597	631907210	leathery bat skin
+2598	996364808	leathery rat skin
+2599
+2600	496663617	carbonated water lily
 2601	338816180	Staff of the Midnight Snack
 2602	572669193	Staff of Blood and Pudding
-2603	
-2604	
+2603
+2604	616843400	Tuesday's ruby
 2605	636774876	palm frond
-2606	
-2607	
-2608	
-2609	
-2610	
-2611	
-2612	
+2606
+2607	640131952	palm-frond whip
+2608
+2609
+2610
+2611
+2612	677931153	ancient vinyl coin purse
 2613	786869929	rocky raccoon
-2614	
+2614
 2615	593431148	savoy truffle
-2616	
-2617	
-2618	
+2616	519345281	ancient Magi-Wipes
+2617
+2618	262135573	Iiti Kitty phone charm
 2619	854451522	jar of swamp gas	jars of swamp gas
-2620	
-2621	
-2622	
-2623	
-2624	
-2625	
-2626	
-2627	
-2628	
-2629	
+2620	294466303	unidentified jerky
+2621
+2622
+2623
+2624
+2625
+2626
+2627
+2628
+2629
 2630	894817867	Hugo's Weaving Manual
-2631	
+2631
 2632	321738063	mother's little helper
-2633	
-2634	
-2635	
-2636	
-2637	
-2638	
+2633
+2634	682161779	mummy wrapping
+2635
+2636	324153918	mummy mask
+2637
+2638
 2639	273117128	black cherry soda
 2640	207650845	black greaves	black greavess
-2641	
+2641
 2642	438829287	Maxwell's Silver Hammer
 2643	752498873	happiness
 2644	507320025	flaming feather
@@ -2655,14 +2655,14 @@
 2646	204406419	frightful feather
 2647	428000344	fetid feather
 2648	737526694	flirtatious feather
-2649	
+2649	615488389	Lord Spookyraven's ear trumpet
 2650	908181356	bottled green pixie	bottled green pixies
 2651	369275206	green pixie spog	green pixie spogs
 2652	823135730	S.T.L.T.	S.T.L.T.S
 2653	762481213	honey-dew	slices of honey-dew
 2654	401169468	white Xanadian	white Xanadians
 2655	689551675	tiny bottle of absinthe	tiny bottles of absinthe
-2656	
+2656	344476721	Drowsy Sword
 2657	670704209	escargotsicle	escargotsicles
 2658	942243042	bottle of realpagne	bottles of realpagne
 2659	953486103	albatross necklace	albatross necklaces
@@ -2683,29 +2683,29 @@
 2674	815439210	bottle of black cat tonic	bottles of black cat tonic
 2675	111587963	handful of moss
 2676	594509761	bit-o-cactus
-2677	
+2677	700846387	ancient protein powder
 2678	724817767	spectre scepter
 2679	531024665	sparkler	sparklies
 2680	397831150	snake	sssnakess
 2681	160414339	M-242	M-242s
 2682	692188284	detuned radio	detuned radios
 2683	425159430	Warehouse 23 crate	Warehouse 23 crates
-2684	
-2685	
-2686	
-2687	
-2688	
-2689	
-2690	
-2691	
-2692	
-2693	
-2694	
-2695	
-2696	
-2697	
-2698	
-2699	
+2684
+2685
+2686
+2687
+2688
+2689
+2690
+2691
+2692
+2693
+2694
+2695
+2696
+2697
+2698
+2699
 2700
 2701
 2702
@@ -2714,9 +2714,9 @@
 2705	255059271	blackberry slippers
 2706	922299066	blackberry moccasins
 2707	567120426	blackberry combat boots
-2708
+2708	464342616	funky dried mushroom
 2709	522551898	exotic parrot egg
-2710		cracker
+2710	cracker
 2711	121774283	black facepaint
 2712	978143454	black sheepskin diploma
 2713	319521618	Black Body&trade; spray
@@ -2739,7 +2739,7 @@
 2730
 2731
 2732
-2733
+2733	908758815	bunch of square grapes
 2734	790278119	brown sugar cane
 2735
 2736
@@ -2754,7 +2754,7 @@
 2745
 2746
 2747	714178698	chunk of depleted Grimacite	chunks of depleted Grimacite
-2748
+2748	623524316	furniture dolly
 2749	578975886	Staff of the Grease Trap
 2750
 2751
@@ -2781,17 +2781,17 @@
 2772
 2773
 2774
-2775
+2775	filigreed hamethyst earring
 2776
-2775		filigreed hamethyst earring
+2777
 2778	408625270	filigreed hamethyst necklace
 2779	151804649	filigreed hamethyst ring
-2780		solid baconstone earring
-2781		solid baconstone necklace
+2780	solid baconstone earring
+2781	solid baconstone necklace
 2782	576789283	solid baconstone ring
-2783		pulled porquoise earring
-2784		pulled porquoise pendant
-2785		pulled porquoise ring
+2783	pulled porquoise earring
+2784	pulled porquoise pendant
+2785	pulled porquoise ring
 2786
 2787
 2788
@@ -2834,15 +2834,3 @@
 2825
 2826	716016442	Staff of the Kitchen Floor
 2827	277422118	anniversary gift box
-2828
-2829
-2830
-2831
-2832
-2833
-2834
-2835
-2836
-2837
-2838
-2839
