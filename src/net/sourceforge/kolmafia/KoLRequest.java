@@ -742,14 +742,8 @@ public class KoLRequest extends Job implements KoLConstants
 
 	public void execute()
 	{
-		boolean adjustDelay = false;
 		String urlString = this.getURLString();
-
-		if ( !isDelayExempt && urlString.startsWith( "adventure.php" ) )
-		{
-			adjustDelay = true;
-			delay( RNG.nextInt( VARIABLE_DELAY ) + CURRENT_DELAY );
-		}
+		boolean shouldDelay = !isDelayExempt && urlString.startsWith( "adventure.php" );
 
 		// If this is the rat quest, then go ahead and pre-set the data
 		// to reflect a fight sequence (mini-browser compatibility).
@@ -801,17 +795,20 @@ public class KoLRequest extends Job implements KoLConstants
 
 		this.statusChanged = false;
 
-		if ( adjustDelay )
-			timestamp = System.currentTimeMillis();
-
 		do
 		{
+			if ( shouldDelay )
+			{
+				timestamp = System.currentTimeMillis();
+				delay( RNG.nextInt( VARIABLE_DELAY ) + CURRENT_DELAY );
+			}
+
 			if ( !this.prepareConnection() && KoLmafia.refusesContinue() )
 				break;
 		}
 		while ( !this.postClientData() || !this.retrieveServerReply() );
 
-		if ( adjustDelay && System.currentTimeMillis() - timestamp > LAG_THRESHOLD )
+		if ( shouldDelay && System.currentTimeMillis() - timestamp > LAG_THRESHOLD )
 			CURRENT_DELAY = Math.min( MAXIMUM_DELAY, CURRENT_DELAY << 1 );
 	}
 
