@@ -3208,6 +3208,9 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { SKILL_TYPE };
 		result.addElement( new ScriptExistingFunction( "to_effect", EFFECT_TYPE, params ) );
 
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "to_location", LOCATION_TYPE, params ) );
+
 		params = new ScriptType[] { INT_TYPE };
 		result.addElement( new ScriptExistingFunction( "to_familiar", FAMILIAR_TYPE, params ) );
 		params = new ScriptType[] { STRING_TYPE };
@@ -4138,6 +4141,8 @@ public class KoLmafiaASH extends StaticEntity
 					return findFunction( "to_skill", params );
 				if ( name.endsWith( "to_effect" ) )
 					return findFunction( "to_effect", params );
+				if ( name.endsWith( "to_location" ) )
+					return findFunction( "to_location", params );
 				if ( name.endsWith( "to_familiar" ) )
 					return findFunction( "to_familiar", params );
 				if ( name.endsWith( "to_monster" ) )
@@ -4598,6 +4603,10 @@ public class KoLmafiaASH extends StaticEntity
 			return val.getValueType().equals( TYPE_INT ) ? makeEffectValue( val.intValue() ) : val.getValueType().equals( TYPE_SKILL ) ?
 				parseEffectValue( UneffectRequest.skillToEffect( val.toStringValue().toString() ) ) :
 				parseEffectValue( val.toStringValue().toString() );
+		}
+
+		public ScriptValue to_location( ScriptVariable val )
+		{	return parseLocationValue( val.toStringValue().toString() );
 		}
 
 		public ScriptValue to_familiar( ScriptVariable val )
