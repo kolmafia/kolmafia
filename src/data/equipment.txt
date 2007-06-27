@@ -11,6 +11,7 @@ Baron Von Ratsworth's tophat	75	Mox: 22
 barskin hat	25	none
 basic meat fez	45	Mox: 7
 basic meat helmet	40	Mox: 5
+black helmet	160	Mus: 65
 blue traffic cone	60	Mox: 15
 bounty-hunting helmet	100	Mox: 25
 bowler	100	Mox: 35
@@ -126,6 +127,7 @@ barskin loincloth	25	none
 basic meat kilt	40	Mox: 5
 basic meat pants	40	Mox: 5
 basic meat skirt	40	Mox: 5
+black greaves	160	Mox: 65
 bloody clown pants	50	Mox: 10
 Boss Bat britches	65	Mox: 17
 bounty-hunting pants	100	Mox: 25
@@ -266,6 +268,7 @@ big stick	10	none	2-handed staff
 Bigger Bugfinder Blade	200	Mus: 85	2-handed sword
 bill bec-de-bardiche glaive-guisarme	150	Mus: 60	2-handed polearm?
 Bjorn's Hammer	50	Mus: 10	1-handed club
+black sword	160	Mus: 65	1-handed sword
 bounty-hunting rifle	100	Mox: 25	2-handed rifle
 bow staff	100	Mus: 35	2-handed staff
 broken sword	135	Mus: 52	1-handed sword
@@ -506,6 +509,7 @@ antique shield	230	Mus: 85
 arrow'd heart balloon	0	none
 barskin buckler	0	none
 basic meat foon	0	Mus: 10
+black shield	0	Mus: 65
 bobble-hip hula elf doll	0	none
 box	0	none
 box-in-the-box	0	none
@@ -632,6 +636,9 @@ beach glass necklace	0	Mys: 20
 beer goggles	0	none
 bejeweled accordion strap	0	none
 big red clown nose	0	Mys: 10
+blackberry combat boots	0	Mys: 75
+blackberry moccasins	0	Mys: 75
+blackberry slippers	0	Mys: 75
 bling-bling	0	Mys: 7
 blue ribbon	0	none
 Bonerdagon necklace	0	Mys: 25

@@ -3218,6 +3218,7 @@ public abstract class KoLmafia implements KoLConstants
 				case 832: // large box
 				case 1917: // old leather wallet
 				case 1918: // old coin purse
+				case 2057: //black pension check
 					RequestThread.postRequest( new ConsumeItemRequest( currentItem.getInstance( itemCount ) ) );
 					break;
 

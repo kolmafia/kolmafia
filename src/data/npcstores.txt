@@ -213,3 +213,11 @@ n	Gno-Mart	Meleegra&trade; pills	300
 n	Gno-Mart	vial of Gnomochloric acid	500
 n	Gno-Mart	flask of Gnomochloric acid	1000
 n	Gno-Mart	jug of Gnomochloric acid	5000
+
+l	The Black Market	black cherry soda	80
+l	The Black Market	Black Body&trade; spray	300
+l	The Black Market	black facepaint	300
+l	The Black Market	black sheepskin diploma	300
+l	The Black Market	can of black paint	1000
+l	The Black Market	forged identification documents	5000
+l	The Black Market	exotic parrot egg	500000

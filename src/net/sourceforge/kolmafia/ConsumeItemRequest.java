@@ -123,6 +123,8 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int DUSTY_ANIMAL_SKULL = 1799;
 	private static final int QUILL_PEN = 1957;
 	private static final int MEMO = 1973;
+	private static final int MACGUFFIN_DIARY = 2044;
+	private static final int BLACK_MARKET_MAP = 2054;
 	private static final int JEWELRY_BOOK = 2502;
 	private static final int ABSINTHE = 2655;
 	private static final int DETUNED_RADIO = 2682;
@@ -652,6 +654,15 @@ public class ConsumeItemRequest extends KoLRequest
 			showItemUsage( showHTML, responseText, false );
 			return;
 
+		// If it's your father's McGuffin diary, show it
+		// This doesn't actually work; we need to go to:
+		// diary.php?whichpage=1
+
+		case MACGUFFIN_DIARY:
+
+			showItemUsage( showHTML, responseText, false );
+			return;
+
 		// If it's a memo from Uncle Crimbo, show it
 
 		case CRIMBOWEEN_MEMO:
@@ -892,6 +903,22 @@ public class ConsumeItemRequest extends KoLRequest
 				StaticEntity.getClient().processResult( lastItemUsed );
 			}
 
+			return;
+
+		case BLACK_MARKET_MAP:
+
+			// "You try to follow the map, but you can't make head
+			// or tail of it. It keeps telling you to take paths
+			// through completely impenetrable foliage.
+			// What was it that the man in black told you about the
+			// map? Something about "as the crow flies?""
+
+			if ( responseText.indexOf( "can't make head or tail of it" ) != -1 )
+			{
+				lastUpdate = "You need a guide.";
+				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
+				StaticEntity.getClient().processResult( lastItemUsed );
+			}
 			return;
 
 		case SPOOKY_TEMPLE_MAP:
