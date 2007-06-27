@@ -468,6 +468,11 @@ public class AdventureDatabase extends KoLDatabase
 		  new String [] { "enter combat", "skip the adventure" },
 		  new String [] { null, null } ),
 
+		// Between a Rock and Some Other Rocks
+		new ChoiceAdventure( "Mountain", "choiceAdventure162", "Goatlet",
+		  new String [] { "Open Goatlet", "skip adventure" },
+		  new String [] { null, null } ),
+
 		// Melvil Dewey Would Be Ashamed
 		new ChoiceAdventure( "Manor", "choiceAdventure163", "Haunted Library",
 		  new String [] { "Necrotelicomnicon", "Cookbook of the Damned", "Sinful Desires", "skip adventure" },
@@ -767,6 +772,9 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Lunchtime
 		{ "choiceAdventure160", "2" },
+
+		// Between a Rock and Some Other Rocks
+		{ "choiceAdventure162", "2" },
 
 		// Melvil Dewey Would Be Ashamed
 		{ "choiceAdventure163", "4" },
