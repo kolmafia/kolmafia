@@ -57,7 +57,7 @@
 52	546702280	banjo strings	sets of banjo strings
 53	232520882	stone banjo	stone banjos
 54	244279521	Disco Banjo	Disco Banjos
-55	189906805	jabañero pepper	jabañero peppers
+55	189906805	jaba&ntilde;ero pepper	jaba&ntilde;ero peppers
 56	915847243	heavy hot sauce	heavy hot sauces
 57	695837819	5-Alarm Saucepan	5-Alarm Saucepans
 58	273862210	turtle factory	turtle factories
@@ -71,7 +71,7 @@
 66	244181505	golden twig	golden twigs
 67	192265650	spaghetti with rock-balls	spaghettis with rock-balls
 68	942969095	Pasta of Peril	Pastas of Peril
-69	564164501	Newbiesport™ tent	Newbiesport™ tents
+69	564164501	Newbiesport&trade; tent	Newbiesport&trade; tents
 70	757174348	bar skin	bar skins
 71	449563853	wooden stakes	sets of wooden stakes
 72	435786424	barskin hat	barskin hats
@@ -159,7 +159,7 @@
 154	674402305	Disco 'Fro Pick	Disco 'Fro Picks
 155	156097981	El Sombrero De Lopez	El Sombrero De Lopezs
 156	382799349	guild application
-157	300557156	E-Z Cook Oven™	E-Z Cook Oven™s
+157	300557156	E-Z Cook Oven&trade;	E-Z Cook Oven&trade;s
 158	213655637	Gnollish pie tin	Gnollish pie tins
 159	288162100	wad of dough	wads of dough
 160	601030110	pie crust	pie crusts
@@ -276,7 +276,7 @@
 271	437207139	enchanted barbell	enchanted barbells
 272	808329045	concentrated magicalness pill	concentrated magicalness pills
 273	332180626	giant moxie weed	giant moxie weeds
-274	369846540	Familiar-Gro™ Terrarium	Familiar-Gro™ Terrariums
+274	369846540	Familiar-Gro&trade; Terrarium	Familiar-Gro&trade; Terrariums
 275	187601582	mosquito larva
 276	957862893	leprechaun hatchling	leprechaun hatchlings
 277	567949941	extra-strength strongness elixir	extra-strength strongness elixirs
@@ -302,7 +302,7 @@
 297	955502325	tamarind-flavored chewing gum	pieces of tamarind-flavored chewing gum
 298	278245380	lime-and-chile-flavored chewing gum	pieces of lime-and-chile-flavored chewing gum
 299	238820559	pickle-flavored chewing gum	pieces of pickle-flavored chewing gum
-300	653201781	jabañero-flavored chewing gum	pieces of jabaÃ±ero-flavored chewing gum
+300	653201781	jaba&ntilde;ero-flavored chewing gum	pieces of jaba&ntilde;ero-flavored chewing gum
 301	420577615	flat dough	flat doughs
 302	517250862	Knob sausage	Knob sausages
 303	561848329	Knob mushroom	Knob mushrooms
@@ -485,7 +485,7 @@
 480	455935752	box of birthday candles
 481	294854152	eldritch butterknife
 482	969408234	Mr. Container	Mr. Containers
-483	521931231	Newbiesport™ backpack
+483	521931231	Newbiesport&trade; backpack
 484	478166706	hemp backpack	hemp backpacks
 485	997590293	snakehead charrrm	snakehead charrrms
 486	898684465	Talisman o' Nam	Talismen o' Nam
@@ -1155,12 +1155,12 @@
 1150	987274542	bottle of single-barrel whiskey	bottles of single-barrel whiskey
 1151	434938162	giant discarded plastic fork	giant discarded plastic forks
 1152	352170676	miniature gravy-covered maypole	miniature gravy-covered maypoles
-1153	987474542	Retenez L'Herbe Paté	tins of Retenez L'Herbe Paté
-1154	947696360	Breathetastic™ Premium Canned Air	cans of Breathetastic™ Premium Canned Air
+1153	987474542	Retenez L'Herbe Pat&eacute;	tins of Retenez L'Herbe Pat&eacute;
+1154	947696360	Breathetastic&trade; Premium Canned Air	cans of Breathetastic&trade; Premium Canned Air
 1155	880040707	letter from King Ralph XI
 1156
 1157	312278075	wholeberd	wholeberds
-1158	208619711	Meleegra™ pills	bottles of Meleegra™ pills
+1158	208619711	Meleegra&trade; pills	bottles of Meleegra&trade; pills
 1159	414783196	mariachi G-string	mariachi G-strings
 1160	465947106	irate sombrero	irate sombreros
 1161	808957762	pile of candy	piles of candy
@@ -1406,7 +1406,7 @@
 1401	900358344	sock monkey	sock monkeys
 1402	290943490	rag doll	rag dolls
 1403	405963757	can of fake snow	cans of fake snow
-1404	758126558	colored-light "necklace"	colored-light "necklaces"
+1404	758126558	colored-light &quot;necklace&quot;	colored-light &quot;necklaces&quot;
 1405	321694681	tree skirt	tree skirts
 1406	542679578	wreath-shaped Crimbo cookie	wreath-shaped Crimbo cookies
 1407	122884726	bell-shaped Crimbo cookie	bell-shaped Crimbo cookies
@@ -1528,7 +1528,7 @@
 1523	694242575	bottle of used blood	bottles of used blood
 1524	931763248	wind-up chattering teeth	wind-up chattering teeths
 1525	770189132	joybuzzer	joybuzzers
-1526	770189132	pet rock "Snooty" disguise	pet rock "Snooty" disguises
+1526	770189132	pet rock &quot;Snooty&quot; disguise	pet rock &quot;Snooty&quot; disguises
 1527	295507224	diamond-studded fronts	sets of diamond-studded fronts
 1528	918456221	portable corkscrew	portable corkscrews
 1529	583705083	St. Sneaky Pete's Day goodies basket	St. Sneaky Pete's Day goodies baskets
@@ -1680,7 +1680,7 @@
 1675	582580469	cardboard ore	chunks of cardboard ore
 1676	614466541	styrofoam ore	chunks of styrofoam ore
 1677	571478721	bubblewrap ore	chunks of bubblewrap ore
-1678	596308801	pet rock "Groucho" disguise	pet rock "Groucho" disguises
+1678	596308801	pet rock &quot;Groucho&quot; disguise	pet rock &quot;Groucho&quot; disguises
 1679	248081636	cardboard sword	cardboard swords
 1680	807811088	cardboard staff	cardboard staves
 1681	668833593	bubblewrap sword	bubblewrap swords
@@ -1714,7 +1714,7 @@
 1709	572775344	sword of static	swords of static
 1710	731273573	wiffle-flail	wiffle-flails
 1711	283925214	bubble bauble bow	bubble bauble bows
-1712	849906076	Frost™ brand sword	Frost™ brand swords
+1712	849906076	Frost&trade; brand sword	Frost&trade; brand swords
 1713	254432749	squeaky staff	squeaky staves
 1714	941230258	can cannon	can cannons
 1715	300889400	starchy sword	starchy swords
@@ -2001,8 +2001,8 @@
 1996	803458201	right half of a heart necklace	right half of a heart necklaces
 1997	608795420	left half of a heart necklace	left half of a heart necklaces
 1998	587956187	pack of KWE trading card	packs of KWE trading card
-1999	412660772	stick of "gum"	sticks of "gum"
-2000	643561834	Das Überkühlraum trading card
+1999	412660772	stick of &quot;gum&quot;	sticks of &quot;gum&quot;
+2000	643561834	Das &Uuml;berk&uuml;hlraum trading card
 2001	340218367	Vaso De Agua trading card
 2002	555654519	The Grand Poo-Bah trading card	The Grand Poo-Bah trading cards
 2003	590704615	Thorny Toad trading card
@@ -2270,7 +2270,7 @@
 2265
 2266
 2267
-2268
+2268	654006777	Staff of Fats
 2269
 2270
 2271
@@ -2288,7 +2288,7 @@
 2283
 2284	139204890	petrified noodles	clumps of petrified noodles
 2285	583794996	chisel
-2286
+2286	818542757	Eye of Ed
 2287	642392529	green glowstick	green glowstyx
 2288	643487866	encoder ring
 2289
@@ -2304,7 +2304,7 @@
 2299
 2300
 2301
-2302
+2302	724817767	worm-riding hooks
 2303	336455814	libram of candy heart summoning
 2304	175228086	white candy heart	white candy hearts
 2305	192902326	pink candy heart	pink candy hearts
@@ -2322,12 +2322,12 @@
 2317
 2318
 2319
-2320
-2321
-2322
-2323
-2324
-2325
+2320	956772450	worm-riding manual page 1
+2321	159106276	worm-riding manual page 2
+2322	754742505	worm-riding manual pages 3-15
+2323	544136881	headpiece of the staff of Ed
+2324	208518574	Staff of Ed, almost
+2325	555571979	Staff of Ed
 2326	683667482	stone rose
 2327	276983150	can of black paint
 2328	332500630	drum machine
@@ -2446,7 +2446,7 @@
 2441	591787452	Knob Goblin encryption key
 2442	325883819	Cobb's Knob map
 2443	199035416	pink glowstick	pink glowstyx
-2444
+2444	150158476	Supernova Champagne
 2445	980448847	Deactivated O. A. F.	Deactivated O. A. F.s
 2446	481449606	hardware upgrade	hardware upgrades
 2447	840387110	bad penguin egg	bad penguin eggs
@@ -2551,7 +2551,7 @@
 2546	213398305	half-orchid	half-orchids
 2547	222722891	tin star	
 2548	576823351	outrageous sombrero	
-2549	472113416	"Humorous" T-shirt	
+2549	472113416	&quot;Humorous&quot; T-shirt	
 2550	807564363	Peppercorns of Power	
 2551	
 #	222463880	vial of mojo
@@ -2583,7 +2583,7 @@
 2574	577092879	ant pick
 2575	991245163	bronzed locust
 2576	300470894	honey-dipped locust	
-2577	
+2577	604989033	giant cactus quill
 2578	445174128	Staff of the Short Order Cook
 2579	241600811	cactus fruit
 2580	661963442	scorpion whip
@@ -2591,10 +2591,10 @@
 2582	634159997	brick of sand
 2583	956043901	centipede eggs	
 2584	
-2585	
-2586	
-2587	
-2588	
+2585	635680553	Colonel Mustard's Lonely Spades Club Jacket
+2586	229924188	General Sage's Lonely Diamonds Club Jacket
+2587	854115819	Corporal Fennel's Lonely Clubs Club Jacket
+2588	449989440	Private Pepper's Lonely Hearts Club Jacket
 2589	
 2590	
 2591	
@@ -2621,7 +2621,7 @@
 2612	
 2613	786869929	rocky raccoon
 2614	
-2615	
+2615	593431148	savoy truffle
 2616	
 2617	
 2618	
@@ -2648,8 +2648,8 @@
 2639	273117128	black cherry soda
 2640	207650845	black greaves	black greavess
 2641	
-2642	
-2643	
+2642	438829287	Maxwell's Silver Hammer
+2643	752498873	happiness
 2644	507320025	flaming feather
 2645	601242096	frozen feather
 2646	204406419	frightful feather
@@ -2681,7 +2681,7 @@
 2672	653270934	library card	library cards
 2673	549269732	Bohemian rhapsody	Bohemian rhapsodies
 2674	815439210	bottle of black cat tonic	bottles of black cat tonic
-2675	
+2675	111587963	handful of moss
 2676	594509761	bit-o-cactus
 2677	
 2678	724817767	spectre scepter

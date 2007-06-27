@@ -209,12 +209,15 @@ bronze breastplate	105	Mus: 37
 clockwork trench coat	80	Mus: 25
 clownskin harness	60	Mus: 15
 coconut bikini top	100	Mus: 35
+Colonel Mustard's Lonely Spades Club Jacket	130	Mus: 50
+Corporal Fennel's Lonely Clubs Club Jacket	130	Mus: 50
 demonskin jacket	80	Mus: 25
 eXtreme Bi-Polar Fleece Vest	90	none
 filthy hippy poncho	40	Mus: 5
 flaming pink shirt	100	none
 floral print shirt	100	Mus: 35
 frilly shirt	20	none
+General Sage's Lonely Diamonds Club Jacket	130	Mus: 50
 gingham blouse	100	Mus: 35
 gnauga hide vest	80	Mus: 25
 goth kid t-shirt	100	Mus: 35
@@ -228,6 +231,7 @@ Knob Goblin elite shirt	35	Mus: 2
 loathing eagle baby-doll shirt	45	Mus: 7
 Mr. Shirt	30	none
 pirate shirt	50	Mus: 10
+Private Pepper's Lonely Hearts Club Jacket	130	Mus: 50
 Radio Free Jersey	0	none
 rhinestone cowboy shirt	100	Mus: 35
 safety vest	70	none
@@ -340,8 +344,9 @@ flypaper staff	80	Mus: 20	2-handed staff
 Frost&trade; brand sword	70	Mus: 20	1-handed sword
 frozen nunchaku	80	Mus: 25	2-handed flail
 ga-ga radio	125	Mox: 47	2-handed radio
-giant discarded plastic fork	155	Mus: 62	3-handed staff
+giant cactus quill	160	Mus: 65	1-handed spear
 giant cheesestick	120	Mus: 45	2-handed staff
+giant discarded plastic fork	155	Mus: 62	3-handed staff
 giant needle	150	Mus: 60	2-handed spear
 glistening staff	60	Mus: 15	2-handed staff
 gnauga hide whip	20	none	1-handed whip
@@ -360,6 +365,7 @@ Grimacite glaive	125	Mus: 47	2-handed polearm
 hairy staff	135	Mus: 45	2-handed staff
 halfberd	30	none	1-handed polearm
 Hammer of Smiting	90	Mus: 15	1-handed club
+happiness	165	Mox: 67	1-handed pistol
 heavy metal thunderrr guitarrr	120	Mox: 45	2-handed guitar
 heteroerotic frat-paddle	150	Mus: 60	1-handed club
 hippo whip	20	none	1-handed whip
@@ -387,8 +393,9 @@ linoleum sword	110	Mus: 40	2-handed sword
 little paper umbrella	30	none	1-handed umbrella
 lucky ball-and-chain	130	Mox: 50	2-handed flail
 lupine sword	115	Mus: 42	1-handed sword
-# Mace of the Tortoise	50	Mus: 10	1-handed club
+Mace of the Tortoise	50	Mus: 10	1-handed club
 Mafia violin case	100	Mus: 35	1-handed club
+Maxwell's Silver Hammer	165	Mus: 67	1-handed glub
 meatspout staff	125	Mus: 45	2-handed staff
 Mjolnir Jr.	200	Mus: 85	1-handed club
 muculent machete	60	Mus: 15	1-handed sword
@@ -492,6 +499,7 @@ wholeberd	80	Mus: 25	2-handed polearm
 wiffle-flail	75	Mus: 22	2-handed flail
 wooden axe	60	Mus: 15	2-handed axe
 wooden stakes	25	none	2-handed spear
+worm-riding hooks	50	none	2-handed club
 yak whip	20	none	1-handed whip
 
 
