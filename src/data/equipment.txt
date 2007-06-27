@@ -203,6 +203,7 @@ yakskin skirt	140	Mox: 55
 # which go in the "shirt" slot of the equipment menu.
 
 Ascension Souvenir T-Shirt	15	none
+Ascii shirt	90	Mus: 30
 barskin cloak	25	none
 bronze breastplate	105	Mus: 37
 clockwork trench coat	80	Mus: 25
