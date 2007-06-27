@@ -2568,10 +2568,10 @@
 2559	723621502	Hammer of Smiting
 2560	811211086	17-Alarm Saucepan
 2561	370831124	Greek Pasta of Peril
-2562
-2563
-2564
-2565	
+2562	592454967	half-rotten brain
+2563	723337113	rusty bonesaw
+2564	778300928	plus-sized phylactery
+2565		can of Ghuol-B-Gone&trade;
 2566	
 2567	
 2568	

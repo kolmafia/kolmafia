@@ -446,7 +446,7 @@ public class AdventureDatabase extends KoLDatabase
 		// Turn Your Head and Coffin
 		new ChoiceAdventure( "Cyrpt", "choiceAdventure153", "Defiled Alcove",
 		  new String [] { "muscle substats", "small meat boost", "half-rotten brain", "skip the adventure" },
-		  new String [] { null, null, null, null } ),
+		  new String [] { null, null, "2562", null } ),
 
 		// Doublewide
 		new ChoiceAdventure( "Cyrpt", "choiceAdventure154", "Defiled Alcove",
@@ -456,7 +456,7 @@ public class AdventureDatabase extends KoLDatabase
 		// Skull, Skull, Skull
 		new ChoiceAdventure( "Cyrpt", "choiceAdventure155", "Defiled Nook",
 		  new String [] { "moxie substats", "small meat boost", "rusty bonesaw", "skip the adventure" },
-		  new String [] { null, null, null, null } ),
+		  new String [] { null, null, "2563", null } ),
 
 		// Pileup
 		new ChoiceAdventure( "Cyrpt", "choiceAdventure156", "Defiled Nook",
@@ -465,8 +465,8 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Urning Your Keep
 		new ChoiceAdventure( "Cyrpt", "choiceAdventure157", "Defiled Niche",
-		  new String [] { "mysticality substats", "Plus-sized phylactery", "small meat gain", "skip the adventure" },
-		  new String [] { null, null, null, null } ),
+		  new String [] { "mysticality substats", "plus-sized phylactery", "small meat gain", "skip the adventure" },
+		  new String [] { null, "2564", null, null } ),
 
 		// Lich in the Niche
 		new ChoiceAdventure( "Cyrpt", "choiceAdventure158", "Defiled Niche",
@@ -475,8 +475,8 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Go Slow Past the Drawers
 		new ChoiceAdventure( "Cyrpt", "choiceAdventure159", "Defiled Cranny",
-		  new String [] { "small meat boost", "stats & HP & MP", "Can of Ghuol-B-Gone&trade;", "skip the adventure" },
-		  new String [] { null, null, null, null } ),
+		  new String [] { "small meat boost", "stats & HP & MP", "can of Ghuol-B-Gone&trade;", "skip the adventure" },
+		  new String [] { null, null, "2565", null } ),
 
 		// Lunchtime
 		new ChoiceAdventure( "Cyrpt", "choiceAdventure160", "Defiled Cranny",

@@ -2563,10 +2563,10 @@
 2559	Hammer of Smiting	12	none	0
 2560	17-Alarm Saucepan	12	none	0
 2561	Greek Pasta of Peril	12	none	0
-2562
-2563
-2564
-2565
+2562	half-rotten brain	0	all	24
+2563	rusty bonesaw	0	all	35
+2564	plus-sized phylactery	0	none	0
+2565	can of Ghuol-B-Gone&trade;	0	all	55
 2566
 2567
 2568
