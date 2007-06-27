@@ -75,6 +75,7 @@ white whip	Exp: +1.0
 7-ball	Meat: +5.0
 antique shield	Init: -10.0, DR: 15
 barskin buckler	DR: 1
+black shield	DR: 10
 bobble-hip hula elf doll	Meat: +15.0
 box	Meat: +1.0
 box-in-the-box	Meat: +2.0
@@ -119,6 +120,7 @@ safety vest	DR: 3
 Ye Olde Navy Fleece	Meat: +10.0
 
 antique greaves	Init: -10.0
+black greaves	DA: +30
 bounty-hunting pants	Item: +15.0
 clockwork pants	Init: +10.0
 Crimbo pants	Init: +30.0
@@ -149,6 +151,7 @@ baconstone bracelet	Mana: -1
 baconstone earring	Mana: -1
 Baron Von Ratsworth's money clip	Meat: +15.0
 Baron Von Ratsworth's monocle	Item: +10.0
+blackberry moccasins	DR: 3
 Bonerdagon necklace	Init: +30.0
 disbelief suspenders	Sleaze: +10
 evil flaming eyeball pendant	Init: +15.0, Meat: +15.0

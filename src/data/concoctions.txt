@@ -814,6 +814,7 @@ unwound clockwork grapefruit	2	clockwork endoskeleton	grapefruit
 deactivated MicroMechaMech	12	clockwork spine	clockwork claws	clockwork key
 dusty animal skull	1	dusty animal cranium	dusty animal jawbone
 scary death orb	1	clockwork sphere	grouchy restless spirit
+reassembled blackbird	1	broken wings	sunken eyes
 
 # These are item-combinations which are only available post-ascension,
 # and does not fall into any other categories.

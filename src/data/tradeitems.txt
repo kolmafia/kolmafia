@@ -1313,7 +1313,7 @@
 1313	Baron Von Ratsworth's money clip	8	display	0
 1314	Baron Von Ratsworth's tophat	9	display	0
 1315	rose-colored glasses	8	display	0
-1316	facsimile dictionary	0	all	21337
+1316	facsimile dictionary	0	display	21337
 1317	blood flower	0	all	75
 1318	lovecat tail	0	all	50
 1319	plastic passion fruit	0	all	25
@@ -2041,27 +2041,27 @@
 2041
 2042
 2043
-2044
+2044	your father's MacGuffin diary	0	none	0
 2045
 2046
 2047
 2048
 2049
-2050
-2051
-2052
-2053
-2054
-2055
-2056
-2057
-2058
-2059
-2060
-2061
-2062
-2063
-2064
+2050	broken wings	0	none	0
+2051	sunken eyes	0	none	0
+2052	reassembled blackbird	5	none	0
+2053	tiny bust of Pallas	7	all	75
+2054	black market map	3	none	0
+2055	black snake skin	0	all	75
+2056	adder bladder	4	all	75
+2057	black pension check	4	all	1
+2058	black picnic basket	4	all	65
+2059	Black No. 2	4	all	40
+2060	black sword	12	all	145
+2061	black helmet	9	all	145
+2062	black shield	13	all	145
+2063	blackberry	1	all	70
+2064	forged identification documents	0	none	0
 2065
 2066
 2067
@@ -2324,7 +2324,7 @@
 2324
 2325
 2326
-2327
+2327	can of black paint	4	none	150
 2328
 2329
 2330	chocolate-covered diamond-studded roses	0	gift	10000
@@ -2335,12 +2335,12 @@
 2335
 2336
 2337
-2338
-2339
-2340
-2341
-2342
-2343
+2338	black pudding	1	all	40
+2339	Blackfly Chardonnay	2	all	40
+2340	black and tan	2	all	40
+2341	black pepper	0	all	40
+2342	black forest cake	1	all	40
+2343	black forest ham	1	all	40
 2344
 2345
 2346
@@ -2640,8 +2640,8 @@
 2636	
 2637	
 2638	
-2639	
-2640	
+2639	black cherry soda	4	all	40
+2640	black greaves	10	all	145
 2641	
 2642	
 2643	
@@ -2706,15 +2706,15 @@
 2702
 2703
 2704
-2705
-2706
-2707
+2705	blackberry slippers	8	all	175
+2706	blackberry moccasins	8	all	130
+2707	blackberry combat boots	8	all	150
 2708
-2709
-2710
-2711
-2712
-2713
+2709	exotic parrot egg	5	all	500
+2710	cracker	7	all	75
+2711	black facepaint	4	0	150
+2712	black sheepskin diploma	4	0	150
+2713	Black Body&trade; spray	4	0	150
 2714
 2715
 2716

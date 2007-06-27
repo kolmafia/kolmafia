@@ -555,6 +555,11 @@ public class AdventureDatabase extends KoLDatabase
 		  new String [] { "Good with the Ladies -> Can-Can skirt", "Feelin' Philosophical -> not-a-pipe", "mysticality substats" },
 		  new String [] { "2663", "2660", null } ),
 
+		// The Blackberry Cobbler
+		new ChoiceAdventure( "Woods", "choiceAdventure177", "Black Forest",
+		  new String [] { "blackberry slippers", "blackberry moccasins", "blackberry combat boots", "skip the adventure" },
+		  new String [] { "2705", "2706", "2707", null } ),
+
 		// Hammering the Armory
 		new ChoiceAdventure( "Beanstalk", "choiceAdventure178", "Penultimate Fantasy Airship",
 		  new String [] { "bronze breastplate", "skip the adventure" },
@@ -769,6 +774,9 @@ public class AdventureDatabase extends KoLDatabase
 		// Beyond Any Measure
 		{ "choiceAdventure165", "4" },
 
+		// The Blackberry Cobbler
+		{ "choiceAdventure177", "4" },
+
 		// Hammering the Armory
 		{ "choiceAdventure178", "2" },
 	};
@@ -795,7 +803,12 @@ public class AdventureDatabase extends KoLDatabase
 		{ "47", "1", new AdventureResult( "bottle of used blood", 0 ) },
 
 		// No sir, away!  A papaya war is on!
-		{ "127", "2", new AdventureResult( "papaya", -3 ) }
+		{ "127", "2", new AdventureResult( "papaya", -3 ) },
+
+		// The Blackberry Cobbler
+		{ "177", "1", new AdventureResult( "blackberry", -10 ) },
+		{ "177", "2", new AdventureResult( "blackberry", -10 ) },
+		{ "177", "3", new AdventureResult( "blackberry", -10 ) },
 	};
 
 	// Some adventures don't actually cost a turn

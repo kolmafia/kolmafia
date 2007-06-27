@@ -42,6 +42,7 @@ Woods	29/29	adventure=79	Deep Fat Friar's Gate
 Woods	0/20	adventure=73	8-Bit Realm	1 digital key
 Woods	35/0	adventure=100	Whitey's Grove
 Woods	35/0	adventure=99	The Road to the White Citadel
+Woods	104/0	adventure=111	The Black Forest
 
 BatHole	8/8	adventure=30	Bat Hole Entryway	1 Pine-Fresh air freshener
 BatHole	8/8	adventure=31	Guano Junction	3 sonar-in-a-biscuit, 1 broken skull

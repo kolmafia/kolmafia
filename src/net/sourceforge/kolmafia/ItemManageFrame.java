@@ -289,7 +289,7 @@ public class ItemManageFrame extends KoLFrame
 				totalValue += currentItem.getCount( inventory ) * TradeableItemDatabase.getPriceById( currentItem.getItemId() );
 			}
 
-			this.setText( "<html>Gnollish toolboxes, briefcases, small and large boxes, 31337 scrolls, Warm Subject gift certificates, and Penultimate Fantasy chests, if flagged as junk, will be used. " +
+			this.setText( "<html>Gnollish toolboxes, briefcases, small and large boxes, 31337 scrolls, Warm Subject gift certificates, Penultimate Fantasy chests, and black pension checks, if flagged as junk, will be used. " +
 				"If you have the Pulverize and a tenderizing hammer, then items will be pulverized if you have malus access or they are weapons, armor, or pants with power greater than or equal to 100. " +
 				"All other items flagged as junk will be autosold.  The current autosell value of items to be handled in this script is " + COMMA_FORMAT.format( totalValue ) + " meat.</html>" );
 		}

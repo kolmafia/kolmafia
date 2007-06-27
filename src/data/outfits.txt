@@ -27,6 +27,7 @@
 29	Antique Arms and Armor	antique greaves, antique helmet, antique spear, antique shield
 30	Terrycloth Tackle	makeshift turban, makeshift skirt, makeshift cape
 31	Tropical Crimbo Duds	Tropical Crimbo Hat, Tropical Crimbo Sword, Tropical Crimbo Shorts
+35	Black Armaments	black sword, black helmet, black shield, black greaves
 
 # Outfits for which KoL does not provide an outfit id,
 # and thus are given id #0 to tell KoLmafia to treat
