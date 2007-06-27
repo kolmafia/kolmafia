@@ -2328,9 +2328,9 @@
 2323
 2324
 2325
-2326
+2326	683667482	stone rose
 2327	276983150	can of black paint
-2328
+2328	332500630	drum machine
 2329
 2330	610916131	chocolate-covered diamond-studded roses	diamond-covered chocolate-studded roses
 2331	463031002	bouquet of circular saw blades
@@ -2575,21 +2575,21 @@
 2566	
 2567	
 2568	
-2569	
-2570	
-2571	
+2569	820254596	ant agonist
+2570	901944647	ant hoe
+2571	914338533	ant rake
 2572	
 2573	
-2574	
-2575	
-2576	
+2574	577092879	ant pick
+2575	991245163	bronzed locust
+2576	300470894	honey-dipped locust	
 2577	
 2578	445174128	Staff of the Short Order Cook
-2579	
-2580	
-2581	
-2582	
-2583	
+2579	241600811	cactus fruit
+2580	661963442	scorpion whip
+2581	492792629	handful of sand	sandfuls of hand
+2582	634159997	brick of sand
+2583	956043901	centipede eggs	
 2584	
 2585	
 2586	
@@ -2606,12 +2606,12 @@
 2597	
 2598	
 2599	
-2600	
+2600	496663617	carbonated water lily	
 2601	338816180	Staff of the Midnight Snack
 2602	572669193	Staff of Blood and Pudding
 2603	
 2604	
-2605	
+2605	636774876	palm frond
 2606	
 2607	
 2608	
@@ -2619,7 +2619,7 @@
 2610	
 2611	
 2612	
-2613	
+2613	786869929	rocky raccoon
 2614	
 2615	
 2616	
@@ -2636,9 +2636,9 @@
 2627	
 2628	
 2629	
-2630	
+2630	894817867	Hugo's Weaving Manual
 2631	
-2632	
+2632	321738063	mother's little helper
 2633	
 2634	
 2635	
@@ -2682,7 +2682,7 @@
 2673	549269732	Bohemian rhapsody	Bohemian rhapsodies
 2674	815439210	bottle of black cat tonic	bottles of black cat tonic
 2675	
-2676	
+2676	594509761	bit-o-cactus
 2677	
 2678	724817767	spectre scepter
 2679	531024665	sparkler	sparklies
@@ -2740,7 +2740,7 @@
 2731
 2732
 2733
-2734
+2734	790278119	brown sugar cane
 2735
 2736
 2737

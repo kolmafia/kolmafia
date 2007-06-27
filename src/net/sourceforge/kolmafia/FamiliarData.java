@@ -95,6 +95,9 @@ public class FamiliarData implements KoLConstants, Comparable
 			itemData.indexOf( "punkin.gif" ) != -1 ? new AdventureResult( "plastic pumpkin bucket", 1, false ) :
 			itemData.indexOf( "ffdop.gif" ) != -1 ? new AdventureResult( 2225, 1 ) :
 			itemData.indexOf( "maybouquet.gif" ) != -1 ? new AdventureResult( "Mayflower bouquet", 1, false ) :
+			itemData.indexOf( "anthoe.gif" ) != -1 ? new AdventureResult( "ant hoe", 1, false ) :
+			itemData.indexOf( "antrake.gif" ) != -1 ? new AdventureResult( "ant rake", 1, false ) :
+			itemData.indexOf( "antpick.gif" ) != -1 ? new AdventureResult( "ant pick", 1, false ) :
 			new AdventureResult( FamiliarsDatabase.getFamiliarItem( this.id ), 1, false );
 	}
 

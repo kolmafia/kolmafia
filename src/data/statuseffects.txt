@@ -39,7 +39,7 @@
 39	Hernia!	hernia.gif	eb4f2cac29d8c2a73a6b0f1d532f61c9
 40	Red Neck	redneck.gif
 41	Chapped Legs	legs.gif
-42	Sunburned	sunburn.gif
+42	Sunburned	sunburn.gif	309b9f895dcc011a120b12453c1bc7e5
 43	Wussiness	sad.gif	84e619e8ff038d639085cbe8ea74752b
 44	Draggin' Balls	ballhat.gif
 45	1337p4n7Z	whitepants.gif	70679877d6ac73627d6576ca7cb72f62
@@ -162,7 +162,7 @@
 162	The Sonata of Sneakiness	notes.gif
 163	Carlweather's Cantata of Confrontation	notes.gif
 164	Ur-Kel's Aria of Annoyance	notes.gif	59a1ac48440e1ea1f869f2b37753f9cc
-165	Smooth Movements	footprints.gif
+165	Smooth Movements	footprints.gif	173a9c4b4bbef78643fe4ec1a93b1cfc
 166	Musk of the Moose	stench.gif	5e788aac76c7451c42ce19d2acf6de18
 167	Spirit of Cayenne	flame.gif
 168	Spirit of Peppermint	snowflake.gif
@@ -195,7 +195,7 @@
 195	Cold Breath	breath.gif
 196	Spooky Breath	breath.gif
 197	Stinky Breath	breath.gif	8be4aecc48d39b0b8b7a0fd671bd4330
-198	Sleazy Breath	breath.gif
+198	Sleazy Breath	breath.gif	572a0d269f2609e685ae3f56327a2998
 199	Aspect of the Twinklefairy	scwad.gif	f27e3dcf9fd6b46b30347743c18ccb1b
 200	Hot Blooded	scwad.gif	c3dce41845c995ec4c2bd986cbc28364
 201	Cold Blooded	scwad.gif
@@ -241,8 +241,8 @@
 241	Got Your Boots On	boot.gif
 242	The Q Is Talking To You	q.gif
 243	Bad Luck	bmirror.gif
-244
-245
+244	Deadly Flashing Blade	blacksword.gif	05bc11c2da34e7f6fe1511ec6850fe2e
+245	Locks Like the Raven	blackbird2.gif	6d4452e978741bda60e82e316fdd7ba5
 246	Smugness	happy.gif
 247	Good Karma	happy.gif
 248	Pumped Up	strboost.gif
@@ -262,17 +262,17 @@
 262	Squirming Like a Toad	squashfrog.gif
 263	Eau D'tortue	stench.gif
 264
-265
-266
-267
-268
+265	Tenuous Grip on Reality	hoppeddown.gif	c22c212fdf9d6b611be955785ff37775
+266	Turned Into a Skeleton	skeldoll.gif	555395c91aca7ddf5a60688c63214f73
+267	Barking Dogs	footprints.gif	cb28fec658f97af4ee56590184223497
+268	Prestidigysfunction	snowflakes.gif	dd5d7d48bca51bd1ddfa197b584a5623
 269	Heart of White	candyheart.gif
 270	Heart of Pink	candyheart.gif	Heart of Pink
 271	Heart of Orange	candyheart.gif	Heart of Orange
 272	Heart of Lavender	candyheart.gif	Heart of Lavender
 273	Heart of Yellow	candyheart.gif
 274	Heart of Green	candyheart.gif
-275
+275	Ultrahydrated	raindrop.gif	ec7f2f9d649f3de48a27c5eaa1147afe
 276	Disco Inferno	discoball.gif
 277	Disco Nirvana	discoball.gif
 278	Disco Concentration	discoball.gif
@@ -345,13 +345,13 @@
 345
 346
 347
-348
+348	All Fired Up	fire.gif	5626ff49dbfe5c3bc7732a3dc9c1ea4e
 349
 350
 351
-352
-353
-354
+352	Tranquilized Mind	sleepy.gif	e6d8c1e5ee549f897340b97b3cc26053
+353	Woad Warrior	foamfinger.gif	c884a8b10f7b236002288fc760129e09
+354	Red Door Syndrome	blackpaint.gif	08c89971feb489d775ce5e8b2b845503
 355	Spirit of Alph	river.gif	Spirit of Alph
 356	Night Vision	bigeyes.gif
 357	Absinthe-Minded	snowflakes.gif	Absinthe-Minded
