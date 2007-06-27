@@ -524,7 +524,8 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 			if ( infiniteNPCStoreItems && NPCStoreDatabase.contains( concoction.getName() ) )
 			{
-				item.initial = concoction.getCount( availableIngredients ) + KoLCharacter.getAvailableMeat() / (TradeableItemDatabase.getPriceById( concoction.getItemId() ) * 2);
+				int price = NPCStoreDatabase.price( concoction.getName() );
+				item.initial = concoction.getCount( availableIngredients ) + KoLCharacter.getAvailableMeat() / price;
 				item.creatable = 0;
 				item.total = item.initial;
 			}

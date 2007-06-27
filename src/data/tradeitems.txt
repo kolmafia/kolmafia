@@ -2683,7 +2683,7 @@
 2679	sparkler	3	all	150
 2680	snake	3	all	150
 2681	M-242	3	all	150
-2682	detuned radio	0	none	150
+2682	detuned radio	0	none	0
 2683	Warehouse 23 crate	3	none	0
 2684	
 2685	
