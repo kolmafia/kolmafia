@@ -407,6 +407,16 @@ public class AdventureDatabase extends KoLDatabase
 		  new String [] { "muscle and Pumped Up", "ice cold Sir Schlitz", "moxie and lemon", "skip adventure" },
 		  new String [] { null, "41", "332", null } ),
 
+                // At Least It's Not Full Of Trash
+		new ChoiceAdventure( "Woods", "choiceAdventure123", "Hidden Temple",
+		  new String [] { "lose HP", "Unlock Quest Puzzle", "lose HP" },
+		  new String [] { null, null, null } ),
+
+                // No Visible Means of Support
+		new ChoiceAdventure( "Woods", "choiceAdventure125", "Hidden Temple",
+		  new String [] { "lose HP", "lose HP", "Unlock Hidden City" },
+		  new String [] { null, null, null } ),
+
 		// Sun at Noon, Tan Us
 		new ChoiceAdventure( "Plains", "choiceAdventure126", "Palindome",
 		  new String [] { "moxie", "chance of more moxie", "sunburned" } ),

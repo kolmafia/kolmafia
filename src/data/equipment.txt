@@ -393,6 +393,7 @@ meatspout staff	125	Mus: 45	2-handed staff
 Mjolnir Jr.	200	Mus: 85	1-handed club
 muculent machete	60	Mus: 15	1-handed sword
 ninja mop	90	Mus: 30	2-handed implement
+obsidian dagger	30	Mus: 10	1-handed knife
 oversized pizza cutter	100	Mus: 35	1-handed utensil
 Pasta of Peril	50	Mys: 10	1-handed utensil
 pasta spoon	10	none	1-handed utensil
@@ -401,6 +402,7 @@ pestoblade	50	Mus: 10	1-handed sword
 pitchfork	125	Mus: 47	1-handed spear
 pixel sword	50	Mus: 10	1-handed sword
 plexiglass pike pike	180	Mus: 75	2-handed spear
+pointed stick	160	Mus: 65	1-handed spear
 pool cue	40	none	2-handed staff
 portable corkscrew	30	none	1-handed tool
 potato pistol	120	Mox: 45	1-handed pistol
@@ -691,6 +693,7 @@ hamethyst bracelet	0	Mys: 10
 hamethyst earring	0	Mys: 10
 hamethyst necklace	0	Mys: 10
 hamethyst ring	0	Mys: 10
+headhunter necktie	0	Mys: 65
 hemp string	0	Mys: 20
 hockey stick of furious angry rage	0	Mys: 35
 ice skates	0	none
@@ -737,6 +740,7 @@ porquoise ring	0	Mys: 10
 pulled porquoise earring	0	Mys: 40
 pulled porquoise pendant	0	Mys: 40
 pulled porquoise ring	0	Mys: 40
+pygmy nose-bone	0	Mys: 62
 Radio KoL Keychain	0	none
 Radio KoL Antenna Ball	0	none
 Radio KoL Flashlight	0	none

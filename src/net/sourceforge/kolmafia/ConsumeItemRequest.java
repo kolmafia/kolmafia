@@ -125,6 +125,7 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int MEMO = 1973;
 	private static final int MACGUFFIN_DIARY = 2044;
 	private static final int BLACK_MARKET_MAP = 2054;
+	private static final int ARCHAEOLOGIST_NOTEBOOK = 2179;
 	private static final int JEWELRY_BOOK = 2502;
 	private static final int ABSINTHE = 2655;
 	private static final int DETUNED_RADIO = 2682;
@@ -655,10 +656,18 @@ public class ConsumeItemRequest extends KoLRequest
 			return;
 
 		// If it's your father's McGuffin diary, show it
+
 		// This doesn't actually work; we need to go to:
 		// diary.php?whichpage=1
 
 		case MACGUFFIN_DIARY:
+
+			showItemUsage( showHTML, responseText, false );
+			return;
+
+		// If it's an archaeologist's notebook, show it
+
+		case ARCHAEOLOGIST_NOTEBOOK:
 
 			showItemUsage( showHTML, responseText, false );
 			return;
