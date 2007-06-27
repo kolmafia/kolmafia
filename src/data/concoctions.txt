@@ -150,10 +150,13 @@ sprocket assembly	1	sprocket	spring
 
 # Items created by combining letters and/or numbers.
 
-31337 scroll	1	30669 scroll	668 scroll
-64067 scroll	1	30669 scroll	33398 scroll
-64735 scroll	1	64067 scroll	668 scroll
-668 scroll	1	334 scroll	334 scroll
+# Number scrolls are now only combined in combat with a rampaging adding machine
+
+# 31337 scroll	1	30669 scroll	668 scroll
+# 64067 scroll	1	30669 scroll	33398 scroll
+# 64735 scroll	1	64067 scroll	668 scroll
+# 668 scroll	1	334 scroll	334 scroll
+
 ND	1	lowercase N	heavy D
 NG	1	lowercase N	original G
 WA	1	metallic A	ruby W
