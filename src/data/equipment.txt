@@ -426,6 +426,7 @@ saucepan	10	none	1-handed saucepan
 savory sword	80	Mus: 25	1-handed sword
 savory staff	80	Mus: 25	2-handed staff
 savory crossbow	80	Mox: 25	2-handed crossbow
+scorpion whip	20	none	1-handed whip
 seal-clubbing club	10	none	1-handed utensil
 serpentine sword	115	Mus: 42	1-handed sword
 # Shagadelic Disco Banjo	90	Mox: 15	2-handed banjo

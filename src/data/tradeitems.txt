@@ -2325,7 +2325,7 @@
 2325
 2326
 2327	can of black paint	4	none	150
-2328
+2328	drum machine	3	display	160
 2329
 2330	chocolate-covered diamond-studded roses	0	gift	10000
 2331	bouquet of circular saw blades	0	gift	2500
@@ -2570,21 +2570,21 @@
 2566
 2567
 2568
-2569
-2570
-2571
+2569	ant agonist	4	all	85
+2570	ant hoe	7	all	75
+2571	ant rake	7	all	75
 2572
 2573
-2574
-2575
-2576
+2574	ant pick	7	all	75
+2575	bronzed locust	0	all	55
+2576	honey-dipped locust	4	all	115
 2577
 2578	Staff of the Short Order Cook	12	display	25
-2579
-2580
-2581
-2582
-2583
+2579	cactus fruit	1	all	35
+2580	scorpion whip	12	all	25
+2581	handful of sand	3	all	25
+2582	brick of sand	3	all	100
+2583	centipede eggs	1	all	66
 2584
 2585
 2586
@@ -2601,12 +2601,12 @@
 2597
 2598
 2599
-2600
+2600	carbonated water lily	4	all	85
 2601	Staff of the Midnight Snack	12	display	25
 2602	Staff of Blood and Pudding	12	display	25
 2603
 2604
-2605
+2605	palm frond	4	all	45
 2606
 2607
 2608
@@ -2614,7 +2614,7 @@
 2610
 2611
 2612
-2613
+2613	rocky raccoon	0	all	75
 2614
 2615
 2616
@@ -2631,9 +2631,9 @@
 2627	
 2628	
 2629	
-2630	
+2630	Hugo's Weaving Manual	0	none	0
 2631	
-2632	
+2632	mother's little helper	4	all	115
 2633	
 2634	
 2635	
@@ -2677,7 +2677,7 @@
 2673	Bohemian rhapsody	0	all	25
 2674	bottle of black cat tonic	3	all	25
 2675	
-2676	
+2676	bit-o-cactus	4	all	250
 2677	
 2678	spectre scepter	0	display	0
 2679	sparkler	3	all	150
@@ -2735,7 +2735,7 @@
 2731
 2732
 2733
-2734
+2734	brown sugar cane	1	all	55
 2735
 2736
 2737
