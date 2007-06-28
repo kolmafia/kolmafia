@@ -23,7 +23,7 @@
 23	Pasta Oneness	happy.gif	583619abc0e4380d80629babe3677aed
 24	Saucemastery	happy.gif	2817b71ed041fdffb5b4b514c8be662d
 25	Disco State of Mind	discoball.gif	869b501ce3b0e8ba139e7f3807db0c1f
-26	Mariachi Mood	happy.gif
+26	Mariachi Mood	happy.gif	c0a491f833b3490be4763e48a0a4c317
 27	Temporary Lycanthropy	lycanth.gif	79bc05cd8f6cdf869c66a840f79ce2d3
 28	Butt-Rock Hair	buttrock.gif	04bc18fe47f495a894774fa1bbb9713d
 29	Contemptible Emanations	stench.gif
@@ -59,14 +59,14 @@
 59	Wanged	wang.gif
 60	Aloysius' Antiphon of Aptitude	notes.gif	3f875f7c9c4cc7b64f4c7d7b7eea1ef6
 61	The Moxious Madrigal	notes.gif	c77eb3298c1bcba5e0147eba77a5a802
-62	Cletus's Canticle of Celerity	notes.gif
+62	Cletus's Canticle of Celerity	notes.gif	fe25963fb651fc5d81ed5a098b509030
 63	Polka of Plenty	notes.gif	c26a911b8ec2c57f7eef57f9ff5fdc24
 64	The Magical Mojomuscular Melody	notes.gif	80224f21d262123e7e370d440ce36937
-65	Power Ballad of the Arrowsmith	notes.gif
-66	Brawnee's Anthem of Absorption	notes.gif
+65	Power Ballad of the Arrowsmith	notes.gif	695f24467176d2e76738e7c5e1148a42
+66	Brawnee's Anthem of Absorption	notes.gif	bcbbb5a02c92d158e45fd9c736950380
 67	Fat Leon's Phat Loot Lyric	notes.gif	63e73adb3ecfb0cbf544db435eeeaf00
-68	Psalm of Pointiness	notes.gif
-69	Jackasses' Symphony of Destruction	notes.gif
+68	Psalm of Pointiness	notes.gif	5abc19b33b53e0cb7749472a07311c6a
+69	Jackasses' Symphony of Destruction	notes.gif	fca62260f2f750e32f104f868ed1a3a5
 70	Stevedave's Shanty of Superiority	notes.gif	2e5a803cf1be5b3d2aaa897e60f29138
 71	Ode to Booze	notes.gif	626c8ef76cfc003c6ac2e65e9af5fd7a
 72	Sleeping with the Fishes	sleepy.gif
@@ -136,7 +136,7 @@
 136	Mystic Pickleness	chicle.gif	c48f3970d1829eb3fc950c2d0f1b4a9b
 137	Spicy Mouth	chicle.gif	66aa65422caa01f4ed8ebb6fdd3b2293
 138	Hombre Muerto Caminando	candyskull.gif	63c3d6ed003472fbf82f8ffb03f39c20
-139	Purple Tongue	tongue.gif	Purple Tongue
+139	Purple Tongue	tongue.gif
 140	Green Tongue	tongue.gif	94e112e9d9e9899f283bbd1ddde77396
 141	Orange Tongue	tongue.gif	61c56f6a7d09a562062c41239da75670
 142	Red Tongue	tongue.gif	a4a570ed8e0e103525775af34f31f030
