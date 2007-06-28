@@ -387,7 +387,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		ostream.close();
 	}
 
-	public void saveSettings()
+	public synchronized void saveSettings()
 	{
 		if ( this.initializingDefaults )
 			return;
@@ -396,9 +396,6 @@ public class KoLSettings extends Properties implements KoLConstants
 
 		try
 		{
-			if ( this.settingsFile.exists() )
-				this.settingsFile.delete();
-
 			// Determine the contents of the file by
 			// actually printing them.
 
@@ -418,6 +415,9 @@ public class KoLSettings extends Properties implements KoLConstants
 				ostream.write( lines[i].getBytes() );
 				ostream.write( LINE_BREAK.getBytes() );
 			}
+
+			if ( this.settingsFile.exists() )
+				this.settingsFile.delete();
 
 			this.settingsFile.createNewFile();
 			ostream.writeTo( new FileOutputStream( this.settingsFile ) );
