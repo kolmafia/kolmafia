@@ -52,10 +52,10 @@
 52	Astral Shell	turtle.gif	4e66acac6b908fb6f70b49092dcff375
 53	Elemental Saucesphere	elesphere.gif	e3d1d1099648703e192a55a9aea17a1e
 54	Jalape&ntilde;o Saucesphere	pepsphere.gif	432fc725db5720e9237438147bc6516e
-55	Jaba&ntilde;ero Saucesphere	pepsphere2.gif
+55	Jaba&ntilde;ero Saucesphere	pepsphere2.gif	bf3c7c4fa0642b582ad55a36f1105b82
 56	Extreme Muscle Relaxation	happy.gif
 57	Rainy Soul Miasma	raincloud.gif
-58	Teleportitis	confused.gif
+58	Teleportitis	confused.gif	cb5404472a27b435aa6fad1ba528b1b8
 59	Wanged	wang.gif
 60	Aloysius' Antiphon of Aptitude	notes.gif	3f875f7c9c4cc7b64f4c7d7b7eea1ef6
 61	The Moxious Madrigal	notes.gif	c77eb3298c1bcba5e0147eba77a5a802
@@ -77,7 +77,7 @@
 77	Fury of the Bells	scook2.gif
 78	Yuletide Sappiness	scook3.gif
 79
-80	Missing Fingers	sad.gif
+80	Missing Fingers	sad.gif	c6100ac99a847dc3b60d9f8c1a2c223d
 81	Gnawed-Off Arm	sad.gif
 82	Broken Knees	sad.gif
 83	And Your Family, Too	sad.gif
@@ -86,7 +86,7 @@
 86	Missing Eyebrows	sad.gif
 87
 88
-89	Tingly Wrists	feather.gif
+89	Tingly Wrists	feather.gif	5a7834b36760978ce7766b95753fa4f2
 90	Tingly Elbows	feather.gif	54aa2c7ffc56b273ae9a6bfe26f10aad
 91	Tingly Biceps	feather.gif	fbf879a2f5e27198361d24f57cfd1130
 92	Sticky Hands	glove.gif
@@ -160,7 +160,7 @@
 160	Stinky Weapon	stench.gif
 161	Sleazy Weapon	dripsword.gif
 162	The Sonata of Sneakiness	notes.gif	b757f23feb7f08bd250f63586e03cf4a
-163	Carlweather's Cantata of Confrontation	notes.gif
+163	Carlweather's Cantata of Confrontation	notes.gif	06e123f9b46d3d180c97efc5ab0ad150
 164	Ur-Kel's Aria of Annoyance	notes.gif	59a1ac48440e1ea1f869f2b37753f9cc
 165	Smooth Movements	footprints.gif	173a9c4b4bbef78643fe4ec1a93b1cfc
 166	Musk of the Moose	stench.gif	5e788aac76c7451c42ce19d2acf6de18
@@ -171,7 +171,7 @@
 171	Spirit of Bacon Grease	bacon.gif
 172	Yellow Tongue	tongue.gif	3dbc5202908b9b8e507d7f062360b293
 173	Big Veiny Brain	realbrain.gif
-174	Peeled Eyeballs	eyes.gif
+174	Peeled Eyeballs	eyes.gif	76a38896d00f40442e3741d7e94bb5df
 175	Wasabi Sinuses	hernia.gif
 176	Heavy Petting	happy.gif	0bbb62f04a5dd69a88b608fe656a7752
 177
@@ -193,7 +193,7 @@
 193	Sleazeform	wink.gif
 194	Hot Breath	breath.gif
 195	Cold Breath	breath.gif
-196	Spooky Breath	breath.gif
+196	Spooky Breath	breath.gif	da5e91136fd36708b61f6d383376ff78
 197	Stinky Breath	breath.gif	8be4aecc48d39b0b8b7a0fd671bd4330
 198	Sleazy Breath	breath.gif	572a0d269f2609e685ae3f56327a2998
 199	Aspect of the Twinklefairy	scwad.gif	f27e3dcf9fd6b46b30347743c18ccb1b
@@ -221,7 +221,7 @@
 221	Chalky Hand	glove.gif	3e2eed0d70d0e023a11619655a3f48c0
 222	Snarl of the Timberwolf	wolfmask.gif
 223	Dreams and Lights	snowflakes.gif	360467118bd69ef869a1af2002117e63
-224	Scarysauce	skullshld.gif
+224	Scarysauce	skullshld.gif	f7551a889b9c61510fc3f73f96ecc98e
 225	Dirge of Dreadfulness	notes.gif
 226	Talking Like a Pirate	piratehead.gif
 227	The 'Tussin	happy.gif
@@ -268,7 +268,7 @@
 268	Prestidigysfunction	snowflakes.gif	dd5d7d48bca51bd1ddfa197b584a5623
 269	Heart of White	candyheart.gif	c444fec2c3237f47d985c83248b81687
 270	Heart of Pink	candyheart.gif
-271	Heart of Orange	candyheart.gif
+271	Heart of Orange	candyheart.gif	2bcdff73267cc4e57efe3207396127e8
 272	Heart of Lavender	candyheart.gif
 273	Heart of Yellow	candyheart.gif
 274	Heart of Green	candyheart.gif
@@ -290,7 +290,7 @@
 290	What's That Smell?	stench.gif
 291	Mad at Science	angry.gif
 292	Tetanus	disease.gif	79289e27b54236f174122c1a7703242a
-293	Half-Eaten Brain	realbrain.gif
+293	Half-Eaten Brain	realbrain.gif	6732cdf4bc1898533e87e667da4460f7
 294	Fearless	disease.gif
 295	Socialismydia	disease.gif
 296	Axe Wound	gash.gif
@@ -352,16 +352,16 @@
 352	Tranquilized Mind	sleepy.gif	e6d8c1e5ee549f897340b97b3cc26053
 353	Woad Warrior	foamfinger.gif	c884a8b10f7b236002288fc760129e09
 354	Red Door Syndrome	blackpaint.gif	08c89971feb489d775ce5e8b2b845503
-355	Spirit of Alph	river.gif
+355	Spirit of Alph	river.gif	e5bd49c7432e33b1684e494f3b7ec1c3
 356	Night Vision	bigeyes.gif
-357	Absinthe-Minded	snowflakes.gif
+357	Absinthe-Minded	snowflakes.gif	ebaff6fa82fe65630faccf2d1177b7cc
 358	Rat-Faced	ratmask.gif
 359	Dancing Prowess	footprints.gif
 360	No Vertigo	spiral.gif
-361	Good with the Ladies	wink.gif
-362	Bats in the Belfry	batwing.gif
+361	Good with the Ladies	wink.gif	a057b3c7dfb85e4711ec6b0a82d383c9
+362	Bats in the Belfry	batwing.gif	3188a0b4d646a166ad32ee827d5b0f8b
 363	Unusual Fashion Sense	confused.gif
-364	Feelin' Philosophical	realbrain.gif
+364	Feelin' Philosophical	realbrain.gif	92c569a3c9aa120e4c79c5914c37c7e3
 365	Moon June Spooned	moon2.gif	733e8838261278c9b6173d392a4d09d7
 366	Inspired!	bulb.gif
 367	Ringing Ears	bell.gif	547a82f65523083eb7ea2349b1dd97a3

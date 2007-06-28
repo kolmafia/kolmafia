@@ -2070,7 +2070,7 @@
 2065	PADL Phone	0	all	100
 2066	kick-ass kicks	8	all	175
 2067	sake bomb	0	all	150
-2068
+2068	tequila grenade	0	unknown	-1
 2069	beer helmet	9	all	120
 2070	distressed denim pants	10	all	75
 2071	perforated battle paddle	12	all	90
@@ -2241,7 +2241,7 @@
 2236	turtle pheromones	3	display	25
 2237	pygmy blowgun	0	all	122
 2238	pygmy nose-bone	8	all	150
-2239
+2239	big bad voodoo mask	0	unknown	-1
 2240	bottle of alcohol	0	all	85
 2241	pygmy spear	12	all	173
 2242	pygmy pygment	4	all	155
@@ -2357,7 +2357,7 @@
 2352	fire poi	12	all	185
 2353	bejeweled pledge pin	8	all	95
 2354	communications windchimes	0	all	45
-2355
+2355	henna face paint	0	unknown	-1
 2356	tube of dread wax	4	all	85
 2357	Gaia beads	8	all	210
 2358	pink clay bead	0	unknown	-1
@@ -2386,7 +2386,7 @@
 2381	woolen cravat	7	all	75
 2382
 2383
-2384
+2384	white class ring	0	unknown	-1
 2385	bottle opener belt buckle	8	all	85
 2386	keg shield	13	all	135
 2387	giant foam finger	12	all	55
@@ -2402,7 +2402,7 @@
 2397
 2398	energy drink IV	8	all	211
 2399
-2400
+2400	molotov cocktail cocktail	0	unknown	-1
 2401	beer bong	12	all	185
 2402	gauze garter	4	all	85
 2403
@@ -2452,9 +2452,9 @@
 2447	bad penguin egg	5	all	0
 2448	tasteful black bowtie	7	all	75
 2449
-2450
-2451
-2452
+2450	empty Cloaca-Cola bottle	0	unknown	-1
+2451	goatskin umbrella	0	unknown	-1
+2452	wool hat	0	unknown	-1
 2453	Goodfella contract	0	display	0
 2454	white belt	8	all	45
 2455	bar whip	12	all	15
@@ -2520,7 +2520,7 @@
 2515
 2516
 2517
-2518
+2518	sawblade shield	0	unknown	-1
 2519
 2520
 2521
@@ -2633,9 +2633,9 @@
 2628
 2629
 2630	Hugo's Weaving Manual	0	none	0
-2631
+2631	gremlin juice	0	unknown	-1
 2632	mother's little helper	4	all	115
-2633	
+2633
 2634	mummy wrapping	4	all	50
 2635	really thick bandage	3	all	90
 2636	mummy mask	9	all	165
@@ -2689,17 +2689,17 @@
 2684
 2685
 2686
-2687
-2688
+2687	stone frisbee	0	unknown	-1
+2688	dreadlock whip	0	unknown	-1
 2689
 2690
-2691
+2691	handful of nuts and berries	0	unknown	-1
 2692
 2693
 2694
 2695
 2696
-2697
+2697	duct tape	0	unknown	-1
 2698
 2699
 2700
@@ -2737,7 +2737,7 @@
 2732
 2733	bunch of square grapes	1	all	65
 2734	brown sugar cane	1	all	55
-2735
+2735	sandwich of the gods	0	unknown	-1
 2736
 2737
 2738
@@ -2755,7 +2755,7 @@
 2750
 2751
 2752
-2753
+2753	Zinc Delta of Tranquility	0	unknown	-1
 2754
 2755
 2756
@@ -2768,12 +2768,12 @@
 2763
 2764
 2765
-2766
+2766	solid gold bowling ball	0	unknown	-1
 2767
 2768
 2769
 2770
-2771
+2771	handful of pine needles	0	unknown	-1
 2772
 2773
 2774
