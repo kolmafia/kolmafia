@@ -53,7 +53,9 @@ public class CommandDisplayFrame extends KoLFrame
 {
 	private JTextField entryField;
 	private static int lastCommandIndex = 0;
+
 	private static CommandQueueHandler handler = new CommandQueueHandler();
+	static { handler.start(); }
 
 	private static final ArrayList commandQueue = new ArrayList();
 	private static final ArrayList commandHistory = new ArrayList();
@@ -175,65 +177,36 @@ public class CommandDisplayFrame extends KoLFrame
 		if ( !commandQueue.isEmpty() )
 		{
 			RequestLogger.printLine();
+
+			if ( !handler.command.equals( "" ) )
+				RequestLogger.printLine( " > <b>CURRENT</b>: " + StaticEntity.globalStringReplace( handler.command, "<", "&lt;" ) );
+
+
 			RequestLogger.printLine( " > <b>QUEUED</b>: " + StaticEntity.globalStringReplace( command, "<", "&lt;" ) );
-			RequestLogger.printLine();			
+			RequestLogger.printLine();
 		}
 
 		commandQueue.add( command );
-		handler.pumpQueue();
 	}
 
 
 	private static class CommandQueueHandler extends Thread
 	{
-		private boolean isStarted = false;
-		private boolean isRunning = false;
-
-		public void pumpQueue()
-		{
-			if ( this.isRunning || commandQueue.isEmpty() )
-				return;
-
-			if ( !this.isStarted )
-			{
-				this.start();
-				this.isStarted = true;
-			}
-			else
-			{
-				synchronized ( this )
-				{	this.notify();
-				}
-			}
-		}
+		private String command = "";
 
 		public void run()
 		{
 			while ( true )
 			{
-				this.isRunning = true;
-				this.handleQueue();
-				this.isRunning = false;
+				while ( commandQueue.isEmpty() )
+					KoLRequest.delay( 500 );
 
-				try
-				{
-					synchronized ( this )
-					{
-						if ( commandQueue.isEmpty() )
-							this.wait();
-					}
-				}
-				catch ( InterruptedException e )
-				{
-					// We expect this to happen only when we are
-					// interrupted.  Fall through.
-				}
+				this.handleQueue();
 			}
 		}
 
 		public void handleQueue()
 		{
-			String command;
 			RequestThread.openRequestSequence();
 
 			while ( !commandQueue.isEmpty() )
@@ -261,10 +234,6 @@ public class CommandDisplayFrame extends KoLFrame
 			}
 
 			RequestThread.closeRequestSequence();
-		}
-
-		public boolean isRunning()
-		{	return this.isRunning;
 		}
 	}
 }
