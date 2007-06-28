@@ -130,6 +130,9 @@ pirate zombie head	1	clockwork pirate skull	zombie pineal gland
 pirate zombie robot head	1	pirate zombie head	glowing red eye
 ninja pirate zombie robot head	1	pirate zombie robot head	cold ninja mask
 
+wet stew	2	bird rib	lion oil
+wet stunt nut stew	2	wet stew	stunt nuts
+
 # Box parts and things that go into boxes or become boxes or are involved
 # in some way with boxes and the things that become/go into them.
 
