@@ -196,6 +196,7 @@ spooky shroomkabob	2	02-05	0	0	06-11
 spooky stir-fry	2	02-10	0	0	14-18
 stale baguette	3	05-06	0	0	0
 stalk of asparagus	1	01-03	0	01-03	0
+steel lasagna	5	00	0	0	0
 stinky hi mein	5	22-28	30-35	71-75	15-20
 stinky mushroom	3	03-09	0	0	03-05
 strawberry	1	01	0	0	0

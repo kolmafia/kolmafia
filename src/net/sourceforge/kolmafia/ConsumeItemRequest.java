@@ -923,7 +923,13 @@ public class ConsumeItemRequest extends KoLRequest
 				lastUpdate = "You need a guide.";
 				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
 				StaticEntity.getClient().processResult( lastItemUsed );
+				return;
 			}
+
+			// This only works if you had a Reassembled Blackbird
+			// familiar. When it works, the familiar disappears.
+
+			KoLCharacter.removeFamiliar( KoLCharacter.getFamiliar() );
 			return;
 
 		case SPOOKY_TEMPLE_MAP:

@@ -2105,15 +2105,15 @@
 2096	407006358	guy made of bee pollen	guys made of bee pollen
 2097	490356098	17-ball	17-balls
 2098	793894406	filthy lucre
-2099
-2100
+2099		hobo gristle
+2100		shredded can label
 2101	968837261	bloodstained briquette	bloodstained briquettes
-2102
-2103
-2104
-2105
-2106
-2107
+2102		greasy dreadlock
+2103		vial of pirate sweat
+2104		empty aftershave bottle
+2105	270480542	coal button
+2106		burned-out arcanodiode
+2107		non-Euclidean hoof
 2108	807981274	rock	rocks
 2109	775430978	stringy sinew	stringy sinews
 2110	580256883	stick	sticks
@@ -2413,15 +2413,15 @@
 2404
 2405
 2406	523972566	Panda outfit
-2407
-2408
-2409
-2410
+2407	137700149	pink bat eye
+2408	881309316	worthless piece of yellow glass
+2409		billy idol
+2410	167749086	oily rag
 2411	365674109	broken petri dish
-2412
-2413
-2414
-2415
+2412		sammich crust
+2413		triffid bark
+2414		white lint
+2415		discarded pacifier
 2416	968287390	bounty-hunting helmet
 2417	863257288	bounty-hunting rifle
 2418	241547370	bounty-hunting pants
@@ -2473,13 +2473,13 @@
 2464	972566031	bowl of Bounty-Os
 2465	527016642	Oreille Divis&eacute;e brandy
 2466	461008515	pompadour'd puppy
-2467
+2467	400348108	blue suede shoes
 2468	136659520	callussed fingerbone
-2469
-2470
-2471
-2472
-2473
+2469		bundle of receipts
+2470		disintegrating cork
+2471	405124937	sticky stardust
+2472		wilted lettuce
+2473	968837261	empty greasepaint tube
 2474	647139951	clown skin	clown skins
 2475	227709910	clown wig	clown wigs
 2476	580579263	clownskin belt	clownskin belts
@@ -2571,10 +2571,10 @@
 2562	592454967	half-rotten brain
 2563	723337113	rusty bonesaw
 2564	778300928	plus-sized phylactery
-2565	can of Ghuol-B-Gone&trade;
-2566
-2567
-2568
+2565		can of Ghuol-B-Gone&trade;
+2566	610128060	Azazel's unicorn
+2567	776720729	Azazel's lollipop
+2568	955022525	Azazel's tutu
 2569	820254596	ant agonist
 2570	901944647	ant hoe
 2571	914338533	ant rake
@@ -2748,9 +2748,9 @@
 2739
 2740	403374369	Staff of the Walk-In Freezer
 2741
-2742
-2743
-2744
+2742	433679934	steel lasagna
+2743	941463343	steel margarita
+2744		steel-scented air freshener
 2745
 2746
 2747	714178698	chunk of depleted Grimacite	chunks of depleted Grimacite

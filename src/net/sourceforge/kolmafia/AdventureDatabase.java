@@ -501,6 +501,11 @@ public class AdventureDatabase extends KoLDatabase
 		  new String [] { "enter combat", "skip the adventure" },
 		  new String [] { null, null } ),
 
+		// Bureaucracy of the Damned
+		new ChoiceAdventure( "Woods", "choiceAdventure161", "Deep Fat Friar's Gate",
+		  new String [] { "Quest", "Quest", "Quest", "skip the adventure" },
+		  new String [] { null, null, null, null } ),
+
 		// Between a Rock and Some Other Rocks
 		new ChoiceAdventure( "Mountain", "choiceAdventure162", "Goatlet",
 		  new String [] { "Open Goatlet", "skip adventure" },
@@ -814,6 +819,9 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Lunchtime
 		{ "choiceAdventure160", "2" },
+
+		// Bureaucracy of the Damned
+		{ "choiceAdventure161", "4" },
 
 		// Between a Rock and Some Other Rocks
 		{ "choiceAdventure162", "2" },
