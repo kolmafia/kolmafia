@@ -814,7 +814,7 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( !shouldDelay )
 			return;
 
-		if ( System.currentTimeMillis() - lastRequestTime > FIXED_DELAY )
+		if ( System.currentTimeMillis() - lastRequestTime > VARIABLE_DELAY )
 		{
 			FIXED_DELAY = Math.min( MAXIMUM_DELAY, FIXED_DELAY << 1 );
 			VARIABLE_DELAY = FIXED_DELAY >> 2;
