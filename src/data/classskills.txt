@@ -53,14 +53,14 @@
 2004	Skin of the Leatherback	0	2	0	0
 2014	Amphibian Sympathy	0	10	0	0
 2006	Armorcraftiness	0	1	0	0
-2007	Ghostly Shell	2	3	6	10
-2010	Tenacity of the Snapper	2	4	8	10
+2007	Ghostly Shell	2	3	6	5
+2010	Tenacity of the Snapper	2	4	8	5
 2015	Kneebutt	3	5	4	0
-2009	Empathy of the Newt	2	10	15	10
-2008	Reptilian Fortitude	2	3	10	10
+2009	Empathy of the Newt	2	10	15	5
+2008	Reptilian Fortitude	2	3	10	5
 2005	Shieldbutt	3	7	5	0
 2011	Wisdom of the Elder Tortoises	0	2	0	0
-2012	Astral Shell	2	3	10	10
+2012	Astral Shell	2	3	10	5
 2016	Cold-Blooded Fearlessness	0	2	0	0
 2020	Hero of the Half-Shell	0	2	0	0
 2021	Tao of the Terrapin	0	2	0	0
@@ -109,18 +109,18 @@
 4004	Expert Panhandling	0	10	0	0
 4005	Saucestorm	3	6	12	0
 4006	Advanced Saucecrafting	1	1	10	0
-4007	Elemental Saucesphere	2	3	10	10
-4008	Jalape&ntilde;o Saucesphere	2	3	5	10
+4007	Elemental Saucesphere	2	3	10	5
+4008	Jalape&ntilde;o Saucesphere	2	3	5	5
 4009	Wave of Sauce	3	6	23	0
 4010	Intrinsic Spiciness	0	4	0	0
-4011	Jaba&ntilde;ero Saucesphere	2	3	10	10
+4011	Jaba&ntilde;ero Saucesphere	2	3	10	5
 4012	Saucegeyser	3	6	40	0
 4014	Saucy Salve	3	8	4	0
 4015	Impetuous Sauciness	0	2	0	0
 4016	Diminished Gag Reflex	0	2	0	0
 4017	Immaculate Seasoning	0	4	0	0
 4018	The Way of Sauce	0	1	0	0
-4019	Scarysauce	2	6	10	10
+4019	Scarysauce	2	6	10	5
 
 # Skills available to Bandits
 

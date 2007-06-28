@@ -338,8 +338,26 @@ public class ClassSkillsDatabase extends KoLDatabase
 		if ( actualDuration == 0 || getSkillType( skillId ) != BUFF )
 			return actualDuration;
 
-		if ( skillId > 6000 && skillId < 7000 && KoLCharacter.hasItem( UseSkillRequest.ROCKNROLL_LEGEND ) )
-			actualDuration += 10;
+		AdventureResult [] weapons = null;
+
+		if ( skillId > 2000 && skillId < 3000 )
+			weapons = UseSkillRequest.TAMER_WEAPONS;
+
+		if ( skillId > 4000 && skillId < 5000 )
+			weapons = UseSkillRequest.SAUCE_WEAPONS;
+
+		if ( skillId > 6000 && skillId < 7000 )
+			weapons = UseSkillRequest.THIEF_WEAPONS;
+
+		if ( weapons != null )
+		{
+			if ( inventory.contains( weapons[0] ) || KoLCharacter.hasEquipped( weapons[0] ) )
+				actualDuration += 10;
+			else if ( inventory.contains( weapons[1] ) || KoLCharacter.hasEquipped( weapons[1] ) )
+				actualDuration += 5;
+			else if ( !inventory.contains( weapons[2] ) && !KoLCharacter.hasEquipped( weapons[2] ) )
+				return 0;
+		}
 
 		if ( KoLCharacter.hasItem( UseSkillRequest.WIZARD_HAT ) )
 			actualDuration += 5;

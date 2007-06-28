@@ -841,24 +841,6 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			matchingLocation.recordToSession();
 			String locationId = matchingLocation.adventureId;
 
-			// Handle big rock retrieval automatically to save a
-			// few clicks in-browser as well.
-
-			if ( locationId.equals( "11" ) && !KoLCharacter.hasItem( SewerRequest.POSITIVE_CLOVER ) )
-			{
-				boolean assembleClover = !KoLCharacter.hasItem( UseSkillRequest.BIG_ROCK );
-
-				assembleClover &= !KoLCharacter.hasItem( UseSkillRequest.BJORNS_HAMMER );
-				assembleClover &= !KoLCharacter.hasItem( UseSkillRequest.TURTLESLINGER );
-				assembleClover &= !KoLCharacter.hasItem( UseSkillRequest.PASTA_OF_PERIL );
-				assembleClover &= !KoLCharacter.hasItem( UseSkillRequest.FIVE_ALARM_SAUCEPAN );
-				assembleClover &= !KoLCharacter.hasItem( UseSkillRequest.DISCO_BANJO );
-				assembleClover &= !KoLCharacter.hasItem( UseSkillRequest.ROCKNROLL_LEGEND );
-
-				if ( assembleClover )
-					DEFAULT_SHELL.executeLine( "use 1 disassembled clover" );
-			}
-
 			// Disassemble clovers when going to areas where the
 			// player has a high probability of accidentally using
 			// a ten-leaf clover.
