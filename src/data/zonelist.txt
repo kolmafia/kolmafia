@@ -27,6 +27,7 @@ McLarge	Mountain	Mt. McLargeHuge	mclargehuge.php
 
 Beach	Beach	Desert Beach	beach.php
 MoxSign	Beach	Moxie Sign
+Pyramid	Beach	Ancient Buried Pyramid	pyramid.php
 
 Island	Island	Mysterious Island
 Beanstalk	Beanstalk	Above the Beanstalk

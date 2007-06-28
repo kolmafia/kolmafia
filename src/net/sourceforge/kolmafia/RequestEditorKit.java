@@ -2346,7 +2346,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				buffer.append( effectName );
 				buffer.append( " effect\"" );
 
-				if ( effectName.equals( "Poisoned" ) || effectName.equals( "Beaten Up" ) )
+				if ( effectName.indexOf( "Poisoned" ) != -1 || effectName.equals( "Beaten Up" ) )
 					buffer.append( " style=\"color:red\"" );
 
 				buffer.append( ">" );

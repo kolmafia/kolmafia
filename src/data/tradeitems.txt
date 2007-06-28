@@ -2260,25 +2260,25 @@
 2255	furry green turtle	9	all	50
 2256	furry green earmuffs	8	all	50
 2257	reinforced furry underpants	8	all	35
-2258
-2259
-2260
-2261
-2262
-2263
-2264
-2265
-2266
-2267	mega gem	0	unknown	-1
+2258	&quot;I Love Me, Vol. I&quot;	0	none	0
+2259	photograph of God	0	none	0
+2260	hard rock candy	0	none	0
+2261	hard-boiled ostrich egg	0	none	0
+2262	bird rib	0	none	0
+2263	lion oil	0	none	0
+2264	stunt nuts	1	all	66
+2265	wet stew	0	none	0
+2266	wet stunt nut stew	0	none	0
+2267	Mega Gem	8	none	0
 2268	Staff of Fats	0	none	0
 2269
 2270
-2271	dusty bottle of Merlot	0	unknown	-1
-2272	dusty bottle of Port	0	unknown	-1
-2273	dusty bottle of Pinot Noir	0	unknown	-1
-2274	dusty bottle of Zinfandel	0	unknown	-1
-2275	dusty bottle of Marsala	0	unknown	-1
-2276	dusty bottle of Muscat	0	unknown	-1
+2271	dusty bottle of Merlot	2	all	35
+2272	dusty bottle of Port	2	all	35
+2273	dusty bottle of Pinot Noir	2	all	35
+2274	dusty bottle of Zinfandel	2	all	35
+2275	dusty bottle of Marsala	2	all	35
+2276	dusty bottle of Muscat	2	all	35
 2277	Fernswarthy's key	0	none	0
 2278	Fernswarthy's letter	3	none	0
 2279	dusty old book	0	none	0
@@ -2321,7 +2321,7 @@
 2316	broken carburetor	0	all	4000
 2317
 2318
-2319
+2319	carved wooden wheel	0	none	0
 2320	worm-riding manual page 1	0	none	0
 2321	worm-riding manual page 2	0	none	0
 2322	worm-riding manual pages 3-15	0	none	0
@@ -2530,7 +2530,7 @@
 2525
 2526
 2527
-2528	filet of tangy gnat	0	unknown	-1
+2528	filet of tangy gnat	0	all	50
 2529
 2530
 2531
@@ -2538,11 +2538,11 @@
 2533
 2534
 2535
-2536	canopic jar	0	unknown	-1
-2537	ancient spice	0	unknown	-1
-2538	powdered organs	0	unknown	-1
-2539
-2540
+2536	canopic jar	4	all	87
+2537	ancient spice	0	all	125
+2538	powdered organs	0	all	75
+2539	Ankh of Badahnkadh	8	all	135
+2540	tomb ratchet	3	all	95
 2541	Mayflower bouquet	7	all	0
 2542	lesser grodulated violet	4	all	100
 2543	tin magnolia	4	all	100
@@ -2598,9 +2598,9 @@
 2593
 2594
 2595	Ben-Gal&trade; Balm	4	all	12
-2596	leathery cat skin	0	unknown	-1
-2597	leathery bat skin	0	unknown	-1
-2598	leathery rat skin	0	unknown	-1
+2596	leathery cat skin	0	all	150
+2597	leathery bat skin	0	all	150
+2598	leathery rat skin	0	all	150
 2599
 2600	carbonated water lily	4	all	85
 2601	Staff of the Midnight Snack	12	display	25
@@ -2614,11 +2614,11 @@
 2609
 2610
 2611
-2612	ancient vinyl coin purse	0	unknown	-1
+2612	ancient vinyl coin purse	4	all	50
 2613	rocky raccoon	0	all	75
 2614
 2615	savoy truffle	1	all	90
-2616	ancient Magi-Wipes	0	unknown	-1
+2616	ancient Magi-Wipes	3	all	60
 2617
 2618	Iiti Kitty phone charm	0	unknown	-1
 2619	jar of swamp gas	0	all	0
@@ -2635,11 +2635,11 @@
 2630	Hugo's Weaving Manual	0	none	0
 2631
 2632	mother's little helper	4	all	115
-2633
-2634	mummy wrapping	0	unknown	-1
-2635
-2636	mummy mask	0	unknown	-1
-2637
+2633	
+2634	mummy wrapping	4	all	50
+2635	really thick bandage	3	all	90
+2636	mummy mask	9	all	165
+2637	gauze shorts	10	all	165
 2638
 2639	black cherry soda	4	all	40
 2640	black greaves	10	all	145
@@ -2651,14 +2651,14 @@
 2646	frightful feather	0	all	55
 2647	fetid feather	0	all	55
 2648	flirtatious feather	0	all	55
-2649	Lord Spookyraven's ear trumpet	0	unknown	-1
+2649	Lord Spookyraven's ear trumpet	8	display	0
 2650	bottled green pixie	5	all	0
 2651	green pixie spog	7	all	75
 2652	S.T.L.T.	1	all	100
 2653	honey-dew	1	all	45
 2654	white Xanadian	2	all	50
 2655	tiny bottle of absinthe	3	all	0
-2656	Drowsy Sword	0	unknown	-1
+2656	Drowsy Sword	12	display	444
 2657	escargotsicle	1	all	65
 2658	bottle of realpagne	2	all	55
 2659	albatross necklace	8	all	150
@@ -2679,7 +2679,7 @@
 2674	bottle of black cat tonic	3	all	25
 2675	handful of moss	4	all	250
 2676	bit-o-cactus	4	all	250
-2677	ancient protein powder	0	unknown	-1
+2677	ancient protein powder	4	all	250
 2678	spectre scepter	0	display	0
 2679	sparkler	3	all	150
 2680	snake	3	all	150

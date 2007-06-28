@@ -126,6 +126,7 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int MACGUFFIN_DIARY = 2044;
 	private static final int BLACK_MARKET_MAP = 2054;
 	private static final int ARCHAEOLOGIST_NOTEBOOK = 2179;
+	private static final int I_LOVE_ME_VOL_I = 2258;
 	private static final int JEWELRY_BOOK = 2502;
 	private static final int ABSINTHE = 2655;
 	private static final int DETUNED_RADIO = 2682;
@@ -586,7 +587,6 @@ public class ConsumeItemRequest extends KoLRequest
 
 		case SEAL_TOOTH:
 		case FOUNTAIN:
-		case MEMO:
 		case AWFUL_POETRY:
 		case EXPRESS_CARD:
 		case MANUAL_OF_LABOR:
@@ -665,16 +665,12 @@ public class ConsumeItemRequest extends KoLRequest
 			showItemUsage( showHTML, responseText, false );
 			return;
 
-		// If it's an archaeologist's notebook, show it
+		// Other things we can read that don't go away
 
 		case ARCHAEOLOGIST_NOTEBOOK:
-
-			showItemUsage( showHTML, responseText, false );
-			return;
-
-		// If it's a memo from Uncle Crimbo, show it
-
 		case CRIMBOWEEN_MEMO:
+		case MEMO:
+		case I_LOVE_ME_VOL_I:
 
 			showItemUsage( showHTML, responseText, false );
 			return;

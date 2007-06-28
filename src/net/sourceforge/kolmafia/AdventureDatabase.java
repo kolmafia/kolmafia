@@ -426,10 +426,28 @@ public class AdventureDatabase extends KoLDatabase
 		  new String [] { "3 papayas", "trade 3 papayas for stats", "stats" },
 		  new String [] { "498", null, null } ),
 
+		// Do Geese See God?
+		new ChoiceAdventure( "Plains", "choiceAdventure129", "Palindome",
+		  new String [] { "hard rock candy", "skip the adventure" },
+		  new String [] { "2259", null } ),
+
+		// Rod Nevada, Vendor
+		new ChoiceAdventure( "Plains", "choiceAdventure130", "Palindome",
+		  new String [] { "hard rock candy", "skip the adventure" },
+		  new String [] { "2260", null } ),
+
+		// Choice 131 is Dr. Awkward
+		// All choices lead to combat
+
 		// Let's Make a Deal!
 		new ChoiceAdventure( "Beach", "choiceAdventure132", "The Arid Extra-Dry Desert",
 		  new String [] { "broken carburetor", "Unlock Oasis" },
 		  new String [] { "2316", null } ),
+
+		// Wheel In the Pyramid, Keep on Turning
+		new ChoiceAdventure( "Pyramid", "choiceAdventure134", "The Upper Chamber",
+		  new String [] { "", "" },
+		  new String [] { null, null } ),
 
 		// Choice 150 is Another Adventure About BorderTown
 
@@ -758,6 +776,15 @@ public class AdventureDatabase extends KoLDatabase
 		// Ennui is Wasted on the Young
 		{ "choiceAdventure120", "4" },
 
+		// Do Geese See God?
+		{ "choiceAdventure129", "2" },
+
+		// Rod Nevada, Vendor
+		{ "choiceAdventure130", "2" },
+
+		// Wheel In the Pyramid, Keep on Turning
+		{ "choiceAdventure134", "2" },
+
 		// Adventurer, $1.99
 		{ "choiceAdventure151", "2" },
 
@@ -827,6 +854,12 @@ public class AdventureDatabase extends KoLDatabase
 
 		// No sir, away!  A papaya war is on!
 		{ "127", "2", new AdventureResult( "papaya", -3 ) },
+
+		// Do Geese See God?
+		{ "129", "1", new AdventureResult( AdventureResult.MEAT, -500 ) },
+
+		// Rod Nevada, Vendor
+		{ "130", "1", new AdventureResult( AdventureResult.MEAT, -500 ) },
 
 		// Let's Make a Deal!
 		{ "132", "1", new AdventureResult( AdventureResult.MEAT, -5000 ) },

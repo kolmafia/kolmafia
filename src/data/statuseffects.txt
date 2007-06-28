@@ -4,7 +4,7 @@
 4	Embarrassed	blush.gif
 5	Far Out	farout.gif
 6	Wings	wings.gif
-7	Beaten Up	beatenup.gif
+7	Beaten Up	beatenup.gif	acf143c704afaf7504ac07375084f79e
 8	Hardly Poisoned at All	poison.gif	13e148b2f71301e54e27001d6e603584
 9	Knob Goblin Perfume	spraycan.gif	12f74ff515842399be4b67bbc3550f79
 10	Steroid Boost	strboost.gif	28abefa0a5f2e63058cdb32e0a23b131
@@ -261,7 +261,7 @@
 261	Lemon Enlightenment	lemon.gif
 262	Squirming Like a Toad	squashfrog.gif
 263	Eau D'tortue	stench.gif
-264
+264	Majorly Poisoned	poison.gif	37b23526c38b844f4983a17a72ad992e
 265	Tenuous Grip on Reality	hoppeddown.gif	c22c212fdf9d6b611be955785ff37775
 266	Turned Into a Skeleton	skeldoll.gif	555395c91aca7ddf5a60688c63214f73
 267	Barking Dogs	footprints.gif	cb28fec658f97af4ee56590184223497

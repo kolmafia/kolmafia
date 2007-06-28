@@ -79,6 +79,7 @@ mesh cap	165	Mox: 67
 miner's helmet	80	Mox: 25
 Mohawk wig	140	Mox: 55
 mullet wig	40	Mox: 5
+mummy mask	170	Mox: 70
 opera mask	10	none
 orange traffic cone	60	Mox: 15
 Orcish baseball cap	60	Mox: 15
@@ -147,6 +148,7 @@ frilly skirt	35	Mox: 2
 furry kilt	150	Mox: 60
 furry pants	150	Mox: 60
 furry skirt	150	Mox: 60
+gauze shorts	170	Mox: 70
 giant discarded torn-up glove	155	Mox: 62
 gnauga hide chaps	80	Mox: 25
 gnauga hide kilt	80	Mox: 25
@@ -328,6 +330,7 @@ Dr. Hobo's scalpel	35	Mus: 2	1-handed knife
 dripping meat crossbow	50	Mox: 10	2-handed crossbow
 dripping meat staff	50	Mus: 10	2-handed staff
 dripping meat sword	50	Mus: 10	2-handed sword
+Drowsy Sword	171	Mus: 66	2-handed sword
 duck-on-a-string	100	Mus: 35	1-handed flail
 drywall axe	150	Mus: 60	2-handed axe
 eggbeater	25	none	1-handed utensil
@@ -636,6 +639,7 @@ yakskin buckler	95	Mys: 30
 acid-squirting flower	0	Mys: 10
 albatross necklace	0	Mys: 15
 amulet of extreme plot significance	0	Mys: 35
+Ankh of Badahnkadh	0	Mys: 67
 arrrgyle socks	0	Mys: 20
 baconstone bracelet	0	Mys: 10
 baconstone earring	0	Mys: 10
@@ -719,6 +723,7 @@ knobby kneepads	0	none
 ladle of mystery	0	none
 left half of a heart necklace	0	none
 Lockenstock (TM) sandals	0	Mys: 10
+Lord Spookyraven's ear trumpet	0	Mys: 40
 Lord Spookyraven's spectacles	0	none
 lucky Crimbo tiki necklace	0	none
 lucky rabbit's foot	0	none
@@ -727,6 +732,7 @@ Mafia stogie	0	Mys: 35
 MagiMechTech NanoMechaMech	0	none
 makeshift cape	0	Mys: 35
 makeshift SCUBA gear	0	none
+Mega Gem	0	none
 Mr. Accessory	0	none
 Mr. Accessory Jr.	0	none
 Mr. Eh?	0	none

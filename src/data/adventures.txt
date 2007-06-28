@@ -11,6 +11,9 @@ Beach	104/0	adventure=121	The Arid Extra-Dry Desert
 Beach	104/0	adventure=122	An Oasis
 Beach	0/0	adventure=156	Grim Grimacite Site
 
+Pyramid	104/0	adventure=124	The Upper Chamber
+Pyramid	104/0	adventure=125	The Middle Chamber
+
 Casino	0/0	casino=1	Goat Party
 Casino	0/0	casino=2	Pirate Party
 Casino	0/0	casino=11	Lemon Party
@@ -36,6 +39,7 @@ Manor	0/68	adventure=106	Haunted Gallery
 Manor	0/68	adventure=107	Haunted Bathroom
 Manor	0/85	adventure=108	Haunted Bedroom	1 Spookyraven ballroom key
 Manor	0/68	adventure=109	Haunted Ballroom
+Manor	0/104	adventure=120	Haunted Wine Cellar
 
 Woods	5/0	adventure=15	Spooky Forest	1 mosquito larva
 Woods	5/0	adventure=17	Hidden Temple

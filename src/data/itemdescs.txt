@@ -2264,16 +2264,16 @@
 2255	789152841	furry green turtle	furry green turtles
 2256	684854850	furry green earmuffs
 2257	415591001	reinforced furry underpants	pairs of reinforced furry underpants
-2258
-2259
-2260
-2261
-2262
-2263
-2264
-2265
-2266
-2267
+2258	969815696	&quot;I Love Me, Vol. I&quot;
+2259	447128250	photograph of God
+2260	827058631	hard rock candy
+2261	406582855	hard-boiled ostrich egg
+2262	313522450	bird rib
+2263	697550097	lion oil
+2264	809178685	stunt nuts
+2265	478803907	wet stew
+2266	602051173	wet stunt nut stew
+2267	984316382	Mega Gem
 2268	654006777	Staff of Fats
 2269
 2270
@@ -2325,7 +2325,7 @@
 2316	909037304	broken carburetor
 2317
 2318
-2319
+2319	698872877	carved wooden wheel
 2320	956772450	worm-riding manual page 1
 2321	159106276	worm-riding manual page 2
 2322	754742505	worm-riding manual pages 3-15
@@ -2545,8 +2545,8 @@
 2536	402083452	canopic jar
 2537	898002086	ancient spice
 2538	724169350	powdered organs
-2539
-2540
+2539	706397439	Ankh of Badahnkadh
+2540	116330864	tomb ratchet
 2541	771351446	Mayflower bouquet	Mayflower bouquets
 2542	379926519	lesser grodulated violet	lesser grodulated violets
 2543	593800005	tin magnolia	tin magnolias
@@ -2641,9 +2641,9 @@
 2632	321738063	mother's little helper
 2633
 2634	682161779	mummy wrapping
-2635
+2635	599174480	really thick bandage
 2636	324153918	mummy mask
-2637
+2637	343733433	gauze shorts
 2638
 2639	273117128	black cherry soda
 2640	207650845	black greaves	black greavess
@@ -2716,7 +2716,7 @@
 2707	567120426	blackberry combat boots
 2708	464342616	funky dried mushroom
 2709	522551898	exotic parrot egg
-2710	cracker
+2710		cracker
 2711	121774283	black facepaint
 2712	978143454	black sheepskin diploma
 2713	319521618	Black Body&trade; spray
@@ -2781,17 +2781,17 @@
 2772
 2773
 2774
-2775	filigreed hamethyst earring
+2775
 2776
-2777
+2777		filigreed hamethyst earring
 2778	408625270	filigreed hamethyst necklace
 2779	151804649	filigreed hamethyst ring
-2780	solid baconstone earring
-2781	solid baconstone necklace
+2780		solid baconstone earring
+2781		solid baconstone necklace
 2782	576789283	solid baconstone ring
-2783	pulled porquoise earring
-2784	pulled porquoise pendant
-2785	pulled porquoise ring
+2783		pulled porquoise earring
+2784		pulled porquoise pendant
+2785		pulled porquoise ring
 2786
 2787
 2788

@@ -126,6 +126,7 @@ clockwork pants	Init: +10.0
 Crimbo pants	Init: +30.0
 demonskin trousers	Hot: +20
 dungeoneer's dungarees	Cold: +10, Hot: +10, Spooky: +10, Stench: +10, Sleaze: +10
+gauze shorts	DR: 3
 gnauga hide chaps	DA: +30
 gnauga hide kilt	DA: +30
 gnauga hide skirt	DA: +30
