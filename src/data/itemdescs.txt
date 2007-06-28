@@ -2340,7 +2340,7 @@
 2331	463031002	bouquet of circular saw blades
 2332	986014609	Better Than Cuddling Cake	Better Than Cuddling Cakes
 2333	739544930	stuffed ninja snowman	stuffed ninja snowmen
-2334
+2334	302128482	Holy MacGuffin
 2335
 2336	209797948	lead pipe
 2337	213151374	reinforced beaded headband
