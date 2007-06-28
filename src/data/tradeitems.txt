@@ -2101,15 +2101,15 @@
 2096	guy made of bee pollen	3	all	000
 2097	17-ball	13	all	0
 2098	filthy lucre	0	none	0
-2099
-2100
-2101	bloodstained briquette	0	0	none	0
-2102
-2103
-2104
-2105
-2106
-2107
+2099	hobo gristle	0	none	0
+2100	shredded can label	0	none	0
+2101	bloodstained briquette	0	none	0
+2102	greasy dreadlock	0	none	0
+2103	vial of pirate sweat	0	none	0
+2104	empty aftershave bottle	0	none	0
+2105	coal button	0	none	0
+2106	burned-out arcanodiode	0	none	0
+2107	non-Euclidean hoof	0	none	0
 2108	rock	0	all	10
 2109	stringy sinew	0	all	10
 2110	stick	0	all	10
@@ -2409,15 +2409,15 @@
 2404
 2405	rock band flyers	0	unknown	-1
 2406	Panda outfit	7	none	0
-2407
-2408
-2409
-2410
+2407	pink bat eye	0	none	0
+2408	worthless piece of yellow glass	0	none	0
+2409	billy idol	0	none	0
+2410	oily rag	0	none	0
 2411	broken petri dish	0	none	0
-2412
-2413
-2414
-2415
+2412	sammich crust	0	none	0
+2413	triffid bark	0	none	0
+2414	white lint	0	none	0
+2415	discarded pacifier	0	none	0
 2416	bounty-hunting helmet	9	none	0
 2417	bounty-hunting rifle	12	none	0
 2418	bounty-hunting pants	10	none	0
@@ -2469,13 +2469,13 @@
 2464	bowl of Bounty-Os	1	none	0
 2465	Oreille Divis&eacute;e brandy	2	none	0
 2466	pompadour'd puppy	5	none	0
-2467
+2467	blue suede shoes	7	all	75
 2468	callussed fingerbone	0	none	0
-2469
-2470
-2471
-2472
-2473
+2469	bundle of receipts	0	none	0
+2470	disintegrating cork	0	none	0
+2471	sticky stardust	0	none	0
+2472	wilted lettuce	0	none	0
+2473	empty greasepaint tube	0	none	0
 2474	clown skin	0	all	45
 2475	clown wig	9	all	55
 2476	clownskin belt	8	all	55
@@ -2568,9 +2568,9 @@
 2563	rusty bonesaw	0	all	35
 2564	plus-sized phylactery	0	none	0
 2565	can of Ghuol-B-Gone&trade;	0	all	55
-2566
-2567
-2568
+2566	Azazel's unicorn	0	none	0
+2567	Azazel's lollipop	0	none	0
+2568	Azazel's tutu	0	none	0
 2569	ant agonist	4	all	85
 2570	ant hoe	7	all	75
 2571	ant rake	7	all	75
@@ -2744,9 +2744,9 @@
 2739
 2740	Staff of the Walk-In Freezer	12	display	25
 2741
-2742
-2743
-2744
+2742	steel lasagna	1	none	0
+2743	steel margarita	2	none	0
+2744	steel-scented air freshener	3	none	0
 2745
 2746
 2747	chunk of depleted Grimacite	0	all	0

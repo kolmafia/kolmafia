@@ -2354,6 +2354,29 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	/**
+	 * Remove the given familiar from the list of available familiars.
+	 * @param	familiar	The Id of the familiar to be added
+	 */
+
+	public static void removeFamiliar( FamiliarData familiar )
+	{
+		if ( familiar == null )
+			return;
+
+		int index = familiars.indexOf( familiar );
+		if ( index < 0 )
+			return;
+
+		if ( currentFamiliar == familiar )
+		{
+			currentFamiliar = FamiliarData.NO_FAMILIAR;
+			setEquipment( KoLCharacter.FAMILIAR, EquipmentRequest.UNEQUIP );
+		}
+
+		familiars.remove( familiar );
+	}
+
+	/**
 	 * Returns the list of familiars available to the character.
 	 * @return	The list of familiars available to the character
 	 */

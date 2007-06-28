@@ -65,5 +65,6 @@ not-a-pipe	4
 
 Hatorade	5
 Breathetastic&trade; Premium Canned Air	5
+steel-scented air freshener	5
 
 ultimate wad	15

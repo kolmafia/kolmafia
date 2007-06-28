@@ -127,6 +127,7 @@ Spasmi Dolorosi Del Rene Champagne	1	06-10	60	60	60
 spiced rum	3	04-09	0	0	17-30
 spooky eggnog	3	05-10	0	16-30	16-30
 spooky mushroom wine	3	10-14	0	0	04-06
+steel margarita	5	00	0	0	0
 stinky mushroom wine	3	10-14	0	0	12-15
 strawberry daiquiri	3	03-06	0	0	08-10
 strawberry wine	3	03-06	0	0	08-10
