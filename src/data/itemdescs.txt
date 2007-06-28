@@ -2534,7 +2534,7 @@
 2525
 2526
 2527
-2528	985581987	filet of tangy gnat
+2528	985581987	filet of tangy gnat (&quot;fotelif&quot;)
 2529
 2530
 2531
@@ -2612,12 +2612,12 @@
 2603
 2604	616843400	Tuesday's ruby
 2605	636774876	palm frond
-2606
+2606	621440067	palm-frond fan
 2607	640131952	palm-frond whip
-2608
-2609
-2610
-2611
+2608	565318523	palm-frond net
+2609	519295181	palm-frond capris
+2610	705397832	extra-large palm-frond toupee
+2611	772498529	palm-frond cloak
 2612	677931153	ancient vinyl coin purse
 2613	786869929	rocky raccoon
 2614

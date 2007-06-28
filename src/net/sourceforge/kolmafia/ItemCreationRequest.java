@@ -293,6 +293,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		case STAFF:
 			return new ChefstaffRequest( itemId );
 
+		case WEAVE:
+			return new PalmFrondRequest( itemId );
+
 		default:
 			return null;
 		}
@@ -783,6 +786,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		if ( urlString.indexOf( "action=makepaste" ) != -1 )
 			return CombineMeatRequest.registerRequest( urlString );
+
+		if ( urlString.indexOf( "whichitem=2605" ) != -1 )
+			return PalmFrondRequest.registerRequest( urlString );
 
 		// Now that we know it's not a special subclass instance,
 		// all we do is parse out the ingredients which were used

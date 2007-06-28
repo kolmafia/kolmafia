@@ -65,7 +65,7 @@ rusty grave robbing shovel	Init: -10.0
 serpentine sword	ML: +10
 # Shagadelic Disco Banjo	Meat: +10.0
 squeaky staff	ML: +6
-Staff of the Grand Flamb&eacute;	Cold: +40
+Staff of the Grand Flamb&eacute;	Cold: +50
 styrofoam crossbow	ML: +3
 styrofoam staff	ML: +3
 styrofoam sword	ML: +3
@@ -121,6 +121,7 @@ gnauga hide vest	DR: 6, Cold: +10, Hot: +10, Sleaze: +10, Spooky: +10, Stench: +
 hipposkin poncho	ML: +10
 goth kid t-shirt	ML: +5
 Grateful Undead T-shirt	Item: +5.0
+palm-frond cloak	Cold: +20, Hot: +20, Sleaze: +20, Spooky: +20, Stench: +20
 safety vest	DR: 3
 Ye Olde Navy Fleece	Meat: +10.0
 
