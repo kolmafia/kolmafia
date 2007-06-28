@@ -38,6 +38,7 @@ yellow traffic cone	Sleaze: +20
 acoustic guitarrr	Meat: +2.0
 antique spear	Init: -30.0
 bar whip	Weight: +2
+beer bong	ML: +5
 broken sword	Spooky: +10
 bounty-hunting rifle	Item: +15.0
 bubble bauble bow	Item: +5.0
@@ -50,6 +51,7 @@ duck-on-a-string	Item: +5.0
 flaming juggler's balls	Exp: +2.0
 Frost&trade; brand sword	ML: +3
 giant discarded plastic fork	Init: -10.0
+giant foam finger	DR: 3
 giant needle	ML: +5
 gnauga hide whip	Item: +3.0
 Greek Pasta of Peril	Init: +25.0
@@ -94,6 +96,7 @@ hippo skin buckler	DR: 5
 hors d'oeuvre tray	DR: 7, Init: +20.0
 hypnodisk	Item: +25.0
 ice baby	Exp: +1.0
+keg shield	DR: 11, DA: +50
 penguin skin buckler	DR: 5
 pilgrim shield	Exp: +3.0
 pixel shield	DR: 3
@@ -106,6 +109,8 @@ star buckler	DR: 10
 Tiki lighter	Exp: +1.0
 tropical paperweight	Exp: +1.0
 White satin shield	DR: 5
+wicker shield	DR: 11
+wonderwall shield	DR: 12
 yakskin buckler	DR: 5
 
 bronze breastplate	DA: +20, DR: 4
@@ -125,6 +130,7 @@ bounty-hunting pants	Item: +15.0
 clockwork pants	Init: +10.0
 Crimbo pants	Init: +30.0
 demonskin trousers	Hot: +20
+distressed denim pants	Stench: +10, DR: 2
 dungeoneer's dungarees	Cold: +10, Hot: +10, Spooky: +10, Stench: +10, Sleaze: +10
 gauze shorts	DR: 3
 gnauga hide chaps	DA: +30

@@ -35,3 +35,6 @@
 
 0	Terrifying Clown Suit	foolscap fool's cap, bloody clown pants, big red clown nose, polka-dot bowtie, clown shoes
 0	Bounty-Hunting Rig	bounty-hunting helmet, bounty-hunting rifle, bounty-hunting pants
+0	War Hippy Fatigues	bullet-proof corduroys, round purple sunglasses, reinforced beaded headband
+0	Frat Warrior Fatigues	beer helmet, distressed denim pants, bejeweled pledge pin
+0	Palmist Paraphernalia	palm-frond whip
