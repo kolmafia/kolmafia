@@ -2074,7 +2074,7 @@
 2065	739819882	PADL Phone
 2066	147761182	kick-ass kicks
 2067	810136258	sake bomb
-2068
+2068	468076558	tequila grenade
 2069	721860754	beer helmet
 2070	534039751	distressed denim pants
 2071	874003168	perforated battle paddle
@@ -2245,7 +2245,7 @@
 2236	542676786	turtle pheromones	vials of turtle pheromones
 2237	680058972	pygmy blowgun
 2238	394311894	pygmy nose-bone
-2239
+2239	448198252	big bad voodoo mask
 2240	848242124	bottle of alcohol
 2241	828157844	pygmy spear
 2242	598693688	pygmy pygment
@@ -2361,7 +2361,7 @@
 2352	784968970	fire poi
 2353	739124687	bejeweled pledge pin
 2354	441541362	communications windchimes
-2355
+2355	443508071	henna face paint
 2356	844938124	tube of dread wax
 2357	386374860	Gaia beads
 2358
@@ -2406,7 +2406,7 @@
 2397
 2398	139612153	energy drink IV
 2399
-2400
+2400	149097593	molotov cocktail cocktail
 2401	269933574	beer bong
 2402	971643916	gauze garter
 2403
@@ -2456,9 +2456,9 @@
 2447	840387110	bad penguin egg	bad penguin eggs
 2448	476592435	tasteful black bowtie	tasteful black bowties
 2449
-2450
-2451
-2452
+2450	404489596	empty Cloaca-Cola bottle
+2451	289037416	goatskin umbrella
+2452	160247422	wool hat
 2453	892445942	Goodfella contract
 2454	867262722	white belt	white belts
 2455	263821595	bar whip	bar whips
@@ -2524,7 +2524,7 @@
 2515
 2516
 2517
-2518
+2518	772560168	sawblade shield
 2519
 2520
 2521
@@ -2637,7 +2637,7 @@
 2628
 2629
 2630	894817867	Hugo's Weaving Manual
-2631
+2631	417958778	gremlin juice
 2632	321738063	mother's little helper
 2633
 2634	682161779	mummy wrapping
@@ -2693,17 +2693,17 @@
 2684
 2685
 2686
-2687
-2688
+2687	168728940	stone frisbee
+2688	898943191	dreadlock whip
 2689
 2690
-2691
+2691	491676088	handful of nuts and berries
 2692
 2693
 2694
 2695
 2696
-2697
+2697	453222342	duct tape
 2698
 2699
 2700
@@ -2741,7 +2741,7 @@
 2732
 2733	908758815	bunch of square grapes
 2734	790278119	brown sugar cane
-2735
+2735	646801760	sandwich of the gods
 2736
 2737
 2738
@@ -2759,7 +2759,7 @@
 2750
 2751
 2752
-2753
+2753	529261022	Zinc Delta of Tranquility
 2754
 2755
 2756
@@ -2772,12 +2772,12 @@
 2763
 2764
 2765
-2766
+2766	642797054	solid gold bowling ball
 2767
 2768
 2769
 2770
-2771
+2771	173491862	handful of pine needles
 2772
 2773
 2774
