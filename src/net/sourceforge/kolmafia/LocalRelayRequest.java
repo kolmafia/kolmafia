@@ -641,11 +641,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		}
 
 		StaticEntity.globalStringReplace( scriptBuffer, "/*activeEffects*/", activeEffects.toString() );
-
-		if ( inventory.contains( UseSkillRequest.ROCKNROLL_LEGEND ) )
-			StaticEntity.globalStringReplace( scriptBuffer, "/*rockAndRoll*/", "true" );
-		else
-			StaticEntity.globalStringReplace( scriptBuffer, "/*rockAndRoll*/", "false" );
+		StaticEntity.globalStringReplace( scriptBuffer, "/*rockAndRoll*/", "false" );
 
 		StaticEntity.globalStringReplace( scriptBuffer, "/*lastZone*/", StaticEntity.getProperty( "lastAdventure" ) );
 		StaticEntity.globalStringReplace( scriptBuffer, "/*lastMonster*/", FightRequest.getLastMonster() );

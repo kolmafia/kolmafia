@@ -62,8 +62,26 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	private int lastReduction = Integer.MAX_VALUE;
 	private String lastStringForm = "";
 
-	public static final AdventureResult ACCORDION = new AdventureResult( 11, 1 );
-	public static final AdventureResult ROCKNROLL_LEGEND = new AdventureResult( 50, 1 );
+	public static final AdventureResult [] TAMER_WEAPONS = new AdventureResult []
+	{
+		new AdventureResult( 666, 1 ),   // -- placeholder --
+		new AdventureResult( 60, 1 ),    // Mace of the Tortoise
+		new AdventureResult( 4, 1 )      // turtle totem
+	};
+
+	public static final AdventureResult [] SAUCE_WEAPONS = new AdventureResult []
+	{
+		new AdventureResult( 2560, 1 ),  // 17-Alarm Saucepan
+		new AdventureResult( 57, 1 ),    // 5-Alarm saucepan
+		new AdventureResult( 7, 1 )      // saucepan
+	};
+
+	public static final AdventureResult [] THIEF_WEAPONS = new AdventureResult []
+	{
+		new AdventureResult( 2557, 1 ),  // Squeezebox of the Ages
+		new AdventureResult( 50, 1 ),    // Rock 'n Roll Legend
+		new AdventureResult( 11, 1 )     // stolen accordion
+	};
 
 	public static final AdventureResult PENDANT = new AdventureResult( 1235, 1 );
 	public static final AdventureResult WIZARD_HAT = new AdventureResult( 1653, 1 );
@@ -71,16 +89,6 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	public static final AdventureResult SOLITAIRE = new AdventureResult( 1226, 1 );
 	public static final AdventureResult BRACELET = new AdventureResult( 717, 1 );
 	public static final AdventureResult EARRING = new AdventureResult( 715, 1 );
-
-	public static final AdventureResult BIG_ROCK = new AdventureResult( 30, 1 );
-	private static final AdventureResult ROLL = new AdventureResult( 47, 1 );
-
-	// Clover weapons
-	public static final AdventureResult BJORNS_HAMMER = new AdventureResult( 32, 1 );
-	public static final AdventureResult TURTLESLINGER = new AdventureResult( 60, 1 );
-	public static final AdventureResult PASTA_OF_PERIL = new AdventureResult( 68, 1 );
-	public static final AdventureResult FIVE_ALARM_SAUCEPAN = new AdventureResult( 57, 1 );
-	public static final AdventureResult DISCO_BANJO = new AdventureResult( 54, 1 );
 
 	private UseSkillRequest( String skillName )
 	{
@@ -250,6 +258,15 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	{
 		if ( KoLCharacter.canInteract() || !StaticEntity.getBooleanProperty( "switchEquipmentForBuffs" ) )
 			return;
+
+		if ( skillId > 2000 && skillId < 3000 )
+			prepareWeapon( TAMER_WEAPONS );
+
+		if ( skillId > 4000 && skillId < 5000 )
+			prepareWeapon( SAUCE_WEAPONS );
+
+		if ( skillId > 6000 && skillId < 7000 )
+			prepareWeapon( THIEF_WEAPONS );
 
 		if ( StaticEntity.getBooleanProperty( "switchEquipmentForBuffs" ) )
 			reduceManaConsumption( skillId );
@@ -480,89 +497,86 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			lastUpdate = "Error encountered during cast attempt.";
 	}
 
-	public static AdventureResult prepareSongWeapon( AdventureResult [] options )
+	public static void prepareWeapon( AdventureResult [] options )
 	{
 		for ( int i = 0; i < options.length; ++i )
-		{		
+		{
 			if ( !KoLCharacter.hasItem( options[i], true ) )
 				continue;
 
-			if ( !KoLCharacter.hasEquipped( options[i] ) )
-				AdventureDatabase.retrieveItem( options[i] );
+			if ( KoLCharacter.hasEquipped( options[i] ) )
+				return;
 
-			return options[i];
+			AdventureDatabase.retrieveItem( options[i] );
+			return;
 		}
-
-		return null;
 	}
 
 	public void processResults()
 	{
-		boolean encounteredError = false;
+		boolean shouldStop = false;
+		lastUpdate = "";
 
 		// If a reply was obtained, check to see if it was a success message
 		// Otherwise, try to figure out why it was unsuccessful.
 
 		if ( this.responseText == null || this.responseText.trim().length() == 0 )
 		{
-			encounteredError = true;
+			shouldStop = false;
 			lastUpdate = "Encountered lag problems.";
 		}
 		else if ( this.responseText.indexOf( "You don't have that skill" ) != -1 )
 		{
-			encounteredError = true;
+			shouldStop = true;
 			lastUpdate = "That skill is unavailable.";
 		}
 		else if ( this.responseText.indexOf( "You don't have enough" ) != -1 )
 		{
-			encounteredError = true;
+			shouldStop = false;
 			lastUpdate = "Not enough mana to cast " + this.skillName + ".";
 		}
 		else if ( this.responseText.indexOf( "You can only conjure" ) != -1 || this.responseText.indexOf( "You can only scrounge up" ) != -1 || this.responseText.indexOf( "You can only summon" ) != -1 )
 		{
-			encounteredError = true;
+			shouldStop = false;
 			lastUpdate = "Summon limit exceeded.";
 		}
 		else if ( this.responseText.indexOf( "too many songs" ) != -1 )
 		{
-			encounteredError = true;
+			shouldStop = false;
 			lastUpdate = "Selected target has 3 AT buffs already.";
 		}
 		else if ( this.responseText.indexOf( "casts left of the Smile of Mr. A" ) != -1 )
 		{
-			encounteredError = true;
+			shouldStop = false;
 			lastUpdate = "You cannot cast that many smiles.";
 		}
 		else if ( this.responseText.indexOf( "Invalid target player" ) != -1 )
 		{
-			encounteredError = true;
+			shouldStop = true;
 			lastUpdate = "Selected target is not a valid target.";
 		}
 		else if ( this.responseText.indexOf( "busy fighting" ) != -1 )
 		{
-			encounteredError = true;
+			shouldStop = false;
 			lastUpdate = "Selected target is busy fighting.";
 		}
 		else if ( this.responseText.indexOf( "receive buffs" ) != -1 )
 		{
-			encounteredError = true;
+			shouldStop = false;
 			lastUpdate = "Selected target cannot receive buffs.";
 		}
-		else if ( this.responseText.indexOf( "accordion equipped" ) != -1 )
+		else if ( this.responseText.indexOf( "You need" ) != -1 )
 		{
-			// "You need to have an accordion equipped or in your
-			// inventory if you want to play that song."
-
-			encounteredError = true;
-			lastUpdate = "You need an accordion to play Accordion Thief songs.";
+			shouldStop = true;
+			lastUpdate = "You need special equipment to cast that buff.";
 		}
 
 		// Now that all the checks are complete, proceed
 		// to determine how to update the user display.
 
-		if ( encounteredError )
+		if ( !lastUpdate.equals( "" ) )
 		{
-			KoLmafia.updateDisplay( this.target == null || this.target.equals( "yourself" ) ? ABORT_STATE : CONTINUE_STATE, lastUpdate );
+			KoLmafia.updateDisplay( shouldStop ? ABORT_STATE : CONTINUE_STATE, lastUpdate );
 
 			if ( BuffBotHome.isBuffBotActive() )
 				BuffBotHome.timeStampedLogEntry( BuffBotHome.ERRORCOLOR, lastUpdate );
