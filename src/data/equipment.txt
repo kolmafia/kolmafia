@@ -87,6 +87,7 @@ Orcish baseball cap	60	Mox: 15
 oriole-feather headdress	15	none
 outrageous sombrero	100	none
 pail	30	none
+extra-large palm-frond toupee	150	Mox: 60
 pentacorn hat	40	Mox: 5
 pimpin' meat hat	55	Mox: 12
 pixel hat	50	Mox: 10
@@ -179,6 +180,7 @@ miner's pants	80	Mox: 25
 ninja hot pants	70	Mox: 20
 old school Mafia knickerbockers	100	Mox: 35
 Orcish cargo shorts	60	Mox: 15
+palm-frond capris	140	Mox: 55
 pants of the Slug Lord	35	Mox: 2
 paper-plate-mail pants	80	Mox: 25
 penguinskin mini-kilt	120	Mox: 45
@@ -238,6 +240,7 @@ Kiss the Knob apron	10	none
 Knob Goblin elite shirt	35	Mus: 2
 loathing eagle baby-doll shirt	45	Mus: 7
 Mr. Shirt	30	none
+palm-frond cloak	140	Mus: 55
 pirate shirt	50	Mus: 10
 Private Pepper's Lonely Hearts Club Jacket	130	Mus: 50
 Radio Free Jersey	0	none

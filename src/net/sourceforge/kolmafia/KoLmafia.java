@@ -3216,9 +3216,12 @@ public abstract class KoLmafia implements KoLConstants
 				case 604: // Penultimate fantasy chest
 				case 831: // small box
 				case 832: // large box
+				case 1768: // Gnomish toolbox
 				case 1917: // old leather wallet
 				case 1918: // old coin purse
-				case 2057: //black pension check
+				case 2057: // black pension check
+				case 2536: // canopic jar
+				case 2612: // ancient vinyl coin purse
 					RequestThread.postRequest( new ConsumeItemRequest( currentItem.getInstance( itemCount ) ) );
 					break;
 

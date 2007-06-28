@@ -2530,7 +2530,7 @@
 2525
 2526
 2527
-2528	filet of tangy gnat	0	all	50
+2528	filet of tangy gnat (&quot;fotelif&quot;)	0	all	50
 2529
 2530
 2531
@@ -2607,13 +2607,13 @@
 2602	Staff of Blood and Pudding	12	display	25
 2603
 2604	Tuesday's ruby	13	all	200
-2605	palm frond	4	all	45
-2606
+2605	palm frond	0	all	45
+2606	palm-frond fan	4	all	85
 2607	palm-frond whip	12	all	95
-2608
-2609
-2610
-2611
+2608	palm-frond net	0	all	130
+2609	palm-frond capris	10	all	145
+2610	extra-large palm-frond toupee	9	all	145
+2611	palm-frond cloak	11	all	145
 2612	ancient vinyl coin purse	4	all	50
 2613	rocky raccoon	0	all	75
 2614
