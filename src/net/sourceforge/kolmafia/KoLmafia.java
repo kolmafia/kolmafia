@@ -38,6 +38,7 @@ import java.awt.Component;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
@@ -126,6 +127,8 @@ public abstract class KoLmafia implements KoLConstants
 	private static final AdventureResult MANUAL_2 = new AdventureResult( 2281, 1 );
 	private static final AdventureResult MANUAL_3 = new AdventureResult( 2282, 1 );
 
+	private static FileOutputStream SESSION_HOLDER = null;
+	private static final File SESSION_FILE = new File( System.getProperty( "user.home" ), ".kolmafia" );
 	private static final ArrayList stopEncounters = new ArrayList();
 
 	static
@@ -146,6 +149,25 @@ public abstract class KoLmafia implements KoLConstants
 
 	public static void main( String [] args )
 	{
+		try
+		{
+			if ( SESSION_FILE.exists() )
+			{
+				SESSION_FILE.delete();
+				System.exit(-1);
+			}
+
+			SESSION_FILE.createNewFile();
+			SESSION_HOLDER = new FileOutputStream( SESSION_FILE );
+		}
+		catch ( Exception e )
+		{
+			// Something weird happened, go ahead and exit
+			// the program.
+
+			System.exit(-1);
+		}
+
 		Runtime.getRuntime().addShutdownHook( new ShutdownThread() );
 
 		boolean useGUI = true;
