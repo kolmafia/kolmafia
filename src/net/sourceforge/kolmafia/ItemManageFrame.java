@@ -660,12 +660,25 @@ public class ItemManageFrame extends KoLFrame
 		{	return new ConsumableFilterField();
 		}
 
+		protected void listenToCheckBox( JCheckBox box )
+		{
+			super.listenToCheckBox( box );
+			box.addActionListener( new ReSortListener() );
+		}
+
 		public void actionConfirmed()
 		{
 		}
 
 		public void actionCancelled()
 		{
+		}
+
+		private class ReSortListener extends ThreadedListener
+		{
+			public void run()
+			{	ConcoctionsDatabase.getUsables().sort();
+			}
 		}
 
 		private class EnqueueListener extends ThreadedListener
