@@ -688,7 +688,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 	public boolean isLikelyStasisFarming()
 	{
 		return this.isLikelyStasisZone && KoLCharacter.getFamiliar().isThiefFamiliar() &&
-			KoLCharacter.getFamiliar().getWeight() >= 20 && KoLCharacter.getTotalTurnsUsed() > 3000;
+			KoLCharacter.getFamiliar().getWeight() >= 20 && KoLCharacter.getTotalTurnsUsed() > 2000;
 	}
 
 	/**
@@ -702,16 +702,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			StaticEntity.getClient().runBetweenBattleChecks( this.shouldRunFullCheck );
 
 		String action = StaticEntity.getProperty( "battleAction" );
-
-		if ( this.isLikelyStasisFarming() )
-		{
-			if ( action.indexOf( "run" ) == -1 )
-			{
-				KoLmafia.updateDisplay( "OAF mode activated.  Changing combat action..." );
-				DEFAULT_SHELL.executeCommand( "set", "battleAction=run" );
-				action = "try to run away";
-			}
-		}
+		FightRequest.setDelayActive( KoLCharacter.getTotalTurnsUsed() >= 5000 || this.isLikelyStasisFarming() );
 
 		// Validate the adventure before running it.
 		// If it's invalid, return and do nothing.

@@ -58,6 +58,7 @@ public class FightRequest extends KoLRequest
 
 	private static ArrayList trackedRounds = new ArrayList();
 
+	private static boolean isDelayActive = true;
 	private static boolean isUsingConsultScript = false;
 	public static final FightRequest INSTANCE = new FightRequest();
 
@@ -147,6 +148,14 @@ public class FightRequest extends KoLRequest
 
 	private FightRequest()
 	{	super( "fight.php" );
+	}
+
+	public static void setDelayActive( boolean isDelayActive )
+	{	FightRequest.isDelayActive = isDelayActive;
+	}
+
+	public static boolean isDelayActive()
+	{	return isDelayActive;
 	}
 
 	protected boolean retryOnTimeout()
