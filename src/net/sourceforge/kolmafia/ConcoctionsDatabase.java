@@ -102,7 +102,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		{
 			try
 			{
-                                addConcoction( data );
+				addConcoction( data );
 			}
 			catch ( Exception e )
 			{
@@ -131,6 +131,8 @@ public class ConcoctionsDatabase extends KoLDatabase
 		for ( int i = 0; i < concoctions.size(); ++i )
 			if ( concoctions.get(i) != null )
 				usableList.add( concoctions.get(i) );
+
+		usableList.sort();
 	}
 
 	private static final void addConcoction( String [] data )
@@ -1023,10 +1025,10 @@ public class ConcoctionsDatabase extends KoLDatabase
 			switch ( consumeType )
 			{
 			case CONSUME_EAT:
-				this.sortOrder = 1;
+				this.sortOrder = this.fullness > 0 ? 1 : 3;
 				break;
 			case CONSUME_DRINK:
-				this.sortOrder = 2;
+				this.sortOrder = this.inebriety > 0 ? 2 : 3;
 				break;
 			default:
 				this.sortOrder = 3;
@@ -1047,6 +1049,9 @@ public class ConcoctionsDatabase extends KoLDatabase
 			this.mixingMethod = mixingMethod;
 			this.wasPossible = false;
 
+			this.fullness = TradeableItemDatabase.getFullness( name );
+			this.inebriety = TradeableItemDatabase.getInebriety( name );
+
 			this.ingredients = new ArrayList();
 			this.ingredientArray = new AdventureResult[0];
 
@@ -1055,10 +1060,10 @@ public class ConcoctionsDatabase extends KoLDatabase
 			switch ( consumeType )
 			{
 			case CONSUME_EAT:
-				this.sortOrder = 1;
+				this.sortOrder = this.fullness > 0 ? 1 : 3;
 				break;
 			case CONSUME_DRINK:
-				this.sortOrder = 2;
+				this.sortOrder = this.inebriety > 0 ? 2 : 3;
 				break;
 			default:
 				this.sortOrder = 3;
@@ -1074,7 +1079,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 				return -1;
 
 			if ( this.name == null )
-				return 1;
+				return ((Concoction)o).name == null ? 0 : 1;
 
 			if ( ((Concoction)o).name == null )
 				return -1;
@@ -1082,17 +1087,23 @@ public class ConcoctionsDatabase extends KoLDatabase
 			if ( this.sortOrder != ((Concoction)o).sortOrder )
 				return this.sortOrder - ((Concoction)o).sortOrder;
 
-			int fullness1 = this.fullness;
-			int fullness2 = ((Concoction)o).fullness;
+			if ( this.sortOrder == 3 )
+				return this.name.compareToIgnoreCase( ((Concoction)o).name );
 
-			if ( !StaticEntity.getBooleanProperty( "showGainsPerUnit" ) && fullness1 != fullness2 )
-				return fullness2 - fullness1;
+			if ( !StaticEntity.getBooleanProperty( "showGainsPerUnit" ) )
+			{
+				int fullness1 = this.fullness;
+				int fullness2 = ((Concoction)o).fullness;
 
-			int inebriety1 = this.inebriety;
-			int inebriety2 = ((Concoction)o).inebriety;
+				if ( fullness1 != fullness2 )
+					return fullness2 - fullness1;
 
-			if ( !StaticEntity.getBooleanProperty( "showGainsPerUnit" ) && inebriety1 != inebriety2 )
-				return inebriety2 - inebriety1;
+				int inebriety1 = this.inebriety;
+				int inebriety2 = ((Concoction)o).inebriety;
+
+				if ( inebriety1 != inebriety2 )
+					return inebriety2 - inebriety1;
+			}
 
 			float adventures1 = parseFloat( TradeableItemDatabase.getAdventureRange( this.name ) );
 			float adventures2 = parseFloat( TradeableItemDatabase.getAdventureRange( ((Concoction)o).name ) );
