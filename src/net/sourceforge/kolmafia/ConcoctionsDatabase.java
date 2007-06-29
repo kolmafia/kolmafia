@@ -37,13 +37,15 @@ import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
+
+import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class ConcoctionsDatabase extends KoLDatabase
 {
 	private static final SortedListModel EMPTY_LIST = new SortedListModel();
 	public static final SortedListModel creatableList = new SortedListModel();
-	public static final SortedListModel usableList = new SortedListModel();
+	public static final LockableListModel usableList = new LockableListModel();
 
 	private static boolean ignoreRefresh = false;
 
@@ -358,7 +360,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		queuedStillsUsed += stillChange.intValue();
 	}
 
-	public static SortedListModel getUsables()
+	public static LockableListModel getUsables()
 	{	return usableList;
 	}
 
