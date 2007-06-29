@@ -368,7 +368,7 @@
 368	Man's Worst Enemy	teeth.gif
 369	Extremely Poor Taste	sad.gif
 370	The Real Deal	light.gif
-371	Memento Moir&eacute;	photograph.gif
+371	Memento Moir&eacute;	photograph.gif	731ba2df034beec5412f82879eec9392
 372	Flashing Eyes	bigeyes.gif
 373	Mmmmmelon	melon.gif
 374	Contagious Bad Luck	bmirror.gif	86bb1d1be1a84c4554906852f4273f90
