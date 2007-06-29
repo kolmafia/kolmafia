@@ -7,8 +7,10 @@
 7	eXtreme Cold-Weather Gear	eXtreme scarf, snowboarder pants, eXtreme mittens
 8	Mining Gear	miner's helmet, 7-Foot Dwarven mattock, miner's pants
 9	Swashbuckling Getup	eyepatch, swashbuckling pants, stuffed shoulder parrot
+# No outfit #10
 11	Crimbo Duds	Crimbo hat, Crimbo pants, Crimbo sword
 12	Star Garb	star buckler, star hat, star pants
+# No outfit #13
 14	Furry Suit	furry pants, wolf mask
 15	8-Bit Finery	pixel hat, pixel pants, pixel sword
 16	Yendorian Finery	cornuthaum, ring of aggravate monster, vorpal blade
@@ -27,7 +29,11 @@
 29	Antique Arms and Armor	antique greaves, antique helmet, antique spear, antique shield
 30	Terrycloth Tackle	makeshift turban, makeshift skirt, makeshift cape
 31	Tropical Crimbo Duds	Tropical Crimbo Hat, Tropical Crimbo Sword, Tropical Crimbo Shorts
+32	War Hippy Fatigues	bullet-proof corduroys, round purple sunglasses, reinforced beaded headband
+33	Frat Warrior Fatigues	beer helmet, distressed denim pants, bejeweled pledge pin
+# Unknown outfit #34. Bounty-Hunting Rig?
 35	Black Armaments	black sword, black helmet, black shield, black greaves
+36	Palmist Paraphernalia	palm-frond whip, palm-frond capris, extra-large palm-frond toupee
 
 # Outfits for which KoL does not provide an outfit id,
 # and thus are given id #0 to tell KoLmafia to treat
@@ -35,6 +41,3 @@
 
 0	Terrifying Clown Suit	foolscap fool's cap, bloody clown pants, big red clown nose, polka-dot bowtie, clown shoes
 0	Bounty-Hunting Rig	bounty-hunting helmet, bounty-hunting rifle, bounty-hunting pants
-0	War Hippy Fatigues	bullet-proof corduroys, round purple sunglasses, reinforced beaded headband
-0	Frat Warrior Fatigues	beer helmet, distressed denim pants, bejeweled pledge pin
-0	Palmist Paraphernalia	palm-frond whip, palm-frond capris, extra-large palm-frond toupee
