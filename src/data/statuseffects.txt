@@ -140,7 +140,7 @@
 140	Green Tongue	tongue.gif	94e112e9d9e9899f283bbd1ddde77396
 141	Orange Tongue	tongue.gif	61c56f6a7d09a562062c41239da75670
 142	Red Tongue	tongue.gif	a4a570ed8e0e103525775af34f31f030
-143	Blue Tongue	tongue.gif
+143	Blue Tongue	tongue.gif	ec5873195c3e3b217cc8124e1ac211cf
 144	Black Tongue	tongue.gif	cf48440dfd1ae655ab1d2c447e0091e2
 145	Object Detection	exclam.gif
 146
