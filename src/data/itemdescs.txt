@@ -2595,7 +2595,7 @@
 2586	229924188	General Sage's Lonely Diamonds Club Jacket
 2587	854115819	Corporal Fennel's Lonely Clubs Club Jacket
 2588	449989440	Private Pepper's Lonely Hearts Club Jacket
-2589	138166057	hot date
+2589	138166057	hot date	hot dates, giggity giggity
 2590
 2591
 2592

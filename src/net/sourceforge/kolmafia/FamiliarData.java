@@ -284,6 +284,11 @@ public class FamiliarData implements KoLConstants, Comparable
 		case 1971:  // plastic pumpkin bucket
 		case 2225:  // flaming familiar doppelg&auml;nger
 		case 2541:  // Mayflower bouquet
+                case 2570:  // ant hoe
+                case 2571:  // ant rake
+                case 2572:  // ant pitchfork
+                case 2573:  // ant sickle
+                case 2574:  // ant pick
 			return this.id != 54;
 
 		default:

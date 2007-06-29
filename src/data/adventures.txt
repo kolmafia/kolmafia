@@ -101,19 +101,24 @@ Island	0/30	adventure=134	Wartime Frat House In Hippy Disguise
 Island	0/45	adventure=66	Pirate Cove	outfit
 Island	0/45	adventure=67	Pirate Cove In Disguise	1 abridged dictionary
 
-Wartime Island	125/125	adventure=132	Battlefield (Frat Uniform)
+Island (Quest)	125/125	adventure=132	Battlefield (Frat Uniform)
+Island (Quest)	125/125	adventure=140	Battlefield (Hippy Uniform)
 Junkyard	125/125	adventure=139	The Junkyard
 Lighthouse	125/125	adventure=136	Sonofa Beach
-Wartime Island	125/125	adventure=140	Battlefield (Hippy Uniform)
 Nunnery	125/124	adventure=126	The Themthar Hills
-Orchard	125/125	adventure=127	The Hatching Chamber
-Orchard	125/125	adventure=128	The Feeding Chamber
-Orchard	125/125	adventure=129	The Guards' Chamber
-Orchard	125/125	adventure=130	The Queen's Chamber
 Farm	125/125	adventure=137	McMillicancuddy's Barn
 Farm	125/125	adventure=141	McMillicancuddy's Pond
 Farm	125/125	adventure=142	McMillicancuddy's Back 40
 Farm	125/125	adventure=143	McMillicancuddy's Other Back 40
+Orchard	125/125	adventure=127	The Hatching Chamber
+Orchard	125/125	adventure=128	The Feeding Chamber
+Orchard	125/125	adventure=129	The Guards' Chamber
+Orchard	125/125	adventure=130	The Queen's Chamber
+
+Island (Post-Quest)	125/125	adventure=150	The Frat House (Bombed Back to
+the Stone Age)
+Island (Post-Quest)	125/125	adventure=154	The Junkyard
+Island (Post-Quest)	125/125	adventure=155	McMillicancuddy's Farm
 
 Mountain	0/0	adventure=91	Noob Cave
 Mountain	0/0	adventure=92	The Dire Warren	level 2

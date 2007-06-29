@@ -31,13 +31,15 @@ Pyramid	Beach	Ancient Buried Pyramid	pyramid.php
 
 Island	Island	Mysterious Island
 
-Wartime Island	Wartime Island	Wartime Island	bigisland.php
-Junkyard	Wartime Island	The Junkyard	bigisland.php?place=junkyard
-Arena	Wartime Island	Mysterious Island Arena	bigisland.php?place=concert
-Lighthouse	Wartime Island	The Lighthouse	bigisland.php?place=lighthouse
-Orchard	Wartime Island	The Organic Orchard	bigisland.php?place=orchard
-Farm	Wartime Island	McMillicancuddy's Farm	bigisland.php?place=orchard
-Nunnery	Wartime Island	Our Lady of Perpetual Indecision	bigisland.php?place=nunnery
+Island (Quest)	Island (Quest)	Island (Quest)	bigisland.php
+Junkyard	Island (Quest)	The Junkyard	bigisland.php?place=junkyard
+Arena	Island (Quest)	Mysterious Island Arena	bigisland.php?place=concert
+Lighthouse	Island (Quest)	The Lighthouse	bigisland.php?place=lighthouse
+Orchard	Island (Quest)	The Organic Orchard	bigisland.php?place=orchard
+Farm	Island (Quest)	McMillicancuddy's Farm	bigisland.php?place=orchard
+Nunnery	Island (Quest)	Our Lady of Perpetual Indecision	bigisland.php?place=nunnery
+
+Island (Post-Quest)	Island (Post-Quest)	Island (Post-Quest)	bigisland.php
 
 Beanstalk	Beanstalk	Above the Beanstalk
 Sorceress	Sorceress	Sorceress Lair
