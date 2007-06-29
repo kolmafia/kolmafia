@@ -38,7 +38,9 @@ import java.awt.Component;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
+import java.io.RandomAccessFile;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileLock;
 import java.io.PrintStream;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
@@ -127,7 +129,8 @@ public abstract class KoLmafia implements KoLConstants
 	private static final AdventureResult MANUAL_2 = new AdventureResult( 2281, 1 );
 	private static final AdventureResult MANUAL_3 = new AdventureResult( 2282, 1 );
 
-	private static FileOutputStream SESSION_HOLDER = null;
+	private static FileLock SESSION_HOLDER = null;
+	private static FileChannel SESSION_CHANNEL = null;
 	private static final File SESSION_FILE = new File( System.getProperty( "user.home" ), ".kolmafia" );
 	private static final ArrayList stopEncounters = new ArrayList();
 
@@ -153,12 +156,21 @@ public abstract class KoLmafia implements KoLConstants
 		{
 			if ( SESSION_FILE.exists() )
 			{
-				SESSION_FILE.delete();
+				SESSION_CHANNEL = new RandomAccessFile( SESSION_FILE, "rw" ).getChannel();
+				SESSION_HOLDER = SESSION_CHANNEL.tryLock();
+
+				if ( SESSION_HOLDER != null )
+					SESSION_FILE.delete();
+
 				System.exit(-1);
 			}
 
-			SESSION_FILE.createNewFile();
-			SESSION_HOLDER = new FileOutputStream( SESSION_FILE );
+			LogStream ostream = LogStream.openStream( SESSION_FILE, true );
+			ostream.println( VERSION_NAME );
+			ostream.close();
+
+			SESSION_CHANNEL = new RandomAccessFile( SESSION_FILE, "rw" ).getChannel();
+			SESSION_HOLDER = SESSION_CHANNEL.lock();
 		}
 		catch ( Exception e )
 		{
@@ -3401,7 +3413,8 @@ public abstract class KoLmafia implements KoLConstants
 
 			try
 			{
-				SESSION_HOLDER.close();
+				SESSION_HOLDER.release();
+				SESSION_CHANNEL.close();
 				SESSION_FILE.delete();
 			}
 			catch ( Exception e )
