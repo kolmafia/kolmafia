@@ -428,7 +428,7 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Do Geese See God?
 		new ChoiceAdventure( "Plains", "choiceAdventure129", "Palindome",
-		  new String [] { "hard rock candy", "skip the adventure" },
+		  new String [] { "photograph of God", "skip the adventure" },
 		  new String [] { "2259", null } ),
 
 		// Rod Nevada, Vendor
