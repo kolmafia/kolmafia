@@ -745,7 +745,9 @@ public class KoLRequest extends Job implements KoLConstants
 	public void execute()
 	{
 		String urlString = this.getURLString();
-		boolean shouldDelay = !isDelayExempt && urlString.startsWith( "adventure.php" );
+
+		boolean shouldDelay = !isDelayExempt &&
+			(urlString.startsWith( "adventure.php" ) || (urlString.startsWith( "fight.php") && FightRequest.isDelayActive()));
 
 		// If this is the rat quest, then go ahead and pre-set the data
 		// to reflect a fight sequence (mini-browser compatibility).
