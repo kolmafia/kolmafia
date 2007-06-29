@@ -30,6 +30,7 @@ raspberry beret	Hot: +20
 red traffic cone	Cold: +20
 spooky hockey mask	Spooky: +20
 stainless steel skullcap	DA: +60
+stone baseball cap	DR: 10
 toy space helmet	Spooky: +30, Stench: +30
 Tropical Crimbo Hat	Spooky: +10
 wool hat	DA: +20, Cold: +20
@@ -179,6 +180,8 @@ makeshift cape	Item: +5.0
 makeshift SCUBA gear	Stench: +20
 monster bait	Combat: +5.0
 Mr. Accessory Jr.	Item: +25.0
+natty blue ascot	Meat: +20.0
+Orange Star of Sacrifice	Item: +6.0
 peace-sign necklace	DR: 3
 Pine-Fresh air freshener	Stench: +10
 plexiglass pinky ring	Cold: +30, Hot: +30, Sleaze: +30, Spooky: +30, Stench: +30
@@ -189,6 +192,7 @@ ring of cold resistance	Cold: +20
 ring of conflict	Combat: -5.0
 ring of fire resistance	Hot: +20
 sk8board	Init: +15.0
+solid baconstone earring	Mana: -1
 stainless steel scarf	ML: +20
 stainless steel solitaire	Mana: -2
 stainless steel suspenders	DA: +60
@@ -222,6 +226,7 @@ tiny plastic sweet nutcracker	Weight: +1
 toy crazy train	Meat: +10.0
 toy train	Meat: +10.0
 white collar	Meat: +3.0
+woven baling wire bracelets	Mana: -1
 Zinc Delta of Tranquility	Item: +8.0
 
 annoying pitchfork	ML: +5
