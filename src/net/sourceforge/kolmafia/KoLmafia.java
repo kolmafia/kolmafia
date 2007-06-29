@@ -131,7 +131,8 @@ public abstract class KoLmafia implements KoLConstants
 
 	private static FileLock SESSION_HOLDER = null;
 	private static FileChannel SESSION_CHANNEL = null;
-	private static final File SESSION_FILE = new File( System.getProperty( "user.home" ), ".kolmafia" );
+	private static File SESSION_FILE = null;
+
 	private static final ArrayList stopEncounters = new ArrayList();
 
 	static
@@ -145,24 +146,17 @@ public abstract class KoLmafia implements KoLConstants
 		stopEncounters.add( "Take a Dusty Look!" );
 	}
 
-	/**
-	 * The main method.  Currently, it instantiates a single instance
-	 * of the <code>KoLmafiaGUI</code>.
-	 */
-
-	public static void main( String [] args )
+	private static boolean acquireFileLock( String suffix )
 	{
 		try
 		{
+			SESSION_FILE = new File( System.getProperty( "user.home" ), "kolmafia." + suffix );
+
 			if ( SESSION_FILE.exists() )
 			{
 				SESSION_CHANNEL = new RandomAccessFile( SESSION_FILE, "rw" ).getChannel();
 				SESSION_HOLDER = SESSION_CHANNEL.tryLock();
-
-				if ( SESSION_HOLDER != null )
-					SESSION_FILE.delete();
-
-				System.exit(-1);
+				return SESSION_HOLDER != null;
 			}
 
 			LogStream ostream = LogStream.openStream( SESSION_FILE, true );
@@ -171,14 +165,23 @@ public abstract class KoLmafia implements KoLConstants
 
 			SESSION_CHANNEL = new RandomAccessFile( SESSION_FILE, "rw" ).getChannel();
 			SESSION_HOLDER = SESSION_CHANNEL.lock();
+			return true;
 		}
 		catch ( Exception e )
 		{
-			// Something weird happened, go ahead and exit
-			// the program.
-
-			System.exit(-1);
+			return false;
 		}
+	}
+
+	/**
+	 * The main method.  Currently, it instantiates a single instance
+	 * of the <code>KoLmafiaGUI</code>.
+	 */
+
+	public static void main( String [] args )
+	{
+		if ( !acquireFileLock( "1" ) && !acquireFileLock( "2" ) )
+			System.exit(-1);
 
 		Runtime.getRuntime().addShutdownHook( new ShutdownThread() );
 
