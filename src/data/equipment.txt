@@ -12,6 +12,7 @@ barskin hat	25	none
 basic meat fez	45	Mox: 7
 basic meat helmet	40	Mox: 5
 beer helmet	170	Mox: 70
+big bad voodoo mask	160	Mox: 65
 black helmet	160	Mus: 65
 blue traffic cone	60	Mox: 15
 bounty-hunting helmet	100	Mox: 25
@@ -116,6 +117,7 @@ Tropical Crimbo Hat	100	Mox: 35
 viking helmet	20	none
 wolf mask	150	Mox: 60
 wooden salad bowl	120	Mox: 45
+wool hat	175	Mox: 72
 worn tophat	125	Mox: 47
 yak toupee	100	Mox: 35
 yellow plastic hard hat	90	Mox: 30
@@ -281,6 +283,7 @@ basic meat staff	40	Mus: 5	2-handed staff
 basic meat sword	40	Mus: 5	2-handed sword
 batblade	145	Mus: 57	1-handed knife
 beer bong	190	Mox: 80	1-handed bong
+beer-a-pult	190	Mox: 80	3-handed catapult
 big stick	10	none	2-handed staff
 Bigger Bugfinder Blade	200	Mus: 85	2-handed sword
 bill bec-de-bardiche glaive-guisarme	150	Mus: 60	2-handed polearm?
@@ -306,6 +309,7 @@ cardboard staff	60	Mus: 15	2-handed staff
 cardboard sword	60	Mus: 15	1-handed sword
 cardboard wakizashi	30	none	1-handed sword
 carob cannon	135	Mox: 45	2-handed crossbow
+cast-iron legacy paddle	190	Mus: 80	2-handed club
 Cerebral Crossbow	90	Mox: 30	1-handed crossbow
 cheap plastic bottle opener	30	none	1-handed utensil
 # Chelonian Morningstar	90	Mus: 15<	1-handed club
@@ -338,6 +342,7 @@ dishrag	20	none	1-handed whip
 disco ball	10	Mox: 0	1-handed disco ball
 Disco Banjo	50	Mox: 10	2-handed banjo
 Dr. Hobo's scalpel	35	Mus: 2	1-handed knife
+dreadlock whip	40	Mus: 5	1-handed whip
 dripping meat crossbow	50	Mox: 10	2-handed crossbow
 dripping meat staff	50	Mus: 10	2-handed staff
 dripping meat sword	50	Mus: 10	2-handed sword
@@ -362,6 +367,7 @@ ga-ga radio	125	Mox: 47	2-handed radio
 giant cactus quill	160	Mus: 65	1-handed spear
 giant cheesestick	120	Mus: 45	2-handed staff
 giant discarded plastic fork	155	Mus: 62	3-handed staff
+giant driftwood sculpture	190	Mus: 80	2-handed flail
 giant foam finger	170	Mus: 70	1-handed club
 giant needle	150	Mus: 60	2-handed spear
 glistening staff	60	Mus: 15	2-handed staff
@@ -372,6 +378,7 @@ Gnollish nunchaku	45	Mus: 7	2-handed flail
 Gnollish pie server	20	none	1-handed utensil
 Gnollish plunger	35	Mus: 2	1-handed spear
 Gnollish slotted spoon	25	none	1-handed utensil
+goatskin umbrella	180	Mus: 75	1-handed umbrella
 goulauncher	100	Mox: 35	2-handed crossbow
 grass blade	80	Mus: 25	1-handed sword
 grave robbing shovel	30	none	2-handed polearm
@@ -412,6 +419,7 @@ lucky ball-and-chain	130	Mox: 50	2-handed flail
 lupine sword	115	Mus: 42	1-handed sword
 Mace of the Tortoise	50	Mus: 10	1-handed club
 Mafia violin case	100	Mus: 35	1-handed club
+massive sitar	190	Mox: 80	2-handed sitar
 Maxwell's Silver Hammer	165	Mus: 67	1-handed glub
 meatspout staff	125	Mus: 45	2-handed staff
 Mjolnir Jr.	200	Mus: 85	1-handed club
@@ -607,6 +615,7 @@ rag doll	0	Mys: 40
 Raggedy Hippy doll	0	none
 red balloon	0	none
 rice bowl	0	none
+sawblade shield	0	Mus: 75
 sebaceous shield	0	none
 sewer turtle	0	none
 Sinful Desires	0	none
@@ -889,3 +898,4 @@ white collar	0	none
 Xlyinia's notebook	0	none
 x-ray specs	0	none
 ye olde golde frontes	0	none
+Zinc Delta of Tranquility	0	Mys: 85
