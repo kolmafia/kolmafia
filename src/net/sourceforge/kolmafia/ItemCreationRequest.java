@@ -293,8 +293,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		case STAFF:
 			return new ChefstaffRequest( itemId );
 
-		case WEAVE:
-			return new PalmFrondRequest( itemId );
+		case MULTI_USE:
+			return new MultiUseRequest( itemId );
 
 		default:
 			return null;

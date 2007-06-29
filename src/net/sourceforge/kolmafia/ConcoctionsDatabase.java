@@ -750,11 +750,8 @@ public class ConcoctionsDatabase extends KoLDatabase
 		PERMIT_METHOD[ PIXEL ] = true;
 		ADVENTURE_USAGE[ PIXEL ] = 0;
 
-		// You don't currently need a Weaving Manual to weave.
-
-		// PERMIT_METHOD[ WEAVE ] = inventory.contains( PalmFrondRequest.MANUAL );
-		PERMIT_METHOD[ WEAVE ] = true;
-		ADVENTURE_USAGE[ WEAVE ] = 0;
+		PERMIT_METHOD[ MULTI_USE ] = true;
+		ADVENTURE_USAGE[ MULTI_USE ] = 0;
 
 		// A rolling pin or unrolling pin can be always used in item
 		// creation because we can get the same effect even without the

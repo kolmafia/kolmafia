@@ -33,39 +33,72 @@
 
 package net.sourceforge.kolmafia;
 
-public class PalmFrondRequest extends MultiUseRequest
-{
-	public static final AdventureResult MANUAL = new AdventureResult( "Hugo's Weaving Manual", -1 );
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-	public PalmFrondRequest( int itemId )
-	{	super( itemId );
+public class MultiUseRequest extends ItemCreationRequest
+{
+	private static final Pattern USE_PATTERN = Pattern.compile( "multiuse.php.*whichitem=(\\d+).*quantity=(\\d+)" );
+
+	public MultiUseRequest( int itemId )
+	{
+		super( "multiuse.php", itemId );
+
+		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemId );
+
+		// There must be exactly one ingredient
+		if ( ingredients == null || ingredients.length != 1 )
+			return;
+
+		AdventureResult ingredient = ingredients[0];
+		int use = ingredient.getItemId();
+		int count = ingredient.getCount();
+
+		this.addFormField( "action", "useitem" );
+		this.addFormField( "whichitem", String.valueOf( use ) );
+		this.addFormField( "quantity", String.valueOf( count ) );
+	}
+
+	public void reconstructFields()
+	{
 	}
 
 	public void run()
 	{
-		// Make sure you have a weaving manual
+		// Attempting to make the ingredients will pull the
+		// needed items from the closet if they are missing.
 
-		if ( !inventory.contains( MANUAL ) )
+		if ( !this.makeIngredients() )
+			return;
+
+		for ( int i = 1; i <= this.getQuantityNeeded(); ++i )
 		{
-			// You can currently weave even if you don't have the
-			// manual. I've reported a bug, so that may change...
+			KoLmafia.updateDisplay( "Creating " + this.getName() + " (" + i + " of " + this.getQuantityNeeded() + ")..." );
+			super.run();
 		}
-
-		super.run();
 	}
 
 	public void processResults()
 	{
-		// "You can't figure out what to do with this thing. Maybe you
-		//  should mess with more than one of them at a time."
+		// Is there a general way to detect a failure?
+	}
 
-		// "You can't weave anything out of that quantity of palm
-		//  fronds."
+	public static boolean registerRequest( String urlString )
+	{
+		Matcher useMatcher = USE_PATTERN.matcher( urlString );
 
-		if ( this.responseText.indexOf( "You can't" ) != -1 )
-		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You can't make that item." );
-			return;
-		}
+		if ( !useMatcher.find() )
+			return true;
+
+		int use =  StaticEntity.parseInt( useMatcher.group(1) );
+		int count = StaticEntity.parseInt( useMatcher.group(2) );
+		AdventureResult item = new AdventureResult( use, 0 - count );
+
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( "Use " + count + " " + item.getName() );
+
+		StaticEntity.getClient().processResult( item );
+
+		return true;
 	}
 }

@@ -1538,7 +1538,7 @@ public class AdventureDatabase extends KoLDatabase
 		case ROLLING_PIN:
 		case CLOVER:
 		case STAFF:
-		case WEAVE:
+		case MULTI_USE:
 
 			break;
 

@@ -2704,7 +2704,7 @@
 2695	632041342	cup of primitive beer
 2696	846092406	ovoid leather thing
 2697	453222342	duct tape
-2698
+2698		duct tape wallet
 2699
 2700
 2701
