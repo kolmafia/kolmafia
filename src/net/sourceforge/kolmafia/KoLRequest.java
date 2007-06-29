@@ -803,11 +803,8 @@ public class KoLRequest extends Job implements KoLConstants
 			if ( shouldDelay )
 			{
 				lastRequestTime = System.currentTimeMillis();
-
-				if ( KoLCharacter.getTotalTurnsUsed() >= 5000 )
-					delay( RNG.nextInt( MAXIMUM_DELAY ) + MAXIMUM_DELAY );
-				else
-					delay( RNG.nextInt( VARIABLE_DELAY ) + FIXED_DELAY );
+				delay( RNG.nextInt( VARIABLE_DELAY ) +
+					Math.max( FIXED_DELAY, Math.min( MAXIMUM_DELAY, KoLCharacter.getTotalTurnsUsed() ) ) );
 			}
 
 			if ( !this.prepareConnection() && KoLmafia.refusesContinue() )
