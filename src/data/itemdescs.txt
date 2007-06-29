@@ -2398,7 +2398,7 @@
 2389	762465625	Monstar energy beverage
 2390
 2391
-2392
+2392	659726228	natty blue ascot
 2393
 2394
 2395
@@ -2434,7 +2434,7 @@
 2425
 2426
 2427
-2428
+2428	499464237	fake blood
 2429
 2430
 2431
@@ -2521,7 +2521,7 @@
 2512	322746900	Hippy Army MPE
 2513
 2514
-2515
+2515	302909159	gearbox necklace
 2516
 2517
 2518	772560168	sawblade shield
@@ -2620,10 +2620,10 @@
 2611	772498529	palm-frond cloak
 2612	677931153	ancient vinyl coin purse
 2613	786869929	rocky raccoon
-2614
+2614	551940191	mojo filter
 2615	593431148	savoy truffle
 2616	519345281	ancient Magi-Wipes
-2617
+2617	469871440	big boom
 2618	262135573	Iiti Kitty phone charm
 2619	854451522	jar of swamp gas	jars of swamp gas
 2620	294466303	unidentified jerky
@@ -2700,9 +2700,9 @@
 2691	491676088	handful of nuts and berries
 2692	121281158	giant driftwood sculpture
 2693	518876414	massive sitar
-2694
-2695
-2696
+2694	879395180	stone baseball cap
+2695	632041342	cup of primitive beer
+2696	846092406	ovoid leather thing
 2697	453222342	duct tape
 2698
 2699
@@ -2752,7 +2752,7 @@
 2743	941463343	steel margarita
 2744		steel-scented air freshener
 2745
-2746
+2746	658492681	Extra-potent gremlin mutagen
 2747	714178698	chunk of depleted Grimacite	chunks of depleted Grimacite
 2748	623524316	furniture dolly
 2749	578975886	Staff of the Grease Trap
@@ -2768,7 +2768,7 @@
 2759
 2760
 2761
-2762
+2762	116375988	Orange Star of Sacrifice
 2763
 2764
 2765
@@ -2776,7 +2776,7 @@
 2767
 2768
 2769
-2770
+2770	477113151	chunk of rock salt
 2771	173491862	handful of pine needles
 2772
 2773
@@ -2834,3 +2834,5 @@
 2825
 2826	716016442	Staff of the Kitchen Floor
 2827	277422118	anniversary gift box
+2828
+2829	714527088	really dense meat stack
