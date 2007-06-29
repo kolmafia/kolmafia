@@ -734,13 +734,29 @@ public class ItemManageFrame extends KoLFrame
 				public boolean isVisible( Object element )
 				{
 					Concoction creation = (Concoction) element;
-					AdventureResult item = creation.getItem();
+
+					int fullness = TradeableItemDatabase.getFullness( creation.getName() );
+					int inebriety = TradeableItemDatabase.getInebriety( creation.getName() );
+
+					if ( fullness > 0 )
+					{
+						if ( !QueuePanel.this.food )
+							return false;
+					}
+					else if ( inebriety > 0 )
+					{
+						if ( !QueuePanel.this.booze )
+							return false;
+					}
+					else
+						return false;
 
 					if ( creation.getTotal() == 0 )
 						return false;
 
 					if ( QueuePanel.this.filters[0].isSelected() )
 					{
+						AdventureResult item = creation.getItem();
 						if ( item != null && item.getCount( inventory ) == 0 )
 							return false;
 					}
@@ -766,15 +782,7 @@ public class ItemManageFrame extends KoLFrame
 							return false;
 					}
 
-					int fullness = TradeableItemDatabase.getFullness( creation.getName() );
-					int inebriety = TradeableItemDatabase.getInebriety( creation.getName() );
-
-					if ( fullness > 0 )
-						return QueuePanel.this.food && super.isVisible( element );
-					else if ( inebriety > 0 )
-						return QueuePanel.this.booze && super.isVisible( element );
-					else
-						return false;
+					return super.isVisible( element );
 				}
 			}
 		}

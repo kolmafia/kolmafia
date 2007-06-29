@@ -166,7 +166,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 				bogus = true;
 				continue;
 			}
-				
+
 			ingredients[ i - 2 ] = ingredient;
 		}
 
@@ -472,11 +472,13 @@ public class ConcoctionsDatabase extends KoLDatabase
 		item.initial = available;
 		item.creatable = 0;
 		item.total = available;
+		item.visibleTotal = available;
 
 		item = concoctions.get( item2.getItemId() );
 		item.initial = available;
 		item.creatable = 0;
 		item.total = available;
+		item.visibleTotal = available;
 	}
 
 	/**
@@ -528,12 +530,14 @@ public class ConcoctionsDatabase extends KoLDatabase
 				item.initial = concoction.getCount( availableIngredients ) + KoLCharacter.getAvailableMeat() / price;
 				item.creatable = 0;
 				item.total = item.initial;
+				item.visibleTotal = item.total;
 			}
 			else if ( !isPermittedMethod( item.getMixingMethod() ) )
 			{
 				item.initial = concoction.getCount( availableIngredients );
 				item.creatable = 0;
 				item.total = item.initial;
+				item.visibleTotal = item.total;
 			}
 		}
 
@@ -646,6 +650,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		creation.initial = item.getCount( availableIngredients );
 		creation.creatable = creatable;
 		creation.total = creation.initial + creatable;
+		creation.visibleTotal = creation.total;
 	}
 
 	/**
@@ -663,6 +668,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		adventureLimit.initial = KoLCharacter.getAdventuresLeft() - queuedAdventuresUsed;
 		adventureLimit.creatable = 0;
 		adventureLimit.total = KoLCharacter.getAdventuresLeft();
+		adventureLimit.visibleTotal = adventureLimit.total;
 
 		// Stills are also considered Item #0 in the event that the
 		// concoction will use stills.
@@ -670,6 +676,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		stillsLimit.initial = KoLCharacter.getStillsAvailable() - queuedStillsUsed;
 		stillsLimit.creatable = 0;
 		stillsLimit.total = stillsLimit.initial;
+		stillsLimit.visibleTotal = stillsLimit.total;
 
 		calculateBasicItems( availableIngredients );
 
@@ -1264,7 +1271,10 @@ public class ConcoctionsDatabase extends KoLDatabase
 			this.total = this.initial;
 
 			if ( !isPermittedMethod( this.mixingMethod ) )
+			{
+				this.visibleTotal = this.total;
 				return;
+			}
 
 			// First, preprocess the ingredients by calculating
 			// how many of each ingredient is possible now.
