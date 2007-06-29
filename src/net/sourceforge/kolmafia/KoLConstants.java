@@ -247,7 +247,7 @@ public interface KoLConstants extends UtilityConstants
 
 	public static final int EXPENSIVE_JEWELRY = 25;
 	public static final int STAFF = 26;
-	public static final int WEAVE = 27;
+	public static final int MULTI_USE = 27;
 
 	// Colors which are used to handle the various KoLmafia states.
 	// Used when changing the display.
