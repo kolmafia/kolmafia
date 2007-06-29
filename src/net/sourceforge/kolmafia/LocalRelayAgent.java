@@ -190,7 +190,6 @@ public class LocalRelayAgent extends Thread
 		}
 		catch ( Exception e )
 		{
-			StaticEntity.printStackTrace( e );
 		}
 
 		this.closeRelay( this.socket, this.reader, this.writer );
