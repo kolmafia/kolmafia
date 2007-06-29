@@ -175,6 +175,7 @@ hockey stick of furious angry rage	ML: +30
 ice skates	Init: +15.0, Meat: +15.0
 incredibly dense meat gem	Meat: +25.0
 infernal insoles	Hot: +10, Init: +10.0
+Lord Spookyraven's ear trumpet	Init: +25.0
 lucky rabbit's foot	Item: +7.0, Meat: +7.0
 makeshift cape	Item: +5.0
 makeshift SCUBA gear	Stench: +20
