@@ -1109,7 +1109,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			float adventures2 = parseFloat( TradeableItemDatabase.getAdventureRange( ((Concoction)o).name ) );
 
 			if ( adventures1 != adventures2 )
-				return (int) (adventures2 - adventures1);
+				return adventures2 - adventures1 > 0 ? 1 : -1;
 
 			return this.name.compareToIgnoreCase( ((Concoction)o).name );
 		}
@@ -1145,7 +1145,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		}
 
 		public int getTotal()
-		{	return this.visibleTotal;
+		{	return Math.max( 1, this.visibleTotal );
 		}
 
 		public int getQueued()
