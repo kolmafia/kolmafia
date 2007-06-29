@@ -702,7 +702,6 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			StaticEntity.getClient().runBetweenBattleChecks( this.shouldRunFullCheck );
 
 		String action = StaticEntity.getProperty( "battleAction" );
-		FightRequest.setDelayActive( KoLCharacter.getTotalTurnsUsed() >= 5000 || this.isLikelyStasisFarming() );
 
 		// Validate the adventure before running it.
 		// If it's invalid, return and do nothing.
@@ -803,6 +802,8 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 				AdventureFrame.updateSelectedAdventure( this );
 				CharsheetFrame.updateSelectedAdventure( this );
 			}
+
+			FightRequest.setDelayActive( KoLCharacter.getTotalTurnsUsed() >= 5000 || this.isLikelyStasisFarming() );
 		}
 
 		if ( !KoLmafia.isAdventuring() )
