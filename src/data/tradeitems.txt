@@ -2444,7 +2444,7 @@
 2441	Knob Goblin encryption key	0	none	0
 2442	Cobb's Knob map	3	none	0
 2443	pink glowstick	8	display	0
-2444	Supernova Champagne	1	all	180
+2444	Supernova Champagne	2	all	180
 2445	Deactivated O. A. F.	5	all	0
 2446	hardware upgrade	7	all	75
 2447	bad penguin egg	5	all	0
