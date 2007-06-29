@@ -108,6 +108,7 @@ Sombrero De Vida	50	Mox: 10
 spooky hockey mask	100	Mox: 35
 stainless steel skullcap	90	Mox: 30
 star hat	165	Mox: 67
+stone baseball cap	195	Mox: 82
 superhero mask	10	none
 The Colander of Em-er'il	50	Mys: 10
 The Scalp of Gorgolok	50	Mus: 10
@@ -150,6 +151,7 @@ Crimbo pants	100	Mox: 35
 demonskin trousers	70	Mox: 20
 distressed denim pants	170	Mox: 70
 dungeoneer's dungarees	30	none
+Danglin' Chad's loincloth	200	Mox: 75
 Dyspepsi-Cola fatigues	30	none
 filthy corduroys	60	Mox: 15
 flowing hippy skirt	180	Mox: 75
@@ -729,6 +731,7 @@ flashing novelty button	0	none
 furniture dolly	0	Mys: 75
 fuzzy bracelets	0	none
 Gaia beads	0	Mys: 72
+gearbox necklace	0	Mys: 75
 giant pinky ring	0	Mys: 35
 glowing red eye	0	Mys: 60
 gnatwing earring	0	Mys: 20
@@ -779,7 +782,9 @@ Mr. Eh?	0	none
 Mr. Exploiter	0	none
 monster bait	0	none
 Ms. Accessory	0	none
+natty blue ascot	0	Mys: 0
 orange glowstick	0	none
+Orange Star of Sacrifice	0	Mys: 85
 peace-sign necklace	0	Mys: 20
 phat turquoise bracelet	0	Mys: 20
 Pine-Fresh air freshener	0	Mys: 10
@@ -895,6 +900,7 @@ Warehouse 23 bling	0	none
 wheel	0	none
 white belt	0	Mus: 5
 white collar	0	none
+woven baling wire bracelets	0	Mys: 75
 Xlyinia's notebook	0	none
 x-ray specs	0	none
 ye olde golde frontes	0	none

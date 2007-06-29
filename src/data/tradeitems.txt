@@ -1,7 +1,5 @@
 #	vial of mojo	0	none	0
 #	Turtle Chain	0	none	0
-#	Chelonian Morningstar	12	none	0
-#	Shagadelic Disco Banjo	12	none	0
 
 1	seal-clubbing club	12	all	1
 2	seal tooth	3	all	1
@@ -2042,9 +2040,9 @@
 2037	wintergreen-flavored potato chips	4	display	30
 2038	ennui-flavored potato chips	4	display	30
 2039	x-ray specs	8	gift	5
-2040
+2040	patchouli oil bomb	0	all	150
 2041	ferret bait	0	all	150
-2042
+2042	exploding hacky-sack	0	all	150
 2043	macrame net	0	all	150
 2044	your father's MacGuffin diary	0	none	0
 2045
@@ -2346,9 +2344,9 @@
 2341	black pepper	0	all	40
 2342	black forest cake	1	all	40
 2343	black forest ham	1	all	40
-2344	filthworm hatchling scent gland	0	none	0
-2345	filthworm drone scent gland	0	none	0
-2346	filthworm royal guard scent gland	0	none	0
+2344	filthworm hatchling scent gland	1	none	0
+2345	filthworm drone scent gland	1	none	0
+2346	filthworm royal guard scent gland	1	none	0
 2347	heart of the filthworm queen	0	none	0
 2348	water pipe bomb	0	all	150
 2349	gas balloon	0	all	150
@@ -2360,8 +2358,8 @@
 2355	henna face paint	5	all	85
 2356	tube of dread wax	4	all	85
 2357	Gaia beads	8	all	210
-2358	pink clay bead	0	unknown	-1
-2359
+2358	pink clay bead	0	all	0
+2359	purple clay bead	0	all	0
 2360	green clay bead	0	all	0
 2361	hippy medical kit	0	all	140
 2362
@@ -2384,8 +2382,8 @@
 2379	banana smoothie	4	all	0
 2380	dandy lion cub	5	all	0
 2381	woolen cravat	7	all	75
-2382	red class ring	0	unknown	-1
-2383
+2382	red class ring	0	none	0
+2383	blue class ring	0	none	0
 2384	white class ring	0	none	0
 2385	bottle opener belt buckle	8	all	85
 2386	keg shield	13	all	135
@@ -2394,9 +2392,9 @@
 2389	Monstar energy beverage	4	all	75
 2390
 2391
-2392	natty blue ascot	0	unknown	-1
+2392	natty blue ascot	8	all	0
 2393
-2394
+2394	Danglin' Chad's loincloth	10	all	0
 2395
 2396
 2397
@@ -2406,8 +2404,8 @@
 2401	beer bong	12	all	185
 2402	gauze garter	4	all	85
 2403	barrel of gunpowder	0	none	0
-2404	jam band flyers	0	unknown	-1
-2405	rock band flyers	0	unknown	-1
+2404	jam band flyers	0	all	0
+2405	rock band flyers	0	all	0
 2406	Panda outfit	7	none	0
 2407	pink bat eye	0	none	0
 2408	worthless piece of yellow glass	0	none	0
@@ -2430,7 +2428,7 @@
 2425
 2426
 2427
-2428	fake blood	0	unknown	-1
+2428	fake blood	4	all	0
 2429
 2430
 2431
@@ -2499,11 +2497,11 @@
 2494	Necrotelicomnicon	13	all	2000
 2495	Cookbook of the Damned	13	all	2000
 2496	Sinful Desires	13	all	2000
-2497
-2498
-2499
-2500
-2501
+2497	molybdenum magnet	0	none	0
+2498	molybdenum hammer	0	none	0
+2499	molybdenum screwdriver	0	none	0
+2500	molybdenum pliers	0	none	0
+2501	molybdenum crescent wrench	0	none	0
 2502	Really Expensive Jewelry and You	3	all	2500
 2503	extra-fancy ring setting	0	all	250
 2504	precious piercing post	0	all	250
@@ -2516,8 +2514,8 @@
 2511	Frat Army FGF	4	all	175
 2512	Hippy Army MPE	4	all	175
 2513
-2514
-2515	gearbox necklace	0	unknown	-1
+2514	woven baling wire bracelets	8	display	400
+2515	gearbox necklace	8	display	450
 2516
 2517
 2518	sawblade shield	13	display	150
@@ -2558,9 +2556,9 @@
 2553
 2554	distilled seal blood	0	none	0
 2555	high-octane olive oil	0	none	0
-2556
+2556	Shagadelic Disco Banjo	12	none	0
 2557	Squeezebox of the Ages	12	none	0
-2558	chelonian morningstar	0	unknown	-1
+2558	Chelonian Morningstar	12	none	0
 2559	Hammer of Smiting	12	none	0
 2560	17-Alarm Saucepan	12	none	0
 2561	Greek Pasta of Peril	12	none	0
@@ -2574,8 +2572,8 @@
 2569	ant agonist	4	all	85
 2570	ant hoe	7	all	75
 2571	ant rake	7	all	75
-2572
-2573
+2572	ant pitchfork	7	all	75
+2573	ant sickle	7	all	75
 2574	ant pick	7	all	75
 2575	bronzed locust	0	all	55
 2576	honey-dipped locust	4	all	115
@@ -2616,10 +2614,10 @@
 2611	palm-frond cloak	11	all	145
 2612	ancient vinyl coin purse	4	all	50
 2613	rocky raccoon	0	all	75
-2614	mojo filter	0	unknown	-1
+2614	mojo filter	3	all	125
 2615	savoy truffle	1	all	90
 2616	ancient Magi-Wipes	3	all	60
-2617	big boom	0	unknown	-1
+2617	big boom	0	all	150
 2618	Iiti Kitty phone charm	8	all	175
 2619	jar of swamp gas	0	all	0
 2620	unidentified jerky	1	all	90
@@ -2696,10 +2694,10 @@
 2691	handful of nuts and berries	1	all	20
 2692	giant driftwood sculpture	12	all	175
 2693	massive sitar	12	all	125
-2694	stone baseball cap	0	unknown	-1
-2695	cup of primitive beer	0	unknown	-1
-2696	ovoid leather thing	0	unknown	-1
-2697	duct tape	4	display	25
+2694	stone baseball cap	9	all	150
+2695	cup of primitive beer	2	all	30
+2696	ovoid leather thing	0	all	150
+2697	duct tape	0	display	25
 2698
 2699
 2700
@@ -2729,9 +2727,9 @@
 2724
 2725
 2726
-2727
-2728
-2729
+2727	plum	1	all	150
+2728	pear	1	all	150
+2729	peach	1	all	150
 2730
 2731
 2732
@@ -2748,7 +2746,7 @@
 2743	steel margarita	2	none	0
 2744	steel-scented air freshener	3	none	0
 2745
-2746	Extra-potent gremlin mutagen	0	unknown	-1
+2746	Extra-potent gremlin mutagen	4	all	184
 2747	chunk of depleted Grimacite	0	all	0
 2748	furniture dolly	8	all	180
 2749	Staff of the Grease Trap	12	display	25
@@ -2764,7 +2762,7 @@
 2759
 2760
 2761
-2762	Orange Star of Sacrifice	0	unknown	-1
+2762	Orange Star of Sacrifice	8	display	5000
 2763
 2764
 2765
@@ -2772,7 +2770,7 @@
 2767
 2768
 2769
-2770	chunk of rock salt	0	unknown	-1
+2770	chunk of rock salt	4	all	145
 2771	handful of pine needles	4	all	125
 2772
 2773
@@ -2831,4 +2829,4 @@
 2826	Staff of the Kitchen Floor	12	display	25
 2827	anniversary gift box	3	none	0
 2828
-2829	really dense meat stack	0	unknown	-1
+2829	really dense meat stack	0	all	5000

@@ -2046,9 +2046,9 @@
 2037	185961646	wintergreen-flavored potato chips	bags of wintergreen-flavored potato chips
 2038	603445016	ennui-flavored potato chips	bags of ennui-flavored potato chips
 2039	488460864	x-ray specs	pairs of x-ray specs
-2040
+2040	338636112	patchouli oil bomb
 2041	665792687	ferret bait
-2042
+2042	380296478	exploding hacky-sack
 2043	376426839	macrame net
 2044	972316396	your father's MacGuffin diary
 2045
@@ -2109,11 +2109,11 @@
 2100		shredded can label
 2101	968837261	bloodstained briquette	bloodstained briquettes
 2102		greasy dreadlock
-2103		vial of pirate sweat
+2103	724634831	vial of pirate sweat
 2104		empty aftershave bottle
 2105	270480542	coal button
 2106		burned-out arcanodiode
-2107		non-Euclidean hoof
+2107		non-Euclidean hoof	non-Euclidean hooves
 2108	807981274	rock	rocks
 2109	775430978	stringy sinew	stringy sinews
 2110	580256883	stick	sticks
@@ -2364,8 +2364,8 @@
 2355	443508071	henna face paint
 2356	844938124	tube of dread wax
 2357	386374860	Gaia beads
-2358		pink clay bead
-2359
+2358	519786414	pink clay bead
+2359	198133175	purple clay bead
 2360	791987367	green clay bead
 2361	564212733	hippy medical kit
 2362
@@ -2388,8 +2388,8 @@
 2379	352126029	banana smoothie	banana smoothies
 2380	970092410	dandy lion cub
 2381	984568569	woolen cravat	woolen cravats
-2382
-2383
+2382	778302977	red class ring
+2383	594897945	blue class ring
 2384	363770570	white class ring
 2385	874194460	bottle opener belt buckle
 2386	268412638	keg shield
@@ -2400,7 +2400,7 @@
 2391
 2392	659726228	natty blue ascot
 2393
-2394
+2394	329154278	Danglin' Chad's loincloth
 2395
 2396
 2397
@@ -2410,8 +2410,8 @@
 2401	269933574	beer bong
 2402	971643916	gauze garter
 2403	615941452	barrel of gunpowder
-2404
-2405
+2404	116100873	jam band flyers
+2405	156162263	rock band flyers
 2406	523972566	Panda outfit
 2407	137700149	pink bat eye
 2408	881309316	worthless piece of yellow glass
@@ -2503,11 +2503,11 @@
 2494	196267512	Necrotelicomnicon	copies of the Necrotelicomnicon
 2495	390714480	Cookbook of the Damned	copies of The Cookbook of the Damned
 2496	318164531	Sinful Desires	copies of Sinful Desires
-2497
-2498
-2499
-2500
-2501
+2497	231768415	molybdenum magnet
+2498	529685416	molybdenum hammer
+2499	525840692	molybdenum screwdriver
+2500	675310213	molybdenum pliers
+2501	293388034	molybdenum crescent wrench
 2502	521087234	Really Expensive Jewelry and You
 2503	668101271	extra-fancy ring setting
 2504	681992821	precious piercing post
@@ -2520,7 +2520,7 @@
 2511	738860128	Frat Army FGF
 2512	322746900	Hippy Army MPE
 2513
-2514
+2514	491779381	woven baling wire bracelets
 2515	302909159	gearbox necklace
 2516
 2517
@@ -2562,9 +2562,9 @@
 2553
 2554	824288182	distilled seal blood
 2555	247415821	high-octane olive oil
-2556
+2556		Shagadelic Disco Banjo
 2557	632445399	Squeezebox of the Ages
-2558
+2558		Chelonian Morningstar
 2559	723621502	Hammer of Smiting
 2560	811211086	17-Alarm Saucepan
 2561	370831124	Greek Pasta of Peril
@@ -2578,8 +2578,8 @@
 2569	820254596	ant agonist
 2570	901944647	ant hoe
 2571	914338533	ant rake
-2572
-2573
+2572	418725230	ant pitchfork
+2573	235040244	ant sickle
 2574	577092879	ant pick
 2575	991245163	bronzed locust
 2576	300470894	honey-dipped locust
@@ -2733,9 +2733,9 @@
 2724
 2725
 2726
-2727
-2728
-2729
+2727	376083890	plum	
+2728	520105503	pear	
+2729	907314341	peach	
 2730
 2731
 2732
@@ -2786,12 +2786,12 @@
 2777		filigreed hamethyst earring
 2778	408625270	filigreed hamethyst necklace
 2779	151804649	filigreed hamethyst ring
-2780		solid baconstone earring
-2781		solid baconstone necklace
+2780	916123995	solid baconstone earring
+2781	290023562	solid baconstone necklace
 2782	576789283	solid baconstone ring
 2783		pulled porquoise earring
-2784		pulled porquoise pendant
-2785		pulled porquoise ring
+2784	552153163	pulled porquoise pendant
+2785	454445649	pulled porquoise ring
 2786
 2787
 2788
