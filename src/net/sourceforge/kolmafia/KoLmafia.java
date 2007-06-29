@@ -3398,6 +3398,18 @@ public abstract class KoLmafia implements KoLConstants
 			RequestLogger.closeSessionLog();
 			RequestLogger.closeDebugLog();
 			RequestLogger.closeMirror();
+
+			try
+			{
+				SESSION_HOLDER.close();
+				SESSION_FILE.delete();
+			}
+			catch ( Exception e )
+			{
+				// That means the file either doesn't exist or the
+				// session holder was somehow closed.  Ignore and
+				// fall through.
+			}
 		}
 	}
 }
