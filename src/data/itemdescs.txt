@@ -2049,7 +2049,7 @@
 2040
 2041	665792687	ferret bait
 2042
-2043
+2043	376426839	macrame net
 2044	972316396	your father's MacGuffin diary
 2045
 2046
@@ -2350,23 +2350,23 @@
 2341	386692175	black pepper	shakers of black pepper
 2342	233137570	black forest cake	slices of black forest cake
 2343	332243935	black forest ham	black forest hams
-2344
-2345
-2346
-2347
+2344	568220082	filthworm hatchling scent gland
+2345	444254702	filthworm drone scent gland
+2346	811000314	filthworm royal guard scent gland
+2347	148218101	heart of the filthworm quee
 2348	470150001	water pipe bomb
 2349	183606177	gas balloon
 2350	263689541	beer bomb
-2351
+2351	728656237	superamplified boom box
 2352	784968970	fire poi
 2353	739124687	bejeweled pledge pin
 2354	441541362	communications windchimes
 2355	443508071	henna face paint
 2356	844938124	tube of dread wax
 2357	386374860	Gaia beads
-2358
+2358		pink clay bead
 2359
-2360
+2360	791987367	green clay bead
 2361	564212733	hippy medical kit
 2362
 2363
@@ -2390,7 +2390,7 @@
 2381	984568569	woolen cravat	woolen cravats
 2382
 2383
-2384
+2384	363770570	white class ring
 2385	874194460	bottle opener belt buckle
 2386	268412638	keg shield
 2387	709828596	giant foam finger
@@ -2409,7 +2409,7 @@
 2400	149097593	molotov cocktail cocktail
 2401	269933574	beer bong
 2402	971643916	gauze garter
-2403
+2403	615941452	barrel of gunpowder
 2404
 2405
 2406	523972566	Panda outfit
@@ -2691,15 +2691,15 @@
 2682	692188284	detuned radio	detuned radios
 2683	425159430	Warehouse 23 crate	Warehouse 23 crates
 2684
-2685
-2686
+2685	831641508	fancy seashell necklace
+2686	780091889	commemorative war stein
 2687	168728940	stone frisbee
 2688	898943191	dreadlock whip
-2689
-2690
+2689	550532424	beer-a-pult
+2690	397320315	cast-iron legacy paddle
 2691	491676088	handful of nuts and berries
-2692
-2693
+2692	121281158	giant driftwood sculpture
+2693	518876414	massive sitar
 2694
 2695
 2696

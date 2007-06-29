@@ -92,10 +92,28 @@ Cyrpt	40/40	cyrpt=Yep.	Haert of the Cyrpt
 
 Island	0/30	adventure=26	Hippy Camp	outfit
 Island	0/30	adventure=65	Hippy Camp In Disguise
+Island	0/30	adventure=133	Wartime Hippy Camp
+Island	0/30	adventure=131	Wartime Hippy Camp In Frat Disguise 
 Island	0/30	adventure=27	Frat House
 Island	0/30	adventure=29	Frat House In Disguise
+Island	0/30	adventure=135	Wartime Frat House
+Island	0/30	adventure=134	Wartime Frat House In Hippy Disguise
 Island	0/45	adventure=66	Pirate Cove	outfit
 Island	0/45	adventure=67	Pirate Cove In Disguise	1 abridged dictionary
+
+Wartime Island	125/125	adventure=132	Battlefield (Frat Uniform)
+Junkyard	125/125	adventure=139	The Junkyard
+Lighthouse	125/125	adventure=136	Sonofa Beach
+Wartime Island	125/125	adventure=140	Battlefield (Hippy Uniform)
+Nunnery	125/124	adventure=126	The Themthar Hills
+Orchard	125/125	adventure=127	The Hatching Chamber
+Orchard	125/125	adventure=128	The Feeding Chamber
+Orchard	125/125	adventure=129	The Guards' Chamber
+Orchard	125/125	adventure=130	The Queen's Chamber
+Farm	125/125	adventure=137	McMillicancuddy's Barn
+Farm	125/125	adventure=141	McMillicancuddy's Pond
+Farm	125/125	adventure=142	McMillicancuddy's Back 40
+Farm	125/125	adventure=143	McMillicancuddy's Other Back 40
 
 Mountain	0/0	adventure=91	Noob Cave
 Mountain	0/0	adventure=92	The Dire Warren	level 2

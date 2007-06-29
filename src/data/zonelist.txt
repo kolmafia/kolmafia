@@ -30,6 +30,15 @@ MoxSign	Beach	Moxie Sign
 Pyramid	Beach	Ancient Buried Pyramid	pyramid.php
 
 Island	Island	Mysterious Island
+
+Wartime Island	Wartime Island	Wartime Island	bigisland.php
+Junkyard	Wartime Island	The Junkyard	bigisland.php?place=junkyard
+Arena	Wartime Island	Mysterious Island Arena	bigisland.php?place=concert
+Lighthouse	Wartime Island	The Lighthouse	bigisland.php?place=lighthouse
+Orchard	Wartime Island	The Organic Orchard	bigisland.php?place=orchard
+Farm	Wartime Island	McMillicancuddy's Farm	bigisland.php?place=orchard
+Nunnery	Wartime Island	Our Lady of Perpetual Indecision	bigisland.php?place=nunnery
+
 Beanstalk	Beanstalk	Above the Beanstalk
 Sorceress	Sorceress	Sorceress Lair
 
