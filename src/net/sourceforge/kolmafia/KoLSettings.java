@@ -424,10 +424,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		}
 		catch ( IOException e )
 		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
+			// This should not happen.
 		}
 	}
 
