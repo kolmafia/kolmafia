@@ -2384,7 +2384,7 @@
 2379	banana smoothie	4	all	0
 2380	dandy lion cub	5	all	0
 2381	woolen cravat	7	all	75
-2382
+2382	red class ring	0	unknown	-1
 2383
 2384	white class ring	0	none	0
 2385	bottle opener belt buckle	8	all	85
@@ -2394,7 +2394,7 @@
 2389	Monstar energy beverage	4	all	75
 2390
 2391
-2392
+2392	natty blue ascot	0	unknown	-1
 2393
 2394
 2395
@@ -2406,7 +2406,7 @@
 2401	beer bong	12	all	185
 2402	gauze garter	4	all	85
 2403	barrel of gunpowder	0	none	0
-2404
+2404	jam band flyers	0	unknown	-1
 2405	rock band flyers	0	unknown	-1
 2406	Panda outfit	7	none	0
 2407	pink bat eye	0	none	0
@@ -2430,7 +2430,7 @@
 2425
 2426
 2427
-2428
+2428	fake blood	0	unknown	-1
 2429
 2430
 2431
@@ -2517,7 +2517,7 @@
 2512	Hippy Army MPE	4	all	175
 2513
 2514
-2515
+2515	gearbox necklace	0	unknown	-1
 2516
 2517
 2518	sawblade shield	13	display	150
@@ -2560,7 +2560,7 @@
 2555	high-octane olive oil	0	none	0
 2556
 2557	Squeezebox of the Ages	12	none	0
-2558
+2558	chelonian morningstar	0	unknown	-1
 2559	Hammer of Smiting	12	none	0
 2560	17-Alarm Saucepan	12	none	0
 2561	Greek Pasta of Peril	12	none	0
@@ -2616,10 +2616,10 @@
 2611	palm-frond cloak	11	all	145
 2612	ancient vinyl coin purse	4	all	50
 2613	rocky raccoon	0	all	75
-2614
+2614	mojo filter	0	unknown	-1
 2615	savoy truffle	1	all	90
 2616	ancient Magi-Wipes	3	all	60
-2617
+2617	big boom	0	unknown	-1
 2618	Iiti Kitty phone charm	8	all	175
 2619	jar of swamp gas	0	all	0
 2620	unidentified jerky	1	all	90
@@ -2696,9 +2696,9 @@
 2691	handful of nuts and berries	1	all	20
 2692	giant driftwood sculpture	12	all	175
 2693	massive sitar	12	all	125
-2694
-2695
-2696
+2694	stone baseball cap	0	unknown	-1
+2695	cup of primitive beer	0	unknown	-1
+2696	ovoid leather thing	0	unknown	-1
 2697	duct tape	4	display	25
 2698
 2699
@@ -2748,7 +2748,7 @@
 2743	steel margarita	2	none	0
 2744	steel-scented air freshener	3	none	0
 2745
-2746
+2746	Extra-potent gremlin mutagen	0	unknown	-1
 2747	chunk of depleted Grimacite	0	all	0
 2748	furniture dolly	8	all	180
 2749	Staff of the Grease Trap	12	display	25
@@ -2764,7 +2764,7 @@
 2759
 2760
 2761
-2762
+2762	Orange Star of Sacrifice	0	unknown	-1
 2763
 2764
 2765
@@ -2772,7 +2772,7 @@
 2767
 2768
 2769
-2770
+2770	chunk of rock salt	0	unknown	-1
 2771	handful of pine needles	4	all	125
 2772
 2773
@@ -2830,3 +2830,5 @@
 2825
 2826	Staff of the Kitchen Floor	12	display	25
 2827	anniversary gift box	3	none	0
+2828
+2829	really dense meat stack	0	unknown	-1
