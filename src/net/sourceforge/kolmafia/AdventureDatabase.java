@@ -469,6 +469,26 @@ public class AdventureDatabase extends KoLDatabase
 		  new String [] { "mysticality substats", "seal-clubbing club", "Open Extended Island" },
 		  new String [] { null, "1", null } ),
 
+		// Catching Some Zetas
+		new ChoiceAdventure( "Island", "choiceAdventure143", "Frat House",
+		  new String [] { "muscle substats", "sake bombs", "enter combat" },
+		  new String [] { null, "2067", null } ),
+
+		// One Less Room Than In That Movie
+		new ChoiceAdventure( "Island", "choiceAdventure144", "Frat House",
+		  new String [] { "moxie substats", "beer bombs", "enter combat" },
+		  new String [] { null, "2350", null } ),
+
+		// Fratacombs
+		new ChoiceAdventure( "Island", "choiceAdventure145", "Frat House",
+		  new String [] { "muscle substats", "seal-clubbing club", "waste a turn" },
+		  new String [] { null, "1", null } ),
+
+		// Fratacombs
+		new ChoiceAdventure( "Island", "choiceAdventure146", "Frat House",
+		  new String [] { "muscle substats", "seal-clubbing club", "Open Extended Island" },
+		  new String [] { null, "1", null } ),
+
 		// Cornered!
 		new ChoiceAdventure( "Island", "choiceAdventure147", "McMillicancuddy's Barn",
 		  new String [] { "Open The Granary", "Open The Bog", "Open The Pond" },
