@@ -115,7 +115,9 @@ public class KoLDatabase extends StaticEntity
 		// Therefore, convert the string to unicode before converting
 		// it (back into) entities
 
-		return RequestEditorKit.getEntities( RequestEditorKit.getUnicode( name ) ).toLowerCase();
+		return StaticEntity.globalStringReplace(
+			RequestEditorKit.getEntities( RequestEditorKit.getUnicode( name ) ).toLowerCase(),
+			"  ", " " );
 	}
 
 	/**
