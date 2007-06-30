@@ -5926,16 +5926,14 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue buffed_hit_stat()
 		{
-			if ( KoLCharacter.rangedWeapon() )
-				return new ScriptValue( KoLCharacter.getAdjustedMoxie() );
-			return new ScriptValue( KoLCharacter.getAdjustedMuscle() );
+			int hitStat = KoLCharacter.getAdjustedHitStat();
+			return new ScriptValue( hitStat );
 		}
 
 		public ScriptValue current_hit_stat()
 		{
-			if ( KoLCharacter.rangedWeapon() )
-				return parseStatValue( "moxie" );
-			return parseStatValue( "muscle" );
+			String hitStat = KoLCharacter.getHitStatName();
+			return parseStatValue( hitStat );
 		}
 
 		public ScriptValue monster_element()

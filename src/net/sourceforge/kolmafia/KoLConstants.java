@@ -183,6 +183,13 @@ public interface KoLConstants extends UtilityConstants
 	public static final int PENDING_STATE  = 4;
 	public static final int CONTINUE_STATE = 5;
 
+	// Stats
+
+	public static final int NONE = 0;
+	public static final int MUSCLE = 1;
+	public static final int MYSTICALITY = 2;
+	public static final int MOXIE = 3;
+
 	// Item consumption types
 
 	public static final int NO_CONSUME = 0;
