@@ -4,8 +4,6 @@
 # hosted at KoL Coldfront.  http://kol.coldfront.net/thekolwiki/index.php
 #	222463880	vial of mojo
 #		Turtle Chain
-#		Chelonian Morningstar
-#		Shagadelic Disco Banjo
 
 1	868780591	seal-clubbing club	seal-clubbing clubs
 2	617818041	seal tooth	seal teeth
@@ -2757,19 +2755,19 @@
 2748	623524316	furniture dolly
 2749	578975886	Staff of the Grease Trap
 2750
-2751
-2752
+2751	773565726	Lead Zeta of Chastity
+2752		Aluminum Epsilon of Humility
 2753	529261022	Zinc Delta of Tranquility
-2754
-2755
-2756
+2754	325213168	Nickel Gamma of Frugality
+2755	552914658	Iron Beta of Industry
+2756		Copper Alpha of Sincerity
 2757
-2758
-2759
-2760
+2758		Purple Horseshoe of Honor
+2759	346885753	Blue Diamond of Honesty
+2760	325213174	Green Clover of Justice
 2761	684792550	Yellow Moon of Compassion
 2762	116375988	Orange Star of Sacrifice
-2763
+2763	125590014	Pink Heart of Spirit
 2764
 2765
 2766	642797054	solid gold bowling ball
@@ -2778,11 +2776,11 @@
 2769
 2770	477113151	chunk of rock salt
 2771	173491862	handful of pine needles
-2772
-2773
-2774
-2775
-2776
+2772	979351283	steamy ruby
+2773		glacial sapphire
+2774	116823791	unearthly onyx	unearthly onyxia
+2775	274380204	effluvious emerald
+2776	948533767	tawdry amethyst
 2777		filigreed hamethyst earring
 2778	408625270	filigreed hamethyst necklace
 2779	151804649	filigreed hamethyst ring

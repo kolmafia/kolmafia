@@ -314,7 +314,7 @@ carob cannon	135	Mox: 45	2-handed crossbow
 cast-iron legacy paddle	190	Mus: 80	2-handed club
 Cerebral Crossbow	90	Mox: 30	1-handed crossbow
 cheap plastic bottle opener	30	Mys: 0	1-handed utensil
-# Chelonian Morningstar	90	Mus: 15<	1-handed club
+Chelonian Morningstar	90	Mus: 15<	1-handed club
 chisel	10	Mus: 0	1-handed knife
 chopsticks	75	Mys: 23	1-handed utensil
 chrome crossbow	120	Mox: 45	2-handed crossbow
@@ -466,7 +466,7 @@ savory crossbow	80	Mox: 25	2-handed crossbow
 scorpion whip	20	Mus: 0	1-handed whip
 seal-clubbing club	10	Mus: 0	1-handed club
 serpentine sword	115	Mus: 42	1-handed sword
-# Shagadelic Disco Banjo	90	Mox: 15	2-handed banjo
+Shagadelic Disco Banjo	90	Mox: 15	2-handed banjo
 shiny butcherknife	30	Mys: 0	1-handed utensil
 shuddersword	125	Mus: 45	2-handed sword
 silver shrimp fork	120	Mys: 45	1-handed utensil
@@ -671,6 +671,7 @@ yakskin buckler	95	Mys: 30
 
 acid-squirting flower	0	Mys: 10
 albatross necklace	0	Mys: 15
+Aluminum Epsilon of Humility	0	Mys: 85
 amulet of extreme plot significance	0	Mys: 35
 Ankh of Badahnkadh	0	Mys: 67
 arrrgyle socks	0	Mys: 20
@@ -690,6 +691,7 @@ blackberry combat boots	0	Mys: 75
 blackberry moccasins	0	Mys: 75
 blackberry slippers	0	Mys: 75
 bling-bling	0	Mys: 7
+Blue Diamond of Honesty	0	Mys: 85
 blue ribbon	0	none
 Bonerdagon necklace	0	Mys: 25
 Boris's ring	0	Mys: 25
@@ -711,6 +713,7 @@ clownskin belt	0	Mus: 10
 club necklace	100	none
 colored-light "necklace"	0	Mys: 35
 consolation ribbon	0	none
+Copper Alpha of Sincerity	0	Mys: 85
 Counterclockwise Watch	0	none
 dead guy's watch	0	Mys: 10
 diamond necklace	0	none
@@ -737,6 +740,7 @@ glowing red eye	0	Mys: 60
 gnatwing earring	0	Mys: 20
 gnoll-tooth necklace	0	Mys: 10
 Golden Mr. Accessory	0	none
+Green Clover of Justice	0	Mys: 85
 green glowstick	0	none
 Grimacite galoshes	0	Mys: 17
 Grimacite garter	0	Mys: 17
@@ -756,6 +760,7 @@ imitation nice watch	0	Mys: 35
 incredibly dense meat gem	0	none
 infernal insoles	0	Mys: 15
 intergalactic pom poms	0	none
+Iron Beta of Industry	0	Mys: 85
 Item #13	0	none
 jar of anniversary jam	0	none
 Jarlsberg's earring	0	Mys: 25
@@ -766,6 +771,7 @@ knobby kneepads	0	none
 ladle of mystery	0	none
 left half of a heart necklace	0	none
 Lockenstock (TM) sandals	0	Mys: 10
+Lead Zeta of Chastity	0	Mys: 85
 Lord Spookyraven's ear trumpet	0	Mys: 40
 Lord Spookyraven's spectacles	0	none
 lucky Crimbo tiki necklace	0	none
@@ -784,11 +790,13 @@ monster bait	0	none
 Ms. Accessory	0	none
 natty blue ascot	0	Mys: 0
 orange glowstick	0	none
+Nickel Gamma of Frugality	0	Mys: 85
 Orange Star of Sacrifice	0	Mys: 85
 peace-sign necklace	0	Mys: 20
 phat turquoise bracelet	0	Mys: 20
 Pine-Fresh air freshener	0	Mys: 10
 pink glowstick	0	none
+Pink Heart of Spirit	0	Mys: 85
 plexiglass pendant	0	Mys: 75
 plexiglass pinky ring	0	Mys: 75
 plexiglass pocketwatch	0	Mys: 75
@@ -800,6 +808,7 @@ porquoise ring	0	Mys: 10
 pulled porquoise earring	0	Mys: 40
 pulled porquoise pendant	0	Mys: 40
 pulled porquoise ring	0	Mys: 40
+Purple Horseshoe of Honor	0	Mys: 85
 pygmy nose-bone	0	Mys: 62
 Radio KoL Keychain	0	none
 Radio KoL Antenna Ball	0	none

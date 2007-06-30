@@ -50,6 +50,7 @@ clown whip	Sleaze: +10
 crowbarrr	Init: +15.0
 Crimbo Ukelele	Item: +10.0
 dreadlock whip	ML: +10
+Drowsy Sword	ML: -10
 duck-on-a-string	Item: +5.0
 flaming juggler's balls	Exp: +2.0
 Frost&trade; brand sword	ML: +3
@@ -159,22 +160,28 @@ Travoltan trousers	Init: +30.0
 Tropical Crimbo Shorts	Init: +30.0
 white satin pants	Sleaze: +10
 
+Aluminum Epsilon of Humility	Item: +9.0
 baconstone bracelet	Mana: -1
 baconstone earring	Mana: -1
 Baron Von Ratsworth's money clip	Meat: +15.0
 Baron Von Ratsworth's monocle	Item: +10.0
 blackberry moccasins	DR: 3
+Blue Diamond of Honesty	Item: +9.0
 Bonerdagon necklace	Init: +30.0
+Copper Alpha of Sincerity	Item: +5.0
 disbelief suspenders	Sleaze: +10
 evil flaming eyeball pendant	Init: +15.0, Meat: +15.0
 glowing red eye	Spooky: +20
 gnatwing earring	Init: +10.0
+Green Clover of Justice	Item: +8.0
 Grimacite galoshes	Meat: +25.0
 Grimacite garget	Item: +25.0
 hockey stick of furious angry rage	ML: +30
 ice skates	Init: +15.0, Meat: +15.0
 incredibly dense meat gem	Meat: +25.0
 infernal insoles	Hot: +10, Init: +10.0
+Iron Beta of Industry	Item: +6.0
+Lead Zeta of Chastity	Item: +10.0
 Lord Spookyraven's ear trumpet	Init: +25.0
 lucky rabbit's foot	Item: +7.0, Meat: +7.0
 makeshift cape	Item: +5.0
@@ -182,12 +189,15 @@ makeshift SCUBA gear	Stench: +20
 monster bait	Combat: +5.0
 Mr. Accessory Jr.	Item: +25.0
 natty blue ascot	Meat: +20.0
+Nickel Gamma of Frugality	Item: +7.0
 Orange Star of Sacrifice	Item: +6.0
 peace-sign necklace	DR: 3
 Pine-Fresh air freshener	Stench: +10
+Pink Heart of Spirit	Item: +5.0
 plexiglass pinky ring	Cold: +30, Hot: +30, Sleaze: +30, Spooky: +30, Stench: +30
 plexiglass pocketwatch	Mana: -3
 porquoise necklace	Meat: +10.0
+Purple Horseshoe of Honor	Item: +10.0
 ring of aggravate monster	ML: +5
 ring of cold resistance	Cold: +20
 ring of conflict	Combat: -5.0

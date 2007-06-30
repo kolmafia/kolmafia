@@ -2751,19 +2751,19 @@
 2748	furniture dolly	8	all	180
 2749	Staff of the Grease Trap	12	display	25
 2750
-2751
-2752
+2751	Lead Zeta of Chastity	8	display	5000
+2752	Aluminum Epsilon of Humility	8	display	5000
 2753	Zinc Delta of Tranquility	8	display	5000
-2754
-2755
-2756
+2754	Nickel Gamma of Frugality	8	display	5000
+2755	Iron Beta of Industry	8	display	5000
+2756	Copper Alpha of Sincerity	8	display	5000
 2757
-2758
-2759
-2760
+2758	Purple Horseshoe of Honor	8	display	5000
+2759	Blue Diamond of Honesty	8	display	5000
+2760	Green Clover of Justice	8	display	5000
 2761	Yellow Moon of Compassion	8	display	5000
 2762	Orange Star of Sacrifice	8	display	5000
-2763
+2763	Pink Heart of Spirit	8	display	5000
 2764
 2765
 2766	solid gold bowling ball	0	all	5000
@@ -2772,11 +2772,11 @@
 2769
 2770	chunk of rock salt	4	all	145
 2771	handful of pine needles	4	all	125
-2772
-2773
-2774
-2775
-2776
+2772	steamy ruby	0	all	2500
+2773	glacial sapphire	0	all	2500
+2774	unearthly onyx	0	all	2500
+2775	effluvious emerald	0	all	2500
+2776	tawdry amethyst	0	all	2500
 2777	filigreed hamethyst earring	8	all	600
 2778	filigreed hamethyst necklace	8	all	600
 2779	filigreed hamethyst ring	8	all	600
