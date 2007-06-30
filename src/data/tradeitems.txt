@@ -2030,7 +2030,7 @@
 2027	Tofofu chow mein	1	all	109
 2028	Tofat appendix chow mein	1	all	130
 2029	hippy protest button	8	all	65
-2030	Lockenstock (TM) sandals	8	all	60
+2030	Lockenstock&trade; sandals	8	all	60
 2031	didgeridooka	12	all	165
 2032	bullet-proof corduroys	10	all	80
 2033	round purple sunglasses	8	all	80

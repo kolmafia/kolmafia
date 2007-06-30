@@ -3,7 +3,7 @@
 3	Confused	confused.gif
 4	Embarrassed	blush.gif
 5	Far Out	farout.gif
-6	Wings	wings.gif
+6	Wings	wings.gif	8cdb75aeb628bb9b9594908b7d0bfa74
 7	Beaten Up	beatenup.gif	acf143c704afaf7504ac07375084f79e
 8	Hardly Poisoned at All	poison.gif	13e148b2f71301e54e27001d6e603584
 9	Knob Goblin Perfume	spraycan.gif	12f74ff515842399be4b67bbc3550f79
@@ -136,7 +136,7 @@
 136	Mystic Pickleness	chicle.gif	c48f3970d1829eb3fc950c2d0f1b4a9b
 137	Spicy Mouth	chicle.gif	66aa65422caa01f4ed8ebb6fdd3b2293
 138	Hombre Muerto Caminando	candyskull.gif	63c3d6ed003472fbf82f8ffb03f39c20
-139	Purple Tongue	tongue.gif
+139	Purple Tongue	tongue.gif	454d465127f34454808d75bdbd388f29
 140	Green Tongue	tongue.gif	94e112e9d9e9899f283bbd1ddde77396
 141	Orange Tongue	tongue.gif	61c56f6a7d09a562062c41239da75670
 142	Red Tongue	tongue.gif	a4a570ed8e0e103525775af34f31f030
@@ -237,10 +237,10 @@
 237	Radium Radicality	tongue.gif
 238	Wintergreen Warmongery	angry.gif
 239	Also Schmeckt Zarathustra	waxlips.gif
-240	Vitamin-Maxed	goofballs.gif
-241	Got Your Boots On	boot.gif
-242	The Q Is Talking To You	q.gif
-243	Bad Luck	bmirror.gif
+240	Vitamin-Maxed	goofballs.gif	30b35877440e5cc89f36a65b15274a04
+241	Got Your Boots On	boot.gif	4021090627813d8ea662ca050395f338
+242	The Q Is Talking To You	q.gif	4d1451739cd618bf2dcdff61af68ae65
+243	Bad Luck	bmirror.gif	d7d35d7b14c7322fef4ddd80a0847473
 244	Deadly Flashing Blade	blacksword.gif	05bc11c2da34e7f6fe1511ec6850fe2e
 245	Locks Like the Raven	blackbird2.gif	6d4452e978741bda60e82e316fdd7ba5
 246	Smugness	happy.gif
