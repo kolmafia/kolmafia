@@ -191,7 +191,7 @@
 191	Spookyform	skull.gif
 192	Stenchform	stench.gif
 193	Sleazeform	wink.gif
-194	Hot Breath	breath.gif
+194	Hot Breath	breath.gif	7ecbd57bcb86d63be06bb6d4b8e7229f
 195	Cold Breath	breath.gif
 196	Spooky Breath	breath.gif	da5e91136fd36708b61f6d383376ff78
 197	Stinky Breath	breath.gif	8be4aecc48d39b0b8b7a0fd671bd4330
@@ -281,7 +281,7 @@
 281
 282	A Little Bit Poisoned	poison.gif
 283	Somewhat Poisoned	poison.gif
-284	Really Quite Poisoned	poison.gif
+284	Really Quite Poisoned	poison.gif	c14002a0af245653e9a319078a686d37
 285	Filthworm Larva Stench	stench.gif	f3549dbe538c81c2aa59362e8e8cc7cc
 286	Filthworm Drone Stench	stench.gif	36f72cea3c79d16aa285a02d9551f412
 287	Filthworm Guard Stench	stench.gif	eb09f56d4f878745cfedeef7e0815414

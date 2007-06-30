@@ -13,6 +13,7 @@ Beach	0/0	adventure=156	Grim Grimacite Site
 
 Pyramid	104/0	adventure=124	The Upper Chamber
 Pyramid	104/0	adventure=125	The Middle Chamber
+Pyramid	104/0	action=lower	The Lower Chambers
 
 Casino	0/0	casino=1	Goat Party
 Casino	0/0	casino=2	Pirate Party

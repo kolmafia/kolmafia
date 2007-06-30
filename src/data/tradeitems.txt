@@ -2317,8 +2317,8 @@
 2314	yellow candygram	4	none	0
 2315	green candygram	4	none	0
 2316	broken carburetor	0	all	4000
-2317
-2318
+2317	ancient bronze token	0	none	0
+2318	ancient bomb	0	none	0
 2319	carved wooden wheel	0	none	0
 2320	worm-riding manual page 1	0	none	0
 2321	worm-riding manual page 2	0	none	0
