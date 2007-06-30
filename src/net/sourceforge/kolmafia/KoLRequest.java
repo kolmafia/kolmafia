@@ -70,7 +70,7 @@ public class KoLRequest extends Job implements KoLConstants
 
 	private static int FIXED_DELAY = MINIMUM_DELAY;
 	private static int VARIABLE_DELAY = MINIMUM_DELAY >> 1;
-	private static int ADJUSTMENT_REFRESH = 150000;
+	private static int ADJUSTMENT_REFRESH = 120000;
 
 	private static final Object WAIT_OBJECT = new Object();
 
@@ -826,7 +826,7 @@ public class KoLRequest extends Job implements KoLConstants
 		else if ( System.currentTimeMillis() - lastAdjustTime > ADJUSTMENT_REFRESH )
 		{
 			FIXED_DELAY = Math.max( MINIMUM_DELAY, FIXED_DELAY - 1000 );
-			VARIABLE_DELAY = FIXED_DELAY >> 2;
+			VARIABLE_DELAY = FIXED_DELAY >> 1;
 			lastAdjustTime = FIXED_DELAY == MINIMUM_DELAY ? Long.MAX_VALUE : System.currentTimeMillis();
 		}
 	}
