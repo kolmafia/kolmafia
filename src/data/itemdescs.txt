@@ -2402,8 +2402,8 @@
 2393
 2394	329154278	Danglin' Chad's loincloth
 2395
-2396
-2397
+2396	171093881	chloroform rag
+2397	596770614	depantsing bomb
 2398	139612153	energy drink IV
 2399
 2400	149097593	molotov cocktail cocktail
@@ -2523,7 +2523,7 @@
 2514	491779381	woven baling wire bracelets
 2515	302909159	gearbox necklace
 2516
-2517
+2517	152836438	rusty chain necklace
 2518	772560168	sawblade shield
 2519
 2520
@@ -2733,9 +2733,9 @@
 2724
 2725
 2726
-2727	376083890	plum	
-2728	520105503	pear	
-2729	907314341	peach	
+2727	376083890	plum
+2728	520105503	pear
+2729	907314341	peach
 2730
 2731
 2732
@@ -2751,7 +2751,7 @@
 2742	433679934	steel lasagna
 2743	941463343	steel margarita
 2744		steel-scented air freshener
-2745
+2745	181938691	gremlin mutagen
 2746	658492681	Extra-potent gremlin mutagen
 2747	714178698	chunk of depleted Grimacite	chunks of depleted Grimacite
 2748	623524316	furniture dolly
@@ -2767,7 +2767,7 @@
 2758
 2759
 2760
-2761
+2761	684792550	Yellow Moon of Compassion
 2762	116375988	Orange Star of Sacrifice
 2763
 2764
