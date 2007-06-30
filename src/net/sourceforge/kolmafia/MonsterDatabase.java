@@ -544,14 +544,9 @@ public class MonsterDatabase extends KoLDatabase
 		public boolean willUsuallyMiss( int defenseModifier )
 		{
 			int ml = KoLCharacter.getMonsterLevelAdjustment() + defenseModifier;
-			int hitstat;
+			int hitStat = KoLCharacter.getAdjustedHitStat();
 
-			if ( KoLCharacter.rangedWeapon() )
-				hitstat = KoLCharacter.getAdjustedMoxie() - ml;
-			else
-				hitstat = KoLCharacter.getAdjustedMuscle() - ml;
-
-			return AreaCombatData.hitPercent( hitstat, this.defense ) <= 50.0f;
+			return AreaCombatData.hitPercent( hitStat - ml, this.defense ) <= 50.0f;
 		}
 	}
 }

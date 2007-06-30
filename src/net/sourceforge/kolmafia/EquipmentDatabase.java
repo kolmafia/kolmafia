@@ -222,39 +222,39 @@ public class EquipmentDatabase extends KoLDatabase
 		return getType( itemId );
 	}
 
-	public static boolean isRanged( int itemId )
+	public static int hitStat( int itemId )
 	{
 		String req = requirement.get( itemId );
-		return req != null && req.startsWith( "Mox:" );
+
+		if ( req != null )
+		{
+			if ( req.startsWith( "Mox:" ) )
+				return MOXIE;
+			if ( req.startsWith( "Mys:" ) )
+				return MYSTICALITY;
+		}
+		return MUSCLE;
+	}
+
+	public static int hitStat( String itemName )
+	{
+		if ( itemName == null )
+			return MUSCLE;
+
+		int itemId = TradeableItemDatabase.getItemId( itemName );
+
+		if ( itemId == -1 )
+			return MUSCLE;
+
+		return hitStat( itemId );
+	}
+
+	public static boolean isRanged( int itemId )
+	{	return ( hitStat( itemId ) == MOXIE );
 	}
 
 	public static boolean isRanged( String itemName )
-	{
-		if ( itemName == null )
-			return false;
-
-		int itemId = TradeableItemDatabase.getItemId( itemName );
-
-		if ( itemId == -1 )
-			return false;
-
-		return isRanged( itemId );
-	}
-
-	public static boolean isStaff( int itemId )
-	{
-		String type = getType( itemId );
-		return type != null && type.equals( "staff" );
-	}
-
-	public static boolean isStaff( String itemName )
-	{
-		int itemId = TradeableItemDatabase.getItemId( itemName );
-
-		if ( itemId == -1 )
-			return false;
-
-		return isStaff( itemId );
+	{	return ( hitStat( itemName ) == MOXIE );
 	}
 
 	public static boolean hasOutfit( int id )

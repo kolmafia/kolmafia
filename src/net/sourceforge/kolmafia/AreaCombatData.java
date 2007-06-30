@@ -145,12 +145,9 @@ public class AreaCombatData implements KoLConstants
 	public boolean willHitSomething()
 	{
 		int ml = KoLCharacter.getMonsterLevelAdjustment();
-		int hitstat;
-		if ( KoLCharacter.rangedWeapon() )
-			hitstat = KoLCharacter.getAdjustedMoxie() - ml;
-		else
-			hitstat = KoLCharacter.getAdjustedMuscle() - ml;
-		return hitPercent( hitstat, this.minHit() ) > 0.0f;
+                int hitStat = KoLCharacter.getAdjustedHitStat();
+
+		return hitPercent( hitStat - ml, this.minHit() ) > 0.0f;
 	}
 
 	public String toString()
@@ -158,18 +155,8 @@ public class AreaCombatData implements KoLConstants
 		int ml = KoLCharacter.getMonsterLevelAdjustment();
 		int moxie = KoLCharacter.getAdjustedMoxie() - ml;
 
-		int hitstat;
-		String statName;
-		if ( KoLCharacter.rangedWeapon() )
-		{
-			statName = "Moxie";
-			hitstat = moxie;
-		}
-		else
-		{
-			statName = "Muscle";
-			hitstat = KoLCharacter.getAdjustedMuscle() - ml;
-		}
+		String statName = KoLCharacter.getHitStatName();
+		int hitstat = KoLCharacter.getAdjustedHitStat() - ml;
 
 		float minHitPercent = hitPercent( hitstat, this.minHit() );
 		float maxHitPercent = hitPercent( hitstat, this.maxHit );

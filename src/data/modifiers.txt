@@ -228,6 +228,7 @@ toy crazy train	Meat: +10.0
 toy train	Meat: +10.0
 white collar	Meat: +3.0
 woven baling wire bracelets	Mana: -1
+Yellow Moon of Compassion	Item: +7.0
 Zinc Delta of Tranquility	Item: +8.0
 
 annoying pitchfork	ML: +5

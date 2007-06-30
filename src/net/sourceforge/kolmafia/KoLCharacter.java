@@ -198,13 +198,6 @@ public abstract class KoLCharacter extends StaticEntity
 	public static final int FAMILIAR = 8;
 	public static final int FAKEHAND = 9;
 
-	// Ascension sign constants
-
-	public static final int NONE = 0;
-	public static final int MUSCLE = 1;
-	public static final int MYSTICALITY = 2;
-	public static final int MOXIE = 3;
-
 	// General static variables
 
 	private static String username = "";
@@ -1263,6 +1256,47 @@ public abstract class KoLCharacter extends StaticEntity
 	public static int weaponHandedness()
 	{	return EquipmentDatabase.getHands( getEquipment( WEAPON ).getName() );
 	}
+
+	/**
+	 * Accessor method to determine character's hit stat
+	 * @return	int	MUSCLE, MYSTICALITY, MOXIE
+	 */
+
+	public static int hitStat()
+	{	return EquipmentDatabase.hitStat( getEquipment( WEAPON ).getName() );
+	}
+
+	/**
+	 * Accessor method to determine character's hit stat
+	 * @return	String	"muscle", "mysticality", or "moxie"
+	 */
+
+	public static String getHitStatName()
+	{
+		int hitstat = EquipmentDatabase.hitStat( getEquipment( WEAPON ).getName() );
+		if ( hitstat == MOXIE )
+			return "Moxie";
+		if ( hitstat == MYSTICALITY )
+			return "Mysticality";
+		return "Muscle";
+	}
+
+	/**
+	 * Accessor method to determine character's adjusted hit stat
+	 * @return	int	adjusted muscle, mysticality, or moxie
+	 */
+
+	public static int getAdjustedHitStat()
+	{
+                int hitStat = hitStat();
+
+                if ( hitStat == MOXIE )
+                        return getAdjustedMoxie();
+                if ( hitStat == MYSTICALITY )
+                        return getAdjustedMysticality();
+                return getAdjustedMuscle();
+	}
+
 
 	/**
 	 * Accessor method to determine if character's weapon is ranged

@@ -274,19 +274,19 @@ arse-shooting crossbow	160	Mox: 65	2-handed crossbow
 asbestos crossbow	110	Mox: 40	2-handed crossbow
 asbestos staff	100	Mus: 35	2-handed staff
 asbestos sword	120	Mus: 45	2-handed sword
-asparagus knife	15	none	1-handed knife
+asparagus knife	15	Mus: 0	1-handed knife
 automatic catapult	150	Mox: 60	2-handed autopult
 balloon sword	50	Mus: 10	1-handed sword
 bamboo bokuto	100	Mus: 35	1-handed sword
-bar whip	10	none	1-handed whip
+bar whip	10	Mus: 0	1-handed whip
 basic meat crossbow	40	Mox: 5	2-handed crossbow
-basic meat spork	45	Mus: 7	1-handed utensil
+basic meat spork	45	Mys: 7	1-handed utensil
 basic meat staff	40	Mus: 5	2-handed staff
 basic meat sword	40	Mus: 5	2-handed sword
 batblade	145	Mus: 57	1-handed knife
 beer bong	190	Mox: 80	1-handed bong
 beer-a-pult	190	Mox: 80	3-handed catapult
-big stick	10	none	2-handed staff
+big stick	10	Mus: 0	2-handed staff
 Bigger Bugfinder Blade	200	Mus: 85	2-handed sword
 bill bec-de-bardiche glaive-guisarme	150	Mus: 60	2-handed polearm?
 Bjorn's Hammer	50	Mus: 10	1-handed club
@@ -306,41 +306,41 @@ can cannon	75	Mox: 22	2-handed crossbow
 can of fake snow	100	Mox: 35	1-handed can
 can of maces	50	Mox: 10	1-handed club
 cardboard crossbow	60	Mox: 15	2-handed crossbow
-cardboard katana	30	none	1-handed sword
+cardboard katana	30	Mus: 0	1-handed sword
 cardboard staff	60	Mus: 15	2-handed staff
 cardboard sword	60	Mus: 15	1-handed sword
-cardboard wakizashi	30	none	1-handed sword
+cardboard wakizashi	30	Mus: 0	1-handed sword
 carob cannon	135	Mox: 45	2-handed crossbow
 cast-iron legacy paddle	190	Mus: 80	2-handed club
 Cerebral Crossbow	90	Mox: 30	1-handed crossbow
-cheap plastic bottle opener	30	none	1-handed utensil
+cheap plastic bottle opener	30	Mys: 0	1-handed utensil
 # Chelonian Morningstar	90	Mus: 15<	1-handed club
-chisel	10	none	1-handed knife
-chopsticks	75	Mus: 23	1-handed utensil
+chisel	10	Mus: 0	1-handed knife
+chopsticks	75	Mys: 23	1-handed utensil
 chrome crossbow	120	Mox: 45	2-handed crossbow
 chrome staff	110	Mus: 40	2-handed staff
 chrome sword	100	Mus: 35	2-handed sword
-Cloaca-Cola-issue combat knife	30	none	1-handed knife
+Cloaca-Cola-issue combat knife	30	Mus: 0	1-handed knife
 clockwork crossbow	80	Mox: 25	1-handed crossbow
 clockwork staff	80	Mus: 25	2-handed staff
 clockwork sword	80	Mus: 25	2-handed sword
-clown hammer	10	none	1-handed club
-clown whip	10	none	1-handed whip
-cool whip	10	none	1-handed whip
-corn holder	20	none	1-handed utensil
+clown hammer	10	Mus: 0	1-handed club
+clown whip	10	Mus: 0	1-handed whip
+cool whip	10	Mus: 0	1-handed whip
+corn holder	20	Mys: 0	1-handed utensil
 crazy bastard sword	75	Mus: 22	1-handed sword
 Crimbo sword	100	Mus: 35	2-handed sword
 Crimbo ukelele	100	Mox: 35	2-handed guitar
 crowbarrr	80	Mus: 25	2-handed staff
 curdflinger	45	Mox: 7	1-handed crossbow
-demon whip	10	none	1-handed whip
+demon whip	10	Mus: 0	1-handed whip
 denim axe	170	Mus: 70	2-handed axe
 dense meat sword	60	Mus: 15	2-handed sword
 dense meat staff	60	Mus: 15	2-handed staff
 dense meat crossbow	60	Mox: 15	2-handed crossbow
 diamond-studded cane	60	Mus: 15	1-handed club
 didgeridooka	180	Mox: 75	2-handed heavy blowgun
-dishrag	20	none	1-handed whip
+dishrag	20	Mus: 0	1-handed whip
 disco ball	10	Mox: 0	1-handed disco ball
 Disco Banjo	50	Mox: 10	2-handed banjo
 Dr. Hobo's scalpel	35	Mus: 2	1-handed knife
@@ -351,13 +351,13 @@ dripping meat sword	50	Mus: 10	2-handed sword
 Drowsy Sword	171	Mus: 66	2-handed sword
 duck-on-a-string	100	Mus: 35	1-handed flail
 drywall axe	150	Mus: 60	2-handed axe
-eggbeater	25	none	1-handed utensil
+eggbeater	25	Mys: 0	1-handed utensil
 especially homoerotic frat-paddle	150	Mus: 60	1-handed club
 eXtreme meat crossbow	60	Mox: 15	2-handed crossbow
 eXtreme meat staff	60	Mus: 15	2-handed staff
 eXtreme meat sword	60	Mus: 15	2-handed sword
 fetus-smashing club	200	Mus: 85	2-handed club
-filthy pestle	60	Mus: 15	1-handed utensil
+filthy pestle	60	Mys: 15	1-handed utensil
 fire poi	190	Mox: 80	2-handed flail
 flaming cardboard sword	70	Mus: 20	1-handed sword
 flaming crutch	60	Mus: 15	1-handed club
@@ -373,50 +373,50 @@ giant driftwood sculpture	190	Mus: 80	2-handed flail
 giant foam finger	170	Mus: 70	1-handed club
 giant needle	150	Mus: 60	2-handed spear
 glistening staff	60	Mus: 15	2-handed staff
-gnauga hide whip	20	none	1-handed whip
+gnauga hide whip	20	Mus: 0	1-handed whip
 Gnollish autoplunger	60	Mus: 15	3-handed spear
 Gnollish flyswatter	35	Mus: 2	1-handed club
 Gnollish nunchaku	45	Mus: 7	2-handed flail
-Gnollish pie server	20	none	1-handed utensil
+Gnollish pie server	20	Mys: 0	1-handed utensil
 Gnollish plunger	35	Mus: 2	1-handed spear
-Gnollish slotted spoon	25	none	1-handed utensil
+Gnollish slotted spoon	25	Mys: 0	1-handed utensil
 goatskin umbrella	180	Mus: 75	1-handed umbrella
 goulauncher	100	Mox: 35	2-handed crossbow
 grass blade	80	Mus: 25	1-handed sword
-grave robbing shovel	30	none	2-handed polearm
+grave robbing shovel	30	Mus: 0	2-handed polearm
 grease gun	65	Mox: 17	1-handed pistol
 Greek Pasta of Peril	90	Mys: 15	1-handed utensil
 Grimacite glaive	125	Mus: 47	2-handed polearm
 hairy staff	135	Mus: 45	2-handed staff
-halfberd	30	none	1-handed polearm
+halfberd	30	Mus: 0	1-handed polearm
 Hammer of Smiting	90	Mus: 15	1-handed club
 happiness	165	Mox: 67	1-handed pistol
 heavy metal thunderrr guitarrr	120	Mox: 45	2-handed guitar
 heteroerotic frat-paddle	150	Mus: 60	1-handed club
-hippo whip	20	none	1-handed whip
+hippo whip	20	Mus: 0	1-handed whip
 homoerotic frat-paddle	70	Mus: 20	1-handed club
 hot cross bow	130	Mox: 45	2-handed crossbow
-huge mirror shard	30	none	1-handed knife
-huge spoon	90	Mus: 30	1-handed utensil
-ice sickle	100	none	1-handed scythe
+huge mirror shard	30	Mus: 0	1-handed knife
+huge spoon	90	Mys: 30	1-handed utensil
+ice sickle	100	Mus: 0	1-handed scythe
 icy-hot katana	90	Mus: 30	2-handed sword
-iron pasta spoon	110	Mus: 40	1-handed utensil
-jack flapper	35	Mus: 2	1-handed utensil
+iron pasta spoon	110	Mys: 40	1-handed utensil
+jack flapper	35	Mys: 2	1-handed utensil
 Kentucky-fried meat crossbow	70	Mox: 20	2-handed crossbow
 Kentucky-fried meat staff	70	Mus: 20	2-handed staff
 Kentucky-fried meat sword	70	Mus: 20	2-handed sword
 kneecapping stick	90	Mus: 30	1-handed club
 Knob Goblin elite polearm	60	Mus: 15	2-handed polearm
-Knob Goblin melon baller	80	Mus: 25	1-handed utensil
-Knob Goblin scimitar	15	none	1-handed sword
-Knob Goblin spatula	30	none	1-handed utensil
-Knob Goblin tongs	20	none	1-handed utensil
+Knob Goblin melon baller	80	Mys: 25	1-handed utensil
+Knob Goblin scimitar	15	Mus: 0	1-handed sword
+Knob Goblin spatula	30	Mys: 0	1-handed utensil
+Knob Goblin tongs	20	Mys: 0	1-handed utensil
 lead pipe	175	Mus: 72	1-handed club
 lead yo-yo	80	Mox: 25	1-handed yo-yo
 linoleum crossbow	100	Mox: 35	2-handed crossbow
 linoleum staff	120	Mus: 45	2-handed staff
 linoleum sword	110	Mus: 40	2-handed sword
-little paper umbrella	30	none	1-handed umbrella
+little paper umbrella	30	Mus: 0	1-handed umbrella
 lucky ball-and-chain	130	Mox: 50	2-handed flail
 lupine sword	115	Mus: 42	1-handed sword
 Mace of the Tortoise	50	Mus: 10	1-handed club
@@ -428,19 +428,19 @@ Mjolnir Jr.	200	Mus: 85	1-handed club
 muculent machete	60	Mus: 15	1-handed sword
 ninja mop	90	Mus: 30	2-handed implement
 obsidian dagger	30	Mus: 10	1-handed knife
-oversized pizza cutter	100	Mus: 35	1-handed utensil
-palm-frond whip	25	none	1-handed whip
+oversized pizza cutter	100	Mys: 35	1-handed utensil
+palm-frond whip	25	Mus: 0	1-handed whip
 Pasta of Peril	50	Mys: 10	1-handed utensil
-pasta spoon	10	none	1-handed utensil
-penguin whip	20	none	1-handed whip
+pasta spoon	10	Mys: 0	1-handed utensil
+penguin whip	20	Mus: 0	1-handed whip
 perforated battle paddle	175	Mus: 72	2-handed club
 pestoblade	50	Mus: 10	1-handed sword
 pitchfork	125	Mus: 47	1-handed spear
 pixel sword	50	Mus: 10	1-handed sword
 plexiglass pike pike	180	Mus: 75	2-handed spear
 pointed stick	160	Mus: 65	1-handed spear
-pool cue	40	none	2-handed staff
-portable corkscrew	30	none	1-handed tool
+pool cue	40	Mus: 0	2-handed staff
+portable corkscrew	30	Mus: 0	1-handed tool
 potato pistol	120	Mox: 45	1-handed pistol
 poutine pole	55	Mus: 12	2-handed staff
 prehistoric spear	100	Mox: 35	1-handed throwing spear
@@ -459,18 +459,18 @@ rubber axe	40	Mus: 5	2-handed axe
 rusty grave robbing shovel	80	Mus: 25	2-handed polearm
 sabre teeth	60	Mus: 15	1-handed knife
 sack of doorknobs	110	Mox: 40	2-handed sack
-saucepan	10	none	1-handed saucepan
+saucepan	10	Mys: 0	1-handed saucepan
 savory sword	80	Mus: 25	1-handed sword
 savory staff	80	Mus: 25	2-handed staff
 savory crossbow	80	Mox: 25	2-handed crossbow
-scorpion whip	20	none	1-handed whip
-seal-clubbing club	10	none	1-handed utensil
+scorpion whip	20	Mus: 0	1-handed whip
+seal-clubbing club	10	Mus: 0	1-handed club
 serpentine sword	115	Mus: 42	1-handed sword
 # Shagadelic Disco Banjo	90	Mox: 15	2-handed banjo
-shiny butcherknife	30	none	1-handed utensil
+shiny butcherknife	30	Mys: 0	1-handed utensil
 shuddersword	125	Mus: 45	2-handed sword
 silver shrimp fork	120	Mys: 45	1-handed utensil
-skeleton bone	30	none	1-handed club
+skeleton bone	30	Mus: 0	1-handed club
 slightly peevedbow	60	Mox: 15	2-handed bow
 slingshot	20	Mox: 0	2-handed slingshot
 smoldering staff	130	Mus: 45	2-handed staff
@@ -479,8 +479,8 @@ spiked femur	100	Mus: 35	1-handed club
 Spirit Precipice	130	Mus: 45	2-handed sword
 spooky bicycle chain	80	Mus: 25	1-handed whip
 spooky staff	35	Mus: 2	2-handed staff
-spooky stick	30	none	2-handed staff
-spork	30	none	1-handed utensil
+spooky stick	30	Mus: 0	2-handed staff
+spork	30	Mys: 0	1-handed utensil
 squeaky staff	75	Mus: 22	2-handed staff
 Squeezebox of the Ages	90	Mox: 15	2-handed accordion
 Staff of Blood and Pudding	10	Mys: 15	1-handed chefstaff
@@ -494,7 +494,7 @@ Staff of the Walk-In Freezer	10	Mys: 125	1-handed chefstaff
 stainless steel shillelagh	90	Mus: 30	1-handed club
 star boomerang	135	Mox: 52	1-handed boomerang
 star crossbow	165	Mox: 67	2-handed crossbow
-star spatula	150	Mus: 60	1-handed utensil
+star spatula	150	Mys: 60	1-handed utensil
 star staff	165	Mus: 67	2-handed staff
 star stiletto	135	Mus: 52	1-handed dagger
 star sword	165	Mus: 67	2-handed sword
@@ -508,12 +508,12 @@ styrofoam staff	60	Mus: 15	2-handed staff
 styrofoam sword	60	Mus: 15	1-handed sword
 suede shortsword	40	Mus: 5	1-handed sword
 Super Magic Power Sword X	100	Mus: 35	1-handed sword
-sweet ninja sword	20	none	1-handed sword
+sweet ninja sword	20	Mus: 0	1-handed sword
 sword behind inappropriate prepositions	130	Mus: 45	2-handed sword
 sword of static	75	Mus: 22	1-handed sword
 time sword	100	Mus: 35	1-handed sword
-tiny ninja sword	20	none	1-handed sword
-tiny plastic sword	10	none	1-handed sword
+tiny ninja sword	20	Mus: 0	1-handed sword
+tiny plastic sword	10	Mus: 0	1-handed sword
 titanium assault umbrella	130	Mus: 50	1-handed umbrella
 Totally Gay Claymore	69	Mus: 19	2-handed sword
 toy ray gun	175	Mox: 72	1-handed pistol
@@ -522,16 +522,16 @@ two-handed depthsword	120	Mus: 45	2-handed sword
 Unionize The Elves sign	50	Mus: 10	1-handed club
 vampire duck-on-a-string	100	Mus: 35	1-handed flail
 vorpal blade	90	Mus: 30	1-handed sword
-Wand of Nagamar	30	none	1-handed wand
+Wand of Nagamar	30	Mus: 0	1-handed wand
 war tongs	180	Mys: 75	1-handed utensil
 white sword	40	Mus: 5	1-handed sword
-white whip	10	none	1-handed whip
+white whip	10	Mus: 0	1-handed whip
 wholeberd	80	Mus: 25	2-handed polearm
 wiffle-flail	75	Mus: 22	2-handed flail
 wooden axe	60	Mus: 15	2-handed axe
-wooden stakes	25	none	2-handed spear
-worm-riding hooks	50	none	2-handed club
-yak whip	20	none	1-handed whip
+wooden stakes	25	Mus: 0	2-handed spear
+worm-riding hooks	50	Mus: 0	2-handed club
+yak whip	20	Mus: 0	1-handed whip
 
 
 # Off-hand section.  This section includes all the items
@@ -822,6 +822,7 @@ rubber WWJD? bracelet	0	none
 rubber WWBD? bracelet	0	none
 rubber WWSPD? bracelet	0	none
 rubber WWtNSD? bracelet	0	none
+rusty chain necklace	0	Mys: 75
 Scandalously Skimpy Bikini	0	Mox: 10
 second-hand knockoff engagement ring	0	none
 Senior LAAAAME merit badge	0	none
@@ -904,4 +905,5 @@ woven baling wire bracelets	0	Mys: 75
 Xlyinia's notebook	0	none
 x-ray specs	0	none
 ye olde golde frontes	0	none
+Yellow Moon of Compassion	0	Mys: 85
 Zinc Delta of Tranquility	0	Mys: 85
