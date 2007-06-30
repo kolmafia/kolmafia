@@ -2396,8 +2396,8 @@
 2393
 2394	Danglin' Chad's loincloth	10	all	0
 2395
-2396
-2397
+2396	chloroform rag	0	unknown	-1
+2397	depantsing bomb	0	unknown	-1
 2398	energy drink IV	8	all	211
 2399
 2400	molotov cocktail cocktail	0	all	150
@@ -2517,7 +2517,7 @@
 2514	woven baling wire bracelets	8	display	400
 2515	gearbox necklace	8	display	450
 2516
-2517
+2517	rusty chain necklace	0	unknown	-1
 2518	sawblade shield	13	display	150
 2519
 2520
@@ -2745,7 +2745,7 @@
 2742	steel lasagna	1	none	0
 2743	steel margarita	2	none	0
 2744	steel-scented air freshener	3	none	0
-2745
+2745	gremlin mutagen	0	unknown	-1
 2746	Extra-potent gremlin mutagen	4	all	184
 2747	chunk of depleted Grimacite	0	all	0
 2748	furniture dolly	8	all	180
@@ -2761,7 +2761,7 @@
 2758
 2759
 2760
-2761
+2761	Yellow Moon of Compassion	0	unknown	-1
 2762	Orange Star of Sacrifice	8	display	5000
 2763
 2764
