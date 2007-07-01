@@ -615,6 +615,9 @@ public class ItemManageFrame extends KoLFrame
 		{
 			super( ConcoctionsDatabase.getUsables(), true, true );
 
+			this.food = food;
+			this.booze = booze;
+
 			this.setButtons( false, new ActionListener [] {
 
 					new EnqueueListener(),
@@ -629,9 +632,6 @@ public class ItemManageFrame extends KoLFrame
 
 			this.elementList.setVisibleRowCount( 6 );
 			this.elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-
-			this.food = food;
-			this.booze = booze;
 
 			this.filters = new JCheckBox[ food || booze ? 5 : 4 ];
 

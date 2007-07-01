@@ -126,7 +126,7 @@
 126	Egg-cellent Vocabulary	eggplain.gif
 127	Gothy	gothy.gif	06cb86ddd689278c5af31423a8210a72
 128	Flower Power	flower.gif
-129	Eye of the Lihc	eyeball.gif
+129	Eye of the Lihc	eyeball.gif	19a38797f559f112930b8d33f3dd48e3
 130	Springy Fusilli	fusilli.gif	bb44871dd165d4dc9b4d35daa46908ef
 131	Rage of the Reindeer	reindeer.gif	5c8d3b5b4a6d403f95f27f5d29528c59
 132	Engorged Weapon	nicesword.gif
@@ -267,11 +267,11 @@
 267	Barking Dogs	footprints.gif	cb28fec658f97af4ee56590184223497
 268	Prestidigysfunction	snowflakes.gif	dd5d7d48bca51bd1ddfa197b584a5623
 269	Heart of White	candyheart.gif	c444fec2c3237f47d985c83248b81687
-270	Heart of Pink	candyheart.gif
+270	Heart of Pink	candyheart.gif	f0ceb6af2b415596e1d062323a77119e
 271	Heart of Orange	candyheart.gif	2bcdff73267cc4e57efe3207396127e8
-272	Heart of Lavender	candyheart.gif
-273	Heart of Yellow	candyheart.gif
-274	Heart of Green	candyheart.gif
+272	Heart of Lavender	candyheart.gif	280ae237b5bb6ba02d9b1cd17719b84e
+273	Heart of Yellow	candyheart.gif	63f75386af7076f2dddae1aad2ba9069
+274	Heart of Green	candyheart.gif	c5981aab5e82b8b7acaa03836f2b8207
 275	Ultrahydrated	raindrop.gif	ec7f2f9d649f3de48a27c5eaa1147afe
 276	Disco Inferno	discoball.gif
 277	Disco Nirvana	discoball.gif
