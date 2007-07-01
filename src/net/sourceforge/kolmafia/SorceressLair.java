@@ -116,14 +116,89 @@ public abstract class SorceressLair extends StaticEntity
 	private static final AdventureResult RED_POTION = new AdventureResult( "red pixel potion", 4 );
 	private static final AdventureResult PLASTIC_EGG = new AdventureResult( "red plastic oyster egg", 3 );
 
+	// Gates, the effects you need to pass them, and where to get it
+
+	public static final String [][] GATE_DATA =
+	{
+		{ "Gate of Bad Taste", "Spicy Limeness" }, 
+		// lime-and-chile-flavored chewing gum 
+		{ "Gate of Flame", "Spicy Mouth" },
+		// jabanero-flavored chewing gum 
+		{ "Gate of Hilarity", "Comic Violence" },
+		// gremlin juice 
+		{ "Gate of Humility", "Wussiness" },
+		// wussiness potion, Yummy Tummy bean 
+		{ "Gate of Intrigue", "Mysteriously Handsome" },
+		// handsomeness potion 
+		{ "Gate of Light", "Izchak's Blessing" },
+		// Dungeons of Doom potion 
+		{ "Gate of Machismo", "Engorged Weapon" },
+		// Meleegra&trade; pills
+		{ "Gate of Morose Morbidity and Moping", "Rainy Soul Miasma" },
+		// thin black candle, Yummy Tummy bean, picture of a dead guy's
+		// girlfriend
+		{ "Gate of Mystery", "Mystic Pickleness" },
+		// pickle-flavored chewing gum 
+		{ "Gate of Slack", "Extreme Muscle Relaxation" },
+		// Mick's IcyVapoHotness Rub 
+		{ "Gate of Spirit", "Woad Warrior" },
+		// pygmy pygment 
+		{ "Gate Of That Which is Hidden", "Object Detection" },
+		// Dungeons of Doom potion 
+		{ "Gate of the Dead", "Hombre Muerto Caminando" },
+		// marzipan skull 
+		{ "Gate of the Mind", "Strange Mental Acuity" },
+		// Dungeons of Doom potion 
+		{ "Gate of the Observant", "Object Detection" },
+		// Dungeons of Doom potion 
+		{ "Gate of the Ogre", "Strength of Ten Ettins" },
+		// Dungeons of Doom potion 
+		{ "Gate of the Porcupine", "Spiky Hair" },
+		// super-spikey hair gel 
+		{ "Gates of The Suc Rose", "Sugar Rush" },
+		//Angry Farmer candy, marzipan skull, Tasty Fun Good rice
+		//candy, Yummy Tummy bean, stick of "gum", or Daffy Taffy
+		{ " Gate of The Viper", "Deadly Flashing Blade" },
+		// adder bladder 
+		{ "Gate of Torment", "Tamarind Torment" },
+		// tamarind-flavored chewing gum 
+		{ "Gate of Zest", "Spicy Limeness" },
+		// lime-and-chile-flavored chewing gum 
+		{ "Gate that is Not a Gate", "Teleportitis" },
+		// A big Q. adventure, Quantum Mechanic attack, Dungeons of
+		// Doom potion
+		{ "Locked Gate", "Locks Like the Raven" },
+		// Black No. 2
+	};
+
 	// Guardians and the items that defeat them
 
 	public static final String [][] GUARDIAN_DATA =
 	{
-		{ "Beer Batter", "baseball" }, { "Vicious Easel", "disease" }, { "Enraged Cow", "barbed-wire fence" },
-		{ "Fickle Finger of F8", "razor-sharp can lid" }, { "Big Meat Golem", "meat vortex" }, { "Flaming Samurai", "frigid ninja stars" },
-		{ "Tyrannosaurus Tex", "chaos butterfly" }, { "Giant Desktop Globe", "NG" }, { "Electron Submarine", "photoprotoneutron torpedo" },
-		{ "Bowling Cricket", "sonar-in-a-biscuit" }, { "Ice Cube", "can of hair spray" }, { "Pretty Fly", "spider web" }
+		{ "Beer Batter", "baseball" },
+		{ "Best-Selling Novelist", "plot hole" },
+		{ "Big Meat Golem", "meat vortex" },
+		{ "Bowling Cricket", "sonar-in-a-biscuit" },
+		{ "Bronze Chef", "leftovers of indeterminate origin" },
+		{ "Collapsed Mineshaft Golem", "stick of dynamite" },
+		{ "Concert Pianist", "Knob Goblin firecracker" },
+		{ "The Darkness", "inkwell" },
+		{ "El Diablo", "mariachi G-string" },
+		{ "Electron Submarine", "photoprotoneutron torpedo" },
+		{ "Endangered Inflatable White Tiger", "pygmy blowgun" },
+		{ "Enraged Cow", "barbed-wire fence" },
+		{ "Fancy Bath Slug", "fancy bath salts" },
+		{ "Fickle Finger of F8", "razor-sharp can lid" },
+		{ "Flaming Samurai", "frigid ninja stars" },
+		{ "Giant Bee", "tropical orchid" },
+		{ "Giant Fried Egg", "black pepper" },
+		{ "Giant Desktop Globe", "NG" },
+		{ "Ice Cube", "can of hair spray" },
+		{ "Malevolent Crop Circle", "bronzed locust" },
+		{ "Possessed Pipe-Organ", "powdered organs" },
+		{ "Pretty Fly", "spider web" },
+		{ "Tyrannosaurus Tex", "chaos butterfly" },
+		{ "Vicious Easel", "disease" },
 	};
 
 	// Items for the Sorceress's Chamber

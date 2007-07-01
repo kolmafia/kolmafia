@@ -1,6 +1,3 @@
-#	vial of mojo	0	none	0
-#	Turtle Chain	0	none	0
-
 1	seal-clubbing club	12	all	1
 2	seal tooth	3	all	1
 3	helmet turtle	9	all	1
@@ -2510,13 +2507,13 @@
 2507	clay peace-sign bead	0	all	32
 2508	beach glass necklace	8	all	75
 2509	peace-sign necklace	8	all	75
-2510
+2510	round green sunglasses	8	all	65
 2511	Frat Army FGF	4	all	175
 2512	Hippy Army MPE	4	all	175
-2513
+2513	spark plug earring	8	display	350
 2514	woven baling wire bracelets	8	display	400
 2515	gearbox necklace	8	display	450
-2516
+2516	wrench bracelet	8	display	200
 2517	rusty chain necklace	9	display	250
 2518	sawblade shield	13	display	150
 2519
@@ -2525,17 +2522,17 @@
 2522	thistle wine	2	all	85
 2523	megatofu	0	all	150
 2524	displaced fish	0	all	55
-2525
-2526
-2527
+2525	fishy fish	1	all	38
+2526	fishy fish casserole	1	all	150
+2527	fishy fish lasagna	1	all	200
 2528	filet of tangy gnat (&quot;fotelif&quot;)	0	all	50
-2529
-2530
-2531
+2529	gnatloaf	1	all	105
+2530	gnatloaf casserole	1	all	150
+2531	gnatloaf lasagna	1	all	200
 2532	long pork	0	all	55
-2533
-2534
-2535
+2533	long pork chop sandwiches	1	all	100
+2534	long pork casserole	1	all	150
+2535	long pork lasagna	1	all	200
 2536	canopic jar	4	all	87
 2537	ancient spice	0	all	125
 2538	powdered organs	0	all	75
@@ -2551,9 +2548,9 @@
 2548	outrageous sombrero	9	display	0
 2549	"Humorous" T-shirt	11	display	0
 2550	Peppercorns of Power	0	none	0
-2551
+2551	vial of mojo	0	none	0
 2552	golden reeds	0	none	0
-2553
+2553	turtle chain	0	none	0
 2554	distilled seal blood	0	none	0
 2555	high-octane olive oil	0	none	0
 2556	Shagadelic Disco Banjo	12	none	0
@@ -2590,7 +2587,7 @@
 2587	Corporal Fennel's Lonely Clubs Club Jacket	11	all	135
 2588	Private Pepper's Lonely Hearts Club Jacket	11	all	135
 2589	hot date	1	all	65
-2590
+2590	distilled fortified wine	2	all	0
 2591
 2592
 2593

@@ -79,6 +79,9 @@ Elfin shortbread	3	03-09	04-06	04-06	04-06
 enchanted bean burrito	3	03-09	0	14-16	0
 escargotsicle	2	05-08	0	0	12-18
 fettucini Inconnu	6	21-30	0	0	47-52
+fishy fish	2	5	0	0	27
+fishy fish casserole	3	0	0	0	0
+fishy fish lasagna	3	12-18	0	0	48-54
 flaming mushroom	3	03-09	03-05	0	0
 flower petal pie	3	03-09	0	0	0
 foie gras	1	01-03	0	0	0
@@ -97,6 +100,9 @@ gingerbread horror	1	01-05	10-20	10-20	10-20
 gingerbread massacre	3	3-6	5-6	5-6	5-6
 gingerbread stir-fry	5	09-17	09-11	09-11	09-11
 glass of goat's milk	1	01	0	0	0
+gnatloaf	2	4-6	25-50	0	0
+gnatloaf casserole	3	10-14	23-37	0	0
+gnatloaf lasagna	3	4-6	25-50	0	0
 gnocchetti di Nietzsche	6	21-30	0	47-52	0
 goat cheese	2	02-03	0	0	0
 goat cheese pizza	3	03-10	0	0	15-18
@@ -143,6 +149,9 @@ lemon	1	01	0	0	0
 lemon meringue pie	3	03-09	08-10	0	0
 lihc eye pie	4	05-12	0	11-12	0
 lime	1	01-03	0	0	0
+long pork chop sandwiches	2	04-09	0	28	0
+long pork casserole	3	00	0	0	0
+long pork lasagna	3	12-18	0	46-55	0
 Lord of the Flies-sized fries	3	03-05	0	15-20	-15-20
 lucky surprise egg	1	01	0	0	0
 Manetwich	2	03-09	14-30	0	05-18

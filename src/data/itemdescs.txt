@@ -2,8 +2,6 @@
 # compiled by Max Demian.   http://max.subfighter.com/kol/items.php
 # Seed data for plural names provided by the Kingdom of Loathing Visual Wiki,
 # hosted at KoL Coldfront.  http://kol.coldfront.net/thekolwiki/index.php
-#	222463880	vial of mojo
-#		Turtle Chain
 
 1	868780591	seal-clubbing club	seal-clubbing clubs
 2	617818041	seal tooth	seal teeth
@@ -2514,13 +2512,13 @@
 2507	274866288	clay peace-sign bead	clay peace-sign beads
 2508	135013634	beach glass necklace	beach glass necklaces
 2509	391131347	peace-sign necklace	peace-sign necklaces
-2510
+2510	861240807	round green sunglasses
 2511	738860128	Frat Army FGF
 2512	322746900	Hippy Army MPE
-2513
+2513		spark plug earring
 2514	491779381	woven baling wire bracelets
 2515	302909159	gearbox necklace
-2516
+2516		wrench bracelet
 2517	152836438	rusty chain necklace
 2518	772560168	sawblade shield
 2519
@@ -2529,17 +2527,17 @@
 2522	685027473	thistle wine	bottles of thistle wine
 2523	928407527	megatofu	blocks of megatofu
 2524	442025843	displaced fish
-2525
-2526
-2527
+2525	839689404	fishy fish
+2526	980336557	fishy fish casserole
+2527	980336558	fishy fish lasagna
 2528	985581987	filet of tangy gnat (&quot;fotelif&quot;)
-2529
-2530
-2531
+2529	756337322	gnatloaf
+2530	671941643	gnatloaf casserole
+2531	312613540	gnatloaf lasagna
 2532	762179710	long pork
-2533
-2534
-2535
+2533	160708677	long pork chop sandwiches
+2534	980336557	long pork casserole
+2535	157871622	long pork lasagna
 2536	402083452	canopic jar
 2537	898002086	ancient spice
 2538	724169350	powdered organs
@@ -2555,14 +2553,14 @@
 2548	576823351	outrageous sombrero
 2549	472113416	&quot;Humorous&quot; T-shirt
 2550	807564363	Peppercorns of Power
-2551
+2551 	222463880	vial of mojo
 2552	997975507	golden reeds
-2553
+2553		turtle chain
 2554	824288182	distilled seal blood
 2555	247415821	high-octane olive oil
 2556		Shagadelic Disco Banjo
 2557	632445399	Squeezebox of the Ages
-2558		Chelonian Morningstar
+2558	1499215	Chelonian Morningstar
 2559	723621502	Hammer of Smiting
 2560	811211086	17-Alarm Saucepan
 2561	370831124	Greek Pasta of Peril
@@ -2594,7 +2592,7 @@
 2587	854115819	Corporal Fennel's Lonely Clubs Club Jacket
 2588	449989440	Private Pepper's Lonely Hearts Club Jacket
 2589	138166057	hot date	hot dates, giggity giggity
-2590
+2590	644818554	distilled fortified wine	bottles of distilled fortified wine
 2591
 2592
 2593
@@ -2714,7 +2712,7 @@
 2707	567120426	blackberry combat boots
 2708	464342616	funky dried mushroom
 2709	522551898	exotic parrot egg
-2710		cracker
+2710	666635034	cracker
 2711	121774283	black facepaint
 2712	978143454	black sheepskin diploma
 2713	319521618	Black Body&trade; spray
