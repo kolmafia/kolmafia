@@ -11,6 +11,7 @@ Baron Von Ratsworth's tophat	75	Mox: 22
 barskin hat	25	none
 basic meat fez	45	Mox: 7
 basic meat helmet	40	Mox: 5
+bat hat	180	Mox: 75
 beer helmet	170	Mox: 70
 big bad voodoo mask	160	Mox: 65
 black helmet	160	Mus: 65
@@ -20,6 +21,7 @@ bowler	100	Mox: 35
 bubblewrap bottlecap turtleban	70	Mys: 12
 bugbear beanie	30	none
 bum cheek	20	none
+catskin cap	180	Mox: 75
 Cerebral Cloche	90	Mox: 30
 chef's hat	30	none
 chrome helmet turtle	120	Mox: 45
@@ -83,6 +85,7 @@ miner's helmet	80	Mox: 25
 Mohawk wig	140	Mox: 55
 mullet wig	40	Mox: 5
 mummy mask	170	Mox: 70
+nasty rat mask	180	Mox: 75
 opera mask	10	none
 Orange peel hat	200	Mox: 85
 orange traffic cone	60	Mox: 15
@@ -223,6 +226,7 @@ asbestos apron	170	Mus: 70
 Ascension Souvenir T-Shirt	15	none
 Ascii shirt	90	Mus: 30
 barskin cloak	25	none
+bat-ass leather jacket	180	Mus: 77
 bronze breastplate	105	Mus: 37
 clockwork trench coat	80	Mus: 25
 clownskin harness	60	Mus: 15
@@ -283,6 +287,7 @@ automatic catapult	150	Mox: 60	2-handed autopult
 balloon sword	50	Mus: 10	1-handed sword
 bamboo bokuto	100	Mus: 35	1-handed sword
 bar whip	10	Mus: 0	1-handed whip
+bat whip	30	Mus: 0	1-handed whip
 basic meat crossbow	40	Mox: 5	2-handed crossbow
 basic meat spork	45	Mys: 7	1-handed utensil
 basic meat staff	40	Mus: 5	2-handed staff
@@ -454,6 +459,7 @@ Radio Free Foil	150	Mus: 60	2-handed sword
 ram-battering staff	135	Mus: 52	2-handed staff
 ram stick	115	Mus: 42	2-handed staff
 ratarang	60	Mox: 15	1-handed boomerang
+rattail whip	30	Mus: 0	1-handed whip
 repeating crossbow	65	Mox: 17	2-handed crossbow
 rib of the Bonerdagon	80	Mus: 25	2-handed staff
 ridiculously huge sword	140	Mus: 55	3-handed sword
@@ -515,6 +521,7 @@ Super Magic Power Sword X	100	Mus: 35	1-handed sword
 sweet ninja sword	20	Mus: 0	1-handed sword
 sword behind inappropriate prepositions	130	Mus: 45	2-handed sword
 sword of static	75	Mus: 22	1-handed sword
+tail o' nine cats	30	Mus: 0	1-handed whip
 time sword	100	Mus: 35	1-handed sword
 tiny ninja sword	20	Mus: 0	1-handed sword
 tiny plastic sword	10	Mus: 0	1-handed sword
@@ -563,6 +570,7 @@ box-in-the-box	0	none
 box-in-the-box-in-the-box	0	none
 box turtle	0	Mus: 10
 cardboard box turtle	0	Mus: 10
+catskin buckler	0	Mus: 75
 Cloaca-Cola shield	75	none
 clockwork detective skull	0	Mox: 25
 clownskin buckler	0	Mus: 15
@@ -692,6 +700,7 @@ beer goggles	0	none
 bejeweled accordion strap	0	none
 bejeweled pledge pin	0	Mys: 70
 big red clown nose	0	Mys: 10
+black belt	0	Mys: 60
 blackberry combat boots	0	Mys: 75
 blackberry moccasins	0	Mys: 75
 blackberry slippers	0	Mys: 75
@@ -823,6 +832,7 @@ Radio KoL Flashlight	0	none
 Radio KoL Maracas	0	none
 Radio KoL Bottle Opener	0	none
 Radio KoL Patch	0	none
+ratskin belt	0	Mys: 75
 reinforced furry underpants	0	none
 right half of a heart necklace	0	none
 ring of adornment	0	Mys: 25

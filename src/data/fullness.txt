@@ -23,6 +23,7 @@ bat wing kabob	2	02-05	0	07-08	0
 bat wing stir-fry	3	06-14	0	27-45	0
 bat-shaped Crimboween cookie	2	06-12	0	0	0
 bean burrito	3	03-08	10-14	0	0
+beer basted brat	3	14-16	33	36	30
 bell-shaped crimbo cookie	2	06-12	0	0	0
 Better Than Cuddling Cake	3	04	0	0	0
 birthday party jellybean cheesecake	3	03	20	20	20
@@ -132,6 +133,7 @@ jumping bean burrito	3	03-08	0	0	11-14
 jumping bean taco	1	01-03	0	0	04-20
 ketchup	1	01	0	0	0
 kiwi	1	01-03	0	0	0
+knob ka-bobs	1	02	0	20	0
 Knob lo mein	4	15-18	0	31-34	0
 Knob mushroom	2	02-03	0	0	0
 Knob sausage	2	02-03	0	0	0
@@ -219,9 +221,11 @@ strawberry	1	01	0	0	0
 strawberry pie	3	03-09	0	0	08-10
 stuffed spooky mushroom	3	03-09	0	0	0
 S.T.L.T.	4	12-13	10-30	10-30	10-30
+super ka-bob	3	17	32-38	0	0
 super salad	3	13-14	48-50	36-38	34-37
 t8r tots	1	01-02	0	0	0
 tangerine	1	01-03	0	0	0
+tasty tart	1	05-06	5-6	5-6	5-6
 three-tiered wedding cake	35	34-39	0	0	0
 toast	1	01	0	0	0
 tofu casserole	3	03-08	0	0	0
