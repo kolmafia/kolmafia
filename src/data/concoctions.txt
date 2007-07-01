@@ -21,6 +21,7 @@ cog and sprocket assembly	1	cog	sprocket assembly
 dope wheels	1	tires	sweet rims
 full meat tank	1	empty meat tank	meat stack
 Harold's hammer	1	Harold's hammer head	Harold's hammer handle
+headpiece of the Staff of Ed	1	ancient amulet	Eye of Ed
 heavy metal sonata	1	chrome ore	drab sonata
 heavy metal thunderrr guitarrr	1	acoustic guitarrr	chrome ore
 hosed fishbowl	1	fishbowl	fish hose
@@ -32,6 +33,7 @@ oyster basket	1	tisket	tasket
 really really sticky spider web	1	really sticky spider web	really sticky spider web
 really sticky spider web	1	spider web	spider web
 skeleton key	1	skeleton bone	loose teeth
+Staff of Ed	1	headpiece of the Staff of Ed	Staff of Fats
 T-bone key	1	rusty L-shaped piece of metal	crusty L-shaped piece of metal
 tambourine	1	Gnollish pie tin	tambourine bells
 
@@ -228,6 +230,7 @@ Knob shroomkabob	2	Knob mushroom	skewer
 Knoll shroomkabob	2	Knoll mushroom	skewer
 lihc eye pie	2	lihc eye	pie crust
 menudo	2	catgut	spices
+nutty organic salad	2	handful of walnuts	mixed wildflower greens
 papaya taco	2	papaya	taco shell
 pr0n cocktail	2	pr0n legs	ketchup
 pr0n taco	2	pr0n legs	taco shell
@@ -237,6 +240,8 @@ royal jelly taco	2	royal jelly	taco shell
 skewered cat appendix	2	cat appendix	skewer
 spooky shroomkabob	2	spooky mushroom	skewer
 stuffed spooky mushroom	2	spooky mushroom	goat cheese
+super ka-bob	2	frat brats	knob ka-bob
+super salad	2	megatofu	mixed wildflower greens
 tofu casserole	2	wad of tofu	Gnollish casserole dish
 tofu taco	2	wad of tofu	taco shell
 white chocolate chip cookies	2	white chocolate chips	wad of dough
@@ -248,11 +253,12 @@ white chocolate chip cookies	2	white chocolate chips	wad of dough
 bloody beer	3	tomato	[41]
 bloody mary	3	tomato	bottle of vodka
 eggnog	3	ghuol egg	spiced rum
-fine wine	3	grapes	fermenting powder
+fine wine	3	fermenting powder	grapes
 papaya sling	3	papaya	bottle of gin
+shot of blackberry schnapps	3	fermenting powder	blackberry
 shot of flower schnapps	3	fermenting powder	pretty flower
-shot of grapefruit schnapps	3	grapefruit	fermenting powder
-shot of orange schnapps	3	orange	fermenting powder
+shot of grapefruit schnapps	3	fermenting powder	grapefruit
+shot of orange schnapps	3	fermenting powder	orange
 shot of tomato schnapps	3	fermenting powder	tomato
 green beer	3	ten-leaf clover	[41]
 
@@ -740,6 +746,10 @@ hot hi mein	22	hot and sour sauce	dry noodles	MSG
 sleazy hi mein	22	sleazy and sour sauce	dry noodles	MSG
 spooky hi mein	22	spooky and sour sauce	dry noodles	MSG
 stinky hi mein	22	stench and sour sauce	dry noodles	MSG
+
+# Top-end foods made by upgrading other things at the Wok of Ages
+
+tofu wonton	22	super salad	dry noodles	MSG
 
 # Star Chart items
 

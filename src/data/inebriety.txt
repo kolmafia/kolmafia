@@ -36,9 +36,11 @@ braincracker sweet	5	10-15	09-11	09-11	09-11
 bungle in the jungle	4	13-17	40-99	54-118	31-122
 caipifruta	3	05-10	16-20	0	0
 calle de miel	4	10-14	08-10	0	25-27
+can of Swiller	1	02-04	16-17	0	0
 candycaine	4	07-10	08-09	08-09	08-09
 cherry bomb	6	22-26	0	16-20	0
 cool mushroom wine	3	10-14	0	08-10	0
+cruelty-free wine	1	03-04	0	11-14	0
 dirty martini	6	22-26	0	0	16-20
 Divine	4	14-18	16-20	25-27	0
 dry martini	3	05-10	0	0	08-10
@@ -86,6 +88,7 @@ Maiali Sifilitici Pinot Noir	1	06-10	60	60	60
 mandarina colada	4	14-18	0	16-20	25-27
 margarita	3	03-06	08-10	0	0
 martini	3	03-07	0	0	08-10
+melted Jell-o shot	1	02-04	0	0	0
 mimosette	3	05-10	16-20	0	0
 Mon Tiki	4	14-18	40-47	0	0
 monkey wrench	3	03-06	0	08-10	0
@@ -115,6 +118,7 @@ sangria	3	05-10	0	08-10	0
 sangria del diablo	6	22-26	0	16-20	0
 Scrawny Stout	3	03-06	0	0	0
 screwdriver	3	03-06	08-10	0	0
+shot of blackberry schnapps	1	01-04	5-7	5-7	5-7
 shot of flower schnapps	1	01-03	0	0	0
 shot of grapefruit schnapps	1	01-03	0	03-05	0
 shot of nepenthe schnapps	2	05-08	0	12-18	0
@@ -138,6 +142,7 @@ teqiwila slammer	4	14-18	40-47	0	0
 tequila sunrise	3	03-06	08-10	0	0
 tequila sunset	3	05-10	0	16-20	0
 tequila with training wheels	3	05-10	08-09	0	0
+thistle wine	1	03-04	0	0	39-60
 tomato daiquiri	3	04-08	10-12	0	10-12
 Uovo Marcio Shiraz	1	06-10	60	60	60
 vesper	6	22-26	0	0	16-20
