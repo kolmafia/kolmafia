@@ -219,7 +219,7 @@
 219	Bubble, Bubble	sphere.gif
 220	Sticky Fingers	glove.gif
 221	Chalky Hand	glove.gif	3e2eed0d70d0e023a11619655a3f48c0
-222	Snarl of the Timberwolf	wolfmask.gif
+222	Snarl of the Timberwolf	wolfmask.gif	2968e9397d3aa977b8cb3e9817ad8cdd
 223	Dreams and Lights	snowflakes.gif	360467118bd69ef869a1af2002117e63
 224	Scarysauce	skullshld.gif	f7551a889b9c61510fc3f73f96ecc98e
 225	Dirge of Dreadfulness	notes.gif
@@ -363,7 +363,7 @@
 363	Unusual Fashion Sense	confused.gif
 364	Feelin' Philosophical	realbrain.gif	92c569a3c9aa120e4c79c5914c37c7e3
 365	Moon June Spooned	moon2.gif	733e8838261278c9b6173d392a4d09d7
-366	Inspired!	bulb.gif
+366	Inspired!	bulb.gif		cee83e927355a2c84cd8ee46745bd87a
 367	Ringing Ears	bell.gif	547a82f65523083eb7ea2349b1dd97a3
 368	Man's Worst Enemy	teeth.gif
 369	Extremely Poor Taste	sad.gif

@@ -1531,7 +1531,7 @@ public abstract class KoLCharacter extends StaticEntity
 		// weapons, then also allow one-handed weapons in the off-hand.
 
 		boolean dual = ( weaponHandedness() == 1 && hasSkill( "Double-Fisted Skull Smashing" ) );
-		boolean ranged = rangedWeapon();
+		int hitStat = hitStat();
 
 		for ( int i = 0; i < inventory.size(); ++i )
 		{
@@ -1554,7 +1554,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 			if ( filterId == EQUIP_OFFHAND && type == EQUIP_WEAPON && dual )
 			{
-				if ( EquipmentDatabase.getHands( currentItemName ) != 1 || EquipmentDatabase.isRanged( currentItemName ) != ranged )
+				if ( EquipmentDatabase.getHands( currentItemName ) != 1 || EquipmentDatabase.hitStat( currentItemName ) != hitStat )
 					continue;
 			}
 
@@ -1563,14 +1563,14 @@ public abstract class KoLCharacter extends StaticEntity
 			else if ( filterId != type )
 				continue;
 
-			// If we are currently dual-wielding, only melee
-			// weapons are allowed in the main weapon slot
-			// Two-handed ranged weapons are also allowed since
-			// they will remove both weapons when equipped
+			// If we are currently dual-wielding, only weapons of
+			// the current type are allowed in the main weapon slot.
+			// Two-handed weapons are also allowed since they will
+			// remove both weapons when equipped
 
 			else if ( filterId == EQUIP_WEAPON && dual )
 			{
-				if ( EquipmentDatabase.getHands( currentItemName ) == 1 && EquipmentDatabase.isRanged( currentItemName ) != ranged )
+				if ( EquipmentDatabase.getHands( currentItemName ) == 1 && EquipmentDatabase.hitStat( currentItemName ) != hitStat )
 					continue;
 			}
 

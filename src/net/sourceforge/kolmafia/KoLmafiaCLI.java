@@ -3283,38 +3283,36 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 		}
 
-		// If you are currently dual-wielding and the new weapon type
-		// (melee or ranged) doesn't match the offhand weapon, unequip
-		// the off-hand weapon
+		// If the new weapon type doesn't match the offhand weapon,
+		// unequip the off-hand weapon.
 
-		if ( KoLCharacter.dualWielding() && ( slot == KoLCharacter.WEAPON || slot == KoLCharacter.OFFHAND ) )
-        {
+		if ( slot == KoLCharacter.WEAPON || slot == KoLCharacter.OFFHAND )
+		{
 			int itemId = match.getItemId();
 			int desiredHands = EquipmentDatabase.getHands( itemId );
-			boolean desiredType = EquipmentDatabase.isRanged( itemId );
-			boolean currentType = EquipmentDatabase.isRanged( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getName() );
+			int desiredType = EquipmentDatabase.hitStat( itemId );
+			int currentType = EquipmentDatabase.hitStat( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getName() );
 
-            // If we are equipping a new weapon, a two-handed
-            // weapon will unequip any pair of weapons. But a
-            // one-handed weapon much match the type of the
-            // off-hand weapon. If it doesn't, unequip the off-hand
-            // weapon first
-
-			if ( slot == KoLCharacter.WEAPON )
-            {
-            	if ( desiredHands < 2 && desiredType != currentType )
-            		RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, KoLCharacter.OFFHAND ) );
-            }
-
-            // If we are equipping an off-hand weapon, fail the
-            // request if its type does not agree with the type of
-            // the main weapon.
-
-			else if ( slot == KoLCharacter.OFFHAND )
+			if ( desiredHands == 1 && desiredType != currentType )
 			{
-				if ( desiredHands == 1 && desiredType != currentType )
+				// If we are equipping a new weapon, a
+				// two-handed weapon will unequip any pair of
+				// weapons. But a one-handed weapon much match
+				// the type of the off-hand weapon. If it
+				// doesn't, unequip the off-hand weapon first
+
+				if ( slot == KoLCharacter.WEAPON )
 				{
-					updateDisplay( ERROR_STATE, "You can't wield a " + ( desiredType ? "ranged" : "melee" ) + " weapon in your off-hand with a " + ( currentType ? "ranged" : "melee" ) + " weapon in your main hand." );
+					RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, KoLCharacter.OFFHAND ) );
+				}
+
+				// If we are equipping an off-hand weapon, fail
+				// the request if its type does not agree with
+				// the type of the main weapon.
+
+				else if ( slot == KoLCharacter.OFFHAND )
+				{
+					updateDisplay( ERROR_STATE, "You can't wield a " + ( desiredType == MUSCLE ? "melee" : desiredType == MYSTICALITY ? "mysticality" : "ranged" ) + " weapon in your off-hand with a " + ( currentType == MUSCLE ? "melee" : currentType == MYSTICALITY ? "mysticality" : "ranged" ) + " weapon in your main hand." );
 					return;
 				}
 			}
