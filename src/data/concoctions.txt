@@ -88,7 +88,7 @@ Hammer of Smiting	4	Bjorn's Hammer	distilled seal blood
 
 turtle factory	4	chisel	big rock
 Mace of the Tortoise	4	turtle factory	turtle totem
-# Chelonian Morningstar	4	Mace of the Tortoise	Turtle Chain
+Chelonian Morningstar	4	Mace of the Tortoise	turtle chain
 
 spaghetti with rock-balls	4	petrified noodles	big rock
 Pasta of Peril	4	spaghetti with rock-balls	pasta spoon
@@ -100,7 +100,7 @@ heavy hot sauce	4	jaba&ntilde;ero pepper	big rock
 
 stone banjo	4	banjo strings	big rock
 Disco Banjo	4	stone banjo	disco ball
-# Shagadelic Disco Banjo	4	Disco Banjo	vial of mojo
+Shagadelic Disco Banjo	4	Disco Banjo	vial of mojo
 
 heart of rock and roll	4	hot buttered roll	big rock
 Rock and Roll Legend	4	heart of rock and roll	stolen accordion
@@ -230,7 +230,6 @@ Knob shroomkabob	2	Knob mushroom	skewer
 Knoll shroomkabob	2	Knoll mushroom	skewer
 lihc eye pie	2	lihc eye	pie crust
 menudo	2	catgut	spices
-nutty organic salad	2	handful of walnuts	mixed wildflower greens
 papaya taco	2	papaya	taco shell
 pr0n cocktail	2	pr0n legs	ketchup
 pr0n taco	2	pr0n legs	taco shell
@@ -240,12 +239,24 @@ royal jelly taco	2	royal jelly	taco shell
 skewered cat appendix	2	cat appendix	skewer
 spooky shroomkabob	2	spooky mushroom	skewer
 stuffed spooky mushroom	2	spooky mushroom	goat cheese
-super ka-bob	2	frat brats	knob ka-bob
-super salad	2	megatofu	mixed wildflower greens
 tofu casserole	2	wad of tofu	Gnollish casserole dish
 tofu taco	2	wad of tofu	taco shell
 white chocolate chip cookies	2	white chocolate chips	wad of dough
 
+# Food requiring access to L11 or L12 quest areas
+
+fishy fish	2	displaced fish	dehydrated caviar
+fishy fish casserole	2	fishy fish	Gnollish casserole dish
+fishy fish lasagna	22	fishy fish casserole	dry noodles	MSG
+gnatloaf	2	filet of tangy gnat (&quot;fotelif&quot;)	ancient spice
+gnatloaf casserole	2	gnatloaf	Gnollish casserole dish
+gnatloaf lasagna	2	gnatloaf casserole	dry noodles	MSG
+long pork chop sandwiches	2	long pork	black pepper
+long pork casserole	2	long pork chop sandwiches	Gnollish casserole dish
+long pork lasagna	2	long pork casserole	dry noodles	MSG
+nutty organic salad	2	handful of walnuts	mixed wildflower greens
+super ka-bob	2	frat brats	knob ka-bob
+super salad	2	megatofu	mixed wildflower greens
 
 # Standard, tier 1 and tier 2 beverages.  Nothing special about
 # these mixtures except everyone can make them.

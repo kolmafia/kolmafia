@@ -206,9 +206,12 @@ ring of aggravate monster	ML: +5
 ring of cold resistance	Cold: +20
 ring of conflict	Combat: -5.0
 ring of fire resistance	Hot: +20
+round purple sunglasses	Sleaze: +10
+round green sunglasses	Sleaze: +20
 sk8board	Init: +15.0
 Slow Talkin' Eliot's dogtags	Init: -30.0
 solid baconstone earring	Mana: -1
+spark plug earring	Spooky: +20
 stainless steel scarf	ML: +20
 stainless steel solitaire	Mana: -2
 stainless steel suspenders	DA: +60

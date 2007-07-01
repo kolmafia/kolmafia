@@ -833,6 +833,7 @@ ring of fire resistance	0	Mys: 25
 ring of gain strength	0	Mys: 25
 ring of half-assed regeneration	0	Mys: 10
 ring of increase damage	0	Mys: 25
+round green sunglasses	0	Mys: 80
 round purple sunglasses	0	Mys: 70
 rubber WWJD? bracelet	0	none
 rubber WWBD? bracelet	0	none
@@ -851,6 +852,7 @@ solid baconstone earring	0	Mys: 40
 solid baconstone necklace	0	Mys: 40
 solid baconstone ring	0	Mys: 40
 spade necklace	0	none
+spark plug earring      0	Mys: 75
 sparkly engagement ring	0	none
 special sauce glove	0	none
 spooky glove	0	none
@@ -920,6 +922,7 @@ wheel	0	none
 white belt	0	Mus: 5
 white collar	0	none
 woven baling wire bracelets	0	Mys: 75
+wrench bracelet      0	Mys: 75
 Xlyinia's notebook	0	none
 x-ray specs	0	none
 ye olde golde frontes	0	none
