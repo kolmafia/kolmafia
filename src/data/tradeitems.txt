@@ -2344,9 +2344,9 @@
 2341	black pepper	0	all	40
 2342	black forest cake	1	all	40
 2343	black forest ham	1	all	40
-2344	filthworm hatchling scent gland	1	none	0
-2345	filthworm drone scent gland	1	none	0
-2346	filthworm royal guard scent gland	1	none	0
+2344	filthworm hatchling scent gland	3	none	0
+2345	filthworm drone scent gland	3	none	0
+2346	filthworm royal guard scent gland	3	none	0
 2347	heart of the filthworm queen	0	none	0
 2348	water pipe bomb	0	all	150
 2349	gas balloon	0	all	150
@@ -2739,7 +2739,7 @@
 2736
 2737
 2738
-2739
+2739	panty raider camouflage	4	all	165
 2740	Staff of the Walk-In Freezer	12	display	25
 2741
 2742	steel lasagna	1	none	0
