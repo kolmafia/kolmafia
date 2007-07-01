@@ -973,12 +973,18 @@ public class FightRequest extends KoLRequest
 	{
 		switch ( itemId )
 		{
-		case 2:		// Seal Tooth
-		case 4:		// Scroll of Turtle Summoning
-		case 8:		// Spices
-		case 536:	// Dictionary 1
-		case 1316:	// Dictionary 2
-
+		case 2:		// seal tooth
+		case 4:		// turtle totem
+		case 8:		// spices
+		case 536:	// dictionary
+		case 1316:	// facsimile dictionary
+		case 2174:	// mossy stone sphere
+		case 2175:	// smooth stone sphere
+		case 2176:	// cracked stone sphere
+		case 2177:	// rough stone sphere
+		case 2404:	// jam band flyers
+		case 2405:	// rock band flyers
+		case 2678:	// spectre scepter
 			return false;
 
 		case 829:  // Anti-Anti-Antidote
