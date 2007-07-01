@@ -2220,7 +2220,7 @@
 2215	839108326	Tropical Crimbo Hat	Tropical Crimbo Hats
 2216	933344870	Tropical Crimbo Shorts	Tropical Crimbo Shortses
 2217	982562096	super ka-bob	super ka-bobs
-2218
+2218	272450924	beer basted brat
 2219	961494257	Tropical Crimbo Sword	Tropical Crimbo Swords
 2220	962755728	orange and black Crimboween candy	piles of orange and black Crimboween candy
 2221	796658788	Great Ball of Frozen Fire
@@ -2271,8 +2271,8 @@
 2266	602051173	wet stunt nut stew
 2267	984316382	Mega Gem
 2268	654006777	Staff of Fats
-2269
-2270
+2269		sausage wonton
+2270	777827661	black belt
 2271	163456429	dusty bottle of Merlot
 2272	289748376	dusty bottle of Port
 2273	905945394	dusty bottle of Pinot Noir
@@ -2393,9 +2393,9 @@
 2388	203037613	war tongs
 2389	762465625	Monstar energy beverage
 2390	360382135	asbestos apron
-2391		beaten-up Chucks
+2391	758085326	beaten-up Chucks
 2392	659726228	natty blue ascot
-2393		wreath of laurels
+2393	691085302	wreath of laurels
 2394	329154278	Danglin' Chad's loincloth
 2395	715031869	tube sock
 2396	171093881	chloroform rag
@@ -2421,27 +2421,27 @@
 2416	968287390	bounty-hunting helmet
 2417	863257288	bounty-hunting rifle
 2418	241547370	bounty-hunting pants
-2419
-2420
-2421
+2419	717528216	bottle of rhinoceros hormones
+2420	193836767	teeny-tiny magic scroll
+2421	262244349	bottle of pirate juice
 2422
 2423	409210711	Mick's IcyVapoHotness Inhaler
 2424
-2425
-2426
-2427
+2425	321698546	can of spinach
+2426	348302801	fire flower
+2427	448888728	freezerburned ice cube
 2428	499464237	fake blood
-2429
-2430
-2431
-2432
-2433
-2434
-2435
-2436
-2437
-2438
-2439
+2429	183643526	Eau de Guaneau
+2430	441143728	bag of lard
+2431	507117681	bottle of Mystic Shell
+2432	514348023	SPF 451 lip balm
+2433	951053215	bottle of antifreeze
+2434	451076404	black eyedrops
+2435	916901143	Dogsgotnonoz pills
+2436	487246592	donkey flipbook
+2437	791269713	New Cloaca-Cola
+2438	530550627	scented massage oil
+2439	844616801	poltergeist-in-the-jar-o	poltergeists-in-the-jars-o
 2440
 2441	591787452	Knob Goblin encryption key
 2442	325883819	Cobb's Knob map
@@ -2451,7 +2451,7 @@
 2446	481449606	hardware upgrade	hardware upgrades
 2447	840387110	bad penguin egg	bad penguin eggs
 2448	476592435	tasteful black bowtie	tasteful black bowties
-2449
+2449	223792397	six-pack of New Cloaca-Cola
 2450	404489596	empty Cloaca-Cola bottle
 2451	289037416	goatskin umbrella
 2452	160247422	wool hat
@@ -2521,7 +2521,7 @@
 2516		wrench bracelet
 2517	152836438	rusty chain necklace
 2518	772560168	sawblade shield
-2519
+2519		McMillicancuddy's Special Lager
 2520	142501345	melted Jell-o shot	melted Jell-o shots
 2521	877709652	cruelty-free wine	bottles of cruelty-free wine
 2522	685027473	thistle wine	bottles of thistle wine
@@ -2567,7 +2567,7 @@
 2562	592454967	half-rotten brain
 2563	723337113	rusty bonesaw
 2564	778300928	plus-sized phylactery
-2565		can of Ghuol-B-Gone&trade;
+2565	684313382	can of Ghuol-B-Gone&trade;
 2566	610128060	Azazel's unicorn
 2567	776720729	Azazel's lollipop
 2568	955022525	Azazel's tutu
@@ -2593,15 +2593,15 @@
 2588	449989440	Private Pepper's Lonely Hearts Club Jacket
 2589	138166057	hot date	hot dates, giggity giggity
 2590	644818554	distilled fortified wine	bottles of distilled fortified wine
-2591
-2592
-2593
-2594
+2591	367112324	tasty tart
+2592	970979827	Knob Goblin lunchbox
+2593	554994778	Knob pasty
+2594	867148185	thermos full of Knob coffee
 2595	842588397	Ben-Gal&trade; Balm	tins of Ben-Gal&trade; Balm
 2596	390000537	leathery cat skin
 2597	631907210	leathery bat skin
 2598	996364808	leathery rat skin
-2599
+2599	666281098	Discount Telescope Warehouse gift certificate
 2600	496663617	carbonated water lily
 2601	338816180	Staff of the Midnight Snack
 2602	572669193	Staff of Blood and Pudding
@@ -2623,15 +2623,15 @@
 2618	262135573	Iiti Kitty phone charm
 2619	854451522	jar of swamp gas	jars of swamp gas
 2620	294466303	unidentified jerky
-2621
-2622
-2623
-2624
-2625
-2626
-2627
-2628
-2629
+2621	557886090	nasty rat mask
+2622	425377244	ratskin belt
+2623	422120966	rattail whip
+2624	805282443	bat hat
+2625	837015905	bat whip
+2626	863016776	bat-ass leather jacket
+2627	235844075	catskin cap
+2628	810356873	catskin buckler
+2629	422120966	tail o' nine cats	tails o' more than nine catses
 2630	894817867	Hugo's Weaving Manual
 2631	417958778	gremlin juice
 2632	321738063	mother's little helper
@@ -2743,7 +2743,7 @@
 2738
 2739	815529370	panty raider camouflage	
 2740	403374369	Staff of the Walk-In Freezer
-2741
+2741	717809844	boilermaker
 2742	433679934	steel lasagna
 2743	941463343	steel margarita
 2744		steel-scented air freshener

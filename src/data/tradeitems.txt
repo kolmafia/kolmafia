@@ -2215,7 +2215,7 @@
 2215	Tropical Crimbo Hat	9	all	0
 2216	Tropical Crimbo Shorts	10	all	0
 2217	super ka-bob	1	all	115
-2218
+2218	beer basted brat	1	all	160
 2219	Tropical Crimbo Sword	12	all	0
 2220	orange and black Crimboween candy	4	all	15
 2221	Great Ball of Frozen Fire	0	all	0
@@ -2266,8 +2266,8 @@
 2266	wet stunt nut stew	0	none	0
 2267	Mega Gem	8	none	0
 2268	Staff of Fats	0	none	0
-2269
-2270
+2269	sausage wonton	1	all	215
+2270	black belt	8	all	80
 2271	dusty bottle of Merlot	2	all	35
 2272	dusty bottle of Port	2	all	35
 2273	dusty bottle of Pinot Noir	2	all	35
@@ -2416,27 +2416,27 @@
 2416	bounty-hunting helmet	9	none	0
 2417	bounty-hunting rifle	12	none	0
 2418	bounty-hunting pants	10	none	0
-2419
-2420
-2421
+2419	bottle of rhinoceros hormones	4	all	0
+2420	teeny-tiny magic scroll	4	all	0
+2421	bottle of pirate juice	4	all	0
 2422
 2423	Mick's IcyVapoHotness Inhaler	4	all	0
 2424
-2425
-2426
-2427
+2425	can of spinach	4	all	0
+2426	fire flower	4	all	0
+2427	freezerburned ice cube	4	all	0
 2428	fake blood	4	all	0
-2429
-2430
-2431
-2432
-2433
-2434
-2435
-2436
-2437
-2438
-2439
+2429	Eau de Guaneau	4	all	0
+2430	bag of lard	4	all	0
+2431	bottle of Mystic Shell	4	all	0
+2432	SPF 451 lip balm	4	all	0
+2433	bottle of antifreeze	4	all	0
+2434	black eyedrops	4	all	0
+2435	Dogsgotnonoz pills	4	all	0
+2436	donkey flipbook	4	all	0
+2437	New Cloaca-Cola	4	all	0
+2438	scented massage oil	4	all	0
+2439	poltergeist-in-the-jar-o	0	all	0
 2440
 2441	Knob Goblin encryption key	0	none	0
 2442	Cobb's Knob map	3	none	0
@@ -2446,7 +2446,7 @@
 2446	hardware upgrade	7	all	75
 2447	bad penguin egg	5	all	0
 2448	tasteful black bowtie	7	all	75
-2449
+2449	New Cloaca-Cola	4	all	0
 2450	empty Cloaca-Cola bottle	0	all	200
 2451	goatskin umbrella	12	all	185
 2452	wool hat	9	all	185
@@ -2516,7 +2516,7 @@
 2516	wrench bracelet	8	display	200
 2517	rusty chain necklace	9	display	250
 2518	sawblade shield	13	display	150
-2519
+2519	McMillicancuddy's Special Lager	1	all	10
 2520	melted Jell-o shot	2	all	85
 2521	cruelty-free wine	2	all	85
 2522	thistle wine	2	all	85
@@ -2588,15 +2588,15 @@
 2588	Private Pepper's Lonely Hearts Club Jacket	11	all	135
 2589	hot date	1	all	65
 2590	distilled fortified wine	2	all	0
-2591
-2592
-2593
-2594
+2591	tasty tart	1	all	0
+2592	Knob Goblin lunchbox	4	all	0
+2593	Knob pasty	1	all	15
+2594	thermos full of Knob coffee	2	all	25
 2595	Ben-Gal&trade; Balm	4	all	12
 2596	leathery cat skin	0	all	150
 2597	leathery bat skin	0	all	150
 2598	leathery rat skin	0	all	150
-2599
+2599	Discount Telescope Warehouse gift certificate	3	display	0
 2600	carbonated water lily	4	all	85
 2601	Staff of the Midnight Snack	12	display	25
 2602	Staff of Blood and Pudding	12	display	25
@@ -2618,15 +2618,15 @@
 2618	Iiti Kitty phone charm	8	all	175
 2619	jar of swamp gas	0	all	0
 2620	unidentified jerky	1	all	90
-2621
-2622
-2623
-2624
-2625
-2626
-2627
-2628
-2629
+2621	nasty rat mask	9	all	185
+2622	ratskin belt	8	all	185
+2623	rattail whip	12	all	35
+2624	bat hat	9	all	185
+2625	bat whip	12	all	35
+2626	bat-ass leather jacket	11	all	185
+2627	catskin cap	9	all	185
+2628	catskin buckler	13	all	185
+2629	tail o' nine cats	12	all	35
 2630	Hugo's Weaving Manual	0	none	0
 2631	gremlin juice	4	all	75
 2632	mother's little helper	4	all	115
@@ -2738,7 +2738,7 @@
 2738
 2739	panty raider camouflage	4	all	165
 2740	Staff of the Walk-In Freezer	12	display	25
-2741
+2741	boilermaker	2	all	165
 2742	steel lasagna	1	none	0
 2743	steel margarita	2	none	0
 2744	steel-scented air freshener	3	none	0

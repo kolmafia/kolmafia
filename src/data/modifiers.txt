@@ -3,6 +3,7 @@ asbestos helmet turtle	Hot: +10
 asshat	Stench: +10
 balaclava	Cold: +10
 balloon helmet	DA: +20
+bat hat	Item: +5.0
 blue traffic cone	Hot: +20
 bounty-hunting helmet	Item: +20.0
 bum cheek	Stench: +10
@@ -22,6 +23,7 @@ Knob Goblin harem veil	Stench: +10
 lihc face	Spooky: +20
 makeshift skirt	Spooky: +20
 miner's helmet	Item: +5.0
+nasty rat mask	ML: -5
 Orange peel hat	Cold: +30, Hot: +30, Spooky: +30, Stench: +30, Sleaze: +30
 orange traffic cone	Spooky: +20
 outrageous sombrero	Init: -20.0
@@ -41,6 +43,7 @@ yellow traffic cone	Sleaze: +20
 acoustic guitarrr	Meat: +2.0
 antique spear	Init: -30.0
 bar whip	Weight: +2
+bat whip	ML: +5
 beer bong	ML: +5
 broken sword	Spooky: +10
 bounty-hunting rifle	Item: +15.0
@@ -66,6 +69,7 @@ meatspout staff	Meat: +15.0
 muculent machete	Meat: +5.0
 penguin whip	Meat: +3.0
 pixel sword	Init: +15.0
+rattail whip	ML: +5
 rusty grave robbing shovel	Init: -10.0
 serpentine sword	ML: +10
 Shagadelic Disco Banjo	Meat: +10.0
@@ -74,6 +78,7 @@ Staff of the Grand Flamb&eacute;	Cold: +50
 styrofoam crossbow	ML: +3
 styrofoam staff	ML: +3
 styrofoam sword	ML: +3
+tail o' nine cats	ML: +5, Init: +15.0
 titanium assault umbrella	Sleaze: +10, Spooky: +10
 vampire duck-on-a-string	Item: +5.0
 white whip	Exp: +1.0
@@ -89,6 +94,7 @@ box-in-the-box	Meat: +2.0
 box-in-the-box-in-the-box	Meat: +3.0
 box turtle	DR: 3
 cardboard box turtle	DR: 4
+catskin buckler	DR: 11, DA: +50
 chopsticks	Init: +20.0
 Cloaca-cola shield	DR: 4
 clownskin buckler	DR: 3
@@ -120,6 +126,7 @@ wonderwall shield	DR: 12
 yakskin buckler	DR: 5
 
 asbestos apron	Hot: +30
+bat-ass leather jacket	Cold: +10, Hot: +10, Sleaze: +10, Spooky: +10, Stench: +10
 bronze breastplate	DA: +20, DR: 4
 clockwork trenchcoat	DA: +15
 eXtreme Bi-Polar Fleece Vest	Cold: +20
@@ -202,6 +209,7 @@ plexiglass pinky ring	Cold: +30, Hot: +30, Sleaze: +30, Spooky: +30, Stench: +30
 plexiglass pocketwatch	Mana: -3
 porquoise necklace	Meat: +10.0
 Purple Horseshoe of Honor	Item: +10.0
+ratskin belt	Item: +10.0
 ring of aggravate monster	ML: +5
 ring of cold resistance	Cold: +20
 ring of conflict	Combat: -5.0
