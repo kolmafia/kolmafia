@@ -2027,12 +2027,12 @@
 2020	481084186	cherry pie	cherry pies
 2021	872988258	strawberry pie	strawberry pies
 2022	665078159	lemon meringue pie	lemon meringue pies
-2023
-2024
-2025	566131698	Tofat wing chow mein	plates of Tofat wing chow mein
-2026	442480449	Tof0n chow mein
-2027	949035644	Tofofu chow mein
-2028	232446099	Tofat appendix chow mein
+2023	901962449	Genalen&trade; Bottle	Genalen&trade; Bottles
+2024	304307002	mixed wildflower greens	bowls of mixed wildflower greens
+2025	566131698	handful of walnuts	handfuls of walnuts
+2026	442480449	nutty organic salad
+2027	949035644	super salad	bowls of super salad
+2028	232446099	tofu wonton
 2029	922408101	hippy protest button
 2030	951408155	Lockenstock&trade; sandals
 2031	855347661	didgeridooka
@@ -2049,11 +2049,11 @@
 2042	380296478	exploding hacky-sack
 2043	376426839	macrame net
 2044	972316396	your father's MacGuffin diary
-2045
-2046
-2047
+2045	190046939	brain-meltingly-hot chicken wings	plates of brain-meltingly-hot chicken wings
+2046	572391996	frat brats	frat bratses
+2047	699369403	knob ka-bob	knob ka-bob-er-anns
 2048
-2049
+2049	382008303	can of Swiller	cans of Swiller
 2050	621350237	broken wings
 2051	424200748	sunken eyes
 2052	702139094	reassembled blackbird
@@ -2110,8 +2110,8 @@
 2103	724634831	vial of pirate sweat
 2104		empty aftershave bottle
 2105	270480542	coal button
-2106		burned-out arcanodiode
-2107		non-Euclidean hoof	non-Euclidean hooves
+2106	207784873	burned-out arcanodiode
+2107	365694213	non-Euclidean hoof	non-Euclidean hooves
 2108	807981274	rock	rocks
 2109	775430978	stringy sinew	stringy sinews
 2110	580256883	stick	sticks
@@ -2155,7 +2155,7 @@
 2148	703172884	toothsome rock	toothsome rocks
 2149	162700180	spooky frank
 2150	198504868	plate of franks and beans
-2151
+2151	369322564	shot of blackberry schnapps	shots of blackberry schnapps
 2152	982081881	capacitor relay	capacitor relays
 2153	198836917	carbon nanotube frame	carbon nanotube frames
 2154	449504979	ion grid	ion grids
@@ -2221,7 +2221,7 @@
 2214	291499297	tropical wrapping paper	tropical rolling papers
 2215	839108326	Tropical Crimbo Hat	Tropical Crimbo Hats
 2216	933344870	Tropical Crimbo Shorts	Tropical Crimbo Shortses
-2217
+2217	982562096	super ka-bob	super ka-bobs
 2218
 2219	961494257	Tropical Crimbo Sword	Tropical Crimbo Swords
 2220	962755728	orange and black Crimboween candy	piles of orange and black Crimboween candy
@@ -2339,7 +2339,7 @@
 2332	986014609	Better Than Cuddling Cake	Better Than Cuddling Cakes
 2333	739544930	stuffed ninja snowman	stuffed ninja snowmen
 2334	302128482	Holy MacGuffin
-2335
+2335	540134689	rubber WWBBDD? bracelet
 2336	209797948	lead pipe
 2337	213151374	reinforced beaded headband
 2338	716388011	black pudding
@@ -2366,16 +2366,16 @@
 2359	198133175	purple clay bead
 2360	791987367	green clay bead
 2361	564212733	hippy medical kit
-2362
-2363
-2364
-2365
-2366
+2362		Slow Talkin' Eliot's dogtags
+2363		longhaired hippy wig
+2364	592756847	Zim Merman's guitar
+2365	288571688	C.A.R.N.I.V.O.R.E. button
+2366	822796678	Orange peel hat
 2367	824720036	carbonated soy milk
 2368	553895362	flowing hippy skirt
 2369	280768369	filthy poultice
 2370	417026602	natural fennel soda
-2371
+2371	527269974	green smoke bomb
 2372	345583176	bunch of bananas	bunches of bananas
 2373	551016401	banana	bananas
 2374	358096476	banana peel	banana peels
@@ -2394,16 +2394,16 @@
 2387	709828596	giant foam finger
 2388	203037613	war tongs
 2389	762465625	Monstar energy beverage
-2390
-2391
+2390	360382135	asbestos apron
+2391		beaten-up Chucks
 2392	659726228	natty blue ascot
-2393
+2393		wreath of laurels
 2394	329154278	Danglin' Chad's loincloth
-2395
+2395	715031869	tube sock
 2396	171093881	chloroform rag
 2397	596770614	depantsing bomb
 2398	139612153	energy drink IV
-2399
+2399	471443872	Elmley shades
 2400	149097593	molotov cocktail cocktail
 2401	269933574	beer bong
 2402	971643916	gauze garter
@@ -2417,7 +2417,7 @@
 2410	167749086	oily rag
 2411	365674109	broken petri dish
 2412		sammich crust
-2413		triffid bark
+2413	822445957	triffid bark
 2414		white lint
 2415		discarded pacifier
 2416	968287390	bounty-hunting helmet
@@ -2524,10 +2524,10 @@
 2517	152836438	rusty chain necklace
 2518	772560168	sawblade shield
 2519
-2520
-2521
-2522
-2523
+2520	142501345	melted Jell-o shot	melted Jell-o shots
+2521	877709652	cruelty-free wine	bottles of cruelty-free wine
+2522	685027473	thistle wine	bottles of thistle wine
+2523	928407527	megatofu	blocks of megatofu
 2524	442025843	displaced fish
 2525
 2526

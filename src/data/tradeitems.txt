@@ -2023,12 +2023,12 @@
 2020	cherry pie	1	all	80
 2021	strawberry pie	1	all	45
 2022	lemon meringue pie	1	all	55
-2023
-2024
-2025	Tofat wing chow mein	1	all	73
-2026	Tof0n chow mein	1	all	130
-2027	Tofofu chow mein	1	all	109
-2028	Tofat appendix chow mein	1	all	130
+2023	Genalen&trade; Bottle	1	all	85
+2024	mixed wildflower greens	1	all	72
+2025	handful of walnuts	1	all	73
+2026	nutty organic salad	1	all	130
+2027	super salad	1	all	125
+2028	tofu wonton	1	all	195
 2029	hippy protest button	8	all	65
 2030	Lockenstock&trade; sandals	8	all	60
 2031	didgeridooka	12	all	165
@@ -2045,11 +2045,11 @@
 2042	exploding hacky-sack	0	all	150
 2043	macrame net	0	all	150
 2044	your father's MacGuffin diary	0	none	0
-2045
-2046
-2047
+2045	brain-meltingly-hot chicken wings	1	all	85
+2046	frat brats	1	all	85
+2047	knob ka-bob	1	all	85
 2048
-2049
+2049	can of Swiller	2	all	85
 2050	broken wings	0	none	0
 2051	sunken eyes	0	none	0
 2052	reassembled blackbird	5	none	0
@@ -2151,7 +2151,7 @@
 2148	toothsome rock	5	all	31
 2149	spooky frank	0	none	0
 2150	plate of franks and beans	0	none	0
-2151
+2151	shot of blackberry schnapps	2	all	65
 2152	capacitor relay	0	all	10
 2153	carbon nanotube frame	0	all	10
 2154	ion grid	0	all	10
@@ -2217,7 +2217,7 @@
 2214	tropical wrapping paper	0	all	0
 2215	Tropical Crimbo Hat	9	all	0
 2216	Tropical Crimbo Shorts	10	all	0
-2217
+2217	super ka-bob	1	all	115
 2218
 2219	Tropical Crimbo Sword	12	all	0
 2220	orange and black Crimboween candy	4	all	15
@@ -2335,7 +2335,7 @@
 2332	Better Than Cuddling Cake	1	gift	500
 2333	stuffed ninja snowman	0	gift	250
 2334	Holy MacGuffin	0	none	0
-2335
+2335	rubber WWBBDD? bracelet	8	display	0
 2336	lead pipe	12	all	72
 2337	reinforced beaded headband	9	all	95
 2338	black pudding	1	all	40
@@ -2362,16 +2362,16 @@
 2359	purple clay bead	0	all	0
 2360	green clay bead	0	all	0
 2361	hippy medical kit	0	all	140
-2362
-2363
-2364
-2365
-2366
+2362	Slow Talkin' Eliot's dogtags	8	all	0
+2363	longhaired hippy wig	9	all	100
+2364	Zim Merman's guitar	12	all	0
+2365	C.A.R.N.I.V.O.R.E. button	8	all	0
+2366	Orange peel hat	9	all	0
 2367	carbonated soy milk	4	all	75
 2368	flowing hippy skirt	10	all	185
 2369	filthy poultice	4	all	85
 2370	natural fennel soda	4	all	75
-2371
+2371	green smoke bomb	0	all	85
 2372	bunch of bananas	4	all	5
 2373	banana	1	all	1
 2374	banana peel	0	all	0
@@ -2390,16 +2390,16 @@
 2387	giant foam finger	12	all	55
 2388	war tongs	12	all	95
 2389	Monstar energy beverage	4	all	75
-2390
-2391
+2390	asbestos apron	11	all	75
+2391	beaten-up Chucks	8	all	0
 2392	natty blue ascot	8	all	0
-2393
+2393	wreath of laurels	9	all	0
 2394	Danglin' Chad's loincloth	10	all	0
-2395
+2395	tube sock	8	all	0
 2396	chloroform rag	0	all	85
 2397	depantsing bomb	0	all	130
 2398	energy drink IV	8	all	211
-2399
+2399	Elmley shades	8	all	120
 2400	molotov cocktail cocktail	0	all	150
 2401	beer bong	12	all	185
 2402	gauze garter	4	all	85
@@ -2520,10 +2520,10 @@
 2517	rusty chain necklace	9	display	250
 2518	sawblade shield	13	display	150
 2519
-2520
-2521
-2522
-2523
+2520	melted Jell-o shot	2	all	85
+2521	cruelty-free wine	2	all	85
+2522	thistle wine	2	all	85
+2523	megatofu	0	all	150
 2524	displaced fish	0	all	55
 2525
 2526

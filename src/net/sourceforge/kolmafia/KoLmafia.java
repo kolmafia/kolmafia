@@ -3247,18 +3247,20 @@ public abstract class KoLmafia implements KoLConstants
 
 				switch ( currentItem.getItemId() )
 				{
-				case 184: // briefcase
-				case 533: // Gnollish toolbox
-				case 553: // 31337 scroll
-				case 604: // Penultimate fantasy chest
-				case 831: // small box
-				case 832: // large box
-				case 1768: // Gnomish toolbox
-				case 1917: // old leather wallet
-				case 1918: // old coin purse
-				case 2057: // black pension check
-				case 2536: // canopic jar
-				case 2612: // ancient vinyl coin purse
+				case 184:	// briefcase
+				case 533:	// Gnollish toolbox
+				case 553:	// 31337 scroll
+				case 604:	// Penultimate fantasy chest
+				case 831:	// small box
+				case 832:	// large box
+				case 1768:	// Gnomish toolbox
+				case 1917:	// old leather wallet
+				case 1918:	// old coin purse
+				case 2057:	// black pension check
+				case 2511:	// Frat Army FGF
+				case 2512:	// Hippy Army MPE
+				case 2536:	// canopic jar
+				case 2612:	// ancient vinyl coin purse
 					RequestThread.postRequest( new ConsumeItemRequest( currentItem.getInstance( itemCount ) ) );
 					break;
 

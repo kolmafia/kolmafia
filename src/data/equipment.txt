@@ -71,6 +71,7 @@ KoL Con 3-D Glasses	10	none
 leather mask	60	Mox: 15
 lihc face	90	Mox: 30
 linoleum helmet turtle	100	Mox: 35
+longhaired hippy wig	200	Mox: 85
 MAHI fez	200	Mox: 85
 maiden wig	35	Mox: 2
 makeshift turban	100	Mox: 35
@@ -83,6 +84,7 @@ Mohawk wig	140	Mox: 55
 mullet wig	40	Mox: 5
 mummy mask	170	Mox: 70
 opera mask	10	none
+Orange peel hat	200	Mox: 85
 orange traffic cone	60	Mox: 15
 Orcish baseball cap	60	Mox: 15
 oriole-feather headdress	15	none
@@ -120,6 +122,7 @@ wolf mask	150	Mox: 60
 wooden salad bowl	120	Mox: 45
 wool hat	175	Mox: 72
 worn tophat	125	Mox: 47
+wreath of laurels	200	Mox: 85
 yak toupee	100	Mox: 35
 yellow plastic hard hat	90	Mox: 30
 yellow traffic cone	60	Mox: 15
@@ -216,6 +219,7 @@ yakskin skirt	140	Mox: 55
 # Shirt section.  This section includes all the items
 # which go in the "shirt" slot of the equipment menu.
 
+asbestos apron	170	Mus: 70
 Ascension Souvenir T-Shirt	15	none
 Ascii shirt	90	Mus: 30
 barskin cloak	25	none
@@ -532,7 +536,7 @@ wooden axe	60	Mus: 15	2-handed axe
 wooden stakes	25	Mus: 0	2-handed spear
 worm-riding hooks	50	Mus: 0	2-handed club
 yak whip	20	Mus: 0	1-handed whip
-
+Zim Merman's guitar	200	Mox: 85	2-handed guitar
 
 # Off-hand section.  This section includes all the items
 # which go in the "off-hand" slot of the equipment menu.
@@ -683,6 +687,7 @@ badass belt	0	Mys: 35
 Baron Von Ratsworth's monocle	0	none
 Baron Von Ratsworth's money clip	0	none
 beach glass necklace	0	Mys: 20
+beaten-up Chucks	0	Mys: 45
 beer goggles	0	none
 bejeweled accordion strap	0	none
 bejeweled pledge pin	0	Mys: 70
@@ -699,6 +704,7 @@ Boss Bat bling	0	Mys: 17
 bottle opener belt buckle	0	Mys: 65
 bottlecap turtle	0	Mys: 12
 Cape of the Goblin King	0	Mys: 20
+C.A.R.N.I.V.O.R.E. button	0	Mys: 10
 Cat-Herding Prod	0	none
 cement shoes	0	Mys: 35
 charrrm bracelet	0	Mys: 20
@@ -721,6 +727,7 @@ dirty hobo gloves	0	none
 disbelief suspenders	0	Mys: 10
 disembodied smile	0	none
 Dyspepsi-Cola-issue canteen	0	none
+Elmley shades	0	Mys: 75
 enchanted toothpick	0	Mys: 25
 energy drink IV	0	Mys: 75
 evil flaming eyeball pendant	0	none
@@ -838,6 +845,7 @@ Senior LAAAAME merit badge	0	none
 severed rocking horse head	0	Mys: 10
 shiny ring	0	Mys: 10
 sk8board	0	Mys: 20
+Slow Talkin' Eliot's dogtags	0	Mys: 45
 Sneaky Pete's breath spray	0	Mys: 25
 solid baconstone earring	0	Mys: 40
 solid baconstone necklace	0	Mys: 40
@@ -905,6 +913,7 @@ tiny plastic Uncle Crimbo	0	none
 toy crazy train	0	none
 toy jet pack	0	Mys: 72
 toy train	0	none
+tube sock	0	Mys: 45
 walrus-tusk earring	0	Mys: 10
 Warehouse 23 bling	0	none
 wheel	0	none

@@ -22,6 +22,7 @@ Knob Goblin harem veil	Stench: +10
 lihc face	Spooky: +20
 makeshift skirt	Spooky: +20
 miner's helmet	Item: +5.0
+Orange peel hat	Cold: +30, Hot: +30, Spooky: +30, Stench: +30, Sleaze: +30
 orange traffic cone	Spooky: +20
 outrageous sombrero	Init: -20.0
 pail	DA: +10
@@ -67,7 +68,7 @@ penguin whip	Meat: +3.0
 pixel sword	Init: +15.0
 rusty grave robbing shovel	Init: -10.0
 serpentine sword	ML: +10
-# Shagadelic Disco Banjo	Meat: +10.0
+Shagadelic Disco Banjo	Meat: +10.0
 squeaky staff	ML: +6
 Staff of the Grand Flamb&eacute;	Cold: +50
 styrofoam crossbow	ML: +3
@@ -118,6 +119,7 @@ wicker shield	DR: 11
 wonderwall shield	DR: 12
 yakskin buckler	DR: 5
 
+asbestos apron	Hot: +30
 bronze breastplate	DA: +20, DR: 4
 clockwork trenchcoat	DA: +15
 eXtreme Bi-Polar Fleece Vest	Cold: +20
@@ -165,9 +167,11 @@ baconstone bracelet	Mana: -1
 baconstone earring	Mana: -1
 Baron Von Ratsworth's money clip	Meat: +15.0
 Baron Von Ratsworth's monocle	Item: +10.0
+beaten-up Chucks	Init: +40.0
 blackberry moccasins	DR: 3
 Blue Diamond of Honesty	Item: +9.0
 Bonerdagon necklace	Init: +30.0
+C.A.R.N.I.V.O.R.E. button	ML: +15
 Copper Alpha of Sincerity	Item: +5.0
 disbelief suspenders	Sleaze: +10
 evil flaming eyeball pendant	Init: +15.0, Meat: +15.0
@@ -203,6 +207,7 @@ ring of cold resistance	Cold: +20
 ring of conflict	Combat: -5.0
 ring of fire resistance	Hot: +20
 sk8board	Init: +15.0
+Slow Talkin' Eliot's dogtags	Init: -30.0
 solid baconstone earring	Mana: -1
 stainless steel scarf	ML: +20
 stainless steel solitaire	Mana: -2
