@@ -107,14 +107,15 @@ public class GearChangeFrame extends KoLFrame
 
 			JPanel radioPanel = new JPanel( new GridLayout( 1, 4 ) );
 			ButtonGroup radioGroup = new ButtonGroup();
-			GearChangeFrame.this.weaponTypes = new JRadioButton[3];
+			GearChangeFrame.this.weaponTypes = new JRadioButton[4];
 
-			GearChangeFrame.this.weaponTypes[0] = new JRadioButton( "both", true );
+			GearChangeFrame.this.weaponTypes[0] = new JRadioButton( "all", true );
 
-			GearChangeFrame.this.weaponTypes[1] = new JRadioButton( "melee" );
-			GearChangeFrame.this.weaponTypes[2] = new JRadioButton( "ranged" );
+			GearChangeFrame.this.weaponTypes[1] = new JRadioButton( "mus" );
+			GearChangeFrame.this.weaponTypes[2] = new JRadioButton( "mys" );
+			GearChangeFrame.this.weaponTypes[3] = new JRadioButton( "mox" );
 
-			for ( int i = 0; i < 3; ++i )
+			for ( int i = 0; i < 4; ++i )
 			{
 				if ( i == 1 )
 					radioPanel.add( new JLabel( " " ) );
@@ -204,7 +205,7 @@ public class GearChangeFrame extends KoLFrame
 			AdventureResult weapon = pieces[ KoLCharacter.WEAPON ];
 			if ( weapon != null )
 			{
-				if ( EquipmentDatabase.getHands( weapon.getName() ) == 1 && EquipmentDatabase.isRanged( weapon.getName() ) != EquipmentDatabase.isRanged( offhand.getName() ) )
+				if ( EquipmentDatabase.getHands( weapon.getName() ) == 1 && EquipmentDatabase.hitStat( weapon.getName() ) != EquipmentDatabase.hitStat( offhand.getName() ) )
 					RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, KoLCharacter.OFFHAND ) );
 			}
 		}
@@ -344,7 +345,7 @@ public class GearChangeFrame extends KoLFrame
 			{
 				// Weapon in offhand. Must have compatible
 				// weapon in weapon hand
-				if ( weaponHands == 0 || EquipmentDatabase.isRanged( weaponItem.getName() ) != EquipmentDatabase.isRanged( offhandItem.getName() ) )
+				if ( weaponHands == 0 || EquipmentDatabase.hitStat( weaponItem.getName() ) != EquipmentDatabase.hitStat( offhandItem.getName() ) )
 					offhandItem = EquipmentRequest.UNEQUIP;
 			}
 
@@ -360,31 +361,43 @@ public class GearChangeFrame extends KoLFrame
 
 		// Search inventory for weapons
 
+		int hitStat;
 		for ( int i = 0; i < inventory.size(); ++i )
 		{
 			AdventureResult currentItem = (AdventureResult) inventory.get(i);
+
+			// Only add it once
+			if ( items.contains( currentItem ) )
+				continue;
+
+			// Only add weapons
 			int type = TradeableItemDatabase.getConsumptionType( currentItem.getItemId() );
 
 			if ( type != EQUIP_WEAPON )
 				continue;
 
 			// Make sure we meet requirements
-			if ( items.contains( currentItem ) || !EquipmentDatabase.canEquip( currentItem.getName() ) )
+			if ( !EquipmentDatabase.canEquip( currentItem.getName() ) )
 				continue;
 
-			boolean ranged = EquipmentDatabase.isRanged( currentItem.getName() );
+			hitStat = EquipmentDatabase.hitStat( currentItem.getName() );
 
-			if ( this.weaponTypes[0].isSelected() || (this.weaponTypes[1].isSelected() && !ranged) || (this.weaponTypes[2].isSelected() && ranged) )
+			if ( this.weaponTypes[0].isSelected() ||
+			     ( this.weaponTypes[1].isSelected() && hitStat == MUSCLE ) ||
+			     ( this.weaponTypes[2].isSelected() && hitStat == MYSTICALITY ) ||
+			     ( this.weaponTypes[3].isSelected() && hitStat == MOXIE ) )
 				items.add( currentItem );
 		}
 
 		// Add the current weapon
 
-		boolean ranged = EquipmentDatabase.isRanged( currentWeapon.getName() );
-
-		if ( !items.contains( currentWeapon ) )
-			if ( this.weaponTypes[0].isSelected() || (this.weaponTypes[1].isSelected() && !ranged) || (this.weaponTypes[2].isSelected() && ranged) )
-				items.add( currentWeapon );
+		hitStat = EquipmentDatabase.hitStat( currentWeapon.getName() );
+		if ( !items.contains( currentWeapon ) &&
+		     ( this.weaponTypes[0].isSelected() ||
+		       ( this.weaponTypes[1].isSelected() && hitStat == MUSCLE ) ||
+		       ( this.weaponTypes[2].isSelected() && hitStat == MYSTICALITY ) ||
+		       ( this.weaponTypes[3].isSelected() && hitStat == MOXIE ) ) )
+			items.add( currentWeapon );
 
 		// Add "(none)"
 		if ( !items.contains( EquipmentRequest.UNEQUIP ) )
@@ -404,16 +417,16 @@ public class GearChangeFrame extends KoLFrame
 		// one-handed weapon in the main hand
 		boolean weapons = EquipmentDatabase.getHands( weapon.getName() ) == 1 && KoLCharacter.hasSkill( "Double-Fisted Skull Smashing" );
 
-		// The type of weapon in the off hand - ranged or melee - must
+		// The type of weapon in the off hand must
 		// agree with the weapon in the main hand
-		boolean ranged = EquipmentDatabase.isRanged( weapon.getName() );
+		int hitStat = EquipmentDatabase.hitStat( weapon.getName() );
 
 		// Search inventory for suitable items
 
 		for ( int i = 0; i < inventory.size(); ++i )
 		{
 			AdventureResult currentItem = ((AdventureResult)inventory.get(i));
-			if ( !items.contains( currentItem ) && this.validOffhandItem( currentItem, weapons, ranged ) )
+			if ( !items.contains( currentItem ) && this.validOffhandItem( currentItem, weapons, hitStat ) )
 				items.add( currentItem );
 		}
 
@@ -423,7 +436,7 @@ public class GearChangeFrame extends KoLFrame
 
 		// Possibly add the current off-hand item
 		AdventureResult currentOffhand = KoLCharacter.getEquipment( KoLCharacter.OFFHAND );
-		if ( !items.contains( currentOffhand ) && this.validOffhandItem( currentOffhand, weapons, ranged )  )
+		if ( !items.contains( currentOffhand ) && this.validOffhandItem( currentOffhand, weapons, hitStat )  )
 			items.add( currentOffhand );
 
 		// Add "(none)"
@@ -433,7 +446,7 @@ public class GearChangeFrame extends KoLFrame
 		return items;
 	}
 
-	private boolean validOffhandItem( AdventureResult currentItem, boolean weapons, boolean ranged )
+	private boolean validOffhandItem( AdventureResult currentItem, boolean weapons, int hitStat )
 	{
 		switch ( TradeableItemDatabase.getConsumptionType( currentItem.getItemId() ) )
 		{
@@ -442,7 +455,7 @@ public class GearChangeFrame extends KoLFrame
 				return false;
 			if ( EquipmentDatabase.getHands( currentItem.getName() ) != 1 )
 				return false;
-			if ( ranged != EquipmentDatabase.isRanged( currentItem.getName() ) )
+			if ( hitStat != EquipmentDatabase.hitStat( currentItem.getName() ) )
 				return false;
 			// Fall through
 		case EQUIP_OFFHAND:
