@@ -92,6 +92,7 @@ frat brats	3	3	0	0	29
 fricasseed brains	3	03-04	0	4-5	0
 frozen mushroom	3	03-09	0	0	0
 fruitcake	3	03-06	17-23	17-23	17-23
+Genalen&trade; Bottle	1	02-04	16-30	20-38	0
 ghost cucumber	2	02-06	05-15	05-15	05-15
 ghuol egg	1	01	-03	0	0
 ghuol egg quiche	3	03-09	0	0	0

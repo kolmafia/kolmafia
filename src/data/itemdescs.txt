@@ -2739,8 +2739,8 @@
 2734	790278119	brown sugar cane
 2735	646801760	sandwich of the gods
 2736	671956082	Pan-Dimensional Gargle Blaster
-2737
-2738
+2737	898724678	enchanted leopard-print barbell
+2738	528170608	pile of smoking rags
 2739	815529370	panty raider camouflage	
 2740	403374369	Staff of the Walk-In Freezer
 2741	717809844	boilermaker
@@ -2788,21 +2788,21 @@
 2783	154528057	pulled porquoise earring
 2784	552153163	pulled porquoise pendant
 2785	454445649	pulled porquoise ring
-2786
-2787
-2788
-2789
-2790
-2791
-2792
-2793
-2794
-2795
-2796
-2797
-2798
-2799
-2800
+2786	119227300	Earring of Fire
+2787	770181861	Pendant of Fire
+2788	943556895	Ring of Fire
+2789	796342762	Ice-Cold Beering
+2790	814129545	Ice-Cold Aluminum Necklace
+2791	237926135	Ice-Cold Beer Ring
+2792	713045883	Unspeakable Earring
+2793	427572221	Choker of the Ultragoth
+2794	515332886	The Ring
+2795	150735351	Nose Ring of Putrescence
+2796	761102703	Putrid Pendant
+2797	665945231	Ring of the Sewer Snake
+2798	689356063	Mudflap-Girl Earring
+2799	980061196	Mudflap-Girl Necklace
+2800	350379011	Mudflap-Girl Ring
 2801	711346519	vial of Gnomochloric acid
 2802	878374857	flask of Gnomochloric acid
 2803	916210085	jug of Gnomochloric acid

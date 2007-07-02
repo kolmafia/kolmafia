@@ -98,7 +98,6 @@ public class KoLSettings extends Properties implements KoLConstants
 		// Things which are generally used during a softcore ascension should not
 		// be placed on the junk list, unless they're easy to find.
 
-		"Boris's key", "Jarlsberg's key", "Sneaky Pete's key", "Richard's star key", "digital key",
 		"baseball", "disease", "barbed-wire fence", "razor-sharp can lid", "meat vortex", "frigid ninja stars",
 		"chaos butterfly", "photoprotoneutron torpedo", "spider web", "Wand of Nagamar", "Rock and Roll Legend",
 

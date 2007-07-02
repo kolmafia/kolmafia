@@ -733,6 +733,7 @@ chintzy noodle ring	0	none
 chintzy saucepan earring	0	none
 chintzy disco ball pendant	0	none
 chintzy accordion pin	0	none
+Choker of the Ultragoth	0	Mys: 60
 clown shoes	0	Mys: 10
 clownskin belt	0	Mus: 10
 club necklace	100	none
@@ -746,6 +747,7 @@ dirty hobo gloves	0	none
 disbelief suspenders	0	Mys: 10
 disembodied smile	0	none
 Dyspepsi-Cola-issue canteen	0	none
+Earring of Fire	0	Mys: 60
 Elmley shades	0	Mys: 75
 enchanted toothpick	0	Mys: 25
 energy drink IV	0	Mys: 75
@@ -784,6 +786,9 @@ hippy medical kit	0	Mys: 72
 hippy protest button	0	Mys: 65
 hockey stick of furious angry rage	0	Mys: 35
 ice skates	0	none
+Ice-Cold Beering	0	Mys: 60
+Ice-Cold Aluminum Necklace	0	Mys: 60
+Ice-Cold Beer Ring	0	Mys: 60
 Iiti Kitty phone charm	0	Mys: 67
 imitation nice watch	0	Mys: 35
 incredibly dense meat gem	0	none
@@ -819,11 +824,16 @@ monster bait	0	none
 Ms. Accessory	0	none
 natty blue ascot	0	none
 orange glowstick	0	none
+Mudflap-Girl Earring	0	Mys: 60
+Mudflap-Girl Necklace	0	Mys: 60
+Mudflap-Girl Ring	0	Mys: 60
 Nickel Gamma of Frugality	0	Mys: 85
+Nose Ring of Putrescence	0	Mys: 60
 Orange Star of Sacrifice	0	Mys: 85
 Order of the Silver Wossname	0	Mys: 85
 pat-a-cake pendant	0	none
 peace-sign necklace	0	Mys: 20
+Pendant of Fire	0	Mys: 60
 phat turquoise bracelet	0	Mys: 20
 Pine-Fresh air freshener	0	Mys: 10
 pink glowstick	0	none
@@ -840,6 +850,7 @@ pulled porquoise earring	0	Mys: 40
 pulled porquoise pendant	0	Mys: 40
 pulled porquoise ring	0	Mys: 40
 Purple Horseshoe of Honor	0	Mys: 85
+Putrid Pendant	0	Mys: 60
 pygmy nose-bone	0	Mys: 62
 Radio KoL Keychain	0	none
 Radio KoL Antenna Ball	0	none
@@ -855,10 +866,12 @@ ring of adornment	0	Mys: 25
 ring of aggravate monster	0	Mys: 25
 ring of cold resistance	0	Mys: 25
 ring of conflict	0	Mys: 25
+Ring of Fire	0	Mys: 60
 ring of fire resistance	0	Mys: 25
 ring of gain strength	0	Mys: 25
 ring of half-assed regeneration	0	Mys: 10
 ring of increase damage	0	Mys: 25
+Ring of the Sewer Snake	0	Mys: 60
 round green sunglasses	0	Mys: 80
 round purple sunglasses	0	Mys: 70
 rubber WWJD? bracelet	0	none
@@ -896,6 +909,7 @@ Talisman of Baio	0	none
 Talisman of Bakula	0	none
 tap shoes	0	none
 the Amulet of Yendor	0	none
+The Ring	0	Mys: 60
 tin star	0	none
 tiny plastic accordion thief	0	none
 tiny plastic ancient yuletide troll	0	none
@@ -954,5 +968,6 @@ wrench bracelet      0	Mys: 75
 Xlyinia's notebook	0	none
 x-ray specs	0	none
 ye olde golde frontes	0	none
+Unspeakable Earring	0	Mys: 60
 Yellow Moon of Compassion	0	Mys: 85
 Zinc Delta of Tranquility	0	Mys: 85

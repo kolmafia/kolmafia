@@ -860,12 +860,34 @@ porquoise ring	8	porquoise	ring setting
 filigreed hamethyst ring	25	hamethyst	extra-fancy ring setting
 filigreed hamethyst earring	25	hamethyst	precious piercing post
 filigreed hamethyst necklace	25	hamethyst	heavy necklace chain
+
 solid baconstone ring	25	baconstone	extra-fancy ring setting
 solid baconstone earring	25	baconstone	precious piercing post
 solid baconstone necklace	25	baconstone	heavy necklace chain
+
 pulled porquoise ring	25	porquoise	extra-fancy ring setting
 pulled porquoise earring	25	porquoise	precious piercing post
 pulled porquoise pendant	25	porquoise	heavy necklace chain
+
+Earring of Fire	25	steamy ruby	precious piercing post
+Pendant of Fire	25	steamy ruby	heavy necklace chain
+Ring of Fire	25	steamy ruby	extra-fancy ring setting
+
+Ice-Cold Beering	25	glacial sapphire	precious piercing post
+Ice-Cold Aluminum Necklace	25	glacial sapphire	heavy necklace chain
+Ice-Cold Beer Ring	25	glacial sapphire	extra-fancy ring setting
+
+Unspeakable Earring	25	unearthly onyx	precious piercing post
+Choker of the Ultragoth	25	unearthly onyx	heavy necklace chain
+The Ring	25	unearthly onyx	extra-fancy ring setting
+
+Nose Ring of Putrescence	25	effluvious emerald	precious piercing post
+Putrid Pendant	25	effluvious emerald	heavy necklace chain
+Ring of the Sewer Snake	25	effluvious emerald	extra-fancy ring setting
+
+Mudflap-Girl Earring	25	tawdry amethyst	precious piercing post
+Mudflap-Girl Necklace	25	tawdry amethyst	extra-fancy ring setting
+Mudflap-Girl Ring	25	tawdry amethyst	extra-fancy ring setting
 
 # Chef staves made by Rodoric
 
@@ -891,12 +913,12 @@ really thick bandage	27	mummy wrapping (2)
 mummy mask	27	mummy wrapping (4)
 gauze shorts	27	mummy wrapping (6)
 
-duct tape buckler	27	duct tape (10)
 # duct tape dockers	27	duct tape (?)
-duct tape fedora	27	duct tape (14)
 # duct tape shirt	27	duct tape (?)
-duct tape sword	27	duct tape (17)
 duct tape wallet	27	duct tape (4)
+duct tape buckler	27	duct tape (10)
+duct tape fedora	27	duct tape (14)
+duct tape sword	27	duct tape (17)
 
 # Familiars.  These are familiars which are only available after
 # ascension (not including the ones which are available through

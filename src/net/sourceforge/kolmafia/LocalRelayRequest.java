@@ -877,16 +877,21 @@ public class LocalRelayRequest extends PasswordHashRequest
 		}
 
 		// If the person is visiting the sorceress and they forgot
-		// to equip the Wand, remind them.
+		// to make the Wand, remind them.
 
 		if ( this.formURLString.indexOf( "lair6.php" ) != -1 && this.getFormField( "place" ) != null &&
 			this.getFormField( "place" ).equals( "5" ) && this.getFormField( "override" ) == null )
 		{
-			if ( !KoLCharacter.hasEquipped( SorceressLair.NAGAMAR ) )
+			// As of NS 13,they need not have it equipped. In fact,
+			// there are far better weapons to equip for the
+			// battle. But, just in case, check current equipment
+			// as well as inventory.
+
+			if ( !KoLCharacter.hasEquipped( SorceressLair.NAGAMAR ) && !inventory.contains( SorceressLair.NAGAMAR ) )
 			{
 				AdventureDatabase.retrieveItem( SorceressLair.NAGAMAR );
 
-				this.sendGeneralWarning( "wand.gif", "Hm, it's possible there is something very important you're forgetting.  Maybe you should <a href=\"inventory.php?which=2\">double-check</a> just to make sure." );
+				this.sendGeneralWarning( "wand.gif", "Hm, it's possible there is something very important you're forgetting." );
 
 				return;
 			}
