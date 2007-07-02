@@ -2721,9 +2721,9 @@
 2721
 2722	Staff of the Greasefire	12	display	25
 2723	Staff of the Grand Flamb&eacute;	12	display	25
-2724
-2725
-2726
+2724	bowl of rye sprouts	1	all	150
+2725	cob of corn	1	all	150
+2726	juniper berries	1	all	150
 2727	plum	1	all	150
 2728	pear	1	all	150
 2729	peach	1	all	150
