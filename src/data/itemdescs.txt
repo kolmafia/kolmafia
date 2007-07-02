@@ -2271,7 +2271,7 @@
 2266	602051173	wet stunt nut stew
 2267	984316382	Mega Gem
 2268	654006777	Staff of Fats
-2269		sausage wonton
+2269	904562513	sausage wonton
 2270	777827661	black belt
 2271	163456429	dusty bottle of Merlot
 2272	289748376	dusty bottle of Port
@@ -2364,8 +2364,8 @@
 2359	198133175	purple clay bead
 2360	791987367	green clay bead
 2361	564212733	hippy medical kit
-2362		Slow Talkin' Eliot's dogtags
-2363		longhaired hippy wig
+2362	555561642	Slow Talkin' Eliot's dogtags
+2363	113723777	longhaired hippy wig
 2364	592756847	Zim Merman's guitar
 2365	288571688	C.A.R.N.I.V.O.R.E. button
 2366	822796678	Orange peel hat
@@ -2521,7 +2521,7 @@
 2516		wrench bracelet
 2517	152836438	rusty chain necklace
 2518	772560168	sawblade shield
-2519		McMillicancuddy's Special Lager
+2519	378020866	McMillicancuddy's Special Lager
 2520	142501345	melted Jell-o shot	melted Jell-o shots
 2521	877709652	cruelty-free wine	bottles of cruelty-free wine
 2522	685027473	thistle wine	bottles of thistle wine
@@ -2529,14 +2529,14 @@
 2524	442025843	displaced fish
 2525	839689404	fishy fish
 2526	980336557	fishy fish casserole
-2527	980336558	fishy fish lasagna
+2527	211395372	fishy fish lasagna
 2528	985581987	filet of tangy gnat (&quot;fotelif&quot;)
 2529	756337322	gnatloaf
 2530	671941643	gnatloaf casserole
 2531	312613540	gnatloaf lasagna
 2532	762179710	long pork
 2533	160708677	long pork chop sandwiches
-2534	980336557	long pork casserole
+2534	993250949	long pork casserole
 2535	157871622	long pork lasagna
 2536	402083452	canopic jar
 2537	898002086	ancient spice
@@ -2775,7 +2775,7 @@
 2770	477113151	chunk of rock salt
 2771	173491862	handful of pine needles
 2772	979351283	steamy ruby
-2773		glacial sapphire
+2773	250931608	glacial sapphire
 2774	116823791	unearthly onyx	unearthly onyxia
 2775	274380204	effluvious emerald
 2776	948533767	tawdry amethyst
