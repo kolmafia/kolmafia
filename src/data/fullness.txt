@@ -69,6 +69,7 @@ cool mushroom casserole	4	05-12	0	35-40	0
 cranberries	1	01	0	0	0
 crazy little Turkish delight	1	01-03	0	30-40	0
 cream of pointy mushroom soup	2	02-06	0	0	35-40
+Crimbo pie	3	08-12	30-41	0	0
 dehydrated caviar	1	01-04	0	0	15
 delicious noodles	3	05-12	0	0	09-25
 delicious spicy noodles	3	08-14	0	29-33	0
@@ -169,6 +170,8 @@ orange	1	01	0	0	0
 painful penne pasta	3	05-13	17-20	0	0
 papaya	1	01-02	0	0	0
 papaya taco	1	01-03	08-12	0	08-12
+pear tart	3	08-12	0	30-41	0
+peach pie	3	08-12	0	0	30-41
 Peche a la Frog	3	03-04	0	0	0
 personalized birthday cake	3	03	0	0	0
 piece of wedding cake	2	02-05	0	0	0

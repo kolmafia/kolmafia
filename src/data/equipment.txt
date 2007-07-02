@@ -1,4 +1,4 @@
-# Helmet section.  This section includes all the items
+s# Helmet section.  This section includes all the items
 # which go in the "hat" slot of the equipment menu.
 
 Ancient Saucehelm	50	Mox: 10
@@ -14,6 +14,7 @@ basic meat helmet	40	Mox: 5
 bat hat	180	Mox: 75
 beer helmet	170	Mox: 70
 big bad voodoo mask	160	Mox: 65
+black cowboy hat	165	Mox: 67
 black helmet	160	Mus: 65
 blue traffic cone	60	Mox: 15
 bounty-hunting helmet	100	Mox: 25
@@ -38,6 +39,7 @@ Disco 'Fro Pick	50	Mox: 10
 disco mask	10	none
 Dolphin King's crown	35	Mox: 2
 draggin' ball hat	100	Mox: 35
+duct tape fedora	195	Mox: 82
 Dyspepsi-Cola helmet	30	none
 El Sombrero De Lopez	50	Mox: 10
 Elder Turtle Shell	50	Mus: 10
@@ -59,6 +61,7 @@ goat beard	60	Mox: 15
 goofily-plumed helmet	70	Mox: 20
 grass hat	80	Mox: 25
 green traffic cone	60	Mox: 15
+Grimacite gasmask	150	Mox: 40
 Grimacite goggles	125	Mox: 47
 helmet turtle	10	none
 ice pick	100	none
@@ -158,6 +161,7 @@ demonskin trousers	70	Mox: 20
 distressed denim pants	170	Mox: 70
 dungeoneer's dungarees	30	none
 Danglin' Chad's loincloth	200	Mox: 75
+duct tape dockers	195	Mox: 82
 Dyspepsi-Cola fatigues	30	none
 filthy corduroys	60	Mox: 15
 flowing hippy skirt	180	Mox: 75
@@ -171,6 +175,7 @@ gnauga hide chaps	80	Mox: 25
 gnauga hide kilt	80	Mox: 25
 gnauga hide skirt	80	Mox: 25
 grass skirt	80	Mox: 25
+Grimacite gaiters	150	Mox: 40
 Grimacite greaves	125	Mox: 47
 hippopotamus kilt	130	Mox: 50
 hippopotamus pants	130	Mox: 50
@@ -244,6 +249,7 @@ gingham blouse	100	Mus: 35
 gnauga hide vest	80	Mus: 25
 goth kid t-shirt	100	Mus: 35
 Grateful Undead T-shirt	70	none
+Grimacite gown	150	Mus: 40
 Grimacite guayabera	125	Mus: 47
 harem girl t-shirt	25	none
 hipposkin poncho	120	Mus: 45
@@ -323,7 +329,7 @@ carob cannon	135	Mox: 45	2-handed crossbow
 cast-iron legacy paddle	190	Mus: 80	2-handed club
 Cerebral Crossbow	90	Mox: 30	1-handed crossbow
 cheap plastic bottle opener	30	Mys: 0	1-handed utensil
-Chelonian Morningstar	90	Mus: 15<	1-handed club
+Chelonian Morningstar	90	Mus: 15	1-handed club
 chisel	10	Mus: 0	1-handed knife
 chopsticks	75	Mys: 23	1-handed utensil
 chrome crossbow	120	Mox: 45	2-handed crossbow
@@ -395,6 +401,7 @@ grass blade	80	Mus: 25	1-handed sword
 grave robbing shovel	30	Mus: 0	2-handed polearm
 grease gun	65	Mox: 17	1-handed pistol
 Greek Pasta of Peril	90	Mys: 15	1-handed utensil
+Grimacite gat	150	Mox: 40	1-handed gun
 Grimacite glaive	125	Mus: 47	2-handed polearm
 hairy staff	135	Mus: 45	2-handed staff
 halfberd	30	Mus: 0	1-handed polearm
@@ -582,6 +589,7 @@ deck of tropical cards	0	none
 defective skull	0	none
 demon buckler	0	Mus: 25
 detective skull	0	Mox: 15
+duct tape buckler	0	Mus: 82
 Dyspepsi-Cola shield	75	none
 easter egg balloon	0	Mys: 35
 enchanted brass knuckles	0	Mys: 10
@@ -759,7 +767,10 @@ Golden Mr. Accessory	0	none
 Green Clover of Justice	0	Mys: 85
 green glowstick	0	none
 Grimacite galoshes	0	Mys: 17
+Grimacite gauntlets	0	Mys: 15
 Grimacite garter	0	Mys: 17
+Grimacite girdle	0	Mys: 15
+Grimacite go-go boots	0	Mys: 15
 Grimacite gorget	0	Mys: 17
 hamethyst bracelet	0	Mys: 10
 hamethyst earring	0	Mys: 10
@@ -804,10 +815,12 @@ Mr. Eh?	0	none
 Mr. Exploiter	0	none
 monster bait	0	none
 Ms. Accessory	0	none
-natty blue ascot	0	Mys: 0
+natty blue ascot	0	none
 orange glowstick	0	none
 Nickel Gamma of Frugality	0	Mys: 85
 Orange Star of Sacrifice	0	Mys: 85
+Order of the Silver Wossname	0	Mys: 85
+pat-a-cake pendant	0	none
 peace-sign necklace	0	Mys: 20
 phat turquoise bracelet	0	Mys: 20
 Pine-Fresh air freshener	0	Mys: 10
@@ -833,6 +846,7 @@ Radio KoL Maracas	0	none
 Radio KoL Bottle Opener	0	none
 Radio KoL Patch	0	none
 ratskin belt	0	Mys: 75
+Red Balloon of Valor	0	Mys: 85
 reinforced furry underpants	0	none
 right half of a heart necklace	0	none
 ring of adornment	0	Mys: 25
@@ -926,6 +940,7 @@ toy crazy train	0	none
 toy jet pack	0	Mys: 72
 toy train	0	none
 tube sock	0	Mys: 45
+Uranium Omega of Temperence	0	Mys: 85
 walrus-tusk earring	0	Mys: 10
 Warehouse 23 bling	0	none
 wheel	0	none
