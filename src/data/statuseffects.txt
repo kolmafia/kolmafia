@@ -102,7 +102,7 @@
 102	Strength of Ten Ettins	strboost.gif
 103	Strange Mental Acuity	realbrain.gif
 104	Izchak's Blessing	light.gif
-105	Corroded Weapon	corroded.gif
+105	Corroded Weapon	corroded.gif	8af5fd34414f0f52907fabfa3287fa2b
 106	Canadianity	mapleleaf.gif
 107	Enraged	angry.gif
 108	Ancestral Disapproval	skull.gif
@@ -346,7 +346,7 @@
 346
 347
 348	All Fired Up	fire.gif	5626ff49dbfe5c3bc7732a3dc9c1ea4e
-349
+349	Go Get 'Em, Tiger!	strboost.gif
 350
 351
 352	Tranquilized Mind	sleepy.gif	e6d8c1e5ee549f897340b97b3cc26053
@@ -363,15 +363,66 @@
 363	Unusual Fashion Sense	confused.gif
 364	Feelin' Philosophical	realbrain.gif	92c569a3c9aa120e4c79c5914c37c7e3
 365	Moon June Spooned	moon2.gif	733e8838261278c9b6173d392a4d09d7
-366	Inspired!	bulb.gif		cee83e927355a2c84cd8ee46745bd87a
+366	Inspired!	bulb.gif	cee83e927355a2c84cd8ee46745bd87a
 367	Ringing Ears	bell.gif	547a82f65523083eb7ea2349b1dd97a3
 368	Man's Worst Enemy	teeth.gif
 369	Extremely Poor Taste	sad.gif
 370	The Real Deal	light.gif
 371	Memento Moir&eacute;	photograph.gif	731ba2df034beec5412f82879eec9392
-372	Flashing Eyes	bigeyes.gif
+372	Flashing Eyes	bigeyes.gif	eaa0f2cd06a00116af53bd65177fdf4b
 373	Mmmmmelon	melon.gif	bd27dcbc85c224d16256b51a8ca02db5
 374	Contagious Bad Luck	bmirror.gif	86bb1d1be1a84c4554906852f4273f90
 375	Sparkling Consciousness	snowflakes.gif
 376	Sneaky Serpentine Subtlety	nopic.gif
 377	Adrenaline Rush	hoppeddown.gif
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428	Compensatory Cruelness	angry.gif	fcfb0679f0e80509cbff567a600ca998

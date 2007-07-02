@@ -265,7 +265,7 @@ super salad	2	mixed wildflower greens	megatofu
 
 beer basted brat	2	frat brats	McMillicancuddy's Special Lager
 sausage wonton	22	beer basted brat	dry noodles	MSG
-super ka-bob	2	frat brats	knob ka-bob
+super ka-bob	2	frat brats	knob ka-bobs
 
 Crimbo pie	2	pie crust	plum
 pear tart	2	pie crust	pear
@@ -895,7 +895,7 @@ duct tape buckler	27	duct tape (10)
 # duct tape dockers	27	duct tape (?)
 duct tape fedora	27	duct tape (14)
 # duct tape shirt	27	duct tape (?)
-# duct tape sword	27	duct tape (?)
+duct tape sword	27	duct tape (17)
 duct tape wallet	27	duct tape (4)
 
 # Familiars.  These are familiars which are only available after

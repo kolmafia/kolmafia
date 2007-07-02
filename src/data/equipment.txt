@@ -365,6 +365,7 @@ dripping meat staff	50	Mus: 10	2-handed staff
 dripping meat sword	50	Mus: 10	2-handed sword
 Drowsy Sword	171	Mus: 66	2-handed sword
 duck-on-a-string	100	Mus: 35	1-handed flail
+duct tape sword	195	Mus: 82	1-handed sword
 drywall axe	150	Mus: 60	2-handed axe
 eggbeater	25	Mys: 0	1-handed utensil
 especially homoerotic frat-paddle	150	Mus: 60	1-handed club
@@ -570,6 +571,7 @@ antique shield	230	Mus: 85
 arrow'd heart balloon	0	none
 barskin buckler	0	none
 basic meat foon	0	Mus: 10
+battered hubcap	0	Mus: 14
 black shield	0	Mus: 65
 bobble-hip hula elf doll	0	none
 box	0	none
@@ -868,6 +870,7 @@ Scandalously Skimpy Bikini	0	Mox: 10
 second-hand knockoff engagement ring	0	none
 Senior LAAAAME merit badge	0	none
 severed rocking horse head	0	Mys: 10
+shiny hood ornament	0	Mys: 80
 shiny ring	0	Mys: 10
 sk8board	0	Mys: 20
 Slow Talkin' Eliot's dogtags	0	Mys: 45
