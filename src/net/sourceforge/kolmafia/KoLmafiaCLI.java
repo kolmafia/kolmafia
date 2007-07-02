@@ -896,14 +896,14 @@ public class KoLmafiaCLI extends KoLmafia
 			int splitIndex = parameters.indexOf( "=" );
 			if ( splitIndex == -1 )
 			{
-				if ( !parameters.startsWith( "saveState" ) && !parameters.startsWith( "stasisFarmingAccount" ) )
+				if ( KoLSettings.isUserEditable( parameters ) )
 					RequestLogger.printLine( StaticEntity.getProperty( parameters ) );
 
 				return;
 			}
 
 			String name = parameters.substring( 0, splitIndex ).trim();
-			if ( name.startsWith( "saveState" ) || parameters.startsWith( "stasisFarmingAccount" ) )
+			if ( !KoLSettings.isUserEditable( name ) )
 				return;
 
 			String value = parameters.substring( splitIndex + 1 ).trim();
@@ -2304,9 +2304,26 @@ public class KoLmafiaCLI extends KoLmafia
 		// scripting a philanthropic buff request, then figure
 		// out if there's a corresponding full-price buff.
 
-		if ( attachments.length == 1 && ((AdventureResult)attachments[0]).getName().equals( AdventureResult.MEAT ) )
+		if ( !isConvertible )
 		{
-			int amount = BuffBotDatabase.getNonPhilanthropicOffering( splitParameters[1], ((AdventureResult)attachments[0]).getCount(), !isConvertible );
+			int attachmentCount = attachments.length;
+			for ( int i = 0; i < attachments.length; ++i )
+			{
+				if ( ((AdventureResult)attachments[0]).getName().equals( AdventureResult.MEAT ) )
+				{
+					--attachmentCount;
+					attachments[i] = null;
+				}
+			}
+
+			if ( attachmentCount == 0 )
+				return;
+		}
+		else
+		{
+			int amount = BuffBotDatabase.getOffering( splitParameters[1],
+				((AdventureResult)attachments[0]).getCount() );
+
 			if ( amount == 0 )
 				return;
 

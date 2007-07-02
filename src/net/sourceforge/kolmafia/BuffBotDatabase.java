@@ -46,7 +46,6 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class BuffBotDatabase extends KoLDatabase
 {
-	public static final int OVERPRICE_DIFFERENCE = 1000;
 	public static final String OPTOUT_URL = "http://forums.kingdomofloathing.com/";
 
 	private static final Pattern BUFFDATA_PATTERN = Pattern.compile( "<buffdata>(.*?)</buffdata>", Pattern.DOTALL );
@@ -72,7 +71,7 @@ public class BuffBotDatabase extends KoLDatabase
 
 	private static final CaseInsensitiveComparator NAME_COMPARATOR = new CaseInsensitiveComparator();
 
-	public static int getNonPhilanthropicOffering( String name, int amount, boolean autoReject )
+	public static int getOffering( String name, int amount )
 	{
 		// If you have no idea what the names present in
 		// the database are, go ahead and refresh it.
@@ -105,7 +104,7 @@ public class BuffBotDatabase extends KoLDatabase
 
 		name = KoLmafia.getPlayerName( name ).toLowerCase();
 		if ( !nameList.contains( name ) )
-			return amount;
+			return 0;
 
 		// Otherwise, retrieve the information for the buffbot
 		// to see if there are non-philanthropic offerings.
@@ -127,7 +126,6 @@ public class BuffBotDatabase extends KoLDatabase
 		if ( possibles.isEmpty() )
 			return amount;
 
-
 		Offering current = null;
 		boolean foundMatch = false;
 
@@ -140,12 +138,6 @@ public class BuffBotDatabase extends KoLDatabase
 
 		if ( !foundMatch || current == null )
 			return amount;
-
-		if ( autoReject )
-		{
-			KoLmafia.updateDisplay( ABORT_STATE, "Request rejected.  Use 'csend' if you need to make a buff request." );
-			return 0;
-		}
 
 		// If this offers more than 300 turns, chances are it's not
 		// a philanthropic buff.  Buff packs are also not protected
@@ -193,11 +185,8 @@ public class BuffBotDatabase extends KoLDatabase
 			}
 		}
 
-		// Check for a price difference to reduce the impact
-		// from bulk buffs.
-
-		return bestMatch == null || bestMatch.getPrice() - amount > OVERPRICE_DIFFERENCE ? amount :
-			bestMatch.getPrice();
+		return activeEffects.contains( new AdventureResult(
+			UneffectRequest.skillToEffect( bestMatch.buffs[0] ), 1, true ) ) ? 0 : bestMatch.getPrice();
 	}
 
 	public static boolean hasOfferings()
