@@ -5602,7 +5602,7 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue get_property( ScriptVariable name )
 		{
 			String property = name.toStringValue().toString();
-			return property.startsWith( "saveState" ) ? STRING_INIT : new ScriptValue( getProperty( property ) );
+			return !KoLSettings.isUserEditable( property ) ? STRING_INIT : new ScriptValue( getProperty( property ) );
 		}
 
 		public ScriptValue set_property( ScriptVariable name, ScriptVariable value )

@@ -275,6 +275,10 @@ public class KoLSettings extends Properties implements KoLConstants
 		this.ensureDefaults();
 	}
 
+	public static boolean isUserEditable( String property )
+	{	return !property.startsWith( "saveState" );
+	}
+
 	public static boolean isGlobalProperty( String name )
 	{
 		return CLIENT_SETTINGS.containsKey( name ) || name.startsWith( "saveState" ) || name.startsWith( "displayName" ) ||
