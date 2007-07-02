@@ -805,7 +805,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 			BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Philanthropy limit exceeded for " + recipient );
 			BuffBotHome.update( BuffBotHome.ERRORCOLOR, " ---> Could not cast " + buff.getBuffName() + " on " + recipient );
-			UseSkillRequest.lastUpdate = "This buff may only be requested once per day.";
+			UseSkillRequest.lastUpdate = "This buff may only be requested once per week.";
 			return false;
 		}
 
