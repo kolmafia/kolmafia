@@ -2515,7 +2515,7 @@
 2510	861240807	round green sunglasses
 2511	738860128	Frat Army FGF
 2512	322746900	Hippy Army MPE
-2513		spark plug earring
+2513	592022577	spark plug earring
 2514	491779381	woven baling wire bracelets
 2515	302909159	gearbox necklace
 2516		wrench bracelet
@@ -2558,9 +2558,9 @@
 2553		turtle chain
 2554	824288182	distilled seal blood
 2555	247415821	high-octane olive oil
-2556		Shagadelic Disco Banjo
+2556	858104556	Shagadelic Disco Banjo
 2557	632445399	Squeezebox of the Ages
-2558	1499215	Chelonian Morningstar
+2558	149921590	Chelonian Morningstar
 2559	723621502	Hammer of Smiting
 2560	811211086	17-Alarm Saucepan
 2561	370831124	Greek Pasta of Peril
