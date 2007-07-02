@@ -1017,7 +1017,16 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	private void rememberPosition()
 	{
 		Point p = this.getLocation();
-		StaticEntity.setProperty( this.frameName, ((int)p.getX()) + "," + ((int)p.getY()) );
+
+		if ( this.tabs == null )
+		{
+			StaticEntity.setProperty( this.frameName, ((int)p.getX()) + "," + ((int)p.getY()) );
+		}
+		else
+		{
+			StaticEntity.setProperty( this.frameName, ((int)p.getX()) + "," + ((int)p.getY()) + "," +
+				tabs.getSelectedIndex() );
+		}
 	}
 
 	private void restorePosition()
