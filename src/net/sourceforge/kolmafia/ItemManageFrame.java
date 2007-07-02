@@ -96,13 +96,16 @@ public class ItemManageFrame extends KoLFrame
 
 		JPanel foodPanel = new JPanel( new BorderLayout() );
 
-		foodPanel.add( new ConsumePanel( true, false ), BorderLayout.NORTH );
+		if ( StaticEntity.getBooleanProperty( "addCreationQueue" ) )
+			foodPanel.add( new ConsumePanel( true, false ), BorderLayout.NORTH );
 		foodPanel.add( new QueuePanel( true, false ), BorderLayout.CENTER );
 
 		this.addPanel( " - Food", foodPanel );
 
 		JPanel boozePanel = new JPanel( new BorderLayout() );
-		boozePanel.add( new ConsumePanel( false, true ), BorderLayout.NORTH );
+
+		if ( StaticEntity.getBooleanProperty( "addCreationQueue" ) )
+			boozePanel.add( new ConsumePanel( false, true ), BorderLayout.NORTH );
 		boozePanel.add( new QueuePanel( false, true ), BorderLayout.CENTER );
 
 		this.addPanel( " - Booze", boozePanel );
@@ -618,13 +621,10 @@ public class ItemManageFrame extends KoLFrame
 			this.food = food;
 			this.booze = booze;
 
-			this.setButtons( false, new ActionListener [] {
-
-					new EnqueueListener(),
-					new ExecuteListener(),
-					new BuffUpListener()
-
-				} );
+			if ( StaticEntity.getBooleanProperty( "addCreationQueue" ) )
+				this.setButtons( false, new ActionListener [] { new EnqueueListener(), new ExecuteListener(), new BuffUpListener() } );
+			else
+				this.setButtons( false, new ActionListener [] { new ExecuteListener(), new BuffUpListener() } );
 
 			JLabel test = new JLabel( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
 
