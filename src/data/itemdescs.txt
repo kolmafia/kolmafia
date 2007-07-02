@@ -2049,7 +2049,7 @@
 2044	972316396	your father's MacGuffin diary
 2045	190046939	brain-meltingly-hot chicken wings	plates of brain-meltingly-hot chicken wings
 2046	572391996	frat brats	frat bratses
-2047	699369403	knob ka-bob	knob ka-bob-er-anns
+2047	699369403	knob ka-bobs	knob ka-bob-er-anns
 2048
 2049	382008303	can of Swiller	cans of Swiller
 2050	621350237	broken wings
@@ -2703,7 +2703,7 @@
 2698	717877878	duct tape wallet
 2699		duct tape shirt
 2700	847582760	duct tape fedora
-2701		duct tape sword
+2701	454519872	duct tape sword
 2702	267560694	duct tape dockers
 2703	700340948	duct tape buckler
 2704	270139076	shrinking powder
@@ -2717,9 +2717,9 @@
 2712	978143454	black sheepskin diploma
 2713	319521618	Black Body&trade; spray
 2714
-2715
-2716
-2717
+2715	163102385	sausage bomb
+2716	691160228	battered hubcap
+2717	631967761	shiny hood ornament
 2718
 2719
 2720

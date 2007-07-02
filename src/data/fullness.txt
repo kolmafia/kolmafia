@@ -88,7 +88,7 @@ flaming mushroom	3	03-09	03-05	0	0
 flower petal pie	3	03-09	0	0	0
 foie gras	1	01-03	0	0	0
 fortune cookie	1	01	0	0	0
-frat brats	3	14-16	30-39	30-39	30-39
+frat brats	3	3	0	0	29
 fricasseed brains	3	03-04	0	4-5	0
 frozen mushroom	3	03-09	0	0	0
 fruitcake	3	03-06	17-23	17-23	17-23

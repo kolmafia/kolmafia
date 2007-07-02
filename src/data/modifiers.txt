@@ -56,6 +56,7 @@ Crimbo Ukelele	Item: +10.0
 dreadlock whip	ML: +10
 Drowsy Sword	ML: -10
 duck-on-a-string	Item: +5.0
+duct tape sword	DA: +40, Item: +5.0
 flaming juggler's balls	Exp: +2.0
 Frost&trade; brand sword	ML: +3
 giant discarded plastic fork	Init: -10.0
@@ -87,6 +88,7 @@ white whip	Exp: +1.0
 7-ball	Meat: +5.0
 antique shield	Init: -10.0, DR: 15
 barskin buckler	DR: 1
+battered hubcap	DR: 14, Cold: +20, Hot: +20, Spooky: +20, Stench: +20, Sleaze: +20
 black shield	DR: 10
 bobble-hip hula elf doll	Meat: +15.0
 box	Meat: +1.0
@@ -219,6 +221,7 @@ ring of conflict	Combat: -5.0
 ring of fire resistance	Hot: +20
 round purple sunglasses	Sleaze: +10
 round green sunglasses	Sleaze: +20
+shiny hood ornament	Init: +10.0
 sk8board	Init: +15.0
 Slow Talkin' Eliot's dogtags	Init: -30.0
 solid baconstone earring	Mana: -1
