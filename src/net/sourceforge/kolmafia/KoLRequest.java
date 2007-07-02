@@ -765,7 +765,7 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( urlString.startsWith( "choice.php" ) )
 			this.saveLastChoice( urlString );
 
-		if ( !this.isDelayExempt )
+		if ( !this.isChatRequest && !urlString.startsWith( "charpane.php" ) )
 			StaticEntity.getClient().setCurrentRequest( this );
 
 		// If you're about to fight the Naughty Sorceress,
