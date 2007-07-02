@@ -2734,8 +2734,8 @@
 2734	brown sugar cane	1	all	55
 2735	sandwich of the gods	1	display	100
 2736	Pan-Dimensional Gargle Blaster	2	display	200
-2737
-2738
+2737	enchanted leopard-print barbell	3	display	300
+2738	pile of smoking rags	5	display	0
 2739	panty raider camouflage	4	all	165
 2740	Staff of the Walk-In Freezer	12	display	25
 2741	boilermaker	2	all	165
@@ -2783,21 +2783,21 @@
 2783	pulled porquoise earring	8	all	600
 2784	pulled porquoise pendant	8	all	600
 2785	pulled porquoise ring	8	all	600
-2786
-2787
-2788
-2789
-2790
-2791
-2792
-2793
-2794
-2795
-2796
-2797
-2798
-2799
-2800
+2786	Earring of Fire	8	all	3000
+2787	Pendant of Fire	8	all	3000
+2788	Ring of Fire	8	all	3000
+2789	Ice-Cold Beering	8	all	3000
+2790	Ice-Cold Aluminum Necklace	8	all	3000
+2791	Ice-Cold Beer Ring	8	all	3000
+2792	Unspeakable Earring	8	all	3000
+2793	Choker of the Ultragoth	8	all	3000
+2794	The Ring	8	all	3000
+2795	Nose Ring of Putrescence	8	all	3000
+2796	Putrid Pendant	8	all	3000
+2797	Ring of the Sewer Snake	8	all	3000
+2798	Mudflap-Girl Earring	8	all	3000
+2799	Mudflap-Girl Necklace	8	all	3000
+2800	Mudflap-Girl Ring	8	all	3000
 2801	vial of Gnomochloric acid	0	all	250
 2802	flask of Gnomochloric acid	0	all	500
 2803	jug of Gnomochloric acid	0	all	2500

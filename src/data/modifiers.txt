@@ -184,6 +184,7 @@ Bonerdagon necklace	Init: +30.0
 C.A.R.N.I.V.O.R.E. button	ML: +15
 Copper Alpha of Sincerity	Item: +5.0
 disbelief suspenders	Sleaze: +10
+Earring of Fire	Cold: +30, Spooky: +30
 evil flaming eyeball pendant	Init: +15.0, Meat: +15.0
 glowing red eye	Spooky: +20
 gnatwing earring	Init: +10.0
@@ -191,6 +192,7 @@ Green Clover of Justice	Item: +8.0
 Grimacite galoshes	Meat: +25.0
 Grimacite garget	Item: +25.0
 hockey stick of furious angry rage	ML: +30
+Ice-Cold Beering	Sleaze: +30, Stench: +30
 ice skates	Init: +15.0, Meat: +15.0
 incredibly dense meat gem	Meat: +25.0
 infernal insoles	Hot: +10, Init: +10.0
@@ -202,8 +204,10 @@ makeshift cape	Item: +5.0
 makeshift SCUBA gear	Stench: +20
 monster bait	Combat: +5.0
 Mr. Accessory Jr.	Item: +25.0
+Mudflap-Girl Earring	Stench: +30, Hot: +30
 natty blue ascot	Meat: +20.0
 Nickel Gamma of Frugality	Item: +7.0
+Nose Ring of Putrescence	Hot: +30, Spooky: +30
 Orange Star of Sacrifice	Item: +6.0
 Order of the Silver Wossname	Item: +11.0
 peace-sign necklace	DR: 3
@@ -260,6 +264,7 @@ toy crazy train	Meat: +10.0
 toy train	Meat: +10.0
 white collar	Meat: +3.0
 woven baling wire bracelets	Mana: -1
+Unspeakable Earring	Cold: +30, Sleaze: +30
 Uranium Omega of Temperence	Item: +11.0
 Yellow Moon of Compassion	Item: +7.0
 Zinc Delta of Tranquility	Item: +8.0

@@ -491,17 +491,17 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Cornered!
 		new ChoiceAdventure( "Island", "choiceAdventure147", "McMillicancuddy's Barn",
-		  new String [] { "Open The Granary", "Open The Bog", "Open The Pond" },
+		  new String [] { "Open The Granary (meat)", "Open The Bog (stench)", "Open The Pond (cold)" },
 		  new String [] { null, null, null } ),
 
 		// Cornered Again!
 		new ChoiceAdventure( "Island", "choiceAdventure148", "McMillicancuddy's Barn",
-		  new String [] { "Open The Back 40", "Open The Family Plot" },
+		  new String [] { "Open The Back 40 (hot)", "Open The Family Plot (spooky)" },
 		  new String [] { null, null } ),
 
 		// ow Many Corners Does this Stupid Barn Have!?
 		new ChoiceAdventure( "Island", "choiceAdventure149", "McMillicancuddy's Barn",
-		  new String [] { "Open The Shady Thicket", "Open The Other Back 40" },
+		  new String [] { "Open The Shady Thicket (booze)", "Open The Other Back 40 (sleaze)" },
 		  new String [] { null, null } ),
 
 		// Choice 150 is Another Adventure About BorderTown
