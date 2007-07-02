@@ -2360,7 +2360,7 @@
 2360	green clay bead	0	all	0
 2361	hippy medical kit	0	all	140
 2362	Slow Talkin' Eliot's dogtags	8	all	0
-2363	longhaired hippy wig	9	all	100
+2363	longhaired hippy wig	9	all	0
 2364	Zim Merman's guitar	12	all	0
 2365	C.A.R.N.I.V.O.R.E. button	8	all	0
 2366	Orange peel hat	9	all	0
@@ -2516,7 +2516,7 @@
 2516	wrench bracelet	8	display	200
 2517	rusty chain necklace	9	display	250
 2518	sawblade shield	13	display	150
-2519	McMillicancuddy's Special Lager	1	all	10
+2519	McMillicancuddy's Special Lager	2	all	150
 2520	melted Jell-o shot	2	all	85
 2521	cruelty-free wine	2	all	85
 2522	thistle wine	2	all	85
