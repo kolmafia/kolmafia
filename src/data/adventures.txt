@@ -123,6 +123,7 @@ Orchard	125/125	adventure=130	The Queen's Chamber
 Island (Post-Quest)	125/125	adventure=150	The Frat House (Bombed Back to
 the Stone Age)
 Island (Post-Quest)	125/125	adventure=154	The Junkyard
+Island (Post-Quest)	125/125	adventure=136	Sonofa Beach
 Island (Post-Quest)	125/125	adventure=155	McMillicancuddy's Farm
 
 Mountain	0/0	adventure=91	Noob Cave
@@ -133,7 +134,7 @@ McLarge	53/0	adventure=62	Ninja Snowmen	1 frigid ninja stars
 McLarge	53/0	adventure=63	eXtreme Slope	outfit
 McLarge	53/0	adventure=110	Icy Peak	level 10
 Mountain	68/0	mountains=80	Bridge the Orc Chasm
-Mountain	68/0	adventure=80	Valley Beyond Orc Chasm	1 64735 scroll, 2 lowercase N
+Mountain	68/0	adventure=80	Valley Beyond Orc Chasm	1 30669 scroll, 1 33398 scroll, 2 334 scroll, 2 lowercase N
 
 Beanstalk	85/90	adventure=81	Penultimate Fantasy Airship	1 metallic A, 1 S.O.C.K.
 Beanstalk	85/95	adventure=82	Castle in the Clouds in the Sky	castle items

@@ -64,7 +64,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 	public static final AdventureResult [] TAMER_WEAPONS = new AdventureResult []
 	{
-		new AdventureResult( 666, 1 ),   // -- placeholder --
+		new AdventureResult( 2558, 1 ),	 // Chelonian Morningstar
 		new AdventureResult( 60, 1 ),    // Mace of the Tortoise
 		new AdventureResult( 4, 1 )      // turtle totem
 	};

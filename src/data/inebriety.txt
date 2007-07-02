@@ -106,6 +106,7 @@ parisian cathouse	3	05-10	0	0	16-20
 perpendicular hula	4	10-14	0	0	34-36
 Petite Porter	3	03-05	0	0	0
 pink pony	4	10-14	25-27	0	08-10
+plum wine	2	04-08	15-20	0	0
 pointy mushroom wine	3	10-14	0	0	08-10
 prussian cathouse	4	14-18	0	0	40-47
 rabbit punch	3	05-10	0	0	16-20
@@ -125,6 +126,8 @@ shot of flower schnapps	1	01-03	0	0	0
 shot of grapefruit schnapps	1	01-03	0	03-05	0
 shot of nepenthe schnapps	2	05-08	0	12-18	0
 shot of orange schnapps	1	01-03	03-05	0	0
+shot of pear schnapps	2	04-08	0	15-20	0
+shot of peach schnapps	2	04-08	0	0	15-20
 shot of tomato schnapps	1	01-03	01-02	01-02	01-02
 slap and tickle	4	10-14	0	08-10	25-27
 slip 'n' slide	4	10-14	34-36	0	0

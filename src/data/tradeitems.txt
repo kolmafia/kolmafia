@@ -2630,7 +2630,7 @@
 2630	Hugo's Weaving Manual	0	none	0
 2631	gremlin juice	4	all	75
 2632	mother's little helper	4	all	115
-2633
+2633	pat-a-cake pendant	8	all	25
 2634	mummy wrapping	4	all	50
 2635	really thick bandage	3	all	90
 2636	mummy mask	9	all	165
@@ -2638,7 +2638,7 @@
 2638
 2639	black cherry soda	4	all	40
 2640	black greaves	10	all	145
-2641
+2641	black cowboy hat	9	all	145
 2642	Maxwell's Silver Hammer	12	all	180
 2643	happiness	12	all	95
 2644	flaming feather	0	all	55
@@ -2696,12 +2696,12 @@
 2696	ovoid leather thing	0	all	150
 2697	duct tape	0	display	25
 2698	duct tape wallet	4	unknown	-1
-2699
-2700
-2701
-2702
-2703
-2704
+2699	duct tape shirt	11	display	0
+2700	duct tape fedora	9	display	210
+2701	duct tape sword	12	display	0
+2702	duct tape dockers	10	display	200
+2703	duct tape buckler	13	display	175
+2704	shrinking powder	0	all	0
 2705	blackberry slippers	8	all	175
 2706	blackberry moccasins	8	all	130
 2707	blackberry combat boots	8	all	150
@@ -2727,13 +2727,13 @@
 2727	plum	1	all	150
 2728	pear	1	all	150
 2729	peach	1	all	150
-2730
-2731
-2732
+2730	plum wine	2	all	175
+2731	shot of pear schnapps	2	all	175
+2732	shot of peach schnapps	2	all	175
 2733	bunch of square grapes	1	all	65
 2734	brown sugar cane	1	all	55
 2735	sandwich of the gods	1	display	100
-2736
+2736	Pan-Dimensional Gargle Blaster	2	display	200
 2737
 2738
 2739	panty raider camouflage	4	all	165
@@ -2747,26 +2747,26 @@
 2747	chunk of depleted Grimacite	0	all	0
 2748	furniture dolly	8	all	180
 2749	Staff of the Grease Trap	12	display	25
-2750
+2750	Uranium Omega of Temperence	8	display	5000
 2751	Lead Zeta of Chastity	8	display	5000
 2752	Aluminum Epsilon of Humility	8	display	5000
 2753	Zinc Delta of Tranquility	8	display	5000
 2754	Nickel Gamma of Frugality	8	display	5000
 2755	Iron Beta of Industry	8	display	5000
 2756	Copper Alpha of Sincerity	8	display	5000
-2757
+2757	Red Balloon of Valor	8	display	5000
 2758	Purple Horseshoe of Honor	8	display	5000
 2759	Blue Diamond of Honesty	8	display	5000
 2760	Green Clover of Justice	8	display	5000
 2761	Yellow Moon of Compassion	8	display	5000
 2762	Orange Star of Sacrifice	8	display	5000
 2763	Pink Heart of Spirit	8	display	5000
-2764
-2765
+2764	Order of the Silver Wossname	8	display	15000
+2765	Harold's bell	0	none	0
 2766	solid gold bowling ball	0	all	5000
-2767
-2768
-2769
+2767	Crimbo pie	1	all	80
+2768	pear tart	1	all	80
+2769	peach pie	1	all	80
 2770	chunk of rock salt	4	all	145
 2771	handful of pine needles	4	all	125
 2772	steamy ruby	0	all	2500
@@ -2801,29 +2801,33 @@
 2801	vial of Gnomochloric acid	0	all	250
 2802	flask of Gnomochloric acid	0	all	500
 2803	jug of Gnomochloric acid	0	all	2500
-2804
-2805
-2806
-2807
-2808
-2809
-2810
-2811
-2812
+2804	vial of hamethyst juice	4	all	200
+2805	vial of baconstone juice	4	all	200
+2806	vial of porquoise juice	4	all	200
+2807	flask of hamethyst juice	4	all	400
+2808	flask of baconstone juice	4	all	400
+2809	flask of porquoise juice	4	all	400
+2810	jug of hamethyst juice	4	all	600
+2811	jug of baconstone juice	4	all	600
+2812	jug of porquoise juice	4	all	600
 2813
 2814
 2815
 2816
 2817
 2818
-2819
-2820
-2821
-2822
-2823
-2824
-2825
+2819	Grimacite gasmask	9	all	0
+2820	Grimacite gat	12	all	0
+2821	Grimacite gaiters	10	all	0
+2822	Grimacite gauntlets	8	all	0
+2823	Grimacite go-go boots	8	all	0
+2824	Grimacite girdle	8	all	0
+2825	Grimacite gown	11	all	0
 2826	Staff of the Kitchen Floor	12	display	25
 2827	anniversary gift box	3	none	0
-2828
+2828	loaded dice	0	none	0
 2829	really dense meat stack	0	all	5000
+2830	digital key lime	0	all	98
+2831	star key lime	0	all	98
+2832	digital key lime pie	1	all	123
+2833	star key lime pie	1	all	123

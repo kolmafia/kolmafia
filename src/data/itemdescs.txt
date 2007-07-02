@@ -2635,7 +2635,7 @@
 2630	894817867	Hugo's Weaving Manual
 2631	417958778	gremlin juice
 2632	321738063	mother's little helper
-2633
+2633	266934767	pat-a-cake pendant
 2634	682161779	mummy wrapping
 2635	599174480	really thick bandage
 2636	324153918	mummy mask
@@ -2643,7 +2643,7 @@
 2638
 2639	273117128	black cherry soda
 2640	207650845	black greaves	black greavess
-2641
+2641	931395512	black cowboy hat
 2642	438829287	Maxwell's Silver Hammer
 2643	752498873	happiness
 2644	507320025	flaming feather
@@ -2700,13 +2700,13 @@
 2695	632041342	cup of primitive beer
 2696	846092406	ovoid leather thing
 2697	453222342	duct tape
-2698		duct tape wallet
-2699
-2700
-2701
-2702
-2703
-2704
+2698	717877878	duct tape wallet
+2699		duct tape shirt
+2700	847582760	duct tape fedora
+2701		duct tape sword
+2702	267560694	duct tape dockers
+2703	700340948	duct tape buckler
+2704	270139076	shrinking powder
 2705	255059271	blackberry slippers
 2706	922299066	blackberry moccasins
 2707	567120426	blackberry combat boots
@@ -2732,13 +2732,13 @@
 2727	376083890	plum
 2728	520105503	pear
 2729	907314341	peach
-2730
-2731
-2732
+2730	164602040	plum wine
+2731	147347330	shot of pear schnapps
+2732	321682316	shot of peach schnapps
 2733	908758815	bunch of square grapes
 2734	790278119	brown sugar cane
 2735	646801760	sandwich of the gods
-2736
+2736	671956082	Pan-Dimensional Gargle Blaster
 2737
 2738
 2739	815529370	panty raider camouflage	
@@ -2746,32 +2746,32 @@
 2741	717809844	boilermaker
 2742	433679934	steel lasagna
 2743	941463343	steel margarita
-2744		steel-scented air freshener
+2744	899745433	steel-scented air freshener
 2745	181938691	gremlin mutagen
 2746	658492681	Extra-potent gremlin mutagen
 2747	714178698	chunk of depleted Grimacite	chunks of depleted Grimacite
 2748	623524316	furniture dolly
 2749	578975886	Staff of the Grease Trap
-2750
+2750		Uranium Omega of Temperence
 2751	773565726	Lead Zeta of Chastity
-2752		Aluminum Epsilon of Humility
+2752	513161422	Aluminum Epsilon of Humility
 2753	529261022	Zinc Delta of Tranquility
 2754	325213168	Nickel Gamma of Frugality
 2755	552914658	Iron Beta of Industry
-2756		Copper Alpha of Sincerity
-2757
-2758		Purple Horseshoe of Honor
+2756	348670252	Copper Alpha of Sincerity
+2757		Red Balloon of Valor
+2758	478038118	Purple Horseshoe of Honor
 2759	346885753	Blue Diamond of Honesty
 2760	325213174	Green Clover of Justice
 2761	684792550	Yellow Moon of Compassion
 2762	116375988	Orange Star of Sacrifice
 2763	125590014	Pink Heart of Spirit
-2764
-2765
+2764	783412341	Order of the Silver Wossname
+2765	356624353	Harold's bell
 2766	642797054	solid gold bowling ball
-2767
-2768
-2769
+2767	151539537	Crimbo pie
+2768	954878848	pear tart
+2769	225193372	peach pie
 2770	477113151	chunk of rock salt
 2771	173491862	handful of pine needles
 2772	979351283	steamy ruby
@@ -2779,13 +2779,13 @@
 2774	116823791	unearthly onyx	unearthly onyxia
 2775	274380204	effluvious emerald
 2776	948533767	tawdry amethyst
-2777		filigreed hamethyst earring
+2777	630974983	filigreed hamethyst earring
 2778	408625270	filigreed hamethyst necklace
 2779	151804649	filigreed hamethyst ring
 2780	916123995	solid baconstone earring
 2781	290023562	solid baconstone necklace
 2782	576789283	solid baconstone ring
-2783		pulled porquoise earring
+2783	154528057	pulled porquoise earring
 2784	552153163	pulled porquoise pendant
 2785	454445649	pulled porquoise ring
 2786
@@ -2806,29 +2806,33 @@
 2801	711346519	vial of Gnomochloric acid
 2802	878374857	flask of Gnomochloric acid
 2803	916210085	jug of Gnomochloric acid
-2804
-2805
-2806
-2807
-2808
-2809
-2810
-2811
-2812
+2804	973209856	vial of hamethyst juice
+2805	991129915	vial of baconstone juice
+2806	519812747	vial of porquoise juice
+2807	268044453	flask of hamethyst juice
+2808	667126822	flask of baconstone juice
+2809	794819251	flask of porquoise juice
+2810	283305001	jug of hamethyst juice
+2811	422277399	jug of baconstone juice
+2812	941296170	jug of porquoise juice
 2813
 2814
 2815
 2816
 2817
 2818
-2819
-2820
-2821
-2822
-2823
-2824
-2825
+2819	702263845	Grimacite gasmask
+2820	430222360	Grimacite gat
+2821	220999042	Grimacite gaiters
+2822	621668246	Grimacite gauntlets
+2823	169340033	Grimacite go-go boots
+2824	170497569	Grimacite girdle
+2825	528443762	Grimacite gown
 2826	716016442	Staff of the Kitchen Floor
 2827	277422118	anniversary gift box
-2828
+2828	448561043	loaded dice
 2829	714527088	really dense meat stack
+2830	608726347	digital key lime
+2831	288002712	star key lime
+2832	321645219	digital key lime pie
+2833	716860490	star key lime pie

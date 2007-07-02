@@ -38,6 +38,9 @@ h	The Hippy Produce Stand	olive	70
 h	The Hippy Produce Stand	tomato	70
 h	The Hippy Produce Stand	strawberry	70
 h	The Hippy Produce Stand	lemon	70
+h	The Hippy Produce Stand	peach	300
+h	The Hippy Produce Stand	pear	300
+h	The Hippy Produce Stand	plum	300
 
 m	The Market Demon	Ben-Gal&trade; Balm	24
 m	The Market Demon	can of hair spray	24

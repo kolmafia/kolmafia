@@ -178,8 +178,6 @@ banana spritzer	2	banana	soda water
 bean burrito	2	flat dough	hill of beans
 cherry pie	2	pie crust	cherry
 cream pie	2	pie crust	glass of goat's milk
-Boris's key lime	2	Boris's key	lime
-Boris's key lime pie	2	Boris's key lime	pie crust
 briny vinegar	2	brine	vinegar
 enchanted bean burrito	2	flat dough	enchanted bean
 flower petal pie	2	pretty flower	pie crust
@@ -190,8 +188,6 @@ hippy herbal tea	2	guano coffee cup	herbs
 insanely spicy bean burrito	2	spicy bean burrito	jaba&ntilde;ero pepper
 insanely spicy enchanted bean burrito	2	spicy enchanted bean burrito	jaba&ntilde;ero pepper
 insanely spicy jumping bean burrito	2	spicy jumping bean burrito	jaba&ntilde;ero pepper
-Jarlsberg's key lime	2	Jarlsberg's key	lime
-Jarlsberg's key lime pie	2	Jarlsberg's key lime	pie crust
 jumping bean burrito	2	flat dough	pile of jumping beans
 lemon meringue pie	2	pie crust	lemon
 Lucky Surprise Egg	2	ten-leaf clover	cocoa egg
@@ -202,10 +198,19 @@ sausage pizza	2	plain pizza	Knob sausage
 spicy bean burrito	2	bean burrito	spices
 spicy enchanted bean burrito	2	enchanted bean burrito	spices
 spicy jumping bean burrito	2	jumping bean burrito	spices
-Sneaky Pete's key lime	2	Sneaky Pete's key	lime
-Sneaky Pete's key lime pie	2	Sneaky Pete's key lime	pie crust
 spectral pickle	2	ghost cucumber	ghostly pickling solution
 strawberry pie	2	pie crust	strawberry
+
+Boris's key lime	2	Boris's key	lime
+Boris's key lime pie	2	Boris's key lime	pie crust
+digital key lime	2	digital key	lime
+digital key lime pie	2	digital key lime	pie crust
+Jarlsberg's key lime	2	Jarlsberg's key	lime
+Jarlsberg's key lime pie	2	Jarlsberg's key lime	pie crust
+Sneaky Pete's key lime	2	Sneaky Pete's key	lime
+Sneaky Pete's key lime pie	2	Sneaky Pete's key lime	pie crust
+star key lime	2	Richard's star key	lime
+star key lime pie	2	star key lime	pie crust
 
 flat dough	11	wad of dough
 wad of dough	11	flat dough
@@ -262,10 +267,18 @@ beer basted brat	2	frat brats	McMillicancuddy's Special Lager
 sausage wonton	22	beer basted brat	dry noodles	MSG
 super ka-bob	2	frat brats	knob ka-bob
 
+Crimbo pie	2	pie crust	plum
+pear tart	2	pie crust	pear
+peach pie	2	pie crust	peach
+
 # Booze requiring access to L11 or L12 quest areas
 
 shot of blackberry schnapps	3	fermenting powder	blackberry
 boilermaker	3	McMillicancuddy's Special Lager	bottle of whiskey
+
+plum wine	3	fermenting powder	plum
+shot of pear schnapps	3	fermenting powder	pear
+shot of peach schnapps	3	fermenting powder	peach
 
 # Standard, tier 1 and tier 2 beverages.  Nothing special about
 # these mixtures except everyone can make them.
@@ -567,6 +580,7 @@ white belt	4	white snake skin	enormous belt buckle
 # Hats made of hides of various sorts.
 
 bat hat	14	basic meat helmet	leathery bat skin
+black cowboy hat	14	basic meat helmet	black snake skin
 catskin cap	14	basic meat helmet	leathery cat skin
 clown wig	4	basic meat helmet	clown skin
 demon-horned hat	4	basic meat helmet	demon skin
@@ -657,6 +671,20 @@ cold wad	23	cold nuggets (5)
 spooky wad	23	spooky nuggets (5)
 stench wad	23	stench nuggets (5)
 sleaze wad	23	sleaze nuggets (5)
+
+# Potions you can make by cooking
+
+vial of baconstone juice	2	vial of Gnomochloric acid	baconstone
+vial of hamethyst juice	2	vial of Gnomochloric acid	hamethyst
+vial of porquoise juice	2	vial of Gnomochloric acid	porquoise
+
+flask of baconstone juice	2	flask of Gnomochloric acid	baconstone
+flask of hamethyst juice	2	flask of Gnomochloric acid	hamethyst
+flask of porquoise juice	2	flask of Gnomochloric acid	porquoise
+
+jug of baconstone juice	2	jug of Gnomochloric acid	baconstone
+jug of hamethyst juice	2	jug of Gnomochloric acid	hamethyst
+jug of porquoise juice	2	jug of Gnomochloric acid	porquoise
 
 # Reagent potions.  Not to be confused with reagent broth mixtures
 # which can be combined with pasta by pastamancers.
@@ -863,6 +891,11 @@ really thick bandage	27	mummy wrapping (2)
 mummy mask	27	mummy wrapping (4)
 gauze shorts	27	mummy wrapping (6)
 
+duct tape buckler	27	duct tape (10)
+# duct tape dockers	27	duct tape (?)
+duct tape fedora	27	duct tape (14)
+# duct tape shirt	27	duct tape (?)
+# duct tape sword	27	duct tape (?)
 duct tape wallet	27	duct tape (4)
 
 # Familiars.  These are familiars which are only available after

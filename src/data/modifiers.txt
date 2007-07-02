@@ -101,6 +101,7 @@ clownskin buckler	DR: 3
 coffin lid	DR: 3, Spooky: +10
 deck of tropical cards	Exp: +1.0
 demon buckler	DR: 5
+duct tape buckler	DR: 12
 Dyspepsi-cola shield	DR: 4
 gnauga hide buckler	DR: 5
 hippo skin buckler	DR: 5
@@ -202,6 +203,7 @@ Mr. Accessory Jr.	Item: +25.0
 natty blue ascot	Meat: +20.0
 Nickel Gamma of Frugality	Item: +7.0
 Orange Star of Sacrifice	Item: +6.0
+Order of the Silver Wossname	Item: +11.0
 peace-sign necklace	DR: 3
 Pine-Fresh air freshener	Stench: +10
 Pink Heart of Spirit	Item: +5.0
@@ -210,6 +212,7 @@ plexiglass pocketwatch	Mana: -3
 porquoise necklace	Meat: +10.0
 Purple Horseshoe of Honor	Item: +10.0
 ratskin belt	Item: +10.0
+Red Balloon of Valor	Item: +11.0
 ring of aggravate monster	ML: +5
 ring of cold resistance	Cold: +20
 ring of conflict	Combat: -5.0
@@ -254,6 +257,7 @@ toy crazy train	Meat: +10.0
 toy train	Meat: +10.0
 white collar	Meat: +3.0
 woven baling wire bracelets	Mana: -1
+Uranium Omega of Temperence	Item: +11.0
 Yellow Moon of Compassion	Item: +7.0
 Zinc Delta of Tranquility	Item: +8.0
 
