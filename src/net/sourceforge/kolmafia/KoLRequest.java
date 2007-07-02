@@ -904,7 +904,7 @@ public class KoLRequest extends Job implements KoLConstants
 	public static boolean shouldIgnore( String formURLString )
 	{
 		return formURLString.indexOf( "mall" ) != -1 || formURLString.indexOf( "chat" ) != -1 ||
-			formURLString.startsWith( "adventure" ) || formURLString.startsWith( "bhh" );
+			formURLString.indexOf( "send" ) != -1 || formURLString.startsWith( "bhh" );
 	}
 
 	/**
