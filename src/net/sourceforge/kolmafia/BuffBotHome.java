@@ -101,8 +101,8 @@ public class BuffBotHome extends StaticEntity
 
 	private static final File getFile( String extension )
 	{
-		String dayOfYear = DATED_FILENAME_FORMAT.format( new Date() );
-		return new File( ROOT_LOCATION, "buffs/" + KoLCharacter.baseUserName() + "_" + dayOfYear + extension );
+		return new File( ROOT_LOCATION, "buffs/" + KoLCharacter.baseUserName() + "_" +
+			WEEKLY_FORMAT.format( new Date() ) + extension );
 	}
 
 	/**
@@ -123,16 +123,6 @@ public class BuffBotHome extends StaticEntity
 
 	private static List getPastRecipients( int meatSent )
 	{
-		// First, check to see if a rollover has occurred since the last
-		// time you updated the past recipients list.
-
-		int today = MoonPhaseDatabase.getPhaseStep();
-		if ( StaticEntity.getIntegerProperty( "lastBuffbotRun" ) != today )
-		{
-			StaticEntity.setProperty( "lastBuffbotRun", String.valueOf( today ) );
-			pastRecipients.clear();
-		}
-
 		Integer key = new Integer( meatSent );
 		if ( !pastRecipients.containsKey( key ) )
 			pastRecipients.put( key, new SortedListModel() );
