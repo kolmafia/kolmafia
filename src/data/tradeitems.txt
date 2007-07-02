@@ -662,7 +662,7 @@
 662	star buckler	13	all	100
 663	star throwing star	0	all	100
 664	star starfish	5	all	100
-665	Richard's star key	0	all	100
+665	Richard's star key	0	none	0
 666	steaming evil	13	all	0
 667	giant castle map	3	none	0
 668	spiked femur	12	all	105
@@ -688,7 +688,7 @@
 688	pixel hat	9	all	45
 689	pixel pants	10	all	45
 690	pixel sword	12	all	65
-691	digital key	0	all	65
+691	digital key	0	none	0
 692	Ascension souvenir t-shirt	11	all	20
 693	harem girl t-shirt	11	all	30
 694	Knob Goblin elite shirt	11	all	40
