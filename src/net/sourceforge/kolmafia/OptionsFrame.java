@@ -39,6 +39,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
+import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -75,6 +76,17 @@ public class OptionsFrame extends KoLFrame
 
 		this.addTab( "General", new GeneralOptionsPanel() );
 		this.addTab( "Relay", new RelayOptionsPanel() );
+
+		JPanel breakfastPanel = new JPanel();
+		breakfastPanel.setLayout( new BoxLayout( breakfastPanel, BoxLayout.Y_AXIS ) );
+
+		breakfastPanel.add( new ScriptPanel() );
+		breakfastPanel.add( new BreakfastPanel( "Softcore Characters", "Softcore" ) );
+		breakfastPanel.add( new BreakfastPanel( "Hardcore Characters", "Hardcore" ) );
+
+		this.tabs.addTab( "Tabs", new StartupFramesPanel() );
+		this.tabs.addTab( "Look", new UserInterfacePanel()  );
+		this.tabs.addTab( "Tasks", breakfastPanel );
 
 		this.addTab( "Links", addonPanel );
 		this.addTab( "Logs", new SessionLogOptionsPanel() );

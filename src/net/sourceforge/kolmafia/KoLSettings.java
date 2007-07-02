@@ -480,6 +480,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		// would not serve any purpose.
 
 		CLIENT_SETTINGS.put( "addChatCommandLine", "false" );
+		CLIENT_SETTINGS.put( "addCreationQueue", "true" );
 		CLIENT_SETTINGS.put( "addStatusBarToFrames", "false" );
 		CLIENT_SETTINGS.put( "allowBreakfastBurning", "false" );
 		CLIENT_SETTINGS.put( "allowCloseableDesktopTabs", "false" );
