@@ -516,7 +516,7 @@ public abstract class StaticEntity implements KoLConstants
 			RequestLogger.openDebugLog();
 
 		RequestLogger.updateDebugLog();
-		RequestLogger.updateDebugLog( "" + request.getClass() );
+		RequestLogger.updateDebugLog( "" + request.getClass() + ": " + request.getURLString() );
 		RequestLogger.updateDebugLog( LINE_BREAK_PATTERN.matcher( request.responseText ).replaceAll( "" ) );
 		RequestLogger.updateDebugLog();
 
