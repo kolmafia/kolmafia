@@ -209,7 +209,7 @@ natty blue ascot	Meat: +20.0
 Nickel Gamma of Frugality	Item: +7.0
 Nose Ring of Putrescence	Hot: +30, Spooky: +30
 Orange Star of Sacrifice	Item: +6.0
-Order of the Silver Wossname	Item: +11.0
+Order of the Silver Wossname	Item: +11.0, Meat: +11.0
 peace-sign necklace	DR: 3
 Pine-Fresh air freshener	Stench: +10
 Pink Heart of Spirit	Item: +5.0
@@ -315,6 +315,7 @@ Leash of Linguini	Weight: +5
 Musk of the Moose	Combat: +5.0
 Mysteriously Handsome	ML: +3
 Object Detection	Item: +12.5
+Optimist Primal	Weight: +5
 Orange Tongue	Exp: +3.0
 Peeled Eyeballs	Exp: -1.0, Item: +15.0, Meat: -16.0
 Polka of Plenty	Meat: +50.0

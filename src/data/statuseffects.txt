@@ -331,7 +331,7 @@
 331
 332	Moon'd	moon4.gif	3f23af7d42cd450e5a198ba091a842c1
 333	Dilated Pupils	pupils.gif	dd0d5b24b28fff02cb53607f45d0d220
-334
+334	Optimist Primal	happy.gif	63965c29290f23349477c4199c9b10c3
 335
 336
 337
@@ -426,3 +426,8 @@
 426
 427
 428	Compensatory Cruelness	angry.gif	fcfb0679f0e80509cbff567a600ca998
+429
+430
+431
+432
+433	Easily Embarrassed	blush.gif	4b7988bd236d2b89dc8cbe162b697fa6
