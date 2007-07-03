@@ -85,7 +85,7 @@ s	The Meatsmith's Shop	sturdy sword hilt	1000
 s	The Meatsmith's Shop	tenderizing hammer	1000
 
 town_giftshop.php	The Gift Shop	Valentine	500
-town_giftshop.php	The Gift Shop	potted cactus	50
+town_giftshop.php	The Gift Shop	potted cactus	20
 town_giftshop.php	The Gift Shop	daisy	100
 town_giftshop.php	The Gift Shop	potted fern	200
 town_giftshop.php	The Gift Shop	tulip	500
@@ -97,7 +97,7 @@ town_giftshop.php	The Gift Shop	gilded lily	20000
 town_giftshop.php	The Gift Shop	deadly nightshade	50000
 town_giftshop.php	The Gift Shop	black lotus	100000
 
-town_giftshop.php	The Gift Shop	stuffed can of asparagus	50
+town_giftshop.php	The Gift Shop	stuffed can of asparagus	20
 town_giftshop.php	The Gift Shop	stuffed dodecapede	100
 town_giftshop.php	The Gift Shop	stuffed ghuol whelp	200
 town_giftshop.php	The Gift Shop	stuffed zmobie	500
@@ -109,7 +109,7 @@ town_giftshop.php	The Gift Shop	stuffed Mob Penguin	20000
 town_giftshop.php	The Gift Shop	stuffed sabre-toothed lime	50000
 town_giftshop.php	The Gift Shop	giant stuffed bugbear	100000
 
-town_giftshop.php	The Gift Shop	mugcake	50
+town_giftshop.php	The Gift Shop	mugcake	20
 town_giftshop.php	The Gift Shop	urinal cake	100
 town_giftshop.php	The Gift Shop	Happy Birthday, Claude! cake	200
 town_giftshop.php	The Gift Shop	personalized birthday cake	500
@@ -121,7 +121,7 @@ town_giftshop.php	The Gift Shop	angel-food cake	20000
 town_giftshop.php	The Gift Shop	devil's-food cake	50000
 town_giftshop.php	The Gift Shop	birthday party jellybean cheesecake	100000
 
-town_giftshop.php	The Gift Shop	white balloon	50
+town_giftshop.php	The Gift Shop	white balloon	20
 town_giftshop.php	The Gift Shop	green balloon	100
 town_giftshop.php	The Gift Shop	heart-shaped balloon	200
 town_giftshop.php	The Gift Shop	anniversary balloon	500

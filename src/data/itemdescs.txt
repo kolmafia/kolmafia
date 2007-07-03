@@ -2180,7 +2180,7 @@
 2175	588346637	smooth stone sphere
 2176	250523661	cracked stone sphere
 2177	803312162	rough stone sphere
-2178	632654221	obsidian dagger
+2178	959943486	obsidian dagger
 2179	437761145	archaeologist's notebook
 2180	542424624	ancient amulet
 2181	350793311	chocolate lump
@@ -2680,7 +2680,7 @@
 2675	111587963	handful of moss
 2676	594509761	bit-o-cactus
 2677	700846387	ancient protein powder
-2678	724817767	spectre scepter
+2678	864782925	spectre scepter
 2679	531024665	sparkler	sparklies
 2680	397831150	snake	sssnakess
 2681	160414339	M-242	M-242s

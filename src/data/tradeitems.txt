@@ -1175,50 +1175,50 @@
 1175	cryptic puzzle box	3	none	0
 1176	refrigerated biohazard container	3	none	0
 1177	magnetic field	3	none	0
-1178	potted cactus	0	gift	25
-1179	daisy	0	gift	50
-1180	potted fern	0	gift	100
-1181	tulip	0	gift	250
-1182	Venus flytrap	0	gift	500
-1183	all-purpose flower	0	gift	1000
-1184	exotic orchid	0	gift	2500
-1185	long-stemmed rose	0	gift	5000
-1186	gilded lily	0	gift	10000
-1187	deadly nightshade	0	gift	25000
-1188	black lotus	3	gift	50000
-1189	stuffed can of asparagus	13	gift	25
-1190	stuffed dodecapede	13	gift	50
-1191	stuffed ghuol whelp	13	gift	100
-1192	stuffed zmobie	13	gift	250
-1193	Raggedy Hippy doll	13	gift	500
-1194	stuffed stab bat	13	gift	1000
-1195	apathetic lizardman doll	0	gift	2500
-1196	stuffed yeti	13	gift	5000
-1197	stuffed Mob Penguin	13	gift	10000
-1198	stuffed sabre-toothed lime	13	gift	25000
-1199	giant stuffed bugbear	13	gift	50000
-1200	mugcake	1	gift	25
-1201	urinal cake	1	gift	50
-1202	Happy Birthday, Claude! cake	1	gift	100
-1203	personalized birthday cake	1	gift	250
-1204	three-tiered wedding cake	1	gift	500
-1205	babycakes	1	gift	1000
-1206	blue velvet cake	1	gift	2500
-1207	congratulatory cake	1	gift	5000
-1208	angel-food cake	1	gift	10000
-1209	devil's-food cake	1	gift	25000
-1210	birthday party jellybean cheesecake	1	gift	50000
-1211	white balloon	13	gift	25
-1212	green balloon	13	gift	50
-1213	heart-shaped balloon	13	gift	100
-1214	anniversary balloon	13	gift	250
-1215	Mylar balloon	13	gift	500
-1216	Kevlar balloon	13	gift	1000
-1217	thought balloon	13	gift	2500
-1218	rat head balloon	7	gift	5000
-1219	mini-zeppelin	13	gift	10000
-1220	Mr. Balloon	13	gift	25000
-1221	red balloon	13	gift	50000
+1178	potted cactus	0	gift	1
+1179	daisy	0	gift	5
+1180	potted fern	0	gift	10
+1181	tulip	0	gift	25
+1182	Venus flytrap	0	gift	50
+1183	all-purpose flower	0	gift	100
+1184	exotic orchid	0	gift	250
+1185	long-stemmed rose	0	gift	500
+1186	gilded lily	0	gift	1000
+1187	deadly nightshade	0	gift	2500
+1188	black lotus	3	gift	5000
+1189	stuffed can of asparagus	13	gift	1
+1190	stuffed dodecapede	13	gift	5
+1191	stuffed ghuol whelp	13	gift	10
+1192	stuffed zmobie	13	gift	25
+1193	Raggedy Hippy doll	13	gift	50
+1194	stuffed stab bat	13	gift	100
+1195	apathetic lizardman doll	0	gift	250
+1196	stuffed yeti	13	gift	500
+1197	stuffed Mob Penguin	13	gift	1000
+1198	stuffed sabre-toothed lime	13	gift	2500
+1199	giant stuffed bugbear	13	gift	5000
+1200	mugcake	1	gift	1
+1201	urinal cake	1	gift	5
+1202	Happy Birthday, Claude! cake	1	gift	10
+1203	personalized birthday cake	1	gift	25
+1204	three-tiered wedding cake	1	gift	50
+1205	babycakes	1	gift	100
+1206	blue velvet cake	1	gift	250
+1207	congratulatory cake	1	gift	500
+1208	angel-food cake	1	gift	1000
+1209	devil's-food cake	1	gift	2500
+1210	birthday party jellybean cheesecake	1	gift	5000
+1211	white balloon	13	gift	1
+1212	green balloon	13	gift	5
+1213	heart-shaped balloon	13	gift	10
+1214	anniversary balloon	13	gift	25
+1215	Mylar balloon	13	gift	50
+1216	Kevlar balloon	13	gift	100
+1217	thought balloon	13	gift	250
+1218	rat head balloon	7	gift	500
+1219	mini-zeppelin	13	gift	1000
+1220	Mr. Balloon	13	gift	2500
+1221	red balloon	13	gift	5000
 1222	Mr. Eh?	8	all	0
 1223
 1224	stainless steel shillelagh	12	display	0
