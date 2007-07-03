@@ -177,7 +177,7 @@ public abstract class SorceressLair extends StaticEntity
 		{ "Bowling Cricket", "sonar-in-a-biscuit" },
 		{ "Bronze Chef", "leftovers of indeterminate origin" },
 		{ "Collapsed Mineshaft Golem", "stick of dynamite" },
-		{ "Concert Pianist", "Knob Goblin firecracker" },
+		{ "concert pianist", "Knob Goblin firecracker" },
 		{ "The Darkness", "inkwell" },
 		{ "El Diablo", "mariachi G-string" },
 		{ "Electron Submarine", "photoprotoneutron torpedo" },
@@ -186,11 +186,11 @@ public abstract class SorceressLair extends StaticEntity
 		{ "Fancy Bath Slug", "fancy bath salts" },
 		{ "Fickle Finger of F8", "razor-sharp can lid" },
 		{ "Flaming Samurai", "frigid ninja stars" },
-		{ "Giant Bee", "tropical orchid" },
+		{ "giant bee", "tropical orchid" },
 		{ "Giant Fried Egg", "black pepper" },
 		{ "Giant Desktop Globe", "NG" },
 		{ "Ice Cube", "can of hair spray" },
-		{ "Malevolent Crop Circle", "bronzed locust" },
+		{ "malevolent crop circle", "bronzed locust" },
 		{ "Possessed Pipe-Organ", "powdered organs" },
 		{ "Pretty Fly", "spider web" },
 		{ "Tyrannosaurus Tex", "chaos butterfly" },
@@ -842,6 +842,12 @@ public abstract class SorceressLair extends StaticEntity
 
 	public static void completeHedgeMaze()
 	{
+		if ( true )
+		{
+			KoLmafia.updateDisplay( ERROR_STATE, "KoLmafia doesn't support NS 13 hedge puzzles yet." );
+			return;
+		}
+
 		if ( !checkPrerequisites( 3, 3 ) )
 			return;
 
@@ -1317,6 +1323,12 @@ public abstract class SorceressLair extends StaticEntity
 
 	private static void fightShadow()
 	{
+		if ( true )
+		{
+			KoLmafia.updateDisplay( ERROR_STATE, "KoLmafia doesn't support fighting the NS 13 shadow yet." );
+			return;
+		}
+
 		List requirements = new ArrayList();
 
 		// In order to see what happens, we calculate the health needed
