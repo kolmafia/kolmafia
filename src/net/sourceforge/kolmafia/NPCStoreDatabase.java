@@ -152,8 +152,12 @@ public class NPCStoreDatabase extends KoLDatabase
 		// hippy outfit.
 
 		else if ( storeId.equals( "h" ) )
-			return inventory.contains( KoLAdventure.DINGHY ) && EquipmentDatabase.hasOutfit( 2 ) &&
-				KoLCharacter.getLevel() < 12;
+		{
+			if ( KoLCharacter.getLevel() < 12 )
+				return inventory.contains( KoLAdventure.DINGHY ) && EquipmentDatabase.hasOutfit( 2 );
+			else
+				return inventory.contains( KoLAdventure.DINGHY ) && EquipmentDatabase.hasOutfit( 32 );
+		}
 
 		// Check for a lucky rabbit's foot when determining whether or not
 		// the person has access to the Citadel.
