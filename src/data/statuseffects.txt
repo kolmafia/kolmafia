@@ -34,7 +34,7 @@
 34	Pronounced Potency	nicesword.gif
 35	Concentration	farout.gif
 36	Mystically Oiled	potion4.gif
-37	Expert Oiliness	potion4.gif
+37	Expert Oiliness	potion4.gif	e29bedb34840827fd6c9e6887d04d2b4
 38	Gr8tness	grapes.gif
 39	Hernia!	hernia.gif	eb4f2cac29d8c2a73a6b0f1d532f61c9
 40	Red Neck	redneck.gif
@@ -99,7 +99,7 @@
 99
 100	Stabilizing Oiliness	potion4.gif
 101	Slippery Oiliness	potion4.gif
-102	Strength of Ten Ettins	strboost.gif
+102	Strength of Ten Ettins	strboost.gif	24e328972b5792ebdde69889edf2edc9
 103	Strange Mental Acuity	realbrain.gif
 104	Izchak's Blessing	light.gif
 105	Corroded Weapon	corroded.gif	8af5fd34414f0f52907fabfa3287fa2b
@@ -170,7 +170,7 @@
 170	Spirit of Wormwood	skull.gif
 171	Spirit of Bacon Grease	bacon.gif
 172	Yellow Tongue	tongue.gif	3dbc5202908b9b8e507d7f062360b293
-173	Big Veiny Brain	realbrain.gif
+173	Big Veiny Brain	realbrain.gif	55b5adcb51868b248c9808720b1884f8
 174	Peeled Eyeballs	eyes.gif	76a38896d00f40442e3741d7e94bb5df
 175	Wasabi Sinuses	hernia.gif
 176	Heavy Petting	happy.gif	0bbb62f04a5dd69a88b608fe656a7752
@@ -198,8 +198,8 @@
 198	Sleazy Breath	breath.gif	572a0d269f2609e685ae3f56327a2998
 199	Aspect of the Twinklefairy	scwad.gif	f27e3dcf9fd6b46b30347743c18ccb1b
 200	Hot Blooded	scwad.gif	c3dce41845c995ec4c2bd986cbc28364
-201	Cold Blooded	scwad.gif
-202	Spooky Demeanor	scwad.gif
+201	Cold Blooded	scwad.gif	3d9befb3ebd8553b81c3792efb85a85a
+202	Spooky Demeanor	scwad.gif	89099ac4df5c9d8171b4930a79feaeae
 203	Stenchtastic	scwad.gif	798bb9ee21a7f86fea8ed2a1c8fc9be1
 204	Supafly	scwad.gif
 205	Provocative Perkiness	hoppedup.gif
@@ -346,7 +346,7 @@
 346
 347
 348	All Fired Up	fire.gif	5626ff49dbfe5c3bc7732a3dc9c1ea4e
-349	Go Get 'Em, Tiger!	strboost.gif
+349	Go Get 'Em, Tiger!	strboost.gif	943ba3b11499412f041807f8a7835d75
 350
 351
 352	Tranquilized Mind	sleepy.gif	e6d8c1e5ee549f897340b97b3cc26053
@@ -431,3 +431,5 @@
 431
 432
 433	Easily Embarrassed	blush.gif	4b7988bd236d2b89dc8cbe162b697fa6
+434
+435	Beer in Your Shoes	footprints.gif	fb06ebe1f825ce046930e2630203969a
