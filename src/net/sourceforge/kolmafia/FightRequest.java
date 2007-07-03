@@ -984,6 +984,7 @@ public class FightRequest extends KoLRequest
 		case 2177:	// rough stone sphere
 		case 2404:	// jam band flyers
 		case 2405:	// rock band flyers
+		case 2497:	// molybdenum magnet
 		case 2678:	// spectre scepter
 			return false;
 
