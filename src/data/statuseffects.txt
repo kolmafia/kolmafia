@@ -1,6 +1,6 @@
 1	Light!	light.gif
 2	Sleepy	sleepy.gif	35b38533640fed03c12460b1dca98e81
-3	Confused	confused.gif
+3	Confused	confused.gif	d335051a5afb4fa12036998ac13f167b
 4	Embarrassed	blush.gif
 5	Far Out	farout.gif
 6	Wings	wings.gif	8cdb75aeb628bb9b9594908b7d0bfa74
@@ -147,18 +147,18 @@
 147
 148
 149
-150	Twinklebritches	uberpants.gif
-151	Flame-Retardant Trousers	cords.gif
-152	Insulated Trousers	chinos.gif
-153	Spookypants	demonpants.gif
-154	Smellypants	fatigues2.gif
-155	Sleaze-Resistant Trousers	yakpants.gif
-156	Twinkly Weapon	csword.gif
-157	Flaming Weapon	flame.gif
-158	Frigid Weapon	snowflake.gif
-159	Spooky Weapon	skull.gif
-160	Stinky Weapon	stench.gif
-161	Sleazy Weapon	dripsword.gif
+150	Twinklebritches	uberpants.gif	db5d031554e0f69e1b5944c381082691
+151	Flame-Retardant Trousers	cords.gif	953ebb5fcf3e23283531ff99376ab89c
+152	Insulated Trousers	chinos.gif	3b0d4cfc8148fe08e27cd1b8da9fb4d3
+153	Spookypants	demonpants.gif	83e4984577a731e8e6bb9d635092b051
+154	Smelly Pants	fatigues2.gif	34d33b93e87226a6a03dbaa09af69292
+155	Sleaze-Resistant Trousers	yakpants.gif	ed2942d1ca5f87dd6f87f90507dd0f75
+156	Twinkly Weapon	csword.gif	05616ca967054eee4f9d2fd34727c315
+157	Flaming Weapon	flame.gif	f1421b135e777cd1a778c596fef500b7
+158	Frigid Weapon	snowflake.gif	80131d07257f059a699368cf30fc670d
+159	Spooky Weapon	skull.gif	d774d576335ec8cc8c061e6891ff41c5
+160	Stinky Weapon	stench.gif	c927edbace02490d4c66ee8271c64e2e
+161	Sleazy Weapon	dripsword.gif	fe75c03d60169594193a0733c513a853
 162	The Sonata of Sneakiness	notes.gif	b757f23feb7f08bd250f63586e03cf4a
 163	Carlweather's Cantata of Confrontation	notes.gif	06e123f9b46d3d180c97efc5ab0ad150
 164	Ur-Kel's Aria of Annoyance	notes.gif	59a1ac48440e1ea1f869f2b37753f9cc
@@ -305,12 +305,12 @@
 305
 306
 307
-308
+308	Sinuses For Miles	stench.gif	81577de719bc99a5780d4e0cb5ca81a5
 309
 310
 311
 312
-313
+313	Bloody Bloody Bloody!	blooddrops.gif	f2780f015462419680ea5b12b76a34c7
 314
 315
 316
@@ -348,7 +348,7 @@
 348	All Fired Up	fire.gif	5626ff49dbfe5c3bc7732a3dc9c1ea4e
 349	Go Get 'Em, Tiger!	strboost.gif	943ba3b11499412f041807f8a7835d75
 350
-351
+351	Comic Violence	clownham.gif	e81282d9c752ffcf7d033dd0bd8fec6f
 352	Tranquilized Mind	sleepy.gif	e6d8c1e5ee549f897340b97b3cc26053
 353	Woad Warrior	foamfinger.gif	c884a8b10f7b236002288fc760129e09
 354	Red Door Syndrome	blackpaint.gif	08c89971feb489d775ce5e8b2b845503
