@@ -44,21 +44,14 @@ public abstract class SorceressLair extends StaticEntity
 	private static final KoLRequest QUEST_HANDLER = new KoLRequest( "main.php", true );
 	private static final Pattern MAP_PATTERN = Pattern.compile( "usemap=\"#(\\w+)\"" );
 	private static final Pattern LAIR6_PATTERN = Pattern.compile( "lair6.php\\?place=(\\d+)" );
+	private static final Pattern GATE_PATTERN = Pattern.compile( "<p>&quot;Through the (.*?)," );
 
 	// Items for the entryway
 	public static final AdventureResult NAGAMAR = new AdventureResult( 626, 1 );
 
-
-	private static final AdventureResult SUGAR = new AdventureResult( "Sugar Rush", 0 );
-	private static final AdventureResult RICE_CANDY = new AdventureResult( 540, 1 );
-	private static final AdventureResult FARMER_CANDY = new AdventureResult( 617, 1 );
-	private static final AdventureResult MARZIPAN = new AdventureResult( 1163, 1 );
-
 	private static final AdventureResult WUSSINESS = new AdventureResult( "Wussiness", 0 );
-	private static final AdventureResult WUSSY_POTION = new AdventureResult( 469, 1 );
-
-	private static final AdventureResult MIASMA = new AdventureResult( "Rainy Soul Miasma", 0 );
-	private static final AdventureResult BLACK_CANDLE = new AdventureResult( 620, 1 );
+	private static final AdventureResult HARDLY_POISONED = new AdventureResult( "Hardly Poisoned at All", 0 );
+	private static final AdventureResult TELEPORTITIS = new AdventureResult( "Teleportitis", 0 );
 
 	private static final AdventureResult STAR_SWORD = new AdventureResult( 657, 1 );
 	private static final AdventureResult STAR_CROSSBOW = new AdventureResult( 658, 1 );
@@ -67,9 +60,11 @@ public abstract class SorceressLair extends StaticEntity
 
 	private static final AdventureResult STONE_BANJO = new AdventureResult( 53, 1 );
 	private static final AdventureResult DISCO_BANJO = new AdventureResult( 54, 1 );
+	private static final AdventureResult SHAGADELIC_BANJO = new AdventureResult( 2556, 1 );
 	private static final AdventureResult ACOUSTIC_GUITAR = new AdventureResult( 404, 1 );
 	private static final AdventureResult HEAVY_METAL_GUITAR = new AdventureResult( 507, 1 );
 	private static final AdventureResult UKELELE = new AdventureResult( 2209, 1 );
+	private static final AdventureResult SITAR = new AdventureResult( 2693, 1 );
 
 	private static final AdventureResult BROKEN_SKULL = new AdventureResult( 741, 1 );
 	private static final AdventureResult BONE_RATTLE = new AdventureResult( 168, 1 );
@@ -77,6 +72,7 @@ public abstract class SorceressLair extends StaticEntity
 
 	private static final AdventureResult ACCORDION = new AdventureResult( 11, 1 );
 	private static final AdventureResult ROCKNROLL_LEGEND = new AdventureResult( 50, 1 );
+	private static final AdventureResult SQUEEZEBOX = new AdventureResult( 2557, 1 );
 
 	private static final AdventureResult CLOVER = new AdventureResult( 24, 1 );
 
@@ -237,11 +233,11 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( QUEST_HANDLER.responseText.indexOf( "lair.php" ) == -1 )
 		{
-			// Visit the council to see if the quest can be unlocked,
-			// but only if you've reached level 11.
+			// Visit the council to see if the quest can be
+			// unlocked, but only if you've reached level 13.
 
 			boolean unlockedQuest = false;
-			if ( KoLCharacter.getLevel() >= 11 )
+			if ( KoLCharacter.getLevel() >= 13 )
 			{
 				// We should theoretically be able to figure out
 				// whether or not the quest is unlocked from the
@@ -372,16 +368,14 @@ public abstract class SorceressLair extends StaticEntity
 		List requirements = new ArrayList();
 
 		// Next, figure out which instruments are needed for the final
-		// stage of the entryway. If the person has a clover weapon,
-		// but no stringed instrument, but they have a banjo string,
-		// then dismantle the legend and construct the stone banjo.
+		// stage of the entryway.
 
-		AdventureResult stringed = pickOne( new AdventureResult [] { STONE_BANJO, ACOUSTIC_GUITAR, HEAVY_METAL_GUITAR, DISCO_BANJO, UKELELE } );
+		AdventureResult stringed = pickOne( new AdventureResult [] { ACOUSTIC_GUITAR, HEAVY_METAL_GUITAR, SHAGADELIC_BANJO, DISCO_BANJO, STONE_BANJO, UKELELE, SITAR } );
 		requirements.add( stringed );
 
 		AdventureResult percussion = pickOne( new AdventureResult [] { BONE_RATTLE, TAMBOURINE, BROKEN_SKULL } );
 		requirements.add( percussion );
-		requirements.add( pickOne( new AdventureResult [] { ACCORDION, ROCKNROLL_LEGEND } ) );
+		requirements.add( pickOne( new AdventureResult [] { ACCORDION, ROCKNROLL_LEGEND, SQUEEZEBOX } ) );
 
 		// If he brought a balloon monkey, get him an easter egg
 
@@ -447,19 +441,11 @@ public abstract class SorceressLair extends StaticEntity
 		getClient().processResult( STRUMMING.getNegation() );
 		getClient().processResult( SQUEEZINGS.getNegation() );
 
-		// If you untinkered the rock and roll legend at the very
-		// beginning, go ahead and re-create it at the end.
-
 		KoLmafia.updateDisplay( "Sorceress entryway complete." );
 	}
 
 	private static boolean completeGateway()
 	{
-		// Make sure the character has some candy, or at least
-		// the appropriate status effect.
-
-		AdventureResult candy = pickOne( new AdventureResult [] { RICE_CANDY, MARZIPAN, FARMER_CANDY } );
-
 		// Check to see if the person has crossed through the
 		// gates already.  If they haven't, then that's the
 		// only time you need the special effects.
@@ -468,32 +454,26 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( QUEST_HANDLER.responseText.indexOf( "gatesdone" ) == -1 )
 		{
-			if ( !activeEffects.contains( SUGAR ) && !AdventureDatabase.retrieveItem( candy ) )
-				return false;
-
-			if ( !activeEffects.contains( WUSSINESS ) && !AdventureDatabase.retrieveItem( WUSSY_POTION ) )
-				return false;
-
-			if ( !activeEffects.contains( MIASMA ) && !AdventureDatabase.retrieveItem( BLACK_CANDLE ) )
-				return false;
-
-			// Use the rice candy, wussiness potion, and black candle
-			// and then cross through the first door.
-
-			if ( !activeEffects.contains( SUGAR ) )
-				RequestThread.postRequest( new ConsumeItemRequest( candy ) );
-
-			if ( !activeEffects.contains( WUSSINESS ) )
-				RequestThread.postRequest( new ConsumeItemRequest( WUSSY_POTION ) );
-
-			if ( !activeEffects.contains( MIASMA ) )
-				RequestThread.postRequest( new ConsumeItemRequest( BLACK_CANDLE ) );
-
 			KoLmafia.updateDisplay( "Crossing three door puzzle..." );
 			RequestThread.postRequest( QUEST_HANDLER.constructURLString( "lair1.php?action=gates" ) );
+			if ( !passThreeGatePuzzle() )
+				return false;
 
-			if ( KoLCharacter.hasItem( UneffectRequest.TINY_HOUSE ) )
-				RequestThread.postRequest( new ConsumeItemRequest( UneffectRequest.TINY_HOUSE ) );
+			// We want to remove unpleasant effects created by
+			// consuming items used to pass the gates.
+			//
+			// Wussiness - removed by tiny house
+			// Hardly Poisoned at All - removed by tiny house
+			//
+			// Teleportitis - removed by universal remedy
+
+			if ( activeEffects.contains( WUSSINESS ) || activeEffects.contains( HARDLY_POISONED ) )
+				if ( KoLCharacter.hasItem( UneffectRequest.TINY_HOUSE ) )
+					RequestThread.postRequest( new ConsumeItemRequest( UneffectRequest.TINY_HOUSE ) );
+
+			if ( activeEffects.contains( TELEPORTITIS ) )
+				if ( KoLCharacter.hasItem( UneffectRequest.REMEDY ) )
+					RequestThread.postRequest( new UneffectRequest( TELEPORTITIS ) );
 		}
 
 		// Now, unequip all of your equipment and cross through
@@ -511,6 +491,51 @@ public abstract class SorceressLair extends StaticEntity
 		}
 
 		return true;
+	}
+
+	private static boolean passThreeGatePuzzle()
+	{
+		// Visiting the gates with the correct effects opens them.
+		if ( QUEST_HANDLER.responseText.indexOf( "gatesdone.gif" ) != -1 )
+			return true;
+
+		Matcher gateMatcher = GATE_PATTERN.matcher( QUEST_HANDLER.responseText );
+		AdventureResult effect1 = null, effect2 = null, effect3 = null;;
+
+		if ( gateMatcher.find() )
+			effect1 = findGateEffect( 1, gateMatcher.group(1) );
+
+		if ( gateMatcher.find() )
+			effect2 = findGateEffect( 2, gateMatcher.group(1) );
+
+		if ( gateMatcher.find() )
+			effect3 = findGateEffect( 3, gateMatcher.group(1) );
+
+		if ( effect1 == null || effect2 == null || effect3 == null )
+			return false;
+
+		// We should have detected this above when the gates opened
+
+		if ( activeEffects.contains( effect1 ) && activeEffects.contains( effect2 ) &&	activeEffects.contains( effect3 ) )
+			return true;
+
+		KoLmafia.updateDisplay( ERROR_STATE, "You need " + effect1.getName() + ", " + effect2.getName() + ", and " + effect3.getName() + "." );
+		return false;
+	}
+
+	private static AdventureResult findGateEffect( int gate, String gateName )
+	{
+		if ( gateName == null )
+		{
+			KoLmafia.updateDisplay( ERROR_STATE, "Unable to detect gate" + gate );
+			return null;
+		}
+
+		for ( int i = 0; i < GATE_DATA.length; ++i)
+			if ( gateName.equals( GATE_DATA[i][0] ) )
+				return new AdventureResult( GATE_DATA[i][1], 1, true );
+		KoLmafia.updateDisplay( ERROR_STATE, "Unrecognized gate: " + gateName );
+		return null;
 	}
 
 	private static List retrieveRhythm( boolean useCloverForSkeleton )
