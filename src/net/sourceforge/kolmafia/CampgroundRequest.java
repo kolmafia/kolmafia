@@ -35,6 +35,8 @@ package net.sourceforge.kolmafia;
 
 public class CampgroundRequest extends KoLRequest
 {
+	private static boolean relaxAllowed = false;
+
 	private String action;
 
 	/**
@@ -65,8 +67,13 @@ public class CampgroundRequest extends KoLRequest
 
 	public void run()
 	{
-		if ( this.action.equals( "relax" ) && KoLCharacter.getCurrentMP() == KoLCharacter.getMaximumMP() )
-			return;
+		if ( this.action.equals( "rest" ) )
+			if ( KoLCharacter.getCurrentHP() == KoLCharacter.getMaximumHP() || KoLCharacter.getCurrentMP() == KoLCharacter.getMaximumMP() )
+				return;
+
+		if ( this.action.equals( "relax" ) )
+			if ( !relaxAllowed || KoLCharacter.getCurrentMP() == KoLCharacter.getMaximumMP() )
+				return;
 
 		super.run();
 
@@ -83,6 +90,7 @@ public class CampgroundRequest extends KoLRequest
 
 	public void processResults()
 	{
+		CampgroundRequest.relaxAllowed = this.responseText.indexOf( "relax" ) != -1;
 		KoLCharacter.setChef( this.responseText.indexOf( "cook.php" ) != -1 );
 		KoLCharacter.setBartender( this.responseText.indexOf( "cocktail.php" ) != -1 );
 		KoLCharacter.setToaster( this.responseText.indexOf( "action=toast" ) != -1 );
