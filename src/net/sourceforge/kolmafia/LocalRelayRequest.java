@@ -887,10 +887,8 @@ public class LocalRelayRequest extends PasswordHashRequest
 			// battle. But, just in case, check current equipment
 			// as well as inventory.
 
-			if ( !KoLCharacter.hasEquipped( SorceressLair.NAGAMAR ) && !inventory.contains( SorceressLair.NAGAMAR ) )
+			if ( !KoLCharacter.hasEquipped( SorceressLair.NAGAMAR ) && !AdventureDatabase.retrieveItem( SorceressLair.NAGAMAR ) )
 			{
-				AdventureDatabase.retrieveItem( SorceressLair.NAGAMAR );
-
 				this.sendGeneralWarning( "wand.gif", "Hm, it's possible there is something very important you're forgetting." );
 
 				return;
