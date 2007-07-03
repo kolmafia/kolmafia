@@ -1249,7 +1249,7 @@ public abstract class KoLmafia implements KoLConstants
 		// If things are still not restored, try looking for items you
 		// don't have but can purchase.
 
-		if ( StaticEntity.getBooleanProperty( "autoBuyRestores" ) )
+		if ( !possibleItems.isEmpty() && StaticEntity.getBooleanProperty( "autoBuyRestores" ) )
 		{
 			HPRestoreItemList.setPurchaseBasedSort( true );
 			MPRestoreItemList.setPurchaseBasedSort( true );
