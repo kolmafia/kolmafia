@@ -100,7 +100,7 @@
 100	Stabilizing Oiliness	potion4.gif
 101	Slippery Oiliness	potion4.gif
 102	Strength of Ten Ettins	strboost.gif	24e328972b5792ebdde69889edf2edc9
-103	Strange Mental Acuity	realbrain.gif
+103	Strange Mental Acuity	realbrain.gif	d7d4abd1987ec257ebf1b386a9060052
 104	Izchak's Blessing	light.gif
 105	Corroded Weapon	corroded.gif	8af5fd34414f0f52907fabfa3287fa2b
 106	Canadianity	mapleleaf.gif
