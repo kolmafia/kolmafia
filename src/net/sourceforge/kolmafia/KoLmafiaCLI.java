@@ -2262,6 +2262,9 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( StaticEntity.getProperty( "currentPvpVictories" ).indexOf( targets[i].getPlayerName() ) != -1 )
 				continue;
 
+			if ( ClanManager.getClanName().equals( targets[i].getClanName() ) )
+				continue;
+
 			KoLmafia.updateDisplay( "Attacking " + targets[i].getPlayerName() + "..." );
 			request.setTarget( targets[i].getPlayerName() );
 			RequestThread.postRequest( request );
