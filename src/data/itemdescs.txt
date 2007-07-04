@@ -60,7 +60,7 @@
 55	189906805	jaba&ntilde;ero pepper	jaba&ntilde;ero peppers
 56	915847243	heavy hot sauce	heavy hot sauces
 57	695837819	5-Alarm Saucepan	5-Alarm Saucepans
-58	273862210	turtle factory	turtle factories
+58	273862210	stone turtle	stone turtles
 59	278594504	slingshot	slingshots
 60	256792195	Mace of the Tortoise	Maces of the Tortoise
 61	490489381	fortune cookie	fortune cookies
