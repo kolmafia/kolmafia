@@ -281,6 +281,8 @@ public class StatusEffectDatabase extends KoLDatabase
 
 		KoLRequest updateRequest = new KoLRequest( "uneffect.php" );
 		RequestThread.postRequest( updateRequest );
+		RequestThread.postRequest( CharpaneRequest.getInstance() );
+
 		Matcher effectsMatcher = STATUS_EFFECT_PATTERN.matcher( updateRequest.responseText );
 
 		boolean foundChanges = false;
