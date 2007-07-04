@@ -239,6 +239,7 @@ coconut bikini top	100	Mus: 35
 Colonel Mustard's Lonely Spades Club Jacket	130	Mus: 50
 Corporal Fennel's Lonely Clubs Club Jacket	130	Mus: 50
 demonskin jacket	80	Mus: 25
+duct tape shirt	195	Mux: 82
 eXtreme Bi-Polar Fleece Vest	90	none
 filthy hippy poncho	40	Mus: 5
 flaming pink shirt	100	none

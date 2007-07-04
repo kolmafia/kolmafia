@@ -913,10 +913,10 @@ really thick bandage	27	mummy wrapping (2)
 mummy mask	27	mummy wrapping (4)
 gauze shorts	27	mummy wrapping (6)
 
-# duct tape dockers	27	duct tape (?)
 # duct tape shirt	27	duct tape (?)
 duct tape wallet	27	duct tape (4)
 duct tape buckler	27	duct tape (10)
+duct tape dockers	27	duct tape (12)
 duct tape fedora	27	duct tape (14)
 duct tape sword	27	duct tape (17)
 
