@@ -51,8 +51,8 @@ public class ClanManager extends StaticEntity
 {
 	private static String SNAPSHOT_DIRECTORY = "clan/";
 
-	private static String clanId;
-	private static String clanName;
+	private static String clanId = null;
+	private static String clanName = null;
 
 	private static boolean stashRetrieved = false;
 	private static boolean ranksRetrieved = false;
@@ -76,6 +76,9 @@ public class ClanManager extends StaticEntity
 		battleList.clear();
 		rankList.clear();
 		stashContents.clear();
+
+		clanId = null;
+		clanName = null;
 	}
 
 	public static void setStashRetrieved()
@@ -87,11 +90,19 @@ public class ClanManager extends StaticEntity
 	}
 
 	public static String getClanId()
-	{	return clanId;
+	{
+		if ( clanId == null )
+			retrieveClanId();
+
+		return clanId;
 	}
 
 	public static String getClanName()
-	{	return clanName;
+	{
+		if ( clanName == null )
+			retrieveClanId();
+
+		return clanName;
 	}
 
 	public static SortedListModel getStash()
@@ -116,15 +127,19 @@ public class ClanManager extends StaticEntity
 
 		if ( profileMap.isEmpty() )
 		{
-			ClanMembersRequest cmr = new ClanMembersRequest();
-			RequestThread.postRequest( cmr );
-
-			clanId = cmr.getClanId();
-			clanName = cmr.getClanName();
-
+			retrieveClanId();
 			SNAPSHOT_DIRECTORY = "clan/" + clanId + "/" + WEEKLY_FORMAT.format( new Date() ) + "/";
 			KoLmafia.updateDisplay( "Clan data retrieved." );
 		}
+	}
+
+	private static void retrieveClanId()
+	{
+		ClanMembersRequest cmr = new ClanMembersRequest();
+		RequestThread.postRequest( cmr );
+
+		clanId = cmr.getClanId();
+		clanName = cmr.getClanName();
 	}
 
 	private static boolean retrieveMemberData( boolean retrieveProfileData, boolean retrieveAscensionData )
