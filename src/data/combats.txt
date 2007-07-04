@@ -40,10 +40,10 @@ Battlefield (Cloaca Uniform)	95	Dyspepsi-Cola General	Dyspepsi-Cola Knight	Dyspe
 Battlefield (Dyspepsi Uniform)	95	Cloaca-Cola Catapult Engineer	Cloaca-Cola Footsoldier	Cloaca-Cola Soldier
 Battlefield (No Uniform)	0	Time Bandit: -1
 Beanbat Chamber	100	Beanbat
-The Black Forest	100	Black Adder	Black Knight	Black Panther	Black Widow
+Black Forest	100	Black Adder	Black Knight	Black Panther	Black Widow
+Boss Bat's Lair	100	The Boss Bat
 Bugbear Pens	100	An Angry Bugbear: 3	A Bugged Bugbear: 3	Mad Bugbears: 3	A Revolting Bugbear: 3	A Revolving Bugbear: 3	An Annoying Spooky Gravy Fairy: 2
 Camp Logging Camp	80	Decent Lumberjack	Lumberjack Supervisor	Lumberjill	Lumberjuan	Hockey Elemental: -1
-Castle in the Clouds in the Sky	75	Alphabet Giant	Goth Giant	Furry Giant	Possibility Giant	Procrastination Giant	Raver Giant
 Post-Cyrpt Cemetary	100	Corpulent Zobmie	Grave Rober Zmobie	Senile Lihc	Slick Lihc	Gluttonous Ghuol	Gaunt Ghuol	Spiny Skelelton	Toothy Sklelton	Skelter Butleton, the Butler Skeleton: 0	Count Bakula: -1
 Pre-Cyrpt Cemetary	100	Ghoul	Grave Rober	Lihc	Skleleton	Smart Skelton	Zmobie	Zobmie
 Crimbo Town Toy Factory	100	Striking Factory-Worker Elf	Striking Gift-Wrapper Elf	Striking Middle-Management Elf	Striking Pencil-Pusher Elf	Striking Stocking-Stuffer Elf
@@ -52,7 +52,6 @@ Daily Dungeon	-1	Apathetic Lizardman	Dairy Ooze	Dodecapede	Giant Giant Moth	Mayo
 Dark Elbow of the Woods	95	Demoninja	G Imp	L Imp
 Dark Heart of the Woods	95	Fallen Archfiend	G Imp	P Imp
 Dark Neck of the Woods	95	Hellion	P Imp	W Imp
-Deep Fat Friar's Gate	95	Demoninja	Fallen Archfiend	G Imp	Hellion	L Imp	P Imp	W Imp	Hypnotist of Hey Deze: -1
 Defiled Alcove	100	Corpulent Zobmie	Grave Rober Zmobie	Conjoined Zmombie
 Defiled Cranny	100	Gluttonous Ghuol	Gaunt Ghuol	Huge Ghuol: 0
 Defiled Niche	100	Senile Lihc	Slick Lihc	Gargantulihc: 0
@@ -60,9 +59,12 @@ Defiled Nook	100	Spiny Skelelton	Toothy Sklelton	Giant Skeelton: 0
 Degrassi Knoll	80	Gnollish Crossdresser: 2	Gnollish Flyslayer: 2	Gnollish Gearhead: 3	Gnollish Piebaker: 2	Gnollish Plungermaster: 2	Gnollish Tirejuggler: 2	Gnollish War Chef: 2	Guard Bugbear: 2	One-Eyed Gnoll: 2
 Dungeons of Doom	70	Swarm of Killer Bees	Acid Blob	Mind Flayer	Large Kobold	Quantum Mechanic	Mimic: 0	The Master of Thieves: -1
 eXtreme Slope	60	Sk8 Gnome	eXtreme Cross-Country Hippy	eXtreme Orcish Snowboarder
+Fantasy Airship	80	Burly Sidekick: 2	Irritating Series of Random Encounters: 3	MagiMechTech MechaMech: 2	Protagonist: 2	Quiet Healer: 2	Spunky Princess: 2
 Fernswarthy's Tower	100	Brainsweeper	Bread Golem	Chowder Golem	Weretaco	Yeast Beast	Lesser Fruit Golem
 Frat House	100	Orcish Frat Boy (French Maid)	Orcish Frat Boy (Sorority Orcs)	Orcish Frat Boy (Paddling)
+Friar's Gate	95	Demoninja	Fallen Archfiend	G Imp	Hellion	L Imp	P Imp	W Imp	Hypnotist of Hey Deze: -1
 Fun House	100	Bugbear-In-The-Box	Disease-In-The-Box	Lemon-In-The-Box	Scary Clown	Shaky Clown	Creepy Clown
+Giant's Castle	75	Alphabet Giant	Goth Giant	Furry Giant	Possibility Giant	Procrastination Giant	Raver Giant
 Goatlet	100	Dairy Goat	Drunk Goat	Sabre-Toothed Goat
 Grim Grimacite Site	100	Mob Penguin Smasher	Mob Penguin Smith	Mob Penguin Supervisor
 Guano Junction	100	Baseball Bat	Briefcase Bat	Perpendicular Bat	Skullbat	Doughbat	Vampire Bat
@@ -89,12 +91,11 @@ Menagerie 2	100	Carnivorous Moxie Weed	Grass Elemental	Weremoose
 Menagerie 3	100	Booze Giant	Portly Abomination	Spectral Jellyfish
 Mouldering Mansion	70	Bellhop	Black Cat	Ourang-Outang	Raven	An Usher
 Ninja Snowmen	100	Ninja Snowman (Katana)	Ninja Snowman (Masked)	Ninja Snowman (Ricebowl)	Ninja Snowman Janitor	Ninja Snowman Weaponmaster
+Orc Chasm	100	1335 HaXx0r	Anime Smiley	Flaming Troll	Lamz0r N00b	Me4t BegZ0r	Spam Witch	XXX pr0n
 Outskirts of Camp	70	Axe Handle	Cloud of Disembodied Whiskers	Poutine Ooze	Forest Spirit
 Outskirts of The Knob	50	Knob Goblin Assistant Chef	Sleeping Knob Goblin Guard	Sub-Assistant Knob Mad Scientist	Knob Goblin Barbecue Team
 Palindome	50	Bob Racecar	Drab Bard	Evil Olive	Flock of Stab-Bats	Racecar Bob	Taco Cat	Tan Gnat
-Penultimate Fantasy Airship	80	Burly Sidekick: 2	Irritating Series of Random Encounters: 3	MagiMechTech MechaMech: 2	Protagonist: 2	Quiet Healer: 2	Spunky Princess: 2
 Pirate Cove	60	Sassy Pirate	Shady Pirate	Shifty Pirate	Swarthy Pirate	Smarmy Pirate
-The Road to the White Citadel	-1	Angry Raccoon Puppet	Business Hippy	eXtreme Sports Orc
 Rogue Windmill	70	Can-can Dancer	Courtesan	Master of Ceremonies	Sensitive Poet-type	Voyeuristic Artist
 Simple Tool-Making Cave	100	Flint-Scraping Cave Elf	Hunter-Gatherer Cave Elf	Rock-Banging Cave Elf	Sinew-Stretching Cave Elf
 Sleazy Back Alley	50	Big Creepy Spider	Completely Different Spider	Rushing Bum	Drunken Half-Orc Hobo	Crazy Bastard: -1
@@ -105,23 +106,21 @@ Spooky Forest	100	Bar	Spooky Mummy	Spooky Vampire	Triffid	Warwelf	Wolfman	Baiowu
 Spooky Fright Factory	100	Bow-making Mummy	Cookie-baking Thing from Beyond Time	Gift-wrapping Vampire	Skeletal Reindeer	Stocking-stuffing Zombie	Toy-making creature from the Gray Lagoon
 Spooky Gravy Barrow	80	Spooky Gravy Fairy Guard	Spooky Gravy Fairy Ninja	Spooky Gravy Fairy Warlock	Felonia, Queen of the Spooky Gravy Fairies: 0
 Stately Pleasure Dome	70	Ancient Mariner	Angry Poet	Kubla Khan	Roller-skating Muse	Toothless Mastiff Bitch
-The Boss Bat's Lair	100	The Boss Bat
-The Dire Warren	100	Fluffy Bunny
-The King's Chamber	100	The Knob Goblin King
-The Knob Shaft	85	Ghost Miner
+Dire Warren	100	Fluffy Bunny
+King's Chamber	100	The Knob Goblin King
+Knob Shaft	85	Ghost Miner
 Thugnderdome	100	Gnarly Gnome	Gnasty Gnome	Gnefarious Gnome	Gnomester Blomester	Gnu Jack Gnome	Vicious Gnauga
 Typical Tavern	-1	Drunken Rat
-Valley Beyond Orc Chasm	100	1335 HaXx0r	Anime Smiley	Flaming Troll	Lamz0r N00b	Me4t BegZ0r	Spam Witch	XXX pr0n
+White Citadel	-1	Angry Raccoon Puppet	Business Hippy	eXtreme Sports Orc
 Whitey's Grove	75	Knight in White Satin	White Chocolate Golem	White Lion	Whitesnake
 
 # Areas with no combat data - or no combats
 
-Bridge the Orc Chasm	0
-Enormous Greater-Than Sign	0
 Fight the Naughty Sorceress	0
 Frat House In Disguise	0
 Friar Ceremony Location	0
 Goat Party	0
+Greater-Than Sign	0
 Haiku Dungeon	0
 Hidden Temple	0
 Hippy Camp In Disguise	0

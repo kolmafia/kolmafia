@@ -1,4 +1,3 @@
-
 Gyms	0/0	clan_gym=1	Pump Up Muscle
 Gyms	0/0	clan_gym=2	Pump Up Mysticality
 Gyms	0/0	clan_gym=3	Pump Up Moxie
@@ -7,7 +6,7 @@ Beach	0/0	shore=1	Muscle Vacation	1 ten-leaf clover
 Beach	0/0	shore=2	Mysticality Vacation
 Beach	0/0	shore=3	Moxie Vacation	1 barbed-wire fence
 Beach	0/0	adventure=45	South of the Border	1 pile of candy
-Beach	104/0	adventure=121	The Arid Extra-Dry Desert
+Beach	104/0	adventure=121	Arid Extra-Dry Desert
 Beach	104/0	adventure=122	An Oasis
 Beach	0/0	adventure=156	Grim Grimacite Site
 
@@ -23,7 +22,7 @@ Casino	0/0	adventure=71	Poker Room
 
 Dungeon	0/5	adventure=16	Haiku Dungeon	1 fairy gravy
 Dungeon	19/0	adventure=19	Limerick Dungeon	1 dungeoneer's dungarees
-Dungeon	47/0	adventure=38	Enormous Greater-Than Sign	1 plus sign
+Dungeon	47/0	adventure=38	Greater-Than Sign	1 plus sign
 Dungeon	47/0	adventure=39	Dungeons of Doom	1 dead mimic
 Dungeon	15/0	dungeon=1	Daily Dungeon
 
@@ -45,17 +44,17 @@ Manor	0/104	adventure=120	Haunted Wine Cellar
 Woods	5/0	adventure=15	Spooky Forest	1 mosquito larva
 Woods	5/0	adventure=17	Hidden Temple
 Woods	5/0	adventure=25	Typical Tavern	beer goggles
-Woods	29/29	adventure=79	Deep Fat Friar's Gate
+Woods	29/29	adventure=79	Friar's Gate
 Woods	0/20	adventure=73	8-Bit Realm	1 digital key
 Woods	35/0	adventure=100	Whitey's Grove
-Woods	35/0	adventure=99	The Road to the White Citadel
-Woods	104/0	adventure=111	The Black Forest
+Woods	35/0	adventure=99	White Citadel
+Woods	104/0	adventure=111	Black Forest
 
 BatHole	8/8	adventure=30	Bat Hole Entryway	1 Pine-Fresh air freshener
 BatHole	8/8	adventure=31	Guano Junction	3 sonar-in-a-biscuit, 1 broken skull
 BatHole	8/8	adventure=32	Batrat and Ratbat Burrow
 BatHole	8/8	adventure=33	Beanbat Chamber	1 enchanted bean
-BatHole	8/8	adventure=34	The Boss Bat's Lair
+BatHole	8/8	adventure=34	Boss Bat's Lair
 
 Rift	0/0	adventure=85	Battlefield (No Uniform)	outfit
 Rift	0/0	adventure=86	Battlefield (Cloaca Uniform)
@@ -72,13 +71,13 @@ Knob	0/0	adventure=114	Outskirts of The Knob	1 chef's hat
 Knob	20/0	adventure=40	Knob Goblin Kitchens
 Knob	20/0	adventure=41	Knob Goblin Treasury	outfit
 Knob	20/0	adventure=42	Knob Goblin Harem	outfit, 1 Knob Goblin perfume
-Knob	20/0	knob=0	The King's Chamber
+Knob	20/0	knob=0	King's Chamber
 
 Lab	20/30	adventure=50	Knob Goblin Laboratory
 Lab	20/35	adventure=51	Menagerie 1
 Lab	20/40	adventure=52	Menagerie 2
 Lab	20/45	adventure=53	Menagerie 3
-Lab	20/0	adventure=101	The Knob Shaft
+Lab	20/0	adventure=101	Knob Shaft
 
 Friars	29/29	adventure=75	Dark Neck of the Woods	1 wussiness potion, 1 ruby W, 1 dodecagram
 Friars	29/29	adventure=76	Dark Heart of the Woods	1 box of birthday candles
@@ -91,53 +90,56 @@ Cyrpt	40/40	adventure=56	Defiled Alcove
 Cyrpt	40/40	adventure=57	Defiled Niche
 Cyrpt	40/40	cyrpt=Yep.	Haert of the Cyrpt
 
-Island	0/30	adventure=26	Hippy Camp	outfit
-Island	0/30	adventure=65	Hippy Camp In Disguise
-Island	0/30	adventure=133	Wartime Hippy Camp
-Island	0/30	adventure=131	Wartime Hippy Camp In Frat Disguise 
 Island	0/30	adventure=27	Frat House
 Island	0/30	adventure=29	Frat House In Disguise
-Island	0/30	adventure=135	Wartime Frat House
-Island	0/30	adventure=134	Wartime Frat House In Hippy Disguise
+Island	125/125	adventure=150	Post-War Frat House
+Island	0/30	adventure=26	Hippy Camp	outfit
+Island	0/30	adventure=65	Hippy Camp In Disguise
 Island	0/45	adventure=66	Pirate Cove	outfit
 Island	0/45	adventure=67	Pirate Cove In Disguise	1 abridged dictionary
 
-Island (Quest)	125/125	adventure=132	Battlefield (Frat Uniform)
-Island (Quest)	125/125	adventure=140	Battlefield (Hippy Uniform)
-Junkyard	125/125	adventure=139	The Junkyard
-Lighthouse	125/125	adventure=136	Sonofa Beach
-Nunnery	125/124	adventure=126	The Themthar Hills
-Farm	125/125	adventure=137	The Barn
-Farm	125/125	adventure=141	The Pond
-Farm	125/125	adventure=142	The Back 40
-Farm	125/125	adventure=143	The Other Back 40
-Farm	125/125	adventure=144	The Granary
-Farm	125/125	adventure=145	The Bog
-Farm	125/125	adventure=146	The Family Plot
-Farm	125/125	adventure=147	The Shady Thicket
-Orchard	125/125	adventure=127	The Hatching Chamber
-Orchard	125/125	adventure=128	The Feeding Chamber
-Orchard	125/125	adventure=129	The Guards' Chamber
-Orchard	125/125	adventure=130	The Queen's Chamber
+Island	125/125	adventure=154	Junkyard
+Island	125/125	adventure=136	Sonofa Beach
+Island	125/125	adventure=155	McMillicancuddy's Farm
 
-Island (Post-Quest)	125/125	adventure=150	The Frat House (Bombed Back to
-the Stone Age)
-Island (Post-Quest)	125/125	adventure=154	The Junkyard
-Island (Post-Quest)	125/125	adventure=136	Sonofa Beach
-Island (Post-Quest)	125/125	adventure=155	McMillicancuddy's Farm
+
+IsleWar	125/125	adventure=132	Battlefield (Frat Uniform)
+IsleWar	125/125	adventure=140	Battlefield (Hippy Uniform)
+IsleWar	0/30	adventure=135	Wartime Frat House
+IsleWar	0/30	adventure=134	Wartime Frat House In Hippy Disguise
+IsleWar	0/30	adventure=133	Wartime Hippy Camp
+IsleWar	0/30	adventure=131	Wartime Hippy Camp In Frat Disguise
+
+Junkyard	125/125	adventure=139	Junkyard
+Lighthouse	125/125	adventure=136	Sonofa Beach
+
+Nunnery	125/124	adventure=126	Themthar Hills
+
+Farm	125/125	adventure=137	Barn
+Farm	125/125	adventure=141	Pond
+Farm	125/125	adventure=142	Back 40
+Farm	125/125	adventure=143	Other Back 40
+Farm	125/125	adventure=144	Granary
+Farm	125/125	adventure=145	Bog
+Farm	125/125	adventure=146	Family Plot
+Farm	125/125	adventure=147	Shady Thicket
+
+Orchard	125/125	adventure=127	Hatching Chamber
+Orchard	125/125	adventure=128	Feeding Chamber
+Orchard	125/125	adventure=129	Guards' Chamber
+Orchard	125/125	adventure=130	Queen's Chamber
 
 Mountain	0/0	adventure=91	Noob Cave
-Mountain	0/0	adventure=92	The Dire Warren	level 2
+Mountain	0/0	adventure=92	Dire Warren	level 2
 McLarge	53/0	adventure=61	Itznotyerzitz Mine	outfit
 McLarge	53/0	adventure=60	Goatlet	6 goat cheese
 McLarge	53/0	adventure=62	Ninja Snowmen	1 frigid ninja stars
 McLarge	53/0	adventure=63	eXtreme Slope	outfit
 McLarge	53/0	adventure=110	Icy Peak	level 10
-Mountain	68/0	mountains=80	Bridge the Orc Chasm
-Mountain	68/0	adventure=80	Valley Beyond Orc Chasm	1 30669 scroll, 1 33398 scroll, 2 334 scroll, 2 lowercase N
+Mountain	68/0	adventure=80	Orc Chasm	2 334 scroll, 1 lowercase N
 
-Beanstalk	85/90	adventure=81	Penultimate Fantasy Airship	1 metallic A, 1 S.O.C.K.
-Beanstalk	85/95	adventure=82	Castle in the Clouds in the Sky	castle items
+Beanstalk	85/90	adventure=81	Fantasy Airship	1 metallic A, 1 S.O.C.K.
+Beanstalk	85/95	adventure=82	Giant's Castle	1 choiceadv, 1 thin black candle, 1 heavy D
 Beanstalk	85/100	adventure=83	Hole in the Sky	1 Richard's star key, 1 star hat, 1 star crossbow
 
 Sorceress	104/0	lair3=hedge	Sorceress' Hedge Maze	3 hedge maze puzzle
@@ -159,9 +161,10 @@ Astral	0/0	adventure=98	Astral Mushroom (Mediocre Trip)
 Astral	0/0	adventure=97	Astral Mushroom (Great Trip)
 
 # Worm Wood
-Worm Wood	0/0	adventure=151	Stately Pleasure Dome
-Worm Wood	0/0	adventure=152	Mouldering Mansion
-Worm Wood	0/0	adventure=153	Rogue Windmill
+
+Wormwood	0/0	adventure=151	Stately Pleasure Dome
+Wormwood	0/0	adventure=152	Mouldering Mansion
+Wormwood	0/0	adventure=153	Rogue Windmill
 
 # Holiday Locations
 

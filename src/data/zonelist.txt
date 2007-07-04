@@ -1,12 +1,12 @@
 Town	Town	Seaside Town
-MysSign	Town	Mysticality Sign
 Casino	Town	Seaside Casino
 Dungeon	Town	Seaside Dungeon
 
-Manor	Manor	Spookyraven Manor
+Manor	Manor	Spookyraven
 
 Plains	Plains	Nearby Plains
 Rift	Plains	Temporal Rift
+Beanstalk	Plains	Above the Beanstalk
 
 BatHole	BatHole	Bat Hole	bathole.php
 
@@ -16,38 +16,37 @@ Lab	Knob	Knob Cobb's Knob Lab	knob2.php
 Cyrpt	Cyrpt	Defiled Cyrpt	cyrpt.php
 
 Woods	Woods	Distant Woods	woods.php
-MusSign	Woods	Muscle Sign
 
 Friars	Friars	Deep Fat Friar's	friars.php
-
-Worm Wood	Worm Wood	Worm Wood	wormwood.php
 
 Mountain	Mountain	Big Mountains
 McLarge	Mountain	Mt. McLargeHuge	mclargehuge.php
 
 Beach	Beach	Desert Beach	beach.php
-MoxSign	Beach	Moxie Sign
 Pyramid	Beach	Ancient Buried Pyramid	pyramid.php
 
 Island	Island	Mysterious Island
 
-Island (Quest)	Island (Quest)	Island (Quest)	bigisland.php
-Junkyard	Island (Quest)	The Junkyard	bigisland.php?place=junkyard
-Arena	Island (Quest)	Mysterious Island Arena	bigisland.php?place=concert
-Lighthouse	Island (Quest)	The Lighthouse	bigisland.php?place=lighthouse
-Orchard	Island (Quest)	The Organic Orchard	bigisland.php?place=orchard
-Farm	Island (Quest)	McMillicancuddy's Farm	bigisland.php?place=orchard
-Nunnery	Island (Quest)	Our Lady of Perpetual Indecision	bigisland.php?place=nunnery
+IsleWar	IsleWar	Island War Quest	bigisland.php
+Junkyard	IsleWar	Junkyard
+Lighthouse	IsleWar	Junkyard
+Farm	IsleWar	McMillicancuddy's Farm	bigisland.php?place=orchard
+Orchard	IsleWar	Organic Orchard	bigisland.php?place=orchard
+Nunnery	IsleWar	Our Lady of Perpetual Indecision	bigisland.php?place=nunnery
 
-Island (Post-Quest)	Island (Post-Quest)	Island (Post-Quest)	bigisland.php
+Signed Zones	Signed Zones	Signed Zones
+Gyms	Signed Zones	Clan/Signed Gyms
+MusSign	Signed Zones	Muscle Sign
+MysSign	Signed Zones	Mysticality Sign
+MoxSign	Signed Zones	Moxie Sign
 
-Beanstalk	Beanstalk	Above the Beanstalk
-Sorceress	Sorceress	Sorceress Lair
+Item-Driven	Item-Driven	Item-Driven Zones
+Astral	Item-Driven	Astral Plane
+Wormwood	Item-Driven	Worm Wood	wormwood.php
 
 Unsorted	Unsorted	No Category
+Sorceress	Unsorted	Sorceress Lair
 Holiday	Unsorted	Holiday Zones
-Astral	Unsorted	Astral Plane
-Gyms	Unsorted	Clan/Signed Gyms
 
 Removed	Removed	Removed Areas
 Crimbo05	Removed	Christmas 2005
