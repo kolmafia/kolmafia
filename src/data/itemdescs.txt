@@ -2079,8 +2079,8 @@
 2074	787455549	anniversary chutney sculpture
 2075	259836862	spandex anniversary shorts
 2076	803043896	jar of anniversary jam
-2077
-2078
+2077	792306684	bucket of anniversary lard
+2078	691883044	anniversary concrete fedora
 2079	385932960	makeshift turban	makeshift turbans
 2080	998156151	makeshift cape	makeshift capes
 2081	752465171	makeshift skirt	makeshift skirts
@@ -2411,12 +2411,12 @@
 2406	523972566	Panda outfit
 2407	137700149	pink bat eye
 2408	881309316	worthless piece of yellow glass
-2409		billy idol
+2409	662846768	billy idol
 2410	167749086	oily rag
 2411	365674109	broken petri dish
-2412		sammich crust
+2412	417569482	sammich crust
 2413	822445957	triffid bark
-2414		white lint
+2414	876534260	white lint
 2415	806968474	discarded pacifier
 2416	968287390	bounty-hunting helmet
 2417	863257288	bounty-hunting rifle
@@ -2424,9 +2424,9 @@
 2419	717528216	bottle of rhinoceros hormones
 2420	193836767	teeny-tiny magic scroll
 2421	262244349	bottle of pirate juice
-2422
+2422	531554229	irradiated pet snacks
 2423	409210711	Mick's IcyVapoHotness Inhaler
-2424
+2424	734824156	cyclops eyedrops
 2425	321698546	can of spinach
 2426	348302801	fire flower
 2427	448888728	freezerburned ice cube
@@ -2472,9 +2472,9 @@
 2467	400348108	blue suede shoes
 2468	136659520	callussed fingerbone
 2469	261443219	bundle of receipts
-2470		disintegrating cork
+2470	873351480	disintegrating cork
 2471	405124937	sticky stardust
-2472		wilted lettuce
+2472	408631953	wilted lettuce
 2473	968837261	empty greasepaint tube
 2474	647139951	clown skin	clown skins
 2475	227709910	clown wig	clown wigs
@@ -2605,7 +2605,7 @@
 2600	496663617	carbonated water lily
 2601	338816180	Staff of the Midnight Snack
 2602	572669193	Staff of Blood and Pudding
-2603
+2603	852684951	smoldering box
 2604	616843400	Tuesday's ruby
 2605	636774876	palm frond
 2606	621440067	palm-frond fan
@@ -2686,7 +2686,7 @@
 2681	160414339	M-242	M-242s
 2682	692188284	detuned radio	detuned radios
 2683	425159430	Warehouse 23 crate	Warehouse 23 crates
-2684
+2684	582302917	armed gun
 2685	831641508	fancy seashell necklace
 2686	780091889	commemorative war stein
 2687	168728940	stone frisbee
@@ -2836,3 +2836,4 @@
 2831	288002712	star key lime
 2832	321645219	digital key lime pie
 2833	716860490	star key lime pie
+2834	718987658	bottle-rocket crossbow	bottle-rocket crossbows

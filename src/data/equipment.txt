@@ -2,6 +2,7 @@ s# Helmet section.  This section includes all the items
 # which go in the "hat" slot of the equipment menu.
 
 Ancient Saucehelm	50	Mox: 10
+anniversary concrete fedora	10	none
 antique helmet	200	Mus: 85
 asbestos helmet turtle	80	Mox: 25
 asshat	30	none
@@ -285,6 +286,7 @@ Ye Olde Navy Fleece	100	Mus: 35
 7-Foot Dwarven mattock	80	Mus: 25	2-handed axe
 acoustic guitarrr	100	Mox: 35	2-handed guitar
 antique spear	200	Mus: 85	1-handed spear
+armed gun	140	Mox: 55	2-handed rifle
 arse-shooting crossbow	160	Mox: 65	2-handed crossbow
 asbestos crossbow	110	Mox: 40	2-handed crossbow
 asbestos staff	100	Mus: 35	2-handed staff
@@ -307,6 +309,7 @@ Bigger Bugfinder Blade	200	Mus: 85	2-handed sword
 bill bec-de-bardiche glaive-guisarme	150	Mus: 60	2-handed polearm?
 Bjorn's Hammer	50	Mus: 10	1-handed club
 black sword	160	Mus: 65	1-handed sword
+bottle-rocket crossbow	100	Mox: 0	1-handed crossbow
 bounty-hunting rifle	100	Mox: 25	2-handed rifle
 bow staff	100	Mus: 35	2-handed staff
 broken sword	135	Mus: 52	1-handed sword
@@ -314,6 +317,7 @@ bubble bauble bow	80	Mox: 20	2-handed bow
 bubblewrap crossbow	60	Mox: 15	2-handed crossbow
 bubblewrap staff	60	Mus: 15	2-handed staff
 bubblewrap sword	60	Mus: 15	1-handed sword
+bucket of anniversary lard	10	Mus: 0	1-handed flail
 buffalo blade	120	Mus: 45	2-handed sword
 bugbear-smiting sword	150	Mus: 60	2-handed sword
 Bugfinder Blade	180	Mus: 75	2-handed sword

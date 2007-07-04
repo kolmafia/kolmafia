@@ -181,7 +181,7 @@
 181	Jazz Hands	glove.gif	d847d0fc434d9f9b69d6c029b7b91582
 182
 183	Half-Astral	hoppedup.gif
-184	Cupcake of Choice	cupcake.gif
+184	Cupcake of Choice	cupcake.gif	606df8164432029da3468eee90911ca3
 185	Shiny Happy Cupcake	cupcake.gif
 186	Tiny Bubbles in the Cupcake	cupcake.gif
 187	Your Cupcake Senses Are Tingling	cupcake.gif
@@ -201,10 +201,10 @@
 201	Cold Blooded	scwad.gif	3d9befb3ebd8553b81c3792efb85a85a
 202	Spooky Demeanor	scwad.gif	89099ac4df5c9d8171b4930a79feaeae
 203	Stenchtastic	scwad.gif	798bb9ee21a7f86fea8ed2a1c8fc9be1
-204	Supafly	scwad.gif
-205	Provocative Perkiness	hoppedup.gif
-206	Ermine Eyes	bigeyes.gif
-207	Eau D'enmity	stench.gif
+204	Supafly	scwad.gif	9251834d917d63e231fac176d8842811
+205	Provocative Perkiness	hoppedup.gif	a5416e0b53cb9482aaa8294b3ebf58b5
+206	Ermine Eyes	bigeyes.gif	00fb00c69272d752ee0bab0e83ea729f
+207	Eau D'enmity	stench.gif	e81a1fd67fb48499d12619574610759f
 208	Ocelot Eyes	bigeyes.gif
 209	Ponderous Potency	strboost.gif
 210	Concentrated Concentration	farout.gif
@@ -212,19 +212,19 @@
 212	Papowerful	papaya.gif
 213	Frog In Your Throat	squashfrog.gif
 214	Salamander In Your Stomach	liver.gif
-215	Newt Gets In Your Eyes	eyes.gif
+215	Newt Gets In Your Eyes	eyes.gif	46a5628ca44d03f0f26bdf3467f1c0c2
 216
 217
-218	Amorous	lips.gif
-219	Bubble, Bubble	sphere.gif
-220	Sticky Fingers	glove.gif
+218	Amorous	lips.gif	e8430f88372ba98df5e361f0b091fe65
+219	Bubble, Bubble	sphere.gif	6ede1a75e47f82c98a429c9a50d067b4
+220	Sticky Fingers	glove.gif	4becdf2ac82c2bf30dd433dd54465918
 221	Chalky Hand	glove.gif	3e2eed0d70d0e023a11619655a3f48c0
 222	Snarl of the Timberwolf	wolfmask.gif	2968e9397d3aa977b8cb3e9817ad8cdd
 223	Dreams and Lights	snowflakes.gif	360467118bd69ef869a1af2002117e63
 224	Scarysauce	skullshld.gif	f7551a889b9c61510fc3f73f96ecc98e
 225	Dirge of Dreadfulness	notes.gif
 226	Talking Like a Pirate	piratehead.gif
-227	The 'Tussin	happy.gif
+227	The 'Tussin	happy.gif	295f414c903d22c44ec2f92f789cad71
 228	Pie in the Face	pieface.gif	9c9794f2ff9a0fcb1090c281c2c442f1
 229	Hip to Be Square Dancin'	footprints.gif
 230	Livin' Large	goldfronts.gif
@@ -245,7 +245,7 @@
 245	Locks Like the Raven	blackbird2.gif	6d4452e978741bda60e82e316fdd7ba5
 246	Smugness	happy.gif
 247	Good Karma	happy.gif
-248	Pumped Up	strboost.gif
+248	Pumped Up	strboost.gif	e8b6209d5764f91f803c9591ab9ecd7c
 249	Head on Fire, Ass Catching	fire.gif	c4c76755cb4ca109b5685550cab4a4e6
 250	Violent Night	singlenote.gif
 251	White Knuckles	singlenote.gif
@@ -316,7 +316,7 @@
 316
 317
 318
-319
+319	Hyphemariffic	darkness.gif	6b0edfbc94593d4516065493f3607d93
 320
 321
 322
@@ -335,11 +335,11 @@
 335
 336
 337
-338	Fustulent	stench.gif
-339	Tin, Man	funnelhat.gif
-340	Can't Be a Chooser	meat.gif
-341	Ass Over Teakettle	teakettle.gif
-342	Bestial Sympathy	teeth.gif
+338	Fustulent	stench.gif	55fd0e02c574f2ba680d8e64a5542bf8
+339	Tin, Man	funnelhat.gif	3ceed6b8764068dd53325bab6b7b5681
+340	Can't Be a Chooser	meat.gif	76a0c3b8b2ddd3cffbbb2c1de01fd41f
+341	Ass Over Teakettle	teakettle.gif	0a630b7a78a5959d97c5ce48cb23287f
+342	Bestial Sympathy	teeth.gif	0acfb47ada804935ca1acf6ee1ae6dd7
 343	La Bamba	footprints.gif
 344
 345
@@ -366,8 +366,8 @@
 366	Inspired!	bulb.gif	cee83e927355a2c84cd8ee46745bd87a
 367	Ringing Ears	bell.gif	547a82f65523083eb7ea2349b1dd97a3
 368	Man's Worst Enemy	teeth.gif	2842a345ac05d148c862015d1fcc4e4b
-369	Extremely Poor Taste	sad.gif
-370	The Real Deal	light.gif
+369	Extremely Poor Taste	sad.gif	c3ef42f53a008404112cf3a9dd744404
+370	The Real Deal	light.gif	526472c3f3acbe7a8068ccf92628a40a
 371	Memento Moir&eacute;	photograph.gif	731ba2df034beec5412f82879eec9392
 372	Flashing Eyes	bigeyes.gif	eaa0f2cd06a00116af53bd65177fdf4b
 373	Mmmmmelon	melon.gif	bd27dcbc85c224d16256b51a8ca02db5
@@ -375,14 +375,14 @@
 375	Sparkling Consciousness	snowflakes.gif
 376	Sneaky Serpentine Subtlety	nopic.gif
 377	Adrenaline Rush	hoppeddown.gif
-378
+378	Crusty Head	hippywig.gif	81b2fce49b337b3ef3c6a1b11d77c2df
 379
 380
 381
-382
-383
-384
-385
+382	Seeing Colors	snowflakes.gif	a25aa7677bc87baea8d0350e61b04e9d
+383	Black Face	blackface.gif	c74fee3997d020f53cc3e077d4897c10
+384	Erudite	spectacles.gif	bf4f8342a8efe1d4c27054fa73ec1d7a
+385	Radiating Black Body&trade;	radiation.gif	3de3c7f145ae87e58ee391127ed697fd
 386
 387
 388
@@ -426,8 +426,8 @@
 426
 427
 428	Compensatory Cruelness	angry.gif	fcfb0679f0e80509cbff567a600ca998
-429
-430
+429	Mutated	spooklines.gif	a8e35050197871d1fbe5b3afc865af7e
+430	Seriously Mutated	spooklines.gif	dd78d480e08de5cc8e633202d699844f
 431
 432
 433	Easily Embarrassed	blush.gif	4b7988bd236d2b89dc8cbe162b697fa6

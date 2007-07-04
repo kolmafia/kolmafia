@@ -3257,6 +3257,7 @@ public abstract class KoLmafia implements KoLConstants
 				case 1917:	// old leather wallet
 				case 1918:	// old coin purse
 				case 2057:	// black pension check
+				case 2058:	// black picnic basket
 				case 2511:	// Frat Army FGF
 				case 2512:	// Hippy Army MPE
 				case 2536:	// canopic jar

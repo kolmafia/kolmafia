@@ -46,6 +46,7 @@ bar whip	Weight: +2
 bat whip	ML: +5
 beer bong	ML: +5
 broken sword	Spooky: +10
+bottle-rocket crossbow	Meat: +15.0, Item: +15.0
 bounty-hunting rifle	Item: +15.0
 bubble bauble bow	Item: +5.0
 can cannon	ML: +3
