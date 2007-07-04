@@ -86,8 +86,8 @@ seal-toothed rock	4	seal tooth	big rock
 Bjorn's Hammer	4	seal-toothed rock	seal-clubbing club
 Hammer of Smiting	4	Bjorn's Hammer	distilled seal blood
 
-turtle factory	4	chisel	big rock
-Mace of the Tortoise	4	turtle factory	turtle totem
+stone turtle	4	chisel	big rock
+Mace of the Tortoise	4	stone turtle	turtle totem
 Chelonian Morningstar	4	Mace of the Tortoise	turtle chain
 
 spaghetti with rock-balls	4	petrified noodles	big rock

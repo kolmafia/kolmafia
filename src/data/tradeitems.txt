@@ -55,7 +55,7 @@
 55	jaba&ntilde;ero pepper	0	all	100
 56	heavy hot sauce	0	all	101
 57	5-Alarm Saucepan	12	all	150
-58	turtle factory	0	all	3
+58	stone turtle	0	all	3
 59	slingshot	12	all	75
 60	Mace of the Tortoise	12	all	150
 61	fortune cookie	1	all	20
