@@ -211,13 +211,9 @@ public class AdventureRequest extends KoLRequest
 
 		if ( this.adventureId.equals( "80" ) && this.responseText.indexOf( "You shouldn't be here." ) != -1 )
 		{
-			ArrayList temporary = new ArrayList();
-			temporary.addAll( conditions );
-			conditions.clear();
+			AdventureRequest bridge = new AdventureRequest( "Bridge the Orc Chasm", "mountains.php", "" );
+			bridge.run();
 
-			DEFAULT_SHELL.executeLine( "adventure 1 Bridge the Orc Chasm" );
-
-			conditions.addAll( temporary );
 			if ( KoLmafia.permitsContinue() )
 				this.run();
 
