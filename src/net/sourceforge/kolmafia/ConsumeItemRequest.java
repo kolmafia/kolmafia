@@ -126,9 +126,11 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int MACGUFFIN_DIARY = 2044;
 	private static final int BLACK_MARKET_MAP = 2054;
 	private static final int ARCHAEOLOGIST_NOTEBOOK = 2179;
+	private static final int COBBS_KNOB_MAP = 2442;
 	private static final int I_LOVE_ME_VOL_I = 2258;
 	private static final int JEWELRY_BOOK = 2502;
 	private static final int ABSINTHE = 2655;
+	private static final int LIBRARY_CARD = 2672;
 	private static final int DETUNED_RADIO = 2682;
 
 	private static final int GIFT1 = 1167;
@@ -174,6 +176,7 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int SNAKE = 2680;
 	private static final int M282 = 2681;
 
+	private static final AdventureResult ASPARAGUS_KNIFE = new AdventureResult( 19, -1 );
 	private static final AdventureResult SAPLING = new AdventureResult( 75, -1 );
 	private static final AdventureResult FERTILIZER = new AdventureResult( 76, -1 );
 	private static final AdventureResult PLANKS = new AdventureResult( 140, -1 );
@@ -184,8 +187,7 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final AdventureResult WINDCHIMES = new AdventureResult( 212, -1 );
 	private static final AdventureResult INKWELL = new AdventureResult( 1958, -1 );
 	private static final AdventureResult SCRAP_OF_PAPER = new AdventureResult( 1959, -1 );
-
-	private static final int LIBRARY_CARD = 2672;
+	private static final AdventureResult ENCRYPTION_KEY = new AdventureResult( 2441, -1 );
 
 	private int consumptionType;
 	private AdventureResult itemUsed = null;
@@ -906,8 +908,30 @@ public class ConsumeItemRequest extends KoLRequest
 				lastUpdate = "You don't have everything you need.";
 				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
 				StaticEntity.getClient().processResult( lastItemUsed );
+				return;
 			}
 
+			// Using the map consumes an asparagus knife
+
+			StaticEntity.getClient().processResult( ASPARAGUS_KNIFE );
+			return;
+
+		case COBBS_KNOB_MAP:
+
+			// "You memorize the location of the door, then eat
+			// both the map and the encryption key."
+
+			if ( responseText.indexOf( "memorize the location" ) == -1 )
+			{
+				lastUpdate = "You don't have everything you need.";
+				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
+				StaticEntity.getClient().processResult( lastItemUsed );
+				return;
+			}
+
+			// Using the map consumes the encryption key
+
+			StaticEntity.getClient().processResult( ENCRYPTION_KEY );
 			return;
 
 		case BLACK_MARKET_MAP:

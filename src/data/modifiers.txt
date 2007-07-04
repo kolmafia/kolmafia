@@ -313,6 +313,7 @@ Hombre Muerto Caminando	Spooky: +10
 Hot Blooded	Hot: +20
 Insulated Trousers	Cold: +20
 Leash of Linguini	Weight: +5
+Man's Worst Enemy	Weight: +5
 Musk of the Moose	Combat: +5.0
 Mysteriously Handsome	ML: +3
 Object Detection	Item: +12.5
