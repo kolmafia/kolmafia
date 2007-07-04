@@ -502,7 +502,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				outbytes.write( text.getBytes() );
 			}
 
-			outbytes.writeTo( new FileOutputStream( local ) );
+			FileOutputStream outfile = new FileOutputStream( local );
+			outbytes.writeTo( outfile );
+			outfile.close();
 		}
 		catch ( Exception e )
 		{
