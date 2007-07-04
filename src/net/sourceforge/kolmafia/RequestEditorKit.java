@@ -1187,6 +1187,8 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( buffer.indexOf( "<form" ) == -1 )
 			return;
 
+		boolean newMoonSign = buffer.indexOf( "<option value=9>The Packrat</option><option value=10>" ) != -1;
+
 		// What we're going to do is kill the standard form and replace it with
 		// one that requires a lot less scrolling while still retaining all of
 		// the form fields.  But first, extract needed information from it.
@@ -1224,12 +1226,11 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		String suffix = buffer.toString().substring( endIndex + 7 );
 		buffer.delete( buffer.indexOf( "<form" ), buffer.length() );
 
-		String toggleScript = "if ( document.getElementById('skillsview').options[0].selected ) { document.getElementById('hardskills').style.display = 'none'; document.getElementById('softskills').style.display = 'inline'; } else { document.getElementById('hardskills').style.display = 'inline'; document.getElementById('softskills').style.display = 'none'; } void(0);";
+		String lifeStyleScript = "var a, b; if ( this.options[1].selected ) { a = 'sc'; b = 'hc'; } else { a = 'hc'; b = 'sc'; } document.getElementById( a + 'moonsign' ).style.display = 'inline'; document.getElementById( b + 'moonsign' ).style.display = 'none'; void(0);";
+		String skillListScript = "var a, b; if ( this.options[0].selected ) { a = 'soft'; b = 'hard'; } else { a = 'hard'; b = 'soft'; } document.getElementById( a + 'skills' ).style.display = 'inline'; document.getElementById( b + 'skills' ).style.display = 'none'; void(0);";
 
 		// Add some holiday predictions to the page to make things more useful,
 		// since people sometimes forget KoLmafia has a calendar.
-
-		int introIndex = buffer.indexOf( "<centeR>" ) + 8;
 
 		buffer.append( "</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td>" );
 		buffer.append( LINE_BREAK );
@@ -1240,8 +1241,13 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		buffer.append( LINE_BREAK );
 		buffer.append( LINE_BREAK );
 
-		buffer.append( "<form action=valhalla.php method=post>" );
+		buffer.append( "<form name=\"ascform\" action=valhalla.php method=post>" );
 		buffer.append( "<input type=hidden name=action value=\"resurrect\"><input type=hidden name=pwd value=\"\"><center><table>" );
+		buffer.append( LINE_BREAK );
+
+		buffer.append( "<tr><td align=right><b>Lifestyle:</b>&nbsp;</td><td>" );
+		buffer.append( "<select style=\"width: 250px\" name=\"asctype\" onChange=\"" + lifeStyleScript + "\"><option value=0>- Lifestyles -</option><option value=1>Casual</option><option value=2>Softcore</option><option value=3 selected>Hardcore</option></select>" );
+		buffer.append( "</td></tr>" );
 		buffer.append( LINE_BREAK );
 
 		buffer.append( "<tr><td align=right><b>New Class:</b>&nbsp;</td><td>" );
@@ -1251,6 +1257,24 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		buffer.append( "<tr><td align=right><b>Gender:</b>&nbsp;</td><td>" );
 		buffer.append( "<select style=\"width: 250px\" name=gender><option value=1>Male</option><option value=2>Female</option></select>" );
+		buffer.append( "</td></tr>" );
+		buffer.append( LINE_BREAK );
+
+		buffer.append( "<tr><td colspan=2>&nbsp;</td></tr>" );
+		buffer.append( LINE_BREAK );
+
+		buffer.append( "<tr><td align=right><b>Moon Sign:</b>&nbsp;</td><td>" );
+		buffer.append( "<select id=\"scmoonsign\" style=\"display: none; width: 250px\" name=\"whichsign\"><option value=0>- Muscle Signs -</option><option value=1>The Mongoose</option><option value=2>The Wallaby</option><option value=3>The Vole</option><option value=0>- Mysticality Signs -</option><option value=4>The Platypus</option><option value=5>The Opossum</option><option value=6>The Marmot</option><option value=0>- Moxie Signs -</option><option value=7>The Wombat</option><option value=8>The Blender</option><option value=9>The Packrat</option></select>" );
+
+		buffer.append( "<select id=\"hcmoonsign\" style=\"width: 250px\" name=\"whichsignhc\" onChange=\"hcsignpick(); void(0);\"><option value=0>- Muscle Signs -</option><option value=1>The Mongoose</option><option value=2>The Wallaby</option><option value=3>The Vole</option><option value=0>- Mysticality Signs -</option><option value=4>The Platypus</option><option value=5>The Opossum</option><option value=6>The Marmot</option><option value=0>- Moxie Signs -</option><option value=7>The Wombat</option><option value=8>The Blender</option><option value=9>The Packrat</option>" );
+		if ( newMoonSign )
+			buffer.append( "<option value=10>- Bad Moon -</option>" );
+
+		buffer.append( "</select></td></tr>" );
+		buffer.append( LINE_BREAK );
+
+		buffer.append( "<tr><td align=right><b>Restrictions:</b>&nbsp;</td><td>" );
+		buffer.append( "<select style=\"width: 250px\" name=\"whichpath\"><option value=0>No dietary restrictions</option><option value=1>Boozetafarian</option><option value=2>Teetotaler</option><option value=3>Oxygenarian</option></select>" );
 		buffer.append( "</td></tr>" );
 		buffer.append( LINE_BREAK );
 
@@ -1278,18 +1302,6 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		buffer.append( "</select></td></tr>" );
 		buffer.append( LINE_BREAK );
 
-		buffer.append( "<tr><td align=right><b>Moon Sign:</b>&nbsp;</td><td>" );
-		buffer.append( "<select style=\"width: 250px\" name=\"whichsign\"><option value=0>- Muscle Signs -</option><option value=1>The Mongoose</option><option value=2>The Wallaby</option><option value=3>The Vole</option><option value=0>- Mysticality Signs -</option><option value=4>The Platypus</option><option value=5>The Opossum</option><option value=6>The Marmot</option><option value=0>- Moxie Signs -</option><option value=7>The Wombat</option><option value=8>The Blender</option><option value=9>The Packrat</option></select>" );
-		buffer.append( "</td></tr>" );
-		buffer.append( LINE_BREAK );
-
-		buffer.append( "<tr><td align=right><b>Hardcore:</b>&nbsp;</td><td><input type=checkbox id=\"hardcore\" name=\"hardcore\" checked onClick=\"if ( document.getElementById('hardcore').checked ) { document.getElementById('skillsview').options[1].selected = true; } else { document.getElementById('skillsview').options[0].selected = true; } " + toggleScript + "\"></td></tr>" );
-		buffer.append( LINE_BREAK );
-
-		buffer.append( "<tr><td align=right><b>Restrictions:</b>&nbsp;</td><td>" );
-		buffer.append( "<select style=\"width: 250px\" name=\"whichpath\"><option value=0>No dietary restrictions</option><option value=1>Boozetafarian</option><option value=2>Teetotaler</option><option value=3>Oxygenarian</option></select></td></tr>" );
-		buffer.append( LINE_BREAK );
-
 		buffer.append( "<tr><td colspan=2>&nbsp;</td></tr><tr><td>&nbsp;</td><td>" );
 		buffer.append( "<input class=button type=submit value=\"Resurrect\"><input type=hidden name=\"confirm\" value=on></td></tr></table></center></form>" );
 		buffer.append( LINE_BREAK );
@@ -1299,7 +1311,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// go ahead and add in all the missing data that players might want to
 		// look at to see which class to go for next.
 
-		buffer.append( "<center><br><br><select id=\"skillsview\" onChange=\"" + toggleScript + "\"><option>Unpermed Softcore Skills</option><option selected>Unpermed Hardcore Skills</option></select>" );
+		buffer.append( "<center><br><br><select id=\"skillsview\" onChange=\"" + skillListScript + "\"><option>Unpermed Softcore Skills</option><option selected>Unpermed Hardcore Skills</option></select>" );
 		buffer.append( LINE_BREAK );
 
 		buffer.append( "<br><br><div id=\"softskills\" style=\"display:none\">" );
