@@ -2696,7 +2696,7 @@
 2696	ovoid leather thing	0	all	150
 2697	duct tape	0	display	25
 2698	duct tape wallet	4	unknown	-1
-2699	duct tape shirt	11	display	0
+2699	duct tape shirt	11	display	325
 2700	duct tape fedora	9	display	210
 2701	duct tape sword	12	display	250
 2702	duct tape dockers	10	display	200
@@ -2711,11 +2711,11 @@
 2711	black facepaint	4	0	150
 2712	black sheepskin diploma	4	0	150
 2713	Black Body&trade; spray	4	0	150
-2714
+2714	floorboard cruft	0	all	55
 2715	sausage bomb	0	all	120
 2716	battered hubcap	13	all	150
 2717	shiny hood ornament	8	all	300
-2718
+2718	spare kidney	3	none	0
 2719
 2720
 2721

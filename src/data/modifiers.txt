@@ -132,6 +132,7 @@ asbestos apron	Hot: +30
 bat-ass leather jacket	Cold: +10, Hot: +10, Sleaze: +10, Spooky: +10, Stench: +10
 bronze breastplate	DA: +20, DR: 4
 clockwork trenchcoat	DA: +15
+duct tape shirt	Meat: +20.0
 eXtreme Bi-Polar Fleece Vest	Cold: +20
 flaming pink shirt	Item: +15.0
 gnauga hide vest	DR: 6, Cold: +10, Hot: +10, Sleaze: +10, Spooky: +10, Stench: +10

@@ -2701,7 +2701,7 @@
 2696	846092406	ovoid leather thing
 2697	453222342	duct tape
 2698	717877878	duct tape wallet
-2699		duct tape shirt
+2699	755252822	duct tape shirt
 2700	847582760	duct tape fedora
 2701	454519872	duct tape sword
 2702	267560694	duct tape dockers
@@ -2716,11 +2716,11 @@
 2711	121774283	black facepaint
 2712	978143454	black sheepskin diploma
 2713	319521618	Black Body&trade; spray
-2714
+2714	443929466	floorboard cruft
 2715	163102385	sausage bomb
 2716	691160228	battered hubcap
 2717	631967761	shiny hood ornament
-2718
+2718	748480874	spare kidney
 2719
 2720
 2721
