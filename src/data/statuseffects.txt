@@ -365,7 +365,7 @@
 365	Moon June Spooned	moon2.gif	733e8838261278c9b6173d392a4d09d7
 366	Inspired!	bulb.gif	cee83e927355a2c84cd8ee46745bd87a
 367	Ringing Ears	bell.gif	547a82f65523083eb7ea2349b1dd97a3
-368	Man's Worst Enemy	teeth.gif
+368	Man's Worst Enemy	teeth.gif	2842a345ac05d148c862015d1fcc4e4b
 369	Extremely Poor Taste	sad.gif
 370	The Real Deal	light.gif
 371	Memento Moir&eacute;	photograph.gif	731ba2df034beec5412f82879eec9392

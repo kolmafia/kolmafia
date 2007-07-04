@@ -2101,12 +2101,12 @@
 2096	407006358	guy made of bee pollen	guys made of bee pollen
 2097	490356098	17-ball	17-balls
 2098	793894406	filthy lucre
-2099		hobo gristle
-2100		shredded can label
+2099	600512131	hobo gristle
+2100	621991072	shredded can label
 2101	968837261	bloodstained briquette	bloodstained briquettes
-2102		greasy dreadlock
+2102	197186578	greasy dreadlock
 2103	724634831	vial of pirate sweat
-2104		empty aftershave bottle
+2104	899713468	empty aftershave bottle
 2105	270480542	coal button
 2106	207784873	burned-out arcanodiode
 2107	365694213	non-Euclidean hoof	non-Euclidean hooves
@@ -2471,7 +2471,7 @@
 2466	461008515	pompadour'd puppy
 2467	400348108	blue suede shoes
 2468	136659520	callussed fingerbone
-2469		bundle of receipts
+2469	261443219	bundle of receipts
 2470		disintegrating cork
 2471	405124937	sticky stardust
 2472		wilted lettuce
