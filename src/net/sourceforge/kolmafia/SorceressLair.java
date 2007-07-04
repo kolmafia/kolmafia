@@ -116,50 +116,50 @@ public abstract class SorceressLair extends StaticEntity
 
 	public static final String [][] GATE_DATA =
 	{
-		{ "Gate of Bad Taste", "Spicy Limeness" }, 
-		// lime-and-chile-flavored chewing gum 
+		{ "Gate of Bad Taste", "Spicy Limeness" },
+		// lime-and-chile-flavored chewing gum
 		{ "Gate of Flame", "Spicy Mouth" },
-		// jabanero-flavored chewing gum 
+		// jabanero-flavored chewing gum
 		{ "Gate of Hilarity", "Comic Violence" },
-		// gremlin juice 
+		// gremlin juice
 		{ "Gate of Humility", "Wussiness" },
-		// wussiness potion, Yummy Tummy bean 
+		// wussiness potion, Yummy Tummy bean
 		{ "Gate of Intrigue", "Mysteriously Handsome" },
-		// handsomeness potion 
+		// handsomeness potion
 		{ "Gate of Light", "Izchak's Blessing" },
-		// Dungeons of Doom potion 
+		// Dungeons of Doom potion
 		{ "Gate of Machismo", "Engorged Weapon" },
 		// Meleegra&trade; pills
 		{ "Gate of Morose Morbidity and Moping", "Rainy Soul Miasma" },
 		// thin black candle, Yummy Tummy bean, picture of a dead guy's
 		// girlfriend
 		{ "Gate of Mystery", "Mystic Pickleness" },
-		// pickle-flavored chewing gum 
+		// pickle-flavored chewing gum
 		{ "Gate of Slack", "Extreme Muscle Relaxation" },
-		// Mick's IcyVapoHotness Rub 
+		// Mick's IcyVapoHotness Rub
 		{ "Gate of Spirit", "Woad Warrior" },
-		// pygmy pygment 
+		// pygmy pygment
 		{ "Gate Of That Which is Hidden", "Object Detection" },
-		// Dungeons of Doom potion 
+		// Dungeons of Doom potion
 		{ "Gate of the Dead", "Hombre Muerto Caminando" },
-		// marzipan skull 
+		// marzipan skull
 		{ "Gate of the Mind", "Strange Mental Acuity" },
-		// Dungeons of Doom potion 
+		// Dungeons of Doom potion
 		{ "Gate of the Observant", "Object Detection" },
-		// Dungeons of Doom potion 
+		// Dungeons of Doom potion
 		{ "Gate of the Ogre", "Strength of Ten Ettins" },
-		// Dungeons of Doom potion 
+		// Dungeons of Doom potion
 		{ "Gate of the Porcupine", "Spiky Hair" },
-		// super-spikey hair gel 
+		// super-spikey hair gel
 		{ "Gates of The Suc Rose", "Sugar Rush" },
 		//Angry Farmer candy, marzipan skull, Tasty Fun Good rice
 		//candy, Yummy Tummy bean, stick of "gum", or Daffy Taffy
 		{ " Gate of The Viper", "Deadly Flashing Blade" },
-		// adder bladder 
+		// adder bladder
 		{ "Gate of Torment", "Tamarind Torment" },
-		// tamarind-flavored chewing gum 
+		// tamarind-flavored chewing gum
 		{ "Gate of Zest", "Spicy Limeness" },
-		// lime-and-chile-flavored chewing gum 
+		// lime-and-chile-flavored chewing gum
 		{ "Gate that is Not a Gate", "Teleportitis" },
 		// A big Q. adventure, Quantum Mechanic attack, Dungeons of
 		// Doom potion
@@ -840,6 +840,17 @@ public abstract class SorceressLair extends StaticEntity
 		return requirements;
 	}
 
+	private static final int NORTH = 0, EAST = 1, SOUTH = 2, WEST = 3;
+	private static final String [] DIRECTIONS = new String [] { "north", "east", "south", "west" };
+
+	private static final String [][] EXIT_IDS = new String [][]
+	{
+		{ "Upper-Left", "Upper-Middle", "Upper-Right" },
+		{ "Middle-Left", "Center", "Middle-Right" },
+		{ "Lower-Left", "Lower-Middle", "Lower-Right" }
+	};
+
+
 	public static void completeHedgeMaze()
 	{
 		if ( true )
@@ -863,8 +874,11 @@ public abstract class SorceressLair extends StaticEntity
 		// Otherwise, check their current state relative
 		// to the hedge maze, and begin!
 
-		KoLmafia.updateDisplay( "Retrieving maze status..." );
-		RequestThread.postRequest( QUEST_HANDLER.constructURLString( "hedgepuzzle.php" ) );
+		int [][] interest = new int[2][2];
+		boolean [][][][] exits = new boolean[3][3][4][4];
+
+		initializeMaze( exits, interest );
+		generateMazeConfigurations( exits );
 
 		// First mission -- retrieve the key from the hedge
 		// maze puzzle.
@@ -872,7 +886,7 @@ public abstract class SorceressLair extends StaticEntity
 		if ( !inventory.contains( HEDGE_KEY ) )
 		{
 			KoLmafia.updateDisplay( "Retrieving hedge key..." );
-			retrieveHedgeKey();
+			retrieveHedgeKey( exits, interest[0], interest[1] );
 
 			// Retrieving the key after rotating the puzzle pieces
 			// uses an adventure. If we ran out, we canceled.
@@ -889,7 +903,7 @@ public abstract class SorceressLair extends StaticEntity
 		if ( QUEST_HANDLER.responseText.indexOf( "Click one" ) != -1 )
 		{
 			KoLmafia.updateDisplay( "Executing final rotations..." );
-			finalizeHedgeMaze();
+			finalizeHedgeMaze( exits, interest[0] );
 
 			// Navigating up to the tower door after rotating the
 			// puzzle pieces requires an adventure. If we ran out,
@@ -912,19 +926,20 @@ public abstract class SorceressLair extends StaticEntity
 		KoLmafia.updateDisplay( "Hedge maze quest complete." );
 	}
 
-	private static void rotateHedgePiece( String hedgePiece, String searchText )
+	private static boolean rotateHedgePiece( int x, int y, int rotations )
 	{
-		// Rotate puzzle sections until we reach our goal
-		while ( KoLmafia.permitsContinue() && QUEST_HANDLER.responseText.indexOf( searchText ) == -1 )
+		String url = "hedgepuzzle.php?action=" + (1 + (y*3) + x);
+
+		for ( int i = 0; i < rotations && KoLmafia.permitsContinue(); ++i )
 		{
 			// We're out of puzzles unless the response says:
 			// "Click one of the puzzle sections to rotate that
 			// section 90 degrees to the right."
 
 			if ( QUEST_HANDLER.responseText.indexOf( "Click one" ) == -1 )
-				return;
+				return false;
 
-			RequestThread.postRequest( QUEST_HANDLER.constructURLString( "hedgepuzzle.php?action=" + hedgePiece ) );
+			RequestThread.postRequest( QUEST_HANDLER.constructURLString( url ) );
 
 			// If the topiary golem stole one of your hedge
 			// pieces, take it away.
@@ -932,9 +947,176 @@ public abstract class SorceressLair extends StaticEntity
 			if ( QUEST_HANDLER.responseText.indexOf( "Topiary Golem" ) != -1 )
 				getClient().processResult( PUZZLE_PIECE.getNegation() );
 		}
+
+		return KoLmafia.permitsContinue();
 	}
 
-	private static void retrieveHedgeKey()
+	private static void initializeMaze( boolean [][][][] exits, int [][] interest )
+	{
+		KoLmafia.updateDisplay( "Retrieving maze status..." );
+		RequestThread.postRequest( QUEST_HANDLER.constructURLString( "hedgepuzzle.php" ) );
+
+		for ( int x = 0; x < 3; ++x )
+			for ( int y = 0; y < 3; ++y )
+				if ( QUEST_HANDLER.responseText.indexOf( "accessible when the " + EXIT_IDS[x][y] ) != -1 )
+				{
+					interest[0][0] = x;
+					interest[0][1] = y;
+				}
+
+		for ( int x = 0; x < 3; ++x )
+		{
+			for ( int y = 0; y < 3; ++y )
+			{
+				Matcher squareMatcher = Pattern.compile(
+					"alt=\"" + EXIT_IDS[x][y] + " Tile: (.*?)\"", Pattern.DOTALL ).matcher( QUEST_HANDLER.responseText );
+
+				if ( !squareMatcher.find() )
+					return;
+
+				String squareData = squareMatcher.group(1);
+
+				for ( int i = 0; i < DIRECTIONS.length; ++i )
+					exits[0][x][y][i] = squareData.indexOf( DIRECTIONS[i] ) != -1;
+
+				if ( squareData.indexOf( "key" ) != -1 )
+				{
+					interest[1][0] = x;
+					interest[1][1] = y;
+				}
+			}
+		}
+	}
+
+	private static void generateMazeConfigurations( boolean [][][][] exits )
+	{
+		int actualDirection;
+		boolean allowConfig;
+
+		for ( int x = 0; x < 3; ++x )  // For each possible square
+		{
+			for ( int y = 0; y < 3; ++y )
+			{
+				for ( int config = 1; config < 4; ++config )  // For all possible maze configurations
+				{
+					allowConfig = true;
+
+					for ( int direction = 0; direction < 4; ++direction )
+					{
+						actualDirection = (direction + config) % 4;
+						allowConfig &= isExitPermitted( actualDirection, x, y );
+					}
+
+					for ( int direction = 0; direction < 4; ++direction )
+					{
+						actualDirection = (direction + config) % 4;
+						exits[x][y][config][actualDirection] = allowConfig && exits[x][y][0][direction];
+					}
+				}
+			}
+		}
+	}
+
+	private static boolean isExitPermitted( int direction, int x, int y )
+	{
+		switch ( direction )
+		{
+		case NORTH:  return y != 0;
+		case SOUTH:  return y != 2;
+		case EAST:   return x != 2;
+		case WEST:   return x != 0;
+		default:     return false;
+		}
+	}
+
+	private static int [][] computeSolution( boolean [][][][] exits, int [] start, int [] destination )
+	{
+		KoLmafia.updateDisplay( "Computing maze solution..." );
+
+		boolean [][] visited = new boolean[3][3];
+		int [][] currentSolution = new int[3][3];
+		int [][] optimalSolution = new int[3][3];
+
+		for ( int i = 0; i < 3; ++i )
+			for ( int j = 0; j < 3; ++j )
+				optimalSolution[i][j] = -1;
+
+		visited[ start[0] ][ start[1] ] = true;
+
+		computeSolution( visited, currentSolution, optimalSolution, exits,
+			start[0], start[1], destination[0], destination[1], NORTH );
+
+		for ( int i = 0; i < 3; ++i )
+			for ( int j = 0; j < 3; ++j )
+				if ( optimalSolution[i][j] == -1 )
+					return null;
+
+		return optimalSolution;
+	}
+
+	private static void computeSolution( boolean [][] visited, int [][] currentSolution, int [][] optimalSolution, boolean [][][][] exits, int currentX, int currentY, int destinationX, int destinationY, int incomingDirection )
+	{
+		// If the destination has already been reached, replace the
+		// optimum value, if this involves fewer rotations.
+
+		if ( currentX == destinationX && currentY == destinationY )
+		{
+			int currentSum = 0;
+			for ( int i = 0; i < 3; ++i )
+				for ( int j = 0; j < 3; ++j )
+					if ( visited[i][j] )
+						currentSum += currentSolution[i][j];
+
+			int optimalSum = 0;
+			for ( int i = 0; i < 3; ++i )
+				for ( int j = 0; j < 3; ++j )
+					optimalSum += optimalSolution[i][j];
+
+			if ( currentSum >= optimalSum )
+				return;
+
+			for ( int i = 0; i < 3; ++i )
+				for ( int j = 0; j < 3; ++j )
+					optimalSolution[i][j] += visited[i][j] ? currentSolution[i][j] : 0;
+
+			return;
+		}
+
+		int nextX = -1, nextY = -1;
+
+		visited[ currentX ][ currentY ] = true;
+
+		for ( int config = 0; config < 4; ++config )
+		{
+			if ( !exits[currentX][currentY][config][incomingDirection] )
+				continue;
+
+			for ( int i = 0; i < 4; ++i )
+			{
+				if ( i == incomingDirection || !exits[currentX][currentY][config][i] )
+					continue;
+
+				currentSolution[currentX][currentY] = config;
+				switch ( i )
+				{
+				case NORTH:  nextX = currentX;  nextY = currentY - 1;  break;
+				case SOUTH:  nextX = currentX;  nextY = currentY + 1;  break;
+				case EAST:   nextX = currentX + 1;  nextY = currentY;  break;
+				case WEST:   nextY = currentX - 1;  nextY = currentY;  break;
+				}
+
+				if ( visited[ nextX ][ nextY ] )
+					continue;
+
+				computeSolution( visited, currentSolution, optimalSolution,
+					exits, nextX, nextY, destinationX, destinationY, i > 1 ? i - 2 : i + 2 );
+			}
+		}
+
+		visited[ currentX ][ currentY ] = false;
+	}
+
+	private static void retrieveHedgeKey( boolean [][][][] exits, int [] start, int [] destination )
 	{
 		// Before doing anything, check to see if the hedge
 		// maze has already been solved for the key.
@@ -942,12 +1124,18 @@ public abstract class SorceressLair extends StaticEntity
 		if ( QUEST_HANDLER.responseText.indexOf( "There is a key here." ) == -1 )
 			return;
 
-		rotateHedgePiece( "3", "Upper-Right Tile: Dead end, exit to the west.  There is a key here." );
-		rotateHedgePiece( "2", "Upper-Middle Tile: Straight east/west passage." );
-		rotateHedgePiece( "1", "Upper-Left Tile: 90 degree bend, exits south and east." );
-		rotateHedgePiece( "4", "Middle-Left Tile: Straight north/south passage." );
-		rotateHedgePiece( "7", "Lower-Left Tile: 90 degree bend, exits north and east." );
-		rotateHedgePiece( "8", "Lower-Middle Tile: 90 degree bend, exits south and west." );
+		int [][] solution = computeSolution( exits, start, destination );
+
+		if ( solution == null )
+		{
+			KoLmafia.updateDisplay( ERROR_STATE, "Unable to compute maze solution." );
+			return;
+		}
+
+		for ( int x = 0; x < 3 && KoLmafia.permitsContinue(); ++x )
+			for ( int y = 0; y < 3 && KoLmafia.permitsContinue(); ++y )
+				if ( !rotateHedgePiece( x, y, solution[x][y] ) )
+					KoLmafia.updateDisplay( ERROR_STATE, "Ran out of puzzle pieces." );
 
 		// The hedge maze has been properly rotated!  Now go ahead
 		// and retrieve the key from the maze.
@@ -962,13 +1150,24 @@ public abstract class SorceressLair extends StaticEntity
 		}
 	}
 
-	private static void finalizeHedgeMaze()
+	private static void finalizeHedgeMaze( boolean [][][][] exits, int [] start )
 	{
-		rotateHedgePiece( "2", "Upper-Middle Tile: Straight north/south passage." );
-		rotateHedgePiece( "5", "Center Tile: 90 degree bend, exits north and east." );
-		rotateHedgePiece( "6", "Middle-Right Tile: 90 degree bend, exits south and west." );
-		rotateHedgePiece( "9", "Lower-Right Tile: 90 degree bend, exits north and west." );
-		rotateHedgePiece( "8", "Lower-Middle Tile: 90 degree bend, exits south and east." );
+		int [][] solution = computeSolution( exits, start, new int [] { 0, 0 } );
+		if ( solution == null )
+			solution = computeSolution( exits, start, new int [] { 1, 0 } );
+		if ( solution == null )
+			solution = computeSolution( exits, start, new int [] { 2, 0 } );
+
+		if ( solution == null )
+		{
+			KoLmafia.updateDisplay( ERROR_STATE, "Unable to compute maze solution." );
+			return;
+		}
+
+		for ( int x = 0; x < 3 && KoLmafia.permitsContinue(); ++x )
+			for ( int y = 0; y < 3 && KoLmafia.permitsContinue(); ++y )
+				if ( !rotateHedgePiece( x, y, solution[x][y] ) )
+					KoLmafia.updateDisplay( ERROR_STATE, "Ran out of puzzle pieces." );
 
 		// The hedge maze has been properly rotated!  Now go ahead
 		// and complete the hedge maze puzzle!
