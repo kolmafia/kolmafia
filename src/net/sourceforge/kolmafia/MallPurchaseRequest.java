@@ -383,7 +383,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		}
 		else if ( this.npcStoreId.equals( "h" ) )
 		{
-			neededOutfit = 2;
+			neededOutfit = KoLCharacter.getLevel() < 12 ? 2 : 32;
 		}
 		else
 		{
