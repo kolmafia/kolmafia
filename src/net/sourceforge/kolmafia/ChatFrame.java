@@ -51,6 +51,7 @@ import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 
@@ -137,6 +138,10 @@ public class ChatFrame extends KoLFrame
 			else
 				this.setTitle( "KoL PM: " + KoLCharacter.getUserName() + " / " + associatedContact );
 		}
+	}
+
+	public JTabbedPane getTabbedPane()
+	{	return null;
 	}
 
 	public boolean shouldAddStatusBar()

@@ -40,6 +40,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.JDialog;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JToolBar;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
@@ -72,6 +73,10 @@ public class ContactListFrame extends KoLFrame
 
 		this.setDefaultCloseOperation( HIDE_ON_CLOSE );
 		this.pack();
+	}
+
+	public JTabbedPane getTabbedPane()
+	{	return null;
 	}
 
 	public Object [] getSelectedPlayers()

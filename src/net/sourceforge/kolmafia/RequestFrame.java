@@ -49,9 +49,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
+
+import tab.CloseTabPaneUI;
+import tab.CloseTabbedPane;
+
+import com.sun.java.forums.CloseableTabbedPane;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
@@ -214,6 +220,10 @@ public class RequestFrame extends KoLFrame
 			refreshStatus();
 
 		this.displayRequest( request );
+	}
+
+	public JTabbedPane getTabbedPane()
+	{	return null;
 	}
 
 	private class BrowserComboBox extends JComboBox

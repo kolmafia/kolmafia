@@ -33,12 +33,18 @@
 
 package net.sourceforge.kolmafia;
 
+import javax.swing.JTabbedPane;
+
 public class EventsFrame extends KoLPanelFrame
 {
 	public EventsFrame()
 	{
 		super( "Recent Events" );
 		this.setContentPane( new EventsPanel() );
+	}
+
+	public JTabbedPane getTabbedPane()
+	{	return null;
 	}
 
 	private class EventsPanel extends LabeledScrollPanel

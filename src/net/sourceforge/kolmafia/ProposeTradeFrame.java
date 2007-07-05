@@ -43,6 +43,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
@@ -138,6 +139,10 @@ public class ProposeTradeFrame extends KoLFrame
 
 		if ( this.isTradeResponse() )
 			this.recipientEntry.setEnabled( false );
+	}
+
+	public JTabbedPane getTabbedPane()
+	{	return null;
 	}
 
 	public JPanel constructWestPanel()

@@ -47,6 +47,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JTabbedPane;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
@@ -92,6 +93,10 @@ public class GearChangeFrame extends KoLFrame
 		this.framePanel.setLayout( new CardLayout( 10, 10 ) );
 		this.framePanel.add( new EquipPanel(), "" );
 		this.ensureValidSelections();
+	}
+
+	public JTabbedPane getTabbedPane()
+	{	return null;
 	}
 
 	private class EquipPanel extends KoLPanel

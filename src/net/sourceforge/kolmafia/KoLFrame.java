@@ -185,22 +185,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	}
 
 	public JTabbedPane getTabbedPane()
-	{
-		if ( StaticEntity.getBooleanProperty( "useDecoratedTabs" ) )
-		{
-			JTabbedPane tabs = new CloseTabbedPane();
-
-			if ( this instanceof KoLDesktop && StaticEntity.getBooleanProperty( "allowCloseableDesktopTabs" ) )
-			{
-				((CloseTabbedPane)tabs).setCloseIconStyle( CloseTabPaneUI.GRAY_CLOSE_ICON );
-				((CloseTabbedPane)tabs).addCloseListener( (KoLDesktop) this );
-			}
-
-			return tabs;
-		}
-
-		return this instanceof KoLDesktop && StaticEntity.getBooleanProperty( "allowCloseableDesktopTabs" ) ?
-			new CloseableTabbedPane() : new JTabbedPane();
+	{	return StaticEntity.getBooleanProperty( "useDecoratedTabs" ) ? new CloseTabbedPane() : new JTabbedPane();
 	}
 
 	public void addHotKeys()
