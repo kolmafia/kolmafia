@@ -845,9 +845,9 @@ public abstract class SorceressLair extends StaticEntity
 
 	private static final String [][] EXIT_IDS = new String [][]
 	{
-		{ "Upper-Left", "Upper-Middle", "Upper-Right" },
-		{ "Middle-Left", "Center", "Middle-Right" },
-		{ "Lower-Left", "Lower-Middle", "Lower-Right" }
+		{ "Upper-Left", "Middle-Left", "Lower-Left" },
+		{ "Upper-Middle", "Center", "Lower-Middle" },
+		{ "Upper-Right", "Middle-Right", "Lower-Right" }
 	};
 
 
@@ -1021,7 +1021,7 @@ public abstract class SorceressLair extends StaticEntity
 	{
 		switch ( direction )
 		{
-		case NORTH:  return y != 0;
+		case NORTH:  return true;
 		case SOUTH:  return y != 2;
 		case EAST:   return x != 2;
 		case WEST:   return x != 0;
@@ -1059,28 +1059,37 @@ public abstract class SorceressLair extends StaticEntity
 		// If the destination has already been reached, replace the
 		// optimum value, if this involves fewer rotations.
 
-		if ( currentX == destinationX && currentY == destinationY )
+		if ( currentY == destinationY )
 		{
-			int currentSum = 0;
-			for ( int i = 0; i < 3; ++i )
-				for ( int j = 0; j < 3; ++j )
-					if ( visited[i][j] )
-						currentSum += currentSolution[i][j];
+			if ( currentX == destinationX || currentX == -1 )
+			{
+				int currentSum = 0;
+				for ( int i = 0; i < 3; ++i )
+					for ( int j = 0; j < 3; ++j )
+						if ( visited[i][j] )
+							currentSum += currentSolution[i][j];
 
-			int optimalSum = 0;
-			for ( int i = 0; i < 3; ++i )
-				for ( int j = 0; j < 3; ++j )
-					optimalSum += optimalSolution[i][j];
+				int optimalSum = 0;
+				for ( int i = 0; i < 3; ++i )
+					for ( int j = 0; j < 3; ++j )
+						optimalSum += optimalSolution[i][j];
 
-			if ( currentSum >= optimalSum )
+				if ( currentSum >= optimalSum )
+					return;
+
+				for ( int i = 0; i < 3; ++i )
+					for ( int j = 0; j < 3; ++j )
+						optimalSolution[i][j] += visited[i][j] ? currentSolution[i][j] : 0;
+
 				return;
-
-			for ( int i = 0; i < 3; ++i )
-				for ( int j = 0; j < 3; ++j )
-					optimalSolution[i][j] += visited[i][j] ? currentSolution[i][j] : 0;
-
-			return;
+			}
 		}
+
+		if ( currentY == -1 )
+			return;
+
+		if ( visited[ currentX ][ currentY ] )
+			return;
 
 		int nextX = -1, nextY = -1;
 
@@ -1104,9 +1113,6 @@ public abstract class SorceressLair extends StaticEntity
 				case EAST:   nextX = currentX + 1;  nextY = currentY;  break;
 				case WEST:   nextY = currentX - 1;  nextY = currentY;  break;
 				}
-
-				if ( visited[ nextX ][ nextY ] )
-					continue;
 
 				computeSolution( visited, currentSolution, optimalSolution,
 					exits, nextX, nextY, destinationX, destinationY, i > 1 ? i - 2 : i + 2 );
@@ -1152,11 +1158,7 @@ public abstract class SorceressLair extends StaticEntity
 
 	private static void finalizeHedgeMaze( boolean [][][][] exits, int [] start )
 	{
-		int [][] solution = computeSolution( exits, start, new int [] { 0, 0 } );
-		if ( solution == null )
-			solution = computeSolution( exits, start, new int [] { 1, 0 } );
-		if ( solution == null )
-			solution = computeSolution( exits, start, new int [] { 2, 0 } );
+		int [][] solution = computeSolution( exits, start, new int [] { -1, -1 } );
 
 		if ( solution == null )
 		{
