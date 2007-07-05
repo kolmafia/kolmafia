@@ -733,6 +733,8 @@ public class FightRequest extends KoLRequest
 		if ( isTrackingFights )
 			trackedRounds.add( responseText );
 
+		parseBangPotion( responseText );
+
 		// Spend MP and consume items
 
 		++currentRound;
@@ -828,6 +830,50 @@ public class FightRequest extends KoLRequest
 			clearInstanceData();
 			return;
 		}
+	}
+
+	private static final Pattern BANG_POTION_PATTERN = Pattern.compile( "You throw the (.*?) potion at your opponent. It shatters against him[,\\.] (.*?)\\." );
+
+	private static void parseBangPotion( String responseText )
+	{
+		Matcher bangMatcher = BANG_POTION_PATTERN.matcher( responseText );
+		if ( !bangMatcher.find() )
+			return;
+
+		int potionId = TradeableItemDatabase.getItemId( bangMatcher.group(1) + " potion" );
+
+		String effectText = bangMatcher.group(2);
+		String effectData = null;
+
+		if ( effectText.indexOf( "wino" ) != -1 )
+			effectData = "inebriety";
+		else if ( effectText.indexOf( "feels better" ) != -1 )
+			effectData = "healing";
+		else if ( effectText.indexOf( "confused" ) != -1 )
+			effectData = "confused";
+		else if ( effectText.indexOf( "stylish" ) != -1 )
+			effectData = "blessing";
+		else if ( effectText.indexOf( "blinks" ) != -1 )
+			effectData = "detection";
+		else if ( effectText.indexOf( "yawns" ) != -1 )
+			effectData = "sleepiness";
+		else if ( effectText.indexOf( "smarter" ) != -1 )
+			effectData = "mental acuity";
+		else if ( effectText.indexOf( "stronger" ) != -1 )
+			effectData = "ten ettins";
+		else if ( effectText.indexOf( "disappearing" ) != -1 )
+			effectData = "teleportitis";
+
+		int lastAscension = StaticEntity.getIntegerProperty( "lastBangPotionReset" );
+		if ( lastAscension != KoLCharacter.getAscensions() )
+		{
+			StaticEntity.setProperty( "lastBangPotionReset", String.valueOf( KoLCharacter.getAscensions() ) );
+			for ( int i = 819; i <= 827; ++i )
+				StaticEntity.setProperty( "lastBangPotion" + i, "" );
+		}
+
+		if ( effectData != null )
+			StaticEntity.setProperty( "lastBangPotion" + potionId, effectData );
 	}
 
 	private static void updateMonsterHealth( String responseText )
