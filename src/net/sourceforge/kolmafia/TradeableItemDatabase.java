@@ -919,12 +919,13 @@ public class TradeableItemDatabase extends KoLDatabase
 	}
 
 	private static final Pattern CLOSET_ITEM_PATTERN = Pattern.compile( "<option value='(\\d+)' descid='(.*?)'>(.*?) \\(" );
+	private static final Pattern DESCRIPTION_PATTERN = Pattern.compile( "onClick='descitem\\((\\d+)\\);'></td><td valign=top><b>(.*?)</b>" );
 
 	public static void findItemDescriptions()
 	{
 		RequestLogger.printLine( "Checking for new non-quest items..." );
 
-		KoLRequest updateRequest = new KoLRequest( "closet.php" );
+		KoLRequest updateRequest = new EquipmentRequest( EquipmentRequest.CLOSET );
 		RequestThread.postRequest( updateRequest );
 		Matcher itemMatcher = CLOSET_ITEM_PATTERN.matcher( updateRequest.responseText );
 
@@ -938,6 +939,30 @@ public class TradeableItemDatabase extends KoLDatabase
 
 			foundChanges = true;
 			registerItem( itemId, itemMatcher.group(3), itemMatcher.group(2) );
+		}
+
+		RequestLogger.printLine( "Parsing for quest items..." );
+
+		for ( int pageId = 1; pageId <= 3; ++pageId )
+		{
+			updateRequest = new KoLRequest( "inventory.php?which=" + pageId );
+			RequestThread.postRequest( updateRequest );
+			itemMatcher = DESCRIPTION_PATTERN.matcher( updateRequest.responseText );
+
+			while ( itemMatcher.find() )
+			{
+				String itemName = itemMatcher.group(2);
+				int itemId = TradeableItemDatabase.getItemId( itemName );
+
+				if ( itemId == -1 )
+					continue;
+
+				if ( !descriptionById.get( itemId ).equals( "" ) )
+					continue;
+
+				foundChanges = true;
+				registerItem( itemId, itemName, itemMatcher.group(1) );
+			}
 		}
 
 		if ( foundChanges )
