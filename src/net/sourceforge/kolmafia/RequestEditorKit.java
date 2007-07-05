@@ -1421,8 +1421,8 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 			if ( !effect.equals( "" ) )
 			{
-				StaticEntity.singleStringReplace( buffer, TradeableItemDatabase.getItemName( itemId ),
-					TradeableItemDatabase.getItemName( itemId ) + " of " + effect );
+				StaticEntity.singleStringReplace( buffer, "<b>" + TradeableItemDatabase.getItemName( itemId ),
+					"<b>" + TradeableItemDatabase.getItemName( itemId ) + " of " + effect );
 			}
 		}
 	}
