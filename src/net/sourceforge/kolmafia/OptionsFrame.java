@@ -501,6 +501,7 @@ public class OptionsFrame extends KoLFrame
 			{ "useTabbedChatFrame", "Use tabbed, rather than multi-window, chat" },
 			{ "useShinyTabbedChat", "Use shiny closeable tabs when using tabbed chat" },
 			{ "useContactsFrame", "Use a popup window for /friends and /who" },
+			{ "useChatToolbar", "Add a toolbar to chat windows for special commands" },
 			{},
 			{ "logChatMessages", "Log chats when using KoLmafia (requires restart)" },
 			{ "useSeparateChannels", "Put different channels into separate displays" },
