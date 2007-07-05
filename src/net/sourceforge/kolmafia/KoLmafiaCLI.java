@@ -1463,6 +1463,19 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+
+		if ( command.equals( "!" ) )
+		{
+			for ( int i = 819; i <= 827; ++i )
+			{
+				String potion = TradeableItemDatabase.getItemName( i );
+				potion = potion.substring( 0, potion.length() - 7 );
+				RequestLogger.printLine( potion + ": " + StaticEntity.getProperty( "lastBangPotion" + i ) );
+			}
+
+			return;
+		}
+
 		if ( command.equals( "logprint" ) )
 		{
 			this.executePrintCommand( parameters, true );
@@ -1982,8 +1995,7 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		if ( command.startsWith( "inv" ) || command.equals( "closet" ) || command.equals( "session" ) || command.equals( "summary" ) ||
-			command.equals( "effects" ) || command.equals( "status" ) || command.equals( "skills" ) ||
-			command.equals( "locations" ) || command.equals( "encounters" ) || command.equals( "q" ) || command.equals( "queue" ) )
+			command.equals( "effects" ) || command.equals( "status" ) || command.equals( "skills" ) || command.equals( "locations" ) || command.equals( "encounters" ) )
 		{
 			this.executePrintCommand( command + " " + parameters );
 			return;
@@ -3407,7 +3419,7 @@ public class KoLmafiaCLI extends KoLmafia
 		PrintStream desiredOutputStream = sessionPrint ? RequestLogger.getSessionStream() : RequestLogger.INSTANCE;
 
 		if ( !filter.equals( "" ) &&
-			(parameters.startsWith( "summary" ) || parameters.startsWith( "session" ) || parameters.startsWith( "stat" ) || parameters.startsWith( "equip" ) || parameters.startsWith( "encounters" ) || parameters.startsWith( "locations" ) || parameters.startsWith( "q" ) || parameters.startsWith( "queue" )) )
+			(parameters.startsWith( "summary" ) || parameters.startsWith( "session" ) || parameters.startsWith( "stat" ) || parameters.startsWith( "equip" ) || parameters.startsWith( "encounters" ) || parameters.startsWith( "locations" ) ) )
 		{
 			desiredOutputStream = LogStream.openStream( new File( ROOT_LOCATION, filter ), false );
 		}
@@ -3482,14 +3494,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 			desiredStream.println( "Pet: " + KoLCharacter.getFamiliar() );
 			desiredStream.println( "Item: " + KoLCharacter.getFamiliarItem() );
-		}
-		else if ( desiredData.startsWith( "q" ) )
-		{
-			desiredStream.println( "Combat Queue: " );
-
-			desiredStream.println();
-			for ( int i = 1; i <= 5; ++i )
-				desiredStream.println( i + ": " + StaticEntity.getProperty( "monsterQueue" + i ) );
 		}
 		else if ( desiredData.startsWith( "encounters" ) )
 		{

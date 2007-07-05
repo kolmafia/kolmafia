@@ -641,6 +641,18 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "hpAutoRecoveryItems", "cannelloni cocoon;scroll of drastic healing;tongue of the walrus;lasagna bandages;doc galaktik's ailment ointment" );
 		PLAYER_SETTINGS.put( "invalidBuffMessage", "You sent an amount which does not correspond to a valid buff amount." );
 		PLAYER_SETTINGS.put( "lastAdventure", "" );
+
+		PLAYER_SETTINGS.put( "lastBangPotionReset", "-1" );
+		PLAYER_SETTINGS.put( "lastBangPotion819", "" );
+		PLAYER_SETTINGS.put( "lastBangPotion820", "" );
+		PLAYER_SETTINGS.put( "lastBangPotion821", "" );
+		PLAYER_SETTINGS.put( "lastBangPotion822", "" );
+		PLAYER_SETTINGS.put( "lastBangPotion823", "" );
+		PLAYER_SETTINGS.put( "lastBangPotion824", "" );
+		PLAYER_SETTINGS.put( "lastBangPotion825", "" );
+		PLAYER_SETTINGS.put( "lastBangPotion826", "" );
+		PLAYER_SETTINGS.put( "lastBangPotion827", "" );
+
 		PLAYER_SETTINGS.put( "lastBreakfast", "-1" );
 		PLAYER_SETTINGS.put( "lastCouncilVisit", "0" );
 		PLAYER_SETTINGS.put( "lastCounterDay", "-1" );

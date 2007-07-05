@@ -165,6 +165,16 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int TRADING_CARD15 = 2014;
 	private static final int TRADING_CARD16 = 2015;
 
+	private static final int MILKY_POTION = 819;
+	private static final int SWIRLY_POTION = 820;
+	private static final int BUBBLY_POTION = 821;
+	private static final int SMOKY_POTION = 822;
+	private static final int CLOUDY_POTION = 823;
+	private static final int EFFERVESCENT_POTION = 824;
+	private static final int FIZZY_POTION = 825;
+	private static final int DARK_POTION = 826;
+	private static final int MURKY_POTION = 827;
+
 	private static final int STUFFED_ANGRY_COW = 1988;
 	private static final int CRIMBOWEEN_MEMO = 2089;
 
@@ -576,11 +586,6 @@ public class ConsumeItemRequest extends KoLRequest
 			return;
 		}
 
-		// For popping up HTML windows
-
-		String text;
-		String title;
-
 		// Perform item-specific processing
 
 		switch ( lastItemUsed.getItemId() )
@@ -629,7 +634,6 @@ public class ConsumeItemRequest extends KoLRequest
 				// Find out who sent it and popup a window showing
 				// what was in the gift.
 
-				Matcher matcher = GIFT_PATTERN.matcher( responseText );
 				showItemUsage( true, responseText, true );
 			}
 
@@ -1209,6 +1213,50 @@ public class ConsumeItemRequest extends KoLRequest
 			// It worked. Also remove the ink and paper.
 			StaticEntity.getClient().processResult( INKWELL.getInstance( 0 - lastItemUsed.getCount() ) );
 			StaticEntity.getClient().processResult( SCRAP_OF_PAPER.getInstance( 0 - lastItemUsed.getCount() ) );
+			return;
+
+		case MILKY_POTION:
+		case SWIRLY_POTION:
+		case BUBBLY_POTION:
+		case SMOKY_POTION:
+		case CLOUDY_POTION:
+		case EFFERVESCENT_POTION:
+		case FIZZY_POTION:
+		case DARK_POTION:
+		case MURKY_POTION:
+
+			String effectData = null;
+
+			if ( responseText.indexOf( "Drunkenness" ) != -1 )
+				effectData = "inebriety";
+			else if ( responseText.indexOf( "You gain" ) != -1 )
+				effectData = "healing";
+			else if ( responseText.indexOf( "Confused" ) != -1 )
+				effectData = "confused";
+			else if ( responseText.indexOf( "Izchak's Blessing" ) != -1 )
+				effectData = "blessing";
+			else if ( responseText.indexOf( "Object Detection" ) != -1 )
+				effectData = "detection";
+			else if ( responseText.indexOf( "Sleepy" ) != -1 )
+				effectData = "sleepiness";
+			else if ( responseText.indexOf( "Strange Mental Acuity" ) != -1 )
+				effectData = "mental acuity";
+			else if ( responseText.indexOf( "Strength of Ten Ettins" ) != -1 )
+				effectData = "ten ettins";
+			else if ( responseText.indexOf( "Teleportitis" ) != -1 )
+				effectData = "teleportitis";
+
+			int lastAscension = StaticEntity.getIntegerProperty( "lastBangPotionReset" );
+			if ( lastAscension != KoLCharacter.getAscensions() )
+			{
+				StaticEntity.setProperty( "lastBangPotionReset", String.valueOf( KoLCharacter.getAscensions() ) );
+				for ( int i = 819; i <= 827; ++i )
+					StaticEntity.setProperty( "lastBangPotion" + i, "" );
+			}
+
+			if ( effectData != null )
+				StaticEntity.setProperty( "lastBangPotion" + lastItemUsed.getItemId(), effectData );
+
 			return;
 		}
 	}
