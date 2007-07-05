@@ -2555,7 +2555,7 @@
 2550	807564363	Peppercorns of Power
 2551 	222463880	vial of mojo
 2552	997975507	golden reeds
-2553		turtle chain
+2553	640447584	turtle chain
 2554	824288182	distilled seal blood
 2555	247415821	high-octane olive oil
 2556	858104556	Shagadelic Disco Banjo

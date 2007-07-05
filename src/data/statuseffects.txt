@@ -167,8 +167,8 @@
 167	Spirit of Cayenne	flame.gif
 168	Spirit of Peppermint	snowflake.gif
 169	Spirit of Garlic	stench.gif
-170	Spirit of Wormwood	skull.gif
-171	Spirit of Bacon Grease	bacon.gif
+170	Spirit of Wormwood	skull.gif	4d36ad259b82421689a27b2b843a7e3b
+171	Spirit of Bacon Grease	bacon.gif	6938d4564e4225d47983a1a834a09604
 172	Yellow Tongue	tongue.gif	3dbc5202908b9b8e507d7f062360b293
 173	Big Veiny Brain	realbrain.gif	55b5adcb51868b248c9808720b1884f8
 174	Peeled Eyeballs	eyes.gif	76a38896d00f40442e3741d7e94bb5df
@@ -374,7 +374,7 @@
 374	Contagious Bad Luck	bmirror.gif	86bb1d1be1a84c4554906852f4273f90
 375	Sparkling Consciousness	snowflakes.gif
 376	Sneaky Serpentine Subtlety	nopic.gif
-377	Adrenaline Rush	hoppeddown.gif
+377	Adrenaline Rush	hoppeddown.gif	47a740988991d8f1ef1ab26e72ee2a86
 378	Crusty Head	hippywig.gif	81b2fce49b337b3ef3c6a1b11d77c2df
 379
 380

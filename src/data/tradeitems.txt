@@ -2446,7 +2446,7 @@
 2446	hardware upgrade	7	all	75
 2447	bad penguin egg	5	all	0
 2448	tasteful black bowtie	7	all	75
-2449	New Cloaca-Cola	4	all	0
+2449	six-pack of New Cloaca-Cola	4	all	0
 2450	empty Cloaca-Cola bottle	0	all	200
 2451	goatskin umbrella	12	all	185
 2452	wool hat	9	all	185
