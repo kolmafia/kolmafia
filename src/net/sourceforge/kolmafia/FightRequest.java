@@ -832,7 +832,7 @@ public class FightRequest extends KoLRequest
 		}
 	}
 
-	private static final Pattern BANG_POTION_PATTERN = Pattern.compile( "You throw the (.*?) potion at your opponent. It shatters against him[,\\.] (.*?)\\." );
+	private static final Pattern BANG_POTION_PATTERN = Pattern.compile( "You throw the (.*?) potion at your opponent.  It shatters against .*?[,\\.] (.*?)\\." );
 
 	private static void parseBangPotion( String responseText )
 	{
