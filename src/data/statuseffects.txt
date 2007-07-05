@@ -372,8 +372,8 @@
 372	Flashing Eyes	bigeyes.gif	eaa0f2cd06a00116af53bd65177fdf4b
 373	Mmmmmelon	melon.gif	bd27dcbc85c224d16256b51a8ca02db5
 374	Contagious Bad Luck	bmirror.gif	86bb1d1be1a84c4554906852f4273f90
-375	Sparkling Consciousness	snowflakes.gif
-376	Sneaky Serpentine Subtlety	nopic.gif
+375	Sparkling Consciousness	snowflakes.gif	a735ff0b16a7d7491c0dbb79c2e7895c
+376	Sneaky Serpentine Subtlety	snakehead.gif	1539b9172f5093b00da60bf5764477a6
 377	Adrenaline Rush	hoppeddown.gif	47a740988991d8f1ef1ab26e72ee2a86
 378	Crusty Head	hippywig.gif	81b2fce49b337b3ef3c6a1b11d77c2df
 379
