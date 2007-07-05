@@ -979,6 +979,8 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			AdventureResult wand = KoLCharacter.getZapper();
 			if ( wand != null )
 				StaticEntity.singleStringReplace( buffer, "]</a></font></td></tr></table></center>", "]</a>&nbsp;&nbsp;<a href=\"wand.php?whichwand=" + wand.getItemId() + "\">[zap items]</a></font></td></tr></table></center>" );
+
+			changePotionImages( buffer );
 		}
 
 		if ( StaticEntity.getBooleanProperty( "relayAddsUseLinks" ) )
@@ -1396,6 +1398,33 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		if ( StaticEntity.getBooleanProperty( "relayAddsRoundNumber" ) )
 			StaticEntity.singleStringReplace( buffer, "<b>Combat!</b>", "<b>Combat: Round " + FightRequest.getDisplayRound() + "</b>" );
+	}
+
+	private static void changePotionImages( StringBuffer buffer )
+	{
+		if ( buffer.indexOf( "exclam.gif" ) == -1 )
+			return;
+
+		ArrayList potions = new ArrayList();
+
+		for ( int i = 819; i <= 827; ++i )
+			if ( buffer.indexOf( "&whichitem=" + i ) != -1 )
+				potions.add( new Integer(i) );
+
+		if ( potions.isEmpty() )
+			return;
+
+		for ( int i = 0; i < potions.size(); ++i )
+		{
+			int itemId = ((Integer)potions.get(i)).intValue();
+			String effect = StaticEntity.getProperty( "lastBangPotion" + itemId );
+
+			if ( !effect.equals( "" ) )
+			{
+				StaticEntity.singleStringReplace( buffer, TradeableItemDatabase.getItemName( itemId ),
+					TradeableItemDatabase.getItemName( itemId ) + " of " + effect );
+			}
+		}
 	}
 
 	private static void addUseLinks( String location, StringBuffer buffer )

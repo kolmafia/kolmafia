@@ -429,10 +429,35 @@ public class AdventureResult implements Comparable, KoLConstants
 		if ( this.name.equals(SUBSTATS) || this.name.equals(FULLSTATS) )
 			return " " + this.name + ": " + COMMA_FORMAT.format(this.count[0]) + " / " + COMMA_FORMAT.format(this.count[1]) + " / " + COMMA_FORMAT.format(this.count[2]);
 
-		if ( this.priority == MONSTER_PRIORITY || (this.priority == ITEM_PRIORITY && this.count[0] == 1) )
+		if ( this.priority == MONSTER_PRIORITY )
 			return this.name;
 
-		return this.name + " (" + COMMA_FORMAT.format(this.count[0]) + ")";
+		if ( this.priority != ITEM_PRIORITY )
+			return this.name + " (" + COMMA_FORMAT.format(this.count[0]) + ")";
+
+		switch ( this.itemId )
+		{
+		case ConsumeItemRequest.MILKY_POTION:
+		case ConsumeItemRequest.SWIRLY_POTION:
+		case ConsumeItemRequest.BUBBLY_POTION:
+		case ConsumeItemRequest.SMOKY_POTION:
+		case ConsumeItemRequest.CLOUDY_POTION:
+		case ConsumeItemRequest.EFFERVESCENT_POTION:
+		case ConsumeItemRequest.FIZZY_POTION:
+		case ConsumeItemRequest.DARK_POTION:
+		case ConsumeItemRequest.MURKY_POTION:
+
+			ConsumeItemRequest.ensureUpdatedPotionEffects();
+			String effect = StaticEntity.getProperty( "lastBangPotion" + this.itemId );
+
+			if ( effect.equals( "" ) )
+				return this.name + " (" + COMMA_FORMAT.format(this.count[0]) + ")";
+			else
+				return this.name + " of " + effect + " (" + COMMA_FORMAT.format(this.count[0]) + ")";
+
+		default:
+			return this.name + " (" + COMMA_FORMAT.format(this.count[0]) + ")";
+		}
 	}
 
 	public String toConditionString()
@@ -728,7 +753,26 @@ public class AdventureResult implements Comparable, KoLConstants
 				return defaultComponent;
 
 			StringBuffer stringForm = new StringBuffer();
-			stringForm.append( ar.getName() );
+			stringForm.append( ar.name );
+
+			switch ( ar.getItemId() )
+			{
+			case ConsumeItemRequest.MILKY_POTION:
+			case ConsumeItemRequest.SWIRLY_POTION:
+			case ConsumeItemRequest.BUBBLY_POTION:
+			case ConsumeItemRequest.SMOKY_POTION:
+			case ConsumeItemRequest.CLOUDY_POTION:
+			case ConsumeItemRequest.EFFERVESCENT_POTION:
+			case ConsumeItemRequest.FIZZY_POTION:
+			case ConsumeItemRequest.DARK_POTION:
+			case ConsumeItemRequest.MURKY_POTION:
+
+				ConsumeItemRequest.ensureUpdatedPotionEffects();
+				String effect = StaticEntity.getProperty( "lastBangPotion" + ar.getItemId() );
+
+				if ( !effect.equals( "" ) )
+					stringForm.append( " of " + effect );
+			}
 
 			if ( ar.count[0] != 1 )
 			{

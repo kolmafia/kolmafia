@@ -43,7 +43,6 @@ import javax.swing.JOptionPane;
 public class ConsumeItemRequest extends KoLRequest
 {
 	private static final Pattern ROW_PATTERN = Pattern.compile( "<tr>.*?</tr>" );
-	private static final Pattern GIFT_PATTERN = Pattern.compile( "From: <b>(.*?)</b>" );
 	private static final Pattern INVENTORY_PATTERN = Pattern.compile( "</table><table.*?</body>" );
 	private static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 	private static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
@@ -165,15 +164,15 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int TRADING_CARD15 = 2014;
 	private static final int TRADING_CARD16 = 2015;
 
-	private static final int MILKY_POTION = 819;
-	private static final int SWIRLY_POTION = 820;
-	private static final int BUBBLY_POTION = 821;
-	private static final int SMOKY_POTION = 822;
-	private static final int CLOUDY_POTION = 823;
-	private static final int EFFERVESCENT_POTION = 824;
-	private static final int FIZZY_POTION = 825;
-	private static final int DARK_POTION = 826;
-	private static final int MURKY_POTION = 827;
+	public static final int MILKY_POTION = 819;
+	public static final int SWIRLY_POTION = 820;
+	public static final int BUBBLY_POTION = 821;
+	public static final int SMOKY_POTION = 822;
+	public static final int CLOUDY_POTION = 823;
+	public static final int EFFERVESCENT_POTION = 824;
+	public static final int FIZZY_POTION = 825;
+	public static final int DARK_POTION = 826;
+	public static final int MURKY_POTION = 827;
 
 	private static final int STUFFED_ANGRY_COW = 1988;
 	private static final int CRIMBOWEEN_MEMO = 2089;
@@ -1232,7 +1231,7 @@ public class ConsumeItemRequest extends KoLRequest
 			else if ( responseText.indexOf( "You gain" ) != -1 )
 				effectData = "healing";
 			else if ( responseText.indexOf( "Confused" ) != -1 )
-				effectData = "confused";
+				effectData = "confusion";
 			else if ( responseText.indexOf( "Izchak's Blessing" ) != -1 )
 				effectData = "blessing";
 			else if ( responseText.indexOf( "Object Detection" ) != -1 )
@@ -1242,22 +1241,27 @@ public class ConsumeItemRequest extends KoLRequest
 			else if ( responseText.indexOf( "Strange Mental Acuity" ) != -1 )
 				effectData = "mental acuity";
 			else if ( responseText.indexOf( "Strength of Ten Ettins" ) != -1 )
-				effectData = "ten ettins";
+				effectData = "ettin strength";
 			else if ( responseText.indexOf( "Teleportitis" ) != -1 )
 				effectData = "teleportitis";
 
-			int lastAscension = StaticEntity.getIntegerProperty( "lastBangPotionReset" );
-			if ( lastAscension != KoLCharacter.getAscensions() )
-			{
-				StaticEntity.setProperty( "lastBangPotionReset", String.valueOf( KoLCharacter.getAscensions() ) );
-				for ( int i = 819; i <= 827; ++i )
-					StaticEntity.setProperty( "lastBangPotion" + i, "" );
-			}
+			ensureUpdatedPotionEffects();
 
 			if ( effectData != null )
 				StaticEntity.setProperty( "lastBangPotion" + lastItemUsed.getItemId(), effectData );
 
 			return;
+		}
+	}
+
+	public static void ensureUpdatedPotionEffects()
+	{
+		int lastAscension = StaticEntity.getIntegerProperty( "lastBangPotionReset" );
+		if ( lastAscension != KoLCharacter.getAscensions() )
+		{
+			StaticEntity.setProperty( "lastBangPotionReset", String.valueOf( KoLCharacter.getAscensions() ) );
+			for ( int i = 819; i <= 827; ++i )
+				StaticEntity.setProperty( "lastBangPotion" + i, "" );
 		}
 	}
 

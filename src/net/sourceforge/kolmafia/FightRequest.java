@@ -850,7 +850,7 @@ public class FightRequest extends KoLRequest
 		else if ( effectText.indexOf( "feels better" ) != -1 )
 			effectData = "healing";
 		else if ( effectText.indexOf( "confused" ) != -1 )
-			effectData = "confused";
+			effectData = "confusion";
 		else if ( effectText.indexOf( "stylish" ) != -1 )
 			effectData = "blessing";
 		else if ( effectText.indexOf( "blinks" ) != -1 )
@@ -860,17 +860,11 @@ public class FightRequest extends KoLRequest
 		else if ( effectText.indexOf( "smarter" ) != -1 )
 			effectData = "mental acuity";
 		else if ( effectText.indexOf( "stronger" ) != -1 )
-			effectData = "ten ettins";
+			effectData = "ettin strength";
 		else if ( effectText.indexOf( "disappearing" ) != -1 )
 			effectData = "teleportitis";
 
-		int lastAscension = StaticEntity.getIntegerProperty( "lastBangPotionReset" );
-		if ( lastAscension != KoLCharacter.getAscensions() )
-		{
-			StaticEntity.setProperty( "lastBangPotionReset", String.valueOf( KoLCharacter.getAscensions() ) );
-			for ( int i = 819; i <= 827; ++i )
-				StaticEntity.setProperty( "lastBangPotion" + i, "" );
-		}
+		ConsumeItemRequest.ensureUpdatedPotionEffects();
 
 		if ( effectData != null )
 			StaticEntity.setProperty( "lastBangPotion" + potionId, effectData );
