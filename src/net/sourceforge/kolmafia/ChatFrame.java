@@ -139,6 +139,10 @@ public class ChatFrame extends KoLFrame
 				this.setTitle( "KoL PM: " + KoLCharacter.getUserName() + " / " + associatedContact );
 		}
 	}
+	
+	public JToolBar getToolbar()
+	{	return StaticEntity.getBooleanProperty( "useChatToolbar" ) ? super.getToolbar() : null;
+	}
 
 	public JTabbedPane getTabbedPane()
 	{	return null;

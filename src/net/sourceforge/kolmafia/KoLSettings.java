@@ -484,6 +484,7 @@ public class KoLSettings extends Properties implements KoLConstants
 
 		CLIENT_SETTINGS.put( "addChatCommandLine", "false" );
 		CLIENT_SETTINGS.put( "addCreationQueue", "true" );
+		CLIENT_SETTINGS.put( "addExitMenuItems", String.valueOf( !System.getProperty( "os.name" ).startsWith( "Mac" ) ) );
 		CLIENT_SETTINGS.put( "addStatusBarToFrames", "false" );
 		CLIENT_SETTINGS.put( "allowBreakfastBurning", "false" );
 		CLIENT_SETTINGS.put( "allowCloseableDesktopTabs", "false" );
@@ -597,6 +598,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "outerChatColor", "#b4460f" );
 
 		CLIENT_SETTINGS.put( "useChatMonitor", "false" );
+		CLIENT_SETTINGS.put( "useChatToolbar", "false" );
 		CLIENT_SETTINGS.put( "useContactsFrame", "true" );
 		CLIENT_SETTINGS.put( "useFastOutfitSwitch", "true" );
 		CLIENT_SETTINGS.put( "useLargerFonts", String.valueOf( System.getProperty( "os.name" ).startsWith( "Mac" ) ) );

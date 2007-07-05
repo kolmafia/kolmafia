@@ -96,6 +96,13 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		statusMenu.add( new DisplayFrameMenuItem( "Gear Changer", "GearChangeFrame" ) );
 		statusMenu.add( new DisplayFrameMenuItem( "Skill Casting", "SkillBuffFrame" ) );
 
+		if ( StaticEntity.getBooleanProperty( "addExitMenuItems" ) )
+		{
+			statusMenu.add( new JSeparator() );
+			statusMenu.add( new LogoutMenuItem() );
+			statusMenu.add( new EndSessionMenuItem() );
+		}
+
 		// Add specialized tools.
 
 		JMenu toolsMenu = new JMenu( "Tools" );
@@ -731,6 +738,36 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		public void run()
 		{	RequestThread.declareWorldPeace();
+		}
+	}
+
+	private class LogoutMenuItem extends ThreadedMenuItem
+	{
+		public LogoutMenuItem()
+		{	super( "Logout of KoL" );
+		}
+
+		public void run()
+		{
+			if ( KoLDesktop.instanceExists() )
+				KoLDesktop.getInstance().setVisible( false );
+
+			KoLFrame [] frames = StaticEntity.getExistingFrames();
+			for ( int i = 0; i < frames.length; ++i )
+				frames[i].setVisible( false );
+
+			RequestThread.postRequest( new LogoutRequest() );
+		}
+	}
+
+	private static class EndSessionMenuItem extends ThreadedMenuItem
+	{
+		public EndSessionMenuItem()
+		{	super( "Exit KoLmafia" );
+		}
+
+		public void run()
+		{	System.exit(0);
 		}
 	}
 }
