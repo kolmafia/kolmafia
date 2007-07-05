@@ -13,7 +13,18 @@
 16	Summon Snowcone	1	1	5	0
 17	Summon Hilarious Objects	1	1	5	0
 18	Summon Candy Hearts	1	1	0	0
+19	Transcendent Olfaction	3	5	40	0
 20	Really Expensive Jewelrycrafting	0	1	0	0
+
+# On the skill list, but not currently available
+
+21	Lust	0	2	0	0
+22	Gluttony	0	2	0	0
+23	Greed	0	2	0	0
+24	Sloth	0	2	0	0
+25	Wrath	0	2	0	0
+26	Envy	0	2	0	0
+27	Pride	0	2	0	0
 
 7001	Give In To Your Vampiric Urges	3	5	0	0
 7002	Shake Hands	3	5	0	0
@@ -24,6 +35,11 @@
 7007	Sleazy Breath	3	6	5	0
 7008	Moxious Maneuver	3	5	0	0
 7009	Magic Missile	3	5	0	0
+7010	Fire red bottle-rocket	3	5	5	0
+7011	Fire blue bottle-rocket	3	5	5	0
+7012	Fire orange bottle-rocket	3	5	5	0
+7013	Fire purple bottle-rocket	3	5	5	0
+7014	Fire black bottle-rocket	3	5	5	0
 
 # Skills available to Clubbers
 
@@ -121,6 +137,10 @@
 4017	Immaculate Seasoning	0	4	0	0
 4018	The Way of Sauce	0	1	0	0
 4019	Scarysauce	2	6	10	5
+
+# On the skill list, but not currently available
+
+4020	Salsaball	3	6	1	0
 
 # Skills available to Bandits
 
