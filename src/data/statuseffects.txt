@@ -165,8 +165,8 @@
 165	Smooth Movements	footprints.gif	173a9c4b4bbef78643fe4ec1a93b1cfc
 166	Musk of the Moose	stench.gif	5e788aac76c7451c42ce19d2acf6de18
 167	Spirit of Cayenne	flame.gif
-168	Spirit of Peppermint	snowflake.gif
-169	Spirit of Garlic	stench.gif
+168	Spirit of Peppermint	snowflake.gif	518f53443c261c2b61ea11fe8716a715
+169	Spirit of Garlic	stench.gif	83888384e62aa31604f5619a1adb1169
 170	Spirit of Wormwood	skull.gif	4d36ad259b82421689a27b2b843a7e3b
 171	Spirit of Bacon Grease	bacon.gif	6938d4564e4225d47983a1a834a09604
 172	Yellow Tongue	tongue.gif	3dbc5202908b9b8e507d7f062360b293
