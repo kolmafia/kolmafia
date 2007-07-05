@@ -224,7 +224,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		else if ( item instanceof ItemCreationRequest )
 			name = ((ItemCreationRequest)item).getName();
 		else if ( item instanceof Concoction )
-			name = ((AdventureResult)item).getName();
+			name = ((Concoction)item).getName();
 		else if ( item instanceof SoldItem )
 			name = ((SoldItem) item).getItemName();
 		else if ( item instanceof UseSkillRequest )
