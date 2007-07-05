@@ -1044,7 +1044,7 @@ public abstract class SorceressLair extends StaticEntity
 		visited[ start[0] ][ start[1] ] = true;
 
 		computeSolution( visited, currentSolution, optimalSolution, exits,
-			start[0], start[1], destination[0], destination[1], NORTH );
+			start[0], start[1], destination[0], destination[1], SOUTH );
 
 		for ( int i = 0; i < 3; ++i )
 			for ( int j = 0; j < 3; ++j )
