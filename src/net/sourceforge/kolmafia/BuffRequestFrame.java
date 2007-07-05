@@ -48,6 +48,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
@@ -74,6 +75,10 @@ public class BuffRequestFrame extends KoLFrame
 
 		this.framePanel.setLayout( new CardLayout( 10, 10 ) );
 		this.framePanel.add( centerPanel, "" );
+	}
+
+	public JTabbedPane getTabbedPane()
+	{	return null;
 	}
 
 	private void isBotOnline( String botName )

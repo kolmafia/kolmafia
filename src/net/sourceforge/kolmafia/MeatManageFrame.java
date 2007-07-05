@@ -39,6 +39,7 @@ import java.awt.GridLayout;
 
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -57,6 +58,10 @@ public class MeatManageFrame extends KoLFrame
 
 		this.framePanel.setLayout( new CardLayout( 10, 10 ) );
 		this.framePanel.add( container, "" );
+	}
+
+	public JTabbedPane getTabbedPane()
+	{	return null;
 	}
 
 	public boolean useSidePane()

@@ -42,6 +42,7 @@ import java.awt.event.MouseListener;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
@@ -61,6 +62,10 @@ public class CakeArenaFrame extends KoLFrame
 		this.framePanel.setLayout( new BorderLayout() );
 		this.framePanel.add( new CakeArenaPanel(), BorderLayout.CENTER );
 		KoLCharacter.addCharacterListener( new KoLCharacterAdapter( new FamiliarRefresher() ) );
+	}
+
+	public JTabbedPane getTabbedPane()
+	{	return null;
 	}
 
 	private class FamiliarRefresher implements Runnable

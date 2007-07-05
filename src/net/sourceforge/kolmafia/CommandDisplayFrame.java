@@ -45,6 +45,7 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
@@ -64,6 +65,10 @@ public class CommandDisplayFrame extends KoLFrame
 	{
 		super( "Graphical CLI" );
 		this.framePanel.add( new CommandDisplayPanel(), BorderLayout.CENTER );
+	}
+
+	public JTabbedPane getTabbedPane()
+	{	return null;
 	}
 
 	public boolean shouldAddStatusBar()

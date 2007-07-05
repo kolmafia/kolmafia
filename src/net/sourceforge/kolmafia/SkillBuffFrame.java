@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import javax.swing.JComboBox;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
 import javax.swing.event.ListSelectionEvent;
@@ -68,6 +69,10 @@ public class SkillBuffFrame extends KoLFrame
 
 		if ( !recipient.equals( "" ) )
 			this.setRecipient( recipient );
+	}
+
+	public JTabbedPane getTabbedPane()
+	{	return null;
 	}
 
 	public void setRecipient( String recipient )

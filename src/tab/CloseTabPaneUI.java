@@ -114,13 +114,32 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 	protected static final int BUTTONSIZE = 16;
 	protected static final int WIDTHDELTA = 8;
 
-	private BufferedImage closeRedImgB;
-	private BufferedImage closeRedImgI;
+	private static BufferedImage closeRedImgB;
+	private static BufferedImage closeRedImgI;
 	private JButton closeRedB;
 
-	private BufferedImage closeGrayImgB;
-	private BufferedImage closeGrayImgI;
+	private static BufferedImage closeGrayImgB;
+	private static BufferedImage closeGrayImgI;
 	private JButton closeGrayB;
+
+	static
+	{
+		try {
+            closeRedImgI = ImageIO.read( JComponentUtilities.getResource("xred.gif"));
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+
+		closeRedImgB = new BufferedImage(BUTTONSIZE, BUTTONSIZE, BufferedImage.TYPE_INT_ARGB);
+
+		try {
+            closeGrayImgI = ImageIO.read( JComponentUtilities.getResource("xgray.gif"));
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+
+		closeGrayImgB = new BufferedImage(BUTTONSIZE, BUTTONSIZE, BufferedImage.TYPE_INT_ARGB);
+	}
 
 	private int overTabIndex = -1;
 
@@ -138,13 +157,6 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 
 		// Paint the red close icon
 
-		try {
-            closeRedImgI = ImageIO.read( JComponentUtilities.getResource("xred.gif"));
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-
-		closeRedImgB = new BufferedImage(BUTTONSIZE, BUTTONSIZE, BufferedImage.TYPE_INT_ARGB);
 
 		closeRedB = new JButton();
 		closeRedB.setSize(BUTTONSIZE, BUTTONSIZE);
@@ -156,14 +168,6 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 		drawButton(closeRedImgB,BUTTONSIZE, BUTTONSIZE);
 
 		// Paint the gray close icon
-
-		try {
-            closeGrayImgI = ImageIO.read( JComponentUtilities.getResource("xgray.gif"));
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-
-		closeGrayImgB = new BufferedImage(BUTTONSIZE, BUTTONSIZE, BufferedImage.TYPE_INT_ARGB);
 
 		closeGrayB = new JButton();
 		closeGrayB.setSize(BUTTONSIZE, BUTTONSIZE);

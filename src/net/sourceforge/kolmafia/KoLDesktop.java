@@ -44,14 +44,18 @@ import java.util.ArrayList;
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 
 import tab.CloseListener;
+import tab.CloseTabPaneUI;
 import tab.CloseTabbedPane;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import com.sun.java.forums.CloseableTabbedPane;
 
 public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListener
 {
@@ -144,6 +148,25 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 				this.getContentPane().add( scriptBarHolder, BorderLayout.EAST );
 			}
 		}
+	}
+
+	public JTabbedPane getTabbedPane()
+	{
+		if ( StaticEntity.getBooleanProperty( "useDecoratedTabs" ) )
+		{
+			JTabbedPane tabs = new CloseTabbedPane();
+
+			if ( StaticEntity.getBooleanProperty( "allowCloseableDesktopTabs" ) )
+			{
+				((CloseTabbedPane)tabs).setCloseIconStyle( CloseTabPaneUI.GRAY_CLOSE_ICON );
+				((CloseTabbedPane)tabs).addCloseListener( (KoLDesktop) this );
+			}
+
+			return tabs;
+		}
+
+		return StaticEntity.getBooleanProperty( "allowCloseableDesktopTabs" ) ?
+			new CloseableTabbedPane() : new JTabbedPane();
 	}
 
 	public void stateChanged( ChangeEvent e )
