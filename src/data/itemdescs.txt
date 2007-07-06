@@ -2518,7 +2518,7 @@
 2513	592022577	spark plug earring
 2514	491779381	woven baling wire bracelets
 2515	302909159	gearbox necklace
-2516		wrench bracelet
+2516	691488398	wrench bracelet
 2517	152836438	rusty chain necklace
 2518	772560168	sawblade shield
 2519	378020866	McMillicancuddy's Special Lager
@@ -2752,7 +2752,7 @@
 2747	714178698	chunk of depleted Grimacite	chunks of depleted Grimacite
 2748	623524316	furniture dolly
 2749	578975886	Staff of the Grease Trap
-2750		Uranium Omega of Temperence
+2750	568822090	Uranium Omega of Temperence
 2751	773565726	Lead Zeta of Chastity
 2752	513161422	Aluminum Epsilon of Humility
 2753	529261022	Zinc Delta of Tranquility
