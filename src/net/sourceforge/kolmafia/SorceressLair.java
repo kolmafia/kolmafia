@@ -116,55 +116,52 @@ public abstract class SorceressLair extends StaticEntity
 
 	public static final String [][] GATE_DATA =
 	{
-		{ "Gate of Bad Taste", "Spicy Limeness" },
-		// lime-and-chile-flavored chewing gum
-		{ "Gate of Flame", "Spicy Mouth" },
-		// jabanero-flavored chewing gum
-		{ "Gate of Hilarity", "Comic Violence" },
-		// gremlin juice
-		{ "Gate of Humility", "Wussiness" },
-		// wussiness potion, Yummy Tummy bean
-		{ "Gate of Intrigue", "Mysteriously Handsome" },
-		// handsomeness potion
-		{ "Gate of Light", "Izchak's Blessing" },
-		// Dungeons of Doom potion
-		{ "Gate of Machismo", "Engorged Weapon" },
-		// Meleegra&trade; pills
-		{ "Gate of Morose Morbidity and Moping", "Rainy Soul Miasma" },
-		// thin black candle, Yummy Tummy bean, picture of a dead guy's
-		// girlfriend
-		{ "Gate of Mystery", "Mystic Pickleness" },
-		// pickle-flavored chewing gum
-		{ "Gate of Slack", "Extreme Muscle Relaxation" },
-		// Mick's IcyVapoHotness Rub
-		{ "Gate of Spirit", "Woad Warrior" },
-		// pygmy pygment
-		{ "Gate Of That Which is Hidden", "Object Detection" },
-		// Dungeons of Doom potion
-		{ "Gate of the Dead", "Hombre Muerto Caminando" },
-		// marzipan skull
-		{ "Gate of the Mind", "Strange Mental Acuity" },
-		// Dungeons of Doom potion
-		{ "Gate of the Observant", "Object Detection" },
-		// Dungeons of Doom potion
-		{ "Gate of the Ogre", "Strength of Ten Ettins" },
-		// Dungeons of Doom potion
-		{ "Gate of the Porcupine", "Spiky Hair" },
-		// super-spikey hair gel
-		{ "Gates of The Suc Rose", "Sugar Rush" },
-		//Angry Farmer candy, marzipan skull, Tasty Fun Good rice
-		//candy, Yummy Tummy bean, stick of "gum", or Daffy Taffy
-		{ " Gate of The Viper", "Deadly Flashing Blade" },
-		// adder bladder
-		{ "Gate of Torment", "Tamarind Torment" },
-		// tamarind-flavored chewing gum
-		{ "Gate of Zest", "Spicy Limeness" },
-		// lime-and-chile-flavored chewing gum
-		{ "Gate that is Not a Gate", "Teleportitis" },
-		// A big Q. adventure, Quantum Mechanic attack, Dungeons of
-		// Doom potion
-		{ "Locked Gate", "Locks Like the Raven" },
-		// Black No. 2
+		{ "Gate of Bad Taste", "Spicy Limeness",
+		  "lime-and-chile-flavored chewing gum" },
+		{ "Gate of Flame", "Spicy Mouth",
+		  "jaba&ntilde;ero-flavored chewing gum" },
+		{ "Gate of Hilarity", "Comic Violence",
+		  "gremlin juice" },
+		{ "Gate of Humility", "Wussiness",
+		  "wussiness potion" },
+		{ "Gate of Intrigue", "Mysteriously Handsome",
+		  "handsomeness potion" },
+		{ "Gate of Light", "Izchak's Blessing",
+		  "potion of blessing" },
+		{ "Gate of Machismo", "Engorged Weapon",
+		  "Meleegra&trade; pills" },
+		{ "Gate of Morose Morbidity and Moping", "Rainy Soul Miasma",
+		  "thin black candle", "picture of a dead guy's girlfriend" },
+		{ "Gate of Mystery", "Mystic Pickleness",
+		  "pickle-flavored chewing gum"	 },
+		{ "Gate of Slack", "Extreme Muscle Relaxation",
+		  "Mick's IcyVapoHotness Rub"  },
+		{ "Gate of Spirit", "Woad Warrior",
+		  "pygmy pygment" },
+		{ "Gate Of That Which is Hidden", "Object Detection",
+		  "potion of detection" },
+		{ "Gate of the Dead", "Hombre Muerto Caminando",
+		  "marzipan skull" },
+		{ "Gate of the Mind", "Strange Mental Acuity",
+		  "potion of mental acuity" },
+		{ "Gate of the Observant", "Object Detection",
+		  "potion of detection" },
+		{ "Gate of the Ogre", "Strength of Ten Ettins",
+		  "potion of ettin strength" },
+		{ "Gate of the Porcupine", "Spiky Hair",
+		  "super-spikey hair gel" },
+		{ "Gates of The Suc Rose", "Sugar Rush",
+		  "Angry Farmer candy", "Tasty Fun Good rice candy", "marzipan skull" },
+		{ " Gate of The Viper", "Deadly Flashing Blade",
+		  "adder bladder" },
+		{ "Gate of Torment", "Tamarind Torment",
+		  "tamarind-flavored chewing gum" },
+		{ "Gate of Zest", "Spicy Limeness",
+		  "lime-and-chile-flavored chewing gum" },
+		{ "Gate that is Not a Gate", "Teleportitis",
+		  "potion of teleportitis" },
+		{ "Locked Gate", "Locks Like the Raven",
+		  "Black No. 2" },
 	};
 
 	// Guardians and the items that defeat them
