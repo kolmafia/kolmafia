@@ -280,7 +280,7 @@ public class AdventureFrame extends AdventureOptionsFrame
 			this.fallSelect.addItem( "reveal key in conservatory" );
 			this.fallSelect.addItem( "unlock second floor stairs" );
 
-			this.addChoiceSelect( "Beanstalk", "Castle Wheel", this.castleWheelSelect );
+			this.addChoiceSelect( "Plains", "Castle Wheel", this.castleWheelSelect );
 			this.addChoiceSelect( "Woods", "Forest Corpses", this.spookyForestSelect );
 			this.addChoiceSelect( "Unsorted", "Violet Fog", this.violetFogSelect );
 			this.addChoiceSelect( "Manor", "Billiard Room", this.billiardRoomSelect );
