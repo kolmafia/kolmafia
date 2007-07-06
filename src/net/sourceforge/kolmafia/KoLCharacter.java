@@ -220,7 +220,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	static
 	{
-		for ( int i = 0; i < 8; ++i )
+		for ( int i = 0; i < 9; ++i )
 			equipment.add( EquipmentRequest.UNEQUIP );
 	}
 
@@ -380,10 +380,10 @@ public abstract class KoLCharacter extends StaticEntity
 		stenchResistance = 0;
 
 		equipment.clear();
-		for ( int i = 0; i < 8; ++i )
+		for ( int i = 0; i < 9; ++i )
 			equipment.add( EquipmentRequest.UNEQUIP );
-		fakeHands = 0;
 
+		fakeHands = 0;
 		customOutfits.clear();
 		outfits.clear();
 
