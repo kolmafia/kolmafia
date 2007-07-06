@@ -1226,7 +1226,7 @@ public class ConsumeItemRequest extends KoLRequest
 
 			String effectData = null;
 
-			if ( responseText.indexOf( "Drunkenness" ) != -1 )
+			if ( responseText.indexOf( "liquid fire" ) != -1 )
 				effectData = "inebriety";
 			else if ( responseText.indexOf( "You gain" ) != -1 )
 				effectData = "healing";
