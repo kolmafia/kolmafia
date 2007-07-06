@@ -64,13 +64,11 @@ public class KoLRequest extends Job implements KoLConstants
 	private static long lastAdjustTime = Long.MAX_VALUE;
 
 	private static int INITIAL_CACHE_COUNT = 3;
+	private static int MAXIMUM_DELAY = 10000;
 
-	private static int MINIMUM_DELAY = 1000;
-	private static int MAXIMUM_DELAY = 8000;
-
-	private static int FIXED_DELAY = MINIMUM_DELAY;
-	private static int VARIABLE_DELAY = MINIMUM_DELAY >> 1;
-	private static int ADJUSTMENT_REFRESH = 120000;
+	private static int FIXED_DELAY = 0;
+	private static int VARIABLE_DELAY = 0;
+	private static int ADJUSTMENT_REFRESH = 240000;
 
 	private static final Object WAIT_OBJECT = new Object();
 
@@ -630,27 +628,12 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( this.followRedirects )
 			location = this.getURLString();
 
-		if ( location.startsWith( "council.php" ) || location.startsWith( "guild.php" ) || location.startsWith( "friars.php" ) || location.startsWith( "trapper.php" ) )
+		boolean isQuestLocation = location.startsWith( "council" ) || location.startsWith( "guild" ) ||
+			location.startsWith( "friars" ) || location.startsWith( "trapper" ) || location.startsWith( "bhh" ) ||
+			(location.startsWith( "adventure" ) && location.indexOf( "=84" ) != -1);
+
+		if ( isQuestLocation )
 			CouncilFrame.handleQuestChange( location, responseText );
-
-		// On SSPD you can trade a button for a glowstick
-
-		if ( KoLCharacter.hasEquipped( KoLmafia.NOVELTY_BUTTON ) &&
-			this.responseText.indexOf( "You hand him your button and take his glowstick" ) != -1 )
-		{
-			if ( KoLCharacter.hasEquipped( KoLmafia.NOVELTY_BUTTON, KoLCharacter.ACCESSORY1 ) )
-				KoLCharacter.setEquipment( KoLCharacter.ACCESSORY1, EquipmentRequest.UNEQUIP );
-			else if ( KoLCharacter.hasEquipped( KoLmafia.NOVELTY_BUTTON, KoLCharacter.ACCESSORY2 ) )
-				KoLCharacter.setEquipment( KoLCharacter.ACCESSORY2, EquipmentRequest.UNEQUIP );
-			else
-				KoLCharacter.setEquipment( KoLCharacter.ACCESSORY3, EquipmentRequest.UNEQUIP );
-
-			// Maintain session tally: "unequip" the button and
-			// discard it.
-
-			AdventureResult.addResultToList( inventory, KoLmafia.NOVELTY_BUTTON );
-			StaticEntity.getClient().processResult( KoLmafia.NOVELTY_BUTTON.getNegation() );
-		}
 
 		// If this is an ascension, make sure to refresh the
 		// session, be it relay or mini-browser.
@@ -685,9 +668,6 @@ public class KoLRequest extends Job implements KoLConstants
 	public void execute()
 	{
 		String urlString = this.getURLString();
-
-		boolean shouldDelay = !isDelayExempt &&
-			(urlString.startsWith( "adventure.php" ) || (urlString.startsWith( "fight.php?") && FightRequest.isDelayActive()));
 
 		// If this is the rat quest, then go ahead and pre-set the data
 		// to reflect a fight sequence (mini-browser compatibility).
@@ -742,33 +722,33 @@ public class KoLRequest extends Job implements KoLConstants
 
 		do
 		{
-			if ( shouldDelay )
-			{
-				delay( RNG.nextInt( VARIABLE_DELAY ) +
-					Math.max( FIXED_DELAY, Math.min( MAXIMUM_DELAY, KoLCharacter.getTotalTurnsUsed() ) ) );
-			}
+			if ( !isDelayExempt && FIXED_DELAY > 0 )
+				delay();
 
 			if ( !this.prepareConnection() && KoLmafia.refusesContinue() )
 				break;
 		}
 		while ( !this.postClientData() || !this.retrieveServerReply() );
 
-		if ( !shouldDelay )
-			return;
-
-		if ( System.currentTimeMillis() - lastRequestTime > VARIABLE_DELAY )
+		if ( !isDelayExempt )
 		{
-			FIXED_DELAY = Math.min( MAXIMUM_DELAY, FIXED_DELAY + 1000 );
-			VARIABLE_DELAY = FIXED_DELAY >> 1;
-			lastAdjustTime = System.currentTimeMillis();
+			if ( System.currentTimeMillis() - lastRequestTime > VARIABLE_DELAY )
+			{
+				FIXED_DELAY = Math.min( MAXIMUM_DELAY, FIXED_DELAY + 2000 );
+				VARIABLE_DELAY = FIXED_DELAY >> 1;
+				lastAdjustTime = System.currentTimeMillis();
+			}
+
+			else if ( System.currentTimeMillis() - lastAdjustTime > ADJUSTMENT_REFRESH )
+			{
+				FIXED_DELAY = Math.max( 0, FIXED_DELAY - 1000 );
+				VARIABLE_DELAY = FIXED_DELAY >> 1;
+				lastAdjustTime = System.currentTimeMillis();
+			}
 		}
 
-		else if ( System.currentTimeMillis() - lastAdjustTime > ADJUSTMENT_REFRESH )
-		{
-			FIXED_DELAY = Math.max( MINIMUM_DELAY, FIXED_DELAY - 1000 );
-			VARIABLE_DELAY = FIXED_DELAY >> 1;
-			lastAdjustTime = FIXED_DELAY == MINIMUM_DELAY ? Long.MAX_VALUE : System.currentTimeMillis();
-		}
+		if ( responseCode == 200 )
+			this.processResponse();
 	}
 
 	private void saveLastChoice( String url )
@@ -845,6 +825,12 @@ public class KoLRequest extends Job implements KoLConstants
 	{
 		return formURLString.indexOf( "mall" ) != -1 || formURLString.indexOf( "chat" ) != -1 ||
 			formURLString.indexOf( "send" ) != -1 || formURLString.startsWith( "bhh" );
+	}
+
+	private static boolean delay()
+	{
+		return delay( RNG.nextInt( VARIABLE_DELAY ) +
+			Math.max( FIXED_DELAY, Math.min( MAXIMUM_DELAY, KoLCharacter.getTotalTurnsUsed() ) ) );
 	}
 
 	/**
@@ -1274,8 +1260,6 @@ public class KoLRequest extends Job implements KoLConstants
 		// be reused.
 
 		BYTEFLAGS.set( desiredIndex, Boolean.FALSE );
-		this.processResponse();
-
 		return true;
 	}
 

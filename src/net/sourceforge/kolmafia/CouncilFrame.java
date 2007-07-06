@@ -56,15 +56,51 @@ public class CouncilFrame extends RequestFrame
 
 	public static void handleQuestChange( String location, String responseText )
 	{
-		if ( location.startsWith( "council.php" ) )
+		if ( location.startsWith( "council" ) )
 			handleCouncilChange( responseText );
-		else if ( location.startsWith( "guild.php" ) )
+		else if ( location.startsWith( "guild" ) )
 			handleGuildChange( location, responseText );
-		else if ( location.startsWith( "friars.php" ) )
+		else if ( location.startsWith( "friars" ) )
 			handleFriarsChange( responseText );
-		else if ( location.startsWith( "trapper.php" ) )
+		else if ( location.startsWith( "trapper" ) )
 			handleTrapperChange( responseText );
+		else if ( location.startsWith( "bhh" ) )
+			handleBountyChange( responseText );
+		else if ( location.startsWith( "adventure" ) && location.indexOf( "=84" ) != -1 )
+			handleSneakyPeteChange( responseText );
+	}
 
+	private static void handleBountyChange( String responseText )
+	{
+		int itemId = StaticEntity.getIntegerProperty( "currentBountyItem" );
+		if ( itemId == 0 )
+			return;
+
+		if ( responseText.indexOf( "takebounty" ) != -1 || responseText.indexOf( "abandonbounty" ) != -1 )
+			return;
+
+		AdventureResult item = new AdventureResult( itemId, 1 );
+		StaticEntity.getClient().processResult( item.getInstance( 0 - item.getCount( inventory ) ) );
+		StaticEntity.setProperty( "currentBountyItem", "0" );
+	}
+
+	private static void handleSneakyPeteChange( String responseText )
+	{
+		if ( KoLCharacter.hasEquipped( KoLmafia.NOVELTY_BUTTON ) && responseText.indexOf( "You hand him your button and take his glowstick" ) != -1 )
+		{
+			if ( KoLCharacter.hasEquipped( KoLmafia.NOVELTY_BUTTON, KoLCharacter.ACCESSORY1 ) )
+				KoLCharacter.setEquipment( KoLCharacter.ACCESSORY1, EquipmentRequest.UNEQUIP );
+			else if ( KoLCharacter.hasEquipped( KoLmafia.NOVELTY_BUTTON, KoLCharacter.ACCESSORY2 ) )
+				KoLCharacter.setEquipment( KoLCharacter.ACCESSORY2, EquipmentRequest.UNEQUIP );
+			else
+				KoLCharacter.setEquipment( KoLCharacter.ACCESSORY3, EquipmentRequest.UNEQUIP );
+
+			// Maintain session tally: "unequip" the button and
+			// discard it.
+
+			AdventureResult.addResultToList( inventory, KoLmafia.NOVELTY_BUTTON );
+			StaticEntity.getClient().processResult( KoLmafia.NOVELTY_BUTTON.getNegation() );
+		}
 	}
 
 	private static void handleGuildChange( String location, String responseText )
