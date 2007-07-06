@@ -118,7 +118,7 @@ public class CouncilFrame extends RequestFrame
 	{
 		if ( responseText.indexOf( "500" ) != -1 )
 			StaticEntity.getClient().processResult( new AdventureResult( "mosquito larva", -1, false ) );
-		if ( responseText.indexOf( "bat skin belt" ) != -1 )
+		if ( responseText.indexOf( "batskin belt" ) != -1 )
 			StaticEntity.getClient().processResult( new AdventureResult( "Boss Bat bandana", -1, false ) );
 		if ( responseText.indexOf( "dragonbone belt buckle" ) != -1 )
 			StaticEntity.getClient().processResult( new AdventureResult( "skull of the bonerdagon", -1, false ) );
