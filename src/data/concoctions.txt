@@ -886,7 +886,7 @@ Putrid Pendant	25	effluvious emerald	heavy necklace chain
 Ring of the Sewer Snake	25	effluvious emerald	extra-fancy ring setting
 
 Mudflap-Girl Earring	25	tawdry amethyst	precious piercing post
-Mudflap-Girl Necklace	25	tawdry amethyst	extra-fancy ring setting
+Mudflap-Girl Necklace	25	tawdry amethyst	heavy necklace chain
 Mudflap-Girl Ring	25	tawdry amethyst	extra-fancy ring setting
 
 # Chef staves made by Rodoric
