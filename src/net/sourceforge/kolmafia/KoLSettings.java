@@ -627,6 +627,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "chatbotScriptExecuted", "false" );
 		PLAYER_SETTINGS.put( "chosenTrip", "" );
 		PLAYER_SETTINGS.put( "cocktailSummons", "0" );
+		PLAYER_SETTINGS.put( "currentBountyItem", "0" );
 		PLAYER_SETTINGS.put( "currentFullness", "0" );
 		PLAYER_SETTINGS.put( "currentMood", "default" );
 		PLAYER_SETTINGS.put( "currentPvpVictories", "" );
@@ -654,7 +655,6 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "lastBangPotion827", "" );
 
 		PLAYER_SETTINGS.put( "lastBreakfast", "-1" );
-		PLAYER_SETTINGS.put( "lastCouncilVisit", "0" );
 		PLAYER_SETTINGS.put( "lastCounterDay", "-1" );
 		PLAYER_SETTINGS.put( "lastMessageId", "" );
 		PLAYER_SETTINGS.put( "lastQuartetAscension", "-1" );

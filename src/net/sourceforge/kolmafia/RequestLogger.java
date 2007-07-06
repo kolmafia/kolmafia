@@ -35,6 +35,8 @@ package net.sourceforge.kolmafia;
 
 import java.io.PrintStream;
 import java.util.Date;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 public class RequestLogger extends NullStream implements KoLConstants
 {
@@ -48,6 +50,7 @@ public class RequestLogger extends NullStream implements KoLConstants
 
 	private static String previousUpdateString = "";
 	private static boolean wasLastRequestSimple = false;
+	private static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 
 	private RequestLogger()
 	{
@@ -252,12 +255,6 @@ public class RequestLogger extends NullStream implements KoLConstants
 
 	private static void doRegister( KoLRequest request, String urlString )
 	{
-		if ( urlString.startsWith( "council" ) )
-		{
-			StaticEntity.setProperty( "lastCouncilVisit", String.valueOf( KoLCharacter.getLevel() ) );
-			return;
-		}
-
 		boolean isExternal = request.getClass() == KoLRequest.class || request instanceof LocalRelayRequest;
 
 		// There are some adventures which do not post any
@@ -293,18 +290,31 @@ public class RequestLogger extends NullStream implements KoLConstants
 			String choice = request.getFormField( "whichchoice" );
 			String decision = request.getFormField( "option" );
 
-			if ( choice != null && decision != null )
-			{
-				AdventureResult cost = AdventureDatabase.getCost( choice, decision );
-				if ( cost != null )
-				{
-					if ( cost.getCount() == 0 )
-						StaticEntity.getClient().processResult( cost.getInstance( 0 - cost.getCount( inventory ) ) );
-					else if ( !cost.isItem() || cost.getCount( inventory ) > 0 )
-						StaticEntity.getClient().processResult( cost );
-				}
-			}
+			if ( choice == null || decision == null )
+				return;
 
+			AdventureResult cost = AdventureDatabase.getCost( choice, decision );
+			if ( cost == null )
+				return;
+
+			if ( cost.getCount() == 0 )
+				StaticEntity.getClient().processResult( cost.getInstance( 0 - cost.getCount( inventory ) ) );
+			else if ( !cost.isItem() || cost.getCount( inventory ) > 0 )
+				StaticEntity.getClient().processResult( cost );
+
+			return;
+		}
+
+		if ( urlString.startsWith( "bhh.php" ) )
+		{
+			if ( urlString.indexOf( "action=takebounty" ) == -1 )
+				return;
+
+			Matcher idMatcher = ITEMID_PATTERN.matcher( urlString );
+			if ( !idMatcher.find() )
+				return;
+
+			StaticEntity.setProperty( "currentBountyItem", idMatcher.group(1) );
 			return;
 		}
 

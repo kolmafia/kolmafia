@@ -1975,58 +1975,6 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Makes a request to the hunter, looking to sell a given type of
-	 * item.  This method should prompt the user to determine which
-	 * item to sell to the hunter.
-	 */
-
-	public void makeHunterRequest()
-	{
-		if ( hunterItems.isEmpty() )
-			RequestThread.postRequest( new BountyHunterRequest() );
-
-		Object [] hunterItemArray = hunterItems.toArray();
-
-		String selectedValue = (String) JOptionPane.showInputDialog(
-			null, "I want to sell this to the hunter...", "The Quilted Thicker Picker Upper!", JOptionPane.INFORMATION_MESSAGE, null,
-			hunterItemArray, hunterItemArray[0] );
-
-		if ( selectedValue == null )
-			return;
-
-		AdventureResult selected = new AdventureResult( selectedValue, 0, false );
-		int available = selected.getCount( inventory );
-
-		if ( available == 0 )
-		{
-			updateDisplay( ERROR_STATE, "You don't have any " + selectedValue + "." );
-			return;
-		}
-
-		int tradeCount = KoLFrame.getQuantity( "How many " + selectedValue + " to sell?", available );
-		if ( tradeCount == 0 )
-			return;
-
-		// If we're not selling all of the item, closet the rest
-		if ( tradeCount < available )
-		{
-			Object [] items = new Object[1];
-			items[0] = selected.getInstance( available - tradeCount );
-
-			if ( permitsContinue() )
-				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, items ) );
-
-			if ( permitsContinue() )
-				RequestThread.postRequest( new BountyHunterRequest( selected.getItemId() ) );
-
-			if ( permitsContinue() )
-				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.CLOSET_TO_INVENTORY, items ) );
-		}
-		else
-			RequestThread.postRequest( new BountyHunterRequest( TradeableItemDatabase.getItemId( selectedValue ) ) );
-	}
-
-	/**
 	 * Makes a request to Doc Galaktik, looking for a cure.
 	 */
 
@@ -3355,7 +3303,6 @@ public abstract class KoLmafia implements KoLConstants
 	public void handleAscension()
 	{
 		StaticEntity.setProperty( "lastBreakfast", "-1" );
-		StaticEntity.setProperty( "lastCouncilVisit", "0" );
 
 		resetCounters();
 		KoLCharacter.reset();

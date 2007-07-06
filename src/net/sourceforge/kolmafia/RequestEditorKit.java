@@ -1848,6 +1848,13 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 						useType = "chasm";
 						useLocation = "mountains.php?pwd&orcs=1";
 					}
+
+					else if ( itemId == StaticEntity.getIntegerProperty( "currentBountyItem" ) )
+					{
+						AdventureResult item = new AdventureResult( itemId, 0 );
+						useType = String.valueOf( item.getCount( inventory ) );
+						useLocation = "bhh.php";
+					}
 				}
 			}
 
