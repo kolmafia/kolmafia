@@ -87,11 +87,9 @@ public class KoLRequest extends Job implements KoLConstants
 	private static final AdventureResult MAIDEN_EFFECT = new AdventureResult( "Dreams and Lights", 1, true );
 	private static final AdventureResult BALLROOM_KEY = new AdventureResult( 1766, 1 );
 
-	private static final Pattern ORE_PATTERN = Pattern.compile( "3 chunks of (\\w+) ore" );
 	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
 	private static final Pattern CHOICE_DECISION_PATTERN = Pattern.compile( "whichchoice=(\\d+).*?option=(\\d+)" );
 	private static final Pattern EVENT_PATTERN = Pattern.compile( "<table width=.*?<table><tr><td>(.*?)</td></tr></table>.*?<td height=4></td></tr></table>" );
-	private static final Pattern STEEL_PATTERN = Pattern.compile( "emerge with a (.*?) of Steel" );
 
 	public static final Pattern REDIRECT_PATTERN = Pattern.compile( "([^\\/]+)\\/login\\.php", Pattern.DOTALL );
 
@@ -624,75 +622,8 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( this.followRedirects )
 			location = this.getURLString();
 
-		// If this is the trapper page, make sure to check to
-		// see if there's any changes to your inventory.
-
-		if ( location.startsWith( "trapper.php" ) )
-		{
-			Matcher oreMatcher = ORE_PATTERN.matcher( this.responseText );
-			if ( oreMatcher.find() )
-				StaticEntity.setProperty( "trapperOre", oreMatcher.group(1) + " ore" );
-
-			// If you receive items from the trapper, then you
-			// lose some items already in your inventory.
-
-			if ( this.responseText.indexOf( "You acquire" ) != -1 )
-			{
-				if ( this.responseText.indexOf( "crossbow" ) != -1 || this.responseText.indexOf( "staff" ) != -1 || this.responseText.indexOf( "sword" ) != -1 )
-				{
-					if ( this.responseText.indexOf( "asbestos" ) != -1 )
-						StaticEntity.getClient().processResult( new AdventureResult( "asbestos ore", -3, false ) );
-					else if ( this.responseText.indexOf( "linoleum" ) != -1 )
-						StaticEntity.getClient().processResult( new AdventureResult( "linoleum ore", -3, false ) );
-					else
-						StaticEntity.getClient().processResult( new AdventureResult( "chrome ore", -3, false ) );
-				}
-				else if ( this.responseText.indexOf( "goat cheese pizza" ) != -1 )
-				{
-					StaticEntity.getClient().processResult( new AdventureResult( "goat cheese", -6, false ) );
-				}
-			}
-		}
-
-		// The Deep Fat Friars' Ceremony Location
-
-		if ( location.startsWith( "friars.php" ) )
-		{
-			// "Thank you, Adventurer."
-
-			if ( this.responseText.indexOf( "Thank you" ) != -1 )
-			{
-				StaticEntity.getClient().processResult( AdventureRequest.DODECAGRAM );
-				StaticEntity.getClient().processResult( AdventureRequest.CANDLES );
-				StaticEntity.getClient().processResult( AdventureRequest.BUTTERKNIFE );
-
-				if ( this instanceof AdventureRequest )
-					KoLmafia.updateDisplay( PENDING_STATE, "Taint cleansed." );
-
-				Matcher learnedMatcher = STEEL_PATTERN.matcher( this.responseText );
-				if ( learnedMatcher.find() )
-					KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( learnedMatcher.group(1) + " of Steel" ) );
-
-				this.statusChanged = true;
-			}
-		}
-
-		// There are requests to the council which will also
-		// decrement your inventory.
-
-		if ( location.startsWith( "council.php" ) )
-		{
-			if ( this.responseText.indexOf( "500" ) != -1 )
-				StaticEntity.getClient().processResult( new AdventureResult( "mosquito larva", -1, false ) );
-			if ( this.responseText.indexOf( "batskin belt" ) != -1 )
-				StaticEntity.getClient().processResult( new AdventureResult( "Boss Bat bandana", -1, false ) );
-		}
-
-		// The white citadel quest will also decrement your
-		// inventory once.
-
-		if ( KoLCharacter.hasItem( KoLmafia.SATCHEL ) && location.startsWith( "guild.php" ) && location.indexOf( "place=paco" ) != -1 )
-			StaticEntity.getClient().processResult( KoLmafia.SATCHEL.getNegation() );
+		if ( location.startsWith( "council.php" ) || location.startsWith( "guild.php" ) || location.startsWith( "friars.php" ) || location.startsWith( "trapper.php" ) )
+			CouncilFrame.handleQuestChange( location, responseText );
 
 		// On SSPD you can trade a button for a glowstick
 
@@ -708,6 +639,7 @@ public class KoLRequest extends Job implements KoLConstants
 
 			// Maintain session tally: "unequip" the button and
 			// discard it.
+
 			AdventureResult.addResultToList( inventory, KoLmafia.NOVELTY_BUTTON );
 			StaticEntity.getClient().processResult( KoLmafia.NOVELTY_BUTTON.getNegation() );
 		}
