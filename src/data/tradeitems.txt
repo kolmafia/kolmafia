@@ -2810,12 +2810,12 @@
 2810	jug of hamethyst juice	4	all	600
 2811	jug of baconstone juice	4	all	600
 2812	jug of porquoise juice	4	all	600
-2813
-2814
-2815
-2816
-2817
-2818
+2813	Brimstone Beret	9	display	0
+2814	Brimstone Bludgeon	12	display	0
+2815	Brimstone Bunker	13	display	0
+2816	Brimstone Boxers	10	display	0
+2817	Brimstone Brooch	8	display	0
+2818	Brimstone Bracelet	8	display	0
 2819	Grimacite gasmask	9	all	0
 2820	Grimacite gat	12	all	0
 2821	Grimacite gaiters	10	all	0

@@ -96,6 +96,7 @@ box	Meat: +1.0
 box-in-the-box	Meat: +2.0
 box-in-the-box-in-the-box	Meat: +3.0
 box turtle	DR: 3
+Brimstone Bunker	DR: 15
 cardboard box turtle	DR: 4
 catskin buckler	DR: 11, DA: +50
 chopsticks	Init: +20.0
@@ -147,6 +148,7 @@ Ye Olde Navy Fleece	Meat: +10.0
 antique greaves	Init: -10.0
 black greaves	DA: +30
 bounty-hunting pants	Item: +15.0
+Brimstone Boxers	Init: +50.0
 clockwork pants	Init: +10.0
 Crimbo pants	Init: +30.0
 demonskin trousers	Hot: +20
@@ -183,6 +185,7 @@ beaten-up Chucks	Init: +40.0
 blackberry moccasins	DR: 3
 Blue Diamond of Honesty	Item: +9.0
 Bonerdagon necklace	Init: +30.0
+Brimstone Bracelet	Mana: -3
 C.A.R.N.I.V.O.R.E. button	ML: +15
 Copper Alpha of Sincerity	Item: +5.0
 disbelief suspenders	Sleaze: +10
