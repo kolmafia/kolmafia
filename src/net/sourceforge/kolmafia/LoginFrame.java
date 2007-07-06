@@ -451,6 +451,13 @@ public class LoginFrame extends KoLFrame
 			for ( int i = 0; i < this.options.length; ++i )
 				elements[i+2] = new VerifiableElement( this.options[i][1], JLabel.LEFT, this.optionBoxes[i] );
 
+			if ( System.getProperty( "os.name" ).startsWith( "Mac" ) )
+			{
+				String proxySet = System.getProperty( "proxySet" );
+				optionBoxes[0].setSelected( proxySet != null && proxySet.equals( "true" ) );
+				optionBoxes[0].setEnabled( false );
+			}
+
 			this.actionCancelled();
 			this.setContent( elements );
 		}
@@ -520,10 +527,25 @@ public class LoginFrame extends KoLFrame
 
 		public void actionCancelled()
 		{
-			LoginFrame.this.proxyHost.setText( StaticEntity.getProperty( "http.proxyHost" ) );
-			LoginFrame.this.proxyPort.setText( StaticEntity.getProperty( "http.proxyPort" ) );
-			LoginFrame.this.proxyLogin.setText( StaticEntity.getProperty( "http.proxyUser" ) );
-			LoginFrame.this.proxyPassword.setText( StaticEntity.getProperty( "http.proxyPassword" ) );
+			if ( System.getProperty( "os.name" ).startsWith( "Mac" ) )
+			{
+				LoginFrame.this.proxyHost.setText( System.getProperty( "http.proxyHost" ) );
+				LoginFrame.this.proxyPort.setText( System.getProperty( "http.proxyPort" ) );
+				LoginFrame.this.proxyLogin.setText( System.getProperty( "http.proxyUser" ) );
+				LoginFrame.this.proxyPassword.setText( System.getProperty( "http.proxyPassword" ) );
+
+				LoginFrame.this.proxyHost.setEnabled( false );
+				LoginFrame.this.proxyPort.setEnabled( false );
+				LoginFrame.this.proxyLogin.setEnabled( false );
+				LoginFrame.this.proxyPassword.setEnabled( false );
+			}
+			else
+			{
+				LoginFrame.this.proxyHost.setText( StaticEntity.getProperty( "http.proxyHost" ) );
+				LoginFrame.this.proxyPort.setText( StaticEntity.getProperty( "http.proxyPort" ) );
+				LoginFrame.this.proxyLogin.setText( StaticEntity.getProperty( "http.proxyUser" ) );
+				LoginFrame.this.proxyPassword.setText( StaticEntity.getProperty( "http.proxyPassword" ) );
+			}
 		}
 
 		public void setEnabled( boolean isEnabled )

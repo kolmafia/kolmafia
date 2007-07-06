@@ -2117,12 +2117,6 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		{
 			private JLabel innerGradient, outerGradient;
 
-			/**
-			 * Constructs a new <code>windowsPanel</code>, containing a
-			 * place for the users to select their desired server and for them
-			 * to modify any applicable proxy settings.
-			 */
-
 			public InterfaceCheckboxPanel()
 			{
 				super( new Dimension( 20, 16 ), new Dimension( 370, 16 ) );
