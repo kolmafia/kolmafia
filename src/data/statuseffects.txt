@@ -164,7 +164,7 @@
 164	Ur-Kel's Aria of Annoyance	notes.gif	59a1ac48440e1ea1f869f2b37753f9cc
 165	Smooth Movements	footprints.gif	173a9c4b4bbef78643fe4ec1a93b1cfc
 166	Musk of the Moose	stench.gif	5e788aac76c7451c42ce19d2acf6de18
-167	Spirit of Cayenne	flame.gif
+167	Spirit of Cayenne	flame.gif	050dd88888b1ac9a2192cd71fd175a45
 168	Spirit of Peppermint	snowflake.gif	518f53443c261c2b61ea11fe8716a715
 169	Spirit of Garlic	stench.gif	83888384e62aa31604f5619a1adb1169
 170	Spirit of Wormwood	skull.gif	4d36ad259b82421689a27b2b843a7e3b

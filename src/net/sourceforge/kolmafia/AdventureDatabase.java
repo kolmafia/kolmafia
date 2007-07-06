@@ -523,7 +523,7 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Doublewide
 		new ChoiceAdventure( "Cyrpt", "choiceAdventure154", "Defiled Alcove",
-		  new String [] { "enter combat", "skip the adventure" },
+		  new String [] { "fight conjoined zmombie", "skip the adventure" },
 		  new String [] { null, null } ),
 
 		// Skull, Skull, Skull
@@ -533,7 +533,7 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Pileup
 		new ChoiceAdventure( "Cyrpt", "choiceAdventure156", "Defiled Nook",
-		  new String [] { "enter combat", "skip the adventure" },
+		  new String [] { "fight giant skeelton", "skip the adventure" },
 		  new String [] { null, null } ),
 
 		// Urning Your Keep
@@ -543,7 +543,7 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Lich in the Niche
 		new ChoiceAdventure( "Cyrpt", "choiceAdventure158", "Defiled Niche",
-		  new String [] { "enter combat", "skip the adventure" },
+		  new String [] { "fight gargantulihc", "skip the adventure" },
 		  new String [] { null, null } ),
 
 		// Go Slow Past the Drawers
@@ -553,7 +553,7 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Lunchtime
 		new ChoiceAdventure( "Cyrpt", "choiceAdventure160", "Defiled Cranny",
-		  new String [] { "enter combat", "skip the adventure" },
+		  new String [] { "fight huge ghuol", "skip the adventure" },
 		  new String [] { null, null } ),
 
 		// Bureaucracy of the Damned

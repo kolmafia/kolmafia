@@ -837,37 +837,37 @@ public class FightRequest extends KoLRequest
 	private static void parseBangPotion( String responseText )
 	{
 		Matcher bangMatcher = BANG_POTION_PATTERN.matcher( responseText );
-		if ( !bangMatcher.find() )
-			return;
+		while ( bangMatcher.find() )
+		{
+			int potionId = TradeableItemDatabase.getItemId( bangMatcher.group(1) + " potion" );
 
-		int potionId = TradeableItemDatabase.getItemId( bangMatcher.group(1) + " potion" );
+			String effectText = bangMatcher.group(2);
+			String effectData = null;
 
-		String effectText = bangMatcher.group(2);
-		String effectData = null;
+			if ( effectText.indexOf( "wino" ) != -1 )
+				effectData = "inebriety";
+			else if ( effectText.indexOf( "better" ) != -1 )
+				effectData = "healing";
+			else if ( effectText.indexOf( "confused" ) != -1 )
+				effectData = "confusion";
+			else if ( effectText.indexOf( "stylish" ) != -1 )
+				effectData = "blessing";
+			else if ( effectText.indexOf( "blink" ) != -1 )
+				effectData = "detection";
+			else if ( effectText.indexOf( "yawn" ) != -1 )
+				effectData = "sleepiness";
+			else if ( effectText.indexOf( "smarter" ) != -1 )
+				effectData = "mental acuity";
+			else if ( effectText.indexOf( "stronger" ) != -1 )
+				effectData = "ettin strength";
+			else if ( effectText.indexOf( "disappearing" ) != -1 )
+				effectData = "teleportitis";
 
-		if ( effectText.indexOf( "wino" ) != -1 )
-			effectData = "inebriety";
-		else if ( effectText.indexOf( "feels better" ) != -1 )
-			effectData = "healing";
-		else if ( effectText.indexOf( "confused" ) != -1 )
-			effectData = "confusion";
-		else if ( effectText.indexOf( "stylish" ) != -1 )
-			effectData = "blessing";
-		else if ( effectText.indexOf( "blinks" ) != -1 )
-			effectData = "detection";
-		else if ( effectText.indexOf( "yawns" ) != -1 )
-			effectData = "sleepiness";
-		else if ( effectText.indexOf( "smarter" ) != -1 )
-			effectData = "mental acuity";
-		else if ( effectText.indexOf( "stronger" ) != -1 )
-			effectData = "ettin strength";
-		else if ( effectText.indexOf( "disappearing" ) != -1 )
-			effectData = "teleportitis";
+			ConsumeItemRequest.ensureUpdatedPotionEffects();
 
-		ConsumeItemRequest.ensureUpdatedPotionEffects();
-
-		if ( effectData != null )
-			StaticEntity.setProperty( "lastBangPotion" + potionId, effectData );
+			if ( effectData != null )
+				StaticEntity.setProperty( "lastBangPotion" + potionId, effectData );
+		}
 	}
 
 	private static void updateMonsterHealth( String responseText )
