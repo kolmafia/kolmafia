@@ -378,8 +378,18 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 		tabPane.remove(tabScroller.viewport);
 		tabPane.remove(tabScroller.scrollForwardButton);
 		tabPane.remove(tabScroller.scrollBackwardButton);
-		tabScroller = null;
 
+		if ( htmlViews != null )
+			htmlViews.clear();
+
+		if ( tabStates != null )
+			tabStates.clear();
+
+		resetMnemonics();
+
+		htmlViews = null;
+		tabStates = null;
+		tabScroller = null;
 	}
 
 	protected void installListeners() {

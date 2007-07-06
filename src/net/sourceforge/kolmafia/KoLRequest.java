@@ -152,6 +152,17 @@ public class KoLRequest extends Job implements KoLConstants
 
 	public static void applySettings()
 	{
+		applyProxySettings();
+
+		int defaultLoginServer = StaticEntity.getIntegerProperty( "defaultLoginServer" );
+		setLoginServer( SERVERS[ defaultLoginServer == 0 ? 0 : 1 ][0] );
+	}
+
+	private static void applyProxySettings()
+	{
+		if ( System.getProperty( "os.name" ).startsWith( "Mac" ) )
+			return;
+
 		try
 		{
 			String proxySet = StaticEntity.getProperty( "proxySet" );
@@ -199,9 +210,6 @@ public class KoLRequest extends Job implements KoLConstants
 				System.setProperty( "http.proxyUser", StaticEntity.getProperty( "http.proxyUser" ) );
 				System.setProperty( "http.proxyPassword", StaticEntity.getProperty( "http.proxyPassword" ) );
 			}
-
-			int defaultLoginServer = StaticEntity.getIntegerProperty( "defaultLoginServer" );
-			setLoginServer( SERVERS[ defaultLoginServer == 0 ? 0 : 1 ][0] );
 		}
 		catch ( Exception e )
 		{
