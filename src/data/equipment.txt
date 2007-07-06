@@ -20,6 +20,7 @@ black helmet	160	Mus: 65
 blue traffic cone	60	Mox: 15
 bounty-hunting helmet	100	Mox: 25
 bowler	100	Mox: 35
+Brimstone Beret	200	Mox: 30
 bubblewrap bottlecap turtleban	70	Mys: 12
 bugbear beanie	30	none
 bum cheek	20	none
@@ -150,6 +151,7 @@ bloody clown pants	50	Mox: 10
 Boss Bat britches	65	Mox: 17
 bounty-hunting pants	100	Mox: 25
 bowlegged pants	100	Mox: 35
+Brimstone Boxers	200	Mox: 30
 bugbear bungguard	30	none
 bullet-proof corduroys	170	Mox: 70
 Can-Can skirt	90	Mox: 15
@@ -312,6 +314,7 @@ black sword	160	Mus: 65	1-handed sword
 bottle-rocket crossbow	100	Mox: 0	1-handed crossbow
 bounty-hunting rifle	100	Mox: 25	2-handed rifle
 bow staff	100	Mus: 35	2-handed staff
+Brimstone Bludgeon	200	Mus: 30	1-handed club
 broken sword	135	Mus: 52	1-handed sword
 bubble bauble bow	80	Mox: 20	2-handed bow
 bubblewrap crossbow	60	Mox: 15	2-handed crossbow
@@ -583,6 +586,7 @@ box	0	none
 box-in-the-box	0	none
 box-in-the-box-in-the-box	0	none
 box turtle	0	Mus: 10
+Brimstone Bunker	0	Mus: 30
 cardboard box turtle	0	Mus: 10
 catskin buckler	0	Mus: 75
 Cloaca-Cola shield	75	none
@@ -727,6 +731,8 @@ Boris's ring	0	Mys: 25
 Boss Bat bling	0	Mys: 17
 bottle opener belt buckle	0	Mys: 65
 bottlecap turtle	0	Mys: 12
+Brimstone Bracelet	0	Mys: 30
+Brimstone Brooch	0	Mys: 30
 Cape of the Goblin King	0	Mys: 20
 C.A.R.N.I.V.O.R.E. button	0	Mys: 10
 Cat-Herding Prod	0	none

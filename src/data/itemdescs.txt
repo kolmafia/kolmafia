@@ -2815,12 +2815,12 @@
 2810	283305001	jug of hamethyst juice
 2811	422277399	jug of baconstone juice
 2812	941296170	jug of porquoise juice
-2813
-2814
-2815
-2816
-2817
-2818
+2813	380498495	Brimstone Beret
+2814	327319096	Brimstone Bludgeon
+2815	684471956	Brimstone Bunker
+2816	490270086	Brimstone Boxers
+2817	809754170	Brimstone Brooch
+2818	139800942	Brimstone Bracelet
 2819	702263845	Grimacite gasmask
 2820	430222360	Grimacite gat
 2821	220999042	Grimacite gaiters
