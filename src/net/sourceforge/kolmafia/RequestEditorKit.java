@@ -979,8 +979,6 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			AdventureResult wand = KoLCharacter.getZapper();
 			if ( wand != null )
 				StaticEntity.singleStringReplace( buffer, "]</a></font></td></tr></table></center>", "]</a>&nbsp;&nbsp;<a href=\"wand.php?whichwand=" + wand.getItemId() + "\">[zap items]</a></font></td></tr></table></center>" );
-
-			changePotionImages( buffer );
 		}
 
 		if ( StaticEntity.getBooleanProperty( "relayAddsUseLinks" ) )
@@ -988,6 +986,12 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		if ( location.startsWith( "fight.php" ) )
 			addFightModifiers( location, buffer, addComplexFeatures );
+
+		if ( location.startsWith( "multiuse.php" ) )
+			addMultiuseModifiers( buffer );
+
+		// Change potions wherever we find them
+		changePotionImages( buffer );
 
 		if ( location.startsWith( "choice.php" ) )
 			addChoiceSpoilers( buffer );
@@ -1396,8 +1400,17 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			}
 		}
 
+		// Change bang potion names in item dropdown
+		changePotionNames( buffer );
+
 		if ( StaticEntity.getBooleanProperty( "relayAddsRoundNumber" ) )
 			StaticEntity.singleStringReplace( buffer, "<b>Combat!</b>", "<b>Combat: Round " + FightRequest.getDisplayRound() + "</b>" );
+	}
+
+	private static void addMultiuseModifiers( StringBuffer buffer )
+	{
+		// Change bang potion names in item dropdown
+		changePotionNames( buffer );
 	}
 
 	private static void changePotionImages( StringBuffer buffer )
@@ -1405,24 +1418,48 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( buffer.indexOf( "exclam.gif" ) == -1 )
 			return;
 
-		ArrayList potions = new ArrayList();
+		ArrayList potionNames = new ArrayList();
+		ArrayList potionEffects = new ArrayList();
 
 		for ( int i = 819; i <= 827; ++i )
-			if ( buffer.indexOf( "&whichitem=" + i ) != -1 )
-				potions.add( new Integer(i) );
+		{
+			String name = TradeableItemDatabase.getItemName( i );
+			if ( buffer.indexOf( name ) != -1 )
+			{
+				String effect = StaticEntity.getProperty( "lastBangPotion" + i );
+				if ( !effect.equals( "" ) )
+				{
+					potionNames.add( name );
+					potionEffects.add( effect );
+				}
+			}
+		}
 
-		if ( potions.isEmpty() )
+		if ( potionNames.isEmpty() )
 			return;
 
-		for ( int i = 0; i < potions.size(); ++i )
+		for ( int i = 0; i < potionNames.size(); ++i )
 		{
-			int itemId = ((Integer)potions.get(i)).intValue();
-			String effect = StaticEntity.getProperty( "lastBangPotion" + itemId );
+			String name = (String)potionNames.get(i);
+			String effect = (String)potionEffects.get(i);
 
-			if ( !effect.equals( "" ) )
+			StaticEntity.singleStringReplace( buffer, name + "</b>",
+					name + " of " + effect + "</b>" );
+			StaticEntity.singleStringReplace( buffer, name + "s</b>",
+					name + "s of " + effect + "</b>" );
+		}
+	}
+
+	private static void changePotionNames( StringBuffer buffer )
+	{
+		for ( int i = 819; i <= 827; ++i )
+		{
+			String name = TradeableItemDatabase.getItemName( i );
+			if ( buffer.indexOf( name ) != -1 )
 			{
-				StaticEntity.singleStringReplace( buffer, "<b>" + TradeableItemDatabase.getItemName( itemId ),
-					"<b>" + TradeableItemDatabase.getItemName( itemId ) + " of " + effect );
+				String effect = StaticEntity.getProperty( "lastBangPotion" + i );
+				if ( !effect.equals( "" ) )
+					StaticEntity.globalStringReplace( buffer, name, name + " of " + effect );
 			}
 		}
 	}

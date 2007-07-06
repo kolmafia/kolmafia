@@ -101,7 +101,7 @@
 101	Slippery Oiliness	potion4.gif
 102	Strength of Ten Ettins	strboost.gif	24e328972b5792ebdde69889edf2edc9
 103	Strange Mental Acuity	realbrain.gif	d7d4abd1987ec257ebf1b386a9060052
-104	Izchak's Blessing	light.gif
+104	Izchak's Blessing	light.gif	2b0bab3aa6c3cabbe27d693dc4a2c8c0
 105	Corroded Weapon	corroded.gif	8af5fd34414f0f52907fabfa3287fa2b
 106	Canadianity	mapleleaf.gif
 107	Enraged	angry.gif
@@ -182,10 +182,10 @@
 182
 183	Half-Astral	hoppedup.gif
 184	Cupcake of Choice	cupcake.gif	606df8164432029da3468eee90911ca3
-185	Shiny Happy Cupcake	cupcake.gif
-186	Tiny Bubbles in the Cupcake	cupcake.gif
-187	Your Cupcake Senses Are Tingling	cupcake.gif
-188	The Cupcake of Wrath	cupcake.gif
+185	Shiny Happy Cupcake	cupcake.gif	b39f26406457a1cb49de24b309086b84
+186	Tiny Bubbles in the Cupcake	cupcake.gif	2fd48447d0a555ccbddacb61a37d1961
+187	Your Cupcake Senses Are Tingling	cupcake.gif	09e15a3419f7729ab6d732654c9a01a2
+188	The Cupcake of Wrath	cupcake.gif	baccc1c6b61bad39426ae19a104c926d
 189	Hotform	flame.gif
 190	Coldform	snowflake.gif
 191	Spookyform	skull.gif
