@@ -688,7 +688,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 	public boolean isLikelyStasisFarming()
 	{
 		return this.isLikelyStasisZone && KoLCharacter.getFamiliar().isThiefFamiliar() &&
-			KoLCharacter.getFamiliar().getWeight() >= 20 && KoLCharacter.getTotalTurnsUsed() > 2000;
+			KoLCharacter.getFamiliar().getWeight() >= 20 && KoLCharacter.getCurrentRun() > 2000;
 	}
 
 	/**
@@ -803,7 +803,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 				CharsheetFrame.updateSelectedAdventure( this );
 			}
 
-			FightRequest.setDelayActive( KoLCharacter.getTotalTurnsUsed() >= 5000 || this.isLikelyStasisFarming() );
+			FightRequest.setDelayActive( KoLCharacter.getCurrentRun() >= 5000 || this.isLikelyStasisFarming() );
 		}
 
 		if ( !KoLmafia.isAdventuring() )
@@ -934,7 +934,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 	public static int getAdventureCount()
 	{
 		return StaticEntity.getBooleanProperty( "logReverseOrder" ) ? KoLCharacter.getAdventuresLeft() :
-			KoLCharacter.getTotalTurnsUsed() + 1;
+			KoLCharacter.getCurrentRun() + 1;
 	}
 
 	public int compareTo( Object o )

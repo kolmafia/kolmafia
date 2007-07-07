@@ -614,10 +614,10 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 				this.roninLabel.setText( "(Hardcore)" );
 			else if ( KoLCharacter.getAscensions() == 0 )
 				this.roninLabel.setText( "(Unascended)" );
-			else if ( KoLCharacter.getTotalTurnsUsed() >= 600 )
+			else if ( KoLCharacter.getCurrentRun() >= 600 )
 				this.roninLabel.setText( "(Ronin Clear)" );
 			else
-				this.roninLabel.setText( "(Ronin for " + (600 - KoLCharacter.getTotalTurnsUsed()) + ")" );
+				this.roninLabel.setText( "(Ronin for " + (600 - KoLCharacter.getCurrentRun()) + ")" );
 
 			this.mcdLabel.setText( "ML @ " + KoLCharacter.getSignedMLAdjustment() );
 

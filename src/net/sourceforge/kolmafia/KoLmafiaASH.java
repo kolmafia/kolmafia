@@ -5104,7 +5104,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptValue my_turncount()
-		{	return new ScriptValue( KoLCharacter.getTotalTurnsUsed() );
+		{	return new ScriptValue( KoLCharacter.getCurrentRun() );
 		}
 
 		public ScriptValue my_inebriety()
