@@ -3024,19 +3024,18 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void openRelayBrowser()
 	{
-		this.startRelayServer();
-
-		// Even after the wait, sometimes, the
-		// worker threads have not been filled.
-
-		String baseURL = "http://127.0.0.1:" + LocalRelayServer.getPort() + "/";
-
 		if ( KoLRequest.sessionId == null )
-			StaticEntity.openSystemBrowser( baseURL + "login.php" );
+			openRelayBrowser( "login.php" );
 		else if ( KoLRequest.isCompactMode )
-			StaticEntity.openSystemBrowser( baseURL + "main_c.html" );
+			openRelayBrowser( "main_c.html" );
 		else
-			StaticEntity.openSystemBrowser( baseURL + "main.html" );
+			openRelayBrowser( "main.html" );
+	}
+
+	public void openRelayBrowser( String location )
+	{
+		this.startRelayServer();
+		StaticEntity.openSystemBrowser( "http://127.0.0.1:" + LocalRelayServer.getPort() + "/" + location );
 	}
 
 	public void launchRadioKoL()
@@ -3049,20 +3048,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void launchSimulator()
 	{
-		LocalRelayServer.startThread();
-
-		// Wait for 5 seconds before giving up
-		// on the relay server.
-
-		for ( int i = 0; i < 50 && !LocalRelayServer.isRunning(); ++i )
-			KoLRequest.delay( 500 );
-
-		if ( !LocalRelayServer.isRunning() )
-			return;
-
-		// Even after the wait, sometimes, the
-		// worker threads have not been filled.
-
+		this.startRelayServer();
 		StaticEntity.openSystemBrowser( "http://127.0.0.1:" + LocalRelayServer.getPort() + "/KoLmafia/simulator/index.html" );
 	}
 

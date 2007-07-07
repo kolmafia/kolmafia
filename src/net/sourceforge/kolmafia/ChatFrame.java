@@ -405,9 +405,9 @@ public class ChatFrame extends KoLFrame
 	{
 		public void handleInternalLink( String location )
 		{
-			if ( location.startsWith( "makeoffer.php" ) )
+			if ( location.startsWith( "makeoffer.php" ) || location.startsWith( "counteroffer.php" ) )
 			{
-				createDisplay( PendingTradesFrame.class );
+				StaticEntity.getClient().openRelayBrowser( location );
 				return;
 			}
 
@@ -448,8 +448,8 @@ public class ChatFrame extends KoLFrame
 				break;
 
 			case 4:
-				frameClass = ProposeTradeFrame.class;
-				break;
+				StaticEntity.getClient().openRelayBrowser( "makeoffer.php?action=proposeoffer&towho=" + parameters[0] );
+				return;
 
 			case 5:
 				StaticEntity.openRequestFrame( "displaycollection.php?who=" + KoLmafia.getPlayerId( (String) parameters[0] ) );

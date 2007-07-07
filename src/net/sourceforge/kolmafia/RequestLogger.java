@@ -420,12 +420,6 @@ public class RequestLogger extends NullStream implements KoLConstants
 			return;
 		}
 
-		if ( (request instanceof ProposeTradeRequest || isExternal) && ProposeTradeRequest.registerRequest( urlString ) )
-		{
-			wasLastRequestSimple = false;
-			return;
-		}
-
 		if ( (request instanceof PulverizeRequest || isExternal) && PulverizeRequest.registerRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;

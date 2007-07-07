@@ -96,11 +96,17 @@ public abstract class MenuItemList extends JMenu implements ListDataListener
 
 	public void dispose()
 	{
-		this.dataValues.clear();
-		this.dataValues = null;
+		if ( this.dataValues != null )
+		{
+			this.dataValues.clear();
+			this.dataValues = null;
+		}
 
-		this.model.removeListDataListener( this );
-		this.model = null;
+		if ( this.model != null )
+		{
+			this.model.removeListDataListener( this );
+			this.model = null;
+		}
 	}
 
 	public abstract JComponent [] getHeaders();
@@ -138,7 +144,6 @@ public abstract class MenuItemList extends JMenu implements ListDataListener
 
 	public void intervalRemoved( ListDataEvent e )
 	{
-		LockableListModel source = (LockableListModel) e.getSource();
 		int index0 = e.getIndex0();  int index1 = e.getIndex1();
 
 		for ( int i = index1; i >= index0; --i )

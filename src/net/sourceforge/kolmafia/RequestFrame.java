@@ -97,9 +97,7 @@ public class RequestFrame extends KoLFrame
 
 		this.setCurrentRequest( request );
 		this.mainDisplay = new RequestPane();
-
-		if ( !(this instanceof PendingTradesFrame) )
-			this.mainDisplay.addHyperlinkListener( new KoLHyperlinkAdapter() );
+		this.mainDisplay.addHyperlinkListener( new KoLHyperlinkAdapter() );
 
 		this.mainBuffer = new LimitedSizeChatBuffer( false );
 		JScrollPane mainScroller = this.mainBuffer.setChatDisplay( this.mainDisplay );
