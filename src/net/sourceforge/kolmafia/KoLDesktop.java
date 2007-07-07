@@ -230,7 +230,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 			if ( setting.indexOf( frames[i].getFrameName() ) != -1 )
 				frames[i].dispose();
 
-		if ( tabs instanceof CloseTabbedPane )
+		if ( tabs != null && tabs instanceof CloseTabbedPane )
 			((CloseTabbedPane)tabs).removeCloseListener( this );
 
 		super.dispose();
