@@ -81,7 +81,6 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 	public KoLDesktop( String title )
 	{
 		super( "Main Interface" );
-
 		this.setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 
 		if ( StaticEntity.usesSystemTray() )

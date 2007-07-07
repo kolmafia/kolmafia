@@ -139,7 +139,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	public KoLFrame( String title )
 	{
 		this.setTitle( title );
-		this.setDefaultCloseOperation( DISPOSE_ON_CLOSE );
+		this.setDefaultCloseOperation( HIDE_ON_CLOSE );
 
 		this.tabs = getTabbedPane();
 		this.framePanel = new JPanel( new BorderLayout( 0, 0 ) );
@@ -340,17 +340,17 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		KoLDesktop.removeTab( this );
 		existingFrames.remove( this );
 
-		super.dispose();
-
 		if ( this.refreshListener != null )
 			KoLCharacter.removeCharacterListener( this.refreshListener );
+
+		super.dispose();
 
 		// If the list of frames is now empty, make sure
 		// you end the session.  Ending the session for
 		// a login frame involves exiting, and ending the
 		// session for all other frames is calling main.
 
-		if ( !existingFrames.isEmpty() || LoginFrame.instanceExists() )
+		if ( existingFrames.size() != removedFrames.size() || LoginFrame.instanceExists() )
 			return;
 
 		createDisplay( LoginFrame.class );
@@ -901,6 +901,11 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		if ( this.isVisible() )
 			this.rememberPosition();
 
+		if ( e.getNewState() == WindowEvent.WINDOW_CLOSING )
+			removedFrames.add( this );
+		else
+			removedFrames.remove( this );
+
 		super.processWindowEvent( e );
 	}
 
@@ -918,6 +923,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			super.setExtendedState( NORMAL );
 			super.repaint();
 		}
+
 	}
 
 	private static final Pattern TOID_PATTERN = Pattern.compile( "toid=(\\d+)" );

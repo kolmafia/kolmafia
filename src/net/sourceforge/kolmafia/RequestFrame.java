@@ -103,6 +103,7 @@ public class RequestFrame extends KoLFrame
 	public RequestFrame( String title, RequestFrame parent, KoLRequest request )
 	{
 		super( title );
+		this.setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 
 		this.parent = parent;
 
