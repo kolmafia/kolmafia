@@ -3372,6 +3372,9 @@ public class KoLmafiaASH extends StaticEntity
 		result.addElement( new ScriptExistingFunction( "my_name", STRING_TYPE, params ) );
 
 		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "my_id", STRING_TYPE, params ) );
+
+		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "in_muscle_sign", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] {};
@@ -5022,6 +5025,10 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue my_name()
 		{	return new ScriptValue( KoLCharacter.getUserName() );
+		}
+
+		public ScriptValue my_id()
+		{	return new ScriptValue( KoLCharacter.getPlayerId() );
 		}
 
 		public ScriptValue in_muscle_sign()
