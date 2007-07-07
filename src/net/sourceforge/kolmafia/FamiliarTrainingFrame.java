@@ -149,6 +149,28 @@ public class FamiliarTrainingFrame extends KoLFrame
 		results.clearBuffer();
 	}
 
+	public void updateDisplayState( int displayState )
+	{
+		// Change the background of the frame based on
+		// the current display state -- but only if the
+		// compact pane has already been constructed.
+
+		switch ( displayState )
+		{
+		case ABORT_STATE:
+		case ERROR_STATE:
+		case ENABLE_STATE:
+
+			this.training.setEnabled( true );
+			break;
+
+		default:
+
+			this.training.setEnabled( false );
+			break;
+		}
+	}
+
 	public void dispose()
 	{
 		stop = true;
@@ -176,7 +198,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 		public FamiliarTrainingPanel()
 		{
 			super( new BorderLayout( 10, 10 ) );
-			existingPanels.add( new WeakReference( this ) );
 
 			JPanel container = new JPanel( new BorderLayout( 10, 10 ) );
 

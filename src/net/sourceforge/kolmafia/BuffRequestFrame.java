@@ -103,13 +103,13 @@ public class BuffRequestFrame extends KoLFrame
 
 	public void dispose()
 	{
-		removePanel( this.mainPanel );
-
 		this.names = null;
 		this.panelMap.clear();
 
 		this.requestContainer = null;
 		this.requestCards = null;
+
+		this.mainPanel.dispose();
 		this.mainPanel = null;
 
 		this.priceUpdater = null;

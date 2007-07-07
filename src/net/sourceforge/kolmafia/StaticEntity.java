@@ -49,6 +49,7 @@ import java.util.regex.Pattern;
 import javax.swing.SwingUtilities;
 import edu.stanford.ejalbert.BrowserLauncher;
 
+import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.DataUtilities;
 
 public abstract class StaticEntity implements KoLConstants
@@ -65,8 +66,10 @@ public abstract class StaticEntity implements KoLConstants
 	private static int usesSystemTray = 0;
 	private static int usesRelayWindows = 0;
 
-	private static KoLFrame [] frameArray = null;
-	private static WeakReference [] panelArray = null;
+	public static final ArrayList existingPanels = new ArrayList();
+
+	private static KoLFrame [] frameArray = new KoLFrame[0];
+	private static ActionPanel [] panelArray = new KoLPanel[0];
 
 	public static final void setClient( KoLmafia client )
 	{	StaticEntity.client = client;
@@ -74,6 +77,30 @@ public abstract class StaticEntity implements KoLConstants
 
 	public static KoLmafia getClient()
 	{	return client;
+	}
+
+	public static void registerFrame( KoLFrame frame )
+	{
+		existingFrames.add( frame );
+		getExistingFrames();
+	}
+
+	public static void unregisterFrame( KoLFrame frame )
+	{
+		existingFrames.remove( frame );
+		getExistingFrames();
+	}
+
+	public static void registerPanel( ActionPanel frame )
+	{
+		existingPanels.add( frame );
+		getExistingPanels();
+	}
+
+	public static void unregisterPanel( ActionPanel frame )
+	{
+		existingPanels.remove( frame );
+		getExistingPanels();
 	}
 
 	public static KoLFrame [] getExistingFrames()
@@ -93,7 +120,7 @@ public abstract class StaticEntity implements KoLConstants
 		return frameArray;
 	}
 
-	public static WeakReference [] getExistingPanels()
+	public static ActionPanel [] getExistingPanels()
 	{
 		boolean needsRefresh = panelArray == null || panelArray.length != existingPanels.size();
 
@@ -103,7 +130,7 @@ public abstract class StaticEntity implements KoLConstants
 
 		if ( needsRefresh )
 		{
-			panelArray = new WeakReference[ existingPanels.size() ];
+			panelArray = new ActionPanel[ existingPanels.size() ];
 			existingPanels.toArray( panelArray );
 		}
 
