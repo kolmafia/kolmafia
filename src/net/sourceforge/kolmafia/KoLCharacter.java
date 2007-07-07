@@ -258,7 +258,7 @@ public abstract class KoLCharacter extends StaticEntity
 	private static int closetMeat = 0;
 	private static int inebriety = 0;
 	private static int adventuresLeft = 0;
-	private static int totalTurnsUsed = 0;
+	private static int currentRun = 0;
 
 	// Status pane data which is rendered whenever
 	// the user changes equipment, effects, and familiar
@@ -1022,16 +1022,8 @@ public abstract class KoLCharacter extends StaticEntity
 	{	return adventuresLeft;
 	}
 
-	/**
-	 * Accessor method to set the total number of turns the character has used
-	 * since creation.  This method is only interesting from an averages point of
-	 * view, but sometimes, it's interesting to know.
-	 *
-	 * @param	totalTurnsUsed	The total number of turns used since creation
-	 */
-
-	public static void setTotalTurnsUsed( int totalTurnsUsed )
-	{	KoLCharacter.totalTurnsUsed = totalTurnsUsed;
+	public static void setCurrentRun( int currentRun )
+	{	KoLCharacter.currentRun = currentRun;
 	}
 
 	/**
@@ -1042,8 +1034,8 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	The total number of turns used since creation
 	 */
 
-	public static int getTotalTurnsUsed()
-	{	return totalTurnsUsed;
+	public static int getCurrentRun()
+	{	return currentRun;
 	}
 
 	/**
@@ -1788,7 +1780,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static boolean canInteract()
-	{	return ascensions == 0 || (!isHardcore && totalTurnsUsed >= 1000);
+	{	return ascensions == 0 || (!isHardcore && currentRun >= 1000);
 	}
 
 	/**
@@ -2548,7 +2540,7 @@ public abstract class KoLCharacter extends StaticEntity
 						activeEffects.set( i, effect.getInstance( effect.getCount() + result.getCount() ) );
 				}
 
-				setTotalTurnsUsed( getTotalTurnsUsed() - result.getCount() );
+				setCurrentRun( currentRun - result.getCount() );
 			}
 		}
 		else if ( resultName.equals( AdventureResult.DRUNK ) )
