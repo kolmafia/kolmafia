@@ -113,6 +113,10 @@ public abstract class StaticEntity implements KoLConstants
 
 		if ( needsRefresh )
 		{
+			for ( int i = 0; i < frameArray.length; ++i )
+				frameArray[i] = null;
+
+			frameArray = null;
 			frameArray = new KoLFrame[ existingFrames.size() ];
 			existingFrames.toArray( frameArray );
 		}
@@ -130,6 +134,10 @@ public abstract class StaticEntity implements KoLConstants
 
 		if ( needsRefresh )
 		{
+			for ( int i = 0; i < panelArray.length; ++i )
+				panelArray[i] = null;
+
+			panelArray = null;
 			panelArray = new ActionPanel[ existingPanels.size() ];
 			existingPanels.toArray( panelArray );
 		}
