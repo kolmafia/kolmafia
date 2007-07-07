@@ -64,12 +64,13 @@ public class KoLRequest extends Job implements KoLConstants
 	private static long lastAdjustTime = Long.MAX_VALUE;
 
 	private static int INITIAL_CACHE_COUNT = 3;
-	private static int MAXIMUM_DELAY = 10000;
+	private static int ADJUSTMENT_REFRESH = 240000;
+	private static int MAXIMUM_DELAY = 8000;
+	private static int MINIMUM_TOLERANCE = 2000;
 
 	private static int normalDelay = 0;
 	private static int adjustDelay = 0;
-	private static int lagTolerance = 1000;
-	private static int ADJUSTMENT_REFRESH = 240000;
+	private static int lagTolerance = MINIMUM_TOLERANCE;
 
 	private static final Object WAIT_OBJECT = new Object();
 
@@ -737,7 +738,7 @@ public class KoLRequest extends Job implements KoLConstants
 			{
 				normalDelay = Math.min( MAXIMUM_DELAY, normalDelay + 1000 );
 				adjustDelay = normalDelay >> 1;
-				lagTolerance = Math.max( 1000, adjustDelay );
+				lagTolerance = Math.max( MINIMUM_TOLERANCE, adjustDelay );
 				lastAdjustTime = System.currentTimeMillis();
 			}
 
@@ -745,7 +746,7 @@ public class KoLRequest extends Job implements KoLConstants
 			{
 				normalDelay = Math.max( 0, normalDelay - 500 );
 				adjustDelay = normalDelay >> 1;
-				lagTolerance = Math.max( 1000, adjustDelay );
+				lagTolerance = Math.max( MINIMUM_TOLERANCE, adjustDelay );
 				lastAdjustTime = System.currentTimeMillis();
 			}
 		}
@@ -833,7 +834,7 @@ public class KoLRequest extends Job implements KoLConstants
 	private static boolean delay()
 	{
 		return delay( RNG.nextInt( adjustDelay ) +
-			Math.max( normalDelay, Math.min( MAXIMUM_DELAY, KoLCharacter.getTotalTurnsUsed() ) ) );
+			Math.max( normalDelay, Math.min( MAXIMUM_DELAY, KoLCharacter.getTotalTurnsUsed() >> 2 ) ) );
 	}
 
 	/**
