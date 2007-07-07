@@ -1853,8 +1853,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					// to the Bounty Hunter Hunter.
 
 					else if ( itemId == StaticEntity.getIntegerProperty( "currentBountyItem" ) ||
-						(itemId >= 2099 && itemId <= 2107) || (itemId >= 2407 && itemId <= 2415) || (itemId >= 2468 && itemId <= 2473) )
+						  TradeableItemDatabase.isBountyItem( itemId ) )
 					{
+						StaticEntity.setProperty( "currentBountyItem", String.valueOf( itemId ) );
 						AdventureResult item = new AdventureResult( itemId, 0 );
 						useType = String.valueOf( item.getCount( inventory ) );
 						useLocation = "bhh.php";
