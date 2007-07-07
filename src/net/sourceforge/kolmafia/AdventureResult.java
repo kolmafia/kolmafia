@@ -241,6 +241,30 @@ public class AdventureResult implements Comparable, KoLConstants
 		}
 	}
 
+	public static AdventureResult bangPotion( String name )
+	{
+		// Given "potion of confusion", look it up
+		if ( !name.startsWith( "potion of " ) )
+		     return null;
+
+		// Get the effect name;
+		String effect = name.substring( 10 );
+
+		// Make sure we have potion properties
+		ConsumeItemRequest.ensureUpdatedPotionEffects();
+
+		// Look up the effect name
+		for ( int i = 819; i <= 827; ++i )
+			if ( effect.equals( StaticEntity.getProperty( "lastBangPotion" + i ) ) )
+				return new AdventureResult( i, 0 );
+
+		// We don't know which potion makes this effect.
+		// Make a pseudo-item with the required name
+
+		AdventureResult item = new AdventureResult( "(none)", 0, false );
+		item.name = name;
+		return item;
+	}
 
 	/**
 	 * Accessor method to determine if this result is a status effect.
