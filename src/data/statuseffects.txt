@@ -28,7 +28,7 @@
 28	Butt-Rock Hair	buttrock.gif	04bc18fe47f495a894774fa1bbb9713d
 29	Contemptible Emanations	stench.gif
 30	Incredibly Hulking	strboost.gif	fd5616e89e1c2ecb0b01b61929682d2d
-31	Superhuman Sarcasm	wink.gif
+31	Superhuman Sarcasm	wink.gif	2ca6aa31e5eed5cd125e9fd374b74a78
 32	Tomato Power	tomato.gif
 33	Phorcefullness	strboost.gif
 34	Pronounced Potency	nicesword.gif
@@ -103,10 +103,10 @@
 103	Strange Mental Acuity	realbrain.gif	d7d4abd1987ec257ebf1b386a9060052
 104	Izchak's Blessing	light.gif	2b0bab3aa6c3cabbe27d693dc4a2c8c0
 105	Corroded Weapon	corroded.gif	8af5fd34414f0f52907fabfa3287fa2b
-106	Canadianity	mapleleaf.gif
+106	Canadianity	mapleleaf.gif	8a3629f6e6d964a3e491b3a393348a46
 107	Enraged	angry.gif
 108	Ancestral Disapproval	skull.gif
-109	Whitened Teeth	goldfronts.gif
+109	Whitened Teeth	goldfronts.gif	0f3c00c6477cf3c3ca13602bfee2d863
 110	Hopped Up on Goofballs	hoppedup.gif
 111	Goofball Withdrawal	withdraw.gif
 112	Antsy in your Pantsy	syrup.gif
@@ -116,7 +116,7 @@
 116	Radio Head	radhat.gif	93a84005b9089f8b39237450c0af0ff3
 117	Free Bird	radpants.gif	587b577f3cf49f2d944450aa4751584d
 118	Shiny Happy Weapon	radsword.gif	c182e3297f3732ed05601d63d5980f1d
-119	On the Shoulders of Giants	farout.gif
+119	On the Shoulders of Giants	farout.gif	68ea640257b2b74627e74ce275a555fc
 120	Shot in the Arse	shotarse.gif
 121	Cock of the Walk	cockghost.gif
 122	Eggs-tra Sensory Perception	eggplain.gif
@@ -125,7 +125,7 @@
 125	Egg-headedness	eggplain.gif
 126	Egg-cellent Vocabulary	eggplain.gif
 127	Gothy	gothy.gif	06cb86ddd689278c5af31423a8210a72
-128	Flower Power	flower.gif
+128	Flower Power	flower.gif	e91ceabee446030ff33cc79d06a8d551
 129	Eye of the Lihc	eyeball.gif	19a38797f559f112930b8d33f3dd48e3
 130	Springy Fusilli	fusilli.gif	bb44871dd165d4dc9b4d35daa46908ef
 131	Rage of the Reindeer	reindeer.gif	5c8d3b5b4a6d403f95f27f5d29528c59
@@ -142,7 +142,7 @@
 142	Red Tongue	tongue.gif	a4a570ed8e0e103525775af34f31f030
 143	Blue Tongue	tongue.gif	ec5873195c3e3b217cc8124e1ac211cf
 144	Black Tongue	tongue.gif	cf48440dfd1ae655ab1d2c447e0091e2
-145	Object Detection	exclam.gif
+145	Object Detection	exclam.gif	d8857a40fb6a9b575a9c8d4449db9d39
 146
 147
 148
