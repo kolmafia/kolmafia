@@ -49,9 +49,9 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 
 	private Class creationType;
 	private JFrame creation;
-
 	private Constructor creator;
 	private Object [] parameters;
+
 	public CreateFrameRunnable( Class creationType )
 	{	this( creationType, new Object[0] );
 	}
@@ -86,10 +86,6 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 		}
 	}
 
-	public JFrame getCreation()
-	{	return this.creation;
-	}
-
 	public void run()
 	{
 		if ( !SwingUtilities.isEventDispatchThread() )
@@ -121,7 +117,11 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 		// Run any needed requests before falling into
 		// the event dispatch thread.
 
-		if ( this.loadPreviousFrame() )
+		if ( !this.loadPreviousFrame() )
+		{
+			this.runConstruction();
+		}
+		else
 		{
 			String tabSetting = "," + StaticEntity.getGlobalProperty( "initialDesktop" ) + ",";
 			String searchString = ChatFrame.class.isAssignableFrom( this.creationType ) ? "KoLMessenger" :
@@ -144,11 +144,9 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 
 			if ( this.creationType == SkillBuffFrame.class && this.parameters.length == 1 )
 				((SkillBuffFrame)this.creation).setRecipient( (String) this.parameters[0] );
-
-			return;
 		}
 
-		this.runConstruction();
+		this.creation = null;
 	}
 
 	private boolean loadPreviousFrame()
