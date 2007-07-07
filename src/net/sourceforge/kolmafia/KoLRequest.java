@@ -720,13 +720,11 @@ public class KoLRequest extends Job implements KoLConstants
 		}
 
 		this.statusChanged = false;
-		long lastRequestTime = System.currentTimeMillis();
+		long lastRequestTime = 0;
 
 		do
 		{
-			if ( !isDelayExempt && normalDelay > 0 )
-				delay();
-
+			lastRequestTime = System.currentTimeMillis();
 			if ( !this.prepareConnection() && KoLmafia.refusesContinue() )
 				break;
 		}
@@ -752,7 +750,12 @@ public class KoLRequest extends Job implements KoLConstants
 		}
 
 		if ( responseCode == 200 )
+		{
+			if ( !isDelayExempt )
+				delay();
+
 			this.processResponse();
+		}
 	}
 
 	private void saveLastChoice( String url )
@@ -833,8 +836,10 @@ public class KoLRequest extends Job implements KoLConstants
 
 	private static boolean delay()
 	{
-		return delay( RNG.nextInt( adjustDelay ) +
-			Math.max( normalDelay, Math.min( MAXIMUM_DELAY, KoLCharacter.getTotalTurnsUsed() >> 2 ) ) );
+		if ( normalDelay == 0 )
+			return true;
+
+		return delay( RNG.nextInt( adjustDelay ) + normalDelay );
 	}
 
 	/**
@@ -845,7 +850,7 @@ public class KoLRequest extends Job implements KoLConstants
 
 	public static boolean delay( long milliseconds )
 	{
-		if ( milliseconds == 0 )
+		if ( milliseconds <= 0 )
 			return true;
 
 		try
@@ -924,6 +929,7 @@ public class KoLRequest extends Job implements KoLConstants
 			if ( this instanceof LoginRequest )
 				chooseNewLoginServer();
 
+			delay();
 			return false;
 		}
 
@@ -1006,6 +1012,7 @@ public class KoLRequest extends Job implements KoLConstants
 			if ( this instanceof LoginRequest )
 				chooseNewLoginServer();
 
+			delay();
 			return false;
 		}
 	}
@@ -1068,7 +1075,10 @@ public class KoLRequest extends Job implements KoLConstants
 				chooseNewLoginServer();
 
 			if ( shouldRetry )
+			{
+				delay();
 				return false;
+			}
 
 			this.responseCode = 302;
 			this.redirectLocation = "main.php";
