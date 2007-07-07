@@ -139,10 +139,9 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	public KoLFrame( String title )
 	{
 		this.setTitle( title );
-
 		this.setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 
-		this.tabs = this.getTabbedPane();
+		this.tabs = getTabbedPane();
 		this.framePanel = new JPanel( new BorderLayout( 0, 0 ) );
 
 		this.frameName = this.getClass().getName();
@@ -181,7 +180,9 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	}
 
 	public boolean shouldAddStatusBar()
-	{	return StaticEntity.getBooleanProperty( "addStatusBarToFrames" ) && StaticEntity.getGlobalProperty( "initialDesktop" ).indexOf( this.frameName ) == -1;
+	{
+		return StaticEntity.getBooleanProperty( "addStatusBarToFrames" ) &&
+			StaticEntity.getGlobalProperty( "initialDesktop" ).indexOf( this.frameName ) == -1;
 	}
 
 	public JTabbedPane getTabbedPane()
@@ -229,8 +230,10 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	{
 		public void actionPerformed( ActionEvent e )
 		{
-			if ( KoLFrame.this.tabs != null )
-				KoLFrame.this.tabs.setSelectedIndex( (KoLFrame.this.tabs.getSelectedIndex() + 1) % KoLFrame.this.tabs.getTabCount() );
+			if ( KoLFrame.this.tabs == null )
+				return;
+
+			KoLFrame.this.tabs.setSelectedIndex( (KoLFrame.this.tabs.getSelectedIndex() + 1) % KoLFrame.this.tabs.getTabCount() );
 		}
 	}
 
@@ -238,8 +241,11 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	{
 		public void actionPerformed( ActionEvent e )
 		{
-			if ( KoLFrame.this.tabs != null )
-				KoLFrame.this.tabs.setSelectedIndex( KoLFrame.this.tabs.getSelectedIndex() == 0 ? KoLFrame.this.tabs.getTabCount() - 1 : KoLFrame.this.tabs.getSelectedIndex() - 1 );
+			if ( KoLFrame.this.tabs == null )
+				return;
+
+			KoLFrame.this.tabs.setSelectedIndex( KoLFrame.this.tabs.getSelectedIndex() == 0 ?
+				KoLFrame.this.tabs.getTabCount() - 1 : KoLFrame.this.tabs.getSelectedIndex() - 1 );
 		}
 	}
 
@@ -331,13 +337,10 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		// Determine which frame needs to be removed from
 		// the maintained list of frames.
 
-		super.dispose();
 		KoLDesktop.removeTab( this );
-
-		if ( !existingFrames.contains( this ) )
-			return;
-
 		existingFrames.remove( this );
+
+		super.dispose();
 
 		if ( this.refreshListener != null )
 			KoLCharacter.removeCharacterListener( this.refreshListener );
@@ -347,11 +350,11 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		// a login frame involves exiting, and ending the
 		// session for all other frames is calling main.
 
-		if ( existingFrames.isEmpty() && !LoginFrame.instanceExists() )
-		{
-			createDisplay( LoginFrame.class );
-			RequestThread.postRequest( new LogoutRequest() );
-		}
+		if ( !existingFrames.isEmpty() || LoginFrame.instanceExists() )
+			return;
+
+		createDisplay( LoginFrame.class );
+		RequestThread.postRequest( new LogoutRequest() );
 	}
 
 	public String toString()

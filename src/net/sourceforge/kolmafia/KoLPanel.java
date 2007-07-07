@@ -190,14 +190,7 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 
 	public void addStatusLabel()
 	{
-		if ( this.elements == null )
-			return;
-
-		boolean shouldAddStatusLabel = this.elements != null && this.elements.length != 0;
-		for ( int i = 0; shouldAddStatusLabel && i < this.elements.length; ++i )
-			shouldAddStatusLabel &= !(this.elements[i].getInputField() instanceof JScrollPane);
-
-		if ( !shouldAddStatusLabel )
+		if ( !shouldAddStatusLabel() )
 			return;
 
 		JPanel statusContainer = new JPanel();
@@ -213,6 +206,18 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 		this.southContainer = new JPanel( new BorderLayout() );
 		this.southContainer.add( statusContainer, BorderLayout.NORTH );
 		this.container.add( this.southContainer, BorderLayout.SOUTH );
+	}
+
+	public boolean shouldAddStatusLabel()
+	{
+		if ( this.elements == null )
+			return false;
+
+		boolean shouldAddStatusLabel = this.elements != null && this.elements.length != 0;
+		for ( int i = 0; shouldAddStatusLabel && i < this.elements.length; ++i )
+			shouldAddStatusLabel &= !(this.elements[i].getInputField() instanceof JScrollPane);
+
+		return shouldAddStatusLabel;
 	}
 
 	private class StatusLabel extends JLabel

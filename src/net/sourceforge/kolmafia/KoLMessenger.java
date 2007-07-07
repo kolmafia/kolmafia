@@ -820,8 +820,7 @@ public abstract class KoLMessenger extends StaticEntity
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			printStackTrace( e, "Error in channel " + channel,
-				new String [] { "Channel: " + channel, "Buffer key: " + bufferKey, "Message: " + message, "" } );
+			printStackTrace( e, message );
 		}
 	}
 

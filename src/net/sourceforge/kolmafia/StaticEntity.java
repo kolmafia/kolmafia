@@ -38,6 +38,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintStream;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -59,7 +60,6 @@ public abstract class StaticEntity implements KoLConstants
 	private static final Pattern SETTINGS_PATTERN = Pattern.compile( "prefs_(.*?).txt" );
 
 	private static KoLSettings settings = KoLSettings.GLOBAL_SETTINGS;
-	private static final String [] EMPTY_STRING_ARRAY = new String[0];
 
 	private static KoLmafia client;
 	private static int usesSystemTray = 0;
@@ -445,14 +445,10 @@ public abstract class StaticEntity implements KoLConstants
 	}
 
 	public static final void printStackTrace()
-	{	printStackTrace( "Forced stack trace" );
-	}
-
-	public static final void printStackTrace( String message )
 	{
 		try
 		{
-			throw new Exception( message );
+			throw new Exception( "Forced stack trace" );
 		}
 		catch ( Exception e )
 		{
@@ -461,23 +457,11 @@ public abstract class StaticEntity implements KoLConstants
 	}
 
 	public static final void printStackTrace( Throwable t )
-	{	printStackTrace( t, "UNEXPECTED ERROR", EMPTY_STRING_ARRAY );
+	{	printStackTrace( t, "" );
 	}
-
 
 	public static final void printStackTrace( Throwable t, String message )
-	{	printStackTrace( t, message, EMPTY_STRING_ARRAY );
-	}
-
-	public static final void printStackTrace( Throwable t, String message, String [] logAssistMessages )
 	{
-		for ( int i = 0; i < logAssistMessages.length; ++i )
-			if ( logAssistMessages[i] != null )
-				System.out.println( logAssistMessages[i] );
-
-		System.err.println( message );
-		t.printStackTrace();
-
 		// Next, print all the information to the debug log so that
 		// it can be sent.
 
@@ -485,14 +469,15 @@ public abstract class StaticEntity implements KoLConstants
 		if ( shouldOpenStream )
 			RequestLogger.openDebugLog();
 
-		KoLmafia.updateDisplay( message + ".  Debug log printed." );
+		KoLmafia.updateDisplay( "Unexpected error, debug log printed." );
 
-		for ( int i = 0; i < logAssistMessages.length; ++i )
-			if ( logAssistMessages[i] != null )
-				RequestLogger.updateDebugLog( logAssistMessages[i] );
+		printStackTrace( t, message, System.err );
+		printStackTrace( t, message, RequestLogger.getDebugStream() );
 
-		RequestLogger.updateDebugLog( t );
-		printRequestData( client.getCurrentRequest() );
+		if ( t.getCause() != null )
+			printStackTrace( t.getCause(), message );
+		else
+			printRequestData( client.getCurrentRequest() );
 
 		try
 		{
@@ -504,6 +489,12 @@ public abstract class StaticEntity implements KoLConstants
 			// Okay, since you're in the middle of handling an exception
 			// and got a new one, just return from here.
 		}
+	}
+
+	private static final void printStackTrace( Throwable t, String message, PrintStream ostream )
+	{
+		ostream.println( t.getClass() + ": " + t.getMessage() );
+		t.printStackTrace( ostream );
 	}
 
 	public static void printRequestData( KoLRequest request )
