@@ -101,6 +101,7 @@ public interface KoLConstants extends UtilityConstants
 
 	public static final Toolkit TOOLKIT = Toolkit.getDefaultToolkit();
 	public static final LockableListModel existingFrames = new LockableListModel();
+	public static final LockableListModel removedFrames = new LockableListModel();
 	public static final LockableListModel existingPanels = new LockableListModel();
 
 	// Menus rendered in the relay browser and the KoLmafia mini-browser.
