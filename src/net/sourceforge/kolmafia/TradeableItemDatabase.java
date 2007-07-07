@@ -815,6 +815,18 @@ public class TradeableItemDatabase extends KoLDatabase
 	}
 
 	/**
+	 * Returns true if the item is a bounty, otherwise false
+	 * @return	true if item is a bounty
+	 */
+
+	public static final boolean isBountyItem( int itemId )
+	{
+		return	(itemId >= 2099 && itemId <= 2107) ||
+			(itemId >= 2407 && itemId <= 2415) ||
+			(itemId >= 2468 && itemId <= 2473);
+	}
+
+	/**
 	 * Returns the name for an item, given its Id number.
 	 * @param	itemId	The Id number of the item to lookup
 	 * @return	The name of the corresponding item
