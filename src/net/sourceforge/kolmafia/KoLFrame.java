@@ -53,6 +53,8 @@ import java.awt.event.WindowEvent;
 
 import java.io.File;
 import java.lang.reflect.Method;
+import java.lang.ref.WeakReference;
+import java.util.HashMap;
 import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -106,6 +108,8 @@ import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 public abstract class KoLFrame extends JFrame implements KoLConstants
 {
 	public static final TradeableItemFilter TRADE_FILTER = new TradeableItemFilter();
+
+	protected HashMap listenerMap;
 
 	public JTabbedPane tabs;
 	public String lastTitle;
@@ -175,8 +179,66 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		if ( shouldAddFrame )
 			existingFrames.add( this );
+	}
 
-		this.addHotKeys();
+	protected void removePanel( KoLPanel panel )
+	{
+		panel.dispose();
+
+		WeakReference [] allPanels = StaticEntity.getExistingPanels();
+		for ( int i = 0; i < allPanels.length; ++i )
+			if ( allPanels[i] != null && allPanels[i].get() == panel )
+				existingPanels.remove(i);
+	}
+
+	protected void addActionListener( JCheckBox component, ActionListener listener )
+	{
+		if ( listenerMap == null )
+			listenerMap = new HashMap();
+
+		component.addActionListener( listener );
+		listenerMap.put( component, new WeakReference( listener ) );
+	}
+
+	protected void addActionListener( JComboBox component, ActionListener listener )
+	{
+		if ( this.listenerMap == null )
+			this.listenerMap = new HashMap();
+
+		component.addActionListener( listener );
+		listenerMap.put( component, new WeakReference( listener ) );
+	}
+
+	private void removeActionListener( Object component, ActionListener listener )
+	{
+		if ( component instanceof JCheckBox )
+			((JCheckBox)component).removeActionListener( listener );
+		if ( component instanceof JComboBox )
+			((JComboBox)component).removeActionListener( listener );
+	}
+
+	protected void removeThreadedListeners()
+	{
+		if ( this.listenerMap == null )
+			return;
+
+		Object [] keys = this.listenerMap.keySet().toArray();
+		for ( int i = 0; i < keys.length; ++i )
+		{
+			WeakReference ref = (WeakReference) listenerMap.get( keys[i] );
+			if ( ref == null )
+				continue;
+
+			Object listener = ref.get();
+			if ( listener == null )
+				continue;
+
+			if ( listener instanceof ActionListener )
+				removeActionListener( keys[i], (ActionListener) listener );
+		}
+
+		listenerMap.clear();
+		listenerMap = null;
 	}
 
 	public boolean shouldAddStatusBar()
@@ -343,7 +405,15 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		if ( this.refreshListener != null )
 			KoLCharacter.removeCharacterListener( this.refreshListener );
 
+		removeThreadedListeners();
+		this.getRootPane().resetKeyboardActions();
+
 		super.dispose();
+
+		this.tabs = null;
+		this.framePanel = null;
+		this.refresher = null;
+		this.refreshListener = null;
 
 		// If the list of frames is now empty, make sure
 		// you end the session.  Ending the session for

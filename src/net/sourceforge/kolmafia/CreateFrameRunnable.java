@@ -261,7 +261,8 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 						((KoLFrame)this.creation).addCompactPane();
 				}
 
-				this.creation.setJMenuBar( new KoLMenuBar() );
+				if ( !(this.creation instanceof BuffRequestFrame) )
+					this.creation.setJMenuBar( new KoLMenuBar() );
 			}
 		}
 		catch ( Exception e )
