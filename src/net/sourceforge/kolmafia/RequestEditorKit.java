@@ -1793,6 +1793,19 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 						}
 					}
 
+					// Bounty items get a count and a link
+					// to the Bounty Hunter Hunter.
+
+					else if ( (itemId <= 2099 && itemId >= 2107 ) ||
+						(itemId <= 2407 && itemId >= 2415 ) ||
+						(itemId <= 2468 && itemId >= 2473 ))
+					{
+						AdventureResult bounty = new AdventureResult( itemId, 1 );
+
+						useType = String.valueOf( bounty.getCount( inventory ) );
+						useLocation = "bhh.php";
+					}
+
 					// Pixels have handy links indicating how many white pixels are
 					// present in the player's inventory.
 
