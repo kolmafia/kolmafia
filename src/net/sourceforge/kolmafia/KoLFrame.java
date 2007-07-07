@@ -178,17 +178,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			shouldAddFrame = !KoLMessenger.usingTabbedChat() || this instanceof TabbedChatFrame;
 
 		if ( shouldAddFrame )
-			existingFrames.add( this );
-	}
-
-	protected void removePanel( KoLPanel panel )
-	{
-		panel.dispose();
-
-		WeakReference [] allPanels = StaticEntity.getExistingPanels();
-		for ( int i = 0; i < allPanels.length; ++i )
-			if ( allPanels[i] != null && allPanels[i].get() == panel )
-				existingPanels.remove(i);
+			StaticEntity.registerFrame( this );
 	}
 
 	protected void addActionListener( JCheckBox component, ActionListener listener )
@@ -400,6 +390,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		// the maintained list of frames.
 
 		KoLDesktop.removeTab( this );
+		StaticEntity.unregisterFrame( this );
 		existingFrames.remove( this );
 
 		if ( this.refreshListener != null )

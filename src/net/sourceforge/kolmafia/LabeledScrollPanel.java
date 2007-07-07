@@ -36,7 +36,6 @@ package net.sourceforge.kolmafia;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.lang.ref.WeakReference;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -101,7 +100,7 @@ public class LabeledScrollPanel extends ActionPanel implements KoLConstants
 		}
 
 		((JPanel)this.getContentPane()).setOpaque( true );
-		existingPanels.add( new WeakReference( this ) );
+		StaticEntity.registerPanel( this );
 	}
 
 	public void setEnabled( boolean isEnabled )
@@ -119,5 +118,11 @@ public class LabeledScrollPanel extends ActionPanel implements KoLConstants
 
 	public void actionCancelled()
 	{
+	}
+
+	public void dispose()
+	{
+		StaticEntity.unregisterPanel( this );
+		super.dispose();
 	}
 }

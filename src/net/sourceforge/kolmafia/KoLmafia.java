@@ -64,6 +64,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
+import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
@@ -437,18 +438,14 @@ public abstract class KoLmafia implements KoLConstants
 		// desired update message.
 
 		Object reference;
-		WeakReference [] references = StaticEntity.getExistingPanels();
+		ActionPanel [] panels = StaticEntity.getExistingPanels();
 
-		for ( int i = 0; i < references.length; ++i )
+		for ( int i = 0; i < panels.length; ++i )
 		{
-			reference = references[i].get();
-			if ( reference != null )
-			{
-				if ( reference instanceof KoLPanel && message != null && message.length() > 0 )
-					((KoLPanel) reference).setStatusMessage( message );
+			if ( panels[i] instanceof KoLPanel )
+				((KoLPanel)panels[i]).setStatusMessage( message );
 
-				((Component)references[i].get()).setEnabled( state != CONTINUE_STATE );
-			}
+			panels[i].setEnabled( state != CONTINUE_STATE );
 		}
 
 		KoLFrame [] frames = StaticEntity.getExistingFrames();

@@ -68,73 +68,73 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 	public KoLPanel( Dimension left, Dimension right )
 	{
 		super( left, right );
-		existingPanels.add( new WeakReference( this ) );
+		StaticEntity.registerPanel( this );
 	}
 
 	public KoLPanel( Dimension left, Dimension right, boolean isCenterPanel )
 	{
 		super( left, right, isCenterPanel );
-		existingPanels.add( new WeakReference( this ) );
+		StaticEntity.registerPanel( this );
 	}
 
 	public KoLPanel( String confirmedText )
 	{
 		super( confirmedText );
-		existingPanels.add( new WeakReference( this ) );
+		StaticEntity.registerPanel( this );
 	}
 
 	public KoLPanel( String confirmedText, boolean isCenterPanel )
 	{
 		super( confirmedText, isCenterPanel );
-		existingPanels.add( new WeakReference( this ) );
+		StaticEntity.registerPanel( this );
 	}
 
 	public KoLPanel( String confirmedText, String cancelledText )
 	{
 		super( confirmedText, cancelledText );
-		existingPanels.add( new WeakReference( this ) );
+		StaticEntity.registerPanel( this );
 	}
 
 	public KoLPanel( String confirmedText, String cancelledText, boolean isCenterPanel )
 	{
 		super( confirmedText, cancelledText, isCenterPanel );
-		existingPanels.add( new WeakReference( this ) );
+		StaticEntity.registerPanel( this );
 	}
 
 	public KoLPanel( String confirmedText, Dimension left, Dimension right, boolean isCenterPanel )
 	{
 		super( confirmedText, left, right, isCenterPanel );
-		existingPanels.add( new WeakReference( this ) );
+		StaticEntity.registerPanel( this );
 	}
 
 	public KoLPanel( String confirmedText, String cancelledText1, String cancelledText2 )
 	{
 		super( confirmedText, cancelledText1, cancelledText2 );
-		existingPanels.add( new WeakReference( this ) );
+		StaticEntity.registerPanel( this );
 	}
 
 	public KoLPanel( String confirmedText, String cancelledText, Dimension left, Dimension right )
 	{
 		super( confirmedText, cancelledText, left, right );
-		existingPanels.add( new WeakReference( this ) );
+		StaticEntity.registerPanel( this );
 	}
 
 	public KoLPanel( String confirmedText, String cancelledText1, String cancelledText2, Dimension left, Dimension right )
 	{
 		super( confirmedText, cancelledText1, cancelledText2, left, right );
-		existingPanels.add( new WeakReference( this ) );
+		StaticEntity.registerPanel( this );
 	}
 
 	public KoLPanel( String confirmedText, String cancelledText, Dimension left, Dimension right, boolean isCenterPanel )
 	{
 		super( confirmedText, cancelledText, left, right, isCenterPanel );
-		existingPanels.add( new WeakReference( this ) );
+		StaticEntity.registerPanel( this );
 	}
 
 	public KoLPanel( String confirmedText, String cancelledText1, String cancelledText2, Dimension left, Dimension right, boolean isCenterPanel )
 	{
 		super( confirmedText, cancelledText1, cancelledText2, left, right, isCenterPanel );
-		existingPanels.add( new WeakReference( this ) );
+		StaticEntity.registerPanel( this );
 	}
 
 	public void setContent( VerifiableElement [] elements, boolean bothDisabledOnClick )
@@ -172,6 +172,8 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 
 	public void dispose()
 	{
+		StaticEntity.unregisterPanel( this );
+
 		if ( this.listenerMap == null )
 		{
 			super.dispose();
