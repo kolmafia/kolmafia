@@ -321,6 +321,9 @@ public abstract class SorceressLair extends StaticEntity
 
 	private static AdventureResult pickOne( AdventureResult [] itemOptions )
 	{
+		if ( itemOptions.length == 1 )
+			return itemOptions[0];
+
 		for ( int i = 0; i < itemOptions.length; ++i )
 			if ( inventory.contains( itemOptions[i] ) )
 				return itemOptions[i];
@@ -496,43 +499,101 @@ public abstract class SorceressLair extends StaticEntity
 		if ( QUEST_HANDLER.responseText.indexOf( "gatesdone.gif" ) != -1 )
 			return true;
 
+		// Get a list of items we need to consume to get effects
+		// we don't already have
+
 		Matcher gateMatcher = GATE_PATTERN.matcher( QUEST_HANDLER.responseText );
-		AdventureResult effect1 = null, effect2 = null, effect3 = null;;
+		List requirements = new ArrayList();
 
-		if ( gateMatcher.find() )
-			effect1 = findGateEffect( 1, gateMatcher.group(1) );
+		addGateItem( 1, gateMatcher, requirements );
+		addGateItem( 2, gateMatcher, requirements );
+		addGateItem( 3, gateMatcher, requirements );
 
-		if ( gateMatcher.find() )
-			effect2 = findGateEffect( 2, gateMatcher.group(1) );
-
-		if ( gateMatcher.find() )
-			effect3 = findGateEffect( 3, gateMatcher.group(1) );
-
-		if ( effect1 == null || effect2 == null || effect3 == null )
+		// Punt now if we couldn't parse a gate
+		if ( !KoLmafia.permitsContinue() )
 			return false;
 
-		// We should have detected this above when the gates opened
+		// Get the necessary items into inventory
+		for ( int i = 0; i < requirements.size(); ++i)
+		{
+			AdventureResult item = (AdventureResult)requirements.get(i);
+			// See if it's an unknown bang potion
+			if ( item.getItemId() == -1 )
+			{
+				KoLmafia.updateDisplay( ERROR_STATE, "You need a " + item.getName() );
+				return false;
+			}
 
-		if ( activeEffects.contains( effect1 ) && activeEffects.contains( effect2 ) &&	activeEffects.contains( effect3 ) )
+			// Otherwise, ensure the item is in inventory
+			if ( !AdventureDatabase.retrieveItem( item ) || KoLmafia.refusesContinue() )
+				return false;
+		}
+
+		// Use the necessary items
+		for ( int i = 0; i < requirements.size(); ++i)
+		{
+			AdventureResult item = (AdventureResult)requirements.get(i);
+			RequestThread.postRequest( new ConsumeItemRequest( item ) );
+		}
+
+		// The gates should be passable. Visit them again.
+		RequestThread.postRequest( QUEST_HANDLER.constructURLString( "lair1.php?action=gates" ) );
+		if ( QUEST_HANDLER.responseText.indexOf( "gatesdone.gif" ) != -1 )
 			return true;
 
-		KoLmafia.updateDisplay( ERROR_STATE, "You need " + effect1.getName() + ", " + effect2.getName() + ", and " + effect3.getName() + "." );
+		KoLmafia.updateDisplay( ERROR_STATE, "Unable to pass gates!" );
 		return false;
 	}
 
-	private static AdventureResult findGateEffect( int gate, String gateName )
+	private static void addGateItem( int gate, Matcher gateMatcher, List requirements )
 	{
+		// Find the name of the gate from the responseText
+		if ( !gateMatcher.find() )
+			return;
+
+		String gateName = gateMatcher.group(1);
 		if ( gateName == null )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "Unable to detect gate" + gate );
-			return null;
+			return;
 		}
 
+		// Find the gate in our data
+
+		String [] gateData = null;
 		for ( int i = 0; i < GATE_DATA.length; ++i)
 			if ( gateName.equals( GATE_DATA[i][0] ) )
-				return new AdventureResult( GATE_DATA[i][1], 1, true );
-		KoLmafia.updateDisplay( ERROR_STATE, "Unrecognized gate: " + gateName );
-		return null;
+			{
+				gateData = GATE_DATA[i];
+				break;
+			}
+
+		if ( gateData == null )
+		{
+			KoLmafia.updateDisplay( ERROR_STATE, "Unrecognized gate: " + gateName );
+			return;
+		}
+
+		// See if we have the needed effect already
+		AdventureResult effect = new AdventureResult( gateData[1], 1, true );
+		if ( activeEffects.contains( effect ) )
+			return;
+
+		// Pick an item that grants the effect
+		AdventureResult [] items = new AdventureResult [ gateData.length - 2 ];
+		for ( int i = 2; i < gateData.length; ++i )
+		{
+			String name = gateData[i];
+			if ( name.startsWith( "potion of " ) )
+				items[i] = AdventureResult.bangPotion( name );
+			else
+				items[i] = new AdventureResult( name, 1, false );
+		}
+
+		AdventureResult item =	pickOne( items );
+
+		// Add the item to our list of requirements
+		requirements.add( item );
 	}
 
 	private static List retrieveRhythm( boolean useCloverForSkeleton )
