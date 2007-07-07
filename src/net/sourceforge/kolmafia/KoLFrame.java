@@ -932,15 +932,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	{
 		public void handleInternalLink( String location )
 		{
-			if ( location.startsWith( "desc" ) || location.startsWith( "doc" ) || location.startsWith( "searchp" ) )
-			{
-				// Certain requests should open in a new window.
-				// These include description data, documentation
-				// and player searches.
-
-				StaticEntity.openRequestFrame( location );
-			}
-			else if ( location.equals( "lchat.php" ) )
+			if ( location.equals( "lchat.php" ) )
 			{
 				// Chat should load up KoLmafia's internal chat
 				// engine -- the mini-browser has no hope.

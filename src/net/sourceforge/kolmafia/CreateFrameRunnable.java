@@ -43,7 +43,6 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 	private static final Class [] MULTI_INSTANCE =
 	{
 		ChatFrame.class,
-		ProfileFrame.class,
 		ProposeTradeFrame.class,
 		SendMessageFrame.class
 	};

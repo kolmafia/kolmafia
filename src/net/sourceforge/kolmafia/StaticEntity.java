@@ -241,27 +241,16 @@ public abstract class StaticEntity implements KoLConstants
 		Object [] parameters;
 		KoLRequest request = RequestEditorKit.extractRequest( location );
 
-		if ( location.startsWith( "search" ) || location.startsWith( "desc" ) || location.startsWith( "static" ) || location.startsWith( "show" ) )
+		if ( requestHolder == null )
 		{
-			parameters = new Object[2];
-			parameters[0] = requestHolder;
-			parameters[1] = request;
-		}
-		else if ( requestHolder != null )
-		{
-			if ( !location.equals( "main.php" ) )
-				requestHolder.refresh( request );
-
-			requestHolder.requestFocus();
+			FightFrame.showRequest( request );
 			return;
 		}
-		else
-		{
-			parameters = new Object[1];
-			parameters[0] = request;
-		}
 
-		SwingUtilities.invokeLater( new CreateFrameRunnable( RequestFrame.class, parameters ) );
+		if ( !location.equals( "main.php" ) )
+			requestHolder.refresh( request );
+
+		requestHolder.requestFocus();
 	}
 
 	public static void externalUpdate( String location, String responseText )
