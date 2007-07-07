@@ -48,10 +48,13 @@ public abstract class MenuItemList extends JMenu implements ListDataListener
 {
 	private int headerCount;
 	private ArrayList dataValues;
+	private LockableListModel model;
 
 	public MenuItemList( String title, LockableListModel model )
 	{
 		super( title );
+
+		this.model = model;
 		this.dataValues = new ArrayList();
 
 		// Add the headers to the list of items which
@@ -89,6 +92,15 @@ public abstract class MenuItemList extends JMenu implements ListDataListener
 		// updated whenever the list updates.
 
 		model.addListDataListener( this );
+	}
+
+	public void dispose()
+	{
+		this.dataValues.clear();
+		this.dataValues = null;
+
+		this.model.removeListDataListener( this );
+		this.model = null;
 	}
 
 	public abstract JComponent [] getHeaders();
