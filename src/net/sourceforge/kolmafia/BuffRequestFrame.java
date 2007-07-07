@@ -75,24 +75,26 @@ public class BuffRequestFrame extends KoLFrame
 	private TreeMap panelMap;
 
 	private JPanel requestContainer;
-	private BuffRequestPanel panel;
 	private CardLayout requestCards;
 
-	private TotalPriceUpdater PRICE_UPDATER = new TotalPriceUpdater();
+	private BuffRequestPanel mainPanel;
+	private TotalPriceUpdater priceUpdater = new TotalPriceUpdater();
 
 	public BuffRequestFrame()
 	{
 		super( "Purchase Buffs" );
+		this.setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 
 		this.panelMap = new TreeMap();
 		this.names = new JComboBox();
-		this.names.addActionListener( new NameComboBoxListener() );
+
+		addActionListener( this.names, new NameComboBoxListener() );
 
 		this.requestCards = new CardLayout();
 		this.requestContainer = new JPanel( requestCards );
 
 		this.framePanel.setLayout( new CardLayout( 10, 10 ) );
-		this.framePanel.add( this.panel = new BuffRequestPanel(), "" );
+		this.framePanel.add( this.mainPanel = new BuffRequestPanel(), "" );
 	}
 
 	public JTabbedPane getTabbedPane()
@@ -101,20 +103,16 @@ public class BuffRequestFrame extends KoLFrame
 
 	public void dispose()
 	{
-		RequestPanel panel;
-		for ( int i = 0; i < this.names.getItemCount(); ++i )
-		{
-			this.names.setSelectedIndex(i);
-			panel = getPanel();
+		removePanel( this.mainPanel );
 
-			if ( panel == null || panel.checkboxes == null )
-				continue;
+		this.names = null;
+		this.panelMap.clear();
 
-			for ( int j = 0; j < panel.checkboxes.length; ++j )
-				if ( panel.checkboxes[j] != null )
-					panel.checkboxes[j].removeActionListener( PRICE_UPDATER );
-		}
+		this.requestContainer = null;
+		this.requestCards = null;
+		this.mainPanel = null;
 
+		this.priceUpdater = null;
 		super.dispose();
 	}
 
@@ -246,7 +244,7 @@ public class BuffRequestFrame extends KoLFrame
 
 				checkboxes[i] = new JCheckBox( this.offerings[i].toString() );
 				checkboxes[i].setVerticalTextPosition( JCheckBox.TOP );
-				checkboxes[i].addActionListener( PRICE_UPDATER );
+				addActionListener( checkboxes[i], priceUpdater );
 
 				int price = this.offerings[i].getPrice();
 				int [] turns = this.offerings[i].getTurns();
@@ -344,7 +342,7 @@ public class BuffRequestFrame extends KoLFrame
 
 	private void updateSendPrice()
 	{
-		if ( this.panel == null )
+		if ( this.mainPanel == null )
 			return;
 
 		RequestPanel panel = getPanel();
@@ -359,7 +357,7 @@ public class BuffRequestFrame extends KoLFrame
 			if ( checkboxes[i].isSelected() )
 				price += offerings[i].getPrice();
 
-		this.panel.setStatusMessage( COMMA_FORMAT.format( price ) + " meat will be sent to " + this.botName );
+		this.mainPanel.setStatusMessage( COMMA_FORMAT.format( price ) + " meat will be sent to " + this.botName );
 	}
 
 	private String getCardId()

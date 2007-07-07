@@ -65,6 +65,8 @@ import javax.swing.SpringLayout;
 
 public abstract class ActionVerifyPanel extends ActionPanel implements ActionListener, FocusListener
 {
+	protected VerifiableElement [] elements;
+
 	protected JPanel container;
 	private boolean contentSet;
 	private boolean isCenterPanel;
@@ -143,6 +145,8 @@ public abstract class ActionVerifyPanel extends ActionPanel implements ActionLis
 	{
 		if ( contentSet )
 			return;
+
+		this.elements = elements;
 
 		container = new JPanel();
 
@@ -275,6 +279,21 @@ public abstract class ActionVerifyPanel extends ActionPanel implements ActionLis
 	public abstract void actionConfirmed();
 	public abstract void actionCancelled();
 
+	public void dispose()
+	{
+		for ( int i = 0; i < this.elements.length; ++i )
+		{
+			this.elements[i].removeListeners( elements[i].getInputField() );
+			this.elements[i] = null;
+		}
+
+		this.elements = null;
+		this.container = null;
+		this.buttonPanel = null;
+
+		super.dispose();
+	}
+
 	public void focusGained( FocusEvent e )
 	{
 	}
@@ -336,48 +355,84 @@ public abstract class ActionVerifyPanel extends ActionPanel implements ActionLis
 		{	return isInputPreceding;
 		}
 
+		public void removeListeners( JComponent c )
+		{
+			if ( c ==  null || c instanceof JLabel || c instanceof JButton )
+				return;
+
+			if ( c instanceof JRadioButton )
+			{
+				((JRadioButton)c).removeActionListener( ActionVerifyPanel.this );
+				return;
+			}
+
+			if ( c instanceof JCheckBox )
+			{
+				((JCheckBox)c).removeActionListener( ActionVerifyPanel.this );
+				return;
+			}
+
+			if ( c instanceof JComboBox )
+			{
+				((JComboBox)c).removeActionListener( ActionVerifyPanel.this );
+				return;
+			}
+
+			if ( c instanceof JTextField )
+			{
+				((JTextField)c).removeFocusListener( ActionVerifyPanel.this );
+				return;
+			}
+
+			if ( c instanceof JPasswordField )
+			{
+				((JPasswordField)c).removeFocusListener( ActionVerifyPanel.this );
+				return;
+			}
+
+			for ( int i = 0; i < c.getComponentCount(); ++i )
+				if ( c instanceof JComponent && !(c instanceof JLabel || c instanceof JButton) )
+					removeListeners( (JComponent) c.getComponent(i) );
+		}
+
 		private void addListeners( JComponent c )
 		{
-			try
+			if ( c ==  null || c instanceof JLabel || c instanceof JButton )
+				return;
+
+			if ( c instanceof JRadioButton )
 			{
-				if ( c ==  null || c instanceof JLabel || c instanceof JButton )
-					return;
-
-				else if ( c instanceof JRadioButton )
-				{
-					((JRadioButton)c).addActionListener( ActionVerifyPanel.this );
-				}
-
-				else if ( c instanceof JCheckBox )
-				{
-					((JCheckBox)c).addActionListener( ActionVerifyPanel.this );
-				}
-
-				else if ( c instanceof JComboBox )
-				{
-					((JComboBox)c).addActionListener( ActionVerifyPanel.this );
-				}
-
-				else if ( c instanceof JTextField )
-				{
-					((JTextField)c).addFocusListener( ActionVerifyPanel.this );
-				}
-				else if ( c instanceof JPasswordField )
-				{
-					((JPasswordField)c).addFocusListener( ActionVerifyPanel.this );
-				}
-
-				else
-				{
-					for ( int i = 0; i < c.getComponentCount(); ++i )
-						if ( c instanceof JComponent && !(c instanceof JLabel || c instanceof JButton) )
-							addListeners( (JComponent) c.getComponent(i) );
-				}
+				((JRadioButton)c).addActionListener( ActionVerifyPanel.this );
+				return;
 			}
-			catch ( Exception e )
+
+			if ( c instanceof JCheckBox )
 			{
-				e.printStackTrace();
+				((JCheckBox)c).addActionListener( ActionVerifyPanel.this );
+				return;
 			}
+
+			if ( c instanceof JComboBox )
+			{
+				((JComboBox)c).addActionListener( ActionVerifyPanel.this );
+				return;
+			}
+
+			if ( c instanceof JTextField )
+			{
+				((JTextField)c).addFocusListener( ActionVerifyPanel.this );
+				return;
+			}
+
+			if ( c instanceof JPasswordField )
+			{
+				((JPasswordField)c).addFocusListener( ActionVerifyPanel.this );
+				return;
+			}
+
+			for ( int i = 0; i < c.getComponentCount(); ++i )
+				if ( c instanceof JComponent && !(c instanceof JLabel || c instanceof JButton) )
+					addListeners( (JComponent) c.getComponent(i) );
 		}
 
 		public JLabel getLabel()

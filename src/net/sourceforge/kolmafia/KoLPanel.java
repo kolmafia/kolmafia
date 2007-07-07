@@ -42,6 +42,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import java.lang.ref.WeakReference;
+import java.util.HashMap;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -58,7 +59,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 {
-	private VerifiableElement [] elements;
+	protected HashMap listenerMap;
 
 	public JPanel southContainer;
 	public JPanel actionStatusPanel;
@@ -167,6 +168,46 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 			if ( this.elements[i].getInputField() instanceof JPasswordField )
 				((JPasswordField)this.elements[i].getInputField()).addKeyListener( listener );
 		}
+	}
+
+	public void dispose()
+	{
+		if ( this.listenerMap == null )
+		{
+			super.dispose();
+			return;
+		}
+
+		Object [] keys = this.listenerMap.keySet().toArray();
+		for ( int i = 0; i < keys.length; ++i )
+		{
+			WeakReference ref = (WeakReference) listenerMap.get( keys[i] );
+			if ( ref == null )
+				continue;
+
+			Object listener = ref.get();
+			if ( listener == null )
+				continue;
+
+			removeListener( keys[i], (ActionConfirmListener) listener );
+		}
+
+		this.listenerMap.clear();
+		this.listenerMap = null;
+
+		this.southContainer = null;
+		this.actionStatusPanel = null;
+		this.actionStatusLabel = null;
+
+		super.dispose();
+	}
+
+	private void removeListener( Object component, ActionConfirmListener listener )
+	{
+		if ( component instanceof JTextField )
+			((JTextField)component).removeKeyListener( listener );
+		if ( component instanceof JPasswordField )
+			((JTextField)component).removeKeyListener( listener );
 	}
 
 	public void setEnabled( boolean isEnabled )

@@ -52,6 +52,23 @@ public abstract class ActionPanel extends JRootPane
 
 	protected JButton confirmedButton, cancelledButton;
 
+	public void dispose()
+	{
+		if ( confirmedButton != null )
+		{
+			confirmedButton.removeActionListener( CONFIRM_LISTENER );
+			CONFIRM_LISTENER = null;
+			confirmedButton = null;
+		}
+
+		if ( cancelledButton != null )
+		{
+			cancelledButton.removeActionListener( CANCEL_LISTENER );
+			CANCEL_LISTENER = null;
+			cancelledButton = null;
+		}
+	}
+
 	public abstract void actionConfirmed();
 	public abstract void actionCancelled();
 
