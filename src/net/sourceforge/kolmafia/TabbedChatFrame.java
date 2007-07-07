@@ -60,6 +60,7 @@ public class TabbedChatFrame extends ChatFrame implements ChangeListener, CloseL
 	{
 		commandLineDisplay = new ChatPanel( GCLI_TAB );
 		addGCLI = StaticEntity.getBooleanProperty( "addChatCommandLine" );
+		KoLMessenger.setTabbedFrame( this );
 	}
 
 	public JTabbedPane getTabbedPane()
@@ -152,6 +153,11 @@ public class TabbedChatFrame extends ChatFrame implements ChangeListener, CloseL
 
 	public void dispose()
 	{
+		if ( tabs instanceof CloseTabbedPane )
+			((CloseTabbedPane)tabs).removeCloseListener( this );
+		else
+			((CloseableTabbedPane)tabs).addCloseableTabbedPaneListener( this );
+
 		instanceExists = false;
 		super.dispose();
 	}
