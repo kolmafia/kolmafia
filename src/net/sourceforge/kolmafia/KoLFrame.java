@@ -1010,12 +1010,9 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 				KoLMessenger.initialize();
 			}
-			else if ( location.startsWith( "makeoffer.php" ) && location.indexOf( "accept" ) == -1 && location.indexOf( "decline" ) == -1 && location.indexOf( "cancel" ) == -1 )
+			else if ( location.startsWith( "makeoffer.php" ) || location.startsWith( "counteroffer.php" ) )
 			{
-				// Attempts to do trading should open up KoLmafia's
-				// internal trade handler.
-
-				createDisplay( PendingTradesFrame.class );
+				StaticEntity.getClient().openRelayBrowser( location );
 			}
 			else if ( location.startsWith( "sendmessage.php" ) || location.startsWith( "town_sendgift.php" ) )
 			{

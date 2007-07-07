@@ -83,7 +83,6 @@ public class BuffRequestFrame extends KoLFrame
 	public BuffRequestFrame()
 	{
 		super( "Purchase Buffs" );
-		this.setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 
 		this.panelMap = new TreeMap();
 		this.names = new JComboBox();

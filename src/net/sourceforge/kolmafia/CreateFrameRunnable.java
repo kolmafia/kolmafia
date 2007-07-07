@@ -40,13 +40,6 @@ import javax.swing.SwingUtilities;
 
 public class CreateFrameRunnable implements Runnable, KoLConstants
 {
-	private static final Class [] MULTI_INSTANCE =
-	{
-		ChatFrame.class,
-		ProposeTradeFrame.class,
-		SendMessageFrame.class
-	};
-
 	private Class creationType;
 	private JFrame creation;
 	private Constructor creator;
@@ -167,17 +160,8 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 				currentFrame = (KoLFrame) existingFrames.get(i);
 				currentType = currentFrame.getClass();
 
-				if ( currentType == this.creationType )
-				{
-					boolean allowMultiple = currentType == RequestFrame.class && this.parameters.length > 0;
-
-					for ( int j = 0; j < MULTI_INSTANCE.length; ++j )
-						if ( currentType == MULTI_INSTANCE[j] )
-							allowMultiple = true;
-
-					if ( !allowMultiple )
-						this.creation = currentFrame;
-				}
+				if ( currentType == this.creationType && currentType != ChatFrame.class )
+					this.creation = currentFrame;
 			}
 
 			return this.creation != null;
@@ -259,8 +243,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 						((KoLFrame)this.creation).addCompactPane();
 				}
 
-				if ( !(this.creation instanceof BuffRequestFrame) )
-					this.creation.setJMenuBar( new KoLMenuBar() );
+				this.creation.setJMenuBar( new KoLMenuBar() );
 			}
 		}
 		catch ( Exception e )

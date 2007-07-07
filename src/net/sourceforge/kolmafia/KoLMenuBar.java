@@ -88,7 +88,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		statusMenu.add( new JSeparator() );
 
 		statusMenu.add( new DisplayFrameMenuItem( "Mini-Browser", "RequestFrame" ) );
-		statusMenu.add( new InvocationMenuItem( "Relay Browser", StaticEntity.getClient(), "openRelayBrowser" ) );
+		statusMenu.add( new RelayBrowserMenuItem( "Relay Browser" ) );
 		statusMenu.add( new InvocationMenuItem( "KoL Simulator", StaticEntity.getClient(), "launchSimulator" ) );
 
 		statusMenu.add( new JSeparator() );
@@ -139,14 +139,11 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		peopleMenu.add( new JSeparator() );
 
+		peopleMenu.add( new DisplayFrameMenuItem( "Send a Message", "SendMessageFrame" ) );
+		peopleMenu.add( new RelayBrowserMenuItem( "Propose a Trade", "makeoffer.php" ) );
 		peopleMenu.add( new DisplayFrameMenuItem( "Run a Buffbot", "BuffBotFrame" ) );
 		peopleMenu.add( new DisplayFrameMenuItem( "Purchase Buffs", "BuffRequestFrame" ) );
 
-		peopleMenu.add( new JSeparator() );
-
-		peopleMenu.add( new DisplayFrameMenuItem( "Send a Message", "SendMessageFrame" ) );
-		peopleMenu.add( new DisplayFrameMenuItem( "Propose a Trade", "ProposeTradeFrame" ) );
-		peopleMenu.add( new DisplayFrameMenuItem( "Pending Trades", "PendingTradesFrame" ) );
 
 		// Add in common tasks menu
 
@@ -493,6 +490,29 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		public void run()
 		{	StaticEntity.openSystemBrowser( this.location );
+		}
+	}
+
+	public class RelayBrowserMenuItem extends ThreadedMenuItem
+	{
+		private String location;
+
+		public RelayBrowserMenuItem( String title )
+		{	this( title, null );
+		}
+
+		public RelayBrowserMenuItem( String title, String location )
+		{
+			super( title );
+			this.location = location;
+		}
+
+		public void run()
+		{
+			if ( location == null )
+				StaticEntity.getClient().openRelayBrowser();
+			else
+				StaticEntity.getClient().openRelayBrowser( this.location );
 		}
 	}
 
