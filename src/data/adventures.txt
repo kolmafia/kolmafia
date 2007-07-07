@@ -95,6 +95,7 @@ Island	0/30	adventure=29	Frat House In Disguise
 Island	125/125	adventure=150	Post-War Frat House
 Island	0/30	adventure=26	Hippy Camp	outfit
 Island	0/30	adventure=65	Hippy Camp In Disguise
+Island	125/125	adventure=149	Post-War Hippy Camp
 Island	0/45	adventure=66	Pirate Cove	outfit
 Island	0/45	adventure=67	Pirate Cove In Disguise	1 abridged dictionary
 
