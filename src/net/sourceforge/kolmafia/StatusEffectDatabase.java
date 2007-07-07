@@ -109,15 +109,8 @@ public class StatusEffectDatabase extends KoLDatabase
 		if ( descriptionId == null )
 			return;
 
-		if ( name.equals( descriptionId ) )
-		{
-			StaticEntity.printStackTrace( "Abnormality in recording " + name + " to database." );
-		}
-		else
-		{
-			descriptionById.put( effectId, descriptionId );
-			effectByDescription.put( descriptionId, effectId );
-		}
+		descriptionById.put( effectId, descriptionId );
+		effectByDescription.put( descriptionId, effectId );
 	}
 
 	/**

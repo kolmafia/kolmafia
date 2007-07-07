@@ -128,8 +128,7 @@ public class CharpaneRequest extends KoLRequest
 		}
 		catch ( Exception e )
 		{
-			StaticEntity.printStackTrace( e, "Character pane error", new String [] {
-				responseText } );
+			StaticEntity.printStackTrace( e );
 		}
 	}
 
@@ -145,8 +144,7 @@ public class CharpaneRequest extends KoLRequest
 		}
 		catch ( Exception e )
 		{
-			StaticEntity.printStackTrace( e, "Character pane error", new String [] {
-				responseText } );
+			StaticEntity.printStackTrace( e );
 		}
 	}
 
