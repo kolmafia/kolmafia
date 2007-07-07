@@ -513,6 +513,8 @@ public abstract class SorceressLair extends StaticEntity
 		if ( !KoLmafia.permitsContinue() )
 			return false;
 
+		List missing = new ArrayList();
+
 		// Get the necessary items into inventory
 		for ( int i = 0; i < requirements.size(); ++i)
 		{
@@ -520,14 +522,40 @@ public abstract class SorceressLair extends StaticEntity
 			// See if it's an unknown bang potion
 			if ( item.getItemId() == -1 )
 			{
-				KoLmafia.updateDisplay( ERROR_STATE, "You need a " + item.getName() );
-				return false;
+				missing.add( item );
+				continue;
 			}
 
-			// Otherwise, ensure the item is in inventory
-			if ( !AdventureDatabase.retrieveItem( item ) || KoLmafia.refusesContinue() )
-				return false;
+			// See if the user aborted
+			if ( !KoLmafia.permitsContinue() )
+			{
+				missing.add( item );
+				continue;
+			}
+
+			// Otherwise, move the item into inventory
+			if ( !AdventureDatabase.retrieveItem( item ) )
+				missing.add( item );
 		}
+
+		// If we're missing any items, report all of them
+		if ( missing.size() > 0 )
+		{
+			String items = "";
+			for ( int i = 0; i < missing.size(); ++i )
+			{
+				AdventureResult item = (AdventureResult)missing.get(i);
+				if ( i > 0 )
+					items += " and ";
+				items += "a " + item.getName();
+			}
+			KoLmafia.updateDisplay( ERROR_STATE, "You need " + items );
+			return false;
+		}
+
+		// See if the user aborted
+		if ( !KoLmafia.permitsContinue() )
+			return false;
 
 		// Use the necessary items
 		for ( int i = 0; i < requirements.size(); ++i)
