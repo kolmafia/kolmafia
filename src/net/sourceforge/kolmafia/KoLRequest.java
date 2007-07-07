@@ -66,8 +66,9 @@ public class KoLRequest extends Job implements KoLConstants
 	private static int INITIAL_CACHE_COUNT = 3;
 	private static int MAXIMUM_DELAY = 10000;
 
-	private static int FIXED_DELAY = 0;
-	private static int VARIABLE_DELAY = 0;
+	private static int normalDelay = 0;
+	private static int adjustDelay = 0;
+	private static int lagTolerance = 1000;
 	private static int ADJUSTMENT_REFRESH = 240000;
 
 	private static final Object WAIT_OBJECT = new Object();
@@ -722,7 +723,7 @@ public class KoLRequest extends Job implements KoLConstants
 
 		do
 		{
-			if ( !isDelayExempt && FIXED_DELAY > 0 )
+			if ( !isDelayExempt && normalDelay > 0 )
 				delay();
 
 			if ( !this.prepareConnection() && KoLmafia.refusesContinue() )
@@ -732,17 +733,19 @@ public class KoLRequest extends Job implements KoLConstants
 
 		if ( !isDelayExempt )
 		{
-			if ( System.currentTimeMillis() - lastRequestTime > VARIABLE_DELAY )
+			if ( System.currentTimeMillis() - lastRequestTime > lagTolerance )
 			{
-				FIXED_DELAY = Math.min( MAXIMUM_DELAY, FIXED_DELAY + 2000 );
-				VARIABLE_DELAY = FIXED_DELAY >> 1;
+				normalDelay = Math.min( MAXIMUM_DELAY, normalDelay + 1000 );
+				adjustDelay = normalDelay >> 1;
+				lagTolerance = Math.max( 1000, adjustDelay );
 				lastAdjustTime = System.currentTimeMillis();
 			}
 
 			else if ( System.currentTimeMillis() - lastAdjustTime > ADJUSTMENT_REFRESH )
 			{
-				FIXED_DELAY = Math.max( 0, FIXED_DELAY - 1000 );
-				VARIABLE_DELAY = FIXED_DELAY >> 1;
+				normalDelay = Math.max( 0, normalDelay - 500 );
+				adjustDelay = normalDelay >> 1;
+				lagTolerance = Math.max( 1000, adjustDelay );
 				lastAdjustTime = System.currentTimeMillis();
 			}
 		}
@@ -829,8 +832,8 @@ public class KoLRequest extends Job implements KoLConstants
 
 	private static boolean delay()
 	{
-		return delay( RNG.nextInt( VARIABLE_DELAY ) +
-			Math.max( FIXED_DELAY, Math.min( MAXIMUM_DELAY, KoLCharacter.getTotalTurnsUsed() ) ) );
+		return delay( RNG.nextInt( adjustDelay ) +
+			Math.max( normalDelay, Math.min( MAXIMUM_DELAY, KoLCharacter.getTotalTurnsUsed() ) ) );
 	}
 
 	/**
