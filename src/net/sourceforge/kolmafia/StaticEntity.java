@@ -81,68 +81,78 @@ public abstract class StaticEntity implements KoLConstants
 
 	public static void registerFrame( KoLFrame frame )
 	{
-		existingFrames.add( frame );
-		getExistingFrames();
+		synchronized ( existingFrames )
+		{
+			existingFrames.add( frame );
+			getExistingFrames();
+		}
 	}
 
 	public static void unregisterFrame( KoLFrame frame )
 	{
-		existingFrames.remove( frame );
-		getExistingFrames();
+		synchronized ( existingFrames )
+		{
+			existingFrames.remove( frame );
+			getExistingFrames();
+		}
 	}
 
 	public static void registerPanel( ActionPanel frame )
 	{
-		existingPanels.add( frame );
-		getExistingPanels();
+		synchronized ( existingPanels )
+		{
+			existingPanels.add( frame );
+			getExistingPanels();
+		}
 	}
 
 	public static void unregisterPanel( ActionPanel frame )
 	{
-		existingPanels.remove( frame );
-		getExistingPanels();
+		synchronized ( existingPanels )
+		{
+			existingPanels.remove( frame );
+			getExistingPanels();
+		}
 	}
 
 	public static KoLFrame [] getExistingFrames()
 	{
-		boolean needsRefresh = frameArray.length != existingFrames.size();
-
-		if ( !needsRefresh )
-			for ( int i = 0; i < frameArray.length && !needsRefresh; ++i )
-				needsRefresh |= frameArray[i] != existingFrames.get(i);
-
-		if ( needsRefresh )
+		synchronized ( existingFrames )
 		{
-			for ( int i = 0; i < frameArray.length; ++i )
-				frameArray[i] = null;
+			boolean needsRefresh = frameArray.length != existingFrames.size();
 
-			frameArray = null;
-			frameArray = new KoLFrame[ existingFrames.size() ];
-			existingFrames.toArray( frameArray );
+			if ( !needsRefresh )
+				for ( int i = 0; i < frameArray.length && !needsRefresh; ++i )
+					needsRefresh |= frameArray[i] != existingFrames.get(i);
+
+			if ( needsRefresh )
+			{
+				frameArray = new KoLFrame[ existingFrames.size() ];
+				existingFrames.toArray( frameArray );
+			}
+
+			return frameArray;
 		}
-
-		return frameArray;
 	}
 
 	public static ActionPanel [] getExistingPanels()
 	{
-		boolean needsRefresh = panelArray.length != existingPanels.size();
-
-		if ( !needsRefresh )
-			for ( int i = 0; i < panelArray.length && !needsRefresh; ++i )
-				needsRefresh |= panelArray[i] != existingPanels.get(i);
-
-		if ( needsRefresh )
+		synchronized ( existingPanels )
 		{
-			for ( int i = 0; i < panelArray.length; ++i )
-				panelArray[i] = null;
+			boolean needsRefresh = panelArray.length != existingPanels.size();
 
-			panelArray = null;
-			panelArray = new ActionPanel[ existingPanels.size() ];
-			existingPanels.toArray( panelArray );
+			if ( !needsRefresh )
+				for ( int i = 0; i < panelArray.length && !needsRefresh; ++i )
+					needsRefresh |= panelArray[i] != existingPanels.get(i);
+
+			if ( needsRefresh )
+			{
+				panelArray = new ActionPanel[ existingPanels.size() ];
+				existingPanels.toArray( panelArray );
+			}
+
+			return panelArray;
 		}
-
-		return panelArray;
 	}
 
 	public static boolean usesSystemTray()
