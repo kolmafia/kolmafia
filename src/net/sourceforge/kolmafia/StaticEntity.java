@@ -105,7 +105,7 @@ public abstract class StaticEntity implements KoLConstants
 
 	public static KoLFrame [] getExistingFrames()
 	{
-		boolean needsRefresh = frameArray == null || frameArray.length != existingFrames.size();
+		boolean needsRefresh = frameArray.length != existingFrames.size();
 
 		if ( !needsRefresh )
 			for ( int i = 0; i < frameArray.length && !needsRefresh; ++i )
@@ -122,7 +122,7 @@ public abstract class StaticEntity implements KoLConstants
 
 	public static ActionPanel [] getExistingPanels()
 	{
-		boolean needsRefresh = panelArray == null || panelArray.length != existingPanels.size();
+		boolean needsRefresh = panelArray.length != existingPanels.size();
 
 		if ( !needsRefresh )
 			for ( int i = 0; i < panelArray.length && !needsRefresh; ++i )

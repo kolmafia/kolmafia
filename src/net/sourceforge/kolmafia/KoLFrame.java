@@ -110,6 +110,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	public static final TradeableItemFilter TRADE_FILTER = new TradeableItemFilter();
 
 	protected HashMap listenerMap;
+	private KoLMenuBar menuBar;
 
 	public JTabbedPane tabs;
 	public String lastTitle;
@@ -179,6 +180,12 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		if ( shouldAddFrame )
 			StaticEntity.registerFrame( this );
+	}
+
+	public void setJMenuBar( KoLMenuBar menuBar )
+	{
+		this.menuBar = menuBar;
+		super.setJMenuBar( menuBar );
 	}
 
 	protected void addActionListener( JCheckBox component, ActionListener listener )
@@ -398,6 +405,9 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		removeThreadedListeners();
 		this.getRootPane().resetKeyboardActions();
+
+		if ( this.menuBar != null )
+			this.menuBar.dispose();
 
 		super.dispose();
 

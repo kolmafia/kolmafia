@@ -58,6 +58,8 @@ import net.java.dev.spellcast.utilities.LicenseDisplay;
 
 public class KoLMenuBar extends JMenuBar implements KoLConstants
 {
+	private WindowMenu windowMenu;
+
 	public ScriptMenu scriptMenu;
 	public BookmarkMenu bookmarkMenu;
 	public JMenuItem debugMenuItem = new ToggleDebugMenuItem();
@@ -198,7 +200,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		this.scriptMenu = new ScriptMenu();
 		this.add( this.scriptMenu );
 
-		this.add( new WindowMenu() );
+		this.add( this.windowMenu = new WindowMenu() );
 
 		// Add help information for KoLmafia.  This includes
 		// the additional help-oriented stuffs.
@@ -228,6 +230,18 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		helperMenu.add( new DisplayPageMenuItem( "KoL Visual Wiki", "http://kol.coldfront.net/thekolwiki/index.php/Main_Page" ) );
 		helperMenu.add( new InvocationMenuItem( "Violet Fog Mapper", VioletFog.class, "showGemelliMap" ) );
 		helperMenu.add( new InvocationMenuItem( "Louvre Mapper", Louvre.class, "showGemelliMap" ) );
+	}
+
+	public void dispose()
+	{
+		if ( windowMenu != null )
+			windowMenu.dispose();
+
+		if ( scriptMenu != null )
+			scriptMenu.dispose();
+
+		if ( bookmarkMenu != null )
+			bookmarkMenu.dispose();
 	}
 
 	private class CheckForUpdatesMenuItem extends DisplayPageMenuItem
@@ -601,7 +615,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 			JButton donateButton = new JButton( JComponentUtilities.getImage( "paypal.gif" ) );
 			JComponentUtilities.setComponentSize( donateButton, 74, 31 );
-			donateButton.addActionListener( new DisplayPageMenuItem( "", "http://sourceforge.net/project/project_donations.php?group_id=126572" ) );
+			donateButton.addActionListener( new DonateButtonListener() );
 
 			JPanel donatePanel = new JPanel();
 			donatePanel.add( donateButton );
@@ -612,6 +626,13 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 			this.setLayout( new CardLayout( 20, 20 ) );
 			this.add( centerPanel, "" );
+		}
+
+		private class DonateButtonListener extends ThreadedListener
+		{
+			public void run()
+			{	StaticEntity.openSystemBrowser( "http://sourceforge.net/project/project_donations.php?group_id=126572" );
+			}
 		}
 	}
 

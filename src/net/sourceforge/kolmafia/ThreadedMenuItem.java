@@ -39,31 +39,20 @@ import java.awt.event.ActionListener;
 import javax.swing.JComboBox;
 import javax.swing.JMenuItem;
 
-public abstract class ThreadedMenuItem extends JMenuItem implements ActionListener, Runnable
+public abstract class ThreadedMenuItem extends JMenuItem implements Runnable
 {
 	public ThreadedMenuItem( String label )
 	{
 		super( label );
-		this.addActionListener( this );
+		this.addActionListener( new ThreadedMenuItemListener() );
 	}
 
-	public void actionPerformed( ActionEvent e )
+	private class ThreadedMenuItemListener implements ActionListener
 	{
-		if ( !this.isValidEvent( e ) )
-			return;
-
-		this.run();
-		RequestThread.enableDisplayIfSequenceComplete();
-	}
-
-	protected boolean isValidEvent( ActionEvent e )
-	{
-		if ( e == null || e.getSource() == null )
-			return true;
-
-		if ( e.getSource() instanceof JComboBox )
-			return ((JComboBox)e.getSource()).isPopupVisible();
-
-		return true;
+		public void actionPerformed( ActionEvent e )
+		{
+			ThreadedMenuItem.this.run();
+			RequestThread.enableDisplayIfSequenceComplete();
+		}
 	}
 }
