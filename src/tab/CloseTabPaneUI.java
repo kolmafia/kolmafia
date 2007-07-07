@@ -125,7 +125,7 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 	static
 	{
 		try {
-            closeRedImgI = ImageIO.read( JComponentUtilities.getResource("xred.gif"));
+            closeRedImgI = ImageIO.read( JComponentUtilities.getResource("xred.gif") );
         } catch (IOException e1) {
             e1.printStackTrace();
         }
@@ -133,7 +133,7 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 		closeRedImgB = new BufferedImage(BUTTONSIZE, BUTTONSIZE, BufferedImage.TYPE_INT_ARGB);
 
 		try {
-            closeGrayImgI = ImageIO.read( JComponentUtilities.getResource("xgray.gif"));
+            closeGrayImgI = ImageIO.read( JComponentUtilities.getResource("xgray.gif") );
         } catch (IOException e1) {
             e1.printStackTrace();
         }
@@ -165,8 +165,6 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 		closeRedB.setBorder(BorderFactory.createEmptyBorder());
 		closeRedB.setContentAreaFilled(false);
 
-		drawButton(closeRedImgB,BUTTONSIZE, BUTTONSIZE);
-
 		// Paint the gray close icon
 
 		closeGrayB = new JButton();
@@ -175,8 +173,6 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 		closeGrayB.setMargin(new Insets(0,0,0,0));
 		closeGrayB.setBorder(BorderFactory.createEmptyBorder());
 		closeGrayB.setContentAreaFilled(false);
-
-		drawButton(closeGrayImgB,BUTTONSIZE, BUTTONSIZE);
 
 		// Create a popup menu
 
@@ -203,9 +199,6 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 
 		tabStates.set( tabIndex, Boolean.TRUE );
 		return true;
-	}
-
-	protected void drawButton(BufferedImage img, int w, int h){
 	}
 
 	protected boolean isOneActionButtonEnabled() {
