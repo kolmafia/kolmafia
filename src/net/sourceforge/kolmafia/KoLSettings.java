@@ -598,7 +598,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "outerChatColor", "#b4460f" );
 
 		CLIENT_SETTINGS.put( "useChatMonitor", "false" );
-		CLIENT_SETTINGS.put( "useChatToolbar", "false" );
+		CLIENT_SETTINGS.put( "useChatToolbar", "true" );
 		CLIENT_SETTINGS.put( "useContactsFrame", "true" );
 		CLIENT_SETTINGS.put( "useFastOutfitSwitch", "true" );
 		CLIENT_SETTINGS.put( "useLargerFonts", String.valueOf( System.getProperty( "os.name" ).startsWith( "Mac" ) ) );
