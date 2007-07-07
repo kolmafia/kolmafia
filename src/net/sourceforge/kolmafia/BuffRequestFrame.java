@@ -102,21 +102,17 @@ public class BuffRequestFrame extends KoLFrame
 	public void dispose()
 	{
 		RequestPanel panel;
-		Object [] list = BuffBotDatabase.getCompleteBotList();
-
-		for ( int i = 0; i < list.length; ++i )
+		for ( int i = 0; i < this.names.getItemCount(); ++i )
 		{
-			if ( list[i] == null || list[i].equals( "" ) )
-				continue;
-
-			this.names.setSelectedItem( list[i] );
+			this.names.setSelectedIndex(i);
 			panel = getPanel();
 
-			if ( panel == null )
+			if ( panel == null || panel.checkboxes == null )
 				continue;
 
 			for ( int j = 0; j < panel.checkboxes.length; ++j )
-				panel.checkboxes[j].removeActionListener( PRICE_UPDATER );
+				if ( panel.checkboxes[j] != null )
+					panel.checkboxes[j].removeActionListener( PRICE_UPDATER );
 		}
 
 		super.dispose();
