@@ -70,7 +70,6 @@ public class RequestFrame extends KoLFrame
 	private ArrayList history = new ArrayList();
 	private ArrayList shownHTML = new ArrayList();
 
-	private RequestFrame parent;
 	private String currentLocation;
 	private KoLRequest currentRequest;
 
@@ -89,23 +88,12 @@ public class RequestFrame extends KoLFrame
 	}
 
 	public RequestFrame( KoLRequest request )
-	{	this( "Mini-Browser", null, request );
+	{	this( "Mini-Browser", request );
 	}
 
 	public RequestFrame( String title, KoLRequest request )
-	{	this( title, null, request );
-	}
-
-	public RequestFrame( RequestFrame parent, KoLRequest request )
-	{	this( "Mini-Browser", parent, request );
-	}
-
-	public RequestFrame( String title, RequestFrame parent, KoLRequest request )
 	{
 		super( title );
-		this.setDefaultCloseOperation( DISPOSE_ON_CLOSE );
-
-		this.parent = parent;
 
 		this.setCurrentRequest( request );
 		this.mainDisplay = new RequestPane();
@@ -313,15 +301,8 @@ public class RequestFrame extends KoLFrame
 
 	public void refresh( KoLRequest request )
 	{
-		String location = request.getURLString();
-
-		if ( this.parent == null || location.startsWith( "search" ) || location.startsWith( "desc" ) )
-		{
-			this.setCurrentRequest( request );
-			this.displayRequest( request );
-		}
-		else
-			this.parent.refresh( request );
+		this.setCurrentRequest( request );
+		this.displayRequest( request );
 	}
 
 	private void setCurrentRequest( KoLRequest request )

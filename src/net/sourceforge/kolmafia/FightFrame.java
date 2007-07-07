@@ -42,13 +42,13 @@ public class FightFrame extends RequestFrame
 	}
 
 	public FightFrame( KoLRequest request )
-	{
-		super( "Request Synch", null, request );
-		FightFrame.INSTANCE = this;
+	{	this( "Request Synch", request );
 	}
 
 	public FightFrame( String title, KoLRequest request )
-	{	super( title, null, request );
+	{
+		super( title, request );
+		FightFrame.INSTANCE = this;
 	}
 
 	public void dispose()
