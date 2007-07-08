@@ -55,6 +55,8 @@ public abstract class CombatSettings implements KoLConstants
 		StaticEntity.renameDataFiles( "ccs", "combat" );
 	}
 
+	public static final int MEAT_VORTEX = 546;
+
 	private static String [] keys = new String[0];
 	private static File settingsFile = null;
 	private static TreeMap reference = new TreeMap();
@@ -467,7 +469,8 @@ public abstract class CombatSettings implements KoLConstants
 		{
 			AdventureResult item = KoLmafiaCLI.getFirstMatchingItem( action.substring(4).trim() );
 			if ( item != null )
-				return "item " + KoLDatabase.getCanonicalName( item.getName() );
+				return item.getItemId() == MEAT_VORTEX ? "attack with weapon" :
+					"item " + KoLDatabase.getCanonicalName( item.getName() );
 		}
 
 		if ( action.startsWith( "skill" ) )
@@ -491,7 +494,7 @@ public abstract class CombatSettings implements KoLConstants
 		{
 			String potentialItem = TradeableItemDatabase.getItemName( itemId );
 			if ( potentialItem != null )
-				return "item " + potentialItem.toLowerCase();
+				return itemId == MEAT_VORTEX ? "attack with weapon" : "item " + potentialItem.toLowerCase();
 		}
 
 		return "attack with weapon";
@@ -548,7 +551,7 @@ public abstract class CombatSettings implements KoLConstants
 					if ( itemId == FightRequest.DICTIONARY2.getItemId() && !inventory.contains( FightRequest.DICTIONARY2 ) )
 						itemId = FightRequest.DICTIONARY1.getItemId();
 
-					return "item" + itemId;
+					return itemId == MEAT_VORTEX ? "attack" : "item" + itemId;
 				}
 
 			return action;
@@ -567,7 +570,7 @@ public abstract class CombatSettings implements KoLConstants
 		int itemId = action.equals( "" ) ? -1 :
 			KoLmafiaCLI.getFirstMatchingItemId( TradeableItemDatabase.getMatchingNames( action ) );
 
-		if ( itemId > 0 )
+		if ( itemId > 0  && itemId != MEAT_VORTEX )
 			return "item" + itemId;
 
 		return "attack";

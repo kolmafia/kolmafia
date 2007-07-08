@@ -785,10 +785,15 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			}
 		}
 
+		if ( action.startsWith( "custom" ) && isLikelyStasisFarming() )
+		{
+			KoLmafia.updateDisplay( "Thief familiar detected.  Disabling custom combat..." );
+			StaticEntity.setProperty( "battleAction", "try to run away" );
+		}
+
 		// If the test is successful, then it is safe to run the
 		// request (without spamming the server).
 
-		int previousAdventures = KoLCharacter.getAdventuresLeft();
 		RequestThread.postRequest( this.request );
 	}
 

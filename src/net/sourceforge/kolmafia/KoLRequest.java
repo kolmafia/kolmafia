@@ -748,9 +748,6 @@ public class KoLRequest extends Job implements KoLConstants
 				lastAdjustTime = System.currentTimeMillis();
 			}
 		}
-
-		if ( !isDelayExempt && responseCode == 200 )
-			delay();
 	}
 
 	private void saveLastChoice( String url )
@@ -829,7 +826,7 @@ public class KoLRequest extends Job implements KoLConstants
 			formURLString.indexOf( "send" ) != -1 || formURLString.startsWith( "bhh" );
 	}
 
-	private static boolean delay()
+	public static boolean delay()
 	{
 		if ( normalDelay == 0 )
 			return true;
