@@ -156,7 +156,7 @@ public class JDnDList extends JList
 			dtde.acceptDrop( DnDConstants.ACTION_MOVE );
 
 			// Find out where the item was dropped
-			int newIndex = this.locationToIndex( dtde.getLocation() );
+			int newIndex = Math.max( 0, this.locationToIndex( dtde.getLocation() ) );
 
 			// Get the items out of the transferable object and build an
 			// array out of them...
