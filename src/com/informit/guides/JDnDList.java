@@ -4,10 +4,6 @@
 
 package com.informit.guides;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
@@ -15,14 +11,12 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 
 import java.awt.dnd.DragGestureEvent;
 import java.awt.dnd.DragGestureListener;
-import java.awt.dnd.DragGestureRecognizer;
 import java.awt.dnd.DragSource;
 import java.awt.dnd.DragSourceDragEvent;
 import java.awt.dnd.DragSourceDropEvent;
 import java.awt.dnd.DragSourceEvent;
 import java.awt.dnd.DragSourceListener;
 import java.awt.dnd.DropTarget;
-import java.awt.dnd.DropTargetContext;
 import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DropTargetEvent;
@@ -31,27 +25,19 @@ import java.awt.dnd.DnDConstants;
 
 import java.io.IOException;
 
-import java.util.ArrayList;
-import java.util.StringTokenizer;
-
 import javax.swing.JList;
-import javax.swing.JPopupMenu;
-import javax.swing.ListModel;
+
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyAdapter;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
-import net.sourceforge.kolmafia.ThreadedMenuItem;
 
 public class JDnDList extends JList
 	implements DragSourceListener, DragGestureListener, DropTargetListener
 {
 	private boolean acceptsDrops;
 	private int overIndex;
-	private boolean dragging;
-	private int [] selectedIndices;
-
-	private JPopupMenu contextMenu;
 	private DragSource dragSource;
-	private DropTarget dropTarget;
 
 	public JDnDList( LockableListModel model )
 	{	this( model, true );
@@ -64,59 +50,23 @@ public class JDnDList extends JList
 		this.acceptsDrops = acceptsDrops;
 		setPrototypeCellValue( "1234567890" );
 
-		contextMenu = new JPopupMenu();
-		contextMenu.add( new DeleteSelectedMenuItem() );
-
-		addMouseListener( new PopupListener() );
+		addKeyListener( new DeleteListener() );
 
 		// Configure ourselves to be a drag source
 		dragSource = new DragSource();
 		dragSource.createDefaultDragGestureRecognizer( this, DnDConstants.ACTION_MOVE, this);
 
 		// Configure ourselves to be a drop target
-		dropTarget = new DropTarget( this, this );
+		new DropTarget( this, this );
 	}
 
-	/**
-	 * Shows and hides the applicable context menu item.  Actually
-	 * all it does is show it -- the VM will handle hiding it.
-	 */
-
-	public class PopupListener extends MouseAdapter
+	private class DeleteListener extends KeyAdapter
 	{
-		public void mousePressed( MouseEvent e )
-		{	maybeShowPopup( e );
-		}
-
-		public void mouseReleased( MouseEvent e )
-		{	maybeShowPopup( e );
-		}
-
-		private void maybeShowPopup( MouseEvent e )
+		public void keyPressed( KeyEvent e )
 		{
-			if ( e.isPopupTrigger() )
-			{
-				int index = locationToIndex( e.getPoint() );
+			if ( e.getKeyCode() != KeyEvent.VK_DELETE )
+				return;
 
-				if ( !isSelectedIndex( index ) )
-				{
-					clearSelection();
-					addSelectionInterval( index, index );
-				}
-
-				contextMenu.show( e.getComponent(), e.getX(), e.getY() );
-			}
-		}
-    }
-
-	private class DeleteSelectedMenuItem extends ThreadedMenuItem
-	{
-		public DeleteSelectedMenuItem()
-		{	super( "remove from list" );
-		}
-
-		public void run()
-		{
 			LockableListModel model = (LockableListModel) JDnDList.this.getModel();
 			Object[] selectedObjects = getSelectedValues();
 			for ( int i = 0; i < selectedObjects.length; ++i )
@@ -126,28 +76,25 @@ public class JDnDList extends JList
 
 	public void dragGestureRecognized(DragGestureEvent dge)
 	{
-		this.selectedIndices = this.getSelectedIndices();
 		Object[] selectedObjects = this.getSelectedValues();
-		if ( selectedObjects.length > 0 )
-		{
-			StringBuffer sb = new StringBuffer();
-			LockableListModel model = (LockableListModel) getModel();
+		if ( selectedObjects.length == 0 )
+			return;
 
-			for( int i=0; i<selectedObjects.length; i++ )
-				sb.append( selectedObjects[ i ].toString() + "\n" );
+		StringBuffer sb = new StringBuffer();
 
-			// Build a StringSelection object that the Drag Source
-			// can use to transport a string to the Drop Target
-			StringSelection text = new StringSelection( sb.toString() );
+		for( int i=0; i<selectedObjects.length; i++ )
+			sb.append( selectedObjects[ i ].toString() + "\n" );
 
-			// Start dragging the object
-			this.dragging = true;
-			dragSource.startDrag( dge, DragSource.DefaultMoveDrop, text, this );
-		}
+		// Build a StringSelection object that the Drag Source
+		// can use to transport a string to the Drop Target
+		StringSelection text = new StringSelection( sb.toString() );
+
+		// Start dragging the object
+		dragSource.startDrag( dge, DragSource.DefaultMoveDrop, text, this );
 	}
 
 	public void dragDropEnd(DragSourceDropEvent dsde)
-	{	this.dragging = false;
+	{
 	}
 
 	public void dragExit(DragSourceEvent dte)
@@ -183,7 +130,7 @@ public class JDnDList extends JList
 	{
 		// See who we are over...
 		int overIndex = this.locationToIndex( dtde.getLocation() );
-		if ( overIndex != -1 && overIndex != this.overIndex )
+		if ( overIndex != -1 )
 		{
 			// If the value has changed from what we were previously over
 			// then change the selected object to the one we are over; this
@@ -200,43 +147,37 @@ public class JDnDList extends JList
 		try
 		{
 			Transferable transferable = dtde.getTransferable();
-			if( transferable.isDataFlavorSupported( DataFlavor.stringFlavor ) )
-			{
-				dtde.acceptDrop( DnDConstants.ACTION_MOVE );
-
-				// Find out where the item was dropped
-				int newIndex = this.locationToIndex( dtde.getLocation() );
-
-				// Get the items out of the transferable object and build an
-				// array out of them...
-				String s = (String) transferable.getTransferData( DataFlavor.stringFlavor );
-				StringTokenizer st = new StringTokenizer( s, "\n" );
-				ArrayList items = new ArrayList();
-
-				while ( st.hasMoreTokens() )
-					items.add( st.nextToken() );
-
-				LockableListModel model = (LockableListModel) this.getModel();
-
-				// If we are dragging from our this to our list them move the items,
-				// otherwise just add them...
-				if ( this.dragging )
-				{
-					for ( int i = 0; i < this.selectedIndices.length; ++i )
-						model.remove( this.selectedIndices[i] );
-				}
-
-				model.removeAll( items );
-				model.addAll( newIndex, items );
-
-				// Reset the over index
-				this.overIndex = -1;
-				dtde.getDropTargetContext().dropComplete( true );
-			}
-			else
+			if( !transferable.isDataFlavorSupported( DataFlavor.stringFlavor ) )
 			{
 				dtde.rejectDrop();
+				return;
 			}
+
+			dtde.acceptDrop( DnDConstants.ACTION_MOVE );
+
+			// Find out where the item was dropped
+			int newIndex = this.locationToIndex( dtde.getLocation() );
+
+			// Get the items out of the transferable object and build an
+			// array out of them...
+
+			String s = (String) transferable.getTransferData( DataFlavor.stringFlavor );
+			String [] items = s.split( "\n" );
+
+			LockableListModel destination = (LockableListModel) this.getModel();
+
+			// If we are dragging onto ourself, move the items,
+			// otherwise just add them...
+
+			for ( int i = 0; i < items.length; ++i )
+				destination.remove( items[i] );
+
+			for ( int i = 0; i < items.length; ++i )
+				destination.add( newIndex + i, items[i] );
+
+			// Reset the over index
+			this.overIndex = -1;
+			dtde.getDropTargetContext().dropComplete( true );
 		}
 		catch( IOException exception )
 		{

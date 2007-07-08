@@ -33,8 +33,11 @@
 
 package net.sourceforge.kolmafia;
 
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyAdapter;
 import java.net.URLEncoder;
 
 import java.util.Map.Entry;
@@ -125,8 +128,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		}
 		else if ( isMoodList )
 		{
-			this.contextMenu.add( new EditTriggerMenuItem() );
-			this.contextMenu.add( new RemoveTriggerMenuItem() );
+			addKeyListener( new RemoveTriggerListener() );
 		}
 
 		this.addMouseListener( new PopupListener() );
@@ -427,34 +429,13 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		}
 	}
 
-	private class EditTriggerMenuItem extends ContextMenuItem
+	private class RemoveTriggerListener extends KeyAdapter
 	{
-		public EditTriggerMenuItem()
-		{	super( "Modify cast count" );
-		}
-
-		public void executeAction()
+		public void keyPressed( KeyEvent e )
 		{
-			String desiredLevel = JOptionPane.showInputDialog( null, "Number of casts?", "1" );
-			if ( desiredLevel == null )
+			if ( e.getKeyCode() != KeyEvent.VK_DELETE )
 				return;
 
-			Object [] items = ShowDescriptionList.this.getSelectedValues();
-			ShowDescriptionList.this.clearSelection();
-
-			MoodSettings.addTriggers( items, StaticEntity.parseInt( desiredLevel ) );
-			MoodSettings.saveSettings();
-		}
-	}
-
-	private class RemoveTriggerMenuItem extends ContextMenuItem
-	{
-		public RemoveTriggerMenuItem()
-		{	super( "Remove from mood" );
-		}
-
-		public void executeAction()
-		{
 			Object [] items = ShowDescriptionList.this.getSelectedValues();
 			ShowDescriptionList.this.clearSelection();
 
