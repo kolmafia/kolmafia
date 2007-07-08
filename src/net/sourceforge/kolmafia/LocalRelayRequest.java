@@ -931,6 +931,16 @@ public class LocalRelayRequest extends PasswordHashRequest
 		{
 			this.pseudoResponse( "HTTP/1.1 200 OK", LocalRelayServer.getNewStatusMessages() );
 		}
+		else if ( this.formURLString.endsWith( "relayLocation" ) )
+		{
+			String location = getFormField( "page" );
+
+			this.constructURLString( isCompactMode ? "main_c.html" : "main.html" );
+			super.run();
+
+			this.responseText = StaticEntity.globalStringReplace( this.responseText, "src=\"", "src=\"../" );
+			this.responseText = StaticEntity.globalStringReplace( this.responseText, "main.php", location );
+		}
 		else if ( this.formURLString.indexOf( "images/playerpics/" ) != -1 )
 		{
 			RequestEditorKit.downloadImage( "http://pics.communityofloathing.com/albums/" +
