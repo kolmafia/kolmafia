@@ -744,7 +744,7 @@ public class KoLRequest extends Job implements KoLConstants
 			{
 				adjustDelay = Math.max( 0, adjustDelay - 500 );
 				normalDelay = adjustDelay >> 1;
-				lagTolerance = adjustDelay << 2;
+				lagTolerance = Math.max( 2000, adjustDelay << 2 );
 				lastAdjustTime = System.currentTimeMillis();
 			}
 		}
