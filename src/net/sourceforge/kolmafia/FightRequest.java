@@ -45,6 +45,11 @@ public class FightRequest extends KoLRequest
 	private static final AdventureResult MERCENARY = new AdventureResult( 2139, 1 );
 	private static final AdventureResult TEQUILA = new AdventureResult( 1004, -1 );
 
+	public static final int MOSSY_STONE_SPHERE = 2174;
+	public static final int SMOOTH_STONE_SPHERE = 2175;
+	public static final int CRACKED_STONE_SPHERE = 2176;
+	public static final int ROUGH_STONE_SPHERE = 2177;
+
 	private static String lastPlayer = "";
 
 	private static String lostInitiative = "";
@@ -734,6 +739,7 @@ public class FightRequest extends KoLRequest
 			trackedRounds.add( responseText );
 
 		parseBangPotion( responseText );
+		parseStoneSphere( responseText );
 
 		// Spend MP and consume items
 
@@ -867,6 +873,60 @@ public class FightRequest extends KoLRequest
 
 			if ( effectData != null )
 				StaticEntity.setProperty( "lastBangPotion" + potionId, effectData );
+		}
+	}
+
+        // You hold the rough stone sphere up in the air.
+	private static final Pattern STONE_SPHERE_PATTERN = Pattern.compile( "You hold the (.*?) stone sphere up in the air.*?It radiates a (.*?)," );
+
+	private static void parseStoneSphere( String responseText )
+	{
+		Matcher sphereMatcher = STONE_SPHERE_PATTERN.matcher( responseText );
+		while ( sphereMatcher.find() )
+		{
+			int sphereId = TradeableItemDatabase.getItemId( sphereMatcher.group(1) + " stone sphere" );
+
+			if ( sphereId == -1 )
+				continue;
+
+			String effectText = sphereMatcher.group(2);
+			String effectData = null;
+
+			// "It radiates a bright red light, and a gout of flame
+			// blasts out of it"
+			if ( effectText.equals( "bright red light" ) )
+				effectData = "fire";
+
+			// "It radiates a bright yellow light, and a bolt of
+			// lightning arcs towards your opponent"
+			else if ( effectText.equals( "bright yellow light" ) )
+				effectData = "lightning";
+
+			// "It radiates a bright blue light, and an ethereal
+			// mist pours out of it"
+			else if ( effectText.equals( "bright blue light" ) )
+				effectData = "water";
+
+			// "It radiates a bright green light, and vines shoot
+			// out of it"
+			else if ( effectText.equals( "bright green light" ) )
+				effectData = "plants";
+
+			ensureUpdatedSphereEffects();
+
+			if ( effectData != null )
+				StaticEntity.setProperty( "lastStoneSphere" + sphereId, effectData );
+		}
+	}
+
+	public static void ensureUpdatedSphereEffects()
+	{
+		int lastAscension = StaticEntity.getIntegerProperty( "lastStoneSphereReset" );
+		if ( lastAscension != KoLCharacter.getAscensions() )
+		{
+			StaticEntity.setProperty( "lastStoneSphereReset", String.valueOf( KoLCharacter.getAscensions() ) );
+			for ( int i = 2174; i <= 2177; ++i )
+				StaticEntity.setProperty( "lastStoneSphere" + i, "" );
 		}
 	}
 
