@@ -612,10 +612,9 @@ public abstract class SorceressLair extends StaticEntity
 		for ( int i = 2; i < gateData.length; ++i )
 		{
 			String name = gateData[i];
-			if ( name.startsWith( "potion of " ) )
-				items[i] = AdventureResult.bangPotion( name );
-			else
-				items[i] = new AdventureResult( name, 1, false );
+			AdventureResult item = name.startsWith( "potion of " ) ?
+				AdventureResult.bangPotion( name ) : new AdventureResult( name, 1, false );
+			items[ i - 2 ] = item;
 		}
 
 		AdventureResult item =	pickOne( items );
