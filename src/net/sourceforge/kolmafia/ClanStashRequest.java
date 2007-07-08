@@ -147,6 +147,8 @@ public class ClanStashRequest extends SendMessageRequest
 
 	public void processResults()
 	{
+		ClanManager.setStashRetrieved();
+
 		super.processResults();
 
 		switch ( this.moveType )
