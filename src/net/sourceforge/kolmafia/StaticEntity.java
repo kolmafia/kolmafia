@@ -93,6 +93,7 @@ public abstract class StaticEntity implements KoLConstants
 		synchronized ( existingFrames )
 		{
 			existingFrames.remove( frame );
+			removedFrames.remove( frame );
 			getExistingFrames();
 		}
 	}
