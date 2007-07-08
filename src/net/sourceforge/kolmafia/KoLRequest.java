@@ -749,13 +749,8 @@ public class KoLRequest extends Job implements KoLConstants
 			}
 		}
 
-		if ( responseCode == 200 )
-		{
-			if ( !isDelayExempt )
-				delay();
-
-			this.processResponse();
-		}
+		if ( !isDelayExempt && responseCode == 200 )
+			delay();
 	}
 
 	private void saveLastChoice( String url )
@@ -1274,6 +1269,7 @@ public class KoLRequest extends Job implements KoLConstants
 		// be reused.
 
 		BYTEFLAGS.set( desiredIndex, Boolean.FALSE );
+		this.processResponse();
 		return true;
 	}
 
