@@ -64,8 +64,8 @@ public class KoLRequest extends Job implements KoLConstants
 	private static long lastAdjustTime = Long.MAX_VALUE;
 
 	private static int INITIAL_CACHE_COUNT = 3;
-	private static int ADJUSTMENT_REFRESH = 240000;
-	private static int MAXIMUM_DELAY = 8000;
+	private static int ADJUSTMENT_REFRESH = 60000;
+	private static int MAXIMUM_DELAY = 4000;
 	private static int MINIMUM_TOLERANCE = 2000;
 
 	private static int normalDelay = 0;
@@ -734,17 +734,17 @@ public class KoLRequest extends Job implements KoLConstants
 		{
 			if ( System.currentTimeMillis() - lastRequestTime > lagTolerance )
 			{
-				normalDelay = Math.min( MAXIMUM_DELAY, normalDelay + 1000 );
-				adjustDelay = normalDelay >> 1;
-				lagTolerance = Math.max( MINIMUM_TOLERANCE, adjustDelay );
+				adjustDelay = Math.min( MAXIMUM_DELAY, adjustDelay + 500 );
+				normalDelay = adjustDelay >> 1;
+				lagTolerance = adjustDelay << 2;
 				lastAdjustTime = System.currentTimeMillis();
 			}
 
 			else if ( System.currentTimeMillis() - lastAdjustTime > ADJUSTMENT_REFRESH )
 			{
-				normalDelay = Math.max( 0, normalDelay - 500 );
-				adjustDelay = normalDelay >> 1;
-				lagTolerance = Math.max( MINIMUM_TOLERANCE, adjustDelay );
+				adjustDelay = Math.max( 0, adjustDelay - 500 );
+				normalDelay = adjustDelay >> 1;
+				lagTolerance = adjustDelay << 2;
 				lastAdjustTime = System.currentTimeMillis();
 			}
 		}
