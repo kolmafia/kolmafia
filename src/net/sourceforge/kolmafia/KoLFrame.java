@@ -1927,6 +1927,9 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 			this.setContent( elements );
 
+			for ( int i = 0; i < this.FRAME_OPTIONS.length; ++i )
+				this.completeList.add( this.FRAME_OPTIONS[i][0] );
+
 			JPanel optionPanel = new JPanel( new GridLayout( 1, 3, 10, 10 ) );
 			optionPanel.add( new LabeledScrollPanel( "Complete List", new JDnDList( this.completeList, false ) ) );
 			optionPanel.add( new LabeledScrollPanel( "Startup as Window", new JDnDList( this.startupList ) ) );
@@ -1969,12 +1972,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			if ( username == null )
 				username = "";
 
-			this.completeList.clear();
 			this.startupList.clear();
 			this.desktopList.clear();
-
-			for ( int i = 0; i < this.FRAME_OPTIONS.length; ++i )
-				this.completeList.add( this.FRAME_OPTIONS[i][0] );
 
 			String frameString = StaticEntity.getGlobalProperty( username, "initialFrames" );
 			String desktopString = StaticEntity.getGlobalProperty( username, "initialDesktop" );
@@ -1991,19 +1990,13 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			for ( int i = 0; i < pieces.length; ++i )
 				for ( int j = 0; j < this.FRAME_OPTIONS.length; ++j )
 					if ( !this.startupList.contains( this.FRAME_OPTIONS[j][0] ) && this.FRAME_OPTIONS[j][1].equals( pieces[i] ) )
-					{
-						this.completeList.remove( this.FRAME_OPTIONS[j][0] );
 						this.startupList.add( this.FRAME_OPTIONS[j][0] );
-					}
 
 			pieces = desktopString.split( "," );
 			for ( int i = 0; i < pieces.length; ++i )
 				for ( int j = 0; j < this.FRAME_OPTIONS.length; ++j )
 					if ( !this.desktopList.contains( this.FRAME_OPTIONS[j][0] ) && this.FRAME_OPTIONS[j][1].equals( pieces[i] ) )
-					{
-						this.completeList.remove( this.FRAME_OPTIONS[j][0] );
 						this.desktopList.add( this.FRAME_OPTIONS[j][0] );
-					}
 
 			this.isRefreshing = false;
 			this.saveLayoutSettings();

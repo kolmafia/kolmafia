@@ -139,7 +139,7 @@ public class BuffBotFrame extends KoLFrame
 
 		public BuffOptionsPanel()
 		{
-			super( "add", "remove", new Dimension( 120, 20 ),  new Dimension( 300, 20 ));
+			super( "add", "remove", new Dimension( 150, 20 ),  new Dimension( 300, 20 ));
 			UseSkillRequest skill;
 
 			LockableListModel skillSet = usableSkills;
@@ -159,8 +159,8 @@ public class BuffBotFrame extends KoLFrame
 			elements[0] = new VerifiableElement( "Buff to cast: ", this.skillSelect );
 			elements[1] = new VerifiableElement( "Price (in meat): ", this.priceField );
 			elements[2] = new VerifiableElement( "# of casts: ", this.countField );
-			elements[3] = new VerifiableElement( "White listed?", this.restrictBox );
-			elements[4] = new VerifiableElement( "Once per day?", this.singletonBox );
+			elements[3] = new VerifiableElement( "Clanmates only?", this.restrictBox );
+			elements[4] = new VerifiableElement( "Limit requests?", this.singletonBox );
 			this.setContent( elements );
 		}
 
@@ -200,12 +200,19 @@ public class BuffBotFrame extends KoLFrame
 
 	private class MainSettingsPanel extends KoLPanel
 	{
+		private JComboBox philanthropyModeSelect;
 		private JComboBox messageDisposalSelect;
 		private JCheckBox [] mpRestoreCheckbox;
 
 		public MainSettingsPanel()
 		{
-			super( new Dimension( 120, 20 ),  new Dimension( 300, 20 ) );
+			super( new Dimension( 150, 20 ),  new Dimension( 300, 20 ) );
+
+			LockableListModel philanthropyModeChoices = new LockableListModel();
+			philanthropyModeChoices.add( "Once per day" );
+			philanthropyModeChoices.add( "Once per week" );
+			philanthropyModeChoices.add( "Once per month" );
+			this.philanthropyModeSelect = new JComboBox( philanthropyModeChoices );
 
 			LockableListModel messageDisposalChoices = new LockableListModel();
 			messageDisposalChoices.add( "Auto-save non-requests" );
@@ -213,9 +220,10 @@ public class BuffBotFrame extends KoLFrame
 			messageDisposalChoices.add( "Do nothing to non-requests" );
 			this.messageDisposalSelect = new JComboBox( messageDisposalChoices );
 
-			VerifiableElement [] elements = new VerifiableElement[2];
-			elements[0] = new VerifiableElement( "Message disposal: ", this.messageDisposalSelect );
-			elements[1] = new VerifiableElement( "Mana restores: ", BuffBotFrame.this.constructScroller( this.mpRestoreCheckbox = MPRestoreItemList.getCheckboxes() ) );
+			VerifiableElement [] elements = new VerifiableElement[3];
+			elements[0] = new VerifiableElement( "Philanthropy: ", this.philanthropyModeSelect );
+			elements[1] = new VerifiableElement( "Message disposal: ", this.messageDisposalSelect );
+			elements[2] = new VerifiableElement( "Mana restores: ", BuffBotFrame.this.constructScroller( this.mpRestoreCheckbox = MPRestoreItemList.getCheckboxes() ) );
 
 			this.actionCancelled();
 			this.setContent( elements );
@@ -223,31 +231,29 @@ public class BuffBotFrame extends KoLFrame
 
 		public void actionConfirmed()
 		{
+			StaticEntity.setProperty( "buffBotPhilanthropyType", String.valueOf( this.philanthropyModeSelect.getSelectedIndex() ) );
 			StaticEntity.setProperty( "buffBotMessageDisposal", String.valueOf( this.messageDisposalSelect.getSelectedIndex() ) );
 			StaticEntity.setProperty( "mpAutoRecoveryItems", BuffBotFrame.this.getSettingString( this.mpRestoreCheckbox ) );
 		}
 
 		public void actionCancelled()
-		{	this.messageDisposalSelect.setSelectedIndex( StaticEntity.getIntegerProperty( "buffBotMessageDisposal" ) );
+		{
+			this.philanthropyModeSelect.setSelectedIndex( StaticEntity.getIntegerProperty( "buffBotPhilanthropyType" ) );
+			this.messageDisposalSelect.setSelectedIndex( StaticEntity.getIntegerProperty( "buffBotMessageDisposal" ) );
 		}
 	}
 
 	private class OtherSettingsPanel extends KoLPanel
 	{
-		private JTextArea whiteListEntry, invalidPriceMessage, thanksMessage;
+		private JTextArea invalidPriceMessage, thanksMessage;
 
 		public OtherSettingsPanel()
 		{
 			super( "save", "reset", new Dimension( 120, 20 ),  new Dimension( 300, 20 ) );
 			this.setContent( new VerifiableElement[0] );
 
-			this.whiteListEntry = new JTextArea();
 			this.invalidPriceMessage = new JTextArea();
 			this.thanksMessage = new JTextArea();
-
-			this.whiteListEntry.setFont( DEFAULT_FONT );
-			this.whiteListEntry.setLineWrap( true );
-			this.whiteListEntry.setWrapStyleWord( true );
 
 			this.invalidPriceMessage.setFont( DEFAULT_FONT );
 			this.invalidPriceMessage.setLineWrap( true );
@@ -256,11 +262,6 @@ public class BuffBotFrame extends KoLFrame
 			this.thanksMessage.setFont( DEFAULT_FONT );
 			this.thanksMessage.setLineWrap( true );
 			this.thanksMessage.setWrapStyleWord( true );
-
-			JPanel settingsTopPanel = new JPanel( new BorderLayout() );
-			settingsTopPanel.add( JComponentUtilities.createLabel( "White List (separate names with commas):", JLabel.CENTER,
-				Color.black, Color.white ), BorderLayout.NORTH );
-			settingsTopPanel.add( new SimpleScrollPane( this.whiteListEntry ), BorderLayout.CENTER );
 
 			JPanel settingsMiddlePanel = new JPanel( new BorderLayout() );
 			settingsMiddlePanel.add( JComponentUtilities.createLabel( "Invalid Buff Price Message", JLabel.CENTER,
@@ -274,11 +275,9 @@ public class BuffBotFrame extends KoLFrame
 
 			JPanel settingsPanel = new JPanel( new GridLayout( 3, 1, 10, 10 ) );
 
-			JComponentUtilities.setComponentSize( settingsTopPanel, 300, 120 );
 			JComponentUtilities.setComponentSize( settingsMiddlePanel, 300, 120 );
 			JComponentUtilities.setComponentSize( settingsBottomPanel, 300, 120 );
 
-			settingsPanel.add( settingsTopPanel );
 			settingsPanel.add( settingsMiddlePanel );
 			settingsPanel.add( settingsBottomPanel );
 
@@ -288,14 +287,12 @@ public class BuffBotFrame extends KoLFrame
 
 		public void actionConfirmed()
 		{
-			StaticEntity.setProperty( "whiteList", this.whiteListEntry.getText() );
 			StaticEntity.setProperty( "invalidBuffMessage", this.invalidPriceMessage.getText() );
 			StaticEntity.setProperty( "thanksMessage", this.thanksMessage.getText() );
 		}
 
 		public void actionCancelled()
 		{
-			this.whiteListEntry.setText( StaticEntity.getProperty( "whiteList" ) );
 			this.invalidPriceMessage.setText( StaticEntity.getProperty( "invalidBuffMessage" ) );
 			this.thanksMessage.setText( StaticEntity.getProperty( "thanksMessage" ) );
 		}

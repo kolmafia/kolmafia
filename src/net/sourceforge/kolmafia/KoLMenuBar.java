@@ -134,14 +134,13 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		peopleMenu.add( new DisplayFrameMenuItem( "Read KoLmail", "MailboxFrame" ) );
 		peopleMenu.add( new DisplayFrameMenuItem( "KoLmafia Chat", "KoLMessenger" ) );
-		peopleMenu.add( new DisplayFrameMenuItem( "Clan Manager", "ClanManageFrame" ) );
 		peopleMenu.add( new DisplayFrameMenuItem( "Recent Events", "EventsFrame" ) );
 
 		peopleMenu.add( new JSeparator() );
 
+		peopleMenu.add( new DisplayFrameMenuItem( "Clan Manager", "ClanManageFrame" ) );
 		peopleMenu.add( new DisplayFrameMenuItem( "Send a Message", "SendMessageFrame" ) );
 		peopleMenu.add( new RelayBrowserMenuItem( "Propose a Trade", "makeoffer.php" ) );
-		peopleMenu.add( new DisplayFrameMenuItem( "Run a Buffbot", "BuffBotFrame" ) );
 		peopleMenu.add( new DisplayFrameMenuItem( "Purchase Buffs", "BuffRequestFrame" ) );
 
 

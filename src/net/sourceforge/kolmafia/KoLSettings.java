@@ -622,6 +622,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "breakfastCompleted", "false" );
 		PLAYER_SETTINGS.put( "buffBotCasting", "" );
 		PLAYER_SETTINGS.put( "buffBotMessageDisposal", "0" );
+		PLAYER_SETTINGS.put( "buffBotPhilanthropyType", "1" );
 		PLAYER_SETTINGS.put( "candyHeartSummons", "0" );
 		PLAYER_SETTINGS.put( "chatbotScript", "" );
 		PLAYER_SETTINGS.put( "chatbotScriptExecuted", "false" );
@@ -688,7 +689,6 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "trapperOre", "chrome ore" );
 		PLAYER_SETTINGS.put( "violetFogGoal", "0" );
 		PLAYER_SETTINGS.put( "visibleBrowserInventory", "" );
-		PLAYER_SETTINGS.put( "whiteList", "" );
 
 		// These are settings related to the tavern faucet
 		// used to make the interface friendlier.

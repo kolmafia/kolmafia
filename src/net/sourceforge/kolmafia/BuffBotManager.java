@@ -382,10 +382,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 		messageDisposalSetting = parseInt( getProperty( "buffBotMessageDisposal" ) );
 
-		String whiteListString = getProperty( "whiteList" ).toLowerCase();
-		if ( whiteListString.indexOf( "$clan" ) != -1 )
-			whiteListString = whiteListString.replaceFirst( "\\$clan", ClanManager.retrieveClanListAsCDL() );
-
+		String whiteListString = ClanManager.retrieveClanListAsCDL();
 		whiteListArray = whiteListString.split( "\\s*,\\s*" );
 		Arrays.sort( whiteListArray );
 
@@ -805,7 +802,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 			BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Philanthropy limit exceeded for " + recipient );
 			BuffBotHome.update( BuffBotHome.ERRORCOLOR, " ---> Could not cast " + buff.getBuffName() + " on " + recipient );
-			UseSkillRequest.lastUpdate = "This buff may only be requested once per week.";
+			UseSkillRequest.lastUpdate = "Philanthropy limit exceeded.";
 			return false;
 		}
 

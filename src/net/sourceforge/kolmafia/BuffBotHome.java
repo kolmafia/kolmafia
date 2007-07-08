@@ -101,8 +101,17 @@ public class BuffBotHome extends StaticEntity
 
 	private static final File getFile( String extension )
 	{
+		String dateString = "";
+
+		switch ( StaticEntity.getIntegerProperty( "buffBotPhilanthropyType" ) )
+		{
+		case 0:  dateString = DATED_FILENAME_FORMAT.format( new Date() );  break;
+		case 1:  dateString = WEEKLY_FORMAT.format( new Date() );  break;
+		case 2:  dateString = WEEKLY_FORMAT.format( new Date() ).substring( 0, 6 );  break;
+		}
+
 		return new File( ROOT_LOCATION, "buffs/" + KoLCharacter.baseUserName() + "_" +
-			WEEKLY_FORMAT.format( new Date() ) + extension );
+			dateString + "_" + extension );
 	}
 
 	/**
