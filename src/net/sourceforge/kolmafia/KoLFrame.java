@@ -416,12 +416,14 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		this.refresher = null;
 		this.refreshListener = null;
 
-		// If the list of frames is now empty, make sure
-		// you end the session.  Ending the session for
-		// a login frame involves exiting, and ending the
-		// session for all other frames is calling main.
+		checkForLogout();
+	}
 
-		if ( existingFrames.size() != removedFrames.size() || LoginFrame.instanceExists() )
+	private void checkForLogout()
+	{
+System.out.println( existingFrames.size() + " vs. " + removedFrames.size() );
+
+		if ( existingFrames.size() > removedFrames.size() || LoginFrame.instanceExists() )
 			return;
 
 		createDisplay( LoginFrame.class );
@@ -972,10 +974,11 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		if ( this.isVisible() )
 			this.rememberPosition();
 
-		if ( e.getNewState() == WindowEvent.WINDOW_CLOSING )
+		if ( e.getID() == WindowEvent.WINDOW_CLOSING && existingFrames.contains( this ) )
+		{
 			removedFrames.add( this );
-		else
-			removedFrames.remove( this );
+			checkForLogout();
+		}
 
 		super.processWindowEvent( e );
 	}
@@ -993,8 +996,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		{
 			super.setExtendedState( NORMAL );
 			super.repaint();
+			removedFrames.remove( this );
 		}
-
 	}
 
 	private static final Pattern TOID_PATTERN = Pattern.compile( "toid=(\\d+)" );
