@@ -979,6 +979,8 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			AdventureResult wand = KoLCharacter.getZapper();
 			if ( wand != null )
 				StaticEntity.singleStringReplace( buffer, "]</a></font></td></tr></table></center>", "]</a>&nbsp;&nbsp;<a href=\"wand.php?whichwand=" + wand.getItemId() + "\">[zap items]</a></font></td></tr></table></center>" );
+
+			changeSphereImages( buffer );
 		}
 
 		if ( StaticEntity.getBooleanProperty( "relayAddsUseLinks" ) )
@@ -989,6 +991,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		if ( location.startsWith( "multiuse.php" ) )
 			addMultiuseModifiers( buffer );
+
+		if ( location.startsWith( "hiddencity.php" ) )
+			addHiddenCityModifiers( buffer );
 
 		// Change potions wherever we find them
 		changePotionImages( buffer );
@@ -1403,6 +1408,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// Change bang potion names in item dropdown
 		changePotionNames( buffer );
 
+		// Change stone sphere names in item dropdown
+		changeSphereNames( buffer );
+
 		if ( StaticEntity.getBooleanProperty( "relayAddsRoundNumber" ) )
 			StaticEntity.singleStringReplace( buffer, "<b>Combat!</b>", "<b>Combat: Round " + FightRequest.getDisplayRound() + "</b>" );
 	}
@@ -1458,6 +1466,50 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			if ( buffer.indexOf( name ) != -1 )
 			{
 				String effect = StaticEntity.getProperty( "lastBangPotion" + i );
+				if ( !effect.equals( "" ) )
+					StaticEntity.globalStringReplace( buffer, name, name + " of " + effect );
+			}
+		}
+	}
+
+	private static void changeSphereImages( StringBuffer buffer )
+	{
+                changeSphereImage( buffer, "spheremoss.gif", 2174 );
+                changeSphereImage( buffer, "spheresmooth.gif", 2175 );
+                changeSphereImage( buffer, "spherecrack.gif", 2176 );
+                changeSphereImage( buffer, "sphererough.gif", 2177 );
+        }
+
+	private static void changeSphereImage( StringBuffer buffer, String image, int itemId )
+	{
+		if ( buffer.indexOf( image ) == -1 )
+			return;
+
+		String name = TradeableItemDatabase.getItemName( itemId );
+		if ( buffer.indexOf( name ) == -1 )
+			return;
+
+		String effect = StaticEntity.getProperty( "lastStoneSphere" + itemId );
+		if ( effect.equals( "" ) )
+			return;
+
+		StaticEntity.globalStringReplace( buffer, name, name + " of " + effect );
+	}
+
+	private static void addHiddenCityModifiers( StringBuffer buffer )
+	{
+		// Change stone sphere names in item dropdown
+		changeSphereNames( buffer );
+	}
+
+	private static void changeSphereNames( StringBuffer buffer )
+	{
+		for ( int i = 2174; i <= 2177; ++i )
+		{
+			String name = TradeableItemDatabase.getItemName( i );
+			if ( buffer.indexOf( name ) != -1 )
+			{
+				String effect = StaticEntity.getProperty( "lastStoneSphere" + i );
 				if ( !effect.equals( "" ) )
 					StaticEntity.globalStringReplace( buffer, name, name + " of " + effect );
 			}

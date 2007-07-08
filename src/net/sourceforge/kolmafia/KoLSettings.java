@@ -655,6 +655,12 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "lastBangPotion826", "" );
 		PLAYER_SETTINGS.put( "lastBangPotion827", "" );
 
+		PLAYER_SETTINGS.put( "lastStoneSphereReset", "-1" );
+		PLAYER_SETTINGS.put( "lastStoneSphere2174", "" );
+		PLAYER_SETTINGS.put( "lastStoneSphere2175", "" );
+		PLAYER_SETTINGS.put( "lastStoneSphere2176", "" );
+		PLAYER_SETTINGS.put( "lastStoneSphere2177", "" );
+
 		PLAYER_SETTINGS.put( "lastBreakfast", "-1" );
 		PLAYER_SETTINGS.put( "lastCounterDay", "-1" );
 		PLAYER_SETTINGS.put( "lastMessageId", "" );

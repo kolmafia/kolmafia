@@ -459,6 +459,7 @@ public class AdventureResult implements Comparable, KoLConstants
 		if ( this.priority != ITEM_PRIORITY )
 			return this.name + " (" + COMMA_FORMAT.format(this.count[0]) + ")";
 
+		String effect;
 		switch ( this.itemId )
 		{
 		case ConsumeItemRequest.MILKY_POTION:
@@ -472,7 +473,20 @@ public class AdventureResult implements Comparable, KoLConstants
 		case ConsumeItemRequest.MURKY_POTION:
 
 			ConsumeItemRequest.ensureUpdatedPotionEffects();
-			String effect = StaticEntity.getProperty( "lastBangPotion" + this.itemId );
+			effect = StaticEntity.getProperty( "lastBangPotion" + this.itemId );
+
+			if ( effect.equals( "" ) )
+				return this.name + " (" + COMMA_FORMAT.format(this.count[0]) + ")";
+			else
+				return this.name + " of " + effect + " (" + COMMA_FORMAT.format(this.count[0]) + ")";
+
+		case FightRequest.MOSSY_STONE_SPHERE:
+		case FightRequest.SMOOTH_STONE_SPHERE:
+		case FightRequest.CRACKED_STONE_SPHERE:
+		case FightRequest.ROUGH_STONE_SPHERE:
+
+			FightRequest.ensureUpdatedSphereEffects();
+			effect = StaticEntity.getProperty( "lastStoneSphere" + this.itemId );
 
 			if ( effect.equals( "" ) )
 				return this.name + " (" + COMMA_FORMAT.format(this.count[0]) + ")";
@@ -779,6 +793,7 @@ public class AdventureResult implements Comparable, KoLConstants
 			StringBuffer stringForm = new StringBuffer();
 			stringForm.append( ar.name );
 
+			String effect;
 			switch ( ar.getItemId() )
 			{
 			case ConsumeItemRequest.MILKY_POTION:
@@ -792,10 +807,23 @@ public class AdventureResult implements Comparable, KoLConstants
 			case ConsumeItemRequest.MURKY_POTION:
 
 				ConsumeItemRequest.ensureUpdatedPotionEffects();
-				String effect = StaticEntity.getProperty( "lastBangPotion" + ar.getItemId() );
+				effect = StaticEntity.getProperty( "lastBangPotion" + ar.getItemId() );
 
 				if ( !effect.equals( "" ) )
 					stringForm.append( " of " + effect );
+				break;
+
+			case FightRequest.MOSSY_STONE_SPHERE:
+			case FightRequest.SMOOTH_STONE_SPHERE:
+			case FightRequest.CRACKED_STONE_SPHERE:
+			case FightRequest.ROUGH_STONE_SPHERE:
+
+				FightRequest.ensureUpdatedSphereEffects();
+				effect = StaticEntity.getProperty( "lastStoneSphere" + ar.getItemId() );
+
+				if ( !effect.equals( "" ) )
+					stringForm.append( " of " + effect );
+				break;
 			}
 
 			if ( ar.count[0] != 1 )
