@@ -125,7 +125,6 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		toolsMenu.add( new DisplayFrameMenuItem( "Mushroom Plot", "MushroomFrame" ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Flower Hunter", "FlowerHunterFrame" ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Familiar Trainer", "FamiliarTrainingFrame" ) );
-		toolsMenu.add( new DisplayFrameMenuItem( "Coin Toss Game", "MoneyMakingGameFrame" ) );
 
 		// Add the old-school people menu.
 
@@ -141,6 +140,9 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		peopleMenu.add( new DisplayFrameMenuItem( "Clan Manager", "ClanManageFrame" ) );
 		peopleMenu.add( new DisplayFrameMenuItem( "Send a Message", "SendMessageFrame" ) );
 		peopleMenu.add( new RelayBrowserMenuItem( "Propose a Trade", "makeoffer.php" ) );
+
+		peopleMenu.add( new JSeparator() );
+
 		peopleMenu.add( new DisplayFrameMenuItem( "Purchase Buffs", "BuffRequestFrame" ) );
 
 

@@ -232,6 +232,9 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		if ( isInitializing )
 			return;
 
+		RequestEditorKit.downloadFile( "http://kolmafia.sourceforge.net/buffbot.xsl",
+			new File( ROOT_LOCATION, "buffs/buffbot.xsl" ) );
+
 		File datafile = new File( ROOT_LOCATION, "buffs/" + KoLCharacter.baseUserName() + ".txt" );
 		File xmlfile = new File( ROOT_LOCATION, "buffs/" + KoLCharacter.baseUserName() + ".xml" );
 
@@ -244,7 +247,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		if ( document != null )
 		{
 			document.println( "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>" );
-			document.println( "<?xml-stylesheet type=\"text/xsl\" href=\"http://kolmafia.sourceforge.net/buffbot.xsl\"?>" );
+			document.println( "<?xml-stylesheet type=\"text/xsl\" href=\"buffbot.xsl\"?>" );
 			document.println();
 
 			document.println( "<botdata>" );
