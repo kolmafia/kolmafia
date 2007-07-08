@@ -794,6 +794,14 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			UseSkillRequest.lastUpdate = COMMA_FORMAT.format( meatSent ) + " meat is not a valid buff price.";
 			return false;
 		}
+		else if ( buff.philanthropic && StaticEntity.getIntegerProperty( "buffBotPhilanthropyType" ) == 0 )
+		{
+			BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Philanthropic buff request from " + recipient );
+			BuffBotHome.update( BuffBotHome.ERRORCOLOR, " ---> Could not cast " + buff.getBuffName() + " on " + recipient );
+			UseSkillRequest.lastUpdate = "Philanthropic buffs temporarily disabled.";
+			return false;
+		}
+
 		else if ( buff.philanthropic && BuffBotHome.getInstanceCount( meatSent, recipient ) > 0 )
 		{
 			// This is a philanthropic buff and the user has already
@@ -802,6 +810,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 			BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Philanthropy limit exceeded for " + recipient );
 			BuffBotHome.update( BuffBotHome.ERRORCOLOR, " ---> Could not cast " + buff.getBuffName() + " on " + recipient );
+
 			UseSkillRequest.lastUpdate = "Philanthropy limit exceeded.";
 			return false;
 		}
