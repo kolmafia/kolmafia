@@ -164,6 +164,18 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 					this.creation = currentFrame;
 			}
 
+			if ( this.creation != null )
+				return true;
+
+			for ( int i = 0; i < removedFrames.size() && this.creation == null; ++i )
+			{
+				currentFrame = (KoLFrame) removedFrames.get(i);
+				currentType = currentFrame.getClass();
+
+				if ( currentType == this.creationType && currentType != ChatFrame.class )
+					this.creation = currentFrame;
+			}
+
 			return this.creation != null;
 		}
 	}

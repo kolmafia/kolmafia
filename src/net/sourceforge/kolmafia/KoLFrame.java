@@ -421,9 +421,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 	private void checkForLogout()
 	{
-System.out.println( existingFrames.size() + " vs. " + removedFrames.size() );
-
-		if ( existingFrames.size() > removedFrames.size() || LoginFrame.instanceExists() )
+		if ( !existingFrames.isEmpty() || LoginFrame.instanceExists() )
 			return;
 
 		createDisplay( LoginFrame.class );
@@ -976,8 +974,14 @@ System.out.println( existingFrames.size() + " vs. " + removedFrames.size() );
 
 		if ( e.getID() == WindowEvent.WINDOW_CLOSING && existingFrames.contains( this ) )
 		{
+			existingFrames.remove( this );
 			removedFrames.add( this );
 			checkForLogout();
+		}
+		else if ( e.getID() == WindowEvent.WINDOW_ACTIVATED && removedFrames.contains( this ) )
+		{
+			existingFrames.add( this );
+			removedFrames.remove( this );
 		}
 
 		super.processWindowEvent( e );
