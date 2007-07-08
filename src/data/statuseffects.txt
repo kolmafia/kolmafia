@@ -54,7 +54,7 @@
 54	Jalape&ntilde;o Saucesphere	pepsphere.gif	432fc725db5720e9237438147bc6516e
 55	Jaba&ntilde;ero Saucesphere	pepsphere2.gif	bf3c7c4fa0642b582ad55a36f1105b82
 56	Extreme Muscle Relaxation	happy.gif
-57	Rainy Soul Miasma	raincloud.gif
+57	Rainy Soul Miasma	raincloud.gif	a47ef21c02a4b8ba3b1da929f4566934
 58	Teleportitis	confused.gif	cb5404472a27b435aa6fad1ba528b1b8
 59	Wanged	wang.gif
 60	Aloysius' Antiphon of Aptitude	notes.gif	3f875f7c9c4cc7b64f4c7d7b7eea1ef6
@@ -234,9 +234,9 @@
 234	Material Witness	meat.gif
 235	No Worries	singlenote.gif
 236	Metal Speed	singlenote.gif
-237	Radium Radicality	tongue.gif
-238	Wintergreen Warmongery	angry.gif
-239	Also Schmeckt Zarathustra	waxlips.gif
+237	Radium Radicality	tongue.gif	b1952cfcb421593dfe0a16edd41a913d
+238	Wintergreen Warmongery	angry.gif	33a94f73f343e88ee4b17d18e516bd49
+239	Also Schmeckt Zarathustra	waxlips.gif	40047d675d023d456eca562f0479656a
 240	Vitamin-Maxed	goofballs.gif	30b35877440e5cc89f36a65b15274a04
 241	Got Your Boots On	boot.gif	4021090627813d8ea662ca050395f338
 242	The Q Is Talking To You	q.gif	4d1451739cd618bf2dcdff61af68ae65
