@@ -103,15 +103,12 @@ public class BuffBotHome extends StaticEntity
 	{
 		String dateString = "";
 
-		switch ( StaticEntity.getIntegerProperty( "buffBotPhilanthropyType" ) )
-		{
-		case 0:  dateString = DATED_FILENAME_FORMAT.format( new Date() );  break;
-		case 1:  dateString = WEEKLY_FORMAT.format( new Date() );  break;
-		case 2:  dateString = WEEKLY_FORMAT.format( new Date() ).substring( 0, 6 );  break;
-		}
+		if ( extension.equals( ".txt" ) || extension.equals( ".html" ) )
+			return new File( ROOT_LOCATION, "buffs/" + KoLCharacter.baseUserName() + "_" +
+				DATED_FILENAME_FORMAT.format( new Date() ) + "_" + extension );
 
 		return new File( ROOT_LOCATION, "buffs/" + KoLCharacter.baseUserName() + "_" +
-			dateString + "_" + extension );
+			WEEKLY_FORMAT.format( new Date() ) + extension );
 	}
 
 	/**
@@ -122,7 +119,7 @@ public class BuffBotHome extends StaticEntity
 	private static final PrintStream getPrintStream( String extension )
 	{
 		File output = getFile( extension );
-		return LogStream.openStream( output, false );
+		return output == null ? null : LogStream.openStream( output, false );
 	}
 
 	/**
