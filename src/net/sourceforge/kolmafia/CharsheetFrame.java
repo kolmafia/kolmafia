@@ -108,7 +108,7 @@ public class CharsheetFrame extends AdventureOptionsFrame
 	public static void removeExtraTabs()
 	{
 		CharsheetFrame.shouldAddExtraTabs = false;
-		if ( INSTANCE == null )
+		if ( INSTANCE == null || INSTANCE.tabs == null )
 			return;
 
 		for ( int i = INSTANCE.tabs.getTabCount() - 1; i > 0; --i )

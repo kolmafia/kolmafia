@@ -411,7 +411,6 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		super.dispose();
 
-		this.tabs = null;
 		this.framePanel = null;
 		this.refresher = null;
 		this.refreshListener = null;

@@ -467,7 +467,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 	private static final Pattern OPTION_PATTERN = Pattern.compile( "<option.*?value=(.*?)>.*?\\((.*?)\\)</option>" );
 	private static final Pattern BOOKSHELF_PATTERN = Pattern.compile( "onclick=\"location.href='(.*?)';\"", Pattern.DOTALL );
 
-	private static void downloadFile( File local, String remote )
+	public static void downloadFile( String remote, File local )
 	{
 		try
 		{
@@ -542,7 +542,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			if ( JComponentUtilities.getImage( localname ) != null )
 				StaticEntity.loadLibrary( localname );
 			else
-				downloadFile( localfile, filename );
+				downloadFile( filename, localfile );
 		}
 
 		try

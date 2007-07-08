@@ -153,10 +153,13 @@ public class TabbedChatFrame extends ChatFrame implements ChangeListener, CloseL
 
 	public void dispose()
 	{
-		if ( tabs instanceof CloseTabbedPane )
-			((CloseTabbedPane)tabs).removeCloseListener( this );
-		else
-			((CloseableTabbedPane)tabs).addCloseableTabbedPaneListener( this );
+		if ( tabs != null )
+		{
+			if ( tabs instanceof CloseTabbedPane )
+				((CloseTabbedPane)tabs).removeCloseListener( this );
+			else
+				((CloseableTabbedPane)tabs).addCloseableTabbedPaneListener( this );
+		}
 
 		instanceExists = false;
 		super.dispose();
