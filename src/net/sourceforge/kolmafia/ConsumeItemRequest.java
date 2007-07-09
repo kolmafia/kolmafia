@@ -125,6 +125,7 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int MACGUFFIN_DIARY = 2044;
 	private static final int BLACK_MARKET_MAP = 2054;
 	private static final int ARCHAEOLOGIST_NOTEBOOK = 2179;
+	private static final int DRUM_MACHINE = 2328;
 	private static final int COBBS_KNOB_MAP = 2442;
 	private static final int I_LOVE_ME_VOL_I = 2258;
 	private static final int JEWELRY_BOOK = 2502;
@@ -196,6 +197,7 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final AdventureResult WINDCHIMES = new AdventureResult( 212, -1 );
 	private static final AdventureResult INKWELL = new AdventureResult( 1958, -1 );
 	private static final AdventureResult SCRAP_OF_PAPER = new AdventureResult( 1959, -1 );
+	private static final AdventureResult WORM_RIDING_HOOKS = new AdventureResult( 2302, -1 );
 	private static final AdventureResult ENCRYPTION_KEY = new AdventureResult( 2441, -1 );
 
 	private int consumptionType;
@@ -1212,6 +1214,32 @@ public class ConsumeItemRequest extends KoLRequest
 			// It worked. Also remove the ink and paper.
 			StaticEntity.getClient().processResult( INKWELL.getInstance( 0 - lastItemUsed.getCount() ) );
 			StaticEntity.getClient().processResult( SCRAP_OF_PAPER.getInstance( 0 - lastItemUsed.getCount() ) );
+			return;
+
+		case DRUM_MACHINE:
+
+			// "You don't have time to play the drums."
+
+			if ( responseText.indexOf( "don't have time" ) != -1 )
+			{
+				lastUpdate = "Insufficient adventures left.";
+				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
+				StaticEntity.getClient().processResult( lastItemUsed );
+				return;
+			}
+
+			// "Dammit! Your hooks were still on there! Oh well. At
+			// least now you know where the pyramid is."
+			if ( responseText.indexOf( "hooks were still on" ) != -1 )
+			{
+				// You lose your weapon
+				KoLCharacter.setEquipment( KoLCharacter.WEAPON, EquipmentRequest.UNEQUIP );
+				AdventureResult.addResultToList( inventory, WORM_RIDING_HOOKS.getInstance(1) );
+				StaticEntity.getClient().processResult( WORM_RIDING_HOOKS );
+				return;
+			}
+
+			// You are redirected into a fight. Do we handle it?
 			return;
 
 		case MILKY_POTION:
