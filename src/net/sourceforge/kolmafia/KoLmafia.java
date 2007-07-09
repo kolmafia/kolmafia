@@ -1864,7 +1864,8 @@ public abstract class KoLmafia implements KoLConstants
 			forceContinue();
 		}
 
-		KoLRequest.printTotalDelay();
+		if ( request instanceof KoLAdventure )
+			KoLRequest.printTotalDelay();
 	}
 
 	/**
