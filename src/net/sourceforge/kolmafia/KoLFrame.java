@@ -173,6 +173,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			this.getContentPane().add( this.framePanel, BorderLayout.CENTER );
 		}
 
+		this.addHotKeys();
+
 		boolean shouldAddFrame = !(this instanceof KoLDesktop) && !(this instanceof ContactListFrame) && !(this instanceof LoginFrame);
 
 		if ( this instanceof ChatFrame )
@@ -255,7 +257,6 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		if ( !System.getProperty( "os.name" ).startsWith( "Mac" ) )
 		{
-			JComponentUtilities.addGlobalHotKey( this.getRootPane(), KeyEvent.VK_F4, InputEvent.ALT_MASK, new ExitListener() );
 			JComponentUtilities.addGlobalHotKey( this.getRootPane(), KeyEvent.VK_F6, InputEvent.CTRL_MASK, new TabForwardListener() );
 			JComponentUtilities.addGlobalHotKey( this.getRootPane(), KeyEvent.VK_F6, InputEvent.CTRL_MASK + InputEvent.SHIFT_MASK, new TabBackwardListener() );
 		}

@@ -941,12 +941,6 @@ public abstract class SorceressLair extends StaticEntity
 
 	public static void completeHedgeMaze()
 	{
-		if ( true )
-		{
-			KoLmafia.updateDisplay( ERROR_STATE, "KoLmafia doesn't support NS 13 hedge puzzles yet." );
-			return;
-		}
-
 		if ( !checkPrerequisites( 3, 3 ) )
 			return;
 
@@ -962,18 +956,17 @@ public abstract class SorceressLair extends StaticEntity
 		// Otherwise, check their current state relative
 		// to the hedge maze, and begin!
 
-		int [][] interest = new int[2][2];
+		int [][] interest = new int[3][2];
 		boolean [][][][] exits = new boolean[3][3][4][4];
 
 		initializeMaze( exits, interest );
-		generateMazeConfigurations( exits );
+		generateMazeConfigurations( exits, interest );
 
 		// First mission -- retrieve the key from the hedge
 		// maze puzzle.
 
 		if ( !inventory.contains( HEDGE_KEY ) )
 		{
-			KoLmafia.updateDisplay( "Retrieving hedge key..." );
 			retrieveHedgeKey( exits, interest[0], interest[1] );
 
 			// Retrieving the key after rotating the puzzle pieces
@@ -990,8 +983,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( QUEST_HANDLER.responseText.indexOf( "Click one" ) != -1 )
 		{
-			KoLmafia.updateDisplay( "Executing final rotations..." );
-			finalizeHedgeMaze( exits, interest[0] );
+			finalizeHedgeMaze( exits, interest[0], interest[2] );
 
 			// Navigating up to the tower door after rotating the
 			// puzzle pieces requires an adventure. If we ran out,
@@ -1045,12 +1037,18 @@ public abstract class SorceressLair extends StaticEntity
 		RequestThread.postRequest( QUEST_HANDLER.constructURLString( "hedgepuzzle.php" ) );
 
 		for ( int x = 0; x < 3; ++x )
-			for ( int y = 0; y < 3; ++y )
-				if ( QUEST_HANDLER.responseText.indexOf( "accessible when the " + EXIT_IDS[x][y] ) != -1 )
-				{
-					interest[0][0] = x;
-					interest[0][1] = y;
-				}
+			if ( QUEST_HANDLER.responseText.indexOf( "entrance to this hedge maze is accessible when the " + EXIT_IDS[x][2] ) != -1 )
+			{
+				interest[0][0] = x;
+				interest[0][1] = 2;
+			}
+
+		for ( int x = 0; x < 3; ++x )
+			if ( QUEST_HANDLER.responseText.indexOf( "exit of the hedge maze is accessible when the " + EXIT_IDS[x][0] ) != -1 )
+			{
+				interest[2][0] = x;
+				interest[2][1] = -1;
+			}
 
 		for ( int x = 0; x < 3; ++x )
 		{
@@ -1065,7 +1063,7 @@ public abstract class SorceressLair extends StaticEntity
 				String squareData = squareMatcher.group(1);
 
 				for ( int i = 0; i < DIRECTIONS.length; ++i )
-					exits[0][x][y][i] = squareData.indexOf( DIRECTIONS[i] ) != -1;
+					exits[x][y][0][i] = squareData.indexOf( DIRECTIONS[i] ) != -1;
 
 				if ( squareData.indexOf( "key" ) != -1 )
 				{
@@ -1076,43 +1074,41 @@ public abstract class SorceressLair extends StaticEntity
 		}
 	}
 
-	private static void generateMazeConfigurations( boolean [][][][] exits )
+	private static void generateMazeConfigurations( boolean [][][][] exits, int [][] interest )
 	{
-		int actualDirection;
 		boolean allowConfig;
 
 		for ( int x = 0; x < 3; ++x )  // For each possible square
 		{
 			for ( int y = 0; y < 3; ++y )
 			{
-				for ( int config = 1; config < 4; ++config )  // For all possible maze configurations
+				for ( int config = 3; config >= 0; --config )  // For all possible maze configurations
 				{
+					for ( int direction = 0; direction < 4; ++direction )
+						exits[x][y][config][(direction + config) % 4] = exits[x][y][0][direction];
+
 					allowConfig = true;
 
 					for ( int direction = 0; direction < 4; ++direction )
-					{
-						actualDirection = (direction + config) % 4;
-						allowConfig &= isExitPermitted( actualDirection, x, y );
-					}
+						if ( exits[x][y][config][direction] && !isExitPermitted( direction, x, y, interest ) )
+							allowConfig = false;
 
-					for ( int direction = 0; direction < 4; ++direction )
-					{
-						actualDirection = (direction + config) % 4;
-						exits[x][y][config][actualDirection] = allowConfig && exits[x][y][0][direction];
-					}
+					if ( !allowConfig )
+						for ( int direction = 0; direction < 4; ++direction )
+							exits[x][y][config][direction] = false;
 				}
 			}
 		}
 	}
 
-	private static boolean isExitPermitted( int direction, int x, int y )
+	private static boolean isExitPermitted( int direction, int x, int y, int [][] interest )
 	{
 		switch ( direction )
 		{
-		case NORTH:  return true;
-		case SOUTH:  return y != 2;
-		case EAST:   return x != 2;
-		case WEST:   return x != 0;
+		case NORTH:  return y > 0 || x == interest[2][0];
+		case EAST:   return x < 2;
+		case SOUTH:  return y < 2 || x == interest[0][0];
+		case WEST:   return x > 0;
 		default:     return false;
 		}
 	}
@@ -1128,8 +1124,6 @@ public abstract class SorceressLair extends StaticEntity
 		for ( int i = 0; i < 3; ++i )
 			for ( int j = 0; j < 3; ++j )
 				optimalSolution[i][j] = -1;
-
-		visited[ start[0] ][ start[1] ] = true;
 
 		computeSolution( visited, currentSolution, optimalSolution, exits,
 			start[0], start[1], destination[0], destination[1], SOUTH );
@@ -1147,40 +1141,54 @@ public abstract class SorceressLair extends StaticEntity
 		// If the destination has already been reached, replace the
 		// optimum value, if this involves fewer rotations.
 
-		if ( currentY == destinationY )
+		if ( currentX == destinationX && currentY == destinationY )
 		{
-			if ( currentX == destinationX || currentX == -1 )
+			// First, determine the minimum number of spins needed
+			// for the destination square.
+
+			if ( currentY != -1 )
 			{
-				int currentSum = 0;
-				for ( int i = 0; i < 3; ++i )
-					for ( int j = 0; j < 3; ++j )
-						if ( visited[i][j] )
-							currentSum += currentSolution[i][j];
-
-				int optimalSum = 0;
-				for ( int i = 0; i < 3; ++i )
-					for ( int j = 0; j < 3; ++j )
-						optimalSum += optimalSolution[i][j];
-
-				if ( currentSum >= optimalSum )
-					return;
-
-				for ( int i = 0; i < 3; ++i )
-					for ( int j = 0; j < 3; ++j )
-						optimalSolution[i][j] += visited[i][j] ? currentSolution[i][j] : 0;
-
-				return;
+				for ( int i = 0; i < 4; ++i )
+				{
+					if ( exits[currentX][currentY][i][incomingDirection] )
+					{
+						currentSolution[currentX][currentY] = i;
+						break;
+					}
+				}
 			}
+
+			int currentSum = 0;
+			for ( int i = 0; i < 3; ++i )
+				for ( int j = 0; j < 3; ++j )
+					if ( visited[i][j] )
+						currentSum += currentSolution[i][j];
+
+			int optimalSum = 0;
+			for ( int i = 0; i < 3; ++i )
+				for ( int j = 0; j < 3; ++j )
+					optimalSum += optimalSolution[i][j];
+
+			if ( optimalSum > 0 && currentSum > optimalSum )
+				return;
+
+			if ( currentY != -1 )
+				visited[currentX][currentY] = true;
+
+			for ( int i = 0; i < 3; ++i )
+				for ( int j = 0; j < 3; ++j )
+					optimalSolution[i][j] = visited[i][j] ? currentSolution[i][j] : 0;
+
+			if ( currentY != -1 )
+				visited[currentX][currentY] = false;
+
+			return;
 		}
 
-		if ( currentY == -1 )
-			return;
-
-		if ( visited[ currentX ][ currentY ] )
+		if ( currentY == -1 || visited[ currentX ][ currentY ] )
 			return;
 
 		int nextX = -1, nextY = -1;
-
 		visited[ currentX ][ currentY ] = true;
 
 		for ( int config = 0; config < 4; ++config )
@@ -1197,9 +1205,9 @@ public abstract class SorceressLair extends StaticEntity
 				switch ( i )
 				{
 				case NORTH:  nextX = currentX;  nextY = currentY - 1;  break;
-				case SOUTH:  nextX = currentX;  nextY = currentY + 1;  break;
 				case EAST:   nextX = currentX + 1;  nextY = currentY;  break;
-				case WEST:   nextY = currentX - 1;  nextY = currentY;  break;
+				case SOUTH:  nextX = currentX;  nextY = currentY + 1;  break;
+				case WEST:   nextX = currentX - 1;  nextY = currentY;  break;
 				}
 
 				computeSolution( visited, currentSolution, optimalSolution,
@@ -1226,6 +1234,8 @@ public abstract class SorceressLair extends StaticEntity
 			return;
 		}
 
+		KoLmafia.updateDisplay( "Retrieving hedge key..." );
+
 		for ( int x = 0; x < 3 && KoLmafia.permitsContinue(); ++x )
 			for ( int y = 0; y < 3 && KoLmafia.permitsContinue(); ++y )
 				if ( !rotateHedgePiece( x, y, solution[x][y] ) )
@@ -1244,15 +1254,17 @@ public abstract class SorceressLair extends StaticEntity
 		}
 	}
 
-	private static void finalizeHedgeMaze( boolean [][][][] exits, int [] start )
+	private static void finalizeHedgeMaze( boolean [][][][] exits, int [] start, int [] destination )
 	{
-		int [][] solution = computeSolution( exits, start, new int [] { -1, -1 } );
+		int [][] solution = computeSolution( exits, start, destination );
 
 		if ( solution == null )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "Unable to compute maze solution." );
 			return;
 		}
+
+		KoLmafia.updateDisplay( "Executing final rotations..." );
 
 		for ( int x = 0; x < 3 && KoLmafia.permitsContinue(); ++x )
 			for ( int y = 0; y < 3 && KoLmafia.permitsContinue(); ++y )
