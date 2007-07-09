@@ -111,7 +111,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 	protected KoLAdventure lastAdventure = null;
 	protected boolean updateConditions = true;
-	protected JCheckBox autoSetCheckBox = new AutoSetCheckBox();
+	protected JCheckBox autoSetCheckBox = new JCheckBox();
 	protected JTextField conditionField = new JTextField();
 
 	public AdventureOptionsFrame( String title )
@@ -818,6 +818,9 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 			conditionPanel.add( AdventureOptionsFrame.this.autoSetCheckBox, BorderLayout.EAST );
 
 			AdventureOptionsFrame.this.autoSetCheckBox.setSelected( StaticEntity.getBooleanProperty( "autoSetConditions" ) );
+			AdventureOptionsFrame.this.conditionField.setEnabled( StaticEntity.getBooleanProperty( "autoSetConditions" ) );
+
+			addActionListener( AdventureOptionsFrame.this.autoSetCheckBox, new EnableObjectivesListener() );
 
 			JPanel buttonWrapper = new JPanel();
 			buttonWrapper.add( AdventureOptionsFrame.this.begin = new ExecuteButton() );
@@ -849,6 +852,24 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 		public void setEnabled( boolean isEnabled )
 		{	AdventureOptionsFrame.this.begin.setEnabled( isEnabled );
+		}
+
+		private class EnableObjectivesListener extends ThreadedListener
+		{
+			public void run()
+			{
+				StaticEntity.setProperty( "autoSetConditions", String.valueOf( AdventureOptionsFrame.this.autoSetCheckBox.isSelected() ) );
+
+				if ( AdventureOptionsFrame.this.autoSetCheckBox.isSelected() )
+				{
+					if ( AdventureOptionsFrame.this.conditionField.getText().equals( "none" ) )
+						AdventureOptionsFrame.this.fillDefaultConditions();
+				}
+				else
+					AdventureOptionsFrame.this.conditionField.setText( "none" );
+
+				AdventureOptionsFrame.this.conditionField.setEnabled( AdventureOptionsFrame.this.autoSetCheckBox.isSelected() );
+			}
 		}
 	}
 
@@ -1090,26 +1111,6 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 				AdventureOptionsFrame.this.countField.setValue( new Integer( KoLCharacter.getAdventuresLeft() ) );
 
 			return true;
-		}
-	}
-
-	private class AutoSetCheckBox extends JCheckBox implements ActionListener
-	{
-		public AutoSetCheckBox()
-		{	this.addActionListener( this );
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{
-			StaticEntity.setProperty( "autoSetConditions", String.valueOf( this.isSelected() ) );
-
-			if ( this.isSelected() )
-			{
-				if ( AdventureOptionsFrame.this.conditionField.getText().equals( "none" ) )
-					AdventureOptionsFrame.this.fillDefaultConditions();
-			}
-			else
-				AdventureOptionsFrame.this.conditionField.setText( "none" );
 		}
 	}
 
