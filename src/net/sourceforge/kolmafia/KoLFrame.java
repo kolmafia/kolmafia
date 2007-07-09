@@ -2047,17 +2047,17 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			StringBuffer frameString = new StringBuffer();
 			StringBuffer desktopString = new StringBuffer();
 
-			for ( int i = 0; i < this.startupList.size(); ++i )
+			for ( int i = 0; i < this.startupList.getSize(); ++i )
 				for ( int j = 0; j < this.FRAME_OPTIONS.length; ++j )
-					if ( this.startupList.get(i).equals( this.FRAME_OPTIONS[j][0] ) )
+					if ( this.startupList.getElementAt(i).equals( this.FRAME_OPTIONS[j][0] ) )
 					{
 						if ( frameString.length() != 0 ) frameString.append( "," );
 						frameString.append( this.FRAME_OPTIONS[j][1] );
 					}
 
-			for ( int i = 0; i < this.desktopList.size(); ++i )
+			for ( int i = 0; i < this.desktopList.getSize(); ++i )
 				for ( int j = 0; j < this.FRAME_OPTIONS.length; ++j )
-					if ( this.desktopList.get(i).equals( this.FRAME_OPTIONS[j][0] ) )
+					if ( this.desktopList.getElementAt(i).equals( this.FRAME_OPTIONS[j][0] ) )
 					{
 						if ( desktopString.length() != 0 ) desktopString.append( "," );
 						desktopString.append( this.FRAME_OPTIONS[j][1] );
