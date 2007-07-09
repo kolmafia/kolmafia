@@ -577,7 +577,10 @@ public abstract class SorceressLair extends StaticEntity
 	{
 		// Find the name of the gate from the responseText
 		if ( !gateMatcher.find() )
+		{
+			KoLmafia.updateDisplay( ERROR_STATE, "Gate " + gate + " is missing." );
 			return;
+		}
 
 		String gateName = gateMatcher.group(1);
 		if ( gateName == null )
