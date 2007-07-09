@@ -168,30 +168,30 @@ public abstract class SorceressLair extends StaticEntity
 
 	public static final String [][] GUARDIAN_DATA =
 	{
-		{ "Beer Batter", "baseball" },
-		{ "Best-Selling Novelist", "plot hole" },
-		{ "Big Meat Golem", "meat vortex" },
-		{ "Bowling Cricket", "sonar-in-a-biscuit" },
-		{ "Bronze Chef", "leftovers of indeterminate origin" },
-		{ "Collapsed Mineshaft Golem", "stick of dynamite" },
+		{ "beer batter", "baseball" },
+		{ "best-selling novelist", "plot hole" },
+		{ "big meat golem", "meat vortex" },
+		{ "bowling cricket", "sonar-in-a-biscuit" },
+		{ "bronze chef", "leftovers of indeterminate origin" },
+		{ "collapsed mineshaft golem", "stick of dynamite" },
 		{ "concert pianist", "Knob Goblin firecracker" },
-		{ "The Darkness", "inkwell" },
-		{ "El Diablo", "mariachi G-string" },
-		{ "Electron Submarine", "photoprotoneutron torpedo" },
-		{ "Endangered Inflatable White Tiger", "pygmy blowgun" },
-		{ "Enraged Cow", "barbed-wire fence" },
-		{ "Fancy Bath Slug", "fancy bath salts" },
-		{ "Fickle Finger of F8", "razor-sharp can lid" },
-		{ "Flaming Samurai", "frigid ninja stars" },
+		{ "darkness", "inkwell" },
+		{ "el diablo", "mariachi G-string" },
+		{ "electron submarine", "photoprotoneutron torpedo" },
+		{ "endangered inflatable white tiger", "pygmy blowgun" },
+		{ "enraged cow", "barbed-wire fence" },
+		{ "fancy bath slug", "fancy bath salts" },
+		{ "fickle finger of f8", "razor-sharp can lid" },
+		{ "flaming samurai", "frigid ninja stars" },
 		{ "giant bee", "tropical orchid" },
-		{ "Giant Fried Egg", "black pepper" },
-		{ "Giant Desktop Globe", "NG" },
-		{ "Ice Cube", "can of hair spray" },
+		{ "giant fried egg", "black pepper" },
+		{ "giant desktop globe", "NG" },
+		{ "ice cube", "can of hair spray" },
 		{ "malevolent crop circle", "bronzed locust" },
-		{ "Possessed Pipe-Organ", "powdered organs" },
-		{ "Pretty Fly", "spider web" },
-		{ "Tyrannosaurus Tex", "chaos butterfly" },
-		{ "Vicious Easel", "disease" },
+		{ "possessed pipe-organ", "powdered organs" },
+		{ "pretty fly", "spider web" },
+		{ "tyrannosaurus tex", "chaos butterfly" },
+		{ "vicious easel", "disease" },
 	};
 
 	// Items for the Sorceress's Chamber
@@ -1476,7 +1476,7 @@ public abstract class SorceressLair extends StaticEntity
 		}
 
 		// Parse response to see which item we need.
-		AdventureResult guardianItem = getGuardianItem( QUEST_HANDLER.responseText );
+		AdventureResult guardianItem = getGuardianItem();
 
 		// With the guardian item retrieved, check to see if you have
 		// the item, and if so, use it and report success.  Otherwise,
@@ -1504,10 +1504,10 @@ public abstract class SorceressLair extends StaticEntity
 		return guardianItem.getItemId();
 	}
 
-	private static AdventureResult getGuardianItem( String fightText )
+	private static AdventureResult getGuardianItem()
 	{
-		for ( int i = 0; i < GUARDIAN_DATA.length; ++i)
-			if ( fightText.indexOf( GUARDIAN_DATA[i][0] ) != -1 )
+		for ( int i = 0; i < GUARDIAN_DATA.length; ++i )
+			if ( FightRequest.getCurrentKey().equals( GUARDIAN_DATA[i][0] ) )
 				return new AdventureResult( GUARDIAN_DATA[i][1], 1 );
 
 		// Shouldn't get here.

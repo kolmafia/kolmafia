@@ -269,6 +269,10 @@ public class FightRequest extends KoLRequest
 		this.updateCurrentAction();
 	}
 
+	public static String getCurrentKey()
+	{	return CombatSettings.encounterKey( encounterLookup );
+	}
+
 	private void updateCurrentAction()
 	{
 		if ( action1.equals( "abort" ) )
