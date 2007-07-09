@@ -276,15 +276,15 @@ public class ChatFrame extends KoLFrame
 				String message = ChatPanel.this.entryField.getText();
 				ChatPanel.this.entryField.setText( "" );
 
-				ChatPanel.this.commandHistory.add( message );
-
-				if ( ChatPanel.this.commandHistory.size() > 10 )
-					ChatPanel.this.commandHistory.remove(0);
-
-				ChatPanel.this.lastCommandIndex = ChatPanel.this.commandHistory.size();
-
 				if ( ChatPanel.this.associatedContact.equals( GCLI_TAB ) )
 				{
+					ChatPanel.this.commandHistory.add( message );
+
+					if ( ChatPanel.this.commandHistory.size() > 10 )
+						ChatPanel.this.commandHistory.remove(0);
+
+					ChatPanel.this.lastCommandIndex = ChatPanel.this.commandHistory.size();
+
 					CommandDisplayFrame.executeCommand( message );
 					return;
 				}
