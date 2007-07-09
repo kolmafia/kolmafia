@@ -61,6 +61,7 @@ import com.velocityreviews.forums.HttpTimeoutHandler;
 
 public class KoLRequest extends Job implements KoLConstants
 {
+	private static int totalDelay = 0;
 	private static long lastAdjustTime = Long.MAX_VALUE;
 
 	private static int INITIAL_CACHE_COUNT = 3;
@@ -831,7 +832,18 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( normalDelay == 0 )
 			return true;
 
-		return delay( RNG.nextInt( adjustDelay ) + normalDelay );
+		int expectedDelay = RNG.nextInt( adjustDelay ) + normalDelay;
+		totalDelay += expectedDelay;
+		return delay( expectedDelay );
+	}
+
+	public static void printTotalDelay()
+	{
+		int seconds = totalDelay / 1000;
+		int minutes = seconds / 60;
+		seconds = seconds % 60;
+
+		RequestLogger.printLine( "Delay added this session: " + minutes + " minutes, " + seconds + " seconds" );
 	}
 
 	/**
