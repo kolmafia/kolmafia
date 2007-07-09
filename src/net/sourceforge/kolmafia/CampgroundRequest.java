@@ -68,7 +68,7 @@ public class CampgroundRequest extends KoLRequest
 	public void run()
 	{
 		if ( this.action.equals( "rest" ) )
-			if ( KoLCharacter.getCurrentHP() == KoLCharacter.getMaximumHP() || KoLCharacter.getCurrentMP() == KoLCharacter.getMaximumMP() )
+			if ( KoLCharacter.getCurrentHP() == KoLCharacter.getMaximumHP() && KoLCharacter.getCurrentMP() == KoLCharacter.getMaximumMP() )
 				return;
 
 		if ( this.action.equals( "relax" ) )
