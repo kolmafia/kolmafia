@@ -1863,6 +1863,8 @@ public abstract class KoLmafia implements KoLConstants
 			hadPendingState = true;
 			forceContinue();
 		}
+
+		KoLRequest.printTotalDelay();
 	}
 
 	/**
