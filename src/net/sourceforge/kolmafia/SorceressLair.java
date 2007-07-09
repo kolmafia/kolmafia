@@ -1169,7 +1169,7 @@ public abstract class SorceressLair extends StaticEntity
 				for ( int j = 0; j < 3; ++j )
 					optimalSum += optimalSolution[i][j];
 
-			if ( optimalSum > 0 && currentSum > optimalSum )
+			if ( optimalSum >= 0 && currentSum > optimalSum )
 				return;
 
 			if ( currentY != -1 )
