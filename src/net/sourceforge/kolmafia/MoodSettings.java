@@ -792,6 +792,10 @@ public abstract class MoodSettings implements KoLConstants
 	}
 
 	public static String getDefaultAction( String type, String name )
+	{	return getDefaultAction( type, name, true );
+	}
+
+	public static String getDefaultAction( String type, String name, boolean strict )
 	{
 		if ( type == null || name == null )
 			return "";
@@ -800,12 +804,17 @@ public abstract class MoodSettings implements KoLConstants
 		// your current mood.  That way, the "default action" is
 		// considered whatever your current mood says it is.
 
+		String strictAction = "";
+
 		for ( int i = 0; i < displayList.size(); ++i )
 		{
 			MoodTrigger current = (MoodTrigger) displayList.get(i);
 			if ( current.getType().equals( type ) && current.name.equals( name ) )
 				return current.action;
 		}
+
+		if ( strict )
+			return strictAction;
 
 		if ( type.equals( "unconditional" ) )
 		{
@@ -825,7 +834,7 @@ public abstract class MoodSettings implements KoLConstants
 				if ( KoLCharacter.hasItem( UneffectRequest.TINY_HOUSE ) || KoLCharacter.canInteract() )
 					return "use tiny house";
 
-				return "";
+				return strictAction;
 			}
 
 			if ( name.indexOf( "Poisoned" ) != -1 )
@@ -866,12 +875,12 @@ public abstract class MoodSettings implements KoLConstants
 			}
 
 			if ( name.equals( "Goofball Withdrawal" ) || name.equals( "Eau de Tortue" ) )
-				return "";
+				return strictAction;
 
 			if ( UneffectRequest.isShruggable( name ) || KoLCharacter.hasItem( UneffectRequest.REMEDY ) || KoLCharacter.canInteract() )
 				return "uneffect " + name;
 
-			return "";
+			return strictAction;
 		}
 		else if ( type.equals( "lose_effect" ) )
 		{
@@ -945,7 +954,7 @@ public abstract class MoodSettings implements KoLConstants
 			}
 		}
 
-		return "";
+		return strictAction;
 	}
 
 	/**
