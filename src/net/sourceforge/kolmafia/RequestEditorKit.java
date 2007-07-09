@@ -995,6 +995,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( location.startsWith( "hiddencity.php" ) )
 			addHiddenCityModifiers( buffer );
 
+		if ( location.startsWith( "palinshelves.php" ) )
+			StaticEntity.singleStringReplace( buffer, "</html>", "<script language=\"Javascript\" src=\"/KoLmafia/palinshelves.js\" /></html>" );
+
 		// Change potions wherever we find them
 		changePotionImages( buffer );
 
