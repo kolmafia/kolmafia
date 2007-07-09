@@ -140,7 +140,7 @@ public class UneffectRequest extends KoLRequest
 
 	public void run()
 	{
-		String action = MoodSettings.getDefaultAction( "gain_effect", this.effect.getName() );
+		String action = MoodSettings.getDefaultAction( "gain_effect", this.effect.getName(), false );
 
 		if ( !action.equals( "" ) && !action.startsWith( "uneffect" ) )
 		{
