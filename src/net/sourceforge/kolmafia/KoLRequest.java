@@ -843,6 +843,7 @@ public class KoLRequest extends Job implements KoLConstants
 		int minutes = seconds / 60;
 		seconds = seconds % 60;
 
+		RequestLogger.printLine( "Delay between requests: " + (normalDelay + adjustDelay / 2) + " milliseconds" );
 		RequestLogger.printLine( "Delay added this session: " + minutes + " minutes, " + seconds + " seconds" );
 	}
 
