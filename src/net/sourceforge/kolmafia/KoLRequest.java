@@ -1721,26 +1721,19 @@ public class KoLRequest extends Job implements KoLConstants
 		// Make an array of events
 		String [] events = eventMatcher.group(1).replaceAll( "<br>", "\n" ).split( "\n" );
 
+		for ( int i = 0; i < events.length; ++i )
+			if ( events[i].indexOf( "/" ) == -1 )
+				events[i] = null;
+
 		// Remove the events from the response text
 		this.responseText = eventMatcher.replaceFirst( "" );
-
-		if ( KoLMessenger.isRunning() )
-		{
-			// Copy the events to chat
-			for ( int i = 0; i < events.length; ++i )
-			{
-				int dash = events[i].indexOf( "-" );
-				String event = events[i].substring( dash + 2 );
-				KoLMessenger.updateChat( "<font color=green>" + event + "</font>" );
-			}
-
-			return;
-		}
-
 		boolean shouldLoadEventFrame = false;
 
 		for ( int i = 0; i < events.length; ++i )
 		{
+			if ( events[i] == null )
+				continue;
+
 			if ( events[i].indexOf( "logged" ) != -1 )
 				continue;
 
@@ -1756,9 +1749,11 @@ public class KoLRequest extends Job implements KoLConstants
 			// Add in a player Id so that the events can be handled
 			// using a ShowDescriptionList.
 
-			event = event.replaceAll( "</a>", "<a>" ).replaceAll( "<[^a].*?>", "" );
+			event = event.replaceAll( "</a>", "<a>" ).replaceAll( "<[^a].*?>", " " ).replaceAll( "\\s+", " " );
 			event = event.replaceAll( "<a[^>]*showplayer\\.php\\?who=(\\d+)[^>]*>(.*?)<a>", "$2 (#$1)" );
-			event = event.replaceAll( "<.*?>", "" );
+
+			if ( event.indexOf( "/" ) == -1 )
+				continue;
 
 			// If it's a song or a buff, must update status
 
@@ -1784,6 +1779,12 @@ public class KoLRequest extends Job implements KoLConstants
 
 			if ( StaticEntity.usesSystemTray() )
 				SystemTrayFrame.showBalloon( event );
+
+			if ( KoLMessenger.isRunning() )
+			{
+				int dash = event.indexOf( "-" );
+				KoLMessenger.updateChat( "<font color=green>" + event.substring( dash + 2 ) + "</font>" );
+			}
 		}
 
 		shouldLoadEventFrame &= StaticEntity.getGlobalProperty( "initialFrames" ).indexOf( "EventsFrame" ) != -1;
