@@ -813,7 +813,7 @@ public abstract class MoodSettings implements KoLConstants
 				strictAction = current.action;
 		}
 
-		if ( strict )
+		if ( strict && !strictAction.equals( "" ) )
 			return strictAction;
 
 		if ( type.equals( "unconditional" ) )
