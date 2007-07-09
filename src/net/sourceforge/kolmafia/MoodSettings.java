@@ -810,7 +810,7 @@ public abstract class MoodSettings implements KoLConstants
 		{
 			MoodTrigger current = (MoodTrigger) displayList.get(i);
 			if ( current.getType().equals( type ) && current.name.equals( name ) )
-				return current.action;
+				strictAction = current.action;
 		}
 
 		if ( strict )
