@@ -721,13 +721,14 @@ public class KoLRequest extends Job implements KoLConstants
 		}
 
 		this.statusChanged = false;
-		long lastRequestTime = 0;
+		long lastRequestTime = System.currentTimeMillis();
 
 		do
 		{
-			lastRequestTime = System.currentTimeMillis();
 			if ( !this.prepareConnection() && KoLmafia.refusesContinue() )
 				break;
+
+			lastRequestTime = System.currentTimeMillis();
 		}
 		while ( !this.postClientData() || !this.retrieveServerReply() );
 
