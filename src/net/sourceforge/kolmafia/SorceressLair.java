@@ -784,6 +784,14 @@ public abstract class SorceressLair extends StaticEntity
 			return requirements;
 		}
 
+		FamiliarData starfish = KoLCharacter.findFamiliar( "Star Starfish" );
+
+		if ( starfish == null )
+		{
+			KoLmafia.updateDisplay( ERROR_STATE, "You don't own a Star Starfish!" );
+			return requirements;
+		}
+
 		// Now handle the form for the star key to get
 		// the Sinister Strumming.  Note that this will
 		// require you to re-equip your star weapon and
@@ -792,7 +800,7 @@ public abstract class SorceressLair extends StaticEntity
 		RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, KoLCharacter.OFFHAND ) );
 		RequestThread.postRequest( new EquipmentRequest( starWeapon, KoLCharacter.WEAPON ) );
 		RequestThread.postRequest( new EquipmentRequest( STAR_HAT, KoLCharacter.HAT ) );
-		RequestThread.postRequest( new FamiliarRequest( new FamiliarData( 17 ) ) );
+		RequestThread.postRequest( new FamiliarRequest( starfish ) );
 
 		KoLmafia.updateDisplay( "Inserting Richard's star key..." );
 		RequestThread.postRequest( QUEST_HANDLER.constructURLString( "lair2.php?preaction=key&whichkey=" + RICHARD.getItemId() ) );

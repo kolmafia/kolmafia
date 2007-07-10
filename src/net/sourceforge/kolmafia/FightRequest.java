@@ -934,6 +934,20 @@ public class FightRequest extends KoLRequest
 		}
 	}
 
+	public static String stoneSphereName( int itemId )
+	{	return stoneSphereName( itemId, TradeableItemDatabase.getItemName( itemId ) );
+	}
+
+	public static String stoneSphereName( int itemId, String name )
+	{
+		ensureUpdatedSphereEffects();
+		String effect = StaticEntity.getProperty( "lastStoneSphere" + itemId );
+		if ( effect.equals( "" ) )
+			return name;
+
+		return name + " of " + effect;
+	}
+
 	private static void updateMonsterHealth( String responseText )
 	{
 		if ( !StaticEntity.getBooleanProperty( "logMonsterHealth" ) )

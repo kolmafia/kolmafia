@@ -472,26 +472,16 @@ public class AdventureResult implements Comparable, KoLConstants
 		case ConsumeItemRequest.DARK_POTION:
 		case ConsumeItemRequest.MURKY_POTION:
 
-			ConsumeItemRequest.ensureUpdatedPotionEffects();
-			effect = StaticEntity.getProperty( "lastBangPotion" + this.itemId );
-
-			if ( effect.equals( "" ) )
-				return this.name + " (" + COMMA_FORMAT.format(this.count[0]) + ")";
-			else
-				return this.name + " of " + effect + " (" + COMMA_FORMAT.format(this.count[0]) + ")";
+			String potion = ConsumeItemRequest.bangPotionName( this.itemId, this.name );
+			return potion + " (" + COMMA_FORMAT.format(this.count[0]) + ")";
 
 		case FightRequest.MOSSY_STONE_SPHERE:
 		case FightRequest.SMOOTH_STONE_SPHERE:
 		case FightRequest.CRACKED_STONE_SPHERE:
 		case FightRequest.ROUGH_STONE_SPHERE:
 
-			FightRequest.ensureUpdatedSphereEffects();
-			effect = StaticEntity.getProperty( "lastStoneSphere" + this.itemId );
-
-			if ( effect.equals( "" ) )
-				return this.name + " (" + COMMA_FORMAT.format(this.count[0]) + ")";
-			else
-				return this.name + " of " + effect + " (" + COMMA_FORMAT.format(this.count[0]) + ")";
+			String sphere = FightRequest.stoneSphereName( this.itemId, this.name );
+			return sphere + " (" + COMMA_FORMAT.format(this.count[0]) + ")";
 
 		default:
 			return this.name + " (" + COMMA_FORMAT.format(this.count[0]) + ")";

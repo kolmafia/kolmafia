@@ -16,6 +16,7 @@ black & tan	3	06-07	10-12	10-12	10-12
 bloody beer	1	01-02	0	0	0
 bloody mary	3	03-06	01-02	01-02	01-02
 bodyslam	6	22-26	16-20	0	0
+boilermaker	4	10-12	10-15	10-15	10-15
 bottle of Calcutta Emerald	3	04-08	0	0	0
 bottle of Definit	3	04-08	0	0	0
 bottle of Domesticated Turkey	3	04-08	0	0	0

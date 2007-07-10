@@ -294,12 +294,12 @@ public class GearChangeFrame extends KoLFrame
 				if ( ChangeComboBox.this == GearChangeFrame.this.familiarSelect )
 				{
 					RequestThread.openRequestSequence();
+					GearChangeFrame.this.changeItems();
 
 					FamiliarData familiar = (FamiliarData) GearChangeFrame.this.familiarSelect.getSelectedItem();
 					if ( familiar != null && !familiar.equals( KoLCharacter.getFamiliar() ) )
 						RequestThread.postRequest( new FamiliarRequest( familiar ) );
 
-					GearChangeFrame.this.changeItems();
 					RequestThread.closeRequestSequence();
 
 					return;

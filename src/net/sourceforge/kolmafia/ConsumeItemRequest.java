@@ -1293,6 +1293,20 @@ public class ConsumeItemRequest extends KoLRequest
 		}
 	}
 
+	public static String bangPotionName( int itemId )
+	{	return bangPotionName( itemId, TradeableItemDatabase.getItemName( itemId ) );
+	}
+
+	public static String bangPotionName( int itemId, String name )
+	{
+		ensureUpdatedPotionEffects();
+		String effect = StaticEntity.getProperty( "lastBangPotion" + itemId );
+		if ( effect.equals( "" ) )
+			return name;
+
+		return name + " of " + effect;
+	}
+
 	private static void showItemUsage( boolean showHTML, String text, boolean consumed )
 	{
 		if ( showHTML )
