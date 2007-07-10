@@ -129,7 +129,7 @@
 129	Eye of the Lihc	eyeball.gif	19a38797f559f112930b8d33f3dd48e3
 130	Springy Fusilli	fusilli.gif	bb44871dd165d4dc9b4d35daa46908ef
 131	Rage of the Reindeer	reindeer.gif	5c8d3b5b4a6d403f95f27f5d29528c59
-132	Engorged Weapon	nicesword.gif
+132	Engorged Weapon	nicesword.gif	1ff58ec4d8337eaec65044933bf7ab34
 133	Mysteriously Handsome	happy.gif	dfcd77bff25d3dd413644f5decfbf4e8
 134	Tamarind Torment	chicle.gif	e407923afccaaed539c8a4038caac922
 135	Spicy Limeness	chicle.gif	c5bcb9561c847d10fd5b6e74ba99ed8c
