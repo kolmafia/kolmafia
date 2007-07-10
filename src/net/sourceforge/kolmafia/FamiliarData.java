@@ -63,7 +63,7 @@ public class FamiliarData implements KoLConstants, Comparable
 	{
 		this.id = id;
 		this.name = name;
-		this.race = id == -1 ? EquipmentRequest.UNEQUIP.toString() : FamiliarsDatabase.getFamiliarName( id );
+		this.race = id == -1 ? "(none)" : FamiliarsDatabase.getFamiliarName( id );
 
 		this.weight = weight;
 		this.item = item;
@@ -246,7 +246,7 @@ public class FamiliarData implements KoLConstants, Comparable
 	}
 
 	public String toString()
-	{	return this.id == -1 ? EquipmentRequest.UNEQUIP.toString() : this.race + " (" + this.getModifiedWeight() + " lbs)";
+	{	return this.id == -1 ? "(none)" : this.race + " (" + this.getModifiedWeight() + " lbs)";
 	}
 
 	public boolean equals( Object o )
