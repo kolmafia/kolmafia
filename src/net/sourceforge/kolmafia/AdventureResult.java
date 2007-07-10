@@ -256,12 +256,12 @@ public class AdventureResult implements Comparable, KoLConstants
 		// Look up the effect name
 		for ( int i = 819; i <= 827; ++i )
 			if ( effect.equals( StaticEntity.getProperty( "lastBangPotion" + i ) ) )
-				return new AdventureResult( i, 0 );
+				return new AdventureResult( i, 1 );
 
 		// We don't know which potion makes this effect.
 		// Make a pseudo-item with the required name
 
-		AdventureResult item = new AdventureResult( "(none)", 0, false );
+		AdventureResult item = new AdventureResult( "(none)", 1, false );
 		item.name = name;
 		return item;
 	}

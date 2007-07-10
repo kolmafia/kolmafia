@@ -253,7 +253,7 @@ white chocolate chip cookies	2	white chocolate chips	wad of dough
 fishy fish	2	displaced fish	dehydrated caviar
 fishy fish casserole	2	fishy fish	Gnollish casserole dish
 fishy fish lasagna	22	fishy fish casserole	dry noodles	MSG
-gnatloaf	2	filet of tangy gnat (&quot;fotelif&quot;)	ancient spice
+gnatloaf	2	filet of tangy gnat	ancient spice
 gnatloaf casserole	2	gnatloaf	Gnollish casserole dish
 gnatloaf lasagna	22	gnatloaf casserole	dry noodles	MSG
 long pork chop sandwiches	2	long pork	black pepper

@@ -30,7 +30,7 @@ Island	Island	Mysterious Island
 IsleWar	IsleWar	Island War Quest	bigisland.php
 Junkyard	IsleWar	Junkyard
 Lighthouse	IsleWar	Junkyard
-Farm	IsleWar	McMillicancuddy's Farm	bigisland.php?place=orchard
+Farm	IsleWar	McMillicancuddy's Farm	bigisland.php?place=farm
 Orchard	IsleWar	Organic Orchard	bigisland.php?place=orchard
 Nunnery	IsleWar	Our Lady of Perpetual Indecision	bigisland.php?place=nunnery
 
