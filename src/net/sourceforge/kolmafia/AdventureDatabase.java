@@ -446,12 +446,12 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Wheel In the Pyramid, Keep on Turning
 		new ChoiceAdventure( "Pyramid", "choiceAdventure134", "The Upper Chamber",
-		  new String [] { "Turn it", "Leave it alone" },
+		  new String [] { "Turn the wheel", "Leave it alone" },
 		  new String [] { null, null } ),
 
 		// Wheel In the Pyramid, Keep on Turning
 		new ChoiceAdventure( "Pyramid", "choiceAdventure135", "The Upper Chamber",
-		  new String [] { "Turn it", "Leave it alone" },
+		  new String [] { "Turn the wheel", "Leave it alone" },
 		  new String [] { null, null } ),
 
 		// Bait and Switch
