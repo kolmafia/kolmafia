@@ -165,6 +165,7 @@ public class RestaurantRequest extends KoLRequest
 				Math.max( 1, TradeableItemDatabase.getPriceById( itemId ) ) * 3 );
 		}
 
+		ConcoctionsDatabase.getUsables().sort();
 		KoLmafia.updateDisplay( "Menu retrieved." );
 	}
 
