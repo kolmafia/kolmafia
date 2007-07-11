@@ -3420,10 +3420,22 @@ public class KoLmafiaASH extends StaticEntity
 		result.addElement( new ScriptExistingFunction( "my_turncount", INT_TYPE, params ) );
 
 		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "my_fullness", INT_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "fullness_limit", INT_TYPE, params ) );
+
+		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "my_inebriety", INT_TYPE, params ) );
 
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "inebriety_limit", INT_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "my_spleen_use", INT_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "spleen_limit", INT_TYPE, params ) );
 
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "can_eat", BOOLEAN_TYPE, params ) );
@@ -5114,12 +5126,28 @@ public class KoLmafiaASH extends StaticEntity
 		{	return new ScriptValue( KoLCharacter.getCurrentRun() );
 		}
 
+		public ScriptValue my_fullness()
+		{	return new ScriptValue( KoLCharacter.getFullness() );
+		}
+
+		public ScriptValue fullness_limit()
+		{	return new ScriptValue( KoLCharacter.getFullnessLimit() );
+		}
+
 		public ScriptValue my_inebriety()
 		{	return new ScriptValue( KoLCharacter.getInebriety() );
 		}
 
 		public ScriptValue inebriety_limit()
 		{	return new ScriptValue( KoLCharacter.getInebrietyLimit() );
+		}
+
+		public ScriptValue my_spleen_use()
+		{	return new ScriptValue( KoLCharacter.getSpleenUse() );
+		}
+
+		public ScriptValue spleen_limit()
+		{	return new ScriptValue( KoLCharacter.getSpleenLimit() );
 		}
 
 		public ScriptValue can_eat()
