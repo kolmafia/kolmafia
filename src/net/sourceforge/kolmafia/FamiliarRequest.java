@@ -38,6 +38,7 @@ import java.util.regex.Pattern;
 
 public class FamiliarRequest extends KoLRequest
 {
+	private static final Pattern UNEQUIP_PATTERN = Pattern.compile( "famid=(\\d+)" );
 	private static final Pattern EQUIP_PATTERN = Pattern.compile( "newfam=(\\d+)" );
 	private FamiliarData changeTo;
 
@@ -140,6 +141,34 @@ public class FamiliarRequest extends KoLRequest
 		{
 			RequestLogger.updateSessionLog();
 			RequestLogger.updateSessionLog( "familiar none" );
+			return true;
+		}
+
+		if ( urlString.indexOf( "action=unequip" ) != -1 )
+		{
+			Matcher familiarMatcher = UNEQUIP_PATTERN.matcher( urlString );
+			if ( !familiarMatcher.find() )
+				return true;
+
+			FamiliarData [] familiars = new FamiliarData[ KoLCharacter.getFamiliarList().size() ];
+			KoLCharacter.getFamiliarList().toArray( familiars );
+
+			int id = StaticEntity.parseInt( familiarMatcher.group(1) );
+			for ( int i = 0; i < familiars.length; ++i )
+			{
+				if ( familiars[i].getId() == id )
+				{
+					AdventureResult item = familiars[i].getItem();
+					if ( item != null )
+					{
+						familiars[i].setItem( EquipmentRequest.UNEQUIP );
+						AdventureResult.addResultToList( inventory, item );
+					}
+
+					return true;
+				}
+			}
+
 			return true;
 		}
 
