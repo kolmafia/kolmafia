@@ -107,121 +107,101 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			return;
 		}
 
-		// Run any needed requests before falling into
-		// the event dispatch thread.
+		String tabSetting = "," + StaticEntity.getGlobalProperty( "initialDesktop" ) + ",";
+		String searchString = ChatFrame.class.isAssignableFrom( this.creationType ) ? "KoLMessenger" :
+			KoLFrame.class.isAssignableFrom( this.creationType ) ? this.creationType.toString().substring( this.creationType.toString().lastIndexOf( "." ) + 1 ) : "...";
+
+		boolean appearsInTab = KoLFrame.class.isAssignableFrom( this.creationType ) && tabSetting.indexOf( searchString ) != -1;
 
 		if ( !this.loadPreviousFrame() )
 		{
-			this.runConstruction();
+			if ( appearsInTab && !KoLDesktop.instanceExists() )
+			{
+				KoLDesktop.getInstance().initializeTabs();
+				KoLDesktop.displayDesktop();
+				return;
+			}
+
+			this.runConstruction( appearsInTab );
+		}
+
+		if ( this.creation == null )
+		{
+			System.out.println( "Fail: " + creationType );
+			return;
+		}
+
+		if ( this.creationType == SkillBuffFrame.class && this.parameters.length == 1 )
+			((SkillBuffFrame)this.creation).setRecipient( (String) this.parameters[0] );
+
+		this.creation.pack();
+		if ( !(this.creation instanceof KoLFrame) )
+			this.creation.setLocationRelativeTo( null );
+
+		this.creation.setEnabled( true );
+
+		// With the location set set on screen, make sure
+		// to disable it (if necessary), ensure the frame's
+		// visibility on screen and request focus.
+
+		if ( appearsInTab )
+		{
+			if ( !KoLDesktop.instanceExists() )
+				KoLDesktop.displayDesktop();
+
+			KoLDesktop.addTab( (KoLFrame) this.creation );
 		}
 		else
-		{
-			String tabSetting = "," + StaticEntity.getGlobalProperty( "initialDesktop" ) + ",";
-			String searchString = ChatFrame.class.isAssignableFrom( this.creationType ) ? "KoLMessenger" :
-				KoLFrame.class.isAssignableFrom( this.creationType ) ? this.creationType.toString().substring( this.creationType.toString().lastIndexOf( "." ) + 1 ) : "...";
+			this.creation.setVisible( true );
 
-			boolean appearsInTab = KoLFrame.class.isAssignableFrom( this.creationType ) && !searchString.equals( "KoLMessenger" ) &&
-				StaticEntity.getGlobalProperty( "initialDesktop" ).indexOf( searchString ) != -1;
-
-			if ( appearsInTab )
-			{
-				KoLDesktop.getInstance().setVisible( true );
-				KoLDesktop.getInstance().requestFocus();
-				KoLDesktop.addTab( (KoLFrame) this.creation );
-			}
-			else
-			{
-				this.creation.setVisible( true );
-				this.creation.requestFocus();
-			}
-
-			if ( this.creationType == SkillBuffFrame.class && this.parameters.length == 1 )
-				((SkillBuffFrame)this.creation).setRecipient( (String) this.parameters[0] );
-		}
-
+		this.creation.requestFocus();
 		this.creation = null;
 	}
 
 	private boolean loadPreviousFrame()
 	{
-		synchronized ( this.creationType )
+		// Check to see if this is a frame that should
+		// only be loaded once, based on the static list.
+
+		KoLFrame currentFrame;
+		Class currentType;
+
+		String creationTypeName = (this.creationType == KoLPanelFrame.class ? this.parameters[1].getClass() : this.creationType).getName();
+		creationTypeName = creationTypeName.substring( creationTypeName.lastIndexOf( "." ) + 1 );
+
+		for ( int i = 0; i < existingFrames.size() && this.creation == null; ++i )
 		{
-			// Check to see if this is a frame that should
-			// only be loaded once, based on the static list.
+			currentFrame = (KoLFrame) existingFrames.get(i);
+			currentType = currentFrame.getClass();
 
-			KoLFrame currentFrame;
-			Class currentType;
-
-			String creationTypeName = (this.creationType == KoLPanelFrame.class ? this.parameters[1].getClass() : this.creationType).getName();
-			creationTypeName = creationTypeName.substring( creationTypeName.lastIndexOf( "." ) + 1 );
-
-			for ( int i = 0; i < existingFrames.size() && this.creation == null; ++i )
+			if ( currentType == this.creationType && currentType != ChatFrame.class )
 			{
-				currentFrame = (KoLFrame) existingFrames.get(i);
-				currentType = currentFrame.getClass();
-
-				if ( currentType == this.creationType && currentType != ChatFrame.class )
-					this.creation = currentFrame;
-			}
-
-			if ( this.creation != null )
+				this.creation = currentFrame;
 				return true;
-
-			for ( int i = 0; i < removedFrames.size() && this.creation == null; ++i )
-			{
-				currentFrame = (KoLFrame) removedFrames.get(i);
-				currentType = currentFrame.getClass();
-
-				if ( currentType == this.creationType && currentType != ChatFrame.class )
-					this.creation = currentFrame;
 			}
-
-			return this.creation != null;
 		}
+
+		for ( int i = 0; i < removedFrames.size() && this.creation == null; ++i )
+		{
+			currentFrame = (KoLFrame) removedFrames.get(i);
+			currentType = currentFrame.getClass();
+
+			if ( currentType == this.creationType && currentType != ChatFrame.class )
+			{
+				this.creation = currentFrame;
+				return true;
+			}
+		}
+
+		return false;
 	}
 
-	private void runConstruction()
+	private void runConstruction( boolean appearsInTab )
 	{
-		// Now, if you aren't supposed to create a new instance,
-		// do not do so -- however, if it's okay to do so, then
-		// go ahead and create it.
-
-		String initialString = "," + StaticEntity.getGlobalProperty( "initialDesktop" ) + ",";
-
-		String searchString = ChatFrame.class.isAssignableFrom( this.creationType ) ? "KoLMessenger" :
-			KoLFrame.class.isAssignableFrom( this.creationType ) ? this.creationType.toString().substring( this.creationType.toString().lastIndexOf( "." ) + 1 ) : "...";
-
-		boolean appearsInTab = KoLFrame.class.isAssignableFrom( this.creationType ) && initialString.indexOf( searchString ) != -1;
-
 		if ( this.creationType != LoginFrame.class && StaticEntity.getBooleanProperty( "guiUsesOneWindow" ) )
 		{
-			if ( !appearsInTab )
-				KoLDesktop.removeExtraTabs();
-
+			KoLDesktop.removeExtraTabs();
 			appearsInTab = true;
-		}
-		else if ( appearsInTab && this.creationType == RequestFrame.class )
-		{
-			// Check to see if there's already a request frame.
-			// If there is, this one won't appear in a tab.
-
-			for ( int i = 0; i < existingFrames.size(); ++i )
-				appearsInTab &= existingFrames.get(i).getClass() != RequestFrame.class;
-		}
-
-		// If the gui is limited to one frame, then make this frame
-		// a tab and remove any extra tabs created this way perviouly.
-
-		boolean showDesktop = !KoLDesktop.instanceExists();
-
-		if ( appearsInTab && showDesktop )
-		{
-			KoLDesktop.getInstance().initializeTabs();
-			if ( this.loadPreviousFrame() )
-			{
-				KoLDesktop.displayDesktop();
-				return;
-			}
 		}
 
 		try
@@ -240,23 +220,23 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 		if ( this.creationType == RequestFrame.class )
 			appearsInTab &= ((RequestFrame)this.creation).hasSideBar();
 
+		if ( appearsInTab )
+			return;
+
 		// Load the KoL frame to the appropriate location
 		// on the screen now that the frame has been packed
 		// to the appropriate size.
 
 		try
 		{
-			if ( !appearsInTab )
+			if ( this.creation instanceof KoLFrame )
 			{
-				if ( this.creation instanceof KoLFrame )
-				{
-					((KoLFrame)this.creation).constructToolbar();
-					if ( ((KoLFrame)this.creation).useSidePane() )
-						((KoLFrame)this.creation).addCompactPane();
-				}
-
-				this.creation.setJMenuBar( new KoLMenuBar() );
+				((KoLFrame)this.creation).constructToolbar();
+				if ( ((KoLFrame)this.creation).useSidePane() )
+					((KoLFrame)this.creation).addCompactPane();
 			}
+
+			this.creation.setJMenuBar( new KoLMenuBar() );
 		}
 		catch ( Exception e )
 		{
@@ -265,29 +245,5 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 
 			StaticEntity.printStackTrace( e,  this.creationType.getName() + " could not be loaded" );
 		}
-
-		this.creation.pack();
-		if ( this.creation instanceof SkillBuffFrame && this.parameters.length == 1 )
-			((SkillBuffFrame)this.creation).setRecipient( (String) this.parameters[0] );
-
-		if ( !(this.creation instanceof KoLFrame) )
-			this.creation.setLocationRelativeTo( null );
-
-		this.creation.setEnabled( true );
-
-		// With the location set set on screen, make sure
-		// to disable it (if necessary), ensure the frame's
-		// visibility on screen and request focus.
-
-		if ( appearsInTab )
-		{
-			KoLDesktop.addTab( (KoLFrame) this.creation );
-			if ( showDesktop )
-				KoLDesktop.displayDesktop();
-		}
-		else
-			this.creation.setVisible( true );
-
-		this.creation.requestFocus();
 	}
 }
