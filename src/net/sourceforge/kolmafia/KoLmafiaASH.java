@@ -1698,14 +1698,16 @@ public class KoLmafiaASH extends StaticEntity
 
 		ScriptExpression initial = parseExpression( parentScope );
 
-		boolean up = true;
+		int direction = 0;
 
 		if ( currentToken().equalsIgnoreCase( "upto" ) )
-			up = true;
+			direction = 1;
 		else if ( currentToken().equalsIgnoreCase( "downto" ) )
-			up = false;
+			direction = -1;
+		else if ( currentToken().equalsIgnoreCase( "to" ) )
+			direction = 0;
 		else
-			parseError( "upto or downto", currentToken() );
+			parseError( "to, upto, or downto", currentToken() );
 
 		readToken();	// upto/downto
 
@@ -1727,7 +1729,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		ScriptScope scope = parseLoopScope( functionType, varList, parentScope );
 
-		return new ScriptFor( scope, new ScriptVariableReference( indexvar ), initial, last, increment, up );
+		return new ScriptFor( scope, new ScriptVariableReference( indexvar ), initial, last, increment, direction );
 	}
 
 	private ScriptScope parseLoopScope( ScriptType functionType, ScriptVariableList varList, ScriptScope parentScope )
@@ -2803,7 +2805,8 @@ public class KoLmafiaASH extends StaticEntity
 	private void printFor( ScriptFor loop, int indent )
 	{
 		indentLine( indent );
-		RequestLogger.updateDebugLog( "<FOR " + ( loop.getUp() ? "upto" : "downto" ) + " >" );
+		int direction = loop.getDirection();
+		RequestLogger.updateDebugLog( "<FOR " + ( direction < 0 ? "downto" : direction > 0 ? "upto" : "to" ) + " >" );
 		printVariableReference( loop.getVariable(), indent + 1 );
 		printExpression( loop.getInitial(), indent + 1 );
 		printExpression( loop.getLast(), indent + 1 );
@@ -6998,16 +7001,16 @@ public class KoLmafiaASH extends StaticEntity
 		private ScriptExpression initial;
 		private ScriptExpression last;
 		private ScriptExpression increment;
-		private boolean up;
+		private int direction;
 
-		public ScriptFor( ScriptScope scope, ScriptVariableReference variable, ScriptExpression initial, ScriptExpression last, ScriptExpression increment, boolean up )
+		public ScriptFor( ScriptScope scope, ScriptVariableReference variable, ScriptExpression initial, ScriptExpression last, ScriptExpression increment, int direction )
 		{
 			super( scope );
 			this.variable = variable;
 			this.initial = initial;
 			this.last = last;
 			this.increment = increment;
-			this.up = up;
+			this.direction = direction;
 		}
 
 		public ScriptVariableReference getVariable()
@@ -7026,8 +7029,8 @@ public class KoLmafiaASH extends StaticEntity
 		{	return increment;
 		}
 
-		public boolean getUp()
-		{	return up;
+		public int getDirection()
+		{	return direction;
 		}
 
 		public ScriptValue execute()
@@ -7084,8 +7087,31 @@ public class KoLmafiaASH extends StaticEntity
 			}
 
 			int current = initialValue.intValue();
-			int adjustment = up ? incrementValue.intValue() : -incrementValue.intValue();
+			int increment = incrementValue.intValue();
 			int end = lastValue.intValue();
+
+			boolean up = false;
+
+			if ( direction > 0 )
+				up = true;
+			else if ( direction < 0 )
+                        {
+				up = false;
+				increment = -increment;
+                        }
+			else
+				up = ( current <= end );
+
+			// Make sure the loop will eventually terminate
+
+			if ( current < end && increment < 0 )
+				throw new AdvancedScriptException( "Start less than end and increment less than 0" );
+
+			if ( current > end && increment > 0 )
+				throw new AdvancedScriptException( "Start greater than end and increment greater than 0" );
+
+			if ( current != end && increment == 0 )
+				throw new AdvancedScriptException( "Start not equal to end and increment equals 0" );
 
 			while ( ( up && current <= end ) ||
 				( !up && current >= end ) )
@@ -7110,7 +7136,7 @@ public class KoLmafiaASH extends StaticEntity
 				}
 
 				// Calculate next value
-				current += adjustment;
+				current += increment;
 			}
 
 			traceUnindent();
@@ -8065,7 +8091,7 @@ public class KoLmafiaASH extends StaticEntity
 			ScriptValue [] array = (ScriptValue [])content;
 			int i = index.intValue();
 			if ( i < 0 || i > array.length )
-				throw new RuntimeException( "Array index out of bounds" );
+				throw new AdvancedScriptException( "Array index out of bounds" );
 			return array[ i ];
 		}
 
@@ -8074,7 +8100,7 @@ public class KoLmafiaASH extends StaticEntity
 			ScriptValue [] array = (ScriptValue [])content;
 			int index = key.intValue();
 			if ( index < 0 || index > array.length )
-				throw new RuntimeException( "Array index out of bounds" );
+				throw new AdvancedScriptException( "Array index out of bounds" );
 
 			if ( array[ index ].getType().equals( val.getType() ) )
 				array[ index ] = val;
@@ -8093,7 +8119,7 @@ public class KoLmafiaASH extends StaticEntity
 			ScriptValue [] array = (ScriptValue [])content;
 			int index = key.intValue();
 			if ( index < 0 || index > array.length )
-				throw new RuntimeException( "Array index out of bounds" );
+				throw new AdvancedScriptException( "Array index out of bounds" );
 			ScriptValue result = array[ index ];
 			array[ index ] = getDataType().initialValue();
 			return result;
