@@ -491,7 +491,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 	 * item creation.
 	 */
 
-	public static void refreshConcoctions()
+	public static synchronized void refreshConcoctions()
 	{
 		List availableIngredients = getAvailableIngredients();
 
