@@ -455,57 +455,57 @@ public class AdventureDatabase extends KoLDatabase
 		  new String [] { null, null } ),
 
 		// Bait and Switch
-		new ChoiceAdventure( "Island", "choiceAdventure139", "Hippy Camp",
+		new ChoiceAdventure( "IsleWar", "choiceAdventure139", "Wartime Hippy Camp",
 		  new String [] { "muscle substats", "ferret bait", "enter combat" },
 		  new String [] { null, "2041", null } ),
 
 		// The Thin Tie-Dyed Line
-		new ChoiceAdventure( "Island", "choiceAdventure140", "Hippy Camp",
+		new ChoiceAdventure( "IsleWar", "choiceAdventure140", "Wartime Hippy Camp",
 		  new String [] { "water pipe bombs", "moxie substats", "enter combat" },
 		  new String [] { "2348", null, null } ),
 
 		// Blockin' Out the Scenery
-		new ChoiceAdventure( "Island", "choiceAdventure141", "Hippy Camp",
-		  new String [] { "mysticality substats", "seal-clubbing club", "waste a turn" },
-		  new String [] { null, "1", null } ),
+		new ChoiceAdventure( "IsleWar", "choiceAdventure141", "Wartime Hippy Camp",
+		  new String [] { "mysticality substats", "get some hippy food", "waste a turn" },
+		  new String [] { null, null, null } ),
 
 		// Blockin' Out the Scenery
-		new ChoiceAdventure( "Island", "choiceAdventure142", "Hippy Camp",
-		  new String [] { "mysticality substats", "seal-clubbing club", "Open Extended Island" },
-		  new String [] { null, "1", null } ),
+		new ChoiceAdventure( "IsleWar", "choiceAdventure142", "Wartime Hippy Camp (Frat Disguise)",
+		  new String [] { "mysticality substats", "get some hippy food", "start the war" },
+		  new String [] { null, null, null } ),
 
 		// Catching Some Zetas
-		new ChoiceAdventure( "Island", "choiceAdventure143", "Frat House",
+		new ChoiceAdventure( "IsleWar", "choiceAdventure143", "Wartime Frat House",
 		  new String [] { "muscle substats", "sake bombs", "enter combat" },
 		  new String [] { null, "2067", null } ),
 
 		// One Less Room Than In That Movie
-		new ChoiceAdventure( "Island", "choiceAdventure144", "Frat House",
+		new ChoiceAdventure( "IsleWar", "choiceAdventure144", "Wartime Frat House",
 		  new String [] { "moxie substats", "beer bombs", "enter combat" },
 		  new String [] { null, "2350", null } ),
 
 		// Fratacombs
-		new ChoiceAdventure( "Island", "choiceAdventure145", "Frat House",
-		  new String [] { "muscle substats", "seal-clubbing club", "waste a turn" },
-		  new String [] { null, "1", null } ),
+		new ChoiceAdventure( "IsleWar", "choiceAdventure145", "Wartime Frat House",
+		  new String [] { "muscle substats", "get some frat food", "waste a turn" },
+		  new String [] { null, null, null } ),
 
 		// Fratacombs
-		new ChoiceAdventure( "Island", "choiceAdventure146", "Frat House",
-		  new String [] { "muscle substats", "seal-clubbing club", "Open Extended Island" },
-		  new String [] { null, "1", null } ),
+		new ChoiceAdventure( "IsleWar", "choiceAdventure146", "Wartime Frat House  (Hippy Disguise)",
+		  new String [] { "muscle substats", "get some frat food", "start the war" },
+		  new String [] { null, null, null } ),
 
 		// Cornered!
-		new ChoiceAdventure( "Island", "choiceAdventure147", "McMillicancuddy's Barn",
+		new ChoiceAdventure( "IsleWar", "choiceAdventure147", "McMillicancuddy's Barn",
 		  new String [] { "Open The Granary (meat)", "Open The Bog (stench)", "Open The Pond (cold)" },
 		  new String [] { null, null, null } ),
 
 		// Cornered Again!
-		new ChoiceAdventure( "Island", "choiceAdventure148", "McMillicancuddy's Barn",
+		new ChoiceAdventure( "IsleWar", "choiceAdventure148", "McMillicancuddy's Barn",
 		  new String [] { "Open The Back 40 (hot)", "Open The Family Plot (spooky)" },
 		  new String [] { null, null } ),
 
 		// ow Many Corners Does this Stupid Barn Have!?
-		new ChoiceAdventure( "Island", "choiceAdventure149", "McMillicancuddy's Barn",
+		new ChoiceAdventure( "IsleWar", "choiceAdventure149", "McMillicancuddy's Barn",
 		  new String [] { "Open The Shady Thicket (booze)", "Open The Other Back 40 (sleaze)" },
 		  new String [] { null, null } ),
 
