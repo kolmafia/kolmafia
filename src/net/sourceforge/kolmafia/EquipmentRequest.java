@@ -61,7 +61,6 @@ public class EquipmentRequest extends PasswordHashRequest
 	private static final Pattern OUTFIT_PATTERN = Pattern.compile( "whichoutfit=(\\d+)" );
 	private static final Pattern SLOT_PATTERN = Pattern.compile( "type=([a-z]+)" );
 	private static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
-	private static final Pattern FAMILIAR_PATTERN = Pattern.compile( "famid=(\\d+)" );
 
 	public static final AdventureResult UNEQUIP = new AdventureResult( "(none)", 1, false );
 	private static final AdventureResult PASTE = new AdventureResult( MEAT_PASTE, 1 );
@@ -467,25 +466,39 @@ public class EquipmentRequest extends PasswordHashRequest
 			if ( KoLCharacter.getEquipment( this.equipmentSlot ).equals( this.changeItem ) )
 				return;
 
-			// If we are requesting another familiar's equipment,
-			// make it available.
+			// Try to remove your off-hand item first, if there is
+			// no match on equipment type.
 
-			if ( this.equipmentSlot == KoLCharacter.FAMILIAR )
+			int itemId = this.changeItem.getItemId();
+			int equipmentType = TradeableItemDatabase.getConsumptionType( itemId );
+
+			if ( equipmentType == EQUIP_WEAPON && (this.equipmentSlot == KoLCharacter.WEAPON || this.equipmentSlot == KoLCharacter.OFFHAND) )
 			{
-				if ( !inventory.contains( this.changeItem ) && !closet.contains( this.changeItem ))
-				{
-					// Find first familiar with item
+				int desiredHands = EquipmentDatabase.getHands( itemId );
+				int desiredType = EquipmentDatabase.hitStat( itemId );
+				int currentType = EquipmentDatabase.hitStat( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getName() );
 
-					FamiliarData [] familiars = new FamiliarData[ KoLCharacter.getFamiliarList().size() ];
-					KoLCharacter.getFamiliarList().toArray( familiars );
-					for ( int i = 0; i < familiars.length; ++i )
+				if ( desiredHands == 1 && desiredType != currentType )
+				{
+					// If we are equipping a new weapon, a
+					// two-handed weapon will unequip any pair of
+					// weapons. But a one-handed weapon much match
+					// the type of the off-hand weapon. If it
+					// doesn't, unequip the off-hand weapon first
+
+					if ( this.equipmentSlot == KoLCharacter.WEAPON )
 					{
-						if ( familiars[i].getItem() != null && familiars[i].getItem().equals( this.changeItem ) )
-						{
-							KoLmafia.updateDisplay( "Stealing " + this.changeItem.getName() + " from " + familiars[i].getRace() + "..." );
-							(new KoLRequest( "familiar.php?pwd=&action=unequip&famid=" + familiars[i].getId(), true )).run();
-							break;
-						}
+						RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, KoLCharacter.OFFHAND ) );
+					}
+
+					// If we are equipping an off-hand weapon, fail
+					// the request if its type does not agree with
+					// the type of the main weapon.
+
+					else if ( this.equipmentSlot == KoLCharacter.OFFHAND )
+					{
+						KoLmafia.updateDisplay( ERROR_STATE, "You can't wield a " + ( desiredType == MUSCLE ? "melee" : desiredType == MYSTICALITY ? "mysticality" : "ranged" ) + " weapon in your off-hand with a " + ( currentType == MUSCLE ? "melee" : currentType == MYSTICALITY ? "mysticality" : "ranged" ) + " weapon in your main hand." );
+						return;
 					}
 				}
 			}
@@ -940,29 +953,7 @@ public class EquipmentRequest extends PasswordHashRequest
 	public static boolean registerRequest( String urlString )
 	{
 		if ( !urlString.startsWith( "inv_equip.php" ) )
-		{
-			if ( !urlString.startsWith( "familiar.php" ) || urlString.indexOf( "action=unequip" ) == -1 )
-				return false;
-
-			Matcher idMatcher = FAMILIAR_PATTERN.matcher( urlString );
-			if ( !idMatcher.find() )
-				return false;
-
-			int id = StaticEntity.parseInt( idMatcher.group(1) );
-
-			FamiliarData [] familiars = new FamiliarData[ KoLCharacter.getFamiliarList().size() ];
-			KoLCharacter.getFamiliarList().toArray( familiars );
-			for ( int i = 0; i < familiars.length; ++i )
-			{
-				if ( familiars[i].getId() == id )
-				{
-					AdventureResult.addResultToList( inventory, familiars[i].getItem() );
-					familiars[i].setItem( UNEQUIP );
-				}
-			}
-
-			return true;
-		}
+			return false;
 
 		Matcher outfitMatcher = OUTFIT_PATTERN.matcher( urlString );
 		if ( outfitMatcher.find() )
@@ -975,7 +966,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			}
 			else
 			{
-				RequestLogger.updateSessionLog( "outfit [unknown custom outfit]" );
+				RequestLogger.updateSessionLog( "outfit [custom]" );
 				return true;
 			}
 		}

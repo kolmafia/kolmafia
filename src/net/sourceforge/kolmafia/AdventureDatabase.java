@@ -1362,6 +1362,22 @@ public class AdventureDatabase extends KoLDatabase
 		if ( missingCount <= 0 )
 			return true;
 
+		FamiliarData [] familiars = new FamiliarData[ KoLCharacter.getFamiliarList().size() ];
+		KoLCharacter.getFamiliarList().toArray( familiars );
+		for ( int i = 0; i < familiars.length; ++i )
+		{
+			if ( familiars[i].getItem() != null && familiars[i].getItem().equals( item ) )
+			{
+				KoLmafia.updateDisplay( "Stealing " + item + " from " + familiars[i].getName() + " the " + familiars[i].getRace() + "..." );
+				RequestThread.postRequest( new KoLRequest( "familiar.php?pwd=&action=unequip&famid=" + familiars[i].getId(), true ) );
+
+				--missingCount;
+
+				if ( missingCount <= 0 )
+					return true;
+			}
+		}
+
 		// Try to purchase the item from the mall, if the
 		// user wishes to autosatisfy through purchases,
 		// and the item is not creatable through combines.
