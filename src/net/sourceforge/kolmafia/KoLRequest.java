@@ -732,23 +732,23 @@ public class KoLRequest extends Job implements KoLConstants
 		}
 		while ( !this.postClientData() || !this.retrieveServerReply() );
 
-		if ( !isDelayExempt )
-		{
-			if ( System.currentTimeMillis() - lastRequestTime > lagTolerance )
-			{
-				adjustDelay = Math.min( MAXIMUM_DELAY, adjustDelay + 500 );
-				normalDelay = adjustDelay >> 1;
-				lagTolerance = adjustDelay << 2;
-				lastAdjustTime = System.currentTimeMillis();
-			}
+		if ( this.isDelayExempt || this.responseCode != 200 )
+			return;
 
-			else if ( System.currentTimeMillis() - lastAdjustTime > ADJUSTMENT_REFRESH )
-			{
-				adjustDelay = Math.max( 0, adjustDelay - 500 );
-				normalDelay = adjustDelay >> 1;
-				lagTolerance = Math.max( 2000, adjustDelay << 2 );
-				lastAdjustTime = System.currentTimeMillis();
-			}
+		if ( System.currentTimeMillis() - lastRequestTime > lagTolerance )
+		{
+			adjustDelay = Math.min( MAXIMUM_DELAY, adjustDelay + 500 );
+			normalDelay = adjustDelay >> 1;
+			lagTolerance = adjustDelay << 2;
+			lastAdjustTime = System.currentTimeMillis();
+		}
+
+		else if ( System.currentTimeMillis() - lastAdjustTime > ADJUSTMENT_REFRESH )
+		{
+			adjustDelay = Math.max( 0, adjustDelay - 500 );
+			normalDelay = adjustDelay >> 1;
+			lagTolerance = Math.max( 2000, adjustDelay << 2 );
+			lastAdjustTime = System.currentTimeMillis();
 		}
 	}
 
@@ -1629,8 +1629,6 @@ public class KoLRequest extends Job implements KoLConstants
 
 		if ( AdventureDatabase.consumesAdventure( option, decision ) )
 			this.needsRefresh = !request.needsRefresh;
-
-		this.stealRequestData( request );
 	}
 
 	private String pickOutfitChoice( String option, String decision )
