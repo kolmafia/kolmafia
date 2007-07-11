@@ -799,7 +799,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		StringBuffer command = new StringBuffer();
 
-		if ( urlString.startsWith( "combine.php" ) )
+		if ( urlString.startsWith( "combine.php" ) || (urlString.startsWith( "knoll.php" ) && urlString.indexOf( "action=combine" ) != -1) )
 		{
 			isCreationURL = true;
 			command.append( "Combine " );
