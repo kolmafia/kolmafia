@@ -838,14 +838,23 @@ public class KoLRequest extends Job implements KoLConstants
 		return delay( expectedDelay );
 	}
 
+	public static int getAverageDelay()
+	{	return adjustDelay;
+	}
+
 	public static void printTotalDelay()
 	{
+		if ( totalDelay == 0 )
+			return;
+
 		int seconds = totalDelay / 1000;
 		int minutes = seconds / 60;
 		seconds = seconds % 60;
 
-		RequestLogger.printLine( "Delay between requests: " + (normalDelay + adjustDelay / 2) + " milliseconds" );
+		RequestLogger.printLine();
+		RequestLogger.printLine( "Delay between requests: " + (getAverageDelay() / 1000.0f) + " seconds" );
 		RequestLogger.printLine( "Delay added this session: " + minutes + " minutes, " + seconds + " seconds" );
+		RequestLogger.printLine();
 	}
 
 	/**
