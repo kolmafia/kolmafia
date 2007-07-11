@@ -1142,7 +1142,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		}
 
 		public int getTotal()
-		{	return this.visibleTotal;
+		{	return this.price > 0 ? KoLCharacter.getAvailableMeat() / this.price : this.visibleTotal;
 		}
 
 		public int getQueued()
