@@ -433,7 +433,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 	{
 		public void keyPressed( KeyEvent e )
 		{
-			if ( e.getKeyCode() != KeyEvent.VK_DELETE )
+			if ( e.getKeyCode() != KeyEvent.VK_DELETE  && e.getKeyCode() != KeyEvent.VK_BACK_SPACE )
 				return;
 
 			Object [] items = ShowDescriptionList.this.getSelectedValues();
