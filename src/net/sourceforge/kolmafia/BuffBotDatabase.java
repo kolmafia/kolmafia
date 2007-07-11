@@ -308,6 +308,7 @@ public class BuffBotDatabase extends KoLDatabase
 				// have been parsed, and return.
 
 				++buffBotsConfigured;
+				nameList.remove( this.botName );
 				return;
 			}
 
@@ -464,8 +465,7 @@ public class BuffBotDatabase extends KoLDatabase
 			if ( this.turns.length == 1 )
 			{
 				buffer.append( COMMA_FORMAT.format( this.turns[0] ) );
-				buffer.append( " turns of " );
-				buffer.append( this.buffs[0] );
+				buffer.append( " turns" );
 			}
 			else
 			{
@@ -508,20 +508,21 @@ public class BuffBotDatabase extends KoLDatabase
 			if ( (this.turns.length == 1 || off.turns.length == 1) && this.turns.length != off.turns.length )
 				return off.turns.length - this.turns.length;
 
-			// Next, cheaper buffpacks should come before more expensive buffpacks,
-			// and philanthropic buffs compare prices as well
-
-			// Philanthropic buffs compare price
-			if ( this.free || this.turns.length > 1 || off.turns.length > 1 )
+			// If a buffpack, compare price
+			if ( this.turns.length > 1 && off.turns.length > 1 )
 				return this.price - off.price;
 
 			// Compare the Id of the lowest Id buffs
 			if ( this.lowestBuffId != off.lowestBuffId )
 				return this.lowestBuffId - off.lowestBuffId;
 
-			// First compare turns
+			// Next compare turns
 			if ( this.turns[0] != off.turns[0] )
 				return this.turns[0] - off.turns[0];
+
+			// Next compare price
+			if ( this.price != off.price )
+				return this.price - off.price;
 
 			// Then, compare the names of the bots
 			return this.botName.compareToIgnoreCase( off.botName );

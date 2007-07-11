@@ -41,6 +41,7 @@ import java.awt.event.ActionListener;
 import java.lang.ref.WeakReference;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.TreeMap;
 
 import javax.swing.Box;
@@ -54,7 +55,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
-import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.BuffBotDatabase.Offering;
 
 public class BuffRequestFrame extends KoLFrame
@@ -71,12 +72,15 @@ public class BuffRequestFrame extends KoLFrame
 		"Respectfully yours,\nThe KoLmafia development team";
 
 	private String botName;
-	private JComboBox names;
+	private JComboBox names, types;
+	private SortedListModel [] nameList;
+
 	private TreeMap panelMap;
 
-	private JPanel requestContainer;
-	private CardLayout requestCards;
+	private JPanel nameContainer;
+	private CardLayout nameCards;
 
+	private RequestPanel lastPanel;
 	private BuffRequestPanel mainPanel;
 	private TotalPriceUpdater priceUpdater = new TotalPriceUpdater();
 
@@ -85,15 +89,32 @@ public class BuffRequestFrame extends KoLFrame
 		super( "Purchase Buffs" );
 
 		this.panelMap = new TreeMap();
-		this.names = new JComboBox();
+		this.nameList = new SortedListModel[4];
+		for ( int i = 0; i < 4; ++i )
+			nameList[i] = new SortedListModel();
 
-		addActionListener( this.names, new NameComboBoxListener() );
+		this.names = new JComboBox( nameList[0] );
 
-		this.requestCards = new CardLayout();
-		this.requestContainer = new JPanel( requestCards );
+		this.types = new JComboBox();
+		this.types.addItem( "buff packs" );
+		this.types.addItem( "sauceror buffs" );
+		this.types.addItem( "turtle tamer buffs" );
+		this.types.addItem( "accordion thief buffs" );
+
+		CardSwitchListener listener = new CardSwitchListener();
+
+		addActionListener( this.names, listener );
+		addActionListener( this.types, listener );
+
+		this.nameCards = new CardLayout();
+		this.nameContainer = new JPanel( nameCards );
 
 		this.framePanel.setLayout( new CardLayout( 10, 10 ) );
 		this.framePanel.add( this.mainPanel = new BuffRequestPanel(), "" );
+
+		this.nameContainer.add( new SimpleScrollPane( new JPanel() ), "" );
+		this.types.setSelectedIndex(-1);
+		this.resetCard();
 	}
 
 	public JTabbedPane getTabbedPane()
@@ -102,16 +123,9 @@ public class BuffRequestFrame extends KoLFrame
 
 	public void dispose()
 	{
-		this.names = null;
 		this.panelMap.clear();
-
-		this.requestContainer = null;
-		this.requestCards = null;
-
 		this.mainPanel.dispose();
-		this.mainPanel = null;
 
-		this.priceUpdater = null;
 		super.dispose();
 	}
 
@@ -142,27 +156,17 @@ public class BuffRequestFrame extends KoLFrame
 				if ( list[i] == null || list[i].equals( "" ) )
 					continue;
 
-				if ( BuffBotDatabase.getStandardOfferings( (String) list[i] ).isEmpty() )
-					if ( !BuffBotDatabase.getPhilanthropicOfferings( (String) list[i] ).isEmpty() )
-						continue;
-
-				BuffRequestFrame.this.names.addItem( list[i] );
 				RequestPanel panel = new RequestPanel( (String) list[i] );
 				BuffRequestFrame.this.panelMap.put( list[i], new WeakReference( panel ) );
-				BuffRequestFrame.this.requestContainer.add( panel, list[i] );
+				BuffRequestFrame.this.nameContainer.add( panel, list[i] );
 			}
 
-			JPanel selectContainer = new JPanel( new BorderLayout() );
-			selectContainer.add( BuffRequestFrame.this.names, BorderLayout.NORTH );
-			selectContainer.add( BuffRequestFrame.this.requestContainer, BorderLayout.CENTER );
+			VerifiableElement [] elements = new VerifiableElement[2];
+			elements[0] = new VerifiableElement( "Category:  ", BuffRequestFrame.this.types );
+			elements[1] = new VerifiableElement( "Bot Name:  ", BuffRequestFrame.this.names );
 
-			this.setContent( new VerifiableElement[0] );
-
-			container.add( southContainer, BorderLayout.NORTH );
-			container.add( selectContainer, BorderLayout.CENTER );
-
-			BuffRequestFrame.this.names.setSelectedIndex( RNG.nextInt( BuffRequestFrame.this.names.getItemCount() ) );
-			BuffRequestFrame.this.resetCard();
+			this.setContent( elements );
+			this.add( BuffRequestFrame.this.nameContainer, BorderLayout.SOUTH );
 		}
 
 		public void actionConfirmed()
@@ -206,33 +210,45 @@ public class BuffRequestFrame extends KoLFrame
 
 	private class RequestPanel extends JPanel
 	{
-		private JPanel centerPanel = new JPanel();
+		private int lastBuffId = 0;
+		private boolean addedBuffPackLabel = false;
+		private CardLayout categoryCards = new CardLayout();
 
-		private boolean addedAnyLabel = false;
-		private boolean addedPackLabel = false;
-		private boolean addedSingleLabel = false;
-
-		private boolean addedTurtleLabel = false;
-		private boolean addedSaucerorLabel = false;
-		private boolean addedThiefLabel = false;
+		private JPanel currentPanel = new JPanel();
+		private JPanel [] categoryPanels = new JPanel[4];
 
 		private JCheckBox [] checkboxes;
 		private Offering [] offerings;
 
 		public RequestPanel( String botName )
 		{
+			this.setLayout( this.categoryCards );
+
 			if ( BuffBotDatabase.getStandardOfferings( botName ).isEmpty() )
 			{
 				addNoRequestMessage( botName );
 				return;
 			}
 
-			LockableListModel list = BuffBotDatabase.getStandardOfferings( botName );
+			for ( int i = 0; i < 4; ++i )
+			{
+				categoryPanels[i] = new JPanel();
+				categoryPanels[i].setLayout( new BoxLayout( categoryPanels[i], BoxLayout.Y_AXIS ) );
+
+				SimpleScrollPane scroller = new SimpleScrollPane( categoryPanels[i] );
+				JComponentUtilities.setComponentSize( scroller, 500, 400 );
+
+				this.add( scroller, String.valueOf(i) );
+			}
+
+			ArrayList list = new ArrayList();
+			list.addAll( BuffBotDatabase.getStandardOfferings( botName ) );
+			list.addAll( BuffBotDatabase.getPhilanthropicOfferings( botName ) );
+
+			Collections.sort( list );
 
 			this.offerings = new Offering[ list.size() ];
 			list.toArray( this.offerings );
-
-			centerPanel.setLayout( new BoxLayout( centerPanel, BoxLayout.Y_AXIS ) );
 
 			checkboxes = new JCheckBox[ this.offerings.length ];
 
@@ -250,92 +266,69 @@ public class BuffRequestFrame extends KoLFrame
 				String tooltip = price + " meat (" + FLOAT_FORMAT.format( (float)turns[0] / (float)price ) + " turns/meat)";
 				checkboxes[i].setToolTipText( tooltip );
 
-				if ( turns.length > 1 )
-					addBuffPackLabel();
-				else
-					addSingleLabel( this.offerings[i].getLowestBuffId() );
+				int buffId = this.offerings[i].getLowestBuffId();
+				int categoryId = getCategory( turns.length, buffId );
 
-				centerPanel.add( checkboxes[i] );
+				currentPanel = categoryPanels[categoryId];
+				addBuffLabel( turns.length, buffId );
+
+				if ( !nameList[categoryId].contains( botName ) )
+					nameList[categoryId].add( botName );
+
+				currentPanel.add( checkboxes[i] );
 			}
+		}
 
-			SimpleScrollPane scroller = new SimpleScrollPane( centerPanel );
-			JComponentUtilities.setComponentSize( scroller, 500, 400 );
-
-			this.setLayout( new BorderLayout() );
-			this.add( scroller, BorderLayout.CENTER );
+		private int getCategory( int count, int buffId )
+		{
+			if ( count > 1 )
+				return 0;
+			else if ( buffId > 4000 && buffId < 5000 )
+				return 1;
+			else if ( buffId > 2000 && buffId < 3000 )
+				return 2;
+			else if ( buffId > 6000 && buffId < 7000 )
+				return 3;
+			else
+				return 0;
 		}
 
 		private void addNoRequestMessage( String botName )
 		{
-			this.setLayout( new BorderLayout() );
-			JTextArea message = new JTextArea( StaticEntity.globalStringReplace( NO_REQUEST_TEXT, "BOT_NAME", botName ) );
+			for ( int i = 0; i < 4; ++i )
+			{
+				JTextArea message = new JTextArea( StaticEntity.globalStringReplace( NO_REQUEST_TEXT, "BOT_NAME", botName ) );
 
-			message.setColumns( 40 );
-			message.setLineWrap( true );
-			message.setWrapStyleWord( true );
-			message.setEditable( false );
-			message.setOpaque( false );
-			message.setFont( DEFAULT_FONT );
+				message.setColumns( 40 );
+				message.setLineWrap( true );
+				message.setWrapStyleWord( true );
+				message.setEditable( false );
+				message.setOpaque( false );
+				message.setFont( DEFAULT_FONT );
 
-			this.add( new SimpleScrollPane( message ), BorderLayout.CENTER );
+				this.add( new SimpleScrollPane( message ), String.valueOf(i) );
+			}
 		}
 
-		private void addBuffPackLabel()
+		private void addBuffLabel( int count, int buffId )
 		{
-			if ( addedPackLabel )
+			if ( count > 1 )
+			{
+				if ( addedBuffPackLabel )
+					return;
+
+				addedBuffPackLabel = true;
+				currentPanel.add( new JLabel( "<html><h3>Buff Packs</h3></html>" ) );
+				currentPanel.add( Box.createVerticalStrut( 5 ) );
+				return;
+			}
+
+			if ( buffId == lastBuffId )
 				return;
 
-			centerPanel.add( new JLabel( "<html><h2>Buff Packs</h2></html>" ) );
-			centerPanel.add( Box.createVerticalStrut( 10 ) );
-
-			addedAnyLabel = true;
-			addedPackLabel = true;
-		}
-
-		private void addSingleLabel( int buffId )
-		{
-			if ( buffId > 2000 && buffId < 3000 )
-			{
-				if ( addedTurtleLabel )
-					return;
-
-				if ( addedAnyLabel )
-					centerPanel.add( Box.createVerticalStrut( 20 ) );
-
-				centerPanel.add( new JLabel( "<html><h2>Turtle Tamer Buffs</h2></html>" ) );
-				centerPanel.add( Box.createVerticalStrut( 10 ) );
-
-				addedAnyLabel = true;
-				addedTurtleLabel = true;
-			}
-			if ( buffId > 4000 && buffId < 5000 )
-			{
-				if ( addedSaucerorLabel )
-					return;
-
-				if ( addedAnyLabel )
-					centerPanel.add( Box.createVerticalStrut( 20 ) );
-
-				centerPanel.add( new JLabel( "<html><h2>Sauceror Buffs</h2></html>" ) );
-				centerPanel.add( Box.createVerticalStrut( 10 ) );
-
-				addedAnyLabel = true;
-				addedSaucerorLabel = true;
-			}
-			if ( buffId > 6000 && buffId < 7000 )
-			{
-				if ( addedThiefLabel )
-					return;
-
-				if ( addedAnyLabel )
-					centerPanel.add( Box.createVerticalStrut( 20 ) );
-
-				centerPanel.add( new JLabel( "<html><h2>Accordion Thief Buffs</h2></html>" ) );
-				centerPanel.add( Box.createVerticalStrut( 10 ) );
-
-				addedAnyLabel = true;
-				addedThiefLabel = true;
-			}
+			lastBuffId = buffId;
+			currentPanel.add( new JLabel( "<html><h3>" + ClassSkillsDatabase.getSkillName( buffId ) + "</h3></html>" ) );
+			currentPanel.add( Box.createVerticalStrut( 5 ) );
 		}
 	}
 
@@ -345,16 +338,32 @@ public class BuffRequestFrame extends KoLFrame
 			return;
 
 		RequestPanel panel = getPanel();
-		if ( panel == null )
+		if ( panel == null || panel.checkboxes == null || panel.offerings == null )
 			return;
+
+		if ( lastPanel != null && lastPanel != panel )
+		{
+			JCheckBox [] checkboxes = lastPanel.checkboxes;
+
+			for ( int i = 0; i < checkboxes.length; ++i )
+				if ( checkboxes[i] != null )
+					checkboxes[i].setSelected( false );
+		}
+
+		this.lastPanel = panel;
 
 		int price = 0;
 		JCheckBox [] checkboxes = panel.checkboxes;
 		Offering [] offerings = panel.offerings;
 
 		for ( int i = 0; i < checkboxes.length; ++i )
+		{
+			if ( checkboxes[i] == null || offerings[i] == null )
+				continue;
+
 			if ( checkboxes[i].isSelected() )
 				price += offerings[i].getPrice();
+		}
 
 		this.mainPanel.setStatusMessage( COMMA_FORMAT.format( price ) + " meat will be sent to " + this.botName );
 	}
@@ -367,17 +376,35 @@ public class BuffRequestFrame extends KoLFrame
 
 	private void resetCard()
 	{
-		this.requestCards.show( BuffRequestFrame.this.requestContainer, BuffRequestFrame.this.getCardId() );
+		int typeId = this.types.getSelectedIndex();
+		if ( typeId != -1 && this.names.getModel() != nameList[typeId] )
+			this.names.setModel( nameList[typeId] );
+
+		RequestPanel panel = getPanel();
+		if ( typeId == -1 || panel == null )
+		{
+			this.nameCards.show( this.nameContainer, "" );
+			this.mainPanel.setStatusMessage( " " );
+			return;
+		}
+
+		panel.categoryCards.show( panel, String.valueOf( typeId ) );
+		this.nameCards.show( this.nameContainer, this.getCardId() );
+
 		updateSendPrice();
 	}
 
 	private RequestPanel getPanel()
 	{
-		WeakReference ref = (WeakReference) this.panelMap.get( this.getCardId() );
+		String cardId = this.getCardId();
+		if ( cardId == null )
+			return null;
+
+		WeakReference ref = (WeakReference) this.panelMap.get( cardId );
 		return ref == null || ref.get() == null ? null : (RequestPanel) ref.get();
 	}
 
-	private class NameComboBoxListener extends ThreadedListener
+	private class CardSwitchListener extends ThreadedListener
 	{
 		public void run()
 		{	resetCard();
