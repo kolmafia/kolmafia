@@ -805,7 +805,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		// If the player is pickpocketing, they probably do not want
 		// their auto-attack reset to an attack.
 
-		if ( autoAttack.equals( "3" ) )
+		if ( autoAttack.equals( "3" ) || (!KoLCharacter.canInteract() && KoLCharacter.isMoxieClass()) )
 			return;
 
 		// Areas that have no combats do not need to have auto-attack
