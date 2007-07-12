@@ -420,12 +420,12 @@ public class LoginFrame extends KoLFrame
 
 	private class ConnectionOptionsPanel extends OptionsPanel
 	{
+		private JCheckBox loadBalancer, loadDistributer;
 		private JCheckBox [] optionBoxes;
 
 		private final String [][] options =
 		{
 			{ "proxySet", "Use a proxy to connect to the Kingdom of Loathing" },
-			{ "ignoreLoadBalancer", "Ignore the KoL load balancer when trying to login" },
 			{ "testSocketTimeout", "Allow socket timeouts for unstable connections" }
 		};
 
@@ -444,13 +444,16 @@ public class LoginFrame extends KoLFrame
 			for ( int i = 0; i < this.options.length; ++i )
 				this.optionBoxes[i] = new JCheckBox();
 
-			VerifiableElement [] elements = new VerifiableElement[ 2 + this.options.length ];
+			VerifiableElement [] elements = new VerifiableElement[ 5 + this.options.length ];
 
 			elements[0] = new VerifiableElement( LoginFrame.this.servers );
 			elements[1] = new VerifiableElement();
+			elements[2] = new VerifiableElement( "Attempt to ignore login page load balancer", JLabel.LEFT, loadBalancer = new JCheckBox() );
+			elements[3] = new VerifiableElement( "Enable server-friendlier auto-adventuring", JLabel.LEFT, loadDistributer = new JCheckBox() );
+			elements[4] = new VerifiableElement();
 
 			for ( int i = 0; i < this.options.length; ++i )
-				elements[i+2] = new VerifiableElement( this.options[i][1], JLabel.LEFT, this.optionBoxes[i] );
+				elements[i+5] = new VerifiableElement( this.options[i][1], JLabel.LEFT, this.optionBoxes[i] );
 
 			if ( System.getProperty( "os.name" ).startsWith( "Mac" ) )
 			{
@@ -468,6 +471,9 @@ public class LoginFrame extends KoLFrame
 			StaticEntity.setProperty( "defaultLoginServer", String.valueOf( LoginFrame.this.servers.getSelectedIndex() ) );
 			for ( int i = 0; i < this.options.length; ++i )
 				StaticEntity.setProperty( this.options[i][0], String.valueOf( this.optionBoxes[i].isSelected() ) );
+
+			LoginRequest.setIgnoreLoadBalancer( loadBalancer.isSelected() );
+			KoLRequest.setDelayActive( loadDistributer.isSelected() );
 		}
 
 		public void actionCancelled()
@@ -475,6 +481,12 @@ public class LoginFrame extends KoLFrame
 			LoginFrame.this.servers.setSelectedIndex( StaticEntity.getIntegerProperty( "defaultLoginServer" ) );
 			for ( int i = 0; i < this.options.length; ++i )
 				this.optionBoxes[i].setSelected( StaticEntity.getBooleanProperty( this.options[i][0] ) );
+
+			loadBalancer.setSelected( false );
+			loadDistributer.setSelected( true );
+
+			LoginRequest.setIgnoreLoadBalancer( false );
+			KoLRequest.setDelayActive( true );
 		}
 
 		public void setEnabled( boolean isEnabled )

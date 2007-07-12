@@ -40,6 +40,7 @@ import java.util.regex.Pattern;
 
 public class LoginRequest extends KoLRequest
 {
+	private static boolean ignoreLoadBalancer = false;
 	private static final Pattern SESSIONID_COOKIE_PATTERN = Pattern.compile( "PHPSESSID=([^\\;]+)" );
 	private static final Pattern FAILURE_PATTERN = Pattern.compile( "<p><b>(.*?)</b>" );
 	private static final Pattern CHALLENGE_PATTERN = Pattern.compile( "<input type=hidden name=challenge value=\"([^\"]*?)\">" );
@@ -72,6 +73,10 @@ public class LoginRequest extends KoLRequest
 			StaticEntity.setProperty( "saveStateActive", "true" );
 	}
 
+	public static void setIgnoreLoadBalancer( boolean ignoreLoadBalancer )
+	{	LoginRequest.ignoreLoadBalancer = ignoreLoadBalancer;
+	}
+
 	protected boolean retryOnTimeout()
 	{	return true;
 	}
@@ -96,7 +101,7 @@ public class LoginRequest extends KoLRequest
 
 		this.clearDataFields();
 
-		if ( StaticEntity.getBooleanProperty( "ignoreLoadBalancer" ) )
+		if ( ignoreLoadBalancer )
 			this.constructURLString( "main.php" );
 
 		super.run();

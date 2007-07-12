@@ -63,6 +63,7 @@ import com.velocityreviews.forums.HttpTimeoutHandler;
 public class KoLRequest extends Job implements KoLConstants
 {
 	private static int totalDelay = 0;
+	private static boolean delayActive = true;
 	private static long lastAdjustTime = Long.MAX_VALUE;
 
 	private static int INITIAL_CACHE_COUNT = 3;
@@ -143,6 +144,10 @@ public class KoLRequest extends Job implements KoLConstants
 	public String responseText;
 	public HttpURLConnection formConnection;
 	public String redirectLocation;
+
+	public static void setDelayActive( boolean delayActive )
+	{	KoLRequest.delayActive = delayActive;
+	}
 
 	/**
 	 * Static method called when <code>KoLRequest</code> is first
@@ -818,6 +823,9 @@ public class KoLRequest extends Job implements KoLConstants
 
 	public static boolean delay()
 	{
+		if ( !delayActive )
+			return true;
+
 		totalDelay += currentDelay;
 		return delay( currentDelay );
 	}
