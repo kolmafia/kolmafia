@@ -1760,15 +1760,8 @@ public abstract class KoLmafia implements KoLConstants
 			creatables[i] = ItemCreationRequest.getInstance( items[i].getItemId() );
 		}
 
-		String attack = StaticEntity.getProperty( "battleAction" );
-		String autoAttack = StaticEntity.getProperty( "defaultAutoAttack" );
-
 		// Turn on auto-attack in order to save server hits if the
 		// player isn't using custom combat.
-
-		if ( FightRequest.getActualRound() == 0 && !attack.startsWith( "custom" ) && !attack.startsWith( "delevel" ) && (autoAttack.equals( "" ) || autoAttack.equals( "0" )) )
-			if ( request instanceof KoLAdventure && ((KoLAdventure)request).shouldEnableAutoAttack() )
-				DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=" + attack );
 
 		forceContinue();
 		int currentIterationCount = 0;
@@ -1877,10 +1870,6 @@ public abstract class KoLmafia implements KoLConstants
 			hadPendingState = true;
 			forceContinue();
 		}
-
-		if ( FightRequest.getActualRound() == 0 && !attack.equals( "custom" ) )
-			if ( request instanceof KoLAdventure && ((KoLAdventure)request).getRequest() instanceof AdventureRequest )
-				DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=" + autoAttack );
 	}
 
 	/**
