@@ -67,8 +67,8 @@ public class KoLRequest extends Job implements KoLConstants
 
 	private static int INITIAL_CACHE_COUNT = 3;
 	private static int ADJUSTMENT_REFRESH = 60000;
-	private static int MINIMUM_TOLERANCE = 2000;
-	private static int MAXIMUM_TOLERANCE = 60000;
+	private static int MINIMUM_TOLERANCE = 8000;
+	private static int MAXIMUM_TOLERANCE = 64000;
 
 	private static int currentDelay = 800;
 	private static int lagTolerance = MINIMUM_TOLERANCE;

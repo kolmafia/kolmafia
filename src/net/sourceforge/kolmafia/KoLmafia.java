@@ -34,15 +34,12 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.Color;
-import java.awt.Component;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.io.PrintStream;
-import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
 import java.math.BigInteger;
 
@@ -52,6 +49,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.TimeZone;
@@ -705,6 +703,9 @@ public abstract class KoLmafia implements KoLConstants
 		updateDisplay( "Refreshing session data..." );
 
 		RequestThread.postRequest( new MoonPhaseRequest() );
+		KoLCharacter.setHoliday( MoonPhaseDatabase.getHoliday( new Date() ) );
+
+
 		RequestThread.postRequest( new AccountRequest() );
 		RequestThread.postRequest( new QuestLogRequest() );
 
