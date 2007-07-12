@@ -18,7 +18,7 @@ import sun.net.www.http.HttpClient;
 
 public class HttpTimeoutClient extends HttpClient
 {
-	private static final int TIMEOUT = 120000;
+	private static int currentTimeout = 2000;
 
 	public HttpTimeoutClient( URL location ) throws IOException
 	{	super( location, (String) null, -1 );
@@ -47,6 +47,10 @@ public class HttpTimeoutClient extends HttpClient
 		return client;
 	}
 
+	public static void setTimeout( int newTimeout )
+	{	currentTimeout = newTimeout;
+	}
+
 	// Override doConnect in NetworkClient
 
 	protected Socket doConnect( String s, int i ) throws IOException, UnknownHostException, SocketException
@@ -55,7 +59,7 @@ public class HttpTimeoutClient extends HttpClient
 
 		// This is the important bit
 
-		socket.setSoTimeout( TIMEOUT );
+		socket.setSoTimeout( currentTimeout );
 		return socket;
 	}
 }
