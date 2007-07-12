@@ -138,6 +138,14 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			adventureId.equals( "114" );   // Outskirts of The Knob
 	}
 
+	public boolean shouldEnableAutoAttack()
+	{
+		if ( !(request instanceof AdventureRequest) || areaSummary == null )
+			return false;
+
+		return areaSummary.combats() > 0;
+	}
+
 	public boolean runsBetweenBattleScript()
 	{	return this.shouldRunFullCheck;
 	}

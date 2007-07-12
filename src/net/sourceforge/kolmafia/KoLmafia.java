@@ -1767,7 +1767,7 @@ public abstract class KoLmafia implements KoLConstants
 		// player isn't using custom combat.
 
 		if ( FightRequest.getActualRound() == 0 && !attack.startsWith( "custom" ) && !attack.startsWith( "delevel" ) && (autoAttack.equals( "" ) || autoAttack.equals( "0" )) )
-			if ( request instanceof KoLAdventure && ((KoLAdventure)request).getRequest() instanceof AdventureRequest )
+			if ( request instanceof KoLAdventure && ((KoLAdventure)request).shouldEnableAutoAttack() )
 				DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=" + attack );
 
 		forceContinue();
