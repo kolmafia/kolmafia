@@ -1,4 +1,4 @@
-s# Helmet section.  This section includes all the items
+# Helmet section.  This section includes all the items
 # which go in the "hat" slot of the equipment menu.
 
 Ancient Saucehelm	50	Mox: 10
