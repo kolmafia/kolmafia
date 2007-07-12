@@ -259,6 +259,7 @@ public abstract class KoLCharacter extends StaticEntity
 	private static int inebriety = 0;
 	private static int adventuresLeft = 0;
 	private static int currentRun = 0;
+	private static boolean isFullnessIncreased = false;
 
 	// Status pane data which is rendered whenever
 	// the user changes equipment, effects, and familiar
@@ -454,12 +455,19 @@ public abstract class KoLCharacter extends StaticEntity
 		battleSkillNames.setSelectedIndex( battleIndex == -1 ? 0 : battleIndex );
 	}
 
+	public static void setHoliday( String holiday )
+	{
+		isFullnessIncreased = holiday.indexOf( "Feast of Boris today" ) != -1;
+	}
+
 	public static int getFullness()
 	{	return StaticEntity.getIntegerProperty( "currentFullness" );
 	}
 
 	public static int getFullnessLimit()
-	{	return hasSkill( "Stomach of Steel" ) ? 20 : canEat() ? 15 : 0;
+	{
+		int baseFullness = hasSkill( "Stomach of Steel" ) ? 20 : canEat() ? 15 : 0;
+		return baseFullness == 0 ? 0 : isFullnessIncreased ? baseFullness + 15 : baseFullness;
 	}
 
 	public static void setInebriety( int inebriety )
