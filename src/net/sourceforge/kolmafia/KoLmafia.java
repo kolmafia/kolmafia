@@ -1766,7 +1766,7 @@ public abstract class KoLmafia implements KoLConstants
 		// Turn on auto-attack in order to save server hits if the
 		// player isn't using custom combat.
 
-		if ( FightRequest.getActualRound() == 0 && !attack.equals( "custom" ) )
+		if ( FightRequest.getActualRound() == 0 && !attack.startsWith( "custom" ) && !attack.startsWith( "delevel" ) && (autoAttack.equals( "" ) || autoAttack.equals( "0" )) )
 			if ( request instanceof KoLAdventure && ((KoLAdventure)request).getRequest() instanceof AdventureRequest )
 				DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=" + attack );
 
