@@ -1611,6 +1611,9 @@ public abstract class SorceressLair extends StaticEntity
 		// Get current equipment
 		SpecialOutfit.createImplicitCheckpoint();
 
+		// Equip the huge mirror shard
+		RequestThread.postRequest( new EquipmentRequest( MIRROR_SHARD, KoLCharacter.WEAPON ) );
+
 		// Reflect the energy bolt
 		KoLmafia.updateDisplay( "Reflecting energy bolt..." );
 		RequestThread.postRequest( QUEST_HANDLER.constructURLString( "lair6.php?place=1" ) );
