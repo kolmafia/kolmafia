@@ -1762,7 +1762,6 @@ public abstract class KoLmafia implements KoLConstants
 
 		forceContinue();
 		int currentIterationCount = 0;
-		int currentDelay = 0, lastDelay = 0;
 
 		while ( permitsContinue() && ++currentIteration <= iterations )
 		{
@@ -1813,16 +1812,6 @@ public abstract class KoLmafia implements KoLConstants
 
 			if ( request instanceof KoLAdventure && !wasAdventuring )
 				AdventureFrame.updateRequestMeter( currentIteration - 1, iterations );
-
-			if ( request instanceof KoLAdventure && ((KoLAdventure)request).getRequest() instanceof AdventureRequest )
-			{
-				currentDelay = KoLRequest.getAverageDelay();
-
-				if ( currentDelay > lastDelay )
-					KoLRequest.printTotalDelay();
-
-				lastDelay = currentDelay;
-			}
 
 			RequestLogger.printLine();
 

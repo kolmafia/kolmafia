@@ -4563,8 +4563,13 @@ public class KoLmafiaASH extends StaticEntity
 			if ( KoLRequest.shouldIgnore( location ) )
 				return STRING_INIT;
 
-			if ( location.startsWith( "fight.php" ) && FightRequest.getActualRound() == 0 )
-				return STRING_INIT;
+			if ( location.startsWith( "fight.php" ) )
+			{
+				if ( FightRequest.getActualRound() == 0 )
+					return STRING_INIT;
+
+				KoLRequest.delay();
+			}
 
 			KoLRequest request = new KoLRequest( location, true );
 			request.setDelayExempt( false );

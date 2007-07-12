@@ -57,6 +57,7 @@ import java.util.regex.Pattern;
 import javax.swing.SwingUtilities;
 
 import net.sourceforge.foxtrot.Job;
+import com.velocityreviews.forums.HttpTimeoutClient;
 import com.velocityreviews.forums.HttpTimeoutHandler;
 
 public class KoLRequest extends Job implements KoLConstants
@@ -66,11 +67,10 @@ public class KoLRequest extends Job implements KoLConstants
 
 	private static int INITIAL_CACHE_COUNT = 3;
 	private static int ADJUSTMENT_REFRESH = 60000;
-	private static int MAXIMUM_DELAY = 4000;
 	private static int MINIMUM_TOLERANCE = 2000;
+	private static int MAXIMUM_TOLERANCE = 60000;
 
-	private static int normalDelay = 0;
-	private static int adjustDelay = 0;
+	private static int currentDelay = 800;
 	private static int lagTolerance = MINIMUM_TOLERANCE;
 
 	private static final Object WAIT_OBJECT = new Object();
@@ -721,35 +721,23 @@ public class KoLRequest extends Job implements KoLConstants
 		}
 
 		this.statusChanged = false;
-		long lastRequestTime = System.currentTimeMillis();
 
 		do
 		{
 			if ( !this.prepareConnection() && KoLmafia.refusesContinue() )
 				break;
-
-			lastRequestTime = System.currentTimeMillis();
 		}
 		while ( !this.postClientData() || !this.retrieveServerReply() );
 
+		if ( System.currentTimeMillis() - ADJUSTMENT_REFRESH > lastAdjustTime )
+		{
+			lagTolerance -= MINIMUM_TOLERANCE;
+			HttpTimeoutClient.setTimeout( lagTolerance );
+			lastAdjustTime = lagTolerance == MINIMUM_TOLERANCE ? Long.MAX_VALUE : System.currentTimeMillis();
+		}
+
 		if ( this.isDelayExempt || this.responseCode != 200 )
 			return;
-
-		if ( System.currentTimeMillis() - lastRequestTime > lagTolerance )
-		{
-			adjustDelay = Math.min( MAXIMUM_DELAY, adjustDelay + 500 );
-			normalDelay = adjustDelay >> 1;
-			lagTolerance = adjustDelay << 2;
-			lastAdjustTime = System.currentTimeMillis();
-		}
-
-		else if ( System.currentTimeMillis() - lastAdjustTime > ADJUSTMENT_REFRESH )
-		{
-			adjustDelay = Math.max( 0, adjustDelay - 500 );
-			normalDelay = adjustDelay >> 1;
-			lagTolerance = Math.max( 2000, adjustDelay << 2 );
-			lastAdjustTime = System.currentTimeMillis();
-		}
 	}
 
 	private void saveLastChoice( String url )
@@ -830,29 +818,18 @@ public class KoLRequest extends Job implements KoLConstants
 
 	public static boolean delay()
 	{
-		if ( normalDelay == 0 )
-			return true;
-
-		int expectedDelay = RNG.nextInt( adjustDelay ) + normalDelay;
-		totalDelay += expectedDelay;
-		return delay( expectedDelay );
-	}
-
-	public static int getAverageDelay()
-	{	return adjustDelay;
+		totalDelay += currentDelay;
+		return delay( currentDelay );
 	}
 
 	public static void printTotalDelay()
 	{
-		if ( totalDelay == 0 )
-			return;
-
 		int seconds = totalDelay / 1000;
 		int minutes = seconds / 60;
 		seconds = seconds % 60;
 
 		RequestLogger.printLine();
-		RequestLogger.printLine( "Delay between requests: " + (getAverageDelay() / 1000.0f) + " seconds" );
+		RequestLogger.printLine( "Delay between requests: " + (currentDelay / 1000.0f) + " seconds" );
 		RequestLogger.printLine( "Delay added this session: " + minutes + " minutes, " + seconds + " seconds" );
 		RequestLogger.printLine();
 	}
@@ -944,7 +921,7 @@ public class KoLRequest extends Job implements KoLConstants
 			if ( this instanceof LoginRequest )
 				chooseNewLoginServer();
 
-			delay();
+			delay( lagTolerance );
 			return false;
 		}
 
@@ -1027,7 +1004,7 @@ public class KoLRequest extends Job implements KoLConstants
 			if ( this instanceof LoginRequest )
 				chooseNewLoginServer();
 
-			delay();
+			delay( lagTolerance );
 			return false;
 		}
 	}
@@ -1075,6 +1052,10 @@ public class KoLRequest extends Job implements KoLConstants
 			if ( !isChatRequest && this.shouldUpdateDebugLog() )
 				RequestLogger.updateDebugLog( "Connection timed out during response." );
 
+			lagTolerance = Math.min( MAXIMUM_TOLERANCE, lagTolerance + MINIMUM_TOLERANCE );
+			HttpTimeoutClient.setTimeout( lagTolerance );
+			lastAdjustTime = System.currentTimeMillis();
+
 			try
 			{
 				if ( istream != null )
@@ -1091,7 +1072,7 @@ public class KoLRequest extends Job implements KoLConstants
 
 			if ( shouldRetry )
 			{
-				delay();
+				delay( lagTolerance );
 				return false;
 			}
 
@@ -1466,14 +1447,6 @@ public class KoLRequest extends Job implements KoLConstants
 	{
 	}
 
-	public void stealRequestData( KoLRequest request )
-	{
-		this.responseCode = request.responseCode;
-		this.responseText = request.responseText;
-		this.redirectLocation = request.redirectLocation;
-		this.formConnection = request.formConnection;
-	}
-
 	/**
 	 * Utility method which notifies thethat it needs to process
 	 * the given choice adventure.
@@ -1496,6 +1469,9 @@ public class KoLRequest extends Job implements KoLConstants
 
 		while ( request.responseText.indexOf( "choice.php" ) != -1 )
 		{
+			// Slight delay before each choice is made
+
+			KoLRequest.delay();
 			Matcher choiceMatcher = CHOICE_PATTERN.matcher( request.responseText );
 
 			if ( !choiceMatcher.find() )

@@ -152,8 +152,8 @@ public class AdventureRequest extends KoLRequest
 			}
 		}
 
-		super.run();
 		delay();
+		super.run();
 
 		if ( this.formSource.equals( "dungeon.php" ) )
 			this.addFormField( "option", this.responseText.indexOf( "\"Move on\">" ) != -1 ? "2" : "1" );

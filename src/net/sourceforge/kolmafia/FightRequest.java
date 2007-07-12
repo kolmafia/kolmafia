@@ -63,7 +63,6 @@ public class FightRequest extends KoLRequest
 
 	private static ArrayList trackedRounds = new ArrayList();
 
-	private static boolean isDelayActive = true;
 	private static boolean isUsingConsultScript = false;
 	public static final FightRequest INSTANCE = new FightRequest();
 
@@ -153,14 +152,6 @@ public class FightRequest extends KoLRequest
 
 	private FightRequest()
 	{	super( "fight.php" );
-	}
-
-	public static void setDelayActive( boolean isDelayActive )
-	{	FightRequest.isDelayActive = isDelayActive;
-	}
-
-	public static boolean isDelayActive()
-	{	return isDelayActive;
 	}
 
 	protected boolean retryOnTimeout()
@@ -513,8 +504,15 @@ public class FightRequest extends KoLRequest
 
 			if ( !isUsingConsultScript )
 			{
-				if ( currentRound == 0 || (action1 != null && !action1.equals( "abort" )) )
+				if ( currentRound == 0 )
+				{
 					super.run();
+				}
+				else if ( action1 != null && !action1.equals( "abort" ) )
+				{
+					delay();
+					super.run();
+				}
 			}
 
 			if ( action1 != null && action1.equals( "abort" ) )
@@ -1306,7 +1304,7 @@ public class FightRequest extends KoLRequest
 	{	return encounterLookup == null ? "" : encounterLookup;
 	}
 
-	public static boolean registerRequest( String urlString )
+	public static boolean registerRequest( boolean isExternal, String urlString )
 	{
 		if ( urlString.indexOf( "fight.php" ) == -1 )
 			return false;
@@ -1331,6 +1329,9 @@ public class FightRequest extends KoLRequest
 
 			return true;
 		}
+
+		// Begin logging all the different combat actions and storing
+		// relevant data for post-processing.
 
 		if ( shouldLogAction )
 			action.append( "Round " + currentRound + ": " + KoLCharacter.getUserName() + " " );
