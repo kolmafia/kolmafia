@@ -47,7 +47,7 @@ public class HttpTimeoutClient extends HttpClient
 		return client;
 	}
 
-	public static void setTimeout( int newTimeout )
+	public static void setHttpTimeout( int newTimeout )
 	{	currentTimeout = newTimeout;
 	}
 

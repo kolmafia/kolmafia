@@ -732,7 +732,7 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( System.currentTimeMillis() - ADJUSTMENT_REFRESH > lastAdjustTime )
 		{
 			lagTolerance -= MINIMUM_TOLERANCE;
-			HttpTimeoutClient.setTimeout( lagTolerance );
+			HttpTimeoutClient.setHttpTimeout( lagTolerance );
 			lastAdjustTime = lagTolerance == MINIMUM_TOLERANCE ? Long.MAX_VALUE : System.currentTimeMillis();
 		}
 
@@ -1053,7 +1053,7 @@ public class KoLRequest extends Job implements KoLConstants
 				RequestLogger.updateDebugLog( "Connection timed out during response." );
 
 			lagTolerance = Math.min( MAXIMUM_TOLERANCE, lagTolerance + MINIMUM_TOLERANCE );
-			HttpTimeoutClient.setTimeout( lagTolerance );
+			HttpTimeoutClient.setHttpTimeout( lagTolerance );
 			lastAdjustTime = System.currentTimeMillis();
 
 			try
