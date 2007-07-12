@@ -69,4 +69,5 @@
 68	2447	Penguin Goodfella	tasteful black bowtie	3	2	1	0
 69
 70	2650	Green Pixie	green pixie spog	2	1	0	2
+71	2738	Ragamuffin Imp		0	0	0	0
 72	2709	Exotic Parrot	cracker	3	3	1	0
