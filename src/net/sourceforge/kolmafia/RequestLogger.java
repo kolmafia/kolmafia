@@ -266,7 +266,7 @@ public class RequestLogger extends NullStream implements KoLConstants
 			return;
 		}
 
-		if ( (request instanceof FightRequest || isExternal) && FightRequest.registerRequest( urlString ) )
+		if ( (request instanceof FightRequest || isExternal) && FightRequest.registerRequest( isExternal, urlString ) )
 		{
 			wasLastRequestSimple = false;
 			return;
@@ -294,6 +294,7 @@ public class RequestLogger extends NullStream implements KoLConstants
 				return;
 
 			AdventureResult cost = AdventureDatabase.getCost( choice, decision );
+
 			if ( cost == null )
 				return;
 

@@ -65,14 +65,15 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 	private static final AdventureResult ASTRAL = new AdventureResult( "Half-Astral", 0 );
 	public static final AdventureResult BEATEN_UP = new AdventureResult( "Beaten Up", 1, true );
 
+	private static KoLAdventure lastVisitedLocation = null;
+
 	private boolean isValidAdventure = false;
 	private int baseRequirement, buffedRequirement;
 	private String zone, parentZone, adventureId, formSource, adventureName;
+
 	private KoLRequest request;
 	private AreaCombatData areaSummary;
 	private boolean shouldRunFullCheck;
-
-	private boolean isLikelyStasisZone;
 	private boolean isLikelyUnluckyZone;
 
 	/**
@@ -123,20 +124,10 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		}
 
 		this.areaSummary = AdventureDatabase.getAreaCombatData( adventureName );
-		this.isLikelyStasisZone = false;
 		this.isLikelyUnluckyZone = false;
 
 		if ( adventureId == null )
 			return;
-
-		this.isLikelyStasisZone =
-			adventureId.indexOf( "82" ) != -1 ||   // Castle in the Clouds in the Sky
-			adventureId.indexOf( "83" ) != -1 ||   // Hole in the Sky
-			adventureId.indexOf( "97" ) != -1 ||   // Astral Mushroom (Great Trip)
-			adventureId.indexOf( "101" ) != -1 ||  // The Knob Shaft
-			adventureId.indexOf( "106" ) != -1 ||  // Haunted Gallery
-			adventureId.indexOf( "109" ) != -1 ||  // Haunted Ballroom
-			adventureId.indexOf( "110" ) != -1;    // The Icy Peak
 
 		this.isLikelyUnluckyZone =
 			adventureId.equals( "15" ) ||  // Spooky Forest
@@ -685,12 +676,6 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		return stringForm.toString();
 	}
 
-	public boolean isLikelyStasisFarming()
-	{
-		return this.isLikelyStasisZone && KoLCharacter.getFamiliar().isThiefFamiliar() &&
-			KoLCharacter.getFamiliar().getWeight() >= 20 && KoLCharacter.getCurrentRun() > 2000;
-	}
-
 	/**
 	 * Executes the appropriate <code>KoLRequest</code> for the adventure
 	 * encapsulated by this <code>KoLAdventure</code>.
@@ -702,6 +687,12 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			StaticEntity.getClient().runBetweenBattleChecks( this.shouldRunFullCheck );
 
 		String action = StaticEntity.getProperty( "battleAction" );
+
+		// Turn on auto-attack in order to save server hits in the event
+		// that the player has played over 2000 turns.
+
+		if ( !action.equals( "custom" ) && KoLCharacter.getCurrentRun() >= 2000 )
+			DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=" + action );
 
 		// Validate the adventure before running it.
 		// If it's invalid, return and do nothing.
@@ -785,16 +776,14 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			}
 		}
 
-		if ( action.startsWith( "custom" ) && isLikelyStasisFarming() )
-		{
-			KoLmafia.updateDisplay( "Thief familiar detected.  Disabling custom combat..." );
-			StaticEntity.setProperty( "battleAction", "try to run away" );
-		}
-
 		// If the test is successful, then it is safe to run the
 		// request (without spamming the server).
 
 		RequestThread.postRequest( this.request );
+	}
+
+	public static KoLAdventure lastVisitedLocation()
+	{	return lastVisitedLocation;
 	}
 
 	public void recordToSession()
@@ -807,8 +796,6 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 				AdventureFrame.updateSelectedAdventure( this );
 				CharsheetFrame.updateSelectedAdventure( this );
 			}
-
-			FightRequest.setDelayActive( KoLCharacter.getCurrentRun() >= 5000 || this.isLikelyStasisFarming() );
 		}
 
 		if ( !KoLmafia.isAdventuring() )
