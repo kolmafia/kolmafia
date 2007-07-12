@@ -688,12 +688,6 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 		String action = StaticEntity.getProperty( "battleAction" );
 
-		// Turn on auto-attack in order to save server hits in the event
-		// that the player has played over 2000 turns.
-
-		if ( !action.equals( "custom" ) && KoLCharacter.getCurrentRun() >= 2000 )
-			DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=" + action );
-
 		// Validate the adventure before running it.
 		// If it's invalid, return and do nothing.
 
