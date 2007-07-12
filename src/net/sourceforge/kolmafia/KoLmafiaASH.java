@@ -7109,12 +7109,6 @@ public class KoLmafiaASH extends StaticEntity
 
 			// Make sure the loop will eventually terminate
 
-			if ( current < end && increment < 0 )
-				throw new AdvancedScriptException( "Start less than end and increment less than 0" );
-
-			if ( current > end && increment > 0 )
-				throw new AdvancedScriptException( "Start greater than end and increment greater than 0" );
-
 			if ( current != end && increment == 0 )
 				throw new AdvancedScriptException( "Start not equal to end and increment equals 0" );
 
