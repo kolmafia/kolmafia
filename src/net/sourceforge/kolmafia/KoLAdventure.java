@@ -67,6 +67,9 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 	private static KoLAdventure lastVisitedLocation = null;
 
+	private static String changedAutoAttack = "";
+	private static String initialAutoAttack = "";
+
 	private boolean isValidAdventure = false;
 	private int baseRequirement, buffedRequirement;
 	private String zone, parentZone, adventureId, formSource, adventureName;
@@ -136,14 +139,6 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			adventureId.equals( "112" ) || // Sleazy Back Alley
 			adventureId.equals( "113" ) || // The Haunted Pantry
 			adventureId.equals( "114" );   // Outskirts of The Knob
-	}
-
-	public boolean shouldEnableAutoAttack()
-	{
-		if ( !(request instanceof AdventureRequest) || areaSummary == null )
-			return false;
-
-		return areaSummary.combats() > 0;
 	}
 
 	public boolean runsBetweenBattleScript()
@@ -788,10 +783,58 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 	{	return lastVisitedLocation;
 	}
 
+	public static void resetAutoAttack()
+	{
+		// In the event that the user made some sort of change
+		// to their auto-attack settings, do nothing.
+
+		if ( StaticEntity.getProperty( "defaultAutoAttack" ).equals( changedAutoAttack ) && initialAutoAttack.equals( "0" ) )
+			DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=0" );
+
+		initialAutoAttack = "";
+	}
+
+	private void updateAutoAttack()
+	{
+		String attack = StaticEntity.getProperty( "battleAction" );
+		String autoAttack = StaticEntity.getProperty( "defaultAutoAttack" );
+
+		if ( initialAutoAttack.equals( "" ) || !autoAttack.equals( changedAutoAttack ) )
+			initialAutoAttack = autoAttack;
+
+		// If the player is pickpocketing, they probably do not want
+		// their auto-attack reset to an attack.
+
+		if ( autoAttack.equals( "3" ) )
+			return;
+
+		// Areas that have no combats do not need to have auto-attack
+		// reset.  Therefore, skip out.
+
+		if ( FightRequest.getActualRound() != 0 || !(request instanceof AdventureRequest) || areaSummary == null || areaSummary.combats() <= 0 )
+			return;
+
+		// If this is not an automated request, make sure to turn off
+		// auto-attack if it was off before any automation started.
+		// Custom combat and deleveling do not need to have auto-attack
+		// changed, because these users probably are micro-managing.
+
+		if ( !KoLmafia.isAdventuring() || attack.startsWith( "custom" ) || attack.startsWith( "delevel" ) )
+		{
+			resetAutoAttack();
+			return;
+		}
+
+		DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=" + attack );
+		changedAutoAttack = StaticEntity.getProperty( "defaultAutoAttack" );
+	}
+
 	public void recordToSession()
 	{
 		if ( !StaticEntity.getProperty( "lastAdventure" ).equals( this.adventureName ) )
 		{
+			this.updateAutoAttack();
+
 			StaticEntity.setProperty( "lastAdventure", this.adventureName );
 			if ( this.shouldRunFullCheck )
 			{
