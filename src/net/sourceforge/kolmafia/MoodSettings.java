@@ -53,6 +53,7 @@ public abstract class MoodSettings implements KoLConstants
 		StaticEntity.renameDataFiles( "kms", "moods" );
 	}
 
+	private static final AdventureResult HYDRATED = new AdventureResult( "Ultrahydrated", 1, true );
 	private static final AdventureResult PENDANT = new AdventureResult( 1235, 1 );
 
 	private static int thiefTriggerLimit = 3;
@@ -635,6 +636,10 @@ public abstract class MoodSettings implements KoLConstants
 				missing.add( current.effect );
 		}
 
+		if ( StaticEntity.getProperty( "lastAdventure" ).equals( "Arid Extra-Dry Desert" ) )
+			if ( !activeEffects.contains( HYDRATED ) )
+				missing.add( HYDRATED );
+
 		return missing;
 	}
 
@@ -873,6 +878,9 @@ public abstract class MoodSettings implements KoLConstants
 				if ( KoLCharacter.hasItem( UneffectRequest.TINY_HOUSE ) || KoLCharacter.canInteract() )
 					return "use tiny house";
 			}
+
+			if ( name.equals( "Ultrahydrated" ) )
+				return "adventure 1 oasis";
 
 			if ( name.equals( "Goofball Withdrawal" ) || name.equals( "Eau de Tortue" ) )
 				return strictAction;
@@ -1126,8 +1134,11 @@ public abstract class MoodSettings implements KoLConstants
 			}
 			else if ( this.type.equals( "lose_effect" ) )
 			{
-				shouldExecute = this.action.indexOf( "cupcake" ) != -1 || this.action.indexOf( "snowcone" ) != -1 || this.action.indexOf( "mushroom" ) != -1 ?
-					!activeEffects.contains( this.effect ) : this.effect.getCount( activeEffects ) <= (isManualInvocation ? 5 : 1);
+				boolean unstackable = this.action.indexOf( "cupcake" ) != -1 || this.action.indexOf( "snowcone" ) != -1 ||
+					this.action.indexOf( "mushroom" ) != -1 || this.action.indexOf( "oasis" ) != -1;
+
+				shouldExecute = unstackable ? !activeEffects.contains( this.effect ) :
+					this.effect.getCount( activeEffects ) <= (isManualInvocation ? 5 : 1);
 
 				shouldExecute &= !this.name.equals( "Temporary Lycanthropy" ) || MoonPhaseDatabase.getMoonlight() > 4;
 			}
