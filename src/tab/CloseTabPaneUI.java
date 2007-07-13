@@ -1266,6 +1266,9 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 
 			leadingTabIndex = getClosestTab(viewRect.x, viewRect.y);
 
+			if ( rects.length <= leadingTabIndex )
+				return;
+
 			// If the tab isn't right aligned, adjust it.
 			if (leadingTabIndex + 1 < tabCount) {
 
