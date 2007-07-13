@@ -41,7 +41,9 @@ public class CouncilFrame extends RequestFrame
 	private static final Pattern ORE_PATTERN = Pattern.compile( "3 chunks of (\\w+) ore" );
 
 	public CouncilFrame()
-	{	super( "Council of Loathing", new KoLRequest( "council.php", true ) );
+	{
+		super( "Council of Loathing" );
+		this.displayRequest( new KoLRequest( "council.php", true ) );
 	}
 
 	public boolean hasSideBar()

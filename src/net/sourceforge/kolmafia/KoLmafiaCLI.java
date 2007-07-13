@@ -49,7 +49,6 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.swing.SwingUtilities;
 import jline.ConsoleReader;
 import net.sourceforge.kolmafia.MonsterDatabase.Monster;
 
@@ -1196,7 +1195,7 @@ public class KoLmafiaCLI extends KoLmafia
 			RequestThread.postRequest( request );
 
 			if ( StaticEntity.getClient() instanceof KoLmafiaGUI )
-				SwingUtilities.invokeLater( new CreateFrameRunnable( RequestFrame.class, new Object[] { request } ) );
+				FightFrame.showRequest( request );
 			else
 				this.showHTML( request.responseText, "Item Description" );
 

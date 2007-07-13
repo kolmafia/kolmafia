@@ -293,8 +293,6 @@ public class ChatBuffer
 		if ( changeType != LOGFILE_CHANGE )
 		{
 			UPDATER.queueUpdate( newContents );
-			UPDATER.pumpQueue();
-
 			if ( changeType == CONTENT_CHANGE && activeLogWriter != null && newContents != null )
 				updateLogFile( newContents );
 		}
@@ -350,11 +348,8 @@ public class ChatBuffer
 			}
 
 			contentQueue.add( newContents );
-		}
 
-		public void pumpQueue()
-		{
-			if ( isQueued )
+			if ( this.isQueued )
 				return;
 
 			synchronized ( this )
@@ -377,6 +372,9 @@ public class ChatBuffer
 					// We expect this to happen only when we are
 					// interrupted.  Fall through.
 				}
+
+				if ( this.isQueued )
+					continue;
 
 				this.isQueued = true;
 				SwingUtilities.invokeLater( HANDLER );
@@ -412,6 +410,7 @@ public class ChatBuffer
 				}
 				else if ( newContents != null )
 				{
+					this.shouldScroll = displayBuffer.length() != 0;
 					append();
 				}
 			}
