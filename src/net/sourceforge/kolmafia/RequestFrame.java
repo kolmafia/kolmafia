@@ -318,19 +318,6 @@ public class RequestFrame extends KoLFrame
 	{	return RequestEditorKit.getDisplayHTML( this.currentRequest.getURLString(), responseText );
 	}
 
-	private class DisplayRequestThread extends Thread
-	{
-		private KoLRequest request;
-
-		public DisplayRequestThread( KoLRequest request )
-		{	this.request = request;
-		}
-
-		public void run()
-		{	RequestFrame.this.dispatchRequest( this.request );
-		}
-	}
-
 	/**
 	 * Utility method which displays the given request.
 	 */
@@ -340,10 +327,7 @@ public class RequestFrame extends KoLFrame
 		if ( this.mainBuffer == null || request == null )
 			return;
 
-		if ( SwingUtilities.isEventDispatchThread() )
-			(new DisplayRequestThread( request )).start();
-		else
-			this.dispatchRequest( request );
+		this.dispatchRequest( request );
 	}
 
 	private void dispatchRequest( KoLRequest request )
@@ -356,7 +340,6 @@ public class RequestFrame extends KoLFrame
 		}
 
 		this.mainBuffer.clearBuffer();
-		this.mainBuffer.append( "Retrieving page..." );
 
 		if ( request.responseText == null || request.responseText.length() == 0 )
 		{
@@ -366,7 +349,7 @@ public class RequestFrame extends KoLFrame
 			String original = StaticEntity.getProperty( "showAllRequests" );
 			StaticEntity.setProperty( "showAllRequests", "false" );
 
-			request.run();
+			RequestThread.postRequest( request );
 			StaticEntity.setProperty( "showAllRequests", original );
 		}
 
@@ -398,7 +381,6 @@ public class RequestFrame extends KoLFrame
 			while ( imageMatcher.find() )
 				RequestEditorKit.downloadImage( imageMatcher.group() );
 
-			this.mainBuffer.clearBuffer();
 			this.mainBuffer.append( renderText );
 		}
 		else

@@ -950,6 +950,9 @@ public class KoLmafiaCLI extends KoLmafia
 					RequestThread.postRequest( new KoLRequest( "account.php?action=autoattack&whichattack=" + value ) );
 			}
 
+			if ( StaticEntity.getProperty( name ).equals( value ) )
+				return;
+
 			RequestLogger.printLine( name + " => " + value );
 			StaticEntity.setProperty( name, value );
 
