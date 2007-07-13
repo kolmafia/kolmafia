@@ -1770,44 +1770,14 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( current == next )
 				return;
 
-			// Take off the item we are wearing in this slot
+			// EquipmentRequest will notice if something else is in
+			// the slot and will remove it first, if necessary
 			//
-			// Note that we only notice items that affect familiar
-			// weight. Luckily, EquipmentRequest will notice if
-			// something else is in the slot and will remove it
-			// first, if necessary
+			// Therefore, we can simply equip the new item.
 
-			// Steal a pumpkin basket, if needed
-			if ( next == PUMPKIN_BUCKET )
-			{
-				RequestThread.postRequest( new EquipmentRequest( PUMPKIN_BUCKET, KoLCharacter.FAMILIAR ) );
-				return;
-			}
-
-			if ( next == FLOWER_BOUQUET )
-			{
-				RequestThread.postRequest( new EquipmentRequest( FLOWER_BOUQUET, KoLCharacter.FAMILIAR ) );
-				return;
-			}
-
-			// Steal a lead necklace, if needed
-			if ( next == LEAD_NECKLACE )
-			{
-				RequestThread.postRequest( new EquipmentRequest( LEAD_NECKLACE, KoLCharacter.FAMILIAR ) );
-				return;
-			}
-
-			// Steal a rat head balloon necklace, if needed
-			if ( next == RAT_HEAD_BALLOON )
-			{
-				RequestThread.postRequest( new EquipmentRequest( RAT_HEAD_BALLOON, KoLCharacter.FAMILIAR ) );
-				return;
-			}
-
-			// Finally, equip the new item
 			if ( next != null )
 			{
-				results.append( "Putting on " + next.getName() + "...<br>" );
+				results.append( "Putting on " + next.getName() + "<br>" );
 				RequestThread.postRequest( new EquipmentRequest( next, slot ) );
 				this.setItem( slot, next );
 			}
