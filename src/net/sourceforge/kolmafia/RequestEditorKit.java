@@ -464,7 +464,6 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 	private static final Pattern ACQUIRE_PATTERN = Pattern.compile( "You acquire([^<]*?<b>.*?</b>.*?)</td>", Pattern.DOTALL );
 	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
-	private static final Pattern OPTION_PATTERN = Pattern.compile( "<option.*?value=(.*?)>.*?\\((.*?)\\)</option>" );
 	private static final Pattern BOOKSHELF_PATTERN = Pattern.compile( "onclick=\"location.href='(.*?)';\"", Pattern.DOTALL );
 
 	public static void downloadFile( String remote, File local )

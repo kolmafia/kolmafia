@@ -1485,6 +1485,9 @@ public abstract class KoLmafia implements KoLConstants
 			// Skip effect acquisition - it's followed by a boldface
 			// which makes the parser think it's found an item.
 
+			if ( lastToken.indexOf( "You acquire a skill" ) != -1 )
+				continue;
+
 			if ( lastToken.startsWith( "You acquire" ) )
 			{
 				String acquisition = lastToken;

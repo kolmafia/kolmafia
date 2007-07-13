@@ -186,6 +186,10 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int SNAKE = 2680;
 	private static final int M282 = 2681;
 
+	private static final int STEEL_STOMACH = 2742;
+	private static final int STEEL_LIVER = 2743;
+	private static final int STEEL_SPLEEN = 2744;
+
 	private static final AdventureResult ASPARAGUS_KNIFE = new AdventureResult( 19, -1 );
 	private static final AdventureResult SAPLING = new AdventureResult( 75, -1 );
 	private static final AdventureResult FERTILIZER = new AdventureResult( 76, -1 );
@@ -1240,6 +1244,24 @@ public class ConsumeItemRequest extends KoLRequest
 			}
 
 			// You are redirected into a fight. Do we handle it?
+			return;
+
+		case STEEL_STOMACH:
+
+			if ( responseText.indexOf( "You acquire a skill" ) != -1 )
+				KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "Stomach of Steel" ) );
+			return;
+
+		case STEEL_LIVER:
+
+			if ( responseText.indexOf( "You acquire a skill" ) != -1 )
+				KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "Liver of Steel" ) );
+			return;
+
+		case STEEL_SPLEEN:
+
+			if ( responseText.indexOf( "You acquire a skill" ) != -1 )
+				KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "Spleen of Steel" ) );
 			return;
 
 		case MILKY_POTION:
