@@ -69,7 +69,6 @@ package net.java.dev.spellcast.utilities;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 
 import java.lang.ref.WeakReference;
@@ -82,9 +81,7 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
-import javax.swing.text.Document;
 import javax.swing.text.Element;
-
 import javax.swing.text.html.HTMLDocument;
 
 /**
@@ -97,8 +94,14 @@ import javax.swing.text.html.HTMLDocument;
 
 public class ChatBuffer
 {
+	private static final Object CLEAR_OBJECT = new Object();
+	private static final Object REFRESH_OBJECT = new Object();
+
 	private DisplayPaneUpdater UPDATER = new DisplayPaneUpdater();
+	private DisplayQueueHandler HANDLER = new DisplayQueueHandler();
+
 	private static TreeMap activeLogFiles = new TreeMap();
+	private ArrayList contentQueue = new ArrayList();
 
 	protected static final int CONTENT_CHANGE = 0;
 	protected static final int DISPLAY_CHANGE = 1;
@@ -137,6 +140,7 @@ public class ChatBuffer
 		this.scrollBars = new ArrayList();
 		this.displayPanes = new ArrayList();
 
+		UPDATER.queueClear();
 		UPDATER.start();
 	}
 
@@ -148,7 +152,7 @@ public class ChatBuffer
 
 	public void clearBuffer()
 	{
-		displayBuffer.setLength( 0 );
+		UPDATER.queueClear();
 		fireBufferChanged( DISPLAY_CHANGE, null );
 	}
 
@@ -284,7 +288,7 @@ public class ChatBuffer
 	 * display window or the file to which the data is being logged.
 	 */
 
-	protected synchronized void fireBufferChanged( int changeType, String newContents )
+	protected void fireBufferChanged( int changeType, String newContents )
 	{
 		if ( changeType != LOGFILE_CHANGE )
 		{
@@ -320,30 +324,23 @@ public class ChatBuffer
 	private class DisplayPaneUpdater extends Thread
 	{
 		private boolean isQueued = false;
-		private boolean shouldReset = false;
-		private boolean shouldScroll = true;
 
-		private ArrayList contentQueue = new ArrayList();
+		public void queueClear()
+		{	contentQueue.add( CLEAR_OBJECT );
+		}
 
 		public void queueUpdate( String newContents )
 		{
 			if ( newContents == null )
 			{
-				this.shouldReset = true;
+				contentQueue.add( REFRESH_OBJECT );
 				return;
 			}
 
 			if ( newContents.indexOf( "<body" ) != -1 )
 			{
-				shouldScroll = false;
-				displayBuffer.setLength(0);
+				contentQueue.add( CLEAR_OBJECT );
 				newContents = newContents.substring( newContents.indexOf( ">" ) + 1 );
-			}
-
-			if ( displayBuffer.length() == 0 )
-			{
-				shouldReset = true;
-				shouldScroll = false;
 			}
 
 			if ( newContents != null )
@@ -389,72 +386,91 @@ public class ChatBuffer
 
 		public void handleQueue()
 		{
-			if ( shouldReset )
+			try
 			{
-				contentQueue.clear();
-
-				for ( int i = 0; i < displayPanes.size(); ++i )
-				{
-					WeakReference ref = (WeakReference) displayPanes.get(i);
-					resetDisplay( (JEditorPane) ref.get() );
-				}
+				SwingUtilities.invokeAndWait( HANDLER );
 			}
+			catch ( Exception e )
+			{
+				// Something weird happened.  Clear the content
+				// queue and print a stack trace.
 
-			boolean shouldAdjust = true;
+				contentQueue.clear();
+				e.printStackTrace();
+			}
+		}
+	}
 
+	private class DisplayQueueHandler implements Runnable
+	{
+		private String resetText;
+		private Object newContents;
+		private boolean shouldScroll = true;
+		private boolean shouldAdjust = true;
+
+		public void run()
+		{
 			while ( !contentQueue.isEmpty() )
 			{
-				String newContents = (String) contentQueue.remove(0);
+				this.newContents = contentQueue.remove(0);
 
-				for ( int i = 0; i < displayPanes.size(); ++i )
+				if ( newContents == CLEAR_OBJECT )
 				{
-					JScrollBar scroll = (JScrollBar) ((WeakReference) scrollBars.get(i)).get();
-					shouldAdjust &= scroll == null || !scroll.isVisible() ||
-						scroll.getValue() >= scroll.getMaximum() - scroll.getVisibleAmount() - 100;
-
-					WeakReference display = (WeakReference) displayPanes.get(i);
-					runOnce( newContents, (JEditorPane) display.get() );
+					displayBuffer.setLength(0);
+					reset();
+				}
+				else if ( newContents == REFRESH_OBJECT )
+				{
+					reset();
+				}
+				else if ( newContents != null )
+				{
+					append();
 				}
 			}
 
-			if ( !allowScrollBack || shouldAdjust )
-			{
-				for ( int i = 0; i < displayPanes.size(); ++i )
-				{
-					WeakReference ref = (WeakReference) displayPanes.get(i);
-					scrollDisplay( (JEditorPane) ref.get() );
-				}
-			}
+			if ( !allowScrollBack || this.shouldAdjust )
+				scroll();
 
-			this.shouldReset = false;
+			this.shouldAdjust = true;
 			this.shouldScroll = true;
 		}
 
-		public void resetDisplay( JEditorPane displayPane )
+		private void reset()
 		{
-			if ( displayPane == null )
-				return;
+			this.resetText = header + "<style>" + BUFFER_STYLE + "</style></head><body>" +
+				displayBuffer.toString() + "</body></html>";
 
-			displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style></head><body>" + displayBuffer.toString() + "</body></html>" );
+			for ( int i = 0; i < displayPanes.size(); ++i )
+			{
+				WeakReference display = (WeakReference) displayPanes.get(i);
+				resetOnce( (JEditorPane) display.get() );
+			}
 		}
 
-		private void scrollDisplay( JEditorPane displayPane )
+		private void resetOnce( JEditorPane displayPane )
 		{
 			if ( displayPane == null )
 				return;
 
-			int length = displayPane.getDocument().getLength();
-			displayPane.setCaretPosition( shouldScroll && length > 0 ? length - 1 : 0 );
+			displayPane.setText( resetText );
 		}
 
-		private void runOnce( String newContents, JEditorPane displayPane )
+		private void append()
 		{
-			// This is really the only way to ensure that the
-			// screen does not flicker in later versions of Java.
+			for ( int i = 0; i < displayPanes.size(); ++i )
+			{
+				JScrollBar scroll = (JScrollBar) ((WeakReference) scrollBars.get(i)).get();
+				this.shouldAdjust &= scroll == null || !scroll.isVisible() ||
+					scroll.getValue() >= scroll.getMaximum() - scroll.getVisibleAmount() - 100;
 
-			if ( displayPane == null )
-				return;
+				WeakReference display = (WeakReference) displayPanes.get(i);
+				appendOnce( (JEditorPane) display.get() );
+			}
+		}
 
+		private void appendOnce( JEditorPane displayPane )
+		{
 			HTMLDocument currentHTML = (HTMLDocument) displayPane.getDocument();
 			Element parentElement = currentHTML.getDefaultRootElement();
 
@@ -463,7 +479,7 @@ public class ChatBuffer
 
 			try
 			{
-				currentHTML.insertAfterEnd( parentElement, newContents );
+				currentHTML.insertAfterEnd( parentElement, (String) newContents );
 			}
 			catch ( Exception e )
 			{
@@ -473,6 +489,24 @@ public class ChatBuffer
 
 				e.printStackTrace();
 			}
+		}
+
+		private void scroll()
+		{
+			for ( int i = 0; i < displayPanes.size(); ++i )
+			{
+				WeakReference ref = (WeakReference) displayPanes.get(i);
+				scrollOnce( (JEditorPane) ref.get() );
+			}
+		}
+
+		private void scrollOnce( JEditorPane displayPane )
+		{
+			if ( displayPane == null )
+				return;
+
+			int length = displayPane.getDocument().getLength();
+			displayPane.setCaretPosition( shouldScroll && length > 0 ? length - 1 : 0 );
 		}
 	}
 }
