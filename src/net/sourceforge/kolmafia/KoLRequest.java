@@ -63,7 +63,6 @@ import com.velocityreviews.forums.HttpTimeoutHandler;
 
 public class KoLRequest extends Job implements KoLConstants
 {
-	private static int totalDelay = 0;
 	private static boolean delayActive = true;
 	private static long lastAdjustTime = Long.MAX_VALUE;
 
@@ -71,6 +70,9 @@ public class KoLRequest extends Job implements KoLConstants
 	private static int ADJUSTMENT_REFRESH = 60000;
 	private static int MINIMUM_TOLERANCE = 8000;
 	private static int MAXIMUM_TOLERANCE = 64000;
+
+	private static int totalActualDelay = 0;
+	private static int totalConsideredDelay = 0;
 
 	private static int currentDelay = 800;
 	private static int lagTolerance = MINIMUM_TOLERANCE;
@@ -824,21 +826,25 @@ public class KoLRequest extends Job implements KoLConstants
 
 	public static boolean delay()
 	{
-		totalDelay += currentDelay;
+		totalConsideredDelay += currentDelay;
 
 		if ( !delayActive )
 			return true;
 
+		totalActualDelay += currentDelay;
 		return delay( currentDelay );
 	}
 
 	public static void printTotalDelay()
 	{
-		int seconds = totalDelay / 1000;
-		int minutes = seconds / 60;
+		int seconds, minutes;
+
+		seconds = totalActualDelay / 1000;
+		minutes = seconds / 60;
 		seconds = seconds % 60;
 
 		RequestLogger.printLine();
+
 		if ( delayActive )
 		{
 			RequestLogger.printLine( "Delay between requests: " + (currentDelay / 1000.0f) + " seconds" );
@@ -846,9 +852,15 @@ public class KoLRequest extends Job implements KoLConstants
 		}
 		else
 		{
-			RequestLogger.printLine( "Delay added this session: 0 minutes, 0 seconds" );
+			RequestLogger.printLine( "Delay added this session: " + minutes + " minutes, " + seconds + " seconds" );
+
+			seconds = totalConsideredDelay / 1000;
+			minutes = seconds / 60;
+			seconds = seconds % 60;
+
 			RequestLogger.printLine( "Total delay considered: " + minutes + " minutes, " + seconds + " seconds" );
 		}
+
 		RequestLogger.printLine();
 	}
 
