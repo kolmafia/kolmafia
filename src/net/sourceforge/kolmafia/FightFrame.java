@@ -38,16 +38,8 @@ public class FightFrame extends RequestFrame
 	private static FightFrame INSTANCE = null;
 
 	public FightFrame()
-	{	this( null );
-	}
-
-	public FightFrame( KoLRequest request )
-	{	this( "Request Synch", request );
-	}
-
-	public FightFrame( String title, KoLRequest request )
 	{
-		super( title, request );
+		super( "Request Synch" );
 		FightFrame.INSTANCE = this;
 	}
 

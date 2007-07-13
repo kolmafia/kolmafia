@@ -40,7 +40,9 @@ public class ProfileFrame extends RequestFrame
 	}
 
 	public ProfileFrame( ProfileRequest profile )
-	{	super( "Player Profile", profile );
+	{
+		super( "Player Profile" );
+		this.displayRequest( profile );
 	}
 
 	public boolean hasSideBar()

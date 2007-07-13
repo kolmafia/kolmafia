@@ -52,12 +52,6 @@ import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
-import javax.swing.SwingUtilities;
-
-import tab.CloseTabPaneUI;
-import tab.CloseTabbedPane;
-
-import com.sun.java.forums.CloseableTabbedPane;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
@@ -84,18 +78,15 @@ public class RequestFrame extends KoLFrame
 	private JTextField locationField = new JTextField();
 
 	public RequestFrame()
-	{	this( "Mini-Browser", new KoLRequest( "main.php", true ) );
+	{
+		this( "Mini-Browser" );
+		this.displayRequest( new KoLRequest( "main.php" ) );
 	}
 
-	public RequestFrame( KoLRequest request )
-	{	this( "Mini-Browser", request );
-	}
-
-	public RequestFrame( String title, KoLRequest request )
+	public RequestFrame( String title )
 	{
 		super( title );
 
-		this.setCurrentRequest( request );
 		this.mainDisplay = new RequestPane();
 		this.mainDisplay.addHyperlinkListener( new KoLHyperlinkAdapter() );
 
@@ -205,8 +196,6 @@ public class RequestFrame extends KoLFrame
 
 		if ( this.hasSideBar() )
 			refreshStatus();
-
-		this.displayRequest( request );
 	}
 
 	public JTabbedPane getTabbedPane()
@@ -332,13 +321,18 @@ public class RequestFrame extends KoLFrame
 
 	private void dispatchRequest( KoLRequest request )
 	{
+		if ( request == null )
+			return;
+
 		this.currentLocation = request.getURLString();
+
 		if ( request instanceof FightRequest )
 		{
 			request = new KoLRequest( this.currentLocation );
 			request.responseText = FightRequest.INSTANCE.responseText;
 		}
 
+		this.currentRequest = request;
 		this.mainBuffer.clearBuffer();
 
 		if ( request.responseText == null || request.responseText.length() == 0 )
@@ -351,48 +345,46 @@ public class RequestFrame extends KoLFrame
 
 			RequestThread.postRequest( request );
 			StaticEntity.setProperty( "showAllRequests", original );
-		}
 
-		if ( request != null && request.responseText != null && request.responseText.length() != 0 )
-		{
-			// Function exactly like a history in a normal browser -
-			// if you open a new frame after going back, all the ones
-			// in the future get removed.
-
-			String renderText = this.getDisplayHTML( request.responseText );
-
-			this.history.add( request.getURLString() );
-			this.shownHTML.add( renderText );
-
-			if ( this.history.size() > HISTORY_LIMIT )
-			{
-				this.history.remove(0);
-				this.shownHTML.remove(0);
-			}
-
-			String location = request.getURLString();
-
-			location = location.substring( location.lastIndexOf( "/" ) + 1 );
-			this.locationField.setText( location );
-
-			this.locationIndex = this.shownHTML.size() - 1;
-
-			Matcher imageMatcher = IMAGE_PATTERN.matcher( renderText );
-			while ( imageMatcher.find() )
-				RequestEditorKit.downloadImage( imageMatcher.group() );
-
-			this.mainBuffer.append( renderText );
-		}
-		else
-		{
 			// If this resulted in a redirect, then update the display
 			// to indicate that you were redirected and the display
 			// cannot be shown in the minibrowser.
 
-			this.mainBuffer.append( "<b>Tried to access</b>: " + this.currentLocation );
-			this.mainBuffer.append( "<br><b>Redirected</b>: " + request.redirectLocation );
-			return;
+			if ( request.responseText == null || request.responseText.length() == 0 )
+			{
+				this.mainBuffer.append( "<b>Tried to access</b>: " + this.currentLocation );
+				this.mainBuffer.append( "<br><b>Redirected</b>: " + request.redirectLocation );
+				return;
+			}
 		}
+
+		// Function exactly like a history in a normal browser -
+		// if you open a new frame after going back, all the ones
+		// in the future get removed.
+
+		String renderText = this.getDisplayHTML( request.responseText );
+
+		this.history.add( request.getURLString() );
+		this.shownHTML.add( renderText );
+
+		if ( this.history.size() > HISTORY_LIMIT )
+		{
+			this.history.remove(0);
+			this.shownHTML.remove(0);
+		}
+
+		String location = request.getURLString();
+
+		location = location.substring( location.lastIndexOf( "/" ) + 1 );
+		this.locationField.setText( location );
+
+		this.locationIndex = this.shownHTML.size() - 1;
+
+		Matcher imageMatcher = IMAGE_PATTERN.matcher( renderText );
+		while ( imageMatcher.find() )
+			RequestEditorKit.downloadImage( imageMatcher.group() );
+
+		this.mainBuffer.append( renderText );
 
 		if ( request.getClass() == KoLRequest.class )
 			StaticEntity.externalUpdate( request.getURLString(), request.responseText );
