@@ -58,6 +58,7 @@ public abstract class StaticEntity implements KoLConstants
 	private static final Pattern NONFLOAT_PATTERN = Pattern.compile( "[^\\-\\.0-9]" );
 	private static final Pattern NEWSKILL1_PATTERN = Pattern.compile( "<td>You learn a new skill: <b>(.*?)</b>" );
 	private static final Pattern NEWSKILL2_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
+	private static final Pattern NEWSKILL3_PATTERN = Pattern.compile( "<td>You acquire a skill: <[bB]>(.*?)</[bB]>" );
 	private static final Pattern SETTINGS_PATTERN = Pattern.compile( "prefs_(.*?).txt" );
 
 	private static KoLSettings settings = KoLSettings.GLOBAL_SETTINGS;
@@ -363,6 +364,15 @@ public abstract class StaticEntity implements KoLConstants
 		// mini-browser frame.
 
 		Matcher learnedMatcher = NEWSKILL1_PATTERN.matcher( responseText );
+		if ( learnedMatcher.find() )
+		{
+			String skillName = learnedMatcher.group(1);
+
+			KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( skillName ) );
+			KoLCharacter.addDerivedSkills();
+		}
+
+		learnedMatcher = NEWSKILL3_PATTERN.matcher( responseText );
 		if ( learnedMatcher.find() )
 		{
 			String skillName = learnedMatcher.group(1);
