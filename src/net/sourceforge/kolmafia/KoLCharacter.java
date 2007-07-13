@@ -456,8 +456,7 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	public static void setHoliday( String holiday )
-	{
-		isFullnessIncreased = holiday.indexOf( "Feast of Boris today" ) != -1;
+	{	isFullnessIncreased = holiday.equals( "Feast of Boris" );
 	}
 
 	public static int getFullness()
