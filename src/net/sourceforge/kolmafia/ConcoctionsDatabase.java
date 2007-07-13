@@ -79,7 +79,8 @@ public class ConcoctionsDatabase extends KoLDatabase
 	private static final AdventureResult DENSE = new AdventureResult( DENSE_STACK, 1 );
 
 	private static final int TOMATO = 246;
-	private static final int FLAT_DOUGH = 301;
+	public static final int WAD_DOUGH = 159;
+	public static final int FLAT_DOUGH = 301;
 
 	private static final AdventureResult DYSPEPSI = new AdventureResult( 347, 1 );
 	private static final AdventureResult CLOACA = new AdventureResult( 1334, 1 );
@@ -374,6 +375,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 	{
 		queuedChanges.clear();
 		queuedIngredients.clear();
+		refreshConcoctions();
 
 		queuedStillsUsed = 0;
 		queuedAdventuresUsed = 0;
@@ -640,7 +642,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		for ( int i = 0; i < hermitItems.size(); ++i )
 		{
 			item = (AdventureResult) hermitItems.get(i);
-			if ( !item.equals( SewerRequest.POSITIVE_CLOVER ) )
+			if ( item.getItemId() != SewerRequest.TEN_LEAF_CLOVER )
 				setBasicItem( availableIngredients, item, worthlessItems );
 		}
 	}

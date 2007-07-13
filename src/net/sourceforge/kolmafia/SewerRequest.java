@@ -35,8 +35,10 @@ package net.sourceforge.kolmafia;
 
 public class SewerRequest extends KoLRequest
 {
-	public static final AdventureResult POSITIVE_CLOVER = new AdventureResult( "ten-leaf clover", 1 );
-	public static final AdventureResult CLOVER = new AdventureResult( "ten-leaf clover", -1 );
+	public static final int TEN_LEAF_CLOVER = 24;
+	public static final int DISASSEMBLED_CLOVER = 196;
+//	public static final AdventureResult POSITIVE_CLOVER = new AdventureResult( "ten-leaf clover", 1 );
+	public static final AdventureResult CLOVER = new AdventureResult( TEN_LEAF_CLOVER, -1 );
 	public static final AdventureResult GUM = new AdventureResult( "chewing gum on a string", -1 );
 
 	private boolean isLuckySewer;
@@ -79,7 +81,7 @@ public class SewerRequest extends KoLRequest
 
 	private void runLuckySewer()
 	{
-		if ( !AdventureDatabase.retrieveItem( POSITIVE_CLOVER ) )
+		if ( !AdventureDatabase.retrieveItem( CLOVER.getInstance(1) ) )
 			return;
 
 		// The Sewage Gnomes insist on giving precisely three
@@ -116,7 +118,7 @@ public class SewerRequest extends KoLRequest
 	private void runUnluckySewer()
 	{
 		if ( StaticEntity.getClient().isLuckyCharacter() )
-			(new ConsumeItemRequest( POSITIVE_CLOVER.getInstance( POSITIVE_CLOVER.getCount( inventory ) ) )).run();
+			(new ConsumeItemRequest( CLOVER.getInstance( CLOVER.getCount( inventory ) ) )).run();
 
 		super.run();
 

@@ -189,11 +189,11 @@ public class HermitRequest extends KoLRequest
 		// Only check for clovers.  All other items at the hermit
 		// are assumed to be static.
 
-		hermitItems.remove( SewerRequest.POSITIVE_CLOVER );
+		hermitItems.remove( SewerRequest.CLOVER );
 
 		Matcher cloverMatcher = Pattern.compile( "(\\d+) left in stock for today" ).matcher( responseText );
 		if ( cloverMatcher.find() )
-			hermitItems.add( SewerRequest.POSITIVE_CLOVER.getInstance( Integer.parseInt( cloverMatcher.group(1) ) ) );
+			hermitItems.add( SewerRequest.CLOVER.getInstance( Integer.parseInt( cloverMatcher.group(1) ) ) );
 
 		checkedForClovers = true;
 
