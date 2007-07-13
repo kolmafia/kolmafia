@@ -788,7 +788,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		// In the event that the user made some sort of change
 		// to their auto-attack settings, do nothing.
 
-		if ( StaticEntity.getProperty( "defaultAutoAttack" ).equals( changedAutoAttack ) && initialAutoAttack.equals( "0" ) )
+		if ( initialAutoAttack.equals( "0" ) )
 			DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=0" );
 
 		initialAutoAttack = "";
@@ -831,10 +831,10 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 	public void recordToSession()
 	{
+		this.updateAutoAttack();
+
 		if ( !StaticEntity.getProperty( "lastAdventure" ).equals( this.adventureName ) )
 		{
-			this.updateAutoAttack();
-
 			StaticEntity.setProperty( "lastAdventure", this.adventureName );
 			if ( this.shouldRunFullCheck )
 			{
