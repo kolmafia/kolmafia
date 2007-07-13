@@ -1254,7 +1254,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "entryway" ) )
 		{
-			if ( KoLCharacter.hasItem( SewerRequest.POSITIVE_CLOVER ) || KoLCharacter.canInteract() )
+			if ( KoLCharacter.hasItem( SewerRequest.CLOVER.getInstance(1) ) || KoLCharacter.canInteract() )
 				SorceressLair.completeCloveredEntryway();
 			else
 				SorceressLair.completeCloverlessEntryway();
@@ -4714,7 +4714,7 @@ public class KoLmafiaCLI extends KoLmafia
 				}
 
 				itemId = ((AdventureResult)hermitItems.get(i)).getItemId();
-				if ( itemId == SewerRequest.POSITIVE_CLOVER.getItemId() && count != 1 )
+				if ( itemId == SewerRequest.TEN_LEAF_CLOVER && count != 1 )
 					count = Math.min( count, ((AdventureResult)hermitItems.get(i)).getCount() );
 			}
 		}

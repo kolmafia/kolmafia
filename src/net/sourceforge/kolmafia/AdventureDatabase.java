@@ -1393,7 +1393,7 @@ public class AdventureDatabase extends KoLDatabase
 		canUseNPCStore &= force || getBooleanProperty( "autoSatisfyWithNPCs" );
 
 		int mixingMethod = ConcoctionsDatabase.getMixingMethod( itemId );
-		boolean shouldCreate, shouldAutoSatisfyEarly;
+		boolean shouldCreate = false;
 
 		switch ( itemId )
 		{
@@ -1410,19 +1410,6 @@ public class AdventureDatabase extends KoLDatabase
 
 		ItemCreationRequest creator = shouldCreate ? ItemCreationRequest.getInstance( itemId ) : null;
 		shouldCreate &= creator != null;
-
-		switch ( mixingMethod )
-		{
-		case NOCREATE:
-		case STARCHART:
-		case PIXEL:
-			shouldAutoSatisfyEarly = true;
-			break;
-
-		default:
-			shouldAutoSatisfyEarly = !ConcoctionsDatabase.hasAnyIngredient( itemId );
-			break;
-		}
 
 		// First, attempt to pull the item from the closet.
 		// If this is successful, return from the method.
@@ -1480,7 +1467,9 @@ public class AdventureDatabase extends KoLDatabase
 		// Next, attempt to create the item from existing
 		// ingredients (if possible).
 
-		if ( shouldCreate && creator.getQuantityPossible() > 0 )
+
+
+		if ( creator != null )
 		{
 			creator.setQuantityNeeded( Math.min( missingCount, creator.getQuantityPossible() ) );
 			RequestThread.postRequest( creator );
@@ -1509,9 +1498,9 @@ public class AdventureDatabase extends KoLDatabase
 		// If the item should be bought early, go ahead and purchase it now,
 		// after having checked the clan stash.
 
-		if ( shouldPurchase && shouldAutoSatisfyEarly )
+		if ( shouldPurchase )
 		{
-			if ( canUseNPCStore || (KoLCharacter.canInteract() && shouldUseMall) )
+			if ( canUseNPCStore )
 			{
 				StaticEntity.getClient().makePurchases( StoreManager.searchMall( item.getName() ), missingCount );
 				missingCount = item.getCount() - item.getCount( inventory );
@@ -1530,9 +1519,8 @@ public class AdventureDatabase extends KoLDatabase
 		case STARCHART:
 		case PIXEL:
 		case MALUS:
-		case ROLLING_PIN:
-		case CLOVER:
 		case STAFF:
+		case MULTI_USE:
 
 			break;
 
@@ -1541,18 +1529,21 @@ public class AdventureDatabase extends KoLDatabase
 
 		default:
 
-			if ( shouldCreate && ConcoctionsDatabase.hasAnyIngredient( itemId ) )
+			if ( shouldCreate && itemId != ConcoctionsDatabase.WAD_DOUGH && itemId != SewerRequest.DISASSEMBLED_CLOVER )
 			{
 				creator.setQuantityNeeded( missingCount );
 				RequestThread.postRequest( creator );
-				return KoLCharacter.hasItem( item );
+
+				missingCount = item.getCount() - item.getCount( inventory );
+				if ( missingCount <= 0 )
+					return true;
 			}
 		}
 
 		// Try to purchase the item from the mall, if the user wishes to allow
 		// purchases for item acquisition.
 
-		if ( shouldPurchase && !shouldAutoSatisfyEarly )
+		if ( shouldPurchase )
 		{
 			if ( KoLCharacter.canInteract() && shouldUseMall )
 			{
@@ -1572,9 +1563,9 @@ public class AdventureDatabase extends KoLDatabase
 		case NOCREATE:
 		case STARCHART:
 		case PIXEL:
-		case MALUS:
 		case ROLLING_PIN:
 		case CLOVER:
+		case MALUS:
 		case STAFF:
 		case MULTI_USE:
 
