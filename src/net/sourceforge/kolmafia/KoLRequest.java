@@ -824,10 +824,11 @@ public class KoLRequest extends Job implements KoLConstants
 
 	public static boolean delay()
 	{
+		totalDelay += currentDelay;
+
 		if ( !delayActive )
 			return true;
 
-		totalDelay += currentDelay;
 		return delay( currentDelay );
 	}
 
@@ -838,8 +839,16 @@ public class KoLRequest extends Job implements KoLConstants
 		seconds = seconds % 60;
 
 		RequestLogger.printLine();
-		RequestLogger.printLine( "Delay between requests: " + (currentDelay / 1000.0f) + " seconds" );
-		RequestLogger.printLine( "Delay added this session: " + minutes + " minutes, " + seconds + " seconds" );
+		if ( delayActive )
+		{
+			RequestLogger.printLine( "Delay between requests: " + (currentDelay / 1000.0f) + " seconds" );
+			RequestLogger.printLine( "Delay added this session: " + minutes + " minutes, " + seconds + " seconds" );
+		}
+		else
+		{
+			RequestLogger.printLine( "Delay added this session: 0 minutes, 0 seconds" );
+			RequestLogger.printLine( "Total delay considered: " + minutes + " minutes, " + seconds + " seconds" );
+		}
 		RequestLogger.printLine();
 	}
 
