@@ -378,26 +378,13 @@ public class ChatBuffer
 					// interrupted.  Fall through.
 				}
 
-				isQueued = true;
-				handleQueue();
-				isQueued = false;
+				this.isQueued = true;
+				SwingUtilities.invokeLater( HANDLER );
 			}
 		}
 
-		public void handleQueue()
-		{
-			try
-			{
-				SwingUtilities.invokeAndWait( HANDLER );
-			}
-			catch ( Exception e )
-			{
-				// Something weird happened.  Clear the content
-				// queue and print a stack trace.
-
-				contentQueue.clear();
-				e.printStackTrace();
-			}
+		public void handlingFinished()
+		{	this.isQueued = false;
 		}
 	}
 
@@ -434,6 +421,8 @@ public class ChatBuffer
 
 			this.shouldAdjust = true;
 			this.shouldScroll = true;
+
+			UPDATER.handlingFinished();
 		}
 
 		private void reset()
