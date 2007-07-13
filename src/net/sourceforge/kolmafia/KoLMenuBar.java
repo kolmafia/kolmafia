@@ -143,6 +143,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		peopleMenu.add( new JSeparator() );
 
+		peopleMenu.add( new DisplayFrameMenuItem( "Run a Buffbot", "BuffBotFrame" ) );
 		peopleMenu.add( new DisplayFrameMenuItem( "Purchase Buffs", "BuffRequestFrame" ) );
 
 
