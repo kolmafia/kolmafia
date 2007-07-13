@@ -316,14 +316,6 @@ public class RequestFrame extends KoLFrame
 		if ( this.mainBuffer == null || request == null )
 			return;
 
-		this.dispatchRequest( request );
-	}
-
-	private void dispatchRequest( KoLRequest request )
-	{
-		if ( request == null )
-			return;
-
 		this.currentLocation = request.getURLString();
 
 		if ( request instanceof FightRequest )
