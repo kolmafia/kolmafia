@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -1798,10 +1799,14 @@ public class KoLRequest extends Job implements KoLConstants
 	}
 
 	public final void loadResponseFromFile( String filename )
+	{	loadResponseFromFile( new File( filename ) );
+	}
+
+	public final void loadResponseFromFile( File f )
 	{
 		try
 		{
-			BufferedReader buf = KoLDatabase.getReader( filename );
+			BufferedReader buf = KoLDatabase.getReader( f );
 			String line;  StringBuffer response = new StringBuffer();
 
 			while ( (line = buf.readLine()) != null )

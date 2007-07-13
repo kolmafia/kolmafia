@@ -3170,6 +3170,9 @@ public class KoLmafiaASH extends StaticEntity
 		result.addElement( new ScriptExistingFunction( "cli_execute", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "load_html", STRING_TYPE, params ) );
+
+		params = new ScriptType[] { STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "visit_url", STRING_TYPE, params ) );
 
 		params = new ScriptType[] { INT_TYPE };
@@ -4554,6 +4557,51 @@ public class KoLmafiaASH extends StaticEntity
 			return continueValue();
 		}
 
+		private File getFile( String filename )
+		{
+			if ( filename.startsWith( "http" ) )
+				return null;
+
+			File f = new File( SCRIPT_LOCATION, filename );
+			if ( !f.exists() )
+				f = new File( DATA_LOCATION, filename );
+			if ( !f.exists() )
+				f = new File( ROOT_LOCATION, filename );
+
+			if ( !f.exists() && filename.endsWith( ".dat" ) )
+				return getFile( filename.substring( 0, filename.length() - 4 ) + ".txt" );
+
+			return new File( DATA_LOCATION, filename );
+		}
+
+		private BufferedReader getReader( String filename )
+		{
+			if ( filename.startsWith( "http" ) )
+				return DataUtilities.getReader( filename );
+
+			File input = getFile( filename );
+			if ( input.exists() )
+				return DataUtilities.getReader( input );
+
+			return DataUtilities.getReader( "data", filename );
+		}
+
+		public ScriptValue load_html( ScriptVariable string )
+		{
+			String location = string.toStringValue().toString();
+			if ( !location.endsWith( ".htm" ) && !location.endsWith( ".html" ) )
+				return STRING_INIT;
+
+			File input = getFile( location );
+			if ( input == null || !input.exists() )
+				return STRING_INIT;
+
+			KoLRequest request = new KoLRequest( "", true );
+			request.loadResponseFromFile( input );
+
+			return request.responseText == null ? STRING_INIT : new ScriptValue( request.responseText );
+		}
+
 		public ScriptValue visit_url( ScriptVariable string )
 		{	return visit_url( string.toStringValue().toString() );
 		}
@@ -4576,7 +4624,7 @@ public class KoLmafiaASH extends StaticEntity
 			RequestThread.postRequest( request );
 
 			StaticEntity.externalUpdate( location, request.responseText );
-			return new ScriptValue( request.responseText == null ? "" : request.responseText );
+			return request.responseText == null ? STRING_INIT : new ScriptValue( request.responseText );
 		}
 
 		public ScriptValue wait( ScriptVariable delay )
@@ -5700,45 +5748,9 @@ public class KoLmafiaASH extends StaticEntity
 
 		private ScriptValue readMap( String filename, ScriptCompositeValue result, boolean compact )
 		{
-			BufferedReader reader = null;
-
-			if ( filename.startsWith( "http" ) )
-			{
-				reader = DataUtilities.getReader( "", filename );
-			}
-			else
-			{
-				reader = DataUtilities.getReader( "scripts/datamaps", filename );
-				if ( reader == null )
-					reader = DataUtilities.getReader( "scripts", filename );
-				if ( reader == null )
-					reader = DataUtilities.getReader( "data", filename );
-				if ( reader == null )
-					reader = DataUtilities.getReader( "", filename );
-			}
-
+			BufferedReader reader = getReader( filename );
 			if ( reader == null )
-			{
-				if ( filename.startsWith( "http:" ) )
-				{
-					KoLmafia.updateDisplay( ERROR_STATE, "Could not locate remote file <" + filename + ">" );
-				}
-				else if ( filename.endsWith( ".dat" ) )
-				{
-					return readMap( filename.substring( 0, filename.length() - 4 ) + ".txt", result, compact );
-				}
-				else
-				{
-					RequestLogger.printLine( "File not located: scripts/datamaps/" + filename );
-					RequestLogger.printLine( "File not located: scripts/" + filename );
-					RequestLogger.printLine( "File not located: data/" + filename );
-					RequestLogger.printLine( "File not located: " + filename );
-
-					KoLmafia.updateDisplay( ERROR_STATE, "Could not locate local file <" + filename + ">" );
-				}
-
 				return FALSE_VALUE;
-			}
 
 			String [] data = null;
 			result.clear();
@@ -5802,32 +5814,14 @@ public class KoLmafiaASH extends StaticEntity
 				return FALSE_VALUE;
 
 			PrintStream writer = null;
+			File output = getFile( filename );
 
-			File data = new File( SCRIPT_LOCATION, "datamaps/" + filename );
-			if ( !data.exists() )
-				data = new File( SCRIPT_LOCATION, filename );
-			if ( !data.exists() )
-				data = new File( DATA_LOCATION, filename );
-			if ( !data.exists() )
-				data = new File( ROOT_LOCATION, filename );
+			if ( output == null )
+				return FALSE_VALUE;
 
-			// If the file is not found, then go full circle again
-			// and write to scripts/datamaps.
-
-			if ( !data.exists() )
-			{
-				if ( filename.indexOf( "/" ) != -1 && filename.indexOf( ".." ) == -1 )
-					data = new File( ROOT_LOCATION, filename );
-				else
-					data = new File( SCRIPT_LOCATION, "datamaps/" + filename );
-			}
-
-			writer = LogStream.openStream( data, true );
+			writer = LogStream.openStream( output, true );
 			map_variable.dump( writer, "", compact );
 			writer.close();
-
-			if ( writer != null )
-				writer.close();
 
 			return TRUE_VALUE;
 		}
