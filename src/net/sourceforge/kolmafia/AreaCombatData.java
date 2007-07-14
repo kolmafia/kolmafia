@@ -175,7 +175,7 @@ public class AreaCombatData implements KoLConstants
 		float combatFactor = this.areaCombatPercent() / 100.0f;
 
 		// Iterate once through monsters to calculate average statGain
-		float averageXP = 0.0f;
+		float averageExperience = 0.0f;
 
 		for ( int i = 0; i < this.monsters.size(); ++i )
 		{
@@ -187,7 +187,7 @@ public class AreaCombatData implements KoLConstants
 
 			Monster monster = this.getMonster( i );
 			float weight = (float)weighting / (float)this.weights;
-			averageXP += weight * monster.getAdjustedXP( experienceAdjustment, ml,  familiar );
+			averageExperience += weight * monster.getAdjustedExperience( experienceAdjustment, ml,  familiar );
 		}
 
 		StringBuffer buffer = new StringBuffer();
@@ -202,7 +202,7 @@ public class AreaCombatData implements KoLConstants
 		if ( this.combats > 0 )
 		{
 			buffer.append( this.format( combatFactor * 100.0f ) + "%" );
-			buffer.append( "<br><b>Average XP / Turn</b>: " + FLOAT_FORMAT.format( averageXP * combatFactor ) );
+			buffer.append( "<br><b>Average Experience / Turn</b>: " + FLOAT_FORMAT.format( averageExperience * combatFactor ) );
 		}
 		else if ( this.combats == 0 )
 			buffer.append( "0%" );
@@ -276,7 +276,7 @@ public class AreaCombatData implements KoLConstants
 		int perfectEvade = perfectHit( moxie, attack );
 
 		int health = monster.getAdjustedHP( ml );
-		float statGain = monster.getXP();
+		float statGain = monster.getExperience();
 
 		StringBuffer buffer = new StringBuffer();
 
