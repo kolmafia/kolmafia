@@ -107,14 +107,10 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 	 * this does not affect logging.
 	 */
 
-	public static void useLargerFonts()
+	public static void updateFontSize()
 	{
-		ChatBuffer.BUFFER_STYLE = "body { font-family: sans-serif; font-size: medium; } a { color: black; text-decoration: none; }";
-	}
-
-	public static void useSmallerFonts()
-	{
-		ChatBuffer.BUFFER_STYLE = "body { font-family: sans-serif; font-size: small; } a { color: black; text-decoration: none; }";
+		ChatBuffer.BUFFER_STYLE = "body { font-family: sans-serif; font-size: " +
+			StaticEntity.getProperty( "chatFontSize" ) + "; } a { color: black; text-decoration: none; }";
 	}
 
 	/**
@@ -161,7 +157,7 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 
 			lineIndex = lineIndex + 4;
 			this.displayBuffer.delete( 0, lineIndex );
-			this.fireBufferChanged( DISPLAY_CHANGE, null );
+			this.fireBufferChanged();
 		}
 
 		if ( this.affectsHighlightBuffer && message.compareToIgnoreCase( highlightMessage ) != 0 )
@@ -210,7 +206,7 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 
 		this.displayBuffer.setLength( 0 );
 		this.displayBuffer.append( displayString );
-		this.fireBufferChanged( CONTENT_CHANGE, null );
+		this.fireBufferChanged();
 	}
 
 	private String applyHighlight( String message, String colorString, Pattern highlight, Pattern dehighlight )

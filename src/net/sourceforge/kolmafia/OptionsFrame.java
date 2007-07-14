@@ -40,12 +40,14 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.ListSelectionModel;
 
 import javax.swing.event.ListDataEvent;
@@ -53,6 +55,7 @@ import javax.swing.event.ListDataListener;
 import tab.CloseTabPaneEnhancedUI;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
+import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class OptionsFrame extends KoLFrame
@@ -308,7 +311,7 @@ public class OptionsFrame extends KoLFrame
 
 		public GeneralOptionsPanel()
 		{
-			super( "General Options (May Require Restart to Take Effect!)", new Dimension( 20, 16 ), new Dimension( 370, 16 ) );
+			super( "General Options", new Dimension( 20, 16 ), new Dimension( 370, 16 ) );
 			VerifiableElement [] elements = new VerifiableElement[ this.options.length ];
 
 			this.optionBoxes = new JCheckBox[ this.options.length ];
@@ -394,7 +397,7 @@ public class OptionsFrame extends KoLFrame
 		public abstract void saveSettings();
 	}
 
-	private class ScriptButtonPanel extends ShiftableOrderPanel implements ListDataListener
+	private class ScriptButtonPanel extends ShiftableOrderPanel
 	{
 		public ScriptButtonPanel()
 		{
@@ -434,6 +437,8 @@ public class OptionsFrame extends KoLFrame
 
 					ScriptButtonPanel.this.list.add( "call " + scriptPath );
 				}
+
+				saveSettings();
 			}
 		}
 
@@ -448,6 +453,8 @@ public class OptionsFrame extends KoLFrame
 				String currentValue = JOptionPane.showInputDialog( "CLI Command", "" );
 				if ( currentValue != null && currentValue.length() != 0 )
 					ScriptButtonPanel.this.list.add( currentValue );
+
+				saveSettings();
 			}
 		}
 
@@ -464,6 +471,7 @@ public class OptionsFrame extends KoLFrame
 					return;
 
 				ScriptButtonPanel.this.list.remove( index );
+				saveSettings();
 			}
 		}
 
@@ -471,12 +479,12 @@ public class OptionsFrame extends KoLFrame
 		{
 			StringBuffer settingString = new StringBuffer();
 			if ( this.list.size() != 0 )
-				settingString.append( (String) this.list.get(0) );
+				settingString.append( (String) this.list.getElementAt(0) );
 
-			for ( int i = 1; i < this.list.size(); ++i )
+			for ( int i = 1; i < this.list.getSize(); ++i )
 			{
 				settingString.append( " | " );
-				settingString.append( (String) this.list.get(i) );
+				settingString.append( (String) this.list.getElementAt(i) );
 			}
 
 			StaticEntity.setProperty( "scriptList", settingString.toString() );
@@ -497,7 +505,6 @@ public class OptionsFrame extends KoLFrame
 			{ "useChatMonitor", "Add an \"as KoL would show it\" display" },
 			{ "addChatCommandLine", "Add a simplified graphical CLI to tabbed chat" },
 			{},
-			{ "useLargerFonts", "Use larger font size for HTML displays" },
 			{ "useTabbedChatFrame", "Use tabbed, rather than multi-window, chat" },
 			{ "useShinyTabbedChat", "Use shiny closeable tabs when using tabbed chat" },
 			{ "useContactsFrame", "Use a popup window for /friends and /who" },
@@ -509,33 +516,48 @@ public class OptionsFrame extends KoLFrame
 
 		};
 
+		private ButtonGroup fontSizeGroup;
+		private JRadioButton [] fontSizes;
+
 		private JCheckBox [] optionBoxes;
 		private JCheckBox eSoluActiveOption, eSoluColorlessOption;
 		private JLabel innerGradient, outerGradient;
 
 		public ChatOptionsPanel()
 		{
-			super( new Dimension( 20, 16 ), new Dimension( 370, 16 ) );
+			super( new Dimension( 30, 16 ), new Dimension( 370, 16 ) );
 
-			int tabCount = options.length;
+			this.fontSizeGroup = new ButtonGroup();
+			this.fontSizes = new JRadioButton[3];
+			for ( int i = 0; i < 3; ++i )
+			{
+				this.fontSizes[i] = new JRadioButton();
+				this.fontSizeGroup.add( this.fontSizes[i] );
+			}
 
-			this.optionBoxes = new JCheckBox[ tabCount ];
-			for ( int i = 0; i < tabCount; ++i )
+			this.optionBoxes = new JCheckBox[ options.length ];
+			for ( int i = 0; i < options.length; ++i )
 				optionBoxes[i] = new JCheckBox();
 
 			this.eSoluActiveOption = new JCheckBox();
 			this.eSoluColorlessOption = new JCheckBox();
 
-			VerifiableElement [] elements = new VerifiableElement[ tabCount + 6 ];
+			VerifiableElement [] elements = new VerifiableElement[ 4 + options.length + 6 ];
 
-			for ( int i = 0; i < tabCount; ++i )
+			elements[0] = new VerifiableElement( "Use small fonts in hypertext displays", JLabel.LEFT, this.fontSizes[0] );
+			elements[1] = new VerifiableElement( "Use medium fonts in hypertext displays", JLabel.LEFT, this.fontSizes[1] );
+			elements[2] = new VerifiableElement( "Use large fonts in hypertext displays", JLabel.LEFT, this.fontSizes[2] );
+			elements[3] = new VerifiableElement();
+
+			for ( int i = 0; i < options.length; ++i )
 			{
 				if ( options[i].length > 0 )
-					elements[i] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
+					elements[i+4] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
 				else
-					elements[i] = new VerifiableElement();
+					elements[i+4] = new VerifiableElement();
 			}
 
+			int tabCount = options.length + 4;
 			elements[tabCount++] = new VerifiableElement();
 
 			elements[tabCount++] = new VerifiableElement( "Activate eSolu scriptlet for KoLmafia chat", JLabel.LEFT, this.eSoluActiveOption );
@@ -564,6 +586,16 @@ public class OptionsFrame extends KoLFrame
 			StaticEntity.setProperty( "eSoluScriptType", this.eSoluActiveOption.isSelected() ?
 				(this.eSoluColorlessOption.isSelected() ? "2" : "1") : "0" );
 
+			if ( this.fontSizes[0].isSelected() )
+				StaticEntity.setProperty( "chatFontSize", "small" );
+			else if ( this.fontSizes[1].isSelected() )
+				StaticEntity.setProperty( "chatFontSize", "medium" );
+			else if ( this.fontSizes[2].isSelected() )
+				StaticEntity.setProperty( "chatFontSize", "large" );
+
+			LimitedSizeChatBuffer.updateFontSize();
+			KoLMessenger.updateFontSize();
+
 			super.actionConfirmed();
 		}
 
@@ -578,6 +610,9 @@ public class OptionsFrame extends KoLFrame
 
 			this.innerGradient.setBackground( tab.CloseTabPaneEnhancedUI.notifiedA );
 			this.outerGradient.setBackground( tab.CloseTabPaneEnhancedUI.notifiedB );
+
+			String fontSize = StaticEntity.getProperty( "chatFontSize" );
+			this.fontSizes[ fontSize.equals( "large" ) ? 2 : fontSize.equals( "medium" ) ? 1 : 0 ].setSelected( true );
 		}
 
 		private class TabColorChanger extends LabelColorChanger

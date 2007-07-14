@@ -281,6 +281,10 @@ public class ChatBuffer
 		fireBufferChanged( CONTENT_CHANGE, message );
 	}
 
+	public void fireBufferChanged()
+	{	 fireBufferChanged( CONTENT_CHANGE, null );
+	}
+
 	/**
 	 * An internal function used to indicate that something has changed with
 	 * regards to the <code>ChatBuffer</code>.  This includes any addition
@@ -288,7 +292,7 @@ public class ChatBuffer
 	 * display window or the file to which the data is being logged.
 	 */
 
-	protected void fireBufferChanged( int changeType, String newContents )
+	private void fireBufferChanged( int changeType, String newContents )
 	{
 		if ( changeType != LOGFILE_CHANGE )
 		{

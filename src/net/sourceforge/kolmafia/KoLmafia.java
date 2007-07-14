@@ -257,10 +257,7 @@ public abstract class KoLmafia implements KoLConstants
 			}
 		}
 
-		if ( StaticEntity.getBooleanProperty( "useLargerFonts" ) )
-			LimitedSizeChatBuffer.useLargerFonts();
-		else
-			LimitedSizeChatBuffer.useSmallerFonts();
+		LimitedSizeChatBuffer.updateFontSize();
 
 		// Change the default look and feel to match the player's
 		// preferences.  Always do this.

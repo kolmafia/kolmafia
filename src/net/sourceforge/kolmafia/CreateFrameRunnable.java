@@ -119,17 +119,16 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			{
 				KoLDesktop.getInstance().initializeTabs();
 				KoLDesktop.displayDesktop();
-				return;
+				this.loadPreviousFrame();
 			}
-
-			this.runConstruction( appearsInTab );
+			else
+			{
+				this.runConstruction( appearsInTab );
+			}
 		}
 
 		if ( this.creation == null )
-		{
-			System.out.println( "Fail: " + creationType );
 			return;
-		}
 
 		if ( this.creationType == SkillBuffFrame.class && this.parameters.length == 1 )
 			((SkillBuffFrame)this.creation).setRecipient( (String) this.parameters[0] );
@@ -145,12 +144,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 		// visibility on screen and request focus.
 
 		if ( appearsInTab )
-		{
-			if ( !KoLDesktop.instanceExists() )
-				KoLDesktop.displayDesktop();
-
 			KoLDesktop.addTab( (KoLFrame) this.creation );
-		}
 		else
 			this.creation.setVisible( true );
 
