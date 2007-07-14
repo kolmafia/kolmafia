@@ -557,7 +557,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			panels[ ++panelCount ] = new JPanel( new GridLayout( 1, 1 ) );
 			panels[ panelCount ].add( this.familiarLabel = new UnanimatedLabel() );
 
-			panels[ ++panelCount ] = new JPanel( new GridLayout( 5, 2 ) );
+			panels[ ++panelCount ] = new JPanel( new GridLayout( 6, 2 ) );
 			panels[ panelCount ].add( new JLabel( "ML: ", JLabel.RIGHT ) );
 			panels[ panelCount ].add( this.mlLabel = new JLabel( " ", JLabel.LEFT ) );
 			panels[ panelCount ].add( new JLabel( "Enc: ", JLabel.RIGHT ) );
