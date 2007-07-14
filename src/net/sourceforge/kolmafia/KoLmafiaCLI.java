@@ -771,7 +771,7 @@ public class KoLmafiaCLI extends KoLmafia
 			RequestThread.postRequest( request );
 
 			StaticEntity.externalUpdate( request.getURLString(), request.responseText );
-			this.showHTML( request.responseText, request.getURLString() );
+			this.showHTML( request.responseText );
 
 			return;
 
@@ -1197,7 +1197,7 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( StaticEntity.getClient() instanceof KoLmafiaGUI )
 				FightFrame.showRequest( request );
 			else
-				this.showHTML( request.responseText, "Item Description" );
+				this.showHTML( request.responseText );
 
 			return;
 		}
@@ -1210,7 +1210,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "survival" ) || command.equals( "locdata" ) )
 		{
-			this.showHTML( AdventureDatabase.getAreaCombatData( AdventureDatabase.getAdventure( parameters ).toString() ).toString(), "Survival Lookup" );
+			this.showHTML( AdventureDatabase.getAreaCombatData( AdventureDatabase.getAdventure( parameters ).toString() ).toString() );
 			return;
 		}
 
@@ -1336,7 +1336,7 @@ public class KoLmafiaCLI extends KoLmafia
 			RequestThread.postRequest( request );
 
 			this.showHTML( StaticEntity.singleStringReplace( request.responseText,
-				"<a href=\"town.php\">Back to Seaside Town</a>", "" ), "Available Quests" );
+				"<a href=\"town.php\">Back to Seaside Town</a>", "" ) );
 
 			return;
 		}
@@ -2038,7 +2038,7 @@ public class KoLmafiaCLI extends KoLmafia
 		this.executeScript( this.currentLine );
 	}
 
-	public void showHTML( String text, String title )
+	public void showHTML( String text )
 	{
 		// Strip out all the new lines found in the source
 		// so you don't accidentally add more new lines than

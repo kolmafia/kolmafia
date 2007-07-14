@@ -1332,7 +1332,7 @@ public class ConsumeItemRequest extends KoLRequest
 	private static void showItemUsage( boolean showHTML, String text, boolean consumed )
 	{
 		if ( showHTML )
-			StaticEntity.getClient().showHTML( trimInventoryText( text ), null );
+			StaticEntity.getClient().showHTML( trimInventoryText( text ) );
 
 		if ( !consumed )
 			StaticEntity.getClient().processResult( lastItemUsed );

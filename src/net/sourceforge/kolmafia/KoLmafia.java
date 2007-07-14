@@ -2327,7 +2327,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * Show an HTML string to the user
 	 */
 
-	public abstract void showHTML( String text, String title );
+	public abstract void showHTML( String text );
 
 	public static final boolean hadPendingState()
 	{	return hadPendingState;
