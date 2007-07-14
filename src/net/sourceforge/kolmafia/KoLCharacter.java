@@ -2808,6 +2808,12 @@ public abstract class KoLCharacter extends StaticEntity
 			}
 		}
 
+		// Lastly, experience adjustment also implicitly depends on
+		// monster level.  Add that information.
+
+		newModifiers[ StatusEffectDatabase.EXPERIENCE_MODIFIER ] +=
+			newModifiers[ StatusEffectDatabase.MONSTER_LEVEL_MODIFIER ] / 5.0f;
+
 		// Determine whether or not data has changed
 
 		boolean changed = false;
