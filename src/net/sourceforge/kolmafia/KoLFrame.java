@@ -464,8 +464,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		private JLabel fullLabel, drunkLabel, spleenLabel;
 		private JLabel hpLabel, mpLabel, meatLabel, advLabel;
 		private JLabel familiarLabel;
-		private JLabel mlLabel, combatLabel, initLabel;
-		private JLabel xpLabel, meatDropLabel, itemDropLabel;
+		private JLabel mlLabel, encLabel;
+		private JLabel meatDropLabel, itemDropLabel;
 
 		public StatusRefresher()
 		{
@@ -557,15 +557,11 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			panels[ ++panelCount ] = new JPanel( new GridLayout( 1, 1 ) );
 			panels[ panelCount ].add( this.familiarLabel = new UnanimatedLabel() );
 
-			panels[ ++panelCount ] = new JPanel( new GridLayout( 6, 2 ) );
+			panels[ ++panelCount ] = new JPanel( new GridLayout( 4, 2 ) );
 			panels[ panelCount ].add( new JLabel( "ML: ", JLabel.RIGHT ) );
 			panels[ panelCount ].add( this.mlLabel = new JLabel( " ", JLabel.LEFT ) );
-			panels[ panelCount ].add( new JLabel( "Combat: ", JLabel.RIGHT ) );
-			panels[ panelCount ].add( this.combatLabel = new JLabel( " ", JLabel.LEFT ) );
-			panels[ panelCount ].add( new JLabel( "Init: ", JLabel.RIGHT ) );
-			panels[ panelCount ].add( this.initLabel = new JLabel( " ", JLabel.LEFT ) );
-			panels[ panelCount ].add( new JLabel( "XP: ", JLabel.RIGHT ) );
-			panels[ panelCount ].add( this.xpLabel = new JLabel( " ", JLabel.LEFT ) );
+			panels[ panelCount ].add( new JLabel( "Enc: ", JLabel.RIGHT ) );
+			panels[ panelCount ].add( this.encLabel = new JLabel( " ", JLabel.LEFT ) );
 			panels[ panelCount ].add( new JLabel( "Meat: ", JLabel.RIGHT ) );
 			panels[ panelCount ].add( this.meatDropLabel = new JLabel( " ", JLabel.LEFT ) );
 			panels[ panelCount ].add( new JLabel( "Item: ", JLabel.RIGHT ) );
@@ -632,9 +628,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 			int ml = KoLCharacter.getMonsterLevelAdjustment();
 			this.mlLabel.setText( MODIFIER_FORMAT.format( ml ) );
-			this.combatLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getCombatPercentAdjustment() ) + "%" );
-			this.initLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getInitiativeAdjustment() ) + "%" );
-			this.xpLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getFixedXPAdjustment() + (float)ml / 5.0 ) );
+			this.encLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getCombatPercentAdjustment() ) + "%" );
 			this.meatDropLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getMeatDropPercentAdjustment() ) + "%" );
 			this.itemDropLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getItemDropPercentAdjustment() ) + "%" );
 
