@@ -669,12 +669,6 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "luckySewerAdventure", "stolen accordion" );
 		PLAYER_SETTINGS.put( "manaBurningThreshold", "-0.1" );
 
-		PLAYER_SETTINGS.put( "monsterQueue1", "" );
-		PLAYER_SETTINGS.put( "monsterQueue2", "" );
-		PLAYER_SETTINGS.put( "monsterQueue3", "" );
-		PLAYER_SETTINGS.put( "monsterQueue4", "" );
-		PLAYER_SETTINGS.put( "monsterQueue5", "" );
-
 		PLAYER_SETTINGS.put( "munchiesPillsUsed", "0" );
 		PLAYER_SETTINGS.put( "mpAutoRecovery", "0.0" );
 		PLAYER_SETTINGS.put( "mpAutoRecoveryTarget", "0.3" );

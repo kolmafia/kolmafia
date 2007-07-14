@@ -3705,15 +3705,10 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { AGGREGATE_TYPE, STRING_TYPE, BOOLEAN_TYPE };
 		result.addElement( new ScriptExistingFunction( "map_to_file", BOOLEAN_TYPE, params ) );
 
-
 		// Custom combat helper functions.
-
 
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "my_location", LOCATION_TYPE, params ) );
-
-		params = new ScriptType[] { MONSTER_TYPE };
-		result.addElement( new ScriptExistingFunction( "combat_queue_contains", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] { LOCATION_TYPE };
 		result.addElement( new ScriptExistingFunction( "get_monsters", new ScriptAggregateType( MONSTER_TYPE, 0 ), params ) );
@@ -5832,21 +5827,6 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			String location = getProperty( "lastAdventure" );
 			return location.equals( "" ) ? parseLocationValue( "Rest" ) : parseLocationValue( location );
-		}
-
-		public ScriptValue combat_queue_contains( ScriptVariable arg )
-		{
-			Monster monster = (Monster) arg.rawValue();
-			if ( monster == null )
-				return FALSE_VALUE;
-
-			String monsterName = monster.getName();
-
-			for ( int i = 1; i <= 5; ++i )
-				if ( StaticEntity.getProperty( "monsterQueue" + i ).equalsIgnoreCase( monsterName ) )
-					return TRUE_VALUE;
-
-			return FALSE_VALUE;
 		}
 
 		public ScriptValue get_monsters( ScriptVariable location )
