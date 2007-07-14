@@ -2749,7 +2749,7 @@ public abstract class KoLCharacter extends StaticEntity
 		case TROLL:
 		case PENGUIN:
 			// Full volleyball equivalent familiar
-			newModifiers[ StatusEffectDatabase.EXPERIENCE_MODIFIER ] += modifier / 4.0;
+			newModifiers[ StatusEffectDatabase.EXPERIENCE_MODIFIER ] += Math.sqrt( modifier );
 			break;
 
 		case LEPRECHAUN:
@@ -2763,25 +2763,25 @@ public abstract class KoLCharacter extends StaticEntity
 		case TICK:
 			// Full volleyball equivalent familiar
 			// Full leprechaun equivalent familiar
-			newModifiers[ StatusEffectDatabase.EXPERIENCE_MODIFIER ] += modifier / 4.0;
+			newModifiers[ StatusEffectDatabase.EXPERIENCE_MODIFIER ] += Math.sqrt( modifier );
 			newModifiers[ StatusEffectDatabase.MEATDROP_MODIFIER ] += modifier * 5;
 			break;
 
 		case SHAMAN:
 			// Full volleyball equivalent familiar
 			// Full gravy fairy equivalent familiar
-			newModifiers[ StatusEffectDatabase.EXPERIENCE_MODIFIER ] += modifier / 4.0;
+			newModifiers[ StatusEffectDatabase.EXPERIENCE_MODIFIER ] += Math.sqrt( modifier );
 			newModifiers[ StatusEffectDatabase.ITEMDROP_MODIFIER ] += modifier * 2.5;
 			break;
 
 		case JILL:
 			// Half volleyball equivalent familiar
-			newModifiers[ StatusEffectDatabase.EXPERIENCE_MODIFIER ] += modifier / 8.0;
+			newModifiers[ StatusEffectDatabase.EXPERIENCE_MODIFIER ] += Math.sqrt( modifier ) / 2.0f;
 			break;
 
 		case HARE:
 			// Full volleyball equivalent 1/4 of the time
-			newModifiers[ StatusEffectDatabase.EXPERIENCE_MODIFIER ] += modifier / 16.0;
+			newModifiers[ StatusEffectDatabase.EXPERIENCE_MODIFIER ] += Math.sqrt( modifier ) / 4.0f;
 			break;
 		}
 
