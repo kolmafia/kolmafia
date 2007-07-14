@@ -465,7 +465,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		private JLabel hpLabel, mpLabel, meatLabel, advLabel;
 		private JLabel familiarLabel;
 		private JLabel mlLabel, encLabel, initLabel;
-		private JLabel meatDropLabel, itemDropLabel;
+		private JLabel expLabel, meatDropLabel, itemDropLabel;
 
 		public StatusRefresher()
 		{
@@ -564,6 +564,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			panels[ panelCount ].add( this.encLabel = new JLabel( " ", JLabel.LEFT ) );
 			panels[ panelCount ].add( new JLabel( "Init: ", JLabel.RIGHT ) );
 			panels[ panelCount ].add( this.initLabel = new JLabel( " ", JLabel.LEFT ) );
+			panels[ panelCount ].add( new JLabel( "Exp: ", JLabel.RIGHT ) );
+			panels[ panelCount ].add( this.expLabel = new JLabel( " ", JLabel.LEFT ) );
 			panels[ panelCount ].add( new JLabel( "Meat: ", JLabel.RIGHT ) );
 			panels[ panelCount ].add( this.meatDropLabel = new JLabel( " ", JLabel.LEFT ) );
 			panels[ panelCount ].add( new JLabel( "Item: ", JLabel.RIGHT ) );
@@ -608,10 +610,10 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 				this.roninLabel.setText( "(Hardcore)" );
 			else if ( KoLCharacter.getAscensions() == 0 )
 				this.roninLabel.setText( "(Unascended)" );
-			else if ( KoLCharacter.getCurrentRun() >= 600 )
+			else if ( KoLCharacter.getCurrentRun() >= 1000 )
 				this.roninLabel.setText( "(Ronin Clear)" );
 			else
-				this.roninLabel.setText( "(Ronin for " + (600 - KoLCharacter.getCurrentRun()) + ")" );
+				this.roninLabel.setText( "(Ronin for " + (1000 - KoLCharacter.getCurrentRun()) + ")" );
 
 			this.mcdLabel.setText( "ML @ " + KoLCharacter.getSignedMLAdjustment() );
 
@@ -632,6 +634,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			this.mlLabel.setText( MODIFIER_FORMAT.format( ml ) );
 			this.encLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getCombatRateAdjustment() ) + "%" );
 			this.initLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getInitiativeAdjustment() ) + "%" );
+			this.expLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getExperienceAdjustment() ) + "%" );
 			this.meatDropLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getMeatDropPercentAdjustment() ) + "%" );
 			this.itemDropLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getItemDropPercentAdjustment() ) + "%" );
 
