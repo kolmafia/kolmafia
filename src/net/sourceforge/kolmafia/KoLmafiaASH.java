@@ -3450,6 +3450,9 @@ public class KoLmafiaASH extends StaticEntity
 		result.addElement( new ScriptExistingFunction( "can_drink", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "turns_played", INT_TYPE, params ) );
+
+		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "can_interact", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] {};
@@ -5207,6 +5210,10 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue can_drink()
 		{	return new ScriptValue( KoLCharacter.canDrink() );
+		}
+
+		public ScriptValue turns_played()
+		{	return new ScriptValue( KoLCharacter.getCurrentRun() );
 		}
 
 		public ScriptValue can_interact()
