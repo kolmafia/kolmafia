@@ -854,7 +854,7 @@ public class KoLRequest extends Job implements KoLConstants
 		{
 			RequestLogger.printLine( "Delay added this session: " + minutes + " minutes, " + seconds + " seconds" );
 
-			seconds = totalConsideredDelay / 1000;
+			seconds = totalConsideredDelay * currentDelay / 1000;
 			minutes = seconds / 60;
 			seconds = seconds % 60;
 
