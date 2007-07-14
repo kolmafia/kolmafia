@@ -2812,7 +2812,7 @@ public abstract class KoLCharacter extends StaticEntity
 		// monster level.  Add that information.
 
 		newModifiers[ StatusEffectDatabase.EXPERIENCE_MODIFIER ] +=
-			newModifiers[ StatusEffectDatabase.MONSTER_LEVEL_MODIFIER ] / 5.0f;
+			newModifiers[ StatusEffectDatabase.MONSTER_LEVEL_MODIFIER ] / 4.0f;
 
 		// Determine whether or not data has changed
 
