@@ -152,7 +152,7 @@ public class ItemManageFrame extends KoLFrame
 		JPanel tabHolder = new JPanel( new CardLayout( 10, 10 ) );
 		tabHolder.add( this.tabs, "" );
 
-		this.itemPanelList.setSelectedIndex(0);
+		this.itemPanelList.setSelectedIndex( StaticEntity.getIntegerProperty( "itemManagerIndex" ) );
 		this.framePanel.add( tabHolder, BorderLayout.CENTER );
 	}
 
@@ -215,6 +215,7 @@ public class ItemManageFrame extends KoLFrame
 			if ( ItemManageFrame.this.itemPanelNames.get( cardIndex ) instanceof JComponent )
 				return;
 
+			StaticEntity.setProperty( "itemManagerIndex", String.valueOf( cardIndex ) );
 			ItemManageFrame.this.itemPanelCards.show( ItemManageFrame.this.managePanel, String.valueOf( cardIndex + 1 ) );
 		}
 	}
