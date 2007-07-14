@@ -821,17 +821,17 @@ public class KoLRequest extends Job implements KoLConstants
 	public static boolean shouldIgnore( String formURLString )
 	{
 		return formURLString.indexOf( "mall" ) != -1 || formURLString.indexOf( "chat" ) != -1 ||
-			formURLString.indexOf( "send" ) != -1 || formURLString.startsWith( "bhh" );
+			formURLString.indexOf( "send" ) != -1 || formURLString.indexOf( "bhh" ) != -1;
 	}
 
 	public static boolean delay()
 	{
-		totalConsideredDelay += currentDelay;
+		++totalConsideredDelay;
 
 		if ( !delayActive )
 			return true;
 
-		totalActualDelay += currentDelay;
+		++totalActualDelay;
 		return delay( currentDelay );
 	}
 
@@ -839,7 +839,7 @@ public class KoLRequest extends Job implements KoLConstants
 	{
 		int seconds, minutes;
 
-		seconds = totalActualDelay / 1000;
+		seconds = totalActualDelay * currentDelay / 1000;
 		minutes = seconds / 60;
 		seconds = seconds % 60;
 
