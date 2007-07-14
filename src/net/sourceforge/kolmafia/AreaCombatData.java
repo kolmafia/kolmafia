@@ -169,7 +169,7 @@ public class AreaCombatData implements KoLConstants
 
 		// statGain constants
 		FamiliarData familiar = KoLCharacter.getFamiliar();
-		float xpAdjustment = KoLCharacter.getFixedXPAdjustment();
+		float experienceAdjustment = KoLCharacter.getExperienceAdjustment();
 
 		// Area Combat percentage
 		float combatFactor = this.areaCombatPercent() / 100.0f;
@@ -187,7 +187,7 @@ public class AreaCombatData implements KoLConstants
 
 			Monster monster = this.getMonster( i );
 			float weight = (float)weighting / (float)this.weights;
-			averageXP += weight * monster.getAdjustedXP( xpAdjustment, ml,  familiar );
+			averageXP += weight * monster.getAdjustedXP( experienceAdjustment, ml,  familiar );
 		}
 
 		StringBuffer buffer = new StringBuffer();
@@ -233,7 +233,7 @@ public class AreaCombatData implements KoLConstants
 		if ( this.combats == 0 || this.combats == 100 )
 			return this.combats;
 
-		float pct = this.combats + KoLCharacter.getCombatPercentAdjustment();
+		float pct = this.combats + KoLCharacter.getCombatRateAdjustment();
 		return Math.max( 0.0f, Math.min( 100.0f, pct ) );
 	}
 

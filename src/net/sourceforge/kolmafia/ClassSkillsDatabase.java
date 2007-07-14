@@ -302,22 +302,22 @@ public class ClassSkillsDatabase extends KoLDatabase
 		if ( skillId == 18 )
 		{
 			int count = StaticEntity.getIntegerProperty( "candyHeartSummons" );
-			return Math.max( ((count + 1) * (count + 2)) / 2 + KoLCharacter.getManaCostModifier(), 1 );
+			return Math.max( ((count + 1) * (count + 2)) / 2 + KoLCharacter.getManaCostAdjustment(), 1 );
 		}
 
 		// Moxious Maneuver has a special mana cost.
 		if ( skillId == 7008 )
-			return Math.max( KoLCharacter.getLevel() + KoLCharacter.getManaCostModifier(), 1 );
+			return Math.max( KoLCharacter.getLevel() + KoLCharacter.getManaCostAdjustment(), 1 );
 
 		// Magic Missile has a special mana cost.
 		if ( skillId == 7009 )
-			return Math.max( Math.min( ( KoLCharacter.getLevel() + 3 ) / 2, 6 ) + KoLCharacter.getManaCostModifier(), 1 );
+			return Math.max( Math.min( ( KoLCharacter.getLevel() + 3 ) / 2, 6 ) + KoLCharacter.getManaCostAdjustment(), 1 );
 
 		if ( getSkillType( skillId ) == PASSIVE )
 			return 0;
 
 		Object mpConsumption = mpConsumptionById.get( new Integer( skillId ) );
-		return mpConsumption == null ? 0 : Math.max( ((Integer)mpConsumption).intValue() + KoLCharacter.getManaCostModifier(), 1 );
+		return mpConsumption == null ? 0 : Math.max( ((Integer)mpConsumption).intValue() + KoLCharacter.getManaCostAdjustment(), 1 );
 	}
 
 	/**

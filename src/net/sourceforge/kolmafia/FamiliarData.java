@@ -150,20 +150,7 @@ public class FamiliarData implements KoLConstants, Comparable
 	}
 
 	public int getModifiedWeight()
-	{
-		// Start with base weight
-		int total = this.weight;
-
-		// Add in adjustment due to equipment, skills, and effects
-		if ( this.id == 38 )
-			total += KoLCharacter.getDodecapedeWeightAdjustment();
-		else
-			total += KoLCharacter.getFamiliarWeightAdjustment();
-
-		// Finally, add in effect of current equipment
-		total += itemWeightModifier( this.item.getItemId() );
-
-		return total;
+	{	return Math.max( 1, this.weight + KoLCharacter.getFamiliarWeightAdjustment() );
 	}
 
 	public static int itemWeightModifier( int itemId )
@@ -190,11 +177,11 @@ public class FamiliarData implements KoLConstants, Comparable
 		case 2147:	// evil teddy bear sewing kit
 		case 2191:	// giant book of ancient carols
 		case 2225:	// flaming familiar doppelg&auml;nger
-                case 2570:	// ant hoe
-                case 2571: 	// ant rake
-                case 2572: 	// ant pitchfork
-                case 2573: 	// ant sickle
-                case 2574: 	// ant pick
+		case 2570:	// ant hoe
+		case 2571: 	// ant rake
+		case 2572: 	// ant pitchfork
+		case 2573: 	// ant sickle
+		case 2574: 	// ant pick
 			return 0;
 
 		case 865:	// lead necklace
@@ -242,6 +229,7 @@ public class FamiliarData implements KoLConstants, Comparable
 		for ( int i = 0; i < skills.length; ++i )
 			if ( skills[i] > 0 )
 				return true;
+
 		return false;
 	}
 
@@ -289,11 +277,11 @@ public class FamiliarData implements KoLConstants, Comparable
 		case 1971:  // plastic pumpkin bucket
 		case 2225:  // flaming familiar doppelg&auml;nger
 		case 2541:  // Mayflower bouquet
-                case 2570:  // ant hoe
-                case 2571:  // ant rake
-                case 2572:  // ant pitchfork
-                case 2573:  // ant sickle
-                case 2574:  // ant pick
+		case 2570:  // ant hoe
+		case 2571:  // ant rake
+		case 2572:  // ant pitchfork
+		case 2573:  // ant sickle
+		case 2574:  // ant pick
 			return this.id != 54;
 
 		default:

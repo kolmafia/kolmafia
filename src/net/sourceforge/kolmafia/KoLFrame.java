@@ -464,7 +464,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		private JLabel fullLabel, drunkLabel, spleenLabel;
 		private JLabel hpLabel, mpLabel, meatLabel, advLabel;
 		private JLabel familiarLabel;
-		private JLabel mlLabel, encLabel;
+		private JLabel mlLabel, encLabel, initLabel;
 		private JLabel meatDropLabel, itemDropLabel;
 
 		public StatusRefresher()
@@ -557,11 +557,13 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			panels[ ++panelCount ] = new JPanel( new GridLayout( 1, 1 ) );
 			panels[ panelCount ].add( this.familiarLabel = new UnanimatedLabel() );
 
-			panels[ ++panelCount ] = new JPanel( new GridLayout( 4, 2 ) );
+			panels[ ++panelCount ] = new JPanel( new GridLayout( 5, 2 ) );
 			panels[ panelCount ].add( new JLabel( "ML: ", JLabel.RIGHT ) );
 			panels[ panelCount ].add( this.mlLabel = new JLabel( " ", JLabel.LEFT ) );
 			panels[ panelCount ].add( new JLabel( "Enc: ", JLabel.RIGHT ) );
 			panels[ panelCount ].add( this.encLabel = new JLabel( " ", JLabel.LEFT ) );
+			panels[ panelCount ].add( new JLabel( "Init: ", JLabel.RIGHT ) );
+			panels[ panelCount ].add( this.initLabel = new JLabel( " ", JLabel.LEFT ) );
 			panels[ panelCount ].add( new JLabel( "Meat: ", JLabel.RIGHT ) );
 			panels[ panelCount ].add( this.meatDropLabel = new JLabel( " ", JLabel.LEFT ) );
 			panels[ panelCount ].add( new JLabel( "Item: ", JLabel.RIGHT ) );
@@ -628,7 +630,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 			int ml = KoLCharacter.getMonsterLevelAdjustment();
 			this.mlLabel.setText( MODIFIER_FORMAT.format( ml ) );
-			this.encLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getCombatPercentAdjustment() ) + "%" );
+			this.encLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getCombatRateAdjustment() ) + "%" );
+			this.initLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getInitiativeAdjustment() ) + "%" );
 			this.meatDropLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getMeatDropPercentAdjustment() ) + "%" );
 			this.itemDropLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getItemDropPercentAdjustment() ) + "%" );
 

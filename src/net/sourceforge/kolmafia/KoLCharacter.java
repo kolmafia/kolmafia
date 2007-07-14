@@ -264,23 +264,7 @@ public abstract class KoLCharacter extends StaticEntity
 	// Status pane data which is rendered whenever
 	// the user changes equipment, effects, and familiar
 
-	private static int monsterLevelAdjustment = 0;
-	private static int familiarWeightAdjustment = 0;
-	private static int dodecapedeWeightAdjustment = 0;
-	private static int familiarItemWeightAdjustment = 0;
-	private static int manaCostModifier = 0;
-	private static float combatPercentAdjustment = 0.0f;
-	private static float initiativeAdjustment = 0.0f;
-	private static float fixedXPAdjustment = 0.0f;
-	private static float meatDropPercentAdjustment = 0.0f;
-	private static float itemDropPercentAdjustment = 0.0f;
-	private static int damageAbsorption = 0;
-	private static int damageReduction = 0;
-	private static float coldResistance = 0;
-	private static float hotResistance = 0;
-	private static float sleazeResistance = 0;
-	private static float spookyResistance = 0;
-	private static float stenchResistance = 0;
+	private static final float [] currentModifiers = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
 
 	// Travel information
 
@@ -362,23 +346,8 @@ public abstract class KoLCharacter extends StaticEntity
 		adjustedStats = new int[3];
 		totalSubpoints = new int[3];
 
-		monsterLevelAdjustment = 0;
-		familiarWeightAdjustment = 0;
-		dodecapedeWeightAdjustment = 0;
-		familiarItemWeightAdjustment = 0;
-		manaCostModifier = 0;
-		combatPercentAdjustment = 0.0f;
-		initiativeAdjustment = 0.0f;
-		fixedXPAdjustment = 0.0f;
-		meatDropPercentAdjustment = 0.0f;
-		itemDropPercentAdjustment = 0.0f;
-		damageAbsorption = 0;
-		damageReduction = 0;
-		coldResistance = 0;
-		hotResistance = 0;
-		sleazeResistance = 0;
-		spookyResistance = 0;
-		stenchResistance = 0;
+		for ( int i = 0; i < currentModifiers.length; ++i )
+			currentModifiers[i] = 0.0f;
 
 		equipment.clear();
 		for ( int i = 0; i < 9; ++i )
@@ -1037,8 +1006,6 @@ public abstract class KoLCharacter extends StaticEntity
 	 * Accessor method to retrieve the total number of turns the character has used
 	 * since creation.  This method is only interesting from an averages point of
 	 * view, but sometimes, it's interesting to know.
-	 *
-	 * @return	The total number of turns used since creation
 	 */
 
 	public static int getCurrentRun()
@@ -1048,68 +1015,50 @@ public abstract class KoLCharacter extends StaticEntity
 	/**
 	 * Accessor method to retrieve the total current monster level
 	 * adjustment
-	 *
-	 * @return	Total Current Monster Level Adjustment
 	 */
 
 	public static int getMonsterLevelAdjustment()
-	{	return monsterLevelAdjustment;
+	{	return (int) currentModifiers[ StatusEffectDatabase.MONSTER_LEVEL_MODIFIER ];
 	}
 
 	/**
 	 * Accessor method to retrieve the total current familiar weight
 	 * adjustment
-	 *
-	 * @return	Total Current Familiar Weight Adjustment
 	 */
 
 	public static int getFamiliarWeightAdjustment()
-	{	return familiarWeightAdjustment;
+	{	return (int) currentModifiers[ StatusEffectDatabase.FAMILIAR_WEIGHT_MODIFIER ];
 	}
 
-	public static int getDodecapedeWeightAdjustment()
-	{	return dodecapedeWeightAdjustment;
-	}
-
-	public static int getFamiliarItemWeightAdjustment()
-	{	return familiarItemWeightAdjustment;
-	}
-
-	public static int getManaCostModifier()
-	{	return manaCostModifier;
+	public static int getManaCostAdjustment()
+	{	return (int) currentModifiers[ StatusEffectDatabase.MANA_COST_MODIFIER ];
 	}
 
 	/**
 	 * Accessor method to retrieve the total current combat percent
 	 * adjustment
-	 *
-	 * @return	Total Current Combat Percent Adjustment
 	 */
 
-	public static float getCombatPercentAdjustment()
-	{	return combatPercentAdjustment;
+	public static float getCombatRateAdjustment()
+	{	return currentModifiers[ StatusEffectDatabase.COMBAT_RATE_MODIFIER ];
 	}
 
 	/**
 	 * Accessor method to retrieve the total current initiative
 	 * adjustment
-	 *
-	 * @return	Total Current Initiative Adjustment
 	 */
 
 	public static float getInitiativeAdjustment()
-	{	return initiativeAdjustment;
+	{	return currentModifiers[ StatusEffectDatabase.INITIATIVE_MODIFIER ];
 	}
 
 	/**
-	 * Accessor method to retrieve the total current fixed XP
+	 * Accessor method to retrieve the total current fixed experience
 	 * adjustment
-	 *
-	 * @return	Total Current Fixed XP Adjustment
 	 */
 
-	public static float getFixedXPAdjustment()
-	{	return fixedXPAdjustment;
+	public static float getExperienceAdjustment()
+	{	return currentModifiers[ StatusEffectDatabase.EXPERIENCE_MODIFIER ];
 	}
 
 	/**
@@ -1120,7 +1069,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static float getMeatDropPercentAdjustment()
-	{	return meatDropPercentAdjustment;
+	{	return currentModifiers[ StatusEffectDatabase.MEATDROP_MODIFIER ];
 	}
 
 	/**
@@ -1131,7 +1080,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static float getItemDropPercentAdjustment()
-	{	return itemDropPercentAdjustment;
+	{	return currentModifiers[ StatusEffectDatabase.ITEMDROP_MODIFIER ];
 	}
 
 	public static void setEquipment( int slot, AdventureResult item )
@@ -1287,15 +1236,13 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static int getAdjustedHitStat()
 	{
-                int hitStat = hitStat();
-
-                if ( hitStat == MOXIE )
-                        return getAdjustedMoxie();
-                if ( hitStat == MYSTICALITY )
-                        return getAdjustedMysticality();
-                return getAdjustedMuscle();
+		switch ( hitStat() )
+		{
+		case MOXIE:  return getAdjustedMoxie();
+		case MYSTICALITY:  return getAdjustedMysticality();
+		default:  return getAdjustedMuscle();
+		}
 	}
-
 
 	/**
 	 * Accessor method to determine if character's weapon is ranged
@@ -1313,7 +1260,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static int getDamageAbsorption()
-	{	return damageAbsorption;
+	{	return (int) currentModifiers[ StatusEffectDatabase.DAMAGE_ABSORPTION_MODIFIER ];
 	}
 
 	/**
@@ -1323,7 +1270,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static int getDamageReduction()
-	{	return damageReduction;
+	{	return (int) currentModifiers[ StatusEffectDatabase.DAMAGE_REDUCTION_MODIFIER ];
 	}
 
 	/**
@@ -1337,68 +1284,18 @@ public abstract class KoLCharacter extends StaticEntity
 		switch ( element )
 		{
 		case MonsterDatabase.COLD:
-			return coldResistance;
+			return currentModifiers[ StatusEffectDatabase.COLD_RESISTANCE_MODIFIER ];
 		case MonsterDatabase.HEAT:
-			return hotResistance;
+			return currentModifiers[ StatusEffectDatabase.HOT_RESISTANCE_MODIFIER ];
 		case MonsterDatabase.SLEAZE:
-			return sleazeResistance;
+			return currentModifiers[ StatusEffectDatabase.SLEAZE_RESISTANCE_MODIFIER ];
 		case MonsterDatabase.SPOOKY:
-			return spookyResistance;
+			return currentModifiers[ StatusEffectDatabase.SPOOKY_RESISTANCE_MODIFIER ];
 		case MonsterDatabase.STENCH:
-			return stenchResistance;
+			return currentModifiers[ StatusEffectDatabase.STENCH_RESISTANCE_MODIFIER ];
 		}
 
 		return 0.0f;
-	}
-
-	/**
-	 * Accessor method to retrieve the total current cold resistance
-	 *
-	 * @return	Total Current Cold Resistance
-	 */
-
-	public static float getColdResistance()
-	{	return coldResistance;
-	}
-
-	/**
-	 * Accessor method to retrieve the total current hot resistance
-	 *
-	 * @return	Total Current Hot Resistance
-	 */
-
-	public static float getHotResistance()
-	{	return hotResistance;
-	}
-
-	/**
-	 * Accessor method to retrieve the total current sleazw resistance
-	 *
-	 * @return	Total Current Sleaze Resistance
-	 */
-
-	public static float getSleazeResistance()
-	{	return sleazeResistance;
-	}
-
-	/**
-	 * Accessor method to retrieve the total current spooky resistance
-	 *
-	 * @return	Total Current Spooky Resistance
-	 */
-
-	public static float getSpookyResistance()
-	{	return spookyResistance;
-	}
-
-	/**
-	 * Accessor method to retrieve the total current stench resistance
-	 *
-	 * @return	Total Current Stench Resistance
-	 */
-
-	public static float getStenchResistance()
-	{	return stenchResistance;
 	}
 
 	/**
@@ -2725,32 +2622,14 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static boolean recalculateAdjustments()
 	{
-		int newMonsterLevelAdjustment = 0;
-		int newFamiliarWeightAdjustment = 0;
-		int newDodecapedeWeightAdjustment = 0;
-		int newFamiliarItemWeightAdjustment = 0;
-		int newManaCostModifier = 0;
-
-		float newCombatPercentAdjustment = 0.0f;
-		float newInitiativeAdjustment = 0.0f;
-		float newFixedXPAdjustment = 0.0f;
-		float newMeatDropPercentAdjustment = 0.0f;
-		float newItemDropPercentAdjustment = 0.0f;
-
-		int newDamageAbsorption = 0;
-		int newDamageReduction = 0;
-		float newColdResistance = 0;
-		float newHotResistance = 0;
-		float newSleazeResistance = 0;
-		float newSpookyResistance = 0;
-		float newStenchResistance = 0;
-
 		int taoFactor = hasSkill( "Tao of the Terrapin" ) ? 2 : 1;
-
 		int familiarId = currentFamiliar.getId();
 
+		float [] newModifiers = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
+
 		// Look at sign-specific adjustments
-		newMonsterLevelAdjustment += getSignedMLAdjustment();
+
+		newModifiers[ StatusEffectDatabase.MONSTER_LEVEL_MODIFIER ] += getSignedMLAdjustment();
 
 		// Look at items
 		for ( int slot = HAT; slot <= FAMILIAR; ++slot )
@@ -2759,24 +2638,7 @@ public abstract class KoLCharacter extends StaticEntity
 			if ( item == null )
 				continue;
 
-			float [] modifiers = StatusEffectDatabase.getModifiers( item.getName() );
-
-			newMonsterLevelAdjustment += modifiers[ StatusEffectDatabase.MONSTER_LEVEL_MODIFIER ];
-			newFamiliarWeightAdjustment += modifiers[ StatusEffectDatabase.FAMILIAR_WEIGHT_MODIFIER ];
-			newDodecapedeWeightAdjustment += modifiers[ StatusEffectDatabase.FAMILIAR_WEIGHT_MODIFIER ];
-			newCombatPercentAdjustment += modifiers[ StatusEffectDatabase.COMBAT_RATE_MODIFIER ];
-			newInitiativeAdjustment += modifiers[ StatusEffectDatabase.INITIATIVE_MODIFIER ];
-			newFixedXPAdjustment += modifiers[ StatusEffectDatabase.EXPERIENCE_MODIFIER ];
-			newMeatDropPercentAdjustment += modifiers[ StatusEffectDatabase.MEATDROP_MODIFIER ];
-			newItemDropPercentAdjustment += modifiers[ StatusEffectDatabase.ITEMDROP_MODIFIER ];
-			newDamageAbsorption += modifiers[ StatusEffectDatabase.DAMAGE_ABSORPTION_MODIFIER ];
-			newDamageReduction += modifiers[ StatusEffectDatabase.DAMAGE_REDUCTION_MODIFIER ];
-			newColdResistance += modifiers[ StatusEffectDatabase.COLD_RESISTANCE_MODIFIER ];
-			newHotResistance += modifiers[ StatusEffectDatabase.HOT_RESISTANCE_MODIFIER ];
-			newSleazeResistance += modifiers[ StatusEffectDatabase.SLEAZE_RESISTANCE_MODIFIER ];
-			newSpookyResistance += modifiers[ StatusEffectDatabase.SPOOKY_RESISTANCE_MODIFIER ];
-			newStenchResistance += modifiers[ StatusEffectDatabase.STENCH_RESISTANCE_MODIFIER ];
-			newManaCostModifier += modifiers[ StatusEffectDatabase.MANA_COST_MODIFIER ];
+			StatusEffectDatabase.applyModifiers( item.getName(), newModifiers );
 
 			switch ( slot )
 			{
@@ -2784,27 +2646,27 @@ public abstract class KoLCharacter extends StaticEntity
 				break;
 
 			case FAMILIAR:
-				newFamiliarItemWeightAdjustment = FamiliarData.itemWeightModifier( item.getItemId() );
+				newModifiers[ StatusEffectDatabase.FAMILIAR_WEIGHT_MODIFIER ] += FamiliarData.itemWeightModifier( item.getItemId() );
 				break;
 
 			case HAT:
 			case PANTS:
-				newDamageAbsorption += taoFactor * EquipmentDatabase.getPower( item.getItemId() );
+				newModifiers[ StatusEffectDatabase.DAMAGE_ABSORPTION_MODIFIER ] += taoFactor * EquipmentDatabase.getPower( item.getItemId() );
 				break;
 
 			case SHIRT:
-				newDamageAbsorption += EquipmentDatabase.getPower( item.getItemId() );
+				newModifiers[ StatusEffectDatabase.DAMAGE_ABSORPTION_MODIFIER ] += EquipmentDatabase.getPower( item.getItemId() );
 				break;
 			}
 
 			switch ( item.getItemId() )
 			{
 			case GUAYABERA:
-				newMonsterLevelAdjustment += MoonPhaseDatabase.getGrimaciteEffect();
+				newModifiers[ StatusEffectDatabase.MONSTER_LEVEL_MODIFIER ] += MoonPhaseDatabase.getGrimaciteEffect();
 				break;
 
 			case JEKYLLIN:
-				newItemDropPercentAdjustment += 15 + MoonPhaseDatabase.getMoonlight() * 5;
+				newModifiers[ StatusEffectDatabase.ITEMDROP_MODIFIER ] += 15 + MoonPhaseDatabase.getMoonlight() * 5;
 				break;
 			}
 		}
@@ -2813,119 +2675,51 @@ public abstract class KoLCharacter extends StaticEntity
 		if ( EquipmentDatabase.isWearingOutfit( 6 ) )
 		{
 			// Hot and Cold Running Ninja Suit
-			newColdResistance += 20;
-			newHotResistance += 20;
+			newModifiers[ StatusEffectDatabase.COLD_RESISTANCE_MODIFIER ] += 20;
+			newModifiers[ StatusEffectDatabase.HOT_RESISTANCE_MODIFIER ] += 20;
 		}
 		else if ( EquipmentDatabase.isWearingOutfit( 7 ) )
 		{
 			// eXtreme Cold-Weather Gear
-			newColdResistance += 30;
+			newModifiers[ StatusEffectDatabase.COLD_RESISTANCE_MODIFIER ] += 30;
 		}
 		else if ( EquipmentDatabase.isWearingOutfit( 25 ) )
 		{
 			// Arboreal Raiment
-			newStenchResistance += 10;
+			newModifiers[ StatusEffectDatabase.STENCH_RESISTANCE_MODIFIER ] += 10;
 		}
 		else if ( EquipmentDatabase.isWearingOutfit( 14 ) )
 		{
 			// Furry Suit
-			newMonsterLevelAdjustment += 5;
+			newModifiers[ StatusEffectDatabase.MONSTER_LEVEL_MODIFIER ] += 5;
 		}
 
 		// Wearing a serpentine sword and a serpentine shield doubles
 		// the effect of the sword.
 
 		if ( getEquipment( WEAPON ).getName().equals( "serpentine sword" ) && getEquipment( OFFHAND ).getName().equals( "snake shield" ) )
-			newMonsterLevelAdjustment += 10;
+			newModifiers[ StatusEffectDatabase.MONSTER_LEVEL_MODIFIER ] += 10;
 
 		// Because there are a limited number of passive skills,
 		// it is much more efficient to execute one check for
 		// each of the known skills.
 
-		if ( hasSkill( "Amphibian Sympathy" ) )
-		{
-			newFamiliarWeightAdjustment += 5;
-			newDodecapedeWeightAdjustment -= 5;
-		}
-
-		if ( hasSkill( "Cold-Blooded Fearlessness" ) )
-			newSpookyResistance += 20;
-
-		if ( hasSkill( "Diminished Gag Reflex" ) )
-			newStenchResistance += 20;
-
-		if ( hasSkill( "Expert Panhandling" ) )
-			newMeatDropPercentAdjustment += 10;
-
-		if ( hasSkill( "Gnefarious Pickpocketing" ) )
-			newMeatDropPercentAdjustment += 10;
-
-		if ( hasSkill( "Heart of Polyester" ) )
-			newSleazeResistance += 20;
-
-		if ( hasSkill( "Hide of the Otter" ) )
-			newDamageAbsorption += 20;
-
-		if ( hasSkill( "Hide of the Walrus" ) )
-			newDamageAbsorption += 40;
-
-		if ( hasSkill( "Mad Looting Skillz" ) )
-			newItemDropPercentAdjustment += 20;
-
-		if ( hasSkill( "Nimble Fingers" ) )
-			newMeatDropPercentAdjustment += 20;
-
-		if ( hasSkill( "Northern Exposure" ) )
-			newColdResistance += 20;
-
-		if ( hasSkill( "Overdeveloped Sense of Self Preservation" ) )
-			newInitiativeAdjustment += 20;
-
-		if ( hasSkill( "Powers of Observatiogn" ) )
-			newItemDropPercentAdjustment += 10;
-
-		if ( hasSkill( "Skin of the Leatherback" ) )
-			// Varies according to level, somehow
-			;
-
-		if ( hasSkill( "Tolerance of the Kitchen" ) )
-			newHotResistance += 20;
+		StatusEffectDatabase.applyPassiveModifiers( newModifiers );
 
 		// For the sake of easier maintenance, execute a lot of extra
 		// extra string comparisons when looking at status effects.
 
-		AdventureResult [] effects = new AdventureResult[ activeEffects.size() ];
-		activeEffects.toArray( effects );
-
-		for ( int i = 0; i < effects.length; ++i )
-		{
-			float [] modifiers = StatusEffectDatabase.getModifiers( effects[i].getName() );
-
-			newMonsterLevelAdjustment += modifiers[ StatusEffectDatabase.MONSTER_LEVEL_MODIFIER ];
-			newFamiliarWeightAdjustment += modifiers[ StatusEffectDatabase.FAMILIAR_WEIGHT_MODIFIER ];
-			newDodecapedeWeightAdjustment += modifiers[ StatusEffectDatabase.FAMILIAR_WEIGHT_MODIFIER ];
-			newCombatPercentAdjustment += modifiers[ StatusEffectDatabase.COMBAT_RATE_MODIFIER ];
-			newInitiativeAdjustment += modifiers[ StatusEffectDatabase.INITIATIVE_MODIFIER ];
-			newFixedXPAdjustment += modifiers[ StatusEffectDatabase.EXPERIENCE_MODIFIER ];
-			newMeatDropPercentAdjustment += modifiers[ StatusEffectDatabase.MEATDROP_MODIFIER ];
-			newItemDropPercentAdjustment += modifiers[ StatusEffectDatabase.ITEMDROP_MODIFIER ];
-			newDamageAbsorption += modifiers[ StatusEffectDatabase.DAMAGE_ABSORPTION_MODIFIER ];
-			newDamageReduction += modifiers[ StatusEffectDatabase.DAMAGE_REDUCTION_MODIFIER ];
-			newColdResistance += modifiers[ StatusEffectDatabase.COLD_RESISTANCE_MODIFIER ];
-			newHotResistance += modifiers[ StatusEffectDatabase.HOT_RESISTANCE_MODIFIER ];
-			newSleazeResistance += modifiers[ StatusEffectDatabase.SLEAZE_RESISTANCE_MODIFIER ];
-			newSpookyResistance += modifiers[ StatusEffectDatabase.SPOOKY_RESISTANCE_MODIFIER ];
-			newStenchResistance += modifiers[ StatusEffectDatabase.STENCH_RESISTANCE_MODIFIER ];
-			newManaCostModifier += modifiers[ StatusEffectDatabase.MANA_COST_MODIFIER ];
-		}
+		for ( int i = 0; i < activeEffects.size(); ++i )
+			StatusEffectDatabase.applyModifiers( ((AdventureResult)activeEffects.get(i)).getName(), newModifiers );
 
 		if ( ARIA.getCount( activeEffects ) > 0 )
-			newMonsterLevelAdjustment += 2 * getLevel();
+			newModifiers[ StatusEffectDatabase.MONSTER_LEVEL_MODIFIER ] += 2 * getLevel();
 
 		// Now that we have calculated the familiar weight adjustment,
 		// look at familiar.
 
-		float modifier = (float)( currentFamiliar.getWeight() + newFamiliarWeightAdjustment + newFamiliarItemWeightAdjustment );
+		float modifier = (float)( currentFamiliar.getWeight() + newModifiers[ StatusEffectDatabase.FAMILIAR_WEIGHT_MODIFIER ] );
+
 		switch ( familiarId )
 		{
 		case BABY_GRAVY_FAIRY:
@@ -2938,7 +2732,7 @@ public abstract class KoLCharacter extends StaticEntity
 		case DANDY_LION:
 		case GREEN_PIXIE:
 			// Full gravy fairy equivalent familiar
-			newItemDropPercentAdjustment += modifier * 2.5;
+			newModifiers[ StatusEffectDatabase.ITEMDROP_MODIFIER ] += modifier * 2.5;
 			break;
 
 		case PIXIE:
@@ -2946,8 +2740,8 @@ public abstract class KoLCharacter extends StaticEntity
 		case JITTERBUG:
 			// Full gravy fairy equivalent familiar
 			// Full leprechaun equivalent familiar
-			newItemDropPercentAdjustment += modifier * 2.5;
-			newMeatDropPercentAdjustment += modifier * 5;
+			newModifiers[ StatusEffectDatabase.ITEMDROP_MODIFIER ] += modifier * 2.5;
+			newModifiers[ StatusEffectDatabase.MEATDROP_MODIFIER ] += modifier * 5;
 			break;
 
 		case VOLLEYBALL:
@@ -2955,13 +2749,13 @@ public abstract class KoLCharacter extends StaticEntity
 		case TROLL:
 		case PENGUIN:
 			// Full volleyball equivalent familiar
-			newFixedXPAdjustment += modifier / 4.0;
+			newModifiers[ StatusEffectDatabase.EXPERIENCE_MODIFIER ] += modifier / 4.0;
 			break;
 
 		case LEPRECHAUN:
 		case TURKEY:
 			// Full leprechaun equivalent familiar
-			newMeatDropPercentAdjustment += modifier * 5;
+			newModifiers[ StatusEffectDatabase.MEATDROP_MODIFIER ] += modifier * 5;
 			break;
 
 		case CHESHIRE:
@@ -2969,32 +2763,32 @@ public abstract class KoLCharacter extends StaticEntity
 		case TICK:
 			// Full volleyball equivalent familiar
 			// Full leprechaun equivalent familiar
-			newFixedXPAdjustment += modifier / 4.0;
-			newMeatDropPercentAdjustment += modifier * 5;
+			newModifiers[ StatusEffectDatabase.EXPERIENCE_MODIFIER ] += modifier / 4.0;
+			newModifiers[ StatusEffectDatabase.MEATDROP_MODIFIER ] += modifier * 5;
 			break;
 
 		case SHAMAN:
 			// Full volleyball equivalent familiar
 			// Full gravy fairy equivalent familiar
-			newFixedXPAdjustment += modifier / 4.0;
-			newItemDropPercentAdjustment += modifier * 2.5;
+			newModifiers[ StatusEffectDatabase.EXPERIENCE_MODIFIER ] += modifier / 4.0;
+			newModifiers[ StatusEffectDatabase.ITEMDROP_MODIFIER ] += modifier * 2.5;
 			break;
 
 		case JILL:
 			// Half volleyball equivalent familiar
-			newFixedXPAdjustment += modifier / 8.0;
+			newModifiers[ StatusEffectDatabase.EXPERIENCE_MODIFIER ] += modifier / 8.0;
 			break;
 
 		case HARE:
 			// Full volleyball equivalent 1/4 of the time
-			newFixedXPAdjustment += modifier / 16.0;
+			newModifiers[ StatusEffectDatabase.EXPERIENCE_MODIFIER ] += modifier / 16.0;
 			break;
 		}
 
 		// Make sure the mana modifier is no more than
 		// three, no matter what.
 
-		newManaCostModifier = Math.max( newManaCostModifier, -3 );
+		newModifiers[ StatusEffectDatabase.MANA_COST_MODIFIER ] = Math.max( newModifiers[ StatusEffectDatabase.MANA_COST_MODIFIER ], -3 );
 
 		// Add in strung-up quartet.
 
@@ -3003,13 +2797,13 @@ public abstract class KoLCharacter extends StaticEntity
 			switch ( StaticEntity.getIntegerProperty( "lastQuartetRequest" ) )
 			{
 			case 1:
-				newMonsterLevelAdjustment += 5;
+				newModifiers[ StatusEffectDatabase.MONSTER_LEVEL_MODIFIER ] += 5;
 				break;
 			case 2:
-				newCombatPercentAdjustment -= 5;
+				newModifiers[ StatusEffectDatabase.COMBAT_RATE_MODIFIER ] -= 5;
 				break;
 			case 3:
-				newItemDropPercentAdjustment += 5;
+				newModifiers[ StatusEffectDatabase.ITEMDROP_MODIFIER ] += 5;
 				break;
 			}
 		}
@@ -3018,54 +2812,14 @@ public abstract class KoLCharacter extends StaticEntity
 
 		boolean changed = false;
 
-		changed |= monsterLevelAdjustment != newMonsterLevelAdjustment;
-		monsterLevelAdjustment = newMonsterLevelAdjustment;
-
-		changed |= familiarWeightAdjustment != newFamiliarWeightAdjustment;
-		familiarWeightAdjustment = newFamiliarWeightAdjustment;
-		dodecapedeWeightAdjustment = newDodecapedeWeightAdjustment;
-
-		changed |= familiarItemWeightAdjustment != newFamiliarItemWeightAdjustment;
-		familiarItemWeightAdjustment = newFamiliarItemWeightAdjustment;
-
-		changed |= manaCostModifier != newManaCostModifier;
-		manaCostModifier = newManaCostModifier;
-
-		changed |= combatPercentAdjustment != newCombatPercentAdjustment;
-		combatPercentAdjustment = newCombatPercentAdjustment;
-
-		changed |= initiativeAdjustment != newInitiativeAdjustment;
-		initiativeAdjustment = newInitiativeAdjustment;
-
-		changed |= fixedXPAdjustment != newFixedXPAdjustment;
-		fixedXPAdjustment = newFixedXPAdjustment;
-
-		changed |= meatDropPercentAdjustment != newMeatDropPercentAdjustment;
-		meatDropPercentAdjustment = newMeatDropPercentAdjustment;
-
-		changed |= itemDropPercentAdjustment != newItemDropPercentAdjustment;
-		itemDropPercentAdjustment = newItemDropPercentAdjustment;
-
-		changed |= newDamageAbsorption != damageAbsorption;
-		damageAbsorption = newDamageAbsorption;
-
-		changed |= newDamageReduction != damageReduction;
-		damageReduction = newDamageReduction;
-
-		changed |= newColdResistance != coldResistance;
-		coldResistance = newColdResistance;
-
-		changed |= newHotResistance != hotResistance;
-		hotResistance = newHotResistance;
-
-		changed |= newSleazeResistance != sleazeResistance;
-		sleazeResistance = newSleazeResistance;
-
-		changed |= newSpookyResistance != spookyResistance;
-		spookyResistance = newSpookyResistance;
-
-		changed |= newStenchResistance != stenchResistance;
-		stenchResistance = newStenchResistance;
+		for ( int i = 0; i < currentModifiers.length; ++i )
+		{
+			if ( currentModifiers[i] != newModifiers[i] )
+			{
+				currentModifiers[i] = newModifiers[i];
+				changed = true;
+			}
+		}
 
 		return changed;
 	}
