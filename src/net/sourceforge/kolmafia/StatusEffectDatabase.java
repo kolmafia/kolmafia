@@ -287,7 +287,7 @@ public class StatusEffectDatabase extends KoLDatabase
 
 		// Varies according to level, somehow
 		if ( KoLCharacter.hasSkill( "Skin of the Leatherback" ) )
-			;
+			modifiers[ DAMAGE_REDUCTION_MODIFIER ] += Math.max( (KoLCharacter.getLevel() >> 1) - 1, 1 );
 
 		if ( KoLCharacter.getFamiliar().getId() == 38 && KoLCharacter.hasAmphibianSympathy() )
 			modifiers[ FAMILIAR_WEIGHT_MODIFIER ] -= 10;
