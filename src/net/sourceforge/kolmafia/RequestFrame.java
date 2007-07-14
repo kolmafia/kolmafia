@@ -350,13 +350,21 @@ public class RequestFrame extends KoLFrame
 			}
 		}
 
+		showHTML( request.getURLString(), request.responseText );
+
+		if ( request.getClass() == KoLRequest.class )
+			StaticEntity.externalUpdate( request.getURLString(), request.responseText );
+	}
+
+	public void showHTML( String location, String responseText )
+	{
 		// Function exactly like a history in a normal browser -
 		// if you open a new frame after going back, all the ones
 		// in the future get removed.
 
-		String renderText = this.getDisplayHTML( request.responseText );
+		String renderText = this.getDisplayHTML( responseText );
 
-		this.history.add( request.getURLString() );
+		this.history.add( location );
 		this.shownHTML.add( renderText );
 
 		if ( this.history.size() > HISTORY_LIMIT )
@@ -364,8 +372,6 @@ public class RequestFrame extends KoLFrame
 			this.history.remove(0);
 			this.shownHTML.remove(0);
 		}
-
-		String location = request.getURLString();
 
 		location = location.substring( location.lastIndexOf( "/" ) + 1 );
 		this.locationField.setText( location );
@@ -377,9 +383,6 @@ public class RequestFrame extends KoLFrame
 			RequestEditorKit.downloadImage( imageMatcher.group() );
 
 		this.mainBuffer.append( renderText );
-
-		if ( request.getClass() == KoLRequest.class )
-			StaticEntity.externalUpdate( request.getURLString(), request.responseText );
 	}
 
 	private class HomeButton extends ThreadedButton

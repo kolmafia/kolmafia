@@ -54,25 +54,11 @@ public class FightFrame extends RequestFrame
 	}
 
 	public static void showRequest( KoLRequest request )
-	{	showRequest( request, null );
-	}
-
-	public static void showRequest( KoLRequest request, String title )
 	{
-		StaticEntity.getClient().setCurrentRequest( request );
+		if ( INSTANCE == null )
+			createDisplay( FightFrame.class );
 
-		if ( title != null )
-		{
-			createDisplay( RequestFrame.class, new Object [] { title, request } );
-		}
-		else if ( INSTANCE == null )
-		{
-			createDisplay( FightFrame.class, new Object [] { request } );
-		}
-		else
-		{
-			INSTANCE.refresh( request );
-		}
+		INSTANCE.refresh( request );
 	}
 }
 
