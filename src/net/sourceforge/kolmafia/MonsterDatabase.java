@@ -499,35 +499,29 @@ public class MonsterDatabase extends KoLDatabase
 			}
 		}
 
-		public float getXP()
+		public float getExperience()
 		{	return Math.max( 1.0f, this.statGain );
 		}
 
-		public float getAdjustedXP( float modifier, int ml, FamiliarData familiar )
+		public float getAdjustedExperience( float modifier, int ml, FamiliarData familiar )
 		{
-			// http://forums.hardcoreoxygenation.com/viewtopic.php?t=218
-			// +1 ML adds +1 health, +1 Attack, +1 Defense
-
-			float adjustedML = (this.attack + ml);
-
 			// Base stat gain = attack / 5 (not average of attack and defense)
 			// Add constant stat gain from items, effects, and familiars
 			// Add variable stat gain from familiars
 
-			this.statGain = adjustedML / 5.0f + modifier + sombreroXPAdjustment( adjustedML, familiar );
+			this.statGain = this.attack / 4.0f + modifier + sombreroAdjustment( this.attack + ml, familiar );
 			return Math.max( 1.0f, this.statGain );
 		}
 
 		private static final int SOMBRERO = 18;
-		private static final float sombreroFactor = 3.0f / 100.0f;
 
-		public static float sombreroXPAdjustment( float ml, FamiliarData familiar )
+		private static float sombreroAdjustment( float ml, FamiliarData familiar )
 		{
 			if ( familiar.getId() != SOMBRERO )
 				return 0.0f;
 
 			// ( sqrt(ML) * weight * 3 ) / 100
-			return ((float) Math.sqrt( ml )) * familiar.getModifiedWeight() * sombreroFactor;
+			return (float) Math.round( Math.sqrt( ml - 4.0f ) * familiar.getModifiedWeight() / 100.0f );
 		}
 
 		public boolean willUsuallyMiss()
