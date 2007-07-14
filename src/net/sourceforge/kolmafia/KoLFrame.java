@@ -1481,11 +1481,11 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	{
 		StringBuffer bookmarkData = new StringBuffer();
 
-		for ( int i = 0; i < bookmarks.size(); ++i )
+		for ( int i = 0; i < bookmarks.getSize(); ++i )
 		{
 			if ( i > 0 )
 				bookmarkData.append( '|' );
-			bookmarkData.append( (String) bookmarks.get(i) );
+			bookmarkData.append( (String) bookmarks.getElementAt(i) );
 		}
 
 		StaticEntity.setProperty( "browserBookmarks", bookmarkData.toString() );

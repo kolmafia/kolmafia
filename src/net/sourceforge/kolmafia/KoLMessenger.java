@@ -133,6 +133,13 @@ public abstract class KoLMessenger extends StaticEntity
 	private static boolean useTabbedChat = false;
 	private static boolean highlighting = false;
 
+	public static void updateFontSize()
+	{
+		Object [] buffers = instantMessageBuffers.values().toArray();
+		for ( int i = 0; i < buffers.length; ++i )
+			((LimitedSizeChatBuffer)buffers[i]).fireBufferChanged();
+	}
+
 	public static void reset()
 	{
 		isRunning = false;
@@ -653,7 +660,7 @@ public abstract class KoLMessenger extends StaticEntity
 			int dotIndex = message.indexOf( "." );
 			String channel = "/" + message.substring( startIndex, dotIndex == -1 ? message.length() : dotIndex );
 
-			processChatMessage( currentChannel, message );
+			processChatMessage( channel, message );
 		}
 		else if ( message.indexOf( "(private)<" ) != -1 )
 		{

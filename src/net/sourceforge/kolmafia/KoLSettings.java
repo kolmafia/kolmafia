@@ -505,6 +505,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "browserBookmarks", "" );
 		CLIENT_SETTINGS.put( "cacheMallSearches", "false" );
 		CLIENT_SETTINGS.put( "charsheetDropdown", "1" );
+		CLIENT_SETTINGS.put( "chatFontSize", System.getProperty( "os.name" ).startsWith( "Mac" ) ? "medium" : "small" );
 		CLIENT_SETTINGS.put( "chatStyle", "0" );
 		CLIENT_SETTINGS.put( "cloverProtectActive", "true" );
 		CLIENT_SETTINGS.put( "commandLineNamespace", "" );
@@ -600,7 +601,6 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "useChatToolbar", "true" );
 		CLIENT_SETTINGS.put( "useContactsFrame", "true" );
 		CLIENT_SETTINGS.put( "useFastOutfitSwitch", "true" );
-		CLIENT_SETTINGS.put( "useLargerFonts", String.valueOf( System.getProperty( "os.name" ).startsWith( "Mac" ) ) );
 		CLIENT_SETTINGS.put( "useLowBandwidthRadio", "false" );
 		CLIENT_SETTINGS.put( "useSeparateChannels", "true" );
 		CLIENT_SETTINGS.put( "useSeparatePrivates", "true" );
