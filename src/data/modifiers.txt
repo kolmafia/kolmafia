@@ -359,7 +359,3 @@ Overdeveloped Sense of Self Preservation	Init: +20.0
 Powers of Observatiogn	Item: +10.0
 Skin of the Leatherback
 Tolerance of the Kitchen	Hot: +20
-
-Arboreal Raiment	Stench: +10
-eXtreme Cold-Weather Gear	Cold: +30
-Hot and Cold Running Ninja Suit	Cold: +20, Hot: +20

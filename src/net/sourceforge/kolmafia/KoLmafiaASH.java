@@ -3747,13 +3747,13 @@ public class KoLmafiaASH extends StaticEntity
 		result.addElement( new ScriptExistingFunction( "elemental_resistance", FLOAT_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "combat_percent_modifier", FLOAT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "combat_rate_modifier", FLOAT_TYPE, params ) );
 
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "initiative_modifier", FLOAT_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "fixed_experience_bonus", FLOAT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "experience_bonus", FLOAT_TYPE, params ) );
 
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "meat_drop_modifier", FLOAT_TYPE, params ) );
@@ -5879,16 +5879,11 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptValue weight_adjustment()
-		{
-			// familiar_weight from skills and effects
-			int val = (KoLCharacter.getFamiliar().getId() == 38 ) ? KoLCharacter.getDodecapedeWeightAdjustment() : KoLCharacter.getFamiliarWeightAdjustment();
-			// plus familiar_weight from equipment
-			val += KoLCharacter.getFamiliarItemWeightAdjustment();
-			return new ScriptValue( val );
+		{	return new ScriptValue( KoLCharacter.getFamiliarWeightAdjustment() );
 		}
 
 		public ScriptValue mana_cost_modifier()
-		{	return new ScriptValue( KoLCharacter.getManaCostModifier() );
+		{	return new ScriptValue( KoLCharacter.getManaCostAdjustment() );
 		}
 
 		public ScriptValue raw_damage_absorption()
@@ -5900,8 +5895,10 @@ public class KoLmafiaASH extends StaticEntity
 			int raw = KoLCharacter.getDamageAbsorption();
 			if ( raw == 0 )
 				return ZERO_FLOAT_VALUE;
+
 			// http://forums.kingdomofloathing.com/viewtopic.php?p=2016073
 			// ( sqrt( raw / 10 ) - 1 ) / 10
+
 			double percent = ( Math.sqrt( raw / 10.0 ) - 1.0 ) * 10.0;
 			return new ScriptValue( (float)percent );
 		}
@@ -5926,16 +5923,16 @@ public class KoLmafiaASH extends StaticEntity
 			return new ScriptValue( KoLCharacter.getElementalResistance( monster.getAttackElement() ) );
 		}
 
-		public ScriptValue combat_percent_modifier()
-		{	return new ScriptValue( KoLCharacter.getCombatPercentAdjustment() );
+		public ScriptValue combat_rate_modifier()
+		{	return new ScriptValue( KoLCharacter.getCombatRateAdjustment() );
 		}
 
 		public ScriptValue initiative_modifier()
 		{	return new ScriptValue( KoLCharacter.getInitiativeAdjustment() );
 		}
 
-		public ScriptValue fixed_experience_bonus()
-		{	return new ScriptValue( KoLCharacter.getFixedXPAdjustment() + (float)KoLCharacter.getMonsterLevelAdjustment() / 5.0f );
+		public ScriptValue experience_bonus()
+		{	return new ScriptValue( KoLCharacter.getExperienceAdjustment() );
 		}
 
 		public ScriptValue meat_drop_modifier()

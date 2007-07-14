@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 import java.io.BufferedReader;
 import java.io.File;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -57,6 +58,7 @@ public class StatusEffectDatabase extends KoLDatabase
 	private static Map effectByDescription = new TreeMap();
 
 	private static Map modifierMap = new TreeMap();
+	private static ArrayList modifierSkills = new ArrayList();
 
 	static
 	{
@@ -84,7 +86,7 @@ public class StatusEffectDatabase extends KoLDatabase
 		reader = getReader( "modifiers.txt" );
 		while ( (data = readData( reader )) != null )
 			if ( data.length == 2 )
-				modifierMap.put( data[0].toLowerCase(), data[1] );
+				modifierMap.put( getCanonicalName( data[0] ), data[1] );
 
 		try
 		{
@@ -230,23 +232,65 @@ public class StatusEffectDatabase extends KoLDatabase
 
 	private static final float [] NO_MODIFIERS = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
 
-	public static final float [] getModifiers( String name )
+	public static final void applyModifiers( String name, float [] modifiers )
 	{
 		if ( name == null )
-			return NO_MODIFIERS;
+			return;
 
-		String modifier = (String) modifierMap.get( name.toLowerCase() );
+		name = getCanonicalName( name );
+		Object modifier = modifierMap.get( name );
+
 		if ( modifier == null )
-			return NO_MODIFIERS;
+			return;
 
-		float [] modifiers = new float[ MODIFIER_PATTERNS.length ];
-		for ( int i = 0; i < modifiers.length; ++i )
+		if ( modifier instanceof String )
 		{
-			Matcher effectMatcher = MODIFIER_PATTERNS[ i ].matcher( modifier );
-			modifiers[i] = effectMatcher.find() ? Float.parseFloat( effectMatcher.group(1) ) : 0.0f;
+			float [] newModifiers = new float[ NO_MODIFIERS.length ];
+
+			for ( int i = 0; i < modifiers.length; ++i )
+			{
+				Matcher effectMatcher = MODIFIER_PATTERNS[ i ].matcher( (String) modifier );
+				newModifiers[i] = effectMatcher.find() ? Float.parseFloat( effectMatcher.group(1) ) : 0.0f;
+			}
+
+			modifierMap.put( name, newModifiers );
+			modifier = newModifiers;
 		}
 
-		return modifiers;
+		float [] addition = (float []) modifier;
+
+		for ( int i = 0; i < modifiers.length; ++i )
+			if ( addition[i] != 0.0f )
+				modifiers[i] += addition[i];
+	}
+
+	public static void applyPassiveModifiers( float [] modifiers )
+	{
+		if ( modifierSkills.isEmpty() )
+		{
+			Object [] keys = modifierMap.keySet().toArray();
+			for ( int i = 0; i < keys.length; ++i )
+			{
+				if ( !ClassSkillsDatabase.contains( (String) keys[i] ) )
+					continue;
+
+				int skillId = ClassSkillsDatabase.getSkillId( (String) keys[i] );
+				if ( ClassSkillsDatabase.getSkillType( skillId ) == ClassSkillsDatabase.PASSIVE )
+					modifierSkills.add( keys[i] );
+
+			}
+		}
+
+		for ( int i = 0; i < modifierSkills.size(); ++i )
+			if ( KoLCharacter.hasSkill( (String) modifierSkills.get(i) ) )
+				applyModifiers( (String) modifierSkills.get(i), modifiers );
+
+		// Varies according to level, somehow
+		if ( KoLCharacter.hasSkill( "Skin of the Leatherback" ) )
+			;
+
+		if ( KoLCharacter.getFamiliar().getId() == 38 && KoLCharacter.hasAmphibianSympathy() )
+			modifiers[ FAMILIAR_WEIGHT_MODIFIER ] -= 10;
 	}
 
 	public static void addDescriptionId( int effectId, String descriptionId )

@@ -459,6 +459,9 @@ public class ChatBuffer
 
 		private void appendOnce( JEditorPane displayPane )
 		{
+			if ( displayPane == null )
+				return;
+
 			HTMLDocument currentHTML = (HTMLDocument) displayPane.getDocument();
 			Element parentElement = currentHTML.getDefaultRootElement();
 

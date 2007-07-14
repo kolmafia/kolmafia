@@ -146,7 +146,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			{
 				++count;
 				mpRemaining -= mpCost;
-				mpCost = Math.max( ((count + 1) * (count + 2)) / 2 + KoLCharacter.getManaCostModifier(), 1 );
+				mpCost = Math.max( ((count + 1) * (count + 2)) / 2 + KoLCharacter.getManaCostAdjustment(), 1 );
 			}
 
 			maxPossible = count - StaticEntity.getIntegerProperty( "candyHeartSummons" );
@@ -242,10 +242,10 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 	public String toString()
 	{
-		if ( this.lastReduction == KoLCharacter.getManaCostModifier() && this.skillId != 18 )
+		if ( this.lastReduction == KoLCharacter.getManaCostAdjustment() && this.skillId != 18 )
 			return this.lastStringForm;
 
-		this.lastReduction = KoLCharacter.getManaCostModifier();
+		this.lastReduction = KoLCharacter.getManaCostAdjustment();
 		this.lastStringForm = this.skillName + " (" + ClassSkillsDatabase.getMPConsumptionById( this.skillId ) + " mp)";
 		return this.lastStringForm;
 	}
@@ -280,7 +280,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 	private static int attemptSwitch( int skillId, AdventureResult item, boolean slot1Allowed, boolean slot2Allowed, boolean slot3Allowed )
 	{
-		if ( ClassSkillsDatabase.getMPConsumptionById( skillId ) == 1 || KoLCharacter.getManaCostModifier() == -3 )
+		if ( ClassSkillsDatabase.getMPConsumptionById( skillId ) == 1 || KoLCharacter.getManaCostAdjustment() == -3 )
 			return -1;
 
 		if ( !canSwitchToItem( item ) )
