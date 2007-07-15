@@ -154,11 +154,11 @@ public class NPCStoreDatabase extends KoLDatabase
 		else if ( storeId.equals( "h" ) )
 			return KoLCharacter.getLevel() < 12 && inventory.contains( KoLAdventure.DINGHY ) && EquipmentDatabase.hasOutfit( 2 );
 
-		// Check for a lucky rabbit's foot when determining whether or not
-		// the person has access to the Citadel.
+		// Check the quest log when determining whether the person has
+		// access to the Citadel.
 
 		else if ( storeId.equals( "w" ) )
-			return KoLCharacter.isHardcore() && KoLCharacter.hasItem( RABBIT_FOOT );
+			return QuestLogRequest.finishedQuest( "White Citadel" );
 
 		// If it gets this far, then the item is definitely available
 		// for purchase from the NPC store.
