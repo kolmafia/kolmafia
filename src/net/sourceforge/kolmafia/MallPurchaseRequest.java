@@ -177,6 +177,10 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	{	return this.isNPCStore ? this.npcStoreId : String.valueOf( this.shopId );
 	}
 
+	public String getShopName()
+	{	return this.shopName;
+	}
+
 	/**
 	 * Retrieves the name of the item being purchased.
 	 * @return	The name of the item being purchased
@@ -383,7 +387,8 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		}
 		else if ( this.npcStoreId.equals( "h" ) )
 		{
-			neededOutfit = KoLCharacter.getLevel() < 12 ? 2 : 32;
+			if ( this.shopName.equals( "Hippy Store (Pre-War)" ) )
+				neededOutfit = 2;
 		}
 		else
 		{

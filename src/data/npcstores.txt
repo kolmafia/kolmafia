@@ -1,229 +1,241 @@
-1	The Shadowy Store	ye olde golde frontes	1500
-1	The Shadowy Store	bejeweled accordion strap	2000
-1	The Shadowy Store	moxie magnet	3000
+Shadowy Store	1	ye olde golde frontes	1500
+Shadowy Store	1	bejeweled accordion strap	2000
+Shadowy Store	1	moxie magnet	3000
 
-2	Gouda's Grimoire and Grocery	magical mystery juice	100
-2	Gouda's Grimoire and Grocery	delectable catalyst	1000
-2	Gouda's Grimoire and Grocery	MSG	1000
-2	Gouda's Grimoire and Grocery	ladle of mystery	3000
-2	Gouda's Grimoire and Grocery	kickback cookbook	4000
-2	Gouda's Grimoire and Grocery	Codex of Capsaicin Conjuration	4000
-2	Gouda's Grimoire and Grocery	Gazpacho's Glacial Grimoire	4000
-2	Gouda's Grimoire and Grocery	special sauce glove	5000
+Gouda's Grimoire and Grocery	2	magical mystery juice	100
+Gouda's Grimoire and Grocery	2	delectable catalyst	1000
+Gouda's Grimoire and Grocery	2	MSG	1000
+Gouda's Grimoire and Grocery	2	ladle of mystery	3000
+Gouda's Grimoire and Grocery	2	kickback cookbook	4000
+Gouda's Grimoire and Grocery	2	Codex of Capsaicin Conjuration	4000
+Gouda's Grimoire and Grocery	2	Gazpacho's Glacial Grimoire	4000
+Gouda's Grimoire and Grocery	2	special sauce glove	5000
 
-3	The Smacketeria	turtle pheromones	50
-3	The Smacketeria	Medicinal Herb's medicinal herbs	100
-3	The Smacketeria	cheap wind-up clock	200
-3	The Smacketeria	blood of the Wereseal	500
-3	The Smacketeria	enchanted brass knuckles	1000
+Smacketeria	3	turtle pheromones	50
+Smacketeria	3	Medicinal Herb's medicinal herbs	100
+Smacketeria	3	cheap wind-up clock	200
+Smacketeria	3	blood of Wereseal	500
+Smacketeria	3	enchanted brass knuckles	1000
 
-b	The Bugbear Bakery	Gnollish pie tin	30
-b	The Bugbear Bakery	wad of dough	50
-b	The Bugbear Bakery	taco shell	80
-b	The Bugbear Bakery	skewer	80
-b	The Bugbear Bakery	Gnollish casserole dish	150
-b	The Bugbear Bakery	rolling pin	500
-b	The Bugbear Bakery	unrolling pin	500
+Bugbear Bakery	b	Gnollish pie tin	30
+Bugbear Bakery	b	wad of dough	50
+Bugbear Bakery	b	taco shell	80
+Bugbear Bakery	b	skewer	80
+Bugbear Bakery	b	Gnollish casserole dish	150
+Bugbear Bakery	b	rolling pin	500
+Bugbear Bakery	b	unrolling pin	500
 
-galaktik.php	Doc Galaktik's Medicine Show	Doc Galaktik's Pungent Unguent	30
-galaktik.php	Doc Galaktik's Medicine Show	Doc Galaktik's Ailment Ointment	60
-galaktik.php	Doc Galaktik's Medicine Show	Doc Galaktik's Restorative Balm	120
-galaktik.php	Doc Galaktik's Medicine Show	Doc Galaktik's Homeopathic Elixir	240
+Doc Galaktik's Medicine Show	galaktik.php	Doc Galaktik's Pungent Unguent	30
+Doc Galaktik's Medicine Show	galaktik.php	Doc Galaktik's Ailment Ointment	60
+Doc Galaktik's Medicine Show	galaktik.php	Doc Galaktik's Restorative Balm	120
+Doc Galaktik's Medicine Show	galaktik.php	Doc Galaktik's Homeopathic Elixir	240
 
-h	The Hippy Produce Stand	herbs	64
-h	The Hippy Produce Stand	orange	70
-h	The Hippy Produce Stand	grapefruit	70
-h	The Hippy Produce Stand	grapes	70
-h	The Hippy Produce Stand	olive	70
-h	The Hippy Produce Stand	tomato	70
-h	The Hippy Produce Stand	strawberry	70
-h	The Hippy Produce Stand	lemon	70
-h	The Hippy Produce Stand	peach	300
-h	The Hippy Produce Stand	pear	300
-h	The Hippy Produce Stand	plum	300
-h	The Hippy Produce Stand	bowl of rye sprouts	300
-h	The Hippy Produce Stand	cob of corn	300
-h	The Hippy Produce Stand	juniper berries	300
+Hippy Store (Pre-War)	h	herbs	64
+Hippy Store (Pre-War)	h	orange	70
+Hippy Store (Pre-War)	h	grapefruit	70
+Hippy Store (Pre-War)	h	grapes	70
+Hippy Store (Pre-War)	h	olive	70
+Hippy Store (Pre-War)	h	tomato	70
+Hippy Store (Pre-War)	h	strawberry	70
+Hippy Store (Pre-War)	h	lemon	70
 
-m	The Market Demon	Ben-Gal&trade; Balm	24
-m	The Market Demon	can of hair spray	24
-m	The Market Demon	chewing gum on a string	30
-m	The Market Demon	anti-anti-antidote	40
-m	The Market Demon	fortune cookie	40
-m	The Market Demon	Newbiesport&trade; tent	40
-m	The Market Demon	beer cartilage	50
-m	The Market Demon	spray paint	50
-m	The Market Demon	fermenting powder	70
-m	The Market Demon	soda water	70
-m	The Market Demon	casino pass	100
-m	The Market Demon	hermit permit	100
-m	The Market Demon	magicalness-in-a-can	200
-m	The Market Demon	strongness elixir	200
-m	The Market Demon	moxie weed	200
-m	The Market Demon	oyster basket	300
-m	The Market Demon	M-242	300
-m	The Market Demon	snake	300
-m	The Market Demon	sparkler	300
-m	The Market Demon	Familiar-Gro&trade; Terrarium	500
-m	The Market Demon	Hatorade	500
-m	The Market Demon	cocktailcrafting kit	1000
-m	The Market Demon	E-Z Cook Oven&trade;	1000
+Hippy Store (Hippy)	h	herbs	64
+Hippy Store (Hippy)	h	orange	70
+Hippy Store (Hippy)	h	grapefruit	70
+Hippy Store (Hippy)	h	grapes	70
+Hippy Store (Hippy)	h	olive	70
+Hippy Store (Hippy)	h	tomato	70
+Hippy Store (Hippy)	h	strawberry	70
+Hippy Store (Hippy)	h	lemon	70
+Hippy Store (Hippy)	h	peach	300
+Hippy Store (Hippy)	h	pear	300
+Hippy Store (Hippy)	h	plum	300
 
-s	The Meatsmith's Shop	meatsmithing guide	50
-s	The Meatsmith's Shop	sword hilt	100
-s	The Meatsmith's Shop	helmet recipe	100
-s	The Meatsmith's Shop	pants kit	100
-s	The Meatsmith's Shop	big stick	100
-s	The Meatsmith's Shop	crossbow string	100
-s	The Meatsmith's Shop	whip kit	100
-s	The Meatsmith's Shop	buckler buckle	100
-s	The Meatsmith's Shop	skirt / kilt kit	100
-s	The Meatsmith's Shop	shirt kit	100
-s	The Meatsmith's Shop	bigger stick	1000
-s	The Meatsmith's Shop	sinewy crossbow string	1000
-s	The Meatsmith's Shop	sturdy sword hilt	1000
-s	The Meatsmith's Shop	tenderizing hammer	1000
+Hippy Store (Fratboy)	h	herbs	64
+Hippy Store (Fratboy)	h	orange	70
+Hippy Store (Fratboy)	h	grapefruit	70
+Hippy Store (Fratboy)	h	grapes	70
+Hippy Store (Fratboy)	h	olive	70
+Hippy Store (Fratboy)	h	tomato	70
+Hippy Store (Fratboy)	h	strawberry	70
+Hippy Store (Fratboy)	h	lemon	70
+Hippy Store (Fratboy)	h	bowl of rye sprouts	300
+Hippy Store (Fratboy)	h	cob of corn	300
+Hippy Store (Fratboy)	h	juniper berries	300
 
-town_giftshop.php	The Gift Shop	Valentine	500
-town_giftshop.php	The Gift Shop	potted cactus	20
-town_giftshop.php	The Gift Shop	daisy	100
-town_giftshop.php	The Gift Shop	potted fern	200
-town_giftshop.php	The Gift Shop	tulip	500
-town_giftshop.php	The Gift Shop	Venus flytrap	1000
-town_giftshop.php	The Gift Shop	all-purpose flower	2000
-town_giftshop.php	The Gift Shop	exotic orchid	5000
-town_giftshop.php	The Gift Shop	long-stemmed rose	10000
-town_giftshop.php	The Gift Shop	gilded lily	20000
-town_giftshop.php	The Gift Shop	deadly nightshade	50000
-town_giftshop.php	The Gift Shop	black lotus	100000
+Market Demon	m	Ben-Gal&trade; Balm	24
+Market Demon	m	can of hair spray	24
+Market Demon	m	chewing gum on a string	30
+Market Demon	m	anti-anti-antidote	40
+Market Demon	m	fortune cookie	40
+Market Demon	m	Newbiesport&trade; tent	40
+Market Demon	m	beer cartilage	50
+Market Demon	m	spray paint	50
+Market Demon	m	fermenting powder	70
+Market Demon	m	soda water	70
+Market Demon	m	casino pass	100
+Market Demon	m	hermit permit	100
+Market Demon	m	magicalness-in-a-can	200
+Market Demon	m	strongness elixir	200
+Market Demon	m	moxie weed	200
+Market Demon	m	oyster basket	300
+Market Demon	m	M-242	300
+Market Demon	m	snake	300
+Market Demon	m	sparkler	300
+Market Demon	m	Familiar-Gro&trade; Terrarium	500
+Market Demon	m	Hatorade	500
+Market Demon	m	cocktailcrafting kit	1000
+Market Demon	m	E-Z Cook Oven&trade;	1000
 
-town_giftshop.php	The Gift Shop	stuffed can of asparagus	20
-town_giftshop.php	The Gift Shop	stuffed dodecapede	100
-town_giftshop.php	The Gift Shop	stuffed ghuol whelp	200
-town_giftshop.php	The Gift Shop	stuffed zmobie	500
-town_giftshop.php	The Gift Shop	Raggedy Hippy doll	1000
-town_giftshop.php	The Gift Shop	stuffed stab bat	2000
-town_giftshop.php	The Gift Shop	apathetic lizardman doll	5000
-town_giftshop.php	The Gift Shop	stuffed yeti	10000
-town_giftshop.php	The Gift Shop	stuffed Mob Penguin	20000
-town_giftshop.php	The Gift Shop	stuffed sabre-toothed lime	50000
-town_giftshop.php	The Gift Shop	giant stuffed bugbear	100000
+Meatsmith's Shop	s	meatsmithing guide	50
+Meatsmith's Shop	s	sword hilt	100
+Meatsmith's Shop	s	helmet recipe	100
+Meatsmith's Shop	s	pants kit	100
+Meatsmith's Shop	s	big stick	100
+Meatsmith's Shop	s	crossbow string	100
+Meatsmith's Shop	s	whip kit	100
+Meatsmith's Shop	s	buckler buckle	100
+Meatsmith's Shop	s	skirt / kilt kit	100
+Meatsmith's Shop	s	shirt kit	100
+Meatsmith's Shop	s	bigger stick	1000
+Meatsmith's Shop	s	sinewy crossbow string	1000
+Meatsmith's Shop	s	sturdy sword hilt	1000
+Meatsmith's Shop	s	tenderizing hammer	1000
 
-town_giftshop.php	The Gift Shop	mugcake	20
-town_giftshop.php	The Gift Shop	urinal cake	100
-town_giftshop.php	The Gift Shop	Happy Birthday, Claude! cake	200
-town_giftshop.php	The Gift Shop	personalized birthday cake	500
-town_giftshop.php	The Gift Shop	three-tiered wedding cake	1000
-town_giftshop.php	The Gift Shop	babycakes	2000
-town_giftshop.php	The Gift Shop	blue velvet cake	5000
-town_giftshop.php	The Gift Shop	congratulatory cake	10000
-town_giftshop.php	The Gift Shop	angel-food cake	20000
-town_giftshop.php	The Gift Shop	devil's-food cake	50000
-town_giftshop.php	The Gift Shop	birthday party jellybean cheesecake	100000
+Gift Shop	town_giftshop.php	Valentine	500
+Gift Shop	town_giftshop.php	potted cactus	20
+Gift Shop	town_giftshop.php	daisy	100
+Gift Shop	town_giftshop.php	potted fern	200
+Gift Shop	town_giftshop.php	tulip	500
+Gift Shop	town_giftshop.php	Venus flytrap	1000
+Gift Shop	town_giftshop.php	all-purpose flower	2000
+Gift Shop	town_giftshop.php	exotic orchid	5000
+Gift Shop	town_giftshop.php	long-stemmed rose	10000
+Gift Shop	town_giftshop.php	gilded lily	20000
+Gift Shop	town_giftshop.php	deadly nightshade	50000
+Gift Shop	town_giftshop.php	black lotus	100000
+Gift Shop	town_giftshop.php	stuffed can of asparagus	20
+Gift Shop	town_giftshop.php	stuffed dodecapede	100
+Gift Shop	town_giftshop.php	stuffed ghuol whelp	200
+Gift Shop	town_giftshop.php	stuffed zmobie	500
+Gift Shop	town_giftshop.php	Raggedy Hippy doll	1000
+Gift Shop	town_giftshop.php	stuffed stab bat	2000
+Gift Shop	town_giftshop.php	apathetic lizardman doll	5000
+Gift Shop	town_giftshop.php	stuffed yeti	10000
+Gift Shop	town_giftshop.php	stuffed Mob Penguin	20000
+Gift Shop	town_giftshop.php	stuffed sabre-toothed lime	50000
+Gift Shop	town_giftshop.php	giant stuffed bugbear	100000
+Gift Shop	town_giftshop.php	mugcake	20
+Gift Shop	town_giftshop.php	urinal cake	100
+Gift Shop	town_giftshop.php	Happy Birthday, Claude! cake	200
+Gift Shop	town_giftshop.php	personalized birthday cake	500
+Gift Shop	town_giftshop.php	three-tiered wedding cake	1000
+Gift Shop	town_giftshop.php	babycakes	2000
+Gift Shop	town_giftshop.php	blue velvet cake	5000
+Gift Shop	town_giftshop.php	congratulatory cake	10000
+Gift Shop	town_giftshop.php	angel-food cake	20000
+Gift Shop	town_giftshop.php	devil's-food cake	50000
+Gift Shop	town_giftshop.php	birthday party jellybean cheesecake	100000
+Gift Shop	town_giftshop.php	white balloon	20
+Gift Shop	town_giftshop.php	green balloon	100
+Gift Shop	town_giftshop.php	heart-shaped balloon	200
+Gift Shop	town_giftshop.php	anniversary balloon	500
+Gift Shop	town_giftshop.php	Mylar balloon	1000
+Gift Shop	town_giftshop.php	Kevlar balloon	2000
+Gift Shop	town_giftshop.php	thought balloon	5000
+Gift Shop	town_giftshop.php	rat head balloon	10000
+Gift Shop	town_giftshop.php	mini-zeppelin	20000
+Gift Shop	town_giftshop.php	Mr. Balloon	50000
+Gift Shop	town_giftshop.php	red balloon	100000
 
-town_giftshop.php	The Gift Shop	white balloon	20
-town_giftshop.php	The Gift Shop	green balloon	100
-town_giftshop.php	The Gift Shop	heart-shaped balloon	200
-town_giftshop.php	The Gift Shop	anniversary balloon	500
-town_giftshop.php	The Gift Shop	Mylar balloon	1000
-town_giftshop.php	The Gift Shop	Kevlar balloon	2000
-town_giftshop.php	The Gift Shop	thought balloon	5000
-town_giftshop.php	The Gift Shop	rat head balloon	10000
-town_giftshop.php	The Gift Shop	mini-zeppelin	20000
-town_giftshop.php	The Gift Shop	Mr. Balloon	50000
-town_giftshop.php	The Gift Shop	red balloon	100000
+Little Canadia Jewelers	j	piercing post	64
+Little Canadia Jewelers	j	necklace chain	70
+Little Canadia Jewelers	j	ring setting	200
+Little Canadia Jewelers	j	precious piercing post	1000
+Little Canadia Jewelers	j	heavy necklace chain	1000
+Little Canadia Jewelers	j	extra-fancy ring setting	1000
+Little Canadia Jewelers	j	jewelry-making pliers	1000
+Little Canadia Jewelers	j	Really Expensive Jewelry and You	5000
 
-j	Little Canadia Jewelers	piercing post	64
-j	Little Canadia Jewelers	necklace chain	70
-j	Little Canadia Jewelers	ring setting	200
-j	Little Canadia Jewelers	precious piercing post	1000
-j	Little Canadia Jewelers	heavy necklace chain	1000
-j	Little Canadia Jewelers	extra-fancy ring setting	1000
-j	Little Canadia Jewelers	jewelry-making pliers	1000
-j	Little Canadia Jewelers	Really Expensive Jewelry and You	5000
+Degrassi Knoll Bakery	4	Gnollish pie tin	30
+Degrassi Knoll Bakery	4	wad of dough	50
+Degrassi Knoll Bakery	4	flat dough	70
+Degrassi Knoll Bakery	4	skewer	80
+Degrassi Knoll Bakery	4	taco shell	80
+Degrassi Knoll Bakery	4	Gnollish casserole dish	150
 
-4	The Degrassi Knoll Bakery	Gnollish pie tin	30
-4	The Degrassi Knoll Bakery	wad of dough	50
-4	The Degrassi Knoll Bakery	flat dough	70
-4	The Degrassi Knoll Bakery	skewer	80
-4	The Degrassi Knoll Bakery	taco shell	80
-4	The Degrassi Knoll Bakery	Gnollish casserole dish	150
+Degrassi Knoll General Store	5	spring	20
+Degrassi Knoll General Store	5	sprocket	20
+Degrassi Knoll General Store	5	cog	20
+Degrassi Knoll General Store	5	empty meat tank	20
+Degrassi Knoll General Store	5	tires	28
+Degrassi Knoll General Store	5	bugbear beanie	70
+Degrassi Knoll General Store	5	bugbear bungguard	70
+Degrassi Knoll General Store	5	Gnollish plunger	80
+Degrassi Knoll General Store	5	Gnollish flyswatter	80
+Degrassi Knoll General Store	5	frilly skirt	80
+Degrassi Knoll General Store	5	maiden wig	80
+Degrassi Knoll General Store	5	detuned radio	300
 
-5	The Degrassi Knoll General Store	spring	20
-5	The Degrassi Knoll General Store	sprocket	20
-5	The Degrassi Knoll General Store	cog	20
-5	The Degrassi Knoll General Store	empty meat tank	20
-5	The Degrassi Knoll General Store	tires	28
-5	The Degrassi Knoll General Store	bugbear beanie	70
-5	The Degrassi Knoll General Store	bugbear bungguard	70
-5	The Degrassi Knoll General Store	Gnollish plunger	80
-5	The Degrassi Knoll General Store	Gnollish flyswatter	80
-5	The Degrassi Knoll General Store	frilly skirt	80
-5	The Degrassi Knoll General Store	maiden wig	80
-5	The Degrassi Knoll General Store	detuned radio	300
+Knob Goblin Laboratory	g	Knob Goblin seltzer	80
+Knob Goblin Laboratory	g	Knob Goblin stink bomb	130
+Knob Goblin Laboratory	g	Knob Goblin nasal spray	150
+Knob Goblin Laboratory	g	Knob Goblin love potion	170
+Knob Goblin Laboratory	g	Knob Goblin eyedrops	200
+Knob Goblin Laboratory	g	Knob Goblin sharpening spray	230
+Knob Goblin Laboratory	g	Knob Goblin steroids	250
+Knob Goblin Laboratory	g	Knob Goblin pet-buffing spray	250
+Knob Goblin Laboratory	g	Knob Goblin learning pill	300
 
-g	The Knob Goblin Laboratory	Knob Goblin seltzer	80
-g	The Knob Goblin Laboratory	Knob Goblin stink bomb	130
-g	The Knob Goblin Laboratory	Knob Goblin nasal spray	150
-g	The Knob Goblin Laboratory	Knob Goblin love potion	170
-g	The Knob Goblin Laboratory	Knob Goblin eyedrops	200
-g	The Knob Goblin Laboratory	Knob Goblin sharpening spray	230
-g	The Knob Goblin Laboratory	Knob Goblin steroids	250
-g	The Knob Goblin Laboratory	Knob Goblin pet-buffing spray	250
-g	The Knob Goblin Laboratory	Knob Goblin learning pill	300
+Armory and Leggery	z	cool whip	30
+Armory and Leggery	z	sweet ninja sword	50
+Armory and Leggery	z	suede shortsword	300
+Armory and Leggery	z	25-meat staff	525
+Armory and Leggery	z	bamboo bokuto	750
+Armory and Leggery	z	two-handed depthsword	900
+Armory and Leggery	z	bill bec-de-bardiche glaive-guisarme	1125
+Armory and Leggery	z	slingshot	150
+Armory and Leggery	z	slightly peevedbow	450
+Armory and Leggery	z	lead yo-yo	600
+Armory and Leggery	z	sack of doorknobs	825
+Armory and Leggery	z	lucky ball-and-chain	975
+Armory and Leggery	z	automatic catapult	1125
+Armory and Leggery	z	snorkel	30
+Armory and Leggery	z	Kentucky-style derby	50
+Armory and Leggery	z	pentacorn hat	300
+Armory and Leggery	z	goofily-plumed helmet	525
+Armory and Leggery	z	yellow plastic hard hat	675
+Armory and Leggery	z	wooden salad bowl	900
+Armory and Leggery	z	football helmet	1125
+Armory and Leggery	z	studded leather boxer shorts	50
+Armory and Leggery	z	chain-mail monokini	225
+Armory and Leggery	z	junk-mail pants	375
+Armory and Leggery	z	paper-plate-mail pants	600
+Armory and Leggery	z	troutpiece	825
+Armory and Leggery	z	alpha-mail pants	1050
 
-z	The Armory and Leggery	cool whip	30
-z	The Armory and Leggery	sweet ninja sword	50
-z	The Armory and Leggery	suede shortsword	300
-z	The Armory and Leggery	25-meat staff	525
-z	The Armory and Leggery	bamboo bokuto	750
-z	The Armory and Leggery	two-handed depthsword	900
-z	The Armory and Leggery	bill bec-de-bardiche glaive-guisarme	1125
+White Citadel	w	White Citadel burger	100
+White Citadel	w	White Citadel fries	80
+White Citadel	w	onion shurikens	80
+White Citadel	w	Cherry Cloaca Cola	80
+White Citadel	w	Diet Cloaca Cola	80
+White Citadel	w	Regular Cloaca Cola	80
 
-z	The Armory and Leggery	slingshot	150
-z	The Armory and Leggery	slightly peevedbow	450
-z	The Armory and Leggery	lead yo-yo	600
-z	The Armory and Leggery	sack of doorknobs	825
-z	The Armory and Leggery	lucky ball-and-chain	975
-z	The Armory and Leggery	automatic catapult	1125
+Gno-Mart	n	jaba&ntilde;ero-flavored chewing gum	200
+Gno-Mart	n	lime-and-chile-flavored chewing gum	200
+Gno-Mart	n	pickle-flavored chewing gum	200
+Gno-Mart	n	tamarind-flavored chewing gum	200
+Gno-Mart	n	handsomeness potion	300
+Gno-Mart	n	marzipan skull	300
+Gno-Mart	n	Meleegra&trade; pills	300
+Gno-Mart	n	vial of Gnomochloric acid	500
+Gno-Mart	n	flask of Gnomochloric acid	1000
+Gno-Mart	n	jug of Gnomochloric acid	5000
 
-z	The Armory and Leggery	snorkel	30
-z	The Armory and Leggery	Kentucky-style derby	50
-z	The Armory and Leggery	pentacorn hat	300
-z	The Armory and Leggery	goofily-plumed helmet	525
-z	The Armory and Leggery	yellow plastic hard hat	675
-z	The Armory and Leggery	wooden salad bowl	900
-z	The Armory and Leggery	football helmet	1125
-
-z	The Armory and Leggery	studded leather boxer shorts	50
-z	The Armory and Leggery	chain-mail monokini	225
-z	The Armory and Leggery	junk-mail pants	375
-z	The Armory and Leggery	paper-plate-mail pants	600
-z	The Armory and Leggery	troutpiece	825
-z	The Armory and Leggery	alpha-mail pants	1050
-
-w	White Citadel	White Citadel burger	100
-w	White Citadel	White Citadel fries	80
-w	White Citadel	onion shurikens	80
-w	White Citadel	Cherry Cloaca Cola	80
-w	White Citadel	Diet Cloaca Cola	80
-w	White Citadel	Regular Cloaca Cola	80
-
-n	Gno-Mart	jaba&ntilde;ero-flavored chewing gum	200
-n	Gno-Mart	lime-and-chile-flavored chewing gum	200
-n	Gno-Mart	pickle-flavored chewing gum	200
-n	Gno-Mart	tamarind-flavored chewing gum	200
-n	Gno-Mart	handsomeness potion	300
-n	Gno-Mart	marzipan skull	300
-n	Gno-Mart	Meleegra&trade; pills	300
-n	Gno-Mart	vial of Gnomochloric acid	500
-n	Gno-Mart	flask of Gnomochloric acid	1000
-n	Gno-Mart	jug of Gnomochloric acid	5000
-
-l	The Black Market	black cherry soda	80
-l	The Black Market	Black Body&trade; spray	300
-l	The Black Market	black facepaint	300
-l	The Black Market	black sheepskin diploma	300
-l	The Black Market	can of black paint	1000
-l	The Black Market	forged identification documents	5000
-l	The Black Market	exotic parrot egg	500000
+Black Market	l	black cherry soda	80
+Black Market	l	Black Body&trade; spray	300
+Black Market	l	black facepaint	300
+Black Market	l	black sheepskin diploma	300
+Black Market	l	can of black paint	1000
+Black Market	l	forged identification documents	5000
+Black Market	l	exotic parrot egg	500000
