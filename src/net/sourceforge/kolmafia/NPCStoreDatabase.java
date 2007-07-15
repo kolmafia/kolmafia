@@ -41,7 +41,6 @@ public class NPCStoreDatabase extends KoLDatabase
 	private static final ArrayList NPC_ITEMS = new ArrayList();
 
 	private static final AdventureResult LAB_KEY = new AdventureResult( 339, 1 );
-	private static final AdventureResult RABBIT_FOOT = new AdventureResult( 1485, 1 );
 
 	static
 	{
@@ -164,22 +163,14 @@ public class NPCStoreDatabase extends KoLDatabase
 				return false;
 
 			if ( shopName.equals( "Hippy Store (Hippy)" ) )
-			{
 				if ( !StaticEntity.getProperty( "currentHippyStore" ).equals( "hippy" ) )
 					return false;
 
-				return QuestLogRequest.finishedQuest( QuestLogRequest.ISLAND_WAR ) || EquipmentDatabase.hasOutfit( 32 );
-			}
-
 			if ( shopName.equals( "Hippy Store (Fratboy)" ) )
-			{
 				if ( !StaticEntity.getProperty( "currentHippyStore" ).equals( "fratboy" ) )
 					return false;
 
-				return QuestLogRequest.finishedQuest( QuestLogRequest.ISLAND_WAR ) || EquipmentDatabase.hasOutfit( 33 );
-			}
-
-			return false;
+			return QuestLogRequest.finishedQuest( QuestLogRequest.ISLAND_WAR ) || EquipmentDatabase.hasOutfit( 32 );
 		}
 
 		// Check the quest log when determining whether the person has
