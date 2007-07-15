@@ -439,7 +439,11 @@ public class RequestFrame extends KoLFrame
 		}
 
 		public void run()
-		{	RequestFrame.this.refresh( new KoLRequest( RequestFrame.this.currentLocation, true ) );
+		{
+			if ( RequestFrame.this.currentLocation == null )
+				return;
+
+			RequestFrame.this.refresh( new KoLRequest( RequestFrame.this.currentLocation, true ) );
 		}
 	}
 

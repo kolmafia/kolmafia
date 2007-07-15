@@ -1027,6 +1027,11 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 				String [] parameters = new String [] { idMatcher.find() ? idMatcher.group(1) : "" };
 				createDisplay( SendMessageFrame.class, parameters );
 			}
+			else if ( location.startsWith( "search" ) || location.startsWith( "desc" ) || location.startsWith( "static" ) || location.startsWith( "show" ) )
+			{
+				DescriptionFrame.showLocation( location );
+				return;
+			}
 			else if ( KoLFrame.this instanceof RequestFrame )
 			{
 				// If this is a request frame, make sure that
@@ -1426,11 +1431,13 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	}
 
 	public static void createDisplay( Class frameClass )
-	{	createDisplay( frameClass, NOPARAMS );
+	{	KoLmafiaGUI.constructFrame( frameClass );
 	}
 
 	public static void createDisplay( Class frameClass, Object [] parameters )
-	{	SwingUtilities.invokeLater( new CreateFrameRunnable( frameClass, parameters ) );
+	{
+		CreateFrameRunnable creator = new CreateFrameRunnable( frameClass, parameters );
+		creator.run();
 	}
 
 	public static void compileScripts()
@@ -1447,7 +1454,6 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		// passes to make sure that directories start
 		// up top, followed by non-directories.
 
-		boolean hasDirectories = false;
 		boolean hasNormalFiles = false;
 
 		for ( int i = 0; i < scriptList.length; ++i )
@@ -1455,10 +1461,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			if ( KoLMenuBar.shouldAddScript( scriptList[i] ) )
 			{
 				if ( scriptList[i].isDirectory() )
-				{
 					scripts.add( scriptList[i] );
-					hasDirectories = true;
-				}
 				else
 					hasNormalFiles = true;
 			}
