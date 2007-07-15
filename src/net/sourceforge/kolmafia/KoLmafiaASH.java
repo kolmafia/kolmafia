@@ -4569,7 +4569,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( !f.exists() && filename.endsWith( ".dat" ) )
 				return getFile( filename.substring( 0, filename.length() - 4 ) + ".txt" );
 
-			return new File( DATA_LOCATION, filename );
+			return f.exists() ? f : new File( DATA_LOCATION, filename );
 		}
 
 		private BufferedReader getReader( String filename )
