@@ -455,27 +455,21 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// Figure out how many items were created
 
 		AdventureResult createdItem = new AdventureResult( this.itemId, 0 );
+
 		int createdQuantity = createdItem.getCount( inventory ) - this.beforeQuantity;
+		int quantityDifference = this.quantityNeeded - createdQuantity;
 
-		// Check to make sure that the item creation did not fail.
+		// Because an explosion might have occurred, the
+		// quantity that has changed might not be accurate.
+		// Therefore, update with the actual value.
 
-		if ( createdQuantity == 0 )
-			return;
+		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( this.itemId );
 
-		if ( createdQuantity > 0 )
-		{
-			// Because an explosion might have occurred, the
-			// quantity that has changed might not be accurate.
-			// Therefore, update with the actual value.
+		for ( int i = 0; i < ingredients.length; ++i )
+			StaticEntity.getClient().processResult( new AdventureResult( ingredients[i].getItemId(), quantityDifference * ingredients[i].getCount() ) );
 
-			AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( this.itemId );
-
-			for ( int i = 0; i < ingredients.length; ++i )
-				StaticEntity.getClient().processResult( new AdventureResult( ingredients[i].getItemId(), -1 * createdQuantity * ingredients[i].getCount() ) );
-
-			if ( this.mixingMethod == COMBINE && !KoLCharacter.inMuscleSign() )
-				StaticEntity.getClient().processResult( new AdventureResult( MEAT_PASTE, 0 - createdQuantity ) );
-		}
+		if ( this.mixingMethod == COMBINE && !KoLCharacter.inMuscleSign() )
+			StaticEntity.getClient().processResult( new AdventureResult( MEAT_PASTE, quantityDifference ) );
 
 		// Check to see if box-servant was overworked and exploded.
 
