@@ -663,7 +663,7 @@ public abstract class SorceressLair extends StaticEntity
 				return requirements;
 			}
 
-			if ( isItemAvailable( CLOVER ) )
+			if ( useCloverForSkeleton && isItemAvailable( CLOVER ) )
 				AdventureDatabase.retrieveItem( CLOVER );
 
 			// Next, handle the form for the skeleton key to
@@ -676,7 +676,7 @@ public abstract class SorceressLair extends StaticEntity
 			if ( QUEST_HANDLER.responseText.indexOf( "prepreaction" ) != -1 )
 			{
 				RequestThread.postRequest( QUEST_HANDLER.constructURLString( "lair2.php?prepreaction=skel" ) );
-				if ( isItemAvailable( CLOVER ) )
+				if ( useCloverForSkeleton && isItemAvailable( CLOVER ) )
 					getClient().processResult( CLOVER.getNegation() );
 			}
 		}
