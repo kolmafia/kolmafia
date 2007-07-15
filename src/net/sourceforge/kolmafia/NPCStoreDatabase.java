@@ -53,7 +53,7 @@ public class NPCStoreDatabase extends KoLDatabase
 		{
 			if ( data.length == 4 )
 			{
-				NPC_ITEMS.add( new MallPurchaseRequest( data[1], data[0],
+				NPC_ITEMS.add( new MallPurchaseRequest( data[0], data[1],
 					TradeableItemDatabase.getItemId( data[2] ), parseInt( data[3] ) ) );
 			}
 		}
@@ -81,16 +81,15 @@ public class NPCStoreDatabase extends KoLDatabase
 		for ( int i = 0; i < NPC_ITEMS.size(); ++i )
 		{
 			currentItem = (MallPurchaseRequest) NPC_ITEMS.get(i);
-			if ( currentItem.getItemId() == itemId )
-			{
-				foundItem = currentItem;
-				if ( canPurchase( foundItem.getStoreId() ) )
-				{
-					foundItem.setCanPurchase( true );
-					return foundItem;
-				}
-			}
+			if ( currentItem.getItemId() != itemId )
+				continue;
 
+			foundItem = currentItem;
+			if ( !canPurchase( foundItem.getStoreId(), foundItem.getShopName() ) )
+				continue;
+
+			foundItem.setCanPurchase( true );
+			return foundItem;
 		}
 
 		if ( foundItem == null )
@@ -100,7 +99,7 @@ public class NPCStoreDatabase extends KoLDatabase
 		return foundItem;
 	}
 
-	private static boolean canPurchase( String storeId )
+	private static boolean canPurchase( String storeId, String shopName )
 	{
 		if ( storeId == null )
 			return false;
@@ -152,7 +151,17 @@ public class NPCStoreDatabase extends KoLDatabase
 		// hippy outfit.
 
 		else if ( storeId.equals( "h" ) )
-			return KoLCharacter.getLevel() < 12 && inventory.contains( KoLAdventure.DINGHY ) && EquipmentDatabase.hasOutfit( 2 );
+		{
+			if ( shopName.equals( "Hippy Store (Pre-War)" ) )
+				return KoLCharacter.getLevel() < 12 && inventory.contains( KoLAdventure.DINGHY ) && EquipmentDatabase.hasOutfit( 2 );
+
+			// Here, you insert any logic which is able to detect the
+			// completion of the filthworm infestation and which outfit
+			// was used to complete it.  But, for now, just assume that
+			// the store is not accessible.
+
+			return false;
+		}
 
 		// Check the quest log when determining whether the person has
 		// access to the Citadel.
