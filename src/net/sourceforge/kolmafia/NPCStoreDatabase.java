@@ -155,6 +155,8 @@ public class NPCStoreDatabase extends KoLDatabase
 		{
 			if ( KoLCharacter.getLevel() < 12 )
 				return inventory.contains( KoLAdventure.DINGHY ) && EquipmentDatabase.hasOutfit( 2 );
+			else if ( QuestLogRequest.finishedQuest( QuestLogRequest.HIPPIES ) )
+				return true;
 			else
 				return inventory.contains( KoLAdventure.DINGHY ) && EquipmentDatabase.hasOutfit( 32 );
 		}
