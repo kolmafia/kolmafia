@@ -185,7 +185,23 @@ public class KoLmafiaGUI extends KoLmafia
 
 		try
 		{
-			FrameConstructor maker = new FrameConstructor( frameName );
+			Class frameClass = Class.forName( "net.sourceforge.kolmafia." + frameName );
+			constructFrame( frameClass );
+		}
+		catch ( Exception e )
+		{
+			//should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+
+			StaticEntity.printStackTrace( e );
+		}
+	}
+
+	public static void constructFrame( Class frameClass )
+	{
+		try
+		{
+			FrameConstructor maker = new FrameConstructor( frameClass );
 
 			if ( SwingUtilities.isEventDispatchThread() )
 				ConcurrentWorker.post( maker );
@@ -203,10 +219,10 @@ public class KoLmafiaGUI extends KoLmafia
 
 	private static class FrameConstructor extends Job
 	{
-		public String frameName;
+		public Class frameClass;
 
-		public FrameConstructor( String frameName )
-		{	this.frameName = frameName;
+		public FrameConstructor( Class frameClass )
+		{	this.frameClass = frameClass;
 		}
 
 		public void run()
@@ -214,11 +230,11 @@ public class KoLmafiaGUI extends KoLmafia
 			// Now, test to see if any requests need to be run before
 			// you fall into the event dispatch thread.
 
-			if ( this.frameName.equals( "BuffBotFrame" ) )
+			if ( this.frameClass == BuffBotFrame.class )
 			{
 				BuffBotManager.loadSettings();
 			}
-			else if ( this.frameName.equals( "BuffRequestFrame" ) )
+			else if ( this.frameClass == BuffRequestFrame.class )
 			{
 				if ( !BuffBotDatabase.hasOfferings() )
 				{
@@ -227,7 +243,7 @@ public class KoLmafiaGUI extends KoLmafia
 					return;
 				}
 			}
-			else if ( this.frameName.equals( "CakeArenaFrame" ) )
+			else if ( this.frameClass == CakeArenaFrame.class )
 			{
 				if ( CakeArenaManager.getOpponentList().isEmpty() )
 				{
@@ -236,7 +252,7 @@ public class KoLmafiaGUI extends KoLmafia
 					return;
 				}
 			}
-			else if ( this.frameName.equals( "CalendarFrame" ) )
+			else if ( this.frameClass == CalendarFrame.class )
 			{
 				String base = "http://images.kingdomofloathing.com/otherimages/bikini/";
 				for ( int i = 1; i < CalendarFrame.CALENDARS.length; ++i )
@@ -245,7 +261,7 @@ public class KoLmafiaGUI extends KoLmafia
 				for ( int i = 1; i < CalendarFrame.CALENDARS.length; ++i )
 					RequestEditorKit.downloadImage( base + CalendarFrame.CALENDARS[i] + ".gif" );
 			}
-			else if ( this.frameName.equals( "ClanManageFrame" ) )
+			else if ( this.frameClass == ClanManageFrame.class )
 			{
 				if ( ClanManager.getStash().isEmpty() )
 				{
@@ -253,7 +269,7 @@ public class KoLmafiaGUI extends KoLmafia
 					RequestThread.postRequest( new ClanStashRequest() );
 				}
 			}
-			else if ( this.frameName.equals( "ContactListFrame" ) )
+			else if ( this.frameClass == ContactListFrame.class )
 			{
 				if ( contactList.isEmpty() )
 					RequestThread.postRequest( new ContactListRequest() );
@@ -261,7 +277,7 @@ public class KoLmafiaGUI extends KoLmafia
 				if ( StaticEntity.getGlobalProperty( "initialDesktop" ).indexOf( "ContactListFrame" ) != -1 )
 					return;
 			}
-			else if ( this.frameName.equals( "FamiliarTrainingFrame" ) )
+			else if ( this.frameClass == FamiliarTrainingFrame.class )
 			{
 				if ( CakeArenaManager.getOpponentList().isEmpty() )
 				{
@@ -270,21 +286,12 @@ public class KoLmafiaGUI extends KoLmafia
 					return;
 				}
 			}
-			else if ( this.frameName.equals( "FlowerHunterFrame" ) )
+			else if ( this.frameClass == FlowerHunterFrame.class )
 			{
 				KoLmafia.updateDisplay( "Determining number of attacks remaining..." );
 				RequestThread.postRequest( new FlowerHunterRequest() );
 			}
-			else if ( this.frameName.equals( "HagnkStorageFrame" ) )
-			{
-				if ( storage.isEmpty() )
-				{
-					KoLmafia.updateDisplay( "You have nothing in storage." );
-					RequestThread.enableDisplayIfSequenceComplete();
-					return;
-				}
-			}
-			else if ( this.frameName.equals( "ItemManageFrame" ) )
+			else if ( this.frameClass == ItemManageFrame.class )
 			{
 				// If the person is in a mysticality sign, make sure
 				// you retrieve information from the restaurant.
@@ -310,7 +317,7 @@ public class KoLmafiaGUI extends KoLmafia
 					if ( !ClanManager.isStashRetrieved() )
 						RequestThread.postRequest( new ClanStashRequest() );
 			}
-			else if ( this.frameName.equals( "KoLMessenger" ) )
+			else if ( this.frameClass == KoLMessenger.class )
 			{
 				updateDisplay( "Retrieving chat color preferences..." );
 				RequestThread.postRequest( new ChannelColorsRequest() );
@@ -324,31 +331,27 @@ public class KoLmafiaGUI extends KoLmafia
 
 				return;
 			}
-			else if ( this.frameName.equals( "LocalRelayServer" ) )
+			else if ( this.frameClass == LocalRelayServer.class )
 			{
 				StaticEntity.getClient().openRelayBrowser();
 				return;
 			}
-			else if ( this.frameName.equals( "MailboxFrame" ) )
+			else if ( this.frameClass == MailboxFrame.class )
 			{
 				RequestThread.postRequest( new MailboxRequest( "Inbox" ) );
 				if ( LoginRequest.isInstanceRunning() )
 					return;
 			}
-			else if ( this.frameName.equals( "MuseumFrame" ) )
+			else if ( this.frameClass == MuseumFrame.class )
 			{
 				RequestThread.postRequest( new MuseumRequest() );
 			}
-			else if ( this.frameName.equals( "MushroomFrame" ) )
+			else if ( this.frameClass == MushroomFrame.class )
 			{
 				for ( int i = 0; i < MushroomPlot.MUSHROOMS.length; ++i )
 					RequestEditorKit.downloadImage( "http://images.kingdomofloathing.com/itemimages/" + MushroomPlot.MUSHROOMS[i][1] );
 			}
-			else if ( this.frameName.equals( "RestoreOptionsFrame" ) )
-			{
-				this.frameName = "OptionsFrame";
-			}
-			else if ( this.frameName.equals( "StoreManageFrame" ) )
+			else if ( this.frameClass == StoreManageFrame.class )
 			{
 				if ( !KoLCharacter.hasStore() )
 				{
@@ -368,11 +371,11 @@ public class KoLmafiaGUI extends KoLmafia
 
 			try
 			{
-				(new CreateFrameRunnable( Class.forName( "net.sourceforge.kolmafia." + this.frameName ) )).run();
+				(new CreateFrameRunnable( frameClass )).run();
 			}
 			catch ( Exception e )
 			{
-				//should not happen.  Therefore, print
+				// Should not happen.  Therefore, print
 				// a stack trace for debug purposes.
 
 				StaticEntity.printStackTrace( e );

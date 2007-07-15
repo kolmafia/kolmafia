@@ -452,11 +452,11 @@ public class ChatFrame extends KoLFrame
 				return;
 
 			case 5:
-				StaticEntity.openRequestFrame( "displaycollection.php?who=" + KoLmafia.getPlayerId( (String) parameters[0] ) );
+				ProfileFrame.showRequest( new KoLRequest( "displaycollection.php?who=" + KoLmafia.getPlayerId( (String) parameters[0] ) ) );
 				return;
 
 			case 6:
-				StaticEntity.openRequestFrame( "ascensionhistory.php?who=" + KoLmafia.getPlayerId( (String) parameters[0] ) );
+				ProfileFrame.showRequest( new KoLRequest( "ascensionhistory.php?who=" + KoLmafia.getPlayerId( (String) parameters[0] ) ) );
 				return;
 
 			case 7:
@@ -472,8 +472,8 @@ public class ChatFrame extends KoLFrame
 				return;
 
 			default:
-				frameClass = ProfileFrame.class;
-				break;
+				ProfileFrame.showRequest( new ProfileRequest( (String) parameters[0] ) );
+				return;
 			}
 
 			// Now, determine what needs to be done based

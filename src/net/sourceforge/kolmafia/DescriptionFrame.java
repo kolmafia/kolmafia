@@ -33,14 +33,14 @@
 
 package net.sourceforge.kolmafia;
 
-public class ProfileFrame extends RequestFrame
+public class DescriptionFrame extends RequestFrame
 {
-	private static ProfileFrame INSTANCE = null;
+	private static DescriptionFrame INSTANCE = null;
 
-	public ProfileFrame()
+	public DescriptionFrame()
 	{
-		super( "Player Profile" );
-		ProfileFrame.INSTANCE = this;
+		super( "Documentation" );
+		DescriptionFrame.INSTANCE = this;
 	}
 
 	public void dispose()
@@ -49,16 +49,16 @@ public class ProfileFrame extends RequestFrame
 		super.dispose();
 	}
 
+	public static void showLocation( String location )
+	{	showRequest( RequestEditorKit.extractRequest( location ) );
+	}
+
 	public static void showRequest( KoLRequest request )
 	{
 		if ( INSTANCE == null )
-			createDisplay( ProfileFrame.class );
+			createDisplay( DescriptionFrame.class );
 
 		INSTANCE.refresh( request );
-	}
-
-	public boolean hasSideBar()
-	{	return false;
 	}
 }
 
