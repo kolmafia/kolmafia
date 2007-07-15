@@ -35,7 +35,6 @@ package net.sourceforge.kolmafia;
 
 public class QuestLogRequest extends KoLRequest
 {
-	public static final String HIPPIES = "Make War, Not... Oh, Wait";
 	public static final String GALAKTIK = "What's Up, Doc?";
 
 	private static String contents = "";
