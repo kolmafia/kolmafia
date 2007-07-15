@@ -888,13 +888,11 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			command.append( ' ' );
 			command.append( name );
 
-			if ( isExternal )
-				StaticEntity.getClient().processResult( new AdventureResult( itemId, 0 - quantity ) );
-
+			StaticEntity.getClient().processResult( new AdventureResult( itemId, 0 - quantity ) );
 			needsPlus = true;
 		}
 
-		if ( isExternal && urlString.startsWith( "combine.php" ) )
+		if ( urlString.startsWith( "combine.php" ) )
 			StaticEntity.getClient().processResult( new AdventureResult( MEAT_PASTE, 0 - quantity ) );
 
 		if ( usesTurns )
