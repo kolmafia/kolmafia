@@ -151,9 +151,7 @@ public class ChatBuffer
 	 */
 
 	public void clearBuffer()
-	{
-		UPDATER.queueClear();
-		fireBufferChanged( DISPLAY_CHANGE, null );
+	{	UPDATER.queueClear();
 	}
 
 	/**
@@ -328,7 +326,15 @@ public class ChatBuffer
 		private boolean isQueued = false;
 
 		public void queueClear()
-		{	contentQueue.add( CLEAR_OBJECT );
+		{
+			contentQueue.add( CLEAR_OBJECT );
+
+			if ( this.isQueued )
+				return;
+
+			synchronized ( this )
+			{	notify();
+			}
 		}
 
 		public void queueUpdate( String newContents )
@@ -414,7 +420,6 @@ public class ChatBuffer
 				}
 				else if ( newContents != null )
 				{
-					this.shouldScroll = displayBuffer.length() != 0;
 					append();
 				}
 			}
@@ -452,6 +457,8 @@ public class ChatBuffer
 		{
 			for ( int i = 0; i < displayPanes.size(); ++i )
 			{
+				this.shouldScroll &= displayBuffer.length() != 0;
+
 				JScrollBar scroll = (JScrollBar) ((WeakReference) scrollBars.get(i)).get();
 				this.shouldAdjust &= scroll == null || !scroll.isVisible() ||
 					scroll.getValue() >= scroll.getMaximum() - scroll.getVisibleAmount() - 100;
