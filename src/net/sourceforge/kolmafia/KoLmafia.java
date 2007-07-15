@@ -601,6 +601,9 @@ public abstract class KoLmafia implements KoLConstants
 
 				forceContinue();
 			}
+
+			if ( StaticEntity.getIntegerProperty( "lastFilthClearance" ) == KoLCharacter.getAscensions() )
+				RequestThread.postRequest( new KoLRequest( "store.php?whichstore=h" ) );
 		}
 
 		SpecialOutfit.createImplicitCheckpoint();

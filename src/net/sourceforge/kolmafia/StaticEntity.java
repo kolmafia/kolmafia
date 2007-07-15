@@ -403,6 +403,26 @@ public abstract class StaticEntity implements KoLConstants
 
 		if ( location.startsWith( "pvp.php" ) && location.indexOf( "who=" ) != -1 )
 			FlowerHunterRequest.processOffenseContests( responseText );
+
+		// If this is the hippy store, check to see if any of the
+		// items offered in the hippy store are special.
+
+		if ( location.startsWith( "store.php" ) && location.indexOf( "whichstore=h" ) != -1 &&
+			StaticEntity.getIntegerProperty( "lastFilthClearance" ) != KoLCharacter.getAscensions() )
+		{
+			if ( responseText.indexOf( "plum" ) != -1 )
+			{
+				StaticEntity.setProperty( "lastFilthClearance", String.valueOf( KoLCharacter.getAscensions() ) );
+				StaticEntity.setProperty( "currentHippyStore", "hippy" );
+			}
+			else if ( responseText.indexOf( "juniper" ) != -1 )
+			{
+				StaticEntity.setProperty( "lastFilthClearance", String.valueOf( KoLCharacter.getAscensions() ) );
+				StaticEntity.setProperty( "currentHippyStore", "fratboy" );
+			}
+			else
+				StaticEntity.setProperty( "currentHippyStore", "none" );
+		}
 	}
 
 	public static final boolean executeCountdown( String message, int seconds )

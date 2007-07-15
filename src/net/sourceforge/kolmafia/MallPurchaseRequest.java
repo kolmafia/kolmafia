@@ -389,6 +389,12 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		{
 			if ( this.shopName.equals( "Hippy Store (Pre-War)" ) )
 				neededOutfit = 2;
+			else if ( QuestLogRequest.finishedQuest( QuestLogRequest.ISLAND_WAR ) )
+				return true;
+			else if ( this.shopName.equals( "Hippy Store (Hippy)" ) )
+				neededOutfit = 32;
+			else if ( this.shopName.equals( "Hippy Store (Fratboy)" ) )
+				neededOutfit = 33;
 		}
 		else
 		{

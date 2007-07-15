@@ -160,6 +160,25 @@ public class NPCStoreDatabase extends KoLDatabase
 			// was used to complete it.  But, for now, just assume that
 			// the store is not accessible.
 
+			if ( StaticEntity.getIntegerProperty( "lastFilthClearance" ) != KoLCharacter.getAscensions() )
+				return false;
+
+			if ( shopName.equals( "Hippy Store (Hippy)" ) )
+			{
+				if ( !StaticEntity.getProperty( "currentHippyStore" ).equals( "hippy" ) )
+					return false;
+
+				return QuestLogRequest.finishedQuest( QuestLogRequest.ISLAND_WAR ) || EquipmentDatabase.hasOutfit( 32 );
+			}
+
+			if ( shopName.equals( "Hippy Store (Fratboy)" ) )
+			{
+				if ( !StaticEntity.getProperty( "currentHippyStore" ).equals( "fratboy" ) )
+					return false;
+
+				return QuestLogRequest.finishedQuest( QuestLogRequest.ISLAND_WAR ) || EquipmentDatabase.hasOutfit( 33 );
+			}
+
 			return false;
 		}
 

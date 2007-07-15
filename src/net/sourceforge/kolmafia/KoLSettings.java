@@ -630,6 +630,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "cocktailSummons", "0" );
 		PLAYER_SETTINGS.put( "currentBountyItem", "0" );
 		PLAYER_SETTINGS.put( "currentFullness", "0" );
+		PLAYER_SETTINGS.put( "currentHippyStore", "none" );
 		PLAYER_SETTINGS.put( "currentMood", "default" );
 		PLAYER_SETTINGS.put( "currentPvpVictories", "" );
 		PLAYER_SETTINGS.put( "currentSpleenUse", "0" );
@@ -643,6 +644,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "hpAutoRecoveryItems", "cannelloni cocoon;scroll of drastic healing;tongue of the walrus;lasagna bandages;doc galaktik's ailment ointment" );
 		PLAYER_SETTINGS.put( "invalidBuffMessage", "You sent an amount which does not correspond to a valid buff amount." );
 		PLAYER_SETTINGS.put( "lastAdventure", "" );
+		PLAYER_SETTINGS.put( "lastFilthClearance", "-1" );
 
 		PLAYER_SETTINGS.put( "lastBangPotionReset", "-1" );
 		PLAYER_SETTINGS.put( "lastBangPotion819", "" );
