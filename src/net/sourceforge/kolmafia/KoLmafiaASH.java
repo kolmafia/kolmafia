@@ -4561,15 +4561,21 @@ public class KoLmafiaASH extends StaticEntity
 				return null;
 
 			File f = new File( SCRIPT_LOCATION, filename );
-			if ( !f.exists() )
-				f = new File( DATA_LOCATION, filename );
-			if ( !f.exists() )
-				f = new File( ROOT_LOCATION, filename );
+			if ( f.exists() )
+				return f;
 
-			if ( !f.exists() && filename.endsWith( ".dat" ) )
+			f = new File( DATA_LOCATION, filename );
+			if ( f.exists() )
+				return f;
+
+			f = new File( ROOT_LOCATION, filename );
+			if ( f.exists() )
+				return f;
+
+			if ( filename.endsWith( ".dat" ) )
 				return getFile( filename.substring( 0, filename.length() - 4 ) + ".txt" );
 
-			return f.exists() ? f : new File( DATA_LOCATION, filename );
+			return new File( DATA_LOCATION, filename );
 		}
 
 		private BufferedReader getReader( String filename )
@@ -4581,7 +4587,8 @@ public class KoLmafiaASH extends StaticEntity
 			if ( input.exists() )
 				return DataUtilities.getReader( input );
 
-			return DataUtilities.getReader( "data", filename );
+			BufferedReader reader = DataUtilities.getReader( "data", filename );
+			return reader != null ? reader : DataUtilities.getReader( filename );
 		}
 
 		public ScriptValue load_html( ScriptVariable string )
