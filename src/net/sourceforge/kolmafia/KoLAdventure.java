@@ -38,7 +38,7 @@ import net.sourceforge.foxtrot.Job;
 
 public class KoLAdventure extends Job implements KoLConstants, Comparable
 {
-	private static final KoLRequest ZONE_VALIDATOR = AdventureDatabase.ZONE_VALIDATOR;
+	public static final KoLRequest ZONE_VALIDATOR = new KoLRequest( "", true );
 
 	public static final AdventureResult AMNESIA = new AdventureResult( "Amnesia", 1, true );
 	private static final AdventureResult PERFUME_ITEM = new AdventureResult( 307, 1 );
@@ -48,6 +48,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 	private static final AdventureResult PLANS = new AdventureResult( 146, 1 );
 	private static final AdventureResult TRANSFUNCTIONER = new AdventureResult( 458, 1 );
 	private static final AdventureResult TALISMAN = new AdventureResult( 486, 1 );
+	private static final AdventureResult SONAR = new AdventureResult( 563, 1 );
 	private static final AdventureResult LIBRARY_KEY = new AdventureResult( 1764, 1 );
 	private static final AdventureResult GALLERY_KEY = new AdventureResult( 1765, 1 );
 	private static final AdventureResult BALLROOM_KEY = new AdventureResult( 1766, 1 );
@@ -581,14 +582,49 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			return;
 		}
 
-		// If a zone validation is sufficient, then validate the
-		// zone normally.
-
-		if ( AdventureDatabase.validateZone( this.zone, this.adventureId ) )
+		else if ( this.adventureId.equals( "32" ) || this.adventureId.equals( "33" ) || this.adventureId.equals( "34" ) )
 		{
-			this.isValidAdventure = true;
+			RequestThread.postRequest( ZONE_VALIDATOR.constructURLString( "bathole.php" ) );
+
+			if ( this.adventureId.equals( "32" ) && ZONE_VALIDATOR.responseText.indexOf( "batrockleft.gif" ) == -1 )
+			{
+				this.isValidAdventure = true;
+				return;
+			}
+			if ( this.adventureId.equals( "33" ) && ZONE_VALIDATOR.responseText.indexOf( "batrockright.gif" ) == -1 )
+			{
+				this.isValidAdventure = true;
+				return;
+			}
+			if ( this.adventureId.equals( "34" ) && ZONE_VALIDATOR.responseText.indexOf( "batrockbottom.gif" ) == -1 )
+			{
+				this.isValidAdventure = true;
+				return;
+			}
+
+			int sonarCount = SONAR.getCount( inventory );
+			int sonarToUse = 0;
+
+			if ( ZONE_VALIDATOR.responseText.indexOf( "batrockleft.gif" ) != -1 )
+				sonarToUse = 3;
+			else if ( ZONE_VALIDATOR.responseText.indexOf( "batrockright.gif" ) != -1 )
+				sonarToUse = 2;
+			else if ( ZONE_VALIDATOR.responseText.indexOf( "batrockbottom.gif" ) != -1 )
+				sonarToUse = 1;
+
+			RequestThread.postRequest( new ConsumeItemRequest( SONAR.getInstance( Math.min( sonarToUse, sonarCount ) ) ) );
+			RequestThread.postRequest( ZONE_VALIDATOR );
+
+			if ( this.adventureId.equals( "32" ) )
+				this.isValidAdventure = ZONE_VALIDATOR.responseText.indexOf( "batrockleft.gif" ) == -1;
+			else if ( this.adventureId.equals( "33" ) )
+				this.isValidAdventure = ZONE_VALIDATOR.responseText.indexOf( "batrockright.gif" ) == -1;
+			else
+				this.isValidAdventure = ZONE_VALIDATOR.responseText.indexOf( "batrockbottom.gif" ) == -1;
+
 			return;
 		}
+
 
 		// Attempt to unlock the Degrassi Knoll by visiting Paco.
 		// Though we can unlock the guild quest, sometimes people

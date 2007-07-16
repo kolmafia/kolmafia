@@ -8,31 +8,31 @@ Plains	Plains	Nearby Plains
 Rift	Plains	Temporal Rift
 Beanstalk	Plains	Above the Beanstalk
 
-BatHole	BatHole	Bat Hole	bathole.php
+BatHole	BatHole	Bat Hole
 
 Knob	Knob	Cobb's Knob
-Lab	Knob	Knob Cobb's Knob Lab	knob2.php
+Lab	Knob	Knob Cobb's Knob Lab
 
-Cyrpt	Cyrpt	Defiled Cyrpt	cyrpt.php
+Cyrpt	Cyrpt	Defiled Cyrpt
 
-Woods	Woods	Distant Woods	woods.php
+Woods	Woods	Distant Woods
 
-Friars	Friars	Deep Fat Friar's	friars.php
+Friars	Friars	Deep Fat Friar's
 
 Mountain	Mountain	Big Mountains
-McLarge	Mountain	Mt. McLargeHuge	mclargehuge.php
+McLarge	Mountain	Mt. McLargeHuge
 
-Beach	Beach	Desert Beach	beach.php
-Pyramid	Beach	Ancient Buried Pyramid	pyramid.php
+Beach	Beach	Desert Beach
+Pyramid	Beach	Ancient Buried Pyramid
 
 Island	Island	Mysterious Island
 
-IsleWar	IsleWar	Island War Quest	bigisland.php
+IsleWar	IsleWar	Island War Quest
 Junkyard	IsleWar	Junkyard
 Lighthouse	IsleWar	Junkyard
-Farm	IsleWar	McMillicancuddy's Farm	bigisland.php?place=farm
-Orchard	IsleWar	Organic Orchard	bigisland.php?place=orchard
-Nunnery	IsleWar	Our Lady of Perpetual Indecision	bigisland.php?place=nunnery
+Farm	IsleWar	McMillicancuddy's Farm
+Orchard	IsleWar	Organic Orchard
+Nunnery	IsleWar	Our Lady of Perpetual Indecision
 
 Signed Zones	Signed Zones	Signed Zones
 Gyms	Signed Zones	Clan/Signed Gyms
@@ -42,7 +42,7 @@ MoxSign	Signed Zones	Moxie Sign
 
 Item-Driven	Item-Driven	Item-Driven Zones
 Astral	Item-Driven	Astral Plane
-Wormwood	Item-Driven	Worm Wood	wormwood.php
+Wormwood	Item-Driven	Worm Wood
 
 Unsorted	Unsorted	No Category
 Sorceress	Unsorted	Sorceress Lair
