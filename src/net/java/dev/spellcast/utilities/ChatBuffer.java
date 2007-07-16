@@ -110,7 +110,7 @@ public class ChatBuffer
 	private String title;
 	private String header;
 	private String filename;
-	private boolean allowScrollBack;
+	private boolean autoScroll;
 
 	protected ArrayList scrollBars;
 	protected ArrayList displayPanes;
@@ -129,12 +129,12 @@ public class ChatBuffer
 	 * content to be displayed.
 	 */
 
-	public ChatBuffer( String title, boolean allowScrollBack )
+	public ChatBuffer( String title, boolean autoScroll )
 	{
 		this.displayBuffer = new StringBuffer();
 		this.title = title;
 
-		this.allowScrollBack = allowScrollBack;
+		this.autoScroll = autoScroll;
 		this.header = "<html><head>" + NEW_LINE + "<title>" + title + "</title>" + NEW_LINE;
 
 		this.scrollBars = new ArrayList();
@@ -400,8 +400,6 @@ public class ChatBuffer
 	{
 		private String resetText;
 		private Object newContents;
-		private boolean shouldScroll = true;
-		private boolean shouldAdjust = true;
 
 		public void run()
 		{
@@ -424,11 +422,8 @@ public class ChatBuffer
 				}
 			}
 
-			if ( !allowScrollBack || this.shouldAdjust )
+			if ( autoScroll )
 				scroll();
-
-			this.shouldAdjust = true;
-			this.shouldScroll = true;
 
 			UPDATER.handlingFinished();
 		}
@@ -457,12 +452,6 @@ public class ChatBuffer
 		{
 			for ( int i = 0; i < displayPanes.size(); ++i )
 			{
-				this.shouldScroll &= displayBuffer.length() != 0;
-
-				JScrollBar scroll = (JScrollBar) ((WeakReference) scrollBars.get(i)).get();
-				this.shouldAdjust &= scroll == null || !scroll.isVisible() ||
-					scroll.getValue() >= scroll.getMaximum() - scroll.getVisibleAmount() - 100;
-
 				WeakReference display = (WeakReference) displayPanes.get(i);
 				appendOnce( (JEditorPane) display.get() );
 			}
@@ -508,7 +497,7 @@ public class ChatBuffer
 				return;
 
 			int length = displayPane.getDocument().getLength();
-			displayPane.setCaretPosition( shouldScroll && length > 0 ? length - 1 : 0 );
+			displayPane.setCaretPosition( Math.max( length - 1, 0 ) );
 		}
 	}
 }

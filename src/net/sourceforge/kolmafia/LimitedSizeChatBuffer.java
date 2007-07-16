@@ -66,22 +66,16 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 	}
 
 	public LimitedSizeChatBuffer()
-	{
-		super( "", false );
-		this.requiresTruncation = true;
-		this.affectsHighlightBuffer = false;
+	{	this( "", true, false );
 	}
 
 	public LimitedSizeChatBuffer( boolean requiresTruncation )
-	{
-		super( "", true );
-		this.requiresTruncation = true;
-		this.affectsHighlightBuffer = false;
+	{	this( "", requiresTruncation, false );
 	}
 
 	public LimitedSizeChatBuffer( String title, boolean requiresTruncation, boolean affectsHighlightBuffer )
 	{
-		super( title, true );
+		super( title, !requiresTruncation );
 		this.requiresTruncation = requiresTruncation;
 		this.affectsHighlightBuffer = affectsHighlightBuffer;
 	}
