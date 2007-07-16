@@ -43,8 +43,6 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class AdventureDatabase extends KoLDatabase
 {
-	public static final KoLRequest ZONE_VALIDATOR = new KoLRequest( "main.php", true );
-
 	private static LockableListModel adventures = new LockableListModel();
 	private static AdventureArray allAdventures = new AdventureArray();
 
@@ -70,7 +68,6 @@ public class AdventureDatabase extends KoLDatabase
 		AdventureDatabase.refreshAdventureList();
 	}
 
-	private static final AdventureResult SONAR = new AdventureResult( 563, 1 );
 	public static final AdventureResult [] WOODS_ITEMS = new AdventureResult[12];
 	static
 	{
@@ -964,15 +961,6 @@ public class AdventureDatabase extends KoLDatabase
 					PARENT_LIST.add( data[1] );
 
 				ZONE_DESCRIPTIONS.put( data[0], data[2] );
-
-				if ( data.length > 3 )
-				{
-					ArrayList validationRequests = new ArrayList();
-					for ( int i = 3; i < data.length; ++i )
-						validationRequests.add( data[i] );
-
-					zoneValidations.put( data[0], validationRequests );
-				}
 			}
 		}
 
@@ -1119,64 +1107,10 @@ public class AdventureDatabase extends KoLDatabase
 		if ( zoneName == null || locationId == null )
 			return true;
 
-		ArrayList validationRequests = (ArrayList) zoneValidations.get( zoneName );
-		if ( validationRequests == null || validationRequests.isEmpty() )
-			return true;
-
-		boolean isValidZone = true;
-
-		for ( int i = 1; isValidZone && i < validationRequests.size() - 1; ++i )
-		{
-			RequestThread.postRequest( ZONE_VALIDATOR.constructURLString( (String) validationRequests.get(0) ) );
-			isValidZone &= ZONE_VALIDATOR.responseText != null &&
-				ZONE_VALIDATOR.responseText.indexOf( (String) validationRequests.get(i) ) != -1;
-		}
-
-		RequestThread.postRequest( ZONE_VALIDATOR.constructURLString( (String) validationRequests.get( validationRequests.size() - 1 ) ) );
-
 		// Special handling of the bat zone.
 
-		if ( locationId.equals( "32" ) || locationId.equals( "33" ) || locationId.equals( "34" ) )
-		{
-			if ( locationId.equals( "32" ) && ZONE_VALIDATOR.responseText.indexOf( "batrockleft.gif" ) == -1 )
-				return true;
 
-			if ( locationId.equals( "33" ) && ZONE_VALIDATOR.responseText.indexOf( "batrockright.gif" ) == -1 )
-				return true;
-
-			if ( locationId.equals( "34" ) && ZONE_VALIDATOR.responseText.indexOf( "batrockbottom.gif" ) == -1 )
-				return true;
-
-			int sonarCount = SONAR.getCount( inventory );
-			int sonarToUse = 0;
-
-			if ( ZONE_VALIDATOR.responseText.indexOf( "batrockleft.gif" ) != -1 )
-				sonarToUse = 3;
-			else if ( ZONE_VALIDATOR.responseText.indexOf( "batrockright.gif" ) != -1 )
-				sonarToUse = 2;
-			else if ( ZONE_VALIDATOR.responseText.indexOf( "batrockbottom.gif" ) != -1 )
-				sonarToUse = 1;
-
-			RequestThread.postRequest( new ConsumeItemRequest( SONAR.getInstance( Math.min( sonarToUse, sonarCount ) ) ) );
-			RequestThread.postRequest( ZONE_VALIDATOR );
-
-			return locationId.equals( "32" ) && ZONE_VALIDATOR.responseText.indexOf( "batrockleft.gif" ) == -1 ||
-				locationId.equals( "33" ) && ZONE_VALIDATOR.responseText.indexOf( "batrockright.gif" ) == -1 ||
-				locationId.equals( "34" ) && ZONE_VALIDATOR.responseText.indexOf( "batrockbottom.gif" ) == -1;
-		}
-
-		// Handle all others as normal.
-
-		isValidZone &= ZONE_VALIDATOR.responseText != null;
-		if ( isValidZone )
-		{
-			isValidZone &= ZONE_VALIDATOR.responseText.indexOf( "snarfblat=" + locationId ) != -1 ||
-				ZONE_VALIDATOR.responseText.indexOf( "adv=" + locationId ) != -1 ||
-				ZONE_VALIDATOR.responseText.indexOf( "name=snarfblat value=" + locationId ) != -1 ||
-				ZONE_VALIDATOR.responseText.indexOf( "name=adv value=" + locationId ) != -1;
-		}
-
-		return isValidZone;
+		return true;
 	}
 
 	public static final LockableListModel getAsLockableListModel()

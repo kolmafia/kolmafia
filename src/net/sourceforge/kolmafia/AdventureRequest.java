@@ -37,8 +37,6 @@ import java.util.ArrayList;
 
 public class AdventureRequest extends KoLRequest
 {
-	private static final KoLRequest ZONE_VALIDATOR = AdventureDatabase.ZONE_VALIDATOR;
-
 	private String adventureName;
 	private String formSource;
 	private String adventureId;
@@ -124,7 +122,7 @@ public class AdventureRequest extends KoLRequest
 
 	public void run()
 	{
-		// Prevent the request from happening if theattempted
+		// Prevent the request from happening if they attempted
 		// to cancel in the delay period.
 
 		if ( !KoLmafia.permitsContinue() )
@@ -132,8 +130,8 @@ public class AdventureRequest extends KoLRequest
 
 		if ( this.formSource.equals( "mountains.php" ) )
 		{
-			ZONE_VALIDATOR.constructURLString( "mountains.php" ).run();
-			if ( ZONE_VALIDATOR.responseText.indexOf( "value=80" ) != -1 )
+			KoLAdventure.ZONE_VALIDATOR.constructURLString( "mountains.php" ).run();
+			if ( KoLAdventure.ZONE_VALIDATOR.responseText.indexOf( "value=80" ) != -1 )
 			{
 				KoLmafia.updateDisplay( PENDING_STATE, "The Orc Chasm has already been bridged." );
 				return;
