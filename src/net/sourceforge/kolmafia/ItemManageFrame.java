@@ -880,6 +880,12 @@ public class ItemManageFrame extends KoLFrame
 			this.filterItems();
 		}
 
+		public void addFilters( boolean isCompact )
+		{
+			if ( this.isEquipmentOnly )
+				super.addFilters( isCompact );
+		}
+
 		public void actionConfirmed()
 		{
 			Object selected = this.elementList.getSelectedValue();
@@ -951,7 +957,7 @@ public class ItemManageFrame extends KoLFrame
 
 	public class InventoryManagePanel extends ItemManagePanel
 	{
-		private boolean isEquipmentOnly;
+		protected boolean isEquipmentOnly;
 		private FilterRadioButton [] equipmentFilters;
 
 		public InventoryManagePanel( LockableListModel elementModel, boolean isEquipmentOnly )
