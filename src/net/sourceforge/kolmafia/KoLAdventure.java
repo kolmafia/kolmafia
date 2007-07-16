@@ -640,35 +640,27 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			return;
 		}
 
-		// The beach is unlocked provided the player has the meat car
-		// accomplishment and a meatcar in inventory.
 
-		if ( this.zone.equals( "Beach" ) )
+		if ( this.zone.equals( "McLarge" ) )
 		{
-			// If the beach hasn't been unlocked, then visit Paco
-			// with your meatcar.
-
-			visitedCouncil = true;
-
-			if ( AdventureDatabase.retrieveItem( MEATCAR ) )
+			if ( QuestLogRequest.finishedQuest( QuestLogRequest.TRAPPER ) )
 			{
-				StaticEntity.getClient().unlockGuildStore( true );
-				this.isValidAdventure = KoLmafia.permitsContinue();
+				this.isValidAdventure = true;
 				return;
 			}
-		}
 
-		// You can unlock pieces of the bat hole by using up to
-		// three different sonars.
+			RequestThread.postRequest( ZONE_VALIDATOR.constructURLString( "mclargehuge.php" ) );
+			if ( ZONE_VALIDATOR.responseText.indexOf( this.adventureId ) != -1 )
+			{
+				this.isValidAdventure = true;
+				return;
+			}
 
-		if ( this.zone.equals( "McLarge" ) && !visitedCouncil )
-		{
-			// Obviate following request by checking accomplishment:
-			// questlog.php?which=2
-			// "You have learned how to hunt Yetis from the L337
-			// Tr4pz0r."
-
-			// See if the trapper will give it to us
+			if ( visitedCouncil )
+			{
+				KoLmafia.updateDisplay( "You must complete a trapper task first." );
+				return;
+			}
 
 			DEFAULT_SHELL.executeLine( "council" );
 			RequestThread.postRequest( ZONE_VALIDATOR.constructURLString( "trapper.php" ) );
@@ -677,17 +669,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			return;
 		}
 
-		// Check to see if the Knob is unlocked; all areas are
-		// automatically present when this is true.
-
-		if ( visitedCouncil )
-		{
-			KoLmafia.updateDisplay( ERROR_STATE, "This adventure is not yet unlocked." );
-			return;
-		}
-
-		DEFAULT_SHELL.executeLine( "council" );
-		this.validate( true );
+		this.isValidAdventure = true;
 	}
 
 	/**
