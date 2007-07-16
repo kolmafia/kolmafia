@@ -182,8 +182,9 @@ public abstract class KoLCharacter extends StaticEntity
 		ACCORDION_THIEF_RANKS.add( "Accordion Thief" );
 	}
 
-	private static final AdventureResult JOYBUZZER = new AdventureResult( 1525, 1 );
-	private static final AdventureResult BAKULA = new AdventureResult( 1519, 1 );
+	private static final int BAKULA = 1519;
+	private static final int JOYBUZZER = 1525;
+	private static final int WIZARD_HAT = 1653;
 
 	// Equipment constants
 
@@ -1085,23 +1086,56 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static void setEquipment( int slot, AdventureResult item )
 	{
+		// Accessories are special in terms of testing for existence
+		// in equipment lists -- they are all mirrors of accessories.
+
+		switch ( slot )
+		{
+		case ACCESSORY1:
+		case ACCESSORY2:
+		case ACCESSORY3:
+			if ( !accessories.contains( item ) )
+				accessories.add( item );
+			break;
+
+		default:
+			if ( !equipmentLists[slot].contains( item ) )
+				equipmentLists[slot].add( item );
+			break;
+		}
+
 		equipment.set( slot, item );
-		equipmentLists[ slot ].setSelectedItem( item );
+		equipmentLists[slot].setSelectedItem( item );
 
-		if ( slot == WEAPON || slot == OFFHAND )
+		// Certain equipment slots require special update handling
+		// in addition to the above code.
+
+		switch ( slot )
+		{
+		case WEAPON:
+		case OFFHAND:
 			GearChangeFrame.updateWeapons();
-
-		if ( slot == FAMILIAR )
+			break;
+		case FAMILIAR:
 			currentFamiliar.setItem( item );
+			break;
+		}
 
-		if ( hasEquipped( JOYBUZZER ) )
+		// Certain items provide additional skills when equipped.
+		// Handle the addition of those skills here.
+
+		switch ( item.getItemId() )
+		{
+		case JOYBUZZER:
 			addAvailableSkill( UseSkillRequest.getInstance( "Shake Hands" ) );
-
-		if ( hasEquipped( UseSkillRequest.WIZARD_HAT ) )
+			break;
+		case WIZARD_HAT:
 			addAvailableSkill( UseSkillRequest.getInstance( "Magic Missile" ) );
-
-		if ( hasEquipped( BAKULA ) )
+			break;
+		case BAKULA:
 			addAvailableSkill( UseSkillRequest.getInstance( "Give In To Your Vampiric Urges" ) );
+			break;
+		}
 	}
 
 	/**
@@ -1116,37 +1150,12 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static void setEquipment( AdventureResult [] equipment )
 	{
-		for ( int i = 0; i < KoLCharacter.equipment.size(); ++i )
+		for ( int i = HAT; i <= FAMILIAR; ++i )
 		{
 			if ( equipment[i] == null || equipment[i].equals( EquipmentRequest.UNEQUIP ) )
-			{
-				KoLCharacter.equipment.set( i, EquipmentRequest.UNEQUIP );
-				equipmentLists[i].setSelectedItem( EquipmentRequest.UNEQUIP );
-			}
+				setEquipment( i, EquipmentRequest.UNEQUIP );
 			else
-			{
-				KoLCharacter.equipment.set( i, equipment[i] );
-
-				if ( i != ACCESSORY1 && i != ACCESSORY2 && i != ACCESSORY3 )
-				{
-					if ( !equipmentLists[i].contains( equipment[i] ) )
-						equipmentLists[i].add( equipment[i] );
-				}
-				else
-				{
-					if ( !accessories.contains( equipment[i] ) )
-						accessories.add( equipment[i] );
-				}
-
-				equipmentLists[i].setSelectedItem( equipment[i] );
-			}
-		}
-
-		GearChangeFrame.updateWeapons();
-		if ( equipment.length > FAMILIAR && currentFamiliar != FamiliarData.NO_FAMILIAR )
-		{
-			equipmentLists[FAMILIAR].setSelectedItem( equipment[FAMILIAR] );
-			currentFamiliar.setItem( equipment[FAMILIAR] );
+				setEquipment( i, equipment[i] );
 		}
 	}
 
@@ -2566,54 +2575,13 @@ public abstract class KoLCharacter extends StaticEntity
 	// Effects that modify ML:
 	private static final AdventureResult ARIA = new AdventureResult( "Ur-Kel's Aria of Annoyance", 0 );
 
-	// Familiars that modify earned XP:
-	private static final int VOLLEYBALL = 12;
-	private static final int CHESHIRE = 23;
-	private static final int JILL = 24;
-	private static final int SHAMAN = 39;
-	private static final int MONKEY = 42;
-	private static final int HARE = 50;
-	private static final int HOBO = 52;
-	private static final int TICK = 58;
-	private static final int TROLL = 65;
-	private static final int PENGUIN = 68;
-
-	// Familiars that modify Meat Drops
-	private static final int LEPRECHAUN = 2;
-	private static final int TURKEY = 25;
-
 	// Items that modify based on moon signs
 	private static final int JEKYLLIN = 1291;
 	private static final int GUAYABERA = 1546;
 
-	// KoLmafia does not support the "containers" slot.
-
-	// Mr. Container (482): +3%
-	// hemp backpack (218): +2%
-	// Newbiesport&trade; backpack (483): +1%
-
-	// Familiars that modify Item Drops
-	private static final int BABY_GRAVY_FAIRY = 15;
-	private static final int FLAMING_GRAVY_FAIRY = 34;
-	private static final int FROZEN_GRAVY_FAIRY = 35;
-	private static final int STINKY_GRAVY_FAIRY = 36;
-	private static final int SPOOKY_GRAVY_FAIRY = 37;
-	private static final int SLEAZY_GRAVY_FAIRY = 49;
-	private static final int PIXIE = 22;
-	private static final int DEMON = 41;
-	private static final int JITTERBUG = 57;
-	private static final int CRIMBO_ELF = 26;
-	private static final int DANDY_LION = 66;
-	private static final int GREEN_PIXIE = 70;
-
-	// Items and skills that make Mysticality the To-Hit stat
-	private static final int SAUCE_GLOVE = 531;
-
 	public static boolean recalculateAdjustments()
 	{
 		int taoFactor = hasSkill( "Tao of the Terrapin" ) ? 2 : 1;
-		int familiarId = currentFamiliar.getId();
-
 		float [] newModifiers = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
 
 		// Look at sign-specific adjustments
@@ -2708,71 +2676,14 @@ public abstract class KoLCharacter extends StaticEntity
 		// look at familiar.
 
 		float modifier = (float)( currentFamiliar.getWeight() + newModifiers[ StatusEffectDatabase.FAMILIAR_WEIGHT_MODIFIER ] );
+		int familiarId = currentFamiliar.getId();
 
-		switch ( familiarId )
-		{
-		case BABY_GRAVY_FAIRY:
-		case FLAMING_GRAVY_FAIRY:
-		case FROZEN_GRAVY_FAIRY:
-		case STINKY_GRAVY_FAIRY:
-		case SPOOKY_GRAVY_FAIRY:
-		case SLEAZY_GRAVY_FAIRY:
-		case CRIMBO_ELF:
-		case DANDY_LION:
-		case GREEN_PIXIE:
-			// Full gravy fairy equivalent familiar
-			newModifiers[ StatusEffectDatabase.ITEMDROP_MODIFIER ] += modifier * 2.5;
-			break;
-
-		case PIXIE:
-		case DEMON:
-		case JITTERBUG:
-			// Full gravy fairy equivalent familiar
-			// Full leprechaun equivalent familiar
-			newModifiers[ StatusEffectDatabase.ITEMDROP_MODIFIER ] += modifier * 2.5;
-			newModifiers[ StatusEffectDatabase.MEATDROP_MODIFIER ] += modifier * 5;
-			break;
-
-		case VOLLEYBALL:
-		case HOBO:
-		case TROLL:
-		case PENGUIN:
-			// Full volleyball equivalent familiar
+		if ( FamiliarsDatabase.isVolleyType( familiarId ) )
 			newModifiers[ StatusEffectDatabase.EXPERIENCE_MODIFIER ] += Math.sqrt( modifier );
-			break;
-
-		case LEPRECHAUN:
-		case TURKEY:
-			// Full leprechaun equivalent familiar
-			newModifiers[ StatusEffectDatabase.MEATDROP_MODIFIER ] += modifier * 5;
-			break;
-
-		case CHESHIRE:
-		case MONKEY:
-		case TICK:
-			// Full volleyball equivalent familiar
-			// Full leprechaun equivalent familiar
-			newModifiers[ StatusEffectDatabase.EXPERIENCE_MODIFIER ] += Math.sqrt( modifier );
-			newModifiers[ StatusEffectDatabase.MEATDROP_MODIFIER ] += modifier * 5;
-			break;
-
-		case SHAMAN:
-			// Full volleyball equivalent familiar
-			// Full gravy fairy equivalent familiar
-			newModifiers[ StatusEffectDatabase.EXPERIENCE_MODIFIER ] += Math.sqrt( modifier );
+		if ( FamiliarsDatabase.isItemDropType( familiarId ) )
 			newModifiers[ StatusEffectDatabase.ITEMDROP_MODIFIER ] += modifier * 2.5;
-			break;
-
-		case JILL:
-			// Half volleyball equivalent familiar
-			newModifiers[ StatusEffectDatabase.EXPERIENCE_MODIFIER ] += Math.sqrt( modifier ) / 2.0f;
-			break;
-
-		case HARE:
-			// Full volleyball equivalent 1/4 of the time
-			newModifiers[ StatusEffectDatabase.EXPERIENCE_MODIFIER ] += Math.sqrt( modifier ) / 4.0f;
-			break;
-		}
+		if ( FamiliarsDatabase.isMeatDropType( familiarId ) )
+			newModifiers[ StatusEffectDatabase.MEATDROP_MODIFIER ] += modifier * 5;
 
 		// Make sure the mana modifier is no more than
 		// three, no matter what.

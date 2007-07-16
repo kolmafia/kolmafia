@@ -1008,7 +1008,10 @@ public class KoLmafiaCLI extends KoLmafia
 		// Now for formal exit commands.
 
 		if ( command.equals( "exit" ) || command.equals( "quit" ) )
+		{
+			executeCommand( "logout", "" );
 			System.exit(0);
+		}
 
 		// Next, handle any requests for script execution;
 		// these can be done at any time (including before
