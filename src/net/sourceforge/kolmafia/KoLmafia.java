@@ -603,7 +603,11 @@ public abstract class KoLmafia implements KoLConstants
 			}
 
 			if ( StaticEntity.getIntegerProperty( "lastFilthClearance" ) == KoLCharacter.getAscensions() )
+			{
+				KoLmafia.updateDisplay( "Collecting cut of hippy profits..." );
 				RequestThread.postRequest( new KoLRequest( "store.php?whichstore=h" ) );
+				forceContinue();
+			}
 		}
 
 		SpecialOutfit.createImplicitCheckpoint();
