@@ -1210,23 +1210,12 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	int	MUSCLE, MYSTICALITY, MOXIE
 	 */
 
-	public static int hitStat()
-	{	return EquipmentDatabase.hitStat( getEquipment( WEAPON ).getName() );
+	public static int equipStat()
+	{	return EquipmentDatabase.equipStat( getEquipment( WEAPON ).getName() );
 	}
 
-	/**
-	 * Accessor method to determine character's hit stat
-	 * @return	String	"muscle", "mysticality", or "moxie"
-	 */
-
-	public static String getHitStatName()
-	{
-		int hitstat = EquipmentDatabase.hitStat( getEquipment( WEAPON ).getName() );
-		if ( hitstat == MOXIE )
-			return "Moxie";
-		if ( hitstat == MYSTICALITY )
-			return "Mysticality";
-		return "Muscle";
+	public static int hitStat()
+	{	return rangedWeapon() ? MOXIE : MUSCLE;
 	}
 
 	/**
@@ -1427,7 +1416,7 @@ public abstract class KoLCharacter extends StaticEntity
 		// weapons, then also allow one-handed weapons in the off-hand.
 
 		boolean dual = ( weaponHandedness() == 1 && hasSkill( "Double-Fisted Skull Smashing" ) );
-		int hitStat = hitStat();
+		int equipStat = equipStat();
 
 		for ( int i = 0; i < inventory.size(); ++i )
 		{
@@ -1450,7 +1439,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 			if ( filterId == EQUIP_OFFHAND && type == EQUIP_WEAPON && dual )
 			{
-				if ( EquipmentDatabase.getHands( currentItemName ) != 1 || EquipmentDatabase.hitStat( currentItemName ) != hitStat )
+				if ( EquipmentDatabase.getHands( currentItemName ) != 1 || EquipmentDatabase.equipStat( currentItemName ) != equipStat )
 					continue;
 			}
 
@@ -1466,7 +1455,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 			else if ( filterId == EQUIP_WEAPON && dual )
 			{
-				if ( EquipmentDatabase.getHands( currentItemName ) == 1 && EquipmentDatabase.hitStat( currentItemName ) != hitStat )
+				if ( EquipmentDatabase.getHands( currentItemName ) == 1 && EquipmentDatabase.equipStat( currentItemName ) != equipStat )
 					continue;
 			}
 
