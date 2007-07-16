@@ -205,13 +205,13 @@
 205	Provocative Perkiness	hoppedup.gif	a5416e0b53cb9482aaa8294b3ebf58b5
 206	Ermine Eyes	bigeyes.gif	00fb00c69272d752ee0bab0e83ea729f
 207	Eau D'enmity	stench.gif	e81a1fd67fb48499d12619574610759f
-208	Ocelot Eyes	bigeyes.gif
-209	Ponderous Potency	strboost.gif
-210	Concentrated Concentration	farout.gif
+208	Ocelot Eyes	bigeyes.gif	c857c096f180a92bbd6b378c363f8b63
+209	Ponderous Potency	strboost.gif	7f39a1d79d44181871af122ba6c8c851
+210	Concentrated Concentration	farout.gif	4815faee551d03188624535356609c76
 211	Got Milk	milk.gif	225aa10e75476b0ad5fa576c89df3901
-212	Papowerful	papaya.gif
-213	Frog In Your Throat	squashfrog.gif
-214	Salamander In Your Stomach	liver.gif
+212	Papowerful	papaya.gif	62f614c0cd7832fcaf864d74bea81c01
+213	Frog In Your Throat	squashfrog.gif	52cf0120a2ecbc702da6ef92e588d242
+214	Salamander In Your Stomach	liver.gif	1c2325ff89b6a58b386e5563da098e46
 215	Newt Gets In Your Eyes	eyes.gif	46a5628ca44d03f0f26bdf3467f1c0c2
 216
 217
@@ -280,7 +280,7 @@
 280
 281
 282	A Little Bit Poisoned	poison.gif
-283	Somewhat Poisoned	poison.gif
+283	Somewhat Poisoned	poison.gif	189ac7bc3487eabe0d4f1dd8b2b34897
 284	Really Quite Poisoned	poison.gif	c14002a0af245653e9a319078a686d37
 285	Filthworm Larva Stench	stench.gif	f3549dbe538c81c2aa59362e8e8cc7cc
 286	Filthworm Drone Stench	stench.gif	36f72cea3c79d16aa285a02d9551f412
