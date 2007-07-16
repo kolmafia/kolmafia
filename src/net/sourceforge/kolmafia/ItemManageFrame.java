@@ -112,9 +112,10 @@ public class ItemManageFrame extends KoLFrame
 
 		this.addSeparator();
 
-		this.addPanel( "Inventory", new InventoryManagePanel( inventory, true ) );
-		this.addPanel( " - Recent", new InventoryManagePanel( tally, true ) );
-		this.addPanel( " - Closet", new InventoryManagePanel( closet, true ) );
+		this.addPanel( "General", new InventoryManagePanel( inventory, false ) );
+		this.addPanel( " - Recent", new InventoryManagePanel( tally, false ) );
+		this.addPanel( " - Closet", new InventoryManagePanel( closet, false ) );
+		this.addPanel( " - Storage", new HagnkStoragePanel( false ) );
 
 		this.addSeparator();
 
@@ -126,8 +127,10 @@ public class ItemManageFrame extends KoLFrame
 
 		this.addSeparator();
 
-		this.addPanel( "Storage", new HagnkCompletePanel() );
-		this.addPanel( " - Equipment", new HagnkEquipmentPanel() );
+		this.addPanel( "Equipment", new InventoryManagePanel( inventory, true ) );
+		this.addPanel( " - Create", new CreateItemPanel( false, false, true, false ) );
+		this.addPanel( " - Closet", new InventoryManagePanel( closet, true ) );
+		this.addPanel( " - Storage", new HagnkStoragePanel( true ) );
 
 		// Now a special panel which does nothing more than list
 		// some common actions and some descriptions.
@@ -147,7 +150,6 @@ public class ItemManageFrame extends KoLFrame
 		this.tabs.addTab( "Handle Items", mainPanel );
 		this.addTab( "Update Filters", new FlaggedItemsPanel() );
 		this.addTab( "Scripted Actions", new CommonActionsPanel() );
-//		addTab( "Recipes", new InventPanel() );
 
 		JPanel tabHolder = new JPanel( new CardLayout( 10, 10 ) );
 		tabHolder.add( this.tabs, "" );
@@ -170,22 +172,20 @@ public class ItemManageFrame extends KoLFrame
 			pullsRemainingLabel2.setText( "In Hardcore" );
 			return;
 		}
-		else
+
+		switch ( pullsRemaining )
 		{
-			switch ( pullsRemaining )
-			{
-			case 0:
+		case 0:
 				pullsRemainingLabel1.setText( "No Pulls Left" );
 				pullsRemainingLabel2.setText( "No Pulls Left" );
-				break;
-			case 1:
+			break;
+		case 1:
 				pullsRemainingLabel1.setText( "1 Pull Left" );
 				pullsRemainingLabel2.setText( "1 Pull Left" );
-				break;
-			default:
+			break;
+		default:
 				pullsRemainingLabel1.setText( pullsRemaining + " Pulls Left" );
 				pullsRemainingLabel2.setText( pullsRemaining + " Pulls Left" );
-			}
 		}
 	}
 
@@ -652,7 +652,7 @@ public class ItemManageFrame extends KoLFrame
 				filterPanel.add( this.filters[i] );
 
 			this.setEnabled( true );
-			this.actualPanel.add( filterPanel, BorderLayout.NORTH );
+			this.northPanel.add( filterPanel, BorderLayout.NORTH );
 
 			this.filterItems();
 		}
@@ -859,11 +859,11 @@ public class ItemManageFrame extends KoLFrame
 	 * which usually get resold in malls.
 	 */
 
-	private class CreateItemPanel extends ItemManagePanel
+	private class CreateItemPanel extends InventoryManagePanel
 	{
 		public CreateItemPanel( boolean food, boolean booze, boolean equip, boolean other )
 		{
-			super( "", "create item", "create & use", ConcoctionsDatabase.getCreatables() );
+			super( "create item", "create & use", ConcoctionsDatabase.getCreatables(), equip && !other );
 			this.setFixedFilter( food, booze, equip, other, true );
 
 			JPanel filterPanel = new JPanel();
@@ -874,7 +874,7 @@ public class ItemManageFrame extends KoLFrame
 			JCheckBox infiniteNPC = new CreationSettingCheckBox( "Add NPC items to calculations", "assumeInfiniteNPCItems", "Assume NPC items are available for item creation" );
 			filterPanel.add( infiniteNPC );
 
-			this.actualPanel.add( filterPanel, BorderLayout.NORTH );
+			this.northPanel.add( filterPanel, BorderLayout.SOUTH );
 
 			ConcoctionsDatabase.getCreatables().applyListFilters();
 			this.filterItems();
@@ -949,12 +949,58 @@ public class ItemManageFrame extends KoLFrame
 		}
 	}
 
-	private class HagnkEquipmentPanel extends HagnkStoragePanel
+	public class InventoryManagePanel extends ItemManagePanel
 	{
+		private boolean isEquipmentOnly;
 		private FilterRadioButton [] equipmentFilters;
 
-		public HagnkEquipmentPanel()
+		public InventoryManagePanel( LockableListModel elementModel, boolean isEquipmentOnly )
 		{
+			super( elementModel );
+			this.isEquipmentOnly = isEquipmentOnly;
+
+			boolean isCloset = (elementModel == closet);
+
+			this.setButtons( true, new ActionListener [] {
+
+				new ConsumeListener(),
+				new PutInClosetListener( isCloset ),
+				new AutoSellListener( isCloset, AutoSellRequest.AUTOSELL ),
+				new AutoSellListener( isCloset, AutoSellRequest.AUTOMALL ),
+				new PulverizeListener( isCloset ),
+				new PutOnDisplayListener( isCloset ),
+				new GiveToClanListener( isCloset )
+
+			} );
+
+			if ( this.isEquipmentOnly )
+				elementList.setCellRenderer( AdventureResult.getEquipmentRenderer() );
+
+			this.movers[ KoLCharacter.canInteract() ? 0 : 2 ].setSelected( true );
+			this.filterItems();
+		}
+
+		public InventoryManagePanel( String confirmText, String cancelText, LockableListModel model, boolean isEquipmentOnly )
+		{
+			super( "", confirmText, cancelText, model );
+			this.isEquipmentOnly = isEquipmentOnly;
+
+			this.elementList.setCellRenderer( AdventureResult.getEquipmentRenderer() );
+			this.addFilters( false );
+			this.filterItems();
+
+			if ( this.isEquipmentOnly )
+				elementList.setCellRenderer( AdventureResult.getEquipmentRenderer() );
+		}
+
+		public void addFilters( boolean isCompact )
+		{
+			if ( !this.isEquipmentOnly )
+			{
+				super.addFilters( isCompact );
+				return;
+			}
+
 			this.equipmentFilters = new FilterRadioButton[7];
 			this.equipmentFilters[0] = new FilterRadioButton( "weapons", true );
 			this.equipmentFilters[1] = new FilterRadioButton( "offhand" );
@@ -973,11 +1019,7 @@ public class ItemManageFrame extends KoLFrame
 				filterPanel.add( this.equipmentFilters[i] );
 			}
 
-			this.eastPanel.add( pullsRemainingLabel2, BorderLayout.SOUTH );
-			this.actualPanel.add( filterPanel, BorderLayout.NORTH );
-
-			this.elementList.setCellRenderer( AdventureResult.getEquipmentRenderer() );
-			this.filterItems();
+			this.northPanel.add( filterPanel, BorderLayout.NORTH );
 		}
 
 		public FilterItemField getWordFilter()
@@ -993,7 +1035,7 @@ public class ItemManageFrame extends KoLFrame
 			public FilterRadioButton( String label, boolean isSelected )
 			{
 				super( label, isSelected );
-				HagnkEquipmentPanel.this.listenToRadioButton( this );
+				InventoryManagePanel.this.listenToRadioButton( this );
 			}
 		}
 
@@ -1003,44 +1045,48 @@ public class ItemManageFrame extends KoLFrame
 			{	this.filter = new EquipmentFilter();
 			}
 
-			private class EquipmentFilter extends SimpleListFilter
+			private class EquipmentFilter extends ConsumptionBasedFilter
 			{
-				public EquipmentFilter()
-				{	super( EquipmentFilterField.this );
-				}
-
 				public boolean isVisible( Object element )
 				{
-					boolean isVisibleWithFilter = true;
+					if ( !InventoryManagePanel.this.isEquipmentOnly )
+						return super.isVisible( element );
 
-					switch ( TradeableItemDatabase.getConsumptionType( ((AdventureResult)element).getItemId() ) )
+					boolean isVisibleWithFilter = true;
+					int itemId = element instanceof AdventureResult ? ((AdventureResult)element).getItemId() :
+						element instanceof ItemCreationRequest ? ((ItemCreationRequest)element).getItemId() : -1;
+
+					if ( itemId == -1 )
+						return false;
+
+					switch ( TradeableItemDatabase.getConsumptionType( itemId ) )
 					{
 					case EQUIP_WEAPON:
-						isVisibleWithFilter = HagnkEquipmentPanel.this.equipmentFilters[0].isSelected();
+						isVisibleWithFilter = InventoryManagePanel.this.equipmentFilters[0].isSelected();
 						break;
 
 					case EQUIP_OFFHAND:
-						isVisibleWithFilter = HagnkEquipmentPanel.this.equipmentFilters[1].isSelected();
+						isVisibleWithFilter = InventoryManagePanel.this.equipmentFilters[1].isSelected();
 						break;
 
 					case EQUIP_HAT:
-						isVisibleWithFilter = HagnkEquipmentPanel.this.equipmentFilters[2].isSelected();
+						isVisibleWithFilter = InventoryManagePanel.this.equipmentFilters[2].isSelected();
 						break;
 
 					case EQUIP_SHIRT:
-						isVisibleWithFilter = HagnkEquipmentPanel.this.equipmentFilters[3].isSelected();
+						isVisibleWithFilter = InventoryManagePanel.this.equipmentFilters[3].isSelected();
 						break;
 
 					case EQUIP_PANTS:
-						isVisibleWithFilter = HagnkEquipmentPanel.this.equipmentFilters[4].isSelected();
+						isVisibleWithFilter = InventoryManagePanel.this.equipmentFilters[4].isSelected();
 						break;
 
 					case EQUIP_ACCESSORY:
-						isVisibleWithFilter = HagnkEquipmentPanel.this.equipmentFilters[5].isSelected();
+						isVisibleWithFilter = InventoryManagePanel.this.equipmentFilters[5].isSelected();
 						break;
 
 					case EQUIP_FAMILIAR:
-						isVisibleWithFilter = HagnkEquipmentPanel.this.equipmentFilters[6].isSelected();
+						isVisibleWithFilter = InventoryManagePanel.this.equipmentFilters[6].isSelected();
 						break;
 
 					default:
@@ -1056,22 +1102,19 @@ public class ItemManageFrame extends KoLFrame
 		}
 	}
 
-	private class HagnkCompletePanel extends HagnkStoragePanel
+	private class HagnkStoragePanel extends InventoryManagePanel
 	{
-		public HagnkCompletePanel()
+		public HagnkStoragePanel( boolean isEquipmentOnly )
 		{
-			this.northPanel = new JPanel( new BorderLayout() );
-			this.setButtons( true, false, null );
-			this.actualPanel.add( this.northPanel, BorderLayout.NORTH );
+			super( "pull item", "closet item", storage, isEquipmentOnly );
 
-			this.eastPanel.add( pullsRemainingLabel1, BorderLayout.SOUTH );
-		}
-	}
+			this.addFilters( false );
+			this.addMovers();
 
-	private abstract class HagnkStoragePanel extends ItemManagePanel
-	{
-		public HagnkStoragePanel()
-		{	super( "", "pull item", "closet item", storage );
+			if ( isEquipmentOnly )
+				this.eastPanel.add( pullsRemainingLabel1, BorderLayout.SOUTH );
+			else
+				this.eastPanel.add( pullsRemainingLabel2, BorderLayout.SOUTH );
 		}
 
 		public void actionConfirmed()
@@ -1100,7 +1143,6 @@ public class ItemManageFrame extends KoLFrame
 				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.STORAGE_TO_INVENTORY, items ) );
 
 			RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, items ) );
-
 			RequestThread.closeRequestSequence();
 		}
 	}

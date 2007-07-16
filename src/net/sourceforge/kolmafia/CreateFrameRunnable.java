@@ -209,6 +209,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			// a stack trace for debug purposes.
 
 			StaticEntity.printStackTrace( e,  this.creationType.getName() + " could not be loaded" );
+			return;
 		}
 
 		if ( this.creationType == RequestFrame.class )

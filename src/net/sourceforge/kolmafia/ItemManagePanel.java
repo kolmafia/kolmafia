@@ -97,6 +97,9 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 		if ( addRefreshButton )
 			this.eastPanel.add( new RefreshButton(), BorderLayout.SOUTH );
+
+		this.northPanel = new JPanel( new BorderLayout() );
+		this.actualPanel.add( this.northPanel, BorderLayout.NORTH );
 	}
 
 	protected FilterItemField getWordFilter()
@@ -124,6 +127,9 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 		this.elementList = (ShowDescriptionList) this.scrollComponent;
 		this.elementModel = (LockableListModel) this.elementList.getModel();
+
+		this.northPanel = new JPanel( new BorderLayout() );
+		this.actualPanel.add( this.northPanel, BorderLayout.NORTH );
 
 		this.filterfield = this.getWordFilter();
 
@@ -179,7 +185,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 			this.listenToCheckBox( this.filters[i] );
 		}
 
-		this.northPanel.add( filterPanel, BorderLayout.CENTER );
+		this.northPanel.add( filterPanel, BorderLayout.NORTH );
 	}
 
 	public void filterItems()
@@ -225,8 +231,6 @@ public class ItemManagePanel extends LabeledScrollPanel
 		// Handle filters along the top always, whenever buttons
 		// are added.
 
-		this.northPanel = new JPanel( new BorderLayout() );
-
 		if ( !addFilters )
 			this.filters = null;
 		else
@@ -236,29 +240,30 @@ public class ItemManagePanel extends LabeledScrollPanel
 		// some movers to everything.
 
 		if ( addFilters && !addCompactFilters )
-		{
-			JPanel moverPanel = new JPanel();
-
-			this.movers = new JRadioButton[4];
-			this.movers[0] = new JRadioButton( "Move all" );
-			this.movers[1] = new JRadioButton( "Move all but one" );
-			this.movers[2] = new JRadioButton( "Move multiple", true );
-			this.movers[3] = new JRadioButton( "Move exactly one" );
-
-			ButtonGroup moverGroup = new ButtonGroup();
-			for ( int i = 0; i < 4; ++i )
-			{
-				moverGroup.add( this.movers[i] );
-				moverPanel.add( this.movers[i] );
-			}
-
-			this.northPanel.add( moverPanel, BorderLayout.SOUTH );
-		}
-
-		this.actualPanel.add( this.northPanel, BorderLayout.NORTH );
+			addMovers();
 
 		if ( buttonListeners != null )
 			this.actualPanel.add( this.eastPanel, BorderLayout.EAST );
+	}
+
+	public void addMovers()
+	{
+		JPanel moverPanel = new JPanel();
+
+		this.movers = new JRadioButton[4];
+		this.movers[0] = new JRadioButton( "Move all" );
+		this.movers[1] = new JRadioButton( "Move all but one" );
+		this.movers[2] = new JRadioButton( "Move multiple", true );
+		this.movers[3] = new JRadioButton( "Move exactly one" );
+
+		ButtonGroup moverGroup = new ButtonGroup();
+		for ( int i = 0; i < 4; ++i )
+		{
+			moverGroup.add( this.movers[i] );
+			moverPanel.add( this.movers[i] );
+		}
+
+		this.northPanel.add( moverPanel, BorderLayout.SOUTH );
 	}
 
 	public void setEnabled( boolean isEnabled )
