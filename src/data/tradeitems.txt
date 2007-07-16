@@ -2611,7 +2611,7 @@
 2611	palm-frond cloak	11	all	145
 2612	ancient vinyl coin purse	4	all	50
 2613	rocky raccoon	0	all	75
-2614	mojo filter	3	all	125
+2614	mojo filter	4	all	125
 2615	savoy truffle	1	all	90
 2616	ancient Magi-Wipes	17	all	60
 2617	big boom	0	all	150
