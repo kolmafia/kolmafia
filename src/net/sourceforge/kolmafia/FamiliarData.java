@@ -289,88 +289,18 @@ public class FamiliarData implements KoLConstants, Comparable
 		}
 	}
 
-	public boolean isCombatRestoreFamiliar()
-	{
-		switch ( this.id )
-		{
-		case 16: // Cocoabo
-		case 17: // Star Starfish
-		case 31: // Personal Raincloud
-		case 48: // Ninja Pirate Zombie Robot
-		case 52: // Spirit Hobo
-		case 54: // Comma Chameleon
-			return true;
-
-		default:
-			return false;
-		}
-	}
-
-	public boolean isThiefFamiliar()
-	{
-		switch ( this.id )
-		{
-		case 16: // Cocoabo
-		case 27: // Hanukkimbo Dreidl
-		case 29: // Feather Boa Constrictor
-		case 48: // Ninja Pirate Zombie Robot
-			return true;
-
-		default:
-			return false;
-		}
-	}
-
 	public boolean isCombatFamiliar()
 	{
-		switch ( this.id )
-		{
-		case 1:  // Mosquito
-		case 4:  // Angry Goat
-		case 5:  // Sabre-Toothed Lime
-		case 6:  // Fuzzy Dice
-		case 7:  // Spooky Pirate Skeleton
-		case 9:  // Howling Balloon Monkey
-		case 10: // Stab Bat
-		case 16: // Cocoabo
-		case 17: // Star Starfish
-		case 19: // Ghost Pickle on a Stick
-		case 21: // Whirling Maple Leaf
-		case 24: // Jill-O-Lantern
-		case 25: // Hand Turkey
-		case 26: // Crimbo Elf
-		case 27: // Hanukkimbo Dreidl
-		case 28: // Baby Yeti
-		case 29: // Feather Boa Constrictor
-		case 31: // Personal Raincloud
-		case 32: // Clockwork Grapefruit
-		case 33: // MagimechTech MicroMechaMech
-		case 34: // Flaming Gravy Fairy
-		case 35: // Frozen Gravy Fairy
-		case 36: // Stinky Gravy Fairy
-		case 37: // Spooky Gravy Fairy
-		case 38: // Inflatable Dodecapede
-		case 40: // Doppelshifter
-		case 44: // Sweet Nutcracker
-		case 46: // Snowy Owl
-		case 48: // Ninja Pirate Zombie Robot
-		case 49: // Sleazy Gravy Fairy
-		case 51: // Wind-up Chattering Teeth
-		case 52: // Spirit Hobo
-		case 54: // Comma Chameleon
-		case 55: // Misshapen Animal Skeleton
-		case 56: // Scary Death Orb
-		case 61: // Ninja Snowflake
-		case 62: // Evil Teddy Bear
+		if ( FamiliarsDatabase.isCombatType( this.id ) )
 			return true;
 
-		case 66: // Dandy Lion
+		if ( this.id == 66 ) // Dandy Lion
+		{
 			return KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getName().endsWith( "whip" ) ||
 				KoLCharacter.getEquipment( KoLCharacter.OFFHAND ).getName().endsWith( "whip" );
-
-		default:
-			return false;
 		}
+
+		return false;
 	}
 
 

@@ -234,7 +234,7 @@ public abstract class SystemTrayFrame implements KoLConstants
 		}
 
 		public void run()
-		{	System.exit(0);
+		{	DEFAULT_SHELL.executeCommand( "exit", "" );
 		}
 	}
 }

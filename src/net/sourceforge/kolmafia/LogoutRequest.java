@@ -39,6 +39,10 @@ public class LogoutRequest extends KoLRequest
 	{	super( "logout.php", true );
 	}
 
+	protected boolean retryOnTimeout()
+	{	return false;
+	}
+
 	public void run()
 	{
 		synchronized ( LogoutRequest.class )

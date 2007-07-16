@@ -509,19 +509,16 @@ public class MonsterDatabase extends KoLDatabase
 			// Add constant stat gain from items, effects, and familiars
 			// Add variable stat gain from familiars
 
-			this.statGain = this.attack / 4.0f + modifier + sombreroAdjustment( this.attack + ml, familiar );
+			if ( FamiliarsDatabase.isSombreroType( familiar.getId() ) )
+				this.statGain = this.attack / 4.0f + modifier + sombreroAdjustment( this.attack + ml, familiar );
+			else
+				this.statGain = this.attack / 4.0f + modifier;
+
 			return Math.max( 1.0f, this.statGain );
 		}
 
-		private static final int SOMBRERO = 18;
-
 		private static float sombreroAdjustment( float ml, FamiliarData familiar )
-		{
-			if ( familiar.getId() != SOMBRERO )
-				return 0.0f;
-
-			// ( sqrt(ML) * weight * 3 ) / 100
-			return (float) Math.round( Math.sqrt( ml - 4.0f ) * familiar.getModifiedWeight() / 100.0f );
+		{	return (float) Math.round( Math.sqrt( ml - 4.0f ) * familiar.getModifiedWeight() / 100.0f );
 		}
 
 		public boolean willUsuallyMiss()

@@ -1,73 +1,73 @@
 # Original familiar arena stats from Vladjimir's arena data
 # http://www.the-rye.dreamhosters.com/familiars/
 
-1	275	Mosquito	hypodermic needle	2	1	3	0
-2	276	Leprechaun	Meat detector	1	3	0	2
-3	288	Levitating Potato	many-eyed glasses	0	1	2	3
-4	327	Angry Goat	prosthetic forehead	3	0	2	1
-5	335	Sabre-Toothed Lime	tiny shaker of salt	3	0	2	1
-6	387	Fuzzy Dice	meatcar model	2	2	2	2
-7	408	Spooky Pirate Skeleton	blundarrrbus	2	3	1	0
-8	412	Barrrnacle	sucky decal	0	2	1	3
-9	436	Howling Balloon Monkey	tiny balloon knife	1	3	2	0
-10	523	Stab Bat	shock collar	3	2	1	0
-11	525	Grue	moonglasses	2	0	1	3
-12	528	Blood-Faced Volleyball	palm-frond toupee	0	1	3	2
-14	529	Ghuol Whelp	tiny knife and fork	1	2	0	3
-15	561	Baby Gravy Fairy	eye-pod	0	3	1	2
-16	591	Cocoabo	chocolate spurs	2	3	0	1
-17	664	Star Starfish	magnifying glass	2	1	3	0
-18	1165	Hovering Sombrero	tiny maracas	0	3	2	1
-19	766	Ghost Pickle on a Stick	skewer-mounted razor blade	3	1	0	2
-20	828	Killer Bee	brass stinger	3	1	2	0
-21	888	Whirling Maple Leaf	tiny mountie hat	3	1	2	0
-22	897	Coffee Pixie	miniature espresso maker	1	1	3	2
-23	898	Cheshire Bat	smile-sharpening stone	1	2	3	1
-24	894	Jill-O-Lantern	100-Watt bulb	3	1	2	1
-25	914	Hand Turkey	candied yam pinky ring	3	2	1	1
-26	924	Crimbo Elf	dental pliers	1	2	1	3
-27	936	Hanukkimbo Dreidl	menorette	2	1	3	1
-28	954	Baby Yeti	penguin-smacking club	3	1	1	2
-29	961	Feather Boa Constrictor	velvet choker	2	3	1	1
-30	1081	Emo Squid	gazing shoes	1	3	1	2
-31	1083	Personal Raincloud	rainbow tie	2	1	3	1
-32	1103	Clockwork Grapefruit	false eyelashes	3	2	0	1
-33	1095	MagiMechTech MicroMechaMech	targeting chip	3	0	1	2
-34	1118	Flaming Gravy Fairy	flaming glowsticks	2	3	1	2
-35	1119	Frozen Gravy Fairy	iced-out bling	2	3	1	2
-36	1120	Stinky Gravy Fairy	limburger biker boots	2	3	1	2
-37	1430	Spooky Gravy Fairy	miniature carton of clove cigarettes	3	3	1	2
-38	1242	Inflatable Dodecapede	toy six-seater hovercraft	3	2	2	1
-39	1263	Pygmy Bugbear Shaman	tiny nose-bone fetish	1	3	1	2
-40	1304	Doppelshifter	tiny makeup kit	3	3	3	3
-41	1307	Attention-Deficit Demon	attention spanner	1	1	3	2
-42	1308	Cymbal-Playing Monkey	funky brass fez	1	2	3	1
-43	1349	Temporal Riftlet	1.21 jigawatts	1	3	1	2
-44	1373	Sweet Nutcracker	metal mandible	2	3	0	2
-45	1393	Pet Rock	pet rock "Snooty" disguise	0	0	0	0
-46	1410	Snowy Owl	Pretty Predator Clawicure Kit	3	3	3	3
-47	1395	Teddy Bear	teddy bear sewing kit	3	2	0	1
-48	1353	Ninja Pirate Zombie Robot	rhesus monkey	3	3	3	3
-49	1431	Sleazy Gravy Fairy	hot pink lipstick	3	3	2	1
-50	1488	Wild Hare	miniature dormouse	1	3	2	0
-51	1524	Wind-up Chattering Teeth	diamond-studded fronts	3	0	2	1
-52	1536	Spirit Hobo	weegee sqouija	2	1	3	0
-53	1621	Astral Badger	badger badge	3	0	2	3
-54	1703	Comma Chameleon		0	0	0	2
-55	1797	Misshapen Animal Skeleton	bone collar	3	2	1	2
-56	1927	Scary Death Orb	tuning fork	3	2	1	0
-57	1967	Jitterbug	bottle of perfume	1	3	2	2
-58	1970	Nervous Tick	spoon!	0	3	2	2
-59	2052	Reassembled Blackbird	tiny bust of Pallas	0	0	0	0
-60	2083	Origami Towel Crane	can of starch	3	1	0	2
-61	2231	Ninja Snowflake	icicle katana	3	0	3	3
-62	2146	Evil Teddy Bear	evil teddy bear sewing kit	3	2	0	1
-63	2148	Toothsome Rock	pet rock "Groucho" disguise	0	0	0	0
-65	2190	Ancient Yuletide Troll	giant book of ancient carols	2	3	1	0
-66	2380	Dandy Lion	woolen cravat	0	3	2	1
-67	2445	O.A.F.	hardware upgrade	0	0	0	0
-68	2447	Penguin Goodfella	tasteful black bowtie	3	2	1	0
+1	Mosquito	combat	275	hypodermic needle	2	1	3	0
+2	Leprechaun	meat0	276	meat0 detector	1	3	0	2
+3	Levitating Potato	none	288	many-eyed glasses	0	1	2	3
+4	Angry Goat	combat	327	prosthetic forehead	3	0	2	1
+5	Sabre-Toothed Lime	combat	335	tiny shaker of salt	3	0	2	1
+6	Fuzzy Dice	combat	387	meatcar model	2	2	2	2
+7	Spooky Pirate Skeleton	combat	408	blundarrrbus	2	3	1	0
+8	Barrrnacle	none	412	sucky decal	0	2	1	3
+9	Howling Balloon Monkey	combat	436	tiny balloon knife	1	3	2	0
+10	Stab Bat	combat	523	shock collar	3	2	1	0
+11	Grue	combat	525	moonglasses	2	0	1	3
+12	Blood-Faced Volleyball	stat0	528	palm-frond toupee	0	1	3	2
+14	Ghuol Whelp	none	529	tiny knife and fork	1	2	0	3
+15	Baby Gravy Fairy	item0	561	eye-pod	0	3	1	2
+16	Cocoabo	combat	591	chocolate spurs	2	3	0	1
+17	Star Starfish	combat	664	magnifying glass	2	1	3	0
+18	Hovering Sombrero	stat1	1165	tiny maracas	0	3	2	1
+19	Ghost Pickle on a Stick	combat	766	skewer-mounted razor blade	3	1	0	2
+20	Killer Bee	combat	828	brass stinger	3	1	2	0
+21	Whirling Maple Leaf	combat	888	tiny mountie hat	3	1	2	0
+22	Coffee Pixie	item0,meat0	897	miniature espresso maker	1	1	3	2
+23	Cheshire Bat	stat0,meat0	898	smile-sharpening stone	1	2	3	1
+24	Jill-O-Lantern	combat	894	100-Watt bulb	3	1	2	1
+25	Hand Turkey	combat,meat0	914	candied yam pinky ring	3	2	1	1
+26	Crimbo Elf	combat,item0	924	dental pliers	1	2	1	3
+27	Hanukkimbo Dreidl	combat	936	menorette	2	1	3	1
+28	Baby Yeti	combat	954	penguin-smacking club	3	1	1	2
+29	Feather Boa Constrictor	combat	961	velvet choker	2	3	1	1
+30	Emo Squid	none	1081	gazing shoes	1	3	1	2
+31	Personal Raincloud	combat	1083	rainbow tie	2	1	3	1
+32	Clockwork Grapefruit	combat	1103	false eyelashes	3	2	0	1
+33	MagiMechTech MicroMechaMech	combat	1095	targeting chip	3	0	1	2
+34	Flaming Gravy Fairy	combat,item0	1118	flaming glowsticks	2	3	1	2
+35	Frozen Gravy Fairy	combat,item0	1119	iced-out bling	2	3	1	2
+36	Stinky Gravy Fairy	combat,item0	1120	limburger biker boots	2	3	1	2
+37	Spooky Gravy Fairy	combat,item0	1430	miniature carton of clove cigarettes	3	3	1	2
+38	Inflatable Dodecapede	combat	1242	toy six-seater hovercraft	3	2	2	1
+39	Pygmy Bugbear Shaman	stat0,item0	1263	tiny nose-bone fetish	1	3	1	2
+40	Doppelshifter	none	1304	tiny makeup kit	3	3	3	3
+41	Attention-Deficit Demon	item0,meat0	1307	attention spanner	1	1	3	2
+42	Cymbal-Playing Monkey	stat0,meat0	1308	funky brass fez	1	2	3	1
+43	Temporal Riftlet	none	1349	1.21 jigawatts	1	3	1	2
+44	Sweet Nutcracker	combat	1373	metal mandible	2	3	0	2
+45	Pet Rock	none	1393	pet rock "Snooty" disguise	0	0	0	0
+46	Snowy Owl	combat	1410	Pretty Predator Clawicure Kit	3	3	3	3
+47	Teddy Bear	none	1395	teddy bear sewing kit	3	2	0	1
+48	Ninja Pirate Zombie Robot	combat	1353	rhesus monkey	3	3	3	3
+49	Sleazy Gravy Fairy	item0	1431	hot pink lipstick	3	3	2	1
+50	Wild Hare	none	1488	miniature dormouse	1	3	2	0
+51	Wind-up Chattering Teeth	combat	1524	diamond-studded fronts	3	0	2	1
+52	Spirit Hobo	combat,stat0	1536	weegee sqouija	2	1	3	0
+53	Astral Badger	combat	1621	badger badge	3	0	2	3
+54	Comma Chameleon	none	1703		0	0	0	2
+55	Misshapen Animal Skeleton	combat	1797	bone collar	3	2	1	2
+56	Scary Death Orb	combat	1927	tuning fork	3	2	1	0
+57	Jitterbug	item0,meat0	1967	bottle of perfume	1	3	2	2
+58	Nervous Tick	stat0,meat0	1970	spoon!	0	3	2	2
+59	Reassembled Blackbird	none	2052	tiny bust of Pallas	0	0	0	0
+60	Origami Towel Crane	none	2083	can of starch	3	1	0	2
+61	Ninja Snowflake	combat	2231	icicle katana	3	0	3	3
+62	Evil Teddy Bear	combat	2146	evil teddy bear sewing kit	3	2	0	1
+63	Toothsome Rock	none	2148	pet rock "Groucho" disguise	0	0	0	0
+65	Ancient Yuletide Troll	stat0	2190	giant book of ancient carols	2	3	1	0
+66	Dandy Lion	item0	2380	woolen cravat	0	3	2	1
+67	O.A.F.	none	2445	hardware upgrade	0	0	0	0
+68	Penguin Goodfella	stat0	2447	tasteful black bowtie	3	2	1	0
 69
-70	2650	Green Pixie	green pixie spog	2	1	0	2
-71	2738	Ragamuffin Imp		3	3	3	3
-72	2709	Exotic Parrot	cracker	3	3	1	0
+70	Green Pixie	combat,item0	2650	green pixie spog	2	1	0	2
+71	Ragamuffin Imp	combat	2738		3	3	3	3
+72	Exotic Parrot	none	2709	cracker	3	3	1	0

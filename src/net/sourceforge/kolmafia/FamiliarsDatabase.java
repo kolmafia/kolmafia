@@ -58,6 +58,12 @@ public class FamiliarsDatabase extends KoLDatabase
 
 	private static Map familiarImageById = new TreeMap();
 
+	private static BooleanArray combatById = new BooleanArray();
+	private static BooleanArray volleyById = new BooleanArray();
+	private static BooleanArray sombreroById = new BooleanArray();
+	private static BooleanArray meatDropById = new BooleanArray();
+	private static BooleanArray itemDropById = new BooleanArray();
+
 	private static Map [] eventSkillByName = new TreeMap[4];
 
 	static
@@ -74,37 +80,44 @@ public class FamiliarsDatabase extends KoLDatabase
 
 		String [] data;
 		Integer familiarId, familiarLarva;
-		String familiarName, familiarItemName;
+		String familiarName, familiarType, familiarItemName;
 
 		while ( (data = readData( reader )) != null )
 		{
-			if ( data.length == 8 )
+			if ( data.length != 9 )
+				continue;
+
+			try
 			{
-				try
-				{
-					familiarId = Integer.valueOf( data[0] );
-					familiarLarva = Integer.valueOf( data[1] );
-					familiarName = getDisplayName( data[2] );
-					familiarItemName = getDisplayName( data[3] );
+				familiarId = Integer.valueOf( data[0] );
+				familiarName = getDisplayName( data[1] );
+				familiarType = data[2];
+				familiarLarva = Integer.valueOf( data[3] );
+				familiarItemName = getDisplayName( data[4] );
 
-					familiarById.put( familiarId, familiarName );
-					familiarByName.put( getCanonicalName( data[2] ), familiarId );
-					familiarByLarva.put( familiarLarva, familiarId );
-					familiarByItem.put( getCanonicalName( data[3] ), familiarId );
+				familiarById.put( familiarId, familiarName );
+				familiarByName.put( getCanonicalName( data[1] ), familiarId );
+				familiarByLarva.put( familiarLarva, familiarId );
+				familiarByItem.put( getCanonicalName( data[4] ), familiarId );
 
-					familiarItemById.put( familiarId, familiarItemName );
-					familiarLarvaById.put( familiarId, familiarLarva );
+				familiarItemById.put( familiarId, familiarItemName );
+				familiarLarvaById.put( familiarId, familiarLarva );
 
-					for ( int i = 0; i < 4; ++i )
-						eventSkillByName[i].put( getCanonicalName( data[2] ), Integer.valueOf( data[i+4] ) );
-				}
-				catch ( Exception e )
-				{
-					// This should not happen.  Therefore, print
-					// a stack trace for debug purposes.
+				combatById.set( familiarId.intValue(), familiarType.indexOf( "combat" ) != -1 );
+				volleyById.set( familiarId.intValue(), familiarType.indexOf( "stat0" ) != -1 );
+				sombreroById.set( familiarId.intValue(), familiarType.indexOf( "stat1" ) != -1 );
+				itemDropById.set( familiarId.intValue(), familiarType.indexOf( "item0" ) != -1 );
+				meatDropById.set( familiarId.intValue(), familiarType.indexOf( "meat0" ) != -1 );
 
-					printStackTrace( e );
-				}
+				for ( int i = 0; i < 4; ++i )
+					eventSkillByName[i].put( getCanonicalName( data[1] ), Integer.valueOf( data[i+5] ) );
+			}
+			catch ( Exception e )
+			{
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+
+				printStackTrace( e );
 			}
 		}
 
@@ -191,6 +204,26 @@ public class FamiliarsDatabase extends KoLDatabase
 		}
 
 		return -1;
+	}
+
+	public static boolean isCombatType( int familiarId )
+	{	return combatById.get( familiarId );
+	}
+
+	public static boolean isVolleyType( int familiarId )
+	{	return volleyById.get( familiarId );
+	}
+
+	public static boolean isSombreroType( int familiarId )
+	{	return sombreroById.get( familiarId );
+	}
+
+	public static boolean isItemDropType( int familiarId )
+	{	return itemDropById.get( familiarId );
+	}
+
+	public static boolean isMeatDropType( int familiarId )
+	{	return meatDropById.get( familiarId );
 	}
 
 	public static final String getFamiliarItem( int familiarId )
