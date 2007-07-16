@@ -155,7 +155,7 @@ public class AreaCombatData implements KoLConstants
 		int ml = KoLCharacter.getMonsterLevelAdjustment();
 		int moxie = KoLCharacter.getAdjustedMoxie() - ml;
 
-		String statName = KoLCharacter.getHitStatName();
+		String statName = KoLCharacter.hitStat() == MOXIE ? "Mox" : "Mus";
 		int hitstat = KoLCharacter.getAdjustedHitStat() - ml;
 
 		float minHitPercent = hitPercent( hitstat, this.minHit() );
@@ -196,7 +196,7 @@ public class AreaCombatData implements KoLConstants
 		buffer.append( this.getRateString( minHitPercent, minPerfectHit, maxHitPercent, maxPerfectHit, statName ) );
 
 		buffer.append( "<br><b>Evade</b>: " );
-		buffer.append( this.getRateString( minEvadePercent, minPerfectEvade, maxEvadePercent, maxPerfectEvade, "Moxie" ) );
+		buffer.append( this.getRateString( minEvadePercent, minPerfectEvade, maxEvadePercent, maxPerfectEvade, "Mox" ) );
 		buffer.append( "<br><b>Combat Frequency</b>: " );
 
 		if ( this.combats > 0 )

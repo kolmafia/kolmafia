@@ -475,8 +475,8 @@ public class EquipmentRequest extends PasswordHashRequest
 			if ( equipmentType == EQUIP_WEAPON && (this.equipmentSlot == KoLCharacter.WEAPON || this.equipmentSlot == KoLCharacter.OFFHAND) )
 			{
 				int desiredHands = EquipmentDatabase.getHands( itemId );
-				int desiredType = EquipmentDatabase.hitStat( itemId );
-				int currentType = EquipmentDatabase.hitStat( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getName() );
+				int desiredType = EquipmentDatabase.equipStat( itemId );
+				int currentType = EquipmentDatabase.equipStat( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getName() );
 
 				if ( desiredHands == 1 && desiredType != currentType )
 				{

@@ -201,20 +201,6 @@ public class GearChangeFrame extends KoLFrame
 
 		AdventureResult famitem = (AdventureResult) this.equipment[KoLCharacter.FAMILIAR].getSelectedItem();
 
-		// If current offhand item is not compatible with new
-		// weapon, unequip it first.
-
-		AdventureResult offhand = KoLCharacter.getEquipment( KoLCharacter.OFFHAND );
-		if ( EquipmentDatabase.getHands( offhand.getName() ) == 1 )
-		{
-			AdventureResult weapon = pieces[ KoLCharacter.WEAPON ];
-			if ( weapon != null )
-			{
-				if ( EquipmentDatabase.getHands( weapon.getName() ) == 1 && EquipmentDatabase.hitStat( weapon.getName() ) != EquipmentDatabase.hitStat( offhand.getName() ) )
-					RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, KoLCharacter.OFFHAND ) );
-			}
-		}
-
 		for ( int i = 0; i < pieces.length; ++i )
 		{
 			if ( pieces[i] != null )
@@ -350,7 +336,7 @@ public class GearChangeFrame extends KoLFrame
 			{
 				// Weapon in offhand. Must have compatible
 				// weapon in weapon hand
-				if ( weaponHands == 0 || EquipmentDatabase.hitStat( weaponItem.getName() ) != EquipmentDatabase.hitStat( offhandItem.getName() ) )
+				if ( weaponHands == 0 || EquipmentDatabase.equipStat( weaponItem.getName() ) != EquipmentDatabase.equipStat( offhandItem.getName() ) )
 					offhandItem = EquipmentRequest.UNEQUIP;
 			}
 
@@ -366,7 +352,7 @@ public class GearChangeFrame extends KoLFrame
 
 		// Search inventory for weapons
 
-		int hitStat;
+		int equipStat;
 		for ( int i = 0; i < inventory.size(); ++i )
 		{
 			AdventureResult currentItem = (AdventureResult) inventory.get(i);
@@ -385,23 +371,23 @@ public class GearChangeFrame extends KoLFrame
 			if ( !EquipmentDatabase.canEquip( currentItem.getName() ) )
 				continue;
 
-			hitStat = EquipmentDatabase.hitStat( currentItem.getName() );
+			equipStat = EquipmentDatabase.equipStat( currentItem.getName() );
 
 			if ( this.weaponTypes[0].isSelected() ||
-			     ( this.weaponTypes[1].isSelected() && hitStat == MUSCLE ) ||
-			     ( this.weaponTypes[2].isSelected() && hitStat == MYSTICALITY ) ||
-			     ( this.weaponTypes[3].isSelected() && hitStat == MOXIE ) )
+			     ( this.weaponTypes[1].isSelected() && equipStat == MUSCLE ) ||
+			     ( this.weaponTypes[2].isSelected() && equipStat == MYSTICALITY ) ||
+			     ( this.weaponTypes[3].isSelected() && equipStat == MOXIE ) )
 				items.add( currentItem );
 		}
 
 		// Add the current weapon
 
-		hitStat = EquipmentDatabase.hitStat( currentWeapon.getName() );
+		equipStat = EquipmentDatabase.equipStat( currentWeapon.getName() );
 		if ( !items.contains( currentWeapon ) &&
 		     ( this.weaponTypes[0].isSelected() ||
-		       ( this.weaponTypes[1].isSelected() && hitStat == MUSCLE ) ||
-		       ( this.weaponTypes[2].isSelected() && hitStat == MYSTICALITY ) ||
-		       ( this.weaponTypes[3].isSelected() && hitStat == MOXIE ) ) )
+		       ( this.weaponTypes[1].isSelected() && equipStat == MUSCLE ) ||
+		       ( this.weaponTypes[2].isSelected() && equipStat == MYSTICALITY ) ||
+		       ( this.weaponTypes[3].isSelected() && equipStat == MOXIE ) ) )
 			items.add( currentWeapon );
 
 		// Add "(none)"
@@ -424,14 +410,14 @@ public class GearChangeFrame extends KoLFrame
 
 		// The type of weapon in the off hand must
 		// agree with the weapon in the main hand
-		int hitStat = EquipmentDatabase.hitStat( weapon.getName() );
+		int equipStat = EquipmentDatabase.equipStat( weapon.getName() );
 
 		// Search inventory for suitable items
 
 		for ( int i = 0; i < inventory.size(); ++i )
 		{
 			AdventureResult currentItem = ((AdventureResult)inventory.get(i));
-			if ( !items.contains( currentItem ) && this.validOffhandItem( currentItem, weapons, hitStat ) )
+			if ( !items.contains( currentItem ) && this.validOffhandItem( currentItem, weapons, equipStat ) )
 				items.add( currentItem );
 		}
 
@@ -441,7 +427,7 @@ public class GearChangeFrame extends KoLFrame
 
 		// Possibly add the current off-hand item
 		AdventureResult currentOffhand = KoLCharacter.getEquipment( KoLCharacter.OFFHAND );
-		if ( !items.contains( currentOffhand ) && this.validOffhandItem( currentOffhand, weapons, hitStat )  )
+		if ( !items.contains( currentOffhand ) && this.validOffhandItem( currentOffhand, weapons, equipStat )  )
 			items.add( currentOffhand );
 
 		// Add "(none)"
@@ -451,7 +437,7 @@ public class GearChangeFrame extends KoLFrame
 		return items;
 	}
 
-	private boolean validOffhandItem( AdventureResult currentItem, boolean weapons, int hitStat )
+	private boolean validOffhandItem( AdventureResult currentItem, boolean weapons, int equipStat )
 	{
 		switch ( TradeableItemDatabase.getConsumptionType( currentItem.getItemId() ) )
 		{
@@ -460,7 +446,7 @@ public class GearChangeFrame extends KoLFrame
 				return false;
 			if ( EquipmentDatabase.getHands( currentItem.getName() ) != 1 )
 				return false;
-			if ( hitStat != EquipmentDatabase.hitStat( currentItem.getName() ) )
+			if ( equipStat != EquipmentDatabase.equipStat( currentItem.getName() ) )
 				return false;
 			// Fall through
 		case EQUIP_OFFHAND:

@@ -222,7 +222,7 @@ public class EquipmentDatabase extends KoLDatabase
 		return getType( itemId );
 	}
 
-	public static int hitStat( int itemId )
+	public static int equipStat( int itemId )
 	{
 		String req = requirement.get( itemId );
 
@@ -236,7 +236,7 @@ public class EquipmentDatabase extends KoLDatabase
 		return MUSCLE;
 	}
 
-	public static int hitStat( String itemName )
+	public static int equipStat( String itemName )
 	{
 		if ( itemName == null )
 			return MUSCLE;
@@ -246,15 +246,15 @@ public class EquipmentDatabase extends KoLDatabase
 		if ( itemId == -1 )
 			return MUSCLE;
 
-		return hitStat( itemId );
+		return equipStat( itemId );
 	}
 
 	public static boolean isRanged( int itemId )
-	{	return ( hitStat( itemId ) == MOXIE );
+	{	return equipStat( itemId ) == MOXIE;
 	}
 
 	public static boolean isRanged( String itemName )
-	{	return ( hitStat( itemName ) == MOXIE );
+	{	return equipStat( itemName ) == MOXIE;
 	}
 
 	public static boolean hasOutfit( int id )

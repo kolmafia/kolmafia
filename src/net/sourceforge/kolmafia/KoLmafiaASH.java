@@ -5964,9 +5964,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptValue current_hit_stat()
-		{
-			String hitStat = KoLCharacter.getHitStatName();
-			return parseStatValue( hitStat );
+		{	return KoLCharacter.hitStat() == MOXIE ? parseStatValue( "moxie" ) : parseStatValue( "muscle" );
 		}
 
 		public ScriptValue monster_element()
