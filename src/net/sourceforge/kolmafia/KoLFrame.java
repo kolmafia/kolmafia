@@ -1521,35 +1521,6 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		}
 	}
 
-	public class InventoryManagePanel extends ItemManagePanel
-	{
-		public InventoryManagePanel( LockableListModel elementModel )
-		{	this( elementModel, true );
-		}
-
-		public InventoryManagePanel( LockableListModel elementModel, boolean addFilters )
-		{
-			super( elementModel );
-
-			boolean isCloset = (elementModel == closet);
-
-			this.setButtons( addFilters, new ActionListener [] {
-
-				new ConsumeListener(),
-				new PutInClosetListener( isCloset ),
-				new AutoSellListener( isCloset, AutoSellRequest.AUTOSELL ),
-				new AutoSellListener( isCloset, AutoSellRequest.AUTOMALL ),
-				new PulverizeListener( isCloset ),
-				new PutOnDisplayListener( isCloset ),
-				new GiveToClanListener( isCloset )
-
-			} );
-
-			this.movers[ KoLCharacter.canInteract() ? 0 : 2 ].setSelected( true );
-			this.filterItems();
-		}
-	}
-
 	protected class LabelColorChanger extends JLabel implements MouseListener
 	{
 		protected String property;
