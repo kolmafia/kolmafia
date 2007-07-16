@@ -2416,7 +2416,12 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			AdventureResult effect = CharpaneRequest.extractEffect( text, startingIndex );
 
 			if ( effect == null )
+			{
+				int nextAppendIndex = text.indexOf( ">", startingIndex ) + 1;
+				buffer.append( text.substring( lastAppendIndex, nextAppendIndex ) );
+				lastAppendIndex = nextAppendIndex;
 				continue;
+			}
 
 			String effectName = effect.getName();
 
