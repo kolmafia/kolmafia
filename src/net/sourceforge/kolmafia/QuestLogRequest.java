@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia;
 
 public class QuestLogRequest extends KoLRequest
 {
+	public static final String TRAPPER = "Am I my Trapper's Keeper?";
 	public static final String ISLAND_WAR = "Make War, Not...";
 	public static final String GALAKTIK = "What's Up, Doc?";
 
