@@ -404,12 +404,16 @@ public class AdventureDatabase extends KoLDatabase
 		  new String [] { "muscle and Pumped Up", "ice cold Sir Schlitz", "moxie and lemon", "skip adventure" },
 		  new String [] { null, "41", "332", null } ),
 
-                // At Least It's Not Full Of Trash
+		// Choice 120-122 are unknown
+
+        // At Least It's Not Full Of Trash
 		new ChoiceAdventure( "Woods", "choiceAdventure123", "Hidden Temple",
 		  new String [] { "lose HP", "Unlock Quest Puzzle", "lose HP" },
 		  new String [] { null, null, null } ),
 
-                // No Visible Means of Support
+		// Choice 124 is unknown
+
+        // No Visible Means of Support
 		new ChoiceAdventure( "Woods", "choiceAdventure125", "Hidden Temple",
 		  new String [] { "lose HP", "lose HP", "Unlock Hidden City" },
 		  new String [] { null, null, null } ),
@@ -422,6 +426,8 @@ public class AdventureDatabase extends KoLDatabase
 		new ChoiceAdventure( "Plains", "choiceAdventure127", "Palindome",
 		  new String [] { "3 papayas", "trade 3 papayas for stats", "stats" },
 		  new String [] { "498", null, null } ),
+
+		// Choice 128 are unknown
 
 		// Do Geese See God?
 		new ChoiceAdventure( "Plains", "choiceAdventure129", "Palindome",
@@ -441,6 +447,8 @@ public class AdventureDatabase extends KoLDatabase
 		  new String [] { "broken carburetor", "Unlock Oasis" },
 		  new String [] { "2316", null } ),
 
+		// Choice 133 is unknown
+
 		// Wheel In the Pyramid, Keep on Turning
 		new ChoiceAdventure( "Pyramid", "choiceAdventure134", "The Upper Chamber",
 		  new String [] { "Turn the wheel", "Leave it alone" },
@@ -450,6 +458,8 @@ public class AdventureDatabase extends KoLDatabase
 		new ChoiceAdventure( "Pyramid", "choiceAdventure135", "The Upper Chamber",
 		  new String [] { "Turn the wheel", "Leave it alone" },
 		  new String [] { null, null } ),
+
+		// Choice 136-138 are unknown
 
 		// Bait and Switch
 		new ChoiceAdventure( "IsleWar", "choiceAdventure139", "Wartime Hippy Camp",
@@ -654,6 +664,8 @@ public class AdventureDatabase extends KoLDatabase
 		new ChoiceAdventure( "Wormwood", "choiceAdventure172", "Rogue Windmill",
 		  new String [] { "Good with the Ladies -> Can-Can skirt", "Feelin' Philosophical -> not-a-pipe", "mysticality substats" },
 		  new String [] { "2663", "2660", null } ),
+
+		// Choice 173-176 are unknown
 
 		// The Blackberry Cobbler
 		new ChoiceAdventure( "Woods", "choiceAdventure177", "Black Forest",
