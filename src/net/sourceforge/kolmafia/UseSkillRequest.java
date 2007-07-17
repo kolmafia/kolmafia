@@ -131,7 +131,8 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 	public void setBuffCount( int buffCount )
 	{
-		int maxPossible = (int) Math.floor( (float) KoLCharacter.getCurrentMP() / (float) ClassSkillsDatabase.getMPConsumptionById( this.skillId ) );
+		int maxPossible = Math.min( getMaximumCast(),
+			KoLCharacter.getCurrentMP() / ClassSkillsDatabase.getMPConsumptionById( this.skillId ) );
 
 		// Candy hearts need to be calculated in
 		// a slightly different manner.
