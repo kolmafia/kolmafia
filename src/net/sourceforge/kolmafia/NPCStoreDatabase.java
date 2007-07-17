@@ -151,15 +151,17 @@ public class NPCStoreDatabase extends KoLDatabase
 
 		else if ( storeId.equals( "h" ) )
 		{
+			int level = KoLCharacter.getLevel();
+
 			if ( shopName.equals( "Hippy Store (Pre-War)" ) )
-				return KoLCharacter.getLevel() < 12 && inventory.contains( KoLAdventure.DINGHY ) && EquipmentDatabase.hasOutfit( 2 );
+				return level < 12 && inventory.contains( KoLAdventure.DINGHY ) && EquipmentDatabase.hasOutfit( 2 );
 
 			// Here, you insert any logic which is able to detect the
 			// completion of the filthworm infestation and which outfit
 			// was used to complete it.  But, for now, just assume that
 			// the store is not accessible.
 
-			if ( StaticEntity.getIntegerProperty( "lastFilthClearance" ) != KoLCharacter.getAscensions() )
+			if ( level < 12 || StaticEntity.getIntegerProperty( "lastFilthClearance" ) != KoLCharacter.getAscensions() )
 				return false;
 
 			if ( shopName.equals( "Hippy Store (Hippy)" ) )
