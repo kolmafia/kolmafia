@@ -410,12 +410,12 @@ public abstract class StaticEntity implements KoLConstants
 		if ( location.startsWith( "store.php" ) && location.indexOf( "whichstore=h" ) != -1 &&
 			StaticEntity.getIntegerProperty( "lastFilthClearance" ) != KoLCharacter.getAscensions() )
 		{
-			if ( responseText.indexOf( "plum" ) != -1 )
+			if ( responseText.indexOf( "peach" ) != -1 && responseText.indexOf( "pear" ) != -1 && responseText.indexOf( "plum" ) != -1 )
 			{
 				StaticEntity.setProperty( "lastFilthClearance", String.valueOf( KoLCharacter.getAscensions() ) );
 				StaticEntity.setProperty( "currentHippyStore", "hippy" );
 			}
-			else if ( responseText.indexOf( "juniper" ) != -1 )
+			else if ( responseText.indexOf( "bowl of rye sprouts" ) != -1 && responseText.indexOf( "cob of corn" ) != -1 && responseText.indexOf( "juniper berries" ) != -1 )
 			{
 				StaticEntity.setProperty( "lastFilthClearance", String.valueOf( KoLCharacter.getAscensions() ) );
 				StaticEntity.setProperty( "currentHippyStore", "fratboy" );
