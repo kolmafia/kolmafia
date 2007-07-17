@@ -94,7 +94,6 @@ import javax.swing.text.html.HTMLDocument;
 
 public class ChatBuffer
 {
-	private static final Object CLEAR_OBJECT = new Object();
 	private static final Object REFRESH_OBJECT = new Object();
 
 	private DisplayPaneUpdater UPDATER = new DisplayPaneUpdater();
@@ -327,7 +326,10 @@ public class ChatBuffer
 
 		public void queueClear()
 		{
-			contentQueue.add( CLEAR_OBJECT );
+			displayBuffer.setLength(0);
+
+			contentQueue.clear();
+			contentQueue.add( REFRESH_OBJECT );
 
 			if ( this.isQueued )
 				return;
@@ -341,15 +343,24 @@ public class ChatBuffer
 		{
 			if ( newContents == null )
 			{
+				contentQueue.clear();
 				contentQueue.add( REFRESH_OBJECT );
 			}
 			else if ( newContents.indexOf( "<body" ) != -1 )
 			{
-				contentQueue.add( CLEAR_OBJECT );
-				contentQueue.add( newContents.substring( newContents.indexOf( ">" ) + 1 ).trim() );
+				contentQueue.clear();
+
+				displayBuffer.setLength(0);
+				displayBuffer.append( newContents.substring( newContents.indexOf( ">" ) + 1 ).trim() );
+
+				contentQueue.add( REFRESH_OBJECT );
 			}
 			else
-				contentQueue.add( newContents.trim() );
+			{
+				newContents = newContents.trim();
+				displayBuffer.append( newContents );
+				contentQueue.add( newContents );
+			}
 
 			if ( this.isQueued )
 				return;
@@ -395,22 +406,23 @@ public class ChatBuffer
 
 		public void run()
 		{
+			if ( displayPanes.isEmpty() )
+			{
+				contentQueue.clear();
+				return;
+			}
+
 			while ( !contentQueue.isEmpty() )
 			{
 				this.newContents = contentQueue.remove(0);
 
-				if ( newContents == CLEAR_OBJECT )
+				if ( newContents == REFRESH_OBJECT )
 				{
-					displayBuffer.setLength(0);
-					reset();
-				}
-				else if ( newContents == REFRESH_OBJECT )
-				{
+					contentQueue.clear();
 					reset();
 				}
 				else if ( newContents != null )
 				{
-					displayBuffer.append( newContents );
 					append();
 				}
 			}
