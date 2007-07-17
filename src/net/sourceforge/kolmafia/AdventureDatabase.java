@@ -1401,9 +1401,7 @@ public class AdventureDatabase extends KoLDatabase
 		// Next, attempt to create the item from existing
 		// ingredients (if possible).
 
-
-
-		if ( creator != null )
+		if ( creator != null && creator.getQuantityPossible() > 0 )
 		{
 			creator.setQuantityNeeded( Math.min( missingCount, creator.getQuantityPossible() ) );
 			RequestThread.postRequest( creator );
@@ -1434,7 +1432,7 @@ public class AdventureDatabase extends KoLDatabase
 
 		if ( shouldPurchase )
 		{
-			if ( canUseNPCStore )
+			if ( canUseNPCStore || !hasAnyIngredient( itemId ) )
 			{
 				StaticEntity.getClient().makePurchases( StoreManager.searchMall( item.getName() ), missingCount );
 				missingCount = item.getCount() - item.getCount( inventory );
@@ -1523,6 +1521,52 @@ public class AdventureDatabase extends KoLDatabase
 		// available to continue and cancel the request.
 
 		KoLmafia.updateDisplay( ERROR_STATE, "You need " + missingCount + " more " + item.getName() + " to continue." );
+		return false;
+	}
+
+	private static boolean hasAnyIngredient( int itemId )
+	{
+		if ( itemId < 0 )
+			return false;
+
+		switch ( itemId )
+		{
+		case MEAT_PASTE:
+			return KoLCharacter.getAvailableMeat() >= 10;
+		case MEAT_STACK:
+			return KoLCharacter.getAvailableMeat() >= 100;
+		case DENSE_STACK:
+			return KoLCharacter.getAvailableMeat() >= 1000;
+		}
+
+		int mixingMethod = ConcoctionsDatabase.getMixingMethod( itemId );
+
+		switch ( mixingMethod )
+		{
+		case ROLLING_PIN:
+		case CLOVER:
+			AdventureResult [] ingredients = ConcoctionsDatabase.getStandardIngredients( itemId );
+			return inventory.contains( ingredients[0] ) || closet.contains( ingredients[0] );
+
+		default:
+			if ( !ConcoctionsDatabase.isPermittedMethod( mixingMethod ) )
+				return false;
+		}
+
+		AdventureResult [] ingredients = ConcoctionsDatabase.getStandardIngredients( itemId );
+
+		for ( int i = 0; i < ingredients.length; ++i )
+		{
+			// An item is immediately available if it is in your inventory,
+			// in your closet, or you have the ingredients for a substep.
+
+			if ( inventory.contains( ingredients[i] ) || closet.contains( ingredients[i] ) )
+				return true;
+
+			if ( hasAnyIngredient( ingredients[i].getItemId() ) )
+				return true;
+		}
+
 		return false;
 	}
 
