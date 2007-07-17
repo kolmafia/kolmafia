@@ -929,56 +929,6 @@ public class ConcoctionsDatabase extends KoLDatabase
 		return item == null ? NO_INGREDIENTS : item.getIngredients();
 	}
 
-	public static boolean hasAnyIngredient( int itemId )
-	{
-		if ( itemId < 0 )
-			return false;
-
-		switch ( itemId )
-		{
-		case MEAT_PASTE:
-			return KoLCharacter.getAvailableMeat() >= 10;
-		case MEAT_STACK:
-			return KoLCharacter.getAvailableMeat() >= 100;
-		case DENSE_STACK:
-			return KoLCharacter.getAvailableMeat() >= 1000;
-		}
-
-		int mixingMethod = getMixingMethod( itemId );
-
-		switch ( mixingMethod )
-		{
-		case ROLLING_PIN:
-		case CLOVER:
-			AdventureResult [] ingredients = getStandardIngredients( itemId );
-			return inventory.contains( ingredients[0] ) || closet.contains( ingredients[0] );
-
-		default:
-			if ( !isPermittedMethod( mixingMethod ) )
-				return false;
-		}
-
-		AdventureResult [] ingredients = getStandardIngredients( itemId );
-
-		for ( int i = 0; i < ingredients.length; ++i )
-		{
-			// An item is immediately available if it is in your inventory,
-			// in your closet, in an NPC store, or you have the ingredients
-			// for a substep.  But, be careful of infinite recursion.
-
-			if ( inventory.contains( ingredients[i] ) || closet.contains( ingredients[i] ) )
-				return true;
-
-			if ( NPCStoreDatabase.contains( TradeableItemDatabase.getItemName( itemId ) ) )
-				return true;
-
-			if ( hasAnyIngredient( ingredients[i].getItemId() ) )
-				return true;
-		}
-
-		return false;
-	}
-
 	private static AdventureResult getBetterIngredient( AdventureResult ingredient1, AdventureResult ingredient2, List availableIngredients )
 	{	return ingredient1.getCount( availableIngredients ) > ingredient2.getCount( availableIngredients ) ? ingredient1 : ingredient2;
 	}
