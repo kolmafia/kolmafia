@@ -95,8 +95,9 @@ public class LoginRequest extends KoLRequest
 		// of a devster, the developer server.
 
 		KoLRequest.applySettings();
+		String lowercase = this.username.toLowerCase();
 
-		if ( this.username.toLowerCase().startsWith( "devster" ) )
+		if ( lowercase.startsWith( "devster" ) || lowercase.equals( "holatuwol" ) )
 			setLoginServer( "dev.kingdomofloathing.com" );
 
 		this.clearDataFields();

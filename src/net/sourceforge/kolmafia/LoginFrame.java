@@ -299,22 +299,6 @@ public class LoginFrame extends KoLFrame
 
 			LoginFrame.this.honorProxySettings();
 			RequestThread.postRequest( new LoginRequest( LoginFrame.this.username, password ) );
-
-			if ( !KoLmafia.permitsContinue() )
-				return;
-
-			try
-			{
-				String holiday = MoonPhaseDatabase.getHoliday( DATED_FILENAME_FORMAT.parse( DATED_FILENAME_FORMAT.format( new Date() ) ), true );
-				KoLmafia.updateDisplay( ENABLE_STATE, holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
-			}
-			catch ( Exception e )
-			{
-				// Should not happen, you're parsing something that
-				// was formatted the same way.
-
-				StaticEntity.printStackTrace( e );
-			}
 		}
 
 		public void actionCancelled()

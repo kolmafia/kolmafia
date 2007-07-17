@@ -342,22 +342,14 @@ public class ChatBuffer
 			if ( newContents == null )
 			{
 				contentQueue.add( REFRESH_OBJECT );
-				return;
 			}
-
-			if ( newContents.indexOf( "<body" ) != -1 )
+			else if ( newContents.indexOf( "<body" ) != -1 )
 			{
 				contentQueue.add( CLEAR_OBJECT );
-				newContents = newContents.substring( newContents.indexOf( ">" ) + 1 );
+				contentQueue.add( newContents.substring( newContents.indexOf( ">" ) + 1 ).trim() );
 			}
-
-			if ( newContents != null )
-			{
-				newContents = newContents.trim();
-				displayBuffer.append( newContents );
-			}
-
-			contentQueue.add( newContents );
+			else
+				contentQueue.add( newContents.trim() );
 
 			if ( this.isQueued )
 				return;
@@ -418,6 +410,7 @@ public class ChatBuffer
 				}
 				else if ( newContents != null )
 				{
+					displayBuffer.append( newContents );
 					append();
 				}
 			}
