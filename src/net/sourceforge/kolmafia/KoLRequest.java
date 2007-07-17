@@ -1069,9 +1069,16 @@ public class KoLRequest extends Job implements KoLConstants
 			boolean shouldRetry = retryOnTimeout();
 
 			if ( shouldRetry )
+			{
 				RequestLogger.printLine( "Time out during response (" + this.formURLString + ").  This could be bad..." );
+			}
 			else
-				RequestLogger.printLine( "Time out during response (" + this.formURLString + ").  Redirecting..." );
+			{
+				RequestLogger.printLine( "Time out during response (" + this.formURLString + ")." );
+
+				if ( processOnFailure() )
+					processResults();
+			}
 
 			if ( !isChatRequest && this.shouldUpdateDebugLog() )
 				RequestLogger.updateDebugLog( "Connection timed out during response." );
@@ -1139,6 +1146,10 @@ public class KoLRequest extends Job implements KoLConstants
 
 	protected boolean retryOnTimeout()
 	{	return data.isEmpty() || this.getClass() == KoLRequest.class;
+	}
+
+	protected boolean processOnFailure()
+	{	return false;
 	}
 
 	private boolean handleServerRedirect()
