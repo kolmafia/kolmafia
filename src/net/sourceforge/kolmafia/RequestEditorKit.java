@@ -1241,8 +1241,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		String suffix = buffer.toString().substring( endIndex + 7 );
 		buffer.delete( buffer.indexOf( "<form" ), buffer.length() );
 
-		String lifeStyleScript = "var a, b; if ( this.options[1].selected ) { a = 'sc'; b = 'hc'; } else { a = 'hc'; b = 'sc'; } document.getElementById( a + 'moonsign' ).style.display = 'inline'; document.getElementById( b + 'moonsign' ).style.display = 'none'; void(0);";
-		String skillListScript = "var a, b; if ( this.options[0].selected ) { a = 'soft'; b = 'hard'; } else { a = 'hard'; b = 'soft'; } document.getElementById( a + 'skills' ).style.display = 'inline'; document.getElementById( b + 'skills' ).style.display = 'none'; void(0);";
+		String skillListScript = "var a, b; if ( document.getElementById( 'skillsview' ).options[0].selected ) { a = 'soft'; b = 'hard'; } else { a = 'hard'; b = 'soft'; } document.getElementById( a + 'skills' ).style.display = 'inline'; document.getElementById( b + 'skills' ).style.display = 'none'; void(0);";
 
 		// Add some holiday predictions to the page to make things more useful,
 		// since people sometimes forget KoLmafia has a calendar.
@@ -1256,22 +1255,32 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		buffer.append( LINE_BREAK );
 		buffer.append( LINE_BREAK );
 
-		buffer.append( "<form name=\"ascform\" action=valhalla.php method=post>" );
+		buffer.append( "<form name=\"ascform\" action=valhalla.php method=post onSubmit=\"document.ascform.whichsign.value = document.ascform.whichsignhc.value; return true;\">" );
 		buffer.append( "<input type=hidden name=action value=\"resurrect\"><input type=hidden name=pwd value=\"\"><center><table>" );
 		buffer.append( LINE_BREAK );
 
 		buffer.append( "<tr><td align=right><b>Lifestyle:</b>&nbsp;</td><td>" );
-		buffer.append( "<select style=\"width: 250px\" name=\"asctype\" onChange=\"" + lifeStyleScript + "\"><option value=0>- Lifestyles -</option><option value=1>Casual</option><option value=2>Softcore</option><option value=3 selected>Hardcore</option></select>" );
+		buffer.append( "<select style=\"width: 250px\" name=\"asctype\"><option value=1>Casual</option><option value=2>Softcore</option><option value=3 selected>Hardcore</option></select>" );
 		buffer.append( "</td></tr>" );
 		buffer.append( LINE_BREAK );
 
 		buffer.append( "<tr><td align=right><b>New Class:</b>&nbsp;</td><td>" );
-		buffer.append( "<select style=\"width: 250px\" name=\"whichclass\"><option value=0>- select a class -</option><option value=1>Seal Clubber</option><option value=2>Turtle Tamer</option><option value=3>Pastamancer</option><option value=4>Sauceror</option><option value=5>Disco Bandit</option><option value=6>Accordion Thief</option></select>" );
-		buffer.append( "</td></tr>" );
+		buffer.append( "<select style=\"width: 250px\" name=\"whichclass\"><option value=0 selected></option>" );
+		buffer.append( "<option value=1>Seal Clubber</option><option value=2>Turtle Tamer</option>" );
+		buffer.append( "<option value=3>Pastamancer</option><option value=4>Sauceror</option>" );
+		buffer.append( "<option value=5>Disco Bandit</option><option value=6>Accordion Thief</option>" );
+		buffer.append( "</select></td></tr>" );
 		buffer.append( LINE_BREAK );
 
 		buffer.append( "<tr><td align=right><b>Gender:</b>&nbsp;</td><td>" );
-		buffer.append( "<select style=\"width: 250px\" name=gender><option value=1>Male</option><option value=2>Female</option></select>" );
+		buffer.append( "<select style=\"width: 250px\" name=\"gender\"><option value=1" );
+		if ( !KoLCharacter.getAvatar().endsWith( "_f.gif" ) )
+			buffer.append( " selected" );
+		buffer.append( ">Male</option><option value=2" );
+		if ( KoLCharacter.getAvatar().endsWith( "_f.gif" ) )
+			buffer.append( " selected" );
+		buffer.append( ">Female</option></select>" );
+
 		buffer.append( "</td></tr>" );
 		buffer.append( LINE_BREAK );
 
@@ -1279,22 +1288,23 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		buffer.append( LINE_BREAK );
 
 		buffer.append( "<tr><td align=right><b>Moon Sign:</b>&nbsp;</td><td>" );
-		buffer.append( "<select id=\"scmoonsign\" style=\"display: none; width: 250px\" name=\"whichsign\"><option value=0>- Muscle Signs -</option><option value=1>The Mongoose</option><option value=2>The Wallaby</option><option value=3>The Vole</option><option value=0>- Mysticality Signs -</option><option value=4>The Platypus</option><option value=5>The Opossum</option><option value=6>The Marmot</option><option value=0>- Moxie Signs -</option><option value=7>The Wombat</option><option value=8>The Blender</option><option value=9>The Packrat</option></select>" );
-
-		buffer.append( "<select id=\"hcmoonsign\" style=\"width: 250px\" name=\"whichsignhc\" onChange=\"hcsignpick(); void(0);\"><option value=0>- Muscle Signs -</option><option value=1>The Mongoose</option><option value=2>The Wallaby</option><option value=3>The Vole</option><option value=0>- Mysticality Signs -</option><option value=4>The Platypus</option><option value=5>The Opossum</option><option value=6>The Marmot</option><option value=0>- Moxie Signs -</option><option value=7>The Wombat</option><option value=8>The Blender</option><option value=9>The Packrat</option>" );
+		buffer.append( "<input type=\"hidden\" name=\"whichsign\" value=\"\">" );
+		buffer.append( "<select style=\"width: 250px\" name=\"whichsignhc\"><option value=0 selected></option>" );
+		buffer.append( "<option value=1>The Mongoose</option><option value=2>The Wallaby</option><option value=3>The Vole</option>" );
+		buffer.append( "<option value=4>The Platypus</option><option value=5>The Opossum</option><option value=6>The Marmot</option>" );
+		buffer.append( "<option value=7>The Wombat</option><option value=8>The Blender</option><option value=9>The Packrat</option>" );
 		if ( newMoonSign )
-			buffer.append( "<option value=10>- Bad Moon -</option>" );
-
+			buffer.append( "<option value=10>Bad Moon</option>" );
 		buffer.append( "</select></td></tr>" );
 		buffer.append( LINE_BREAK );
 
 		buffer.append( "<tr><td align=right><b>Restrictions:</b>&nbsp;</td><td>" );
-		buffer.append( "<select style=\"width: 250px\" name=\"whichpath\"><option value=0>No dietary restrictions</option><option value=1>Boozetafarian</option><option value=2>Teetotaler</option><option value=3>Oxygenarian</option></select>" );
+		buffer.append( "<select style=\"width: 250px\" name=\"whichpath\"><option value=0 selected>No dietary restrictions</option><option value=1>Boozetafarian</option><option value=2>Teetotaler</option><option value=3>Oxygenarian</option></select>" );
 		buffer.append( "</td></tr>" );
 		buffer.append( LINE_BREAK );
 
 		buffer.append( "<tr><td align=right><b>Skill to Keep:</b>&nbsp;</td><td>" );
-		buffer.append( "<select style=\"width: 250px\" name=keepskill><option value=9999 selected>- select a skill -</option><option value=0>(no skill)</option>" );
+		buffer.append( "<select style=\"width: 250px\" name=keepskill><option value=9999 selected></option><option value=0 selected>(no skill)</option>" );
 
 		int skillId;
 		for ( int i = 0; i < recentSkills.size(); ++i )

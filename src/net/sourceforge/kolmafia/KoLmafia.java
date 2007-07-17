@@ -697,7 +697,7 @@ public abstract class KoLmafia implements KoLConstants
 		return castCount == maximumCast;
 	}
 
-	public final void refreshSession()
+	public void refreshSession()
 	{
 		isRefreshing = true;
 
@@ -707,7 +707,6 @@ public abstract class KoLmafia implements KoLConstants
 
 		RequestThread.postRequest( new MoonPhaseRequest() );
 		KoLCharacter.setHoliday( MoonPhaseDatabase.getHoliday( new Date() ) );
-
 
 		RequestThread.postRequest( new AccountRequest() );
 		RequestThread.postRequest( new QuestLogRequest() );
@@ -3240,9 +3239,8 @@ public abstract class KoLmafia implements KoLConstants
 		KoLCharacter.getFamiliarList().clear();
 
 		conditions.clear();
-		this.refreshSession();
-		this.resetSession();
-		enableDisplay();
+		refreshSession();
+		resetSession();
 
 		MoodSettings.setMood( "apathetic" );
 
@@ -3279,6 +3277,8 @@ public abstract class KoLmafia implements KoLConstants
 		sessionStream.println();
 		sessionStream.println();
 		sessionStream.println();
+
+		enableDisplay();
 	}
 
 	private static class ShutdownThread extends Thread

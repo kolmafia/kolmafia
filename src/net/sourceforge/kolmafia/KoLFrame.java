@@ -94,10 +94,7 @@ import javax.swing.table.TableModel;
 
 import tab.CloseTabPaneEnhancedUI;
 import tab.CloseTabbedPane;
-import tab.CloseTabPaneUI;
-
 import com.informit.guides.JDnDList;
-import com.sun.java.forums.CloseableTabbedPane;
 
 import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.DataUtilities;
@@ -608,9 +605,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 			if ( KoLCharacter.isHardcore() )
 				this.roninLabel.setText( "(Hardcore)" );
-			else if ( KoLCharacter.getAscensions() == 0 )
-				this.roninLabel.setText( "(Unascended)" );
-			else if ( KoLCharacter.getCurrentRun() >= 1000 )
+			else if ( KoLCharacter.canInteract() )
 				this.roninLabel.setText( "(Ronin Clear)" );
 			else
 				this.roninLabel.setText( "(Ronin for " + (1000 - KoLCharacter.getCurrentRun()) + ")" );

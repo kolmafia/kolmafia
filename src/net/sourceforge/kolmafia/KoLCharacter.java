@@ -1682,7 +1682,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static boolean canInteract()
-	{	return ascensions == 0 || (!isHardcore && currentRun >= 1000);
+	{	return CharpaneRequest.canInteract();
 	}
 
 	/**

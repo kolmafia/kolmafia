@@ -307,13 +307,13 @@ public class LocalRelayAgent extends Thread
 		}
 		else
 		{
-			this.request.run();
-
 			if ( this.path.endsWith( "noobmessage=true" ) )
 			{
-				this.request.responseText = StaticEntity.singleStringReplace( this.request.responseText, "</html>",
-					"<script language=\"Javascript\"> function visitTootOriole() { document.location = \"mtnoob.php?action=toot\"; return 0; } setTimeout( visitTootOriole, 4000 ); </script></html>" );
+				StaticEntity.getClient().handleAscension();
+				this.request.constructURLString( "mtnoob.php?action=toot" );
 			}
+
+			this.request.run();
 		}
 
 		if ( this.request.rawByteBuffer == null && this.request.responseText != null )
