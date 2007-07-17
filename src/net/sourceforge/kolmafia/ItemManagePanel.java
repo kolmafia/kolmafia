@@ -281,11 +281,8 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 	public Object [] getDesiredItems( String message )
 	{
-		if ( this.movers == null )
-			return this.getDesiredItems( message, message.equals( "Consume" ) || message.equals( "Queue" ) ? USE_MULTIPLE : TAKE_MULTIPLE );
-
-		if ( this.movers[2].isSelected() )
-			return this.getDesiredItems( message, message.equals( "Consume" ) || message.equals( "Queue" ) ? USE_MULTIPLE : TAKE_MULTIPLE );
+		if ( this.movers == null || this.movers[2].isSelected() )
+			return this.getDesiredItems( message, message.equals( "Consume" ) ? USE_MULTIPLE : TAKE_MULTIPLE );
 
 		return this.getDesiredItems( message, this.movers[0].isSelected() ? TAKE_ALL : this.movers[1].isSelected() ? TAKE_ALL_BUT_ONE : TAKE_ONE );
 	}
