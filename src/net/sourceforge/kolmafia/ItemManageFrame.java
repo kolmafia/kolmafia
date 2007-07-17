@@ -1206,7 +1206,7 @@ public class ItemManageFrame extends KoLFrame
 	{
 		public HagnkStoragePanel( boolean isEquipmentOnly )
 		{
-			super( "pull item", "closet item", storage, isEquipmentOnly );
+			super( "pull item", isEquipmentOnly ? "pull & use" : "closet item", storage, isEquipmentOnly );
 
 			this.addFilters( false );
 			this.addMovers();
@@ -1217,23 +1217,11 @@ public class ItemManageFrame extends KoLFrame
 				this.eastPanel.add( pullsRemainingLabel2, BorderLayout.SOUTH );
 		}
 
-		public void actionConfirmed()
+		private Object [] pullItems()
 		{
 			Object [] items = this.getDesiredItems( "Pulling" );
 			if ( items == null )
-				return;
-
-			if ( items.length == storage.size() )
-				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.EMPTY_STORAGE ) );
-			else
-				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.STORAGE_TO_INVENTORY, items ) );
-		}
-
-		public void actionCancelled()
-		{
-			Object [] items = this.getDesiredItems( "Pulling" );
-			if ( items == null )
-				return;
+				return null;
 
 			RequestThread.openRequestSequence();
 
@@ -1242,7 +1230,32 @@ public class ItemManageFrame extends KoLFrame
 			else
 				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.STORAGE_TO_INVENTORY, items ) );
 
-			RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, items ) );
+			RequestThread.closeRequestSequence();
+			return items;
+		}
+
+		public void actionConfirmed()
+		{	pullItems();
+		}
+
+		public void actionCancelled()
+		{
+			Object [] items = pullItems();
+			if ( items == null )
+				return;
+
+			RequestThread.closeRequestSequence();
+
+			if ( isEquipmentOnly )
+			{
+				for ( int i = 0; i < items.length; ++i )
+					RequestThread.postRequest( new EquipmentRequest( (AdventureResult) items[i] ) );
+			}
+			else
+			{
+				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, items ) );
+			}
+
 			RequestThread.closeRequestSequence();
 		}
 	}
