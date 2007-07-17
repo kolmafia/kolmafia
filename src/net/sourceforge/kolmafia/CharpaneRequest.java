@@ -39,6 +39,7 @@ import java.util.regex.Pattern;
 
 public class CharpaneRequest extends KoLRequest
 {
+	private static boolean canInteract = false;
 	private static boolean isRunning = false;
 	private static boolean isProcessing = false;
 	private static final CharpaneRequest instance = new CharpaneRequest();
@@ -58,6 +59,10 @@ public class CharpaneRequest extends KoLRequest
 
 	protected boolean retryOnTimeout()
 	{	return true;
+	}
+
+	public static boolean canInteract()
+	{	return canInteract;
 	}
 
 	public void run()
@@ -113,6 +118,10 @@ public class CharpaneRequest extends KoLRequest
 
 		refreshEffects( responseText );
 		KoLCharacter.updateStatus();
+
+		canInteract = !KoLCharacter.isHardcore() &&
+			(KoLCharacter.getCurrentRun() >= 1000 || responseText.indexOf( "storage.php" ) == -1);
+
 		isProcessing = false;
 	}
 
