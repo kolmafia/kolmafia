@@ -1612,15 +1612,6 @@ public class KoLRequest extends Job implements KoLConstants
 					break;
 				}
 			}
-			else if ( decision.equals( "0" ) )
-			{
-				String ignoreChoice = AdventureDatabase.ignoreChoiceOption( option );
-				if ( ignoreChoice != null )
-				{
-					willIgnore = true;
-					decision = ignoreChoice;
-				}
-			}
 
 			// Always change the option whenever it's not an ignore option
 			// and remember to store the result.
@@ -1634,12 +1625,6 @@ public class KoLRequest extends Job implements KoLConstants
 			request.addFormField( "option", decision );
 			request.run();
 		}
-
-		// Manually process any adventure usage for choice adventures,
-		// since they necessarily consume an adventure.
-
-		if ( AdventureDatabase.consumesAdventure( option, decision ) )
-			this.needsRefresh = !request.needsRefresh;
 	}
 
 	private String pickOutfitChoice( String option, String decision )
@@ -1647,11 +1632,14 @@ public class KoLRequest extends Job implements KoLConstants
 		// Find the options for the choice we've encountered
 
 		String [] possibleDecisions = null;
+		String [] possibleDecisionSpoilers = null;
+
 		for ( int i = 0; i < AdventureDatabase.CHOICE_ADVS.length; ++i )
 		{
 			if ( AdventureDatabase.CHOICE_ADVS[i].getSetting().equals( option ) )
 			{
 				possibleDecisions = AdventureDatabase.CHOICE_ADVS[i].getItems();
+				possibleDecisionSpoilers = AdventureDatabase.CHOICE_ADVS[i].getOptions();
 				break;
 			}
 		}
@@ -1662,6 +1650,10 @@ public class KoLRequest extends Job implements KoLConstants
 
 		if ( possibleDecisions == null )
 			return decision.equals( "0" ) ? "1" : decision;
+
+		int decisionIndex = StaticEntity.parseInt( decision ) - 1;
+		if ( possibleDecisions.length < decisionIndex && possibleDecisionSpoilers[decisionIndex] != null && possibleDecisionSpoilers[decisionIndex].equals( "skip adventure" ) )
+			return decision;
 
 		// Choose an item in the conditions first, if it's available.
 		// This allows conditions to override existing choices.

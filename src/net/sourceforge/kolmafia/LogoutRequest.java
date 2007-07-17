@@ -55,6 +55,9 @@ public class LogoutRequest extends KoLRequest
 			if ( KoLDesktop.instanceExists() )
 				KoLDesktop.getInstance().dispose();
 
+			KoLMessenger.dispose();
+			BuffBotHome.setBuffBotActive( false );
+
 			String scriptSetting = StaticEntity.getProperty( "logoutScript" );
 			if ( !scriptSetting.equals( "" ) )
 				DEFAULT_SHELL.executeLine( scriptSetting );
@@ -66,9 +69,6 @@ public class LogoutRequest extends KoLRequest
 			StaticEntity.getClient().setCurrentRequest( null );
 
 			KoLCharacter.reset( "" );
-
-			KoLMessenger.dispose();
-			BuffBotHome.setBuffBotActive( false );
 
 			sessionId = null;
 		}

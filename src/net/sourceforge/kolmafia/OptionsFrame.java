@@ -594,6 +594,8 @@ public class OptionsFrame extends KoLFrame
 				StaticEntity.setProperty( "chatFontSize", "large" );
 
 			LimitedSizeChatBuffer.updateFontSize();
+
+			commandBuffer.fireBufferChanged();
 			KoLMessenger.updateFontSize();
 
 			super.actionConfirmed();

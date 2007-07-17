@@ -153,6 +153,9 @@ public class TabbedChatFrame extends ChatFrame implements ChangeListener, CloseL
 
 	public void dispose()
 	{
+		super.dispose();
+		KoLMessenger.dispose();
+
 		if ( tabs != null )
 		{
 			if ( tabs instanceof CloseTabbedPane )
@@ -162,7 +165,6 @@ public class TabbedChatFrame extends ChatFrame implements ChangeListener, CloseL
 		}
 
 		instanceExists = false;
-		super.dispose();
 	}
 
 	private class TabAdder implements Runnable
