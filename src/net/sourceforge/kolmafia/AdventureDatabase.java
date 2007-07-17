@@ -55,8 +55,6 @@ public class AdventureDatabase extends KoLDatabase
 	private static final TreeMap adventureLookup = new TreeMap();
 	private static final TreeMap conditionLookup = new TreeMap();
 
-	private static final TreeMap zoneValidations = new TreeMap();
-
 	static
 	{
 		for ( int i = 0; i < 6; ++i )
@@ -152,12 +150,7 @@ public class AdventureDatabase extends KoLDatabase
 	public static final ChoiceAdventure [] CHOICE_ADVS =
 	{
 		// Choice 1 is unknown
-
-		// Denim Axes Examined
-		new ChoiceAdventure( "Plains", "choiceAdventure2", "Palindome",
-		  new String [] { "denim axe", "skip adventure" },
-		  new String [] { "499", "292" } ),
-
+		// Choice 2 is Denim Axes Examined
 		// Choice 3 is The Oracle Will See You Now
 
 		// Finger-Lickin'... Death.
@@ -172,7 +165,6 @@ public class AdventureDatabase extends KoLDatabase
 		// Choice 6 is Darker Than Dark
 		// Choice 7 is How Depressing
 		// Choice 8 is On the Verge of a Dirge
-
 		// Choice 9 is the Giant Castle Chore Wheel: muscle position
 		// Choice 10 is the Giant Castle Chore Wheel: mysticality position
 		// Choice 11 is the Giant Castle Chore Wheel: map quest position
@@ -234,11 +226,7 @@ public class AdventureDatabase extends KoLDatabase
 		  new String [] { "stuffed shoulder parrot", "small meat boost", "eyepatch", "complete the outfit" },
 		  new String [] { "403", null, "224" } ),
 
-		// Ouch! You bump into a door!
-		new ChoiceAdventure( "Town", "choiceAdventure25", "Dungeon of Doom",
-		  new String [] { "magic lamp", "dead mimic", "skip adventure" },
-		  new String [] { "1273", "1267", null } ),
-
+		// Choice 25 is Ouch! You bump into a door!
 		// Choice 26 is A Three-Tined Fork
 		// Choice 27 is Footprints
 		// Choice 28 is A Pair of Craters
@@ -263,23 +251,12 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Choices 43 - 44 are unknown
 		// Choice 45 is Maps and Legends
-
-		// An Interesting Choice
-		new ChoiceAdventure( "Woods", "choiceAdventure46", "Spooky Forest",
-		  new String [] { "moxie substats", "muscle substats", "enter combat" } ),
-
-		// Have a Heart
-		new ChoiceAdventure( "Woods", "choiceAdventure47", "Spooky Forest",
-		  new String [] { "bottle of used blood", "skip adventure" },
-		  new String [] { "1523", "1518" } ),
+		// Choice 46 is An Interesting Choice
+		// Choice 47 is Have a Heart
 
 		// Choices 48 - 70 are violet fog adventures
 		// Choice 71 is A Journey to the Center of Your Mind
-
-		// Lording Over The Flies
-		new ChoiceAdventure( "Island", "choiceAdventure72", "Frat House",
-		  new String [] { "around the world", "skip adventure" },
-		  new String [] { "1634", "1633" } ),
+		// Choice 72 is Lording Over The Flies
 
 		// Don't Fence Me In
 		new ChoiceAdventure( "Woods", "choiceAdventure73", "Whitey's Grove",
@@ -296,11 +273,7 @@ public class AdventureDatabase extends KoLDatabase
 		  new String [] { "mysticality substats", "white lightning", "white collar" },
 		  new String [] { null, "266", "1655" } ),
 
-		// Junction in the Trunction
-		new ChoiceAdventure( "Knob", "choiceAdventure76", "Knob Shaft",
-		  new String [] { "cardboard ore", "styrofoam ore", "bubblewrap ore" },
-		  new String [] { "1675", "1676", "1677" } ),
-
+		// Choice 76 is Junction in the Trunction
 		// Choice 77 is Minnesota Incorporeals
 		// Choice 78 is Broken
 		// Choice 79 is A Hustle Here, a Hustle There
@@ -351,61 +324,20 @@ public class AdventureDatabase extends KoLDatabase
 		  new String [] { "antique bottle of cough syrup", "tube of hair oil", "bottle of ultravitamins", "skip adventure" },
 		  new String [] { "2086", "2087", "2085", null } ),
 
-		// Aww, Craps
-		new ChoiceAdventure( "Town", "choiceAdventure108", "Sleazy Back Alley",
-		  new String [] { "moxie substats", "meat and moxie", "random effect", "skip adventure" } ),
-
-		// Dumpster Diving
-		new ChoiceAdventure( "Town", "choiceAdventure109", "Sleazy Back Alley",
-		  new String [] { "enter combat", "meat and moxie", "Mad Train wine" },
-		  new String [] { null, null, "564" } ),
-
-		// The Entertainer
-		new ChoiceAdventure( "Town", "choiceAdventure110", "Sleazy Back Alley",
-		  new String [] { "moxie substats", "moxie and muscle", "small meat boost", "skip adventure" },
-		  new String [] { null, null, null, null } ),
-
-		// Malice in Chains
-		new ChoiceAdventure( "Knob", "choiceAdventure111", "Knob Outskirts",
-		  new String [] { "muscle substats", "muscle substats", "enter combat" } ),
-
-		// Please, Hammer
-		new ChoiceAdventure( "Town", "choiceAdventure112", "Sleazy Back Alley",
-		  new String [] { "accept hammer quest", "reject quest", "muscle substats" } ),
-
-		// Knob Goblin BBQ
-		new ChoiceAdventure( "Knob", "choiceAdventure113", "Knob Outskirts",
-		  new String [] { "complete cake quest", "enter combat", "get a random item" } ),
-
-		// The Baker's Dilemma
-		new ChoiceAdventure( "Manor", "choiceAdventure114", "Haunted Pantry",
-		  new String [] { "accept cake quest", "reject quest", "moxie and meat" } ),
-
-		// Oh No, Hobo
-		new ChoiceAdventure( "Manor", "choiceAdventure115", "Haunted Pantry",
-		  new String [] { "enter combat", "Good Karma", "mysticality, moxie, and meat" } ),
-
-		// The Singing Tree
-		new ChoiceAdventure( "Manor", "choiceAdventure116", "Haunted Pantry",
-		  new String [] { "mysticality substats", "moxie substats", "random effect", "skip adventure" } ),
-
-		// Tresspasser
-		new ChoiceAdventure( "Manor", "choiceAdventure117", "Haunted Pantry",
-		  new String [] { "enter combat", "mysticality substats", "get a random item" } ),
-
-		// When Rocks Attack
-		new ChoiceAdventure( "Knob", "choiceAdventure118", "Knob Outskirts",
-		  new String [] { "accept unguent quest", "skip adventure" } ),
-
+		// Choice 108 is Aww, Craps
+		// Choice 109 is Dumpster Diving
+		// Choice 110 is The Entertainer
+		// Choice 111 is Malice in Chains
+		// Choice 112 is Please, Hammer
+		// Choice 113 is Knob Goblin BBQ
+		// Choice 114 is The Baker's Dilemma
+		// Choice 115 is Oh No, Hobo
+		// Choice 116 is The Singing Tree
+		// Choice 117 is Tresspasser
+		// Choice 118 is When Rocks Attack
 		// Choice 119 is unknown
-
-		// Ennui is Wasted on the Young
-		new ChoiceAdventure( "Knob", "choiceAdventure120", "Knob Outskirts",
-		  new String [] { "muscle and Pumped Up", "ice cold Sir Schlitz", "moxie and lemon", "skip adventure" },
-		  new String [] { null, "41", "332", null } ),
-
-		// Choice 120-122 are unknown
-
+		// Choice 120 is Ennui is Wasted on the Young
+		// Choice 121-122 are unknown
         // Choice 123 is At Least It's Not Full Of Trash
 		// Choice 124 is unknown
 		// Choice 125 is No Visible Means of Support
@@ -420,19 +352,9 @@ public class AdventureDatabase extends KoLDatabase
 		  new String [] { "498", null, null } ),
 
 		// Choice 128 are unknown
-
-		// Do Geese See God?
-		new ChoiceAdventure( "Plains", "choiceAdventure129", "Palindome",
-		  new String [] { "photograph of God", "skip adventure" },
-		  new String [] { "2259", null } ),
-
-		// Rod Nevada, Vendor
-		new ChoiceAdventure( "Plains", "choiceAdventure130", "Palindome",
-		  new String [] { "hard rock candy", "skip adventure" },
-		  new String [] { "2260", null } ),
-
+		// Choice 129 is Do Geese See God?
+		// Choice 130 is Rod Nevada, Vendor
 		// Choice 131 is Dr. Awkward
-		// All choices lead to combat
 
 		// Let's Make a Deal!
 		new ChoiceAdventure( "Beach", "choiceAdventure132", "Arid Extra-Dry Desert",
@@ -454,57 +376,57 @@ public class AdventureDatabase extends KoLDatabase
 		// Choice 136-138 are unknown
 
 		// Bait and Switch
-		new ChoiceAdventure( "IsleWar", "choiceAdventure139", "Wartime Hippy Camp",
+		new ChoiceAdventure( "IsleWar", "choiceAdventure139", "War Hippies",
 		  new String [] { "muscle substats", "ferret bait", "enter combat" },
 		  new String [] { null, "2041", null } ),
 
 		// The Thin Tie-Dyed Line
-		new ChoiceAdventure( "IsleWar", "choiceAdventure140", "Wartime Hippy Camp",
+		new ChoiceAdventure( "IsleWar", "choiceAdventure140", "War Hippies",
 		  new String [] { "water pipe bombs", "moxie substats", "enter combat" },
 		  new String [] { "2348", null, null } ),
 
 		// Blockin' Out the Scenery
-		new ChoiceAdventure( "IsleWar", "choiceAdventure141", "Wartime Hippy Camp",
+		new ChoiceAdventure( "IsleWar", "choiceAdventure141", "War Hippies",
 		  new String [] { "mysticality substats", "get some hippy food", "waste a turn" },
 		  new String [] { null, null, null } ),
 
 		// Blockin' Out the Scenery
-		new ChoiceAdventure( "IsleWar", "choiceAdventure142", "Wartime Hippy Camp",
+		new ChoiceAdventure( "IsleWar", "choiceAdventure142", "War Hippies",
 		  new String [] { "mysticality substats", "get some hippy food", "start the war" },
 		  new String [] { null, null, null } ),
 
 		// Catching Some Zetas
-		new ChoiceAdventure( "IsleWar", "choiceAdventure143", "Wartime Frat House",
+		new ChoiceAdventure( "IsleWar", "choiceAdventure143", "War Fraternity",
 		  new String [] { "muscle substats", "sake bombs", "enter combat" },
 		  new String [] { null, "2067", null } ),
 
 		// One Less Room Than In That Movie
-		new ChoiceAdventure( "IsleWar", "choiceAdventure144", "Wartime Frat House",
+		new ChoiceAdventure( "IsleWar", "choiceAdventure144", "War Fraternity",
 		  new String [] { "moxie substats", "beer bombs", "enter combat" },
 		  new String [] { null, "2350", null } ),
 
 		// Fratacombs
-		new ChoiceAdventure( "IsleWar", "choiceAdventure145", "Wartime Frat House",
+		new ChoiceAdventure( "IsleWar", "choiceAdventure145", "War Fraternity",
 		  new String [] { "muscle substats", "get some frat food", "waste a turn" },
 		  new String [] { null, null, null } ),
 
 		// Fratacombs
-		new ChoiceAdventure( "IsleWar", "choiceAdventure146", "Wartime Frat House",
+		new ChoiceAdventure( "IsleWar", "choiceAdventure146", "War Fraternity",
 		  new String [] { "muscle substats", "get some frat food", "start the war" },
 		  new String [] { null, null, null } ),
 
 		// Cornered!
-		new ChoiceAdventure( "IsleWar", "choiceAdventure147", "McMillicancuddy's Barn",
+		new ChoiceAdventure( "IsleWar", "choiceAdventure147", "Isle War Barn",
 		  new String [] { "Open The Granary (meat)", "Open The Bog (stench)", "Open The Pond (cold)" },
 		  new String [] { null, null, null } ),
 
 		// Cornered Again!
-		new ChoiceAdventure( "IsleWar", "choiceAdventure148", "McMillicancuddy's Barn",
+		new ChoiceAdventure( "IsleWar", "choiceAdventure148", "Isle War Barn",
 		  new String [] { "Open The Back 40 (hot)", "Open The Family Plot (spooky)" },
 		  new String [] { null, null } ),
 
 		// ow Many Corners Does this Stupid Barn Have!?
-		new ChoiceAdventure( "IsleWar", "choiceAdventure149", "McMillicancuddy's Barn",
+		new ChoiceAdventure( "IsleWar", "choiceAdventure149", "Isle War Barn",
 		  new String [] { "Open The Shady Thicket (booze)", "Open The Other Back 40 (sleaze)" },
 		  new String [] { null, null } ),
 
@@ -516,10 +438,30 @@ public class AdventureDatabase extends KoLDatabase
 		  new String [] { null, null } ),
 
 		// Choice 152 is Lurking at the Threshold
-		// Choice 153-160 are the cyrpt boss choices
+		// Choices 154, 156, 158, 160 are the cyrpt bosses
+
+		// Turn Your Head and Coffin
+		new ChoiceAdventure( "Cyrpt", "choiceAdventure153", "Defiled Alcove",
+		  new String [] { "muscle substats", "small meat boost", "half-rotten brain", "skip adventure" },
+		  new String [] { null, null, "2562", null } ),
+
+		// Skull, Skull, Skull
+		new ChoiceAdventure( "Cyrpt", "choiceAdventure155", "Defiled Nook",
+		  new String [] { "moxie substats", "small meat boost", "rusty bonesaw", "skip adventure" },
+		  new String [] { null, null, "2563", null } ),
+
+		// Urning Your Keep
+		new ChoiceAdventure( "Cyrpt", "choiceAdventure157", "Defiled Niche",
+		  new String [] { "mysticality substats", "plus-sized phylactery", "small meat gain", "skip adventure" },
+		  new String [] { null, "2564", null, null } ),
+
+		// Go Slow Past the Drawers
+		new ChoiceAdventure( "Cyrpt", "choiceAdventure159", "Defiled Cranny",
+		  new String [] { "small meat boost", "stats & HP & MP", "can of Ghuol-B-Gone&trade;", "skip adventure" },
+		  new String [] { null, null, "2565", null } ),
 
 		// Bureaucracy of the Damned
-		new ChoiceAdventure( "Woods", "choiceAdventure161", "Deep Fat Friar's Gate",
+		new ChoiceAdventure( "Woods", "choiceAdventure161", "Friar's Gate",
 		  new String [] { "Quest", "Quest", "Quest", "skip adventure" },
 		  new String [] { null, null, null, null } ),
 
@@ -583,17 +525,17 @@ public class AdventureDatabase extends KoLDatabase
 		  new String [] { "2652", null, "2659" } ),
 
 		// It's a Fixer-Upper
-		new ChoiceAdventure( "Wormwood", "choiceAdventure167", "Mouldering Mansion",
+		new ChoiceAdventure( "Wormwood", "choiceAdventure167", "Moulder Mansion",
 		  new String [] { "enter combat", "mysticality substats", "HP & MP & Bats in the Belfry" },
 		  new String [] { null, null, null } ),
 
 		// Midst the Pallor of the Parlor
-		new ChoiceAdventure( "Wormwood", "choiceAdventure168", "Mouldering Mansion",
+		new ChoiceAdventure( "Wormwood", "choiceAdventure168", "Moulder Mansion",
 		  new String [] { "moxie substats", "Spirit of Alph -> Feelin' Philosophical", "Rat-Faced -> Unusual Fashion Sense" },
 		  new String [] { null, null, null } ),
 
 		// A Few Chintz Curtains, Some Throw Pillows, It
-		new ChoiceAdventure( "Wormwood", "choiceAdventure169", "Mouldering Mansion",
+		new ChoiceAdventure( "Wormwood", "choiceAdventure169", "Moulder Mansion",
 		  new String [] { "Night Vision -> flask of Amontillado", "muscle substats", "Dancing Prowess -> fancy ball mask" },
 		  new String [] { "2661", null, "2662" } ),
 
@@ -635,6 +577,11 @@ public class AdventureDatabase extends KoLDatabase
 
 	public static final ChoiceAdventure [] CHOICE_ADV_SPOILERS =
 	{
+		// Denim Axes Examined
+		new ChoiceAdventure( "Plains", "choiceAdventure2", "Palindome",
+		  new String [] { "denim axe", "skip adventure" },
+		  new String [] { "499", "292" } ),
+
 		// The Oracle Will See You Now
 		new ChoiceAdventure( "choiceAdventure3", "Teleportitis",
 		  new String [] { "skip adventure", "randomly sink 100 meat", "make plus sign usable" } ),
@@ -667,6 +614,11 @@ public class AdventureDatabase extends KoLDatabase
 		new ChoiceAdventure( "choiceAdventure12", "Castle Wheel",
 		  new String [] { "Turn to muscle", "Turn to map quest", "Leave at moxie" } ),
 
+		// Ouch! You bump into a door!
+		new ChoiceAdventure( "choiceAdventure25", "Dungeon of Doom",
+		  new String [] { "magic lamp", "dead mimic", "skip adventure" },
+		  new String [] { "1273", "1267", null } ),
+
 		// A Three-Tined Fork
 		new ChoiceAdventure( "choiceAdventure26", "Spooky Forest",
 		  new String [] { "muscle classes", "mysticality classes", "moxie classes" } ),
@@ -688,7 +640,26 @@ public class AdventureDatabase extends KoLDatabase
 		  new String [] { "Spooky Temple map", "skip adventure", "skip adventure" },
 		  new String [] { "74", null, null } ),
 
+		// An Interesting Choice
+		new ChoiceAdventure( "choiceAdventure46", "Spooky Forest",
+		  new String [] { "moxie substats", "muscle substats", "enter combat" } ),
+
+		// Have a Heart
+		new ChoiceAdventure( "choiceAdventure47", "Spooky Forest",
+		  new String [] { "bottle of used blood", "skip adventure" },
+		  new String [] { "1523", "1518" } ),
+
 		// A Journey to the Center of Your Mind -> Self Explanatory
+
+		// Lording Over The Flies
+		new ChoiceAdventure( "choiceAdventure72", "Frat House",
+		  new String [] { "around the world", "skip adventure" },
+		  new String [] { "1634", "1633" } ),
+
+		// Junction in the Trunction
+		new ChoiceAdventure( "Knob", "choiceAdventure76", "Knob Shaft",
+		  new String [] { "cardboard ore", "styrofoam ore", "bubblewrap ore" },
+		  new String [] { "1675", "1676", "1677" } ),
 
 		// Minnesota Incorporeals
 		new ChoiceAdventure( "choiceAdventure77", "Haunted Billiard Room",
@@ -729,6 +700,57 @@ public class AdventureDatabase extends KoLDatabase
 		new ChoiceAdventure( "choiceAdventure91", "Haunted Gallery",
 		  new String [] { "Enter the Drawing", "skip adventure" } ),
 
+		// Aww, Craps
+		new ChoiceAdventure( "choiceAdventure108", "Sleazy Back Alley",
+		  new String [] { "moxie substats", "meat and moxie", "random effect", "skip adventure" } ),
+
+		// Dumpster Diving
+		new ChoiceAdventure( "choiceAdventure109", "Sleazy Back Alley",
+		  new String [] { "enter combat", "meat and moxie", "Mad Train wine" },
+		  new String [] { null, null, "564" } ),
+
+		// The Entertainer
+		new ChoiceAdventure( "choiceAdventure110", "Sleazy Back Alley",
+		  new String [] { "moxie substats", "moxie and muscle", "small meat boost", "skip adventure" },
+		  new String [] { null, null, null, null } ),
+
+		// Malice in Chains
+		new ChoiceAdventure( "choiceAdventure111", "Knob Outskirts",
+		  new String [] { "muscle substats", "muscle substats", "enter combat" } ),
+
+		// Please, Hammer
+		new ChoiceAdventure( "choiceAdventure112", "Sleazy Back Alley",
+		  new String [] { "accept hammer quest", "reject quest", "muscle substats" } ),
+
+		// Knob Goblin BBQ
+		new ChoiceAdventure( "choiceAdventure113", "Knob Outskirts",
+		  new String [] { "complete cake quest", "enter combat", "get a random item" } ),
+
+		// The Baker's Dilemma
+		new ChoiceAdventure( "choiceAdventure114", "Haunted Pantry",
+		  new String [] { "accept cake quest", "reject quest", "moxie and meat" } ),
+
+		// Oh No, Hobo
+		new ChoiceAdventure( "choiceAdventure115", "Haunted Pantry",
+		  new String [] { "enter combat", "Good Karma", "mysticality, moxie, and meat" } ),
+
+		// The Singing Tree
+		new ChoiceAdventure( "choiceAdventure116", "Haunted Pantry",
+		  new String [] { "mysticality substats", "moxie substats", "random effect", "skip adventure" } ),
+
+		// Tresspasser
+		new ChoiceAdventure( "choiceAdventure117", "Haunted Pantry",
+		  new String [] { "enter combat", "mysticality substats", "get a random item" } ),
+
+		// When Rocks Attack
+		new ChoiceAdventure( "choiceAdventure118", "Knob Outskirts",
+		  new String [] { "accept unguent quest", "skip adventure" } ),
+
+		// Ennui is Wasted on the Young
+		new ChoiceAdventure( "choiceAdventure120", "Knob Outskirts",
+		  new String [] { "muscle and Pumped Up", "ice cold Sir Schlitz", "moxie and lemon", "skip adventure" },
+		  new String [] { null, "41", "332", null } ),
+
 		// At Least It's Not Full Of Trash
 		new ChoiceAdventure( "choiceAdventure123", "Hidden Temple",
 		  new String [] { "lose HP", "Unlock Quest Puzzle", "lose HP" } ),
@@ -737,41 +759,31 @@ public class AdventureDatabase extends KoLDatabase
 		new ChoiceAdventure( "choiceAdventure125", "Hidden Temple",
 		  new String [] { "lose HP", "lose HP", "Unlock Hidden City" } ),
 
+		// Do Geese See God?
+		new ChoiceAdventure( "choiceAdventure129", "Palindome",
+		  new String [] { "photograph of God", "skip adventure" },
+		  new String [] { "2259", null } ),
+
+		// Rod Nevada, Vendor
+		new ChoiceAdventure( "choiceAdventure130", "Palindome",
+		  new String [] { "hard rock candy", "skip adventure" },
+		  new String [] { "2260", null } ),
+
 		// Lurking at the Threshold
 		new ChoiceAdventure( "choiceAdventure152", "Fun House",
 		  new String [] { "fight the clownlord", "skip adventure" } ),
-
-		// Turn Your Head and Coffin
-		new ChoiceAdventure( "choiceAdventure153", "Defiled Alcove",
-		  new String [] { "muscle substats", "small meat boost", "half-rotten brain", "skip adventure" },
-		  new String [] { null, null, "2562", null } ),
 
 		// Doublewide
 		new ChoiceAdventure( "choiceAdventure154", "Defiled Alcove",
 		  new String [] { "fight conjoined zmombie", "skip adventure" } ),
 
-		// Skull, Skull, Skull
-		new ChoiceAdventure( "choiceAdventure155", "Defiled Nook",
-		  new String [] { "moxie substats", "small meat boost", "rusty bonesaw", "skip adventure" },
-		  new String [] { null, null, "2563", null } ),
-
 		// Pileup
 		new ChoiceAdventure( "choiceAdventure156", "Defiled Nook",
 		  new String [] { "fight giant skeelton", "skip adventure" } ),
 
-		// Urning Your Keep
-		new ChoiceAdventure( "choiceAdventure157", "Defiled Niche",
-		  new String [] { "mysticality substats", "plus-sized phylactery", "small meat gain", "skip adventure" },
-		  new String [] { null, "2564", null, null } ),
-
 		// Lich in the Niche
 		new ChoiceAdventure( "choiceAdventure158", "Defiled Niche",
 		  new String [] { "fight gargantulihc", "skip adventure" } ),
-
-		// Go Slow Past the Drawers
-		new ChoiceAdventure( "choiceAdventure159", "Defiled Cranny",
-		  new String [] { "small meat boost", "stats & HP & MP", "can of Ghuol-B-Gone&trade;", "skip adventure" },
-		  new String [] { null, null, "2565", null } ),
 
 		// Lunchtime
 		new ChoiceAdventure( "choiceAdventure160", "Defiled Cranny",

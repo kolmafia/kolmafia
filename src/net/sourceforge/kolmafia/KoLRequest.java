@@ -1648,28 +1648,37 @@ public class KoLRequest extends Job implements KoLConstants
 		// isn't an outfit completion choice, return the player's
 		// chosen decision.
 
-		if ( possibleDecisions == null )
+		if ( possibleDecisionSpoilers == null )
 			return decision.equals( "0" ) ? "1" : decision;
-
-		int decisionIndex = StaticEntity.parseInt( decision ) - 1;
-		if ( possibleDecisions.length < decisionIndex && possibleDecisionSpoilers[decisionIndex] != null && possibleDecisionSpoilers[decisionIndex].equals( "skip adventure" ) )
-			return decision;
 
 		// Choose an item in the conditions first, if it's available.
 		// This allows conditions to override existing choices.
 
-		for ( int i = 0; i < possibleDecisions.length; ++i )
+		if ( possibleDecisions != null )
 		{
-			if ( possibleDecisions[i] != null )
+			for ( int i = 0; i < possibleDecisions.length; ++i )
 			{
-				AdventureResult item = new AdventureResult( StaticEntity.parseInt( possibleDecisions[i] ), 1 );
-				if ( conditions.contains( item ) )
-					return String.valueOf( i + 1 );
+				if ( possibleDecisions[i] != null )
+				{
+					AdventureResult item = new AdventureResult( StaticEntity.parseInt( possibleDecisions[i] ), 1 );
+					if ( conditions.contains( item ) )
+						return String.valueOf( i + 1 );
 
-				if ( decision.equals( "4" ) && !KoLCharacter.hasItem( item ) )
-					return String.valueOf( i + 1 );
+					if ( decision.equals( "4" ) && !KoLCharacter.hasItem( item ) )
+						return String.valueOf( i + 1 );
+				}
 			}
 		}
+
+		// If this is an ignore decision, then go ahead and ignore
+		// the choice adventure
+
+		int decisionIndex = StaticEntity.parseInt( decision ) - 1;
+		if ( possibleDecisionSpoilers.length < decisionIndex && possibleDecisionSpoilers[decisionIndex].equals( "skip adventure" ) )
+			return decision;
+
+		if ( possibleDecisions == null )
+			return decision.equals( "0" ) ? "1" : decision;
 
 		// If no item is found in the conditions list, and the player
 		// has a non-ignore decision, go ahead and use it.
