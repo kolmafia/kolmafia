@@ -759,7 +759,13 @@ public abstract class KoLmafia implements KoLConstants
 		if ( getQuestLog )
 			RequestThread.postRequest( new CampgroundRequest() );
 
-		RequestThread.postRequest( new ItemStorageRequest() );
+		if ( StaticEntity.getIntegerProperty( "lastEmptiedStorage" ) != KoLCharacter.getAscensions() )
+		{
+			RequestThread.postRequest( new ItemStorageRequest() );
+			if ( storage.isEmpty() )
+				StaticEntity.setProperty( "lastEmptiedStorage", String.valueOf( KoLCharacter.getAscensions() ) );
+		}
+
 		RequestThread.postRequest( CharpaneRequest.getInstance() );
 		updateDisplay( "Session data refreshed." );
 
