@@ -2224,20 +2224,20 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		}
 	}
 
-	protected class UsableItemPanel extends ItemManagePanel
+	protected class RestorativeItemPanel extends ItemManagePanel
 	{
-		public UsableItemPanel( boolean isRestoresOnly )
+		public RestorativeItemPanel()
 		{
 			super( "Use Items", "use item", "check wiki", inventory );
-
-			if ( !isRestoresOnly )
-				this.setButtons( true, false, null );
-
 			this.filterItems();
 		}
 
+		public void addFilters( boolean isCompact )
+		{
+		}
+
 		public FilterItemField getWordFilter()
-		{	return new UsableItemFilterField();
+		{	return new RestorativeItemFilterField();
 		}
 
 		public void actionConfirmed()
@@ -2263,16 +2263,16 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			}
 		}
 
-		private class UsableItemFilterField extends FilterItemField
+		private class RestorativeItemFilterField extends FilterItemField
 		{
 			public SimpleListFilter getFilter()
-			{	return new UsableItemFilter();
+			{	return new RestorativeItemFilter();
 			}
 
-			private class UsableItemFilter extends SimpleListFilter
+			private class RestorativeItemFilter extends SimpleListFilter
 			{
-				public UsableItemFilter()
-				{	super( UsableItemFilterField.this );
+				public RestorativeItemFilter()
+				{	super( RestorativeItemFilterField.this );
 				}
 
 				public boolean isVisible( Object element )
@@ -2280,50 +2280,16 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 					AdventureResult item = (AdventureResult)element;
 					int itemId = item.getItemId();
 
-					if ( !UsableItemFilterField.this.notrade && !TradeableItemDatabase.isTradeable( itemId ) )
-					     return false;
-
-					boolean filter = false;
-
 					switch ( TradeableItemDatabase.getConsumptionType( itemId ) )
 					{
-					case CONSUME_EAT:
-						filter = UsableItemFilterField.this.food;
-						break;
-
-					case CONSUME_DRINK:
-						filter =  UsableItemFilterField.this.booze;
-						break;
-
-					case CONSUME_USE:
-					case CONSUME_MULTIPLE:
-					case GROW_FAMILIAR:
-					case CONSUME_ZAP:
-						filter = UsableItemFilterField.this.other;
-						break;
-
-					case EQUIP_FAMILIAR:
-					case EQUIP_ACCESSORY:
-					case EQUIP_HAT:
-					case EQUIP_PANTS:
-					case EQUIP_SHIRT:
-					case EQUIP_WEAPON:
-					case EQUIP_OFFHAND:
-						filter = UsableItemFilterField.this.equip;
-						break;
-
 					case MP_RESTORE:
 					case HP_RESTORE:
-						filter = UsableItemFilterField.this.restores;
-						break;
+						return super.isVisible( element );
 
 					default:
 					case NO_CONSUME:
-						filter = false;
-						break;
+						return false;
 					}
-
-					return filter && super.isVisible( element );
 				}
 			}
 		}

@@ -92,7 +92,7 @@ public class ItemManageFrame extends KoLFrame
 	{
 		super( "Item Manager" );
 
-		this.addPanel( "Usable", new UsableItemPanel( false ) );
+		this.addPanel( "Usable", new UsableItemPanel() );
 
 		JPanel foodPanel = new JPanel( new BorderLayout() );
 
@@ -109,6 +109,7 @@ public class ItemManageFrame extends KoLFrame
 		boozePanel.add( new QueuePanel( false, true ), BorderLayout.CENTER );
 
 		this.addPanel( " - Booze", boozePanel );
+		this.addPanel( " - Restores", new RestorativeItemPanel() );
 
 		this.addSeparator();
 
@@ -119,17 +120,15 @@ public class ItemManageFrame extends KoLFrame
 
 		this.addSeparator();
 
-		this.addPanel( "Creatable", new CreateItemPanel( true, true, true, true ) );
+		this.addPanel( "Creatable", new CreateItemPanel( false, false, false, true ) );
 
 		this.addPanel( " - Cookable", new CreateItemPanel( true, false, false, false ) );
 		this.addPanel( " - Mixable", new CreateItemPanel( false, true, false, false ) );
-		this.addPanel( " - Others", new CreateItemPanel( false, false, true, true ) );
 
 		this.addSeparator();
 
 		this.addPanel( "Equipment", new InventoryManagePanel( inventory, true ) );
 		this.addPanel( " - Create", new CreateItemPanel( false, false, true, false ) );
-		this.addPanel( " - Closet", new InventoryManagePanel( closet, true ) );
 		this.addPanel( " - Storage", new HagnkStoragePanel( true ) );
 
 		// Now a special panel which does nothing more than list
@@ -853,6 +852,90 @@ public class ItemManageFrame extends KoLFrame
 		}
 	}
 
+	protected class UsableItemPanel extends InventoryManagePanel
+	{
+		public UsableItemPanel()
+		{
+			super( inventory, false );
+			this.filterItems();
+		}
+
+		public FilterItemField getWordFilter()
+		{	return new UsableItemFilterField();
+		}
+
+		public void actionConfirmed()
+		{
+			Object [] items = this.getDesiredItems( "Consume" );
+			if ( items.length == 0 )
+				return;
+
+			for ( int i = 0; i < items.length; ++i )
+				RequestThread.postRequest( new ConsumeItemRequest( (AdventureResult) items[i] ) );
+		}
+
+		public void actionCancelled()
+		{
+			String name;
+			Object [] values = this.elementList.getSelectedValues();
+
+			for ( int i = 0; i < values.length; ++i )
+			{
+				name = ((AdventureResult)values[i]).getName();
+				if ( name != null )
+					StaticEntity.openSystemBrowser( "http://kol.coldfront.net/thekolwiki/index.php/Special:Search?search=" + name );
+			}
+		}
+
+		private class UsableItemFilterField extends FilterItemField
+		{
+			public SimpleListFilter getFilter()
+			{	return new UsableItemFilter();
+			}
+
+			private class UsableItemFilter extends SimpleListFilter
+			{
+				public UsableItemFilter()
+				{	super( UsableItemFilterField.this );
+				}
+
+				public boolean isVisible( Object element )
+				{
+					AdventureResult item = (AdventureResult)element;
+					int itemId = item.getItemId();
+
+					if ( !UsableItemFilterField.this.notrade && !TradeableItemDatabase.isTradeable( itemId ) )
+					     return false;
+
+					boolean filter = false;
+
+					switch ( TradeableItemDatabase.getConsumptionType( itemId ) )
+					{
+					case CONSUME_EAT:
+					case CONSUME_DRINK:
+					case CONSUME_USE:
+					case CONSUME_MULTIPLE:
+					case GROW_FAMILIAR:
+					case CONSUME_ZAP:
+					case EQUIP_FAMILIAR:
+					case EQUIP_ACCESSORY:
+					case EQUIP_HAT:
+					case EQUIP_PANTS:
+					case EQUIP_SHIRT:
+					case EQUIP_WEAPON:
+					case EQUIP_OFFHAND:
+					case MP_RESTORE:
+					case HP_RESTORE:
+						return super.isVisible( element );
+
+					default:
+						return false;
+					}
+				}
+			}
+		}
+	}
+
 	/**
 	 * Internal class used to handle everything related to
 	 * creating items; this allows creating of items,
@@ -864,17 +947,24 @@ public class ItemManageFrame extends KoLFrame
 		public CreateItemPanel( boolean food, boolean booze, boolean equip, boolean other )
 		{
 			super( "create item", "create & use", ConcoctionsDatabase.getCreatables(), equip && !other );
-			this.setFixedFilter( food, booze, equip, other, true );
 
-			JPanel filterPanel = new JPanel();
+			if ( this.isEquipmentOnly )
+			{
+				super.addFilters( false );
+			}
+			else
+			{
+				this.setFixedFilter( food, booze, equip, other, true );
+				JPanel filterPanel = new JPanel();
 
-			JCheckBox allowNoBox = new CreationSettingCheckBox( "Require in-a-boxes for creation", "requireBoxServants", "Require in-a-boxes, auto-repair on explosion" );
-			filterPanel.add( allowNoBox );
+				JCheckBox allowNoBox = new CreationSettingCheckBox( "Require in-a-boxes for creation", "requireBoxServants", "Require in-a-boxes, auto-repair on explosion" );
+				filterPanel.add( allowNoBox );
 
-			JCheckBox infiniteNPC = new CreationSettingCheckBox( "Add NPC items to calculations", "assumeInfiniteNPCItems", "Assume NPC items are available for item creation" );
-			filterPanel.add( infiniteNPC );
+				JCheckBox infiniteNPC = new CreationSettingCheckBox( "Add NPC items to calculations", "assumeInfiniteNPCItems", "Assume NPC items are available for item creation" );
+				filterPanel.add( infiniteNPC );
 
-			this.northPanel.add( filterPanel, BorderLayout.SOUTH );
+				this.northPanel.add( filterPanel, BorderLayout.SOUTH );
+			}
 
 			ConcoctionsDatabase.getCreatables().applyListFilters();
 			this.filterItems();
@@ -882,8 +972,6 @@ public class ItemManageFrame extends KoLFrame
 
 		public void addFilters( boolean isCompact )
 		{
-			if ( this.isEquipmentOnly )
-				super.addFilters( isCompact );
 		}
 
 		public void actionConfirmed()
@@ -936,7 +1024,6 @@ public class ItemManageFrame extends KoLFrame
 			SpecialOutfit.restoreImplicitCheckpoint();
 
 			RequestThread.postRequest( new ConsumeItemRequest( new AdventureResult( selection.getItemId(), selection.getQuantityNeeded() ) ) );
-
 			RequestThread.closeRequestSequence();
 		}
 	}
@@ -981,8 +1068,9 @@ public class ItemManageFrame extends KoLFrame
 
 			if ( this.isEquipmentOnly )
 				elementList.setCellRenderer( AdventureResult.getEquipmentRenderer() );
+			else
+				this.movers[ KoLCharacter.canInteract() ? 0 : 2 ].setSelected( true );
 
-			this.movers[ KoLCharacter.canInteract() ? 0 : 2 ].setSelected( true );
 			this.filterItems();
 		}
 
@@ -1026,6 +1114,12 @@ public class ItemManageFrame extends KoLFrame
 			}
 
 			this.northPanel.add( filterPanel, BorderLayout.NORTH );
+		}
+
+		public void addMovers()
+		{
+			if ( !this.isEquipmentOnly )
+				super.addMovers();
 		}
 
 		public FilterItemField getWordFilter()
