@@ -649,7 +649,7 @@ public class KoLRequest extends Job implements KoLConstants
 		// If this is an ascension, make sure to refresh the
 		// session, be it relay or mini-browser.
 
-		if ( location.equals( "main.php?refreshtop=true&noobmessage=true" ) )
+		if ( location.startsWith( "main.php" ) && location.indexOf( "noobmessage=true" ) != -1 )
 			StaticEntity.getClient().handleAscension();
 
 		// Once everything is complete, decide whether or not
