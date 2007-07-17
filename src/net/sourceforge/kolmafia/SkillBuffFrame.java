@@ -62,7 +62,7 @@ public class SkillBuffFrame extends KoLFrame
 		this.effectList.addListSelectionListener( new SkillReselector() );
 
 		this.tabs.addTab( "Active Effects", new StatusEffectPanel() );
-		this.tabs.addTab( "Recovery Items", new UsableItemPanel( true ) );
+		this.tabs.addTab( "Recovery Items", new RestorativeItemPanel() );
 
 		this.framePanel.add( this.tabs, BorderLayout.CENTER );
 
