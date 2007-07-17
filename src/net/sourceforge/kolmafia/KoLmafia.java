@@ -698,6 +698,10 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	public void refreshSession()
+	{	this.refreshSession( true );
+	}
+
+	public void refreshSession( boolean getQuestLog )
 	{
 		isRefreshing = true;
 
@@ -709,7 +713,11 @@ public abstract class KoLmafia implements KoLConstants
 		KoLCharacter.setHoliday( MoonPhaseDatabase.getHoliday( new Date() ) );
 
 		RequestThread.postRequest( new AccountRequest() );
-		RequestThread.postRequest( new QuestLogRequest() );
+
+		if ( getQuestLog )
+			RequestThread.postRequest( new QuestLogRequest() );
+		else
+			QuestLogRequest.registerQuests( "" );
 
 		// Retrieve the character sheet first. It's necessary to do
 		// this before concoctions have a chance to get refreshed.
@@ -726,7 +734,8 @@ public abstract class KoLmafia implements KoLConstants
 		// Retrieve the items which are available for consumption
 		// and item creation.
 
-		RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.CLOSET ) );
+		if ( getQuestLog )
+			RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.CLOSET ) );
 
 		// If the password hash is non-null, but is not available,
 		// then that means you might be mid-transition.
@@ -747,9 +756,10 @@ public abstract class KoLmafia implements KoLConstants
 
 		updateDisplay( "Retrieving campground data..." );
 
-		RequestThread.postRequest( new CampgroundRequest() );
-		RequestThread.postRequest( new ItemStorageRequest() );
+		if ( getQuestLog )
+			RequestThread.postRequest( new CampgroundRequest() );
 
+		RequestThread.postRequest( new ItemStorageRequest() );
 		RequestThread.postRequest( CharpaneRequest.getInstance() );
 		updateDisplay( "Session data refreshed." );
 
@@ -3239,11 +3249,48 @@ public abstract class KoLmafia implements KoLConstants
 		KoLCharacter.getFamiliarList().clear();
 
 		conditions.clear();
-		refreshSession();
+		refreshSession( false );
 		resetSession();
 
-		MoodSettings.setMood( "apathetic" );
+		// Based on your class, you get some basic
+		// items once you ascend.
 
+		String type = KoLCharacter.getClassType();
+		if ( type.equals( KoLCharacter.SEAL_CLUBBER ) )
+		{
+			KoLCharacter.processResult( new AdventureResult( "seal-skull helmet", 1, false ), false );
+			KoLCharacter.processResult( new AdventureResult( "seal-clubbing club", 1, false ), false );
+		}
+		else if ( type.equals( KoLCharacter.TURTLE_TAMER ) )
+		{
+			KoLCharacter.processResult( new AdventureResult( "helmet turtle", 1, false ), false );
+			KoLCharacter.processResult( new AdventureResult( "turtle totem", 1, false ), false );
+		}
+		else if ( type.equals( KoLCharacter.PASTAMANCER ) )
+		{
+			KoLCharacter.processResult( new AdventureResult( "pasta spoon", 1, false ), false );
+			KoLCharacter.processResult( new AdventureResult( "ravioli hat", 1, false ), false );
+		}
+		else if ( type.equals( KoLCharacter.SAUCEROR ) )
+		{
+			KoLCharacter.processResult( new AdventureResult( "saucepan", 1, false ), false );
+			KoLCharacter.processResult( new AdventureResult( "spices", 1, false ), false );
+		}
+		else if ( type.equals( KoLCharacter.DISCO_BANDIT ) )
+		{
+			KoLCharacter.processResult( new AdventureResult( "disco ball", 1, false ), false );
+			KoLCharacter.processResult( new AdventureResult( "disco mask", 1, false ), false );
+		}
+		else if ( type.equals( KoLCharacter.ACCORDION_THIEF ) )
+		{
+			KoLCharacter.processResult( new AdventureResult( "mariachi pants", 1, false ), false );
+			KoLCharacter.processResult( new AdventureResult( "stolen accordion", 1, false ), false );
+		}
+
+		// Note the information in the session log
+		// for recording purposes.
+
+		MoodSettings.setMood( "apathetic" );
 		PrintStream sessionStream = RequestLogger.getSessionStream();
 
 		sessionStream.println();

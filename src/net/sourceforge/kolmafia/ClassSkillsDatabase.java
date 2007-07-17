@@ -355,6 +355,13 @@ public class ClassSkillsDatabase extends KoLDatabase
 				actualDuration += 10;
 			else if ( inventory.contains( weapons[1] ) || KoLCharacter.hasEquipped( weapons[1] ) )
 				actualDuration += 5;
+			else if ( weapons == UseSkillRequest.THIEF_WEAPONS )
+			{
+				if ( inventory.contains( weapons[2] ) || KoLCharacter.hasEquipped( weapons[2] ) )
+					actualDuration += 2;
+				else if ( !inventory.contains( weapons[3] ) && !KoLCharacter.hasEquipped( weapons[3] ) )
+					return 0;
+			}
 			else if ( !inventory.contains( weapons[2] ) && !KoLCharacter.hasEquipped( weapons[2] ) )
 				return 0;
 		}
