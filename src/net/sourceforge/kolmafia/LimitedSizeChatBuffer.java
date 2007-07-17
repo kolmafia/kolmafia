@@ -75,7 +75,7 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 
 	public LimitedSizeChatBuffer( String title, boolean requiresTruncation, boolean affectsHighlightBuffer )
 	{
-		super( title, !requiresTruncation );
+		super( title, requiresTruncation );
 		this.requiresTruncation = requiresTruncation;
 		this.affectsHighlightBuffer = affectsHighlightBuffer;
 	}

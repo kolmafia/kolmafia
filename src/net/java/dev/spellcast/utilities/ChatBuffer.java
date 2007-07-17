@@ -405,6 +405,13 @@ public class ChatBuffer
 
 		public void run()
 		{
+			if ( displayPanes.isEmpty() )
+			{
+				contentQueue.clear();
+				UPDATER.handlingFinished();
+				return;
+			}
+
 			while ( !contentQueue.isEmpty() )
 			{
 				this.newContents = contentQueue.remove(0);
@@ -420,9 +427,7 @@ public class ChatBuffer
 				}
 			}
 
-			if ( autoScroll )
-				scroll();
-
+			scroll();
 			UPDATER.handlingFinished();
 		}
 
@@ -495,7 +500,7 @@ public class ChatBuffer
 				return;
 
 			int length = displayPane.getDocument().getLength();
-			displayPane.setCaretPosition( Math.max( length - 1, 0 ) );
+			displayPane.setCaretPosition( autoScroll ? Math.max( length - 1, 0 ) : 0 );
 		}
 	}
 }
