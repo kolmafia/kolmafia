@@ -912,11 +912,22 @@ public class ItemManageFrame extends KoLFrame
 					switch ( TradeableItemDatabase.getConsumptionType( itemId ) )
 					{
 					case CONSUME_EAT:
+						filter = UsableItemFilterField.this.food;
+						break;
+
 					case CONSUME_DRINK:
+						filter = UsableItemFilterField.this.booze;
+						break;
+
 					case CONSUME_USE:
 					case CONSUME_MULTIPLE:
 					case GROW_FAMILIAR:
 					case CONSUME_ZAP:
+					case MP_RESTORE:
+					case HP_RESTORE:
+						filter = UsableItemFilterField.this.other;
+						break;
+
 					case EQUIP_FAMILIAR:
 					case EQUIP_ACCESSORY:
 					case EQUIP_HAT:
@@ -924,13 +935,14 @@ public class ItemManageFrame extends KoLFrame
 					case EQUIP_SHIRT:
 					case EQUIP_WEAPON:
 					case EQUIP_OFFHAND:
-					case MP_RESTORE:
-					case HP_RESTORE:
-						return super.isVisible( element );
+						filter = UsableItemFilterField.this.equip;
+						break;
 
 					default:
 						return false;
 					}
+
+					return filter && super.isVisible( element );
 				}
 			}
 		}
@@ -1149,10 +1161,14 @@ public class ItemManageFrame extends KoLFrame
 			{
 				public boolean isVisible( Object element )
 				{
-					if ( !InventoryManagePanel.this.isEquipmentOnly )
+					if ( InventoryManagePanel.this.equipmentFilters == null )
 						return super.isVisible( element );
 
 					boolean isVisibleWithFilter = true;
+
+					if ( element == null )
+						return false;
+
 					int itemId = element instanceof AdventureResult ? ((AdventureResult)element).getItemId() :
 						element instanceof ItemCreationRequest ? ((ItemCreationRequest)element).getItemId() : -1;
 
@@ -1193,10 +1209,7 @@ public class ItemManageFrame extends KoLFrame
 						return false;
 					}
 
-					if ( !isVisibleWithFilter )
-						return false;
-
-					return super.isVisible( element );
+					return isVisibleWithFilter && super.isVisible( element );
 				}
 			}
 		}
