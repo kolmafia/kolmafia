@@ -131,11 +131,11 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 	public void setBuffCount( int buffCount )
 	{
-		int MPCost = ClassSkillsDatabase.getMPConsumptionById( this.skillId );
-		if ( MPCost == 0 )
+		int mpCost = ClassSkillsDatabase.getMPConsumptionById( this.skillId );
+		if ( mpCost == 0 )
 			return;
 
-		int maxPossible = Math.min( getMaximumCast(), KoLCharacter.getCurrentMP() / MPCost );
+		int maxPossible = Math.min( getMaximumCast(), KoLCharacter.getCurrentMP() / mpCost );
 
 		// Candy hearts need to be calculated in
 		// a slightly different manner.
@@ -144,8 +144,6 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		{
 			int mpRemaining = KoLCharacter.getCurrentMP();
 			int count = StaticEntity.getIntegerProperty( "candyHeartSummons" );
-
-			int mpCost = ClassSkillsDatabase.getMPConsumptionById( 18 );
 
 			while ( mpCost <= mpRemaining )
 			{
@@ -261,9 +259,6 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 	public static void optimizeEquipment( int skillId )
 	{
-		if ( KoLCharacter.canInteract() || !StaticEntity.getBooleanProperty( "switchEquipmentForBuffs" ) )
-			return;
-
 		if ( skillId > 2000 && skillId < 3000 )
 			prepareWeapon( TAMER_WEAPONS );
 
@@ -517,6 +512,14 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		}
 	}
 
+	protected boolean retryOnTimeout()
+	{	return false;
+	}
+
+	protected boolean processOnFailure()
+	{	return true;
+	}
+
 	public void processResults()
 	{
 		boolean shouldStop = false;
@@ -527,8 +530,14 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 		if ( this.responseText == null || this.responseText.trim().length() == 0 )
 		{
-			shouldStop = false;
-			lastUpdate = "Encountered lag problems.";
+			int initialMP = KoLCharacter.getCurrentMP();
+			CharpaneRequest.getInstance().run();
+
+			if ( initialMP == KoLCharacter.getCurrentMP() )
+			{
+				shouldStop = false;
+				lastUpdate = "Encountered lag problems.";
+			}
 		}
 		else if ( this.responseText.indexOf( "You don't have that skill" ) != -1 )
 		{
