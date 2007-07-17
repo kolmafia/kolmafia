@@ -1432,7 +1432,7 @@ public class AdventureDatabase extends KoLDatabase
 
 		if ( shouldPurchase )
 		{
-			if ( canUseNPCStore || !hasAnyIngredient( itemId ) )
+			if ( canUseNPCStore || (KoLCharacter.canInteract() && !hasAnyIngredient( itemId )) )
 			{
 				StaticEntity.getClient().makePurchases( StoreManager.searchMall( item.getName() ), missingCount );
 				missingCount = item.getCount() - item.getCount( inventory );
