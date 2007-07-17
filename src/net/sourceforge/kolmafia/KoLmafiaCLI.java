@@ -203,24 +203,27 @@ public class KoLmafiaCLI extends KoLmafia
 
 	/**
 	 * Initializes the <code>KoLmafia</code> session.  Called after
-	 * the login has been confirmed to notify thethat the
+	 * the login has been confirmed to notify the client that the
 	 * login was successful, the user-specific settings should be
 	 * loaded, and the user can begin adventuring.
 	 */
 
 	public void initialize( String username )
 	{
-		if ( StaticEntity.getClient() != this )
-		{
-			StaticEntity.getClient().initialize( username );
-			return;
-		}
-
 		super.initialize( username );
 
-		RequestLogger.printLine();
-		this.executeCommand( "moons", "" );
-		RequestLogger.printLine();
+		try
+		{
+			String holiday = MoonPhaseDatabase.getHoliday( DATED_FILENAME_FORMAT.parse( DATED_FILENAME_FORMAT.format( new Date() ) ), true );
+			updateDisplay( ENABLE_STATE, holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
+		}
+		catch ( Exception e )
+		{
+			// Should not happen, you're parsing something that
+			// was formatted the same way.
+
+			StaticEntity.printStackTrace( e );
+		}
 
 		if ( StaticEntity.getGlobalProperty( "initialFrames" ).indexOf( "LocalRelayServer" ) != -1 )
 			KoLmafiaGUI.constructFrame( "LocalRelayServer" );

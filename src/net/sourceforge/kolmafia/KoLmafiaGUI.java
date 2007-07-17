@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.SwingUtilities;
@@ -106,7 +107,6 @@ public class KoLmafiaGUI extends KoLmafia
 
 	public void initialize( String username )
 	{
-		String originalName = KoLCharacter.getUserName();
 		super.initialize( username );
 
 		if ( KoLRequest.passwordHash != null )
@@ -174,8 +174,26 @@ public class KoLmafiaGUI extends KoLmafia
 
 		LoginFrame.disposeInstance();
 
+
 		if ( KoLMailManager.hasNewMessages() )
+		{
 			KoLmafia.updateDisplay( "You have new mail." );
+		}
+		else
+		{
+			try
+			{
+				String holiday = MoonPhaseDatabase.getHoliday( DATED_FILENAME_FORMAT.parse( DATED_FILENAME_FORMAT.format( new Date() ) ), true );
+				updateDisplay( ENABLE_STATE, holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
+			}
+			catch ( Exception e )
+			{
+				// Should not happen, you're parsing something that
+				// was formatted the same way.
+
+				StaticEntity.printStackTrace( e );
+			}
+		}
 	}
 
 	public static void constructFrame( String frameName )
