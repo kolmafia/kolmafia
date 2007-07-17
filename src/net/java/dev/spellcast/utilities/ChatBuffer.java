@@ -77,7 +77,6 @@ import java.util.ArrayList;
 import java.util.TreeMap;
 
 import javax.swing.JEditorPane;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
@@ -406,12 +405,6 @@ public class ChatBuffer
 
 		public void run()
 		{
-			if ( displayPanes.isEmpty() )
-			{
-				contentQueue.clear();
-				return;
-			}
-
 			while ( !contentQueue.isEmpty() )
 			{
 				this.newContents = contentQueue.remove(0);
@@ -421,7 +414,7 @@ public class ChatBuffer
 					contentQueue.clear();
 					reset();
 				}
-				else if ( newContents != null )
+				else
 				{
 					append();
 				}
