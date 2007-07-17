@@ -80,6 +80,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	{
 		new AdventureResult( 2557, 1 ),  // Squeezebox of the Ages
 		new AdventureResult( 50, 1 ),    // Rock 'n Roll Legend
+		new AdventureResult( 2234, 1 ),  // calavera concertina
 		new AdventureResult( 11, 1 )     // stolen accordion
 	};
 
