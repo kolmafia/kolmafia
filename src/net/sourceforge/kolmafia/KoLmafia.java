@@ -712,8 +712,6 @@ public abstract class KoLmafia implements KoLConstants
 		RequestThread.postRequest( new MoonPhaseRequest() );
 		KoLCharacter.setHoliday( MoonPhaseDatabase.getHoliday( new Date() ) );
 
-		RequestThread.postRequest( new AccountRequest() );
-
 		if ( getQuestLog )
 			RequestThread.postRequest( new QuestLogRequest() );
 		else
@@ -741,10 +739,7 @@ public abstract class KoLmafia implements KoLConstants
 		// then that means you might be mid-transition.
 
 		if ( KoLRequest.passwordHash != null && KoLRequest.passwordHash.equals( "" ) )
-		{
-			RequestThread.closeRequestSequence();
 			return;
-		}
 
 		// Retrieve the list of familiars which are available to
 		// the player.
@@ -754,10 +749,11 @@ public abstract class KoLmafia implements KoLConstants
 		// Retrieve campground data to see if the user is able to
 		// cook, make drinks or make toast.
 
-		updateDisplay( "Retrieving campground data..." );
-
 		if ( getQuestLog )
+		{
+			updateDisplay( "Retrieving campground data..." );
 			RequestThread.postRequest( new CampgroundRequest() );
+		}
 
 		if ( StaticEntity.getIntegerProperty( "lastEmptiedStorage" ) != KoLCharacter.getAscensions() )
 		{
