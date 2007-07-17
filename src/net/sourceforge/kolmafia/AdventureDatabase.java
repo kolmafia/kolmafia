@@ -338,7 +338,7 @@ public class AdventureDatabase extends KoLDatabase
 		// Choice 119 is unknown
 		// Choice 120 is Ennui is Wasted on the Young
 		// Choice 121-122 are unknown
-        // Choice 123 is At Least It's Not Full Of Trash
+		// Choice 123 is At Least It's Not Full Of Trash
 		// Choice 124 is unknown
 		// Choice 125 is No Visible Means of Support
 
@@ -755,7 +755,7 @@ public class AdventureDatabase extends KoLDatabase
 		new ChoiceAdventure( "choiceAdventure123", "Hidden Temple",
 		  new String [] { "lose HP", "Unlock Quest Puzzle", "lose HP" } ),
 
-	    // No Visible Means of Support
+		// No Visible Means of Support
 		new ChoiceAdventure( "choiceAdventure125", "Hidden Temple",
 		  new String [] { "lose HP", "lose HP", "Unlock Hidden City" } ),
 
