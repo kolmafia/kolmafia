@@ -933,74 +933,96 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		// to another common request?
 
 		String location = null;
+		boolean shouldReset = true;
 
 		if ( urlString.startsWith( "shore.php" ) && urlString.indexOf( "whichtrip=1" ) != -1 )
+		{
+			shouldReset = false;
 			location = "Muscle Vacation";
+		}
 		else if ( urlString.startsWith( "shore.php" ) && urlString.indexOf( "whichtrip=2" ) != -1 )
+		{
+			shouldReset = false;
 			location = "Mysticality Vacation";
+		}
 		else if ( urlString.startsWith( "shore.php" ) && urlString.indexOf( "whichtrip=3" ) != -1 )
+		{
+			shouldReset = false;
 			location = "Moxie Vacation";
+		}
 		else if ( urlString.startsWith( "guild.php?action=chal" ) )
+		{
+			shouldReset = false;
 			location = "Guild Challenge";
+		}
 		else if ( urlString.startsWith( "dungeon.php" ) )
 		{
-			resetAutoAttack();
+			shouldReset = true;
 			location = "Daily Dungeon";
 		}
 		else if ( urlString.startsWith( "rats.php" ) )
 		{
-			resetAutoAttack();
+			shouldReset = true;
 			location = "Typical Tavern Quest";
 		}
 		else if ( urlString.startsWith( "barrel.php" ) )
 		{
-			resetAutoAttack();
+			shouldReset = true;
 			location = "Barrel Full of Barrels";
 		}
 		else if ( urlString.startsWith( "mining.php" ) )
+		{
+			shouldReset = false;
 			location = "Itznotyerzitz Mine (In Disguise)";
+		}
 		else if ( urlString.startsWith( "arena.php" ) && urlString.indexOf( "action" ) != -1 )
+		{
+			shouldReset = false;
 			location = "Cake-Shaped Arena";
+		}
 		else if ( urlString.startsWith( "lair4.php?action=level1" ) )
 		{
-			resetAutoAttack();
+			shouldReset = true;
 			location = "Sorceress Tower: Level 1";
 		}
 		else if ( urlString.startsWith( "lair4.php?action=level2" ) )
 		{
-			resetAutoAttack();
+			shouldReset = true;
 			location = "Sorceress Tower: Level 2";
 		}
 		else if ( urlString.startsWith( "lair4.php?action=level3" ) )
 		{
-			resetAutoAttack();
+			shouldReset = true;
 			location = "Sorceress Tower: Level 3";
 		}
 		else if ( urlString.startsWith( "lair5.php?action=level1" ) )
 		{
-			resetAutoAttack();
+			shouldReset = true;
 			location = "Sorceress Tower: Level 4";
 		}
 		else if ( urlString.startsWith( "lair5.php?action=level2" ) )
 		{
-			resetAutoAttack();
+			shouldReset = true;
 			location = "Sorceress Tower: Level 5";
 		}
 		else if ( urlString.startsWith( "lair5.php?action=level3" ) )
 		{
-			resetAutoAttack();
+			shouldReset = true;
 			location = "Sorceress Tower: Level 6";
 		}
 		else if ( urlString.startsWith( "lair6.php?place=0" ) )
+		{
+			shouldReset = false;
 			location = "Sorceress Tower: Door Puzzles";
+		}
 		else if ( urlString.startsWith( "lair6.php?place=2" ) )
 		{
-			resetAutoAttack();
+			shouldReset = true;
 			location = "Sorceress Tower: Shadow Fight";
 		}
 		else if ( urlString.startsWith( "hiddencity.php" ) )
 		{
-			resetAutoAttack();
+			shouldReset = true;
 			location = "Hidden City: Unexplored Ruins";
 		}
 
@@ -1009,6 +1031,9 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 		if ( urlString.indexOf( "?" ) == -1 )
 			return true;
+
+		if ( shouldReset )
+			resetAutoAttack();
 
 		if ( !KoLmafia.isAdventuring() )
 		{
