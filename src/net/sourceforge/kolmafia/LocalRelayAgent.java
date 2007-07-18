@@ -43,6 +43,9 @@ import java.util.regex.Pattern;
 
 public class LocalRelayAgent extends Thread
 {
+	private static final CustomCombatThread CUSTOM_THREAD = new CustomCombatThread();
+	static { CUSTOM_THREAD.start(); }
+
 	private static final Pattern INVENTORY_COOKIE_PATTERN = Pattern.compile( "inventory=(\\d+)" );
 
 	private Socket socket = null;
@@ -271,7 +274,7 @@ public class LocalRelayAgent extends Thread
 				StaticEntity.setProperty( "battleAction", "custom combat script" );
 
 				FightRequest.beginTrackingFights();
-				(new Thread( FightRequest.INSTANCE )).start();
+				CUSTOM_THREAD.wake();
 			}
 
 			String fightResponse = FightRequest.getNextTrackedRound();
@@ -289,7 +292,7 @@ public class LocalRelayAgent extends Thread
 					fightResponse = StaticEntity.singleStringDelete( fightResponse, "src=\"http://images.kingdomofloathing.com/scripts/core.js\"" );
 
 					fightResponse = StaticEntity.singleStringReplace( fightResponse, "</html>",
-						"<script language=\"Javascript\"> function continueAutomatedFight() { document.location = \"fight.php\"; return 0; } setTimeout( continueAutomatedFight, 400 ); </script></html>" );
+						"<script language=\"Javascript\"> function continueAutomatedFight() { document.location.reload(); return 0; } setTimeout( continueAutomatedFight, 400 ); </script></html>" );
 				}
 
 				this.request.pseudoResponse( "HTTP/1.1 200 OK", fightResponse );
@@ -355,5 +358,39 @@ public class LocalRelayAgent extends Thread
 			// socket is already closed.  Ignore.
 		}
 
+	}
+
+	private static class CustomCombatThread extends Thread
+	{
+		public CustomCombatThread()
+		{	this.setDaemon( true );
+		}
+
+		public void wake()
+		{
+			synchronized ( this )
+			{	this.notify();
+			}
+		}
+
+		public void run()
+		{
+			while ( true )
+			{
+				try
+				{
+					synchronized ( this )
+					{	this.wait();
+					}
+				}
+				catch ( InterruptedException e )
+				{
+					// We expect this to happen only when we are
+					// interrupted.  Fall through.
+				}
+
+				FightRequest.INSTANCE.run();
+			}
+		}
 	}
 }
