@@ -274,7 +274,11 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Choices 48 - 70 are violet fog adventures
 		// Choice 71 is A Journey to the Center of Your Mind
-		// Choice 72 is Lording Over The Flies
+
+		// Lording Over The Flies
+		new ChoiceAdventure( "Island", "choiceAdventure72", "Frat House",
+		  new String [] { "around the world", "skip adventure" },
+		  new String [] { "1634", "1633" } ),
 
 		// Don't Fence Me In
 		new ChoiceAdventure( "Woods", "choiceAdventure73", "Whitey's Grove",
@@ -291,7 +295,11 @@ public class AdventureDatabase extends KoLDatabase
 		  new String [] { "mysticality substats", "white lightning", "white collar" },
 		  new String [] { null, "266", "1655" } ),
 
-		// Choice 76 is Junction in the Trunction
+		// Junction in the Trunction
+		new ChoiceAdventure( "Knob", "choiceAdventure76", "Knob Shaft",
+		  new String [] { "cardboard ore", "styrofoam ore", "bubblewrap ore" },
+		  new String [] { "1675", "1676", "1677" } ),
+
 		// Choice 77 is Minnesota Incorporeals
 		// Choice 78 is Broken
 		// Choice 79 is A Hustle Here, a Hustle There
@@ -596,7 +604,7 @@ public class AdventureDatabase extends KoLDatabase
 	public static final ChoiceAdventure [] CHOICE_ADV_SPOILERS =
 	{
 		// Denim Axes Examined
-		new ChoiceAdventure( "Plains", "choiceAdventure2", "Palindome",
+		new ChoiceAdventure( "choiceAdventure2", "Palindome",
 		  new String [] { "denim axe", "skip adventure" },
 		  new String [] { "499", "292" } ),
 
@@ -663,16 +671,6 @@ public class AdventureDatabase extends KoLDatabase
 		  new String [] { "moxie substats", "muscle substats", "enter combat" } ),
 
 		// A Journey to the Center of Your Mind -> Self Explanatory
-
-		// Lording Over The Flies
-		new ChoiceAdventure( "choiceAdventure72", "Frat House",
-		  new String [] { "around the world", "skip adventure" },
-		  new String [] { "1634", "1633" } ),
-
-		// Junction in the Trunction
-		new ChoiceAdventure( "Knob", "choiceAdventure76", "Knob Shaft",
-		  new String [] { "cardboard ore", "styrofoam ore", "bubblewrap ore" },
-		  new String [] { "1675", "1676", "1677" } ),
 
 		// Minnesota Incorporeals
 		new ChoiceAdventure( "choiceAdventure77", "Haunted Billiard Room",
