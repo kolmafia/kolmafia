@@ -189,7 +189,7 @@ eXtreme Sports Orcs	HP: 30 Def: 38 Atk: 38	Orcish baseball cap (0)	Orcish cargo 
 Fallen Archfiend	HP: 50 Def: 50 Atk: 50 E: heat Meat: 36-58	evil golden arch (30)	infernal insoles (10)
 Felonia, Queen of the Spooky Gravy Fairies	HP: 82 Def: 75 Atk: 75 E: spooky
 Fiendish Can of Asparagus	HP: 1 Def: 2 Atk: 1 E: stench Meat: 4-7	asparagus knife (20)	stalk of asparagus (40)	razor-sharp can lid (40)
-Figure Skating Duck	HP: 0
+Figure-Skating Duck	HP: 0
 Filthworm Drone	HP: 0
 Filthworm Royal Guard	HP: 0
 Filthy Hippy	HP: 30 Def: 39 Atk: 41 E: stench	decorative fountain (30)	filthy corduroys (5)	filthy knitted dread sack (5)	patchouli incense stick (30)	tambourine bells (15)	reodorant (5)
