@@ -364,7 +364,7 @@ public class AdventureDatabase extends KoLDatabase
 		// Choice 119 is unknown
 
 		// Ennui is Wasted on the Young
-		new ChoiceAdventure( "choiceAdventure120", "Knob Outskirts",
+		new ChoiceAdventure( "Knob", "choiceAdventure120", "Knob Outskirts",
 		  new String [] { "muscle and Pumped Up", "ice cold Sir Schlitz", "moxie and lemon", "skip adventure" },
 		  new String [] { null, "41", "332", null } ),
 
@@ -1317,7 +1317,7 @@ public class AdventureDatabase extends KoLDatabase
 
 		if ( shouldPurchase )
 		{
-			if ( canUseNPCStore || (KoLCharacter.canInteract() && !hasAnyIngredient( itemId )) )
+			if ( canUseNPCStore || (KoLCharacter.canInteract() && price > 0 && TradeableItemDatabase.isTradeable( itemId ) && !hasAnyIngredient( itemId )) )
 			{
 				StaticEntity.getClient().makePurchases( StoreManager.searchMall( item.getName() ), missingCount );
 				missingCount = item.getCount() - item.getCount( inventory );
