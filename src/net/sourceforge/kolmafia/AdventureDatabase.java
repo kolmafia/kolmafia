@@ -362,7 +362,12 @@ public class AdventureDatabase extends KoLDatabase
 		// Choice 117 is Tresspasser
 		// Choice 118 is When Rocks Attack
 		// Choice 119 is unknown
-		// Choice 120 is Ennui is Wasted on the Young
+
+		// Ennui is Wasted on the Young
+		new ChoiceAdventure( "choiceAdventure120", "Knob Outskirts",
+		  new String [] { "muscle and Pumped Up", "ice cold Sir Schlitz", "moxie and lemon", "skip adventure" },
+		  new String [] { null, "41", "332", null } ),
+
 		// Choice 121-122 are unknown
 		// Choice 123 is At Least It's Not Full Of Trash
 		// Choice 124 is unknown
@@ -756,11 +761,6 @@ public class AdventureDatabase extends KoLDatabase
 		// When Rocks Attack
 		new ChoiceAdventure( "choiceAdventure118", "Knob Outskirts",
 		  new String [] { "accept unguent quest", "skip adventure" } ),
-
-		// Ennui is Wasted on the Young
-		new ChoiceAdventure( "choiceAdventure120", "Knob Outskirts",
-		  new String [] { "muscle and Pumped Up", "ice cold Sir Schlitz", "moxie and lemon", "skip adventure" },
-		  new String [] { null, "41", "332", null } ),
 
 		// At Least It's Not Full Of Trash
 		new ChoiceAdventure( "choiceAdventure123", "Hidden Temple",
