@@ -1207,9 +1207,11 @@ public class AdventureDatabase extends KoLDatabase
 		boolean shouldUseMall = force || getBooleanProperty( "autoSatisfyWithMall" );
 		boolean shouldUseStash = getBooleanProperty( "autoSatisfyWithStash" );
 
-		boolean shouldPurchase = price != 0 || item.getName().indexOf( "clover" ) != -1;
+		boolean shouldPurchase = price > 0 || item.getName().indexOf( "clover" ) != -1;
 		boolean canUseNPCStore = NPCStoreDatabase.contains( item.getName() );
+
 		canUseNPCStore &= force || getBooleanProperty( "autoSatisfyWithNPCs" );
+		shouldUseMall &= shouldPurchase && KoLCharacter.canInteract() && TradeableItemDatabase.isTradeable( itemId );
 
 		int mixingMethod = ConcoctionsDatabase.getMixingMethod( itemId );
 		boolean shouldCreate = false;
@@ -1317,7 +1319,7 @@ public class AdventureDatabase extends KoLDatabase
 
 		if ( shouldPurchase )
 		{
-			if ( canUseNPCStore || (KoLCharacter.canInteract() && price > 0 && TradeableItemDatabase.isTradeable( itemId ) && !hasAnyIngredient( itemId )) )
+			if ( canUseNPCStore || (shouldUseMall && !hasAnyIngredient( itemId )) )
 			{
 				StaticEntity.getClient().makePurchases( StoreManager.searchMall( item.getName() ), missingCount );
 				missingCount = item.getCount() - item.getCount( inventory );
@@ -1360,16 +1362,13 @@ public class AdventureDatabase extends KoLDatabase
 		// Try to purchase the item from the mall, if the user wishes to allow
 		// purchases for item acquisition.
 
-		if ( shouldPurchase )
+		if ( shouldUseMall )
 		{
-			if ( KoLCharacter.canInteract() && shouldUseMall )
-			{
-				StaticEntity.getClient().makePurchases( StoreManager.searchMall( item.getName() ), missingCount );
-				missingCount = item.getCount() - item.getCount( inventory );
+			StaticEntity.getClient().makePurchases( StoreManager.searchMall( item.getName() ), missingCount );
+			missingCount = item.getCount() - item.getCount( inventory );
 
-				if ( missingCount <= 0 )
-					return true;
-			}
+			if ( missingCount <= 0 )
+				return true;
 		}
 
 		switch ( mixingMethod )
