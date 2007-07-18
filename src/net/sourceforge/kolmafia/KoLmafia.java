@@ -2844,8 +2844,10 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		for ( int i = 0; i < OVERRIDE_DATA.length; ++i )
 		{
+			updateDisplay( "Downloading " + OVERRIDE_DATA[i] + "..." );
+
 			BufferedReader reader = KoLDatabase.getReader(
-				"http://svn.sourceforge.net/viewvc/*checkout*/kolmafia/src/data/" + OVERRIDE_DATA[i] );
+				"http://kolmafia.svn.sourceforge.net/viewvc/*checkout*/kolmafia/src/data/" + OVERRIDE_DATA[i] );
 
 			File output = new File( DATA_LOCATION, OVERRIDE_DATA[i] );
 
