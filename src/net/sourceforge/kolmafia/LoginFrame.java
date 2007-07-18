@@ -249,10 +249,6 @@ public class LoginFrame extends KoLFrame
 			}
 		}
 
-		public void addListeners()
-		{
-		}
-
 		public void setEnabled( boolean isEnabled )
 		{
 			if ( LoginFrame.this.usernameField == null || this.passwordField == null )
