@@ -43,6 +43,7 @@ Manor	0/104	adventure=120	Haunted Wine Cellar
 
 Woods	5/0	adventure=15	Spooky Forest	1 mosquito larva
 Woods	5/0	adventure=17	Hidden Temple
+Woods	104/0	adventure=118	Hidden City
 Woods	5/0	adventure=25	Typical Tavern	beer goggles
 Woods	29/29	adventure=79	Friar's Gate
 Woods	0/20	adventure=73	8-Bit Realm	1 digital key, 4 red pixel potion
