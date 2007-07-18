@@ -866,6 +866,7 @@ public class KoLSettings extends Properties implements KoLConstants
 
 			switch ( StaticEntity.parseInt( setting.substring(15) ) )
 			{
+			case 6:  case 7:  case 8:
 			case 9:  case 10:  case 11:  case 12:
 			case 26:  case 27:  case 28:  case 29:
 			case 77:  case 78:  case 79:
@@ -879,22 +880,28 @@ public class KoLSettings extends Properties implements KoLConstants
 				continue;
 
 			int defaultOption = StaticEntity.parseInt( (String) PLAYER_SETTINGS.get( setting ) ) - 1;
-			ostream.print( setting.substring(15) + ": " );
 
+			ostream.print( "[" + setting.substring(15) + "] " );
+			ostream.print( choices[i].getName() + ": " );
+
+			int printedCount = 0;
 			String [] options = choices[i].getOptions();
+
+			ostream.print( options[defaultOption] + " [color=gray](" );
 
 			for ( int j = 0; j < options.length; ++j )
 			{
-				if ( j != 0 )
-					ostream.print( "[color=gray], [/color]" );
-
 				if ( j == defaultOption )
-					ostream.print( options[j] );
-				else
-					ostream.print( "[color=gray]" + options[j] + "[/color]" );
+					continue;
+
+				if ( printedCount != 0 )
+					ostream.print( ", " );
+
+				++printedCount;
+				ostream.print( options[j] );
 			}
 
-			ostream.println();
+			ostream.println( ")[/color]" );
 		}
 	}
 
