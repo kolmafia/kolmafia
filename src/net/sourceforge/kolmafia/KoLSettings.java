@@ -713,6 +713,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		// Ensure that they exist, and if they do not, load
 		// them to their default settings.
 
+		PLAYER_SETTINGS.put( "lastChoiceUpdate", "" );
 		PLAYER_SETTINGS.put( "choiceAdventure2", "2" );
 		PLAYER_SETTINGS.put( "choiceAdventure3", "3" );
 		PLAYER_SETTINGS.put( "choiceAdventure4", "3" );
@@ -786,8 +787,8 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "choiceAdventure125", "3" );
 		PLAYER_SETTINGS.put( "choiceAdventure126", "1" );
 		PLAYER_SETTINGS.put( "choiceAdventure127", "3" );
-		PLAYER_SETTINGS.put( "choiceAdventure129", "2" );
-		PLAYER_SETTINGS.put( "choiceAdventure130", "2" );
+		PLAYER_SETTINGS.put( "choiceAdventure129", "1" );
+		PLAYER_SETTINGS.put( "choiceAdventure130", "1" );
 		PLAYER_SETTINGS.put( "choiceAdventure131", "1" );
 		PLAYER_SETTINGS.put( "choiceAdventure132", "2" );
 		PLAYER_SETTINGS.put( "choiceAdventure134", "2" );
@@ -827,6 +828,24 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "choiceAdventure172", "1" );
 		PLAYER_SETTINGS.put( "choiceAdventure177", "4" );
 		PLAYER_SETTINGS.put( "choiceAdventure178", "1" );
+	}
+
+	private void ensureChoiceDefaults()
+	{
+		if ( GLOBAL_SETTINGS == null || this == GLOBAL_SETTINGS )
+			return;
+
+		if ( super.getProperty( "lastChoiceUpdate" ).equals( VERSION_NAME ) )
+			return;
+
+		String setting;
+		super.setProperty( "lastChoiceUpdate", VERSION_NAME );
+
+		for ( int i = 0; i < AdventureDatabase.CHOICE_ADV_SPOILERS.length; ++i )
+		{
+			setting = AdventureDatabase.CHOICE_ADV_SPOILERS[i].getSetting();
+			super.setProperty( setting, (String) PLAYER_SETTINGS.get( setting ) );
+		}
 	}
 
 	public static void printDefaults()
@@ -936,6 +955,8 @@ public class KoLSettings extends Properties implements KoLConstants
 		for ( int i = 0; i < keys.length; ++i )
 			if ( !this.containsKey( keys[i] ) )
 				super.setProperty( (String) keys[i], (String) PLAYER_SETTINGS.get( keys[i] ) );
+
+		this.ensureChoiceDefaults();
 
 		this.initializingDefaults = false;
 		this.saveSettings();
