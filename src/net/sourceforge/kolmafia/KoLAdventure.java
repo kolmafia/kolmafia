@@ -943,31 +943,66 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		else if ( urlString.startsWith( "guild.php?action=chal" ) )
 			location = "Guild Challenge";
 		else if ( urlString.startsWith( "dungeon.php" ) )
+		{
+			resetAutoAttack();
 			location = "Daily Dungeon";
+		}
 		else if ( urlString.startsWith( "rats.php" ) )
+		{
+			resetAutoAttack();
 			location = "Typical Tavern Quest";
+		}
 		else if ( urlString.startsWith( "barrel.php" ) )
+		{
+			resetAutoAttack();
 			location = "Barrel Full of Barrels";
+		}
 		else if ( urlString.startsWith( "mining.php" ) )
 			location = "Itznotyerzitz Mine (In Disguise)";
 		else if ( urlString.startsWith( "arena.php" ) && urlString.indexOf( "action" ) != -1 )
 			location = "Cake-Shaped Arena";
 		else if ( urlString.startsWith( "lair4.php?action=level1" ) )
+		{
+			resetAutoAttack();
 			location = "Sorceress Tower: Level 1";
+		}
 		else if ( urlString.startsWith( "lair4.php?action=level2" ) )
+		{
+			resetAutoAttack();
 			location = "Sorceress Tower: Level 2";
+		}
 		else if ( urlString.startsWith( "lair4.php?action=level3" ) )
+		{
+			resetAutoAttack();
 			location = "Sorceress Tower: Level 3";
+		}
 		else if ( urlString.startsWith( "lair5.php?action=level1" ) )
+		{
+			resetAutoAttack();
 			location = "Sorceress Tower: Level 4";
+		}
 		else if ( urlString.startsWith( "lair5.php?action=level2" ) )
+		{
+			resetAutoAttack();
 			location = "Sorceress Tower: Level 5";
+		}
 		else if ( urlString.startsWith( "lair5.php?action=level3" ) )
+		{
+			resetAutoAttack();
 			location = "Sorceress Tower: Level 6";
+		}
 		else if ( urlString.startsWith( "lair6.php?place=0" ) )
 			location = "Sorceress Tower: Door Puzzles";
 		else if ( urlString.startsWith( "lair6.php?place=2" ) )
+		{
+			resetAutoAttack();
 			location = "Sorceress Tower: Shadow Fight";
+		}
+		else if ( urlString.startsWith( "hiddencity.php" ) )
+		{
+			resetAutoAttack();
+			location = "Hidden City: Unexplored Ruins";
+		}
 
 		if ( location == null )
 			return false;
