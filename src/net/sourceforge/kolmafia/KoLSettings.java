@@ -48,6 +48,8 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.TreeMap;
 
+import net.sourceforge.kolmafia.AdventureDatabase.ChoiceAdventure;
+
 public class KoLSettings extends Properties implements KoLConstants
 {
 	private boolean initializingDefaults = false;
@@ -715,7 +717,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "choiceAdventure3", "3" );
 		PLAYER_SETTINGS.put( "choiceAdventure4", "3" );
 		PLAYER_SETTINGS.put( "choiceAdventure5", "2" );
-		PLAYER_SETTINGS.put( "choiceAdventure6", "2" );
+		PLAYER_SETTINGS.put( "choiceAdventure6", "1" );
 		PLAYER_SETTINGS.put( "choiceAdventure7", "1" );
 		PLAYER_SETTINGS.put( "choiceAdventure8", "3" );
 		PLAYER_SETTINGS.put( "choiceAdventure9", "2" );
@@ -783,7 +785,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "choiceAdventure123", "2" );
 		PLAYER_SETTINGS.put( "choiceAdventure125", "3" );
 		PLAYER_SETTINGS.put( "choiceAdventure126", "1" );
-		PLAYER_SETTINGS.put( "choiceAdventure127", "1" );
+		PLAYER_SETTINGS.put( "choiceAdventure127", "3" );
 		PLAYER_SETTINGS.put( "choiceAdventure129", "2" );
 		PLAYER_SETTINGS.put( "choiceAdventure130", "2" );
 		PLAYER_SETTINGS.put( "choiceAdventure131", "1" );
@@ -825,6 +827,75 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "choiceAdventure172", "1" );
 		PLAYER_SETTINGS.put( "choiceAdventure177", "4" );
 		PLAYER_SETTINGS.put( "choiceAdventure178", "1" );
+	}
+
+	public static void printDefaults()
+	{
+		LogStream ostream = LogStream.openStream( "choices.txt", true );
+
+		ostream.println( "[u]Configurable[/u]" );
+		ostream.println();
+
+		AdventureDatabase.setChoiceOrdering( false );
+		Arrays.sort( AdventureDatabase.CHOICE_ADVS );
+		Arrays.sort( AdventureDatabase.CHOICE_ADV_SPOILERS );
+
+		printDefaults( AdventureDatabase.CHOICE_ADVS, ostream );
+
+		ostream.println();
+		ostream.println();
+		ostream.println( "[u]Not Configurable[/u]" );
+		ostream.println();
+
+		printDefaults( AdventureDatabase.CHOICE_ADV_SPOILERS, ostream );
+
+		AdventureDatabase.setChoiceOrdering( true );
+		Arrays.sort( AdventureDatabase.CHOICE_ADVS );
+		Arrays.sort( AdventureDatabase.CHOICE_ADV_SPOILERS );
+
+		ostream.close();
+	}
+
+	private static void printDefaults( ChoiceAdventure [] choices, LogStream ostream )
+	{
+		for ( int i = 0; i < choices.length; ++i )
+		{
+			String setting = choices[i].getSetting();
+
+			boolean shouldIgnore = false;
+
+			switch ( StaticEntity.parseInt( setting.substring(15) ) )
+			{
+			case 9:  case 10:  case 11:  case 12:
+			case 26:  case 27:  case 28:  case 29:
+			case 77:  case 78:  case 79:
+			case 80:  case 81:  case 86:  case 87:
+			case 88:  case 89:  case 91:
+			case 152:
+				shouldIgnore = true;
+			}
+
+			if ( shouldIgnore )
+				continue;
+
+			int defaultOption = StaticEntity.parseInt( (String) PLAYER_SETTINGS.get( setting ) ) - 1;
+			ostream.print( setting.substring(15) + ": " );
+
+			String [] options = choices[i].getOptions();
+
+			for ( int j = 0; j < options.length; ++j )
+			{
+				if ( j != 0 )
+					ostream.print( "[color=gray], [/color]" );
+
+				if ( j == defaultOption )
+					ostream.print( options[j] );
+				else
+					ostream.print( "[color=gray]" + options[j] + "[/color]" );
+			}
+
+			ostream.println();
+		}
 	}
 
 	/**

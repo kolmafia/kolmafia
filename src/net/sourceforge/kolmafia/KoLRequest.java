@@ -1631,16 +1631,27 @@ public class KoLRequest extends Job implements KoLConstants
 	{
 		// Find the options for the choice we've encountered
 
+		boolean matchFound = false;
 		String [] possibleDecisions = null;
 		String [] possibleDecisionSpoilers = null;
 
-		for ( int i = 0; i < AdventureDatabase.CHOICE_ADVS.length; ++i )
+		for ( int i = 0; i < AdventureDatabase.CHOICE_ADVS.length && !matchFound; ++i )
 		{
 			if ( AdventureDatabase.CHOICE_ADVS[i].getSetting().equals( option ) )
 			{
+				matchFound = true;
 				possibleDecisions = AdventureDatabase.CHOICE_ADVS[i].getItems();
 				possibleDecisionSpoilers = AdventureDatabase.CHOICE_ADVS[i].getOptions();
-				break;
+			}
+		}
+
+		for ( int i = 0; i < AdventureDatabase.CHOICE_ADV_SPOILERS.length && !matchFound; ++i )
+		{
+			if ( AdventureDatabase.CHOICE_ADV_SPOILERS[i].getSetting().equals( option ) )
+			{
+				matchFound = true;
+				possibleDecisions = AdventureDatabase.CHOICE_ADV_SPOILERS[i].getItems();
+				possibleDecisionSpoilers = AdventureDatabase.CHOICE_ADV_SPOILERS[i].getOptions();
 			}
 		}
 

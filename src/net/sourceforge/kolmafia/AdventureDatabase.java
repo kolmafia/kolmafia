@@ -135,9 +135,23 @@ public class AdventureDatabase extends KoLDatabase
 
 		public int compareTo( Object o )
 		{
-			int result = this.name.compareToIgnoreCase( ((ChoiceAdventure)o).name );
-			return result != 0 ? result : this.setting.compareToIgnoreCase( ((ChoiceAdventure)o).setting );
+			if ( choicesOrderedByName )
+			{
+				int result = this.name.compareToIgnoreCase( ((ChoiceAdventure)o).name );
+				return result != 0 ? result : this.setting.compareToIgnoreCase( ((ChoiceAdventure)o).setting );
+			}
+
+			int a = StaticEntity.parseInt( this.setting.substring(15) );
+			int b = StaticEntity.parseInt( ((ChoiceAdventure)o).setting.substring(15) );
+
+			return a - b;
 		}
+	}
+
+	private static boolean choicesOrderedByName = true;
+
+	public static void setChoiceOrdering( boolean choicesOrderedByName )
+	{	AdventureDatabase.choicesOrderedByName = choicesOrderedByName;
 	}
 
 	// Lucky sewer options
@@ -252,7 +266,11 @@ public class AdventureDatabase extends KoLDatabase
 		// Choices 43 - 44 are unknown
 		// Choice 45 is Maps and Legends
 		// Choice 46 is An Interesting Choice
-		// Choice 47 is Have a Heart
+
+		// Have a Heart
+		new ChoiceAdventure( "Woods", "choiceAdventure47", "Spooky Forest",
+		  new String [] { "bottle of used blood", "skip adventure" },
+		  new String [] { "1523", "1518" } ),
 
 		// Choices 48 - 70 are violet fog adventures
 		// Choice 71 is A Journey to the Center of Your Mind
@@ -643,11 +661,6 @@ public class AdventureDatabase extends KoLDatabase
 		// An Interesting Choice
 		new ChoiceAdventure( "choiceAdventure46", "Spooky Forest",
 		  new String [] { "moxie substats", "muscle substats", "enter combat" } ),
-
-		// Have a Heart
-		new ChoiceAdventure( "choiceAdventure47", "Spooky Forest",
-		  new String [] { "bottle of used blood", "skip adventure" },
-		  new String [] { "1523", "1518" } ),
 
 		// A Journey to the Center of Your Mind -> Self Explanatory
 
