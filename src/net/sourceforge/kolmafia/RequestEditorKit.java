@@ -468,6 +468,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 	public static void downloadFile( String remote, File local )
 	{
+		if ( local.exists() )
+			return;
+
 		try
 		{
 			URLConnection connection = (new URL( remote )).openConnection();
