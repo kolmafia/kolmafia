@@ -408,7 +408,6 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			this.menuBar.dispose();
 
 		super.dispose();
-
 		checkForLogout();
 	}
 
@@ -963,6 +962,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		if ( this.isVisible() )
 			this.rememberPosition();
 
+		super.processWindowEvent( e );
+
 		if ( e.getID() == WindowEvent.WINDOW_CLOSING && existingFrames.contains( this ) )
 		{
 			existingFrames.remove( this );
@@ -974,8 +975,6 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			existingFrames.add( this );
 			removedFrames.remove( this );
 		}
-
-		super.processWindowEvent( e );
 	}
 
 	public void setVisible( boolean isVisible )

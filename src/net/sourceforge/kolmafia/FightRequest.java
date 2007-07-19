@@ -301,7 +301,7 @@ public class FightRequest extends KoLRequest
 
 		if ( action1.indexOf( "steal" ) != -1 )
 		{
-			boolean shouldSteal = !KoLCharacter.canInteract() && wonInitiative();
+			boolean shouldSteal = wonInitiative();
 
 			if ( CombatSettings.getSettingKey( encounterLookup ).equals( "default" ) )
 				shouldSteal &= monsterData != null && monsterData.shouldSteal();
@@ -313,7 +313,7 @@ public class FightRequest extends KoLRequest
 				return;
 			}
 
-			++preparatoryRounds;
+			--preparatoryRounds;
 			this.nextRound();
 			return;
 		}
