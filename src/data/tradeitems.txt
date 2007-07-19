@@ -612,7 +612,7 @@
 612	original G	0	all	143
 613	plot hole	0	all	128
 614	probability potion	0	all	128
-615	chaos butterfly	0	all	124
+615	chaos butterfly	3	all	124
 616	furry fur	0	all	129
 617	Angry Farmer candy	4	all	137
 618	Mick's IcyVapoHotness Rub	4	all	141
