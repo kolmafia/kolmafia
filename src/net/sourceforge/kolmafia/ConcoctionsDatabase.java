@@ -328,7 +328,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		int adventureChange = queuedAdventuresUsed;
 		int stillChange = queuedStillsUsed;
 
-		queuedFullness += c.getInebriety() * quantity;
+		queuedFullness += c.getFullness() * quantity;
 		queuedInebriety += c.getInebriety() * quantity;
 
 		ArrayList ingredientChange = new ArrayList();
@@ -367,7 +367,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		queuedAdventuresUsed += adventureChange.intValue();
 		queuedStillsUsed += stillChange.intValue();
 
-		queuedFullness -= c.getInebriety() * quantity.intValue();
+		queuedFullness -= c.getFullness() * quantity.intValue();
 		queuedInebriety -= c.getInebriety() * quantity.intValue();
 	}
 
