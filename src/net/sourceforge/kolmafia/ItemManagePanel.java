@@ -350,7 +350,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 						}
 
 						standard = (capacity - previous) / unit;
-						standard = Math.min( standard, itemCount );
+						standard = standard == 0 || capacity < previous ? itemCount : Math.min( standard, itemCount );
 					}
 					else
 					{
