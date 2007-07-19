@@ -282,7 +282,7 @@ public class AdventureFrame extends AdventureOptionsFrame
 
 			this.addChoiceSelect( "Plains", "Castle Wheel", this.castleWheelSelect );
 			this.addChoiceSelect( "Woods", "Forest Corpses", this.spookyForestSelect );
-			this.addChoiceSelect( "Unsorted", "Violet Fog", this.violetFogSelect );
+			this.addChoiceSelect( "Item-Driven", "Violet Fog", this.violetFogSelect );
 			this.addChoiceSelect( "Manor", "Billiard Room", this.billiardRoomSelect );
 			this.addChoiceSelect( "Manor", "Rise of Spookyraven", this.riseSelect );
 			this.addChoiceSelect( "Manor", "Fall of Spookyraven", this.fallSelect );
