@@ -301,8 +301,6 @@ public abstract class StaticEntity implements KoLConstants
 
 		if ( !location.equals( "main.php" ) )
 			requestHolder.refresh( request );
-
-		requestHolder.requestFocus();
 	}
 
 	public static void externalUpdate( String location, String responseText )

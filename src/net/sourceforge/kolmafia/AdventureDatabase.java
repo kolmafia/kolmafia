@@ -368,7 +368,8 @@ public class AdventureDatabase extends KoLDatabase
 		  new String [] { "muscle and Pumped Up", "ice cold Sir Schlitz", "moxie and lemon", "skip adventure" },
 		  new String [] { null, "41", "332", null } ),
 
-		// Choice 121-122 are unknown
+		// Choice 121 is Next Sunday, A.D.
+		// Choice 122 is unknown
 		// Choice 123 is At Least It's Not Full Of Trash
 		// Choice 124 is unknown
 		// Choice 125 is No Visible Means of Support
@@ -404,7 +405,17 @@ public class AdventureDatabase extends KoLDatabase
 		  new String [] { "Turn the wheel", "skip adventure" },
 		  new String [] { null, null } ),
 
-		// Choice 136-138 are unknown
+		// Peace Wants Love
+		new ChoiceAdventure( "Island", "choiceAdventure136", "Hippy Camp",
+		  new String [] { "filthy corduroys", "filthy knitted dread sack", "small meat boost", "complete the outfit" },
+		  new String [] { "213", "214", null } ),
+
+		// Choice 137 is unknown
+
+		// Purple Hazers
+		new ChoiceAdventure( "Island", "choiceAdventure138", "Frat House",
+		  new String [] { "orcish cargo shorts", "Orcish baseball cap", "homoerotic frat-paddle", "complete the outfit" },
+		  new String [] { "240", "239", "241" } ),
 
 		// Bait and Switch
 		new ChoiceAdventure( "IsleWar", "choiceAdventure139", "War Hippies",
