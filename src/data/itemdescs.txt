@@ -2475,7 +2475,7 @@
 2470	873351480	disintegrating cork
 2471	405124937	sticky stardust
 2472	408631953	wilted lettuce
-2473	968837261	empty greasepaint tube
+2473	870940123	empty greasepaint tube	empty greasepaint tubes
 2474	647139951	clown skin	clown skins
 2475	227709910	clown wig	clown wigs
 2476	580579263	clownskin belt	clownskin belts
@@ -2741,7 +2741,7 @@
 2736	671956082	Pan-Dimensional Gargle Blaster
 2737	898724678	enchanted leopard-print barbell
 2738	528170608	pile of smoking rags
-2739	815529370	panty raider camouflage	
+2739	815529370	panty raider camouflage
 2740	403374369	Staff of the Walk-In Freezer
 2741	717809844	boilermaker
 2742	433679934	steel lasagna
