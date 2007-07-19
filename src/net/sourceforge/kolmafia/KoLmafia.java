@@ -1163,7 +1163,7 @@ public abstract class KoLmafia implements KoLConstants
 		// Consider clearing beaten up if your restoration settings
 		// include the appropriate items.
 
-		if ( settingName.startsWith( "hp" ) )
+		if ( settingName.startsWith( "hp" ) && StaticEntity.getBooleanProperty( "completeHealthRestore" ) )
 		{
 			MoodSettings.fixMaximumHealth( restoreSetting );
 			current = KoLCharacter.getCurrentHP();

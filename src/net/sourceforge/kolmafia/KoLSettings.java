@@ -511,6 +511,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "chatStyle", "0" );
 		CLIENT_SETTINGS.put( "cloverProtectActive", "true" );
 		CLIENT_SETTINGS.put( "commandLineNamespace", "" );
+		CLIENT_SETTINGS.put( "completeHealthRestore", "false" );
 		CLIENT_SETTINGS.put( "defaultBorderColor", "blue" );
 		CLIENT_SETTINGS.put( "defaultDropdown1", "0" );
 		CLIENT_SETTINGS.put( "defaultDropdown2", "1" );
