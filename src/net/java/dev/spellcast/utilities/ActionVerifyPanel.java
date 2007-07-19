@@ -38,16 +38,10 @@ import com.sun.java.forums.SpringUtilities;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Component;
-import java.awt.Container;
 import java.awt.Dimension;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-
-import java.lang.reflect.Method;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -57,13 +51,11 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 
-public abstract class ActionVerifyPanel extends ActionPanel implements ActionListener, FocusListener
+public abstract class ActionVerifyPanel extends ActionPanel implements ActionListener
 {
 	protected VerifiableElement [] elements;
 
@@ -287,21 +279,7 @@ public abstract class ActionVerifyPanel extends ActionPanel implements ActionLis
 			this.elements[i] = null;
 		}
 
-		this.elements = null;
-		this.container = null;
-		this.buttonPanel = null;
-
 		super.dispose();
-	}
-
-	public void focusGained( FocusEvent e )
-	{
-	}
-
-	public void focusLost( FocusEvent e )
-	{
-		if ( buttonPanel == null && contentSet )
-			actionConfirmed();
 	}
 
 	public void actionPerformed( ActionEvent e )
@@ -378,18 +356,6 @@ public abstract class ActionVerifyPanel extends ActionPanel implements ActionLis
 				return;
 			}
 
-			if ( c instanceof JTextField )
-			{
-				((JTextField)c).removeFocusListener( ActionVerifyPanel.this );
-				return;
-			}
-
-			if ( c instanceof JPasswordField )
-			{
-				((JPasswordField)c).removeFocusListener( ActionVerifyPanel.this );
-				return;
-			}
-
 			for ( int i = 0; i < c.getComponentCount(); ++i )
 				if ( c instanceof JComponent && !(c instanceof JLabel || c instanceof JButton) )
 					removeListeners( (JComponent) c.getComponent(i) );
@@ -415,18 +381,6 @@ public abstract class ActionVerifyPanel extends ActionPanel implements ActionLis
 			if ( c instanceof JComboBox )
 			{
 				((JComboBox)c).addActionListener( ActionVerifyPanel.this );
-				return;
-			}
-
-			if ( c instanceof JTextField )
-			{
-				((JTextField)c).addFocusListener( ActionVerifyPanel.this );
-				return;
-			}
-
-			if ( c instanceof JPasswordField )
-			{
-				((JPasswordField)c).addFocusListener( ActionVerifyPanel.this );
 				return;
 			}
 

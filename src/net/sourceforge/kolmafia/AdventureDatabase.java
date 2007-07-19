@@ -1181,14 +1181,14 @@ public class AdventureDatabase extends KoLDatabase
 		if ( missingCount <= 0 )
 			return true;
 
-		FamiliarData [] familiars = new FamiliarData[ KoLCharacter.getFamiliarList().size() ];
-		KoLCharacter.getFamiliarList().toArray( familiars );
-		for ( int i = 0; i < familiars.length; ++i )
+		for ( int i = 0; i < KoLCharacter.getFamiliarList().size(); ++i )
 		{
-			if ( familiars[i].getItem() != null && familiars[i].getItem().equals( item ) )
+			FamiliarData current = (FamiliarData) KoLCharacter.getFamiliarList().get(i);
+
+			if ( current.getItem() != null && current.getItem().equals( item ) )
 			{
-				KoLmafia.updateDisplay( "Stealing " + item + " from " + familiars[i].getName() + " the " + familiars[i].getRace() + "..." );
-				RequestThread.postRequest( new KoLRequest( "familiar.php?pwd=&action=unequip&famid=" + familiars[i].getId(), true ) );
+				KoLmafia.updateDisplay( "Stealing " + item + " from " + current.getName() + " the " + current.getRace() + "..." );
+				RequestThread.postRequest( new KoLRequest( "familiar.php?pwd=&action=unequip&famid=" + current.getId(), true ) );
 
 				--missingCount;
 

@@ -35,9 +35,7 @@ package net.sourceforge.kolmafia;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -53,17 +51,9 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
 
-import tab.CloseTabPaneEnhancedUI;
-
-import com.informit.guides.JDnDList;
-import javax.swing.event.ListDataEvent;
-import javax.swing.event.ListDataListener;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
-import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class LoginFrame extends KoLFrame
 {
@@ -232,8 +222,6 @@ public class LoginFrame extends KoLFrame
 			this.getBreakfastCheckBox.addActionListener( new GetBreakfastListener() );
 			this.autoLoginCheckBox.addActionListener( new AutoLoginListener() );
 			this.savePasswordCheckBox.addActionListener( new RemovePasswordListener() );
-
-			JComponentUtilities.addHotKey( LoginFrame.this.usernameField, KeyEvent.VK_ENTER, this.CONFIRM_LISTENER );
 
 			try
 			{

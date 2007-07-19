@@ -431,9 +431,12 @@ public class ShowDescriptionList extends JList implements KoLConstants
 
 	private class RemoveTriggerListener extends KeyAdapter
 	{
-		public void keyPressed( KeyEvent e )
+		public void keyReleased( KeyEvent e )
 		{
-			if ( e.getKeyCode() != KeyEvent.VK_DELETE  && e.getKeyCode() != KeyEvent.VK_BACK_SPACE )
+			if ( e.isConsumed() )
+				return;
+
+			if ( e.getKeyCode() != KeyEvent.VK_DELETE && e.getKeyCode() != KeyEvent.VK_BACK_SPACE )
 				return;
 
 			Object [] items = ShowDescriptionList.this.getSelectedValues();
@@ -441,6 +444,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 
 			MoodSettings.removeTriggers( items );
 			MoodSettings.saveSettings();
+			e.consume();
 		}
 	}
 
