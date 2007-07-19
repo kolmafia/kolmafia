@@ -1187,7 +1187,7 @@ public class AdventureDatabase extends KoLDatabase
 
 			if ( current.getItem() != null && current.getItem().equals( item ) )
 			{
-				KoLmafia.updateDisplay( "Stealing " + item + " from " + current.getName() + " the " + current.getRace() + "..." );
+				KoLmafia.updateDisplay( "Stealing " + item.getName() + " from " + current.getName() + " the " + current.getRace() + "..." );
 				RequestThread.postRequest( new KoLRequest( "familiar.php?pwd=&action=unequip&famid=" + current.getId(), true ) );
 
 				--missingCount;
