@@ -138,12 +138,8 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 	}
 
 	public void setContent( VerifiableElement [] elements, boolean bothDisabledOnClick )
-	{	this.setContent( elements, null, null, bothDisabledOnClick );
-	}
-
-	public void setContent( VerifiableElement [] elements, JPanel mainPanel, JPanel eastPanel, boolean bothDisabledOnClick )
 	{
-		super.setContent( elements, mainPanel, eastPanel, bothDisabledOnClick );
+		super.setContent( elements, bothDisabledOnClick );
 
 		// In addition to setting the content on these, also
 		// add a return-key listener to each of the input fields.

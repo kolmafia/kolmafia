@@ -996,9 +996,6 @@ public class ItemManageFrame extends KoLFrame
 				JCheckBox allowNoBox = new CreationSettingCheckBox( "Require in-a-boxes for creation", "requireBoxServants", "Require in-a-boxes, auto-repair on explosion" );
 				filterPanel.add( allowNoBox );
 
-				JCheckBox infiniteNPC = new CreationSettingCheckBox( "Add NPC items to calculations", "assumeInfiniteNPCItems", "Assume NPC items are available for item creation" );
-				filterPanel.add( infiniteNPC );
-
 				this.northPanel.add( filterPanel, BorderLayout.SOUTH );
 			}
 
@@ -1133,7 +1130,7 @@ public class ItemManageFrame extends KoLFrame
 		{
 			if ( !this.isEquipmentOnly )
 			{
-				super.addFilters( isCompact );
+				super.addFilters();
 				return;
 			}
 

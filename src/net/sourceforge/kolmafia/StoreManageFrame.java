@@ -119,7 +119,9 @@ public class StoreManageFrame extends KoLPanelFrame
 			storePanel.add( managePanel, BorderLayout.CENTER );
 
 			JPanel searchResults = new SearchResultsPanel();
-			this.setContent( null, null, searchResults, true );
+
+			this.setContent( elements, true );
+			this.eastContainer.add( searchResults, BorderLayout.SOUTH );
 			this.container.add( storePanel, BorderLayout.CENTER );
 		}
 

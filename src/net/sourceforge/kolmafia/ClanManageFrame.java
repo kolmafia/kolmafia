@@ -402,7 +402,7 @@ public class ClanManageFrame extends KoLFrame
 			elements[1] = new VerifiableElement( "Constraint: ", this.matchSelect );
 			elements[2] = new VerifiableElement( "Value:", this.valueField );
 
-			this.setContent( elements, null, null, true );
+			this.setContent( elements, true );
 		}
 
 		public void actionConfirmed()

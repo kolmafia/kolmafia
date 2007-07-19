@@ -2231,7 +2231,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			this.filterItems();
 		}
 
-		public void addFilters( boolean isCompact )
+		public void addFilters()
 		{
 		}
 

@@ -63,9 +63,9 @@ public abstract class LabeledKoLPanel extends KoLPanel
 		this.panelTitle = panelTitle;
 	}
 
-	public void setContent( VerifiableElement [] elements, JPanel mainPanel, JPanel eastPanel, boolean bothDisabledOnClick )
+	public void setContent( VerifiableElement [] elements, boolean bothDisabledOnClick )
 	{
-		super.setContent( elements, mainPanel, eastPanel, bothDisabledOnClick );
+		super.setContent( elements, bothDisabledOnClick );
 
 		if ( this.panelTitle != null && !this.panelTitle.equals( "" ) )
 			this.add( JComponentUtilities.createLabel( this.panelTitle, JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );

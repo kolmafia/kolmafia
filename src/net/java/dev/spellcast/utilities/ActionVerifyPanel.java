@@ -38,10 +38,9 @@ import com.sun.java.forums.SpringUtilities;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Component;
 import java.awt.Dimension;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.GridLayout;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -55,14 +54,16 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.SpringLayout;
 
-public abstract class ActionVerifyPanel extends ActionPanel implements ActionListener
+public abstract class ActionVerifyPanel extends ActionPanel
 {
 	protected VerifiableElement [] elements;
 
 	protected JPanel container;
+	protected JPanel eastContainer;
+
+	private VerifyButtonPanel buttonPanel;
 	private boolean contentSet;
 	private boolean isCenterPanel;
-	private VerifyButtonPanel buttonPanel;
 	private Dimension left, right;
 
 	private static final Dimension DEFAULT_LEFT = new Dimension( 100, 20 );
@@ -119,21 +120,21 @@ public abstract class ActionVerifyPanel extends ActionPanel implements ActionLis
 	public ActionVerifyPanel( String confirmedText, String cancelledText1, String cancelledText2, Dimension left, Dimension right, boolean isCenterPanel )
 	{
 		contentSet = false;
+
 		this.left = left;
 		this.right = right;
+
 		this.isCenterPanel = isCenterPanel;
-		this.buttonPanel = confirmedText == null ? null : new VerifyButtonPanel( confirmedText, cancelledText1, cancelledText2 );
+
+		this.buttonPanel = confirmedText == null ? null :
+			new VerifyButtonPanel( confirmedText, cancelledText1, cancelledText2 );
 	}
 
 	protected void setContent( VerifiableElement [] elements )
-	{	setContent( elements, null, null, false );
+	{	setContent( elements, false );
 	}
 
-	protected void setContent( VerifiableElement [] elements, JPanel mainPanel, JPanel eastPanel )
-	{	setContent( elements, mainPanel, eastPanel, false );
-	}
-
-	protected void setContent( VerifiableElement [] elements, JPanel mainPanel, JPanel eastPanel, boolean bothDisabledOnClick )
+	protected void setContent( VerifiableElement [] elements, boolean bothDisabledOnClick )
 	{
 		if ( contentSet )
 			return;
@@ -146,20 +147,17 @@ public abstract class ActionVerifyPanel extends ActionPanel implements ActionLis
 		container.add( Box.createVerticalStrut( 2 ), BorderLayout.NORTH );
 
 		// add the main container
-		container.add( constructMainContainer( elements, mainPanel ), BorderLayout.CENTER );
+		container.add( constructMainContainer( elements ), BorderLayout.CENTER );
 
 		// construct the east container, which usually consists of only the
 		// button panel, if an east panel is not specified; if one happens
 		// to be specified, then it appears above the button panel
 
-		JPanel eastContainer = new JPanel();
-		eastContainer.setLayout( new BorderLayout( 10, 10 ) );
+		this.eastContainer = new JPanel();
+		this.eastContainer.setLayout( new BorderLayout( 10, 10 ) );
 
 		if ( this.buttonPanel != null )
 			eastContainer.add( this.buttonPanel, BorderLayout.NORTH );
-
-		if ( eastPanel != null )
-			eastContainer.add( eastPanel, BorderLayout.CENTER );
 
 		container.add( eastContainer, BorderLayout.EAST );
 
@@ -176,23 +174,96 @@ public abstract class ActionVerifyPanel extends ActionPanel implements ActionLis
 			buttonPanel.setBothDisabledOnClick( bothDisabledOnClick );
 	}
 
-	private JPanel constructMainContainer( VerifiableElement [] elements, JPanel mainPanel )
+	private JPanel constructMainContainer( VerifiableElement [] elements )
 	{
 		JPanel mainContainer = new JPanel();
-		mainContainer.setLayout( new BorderLayout() );
+		mainContainer.setLayout( new BoxLayout( mainContainer, BoxLayout.Y_AXIS ) );
 
-		if ( mainPanel != null )
-			mainContainer.add( mainPanel, BorderLayout.NORTH );
+		if ( elements == null || elements.length == 0 )
+			return mainContainer;
 
-		if ( elements != null && elements.length > 0 )
+		// Layout the elements using springs
+		// instead of standard panel elements.
+
+		int springCount = 0;
+		JPanel currentContainer = null;
+
+		for ( int i = 0; i < elements.length; ++i )
 		{
-			// Layout the elements using springs
-			// instead of standard panel elements.
-
-			JPanel elementsContainer = new JPanel( new SpringLayout() );
-
-			for ( int i = 0; i < elements.length; ++i )
+			if ( elements[i].getInputField() instanceof JCheckBox || elements[i].getInputField() instanceof JRadioButton )
 			{
+				if ( currentContainer == null )
+				{
+					currentContainer = new JPanel();
+					currentContainer.setLayout( new BoxLayout( currentContainer, BoxLayout.Y_AXIS ) );
+					currentContainer.setAlignmentX( Component.LEFT_ALIGNMENT );
+				}
+				else if ( springCount > 0 )
+				{
+					SpringUtilities.makeCompactGrid( currentContainer, springCount, 2, 5, 5, 5, 5 );
+					springCount = 0;
+					mainContainer.add( currentContainer );
+
+					currentContainer = new JPanel();
+					currentContainer.setLayout( new BoxLayout( currentContainer, BoxLayout.Y_AXIS ) );
+					currentContainer.setAlignmentX( Component.LEFT_ALIGNMENT );
+				}
+
+				if ( elements[i].getInputField() instanceof JCheckBox )
+					((JCheckBox)elements[i].getInputField()).setText( elements[i].getLabel().getText() );
+				else if ( elements[i].getInputField() instanceof JRadioButton )
+					((JRadioButton)elements[i].getInputField()).setText( elements[i].getLabel().getText() );
+
+				currentContainer.add( elements[i].getInputField() );
+				currentContainer.add( Box.createVerticalStrut( 5 ) );
+			}
+			else if ( elements[i].getInputField() instanceof JLabel && elements[i].getLabel().getText().equals( "" ) )
+			{
+				if ( currentContainer == null )
+				{
+					currentContainer = new JPanel( new GridLayout( 0, 1, 5, 5 ) );
+					currentContainer.setAlignmentX( Component.LEFT_ALIGNMENT );
+					currentContainer.add( elements[i].getInputField() );
+				}
+				else if ( springCount == 0 )
+				{
+					currentContainer.add( elements[i].getInputField() );
+				}
+				else if ( elements[i].isInputPreceding() )
+				{
+					JComponentUtilities.setComponentSize( elements[i].getLabel(), right );
+					JComponentUtilities.setComponentSize( elements[i].getInputField(), left );
+
+					currentContainer.add( elements[i].getInputField() );
+					currentContainer.add( elements[i].getLabel() );
+					++springCount;
+				}
+				else
+				{
+					JComponentUtilities.setComponentSize( elements[i].getLabel(), left );
+					JComponentUtilities.setComponentSize( elements[i].getInputField(), right );
+
+					currentContainer.add( elements[i].getLabel() );
+					currentContainer.add( elements[i].getInputField() );
+					++springCount;
+				}
+			}
+			else
+			{
+				if ( currentContainer == null )
+				{
+					currentContainer = new JPanel( new SpringLayout() );
+					currentContainer.setAlignmentX( Component.LEFT_ALIGNMENT );
+				}
+				else if ( springCount == 0 )
+				{
+					mainContainer.add( currentContainer );
+					currentContainer = new JPanel( new SpringLayout() );
+					currentContainer.setAlignmentX( Component.LEFT_ALIGNMENT );
+				}
+
+				++springCount;
+
 				if ( elements[i].shouldResize() )
 				{
 					JComponentUtilities.setComponentSize( elements[i].getLabel(),
@@ -204,62 +275,27 @@ public abstract class ActionVerifyPanel extends ActionPanel implements ActionLis
 
 				if ( elements[i].isInputPreceding() )
 				{
-					elementsContainer.add( elements[i].getInputField() );
-					elementsContainer.add( elements[i].getLabel() );
+					currentContainer.add( elements[i].getInputField() );
+					currentContainer.add( elements[i].getLabel() );
 				}
 				else
 				{
-					elementsContainer.add( elements[i].getLabel() );
-					elementsContainer.add( elements[i].getInputField() );
+					currentContainer.add( elements[i].getLabel() );
+					currentContainer.add( elements[i].getInputField() );
 				}
-			}
-
-			// Construct the compact grid with the
-			// SpringUtilities module.
-
-			SpringUtilities.makeCompactGrid( elementsContainer, elements.length, 2, 5, 5, 5, 5 );
-
-			// Add in the original main container
-			// that was being planned.
-
-			mainContainer.add( elementsContainer, BorderLayout.CENTER );
-		}
-
-		return mainContainer;
-	}
-
-	private JPanel constructExtrasPanel( JPanel [] extras )
-	{
-		if ( extras == null || extras.length < 1 )
-			return null;
-
-		JPanel extrasPanel = new JPanel();
-		extrasPanel.setLayout( new BorderLayout() );
-
-		if ( extras != null )
-		{
-			if ( extras.length > 0 )
-				extrasPanel.add( extras[0], BorderLayout.NORTH );
-
-			if ( extras.length > 1 )
-				extrasPanel.add( extras[ extras.length - 1 ], BorderLayout.SOUTH );
-
-			if ( extras.length > 2 )
-			{
-				JPanel centerPanel = new JPanel();
-				centerPanel.setLayout( new BoxLayout( extrasPanel, BoxLayout.Y_AXIS ) );
-
-				for ( int i = 1; i < extras.length - 1; ++i )
-				{
-					centerPanel.add( extras[i] );
-					centerPanel.add( Box.createVerticalStrut( 5 ) );
-				}
-
-				extrasPanel.add( centerPanel, BorderLayout.CENTER );
 			}
 		}
 
-		return extrasPanel;
+		if ( springCount > 0 )
+			SpringUtilities.makeCompactGrid( currentContainer, springCount, 2, 5, 5, 5, 5 );
+
+		if ( currentContainer != null )
+			mainContainer.add( currentContainer );
+
+		JPanel holder = new JPanel( new BorderLayout() );
+		holder.add( mainContainer, BorderLayout.NORTH );
+
+		return holder;
 	}
 
 	public void setEnabled( boolean isEnabled )
@@ -282,12 +318,6 @@ public abstract class ActionVerifyPanel extends ActionPanel implements ActionLis
 		super.dispose();
 	}
 
-	public void actionPerformed( ActionEvent e )
-	{
-		if ( buttonPanel == null && contentSet )
-			actionConfirmed();
-	}
-
 	protected final class VerifiableElement implements Comparable
 	{
 		private JLabel label;
@@ -296,11 +326,11 @@ public abstract class ActionVerifyPanel extends ActionPanel implements ActionLis
 		private boolean isInputPreceding;
 
 		public VerifiableElement()
-		{	this( " ", JLabel.RIGHT, new JLabel( " " ), false );
+		{	this( "", JLabel.RIGHT, new JLabel( " " ), false );
 		}
 
 		public VerifiableElement( JComponent inputField )
-		{	this( " ", JLabel.RIGHT, inputField, !(inputField instanceof JScrollPane || inputField instanceof JCheckBox) );
+		{	this( "", JLabel.RIGHT, inputField, !(inputField instanceof JScrollPane || inputField instanceof JCheckBox) );
 		}
 
 		public VerifiableElement( String label, JComponent inputField )
@@ -340,19 +370,19 @@ public abstract class ActionVerifyPanel extends ActionPanel implements ActionLis
 
 			if ( c instanceof JRadioButton )
 			{
-				((JRadioButton)c).removeActionListener( ActionVerifyPanel.this );
+				((JRadioButton)c).removeActionListener( CONFIRM_LISTENER );
 				return;
 			}
 
 			if ( c instanceof JCheckBox )
 			{
-				((JCheckBox)c).removeActionListener( ActionVerifyPanel.this );
+				((JCheckBox)c).removeActionListener( CONFIRM_LISTENER );
 				return;
 			}
 
 			if ( c instanceof JComboBox )
 			{
-				((JComboBox)c).removeActionListener( ActionVerifyPanel.this );
+				((JComboBox)c).removeActionListener( CONFIRM_LISTENER );
 				return;
 			}
 
@@ -368,19 +398,19 @@ public abstract class ActionVerifyPanel extends ActionPanel implements ActionLis
 
 			if ( c instanceof JRadioButton )
 			{
-				((JRadioButton)c).addActionListener( ActionVerifyPanel.this );
+				((JRadioButton)c).addActionListener( CONFIRM_LISTENER );
 				return;
 			}
 
 			if ( c instanceof JCheckBox )
 			{
-				((JCheckBox)c).addActionListener( ActionVerifyPanel.this );
+				((JCheckBox)c).addActionListener( CONFIRM_LISTENER );
 				return;
 			}
 
 			if ( c instanceof JComboBox )
 			{
-				((JComboBox)c).addActionListener( ActionVerifyPanel.this );
+				((JComboBox)c).addActionListener( CONFIRM_LISTENER );
 				return;
 			}
 
