@@ -1117,7 +1117,8 @@ public abstract class KoLCharacter extends StaticEntity
 			GearChangeFrame.updateWeapons();
 			break;
 		case FAMILIAR:
-			currentFamiliar.setItem( item );
+			if ( currentFamiliar.getId() > 0 )
+				currentFamiliar.setItem( item );
 			break;
 		}
 
