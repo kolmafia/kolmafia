@@ -1085,20 +1085,6 @@ public abstract class KoLmafia implements KoLConstants
 
 		String restoreSetting = StaticEntity.getProperty( settingName + "Items" ).trim().toLowerCase();
 
-		if ( settingName.startsWith( "hp" ) && activeEffects.contains( KoLAdventure.BEATEN_UP ) )
-		{
-			if ( KoLCharacter.hasSkill( "Tongue of the Walrus" ) )
-				RequestThread.postRequest( UseSkillRequest.getInstance( "Tongue of the Walrus", 1 ) );
-			else if ( KoLCharacter.hasSkill( "Tongue of the Otter" ) )
-				RequestThread.postRequest( UseSkillRequest.getInstance( "Tongue of the Otter", 1 ) );
-			else if ( KoLCharacter.hasItem( UneffectRequest.FOREST_TEARS ) )
-				RequestThread.postRequest( new ConsumeItemRequest( UneffectRequest.FOREST_TEARS ) );
-			else if ( KoLCharacter.hasItem( UneffectRequest.TINY_HOUSE ) )
-				RequestThread.postRequest( new ConsumeItemRequest( UneffectRequest.TINY_HOUSE ) );
-			else if ( KoLCharacter.hasItem( UneffectRequest.REMEDY ) )
-				RequestThread.postRequest( new UneffectRequest( KoLAdventure.BEATEN_UP ) );
-		}
-
 		// Next, check against the restore needed to see if
 		// any restoration needs to take place.
 
@@ -1174,11 +1160,25 @@ public abstract class KoLmafia implements KoLConstants
 
 		float last = -1;
 
-		// First, if this is health restoration, then if the player has
-		// a scroll of drastic healing, then feel free to use it.
+		// Consider clearing beaten up if your restoration settings
+		// include the appropriate items.
 
-		if ( settingName.startsWith( "hp" ) && possibleItems.contains( HPRestoreItemList.SCROLL ) )
-			this.recoverOnce( HPRestoreItemList.SCROLL, "scroll of drastic healing", (int) desired, false );
+		if ( settingName.startsWith( "hp" ) && activeEffects.contains( KoLAdventure.BEATEN_UP ) )
+		{
+			int initial = (int) current;
+			String action = MoodSettings.getDefaultAction( "gain_effect", "Beaten Up" );
+
+			if ( action.startsWith( "cast" ) && restoreSetting.indexOf( action.substring(5) ) != -1 )
+				DEFAULT_SHELL.executeLine( action );
+			else if ( action.startsWith( "use" ) && restoreSetting.indexOf( action.substring(4) ) != -1 )
+				DEFAULT_SHELL.executeLine( action );
+
+			current = KoLCharacter.getCurrentHP();
+			needed = Math.min( desired, needed + current - initial );
+		}
+
+		if ( current >= needed )
+			return true;
 
 		for ( int i = 0; i < possibleSkills.size(); ++i )
 		{
