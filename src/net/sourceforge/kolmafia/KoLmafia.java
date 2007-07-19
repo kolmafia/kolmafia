@@ -1165,7 +1165,6 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( settingName.startsWith( "hp" ) && activeEffects.contains( KoLAdventure.BEATEN_UP ) )
 		{
-			int initial = (int) current;
 			String action = MoodSettings.getDefaultAction( "gain_effect", "Beaten Up" );
 
 			if ( action.startsWith( "cast" ) && restoreSetting.indexOf( action.substring(5) ) != -1 )
@@ -1174,7 +1173,7 @@ public abstract class KoLmafia implements KoLConstants
 				DEFAULT_SHELL.executeLine( action );
 
 			current = KoLCharacter.getCurrentHP();
-			needed = Math.min( desired, needed + current - initial );
+			needed = Math.min( desired, current + 1 );
 		}
 
 		if ( current >= needed )
