@@ -2759,7 +2759,7 @@
 2754	325213168	Nickel Gamma of Frugality
 2755	552914658	Iron Beta of Industry
 2756	348670252	Copper Alpha of Sincerity
-2757		Red Balloon of Valor
+2757	402579504	Red Balloon of Valor
 2758	478038118	Purple Horseshoe of Honor
 2759	346885753	Blue Diamond of Honesty
 2760	325213174	Green Clover of Justice
