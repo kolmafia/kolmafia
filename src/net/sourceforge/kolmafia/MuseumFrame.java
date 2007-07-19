@@ -230,17 +230,10 @@ public class MuseumFrame extends KoLFrame
 		}
 	}
 
-	private class OrderingPanel extends LabeledScrollPanel
+	private class OrderingPanel extends ItemManagePanel
 	{
-		private LockableListModel headers;
-		private JList elementList;
-
 		public OrderingPanel()
-		{
-			super( "Reorder Shelves", "move up", "apply", new JList( (LockableListModel) MuseumManager.getHeaders().clone() ) );
-
-			this.elementList = (JList) this.scrollComponent;
-			this.headers = (LockableListModel) this.elementList.getModel();
+		{	super( "Reorder Shelves", "move up", "apply", (LockableListModel) MuseumManager.getHeaders().clone() );
 		}
 
 		public void actionConfirmed()
@@ -249,15 +242,15 @@ public class MuseumFrame extends KoLFrame
 			if ( selectedIndex < 1 )
 				return;
 
-			Object removed = this.headers.remove( selectedIndex );
-			this.headers.add( selectedIndex - 1, removed );
+			Object removed = this.elementModel.remove( selectedIndex );
+			this.elementModel.add( selectedIndex - 1, removed );
 			this.elementList.setSelectedIndex( selectedIndex - 1 );
 		}
 
 		public void actionCancelled()
 		{
-			String [] headerArray = new String[ this.headers.size() ];
-			this.headers.toArray( headerArray );
+			String [] headerArray = new String[ this.elementModel.size() ];
+			this.elementModel.toArray( headerArray );
 			MuseumManager.reorder( headerArray );
 		}
 	}
