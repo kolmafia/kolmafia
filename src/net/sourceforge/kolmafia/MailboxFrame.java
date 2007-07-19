@@ -238,32 +238,24 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 		private class MailboxKeyListener extends KeyAdapter
 		{
-			public void keyPressed( KeyEvent e )
+			public void keyReleased( KeyEvent e )
 			{
-				if ( e.getKeyCode() == KeyEvent.VK_BACK_SPACE || e.getKeyCode() == KeyEvent.VK_DELETE )
-				{
-					Object [] messages = MailSelectList.this.getSelectedValues();
-					if ( messages.length == 0 )
+				if ( e.isConsumed() )
+					return;
+
+				if ( e.getKeyCode() != KeyEvent.VK_BACK_SPACE && e.getKeyCode() != KeyEvent.VK_DELETE )
+					return;
+
+				Object [] messages = MailSelectList.this.getSelectedValues();
+				if ( messages.length == 0 )
+					return;
+
+				if ( JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null,
+					"Would you like to delete the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
 						return;
 
-					if ( JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null,
-						"Would you like to delete the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
-							return;
-
-					KoLMailManager.deleteMessages( MailSelectList.this.mailboxName, messages );
-				}
-				else if ( e.getKeyCode() == KeyEvent.VK_S && MailSelectList.this.mailboxName.equals( "Inbox" ) )
-				{
-					Object [] messages = MailSelectList.this.getSelectedValues();
-					if ( messages.length == 0 )
-						return;
-
-					if ( JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null,
-						"Would you like to save the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
-							return;
-
-					KoLMailManager.saveMessages( messages );
-				}
+				KoLMailManager.deleteMessages( MailSelectList.this.mailboxName, messages );
+				e.consume();
 			}
 		}
 	}

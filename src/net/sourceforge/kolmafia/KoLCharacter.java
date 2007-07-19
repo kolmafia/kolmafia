@@ -1126,9 +1126,6 @@ public abstract class KoLCharacter extends StaticEntity
 
 		switch ( item.getItemId() )
 		{
-		case JOYBUZZER:
-			addAvailableSkill( UseSkillRequest.getInstance( "Shake Hands" ) );
-			break;
 		case WIZARD_HAT:
 			addAvailableSkill( UseSkillRequest.getInstance( "Magic Missile" ) );
 			break;

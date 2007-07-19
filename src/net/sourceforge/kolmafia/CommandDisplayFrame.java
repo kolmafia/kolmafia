@@ -124,12 +124,16 @@ public class CommandDisplayFrame extends KoLFrame
 
 			public void keyReleased( KeyEvent e )
 			{
+				if ( e.isConsumed() )
+					return;
+
 				if ( e.getKeyCode() == KeyEvent.VK_UP )
 				{
 					if ( lastCommandIndex <= 0 )
 						return;
 
 					CommandDisplayFrame.this.entryField.setText( (String) commandHistory.get( --lastCommandIndex ) );
+					e.consume();
 				}
 				else if ( e.getKeyCode() == KeyEvent.VK_DOWN )
 				{
@@ -137,9 +141,13 @@ public class CommandDisplayFrame extends KoLFrame
 						return;
 
 					CommandDisplayFrame.this.entryField.setText( (String) commandHistory.get( ++lastCommandIndex ) );
+					e.consume();
 				}
 				else if ( e.getKeyCode() == KeyEvent.VK_ENTER )
+				{
 					this.submitCommand();
+					e.consume();
+				}
 			}
 
 			private void submitCommand()

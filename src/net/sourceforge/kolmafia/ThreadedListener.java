@@ -68,8 +68,14 @@ public abstract class ThreadedListener implements ActionListener, KeyListener, R
 
 	public void keyReleased( KeyEvent e )
 	{
-		if ( e.getKeyCode() == KeyEvent.VK_ENTER )
-			this.run();
+		if ( e.isConsumed() )
+			return;
+
+		if ( e.getKeyCode() != KeyEvent.VK_ENTER )
+			return;
+
+		this.run();
+		e.consume();
 	}
 
 	public void keyTyped( KeyEvent e )

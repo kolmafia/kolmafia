@@ -466,8 +466,14 @@ public class RequestFrame extends KoLFrame
 		{
 			public void keyReleased( KeyEvent e )
 			{
-				if ( e.getKeyCode() == KeyEvent.VK_ENTER )
-					GoButton.this.actionPerformed( null );
+				if ( e.isConsumed() )
+					return;
+
+				if ( e.getKeyCode() != KeyEvent.VK_ENTER )
+					return;
+
+				GoButton.this.actionPerformed( null );
+				e.consume();
 			}
 		}
 	}

@@ -253,12 +253,16 @@ public class ChatFrame extends KoLFrame
 
 			public void keyReleased( KeyEvent e )
 			{
+				if ( e.isConsumed() )
+					return;
+
 				if ( e.getKeyCode() == KeyEvent.VK_UP )
 				{
 					if ( ChatPanel.this.lastCommandIndex <= 0 )
 						return;
 
 					ChatPanel.this.entryField.setText( (String) ChatPanel.this.commandHistory.get( --ChatPanel.this.lastCommandIndex ) );
+					e.consume();
 				}
 				else if ( e.getKeyCode() == KeyEvent.VK_DOWN )
 				{
@@ -266,9 +270,13 @@ public class ChatFrame extends KoLFrame
 						return;
 
 					ChatPanel.this.entryField.setText( (String) ChatPanel.this.commandHistory.get( ++ChatPanel.this.lastCommandIndex ) );
+					e.consume();
 				}
 				else if ( e.getKeyCode() == KeyEvent.VK_ENTER )
+				{
 					this.submitChat();
+					e.consume();
+				}
 			}
 
 			private void submitChat()

@@ -160,13 +160,24 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 			return;
 
 		ActionConfirmListener listener = new ActionConfirmListener();
-
 		for ( int i = 0; i < this.elements.length; ++i )
+			addListener( elements[i].getInputField(), listener );
+	}
+
+	private void addListener( Object component, ActionConfirmListener listener )
+	{
+		if ( listenerMap == null )
+			listenerMap = new HashMap();
+
+		if ( component instanceof JTextField )
 		{
-			if ( this.elements[i].getInputField() instanceof JTextField )
-				((JTextField)this.elements[i].getInputField()).addKeyListener( listener );
-			if ( this.elements[i].getInputField() instanceof JPasswordField )
-				((JPasswordField)this.elements[i].getInputField()).addKeyListener( listener );
+			((JTextField)component).addKeyListener( listener );
+			listenerMap.put( component, new WeakReference( listener ) );
+		}
+		if ( component instanceof JPasswordField )
+		{
+			((JPasswordField)component).addKeyListener( listener );
+			listenerMap.put( component, new WeakReference( listener ) );
 		}
 	}
 
@@ -346,8 +357,14 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 	{
 		public void keyReleased( KeyEvent e )
 		{
-			if ( e.getKeyCode() == KeyEvent.VK_ENTER )
-				KoLPanel.this.actionConfirmed();
+			if ( e.isConsumed() )
+				return;
+
+			if ( e.getKeyCode() != KeyEvent.VK_ENTER )
+				return;
+
+			KoLPanel.this.actionConfirmed();
+			e.consume();
 		}
 	}
 }
