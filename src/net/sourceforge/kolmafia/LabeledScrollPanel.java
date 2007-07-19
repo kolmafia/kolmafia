@@ -101,6 +101,8 @@ public class LabeledScrollPanel extends ActionPanel implements KoLConstants
 
 		((JPanel)this.getContentPane()).setOpaque( true );
 		StaticEntity.registerPanel( this );
+
+		contentSet = true;
 	}
 
 	public void setEnabled( boolean isEnabled )
