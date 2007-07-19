@@ -69,6 +69,9 @@ import net.sourceforge.kolmafia.ConcoctionsDatabase.Concoction;
 public class ItemManageFrame extends KoLFrame
 {
 	private static int pullsRemaining = 0;
+
+	private static JTabbedPane fullnessTabs;
+	private static JTabbedPane inebrietyTabs;
 	private static JLabel pullsRemainingLabel1 = new JLabel( " " );
 	private static JLabel pullsRemainingLabel2 = new JLabel( " " );
 
@@ -525,6 +528,9 @@ public class ItemManageFrame extends KoLFrame
 		{
 			super( "", "consume", "create", ConcoctionsDatabase.getUsables(), false, false );
 
+			this.food = food;
+			this.booze = booze;
+
 			JLabel test = new JLabel( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
 
 			this.elementList.setCellRenderer( AdventureResult.getCreationQueueRenderer() );
@@ -534,12 +540,20 @@ public class ItemManageFrame extends KoLFrame
 			this.elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 
 			JTabbedPane queueTabs = getTabbedPane();
-			queueTabs.addTab( "Creations Queued", centerPanel );
+
+			if ( this.food )
+			{
+				fullnessTabs = queueTabs;
+				queueTabs.addTab( "0 Full Queued", centerPanel );
+			}
+			else
+			{
+				inebrietyTabs = queueTabs;
+				queueTabs.addTab( "0 Drunk Queued", centerPanel );
+			}
+
 			queueTabs.addTab( "Ingredients Used", new SimpleScrollPane( ConcoctionsDatabase.getQueue(), 7 ) );
 			actualPanel.add( queueTabs, BorderLayout.CENTER );
-
-			this.food = food;
-			this.booze = booze;
 
 			this.eastPanel.add( new UndoQueueButton(), BorderLayout.SOUTH );
 
@@ -569,6 +583,11 @@ public class ItemManageFrame extends KoLFrame
 			{
 				ConcoctionsDatabase.pop();
 				ConcoctionsDatabase.refreshConcoctions();
+
+				if ( fullnessTabs != null )
+					fullnessTabs.setTitleAt( 0, ConcoctionsDatabase.getQueuedFullness() + " Full Queued" );
+				if ( inebrietyTabs != null )
+					inebrietyTabs.setTitleAt( 0, ConcoctionsDatabase.getQueuedInebriety() + " Drunk Queued" );
 			}
 		}
 
@@ -687,6 +706,11 @@ public class ItemManageFrame extends KoLFrame
 			{
 				getDesiredItems( "Queue" );
 				ConcoctionsDatabase.refreshConcoctions();
+
+				if ( fullnessTabs != null )
+					fullnessTabs.setTitleAt( 0, ConcoctionsDatabase.getQueuedFullness() + " Full Queued" );
+				if ( inebrietyTabs != null )
+					inebrietyTabs.setTitleAt( 0, ConcoctionsDatabase.getQueuedInebriety() + " Drunk Queued" );
 			}
 
 			public String toString()

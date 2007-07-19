@@ -282,7 +282,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 	public Object [] getDesiredItems( String message )
 	{
 		if ( this.movers == null || this.movers[2].isSelected() )
-			return this.getDesiredItems( message, message.equals( "Consume" ) ? USE_MULTIPLE : TAKE_MULTIPLE );
+			return this.getDesiredItems( message, message.equals( "Queue" ) || message.equals( "Consume" ) ? USE_MULTIPLE : TAKE_MULTIPLE );
 
 		return this.getDesiredItems( message, this.movers[0].isSelected() ? TAKE_ALL : this.movers[1].isSelected() ? TAKE_ALL_BUT_ONE : TAKE_ONE );
 	}
@@ -317,9 +317,11 @@ public class ItemManagePanel extends LabeledScrollPanel
 				case TAKE_ALL:
 					quantity = itemCount;
 					break;
+
 				case TAKE_ALL_BUT_ONE:
 					quantity = itemCount - 1;
 					break;
+
 				case TAKE_MULTIPLE:
 					quantity = KoLFrame.getQuantity( message + " " + itemName + "...", itemCount );
 					if ( itemCount > 0 && quantity == 0 )
@@ -332,11 +334,22 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 					if ( items[i] instanceof Concoction )
 					{
-						if ( ((Concoction)items[i]).getFullness() > 0 )
-							standard = (KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness()) / ((Concoction)items[i]).getFullness();
-						else if ( ((Concoction)items[i]).getInebriety() > 0 )
-							standard = Math.max( 1, (KoLCharacter.getInebrietyLimit() - KoLCharacter.getInebriety()) / ((Concoction)items[i]).getInebriety() );
+						int previous = 0, capacity = itemCount, unit = 1;
 
+						if ( ((Concoction)items[i]).getFullness() > 0 )
+						{
+							previous = KoLCharacter.getFullness() + ConcoctionsDatabase.getQueuedFullness();
+							capacity = KoLCharacter.getFullnessLimit();
+							unit = ((Concoction)items[i]).getFullness();
+						}
+						else if ( ((Concoction)items[i]).getInebriety() > 0 )
+						{
+							previous = KoLCharacter.getInebriety() + ConcoctionsDatabase.getQueuedInebriety();
+							capacity = KoLCharacter.getInebrietyLimit();
+							unit = ((Concoction)items[i]).getInebriety();
+						}
+
+						standard = (capacity - previous) / unit;
 						standard = Math.min( standard, itemCount );
 					}
 					else
