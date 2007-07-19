@@ -62,7 +62,6 @@ public abstract class ActionVerifyPanel extends ActionPanel
 	protected JPanel eastContainer;
 
 	private VerifyButtonPanel buttonPanel;
-	private boolean contentSet;
 	private boolean isCenterPanel;
 	private Dimension left, right;
 
@@ -126,7 +125,7 @@ public abstract class ActionVerifyPanel extends ActionPanel
 
 		this.isCenterPanel = isCenterPanel;
 
-		this.buttonPanel = confirmedText == null ? null :
+		this.buttonPanel = confirmedText == null || confirmedText.equals( "" ) ? null :
 			new VerifyButtonPanel( confirmedText, cancelledText1, cancelledText2 );
 	}
 

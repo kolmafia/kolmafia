@@ -39,7 +39,6 @@ import java.awt.GridLayout;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -50,6 +49,7 @@ public abstract class ActionPanel extends JRootPane
 	protected ConfirmedListener CONFIRM_LISTENER = new ConfirmedListener();
 	protected CancelledListener CANCEL_LISTENER = new CancelledListener();
 
+	protected boolean contentSet = false;
 	protected JButton confirmedButton, cancelledButton;
 
 	public void dispose()
@@ -141,7 +141,9 @@ public abstract class ActionPanel extends JRootPane
 		}
 
 		public void run()
-		{	actionConfirmed();
+		{
+			if ( contentSet )
+				actionConfirmed();
 		}
 	}
 
@@ -152,7 +154,9 @@ public abstract class ActionPanel extends JRootPane
 		}
 
 		public void run()
-		{	actionCancelled();
+		{
+			if ( contentSet )
+				actionCancelled();
 		}
 	}
 }
