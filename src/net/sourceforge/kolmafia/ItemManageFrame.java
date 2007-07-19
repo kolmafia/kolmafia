@@ -1103,9 +1103,14 @@ public class ItemManageFrame extends KoLFrame
 			} );
 
 			if ( this.isEquipmentOnly )
+			{
 				elementList.setCellRenderer( AdventureResult.getEquipmentRenderer() );
+			}
 			else
+			{
+				elementList.setCellRenderer( AdventureResult.getDefaultRenderer() );
 				this.movers[ KoLCharacter.canInteract() ? 0 : 2 ].setSelected( true );
+			}
 
 			this.filterItems();
 		}
@@ -1115,12 +1120,13 @@ public class ItemManageFrame extends KoLFrame
 			super( "", confirmText, cancelText, model );
 			this.isEquipmentOnly = isEquipmentOnly;
 
-			this.elementList.setCellRenderer( AdventureResult.getEquipmentRenderer() );
 			this.addFilters( false );
 			this.filterItems();
 
 			if ( this.isEquipmentOnly )
 				elementList.setCellRenderer( AdventureResult.getEquipmentRenderer() );
+			else
+				elementList.setCellRenderer( AdventureResult.getDefaultRenderer() );
 		}
 
 		public void addFilters( boolean isCompact )

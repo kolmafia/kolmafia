@@ -2002,7 +2002,7 @@ public class KoLmafiaCLI extends KoLmafia
 			command = "skills";
 		}
 
-		if ( command.startsWith( "inv" ) || command.equals( "closet" ) || command.equals( "session" ) || command.equals( "summary" ) ||
+		if ( command.startsWith( "inv" ) || command.equals( "closet" ) || command.equals( "storage" ) || command.equals( "session" ) || command.equals( "summary" ) ||
 			command.equals( "effects" ) || command.equals( "status" ) || command.equals( "skills" ) || command.equals( "locations" ) || command.equals( "encounters" ) )
 		{
 			this.executePrintCommand( command + " " + parameters );
@@ -3488,8 +3488,9 @@ public class KoLmafiaCLI extends KoLmafia
 		else
 		{
 			List mainList = desiredData.equals( "closet" ) ? closet : desiredData.equals( "summary" ) ? tally :
-				desiredData.equals( "outfits" ) ? KoLCharacter.getOutfits() : desiredData.equals( "familiars" ) ? KoLCharacter.getFamiliarList() :
-				desiredData.equals( "effects" ) ? activeEffects : desiredData.equals( "closet" ) ? closet : inventory;
+				desiredData.equals( "storage" ) ? storage : desiredData.equals( "outfits" ) ? KoLCharacter.getOutfits() :
+				desiredData.equals( "familiars" ) ? KoLCharacter.getFamiliarList() :
+				desiredData.equals( "effects" ) ? activeEffects : inventory;
 
 			if ( desiredData.startsWith( "skills" ) )
 			{
