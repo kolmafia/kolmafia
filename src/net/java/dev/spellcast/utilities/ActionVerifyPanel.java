@@ -190,7 +190,7 @@ public abstract class ActionVerifyPanel extends ActionPanel
 
 		for ( int i = 0; i < elements.length; ++i )
 		{
-			if ( elements[i].getInputField() instanceof JCheckBox || elements[i].getInputField() instanceof JRadioButton )
+			if ( elements[i].isInputPreceding() && (elements[i].getInputField() instanceof JCheckBox || elements[i].getInputField() instanceof JRadioButton) )
 			{
 				if ( currentContainer == null )
 				{
