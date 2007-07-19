@@ -36,6 +36,9 @@ package net.sourceforge.kolmafia;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JComponent;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -230,28 +233,64 @@ public class MuseumFrame extends KoLFrame
 		}
 	}
 
+
 	private class OrderingPanel extends ItemManagePanel
 	{
 		public OrderingPanel()
-		{	super( "Reorder Shelves", "move up", "apply", (LockableListModel) MuseumManager.getHeaders().clone() );
+		{
+			super( (LockableListModel) MuseumManager.getHeaders().clone() );
+
+			this.setButtons( false, new ActionListener [] { new MoveUpListener(), new MoveDownListener(), new ApplyChangesListener() } );
 		}
 
-		public void actionConfirmed()
+		private class MoveUpListener implements ActionListener
 		{
-			int selectedIndex = this.elementList.getSelectedIndex();
-			if ( selectedIndex < 1 )
-				return;
+			public void actionPerformed( ActionEvent e )
+			{
+				int selectedIndex = elementList.getSelectedIndex();
+				if ( selectedIndex < 1 )
+					return;
 
-			Object removed = this.elementModel.remove( selectedIndex );
-			this.elementModel.add( selectedIndex - 1, removed );
-			this.elementList.setSelectedIndex( selectedIndex - 1 );
+				Object removed = elementModel.remove( selectedIndex );
+				elementModel.add( selectedIndex - 1, removed );
+				elementList.setSelectedIndex( selectedIndex - 1 );
+			}
+
+			public String toString()
+			{	return "move up";
+			}
 		}
 
-		public void actionCancelled()
+		private class MoveDownListener implements ActionListener
 		{
-			String [] headerArray = new String[ this.elementModel.size() ];
-			this.elementModel.toArray( headerArray );
-			MuseumManager.reorder( headerArray );
+			public void actionPerformed( ActionEvent e )
+			{
+				int selectedIndex = elementList.getSelectedIndex();
+				if ( selectedIndex < 0 || selectedIndex == elementModel.size() - 1 )
+					return;
+
+				Object removed = elementModel.remove( selectedIndex );
+				elementModel.add( selectedIndex + 1, removed );
+				elementList.setSelectedIndex( selectedIndex + 1 );
+			}
+
+			public String toString()
+			{	return "move down";
+			}
+		}
+
+		private class ApplyChangesListener implements ActionListener
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				String [] headerArray = new String[ elementModel.size() ];
+				elementModel.toArray( headerArray );
+				MuseumManager.reorder( headerArray );
+			}
+
+			public String toString()
+			{	return "apply";
+			}
 		}
 	}
 }
