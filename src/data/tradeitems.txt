@@ -2032,7 +2032,7 @@
 2032	bullet-proof corduroys	10	all	80
 2033	round purple sunglasses	8	all	80
 2034	wicker shield	13	all	55
-2035	Marquis de Poivre soda	13	display	30
+2035	Marquis de Poivre soda	14	display	30
 2036	radium-flavored potato chips	4	display	30
 2037	wintergreen-flavored potato chips	4	display	30
 2038	ennui-flavored potato chips	4	display	30
