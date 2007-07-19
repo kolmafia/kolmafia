@@ -49,6 +49,8 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 	private static boolean ignoreRefresh = false;
 
+	private static int queuedFullness = 0;
+	private static int queuedInebriety = 0;
 	private static int queuedAdventuresUsed = 0;
 	private static int queuedStillsUsed = 0;
 	private static Stack queuedChanges = new Stack();
@@ -326,6 +328,9 @@ public class ConcoctionsDatabase extends KoLDatabase
 		int adventureChange = queuedAdventuresUsed;
 		int stillChange = queuedStillsUsed;
 
+		queuedFullness += c.getInebriety() * quantity;
+		queuedInebriety += c.getInebriety() * quantity;
+
 		ArrayList ingredientChange = new ArrayList();
 		c.queue( ingredientChange, quantity );
 
@@ -361,6 +366,9 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		queuedAdventuresUsed += adventureChange.intValue();
 		queuedStillsUsed += stillChange.intValue();
+
+		queuedFullness -= c.getInebriety() * quantity.intValue();
+		queuedInebriety -= c.getInebriety() * quantity.intValue();
 	}
 
 	public static LockableListModel getUsables()
@@ -379,6 +387,8 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		queuedStillsUsed = 0;
 		queuedAdventuresUsed = 0;
+		queuedFullness = 0;
+		queuedInebriety = 0;
 
 		ignoreRefresh = true;
 
@@ -425,6 +435,14 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		ignoreRefresh = false;
 		refreshConcoctions();
+	}
+
+	public static int getQueuedFullness()
+	{	return queuedFullness;
+	}
+
+	public static int getQueuedInebriety()
+	{	return queuedInebriety;
 	}
 
 	private static List getAvailableIngredients()
