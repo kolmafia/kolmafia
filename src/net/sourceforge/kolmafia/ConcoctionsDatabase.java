@@ -533,7 +533,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// is not needed.
 
 		cachePermitted( availableIngredients );
-		boolean infiniteNPCStoreItems = getBooleanProperty( "assumeInfiniteNPCItems" );
+		boolean includeNPCs = getBooleanProperty( "autoSatisfyWithNPCs" );
 
 		// Next, do calculations on all mixing methods which cannot
 		// be created at this time.
@@ -548,7 +548,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			if ( concoction == null )
 				continue;
 
-			if ( infiniteNPCStoreItems && NPCStoreDatabase.contains( concoction.getName() ) )
+			if ( includeNPCs && NPCStoreDatabase.contains( concoction.getName() ) )
 			{
 				int price = NPCStoreDatabase.price( concoction.getName() );
 				item.initial = concoction.getCount( availableIngredients ) + KoLCharacter.getAvailableMeat() / price;

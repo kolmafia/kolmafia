@@ -106,15 +106,11 @@ public class OptionsFrame extends KoLFrame
 		private final String [][] options =
 		{
 			{ "logReverseOrder", "Log adventures left instead of adventures used" },
-
 			{},
-
 			{ "logBattleAction", "Session log records attacks for each round" },
 			{ "logFamiliarActions", "Session log records actions made by familiars" },
 			{ "logMonsterHealth", "Session log records monster health changes" },
-
 			{},
-
 			{ "logGainMessages", "Session log records HP/MP/meat changes" },
 			{ "logStatGains", "Session log records stat gains" },
 			{ "logAcquiredItems", "Session log records items acquired" },

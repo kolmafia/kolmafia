@@ -188,7 +188,8 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			elements[1] = new VerifiableElement( "Max Rank: ", FlowerHunterFrame.this.rankEntry );
 			elements[2] = new VerifiableElement( "Max Results: ", this.limitEntry );
 
-			this.setContent( elements, null, FlowerHunterFrame.this.getRankLabel(), true );
+			this.setContent( elements, true );
+			this.eastContainer.add( getRankLabel(), BorderLayout.SOUTH );
 		}
 
 		public void actionConfirmed()
@@ -247,7 +248,8 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			VerifiableElement [] elements = new VerifiableElement[1];
 			elements[0] = new VerifiableElement( "Clan Id: ", this.clanId );
 
-			this.setContent( elements, null, FlowerHunterFrame.this.getRankLabel(), true );
+			this.setContent( elements, true );
+			this.eastContainer.add( getRankLabel(), BorderLayout.SOUTH );
 		}
 
 		public void actionConfirmed()
@@ -332,7 +334,8 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			else
 				this.stanceSelect.setSelectedIndex( 2 );
 
-			this.setContent( elements, null, FlowerHunterFrame.this.getRankLabel(), true );
+			this.setContent( elements, true );
+			this.eastContainer.add( getRankLabel(), BorderLayout.SOUTH );
 		}
 
 		public void actionConfirmed()

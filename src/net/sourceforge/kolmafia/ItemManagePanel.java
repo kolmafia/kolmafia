@@ -157,27 +157,16 @@ public class ItemManagePanel extends LabeledScrollPanel
 		this.filterfield.notrade = notrade;
 	}
 
-	public void addFilters( boolean isCompact )
+	public void addFilters()
 	{
 		JPanel filterPanel = new JPanel();
 		this.filters = new JCheckBox[5];
 
-		if ( isCompact )
-		{
-			this.filters[0] = new JCheckBox( "food", KoLCharacter.canEat() );
-			this.filters[1] = new JCheckBox( "booze", KoLCharacter.canDrink() );
-			this.filters[2] = new JCheckBox( "equip", true );
-			this.filters[3] = new JCheckBox( "others", true );
-			this.filters[4] = new JCheckBox( "no-trade", true );
-		}
-		else
-		{
-			this.filters[0] = new JCheckBox( "Show food", KoLCharacter.canEat() );
-			this.filters[1] = new JCheckBox( "Show booze", KoLCharacter.canDrink() );
-			this.filters[2] = new JCheckBox( "Show equipment", true );
-			this.filters[3] = new JCheckBox( "Show others", true );
-			this.filters[4] = new JCheckBox( "Show no-trade", true );
-		}
+		this.filters[0] = new JCheckBox( "food", KoLCharacter.canEat() );
+		this.filters[1] = new JCheckBox( "booze", KoLCharacter.canDrink() );
+		this.filters[2] = new JCheckBox( "equip", true );
+		this.filters[3] = new JCheckBox( "others", true );
+		this.filters[4] = new JCheckBox( "no-trade", true );
 
 		for ( int i = 0; i < 5; ++i )
 		{
@@ -197,10 +186,6 @@ public class ItemManagePanel extends LabeledScrollPanel
 	}
 
 	public void setButtons( boolean addFilters, ActionListener [] buttonListeners )
-	{	this.setButtons( addFilters, addFilters && buttonListeners == null, buttonListeners );
-	}
-
-	public void setButtons( boolean addFilters, boolean addCompactFilters, ActionListener [] buttonListeners )
 	{
 		// Handle buttons along the right hand side, if there are
 		// supposed to be buttons.
@@ -234,12 +219,12 @@ public class ItemManagePanel extends LabeledScrollPanel
 		if ( !addFilters )
 			this.filters = null;
 		else
-			this.addFilters( addCompactFilters );
+			this.addFilters();
 
 		// If there are buttons, they likely need movers.  Therefore, add
 		// some movers to everything.
 
-		if ( addFilters && !addCompactFilters )
+		if ( addFilters )
 			addMovers();
 
 		if ( buttonListeners != null )
@@ -251,10 +236,10 @@ public class ItemManagePanel extends LabeledScrollPanel
 		JPanel moverPanel = new JPanel();
 
 		this.movers = new JRadioButton[4];
-		this.movers[0] = new JRadioButton( "Move all" );
-		this.movers[1] = new JRadioButton( "Move all but one" );
-		this.movers[2] = new JRadioButton( "Move multiple", true );
-		this.movers[3] = new JRadioButton( "Move exactly one" );
+		this.movers[0] = new JRadioButton( "max possible" );
+		this.movers[1] = new JRadioButton( "all but one" );
+		this.movers[2] = new JRadioButton( "multiple", true );
+		this.movers[3] = new JRadioButton( "exactly one" );
 
 		ButtonGroup moverGroup = new ButtonGroup();
 		for ( int i = 0; i < 4; ++i )
