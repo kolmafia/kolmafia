@@ -289,12 +289,14 @@ public class RequestFrame extends KoLFrame
 	public void refresh( KoLRequest request )
 	{
 		if ( removedFrames.contains( this ) )
+		{
 			removedFrames.remove( this );
+			this.setVisible( true );
+		}
 
 		if ( !existingFrames.contains( this ) )
 			existingFrames.add( this );
 
-		this.setVisible( true );
 		this.setCurrentRequest( request );
 		this.displayRequest( request );
 	}

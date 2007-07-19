@@ -1246,6 +1246,12 @@ public class KoLRequest extends Job implements KoLConstants
 			return true;
 		}
 
+		if ( this instanceof AdventureRequest )
+		{
+			FightFrame.showRequest( new KoLRequest( this.redirectLocation ) );
+			return false;
+		}
+
 		if ( this.shouldUpdateDebugLog() )
 			RequestLogger.updateDebugLog( "Redirected: " + this.redirectLocation );
 
