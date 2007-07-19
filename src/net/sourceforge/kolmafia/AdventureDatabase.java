@@ -502,11 +502,7 @@ public class AdventureDatabase extends KoLDatabase
 		  new String [] { "small meat boost", "stats & HP & MP", "can of Ghuol-B-Gone&trade;", "skip adventure" },
 		  new String [] { null, null, "2565", null } ),
 
-		// Bureaucracy of the Damned
-		new ChoiceAdventure( "Woods", "choiceAdventure161", "Friar's Gate",
-		  new String [] { "Quest", "Quest", "Quest", "skip adventure" },
-		  new String [] { null, null, null, null } ),
-
+		// Choice 161 is Bureaucracy of the Damned
 		// Choice 162 is Between a Rock and Some Other Rocks
 
 		// Melvil Dewey Would Be Ashamed

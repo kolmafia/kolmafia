@@ -738,7 +738,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "choiceAdventure23", "4" );
 		PLAYER_SETTINGS.put( "choiceAdventure24", "4" );
 		PLAYER_SETTINGS.put( "choiceAdventure25", "2" );
-		PLAYER_SETTINGS.put( "choiceAdventure26", "3" );
+		PLAYER_SETTINGS.put( "choiceAdventure26", "2" );
 		PLAYER_SETTINGS.put( "choiceAdventure27", "2" );
 		PLAYER_SETTINGS.put( "choiceAdventure28", "2" );
 		PLAYER_SETTINGS.put( "choiceAdventure29", "2" );
@@ -847,7 +847,43 @@ public class KoLSettings extends Properties implements KoLConstants
 		for ( int i = 0; i < AdventureDatabase.CHOICE_ADV_SPOILERS.length; ++i )
 		{
 			setting = AdventureDatabase.CHOICE_ADV_SPOILERS[i].getSetting();
+			if ( !forceChoiceDefault( StaticEntity.parseInt( setting.substring(15) ) ) )
+				continue;
+
 			super.setProperty( setting, (String) PLAYER_SETTINGS.get( setting ) );
+		}
+	}
+
+	private static boolean forceChoiceDefault( int choiceId )
+	{
+		switch ( choiceId )
+		{
+		case 6:
+		case 7:
+		case 8:
+		case 9:
+		case 10:
+		case 11:
+		case 12:
+		case 26:
+		case 27:
+		case 28:
+		case 29:
+		case 77:
+		case 78:
+		case 79:
+		case 80:
+		case 81:
+		case 86:
+		case 87:
+		case 88:
+		case 89:
+		case 91:
+		case 152:
+			return false;
+
+		default:
+			return true;
 		}
 	}
 
@@ -883,22 +919,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		for ( int i = 0; i < choices.length; ++i )
 		{
 			String setting = choices[i].getSetting();
-
-			boolean shouldIgnore = false;
-
-			switch ( StaticEntity.parseInt( setting.substring(15) ) )
-			{
-			case 6:  case 7:  case 8:
-			case 9:  case 10:  case 11:  case 12:
-			case 26:  case 27:  case 28:  case 29:
-			case 77:  case 78:  case 79:
-			case 80:  case 81:  case 86:  case 87:
-			case 88:  case 89:  case 91:
-			case 152:
-				shouldIgnore = true;
-			}
-
-			if ( shouldIgnore )
+			if ( !forceChoiceDefault( StaticEntity.parseInt( setting.substring(15) ) ) )
 				continue;
 
 			int defaultOption = StaticEntity.parseInt( (String) PLAYER_SETTINGS.get( setting ) ) - 1;
