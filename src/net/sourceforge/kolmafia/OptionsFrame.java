@@ -279,6 +279,7 @@ public class OptionsFrame extends KoLFrame
 			{ "", "" },
 
 			{ "autoBuyRestores", "Automatically buy more hp/mp restores when needed" },
+			{ "completeHealthRestore", "Remove health-reducing status effects before health restore" },
 			{ "ignoreAutoAttack", "Treat auto-attack as a null combat round for CCS" },
 			{ "useFastOutfitSwitch", "Use fast outfit switching instead of piecewise switching" },
 
