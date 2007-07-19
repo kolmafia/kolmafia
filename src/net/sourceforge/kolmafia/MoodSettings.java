@@ -53,6 +53,14 @@ public abstract class MoodSettings implements KoLConstants
 		StaticEntity.renameDataFiles( "kms", "moods" );
 	}
 
+	private static final AdventureResult [] AUTO_CLEAR =
+	{
+		new AdventureResult( "Beaten Up", 1, true ), new AdventureResult( "Tetanus", 1, true ),
+		new AdventureResult( "Hardly Poisoned at All", 1, true ), new AdventureResult( "Majorly Poisoned", 1, true ),
+		new AdventureResult( "A Little Bit Poisoned", 1, true ), new AdventureResult( "Somewhat Poisoned", 1, true ),
+		new AdventureResult( "Really Quite Poisoned", 1, true )
+	};
+
 	private static final AdventureResult HYDRATED = new AdventureResult( "Ultrahydrated", 1, true );
 	private static final AdventureResult PENDANT = new AdventureResult( 1235, 1 );
 
@@ -641,6 +649,24 @@ public abstract class MoodSettings implements KoLConstants
 				missing.add( HYDRATED );
 
 		return missing;
+	}
+
+	public static void fixMaximumHealth( String restoreSetting )
+	{
+		String action;
+
+		for ( int i = 0; i < AUTO_CLEAR.length; ++i )
+		{
+			if ( activeEffects.contains( AUTO_CLEAR[i] ) )
+			{
+				action = MoodSettings.getDefaultAction( "gain_effect", AUTO_CLEAR[i].getName() );
+
+				if ( action.startsWith( "cast" ) && restoreSetting.indexOf( action.substring(5) ) != -1 )
+					DEFAULT_SHELL.executeLine( action );
+				else if ( action.startsWith( "use" ) && restoreSetting.indexOf( action.substring(4) ) != -1 )
+					DEFAULT_SHELL.executeLine( action );
+			}
+		}
 	}
 
 	public static int getMaintenanceCost()

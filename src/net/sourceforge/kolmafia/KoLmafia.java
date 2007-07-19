@@ -1163,17 +1163,11 @@ public abstract class KoLmafia implements KoLConstants
 		// Consider clearing beaten up if your restoration settings
 		// include the appropriate items.
 
-		if ( settingName.startsWith( "hp" ) && activeEffects.contains( KoLAdventure.BEATEN_UP ) )
+		if ( settingName.startsWith( "hp" ) )
 		{
-			String action = MoodSettings.getDefaultAction( "gain_effect", "Beaten Up" );
-
-			if ( action.startsWith( "cast" ) && restoreSetting.indexOf( action.substring(5) ) != -1 )
-				DEFAULT_SHELL.executeLine( action );
-			else if ( action.startsWith( "use" ) && restoreSetting.indexOf( action.substring(4) ) != -1 )
-				DEFAULT_SHELL.executeLine( action );
-
+			MoodSettings.fixMaximumHealth( restoreSetting );
 			current = KoLCharacter.getCurrentHP();
-			needed = Math.min( desired, current + 1 );
+			needed = Math.max( needed, Math.min( desired, current + 1 ) );
 		}
 
 		if ( current >= needed )
