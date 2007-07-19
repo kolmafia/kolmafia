@@ -123,7 +123,7 @@ public class ItemManageFrame extends KoLFrame
 
 		this.addSeparator();
 
-		this.addPanel( "Creatable", new CreateItemPanel( false, false, false, true ) );
+		this.addPanel( "Creatable", new CreateItemPanel( true, true, true, true ) );
 
 		this.addPanel( " - Cookable", new CreateItemPanel( true, false, false, false ) );
 		this.addPanel( " - Mixable", new CreateItemPanel( false, true, false, false ) );
