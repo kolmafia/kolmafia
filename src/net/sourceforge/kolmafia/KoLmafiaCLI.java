@@ -597,7 +597,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// If the command has already been disabled, then return
 		// from this function.
 
-		if ( StaticEntity.isDisabled( command ) )
+		if ( command.equals( "login" ) || StaticEntity.isDisabled( command ) )
 		{
 			RequestLogger.printLine( "Called disabled command: " + command + " " + parameters );
 			return;
