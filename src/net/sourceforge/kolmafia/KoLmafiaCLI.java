@@ -160,6 +160,9 @@ public class KoLmafiaCLI extends KoLmafia
 			String username = StaticEntity.getProperty( "autoLogin" );
 
 			if ( username == null || username.length() == 0 )
+				username = StaticEntity.getProperty( "lastUserName" );
+
+			if ( username == null || username.length() == 0 )
 			{
 				System.out.println();
 				System.out.print( "username: " );
@@ -173,7 +176,7 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 
 			if ( username.startsWith( "login " ) )
-				username = username.substring( 6 );
+				username = username.substring( 6 ).trim();
 
 			String password = getSaveState( username );
 
@@ -969,21 +972,6 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "relogin" ) || command.equals( "timein" ) )
 		{
 			LoginRequest.executeTimeInRequest();
-			return;
-		}
-
-		if ( command.equals( "login" ) )
-		{
-			this.executeCommand( "logout", "" );
-			String password = getSaveState( parameters );
-
-			if ( password != null )
-				RequestThread.postRequest( new LoginRequest( parameters, password ) );
-			else if ( StaticEntity.getClient() == DEFAULT_SHELL )
-				DEFAULT_SHELL.attemptLogin();
-			else
-				updateDisplay( ERROR_STATE, "No password saved for that username." );
-
 			return;
 		}
 
