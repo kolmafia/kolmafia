@@ -211,6 +211,9 @@ public class SpecialOutfit implements Comparable, KoLConstants
 
 	public static void createImplicitCheckpoint()
 	{
+		if ( KoLmafia.isRunningBetweenBattleChecks() )
+			return;
+
 		AdventureResult [] implicit = new AdventureResult[ KoLCharacter.FAMILIAR + 1 ];
 
 		for ( int i = 0; i < implicit.length; ++i )
@@ -229,7 +232,7 @@ public class SpecialOutfit implements Comparable, KoLConstants
 
 	public static void restoreImplicitCheckpoint()
 	{
-		if ( implicitPoints.isEmpty() )
+		if ( implicitPoints.isEmpty() || KoLmafia.isRunningBetweenBattleChecks() )
 			return;
 
 		AdventureResult [] implicit = (AdventureResult []) implicitPoints.pop();

@@ -2236,7 +2236,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		String fontColor = null;
 		String moodText = null;
 
-		if ( StaticEntity.getBooleanProperty( "relayAddsMoodRefreshLink" ) && MoodSettings.willExecute( true ) )
+		if ( StaticEntity.getBooleanProperty( "relayAddsMoodRefreshLink" ) && MoodSettings.willExecute( 0 ) )
 		{
 			fontColor = FightRequest.getActualRound() == 0 ? "black" : "gray";
 			moodText = "mood " + StaticEntity.getProperty( "currentMood" );
