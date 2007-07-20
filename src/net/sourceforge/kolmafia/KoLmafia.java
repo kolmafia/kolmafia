@@ -3239,17 +3239,15 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void handleAscension()
 	{
+		RequestThread.openRequestSequence();
 		StaticEntity.setProperty( "lastBreakfast", "-1" );
 
 		resetCounters();
 		KoLCharacter.reset();
 
-		KoLCharacter.setFamiliar( FamiliarData.NO_FAMILIAR );
-		KoLCharacter.getFamiliarList().clear();
-
+		this.refreshSession( false );
+		this.resetSession();
 		conditions.clear();
-		refreshSession( false );
-		resetSession();
 
 		// Based on your class, you get some basic
 		// items once you ascend.
@@ -3324,7 +3322,7 @@ public abstract class KoLmafia implements KoLConstants
 		sessionStream.println();
 		sessionStream.println();
 
-		enableDisplay();
+		RequestThread.closeRequestSequence();
 	}
 
 	private static class ShutdownThread extends Thread

@@ -314,13 +314,18 @@ public class LocalRelayAgent extends Thread
 		}
 		else
 		{
-			if ( this.path.endsWith( "noobmessage=true" ) )
+			this.request.run();
+
+			if ( this.path.indexOf( "valhalla.php" ) != -1 && this.request.responseCode == 302 )
 			{
 				StaticEntity.getClient().handleAscension();
-				this.request.constructURLString( "mtnoob.php?action=toot" );
-			}
 
-			this.request.run();
+				this.request.constructURLString( this.request.redirectLocation );
+				this.request.constructURLString( "mtnoob.php?action=toot" ).run();
+
+				this.request.responseText = StaticEntity.singleStringReplace( this.request.responseText, "</html>",
+					"<script language=\"Javascript\"><!-- menupane.document.location.reload(); charpane.document.location.reload(); --></script></html>" );
+			}
 		}
 
 		if ( this.request.rawByteBuffer == null && this.request.responseText != null )

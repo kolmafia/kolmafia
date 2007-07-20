@@ -183,7 +183,6 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	private static final int BAKULA = 1519;
-	private static final int JOYBUZZER = 1525;
 	private static final int WIZARD_HAT = 1653;
 
 	// Equipment constants
