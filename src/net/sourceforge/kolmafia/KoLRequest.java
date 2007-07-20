@@ -1691,6 +1691,9 @@ public class KoLRequest extends Job implements KoLConstants
 					AdventureResult item = new AdventureResult( StaticEntity.parseInt( possibleDecisions[i] ), 1 );
 					if ( conditions.contains( item ) )
 						return String.valueOf( i + 1 );
+
+					if ( decision.equals( "4" ) && possibleDecisions.length < 4 && !KoLCharacter.hasItem( item ) )
+						return String.valueOf( i + 1 );
 				}
 			}
 		}
