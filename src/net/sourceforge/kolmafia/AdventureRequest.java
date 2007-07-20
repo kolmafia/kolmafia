@@ -497,7 +497,30 @@ public class AdventureRequest extends KoLRequest
 			return;
 		}
 
+		if ( request.getURLString().startsWith( "tiles.php" ) )
+		{
+			handleDvoraksRevenge( request );
+			return;
+		}
+
 		FightFrame.showRequest( request );
+		KoLmafia.updateDisplay( ABORT_STATE, "Unknown adventure type encountered." );
+	}
+
+	public static void handleDvoraksRevenge( KoLRequest request )
+	{
+		StaticEntity.getClient().registerEncounter( "Dvorak's Revenge", "Noncombat" );
+		RequestLogger.printLine( "Encounter: Dvorak's Revenge" );
+		RequestLogger.updateSessionLog( "Encounter: Dvorak's Revenge" );
+
+		request.run();
+		request.constructURLString( "tiles.php?action=jump&whichtile=4" ).run();
+		request.constructURLString( "tiles.php?action=jump&whichtile=6" ).run();
+		request.constructURLString( "tiles.php?action=jump&whichtile=3" ).run();
+		request.constructURLString( "tiles.php?action=jump&whichtile=5" ).run();
+		request.constructURLString( "tiles.php?action=jump&whichtile=7" ).run();
+		request.constructURLString( "tiles.php?action=jump&whichtile=6" ).run();
+		request.constructURLString( "tiles.php?action=jump&whichtile=3" ).run();
 	}
 
 	public static boolean useMarmotClover( String location, String responseText )

@@ -308,6 +308,10 @@ public class LocalRelayAgent extends Thread
 
 			this.request.run();
 		}
+		else if ( this.path.indexOf( "tiles.php" ) != -1 )
+		{
+			AdventureRequest.handleDvoraksRevenge( this.request );
+		}
 		else
 		{
 			if ( this.path.endsWith( "noobmessage=true" ) )
