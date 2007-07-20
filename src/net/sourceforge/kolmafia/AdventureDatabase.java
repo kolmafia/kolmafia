@@ -1227,12 +1227,12 @@ public class AdventureDatabase extends KoLDatabase
 		// First, attempt to pull the item from the closet.
 		// If this is successful, return from the method.
 
-		AdventureResult [] items = new AdventureResult [] { item };
-		items[0] = item.getInstance( Math.min( item.getCount( closet ), missingCount ) );
+		int itemCount = item.getCount( closet );
 
-		if ( items[0].getCount() > 0 )
+		if ( itemCount > 0 )
 		{
-			RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.CLOSET_TO_INVENTORY, items ) );
+			RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.CLOSET_TO_INVENTORY,
+				new AdventureResult [] { item.getInstance( Math.min( itemCount, missingCount ) ) } ) );
 			missingCount = item.getCount() - item.getCount( inventory );
 
 			if ( missingCount <= 0 )
@@ -1247,12 +1247,14 @@ public class AdventureDatabase extends KoLDatabase
 
 		if ( KoLCharacter.canInteract() )
 		{
-			items[0] = item.getInstance( Math.min( item.getCount( storage ), missingCount ) );
-			if ( items[0].getCount() > 0 )
-			{
-				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.STORAGE_TO_INVENTORY, items ) );
-				missingCount = item.getCount() - item.getCount( inventory );
+			itemCount = item.getCount( storage );
 
+			if ( itemCount > 0 )
+			{
+				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.STORAGE_TO_INVENTORY,
+					new AdventureResult [] { item.getInstance( itemCount ) } ) );
+
+				missingCount = item.getCount() - item.getCount( inventory );
 				if ( missingCount <= 0 )
 					return true;
 			}
@@ -1266,10 +1268,13 @@ public class AdventureDatabase extends KoLDatabase
 			if ( !ClanManager.isStashRetrieved() )
 				RequestThread.postRequest( new ClanStashRequest() );
 
-			items[0] = item.getInstance( Math.min( item.getCount( ClanManager.getStash() ), missingCount ) );
-			if ( items[0].getCount() > 0 )
+			itemCount = item.getCount( ClanManager.getStash() );
+			if ( itemCount > 0 )
 			{
-				RequestThread.postRequest( new ClanStashRequest( items, ClanStashRequest.STASH_TO_ITEMS ) );
+				RequestThread.postRequest( new ClanStashRequest(
+					new AdventureResult [] { item.getInstance( Math.min( itemCount, missingCount ) ) },
+					ClanStashRequest.STASH_TO_ITEMS ) );
+
 				missingCount = item.getCount() - item.getCount( inventory );
 
 				if ( missingCount <= 0 )
