@@ -469,6 +469,8 @@ public class AdventureRequest extends KoLRequest
 			return true;
 		else if ( formSource.startsWith( "choice.php" ) && responseText.indexOf( "choice.php" ) != -1 )
 			return true;
+		else if ( formSource.startsWith( "palinshelves.php" ) && responseText.indexOf( "palinshelves.php" ) != -1 )
+			return true;
 
 		// It is not a known adventure.  Therefore,
 		// do not log the encounter yet.
@@ -482,6 +484,20 @@ public class AdventureRequest extends KoLRequest
 
 	public String toString()
 	{	return this.adventureName;
+	}
+
+	public static void handleServerRedirect( String redirectLocation )
+	{
+		KoLRequest request = new KoLRequest( redirectLocation );
+
+		if ( request.getURLString().startsWith( "palinshelves.php" ) )
+		{
+			request.run();
+			request.constructURLString( "palinshelves.php?action=placeitems&whichitem1=2259&whichitem2=2260&whichitem3=493&whichitem4=2261" ).run();
+			return;
+		}
+
+		FightFrame.showRequest( request );
 	}
 
 	public static boolean useMarmotClover( String location, String responseText )

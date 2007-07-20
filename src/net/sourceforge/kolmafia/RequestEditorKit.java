@@ -1781,6 +1781,12 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 					}
 
+					if ( itemId == ConsumeItemRequest.MACGUFFIN_DIARY )
+					{
+						useType = "read";
+						useLocation = "diary.php?textversion=1";
+					}
+
 					if ( useType == null )
 					{
 						useType = itemId == 2095 ? "fold" : "use";

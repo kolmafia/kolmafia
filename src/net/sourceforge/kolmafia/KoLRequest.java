@@ -1240,16 +1240,16 @@ public class KoLRequest extends Job implements KoLConstants
 			return true;
 		}
 
+		if ( this instanceof AdventureRequest || this.formURLString.equals( "choice.php" ) )
+		{
+			AdventureRequest.handleServerRedirect( this.redirectLocation );
+			return true;
+		}
+
 		if ( this.redirectLocation.startsWith( "valhalla.php" ) )
 		{
 			passwordHash = "";
 			return true;
-		}
-
-		if ( this instanceof AdventureRequest )
-		{
-			FightFrame.showRequest( new KoLRequest( this.redirectLocation ) );
-			return false;
 		}
 
 		if ( this.shouldUpdateDebugLog() )
@@ -1501,8 +1501,11 @@ public class KoLRequest extends Job implements KoLConstants
 
 		StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.CHOICE, 1 ) );
 
-		KoLRequest request = new KoLRequest( this.redirectLocation );
+		KoLRequest request = new KoLRequest( this.redirectLocation, false );
 		request.run();
+
+		if ( request.responseCode == 302 )
+			return;
 
 		String choice = null;
 		String option = null;
