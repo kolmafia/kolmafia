@@ -49,7 +49,6 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import jline.ConsoleReader;
 import net.sourceforge.kolmafia.MonsterDatabase.Monster;
 
 public class KoLmafiaCLI extends KoLmafia
@@ -77,8 +76,6 @@ public class KoLmafiaCLI extends KoLmafia
 	private BufferedReader commandStream;
 
 	private static boolean isExecutingCheckOnlyCommand = false;
-	private static ConsoleReader CONSOLE = null;
-
 	private static TreeMap ALIASES = new TreeMap();
 	static
 	{
@@ -113,16 +110,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 		StaticEntity.setClient( DEFAULT_SHELL );
 		RequestLogger.openStandard();
-
-		try
-		{
-			if ( !System.getProperty( "os.name" ).startsWith( "Win" ) )
-				CONSOLE = new ConsoleReader();
-		}
-		catch ( Exception e )
-		{
-			StaticEntity.printStackTrace( e );
-		}
 	}
 
 	/**
@@ -166,7 +153,7 @@ public class KoLmafiaCLI extends KoLmafia
 			{
 				System.out.println();
 				System.out.print( "username: " );
-				username = CONSOLE == null ? this.commandStream.readLine() : CONSOLE.readLine();
+				username = this.commandStream.readLine();
 			}
 
 			if ( username == null || username.length() == 0 )
@@ -183,7 +170,7 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( password == null )
 			{
 				System.out.print( "password: " );
-				password = CONSOLE == null ? this.commandStream.readLine() : CONSOLE.readLine( new Character( '*' ) );
+				password = this.commandStream.readLine();
 			}
 
 			if ( password == null || password.length() == 0 )
@@ -291,8 +278,7 @@ public class KoLmafiaCLI extends KoLmafia
 				// loop when you've read a valid line (which is a non-comment
 				// and a non-blank line) or when you've reached EOF.
 
-				line = DEFAULT_SHELL == this && CONSOLE != null ? CONSOLE.readLine() :
-					this.commandStream.readLine();
+				line = this.commandStream.readLine();
 			}
 			while ( line != null && (line.trim().length() == 0 || line.trim().startsWith( "#" ) || line.trim().startsWith( "//" ) || line.trim().startsWith( "\'" )) );
 
