@@ -985,19 +985,7 @@ public class ItemManageFrame extends KoLFrame
 			super( "create item", "create & use", ConcoctionsDatabase.getCreatables(), equip && !other );
 
 			if ( this.isEquipmentOnly )
-			{
 				super.addFilters( false );
-			}
-			else
-			{
-				this.setFixedFilter( food, booze, equip, other, true );
-				JPanel filterPanel = new JPanel();
-
-				JCheckBox allowNoBox = new CreationSettingCheckBox( "Require in-a-boxes for creation", "requireBoxServants", "Require in-a-boxes, auto-repair on explosion" );
-				filterPanel.add( allowNoBox );
-
-				this.northPanel.add( filterPanel, BorderLayout.SOUTH );
-			}
 
 			ConcoctionsDatabase.getCreatables().applyListFilters();
 			this.filterItems();

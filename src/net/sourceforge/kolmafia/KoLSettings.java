@@ -620,6 +620,7 @@ public class KoLSettings extends Properties implements KoLConstants
 
 		PLAYER_SETTINGS.put( "assumeInfiniteNPCItems", "true" );
 		PLAYER_SETTINGS.put( "autoAbortThreshold", "-0.1" );
+		PLAYER_SETTINGS.put( "autoRepairBoxServants", "true" );
 		PLAYER_SETTINGS.put( "battleAction", "attack with weapon" );
 		PLAYER_SETTINGS.put( "betweenBattleScript", "" );
 		PLAYER_SETTINGS.put( "breakfastCompleted", "false" );

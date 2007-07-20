@@ -295,6 +295,11 @@ public class OptionsFrame extends KoLFrame
 
 			{ "", "" },
 
+			{ "requireBoxServants", "Require a chef/bartender for cookable/mixable creations" },
+			{ "autoRepairBoxServants", "Automatically repair chefs and bartenders on explosion" },
+
+			{ "", "" },
+
 			{ "autoSatisfyWithNPCs", "Buy items from NPC stores whenever needed" },
 			{ "autoSatisfyWithMall", "Buy items from the mall whenever needed" },
 			{ "autoSatisfyWithStash", "Take items from the clan stash whenever needed" }

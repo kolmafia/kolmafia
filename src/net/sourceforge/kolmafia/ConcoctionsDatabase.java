@@ -829,7 +829,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 			if ( !PERMIT_METHOD[ COOK ] && !getBooleanProperty( "requireBoxServants" ) )
 			{
-				PERMIT_METHOD[ COOK ] = !KoLCharacter.canInteract() && (inventory.contains( OVEN ) || KoLCharacter.getAvailableMeat() >= 1000);
+				PERMIT_METHOD[ COOK ] = inventory.contains( OVEN ) || KoLCharacter.getAvailableMeat() >= 1000;
 				ADVENTURE_USAGE[ COOK ] = 1;
 			}
 		}
@@ -858,7 +858,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 			if ( !PERMIT_METHOD[ MIX ] && !getBooleanProperty( "requireBoxServants" ) )
 			{
-				PERMIT_METHOD[ MIX ] = !KoLCharacter.canInteract() && (inventory.contains( KIT ) || KoLCharacter.getAvailableMeat() >= 1000);
+				PERMIT_METHOD[ MIX ] = inventory.contains( KIT ) || KoLCharacter.getAvailableMeat() >= 1000;
 				ADVENTURE_USAGE[ MIX ] = 1;
 			}
 		}
@@ -914,7 +914,8 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// the given box servants is non-zero.	This works because
 		// cooking tests are made after item creation tests.
 
-		return concoctions.get( servantId ).total > 0 || concoctions.get( clockworkId ).total > 0;
+		return StaticEntity.getBooleanProperty( "autoRepairBoxServants" ) &&
+			concoctions.get( servantId ).total > 0 || concoctions.get( clockworkId ).total > 0;
 	}
 
 	/**
