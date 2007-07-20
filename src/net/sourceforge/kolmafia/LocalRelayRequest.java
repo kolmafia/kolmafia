@@ -63,6 +63,8 @@ public class LocalRelayRequest extends PasswordHashRequest
 	private static final Pattern SEARCHITEM_PATTERN = Pattern.compile( "searchitem=(\\d+)&searchprice=(\\d+)" );
 	private static final Pattern STORE_PATTERN = Pattern.compile( "<tr><td><input name=whichitem type=radio value=(\\d+).*?</tr>", Pattern.DOTALL );
 
+	private static String mainpane = "";
+
 	public List headers = new ArrayList();
 	public byte [] rawByteBuffer = null;
 	public String contentType = null;
@@ -468,6 +470,12 @@ public class LocalRelayRequest extends PasswordHashRequest
 		}
 	}
 
+	public static void setNextMain( String mainpane )
+	{	LocalRelayRequest.mainpane = mainpane;
+	}
+
+	private static final Pattern MAINPANE_PATTERN = Pattern.compile( "name=mainpane src=\"(.*?)\"", Pattern.DOTALL );
+
 	private void sendSharedFileHelper( String filename ) throws Exception
 	{
 		boolean isServerRequest = !filename.startsWith( "KoLmafia" );
@@ -478,7 +486,6 @@ public class LocalRelayRequest extends PasswordHashRequest
 		boolean writePseudoResponse = !isServerRequest;
 
 		StringBuffer replyBuffer = new StringBuffer();
-
 		String name = filename.substring( index + 1 );
 		String directory = index <= 0 ? "html" : "html/" + filename.substring( 0, index );
 		BufferedReader reader = DataUtilities.getReader( directory, name );
@@ -519,6 +526,20 @@ public class LocalRelayRequest extends PasswordHashRequest
 		{
 			this.sendNotFound();
 			return;
+		}
+
+		if ( (filename.equals( "main.html" ) || filename.equals( "main_c.html" )) && !mainpane.equals( "" ) )
+		{
+			if ( writePseudoResponse )
+			{
+				this.pseudoResponse( "200", replyBuffer.toString() );
+				writePseudoResponse = false;
+			}
+
+			this.responseText = MAINPANE_PATTERN.matcher( this.responseText ).replaceFirst(
+				"name=mainpane src=\"" + mainpane + "\"" );
+
+			mainpane = "";
 		}
 
 		// Add brand new Javascript to every single page.  Check
@@ -930,16 +951,6 @@ public class LocalRelayRequest extends PasswordHashRequest
 		else if ( this.formURLString.endsWith( "messageUpdate" ) )
 		{
 			this.pseudoResponse( "HTTP/1.1 200 OK", LocalRelayServer.getNewStatusMessages() );
-		}
-		else if ( this.formURLString.endsWith( "relayLocation" ) )
-		{
-			String location = getFormField( "page" );
-
-			this.constructURLString( isCompactMode ? "main_c.html" : "main.html" );
-			super.run();
-
-			this.responseText = StaticEntity.globalStringReplace( this.responseText, "src=\"", "src=\"../" );
-			this.responseText = StaticEntity.globalStringReplace( this.responseText, "main.php", location );
 		}
 		else if ( this.formURLString.indexOf( "images/playerpics/" ) != -1 )
 		{
