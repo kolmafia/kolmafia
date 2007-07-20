@@ -382,18 +382,6 @@ public class ConsumeItemRequest extends KoLRequest
 			this.itemUsed = this.itemUsed.getInstance( 1 );
 		}
 
-		if ( itemId == BLACK_MARKET_MAP && KoLCharacter.getFamiliar().getId() != 59 )
-		{
-			FamiliarData blackbird = new FamiliarData( 59 );
-			if ( !KoLCharacter.getFamiliarList().contains( blackbird ) )
-				(new ConsumeItemRequest( new AdventureResult( 2052, 1 ) )).run();
-
-			if ( !KoLmafia.permitsContinue() )
-				return;
-
-			CommandDisplayFrame.executeCommand( "familiar Reassembled Blackbird" );
-		}
-
 		if ( itemId == MACGUFFIN_DIARY )
 		{
 			KoLAdventure.ZONE_VALIDATOR.constructURLString( "diary.php?textversion=1" ).run();
@@ -1433,6 +1421,18 @@ public class ConsumeItemRequest extends KoLRequest
 			int spleenHit = TradeableItemDatabase.getSpleenHit( lastItemUsed.getName() ) * lastItemUsed.getCount();
 			if ( spleenHit > 0 && KoLCharacter.getSpleenUse() + spleenHit <= KoLCharacter.getSpleenLimit() )
 				StaticEntity.setProperty( "currentSpleenUse", String.valueOf( KoLCharacter.getSpleenUse() + spleenHit ) );
+		}
+
+		if ( lastItemUsed.getItemId() == BLACK_MARKET_MAP && KoLCharacter.getFamiliar().getId() != 59 )
+		{
+			FamiliarData blackbird = new FamiliarData( 59 );
+			if ( !KoLCharacter.getFamiliarList().contains( blackbird ) )
+				(new ConsumeItemRequest( new AdventureResult( 2052, 1 ) )).run();
+
+			if ( !KoLmafia.permitsContinue() )
+				return true;
+
+			CommandDisplayFrame.executeCommand( "familiar Reassembled Blackbird" );
 		}
 
 		RequestLogger.updateSessionLog();
