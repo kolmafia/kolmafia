@@ -352,12 +352,13 @@ public abstract class KoLmafia implements KoLConstants
 			initialScript.append( " " );
 		}
 
-		if ( initialScript.length() != 0 )
+		if ( initialScript.length() != 0 && !StaticEntity.getProperty( "lastUsername" ).equals( "" ) )
 		{
 			String actualScript = initialScript.toString().trim();
 			if ( actualScript.startsWith( "script=" ) )
 				actualScript = actualScript.substring( 7 );
 
+			DEFAULT_SHELL.attemptLogin();
 			DEFAULT_SHELL.executeLine( "call " + actualScript );
 		}
 		else if ( !useGUI )

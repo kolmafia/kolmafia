@@ -122,8 +122,7 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		try
 		{
-			if ( inputStream != System.in || System.getProperty( "os.name" ).startsWith( "Win" ) )
-				this.commandStream = KoLDatabase.getReader( inputStream );
+			this.commandStream = KoLDatabase.getReader( inputStream );
 		}
 		catch ( Exception e )
 		{
@@ -147,7 +146,7 @@ public class KoLmafiaCLI extends KoLmafia
 			String username = StaticEntity.getProperty( "autoLogin" );
 
 			if ( username == null || username.length() == 0 )
-				username = StaticEntity.getProperty( "lastUserName" );
+				username = StaticEntity.getProperty( "lastUsername" );
 
 			if ( username == null || username.length() == 0 )
 			{
