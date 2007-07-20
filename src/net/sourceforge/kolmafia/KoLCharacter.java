@@ -206,6 +206,9 @@ public abstract class KoLCharacter extends StaticEntity
 	private static String playerId = "0";
 	private static String classname = "";
 	private static String classtype = "";
+	private static int currentLevel = 1;
+	private static int decrementPrime = 0;
+	private static int incrementPrime = 0;
 
 	private static int currentHP, maximumHP, baseMaxHP;
 	private static int currentMP, maximumMP, baseMaxMP;
@@ -340,6 +343,10 @@ public abstract class KoLCharacter extends StaticEntity
 	{
 		classname = "";
 		classtype = "";
+
+		currentLevel = 1;
+		decrementPrime = 0;
+		incrementPrime = 0;
 
 		pvpRank = 0;
 		attacksLeft = 0;
@@ -545,7 +552,17 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static int getLevel()
-	{	return (int) Math.sqrt( calculateBasePoints( getTotalPrime() ) - 4 ) + 1;
+	{
+		int totalPrime = getTotalPrime();
+
+		if ( totalPrime <= decrementPrime || totalPrime >= incrementPrime )
+		{
+			currentLevel = (int) Math.sqrt( calculateBasePoints( getTotalPrime() ) - 4 ) + 1;
+			decrementPrime = calculateLastLevel();
+			incrementPrime = calculateNextLevel();
+		}
+
+		return currentLevel;
 	}
 
 	public static int getPvpRank()
@@ -819,7 +836,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static int calculateLastLevel()
 	{
-		int level = getLevel() - 1;
+		int level = currentLevel - 1;
 		int basePointsNeeded = level * level + 4;
 		return basePointsNeeded * basePointsNeeded - 1;
 	}
@@ -831,7 +848,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static int calculateNextLevel()
 	{
-		int level = getLevel();
+		int level = currentLevel;
 		int basePointsNeeded = level * level + 4;
 		return basePointsNeeded * basePointsNeeded - 1;
 	}
