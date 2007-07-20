@@ -133,7 +133,10 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	{
 		int mpCost = ClassSkillsDatabase.getMPConsumptionById( this.skillId );
 		if ( mpCost == 0 )
+		{
+			this.buffCount = 0;
 			return;
+		}
 
 		int maxPossible = Math.min( getMaximumCast(), KoLCharacter.getCurrentMP() / mpCost );
 

@@ -379,7 +379,7 @@ public abstract class MoodSettings implements KoLConstants
 	 */
 
 	public static void execute()
-	{	execute( false );
+	{	execute( -1 );
 	}
 
 	public static void burnExtraMana( boolean isManualInvocation )
@@ -400,14 +400,12 @@ public abstract class MoodSettings implements KoLConstants
 
 		String nextBurnCast;
 
-		SpecialOutfit.createImplicitCheckpoint();
 		isExecuting = true;
 
 		while ( (nextBurnCast = getNextBurnCast( true )) != null )
 			DEFAULT_SHELL.executeLine( nextBurnCast );
 
 		isExecuting = false;
-		SpecialOutfit.restoreImplicitCheckpoint();
 	}
 
 	public static String getNextBurnCast( boolean shouldExecute )
@@ -537,7 +535,7 @@ public abstract class MoodSettings implements KoLConstants
 		return null;
 	}
 
-	public static void execute( boolean isManualInvocation )
+	public static void execute( int multiplicity )
 	{
 		if ( StaticEntity.getProperty( "currentMood" ).equals( "apathetic" ) )
 			return;
@@ -545,10 +543,9 @@ public abstract class MoodSettings implements KoLConstants
 		if ( KoLmafia.refusesContinue() )
 			return;
 
-		if ( !willExecute( isManualInvocation ) )
+		if ( !willExecute( multiplicity ) )
 			return;
 
-		SpecialOutfit.createImplicitCheckpoint();
 		isExecuting = true;
 
 		MoodTrigger current = null;
@@ -606,21 +603,20 @@ public abstract class MoodSettings implements KoLConstants
 		{
 			current = (MoodTrigger) displayList.get(i);
 			if ( current.skillId != -1 )
-				current.execute( isManualInvocation );
+				current.execute( multiplicity );
 		}
 
 		for ( int i = 0; i < displayList.size(); ++i )
 		{
 			current = (MoodTrigger) displayList.get(i);
 			if ( current.skillId == -1 )
-				current.execute( isManualInvocation );
+				current.execute( multiplicity );
 		}
 
 		isExecuting = false;
-		SpecialOutfit.restoreImplicitCheckpoint();
 	}
 
-	public static boolean willExecute( boolean isManualInvocation )
+	public static boolean willExecute( int multiplicity )
 	{
 		if ( displayList.isEmpty() )
 			return false;
@@ -630,7 +626,7 @@ public abstract class MoodSettings implements KoLConstants
 		for ( int i = 0; i < displayList.size(); ++i )
 		{
 			MoodTrigger current = (MoodTrigger) displayList.get(i);
-			willExecute |= current.shouldExecute( isManualInvocation );
+			willExecute |= current.shouldExecute( multiplicity );
 		}
 
 		return willExecute;
@@ -688,7 +684,7 @@ public abstract class MoodSettings implements KoLConstants
 		for ( int i = 0; i < displayList.size(); ++i )
 		{
 			MoodTrigger current = (MoodTrigger) displayList.get(i);
-			if ( !current.getType().equals( "lose_effect" ) || !current.shouldExecute( true ) )
+			if ( !current.getType().equals( "lose_effect" ) || !current.shouldExecute( 1 ) )
 				continue;
 
 			String action = current.getAction();
@@ -910,9 +906,6 @@ public abstract class MoodSettings implements KoLConstants
 					return "use tiny house";
 			}
 
-			if ( name.equals( "Ultrahydrated" ) )
-				return "adventure 1 oasis";
-
 			if ( name.equals( "Goofball Withdrawal" ) || name.equals( "Eau de Tortue" ) )
 				return strictAction;
 
@@ -923,16 +916,20 @@ public abstract class MoodSettings implements KoLConstants
 		}
 		else if ( type.equals( "lose_effect" ) )
 		{
-			int tenCount = KoLCharacter.canInteract() ? 6 : 1;
+			if ( name.equals( "Ultrahydrated" ) )
+				return "adventure 1 oasis";
 
 			if ( name.equals( "Butt-Rock Hair" ) )
 				return "use 5 can of hair spray";
 
+			if ( name.equals( "Go Get 'Em, Tiger!" ) )
+				return "use 5 Ben-Gal Balm";
+
 			if ( name.equals( "Ticking Clock" ) )
-				return "use " + tenCount + " cheap wind-up clock";
+				return "use 1 cheap wind-up clock";
 
 			if ( name.equals( "Temporary Lycanthropy" ) )
-				return "use " + tenCount + " blood of the Wereseal";
+				return "use 1 blood of the Wereseal";
 
 			if ( name.equals( "Half-Astral" ) )
 				return "use 1 astral mushroom";
@@ -958,39 +955,25 @@ public abstract class MoodSettings implements KoLConstants
 			// Laboratory effects
 
 			if ( name.equals( "Wasabi Sinuses" ) )
-				return "use " + tenCount + " Knob Goblin nasal spray";
+				return "use 1 Knob Goblin nasal spray";
 
 			if ( name.equals( "Peeled Eyeballs" ) )
-				return "use " + tenCount + " Knob Goblin eyedrops";
+				return "use 1 Knob Goblin eyedrops";
 
 			if ( name.equals( "Sharp Weapon" ) )
-				return "use " + tenCount + " Knob Goblin sharpening spray";
+				return "use 1 Knob Goblin sharpening spray";
 
 			if ( name.equals( "Heavy Petting" ) )
-				return "use " + tenCount + " Knob Goblin pet-buffing spray";
+				return "use 1 Knob Goblin pet-buffing spray";
 
 			if ( name.equals( "Big Veiny Brain" ) )
-				return "use " + tenCount + " Knob Goblin learning pill";
+				return "use 1 Knob Goblin learning pill";
 
 			// Finally, fall back on skills
 
 			String skillName = UneffectRequest.effectToSkill( name );
-
 			if ( KoLCharacter.hasSkill( skillName ) )
-			{
-				int skillId = ClassSkillsDatabase.getSkillId( skillName );
-
-				int duration = ClassSkillsDatabase.getEffectDuration( skillId );
-				if ( duration == 0 )
-					return "";
-
-				int castCount = KoLCharacter.canInteract() ? 10 : 1;
-				int mpCost = ClassSkillsDatabase.getMPConsumptionById( skillId );
-				if ( mpCost > 0 )
-					castCount = Math.min( castCount, KoLCharacter.getMaximumMP() / mpCost );
-
-				return "cast " + castCount + " " + skillName;
-			}
+				return "cast 1 " + skillName;
 		}
 
 		return strictAction;
@@ -1136,21 +1119,26 @@ public abstract class MoodSettings implements KoLConstants
 			return this.name.equals( mt.name );
 		}
 
-		public void execute( boolean isManualInvocation )
+		public void execute( int multiplicity )
 		{
-			if ( this.shouldExecute( isManualInvocation ) )
+			if ( this.shouldExecute( multiplicity ) )
 			{
-				if ( this.type.equals( "lose_effect" ) && KoLCharacter.canInteract() && (this.action.startsWith( "use 1" ) || this.action.startsWith( "cast 1" )) )
-					DEFAULT_SHELL.executeLine( getDefaultAction( "lose_effect", this.effect.getName() ) );
-				else
-					DEFAULT_SHELL.executeLine( this.action );
+				String actualAction = this.action;
+
+				if ( multiplicity > 1 && (this.command.startsWith( "use" ) || this.command.startsWith("cast")) )
+					actualAction = this.command + " " + (StaticEntity.parseInt( this.count ) * multiplicity) + " " + this.parameters;
+
+				DEFAULT_SHELL.executeLine( actualAction );
 			}
 		}
 
-		public boolean shouldExecute( boolean isManualInvocation )
+		public boolean shouldExecute( int multiplicity )
 		{
 			if ( KoLmafia.refusesContinue() )
 				return false;
+
+			if ( multiplicity > 0 )
+				return true;
 
 			boolean shouldExecute = false;
 
@@ -1169,7 +1157,7 @@ public abstract class MoodSettings implements KoLConstants
 					this.action.indexOf( "mushroom" ) != -1 || this.action.indexOf( "oasis" ) != -1;
 
 				shouldExecute = unstackable ? !activeEffects.contains( this.effect ) :
-					this.effect.getCount( activeEffects ) <= (isManualInvocation ? 5 : 1);
+					this.effect.getCount( activeEffects ) <= (multiplicity == -1 ? 1 : 5);
 
 				shouldExecute &= !this.name.equals( "Temporary Lycanthropy" ) || MoonPhaseDatabase.getMoonlight() > 4;
 			}
