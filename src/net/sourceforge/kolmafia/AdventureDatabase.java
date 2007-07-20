@@ -53,7 +53,6 @@ public class AdventureDatabase extends KoLDatabase
 	private static StringArray [] adventureTable = new StringArray[6];
 	private static final TreeMap areaCombatData = new TreeMap();
 	private static final TreeMap adventureLookup = new TreeMap();
-	private static final TreeMap conditionLookup = new TreeMap();
 
 	static
 	{
@@ -920,11 +919,6 @@ public class AdventureDatabase extends KoLDatabase
 				adventureTable[4].add( location[1] );
 
 				adventureTable[5].add( data[3] );
-
-				if ( data.length == 5 )
-					conditionLookup.put( data[3], data[4] );
-				else
-					conditionLookup.put( data[3], "none" );
 			}
 		}
 
@@ -1070,15 +1064,6 @@ public class AdventureDatabase extends KoLDatabase
 			adventureTable[0].get( tableIndex ), adventureTable[1].get( tableIndex ),
 			adventureTable[2].get( tableIndex ), adventureTable[3].get( tableIndex ),
 			adventureTable[4].get( tableIndex ), adventureTable[5].get( tableIndex ) );
-	}
-
-	public static String getCondition( KoLAdventure location )
-	{
-		if ( location == null )
-			return "none";
-
-		String condition = (String) conditionLookup.get( location.getAdventureName() );
-		return condition == null ? "none" : condition;
 	}
 
 	public static String [][] choiceSpoilers( int choice )
