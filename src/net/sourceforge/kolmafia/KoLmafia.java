@@ -2990,9 +2990,14 @@ public abstract class KoLmafia implements KoLConstants
 		this.startRelayServer();
 
 		if ( location.equals( "login.php" ) || location.endsWith( ".html" ) )
+		{
 			StaticEntity.openSystemBrowser( "http://127.0.0.1:" + LocalRelayServer.getPort() + "/" + location );
+		}
 		else
-			StaticEntity.openSystemBrowser( "http://127.0.0.1:" + LocalRelayServer.getPort() + "/KoLmafia/relayLocation?page=" + location );
+		{
+			LocalRelayRequest.setNextMain( location );
+			openRelayBrowser();
+		}
 	}
 
 	public void launchRadioKoL()
