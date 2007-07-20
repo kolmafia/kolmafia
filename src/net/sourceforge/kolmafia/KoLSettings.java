@@ -685,6 +685,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "plantingDate", "" );
 		PLAYER_SETTINGS.put( "plantingLength", "" );
 		PLAYER_SETTINGS.put( "plantingScript", "" );
+		PLAYER_SETTINGS.put( "preBlackbirdFamiliar", "" );
 		PLAYER_SETTINGS.put( "reagentSummons", "0" );
 		PLAYER_SETTINGS.put( "relayAddsCustomCombat", "true" );
 		PLAYER_SETTINGS.put( "requireBoxServants", "true" );

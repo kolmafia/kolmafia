@@ -122,7 +122,7 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int DUSTY_ANIMAL_SKULL = 1799;
 	private static final int QUILL_PEN = 1957;
 	private static final int MEMO = 1973;
-	private static final int MACGUFFIN_DIARY = 2044;
+	public static final int MACGUFFIN_DIARY = 2044;
 	private static final int BLACK_MARKET_MAP = 2054;
 	private static final int ARCHAEOLOGIST_NOTEBOOK = 2179;
 	private static final int DRUM_MACHINE = 2328;
@@ -345,33 +345,33 @@ public class ConsumeItemRequest extends KoLRequest
 		lastUpdate = "";
 		int itemId = this.itemUsed.getItemId();
 
-		if ( this.itemUsed.getItemId() == SorceressLair.PUZZLE_PIECE.getItemId() )
+		if ( itemId == SorceressLair.PUZZLE_PIECE.getItemId() )
 		{
 			SorceressLair.completeHedgeMaze();
 			return;
 		}
 
-		int maximumUses = maximumUses( this.itemUsed.getItemId() );
+		int maximumUses = maximumUses( itemId );
 		if ( maximumUses < this.itemUsed.getCount() )
 			this.itemUsed = this.itemUsed.getInstance( maximumUses );
 
 		if ( this.itemUsed.getCount() < 1 )
 			return;
 
-		int price = TradeableItemDatabase.getPriceById( this.itemUsed.getItemId() );
+		int price = TradeableItemDatabase.getPriceById( itemId );
 
-		if ( this.itemUsed.getItemId() == SELTZER )
+		if ( itemId == SELTZER )
 			SpecialOutfit.createImplicitCheckpoint();
 
 		if ( price != 0 && !AdventureDatabase.retrieveItem( this.itemUsed ) )
 		{
-			if ( this.itemUsed.getItemId() == SELTZER )
+			if ( itemId == SELTZER )
 				SpecialOutfit.restoreImplicitCheckpoint();
 
 			return;
 		}
 
-		if ( this.itemUsed.getItemId() == SELTZER )
+		if ( itemId == SELTZER )
 			SpecialOutfit.restoreImplicitCheckpoint();
 
 		int iterations = 1;
@@ -380,6 +380,15 @@ public class ConsumeItemRequest extends KoLRequest
 		{
 			iterations = this.itemUsed.getCount();
 			this.itemUsed = this.itemUsed.getInstance( 1 );
+		}
+
+		if ( itemId == BLACK_MARKET_MAP && KoLCharacter.getFamiliar().getId() != 59 )
+			CommandDisplayFrame.executeCommand( "familiar Reassembled Blackbird" );
+
+		if ( itemId == MACGUFFIN_DIARY )
+		{
+			KoLAdventure.ZONE_VALIDATOR.constructURLString( "diary.php?textversion=1" ).run();
+			return;
 		}
 
 		String useTypeAsString = (this.consumptionType == CONSUME_EAT) ? "Eating" :
@@ -662,16 +671,6 @@ public class ConsumeItemRequest extends KoLRequest
 		case TRADING_CARD14:
 		case TRADING_CARD15:
 		case TRADING_CARD16:
-
-			showItemUsage( showHTML, responseText, false );
-			return;
-
-		// If it's your father's McGuffin diary, show it
-
-		// This doesn't actually work; we need to go to:
-		// diary.php?whichpage=1
-
-		case MACGUFFIN_DIARY:
 
 			showItemUsage( showHTML, responseText, false );
 			return;
@@ -963,6 +962,7 @@ public class ConsumeItemRequest extends KoLRequest
 			// familiar. When it works, the familiar disappears.
 
 			KoLCharacter.removeFamiliar( KoLCharacter.getFamiliar() );
+			CommandDisplayFrame.executeCommand( "familiar " + StaticEntity.getProperty( "preBlackbirdFamiliar" ) );
 			return;
 
 		case SPOOKY_TEMPLE_MAP:

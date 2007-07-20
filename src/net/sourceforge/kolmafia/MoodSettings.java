@@ -399,12 +399,15 @@ public abstract class MoodSettings implements KoLConstants
 		}
 
 		String nextBurnCast;
+
+		SpecialOutfit.createImplicitCheckpoint();
 		isExecuting = true;
 
 		while ( (nextBurnCast = getNextBurnCast( true )) != null )
 			DEFAULT_SHELL.executeLine( nextBurnCast );
 
 		isExecuting = false;
+		SpecialOutfit.restoreImplicitCheckpoint();
 	}
 
 	public static String getNextBurnCast( boolean shouldExecute )
@@ -545,6 +548,7 @@ public abstract class MoodSettings implements KoLConstants
 		if ( !willExecute( isManualInvocation ) )
 			return;
 
+		SpecialOutfit.createImplicitCheckpoint();
 		isExecuting = true;
 
 		MoodTrigger current = null;
@@ -613,6 +617,7 @@ public abstract class MoodSettings implements KoLConstants
 		}
 
 		isExecuting = false;
+		SpecialOutfit.restoreImplicitCheckpoint();
 	}
 
 	public static boolean willExecute( boolean isManualInvocation )

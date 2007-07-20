@@ -2041,7 +2041,7 @@
 2041	ferret bait	0	all	150
 2042	exploding hacky-sack	0	all	150
 2043	macrame net	0	all	150
-2044	your father's MacGuffin diary	0	none	0
+2044	your father's MacGuffin diary	3	none	0
 2045	brain-meltingly-hot chicken wings	1	all	85
 2046	frat brats	1	all	85
 2047	knob ka-bobs	1	all	85

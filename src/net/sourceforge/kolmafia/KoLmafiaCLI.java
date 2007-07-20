@@ -530,13 +530,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( line.equalsIgnoreCase( "burn extra mp" ) )
 		{
-			SpecialOutfit.createImplicitCheckpoint();
-
 			this.recoverHP();
 			MoodSettings.burnExtraMana( true );
-
-			SpecialOutfit.restoreImplicitCheckpoint();
-
 			return;
 		}
 
@@ -1924,10 +1919,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 			if ( !isRunningBetweenBattleChecks() )
 			{
-				SpecialOutfit.createImplicitCheckpoint();
 				MoodSettings.execute( true );
-				SpecialOutfit.restoreImplicitCheckpoint();
-
 				RequestLogger.printLine( "Mood swing complete." );
 			}
 

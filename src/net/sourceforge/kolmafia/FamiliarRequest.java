@@ -176,6 +176,15 @@ public class FamiliarRequest extends KoLRequest
 		if ( familiarMatcher.find() )
 		{
 			FamiliarData changeTo = new FamiliarData( StaticEntity.parseInt( familiarMatcher.group(1) ) );
+
+			// Special handling for the blackbird.  If
+			// the blackbird is equipped, then cache your
+			// earlier familiar so that as soon as you use
+			// the map, KoLmafia knows to change it back.
+
+			if ( changeTo.getId() == 59 )
+				StaticEntity.setProperty( "preBlackbirdFamiliar", KoLCharacter.getFamiliar().getRace() );
+
 			int index = KoLCharacter.getFamiliarList().indexOf( changeTo );
 
 			if ( index != -1 )
