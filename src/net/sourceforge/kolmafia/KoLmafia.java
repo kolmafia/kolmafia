@@ -143,6 +143,8 @@ public abstract class KoLmafia implements KoLConstants
 		stopEncounters.add( "The Oracle Will See You Now" );
 		stopEncounters.add( "A Grave Situation" );
 		stopEncounters.add( "Take a Dusty Look!" );
+		stopEncounters.add( "Strung-Up Quartet" );
+		stopEncounters.add( "Drawn Onward" );
 	}
 
 	private static boolean acquireFileLock( String suffix )
