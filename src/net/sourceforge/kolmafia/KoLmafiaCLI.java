@@ -215,7 +215,7 @@ public class KoLmafiaCLI extends KoLmafia
 		try
 		{
 			String holiday = MoonPhaseDatabase.getHoliday( DATED_FILENAME_FORMAT.parse( DATED_FILENAME_FORMAT.format( new Date() ) ), true );
-			updateDisplay( ENABLE_STATE, holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
+			updateDisplay( holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
 		}
 		catch ( Exception e )
 		{
