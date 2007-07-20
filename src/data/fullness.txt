@@ -7,11 +7,12 @@
 
 Better Than Cuddling Cake	3	1	04	0	0	0
 Boris's key lime pie	4	6	13-19	28-33	0	0
+Brimstone Chicken Sandwich	3	1	03-05	-15-20	0	15-20
 Childrens' Meal of the Damned	0	1	0	0	0	0
-Crimbo pie	3	1	08-14	30-41	0	0
+Crimbo pie	3	7	08-14	30-41	0	0
 Double Bacon Beelzeburger	3	1	03-05	15-20	-15-20	0
 Elfin shortbread	3	2	03-09	04-06	04-06	04-06
-Genalen&trade; Bottle	1	1	02-04	16-30	20-38	0
+Genalen&trade; Bottle	1	10	02-04	16-30	20-38	0
 Happy Birthday, Claude! cake	3	1	03	0	0	0
 Hell broth	4	3	08-16	-05-09	0	-05-09
 Hell ramen	6	6	21-30	22-28	22-28	22-28
@@ -33,7 +34,7 @@ Lord of the Flies-sized fries	3	1	03-05	0	15-20	-15-20
 Manetwich	2	4	03-09	14-30	0	05-18
 Peche a la Frog	3	1	03-04	0	0	0
 Retenez L'Herbe Paté	3	1	13-20	40-50	40-50	40-50
-S.T.L.T.	4	1	12-13	10-30	10-30	10-30
+S.T.L.T.	4	4	12-13	10-30	10-30	10-30
 Sneaky Pete's key lime pie	4	6	13-19	0	0	28-33
 Spam Witch sammich	2	1	02-03	0	04-06	0
 Trollhouse cookies	2	1	02-03	04-06	0	0
@@ -51,20 +52,20 @@ babycakes	2	1	02	0	0	0
 balaclava baklava	2	1	02-03	04-06	04-06	04-06
 ballroom blintz	3	1	03-08	0	0	10-12
 banana	1	1	01	01	01	01
-banana cream pie	3	1	06-12	01-100	01-100	01-100
+banana cream pie	3	7	06-12	01-100	01-100	01-100
 bat haggis	2	2	02-07	0	10-12	0
 bat wing chow mein	5	7	21-28	0	70-75	0
 bat wing kabob	2	1	02-05	0	07-08	0
 bat wing stir-fry	3	4	06-14	0	27-45	0
 bat-shaped Crimboween cookie	2	7	06-12	0	0	0
 bean burrito	3	1	03-08	10-14	0	0
-beer basted brat	3	1	14-16	33	36	30
+beer basted brat	3	11	14-16	33	36	30
 bell-shaped crimbo cookie	2	1	06-12	0	0	0
 birthday party jellybean cheesecake	3	1	03	20	20	20
-black forest cake	3	1	06-08	0	27-50	0
-black forest ham	3	1	08-09	27-45	0	0
-black pudding	3	1	05-07	10-12	10-12	10-12
-blackberry	1	1	02-03	2-4	2-4	2-4
+black forest cake	3	7	06-08	0	27-50	0
+black forest ham	3	7	08-09	27-45	0	0
+black pudding	3	7	05-07	10-12	10-12	10-12
+blackberry	1	2	02-03	2-4	2-4	2-4
 blue velvet cake	3	1	03	0	0	0
 boring spaghetti	3	3	04-12	06-08	06-08	06-08
 bouillabaise coucher avec moi	5	1	05-09	0	0	0
@@ -72,10 +73,9 @@ bowl of cottage cheese	2	1	01-02	0	0	0
 bowl of lucky charms	1	1	01-03	0	06-09	0
 bowl of oriole's nest soup	3	2	03-09	0	0	0
 bowl of unidentifiable goo	5	1	9-16	9-10	9-10	9-10
-brain-meltingly-hot chicken wings	1	1	02-04	15-28	15-26	0
+brain-meltingly-hot chicken wings	1	10	02-04	15-28	15-26	0
 brains casserole	5	1	06-13	0	08-10	0
-brimstone chicken sandwich	3	1	03-05	-15-20	0	15-20
-brown sugar cane	2	1	06-07	1-4	1-4	15-19
+brown sugar cane	2	7	06-07	1-4	1-4	15-19
 can-shaped gelatinous cranberry sauce	3	6	09-14	0	0	71-74
 candied yams	3	5	07-14	0	72-75	0
 candy cane	1	4	01-05	10-20	10-20	10-20
@@ -87,7 +87,7 @@ carob chunk noodles	3	2	03-09	0	0	0
 carob chunks	1	1	01-02	0	0	0
 catgut taco	2	1	02-05	11-33	0	0
 catsup	1	1	01	0	0	0
-centipede eggs	2	1	06	8-10	8-10	8-10
+centipede eggs	2	7	06	8-10	8-10	8-10
 cherry	1	2	01-02	0	0	0
 cherry pie	3	4	06-12	0	08-10	0
 chorizo brownies	3	2	03-09	0	0	0
@@ -108,16 +108,16 @@ desiccated apricot	1	2	04	17	0	0
 devil's-food cake	3	1	03	0	0	0
 dwarf bread	3	1	03-04	0	0	0
 enchanted bean burrito	3	2	03-09	0	14-16	0
-escargotsicle	2	1	05-08	0	0	12-18
+escargotsicle	2	2	05-08	0	0	12-18
 fettucini Inconnu	6	6	21-30	0	0	47-52
-fishy fish	2	1	03-05	0	0	27-33
-fishy fish casserole	3	1	09-14	0	0	38-44
-fishy fish lasagna	3	1	12-18	0	0	48-54
+fishy fish	2	8	03-05	0	0	27-33
+fishy fish casserole	3	9	09-14	0	0	38-44
+fishy fish lasagna	3	10	12-18	0	0	48-54
 flaming mushroom	3	2	03-09	03-05	0	0
 flower petal pie	3	2	03-09	0	0	0
 foie gras	1	2	01-03	0	0	0
 fortune cookie	1	1	01	0	0	0
-frat brats	1	1	02-03	0	0	22-29
+frat brats	1	10	02-03	0	0	22-29
 fricasseed brains	3	1	03-04	0	4-5	0
 frozen mushroom	3	2	03-09	0	0	0
 fruitcake	3	1	03-06	17-23	17-23	17-23
@@ -131,9 +131,9 @@ gingerbread horror	1	4	01-05	10-20	10-20	10-20
 gingerbread massacre	3	1	3-6	5-6	5-6	5-6
 gingerbread stir-fry	5	1	09-17	09-11	09-11	09-11
 glass of goat's milk	1	1	01	0	0	0
-gnatloaf	2	1	03-09	25-50	0	0
-gnatloaf casserole	3	1	10-14	23-37	0	0
-gnatloaf lasagna	3	1	12-18	47-53	0	0
+gnatloaf	2	8	03-09	25-50	0	0
+gnatloaf casserole	3	9	10-14	23-37	0	0
+gnatloaf lasagna	3	10	12-18	47-53	0	0
 gnocchetti di Nietzsche	6	6	21-30	0	47-52	0
 goat cheese	2	1	02-03	0	0	0
 goat cheese pizza	3	2	03-10	0	0	15-18
@@ -141,13 +141,13 @@ goat cheese taco	2	1	02-05	0	11-33	0
 gr8ps	1	1	01-02	0	0	0
 grapefruit	1	1	01	0	0	0
 grapes	1	1	01	0	0	0
-grue egg omelette	4	10	21-28	35-45	35-45	35-45
+grue egg omelette	4	9	21-28	35-45	35-45	35-45
 gumdrop chow mein	3	1	03-07	05-07	05-07	05-07
 herb brownies	2	1	02-05	0	0	08-09
 herbal stuffing	4	7	15-21	0	0	70-75
-honey-dew	2	1	05-08	12-18	0	0
+honey-dew	2	2	05-08	12-18	0	0
 hot buttered roll	1	1	01	0	0	0
-hot date	2	1	04-05	0	0	20-29
+hot date	2	7	04-05	0	0	20-29
 hot hi mein	5	7	22-28	71-75	15-20	30-35
 hot wing	1	1	01-02	0	02-05	0
 insanely spicy bean burrito	3	4	07-14	27-32	0	0
@@ -165,15 +165,15 @@ lemon	1	1	01	0	0	0
 lemon meringue pie	3	2	03-09	08-10	0	0
 lihc eye pie	4	2	05-12	0	11-12	0
 lime	1	2	01-03	0	0	0
-long pork casserole	3	1	10	0	37	0
-long pork chop sandwiches	2	1	04-09	0	28	0
-long pork lasagna	3	1	12-18	0	46-55	0
+long pork casserole	3	9	10	0	37	0
+long pork chop sandwiches	2	8	04-09	0	28	0
+long pork lasagna	3	10	12-18	0	46-55	0
 lucky surprise egg	1	1	01	0	0	0
 menudo	2	2	02-07	14-18	0	0
 mind flayer corpse	5	1	05-12	0	21-25	0
 mugcake	1	1	01	0	0	0
 mushroom pizza	3	2	03-10	0	15-18	0
-nutty organic salad	3	1	12-14	0	35-40	0
+nutty organic salad	3	11	12-14	0	35-40	0
 olive	1	1	01	0	0	0
 olive lo mein	3	6	11-16	10-14	0	10-14
 olive stir-fry	1	3	01-05	03-05	0	02-04
@@ -181,8 +181,8 @@ orange	1	1	01	0	0	0
 painful penne pasta	3	3	05-13	17-20	0	0
 papaya	1	1	01-02	0	0	0
 papaya taco	1	1	01-03	08-12	0	08-12
-peach pie	3	1	08-12	0	0	30-41
-pear tart	3	1	08-12	0	30-41	0
+peach pie	3	7	08-12	0	0	30-41
+pear tart	3	7	08-12	0	30-41	0
 personalized birthday cake	3	1	03	0	0	0
 piece of wedding cake	2	1	02-05	0	0	0
 plain pizza	2	1	02-04	0	0	0
@@ -205,7 +205,8 @@ ravioli della hippy	3	3	04-12	0	19-23	0
 royal jelly	1	1	01	10-15	0	0
 royal jelly taco	1	1	01-03	04-20	0	0
 sausage pizza	3	2	03-10	15-18	0	0
-savoy truffle	2	1	06-07	15-20	15-20	15-20
+sausage wonton	3	12	15-17	52-76	20-30	22-28
+savoy truffle	2	9	06-07	15-20	15-20	15-20
 shoots and leaves	4	1	6-10	7-8	7-8	7-8
 skewered cat appendix	2	1	02-05	07-17	0	0
 skull-shaped Crimboween cookie	2	7	06-12	0	0	0
@@ -230,8 +231,8 @@ stinky mushroom	3	2	03-09	0	0	03-05
 strawberry	1	1	01	0	0	0
 strawberry pie	3	2	03-09	0	0	08-10
 stuffed spooky mushroom	3	1	03-09	0	0	0
-super ka-bob	3	1	13-17	30-38	0	0
-super salad	3	1	13-15	30-50	32-38	31-40
+super ka-bob	3	11	13-17	30-38	0	0
+super salad	3	11	13-15	30-50	32-38	31-40
 t8r tots	1	1	01-02	0	0	0
 tangerine	1	2	01-03	0	0	0
 tasty tart	1	1	05-06	5-6	5-6	5-6
@@ -241,7 +242,7 @@ tofu casserole	3	1	03-08	0	0	0
 tofu chow mein	3	7	11-19	18-22	20-25	0
 tofu stir-fry	1	4	01-05	04-05	04-06	0
 tofu taco	1	1	01-03	0	04-20	0
-tofu wonton	3	1	14-18	20-30	50-79	20-30
+tofu wonton	3	12	14-18	20-30	50-79	20-30
 tofurkey gravy	2	5	03-10	72-75	0	0
 tofurkey leg	3	5	07-14	70-74	0	0
 tomato	1	1	01	0	0	0
@@ -249,7 +250,7 @@ tombstone-shaped Crimboween cookie	2	7	06-11	0	0	0
 tree-shaped Crimbo cookie	2	7	06-11	0	0	0
 twigs and gravel	3	1	3-6	5-6	5-6	5-6
 uncooked chorizo	1	1	01-02	-5	0	0
-unidentified jerky	2	1	04-08	10-15	10-15	10-15
+unidentified jerky	2	9	04-08	10-15	10-15	10-15
 urinal cake	2	1	02	0	0	0
 vampire cake	5	1	9-16	9-10	9-10	9-10
 warm mushroom	2	1	02-03	12-14	0	0

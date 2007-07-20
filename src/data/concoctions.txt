@@ -252,19 +252,15 @@ white chocolate chip cookies	2	white chocolate chips	wad of dough
 
 fishy fish	2	displaced fish	dehydrated caviar
 fishy fish casserole	2	fishy fish	Gnollish casserole dish
-fishy fish lasagna	22	fishy fish casserole	dry noodles	MSG
 gnatloaf	2	filet of tangy gnat	ancient spice
 gnatloaf casserole	2	gnatloaf	Gnollish casserole dish
-gnatloaf lasagna	22	gnatloaf casserole	dry noodles	MSG
 long pork chop sandwiches	2	long pork	black pepper
 long pork casserole	2	long pork chop sandwiches	Gnollish casserole dish
-long pork lasagna	22	long pork casserole	dry noodles	MSG
 
 nutty organic salad	2	mixed wildflower greens	handful of walnuts
 super salad	2	mixed wildflower greens	megatofu
 
 beer basted brat	2	frat brats	McMillicancuddy's Special Lager
-sausage wonton	22	beer basted brat	dry noodles	MSG
 super ka-bob	2	frat brats	knob ka-bobs
 
 Crimbo pie	2	pie crust	plum
@@ -810,6 +806,10 @@ stinky hi mein	22	stench and sour sauce	dry noodles	MSG
 
 # Top-end foods made by upgrading other things at the Wok of Ages
 
+fishy fish lasagna	22	fishy fish casserole	dry noodles	MSG
+gnatloaf lasagna	22	gnatloaf casserole	dry noodles	MSG
+long pork lasagna	22	long pork casserole	dry noodles	MSG
+sausage wonton	22	beer basted brat	dry noodles	MSG
 tofu wonton	22	super salad	dry noodles	MSG
 
 # Star Chart items
