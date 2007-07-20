@@ -626,20 +626,19 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		}
 
 
-		// Attempt to unlock the Degrassi Knoll by visiting Paco.
-		// Though we can unlock the guild quest, sometimes people
-		// don't want to open up the guild store right now.  So,
-		// only keep trying until paco is unlocked.
-
-		if ( this.adventureId.equals( "10" ) || this.adventureId.equals( "100" ) )
+		if ( this.adventureId.equals( "100" ) )
 		{
-			StaticEntity.getClient().unlockGuildStore( true );
-			if ( KoLmafia.permitsContinue() )
+			RequestThread.postRequest( ZONE_VALIDATOR.constructURLString( "woods.php" ) );
+			this.isValidAdventure = ZONE_VALIDATOR.responseText.indexOf( "grove.gif" ) != -1;
+
+			if ( !visitedCouncil && !this.isValidAdventure )
+			{
+				StaticEntity.getClient().unlockGuildStore( true );
 				this.validate( true );
+			}
 
 			return;
 		}
-
 
 		if ( this.zone.equals( "McLarge" ) )
 		{
