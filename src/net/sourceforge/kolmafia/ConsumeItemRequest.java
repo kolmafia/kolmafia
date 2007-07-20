@@ -961,7 +961,13 @@ public class ConsumeItemRequest extends KoLRequest
 			// This only works if you had a Reassembled Blackbird
 			// familiar. When it works, the familiar disappears.
 
-			KoLCharacter.removeFamiliar( KoLCharacter.getFamiliar() );
+			FamiliarData blackbird = KoLCharacter.getFamiliar();
+			KoLCharacter.removeFamiliar( blackbird );
+
+			AdventureResult item = blackbird.getItem();
+			if ( item != null )
+				AdventureResult.addResultToList( inventory, item );
+
 			CommandDisplayFrame.executeCommand( "familiar " + StaticEntity.getProperty( "preBlackbirdFamiliar" ) );
 			return;
 
