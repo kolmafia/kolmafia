@@ -1538,6 +1538,14 @@ public class KoLRequest extends Job implements KoLConstants
 			option = "choiceAdventure" + choice;
 			decision = StaticEntity.getProperty( option );
 
+			// Certain choices should always be taken.  These
+			// choices are handled here.
+
+			if ( choice.equals( "7" ) )
+			{
+				decision = "1";
+			}
+
 			// If this happens to be adventure 26 or 27,
 			// check against the player's conditions.
 
@@ -1555,12 +1563,12 @@ public class KoLRequest extends Job implements KoLConstants
 			if ( choice.equals( "85" ) && conditions.contains( BALLROOM_KEY ) )
 				StaticEntity.setProperty( option, decision.equals( "1" ) ? "2" : "1" );
 
-			// Certain choices should always be taken.  These
-			// choices are handled here.
+			// Auto-skip the goatlet adventure if you're not wearing
+			// the mining outfit so it can be tried again later.
 
-			else if ( choice.equals( "7" ) )
+			if ( choice.equals( "162" ) && !EquipmentDatabase.isWearingOutfit( 8 ) )
 			{
-				decision = "1";
+				decision = "2";
 			}
 
 			// Sometimes, the choice adventure for the louvre
