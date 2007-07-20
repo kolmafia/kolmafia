@@ -98,7 +98,7 @@
 98	dried face	0	all	7
 99	meat face	0	all	11
 100	lifeless meat doll	0	all	108
-101	meat golem	0	all	200
+101	meat golem	3	all	200
 102	spooky shrunken head	0	all	6
 103	spooky staff	12	all	50
 104	spooky scarecrow	3	all	55
@@ -450,7 +450,7 @@
 450	pretentious paintbrush	0	none	0
 451	pretentious palette	0	none	0
 452	disease	0	all	22
-453	sober pill	8	none	0
+453	sober pill	3	none	0
 454	rusty screwdriver	0	none	0
 455	jumbo olive	1	all	60
 456	dry martini	2	all	90
@@ -569,7 +569,7 @@
 569	Lord of the Flies-sized fries	1	all	32
 570	Brimstone Chicken Sandwich	1	all	31
 571	Jumbo Dr. Lucifer	1	all	33
-572	Childrens' Meal of the Damned	1	all	31
+572	Children's Meal of the Damned	1	all	31
 573	delicious noodles	1	all	33
 574	delicious spicy noodles	1	all	33
 575	painful penne pasta	1	all	33
@@ -689,7 +689,7 @@
 689	pixel pants	10	all	45
 690	pixel sword	12	all	65
 691	digital key	0	none	0
-692	Ascension souvenir t-shirt	11	all	20
+692	Ascension Souvenir t-shirt	11	all	20
 693	harem girl t-shirt	11	all	30
 694	Knob Goblin elite shirt	11	all	40
 695
@@ -746,15 +746,15 @@
 746	stat script	3	none	0
 747	Knob Goblin firecracker	0	all	15
 748	gourd potion	4	none	0
-749	warm mushroom	0	all	61
+749	warm mushroom	1	all	61
 750	spicy mushroom quesadilla	1	all	65
-751	cool mushroom	0	all	61
+751	cool mushroom	1	all	61
 752	cool mushroom casserole	1	all	75
-753	pointy mushroom	0	all	61
+753	pointy mushroom	1	all	61
 754	cream of pointy mushroom soup	1	all	75
-755	flaming mushroom	0	all	61
-756	frozen mushroom	0	all	61
-757	stinky mushroom	0	all	61
+755	flaming mushroom	1	all	61
+756	frozen mushroom	1	all	61
+757	stinky mushroom	1	all	61
 758	ghost cucumber	1	all	75
 759	dill	0	all	75
 760	vinegar	0	all	77
@@ -999,7 +999,7 @@
 999	maid head	0	all	70
 1000	Meat maid	3	all	220
 1001
-1002	Xlyinia's notebook	0	display	0
+1002	Xlyinia's notebook	8	display	0
 1003	soda water	14	all	35
 1004	bottle of tequila	2	all	35
 1005	boxed wine	2	all	35
@@ -1101,7 +1101,7 @@
 1101	false eyelashes	7	all	75
 1102	targeting chip	7	all	75
 1103	unwound clockwork grapefruit	5	all	220
-1104	tiny mountie hat	7	all	75
+1104	tiny Mountie hat	7	all	75
 1105	clockwork bartender head	0	all	245
 1106	clockwork chef head	0	all	220
 1107	clockwork maid head	0	all	225
@@ -1152,7 +1152,7 @@
 1152	miniature gravy-covered maypole	7	all	0
 1153	Retenez L'Herbe Pat&eacute;	1	all	0
 1154	Breathetastic&trade; Premium Canned Air	4	all	0
-1155	Letter from King Ralph XI	3	none	0
+1155	letter from King Ralph XI	3	none	0
 1156
 1157	wholeberd	12	all	95
 1158	Meleegra&trade; pills	4	all	50
@@ -1185,7 +1185,7 @@
 1185	long-stemmed rose	0	gift	500
 1186	gilded lily	0	gift	1000
 1187	deadly nightshade	0	gift	2500
-1188	black lotus	3	gift	5000
+1188	black lotus	0	gift	5000
 1189	stuffed can of asparagus	13	gift	1
 1190	stuffed dodecapede	13	gift	5
 1191	stuffed ghuol whelp	13	gift	10
@@ -1263,7 +1263,7 @@
 1263	pygmy bugbear shaman	5	all	0
 1264	tiny nose-bone fetish	7	all	75
 1265	box of sunshine	3	display	0
-1266	gloomy black mushroom	0	display	050
+1266	gloomy black mushroom	1	display	050
 1267	dead mimic	3	none	0
 1268	pine wand	6	none	0
 1269	ebony wand	6	none	0
@@ -1386,7 +1386,7 @@
 1386	felt	0	all	16
 1387	wooden block	0	all	17
 1388	toy wheel	0	all	18
-1389	yo-yo	3	all	31
+1389	yo-yo	0	all	31
 1390	top	0	all	35
 1391	ball	0	all	31
 1392	kite	0	all	29
@@ -1429,7 +1429,7 @@
 1429	roll of drink tickets	4	all	90
 1430	pregnant gloomy black mushroom	5	display	0
 1431	pregnant oily golden mushroom	5	display	0
-1432	oily golden mushroom	0	display	50
+1432	oily golden mushroom	1	display	50
 1433	fruit bowl	4	all	200
 1434	fruit basket	4	all	400
 1435	hot pink lipstick	7	all	0
@@ -1579,7 +1579,7 @@
 1579	gimlet	2	all	160
 1580	yellow brick road	2	all	160
 1581	vodka stratocaster	2	all	160
-1582	neuromancer	2	all	160
+1582	Neuromancer	2	all	160
 1583	prussian cathouse	2	all	160
 1584	Mae West	2	all	160
 1585	Mon Tiki	2	all	160
@@ -1722,7 +1722,7 @@
 1722	glistening staff	12	all	65
 1723	repeating crossbow	12	all	70
 1724
-1725	bigger stick	12	all	500
+1725	bigger stick	0	all	500
 1726	sinewy crossbow string	0	all	500
 1727	sturdy sword hilt	0	all	500
 1728	dense meat sword	12	all	65
@@ -2092,7 +2092,7 @@
 2092	antique hand mirror	0	all	100
 2093	hors d'oeuvre tray	13	all	115
 2094	ballroom blintz	1	all	43
-2095	towel	3	all	1000
+2095	towel	0	all	1000
 2096	guy made of bee pollen	3	all	000
 2097	17-ball	13	all	0
 2098	filthy lucre	0	none	0
@@ -2210,7 +2210,7 @@
 2210	Tiki lighter	13	all	0
 2211	deck of tropical cards	13	all	0
 2212	tropical paperweight	13	all	0
-2213	tropical Crimbo pressie	0	display	0
+2213	tropical Crimbo pressie	3	display	0
 2214	tropical wrapping paper	0	all	0
 2215	Tropical Crimbo Hat	9	all	0
 2216	Tropical Crimbo Shorts	10	all	0
@@ -2320,7 +2320,7 @@
 2320	worm-riding manual page 1	0	none	0
 2321	worm-riding manual page 2	0	none	0
 2322	worm-riding manual pages 3-15	0	none	0
-2323	headpiece of the staff of Ed	0	none	0
+2323	headpiece of the Staff of Ed	0	none	0
 2324	Staff of Ed, almost	0	none	0
 2325	Staff of Ed	0	none	0
 2326	stone rose	0	none	0
@@ -2352,18 +2352,18 @@
 2352	fire poi	12	all	185
 2353	bejeweled pledge pin	8	all	95
 2354	communications windchimes	0	all	45
-2355	henna face paint	5	all	85
+2355	henna face paint	4	all	85
 2356	tube of dread wax	4	all	85
 2357	Gaia beads	8	all	210
 2358	pink clay bead	0	all	0
 2359	purple clay bead	0	all	0
 2360	green clay bead	0	all	0
-2361	hippy medical kit	0	all	140
+2361	hippy medical kit	8	all	140
 2362	Slow Talkin' Eliot's dogtags	8	all	0
 2363	longhaired hippy wig	9	all	0
 2364	Zim Merman's guitar	12	all	0
 2365	C.A.R.N.I.V.O.R.E. button	8	all	0
-2366	Orange peel hat	9	all	0
+2366	orange peel hat	9	all	0
 2367	carbonated soy milk	4	all	75
 2368	flowing hippy skirt	10	all	185
 2369	filthy poultice	16	all	85
@@ -2465,7 +2465,7 @@
 2465	Oreille Divis&eacute;e brandy	2	none	0
 2466	pompadour'd puppy	5	none	0
 2467	blue suede shoes	7	all	75
-2468	callussed fingerbone	0	none	0
+2468	callused fingerbone	0	none	0
 2469	bundle of receipts	0	none	0
 2470	disintegrating cork	0	none	0
 2471	sticky stardust	0	none	0
@@ -2514,7 +2514,7 @@
 2514	woven baling wire bracelets	8	display	400
 2515	gearbox necklace	8	display	450
 2516	wrench bracelet	8	display	200
-2517	rusty chain necklace	9	display	250
+2517	rusty chain necklace	8	display	250
 2518	sawblade shield	13	display	150
 2519	McMillicancuddy's Special Lager	2	all	150
 2520	melted Jell-o shot	2	all	85
@@ -2528,7 +2528,7 @@
 2528	filet of tangy gnat (&quot;fotelif&quot;)	0	all	50
 2529	gnatloaf	1	all	105
 2530	gnatloaf casserole	1	all	150
-2531	gnatloaf lasagna	1	all	200
+2531	gnat lasagna	1	all	200
 2532	long pork	0	all	55
 2533	long pork chop sandwiches	1	all	100
 2534	long pork casserole	1	all	150
@@ -2546,7 +2546,7 @@
 2546	half-orchid	4	all	100
 2547	tin star	8	display	0
 2548	outrageous sombrero	9	display	0
-2549	"Humorous" T-shirt	11	display	0
+2549	&quot;Humorous&quot; T-shirt	11	display	0
 2550	Peppercorns of Power	0	none	0
 2551	vial of mojo	0	none	0
 2552	golden reeds	0	none	0
@@ -2557,7 +2557,7 @@
 2557	Squeezebox of the Ages	12	none	0
 2558	Chelonian Morningstar	12	none	0
 2559	Hammer of Smiting	12	none	0
-2560	17-Alarm Saucepan	12	none	0
+2560	17-alarm Saucepan	12	none	0
 2561	Greek Pasta of Peril	12	none	0
 2562	half-rotten brain	0	all	24
 2563	rusty bonesaw	0	all	35
@@ -2786,7 +2786,7 @@
 2786	Earring of Fire	8	all	3000
 2787	Pendant of Fire	8	all	3000
 2788	Ring of Fire	8	all	3000
-2789	Ice-Cold Beering	8	all	3000
+2789	Ice-Cold Beerring	8	all	3000
 2790	Ice-Cold Aluminum Necklace	8	all	3000
 2791	Ice-Cold Beer Ring	8	all	3000
 2792	Unspeakable Earring	8	all	3000

@@ -574,7 +574,7 @@
 569	149932590	Lord of the Flies-sized fries	Lords of the Flieses-sized Fries
 570	209737031	Brimstone Chicken Sandwich	Brimstone Chicken Sandwiches
 571	851122901	Jumbo Dr. Lucifer	Jumbo Dr. Lucifers
-572	560728646	Childrens' Meal of the Damned	Childrens' Meals of the Damned
+572	560728646	Children's Meal of the Damned	Children's Meals of the Damned
 573	437720617	delicious noodles	bowls of delicious noodles
 574	336783365	delicious spicy noodles	bowls of delicious spicy noodles
 575	175830905	painful penne pasta	bowls of painful penne pasta
@@ -1528,7 +1528,7 @@
 1523	694242575	bottle of used blood	bottles of used blood
 1524	931763248	wind-up chattering teeth	wind-up chattering teeths
 1525	770189132	joybuzzer	joybuzzers
-1526	770189132	pet rock &quot;Snooty&quot; disguise	pet rock &quot;Snooty&quot; disguises
+1526	782183857	pet rock &quot;Snooty&quot; disguise	pet rock &quot;Snooty&quot; disguises
 1527	295507224	diamond-studded fronts	sets of diamond-studded fronts
 1528	918456221	portable corkscrew	portable corkscrews
 1529	583705083	St. Sneaky Pete's Day goodies basket	St. Sneaky Pete's Day goodies baskets
@@ -1584,7 +1584,7 @@
 1579	237514263	gimlet	gimlis
 1580	252231956	yellow brick road	yellow brick roads
 1581	936760207	vodka stratocaster	vodka stratocasters
-1582	803710671	neuromancer	neuromancers
+1582	803710671	Neuromancer	Neuromancers
 1583	120055462	prussian cathouse	prussian cathouses
 1584	934455536	Mae West	Maes West
 1585	275197081	Mon Tiki	Mons Tiki
@@ -1854,14 +1854,14 @@
 1849	858350968	dusty left eleventh rib	dusty left elventh ribs
 1850	942223349	dusty left twelfth rib	dusty left twelfth ribs
 1851	805531817	dusty right first rib	dusty right first ribs
-1852	279163616	dusty right second rib	dusty right second ribs
+1852	750728373	dusty right second rib	dusty right second ribs
 1853	718204837	dusty right third rib	dusty right third ribs
 1854	598558935	dusty right fourth rib	dusty right fourth ribs
 1855	296603101	dusty right fifth rib	dusty right fifth ribs
 1856	309625860	dusty right sixth rib	dusty right sixth ribs
 1857	916883133	dusty right seventh rib	dusty right seventh ribs
 1858	265626845	dusty right eighth rib	dusty right eighth ribs
-1859	552100663	dusty right ninth rib	dusty right ninth ribs
+1859	596305969	dusty right ninth rib	dusty right ninth ribs
 1860	764708188	dusty right tenth rib	dusty right tenth ribs
 1861	965785021	dusty right eleventh rib	dusty right eleventh ribs
 1862	441861408	dusty right twelfth rib	dusty right twelfth ribs
@@ -1969,10 +1969,10 @@
 1964	924188020	opera mask	opera masks
 1965	342791125	bottle of Monsieur Bubble	bottles of Monsieur Bubble
 1966	596602044	Amulet of Yendor	Amulets of Yendor
-1967	634197201	nervous tick egg	nervous tick eggs
+1967	835870375	nervous tick egg	nervous tick eggs
 1968	989079292	bottle of perfume	bottles of perfume
 1969	143708125	spoon!	spoons!
-1970	835870375	jitterbug larva	jitterbug larvae
+1970	634197201	jitterbug larva	jitterbug larvae
 1971	322191256	plastic pumpkin bucket	plastic pumpkin buckets
 1972	488128981	silver shrimp fork	silver shrimp forks
 1973	907150750	half of a memo
@@ -2254,7 +2254,7 @@
 2249	657504282	skeletortoise	skeletortoises
 2250
 2251	111154104	box turtle	box turtles
-2252	122533173	cardboard box turtle	cardboard box turtles
+2252	897916504	cardboard box turtle	cardboard box turtles
 2253	887729224	bottlecap turtle	bottlecap turtles
 2254	791897938	bubblewrap bottlecap turtleban	bubblewrap bottlecap turtlebans
 2255	789152841	furry green turtle	furry green turtles
@@ -2325,7 +2325,7 @@
 2320	956772450	worm-riding manual page 1
 2321	159106276	worm-riding manual page 2
 2322	754742505	worm-riding manual pages 3-15
-2323	544136881	headpiece of the staff of Ed
+2323	544136881	headpiece of the Staff of Ed
 2324	208518574	Staff of Ed, almost
 2325	555571979	Staff of Ed
 2326	683667482	stone rose
@@ -2368,7 +2368,7 @@
 2363	113723777	longhaired hippy wig
 2364	592756847	Zim Merman's guitar
 2365	288571688	C.A.R.N.I.V.O.R.E. button
-2366	822796678	Orange peel hat
+2366	822796678	orange peel hat
 2367	824720036	carbonated soy milk
 2368	553895362	flowing hippy skirt
 2369	280768369	filthy poultice
@@ -2425,7 +2425,7 @@
 2420	193836767	teeny-tiny magic scroll
 2421	262244349	bottle of pirate juice
 2422	531554229	irradiated pet snacks
-2423	409210711	Mick's IcyVapoHotness Inhaler
+2423	616862829	Mick's IcyVapoHotness Inhaler
 2424	734824156	cyclops eyedrops
 2425	321698546	can of spinach
 2426	348302801	fire flower
@@ -2470,7 +2470,7 @@
 2465	527016642	Oreille Divis&eacute;e brandy
 2466	461008515	pompadour'd puppy
 2467	400348108	blue suede shoes
-2468	136659520	callussed fingerbone
+2468	136659520	callused fingerbone
 2469	261443219	bundle of receipts
 2470	873351480	disintegrating cork
 2471	405124937	sticky stardust
@@ -2533,7 +2533,7 @@
 2528	985581987	filet of tangy gnat (&quot;fotelif&quot;)
 2529	756337322	gnatloaf
 2530	671941643	gnatloaf casserole
-2531	312613540	gnatloaf lasagna
+2531	312613540	gnat lasagna
 2532	762179710	long pork
 2533	160708677	long pork chop sandwiches
 2534	993250949	long pork casserole
@@ -2562,7 +2562,7 @@
 2557	632445399	Squeezebox of the Ages
 2558	149921590	Chelonian Morningstar
 2559	723621502	Hammer of Smiting
-2560	811211086	17-Alarm Saucepan
+2560	811211086	17-alarm Saucepan
 2561	370831124	Greek Pasta of Peril
 2562	592454967	half-rotten brain
 2563	723337113	rusty bonesaw
@@ -2625,7 +2625,7 @@
 2620	294466303	unidentified jerky
 2621	557886090	nasty rat mask
 2622	425377244	ratskin belt
-2623	422120966	rattail whip
+2623	902490158	rattail whip
 2624	805282443	bat hat
 2625	837015905	bat whip
 2626	863016776	bat-ass leather jacket
@@ -2756,7 +2756,7 @@
 2751	773565726	Lead Zeta of Chastity
 2752	513161422	Aluminum Epsilon of Humility
 2753	529261022	Zinc Delta of Tranquility
-2754	325213168	Nickel Gamma of Frugality
+2754	399113886	Nickel Gamma of Frugality
 2755	552914658	Iron Beta of Industry
 2756	348670252	Copper Alpha of Sincerity
 2757	402579504	Red Balloon of Valor
@@ -2791,7 +2791,7 @@
 2786	119227300	Earring of Fire
 2787	770181861	Pendant of Fire
 2788	943556895	Ring of Fire
-2789	796342762	Ice-Cold Beering
+2789	796342762	Ice-Cold Beerring
 2790	814129545	Ice-Cold Aluminum Necklace
 2791	237926135	Ice-Cold Beer Ring
 2792	713045883	Unspeakable Earring

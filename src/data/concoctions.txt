@@ -807,7 +807,7 @@ stinky hi mein	22	stench and sour sauce	dry noodles	MSG
 # Top-end foods made by upgrading other things at the Wok of Ages
 
 fishy fish lasagna	22	fishy fish casserole	dry noodles	MSG
-gnatloaf lasagna	22	gnatloaf casserole	dry noodles	MSG
+gnat lasagna	22	gnatloaf casserole	dry noodles	MSG
 long pork lasagna	22	long pork casserole	dry noodles	MSG
 sausage wonton	22	beer basted brat	dry noodles	MSG
 tofu wonton	22	super salad	dry noodles	MSG
@@ -877,7 +877,7 @@ Earring of Fire	25	steamy ruby	precious piercing post
 Pendant of Fire	25	steamy ruby	heavy necklace chain
 Ring of Fire	25	steamy ruby	extra-fancy ring setting
 
-Ice-Cold Beering	25	glacial sapphire	precious piercing post
+Ice-Cold Beerring	25	glacial sapphire	precious piercing post
 Ice-Cold Aluminum Necklace	25	glacial sapphire	heavy necklace chain
 Ice-Cold Beer Ring	25	glacial sapphire	extra-fancy ring setting
 
