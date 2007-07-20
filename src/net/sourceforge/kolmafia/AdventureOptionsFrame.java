@@ -1126,7 +1126,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 		if ( location == null )
 			return;
 
-		this.conditionField.setText( AdventureDatabase.getCondition( location ) );
+		this.conditionField.setText( "none" );
 	}
 
 	public void fillCurrentConditions()

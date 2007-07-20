@@ -2,10 +2,10 @@ Gyms	0/0	clan_gym=1	Pump Up Muscle
 Gyms	0/0	clan_gym=2	Pump Up Mysticality
 Gyms	0/0	clan_gym=3	Pump Up Moxie
 
-Beach	0/0	shore=1	Muscle Vacation	1 ten-leaf clover
+Beach	0/0	shore=1	Muscle Vacation
 Beach	0/0	shore=2	Mysticality Vacation
-Beach	0/0	shore=3	Moxie Vacation	1 barbed-wire fence
-Beach	0/0	adventure=45	South of the Border	1 pile of candy
+Beach	0/0	shore=3	Moxie Vacation
+Beach	0/0	adventure=45	South of the Border
 Beach	104/0	adventure=121	Arid Extra-Dry Desert
 Beach	104/0	adventure=122	Oasis
 Beach	0/0	adventure=156	Grim Grimacite Site
@@ -20,58 +20,58 @@ Casino	0/0	casino=11	Lemon Party
 Casino	0/0	adventure=70	Roulette Tables
 Casino	0/0	adventure=71	Poker Room
 
-Dungeon	0/5	adventure=16	Haiku Dungeon	1 fairy gravy
-Dungeon	19/0	adventure=19	Limerick Dungeon	1 dungeoneer's dungarees
-Dungeon	47/0	adventure=38	Greater-Than Sign	1 plus sign
-Dungeon	47/0	adventure=39	Dungeons of Doom	1 dead mimic
+Dungeon	0/5	adventure=16	Haiku Dungeon
+Dungeon	19/0	adventure=19	Limerick Dungeon
+Dungeon	47/0	adventure=38	Greater-Than Sign
+Dungeon	47/0	adventure=39	Dungeons of Doom
 Dungeon	15/0	dungeon=1	Daily Dungeon
 
-Town	0/0	sewer=0	Unlucky Sewer	1 worthless item
+Town	0/0	sewer=0	Unlucky Sewer
 Town	0/0	luckysewer=0	Sewer With Clovers
-Town	0/0	adventure=112	Sleazy Back Alley	1 spider web
+Town	0/0	adventure=112	Sleazy Back Alley
 
-Manor	0/0	adventure=113	Haunted Pantry	1 razor-sharp can lid
-Manor	0/0	adventure=102	Haunted Kitchen	1 chef's hat
+Manor	0/0	adventure=113	Haunted Pantry
+Manor	0/0	adventure=102	Haunted Kitchen
 Manor	0/6	adventure=103	Haunted Conservatory
 Manor	0/40	adventure=104	Haunted Library
-Manor	0/10	adventure=105	Haunted Billiards Room	1 pool cue, 1 handful of hand chalk
+Manor	0/10	adventure=105	Haunted Billiards Room
 Manor	0/68	adventure=106	Haunted Gallery
 Manor	0/68	adventure=107	Haunted Bathroom
-Manor	0/85	adventure=108	Haunted Bedroom	1 Spookyraven ballroom key
+Manor	0/85	adventure=108	Haunted Bedroom
 Manor	0/68	adventure=109	Haunted Ballroom
 Manor	0/104	adventure=120	Haunted Wine Cellar
 
-Woods	5/0	adventure=15	Spooky Forest	1 mosquito larva
+Woods	5/0	adventure=15	Spooky Forest
 Woods	5/0	adventure=17	Hidden Temple
 Woods	104/0	adventure=118	Hidden City
-Woods	5/0	adventure=25	Typical Tavern	beer goggles
+Woods	5/0	adventure=25	Typical Tavern
 Woods	29/29	adventure=79	Friar's Gate
-Woods	0/20	adventure=73	8-Bit Realm	1 digital key, 4 red pixel potion
+Woods	0/20	adventure=73	8-Bit Realm
 Woods	35/0	adventure=100	Whitey's Grove
 Woods	35/0	adventure=99	White Citadel
 Woods	104/0	adventure=111	Black Forest
 
-BatHole	8/8	adventure=30	Bat Hole Entryway	1 Pine-Fresh air freshener
-BatHole	8/8	adventure=31	Guano Junction	3 sonar-in-a-biscuit, 1 broken skull
+BatHole	8/8	adventure=30	Bat Hole Entryway
+BatHole	8/8	adventure=31	Guano Junction
 BatHole	8/8	adventure=32	Batrat and Ratbat Burrow
-BatHole	8/8	adventure=33	Beanbat Chamber	1 enchanted bean
+BatHole	8/8	adventure=33	Beanbat Chamber
 BatHole	8/8	adventure=34	Boss Bat's Lair
 
-Rift	0/0	adventure=85	Battlefield (No Uniform)	outfit
+Rift	0/0	adventure=85	Battlefield (No Uniform)
 Rift	0/0	adventure=86	Battlefield (Cloaca Uniform)
 Rift	0/0	adventure=87	Battlefield (Dyspepsi Uniform)
 
-Plains	0/10	adventure=18	Degrassi Knoll	1 gnollish toolbox, 1 tires
-Plains	15/0	adventure=20	Fun House	1 disease
-Plains	11/0	adventure=21	Pre-Cyrpt Cemetary	1 smart skull
-Plains	18/0	adventure=22	Fernswarthy's Tower	1 disembodied brain
+Plains	0/10	adventure=18	Degrassi Knoll
+Plains	15/0	adventure=20	Fun House
+Plains	11/0	adventure=21	Pre-Cyrpt Cemetary
+Plains	18/0	adventure=22	Fernswarthy's Tower
 Plains	40/0	adventure=58	Post-Cyrpt Cemetary
 Plains	0/65	adventure=119	Palindome
 
-Knob	0/0	adventure=114	Outskirts of The Knob	1 chef's hat
+Knob	0/0	adventure=114	Outskirts of The Knob
 Knob	20/0	adventure=40	Knob Goblin Kitchens
-Knob	20/0	adventure=41	Knob Goblin Treasury	outfit
-Knob	20/0	adventure=42	Knob Goblin Harem	outfit, 1 Knob Goblin perfume
+Knob	20/0	adventure=41	Knob Goblin Treasury
+Knob	20/0	adventure=42	Knob Goblin Harem
 Knob	20/0	knob=0	King's Chamber
 
 Lab	20/30	adventure=50	Knob Goblin Laboratory
@@ -80,9 +80,9 @@ Lab	20/40	adventure=52	Menagerie 2
 Lab	20/45	adventure=53	Menagerie 3
 Lab	20/0	adventure=101	Knob Shaft
 
-Friars	29/29	adventure=75	Dark Neck of the Woods	1 wussiness potion, 1 ruby W, 1 dodecagram
-Friars	29/29	adventure=76	Dark Heart of the Woods	1 box of birthday candles
-Friars	29/29	adventure=77	Dark Elbow of the Woods	1 eldritch butterknife
+Friars	29/29	adventure=75	Dark Neck of the Woods
+Friars	29/29	adventure=76	Dark Heart of the Woods
+Friars	29/29	adventure=77	Dark Elbow of the Woods
 Friars	29/29	friars=0	Friar Ceremony Location
 
 Cyrpt	40/40	adventure=54	Defiled Nook
@@ -98,7 +98,7 @@ Island	0/30	adventure=26	Hippy Camp	outfit
 Island	0/30	adventure=65	Hippy Camp In Disguise
 Island	125/125	adventure=149	Post-War Hippy Camp
 Island	0/45	adventure=66	Pirate Cove	outfit
-Island	0/45	adventure=67	Pirate Cove In Disguise	1 abridged dictionary
+Island	0/45	adventure=67	Pirate Cove In Disguise
 
 Island	125/125	adventure=154	Junkyard
 Island	125/125	adventure=136	Sonofa Beach
@@ -132,25 +132,25 @@ Orchard	125/125	adventure=129	Guards' Chamber
 Orchard	125/125	adventure=130	Queen's Chamber
 
 Mountain	0/0	adventure=91	Noob Cave
-Mountain	0/0	adventure=92	Dire Warren	level 2
-McLarge	53/0	adventure=61	Itznotyerzitz Mine	outfit
-McLarge	53/0	adventure=60	Goatlet	6 goat cheese
-McLarge	53/0	adventure=62	Ninja Snowmen	1 frigid ninja stars
+Mountain	0/0	adventure=92	Dire Warren
+McLarge	53/0	adventure=61	Itznotyerzitz Mine
+McLarge	53/0	adventure=60	Goatlet
+McLarge	53/0	adventure=62	Ninja Snowmen
 McLarge	53/0	adventure=63	eXtreme Slope	outfit
-McLarge	53/0	adventure=110	Icy Peak	level 10
-Mountain	68/0	adventure=80	Orc Chasm	2 334 scroll, 1 lowercase N
+McLarge	53/0	adventure=110	Icy Peak
+Mountain	68/0	adventure=80	Orc Chasm
 
-Beanstalk	85/90	adventure=81	Fantasy Airship	1 metallic A, 1 S.O.C.K.
-Beanstalk	85/95	adventure=82	Giant's Castle	1 choiceadv, 1 thin black candle, 1 heavy D
-Beanstalk	85/100	adventure=83	Hole in the Sky	1 Richard's star key, 1 star hat, 1 star crossbow
+Beanstalk	85/90	adventure=81	Fantasy Airship
+Beanstalk	85/95	adventure=82	Giant's Castle
+Beanstalk	85/100	adventure=83	Hole in the Sky
 
-Sorceress	104/0	lair3=hedge	Sorceress' Hedge Maze	3 hedge maze puzzle
+Sorceress	104/0	lair3=hedge	Sorceress' Hedge Maze
 Sorceress	104/0	lair6=5	Fight the Naughty Sorceress
 
 # Zodiac Areas
 
-MusSign	0/13	adventure=47	Bugbear Pens	1 annoying pitchfork
-MusSign	0/40	adventure=48	Spooky Gravy Barrow	1 inexplicably glowing rock
+MusSign	0/13	adventure=47	Bugbear Pens
+MusSign	0/40	adventure=48	Spooky Gravy Barrow
 MusSign	0/40	adventure=49	Post-Quest Bugbear Pens
 MysSign	0/0	adventure=43	Outskirts of Camp
 MysSign	0/30	adventure=44	Camp Logging Camp
