@@ -2333,22 +2333,13 @@ public class KoLmafiaCLI extends KoLmafia
 				continue;
 
 			if ( KoLCharacter.getPvpRank() - 50 > targets[i].getPvpRank().intValue() )
-			{
-				KoLmafia.updateDisplay( "Skipping " + targets[i].getPlayerName() + " (rank out of range)..." );
 				continue;
-			}
 
 			if ( StaticEntity.getProperty( "currentPvpVictories" ).indexOf( targets[i].getPlayerName() ) != -1 )
-			{
-				KoLmafia.updateDisplay( "Skipping " + targets[i].getPlayerName() + " (already beaten)..." );
 				continue;
-			}
 
 			if ( ClanManager.getClanName().equals( targets[i].getClanName() ) )
-			{
-				KoLmafia.updateDisplay( "Skipping " + targets[i].getPlayerName() + " (same clan)..." );
 				continue;
-			}
 
 			KoLmafia.updateDisplay( "Attacking " + targets[i].getPlayerName() + "..." );
 			request.setTarget( targets[i].getPlayerName() );
