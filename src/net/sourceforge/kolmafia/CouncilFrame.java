@@ -167,13 +167,13 @@ public class CouncilFrame extends RequestFrame
 
 		if ( EquipmentDatabase.isWearingOutfit( 8 ) )
 		{
-			CommandDisplayFrame.executeCommand( "adventure 1 goatlet" );
+			(new AdventureRequest( "Goatlet", "adventure.php", "60" )).run();
 			return;
 		}
 
 		SpecialOutfit.createImplicitCheckpoint();
 		(new EquipmentRequest( EquipmentDatabase.getOutfit( 8 ))).run();
-		CommandDisplayFrame.executeCommand( "adventure 1 goatlet" );
+		(new AdventureRequest( "Goatlet", "adventure.php", "60" )).run();
 		SpecialOutfit.restoreImplicitCheckpoint();
 	}
 
