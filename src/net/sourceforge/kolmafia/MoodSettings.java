@@ -112,7 +112,11 @@ public abstract class MoodSettings implements KoLConstants
 
 	public static void setMood( String mood )
 	{
-		mood = (mood == null || mood.trim().equals( "" )) ? "default" : mood.toLowerCase().trim();
+		mood = (mood == null || mood.trim().equals( "" )) ? "default" :
+			StaticEntity.globalStringDelete( mood.toLowerCase().trim(), " " );
+
+		if ( mood.equals( "clear" ) || mood.equals( "autofill" ) || mood.startsWith( "exec" ) || mood.startsWith( "repeat" ) )
+			return;
 
 		StaticEntity.setProperty( "currentMood", mood );
 
@@ -777,7 +781,11 @@ public abstract class MoodSettings implements KoLConstants
 				line = line.trim();
 				if ( line.startsWith( "[" ) )
 				{
-					currentKey = line.substring( 1, line.length() - 1 ).trim().toLowerCase();
+					currentKey = StaticEntity.globalStringDelete( line.substring( 1, line.length() - 1 ).trim().toLowerCase(), " " );
+
+					if ( currentKey.equals( "clear" ) || currentKey.equals( "autofill" ) || currentKey.startsWith( "exec" ) || currentKey.startsWith( "repeat" ) )
+						currentKey = "default";
+
 					displayList.clear();
 
 					if ( reference.containsKey( currentKey ) )

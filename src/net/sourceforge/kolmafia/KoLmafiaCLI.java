@@ -1901,30 +1901,36 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.startsWith( "mood" ) )
 		{
+			parameters = parameters.toLowerCase();
+
 			if ( parameters.equals( "clear" ) )
 			{
 				MoodSettings.removeTriggers( MoodSettings.getTriggers().toArray() );
 				MoodSettings.saveSettings();
-				return;
 			}
 			else if ( parameters.equals( "autofill" ) )
 			{
 				MoodSettings.maximalSet();
 				MoodSettings.saveSettings();
-
 				printList( MoodSettings.getTriggers() );
-				return;
 			}
-			else if ( !parameters.equals( "" ) && !parameters.startsWith( "exec" ) )
+			else if ( parameters.equals( "" ) || parameters.startsWith( "exec" ) )
 			{
-				MoodSettings.setMood( parameters );
-				return;
-			}
+				if ( isRunningBetweenBattleChecks() )
+					return;
 
-			if ( !isRunningBetweenBattleChecks() )
+				SpecialOutfit.createImplicitCheckpoint();
+				MoodSettings.execute( 0 );
+				SpecialOutfit.restoreImplicitCheckpoint();
+				RequestLogger.printLine( "Mood swing complete." );
+			}
+			else if ( parameters.startsWith( "repeat" ) )
 			{
+				if ( isRunningBetweenBattleChecks() )
+					return;
+
 				int multiplicity = 0;
-				int spaceIndex = parameters.indexOf( " " );
+				int spaceIndex = parameters.lastIndexOf( " " );
 				if ( spaceIndex != -1 )
 					multiplicity = StaticEntity.parseInt( parameters.substring( spaceIndex + 1 ) );
 
@@ -1932,6 +1938,24 @@ public class KoLmafiaCLI extends KoLmafia
 				MoodSettings.execute( multiplicity );
 				SpecialOutfit.restoreImplicitCheckpoint();
 				RequestLogger.printLine( "Mood swing complete." );
+			}
+			else
+			{
+				int multiplicity = 0;
+				int spaceIndex = parameters.lastIndexOf( " " );
+				if ( spaceIndex != -1 )
+				{
+					multiplicity = StaticEntity.parseInt( parameters.substring( spaceIndex + 1 ) );
+					parameters = parameters.substring( 0, spaceIndex );
+				}
+
+				String previousMood = StaticEntity.getProperty( "currentMood" );
+				MoodSettings.setMood( parameters );
+
+				executeCommand( "mood", "repeat " + multiplicity );
+
+				if ( multiplicity > 0 )
+					MoodSettings.setMood( previousMood );
 			}
 
 			return;
