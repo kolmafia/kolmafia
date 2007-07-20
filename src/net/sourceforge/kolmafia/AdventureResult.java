@@ -690,8 +690,14 @@ public class AdventureResult implements Comparable, KoLConstants
 		public Component getRenderer( Component defaultComponent, Concoction item )
 		{
 			StringBuffer stringForm = new StringBuffer();
+			boolean meetsRequirement = TradeableItemDatabase.meetsLevelRequirement( item.getName() );
 
-			stringForm.append( "<html><b>" );
+			stringForm.append( "<html>" );
+
+			if ( !meetsRequirement )
+				stringForm.append( "<font color=lightgray>" );
+
+			stringForm.append( "<b>" );
 			stringForm.append( item.getName() );
 
 			stringForm.append( " (" );
@@ -727,6 +733,11 @@ public class AdventureResult implements Comparable, KoLConstants
 			this.appendRange( stringForm, TradeableItemDatabase.getMuscleRange( item.getName() ), "mus" );
 			this.appendRange( stringForm, TradeableItemDatabase.getMysticalityRange( item.getName() ), "mys" );
 			this.appendRange( stringForm, TradeableItemDatabase.getMoxieRange( item.getName() ), "mox" );
+
+			if ( !meetsRequirement )
+				stringForm.append( "</font>" );
+
+			stringForm.append( "</html>" );
 
 			defaultComponent.setFont( DEFAULT_FONT );
 			((JLabel)defaultComponent).setText( stringForm.toString() );

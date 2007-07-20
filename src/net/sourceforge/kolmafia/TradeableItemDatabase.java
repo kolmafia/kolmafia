@@ -65,6 +65,7 @@ public class TradeableItemDatabase extends KoLDatabase
 	private static Map itemIdByName = new TreeMap();
 	private static Map itemIdByPlural = new TreeMap();
 
+	private static Map levelReqByName = new TreeMap();
 	private static Map fullnessByName = new TreeMap();
 	private static Map inebrietyByName = new TreeMap();
 	private static Map spleenHitByName = new TreeMap();
@@ -204,10 +205,11 @@ public class TradeableItemDatabase extends KoLDatabase
 
 				if ( data.length > 2 )
 				{
-					addAdventureRange( name, StaticEntity.parseInt( data[1] ), data[2] );
-					muscleByName.put( name, extractRange( data[3] ) );
-					mysticalityByName.put( name, extractRange( data[4] ) );
-					moxieByName.put( name, extractRange( data[5] ) );
+					levelReqByName.put( name, Integer.valueOf( data[2] ) );
+					addAdventureRange( name, StaticEntity.parseInt( data[1] ), data[3] );
+					muscleByName.put( name, extractRange( data[4] ) );
+					mysticalityByName.put( name, extractRange( data[5] ) );
+					moxieByName.put( name, extractRange( data[6] ) );
 				}
 			}
 		}
@@ -237,10 +239,11 @@ public class TradeableItemDatabase extends KoLDatabase
 
 				if ( data.length > 2 )
 				{
-					addAdventureRange( name, StaticEntity.parseInt( data[1] ), data[2] );
-					muscleByName.put( name, extractRange( data[3] ) );
-					mysticalityByName.put( name, extractRange( data[4] ) );
-					moxieByName.put( name, extractRange( data[5] ) );
+					levelReqByName.put( name, Integer.valueOf( data[2] ) );
+					addAdventureRange( name, StaticEntity.parseInt( data[1] ), data[3] );
+					muscleByName.put( name, extractRange( data[4] ) );
+					mysticalityByName.put( name, extractRange( data[5] ) );
+					moxieByName.put( name, extractRange( data[6] ) );
 				}
 			}
 		}
@@ -689,6 +692,15 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		int lastSpaceIndex = canonicalName.indexOf( " " );
 		return lastSpaceIndex != -1 ? getItemId( canonicalName.substring( lastSpaceIndex ).trim(), count ) : -1;
+	}
+
+	public static final boolean meetsLevelRequirement( String name )
+	{
+		if ( name == null )
+			return false;
+
+		Integer requirement = (Integer) levelReqByName.get( getCanonicalName( name ) );
+		return requirement == null ? false : KoLCharacter.getLevel() >= requirement.intValue();
 	}
 
 	public static final int getFullness( String name )
