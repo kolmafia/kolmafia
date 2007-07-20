@@ -579,20 +579,14 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 	private boolean useBoxServant( AdventureResult servant, AdventureResult clockworkServant, AdventureResult noServantItem, AdventureResult skullItem, AdventureResult boxedItem )
 	{
+		if ( !StaticEntity.getBooleanProperty( "autoRepairBoxServants" ) )
+			return !StaticEntity.getBooleanProperty( "requireBoxServants" ) && AdventureDatabase.retrieveItem( noServantItem );
+
 		// First, check to see if a box servant is available
 		// for usage, either normally, or through some form
 		// of creation.
 
 		AdventureResult usedServant = null;
-		boolean hasNoServantItem = inventory.contains( noServantItem ) || KoLCharacter.getAvailableMeat() >= 1000;
-
-		if ( !StaticEntity.getBooleanProperty( "requireBoxServants" ) )
-		{
-			if ( hasNoServantItem )
-				return AdventureDatabase.retrieveItem( noServantItem );
-
-			return hasNoServantItem;
-		}
 
 		if ( KoLCharacter.hasItem( clockworkServant, false ) )
 			usedServant = clockworkServant;
