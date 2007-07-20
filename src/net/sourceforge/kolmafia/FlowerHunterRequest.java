@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia;
 
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -448,8 +449,15 @@ public class FlowerHunterRequest extends KoLRequest
 		if ( whoIndex != -1 )
 			target = target.substring( 0, whoIndex );
 
-		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( "pvp " + target );
+		try
+		{
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( "pvp " + URLDecoder.decode( target, "UTF-8" ) );
+		}
+		catch ( Exception e )
+		{
+		}
+
 		return true;
 	}
 }

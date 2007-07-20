@@ -337,7 +337,7 @@ public class RequestLogger extends NullStream implements KoLConstants
 		if ( urlString.startsWith( "leaflet" ) || urlString.startsWith( "cave" ) || urlString.startsWith( "lair" ) || urlString.startsWith( "campground" ) )
 			return;
 
-		if ( urlString.startsWith( "inventory.php?which" ) || urlString.equals( "knoll.php?place=paster" ) || urlString.equals( "town_right.php?place=untinker" ) || urlString.startsWith( "clan_rumpus" ) )
+		if ( urlString.startsWith( "inventory.php?which" ) || urlString.equals( "knoll.php?place=paster" ) || urlString.equals( "town_right.php?place=untinker" ) )
 			return;
 
 		// The following lists all the remaining requests in

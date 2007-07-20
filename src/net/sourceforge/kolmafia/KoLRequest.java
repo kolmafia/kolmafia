@@ -600,6 +600,10 @@ public class KoLRequest extends Job implements KoLConstants
 
 		String location = this.getURLString();
 
+		if ( location.indexOf( "clan" ) != -1 )
+			if ( location.indexOf( "action=leaveclan" ) != -1 || location.indexOf( "action=joinclan" ) != -1 )
+				ClanManager.resetClanId();
+
 		if ( this.shouldUpdateDebugLog() )
 			RequestLogger.updateDebugLog( this.getClass() );
 
