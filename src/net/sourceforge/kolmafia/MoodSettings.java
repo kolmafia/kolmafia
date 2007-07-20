@@ -1145,7 +1145,7 @@ public abstract class MoodSettings implements KoLConstants
 			if ( KoLmafia.refusesContinue() )
 				return false;
 
-			if ( multiplicity > 0 )
+			if ( this.type.equals( "lose_effect" ) && multiplicity > 0 )
 				return true;
 
 			boolean shouldExecute = false;
