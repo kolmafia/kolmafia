@@ -1106,7 +1106,7 @@ public class ItemManageFrame extends KoLFrame
 			else
 			{
 				elementList.setCellRenderer( AdventureResult.getDefaultRenderer() );
-				this.movers[ KoLCharacter.canInteract() ? 0 : 2 ].setSelected( true );
+				this.movers[2].setSelected( true );
 			}
 
 			this.filterItems();
