@@ -92,7 +92,7 @@ mullet wig	40	Mox: 5
 mummy mask	170	Mox: 70
 nasty rat mask	180	Mox: 75
 opera mask	10	none
-Orange peel hat	200	Mox: 85
+orange peel hat	200	Mox: 85
 orange traffic cone	60	Mox: 15
 Orcish baseball cap	60	Mox: 15
 oriole-feather headdress	15	none
@@ -257,7 +257,7 @@ Grimacite gown	150	Mus: 40
 Grimacite guayabera	125	Mus: 47
 harem girl t-shirt	25	none
 hipposkin poncho	120	Mus: 45
-"Humorous" T-shirt	100	Mus: 35
+&quot;Humorous&quot; T-shirt	100	Mus: 35
 Kiss the Knob apron	10	none
 Knob Goblin elite shirt	35	Mus: 2
 loathing eagle baby-doll shirt	45	Mus: 7
@@ -282,7 +282,7 @@ Ye Olde Navy Fleece	100	Mus: 35
 # Weapon section.  This section includes all the items
 # which go in the "weapon" slot of the equipment menu.
 
-17-Alarm Saucepan	90	Mys: 15	1-handed saucepan
+17-alarm Saucepan	90	Mys: 15	1-handed saucepan
 25-meat staff	70	Mus: 20	2-handed staff
 5-Alarm Saucepan	50	Mys: 10	1-handed saucepan
 7-Foot Dwarven mattock	80	Mus: 25	2-handed axe

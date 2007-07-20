@@ -839,6 +839,14 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( command.equals( "checkdata" ) )
+		{
+			int itemId = StaticEntity.parseInt( parameters );
+			TradeableItemDatabase.checkInternalData( itemId );
+			RequestLogger.printLine( "Internal Data checked." );
+			return;
+		}
+
 		if ( command.equals( "clear" ) || command.equals( "cls" ) )
 		{
 			commandBuffer.clearBuffer();

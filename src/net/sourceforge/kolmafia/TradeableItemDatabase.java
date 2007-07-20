@@ -1005,7 +1005,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		{
 			Integer nextInteger = (Integer) it.next();
 			for ( int i = lastInteger; i < nextInteger.intValue(); ++i )
-					writer.println(i);
+				writer.println(i);
 
 			lastInteger = nextInteger.intValue() + 1;
 
@@ -1036,5 +1036,301 @@ public class TradeableItemDatabase extends KoLDatabase
 		}
 
 		writer.close();
+	}
+
+	private static final Map hats = new TreeMap();
+	private static final Map weapons = new TreeMap();
+	private static final Map offhands = new TreeMap();
+	private static final Map shirts = new TreeMap();
+	private static final Map pants = new TreeMap();
+	private static final Map accessories = new TreeMap();
+	private static final Map famitems = new TreeMap();
+
+	public static void checkInternalData()
+	{	checkInternalData( 0 );
+	}
+
+	public static void checkInternalData( int itemId )
+	{
+		File output = new File( DATA_DIRECTORY, "itemdata.txt" );
+		LogStream writer = LogStream.openStream( output, true );
+
+		RequestLogger.printLine( "Checking internal data..." );
+
+		hats.clear();
+		weapons.clear();
+		offhands.clear();			 
+		shirts.clear();
+		pants.clear();
+		accessories.clear();
+		famitems.clear();
+
+		// Check item names, desc ID, consumption type
+		if ( itemId == 0 )
+			for ( int i = 1; i < descriptionById.size(); ++i )
+				checkItem( i, writer );
+		else
+			checkItem( itemId, writer );
+
+		// Check equipment
+		checkEquipment( writer );
+
+		// Check modifiers
+		checkModifiers( writer );
+
+		writer.close();
+	}
+
+	private static void checkItem( int itemId, LogStream writer )
+	{
+		String name = (String)dataNameById.get( new Integer( itemId ) );
+		if ( name == null )
+			return;
+
+		String rawText = rawDescriptionText( itemId );
+
+		if ( rawText == null )
+		{
+			writer.println( "# *** " + name + " (" + itemId + ") has no description." );
+			writer.println( rawText );
+			return;
+		}
+
+		String text = descriptionText( rawText );
+		if ( text == null )
+		{
+			writer.println( "# *** " + name + " (" + itemId + ") has malformed description text." );
+			writer.println( rawText );
+			return;
+		}
+
+		String descriptionName = parseName( text );
+		if ( !name.equals( descriptionName ) )
+		{
+			writer.println( "# *** " + name + " (" + itemId + ") has description of " + descriptionName + "." );
+			return;
+
+		}
+
+		int type = getConsumptionType( itemId );
+		String descType = parseType( text );
+		if ( !typesMatch( type, descType ) )
+		{
+			writer.println( "# *** " + name + " (" + itemId + ") has consumption type of " + type + " but is described as " + descType + "." );
+			return;
+
+		}
+
+		switch ( type )
+		{
+		case EQUIP_HAT:
+			hats.put( name, text );
+			break;
+		case EQUIP_PANTS:
+			pants.put( name, text );
+			break;
+		case EQUIP_SHIRT:
+			shirts.put( name, text );
+			break;
+		case EQUIP_WEAPON:
+			weapons.put( name, text );
+			break;
+		case EQUIP_OFFHAND:
+			offhands.put( name, text );
+			break;
+		case EQUIP_ACCESSORY:
+			accessories.put( name, text );
+			break;
+		case EQUIP_FAMILIAR:
+			famitems.put( name, text );
+			break;
+		}
+
+		// Here we could check selling price, and whether it is a quest
+		// item, a gift item, is non-tradeable, etc.
+
+		writer.println( "# *** " + name + " (" + itemId + ") is OK" );
+	}
+
+	private static String rawDescriptionText( int itemId )
+	{
+		String descId = descriptionById.get( itemId );
+		if ( descId == null || descId.equals( "" ) )
+			return null;
+
+		KoLRequest descRequest = new KoLRequest( "desc_item.php?whichitem=" + descId );
+		RequestThread.postRequest( descRequest );
+		return descRequest.responseText;
+	}
+
+	private static final Pattern DATA_PATTERN = Pattern.compile( "<img.*?><br>(.*?)<script", Pattern.DOTALL );
+
+	private static String descriptionText( String rawText )
+	{
+		Matcher matcher = DATA_PATTERN.matcher( rawText );
+		if ( !matcher.find() )
+			return null;
+
+		return matcher.group(1);
+	}
+
+	private static final Pattern NAME_PATTERN = Pattern.compile( "<b>(.*?)</b>" );
+
+	private static String parseName( String text )
+	{
+		Matcher matcher = NAME_PATTERN.matcher( text );
+		if ( !matcher.find() )
+			return "";
+
+		return matcher.group(1);
+	}
+
+	private static final Pattern TYPE_PATTERN = Pattern.compile( "Type: <b>(.*?)</b>" );
+
+	private static String parseType( String text )
+	{
+		Matcher matcher = TYPE_PATTERN.matcher( text );
+		if ( !matcher.find() )
+			return "";
+
+		return matcher.group(1);
+	}
+
+	private static boolean typesMatch( int type, String descType )
+	{
+		switch ( type )
+		{
+		case NO_CONSUME:
+			return descType.equals( "" ) || descType.contains( "combat" ) || descType.equals( "crafting item" );
+		case CONSUME_EAT:
+
+			return descType.equals( "food" ) || descType.equals( "beverage" );
+		case CONSUME_DRINK:
+			return descType.equals( "booze" );
+		case CONSUME_USE:
+		case CONSUME_MULTIPLE:
+		case MP_RESTORE:
+		case HP_RESTORE:
+		case HPMP_RESTORE:
+			return descType.contains( "usable" ) || descType.equals( "gift package" );
+		case GROW_FAMILIAR:
+			return descType.equals( "familiar" );
+		case CONSUME_ZAP:
+			return descType.equals( "" );
+		case EQUIP_FAMILIAR:
+			return descType.equals( "familiar equipment" );
+		case EQUIP_ACCESSORY:
+			return descType.equals( "accessory" );
+		case EQUIP_HAT:
+			return descType.equals( "hat" );
+		case EQUIP_PANTS:
+			return descType.equals( "pants" );
+		case EQUIP_SHIRT:
+			return descType.equals( "shirt" );
+		case EQUIP_WEAPON:
+			return descType.contains( "weapon" );
+		case EQUIP_OFFHAND:
+			return descType.contains( "off-hand item" );
+		case CONSUME_HOBO:
+			// What is this, anyway?
+			return false;
+		}
+		return false;
+	}
+
+	private static void checkEquipment( LogStream writer )
+	{
+
+		RequestLogger.printLine( "Checking equipment..." );
+
+		checkEquipmentMap( writer, hats, "Hats" );
+		checkEquipmentMap( writer, pants, "Pants" );
+		checkEquipmentMap( writer, shirts, "Shirts" );
+		checkEquipmentMap( writer, weapons, "Weapons" );
+		checkEquipmentMap( writer, offhands, "Off-hand" );
+		checkEquipmentMap( writer, accessories, "Accessories" );
+	}
+
+	private static void checkEquipmentMap( LogStream writer, Map map, String tag )
+	{
+		if ( map.size() == 0 )
+			return;
+
+		RequestLogger.printLine( "Checking " + tag + "..." );
+
+		writer.println( "" );
+		writer.println( "# " + tag + " section of equipment.txt" );
+
+		Object [] keys = map.keySet().toArray();
+		for ( int i = 0; i < keys.length; ++i )
+		{
+			String name = (String)keys[i];
+			String text = (String)map.get( name );
+			checkEquipmentDatum( name, text, writer, tag );
+		}
+	}
+
+	private static void checkEquipmentDatum( String name, String text, LogStream writer, String tag )
+	{
+	}
+
+	private static void checkModifiers( LogStream writer )
+	{
+		RequestLogger.printLine( "Checking modifiers..." );
+
+		checkModifierMap( writer, hats, "Hats" );
+		checkModifierMap( writer, pants, "Pants" );
+		checkModifierMap( writer, shirts, "Shirts" );
+		checkModifierMap( writer, weapons, "Weapons" );
+		checkModifierMap( writer, offhands, "Off-hand" );
+		checkModifierMap( writer, accessories, "Accessories" );
+		checkModifierMap( writer, famitems, "Familiar Items" );
+	}
+
+	private static void checkModifierMap( LogStream writer, Map map, String tag )
+	{
+		if ( map.size() == 0 )
+			return;
+
+		RequestLogger.printLine( "Checking " + tag + "..." );
+
+		writer.println( "" );
+		writer.println( "# " + tag + " section of modifiers.txt" );
+
+		Object [] keys = map.keySet().toArray();
+		for ( int i = 0; i < keys.length; ++i )
+		{
+			String name = (String)keys[i];
+			String text = (String)map.get( name );
+			checkModifierDatum( name, text, writer );
+		}
+	}
+
+	private static final Pattern ENCHANTMENT_PATTERN = Pattern.compile( "Enchantment:.*?<font color=blue>(.*)</font>", Pattern.DOTALL );
+
+	private static void checkModifierDatum( String name, String text, LogStream writer )
+	{
+		Matcher matcher = ENCHANTMENT_PATTERN.matcher( text );
+		if ( !matcher.find() )
+			return;
+
+		String enchantments = matcher.group(1);
+
+		enchantments = enchantments.replaceAll( "<br>", "\n" );
+		enchantments = enchantments.replaceAll( "<b>NOTE:</b> Items that reduce the MP cost of skills will not do so by more than 3 points, in total.", "" );
+		enchantments = enchantments.replaceAll( "<b>NOTE:</b> This item cannot be equipped while in Hardcore.", "" );
+		enchantments = enchantments.replaceAll( "<b>NOTE:</b> You may not equip more than one of this item at a time.", "" );
+		enchantments = enchantments.replaceAll( "<b>NOTE:</b> If you wear multiple items that increase Critical Hit chances, only the highest multiplier applies.", "" );
+
+		String [] mods = enchantments.split( "\n" );
+
+		writer.println( "# *** " + name + ":" );
+		for ( int i = 0; i < mods.length; ++i )
+		{
+			String mod = mods[i].trim();
+			if ( mod.equals( "" ) )
+				continue;
+			writer.println( "#     " + mod );
+		}
 	}
 }
