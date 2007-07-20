@@ -532,7 +532,6 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// chefs and bartenders automatically so a second call
 		// is not needed.
 
-		cachePermitted( availableIngredients );
 		boolean includeNPCs = getBooleanProperty( "autoSatisfyWithNPCs" );
 
 		// Next, do calculations on all mixing methods which cannot
@@ -556,7 +555,21 @@ public class ConcoctionsDatabase extends KoLDatabase
 				item.total = item.initial;
 				item.visibleTotal = item.total;
 			}
-			else if ( !isPermittedMethod( item.getMixingMethod() ) )
+		}
+
+		cachePermitted( availableIngredients );
+
+		for ( int i = 1; i < concoctions.size(); ++i )
+		{
+			item = concoctions.get(i);
+			if ( item == null )
+				continue;
+
+			AdventureResult concoction = item.concoction;
+			if ( concoction == null )
+				continue;
+
+			if ( !isPermittedMethod( item.getMixingMethod() ) && item.initial == -1 )
 			{
 				item.initial = concoction.getCount( availableIngredients );
 				item.creatable = 0;
