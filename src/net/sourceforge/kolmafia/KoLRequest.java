@@ -1692,7 +1692,7 @@ public class KoLRequest extends Job implements KoLConstants
 					if ( conditions.contains( item ) )
 						return String.valueOf( i + 1 );
 
-					if ( decision.equals( "4" ) && possibleDecisions.length < 4 && !KoLCharacter.hasItem( item ) )
+					if ( possibleDecisions.length < StaticEntity.parseInt( decision ) && !KoLCharacter.hasItem( item ) )
 						return String.valueOf( i + 1 );
 				}
 			}
