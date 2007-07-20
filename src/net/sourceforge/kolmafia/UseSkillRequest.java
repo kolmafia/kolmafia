@@ -479,6 +479,12 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 				this.buffCount = currentCast;
 				optimizeEquipment( this.skillId );
 
+				if ( KoLmafia.refusesContinue() )
+				{
+					lastUpdate = "Error encountered during cast attempt.";
+					return;
+				}
+
 				this.addFormField( this.countFieldId, String.valueOf( currentCast ), false );
 
 				if ( this.target == null || this.target.trim().length() == 0 )
@@ -513,6 +519,8 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			AdventureDatabase.retrieveItem( options[i] );
 			return;
 		}
+
+		AdventureDatabase.retrieveItem( options[ options.length - 1 ] );
 	}
 
 	protected boolean retryOnTimeout()

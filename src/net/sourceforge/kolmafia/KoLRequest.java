@@ -1634,6 +1634,9 @@ public class KoLRequest extends Job implements KoLConstants
 			request.addFormField( "option", decision );
 			request.run();
 		}
+
+		if ( KoLmafia.isAdventuring() && choice != null && choice.equals( "162" ) && !EquipmentDatabase.isWearingOutfit( 8 ) )
+			CouncilFrame.unlockGoatlet();
 	}
 
 	private String pickOutfitChoice( String option, String decision )
