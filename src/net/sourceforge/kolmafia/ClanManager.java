@@ -91,17 +91,13 @@ public class ClanManager extends StaticEntity
 
 	public static String getClanId()
 	{
-		if ( clanId == null )
-			retrieveClanId();
-
+		retrieveClanId();
 		return clanId;
 	}
 
 	public static String getClanName()
 	{
-		if ( clanName == null )
-			retrieveClanId();
-
+		retrieveClanId();
 		return clanName;
 	}
 
@@ -133,8 +129,17 @@ public class ClanManager extends StaticEntity
 		}
 	}
 
+	public static void resetClanId()
+	{
+		clanId = null;
+		clanName = null;
+	}
+
 	private static void retrieveClanId()
 	{
+		if ( clanId != null )
+			return;
+
 		ClanMembersRequest cmr = new ClanMembersRequest();
 		RequestThread.postRequest( cmr );
 

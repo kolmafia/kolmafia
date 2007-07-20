@@ -1787,6 +1787,59 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( command.equals( "pvp" ) || command.equals( "attack" ) )
+		{
+			RequestThread.openRequestSequence();
+			int stance = 0;
+
+			if ( KoLCharacter.getBaseMuscle() >= KoLCharacter.getBaseMysticality() && KoLCharacter.getBaseMuscle() >= KoLCharacter.getBaseMoxie() )
+				stance = 1;
+			else if ( KoLCharacter.getBaseMysticality() >= KoLCharacter.getBaseMuscle() && KoLCharacter.getBaseMysticality() >= KoLCharacter.getBaseMoxie() )
+				stance = 2;
+			else
+				stance = 3;
+
+			String [] names = parameters.split( "\\s*,\\s*" );
+			ProfileRequest [] targets = new ProfileRequest[ names.length ];
+
+			for ( int i = 0; i < names.length; ++i )
+			{
+				String playerId = getPlayerId( names[i] );
+				if ( !playerId.equals( names[i] ) )
+					continue;
+
+				BuffRequestFrame.ONLINE_VALIDATOR.addFormField( "playerid", String.valueOf( KoLCharacter.getUserId() ) );
+				BuffRequestFrame.ONLINE_VALIDATOR.addFormField( "pwd" );
+				BuffRequestFrame.ONLINE_VALIDATOR.addFormField( "graf", "/whois " + names[i] );
+
+				RequestThread.postRequest( BuffRequestFrame.ONLINE_VALIDATOR );
+				Matcher idMatcher = Pattern.compile( "\\(#(\\d+)\\)" ).matcher( BuffRequestFrame.ONLINE_VALIDATOR.responseText );
+
+				if ( idMatcher.find() )
+					registerPlayer( names[i], idMatcher.group(1) );
+				else
+					names[i] = null;
+			}
+
+			for ( int i = 0; i < names.length; ++i )
+			{
+				if ( names[i] == null )
+					continue;
+
+				updateDisplay( "Retrieving player data for " + names[i] + "..." );
+				targets[i] = new ProfileRequest( names[i] );
+				targets[i].run();
+			}
+
+			updateDisplay( "Determining current rank..." );
+			RequestThread.postRequest( new FlowerHunterRequest() );
+
+			executeFlowerHuntRequest( targets, new FlowerHunterRequest( parameters, stance, KoLCharacter.canInteract() ? "dignity" : "flowers", "", "" ) );
+
+			RequestThread.closeRequestSequence();
+			return;
+		}
+
 		if ( command.equals( "flowers" ) )
 		{
 			this.executeFlowerHuntRequest();
@@ -2276,23 +2329,35 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		for ( int i = 0; i < targets.length && KoLmafia.permitsContinue() && KoLCharacter.getAttacksLeft() > 0; ++i )
 		{
-			if ( KoLCharacter.getPvpRank() - 50 > targets[i].getPvpRank().intValue() )
+			if ( targets[i] == null )
 				continue;
+
+			if ( KoLCharacter.getPvpRank() - 50 > targets[i].getPvpRank().intValue() )
+			{
+				KoLmafia.updateDisplay( "Skipping " + targets[i].getPlayerName() + " (rank out of range)..." );
+				continue;
+			}
 
 			if ( StaticEntity.getProperty( "currentPvpVictories" ).indexOf( targets[i].getPlayerName() ) != -1 )
+			{
+				KoLmafia.updateDisplay( "Skipping " + targets[i].getPlayerName() + " (already beaten)..." );
 				continue;
+			}
 
 			if ( ClanManager.getClanName().equals( targets[i].getClanName() ) )
+			{
+				KoLmafia.updateDisplay( "Skipping " + targets[i].getPlayerName() + " (same clan)..." );
 				continue;
+			}
 
 			KoLmafia.updateDisplay( "Attacking " + targets[i].getPlayerName() + "..." );
 			request.setTarget( targets[i].getPlayerName() );
 			RequestThread.postRequest( request );
 
-			if ( request.responseText.indexOf( "Your PvP Ranking decreased by" ) != -1 )
-				updateDisplay( ERROR_STATE, "You lost to " + targets[i].getPlayerName() + "." );
-			else
+			if ( request.responseText.indexOf( "Your PvP Ranking increased by" ) != -1 )
 				StaticEntity.setProperty( "currentPvpVictories", StaticEntity.getProperty( "currentPvpVictories" ) + targets[i].getPlayerName() + "," );
+			else
+				updateDisplay( ERROR_STATE, "You lost to " + targets[i].getPlayerName() + "." );
 
 		}
 	}

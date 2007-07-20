@@ -240,6 +240,12 @@ public class ProfileRequest extends KoLRequest implements Comparable
 				}
 			}
 		}
+
+		if ( cleanHTML.indexOf( "\nClan" ) != -1 )
+		{
+			while ( !st.nextToken().startsWith( "Clan" ) );
+			this.clanName = st.nextToken();
+		}
 	}
 
 	/**
