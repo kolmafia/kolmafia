@@ -428,6 +428,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 				switch ( usageType )
 				{
 				case NO_CONSUME:
+				case MESSAGE_DISPLAY:
 					break;
 
 				case EQUIP_FAMILIAR:

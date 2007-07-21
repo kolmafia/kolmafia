@@ -1063,7 +1063,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		boozes.clear();
 		hats.clear();
 		weapons.clear();
-		offhands.clear();			 
+		offhands.clear();
 		shirts.clear();
 		pants.clear();
 		accessories.clear();
@@ -1211,10 +1211,13 @@ public class TradeableItemDatabase extends KoLDatabase
 
 	private static boolean typesMatch( int type, String descType )
 	{
+		if ( descType.equals( "" ) )
+			return true;
+
 		switch ( type )
 		{
 		case NO_CONSUME:
-			return descType.equals( "" ) || descType.contains( "combat" ) || descType.equals( "crafting item" );
+			return descType.equals( "" ) || descType.indexOf( "combat" ) != -1 || descType.equals( "crafting item" );
 		case CONSUME_EAT:
 
 			return descType.equals( "food" ) || descType.equals( "beverage" );
@@ -1225,7 +1228,9 @@ public class TradeableItemDatabase extends KoLDatabase
 		case MP_RESTORE:
 		case HP_RESTORE:
 		case HPMP_RESTORE:
-			return descType.contains( "usable" ) || descType.equals( "gift package" );
+		case MESSAGE_DISPLAY:
+		case INFINITE_USES:
+			return descType.indexOf( "usable" ) != -1 || descType.equals( "gift package" );
 		case GROW_FAMILIAR:
 			return descType.equals( "familiar" );
 		case CONSUME_ZAP:
@@ -1241,9 +1246,9 @@ public class TradeableItemDatabase extends KoLDatabase
 		case EQUIP_SHIRT:
 			return descType.equals( "shirt" );
 		case EQUIP_WEAPON:
-			return descType.contains( "weapon" );
+			return descType.indexOf( "weapon" ) != -1;
 		case EQUIP_OFFHAND:
-			return descType.contains( "off-hand item" );
+			return descType.indexOf( "off-hand item" ) != -1;
 		case CONSUME_HOBO:
 			// What is this, anyway?
 			return false;
