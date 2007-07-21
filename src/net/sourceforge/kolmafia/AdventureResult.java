@@ -695,7 +695,7 @@ public class AdventureResult implements Comparable, KoLConstants
 			stringForm.append( "<html>" );
 
 			if ( !meetsRequirement )
-				stringForm.append( "<font color=#808080>" );
+				stringForm.append( "<font color=#c0c0c0>" );
 
 			stringForm.append( "<b>" );
 			stringForm.append( item.getName() );
