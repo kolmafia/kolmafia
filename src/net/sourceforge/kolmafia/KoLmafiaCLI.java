@@ -976,11 +976,11 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "logout" ) )
 		{
 			if ( KoLDesktop.instanceExists() )
-				KoLDesktop.getInstance().setVisible( false );
+				KoLDesktop.getInstance().dispose();
 
 			KoLFrame [] frames = StaticEntity.getExistingFrames();
 			for ( int i = 0; i < frames.length; ++i )
-				frames[i].setVisible( false );
+				frames[i].dispose();
 
 			if ( !KoLCharacter.getUserName().equals( "" ) )
 				RequestThread.postRequest( new LogoutRequest() );
