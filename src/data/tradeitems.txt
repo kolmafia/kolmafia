@@ -14,7 +14,7 @@
 14	moxie weed	4	all	100
 15	strongness elixir	4	all	100
 16	magicalness-in-a-can	4	all	100
-17	spicy noodles	1	all	300
+17	spicy noodles	1	all	35
 18	tortoise's blessing	0	all	1
 19	asparagus knife	12	all	20
 20	Kentucky-style derby	9	all	25
@@ -69,7 +69,7 @@
 69	Newbiesport&trade; tent	3	all	20
 70	bar skin	0	all	5
 71	wooden stakes	12	all	30
-72	barskin hat	9	all	30
+72	barskin hat	9	all	60
 73	barskin tent	3	all	9
 74	Spooky Temple map	3	none	0
 75	spooky sapling	15	none	0
@@ -90,7 +90,7 @@
 90	helmet recipe	0	all	50
 91	pants kit	0	all	50
 92	meatsmithing guide	15	all	25
-93	basic meat sword	12	all	140
+93	basic meat sword	12	all	25
 94	basic meat pants	10	all	140
 95	basic meat helmet	9	all	140
 96	bling-bling	8	all	60
@@ -107,12 +107,12 @@
 107	catsup	1	all	100
 108	big stick	12	all	50
 109	crossbow string	0	all	50
-110	basic meat staff	12	all	140
-111	basic meat crossbow	12	all	140
+110	basic meat staff	12	all	25
+111	basic meat crossbow	12	all	25
 112	meatloaf helmet	9	all	175
-113	dripping meat sword	12	all	150
-114	dripping meat staff	12	all	150
-115	dripping meat crossbow	12	all	150
+113	dripping meat sword	12	all	55
+114	dripping meat staff	12	all	55
+115	dripping meat crossbow	12	all	55
 116	Bugfinder Blade	12	display	0
 117	Gnollish plunger	12	all	40
 118	spring	0	all	10
@@ -136,7 +136,7 @@
 136	tires	0	all	14
 137	dope wheels	0	all	110
 138	ice-cold six-pack	4	all	150
-139	valuable trinket	0	all	150
+139	valuable trinket	0	all	250
 140	dingy planks	0	all	100
 141	dingy dinghy	0	none	0
 142	anticheese	0	all	30
@@ -171,7 +171,7 @@
 171	lihc eye pie	1	all	45
 172	gnoll lips	15	all	11
 173	taco shell	0	all	40
-174	Gnollish casserole dish	0	all	70
+174	Gnollish casserole dish	0	all	75
 175	uncooked chorizo	1	all	18
 176	disembodied brain	15	all	19
 177	brainy skull	15	all	32
@@ -209,7 +209,7 @@
 209	wad of tofu	0	all	35
 210	Feng Shui for Big Dumb Idiots	3	all	33
 211	decorative fountain	18	all	34
-212	windchimes	0	all	32
+212	windchimes	18	all	32
 213	filthy corduroys	10	all	80
 214	filthy knitted dread sack	9	all	80
 215	Uncle Jick's Brownie Mix	0	all	33
@@ -224,9 +224,9 @@
 224	eyepatch	9	all	30
 225	tofu casserole	1	all	107
 226	can of Red Minotaur	4	all	337
-227	Kentucky-fried meat sword	12	all	180
-228	Kentucky-fried meat staff	12	all	180
-229	Kentucky-fried meat crossbow	12	all	180
+227	Kentucky-fried meat sword	12	all	75
+228	Kentucky-fried meat staff	12	all	75
+229	Kentucky-fried meat crossbow	12	all	75
 230	dead guy's watch	8	all	60
 231	Doc Galaktik's Pungent Unguent	16	all	15
 232	Doc Galaktik's Ailment Ointment	16	all	30
@@ -236,9 +236,9 @@
 236	cocktailcrafting kit	0	all	250
 237	bottle of gin	2	all	35
 238	bottle of vodka	2	all	35
-239	Orcish baseball cap	9	all	100
-240	Orcish cargo shorts	10	all	100
-241	homoerotic frat-paddle	12	all	75
+239	Orcish baseball cap	9	all	80
+240	Orcish cargo shorts	10	all	80
+241	homoerotic frat-paddle	12	all	90
 242	orange	1	all	35
 243	grapefruit	1	all	35
 244	grapes	1	all	35
@@ -292,13 +292,13 @@
 292	rubber axe	12	all	45
 293	chef's hat	9	all	35
 294	pail	9	all	35
-295	demonskin trousers	10	all	55
+295	demonskin trousers	10	all	75
 296	dungeoneer's dungarees	10	all	35
 297	tamarind-flavored chewing gum	4	all	20
 298	lime-and-chile-flavored chewing gum	4	all	20
 299	pickle-flavored chewing gum	4	all	20
 300	jaba&ntilde;ero-flavored chewing gum	4	all	20
-301	flat dough	3	all	35
+301	flat dough	3	all	25
 302	Knob sausage	1	all	17
 303	Knob mushroom	1	all	16
 304	dry noodles	0	all	1
@@ -352,8 +352,8 @@
 352	ninja hot pants	10	all	75
 353	frigid ninja stars	0	all	67
 354	frozen nunchaku	12	all	90
-355	eXtreme scarf	9	all	115
-356	snowboarder pants	10	all	115
+355	eXtreme scarf	9	all	110
+356	snowboarder pants	10	all	110
 357	Mountain Stream soda	14	all	58
 358	gr8ps	1	all	59
 359	t8r tots	1	all	58
@@ -375,18 +375,18 @@
 375	linoleum meat stack	0	all	100
 376	asbestos meat stack	0	all	100
 377	chrome meat stack	0	all	100
-378	linoleum sword	12	all	180
-379	linoleum staff	12	all	180
-380	linoleum crossbow	12	all	180
-381	asbestos sword	12	all	180
-382	asbestos staff	12	all	180
-383	asbestos crossbow	12	all	180
-384	chrome sword	12	all	180
-385	chrome staff	12	all	180
-386	chrome crossbow	12	all	180
+378	linoleum sword	12	all	115
+379	linoleum staff	12	all	125
+380	linoleum crossbow	12	all	105
+381	asbestos sword	12	all	123
+382	asbestos staff	12	all	105
+383	asbestos crossbow	12	all	115
+384	chrome sword	12	all	105
+385	chrome staff	12	all	115
+386	chrome crossbow	12	all	125
 387	fuzzy dice	5	display	0
 388	yeti fur	0	all	92
-389	meaty helmet turtle	9	all	65
+389	meaty helmet turtle	9	all	100
 390	asbestos helmet turtle	9	all	101
 391	linoleum helmet turtle	9	all	101
 392	chrome helmet turtle	9	all	101
@@ -410,7 +410,7 @@
 410	sk8board	8	all	80
 411	charrrm	0	all	47
 412	barrrnacle	5	all	48
-413	charrrm bracelet	8	all	71
+413	charrrm bracelet	8	all	80
 414	crowbarrr	12	all	95
 415	leotarrrd	10	all	100
 416	safarrri hat	9	all	100
@@ -431,8 +431,8 @@
 431	clown shoes	8	all	60
 432	bloody clown pants	10	all	60
 433	long skinny balloon	0	all	22
-434	balloon helmet	9	all	39
-435	balloon sword	12	all	51
+434	balloon helmet	9	all	60
+435	balloon sword	12	all	60
 436	balloon monkey	5	all	67
 437	chef skull	0	all	71
 438	chef-in-the-box	3	all	140
@@ -467,7 +467,7 @@
 467	purple pixel pie	1	all	50
 468	ruby W	0	all	33
 469	wussiness potion	3	all	28
-470	Imp Ale	2	all	35
+470	Imp Ale	2	all	25
 471	hot wing	1	all	32
 472	diamond-studded cane	12	all	95
 473	flaming crutch	12	all	65
@@ -565,10 +565,10 @@
 565	dirty hobo gloves	8	all	31
 566	bum cheek	9	all	25
 567	hermit script	3	none	0
-568	Double Bacon Beelzeburger	1	all	31
-569	Lord of the Flies-sized fries	1	all	32
-570	Brimstone Chicken Sandwich	1	all	31
-571	Jumbo Dr. Lucifer	1	all	33
+568	Double Bacon Beelzeburger	1	all	100
+569	Lord of the Flies-sized fries	1	all	100
+570	Brimstone Chicken Sandwich	1	all	100
+571	Jumbo Dr. Lucifer	1	all	50
 572	Children's Meal of the Damned	1	all	31
 573	delicious noodles	1	all	33
 574	delicious spicy noodles	1	all	33
@@ -596,8 +596,8 @@
 596	titanium assault umbrella	12	all	155
 597	Mohawk wig	9	all	155
 598	the Slug Lord's map	3	none	0
-599	pants of the Slug Lord	10	all	35
-600	Dr. Hobo's scalpel	12	all	70
+599	pants of the Slug Lord	10	all	40
+600	Dr. Hobo's scalpel	12	all	40
 601	Dr. Hobo's map	3	none	0
 602	Degrassi Knoll shopping list	15	none	0
 603	Item #13	8	none	0
@@ -631,7 +631,7 @@
 631	furry pants	10	all	165
 632	disturbing fanfic	15	all	132
 633	wolf mask	9	all	165
-634	cool whip	12	all	25
+634	cool whip	12	all	15
 635	little paper umbrella	12	all	35
 636	meat globe	3	none	0
 637	cheap toaster	3	display	0
@@ -659,7 +659,7 @@
 659	star staff	12	all	225
 660	star pants	10	all	225
 661	star hat	9	all	225
-662	star buckler	13	all	100
+662	star buckler	13	all	225
 663	star throwing star	0	all	100
 664	star starfish	5	all	100
 665	Richard's star key	0	none	0
@@ -685,11 +685,11 @@
 685	Mr. Shirt	11	all	35
 686	enchanted brass knuckles	13	all	500
 687	blood of the Wereseal	4	display	250
-688	pixel hat	9	all	45
-689	pixel pants	10	all	45
+688	pixel hat	9	all	65
+689	pixel pants	10	all	65
 690	pixel sword	12	all	65
 691	digital key	0	none	0
-692	Ascension Souvenir t-shirt	11	all	20
+692	Ascension Souvenir T-shirt	11	all	20
 693	harem girl t-shirt	11	all	30
 694	Knob Goblin elite shirt	11	all	40
 695
@@ -704,7 +704,7 @@
 704	hamethyst	0	all	500
 705	baconstone	0	all	500
 706	porquoise	0	all	500
-707	pork elf goodies sack	3	display	100
+707	pork elf goodies sack	3	display	0
 708	ring setting	0	all	100
 709	jewelry-making pliers	0	all	500
 710
@@ -746,15 +746,15 @@
 746	stat script	3	none	0
 747	Knob Goblin firecracker	0	all	15
 748	gourd potion	4	none	0
-749	warm mushroom	1	all	61
+749	warm mushroom	1	all	55
 750	spicy mushroom quesadilla	1	all	65
 751	cool mushroom	1	all	61
 752	cool mushroom casserole	1	all	75
-753	pointy mushroom	1	all	61
+753	pointy mushroom	1	all	57
 754	cream of pointy mushroom soup	1	all	75
-755	flaming mushroom	1	all	61
-756	frozen mushroom	1	all	61
-757	stinky mushroom	1	all	61
+755	flaming mushroom	1	all	100
+756	frozen mushroom	1	all	100
+757	stinky mushroom	1	all	100
 758	ghost cucumber	1	all	75
 759	dill	0	all	75
 760	vinegar	0	all	77
@@ -767,11 +767,11 @@
 767	cologne of contempt	4	all	77
 768	spork	12	all	35
 769	voodoo doll	13	all	25
-770	basic meat fez	9	all	140
+770	basic meat fez	9	all	145
 771	tassel	0	all	25
 772	foon	13	all	35
-773	basic meat spork	12	all	140
-774	basic meat foon	13	all	140
+773	basic meat spork	12	all	145
+774	basic meat foon	13	all	150
 775	Yeti Protest Sign	18	display	0
 776	kneecapping stick	12	all	95
 777	iron pasta spoon	12	all	115
@@ -832,7 +832,7 @@
 832	large box	4	all	85
 833	vorpal blade	12	all	100
 834	cornuthaum	9	all	95
-835	ring of aggravate monster	8	all	70
+835	ring of aggravate monster	8	all	90
 836	mind flayer corpse	1	all	78
 837	Uovo Marcio Shiraz	2	all	0
 838	Mafia stogie	8	all	0
@@ -844,7 +844,7 @@
 844	papaya slung	2	all	57
 845	MAHI fez	9	display	0
 846	especially homoerotic frat-paddle	12	all	90
-847	heteroerotic frat-paddle	12	all	75
+847	heteroerotic frat-paddle	12	display	0
 848	hypodermic needle	7	all	75
 849	Meat detector	7	all	75
 850	many-eyed glasses	7	all	75
@@ -880,7 +880,7 @@
 880	disbelief suspenders	8	all	95
 881	supportive bra	11	all	55
 882	Blatantly Canadian	14	all	75
-883	maple syrup	1	all	60
+883	maple syrup	1	all	100
 884	los chinos	10	all	60
 885	wooden axe	12	all	65
 886	leaflet	15	all	87
@@ -952,7 +952,7 @@
 952	spooky hockey mask	9	all	0
 953	penguin-smacking club	7	all	75
 954	orphan baby yeti	5	all	0
-955	fez of etymology	9	all	142
+955	fez of etymology	9	all	150
 956	carob chunk noodles	1	all	75
 957	chorizo brownies	1	all	71
 958	white chocolate and tomato pizza	1	all	62
@@ -988,10 +988,10 @@
 988	tiny plastic coffee pixie	8	all	30
 989	tiny plastic bitchin' meatcar	8	all	30
 990	tiny plastic hermit	8	all	30
-991	tiny plastic Boris	8	all	30
-992	tiny plastic Jarlsberg	8	all	30
-993	tiny plastic Sneaky Pete	8	all	30
-994	tiny plastic Susie	8	all	30
+991	tiny plastic Boris	8	all	0
+992	tiny plastic Jarlsberg	8	all	0
+993	tiny plastic Sneaky Pete	8	all	0
+994	tiny plastic Susie	8	all	0
 995	Lucky Surprise Egg	1	all	420
 996
 997
@@ -1023,7 +1023,7 @@
 1023	vesper	2	all	0
 1024	bodyslam	2	all	0
 1025	sangria del diablo	2	all	0
-1026	Valentine	0	all	250
+1026	Valentine	0	all	0
 1027	whip kit	0	all	50
 1028	buckler buckle	0	all	50
 1029	hippo whip	12	all	145
@@ -1031,9 +1031,9 @@
 1031	yak whip	12	all	141
 1032	gnauga hide whip	12	all	120
 1033	gnauga hide	0	all	60
-1034	hippo skin buckler	13	all	144
-1035	penguin skin buckler	13	all	142
-1036	yakskin buckler	13	all	142
+1034	hippo skin buckler	13	all	140
+1035	penguin skin buckler	13	all	140
+1036	yakskin buckler	13	all	140
 1037	gnauga hide buckler	13	all	140
 1038	Connery's Elixir of Audacity	4	all	38
 1039
@@ -1043,7 +1043,7 @@
 1043	string of blue beads	8	all	75
 1044	string of green beads	8	all	75
 1045	cheap plastic bottle opener	12	all	50
-1046	orange traffic cone	9	display	000
+1046	orange traffic cone	9	display	100
 1047	N. O. Beer	15	all	0
 1048	red striped oyster egg	16	all	50
 1049	red polka-dot oyster egg	16	all	50
@@ -1091,7 +1091,7 @@
 1091	clockwork claws	0	all	50
 1092	clockwork sheet	0	all	50
 1093	clockwork counterclockwise dome	0	all	50
-1094	clockwork sphere	0	all	50
+1094	clockwork sphere	0	all	200
 1095	deactivated MicroMechaMech	5	all	200
 1096	clockwork endoskeleton	0	all	200
 1097	clockwork hat	9	all	200
@@ -1126,12 +1126,12 @@
 1126	enchanted toothpick	8	all	95
 1127	tiny ninja sword	12	all	25
 1128	teeny-tiny ninja stars	0	all	30
-1129	sequined fez	9	all	0
+1129	sequined fez	9	all	95
 1130	blank white card	0	all	0
 1131	beet	0	all	0
-1132	Totally Gay Claymore	12	all	169
+1132	Totally Gay Claymore	12	display	0
 1133	star shirt	11	all	170
-1134	spooky cosmetics bag	3	all	50
+1134	spooky cosmetics bag	3	all	0
 1135	spooky eyeliner	3	all	50
 1136	spooky lipstick	3	all	50
 1137	spooky bicycle chain	12	all	95
@@ -1234,13 +1234,13 @@
 1234	plexiglass pants	10	display	0
 1235	plexiglass pendant	8	display	0
 1236	hockey stick of furious angry rage	8	all	0
-1237	tapped black lotus	0	gift	50000
-1238	flaming glowsticks	7	all	70
-1239	iced-out bling	7	all	70
-1240	limburger biker boots	7	all	70
+1237	tapped black lotus	0	gift	5000
+1238	flaming glowsticks	7	all	0
+1239	iced-out bling	7	all	0
+1240	limburger biker boots	7	all	0
 1241	miniature carton of clove cigarettes	7	all	0
 1242	deflated inflatable dodecapede	5	all	0
-1243	toy six-seater hovercraft	7	all	70
+1243	toy six-seater hovercraft	7	all	75
 1244	Glass Balls of the Goblin King	13	display	0
 1245	Cape of the Goblin King	8	display	0
 1246	rib of the Bonerdagon	12	display	0
@@ -1256,14 +1256,14 @@
 1256	insanely spicy jumping bean burrito	1	all	90
 1257	rat scrapple	1	all	40
 1258	pail of pretentious paint	0	none	0
-1259	yellow traffic cone	9	display	0
+1259	yellow traffic cone	9	display	100
 1260	wax lips	7	all	0
 1261	Hatorade	4	all	250
 1262	off-hand balloon	13	all	50
 1263	pygmy bugbear shaman	5	all	0
 1264	tiny nose-bone fetish	7	all	75
 1265	box of sunshine	3	display	0
-1266	gloomy black mushroom	1	display	50
+1266	gloomy black mushroom	1	display	0
 1267	dead mimic	3	none	0
 1268	pine wand	6	none	0
 1269	ebony wand	6	none	0
@@ -1303,7 +1303,7 @@
 1303	Mjolnir Jr.	12	display	0
 1304	doppelshifter egg	5	all	0
 1305	tiny makeup kit	7	all	75
-1306	red traffic cone	9	display	000
+1306	red traffic cone	9	display	100
 1307	calm attention-deficit demon	5	all	0
 1308	unwound cymbal-playing monkey	5	all	0
 1309	attention spanner	7	all	75
@@ -1349,7 +1349,7 @@
 1349	miniscule temporal rip	5	all	0
 1350	1.21 jigawatts	7	all	75
 1351	giant pinky ring	8	all	100
-1352	redrum	2	all	35
+1352	redrum	2	all	60
 1353	ninja pirate zombie robot	5	display	0
 1354	pile of shiny pebbles	0	none	0
 1355	bowl of oriole's nest soup	1	none	0
@@ -1357,7 +1357,7 @@
 1357	Mt. Noob Pale Ale	2	none	0
 1358	pirate zombie head	0	all	360
 1359	ninja pirate zombie robot head	3	all	360
-1360	pirate zombie robot head	0	all	360
+1360	pirate zombie robot head	0	all	350
 1361	disembodied smile	8	all	20
 1362
 1363	clockwork pirate skull	15	all	230
@@ -1417,7 +1417,7 @@
 1417	black snowcone	3	all	30
 1418	Pretty Predator Clawicure Kit	7	all	75
 1419	teddy bear sewing kit	7	all	75
-1420	green traffic cone	9	display	0
+1420	green traffic cone	9	display	100
 1421	Scandalously Skimpy Bikini	8	display	0
 1422	Sombrero De Vida	9	display	0
 1423	iceberglet	3	all	0
@@ -1427,9 +1427,9 @@
 1427	ice skates	8	all	0
 1428	grue egg omelette	1	display	0
 1429	roll of drink tickets	4	all	90
-1430	pregnant gloomy black mushroom	5	display	0
-1431	pregnant oily golden mushroom	5	display	0
-1432	oily golden mushroom	1	display	50
+1430	pregnant gloomy black mushroom	5	display	150
+1431	pregnant oily golden mushroom	5	display	150
+1432	oily golden mushroom	1	display	0
 1433	fruit bowl	4	all	200
 1434	fruit basket	4	all	400
 1435	hot pink lipstick	7	all	0
@@ -1492,7 +1492,7 @@
 1492	ninja mop	12	all	112
 1493	ridiculously overelaborate ninja weapon	12	all	120
 1494	sugar-coated pine cone	4	all	10
-1495	blue traffic cone	9	display	0
+1495	blue traffic cone	9	display	100
 1496	gloomy mushroom wine	2	all	90
 1497	oily mushroom wine	2	all	90
 1498	McPhee's Grimoire of Hilarious Object Summoning	3	all	0
@@ -1584,11 +1584,11 @@
 1584	Mae West	2	all	160
 1585	Mon Tiki	2	all	160
 1586	teqiwila slammer	2	all	160
-1587	Knob lo mein	1	all	72
-1588	asparagus lo mein	1	all	72
-1589	Knoll lo mein	1	all	72
-1590	spooky lo mein	1	all	72
-1591	olive lo mein	1	all	72
+1587	Knob lo mein	1	all	102
+1588	asparagus lo mein	1	all	102
+1589	Knoll lo mein	1	all	102
+1590	spooky lo mein	1	all	102
+1591	olive lo mein	1	all	102
 1592	hot hi mein	1	all	144
 1593	cold hi mein	1	all	144
 1594	spooky hi mein	1	all	144
@@ -1596,13 +1596,13 @@
 1596	sleazy hi mein	1	all	144
 1597	Junior LAAAAME merit badge	8	display	0
 1598	Senior LAAAAME merit badge	8	display	0
-1599	jazz soap	3	gift	5
+1599	jazz soap	3	gift	0
 1600	tangarita with a fly in it	15	gift	130
 1601	mandarina colada with a fly in it	15	gift	130
 1602	prussian cathouse with a fly in it	15	gift	130
 1603	Mae West with a fly in it	15	gift	130
-1604	astronaut ice-cream	3	display	0
-1605	delectable catalyst	4	all	500
+1604	astronaut ice-cream	3	display	42
+1605	delectable catalyst	4	all	0
 1606	ultimate wad	3	all	0
 1607	libation of liveliness	4	all	36
 1608	eyedrops of the ermine	4	all	36
@@ -1672,9 +1672,9 @@
 1672	swindleblossom	0	none	0
 1673	grave robbing shovel	12	all	40
 1674	superhero mask	9	display	0
-1675	cardboard ore	0	all	50
-1676	styrofoam ore	0	all	50
-1677	bubblewrap ore	0	all	50
+1675	cardboard ore	0	all	25
+1676	styrofoam ore	0	all	25
+1677	bubblewrap ore	0	all	25
 1678	pet rock &quot;Groucho&quot; disguise	7	gift	5
 1679	cardboard sword	12	all	65
 1680	cardboard staff	12	all	65
@@ -1794,7 +1794,7 @@
 1794	handful of hand chalk	4	all	30
 1795	Counterclockwise Watch	8	all	0
 1796	bone collar	7	all	75
-1797	misshapen animal skeleton	5	display	0
+1797	misshapen animal skeleton	5	display	1000
 1798	pile of dusty animal bones	4	all	32
 1799	dusty animal skull	3	all	30
 1800	dusty animal cranium	0	all	10
@@ -1958,8 +1958,8 @@
 1958	inkwell	0	all	45
 1959	tattered scrap of paper	0	all	35
 1960	scroll of ancient forbidden unspeakable evil	0	all	65
-1961	can of Binarrrca	4	all	50
-1962	Bit O' Ectoplasm	4	all	35
+1961	can of Binarrrca	4	all	0
+1962	Bit O' Ectoplasm	4	all	0
 1963	dance card	3	all	55
 1964	opera mask	9	all	37
 1965	bottle of Monsieur Bubble	4	all	50
@@ -1992,7 +1992,7 @@
 1992	rubber WWBD? bracelet	8	gift	5
 1993	rubber WWSPD? bracelet	8	gift	5
 1994	rubber WWtNSD? bracelet	8	gift	5
-1995	heart necklace		gift	10
+1995	heart necklace		gift	0
 1996	right half of a heart necklace	8	gift	0
 1997	left half of a heart necklace	8	gift	0
 1998	pack of KWE trading card	3	all	50
@@ -2026,8 +2026,8 @@
 2026	nutty organic salad	1	all	130
 2027	super salad	1	all	125
 2028	tofu wonton	1	all	195
-2029	hippy protest button	8	all	65
-2030	Lockenstock&trade; sandals	8	all	60
+2029	hippy protest button	8	all	45
+2030	Lockenstock&trade; sandals	8	all	205
 2031	didgeridooka	12	all	165
 2032	bullet-proof corduroys	10	all	80
 2033	round purple sunglasses	8	all	80
@@ -2233,7 +2233,7 @@
 2233	polka-dot bowtie	8	all	25
 2234	calavera concertina	12	all	45
 2235	ratarang	12	all	65
-2236	turtle pheromones	3	display	25
+2236	turtle pheromones	3	display	0
 2237	pygmy blowgun	0	all	122
 2238	pygmy nose-bone	8	all	150
 2239	big bad voodoo mask	9	all	165
@@ -2249,7 +2249,7 @@
 2249	skeletortoise	9	all	35
 2250
 2251	box turtle	13	all	55
-2252	cardboard box turtle	13	all	55
+2252	cardboard box turtle	13	all	75
 2253	bottlecap turtle	8	all	60
 2254	bubblewrap bottlecap turtleban	9	all	85
 2255	furry green turtle	9	all	50
@@ -2522,10 +2522,10 @@
 2522	thistle wine	2	all	85
 2523	megatofu	0	all	150
 2524	displaced fish	0	all	55
-2525	fishy fish	1	all	38
+2525	fishy fish	1	all	100
 2526	fishy fish casserole	1	all	150
 2527	fishy fish lasagna	1	all	200
-2528	filet of tangy gnat (&quot;fotelif&quot;)	0	all	50
+2528	filet of tangy gnat (&quot;fotelif&quot;)	0	all	55
 2529	gnatloaf	1	all	105
 2530	gnatloaf casserole	1	all	150
 2531	gnat lasagna	1	all	200
@@ -2695,7 +2695,7 @@
 2695	cup of primitive beer	2	all	30
 2696	ovoid leather thing	0	all	150
 2697	duct tape	0	display	25
-2698	duct tape wallet	4	unknown	-1
+2698	duct tape wallet	4	display	100
 2699	duct tape shirt	11	display	325
 2700	duct tape fedora	9	display	210
 2701	duct tape sword	12	display	250

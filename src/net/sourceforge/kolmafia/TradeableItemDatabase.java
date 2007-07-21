@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -1099,7 +1100,6 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( rawText == null )
 		{
 			writer.println( "# *** " + name + " (" + itemId + ") has no description." );
-			writer.println( rawText );
 			return;
 		}
 
@@ -1119,12 +1119,14 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		}
 
+		boolean correct = true;
+
 		int type = getConsumptionType( itemId );
 		String descType = parseType( text );
 		if ( !typesMatch( type, descType ) )
 		{
 			writer.println( "# *** " + name + " (" + itemId + ") has consumption type of " + type + " but is described as " + descType + "." );
-			return;
+			correct = false;
 
 		}
 
@@ -1159,10 +1161,19 @@ public class TradeableItemDatabase extends KoLDatabase
 			break;
 		}
 
-		// Here we could check selling price, and whether it is a quest
-		// item, a gift item, is non-tradeable, etc.
+		int price = priceById.get( itemId );
+		int descPrice = parsePrice( text );
+		if ( price != descPrice )
+		{
+			writer.println( "# *** " + name + " (" + itemId + ") has price of " + price + " but should be " + descPrice + "." );
+			correct = false;
 
-		writer.println( "# *** " + name + " (" + itemId + ") is OK" );
+		}
+
+		// *** check access: all, gift, display, none
+
+		if ( correct )
+			writer.println( "# *** " + name + " (" + itemId + ") is OK" );
 	}
 
 	private static String rawDescriptionText( int itemId )
@@ -1195,7 +1206,19 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( !matcher.find() )
 			return "";
 
-		return matcher.group(1);
+		// One item is known to have an extra internal space
+		return matcher.group(1).replaceAll( "  ", " " );
+	}
+
+	private static final Pattern PRICE_PATTERN = Pattern.compile( "Selling Price: <b>(\\d+) Meat.</b>" );
+
+	private static int parsePrice( String text )
+	{
+		Matcher matcher = PRICE_PATTERN.matcher( text );
+		if ( !matcher.find() )
+			return 0;
+
+		return StaticEntity.parseInt( matcher.group(1) );
 	}
 
 	private static final Pattern TYPE_PATTERN = Pattern.compile( "Type: <b>(.*?)</b>" );
@@ -1230,7 +1253,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		case HPMP_RESTORE:
 		case MESSAGE_DISPLAY:
 		case INFINITE_USES:
-			return descType.indexOf( "usable" ) != -1 || descType.equals( "gift package" );
+			return descType.indexOf( "usable" ) != -1 || descType.equals( "gift package" ) || descType.equals( "booze" );
 		case GROW_FAMILIAR:
 			return descType.equals( "familiar" );
 		case CONSUME_ZAP:
@@ -1347,6 +1370,7 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		writer.println( "" );
 		writer.println( "# " + tag + " section of modifiers.txt" );
+		writer.println( "" );
 
 		Object [] keys = map.keySet().toArray();
 		for ( int i = 0; i < keys.length; ++i )
@@ -1358,6 +1382,7 @@ public class TradeableItemDatabase extends KoLDatabase
 	}
 
 	private static final Pattern ENCHANTMENT_PATTERN = Pattern.compile( "Enchantment:.*?<font color=blue>(.*)</font>", Pattern.DOTALL );
+	private static final Pattern DR_PATTERN = Pattern.compile( "Damage Reduction: <b>(\\d+)</b>" );
 
 	private static void checkModifierDatum( String name, String text, LogStream writer )
 	{
@@ -1367,21 +1392,141 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		String enchantments = matcher.group(1);
 
-		enchantments = enchantments.replaceAll( "<br>", "\n" );
 		enchantments = enchantments.replaceAll( "<b>NOTE:</b> Items that reduce the MP cost of skills will not do so by more than 3 points, in total.", "" );
 		enchantments = enchantments.replaceAll( "<b>NOTE:</b> This item cannot be equipped while in Hardcore.", "" );
 		enchantments = enchantments.replaceAll( "<b>NOTE:</b> You may not equip more than one of this item at a time.", "" );
 		enchantments = enchantments.replaceAll( "<b>NOTE:</b> If you wear multiple items that increase Critical Hit chances, only the highest multiplier applies.", "" );
+		enchantments = enchantments.replaceAll( "<br>", "\n" );
+		enchantments = enchantments.replaceAll( "\n+", "\n" );
+
+		String known = "";
+		ArrayList unknown = new ArrayList();
+
+		matcher = DR_PATTERN.matcher( text );
+		if (matcher.find() )
+			known = "DR: " + matcher.group(1);
 
 		String [] mods = enchantments.split( "\n" );
-
-		writer.println( "# *** " + name + ":" );
 		for ( int i = 0; i < mods.length; ++i )
 		{
-			String mod = mods[i].trim();
-			if ( mod.equals( "" ) )
+			String enchantment = mods[i].trim();
+
+			if ( enchantment.equals( "" ) )
 				continue;
-			writer.println( "#     " + mod );
+
+			String mod = convertEnchantment( enchantment );
+			if ( mod != null )
+			{
+				if ( !known.equals( "" ) )
+					known += ", ";
+				known += mod;
+				continue;
+			}
+
+			unknown.add( enchantment );
 		}
+
+		if ( known.equals( "" ) )
+			writer.println( "# " + name );
+		else
+			writer.println( name + "\t" + known );
+
+		for ( int i = 0; i < unknown.size(); ++i )
+			writer.println( "#     " + (String)unknown.get(i) );
+	}
+
+	private static final Pattern COMBAT_PATTERN = Pattern.compile( "Monsters will be (.*) attracted to you." );
+	private static final Pattern DA_PATTERN = Pattern.compile( "Damage Absorption (.*)" );
+	private static final Pattern DR2_PATTERN = Pattern.compile( "Damage Reduction: (\\d+)" );
+	private static final Pattern EXP_PATTERN = Pattern.compile( "(.*) Stat.*Per Fight" );
+	private static final Pattern INIT_PATTERN = Pattern.compile( "Combat Initiative (.*)%" );
+	private static final Pattern ITEM_PATTERN = Pattern.compile( "(.*)% Item Drops from Monsters" );
+	private static final Pattern MEAT_PATTERN = Pattern.compile( "(.*)% Meat from Monsters" );
+	private static final Pattern ML_PATTERN = Pattern.compile( "(.*) to Monster Level" );
+	private static final Pattern MP_PATTERN = Pattern.compile( "(.*) MP to use Skills" );
+	private static final Pattern WEIGHT_PATTERN = Pattern.compile( "(.*) to Familiar Weight" );
+
+	private static String convertEnchantment( String enchantment )
+	{
+		Matcher matcher;
+
+		matcher = COMBAT_PATTERN.matcher( enchantment );
+		if ( matcher.find() )
+			return "Combat: " + ( matcher.group(1).equals( "more" ) ? "+5" : "-5" );
+
+		matcher = DA_PATTERN.matcher( enchantment );
+		if ( matcher.find() )
+			return "DA: " + matcher.group(1);
+
+		matcher = DR2_PATTERN.matcher( enchantment );
+		if ( matcher.find() )
+			return "DR: " + matcher.group(1);
+
+		matcher = EXP_PATTERN.matcher( enchantment );
+		if ( matcher.find() )
+			return "Exp: " + matcher.group(1);
+
+		matcher = INIT_PATTERN.matcher( enchantment );
+		if ( matcher.find() )
+			return "Init: " + matcher.group(1);
+
+		matcher = ITEM_PATTERN.matcher( enchantment );
+		if ( matcher.find() )
+			return "Item: " + matcher.group(1);
+
+		matcher = MEAT_PATTERN.matcher( enchantment );
+		if ( matcher.find() )
+			return "Meat: " + matcher.group(1);
+
+		matcher = MP_PATTERN.matcher( enchantment );
+		if ( matcher.find() )
+			return "Mana: " + matcher.group(1);
+
+		matcher = ML_PATTERN.matcher( enchantment );
+		if ( matcher.find() )
+			return "ML: " + matcher.group(1);
+
+		matcher = WEIGHT_PATTERN.matcher( enchantment );
+		if ( matcher.find() )
+			return "Weight: " + matcher.group(1);
+
+		if ( enchantment.indexOf( "Resistance" ) != -1 )
+			return parseResistance( enchantment );
+
+		return null;
+	}
+
+	private static String parseResistance( String enchantment )
+	{
+		int level = 0;
+
+		if ( enchantment.indexOf( "Slight" ) != -1 )
+			level = 10;
+		else if ( enchantment.indexOf( "So-So" ) != -1 )
+			level = 20;
+		else if ( enchantment.indexOf( "Serious" ) != -1 )
+			level = 30;
+		else if ( enchantment.indexOf( "Superhuman" ) != -1 )
+			level = 40;
+
+		if ( enchantment.indexOf( "All Elements" ) != -1 )
+			return "Cold: +" + level + ", Hot: +" + level + ", Sleaze: +" + level + ", Spooky: +" + level + ", Stench: +" + level;
+
+		if ( enchantment.indexOf( "Cold" ) != -1 )
+			return "Cold: +" + level;
+
+		if ( enchantment.indexOf( "Hot" ) != -1 )
+			return "Hot: +" + level;
+
+		if ( enchantment.indexOf( "Sleaze" ) != -1 )
+			return "Sleaze: +" + level;
+
+		if ( enchantment.indexOf( "Spooky" ) != -1 )
+			return "Spooky: +" + level;
+
+		if ( enchantment.indexOf( "Stench" ) != -1 )
+			return "Stench: +" + level;
+
+		return null;
 	}
 }

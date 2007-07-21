@@ -2614,10 +2614,8 @@ public abstract class KoLCharacter extends StaticEntity
 			switch ( slot )
 			{
 			case WEAPON:
-				break;
-
+			case OFFHAND:
 			case FAMILIAR:
-				newModifiers[ StatusEffectDatabase.FAMILIAR_WEIGHT_MODIFIER ] += FamiliarData.itemWeightModifier( item.getItemId() );
 				break;
 
 			case HAT:
