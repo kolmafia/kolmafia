@@ -74,14 +74,13 @@ public class ConsumeItemRequest extends KoLRequest
 	public static String lastUpdate = "";
 	private static String askedAboutOde = "";
 
-	private static final int SEAL_TOOTH = 2;
 	private static final int DOLPHIN_KING_MAP = 26;
 	private static final int FORTUNE_COOKIE = 61;
 	private static final int SPOOKY_TEMPLE_MAP = 74;
+	private static final int TBONE_KEY = 86;
 	private static final int DINGHY_PLANS = 146;
 	private static final int ENCHANTED_BEAN = 186;
 	private static final int FENG_SHUI = 210;
-	private static final int FOUNTAIN = 211;
 	private static final int SELTZER = 344;
 	private static final int CHEF = 438;
 	private static final int BARTENDER = 440;
@@ -97,10 +96,8 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int SLUG_LORD_MAP = 598;
 	private static final int DR_HOBO_MAP = 601;
 	private static final int WARM_SUBJECT = 621;
-	private static final int AWFUL_POETRY = 622;
 	private static final int TOASTER = 637;
 	private static final int GIANT_CASTLE_MAP = 667;
-	private static final int YETI_PROTEST_SIGN = 775;
 	private static final int ANTIDOTE = 829;
 	private static final int TEARS = 869;
 	private static final int ROLLING_PIN = 873;
@@ -118,20 +115,15 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int HILARIOUS_TOME = 1498;
 	private static final int MUNCHIES_PILL = 1619;
 	private static final int ASTRAL_MUSHROOM = 1622;
-	private static final int EXPRESS_CARD = 1687;
 	private static final int DUSTY_ANIMAL_SKULL = 1799;
 	private static final int QUILL_PEN = 1957;
-	private static final int MEMO = 1973;
 	public static final int MACGUFFIN_DIARY = 2044;
 	private static final int BLACK_MARKET_MAP = 2054;
-	private static final int ARCHAEOLOGIST_NOTEBOOK = 2179;
 	private static final int DRUM_MACHINE = 2328;
 	private static final int COBBS_KNOB_MAP = 2442;
-	private static final int I_LOVE_ME_VOL_I = 2258;
 	private static final int JEWELRY_BOOK = 2502;
 	private static final int ABSINTHE = 2655;
 	private static final int LIBRARY_CARD = 2672;
-	private static final int DETUNED_RADIO = 2682;
 
 	private static final int GIFT1 = 1167;
 	private static final int GIFT2 = 1168;
@@ -148,23 +140,6 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int GIFTR = 1534;
 	private static final int GIFTW = 2683;
 
-	private static final int TRADING_CARD1 = 2000;
-	private static final int TRADING_CARD2 = 2001;
-	private static final int TRADING_CARD3 = 2002;
-	private static final int TRADING_CARD4 = 2003;
-	private static final int TRADING_CARD5 = 2004;
-	private static final int TRADING_CARD6 = 2005;
-	private static final int TRADING_CARD7 = 2006;
-	private static final int TRADING_CARD8 = 2007;
-	private static final int TRADING_CARD9 = 2008;
-	private static final int TRADING_CARD10 = 2009;
-	private static final int TRADING_CARD11 = 2010;
-	private static final int TRADING_CARD12 = 2011;
-	private static final int TRADING_CARD13 = 2012;
-	private static final int TRADING_CARD14 = 2013;
-	private static final int TRADING_CARD15 = 2014;
-	private static final int TRADING_CARD16 = 2015;
-
 	public static final int MILKY_POTION = 819;
 	public static final int SWIRLY_POTION = 820;
 	public static final int BUBBLY_POTION = 821;
@@ -175,13 +150,6 @@ public class ConsumeItemRequest extends KoLRequest
 	public static final int DARK_POTION = 826;
 	public static final int MURKY_POTION = 827;
 
-	private static final int STUFFED_ANGRY_COW = 1988;
-	private static final int CRIMBOWEEN_MEMO = 2089;
-
-	private static final int MANUAL_OF_LABOR = 2280;
-	private static final int MANUAL_OF_TRANSMISSION = 2281;
-	private static final int MANUAL_OF_DEXTERITY = 2282;
-
 	private static final int SPARKLER = 2679;
 	private static final int SNAKE = 2680;
 	private static final int M282 = 2681;
@@ -191,14 +159,16 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int STEEL_SPLEEN = 2744;
 
 	private static final AdventureResult ASPARAGUS_KNIFE = new AdventureResult( 19, -1 );
-	private static final AdventureResult SAPLING = new AdventureResult( 75, -1 );
-	private static final AdventureResult FERTILIZER = new AdventureResult( 76, -1 );
+	private static final AdventureResult SAPLING = new AdventureResult( 75, 1 );
+	private static final AdventureResult FERTILIZER = new AdventureResult( 76, 1 );
+	private static final AdventureResult LOCKED_LOCKER = new AdventureResult( 84, 1 );
 	private static final AdventureResult PLANKS = new AdventureResult( 140, -1 );
 	private static final AdventureResult DOUGH = new AdventureResult( 159, 1 );
+	private static final AdventureResult FOUNTAIN = new AdventureResult( 211, 1 );
 	private static final AdventureResult FLAT_DOUGH = new AdventureResult( 301, 1 );
 	private static final AdventureResult NUTS = new AdventureResult( 509, -1 );
 	private static final AdventureResult PLAN = new AdventureResult( 502, -1 );
-	private static final AdventureResult WINDCHIMES = new AdventureResult( 212, -1 );
+	private static final AdventureResult WINDCHIMES = new AdventureResult( 212, 1 );
 	private static final AdventureResult INKWELL = new AdventureResult( 1958, -1 );
 	private static final AdventureResult SCRAP_OF_PAPER = new AdventureResult( 1959, -1 );
 	private static final AdventureResult WORM_RIDING_HOOKS = new AdventureResult( 2302, -1 );
@@ -363,7 +333,7 @@ public class ConsumeItemRequest extends KoLRequest
 		if ( itemId == SELTZER )
 			SpecialOutfit.createImplicitCheckpoint();
 
-		if ( price != 0 && !AdventureDatabase.retrieveItem( this.itemUsed ) )
+		if ( price != 0 && this.consumptionType != INFINITE_USES && !AdventureDatabase.retrieveItem( this.itemUsed ) )
 		{
 			if ( itemId == SELTZER )
 				SpecialOutfit.restoreImplicitCheckpoint();
@@ -376,10 +346,19 @@ public class ConsumeItemRequest extends KoLRequest
 
 		int iterations = 1;
 
-		if ( this.itemUsed.getCount() != 1 && this.consumptionType != CONSUME_MULTIPLE && this.consumptionType != HP_RESTORE && this.consumptionType != MP_RESTORE )
+		if ( this.itemUsed.getCount() != 1 )
 		{
-			iterations = this.itemUsed.getCount();
-			this.itemUsed = this.itemUsed.getInstance( 1 );
+			switch ( this.consumptionType )
+			{
+			case CONSUME_MULTIPLE:
+			case HP_RESTORE:
+			case MP_RESTORE:
+			case HPMP_RESTORE:
+				break;
+			default:
+				iterations = this.itemUsed.getCount();
+				this.itemUsed = this.itemUsed.getInstance( 1 );
+			}
 		}
 
 		if ( itemId == MACGUFFIN_DIARY )
@@ -540,6 +519,15 @@ public class ConsumeItemRequest extends KoLRequest
 		// undo the consumption.
 
 		int consumptionType = TradeableItemDatabase.getConsumptionType( lastItemUsed.getItemId() );
+		if ( consumptionType == MESSAGE_DISPLAY )
+		{
+			showItemUsage( showHTML, responseText, true );
+			return;
+		}
+
+		if ( consumptionType == INFINITE_USES )
+			return;
+
 		StaticEntity.getClient().processResult( lastItemUsed.getNegation() );
 
 		// Check for familiar growth - if a familiar is added,
@@ -556,8 +544,8 @@ public class ConsumeItemRequest extends KoLRequest
 			}
 
 			// Pop up a window showing the result
-			KoLCharacter.addFamiliar( FamiliarsDatabase.growFamiliarLarva( lastItemUsed.getItemId() ) );
 
+			KoLCharacter.addFamiliar( FamiliarsDatabase.growFamiliarLarva( lastItemUsed.getItemId() ) );
 			showItemUsage( showHTML, responseText, true );
 			return;
 		}
@@ -601,18 +589,6 @@ public class ConsumeItemRequest extends KoLRequest
 
 		switch ( lastItemUsed.getItemId() )
 		{
-		// Items which do not get used up, no matter what.
-
-		case SEAL_TOOTH:
-		case FOUNTAIN:
-		case AWFUL_POETRY:
-		case EXPRESS_CARD:
-		case MANUAL_OF_LABOR:
-		case MANUAL_OF_TRANSMISSION:
-		case MANUAL_OF_DEXTERITY:
-		case DETUNED_RADIO:
-			StaticEntity.getClient().processResult( lastItemUsed );
-			return;
 
 		// If it's a gift package, get the inner message
 
@@ -648,45 +624,6 @@ public class ConsumeItemRequest extends KoLRequest
 				showItemUsage( true, responseText, true );
 			}
 
-			return;
-
-		// If it's a trading card, display it
-
-		case TRADING_CARD1:
-		case TRADING_CARD2:
-		case TRADING_CARD3:
-		case TRADING_CARD4:
-		case TRADING_CARD5:
-		case TRADING_CARD6:
-		case TRADING_CARD7:
-		case TRADING_CARD8:
-		case TRADING_CARD9:
-		case TRADING_CARD10:
-		case TRADING_CARD11:
-		case TRADING_CARD12:
-		case TRADING_CARD13:
-		case TRADING_CARD14:
-		case TRADING_CARD15:
-		case TRADING_CARD16:
-
-			showItemUsage( showHTML, responseText, false );
-			return;
-
-		// Other things we can read that don't go away
-
-		case ARCHAEOLOGIST_NOTEBOOK:
-		case CRIMBOWEEN_MEMO:
-		case MEMO:
-		case I_LOVE_ME_VOL_I:
-
-			showItemUsage( showHTML, responseText, false );
-			return;
-
-		// If it's a stuffed angry cow, let the player beat the stuffing out of it
-
-		case STUFFED_ANGRY_COW:
-
-			showItemUsage( showHTML, responseText, false );
 			return;
 
 		// If it's a fortune cookie, get the fortune
@@ -838,6 +775,14 @@ public class ConsumeItemRequest extends KoLRequest
 			activeEffects.clear();
 			return;
 
+		case TBONE_KEY:
+
+			if ( KoLCharacter.hasItem( LOCKED_LOCKER ) )
+				StaticEntity.getClient().processResult( LOCKED_LOCKER.getNegation() );
+			else
+				StaticEntity.getClient().processResult( lastItemUsed );
+
+
 		case RAFFLE_TICKET:
 
 			// The first time you use an Elf Farm Raffle ticket
@@ -970,56 +915,47 @@ public class ConsumeItemRequest extends KoLRequest
 
 		case SPOOKY_TEMPLE_MAP:
 
-			// "You plant your Spooky Sapling in the loose soil at
-			// the base of the Temple.  You spray it with your
-			// Spooky-Gro Fertilizer, and it immediately grows to
-			// 20 feet in height.  You can easily climb the
-			// branches to reach the first step of the Temple
-			// now..."
-
-			if ( responseText.indexOf( "easily climb the branches" ) == -1 )
+			if ( KoLCharacter.hasItem( SAPLING ) && KoLCharacter.hasItem( FERTILIZER ) )
+			{
+				StaticEntity.getClient().processResult( SAPLING.getNegation() );
+				StaticEntity.getClient().processResult( FERTILIZER.getNegation() );
+			}
+			else
 			{
 				lastUpdate = "You don't have everything you need.";
 				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
 				StaticEntity.getClient().processResult( lastItemUsed );
 			}
 
-			StaticEntity.getClient().processResult( SAPLING );
-			StaticEntity.getClient().processResult( FERTILIZER );
 			return;
 
 		case DINGHY_PLANS:
 
 			// "You need some planks to build the dinghy."
 
-			if ( responseText.indexOf( "need some planks" ) != -1 )
+			if ( KoLCharacter.hasItem( PLANKS ) )
+			{
+				StaticEntity.getClient().processResult( PLANKS );
+			}
+			else
 			{
 				lastUpdate = "You need some dingy planks.";
 				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
 				StaticEntity.getClient().processResult( lastItemUsed );
-			}
-			else
-			{
-				StaticEntity.getClient().processResult( PLANKS );
 			}
 
 			return;
 
 		case FENG_SHUI:
 
-			// Successfully using "Feng Shui for Big Dumb Idiots"
-			// consumes the decorative fountain and windchimes.
-
-			// Only used up once
-
-			if ( responseText.indexOf( "Feng Shui goodness" ) == -1 )
+			if ( KoLCharacter.hasItem( FOUNTAIN ) && KoLCharacter.hasItem( WINDCHIMES ) )
 			{
-				StaticEntity.getClient().processResult( lastItemUsed );
+				StaticEntity.getClient().processResult( FOUNTAIN.getNegation() );
+				StaticEntity.getClient().processResult( WINDCHIMES.getNegation() );
 			}
 			else
 			{
-				StaticEntity.getClient().processResult( new AdventureResult( FOUNTAIN, -1 ) );
-				StaticEntity.getClient().processResult( WINDCHIMES );
+				StaticEntity.getClient().processResult( lastItemUsed );
 			}
 
 			return;
@@ -1091,12 +1027,6 @@ public class ConsumeItemRequest extends KoLRequest
 				StaticEntity.getClient().processResult( lastItemUsed );
 			}
 
-			return;
-
-		case YETI_PROTEST_SIGN:
-
-			// You don't use up a Yeti Protest Sign by protesting
-			StaticEntity.getClient().processResult( lastItemUsed );
 			return;
 
 		case CHEF:

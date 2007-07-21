@@ -1,5 +1,5 @@
 1	seal-clubbing club	12	all	1
-2	seal tooth	3	all	1
+2	seal tooth	18	all	1
 3	helmet turtle	9	all	1
 4	turtle totem	0	all	1
 5	pasta spoon	12	all	1
@@ -72,8 +72,8 @@
 72	barskin hat	9	all	30
 73	barskin tent	3	all	9
 74	Spooky Temple map	3	none	0
-75	spooky sapling	0	none	0
-76	Spooky-Gro fertilizer	0	all	6
+75	spooky sapling	15	none	0
+76	Spooky-Gro fertilizer	15	all	6
 77	spooky stick	12	all	35
 78	pretty bouquet	3	all	2
 79	bugbear bungguard	10	all	35
@@ -83,13 +83,13 @@
 83	crusty L-shaped piece of metal	0	all	5
 84	locked Orcish meat locker	0	all	5
 85	empty Orcish meat locker	3	all	6
-86	T-bone key	0	all	8
+86	T-bone key	3	all	8
 87	meat from yesterday	0	all	5
 88	meat stack	0	all	100
 89	sword hilt	0	all	50
 90	helmet recipe	0	all	50
 91	pants kit	0	all	50
-92	meatsmithing guide	0	all	25
+92	meatsmithing guide	15	all	25
 93	basic meat sword	12	all	140
 94	basic meat pants	10	all	140
 95	basic meat helmet	9	all	140
@@ -161,7 +161,7 @@
 161	ghuol egg	1	all	16
 162	ghuol egg quiche	1	all	46
 163	skeleton bone	12	all	35
-164	smart skull	0	all	20
+164	smart skull	15	all	20
 165	skewer	0	all	40
 166	ghuol ears	0	all	16
 167	ghuol-ear kabob	1	all	52
@@ -169,12 +169,12 @@
 169	bugbear beanie	9	all	35
 170	lihc eye	0	all	19
 171	lihc eye pie	1	all	45
-172	gnoll lips	0	all	11
+172	gnoll lips	15	all	11
 173	taco shell	0	all	40
 174	Gnollish casserole dish	0	all	70
 175	uncooked chorizo	1	all	18
-176	disembodied brain	0	all	19
-177	brainy skull	0	all	32
+176	disembodied brain	15	all	19
+177	brainy skull	15	all	32
 178	detective skull	13	all	50
 179	chorizo taco	1	all	52
 180	ice-cold fotie	2	all	40
@@ -184,13 +184,13 @@
 184	briefcase	4	all	15
 185	fat stacks of cash	0	all	150
 186	enchanted bean	3	all	25
-187	loose teeth	0	all	17
+187	loose teeth	15	all	17
 188	bat guano	4	all	12
 189	guano coffee cup	0	all	12
 190
 191	Boss Bat bandana	0	none	0
 192	batskin belt	0	none	0
-193	birthday candle	0	all	50
+193	birthday candle	15	all	50
 194	Mr. Accessory	8	all	0
 195	eXtreme nose ring	8	all	75
 196	disassembled clover	4	all	0
@@ -208,7 +208,7 @@
 208	patchouli incense stick	0	all	33
 209	wad of tofu	0	all	35
 210	Feng Shui for Big Dumb Idiots	3	all	33
-211	decorative fountain	0	all	34
+211	decorative fountain	18	all	34
 212	windchimes	0	all	32
 213	filthy corduroys	10	all	80
 214	filthy knitted dread sack	9	all	80
@@ -402,7 +402,7 @@
 402	swashbuckling pants	10	all	90
 403	stuffed shoulder parrot	8	all	90
 404	acoustic guitarrr	12	all	105
-405	sunken chest	0	all	48
+405	sunken chest	15	all	48
 406	pirate pelvis	0	all	44
 407	pirate skull	3	all	58
 408	spooky pirate skeleton	5	all	130
@@ -486,7 +486,7 @@
 486	Talisman o' Nam	8	none	0
 487	arrrgyle socks	8	all	48
 488	guitar pick	0	all	25
-489	drab sonata	0	all	155
+489	drab sonata	15	all	155
 490	mesh cap	9	all	135
 491	enormous belt buckle	0	all	125
 492	leather chaps	10	all	135
@@ -505,7 +505,7 @@
 505	gnatwing earring	8	all	107
 506	Hell broth	1	all	38
 507	heavy metal thunderrr guitarrr	12	all	125
-508	heavy metal sonata	0	all	94
+508	heavy metal sonata	15	all	94
 509	Hey Deze nuts	0	none	0
 510	Boris's key lime	0	all	98
 511	Jarlsberg's key lime	0	all	98
@@ -599,7 +599,7 @@
 599	pants of the Slug Lord	10	all	35
 600	Dr. Hobo's scalpel	12	all	70
 601	Dr. Hobo's map	3	none	0
-602	Degrassi Knoll shopping list	0	none	0
+602	Degrassi Knoll shopping list	15	none	0
 603	Item #13	8	none	0
 604	Penultimate Fantasy chest	4	all	108
 605	Tissue Paper Immateria	0	none	0
@@ -611,7 +611,7 @@
 611	heavy D	0	all	135
 612	original G	0	all	143
 613	plot hole	0	all	128
-614	probability potion	0	all	128
+614	probability potion	3	all	128
 615	chaos butterfly	3	all	124
 616	furry fur	0	all	129
 617	Angry Farmer candy	4	all	137
@@ -619,7 +619,7 @@
 619	giant needle	12	all	165
 620	thin black candle	4	all	144
 621	Warm Subject gift certificate	4	all	141
-622	awful poetry journal	0	all	136
+622	awful poetry journal	18	all	136
 623	WA	0	all	152
 624	NG	0	all	186
 625	wang	0	all	0
@@ -629,7 +629,7 @@
 629	glowing red eye	8	all	165
 630	photoprotoneutron torpedo	0	all	144
 631	furry pants	10	all	165
-632	disturbing fanfic	0	all	132
+632	disturbing fanfic	15	all	132
 633	wolf mask	9	all	165
 634	cool whip	12	all	25
 635	little paper umbrella	12	all	35
@@ -641,10 +641,10 @@
 641	toast	1	all	14
 642	skeleton key	0	all	31
 643	skeleton key ring	3	all	67
-644	Crimbo pressie	0	all	0
+644	Crimbo pressie	3	all	0
 645	wrapping paper	0	all	0
 646	fruitcake	1	all	37
-647	present	0	all	0
+647	present	3	all	0
 648	Crimbo sword	12	all	0
 649	Crimbo hat	9	all	0
 650	Crimbo pants	10	all	0
@@ -772,7 +772,7 @@
 772	foon	13	all	35
 773	basic meat spork	12	all	140
 774	basic meat foon	13	all	140
-775	Yeti Protest Sign	3	display	0
+775	Yeti Protest Sign	18	display	0
 776	kneecapping stick	12	all	95
 777	iron pasta spoon	12	all	115
 778	support cummerbund	8	all	105
@@ -780,7 +780,7 @@
 780	scroll of pasta summoning	3	all	150
 781	mafia aria	4	all	110
 782	Mr. Exploiter	8	display	0
-783	'Villa' document	0	all	0
+783	'Villa' document	3	all	0
 784	Acqua Del Piatto Merlot	2	all	0
 785	raffle ticket	0	all	0
 786	strawberry	1	all	35
@@ -869,7 +869,7 @@
 869	forest tears	16	all	33
 870	fetus-smashing club	12	display	0
 871	meatcar model	7	all	75
-872	Time Juice	0	display	0
+872	Time Juice	3	display	0
 873	rolling pin	3	all	250
 874	unrolling pin	3	all	250
 875	crazy bastard sword	12	all	0
@@ -883,7 +883,7 @@
 883	maple syrup	1	all	60
 884	los chinos	10	all	60
 885	wooden axe	12	all	65
-886	leaflet	0	all	87
+886	leaflet	15	all	87
 887	leaf	0	all	180
 888	maple leaf	5	all	0
 889	balaclava	9	all	55
@@ -1044,7 +1044,7 @@
 1044	string of green beads	8	all	75
 1045	cheap plastic bottle opener	12	all	50
 1046	orange traffic cone	9	display	000
-1047	N. O. Beer	0	all	0
+1047	N. O. Beer	15	all	0
 1048	red striped oyster egg	16	all	50
 1049	red polka-dot oyster egg	16	all	50
 1050	red paisley oyster egg	16	all	50
@@ -1180,19 +1180,19 @@
 1180	potted fern	0	gift	10
 1181	tulip	0	gift	25
 1182	Venus flytrap	0	gift	50
-1183	all-purpose flower	0	gift	100
+1183	all-purpose flower	3	gift	100
 1184	exotic orchid	0	gift	250
 1185	long-stemmed rose	0	gift	500
 1186	gilded lily	0	gift	1000
-1187	deadly nightshade	0	gift	2500
-1188	black lotus	0	gift	5000
+1187	deadly nightshade	3	gift	2500
+1188	black lotus	3	gift	5000
 1189	stuffed can of asparagus	13	gift	1
 1190	stuffed dodecapede	13	gift	5
 1191	stuffed ghuol whelp	13	gift	10
 1192	stuffed zmobie	13	gift	25
 1193	Raggedy Hippy doll	13	gift	50
 1194	stuffed stab bat	13	gift	100
-1195	apathetic lizardman doll	0	gift	250
+1195	apathetic lizardman doll	15	gift	250
 1196	stuffed yeti	13	gift	500
 1197	stuffed Mob Penguin	13	gift	1000
 1198	stuffed sabre-toothed lime	13	gift	2500
@@ -1256,14 +1256,14 @@
 1256	insanely spicy jumping bean burrito	1	all	90
 1257	rat scrapple	1	all	40
 1258	pail of pretentious paint	0	none	0
-1259	yellow traffic cone	9	display	000
+1259	yellow traffic cone	9	display	0
 1260	wax lips	7	all	0
 1261	Hatorade	4	all	250
 1262	off-hand balloon	13	all	50
 1263	pygmy bugbear shaman	5	all	0
 1264	tiny nose-bone fetish	7	all	75
 1265	box of sunshine	3	display	0
-1266	gloomy black mushroom	1	display	050
+1266	gloomy black mushroom	1	display	50
 1267	dead mimic	3	none	0
 1268	pine wand	6	none	0
 1269	ebony wand	6	none	0
@@ -1273,7 +1273,7 @@
 1273	magic lamp	13	all	25
 1274	Medicinal Herb's medicinal herbs	16	display	50
 1275	basic meat skirt	10	all	140
-1276	Otorian Battle Scar	0	all	0
+1276	Otorian Battle Scar	15	all	0
 1277	basic meat kilt	10	all	140
 1278	sticky meat skirt	10	all	145
 1279	sticky meat kilt	10	all	145
@@ -1356,11 +1356,11 @@
 1356	bunny liver	0	none	0
 1357	Mt. Noob Pale Ale	2	none	0
 1358	pirate zombie head	0	all	360
-1359	ninja pirate zombie robot head	0	all	360
+1359	ninja pirate zombie robot head	3	all	360
 1360	pirate zombie robot head	0	all	360
 1361	disembodied smile	8	all	20
 1362
-1363	clockwork pirate skull	0	all	230
+1363	clockwork pirate skull	15	all	230
 1364	rhesus monkey	7	all	75
 1365	tofurkey leg	1	all	50
 1366	tofurkey gravy	1	all	20
@@ -1420,7 +1420,7 @@
 1420	green traffic cone	9	display	0
 1421	Scandalously Skimpy Bikini	8	display	0
 1422	Sombrero De Vida	9	display	0
-1423	iceberglet	0	all	0
+1423	iceberglet	3	all	0
 1424	ice sickle	12	all	0
 1425	ice baby	13	all	0
 1426	ice pick	9	all	0
@@ -1496,17 +1496,17 @@
 1496	gloomy mushroom wine	2	all	90
 1497	oily mushroom wine	2	all	90
 1498	McPhee's Grimoire of Hilarious Object Summoning	3	all	0
-1499	whoopie cushion	0	gift	5
+1499	whoopie cushion	15	gift	5
 1500	fake fake vomit	0	gift	5
-1501	explosion-flavored chewing gum	0	gift	5
+1501	explosion-flavored chewing gum	3	gift	5
 1502	clown hammer	12	gift	5
-1503	rubber emo roe	0	gift	5
+1503	rubber emo roe	15	gift	5
 1504	yellow snowcone	3	gift	5
-1505	magical ice cube with a fly in it	0	gift	5
-1506	calle de miel with a fly in it	0	gift	5
-1507	rockin' wagon with a fly in it	0	gift	5
-1508	perpendicular hula with a fly in it	0	gift	5
-1509	slap and tickle with a fly in it	0	gift	5
+1505	magical ice cube with a fly in it	15	gift	5
+1506	calle de miel with a fly in it	15	gift	5
+1507	rockin' wagon with a fly in it	15	gift	5
+1508	perpendicular hula with a fly in it	15	gift	5
+1509	slap and tickle with a fly in it	15	gift	5
 1510	bag of airline peanuts	0	gift	5
 1511	fake hand	13	gift	5
 1512	Knob Goblin pet-buffing spray	4	all	125
@@ -1597,10 +1597,10 @@
 1597	Junior LAAAAME merit badge	8	display	0
 1598	Senior LAAAAME merit badge	8	display	0
 1599	jazz soap	3	gift	5
-1600	tangarita with a fly in it	0	gift	130
-1601	mandarina colada with a fly in it	0	gift	130
-1602	prussian cathouse with a fly in it	0	gift	130
-1603	Mae West with a fly in it	0	gift	130
+1600	tangarita with a fly in it	15	gift	130
+1601	mandarina colada with a fly in it	15	gift	130
+1602	prussian cathouse with a fly in it	15	gift	130
+1603	Mae West with a fly in it	15	gift	130
 1604	astronaut ice-cream	3	display	0
 1605	delectable catalyst	4	all	500
 1606	ultimate wad	3	all	0
@@ -1684,7 +1684,7 @@
 1684	styrofoam sword	12	all	65
 1685	styrofoam staff	12	all	65
 1686	styrofoam crossbow	12	all	65
-1687	Platinum Yendorian Express Card	0	all	0
+1687	Platinum Yendorian Express Card	18	all	0
 1688	cardboard crossbow	12	all	65
 1689	blue ribbon	8	display	0
 1690	giant discarded bottlecap	9	all	205
@@ -1970,7 +1970,7 @@
 1970	nervous tick egg	5	all	0
 1971	plastic pumpkin bucket	7	all	0
 1972	silver shrimp fork	12	all	0
-1973	half of a memo	3	none	0
+1973	half of a memo	15	none	0
 1974	stuffed cocoabo	13	gift	10
 1975	stuffed baby gravy fairy	13	gift	10
 1976	stuffed flaming gravy fairy	13	gift	10
@@ -1985,7 +1985,7 @@
 1985	stuffed scary death orb	13	gift	10
 1986	stuffed mind flayer	13	gift	10
 1987	stuffed undead elbow macaroni	13	gift	10
-1988	stuffed angry cow	3	gift	10
+1988	stuffed angry cow	15	gift	10
 1989	stuffed Cheshire bitten	13	gift	10
 1990	stuffed yo-yo	13	gift	10
 1991	rubber WWJD? bracelet	8	gift	5
@@ -1997,22 +1997,22 @@
 1997	left half of a heart necklace	8	gift	0
 1998	pack of KWE trading card	3	all	50
 1999	stick of &quot;gum&quot;	3	all	5
-2000	Das &Uuml;berk&uuml;hlraum trading card	3	all	50
-2001	Vaso De Agua trading card	3	all	50
-2002	The Grand Poo-Bah trading card	3	all	50
-2003	Thorny Toad trading card	3	all	50
-2004	Chori Zo trading card	3	all	50
-2005	Morbidda trading card	3	all	50
-2006	Poison Oak trading card	3	all	50
-2007	Princess Rutabaga trading card	3	all	50
-2008	Roo trading card	3	all	50
-2009	Woldo trading card	3	all	50
-2010	The Snake trading card	3	all	50
-2011	Nayztameetjoo trading card	3	all	50
-2012	Arrrmetia trading card	3	all	50
-2013	Serenity trading card	3	all	50
-2014	Inndya trading card	3	all	50
-2015	Kitty the Zmobie Basher trading card	3	all	50
+2000	Das &Uuml;berk&uuml;hlraum trading card	15	all	50
+2001	Vaso De Agua trading card	15	all	50
+2002	The Grand Poo-Bah trading card	15	all	50
+2003	Thorny Toad trading card	15	all	50
+2004	Chori Zo trading card	15	all	50
+2005	Morbidda trading card	15	all	50
+2006	Poison Oak trading card	15	all	50
+2007	Princess Rutabaga trading card	15	all	50
+2008	Roo trading card	15	all	50
+2009	Woldo trading card	15	all	50
+2010	The Snake trading card	15	all	50
+2011	Nayztameetjoo trading card	15	all	50
+2012	Arrrmetia trading card	15	all	50
+2013	Serenity trading card	15	all	50
+2014	Inndya trading card	15	all	50
+2015	Kitty the Zmobie Basher trading card	15	all	50
 2016	diamond necklace	8	gift	10
 2017	spade necklace	8	gift	10
 2018	club necklace	8	gift	10
@@ -2086,7 +2086,7 @@
 2086	antique bottle of cough syrup	3	all	100
 2087	tube of hair oil	3	all	100
 2088	Daffy Taffy	3	all	30
-2089	Crimboween memo	3	all	10
+2089	Crimboween memo	15	all	10
 2090	pilgrim shield	13	all	0
 2091	fancy bath salts	0	all	300
 2092	antique hand mirror	0	all	100
@@ -2116,7 +2116,7 @@
 2116	stick-on-a-string	0	all	25
 2117	fire	9	all	25
 2118	leaf tube	0	none	0
-2119	lit cigar	0	none	0
+2119	lit cigar	3	none	0
 2120	Grateful Undead T-shirt	11	all	75
 2121	Ascii shirt	11	all	80
 2122	safety vest	11	all	75
@@ -2146,8 +2146,8 @@
 2146	evil teddy bear	5	all	120
 2147	evil teddy bear sewing kit	7	all	75
 2148	toothsome rock	5	all	31
-2149	spooky frank	0	none	0
-2150	plate of franks and beans	0	none	0
+2149	spooky frank	1	none	0
+2150	plate of franks and beans	1	none	0
 2151	shot of blackberry schnapps	2	all	65
 2152	capacitor relay	0	all	10
 2153	carbon nanotube frame	0	all	10
@@ -2176,7 +2176,7 @@
 2176	cracked stone sphere	0	none	0
 2177	rough stone sphere	0	none	0
 2178	obsidian dagger	12	display	0
-2179	archaeologist's notebook	3	none	0
+2179	archaeologist's notebook	15	none	0
 2180	ancient amulet	0	none	0
 2181	chocolate lump	3	none	0
 2182	Harold's hammer head	0	none	0
@@ -2185,8 +2185,8 @@
 2185	Kiss the Knob apron	11	all	15
 2186	unlit birthday cake	0	none	0
 2187	lit birthday cake	0	none	0
-2188	flask of peppermint oil	0	none	0
-2189	flask of peppermint schnapps	0	none	0
+2188	flask of peppermint oil	1	none	0
+2189	flask of peppermint schnapps	2	none	0
 2190	yuletide troll chrysalis	5	all	0
 2191	giant book of ancient carols	7	all	75
 2192	disintegrating sheet music	0	all	15
@@ -2255,7 +2255,7 @@
 2255	furry green turtle	9	all	50
 2256	furry green earmuffs	8	all	50
 2257	reinforced furry underpants	8	all	35
-2258	&quot;I Love Me, Vol. I&quot;	0	none	0
+2258	&quot;I Love Me, Vol. I&quot;	15	none	0
 2259	photograph of God	0	none	0
 2260	hard rock candy	0	none	0
 2261	hard-boiled ostrich egg	0	none	0
@@ -2277,9 +2277,9 @@
 2277	Fernswarthy's key	0	none	0
 2278	Fernswarthy's letter	3	none	0
 2279	dusty old book	0	none	0
-2280	Manual of Labor	3	none	0
-2281	Manual of Transmission	3	none	0
-2282	Manual of Dexterity	3	none	0
+2280	Manual of Labor	18	none	0
+2281	Manual of Transmission	18	none	0
+2282	Manual of Dexterity	18	none	0
 2283	seal-skull helmet	9	all	1
 2284	petrified noodles	0	all	100
 2285	chisel	12	all	100
@@ -2627,7 +2627,7 @@
 2627	catskin cap	9	all	185
 2628	catskin buckler	13	all	185
 2629	tail o' nine cats	12	all	35
-2630	Hugo's Weaving Manual	0	none	0
+2630	Hugo's Weaving Manual	15	none	0
 2631	gremlin juice	4	all	75
 2632	mother's little helper	4	all	115
 2633	pat-a-cake pendant	8	all	25
@@ -2679,7 +2679,7 @@
 2679	sparkler	3	all	150
 2680	snake	3	all	150
 2681	M-242	3	all	150
-2682	detuned radio	0	none	0
+2682	detuned radio	18	none	0
 2683	Warehouse 23 crate	3	none	0
 2684	armed gun	12	all	75
 2685	fancy seashell necklace	0	all	1000

@@ -207,9 +207,12 @@ public interface KoLConstants extends UtilityConstants
 	public static final int EQUIP_WEAPON = 12;
 	public static final int EQUIP_OFFHAND = 13;
 	public static final int MP_RESTORE = 14;
-	public static final int CONSUME_HOBO = 15;
+	public static final int MESSAGE_DISPLAY = 15;
 	public static final int HP_RESTORE = 16;
 	public static final int HPMP_RESTORE = 17;
+	public static final int INFINITE_USES = 18;
+
+	public static final int CONSUME_HOBO = 99;
 
 	// Item creation types
 
