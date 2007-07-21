@@ -788,7 +788,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		}
 
 		public void run()
-		{	CommandDisplayFrame.executeCommand( "logout" );
+		{	DEFAULT_SHELL.executeCommand( "logout", "" );
 		}
 	}
 
