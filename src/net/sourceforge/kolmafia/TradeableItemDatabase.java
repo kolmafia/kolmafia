@@ -1038,6 +1038,8 @@ public class TradeableItemDatabase extends KoLDatabase
 		writer.close();
 	}
 
+	private static final Map foods = new TreeMap();
+	private static final Map boozes = new TreeMap();
 	private static final Map hats = new TreeMap();
 	private static final Map weapons = new TreeMap();
 	private static final Map offhands = new TreeMap();
@@ -1057,6 +1059,8 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		RequestLogger.printLine( "Checking internal data..." );
 
+		foods.clear();
+		boozes.clear();
 		hats.clear();
 		weapons.clear();
 		offhands.clear();			 
@@ -1071,6 +1075,9 @@ public class TradeableItemDatabase extends KoLDatabase
 				checkItem( i, writer );
 		else
 			checkItem( itemId, writer );
+
+		// Check level limits
+		checkLevels( writer );
 
 		// Check equipment
 		checkEquipment( writer );
@@ -1123,6 +1130,12 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		switch ( type )
 		{
+		case CONSUME_EAT:
+			foods.put( name, text );
+			break;
+		case CONSUME_DRINK:
+			boozes.put( name, text );
+			break;
 		case EQUIP_HAT:
 			hats.put( name, text );
 			break;
@@ -1236,6 +1249,39 @@ public class TradeableItemDatabase extends KoLDatabase
 			return false;
 		}
 		return false;
+	}
+
+	private static void checkLevels( LogStream writer )
+	{
+
+		RequestLogger.printLine( "Checking level requirements..." );
+
+		checkLevelMap( writer, foods, "Food" );
+		checkLevelMap( writer, boozes, "Booze" );
+	}
+
+	private static void checkLevelMap( LogStream writer, Map map, String tag )
+	{
+		if ( map.size() == 0 )
+			return;
+
+		RequestLogger.printLine( "Checking " + tag + "..." );
+		boolean food = ( map == foods );
+
+		writer.println( "" );
+		writer.println( "# Level requirement in " + ( food ? "fullness" : "inebriety" ) + ".txt" );
+
+		Object [] keys = map.keySet().toArray();
+		for ( int i = 0; i < keys.length; ++i )
+		{
+			String name = (String)keys[i];
+			String text = (String)map.get( name );
+			checkLevelDatum( name, text, writer, food );
+		}
+	}
+
+	private static void checkLevelDatum( String name, String text, LogStream writer, boolean food )
+	{
 	}
 
 	private static void checkEquipment( LogStream writer )
