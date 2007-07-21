@@ -409,7 +409,10 @@ public class AdventureDatabase extends KoLDatabase
 		  new String [] { "filthy corduroys", "filthy knitted dread sack", "small meat boost", "complete the outfit" },
 		  new String [] { "213", "214", null } ),
 
-		// Choice 137 is unknown
+		// An Inconvenient Truth
+		new ChoiceAdventure( "Island", "choiceAdventure137", "Hippy Camp",
+		  new String [] { "filthy knitted dread sack", "filthy corduroys", "small meat boost", "complete the outfit" },
+		  new String [] { "214", "213", null } ),
 
 		// Purple Hazers
 		new ChoiceAdventure( "Island", "choiceAdventure138", "Frat House",
