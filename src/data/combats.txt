@@ -126,7 +126,7 @@ Sonofa Beach	-1	Lobsterfrogman
 Sorceress' Hedge Maze	100	Topiary Golem
 South of the Border	50	Angry Pi&ntilde;ata	Handsome Mariachi	Irate Mariachi	Mariachi Calavera	Raging Bull
 Spectral Pickle Factory	75	Carnivorous Dill Plant	Ghostly Pickle Factory Worker	Vine Gar
-Spooky Forest	100	Bar	Spooky Mummy	Spooky Vampire	Triffid	Warwelf	Wolfman	Baiowulf: -1
+Spooky Forest	60	Bar	Spooky Mummy	Spooky Vampire	Triffid	Warwelf	Wolfman	Baiowulf: -1
 Spooky Fright Factory	100	Bow-making Mummy	Cookie-baking Thing from Beyond Time	Gift-wrapping Vampire	Skeletal Reindeer	Stocking-stuffing Zombie	Toy-making creature from the Gray Lagoon
 Spooky Gravy Barrow	80	Spooky Gravy Fairy Guard	Spooky Gravy Fairy Ninja	Spooky Gravy Fairy Warlock	Felonia, Queen of the Spooky Gravy Fairies: 0
 Stately Pleasure Dome	70	Ancient Mariner	Angry Poet	Kubla Khan	Roller-skating Muse	Toothless Mastiff Bitch
