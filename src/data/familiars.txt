@@ -2,7 +2,7 @@
 # http://www.the-rye.dreamhosters.com/familiars/
 
 1	Mosquito	combat	275	hypodermic needle	2	1	3	0
-2	Leprechaun	meat0	276	meat detector	1	3	0	2
+2	Leprechaun	meat0	276	Meat detector	1	3	0	2
 3	Levitating Potato	none	288	many-eyed glasses	0	1	2	3
 4	Angry Goat	combat	327	prosthetic forehead	3	0	2	1
 5	Sabre-Toothed Lime	combat	335	tiny shaker of salt	3	0	2	1
