@@ -788,15 +788,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		}
 
 		public void run()
-		{
-			if ( KoLDesktop.instanceExists() )
-				KoLDesktop.getInstance().setVisible( false );
-
-			KoLFrame [] frames = StaticEntity.getExistingFrames();
-			for ( int i = 0; i < frames.length; ++i )
-				frames[i].setVisible( false );
-
-			RequestThread.postRequest( new LogoutRequest() );
+		{	CommandDisplayFrame.executeCommand( "logout" );
 		}
 	}
 
