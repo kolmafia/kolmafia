@@ -167,6 +167,10 @@ public class OptionsFrame extends KoLFrame
 
 		private final String [][] options =
 		{
+			{ "relayOpensNewWindow", "Attempt to open a new window/tab for each instance" },
+
+			{ "", "" },
+
 			{ "relayAddsRestoreLinks", "Add HP/MP restore links to left side pane" },
 			{ "relayAddsUpArrowLinks", "Add buff maintenance links to left side pane" },
 			{ "relayTextualizesEffects", "Textualize effect links in left side pane" },

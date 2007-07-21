@@ -579,6 +579,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "relayMaintainsMana", "false" );
 		CLIENT_SETTINGS.put( "relayMaintainsMoods", "false" );
 		CLIENT_SETTINGS.put( "relayBrowserOnly", "false" );
+		CLIENT_SETTINGS.put( "relayOpensNewWindow", String.valueOf( System.getProperty( "os.name" ).startsWith( "Mac" ) ) );
 		CLIENT_SETTINGS.put( "relayTextualizesEffects", "false" );
 		CLIENT_SETTINGS.put( "relayUsesCachedImages", "false" );
 		CLIENT_SETTINGS.put( "relayUsesInlineLinks", "false" );

@@ -971,6 +971,9 @@ public class LocalRelayRequest extends PasswordHashRequest
 			}
 			else
 			{
+				if ( this.formURLString.endsWith( ".html" ) )
+					this.data.clear();
+
 				this.sendSharedFile( this.formURLString );
 				this.responseText = StaticEntity.globalStringReplace( this.responseText, "<p>", "<br><br>" );
 				this.responseText = StaticEntity.globalStringReplace( this.responseText, "<P>", "<br><br>" );

@@ -2985,13 +2985,22 @@ public abstract class KoLmafia implements KoLConstants
 			openRelayBrowser( "main.html" );
 	}
 
+	private static int relayBrowserInstances = 0;
+
 	public void openRelayBrowser( String location )
 	{
 		this.startRelayServer();
 
-		if ( location.equals( "login.php" ) || location.endsWith( ".html" ) )
+		if ( location.equals( "login.php" ) )
 		{
 			StaticEntity.openSystemBrowser( "http://127.0.0.1:" + LocalRelayServer.getPort() + "/" + location );
+		}
+		else if ( location.endsWith( ".html" ) )
+		{
+			if ( StaticEntity.getBooleanProperty( "relayOpensNewWindow" ) )
+				StaticEntity.openSystemBrowser( "http://127.0.0.1:" + LocalRelayServer.getPort() + "/" + location + "?" + relayBrowserInstances++ );
+			else
+				StaticEntity.openSystemBrowser( "http://127.0.0.1:" + LocalRelayServer.getPort() + "/" + location );
 		}
 		else
 		{
