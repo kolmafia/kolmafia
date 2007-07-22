@@ -64,6 +64,7 @@ public class EquipmentRequest extends PasswordHashRequest
 
 	public static final AdventureResult UNEQUIP = new AdventureResult( "(none)", 1, false );
 	private static final AdventureResult PASTE = new AdventureResult( MEAT_PASTE, 1 );
+	private static final AdventureResult SPECTACLES = new AdventureResult( 1916, 1 );
 
 	public static final int CLOSET = 1;
 	public static final int MISCELLANEOUS = 2;
@@ -567,6 +568,9 @@ public class EquipmentRequest extends PasswordHashRequest
 					return;
 				}
 			}
+
+			if ( KoLCharacter.hasEquipped( SPECTACLES ) )
+				TradeableItemDatabase.identifyDustyBottles();
 
 			KoLmafia.updateDisplay( "Equipment changed." );
 			RequestThread.postRequest( CharpaneRequest.getInstance() );

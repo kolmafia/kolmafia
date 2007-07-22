@@ -1039,6 +1039,148 @@ public class TradeableItemDatabase extends KoLDatabase
 		writer.close();
 	}
 
+	// Support for dusty bottles of wine
+
+	public static void identifyDustyBottles()
+	{
+		int lastAscension = StaticEntity.getIntegerProperty( "lastDustyBottleReset" );
+		if ( lastAscension == KoLCharacter.getAscensions() )
+			return;
+
+		KoLmafia.updateDisplay( "Identifying dusty bottles..." );
+
+		// Identify the six dusty bottles
+
+		for ( int i = 2271; i <= 2276; ++i )
+			identifyDustyBottle( i );
+
+		StaticEntity.setProperty( "lastDustyBottleReset", String.valueOf( KoLCharacter.getAscensions() ) );
+
+		// Set the consumption data
+
+		setDustyBottles();
+	}
+
+	private static final Pattern GLYPH_PATTERN = Pattern.compile( "Arcane Glyph #(\\d)" );
+
+	private static void identifyDustyBottle( int itemId )
+	{
+		String glyph = "";
+
+		String description = rawDescriptionText( itemId );
+		if ( description != null )
+		{
+			Matcher matcher = GLYPH_PATTERN.matcher( description );
+			if ( matcher.find() )
+				glyph = matcher.group(1);
+		}
+
+		StaticEntity.setProperty( "lastDustyBottle" + itemId, glyph );
+	}
+
+	public static void getDustyBottles()
+	{
+		int lastAscension = StaticEntity.getIntegerProperty( "lastDustyBottleReset" );
+		if ( lastAscension != KoLCharacter.getAscensions() )
+		{
+			for ( int i = 2271; i <= 2276; ++i )
+				StaticEntity.setProperty( "lastDustyBottle" + i, "" );
+		}
+
+		setDustyBottles();
+	}
+
+	private static void setDustyBottles()
+	{
+		setDustyBottle( 2271 );
+		setDustyBottle( 2272 );
+		setDustyBottle( 2273 );
+		setDustyBottle( 2274 );
+		setDustyBottle( 2275 );
+		setDustyBottle( 2276 );
+	}
+
+	private static void setDustyBottle( int itemId )
+	{
+		int glyph = StaticEntity.getIntegerProperty( "lastDustyBottle" + itemId );
+		switch ( glyph )
+		{
+		case 0:
+			// Unidentified
+			setDustyBottle( itemId, 2, "0", "0", "0", "0" );
+			break;
+		case 1:
+			// "You drink the wine. You've had better, but you've
+			// had worse."
+			setDustyBottle( itemId, 2, "4-5", "6-8", "5-7", "5-9" );
+			break;
+		case 2:
+			// "You guzzle the entire bottle of wine before you
+			// realize that it has turned into vinegar. Bleeah."
+			setDustyBottle( itemId, 0, "0", "0", "0", "0" );
+			break;
+		case 3:
+			// "You drink the bottle of wine, then belch up a cloud
+			// of foul-smelling green smoke. Looks like this wine
+			// was infused with wormwood. Spoooooooky."
+			setDustyBottle( itemId, 2, "3-4", "3-6", "15-18", "3-6" );
+			break;
+		case 4:
+			// "This wine is fantastic! You gulp down the entire
+			// bottle, and feel great!"
+			setDustyBottle( itemId, 2, "7-10", "10-15", "10-15", "10-15" );
+			break;
+		case 5:
+			// "You drink the wine. It tastes pretty good, but when
+			// you get to the bottom, it's full of sediment, which
+			// turns out to be powdered glass. Ow."
+			setDustyBottle( itemId, 2, "4-5", "7-10", "5-7", "8-10" );
+			break;
+		case 6:
+			// "You drink the wine, but it seems to have gone
+			// bad. Not in the "turned to vinegar" sense, but the
+			// "turned to crime" sense. It perpetrates some
+			// violence against you on the inside."
+			setDustyBottle( itemId, 2, "0-1", "0", "0", "0" );
+			break;
+		}
+	}
+
+	private static void setDustyBottle( int itemId, int inebriety, String adventures, String muscle, String mysticality, String moxie )
+	{
+		String name = getCanonicalName( (String)dataNameById.get( new Integer( itemId ) ) );
+
+		inebrietyByName.put( name, new Integer( inebriety ) );
+		addAdventureRange( name, inebriety, adventures );
+		muscleByName.put( name, extractRange( muscle ) );
+		mysticalityByName.put( name, extractRange( mysticality ) );
+		moxieByName.put( name, extractRange( moxie ) );
+	}
+
+	public static String dustyBottleType( int itemId )
+	{
+		int glyph = StaticEntity.getIntegerProperty( "lastDustyBottle" + itemId );
+		switch ( glyph )
+		{
+		case 1:
+			return "average wine";
+		case 2:
+			return "vinegar (Full of Vinegar)";
+		case 3:
+			return "spooky wine (Kiss of the Black Fairy)";
+		case 4:
+			return "great wine";
+		case 5:
+			return "glassy wine";
+		case 6:
+			return "bad wine";
+		}
+		return "";
+	}
+
+	// Support for the "checkdata" command, which compares KoLmafia's
+	// internal item data from what can be mined from the item description.
+
 	private static final Map foods = new TreeMap();
 	private static final Map boozes = new TreeMap();
 	private static final Map hats = new TreeMap();

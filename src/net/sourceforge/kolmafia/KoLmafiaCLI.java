@@ -1451,7 +1451,6 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-
 		if ( command.equals( "!" ) )
 		{
 			for ( int i = 819; i <= 827; ++i )
@@ -1459,6 +1458,18 @@ public class KoLmafiaCLI extends KoLmafia
 				String potion = TradeableItemDatabase.getItemName( i );
 				potion = potion.substring( 0, potion.length() - 7 );
 				RequestLogger.printLine( potion + ": " + StaticEntity.getProperty( "lastBangPotion" + i ) );
+			}
+
+			return;
+		}
+
+		if ( command.equals( "dusty" ) )
+		{
+			for ( int i = 2271; i <= 2276; ++i )
+			{
+				String bottle = TradeableItemDatabase.getItemName( i );
+				String type = TradeableItemDatabase.dustyBottleType( i );
+				RequestLogger.printLine( bottle + ": " + type );
 			}
 
 			return;
