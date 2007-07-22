@@ -199,14 +199,14 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		while ( (data = readData( reader )) != null )
 		{
-			if ( data.length >= 2 )
+			if ( data.length >= 3 )
 			{
 				String name = getCanonicalName( data[0] );
 				fullnessByName.put( name, Integer.valueOf( data[1] ) );
+				levelReqByName.put( name, Integer.valueOf( data[2] ) );
 
-				if ( data.length > 2 )
+				if ( data.length > 3 )
 				{
-					levelReqByName.put( name, Integer.valueOf( data[2] ) );
 					addAdventureRange( name, StaticEntity.parseInt( data[1] ), data[3] );
 					muscleByName.put( name, extractRange( data[4] ) );
 					mysticalityByName.put( name, extractRange( data[5] ) );
@@ -233,14 +233,14 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		while ( (data = readData( reader )) != null )
 		{
-			if ( data.length >= 2 )
+			if ( data.length >= 3 )
 			{
 				String name = getCanonicalName( data[0] );
 				inebrietyByName.put( name, Integer.valueOf( data[1] ) );
+				levelReqByName.put( name, Integer.valueOf( data[2] ) );
 
-				if ( data.length > 2 )
+				if ( data.length > 3 )
 				{
-					levelReqByName.put( name, Integer.valueOf( data[2] ) );
 					addAdventureRange( name, StaticEntity.parseInt( data[1] ), data[3] );
 					muscleByName.put( name, extractRange( data[4] ) );
 					mysticalityByName.put( name, extractRange( data[5] ) );
@@ -1318,22 +1318,37 @@ public class TradeableItemDatabase extends KoLDatabase
 			return;
 
 		RequestLogger.printLine( "Checking " + tag + "..." );
-		boolean food = ( map == foods );
 
 		writer.println( "" );
-		writer.println( "# Level requirement in " + ( food ? "fullness" : "inebriety" ) + ".txt" );
+		writer.println( "# Level requirements in " + ( map == foods ? "fullness" : "inebriety" ) + ".txt" );
 
 		Object [] keys = map.keySet().toArray();
 		for ( int i = 0; i < keys.length; ++i )
 		{
 			String name = (String)keys[i];
 			String text = (String)map.get( name );
-			checkLevelDatum( name, text, writer, food );
+			checkLevelDatum( name, text, writer );
 		}
 	}
 
-	private static void checkLevelDatum( String name, String text, LogStream writer, boolean food )
+	private static void checkLevelDatum( String name, String text, LogStream writer )
 	{
+		Integer requirement = (Integer)levelReqByName.get( getCanonicalName( name ) );
+		int level = requirement == null ? 0 : requirement.intValue();
+		int descLevel = parseLevel( text );
+		if ( level != descLevel )
+			writer.println( "# *** " + name +" requires level " + level + " but should be " + descLevel + "." );
+	}
+
+	private static final Pattern LEVEL_PATTERN = Pattern.compile( "Level required: <b>(.*?)</b>" );
+
+	private static int parseLevel( String text )
+	{
+		Matcher matcher = LEVEL_PATTERN.matcher( text );
+		if ( !matcher.find() )
+			return 1;
+
+		return StaticEntity.parseInt( matcher.group(1) );
 	}
 
 	private static void checkEquipment( LogStream writer )
