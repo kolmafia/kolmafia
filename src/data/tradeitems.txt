@@ -153,7 +153,7 @@
 153	Ancient Saucehelm	9	display	0
 154	Disco 'Fro Pick	9	display	0
 155	El Sombrero De Lopez	9	display	0
-156	guild application	0	none	0
+156	guild application	0	display	0
 157	E-Z Cook Oven&trade;	0	all	250
 158	Gnollish pie tin	0	all	15
 159	wad of dough	3	all	25
@@ -333,8 +333,8 @@
 333	lime	1	all	60
 334	sabre teeth	12	all	65
 335	sabre-toothed lime cub	5	all	91
-336	consolation ribbon	8	none	0
-337	big ol' trophy	0	none	0
+336	consolation ribbon	8	display	0
+337	big ol' trophy	0	display	0
 338	tenderizing hammer	0	all	250
 339	Cobb's Knob lab key	0	none	0
 340	Knob Goblin steroids	4	all	125
@@ -378,7 +378,7 @@
 378	linoleum sword	12	all	115
 379	linoleum staff	12	all	125
 380	linoleum crossbow	12	all	105
-381	asbestos sword	12	all	123
+381	asbestos sword	12	all	125
 382	asbestos staff	12	all	105
 383	asbestos crossbow	12	all	115
 384	chrome sword	12	all	105
@@ -450,7 +450,7 @@
 450	pretentious paintbrush	0	none	0
 451	pretentious palette	0	none	0
 452	disease	0	all	22
-453	sober pill	3	none	0
+453	sober pill	3	display	0
 454	rusty screwdriver	0	none	0
 455	jumbo olive	1	all	60
 456	dry martini	2	all	90
@@ -600,7 +600,7 @@
 600	Dr. Hobo's scalpel	12	all	40
 601	Dr. Hobo's map	3	none	0
 602	Degrassi Knoll shopping list	15	none	0
-603	Item #13	8	none	0
+603	Item #13	8	all	0
 604	Penultimate Fantasy chest	4	all	108
 605	Tissue Paper Immateria	0	none	0
 606	Tin Foil Immateria	0	none	0
@@ -641,14 +641,14 @@
 641	toast	1	all	14
 642	skeleton key	0	all	31
 643	skeleton key ring	3	all	67
-644	Crimbo pressie	3	all	0
+644	Crimbo pressie	3	display	0
 645	wrapping paper	0	all	0
 646	fruitcake	1	all	37
 647	present	3	all	0
 648	Crimbo sword	12	all	0
 649	Crimbo hat	9	all	0
 650	Crimbo pants	10	all	0
-651	exclusive ultra-rare item	8	none	0
+651	exclusive ultra-rare item	8	display	0
 652	quantum egg	0	none	0
 653	intragalactic rowboat	0	none	0
 654	star	0	all	50
@@ -684,12 +684,12 @@
 684	pink pony	2	all	115
 685	Mr. Shirt	11	all	35
 686	enchanted brass knuckles	13	all	500
-687	blood of the Wereseal	4	display	250
+687	blood of the Wereseal	4	all	250
 688	pixel hat	9	all	65
 689	pixel pants	10	all	65
 690	pixel sword	12	all	65
 691	digital key	0	none	0
-692	Ascension Souvenir T-shirt	11	all	20
+692	Ascension Souvenir T-Shirt	11	all	20
 693	harem girl t-shirt	11	all	30
 694	Knob Goblin elite shirt	11	all	40
 695
@@ -706,7 +706,7 @@
 706	porquoise	0	all	500
 707	pork elf goodies sack	3	display	0
 708	ring setting	0	all	100
-709	jewelry-making pliers	0	all	500
+709	jewelry-making pliers	0	display	500
 710
 711	hamethyst earring	8	all	250
 712	hamethyst necklace	8	all	250
@@ -782,7 +782,7 @@
 782	Mr. Exploiter	8	display	0
 783	'Villa' document	3	all	0
 784	Acqua Del Piatto Merlot	2	all	0
-785	raffle ticket	0	all	0
+785	raffle ticket	0	display	0
 786	strawberry	1	all	35
 787	bottle of rum	2	all	35
 788	strawberry daiquiri	2	all	65
@@ -843,7 +843,7 @@
 843	salty slug	2	all	65
 844	papaya slung	2	all	57
 845	MAHI fez	9	display	0
-846	especially homoerotic frat-paddle	12	all	90
+846	especially homoerotic frat-paddle	12	display	90
 847	heteroerotic frat-paddle	12	display	0
 848	hypodermic needle	7	all	75
 849	Meat detector	7	all	75
@@ -952,7 +952,7 @@
 952	spooky hockey mask	9	all	0
 953	penguin-smacking club	7	all	75
 954	orphan baby yeti	5	all	0
-955	fez of etymology	9	all	150
+955	fez of etymology	9	all	250
 956	carob chunk noodles	1	all	75
 957	chorizo brownies	1	all	71
 958	white chocolate and tomato pizza	1	all	62
@@ -1164,17 +1164,17 @@
 1164	poultrygeist	0	all	50
 1165	hovering sombrero	5	all	100
 1166	tiny maracas	7	all	75
-1167	plain brown wrapper	3	none	0
-1168	less-than-three-shaped box	3	none	0
-1169	exactly-three-shaped box	3	none	0
-1170	chocolate box	3	none	0
-1171	miniature coffin	3	none	0
-1172	solid asbestos box	3	none	0
-1173	solid linoleum box	3	none	0
-1174	solid chrome box	3	none	0
-1175	cryptic puzzle box	3	none	0
-1176	refrigerated biohazard container	3	none	0
-1177	magnetic field	3	none	0
+1167	plain brown wrapper	3	gift	0
+1168	less-than-three-shaped box	3	gift	0
+1169	exactly-three-shaped box	3	gift	0
+1170	chocolate box	3	gift	0
+1171	miniature coffin	3	gift	0
+1172	solid asbestos box	3	gift	0
+1173	solid linoleum box	3	gift	0
+1174	solid chrome box	3	gift	0
+1175	cryptic puzzle box	3	gift	0
+1176	refrigerated biohazard container	3	gift	0
+1177	magnetic field	3	gift	0
 1178	potted cactus	0	gift	1
 1179	daisy	0	gift	5
 1180	potted fern	0	gift	10
@@ -1287,7 +1287,7 @@
 1287	furry kilt	10	all	165
 1288	gnauga hide skirt	10	all	120
 1289	gnauga hide kilt	10	all	120
-1290	cheap wind-up clock	4	all	100
+1290	cheap wind-up clock	4	display	100
 1291	Jekyllin hide belt	8	all	0
 1292	skirt / kilt kit	0	all	50
 1293	ring of adornment	8	all	90
@@ -1457,7 +1457,7 @@
 1457	miniature stuffed Goth Giant	13	gift	10000
 1458	Valentine's Day cake	1	gift	10000
 1459	arrow'd heart balloon	13	gift	10000
-1460	black velvet box	3	none	0
+1460	black velvet box	3	gift	0
 1461	squashed frog	0	all	5
 1462	eye of newt	0	all	5
 1463	salamander spleen	0	all	5
@@ -1517,9 +1517,9 @@
 1517
 1518	vampire heart	0	none	0
 1519	Talisman of Bakula	8	all	0
-1520	Radio KoL Coffee Mug	0	all	0
-1521	Frank Gorshin trophy	0	none	0
-1522	Radio Free Jersey	11	all	0
+1520	Radio KoL Coffee Mug	0	display	0
+1521	Frank Gorshin trophy	0	display	0
+1522	Radio Free Jersey	11	display	0
 1523	bottle of used blood	4	none	0
 1524	wind-up chattering teeth	5	gift	5
 1525	joybuzzer	13	gift	5
@@ -1531,7 +1531,7 @@
 1531	grass skirt	10	all	0
 1532	grass hat	9	all	0
 1533	grass blade	12	all	0
-1534	raffle prize box	3	display	0
+1534	raffle prize box	3	gift	0
 1535
 1536	homeless hobo spirit	5	all	0
 1537	weegee sqouija	7	all	75
@@ -1602,7 +1602,7 @@
 1602	prussian cathouse with a fly in it	15	gift	130
 1603	Mae West with a fly in it	15	gift	130
 1604	astronaut ice-cream	3	display	42
-1605	delectable catalyst	4	all	0
+1605	delectable catalyst	4	display	0
 1606	ultimate wad	3	all	0
 1607	libation of liveliness	4	all	36
 1608	eyedrops of the ermine	4	all	36
@@ -1631,7 +1631,7 @@
 1631	beer cartilage	4	all	25
 1632	Spanish fly trap	13	none	0
 1633	Spanish fly	0	none	0
-1634	around the world	2	none	0
+1634	around the world	2	display	0
 1635	scrumdiddlyumptious solution	0	all	0
 1636	Toddler-sized Dragon Costume	7	display	0
 1637	phial of hotness	3	all	0
@@ -1646,7 +1646,7 @@
 1646	spooky and sour sauce	0	all	100
 1647	stench and sour sauce	0	all	100
 1648	sleazy and sour sauce	0	all	100
-1649	brick	0	display	0
+1649	brick	0	gift	0
 1650	milk of magnesium	3	all	36
 1651	foie gras	1	all	30
 1652	candy brain	4	all	54
@@ -1796,7 +1796,7 @@
 1796	bone collar	7	all	75
 1797	misshapen animal skeleton	5	display	1000
 1798	pile of dusty animal bones	4	all	32
-1799	dusty animal skull	3	all	30
+1799	dusty animal skull	3	display	30
 1800	dusty animal cranium	0	all	10
 1801	dusty animal jawbone	0	all	10
 1802	dusty first cervical vertebra	0	all	10
@@ -1992,7 +1992,7 @@
 1992	rubber WWBD? bracelet	8	gift	5
 1993	rubber WWSPD? bracelet	8	gift	5
 1994	rubber WWtNSD? bracelet	8	gift	5
-1995	heart necklace		gift	0
+1995	heart necklace	0	gift	0
 1996	right half of a heart necklace	8	gift	0
 1997	left half of a heart necklace	8	gift	0
 1998	pack of KWE trading card	3	all	50
@@ -2016,7 +2016,7 @@
 2016	diamond necklace	8	gift	10
 2017	spade necklace	8	gift	10
 2018	club necklace	8	gift	10
-2019	cream pie	0	all	50
+2019	cream pie	0	all	0
 2020	cherry pie	1	all	80
 2021	strawberry pie	1	all	45
 2022	lemon meringue pie	1	all	55
@@ -2093,9 +2093,9 @@
 2093	hors d'oeuvre tray	13	all	115
 2094	ballroom blintz	1	all	43
 2095	towel	0	all	1000
-2096	guy made of bee pollen	3	all	000
+2096	guy made of bee pollen	3	all	0
 2097	17-ball	13	all	0
-2098	filthy lucre	0	none	0
+2098	filthy lucre	0	display	0
 2099	hobo gristle	0	none	0
 2100	shredded can label	0	none	0
 2101	bloodstained briquette	0	none	0
@@ -2307,12 +2307,12 @@
 2307	lavender candy heart	4	all	5
 2308	yellow candy heart	4	all	5
 2309	green candy heart	4	all	5
-2310	white candygram	4	none	0
-2311	pink candygram	4	none	0
-2312	orange candygram	4	none	0
-2313	lavender candygram	4	none	0
-2314	yellow candygram	4	none	0
-2315	green candygram	4	none	0
+2310	white candygram	4	display	0
+2311	pink candygram	4	display	0
+2312	orange candygram	4	display	0
+2313	lavender candygram	4	display	0
+2314	yellow candygram	4	display	0
+2315	green candygram	4	display	0
 2316	broken carburetor	0	all	4000
 2317	ancient bronze token	0	none	0
 2318	ancient bomb	0	none	0
@@ -2324,7 +2324,7 @@
 2324	Staff of Ed, almost	0	none	0
 2325	Staff of Ed	0	none	0
 2326	stone rose	0	none	0
-2327	can of black paint	4	none	150
+2327	can of black paint	4	all	150
 2328	drum machine	3	display	160
 2329	handful of confetti	3	display	1000
 2330	chocolate-covered diamond-studded roses	0	gift	10000
@@ -2355,9 +2355,9 @@
 2355	henna face paint	4	all	85
 2356	tube of dread wax	4	all	85
 2357	Gaia beads	8	all	210
-2358	pink clay bead	0	all	0
-2359	purple clay bead	0	all	0
-2360	green clay bead	0	all	0
+2358	pink clay bead	0	none	0
+2359	purple clay bead	0	none	0
+2360	green clay bead	0	none	0
 2361	hippy medical kit	8	all	140
 2362	Slow Talkin' Eliot's dogtags	8	all	0
 2363	longhaired hippy wig	9	all	0
@@ -2401,9 +2401,9 @@
 2401	beer bong	12	all	185
 2402	gauze garter	16	all	85
 2403	barrel of gunpowder	0	none	0
-2404	jam band flyers	0	all	0
-2405	rock band flyers	0	all	0
-2406	Panda outfit	7	none	0
+2404	jam band flyers	0	none	0
+2405	rock band flyers	0	none	0
+2406	Panda outfit	7	display	0
 2407	pink bat eye	0	none	0
 2408	worthless piece of yellow glass	0	none	0
 2409	billy idol	0	none	0
@@ -2413,9 +2413,9 @@
 2413	triffid bark	0	none	0
 2414	white lint	0	none	0
 2415	discarded pacifier	0	none	0
-2416	bounty-hunting helmet	9	none	0
-2417	bounty-hunting rifle	12	none	0
-2418	bounty-hunting pants	10	none	0
+2416	bounty-hunting helmet	9	display	0
+2417	bounty-hunting rifle	12	display	0
+2418	bounty-hunting pants	10	display	0
 2419	bottle of rhinoceros hormones	4	all	0
 2420	teeny-tiny magic scroll	4	all	0
 2421	bottle of pirate juice	4	all	0
@@ -2459,11 +2459,11 @@
 2459	tighty whiteys	10	all	45
 2460	yak toupee	9	all	105
 2461
-2462	odor extractor	0	none	0
-2463	Tome of Transcendent Olfaction	3	none	0
-2464	bowl of Bounty-Os	1	none	0
-2465	Oreille Divis&eacute;e brandy	2	none	0
-2466	pompadour'd puppy	5	none	0
+2462	odor extractor	0	display	0
+2463	Tome of Transcendent Olfaction	3	display	0
+2464	bowl of Bounty-Os	1	display	0
+2465	Oreille Divis&eacute;e brandy	2	display	0
+2466	pompadour'd puppy	5	display	0
 2467	blue suede shoes	7	all	75
 2468	callused fingerbone	0	none	0
 2469	bundle of receipts	0	none	0
@@ -2680,7 +2680,7 @@
 2680	snake	3	all	150
 2681	M-242	3	all	150
 2682	detuned radio	18	none	0
-2683	Warehouse 23 crate	3	none	0
+2683	Warehouse 23 crate	3	gift	0
 2684	armed gun	12	all	75
 2685	fancy seashell necklace	0	all	1000
 2686	commemorative war stein	0	all	1000
@@ -2706,11 +2706,11 @@
 2706	blackberry moccasins	8	all	130
 2707	blackberry combat boots	8	all	150
 2708	funky dried mushroom	4	all	225
-2709	exotic parrot egg	5	all	500
+2709	exotic parrot egg	5	display	500
 2710	cracker	7	all	75
-2711	black facepaint	4	0	150
-2712	black sheepskin diploma	4	0	150
-2713	Black Body&trade; spray	4	0	150
+2711	black facepaint	4	all	150
+2712	black sheepskin diploma	4	all	150
+2713	Black Body&trade; spray	4	all	150
 2714	floorboard cruft	0	all	55
 2715	sausage bomb	0	all	120
 2716	battered hubcap	13	all	150
@@ -2824,7 +2824,7 @@
 2824	Grimacite girdle	8	all	0
 2825	Grimacite gown	11	all	0
 2826	Staff of the Kitchen Floor	12	display	25
-2827	anniversary gift box	3	none	0
+2827	anniversary gift box	3	gift	0
 2828	loaded dice	0	none	0
 2829	really dense meat stack	0	all	5000
 2830	digital key lime	0	all	98

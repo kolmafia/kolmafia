@@ -1091,9 +1091,14 @@ public class TradeableItemDatabase extends KoLDatabase
 
 	private static void checkItem( int itemId, LogStream writer )
 	{
-		String name = (String)dataNameById.get( new Integer( itemId ) );
+		Integer id = new Integer( itemId );
+
+		String name = (String)dataNameById.get( id );
 		if ( name == null )
+		{
+			writer.println( itemId );
 			return;
+		}
 
 		String rawText = rawDescriptionText( itemId );
 
@@ -1107,7 +1112,6 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( text == null )
 		{
 			writer.println( "# *** " + name + " (" + itemId + ") has malformed description text." );
-			writer.println( rawText );
 			return;
 		}
 
@@ -1126,6 +1130,24 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( !typesMatch( type, descType ) )
 		{
 			writer.println( "# *** " + name + " (" + itemId + ") has consumption type of " + type + " but is described as " + descType + "." );
+			correct = false;
+
+		}
+
+		int price = priceById.get( itemId );
+		int descPrice = parsePrice( text );
+		if ( price != descPrice )
+		{
+			writer.println( "# *** " + name + " (" + itemId + ") has price of " + price + " but should be " + descPrice + "." );
+			correct = false;
+
+		}
+
+		String access = (String)accessById.get( id );
+		String descAccess = parseAccess( text );
+		if ( !access.equals( descAccess ) )
+		{
+			writer.println( "# *** " + name + " (" + itemId + ") has access of " + access + " but should be " + descAccess + "." );
 			correct = false;
 
 		}
@@ -1161,19 +1183,7 @@ public class TradeableItemDatabase extends KoLDatabase
 			break;
 		}
 
-		int price = priceById.get( itemId );
-		int descPrice = parsePrice( text );
-		if ( price != descPrice )
-		{
-			writer.println( "# *** " + name + " (" + itemId + ") has price of " + price + " but should be " + descPrice + "." );
-			correct = false;
-
-		}
-
-		// *** check access: all, gift, display, none
-
-		if ( correct )
-			writer.println( "# *** " + name + " (" + itemId + ") is OK" );
+		writer.println( itemId + "\t" + name + "\t" + type + "\t" + descAccess + "\t" + descPrice );
 	}
 
 	private static String rawDescriptionText( int itemId )
@@ -1219,6 +1229,20 @@ public class TradeableItemDatabase extends KoLDatabase
 			return 0;
 
 		return StaticEntity.parseInt( matcher.group(1) );
+	}
+
+	private static String parseAccess( String text )
+	{
+		if ( text.indexOf( "Quest Item" ) != -1 )
+			return "none";
+
+		if ( text.indexOf( "Gift Item" ) != -1 )
+			return "gift";
+
+		if ( text.indexOf( "Cannot be traded" ) != -1 )
+			return "display";
+
+		return "all";
 	}
 
 	private static final Pattern TYPE_PATTERN = Pattern.compile( "Type: <b>(.*?)</b>" );
