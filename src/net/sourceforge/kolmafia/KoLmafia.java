@@ -733,6 +733,7 @@ public abstract class KoLmafia implements KoLConstants
 		VioletFog.reset();
 		Louvre.reset();
 		MushroomPlot.reset();
+		TradeableItemDatabase.getDustyBottles();
 
 		// Retrieve the items which are available for consumption
 		// and item creation.

@@ -652,6 +652,14 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "lastEmptiedStorage", "-1" );
 		PLAYER_SETTINGS.put( "lastFilthClearance", "-1" );
 
+		PLAYER_SETTINGS.put( "lastDustyBottleReset", "-1" );
+		PLAYER_SETTINGS.put( "lastDustyBottle2271", "" );
+		PLAYER_SETTINGS.put( "lastDustyBottle2272", "" );
+		PLAYER_SETTINGS.put( "lastDustyBottle2273", "" );
+		PLAYER_SETTINGS.put( "lastDustyBottle2274", "" );
+		PLAYER_SETTINGS.put( "lastDustyBottle2275", "" );
+		PLAYER_SETTINGS.put( "lastDustyBottle2276", "" );
+
 		PLAYER_SETTINGS.put( "lastBangPotionReset", "-1" );
 		PLAYER_SETTINGS.put( "lastBangPotion819", "" );
 		PLAYER_SETTINGS.put( "lastBangPotion820", "" );
