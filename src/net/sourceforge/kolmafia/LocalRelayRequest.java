@@ -57,7 +57,6 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 	private static final Pattern MENU1_PATTERN = Pattern.compile( "<select name=\"loc\".*?</select>", Pattern.DOTALL );
 	private static final Pattern MENU2_PATTERN = Pattern.compile( "<select name=location.*?</select>", Pattern.DOTALL );
-	private static final Pattern IMAGE_PATTERN = Pattern.compile( "<img src=\"([^\"]*?)\"" );
 	private static final Pattern WHITESPACE_PATTERN = Pattern.compile( "['\\s-]" );
 
 	private static final Pattern SEARCHITEM_PATTERN = Pattern.compile( "searchitem=(\\d+)&searchprice=(\\d+)" );
@@ -102,8 +101,12 @@ public class LocalRelayRequest extends PasswordHashRequest
 			if ( price == 100 || price > TradeableItemDatabase.getPriceById( itemId ) * 2 )
 				return true;
 
-		for ( int i = 0; i < junkItemList.size(); ++i )
-			if ( ((AdventureResult)junkItemList.get(i)).getItemId() == itemId )
+		for ( int i = 0; i < preRoninJunkList.size(); ++i )
+			if ( ((AdventureResult)preRoninJunkList.get(i)).getItemId() == itemId )
+				return true;
+
+		for ( int i = 0; i < postRoninJunkList.size(); ++i )
+			if ( ((AdventureResult)postRoninJunkList.get(i)).getItemId() == itemId )
 				return true;
 
 		return false;

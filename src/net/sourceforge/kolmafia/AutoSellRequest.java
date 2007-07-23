@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -181,9 +182,6 @@ public class AutoSellRequest extends SendMessageRequest
 		AdventureResult currentAttachment;
 		int inventoryCount, attachmentCount;
 
-		int lastAttachmentCount = this.attachments.length == 0 ? 0 :
-			((AdventureResult)this.attachments[0]).getCount();
-
 		for ( int i = 0; i < this.attachments.length; ++i )
 		{
 			currentAttachment = (AdventureResult) this.attachments[i];
@@ -283,9 +281,25 @@ public class AutoSellRequest extends SendMessageRequest
 				KoLmafia.updateDisplay( ERROR_STATE, "You don't have a store." );
 				return;
 			}
+
+			KoLmafia.updateDisplay( "Items sold." );
+			return;
 		}
-		else if ( KoLCharacter.getAutosellMode().equals( "detailed" ) )
+
+		if ( KoLCharacter.getAutosellMode().equals( "detailed" ) )
 			StaticEntity.externalUpdate( "sellstuff_ugly.php", this.responseText );
+
+		String mode = getFormField( "mode" );
+		List junkList = KoLCharacter.canInteract() ? postRoninJunkList : preRoninJunkList;
+
+		if ( mode != null && (mode.equals( "0" ) && getFormField("type").equals("all")) || mode.equals( "1" ) )
+		{
+			for ( int i = 0; i < attachments.length; ++i )
+				if ( attachments[i] != null )
+					junkList.add( attachments[i] );
+
+			KoLSettings.saveFlaggedItemList();
+		}
 
 		// Move out of inventory. Process meat gains, if old autosell
 		// interface.

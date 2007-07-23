@@ -159,7 +159,8 @@ public interface KoLConstants extends UtilityConstants
 
 	public static final ArrayList disabledScripts = new ArrayList();
 
-	public static final SortedListModel junkItemList = new SortedListModel();
+	public static final SortedListModel preRoninJunkList = new SortedListModel();
+	public static final SortedListModel postRoninJunkList = new SortedListModel();
 	public static final SortedListModel mementoList = new SortedListModel();
 	public static final SortedListModel ascensionCheckList = new SortedListModel();
 

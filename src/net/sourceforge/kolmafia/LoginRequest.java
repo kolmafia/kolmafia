@@ -377,18 +377,19 @@ public class LoginRequest extends KoLRequest
 		if ( name.endsWith( "/q" ) )
 			name = name.substring( 0, name.length() - 2 ).trim();
 
-		isLoggingIn = true;
-
 		RequestThread.openRequestSequence();
 
+		isLoggingIn = true;
 		StaticEntity.getClient().initialize( name );
+
+		isLoggingIn = false;
 
 		String scriptSetting = StaticEntity.getProperty( "loginScript" );
 		if ( !scriptSetting.equals( "" ) )
 			DEFAULT_SHELL.executeLine( scriptSetting );
 
+		RequestThread.postRequest( new KoLRequest( "chatlaunch.php" ) );
 		RequestThread.closeRequestSequence();
-		isLoggingIn = false;
 
 		if ( StaticEntity.getBooleanProperty( "saveStateActive" ) && request instanceof LoginRequest )
 			KoLmafia.addSaveState( lastUsername, lastPassword );

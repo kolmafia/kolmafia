@@ -248,76 +248,8 @@ public class ItemManageFrame extends KoLFrame
 
 			this.container.add( Box.createVerticalStrut( 30 ) );
 
-			// Junk item list.
-
-			description = new JLabel( "<html>The following items are the items in your inventory which are flagged as \"junk\".  On many areas of KoLmafia's interface, these items will be flagged with a gray color.  In addition, there is a junk item script available in the scripts tab of this item manager which sells all of these items at once.</html>" );
-
-			description.setMaximumSize( MAX_WIDTH );
-			description.setVerticalAlignment( JLabel.TOP );
-			description.setAlignmentX( LEFT_ALIGNMENT );
-			this.container.add( description );
-			this.container.add( Box.createVerticalStrut( 10 ) );
-
-			scroller = new ItemManagePanel( junkItemList );
-			scroller.setMaximumSize( MAX_WIDTH );
-			scroller.setAlignmentX( LEFT_ALIGNMENT );
-			this.container.add( scroller );
-
 			this.setLayout( new CardLayout( 10, 10 ) );
 			this.add( this.container, "" );
-		}
-	}
-
-	private class JunkDetailsLabel extends JLabel implements ListDataListener
-	{
-		public void intervalRemoved( ListDataEvent e )
-		{	this.updateText();
-		}
-
-		public void intervalAdded( ListDataEvent e )
-		{	this.updateText();
-		}
-
-		public void contentsChanged( ListDataEvent e )
-		{	this.updateText();
-		}
-
-		public void updateText()
-		{
-			int totalValue = 0;
-
-			AdventureResult currentItem;
-			Object [] items = junkItemList.toArray();
-
-			for ( int i = 0; i < items.length; ++i )
-			{
-				currentItem = (AdventureResult) items[i];
-				totalValue += currentItem.getCount( inventory ) * TradeableItemDatabase.getPriceById( currentItem.getItemId() );
-			}
-
-			this.setText( "<html>Gnollish toolboxes, briefcases, small and large boxes, 31337 scrolls, Warm Subject gift certificates, Penultimate Fantasy chests, and black pension checks, if flagged as junk, will be used. " +
-				"If you have the Pulverize and a tenderizing hammer, then items will be pulverized if you have malus access or they are weapons, armor, or pants with power greater than or equal to 100. " +
-				"All other items flagged as junk will be autosold.  The current autosell value of items to be handled in this script is " + COMMA_FORMAT.format( totalValue ) + " meat.</html>" );
-		}
-	}
-
-	private class JunkOnlyFilter extends ListElementFilter
-	{
-		public boolean isVisible( Object element )
-		{
-			if ( element instanceof AdventureResult )
-			{
-				if ( junkItemList.contains( element ) )
-					return true;
-			}
-			else if ( element instanceof ItemCreationRequest )
-			{
-				if ( junkItemList.contains( ((ItemCreationRequest) element).createdItem ) )
-					return true;
-			}
-
-			return false;
-
 		}
 	}
 
@@ -342,7 +274,6 @@ public class ItemManageFrame extends KoLFrame
 	private class CommonActionsPanel extends JPanel
 	{
 		private JPanel container;
-		private JunkDetailsLabel label;
 		private Dimension MAX_WIDTH = new Dimension( 500, Integer.MAX_VALUE );
 
 		public CommonActionsPanel()
@@ -350,17 +281,11 @@ public class ItemManageFrame extends KoLFrame
 			this.container = new JPanel();
 			this.container.setLayout( new BoxLayout( this.container, BoxLayout.Y_AXIS ) );
 
-			this.addButtonLabelList( new JunkItemsButton(), "", new ShowDescriptionList( inventory, junkItemList, new JunkOnlyFilter() ) );
-			this.label.updateText();
-
-			inventory.addListDataListener( this.label );
-			junkItemList.addListDataListener( this.label );
-
 			this.container.add( new JSeparator() );
 			this.container.add( Box.createVerticalStrut( 15 ) );
 
 			this.addButtonLabelList( new EndOfRunSaleButton(),
-				"All items flagged as junk will be \"junked\" (see above script for more information).  KoLmafia will then place all items which are not already in your store at 999,999,999 meat, except for items flagged as \"mementos\" (see Filters tab for more details). " + StoreManageFrame.UNDERCUT_MESSAGE,
+				"All items flagged as junk will be \"junked\".  KoLmafia will then place all items which are not already in your store at 999,999,999 meat, except for items flagged as \"mementos\" (see Filters tab for more details). " + StoreManageFrame.UNDERCUT_MESSAGE,
 				new ShowDescriptionList( inventory, mementoList, new ExcludeMementoFilter() ) );
 
 			this.container.add( new JSeparator() );
@@ -403,31 +328,14 @@ public class ItemManageFrame extends KoLFrame
 				this.container.add( Box.createVerticalStrut( 15 ) );
 			}
 
-			JLabel description = button instanceof JunkItemsButton ? new JunkDetailsLabel() : new JLabel( "<html>" + label + "</html>" );
+			JLabel description = new JLabel( "<html>" + label + "</html>" );
 
 			description.setMaximumSize( this.MAX_WIDTH );
 			description.setVerticalAlignment( JLabel.TOP );
 			description.setAlignmentX( LEFT_ALIGNMENT );
 			this.container.add( description );
 			this.container.add( Box.createVerticalStrut( 10 ) );
-
-			if ( button instanceof JunkItemsButton )
-				this.label = (JunkDetailsLabel) description;
-
 			this.container.add( Box.createVerticalStrut( 25 ) );
-		}
-
-		private class JunkItemsButton extends ThreadedButton
-		{
-			public JunkItemsButton()
-			{	super( "junk item script" );
-			}
-
-			public void run()
-			{
-				KoLmafia.updateDisplay( "Gathering data..." );
-				StaticEntity.getClient().makeJunkRemovalRequest();
-			}
 		}
 
 		private class EndOfRunSaleButton extends ThreadedButton
