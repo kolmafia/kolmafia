@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 import java.io.BufferedReader;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -1532,40 +1533,52 @@ public class TradeableItemDatabase extends KoLDatabase
 	private static void checkModifiers( LogStream writer )
 	{
 		RequestLogger.printLine( "Checking modifiers..." );
+		ArrayList unknown = new ArrayList();
 
-		checkModifierMap( writer, hats, "Hats" );
-		checkModifierMap( writer, pants, "Pants" );
-		checkModifierMap( writer, shirts, "Shirts" );
-		checkModifierMap( writer, weapons, "Weapons" );
-		checkModifierMap( writer, offhands, "Off-hand" );
-		checkModifierMap( writer, accessories, "Accessories" );
-		checkModifierMap( writer, famitems, "Familiar Items" );
+		checkModifierMap( writer, hats, "Hats", unknown );
+		checkModifierMap( writer, pants, "Pants", unknown );
+		checkModifierMap( writer, shirts, "Shirts", unknown );
+		checkModifierMap( writer, weapons, "Weapons", unknown );
+		checkModifierMap( writer, offhands, "Off-hand", unknown );
+		checkModifierMap( writer, accessories, "Accessories", unknown );
+		checkModifierMap( writer, famitems, "Familiar Items", unknown );
+
+		Collections.sort( unknown );
+
+		for ( int i = 0; i < 10; ++i )
+			writer.println();
+
+		writer.println( "# Unknown Modifiers section of modifiers.txt" );
+		writer.println();
+
+		for ( int i = 0; i < unknown.size(); ++i )
+			writer.println( "# " + (String)unknown.get(i) );
 	}
 
-	private static void checkModifierMap( LogStream writer, Map map, String tag )
+	private static void checkModifierMap( LogStream writer, Map map, String tag, ArrayList unknown )
 	{
 		if ( map.size() == 0 )
 			return;
 
 		RequestLogger.printLine( "Checking " + tag + "..." );
 
-		writer.println( "" );
+		writer.println();
 		writer.println( "# " + tag + " section of modifiers.txt" );
-		writer.println( "" );
+		writer.println();
 
 		Object [] keys = map.keySet().toArray();
 		for ( int i = 0; i < keys.length; ++i )
 		{
 			String name = (String)keys[i];
 			String text = (String)map.get( name );
-			checkModifierDatum( name, text, writer );
+			checkModifierDatum( name, text, writer, unknown );
 		}
 	}
 
 	private static final Pattern ENCHANTMENT_PATTERN = Pattern.compile( "Enchantment:.*?<font color=blue>(.*)</font>", Pattern.DOTALL );
 	private static final Pattern DR_PATTERN = Pattern.compile( "Damage Reduction: <b>(\\d+)</b>" );
 
-	private static void checkModifierDatum( String name, String text, LogStream writer )
+	private static void checkModifierDatum( String name, String text, LogStream writer, ArrayList unknown )
 	{
 		Matcher matcher = ENCHANTMENT_PATTERN.matcher( text );
 		if ( !matcher.find() )
@@ -1581,7 +1594,6 @@ public class TradeableItemDatabase extends KoLDatabase
 		enchantments = enchantments.replaceAll( "\n+", "\n" );
 
 		String known = "";
-		ArrayList unknown = new ArrayList();
 
 		matcher = DR_PATTERN.matcher( text );
 		if (matcher.find() )
@@ -1604,16 +1616,12 @@ public class TradeableItemDatabase extends KoLDatabase
 				continue;
 			}
 
-			unknown.add( enchantment );
+			if ( !unknown.contains( enchantment ) )
+				unknown.add( enchantment );
 		}
 
-		if ( known.equals( "" ) )
+		if ( !known.equals( "" ) )
 			writer.println( "# " + name );
-		else
-			writer.println( name + "\t" + known );
-
-		for ( int i = 0; i < unknown.size(); ++i )
-			writer.println( "#     " + (String)unknown.get(i) );
 	}
 
 	private static final Pattern COMBAT_PATTERN = Pattern.compile( "Monsters will be (.*) attracted to you." );
