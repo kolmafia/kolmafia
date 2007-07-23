@@ -1000,6 +1000,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( location.startsWith( "palinshelves.php" ) )
 			StaticEntity.singleStringReplace( buffer, "</html>", "<script language=\"Javascript\" src=\"/KoLmafia/palinshelves.js\" /></html>" );
 
+		if ( location.startsWith( "manor3.php" ) )
+			addWineCellarSpoilers( buffer );
+
 		// Change potions wherever we find them
 		changePotionImages( buffer );
 
@@ -1436,6 +1439,12 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		changePotionNames( buffer );
 	}
 
+	private static void addWineCellarSpoilers( StringBuffer buffer )
+	{
+		// Change dusty bottle names in item dropdown
+		changeDustyBottleNames( buffer );
+	}
+
 	private static void changePotionImages( StringBuffer buffer )
 	{
 		if ( buffer.indexOf( "exclam.gif" ) == -1 )
@@ -1484,6 +1493,46 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				if ( !effect.equals( "" ) )
 					StaticEntity.globalStringReplace( buffer, name, name + " of " + effect );
 			}
+		}
+	}
+
+	private static final Pattern GLYPH_PATTERN = Pattern.compile( "Arcane Glyph #(\\d)" );
+
+	private static void changeDustyBottleNames( StringBuffer buffer )
+	{
+		int glyphs[] = new int[3];
+
+		Matcher matcher = GLYPH_PATTERN.matcher( buffer );
+
+		if ( !matcher.find() )
+			return;
+		glyphs[0] = StaticEntity.parseInt ( matcher.group(1) );
+
+		if ( !matcher.find() )
+			return;
+		glyphs[1] = StaticEntity.parseInt ( matcher.group(1) );
+
+		if ( !matcher.find() )
+			return;
+		glyphs[2] = StaticEntity.parseInt ( matcher.group(1) );
+
+		int wines[] = new int[3];
+
+		for ( int i = 2271; i <= 2276; ++i )
+		{
+			int glyph = StaticEntity.getIntegerProperty( "lastDustyBottle" + i );
+			for ( int j = 0; j < 3; ++j )
+				if ( glyph == glyphs[j] )
+				{
+					wines[j] = i;
+					break;
+				}
+		}
+
+		for ( int i = 0; i < 3; ++i )
+		{
+			String name = TradeableItemDatabase.getItemName( wines[i] );
+			StaticEntity.globalStringReplace( buffer, name, ( i + 1 ) + " " + name );
 		}
 	}
 
