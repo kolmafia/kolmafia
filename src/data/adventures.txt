@@ -145,7 +145,6 @@ Beanstalk	85/95	adventure=82	Giant's Castle
 Beanstalk	85/100	adventure=83	Hole in the Sky
 
 Sorceress	104/0	lair3=hedge	Sorceress' Hedge Maze
-Sorceress	104/0	lair6=5	Fight the Naughty Sorceress
 
 # Zodiac Areas
 
