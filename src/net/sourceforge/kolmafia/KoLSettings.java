@@ -48,6 +48,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.TreeMap;
 
+import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AdventureDatabase.ChoiceAdventure;
 
 public class KoLSettings extends Properties implements KoLConstants
@@ -69,7 +70,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		// This includes the various meat combinables, sewer items, and stat boosters.
 
 		"meat paste", "meat stack", "dense meat stack", "twinkly powder",
-		"seal-clubbing club", "seal tooth", "helmet turtle", "turtle totem", "pasta spoon", "ravioli hat", "saucepan", "disco mask", "mariachi pants",
+		"seal-clubbing club", "seal tooth", "helmet turtle", "pasta spoon", "ravioli hat", "disco mask", "mariachi pants",
 		"moxie weed", "strongness elixir", "magicalness-in-a-can", "enchanted barbell", "concentrated magicalness pill", "giant moxie weed", "extra-strength strongness elixir", "jug-o-magicalness", "suntan lotion of moxiousness",
 
 		// Next, some common drops in low level areas that are farmed for other
@@ -100,8 +101,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		// Things which are generally used during a softcore ascension should not
 		// be placed on the junk list, unless they're easy to find.
 
-		"baseball", "disease", "barbed-wire fence", "razor-sharp can lid", "meat vortex", "frigid ninja stars",
-		"chaos butterfly", "photoprotoneutron torpedo", "spider web", "Wand of Nagamar", "Rock and Roll Legend",
+		"turtle totem", "saucepan", "stolen accordion",
 
 		// Crimbo 2005/2006 accessories, if they're still around, probably shouldn't
 		// be placed in the player's store.
@@ -155,7 +155,10 @@ public class KoLSettings extends Properties implements KoLConstants
 	{
 		try
 		{
-			junkItemList.clear();
+			preRoninJunkList.clear();
+			postRoninJunkList.clear();
+
+			SortedListModel junkItemList = preRoninJunkList;
 
 			if ( !junkItemsFile.exists() )
 			{
@@ -172,8 +175,11 @@ public class KoLSettings extends Properties implements KoLConstants
 
 				while ( (line = reader.readLine()) != null )
 				{
-					if ( line.equals( "" ) || line.startsWith( "[" ) )
+					if ( line.equals( "" ) )
 						continue;
+
+					if ( line.startsWith( "[" ) )
+						junkItemList = preRoninJunkList.indexOf( "pre-ronin" ) != -1 ? preRoninJunkList : postRoninJunkList;
 
 					if ( !TradeableItemDatabase.contains( line ) )
 						continue;
@@ -203,9 +209,6 @@ public class KoLSettings extends Properties implements KoLConstants
 
 				while ( (line = reader.readLine()) != null )
 				{
-					if ( line.equals( "" ) || line.startsWith( "[" ) )
-						continue;
-
 					if ( !TradeableItemDatabase.contains( line ) )
 						continue;
 
@@ -365,9 +368,21 @@ public class KoLSettings extends Properties implements KoLConstants
 		AdventureResult item;
 
 		LogStream ostream = LogStream.openStream( junkItemsFile, true );
-		for ( int i = 0; i < junkItemList.size(); ++i )
+
+		ostream.println( "[pre-ronin]" );
+
+		for ( int i = 0; i < preRoninJunkList.size(); ++i )
 		{
-			item = (AdventureResult) junkItemList.get(i);
+			item = (AdventureResult) preRoninJunkList.get(i);
+			ostream.println( item.getName() );
+		}
+
+		ostream.println();
+		ostream.println( "[post-ronin]" );
+
+		for ( int i = 0; i < postRoninJunkList.size(); ++i )
+		{
+			item = (AdventureResult) postRoninJunkList.get(i);
 			ostream.println( item.getName() );
 		}
 

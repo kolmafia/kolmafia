@@ -436,7 +436,6 @@ public abstract class KoLmafia implements KoLConstants
 		// Next, update all of the panels with the
 		// desired update message.
 
-		Object reference;
 		ActionPanel [] panels = StaticEntity.getExistingPanels();
 
 		for ( int i = 0; i < panels.length; ++i )
@@ -3118,7 +3117,7 @@ public abstract class KoLmafia implements KoLConstants
 		int itemCount;
 		AdventureResult currentItem;
 
-		Object [] items = junkItemList.toArray();
+		Object [] items = KoLCharacter.canInteract() ? postRoninJunkList.toArray() : preRoninJunkList.toArray();
 
 		// Before doing anything else, go through the list of items which are
 		// traditionally used and use them.  Also, if the item can be untinkered,
@@ -3169,8 +3168,7 @@ public abstract class KoLmafia implements KoLConstants
 					break;
 
 				case 621: // Warm Subject gift certificate
-					RequestThread.postRequest( new ConsumeItemRequest( currentItem.getInstance(1) ) );
-					RequestThread.postRequest( new ConsumeItemRequest( currentItem.getInstance( itemCount - 1 ) ) );
+					RequestThread.postRequest( new ConsumeItemRequest( currentItem.getInstance( itemCount ) ) );
 					break;
 				}
 			}
@@ -3238,6 +3236,9 @@ public abstract class KoLmafia implements KoLConstants
 		for ( int i = 0; i < items.length; ++i )
 		{
 			currentItem = (AdventureResult) items[i];
+
+			if ( mementoList.contains( currentItem ) )
+				continue;
 
 			if ( currentItem.getItemId() == MEAT_PASTE )
 				continue;

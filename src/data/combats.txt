@@ -144,7 +144,6 @@ Whitey's Grove	75	Knight in White Satin	White Chocolate Golem	White Lion	Whitesn
 
 # Areas with no combat data - or no combats
 
-Fight the Naughty Sorceress	0
 Frat House In Disguise	0
 Friar Ceremony Location	0
 Goat Party	0

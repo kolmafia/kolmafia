@@ -839,7 +839,12 @@ public class AdventureResult implements Comparable, KoLConstants
 				stringForm.insert( 0, "<html><font color=olive>" );
 				stringForm.append( "</font></html>" );
 			}
-			else if ( junkItemList.contains( ar ) )
+			else if ( !KoLCharacter.canInteract() && preRoninJunkList.contains( ar ) )
+			{
+				stringForm.insert( 0, "<html><font color=gray>" );
+				stringForm.append( "</font></html>" );
+			}
+			else if ( KoLCharacter.canInteract() && postRoninJunkList.contains( ar ) )
 			{
 				stringForm.insert( 0, "<html><font color=gray>" );
 				stringForm.append( "</font></html>" );
@@ -861,7 +866,12 @@ public class AdventureResult implements Comparable, KoLConstants
 				stringForm.append( ")" );
 			}
 
-			if ( junkItemList.contains( icr.createdItem ) )
+			if ( !KoLCharacter.canInteract() && preRoninJunkList.contains( icr.createdItem ) )
+			{
+				stringForm.insert( 0, "<html><font color=gray>" );
+				stringForm.append( "</font></html>" );
+			}
+			else if ( KoLCharacter.canInteract() && postRoninJunkList.contains( icr.createdItem ) )
 			{
 				stringForm.insert( 0, "<html><font color=gray>" );
 				stringForm.append( "</font></html>" );

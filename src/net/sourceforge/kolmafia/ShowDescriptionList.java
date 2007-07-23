@@ -103,9 +103,6 @@ public class ShowDescriptionList extends JList implements KoLConstants
 			this.contextMenu.add( new BoostSkillMenuItem() );
 		}
 
-		if ( listModel == junkItemList )
-			this.contextMenu.add( new RemoveFromJunkListMenuItem() );
-
 		if ( listModel == mementoList )
 			this.contextMenu.add( new RemoveFromMementoListMenuItem() );
 
@@ -119,12 +116,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		}
 		else if ( listModel == inventory || listModel == closet || isEncyclopedia )
 		{
-			this.contextMenu.add( new AddToJunkListMenuItem() );
 			this.contextMenu.add( new AddToMementoListMenuItem() );
-		}
-		else if ( listModel == StoreManager.getSortedSoldItemList() )
-		{
-			this.contextMenu.add( new AddToJunkListMenuItem() );
 		}
 		else if ( isMoodList )
 		{
@@ -448,43 +440,6 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		}
 	}
 
-	private class AddToJunkListMenuItem extends ContextMenuItem
-	{
-		public AddToJunkListMenuItem()
-		{	super( "Add to junk list" );
-		}
-
-		public void executeAction()
-		{
-			Object [] items = ShowDescriptionList.this.getSelectedValues();
-			ShowDescriptionList.this.clearSelection();
-
-			AdventureResult data;
-
-			for ( int i = 0; i < items.length; ++i )
-			{
-				data = null;
-
-				if ( items[i] instanceof ItemCreationRequest )
-					data = ((ItemCreationRequest)items[i]).createdItem;
-				else if ( items[i] instanceof AdventureResult && ((AdventureResult)items[i]).isItem() )
-					data = (AdventureResult) items[i];
-				else if ( this.item instanceof SoldItem )
-					data = new AdventureResult( ((SoldItem) this.item).getItemId(), 1 );
-				else if ( items[i] instanceof String && TradeableItemDatabase.contains( (String) items[i] ) )
-					data = new AdventureResult( (String) items[i], 1, false );
-				else if ( items[i] instanceof Entry && TradeableItemDatabase.contains( (String) ((Entry)items[i]).getValue() ) )
-					data = new AdventureResult( (String) ((Entry)items[i]).getValue(), 1, false );
-
-				if ( data != null && !junkItemList.contains( data ) )
-					junkItemList.add( data );
-			}
-
-			KoLSettings.saveFlaggedItemList();
-			ShowDescriptionList.this.listModel.applyListFilter( ShowDescriptionList.this.filter );
-		}
-	}
-
 	private class AddToMementoListMenuItem extends ContextMenuItem
 	{
 		public AddToMementoListMenuItem()
@@ -515,6 +470,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 					mementoList.add( data );
 			}
 
+			StaticEntity.setProperty( "mementoListActive", "true" );
 			KoLSettings.saveFlaggedItemList();
 		}
 	}
@@ -600,7 +556,10 @@ public class ShowDescriptionList extends JList implements KoLConstants
 			ShowDescriptionList.this.clearSelection();
 
 			for ( int i = 0; i < items.length; ++i )
-				junkItemList.remove( items[i] );
+			{
+				preRoninJunkList.remove( items[i] );
+				postRoninJunkList.remove( items[i] );
+			}
 
 			KoLSettings.saveFlaggedItemList();
 		}

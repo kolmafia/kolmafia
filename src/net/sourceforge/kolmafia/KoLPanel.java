@@ -38,6 +38,8 @@ import java.awt.Dimension;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -299,7 +301,7 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 	 * a script using the file dialog.
 	 */
 
-	public class ScriptSelectPanel extends JPanel implements ActionListener, Runnable
+	public class ScriptSelectPanel extends JPanel implements ActionListener, FocusListener
 	{
 		private JTextField scriptField;
 		private JButton scriptButton;
@@ -308,6 +310,7 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 		{
 			this.setLayout( new BorderLayout( 0, 0 ) );
 
+			scriptField.addFocusListener( this );
 			this.add( scriptField, BorderLayout.CENTER );
 			this.scriptButton = new JButton( "..." );
 
@@ -332,11 +335,15 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 		{	this.scriptField.setText( text );
 		}
 
-		public void actionPerformed( ActionEvent e )
-		{	(new Thread( this )).start();
+		public void focusLost( FocusEvent e )
+		{	KoLPanel.this.actionConfirmed();
 		}
 
-		public void run()
+		public void focusGained( FocusEvent e )
+		{
+		}
+
+		public void actionPerformed( ActionEvent e )
 		{
 			JFileChooser chooser = new JFileChooser( SCRIPT_LOCATION.getAbsolutePath() );
 			chooser.showOpenDialog( null );
