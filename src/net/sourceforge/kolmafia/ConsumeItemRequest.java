@@ -910,7 +910,15 @@ public class ConsumeItemRequest extends KoLRequest
 			if ( item != null )
 				AdventureResult.addResultToList( inventory, item );
 
-			CommandDisplayFrame.executeCommand( "familiar " + StaticEntity.getProperty( "preBlackbirdFamiliar" ) );
+			if ( !StaticEntity.getProperty( "preBlackbirdFamiliar" ).equals( "" ) )
+			{
+				DEFAULT_SHELL.executeCommand( "familiar", StaticEntity.getProperty( "preBlackbirdFamiliar" ) );
+				if ( item != null && KoLCharacter.getFamiliar().canEquip( item ) )
+					(new EquipmentRequest( item )).run();
+
+				StaticEntity.setProperty( "preBlackbirdFamiliar", "" );
+			}
+
 			return;
 
 		case SPOOKY_TEMPLE_MAP:
@@ -1362,7 +1370,7 @@ public class ConsumeItemRequest extends KoLRequest
 			if ( !KoLmafia.permitsContinue() )
 				return true;
 
-			CommandDisplayFrame.executeCommand( "familiar Reassembled Blackbird" );
+			DEFAULT_SHELL.executeCommand( "familiar", "Reassembled Blackbird" );
 		}
 
 		RequestLogger.updateSessionLog();
