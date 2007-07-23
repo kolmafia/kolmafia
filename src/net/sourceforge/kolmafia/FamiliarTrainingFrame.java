@@ -113,6 +113,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 	private static final AdventureResult GREEN_CANDY = new AdventureResult( 2309, 1 );
 	private static final AdventureResult HALF_ORCHID = new AdventureResult( 2546, 1 );
 
+	private static final AdventureResult BAR_WHIP = new AdventureResult( 2455, 1 );
 	private static final int [] tinyPlasticNormal = new int [] { 969, 970, 971, 972, 973, 974, 975, 976, 977, 978, 979, 980, 981, 982, 983, 984, 985, 986, 987, 988 };
 	private static final int [] tinyPlasticCrimbo = new int [] { 1377, 1378, 2201, 2202 };
 
@@ -1250,7 +1251,10 @@ public class FamiliarTrainingFrame extends KoLFrame
 		// Currently equipped gear which affects weight
 		AdventureResult hat;
 		AdventureResult item;
-		AdventureResult [] acc = new AdventureResult [3];
+		AdventureResult weapon;
+		AdventureResult offhand;
+
+		AdventureResult [] acc = new AdventureResult[3];
 
 		// Available equipment which affects weight
 		AdventureResult pithHelmet;
@@ -1264,6 +1268,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		AdventureResult doppelganger;
 
 		int tpCount;
+		int whipCount;
 		AdventureResult [] tp = new AdventureResult [3];
 
 		// Weights
@@ -1305,63 +1310,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			// Check available equipment
 			this.checkAvailableEquipment( inventory );
-                }
-
-		/*
-		// Debug initializer
-		public FamiliarStatus( KoLmafia StaticEntity.getClient(),
-				       FamiliarData familiar,
-				       boolean sympathyAvailable,
-				       boolean leashAvailable,
-				       boolean empathyAvailable,
-				       int leashActive,
-				       int empathyActive,
-				       AdventureResult hat,
-				       AdventureResult item,
-				       AdventureResult acc1,
-				       AdventureResult acc2,
-				       AdventureResult acc3,
-				       LockableListModel inventory )
-		{
-			// Savefor later use
-			this.StaticEntity.getClient() = StaticEntity.getClient();
-
-			// Find out which familiar we are working with
-			this.familiar = familiar;
-
-			// Get details about the special item it can wear
-			String name = FamiliarsDatabase.getFamiliarItem( familiar.getId() );
-			familiarItem = new AdventureResult( name, 1, false );
-			familiarItemWeight = FamiliarData.itemWeightModifier( familiarItem.getItemId() );
-
-			// Check available skills
-			this.sympathyAvailable = sympathyAvailable;
-			this.leashAvailable = leashAvailable;
-			this.empathyAvailable = empathyAvailable;
-			this.leashActive = leashActive;
-			this.empathyActive = empathyActive;
-			this.greenTongueActive = 0;
-			this.blackTongueActive = 0;
-			this.heavyPettingActive = 0;
-			this.greenHeartActive = 0;
-			this.bestialActive = 0;
-
-			// Check current equipment
-			checkCurrentEquipment( hat, item, acc1, acc2, acc3 );
-
-			// Check available equipment
-			checkAvailableEquipment( inventory );
-
-			// No turns have been used yet
-			turns = 0;
-
-			// Initialize set of weights
-			weights = new TreeSet();
-
-			// Initialize the list of GearSets
-			gearSets = new ArrayList();
-		}
-		*/
+        }
 
 		private void checkSkills()
 		{
@@ -1388,19 +1337,26 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		private void checkCurrentEquipment()
 		{
-			this.checkCurrentEquipment( KoLCharacter.getEquipment( KoLCharacter.HAT ),
+			this.checkCurrentEquipment(
+				KoLCharacter.getEquipment( KoLCharacter.WEAPON ),
+				KoLCharacter.getEquipment( KoLCharacter.OFFHAND ),
+				KoLCharacter.getEquipment( KoLCharacter.HAT ),
 				KoLCharacter.getEquipment( KoLCharacter.FAMILIAR ),
 				KoLCharacter.getEquipment( KoLCharacter.ACCESSORY1 ),
 				KoLCharacter.getEquipment( KoLCharacter.ACCESSORY2 ),
 				KoLCharacter.getEquipment( KoLCharacter.ACCESSORY3 ) );
 		}
 
-		private void checkCurrentEquipment( AdventureResult hat, AdventureResult item,
+		private void checkCurrentEquipment( AdventureResult weapon, AdventureResult offhand,
+			AdventureResult hat, AdventureResult item,
 			AdventureResult acc1, AdventureResult acc2, AdventureResult acc3 )
 		{
 			// Initialize equipment to default
+			this.weapon = null;
+			this.offhand = null;
 			this.hat = null;
 			this.item = null;
+
 			this.acc[0] = null;
 			this.acc[1] = null;
 			this.acc[2] = null;
@@ -1415,31 +1371,45 @@ public class FamiliarTrainingFrame extends KoLFrame
 			this.flowerBouquet = null;
 			this.doppelganger = null;
 
+			this.whipCount = 0;
 			this.tpCount = 0;
 
 			// Check hat for pithiness
-			if ( hat != null && hat.getName().equals( PITH_HELMET.getName() ) )
+			if ( hat != null && hat.getItemId() == PITH_HELMET.getItemId() )
 				this.hat = this.pithHelmet = PITH_HELMET;
+
+			if ( weapon != null && weapon.getItemId() == BAR_WHIP.getItemId() )
+			{
+				++this.whipCount;
+				this.weapon = BAR_WHIP;
+			}
+
+			if ( offhand != null && offhand.getItemId() == BAR_WHIP.getItemId() )
+			{
+				++this.whipCount;
+				this.offhand = BAR_WHIP;
+			}
 
 			// Check current familiar item
 			if ( item != null )
 			{
-				String name = item.getName();
-				if ( name.equals( this.familiarItem.getName() ) )
+				int itemId = item.getItemId();
+				if ( itemId == this.familiarItem.getItemId() )
 					this.item = this.specItem = this.familiarItem;
-				else if ( name.equals( PUMPKIN_BUCKET.getName() ) )
+				else if ( itemId == PUMPKIN_BUCKET.getItemId() )
 					this.item = this.pumpkinBucket = PUMPKIN_BUCKET;
-				else if ( name.equals( FLOWER_BOUQUET.getName() ) )
+				else if ( itemId == FLOWER_BOUQUET.getItemId() )
 					this.item = this.flowerBouquet = FLOWER_BOUQUET;
-				else if ( name.equals( LEAD_NECKLACE.getName() ) )
+				else if ( itemId == LEAD_NECKLACE.getItemId() )
 					this.item = this.leadNecklace = LEAD_NECKLACE;
-				else if ( name.equals( RAT_HEAD_BALLOON.getName() ) )
+				else if ( itemId == RAT_HEAD_BALLOON.getItemId() )
 					this.item = this.ratHeadBalloon = RAT_HEAD_BALLOON;
-				else if ( name.equals( DOPPELGANGER.getName() ) )
+				else if ( itemId == DOPPELGANGER.getItemId() )
 					this.item = this.doppelganger = DOPPELGANGER;
 			}
 
 			// Check accessories for tininess and plasticity
+
 			this.checkAccessory( 0, acc1 );
 			this.checkAccessory( 1, acc2 );
 			this.checkAccessory( 2, acc3 );
@@ -1449,7 +1419,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		{
 			if ( this.isTinyPlasticItem( accessory ) )
 			{
-				this.acc[ index] = accessory;
+				this.acc[ index ] = accessory;
 				this.tp[ this.tpCount++ ] = accessory;
 			}
 		}
@@ -1563,17 +1533,20 @@ public class FamiliarTrainingFrame extends KoLFrame
 				}
 			}
 
+			this.whipCount = Math.min( KoLCharacter.hasSkill( "Double-Fisted Skull Smashing" ) ? 2 : 1,
+				this.whipCount + BAR_WHIP.getCount( inventory ) );
+
 			// If equipped with fewer than three tiny plastic items
 			// equipped, search inventory for more
 			for ( int i = 0; i < tinyPlasticNormal.length; ++i )
-				this.addTinyPlastic( tinyPlasticNormal[i], inventory );
+				this.addTinyPlastic( tinyPlasticNormal[i] );
 
 			// Check Tiny Plastic Crimbo objects
 			for ( int i = 0; i < tinyPlasticCrimbo.length; ++i )
-				this.addTinyPlastic( tinyPlasticCrimbo[i], inventory );
+				this.addTinyPlastic( tinyPlasticCrimbo[i] );
 		}
 
-		private void addTinyPlastic( int id, LockableListModel inventory )
+		private void addTinyPlastic( int id )
 		{
 			if ( this.tpCount == 3 )
 				return;
@@ -1668,11 +1641,15 @@ public class FamiliarTrainingFrame extends KoLFrame
 		private void getAccessoryWeights( int weight )
 		{
 			// Calculate using variable #s of tiny plastic objects
-			for ( int i = 0; i < this.tpCount; ++i )
-				this.getHatWeights( weight + i + 1 );
+			for ( int i = 0; i <= this.tpCount; ++i )
+				this.getWhipWeights( weight + i );
+		}
 
-			// Calculate Hat Weights with no accessories
-			this.getHatWeights( weight );
+		private void getWhipWeights( int weight )
+		{
+			// Calculate using variable #s of whips
+			for ( int i = 0; i <= this.whipCount; ++i )
+				this.getHatWeights( weight + i * 2 );
 		}
 
 		private void getHatWeights( int weight )
@@ -1757,6 +1734,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		public void changeGear( GearSet current, GearSet next )
 		{
+			this.swapItem( current.weapon, next.weapon, KoLCharacter.WEAPON );
+			this.swapItem( current.offhand, next.offhand, KoLCharacter.OFFHAND );
 			this.swapItem( current.hat, next.hat, KoLCharacter.HAT );
 			this.swapItem( current.item, next.item, KoLCharacter.FAMILIAR );
 			this.swapItem( current.acc1, next.acc1, KoLCharacter.ACCESSORY1 );
@@ -1791,16 +1770,16 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		private void setItem( int slot, AdventureResult item )
 		{
-			if ( slot == KoLCharacter.HAT )
-				this.hat = item;
-			else if ( slot == KoLCharacter.FAMILIAR )
-				this.item = item;
-			else if ( slot == KoLCharacter.ACCESSORY1 )
-				this.acc[0] = item;
-			else if ( slot == KoLCharacter.ACCESSORY2 )
-				this.acc[1] = item;
-			else if ( slot == KoLCharacter.ACCESSORY3 )
-				this.acc[2] = item;
+			switch ( slot )
+			{
+			case KoLCharacter.WEAPON:  this.weapon = item;  break;
+			case KoLCharacter.OFFHAND:  this.offhand = item;  break;
+			case KoLCharacter.HAT:  this.hat = item;  break;
+			case KoLCharacter.FAMILIAR:  this.item = item;  break;
+			case KoLCharacter.ACCESSORY1:  this.acc[0] = item;  break;
+			case KoLCharacter.ACCESSORY2:  this.acc[1] = item;  break;
+			case KoLCharacter.ACCESSORY3:  this.acc[2] = item;  break;
+			}
 		}
 
 		/*
@@ -1910,11 +1889,26 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		private void addGearSet( int weight, AdventureResult acc1, AdventureResult acc2, AdventureResult acc3, AdventureResult item,  AdventureResult hat )
 		{
-			if ( weight == this.gearSetWeight( acc1, acc2, acc3, item, hat ) )
-				this.gearSets.add( new GearSet( hat, item, acc1, acc2, acc3 ) );
+			int gearWeight = gearSetWeight( null, null, hat, item, acc1, acc2, acc3 );
+			if ( weight == gearWeight )
+				this.gearSets.add( new GearSet( null, null, hat, item, acc1, acc2, acc3 ) );
+
+			if ( this.whipCount > 0 )
+			{
+				gearWeight = gearSetWeight( BAR_WHIP, null, hat, item, acc1, acc2, acc3 );
+				if ( weight == gearWeight )
+					this.gearSets.add( new GearSet( BAR_WHIP, null, hat, item, acc1, acc2, acc3 ) );
+			}
+
+			if ( this.whipCount > 1 )
+			{
+				gearWeight = gearSetWeight( BAR_WHIP, BAR_WHIP, hat, item, acc1, acc2, acc3 );
+				if ( weight == gearWeight )
+					this.gearSets.add( new GearSet( BAR_WHIP, BAR_WHIP, hat, item, acc1, acc2, acc3 ) );
+			}
 		}
 
-		private int gearSetWeight( AdventureResult acc1, AdventureResult acc2, AdventureResult acc3, AdventureResult item,  AdventureResult hat )
+		private int gearSetWeight( AdventureResult weapon, AdventureResult offhand, AdventureResult acc1, AdventureResult acc2, AdventureResult acc3, AdventureResult item,  AdventureResult hat )
 		{
 			int weight = this.familiar.getWeight();
 
@@ -1947,6 +1941,11 @@ public class FamiliarTrainingFrame extends KoLFrame
 				weight += 3;
 			else if ( item == RAT_HEAD_BALLOON )
 				weight -= 3;
+
+			if ( weapon == BAR_WHIP )
+				weight += 2;
+			if ( offhand == BAR_WHIP )
+				weight += 2;
 
 			if ( this.isTinyPlasticItem( acc1 ) )
 				weight += 1;
@@ -2092,6 +2091,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			// Add available tiny plastic items
 			weight += this.tpCount;
+			weight += 2 * this.whipCount;
 
 			// Add pith helmet
 			if ( this.pithHelmet != null )
@@ -2155,6 +2155,11 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			text.append( "Current equipment:" );
 
+			if ( this.weapon == BAR_WHIP )
+				text.append( " bar whip (+2)" );
+			if ( this.offhand == BAR_WHIP )
+				text.append( " bar whip (+2)" );
+
 			if ( this.hat == PITH_HELMET )
 				text.append( " plexiglass pith helmet (+5)" );
 
@@ -2184,6 +2189,13 @@ public class FamiliarTrainingFrame extends KoLFrame
 			StringBuffer text = new StringBuffer();
 
 			text.append( "Available equipment:" );
+
+			for ( int i = 0; i < this.whipCount; ++i )
+				text.append( " bar whip (+2)" );
+
+			if ( this.hat == PITH_HELMET )
+				text.append( " plexiglass pith helmet (+5)" );
+
 			if ( this.doppelganger != null )
 				text.append( " flaming familiar doppelg&auml;nger (+0)" );
 			if ( this.pithHelmet != null )
@@ -2198,8 +2210,10 @@ public class FamiliarTrainingFrame extends KoLFrame
 				text.append( " lead necklace (+3)" );
 			if ( this.ratHeadBalloon != null )
 				text.append( " rat head balloon (-3)" );
+
 			for ( int i = 0; i < this.tpCount; ++i )
 				text.append( " " + this.tp[i].getName() + " (+1)" );
+
 			text.append( "<br>" );
 
 			return text.toString();
@@ -2207,6 +2221,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		private class GearSet implements Comparable
 		{
+			public AdventureResult weapon;
+			public AdventureResult offhand;
 			public AdventureResult hat;
 			public AdventureResult item;
 			public AdventureResult acc1;
@@ -2214,12 +2230,16 @@ public class FamiliarTrainingFrame extends KoLFrame
 			public AdventureResult acc3;
 
 			public GearSet()
-			{	this( FamiliarStatus.this.hat, FamiliarStatus.this.item, FamiliarStatus.this.acc[0], FamiliarStatus.this.acc[1], FamiliarStatus.this.acc[2] );
+			{
+				this( FamiliarStatus.this.weapon, FamiliarStatus.this.offhand, FamiliarStatus.this.hat,
+					FamiliarStatus.this.item, FamiliarStatus.this.acc[0], FamiliarStatus.this.acc[1], FamiliarStatus.this.acc[2] );
 			}
 
-			public GearSet( AdventureResult hat, AdventureResult item,
-				AdventureResult acc1, AdventureResult acc2, AdventureResult acc3 )
+			public GearSet( AdventureResult weapon, AdventureResult offhand, AdventureResult hat,
+				AdventureResult item, AdventureResult acc1, AdventureResult acc2, AdventureResult acc3 )
 			{
+				this.weapon = weapon;
+				this.offhand = offhand;
 				this.hat = hat;
 				this.item = item;
 				this.acc1 = acc1;
@@ -2228,7 +2248,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			}
 
 			public int weight()
-			{	return FamiliarStatus.this.gearSetWeight( this.acc1, this.acc2, this.acc3, this.item, this.hat );
+			{	return FamiliarStatus.this.gearSetWeight( this.weapon, this.offhand, this.acc1, this.acc2, this.acc3, this.item, this.hat );
 			}
 
 			public int compareTo( Object o )
@@ -2255,8 +2275,14 @@ public class FamiliarTrainingFrame extends KoLFrame
 						that.item == FamiliarStatus.this.pumpkinBucket || that.item == FamiliarStatus.this.flowerBouquet ? 5 : that.item == FamiliarStatus.this.leadNecklace ? 10 : 5;
 				}
 
+				if ( this.weapon != that.weapon )
+					changes += 15;
+
+				if ( this.offhand != that.offhand )
+					changes += 10;
+
 				// Tiny plastic accessory changes are expensive
-				// because they involve huge changes.
+				// because they involve frequent changes.
 
 				if ( this.acc1 != that.acc1 )
 					changes += 20;
@@ -2272,6 +2298,16 @@ public class FamiliarTrainingFrame extends KoLFrame
 			{
 				StringBuffer text = new StringBuffer();
 				text.append( "(" );
+				if ( this.weapon == null )
+					text.append( "null" );
+				else
+					text.append( this.weapon.getItemId() );
+				text.append( ", " );
+				if ( this.offhand == null )
+					text.append( "null" );
+				else
+					text.append( this.offhand.getItemId() );
+				text.append( ", " );
 				if ( this.hat == null )
 					text.append( "null" );
 				else
@@ -2302,73 +2338,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 			}
 		}
 	}
-
-	// Debug methods
-
-	/*
-	private static LockableListModel debugOpponents = new LockableListModel();
-	static
-	{
-		debugOpponents.add( new ArenaOpponent( 1, "Dirty Pair", "Fuzzy Dice", 15 ) );
-		debugOpponents.add( new ArenaOpponent( 2, "Radi O'Kol", "Leprechaun", 10 ) );
-		debugOpponents.add( new ArenaOpponent( 3, "Captain Scapula", "Spooky Pirate Skeleton", 15 ) );
-		debugOpponents.add( new ArenaOpponent( 4, "Queso Ardilla", "Hovering Sombrero", 10 ));
-		debugOpponents.add( new ArenaOpponent( 5, "Optimus Pram", "MagiMechTech MicroMechaMech", 7 ) );
-	}
-
-	private static FamiliarData debugFamiliar = new FamiliarData( 19, "Creepy", 2, "skewer-mounted razor blade" );
-
-	private static void debug()
-	{
-		inventory.add( new AdventureResult( "lead necklace", 1 ) );
-		inventory.add( new AdventureResult( "tiny plastic angry goat", 1 ) );
-		inventory.add( new AdventureResult( "tiny plastic stab bat", 1 ) );
-		inventory.add( new AdventureResult( "tiny plastic cocoabo", 1 ) );
-
-		FamiliarStatus status = new FamiliarStatus(
-							    debugFamiliar,
-							    true,
-							    true,
-							    false,
-							    0,
-							    0,
-							    null,
-							    new AdventureResult( "skewer-mounted razor blade" ),
-							    null,
-							    null,
-							    null,
-							    inventory );
-
-		// Identify the familiar we are training
-		printFamiliar( status, 20, BASE );
-		results.append( "<br>" );
-
-		// Print available buffs and items and current buffs
-		results.append( status.printCurrentBuffs() );
-		results.append( status.printAvailableBuffs() );
-		results.append( status.printCurrentEquipment() );
-		results.append( status.printAvailableEquipment() );
-		results.append( "<br>" );
-
-		// Print the opponents
-		printOpponents( debugOpponents );
-		results.append( "<br>" );
-
-		FamiliarTool tool = new FamiliarTool( debugOpponents );
-
-		int [] weights = status.getWeights( false );
-		printWeights( weights, false );
-
-		ArenaOpponent opponent = tool.bestOpponent( debugFamiliar.getId(), weights );
-
-		printMatch( status, opponent, tool, tool.bestMatch() );
-
-		int weight = tool.bestWeight();
-		results.append( "Equipping to " + weight + " lbs.<br>" );
-		status.chooseGear( weight, false );
-	}
-	*/
-
 
 	/**
 	 * An internal class used to handle requests which resets a property
