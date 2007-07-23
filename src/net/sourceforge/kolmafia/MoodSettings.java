@@ -670,6 +670,8 @@ public abstract class MoodSettings implements KoLConstants
 					DEFAULT_SHELL.executeLine( action );
 				else if ( action.startsWith( "use" ) && restoreSetting.indexOf( action.substring(4) ) != -1 )
 					DEFAULT_SHELL.executeLine( action );
+				else if ( KoLCharacter.canInteract() )
+					DEFAULT_SHELL.executeLine( action );
 			}
 		}
 	}
@@ -832,10 +834,6 @@ public abstract class MoodSettings implements KoLConstants
 	}
 
 	public static String getDefaultAction( String type, String name )
-	{	return getDefaultAction( type, name, true );
-	}
-
-	public static String getDefaultAction( String type, String name, boolean strict )
 	{
 		if ( type == null || name == null )
 			return "";
@@ -853,7 +851,7 @@ public abstract class MoodSettings implements KoLConstants
 				strictAction = current.action;
 		}
 
-		if ( strict && !strictAction.equals( "" ) )
+		if ( !strictAction.equals( "" ) && type.equals( "lose_effect" ) )
 			return strictAction;
 
 		if ( type.equals( "unconditional" ) )
