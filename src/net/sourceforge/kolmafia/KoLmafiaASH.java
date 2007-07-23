@@ -4625,7 +4625,6 @@ public class KoLmafiaASH extends StaticEntity
 			}
 
 			KoLRequest request = new KoLRequest( location, true );
-			request.setDelayExempt( false );
 			RequestThread.postRequest( request );
 
 			StaticEntity.externalUpdate( location, request.responseText );

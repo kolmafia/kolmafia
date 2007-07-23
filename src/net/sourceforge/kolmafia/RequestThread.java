@@ -55,7 +55,7 @@ public abstract class RequestThread implements KoLConstants
 
 		try
 		{
-			executeRequest( request, true );
+			executeRequest( request );
 		}
 		catch ( Exception e )
 		{
@@ -94,21 +94,11 @@ public abstract class RequestThread implements KoLConstants
 	 * The display will be enabled if there is no sequence.
 	 */
 
-	public static void postRequest( KoLRequest request, boolean forceConcurrency )
+	public static void executeRequest( KoLRequest request )
 	{
 		if ( request == null )
 			return;
 
-		executeRequest( request, forceConcurrency );
-	}
-
-	/**
-	 * Executes a single queued request and also re-enables the display.
-	 * This should be executed as a sub-component.
-	 */
-
-	private static void executeRequest( KoLRequest request, boolean forceConcurrency )
-	{
 		if ( sequenceCount == 0 && !request.isDelayExempt() )
 			KoLmafia.forceContinue();
 
@@ -121,7 +111,7 @@ public abstract class RequestThread implements KoLConstants
 		{
 			if ( !SwingUtilities.isEventDispatchThread() )
 				request.run();
-			else if ( forceConcurrency || request.isDelayExempt() )
+			else if ( request.isDelayExempt() )
 				ConcurrentWorker.post( request );
 			else
 				Worker.post( request );
