@@ -67,6 +67,7 @@ public class KoLmafiaCLI extends KoLmafia
 	public static final int FOOD = 4;
 	public static final int BOOZE = 5;
 
+	private static boolean attemptedLogin = false;
 	private static boolean isUsageMatch = false;
 	private static boolean isCreationMatch = false;
 	private static boolean isUntinkerMatch = false;
@@ -139,15 +140,10 @@ public class KoLmafiaCLI extends KoLmafia
 	 * for the user will automatically look up a password.
 	 */
 
-	public void attemptLogin()
+	public void attemptLogin( String username )
 	{
 		try
 		{
-			String username = StaticEntity.getProperty( "autoLogin" );
-
-			if ( username == null || username.length() == 0 )
-				username = StaticEntity.getProperty( "lastUsername" );
-
 			if ( username == null || username.length() == 0 )
 			{
 				System.out.println();
@@ -179,6 +175,7 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 
 			System.out.println();
+			attemptedLogin = true;
 			RequestThread.postRequest( new LoginRequest( username, password ) );
 		}
 		catch ( IOException e )
@@ -597,7 +594,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// If the command has already been disabled, then return
 		// from this function.
 
-		if ( command.equals( "login" ) || StaticEntity.isDisabled( command ) )
+		if ( StaticEntity.isDisabled( command ) )
 		{
 			RequestLogger.printLine( "Called disabled command: " + command + " " + parameters );
 			return;
@@ -968,6 +965,13 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( command.equals( "login" ) )
+		{
+			executeCommand( "logout", "" );
+			attemptLogin( parameters );
+			return;
+		}
+
 		// Next, handle any requests that request exiting.
 		// Note that a logout request should be sent in
 		// order to be friendlier to the server, if the
@@ -975,15 +979,21 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "logout" ) )
 		{
-			if ( KoLDesktop.instanceExists() )
-				KoLDesktop.getInstance().dispose();
+			if ( !attemptedLogin )
+			{
+				if ( KoLDesktop.instanceExists() )
+					KoLDesktop.getInstance().dispose();
 
-			KoLFrame [] frames = StaticEntity.getExistingFrames();
-			for ( int i = 0; i < frames.length; ++i )
-				frames[i].dispose();
+				KoLFrame [] frames = StaticEntity.getExistingFrames();
+				for ( int i = 0; i < frames.length; ++i )
+					frames[i].dispose();
+			}
 
 			if ( !KoLCharacter.getUserName().equals( "" ) )
 				RequestThread.postRequest( new LogoutRequest() );
+
+			if ( attemptedLogin )
+				System.exit(0);
 
 			return;
 		}
