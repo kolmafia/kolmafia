@@ -204,12 +204,6 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			return true;
 		}
 
-		if ( this.formSource.equals( "lair6.php" ) )
-		{
-			this.isValidAdventure = KoLCharacter.hasEquipped( SorceressLair.NAGAMAR );
-			return this.isValidAdventure;
-		}
-
 		if ( this.zone.equals( "MusSign" ) && !KoLCharacter.inMuscleSign() )
 		{
 			this.isValidAdventure = false;
@@ -713,9 +707,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 		if ( !this.meetsGeneralRequirements() )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, this.formSource.equals( "lair6.php" ) ? "Did you forget to equip something?" :
-				"Insufficient stats to adventure at " + this.adventureName + "." );
-
+			KoLmafia.updateDisplay( ERROR_STATE, "Insufficient stats to adventure at " + this.adventureName + "." );
 			return;
 		}
 

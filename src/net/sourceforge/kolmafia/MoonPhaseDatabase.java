@@ -355,7 +355,7 @@ public class MoonPhaseDatabase extends StaticEntity
 	 */
 
 	public static final int getBloodEffect( int ronaldPhase, int grimacePhase, int hamburglarPosition )
-	{	return (getMoonlight( ronaldPhase, grimacePhase, hamburglarPosition ) - 4) * 25;
+	{	return 50 + (getMoonlight( ronaldPhase, grimacePhase, hamburglarPosition ) - 4) * 5;
 	}
 
 	/**
