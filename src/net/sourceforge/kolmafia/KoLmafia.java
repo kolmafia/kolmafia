@@ -352,13 +352,20 @@ public abstract class KoLmafia implements KoLConstants
 			initialScript.append( " " );
 		}
 
-		if ( initialScript.length() != 0 && !StaticEntity.getProperty( "lastUsername" ).equals( "" ) )
+		String username = StaticEntity.getProperty( "autoLogin" );
+
+		if ( username == null || username.length() == 0 )
+			username = StaticEntity.getProperty( "lastUsername" );
+
+		if ( initialScript.length() != 0 )
 		{
 			String actualScript = initialScript.toString().trim();
 			if ( actualScript.startsWith( "script=" ) )
 				actualScript = actualScript.substring( 7 );
 
-			DEFAULT_SHELL.attemptLogin();
+			if ( !useGUI )
+				DEFAULT_SHELL.attemptLogin( username );
+
 			DEFAULT_SHELL.executeLine( "call " + actualScript );
 		}
 		else if ( !useGUI )
@@ -366,7 +373,15 @@ public abstract class KoLmafia implements KoLConstants
 			// If you're not using the GUI thread, make sure that
 			// you allow for an attempt to login.
 
-			DEFAULT_SHELL.attemptLogin();
+			DEFAULT_SHELL.attemptLogin( username );
+		}
+
+		else if ( !useGUI )
+		{
+			// If you're not using the GUI thread, make sure that
+			// you allow for an attempt to login.
+
+			DEFAULT_SHELL.attemptLogin( username );
 		}
 
 		// Always read input from the command line when you're not
