@@ -1011,6 +1011,11 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			shouldReset = true;
 			location = "Sorceress Tower: Shadow Fight";
 		}
+		else if ( urlString.startsWith( "lair6.php?place=5" ) )
+		{
+			shouldReset = true;
+			location = "Sorceress Tower: Naughty Sorceress";
+		}
 		else if ( urlString.startsWith( "hiddencity.php" ) )
 		{
 			shouldReset = true;
