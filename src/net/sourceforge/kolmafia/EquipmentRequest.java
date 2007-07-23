@@ -467,40 +467,21 @@ public class EquipmentRequest extends PasswordHashRequest
 			if ( KoLCharacter.getEquipment( this.equipmentSlot ).equals( this.changeItem ) )
 				return;
 
-			// Try to remove your off-hand item first, if there is
-			// no match on equipment type.
+			// If we are equipping a new weapon, a two-handed weapon will unequip any pair of
+			// weapons. But a one-handed weapon much match the type of the off-hand weapon. If it
+			// doesn't, unequip the off-hand weapon first
 
-			int itemId = this.changeItem.getItemId();
-			int equipmentType = TradeableItemDatabase.getConsumptionType( itemId );
-
-			if ( equipmentType == EQUIP_WEAPON && (this.equipmentSlot == KoLCharacter.WEAPON || this.equipmentSlot == KoLCharacter.OFFHAND) )
+			if ( this.equipmentSlot == KoLCharacter.WEAPON )
 			{
-				int desiredHands = EquipmentDatabase.getHands( itemId );
-				int desiredType = EquipmentDatabase.equipStat( itemId );
-				int currentType = EquipmentDatabase.equipStat( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getName() );
+				AdventureResult offhand = KoLCharacter.getEquipment( KoLCharacter.OFFHAND );
 
-				if ( desiredHands == 1 && desiredType != currentType )
+				if ( TradeableItemDatabase.getConsumptionType( offhand.getItemId() ) == EQUIP_WEAPON )
 				{
-					// If we are equipping a new weapon, a
-					// two-handed weapon will unequip any pair of
-					// weapons. But a one-handed weapon much match
-					// the type of the off-hand weapon. If it
-					// doesn't, unequip the off-hand weapon first
+					int desiredType = EquipmentDatabase.equipStat( this.changeItem.getItemId() );
+					int currentType = EquipmentDatabase.equipStat( offhand.getName() );
 
-					if ( this.equipmentSlot == KoLCharacter.WEAPON )
-					{
+					if ( EquipmentDatabase.getHands( this.changeItem.getItemId() ) == 1 && desiredType != currentType )
 						RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, KoLCharacter.OFFHAND ) );
-					}
-
-					// If we are equipping an off-hand weapon, fail
-					// the request if its type does not agree with
-					// the type of the main weapon.
-
-					else if ( this.equipmentSlot == KoLCharacter.OFFHAND )
-					{
-						KoLmafia.updateDisplay( ERROR_STATE, "You can't wield a " + ( desiredType == MUSCLE ? "melee" : desiredType == MYSTICALITY ? "mysticality" : "ranged" ) + " weapon in your off-hand with a " + ( currentType == MUSCLE ? "melee" : currentType == MYSTICALITY ? "mysticality" : "ranged" ) + " weapon in your main hand." );
-						return;
-					}
 				}
 			}
 
