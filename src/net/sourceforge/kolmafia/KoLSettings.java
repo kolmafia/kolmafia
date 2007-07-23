@@ -561,7 +561,6 @@ public class KoLSettings extends Properties implements KoLConstants
 
 		CLIENT_SETTINGS.put( "readManualHardcore", "true" );
 		CLIENT_SETTINGS.put( "readManualSoftcore", "true" );
-		CLIENT_SETTINGS.put( "relayAddsBossReminders", "false" );
 		CLIENT_SETTINGS.put( "relayAddsGraphicalCLI", "false" );
 		CLIENT_SETTINGS.put( "relayAddsKoLSimulator", "false" );
 		CLIENT_SETTINGS.put( "relayAddsMissingEffects", "true" );

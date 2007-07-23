@@ -870,7 +870,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 			// monsters.  Let's help out.  This one's for the Boss Bat,
 			// who has special items at 4 and 8.
 
-			if ( KoLCharacter.inMysticalitySign() && location != null && location.equals( "34" ) && this.getFormField( "override" ) == null )
+			if ( location != null && location.equals( "34" ) && this.getFormField( "override" ) == null )
 			{
 				this.sendBossWarning( "Boss Bat", "bossbat.gif", 4, "batpants.gif", 8, "batbling.gif" );
 				return;
@@ -880,7 +880,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// More MCD rewards.  This one is for the Knob Goblin King,
 		// who has special items at 3 and 7.
 
-		if ( KoLCharacter.inMysticalitySign() && this.formURLString.indexOf( "knob.php" ) != -1 &&
+		if ( this.formURLString.indexOf( "knob.php" ) != -1 &&
 			this.getFormField( "king" ) != null && this.getFormField( "override" ) == null )
 		{
 			this.sendBossWarning( "Knob Goblin King", "goblinking.gif", 3, "glassballs.gif", 7, "batcape.gif" );
@@ -890,7 +890,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// More MCD rewards.  This one is for the Bonerdagon, who has
 		// special items at 5 and 10.
 
-		if ( KoLCharacter.inMysticalitySign() && this.formURLString.indexOf( "cyrpt.php" ) != -1 &&
+		if ( this.formURLString.indexOf( "cyrpt.php" ) != -1 &&
 			this.getFormField( "action" ) != null && this.getFormField( "override" ) == null )
 		{
 			this.sendBossWarning( "Bonerdagon", "bonedragon.gif", 5, "rib.gif", 10, "vertebra.gif" );
