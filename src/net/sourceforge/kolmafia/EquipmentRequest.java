@@ -362,7 +362,7 @@ public class EquipmentRequest extends PasswordHashRequest
 				if ( shouldSavePreviousOutfit )
 				{
 					if ( SpecialOutfit.markImplicitCheckpoint() )
-						RequestThread.postRequest( new EquipmentRequest( "Backup" ) );
+						(new EquipmentRequest( "Backup" )).run();
 
 					shouldSavePreviousOutfit = false;
 				}
@@ -400,7 +400,7 @@ public class EquipmentRequest extends PasswordHashRequest
 				if ( shouldSavePreviousOutfit )
 				{
 					if ( SpecialOutfit.markImplicitCheckpoint() )
-						RequestThread.postRequest( new EquipmentRequest( "Backup" ) );
+						(new EquipmentRequest( "Backup" )).run();
 
 					shouldSavePreviousOutfit = false;
 				}
@@ -481,7 +481,7 @@ public class EquipmentRequest extends PasswordHashRequest
 					int currentType = EquipmentDatabase.equipStat( offhand.getName() );
 
 					if ( EquipmentDatabase.getHands( this.changeItem.getItemId() ) == 1 && desiredType != currentType )
-						RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, KoLCharacter.OFFHAND ) );
+						(new EquipmentRequest( EquipmentRequest.UNEQUIP, KoLCharacter.OFFHAND )).run();
 				}
 			}
 
@@ -554,17 +554,17 @@ public class EquipmentRequest extends PasswordHashRequest
 				TradeableItemDatabase.identifyDustyBottles();
 
 			KoLmafia.updateDisplay( "Equipment changed." );
-			RequestThread.postRequest( CharpaneRequest.getInstance() );
+			CharpaneRequest.getInstance().run();
 			break;
 
 		case REMOVE_ITEM:
 			KoLmafia.updateDisplay( "Equipment changed." );
-			RequestThread.postRequest( CharpaneRequest.getInstance() );
+			CharpaneRequest.getInstance().run();
 			break;
 
 		case UNEQUIP_ALL:
 			KoLmafia.updateDisplay( "Everything removed." );
-			RequestThread.postRequest( CharpaneRequest.getInstance() );
+			CharpaneRequest.getInstance().run();
 			break;
 		}
 	}

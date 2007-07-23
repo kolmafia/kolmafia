@@ -184,7 +184,7 @@ public class UneffectRequest extends KoLRequest
 			if ( RequestFrame.instanceExists() )
 				RequestFrame.refreshStatus();
 			else
-				RequestThread.postRequest( CharpaneRequest.getInstance() );
+				CharpaneRequest.getInstance().run();
 		}
 		else if ( !this.isShruggable )
 			KoLmafia.updateDisplay( "Failed to remove " + this.effect.getName() + "." );

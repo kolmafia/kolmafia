@@ -312,16 +312,12 @@ public class KoLRequest extends Job implements KoLConstants
 
 		this.constructURLString( formURLString );
 
-		this.isDelayExempt = this.getClass() == KoLRequest.class || this instanceof LoginRequest || this instanceof LogoutRequest ||
-			this instanceof ChatRequest || this instanceof CharpaneRequest || this instanceof LocalRelayRequest;
+		this.isDelayExempt = this instanceof LoginRequest || this instanceof LogoutRequest ||
+			this instanceof ChatRequest || this instanceof CharpaneRequest;
 	}
 
 	public boolean isDelayExempt()
 	{	return this.isDelayExempt;
-	}
-
-	public void setDelayExempt( boolean isDelayExempt )
-	{	this.isDelayExempt = isDelayExempt;
 	}
 
 	public KoLRequest constructURLString( String newURLString )
@@ -735,15 +731,15 @@ public class KoLRequest extends Job implements KoLConstants
 		}
 		while ( !this.postClientData() || !this.retrieveServerReply() );
 
+		if ( this.isDelayExempt || this.responseCode != 200 )
+			return;
+
 		if ( System.currentTimeMillis() - ADJUSTMENT_REFRESH > lastAdjustTime )
 		{
 			lagTolerance -= MINIMUM_TOLERANCE;
 			HttpTimeoutClient.setHttpTimeout( lagTolerance );
 			lastAdjustTime = lagTolerance == MINIMUM_TOLERANCE ? Long.MAX_VALUE : System.currentTimeMillis();
 		}
-
-		if ( this.isDelayExempt || this.responseCode != 200 )
-			return;
 	}
 
 	private void saveLastChoice( String url )
