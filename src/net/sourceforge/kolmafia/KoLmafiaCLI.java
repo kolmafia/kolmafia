@@ -3153,13 +3153,6 @@ public class KoLmafiaCLI extends KoLmafia
 		else
 		{
 			condition = getFirstMatchingItem( conditionString );
-
-			if ( condition == null )
-			{
-				condition = MonsterDatabase.findMonster( conditionString );
-				if ( condition != null )
-					FightRequest.searchForMonster( (Monster) condition );
-			}
 		}
 
 		return condition;
