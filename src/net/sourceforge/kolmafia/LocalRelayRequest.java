@@ -862,22 +862,13 @@ public class LocalRelayRequest extends PasswordHashRequest
 				location = this.getFormField( "adv" );
 
 			TurnCounter expired = StaticEntity.getExpiredCounter( location );
-			KoLAdventure lastLocation = KoLAdventure.lastVisitedLocation();
-			KoLAdventure currentLocation = AdventureDatabase.getAdventureByURL( this.getURLString() );
 
-			if ( expired != null && lastLocation != null && currentLocation != null && lastLocation.equals( currentLocation ) )
+			if ( expired != null )
 			{
-				this.sendGeneralWarning( expired.getImage(), "You may wish to adventure somewhere else at this time." );
-				return;
-			}
+				this.sendGeneralWarning( expired.getImage(),
+					"The indicated counter has expired, so may wish to adventure somewhere else at this time.  " +
+					"If you are certain that this is where you'd like to adventure, click <a href=\"" + this.getURLString() + "\">here</a> to proceed." );
 
-
-			// Special protection against adventuring in the pirates
-			// in disguise before level 9.
-
-			if ( location != null && location.equals( "67" ) && KoLCharacter.getLevel() < 9 )
-			{
-				this.sendGeneralWarning( "", "Adventuring here before level 9 is a really bad idea." );
 				return;
 			}
 
@@ -925,7 +916,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 			if ( !KoLCharacter.hasEquipped( SorceressLair.NAGAMAR ) && !AdventureDatabase.retrieveItem( SorceressLair.NAGAMAR ) )
 			{
-				this.sendGeneralWarning( "wand.gif", "Hm, it's possible there is something very important you're forgetting." );
+				this.sendGeneralWarning( "wand.gif", "It's possible there is something very important you're forgetting to do." );
 				return;
 			}
 		}

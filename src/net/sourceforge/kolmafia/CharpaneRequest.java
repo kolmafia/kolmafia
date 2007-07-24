@@ -326,11 +326,9 @@ public class CharpaneRequest extends KoLRequest
 
 		int absintheCount = ABSINTHE.getCount( activeEffects );
 
-		if ( absintheCount > 9 )
-			StaticEntity.startCounting( 10, "Wormwood", "tinybottle.gif" );
-		else if ( absintheCount > 4 )
-			StaticEntity.startCounting( 5, "Wormwood", "tinybottle.gif" );
-		else if ( absintheCount > 1 )
-			StaticEntity.startCounting( 2, "Wormwood", "tinybottle.gif" );
+		if ( absintheCount > 4 )
+			StaticEntity.startCounting( absintheCount - 5, "Wormwood", "tinybottle.gif" );
+		else if ( absintheCount > 0 )
+			StaticEntity.startCounting( absintheCount - 1, "Wormwood", "tinybottle.gif" );
 	}
 }
