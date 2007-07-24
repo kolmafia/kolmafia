@@ -55,8 +55,6 @@ public abstract class CombatSettings implements KoLConstants
 		StaticEntity.renameDataFiles( "ccs", "combat" );
 	}
 
-	public static final int MEAT_VORTEX = 546;
-
 	private static String [] keys = new String[0];
 	private static File settingsFile = null;
 	private static TreeMap reference = new TreeMap();
@@ -467,10 +465,8 @@ public abstract class CombatSettings implements KoLConstants
 
 		if ( action.startsWith( "item" ) )
 		{
-			AdventureResult item = KoLmafiaCLI.getFirstMatchingItem( action.substring(4).trim() );
-			if ( item != null )
-				return item.getItemId() == MEAT_VORTEX ? "attack with weapon" :
-					"item " + KoLDatabase.getCanonicalName( item.getName() );
+			String item = getLongItemAction( action.substring(4) );
+			return item.startsWith( "attack" ) ? item : "item " + item;
 		}
 
 		if ( action.startsWith( "skill" ) )
@@ -487,17 +483,34 @@ public abstract class CombatSettings implements KoLConstants
 		if ( potentialSkill != null )
 			return "skill " + potentialSkill.toLowerCase();
 
-		int itemId = action.equals( "" ) ? -1 :
-			KoLmafiaCLI.getFirstMatchingItemId( TradeableItemDatabase.getMatchingNames( action ) );
+		String item = getLongItemAction( action );
+		return item.startsWith( "attack" ) ? item : "item " + item;
+	}
 
-		if ( itemId > 0 )
+	private static String getLongItemAction( String action )
+	{
+		int commaIndex = action.indexOf( "," );
+		if ( commaIndex != -1 )
 		{
-			String potentialItem = TradeableItemDatabase.getItemName( itemId );
-			if ( potentialItem != null )
-				return itemId == MEAT_VORTEX ? "attack with weapon" : "item " + potentialItem.toLowerCase();
+			String first = getLongItemAction( action.substring( 0, commaIndex ) );
+			if ( first.startsWith( "attack" ) )
+				return getLongItemAction( action.substring( commaIndex + 1 ).trim() );
+
+			String second = getLongItemAction( action.substring( commaIndex + 1 ).trim() );
+			if ( second.startsWith( "attack" ) )
+				return first;
+
+			return first + ", " + second;
 		}
 
-		return "attack with weapon";
+		if ( action.startsWith( "item" ) )
+			return getLongItemAction( action.substring(4).trim() );
+
+		int itemId = KoLmafiaCLI.getFirstMatchingItemId( TradeableItemDatabase.getMatchingNames( action ) );
+		if ( itemId <= 0 )
+			return "attack with weapon";
+
+		return TradeableItemDatabase.getItemName( itemId );
 	}
 
 	public static String getShortCombatOptionName( String action )
@@ -539,40 +552,47 @@ public abstract class CombatSettings implements KoLConstants
 			return "runaway";
 
 		if ( action.startsWith( "item" ) )
-		{
-			String name = action.substring(4).trim();
-			for ( int i = 0; i < name.length(); ++i )
-				if ( !Character.isDigit( name.charAt(i) ) )
-				{
-					int itemId = TradeableItemDatabase.getItemId( name );
-					if ( itemId == FightRequest.DICTIONARY1.getItemId() && !inventory.contains( FightRequest.DICTIONARY1 ) )
-						itemId = FightRequest.DICTIONARY2.getItemId();
-
-					if ( itemId == FightRequest.DICTIONARY2.getItemId() && !inventory.contains( FightRequest.DICTIONARY2 ) )
-						itemId = FightRequest.DICTIONARY1.getItemId();
-
-					return itemId == MEAT_VORTEX ? "attack" : "item" + itemId;
-				}
-
-			return action;
-		}
+			return getShortItemAction( action.substring(4).trim() );
 
 		if ( action.startsWith( "skill" ) )
 		{
 			String name = KoLmafiaCLI.getCombatSkillName( action.substring(5).trim() );
-			return name == null ? "attack with weapon" : String.valueOf( ClassSkillsDatabase.getSkillId( name ) );
+			return name == null ? "attack with weapon" : "skill" + ClassSkillsDatabase.getSkillId( name );
 		}
 
 		String potentialSkill = KoLmafiaCLI.getCombatSkillName( action );
 		if ( potentialSkill != null )
-			return String.valueOf( ClassSkillsDatabase.getSkillId( potentialSkill ) );
+			return "skill" + ClassSkillsDatabase.getSkillId( potentialSkill );
 
-		int itemId = action.equals( "" ) ? -1 :
-			KoLmafiaCLI.getFirstMatchingItemId( TradeableItemDatabase.getMatchingNames( action ) );
+		return getShortItemAction( action );
+	}
 
-		if ( itemId > 0  && itemId != MEAT_VORTEX )
-			return "item" + itemId;
+	private static String getShortItemAction( String action )
+	{
+		int commaIndex = action.indexOf( "," );
+		if ( commaIndex != -1 )
+		{
+			String first = getShortItemAction( action.substring( 0, commaIndex ) );
+			if ( first.startsWith( "attack" ) )
+				return getShortItemAction( action.substring( commaIndex + 1 ).trim() );
 
-		return "attack";
+			String second = getShortItemAction( action.substring( commaIndex + 1 ).trim() );
+			if ( second.startsWith( "attack" ) )
+				return first;
+
+			return first + "," + second;
+		}
+
+		if ( action.startsWith( "item" ) )
+			return getShortItemAction( action.substring(4) );
+
+		int itemId = TradeableItemDatabase.getItemId( action );
+		if ( itemId == FightRequest.DICTIONARY1.getItemId() && !inventory.contains( FightRequest.DICTIONARY1 ) )
+			itemId = FightRequest.DICTIONARY2.getItemId();
+
+		if ( itemId == FightRequest.DICTIONARY2.getItemId() && !inventory.contains( FightRequest.DICTIONARY2 ) )
+			itemId = FightRequest.DICTIONARY1.getItemId();
+
+		return itemId <= 0 ? "attack" : String.valueOf( itemId );
 	}
 }

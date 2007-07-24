@@ -167,9 +167,6 @@ public class FightRequest extends KoLRequest
 			return;
 		}
 
-		action1 = CombatSettings.getShortCombatOptionName( StaticEntity.getProperty( "battleAction" ) );
-		action2 = null;
-
 		// Always let the user see rare monsters
 
 		for ( int i = 0; i < RARE_MONSTERS.length; ++i )
@@ -181,6 +178,9 @@ public class FightRequest extends KoLRequest
 				return;
 			}
 		}
+
+		action1 = CombatSettings.getShortCombatOptionName( StaticEntity.getProperty( "battleAction" ) );
+		action2 = null;
 
 		// If the user wants a custom combat script, parse the desired
 		// action here.
@@ -226,7 +226,6 @@ public class FightRequest extends KoLRequest
 		if ( action1.startsWith( "delevel" ) )
 			action1 = this.getMonsterWeakenAction();
 
-		action1 = CombatSettings.getShortCombatOptionName( action1 );
 		this.updateCurrentAction();
 	}
 
@@ -310,12 +309,25 @@ public class FightRequest extends KoLRequest
 		}
 
 		// If the player wants to use an item, make sure he has one
-		if ( action1.startsWith( "item" ) )
+		if ( !action1.startsWith( "skill" ) )
 		{
-			int itemId = StaticEntity.parseInt( action1.substring( 4 ) );
-			int itemCount = (new AdventureResult( itemId, 1 )).getCount( inventory );
+			int item1, item2;
 
-			if ( (itemId == DICTIONARY1.getItemId() || itemId == DICTIONARY2.getItemId()) && itemCount < 1 )
+			int commaIndex = action1.indexOf( "," );
+			if ( commaIndex != -1 )
+			{
+				item1 = StaticEntity.parseInt( action1.substring( 0, commaIndex ) );
+				item2 = StaticEntity.parseInt( action1.substring( commaIndex + 1 ) );
+			}
+			else
+			{
+				item1 = StaticEntity.parseInt( action1 );
+				item2 = -1;
+			}
+
+			int itemCount = (new AdventureResult( item1, 1 )).getCount( inventory );
+
+			if ( (item1 == DICTIONARY1.getItemId() || item1 == DICTIONARY2.getItemId()) && itemCount < 1 )
 			{
 				KoLmafia.updateDisplay( ABORT_STATE, "You don't have a dictionary." );
 				action1 = "abort";
@@ -324,41 +336,61 @@ public class FightRequest extends KoLRequest
 
 			if ( itemCount == 0 )
 			{
-				action1 = "attack";
-				this.addFormField( "action", action1 );
-				return;
+				item1 = item2;
+				item2 = -1;
+
+				itemCount = (new AdventureResult( item1, 1 )).getCount( inventory );
+
+				if ( itemCount == 0 )
+				{
+					action1 = "attack";
+					this.addFormField( "action", action1 );
+					return;
+				}
 			}
 
 			this.addFormField( "action", "useitem" );
-			this.addFormField( "whichitem", String.valueOf( itemId ) );
+			this.addFormField( "whichitem", String.valueOf( item1 ) );
 
-			if ( KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) )
+			if ( !KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) )
+				return;
+
+			if ( item2 != -1 )
 			{
-				if ( itemCount >= 2 && itemId != ANTIDOTE.getItemId() && itemId != DICTIONARY1.getItemId() && itemId != DICTIONARY2.getItemId() )
+				itemCount = (new AdventureResult( item2, 1 )).getCount( inventory );
+
+				if ( itemCount > 1 || (item1 != item2 && itemCount > 0) )
 				{
-					action2 = action1;
-					this.addFormField( "whichitem2", String.valueOf( itemId ) );
+					action2 = String.valueOf( item2 );
+					this.addFormField( "whichitem2", String.valueOf( item2 ) );
+					return;
 				}
-				else if ( MERCENARY.getCount( inventory ) > (action1.equals( MERCENARY_ACTION ) ? 1 : 0) )
-				{
-					action2 = MERCENARY_ACTION;
-					this.addFormField( "whichitem2", String.valueOf( MERCENARY.getItemId() ) );
-				}
-				else if ( TOOTH.getCount( inventory ) > (action1.equals( TOOTH_ACTION ) ? 1 : 0) )
-				{
-					action2 = TOOTH_ACTION;
-					this.addFormField( "whichitem2", String.valueOf( TOOTH.getItemId() ) );
-				}
-				else if ( TURTLE.getCount( inventory ) > (action1.equals( TURTLE_ACTION ) ? 1 : 0) )
-				{
-					action2 = TURTLE_ACTION;
-					this.addFormField( "whichitem2", String.valueOf( TURTLE.getItemId() ) );
-				}
-				else if ( SPICES.getCount( inventory ) > (action1.equals( SPICES_ACTION ) ? 1 : 0) )
-				{
-					action2 = SPICES_ACTION;
-					this.addFormField( "whichitem2", String.valueOf( SPICES.getItemId() ) );
-				}
+			}
+
+			if ( itemCount >= 2 && item1 != ANTIDOTE.getItemId() && item1 != DICTIONARY1.getItemId() && item1 != DICTIONARY2.getItemId() )
+			{
+				action2 = action1;
+				this.addFormField( "whichitem2", String.valueOf( item1 ) );
+			}
+			else if ( MERCENARY.getCount( inventory ) > (action1.equals( MERCENARY_ACTION ) ? 1 : 0) )
+			{
+				action2 = MERCENARY_ACTION;
+				this.addFormField( "whichitem2", String.valueOf( MERCENARY.getItemId() ) );
+			}
+			else if ( TOOTH.getCount( inventory ) > (action1.equals( TOOTH_ACTION ) ? 1 : 0) )
+			{
+				action2 = TOOTH_ACTION;
+				this.addFormField( "whichitem2", String.valueOf( TOOTH.getItemId() ) );
+			}
+			else if ( TURTLE.getCount( inventory ) > (action1.equals( TURTLE_ACTION ) ? 1 : 0) )
+			{
+				action2 = TURTLE_ACTION;
+				this.addFormField( "whichitem2", String.valueOf( TURTLE.getItemId() ) );
+			}
+			else if ( SPICES.getCount( inventory ) > (action1.equals( SPICES_ACTION ) ? 1 : 0) )
+			{
+				action2 = SPICES_ACTION;
+				this.addFormField( "whichitem2", String.valueOf( SPICES.getItemId() ) );
 			}
 
 			return;
@@ -378,7 +410,7 @@ public class FightRequest extends KoLRequest
 			{
 				if ( MPRestoreItemList.CONFIGURES[i].isCombatUsable() && inventory.contains( MPRestoreItemList.CONFIGURES[i].getItem() ) )
 				{
-					action1 = "item" + MPRestoreItemList.CONFIGURES[i].getItem().getItemId();
+					action1 = String.valueOf( MPRestoreItemList.CONFIGURES[i].getItem().getItemId() );
 
 					++preparatoryRounds;
 					this.updateCurrentAction();
@@ -391,7 +423,7 @@ public class FightRequest extends KoLRequest
 		}
 
 		// If the player wants to use a skill, make sure he knows it
-		String skillName = ClassSkillsDatabase.getSkillName( StaticEntity.parseInt( action1 ) );
+		String skillName = ClassSkillsDatabase.getSkillName( StaticEntity.parseInt( action1.substring(5) ) );
 
 		if ( KoLmafiaCLI.getCombatSkillName( skillName ) == null )
 		{
@@ -425,7 +457,7 @@ public class FightRequest extends KoLRequest
 		}
 
 		this.addFormField( "action", "skill" );
-		this.addFormField( "whichskill", action1 );
+		this.addFormField( "whichskill", action1.substring(5) );
 	}
 
 	private static boolean isInvalidThrustSmack( String action1 )
@@ -608,7 +640,7 @@ public class FightRequest extends KoLRequest
 			isAcceptable = this.isAcceptable( -7, -7 );
 		}
 
-		return desiredSkill == 0 ? "attack" : String.valueOf( desiredSkill );
+		return desiredSkill == 0 ? "attack" : "skill" + desiredSkill;
 	}
 
 	private static void checkForInitiative( String responseText )
@@ -1077,12 +1109,12 @@ public class FightRequest extends KoLRequest
 		if ( action1.equals( "attack" ) || action1.equals( "runaway" ) || action1.equals( "steal" ) )
 			return;
 
-		if ( action1.startsWith( "item" ) )
+		if ( !action1.startsWith( "skill" ) )
 		{
 			if ( currentRound == 0 )
 				return;
 
-			int id1 = StaticEntity.parseInt( action1.substring( 4 ) );
+			int id1 = StaticEntity.parseInt( action1 );
 
 			if ( hasActionCost( id1 ) )
 			{
@@ -1116,7 +1148,7 @@ public class FightRequest extends KoLRequest
 			if ( action2 == null || action2.equals( "" ) )
 				return;
 
-			int id2 = StaticEntity.parseInt( action2.substring( 4 ) );
+			int id2 = StaticEntity.parseInt( action2 );
 
 			if ( hasActionCost( id2 ) )
 			{
@@ -1150,7 +1182,7 @@ public class FightRequest extends KoLRequest
 			return;
 		}
 
-		int skillId = StaticEntity.parseInt( action1 );
+		int skillId = StaticEntity.parseInt( action1.substring(5) );
 		int mpCost = ClassSkillsDatabase.getMPConsumptionById( skillId );
 
 		switch ( skillId )
@@ -1326,7 +1358,7 @@ public class FightRequest extends KoLRequest
 			}
 			else
 			{
-				action1 = CombatSettings.getShortCombatOptionName( "item " + item );
+				action1 = CombatSettings.getShortCombatOptionName( item );
 				if ( shouldLogAction )
 					action.append( "uses the " + item );
 			}
@@ -1337,7 +1369,7 @@ public class FightRequest extends KoLRequest
 				item = TradeableItemDatabase.getItemName( StaticEntity.parseInt( itemMatcher.group(1) ) );
 				if ( item != null )
 				{
-					action2 = CombatSettings.getShortCombatOptionName( "item " + item );
+					action2 = CombatSettings.getShortCombatOptionName( item );
 					if ( shouldLogAction )
 						action.append( " and uses the " + item );
 				}

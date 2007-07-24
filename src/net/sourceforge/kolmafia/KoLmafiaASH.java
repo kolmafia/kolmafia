@@ -5321,16 +5321,11 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptValue throw_item( ScriptVariable item )
-		{
-			return item.intValue() == CombatSettings.MEAT_VORTEX ? attack() :
-				visit_url( "fight.php?action=useitem&whichitem=" + item.intValue() );
+		{	return visit_url( "fight.php?action=useitem&whichitem=" + item.intValue() );
 		}
 
 		public ScriptValue throw_items( ScriptVariable item1, ScriptVariable item2 )
-		{
-			return item1.intValue() == CombatSettings.MEAT_VORTEX ? throw_item( item2 ) :
-				item2.intValue() == CombatSettings.MEAT_VORTEX ? throw_item( item1 ) :
-				visit_url( "fight.php?action=useitem&whichitem=" + item1.intValue() + "&whichitem2=" + item2.intValue() );
+		{	return visit_url( "fight.php?action=useitem&whichitem=" + item1.intValue() + "&whichitem2=" + item2.intValue() );
 		}
 
 		// Equipment functions.

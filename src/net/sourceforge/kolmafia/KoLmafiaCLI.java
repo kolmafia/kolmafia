@@ -850,12 +850,6 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		if ( command.startsWith( "counter" ) )
-		{
-			RequestLogger.printLine( StaticEntity.getUnexpiredCounters() );
-			return;
-		}
-
 		if ( command.equals( "abort" ) )
 		{
 			updateDisplay( ABORT_STATE, parameters.length() == 0 ? "Script abort." : parameters );
@@ -2091,7 +2085,7 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		if ( command.startsWith( "inv" ) || command.equals( "closet" ) || command.equals( "storage" ) || command.equals( "session" ) || command.equals( "summary" ) ||
-			command.equals( "effects" ) || command.equals( "status" ) || command.equals( "skills" ) || command.equals( "locations" ) || command.equals( "encounters" ) )
+			command.equals( "effects" ) || command.equals( "status" ) || command.equals( "skills" ) || command.equals( "locations" ) || command.equals( "encounters" ) || command.equals( "counters" ) )
 		{
 			this.executePrintCommand( command + " " + parameters );
 			return;
@@ -3555,19 +3549,26 @@ public class KoLmafiaCLI extends KoLmafia
 			desiredStream.println( "Pet: " + KoLCharacter.getFamiliar() );
 			desiredStream.println( "Item: " + KoLCharacter.getFamiliarItem() );
 		}
-		else if ( desiredData.startsWith( "encounters" ) )
+		else if ( desiredData.equals( "encounters" ) )
 		{
 			desiredStream.println( "Encounter Listing: " );
 
 			desiredStream.println();
 			printList( encounterList, desiredStream );
 		}
-		else if ( desiredData.startsWith( "locations" ) )
+		else if ( desiredData.equals( "locations" ) )
 		{
 			desiredStream.println( "Visited Locations: " );
 			desiredStream.println();
 
 			printList( adventureList, desiredStream );
+		}
+		else if ( desiredData.equals( "counters" ) )
+		{
+			desiredStream.println( "Unexpired counters: " );
+			desiredStream.println();
+
+			desiredStream.println( StaticEntity.getUnexpiredCounters() );
 		}
 		else
 		{
