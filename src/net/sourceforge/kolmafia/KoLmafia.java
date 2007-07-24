@@ -144,6 +144,7 @@ public abstract class KoLmafia implements KoLConstants
 		stopEncounters.add( "A Grave Situation" );
 		stopEncounters.add( "Take a Dusty Look!" );
 		stopEncounters.add( "Strung-Up Quartet" );
+		stopEncounters.add( "Let's Make a Deal!" );
 		stopEncounters.add( "Drawn Onward" );
 		stopEncounters.add( "Mr. Alarm" );
 		stopEncounters.add( "We'll All Be Flat" );

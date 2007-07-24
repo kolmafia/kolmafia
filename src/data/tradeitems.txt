@@ -130,7 +130,7 @@
 130	enchanted eyepatch	9	all	60
 131	frilly skirt	10	all	40
 132	Meat maid body	0	all	155
-133	Certificate of Participation	0	none	0
+133	Certificate of Participation	3	none	0
 134	bitchin' meatcar	0	none	0
 135	sweet rims	0	all	100
 136	tires	0	all	14
@@ -479,9 +479,9 @@
 479	dodecagram	0	none	0
 480	box of birthday candles	0	none	0
 481	eldritch butterknife	0	none	0
-482	Mr. Container	0	all	999
-483	Newbiesport&trade; backpack	0	all	75
-484	hemp backpack	0	all	95
+482	Mr. Container	19	all	999
+483	Newbiesport&trade; backpack	19	all	75
+484	hemp backpack	19	all	95
 485	snakehead charrrm	0	none	0
 486	Talisman o' Nam	8	none	0
 487	arrrgyle socks	8	all	48
@@ -527,7 +527,7 @@
 527	volleyball	3	all	100
 528	blood-faced volleyball	5	all	101
 529	fertilized ghuol egg	5	all	19
-530	spray paint	0	all	25
+530	spray paint	20	all	25
 531	special sauce glove	8	all	2500
 532	ladle of mystery	8	all	1500
 533	Gnollish toolbox	4	all	23
@@ -622,7 +622,7 @@
 622	awful poetry journal	18	all	136
 623	WA	0	all	152
 624	NG	0	all	186
-625	wang	0	all	0
+625	wang	20	all	0
 626	Wand of Nagamar	12	all	322
 627	ND	0	all	187
 628	metallic A	0	all	129
@@ -1263,7 +1263,7 @@
 1263	pygmy bugbear shaman	5	all	0
 1264	tiny nose-bone fetish	7	all	75
 1265	box of sunshine	3	display	0
-1266	gloomy black mushroom	1	display	0
+1266	gloomy black mushroom	15	display	0
 1267	dead mimic	3	none	0
 1268	pine wand	6	none	0
 1269	ebony wand	6	none	0
@@ -1344,7 +1344,7 @@
 1344	Gummi-Gnauga	4	all	30
 1345	Now and Earlier	4	all	35
 1346	Sugar Cog	4	all	30
-1347	loaded serum blowgun	0	all	0
+1347	loaded serum blowgun	20	all	0
 1348	empty blowgun	0	all	0
 1349	miniscule temporal rip	5	all	0
 1350	1.21 jigawatts	7	all	75
@@ -1429,7 +1429,7 @@
 1429	roll of drink tickets	4	all	90
 1430	pregnant gloomy black mushroom	5	display	150
 1431	pregnant oily golden mushroom	5	display	150
-1432	oily golden mushroom	1	display	0
+1432	oily golden mushroom	15	display	0
 1433	fruit bowl	4	all	200
 1434	fruit basket	4	all	400
 1435	hot pink lipstick	7	all	0
@@ -1517,7 +1517,7 @@
 1517
 1518	vampire heart	0	none	0
 1519	Talisman of Bakula	8	all	0
-1520	Radio KoL Coffee Mug	0	display	0
+1520	Radio KoL Coffee Mug	19	display	0
 1521	Frank Gorshin trophy	0	display	0
 1522	Radio Free Jersey	11	display	0
 1523	bottle of used blood	4	none	0
@@ -1646,7 +1646,7 @@
 1646	spooky and sour sauce	0	all	100
 1647	stench and sour sauce	0	all	100
 1648	sleazy and sour sauce	0	all	100
-1649	brick	0	gift	0
+1649	brick	20	gift	0
 1650	milk of magnesium	3	all	36
 1651	foie gras	1	all	30
 1652	candy brain	4	all	54
@@ -1920,7 +1920,7 @@
 1920	bizarre illegible sheet music	0	none	0
 1921	cardboard wakizashi	12	all	35
 1922	gob of wet hair	0	all	45
-1923	roll of toilet paper	0	all	0
+1923	roll of toilet paper	20	all	0
 1924	tattered wolf standard	0	none	0
 1925	tattered snake standard	0	none	0
 1926	KoL Con 3-D Glasses	9	display	0
@@ -1992,7 +1992,7 @@
 1992	rubber WWBD? bracelet	8	gift	5
 1993	rubber WWSPD? bracelet	8	gift	5
 1994	rubber WWtNSD? bracelet	8	gift	5
-1995	heart necklace	0	gift	0
+1995	heart necklace	20	gift	0
 1996	right half of a heart necklace	8	gift	0
 1997	left half of a heart necklace	8	gift	0
 1998	pack of KWE trading card	3	all	50
@@ -2016,7 +2016,7 @@
 2016	diamond necklace	8	gift	10
 2017	spade necklace	8	gift	10
 2018	club necklace	8	gift	10
-2019	cream pie	0	all	0
+2019	cream pie	20	all	0
 2020	cherry pie	1	all	80
 2021	strawberry pie	1	all	45
 2022	lemon meringue pie	1	all	55
@@ -2146,8 +2146,8 @@
 2146	evil teddy bear	5	all	120
 2147	evil teddy bear sewing kit	7	all	75
 2148	toothsome rock	5	all	31
-2149	spooky frank	1	none	0
-2150	plate of franks and beans	1	none	0
+2149	spooky frank	20	none	0
+2150	plate of franks and beans	20	none	0
 2151	shot of blackberry schnapps	2	all	65
 2152	capacitor relay	0	all	10
 2153	carbon nanotube frame	0	all	10
@@ -2185,11 +2185,11 @@
 2185	Kiss the Knob apron	11	all	15
 2186	unlit birthday cake	0	none	0
 2187	lit birthday cake	0	none	0
-2188	flask of peppermint oil	1	none	0
-2189	flask of peppermint schnapps	2	none	0
+2188	flask of peppermint oil	20	none	0
+2189	flask of peppermint schnapps	20	none	0
 2190	yuletide troll chrysalis	5	all	0
 2191	giant book of ancient carols	7	all	75
-2192	disintegrating sheet music	0	all	15
+2192	disintegrating sheet music	20	all	15
 2193	candy stake	1	all	15
 2194	spooky eggnog	2	all	49
 2195	ancient unspeakable fruitcake	1	all	37
@@ -2203,7 +2203,7 @@
 2203	tiny plastic skeletal reindeer	8	all	30
 2204	tiny plastic Crimboween pentagram	8	all	30
 2205	tiny plastic Scream Queen	8	all	30
-2206	time sleigh	0	display	0
+2206	time sleigh	20	display	0
 2207	lucky Crimbo tiki necklace	8	all	0
 2208	bobble-hip hula elf doll	13	all	0
 2209	Crimbo ukelele	12	all	0
@@ -2602,7 +2602,7 @@
 2602	Staff of Blood and Pudding	12	display	25
 2603	smoldering box	4	display	0
 2604	Tuesday's ruby	13	all	200
-2605	palm frond	0	all	45
+2605	palm frond	18	all	45
 2606	palm-frond fan	4	all	85
 2607	palm-frond whip	12	all	95
 2608	palm-frond net	0	all	130
@@ -2694,7 +2694,7 @@
 2694	stone baseball cap	9	all	150
 2695	cup of primitive beer	2	all	30
 2696	ovoid leather thing	0	all	150
-2697	duct tape	0	display	25
+2697	duct tape	18	display	25
 2698	duct tape wallet	4	display	100
 2699	duct tape shirt	11	display	325
 2700	duct tape fedora	9	display	210
