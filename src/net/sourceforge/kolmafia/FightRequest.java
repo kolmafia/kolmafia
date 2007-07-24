@@ -113,7 +113,6 @@ public class FightRequest extends KoLRequest
 	private static String action2 = null;
 	private static Monster monsterData = null;
 	private static String encounterLookup = "";
-	private static Monster searchMonster = null;
 
 	// Ultra-rare monsters
 	private static final String [] RARE_MONSTERS =
@@ -135,14 +134,6 @@ public class FightRequest extends KoLRequest
 
 	protected boolean retryOnTimeout()
 	{	return true;
-	}
-
-	public static void searchForMonster( Monster possible )
-	{
-		if ( !conditions.isEmpty() && conditions.get(0) instanceof Monster )
-			conditions.remove(0);
-
-		searchMonster = possible;
 	}
 
 	public static boolean wonInitiative()
@@ -733,14 +724,6 @@ public class FightRequest extends KoLRequest
 
 			encounterLookup = CombatSettings.encounterKey( encounter );
 			monsterData = MonsterDatabase.findMonster( encounter );
-
-			if ( searchMonster != null && monsterData != null && searchMonster.equals( monsterData ) )
-			{
-				KoLmafia.updateDisplay( PENDING_STATE, searchMonster + " has been found." );
-				searchMonster = null;
-				conditions.clear();
-			}
-
 			checkForInitiative( responseText );
 		}
 
