@@ -6,8 +6,9 @@ Beach	0/0	shore=1	Muscle Vacation
 Beach	0/0	shore=2	Mysticality Vacation
 Beach	0/0	shore=3	Moxie Vacation
 Beach	0/0	adventure=45	South of the Border
-Beach	104/0	adventure=121	Arid Extra-Dry Desert
+Beach	104/0	adventure=121	Arid, Extra-Dry Desert
 Beach	104/0	adventure=122	Oasis
+Beach	104/0	adventure=123	Arid, Extra-Dry Desert (Ultrahydrated)
 Beach	0/0	adventure=156	Grim Grimacite Site
 
 Pyramid	104/0	adventure=124	The Upper Chamber

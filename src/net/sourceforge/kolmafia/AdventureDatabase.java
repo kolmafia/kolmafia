@@ -388,7 +388,7 @@ public class AdventureDatabase extends KoLDatabase
 		// Choice 131 is Dr. Awkward
 
 		// Let's Make a Deal!
-		new ChoiceAdventure( "Beach", "choiceAdventure132", "Arid Extra-Dry Desert",
+		new ChoiceAdventure( "Beach", "choiceAdventure132", "Arid, Extra-Dry Desert",
 		  new String [] { "broken carburetor", "Unlock Oasis" },
 		  new String [] { "2316", null } ),
 

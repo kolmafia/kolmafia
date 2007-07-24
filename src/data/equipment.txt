@@ -589,32 +589,26 @@ anniversary balloon	0	none
 anniversary chutney sculpture	0	none
 antique shield	230	Mus: 85
 arrow'd heart balloon	0	none
-# *** barskin buckler is a shield of unknown power.
-barskin buckler	0	none
+barskin buckler	27	none
 basic meat foon	0	Mys: 10
 # *** battered hubcap is a shield of unknown power.
 battered hubcap	0	Mus: 65
-# *** black shield is a shield of unknown power.
-black shield	0	Mus: 65
+black shield	160	Mus: 65
 bobble-hip hula elf doll	0	none
 box	0	none
-# *** box turtle is a shield of unknown power.
-box turtle	0	Mus: 10
+box turtle	50	Mus: 10
 box-in-the-box	0	none
 box-in-the-box-in-the-box	0	none
-# *** cardboard box turtle is a shield of unknown power.
-cardboard box turtle	0	Mus: 20
+cardboard box turtle	70	Mus: 20
 # *** catskin buckler is a shield of unknown power.
 catskin buckler	0	Mus: 75
 clockwork detective skull	0	Mox: 25
-# *** clownskin buckler is a shield of unknown power.
-clownskin buckler	0	Mus: 15
+clownskin buckler	60	Mus: 15
 coffin lid	55	Mus: 10
 continuum transfunctioner	0	none
 deck of tropical cards	0	none
 defective skull	0	none
-# *** demon buckler is a shield of unknown power.
-demon buckler	0	Mus: 25
+demon buckler	77	Mus: 25
 detective skull	0	none
 # *** duct tape buckler is a shield of unknown power.
 duct tape buckler	0	Mus: 82
@@ -658,12 +652,9 @@ pixel shield	55	Mus: 10
 rag doll	0	Mys: 40
 red balloon	0	none
 rice bowl	0	none
-# *** sawblade shield is a shield of unknown power.
-sawblade shield	0	Mus: 75
-# *** sebaceous shield is a shield of unknown power.
-sebaceous shield	0	Mus: 2
-# *** sewer turtle is a shield of unknown power.
-sewer turtle	0	none
+sawblade shield	180	Mus: 75
+sebaceous shield	40	Mus: 2
+sewer turtle	20	none
 snake shield	117	Mus: 42
 snarling wolf shield	117	Mus: 42
 sock monkey	0	Mys: 40
@@ -701,8 +692,7 @@ white balloon	0	none
 white satin shield	80	Mus: 25
 # *** wicker shield is a shield of unknown power.
 wicker shield	0	Mus: 70
-# *** wonderwall shield is a shield of unknown power.
-wonderwall shield	0	Mus: 70
+wonderwall shield	190	Mus: 70
 yakskin buckler	95	Mus: 30
 
 # Accessories section of equipment.txt
