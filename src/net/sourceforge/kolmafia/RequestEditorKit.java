@@ -1496,7 +1496,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		}
 	}
 
-	private static final Pattern GLYPH_PATTERN = Pattern.compile( "Arcane Glyph #(\\d)" );
+	private static final Pattern GLYPH_PATTERN = Pattern.compile( "title=\"Arcane Glyph #(\\d)\"" );
 
 	private static void changeDustyBottleNames( StringBuffer buffer )
 	{
