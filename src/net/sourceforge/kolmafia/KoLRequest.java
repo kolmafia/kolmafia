@@ -1496,13 +1496,16 @@ public class KoLRequest extends Job implements KoLConstants
 
 	public void processChoiceAdventure()
 	{
+		if ( sessionId == null || passwordHash == null )
+			return;
+
 		// You can no longer simply ignore a choice adventure.	One of
 		// the options may have that effect, but we must at least run
 		// choice.php to find out which choice it is.
 
 		StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.CHOICE, 1 ) );
 
-		KoLRequest request = new KoLRequest( this.redirectLocation, false );
+		KoLRequest request = new KoLRequest( "choice.php", false );
 		request.run();
 
 		if ( request.responseCode == 302 )
@@ -1570,7 +1573,7 @@ public class KoLRequest extends Job implements KoLConstants
 			// Sometimes, the choice adventure for the louvre
 			// loses track of whether to ignore the louvre or not.
 
-			else if ( choice.equals( "91" ) )
+			if ( choice.equals( "91" ) )
 			{
 				decision = StaticEntity.getIntegerProperty( "louvreDesiredGoal" ) != 0 ? "1" : "2";
 			}
@@ -1602,7 +1605,7 @@ public class KoLRequest extends Job implements KoLConstants
 			// If the user wants to ignore this specific choice or all
 			// choices, see if this choice is ignorable.
 
-			boolean willIgnore = false;
+			boolean willIgnore = choice.equals( "80" ) || choice.equals( "81" );
 
 			// But first, handle the maidens adventure in a less random
 			// fashion that's actually useful.
@@ -1638,6 +1641,7 @@ public class KoLRequest extends Job implements KoLConstants
 				decision = this.pickOutfitChoice( option, decision );
 
 			request.clearDataFields();
+
 			request.addFormField( "pwd" );
 			request.addFormField( "whichchoice", choice );
 			request.addFormField( "option", decision );
@@ -1690,32 +1694,32 @@ public class KoLRequest extends Job implements KoLConstants
 		{
 			for ( int i = 0; i < possibleDecisions.length; ++i )
 			{
-				if ( possibleDecisions[i] != null )
-				{
-					AdventureResult item = new AdventureResult( StaticEntity.parseInt( possibleDecisions[i] ), 1 );
-					if ( conditions.contains( item ) )
-						return String.valueOf( i + 1 );
+				if ( possibleDecisions[i] == null )
+					continue;
 
-					if ( possibleDecisions.length < StaticEntity.parseInt( decision ) && !KoLCharacter.hasItem( item ) )
-						return String.valueOf( i + 1 );
-				}
+				AdventureResult item = new AdventureResult( StaticEntity.parseInt( possibleDecisions[i] ), 1 );
+				if ( conditions.contains( item ) )
+					return String.valueOf( i + 1 );
+
+				if ( possibleDecisions.length < StaticEntity.parseInt( decision ) && !KoLCharacter.hasItem( item ) )
+					return String.valueOf( i + 1 );
 			}
 		}
+
+		if ( possibleDecisions == null )
+			return decision.equals( "0" ) ? "1" : decision;
 
 		// If this is an ignore decision, then go ahead and ignore
 		// the choice adventure
 
 		int decisionIndex = StaticEntity.parseInt( decision ) - 1;
-		if ( possibleDecisionSpoilers.length < decisionIndex && possibleDecisionSpoilers[decisionIndex].equals( "skip adventure" ) )
+		if ( possibleDecisions.length < possibleDecisionSpoilers.length && possibleDecisionSpoilers[decisionIndex].equals( "skip adventure" ) )
 			return decision;
-
-		if ( possibleDecisions == null )
-			return decision.equals( "0" ) ? "1" : decision;
 
 		// If no item is found in the conditions list, and the player
 		// has a non-ignore decision, go ahead and use it.
 
-		if ( !decision.equals( "0" ) && StaticEntity.parseInt( decision ) - 1 < possibleDecisions.length )
+		if ( !decision.equals( "0" ) && decisionIndex < possibleDecisions.length )
 			return decision;
 
 		// Choose a null choice if no conditions match what you're

@@ -112,7 +112,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		toolsMenu.add( new InvocationMenuItem( "Clear Results", StaticEntity.getClient(), "resetSession" ) );
 		toolsMenu.add( new StopEverythingItem() );
-		toolsMenu.add( new InvocationMenuItem( "Refresh Session", StaticEntity.getClient(), "refreshSession" ) );
+		toolsMenu.add( new RefreshEverythingItem() );
 
 		toolsMenu.add( new JSeparator() );
 
@@ -778,6 +778,21 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		public void run()
 		{	RequestThread.declareWorldPeace();
+		}
+	}
+
+	private class RefreshEverythingItem extends ThreadedMenuItem
+	{
+		public RefreshEverythingItem()
+		{	super( "Refresh Session" );
+		}
+
+		public void run()
+		{
+			if ( StaticEntity.getProperty( "loginServerName" ).startsWith( "dev" ) )
+				LoginRequest.executeTimeInRequest();
+			else
+				StaticEntity.getClient().refreshSession();
 		}
 	}
 
