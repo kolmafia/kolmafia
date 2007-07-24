@@ -262,7 +262,7 @@ public class LocalRelayAgent extends Thread
 		// If not requesting a server-side page, then it is safe
 		// to assume that no changes have been made (save time).
 
-		if ( this.isCheckingModified && !this.request.contentType.startsWith( "text" ) )
+		if ( this.isCheckingModified && !this.request.contentType.equals( "text/html" ) )
 		{
 			this.request.pseudoResponse( "HTTP/1.1 304 Not Modified", "" );
 			this.request.responseCode = 304;
