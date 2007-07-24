@@ -2924,7 +2924,7 @@ public abstract class KoLmafia implements KoLConstants
 		// Do not run between battle checks if you are in the middle
 		// of your checks or if you have aborted.
 
-		if ( recoveryActive || refusesContinue() || !runThresholdChecks() )
+		if ( recoveryActive || refusesContinue() || (isHealthCheck && !runThresholdChecks()) )
 			return;
 
 		// First, run the between battle script defined by the
