@@ -211,6 +211,12 @@ public class StatusEffectDatabase extends KoLDatabase
 	public static final int SPOOKY_RESISTANCE_MODIFIER = 12;
 	public static final int STENCH_RESISTANCE_MODIFIER = 13;
 	public static final int MANA_COST_MODIFIER = 14;
+	public static final int MOX_MODIFIER = 15;
+	public static final int MOX_PCT_MODIFIER = 16;
+	public static final int MUS_MODIFIER = 17;
+	public static final int MUS_PCT_MODIFIER = 18;
+	public static final int MYS_MODIFIER = 19;
+	public static final int MYS_PCT_MODIFIER = 20;
 
 	private static final Pattern [] MODIFIER_PATTERNS = new Pattern [] {
 		Pattern.compile( "Weight: ([+-]\\d+)" ),
@@ -228,9 +234,20 @@ public class StatusEffectDatabase extends KoLDatabase
 		Pattern.compile( "Spooky: ([+-]\\d+)" ),
 		Pattern.compile( "Stench: ([+-]\\d+)" ),
 		Pattern.compile( "Mana: ([+-]\\d+)" ),
+		Pattern.compile( "Mox: ([+-]\\d+)" ),
+		Pattern.compile( "Mox%: ([+-]\\d+)" ),
+		Pattern.compile( "Mus: ([+-]\\d+)" ),
+		Pattern.compile( "Mus%: ([+-]\\d+)" ),
+		Pattern.compile( "Mys: ([+-]\\d+)" ),
+		Pattern.compile( "Mys%: ([+-]\\d+)" ),
 	};
 
-	private static final float [] NO_MODIFIERS = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
+	private static final Pattern [] STRING_MODIFIER_PATTERNS = new Pattern [] {
+		Pattern.compile( "Class: (\\w\\w)" ),
+		Pattern.compile( "Intrinsic: [^,]+" ),
+	};
+
+	private static final float [] NO_MODIFIERS = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
 
 	public static final void applyModifiers( String name, float [] modifiers )
 	{

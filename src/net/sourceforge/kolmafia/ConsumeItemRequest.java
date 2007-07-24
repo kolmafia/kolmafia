@@ -365,6 +365,7 @@ public class ConsumeItemRequest extends KoLRequest
 		if ( itemId == MACGUFFIN_DIARY )
 		{
 			KoLAdventure.ZONE_VALIDATOR.constructURLString( "diary.php?textversion=1" ).run();
+			KoLmafia.updateDisplay( "Diary read" );
 			return;
 		}
 

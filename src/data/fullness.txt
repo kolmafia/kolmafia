@@ -8,7 +8,7 @@
 Better Than Cuddling Cake	3	1	4	0	0	0
 Boris's key lime pie	4	6	13-19	28-33	0	0
 Brimstone Chicken Sandwich	3	1	3-5	-15-20	0	15-20
-Childrens' Meal of the Damned	0	1	0	0	0	0
+Children's Meal of the Damned	0	1	0	0	0	0
 Crimbo pie	3	7	8-14	30-41	0	0
 Double Bacon Beelzeburger	3	1	3-5	15-20	-15-20	0
 Elfin shortbread	3	2	3-9	4-6	4-6	4-6
