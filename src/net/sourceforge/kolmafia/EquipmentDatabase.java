@@ -222,6 +222,27 @@ public class EquipmentDatabase extends KoLDatabase
 		return getType( itemId );
 	}
 
+	public static String getReq( int itemId )
+	{
+		String req = requirement.get( itemId );
+		if ( req != null )
+			return req;
+		return "none";
+	}
+
+	public static String getReq( String itemName )
+	{
+		if ( itemName == null )
+			return "none";
+
+		int itemId = TradeableItemDatabase.getItemId( itemName );
+
+		if ( itemId == -1 )
+			return "none";
+
+		return getReq( itemId );
+	}
+
 	public static int equipStat( int itemId )
 	{
 		String req = requirement.get( itemId );

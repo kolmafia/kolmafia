@@ -1190,6 +1190,7 @@ public class TradeableItemDatabase extends KoLDatabase
 	private static final Map shirts = new TreeMap();
 	private static final Map pants = new TreeMap();
 	private static final Map accessories = new TreeMap();
+	private static final Map containers = new TreeMap();
 	private static final Map famitems = new TreeMap();
 
 	public static void checkInternalData()
@@ -1211,6 +1212,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		shirts.clear();
 		pants.clear();
 		accessories.clear();
+		containers.clear();
 		famitems.clear();
 
 		// Check item names, desc ID, consumption type
@@ -1321,6 +1323,9 @@ public class TradeableItemDatabase extends KoLDatabase
 		case EQUIP_ACCESSORY:
 			accessories.put( name, text );
 			break;
+		case EQUIP_CONTAINER:
+			containers.put( name, text );
+			break;
 		case EQUIP_FAMILIAR:
 			famitems.put( name, text );
 			break;
@@ -1420,7 +1425,9 @@ public class TradeableItemDatabase extends KoLDatabase
 		case HPMP_RESTORE:
 		case MESSAGE_DISPLAY:
 		case INFINITE_USES:
-			return descType.indexOf( "usable" ) != -1 || descType.equals( "gift package" ) || descType.equals( "booze" );
+			return descType.indexOf( "usable" ) != -1 || descType.equals( "gift package" ) || descType.equals( "food" ) || descType.equals( "booze" );
+		case CONSUME_SPECIAL:
+			return descType.indexOf( "usable" ) != -1 || descType.equals( "food" ) || descType.equals( "beverage" ) || descType.equals( "booze" );
 		case GROW_FAMILIAR:
 			return descType.equals( "familiar" );
 		case CONSUME_ZAP:
@@ -1429,6 +1436,8 @@ public class TradeableItemDatabase extends KoLDatabase
 			return descType.equals( "familiar equipment" );
 		case EQUIP_ACCESSORY:
 			return descType.equals( "accessory" );
+		case EQUIP_CONTAINER:
+			return descType.equals( "container" );
 		case EQUIP_HAT:
 			return descType.equals( "hat" );
 		case EQUIP_PANTS:
@@ -1480,7 +1489,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		int level = requirement == null ? 0 : requirement.intValue();
 		int descLevel = parseLevel( text );
 		if ( level != descLevel )
-			writer.println( "# *** " + name +" requires level " + level + " but should be " + descLevel + "." );
+			writer.println( "# *** " + name + " requires level " + level + " but should be " + descLevel + "." );
 	}
 
 	private static final Pattern LEVEL_PATTERN = Pattern.compile( "Level required: <b>(.*?)</b>" );
@@ -1505,6 +1514,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		checkEquipmentMap( writer, weapons, "Weapons" );
 		checkEquipmentMap( writer, offhands, "Off-hand" );
 		checkEquipmentMap( writer, accessories, "Accessories" );
+		checkEquipmentMap( writer, containers, "Containers" );
 	}
 
 	private static void checkEquipmentMap( LogStream writer, Map map, String tag )
@@ -1516,18 +1526,104 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		writer.println( "" );
 		writer.println( "# " + tag + " section of equipment.txt" );
+		writer.println();
 
 		Object [] keys = map.keySet().toArray();
 		for ( int i = 0; i < keys.length; ++i )
 		{
 			String name = (String)keys[i];
 			String text = (String)map.get( name );
-			checkEquipmentDatum( name, text, writer, tag );
+			checkEquipmentDatum( name, text, writer );
 		}
 	}
 
-	private static void checkEquipmentDatum( String name, String text, LogStream writer, String tag )
+	private static final Pattern POWER_PATTERN = Pattern.compile( "Power: <b>(\\d+)</b>" );
+	private static final Pattern REQ_PATTERN = Pattern.compile( "(\\w+) Required: <b>(\\d+)</b>" );
+	private static final Pattern WEAPON_PATTERN = Pattern.compile( "weapon [(](.*?)[)]" );
+
+	private static void checkEquipmentDatum( String name, String text, LogStream writer )
 	{
+		Matcher matcher;
+
+		String type = parseType( text );
+		boolean isWeapon = false, isShield = false, hasPower = false;
+
+		if ( type.indexOf( "weapon" ) != -1 )
+			isWeapon = true;
+		else if ( type.indexOf( "shield" ) != -1 )
+			isShield = true;
+		else if ( type.indexOf( "hat" ) != -1 || type.indexOf( "pants" ) != -1  || type.indexOf( "shirt" ) != -1	)
+			hasPower = true;
+
+		int power = 0;
+		if ( isWeapon || hasPower )
+		{
+			matcher = POWER_PATTERN.matcher( text );
+			if ( matcher.find() )
+				power = StaticEntity.parseInt( matcher.group(1) );
+		}
+		else if ( isShield )
+		{
+			// Until KoL puts shield power into the description,
+			// use hand-entered "secret" value.
+			power = EquipmentDatabase.getPower( name );
+		}
+
+		String weaponType = "";
+		if ( isWeapon )
+		{
+			matcher = WEAPON_PATTERN.matcher( text );
+			if ( matcher.find() )
+				weaponType = matcher.group(1);
+		}
+
+		String req = "none";
+
+		matcher = REQ_PATTERN.matcher( text );
+		if (matcher.find() )
+		{
+			String stat = matcher.group(1);
+			if ( stat.equals( "Muscle" ) )
+				req = "Mus: " + matcher.group(2);
+			else if ( stat.equals( "Mysticality" ) )
+				req = "Mys: " + matcher.group(2);
+			else if ( stat.equals( "Moxie" ) )
+				req = "Mox: " + matcher.group(2);
+		}
+		else if ( isWeapon )
+		{
+			if ( type.indexOf( "ranged" ) != -1 )
+				req = "Mox: 0";
+			else if ( weaponType.indexOf( "utensil" ) != -1 || weaponType.indexOf( "saucepan" ) != -1 || weaponType.indexOf( "chefstaff" ) != -1 )
+				req = "Mys: 0";
+			else
+				req = "Mus: 0";
+		}
+
+		// Now check against what we already have
+		int oldPower = EquipmentDatabase.getPower( name );
+		if ( power != oldPower )
+			writer.println( "# *** " + name + " has power " + oldPower + " but should be " + power + "." );
+
+		String oldReq = EquipmentDatabase.getReq( name );
+		if ( !req.equals( oldReq ) )
+			writer.println( "# *** " + name + " has requirement " + oldReq + " but should be " + req + "." );
+
+		if ( isWeapon )
+		{
+			String oldWeaponType = String.valueOf( EquipmentDatabase.getHands( name ) ) + "-handed " + EquipmentDatabase.getType( name );
+			if ( !weaponType.equals( oldWeaponType ) )
+				writer.println( "# *** " + name + " has weapon type " + oldWeaponType + " but should be " + weaponType + "." );
+		}
+		else if ( isShield && power == 0 )
+		{
+			writer.println( "# *** " + name + " is a shield of unknown power." );
+		}
+
+		if ( isWeapon )
+			writer.println( name + "\t" + power + "\t" + req  + "\t" + weaponType );
+		else
+			writer.println( name + "\t" + power + "\t" + req );
 	}
 
 	private static void checkModifiers( LogStream writer )
@@ -1541,7 +1637,11 @@ public class TradeableItemDatabase extends KoLDatabase
 		checkModifierMap( writer, weapons, "Weapons", unknown );
 		checkModifierMap( writer, offhands, "Off-hand", unknown );
 		checkModifierMap( writer, accessories, "Accessories", unknown );
+		checkModifierMap( writer, containers, "Containers", unknown );
 		checkModifierMap( writer, famitems, "Familiar Items", unknown );
+
+		if ( unknown.size() == 0 )
+			return;
 
 		Collections.sort( unknown );
 
@@ -1575,14 +1675,30 @@ public class TradeableItemDatabase extends KoLDatabase
 		}
 	}
 
-	private static final Pattern ENCHANTMENT_PATTERN = Pattern.compile( "Enchantment:.*?<font color=blue>(.*)</font>", Pattern.DOTALL );
-	private static final Pattern DR_PATTERN = Pattern.compile( "Damage Reduction: <b>(\\d+)</b>" );
-
 	private static void checkModifierDatum( String name, String text, LogStream writer, ArrayList unknown )
 	{
-		Matcher matcher = ENCHANTMENT_PATTERN.matcher( text );
+		String known = parseEnchantments( text, unknown );
+
+		if ( known.equals( "" ) )
+			writer.println( "# " + name );
+		else
+			writer.println( name + "\t" + known );
+	}
+
+	private static final Pattern DR_PATTERN = Pattern.compile( "Damage Reduction: <b>(\\d+)</b>" );
+	private static final Pattern ENCHANTMENT_PATTERN = Pattern.compile( "Enchantment:.*?<font color=blue>(.*)</font>", Pattern.DOTALL );
+
+	private static String parseEnchantments( String text, ArrayList unknown )
+	{
+		String known = "";
+
+		Matcher matcher = DR_PATTERN.matcher( text );
+		if (matcher.find() )
+			known = "DR: " + matcher.group(1);
+
+		matcher = ENCHANTMENT_PATTERN.matcher( text );
 		if ( !matcher.find() )
-			return;
+			return known;
 
 		String enchantments = matcher.group(1);
 
@@ -1592,12 +1708,6 @@ public class TradeableItemDatabase extends KoLDatabase
 		enchantments = enchantments.replaceAll( "<b>NOTE:</b> If you wear multiple items that increase Critical Hit chances, only the highest multiplier applies.", "" );
 		enchantments = enchantments.replaceAll( "<br>", "\n" );
 		enchantments = enchantments.replaceAll( "\n+", "\n" );
-
-		String known = "";
-
-		matcher = DR_PATTERN.matcher( text );
-		if (matcher.find() )
-			known = "DR: " + matcher.group(1);
 
 		String [] mods = enchantments.split( "\n" );
 		for ( int i = 0; i < mods.length; ++i )
@@ -1620,8 +1730,7 @@ public class TradeableItemDatabase extends KoLDatabase
 				unknown.add( enchantment );
 		}
 
-		if ( !known.equals( "" ) )
-			writer.println( "# " + name );
+		return known;
 	}
 
 	private static final Pattern COMBAT_PATTERN = Pattern.compile( "Monsters will be (.*) attracted to you." );

@@ -212,6 +212,8 @@ public interface KoLConstants extends UtilityConstants
 	public static final int HP_RESTORE = 16;
 	public static final int HPMP_RESTORE = 17;
 	public static final int INFINITE_USES = 18;
+	public static final int EQUIP_CONTAINER = 19;
+	public static final int CONSUME_SPECIAL = 20;
 
 	public static final int CONSUME_HOBO = 99;
 
