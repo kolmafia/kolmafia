@@ -1040,7 +1040,7 @@ public abstract class MoodSettings implements KoLConstants
 					AdventureResult item = KoLmafiaCLI.getFirstMatchingItem( this.parameters );
 
 					this.count = String.valueOf( item.getCount() );
-					this.parameters = item.getName();
+					this.parameters = KoLDatabase.getCanonicalName( item.getName() );
 				}
 				else
 				{
@@ -1104,7 +1104,9 @@ public abstract class MoodSettings implements KoLConstants
 		}
 
 		public String toSetting()
-		{	return this.effect == null ? this.type + " => " + this.action : this.type + " " + this.name + " => " + this.action;
+		{
+			return this.effect == null ? this.type + " => " + this.action : this.type + " " +
+				KoLDatabase.getCanonicalName( this.name ) + " => " + this.action;
 		}
 
 		public boolean equals( Object o )
@@ -1164,8 +1166,6 @@ public abstract class MoodSettings implements KoLConstants
 
 				shouldExecute = unstackable ? !activeEffects.contains( this.effect ) :
 					this.effect.getCount( activeEffects ) <= (multiplicity == -1 ? 1 : 5);
-
-				shouldExecute &= !this.name.equals( "Temporary Lycanthropy" ) || MoonPhaseDatabase.getMoonlight() > 4;
 			}
 
 			return shouldExecute;
@@ -1230,11 +1230,20 @@ public abstract class MoodSettings implements KoLConstants
 				this.stringForm.append( this.name );
 			}
 
-			if ( this.type.equals( "lose_effect" ) && this.name != null && this.name.equals( "Temporary Lycanthropy" ) )
-				this.stringForm.append( " and there's enough moonlight" );
-
 			this.stringForm.append( ", " );
-			this.stringForm.append( this.action );
+
+			if ( this.action.startsWith( "use" ) )
+			{
+				this.stringForm.append( this.command );
+				this.stringForm.append( " " );
+				this.stringForm.append( this.count );
+				this.stringForm.append( " " );
+				this.stringForm.append( KoLDatabase.getDisplayName( this.parameters ) );
+			}
+			else
+			{
+				this.stringForm.append( this.action );
+			}
 		}
 
 		public static MoodTrigger constructNode( String line )
