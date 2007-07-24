@@ -179,7 +179,10 @@ public class BuffRequestFrame extends KoLFrame
 			ArrayList requests = new ArrayList();
 			for ( int i = 0; i < checkboxes.length; ++i )
 				if ( checkboxes[i].isSelected() )
+				{
+					checkboxes[i].setSelected( false );
 					requests.add( offerings[i].toRequest() );
+				}
 
 			if ( requests.isEmpty() )
 				return;
