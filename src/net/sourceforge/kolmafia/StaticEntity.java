@@ -154,6 +154,9 @@ public abstract class StaticEntity implements KoLConstants
 
 	public static final void startCounting( int value, String label, String image )
 	{
+		if ( value < 0 )
+			return;
+
 		TurnCounter counter = new TurnCounter( value, label, image );
 
 		if ( !relayCounters.contains( counter ) )
@@ -193,7 +196,7 @@ public abstract class StaticEntity implements KoLConstants
 	public static final TurnCounter getExpiredCounter( String adventureId )
 	{
 		TurnCounter current;
-		int currentTurns = KoLCharacter.getCurrentRun() + 1;
+		int currentTurns = KoLCharacter.getCurrentRun();
 
 		TurnCounter expired = null;
 		Iterator it = relayCounters.iterator();
@@ -234,7 +237,7 @@ public abstract class StaticEntity implements KoLConstants
 			if ( counters.length() > 0 )
 				counters.append( ":" );
 
-			counters.append( current.value - currentTurns );
+			counters.append( current.value );
 			counters.append( ":" );
 			counters.append( current.label );
 			counters.append( ":" );
@@ -254,7 +257,7 @@ public abstract class StaticEntity implements KoLConstants
 
 		StringTokenizer tokens = new StringTokenizer( counters, ":" );
 		while ( tokens.hasMoreTokens() )
-			startCounting( StaticEntity.parseInt( tokens.nextToken() ), tokens.nextToken(), tokens.nextToken() );
+			startCounting( StaticEntity.parseInt( tokens.nextToken() ) - KoLCharacter.getCurrentRun(), tokens.nextToken(), tokens.nextToken() );
 	}
 
 	public static final void setClient( KoLmafia client )
