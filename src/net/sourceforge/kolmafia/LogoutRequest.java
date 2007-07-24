@@ -50,6 +50,7 @@ public class LogoutRequest extends KoLRequest
 			if ( sessionId == null )
 				return;
 
+			StaticEntity.saveCounters();
 			KoLAdventure.resetAutoAttack();
 
 			if ( KoLDesktop.instanceExists() )

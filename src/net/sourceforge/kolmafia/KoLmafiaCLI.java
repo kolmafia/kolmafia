@@ -850,6 +850,12 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( command.startsWith( "counter" ) )
+		{
+			RequestLogger.printLine( StaticEntity.getUnexpiredCounters() );
+			return;
+		}
+
 		if ( command.equals( "abort" ) )
 		{
 			updateDisplay( ABORT_STATE, parameters.length() == 0 ? "Script abort." : parameters );
