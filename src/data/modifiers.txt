@@ -1,196 +1,196 @@
 # Hats section of modifiers.txt
 
-# Ancient Saucehelm
-# Baron Von Ratsworth's tophat
-# Brimstone Beret
+Ancient Saucehelm	Mys: +7, Class: SA
+Baron Von Ratsworth's tophat	Mox: +5, Mus: +5, Mys: +5
+Brimstone Beret	Mox%: +50, Mus%: -20
 # Cerebral Cloche
 Cloaca-Cola helmet	DA: +10
-# Colander of Em-er'il
+Colander of Em-er'il	Mys: +7, Class: PA
 Crimbo hat	Spooky: +10
-# Crown of the Goblin King
-# Disco 'Fro Pick
-# Dolphin King's crown
+Crown of the Goblin King	Mus: +10
+Disco 'Fro Pick	Mox: +7, Class: DB
+Dolphin King's crown	Mox: +2, Mus: +2, Mys: +2
 Dyspepsi-Cola helmet	DA: +10
-# El Sombrero De Lopez
-# Elder Turtle Shell
-# Grimacite gasmask
-# Grimacite goggles
+El Sombrero De Lopez	Mox: +7, Class: AT
+Elder Turtle Shell	Mus: +7, Class: TT
+Grimacite gasmask	Mus%: +30
+Grimacite goggles	Mys%: +30
 # Kentucky-style derby
-# Knob Goblin elite helm
+Knob Goblin elite helm	Mus: +3
 Knob Goblin harem veil	Stench: +10
-# Knob Goblin visor
+Knob Goblin visor	Mox: +3
 # KoL Con 3-D Glasses
-# MAHI fez
+MAHI fez	Mox: +30
 # Mohawk wig
-# Orcish baseball cap
-# Radio Free Baseball Cap
-# Scalp of Gorgolok
+Orcish baseball cap	Mus: +3, Mys: -3
+Radio Free Baseball Cap	Intrinsic: Radio Head
+Scalp of Gorgolok	Mus: +7, Class: SC
 Snow Queen Crown	Cold: +30
 # Sombrero De Vida
 Tropical Crimbo Hat	Spooky: +10
-# anniversary concrete fedora
+anniversary concrete fedora	Mox: +1, Mus: +1, Mys: +1
 antique helmet	Init: -10, Spooky: +30
 asbestos helmet turtle	Hot: +10
 asshat	Stench: +10
 balaclava	Cold: +10
 balloon helmet	DA: +20
-# barskin hat
-# basic meat fez
-# basic meat helmet
-bat hat	Item: +5
+barskin hat	Mus: +1
+basic meat fez	Mox: +2, Mys: +1
+basic meat helmet	Mus: +1
+bat hat	Mys: +9, Item: +5
 # beer helmet
-# big bad voodoo mask
-# black cowboy hat
+big bad voodoo mask	Mys: +7
+black cowboy hat	Mus: +8
 # black helmet
-blue traffic cone	Hot: +20
+blue traffic cone	Mox: +3, Hot: +20
 bounty-hunting helmet	Item: +20
-# bowler
-# bubblewrap bottlecap turtleban
+bowler	Mus: +5
+bubblewrap bottlecap turtleban	Mys: +3
 # bugbear beanie
 bum cheek	Stench: +10
-# catskin cap
-# chef's hat
-# chrome helmet turtle
+catskin cap	Mus: +9
+chef's hat	Mys: +2
+chrome helmet turtle	Mox: +5, Mus: +5, Mys: +5
 clockwork hat	Spooky: +10
-# clown wig
+clown wig	Mys: +3
 coconut shell	DA: +1
 cold ninja mask	Init: +15
-# cornuthaum
-# demon-horned hat
+cornuthaum	Mys: +3, Mox: +3
+demon-horned hat	Mox: +4
 # disco mask
-# draggin' ball hat
-# duct tape fedora
-# eXtreme scarf
-# enchanted eyepatch
+draggin' ball hat	Intrinsic: Draggin' Balls
+duct tape fedora	Mys: +12
+eXtreme scarf	Mys: +5
+enchanted eyepatch	Mys: +5
 # enchantlers
 extra-large palm-frond toupee	Exp: +2
-# eyepatch
-# f3d0r4
-# fancy ball mask
-# fez of etymology
+eyepatch	Mox: +2
+f3d0r4	Mox: +6
+fancy ball mask	Mox%: +10
+fez of etymology	Mox: +7
 # filthy knitted dread sack
-# fire
-# foolscap fool's cap
+fire	Intrinsic: Head on Fire, Ass Catching
+foolscap fool's cap	Mox: +2, Mys: -2
 # football helmet
-# furry green turtle
+furry green turtle	Mox: +3
 gasmask	Stench: +30
-giant discarded bottlecap	DR: 3
-# goat beard
+giant discarded bottlecap	DR: 3, Mys: -10
+goat beard	Mys: +3
 # goofily-plumed helmet
 # grass hat
-green traffic cone	Stench: +20
+green traffic cone	Mox: +3, Stench: +20
 # helmet turtle
 ice pick	Item: +15
 # irate sombrero
 jewel-eyed wizard hat	Mana: -1
 # knobby helmet turtle
-# leather mask
+leather mask	Mus: +3, Mox: -3
 lihc face	Spooky: +20
 # linoleum helmet turtle
-# longhaired hippy wig
+longhaired hippy wig	Mys%: +5
 # maiden wig
-makeshift turban	Spooky: +20
-# meat cowboy hat
-# meatloaf helmet
-# meaty helmet turtle
-# mesh cap
+makeshift turban	Intrinsic: Temporary Blindness, Spooky: +20
+meat cowboy hat	Mus: +3
+meatloaf helmet	Mus: +3
+meaty helmet turtle	Mus: +3
+mesh cap	Intrinsic: Red Neck
 miner's helmet	Item: +5
 # mullet wig
 # mummy mask
-nasty rat mask	ML: -5
-# opera mask
+nasty rat mask	Mox: +9, ML: -5
+opera mask	Mox: -5
 orange peel hat	Cold: +30, Hot: +30, Sleaze: +30, Spooky: +30, Stench: +30
-orange traffic cone	Spooky: +20
+orange traffic cone	Mox: +3, Spooky: +20
 # oriole-feather headdress
-outrageous sombrero	Init: -20
+outrageous sombrero	Mox: +5, Mus: +5, Mys: +5, Init: -20
 pail	DA: +10
 # pentacorn hat
-# pimpin' meat hat
-# pixel hat
-plexiglass pith helmet	Weight: +5
+pimpin' meat hat	Mus: +2, Mox: +2
+pixel hat	Mox: +2, Mus: +2, Mys: +2
+plexiglass pith helmet	Weight: +5, Mus%: +30
 raspberry beret	Hot: +20
 # ravioli hat
-red traffic cone	Cold: +20
+red traffic cone	Mox: +3, Cold: +20
 # reinforced beaded headband
 # safarrri hat
 # seal-skull helmet
-# sequined fez
-# skeletortoise
+sequined fez	Mox: +3
+skeletortoise	Mys: +2
 # snorkel
 spooky hockey mask	Spooky: +20
-stainless steel skullcap	DA: +60
+stainless steel skullcap	DA: +60, Mus%: +15
 # star hat
-stone baseball cap	DR: 10
-# superhero mask
+stone baseball cap	DR: 10, Mus: -10
+superhero mask	Mox: +5, Mus: +5, Mys: +5
 # time helmet
 toy space helmet	Stench: +30, Spooky: +30
-# viking helmet
-# wolf mask
+viking helmet	Mus: +1
+wolf mask	Intrinsic: Complete Delusion
 # wooden salad bowl
 wool hat	DA: +20, Cold: +20
-worn tophat	Init: +20
-# wreath of laurels
+worn tophat	Mox: +7, Init: +20
+wreath of laurels	Mus: +25
 # yak toupee
 # yellow plastic hard hat
-yellow traffic cone	Sleaze: +20
+yellow traffic cone	Mox: +3, Sleaze: +20
 
 # Pants section of modifiers.txt
 
-# 1337 7r0uZ0RZ
-# Boss Bat britches
-Brimstone Boxers	Init: +50
-# Can-Can skirt
-# Cerebral Culottes
-# Cloaca-Cola fatigues
+1337 7r0uZ0RZ	Intrinsic: 1337p4n7Z
+Boss Bat britches	Mox: +5
+Brimstone Boxers	Mox%: +50, Mys%: -20, Init: +50
+Can-Can skirt	Mus%: +10
+Cerebral Culottes	Mys: +10
+Cloaca-Cola fatigues	Mys: +3
 Crimbo pants	Init: +30
-# Danglin' Chad's loincloth
-# Dyspepsi-Cola fatigues
-# Grimacite gaiters
-Grimacite greaves	Init: +20
-# Knob Goblin Uberpants
-# Knob Goblin elite pants
-# Knob Goblin harem pants
-# Knob Goblin pants
-# Orcish cargo shorts
-# Radio Free Pants
+Danglin' Chad's loincloth	Mox: -10
+Dyspepsi-Cola fatigues	Mys: +3
+Grimacite gaiters	Mys%: +30
+Grimacite greaves	Init: +20, Mox%: +30
+Knob Goblin Uberpants	Mox: +2, Mus: +2, Mys: +2
+Knob Goblin elite pants	Mox: +3
+Knob Goblin harem pants	Mox: +1
+Knob Goblin pants	Mus: +1
+Orcish cargo shorts	Mus: +3, Mys: -3
+Radio Free Pants	Intrinsic: Free Bird
 # Travoltan trousers
 Tropical Crimbo Shorts	Init: +30
 # alpha-mail pants
 antique greaves	Init: -10
-# astronaut pants
-# barskin loincloth
-# basic meat kilt
-# basic meat pants
-# basic meat skirt
-black greaves	DA: +30
+astronaut pants	Mus: +5
+barskin loincloth	Mus: +1
+basic meat kilt	Mox: +1
+basic meat pants	Mox: +1
+basic meat skirt	Mox: +1
+black greaves	Mus: +10, DA: +30
 # bloody clown pants
 bounty-hunting pants	Item: +15
-# bowlegged pants
+bowlegged pants	Mox: +5
 # bugbear bungguard
 bullet-proof corduroys	DR: 2
 # chain-mail monokini
 clockwork pants	Init: +10
 demonskin trousers	Hot: +20
 distressed denim pants	Stench: +10, DR: 2
-duct tape dockers	Cold: +10, Hot: +10, Sleaze: +10, Spooky: +10, Stench: +10
+duct tape dockers	Mox: +6, Mus: +6, Mys: +6, Cold: +10, Hot: +10, Sleaze: +10, Spooky: +10, Stench: +10
 dungeoneer's dungarees	Cold: +10, Hot: +10, Sleaze: +10, Spooky: +10, Stench: +10
-# filthy corduroys
-# flowing hippy skirt
+filthy corduroys	Mys: +3, Mox: -3
+flowing hippy skirt	Mys: +9
 # frilly skirt
 # furry kilt
 # furry pants
 # furry skirt
 gauze shorts	DR: 3
-# giant discarded torn-up glove
+giant discarded torn-up glove	Mox: -10
 gnauga hide chaps	DA: +30
 gnauga hide kilt	DA: +30
 gnauga hide skirt	DA: +30
-# grass skirt
+grass skirt	Mox: +5
 # hippopotamus kilt
 # hippopotamus pants
 # hippopotamus skirt
 # junk-mail pants
-# leather chaps
+leather chaps	Intrinsic: Chapped Legs
 leotarrrd	Init: +15
 # liar's pants
 los chinos	DA: +20
@@ -198,27 +198,27 @@ makeshift skirt	Init: +15
 # mariachi pants
 miner's pants	DA: +20
 # ninja hot pants
-# old school Mafia knickerbockers
-# palm-frond capris
+old school Mafia knickerbockers	Mus: +25, Mys: +25, Mox: +25
+palm-frond capris	Mox: +4
 pants of the Slug Lord	Stench: +20
 # paper-plate-mail pants
 penguin shorts	Init: +20
 penguinskin mini-kilt	Init: +20
 penguinskin mini-skirt	Init: +20
 # pixel pants
-plexiglass pants	Init: +25, Item: +20
+plexiglass pants	Init: +25, Item: +20, Mox%: +30
 snowboarder pants	DA: +20
-# spandex anniversary shorts
-stainless steel slacks	Init: +15, Meat: +20
+spandex anniversary shorts	Mox: +1, Mus: +1, Mys: +1
+stainless steel slacks	Init: +15, Meat: +20, Mox%: +15
 star pants	Init: +20
-# sticky meat kilt
-# sticky meat pants
-# sticky meat skirt
+sticky meat kilt	Mox: +3
+sticky meat pants	Mox: +3
+sticky meat skirt	Mox: +3
 # studded leather boxer shorts
-# swashbuckling pants
+swashbuckling pants	Mox: +4
 tighty whiteys	Spooky: +20
 # time trousers
-# tree skirt
+tree skirt	Mox: +5
 # troutpiece
 white satin pants	Sleaze: +20
 # yakskin kilt
@@ -227,111 +227,111 @@ white satin pants	Sleaze: +20
 
 # Shirts section of modifiers.txt
 
-# &quot;Humorous&quot; T-shirt
+&quot;Humorous&quot; T-shirt	Mox: +4, Mus: +4, Mys: +4
 # Ascension Souvenir T-Shirt
-# Ascii shirt
+Ascii shirt	Mys: +7
 # Colonel Mustard's Lonely Spades Club Jacket
 # Corporal Fennel's Lonely Clubs Club Jacket
 # General Sage's Lonely Diamonds Club Jacket
 Grateful Undead T-shirt	Item: +5
-Grimacite gown	ML: +50
-Grimacite guayabera	ML: +50
+Grimacite gown	ML: +30
+Grimacite guayabera	ML: +30
 # Kiss the Knob apron
-# Knob Goblin elite shirt
-# Mr. Shirt
+Knob Goblin elite shirt	Mus: +3
+Mr. Shirt	Mus: +1, Mys: +1, Mox: +1
 # Private Pepper's Lonely Hearts Club Jacket
-Radio Free Jersey	Cold: +30, Hot: +30, Sleaze: +30, Spooky: +30, Stench: +30
+Radio Free Jersey	Mox: +10, Mus: +10, Mys: +10, Cold: +30, Hot: +30, Sleaze: +30, Spooky: +30, Stench: +30
 Ye Olde Navy Fleece	Meat: +10
 asbestos apron	Hot: +30
-# barskin cloak
-bat-ass leather jacket	Cold: +10, Hot: +10, Sleaze: +10, Spooky: +10, Stench: +10
+barskin cloak	Mus: +2
+bat-ass leather jacket	Mys: +10, Cold: +10, Hot: +10, Sleaze: +10, Spooky: +10, Stench: +10
 bronze breastplate	DA: +20, DR: 4
 clockwork trench coat	DA: +15
 # clownskin harness
-# coconut bikini top
-# demonskin jacket
-duct tape shirt	Meat: +20
+coconut bikini top	Mys: +5
+demonskin jacket	Mys: +5
+duct tape shirt	Mox: +9, Meat: +20
 eXtreme Bi-Polar Fleece Vest	Cold: +20
-# filthy hippy poncho
+filthy hippy poncho	Mys: +3
 flaming pink shirt	Item: +15
-# floral print shirt
-# frilly shirt
-# gingham blouse
+floral print shirt	Mys: +5
+frilly shirt	Mys: +3
+gingham blouse	Mus: +5
 gnauga hide vest	DR: 6, Cold: +10, Hot: +10, Sleaze: +10, Spooky: +10, Stench: +10
 goth kid t-shirt	ML: +5
-# harem girl t-shirt
+harem girl t-shirt	Mox: +3
 hipposkin poncho	ML: +10
-# loathing eagle baby-doll shirt
+loathing eagle baby-doll shirt	Mox: +3
 palm-frond cloak	Cold: +20, Hot: +20, Sleaze: +20, Spooky: +20, Stench: +20
-# pirate shirt
-# rhinestone cowboy shirt
-safety vest	DR: 3
-# soggy wofl t-shirt
-# souvenir ski t-shirt
-# star shirt
-# supportive bra
-# tuxedo shirt
+pirate shirt	Mox: +3
+rhinestone cowboy shirt	Mus: +5
+safety vest	DR: 3, Mox: +5
+soggy wofl t-shirt	Mus: +3
+souvenir ski t-shirt	Mox: +5
+star shirt	Mox: +5, Mus: +5, Mys: +5
+supportive bra	Mox: +3
+tuxedo shirt	Mox: +7
 # vampire cape
-# white hat hacker T-shirt
-# white snakeskin duster
+white hat hacker T-shirt	Mox: +2, Mus: +2, Mys: +2
+white snakeskin duster	Mus: +2
 # yak anorak
 
 # Weapons section of modifiers.txt
 
-# 17-alarm Saucepan
+17-alarm Saucepan	Mys: +11
 # 25-meat staff
-# 5-Alarm Saucepan
+5-Alarm Saucepan	Mys: +7, Class: SA
 # 7-Foot Dwarven mattock
-# Bigger Bugfinder Blade
-# Bjorn's Hammer
-# Brimstone Bludgeon
-# Bugfinder Blade
+Bigger Bugfinder Blade	Mox: +11, Mus: +11, Mys: +11
+Bjorn's Hammer	Mus: +10, Class: SC
+Brimstone Bludgeon	Mus%: +50, Mys%: -20
+Bugfinder Blade	Mox: +7, Mus: +7, Mys: +7
 # Cerebral Crossbow
-# Chelonian Morningstar
+Chelonian Morningstar	Mus: +11
 # Cloaca-Cola-issue combat knife
 # Crimbo sword
 Crimbo ukelele	Item: +10
-# Disco Banjo
+Disco Banjo	Mox: +7, Class: DB
 # Dr. Hobo's scalpel
 Drowsy Sword	ML: -10
-Frost&trade; brand sword	ML: +3
-# Gnollish autoplunger
+Frost&trade; brand sword	Mus: +3, ML: +3
+Gnollish autoplunger	Mys: +3
 # Gnollish flyswatter
 # Gnollish nunchaku
 # Gnollish pie server
 # Gnollish plunger
 # Gnollish slotted spoon
-Greek Pasta of Peril	Init: +25
-Grimacite gat	Init: +20
-# Grimacite glaive
-# Hammer of Smiting
-# Kentucky-fried meat crossbow
-# Kentucky-fried meat staff
-# Kentucky-fried meat sword
+Greek Pasta of Peril	Mys: +11, Init: +25
+Grimacite gat	Init: +20, Mox%: +30
+Grimacite glaive	Mus%: +30
+Hammer of Smiting	Mus: +16
+Kentucky-fried meat crossbow	Mox: +5
+Kentucky-fried meat staff	Mys: +5
+Kentucky-fried meat sword	Mus: +5
 # Knob Goblin elite polearm
 # Knob Goblin melon baller
-# Knob Goblin scimitar
+Knob Goblin scimitar	Mus: +1
 # Knob Goblin spatula
 # Knob Goblin tongs
-# Mace of the Tortoise
-# Mafia violin case
-# Maxwell's Silver Hammer
+Mace of the Tortoise	Mus: +7, Class: TT
+Mafia violin case	Mus: +20
+Maxwell's Silver Hammer	Mys: +10
 # Mjolnir Jr.
-Pasta of Peril	Init: +15
-# Radio Free Foil
-# Rock and Roll Legend
-Shagadelic Disco Banjo	Meat: +10
-# Spirit Precipice
-# Squeezebox of the Ages
+Pasta of Peril	Mys: +7, Init: +15, Class: PA
+Radio Free Foil	Intrinsic: Shiny Happy Weapon
+Rock and Roll Legend	Mox: +7, Class: AT
+Shagadelic Disco Banjo	Mox: +11, Meat: +10
+Spirit Precipice	Mus: +7, Mys: +5
+Squeezebox of the Ages	Mox: +11
 # Staff of Blood and Pudding
 Staff of the Grand Flamb&eacute;	Cold: +40
 # Staff of the Grease Trap
 # Staff of the Greasefire
 # Staff of the Kitchen Floor
 # Staff of the Midnight Snack
-# Staff of the Short Order Cook
+Staff of the Short Order Cook	Mys: +5
 # Staff of the Walk-In Freezer
-Super Magic Power Sword X	Init: +20
+Super Magic Power Sword X	Mus: +4, Init: +20
 # Totally Gay Claymore
 # Tropical Crimbo Sword
 # Unionize The Elves sign
@@ -340,19 +340,19 @@ Super Magic Power Sword X	Init: +20
 acoustic guitarrr	Meat: +2
 antique spear	Init: -30
 # armed gun
-# arse-shooting crossbow
-# asbestos crossbow
-# asbestos staff
-# asbestos sword
+arse-shooting crossbow	Mox: +15, Mus: +15, Mys: +15
+asbestos crossbow	Mox: +7, Mus: +5
+asbestos staff	Mys: +7, Mox: +5
+asbestos sword	Mus: +7, Mys: +5
 # asparagus knife
 # automatic catapult
 # balloon sword
 # bamboo bokuto
 bar whip	Weight: +2
-# basic meat crossbow
-# basic meat spork
-# basic meat staff
-# basic meat sword
+basic meat crossbow	Mox: +1
+basic meat spork	Mus: +3
+basic meat staff	Mys: +1
+basic meat sword	Mus: +1
 bat whip	ML: +5
 # batblade
 beer bong	ML: +5
@@ -362,32 +362,32 @@ beer bong	ML: +5
 # black sword
 bottle-rocket crossbow	Meat: +15
 bounty-hunting rifle	Item: +15
-# bow staff
+bow staff	Mys: +5
 broken sword	Spooky: +10
-bubble bauble bow	Item: +5
-# bubblewrap crossbow
-# bubblewrap staff
-# bubblewrap sword
-# bucket of anniversary lard
-# buffalo blade
-# bugbear-smiting sword
-# calavera concertina
-can cannon	ML: +3
+bubble bauble bow	Mox: +3, Mys: +2, Item: +5
+bubblewrap crossbow	Mox: +3, Mys: +2
+bubblewrap staff	Mys: +3, Mus: +2
+bubblewrap sword	Mus: +3, Mox: +2
+bucket of anniversary lard	Mox: +1, Mus: +1, Mys: +1
+buffalo blade	Mus: +5
+bugbear-smiting sword	Mus: +10
+calavera concertina	Mox: +3
+can cannon	Mox: +3, ML: +3
 # can of fake snow
 can of maces	Sleaze: +10
-# cardboard crossbow
+cardboard crossbow	Mox: +3
 # cardboard katana
-# cardboard staff
-# cardboard sword
+cardboard staff	Mys: +3
+cardboard sword	Mus: +3
 cardboard wakizashi	DR: 2
-# carob cannon
-# cast-iron legacy paddle
+carob cannon	Mox: +7
+cast-iron legacy paddle	Mus: +15
 # cheap plastic bottle opener
 # chisel
 chopsticks	Init: +20
-# chrome crossbow
-# chrome staff
-# chrome sword
+chrome crossbow	Mox: +7
+chrome staff	Mys: +7
+chrome sword	Mus: +7
 # clockwork crossbow
 # clockwork staff
 # clockwork sword
@@ -395,59 +395,59 @@ chopsticks	Init: +20
 clown whip	Sleaze: +20
 # cool whip
 # corn holder
-# crazy bastard sword
+crazy bastard sword	Mus: +10
 crowbarrr	Init: +15
-# curdflinger
+curdflinger	Mox: +3
 # demon whip
-# denim axe
-# dense meat crossbow
-# dense meat staff
-# dense meat sword
-# diamond-studded cane
-# didgeridooka
+denim axe	Mus: +10
+dense meat crossbow	Mox: +3
+dense meat staff	Mys: +3
+dense meat sword	Mus: +3
+diamond-studded cane	Mox: +5, Class: DB
+didgeridooka	Mox: +9
 # disco ball
 # dishrag
 dreadlock whip	ML: +10
-# dripping meat crossbow
-# dripping meat staff
-# dripping meat sword
-# drywall axe
+dripping meat crossbow	Mox: +2
+dripping meat staff	Mys: +2
+dripping meat sword	Mus: +2
+drywall axe	Mox: +2, Mus: +2, Mys: +2, Mox%: +3, Mus%: +3, Mys%: +3
 duck-on-a-string	Item: +5
 duct tape sword	DA: +40, Item: +5
-# eXtreme meat crossbow
-# eXtreme meat staff
-# eXtreme meat sword
+eXtreme meat crossbow	Mox: +7
+eXtreme meat staff	Mys: +7
+eXtreme meat sword	Mus: +7
 # eggbeater
 # fetus-smashing club
 # filthy pestle
-# fire poi
-# flaming cardboard sword
+fire poi	Mox: +3
+flaming cardboard sword	Mus: +3
 # flaming crutch
 flaming juggler's balls	Exp: +2
-# flypaper staff
+flypaper staff	Mys: +3
 # frozen nunchaku
 ga-ga radio	Exp: +1
 # giant cactus quill
-# giant cheesestick
+giant cheesestick	Mys: +5
 giant discarded plastic fork	Init: -10
-# giant driftwood sculpture
+giant driftwood sculpture	Mox: +8
 giant foam finger	DR: 3
 giant needle	ML: +5
-# glistening staff
+glistening staff	Mys: +2
 gnauga hide whip	Item: +3
 # goatskin umbrella
-# goulauncher
+goulauncher	Mox: +4
 # grass blade
 grave robbing shovel	Init: -10
-# grease gun
-# hairy staff
+grease gun	Mox: +3
+hairy staff	Mys: +7
 # halfberd
 # happiness
 # heavy metal thunderrr guitarrr
 # heteroerotic frat-paddle
 hippo whip	ML: +10
 # homoerotic frat-paddle
-# hot cross bow
+hot cross bow	Mox: +7, Mus: +5
 # huge mirror shard
 # huge spoon
 ice sickle	ML: +15
@@ -455,17 +455,17 @@ ice sickle	ML: +15
 # iron pasta spoon
 # jack flapper
 # kneecapping stick
-# lead pipe
+lead pipe	Mus: +6, Mys: +6
 # lead yo-yo
-# linoleum crossbow
-# linoleum staff
-# linoleum sword
+linoleum crossbow	Mox: +7
+linoleum staff	Mys: +7
+linoleum sword	Mus: +7
 # little paper umbrella
 # lucky ball-and-chain
 # lupine sword
-# massive sitar
-meatspout staff	Meat: +15
-muculent machete	Meat: +5
+massive sitar	Mys: +12
+meatspout staff	Mys: +7, Meat: +15
+muculent machete	Mus: +2, Meat: +5
 # ninja mop
 # obsidian dagger
 # oversized pizza cutter
@@ -473,85 +473,85 @@ muculent machete	Meat: +5
 # pasta spoon
 penguin whip	Meat: +3
 # perforated battle paddle
-# pestoblade
+pestoblade	Mus: +3
 # pitchfork
 pixel sword	Init: +15
-# plexiglass pike pike
+plexiglass pike pike	Mus%: +30
 # pointed stick
-# pool cue
+pool cue	Mox: +3
 # portable corkscrew
-# potato pistol
-# poutine pole
+potato pistol	Mox: +5
+poutine pole	Mys: +3
 # prehistoric spear
-# projectile icemaker
-# pygmy spear
-# ram stick
-# ram-battering staff
-# ratarang
-rattail whip	ML: +5
-# repeating crossbow
-# rib of the Bonerdagon
-# ridiculously huge sword
+projectile icemaker	Mox: +7
+pygmy spear	Mus: +7
+ram stick	Mox: +5
+ram-battering staff	Mox: +5
+ratarang	Mox: +3
+rattail whip	Mox: +5, ML: +5
+repeating crossbow	Mox: +2
+rib of the Bonerdagon	Mus: +5, Mys: +5
+ridiculously huge sword	Mus: +4
 # ridiculously overelaborate ninja weapon
 # rubber axe
 rusty grave robbing shovel	Init: -10
 # sabre teeth
 # sack of doorknobs
 # saucepan
-# savory crossbow
-# savory staff
-# savory sword
+savory crossbow	Mox: +4
+savory staff	Mys: +4
+savory sword	Mus: +4
 # scorpion whip
 # seal-clubbing club
 serpentine sword	ML: +10
 # shiny butcherknife
-# shuddersword
+shuddersword	Mus: +7
 # silver shrimp fork
 # skeleton bone
 # slightly peevedbow
 # slingshot
-# smoldering staff
-# soylent staff
+smoldering staff	Mys: +7, Mox: +5
+soylent staff	Mys: +4
 # spiked femur
 # spooky bicycle chain
-# spooky staff
+spooky staff	Mys: +2
 # spooky stick
-# spork
-squeaky staff	ML: +6
-# stainless steel shillelagh
-# star boomerang
-# star crossbow
+spork	Mus: +2
+squeaky staff	Mys: +3, ML: +6
+stainless steel shillelagh	Mus%: +15
+star boomerang	Mox: +5
+star crossbow	Mox: +8
 # star spatula
-# star staff
-# star stiletto
-# star sword
-# starchy crossbow
-# starchy staff
-# starchy sword
+star staff	Mys: +8
+star stiletto	Mus: +5
+star sword	Mus: +8
+starchy crossbow	Mox: +3
+starchy staff	Mys: +3
+starchy sword	Mus: +3
 # stolen accordion
-# stone banjo
-styrofoam crossbow	ML: +3
-styrofoam staff	ML: +3
-styrofoam sword	ML: +3
+stone banjo	Mox: +1
+styrofoam crossbow	Mox: +3, ML: +3
+styrofoam staff	Mys: +3, ML: +3
+styrofoam sword	Mus: +3, ML: +3
 # suede shortsword
 # sweet ninja sword
-# sword behind inappropriate prepositions
-# sword of static
+sword behind inappropriate prepositions	Mus: +7
+sword of static	Mus: +3, Mox: +2
 tail o' nine cats	Init: +15, ML: +5
 # time sword
-# tiny ninja sword
-# tiny plastic sword
+tiny ninja sword	Mox: +1
+tiny plastic sword	Mox: +1
 titanium assault umbrella	Cold: +10, Hot: +10, Sleaze: +10, Spooky: +10, Stench: +10
 # toy ray gun
 # two-handed depthsword
 vampire duck-on-a-string	Item: +5
 # vorpal blade
 # war tongs
-# white sword
+white sword	Mus: +2
 white whip	Exp: +1
 # wholeberd
-wiffle-flail	Init: +20
-# wooden axe
+wiffle-flail	Mys: +3, Mus: +2, Init: +20
+wooden axe	Mus: +3
 # wooden stakes
 # worm-riding hooks
 # yak whip
@@ -567,15 +567,15 @@ wiffle-flail	Init: +20
 # 6-ball
 7-ball	Meat: +5
 # 9-ball
-Brimstone Bunker	DR: 15, DR: 10
-Cloaca-Cola shield	DR: 4
+Brimstone Bunker	DR: 15, Mus%: +50, Mox%: -20, DR: 10
+Cloaca-Cola shield	DR: 4, Mys: +1
 # Codex of Capsaicin Conjuration
 # Cookbook of the Damned
-Dyspepsi-Cola shield	DR: 4
+Dyspepsi-Cola shield	DR: 4, Mys: +1
 # Gazpacho's Glacial Grimoire
-# Glass Balls of the Goblin King
+Glass Balls of the Goblin King	Mys: +14
 # Kevlar balloon
-# Mr. Balloon
+Mr. Balloon	Mox: +3, Mus: +3, Mys: +3
 # Mylar balloon
 # Necrotelicomnicon
 # Raggedy Hippy doll
@@ -584,20 +584,20 @@ Dyspepsi-Cola shield	DR: 4
 Tiki lighter	Exp: +1
 # Tuesday's ruby
 # anniversary balloon
-# anniversary chutney sculpture
+anniversary chutney sculpture	Mox: +1, Mus: +1, Mys: +1
 antique shield	DR: 15, Init: -10
 # arrow'd heart balloon
-barskin buckler	DR: 1
-# basic meat foon
-battered hubcap	DR: 14, Cold: +20, Hot: +20, Sleaze: +20, Spooky: +20, Stench: +20
-black shield	DR: 10
-bobble-hip hula elf doll	Meat: +15
+barskin buckler	DR: 1, Mus: +2
+basic meat foon	Mys: +3
+battered hubcap	DR: 14, Mus: +15, Cold: +20, Hot: +20, Sleaze: +20, Spooky: +20, Stench: +20
+black shield	DR: 10, Mus: +5
+bobble-hip hula elf doll	Mox: +5, Mus: +5, Mys: +5, Meat: +15
 box	Meat: +1
-box turtle	DR: 3
+box turtle	DR: 3, Mus: +1
 box-in-the-box	Meat: +2
 box-in-the-box-in-the-box	Meat: +3
-cardboard box turtle	DR: 4
-catskin buckler	DR: 11, DA: +50
+cardboard box turtle	DR: 4, Mus: +3
+catskin buckler	DR: 11, Mus: +10, DA: +50
 # clockwork detective skull
 clownskin buckler	DR: 3
 coffin lid	DR: 3, Spooky: +10
@@ -607,52 +607,52 @@ deck of tropical cards	Exp: +1
 demon buckler	DR: 5
 # detective skull
 duct tape buckler	DR: 12
-# easter egg balloon
+easter egg balloon	Mox: +5, Mus: +5, Mys: +5
 # enchanted brass knuckles
 # fake hand
 # flaming talons
-# foon
-# foon of fearfulness
-# foon of fleshiness
-# foon of foulness
-# foon of frigidity
-# foon of fulmination
+foon	Mys: +2
+foon of fearfulness	Mys: +3
+foon of fleshiness	Mys: +3
+foon of foulness	Mys: +3
+foon of frigidity	Mys: +3
+foon of fulmination	Mys: +3
 # giant stuffed bugbear
-gnauga hide buckler	DR: 5
+gnauga hide buckler	DR: 5, Mox: +3, Mus: +3, Mys: +3
 # green balloon
 # heart-shaped balloon
-hippo skin buckler	DR: 5
+hippo skin buckler	DR: 5, Mus: +5
 hors d'oeuvre tray	DR: 7, Init: +20
 hypnodisk	Item: +25
 ice baby	Exp: +3
-# incredibly creepy marionette
+incredibly creepy marionette	Mys: +3
 # joybuzzer
-keg shield	DR: 11, DA: +50
+keg shield	DR: 11, DA: +50, Mys: +5
 # kickback cookbook
-# killer rag doll
-# mad scientist's sock monkey
-# magic lamp
+killer rag doll	Mus: +3
+mad scientist's sock monkey	Mox: +3
+magic lamp	Mys: +5
 # magical ice cubes
-# marionette
+marionette	Mys: +3
 # mini-zeppelin
 # miniature stuffed Goth Giant
 # moxie magnet
-# off-hand balloon
+off-hand balloon	Mus: +1, Mys: +1, Mox: +1
 # oyster basket
-penguin skin buckler	DR: 5
+penguin skin buckler	DR: 5, Mox: +5
 pilgrim shield	Exp: +3
 # pirate hook
-pixel shield	DR: 3
-# rag doll
+pixel shield	DR: 3, Mus: +5
+rag doll	Mus: +3
 # red balloon
 # rice bowl
 sawblade shield	DR: 11
 sebaceous shield	DR: 2
 sewer turtle	DR: 1
-snake shield	DR: 7
+snake shield	DR: 7, Mus: +6
 snarling wolf shield	DR: 7
-# sock monkey
-star buckler	DR: 10
+sock monkey	Mox: +3
+star buckler	DR: 10, Mox: +2, Mus: +2, Mys: +2
 # steaming evil
 # stuffed Cheshire bitten
 # stuffed MagiMechTech MicroMechaMech
@@ -680,181 +680,181 @@ star buckler	DR: 10
 # stuffed zmobie
 # thought balloon
 tropical paperweight	Exp: +1
-# voodoo doll
-# wad of Crovacite
+voodoo doll	Mys: +1
+wad of Crovacite	Mox: +5, Mus: +5, Mys: +5
 # white balloon
-white satin shield	DR: 5
-wicker shield	DR: 11
+white satin shield	DR: 5, Mox: +2
+wicker shield	DR: 11, Mox: +6
 wonderwall shield	DR: 12
-yakskin buckler	DR: 5
+yakskin buckler	DR: 5, Mys: +5
 
 # Accessories section of modifiers.txt
 
-Aluminum Epsilon of Humility	Item: +9
+Aluminum Epsilon of Humility	Mox: +7, Mus: +7, Mys: +7, Item: +9
 Amulet of Yendor	Mana: +3, Init: -10
 # Ankh of Badahnkadh
 Baron Von Ratsworth's money clip	Meat: +15
 Baron Von Ratsworth's monocle	Item: +10
-Blue Diamond of Honesty	Item: +9
-Bonerdagon necklace	Init: +30
-# Boris's ring
-# Boss Bat bling
-Brimstone Bracelet	Mana: -3
-# Brimstone Brooch
+Blue Diamond of Honesty	Mox: +7, Mus: +7, Mys: +7, Item: +9
+Bonerdagon necklace	Mus: +5, Mox: +5, Init: +30
+Boris's ring	Mus: +10
+Boss Bat bling	Mus: +3, Mox: +3
+Brimstone Bracelet	Mys%: +50, Mus%: -20, Mana: -3
+Brimstone Brooch	Mys%: +50, Mox%: -20
 C.A.R.N.I.V.O.R.E. button	ML: +15
-# Cape of the Goblin King
-# Cat-Herding Prod
-# Choker of the Ultragoth
-Copper Alpha of Sincerity	Item: +5
+Cape of the Goblin King	Mox: +7
+Cat-Herding Prod	Mox: +15, Mus: +15, Mys: +15
+Choker of the Ultragoth	Mox: +3, Mus: +3, Mys: +3
+Copper Alpha of Sincerity	Mox: +11, Mus: +11, Mys: +11, Item: +5
 # Counterclockwise Watch
 # Dyspepsi-Cola-issue canteen
 Earring of Fire	Cold: +30, Spooky: +30
-# Elmley shades
+Elmley shades	Mus: +12
 # Gaia beads
-# Golden Mr. Accessory
-Green Clover of Justice	Item: +8
-Grimacite galoshes	Meat: +25
-# Grimacite garter
-Grimacite gauntlets	Meat: +30
-# Grimacite girdle
-Grimacite go-go boots	Item: +30
-Grimacite gorget	Item: +25
-# Ice-Cold Aluminum Necklace
-# Ice-Cold Beer Ring
+Golden Mr. Accessory	Mox: +15, Mus: +15, Mys: +15
+Green Clover of Justice	Mox: +8, Mus: +8, Mys: +8, Item: +8
+Grimacite galoshes	Meat: +25, Mox%: +30
+Grimacite garter	Mys%: +30
+Grimacite gauntlets	Meat: +30, Mus%: +30
+Grimacite girdle	Mys%: +30
+Grimacite go-go boots	Item: +30, Mox%: +30
+Grimacite gorget	Item: +25, Mus%: +30
+Ice-Cold Aluminum Necklace	Mox: +3, Mus: +3, Mys: +3
+Ice-Cold Beer Ring	Mox: +3, Mus: +3, Mys: +3
 Ice-Cold Beerring	Sleaze: +30, Stench: +30
 # Iiti Kitty phone charm
-Iron Beta of Industry	Item: +6
+Iron Beta of Industry	Mox: +10, Mus: +10, Mys: +10, Item: +6
 # Item #13
-# Jarlsberg's earring
-Jekyllin hide belt	Item: +20
-# Junior LAAAAME merit badge
-Lead Zeta of Chastity	Item: +10
-# Lockenstock&trade; sandals
+Jarlsberg's earring	Mys: +10
+Jekyllin hide belt	Mox: +5, Mus: +5, Mys: +5, Item: +35
+Junior LAAAAME merit badge	Mox: +1, Mus: +1, Mys: +1
+Lead Zeta of Chastity	Mox: +6, Mus: +6, Mys: +6, Item: +10
+Lockenstock&trade; sandals	Mys: +7
 Lord Spookyraven's ear trumpet	Init: +25
 # Lord Spookyraven's spectacles
-# Mafia bow tie
-# Mafia stogie
+Mafia bow tie	Mus: +20, Mox: +20
+Mafia stogie	Mus: +20, Mys: +20
 # MagiMechTech NanoMechaMech
 # Mega Gem
-# Mr. Accessory
-Mr. Accessory Jr.	Item: +25
-# Mr. Eh?
+Mr. Accessory	Mox: +15, Mus: +15, Mys: +15
+Mr. Accessory Jr.	Mox: +5, Mus: +5, Mys: +5, Item: +25
+Mr. Eh?	Mox: +14, Mus: +14, Mys: +14
 # Mr. Exploiter
-# Ms. Accessory
+Ms. Accessory	Mox: +15, Mus: +15, Mys: +15
 Mudflap-Girl Earring	Stench: +30, Hot: +30
-# Mudflap-Girl Necklace
-# Mudflap-Girl Ring
-Nickel Gamma of Frugality	Item: +7
+Mudflap-Girl Necklace	Mox: +3, Mus: +3, Mys: +3
+Mudflap-Girl Ring	Mox: +3, Mus: +3, Mys: +3
+Nickel Gamma of Frugality	Mox: +9, Mus: +9, Mys: +9, Item: +7
 Nose Ring of Putrescence	Hot: +30, Spooky: +30
-Orange Star of Sacrifice	Item: +6
-Order of the Silver Wossname	Item: +11, Meat: +11
-# Pendant of Fire
+Orange Star of Sacrifice	Mox: +10, Mus: +10, Mys: +10, Item: +6
+Order of the Silver Wossname	Mox: +11, Mus: +11, Mys: +11, Item: +11, Meat: +11
+Pendant of Fire	Mox: +3, Mus: +3, Mys: +3
 Pine-Fresh air freshener	Stench: +10
-Pink Heart of Spirit	Item: +5
-Purple Horseshoe of Honor	Item: +10
-# Putrid Pendant
+Pink Heart of Spirit	Mox: +11, Mus: +11, Mys: +11, Item: +5
+Purple Horseshoe of Honor	Mox: +6, Mus: +6, Mys: +6, Item: +10
+Putrid Pendant	Mox: +3, Mus: +3, Mys: +3
 Radio KoL Antenna Ball	Exp: +1
 Radio KoL Bottle Opener	Meat: +15
-# Radio KoL Flashlight
-# Radio KoL Keychain
+Radio KoL Flashlight	Mys: +15
+Radio KoL Keychain	Mus: +15
 Radio KoL Maracas	Item: +15
-# Radio KoL Patch
-Red Balloon of Valor	Item: +11
-# Ring of Fire
-# Ring of the Sewer Snake
+Radio KoL Patch	Mox: +15
+Red Balloon of Valor	Mox: +5, Mus: +5, Mys: +5, Item: +11
+Ring of Fire	Mox: +3, Mus: +3, Mys: +3
+Ring of the Sewer Snake	Mox: +3, Mus: +3, Mys: +3
 # Scandalously Skimpy Bikini
-# Senior LAAAAME merit badge
-Slow Talkin' Eliot's dogtags	Init: -30
-# Sneaky Pete's breath spray
-# Talisman o' Nam
+Senior LAAAAME merit badge	Mox: +3, Mus: +3, Mys: +3
+Slow Talkin' Eliot's dogtags	Mus: +30, Init: -30
+Sneaky Pete's breath spray	Mox: +10
+Talisman o' Nam	Mox: +3, Mus: +3, Mys: +3
 # Talisman of Baio
 # Talisman of Bakula
-# The Ring
+The Ring	Mox: +3, Mus: +3, Mys: +3
 Unspeakable Earring	Cold: +30, Sleaze: +30
-Uranium Omega of Temperence	Item: +11
+Uranium Omega of Temperence	Mox: +5, Mus: +5, Mys: +5, Item: +11
 # Warehouse 23 bling
-# Xlyinia's notebook
-Yellow Moon of Compassion	Item: +7
-Zinc Delta of Tranquility	Item: +8
+Xlyinia's notebook	Mox: +15, Mus: +15, Mys: +15
+Yellow Moon of Compassion	Mox: +9, Mus: +9, Mys: +9, Item: +7
+Zinc Delta of Tranquility	Mox: +8, Mus: +8, Mys: +8, Item: +8
 # acid-squirting flower
-# albatross necklace
+albatross necklace	Mys%: +10
 # amulet of extreme plot significance
-# arrrgyle socks
-baconstone bracelet	Mana: -1
-baconstone earring	Mana: -1
-# baconstone pendant
-# baconstone ring
-# badass belt
-# beach glass necklace
+arrrgyle socks	Mys: +6
+baconstone bracelet	Mys: +2, Mana: -1
+baconstone earring	Mys: +2, Mana: -1
+baconstone pendant	Mys: +4
+baconstone ring	Mys: +5
+badass belt	Mox: +5, Mus: +5, Mys: +5
+beach glass necklace	Mus: +5
 beaten-up Chucks	Init: +40
 # beer goggles
-# bejeweled accordion strap
+bejeweled accordion strap	Class: AT
 # bejeweled pledge pin
 # big red clown nose
-# black belt
-# blackberry combat boots
-blackberry moccasins	Init: +25, DR: 3
-# blackberry slippers
-# bling-bling
+black belt	Mus: +7
+blackberry combat boots	Mus: +10
+blackberry moccasins	Mox: +8, Init: +25, DR: 3
+blackberry slippers	Mys: +10
+bling-bling	Mox: +1
 # blue ribbon
 # bottle opener belt buckle
-# bottlecap turtle
-# cement shoes
-# charrrm bracelet
-# chintzy accordion pin
-# chintzy disco ball pendant
-# chintzy noodle ring
-# chintzy saucepan earring
-# chintzy seal pendant
-# chintzy turtle brooch
+bottlecap turtle	Mys: +1
+cement shoes	Intrinsic: Sleeping with the Fishes, Mys: +20, Mox: +20
+charrrm bracelet	Mox: +5
+chintzy accordion pin	Mox: +12, Mys: +6, Class: AT
+chintzy disco ball pendant	Mox: +12, Mus: +6, Class: DB
+chintzy noodle ring	Mys: +12, Mus: +6, Class: PA
+chintzy saucepan earring	Mys: +12, Mox: +6, Class: SA
+chintzy seal pendant	Mus: +12, Mox: +6, Class: SC
+chintzy turtle brooch	Mus: +12, Mys: +6, Class: TT
 # clown shoes
 # clownskin belt
 # club necklace
 # colored-light &quot;necklace&quot;
-# consolation ribbon
+consolation ribbon	Mox: +1, Mus: +1, Mys: +1
 # dead guy's watch
 # diamond necklace
 # dirty hobo gloves
 disbelief suspenders	Sleaze: +10
 # disembodied smile
 # eXtreme mittens
-# eXtreme nose ring
+eXtreme nose ring	Mox: +4, Mus: +4, Mys: +4
 # enchanted toothpick
 # encoder ring
 # energy drink IV
 evil flaming eyeball pendant	Init: +15, Meat: +15
-# exclusive ultra-rare item
-# filigreed hamethyst earring
-# filigreed hamethyst necklace
-# filigreed hamethyst ring
-# flashing novelty button
+exclusive ultra-rare item	Mox: +15, Mus: +15, Mys: +15
+filigreed hamethyst earring	Mus: +8
+filigreed hamethyst necklace	Mus: +10
+filigreed hamethyst ring	Mus: +12
+flashing novelty button	Mox: -2
 furniture dolly	Init: +30
 furry green earmuffs	Cold: +10
-# fuzzy bracelets
-# gearbox necklace
+fuzzy bracelets	Mox: +15, Mus: +15, Mys: +15
+gearbox necklace	Mys: +11
 # giant pinky ring
 glowing red eye	Spooky: +20
-gnatwing earring	Init: +15
-# gnoll-tooth necklace
-# green glowstick
-# hamethyst bracelet
-# hamethyst earring
-# hamethyst necklace
-# hamethyst ring
-# headhunter necktie
+gnatwing earring	Init: +15, Mys: +6
+gnoll-tooth necklace	Mus: +5
+green glowstick	Mox: -3
+hamethyst bracelet	Mus: +3
+hamethyst earring	Mus: +3
+hamethyst necklace	Mus: +4
+hamethyst ring	Mus: +5
+headhunter necktie	Mus: +15, Mox: -3
 # hemp string
-# hippy medical kit
+hippy medical kit	Mys: +10
 # hippy protest button
-hockey stick of furious angry rage	ML: +30
+hockey stick of furious angry rage	ML: +30, Mus%: +5
 ice skates	Init: +15, Meat: +15
 # imitation nice watch
-incredibly dense meat gem	Meat: +25
+incredibly dense meat gem	Meat: +25, Mox: +5
 infernal insoles	Hot: +10, Init: +10
-intergalactic pom poms	Init: +30
-# jar of anniversary jam
-# kick-ass kicks
+intergalactic pom poms	Mox: +20, Init: +30
+jar of anniversary jam	Mox: +1, Mus: +1, Mys: +1
+kick-ass kicks	Mox: +3
 # knobby kneepads
-# ladle of mystery
+ladle of mystery	Class: SA
 # left half of a heart necklace
 # lucky Crimbo tiki necklace
 lucky rabbit's foot	Item: +7, Meat: +7
@@ -862,78 +862,78 @@ makeshift SCUBA gear	Stench: +20
 makeshift cape	Item: +5
 monster bait	Combat: +5
 natty blue ascot	Meat: +20
-# orange glowstick
-# pat-a-cake pendant
+orange glowstick	Mox: -3
+pat-a-cake pendant	Mys: +1
 peace-sign necklace	DR: 3
-# phat turquoise bracelet
-# pink glowstick
-# plexiglass pendant
-plexiglass pinky ring	Cold: +30, Hot: +30, Sleaze: +30, Spooky: +30, Stench: +30
-plexiglass pocketwatch	Mana: -3
-# polka-dot bowtie
-# porquoise bracelet
-# porquoise eyebrow ring
-porquoise necklace	Meat: +10
-# porquoise ring
-# pulled porquoise earring
-pulled porquoise pendant	Meat: +15
-# pulled porquoise ring
-# pygmy nose-bone
-ratskin belt	Meat: +10
-# reinforced furry underpants
+phat turquoise bracelet	Mys: +5
+pink glowstick	Mox: -3
+plexiglass pendant	Mox%: +30
+plexiglass pinky ring	Cold: +30, Hot: +30, Sleaze: +30, Spooky: +30, Stench: +30, Mys%: +30
+plexiglass pocketwatch	Mana: -3, Mys%: +30
+polka-dot bowtie	Mox: +3
+porquoise bracelet	Mox: +4
+porquoise eyebrow ring	Mox: +4
+porquoise necklace	Mox: +4, Meat: +10
+porquoise ring	Mox: +5
+pulled porquoise earring	Mox: +9
+pulled porquoise pendant	Mox: +10, Meat: +15
+pulled porquoise ring	Mox: +11
+pygmy nose-bone	Mox: +7
+ratskin belt	Mox: +8, Meat: +10
+reinforced furry underpants	Mys: +2
 # right half of a heart necklace
-# ring of adornment
+ring of adornment	Mox: +5
 ring of aggravate monster	ML: +5
 ring of cold resistance	Cold: +20
 ring of conflict	Combat: -5
 ring of fire resistance	Hot: +20
-# ring of gain strength
+ring of gain strength	Mus: +5
 # ring of half-assed regeneration
 # ring of increase damage
 # rose-colored glasses
-round green sunglasses	Sleaze: +20
+round green sunglasses	Mox: +9, Sleaze: +20
 round purple sunglasses	Sleaze: +10
 # rubber WWBBDD? bracelet
 # rubber WWBD? bracelet
 # rubber WWJD? bracelet
 # rubber WWSPD? bracelet
 # rubber WWtNSD? bracelet
-# rusty chain necklace
-# second-hand knockoff engagement ring
-# severed rocking horse head
-shiny hood ornament	Init: +10
-# shiny ring
+rusty chain necklace	Mus: +9
+second-hand knockoff engagement ring	Mox: +1, Mus: +1, Mys: +1
+severed rocking horse head	Mox: +3, Mus: +3, Mys: +3
+shiny hood ornament	Mox: +5, Mus: +5, Mys: +5, Init: +10
+shiny ring	Mox: +3, Mus: +3, Mys: +3
 sk8board	Init: +15
-solid baconstone earring	Mana: -1
-# solid baconstone necklace
-# solid baconstone ring
+solid baconstone earring	Mys: +8, Mana: -1
+solid baconstone necklace	Mys: +10
+solid baconstone ring	Mys: +12
 # spade necklace
 spark plug earring	Spooky: +20
-# sparkly engagement ring
-# special sauce glove
-# spooky glove
-stainless steel scarf	ML: +20
-stainless steel solitaire	Mana: -2
-stainless steel suspenders	DA: +60
-# string of blue beads
-# string of green beads
-# string of red beads
+sparkly engagement ring	Mox: +15, Mus: +15, Mys: +15
+special sauce glove	Class: SA
+spooky glove	Mox: +5
+stainless steel scarf	ML: +20, Mys%: +15
+stainless steel solitaire	Mana: -2, Mys%: +15
+stainless steel suspenders	DA: +60, Mox%: +15
+string of blue beads	Mys: +1
+string of green beads	Mox: +1
+string of red beads	Mus: +1
 # stuffed shoulder parrot
 # support cummerbund
-tap shoes	Init: -20
-tin star	ML: +5
-# tiny plastic Boris
+tap shoes	Mox: +11, Init: -20
+tin star	ML: +5, Mox: +3
+tiny plastic Boris	Mus: +5, Mys: +3, Mox: +3
 tiny plastic Cheshire bat	Weight: +1
 tiny plastic Crimbo elf	Weight: +1
 # tiny plastic Crimbo reindeer
 # tiny plastic Crimbo wreath
 # tiny plastic Crimboween pentagram
-# tiny plastic Jarlsberg
-# tiny plastic Scream Queen
-# tiny plastic Sneaky Pete
-# tiny plastic Susie
-# tiny plastic Uncle Crimbo
-# tiny plastic accordion thief
+tiny plastic Jarlsberg	Mys: +5, Mus: +3, Mox: +3
+tiny plastic Scream Queen	Mox: +1, Mus: +1, Mys: +1
+tiny plastic Sneaky Pete	Mox: +5, Mus: +3, Mys: +3
+tiny plastic Susie	Mox: +5, Mus: +5, Mys: +5
+tiny plastic Uncle Crimbo	Mox: +1, Mus: +1, Mys: +1
+tiny plastic accordion thief	Mox: +2, Mys: +1
 tiny plastic ancient yuletide troll	Weight: +1
 tiny plastic angry goat	Weight: +1
 tiny plastic baby gravy fairy	Weight: +1
@@ -942,7 +942,7 @@ tiny plastic barrrnacle	Weight: +1
 tiny plastic blood-faced volleyball	Weight: +1
 tiny plastic cocoabo	Weight: +1
 tiny plastic coffee pixie	Weight: +1
-# tiny plastic disco bandit
+tiny plastic disco bandit	Mox: +2, Mus: +1
 tiny plastic fuzzy dice	Weight: +1
 tiny plastic ghost pickle on a stick	Weight: +1
 tiny plastic ghuol whelp	Weight: +1
@@ -954,33 +954,33 @@ tiny plastic killer bee	Weight: +1
 tiny plastic leprechaun	Weight: +1
 tiny plastic levitating potato	Weight: +1
 tiny plastic mosquito	Weight: +1
-# tiny plastic pastamancer
+tiny plastic pastamancer	Mys: +2, Mus: +1
 tiny plastic sabre-toothed lime	Weight: +1
-# tiny plastic sauceror
-# tiny plastic seal clubber
+tiny plastic sauceror	Mys: +2, Mox: +1
+tiny plastic seal clubber	Mus: +2, Mox: +1
 # tiny plastic skeletal reindeer
 tiny plastic spooky pirate skeleton	Weight: +1
 tiny plastic stab bat	Weight: +1
 tiny plastic star starfish	Weight: +1
 tiny plastic sweet nutcracker	Weight: +1
-# tiny plastic turtle tamer
+tiny plastic turtle tamer	Mus: +2, Mys: +1
 toy crazy train	Meat: +10
-# toy jet pack
+toy jet pack	Intrinsic: Get Me Off This Crazy Thing!
 toy train	Meat: +10
-# tube sock
+tube sock	Mox: +20
 # walrus-tusk earring
 wheel	Init: +10
-white collar	Meat: +3
+white collar	Meat: +3, Mox: +1
 woven baling wire bracelets	Mana: -1
-# wrench bracelet
+wrench bracelet	Mus: +5
 # x-ray specs
-# ye olde golde frontes
+ye olde golde frontes	Mus: +15, Class: DB
 
 # Containers section of modifiers.txt
 
 Mr. Container	Item: +3
 Newbiesport&trade; backpack	Item: +1
-# Radio KoL Coffee Mug
+Radio KoL Coffee Mug	Mox: +10, Mus: +10, Mys: +10
 hemp backpack	Item: +2
 
 # Familiar Items section of modifiers.txt
@@ -1070,6 +1070,21 @@ velvet choker	Weight: +5
 wax lips	Exp: +3
 # weegee sqouija
 woolen cravat	Weight: +5
+
+# Intrinsic Effects section of modifiers.txt
+
+1337p4n7Z	Mox: -3, Mus: +6
+Chapped Legs	Mox: +8, Mus: -4
+Complete Delusion	Mox: +5, Mus: +4
+Draggin' Balls	Mox: +6, Mus: -3
+Free Bird	Mys: +20
+# Get Me Off This Crazy Thing!
+# Head on Fire, Ass Catching
+Radio Head	Mox: +20
+Red Neck	Mox: -5, Mus: +15
+Shiny Happy Weapon	Mus: +20
+# Sleeping with the Fishes
+Temporary Blindness	Mox%: -25, Item: -75
 
 # Status Effects section of modifiers.txt
 
@@ -1165,12 +1180,6 @@ Tolerance of the Kitchen	Hot: +20
 # Unknown Modifiers section of modifiers.txt
 
 # (31-50 damage per successful handshake)
-# (Bonus for Accordion Thieves only)
-# (Bonus for Disco Bandits only)
-# (Bonus for Pastamancers only)
-# (Bonus for Saucerors only)
-# (Bonus for Seal Clubbers only)
-# (Bonus for Turtle Tamers only)
 # (unless Mysticality is higher)
 # + ???
 # +1 <font color=blue>Cold Damage</font>
@@ -1250,7 +1259,6 @@ Tolerance of the Kitchen	Hot: +20
 # +5 Damage to <font color=red>Hot Spells</font>
 # +5 Duration to Buffs You Cast
 # +5 to Familiar Damage
-# +5% Muscle
 # +50% Weapon Drops from Monsters
 # +6 <font color=blueviolet>Sleaze Damage</font>
 # +6 <font color=gray>Spooky Damage</font>
@@ -1276,20 +1284,6 @@ Tolerance of the Kitchen	Hot: +20
 # 75% Chance of Preventing Negative Status Attacks
 # <b>NOTE:</b> This item only works for Pastamancer Spells.
 # <b>NOTE:</b> This item only works for Pastamancer and Sauceror Spells.
-# All Attributes +1
-# All Attributes +10
-# All Attributes +11
-# All Attributes +14
-# All Attributes +15
-# All Attributes +2
-# All Attributes +3
-# All Attributes +3%
-# All Attributes +4
-# All Attributes +5
-# All Attributes +6
-# All Attributes +7
-# All Attributes +8
-# All Attributes +9
 # All Attributes Increase with Moonlight
 # All Spells Cast Are Cold
 # All Spells Cast Are Hot
@@ -1312,18 +1306,6 @@ Tolerance of the Kitchen	Hot: +20
 # Hemophilia
 # Hobo's Booze Is More Effective
 # Increases Astral Mushroom Drop Rate
-# Intrinsic effect: 1337p4n7Z
-# Intrinsic effect: Chapped Legs
-# Intrinsic effect: Complete Delusion
-# Intrinsic effect: Draggin' Balls
-# Intrinsic effect: Free Bird
-# Intrinsic effect: Get Me Off This Crazy Thing!
-# Intrinsic effect: Head on Fire, Ass Catching
-# Intrinsic effect: Radio Head
-# Intrinsic effect: Red Neck
-# Intrinsic effect: Shiny Happy Weapon
-# Intrinsic effect: Sleeping with the Fishes
-# Intrinsic effect: Temporary Blindness
 # Jellyfish Vision
 # Makes Familiar Less Sensitive to Light
 # Makes March Hare More Better
@@ -1379,82 +1361,7 @@ Tolerance of the Kitchen	Hot: +20
 # Melee Damage -10
 # Melee Damage -2
 # More likely to use more powerful attacks
-# Moxie +1
-# Moxie +10
-# Moxie +10%
-# Moxie +11
-# Moxie +12
-# Moxie +15
-# Moxie +15%
-# Moxie +2
-# Moxie +20
-# Moxie +25
-# Moxie +3
-# Moxie +30
-# Moxie +30%
-# Moxie +4
-# Moxie +40%
-# Moxie +5
-# Moxie +50%
-# Moxie +6
-# Moxie +7
-# Moxie +8
-# Moxie +9
-# Moxie -10
-# Moxie -2
-# Moxie -20%
-# Moxie -3
-# Moxie -5
 # Moxie used to determine Maximum MP
-# Muscle +1
-# Muscle +10
-# Muscle +10%
-# Muscle +11
-# Muscle +12
-# Muscle +15
-# Muscle +15%
-# Muscle +16
-# Muscle +2
-# Muscle +20
-# Muscle +25
-# Muscle +3
-# Muscle +30
-# Muscle +30%
-# Muscle +4
-# Muscle +5
-# Muscle +5%
-# Muscle +50%
-# Muscle +6
-# Muscle +7
-# Muscle +8
-# Muscle +9
-# Muscle -10
-# Muscle -20%
-# Mysticality +1
-# Mysticality +10
-# Mysticality +10%
-# Mysticality +11
-# Mysticality +12
-# Mysticality +14
-# Mysticality +15
-# Mysticality +15%
-# Mysticality +2
-# Mysticality +20
-# Mysticality +25
-# Mysticality +3
-# Mysticality +30%
-# Mysticality +4
-# Mysticality +5
-# Mysticality +5%
-# Mysticality +50%
-# Mysticality +6
-# Mysticality +7
-# Mysticality +8
-# Mysticality +9
-# Mysticality -10
-# Mysticality -2
-# Mysticality -20%
-# Mysticality -3
 # Never Fumble
 # Prevents Level Teleporting
 # Provides Mostly Accurate Battle Statistics During Fights
@@ -1475,6 +1382,7 @@ Tolerance of the Kitchen	Hot: +20
 # Regenerate 2-4 MP per adventure
 # Regenerate 3-4 MP per Adventure
 # Regenerate 3-4 MP per adventure
+# Regenerate 3-7 MP per adventure
 # Regenerate 5-7 MP per adventure
 # Regenerate 6-10 HP per adventure
 # Regenerate 8-10 MP per adventure
