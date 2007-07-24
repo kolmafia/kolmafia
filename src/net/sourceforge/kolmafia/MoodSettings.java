@@ -649,7 +649,7 @@ public abstract class MoodSettings implements KoLConstants
 				missing.add( current.effect );
 		}
 
-		if ( StaticEntity.getProperty( "lastAdventure" ).equals( "Arid Extra-Dry Desert" ) )
+		if ( StaticEntity.getProperty( "lastAdventure" ).startsWith( "Arid, Extra-Dry Desert" ) )
 			if ( !activeEffects.contains( HYDRATED ) )
 				missing.add( HYDRATED );
 
