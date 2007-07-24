@@ -39,6 +39,8 @@ import java.util.regex.Pattern;
 
 public class CharpaneRequest extends KoLRequest
 {
+	private static final AdventureResult ABSINTHE = new AdventureResult( "Absinthe-Minded", 1, true );
+
 	private static boolean canInteract = false;
 	private static boolean isRunning = false;
 	private static boolean isProcessing = false;
@@ -318,5 +320,17 @@ public class CharpaneRequest extends KoLRequest
 
 		KoLmafia.applyEffects();
 		activeEffects.retainAll( visibleEffects );
+
+		if ( StaticEntity.isCounting( "Wormwood" ) )
+			return;
+
+		int absintheCount = ABSINTHE.getCount( activeEffects );
+
+		if ( absintheCount > 9 )
+			StaticEntity.startCounting( 10, "Wormwood", "tinybottle.gif" );
+		else if ( absintheCount > 4 )
+			StaticEntity.startCounting( 5, "Wormwood", "tinybottle.gif" );
+		else if ( absintheCount > 1 )
+			StaticEntity.startCounting( 2, "Wormwood", "tinybottle.gif" );
 	}
 }

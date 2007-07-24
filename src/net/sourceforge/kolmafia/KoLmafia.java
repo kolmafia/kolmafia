@@ -499,7 +499,6 @@ public abstract class KoLmafia implements KoLConstants
 		// all over the place
 
 		executedLogin = true;
-		RequestThread.postRequest( CharpaneRequest.getInstance() );
 
 		KoLmafia.updateDisplay( "Initializing session for " + username + "..." );
 
@@ -784,6 +783,8 @@ public abstract class KoLmafia implements KoLConstants
 		}
 
 		RequestThread.postRequest( CharpaneRequest.getInstance() );
+		StaticEntity.loadCounters();
+
 		updateDisplay( "Session data refreshed." );
 
 		isRefreshing = false;

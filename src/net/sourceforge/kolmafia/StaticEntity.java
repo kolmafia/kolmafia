@@ -40,15 +40,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.swing.SwingUtilities;
 import edu.stanford.ejalbert.BrowserLauncher;
-
 import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.DataUtilities;
 
@@ -62,6 +60,7 @@ public abstract class StaticEntity implements KoLConstants
 	private static final Pattern SETTINGS_PATTERN = Pattern.compile( "prefs_(.*?).txt" );
 
 	private static KoLSettings settings = KoLSettings.GLOBAL_SETTINGS;
+	private static ArrayList relayCounters = new ArrayList();
 
 	private static KoLmafia client;
 	private static int usesSystemTray = 0;
@@ -71,6 +70,192 @@ public abstract class StaticEntity implements KoLConstants
 
 	private static KoLFrame [] frameArray = new KoLFrame[0];
 	private static ActionPanel [] panelArray = new KoLPanel[0];
+
+	public static class TurnCounter
+	{
+		private int value;
+		private String label, image;
+
+		public TurnCounter( int value, String label, String image )
+		{
+			this.value = KoLCharacter.getCurrentRun() + value;
+			this.label = label;
+			this.image = image;
+		}
+
+		public boolean isExempt( String adventureId )
+		{
+			if ( label.equals( "Wormwood" ) )
+				return adventureId.equals( "151" ) || adventureId.equals( "152" ) || adventureId.equals( "153" );
+
+			return false;
+		}
+
+		public String getLabel()
+		{	return this.label;
+		}
+
+		public String getImage()
+		{	return this.image;
+		}
+
+		public boolean equals( Object o )
+		{
+			if ( o == null || !(o instanceof TurnCounter) )
+				return false;
+
+			return label.equals( ((TurnCounter)o).label ) && this.value == ((TurnCounter)o).value;
+		}
+	}
+
+	public static final boolean isCounting( String label )
+	{
+		TurnCounter current;
+		Iterator it = relayCounters.iterator();
+
+		while ( it.hasNext() )
+		{
+			current = (TurnCounter) it.next();
+			if ( current.label.equals( label ) )
+				return true;
+		}
+
+		return false;
+	}
+
+	public static final boolean isCounting( String label, int value )
+	{
+		TurnCounter current;
+		int searchValue = KoLCharacter.getCurrentRun() + value;
+
+		Iterator it = relayCounters.iterator();
+
+		while ( it.hasNext() )
+		{
+			current = (TurnCounter) it.next();
+			if ( current.label.equals( label ) && current.value == searchValue )
+				return true;
+		}
+
+		return false;
+	}
+	public static final void stopCounting( String label )
+	{
+		TurnCounter current;
+		Iterator it = relayCounters.iterator();
+
+		while ( it.hasNext() )
+		{
+			current = (TurnCounter) it.next();
+			if ( current.label.equals( label ) )
+				it.remove();
+		}
+	}
+
+	public static final void startCounting( int value, String label, String image )
+	{
+		TurnCounter counter = new TurnCounter( value, label, image );
+
+		if ( !relayCounters.contains( counter ) )
+			relayCounters.add( counter );
+	}
+
+	public static final String getUnexpiredCounters()
+	{
+		TurnCounter current;
+		int currentTurns = KoLCharacter.getCurrentRun();
+
+		StringBuffer counters = new StringBuffer();
+		Iterator it = relayCounters.iterator();
+
+		while ( it.hasNext() )
+		{
+			current = (TurnCounter) it.next();
+
+			if ( current.value <= currentTurns )
+			{
+				it.remove();
+				continue;
+			}
+
+			if ( counters.length() > 0 )
+				counters.append( LINE_BREAK );
+
+			counters.append( current.label );
+			counters.append( " (" );
+			counters.append( current.value - currentTurns );
+			counters.append( ")" );
+		}
+
+		return counters.toString();
+	}
+
+	public static final TurnCounter getExpiredCounter( String adventureId )
+	{
+		TurnCounter current;
+		int currentTurns = KoLCharacter.getCurrentRun() + 1;
+
+		TurnCounter expired = null;
+		Iterator it = relayCounters.iterator();
+
+		while ( it.hasNext() )
+		{
+			current = (TurnCounter) it.next();
+
+			if ( current.value > currentTurns )
+				continue;
+
+			it.remove();
+			if ( current.value == currentTurns && !current.isExempt( adventureId ) )
+				expired = current;
+		}
+
+		return expired;
+	}
+
+	public static void saveCounters()
+	{
+		TurnCounter current;
+		int currentTurns = KoLCharacter.getCurrentRun();
+
+		StringBuffer counters = new StringBuffer();
+		Iterator it = relayCounters.iterator();
+
+		while ( it.hasNext() )
+		{
+			current = (TurnCounter) it.next();
+
+			if ( current.value <= currentTurns )
+			{
+				it.remove();
+				continue;
+			}
+
+			if ( counters.length() > 0 )
+				counters.append( ":" );
+
+			counters.append( current.value - currentTurns );
+			counters.append( ":" );
+			counters.append( current.label );
+			counters.append( ":" );
+			counters.append( current.image );
+		}
+
+		StaticEntity.setProperty( "relayCounters", counters.toString() );
+	}
+
+	public static void loadCounters()
+	{
+		relayCounters.clear();
+
+		String counters = StaticEntity.getProperty( "relayCounters" );
+		if ( counters.length() == 0 )
+			return;
+
+		StringTokenizer tokens = new StringTokenizer( counters, ":" );
+		while ( tokens.hasMoreTokens() )
+			startCounting( StaticEntity.parseInt( tokens.nextToken() ), tokens.nextToken(), tokens.nextToken() );
+	}
 
 	public static final void setClient( KoLmafia client )
 	{	StaticEntity.client = client;

@@ -840,6 +840,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 	public void recordToSession()
 	{
+		lastVisitedLocation = this;
 		this.updateAutoAttack();
 
 		if ( !StaticEntity.getProperty( "lastAdventure" ).equals( this.adventureName ) )

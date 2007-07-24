@@ -49,6 +49,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.StaticEntity.TurnCounter;
 import net.java.dev.spellcast.utilities.DataUtilities;
 
 public class LocalRelayRequest extends PasswordHashRequest
@@ -860,6 +861,17 @@ public class LocalRelayRequest extends PasswordHashRequest
 			if ( location == null )
 				location = this.getFormField( "adv" );
 
+			TurnCounter expired = StaticEntity.getExpiredCounter( location );
+			KoLAdventure lastLocation = KoLAdventure.lastVisitedLocation();
+			KoLAdventure currentLocation = AdventureDatabase.getAdventureByURL( this.getURLString() );
+
+			if ( expired != null && lastLocation != null && currentLocation != null && lastLocation.equals( currentLocation ) )
+			{
+				this.sendGeneralWarning( expired.getImage(), "You may wish to adventure somewhere else at this time." );
+				return;
+			}
+
+
 			// Special protection against adventuring in the pirates
 			// in disguise before level 9.
 
@@ -914,7 +926,6 @@ public class LocalRelayRequest extends PasswordHashRequest
 			if ( !KoLCharacter.hasEquipped( SorceressLair.NAGAMAR ) && !AdventureDatabase.retrieveItem( SorceressLair.NAGAMAR ) )
 			{
 				this.sendGeneralWarning( "wand.gif", "Hm, it's possible there is something very important you're forgetting." );
-
 				return;
 			}
 		}

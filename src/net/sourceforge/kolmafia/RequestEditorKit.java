@@ -2522,6 +2522,17 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			lastAppendIndex = nextAppendIndex;
 
 			String upkeepAction = MoodSettings.getDefaultAction( "lose_effect", effectName );
+			String imageAction = null;
+
+			if ( upkeepAction.equals( "" ) )
+			{
+				if ( effectName.equals( "Absinthe-Minded" ) )
+				{
+					imageAction = "Go to Worm Wood";
+					upkeepAction = "wormwood.php";
+				}
+			}
+
 			String removeAction = MoodSettings.getDefaultAction( "gain_effect", effectName );
 
 			if ( upkeepAction.endsWith( "snowcone" ) || upkeepAction.endsWith( "mushroom" ) || upkeepAction.endsWith( "cupcake" ) )
@@ -2585,7 +2596,15 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			// Add the up-arrow icon for buffs which can be maintained, based
 			// on information known to the mood maintenance module.
 
-			if ( !upkeepAction.equals( "" ) )
+			if ( imageAction != null )
+			{
+				buffer.append( "&nbsp;<a href=\"" );
+				buffer.append( upkeepAction );
+				buffer.append( "\" target=\"mainpane\" title=\"" );
+				buffer.append( imageAction );
+				buffer.append( "\"><img src=\"/images/browser.gif\" width=14 height=14 border=0></a>" );
+			}
+			else if ( !upkeepAction.equals( "" ) )
 			{
 				buffer.append( "&nbsp;<a href=\"/KoLmafia/sideCommand?cmd=" );
 

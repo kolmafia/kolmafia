@@ -46,6 +46,7 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final Pattern INVENTORY_PATTERN = Pattern.compile( "</table><table.*?</body>" );
 	private static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 	private static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
+	private static final Pattern FORTUNE_PATTERN = Pattern.compile( "<font size=1>Lucky numbers: (\\d+), (\\d+), (\\d+)</td>" );
 
 	private static final TreeMap LIMITED_USES = new TreeMap();
 
@@ -631,6 +632,29 @@ public class ConsumeItemRequest extends KoLRequest
 		case FORTUNE_COOKIE:
 
 			showItemUsage( showHTML, responseText, true );
+
+			Matcher fortuneMatcher = FORTUNE_PATTERN.matcher( responseText );
+			if ( !fortuneMatcher.find() )
+				return;
+
+			if ( StaticEntity.isCounting( "Fortune Cookie" ) )
+			{
+				int desiredCount = 0;
+				for ( int i = 1; i <= 3; ++i )
+					if ( StaticEntity.isCounting( "Fortune Cookie", StaticEntity.parseInt( fortuneMatcher.group(i) ) ) )
+						desiredCount = StaticEntity.parseInt( fortuneMatcher.group(i) );
+
+				if ( desiredCount != 0 )
+				{
+					StaticEntity.stopCounting( "Fortune Cookie" );
+					StaticEntity.startCounting( desiredCount, "Fortune Cookie", "fortune.gif" );
+					return;
+				}
+			}
+
+			for ( int i = 1; i <= 3; ++i )
+				StaticEntity.startCounting( StaticEntity.parseInt( fortuneMatcher.group(i) ), "Fortune Cookie", "fortune.gif" );
+
 			return;
 
 		case GATES_SCROLL:
