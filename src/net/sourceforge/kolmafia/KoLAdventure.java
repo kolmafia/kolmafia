@@ -844,12 +844,15 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		// If it's not a generic class skill (it's id is something
 		// non-standard), then don't update auto-attack.
 
-		int skillId = ClassSkillsDatabase.getSkillId( attack.substring(6).trim() );
-
-		if ( skillId < 1000 || skillId > 7000 )
+		if ( !attack.startsWith( "attack" ) )
 		{
-			resetAutoAttack();
-			return;
+			int skillId = ClassSkillsDatabase.getSkillId( attack.substring(6).trim() );
+
+			if ( skillId < 1000 || skillId > 7000 )
+			{
+				resetAutoAttack();
+				return;
+			}
 		}
 
 		DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=" + attack );
