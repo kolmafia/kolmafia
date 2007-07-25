@@ -795,14 +795,12 @@ public abstract class KoLMessenger extends StaticEntity
 	{
 		try
 		{
-			String displayHTML = formatChatMessage( channel, message, bufferKey );
+			boolean isGreenMessage = isGreenMessage( message );
+			String displayHTML = formatChatMessage( channel, message, bufferKey, isGreenMessage );
 
-			if ( displayHTML.startsWith( "<font color=green>" ) )
+			if ( isGreenMessage )
 			{
-				if ( BuffBotHome.isBuffBotActive() )
-					return;
-
-				if ( ignoreEvents )
+				if ( ignoreEvents || BuffBotHome.isBuffBotActive() )
 					return;
 
 				if ( displayHTML.indexOf( " has " ) != -1 )
@@ -845,7 +843,7 @@ public abstract class KoLMessenger extends StaticEntity
 			message.indexOf( "with a brick" ) != -1 || message.indexOf( "has hit you in the face" ) != -1;
 	}
 
-	public static String formatChatMessage( String channel, String message, String bufferKey )
+	public static String formatChatMessage( String channel, String message, String bufferKey, boolean isGreenMessage )
 	{
 		StringBuffer displayHTML = new StringBuffer( message );
 		StaticEntity.singleStringDelete( displayHTML, "target=mainpane " );
@@ -855,8 +853,6 @@ public abstract class KoLMessenger extends StaticEntity
 
 		boolean isWhoMessage = message.indexOf( "<a" ) == -1 || message.indexOf( "</a>," ) != -1 ||
 			message.startsWith( "<a class=nounder" ) || message.startsWith( "<a target=mainpane href=\'" );
-
-		boolean isGreenMessage = isGreenMessage( message );
 
 		if ( isWhoMessage || isGreenMessage )
 		{

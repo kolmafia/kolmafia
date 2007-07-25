@@ -58,6 +58,7 @@ public class ContactListFrame extends KoLFrame
 	public ContactListFrame( SortedListModel contacts )
 	{
 		super( "Contact List" );
+		this.setDefaultCloseOperation( HIDE_ON_CLOSE );
 		this.contacts = contacts;
 
 		this.framePanel.setLayout( new CardLayout( 10, 10 ) );
