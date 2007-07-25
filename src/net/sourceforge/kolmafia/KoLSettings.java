@@ -281,7 +281,7 @@ public class KoLSettings extends Properties implements KoLConstants
 	}
 
 	public static boolean isUserEditable( String property )
-	{	return !property.startsWith( "saveState" ) && !property.equals( "currentBountyItem" );
+	{	return !property.startsWith( "saveState" );
 	}
 
 	public static boolean isGlobalProperty( String name )
