@@ -74,29 +74,29 @@ public class Modifiers extends KoLDatabase
 		}
 	}
 
-	public static final int FAMILIAR_WEIGHT_MODIFIER = 0;
-	public static final int MONSTER_LEVEL_MODIFIER = 1;
-	public static final int COMBAT_RATE_MODIFIER = 2;
-	public static final int INITIATIVE_MODIFIER = 3;
-	public static final int EXPERIENCE_MODIFIER = 4;
-	public static final int ITEMDROP_MODIFIER = 5;
-	public static final int MEATDROP_MODIFIER = 6;
-	public static final int DAMAGE_ABSORPTION_MODIFIER = 7;
-	public static final int DAMAGE_REDUCTION_MODIFIER = 8;
-	public static final int COLD_RESISTANCE_MODIFIER = 9;
-	public static final int HOT_RESISTANCE_MODIFIER = 10;
-	public static final int SLEAZE_RESISTANCE_MODIFIER = 11;
-	public static final int SPOOKY_RESISTANCE_MODIFIER = 12;
-	public static final int STENCH_RESISTANCE_MODIFIER = 13;
-	public static final int MANA_COST_MODIFIER = 14;
-	public static final int MOX_MODIFIER = 15;
-	public static final int MOX_PCT_MODIFIER = 16;
-	public static final int MUS_MODIFIER = 17;
-	public static final int MUS_PCT_MODIFIER = 18;
-	public static final int MYS_MODIFIER = 19;
-	public static final int MYS_PCT_MODIFIER = 20;
+	public static final int FAMILIAR_WEIGHT = 0;
+	public static final int MONSTER_LEVEL = 1;
+	public static final int COMBAT_RATE = 2;
+	public static final int INITIATIVE = 3;
+	public static final int EXPERIENCE = 4;
+	public static final int ITEMDROP = 5;
+	public static final int MEATDROP = 6;
+	public static final int DAMAGE_ABSORPTION = 7;
+	public static final int DAMAGE_REDUCTION = 8;
+	public static final int COLD_RESISTANCE = 9;
+	public static final int HOT_RESISTANCE = 10;
+	public static final int SLEAZE_RESISTANCE = 11;
+	public static final int SPOOKY_RESISTANCE = 12;
+	public static final int STENCH_RESISTANCE = 13;
+	public static final int MANA_COST = 14;
+	public static final int MOX = 15;
+	public static final int MOX_PCT = 16;
+	public static final int MUS = 17;
+	public static final int MUS_PCT = 18;
+	public static final int MYS = 19;
+	public static final int MYS_PCT = 20;
 
-	public static final int MODIFIERS = 21;
+	public static final int MODIFIER_COUNT = 21;
 
 	private static final Pattern [] MODIFIER_PATTERNS = new Pattern [] {
 		Pattern.compile( "Weight: ([+-]\\d+)" ),
@@ -122,7 +122,7 @@ public class Modifiers extends KoLDatabase
 		Pattern.compile( "Mys%: ([+-]\\d+)" ),
 	};
 
-	private static final Pattern [] STRING_MODIFIER_PATTERNS = new Pattern [] {
+	private static final Pattern [] STRING_PATTERNS = new Pattern [] {
 		Pattern.compile( "Class: (\\w\\w)" ),
 		Pattern.compile( "Intrinsic: [^,]+" ),
 	};
@@ -131,7 +131,7 @@ public class Modifiers extends KoLDatabase
 
 	public Modifiers()
 	{
-                this.modifiers = new float[ MODIFIERS];
+		this.modifiers = new float[ MODIFIER_COUNT ];
 		reset();
 	};
 
@@ -259,10 +259,10 @@ public class Modifiers extends KoLDatabase
 		// Varies according to level, somehow
 
 		if ( KoLCharacter.hasSkill( "Skin of the Leatherback" ) )
-			add( DAMAGE_REDUCTION_MODIFIER, Math.max( (KoLCharacter.getLevel() >> 1) - 1, 1 ) );
+			add( DAMAGE_REDUCTION, Math.max( (KoLCharacter.getLevel() >> 1) - 1, 1 ) );
 
 		if ( KoLCharacter.getFamiliar().getId() == 38 && KoLCharacter.hasAmphibianSympathy() )
-			add( FAMILIAR_WEIGHT_MODIFIER, -10 );
+			add( FAMILIAR_WEIGHT, -10 );
 	}
 
 	// Parsing item enchantments into KoLmafia modifiers
