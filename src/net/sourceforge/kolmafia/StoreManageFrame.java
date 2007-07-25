@@ -165,7 +165,7 @@ public class StoreManageFrame extends KoLPanelFrame
 		public void actionCancelled()
 		{
 			if ( JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null,
-				UNDERCUT_MESSAGE + "Are you sure you wish to continue with this repricing?", "Think before you click.", JOptionPane.YES_NO_OPTION ) )
+				basicTextWrap( UNDERCUT_MESSAGE + "Are you sure you wish to continue with this repricing?" ), "Think before you click.", JOptionPane.YES_NO_OPTION ) )
 					return;
 
 			StaticEntity.getClient().priceItemsAtLowestPrice();
@@ -173,9 +173,9 @@ public class StoreManageFrame extends KoLPanelFrame
 	}
 
 	public static final String UNDERCUT_MESSAGE =
-		"KoLmafia will take items priced at 999,999,999 meat and attempt to reprice them. \n" +
-		"In this attempt, it will match or undercut the current lowest price in the mall. \n" +
-		"As a warning, if someone holds an \"anti-raffle,\" KoLmafia will price based on that price. \n";
+		"KoLmafia will take items priced at 999,999,999 meat and attempt to reprice them. " +
+		"In this attempt, it will match or undercut the current lowest price in the mall. " +
+		"As a warning, if someone holds an \"anti-raffle,\" KoLmafia will price based on that price.  ";
 
 	private class StoreListTable extends TransparentTable
 	{

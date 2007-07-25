@@ -613,7 +613,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				usedServant = servant;
 
 			if ( usedServant == null )
-				return false;
+				return !StaticEntity.getBooleanProperty( "requireBoxServants" ) && AdventureDatabase.retrieveItem( noServantItem );
 		}
 
 		// Once you hit this point, you're guaranteed to

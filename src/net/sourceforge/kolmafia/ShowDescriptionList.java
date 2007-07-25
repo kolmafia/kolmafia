@@ -36,7 +36,6 @@ package net.sourceforge.kolmafia;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.KeyEvent;
 import java.awt.event.KeyAdapter;
 import java.net.URLEncoder;
 
@@ -65,18 +64,18 @@ public class ShowDescriptionList extends JList implements KoLConstants
 	private static final Pattern PLAYERID_MATCHER = Pattern.compile( "\\(#(\\d+)\\)" );
 
 	public ShowDescriptionList( LockableListModel listModel )
-	{	this( listModel, null, null, 4 );
+	{	this( listModel, null, 4 );
 	}
 
 	public ShowDescriptionList( LockableListModel listModel, int visibleRowCount )
-	{	this( listModel, null, null, visibleRowCount );
+	{	this( listModel, null, visibleRowCount );
 	}
 
-	public ShowDescriptionList( LockableListModel listModel, LockableListModel filterModel, ListElementFilter filter )
-	{	this( listModel, filterModel, filter, 4 );
+	public ShowDescriptionList( LockableListModel listModel, ListElementFilter filter )
+	{	this( listModel, filter, 4 );
 	}
 
-	public ShowDescriptionList( LockableListModel listModel, LockableListModel filterModel, ListElementFilter filter, int visibleRowCount )
+	public ShowDescriptionList( LockableListModel listModel, ListElementFilter filter, int visibleRowCount )
 	{
 		this.contextMenu = new JPopupMenu();
 
@@ -102,9 +101,6 @@ public class ShowDescriptionList extends JList implements KoLConstants
 			this.contextMenu.add( new CastSkillMenuItem() );
 			this.contextMenu.add( new BoostSkillMenuItem() );
 		}
-
-		if ( listModel == mementoList )
-			this.contextMenu.add( new RemoveFromMementoListMenuItem() );
 
 		if ( listModel == tally )
 		{
@@ -541,45 +537,6 @@ public class ShowDescriptionList extends JList implements KoLConstants
 			for ( int i = 0; i < items.length; ++i )
 				RequestThread.postRequest( new PulverizeRequest( (AdventureResult) items[i] ) );
 			RequestThread.closeRequestSequence();
-		}
-	}
-
-	private class RemoveFromJunkListMenuItem extends ContextMenuItem
-	{
-		public RemoveFromJunkListMenuItem()
-		{	super( "This is not junk" );
-		}
-
-		public void executeAction()
-		{
-			Object [] items = ShowDescriptionList.this.getSelectedValues();
-			ShowDescriptionList.this.clearSelection();
-
-			for ( int i = 0; i < items.length; ++i )
-			{
-				preRoninJunkList.remove( items[i] );
-				postRoninJunkList.remove( items[i] );
-			}
-
-			KoLSettings.saveFlaggedItemList();
-		}
-	}
-
-	private class RemoveFromMementoListMenuItem extends ContextMenuItem
-	{
-		public RemoveFromMementoListMenuItem()
-		{	super( "This is not sacred" );
-		}
-
-		public void executeAction()
-		{
-			Object [] items = ShowDescriptionList.this.getSelectedValues();
-			ShowDescriptionList.this.clearSelection();
-
-			for ( int i = 0; i < items.length; ++i )
-				mementoList.remove( items[i] );
-
-			KoLSettings.saveFlaggedItemList();
 		}
 	}
 }
