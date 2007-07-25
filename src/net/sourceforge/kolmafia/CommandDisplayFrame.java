@@ -64,6 +64,7 @@ public class CommandDisplayFrame extends KoLFrame
 	public CommandDisplayFrame()
 	{
 		super( "Graphical CLI" );
+		this.setDefaultCloseOperation( HIDE_ON_CLOSE );
 		this.framePanel.add( new CommandDisplayPanel(), BorderLayout.CENTER );
 	}
 

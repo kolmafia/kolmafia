@@ -71,7 +71,6 @@ public class LoginFrame extends KoLFrame
 	public LoginFrame()
 	{
 		super( VERSION_NAME + ": Login" );
-		this.setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 
 		INSTANCE = this;
 		this.tabs.addTab( "KoL Login", this.constructLoginPanel() );

@@ -87,6 +87,7 @@ public class BuffRequestFrame extends KoLFrame
 	public BuffRequestFrame()
 	{
 		super( "Purchase Buffs" );
+		this.setDefaultCloseOperation( HIDE_ON_CLOSE );
 
 		this.panelMap = new TreeMap();
 		this.nameList = new SortedListModel[4];
