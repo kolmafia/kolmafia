@@ -54,6 +54,12 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 public abstract class KoLCharacter extends StaticEntity
 {
+	public static final AdventureResult MAX_HOT = new AdventureResult( "Fireproof Lips", 1, true );
+	public static final AdventureResult MAX_COLD = new AdventureResult( "Fever from the Flavor", 1, true );
+	public static final AdventureResult MAX_SPOOKY = new AdventureResult( "Hyphemariffic", 1, true );
+	public static final AdventureResult MAX_STENCH = new AdventureResult( "Can't Smell Nothin'", 1, true );
+	public static final AdventureResult MAX_SLEAZE = new AdventureResult( "Hyperoffended", 1, true );
+
 	private static final Pattern STILLS_PATTERN = Pattern.compile( "with (\\d+) bright" );
 
 	public static final String SEAL_CLUBBER = "Seal Clubber";
@@ -2698,9 +2704,21 @@ public abstract class KoLCharacter extends StaticEntity
 			newModifiers.add( Modifiers.MEATDROP_MODIFIER, modifier * 5 );
 
 		// Make sure the mana modifier is no more than
-		// three, no matter what.
+		// three, no matter what.  Also make sure that
+		// elemental resistance is capped by class.
 
 		newModifiers.set( Modifiers.MANA_COST_MODIFIER, Math.max( newModifiers.get( Modifiers.MANA_COST_MODIFIER ), -3 ) );
+
+		newModifiers.set( Modifiers.HOT_RESISTANCE_MODIFIER, activeEffects.contains( MAX_HOT ) ? 90 :
+			Math.max( newModifiers.get( Modifiers.HOT_RESISTANCE_MODIFIER ), KoLCharacter.isMysticalityClass() ? 80 : 60 ) );
+		newModifiers.set( Modifiers.COLD_RESISTANCE_MODIFIER, activeEffects.contains( MAX_COLD ) ? 90 :
+			Math.max( newModifiers.get( Modifiers.COLD_RESISTANCE_MODIFIER ), KoLCharacter.isMysticalityClass() ? 80 : 60 ) );
+		newModifiers.set( Modifiers.SPOOKY_RESISTANCE_MODIFIER, activeEffects.contains( MAX_SPOOKY ) ? 90 :
+			Math.max( newModifiers.get( Modifiers.SPOOKY_RESISTANCE_MODIFIER ), KoLCharacter.isMysticalityClass() ? 80 : 60 ) );
+		newModifiers.set( Modifiers.STENCH_RESISTANCE_MODIFIER, activeEffects.contains( MAX_STENCH ) ? 90 :
+			Math.max( newModifiers.get( Modifiers.STENCH_RESISTANCE_MODIFIER ), KoLCharacter.isMysticalityClass() ? 80 : 60 ) );
+		newModifiers.set( Modifiers.SLEAZE_RESISTANCE_MODIFIER, activeEffects.contains( MAX_SLEAZE ) ? 90 :
+			Math.max( newModifiers.get( Modifiers.SLEAZE_RESISTANCE_MODIFIER ), KoLCharacter.isMysticalityClass() ? 80 : 60 ) );
 
 		// Add in strung-up quartet.
 
