@@ -33,7 +33,6 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.ArrayList;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
@@ -48,6 +47,14 @@ public class AdventureRequest extends KoLRequest
 	private static final AdventureResult SPOOKY_PHIAL = new AdventureResult( 1639, 1 );
 	private static final AdventureResult STENCH_PHIAL = new AdventureResult( 1640, 1 );
 	private static final AdventureResult SLEAZE_PHIAL = new AdventureResult( 1641, 1 );
+
+	private static final AdventureResult HOT_FORM = new AdventureResult( "Hotform", 1, true );
+	private static final AdventureResult COLD_FORM = new AdventureResult( "Coldform", 1, true );
+	private static final AdventureResult SPOOKY_FORM = new AdventureResult( "Spookyform", 1, true );
+	private static final AdventureResult STENCH_FORM = new AdventureResult( "Stenchform", 1, true );
+	private static final AdventureResult SLEAZE_FORM = new AdventureResult( "Sleazeform", 1, true );
+
+	private static final AdventureResult [] ELEMENT_FORMS = new AdventureResult [] { HOT_FORM, COLD_FORM, SPOOKY_FORM, STENCH_FORM, SLEAZE_FORM };
 
 	private static final AdventureResult SKELETON_KEY = new AdventureResult( 642, 1 );
 
@@ -196,6 +203,7 @@ public class AdventureRequest extends KoLRequest
 
 		int currentLevel = StaticEntity.parseInt( levelMatcher.group(1) );
 		int element1 = -1, element2 = -1;
+		AdventureResult effect1 = null, effect2 = null;
 
 		AdventureResult desiredPhial = null;
 
@@ -203,31 +211,51 @@ public class AdventureRequest extends KoLRequest
 		{
 			element1 = MonsterDatabase.SLEAZE;
 			element2 = MonsterDatabase.STENCH;
+
 			desiredPhial = SLEAZE_PHIAL;
+
+			effect1 = SLEAZE_FORM;
+			effect2 = STENCH_FORM;
 		}
 		else if ( responseText.indexOf( "Drink the Drunk's Drink" ) != -1 )
 		{
 			element1 = MonsterDatabase.COLD;
 			element2 = MonsterDatabase.SLEAZE;
+
 			desiredPhial = COLD_PHIAL;
+
+			effect1 = COLD_FORM;
+			effect2 = SLEAZE_FORM;
 		}
 		else if (responseText.indexOf( "Pwn the Cone" ) != -1 )
 		{
 			element1 = MonsterDatabase.STENCH;
 			element2 = MonsterDatabase.HEAT;
+
 			desiredPhial = STENCH_PHIAL;
+
+			effect1 = STENCH_FORM;
+			effect2 = HOT_FORM;
 		}
 		else if (responseText.indexOf( "What's a Typewriter" ) != -1 )
 		{
 			element1 = MonsterDatabase.HEAT;
 			element2 = MonsterDatabase.SPOOKY;
+
 			desiredPhial = HOT_PHIAL;
+
+			effect1 = HOT_FORM;
+			effect2 = SPOOKY_FORM;
 		}
 		else if (responseText.indexOf( "Evade the Vampsicle" ) != -1 )
 		{
 			element1 = MonsterDatabase.SPOOKY;
 			element2 = MonsterDatabase.COLD;
+
 			desiredPhial = SPOOKY_PHIAL;
+
+			effect1 = SPOOKY_FORM;
+			effect2 = COLD_FORM;
 		}
 
 		// If this is an elemental element check, check to see if
@@ -248,10 +276,18 @@ public class AdventureRequest extends KoLRequest
 			{
 				expected1 = 1.0f;
 
-				if ( expected1 + expected2 < KoLCharacter.getMaximumHP() )
-					(new ConsumeItemRequest( desiredPhial )).run();
-				else
+				if ( expected1 + expected2 >= KoLCharacter.getMaximumHP() )
+				{
 					KoLmafia.updateDisplay( ABORT_STATE, "Insufficient elemental resistance." );
+				}
+				else if ( !activeEffects.contains( effect1 ) && !activeEffects.contains( effect2 ) )
+				{
+					for ( int i = 0; i < ELEMENT_FORMS.length; ++i )
+						if ( activeEffects.contains( ELEMENT_FORMS[i] ) )
+							(new UneffectRequest( ELEMENT_FORMS[i] )).run();
+
+					(new ConsumeItemRequest( desiredPhial )).run();
+				}
 
 				if ( KoLmafia.refusesContinue() )
 					return;
