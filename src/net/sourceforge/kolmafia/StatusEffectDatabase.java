@@ -57,9 +57,6 @@ public class StatusEffectDatabase extends KoLDatabase
 	private static Map descriptionById = new TreeMap();
 	private static Map effectByDescription = new TreeMap();
 
-	private static Map modifierMap = new TreeMap();
-	private static ArrayList modifierSkills = new ArrayList();
-
 	static
 	{
 		BufferedReader reader = getReader( "statuseffects.txt" );
@@ -70,23 +67,6 @@ public class StatusEffectDatabase extends KoLDatabase
 			if ( data.length >= 3 )
 				addToDatabase( Integer.valueOf( data[0] ), data[1], data[2], data.length > 3 ? data[3] : null );
 		}
-
-		try
-		{
-			reader.close();
-		}
-		catch ( Exception e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			printStackTrace( e );
-		}
-
-		reader = getReader( "modifiers.txt" );
-		while ( (data = readData( reader )) != null )
-			if ( data.length == 2 )
-				modifierMap.put( getCanonicalName( data[0] ), data[1] );
 
 		try
 		{
@@ -194,120 +174,6 @@ public class StatusEffectDatabase extends KoLDatabase
 
 	public static final List getMatchingNames( String substring )
 	{	return getMatchingNames( effectByName, substring );
-	}
-
-	public static final int FAMILIAR_WEIGHT_MODIFIER = 0;
-	public static final int MONSTER_LEVEL_MODIFIER = 1;
-	public static final int COMBAT_RATE_MODIFIER = 2;
-	public static final int INITIATIVE_MODIFIER = 3;
-	public static final int EXPERIENCE_MODIFIER = 4;
-	public static final int ITEMDROP_MODIFIER = 5;
-	public static final int MEATDROP_MODIFIER = 6;
-	public static final int DAMAGE_ABSORPTION_MODIFIER = 7;
-	public static final int DAMAGE_REDUCTION_MODIFIER = 8;
-	public static final int COLD_RESISTANCE_MODIFIER = 9;
-	public static final int HOT_RESISTANCE_MODIFIER = 10;
-	public static final int SLEAZE_RESISTANCE_MODIFIER = 11;
-	public static final int SPOOKY_RESISTANCE_MODIFIER = 12;
-	public static final int STENCH_RESISTANCE_MODIFIER = 13;
-	public static final int MANA_COST_MODIFIER = 14;
-	public static final int MOX_MODIFIER = 15;
-	public static final int MOX_PCT_MODIFIER = 16;
-	public static final int MUS_MODIFIER = 17;
-	public static final int MUS_PCT_MODIFIER = 18;
-	public static final int MYS_MODIFIER = 19;
-	public static final int MYS_PCT_MODIFIER = 20;
-
-	private static final Pattern [] MODIFIER_PATTERNS = new Pattern [] {
-		Pattern.compile( "Weight: ([+-]\\d+)" ),
-		Pattern.compile( "ML: ([+-]\\d+)" ),
-		Pattern.compile( "Combat: ([+-][\\d.]+)" ),
-		Pattern.compile( "Init: ([+-][\\d.]+)" ),
-		Pattern.compile( "Exp: ([+-][\\d.]+)" ),
-		Pattern.compile( "Item: ([+-][\\d.]+)" ),
-		Pattern.compile( "Meat: ([+-][\\d.]+)" ),
-		Pattern.compile( "DA: ([+-]\\d+)" ),
-		Pattern.compile( "DR: (\\d+)" ),
-		Pattern.compile( "Cold: ([+-]\\d+)" ),
-		Pattern.compile( "Hot: ([+-]\\d+)" ),
-		Pattern.compile( "Sleaze: ([+-]\\d+)" ),
-		Pattern.compile( "Spooky: ([+-]\\d+)" ),
-		Pattern.compile( "Stench: ([+-]\\d+)" ),
-		Pattern.compile( "Mana: ([+-]\\d+)" ),
-		Pattern.compile( "Mox: ([+-]\\d+)" ),
-		Pattern.compile( "Mox%: ([+-]\\d+)" ),
-		Pattern.compile( "Mus: ([+-]\\d+)" ),
-		Pattern.compile( "Mus%: ([+-]\\d+)" ),
-		Pattern.compile( "Mys: ([+-]\\d+)" ),
-		Pattern.compile( "Mys%: ([+-]\\d+)" ),
-	};
-
-	private static final Pattern [] STRING_MODIFIER_PATTERNS = new Pattern [] {
-		Pattern.compile( "Class: (\\w\\w)" ),
-		Pattern.compile( "Intrinsic: [^,]+" ),
-	};
-
-	private static final float [] NO_MODIFIERS = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
-
-	public static final void applyModifiers( String name, float [] modifiers )
-	{
-		if ( name == null )
-			return;
-
-		name = getCanonicalName( name );
-		Object modifier = modifierMap.get( name );
-
-		if ( modifier == null )
-			return;
-
-		if ( modifier instanceof String )
-		{
-			float [] newModifiers = new float[ NO_MODIFIERS.length ];
-
-			for ( int i = 0; i < modifiers.length; ++i )
-			{
-				Matcher effectMatcher = MODIFIER_PATTERNS[ i ].matcher( (String) modifier );
-				newModifiers[i] = effectMatcher.find() ? Float.parseFloat( effectMatcher.group(1) ) : 0.0f;
-			}
-
-			modifierMap.put( name, newModifiers );
-			modifier = newModifiers;
-		}
-
-		float [] addition = (float []) modifier;
-
-		for ( int i = 0; i < modifiers.length; ++i )
-			if ( addition[i] != 0.0f )
-				modifiers[i] += addition[i];
-	}
-
-	public static void applyPassiveModifiers( float [] modifiers )
-	{
-		if ( modifierSkills.isEmpty() )
-		{
-			Object [] keys = modifierMap.keySet().toArray();
-			for ( int i = 0; i < keys.length; ++i )
-			{
-				if ( !ClassSkillsDatabase.contains( (String) keys[i] ) )
-					continue;
-
-				int skillId = ClassSkillsDatabase.getSkillId( (String) keys[i] );
-				if ( ClassSkillsDatabase.getSkillType( skillId ) == ClassSkillsDatabase.PASSIVE )
-					modifierSkills.add( keys[i] );
-
-			}
-		}
-
-		for ( int i = 0; i < modifierSkills.size(); ++i )
-			if ( KoLCharacter.hasSkill( (String) modifierSkills.get(i) ) )
-				applyModifiers( (String) modifierSkills.get(i), modifiers );
-
-		// Varies according to level, somehow
-		if ( KoLCharacter.hasSkill( "Skin of the Leatherback" ) )
-			modifiers[ DAMAGE_REDUCTION_MODIFIER ] += Math.max( (KoLCharacter.getLevel() >> 1) - 1, 1 );
-
-		if ( KoLCharacter.getFamiliar().getId() == 38 && KoLCharacter.hasAmphibianSympathy() )
-			modifiers[ FAMILIAR_WEIGHT_MODIFIER ] -= 10;
 	}
 
 	public static void addDescriptionId( int effectId, String descriptionId )
