@@ -1040,7 +1040,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static int getMonsterLevelAdjustment()
-	{	return (int) currentModifiers.get( Modifiers.MONSTER_LEVEL_MODIFIER );
+	{	return (int) currentModifiers.get( Modifiers.MONSTER_LEVEL );
 	}
 
 	/**
@@ -1049,11 +1049,11 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static int getFamiliarWeightAdjustment()
-	{	return (int) currentModifiers.get( Modifiers.FAMILIAR_WEIGHT_MODIFIER );
+	{	return (int) currentModifiers.get( Modifiers.FAMILIAR_WEIGHT );
 	}
 
 	public static int getManaCostAdjustment()
-	{	return (int) currentModifiers.get( Modifiers.MANA_COST_MODIFIER );
+	{	return (int) currentModifiers.get( Modifiers.MANA_COST );
 	}
 
 	/**
@@ -1062,7 +1062,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static float getCombatRateAdjustment()
-	{	return currentModifiers.get( Modifiers.COMBAT_RATE_MODIFIER );
+	{	return currentModifiers.get( Modifiers.COMBAT_RATE );
 	}
 
 	/**
@@ -1071,7 +1071,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static float getInitiativeAdjustment()
-	{	return currentModifiers.get( Modifiers.INITIATIVE_MODIFIER );
+	{	return currentModifiers.get( Modifiers.INITIATIVE );
 	}
 
 	/**
@@ -1080,7 +1080,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static float getExperienceAdjustment()
-	{	return currentModifiers.get( Modifiers.EXPERIENCE_MODIFIER );
+	{	return currentModifiers.get( Modifiers.EXPERIENCE );
 	}
 
 	/**
@@ -1091,7 +1091,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static float getMeatDropPercentAdjustment()
-	{	return currentModifiers.get( Modifiers.MEATDROP_MODIFIER );
+	{	return currentModifiers.get( Modifiers.MEATDROP );
 	}
 
 	/**
@@ -1102,7 +1102,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static float getItemDropPercentAdjustment()
-	{	return currentModifiers.get( Modifiers.ITEMDROP_MODIFIER );
+	{	return currentModifiers.get( Modifiers.ITEMDROP );
 	}
 
 	public static void setEquipment( int slot, AdventureResult item )
@@ -1277,7 +1277,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static int getDamageAbsorption()
-	{	return (int) currentModifiers.get( Modifiers.DAMAGE_ABSORPTION_MODIFIER );
+	{	return (int) currentModifiers.get( Modifiers.DAMAGE_ABSORPTION );
 	}
 
 	/**
@@ -1287,7 +1287,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static int getDamageReduction()
-	{	return (int) currentModifiers.get( Modifiers.DAMAGE_REDUCTION_MODIFIER );
+	{	return (int) currentModifiers.get( Modifiers.DAMAGE_REDUCTION );
 	}
 
 	/**
@@ -1301,15 +1301,15 @@ public abstract class KoLCharacter extends StaticEntity
 		switch ( element )
 		{
 		case MonsterDatabase.COLD:
-			return currentModifiers.get( Modifiers.COLD_RESISTANCE_MODIFIER );
+			return currentModifiers.get( Modifiers.COLD_RESISTANCE );
 		case MonsterDatabase.HEAT:
-			return currentModifiers.get( Modifiers.HOT_RESISTANCE_MODIFIER );
+			return currentModifiers.get( Modifiers.HOT_RESISTANCE );
 		case MonsterDatabase.SLEAZE:
-			return currentModifiers.get( Modifiers.SLEAZE_RESISTANCE_MODIFIER );
+			return currentModifiers.get( Modifiers.SLEAZE_RESISTANCE );
 		case MonsterDatabase.SPOOKY:
-			return currentModifiers.get( Modifiers.SPOOKY_RESISTANCE_MODIFIER );
+			return currentModifiers.get( Modifiers.SPOOKY_RESISTANCE );
 		case MonsterDatabase.STENCH:
-			return currentModifiers.get( Modifiers.STENCH_RESISTANCE_MODIFIER );
+			return currentModifiers.get( Modifiers.STENCH_RESISTANCE );
 		}
 
 		return 0.0f;
@@ -2605,7 +2605,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 		// Look at sign-specific adjustments
 
-		newModifiers.add( Modifiers.MONSTER_LEVEL_MODIFIER, getSignedMLAdjustment() );
+		newModifiers.add( Modifiers.MONSTER_LEVEL, getSignedMLAdjustment() );
 
 		// Look at items
 		for ( int slot = HAT; slot <= FAMILIAR; ++slot )
@@ -2625,22 +2625,22 @@ public abstract class KoLCharacter extends StaticEntity
 
 			case HAT:
 			case PANTS:
-				newModifiers.add( Modifiers.DAMAGE_ABSORPTION_MODIFIER, taoFactor * EquipmentDatabase.getPower( item.getItemId() ) );
+				newModifiers.add( Modifiers.DAMAGE_ABSORPTION, taoFactor * EquipmentDatabase.getPower( item.getItemId() ) );
 				break;
 
 			case SHIRT:
-				newModifiers.add( Modifiers.DAMAGE_ABSORPTION_MODIFIER, EquipmentDatabase.getPower( item.getItemId() ) );
+				newModifiers.add( Modifiers.DAMAGE_ABSORPTION, EquipmentDatabase.getPower( item.getItemId() ) );
 				break;
 			}
 
 			switch ( item.getItemId() )
 			{
 			case GUAYABERA:
-				newModifiers.add( Modifiers.MONSTER_LEVEL_MODIFIER, MoonPhaseDatabase.getGrimaciteEffect() );
+				newModifiers.add( Modifiers.MONSTER_LEVEL, MoonPhaseDatabase.getGrimaciteEffect() );
 				break;
 
 			case JEKYLLIN:
-				newModifiers.add( Modifiers.ITEMDROP_MODIFIER, 15 + MoonPhaseDatabase.getMoonlight() * 5 );
+				newModifiers.add( Modifiers.ITEMDROP, 15 + MoonPhaseDatabase.getMoonlight() * 5 );
 				break;
 			}
 		}
@@ -2649,31 +2649,31 @@ public abstract class KoLCharacter extends StaticEntity
 		if ( EquipmentDatabase.isWearingOutfit( 6 ) )
 		{
 			// Hot and Cold Running Ninja Suit
-			newModifiers.add( Modifiers.COLD_RESISTANCE_MODIFIER, 20);
-			newModifiers.add( Modifiers.HOT_RESISTANCE_MODIFIER, 20);
+			newModifiers.add( Modifiers.COLD_RESISTANCE, 20);
+			newModifiers.add( Modifiers.HOT_RESISTANCE, 20);
 		}
 		else if ( EquipmentDatabase.isWearingOutfit( 7 ) )
 		{
 			// eXtreme Cold-Weather Gear
-			newModifiers.add( Modifiers.COLD_RESISTANCE_MODIFIER, 30);
+			newModifiers.add( Modifiers.COLD_RESISTANCE, 30);
 		}
 		else if ( EquipmentDatabase.isWearingOutfit( 25 ) )
 		{
 			// Arboreal Raiment
-			newModifiers.add( Modifiers.STENCH_RESISTANCE_MODIFIER, 10 );
+			newModifiers.add( Modifiers.STENCH_RESISTANCE, 10 );
 		}
 		else if ( EquipmentDatabase.isWearingOutfit( 14 ) )
 		{
 			// Furry Suit
-			newModifiers.add( Modifiers.MONSTER_LEVEL_MODIFIER, 5 );
-			newModifiers.add( Modifiers.MOX_PCT_MODIFIER, -75 );
+			newModifiers.add( Modifiers.MONSTER_LEVEL, 5 );
+			newModifiers.add( Modifiers.MOX_PCT, -75 );
 		}
 
 		// Wearing a serpentine sword and a serpentine shield doubles
 		// the effect of the sword.
 
 		if ( getEquipment( WEAPON ).getName().equals( "serpentine sword" ) && getEquipment( OFFHAND ).getName().equals( "snake shield" ) )
-			newModifiers.add( Modifiers.MONSTER_LEVEL_MODIFIER, 10 );
+			newModifiers.add( Modifiers.MONSTER_LEVEL, 10 );
 
 		// Because there are a limited number of passive skills,
 		// it is much more efficient to execute one check for
@@ -2688,37 +2688,37 @@ public abstract class KoLCharacter extends StaticEntity
 			newModifiers.add( Modifiers.getModifiers( ((AdventureResult)activeEffects.get(i)).getName() ) );
 
 		if ( ARIA.getCount( activeEffects ) > 0 )
-			newModifiers.add( Modifiers.MONSTER_LEVEL_MODIFIER, 2 * getLevel() );
+			newModifiers.add( Modifiers.MONSTER_LEVEL, 2 * getLevel() );
 
 		// Now that we have calculated the familiar weight adjustment,
 		// look at familiar.
 
-		float modifier = (float)( currentFamiliar.getWeight() + newModifiers.get( Modifiers.FAMILIAR_WEIGHT_MODIFIER ) );
+		float modifier = (float)( currentFamiliar.getWeight() + newModifiers.get( Modifiers.FAMILIAR_WEIGHT ) );
 		int familiarId = currentFamiliar.getId();
 
 		if ( FamiliarsDatabase.isVolleyType( familiarId ) )
-			newModifiers.add( Modifiers.EXPERIENCE_MODIFIER, Math.sqrt( modifier ) );
+			newModifiers.add( Modifiers.EXPERIENCE, Math.sqrt( modifier ) );
 		if ( FamiliarsDatabase.isItemDropType( familiarId ) )
-			newModifiers.add( Modifiers.ITEMDROP_MODIFIER, modifier * 2.5 );
+			newModifiers.add( Modifiers.ITEMDROP, modifier * 2.5 );
 		if ( FamiliarsDatabase.isMeatDropType( familiarId ) )
-			newModifiers.add( Modifiers.MEATDROP_MODIFIER, modifier * 5 );
+			newModifiers.add( Modifiers.MEATDROP, modifier * 5 );
 
 		// Make sure the mana modifier is no more than
 		// three, no matter what.  Also make sure that
 		// elemental resistance is capped by class.
 
-		newModifiers.set( Modifiers.MANA_COST_MODIFIER, Math.max( newModifiers.get( Modifiers.MANA_COST_MODIFIER ), -3 ) );
+		newModifiers.set( Modifiers.MANA_COST, Math.max( newModifiers.get( Modifiers.MANA_COST ), -3 ) );
 
-		newModifiers.set( Modifiers.HOT_RESISTANCE_MODIFIER, activeEffects.contains( MAX_HOT ) ? 90 :
-			Math.max( newModifiers.get( Modifiers.HOT_RESISTANCE_MODIFIER ), KoLCharacter.isMysticalityClass() ? 80 : 60 ) );
-		newModifiers.set( Modifiers.COLD_RESISTANCE_MODIFIER, activeEffects.contains( MAX_COLD ) ? 90 :
-			Math.max( newModifiers.get( Modifiers.COLD_RESISTANCE_MODIFIER ), KoLCharacter.isMysticalityClass() ? 80 : 60 ) );
-		newModifiers.set( Modifiers.SPOOKY_RESISTANCE_MODIFIER, activeEffects.contains( MAX_SPOOKY ) ? 90 :
-			Math.max( newModifiers.get( Modifiers.SPOOKY_RESISTANCE_MODIFIER ), KoLCharacter.isMysticalityClass() ? 80 : 60 ) );
-		newModifiers.set( Modifiers.STENCH_RESISTANCE_MODIFIER, activeEffects.contains( MAX_STENCH ) ? 90 :
-			Math.max( newModifiers.get( Modifiers.STENCH_RESISTANCE_MODIFIER ), KoLCharacter.isMysticalityClass() ? 80 : 60 ) );
-		newModifiers.set( Modifiers.SLEAZE_RESISTANCE_MODIFIER, activeEffects.contains( MAX_SLEAZE ) ? 90 :
-			Math.max( newModifiers.get( Modifiers.SLEAZE_RESISTANCE_MODIFIER ), KoLCharacter.isMysticalityClass() ? 80 : 60 ) );
+		newModifiers.set( Modifiers.HOT_RESISTANCE, activeEffects.contains( MAX_HOT ) ? 90 :
+			Math.max( newModifiers.get( Modifiers.HOT_RESISTANCE ), KoLCharacter.isMysticalityClass() ? 80 : 60 ) );
+		newModifiers.set( Modifiers.COLD_RESISTANCE, activeEffects.contains( MAX_COLD ) ? 90 :
+			Math.max( newModifiers.get( Modifiers.COLD_RESISTANCE ), KoLCharacter.isMysticalityClass() ? 80 : 60 ) );
+		newModifiers.set( Modifiers.SPOOKY_RESISTANCE, activeEffects.contains( MAX_SPOOKY ) ? 90 :
+			Math.max( newModifiers.get( Modifiers.SPOOKY_RESISTANCE ), KoLCharacter.isMysticalityClass() ? 80 : 60 ) );
+		newModifiers.set( Modifiers.STENCH_RESISTANCE, activeEffects.contains( MAX_STENCH ) ? 90 :
+			Math.max( newModifiers.get( Modifiers.STENCH_RESISTANCE ), KoLCharacter.isMysticalityClass() ? 80 : 60 ) );
+		newModifiers.set( Modifiers.SLEAZE_RESISTANCE, activeEffects.contains( MAX_SLEAZE ) ? 90 :
+			Math.max( newModifiers.get( Modifiers.SLEAZE_RESISTANCE ), KoLCharacter.isMysticalityClass() ? 80 : 60 ) );
 
 		// Add in strung-up quartet.
 
@@ -2727,13 +2727,13 @@ public abstract class KoLCharacter extends StaticEntity
 			switch ( StaticEntity.getIntegerProperty( "lastQuartetRequest" ) )
 			{
 			case 1:
-				newModifiers.add( Modifiers.MONSTER_LEVEL_MODIFIER, 5 );
+				newModifiers.add( Modifiers.MONSTER_LEVEL, 5 );
 				break;
 			case 2:
-				newModifiers.add( Modifiers.COMBAT_RATE_MODIFIER, -5 );
+				newModifiers.add( Modifiers.COMBAT_RATE, -5 );
 				break;
 			case 3:
-				newModifiers.add( Modifiers.ITEMDROP_MODIFIER, 5 );
+				newModifiers.add( Modifiers.ITEMDROP, 5 );
 				break;
 			}
 		}
@@ -2741,7 +2741,7 @@ public abstract class KoLCharacter extends StaticEntity
 		// Lastly, experience adjustment also implicitly depends on
 		// monster level.  Add that information.
 
-		newModifiers.add( Modifiers.EXPERIENCE_MODIFIER, newModifiers.get( Modifiers.MONSTER_LEVEL_MODIFIER) / 4.0f );
+		newModifiers.add( Modifiers.EXPERIENCE, newModifiers.get( Modifiers.MONSTER_LEVEL) / 4.0f );
 
 		// Determine whether or not data has changed
 
