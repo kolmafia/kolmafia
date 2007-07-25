@@ -141,7 +141,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	public KoLFrame( String title )
 	{
 		this.setTitle( title );
-		this.setDefaultCloseOperation( HIDE_ON_CLOSE );
+		this.setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 
 		this.tabs = getTabbedPane();
 		this.framePanel = new JPanel( new BorderLayout( 0, 0 ) );

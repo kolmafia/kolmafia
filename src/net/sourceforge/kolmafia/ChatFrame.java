@@ -84,7 +84,6 @@ public class ChatFrame extends KoLFrame
 			associatedContact.startsWith( "/" ) ? "KoL Chat: " + associatedContact :
 				"KoL PM: " + KoLCharacter.getUserName() + " / " + associatedContact );
 
-		this.setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 		this.framePanel.setLayout( new BorderLayout( 5, 5 ) );
 		this.initialize( associatedContact );
 
