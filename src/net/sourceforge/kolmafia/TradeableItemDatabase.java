@@ -1685,18 +1685,15 @@ public class TradeableItemDatabase extends KoLDatabase
 			writer.println( name + "\t" + known );
 	}
 
-	private static final Pattern DR_PATTERN = Pattern.compile( "Damage Reduction: <b>(\\d+)</b>" );
 	private static final Pattern ENCHANTMENT_PATTERN = Pattern.compile( "Enchantment:.*?<font color=blue>(.*)</font>", Pattern.DOTALL );
 
 	private static String parseEnchantments( String text, ArrayList unknown )
 	{
-		String known = "";
+		String known = Modifiers.parseDamageReduction( text );;
+		if ( known == null )
+			known = "";
 
-		Matcher matcher = DR_PATTERN.matcher( text );
-		if (matcher.find() )
-			known = "DR: " + matcher.group(1);
-
-		matcher = ENCHANTMENT_PATTERN.matcher( text );
+		Matcher matcher = ENCHANTMENT_PATTERN.matcher( text );
 		if ( !matcher.find() )
 			return known;
 
@@ -1717,7 +1714,7 @@ public class TradeableItemDatabase extends KoLDatabase
 			if ( enchantment.equals( "" ) )
 				continue;
 
-			String mod = convertEnchantment( enchantment );
+			String mod = Modifiers.parseModifier( enchantment );
 			if ( mod != null )
 			{
 				if ( !known.equals( "" ) )
@@ -1731,172 +1728,5 @@ public class TradeableItemDatabase extends KoLDatabase
 		}
 
 		return known;
-	}
-
-	private static final Pattern ALL_ATTR_PATTERN = Pattern.compile( "^All Attributes ([+-]\\d+)$" );
-	private static final Pattern ALL_ATTR_PCT_PATTERN = Pattern.compile( "^All Attributes ([+-]\\d+)%$" );
-	private static final Pattern CLASS_PATTERN = Pattern.compile( "Bonus for (.*) only" );
-	private static final Pattern COMBAT_PATTERN = Pattern.compile( "Monsters will be (.*) attracted to you." );
-	private static final Pattern DA_PATTERN = Pattern.compile( "Damage Absorption (.*)" );
-	private static final Pattern DR2_PATTERN = Pattern.compile( "Damage Reduction: (\\d+)" );
-	private static final Pattern EXP_PATTERN = Pattern.compile( "(.*) Stat.*Per Fight" );
-	private static final Pattern INIT_PATTERN = Pattern.compile( "Combat Initiative (.*)%" );
-	private static final Pattern INTRINSIC_PATTERN = Pattern.compile( "Intrinsic effect: (.*)" );
-	private static final Pattern ITEM_PATTERN = Pattern.compile( "(.*)% Item Drops from Monsters" );
-	private static final Pattern MEAT_PATTERN = Pattern.compile( "(.*)% Meat from Monsters" );
-	private static final Pattern ML_PATTERN = Pattern.compile( "(.*) to Monster Level" );
-	private static final Pattern MOX_PATTERN = Pattern.compile( "Moxie ([+-]\\d+)$" );
-	private static final Pattern MOX_PCT_PATTERN = Pattern.compile( "Moxie ([+-]\\d+)%" );
-	private static final Pattern MUS_PATTERN = Pattern.compile( "Muscle ([+-]\\d+)$" );
-	private static final Pattern MUS_PCT_PATTERN = Pattern.compile( "Muscle ([+-]\\d+)%" );
-	private static final Pattern MYS_PATTERN = Pattern.compile( "Mysticality ([+-]\\d+)$" );
-	private static final Pattern MYS_PCT_PATTERN = Pattern.compile( "Mysticality ([+-]\\d+)%" );
-	private static final Pattern MP_PATTERN = Pattern.compile( "(.*) MP to use Skills" );
-	private static final Pattern WEIGHT_PATTERN = Pattern.compile( "(.*) to Familiar Weight" );
-
-	private static String convertEnchantment( String enchantment )
-	{
-		Matcher matcher;
-
-		matcher = ALL_ATTR_PATTERN.matcher( enchantment );
-		if ( matcher.find() )
-                {
-                        String mod = matcher.group(1);
-			return "Mox: " + mod + ", Mus: " + mod + ", Mys: " + mod;
-                }
-
-		matcher = ALL_ATTR_PCT_PATTERN.matcher( enchantment );
-		if ( matcher.find() )
-                {
-                        String mod = matcher.group(1);
-			return "Mox%: " + mod + ", Mus%: " + mod + ", Mys%: " + mod;
-                }
-
-		matcher = CLASS_PATTERN.matcher( enchantment );
-		if ( matcher.find() )
-		{
-			String plural = matcher.group(1);
-			String cls = "XX";
-			if ( plural.equals( "Accordion Thieves" ) )
-				cls = "AT";
-			else if ( plural.equals( "Disco Bandits" ) )
-				cls = "DB";
-			else if ( plural.equals( "Pastamancers" ) )
-				cls = "PA";
-			else if ( plural.equals( "Saucerors" ) )
-				cls = "SA";
-			else if ( plural.equals( "Seal Clubbers" ) )
-				cls = "SC";
-			else if ( plural.equals( "Turtle Tamers" ) )
-				cls = "TT";
-			return "Class: " + cls;
-		}
-
-		matcher = COMBAT_PATTERN.matcher( enchantment );
-		if ( matcher.find() )
-			return "Combat: " + ( matcher.group(1).equals( "more" ) ? "+5" : "-5" );
-
-		matcher = DA_PATTERN.matcher( enchantment );
-		if ( matcher.find() )
-			return "DA: " + matcher.group(1);
-
-		matcher = DR2_PATTERN.matcher( enchantment );
-		if ( matcher.find() )
-			return "DR: " + matcher.group(1);
-
-		matcher = EXP_PATTERN.matcher( enchantment );
-		if ( matcher.find() )
-			return "Exp: " + matcher.group(1);
-
-		matcher = INIT_PATTERN.matcher( enchantment );
-		if ( matcher.find() )
-			return "Init: " + matcher.group(1);
-
-		matcher = INTRINSIC_PATTERN.matcher( enchantment );
-		if ( matcher.find() )
-			return "Intrinsic: " + matcher.group(1);
-
-		matcher = ITEM_PATTERN.matcher( enchantment );
-		if ( matcher.find() )
-			return "Item: " + matcher.group(1);
-
-		matcher = MEAT_PATTERN.matcher( enchantment );
-		if ( matcher.find() )
-			return "Meat: " + matcher.group(1);
-
-		matcher = MP_PATTERN.matcher( enchantment );
-		if ( matcher.find() )
-			return "Mana: " + matcher.group(1);
-
-		matcher = ML_PATTERN.matcher( enchantment );
-		if ( matcher.find() )
-			return "ML: " + matcher.group(1);
-
-		matcher = MOX_PATTERN.matcher( enchantment );
-		if ( matcher.find() )
-			return "Mox: " + matcher.group(1);
-
-		matcher = MOX_PCT_PATTERN.matcher( enchantment );
-		if ( matcher.find() )
-			return "Mox%: " + matcher.group(1);
-
-		matcher = MUS_PATTERN.matcher( enchantment );
-		if ( matcher.find() )
-			return "Mus: " + matcher.group(1);
-
-		matcher = MUS_PCT_PATTERN.matcher( enchantment );
-		if ( matcher.find() )
-			return "Mus%: " + matcher.group(1);
-
-		matcher = MYS_PATTERN.matcher( enchantment );
-		if ( matcher.find() )
-			return "Mys: " + matcher.group(1);
-
-		matcher = MYS_PCT_PATTERN.matcher( enchantment );
-		if ( matcher.find() )
-			return "Mys%: " + matcher.group(1);
-
-		matcher = WEIGHT_PATTERN.matcher( enchantment );
-		if ( matcher.find() )
-			return "Weight: " + matcher.group(1);
-
-		if ( enchantment.indexOf( "Resistance" ) != -1 )
-			return parseResistance( enchantment );
-
-		return null;
-	}
-
-	private static String parseResistance( String enchantment )
-	{
-		int level = 0;
-
-		if ( enchantment.indexOf( "Slight" ) != -1 )
-			level = 10;
-		else if ( enchantment.indexOf( "So-So" ) != -1 )
-			level = 20;
-		else if ( enchantment.indexOf( "Serious" ) != -1 )
-			level = 30;
-		else if ( enchantment.indexOf( "Superhuman" ) != -1 )
-			level = 40;
-
-		if ( enchantment.indexOf( "All Elements" ) != -1 )
-			return "Cold: +" + level + ", Hot: +" + level + ", Sleaze: +" + level + ", Spooky: +" + level + ", Stench: +" + level;
-
-		if ( enchantment.indexOf( "Cold" ) != -1 )
-			return "Cold: +" + level;
-
-		if ( enchantment.indexOf( "Hot" ) != -1 )
-			return "Hot: +" + level;
-
-		if ( enchantment.indexOf( "Sleaze" ) != -1 )
-			return "Sleaze: +" + level;
-
-		if ( enchantment.indexOf( "Spooky" ) != -1 )
-			return "Spooky: +" + level;
-
-		if ( enchantment.indexOf( "Stench" ) != -1 )
-			return "Stench: +" + level;
-
-		return null;
 	}
 }
