@@ -132,6 +132,7 @@ public abstract class KoLmafia implements KoLConstants
 	private static FileChannel SESSION_CHANNEL = null;
 	private static File SESSION_FILE = null;
 
+	private static KoLAdventure currentAdventure;
 	private static final ArrayList stopEncounters = new ArrayList();
 
 	static
@@ -1182,6 +1183,20 @@ public abstract class KoLmafia implements KoLConstants
 
 		float last = -1;
 
+		// Special handling of the Hidden Temple.  Here, as
+		// long as your health is above zero, you're okay.
+
+		boolean isNonCombatHealthRestore = settingName.startsWith( "hp" ) && isAdventuring() && currentAdventure.isNonCombatsOnly();
+
+		if ( isNonCombatHealthRestore )
+		{
+			if ( KoLCharacter.getCurrentHP() > 0 )
+				return true;
+
+			needed = 1;
+			desired = 1;
+		}
+
 		// Consider clearing beaten up if your restoration settings
 		// include the appropriate items.
 
@@ -1272,6 +1287,15 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( refusesContinue() )
 			return false;
+
+		// For areas that are all noncombats, then you can go ahead
+		// and heal using only unguent.
+
+		if ( isNonCombatHealthRestore && StaticEntity.getBooleanProperty( "autoBuyRestores" ) && KoLCharacter.getAvailableMeat() >= 30 )
+		{
+			RequestThread.postRequest( new ConsumeItemRequest( new AdventureResult( 231, 1 ) ) );
+			return true;
+		}
 
 		// If things are still not restored, try looking for items you
 		// don't have but can purchase.
@@ -1672,18 +1696,18 @@ public abstract class KoLmafia implements KoLConstants
 
 			if ( request instanceof KoLAdventure )
 			{
-				KoLAdventure adventure = (KoLAdventure) request;
+				currentAdventure = (KoLAdventure) request;
 
-				if ( adventure.getRequest() instanceof ClanGymRequest )
+				if ( currentAdventure.getRequest() instanceof ClanGymRequest )
 				{
-					RequestThread.postRequest( ((ClanGymRequest)adventure.getRequest()).setTurnCount( iterations ) );
+					RequestThread.postRequest( ((ClanGymRequest)currentAdventure.getRequest()).setTurnCount( iterations ) );
 					return;
 				}
 
-				if ( adventure.getRequest() instanceof SewerRequest && !AdventureDatabase.retrieveItem( SewerRequest.GUM.getInstance( iterations ) ) )
+				if ( currentAdventure.getRequest() instanceof SewerRequest && !AdventureDatabase.retrieveItem( SewerRequest.GUM.getInstance( iterations ) ) )
 					return;
 
-				if ( !(adventure.getRequest() instanceof CampgroundRequest) && KoLCharacter.getCurrentHP() == 0 )
+				if ( !(currentAdventure.getRequest() instanceof CampgroundRequest) && KoLCharacter.getCurrentHP() == 0 )
 					this.recoverHP();
 
 				if ( !KoLmafia.permitsContinue() )

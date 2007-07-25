@@ -142,7 +142,15 @@ Wartime Hippy Camp (Frat Disguise)	-1	War Hippy Drill Sergeant	War Hippy (Space)
 White Citadel	-1	Angry Raccoon Puppet	Business Hippy	eXtreme Sports Orc
 Whitey's Grove	75	Knight in White Satin	White Chocolate Golem	White Lion	Whitesnake
 
-# Areas with no combat data - or no combats
+
+
+# Areas with no combat data
+
+Icy Peak of the Past	-1
+
+
+
+# Areas with no combats
 
 Frat House In Disguise	0
 Friar Ceremony Location	0
@@ -151,7 +159,6 @@ Greater-Than Sign	0
 Haiku Dungeon	0
 Hidden Temple	0
 Hippy Camp In Disguise	0
-Icy Peak of the Past	0
 Lemon Party	0
 Limerick Dungeon	0
 Moxie Vacation	0

@@ -187,6 +187,12 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 	{	return this.areaSummary;
 	}
 
+	public boolean isNonCombatsOnly()
+	{
+		return (this.request instanceof AdventureRequest) ||
+			(this.areaSummary != null && this.areaSummary.combats() == 0 && this.areaSummary.getMonsterCount() == 0);
+	}
+
 	/**
 	 * Returns the request associated with this adventure.
 	 * @return	The request for this adventure
