@@ -520,16 +520,19 @@ public class AdventureRequest extends KoLRequest
 
 	public static void handleServerRedirect( String redirectLocation )
 	{
+		if ( redirectLocation.indexOf( "main.php" ) != -1 )
+			return;
+
 		KoLRequest request = new KoLRequest( redirectLocation );
 
-		if ( request.getURLString().startsWith( "palinshelves.php" ) )
+		if ( redirectLocation.indexOf( "palinshelves.php" ) != -1 )
 		{
 			request.run();
 			request.constructURLString( "palinshelves.php?action=placeitems&whichitem1=2259&whichitem2=2260&whichitem3=493&whichitem4=2261" ).run();
 			return;
 		}
 
-		if ( request.getURLString().startsWith( "tiles.php" ) )
+		if ( redirectLocation.indexOf( "tiles.php" ) != -1 )
 		{
 			handleDvoraksRevenge( request );
 			return;
