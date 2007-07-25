@@ -2673,7 +2673,7 @@ public abstract class KoLCharacter extends StaticEntity
 		// it is much more efficient to execute one check for
 		// each of the known skills.
 
-		Modifiers.applyPassiveModifiers( newModifiers );
+		newModifiers.applyPassiveModifiers();
 
 		// For the sake of easier maintenance, execute a lot of extra
 		// extra string comparisons when looking at status effects.
