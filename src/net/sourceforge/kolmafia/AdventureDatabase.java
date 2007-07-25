@@ -1175,7 +1175,10 @@ public class AdventureDatabase extends KoLDatabase
 				return bounty;
 		}
 
-		return conditionsById.get( adventureId ).equals( "" ) ? "none" : conditionsById.get( adventureId );
+		String conditions = conditionsById.get( adventureId );
+		if ( conditions != null && !conditions.equals( "" ) )
+			return conditions;
+		return "none";
 	}
 
 	public static String [][] choiceSpoilers( int choice )
