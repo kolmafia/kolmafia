@@ -3111,7 +3111,6 @@ public abstract class KoLmafia implements KoLConstants
 		// are marked by an autosell value of nonzero.
 
 		RequestThread.openRequestSequence();
-		this.makeJunkRemovalRequest();
 
 		// Only place items in the mall which are not
 		// sold in NPC stores and can be autosold.

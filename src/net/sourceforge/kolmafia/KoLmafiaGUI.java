@@ -334,6 +334,9 @@ public class KoLmafiaGUI extends KoLmafia
 				if ( StaticEntity.getBooleanProperty( "autoSatisfyWithStash" ) && KoLCharacter.canInteract() && KoLCharacter.hasClan() )
 					if ( !ClanManager.isStashRetrieved() )
 						RequestThread.postRequest( new ClanStashRequest() );
+
+				if ( collection.isEmpty() )
+					RequestThread.postRequest( new MuseumRequest() );
 			}
 			else if ( this.frameClass == KoLMessenger.class )
 			{
@@ -362,7 +365,8 @@ public class KoLmafiaGUI extends KoLmafia
 			}
 			else if ( this.frameClass == MuseumFrame.class )
 			{
-				RequestThread.postRequest( new MuseumRequest() );
+				if ( collection.isEmpty() )
+					RequestThread.postRequest( new MuseumRequest() );
 			}
 			else if ( this.frameClass == MushroomFrame.class )
 			{

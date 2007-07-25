@@ -36,7 +36,6 @@ package net.sourceforge.kolmafia;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Component;
-import java.awt.Dimension;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -50,20 +49,17 @@ import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 import javax.swing.ListSelectionModel;
 
-import javax.swing.event.ListDataEvent;
-import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
-import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
-import net.sourceforge.kolmafia.StoreManager.SoldItem;
 import net.sourceforge.kolmafia.ConcoctionsDatabase.Concoction;
 
 public class ItemManageFrame extends KoLFrame
@@ -74,8 +70,6 @@ public class ItemManageFrame extends KoLFrame
 	private static JTabbedPane inebrietyTabs;
 	private static JLabel pullsRemainingLabel1 = new JLabel( " " );
 	private static JLabel pullsRemainingLabel2 = new JLabel( " " );
-
-	private static final Dimension MAX_WIDTH = new Dimension( 500, Integer.MAX_VALUE );
 
 	private LockableListModel itemPanelNames = new LockableListModel();
 	private JList itemPanelList = new JList( this.itemPanelNames );
@@ -149,9 +143,15 @@ public class ItemManageFrame extends KoLFrame
 		mainPanel.add( listHolder, BorderLayout.WEST );
 		mainPanel.add( this.managePanel, BorderLayout.CENTER );
 
-		this.tabs.addTab( "Handle Items", mainPanel );
-		this.addTab( "Update Filters", new FlaggedItemsPanel() );
-		this.addTab( "Scripted Actions", new CommonActionsPanel() );
+		this.tabs.addTab( "Manual Actions", mainPanel );
+
+		JTabbedPane scriptTabs = getTabbedPane();
+		scriptTabs.addTab( "Junk Items", new HandleJunkPanel() );
+		scriptTabs.addTab( "Memento Items", new FlaggedItemsPanel() );
+		scriptTabs.addTab( "End of Run Sale", new EndOfRunSalePanel() );
+		scriptTabs.addTab( "Display Matcher", new DisplayCaseMatchPanel() );
+
+		this.tabs.addTab( "Scripted Actions", scriptTabs );
 
 		JPanel tabHolder = new JPanel( new CardLayout( 10, 10 ) );
 		tabHolder.add( this.tabs, "" );
@@ -222,206 +222,192 @@ public class ItemManageFrame extends KoLFrame
 		}
 	}
 
-	private class FlaggedItemsPanel extends JPanel
+	private class HandleJunkPanel extends ItemManagePanel
 	{
-		private JPanel container;
+		public HandleJunkPanel()
+		{	super( "Junk Management", "not junk", "help", inventory );
+		}
 
+		public FilterItemField getWordFilter()
+		{	return new JunkOnlyFilterField();
+		}
+
+		public void actionConfirmed()
+		{
+			Object [] items = elementList.getSelectedValues();
+			elementList.clearSelection();
+
+			for ( int i = 0; i < items.length; ++i )
+			{
+				preRoninJunkList.remove( items[i] );
+				postRoninJunkList.remove( items[i] );
+			}
+
+			KoLSettings.saveFlaggedItemList();
+		}
+
+		public void actionCancelled()
+		{
+			JOptionPane.showMessageDialog( null, basicTextWrap(
+				"These items have been flagged as \"junk\" because at some point in the past, you've opted to autosell all of the item.  If you use the \"cleanup\" command, KoLmafia will dispose of these items either by pulverizing them (equipment) or autoselling them (non-equipment)." ) );
+		}
+
+		private class JunkOnlyFilterField extends FilterItemField
+		{
+			public JunkOnlyFilterField()
+			{	this.filter = new JunkOnlyFilter();
+			}
+
+			public void filterItems()
+			{	HandleJunkPanel.this.elementList.applyFilter( this.filter );
+			}
+
+			private class JunkOnlyFilter extends SimpleListFilter
+			{
+				public JunkOnlyFilter()
+				{	super( JunkOnlyFilterField.this );
+				}
+
+				public boolean isVisible( Object element )
+				{
+					return KoLCharacter.canInteract() ?
+						postRoninJunkList.contains( element ) && super.isVisible( element ) :
+						preRoninJunkList.contains( element ) && super.isVisible( element );
+				}
+			}
+		}
+	}
+
+	private class FlaggedItemsPanel extends ItemManagePanel
+	{
 		public FlaggedItemsPanel()
+		{	super( "Memento Items", "not sacred", "help", mementoList );
+		}
+
+		public void actionConfirmed()
 		{
-			this.container = new JPanel();
-			this.container.setLayout( new BoxLayout( this.container, BoxLayout.Y_AXIS ) );
+			Object [] items = elementList.getSelectedValues();
+			elementList.clearSelection();
 
-			// Memento list.
+			for ( int i = 0; i < items.length; ++i )
+				mementoList.remove( items[i] );
 
-			JLabel description = new JLabel( "<html>The following items are flagged as \"mementos\".  IF YOU SET A PREFERENCE, KoLmafia will never autosell these items, place them in the mall, or pulverize them, even if they are flagged as junk.  Furthermore, any item which cannot be autosold in game will be avoided by the end of run sale script and need not be added here to take effect.  The only way to bypass this restriction is to use the relay browser, which does not use this list.</html>" );
+			KoLSettings.saveFlaggedItemList();
+		}
 
-			description.setMaximumSize( MAX_WIDTH );
-			description.setVerticalAlignment( JLabel.TOP );
-			description.setAlignmentX( LEFT_ALIGNMENT );
-			this.container.add( description );
-			this.container.add( Box.createVerticalStrut( 10 ) );
-
-			ItemManagePanel scroller = new ItemManagePanel( mementoList );
-			scroller.setMaximumSize( MAX_WIDTH );
-			scroller.setAlignmentX( LEFT_ALIGNMENT );
-			this.container.add( scroller );
-
-			this.container.add( Box.createVerticalStrut( 30 ) );
-
-			this.setLayout( new CardLayout( 10, 10 ) );
-			this.add( this.container, "" );
+		public void actionCancelled()
+		{
+			JOptionPane.showMessageDialog( null, basicTextWrap(
+				"These items are flagged as \"mementos\".  IF YOU SET A PREFERENCE, KoLmafia will never sell or pulverize these items." ) );
 		}
 	}
 
-	private class ExcludeMementoFilter extends ListElementFilter
+	private class EndOfRunSalePanel extends ItemManagePanel
 	{
-		public boolean isVisible( Object element )
+		public EndOfRunSalePanel()
+		{	super( "End of Run Sale", "host sale", "help", inventory );
+		}
+
+		public FilterItemField getWordFilter()
+		{	return new ExcludeMementoFilterField();
+		}
+
+		public void actionConfirmed()
 		{
-			AdventureResult data = null;
+			KoLmafia.updateDisplay( "Gathering data..." );
+			StaticEntity.getClient().makeEndOfRunSaleRequest();
+		}
 
-			if ( element instanceof AdventureResult )
-				data = (AdventureResult) element;
-			else if ( element instanceof ItemCreationRequest )
-				data = ((ItemCreationRequest) element).createdItem;
+		public void actionCancelled()
+		{
+			JOptionPane.showMessageDialog( null, basicTextWrap(
+				"KoLmafia will place all items which are not already in your store into your store. " + StoreManageFrame.UNDERCUT_MESSAGE ) );
+		}
 
-			if ( data == null )
-				return false;
+		private class ExcludeMementoFilterField extends FilterItemField
+		{
+			public ExcludeMementoFilterField()
+			{	this.filter = new ExcludeMementoFilter();
+			}
 
-			return !mementoList.contains( data ) && TradeableItemDatabase.getPriceById( data.getItemId() ) > 0;
+			public void filterItems()
+			{	EndOfRunSalePanel.this.elementList.applyFilter( this.filter );
+			}
+
+			private class ExcludeMementoFilter extends SimpleListFilter
+			{
+				public ExcludeMementoFilter()
+				{	super( ExcludeMementoFilterField.this );
+				}
+
+				public boolean isVisible( Object element )
+				{	return !mementoList.contains( element ) && super.isVisible( element );
+				}
+			}
 		}
 	}
 
-	private class CommonActionsPanel extends JPanel
+	private class DisplayCaseMatchPanel extends ItemManagePanel
 	{
-		private JPanel container;
-		private Dimension MAX_WIDTH = new Dimension( 500, Integer.MAX_VALUE );
-
-		public CommonActionsPanel()
-		{
-			this.container = new JPanel();
-			this.container.setLayout( new BoxLayout( this.container, BoxLayout.Y_AXIS ) );
-
-			this.container.add( new JSeparator() );
-			this.container.add( Box.createVerticalStrut( 15 ) );
-
-			this.addButtonLabelList( new EndOfRunSaleButton(),
-				"All items flagged as junk will be \"junked\".  KoLmafia will then place all items which are not already in your store at 999,999,999 meat, except for items flagged as \"mementos\" (see Filters tab for more details). " + StoreManageFrame.UNDERCUT_MESSAGE,
-				new ShowDescriptionList( inventory, mementoList, new ExcludeMementoFilter() ) );
-
-			this.container.add( new JSeparator() );
-			this.container.add( Box.createVerticalStrut( 15 ) );
-
-			this.addButtonAndLabel( new MallRestockButton(),
-				"This feature looks at all the items currently in your store, and if you have any matching items in your inventory that are also auto-sellable, drops those items into your store at your current price.  Note that if any items are already sold out, these items will not be re-added, even if you've run this script previously on this character, as KoLmafia does not currently remember past decisions related to store management." );
-
-			this.container.add( new JSeparator() );
-			this.container.add( Box.createVerticalStrut( 15 ) );
-
-			this.addButtonAndLabel( new DisplayCaseButton(),
-				"This feature scans your inventory and, if it finds any items which match what's in your display case, and if you have more than one of that item in your display case, puts those items on display.  If there are items which you would rather not have extras of on display, then before running this script, auto-sell these items, pulverize these items, place these items in your closet, or place these items in your clan's stash, and KoLmafia will not add those items to your display case.  Alternatively, you may run one of the other scripts listed above, which may remove the item from your inventory." );
-
-			this.setLayout( new CardLayout( 10, 10 ) );
-			this.add( this.container, "" );
+		public DisplayCaseMatchPanel()
+		{	super( "Display Case Matcher", "display", "help", inventory );
 		}
 
-		private void addButtonAndLabel( ThreadedButton button, String label )
-		{	this.addButtonLabelList( button, label, null );
+		public FilterItemField getWordFilter()
+		{	return new DisplayCaseOverlapFilterField();
 		}
 
-		private void addButtonLabelList( ThreadedButton button, String label, ShowDescriptionList list )
+		public void actionConfirmed()
 		{
-			JPanel buttonPanel = new JPanel();
-			buttonPanel.add( button );
-			buttonPanel.setAlignmentX( LEFT_ALIGNMENT );
-			buttonPanel.setMaximumSize( this.MAX_WIDTH );
+			KoLmafia.updateDisplay( "Gathering data..." );
 
-			this.container.add( buttonPanel );
-			this.container.add( Box.createVerticalStrut( 5 ) );
+			AdventureResult [] display = new AdventureResult[ collection.size() ];
+			collection.toArray( display );
 
-			if ( list != null )
+			int itemCount;
+			ArrayList items = new ArrayList();
+
+			for ( int i = 0; i < display.length; ++i )
 			{
-				SimpleScrollPane scroller = new SimpleScrollPane( list );
-				scroller.setMaximumSize( this.MAX_WIDTH );
-				scroller.setAlignmentX( LEFT_ALIGNMENT );
-
-				this.container.add( scroller );
-				this.container.add( Box.createVerticalStrut( 15 ) );
+				itemCount = display[i].getCount( inventory );
+				if ( itemCount > 0 && display[i].getCount() > 1 )
+					items.add( display[i].getInstance( itemCount ) );
 			}
 
-			JLabel description = new JLabel( "<html>" + label + "</html>" );
+			if ( items.isEmpty() )
+			{
+				RequestThread.enableDisplayIfSequenceComplete();
+				return;
+			}
 
-			description.setMaximumSize( this.MAX_WIDTH );
-			description.setVerticalAlignment( JLabel.TOP );
-			description.setAlignmentX( LEFT_ALIGNMENT );
-			this.container.add( description );
-			this.container.add( Box.createVerticalStrut( 10 ) );
-			this.container.add( Box.createVerticalStrut( 25 ) );
+			RequestThread.postRequest( new MuseumRequest( items.toArray(), true ) );
 		}
 
-		private class EndOfRunSaleButton extends ThreadedButton
+		public void actionCancelled()
 		{
-			public EndOfRunSaleButton()
-			{
-				super( "end of run sale" );
-			}
-
-			public void run()
-			{
-				KoLmafia.updateDisplay( "Gathering data..." );
-				StaticEntity.getClient().makeEndOfRunSaleRequest();
-			}
+			JOptionPane.showMessageDialog( null, basicTextWrap(
+				"This feature scans your inventory and if it finds any items which are in your display case, it puts those items on display." ) );
 		}
 
-		private class MallRestockButton extends ThreadedButton
+		private class DisplayCaseOverlapFilterField extends FilterItemField
 		{
-			public MallRestockButton()
-			{
-				super( "mall store restocker" );
+			public DisplayCaseOverlapFilterField()
+			{	this.filter = new DisplayCaseOverlapFilter();
 			}
 
-			public void run()
+			public void filterItems()
+			{	DisplayCaseMatchPanel.this.elementList.applyFilter( this.filter );
+			}
+
+			private class DisplayCaseOverlapFilter extends SimpleListFilter
 			{
-				KoLmafia.updateDisplay( "Gathering data..." );
-				RequestThread.postRequest( new StoreManageRequest() );
-
-				SoldItem [] sold = new SoldItem[ StoreManager.getSoldItemList().size() ];
-				StoreManager.getSoldItemList().toArray( sold );
-
-				int itemCount;
-				AdventureResult item;
-				ArrayList items = new ArrayList();
-
-				for ( int i = 0; i < sold.length; ++i )
-				{
-					item = new AdventureResult( sold[i].getItemId(), 1 );
-					itemCount = item.getCount( inventory );
-
-					if ( itemCount > 0 && TradeableItemDatabase.getPriceById( item.getItemId() ) > 0 )
-						items.add( item.getInstance( itemCount ) );
+				public DisplayCaseOverlapFilter()
+				{	super( DisplayCaseOverlapFilterField.this );
 				}
 
-				if ( items.isEmpty() )
-				{
-					RequestThread.enableDisplayIfSequenceComplete();
-					return;
+				public boolean isVisible( Object element )
+				{	return collection.contains( element ) && super.isVisible( element );
 				}
-
-				RequestThread.postRequest( new AutoSellRequest( items.toArray(), AutoSellRequest.AUTOMALL ) );
-			}
-		}
-
-		private class DisplayCaseButton extends ThreadedButton
-		{
-			public DisplayCaseButton()
-			{
-				super( "display case matcher" );
-			}
-
-			public void run()
-			{
-				KoLmafia.updateDisplay( "Gathering data..." );
-				RequestThread.postRequest( new MuseumRequest() );
-
-				AdventureResult [] display = new AdventureResult[ collection.size() ];
-				collection.toArray( display );
-
-				int itemCount;
-				ArrayList items = new ArrayList();
-
-				for ( int i = 0; i < display.length; ++i )
-				{
-					itemCount = display[i].getCount( inventory );
-					if ( itemCount > 1 )
-						items.add( display[i].getInstance( itemCount ) );
-				}
-
-				if ( items.isEmpty() )
-				{
-					RequestThread.enableDisplayIfSequenceComplete();
-					return;
-				}
-
-				RequestThread.postRequest( new MuseumRequest( items.toArray(), true ) );
 			}
 		}
 	}
@@ -474,11 +460,23 @@ public class ItemManageFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{	ConcoctionsDatabase.handleQueue( true );
+		{
+			ConcoctionsDatabase.handleQueue( true );
+
+			if ( fullnessTabs != null )
+				fullnessTabs.setTitleAt( 0, ConcoctionsDatabase.getQueuedFullness() + " Full Queued" );
+			if ( inebrietyTabs != null )
+				inebrietyTabs.setTitleAt( 0, ConcoctionsDatabase.getQueuedInebriety() + " Drunk Queued" );
 		}
 
 		public void actionCancelled()
-		{	ConcoctionsDatabase.handleQueue( false );
+		{
+			ConcoctionsDatabase.handleQueue( false );
+
+			if ( fullnessTabs != null )
+				fullnessTabs.setTitleAt( 0, ConcoctionsDatabase.getQueuedFullness() + " Full Queued" );
+			if ( inebrietyTabs != null )
+				inebrietyTabs.setTitleAt( 0, ConcoctionsDatabase.getQueuedInebriety() + " Drunk Queued" );
 		}
 
 		private class UndoQueueButton extends ThreadedButton
@@ -633,6 +631,11 @@ public class ItemManageFrame extends KoLFrame
 				getDesiredItems( "Consume" );
 				ConcoctionsDatabase.refreshConcoctions();
 				ConcoctionsDatabase.handleQueue( true );
+
+				if ( fullnessTabs != null )
+					fullnessTabs.setTitleAt( 0, ConcoctionsDatabase.getQueuedFullness() + " Full Queued" );
+				if ( inebrietyTabs != null )
+					inebrietyTabs.setTitleAt( 0, ConcoctionsDatabase.getQueuedInebriety() + " Drunk Queued" );
 			}
 
 			public String toString()
@@ -893,7 +896,17 @@ public class ItemManageFrame extends KoLFrame
 			super( "create item", "create & use", ConcoctionsDatabase.getCreatables(), equip && !other );
 
 			if ( this.isEquipmentOnly )
+			{
 				super.addFilters( false );
+			}
+			else
+			{
+				JPanel filterPanel = new JPanel();
+				filterPanel.add( new CreationSettingCheckBox( "require in-a-boxes", "requireBoxServants", "Do not cook/mix without chef/bartender" ) );
+				filterPanel.add( new CreationSettingCheckBox( "repair on explosion", "autoRepairBoxServants", "Automatically repair chefs and bartenders on explosion" ) );
+
+				this.northPanel.add( filterPanel, BorderLayout.NORTH );
+			}
 
 			ConcoctionsDatabase.getCreatables().applyListFilters();
 			this.filterItems();

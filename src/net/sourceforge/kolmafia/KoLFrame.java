@@ -900,6 +900,29 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		}
 	}
 
+	public static final String basicTextWrap( String text )
+	{
+		StringBuffer result = new StringBuffer();
+
+		while ( text.length() > 0 )
+		{
+			if ( text.length() < 80 )
+			{
+				result.append( text );
+				text = "";
+			}
+			else
+			{
+				int spaceIndex = text.lastIndexOf( " ", 80 );
+				result.append( text.substring( 0, spaceIndex ).trim() );
+				result.append( LINE_BREAK );
+				text = text.substring( spaceIndex );
+			}
+		}
+
+		return result.toString();
+	}
+
 	/**
 	 * Utility method which retrieves an integer value from the given
 	 * field.  In the event that the field does not contain an integer
