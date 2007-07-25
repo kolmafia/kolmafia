@@ -76,22 +76,22 @@ public class AdventureDatabase extends KoLDatabase
 		conditionsById.set( 42, "outfit, 1 Knob Goblin perfume" );  // Knob Goblin Harem
 		conditionsById.set( 47, "1 annoying pitchfork" );  // Bugbear Pens
 		conditionsById.set( 48, "1 inexplicably glowing rock" );  // Spooky Gravy Barrow
-		conditionsById.set( 50, "1 choiceadv" );
 		conditionsById.set( 60, "6 goat cheese" );  // Goatlet
 		conditionsById.set( 61, "outfit" );  // Itznotyerzitz Mine
 		conditionsById.set( 62, "1 frigid ninja stars" );  // Ninja Snowmen
+		conditionsById.set( 63, "outfit" );  // eXtreme Slope
 		conditionsById.set( 66, "outfit" );  // Pirate Cove
 		conditionsById.set( 67, "1 abridged dictionary" );  // Pirate Cove in Disguise
 		conditionsById.set( 73, "1 digital key, 4 red pixel potion" );  // 8-Bit Realm
 		conditionsById.set( 75, "1 wussiness potion, 1 ruby W, 1 dodecagram" );  // Friar's Quest 1
 		conditionsById.set( 76, "1 box of birthday candles" );  // Friar's Quest 2
 		conditionsById.set( 77, "1 eldritch butterknife" );  // Friar's Quest 3
-		conditionsById.set( 80, "1 31337 scroll, 1 lowercase N" );  // Valley Beyond Orc Chasm
+		conditionsById.set( 80, "1 64735 scroll, 1 lowercase N" );  // Valley Beyond Orc Chasm
 		conditionsById.set( 81, "1 metallic A, 1 S.O.C.K." );  // Fantasy Airship
 		conditionsById.set( 82, "2 choiceadv, castle map items, 1 heavy D" );  // Giant's Castle
 		conditionsById.set( 83, "1 Richard's star key, 1 star hat, 1 star crossbow" );  // Hole in the Sky
 		conditionsById.set( 85, "outfit" );  // Cola Battlefield
-		conditionsById.set( 100, "1 wet stunt nut stew" );  // Whitey's Grove
+		conditionsById.set( 100, "1 bird rib, 1 lion oil" );  // Whitey's Grove
 		conditionsById.set( 102, "1 chef's hat" );  // Haunted Kitchen
 		conditionsById.set( 105, "1 pool cue, 1 handful of hand chalk" );  // Haunted Billiards
 		conditionsById.set( 107, "1 fancy bath salts" );  // Haunted Bathroom
