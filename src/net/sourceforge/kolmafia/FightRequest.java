@@ -114,6 +114,14 @@ public class FightRequest extends KoLRequest
 	private static Monster monsterData = null;
 	private static String encounterLookup = "";
 
+	private static final AdventureResult SCROLL_334 = new AdventureResult( 547, 1 );
+	private static final AdventureResult SCROLL_668 = new AdventureResult( 548, 1 );
+	private static final AdventureResult SCROLL_30669 = new AdventureResult( 549, 1 );
+	private static final AdventureResult SCROLL_33398 = new AdventureResult( 550, 1 );
+	private static final AdventureResult SCROLL_64067 = new AdventureResult( 551, 1 );
+	private static final AdventureResult SCROLL_64735 = new AdventureResult( 552, 1 );
+	private static final AdventureResult SCROLL_31337 = new AdventureResult( 553, 1 );
+
 	// Ultra-rare monsters
 	private static final String [] RARE_MONSTERS =
 	{
@@ -188,6 +196,10 @@ public class FightRequest extends KoLRequest
 		if ( action1.equals( "custom" ) )
 		{
 			action1 = CombatSettings.getSetting( encounterLookup, currentRound - 1 - preparatoryRounds );
+		}
+		else if ( encounterLookup.equals( "rampaging adding machine" ) )
+		{
+			handleAddingMachine();
 		}
 		else if ( !KoLCharacter.canInteract() && wonInitiative() && monsterData != null && monsterData.shouldSteal() )
 		{
@@ -595,6 +607,75 @@ public class FightRequest extends KoLRequest
 			return false;
 
 		return KoLmafia.getRestoreCount() == 0;
+	}
+
+	private static AdventureResult lastAddingScroll = null;
+
+	private void handleAddingMachine()
+	{
+		if ( conditions.contains( SCROLL_668 ) )
+			createAddingScroll( SCROLL_668 );
+		else if ( conditions.contains( SCROLL_64067 ) )
+			createAddingScroll( SCROLL_64067 );
+		else if ( conditions.contains( SCROLL_64735 ) )
+			createAddingScroll( SCROLL_64735 );
+		else if ( conditions.contains( SCROLL_31337 ) )
+			createAddingScroll( SCROLL_31337 );
+	}
+
+	private boolean createAddingScroll( AdventureResult scroll )
+	{
+		AdventureResult part1 = null;
+		AdventureResult part2 = null;
+
+		if ( scroll == SCROLL_668 )
+		{
+			part1 = SCROLL_334;
+			part2 = SCROLL_334;
+		}
+		else if ( scroll == SCROLL_64067 )
+		{
+			part1 = SCROLL_30669;
+			part2 = SCROLL_33398;
+		}
+		else if ( scroll == SCROLL_64735 )
+		{
+			part1 = SCROLL_64067;
+			part2 = SCROLL_668;
+		}
+		else if ( scroll == SCROLL_31337 )
+		{
+			part1 = SCROLL_30669;
+			part2 = SCROLL_668;
+		}
+
+		if ( lastAddingScroll != null )
+		{
+			lastAddingScroll = null;
+			action1 = String.valueOf( part2.getItemId() );
+			return true;
+		}
+
+		if ( part1 == null || (part1 == part2 && part1.getCount( inventory ) < 2) )
+			return false;
+
+		if ( inventory.contains( part1 ) && inventory.contains( part2 ) )
+		{
+			if ( !KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) )
+			{
+				action1 = String.valueOf( part1.getItemId() );
+				lastAddingScroll = part1;
+				return true;
+			}
+
+			action1 = part1.getItemId() + "," + part2.getItemId();
+			return true;
+		}
+
+		if ( createAddingScroll( part1 ) )
+			return true;
+
+		return createAddingScroll( part2 );
 	}
 
 	private String getMonsterWeakenAction()
@@ -1052,6 +1133,7 @@ public class FightRequest extends KoLRequest
 
 		action1 = null;
 		action2 = null;
+		lastAddingScroll = null;
 
 		currentRound = 0;
 		preparatoryRounds = 0;
