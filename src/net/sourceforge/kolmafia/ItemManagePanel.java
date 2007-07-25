@@ -326,16 +326,17 @@ public class ItemManagePanel extends LabeledScrollPanel
 							previous = KoLCharacter.getFullness() + ConcoctionsDatabase.getQueuedFullness();
 							capacity = KoLCharacter.getFullnessLimit();
 							unit = ((Concoction)items[i]).getFullness();
+
+							standard = previous >= capacity ? itemCount : Math.min( (capacity - previous) / unit, itemCount );
 						}
 						else if ( ((Concoction)items[i]).getInebriety() > 0 )
 						{
 							previous = KoLCharacter.getInebriety() + ConcoctionsDatabase.getQueuedInebriety();
 							capacity = KoLCharacter.getInebrietyLimit();
 							unit = ((Concoction)items[i]).getInebriety();
-						}
 
-						standard = (capacity - previous) / unit;
-						standard = standard == 0 || capacity < previous ? itemCount : Math.min( standard, itemCount );
+							standard = previous > capacity ? itemCount : Math.max( 1, Math.min( (capacity - previous) / unit, itemCount ) );
+						}
 					}
 					else
 					{
