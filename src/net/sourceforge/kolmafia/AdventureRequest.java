@@ -34,6 +34,8 @@
 package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 public class AdventureRequest extends KoLRequest
 {
@@ -41,8 +43,13 @@ public class AdventureRequest extends KoLRequest
 	private String formSource;
 	private String adventureId;
 
+	private static final AdventureResult HOT_PHIAL = new AdventureResult( 1637, 1 );
+	private static final AdventureResult COLD_PHIAL = new AdventureResult( 1638, 1 );
+	private static final AdventureResult SPOOKY_PHIAL = new AdventureResult( 1639, 1 );
+	private static final AdventureResult STENCH_PHIAL = new AdventureResult( 1640, 1 );
+	private static final AdventureResult SLEAZE_PHIAL = new AdventureResult( 1641, 1 );
+
 	private static final AdventureResult SKELETON_KEY = new AdventureResult( 642, 1 );
-	private static final AdventureResult EXPRESS_CARD = new AdventureResult( 1687, 1 );
 
 	public static final AdventureResult ABRIDGED = new AdventureResult( 534, -1 );
 	public static final AdventureResult BRIDGE = new AdventureResult( 535, -1 );
@@ -152,7 +159,7 @@ public class AdventureRequest extends KoLRequest
 			}
 		}
 
-		this.delay();
+		delay();
 
 		if ( formSource.equals( "dungeon.php" ) || formSource.equals( "basement.php" ) )
 			this.data.clear();
@@ -173,7 +180,129 @@ public class AdventureRequest extends KoLRequest
 		}
 
 		if ( this.formSource.equals( "basement.php" ) )
+			handleBasement();
+
+		if ( StaticEntity.getBooleanProperty( "cloverProtectActive" ) )
+			DEFAULT_SHELL.executeLine( "use * ten-leaf clover" );
+	}
+
+	private static final Pattern BASEMENT_PATTERN = Pattern.compile( "Level ([\\d,]+)" );
+
+	private void handleBasement()
+	{
+		Matcher levelMatcher = BASEMENT_PATTERN.matcher( responseText );
+		if ( !levelMatcher.find() )
+			return;
+
+		int currentLevel = StaticEntity.parseInt( levelMatcher.group(1) );
+		int element1 = -1, element2 = -1;
+
+		AdventureResult desiredPhial = null;
+
+		if ( responseText.indexOf( "Hold your nose" ) != -1 )
 		{
+			element1 = MonsterDatabase.SLEAZE;
+			element2 = MonsterDatabase.STENCH;
+			desiredPhial = SLEAZE_PHIAL;
+		}
+		else if ( responseText.indexOf( "Drink the Drunk's Drink" ) != -1 )
+		{
+			element1 = MonsterDatabase.COLD;
+			element2 = MonsterDatabase.SLEAZE;
+			desiredPhial = COLD_PHIAL;
+		}
+		else if (responseText.indexOf( "Pwn the Cone" ) != -1 )
+		{
+			element1 = MonsterDatabase.STENCH;
+			element2 = MonsterDatabase.HEAT;
+			desiredPhial = STENCH_PHIAL;
+		}
+		else if (responseText.indexOf( "What's a Typewriter" ) != -1 )
+		{
+			element1 = MonsterDatabase.HEAT;
+			element2 = MonsterDatabase.SPOOKY;
+			desiredPhial = HOT_PHIAL;
+		}
+		else if (responseText.indexOf( "Evade the Vampsicle" ) != -1 )
+		{
+			element1 = MonsterDatabase.SPOOKY;
+			element2 = MonsterDatabase.COLD;
+			desiredPhial = SPOOKY_PHIAL;
+		}
+
+		// If this is an elemental element check, check to see if
+		// additional elements are needed.
+
+		if ( desiredPhial != null )
+		{
+			float damage1 = (float) Math.pow( currentLevel, 1.52 ) / 2.0f;
+			float damage2 = damage1;
+
+			float resistance1 = KoLCharacter.getElementalResistance( element1 );
+			float resistance2 = KoLCharacter.getElementalResistance( element2 );
+
+			float expected1 = damage1 / 100.0f * (100.0f - resistance1);
+			float expected2 = damage2 / 100.0f * (100.0f - resistance2);
+
+			if ( expected1 + expected2 >= KoLCharacter.getMaximumHP() )
+			{
+				expected1 = 1.0f;
+
+				if ( expected1 + expected2 < KoLCharacter.getMaximumHP() )
+					(new ConsumeItemRequest( desiredPhial )).run();
+				else
+					KoLmafia.updateDisplay( ABORT_STATE, "Insufficient elemental resistance." );
+
+				if ( KoLmafia.refusesContinue() )
+					return;
+			}
+
+			StaticEntity.getClient().recoverHP( (int) (expected1 + expected2) );
+			this.addFormField( "action", "1" );
+		}
+		else
+		{
+			// Stat tests check.  If you fail, do not bother
+			// submitting the request.
+
+			float drainRequirement = (float) Math.pow( currentLevel, 1.5 );
+			float statRequirement = (float) Math.pow( currentLevel, 1.4 );
+
+			if ( this.responseText.indexOf( "Lift 'em" ) != -1 || this.responseText.indexOf( "Push It Real Good" ) != -1 || this.responseText.indexOf( "Ring That Bell" ) != -1 )
+			{
+				if ( KoLCharacter.getAdjustedMuscle() < statRequirement )
+					KoLmafia.updateDisplay( ABORT_STATE, "Insufficient muscle to continue." );
+			}
+			else if ( this.responseText.indexOf( "Gathering: The Magic" ) != -1 || this.responseText.indexOf( "Mop the Floor with the Mops" ) != -1 || this.responseText.indexOf( "Do away with the 'doo" ) != -1 )
+			{
+				if ( KoLCharacter.getAdjustedMysticality() < statRequirement )
+					KoLmafia.updateDisplay( ABORT_STATE, "Insufficient mysticality to continue." );
+			}
+			else if ( this.responseText.indexOf( "Don't Wake the Baby" ) != -1 || this.responseText.indexOf( "Grab a cue" ) != -1 || this.responseText.indexOf( "Put on the Smooth Moves" ) != -1 )
+			{
+				if ( KoLCharacter.getAdjustedMoxie() < statRequirement )
+					KoLmafia.updateDisplay( ABORT_STATE, "Insufficient moxie to continue." );
+			}
+			else if ( this.responseText.indexOf( "Grab the Handles" ) != -1 )
+			{
+				if ( KoLCharacter.getMaximumMP() < drainRequirement )
+					KoLmafia.updateDisplay( ABORT_STATE, "Insufficient mana to continue." );
+
+				StaticEntity.getClient().recoverMP( (int) drainRequirement );
+			}
+			else if ( this.responseText.indexOf( "Run the Gauntlet Gauntlet" ) != -1 )
+			{
+				if ( KoLCharacter.getMaximumHP() < drainRequirement )
+					KoLmafia.updateDisplay( ABORT_STATE, "Insufficient health to continue." );
+
+				StaticEntity.getClient().recoverHP( (int) drainRequirement );
+			}
+
+			if ( KoLmafia.refusesContinue() )
+				return;
+
+			// Since everything's safe, choose your option.
+
 			if ( this.responseText.indexOf( "Got Silk?" ) != -1 )
 				this.addFormField( "action", KoLCharacter.isMoxieClass() ? "1" : "2" );
 			else if ( this.responseText.indexOf( "Save the Dolls" ) != -1 )
@@ -182,12 +311,9 @@ public class AdventureRequest extends KoLRequest
 				this.addFormField( "action", KoLCharacter.isMuscleClass() ? "1" : "2" );
 			else
 				this.addFormField( "action", "1" );
-
-			super.run();
 		}
 
-		if ( StaticEntity.getBooleanProperty( "cloverProtectActive" ) )
-			DEFAULT_SHELL.executeLine( "use * ten-leaf clover" );
+		super.run();
 	}
 
 	public void processResults()
