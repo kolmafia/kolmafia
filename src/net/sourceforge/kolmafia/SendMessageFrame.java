@@ -73,6 +73,7 @@ public class SendMessageFrame extends KoLFrame
 	public SendMessageFrame( String recipient )
 	{
 		super( "Send a Message" );
+		this.setDefaultCloseOperation( HIDE_ON_CLOSE );
 
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout( new BoxLayout( mainPanel, BoxLayout.Y_AXIS ) );
