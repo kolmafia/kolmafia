@@ -2995,39 +2995,17 @@ public class KoLmafiaCLI extends KoLmafia
 
 			for ( int i = 0; i < conditionsList.length; ++i )
 			{
-				condition = this.extractCondition( conditionsList[i] );
-				if ( condition == null )
-					continue;
-
-				if ( condition.isItem() && option.equals( "set" ) )
+				if ( conditionsList[i].equalsIgnoreCase( "castle map items" ) )
 				{
-					int currentAmount = condition.getCount( inventory ) + condition.getCount( closet );
-					for ( int j = 0; j < KoLCharacter.FAMILIAR; ++j )
-						if ( KoLCharacter.getEquipment( j ).equals( condition ) )
-							++currentAmount;
-
-					if ( condition.getCount( conditions ) >= condition.getCount() )
-					{
-						RequestLogger.printLine( "Condition already exists: " + condition );
-					}
-					else if ( currentAmount >= condition.getCount() )
-					{
-						RequestLogger.printLine( "Condition already met: " + condition );
-					}
-					else
-					{
-						AdventureResult.addResultToList( conditions, condition.getInstance( condition.getCount() - currentAmount ) );
-						RequestLogger.printLine( "Condition set: " + condition );
-					}
-				}
-				else if ( condition.getCount() > 0 )
-				{
-					AdventureResult.addResultToList( conditions, condition );
-					RequestLogger.printLine( "Condition added: " + condition );
+					addItemCondition( "set", new AdventureResult( 616, 1 ) );  // furry fur
+					addItemCondition( "set", new AdventureResult( 619, 1 ) );  // giant needle
+					addItemCondition( "set", new AdventureResult( 622, 1 ) );  // awful poetry journal
 				}
 				else
 				{
-					RequestLogger.printLine( "Condition already met: " + condition );
+					condition = this.extractCondition( conditionsList[i] );
+					if ( condition != null )
+						addItemCondition( option, condition );
 				}
 			}
 
@@ -3036,6 +3014,40 @@ public class KoLmafiaCLI extends KoLmafia
 
 		printList( conditions );
 		return false;
+	}
+
+	private void addItemCondition( String option, AdventureResult condition )
+	{
+		if ( condition.isItem() && option.equals( "set" ) )
+		{
+			int currentAmount = condition.getCount( inventory ) + condition.getCount( closet );
+			for ( int j = 0; j < KoLCharacter.FAMILIAR; ++j )
+				if ( KoLCharacter.getEquipment( j ).equals( condition ) )
+					++currentAmount;
+
+			if ( condition.getCount( conditions ) >= condition.getCount() )
+			{
+				RequestLogger.printLine( "Condition already exists: " + condition );
+			}
+			else if ( currentAmount >= condition.getCount() )
+			{
+				RequestLogger.printLine( "Condition already met: " + condition );
+			}
+			else
+			{
+				AdventureResult.addResultToList( conditions, condition.getInstance( condition.getCount() - currentAmount ) );
+				RequestLogger.printLine( "Condition set: " + condition );
+			}
+		}
+		else if ( condition.getCount() > 0 )
+		{
+			AdventureResult.addResultToList( conditions, condition );
+			RequestLogger.printLine( "Condition added: " + condition );
+		}
+		else
+		{
+			RequestLogger.printLine( "Condition already met: " + condition );
+		}
 	}
 
 	private AdventureResult extractCondition( String conditionString )

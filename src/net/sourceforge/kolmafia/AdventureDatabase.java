@@ -54,6 +54,89 @@ public class AdventureDatabase extends KoLDatabase
 	private static final TreeMap areaCombatData = new TreeMap();
 	private static final TreeMap adventureLookup = new TreeMap();
 
+	private static StringArray conditionsById = new StringArray();
+	static
+	{
+		conditionsById.set( 15, "1 mosquito larva" ); // Spooky Forest
+		conditionsById.set( 16, "1 fairy gravy" ); // Haiku Dungeon
+		conditionsById.set( 17, "3 choiceadv" );  // Hidden Temple
+		conditionsById.set( 18, "1 gnollish toolbox, 1 tires" );  // Degrassi Knoll
+		conditionsById.set( 19, "1 dungeoneer's dungarees" );  // Limerick Dungeon
+		conditionsById.set( 21, "1 smart skull" );  // Pre-Cyrpt Cemetary
+		conditionsById.set( 22, "1 disembodied brain" );  // Fernswarthy's Tower
+		conditionsById.set( 25, "1 beer goggles" );  // Typical Tavern
+		conditionsById.set( 26, "outfit" );  // Hippy Camp
+		conditionsById.set( 27, "outfit" );  // Frat House
+		conditionsById.set( 30, "1 Pine-Fresh air freshener" );  // Bat Hole Entryway
+		conditionsById.set( 31, "3 sonar-in-a-biscuit, 1 broken skull" );  // Guano Junction
+		conditionsById.set( 33, "1 enchanted bean" );  // Beanbat Chamber
+		conditionsById.set( 38, "1 plus sign" );  // Enormous Greater-Than Sign
+		conditionsById.set( 39, "1 dead mimic" );  // Dungeons of Doom
+		conditionsById.set( 41, "outfit" );  // Knob Goblin Treasury
+		conditionsById.set( 42, "outfit, 1 Knob Goblin perfume" );  // Knob Goblin Harem
+		conditionsById.set( 47, "1 annoying pitchfork" );  // Bugbear Pens
+		conditionsById.set( 48, "1 inexplicably glowing rock" );  // Spooky Gravy Barrow
+		conditionsById.set( 50, "1 choiceadv" );
+		conditionsById.set( 60, "6 goat cheese" );  // Goatlet
+		conditionsById.set( 61, "outfit" );  // Itznotyerzitz Mine
+		conditionsById.set( 62, "1 frigid ninja stars" );  // Ninja Snowmen
+		conditionsById.set( 66, "outfit" );  // Pirate Cove
+		conditionsById.set( 67, "1 abridged dictionary" );  // Pirate Cove in Disguise
+		conditionsById.set( 73, "1 digital key, 4 red pixel potion" );  // 8-Bit Realm
+		conditionsById.set( 75, "1 wussiness potion, 1 ruby W, 1 dodecagram" );  // Friar's Quest 1
+		conditionsById.set( 76, "1 box of birthday candles" );  // Friar's Quest 2
+		conditionsById.set( 77, "1 eldritch butterknife" );  // Friar's Quest 3
+		conditionsById.set( 80, "1 31337 scroll, 1 lowercase N" );  // Valley Beyond Orc Chasm
+		conditionsById.set( 81, "1 metallic A, 1 S.O.C.K." );  // Fantasy Airship
+		conditionsById.set( 82, "2 choiceadv, castle map items, 1 heavy D" );  // Giant's Castle
+		conditionsById.set( 83, "1 Richard's star key, 1 star hat, 1 star crossbow" );  // Hole in the Sky
+		conditionsById.set( 85, "outfit" );  // Cola Battlefield
+		conditionsById.set( 100, "1 wet stunt nut stew" );  // Whitey's Grove
+		conditionsById.set( 102, "1 chef's hat" );  // Haunted Kitchen
+		conditionsById.set( 105, "1 pool cue, 1 handful of hand chalk" );  // Haunted Billiards
+		conditionsById.set( 107, "1 fancy bath salts" );  // Haunted Bathroom
+		conditionsById.set( 108, "1 Spookyraven ballroom key, 1 Lord Spookyraven's spectacles" );  // Haunted Bedroom
+		conditionsById.set( 111, "1 sunken eyes, 1 broken wings, 1 black market map" );  // Black Forest
+		conditionsById.set( 112, "1 spider web" );  // Sleazy Back Alley
+		conditionsById.set( 113, "1 razor-sharp can lid" );  // Haunted Pantry
+		conditionsById.set( 114, "1 chef's hat" );  // Knob Outskirts
+		conditionsById.set( 119, "1 stunt nuts, 1 I Love Me Vol I" );  // Palindome
+	}
+
+	private static StringArray bountiesById = new StringArray();
+	static
+	{
+		// First set of bounties
+		bountiesById.set( 15, "3 triffid bark" ); // Spooky Forest
+		bountiesById.set( 18, "oily rag" );  // Degrassi Knoll
+		bountiesById.set( 20, "20 empty greasepaint tube" );  // Fun House
+		bountiesById.set( 22, "7 wilted lettuce" );  // Fernswarthy's Tower
+		bountiesById.set( 30, "14 pink bat eye" );  // Bat Hole Entryway
+		bountiesById.set( 112, "13 hobo gristle" );  // Sleazy Back Alley
+		bountiesById.set( 113, "13 shredded can label" );  // Haunted Pantry
+		bountiesById.set( 114, "8 bloodstained briquette" );  // Knob Outskirts
+
+		// Second set of bounties
+		bountiesById.set( 26, "11 greasy dreadlock" );  // Hippy Camp
+		bountiesById.set( 27, "34 empty aftershave bottle" );  // Frat House
+		bountiesById.set( 41, "17 bundle of receipts" );  // Knob Goblin Treasury
+		bountiesById.set( 45, "4 callused fingerbone" );  // South of the Border
+		bountiesById.set( 50, "40 broken petri dish" );  // Knob Goblin Laboratory
+		bountiesById.set( 66, "5 vial of pirate sweat" );  // Pirate Cove
+		bountiesById.set( 100, "8 white lint" );  // Whitey's Grove
+		bountiesById.set( 39, "6 worthless piece of yellow glass" );  // Dungeon's of Doom
+
+		// Third set of bounties
+		bountiesById.set( 60, "40 billy idol" );  // Goatlet
+		bountiesById.set( 62, "40 coal button" );  // Ninja Snowmen
+		bountiesById.set( 80, "5 sammich crust" );  // Valley Beyond Orc Chasm
+		bountiesById.set( 81, "5 burned-out arcanodiode" );  // Fantasy Airship
+		bountiesById.set( 82, "5 discarded pacifier" );  // Giant's Castle
+		bountiesById.set( 83, "6 sticky stardust" );  // Hole in the Sky
+		bountiesById.set( 106, "11 non-Euclidean hoof" );  // Haunted Gallery
+		bountiesById.set( 120, "20 disintegrating cork" );  // Haunted Wine Cellar
+	}
+
 	static
 	{
 		for ( int i = 0; i < 6; ++i )
@@ -1067,6 +1150,32 @@ public class AdventureDatabase extends KoLDatabase
 			adventureTable[0].get( tableIndex ), adventureTable[1].get( tableIndex ),
 			adventureTable[2].get( tableIndex ), adventureTable[3].get( tableIndex ),
 			adventureTable[4].get( tableIndex ), adventureTable[5].get( tableIndex ) );
+	}
+
+	public static String getDefaultConditions( KoLAdventure adventure )
+	{
+		if ( adventure == null )
+			return "none";
+
+		if ( !adventure.getFormSource().startsWith( "adventure" ) )
+		{
+			if ( adventure.getFormSource().startsWith( "sewer" ) )
+				return "2 worthless item";
+
+			return "none";
+		}
+
+		int adventureId = StaticEntity.parseInt( adventure.getAdventureId() );
+		int bountyId = StaticEntity.getIntegerProperty( "currentBountyItem" );
+
+		if ( bountyId != 0 )
+		{
+			String bounty = bountiesById.get( adventureId );
+			if ( !bounty.equals( "" ) && TradeableItemDatabase.getItemId( bounty.substring( bounty.indexOf( " " ) ).trim() ) == bountyId )
+				return bounty;
+		}
+
+		return conditionsById.get( adventureId ).equals( "" ) ? "none" : conditionsById.get( adventureId );
 	}
 
 	public static String [][] choiceSpoilers( int choice )

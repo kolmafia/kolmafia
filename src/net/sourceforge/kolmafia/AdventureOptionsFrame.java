@@ -110,7 +110,6 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 	protected JComboBox zoneSelect;
 
 	protected KoLAdventure lastAdventure = null;
-	protected boolean updateConditions = true;
 	protected JCheckBox autoSetCheckBox = new JCheckBox();
 	protected JTextField conditionField = new JTextField();
 
@@ -858,17 +857,11 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 		{
 			public void run()
 			{
-				StaticEntity.setProperty( "autoSetConditions", String.valueOf( AdventureOptionsFrame.this.autoSetCheckBox.isSelected() ) );
+				StaticEntity.setProperty( "autoSetConditions", String.valueOf(
+					AdventureOptionsFrame.this.autoSetCheckBox.isSelected() ) );
 
-				if ( AdventureOptionsFrame.this.autoSetCheckBox.isSelected() )
-				{
-					if ( AdventureOptionsFrame.this.conditionField.getText().equals( "none" ) )
-						AdventureOptionsFrame.this.fillDefaultConditions();
-				}
-				else
-					AdventureOptionsFrame.this.conditionField.setText( "none" );
-
-				AdventureOptionsFrame.this.conditionField.setEnabled( AdventureOptionsFrame.this.autoSetCheckBox.isSelected() );
+				AdventureOptionsFrame.this.conditionField.setEnabled(
+					AdventureOptionsFrame.this.autoSetCheckBox.isSelected() && !KoLmafia.isAdventuring() );
 			}
 		}
 	}
@@ -917,15 +910,11 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 		public void valueChanged( ListSelectionEvent e )
 		{
-			if ( AdventureOptionsFrame.this.updateConditions && !KoLmafia.isAdventuring() )
-			{
-				AdventureOptionsFrame.this.conditionField.setText( "" );
+			if ( KoLmafia.isAdventuring() )
+				return;
 
-				if ( !conditions.isEmpty() )
-					conditions.clear();
-
-				AdventureOptionsFrame.this.fillCurrentConditions();
-			}
+			conditions.clear();
+			AdventureOptionsFrame.this.fillCurrentConditions();
 		}
 
 		public void intervalAdded( ListDataEvent e )
@@ -997,15 +986,11 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 				AdventureOptionsFrame.this.lastAdventure = request;
 
-				AdventureOptionsFrame.this.updateConditions = false;
-				AdventureOptionsFrame.this.isHandlingConditions = true;
-
 				RequestThread.openRequestSequence();
+				AdventureOptionsFrame.this.isHandlingConditions = true;
 				boolean shouldAdventure = this.handleConditions( request );
-				RequestThread.closeRequestSequence();
-
 				AdventureOptionsFrame.this.isHandlingConditions = false;
-				AdventureOptionsFrame.this.updateConditions = true;
+				RequestThread.closeRequestSequence();
 
 				if ( !shouldAdventure )
 				{
@@ -1032,21 +1017,11 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 			if ( KoLmafia.isAdventuring() )
 				return false;
 
-			if ( !AdventureOptionsFrame.this.autoSetCheckBox.isSelected() )
-				return true;
-
 			String conditionList = AdventureOptionsFrame.this.conditionField.getText().trim().toLowerCase();
-
-			if ( conditionList.equalsIgnoreCase( "none" ) )
-			{
-				conditions.clear();
-				return true;
-			}
-
-			if ( conditionList.length() == 0 )
-				return true;
-
 			conditions.clear();
+
+			if ( !AdventureOptionsFrame.this.autoSetCheckBox.isSelected() || conditionList.length() == 0 || conditionList.equalsIgnoreCase( "none" ) )
+				return true;
 
 			int worthlessItemCount = 0;
 			String [] splitConditions = conditionList.split( "\\s*,\\s*" );
@@ -1116,17 +1091,8 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 	public void fillDefaultConditions()
 	{
-		if ( !this.autoSetCheckBox.isSelected() )
-		{
-			this.conditionField.setText( "none" );
-			return;
-		}
-
-		KoLAdventure location = (KoLAdventure) this.locationSelect.getSelectedValue();
-		if ( location == null )
-			return;
-
-		this.conditionField.setText( "none" );
+		AdventureOptionsFrame.this.conditionField.setText(
+			AdventureDatabase.getDefaultConditions( (KoLAdventure) this.locationSelect.getSelectedValue() ) );
 	}
 
 	public void fillCurrentConditions()
@@ -1233,7 +1199,6 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 		private JTextPane safetyText;
 		private String savedText = " ";
 		private JList locationSelect;
-		private KoLAdventure lastLocation;
 
 		public SafetyField( JList locationSelect )
 		{
@@ -1269,7 +1234,6 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 			if ( request == null )
 				return;
 
-			this.lastLocation = request;
 			AreaCombatData combat = request.getAreaSummary();
 			String text = ( combat == null ) ? " " : combat.toString();
 
