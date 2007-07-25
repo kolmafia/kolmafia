@@ -61,7 +61,6 @@ public abstract class MoodSettings implements KoLConstants
 		new AdventureResult( "Really Quite Poisoned", 1, true )
 	};
 
-	private static final AdventureResult HYDRATED = new AdventureResult( "Ultrahydrated", 1, true );
 	private static final AdventureResult PENDANT = new AdventureResult( 1235, 1 );
 
 	private static int thiefTriggerLimit = 3;
@@ -648,10 +647,6 @@ public abstract class MoodSettings implements KoLConstants
 			if ( current.getType().equals( "lose_effect" ) && !activeEffects.contains( current.effect ) )
 				missing.add( current.effect );
 		}
-
-		if ( StaticEntity.getProperty( "lastAdventure" ).startsWith( "Arid, Extra-Dry Desert" ) )
-			if ( !activeEffects.contains( HYDRATED ) )
-				missing.add( HYDRATED );
 
 		return missing;
 	}

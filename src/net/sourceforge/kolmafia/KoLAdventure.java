@@ -38,6 +38,7 @@ import net.sourceforge.foxtrot.Job;
 
 public class KoLAdventure extends Job implements KoLConstants, Comparable
 {
+	private static final AdventureResult HYDRATED = new AdventureResult( "Ultrahydrated", 1, true );
 	public static final KoLRequest ZONE_VALIDATOR = new KoLRequest( "", true );
 
 	public static final AdventureResult AMNESIA = new AdventureResult( "Amnesia", 1, true );
@@ -840,6 +841,17 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			return;
 		}
 
+		// If it's not a generic class skill (it's id is something
+		// non-standard), then don't update auto-attack.
+
+		int skillId = ClassSkillsDatabase.getSkillId( attack.substring(6).trim() );
+
+		if ( skillId < 1000 || skillId > 7000 )
+		{
+			resetAutoAttack();
+			return;
+		}
+
 		DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=" + attack );
 		changedAutoAttack = StaticEntity.getProperty( "defaultAutoAttack" );
 	}
@@ -848,6 +860,9 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 	{
 		lastVisitedLocation = this;
 		this.updateAutoAttack();
+
+		if ( adventureId.equals( "123" ) && !activeEffects.contains( HYDRATED ) )
+			(new AdventureRequest( "Oasis in the Desert", "adventure.php", "122" )).run();
 
 		if ( !StaticEntity.getProperty( "lastAdventure" ).equals( this.adventureName ) )
 		{
@@ -933,7 +948,12 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		String location = null;
 		boolean shouldReset = true;
 
-		if ( urlString.startsWith( "shore.php" ) && urlString.indexOf( "whichtrip=1" ) != -1 )
+		if ( urlString.startsWith( "adventure.php" ) && urlString.indexOf( "snarfblat=122" ) != -1 )
+		{
+			shouldReset = false;
+			location = "Oasis in the Desert";
+		}
+		else if ( urlString.startsWith( "shore.php" ) && urlString.indexOf( "whichtrip=1" ) != -1 )
 		{
 			shouldReset = false;
 			location = "Muscle Vacation";
