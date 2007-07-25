@@ -267,7 +267,7 @@ public abstract class KoLCharacter extends StaticEntity
 	// Status pane data which is rendered whenever
 	// the user changes equipment, effects, and familiar
 
-	private static final float [] currentModifiers = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
+	private static final Modifiers currentModifiers = new Modifiers();
 
 	// Travel information
 
@@ -353,8 +353,7 @@ public abstract class KoLCharacter extends StaticEntity
 		adjustedStats = new int[3];
 		totalSubpoints = new int[3];
 
-		for ( int i = 0; i < currentModifiers.length; ++i )
-			currentModifiers[i] = 0.0f;
+		currentModifiers.reset();
 
 		equipment.clear();
 		for ( int i = 0; i < 9; ++i )
@@ -1035,7 +1034,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static int getMonsterLevelAdjustment()
-	{	return (int) currentModifiers[ StatusEffectDatabase.MONSTER_LEVEL_MODIFIER ];
+	{	return (int) currentModifiers.get( Modifiers.MONSTER_LEVEL_MODIFIER );
 	}
 
 	/**
@@ -1044,11 +1043,11 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static int getFamiliarWeightAdjustment()
-	{	return (int) currentModifiers[ StatusEffectDatabase.FAMILIAR_WEIGHT_MODIFIER ];
+	{	return (int) currentModifiers.get( Modifiers.FAMILIAR_WEIGHT_MODIFIER );
 	}
 
 	public static int getManaCostAdjustment()
-	{	return (int) currentModifiers[ StatusEffectDatabase.MANA_COST_MODIFIER ];
+	{	return (int) currentModifiers.get( Modifiers.MANA_COST_MODIFIER );
 	}
 
 	/**
@@ -1057,7 +1056,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static float getCombatRateAdjustment()
-	{	return currentModifiers[ StatusEffectDatabase.COMBAT_RATE_MODIFIER ];
+	{	return currentModifiers.get( Modifiers.COMBAT_RATE_MODIFIER );
 	}
 
 	/**
@@ -1066,7 +1065,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static float getInitiativeAdjustment()
-	{	return currentModifiers[ StatusEffectDatabase.INITIATIVE_MODIFIER ];
+	{	return currentModifiers.get( Modifiers.INITIATIVE_MODIFIER );
 	}
 
 	/**
@@ -1075,7 +1074,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static float getExperienceAdjustment()
-	{	return currentModifiers[ StatusEffectDatabase.EXPERIENCE_MODIFIER ];
+	{	return currentModifiers.get( Modifiers.EXPERIENCE_MODIFIER );
 	}
 
 	/**
@@ -1086,7 +1085,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static float getMeatDropPercentAdjustment()
-	{	return currentModifiers[ StatusEffectDatabase.MEATDROP_MODIFIER ];
+	{	return currentModifiers.get( Modifiers.MEATDROP_MODIFIER );
 	}
 
 	/**
@@ -1097,7 +1096,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static float getItemDropPercentAdjustment()
-	{	return currentModifiers[ StatusEffectDatabase.ITEMDROP_MODIFIER ];
+	{	return currentModifiers.get( Modifiers.ITEMDROP_MODIFIER );
 	}
 
 	public static void setEquipment( int slot, AdventureResult item )
@@ -1272,7 +1271,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static int getDamageAbsorption()
-	{	return (int) currentModifiers[ StatusEffectDatabase.DAMAGE_ABSORPTION_MODIFIER ];
+	{	return (int) currentModifiers.get( Modifiers.DAMAGE_ABSORPTION_MODIFIER );
 	}
 
 	/**
@@ -1282,7 +1281,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static int getDamageReduction()
-	{	return (int) currentModifiers[ StatusEffectDatabase.DAMAGE_REDUCTION_MODIFIER ];
+	{	return (int) currentModifiers.get( Modifiers.DAMAGE_REDUCTION_MODIFIER );
 	}
 
 	/**
@@ -1296,15 +1295,15 @@ public abstract class KoLCharacter extends StaticEntity
 		switch ( element )
 		{
 		case MonsterDatabase.COLD:
-			return currentModifiers[ StatusEffectDatabase.COLD_RESISTANCE_MODIFIER ];
+			return currentModifiers.get( Modifiers.COLD_RESISTANCE_MODIFIER );
 		case MonsterDatabase.HEAT:
-			return currentModifiers[ StatusEffectDatabase.HOT_RESISTANCE_MODIFIER ];
+			return currentModifiers.get( Modifiers.HOT_RESISTANCE_MODIFIER );
 		case MonsterDatabase.SLEAZE:
-			return currentModifiers[ StatusEffectDatabase.SLEAZE_RESISTANCE_MODIFIER ];
+			return currentModifiers.get( Modifiers.SLEAZE_RESISTANCE_MODIFIER );
 		case MonsterDatabase.SPOOKY:
-			return currentModifiers[ StatusEffectDatabase.SPOOKY_RESISTANCE_MODIFIER ];
+			return currentModifiers.get( Modifiers.SPOOKY_RESISTANCE_MODIFIER );
 		case MonsterDatabase.STENCH:
-			return currentModifiers[ StatusEffectDatabase.STENCH_RESISTANCE_MODIFIER ];
+			return currentModifiers.get( Modifiers.STENCH_RESISTANCE_MODIFIER );
 		}
 
 		return 0.0f;
@@ -2596,11 +2595,11 @@ public abstract class KoLCharacter extends StaticEntity
 	public static boolean recalculateAdjustments()
 	{
 		int taoFactor = hasSkill( "Tao of the Terrapin" ) ? 2 : 1;
-		float [] newModifiers = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
+		Modifiers newModifiers = new Modifiers();
 
 		// Look at sign-specific adjustments
 
-		newModifiers[ StatusEffectDatabase.MONSTER_LEVEL_MODIFIER ] += getSignedMLAdjustment();
+		newModifiers.add( Modifiers.MONSTER_LEVEL_MODIFIER, getSignedMLAdjustment() );
 
 		// Look at items
 		for ( int slot = HAT; slot <= FAMILIAR; ++slot )
@@ -2609,7 +2608,7 @@ public abstract class KoLCharacter extends StaticEntity
 			if ( item == null )
 				continue;
 
-			StatusEffectDatabase.applyModifiers( item.getName(), newModifiers );
+			newModifiers.add( Modifiers.getModifiers( item.getName() ) );
 
 			switch ( slot )
 			{
@@ -2620,22 +2619,22 @@ public abstract class KoLCharacter extends StaticEntity
 
 			case HAT:
 			case PANTS:
-				newModifiers[ StatusEffectDatabase.DAMAGE_ABSORPTION_MODIFIER ] += taoFactor * EquipmentDatabase.getPower( item.getItemId() );
+				newModifiers.add( Modifiers.DAMAGE_ABSORPTION_MODIFIER, taoFactor * EquipmentDatabase.getPower( item.getItemId() ) );
 				break;
 
 			case SHIRT:
-				newModifiers[ StatusEffectDatabase.DAMAGE_ABSORPTION_MODIFIER ] += EquipmentDatabase.getPower( item.getItemId() );
+				newModifiers.add( Modifiers.DAMAGE_ABSORPTION_MODIFIER, EquipmentDatabase.getPower( item.getItemId() ) );
 				break;
 			}
 
 			switch ( item.getItemId() )
 			{
 			case GUAYABERA:
-				newModifiers[ StatusEffectDatabase.MONSTER_LEVEL_MODIFIER ] += MoonPhaseDatabase.getGrimaciteEffect();
+				newModifiers.add( Modifiers.MONSTER_LEVEL_MODIFIER, MoonPhaseDatabase.getGrimaciteEffect() );
 				break;
 
 			case JEKYLLIN:
-				newModifiers[ StatusEffectDatabase.ITEMDROP_MODIFIER ] += 15 + MoonPhaseDatabase.getMoonlight() * 5;
+				newModifiers.add( Modifiers.ITEMDROP_MODIFIER, 15 + MoonPhaseDatabase.getMoonlight() * 5 );
 				break;
 			}
 		}
@@ -2644,63 +2643,64 @@ public abstract class KoLCharacter extends StaticEntity
 		if ( EquipmentDatabase.isWearingOutfit( 6 ) )
 		{
 			// Hot and Cold Running Ninja Suit
-			newModifiers[ StatusEffectDatabase.COLD_RESISTANCE_MODIFIER ] += 20;
-			newModifiers[ StatusEffectDatabase.HOT_RESISTANCE_MODIFIER ] += 20;
+			newModifiers.add( Modifiers.COLD_RESISTANCE_MODIFIER, 20);
+			newModifiers.add( Modifiers.HOT_RESISTANCE_MODIFIER, 20);
 		}
 		else if ( EquipmentDatabase.isWearingOutfit( 7 ) )
 		{
 			// eXtreme Cold-Weather Gear
-			newModifiers[ StatusEffectDatabase.COLD_RESISTANCE_MODIFIER ] += 30;
+			newModifiers.add( Modifiers.COLD_RESISTANCE_MODIFIER, 30);
 		}
 		else if ( EquipmentDatabase.isWearingOutfit( 25 ) )
 		{
 			// Arboreal Raiment
-			newModifiers[ StatusEffectDatabase.STENCH_RESISTANCE_MODIFIER ] += 10;
+			newModifiers.add( Modifiers.STENCH_RESISTANCE_MODIFIER, 10 );
 		}
 		else if ( EquipmentDatabase.isWearingOutfit( 14 ) )
 		{
 			// Furry Suit
-			newModifiers[ StatusEffectDatabase.MONSTER_LEVEL_MODIFIER ] += 5;
+			newModifiers.add( Modifiers.MONSTER_LEVEL_MODIFIER, 5 );
+			newModifiers.add( Modifiers.MOX_PCT_MODIFIER, -75 );
 		}
 
 		// Wearing a serpentine sword and a serpentine shield doubles
 		// the effect of the sword.
 
 		if ( getEquipment( WEAPON ).getName().equals( "serpentine sword" ) && getEquipment( OFFHAND ).getName().equals( "snake shield" ) )
-			newModifiers[ StatusEffectDatabase.MONSTER_LEVEL_MODIFIER ] += 10;
+			newModifiers.add( Modifiers.MONSTER_LEVEL_MODIFIER, 10 );
 
 		// Because there are a limited number of passive skills,
 		// it is much more efficient to execute one check for
 		// each of the known skills.
 
-		StatusEffectDatabase.applyPassiveModifiers( newModifiers );
+		Modifiers.applyPassiveModifiers( newModifiers );
 
 		// For the sake of easier maintenance, execute a lot of extra
 		// extra string comparisons when looking at status effects.
 
 		for ( int i = 0; i < activeEffects.size(); ++i )
-			StatusEffectDatabase.applyModifiers( ((AdventureResult)activeEffects.get(i)).getName(), newModifiers );
+			newModifiers.add( Modifiers.getModifiers( ((AdventureResult)activeEffects.get(i)).getName() ) );
 
 		if ( ARIA.getCount( activeEffects ) > 0 )
-			newModifiers[ StatusEffectDatabase.MONSTER_LEVEL_MODIFIER ] += 2 * getLevel();
+			newModifiers.add( Modifiers.MONSTER_LEVEL_MODIFIER, 2 * getLevel() );
 
 		// Now that we have calculated the familiar weight adjustment,
 		// look at familiar.
 
-		float modifier = (float)( currentFamiliar.getWeight() + newModifiers[ StatusEffectDatabase.FAMILIAR_WEIGHT_MODIFIER ] );
+		float modifier = (float)( currentFamiliar.getWeight() + newModifiers.get( Modifiers.FAMILIAR_WEIGHT_MODIFIER ) );
 		int familiarId = currentFamiliar.getId();
 
 		if ( FamiliarsDatabase.isVolleyType( familiarId ) )
-			newModifiers[ StatusEffectDatabase.EXPERIENCE_MODIFIER ] += Math.sqrt( modifier );
+			newModifiers.add( Modifiers.EXPERIENCE_MODIFIER, Math.sqrt( modifier ) );
 		if ( FamiliarsDatabase.isItemDropType( familiarId ) )
-			newModifiers[ StatusEffectDatabase.ITEMDROP_MODIFIER ] += modifier * 2.5;
+			newModifiers.add( Modifiers.ITEMDROP_MODIFIER, modifier * 2.5 );
 		if ( FamiliarsDatabase.isMeatDropType( familiarId ) )
-			newModifiers[ StatusEffectDatabase.MEATDROP_MODIFIER ] += modifier * 5;
+			newModifiers.add( Modifiers.MEATDROP_MODIFIER, modifier * 5 );
 
 		// Make sure the mana modifier is no more than
 		// three, no matter what.
 
-		newModifiers[ StatusEffectDatabase.MANA_COST_MODIFIER ] = Math.max( newModifiers[ StatusEffectDatabase.MANA_COST_MODIFIER ], -3 );
+		newModifiers.set( Modifiers.MANA_COST_MODIFIER, Math.max( newModifiers.get( Modifiers.MANA_COST_MODIFIER ), -3 ) );
 
 		// Add in strung-up quartet.
 
@@ -2709,13 +2709,13 @@ public abstract class KoLCharacter extends StaticEntity
 			switch ( StaticEntity.getIntegerProperty( "lastQuartetRequest" ) )
 			{
 			case 1:
-				newModifiers[ StatusEffectDatabase.MONSTER_LEVEL_MODIFIER ] += 5;
+				newModifiers.add( Modifiers.MONSTER_LEVEL_MODIFIER, 5 );
 				break;
 			case 2:
-				newModifiers[ StatusEffectDatabase.COMBAT_RATE_MODIFIER ] -= 5;
+				newModifiers.add( Modifiers.COMBAT_RATE_MODIFIER, -5 );
 				break;
 			case 3:
-				newModifiers[ StatusEffectDatabase.ITEMDROP_MODIFIER ] += 5;
+				newModifiers.add( Modifiers.ITEMDROP_MODIFIER, 5 );
 				break;
 			}
 		}
@@ -2723,22 +2723,11 @@ public abstract class KoLCharacter extends StaticEntity
 		// Lastly, experience adjustment also implicitly depends on
 		// monster level.  Add that information.
 
-		newModifiers[ StatusEffectDatabase.EXPERIENCE_MODIFIER ] +=
-			newModifiers[ StatusEffectDatabase.MONSTER_LEVEL_MODIFIER ] / 4.0f;
+		newModifiers.add( Modifiers.EXPERIENCE_MODIFIER, newModifiers.get( Modifiers.MONSTER_LEVEL_MODIFIER) / 4.0f );
 
 		// Determine whether or not data has changed
 
-		boolean changed = false;
-
-		for ( int i = 0; i < currentModifiers.length; ++i )
-		{
-			if ( currentModifiers[i] != newModifiers[i] )
-			{
-				currentModifiers[i] = newModifiers[i];
-				changed = true;
-			}
-		}
-
+		boolean changed = currentModifiers.set( newModifiers );
 		return changed;
 	}
 }
