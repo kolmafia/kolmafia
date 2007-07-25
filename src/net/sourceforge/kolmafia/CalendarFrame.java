@@ -90,6 +90,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 	public CalendarFrame()
 	{
 		super( "Farmer's Almanac" );
+		this.setDefaultCloseOperation( HIDE_ON_CLOSE );
 		this.framePanel.setLayout( new BorderLayout() );
 
 		selectedRow = -1;

@@ -57,6 +57,7 @@ public class ExamineItemsFrame extends KoLFrame
 	public ExamineItemsFrame()
 	{
 		super( "Internal Database" );
+		this.setDefaultCloseOperation( HIDE_ON_CLOSE );
 
 		this.tabs.addTab( "Items", new ExamineItemsPanel() );
 		this.tabs.addTab( "Familiars", new ItemLookupPanel( allFamiliars, "Familiars", "familiar", "which" ) );
