@@ -238,6 +238,9 @@ public abstract class KoLmafia implements KoLConstants
 
 		for ( int i = 0; i < pastUsers.length; ++i )
 		{
+			if ( pastUsers[i].startsWith( "devster" ) )
+				continue;
+
 			actualName = StaticEntity.getGlobalProperty( pastUsers[i], "displayName" );
 			if ( actualName.equals( "" ) )
 				actualName = StaticEntity.globalStringReplace( pastUsers[i], "_", " " );

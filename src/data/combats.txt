@@ -31,7 +31,6 @@
 # monster will be included in average XP calculations.
 
 8-Bit Realm	100	Blooper	Bullet Bill	Buzzy Beetle	Goomba	Keese	Koopa Troopa	Octorok	Tektite	Zol
-Arid, Extra-Dry Desert (Ultrahydrated)	100	Cactuary	Giant Giant Giant Centipede	Plaque of Locusts	Rock Scorpion	Swarm of Fire Ants
 Astral Mushroom (Bad Trip)	100	Swarm of Country Bats	Trippy Floating Head (Sky)	Trippy Floating Head (Stench)	Trippy Floating Head (Todd)	Zombie Baby
 Astral Mushroom (Great Trip)	100	Angels of Avalon	Bustle in the Hedgerow	Elders of the Gentle Race	Gathering of Angels?	Higher Plane Serpents
 Astral Mushroom (Mediocre Trip)	100	Feeling That You're Being Watched	Really Interesting Wallpaper	The Best Carpet Ever	Urge to Stare at Your Hands	Visible Music
@@ -61,13 +60,14 @@ Defiled Cranny	100	Gluttonous Ghuol	Gaunt Ghuol	Huge Ghuol: 0
 Defiled Niche	100	Senile Lihc	Slick Lihc	Gargantulihc: 0
 Defiled Nook	100	Spiny Skelelton	Toothy Sklelton	Giant Skeelton: 0
 Degrassi Knoll	80	Gnollish Crossdresser: 2	Gnollish Flyslayer: 2	Gnollish Gearhead: 3	Gnollish Piebaker: 2	Gnollish Plungermaster: 2	Gnollish Tirejuggler: 2	Gnollish War Chef: 2	Guard Bugbear: 2	One-Eyed Gnoll: 2
+Desert (Pre-Oasis)	100	Cactuary	Giant Giant Giant Centipede	Plaque of Locusts	Rock Scorpion	Swarm of Fire Ants
 Dire Warren	100	Fluffy Bunny
 Dungeons of Doom	70	Swarm of Killer Bees	Acid Blob	Mind Flayer	Large Kobold	Quantum Mechanic	Mimic: 0	The Master of Thieves: -1
 eXtreme Slope	60	Sk8 Gnome	eXtreme Cross-Country Hippy	eXtreme Orcish Snowboarder
 Family Plot	100	Vampire Duck	Zombie Duck
 Fantasy Airship	80	Burly Sidekick: 2	Irritating Series of Random Encounters: 3	MagiMechTech MechaMech: 2	Protagonist: 2	Quiet Healer: 2	Spunky Princess: 2
 Feeding Chamber	100	Filthworm Drone
-Fernswarthy's Tower	100	Brainsweeper	Bread Golem	Chowder Golem	Weretaco	Yeast Beast	Lesser Fruit Golem
+Fernswarthy's Ruins	100	Brainsweeper	Bread Golem	Chowder Golem	Weretaco	Yeast Beast	Lesser Fruit Golem
 Frat House	100	Orcish Frat Boy (French Maid)	Orcish Frat Boy (Sorority Orcs)	Orcish Frat Boy (Paddling)
 Friar's Gate	95	Demoninja	Fallen Archfiend	G Imp	Hellion	L Imp	P Imp	W Imp	Hypnotist of Hey Deze: -1
 Fun House	100	Bugbear-In-The-Box	Disease-In-The-Box	Lemon-In-The-Box	Scary Clown	Shaky Clown	Creepy Clown
@@ -107,7 +107,7 @@ Menagerie 2	100	Carnivorous Moxie Weed	Grass Elemental	Weremoose
 Menagerie 3	100	Booze Giant	Portly Abomination	Spectral Jellyfish
 Mouldering Mansion	70	Bellhop	Black Cat	Ourang-Outang	Raven	An Usher
 Ninja Snowmen	100	Ninja Snowman (Katana)	Ninja Snowman (Masked)	Ninja Snowman (Ricebowl)	Ninja Snowman Janitor	Ninja Snowman Weaponmaster
-Oasis	100	Blur	Oasis Monster	Rolling Stone	Swarm of Scarab Beatles
+Oasis in the Desert	100	Blur	Oasis Monster	Rolling Stone	Swarm of Scarab Beatles
 Orc Chasm	100	1335 HaXx0r	Anime Smiley	Flaming Troll	Lamz0r N00b	Me4t BegZ0r	Spam Witch	XXX pr0n
 Other Back 40	100	Greasy Duck
 Outskirts of Camp	70	Axe Handle	Cloud of Disembodied Whiskers	Poutine Ooze	Forest Spirit

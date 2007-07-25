@@ -3,9 +3,13 @@ Casino	Town	Seaside Casino
 Dungeon	Town	Seaside Dungeon
 
 Manor	Manor	Spookyraven
+Floor1	Manor	Manor First Floor
+Floor2	Manor	Manor Second Floor
+Floor3	Manor	Manor Basement
 
 Plains	Plains	Nearby Plains
 Rift	Plains	Temporal Rift
+Tower	Plains	Fernswarthy's Tower
 Beanstalk	Plains	Above the Beanstalk
 
 BatHole	BatHole	Bat Hole

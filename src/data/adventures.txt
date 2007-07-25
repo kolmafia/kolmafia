@@ -6,9 +6,9 @@ Beach	0/0	shore=1	Muscle Vacation
 Beach	0/0	shore=2	Mysticality Vacation
 Beach	0/0	shore=3	Moxie Vacation
 Beach	0/0	adventure=45	South of the Border
-Beach	104/0	adventure=121	Arid, Extra-Dry Desert
-Beach	104/0	adventure=122	Oasis
-Beach	104/0	adventure=123	Arid, Extra-Dry Desert (Ultrahydrated)
+Beach	104/0	adventure=121	Desert (Pre-Oasis)
+Beach	104/0	adventure=123	Desert (Post-Oasis)
+Beach	104/0	adventure=122	Oasis in the Desert
 Beach	0/0	adventure=156	Grim Grimacite Site
 
 Pyramid	104/0	adventure=124	The Upper Chamber
@@ -25,22 +25,24 @@ Dungeon	0/5	adventure=16	Haiku Dungeon
 Dungeon	19/0	adventure=19	Limerick Dungeon
 Dungeon	47/0	adventure=38	Greater-Than Sign
 Dungeon	47/0	adventure=39	Dungeons of Doom
-Dungeon	15/0	dungeon=1	Daily Dungeon
+Dungeon	0/0	dungeon=0	Daily Dungeon
 
 Town	0/0	sewer=0	Unlucky Sewer
 Town	0/0	luckysewer=0	Sewer With Clovers
 Town	0/0	adventure=112	Sleazy Back Alley
 
-Manor	0/0	adventure=113	Haunted Pantry
-Manor	0/0	adventure=102	Haunted Kitchen
-Manor	0/6	adventure=103	Haunted Conservatory
-Manor	0/40	adventure=104	Haunted Library
-Manor	0/10	adventure=105	Haunted Billiards Room
-Manor	0/68	adventure=106	Haunted Gallery
-Manor	0/68	adventure=107	Haunted Bathroom
-Manor	0/85	adventure=108	Haunted Bedroom
-Manor	0/68	adventure=109	Haunted Ballroom
-Manor	0/104	adventure=120	Haunted Wine Cellar
+Floor1	0/0	adventure=113	Haunted Pantry
+Floor1	0/0	adventure=102	Haunted Kitchen
+Floor1	0/6	adventure=103	Haunted Conservatory
+Floor1	0/40	adventure=104	Haunted Library
+Floor1	0/10	adventure=105	Haunted Billiards Room
+
+Floor2	0/68	adventure=106	Haunted Gallery
+Floor2	0/68	adventure=107	Haunted Bathroom
+Floor2	0/85	adventure=108	Haunted Bedroom
+Floor2	0/68	adventure=109	Haunted Ballroom
+
+Floor3	0/104	adventure=120	Haunted Wine Cellar
 
 Woods	5/0	adventure=15	Spooky Forest
 Woods	5/0	adventure=17	Hidden Temple
@@ -65,9 +67,11 @@ Rift	0/0	adventure=87	Battlefield (Dyspepsi Uniform)
 Plains	0/10	adventure=18	Degrassi Knoll
 Plains	15/0	adventure=20	Fun House
 Plains	11/0	adventure=21	Pre-Cyrpt Cemetary
-Plains	18/0	adventure=22	Fernswarthy's Tower
 Plains	40/0	adventure=58	Post-Cyrpt Cemetary
 Plains	0/65	adventure=119	Palindome
+
+Tower	18/0	adventure=22	Fernswarthy's Ruins
+Tower	0/0	basement=0	Fernswarthy's Basement
 
 Knob	0/0	adventure=114	Outskirts of The Knob
 Knob	20/0	adventure=40	Knob Goblin Kitchens
@@ -95,16 +99,12 @@ Cyrpt	40/40	cyrpt=Yep.	Haert of the Cyrpt
 Island	0/30	adventure=27	Frat House
 Island	0/30	adventure=29	Frat House In Disguise
 Island	125/125	adventure=150	Post-War Frat House
-Island	0/30	adventure=26	Hippy Camp	outfit
+Island	0/30	adventure=26	Hippy Camp
 Island	0/30	adventure=65	Hippy Camp In Disguise
 Island	125/125	adventure=149	Post-War Hippy Camp
-Island	0/45	adventure=66	Pirate Cove	outfit
+Island	0/45	adventure=66	Pirate Cove
 Island	0/45	adventure=67	Pirate Cove In Disguise
-
-Island	125/125	adventure=154	Junkyard
-Island	125/125	adventure=136	Sonofa Beach
 Island	125/125	adventure=155	McMillicancuddy's Farm
-
 
 IsleWar	125/125	adventure=132	Battlefield (Frat Uniform)
 IsleWar	125/125	adventure=140	Battlefield (Hippy Uniform)
@@ -115,7 +115,6 @@ IsleWar	0/30	adventure=131	Wartime Hippy Camp (Frat Disguise)
 
 Junkyard	125/125	adventure=139	Junkyard
 Lighthouse	125/125	adventure=136	Sonofa Beach
-
 Nunnery	125/124	adventure=126	Themthar Hills
 
 Farm	125/125	adventure=137	Barn
@@ -134,12 +133,13 @@ Orchard	125/125	adventure=130	Queen's Chamber
 
 Mountain	0/0	adventure=91	Noob Cave
 Mountain	0/0	adventure=92	Dire Warren
+Mountain	68/0	adventure=80	Orc Chasm
+
 McLarge	53/0	adventure=61	Itznotyerzitz Mine
 McLarge	53/0	adventure=60	Goatlet
 McLarge	53/0	adventure=62	Ninja Snowmen
-McLarge	53/0	adventure=63	eXtreme Slope	outfit
+McLarge	53/0	adventure=63	eXtreme Slope
 McLarge	53/0	adventure=110	Icy Peak
-Mountain	68/0	adventure=80	Orc Chasm
 
 Beanstalk	85/90	adventure=81	Fantasy Airship
 Beanstalk	85/95	adventure=82	Giant's Castle

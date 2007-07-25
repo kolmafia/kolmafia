@@ -40,6 +40,10 @@ public class AdventureRequest extends KoLRequest
 	private String adventureName;
 	private String formSource;
 	private String adventureId;
+
+	private static final AdventureResult SKELETON_KEY = new AdventureResult( 642, 1 );
+	private static final AdventureResult EXPRESS_CARD = new AdventureResult( 1687, 1 );
+
 	public static final AdventureResult ABRIDGED = new AdventureResult( 534, -1 );
 	public static final AdventureResult BRIDGE = new AdventureResult( 535, -1 );
 	public static final AdventureResult DODECAGRAM = new AdventureResult( 479, -1 );
@@ -68,7 +72,9 @@ public class AdventureRequest extends KoLRequest
 		// everything for you.
 
 		if ( formSource.equals( "adventure.php" ) )
+		{
 			this.addFormField( "snarfblat", adventureId );
+		}
 		else if ( formSource.equals( "shore.php" ) )
 		{
 			this.addFormField( "whichtrip", adventureId );
@@ -78,14 +84,6 @@ public class AdventureRequest extends KoLRequest
 		{
 			this.addFormField( "action", "slot" );
 			this.addFormField( "whichslot", adventureId );
-			if ( !adventureId.equals( "11" ) ) {
-			}
-		}
-		else if ( formSource.equals( "dungeon.php" ) )
-		{
-			this.addFormField( "action", "Yep" );
-			this.addFormField( "option", "1" );
-			this.addFormField( "pwd" );
 		}
 		else if ( formSource.equals( "knob.php" ) )
 		{
@@ -103,9 +101,13 @@ public class AdventureRequest extends KoLRequest
 			this.addFormField( "action", "ritual" );
 		}
 		else if ( formSource.equals( "lair6.php" ) )
+		{
 			this.addFormField( "place", adventureId );
-		else if ( !formSource.equals( "rats.php" ) )
+		}
+		else if ( !formSource.equals( "dungeon.php" ) && !formSource.equals( "basement.php" ) && !formSource.equals( "rats.php" ) )
+		{
 			this.addFormField( "action", adventureId );
+		}
 	}
 
 	protected boolean retryOnTimeout()
@@ -150,11 +152,39 @@ public class AdventureRequest extends KoLRequest
 			}
 		}
 
-		delay();
+		this.delay();
+
+		if ( formSource.equals( "dungeon.php" ) || formSource.equals( "basement.php" ) )
+			this.data.clear();
+
 		super.run();
 
 		if ( this.formSource.equals( "dungeon.php" ) )
-			this.addFormField( "option", this.responseText.indexOf( "\"Move on\">" ) != -1 ? "2" : "1" );
+		{
+			this.addFormField( "pwd" );
+			this.addFormField( "action", "Yep." );
+
+			if ( this.responseText.indexOf( "Locked Door" ) != -1 && SKELETON_KEY.getCount( inventory ) + SKELETON_KEY.getCount( closet ) > 1 )
+				this.addFormField( "option", "2" );
+			else
+				this.addFormField( "option", "1" );
+
+			super.run();
+		}
+
+		if ( this.formSource.equals( "basement.php" ) )
+		{
+			if ( this.responseText.indexOf( "Got Silk?" ) != -1 )
+				this.addFormField( "action", KoLCharacter.isMoxieClass() ? "1" : "2" );
+			else if ( this.responseText.indexOf( "Save the Dolls" ) != -1 )
+				this.addFormField( "action", KoLCharacter.isMysticalityClass() ? "1" : "2" );
+			else if ( this.responseText.indexOf( "Take the Red Pill" ) != -1 )
+				this.addFormField( "action", KoLCharacter.isMuscleClass() ? "1" : "2" );
+			else
+				this.addFormField( "action", "1" );
+
+			super.run();
+		}
 
 		if ( StaticEntity.getBooleanProperty( "cloverProtectActive" ) )
 			DEFAULT_SHELL.executeLine( "use * ten-leaf clover" );
@@ -412,6 +442,10 @@ public class AdventureRequest extends KoLRequest
 
 			return encounter;
 		}
+		else if ( urlString.startsWith( "dungeon.php" ) || urlString.startsWith( "basement.php" ) )
+		{
+			return "";
+		}
 		else
 		{
 			int boldIndex = request.responseText.indexOf( "Results:</b>" ) + 1;
@@ -455,22 +489,20 @@ public class AdventureRequest extends KoLRequest
 
 		else if ( formSource.startsWith( "adventure.php" ) )
 			return true;
-		else if ( formSource.startsWith( "cave.php" ) && formSource.indexOf( "end" ) != -1 )
-			return true;
-		else if ( formSource.startsWith( "shore.php" ) && formSource.indexOf( "whichtrip" ) != -1 )
-			return true;
-		else if ( formSource.startsWith( "dungeon.php" ) && formSource.indexOf( "action" ) != -1 )
-			return true;
-		else if ( formSource.startsWith( "knob.php" ) && formSource.indexOf( "king" ) != -1 )
-			return true;
-		else if ( formSource.startsWith( "cyrpt.php" ) && formSource.indexOf( "action" ) != -1 )
-			return true;
+		else if ( formSource.startsWith( "cave.php" ) )
+			return formSource.indexOf( "end" ) != -1;
+		else if ( formSource.startsWith( "shore.php" ) )
+			return formSource.indexOf( "whichtrip" ) != -1;
+		else if ( formSource.startsWith( "knob.php" ) )
+			return formSource.indexOf( "king" ) != -1;
+		else if ( formSource.startsWith( "cyrpt.php" ) )
+			return formSource.indexOf( "action" ) != -1;
 		else if ( formSource.startsWith( "rats.php" ) )
 			return true;
-		else if ( formSource.startsWith( "choice.php" ) && responseText.indexOf( "choice.php" ) != -1 )
-			return true;
-		else if ( formSource.startsWith( "palinshelves.php" ) && responseText.indexOf( "palinshelves.php" ) != -1 )
-			return true;
+		else if ( formSource.startsWith( "choice.php" ) )
+			return responseText.indexOf( "choice.php" ) != -1;
+		else if ( formSource.startsWith( "palinshelves.php" ) )
+			return responseText.indexOf( "palinshelves.php" ) != -1;
 
 		// It is not a known adventure.  Therefore,
 		// do not log the encounter yet.
