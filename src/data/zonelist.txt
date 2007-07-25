@@ -33,7 +33,7 @@ Island	Island	Mysterious Island
 
 IsleWar	IsleWar	Island War Quest
 Junkyard	IsleWar	Junkyard
-Lighthouse	IsleWar	Junkyard
+Lighthouse	IsleWar	Lighthouse
 Farm	IsleWar	McMillicancuddy's Farm
 Orchard	IsleWar	Organic Orchard
 Nunnery	IsleWar	Our Lady of Perpetual Indecision

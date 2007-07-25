@@ -104,6 +104,8 @@ Island	0/30	adventure=65	Hippy Camp In Disguise
 Island	125/125	adventure=149	Post-War Hippy Camp
 Island	0/45	adventure=66	Pirate Cove
 Island	0/45	adventure=67	Pirate Cove In Disguise
+Island	125/125	adventure=154	Junkyard	 
+Island	125/125	adventure=136	Sonofa Beach
 Island	125/125	adventure=155	McMillicancuddy's Farm
 
 IsleWar	125/125	adventure=132	Battlefield (Frat Uniform)
