@@ -589,6 +589,27 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			this.compactPane = new JPanel( new BorderLayout() );
 			this.compactPane.add( compactCard, BorderLayout.NORTH );
 			this.compactPane.add( refreshPanel, BorderLayout.SOUTH );
+
+			this.levelLabel.setForeground( Color.BLACK );
+			this.roninLabel.setForeground( Color.BLACK );
+			this.mcdLabel.setForeground( Color.BLACK );
+			this.musLabel.setForeground( Color.BLACK );
+			this.mysLabel.setForeground( Color.BLACK );
+			this.moxLabel.setForeground( Color.BLACK );
+			this.fullLabel.setForeground( Color.BLACK );
+			this.drunkLabel.setForeground( Color.BLACK );
+			this.spleenLabel.setForeground( Color.BLACK );
+			this.hpLabel.setForeground( Color.BLACK );
+			this.mpLabel.setForeground( Color.BLACK );
+			this.meatLabel.setForeground( Color.BLACK );
+			this.advLabel.setForeground( Color.BLACK );
+			this.familiarLabel.setForeground( Color.BLACK );
+			this.mlLabel.setForeground( Color.BLACK );
+			this.encLabel.setForeground( Color.BLACK );
+			this.initLabel.setForeground( Color.BLACK );
+			this.expLabel.setForeground( Color.BLACK );
+			this.meatDropLabel.setForeground( Color.BLACK );
+			this.itemDropLabel.setForeground( Color.BLACK );
 		}
 
 		public String getStatText( int adjusted, int base )
@@ -628,7 +649,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			this.mlLabel.setText( MODIFIER_FORMAT.format( ml ) );
 			this.encLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getCombatRateAdjustment() ) + "%" );
 			this.initLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getInitiativeAdjustment() ) + "%" );
-			this.expLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getExperienceAdjustment() ) + "%" );
+			this.expLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getExperienceAdjustment() ) );
 			this.meatDropLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getMeatDropPercentAdjustment() ) + "%" );
 			this.itemDropLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getItemDropPercentAdjustment() ) + "%" );
 
