@@ -45,7 +45,7 @@ import java.util.regex.Pattern;
 public class Modifiers extends KoLDatabase
 {
 	private static Map modifierMap = new TreeMap();
-	private static ArrayList modifierSkills = new ArrayList();
+	private static ArrayList passiveSkills = new ArrayList();
 
 	static
 	{
@@ -53,8 +53,13 @@ public class Modifiers extends KoLDatabase
 		String [] data;
 
 		while ( (data = readData( reader )) != null )
-			if ( data.length == 2 )
-				modifierMap.put( getCanonicalName( data[0] ), data[1] );
+                {
+			if ( data.length != 2 )
+                                continue;
+
+                        String name = getCanonicalName( data[0] );
+                        modifierMap.put( name, data[1] );
+                }
 
 		try
 		{
@@ -121,8 +126,6 @@ public class Modifiers extends KoLDatabase
 		Pattern.compile( "Class: (\\w\\w)" ),
 		Pattern.compile( "Intrinsic: [^,]+" ),
 	};
-
-	private static final Modifiers NO_MODIFIERS = new Modifiers();
 
         private float[] modifiers;
 
@@ -226,41 +229,43 @@ public class Modifiers extends KoLDatabase
 		return newMods;
 	};
 
-	public static void applyPassiveModifiers( Modifiers mods )
+	public void applyPassiveModifiers()
 	{
-		if ( modifierSkills.isEmpty() )
+		// You'd think this could be done at class initialization time,
+		// but no: the ClassSkillsDatabase depends on the Mana Cost
+		// modifier being set.
+
+		if ( passiveSkills.isEmpty() )
 		{
 			Object [] keys = modifierMap.keySet().toArray();
 			for ( int i = 0; i < keys.length; ++i )
 			{
-				if ( !ClassSkillsDatabase.contains( (String) keys[i] ) )
+				String skill = (String)keys[i];
+				if ( !ClassSkillsDatabase.contains( skill ) )
 					continue;
 
-				int skillId = ClassSkillsDatabase.getSkillId( (String) keys[i] );
-				if ( ClassSkillsDatabase.getSkillType( skillId ) == ClassSkillsDatabase.PASSIVE )
-					modifierSkills.add( keys[i] );
-
+				if ( ClassSkillsDatabase.getSkillType( ClassSkillsDatabase.getSkillId( skill ) ) == ClassSkillsDatabase.PASSIVE )
+					passiveSkills.add( skill );
 			}
 		}
 
-		for ( int i = 0; i < modifierSkills.size(); ++i )
+		for ( int i = 0; i < passiveSkills.size(); ++i )
 		{
-			String skill = (String) modifierSkills.get(i);
+			String skill = (String) passiveSkills.get(i);
 			if ( KoLCharacter.hasSkill( skill ) )
-				mods.add( getModifiers( skill ) );
+				add( getModifiers( skill ) );
 		}
 
 		// Varies according to level, somehow
 
 		if ( KoLCharacter.hasSkill( "Skin of the Leatherback" ) )
-			mods.add( DAMAGE_REDUCTION_MODIFIER, Math.max( (KoLCharacter.getLevel() >> 1) - 1, 1 ) );
+			add( DAMAGE_REDUCTION_MODIFIER, Math.max( (KoLCharacter.getLevel() >> 1) - 1, 1 ) );
 
 		if ( KoLCharacter.getFamiliar().getId() == 38 && KoLCharacter.hasAmphibianSympathy() )
-			mods.add( FAMILIAR_WEIGHT_MODIFIER, -10 );
+			add( FAMILIAR_WEIGHT_MODIFIER, -10 );
 	}
 
 	// Parsing item enchantments into KoLmafia modifiers
-
 
 	private static final Pattern DR_PATTERN = Pattern.compile( "Damage Reduction: <b>(\\d+)</b>" );
 
