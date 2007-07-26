@@ -827,12 +827,26 @@ public class AdventureResult implements Comparable, KoLConstants
 				break;
 			}
 
-			if ( ar.count[0] != 1 )
+
+			int power = EquipmentDatabase.getPower( ar.getName() );
+			if ( power > 0 )
 			{
-				stringForm.append( " (" );
-				stringForm.append( COMMA_FORMAT.format( ar.count[0] ) );
+				stringForm.append( " (+" );
+				stringForm.append( power );
 				stringForm.append( ")" );
 			}
+			else
+			{
+				int value = TradeableItemDatabase.getPriceById( ar.getItemId() );
+
+				stringForm.append( " (" );
+				stringForm.append( value );
+				stringForm.append( " meat)" );
+			}
+
+			stringForm.append( " (" );
+			stringForm.append( COMMA_FORMAT.format( ar.count[0] ) );
+			stringForm.append( ")" );
 
 			if ( StaticEntity.getBooleanProperty( "mementoListActive" ) && mementoList.contains( ar ) )
 			{
