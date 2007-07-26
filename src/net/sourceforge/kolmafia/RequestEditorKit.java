@@ -983,6 +983,11 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				StaticEntity.singleStringReplace( buffer, "]</a></font></td></tr></table></center>", "]</a>&nbsp;&nbsp;<a href=\"wand.php?whichwand=" + wand.getItemId() + "\">[zap items]</a></font></td></tr></table></center>" );
 
 			changeSphereImages( buffer );
+
+			// Automatically name the outfit "backup" for simple save
+			// purposes while adventuring in browser.
+
+			StaticEntity.singleStringReplace( buffer, "<input type=text name=outfitname", "<input type=text name=outfitname value=\"Backup\"" );
 		}
 
 		if ( StaticEntity.getBooleanProperty( "relayAddsUseLinks" ) )
@@ -1538,11 +1543,11 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 	private static void changeSphereImages( StringBuffer buffer )
 	{
-                changeSphereImage( buffer, "spheremoss.gif", 2174 );
-                changeSphereImage( buffer, "spheresmooth.gif", 2175 );
-                changeSphereImage( buffer, "spherecrack.gif", 2176 );
-                changeSphereImage( buffer, "sphererough.gif", 2177 );
-        }
+		changeSphereImage( buffer, "spheremoss.gif", 2174 );
+		changeSphereImage( buffer, "spheresmooth.gif", 2175 );
+		changeSphereImage( buffer, "spherecrack.gif", 2176 );
+		changeSphereImage( buffer, "sphererough.gif", 2177 );
+	}
 
 	private static void changeSphereImage( StringBuffer buffer, String image, int itemId )
 	{
@@ -1571,12 +1576,10 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		for ( int i = 2174; i <= 2177; ++i )
 		{
 			String name = TradeableItemDatabase.getItemName( i );
-			if ( buffer.indexOf( name ) != -1 )
-			{
-				String effect = StaticEntity.getProperty( "lastStoneSphere" + i );
-				if ( !effect.equals( "" ) )
-					StaticEntity.globalStringReplace( buffer, name, name + " of " + effect );
-			}
+			String effect = StaticEntity.getProperty( "lastStoneSphere" + i );
+
+			if ( buffer.indexOf( name ) != -1 && !effect.equals( "" ) )
+				StaticEntity.globalStringReplace( buffer, name, name + " of " + effect );
 		}
 	}
 
