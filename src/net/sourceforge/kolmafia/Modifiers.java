@@ -372,7 +372,7 @@ public class Modifiers extends KoLDatabase
 
 		// Make sure the modifiers apply to current class
 		String type = mods.getString( CLASS );
-		if ( type != null && !type.equals( KoLCharacter.getClassTypeAbbreviation() ) )
+		if ( !type.equals( "" ) && !type.equals( KoLCharacter.getClassTypeAbbreviation() ) )
 			return;
 
 		float [] addition = mods.floats;
