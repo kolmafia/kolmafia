@@ -1099,10 +1099,12 @@ Cletus's Canticle of Celerity	Init: +30
 Cold Blooded	Cold: +20
 Contemptible Emanations	ML: +20
 Cupcake of Choice	Item: +30
+Disco State of Mind	Mox: +2
 Dreams and Lights	Mana: -3
 Egg-stortionary Tactics	Meat: +50
 Eggs-tra Sensory Perception	Item: +50
 Elemental Saucesphere	Cold: +20, Hot: +20, Sleaze: +20, Spooky: +20, Stench: +20
+Elvish	Mox%: +10, Mus%: +10, Mys%: +10
 Empathy	Weight: +5
 Eau D'enmity	ML: +5
 Extreme Muscle Relaxation	Init: -50
@@ -1122,17 +1124,26 @@ Hippy Stench	Combat: +5
 Hombre Muerto Caminando	Spooky: +10
 Hot Blooded	Hot: +20
 Insulated Trousers	Cold: +20
+Jackasses' Symphony of Destruction	MDmg: +10, SDmg: +10
 Leash of Linguini	Weight: +5
+Magical Mojomuscular Melody	Mys: +10
 Man's Worst Enemy	Weight: +5
+Mariachi Mood	Mox: +1
 Musk of the Moose	Combat: +5
 Mysteriously Handsome	ML: +3
 Object Detection	Item: +12.5
 Optimist Primal	Weight: +5
 Orange Tongue	Exp: +3
+Pasta Oneness	Mys: +2
+Patience of the Tortoise	Mus: +1
 Peeled Eyeballs	Exp: -1, Item: +15, Meat: -16
 Polka of Plenty	Meat: +50
+Power Ballad of the Arrowsmith	Mus: +10
 Provocative Perkiness	Init: +20
+Rage of the Reindeer	Mus%: +10, MDmg: +10
 Red Tongue	Meat: +30
+Saucemastery	Mys: +1
+Seal Clubbing Frenzy	Mus: +2
 Sugar Rush	Init: +20
 Shiny Happy Cupcake	Exp: +3
 Sleaze-Resistant Trousers	Sleaze: +20
@@ -1142,9 +1153,12 @@ Springy Fusilli	Init: +40
 Spooky Demeanor	Spooky: +20
 Spookypants	Spooky: +20
 Stenchtastic	Stench: +20
+Stevedave's Shanty of Superiority	Mox%: +10, Mus%: +10, Mys%: +10
 Sticky Fingers	Meat: +15
 Supafly	Sleaze: +20
+Tenacity of the Snapper	MDmg: +8
 The Cupcake of Wrath	ML: +10
+The Moxious Madrigal	Mox: +10
 The Sonata of Sneakiness	Combat: -5
 Ticking Clock	Init: +30
 Wasabi Sinuses	Exp: -1, Item: -10, Meat: +30
@@ -1153,6 +1167,8 @@ Your Cupcake Senses Are Tingling	Meat: +30
 # Passive Skills section of modifiers.txt
 
 Amphibian Sympathy	Weight: +5
+Claws of the Otter	MDmg: +3
+Claws of the Walrus	MDmg: +4
 Cold-Blooded Fearlessness	Spooky: +20
 Diminished Gag Reflex	Stench: +20
 Expert Panhandling	Meat: +10
