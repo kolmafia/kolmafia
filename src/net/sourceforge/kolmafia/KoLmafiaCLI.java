@@ -1539,13 +1539,19 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( command.equals( "automall" ) )
+		{
+			this.makeAutoMallRequest();
+			return;
+		}
+
 		// Another item-related command is the autosell
 		// request.  This one's simple, but it still
 		// gets its own utility method.
 
-		if ( command.equals( "mallsell" ) || command.equals( "automall" ) )
+		if ( command.equals( "mallsell" ) )
 		{
-			this.executeAutoMallRequest( parameters );
+			this.executeMallSellRequest( parameters );
 			return;
 		}
 
@@ -4295,7 +4301,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 * AutoSellRequests which send things to the mall.
 	 */
 
-	private void executeAutoMallRequest( String parameters )
+	private void executeMallSellRequest( String parameters )
 	{
 		String [] itemNames = parameters.split( "\\s*,\\s+" );
 

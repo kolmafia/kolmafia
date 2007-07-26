@@ -63,6 +63,10 @@ public class StoreManageRequest extends KoLRequest
 
 		this.requestType = ITEM_REMOVAL;
 		this.takenItemId = itemId;
+
+		AdventureResult item = new AdventureResult( itemId, 1 );
+		if ( profitableList.contains( item ) )
+			profitableList.remove( item );
 	}
 
 	public StoreManageRequest( int [] itemId, int [] prices, int [] limits )

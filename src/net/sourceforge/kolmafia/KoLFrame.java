@@ -916,7 +916,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 				int spaceIndex = text.lastIndexOf( " ", 80 );
 				result.append( text.substring( 0, spaceIndex ).trim() );
 				result.append( LINE_BREAK );
-				text = text.substring( spaceIndex );
+				text = text.substring( spaceIndex ).trim();
 			}
 		}
 
@@ -2271,7 +2271,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	{
 		public RestorativeItemPanel()
 		{
-			super( "Use Items", "use item", "check wiki", inventory );
+			super( "", "use item", "check wiki", inventory );
 			this.filterItems();
 		}
 

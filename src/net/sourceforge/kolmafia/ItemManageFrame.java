@@ -36,9 +36,12 @@ package net.sourceforge.kolmafia;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Component;
+import java.awt.GridLayout;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import java.util.ArrayList;
 import javax.swing.Box;
@@ -131,6 +134,16 @@ public class ItemManageFrame extends KoLFrame
 		// Now a special panel which does nothing more than list
 		// some common actions and some descriptions.
 
+		this.addSeparator();
+
+		JPanel scriptActionPanel = new JPanel( new GridLayout( 0, 1 ) );
+
+		this.addPanel( "Script Actions", new MementoItemsPanel() );
+		this.addPanel( " - End Run", new EndOfRunSalePanel() );
+		this.addPanel( " - Cleanup", new JunkItemsPanel() );
+		this.addPanel( " - Automall", new ProfitableItemsPanel() );
+		this.addPanel( " - Displayer", new DisplayCaseMatchPanel() );
+
 		this.itemPanelList.addListSelectionListener( new CardSwitchListener() );
 		this.itemPanelList.setPrototypeCellValue( "ABCDEFGHIJKLM" );
 		this.itemPanelList.setCellRenderer( new OptionRenderer() );
@@ -143,21 +156,8 @@ public class ItemManageFrame extends KoLFrame
 		mainPanel.add( listHolder, BorderLayout.WEST );
 		mainPanel.add( this.managePanel, BorderLayout.CENTER );
 
-		this.tabs.addTab( "Manual Actions", mainPanel );
-
-		JTabbedPane scriptTabs = getTabbedPane();
-		scriptTabs.addTab( "Junk Items", new HandleJunkPanel() );
-		scriptTabs.addTab( "Memento Items", new FlaggedItemsPanel() );
-		scriptTabs.addTab( "End of Run Sale", new EndOfRunSalePanel() );
-		scriptTabs.addTab( "Display Matcher", new DisplayCaseMatchPanel() );
-
-		this.tabs.addTab( "Scripted Actions", scriptTabs );
-
-		JPanel tabHolder = new JPanel( new CardLayout( 10, 10 ) );
-		tabHolder.add( this.tabs, "" );
-
 		this.itemPanelList.setSelectedIndex( StaticEntity.getIntegerProperty( "itemManagerIndex" ) );
-		this.framePanel.add( tabHolder, BorderLayout.CENTER );
+		this.framePanel.add( mainPanel, BorderLayout.CENTER );
 	}
 
 	public static int getPullsRemaining()
@@ -222,28 +222,79 @@ public class ItemManageFrame extends KoLFrame
 		}
 	}
 
-	private class HandleJunkPanel extends ItemManagePanel
+	private class OverlapPanel extends ItemManagePanel
 	{
-		public HandleJunkPanel()
-		{	super( "Junk Management", "not junk", "help", inventory );
+		private boolean isOverlap;
+		private LockableListModel overlapModel;
+
+		public OverlapPanel( String title, String confirmText, String cancelText, LockableListModel overlapModel, boolean isOverlap )
+		{
+			super( title, confirmText, cancelText, inventory );
+			this.overlapModel = overlapModel;
+			this.isOverlap = isOverlap;
+
+			elementList.addKeyListener( new OverlapAdapter() );
+			this.addFilters();
 		}
 
 		public FilterItemField getWordFilter()
-		{	return new JunkOnlyFilterField();
+		{	return new OverlapFilterField();
+		}
+
+		private class OverlapFilterField extends FilterItemField
+		{
+			public OverlapFilterField()
+			{	this.filter = new OverlapFilter();
+			}
+
+			public void filterItems()
+			{	OverlapPanel.this.elementList.applyFilter( this.filter );
+			}
+
+			private class OverlapFilter extends SimpleListFilter
+			{
+				public OverlapFilter()
+				{	super( OverlapFilterField.this );
+				}
+
+				public boolean isVisible( Object element )
+				{
+					return isOverlap ? overlapModel.contains( element ) && super.isVisible( element ) :
+						!overlapModel.contains( element ) && super.isVisible( element );
+				}
+			}
+		}
+
+		private class OverlapAdapter extends KeyAdapter
+		{
+			public void keyReleased( KeyEvent e )
+			{
+				if ( e.isConsumed() )
+					return;
+
+				if ( e.getKeyCode() != KeyEvent.VK_DELETE && e.getKeyCode() != KeyEvent.VK_BACK_SPACE )
+					return;
+
+				Object [] items = elementList.getSelectedValues();
+				elementList.clearSelection();
+
+				for ( int i = 0; i < items.length; ++i )
+					overlapModel.remove( items[i] );
+
+				filterItems();
+				e.consume();
+			}
+		}
+	}
+
+	private class JunkItemsPanel extends OverlapPanel
+	{
+		public JunkItemsPanel()
+		{	super( "Junk Management", "cleanup", "help", KoLCharacter.canInteract() ? postRoninJunkList : preRoninJunkList, true );
 		}
 
 		public void actionConfirmed()
-		{
-			Object [] items = elementList.getSelectedValues();
-			elementList.clearSelection();
-
-			for ( int i = 0; i < items.length; ++i )
-			{
-				preRoninJunkList.remove( items[i] );
-				postRoninJunkList.remove( items[i] );
-			}
-
-			KoLSettings.saveFlaggedItemList();
+		{	StaticEntity.getClient().makeJunkRemovalRequest();
 		}
 
 		public void actionCancelled()
@@ -251,48 +302,33 @@ public class ItemManageFrame extends KoLFrame
 			JOptionPane.showMessageDialog( null, basicTextWrap(
 				"These items have been flagged as \"junk\" because at some point in the past, you've opted to autosell all of the item.  If you use the \"cleanup\" command, KoLmafia will dispose of these items either by pulverizing them (equipment) or autoselling them (non-equipment)." ) );
 		}
+	}
 
-		private class JunkOnlyFilterField extends FilterItemField
+	private class ProfitableItemsPanel extends OverlapPanel
+	{
+		public ProfitableItemsPanel()
+		{	super( "Profitable Items", "automall", "help", profitableList, true );
+		}
+
+		public void actionConfirmed()
+		{	StaticEntity.getClient().makeAutoMallRequest();
+		}
+
+		public void actionCancelled()
 		{
-			public JunkOnlyFilterField()
-			{	this.filter = new JunkOnlyFilter();
-			}
-
-			public void filterItems()
-			{	HandleJunkPanel.this.elementList.applyFilter( this.filter );
-			}
-
-			private class JunkOnlyFilter extends SimpleListFilter
-			{
-				public JunkOnlyFilter()
-				{	super( JunkOnlyFilterField.this );
-				}
-
-				public boolean isVisible( Object element )
-				{
-					return KoLCharacter.canInteract() ?
-						postRoninJunkList.contains( element ) && super.isVisible( element ) :
-						preRoninJunkList.contains( element ) && super.isVisible( element );
-				}
-			}
+			JOptionPane.showMessageDialog( null, basicTextWrap(
+				"These items have been flagged as \"profitable\" because at some point in the past, you've opted to place them in the mall.  If you use the \"automall\" command, KoLmafia will place all of these items in the mall." ) );
 		}
 	}
 
-	private class FlaggedItemsPanel extends ItemManagePanel
+	private class MementoItemsPanel extends OverlapPanel
 	{
-		public FlaggedItemsPanel()
-		{	super( "Memento Items", "not sacred", "help", mementoList );
+		public MementoItemsPanel()
+		{	super( "Memento Items", "win game", "help", mementoList, true );
 		}
 
 		public void actionConfirmed()
 		{
-			Object [] items = elementList.getSelectedValues();
-			elementList.clearSelection();
-
-			for ( int i = 0; i < items.length; ++i )
-				mementoList.remove( items[i] );
-
-			KoLSettings.saveFlaggedItemList();
 		}
 
 		public void actionCancelled()
@@ -302,14 +338,10 @@ public class ItemManageFrame extends KoLFrame
 		}
 	}
 
-	private class EndOfRunSalePanel extends ItemManagePanel
+	private class EndOfRunSalePanel extends OverlapPanel
 	{
 		public EndOfRunSalePanel()
-		{	super( "End of Run Sale", "host sale", "help", inventory );
-		}
-
-		public FilterItemField getWordFilter()
-		{	return new ExcludeMementoFilterField();
+		{	super( "End of Run Sale", "host sale", "help", mementoList, false );
 		}
 
 		public void actionConfirmed()
@@ -323,38 +355,12 @@ public class ItemManageFrame extends KoLFrame
 			JOptionPane.showMessageDialog( null, basicTextWrap(
 				"KoLmafia will place all items which are not already in your store into your store. " + StoreManageFrame.UNDERCUT_MESSAGE ) );
 		}
-
-		private class ExcludeMementoFilterField extends FilterItemField
-		{
-			public ExcludeMementoFilterField()
-			{	this.filter = new ExcludeMementoFilter();
-			}
-
-			public void filterItems()
-			{	EndOfRunSalePanel.this.elementList.applyFilter( this.filter );
-			}
-
-			private class ExcludeMementoFilter extends SimpleListFilter
-			{
-				public ExcludeMementoFilter()
-				{	super( ExcludeMementoFilterField.this );
-				}
-
-				public boolean isVisible( Object element )
-				{	return !mementoList.contains( element ) && super.isVisible( element );
-				}
-			}
-		}
 	}
 
-	private class DisplayCaseMatchPanel extends ItemManagePanel
+	private class DisplayCaseMatchPanel extends OverlapPanel
 	{
 		public DisplayCaseMatchPanel()
-		{	super( "Display Case Matcher", "display", "help", inventory );
-		}
-
-		public FilterItemField getWordFilter()
-		{	return new DisplayCaseOverlapFilterField();
+		{	super( "Display Case Matcher", "display", "help", collection, true );
 		}
 
 		public void actionConfirmed()
@@ -387,28 +393,6 @@ public class ItemManageFrame extends KoLFrame
 		{
 			JOptionPane.showMessageDialog( null, basicTextWrap(
 				"This feature scans your inventory and if it finds any items which are in your display case, it puts those items on display." ) );
-		}
-
-		private class DisplayCaseOverlapFilterField extends FilterItemField
-		{
-			public DisplayCaseOverlapFilterField()
-			{	this.filter = new DisplayCaseOverlapFilter();
-			}
-
-			public void filterItems()
-			{	DisplayCaseMatchPanel.this.elementList.applyFilter( this.filter );
-			}
-
-			private class DisplayCaseOverlapFilter extends SimpleListFilter
-			{
-				public DisplayCaseOverlapFilter()
-				{	super( DisplayCaseOverlapFilterField.this );
-				}
-
-				public boolean isVisible( Object element )
-				{	return collection.contains( element ) && super.isVisible( element );
-				}
-			}
 		}
 	}
 

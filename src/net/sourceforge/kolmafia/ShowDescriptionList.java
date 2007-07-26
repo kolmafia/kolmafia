@@ -467,7 +467,6 @@ public class ShowDescriptionList extends JList implements KoLConstants
 			}
 
 			StaticEntity.setProperty( "mementoListActive", "true" );
-			KoLSettings.saveFlaggedItemList();
 		}
 	}
 

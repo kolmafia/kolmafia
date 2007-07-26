@@ -92,7 +92,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 		this.filterfield = this.getWordFilter();
 
-		if ( addFilterField )
+		if ( addFilterField && title.equals( "" ) )
 			this.centerPanel.add( this.filterfield, BorderLayout.NORTH );
 
 		if ( addRefreshButton )

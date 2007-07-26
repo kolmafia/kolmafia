@@ -149,6 +149,7 @@ public class KoLSettings extends Properties implements KoLConstants
 
 	private static File junkItemsFile = new File( SETTINGS_LOCATION, "junk_GLOBAL.txt" );
 	private static File mementoFile = new File( SETTINGS_LOCATION, "memento_GLOBAL.txt" );
+	private static File profitableFile = new File( SETTINGS_LOCATION, "profitable_GLOBAL.txt" );
 	private static File checklistFile = new File( SETTINGS_LOCATION, "checklist_GLOBAL.txt" );
 
 	public static void initializeLists()
@@ -246,6 +247,32 @@ public class KoLSettings extends Properties implements KoLConstants
 
 					if ( !ascensionCheckList.contains( data ) )
 						ascensionCheckList.add( data );
+				}
+
+				reader.close();
+			}
+
+			profitableList.clear();
+
+			if ( profitableFile.exists() )
+			{
+				FileInputStream istream = new FileInputStream( profitableFile );
+				BufferedReader reader = new BufferedReader( new InputStreamReader( istream ) );
+
+				String line;
+				AdventureResult data;
+
+				while ( (line = reader.readLine()) != null )
+				{
+					if ( line.equals( "" ) || line.startsWith( "[" ) )
+						continue;
+
+					data = KoLmafiaCLI.getFirstMatchingItem( line );
+					if ( data == null )
+						continue;
+
+					if ( !profitableList.contains( data ) )
+						profitableList.add( data );
 				}
 
 				reader.close();
@@ -401,6 +428,15 @@ public class KoLSettings extends Properties implements KoLConstants
 		for ( int i = 0; i < ascensionCheckList.size(); ++i )
 		{
 			item = (AdventureResult) ascensionCheckList.get(i);
+			ostream.println( item.getCount() + " " + item.getName() );
+		}
+
+		ostream.close();
+
+		ostream = LogStream.openStream( profitableFile, true );
+		for ( int i = 0; i < profitableList.size(); ++i )
+		{
+			item = (AdventureResult) profitableList.get(i);
 			ostream.println( item.getCount() + " " + item.getName() );
 		}
 

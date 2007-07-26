@@ -3155,6 +3155,40 @@ public abstract class KoLmafia implements KoLConstants
 		RequestThread.closeRequestSequence();
 	}
 
+	public void makeAutoMallRequest()
+	{
+		// Now you've got all the items used up, go ahead and prepare to
+		// sell anything that's left.
+
+		int itemCount;
+
+		AdventureResult currentItem;
+		Object [] items = profitableList.toArray();
+
+		ArrayList sellList = new ArrayList();
+
+		for ( int i = 0; i < items.length; ++i )
+		{
+			currentItem = (AdventureResult) items[i];
+
+			if ( mementoList.contains( currentItem ) )
+				continue;
+
+			if ( currentItem.getItemId() == MEAT_PASTE )
+				continue;
+
+			itemCount = currentItem.getCount( inventory );
+
+			if ( itemCount > 0 )
+				sellList.add( currentItem.getInstance( itemCount ) );
+		}
+
+		if ( !sellList.isEmpty() )
+			RequestThread.postRequest( new AutoSellRequest( sellList.toArray(), AutoSellRequest.AUTOMALL ) );
+
+		RequestThread.closeRequestSequence();
+	}
+
 	public void makeJunkRemovalRequest()
 	{
 		int itemCount;
@@ -3287,7 +3321,6 @@ public abstract class KoLmafia implements KoLConstants
 				continue;
 
 			itemCount = currentItem.getCount( inventory );
-			itemPower = EquipmentDatabase.getPower( currentItem.getItemId() );
 
 			if ( itemCount > 0 )
 				sellList.add( currentItem.getInstance( itemCount ) );
