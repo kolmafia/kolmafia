@@ -350,6 +350,19 @@ public class AdventureRequest extends KoLRequest
 		}
 
 		super.run();
+
+		if ( this.responseCode != 200 )
+		{
+			if ( FightRequest.INSTANCE.responseCode == 200 && FightRequest.INSTANCE.responseText.indexOf( "<!--WINWINWIN-->" ) != -1 )
+				return;
+
+			this.data.clear();
+			super.run();
+		}
+
+		levelMatcher = BASEMENT_PATTERN.matcher( responseText );
+		if ( !levelMatcher.find() || currentLevel != StaticEntity.parseInt( levelMatcher.group(1) ) )
+			KoLmafia.updateDisplay( ERROR_STATE, "Failed to pass basement test." );
 	}
 
 	public void processResults()
