@@ -89,8 +89,8 @@
 89	Tingly Wrists	feather.gif	5a7834b36760978ce7766b95753fa4f2
 90	Tingly Elbows	feather.gif	54aa2c7ffc56b273ae9a6bfe26f10aad
 91	Tingly Biceps	feather.gif	fbf879a2f5e27198361d24f57cfd1130
-92	Sticky Hands	glove.gif
-93	Clean-Shaven	shaven.gif
+92	Sticky Hands	glove.gif	652fac966f18c8d0051cc3af5ad42740
+93	Clean-Shaven	shaven.gif	58e37fc744c725866f00b6e96da534a8
 94	Aspect of the GravyPlum Fairy	gravy.gif
 95	Rushin' Hands	glove.gif
 96	Reedy Pipes	reedpipes.gif
@@ -119,11 +119,11 @@
 119	On the Shoulders of Giants	farout.gif	68ea640257b2b74627e74ce275a555fc
 120	Shot in the Arse	shotarse.gif
 121	Cock of the Walk	cockghost.gif	4bd0338c8030f6aaa95ea5eda777484c
-122	Eggs-tra Sensory Perception	eggplain.gif
-123	Egg-stortionary Tactics	eggplain.gif
-124	Egg-stra Arm	eggplain.gif
-125	Egg-headedness	eggplain.gif
-126	Egg-cellent Vocabulary	eggplain.gif
+122	Eggs-tra Sensory Perception	eggplain.gif	5ca8ae9f3177d3f1bfee8ceccde554b7
+123	Egg-stortionary Tactics	eggplain.gif	3cef8a2a9750292400d4380caacda408
+124	Egg-stra Arm	eggplain.gif	f571d1555a2465e9e8fb0fb3b31b18e5
+125	Egg-headedness	eggplain.gif	e6b783e02fa92072ca81c7585912ba37
+126	Egg-cellent Vocabulary	eggplain.gif	f7347c1d229420acff2226dac4125a0a
 127	Gothy	gothy.gif	06cb86ddd689278c5af31423a8210a72
 128	Flower Power	flower.gif	e91ceabee446030ff33cc79d06a8d551
 129	Eye of the Lihc	eyeball.gif	19a38797f559f112930b8d33f3dd48e3
@@ -192,7 +192,7 @@
 192	Stenchform	stench.gif	9a6852a35cf5a2336a0c4cc3112416a0
 193	Sleazeform	wink.gif	801f28e129c806afbe88215103960c4b
 194	Hot Breath	breath.gif	7ecbd57bcb86d63be06bb6d4b8e7229f
-195	Cold Breath	breath.gif	
+195	Cold Breath	breath.gif	d29d87fa48e08fa8a341183db3121e1c
 196	Spooky Breath	breath.gif	da5e91136fd36708b61f6d383376ff78
 197	Stinky Breath	breath.gif	8be4aecc48d39b0b8b7a0fd671bd4330
 198	Sleazy Breath	breath.gif	572a0d269f2609e685ae3f56327a2998
@@ -213,8 +213,8 @@
 213	Frog In Your Throat	squashfrog.gif	52cf0120a2ecbc702da6ef92e588d242
 214	Salamander In Your Stomach	liver.gif	1c2325ff89b6a58b386e5563da098e46
 215	Newt Gets In Your Eyes	eyes.gif	46a5628ca44d03f0f26bdf3467f1c0c2
-216
-217
+216	Blessed by the RNG	fence2.gif
+217	Cursed by the RNG	tinycow.gif
 218	Amorous	lips.gif	e8430f88372ba98df5e361f0b091fe65
 219	Bubble, Bubble	sphere.gif	6ede1a75e47f82c98a429c9a50d067b4
 220	Sticky Fingers	glove.gif	4becdf2ac82c2bf30dd433dd54465918
@@ -226,14 +226,14 @@
 226	Talking Like a Pirate	piratehead.gif	defbfe64c65b2d495dc0133506223c1f
 227	The 'Tussin	happy.gif	295f414c903d22c44ec2f92f789cad71
 228	Pie in the Face	pieface.gif	9c9794f2ff9a0fcb1090c281c2c442f1
-229	Hip to Be Square Dancin'	footprints.gif
-230	Livin' Large	goldfronts.gif
-231	Wistfully Nostalgic	happy.gif
-232	Happy Salamander	commacha.gif
-233	Techno Bliss	singlenote.gif
-234	Material Witness	meat.gif
-235	No Worries	singlenote.gif
-236	Metal Speed	singlenote.gif
+229	Hip to Be Square Dancin'	footprints.gif	37f9f99df81ca3d29abe85139a302f67
+230	Livin' Large	goldfronts.gif	5c5335bc77cdd6fe54de544d277089b7
+231	Wistfully Nostalgic	happy.gif	48e2cebc9f34ef44ac6026fdf7cdb76f
+232	Happy Salamander	commacha.gif	05b9aad038c530dd3d2c5b3ab146a4b8
+233	Techno Bliss	singlenote.gif	883d712b08a134d70b832aec956767cb
+234	Material Witness	meat.gif	f382bb82f0d7f335581f353670922479
+235	No Worries	singlenote.gif	65a1f6d8bc0b9141678d2a121d5eac48
+236	Metal Speed	singlenote.gif	796240a217e3686b23ecffef8a804729
 237	Radium Radicality	tongue.gif	b1952cfcb421593dfe0a16edd41a913d
 238	Wintergreen Warmongery	angry.gif	33a94f73f343e88ee4b17d18e516bd49
 239	Also Schmeckt Zarathustra	waxlips.gif	40047d675d023d456eca562f0479656a
@@ -252,9 +252,9 @@
 252	Don't Rest Ye, Bold Adventurer	singlenote.gif	3274dfef654333f140b86d07a4f43de8
 253	Frosty the Hitman	singlenote.gif	c4e7639fba33b5124ab46b6eef619ddf
 254	Coy to the Hurled	singlenote.gif	8ffbe4ce5828976f89a1df3f425f3986
-255	Crimbo Epiphany	tombcookie.gif
-256	Bells in the Batfry	batcookie.gif
-257	Carol of the Bones	skullcookie.gif
+255	Crimbo Epiphany	tombcookie.gif	0d86141cfa07cfa79f952f00fddc5269
+256	Bells in the Batfry	batcookie.gif	00a9f64c702e34cc2e74b51240c379bd
+257	Carol of the Bones	skullcookie.gif	886179246e72ce517325f3b57a2df35a
 258	Get Me Off This Crazy Thing!	hernia.gif	68588a080497011bee2f48c1b273d605
 259	Very Clean Teeth	goldfronts.gif	e8b4295bb508c8a821c6acbb9a733d6b
 260	Arse-a'fire	pepper.gif
@@ -278,20 +278,20 @@
 278	Disco Concentration	discoball.gif
 279
 280	Kiss of the Black Fairy	skull.gif	8348ca470188c975bcb78c67a58c39ab
-281
+281	Tangled Up	sad.gif	224ddd0d75c25d180c1f10a90bdab68a
 282	A Little Bit Poisoned	poison.gif	15e7e83d8630cf9b824a2645851458c5
 283	Somewhat Poisoned	poison.gif	189ac7bc3487eabe0d4f1dd8b2b34897
 284	Really Quite Poisoned	poison.gif	c14002a0af245653e9a319078a686d37
 285	Filthworm Larva Stench	stench.gif	f3549dbe538c81c2aa59362e8e8cc7cc
 286	Filthworm Drone Stench	stench.gif	36f72cea3c79d16aa285a02d9551f412
 287	Filthworm Guard Stench	stench.gif	eb09f56d4f878745cfedeef7e0815414
-288
-289	Bananas!	banana.gif
+288	Light-Headed	confused.gif	06f177f0b563384e679d5b7283184546
+289	Bananas!	banana.gif	567ae2968ee07d280efeb2cbee97ff29
 290	What's That Smell?	stench.gif	a284f06ff0d8158f530b9bfa3e689ce8
 291	Mad at Science	angry.gif	8fa35398bfe0b6c599fe776a7311fbc4
 292	Tetanus	disease.gif	79289e27b54236f174122c1a7703242a
 293	Half-Eaten Brain	realbrain.gif	6732cdf4bc1898533e87e667da4460f7
-294	Fearless	disease.gif
+294	Fearless	disease.gif	ced2750c51d5d10b45f6a169a8661c83
 295	Socialismydia	disease.gif
 296	Axe Wound	gash.gif	198f28c9fb6022af5663275f0f201d4e
 297	Temporary Amnesia	confused.gif	c699071097b9cbff95fbb3e92d73a547
@@ -301,18 +301,18 @@
 301	Cunctatitis	disease.gif	9a12b9329e0701252387afe75dee34ee
 302	Mild Lycanthropy	moon2.gif	30ef4348fb5125c55c5be56867b795dd
 303	Lycanthropy, Eh?	moon2.gif
-304
+304	Roids of the Rhinoceros	strboost.gif	7162d29ed4d4ab9247e32a65fdc0508a
 305	Happy Trails	farout.gif	0d08ec701054748c0ff754e1eb8993fa
 306	Piratastic	poison.gif	326cfa0c7a97220cda6575f7d887c38f
 307	Healthy Green Glow	light.gif	179ea341b15b46366812867e26705ed0
 308	Sinuses For Miles	stench.gif	81577de719bc99a5780d4e0cb5ca81a5
-309
-310
+309	One Very Clear Eye	oneeye.gif	a676cca5283da6c64fe7a853bffe43b3
+310	Pop-eyed	oneeye.gif	deb5f1d2384c25301d1a81839d8f8a77
 311	Flamingly Floral	fire.gif	df55e784c72b808b1e00973d23ca14e6
-312
+312	Permafrosty	snowflake.gif	943504f00bdffe88dd982e1851707aec
 313	Bloody Bloody Bloody!	blooddrops.gif	f2780f015462419680ea5b12b76a34c7
 314	Chauve-Souris Merde Fou	stench.gif	80081dfb463917dad6233a3b5f4ba222
-315
+315	Cuts Like a Buttered Knife	dripsword.gif	88d3ebc4d94e12aab78fea9b126c5312
 316	Impregnably Delicious	sphere.gif	4a7e1d0ef97a354031271c7590dfe698
 317	Fireproof Lips	lips.gif	2bf98e882e69d84ef7184450c88383f3
 318
@@ -334,33 +334,33 @@
 334	Optimist Primal	happy.gif	63965c29290f23349477c4199c9b10c3
 335	Elvish	ears.gif	7db86298da3afb00bd686f76ac0eaff7
 336	Winklered	winking.gif	148cc90a0b393072039a3fe128c61138
-337	White-boy Angst	angry.gif
+337	White-boy Angst	angry.gif	97065b953792aa434bb4d6ef1bbc29c5
 338	Fustulent	stench.gif	55fd0e02c574f2ba680d8e64a5542bf8
 339	Tin, Man	funnelhat.gif	3ceed6b8764068dd53325bab6b7b5681
 340	Can't Be a Chooser	meat.gif	76a0c3b8b2ddd3cffbbb2c1de01fd41f
 341	Ass Over Teakettle	teakettle.gif	0a630b7a78a5959d97c5ce48cb23287f
 342	Bestial Sympathy	teeth.gif	0acfb47ada804935ca1acf6ee1ae6dd7
-343	La Bamba	footprints.gif
+343	La Bamba	footprints.gif	957a452386df5dec88778c089e53b60e
 344	Blessing of Pikachutlotal	jigawatts.gif	3f2ef271da5513fce8fd5f8ea8c27de8
 345	Blessing of Charcoatl           fire.gif	5a1caad47f9f3340c58af489d69bf55b
 346	Blessing of Squirtlcthulli	nopic2.gif
 347	Blessing of Bulbazinalli	leaf.gif
 348	All Fired Up	fire.gif	5626ff49dbfe5c3bc7732a3dc9c1ea4e
 349	Go Get 'Em, Tiger!	strboost.gif	943ba3b11499412f041807f8a7835d75
-350
+350	Starry-Eyed	snowflakes.gif	c45d2469bf8cfd8c9bbc953e2a44f3c4
 351	Comic Violence	clownham.gif	e81282d9c752ffcf7d033dd0bd8fec6f
 352	Tranquilized Mind	sleepy.gif	e6d8c1e5ee549f897340b97b3cc26053
 353	Woad Warrior	foamfinger.gif	c884a8b10f7b236002288fc760129e09
 354	Red Door Syndrome	blackpaint.gif	08c89971feb489d775ce5e8b2b845503
 355	Spirit of Alph	river.gif	e5bd49c7432e33b1684e494f3b7ec1c3
-356	Night Vision	bigeyes.gif
+356	Night Vision	bigeyes.gif	7404a77ea90f3e51ec8b1e1e3450351b
 357	Absinthe-Minded	snowflakes.gif	ebaff6fa82fe65630faccf2d1177b7cc
-358	Rat-Faced	ratmask.gif
+358	Rat-Faced	ratmask.gif	57f86c875130ff236081eb409213be09
 359	Dancing Prowess	footprints.gif	f52232fc8d5e5fcdd13c8266f2be1b62
 360	No Vertigo	spiral.gif	d43b6af05c4093274e2d58050e4d234e
 361	Good with the Ladies	wink.gif	a057b3c7dfb85e4711ec6b0a82d383c9
 362	Bats in the Belfry	batwing.gif	3188a0b4d646a166ad32ee827d5b0f8b
-363	Unusual Fashion Sense	confused.gif
+363	Unusual Fashion Sense	confused.gif	52816dcf5d94b5eba565c8688f04ed24
 364	Feelin' Philosophical	realbrain.gif	92c569a3c9aa120e4c79c5914c37c7e3
 365	Moon June Spooned	moon2.gif	733e8838261278c9b6173d392a4d09d7
 366	Inspired!	bulb.gif	cee83e927355a2c84cd8ee46745bd87a
@@ -376,7 +376,7 @@
 376	Sneaky Serpentine Subtlety	snakehead.gif	1539b9172f5093b00da60bf5764477a6
 377	Adrenaline Rush	hoppeddown.gif	47a740988991d8f1ef1ab26e72ee2a86
 378	Crusty Head	hippywig.gif	81b2fce49b337b3ef3c6a1b11d77c2df
-379
+379	Florid Cheeks	henna.gif	c6eba521aa725f3dbd0a27ac95cabaab
 380
 381
 382	Seeing Colors	snowflakes.gif	a25aa7677bc87baea8d0350e61b04e9d
@@ -434,7 +434,7 @@
 434	All Covered In Whatsit	stench.gif	37acab3aa7b7cc31532cffb27ed5037e
 435	Beer in Your Shoes	footprints.gif	fb06ebe1f825ce046930e2630203969a
 436	Toad In The Hole	squashfrog.gif	b17642b2ee44782a692b2d7861b50ac0
-437
+437	Strangulated	sad.gif	65e393732d2282a4a698417581c1e899
 438	Ham-fisted	ham.gif	a71e21c4a39a13558719fef8980422d4
 439	Baconstoned	bacon.gif	8a3686b9ef4909ca99587bc6489008c4
 440	Je Ne Sais Porquoise	confused.gif	7a1d33bd3c697d55c26eb70a1845a5d5
