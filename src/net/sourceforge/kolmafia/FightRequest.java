@@ -190,6 +190,12 @@ public class FightRequest extends KoLRequest
 		action1 = CombatSettings.getShortCombatOptionName( StaticEntity.getProperty( "battleAction" ) );
 		action2 = null;
 
+		// Adding machine should override custom combat scripts as well,
+		// since it's conditions-driven.
+
+		if ( encounterLookup.equals( "rampaging adding machine" ) )
+			handleAddingMachine();
+
 		// If the user wants a custom combat script, parse the desired
 		// action here.
 
@@ -203,10 +209,6 @@ public class FightRequest extends KoLRequest
 			action1 = "steal";
 			this.addFormField( "action", "steal" );
 			return;
-		}
-		else if ( encounterLookup.equals( "rampaging adding machine" ) )
-		{
-			handleAddingMachine();
 		}
 
 		// If the person wants to use their own script,

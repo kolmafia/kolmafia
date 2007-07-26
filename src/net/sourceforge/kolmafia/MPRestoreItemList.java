@@ -61,7 +61,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 		new MPRestoreItem( "Blatantly Canadian", 23, false ), new MPRestoreItem( "tiny house", 22, false ),
 		new MPRestoreItem( "green pixel potion", 19, true ), new MPRestoreItem( "Dyspepsi-Cola", 12, true ),
 		new MPRestoreItem( "Cloaca-Cola", 12, true ), new MPRestoreItem( "Mountain Stream soda", 8, true ),
-		MYSTERY_JUICE, new MPRestoreItem( "black cherry soda", 10, 40, false ), SELTZER,
+		MYSTERY_JUICE, new MPRestoreItem( "black cherry soda", 10, 80, false ), SELTZER,
 		new MPRestoreItem( "Cherry Cloaca Cola", 8, 80, true ), new MPRestoreItem( "soda water", 4, 70, false )
 	};
 
