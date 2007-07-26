@@ -140,9 +140,6 @@ public class SendMessageFrame extends KoLFrame
 		this.inventoryPanel.setButtons( null );
 		sources.addTab( "Inventory", this.inventoryPanel );
 
-		this.inventoryPanel.elementList.contextMenu.remove( 2 );
-		this.inventoryPanel.elementList.contextMenu.remove( 2 );
-
 		this.inventoryPanel.elementList.contextMenu.add( new AddAttachmentMenuItem( this.inventoryPanel ) );
 
 		// Add in the storage panel
@@ -310,7 +307,7 @@ public class SendMessageFrame extends KoLFrame
 			Object [] attachments = SendMessageFrame.this.getAttachedItems();
 
 			for ( int i = 0; i < recipients.length && KoLmafia.permitsContinue(); ++i )
-				DEFAULT_SHELL.executeSendRequest( recipients[i], message, attachments, SendMessageFrame.this.usingStorage );
+				DEFAULT_SHELL.executeSendRequest( recipients[i], message, attachments, SendMessageFrame.this.usingStorage, false );
 
 			RequestThread.closeRequestSequence();
 		}

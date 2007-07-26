@@ -49,8 +49,6 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.sourceforge.kolmafia.MonsterDatabase.Monster;
-
 public class KoLmafiaCLI extends KoLmafia
 {
 	private static final Pattern HTMLTAG_PATTERN = Pattern.compile( "<.*?>", Pattern.DOTALL );
@@ -2444,15 +2442,15 @@ public class KoLmafiaCLI extends KoLmafia
 			attachments[0] = new AdventureResult( AdventureResult.MEAT, amount );
 		}
 
-		this.executeSendRequest( splitParameters[1], message, attachments, false );
+		this.executeSendRequest( splitParameters[1], message, attachments, false, true );
 	}
 
-	public void executeSendRequest( String recipient, String message, Object [] attachments, boolean usingStorage )
+	public void executeSendRequest( String recipient, String message, Object [] attachments, boolean usingStorage, boolean isInternal )
 	{
 		if ( !usingStorage )
 		{
 			SendMessageRequest.setUpdateDisplayOnFailure( false );
-			RequestThread.postRequest( new GreenMessageRequest( recipient, message, attachments, false ) );
+			RequestThread.postRequest( new GreenMessageRequest( recipient, message, attachments, isInternal ) );
 			SendMessageRequest.setUpdateDisplayOnFailure( true );
 
 			if ( !SendMessageRequest.hadSendMessageFailure() )
