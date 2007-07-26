@@ -72,16 +72,16 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 	private FilterItemField filterfield;
 
-	public ItemManagePanel( String title, String confirmedText, String cancelledText, LockableListModel elementModel )
+	public ItemManagePanel( String confirmedText, String cancelledText, LockableListModel elementModel )
 	{
-		this( title, confirmedText, cancelledText, elementModel, true,
+		this( confirmedText, cancelledText, elementModel, true,
 			elementModel == tally || elementModel == inventory || elementModel == closet ||
 			elementModel == ConcoctionsDatabase.getCreatables() || elementModel == ConcoctionsDatabase.getUsables() );
 	}
 
-	public ItemManagePanel( String title, String confirmedText, String cancelledText, LockableListModel elementModel, boolean addFilterField, boolean addRefreshButton )
+	public ItemManagePanel( String confirmedText, String cancelledText, LockableListModel elementModel, boolean addFilterField, boolean addRefreshButton )
 	{
-		super( title, confirmedText, cancelledText, new ShowDescriptionList( elementModel ), false );
+		super( "", confirmedText, cancelledText, new ShowDescriptionList( elementModel ), false );
 
 		this.elementList = (ShowDescriptionList) this.scrollComponent;
 		this.elementModel = (LockableListModel) this.elementList.getModel();
@@ -91,7 +91,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 		this.filterfield = this.getWordFilter();
 
-		if ( addFilterField && title.equals( "" ) )
+		if ( addFilterField )
 			this.centerPanel.add( this.filterfield, BorderLayout.NORTH );
 
 		if ( addRefreshButton )

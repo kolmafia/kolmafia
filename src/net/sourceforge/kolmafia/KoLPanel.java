@@ -55,6 +55,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.text.JTextComponent;
 
 import net.java.dev.spellcast.utilities.ActionVerifyPanel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
@@ -176,6 +177,13 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 		{
 			((JPasswordField)component).addKeyListener( listener );
 			listenerMap.put( component, new WeakReference( listener ) );
+		}
+		if ( component instanceof MutableComboBox )
+		{
+			JTextComponent editor = (JTextComponent) ((MutableComboBox)component).getEditor().getEditorComponent();
+
+			editor.addKeyListener( listener );
+			listenerMap.put( editor, new WeakReference( listener ) );
 		}
 	}
 

@@ -60,8 +60,8 @@ public class ExamineItemsFrame extends KoLFrame
 		this.setDefaultCloseOperation( HIDE_ON_CLOSE );
 
 		this.tabs.addTab( "Items", new ExamineItemsPanel() );
-		this.tabs.addTab( "Familiars", new ItemLookupPanel( allFamiliars, "Familiars", "familiar", "which" ) );
-		this.tabs.addTab( "Skills", new ItemLookupPanel( allSkills, "Skills", "skill", "whichskill" ) );
+		this.tabs.addTab( "Familiars", new ItemLookupPanel( allFamiliars, "familiar", "which" ) );
+		this.tabs.addTab( "Skills", new ItemLookupPanel( allSkills, "skill", "whichskill" ) );
 		this.tabs.addTab( "Effects", new ExamineEffectsPanel() );
 
 		this.framePanel.setLayout( new CardLayout( 10, 10 ) );
@@ -74,9 +74,9 @@ public class ExamineItemsFrame extends KoLFrame
 		public String type;
 		public String which;
 
-		public ItemLookupPanel( LockableListModel list, String title, String type, String which )
+		public ItemLookupPanel( LockableListModel list, String type, String which )
 		{
-			super( "All KoL " + title, "Sort by name", "Sort by " + type + " #", list );
+			super( "Sort by name", "Sort by " + type + " #", list );
 
 			this.list = list;
 			this.type = type;
@@ -150,7 +150,7 @@ public class ExamineItemsFrame extends KoLFrame
 	private class ExamineItemsPanel extends ItemLookupPanel
 	{
 		public ExamineItemsPanel()
-		{	super( allItems, "Items", "item", "whichitem" );
+		{	super( allItems, "item", "whichitem" );
 		}
 
 		public String getId( Entry e )
@@ -161,7 +161,7 @@ public class ExamineItemsFrame extends KoLFrame
 	private class ExamineEffectsPanel extends ItemLookupPanel
 	{
 		public ExamineEffectsPanel()
-		{	super( allEffects, "Effects", "effect", "whicheffect" );
+		{	super( allEffects, "effect", "whicheffect" );
 		}
 
 		public String getId( Entry e )
