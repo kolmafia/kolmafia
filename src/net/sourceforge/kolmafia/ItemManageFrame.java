@@ -897,7 +897,7 @@ public class ItemManageFrame extends KoLFrame
 
 			if ( this.isEquipmentOnly )
 			{
-				super.addFilters( false );
+				super.addFilters();
 			}
 			else
 			{
@@ -906,13 +906,14 @@ public class ItemManageFrame extends KoLFrame
 				filterPanel.add( new CreationSettingCheckBox( "repair on explosion", "autoRepairBoxServants", "Automatically repair chefs and bartenders on explosion" ) );
 
 				this.northPanel.add( filterPanel, BorderLayout.NORTH );
+				this.setFixedFilter( food, booze, equip, other, true );
 			}
 
 			ConcoctionsDatabase.getCreatables().applyListFilters();
 			this.filterItems();
 		}
 
-		public void addFilters( boolean isCompact )
+		public void addFilters()
 		{
 		}
 
@@ -1008,15 +1009,10 @@ public class ItemManageFrame extends KoLFrame
 
 			} );
 
-			if ( this.isEquipmentOnly )
-			{
-				elementList.setCellRenderer( AdventureResult.getEquipmentRenderer() );
-			}
-			else
-			{
-				elementList.setCellRenderer( AdventureResult.getDefaultRenderer() );
+			elementList.setCellRenderer( AdventureResult.getDefaultRenderer() );
+
+			if ( !this.isEquipmentOnly )
 				this.movers[2].setSelected( true );
-			}
 
 			this.filterItems();
 		}
@@ -1026,16 +1022,13 @@ public class ItemManageFrame extends KoLFrame
 			super( "", confirmText, cancelText, model );
 			this.isEquipmentOnly = isEquipmentOnly;
 
-			this.addFilters( false );
+			this.addFilters();
 			this.filterItems();
 
-			if ( this.isEquipmentOnly )
-				elementList.setCellRenderer( AdventureResult.getEquipmentRenderer() );
-			else
-				elementList.setCellRenderer( AdventureResult.getDefaultRenderer() );
+			elementList.setCellRenderer( AdventureResult.getDefaultRenderer() );
 		}
 
-		public void addFilters( boolean isCompact )
+		public void addFilters()
 		{
 			if ( !this.isEquipmentOnly )
 			{
@@ -1157,7 +1150,7 @@ public class ItemManageFrame extends KoLFrame
 		{
 			super( "pull item", isEquipmentOnly ? "pull & use" : "closet item", storage, isEquipmentOnly );
 
-			this.addFilters( false );
+			this.addFilters();
 			this.addMovers();
 
 			if ( isEquipmentOnly )
