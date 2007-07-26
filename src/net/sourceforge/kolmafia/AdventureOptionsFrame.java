@@ -543,9 +543,9 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 			String desiredType = (String) KoLFrame.input( "Which kind of buff set would you like to use?", autoFillTypes );
 
 			if ( desiredType == autoFillTypes[0] )
-				MoodSettings.maximalSet();
-			else
 				MoodSettings.minimalSet();
+			else
+				MoodSettings.maximalSet();
 
 			MoodSettings.saveSettings();
 		}
