@@ -194,6 +194,10 @@ public class KoLmafiaASH extends StaticEntity
 		this.global = new ScriptScope( new ScriptVariableList(), getExistingFunctionScope() );
 	}
 
+	public String getFileName()
+	{	return fileName;
+	}
+
 	private KoLmafiaASH( KoLmafiaASH source, File scriptFile )
 	{
 		this.global = source.global;
@@ -748,7 +752,7 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			StaticEntity.setProperty( "previousNotifyList", notifyList + currentScript );
 
-			GreenMessageRequest notifier = new GreenMessageRequest( notifyRecipient, currentScript );
+			GreenMessageRequest notifier = new GreenMessageRequest( notifyRecipient, this );
 			RequestThread.postRequest( notifier );
 		}
 

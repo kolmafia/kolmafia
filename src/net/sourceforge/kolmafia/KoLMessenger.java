@@ -767,7 +767,7 @@ public abstract class KoLMessenger extends StaticEntity
 			}
 
 			String toSend = RequestEditorKit.getUnicode( data.toString().trim() );
-			RequestThread.postRequest( new GreenMessageRequest( channel, toSend, false ) );
+			RequestThread.postRequest( new GreenMessageRequest( channel, toSend ) );
 			return true;
 		}
 

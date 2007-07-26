@@ -35,6 +35,8 @@ package net.sourceforge.kolmafia;
 
 import javax.swing.JCheckBox;
 
+import net.sourceforge.kolmafia.MPRestoreItemList.MPRestoreItem;
+
 public abstract class HPRestoreItemList extends StaticEntity
 {
 	private static boolean purchaseBasedSort = false;
@@ -54,14 +56,17 @@ public abstract class HPRestoreItemList extends StaticEntity
 	public static final HPRestoreItem [] CONFIGURES = new HPRestoreItem []
 	{
 		SOFA, CAMPGROUND, GALAKTIK, HERBS, SCROLL, COCOON,
-		new HPRestoreItem( "phonics down", 48 ), new HPRestoreItem( "Disco Power Nap", 40 ), WALRUS,
+		new HPRestoreItem( "red pixel potion", 110 ), new HPRestoreItem( "really thick bandage", 109 ),
+		new HPRestoreItem( "gauze garter", 100 ), new HPRestoreItem( "bottle of Vangoghbitussin", 100 ),
+		new HPRestoreItem( "ancient Magi-wipes", 55 ), new HPRestoreItem( "phonics down", 48 ),
+		new HPRestoreItem( "Disco Power Nap", 40 ), WALRUS, new HPRestoreItem( "honey-dipped locust", 36 ),
 		new HPRestoreItem( "red paisley oyster egg", 33 ), new HPRestoreItem( "red polka-dot oyster egg", 33 ),
-		new HPRestoreItem( "red striped oyster egg", 33 ), new HPRestoreItem( "red pixel potion", 27 ),
-		new HPRestoreItem( "maple syrup", 25 ), new HPRestoreItem( "tiny house", 22 ), new HPRestoreItem( "Disco Nap", 20 ),
-		new HPRestoreItem( "Lasagna Bandages", 20 ), new HPRestoreItem( "green pixel potion", 19 ),
-		new HPRestoreItem( "Doc Galaktik's Homeopathic Elixir", 19, 240 ), new HPRestoreItem( "cast", 17 ),
-		new HPRestoreItem( "Tongue of the Otter", 15 ), new HPRestoreItem( "Doc Galaktik's Restorative Balm", 14, 120 ),
-		OINTMENT, new HPRestoreItem( "forest tears", 7 ), new HPRestoreItem( "Doc Galaktik's Pungent Unguent", 3, 30 )
+		new HPRestoreItem( "red striped oyster egg", 33 ), new HPRestoreItem( "tiny house", 22 ),
+		new HPRestoreItem( "Disco Nap", 20 ), new HPRestoreItem( "Lasagna Bandages", 20 ),
+		new HPRestoreItem( "green pixel potion", 19 ), new HPRestoreItem( "Doc Galaktik's Homeopathic Elixir", 19, 240 ),
+		new HPRestoreItem( "cast", 17 ), new HPRestoreItem( "Tongue of the Otter", 15 ),
+		new HPRestoreItem( "Doc Galaktik's Restorative Balm", 14, 120 ), OINTMENT, new HPRestoreItem( "forest tears", 7 ),
+		new HPRestoreItem( "Doc Galaktik's Pungent Unguent", 3, 30 )
 	};
 
 	public static void setPurchaseBasedSort( boolean purchaseBasedSort )

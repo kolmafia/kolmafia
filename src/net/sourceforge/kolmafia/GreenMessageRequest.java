@@ -35,33 +35,35 @@ package net.sourceforge.kolmafia;
 
 public class GreenMessageRequest extends SendMessageRequest
 {
+	private boolean isInternal;
 	private String recipient, message;
 
-	public GreenMessageRequest( String recipient, String scriptName )
+	public GreenMessageRequest( String recipient, String message )
 	{
 		super( "sendmessage.php" );
 
 		this.recipient = recipient;
-		this.message = "I have opted to let you know that I have chosen to run <" + scriptName + ">.  Thanks for writing this script!";
+		this.message = message;
 
 		this.addFormField( "action", "send" );
 		this.addFormField( "towho", KoLmafia.getPlayerId( this.recipient ) );
 		this.addFormField( "message", this.message );
+
+		this.isInternal = true;
 	}
 
-	public GreenMessageRequest( String recipient, String message, boolean saveMessage )
+	public GreenMessageRequest( String recipient, KoLmafiaASH script )
 	{
 		super( "sendmessage.php" );
 
 		this.recipient = recipient;
-		this.message = RequestEditorKit.getUnicode( message );
+		this.message = "I have opted to let you know that I have chosen to run <" + script.getFileName() + ">.  Thanks for writing this script!";
 
 		this.addFormField( "action", "send" );
 		this.addFormField( "towho", KoLmafia.getPlayerId( this.recipient ) );
 		this.addFormField( "message", this.message );
 
-		if ( saveMessage )
-			this.addFormField( "savecopy", "on" );
+		this.isInternal = true;
 	}
 
 	public GreenMessageRequest( String recipient, String message, AdventureResult attachment )
@@ -75,15 +77,10 @@ public class GreenMessageRequest extends SendMessageRequest
 		this.addFormField( "towho", KoLmafia.getPlayerId( this.recipient ) );
 		this.addFormField( "message", this.message );
 
-		if ( attachment.isItem() )
-			this.addFormField( "savecopy", "on" );
+		this.isInternal = true;
 	}
 
-	public GreenMessageRequest( String recipient, String message, Object [] attachments )
-	{	this( recipient, message, attachments, true );
-	}
-
-	public GreenMessageRequest( String recipient, String message, Object [] attachments, boolean saveMessage )
+	public GreenMessageRequest( String recipient, String message, Object [] attachments, boolean isInternal )
 	{
 		super( "sendmessage.php", attachments );
 
@@ -94,8 +91,10 @@ public class GreenMessageRequest extends SendMessageRequest
 		this.addFormField( "towho", KoLmafia.getPlayerId( this.recipient ) );
 		this.addFormField( "message", this.message );
 
-		if ( saveMessage )
+		if ( !isInternal )
 			this.addFormField( "savecopy", "on" );
+
+		this.isInternal = isInternal;
 	}
 
 	public String getRecipient()
@@ -107,7 +106,7 @@ public class GreenMessageRequest extends SendMessageRequest
 	}
 
 	public SendMessageRequest getSubInstance( Object [] attachments )
-	{	return new GreenMessageRequest( this.recipient, this.message, attachments );
+	{	return new GreenMessageRequest( this.recipient, this.message, attachments, this.isInternal );
 	}
 
 	public String getSuccessMessage()

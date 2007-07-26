@@ -45,23 +45,24 @@ public abstract class MPRestoreItemList extends StaticEntity
 
 	private static final MPRestoreItem GALAKTIK = new MPRestoreItem( "Galaktik's Fizzy Invigorating Tonic", 1, 17, false );
 	private static final MPRestoreItem MYSTERY_JUICE = new MPRestoreItem( "magical mystery juice", Integer.MAX_VALUE, 100, true );
-	private static final MPRestoreItem SODA_WATER = new MPRestoreItem( "soda water", 4, 70, false );
-
 	public static final MPRestoreItem SELTZER = new MPRestoreItem( "Knob Goblin seltzer", 10, 80, true );
-	public static final MPRestoreItem CHERRY_COLA = new MPRestoreItem( "Cherry Cloaca Cola", 8, 80, true );
 
 	public static final MPRestoreItem [] CONFIGURES = new MPRestoreItem []
 	{
-		SOFA, BEANBAG, CAMPGROUND, GALAKTIK, new MPRestoreItem( "bottle of Vangoghbitussin", 100, false ),
-		new MPRestoreItem( "bottle of Monsieur Bubble", 56, true ), new MPRestoreItem( "unrefined mountain stream syrup", 55, true ),
-		new MPRestoreItem( "phonics down", 48, false ), new MPRestoreItem( "tonic water", 40, false ), new MPRestoreItem( "Marquis de Poivre soda", 35, false ),
-		new MPRestoreItem( "blue paisley oyster egg", 33, false ), new MPRestoreItem( "blue polka-dot oyster egg", 33, false ),
-		new MPRestoreItem( "blue striped oyster egg", 33, false ), new MPRestoreItem( "blue pixel potion", 28, true ),
-		new MPRestoreItem( "Knob Goblin superseltzer", 27, true ), new MPRestoreItem( "maple syrup", 25, false ),
+		SOFA, BEANBAG, CAMPGROUND, GALAKTIK, new MPRestoreItem( "natural fennel soda", 100, false ),
+		new MPRestoreItem( "bottle of Vangoghbitussin", 100, false ), new MPRestoreItem( "monstar energy beverage", 75, false ),
+		new MPRestoreItem( "carbonated soy milk", 75, false ), new MPRestoreItem( "carbonated water lily", 65, false ),
+		new MPRestoreItem( "bottle of Monsieur Bubble", 56, true ), new MPRestoreItem( "ancient Magi-wipes", 55, false ),
+		new MPRestoreItem( "unrefined mountain stream syrup", 55, true ), new MPRestoreItem( "phonics down", 48, false ),
+		new MPRestoreItem( "tonic water", 40, false ), new MPRestoreItem( "honey-dipped locust", 36, false ),
+		new MPRestoreItem( "Marquis de Poivre soda", 35, false ), new MPRestoreItem( "blue paisley oyster egg", 33, false ),
+		new MPRestoreItem( "blue polka-dot oyster egg", 33, false ), new MPRestoreItem( "blue striped oyster egg", 33, false ),
+		new MPRestoreItem( "blue pixel potion", 28, true ), new MPRestoreItem( "Knob Goblin superseltzer", 27, true ),
 		new MPRestoreItem( "Blatantly Canadian", 23, false ), new MPRestoreItem( "tiny house", 22, false ),
 		new MPRestoreItem( "green pixel potion", 19, true ), new MPRestoreItem( "Dyspepsi-Cola", 12, true ),
 		new MPRestoreItem( "Cloaca-Cola", 12, true ), new MPRestoreItem( "Mountain Stream soda", 8, true ),
-		MYSTERY_JUICE, SELTZER, CHERRY_COLA, SODA_WATER
+		MYSTERY_JUICE, new MPRestoreItem( "black cherry soda", 10, 40, false ), SELTZER,
+		new MPRestoreItem( "Cherry Cloaca Cola", 8, 80, true ), new MPRestoreItem( "soda water", 4, 70, false )
 	};
 
 	public static void setPurchaseBasedSort( boolean purchaseBasedSort )
