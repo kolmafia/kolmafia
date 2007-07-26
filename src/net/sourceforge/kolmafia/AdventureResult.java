@@ -1003,9 +1003,12 @@ public class AdventureResult implements Comparable, KoLConstants
 						++count;
 					stringForm = ar.getName() + " (" + count + " max)";
 				}
-				else if ( power > 0 )
+				else
 				{
-					stringForm = ar.getName() + " (+" + COMMA_FORMAT.format(power) + ")";
+					if ( power > 0 )
+						stringForm = ar.getName() + " (+" + COMMA_FORMAT.format(power) + ")";
+					else
+						stringForm = ar.getName();
 				}
 
 				// Gray out any equipment that the player cannot currently equip
