@@ -51,6 +51,8 @@ public class LogoutRequest extends KoLRequest
 				return;
 
 			StaticEntity.saveCounters();
+			KoLSettings.saveFlaggedItemList();
+
 			KoLAdventure.resetAutoAttack();
 
 			if ( KoLDesktop.instanceExists() )
@@ -68,7 +70,6 @@ public class LogoutRequest extends KoLRequest
 			KoLmafia.updateDisplay( ABORT_STATE, "Logout request submitted." );
 
 			StaticEntity.getClient().setCurrentRequest( null );
-
 			KoLCharacter.reset( "" );
 
 			sessionId = null;

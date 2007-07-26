@@ -282,6 +282,10 @@ public class AutoSellRequest extends SendMessageRequest
 				return;
 			}
 
+			for ( int i = 0; i < attachments.length; ++i )
+				if ( attachments[i] != null && !profitableList.contains( attachments[i] ) )
+					profitableList.add( attachments[i] );
+
 			KoLmafia.updateDisplay( "Items sold." );
 			return;
 		}
@@ -295,10 +299,8 @@ public class AutoSellRequest extends SendMessageRequest
 		if ( mode != null && (mode.equals( "0" ) && getFormField("type").equals("all")) || mode.equals( "1" ) )
 		{
 			for ( int i = 0; i < attachments.length; ++i )
-				if ( attachments[i] != null )
+				if ( attachments[i] != null && !junkList.contains( attachments[i] ) )
 					junkList.add( attachments[i] );
-
-			KoLSettings.saveFlaggedItemList();
 		}
 
 		// Move out of inventory. Process meat gains, if old autosell
