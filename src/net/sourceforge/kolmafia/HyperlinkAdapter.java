@@ -36,7 +36,6 @@ package net.sourceforge.kolmafia;
 import java.net.URLEncoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.swing.JOptionPane;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
@@ -84,7 +83,7 @@ public abstract class HyperlinkAdapter implements HyperlinkListener
 				// Javascript links.  Adding support would
 				// be an unnecessary time investment.
 
-				JOptionPane.showMessageDialog( null, "Ironically, Java does not support Javascript." );
+				KoLFrame.alert( "Ironically, Java does not support Javascript." );
 			}
 			else if ( location.indexOf( "submit()" ) == -1 )
 			{

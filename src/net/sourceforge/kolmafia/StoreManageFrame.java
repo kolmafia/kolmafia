@@ -45,7 +45,6 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -164,9 +163,8 @@ public class StoreManageFrame extends KoLPanelFrame
 
 		public void actionCancelled()
 		{
-			if ( JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null,
-				basicTextWrap( UNDERCUT_MESSAGE + "Are you sure you wish to continue with this repricing?" ), "Think before you click.", JOptionPane.YES_NO_OPTION ) )
-					return;
+			if ( !confirm( UNDERCUT_MESSAGE + "Are you sure you wish to continue with this repricing?" ) )
+				return;
 
 			StaticEntity.getClient().priceItemsAtLowestPrice();
 		}
@@ -396,8 +394,7 @@ public class StoreManageFrame extends KoLPanelFrame
 
 		public void actionCancelled()
 		{
-			if ( JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null,
-				"Are you sure you'd like to autosell the selected items?", "Clean up!", JOptionPane.YES_NO_OPTION ) )
+			if ( !confirm( "Are you sure you'd like to autosell the selected items?" ) )
 					return;
 
 			this.removeItems( true );

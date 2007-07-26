@@ -46,7 +46,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -251,7 +250,7 @@ public class ClanManageFrame extends KoLFrame
 			int totalValue = getValue( this.goodies ) * 1000 + getValue( this.oatmeal ) * 3 + getValue( this.recliners ) * 1500 +
 				getValue( this.grunts ) * 300 + getValue( this.flyers ) * 500 + getValue( this.archers ) * 500;
 
-			JOptionPane.showMessageDialog( null, "This purchase will cost " + totalValue + " meat" );
+			alert( "This purchase will cost " + totalValue + " meat" );
 		}
 	}
 
@@ -279,7 +278,7 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		public void actionCancelled()
-		{	JOptionPane.showMessageDialog( null, "The Hermit beat you to it.  ARGH!" );
+		{	alert( "The Hermit beat you to it.  ARGH!" );
 		}
 	}
 

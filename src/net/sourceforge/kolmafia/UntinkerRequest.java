@@ -35,7 +35,6 @@ package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
-import javax.swing.JOptionPane;
 
 public class UntinkerRequest extends KoLRequest
 {
@@ -171,9 +170,8 @@ public class UntinkerRequest extends KoLRequest
 
 		if ( !existingFrames.isEmpty() )
 		{
-			if ( JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null, "KoLmafia thinks you haven't completed the screwdriver quest.\nWould you like to have KoLmafia automatically complete it now?",
-				"Think carefully before you answer...", JOptionPane.YES_NO_OPTION ) )
-					return false;
+			if ( !KoLFrame.confirm( "KoLmafia thinks you haven't completed the screwdriver quest.  Would you like to have KoLmafia automatically complete it now?" ) )
+				return false;
 		}
 
 		// Okay, so they don't have one yet. Complete the

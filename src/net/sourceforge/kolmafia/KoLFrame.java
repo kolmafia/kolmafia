@@ -70,6 +70,7 @@ import javax.swing.JComponent;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
@@ -900,8 +901,52 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		}
 	}
 
-	public static final String basicTextWrap( String text )
+	public static final void alert( String message )
+	{	JOptionPane.showMessageDialog( null, basicTextWrap( message ) );
+	}
+
+	public static final boolean confirm( String message )
+	{	return JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null, basicTextWrap( message ), "", JOptionPane.YES_NO_OPTION );
+	}
+
+	public static final String input( String message )
+	{	return JOptionPane.showInputDialog( null, basicTextWrap( message ) );
+	}
+
+	public static final String input( String message, String initial )
+	{	return JOptionPane.showInputDialog( null, basicTextWrap( message ), initial );
+	}
+
+	public static final Object input( String message, LockableListModel inputs )
 	{
+		JList selector = new JList( inputs );
+		int option = JOptionPane.showConfirmDialog( null, new SimpleScrollPane( selector ), basicTextWrap( message ),
+			JOptionPane.OK_CANCEL_OPTION );
+		return option == JOptionPane.CANCEL_OPTION ? null : selector.getSelectedValue();
+	}
+
+	public static final Object input( String message, Object [] inputs )
+	{
+		if ( inputs == null || inputs.length == 0 )
+			return null;
+
+		return input( message, inputs, inputs[0] );
+	}
+
+	public static final Object input( String message, Object [] inputs, Object initial )
+	{
+		if ( inputs == null || inputs.length == 0 )
+			return null;
+
+		return JOptionPane.showInputDialog( null, basicTextWrap( message ), "",
+			JOptionPane.INFORMATION_MESSAGE, null, inputs, initial );
+	}
+
+	private static final String basicTextWrap( String text )
+	{
+		if ( text.length() < 80 || text.startsWith( "<html>" ) )
+			return text;
+
 		StringBuffer result = new StringBuffer();
 
 		while ( text.length() > 0 )
@@ -961,7 +1006,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		return ((Integer) field.getValue()).intValue();
 	}
 
-	public static final int getQuantity( String title, int maximumValue, int defaultValue )
+	public static final int getQuantity( String message, int maximumValue, int defaultValue )
 	{
 		// Check parameters; avoid programmer error.
 		if ( defaultValue > maximumValue )
@@ -970,7 +1015,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		if ( maximumValue == 1 && maximumValue == defaultValue )
 			return 1;
 
-		String currentValue = JOptionPane.showInputDialog( title, COMMA_FORMAT.format( defaultValue ) );
+		String currentValue = input( message, COMMA_FORMAT.format( defaultValue ) );
 		if ( currentValue == null )
 			return 0;
 
@@ -1460,7 +1505,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 			if ( table.isEditing() )
 			{
-				JOptionPane.showMessageDialog( null, "One or more fields contain invalid values.\n(Note: they are currently outlined in red)" );
+				alert( "One or more fields contain invalid values. (Note: they are currently outlined in red)" );
 				return false;
 			}
 		}

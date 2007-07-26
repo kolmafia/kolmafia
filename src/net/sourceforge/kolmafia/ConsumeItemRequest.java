@@ -38,8 +38,6 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.swing.JOptionPane;
-
 public class ConsumeItemRequest extends KoLRequest
 {
 	private static final Pattern ROW_PATTERN = Pattern.compile( "<tr>.*?</tr>" );
@@ -406,11 +404,8 @@ public class ConsumeItemRequest extends KoLRequest
 		{
 			if ( availableSkills.contains( UseSkillRequest.getInstance( "The Ode to Booze" ) ) && !askedAboutOde.equals( KoLCharacter.getUserName() ) )
 			{
-				if ( JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null, "Are you sure you want to drink without ode?",
-					"Think carefully before you answer...", JOptionPane.YES_NO_OPTION ) )
-				{
+				if ( !KoLFrame.confirm( "Are you sure you want to drink without ode?" ) )
 					return false;
-				}
 
 				askedAboutOde = KoLCharacter.getUserName();
 			}
@@ -420,13 +415,8 @@ public class ConsumeItemRequest extends KoLRequest
 		// have PvP attacks remaining.
 
 		if ( KoLCharacter.getAttacksLeft() > 0 && KoLCharacter.getInebriety() + inebrietyBonus > KoLCharacter.getInebrietyLimit() )
-		{
-			if ( JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null, "Are you sure you want to overdrink without PvPing?",
-				"Think carefully before you answer...", JOptionPane.YES_NO_OPTION ) )
-			{
+			if ( !KoLFrame.confirm( "Are you sure you want to overdrink without PvPing?" ) )
 				return false;
-			}
-		}
 
 		return true;
 	}

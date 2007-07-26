@@ -51,7 +51,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
@@ -563,8 +562,9 @@ public class MushroomFrame extends KoLFrame
 			if ( names.isEmpty() )
 				return;
 
-			this.loadLayout( (String) JOptionPane.showInputDialog( null,
-				"Which mushroom plot?", "", JOptionPane.OK_OPTION, null, names.toArray(), null ) );
+			String layout = (String) input( "Which mushroom plot?", names.toArray() );
+			if ( layout != null )
+				this.loadLayout( layout );
 		}
 
 		public void loadLayout( String layout )
@@ -578,7 +578,7 @@ public class MushroomFrame extends KoLFrame
 
 		public void saveLayout()
 		{
-			String location = JOptionPane.showInputDialog( "Name your mushroom plot!", "" );
+			String location = input( "Name your mushroom plot!" );
 			if ( location == null )
 				return;
 

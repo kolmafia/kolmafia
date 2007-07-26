@@ -45,8 +45,6 @@ import java.util.TreeMap;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
@@ -1083,7 +1081,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 	public static void addHighlighting()
 	{
-		String highlight = JOptionPane.showInputDialog( "What word/phrase would you like to highlight?", KoLCharacter.getUserName() );
+		String highlight = KoLFrame.input( "What word/phrase would you like to highlight?", KoLCharacter.getUserName() );
 		if ( highlight == null )
 			return;
 
@@ -1119,7 +1117,7 @@ public abstract class KoLMessenger extends StaticEntity
 		Object [] patterns = LimitedSizeChatBuffer.highlights.toArray();
 		if ( patterns.length == 0 )
 		{
-			JOptionPane.showMessageDialog( null, "No active highlights." );
+			KoLFrame.alert( "No active highlights." );
 			highlighting = false;
 			return;
 		}
@@ -1127,8 +1125,7 @@ public abstract class KoLMessenger extends StaticEntity
 		for ( int i = 0; i < patterns.length; ++i )
 			patterns[i] = ((Pattern)patterns[i]).pattern();
 
-		String selectedValue = (String) JOptionPane.showInputDialog( null, "Currently highlighting the following terms:",
-			"Chat highlights!", JOptionPane.INFORMATION_MESSAGE, null, patterns, patterns[0] );
+		String selectedValue = (String) KoLFrame.input( "Currently highlighting the following terms:", patterns );
 
 		if ( selectedValue == null )
 			return;

@@ -62,8 +62,6 @@ import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.swing.JOptionPane;
-
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.MonsterDatabase.Monster;
@@ -3068,39 +3066,30 @@ public class KoLmafiaASH extends StaticEntity
 		switch ( type.getType() )
 		{
 		case TYPE_BOOLEAN:
-			return (String) JOptionPane.showInputDialog( null, message, "Input Variable",
-				JOptionPane.INFORMATION_MESSAGE, null, BOOLEANS, BOOLEANS[0] );
+			return (String) KoLFrame.input( message, BOOLEANS );
 
 		case TYPE_LOCATION:
-			return ((KoLAdventure) JOptionPane.showInputDialog( null, message, "Input Variable",
-				JOptionPane.INFORMATION_MESSAGE, null, AdventureDatabase.getAsLockableListModel().toArray(),
+			return (String) ((KoLAdventure) KoLFrame.input( message, AdventureDatabase.getAsLockableListModel().toArray(),
 				AdventureDatabase.getAdventure( getProperty( "lastAdventure" ) ) )).getAdventureName();
 
 		case TYPE_SKILL:
-
-			List castableSkills = ClassSkillsDatabase.getSkillsByType( ClassSkillsDatabase.CASTABLE );
-			return ((UseSkillRequest) JOptionPane.showInputDialog( null, message, "Input Variable",
-				JOptionPane.INFORMATION_MESSAGE, null, castableSkills.toArray(), castableSkills.get(0) )).getSkillName();
+			return (String) ((UseSkillRequest) KoLFrame.input( message,
+				ClassSkillsDatabase.getSkillsByType( ClassSkillsDatabase.CASTABLE ).toArray() )).getSkillName();
 
 		case TYPE_FAMILIAR:
-			return ((FamiliarData) JOptionPane.showInputDialog( null, message, "Input Variable",
-				JOptionPane.INFORMATION_MESSAGE, null, KoLCharacter.getFamiliarList().toArray(), KoLCharacter.getFamiliar() )).getRace();
+			return ((FamiliarData) KoLFrame.input( message, KoLCharacter.getFamiliarList().toArray(), KoLCharacter.getFamiliar() )).getRace();
 
 		case TYPE_SLOT:
-			return (String) JOptionPane.showInputDialog( null, message, "Input Variable",
-				JOptionPane.INFORMATION_MESSAGE, null, EquipmentRequest.slotNames, EquipmentRequest.slotNames[0] );
+			return (String) KoLFrame.input( message, EquipmentRequest.slotNames );
 
 		case TYPE_ELEMENT:
-			return (String) JOptionPane.showInputDialog( null, message, "Input Variable",
-				JOptionPane.INFORMATION_MESSAGE, null, MonsterDatabase.elementNames, MonsterDatabase.elementNames[0] );
+			return (String) KoLFrame.input( message, MonsterDatabase.elementNames );
 
 		case TYPE_CLASS:
-			return (String) JOptionPane.showInputDialog( null, message, "Input Variable",
-					JOptionPane.INFORMATION_MESSAGE, null, CLASSES, CLASSES[0] );
+			return (String) KoLFrame.input( message, CLASSES );
 
 		case TYPE_STAT:
-			return (String) JOptionPane.showInputDialog( null, message, "Input Variable",
-					JOptionPane.INFORMATION_MESSAGE, null, STATS, STATS[0] );
+			return (String) KoLFrame.input( message, STATS );
 
 		case TYPE_INT:
 		case TYPE_FLOAT:
@@ -3108,7 +3097,7 @@ public class KoLmafiaASH extends StaticEntity
 		case TYPE_ITEM:
 		case TYPE_EFFECT:
 		case TYPE_MONSTER:
-			return JOptionPane.showInputDialog( message );
+			return KoLFrame.input( message );
 
 		default:
 			throw new RuntimeException( "Internal error: Illegal type for main() parameter" );
@@ -4510,9 +4499,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptValue user_confirm( ScriptVariable message )
-		{
-			return JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null, message.toStringValue().toString(),
-				"Scripted User Confirmation Request", JOptionPane.YES_NO_OPTION ) ? TRUE_VALUE : FALSE_VALUE;
+		{	return KoLFrame.confirm( message.toStringValue().toString() ) ? TRUE_VALUE : FALSE_VALUE;
 		}
 
 		public ScriptValue print( ScriptVariable string )

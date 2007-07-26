@@ -52,7 +52,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
@@ -298,9 +297,7 @@ public class ItemManageFrame extends KoLFrame
 		}
 
 		public void actionCancelled()
-		{
-			JOptionPane.showMessageDialog( null, basicTextWrap(
-				"These items have been flagged as \"junk\" because at some point in the past, you've opted to autosell all of the item.  If you use the \"cleanup\" command, KoLmafia will dispose of these items either by pulverizing them (equipment) or autoselling them (non-equipment)." ) );
+		{	alert( "These items have been flagged as \"junk\" because at some point in the past, you've opted to autosell all of the item.  If you use the \"cleanup\" command, KoLmafia will dispose of these items either by pulverizing them (equipment) or autoselling them (non-equipment)." );
 		}
 	}
 
@@ -315,9 +312,7 @@ public class ItemManageFrame extends KoLFrame
 		}
 
 		public void actionCancelled()
-		{
-			JOptionPane.showMessageDialog( null, basicTextWrap(
-				"These items have been flagged as \"profitable\" because at some point in the past, you've opted to place them in the mall.  If you use the \"automall\" command, KoLmafia will place all of these items in the mall." ) );
+		{	alert( "These items have been flagged as \"profitable\" because at some point in the past, you've opted to place them in the mall.  If you use the \"automall\" command, KoLmafia will place all of these items in the mall." );
 		}
 	}
 
@@ -332,9 +327,7 @@ public class ItemManageFrame extends KoLFrame
 		}
 
 		public void actionCancelled()
-		{
-			JOptionPane.showMessageDialog( null, basicTextWrap(
-				"These items are flagged as \"mementos\".  IF YOU SET A PREFERENCE, KoLmafia will never sell or pulverize these items." ) );
+		{	alert( "These items are flagged as \"mementos\".  IF YOU SET A PREFERENCE, KoLmafia will never sell or pulverize these items." );
 		}
 	}
 
@@ -351,9 +344,7 @@ public class ItemManageFrame extends KoLFrame
 		}
 
 		public void actionCancelled()
-		{
-			JOptionPane.showMessageDialog( null, basicTextWrap(
-				"KoLmafia will place all items which are not already in your store into your store. " + StoreManageFrame.UNDERCUT_MESSAGE ) );
+		{	alert( "KoLmafia will place all items which are not already in your store into your store. " + StoreManageFrame.UNDERCUT_MESSAGE );
 		}
 	}
 
@@ -390,9 +381,7 @@ public class ItemManageFrame extends KoLFrame
 		}
 
 		public void actionCancelled()
-		{
-			JOptionPane.showMessageDialog( null, basicTextWrap(
-				"This feature scans your inventory and if it finds any items which are in your display case, it puts those items on display." ) );
+		{	alert( "This feature scans your inventory and if it finds any items which are in your display case, it puts those items on display." );
 		}
 	}
 

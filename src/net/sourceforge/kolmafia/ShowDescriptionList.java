@@ -44,7 +44,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
 import javax.swing.SwingUtilities;
@@ -492,7 +491,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 
 		public void executeAction()
 		{
-			if ( JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null, "Are you sure you would like to sell the selected items?", "Sell request nag screen!", JOptionPane.YES_NO_OPTION ) )
+			if ( !KoLFrame.confirm( "Are you sure you would like to sell the selected items?" ) )
 				return;
 
 			RequestThread.postRequest( new AutoSellRequest( ShowDescriptionList.this.getSelectedValues(), AutoSellRequest.AUTOSELL ) );
@@ -507,7 +506,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 
 		public void executeAction()
 		{
-			if ( JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null, "Are you sure you want to use the selected items?", "Use request nag screen!", JOptionPane.YES_NO_OPTION ) )
+			if ( !KoLFrame.confirm( "Are you sure you want to use the selected items?" ) )
 				return;
 
 			Object [] items = ShowDescriptionList.this.getSelectedValues();
@@ -527,7 +526,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 
 		public void executeAction()
 		{
-			if ( JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null, "The items you've selected will be smashed to pieces.  Are you sure?", "Pulverize request nag screen!", JOptionPane.YES_NO_OPTION ) )
+			if ( !KoLFrame.confirm( "The items you've selected will be smashed to pieces.  Are you sure?" ) )
 				return;
 
 			Object [] items = ShowDescriptionList.this.getSelectedValues();

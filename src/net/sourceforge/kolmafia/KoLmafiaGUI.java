@@ -335,7 +335,7 @@ public class KoLmafiaGUI extends KoLmafia
 					if ( !ClanManager.isStashRetrieved() )
 						RequestThread.postRequest( new ClanStashRequest() );
 
-				if ( collection.isEmpty() )
+				if ( KoLCharacter.hasDisplayCase() && collection.isEmpty() )
 					RequestThread.postRequest( new MuseumRequest() );
 			}
 			else if ( this.frameClass == KoLMessenger.class )
@@ -365,6 +365,12 @@ public class KoLmafiaGUI extends KoLmafia
 			}
 			else if ( this.frameClass == MuseumFrame.class )
 			{
+				if ( !KoLCharacter.hasDisplayCase() )
+				{
+					updateDisplay( ERROR_STATE, "Sorry, you don't have a display case." );
+					return;
+				}
+
 				if ( collection.isEmpty() )
 					RequestThread.postRequest( new MuseumRequest() );
 			}

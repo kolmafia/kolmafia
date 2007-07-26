@@ -45,7 +45,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.ListSelectionModel;
@@ -55,7 +54,6 @@ import javax.swing.event.ListDataListener;
 import tab.CloseTabPaneEnhancedUI;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class OptionsFrame extends KoLFrame
@@ -450,7 +448,7 @@ public class OptionsFrame extends KoLFrame
 
 			public void run()
 			{
-				String currentValue = JOptionPane.showInputDialog( "CLI Command", "" );
+				String currentValue = input( "Enter the desired CLI Command" );
 				if ( currentValue != null && currentValue.length() != 0 )
 					ScriptButtonPanel.this.list.add( currentValue );
 
@@ -663,7 +661,7 @@ public class OptionsFrame extends KoLFrame
 
 			public void run()
 			{
-				String newName = JOptionPane.showInputDialog( "Add a bookmark!", "http://www.google.com/" );
+				String newName = input( "Add a bookmark!", "http://www.google.com/" );
 				if ( newName == null )
 					return;
 
@@ -693,7 +691,7 @@ public class OptionsFrame extends KoLFrame
 				String location = bookmarkData[1];
 				String pwdhash = bookmarkData[2];
 
-				String newName = JOptionPane.showInputDialog( "Rename your bookmark?", name );
+				String newName = input( "Rename your bookmark?", name );
 
 				if ( newName == null )
 					return;
