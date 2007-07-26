@@ -624,6 +624,24 @@ public abstract class KoLCharacter extends StaticEntity
 		return classtype;
 	}
 
+	public static String getClassTypeAbbreviation()
+	{
+		String type = getClassType();
+		if ( type.equals( SEAL_CLUBBER ) )
+			return "SC";
+		if ( type.equals( TURTLE_TAMER ) )
+			return "TT";
+		if ( type.equals( PASTAMANCER ) )
+			return "PA";
+		if ( type.equals( SAUCEROR ) )
+			return "SA";
+		if ( type.equals( DISCO_BANDIT ) )
+			return "DB";
+		if ( type.equals( ACCORDION_THIEF ) )
+			return "AT";
+		return "??";
+	}
+
 	/**
 	 * Accessor method to retrieve the type of the character's class.
 	 * @return	The type of the character's class
