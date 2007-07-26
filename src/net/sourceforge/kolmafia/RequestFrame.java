@@ -80,6 +80,7 @@ public class RequestFrame extends KoLFrame
 	public RequestFrame()
 	{
 		this( "Mini-Browser" );
+		this.setDefaultCloseOperation( HIDE_ON_CLOSE );
 		this.displayRequest( new KoLRequest( "main.php" ) );
 	}
 

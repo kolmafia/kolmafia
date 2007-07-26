@@ -190,7 +190,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 	public boolean isNonCombatsOnly()
 	{
-		return (this.request instanceof AdventureRequest) ||
+		return !(this.request instanceof AdventureRequest) ||
 			(this.areaSummary != null && this.areaSummary.combats() == 0 && this.areaSummary.getMonsterCount() == 0);
 	}
 
@@ -827,8 +827,18 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		// Areas that have no combats do not need to have auto-attack
 		// reset.  Therefore, skip out.
 
-		if ( FightRequest.getActualRound() != 0 || !(request instanceof AdventureRequest) || areaSummary == null || areaSummary.combats() <= 0 )
+		if ( FightRequest.getActualRound() != 0 || isNonCombatsOnly() )
 			return;
+
+		// If you're searching for special scrolls, do not enable
+		// your auto-attack.
+
+		if ( adventureId.equals( "80" ) && conditions.contains( FightRequest.SCROLL_668 ) ||
+			conditions.contains( FightRequest.SCROLL_64735 ) || conditions.contains( FightRequest.SCROLL_31337 ) )
+		{
+			resetAutoAttack();
+			return;
+		}
 
 		// If this is not an automated request, make sure to turn off
 		// auto-attack if it was off before any automation started.
