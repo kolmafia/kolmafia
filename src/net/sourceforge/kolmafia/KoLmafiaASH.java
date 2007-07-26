@@ -360,7 +360,7 @@ public class KoLmafiaASH extends StaticEntity
 
 	private static ScriptValue parseClassValue( String name )
 	{
-		if ( name.equalsIgnoreCase( "none" ) )
+		if ( name.equalsIgnoreCase( "none" ) || name.equals( "") )
 			return CLASS_INIT;
 
 		int num = classToInt( name );
@@ -422,7 +422,7 @@ public class KoLmafiaASH extends StaticEntity
 
 	private static ScriptValue parseEffectValue( String name )
 	{
-		if ( name.equalsIgnoreCase( "none" ) )
+		if ( name.equalsIgnoreCase( "none" ) || name.equals( "" ) )
 			return EFFECT_INIT;
 
 		AdventureResult effect = KoLmafiaCLI.getFirstMatchingEffect( name );
@@ -3193,6 +3193,9 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { INT_TYPE };
 		result.addElement( new ScriptExistingFunction( "to_item", ITEM_TYPE, params ) );
 
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "to_class", CLASS_TYPE, params ) );
+
 		params = new ScriptType[] { INT_TYPE };
 		result.addElement( new ScriptExistingFunction( "to_skill", SKILL_TYPE, params ) );
 		params = new ScriptType[] { STRING_TYPE };
@@ -3793,6 +3796,23 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "will_usually_dodge", BOOLEAN_TYPE, params ) );
 
+		// Modifier introspection
+
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "numeric_modifier", FLOAT_TYPE, params ) );
+
+		params = new ScriptType[] { ITEM_TYPE, STRING_TYPE  };
+		result.addElement( new ScriptExistingFunction( "numeric_modifier", FLOAT_TYPE, params ) );
+
+		params = new ScriptType[] { EFFECT_TYPE, STRING_TYPE  };
+		result.addElement( new ScriptExistingFunction( "numeric_modifier", FLOAT_TYPE, params ) );
+
+		params = new ScriptType[] { SKILL_TYPE, STRING_TYPE  };
+		result.addElement( new ScriptExistingFunction( "numeric_modifier", FLOAT_TYPE, params ) );
+
+		params = new ScriptType[] { ITEM_TYPE, STRING_TYPE  };
+		result.addElement( new ScriptExistingFunction( "string_modifier", STRING_TYPE, params ) );
+
 		return result;
 	}
 
@@ -4149,6 +4169,8 @@ public class KoLmafiaASH extends StaticEntity
 					return findFunction( "to_float", params );
 				if ( name.endsWith( "to_item" ) )
 					return findFunction( "to_item", params );
+				if ( name.endsWith( "to_class" ) )
+					return findFunction( "to_class", params );
 				if ( name.endsWith( "to_skill" ) )
 					return findFunction( "to_skill", params );
 				if ( name.endsWith( "to_effect" ) )
@@ -4655,6 +4677,11 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			return val.getValueType().equals( TYPE_INT ) ? makeItemValue( val.intValue() ) :
 				parseItemValue( val.toStringValue().toString() );
+		}
+
+		public ScriptValue to_class( ScriptVariable val )
+		{
+			return parseClassValue( val.toStringValue().toString() );
 		}
 
 		public ScriptValue to_skill( ScriptVariable val )
@@ -6014,6 +6041,27 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue will_usually_miss()
 		{	return FightRequest.willUsuallyMiss() ? TRUE_VALUE : FALSE_VALUE;
+		}
+
+
+		public ScriptValue numeric_modifier( ScriptVariable modifier )
+		{
+			String mod = modifier.toStringValue().toString();
+			return new ScriptValue( KoLCharacter.currentNumericModifier( mod ) );
+		}
+
+		public ScriptValue numeric_modifier( ScriptVariable arg, ScriptVariable modifier )
+		{
+			String name = arg.toStringValue().toString();
+			String mod = modifier.toStringValue().toString();
+			return new ScriptValue( Modifiers.getNumericModifier( name, mod ) );
+		}
+
+		public ScriptValue string_modifier( ScriptVariable arg, ScriptVariable modifier )
+		{
+			String name = arg.toStringValue().toString();
+			String mod = modifier.toStringValue().toString();
+			return new ScriptValue( Modifiers.getStringModifier( name, mod ) );
 		}
 	}
 

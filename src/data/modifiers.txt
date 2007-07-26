@@ -1,18 +1,18 @@
 # Hats section of modifiers.txt
 
-Ancient Saucehelm	Mys: +7, Class: SA
+Ancient Saucehelm	Mys: +7, Class: Sauceror
 Baron Von Ratsworth's tophat	Mox: +5, Mus: +5, Mys: +5
 Brimstone Beret	Mox%: +50, Mus%: -20
 # Cerebral Cloche
 Cloaca-Cola helmet	DA: +10
-Colander of Em-er'il	Mys: +7, Class: PA
+Colander of Em-er'il	Mys: +7, Class: Pastamancer
 Crimbo hat	Spooky: +10
 Crown of the Goblin King	Mus: +10
-Disco 'Fro Pick	Mox: +7, Class: DB
+Disco 'Fro Pick	Mox: +7, Class: Disco Bandit
 Dolphin King's crown	Mox: +2, Mus: +2, Mys: +2
 Dyspepsi-Cola helmet	DA: +10
-El Sombrero De Lopez	Mox: +7, Class: AT
-Elder Turtle Shell	Mus: +7, Class: TT
+El Sombrero De Lopez	Mox: +7, Class: Accordion Thief
+Elder Turtle Shell	Mus: +7, Class: Turtle Tamer
 Grimacite gasmask	Mus%: +30
 Grimacite goggles	Mys%: +30
 # Kentucky-style derby
@@ -24,7 +24,7 @@ MAHI fez	Mox: +30
 # Mohawk wig
 Orcish baseball cap	Mus: +3, Mys: -3
 Radio Free Baseball Cap	Intrinsic: Radio Head
-Scalp of Gorgolok	Mus: +7, Class: SC
+Scalp of Gorgolok	Mus: +7, Class: Seal Clubber
 Snow Queen Crown	Cold: +30
 # Sombrero De Vida
 Tropical Crimbo Hat	Spooky: +10
@@ -280,10 +280,10 @@ white snakeskin duster	Mus: +2
 
 17-alarm Saucepan	Mys: +11
 # 25-meat staff
-5-Alarm Saucepan	Mys: +7, Class: SA
+5-Alarm Saucepan	Mys: +7, Class: Sauceror
 # 7-Foot Dwarven mattock
 Bigger Bugfinder Blade	Mox: +11, Mus: +11, Mys: +11
-Bjorn's Hammer	Mus: +10, Class: SC
+Bjorn's Hammer	Mus: +10, Class: Seal Clubber
 Brimstone Bludgeon	Mus%: +50, Mys%: -20
 Bugfinder Blade	Mox: +7, Mus: +7, Mys: +7
 # Cerebral Crossbow
@@ -291,7 +291,7 @@ Chelonian Morningstar	Mus: +11
 # Cloaca-Cola-issue combat knife
 # Crimbo sword
 Crimbo ukelele	Item: +10
-Disco Banjo	Mox: +7, Class: DB
+Disco Banjo	Mox: +7, Class: Disco Bandit
 # Dr. Hobo's scalpel
 Drowsy Sword	ML: -10
 Frost&trade; brand sword	Mus: +3, ML: +3
@@ -313,13 +313,13 @@ Kentucky-fried meat sword	Mus: +5
 Knob Goblin scimitar	Mus: +1
 # Knob Goblin spatula
 # Knob Goblin tongs
-Mace of the Tortoise	Mus: +7, Class: TT
+Mace of the Tortoise	Mus: +7, Class: Turtle Tamer
 Mafia violin case	Mus: +20
 Maxwell's Silver Hammer	Mys: +10
 # Mjolnir Jr.
-Pasta of Peril	Mys: +7, Init: +15, Class: PA
+Pasta of Peril	Mys: +7, Init: +15, Class: Pastamancer
 Radio Free Foil	Intrinsic: Shiny Happy Weapon
-Rock and Roll Legend	Mox: +7, Class: AT
+Rock and Roll Legend	Mox: +7, Class: Accordion Thief
 Shagadelic Disco Banjo	Mox: +11, Meat: +10
 Spirit Precipice	Mus: +7, Mys: +5
 Squeezebox of the Ages	Mox: +11
@@ -403,7 +403,7 @@ denim axe	Mus: +10
 dense meat crossbow	Mox: +3
 dense meat staff	Mys: +3
 dense meat sword	Mus: +3
-diamond-studded cane	Mox: +5, Class: DB
+diamond-studded cane	Mox: +5, Class: Disco Bandit
 didgeridooka	Mox: +9
 # disco ball
 # dishrag
@@ -788,7 +788,7 @@ badass belt	Mox: +5, Mus: +5, Mys: +5
 beach glass necklace	Mus: +5
 beaten-up Chucks	Init: +40
 # beer goggles
-bejeweled accordion strap	Class: AT
+bejeweled accordion strap	Class: Accordion Thief
 # bejeweled pledge pin
 # big red clown nose
 black belt	Mus: +7
@@ -801,12 +801,12 @@ bling-bling	Mox: +1
 bottlecap turtle	Mys: +1
 cement shoes	Intrinsic: Sleeping with the Fishes, Mys: +20, Mox: +20
 charrrm bracelet	Mox: +5
-chintzy accordion pin	Mox: +12, Mys: +6, Class: AT
-chintzy disco ball pendant	Mox: +12, Mus: +6, Class: DB
-chintzy noodle ring	Mys: +12, Mus: +6, Class: PA
-chintzy saucepan earring	Mys: +12, Mox: +6, Class: SA
-chintzy seal pendant	Mus: +12, Mox: +6, Class: SC
-chintzy turtle brooch	Mus: +12, Mys: +6, Class: TT
+chintzy accordion pin	Mox: +12, Mys: +6, Class: Accordion Thief
+chintzy disco ball pendant	Mox: +12, Mus: +6, Class: Disco Bandit
+chintzy noodle ring	Mys: +12, Mus: +6, Class: Pastamancer
+chintzy saucepan earring	Mys: +12, Mox: +6, Class: Sauceror
+chintzy seal pendant	Mus: +12, Mox: +6, Class: Seal Clubber
+chintzy turtle brooch	Mus: +12, Mys: +6, Class: Turtle Tamer
 # clown shoes
 # clownskin belt
 # club necklace
@@ -854,7 +854,7 @@ intergalactic pom poms	Mox: +20, Init: +30
 jar of anniversary jam	Mox: +1, Mus: +1, Mys: +1
 kick-ass kicks	Mox: +3
 # knobby kneepads
-ladle of mystery	Class: SA
+ladle of mystery	Class: Sauceror
 # left half of a heart necklace
 # lucky Crimbo tiki necklace
 lucky rabbit's foot	Item: +7, Meat: +7
@@ -910,7 +910,7 @@ solid baconstone ring	Mys: +12
 # spade necklace
 spark plug earring	Spooky: +20
 sparkly engagement ring	Mox: +15, Mus: +15, Mys: +15
-special sauce glove	Class: SA
+special sauce glove	Class: Sauceror
 spooky glove	Mox: +5
 stainless steel scarf	ML: +20, Mys%: +15
 stainless steel solitaire	Mana: -2, Mys%: +15
@@ -974,7 +974,7 @@ white collar	Meat: +3, Mox: +1
 woven baling wire bracelets	Mana: -1
 wrench bracelet	Mus: +5
 # x-ray specs
-ye olde golde frontes	Mus: +15, Class: DB
+ye olde golde frontes	Mus: +15, Class: Disco Bandit
 
 # Containers section of modifiers.txt
 

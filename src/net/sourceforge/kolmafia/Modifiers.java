@@ -191,11 +191,11 @@ public class Modifiers extends KoLDatabase
         private static final Object [][] stringModifiers = {
                 { "Class", "Class",
                   null,
-                  Pattern.compile( "Class: (\\w\\w)" )
+                  Pattern.compile( "Class: ([^,]+)" )
                 },
                 { "Intrinsic Effect", "Intrinsic",
                   Pattern.compile( "Intrinsic effect: (.*)" ),
-                  Pattern.compile( "Intrinsic: [^,]+" )
+                  Pattern.compile( "Intrinsic: ([^,]+)" )
                 },
 	};
 
@@ -372,7 +372,7 @@ public class Modifiers extends KoLDatabase
 
 		// Make sure the modifiers apply to current class
 		String type = mods.getString( CLASS );
-		if ( !type.equals( "" ) && !type.equals( KoLCharacter.getClassTypeAbbreviation() ) )
+		if ( !type.equals( "" ) && !type.equals( KoLCharacter.getClassType() ) )
 			return;
 
 		float [] addition = mods.floats;
@@ -439,6 +439,22 @@ public class Modifiers extends KoLDatabase
 		modifierMap.put( name, newMods );
 		return newMods;
 	};
+
+	public static final float getNumericModifier( String name, String mod )
+	{
+		Modifiers mods = getModifiers( name );
+		if ( mods == null )
+			return 0.0f;
+		return mods.get( mod );
+	}
+
+	public static final String getStringModifier( String name, String mod )
+	{
+		Modifiers mods = getModifiers( name );
+		if ( mods == null )
+			return "";
+		return mods.getString( mod );
+	}
 
 	public void applyPassiveModifiers()
 	{
@@ -532,19 +548,19 @@ public class Modifiers extends KoLDatabase
 		if ( matcher.find() )
 		{
 			String plural = matcher.group(1);
-			String cls = "XX";
+			String cls = "none";
 			if ( plural.equals( "Accordion Thieves" ) )
-				cls = "AT";
+				cls = KoLCharacter.ACCORDION_THIEF;
 			else if ( plural.equals( "Disco Bandits" ) )
-				cls = "DB";
+				cls = KoLCharacter.DISCO_BANDIT;
 			else if ( plural.equals( "Pastamancers" ) )
-				cls = "PA";
+				cls = KoLCharacter.PASTAMANCER;
 			else if ( plural.equals( "Saucerors" ) )
-				cls = "SA";
+				cls = KoLCharacter.SAUCEROR;
 			else if ( plural.equals( "Seal Clubbers" ) )
-				cls = "SC";
+				cls = KoLCharacter.SEAL_CLUBBER;
 			else if ( plural.equals( "Turtle Tamers" ) )
-				cls = "TT";
+				cls = KoLCharacter.TURTLE_TAMER;
 			return modifierTag( stringModifiers, CLASS ) + ": " + cls;
 		}
 
