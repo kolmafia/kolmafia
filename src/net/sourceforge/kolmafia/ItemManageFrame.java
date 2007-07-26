@@ -36,7 +36,6 @@ package net.sourceforge.kolmafia;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Component;
-import java.awt.GridLayout;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -135,13 +134,14 @@ public class ItemManageFrame extends KoLFrame
 
 		this.addSeparator();
 
-		JPanel scriptActionPanel = new JPanel( new GridLayout( 0, 1 ) );
+		JTabbedPane filterActions = getTabbedPane();
+		filterActions.addTab( "Junk Items", new JunkItemsPanel() );
+		filterActions.addTab( "Memento Items", new MementoItemsPanel() );
+		filterActions.addTab( "Store Restock", new ProfitableItemsPanel() );
+		filterActions.addTab( "Display Matcher", new DisplayCaseMatchPanel() );
 
-		this.addPanel( "Script Actions", new MementoItemsPanel() );
+		this.addPanel( "Script Actions", filterActions );
 		this.addPanel( " - End Run", new EndOfRunSalePanel() );
-		this.addPanel( " - Cleanup", new JunkItemsPanel() );
-		this.addPanel( " - Automall", new ProfitableItemsPanel() );
-		this.addPanel( " - Displayer", new DisplayCaseMatchPanel() );
 
 		this.itemPanelList.addListSelectionListener( new CardSwitchListener() );
 		this.itemPanelList.setPrototypeCellValue( "ABCDEFGHIJKLM" );
@@ -226,14 +226,16 @@ public class ItemManageFrame extends KoLFrame
 		private boolean isOverlap;
 		private LockableListModel overlapModel;
 
-		public OverlapPanel( String title, String confirmText, String cancelText, LockableListModel overlapModel, boolean isOverlap )
+		public OverlapPanel( String confirmText, String cancelText, LockableListModel overlapModel, boolean isOverlap )
 		{
-			super( title, confirmText, cancelText, inventory );
+			super( confirmText, cancelText, inventory );
 			this.overlapModel = overlapModel;
 			this.isOverlap = isOverlap;
 
 			elementList.addKeyListener( new OverlapAdapter() );
+
 			this.addFilters();
+			this.filterItems();
 		}
 
 		public FilterItemField getWordFilter()
@@ -242,24 +244,16 @@ public class ItemManageFrame extends KoLFrame
 
 		private class OverlapFilterField extends FilterItemField
 		{
-			public OverlapFilterField()
-			{	this.filter = new OverlapFilter();
+			public SimpleListFilter getFilter()
+			{	return new OverlapFilter();
 			}
 
-			public void filterItems()
-			{	OverlapPanel.this.elementList.applyFilter( this.filter );
-			}
-
-			private class OverlapFilter extends SimpleListFilter
+			private class OverlapFilter extends ConsumptionBasedFilter
 			{
-				public OverlapFilter()
-				{	super( OverlapFilterField.this );
-				}
-
 				public boolean isVisible( Object element )
 				{
-					return isOverlap ? overlapModel.contains( element ) && super.isVisible( element ) :
-						!overlapModel.contains( element ) && super.isVisible( element );
+					return super.isVisible( element ) &&
+						(isOverlap ? overlapModel.contains( element ) : !overlapModel.contains( element ));
 				}
 			}
 		}
@@ -289,7 +283,7 @@ public class ItemManageFrame extends KoLFrame
 	private class JunkItemsPanel extends OverlapPanel
 	{
 		public JunkItemsPanel()
-		{	super( "Junk Management", "cleanup", "help", KoLCharacter.canInteract() ? postRoninJunkList : preRoninJunkList, true );
+		{	super( "cleanup", "help", KoLCharacter.canInteract() ? postRoninJunkList : preRoninJunkList, true );
 		}
 
 		public void actionConfirmed()
@@ -304,7 +298,7 @@ public class ItemManageFrame extends KoLFrame
 	private class ProfitableItemsPanel extends OverlapPanel
 	{
 		public ProfitableItemsPanel()
-		{	super( "Profitable Items", "automall", "help", profitableList, true );
+		{	super( "automall", "help", profitableList, true );
 		}
 
 		public void actionConfirmed()
@@ -319,11 +313,11 @@ public class ItemManageFrame extends KoLFrame
 	private class MementoItemsPanel extends OverlapPanel
 	{
 		public MementoItemsPanel()
-		{	super( "Memento Items", "win game", "help", mementoList, true );
+		{	super( "win game", "help", mementoList, true );
 		}
 
 		public void actionConfirmed()
-		{
+		{	CommandDisplayFrame.executeCommand( "win game" );
 		}
 
 		public void actionCancelled()
@@ -334,7 +328,7 @@ public class ItemManageFrame extends KoLFrame
 	private class EndOfRunSalePanel extends OverlapPanel
 	{
 		public EndOfRunSalePanel()
-		{	super( "End of Run Sale", "host sale", "help", mementoList, false );
+		{	super( "host sale", "help", mementoList, false );
 		}
 
 		public void actionConfirmed()
@@ -351,7 +345,7 @@ public class ItemManageFrame extends KoLFrame
 	private class DisplayCaseMatchPanel extends OverlapPanel
 	{
 		public DisplayCaseMatchPanel()
-		{	super( "Display Case Matcher", "display", "help", collection, true );
+		{	super( "display", "help", collection, true );
 		}
 
 		public void actionConfirmed()
@@ -393,7 +387,7 @@ public class ItemManageFrame extends KoLFrame
 
 		public ConsumePanel( boolean food, boolean booze )
 		{
-			super( "", "consume", "create", ConcoctionsDatabase.getUsables(), false, false );
+			super( "consume", "create", ConcoctionsDatabase.getUsables(), false, false );
 
 			this.food = food;
 			this.booze = booze;
@@ -472,12 +466,8 @@ public class ItemManageFrame extends KoLFrame
 
 		private class ConsumableFilterField extends FilterItemField
 		{
-			public ConsumableFilterField()
-			{	this.filter = new ConsumableFilter();
-			}
-
-			public void filterItems()
-			{	ConsumePanel.this.elementList.applyFilter( this.filter );
+			public SimpleListFilter getFilter()
+			{	return new ConsumableFilter();
 			}
 
 			private class ConsumableFilter extends SimpleListFilter
@@ -638,12 +628,8 @@ public class ItemManageFrame extends KoLFrame
 
 		private class ConsumableFilterField extends FilterItemField
 		{
-			public ConsumableFilterField()
-			{	this.filter = new ConsumableFilter();
-			}
-
-			public void filterItems()
-			{	QueuePanel.this.elementList.applyFilter( this.filter );
+			public SimpleListFilter getFilter()
+			{	return new ConsumableFilter();
 			}
 
 			private class ConsumableFilter extends SimpleListFilter
@@ -982,7 +968,7 @@ public class ItemManageFrame extends KoLFrame
 
 			} );
 
-			elementList.setCellRenderer( AdventureResult.getDefaultRenderer() );
+			elementList.setCellRenderer( AdventureResult.getDefaultRenderer( this.isEquipmentOnly ) );
 
 			if ( !this.isEquipmentOnly )
 				this.movers[2].setSelected( true );
@@ -992,13 +978,13 @@ public class ItemManageFrame extends KoLFrame
 
 		public InventoryManagePanel( String confirmText, String cancelText, LockableListModel model, boolean isEquipmentOnly )
 		{
-			super( "", confirmText, cancelText, model );
+			super( confirmText, cancelText, model );
 			this.isEquipmentOnly = isEquipmentOnly;
 
 			this.addFilters();
 			this.filterItems();
 
-			elementList.setCellRenderer( AdventureResult.getDefaultRenderer() );
+			elementList.setCellRenderer( AdventureResult.getDefaultRenderer( this.isEquipmentOnly ) );
 		}
 
 		public void addFilters()
@@ -1055,8 +1041,8 @@ public class ItemManageFrame extends KoLFrame
 
 		private class EquipmentFilterField extends FilterItemField
 		{
-			public EquipmentFilterField()
-			{	this.filter = new EquipmentFilter();
+			public SimpleListFilter getFilter()
+			{	return new EquipmentFilter();
 			}
 
 			private class EquipmentFilter extends ConsumptionBasedFilter

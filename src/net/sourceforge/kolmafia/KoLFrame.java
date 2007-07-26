@@ -2316,7 +2316,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	{
 		public RestorativeItemPanel()
 		{
-			super( "", "use item", "check wiki", inventory );
+			super( "use item", "check wiki", inventory );
 			this.filterItems();
 		}
 

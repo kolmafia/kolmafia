@@ -653,7 +653,11 @@ public class AdventureResult implements Comparable, KoLConstants
 	}
 
 	public static DefaultListCellRenderer getDefaultRenderer()
-	{	return new AdventureResultRenderer();
+	{	return getDefaultRenderer( false );
+	}
+
+	public static DefaultListCellRenderer getDefaultRenderer( boolean isEquipment )
+	{	return new AdventureResultRenderer( isEquipment );
 	}
 
 	public static DefaultListCellRenderer getCreationQueueRenderer()
@@ -758,9 +762,12 @@ public class AdventureResult implements Comparable, KoLConstants
 
 	private static class AdventureResultRenderer extends ConcoctionRenderer
 	{
-		public AdventureResultRenderer()
+		private boolean isEquipment;
+
+		public AdventureResultRenderer( boolean isEquipment )
 		{
 			this.setOpaque( true );
+			this.isEquipment = isEquipment;
 		}
 
 		public boolean allowHighlight()
@@ -828,20 +835,31 @@ public class AdventureResult implements Comparable, KoLConstants
 			}
 
 
-			int power = EquipmentDatabase.getPower( ar.getName() );
-			if ( power > 0 )
+			if ( this.isEquipment )
 			{
-				stringForm.append( " (+" );
-				stringForm.append( power );
-				stringForm.append( ")" );
+				int power = EquipmentDatabase.getPower( ar.getName() );
+
+				if ( power > 0 )
+				{
+					stringForm.append( " (+" );
+					stringForm.append( power );
+					stringForm.append( ")" );
+				}
 			}
 			else
 			{
 				int value = TradeableItemDatabase.getPriceById( ar.getItemId() );
 
-				stringForm.append( " (" );
-				stringForm.append( value );
-				stringForm.append( " meat)" );
+				if ( value == 0 )
+				{
+					stringForm.append( " (no-sell)" );
+				}
+				else
+				{
+					stringForm.append( " (" );
+					stringForm.append( value );
+					stringForm.append( " meat)" );
+				}
 			}
 
 			stringForm.append( " (" );
@@ -873,12 +891,36 @@ public class AdventureResult implements Comparable, KoLConstants
 			StringBuffer stringForm = new StringBuffer();
 			stringForm.append( icr.getName() );
 
-			if ( icr.getQuantityPossible() > 1 )
+			if ( this.isEquipment )
 			{
-				stringForm.append( " (" );
-				stringForm.append( COMMA_FORMAT.format( icr.getQuantityPossible() ) );
-				stringForm.append( ")" );
+				int power = EquipmentDatabase.getPower( icr.getName() );
+
+				if ( power > 0 )
+				{
+					stringForm.append( " (+" );
+					stringForm.append( power );
+					stringForm.append( ")" );
+				}
 			}
+			else
+			{
+				int value = TradeableItemDatabase.getPriceById( icr.getItemId() );
+
+				if ( value == 0 )
+				{
+					stringForm.append( " (no-sell)" );
+				}
+				else
+				{
+					stringForm.append( " (" );
+					stringForm.append( value );
+					stringForm.append( " meat)" );
+				}
+			}
+
+			stringForm.append( " (" );
+			stringForm.append( COMMA_FORMAT.format( icr.getQuantityPossible() ) );
+			stringForm.append( ")" );
 
 			if ( !KoLCharacter.canInteract() && preRoninJunkList.contains( icr.createdItem ) )
 			{
@@ -961,7 +1003,7 @@ public class AdventureResult implements Comparable, KoLConstants
 						++count;
 					stringForm = ar.getName() + " (" + count + " max)";
 				}
-				else
+				else if ( power > 0 )
 				{
 					stringForm = ar.getName() + " (+" + COMMA_FORMAT.format(power) + ")";
 				}

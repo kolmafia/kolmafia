@@ -359,7 +359,7 @@ public class StoreManageFrame extends KoLPanelFrame
 	{
 		public StoreAddPanel()
 		{
-			super( "On-Hand Inventory", "put in", "auto sell", inventory );
+			super( "put in", "auto sell", inventory );
 			this.elementModel.applyListFilter( TRADE_FILTER );
 		}
 
@@ -385,7 +385,7 @@ public class StoreManageFrame extends KoLPanelFrame
 	private class StoreRemovePanel extends ItemManagePanel
 	{
 		public StoreRemovePanel()
-		{	super( "Store's Inventory", "take out", "auto sell", StoreManager.getSortedSoldItemList() );
+		{	super( "take out", "auto sell", StoreManager.getSortedSoldItemList() );
 		}
 
 		public void actionConfirmed()
@@ -454,7 +454,7 @@ public class StoreManageFrame extends KoLPanelFrame
 	private class StoreLogPanel extends ItemManagePanel
 	{
 		public StoreLogPanel()
-		{	super( "Transactions Log", "refresh", "resort", StoreManager.getStoreLog() );
+		{	super( "refresh", "resort", StoreManager.getStoreLog() );
 		}
 
 		public void actionConfirmed()
