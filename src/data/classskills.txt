@@ -4,6 +4,9 @@
 4	Arse Shoot	2	1	5	0
 5	Stomach of Steel	0	1	0	0
 6	Spleen of Steel	0	1	0	0
+7
+8
+9
 10	Powers of Observatiogn	0	10	0	0
 11	Gnefarious Pickpocketing	0	10	0	0
 12	Torso Awaregness	0	2	0	0
@@ -16,7 +19,7 @@
 19	Transcendent Olfaction	3	5	40	0
 20	Really Expensive Jewelrycrafting	0	1	0	0
 
-# On the skill list, but not currently available
+# Available only on the Bad Moon path
 
 21	Lust	0	2	0	0
 22	Gluttony	0	2	0	0
@@ -41,9 +44,11 @@
 7013	Fire purple bottle-rocket	3	5	5	0
 7014	Fire black bottle-rocket	3	5	5	0
 
-# Skills available to Clubbers
+# Skills available to Seal Clubbers
 
 1000	Seal Clubbing Frenzy	1	9	1	5
+1001
+1002
 1003	Thrust-Smack	3	5	3	0
 1004	Lunge-Smack	3	5	5	0
 1005	Lunging Thrust-Smack	3	5	8	0
@@ -54,6 +59,7 @@
 1010	Tongue of the Walrus	1	8	10	0
 1011	Hide of the Walrus	0	2	0	0
 1012	Claws of the Walrus	0	4	0	0
+1013
 1014	Eye of the Stoat	0	4	0	0
 1015	Rage of the Reindeer	1	4	10	5
 1016	Pulverize	0	1	0	0
@@ -65,18 +71,24 @@
 # Skills available to Turtle Tamers
 
 2000	Patience of the Tortoise	1	9	1	5
+2001
+2002
 2003	Headbutt	3	5	3	0
 2004	Skin of the Leatherback	0	2	0	0
-2014	Amphibian Sympathy	0	10	0	0
+2005	Shieldbutt	3	7	5	0
 2006	Armorcraftiness	0	1	0	0
 2007	Ghostly Shell	2	3	6	5
-2010	Tenacity of the Snapper	2	4	8	5
-2015	Kneebutt	3	5	4	0
-2009	Empathy of the Newt	2	10	15	5
 2008	Reptilian Fortitude	2	3	10	5
-2005	Shieldbutt	3	7	5	0
+2009	Empathy of the Newt	2	10	15	5
+2010	Tenacity of the Snapper	2	4	8	5
 2011	Wisdom of the Elder Tortoises	0	2	0	0
 2012	Astral Shell	2	3	10	5
+2013
+2014	Amphibian Sympathy	0	10	0	0
+2015	Kneebutt	3	5	4	0
+2017
+2018
+2019
 2016	Cold-Blooded Fearlessness	0	2	0	0
 2020	Hero of the Half-Shell	0	2	0	0
 2021	Tao of the Terrapin	0	2	0	0
@@ -90,6 +102,8 @@
 # Skills available to Pastamancers
 
 3000	Manicotti Meditation	1	9	1	5
+3001
+3002
 3003	Minor Ray of Something	3	6	4	0
 3004	Entangling Noodles	3	7	3	0
 3005	eXtreme Ray of Something	3	6	7	0
@@ -100,15 +114,14 @@
 3010	Leash of Linguini	1	10	12	10
 3011	Spirit of Rigatoni	0	4	0	0
 3012	Cannelloni Cocoon	1	8	20	0
+3013
 3014	Spirit of Ravioli	0	2	0	0
 3015	Springy Fusilli	1	10	10	10
 3016	Tolerance of the Kitchen	0	2	0	0
-
-# The following is the skill which appears on the character sheet
-
 3017	Flavour of Magic	0	1	0	0
 3018	Transcendental Noodlecraft	0	1	0	0
 3019	Fearful Fettucini	3	6	35	0
+3020	Spaghetti Spear	3	6	1	0
 
 # The 5 sub-skills of Flavour of Magic usable from the Use Skills page:
 
@@ -121,6 +134,8 @@
 # Skills available to Saucerors
 
 4000	Sauce Contemplation	1	9	1	5
+4001
+4002
 4003	Stream of Sauce	3	6	3	0
 4004	Expert Panhandling	0	10	0	0
 4005	Saucestorm	3	6	12	0
@@ -131,20 +146,20 @@
 4010	Intrinsic Spiciness	0	4	0	0
 4011	Jaba&ntilde;ero Saucesphere	2	3	10	5
 4012	Saucegeyser	3	6	40	0
+4013
 4014	Saucy Salve	3	8	4	0
 4015	Impetuous Sauciness	0	2	0	0
 4016	Diminished Gag Reflex	0	2	0	0
 4017	Immaculate Seasoning	0	4	0	0
 4018	The Way of Sauce	0	1	0	0
 4019	Scarysauce	2	6	10	5
-
-# On the skill list, but not currently available
-
 4020	Salsaball	3	6	1	0
 
 # Skills available to Bandits
 
 5000	Disco Aerobics	1	9	1	5
+5001
+5002
 5003	Disco Eye-Poke	3	7	3	0
 5004	Nimble Fingers	0	10	0	0
 5005	Disco Dance of Doom	3	7	5	0
@@ -155,6 +170,7 @@
 5010	Overdeveloped Sense of Self Preservation	0	10	0	0
 5011	Disco Power Nap	1	8	12	0
 5012	Disco Face Stab	3	7	10	0
+5013
 5014	Advanced Cocktailcrafting	1	1	10	0
 5015	Ambidextrous Funkslinging	0	4	0	0
 5016	Heart of Polyester	0	2	0	0
@@ -165,6 +181,8 @@
 # Skills available to Thieves
 
 6000	Moxie of the Mariachi	1	9	1	5
+6001
+6002
 6003	Aloysius' Antiphon of Aptitude	2	10	40	5
 6004	The Moxious Madrigal	2	9	2	5
 6005	Cletus's Canticle of Celerity	2	10	4	5
