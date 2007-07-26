@@ -40,7 +40,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
@@ -158,7 +157,7 @@ public class CakeArenaFrame extends KoLFrame
 			int yourSkillValue = FamiliarsDatabase.getFamiliarSkill( KoLCharacter.getFamiliar().getRace(), this.column ).intValue();
 			String yourSkill = yourSkillValue == 1 ? "1 star (yours)" : yourSkillValue + " stars (yours)";
 
-			int battleCount = StaticEntity.parseInt( JOptionPane.showInputDialog( "<html>" + CakeArenaFrame.this.opponents.get( this.row ).toString() + ", " +
+			int battleCount = StaticEntity.parseInt( input( "<html>" + CakeArenaFrame.this.opponents.get( this.row ).toString() + ", " +
 				CakeArenaManager.getEvent( this.column ) + "<br>" + yourSkill + " vs. " + this.opponentSkill + "</html>" ) );
 
 			if ( battleCount > 0 )

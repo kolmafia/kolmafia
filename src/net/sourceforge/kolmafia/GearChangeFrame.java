@@ -44,7 +44,6 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTabbedPane;
@@ -180,7 +179,7 @@ public class GearChangeFrame extends KoLFrame
 			GearChangeFrame.this.changeItems();
 			RequestThread.closeRequestSequence();
 
-			String currentValue = JOptionPane.showInputDialog( "Name your outfit!", "KoLmafia Checkpoint" );
+			String currentValue = input( "Name your outfit!", "KoLmafia Checkpoint" );
 			if ( currentValue != null )
 				RequestThread.postRequest( new EquipmentRequest( currentValue ) );
 

@@ -40,7 +40,6 @@ import java.awt.event.KeyEvent;
 import java.util.StringTokenizer;
 
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
@@ -250,9 +249,8 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 				if ( messages.length == 0 )
 					return;
 
-				if ( JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null,
-					"Would you like to delete the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
-						return;
+				if ( !confirm( "Would you like to delete the selected messages?" ) )
+					return;
 
 				KoLMailManager.deleteMessages( MailSelectList.this.mailboxName, messages );
 				e.consume();
@@ -283,9 +281,8 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 			if ( this.messages == null || this.messages.length == 0 )
 				return;
 
-			if ( JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null,
-					"Would you like to save the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
-						return;
+			if ( !confirm( "Would you like to save the selected messages?" ) )
+				return;
 
 			KoLMailManager.saveMessages( this.messages );
 		}
@@ -318,9 +315,8 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 			if ( this.messages ==  null || this.messages.length == 0 )
 				return;
 
-			if ( JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null,
-					"Would you like to delete the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
-						return;
+			if ( !confirm( "Would you like to delete the selected messages?" ) )
+				return;
 
 			KoLMailManager.deleteMessages( this.currentTabName, this.messages );
 		}

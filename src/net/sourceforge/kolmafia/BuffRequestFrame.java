@@ -49,7 +49,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
@@ -139,9 +138,9 @@ public class BuffRequestFrame extends KoLFrame
 		RequestThread.postRequest( ONLINE_VALIDATOR );
 
 		if ( ONLINE_VALIDATOR.responseText != null && ONLINE_VALIDATOR.responseText.indexOf( "online" ) != -1 )
-			JOptionPane.showMessageDialog( null, botName + " is online." );
+			alert( botName + " is online." );
 		else
-			JOptionPane.showMessageDialog( null, botName + " is probably not online." );
+			alert( botName + " is probably not online." );
 	}
 
 	private class BuffRequestPanel extends KoLPanel

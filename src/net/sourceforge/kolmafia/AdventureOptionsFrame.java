@@ -55,7 +55,6 @@ import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
@@ -530,7 +529,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 			String currentMood = StaticEntity.getProperty( "currentMood" );
 			if ( currentMood.equals( "apathetic" ) )
 			{
-				JOptionPane.showMessageDialog( null, "You cannot add triggers to an apathetic mood." );
+				alert( "You cannot add triggers to an apathetic mood." );
 				return;
 			}
 
@@ -540,11 +539,8 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 		public void actionCancelled()
 		{
-			String [] autoFillTypes = new String [] { "maximal set (all castable buffs)", "minimal set (current active buffs)" };
-
-			String desiredType = (String) JOptionPane.showInputDialog(
-				null, "Which kind of buff set would you like to use?", "Decide!",
-					JOptionPane.INFORMATION_MESSAGE, null, autoFillTypes, activeEffects.isEmpty() ? autoFillTypes[0] : autoFillTypes[1] );
+			String [] autoFillTypes = new String [] { "minimal set (current active buffs)", "maximal set (all castable buffs)" };
+			String desiredType = (String) KoLFrame.input( "Which kind of buff set would you like to use?", autoFillTypes );
 
 			if ( desiredType == autoFillTypes[0] )
 				MoodSettings.maximalSet();
@@ -672,7 +668,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 			public void run()
 			{
-				String name = JOptionPane.showInputDialog( "Give your list a name!" );
+				String name = input( "Give your list a name!" );
 				if ( name == null )
 					return;
 
@@ -702,7 +698,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 			public void run()
 			{
-				String moodName = JOptionPane.showInputDialog( "Make a copy of current mood list called:" );
+				String moodName = input( "Make a copy of current mood list called:" );
 				if ( moodName == null )
 					return;
 

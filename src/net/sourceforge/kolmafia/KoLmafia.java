@@ -59,7 +59,6 @@ import java.util.regex.Pattern;
 
 import javax.swing.JFrame;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 import net.java.dev.spellcast.utilities.ActionPanel;
@@ -1952,10 +1951,7 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	private static AdventureResult getSelectedValue( String message, LockableListModel list )
-	{
-		JList selector = new JList( list );
-		int option = JOptionPane.showConfirmDialog( null, new SimpleScrollPane( selector ), message, JOptionPane.OK_CANCEL_OPTION );
-		return option == JOptionPane.CANCEL_OPTION ? null : (AdventureResult) selector.getSelectedValue();
+	{	return (AdventureResult) KoLFrame.input( message, list );
 	}
 
 	/**
@@ -2060,10 +2056,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		int currentLevel = KoLCharacter.getSignedMLAdjustment();
 
-		String selectedLevel = (String) JOptionPane.showInputDialog(
-			null, "Set the device to what level?", "Change monster annoyance from " + currentLevel,
-				JOptionPane.INFORMATION_MESSAGE, null, levelArray, levelArray[ currentLevel ] );
-
+		String selectedLevel = (String) KoLFrame.input( "Change monster annoyance from " + currentLevel + "?", levelArray );
 		if ( selectedLevel == null )
 			return;
 
@@ -2079,7 +2072,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void makeCampgroundRestRequest()
 	{
-		String turnCount = (String) JOptionPane.showInputDialog( null, "Rest for how many turns?", "1" );
+		String turnCount = (String) KoLFrame.input( "Rest for how many turns?", "1" );
 		if ( turnCount == null )
 			return;
 
@@ -2088,7 +2081,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void makeCampgroundRelaxRequest()
 	{
-		String turnCount = (String) JOptionPane.showInputDialog( null, "Relax for how many turns?", "1" );
+		String turnCount = (String) KoLFrame.input( "Relax for how many turns?", "1" );
 		if ( turnCount == null )
 			return;
 
@@ -2097,7 +2090,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void makeClanSofaRequest()
 	{
-		String turnCount = (String) JOptionPane.showInputDialog( null, "Sleep for how many turns?", "1" );
+		String turnCount = (String) KoLFrame.input( "Sleep for how many turns?", "1" );
 		if ( turnCount == null )
 			return;
 
@@ -3103,9 +3096,8 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
-		if ( JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null,
-			"Are you sure you'd like to host an end-of-run sale?", "MASSIVE SALE", JOptionPane.YES_NO_OPTION ) )
-				return;
+		if ( !KoLFrame.confirm( "Are you sure you'd like to host an end-of-run sale?" ) )
+			return;
 
 		// Find all tradeable items.  Tradeable items
 		// are marked by an autosell value of nonzero.

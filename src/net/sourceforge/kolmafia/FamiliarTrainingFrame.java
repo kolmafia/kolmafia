@@ -41,8 +41,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
 
-import java.lang.ref.WeakReference;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -55,7 +53,6 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -492,7 +489,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 					// Nag dialog
 					int turns = trials * 12;
-					if ( JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null, "This will take up to " + turns + " adventures and cost up to " + COMMA_FORMAT.format( turns * 100 ) + " meat. Are you sure?", "Familiar strength learner nag screen", JOptionPane.YES_NO_OPTION ) )
+					if ( !confirm( "This will take up to " + turns + " adventures and cost up to " + COMMA_FORMAT.format( turns * 100 ) + " meat. Are you sure?" ) )
 						return;
 
 					// Learn familiar parameters
@@ -514,7 +511,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 								break;
 							}
 
-						if ( changed && JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null, "Save arena parameters for the " + FamiliarTrainingPanel.this.familiar.getRace() + "?", "Save arena skills?", JOptionPane.YES_NO_OPTION ) )
+						if ( changed && confirm( "Save arena parameters for the " + FamiliarTrainingPanel.this.familiar.getRace() + "?" ) )
 							FamiliarsDatabase.setFamiliarSkills( FamiliarTrainingPanel.this.familiar.getRace(), skills );
 
 						KoLmafia.updateDisplay( CONTINUE_STATE, "Learned skills are " + ( changed ? "different from" : "the same as" ) + " those in familiar database." );

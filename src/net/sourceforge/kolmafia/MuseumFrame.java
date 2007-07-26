@@ -40,8 +40,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JComponent;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.PanelList;
@@ -125,12 +123,6 @@ public class MuseumFrame extends KoLFrame
 
 			private void move( boolean moveAll )
 			{
-				if ( !KoLCharacter.hasDisplayCase() )
-				{
-					JOptionPane.showMessageDialog( null, "Sorry, you don't have a display case." );
-					return;
-				}
-
 				RequestThread.openRequestSequence();
 				RequestThread.postRequest( new MuseumRequest( AddRemovePanel.this.getSelectedValues( this.elementList.getSelectedValues(), moveAll ), true ) );
 				RequestThread.postRequest( new MuseumRequest() );
@@ -208,9 +200,7 @@ public class MuseumFrame extends KoLFrame
 		{
 			Object [] headerArray = MuseumManager.getHeaders().toArray();
 
-			String selectedValue = (String) JOptionPane.showInputDialog(
-				null, "Moving to this shelf...", "Shelfishness!", JOptionPane.INFORMATION_MESSAGE, null,
-				headerArray, headerArray[0] );
+			String selectedValue = (String) input( "Moving to this shelf...", headerArray );
 
 			if ( selectedValue == null )
 				return;

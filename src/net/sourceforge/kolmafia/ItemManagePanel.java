@@ -45,7 +45,6 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JTextField;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.ListSelectionModel;
@@ -493,15 +492,11 @@ public class ItemManagePanel extends LabeledScrollPanel
 				return;
 			}
 
-			if ( this.sellType == AutoSellRequest.AUTOSELL && JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null,
-				"Are you sure you would like to sell the selected items?",
-					"Sell request nag screen!", JOptionPane.YES_NO_OPTION ) )
-						return;
+			if ( this.sellType == AutoSellRequest.AUTOSELL && !KoLFrame.confirm( "Are you sure you would like to sell the selected items?" ) )
+				return;
 
-			if ( this.sellType == AutoSellRequest.AUTOMALL && JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null,
-				"Are you sure you would like to place the selected items in your store?",
-					"Sell request nag screen!", JOptionPane.YES_NO_OPTION ) )
-						return;
+			if ( this.sellType == AutoSellRequest.AUTOMALL && !KoLFrame.confirm( "Are you sure you would like to place the selected items in your store?" ) )
+				return;
 
 			Object [] items = this.initialSetup();
 			if ( items == null )
