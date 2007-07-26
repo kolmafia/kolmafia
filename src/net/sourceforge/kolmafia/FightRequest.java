@@ -115,12 +115,12 @@ public class FightRequest extends KoLRequest
 	private static String encounterLookup = "";
 
 	private static final AdventureResult SCROLL_334 = new AdventureResult( 547, 1 );
-	private static final AdventureResult SCROLL_668 = new AdventureResult( 548, 1 );
+	public static final AdventureResult SCROLL_668 = new AdventureResult( 548, 1 );
 	private static final AdventureResult SCROLL_30669 = new AdventureResult( 549, 1 );
 	private static final AdventureResult SCROLL_33398 = new AdventureResult( 550, 1 );
 	private static final AdventureResult SCROLL_64067 = new AdventureResult( 551, 1 );
-	private static final AdventureResult SCROLL_64735 = new AdventureResult( 552, 1 );
-	private static final AdventureResult SCROLL_31337 = new AdventureResult( 553, 1 );
+	public static final AdventureResult SCROLL_64735 = new AdventureResult( 552, 1 );
+	public static final AdventureResult SCROLL_31337 = new AdventureResult( 553, 1 );
 
 	// Ultra-rare monsters
 	private static final String [] RARE_MONSTERS =
@@ -197,16 +197,16 @@ public class FightRequest extends KoLRequest
 		{
 			action1 = CombatSettings.getSetting( encounterLookup, currentRound - 1 - preparatoryRounds );
 		}
-		else if ( encounterLookup.equals( "rampaging adding machine" ) )
-		{
-			handleAddingMachine();
-		}
 		else if ( !KoLCharacter.canInteract() && wonInitiative() && monsterData != null && monsterData.shouldSteal() )
 		{
 			++preparatoryRounds;
 			action1 = "steal";
 			this.addFormField( "action", "steal" );
 			return;
+		}
+		else if ( encounterLookup.equals( "rampaging adding machine" ) )
+		{
+			handleAddingMachine();
 		}
 
 		// If the person wants to use their own script,
@@ -610,10 +610,13 @@ public class FightRequest extends KoLRequest
 	}
 
 	private static AdventureResult lastAddingScroll = null;
+	private static AdventureResult lastDesiredScroll = null;
 
 	private void handleAddingMachine()
 	{
-		if ( conditions.contains( SCROLL_668 ) )
+		if ( lastDesiredScroll != null )
+			createAddingScroll( lastDesiredScroll );
+		else if ( conditions.contains( SCROLL_668 ) )
 			createAddingScroll( SCROLL_668 );
 		else if ( conditions.contains( SCROLL_64067 ) )
 			createAddingScroll( SCROLL_64067 );
@@ -651,8 +654,9 @@ public class FightRequest extends KoLRequest
 
 		if ( lastAddingScroll != null )
 		{
-			lastAddingScroll = null;
 			action1 = String.valueOf( part2.getItemId() );
+			lastAddingScroll = null;
+			lastDesiredScroll = null;
 			return true;
 		}
 
@@ -665,6 +669,7 @@ public class FightRequest extends KoLRequest
 			{
 				action1 = String.valueOf( part1.getItemId() );
 				lastAddingScroll = part1;
+				lastDesiredScroll = scroll;
 				return true;
 			}
 
@@ -672,10 +677,7 @@ public class FightRequest extends KoLRequest
 			return true;
 		}
 
-		if ( createAddingScroll( part1 ) )
-			return true;
-
-		return createAddingScroll( part2 );
+		return createAddingScroll( part1 ) || createAddingScroll( part2 );
 	}
 
 	private String getMonsterWeakenAction()
