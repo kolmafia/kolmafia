@@ -370,16 +370,24 @@ public class Modifiers extends KoLDatabase
 		if ( mods == null )
 			return;
 
+		// Make sure the modifiers apply to current class
+		String type = mods.getString( CLASS );
+		if ( type != null && !type.equals( KoLCharacter.getClassTypeAbbreviation() ) )
+			return;
+
 		float [] addition = mods.floats;
 
 		for ( int i = 0; i < this.floats.length; ++i )
 			if ( addition[i] != 0.0f )
 				this.floats[i] += addition[i];
+
+		// If the item provides an intrinsic effect, add it in
+		add( getModifiers( mods.getString( INTRINSIC_EFFECT ) ) );
 	}
 
 	public static final Modifiers getModifiers( String name )
 	{
-		if ( name == null )
+		if ( name == null || name.equals( "" ) )
 			return null;
 
 		name = getCanonicalName( name );
