@@ -117,167 +117,167 @@ public class Modifiers extends KoLDatabase
 	public static final int FUMBLE = 41;
 
 	private static final Object [][] floatModifiers = {
-		{ "Familiar Weight", "Weight",
+		{ "Familiar Weight",
 		  Pattern.compile( "(.*) to Familiar Weight" ),
-		  Pattern.compile( "Weight: ([+-]\\d+)" )
+		  Pattern.compile( "Familiar Weight: ([+-]\\d+)" )
 		},
-		{ "Monster Level", "ML",
+		{ "Monster Level",
 		  Pattern.compile( "(.*) to Monster Level" ),
-		  Pattern.compile( "ML: ([+-]\\d+)" )
+		  Pattern.compile( "Monster Level: ([+-]\\d+)" )
 		},
-		{ "Combat Rate", "Combat",
+		{ "Combat Rate",
 		  null,
-		  Pattern.compile( "Combat: ([+-][\\d.]+)" )
+		  Pattern.compile( "Combat Rate: ([+-][\\d.]+)" )
 		},
-		{ "Initiative", "Init",
+		{ "Initiative",
 		  Pattern.compile( "Combat Initiative (.*)%" ),
-		  Pattern.compile( "Init: ([+-][\\d.]+)" )
+		  Pattern.compile( "Initiative: ([+-][\\d.]+)" )
 		},
-		{ "Experience", "Exp",
+		{ "Experience",
 		  Pattern.compile( "(.*) Stat.*Per Fight" ),
-		  Pattern.compile( "Exp: ([+-][\\d.]+)" )
+		  Pattern.compile( "Experience: ([+-][\\d.]+)" )
 		},
-		{ "Item Drop", "Item",
+		{ "Item Drop",
 		  Pattern.compile( "(.*)% Item Drops? from Monsters" ),
-		  Pattern.compile( "Item: ([+-][\\d.]+)" )
+		  Pattern.compile( "Item Drop: ([+-][\\d.]+)" )
 		},
-		{ "Meat Drop", "Meat",
+		{ "Meat Drop",
 		  Pattern.compile( "(.*)% Meat from Monsters" ),
-		  Pattern.compile( "Meat: ([+-][\\d.]+)" )
+		  Pattern.compile( "Meat Drop: ([+-][\\d.]+)" )
 		},
-		{ "Damage Absorption", "DA",
+		{ "Damage Absorption",
 		  Pattern.compile( "Damage Absorption (.*)" ),
-		  Pattern.compile( "DA: ([+-]\\d+)" )
+		  Pattern.compile( "Damage Absorption: ([+-]\\d+)" )
 		},
-		{ "Damage Reduction", "DR",
+		{ "Damage Reduction",
 		  Pattern.compile( "Damage Reduction: (\\d+)" ),
-		  Pattern.compile( "DR: (\\d+)" )
+		  Pattern.compile( "Damage Reduction: (\\d+)" )
 		},
-		{ "Cold Resistance", "CoRes",
+		{ "Cold Resistance",
 		  null,
-		  Pattern.compile( "CoRes: ([+-]\\d+)" )
+		  Pattern.compile( "Cold Resistance: ([+-]\\d+)" )
 		},
-		{ "Hot Resistance", "HoRes",
+		{ "Hot Resistance",
 		  null,
-		  Pattern.compile( "HoRes: ([+-]\\d+)" )
+		  Pattern.compile( "Hot Resistance: ([+-]\\d+)" )
 		},
-		{ "Sleaze Resistance", "SlRes",
+		{ "Sleaze Resistance",
 		  null,
-		  Pattern.compile( "SlRes: ([+-]\\d+)" )
+		  Pattern.compile( "Sleaze Resistance: ([+-]\\d+)" )
 		},
-		{ "Spooky Resistance", "SpRes",
+		{ "Spooky Resistance",
 		  null,
-		  Pattern.compile( "SpRes: ([+-]\\d+)" )
+		  Pattern.compile( "Spooky Resistance: ([+-]\\d+)" )
 		},
-		{ "Stench Resistance", "StRes",
+		{ "Stench Resistance",
 		  null,
-		  Pattern.compile( "StRes: ([+-]\\d+)" )
+		  Pattern.compile( "Stench Resistance: ([+-]\\d+)" )
 		},
-		{ "Mana Cost", "Mana",
+		{ "Mana Cost",
 		  Pattern.compile( "(.*) MP to use Skills" ),
-		  Pattern.compile( "Mana: ([+-]\\d+)" )
+		  Pattern.compile( "Mana Cost: ([+-]\\d+)" )
 		},
-		{ "Moxie", "Mox",
+		{ "Moxie",
 		  Pattern.compile( "Moxie ([+-]\\d+)$" ),
-		  Pattern.compile( "Mox: ([+-]\\d+)" )
+		  Pattern.compile( "Moxie: ([+-]\\d+)" )
 		},
-		{ "Moxie Percent", "Mox%",
+		{ "Moxie Percent",
 		  Pattern.compile( "Moxie ([+-]\\d+)%" ),
-		  Pattern.compile( "Mox%: ([+-]\\d+)" )
+		  Pattern.compile( "Moxie Percent: ([+-]\\d+)" )
 		},
-		{ "Muscle", "Mus",
+		{ "Muscle",
 		  Pattern.compile( "Muscle ([+-]\\d+)$" ),
-		  Pattern.compile( "Mus: ([+-]\\d+)" )
+		  Pattern.compile( "Muscle: ([+-]\\d+)" )
 		},
-		{ "Muscle Percent", "Mus%",
+		{ "Muscle Percent",
 		  Pattern.compile( "Muscle ([+-]\\d+)%" ),
-		  Pattern.compile( "Mus%: ([+-]\\d+)" )
+		  Pattern.compile( "Muscle Percent: ([+-]\\d+)" )
 		},
-		{ "Mysticality", "Mys",
+		{ "Mysticality",
 		  Pattern.compile( "Mysticality ([+-]\\d+)$" ),
-		  Pattern.compile( "Mys: ([+-]\\d+)" )
+		  Pattern.compile( "Mysticality: ([+-]\\d+)" )
 		},
-		{ "Mysticality Percent", "Mys%",
+		{ "Mysticality Percent",
 		  Pattern.compile( "Mysticality ([+-]\\d+)%" ),
-		  Pattern.compile( "Mys%: ([+-]\\d+)" )
+		  Pattern.compile( "Mysticality Percent: ([+-]\\d+)" )
 		},
-		{ "Maximum HP", "HP",
+		{ "Maximum HP",
 		  Pattern.compile( "Maximum HP ([+-]\\d+)$" ),
-		  Pattern.compile( "HP: ([+-]\\d+)" )
+		  Pattern.compile( "Maximum HP: ([+-]\\d+)" )
 		},
-		{ "Maximum HP Percent", "HP%",
+		{ "Maximum HP Percent",
 		  null,
-		  Pattern.compile( "HP%: ([+-]\\d+)" )
+		  Pattern.compile( "Maximum HP Percent: ([+-]\\d+)" )
 		},
-		{ "Maximum MP", "MP",
+		{ "Maximum MP",
 		  Pattern.compile( "Maximum MP ([+-]\\d+)$" ),
-		  Pattern.compile( "MP: ([+-]\\d+)" )
+		  Pattern.compile( "Maximum MP: ([+-]\\d+)" )
 		},
-		{ "Maximum MP Percent", "MP%",
+		{ "Maximum MP Percent",
 		  null,
-		  Pattern.compile( "MP%: ([+-]\\d+)" )
+		  Pattern.compile( "Maximum MP Percent: ([+-]\\d+)" )
 		},
-		{ "Melee Damage", "MDmg",
+		{ "Melee Damage",
 		  Pattern.compile( "Melee Damage ([+-]\\d+)" ),
-		  Pattern.compile( "MDmg: ([+-]\\d+)" )
+		  Pattern.compile( "Melee Damage: ([+-]\\d+)" )
 		},
-		{ "Ranged Damage", "RDmg",
+		{ "Ranged Damage",
 		  Pattern.compile( "Ranged Damage ([+-]\\d+)" ),
-		  Pattern.compile( "RDmg: ([+-]\\d+)" )
+		  Pattern.compile( "Ranged Damage: ([+-]\\d+)" )
 		},
-		{ "Spell Damage", "SDmg",
+		{ "Spell Damage",
 		  Pattern.compile( "Spell Damage ([+-]\\d+)$" ),
-		  Pattern.compile( "SDmg: ([+-]\\d+)" )
+		  Pattern.compile( "Spell Damage: ([+-]\\d+)" )
 		},
-		{ "Spell Damage Percent", "SDmg%",
+		{ "Spell Damage Percent",
 		  Pattern.compile( "Spell Damage ([+-]\\d+)%" ),
-		  Pattern.compile( "SDmg%: ([+-]\\d+)" )
+		  Pattern.compile( "Spell Damage Percent: ([+-]\\d+)" )
 		},
-		{ "Cold Damage", "CoDmg",
+		{ "Cold Damage",
 		  Pattern.compile( "([+-]\\d+) <font color=blue>Cold Damage</font>" ),
-		  Pattern.compile( "CoDmg: ([+-]\\d+)" )
+		  Pattern.compile( "Cold Damage: ([+-]\\d+)" )
 		},
-		{ "Hot Damage", "HoDmg",
+		{ "Hot Damage",
 		  Pattern.compile( "([+-]\\d+) <font color=red>Hot Damage</font>" ),
-		  Pattern.compile( "HoDmg: ([+-]\\d+)" )
+		  Pattern.compile( "Hot Damage: ([+-]\\d+)" )
 		},
-		{ "Sleaze Damage", "SlDmg",
+		{ "Sleaze Damage",
 		  Pattern.compile( "([+-]\\d+) <font color=blueviolet>Sleaze Damage</font>" ),
-		  Pattern.compile( "SlDmg: ([+-]\\d+)" )
+		  Pattern.compile( "Sleaze Damage: ([+-]\\d+)" )
 		},
-		{ "Spooky Damage", "SpDmg",
+		{ "Spooky Damage",
 		  Pattern.compile( "([+-]\\d+) <font color=gray>Spooky Damage</font>" ),
-		  Pattern.compile( "SpDmg: ([+-]\\d+)" )
+		  Pattern.compile( "Spooky Damage: ([+-]\\d+)" )
 		},
-		{ "Stench Damage", "StDmg",
+		{ "Stench Damage",
 		  Pattern.compile( "([+-]\\d+) <font color=green>Stench Damage</font>" ),
-		  Pattern.compile( "StDmg: ([+-]\\d+)" )
+		  Pattern.compile( "Stench Damage: ([+-]\\d+)" )
 		},
-		{ "Cold Spell Damage", "CoSDmg",
+		{ "Cold Spell Damage",
 		  Pattern.compile( "([+-]\\d+) Damage to <font color=blue>Cold Spells</font>" ),
-		  Pattern.compile( "CoSDmg: ([+-]\\d+)" )
+		  Pattern.compile( "Cold Spell Damage: ([+-]\\d+)" )
 		},
-		{ "Hot Spell Damage", "HoSDmg",
+		{ "Hot Spell Damage",
 		  Pattern.compile( "([+-]\\d+) Damage to <font color=red>Hot Spells</font>" ),
-		  Pattern.compile( "HoSDmg: ([+-]\\d+)" )
+		  Pattern.compile( "Hot Spell Damage: ([+-]\\d+)" )
 		},
-		{ "Sleaze Spell Damage", "SlSDmg",
+		{ "Sleaze Spell Damage",
 		  Pattern.compile( "([+-]\\d+) Damage to <font color=blueviolet>Sleaze Spells</font>" ),
-		  Pattern.compile( "SlSDmg: ([+-]\\d+)" )
+		  Pattern.compile( "Sleaze Spell Damage: ([+-]\\d+)" )
 		},
-		{ "Spooky Spell Damage", "SpSDmg",
+		{ "Spooky Spell Damage",
 		  Pattern.compile( "([+-]\\d+) Damage to <font color=gray>Spooky Spells</font>" ),
-		  Pattern.compile( "SpSDmg: ([+-]\\d+)" )
+		  Pattern.compile( "Spooky Spell Damage: ([+-]\\d+)" )
 		},
-		{ "Stench Spell Damage", "StSDmg",
+		{ "Stench Spell Damage",
 		  Pattern.compile( "([+-]\\d+) Damage to <font color=green>Stench Spells</font>" ),
-		  Pattern.compile( "StSDmg: ([+-]\\d+)" )
+		  Pattern.compile( "Stench Spell Damage: ([+-]\\d+)" )
 		},
-		{ "Critical", "Critical",
+		{ "Critical",
 		  Pattern.compile( "(\\d+)x chance of Critical Hit" ),
 		  Pattern.compile( "Critical: ([+-]\\d+)" )
 		},
-		{ "Fumble", "Fumble",
+		{ "Fumble",
 		  Pattern.compile( "(\\d+)x chance of Fumble" ),
 		  Pattern.compile( "Fumble: ([+-]\\d+)" )
 		},
@@ -289,13 +289,13 @@ public class Modifiers extends KoLDatabase
 	public static final int INTRINSIC_EFFECT = 1;
 
         private static final Object [][] stringModifiers = {
-                { "Class", "Class",
+                { "Class",
                   null,
                   Pattern.compile( "Class: ([^,]+)" )
                 },
-                { "Intrinsic Effect", "Intrinsic",
+                { "Intrinsic Effect",
                   Pattern.compile( "Intrinsic effect: (.*)" ),
-                  Pattern.compile( "Intrinsic: ([^,]+)" )
+                  Pattern.compile( "Intrinsic Effect: ([^,]+)" )
                 },
 	};
 
@@ -308,43 +308,36 @@ public class Modifiers extends KoLDatabase
 		return (String)table[index][0];
 	};
 
-	private static final String modifierTag( Object [][] table, int index )
-	{
-		if ( index < 0 || index >= table.length )
-			return null;
-		return (String)table[index][1];
-	};
-
 	private static final Pattern modifierDescPattern( Object [][] table, int index )
 	{
 		if ( index < 0 || index >= table.length )
 			return null;
-		return (Pattern)table[index][2];
+		return (Pattern)table[index][1];
 	};
 
 	private static final Pattern modifierTagPattern( Object [][] table, int index )
 	{
 		if ( index < 0 || index >= table.length )
 			return null;
-		return (Pattern)table[index][3];
+		return (Pattern)table[index][2];
 	};
 
-	private static final String COLD = modifierTag( floatModifiers, COLD_RESISTANCE ) + ": ";
-	private static final String HOT = modifierTag( floatModifiers, HOT_RESISTANCE ) + ": ";
-	private static final String SLEAZE = modifierTag( floatModifiers, SLEAZE_RESISTANCE ) + ": ";
-	private static final String SPOOKY = modifierTag( floatModifiers, SPOOKY_RESISTANCE ) + ": ";
-	private static final String STENCH = modifierTag( floatModifiers, STENCH_RESISTANCE ) + ": ";
+	private static final String COLD = modifierName( floatModifiers, COLD_RESISTANCE ) + ": ";
+	private static final String HOT = modifierName( floatModifiers, HOT_RESISTANCE ) + ": ";
+	private static final String SLEAZE = modifierName( floatModifiers, SLEAZE_RESISTANCE ) + ": ";
+	private static final String SPOOKY = modifierName( floatModifiers, SPOOKY_RESISTANCE ) + ": ";
+	private static final String STENCH = modifierName( floatModifiers, STENCH_RESISTANCE ) + ": ";
 
-	private static final String MOXIE = modifierTag( floatModifiers, MOX ) + ": ";
-	private static final String MUSCLE = modifierTag( floatModifiers, MUS ) + ": ";
-	private static final String MYSTICALITY = modifierTag( floatModifiers, MYS ) + ": ";
+	private static final String MOXIE = modifierName( floatModifiers, MOX ) + ": ";
+	private static final String MUSCLE = modifierName( floatModifiers, MUS ) + ": ";
+	private static final String MYSTICALITY = modifierName( floatModifiers, MYS ) + ": ";
 
-	private static final String MOXIE_PCT = modifierTag( floatModifiers, MOX_PCT ) + ": ";
-	private static final String MUSCLE_PCT = modifierTag( floatModifiers, MUS_PCT ) + ": ";
-	private static final String MYSTICALITY_PCT = modifierTag( floatModifiers, MYS_PCT ) + ": ";
+	private static final String MOXIE_PCT = modifierName( floatModifiers, MOX_PCT ) + ": ";
+	private static final String MUSCLE_PCT = modifierName( floatModifiers, MUS_PCT ) + ": ";
+	private static final String MYSTICALITY_PCT = modifierName( floatModifiers, MYS_PCT ) + ": ";
 
-	private static final String HP_TAG = modifierTag( floatModifiers, HP ) + ": ";
-	private static final String MP_TAG = modifierTag( floatModifiers, MP ) + ": ";
+	private static final String HP_TAG = modifierName( floatModifiers, HP ) + ": ";
+	private static final String MP_TAG = modifierName( floatModifiers, MP ) + ": ";
 
 	private static int findName( Object [][] table, String name )
 	{
@@ -620,7 +613,7 @@ public class Modifiers extends KoLDatabase
 	{
 		Matcher matcher = DR_PATTERN.matcher( text );
 		if (matcher.find() )
-			return modifierTag( floatModifiers, DAMAGE_REDUCTION ) + ": " + matcher.group(1);
+			return modifierName( floatModifiers, DAMAGE_REDUCTION ) + ": " + matcher.group(1);
 
 		return null;
 	}
@@ -682,12 +675,12 @@ public class Modifiers extends KoLDatabase
 				cls = KoLCharacter.SEAL_CLUBBER;
 			else if ( plural.equals( "Turtle Tamers" ) )
 				cls = KoLCharacter.TURTLE_TAMER;
-			return modifierTag( stringModifiers, CLASS ) + ": " + cls;
+			return modifierName( stringModifiers, CLASS ) + ": " + cls;
 		}
 
 		matcher = COMBAT_PATTERN.matcher( enchantment );
 		if ( matcher.find() )
-			return modifierTag( floatModifiers, COMBAT_RATE ) + ": " + ( matcher.group(1).equals( "more" ) ? "+5" : "-5" );
+			return modifierName( floatModifiers, COMBAT_RATE ) + ": " + ( matcher.group(1).equals( "more" ) ? "+5" : "-5" );
 
 		matcher = HP_MP_PATTERN.matcher( enchantment );
 		if ( matcher.find() )
@@ -712,7 +705,7 @@ public class Modifiers extends KoLDatabase
 
 			Matcher matcher = pattern.matcher( enchantment );
 			if ( matcher.find() )
-				return modifierTag( table, i ) + ": " + matcher.group(1);
+				return modifierName( table, i ) + ": " + matcher.group(1);
 		}
 
 		return null;
