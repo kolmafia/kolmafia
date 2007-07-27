@@ -299,8 +299,16 @@ public class AutoSellRequest extends SendMessageRequest
 		if ( mode != null && (mode.equals( "0" ) && getFormField("type").equals("all")) || mode.equals( "1" ) )
 		{
 			for ( int i = 0; i < attachments.length; ++i )
-				if ( attachments[i] != null && !junkList.contains( attachments[i] ) )
-					junkList.add( attachments[i] );
+			{
+				if ( attachments[i] == null )
+					continue;
+
+				if ( !postRoninJunkList.contains( attachments[i] ) )
+					postRoninJunkList.add( attachments[i] );
+
+				if ( !KoLCharacter.canInteract() && !preRoninJunkList.contains( attachments[i] ) )
+					preRoninJunkList.add( attachments[i] );
+			}
 		}
 
 		// Move out of inventory. Process meat gains, if old autosell
