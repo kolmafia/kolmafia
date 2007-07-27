@@ -1140,6 +1140,12 @@ wax lips	Experience: +3
 # weegee sqouija
 woolen cravat	Familiar Weight: +5
 
+# Special case overrides
+
+Travoltan trousers	Moxie: +15, Initiative: +30, Ranged Damage: +10
+Staff of the Greasefire	Spell Damage Percent: +35, Hot Spell Damage: +10, Sleaze Spell Damage: +10
+bottle-rocket crossbow	Meat Drop: +15, Item Drop: +10, Moxie Percent: +15
+
 # Intrinsic Effects section of modifiers.txt
 
 1337p4n7Z	Moxie: -3, Muscle: +6
