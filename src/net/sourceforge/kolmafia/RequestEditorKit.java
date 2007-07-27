@@ -1424,7 +1424,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			if ( firstFormIndex > 6 )
 			{
 				buffer.insert( firstFormIndex,
-					"<tr><td align=center><form action=fight.php method=\"GET\"><input type=hidden name=\"action\" value=\"script\"><input class=\"button\" type=\"submit\" value=\"Auto-Run Combat\"></form></td></tr>" );
+					"<tr><td align=center><form action=fight.php method=\"GET\"><input type=hidden name=\"action\" value=\"script\"><input class=\"button\" type=\"submit\" value=\"Run Custom Combat Script\"></form></td></tr>" );
 			}
 		}
 
