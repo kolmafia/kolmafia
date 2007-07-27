@@ -977,7 +977,7 @@ toy train	0	none
 tube sock	0	Mys: 45
 walrus-tusk earring	0	Mys: 10
 wheel	0	none
-white belt	0	Mus: 5
+white belt	0	Mys: 5
 white collar	0	none
 woven baling wire bracelets	0	Mys: 75
 wrench bracelet	0	Mys: 75

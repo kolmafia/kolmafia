@@ -742,7 +742,7 @@
 742	Knoll shroomkabob	1	all	30
 743	stuffed spooky mushroom	1	all	35
 744	can of hair spray	4	all	12
-745	serrated proboscis extension	0	all	30
+745	serrated proboscis extension	7	all	75
 746	stat script	3	none	0
 747	Knob Goblin firecracker	0	all	15
 748	gourd potion	4	none	0
@@ -843,7 +843,7 @@
 843	salty slug	2	all	65
 844	papaya slung	2	all	57
 845	MAHI fez	9	display	0
-846	especially homoerotic frat-paddle	12	display	90
+846	especially homoerotic frat-paddle	12	display	0
 847	heteroerotic frat-paddle	12	display	0
 848	hypodermic needle	7	all	75
 849	Meat detector	7	all	75
