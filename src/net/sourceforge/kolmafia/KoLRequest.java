@@ -1602,15 +1602,32 @@ public class KoLRequest extends Job implements KoLConstants
 				return;
 			}
 
+			boolean willIgnore = false;
+
 			// If the user wants to ignore this specific choice or all
 			// choices, see if this choice is ignorable.
 
-			boolean willIgnore = choice.equals( "80" ) || choice.equals( "81" );
+			if ( choice.equals( "80" ) )
+			{
+				willIgnore = true;
+
+				if ( decision.equals( "99" ) && StaticEntity.getIntegerProperty( "lastSecondFloorUnlock" ) == KoLCharacter.getAscensions() )
+					decision = "4";
+			}
+			else if ( choice.equals( "81" ) )
+			{
+				willIgnore = true;
+
+				if ( decision.equals( "1" ) && StaticEntity.getIntegerProperty( "lastGalleryUnlock" ) == KoLCharacter.getAscensions() )
+					decision = "4";
+				if ( decision.equals( "99" ) && StaticEntity.getIntegerProperty( "lastSecondFloorUnlock" ) == KoLCharacter.getAscensions() )
+					decision = "4";
+			}
 
 			// But first, handle the maidens adventure in a less random
 			// fashion that's actually useful.
 
-			if ( choice.equals( "89" ) )
+			else if ( choice.equals( "89" ) )
 			{
 				willIgnore = true;
 
