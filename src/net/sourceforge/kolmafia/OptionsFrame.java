@@ -175,8 +175,14 @@ public class OptionsFrame extends KoLFrame
 
 			{ "", "" },
 
-			{ "relayAddsMissingEffects", "Display mood triggers with zero duration" },
+			{ "relayAddsMissingEffects", "Display expired effects listed in mood" },
 			{ "relayAddsMoodRefreshLink", "Add mood links (overrides MP burn links)" },
+
+			{ "", "" },
+
+			{ "relayMaintainsEffects", "Run moods during manual adventuring" },
+			{ "relayMaintainsHealth", "Maintain health during manual adventuring" },
+			{ "relayMaintainsMana", "Maintain mana during manual adventuring" },
 
 			{ "", "" },
 

@@ -2919,7 +2919,7 @@ public abstract class KoLmafia implements KoLConstants
 	{	return recoveryActive || MoodSettings.isExecuting();
 	}
 
-	public static boolean runThresholdChecks()
+	public boolean runThresholdChecks()
 	{
 		float autoStopValue = StaticEntity.getFloatProperty( "autoAbortThreshold" );
 		if ( autoStopValue >= 0.0f )
@@ -2944,7 +2944,7 @@ public abstract class KoLmafia implements KoLConstants
 		// Do not run between battle checks if you are in the middle
 		// of your checks or if you have aborted.
 
-		if ( recoveryActive || refusesContinue() || (isHealthCheck && !runThresholdChecks()) )
+		if ( recoveryActive || refusesContinue() )
 			return;
 
 		// First, run the between battle script defined by the
