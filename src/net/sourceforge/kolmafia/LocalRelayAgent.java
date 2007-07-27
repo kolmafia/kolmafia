@@ -33,7 +33,8 @@
 
 package net.sourceforge.kolmafia;
 
-import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 
@@ -50,8 +51,11 @@ public class LocalRelayAgent extends Thread
 
 	private Socket socket = null;
 
-	private BufferedReader reader;
-	private PrintStream writer;
+	private byte [] array = new byte[ 8096 ];
+	private ByteArrayOutputStream bstream = new ByteArrayOutputStream( 8096 );
+
+	private InputStream istream;
+	private PrintStream ostream;
 
 	private String path;
 	private boolean isCheckingModified;
@@ -169,91 +173,67 @@ public class LocalRelayAgent extends Thread
 			return;
 
 		this.path = null;
-		this.reader = null;
-		this.writer = null;
+		this.istream = null;
+		this.ostream = null;
 		this.request = null;
 
 		try
 		{
-			this.reader = KoLDatabase.getReader( this.socket.getInputStream() );
+			this.istream = this.socket.getInputStream();
 
 			this.readBrowserRequest();
 			this.readServerResponse();
 
-			this.writer = new PrintStream( this.socket.getOutputStream(), true, "UTF-8" );
+			this.ostream = new PrintStream( this.socket.getOutputStream(), true, "UTF-8" );
 
 			if ( this.request.rawByteBuffer != null )
 			{
-				this.writer.println( this.request.statusLine );
-				this.sendHeaders( this.writer, this.request );
+				this.ostream.println( this.request.statusLine );
+				this.sendHeaders( this.ostream, this.request );
 
-				this.writer.println();
-				this.writer.write( this.request.rawByteBuffer );
+				this.ostream.println();
+				this.ostream.write( this.request.rawByteBuffer );
 			}
 		}
 		catch ( Exception e )
 		{
 		}
 
-		this.closeRelay( this.socket, this.reader, this.writer );
+		this.closeRelay();
 	}
 
 	public void readBrowserRequest() throws Exception
 	{
-		String line = null;
-		String method = "GET";
-		int contentLength = 0;
+		int availableBytes = 0;
 
-		if ( (line = this.reader.readLine()) == null )
-			return;
-
-		int spaceIndex = line.indexOf( " " );
-		if ( spaceIndex == -1 )
-			return;
-
-		method = line.trim().substring( 0, spaceIndex );
-		int lastSpaceIndex = line.lastIndexOf( " " );
-
-		this.path = line.substring( spaceIndex, lastSpaceIndex ).trim();
-		this.request = new LocalRelayRequest( this.path );
-
-		this.isCheckingModified = false;
-
-		int colonIndex = 0;
-		String [] tokens = new String[2];
-
-		while ( (line = this.reader.readLine()) != null && line.trim().length() != 0 )
+		do
 		{
-			colonIndex = line.indexOf( ": " );
-			if ( colonIndex == -1 )
-				continue;
+			availableBytes = istream.read( array );
+			bstream.write( array, 0, availableBytes );
+		}
+		while ( istream.available() != 0 || bstream.size() == 0 );
 
-			tokens[0] = line.substring( 0, colonIndex );
-			tokens[1] = line.substring( colonIndex + 2 );
+		String browserRequest = bstream.toString();
+		bstream.reset();
 
-			if ( tokens[0].equals( "Content-Length" ) )
-				contentLength = StaticEntity.parseInt( tokens[1].trim() );
+		String requestLine = browserRequest.substring( 0, browserRequest.indexOf( "\n" ) );
+		int spaceIndex = requestLine.indexOf( " " );
 
-			if ( tokens[0].equals( "Cookie" ) )
-			{
-				// Let's find out what kind of cookie the browser is trying
-				// to tell KoLmafia about.
+		this.path = requestLine.substring( spaceIndex, requestLine.lastIndexOf( " " ) ).trim();
+		this.request = new LocalRelayRequest( this.path );
+		this.isCheckingModified = browserRequest.indexOf( "If-Modified-Since" ) != -1;
 
-				Matcher inventoryMatcher = INVENTORY_COOKIE_PATTERN.matcher( tokens[1] );
-				if ( inventoryMatcher.find() )
-					StaticEntity.setProperty( "visibleBrowserInventory", "inventory=" + inventoryMatcher.group(1) );
-			}
-
-			if ( tokens[0].equals( "If-Modified-Since" ) )
-				this.isCheckingModified = true;
+		if ( this.path.startsWith( "/inventory.php" ) )
+		{
+			Matcher inventoryMatcher = INVENTORY_COOKIE_PATTERN.matcher( browserRequest );
+			if ( inventoryMatcher.find() )
+				StaticEntity.setProperty( "visibleBrowserInventory", "inventory=" + inventoryMatcher.group(1) );
 		}
 
-		if ( method.equals( "POST" ) && contentLength > 0 )
+		if ( requestLine.substring( 0, spaceIndex ).equals( "POST" ) )
 		{
-			char [] data = new char[ contentLength ];
-			this.reader.read( data, 0, contentLength );
-
-			this.request.addEncodedFormFields( new String( data ) );
+			int separatorIndex = browserRequest.indexOf( "\n\n" );
+			this.request.addEncodedFormFields( browserRequest.substring( separatorIndex + 2 ) );
 		}
 	}
 
@@ -267,7 +247,7 @@ public class LocalRelayAgent extends Thread
 			this.request.pseudoResponse( "HTTP/1.1 304 Not Modified", "" );
 			this.request.responseCode = 304;
 		}
-		else if ( this.path.indexOf( "fight.php" ) != -1 && this.path.indexOf( "action=script" ) != -1 )
+		else if ( this.path.equals( "/fight.php?action=script" ) )
 		{
 			if ( !FightRequest.isTrackingFights() )
 			{
@@ -287,14 +267,15 @@ public class LocalRelayAgent extends Thread
 			{
 				if ( FightRequest.isTrackingFights() )
 				{
-					fightResponse = StaticEntity.singleStringDelete( fightResponse, "top.charpane.location.href=\"charpane.php\";" );
-					fightResponse = StaticEntity.singleStringReplace( fightResponse, "<html>", "<html><meta http-equiv=\"refresh\" content=\"1\" />" );
+					this.request.pseudoResponse( "HTTP/1.1 200 OK", StaticEntity.singleStringDelete( fightResponse, "top.charpane.location.href=\"charpane.php\";" ) );
+					this.request.headers.add( "Refresh: 1" );
 				}
+				else
+					this.request.pseudoResponse( "HTTP/1.1 200 OK", fightResponse );
 
-				this.request.pseudoResponse( "HTTP/1.1 200 OK", fightResponse );
 			}
 		}
-		else if ( this.path.indexOf( "tiles.php" ) != -1 )
+		else if ( this.path.startsWith( "/tiles.php" ) )
 		{
 			AdventureRequest.handleDvoraksRevenge( this.request );
 		}
@@ -302,7 +283,7 @@ public class LocalRelayAgent extends Thread
 		{
 			this.request.run();
 
-			if ( this.path.indexOf( "valhalla.php" ) != -1 && this.request.responseCode == 302 )
+			if ( this.path.startsWith( "/valhalla.php" ) && this.request.responseCode == 302 )
 			{
 				StaticEntity.getClient().handleAscension();
 
@@ -318,28 +299,28 @@ public class LocalRelayAgent extends Thread
 			this.request.rawByteBuffer = this.request.responseText.getBytes( "UTF-8" );
 	}
 
-	private void closeRelay( Socket socket, BufferedReader reader, PrintStream writer )
+	private void closeRelay()
 	{
 		try
 		{
-			if ( reader != null )
-				reader.close();
+			if ( istream != null )
+				istream.close();
 		}
 		catch ( Exception e )
 		{
 			// The only time this happens is if the
-			// print stream is already closed.  Ignore.
+			// print bstream is already closed.  Ignore.
 		}
 
 		try
 		{
-			if ( writer != null )
-				writer.close();
+			if ( ostream != null )
+				ostream.close();
 		}
 		catch ( Exception e )
 		{
 			// The only time this happens is if the
-			// print stream is already closed.  Ignore.
+			// print bstream is already closed.  Ignore.
 		}
 
 		try
