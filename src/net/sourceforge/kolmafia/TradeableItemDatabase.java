@@ -1189,6 +1189,8 @@ public class TradeableItemDatabase extends KoLDatabase
 	// Support for the "checkdata" command, which compares KoLmafia's
 	// internal item data from what can be mined from the item description.
 
+	private static StringArray rawDescriptions = new StringArray();
+
 	private static final Map foods = new TreeMap();
 	private static final Map boozes = new TreeMap();
 	private static final Map hats = new TreeMap();
@@ -1200,16 +1202,11 @@ public class TradeableItemDatabase extends KoLDatabase
 	private static final Map containers = new TreeMap();
 	private static final Map famitems = new TreeMap();
 
-	public static void checkInternalData()
-	{	checkInternalData( 0 );
-	}
-
 	public static void checkInternalData( int itemId )
 	{
-		File output = new File( DATA_DIRECTORY, "itemdata.txt" );
-		LogStream writer = LogStream.openStream( output, true );
-
+		loadScrapeData();
 		RequestLogger.printLine( "Checking internal data..." );
+		LogStream report = LogStream.openStream( new File( DATA_DIRECTORY, "itemdata.txt" ), true );
 
 		foods.clear();
 		boozes.clear();
@@ -1223,32 +1220,49 @@ public class TradeableItemDatabase extends KoLDatabase
 		famitems.clear();
 
 		// Check item names, desc ID, consumption type
+
 		if ( itemId == 0 )
+		{
 			for ( int i = 1; i < descriptionById.size(); ++i )
-				checkItem( i, writer );
+				checkItem( i, report );
+
+			String description;
+			LogStream livedata = LogStream.openStream( new File( DATA_DIRECTORY, "itemhtml.txt" ), true );
+
+			for ( int i = 1; i < descriptionById.size(); ++i )
+			{
+				description = rawDescriptions.get(i);
+				if ( !description.equals( "" ) )
+				{
+					livedata.println( i );
+					livedata.println( description );
+				}
+			}
+
+			livedata.close();
+		}
 		else
-			checkItem( itemId, writer );
+		{
+			checkItem( itemId, report );
+		}
 
-		// Check level limits
-		checkLevels( writer );
+		// Check level limits, equipment, modifiers
 
-		// Check equipment
-		checkEquipment( writer );
+		checkLevels( report );
+		checkEquipment( report );
+		checkModifiers( report );
 
-		// Check modifiers
-		checkModifiers( writer );
-
-		writer.close();
+		report.close();
 	}
 
-	private static void checkItem( int itemId, LogStream writer )
+	private static void checkItem( int itemId, LogStream report )
 	{
 		Integer id = new Integer( itemId );
 
 		String name = (String)dataNameById.get( id );
 		if ( name == null )
 		{
-			writer.println( itemId );
+			report.println( itemId );
 			return;
 		}
 
@@ -1256,21 +1270,21 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		if ( rawText == null )
 		{
-			writer.println( "# *** " + name + " (" + itemId + ") has no description." );
+			report.println( "# *** " + name + " (" + itemId + ") has no description." );
 			return;
 		}
 
 		String text = descriptionText( rawText );
 		if ( text == null )
 		{
-			writer.println( "# *** " + name + " (" + itemId + ") has malformed description text." );
+			report.println( "# *** " + name + " (" + itemId + ") has malformed description text." );
 			return;
 		}
 
 		String descriptionName = parseName( text );
 		if ( !name.equals( descriptionName ) )
 		{
-			writer.println( "# *** " + name + " (" + itemId + ") has description of " + descriptionName + "." );
+			report.println( "# *** " + name + " (" + itemId + ") has description of " + descriptionName + "." );
 			return;
 
 		}
@@ -1281,7 +1295,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		String descType = parseType( text );
 		if ( !typesMatch( type, descType ) )
 		{
-			writer.println( "# *** " + name + " (" + itemId + ") has consumption type of " + type + " but is described as " + descType + "." );
+			report.println( "# *** " + name + " (" + itemId + ") has consumption type of " + type + " but is described as " + descType + "." );
 			correct = false;
 
 		}
@@ -1290,7 +1304,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		int descPrice = parsePrice( text );
 		if ( price != descPrice )
 		{
-			writer.println( "# *** " + name + " (" + itemId + ") has price of " + price + " but should be " + descPrice + "." );
+			report.println( "# *** " + name + " (" + itemId + ") has price of " + price + " but should be " + descPrice + "." );
 			correct = false;
 
 		}
@@ -1299,7 +1313,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		String descAccess = parseAccess( text );
 		if ( !access.equals( descAccess ) )
 		{
-			writer.println( "# *** " + name + " (" + itemId + ") has access of " + access + " but should be " + descAccess + "." );
+			report.println( "# *** " + name + " (" + itemId + ") has access of " + access + " but should be " + descAccess + "." );
 			correct = false;
 
 		}
@@ -1338,7 +1352,7 @@ public class TradeableItemDatabase extends KoLDatabase
 			break;
 		}
 
-		writer.println( itemId + "\t" + name + "\t" + type + "\t" + descAccess + "\t" + descPrice );
+		report.println( itemId + "\t" + name + "\t" + type + "\t" + descAccess + "\t" + descPrice );
 	}
 
 	private static String rawDescriptionText( int itemId )
@@ -1347,9 +1361,54 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( descId == null || descId.equals( "" ) )
 			return null;
 
+		String previous = rawDescriptions.get( itemId );
+		if ( !previous.equals( "" ) )
+			return previous;
+
 		KoLRequest descRequest = new KoLRequest( "desc_item.php?whichitem=" + descId );
 		RequestThread.postRequest( descRequest );
+		rawDescriptions.set( itemId, descRequest.responseText );
+
 		return descRequest.responseText;
+	}
+
+	private static void loadScrapeData()
+	{
+		if ( rawDescriptions.size() > 0 )
+			return;
+
+		try
+		{
+			File saveData = new File( DATA_DIRECTORY, "itemhtml.txt" );
+			if ( !saveData.exists() )
+				return;
+
+			RequestLogger.printLine( "Loading previous data..." );
+
+			String currentLine;
+			StringBuffer currentHTML = new StringBuffer();
+			BufferedReader reader = KoLDatabase.getReader( saveData );
+
+			while ( !(currentLine = reader.readLine()).equals( "" ) )
+			{
+				currentHTML.setLength(0);
+				int currentId = StaticEntity.parseInt( currentLine );
+
+				while ( !(currentLine = reader.readLine()).equals( "</html>" ) )
+				{
+					currentHTML.append( currentLine );
+					currentHTML.append( LINE_BREAK );
+				}
+
+				rawDescriptions.set( currentId, currentHTML.toString() );
+				reader.readLine();
+			}
+		}
+		catch ( Exception e )
+		{
+			// This shouldn't happen, but if it does, go ahead and
+			// fall through.  You're done parsing.
+		}
 	}
 
 	private static final Pattern DATA_PATTERN = Pattern.compile( "<img.*?><br>(.*?)<script", Pattern.DOTALL );
@@ -1372,7 +1431,7 @@ public class TradeableItemDatabase extends KoLDatabase
 			return "";
 
 		// One item is known to have an extra internal space
-		return matcher.group(1).replaceAll( "  ", " " );
+		return StaticEntity.globalStringReplace( matcher.group(1), "  ", " " );
 	}
 
 	private static final Pattern PRICE_PATTERN = Pattern.compile( "Selling Price: <b>(\\d+) Meat.</b>" );
@@ -1462,41 +1521,41 @@ public class TradeableItemDatabase extends KoLDatabase
 		return false;
 	}
 
-	private static void checkLevels( LogStream writer )
+	private static void checkLevels( LogStream report )
 	{
 
 		RequestLogger.printLine( "Checking level requirements..." );
 
-		checkLevelMap( writer, foods, "Food" );
-		checkLevelMap( writer, boozes, "Booze" );
+		checkLevelMap( report, foods, "Food" );
+		checkLevelMap( report, boozes, "Booze" );
 	}
 
-	private static void checkLevelMap( LogStream writer, Map map, String tag )
+	private static void checkLevelMap( LogStream report, Map map, String tag )
 	{
 		if ( map.size() == 0 )
 			return;
 
 		RequestLogger.printLine( "Checking " + tag + "..." );
 
-		writer.println( "" );
-		writer.println( "# Level requirements in " + ( map == foods ? "fullness" : "inebriety" ) + ".txt" );
+		report.println( "" );
+		report.println( "# Level requirements in " + ( map == foods ? "fullness" : "inebriety" ) + ".txt" );
 
 		Object [] keys = map.keySet().toArray();
 		for ( int i = 0; i < keys.length; ++i )
 		{
 			String name = (String)keys[i];
 			String text = (String)map.get( name );
-			checkLevelDatum( name, text, writer );
+			checkLevelDatum( name, text, report );
 		}
 	}
 
-	private static void checkLevelDatum( String name, String text, LogStream writer )
+	private static void checkLevelDatum( String name, String text, LogStream report )
 	{
 		Integer requirement = (Integer)levelReqByName.get( getCanonicalName( name ) );
 		int level = requirement == null ? 0 : requirement.intValue();
 		int descLevel = parseLevel( text );
 		if ( level != descLevel )
-			writer.println( "# *** " + name + " requires level " + level + " but should be " + descLevel + "." );
+			report.println( "# *** " + name + " requires level " + level + " but should be " + descLevel + "." );
 	}
 
 	private static final Pattern LEVEL_PATTERN = Pattern.compile( "Level required: <b>(.*?)</b>" );
@@ -1510,37 +1569,37 @@ public class TradeableItemDatabase extends KoLDatabase
 		return StaticEntity.parseInt( matcher.group(1) );
 	}
 
-	private static void checkEquipment( LogStream writer )
+	private static void checkEquipment( LogStream report )
 	{
 
 		RequestLogger.printLine( "Checking equipment..." );
 
-		checkEquipmentMap( writer, hats, "Hats" );
-		checkEquipmentMap( writer, pants, "Pants" );
-		checkEquipmentMap( writer, shirts, "Shirts" );
-		checkEquipmentMap( writer, weapons, "Weapons" );
-		checkEquipmentMap( writer, offhands, "Off-hand" );
-		checkEquipmentMap( writer, accessories, "Accessories" );
-		checkEquipmentMap( writer, containers, "Containers" );
+		checkEquipmentMap( report, hats, "Hats" );
+		checkEquipmentMap( report, pants, "Pants" );
+		checkEquipmentMap( report, shirts, "Shirts" );
+		checkEquipmentMap( report, weapons, "Weapons" );
+		checkEquipmentMap( report, offhands, "Off-hand" );
+		checkEquipmentMap( report, accessories, "Accessories" );
+		checkEquipmentMap( report, containers, "Containers" );
 	}
 
-	private static void checkEquipmentMap( LogStream writer, Map map, String tag )
+	private static void checkEquipmentMap( LogStream report, Map map, String tag )
 	{
 		if ( map.size() == 0 )
 			return;
 
 		RequestLogger.printLine( "Checking " + tag + "..." );
 
-		writer.println( "" );
-		writer.println( "# " + tag + " section of equipment.txt" );
-		writer.println();
+		report.println( "" );
+		report.println( "# " + tag + " section of equipment.txt" );
+		report.println();
 
 		Object [] keys = map.keySet().toArray();
 		for ( int i = 0; i < keys.length; ++i )
 		{
 			String name = (String)keys[i];
 			String text = (String)map.get( name );
-			checkEquipmentDatum( name, text, writer );
+			checkEquipmentDatum( name, text, report );
 		}
 	}
 
@@ -1548,7 +1607,7 @@ public class TradeableItemDatabase extends KoLDatabase
 	private static final Pattern REQ_PATTERN = Pattern.compile( "(\\w+) Required: <b>(\\d+)</b>" );
 	private static final Pattern WEAPON_PATTERN = Pattern.compile( "weapon [(](.*?)[)]" );
 
-	private static void checkEquipmentDatum( String name, String text, LogStream writer )
+	private static void checkEquipmentDatum( String name, String text, LogStream report )
 	{
 		Matcher matcher;
 
@@ -1610,42 +1669,42 @@ public class TradeableItemDatabase extends KoLDatabase
 		// Now check against what we already have
 		int oldPower = EquipmentDatabase.getPower( name );
 		if ( power != oldPower )
-			writer.println( "# *** " + name + " has power " + oldPower + " but should be " + power + "." );
+			report.println( "# *** " + name + " has power " + oldPower + " but should be " + power + "." );
 
 		String oldReq = EquipmentDatabase.getReq( name );
 		if ( !req.equals( oldReq ) )
-			writer.println( "# *** " + name + " has requirement " + oldReq + " but should be " + req + "." );
+			report.println( "# *** " + name + " has requirement " + oldReq + " but should be " + req + "." );
 
 		if ( isWeapon )
 		{
 			String oldWeaponType = String.valueOf( EquipmentDatabase.getHands( name ) ) + "-handed " + EquipmentDatabase.getType( name );
 			if ( !weaponType.equals( oldWeaponType ) )
-				writer.println( "# *** " + name + " has weapon type " + oldWeaponType + " but should be " + weaponType + "." );
+				report.println( "# *** " + name + " has weapon type " + oldWeaponType + " but should be " + weaponType + "." );
 		}
 		else if ( isShield && power == 0 )
 		{
-			writer.println( "# *** " + name + " is a shield of unknown power." );
+			report.println( "# *** " + name + " is a shield of unknown power." );
 		}
 
 		if ( isWeapon )
-			writer.println( name + "\t" + power + "\t" + req  + "\t" + weaponType );
+			report.println( name + "\t" + power + "\t" + req  + "\t" + weaponType );
 		else
-			writer.println( name + "\t" + power + "\t" + req );
+			report.println( name + "\t" + power + "\t" + req );
 	}
 
-	private static void checkModifiers( LogStream writer )
+	private static void checkModifiers( LogStream report )
 	{
 		RequestLogger.printLine( "Checking modifiers..." );
 		ArrayList unknown = new ArrayList();
 
-		checkModifierMap( writer, hats, "Hats", unknown );
-		checkModifierMap( writer, pants, "Pants", unknown );
-		checkModifierMap( writer, shirts, "Shirts", unknown );
-		checkModifierMap( writer, weapons, "Weapons", unknown );
-		checkModifierMap( writer, offhands, "Off-hand", unknown );
-		checkModifierMap( writer, accessories, "Accessories", unknown );
-		checkModifierMap( writer, containers, "Containers", unknown );
-		checkModifierMap( writer, famitems, "Familiar Items", unknown );
+		checkModifierMap( report, hats, "Hats", unknown );
+		checkModifierMap( report, pants, "Pants", unknown );
+		checkModifierMap( report, shirts, "Shirts", unknown );
+		checkModifierMap( report, weapons, "Weapons", unknown );
+		checkModifierMap( report, offhands, "Off-hand", unknown );
+		checkModifierMap( report, accessories, "Accessories", unknown );
+		checkModifierMap( report, containers, "Containers", unknown );
+		checkModifierMap( report, famitems, "Familiar Items", unknown );
 
 		if ( unknown.size() == 0 )
 			return;
@@ -1653,43 +1712,43 @@ public class TradeableItemDatabase extends KoLDatabase
 		Collections.sort( unknown );
 
 		for ( int i = 0; i < 10; ++i )
-			writer.println();
+			report.println();
 
-		writer.println( "# Unknown Modifiers section of modifiers.txt" );
-		writer.println();
+		report.println( "# Unknown Modifiers section of modifiers.txt" );
+		report.println();
 
 		for ( int i = 0; i < unknown.size(); ++i )
-			writer.println( "# " + (String)unknown.get(i) );
+			report.println( "# " + (String)unknown.get(i) );
 	}
 
-	private static void checkModifierMap( LogStream writer, Map map, String tag, ArrayList unknown )
+	private static void checkModifierMap( LogStream report, Map map, String tag, ArrayList unknown )
 	{
 		if ( map.size() == 0 )
 			return;
 
 		RequestLogger.printLine( "Checking " + tag + "..." );
 
-		writer.println();
-		writer.println( "# " + tag + " section of modifiers.txt" );
-		writer.println();
+		report.println();
+		report.println( "# " + tag + " section of modifiers.txt" );
+		report.println();
 
 		Object [] keys = map.keySet().toArray();
 		for ( int i = 0; i < keys.length; ++i )
 		{
 			String name = (String)keys[i];
 			String text = (String)map.get( name );
-			checkModifierDatum( name, text, writer, unknown );
+			checkModifierDatum( name, text, report, unknown );
 		}
 	}
 
-	private static void checkModifierDatum( String name, String text, LogStream writer, ArrayList unknown )
+	private static void checkModifierDatum( String name, String text, LogStream report, ArrayList unknown )
 	{
 		String known = parseEnchantments( text, unknown );
 
 		if ( known.equals( "" ) )
-			writer.println( "# " + name );
+			report.println( "# " + name );
 		else
-			writer.println( name + "\t" + known );
+			report.println( name + "\t" + known );
 	}
 
 	private static final Pattern ENCHANTMENT_PATTERN = Pattern.compile( "Enchantment:.*?<font color=blue>(.*)</font>", Pattern.DOTALL );
@@ -1704,16 +1763,15 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( !matcher.find() )
 			return known;
 
-		String enchantments = matcher.group(1);
+		StringBuffer enchantments = new StringBuffer( matcher.group(1) );
 
-		enchantments = enchantments.replaceAll( "<b>NOTE:</b> Items that reduce the MP cost of skills will not do so by more than 3 points, in total.", "" );
-		enchantments = enchantments.replaceAll( "<b>NOTE:</b> This item cannot be equipped while in Hardcore.", "" );
-		enchantments = enchantments.replaceAll( "<b>NOTE:</b> You may not equip more than one of this item at a time.", "" );
-		enchantments = enchantments.replaceAll( "<b>NOTE:</b> If you wear multiple items that increase Critical Hit chances, only the highest multiplier applies.", "" );
-		enchantments = enchantments.replaceAll( "<br>", "\n" );
-		enchantments = enchantments.replaceAll( "\n+", "\n" );
+		StaticEntity.globalStringDelete( enchantments, "<b>NOTE:</b> Items that reduce the MP cost of skills will not do so by more than 3 points, in total." );
+		StaticEntity.globalStringDelete( enchantments, "<b>NOTE:</b> This item cannot be equipped while in Hardcore." );
+		StaticEntity.globalStringDelete( enchantments, "<b>NOTE:</b> You may not equip more than one of this item at a time." );
+		StaticEntity.globalStringDelete( enchantments, "<b>NOTE:</b> If you wear multiple items that increase Critical Hit chances, only the highest multiplier applies." );
+		StaticEntity.globalStringReplace( enchantments, "<br>", "\n" );
 
-		String [] mods = enchantments.split( "\n" );
+		String [] mods = enchantments.toString().split( "\n+" );
 		for ( int i = 0; i < mods.length; ++i )
 		{
 			String enchantment = mods[i].trim();

@@ -99,20 +99,20 @@ public class Modifiers extends KoLDatabase
 	public static final int HP_PCT = 22;
 	public static final int MP = 23;
 	public static final int MP_PCT = 24;
-	public static final int MELEE_DMG = 25;
-	public static final int RANGED_DMG = 26;
-	public static final int SPELL_DMG = 27;
-	public static final int SPELL_DMG_PCT = 28;
-	public static final int COLD_DMG = 29;
-	public static final int HOT_DMG = 30;
-	public static final int SLEAZE_DMG = 31;
-	public static final int SPOOKY_DMG = 32;
-	public static final int STENCH_DMG = 33;
-	public static final int COLD_SPELL_DMG = 34;
-	public static final int HOT_SPELL_DMG = 35;
-	public static final int SLEAZE_SPELL_DMG = 36;
-	public static final int SPOOKY_SPELL_DMG = 37;
-	public static final int STENCH_SPELL_DMG = 38;
+	public static final int MELEE_DAMAGE = 25;
+	public static final int RANGED_DAMAGE = 26;
+	public static final int SPELL_DAMAGE = 27;
+	public static final int SPELL_DAMAGE_PCT = 28;
+	public static final int COLD_DAMAGE = 29;
+	public static final int HOT_DAMAGE = 30;
+	public static final int SLEAZE_DAMAGE = 31;
+	public static final int SPOOKY_DAMAGE = 32;
+	public static final int STENCH_DAMAGE = 33;
+	public static final int COLD_SPELL_DAMAGE = 34;
+	public static final int HOT_SPELL_DAMAGE = 35;
+	public static final int SLEAZE_SPELL_DAMAGE = 36;
+	public static final int SPOOKY_SPELL_DAMAGE = 37;
+	public static final int STENCH_SPELL_DAMAGE = 38;
 	public static final int CRITICAL = 39;
 	public static final int FUMBLE = 41;
 
@@ -128,7 +128,7 @@ public class Modifiers extends KoLDatabase
 		{ "Combat Rate", "Combat",
 		  null,
 		  Pattern.compile( "Combat: ([+-][\\d.]+)" )
-		}, 
+		},
 		{ "Initiative", "Init",
 		  Pattern.compile( "Combat Initiative (.*)%" ),
 		  Pattern.compile( "Init: ([+-][\\d.]+)" )
@@ -153,25 +153,25 @@ public class Modifiers extends KoLDatabase
 		  Pattern.compile( "Damage Reduction: (\\d+)" ),
 		  Pattern.compile( "DR: (\\d+)" )
 		},
-		{ "Cold Resistance", "Cold",
+		{ "Cold Resistance", "CoRes",
 		  null,
-		  Pattern.compile( "Cold: ([+-]\\d+)" )
+		  Pattern.compile( "CoRes: ([+-]\\d+)" )
 		},
-		{ "Hot Resistance", "Hot",
+		{ "Hot Resistance", "HoRes",
 		  null,
-		  Pattern.compile( "Hot: ([+-]\\d+)" )
+		  Pattern.compile( "HoRes: ([+-]\\d+)" )
 		},
-		{ "Sleaze Resistance", "Sleaze",
+		{ "Sleaze Resistance", "SlRes",
 		  null,
-		  Pattern.compile( "Sleaze: ([+-]\\d+)" )
+		  Pattern.compile( "SlRes: ([+-]\\d+)" )
 		},
-		{ "Spooky Resistance", "Spooky",
+		{ "Spooky Resistance", "SpRes",
 		  null,
-		  Pattern.compile( "Spooky: ([+-]\\d+)" )
+		  Pattern.compile( "SpRes: ([+-]\\d+)" )
 		},
-		{ "Stench Resistance", "Stench",
+		{ "Stench Resistance", "StRes",
 		  null,
-		  Pattern.compile( "Stench: ([+-]\\d+)" )
+		  Pattern.compile( "StRes: ([+-]\\d+)" )
 		},
 		{ "Mana Cost", "Mana",
 		  Pattern.compile( "(.*) MP to use Skills" ),
@@ -271,7 +271,7 @@ public class Modifiers extends KoLDatabase
 		},
 		{ "Stench Spell Damage", "StSDmg",
 		  Pattern.compile( "([+-]\\d+) Damage to <font color=green>Stench Spells</font>" ),
-		  Pattern.compile( "SToSDmg: ([+-]\\d+)" )
+		  Pattern.compile( "StSDmg: ([+-]\\d+)" )
 		},
 		{ "Critical", "Critical",
 		  Pattern.compile( "(\\d+)x chance of Critical Hit" ),
@@ -427,7 +427,7 @@ public class Modifiers extends KoLDatabase
 		if ( mod == null )
 			mod = "";
 
-		if ( !mod.equals( this.strings[index] ) )		      
+		if ( !mod.equals( this.strings[index] ) )
 		{
 			this.strings[index] = mod;
 			return true;
