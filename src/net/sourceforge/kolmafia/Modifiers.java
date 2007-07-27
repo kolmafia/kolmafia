@@ -95,6 +95,26 @@ public class Modifiers extends KoLDatabase
 	public static final int MUS_PCT = 18;
 	public static final int MYS = 19;
 	public static final int MYS_PCT = 20;
+	public static final int HP = 21;
+	public static final int HP_PCT = 22;
+	public static final int MP = 23;
+	public static final int MP_PCT = 24;
+	public static final int MELEE_DMG = 25;
+	public static final int RANGED_DMG = 26;
+	public static final int SPELL_DMG = 27;
+	public static final int SPELL_DMG_PCT = 28;
+	public static final int COLD_DMG = 29;
+	public static final int HOT_DMG = 30;
+	public static final int SLEAZE_DMG = 31;
+	public static final int SPOOKY_DMG = 32;
+	public static final int STENCH_DMG = 33;
+	public static final int COLD_SPELL_DMG = 34;
+	public static final int HOT_SPELL_DMG = 35;
+	public static final int SLEAZE_SPELL_DMG = 36;
+	public static final int SPOOKY_SPELL_DMG = 37;
+	public static final int STENCH_SPELL_DMG = 38;
+	public static final int CRITICAL = 39;
+	public static final int FUMBLE = 41;
 
 	private static final Object [][] floatModifiers = {
 		{ "Familiar Weight", "Weight",
@@ -118,7 +138,7 @@ public class Modifiers extends KoLDatabase
 		  Pattern.compile( "Exp: ([+-][\\d.]+)" )
 		},
 		{ "Item Drop", "Item",
-		  Pattern.compile( "(.*)% Item Drops from Monsters" ),
+		  Pattern.compile( "(.*)% Item Drops? from Monsters" ),
 		  Pattern.compile( "Item: ([+-][\\d.]+)" )
 		},
 		{ "Meat Drop", "Meat",
@@ -181,6 +201,86 @@ public class Modifiers extends KoLDatabase
 		  Pattern.compile( "Mysticality ([+-]\\d+)%" ),
 		  Pattern.compile( "Mys%: ([+-]\\d+)" )
 		},
+		{ "Maximum HP", "HP",
+		  Pattern.compile( "Maximum HP ([+-]\\d+)$" ),
+		  Pattern.compile( "HP: ([+-]\\d+)" )
+		},
+		{ "Maximum HP Percent", "HP%",
+		  null,
+		  Pattern.compile( "HP%: ([+-]\\d+)" )
+		},
+		{ "Maximum MP", "MP",
+		  Pattern.compile( "Maximum MP ([+-]\\d+)$" ),
+		  Pattern.compile( "MP: ([+-]\\d+)" )
+		},
+		{ "Maximum MP Percent", "MP%",
+		  null,
+		  Pattern.compile( "MP%: ([+-]\\d+)" )
+		},
+		{ "Melee Damage", "MDmg",
+		  Pattern.compile( "Melee Damage ([+-]\\d+)" ),
+		  Pattern.compile( "MDmg: ([+-]\\d+)" )
+		},
+		{ "Ranged Damage", "RDmg",
+		  Pattern.compile( "Ranged Damage ([+-]\\d+)" ),
+		  Pattern.compile( "RDmg: ([+-]\\d+)" )
+		},
+		{ "Spell Damage", "SDmg",
+		  Pattern.compile( "Spell Damage ([+-]\\d+)$" ),
+		  Pattern.compile( "SDmg: ([+-]\\d+)" )
+		},
+		{ "Spell Damage Percent", "SDmg%",
+		  Pattern.compile( "Spell Damage ([+-]\\d+)%" ),
+		  Pattern.compile( "SDmg%: ([+-]\\d+)" )
+		},
+		{ "Cold Damage", "CoDmg",
+		  Pattern.compile( "([+-]\\d+) <font color=blue>Cold Damage</font>" ),
+		  Pattern.compile( "CoDmg: ([+-]\\d+)" )
+		},
+		{ "Hot Damage", "HoDmg",
+		  Pattern.compile( "([+-]\\d+) <font color=red>Hot Damage</font>" ),
+		  Pattern.compile( "HoDmg: ([+-]\\d+)" )
+		},
+		{ "Sleaze Damage", "SlDmg",
+		  Pattern.compile( "([+-]\\d+) <font color=blueviolet>Sleaze Damage</font>" ),
+		  Pattern.compile( "SlDmg: ([+-]\\d+)" )
+		},
+		{ "Spooky Damage", "SpDmg",
+		  Pattern.compile( "([+-]\\d+) <font color=gray>Spooky Damage</font>" ),
+		  Pattern.compile( "SpDmg: ([+-]\\d+)" )
+		},
+		{ "Stench Damage", "StDmg",
+		  Pattern.compile( "([+-]\\d+) <font color=green>Stench Damage</font>" ),
+		  Pattern.compile( "StDmg: ([+-]\\d+)" )
+		},
+		{ "Cold Spell Damage", "CoSDmg",
+		  Pattern.compile( "([+-]\\d+) Damage to <font color=blue>Cold Spells</font>" ),
+		  Pattern.compile( "CoSDmg: ([+-]\\d+)" )
+		},
+		{ "Hot Spell Damage", "HoSDmg",
+		  Pattern.compile( "([+-]\\d+) Damage to <font color=red>Hot Spells</font>" ),
+		  Pattern.compile( "HoSDmg: ([+-]\\d+)" )
+		},
+		{ "Sleaze Spell Damage", "SlSDmg",
+		  Pattern.compile( "([+-]\\d+) Damage to <font color=blueviolet>Sleaze Spells</font>" ),
+		  Pattern.compile( "SlSDmg: ([+-]\\d+)" )
+		},
+		{ "Spooky Spell Damage", "SpSDmg",
+		  Pattern.compile( "([+-]\\d+) Damage to <font color=gray>Spooky Spells</font>" ),
+		  Pattern.compile( "SpSDmg: ([+-]\\d+)" )
+		},
+		{ "Stench Spell Damage", "StSDmg",
+		  Pattern.compile( "([+-]\\d+) Damage to <font color=green>Stench Spells</font>" ),
+		  Pattern.compile( "SToSDmg: ([+-]\\d+)" )
+		},
+		{ "Critical", "Critical",
+		  Pattern.compile( "(\\d+)x chance of Critical Hit" ),
+		  Pattern.compile( "Critical: ([+-]\\d+)" )
+		},
+		{ "Fumble", "Fumble",
+		  Pattern.compile( "(\\d+)x chance of Fumble" ),
+		  Pattern.compile( "Fumble: ([+-]\\d+)" )
+		},
 	};
 
 	public static final int FLOAT_MODIFIERS = floatModifiers.length;
@@ -242,6 +342,9 @@ public class Modifiers extends KoLDatabase
 	private static final String MOXIE_PCT = modifierTag( floatModifiers, MOX_PCT ) + ": ";
 	private static final String MUSCLE_PCT = modifierTag( floatModifiers, MUS_PCT ) + ": ";
 	private static final String MYSTICALITY_PCT = modifierTag( floatModifiers, MYS_PCT ) + ": ";
+
+	private static final String HP_TAG = modifierTag( floatModifiers, HP ) + ": ";
+	private static final String MP_TAG = modifierTag( floatModifiers, MP ) + ": ";
 
 	private static int findName( Object [][] table, String name )
 	{
@@ -362,7 +465,24 @@ public class Modifiers extends KoLDatabase
 	{
 		if ( index < 0 || index >= this.floats.length )
 			return;
-		this.floats[index] += mod;
+
+		switch ( index )
+		{
+		case CRITICAL:
+			// Critical hit modifier is maximum, not additive
+			if ( mod > this.floats[index] )
+				this.floats[index] = (float)mod;
+			break;
+		case MANA_COST:
+			// Total Mana Cost reduction cannot exceed 3
+			this.floats[index] += mod;
+			if ( this.floats[index] < -3 )
+				this.floats[index] = -3;
+			break;
+		default:
+			this.floats[index] += mod;
+			break;
+		}
 	};
 
 	public void add( Modifiers mods )
@@ -379,7 +499,7 @@ public class Modifiers extends KoLDatabase
 
 		for ( int i = 0; i < this.floats.length; ++i )
 			if ( addition[i] != 0.0f )
-				this.floats[i] += addition[i];
+				add( i, addition[i] );
 
 		// If the item provides an intrinsic effect, add it in
 		add( getModifiers( mods.getString( INTRINSIC_EFFECT ) ) );
@@ -509,6 +629,7 @@ public class Modifiers extends KoLDatabase
 	private static final Pattern ALL_ATTR_PCT_PATTERN = Pattern.compile( "^All Attributes ([+-]\\d+)%$" );
 	private static final Pattern CLASS_PATTERN = Pattern.compile( "Bonus for (.*) only" );
 	private static final Pattern COMBAT_PATTERN = Pattern.compile( "Monsters will be (.*) attracted to you." );
+	private static final Pattern HP_MP_PATTERN = Pattern.compile( "^Maximum HP/MP ([+-]\\d+)$" );
 
 	public static String parseModifier( String enchantment )
 	{
@@ -567,6 +688,13 @@ public class Modifiers extends KoLDatabase
 		matcher = COMBAT_PATTERN.matcher( enchantment );
 		if ( matcher.find() )
 			return modifierTag( floatModifiers, COMBAT_RATE ) + ": " + ( matcher.group(1).equals( "more" ) ? "+5" : "-5" );
+
+		matcher = HP_MP_PATTERN.matcher( enchantment );
+		if ( matcher.find() )
+		{
+			String mod = matcher.group(1);
+			return HP_TAG + mod + ", " + MP_TAG + mod;
+		}
 
 		if ( enchantment.indexOf( "Resistance" ) != -1 )
 			return parseResistance( enchantment );
