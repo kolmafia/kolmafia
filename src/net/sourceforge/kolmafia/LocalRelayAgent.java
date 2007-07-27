@@ -215,12 +215,11 @@ public class LocalRelayAgent extends Thread
 			{
 				if ( FightRequest.isTrackingFights() )
 				{
-					this.request.pseudoResponse( "HTTP/1.1 200 OK", StaticEntity.singleStringDelete( fightResponse, "top.charpane.location.href=\"charpane.php\";" ) );
-					this.request.headers.add( "Refresh: 1" );
+					this.request.pseudoResponse(  "HTTP/1.1 200 OK", StaticEntity.singleStringDelete( fightResponse, "top.charpane.location.href=\"charpane.php\";" ) );
+					this.request.headers.add( "Refresh: 0" );
 				}
 				else
 					this.request.pseudoResponse( "HTTP/1.1 200 OK", fightResponse );
-
 			}
 		}
 		else if ( this.path.startsWith( "/tiles.php" ) )
@@ -244,7 +243,7 @@ public class LocalRelayAgent extends Thread
 		}
 
 		if ( this.request.rawByteBuffer == null && this.request.responseText != null )
-			this.request.rawByteBuffer = this.request.responseText.getBytes( "UTF-8" );
+			this.request.rawByteBuffer = this.request.responseText.getBytes();
 	}
 
 	private void closeRelay()
