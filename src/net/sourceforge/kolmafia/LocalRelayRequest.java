@@ -361,18 +361,36 @@ public class LocalRelayRequest extends PasswordHashRequest
 		CustomItemDatabase.linkCustomItem( this );
 	}
 
-	public String getHeader( int index )
+	public void printHeaders( PrintStream ostream )
 	{
-		if ( this.headers.isEmpty() )
+		if ( !this.headers.isEmpty() )
 		{
-			// This request was relayed to the server. Respond with those headers.
+			for ( int i = 0; i < headers.size(); ++i )
+				ostream.println( headers.get(i) );
+		}
+		else
+		{
+			String header;
 
-			for ( int i = 0; this.formConnection.getHeaderFieldKey( i ) != null; ++i )
-				if ( !this.formConnection.getHeaderFieldKey( i ).equals( "Transfer-Encoding" ) )
-					this.headers.add( this.formConnection.getHeaderFieldKey( i ) + ": " + this.formConnection.getHeaderField( i ) );
+			for ( int i = 0; (header = this.formConnection.getHeaderFieldKey( i )) != null; ++i )
+			{
+				if ( header.equals( "Content-Length" ) || header.equals( "Connection" ) || header.equals( "Transfer-Encoding" ) )
+					continue;
+
+				ostream.print( header );
+				ostream.print( ": " );
+				ostream.println( this.formConnection.getHeaderField( i ) );
+			}
 		}
 
-		return index >= this.headers.size() ? null : (String) this.headers.get( index );
+		if ( this.responseCode == 200 && this.rawByteBuffer != null )
+		{
+			ostream.print( "Content-Length: " );
+			ostream.print( this.rawByteBuffer.length );
+			ostream.println();
+		}
+
+		ostream.println( "Connection: close" );
 	}
 
 	public void pseudoResponse( String status, String responseText )
@@ -985,9 +1003,6 @@ public class LocalRelayRequest extends PasswordHashRequest
 			}
 			else
 			{
-				if ( this.formURLString.endsWith( ".html" ) )
-					this.data.clear();
-
 				this.sendSharedFile( this.formURLString );
 				this.responseText = StaticEntity.globalStringReplace( this.responseText, "<p>", "<br><br>" );
 				this.responseText = StaticEntity.globalStringReplace( this.responseText, "<P>", "<br><br>" );
@@ -996,6 +1011,9 @@ public class LocalRelayRequest extends PasswordHashRequest
 		}
 		else
 		{
+			if ( this.formURLString.endsWith( ".html" ) )
+				this.data.clear();
+
 			this.sendSharedFile( this.formURLString );
 
 			if ( this.isChatRequest )
