@@ -141,6 +141,13 @@ public class TradeableItemDatabase extends KoLDatabase
 			}
 		}
 
+		// Add in dummy information for tracking worthless
+		// items so they can be added as conditions.
+
+		dataNameById.put( new Integer(13), "worthless item" );
+		itemIdByName.put( "worthless item", new Integer(13) );
+		nameById.put( new Integer(13), "worthless item" );
+
 		// Next, retrieve the description Ids using the data
 		// table present in MaxDemian's database.
 

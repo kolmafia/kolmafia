@@ -40,9 +40,12 @@ public class HermitRequest extends KoLRequest
 {
 	private static boolean checkedForClovers = false;
 
+	public static final AdventureResult WORTHLESS_ITEM = new AdventureResult( 13, 1 );
+
 	public static final AdventureResult PERMIT = new AdventureResult( 42, 1 );
 	public static final AdventureResult TRINKET = new AdventureResult( 43, 1 );
 	public static final AdventureResult GEWGAW = new AdventureResult( 44, 1 );
+
 	public static final AdventureResult KNICK_KNACK = new AdventureResult( 45, 1 );
 
 	private static final AdventureResult HACK_SCROLL = new AdventureResult( 567, 1 );

@@ -1268,7 +1268,10 @@ public class AdventureDatabase extends KoLDatabase
 
 	private static final boolean acquireItem( AdventureResult item, boolean force )
 	{
-		int missingCount = item.getCount() - item.getCount( inventory );
+		int itemId = item.getItemId();
+
+		int missingCount = item.getCount() -
+			(itemId == HermitRequest.WORTHLESS_ITEM.getItemId() ? HermitRequest.getWorthlessItemCount() : item.getCount( inventory ));
 
 		// If you already have enough of the given item, then
 		// return from this method.
@@ -1304,11 +1307,31 @@ public class AdventureDatabase extends KoLDatabase
 			}
 		}
 
+		// First, handle worthless items by traveling to
+		// the sewer for as many adventures as needed.
+
+		if ( itemId == HermitRequest.WORTHLESS_ITEM.getItemId() )
+		{
+			ArrayList temporary = new ArrayList();
+			temporary.addAll( conditions );
+			conditions.clear();
+
+			conditions.add( item.getInstance( missingCount ) );
+			StaticEntity.getClient().makeRequest( getAdventureByURL( "sewer.php" ), KoLCharacter.getAdventuresLeft() );
+
+			if ( HermitRequest.getWorthlessItemCount() < item.getCount() && KoLmafia.permitsContinue() )
+				KoLmafia.updateDisplay( ABORT_STATE, "Unable to acquire " + item.getCount() + " worthless items." );
+
+			conditions.clear();
+			conditions.addAll( temporary );
+
+			return HermitRequest.getWorthlessItemCount() >= item.getCount();
+		}
+
 		// Try to purchase the item from the mall, if the
 		// user wishes to autosatisfy through purchases,
 		// and the item is not creatable through combines.
 
-		int itemId = item.getItemId();
 		int price = TradeableItemDatabase.getPriceById( itemId );
 
 		boolean shouldUseMall = force || getBooleanProperty( "autoSatisfyWithMall" );

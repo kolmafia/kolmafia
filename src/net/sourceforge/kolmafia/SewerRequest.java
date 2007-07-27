@@ -37,7 +37,6 @@ public class SewerRequest extends KoLRequest
 {
 	public static final int TEN_LEAF_CLOVER = 24;
 	public static final int DISASSEMBLED_CLOVER = 196;
-//	public static final AdventureResult POSITIVE_CLOVER = new AdventureResult( "ten-leaf clover", 1 );
 	public static final AdventureResult CLOVER = new AdventureResult( TEN_LEAF_CLOVER, -1 );
 	public static final AdventureResult GUM = new AdventureResult( "chewing gum on a string", -1 );
 

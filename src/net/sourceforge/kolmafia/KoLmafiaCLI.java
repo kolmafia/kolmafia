@@ -1372,65 +1372,11 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "find" ) || command.equals( "acquire" ) || command.equals( "retrieve" ) )
 		{
-			// Handle lucky and unlucky retrieval of
-			// worthless items via the sewer.
+			conditions.clear();
 
-			if ( parameters.indexOf( "worthless item" ) != -1 )
-			{
-				int itemCount = 1;
-				int maximumCount = KoLCharacter.getAdventuresLeft();
-
-				if ( parameters.indexOf( " in " ) != -1 )
-				{
-					maximumCount = StaticEntity.parseInt( parameters.substring( parameters.lastIndexOf( " " ) ) );
-					if ( maximumCount < 0 )
-						maximumCount += KoLCharacter.getAdventuresLeft();
-				}
-
-				if ( !parameters.startsWith( "worthless item" ) )
-					itemCount = StaticEntity.parseInt( parameters.substring( 0, parameters.indexOf( " " ) ) );
-
-				ArrayList temporary = new ArrayList();
-				temporary.addAll( conditions );
-				conditions.clear();
-
-				if ( parameters.indexOf( "with clover" ) != -1 )
-				{
-					if ( KoLCharacter.getAdventuresLeft() > 0 )
-					{
-						AdventureDatabase.retrieveItem( SewerRequest.CLOVER.getInstance( itemCount ) );
-						this.executeAdventureRequest( itemCount + " sewer with clovers" );
-					}
-				}
-				else
-				{
-					while ( maximumCount > 0 && HermitRequest.getWorthlessItemCount() < itemCount && permitsContinue() )
-					{
-						int adventuresToUse = Math.min( maximumCount, itemCount - HermitRequest.getWorthlessItemCount() );
-						this.executeAdventureRequest( adventuresToUse + " unlucky sewer" );
-						maximumCount -= adventuresToUse;
-					}
-				}
-
-				conditions.addAll( temporary );
-				if ( HermitRequest.getWorthlessItemCount() < itemCount )
-				{
-					if ( KoLmafia.permitsContinue() )
-						updateDisplay( ERROR_STATE, "Unable to acquire " + itemCount + " worthless items." );
-
-					return;
-				}
-			}
-
-			// Non-worthless-item requests default to
-			// internal retrieveItem calls.
-
-			else
-			{
-				AdventureResult item = getFirstMatchingItem( parameters );
-				if ( item != null )
-					AdventureDatabase.retrieveItem( item, true );
-			}
+			AdventureResult item = getFirstMatchingItem( parameters );
+			if ( item != null )
+				AdventureDatabase.retrieveItem( item, true );
 
 			return;
  		}
@@ -3024,7 +2970,9 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		if ( condition.isItem() && option.equals( "set" ) )
 		{
-			int currentAmount = condition.getCount( inventory ) + condition.getCount( closet );
+			int currentAmount = condition.getItemId() == HermitRequest.WORTHLESS_ITEM.getItemId() ? HermitRequest.getWorthlessItemCount() :
+				condition.getCount( inventory ) + condition.getCount( closet );
+
 			for ( int j = 0; j < KoLCharacter.FAMILIAR; ++j )
 				if ( KoLCharacter.getEquipment( j ).equals( condition ) )
 					++currentAmount;
