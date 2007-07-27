@@ -668,7 +668,6 @@ public class KoLSettings extends Properties implements KoLConstants
 		// Individual player settings which are not set on
 		// a global level.
 
-		PLAYER_SETTINGS.put( "assumeInfiniteNPCItems", "true" );
 		PLAYER_SETTINGS.put( "autoAbortThreshold", "-0.1" );
 		PLAYER_SETTINGS.put( "autoRepairBoxServants", "true" );
 		PLAYER_SETTINGS.put( "battleAction", "attack with weapon" );

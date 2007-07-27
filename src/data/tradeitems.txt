@@ -2416,26 +2416,26 @@
 2416	bounty-hunting helmet	9	display	0
 2417	bounty-hunting rifle	12	display	0
 2418	bounty-hunting pants	10	display	0
-2419	bottle of rhinoceros hormones	4	all	0
-2420	teeny-tiny magic scroll	4	all	0
-2421	bottle of pirate juice	4	all	0
-2422	irradiated pet snacks	4	all	0
-2423	Mick's IcyVapoHotness Inhaler	4	all	0
-2424	cyclops eyedrops	4	all	0
-2425	can of spinach	4	all	0
-2426	fire flower	4	all	0
-2427	freezerburned ice cube	4	all	0
-2428	fake blood	4	all	0
-2429	Eau de Guaneau	4	all	0
-2430	bag of lard	4	all	0
-2431	bottle of Mystic Shell	4	all	0
-2432	SPF 451 lip balm	4	all	0
-2433	bottle of antifreeze	4	all	0
-2434	black eyedrops	4	all	0
-2435	Dogsgotnonoz pills	4	all	0
-2436	donkey flipbook	4	all	0
-2437	New Cloaca-Cola	4	all	0
-2438	scented massage oil	4	all	0
+2419	bottle of rhinoceros hormones	3	all	0
+2420	teeny-tiny magic scroll	3	all	0
+2421	bottle of pirate juice	3	all	0
+2422	irradiated pet snacks	3	all	0
+2423	Mick's IcyVapoHotness Inhaler	3	all	0
+2424	cyclops eyedrops	3	all	0
+2425	can of spinach	3	all	0
+2426	fire flower	3	all	0
+2427	freezerburned ice cube	3	all	0
+2428	fake blood	3	all	0
+2429	Eau de Guaneau	3	all	0
+2430	bag of lard	3	all	0
+2431	bottle of Mystic Shell	3	all	0
+2432	SPF 451 lip balm	3	all	0
+2433	bottle of antifreeze	3	all	0
+2434	black eyedrops	3	all	0
+2435	Dogsgotnonoz pills	3	all	0
+2436	donkey flipbook	3	all	0
+2437	New Cloaca-Cola	14	all	0
+2438	scented massage oil	3	all	0
 2439	poltergeist-in-the-jar-o	0	all	0
 2440
 2441	Knob Goblin encryption key	0	none	0
