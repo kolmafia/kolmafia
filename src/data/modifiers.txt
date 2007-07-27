@@ -1099,6 +1099,7 @@ Cletus's Canticle of Celerity	Init: +30
 Cold Blooded	Cold: +20
 Contemptible Emanations	ML: +20
 Cupcake of Choice	Item: +30
+Dirge of Dreadfulness	SpDmg: +12, SpSDmg: +12
 Disco State of Mind	Mox: +2
 Dreams and Lights	Mana: -3
 Egg-stortionary Tactics	Meat: +50
@@ -1124,26 +1125,29 @@ Hippy Stench	Combat: +5
 Hombre Muerto Caminando	Spooky: +10
 Hot Blooded	Hot: +20
 Insulated Trousers	Cold: +20
-Jackasses' Symphony of Destruction	MDmg: +10, SDmg: +10
+Jackasses' Symphony of Destruction	MDmg: +12, SDmg: +12
 Leash of Linguini	Weight: +5
-Magical Mojomuscular Melody	Mys: +10
+Magical Mojomuscular Melody	Mys: +10, MP: +20
 Man's Worst Enemy	Weight: +5
-Mariachi Mood	Mox: +1
+Mariachi Mood	Mox: +1, HP: +4
 Musk of the Moose	Combat: +5
 Mysteriously Handsome	ML: +3
 Object Detection	Item: +12.5
 Optimist Primal	Weight: +5
 Orange Tongue	Exp: +3
 Pasta Oneness	Mys: +2
-Patience of the Tortoise	Mus: +1
+Patience of the Tortoise	Mus: +1, HP: +4
 Peeled Eyeballs	Exp: -1, Item: +15, Meat: -16
 Polka of Plenty	Meat: +50
-Power Ballad of the Arrowsmith	Mus: +10
+Power Ballad of the Arrowsmith	Mus: +10, HP: +20
 Provocative Perkiness	Init: +20
 Rage of the Reindeer	Mus%: +10, MDmg: +10
 Red Tongue	Meat: +30
-Saucemastery	Mys: +1
+Reptilian Fortitude	HP: +30
+Saucemastery	Mys: +1, HP: +4
+Scarysauce	Cold: +20, Sleaze: +20
 Seal Clubbing Frenzy	Mus: +2
+Snarl of the Timberwolf	SpDmg: +10
 Sugar Rush	Init: +20
 Shiny Happy Cupcake	Exp: +3
 Sleaze-Resistant Trousers	Sleaze: +20
