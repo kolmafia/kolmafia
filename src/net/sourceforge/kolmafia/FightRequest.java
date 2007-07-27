@@ -500,8 +500,6 @@ public class FightRequest extends KoLRequest
 	public void run()
 	{
 		RequestThread.openRequestSequence();
-		trackedRound = currentRound;
-
 		isAutomatingFight = true;
 
 		do
@@ -777,9 +775,7 @@ public class FightRequest extends KoLRequest
 			return;
 
 		StringBuffer action = new StringBuffer();
-
 		++currentRound;
-		trackedRound = currentRound;
 
 		if ( StaticEntity.getBooleanProperty( "ignoreAutoAttack" ) )
 			++preparatoryRounds;
@@ -830,8 +826,6 @@ public class FightRequest extends KoLRequest
 		// Spend MP and consume items
 
 		++currentRound;
-		trackedRound = currentRound;
-
 		payActionCost();
 
 		if ( currentRound == 1 )
@@ -841,6 +835,10 @@ public class FightRequest extends KoLRequest
 
 			encounterLookup = CombatSettings.encounterKey( encounter );
 			monsterData = MonsterDatabase.findMonster( encounter );
+
+			isTrackingFights = false;
+			trackedRounds.clear();
+
 			checkForInitiative( responseText );
 		}
 
@@ -1324,33 +1322,19 @@ public class FightRequest extends KoLRequest
 	public static String getNextTrackedRound()
 	{
 		if ( !isTrackingFights )
-			return FightRequest.INSTANCE.responseText;
+			return RequestEditorKit.getFeatureRichHTML( "fight.php", FightRequest.INSTANCE.responseText, true );
 
-		if ( trackedRounds.isEmpty() && !KoLmafia.refusesContinue() )
-		{
-			while ( trackedRounds.isEmpty() )
-				delay( 200 );
-		}
+		while ( trackedRounds.isEmpty() && !KoLmafia.refusesContinue() )
+			delay( 200 );
 
-		if ( trackedRounds.isEmpty() )
+		if ( trackedRounds.isEmpty() || KoLmafia.refusesContinue() )
 		{
 			isTrackingFights = false;
 			return RequestEditorKit.getFeatureRichHTML( "fight.php", FightRequest.INSTANCE.responseText, true );
 		}
 
-		String lastRound = (String) trackedRounds.remove(0);
-		if ( trackedRounds.isEmpty() && currentRound == 0 )
-			isTrackingFights = false;
-
-		try
-		{
-			return RequestEditorKit.getFeatureRichHTML( "fight.php?action=script", lastRound, true );
-		}
-		catch ( Exception e )
-		{
-			StaticEntity.printStackTrace( e );
-			return lastRound;
-		}
+		++trackedRound;
+		return RequestEditorKit.getFeatureRichHTML( "fight.php?action=script", (String) trackedRounds.remove(0), true );
 	}
 
 	public static int getActualRound()
@@ -1358,15 +1342,21 @@ public class FightRequest extends KoLRequest
 	}
 
 	public static int getDisplayRound()
-	{	return trackedRound;
+	{	return isTrackingFights ? trackedRound : currentRound;
 	}
 
 	public static void beginTrackingFights()
-	{	isTrackingFights = true;
+	{
+		isTrackingFights = true;
+		trackedRound = currentRound;
 	}
 
 	public static boolean isTrackingFights()
-	{	return isTrackingFights;
+	{
+		if ( currentRound == 0 && trackedRounds.isEmpty() )
+			isTrackingFights = false;
+
+		return isTrackingFights;
 	}
 
 	public static String getLastMonster()

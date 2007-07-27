@@ -267,7 +267,7 @@ public class LocalRelayAgent extends Thread
 			this.request.pseudoResponse( "HTTP/1.1 304 Not Modified", "" );
 			this.request.responseCode = 304;
 		}
-		else if ( this.path.indexOf( "fight.php" ) != -1 && (FightRequest.isTrackingFights() || this.path.indexOf( "action=script" ) != -1) )
+		else if ( this.path.indexOf( "fight.php" ) != -1 && this.path.indexOf( "action=script" ) != -1 )
 		{
 			if ( !FightRequest.isTrackingFights() )
 			{
@@ -281,18 +281,14 @@ public class LocalRelayAgent extends Thread
 
 			if ( fightResponse == null )
 			{
-				this.request.pseudoResponse( "HTTP/1.1 404 Not Found", "" );
+				this.request.pseudoResponse( "HTTP/1.1 200 OK", "Timeout." );
 			}
 			else
 			{
 				if ( FightRequest.isTrackingFights() )
 				{
 					fightResponse = StaticEntity.singleStringDelete( fightResponse, "top.charpane.location.href=\"charpane.php\";" );
-					fightResponse = StaticEntity.singleStringDelete( fightResponse, "src=\"http://images.kingdomofloathing.com/scripts/window.js\"" );
-					fightResponse = StaticEntity.singleStringDelete( fightResponse, "src=\"http://images.kingdomofloathing.com/scripts/core.js\"" );
-
-					fightResponse = StaticEntity.singleStringReplace( fightResponse, "</html>",
-						"<script language=\"Javascript\"> function continueAutomatedFight() { document.location.reload(); return 0; } setTimeout( continueAutomatedFight, 400 ); </script></html>" );
+					fightResponse = StaticEntity.singleStringReplace( fightResponse, "<html>", "<html><meta http-equiv=\"refresh\" content=\"1\" />" );
 				}
 
 				this.request.pseudoResponse( "HTTP/1.1 200 OK", fightResponse );
