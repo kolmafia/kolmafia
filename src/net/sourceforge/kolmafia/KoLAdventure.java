@@ -704,9 +704,6 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 	public void run()
 	{
-		if ( !(this.request instanceof CampgroundRequest) && !KoLmafia.isRunningBetweenBattleChecks() )
-			StaticEntity.getClient().runBetweenBattleChecks( this.shouldRunFullCheck );
-
 		String action = StaticEntity.getProperty( "battleAction" );
 
 		// Validate the adventure before running it.
@@ -874,8 +871,31 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		lastVisitedLocation = this;
 		this.updateAutoAttack();
 
+		// Run between-combat scripts here to avoid potential
+		// sidepane conflict issues.
+
 		if ( adventureId.equals( "123" ) && !activeEffects.contains( HYDRATED ) )
 			(new AdventureRequest( "Oasis in the Desert", "adventure.php", "122" )).run();
+
+		if ( !KoLmafia.isRunningBetweenBattleChecks() )
+		{
+			if ( KoLmafia.isAdventuring() )
+			{
+				if ( !(this.request instanceof CampgroundRequest) )
+				{
+					if ( StaticEntity.getClient().runThresholdChecks() )
+						StaticEntity.getClient().runBetweenBattleChecks( this.shouldRunFullCheck );
+				}
+			}
+			else
+			{
+				StaticEntity.getClient().runBetweenBattleChecks( false, StaticEntity.getBooleanProperty( "relayMaintainsEffects" ),
+					StaticEntity.getBooleanProperty( "relayMaintainsHealth" ), StaticEntity.getBooleanProperty( "relayMaintainsMana" ) );
+			}
+		}
+
+		// Update selected adventure information in order to
+		// keep the GUI synchronized.
 
 		if ( !StaticEntity.getProperty( "lastAdventure" ).equals( this.adventureName ) )
 		{
@@ -898,7 +918,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 		StaticEntity.getClient().registerAdventure( this );
 
-		if ( this.request instanceof CampgroundRequest || this.request instanceof SewerRequest )
+		if ( !(request instanceof AdventureRequest) )
 			StaticEntity.getClient().registerEncounter( this.getAdventureName(), "Noncombat" );
 	}
 

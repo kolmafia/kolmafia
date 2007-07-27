@@ -179,6 +179,8 @@ public class CouncilFrame extends RequestFrame
 
 	private static void handleCouncilChange( String responseText )
 	{
+		StaticEntity.setProperty( "lastCouncilVisit", String.valueOf( KoLCharacter.getLevel() ) );
+
 		if ( responseText.indexOf( "500" ) != -1 )
 			StaticEntity.getClient().processResult( new AdventureResult( "mosquito larva", -1, false ) );
 		if ( responseText.indexOf( "batskin belt" ) != -1 )
