@@ -1142,8 +1142,24 @@ woolen cravat	Familiar Weight: +5
 
 # Special case overrides
 
-Travoltan trousers	Moxie: +15, Initiative: +30, Ranged Damage: +10
+Grimacite gaiters	
+Grimacite galoshes	Meat Drop: +25
+Grimacite garter	Spell Damage: +15
+Grimacite gasmask	Melee Damage: +15
+Grimacite gat	Initiative: +20
+Grimacite gauntlets	Meat Drop: +30
+Grimacite girdle	Spell Damage: +20
+Grimacite glaive	Melee Damage: +15
+Grimacite go-go boots	Item Drop: +30
+Grimacite goggles	
+Grimacite gorget	Item Drop: +25
+Grimacite gown	
+Grimacite greaves	Initiative: +20
+Grimacite guayabera	
+Jekyllin hide belt	
 Staff of the Greasefire	Spell Damage Percent: +35, Hot Spell Damage: +10, Sleaze Spell Damage: +10
+Travoltan trousers	Moxie: +15, Initiative: +30, Ranged Damage: +10
+Tuesday's ruby	
 bottle-rocket crossbow	Meat Drop: +15, Item Drop: +10, Moxie Percent: +15
 
 # Intrinsic Effects section of modifiers.txt
