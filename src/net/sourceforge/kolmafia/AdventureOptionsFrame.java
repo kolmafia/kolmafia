@@ -862,19 +862,6 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 		}
 	}
 
-	private class WorthlessItemRequest implements Runnable
-	{
-		private int itemCount;
-
-		public WorthlessItemRequest( int itemCount )
-		{	this.itemCount = itemCount;
-		}
-
-		public void run()
-		{	DEFAULT_SHELL.executeLine( "acquire " + this.itemCount + " worthless item in " + ((Integer)AdventureOptionsFrame.this.countField.getValue()).intValue() );
-		}
-	}
-
 	private class ZoneChangeListener implements ActionListener
 	{
 		public void actionPerformed( ActionEvent e )
@@ -1019,7 +1006,6 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 			if ( !AdventureOptionsFrame.this.autoSetCheckBox.isSelected() || conditionList.length() == 0 || conditionList.equalsIgnoreCase( "none" ) )
 				return true;
 
-			int worthlessItemCount = 0;
 			String [] splitConditions = conditionList.split( "\\s*,\\s*" );
 
 			// First, figure out whether or not you need to do a disjunction
@@ -1030,15 +1016,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 				if ( splitConditions[i] == null )
 					continue;
 
-				if ( splitConditions[i].indexOf( "worthless" ) != -1 )
-				{
-					// You're looking for some number of
-					// worthless items
-
-					worthlessItemCount += Character.isDigit( splitConditions[i].charAt(0) ) ?
-						StaticEntity.parseInt( splitConditions[i].split( " " )[0] ) : 1;
-				}
-				else if ( splitConditions[i].equals( "check" ) )
+				if ( splitConditions[i].equals( "check" ) )
 				{
 					// Postpone verification of conditions
 					// until all other conditions added.
@@ -1064,12 +1042,6 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 						return false;
 					}
 				}
-			}
-
-			if ( worthlessItemCount > 0 )
-			{
-				StaticEntity.getClient().makeRequest( new WorthlessItemRequest( worthlessItemCount ) );
-				return false;
 			}
 
 			if ( conditions.isEmpty() )

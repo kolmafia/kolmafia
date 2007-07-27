@@ -58,7 +58,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.JFrame;
-import javax.swing.JList;
 import javax.swing.UIManager;
 
 import net.java.dev.spellcast.utilities.ActionPanel;
@@ -943,6 +942,9 @@ public abstract class KoLmafia implements KoLConstants
 		// Process the adventure result through the conditions
 		// list, removing it if the condition is satisfied.
 
+		if ( result.isItem() && (result.getItemId() == HermitRequest.TRINKET.getItemId() || result.getItemId() == HermitRequest.GEWGAW.getItemId() || result.getItemId() == HermitRequest.KNICK_KNACK.getItemId()) )
+			result = HermitRequest.WORTHLESS_ITEM.getInstance( result.getCount() );
+
 		int conditionIndex = conditions.indexOf( result );
 
 		if ( conditionIndex != -1 )
@@ -974,7 +976,7 @@ public abstract class KoLmafia implements KoLConstants
 				// negation of this result.
 
 				AdventureResult.addResultToList( conditions, result.getNegation() );
-				if ( result.getCount( inventory ) <= 0 )
+				if ( result.getCount( conditions ) <= 0 )
 					conditions.remove( result );
 			}
 		}
@@ -1706,9 +1708,6 @@ public abstract class KoLmafia implements KoLConstants
 					return;
 				}
 
-				if ( currentAdventure.getRequest() instanceof SewerRequest && !AdventureDatabase.retrieveItem( SewerRequest.GUM.getInstance( iterations ) ) )
-					return;
-
 				if ( !(currentAdventure.getRequest() instanceof CampgroundRequest) && KoLCharacter.getCurrentHP() == 0 )
 					this.recoverHP();
 
@@ -1851,6 +1850,17 @@ public abstract class KoLmafia implements KoLConstants
 						((currentIteration == 2) ? " request." : " requests.") );
 
 					break;
+				}
+
+				if ( ((KoLAdventure)request).getRequest() instanceof SewerRequest )
+				{
+					if ( SewerRequest.GUM.getCount( inventory ) == 0 )
+					{
+						int stopCount = HermitRequest.WORTHLESS_ITEM.getCount( conditions );
+						int gumAmount = stopCount == 0 ? iterations : Math.min( stopCount, iterations );
+						if ( !AdventureDatabase.retrieveItem( SewerRequest.GUM.getInstance( gumAmount ) ) )
+							return;
+					}
 				}
 
 				// Otherwise, disable the display and update the user

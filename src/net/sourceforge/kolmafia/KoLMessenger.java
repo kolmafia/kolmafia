@@ -125,7 +125,6 @@ public abstract class KoLMessenger extends StaticEntity
 
 	private static boolean enableMonitor = false;
 	private static boolean channelsSeparate = false;
-	private static boolean privateSeparate = false;
 	private static boolean eventsIgnored = false;
 
 	private static boolean useTabbedChat = false;
@@ -159,7 +158,6 @@ public abstract class KoLMessenger extends StaticEntity
 	{
 		enableMonitor = StaticEntity.getBooleanProperty( "useChatMonitor" );
 		channelsSeparate = StaticEntity.getBooleanProperty( "useSeparateChannels" );
-		privateSeparate = StaticEntity.getBooleanProperty( "useSeparatePrivates" );
 		eventsIgnored = StaticEntity.getBooleanProperty( "greenScreenProtection" );
 	}
 
@@ -289,7 +287,7 @@ public abstract class KoLMessenger extends StaticEntity
 	private static String getBufferKey( String contact )
 	{
 		return contact == null ? currentChannel : contact.startsWith( "[" ) ? contact :
-			!privateSeparate && !contact.startsWith( "/" ) ? "[blues]" : !channelsSeparate && contact.startsWith( "/" ) ? "[main]" : contact;
+			!channelsSeparate && contact.startsWith( "/" ) ? "[main]" : contact;
 	}
 
 	/**
