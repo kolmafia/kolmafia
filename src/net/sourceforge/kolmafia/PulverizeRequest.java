@@ -48,6 +48,7 @@ public class PulverizeRequest extends KoLRequest
 		super( "smith.php" );
 		this.addFormField( "action", "pulverize" );
 		this.addFormField( "pwd" );
+
 		this.item = item;
 		this.addFormField( "smashitem", String.valueOf( item.getItemId() ) );
 		this.addFormField( "quantity", String.valueOf( item.getCount() ) );
@@ -58,11 +59,12 @@ public class PulverizeRequest extends KoLRequest
 
 	public void useMalus( String itemName )
 	{
-		int itemId = TradeableItemDatabase.getItemId( itemName );
-		if ( itemId == -1 )
+		if ( itemName == null || !TradeableItemDatabase.contains( itemName ) )
 			return;
 
+		int itemId = TradeableItemDatabase.getItemId( itemName );
 		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemId );
+
 		if ( ingredients == null || ingredients.length == 0 )
 			return;
 
@@ -71,6 +73,9 @@ public class PulverizeRequest extends KoLRequest
 			return;
 
 		ItemCreationRequest icr = ItemCreationRequest.getInstance( itemId );
+		if ( icr == null )
+			return;
+
 		icr.setQuantityNeeded( amountNeeded );
 		icr.run();
 	}
@@ -79,6 +84,15 @@ public class PulverizeRequest extends KoLRequest
 	{
 		if ( StaticEntity.getBooleanProperty( "mementoListActive" ) && mementoList.contains( this.item ) )
 			return;
+
+		if ( item.getCount( inventory ) == item.getCount() )
+		{
+			if ( !postRoninJunkList.contains( item ) )
+				postRoninJunkList.add( item );
+
+			if ( !KoLCharacter.canInteract() && !preRoninJunkList.contains( item ) )
+				preRoninJunkList.add( item );
+		}
 
 		switch ( TradeableItemDatabase.getConsumptionType( this.item.getItemId() ) )
 		{
