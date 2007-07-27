@@ -298,16 +298,6 @@ public class LocalRelayAgent extends Thread
 				this.request.pseudoResponse( "HTTP/1.1 200 OK", fightResponse );
 			}
 		}
-		else if ( this.path.indexOf( "charpane.php" ) != -1 )
-		{
-			if ( FightRequest.getActualRound() == 0 )
-			{
-				StaticEntity.getClient().runBetweenBattleChecks( false, StaticEntity.getBooleanProperty( "relayMaintainsMoods" ),
-					StaticEntity.getBooleanProperty( "relayMaintainsHealth" ), StaticEntity.getBooleanProperty( "relayMaintainsMana" ) );
-			}
-
-			this.request.run();
-		}
 		else if ( this.path.indexOf( "tiles.php" ) != -1 )
 		{
 			AdventureRequest.handleDvoraksRevenge( this.request );
