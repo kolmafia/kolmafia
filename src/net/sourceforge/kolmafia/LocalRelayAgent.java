@@ -184,15 +184,15 @@ public class LocalRelayAgent extends Thread
 			this.readBrowserRequest();
 			this.readServerResponse();
 
-			this.ostream = new PrintStream( this.socket.getOutputStream(), true, "UTF-8" );
-
 			if ( this.request.rawByteBuffer != null )
 			{
+				this.ostream = new PrintStream( this.socket.getOutputStream(), false );
 				this.ostream.println( this.request.statusLine );
 				this.sendHeaders( this.ostream, this.request );
 
 				this.ostream.println();
 				this.ostream.write( this.request.rawByteBuffer );
+				this.ostream.flush();
 			}
 		}
 		catch ( Exception e )
