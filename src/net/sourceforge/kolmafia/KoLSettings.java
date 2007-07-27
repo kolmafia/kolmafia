@@ -728,9 +728,11 @@ public class KoLSettings extends Properties implements KoLConstants
 
 		PLAYER_SETTINGS.put( "lastBreakfast", "-1" );
 		PLAYER_SETTINGS.put( "lastCounterDay", "-1" );
+		PLAYER_SETTINGS.put( "lastGalleryUnlock", "-1" );
 		PLAYER_SETTINGS.put( "lastMessageId", "" );
 		PLAYER_SETTINGS.put( "lastQuartetAscension", "-1" );
 		PLAYER_SETTINGS.put( "lastQuartetRequest", "0" );
+		PLAYER_SETTINGS.put( "lastSecondFloorUnlock", "-1" );
 		PLAYER_SETTINGS.put( "lastTowerClimb", "-1" );
 		PLAYER_SETTINGS.put( "luckySewerAdventure", "stolen accordion" );
 		PLAYER_SETTINGS.put( "manaBurningThreshold", "-0.1" );
