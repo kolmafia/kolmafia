@@ -387,7 +387,7 @@ public class KoLDatabase extends StaticEntity
 		private ArrayList internalList = new ArrayList();
 
 		public String get( int index )
-		{	return index < 0 || index >= this.internalList.size() ? null : (String) this.internalList.get( index );
+		{	return index < 0 || index >= this.internalList.size() ? "" : (String) this.internalList.get( index );
 		}
 
 		public void set( int index, String value )

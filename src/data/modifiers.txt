@@ -6,7 +6,7 @@ Brimstone Beret	Mox%: +50, Mus%: -20
 Cerebral Cloche	MP: +15
 Cloaca-Cola helmet	DA: +10
 Colander of Em-er'il	Mys: +7, Class: Pastamancer
-Crimbo hat	Spooky: +10
+Crimbo hat	SpRes: +10
 Crown of the Goblin King	Mus: +10
 Disco 'Fro Pick	Mox: +7, Class: Disco Bandit
 Dolphin King's crown	Mox: +2, Mus: +2, Mys: +2
@@ -17,7 +17,7 @@ Grimacite gasmask	MDmg: +15, Mus%: +30
 Grimacite goggles	Mys%: +30
 # Kentucky-style derby
 Knob Goblin elite helm	Mus: +3
-Knob Goblin harem veil	Stench: +10
+Knob Goblin harem veil	StRes: +10
 Knob Goblin visor	Mox: +3
 # KoL Con 3-D Glasses
 MAHI fez	Mox: +30
@@ -25,14 +25,14 @@ Mohawk wig	MDmg: +10
 Orcish baseball cap	Mus: +3, Mys: -3
 Radio Free Baseball Cap	Intrinsic: Radio Head
 Scalp of Gorgolok	Mus: +7, Class: Seal Clubber
-Snow Queen Crown	CoDmg: +5, Cold: +30
+Snow Queen Crown	CoDmg: +5, CoRes: +30
 # Sombrero De Vida
-Tropical Crimbo Hat	Spooky: +10
+Tropical Crimbo Hat	SpRes: +10
 anniversary concrete fedora	Mox: +1, Mus: +1, Mys: +1
-antique helmet	Init: -10, Spooky: +30
-asbestos helmet turtle	Hot: +10
-asshat	Stench: +10, SlDmg: +1
-balaclava	Cold: +10
+antique helmet	Init: -10, SpRes: +30
+asbestos helmet turtle	HoRes: +10
+asshat	StRes: +10, SlDmg: +1
+balaclava	CoRes: +10
 balloon helmet	DA: +20
 barskin hat	Mus: +1
 basic meat fez	Mox: +2, Mys: +1
@@ -42,16 +42,16 @@ beer helmet	MP: +40
 big bad voodoo mask	Mys: +7, SDmg: +15
 black cowboy hat	Mus: +8, MDmg: +8
 black helmet	HP: +30
-blue traffic cone	Mox: +3, Hot: +20
+blue traffic cone	Mox: +3, HoRes: +20
 bounty-hunting helmet	Item: +20
 bowler	Mus: +5
 bubblewrap bottlecap turtleban	Mys: +3, MP: +5
 # bugbear beanie
-bum cheek	Stench: +10
+bum cheek	StRes: +10
 catskin cap	Mus: +9, HP: +40
 chef's hat	Mys: +2
 chrome helmet turtle	Mox: +5, Mus: +5, Mys: +5
-clockwork hat	Spooky: +10
+clockwork hat	SpRes: +10
 clown wig	Mys: +3, SDmg: +3
 coconut shell	DA: +1
 cold ninja mask	Init: +15
@@ -73,23 +73,23 @@ fire	Intrinsic: Head on Fire, Ass Catching, HoDmg: +7
 foolscap fool's cap	Mox: +2, Mys: -2
 # football helmet
 furry green turtle	Mox: +3
-gasmask	Stench: +30
+gasmask	StRes: +30
 giant discarded bottlecap	DR: 3, Mys: -10
 goat beard	Mys: +3
 # goofily-plumed helmet
 grass hat	MP: +10
-green traffic cone	Mox: +3, Stench: +20
+green traffic cone	Mox: +3, StRes: +20
 # helmet turtle
 ice pick	Item: +15
 irate sombrero	MDmg: +3
 jewel-eyed wizard hat	MP: +30, Mana: -1
 knobby helmet turtle	MDmg: +1
 leather mask	Mus: +3, Mox: -3
-lihc face	Spooky: +20
+lihc face	SpRes: +20
 # linoleum helmet turtle
 longhaired hippy wig	StDmg: +20, Mys%: +5
 # maiden wig
-makeshift turban	Intrinsic: Temporary Blindness, Spooky: +20
+makeshift turban	Intrinsic: Temporary Blindness, SpRes: +20
 meat cowboy hat	Mus: +3
 meatloaf helmet	Mus: +3, MDmg: +1
 meaty helmet turtle	Mus: +3
@@ -99,8 +99,8 @@ mullet wig	SlDmg: +2
 mummy mask	SpDmg: +12
 nasty rat mask	Mox: +9, ML: -5
 opera mask	Mox: -5
-orange peel hat	Cold: +30, Hot: +30, Sleaze: +30, Spooky: +30, Stench: +30
-orange traffic cone	Mox: +3, Spooky: +20
+orange peel hat	CoRes: +30, HoRes: +30, SlRes: +30, SpRes: +30, StRes: +30
+orange traffic cone	Mox: +3, SpRes: +20
 # oriole-feather headdress
 outrageous sombrero	Mox: +5, Mus: +5, Mys: +5, Init: -20
 pail	DA: +10
@@ -108,31 +108,31 @@ pail	DA: +10
 pimpin' meat hat	Mus: +2, Mox: +2
 pixel hat	Mox: +2, Mus: +2, Mys: +2
 plexiglass pith helmet	Weight: +5, Mus%: +30
-raspberry beret	Hot: +20
+raspberry beret	HoRes: +20
 # ravioli hat
-red traffic cone	Mox: +3, Cold: +20
+red traffic cone	Mox: +3, CoRes: +20
 reinforced beaded headband	HP: +40
 safarrri hat	HP: +15
 # seal-skull helmet
 sequined fez	Mox: +3
 skeletortoise	Mys: +2
 # snorkel
-spooky hockey mask	Spooky: +20, SpDmg: +3
+spooky hockey mask	SpRes: +20, SpDmg: +3
 stainless steel skullcap	HP: +30, DA: +60, Mus%: +15
 star hat	MP: +30
 stone baseball cap	DR: 10, MDmg: +15, Mus: -10
 superhero mask	Mox: +5, Mus: +5, Mys: +5
 # time helmet
-toy space helmet	Stench: +30, Spooky: +30
+toy space helmet	StRes: +30, SpRes: +30
 viking helmet	Mus: +1
 wolf mask	Intrinsic: Complete Delusion
 # wooden salad bowl
-wool hat	DA: +20, Cold: +20
+wool hat	DA: +20, CoRes: +20
 worn tophat	Mox: +7, Init: +20
 wreath of laurels	Mus: +25
 # yak toupee
 # yellow plastic hard hat
-yellow traffic cone	Mox: +3, Sleaze: +20
+yellow traffic cone	Mox: +3, SlRes: +20
 
 # Pants section of modifiers.txt
 
@@ -170,10 +170,10 @@ bowlegged pants	Mox: +5
 bullet-proof corduroys	MP: +40, DR: 2
 # chain-mail monokini
 clockwork pants	Init: +10
-demonskin trousers	Hot: +20
-distressed denim pants	Stench: +10, DR: 2
-duct tape dockers	Mox: +6, Mus: +6, Mys: +6, Cold: +10, Hot: +10, Sleaze: +10, Spooky: +10, Stench: +10
-dungeoneer's dungarees	Cold: +10, Hot: +10, Sleaze: +10, Spooky: +10, Stench: +10
+demonskin trousers	HoRes: +20
+distressed denim pants	StRes: +10, DR: 2
+duct tape dockers	Mox: +6, Mus: +6, Mys: +6, CoRes: +10, HoRes: +10, SlRes: +10, SpRes: +10, StRes: +10
+dungeoneer's dungarees	CoRes: +10, HoRes: +10, SlRes: +10, SpRes: +10, StRes: +10
 filthy corduroys	Mys: +3, Mox: -3
 flowing hippy skirt	Mys: +9, StSDmg: +15
 # frilly skirt
@@ -200,7 +200,7 @@ miner's pants	DA: +20
 ninja hot pants	HoDmg: +4
 old school Mafia knickerbockers	Mus: +25, Mys: +25, Mox: +25
 palm-frond capris	Mox: +4
-pants of the Slug Lord	Stench: +20
+pants of the Slug Lord	StRes: +20
 # paper-plate-mail pants
 penguin shorts	Init: +20
 penguinskin mini-kilt	Init: +20
@@ -216,11 +216,11 @@ sticky meat pants	Mox: +3
 sticky meat skirt	Mox: +3
 # studded leather boxer shorts
 swashbuckling pants	Mox: +4
-tighty whiteys	Spooky: +20
+tighty whiteys	SpRes: +20
 # time trousers
 tree skirt	Mox: +5
 # troutpiece
-white satin pants	Sleaze: +20
+white satin pants	SlRes: +20
 yakskin kilt	MP: +25
 yakskin pants	MP: +25
 yakskin skirt	MP: +25
@@ -240,29 +240,29 @@ Kiss the Knob apron	MP: +5
 Knob Goblin elite shirt	Mus: +3
 Mr. Shirt	Mus: +1, Mys: +1, Mox: +1
 # Private Pepper's Lonely Hearts Club Jacket
-Radio Free Jersey	Mox: +10, Mus: +10, Mys: +10, Cold: +30, Hot: +30, Sleaze: +30, Spooky: +30, Stench: +30
+Radio Free Jersey	Mox: +10, Mus: +10, Mys: +10, CoRes: +30, HoRes: +30, SlRes: +30, SpRes: +30, StRes: +30
 Ye Olde Navy Fleece	Meat: +10
-asbestos apron	Hot: +30
+asbestos apron	HoRes: +30
 barskin cloak	Mus: +2
-bat-ass leather jacket	Mys: +10, Cold: +10, Hot: +10, Sleaze: +10, Spooky: +10, Stench: +10
+bat-ass leather jacket	Mys: +10, CoRes: +10, HoRes: +10, SlRes: +10, SpRes: +10, StRes: +10
 bronze breastplate	DA: +20, DR: 4
 clockwork trench coat	DA: +15
 clownskin harness	SpDmg: +2, SlDmg: +2
 coconut bikini top	Mys: +5
 demonskin jacket	Mys: +5, HoSDmg: +5
 duct tape shirt	Mox: +9, Meat: +20
-eXtreme Bi-Polar Fleece Vest	Cold: +20
+eXtreme Bi-Polar Fleece Vest	CoRes: +20
 filthy hippy poncho	Mys: +3
 flaming pink shirt	Item: +15
 floral print shirt	Mys: +5
 frilly shirt	Mys: +3
 gingham blouse	Mus: +5
-gnauga hide vest	DR: 6, Cold: +10, Hot: +10, Sleaze: +10, Spooky: +10, Stench: +10
+gnauga hide vest	DR: 6, CoRes: +10, HoRes: +10, SlRes: +10, SpRes: +10, StRes: +10
 goth kid t-shirt	ML: +5
 harem girl t-shirt	Mox: +3
 hipposkin poncho	ML: +10
 loathing eagle baby-doll shirt	Mox: +3
-palm-frond cloak	Cold: +20, Hot: +20, Sleaze: +20, Spooky: +20, Stench: +20
+palm-frond cloak	CoRes: +20, HoRes: +20, SlRes: +20, SpRes: +20, StRes: +20
 pirate shirt	Mox: +3
 rhinestone cowboy shirt	Mus: +5
 safety vest	DR: 3, Mox: +5
@@ -324,7 +324,7 @@ Shagadelic Disco Banjo	Mox: +11, Meat: +10
 Spirit Precipice	Mus: +7, Mys: +5, Critical: 5
 Squeezebox of the Ages	Mox: +11, RDmg: +15
 Staff of Blood and Pudding	SDmg%: +25, HP: +15
-Staff of the Grand Flamb&eacute;	SDmg%: +150, Cold: +40
+Staff of the Grand Flamb&eacute;	SDmg%: +150, CoRes: +40
 Staff of the Grease Trap	SDmg%: +150, SlSDmg: +20
 Staff of the Greasefire	SDmg%: +35
 Staff of the Kitchen Floor	SDmg%: +150, StSDmg: +20
@@ -363,7 +363,7 @@ black sword	Critical: 3, MDmg: +7
 bottle-rocket crossbow	Mox%: +15, Meat: +15, Item: +10
 bounty-hunting rifle	Item: +15
 bow staff	Mys: +5, MDmg: +3
-broken sword	Spooky: +10
+broken sword	SpRes: +10
 bubble bauble bow	Mox: +3, Mys: +2, Item: +5
 bubblewrap crossbow	Mox: +3, Mys: +2
 bubblewrap staff	Mys: +3, Mus: +2
@@ -374,7 +374,7 @@ bugbear-smiting sword	MDmg: +10, Mus: +10
 calavera concertina	Mox: +3
 can cannon	Mox: +3, ML: +3, MDmg: +3
 can of fake snow	CoDmg: +5
-can of maces	MDmg: +2, Sleaze: +10
+can of maces	MDmg: +2, SlRes: +10
 cardboard crossbow	Mox: +3, MDmg: +3
 cardboard katana	MDmg: +3
 cardboard staff	Mys: +3, MDmg: +3
@@ -392,7 +392,7 @@ clockwork crossbow	RDmg: +10, Critical: 3
 clockwork staff	SDmg: +10, Critical: 3
 clockwork sword	MDmg: +10, Critical: 3
 # clown hammer
-clown whip	Sleaze: +20
+clown whip	SlRes: +20
 # cool whip
 corn holder	SDmg: +1
 crazy bastard sword	Mus: +10, MDmg: +15, Critical: 3
@@ -541,7 +541,7 @@ tail o' nine cats	Init: +15, ML: +5
 # time sword
 tiny ninja sword	Mox: +1
 tiny plastic sword	Mox: +1
-titanium assault umbrella	Cold: +10, Hot: +10, Sleaze: +10, Spooky: +10, Stench: +10
+titanium assault umbrella	CoRes: +10, HoRes: +10, SlRes: +10, SpRes: +10, StRes: +10
 toy ray gun	HoDmg: +5, Critical: 2
 # two-handed depthsword
 vampire duck-on-a-string	MDmg: +5, Item: +5
@@ -589,7 +589,7 @@ antique shield	DR: 15, Init: -10
 # arrow'd heart balloon
 barskin buckler	DR: 1, Mus: +2
 basic meat foon	Mys: +3, SDmg: +3
-battered hubcap	DR: 14, Mus: +15, HP: +100, Cold: +20, Hot: +20, Sleaze: +20, Spooky: +20, Stench: +20
+battered hubcap	DR: 14, Mus: +15, HP: +100, CoRes: +20, HoRes: +20, SlRes: +20, SpRes: +20, StRes: +20
 black shield	DR: 10, Mus: +5, HP: +20
 bobble-hip hula elf doll	Mox: +5, Mus: +5, Mys: +5, Meat: +15
 box	Meat: +1
@@ -600,7 +600,7 @@ cardboard box turtle	DR: 4, Mus: +3
 catskin buckler	DR: 11, Mus: +10, DA: +50
 # clockwork detective skull
 clownskin buckler	DR: 3, SpDmg: +3
-coffin lid	DR: 3, Spooky: +10
+coffin lid	DR: 3, SpRes: +10
 # continuum transfunctioner
 deck of tropical cards	Exp: +1
 # defective skull
@@ -708,7 +708,7 @@ Choker of the Ultragoth	Mox: +3, Mus: +3, Mys: +3, SpSDmg: +40
 Copper Alpha of Sincerity	Mox: +11, Mus: +11, Mys: +11, Item: +5
 # Counterclockwise Watch
 Dyspepsi-Cola-issue canteen	MP: +5
-Earring of Fire	Cold: +30, Spooky: +30
+Earring of Fire	CoRes: +30, SpRes: +30
 Elmley shades	Mus: +12, Critical: 2
 Gaia beads	StDmg: +10, StSDmg: +10
 Golden Mr. Accessory	Mox: +15, Mus: +15, Mys: +15
@@ -721,7 +721,7 @@ Grimacite go-go boots	Item: +30, Mox%: +30
 Grimacite gorget	Item: +25, Mus%: +30
 Ice-Cold Aluminum Necklace	Mox: +3, Mus: +3, Mys: +3, CoSDmg: +40
 Ice-Cold Beer Ring	Mox: +3, Mus: +3, Mys: +3, CoDmg: +40
-Ice-Cold Beerring	Sleaze: +30, Stench: +30
+Ice-Cold Beerring	SlRes: +30, StRes: +30
 Iiti Kitty phone charm	SpDmg: +15
 Iron Beta of Industry	Mox: +10, Mus: +10, Mys: +10, Item: +6
 # Item #13
@@ -741,15 +741,15 @@ Mr. Accessory Jr.	Mox: +5, Mus: +5, Mys: +5, Item: +25
 Mr. Eh?	Mox: +15, Mus: +15, Mys: +15
 # Mr. Exploiter
 Ms. Accessory	Mox: +15, Mus: +15, Mys: +15
-Mudflap-Girl Earring	Stench: +30, Hot: +30
+Mudflap-Girl Earring	StRes: +30, HoRes: +30
 Mudflap-Girl Necklace	Mox: +3, Mus: +3, Mys: +3, SlSDmg: +40
 Mudflap-Girl Ring	Mox: +3, Mus: +3, Mys: +3, SlDmg: +40
 Nickel Gamma of Frugality	Mox: +9, Mus: +9, Mys: +9, Item: +7
-Nose Ring of Putrescence	Hot: +30, Spooky: +30
+Nose Ring of Putrescence	HoRes: +30, SpRes: +30
 Orange Star of Sacrifice	Mox: +10, Mus: +10, Mys: +10, Item: +6
 Order of the Silver Wossname	Mox: +11, Mus: +11, Mys: +11, Item: +11, Meat: +11
 Pendant of Fire	Mox: +3, Mus: +3, Mys: +3, HoSDmg: +40
-Pine-Fresh air freshener	Stench: +10
+Pine-Fresh air freshener	StRes: +10
 Pink Heart of Spirit	Mox: +11, Mus: +11, Mys: +11, Item: +5
 Purple Horseshoe of Honor	Mox: +6, Mus: +6, Mys: +6, Item: +10
 Putrid Pendant	Mox: +3, Mus: +3, Mys: +3, StSDmg: +40
@@ -770,7 +770,7 @@ Talisman o' Nam	Mox: +3, Mus: +3, Mys: +3
 # Talisman of Baio
 # Talisman of Bakula
 The Ring	Mox: +3, Mus: +3, Mys: +3, SpDmg: +40
-Unspeakable Earring	Cold: +30, Sleaze: +30
+Unspeakable Earring	CoRes: +30, SlRes: +30
 Uranium Omega of Temperence	Mox: +5, Mus: +5, Mys: +5, Item: +11
 Warehouse 23 bling	MP: +23
 Xlyinia's notebook	Mox: +15, Mus: +15, Mys: +15
@@ -815,7 +815,7 @@ consolation ribbon	Mox: +1, Mus: +1, Mys: +1
 # dead guy's watch
 # diamond necklace
 dirty hobo gloves	StDmg: +2
-disbelief suspenders	Sleaze: +10
+disbelief suspenders	SlRes: +10
 disembodied smile	SpDmg: +2
 eXtreme mittens	MDmg: +2
 eXtreme nose ring	Mox: +4, Mus: +4, Mys: +4
@@ -829,11 +829,11 @@ filigreed hamethyst necklace	Mus: +10, MDmg: +8
 filigreed hamethyst ring	Mus: +12, HP: +25
 flashing novelty button	HP: +5, Mox: -2
 furniture dolly	Init: +30
-furry green earmuffs	Cold: +10
+furry green earmuffs	CoRes: +10
 fuzzy bracelets	Mox: +15, Mus: +15, Mys: +15
 gearbox necklace	Mys: +11, MP: +50
 # giant pinky ring
-glowing red eye	Spooky: +20
+glowing red eye	SpRes: +20
 gnatwing earring	Init: +15, Mys: +6
 gnoll-tooth necklace	Mus: +5
 green glowstick	MP: +5, Mox: -3
@@ -849,7 +849,7 @@ hockey stick of furious angry rage	ML: +30, Mus%: +5
 ice skates	Init: +15, Meat: +15
 # imitation nice watch
 incredibly dense meat gem	Meat: +25, Mox: +5, MP: +10
-infernal insoles	Hot: +10, Init: +10
+infernal insoles	HoRes: +10, Init: +10
 intergalactic pom poms	Mox: +20, Init: +30
 jar of anniversary jam	Mox: +1, Mus: +1, Mys: +1
 kick-ass kicks	SlDmg: +10, Mox: +3
@@ -858,7 +858,7 @@ ladle of mystery	Class: Sauceror
 # left half of a heart necklace
 # lucky Crimbo tiki necklace
 lucky rabbit's foot	Item: +7, Meat: +7
-makeshift SCUBA gear	Stench: +20, MDmg: -10
+makeshift SCUBA gear	StRes: +20, MDmg: -10
 makeshift cape	Item: +5
 monster bait	Combat: +5
 natty blue ascot	Meat: +20
@@ -868,7 +868,7 @@ peace-sign necklace	DR: 3
 phat turquoise bracelet	Mys: +5
 pink glowstick	MP: +5, Mox: -3
 plexiglass pendant	Mox%: +30
-plexiglass pinky ring	SDmg: +30, Cold: +30, Hot: +30, Sleaze: +30, Spooky: +30, Stench: +30, Mys%: +30
+plexiglass pinky ring	SDmg: +30, CoRes: +30, HoRes: +30, SlRes: +30, SpRes: +30, StRes: +30, Mys%: +30
 plexiglass pocketwatch	Mana: -3, Mys%: +30
 polka-dot bowtie	Mox: +3
 porquoise bracelet	Mox: +4
@@ -884,15 +884,15 @@ reinforced furry underpants	Mys: +2, SlDmg: +2
 # right half of a heart necklace
 ring of adornment	Mox: +5
 ring of aggravate monster	ML: +5
-ring of cold resistance	Cold: +20
+ring of cold resistance	CoRes: +20
 ring of conflict	Combat: -5
-ring of fire resistance	Hot: +20
+ring of fire resistance	HoRes: +20
 ring of gain strength	Mus: +5
 # ring of half-assed regeneration
 ring of increase damage	MDmg: +5, SDmg: +5
 # rose-colored glasses
-round green sunglasses	Mox: +9, Sleaze: +20
-round purple sunglasses	Sleaze: +10
+round green sunglasses	Mox: +9, SlRes: +20
+round purple sunglasses	SlRes: +10
 # rubber WWBBDD? bracelet
 # rubber WWBD? bracelet
 # rubber WWJD? bracelet
@@ -908,7 +908,7 @@ solid baconstone earring	Mys: +8, MP: +15, Mana: -1
 solid baconstone necklace	Mys: +10, SDmg: +15
 solid baconstone ring	Mys: +12, MP: +30
 # spade necklace
-spark plug earring	Spooky: +20
+spark plug earring	SpRes: +20
 sparkly engagement ring	Mox: +15, Mus: +15, Mys: +15
 special sauce glove	Class: Sauceror
 spooky glove	Mox: +5, SpDmg: +5
@@ -1089,14 +1089,14 @@ Temporary Blindness	Mox%: -25, Item: -75
 # Status Effects section of modifiers.txt
 
 Aloysius' Antiphon of Aptitude	Exp: +3
-Astral Shell	DA: +80, Cold: +10, Hot: +10, Sleaze: +10, Spooky: +10, Stench: +10
+Astral Shell	DA: +80, CoRes: +10, HoRes: +10, SlRes: +10, SpRes: +10, StRes: +10
 Bestial Sympathy	Weight: +3
 Blue Tongue	Item: +30
 Big Veiny Brain	Exp: +2, Meat: -20
 Black Tongue	Weight: +5, Exp: +3, Item: +30, Meat: +30
 Carlweather's Cantata of Confrontation	Combat: +5
 Cletus's Canticle of Celerity	Init: +30
-Cold Blooded	Cold: +20
+Cold Blooded	CoRes: +20
 Contemptible Emanations	ML: +20
 Cupcake of Choice	Item: +30
 Dirge of Dreadfulness	SpDmg: +12, SpSDmg: +12
@@ -1104,14 +1104,14 @@ Disco State of Mind	Mox: +2
 Dreams and Lights	Mana: -3
 Egg-stortionary Tactics	Meat: +50
 Eggs-tra Sensory Perception	Item: +50
-Elemental Saucesphere	Cold: +20, Hot: +20, Sleaze: +20, Spooky: +20, Stench: +20
+Elemental Saucesphere	CoRes: +20, HoRes: +20, SlRes: +20, SpRes: +20, StRes: +20
 Elvish	Mox%: +10, Mus%: +10, Mys%: +10
 Empathy	Weight: +5
 Eau D'enmity	ML: +5
 Extreme Muscle Relaxation	Init: -50
-Eye of the Lihc	Spooky: +10
+Eye of the Lihc	SpRes: +10
 Fat Leon's Phat Loot Lyric	Item: +20
-Flame-Retardent Trousers	Hot: +20
+Flame-Retardent Trousers	HoRes: +20
 Fresh Scent	Combat: -5
 Ghostly Shell	DA: +80
 Green Tongue	Weight: +5
@@ -1122,9 +1122,9 @@ Heart of White	Exp: +1
 Heart of Yellow	Init: +20
 Heavy Petting	Weight: +5
 Hippy Stench	Combat: +5
-Hombre Muerto Caminando	Spooky: +10
-Hot Blooded	Hot: +20
-Insulated Trousers	Cold: +20
+Hombre Muerto Caminando	SpRes: +10
+Hot Blooded	HoRes: +20
+Insulated Trousers	CoRes: +20
 Jackasses' Symphony of Destruction	MDmg: +12, SDmg: +12
 Leash of Linguini	Weight: +5
 Magical Mojomuscular Melody	Mys: +10, MP: +20
@@ -1145,21 +1145,21 @@ Rage of the Reindeer	Mus%: +10, MDmg: +10
 Red Tongue	Meat: +30
 Reptilian Fortitude	HP: +30
 Saucemastery	Mys: +1, HP: +4
-Scarysauce	Cold: +20, Sleaze: +20
+Scarysauce	CoRes: +20, SlRes: +20
 Seal Clubbing Frenzy	Mus: +2
 Snarl of the Timberwolf	SpDmg: +10
 Sugar Rush	Init: +20
 Shiny Happy Cupcake	Exp: +3
-Sleaze-Resistant Trousers	Sleaze: +20
-Smelly Pants	Stench: +20
+Sleaze-Resistant Trousers	SlRes: +20
+Smelly Pants	StRes: +20
 Smooth Movements	Combat: -5
 Springy Fusilli	Init: +40
-Spooky Demeanor	Spooky: +20
-Spookypants	Spooky: +20
-Stenchtastic	Stench: +20
+Spooky Demeanor	SpRes: +20
+Spookypants	SpRes: +20
+Stenchtastic	StRes: +20
 Stevedave's Shanty of Superiority	Mox%: +10, Mus%: +10, Mys%: +10
 Sticky Fingers	Meat: +15
-Supafly	Sleaze: +20
+Supafly	SlRes: +20
 Tenacity of the Snapper	MDmg: +8
 The Cupcake of Wrath	ML: +10
 The Moxious Madrigal	Mox: +10
@@ -1173,20 +1173,20 @@ Your Cupcake Senses Are Tingling	Meat: +30
 Amphibian Sympathy	Weight: +5
 Claws of the Otter	MDmg: +3
 Claws of the Walrus	MDmg: +4
-Cold-Blooded Fearlessness	Spooky: +20
-Diminished Gag Reflex	Stench: +20
+Cold-Blooded Fearlessness	SpRes: +20
+Diminished Gag Reflex	StRes: +20
 Expert Panhandling	Meat: +10
 Gnefarious Pickpocketing	Meat: +10
-Heart of Polyester	Sleaze: +20
+Heart of Polyester	SlRes: +20
 Hide of the Otter	DA: +20
 Hide of the Walrus	DA: +40
 Mad Looting Skillz	Item: +20
 Nimble Fingers	Meat: +20
-Northern Exposure	Cold: +20
+Northern Exposure	CoRes: +20
 Overdeveloped Sense of Self Preservation	Init: +20
 Powers of Observatiogn	Item: +10
 Skin of the Leatherback
-Tolerance of the Kitchen	Hot: +20
+Tolerance of the Kitchen	HoRes: +20
 
 
 
