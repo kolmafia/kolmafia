@@ -1214,7 +1214,7 @@ public class KoLRequest extends Job implements KoLConstants
 			// to complete the fight before you can continue.
 
 			FightRequest.INSTANCE.run();
-			return this instanceof AdventureRequest;
+			return this instanceof AdventureRequest || this.formURLString.startsWith( "choice.php" );
 		}
 
 		if ( this.redirectLocation.startsWith( "login.php" ) && !(this instanceof ChatRequest) )
@@ -1241,7 +1241,7 @@ public class KoLRequest extends Job implements KoLConstants
 			return true;
 		}
 
-		if ( this instanceof AdventureRequest || this.formURLString.equals( "choice.php" ) )
+		if ( this instanceof AdventureRequest || this.formURLString.startsWith( "choice.php" ) )
 		{
 			AdventureRequest.handleServerRedirect( this.redirectLocation );
 			return true;
