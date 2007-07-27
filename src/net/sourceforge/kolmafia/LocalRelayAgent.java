@@ -42,7 +42,7 @@ import java.net.Socket;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class LocalRelayAgent extends Thread
+public class LocalRelayAgent extends Thread implements KoLConstants
 {
 	private static final CustomCombatThread CUSTOM_THREAD = new CustomCombatThread();
 	static { CUSTOM_THREAD.start(); }
@@ -292,6 +292,9 @@ public class LocalRelayAgent extends Thread
 		public void wake()
 		{
 			FightRequest.beginTrackingFights();
+
+			if ( !StaticEntity.getProperty( "battleAction" ).startsWith( "custom" ) )
+				DEFAULT_SHELL.executeCommand( "set", "battleAction=custom" );
 
 			synchronized ( this )
 			{	this.notify();
