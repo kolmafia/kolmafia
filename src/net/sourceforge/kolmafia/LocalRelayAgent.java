@@ -33,8 +33,9 @@
 
 package net.sourceforge.kolmafia;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.IOException;
 import java.io.PrintStream;
 
@@ -47,15 +48,14 @@ public class LocalRelayAgent extends Thread
 	private static final CustomCombatThread CUSTOM_THREAD = new CustomCombatThread();
 	static { CUSTOM_THREAD.start(); }
 
+	char [] data = new char[ 8096 ];
+	StringBuffer buffer = new StringBuffer();
+
 	private static final Pattern INVENTORY_COOKIE_PATTERN = Pattern.compile( "inventory=(\\d+)" );
 
 	private Socket socket = null;
-
-	private byte [] array = new byte[ 8096 ];
-	private ByteArrayOutputStream bstream = new ByteArrayOutputStream( 8096 );
-
-	private InputStream istream;
-	private PrintStream ostream;
+	private BufferedReader reader;
+	private PrintStream writer;
 
 	private String path;
 	private boolean isCheckingModified;
@@ -117,52 +117,11 @@ public class LocalRelayAgent extends Thread
 			request.contentType = "text/html";
 
 		for ( int i = 0; (header = request.getHeader( i )) != null; ++i )
-		{
-			lowercase = header.toLowerCase();
-
-			if ( lowercase.startsWith( "content-type" ) )
-				continue;
-
-			if ( lowercase.startsWith( "content-length" ) )
-				continue;
-
-			if ( lowercase.startsWith( "cache-control" ) )
-				continue;
-
-			if ( lowercase.startsWith( "pragma" ) )
-				continue;
-
-			if ( lowercase.startsWith( "connection" ) )
-				continue;
-
-			if ( lowercase.startsWith( "transfer-encoding" ) )
-				continue;
-
-			if ( lowercase.startsWith( "set-cookie" ) )
-				continue;
-
-			if ( lowercase.startsWith( "http-referer" ) )
-				continue;
-
-			if ( !lowercase.equals( "" ) )
+			if ( !header.startsWith( "Content-Length" ) && !header.startsWith( "Connection" ) )
 				printStream.println( header );
-		}
 
 		if ( request.responseCode == 200 )
-		{
-			if ( request.contentType.equals( "text/html" ) )
-				printStream.println( "Content-Type: text/html; charset=UTF-8" );
-			else
-				printStream.println( "Content-Type: " + request.contentType );
-
 			printStream.println( "Content-Length: " + request.rawByteBuffer.length );
-
-			if ( request.formURLString.indexOf( ".php" ) != -1 )
-			{
-				printStream.println( "Cache-Control: no-cache, must-revalidate" );
-				printStream.println( "Pragma: no-cache" );
-			}
-		}
 
 		printStream.println( "Connection: close" );
 	}
@@ -173,26 +132,26 @@ public class LocalRelayAgent extends Thread
 			return;
 
 		this.path = null;
-		this.istream = null;
-		this.ostream = null;
+		this.reader = null;
+		this.writer = null;
 		this.request = null;
 
 		try
 		{
-			this.istream = this.socket.getInputStream();
+			this.reader = new BufferedReader( new InputStreamReader( this.socket.getInputStream() ) );
 
 			this.readBrowserRequest();
 			this.readServerResponse();
 
 			if ( this.request.rawByteBuffer != null )
 			{
-				this.ostream = new PrintStream( this.socket.getOutputStream(), false );
-				this.ostream.println( this.request.statusLine );
-				this.sendHeaders( this.ostream, this.request );
+				this.writer = new PrintStream( this.socket.getOutputStream(), false );
+				this.writer.println( this.request.statusLine );
+				this.sendHeaders( this.writer, this.request );
 
-				this.ostream.println();
-				this.ostream.write( this.request.rawByteBuffer );
-				this.ostream.flush();
+				this.writer.println();
+				this.writer.write( this.request.rawByteBuffer );
+				this.writer.flush();
 			}
 		}
 		catch ( Exception e )
@@ -204,36 +163,49 @@ public class LocalRelayAgent extends Thread
 
 	public void readBrowserRequest() throws Exception
 	{
-		int availableBytes = 0;
-
-		do
-		{
-			availableBytes = istream.read( array );
-			bstream.write( array, 0, availableBytes );
-		}
-		while ( istream.available() != 0 || bstream.size() == 0 );
-
-		String browserRequest = bstream.toString();
-		bstream.reset();
-
-		String requestLine = browserRequest.substring( 0, browserRequest.indexOf( "\n" ) );
+		String requestLine = reader.readLine();
 		int spaceIndex = requestLine.indexOf( " " );
 
 		this.path = requestLine.substring( spaceIndex, requestLine.lastIndexOf( " " ) ).trim();
 		this.request = new LocalRelayRequest( this.path );
-		this.isCheckingModified = browserRequest.indexOf( "If-Modified-Since" ) != -1;
 
-		if ( this.path.startsWith( "/inventory.php" ) )
+		String currentLine;
+
+		if ( requestLine.startsWith( "GET" ) )
 		{
-			Matcher inventoryMatcher = INVENTORY_COOKIE_PATTERN.matcher( browserRequest );
-			if ( inventoryMatcher.find() )
-				StaticEntity.setProperty( "visibleBrowserInventory", "inventory=" + inventoryMatcher.group(1) );
+			while ( (currentLine = reader.readLine()) != null && !currentLine.equals( "" ) )
+			{
+				if ( currentLine.startsWith( "If-Modified-Since" ) )
+					this.isCheckingModified = true;
+
+				if ( this.path.startsWith( "/inventory.php" ) && currentLine.startsWith( "Cookie" ) )
+				{
+					Matcher inventoryMatcher = INVENTORY_COOKIE_PATTERN.matcher( currentLine );
+					if ( inventoryMatcher.find() )
+						StaticEntity.setProperty( "visibleBrowserInventory", "inventory=" + inventoryMatcher.group(1) );
+				}
+			}
 		}
-
-		if ( requestLine.substring( 0, spaceIndex ).equals( "POST" ) )
+		else
 		{
-			int separatorIndex = browserRequest.indexOf( "\n\n" );
-			this.request.addEncodedFormFields( browserRequest.substring( separatorIndex + 2 ) );
+			int contentLength = 0;
+
+			while ( (currentLine = reader.readLine()) != null && !currentLine.equals( "" ) )
+				if ( currentLine.startsWith( "Content-Length" ) )
+					contentLength = StaticEntity.parseInt( currentLine.substring( 16 ) );
+
+			int current;
+			int remaining = contentLength;
+
+			while ( remaining > 0 )
+			{
+				current = reader.read( data );
+				buffer.append( data, 0, current );
+				remaining -= current;
+			}
+
+			this.request.addEncodedFormFields( buffer.toString() );
+			buffer.setLength(0);
 		}
 	}
 
@@ -303,8 +275,8 @@ public class LocalRelayAgent extends Thread
 	{
 		try
 		{
-			if ( istream != null )
-				istream.close();
+			if ( reader != null )
+				reader.close();
 		}
 		catch ( Exception e )
 		{
@@ -314,8 +286,8 @@ public class LocalRelayAgent extends Thread
 
 		try
 		{
-			if ( ostream != null )
-				ostream.close();
+			if ( writer != null )
+				writer.close();
 		}
 		catch ( Exception e )
 		{

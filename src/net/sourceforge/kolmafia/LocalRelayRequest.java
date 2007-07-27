@@ -403,6 +403,15 @@ public class LocalRelayRequest extends PasswordHashRequest
 				this.rawByteBuffer = null;
 				this.responseText = responseText;
 			}
+
+			if ( this.contentType.equals( "text/html" ) )
+			{
+				this.headers.add( "Content-Type: text/html; charset=UTF-8" );
+				this.headers.add( "Cache-Control: no-cache, must-revalidate" );
+				this.headers.add( "Pragma: no-cache" );
+			}
+			else
+				this.headers.add( "Content-Type: " + this.contentType );
 		}
 		else
 		{
