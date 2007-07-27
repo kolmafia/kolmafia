@@ -34,7 +34,6 @@
 package net.sourceforge.kolmafia;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.InputStreamReader;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -108,24 +107,6 @@ public class LocalRelayAgent extends Thread
 		}
 	}
 
-	public void sendHeaders( PrintStream printStream, LocalRelayRequest request ) throws IOException
-	{
-		String header = null;
-		String lowercase = null;
-
-		if ( request.contentType == null )
-			request.contentType = "text/html";
-
-		for ( int i = 0; (header = request.getHeader( i )) != null; ++i )
-			if ( !header.startsWith( "Content-Length" ) && !header.startsWith( "Connection" ) )
-				printStream.println( header );
-
-		if ( request.responseCode == 200 )
-			printStream.println( "Content-Length: " + request.rawByteBuffer.length );
-
-		printStream.println( "Connection: close" );
-	}
-
 	public void performRelay()
 	{
 		if ( this.socket == null )
@@ -147,7 +128,7 @@ public class LocalRelayAgent extends Thread
 			{
 				this.writer = new PrintStream( this.socket.getOutputStream(), false );
 				this.writer.println( this.request.statusLine );
-				this.sendHeaders( this.writer, this.request );
+				this.request.printHeaders( this.writer );
 
 				this.writer.println();
 				this.writer.write( this.request.rawByteBuffer );
@@ -178,7 +159,7 @@ public class LocalRelayAgent extends Thread
 				if ( currentLine.startsWith( "If-Modified-Since" ) )
 					this.isCheckingModified = true;
 
-				if ( this.path.startsWith( "/inventory.php" ) && currentLine.startsWith( "Cookie" ) )
+				if ( currentLine.startsWith( "Cookie" ) && this.path.startsWith( "/inventory.php" ) )
 				{
 					Matcher inventoryMatcher = INVENTORY_COOKIE_PATTERN.matcher( currentLine );
 					if ( inventoryMatcher.find() )
@@ -222,12 +203,7 @@ public class LocalRelayAgent extends Thread
 		else if ( this.path.equals( "/fight.php?action=script" ) )
 		{
 			if ( !FightRequest.isTrackingFights() )
-			{
-				StaticEntity.setProperty( "battleAction", "custom combat script" );
-
-				FightRequest.beginTrackingFights();
 				CUSTOM_THREAD.wake();
-			}
 
 			String fightResponse = FightRequest.getNextTrackedRound();
 
@@ -316,6 +292,8 @@ public class LocalRelayAgent extends Thread
 
 		public void wake()
 		{
+			FightRequest.beginTrackingFights();
+
 			synchronized ( this )
 			{	this.notify();
 			}
