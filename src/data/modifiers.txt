@@ -68,19 +68,19 @@
 
 # Hats section of modifiers.txt
 
-Ancient Saucehelm	Mysticality: +7, Class: Sauceror
+Ancient Saucehelm	Mysticality: +7, Class: "Sauceror"
 Baron Von Ratsworth's tophat	Moxie: +5, Muscle: +5, Mysticality: +5
 Brimstone Beret	Moxie Percent: +50, Muscle Percent: -20
 Cerebral Cloche	Maximum MP: +15
 Cloaca-Cola helmet	Damage Absorption: +10
-Colander of Em-er'il	Mysticality: +7, Class: Pastamancer
+Colander of Em-er'il	Mysticality: +7, Class: "Pastamancer"
 Crimbo hat	Spooky Resistance: +10
 Crown of the Goblin King	Muscle: +10
-Disco 'Fro Pick	Moxie: +7, Class: Disco Bandit
+Disco 'Fro Pick	Moxie: +7, Class: "Disco Bandit"
 Dolphin King's crown	Moxie: +2, Muscle: +2, Mysticality: +2
 Dyspepsi-Cola helmet	Damage Absorption: +10
-El Sombrero De Lopez	Moxie: +7, Class: Accordion Thief
-Elder Turtle Shell	Muscle: +7, Class: Turtle Tamer
+El Sombrero De Lopez	Moxie: +7, Class: "Accordion Thief"
+Elder Turtle Shell	Muscle: +7, Class: "Turtle Tamer"
 Grimacite gasmask	Melee Damage: +15
 # Grimacite goggles
 # Kentucky-style derby
@@ -91,8 +91,8 @@ Knob Goblin visor	Moxie: +3
 MAHI fez	Moxie: +30
 Mohawk wig	Melee Damage: +10
 Orcish baseball cap	Muscle: +3, Mysticality: -3
-Radio Free Baseball Cap	Intrinsic Effect: Radio Head
-Scalp of Gorgolok	Muscle: +7, Class: Seal Clubber
+Radio Free Baseball Cap	Intrinsic Effect: "Radio Head"
+Scalp of Gorgolok	Muscle: +7, Class: "Seal Clubber"
 Snow Queen Crown	Cold Damage: +5, Cold Resistance: +30
 # Sombrero De Vida
 Tropical Crimbo Hat	Spooky Resistance: +10
@@ -126,7 +126,7 @@ cold ninja mask	Initiative: +15
 cornuthaum	Mysticality: +3, Moxie: +3
 demon-horned hat	Moxie: +4
 # disco mask
-draggin' ball hat	Intrinsic Effect: Draggin' Balls
+draggin' ball hat	Intrinsic Effect: "Draggin' Balls"
 duct tape fedora	Mysticality: +12, Maximum MP: +40
 eXtreme scarf	Mysticality: +5
 enchanted eyepatch	Mysticality: +5
@@ -137,7 +137,7 @@ f3d0r4	Moxie: +6
 fancy ball mask	Moxie Percent: +10
 fez of etymology	Moxie: +7
 filthy knitted dread sack	Stench Damage: +3
-fire	Intrinsic Effect: Head on Fire, Ass Catching, Hot Damage: +7
+fire	Intrinsic Effect: "Head on Fire, Ass Catching", Hot Damage: +7
 foolscap fool's cap	Moxie: +2, Mysticality: -2
 # football helmet
 furry green turtle	Moxie: +3
@@ -157,11 +157,11 @@ lihc face	Spooky Resistance: +20
 linoleum helmet turtle	Maximum HP: +10, Maximum MP: +10
 longhaired hippy wig	Stench Damage: +20, Mysticality Percent: +5
 # maiden wig
-makeshift turban	Intrinsic Effect: Temporary Blindness, Spooky Resistance: +20
+makeshift turban	Intrinsic Effect: "Temporary Blindness", Spooky Resistance: +20
 meat cowboy hat	Muscle: +3
 meatloaf helmet	Muscle: +3, Melee Damage: +1
 meaty helmet turtle	Muscle: +3
-mesh cap	Intrinsic Effect: Red Neck
+mesh cap	Intrinsic Effect: "Red Neck"
 miner's helmet	Item Drop: +5
 mullet wig	Sleaze Damage: +2
 mummy mask	Spooky Damage: +12
@@ -193,7 +193,7 @@ superhero mask	Moxie: +5, Muscle: +5, Mysticality: +5
 # time helmet
 toy space helmet	Stench Resistance: +30, Spooky Resistance: +30
 viking helmet	Muscle: +1
-wolf mask	Intrinsic Effect: Complete Delusion
+wolf mask	Intrinsic Effect: "Complete Delusion"
 # wooden salad bowl
 wool hat	Damage Absorption: +20, Cold Resistance: +20
 worn tophat	Moxie: +7, Initiative: +20
@@ -204,7 +204,7 @@ yellow traffic cone	Moxie: +3, Sleaze Resistance: +20
 
 # Pants section of modifiers.txt
 
-1337 7r0uZ0RZ	Intrinsic Effect: 1337p4n7Z
+1337 7r0uZ0RZ	Intrinsic Effect: "1337p4n7Z"
 Boss Bat britches	Moxie: +5
 Brimstone Boxers	Moxie Percent: +50, Mysticality Percent: -20, Initiative: +50
 Can-Can skirt	Muscle Percent: +10
@@ -220,7 +220,7 @@ Knob Goblin elite pants	Moxie: +3
 Knob Goblin harem pants	Moxie: +1
 Knob Goblin pants	Muscle: +1
 Orcish cargo shorts	Muscle: +3, Mysticality: -3
-Radio Free Pants	Intrinsic Effect: Free Bird
+Radio Free Pants	Intrinsic Effect: "Free Bird"
 # Travoltan trousers
 Tropical Crimbo Shorts	Initiative: +30
 # alpha-mail pants
@@ -258,7 +258,7 @@ hippopotamus kilt	Maximum HP: +25
 hippopotamus pants	Maximum HP: +25
 hippopotamus skirt	Maximum HP: +25
 # junk-mail pants
-leather chaps	Intrinsic Effect: Chapped Legs
+leather chaps	Intrinsic Effect: "Chapped Legs"
 leotarrrd	Initiative: +15
 liar's pants	Hot Damage: +10
 los chinos	Damage Absorption: +20
@@ -348,10 +348,10 @@ white snakeskin duster	Muscle: +2, Maximum HP: +10
 
 17-alarm Saucepan	Mysticality: +11, Hot Spell Damage: +15
 # 25-meat staff
-5-Alarm Saucepan	Mysticality: +7, Class: Sauceror
+5-Alarm Saucepan	Mysticality: +7, Class: "Sauceror"
 # 7-Foot Dwarven mattock
 Bigger Bugfinder Blade	Moxie: +11, Muscle: +11, Mysticality: +11
-Bjorn's Hammer	Muscle: +10, Class: Seal Clubber
+Bjorn's Hammer	Muscle: +10, Class: "Seal Clubber"
 Brimstone Bludgeon	Muscle Percent: +50, Mysticality Percent: -20, Melee Damage: +30
 Bugfinder Blade	Moxie: +7, Muscle: +7, Mysticality: +7
 Cerebral Crossbow	Cold Damage: +3, Spooky Damage: +3, Sleaze Damage: +3
@@ -359,7 +359,7 @@ Chelonian Morningstar	Muscle: +11
 # Cloaca-Cola-issue combat knife
 Crimbo sword	Melee Damage: +5
 Crimbo ukelele	Item Drop: +10
-Disco Banjo	Moxie: +7, Class: Disco Bandit
+Disco Banjo	Moxie: +7, Class: "Disco Bandit"
 Dr. Hobo's scalpel	Melee Damage: +3, Stench Damage: +1
 Drowsy Sword	Monster Level: -10
 Frost&trade; brand sword	Muscle: +3, Monster Level: +3, Cold Damage: +3
@@ -381,13 +381,13 @@ Knob Goblin melon baller	Spell Damage: +8
 Knob Goblin scimitar	Muscle: +1
 Knob Goblin spatula	Spell Damage: +4
 Knob Goblin tongs	Spell Damage: +2
-Mace of the Tortoise	Muscle: +7, Class: Turtle Tamer
+Mace of the Tortoise	Muscle: +7, Class: "Turtle Tamer"
 Mafia violin case	Muscle: +20, Melee Damage: +30
 Maxwell's Silver Hammer	Mysticality: +10, Melee Damage: +10
 # Mjolnir Jr.
-Pasta of Peril	Mysticality: +7, Initiative: +15, Class: Pastamancer
-Radio Free Foil	Intrinsic Effect: Shiny Happy Weapon
-Rock and Roll Legend	Moxie: +7, Class: Accordion Thief
+Pasta of Peril	Mysticality: +7, Initiative: +15, Class: "Pastamancer"
+Radio Free Foil	Intrinsic Effect: "Shiny Happy Weapon"
+Rock and Roll Legend	Moxie: +7, Class: "Accordion Thief"
 Shagadelic Disco Banjo	Moxie: +11, Meat Drop: +10
 Spirit Precipice	Muscle: +7, Mysticality: +5, Critical: 5
 Squeezebox of the Ages	Moxie: +11, Ranged Damage: +15
@@ -471,7 +471,7 @@ denim axe	Muscle: +10, Melee Damage: +10
 dense meat crossbow	Moxie: +3
 dense meat staff	Mysticality: +3
 dense meat sword	Muscle: +3
-diamond-studded cane	Moxie: +5, Class: Disco Bandit
+diamond-studded cane	Moxie: +5, Class: "Disco Bandit"
 didgeridooka	Moxie: +9
 # disco ball
 dishrag	Stench Damage: +3
@@ -856,7 +856,7 @@ badass belt	Moxie: +5, Muscle: +5, Mysticality: +5
 beach glass necklace	Muscle: +5
 beaten-up Chucks	Initiative: +40
 # beer goggles
-bejeweled accordion strap	Maximum HP: +25, Maximum MP: +25, Class: Accordion Thief
+bejeweled accordion strap	Maximum HP: +25, Maximum MP: +25, Class: "Accordion Thief"
 bejeweled pledge pin	Maximum HP: +40
 big red clown nose	Maximum HP: +7
 black belt	Muscle: +7, Melee Damage: +7
@@ -867,14 +867,14 @@ bling-bling	Moxie: +1
 blue ribbon	Maximum HP: +5
 # bottle opener belt buckle
 bottlecap turtle	Mysticality: +1, Maximum MP: +3
-cement shoes	Intrinsic Effect: Sleeping with the Fishes, Mysticality: +20, Moxie: +20
+cement shoes	Intrinsic Effect: "Sleeping with the Fishes", Mysticality: +20, Moxie: +20
 charrrm bracelet	Moxie: +5
-chintzy accordion pin	Moxie: +12, Mysticality: +6, Class: Accordion Thief
-chintzy disco ball pendant	Moxie: +12, Muscle: +6, Class: Disco Bandit
-chintzy noodle ring	Mysticality: +12, Muscle: +6, Class: Pastamancer
-chintzy saucepan earring	Mysticality: +12, Moxie: +6, Class: Sauceror
-chintzy seal pendant	Muscle: +12, Moxie: +6, Class: Seal Clubber
-chintzy turtle brooch	Muscle: +12, Mysticality: +6, Class: Turtle Tamer
+chintzy accordion pin	Moxie: +12, Mysticality: +6, Class: "Accordion Thief"
+chintzy disco ball pendant	Moxie: +12, Muscle: +6, Class: "Disco Bandit"
+chintzy noodle ring	Mysticality: +12, Muscle: +6, Class: "Pastamancer"
+chintzy saucepan earring	Mysticality: +12, Moxie: +6, Class: "Sauceror"
+chintzy seal pendant	Muscle: +12, Moxie: +6, Class: "Seal Clubber"
+chintzy turtle brooch	Muscle: +12, Mysticality: +6, Class: "Turtle Tamer"
 clown shoes	Maximum MP: +7
 clownskin belt	Maximum MP: +15
 # club necklace
@@ -922,7 +922,7 @@ intergalactic pom poms	Moxie: +20, Initiative: +30
 jar of anniversary jam	Moxie: +1, Muscle: +1, Mysticality: +1
 kick-ass kicks	Sleaze Damage: +10, Moxie: +3
 knobby kneepads	Melee Damage: +3
-ladle of mystery	Maximum HP: +20, Maximum MP: +20, Class: Sauceror
+ladle of mystery	Maximum HP: +20, Maximum MP: +20, Class: "Sauceror"
 # left half of a heart necklace
 # lucky Crimbo tiki necklace
 lucky rabbit's foot	Item Drop: +7, Meat Drop: +7
@@ -978,7 +978,7 @@ solid baconstone ring	Mysticality: +12, Maximum MP: +30
 # spade necklace
 spark plug earring	Spooky Resistance: +20
 sparkly engagement ring	Moxie: +15, Muscle: +15, Mysticality: +15
-special sauce glove	Class: Sauceror
+special sauce glove	Class: "Sauceror"
 spooky glove	Moxie: +5, Spooky Damage: +5
 stainless steel scarf	Spell Damage: +20, Monster Level: +20, Mysticality Percent: +15
 stainless steel solitaire	Mana Cost: -2, Mysticality Percent: +15
@@ -1033,7 +1033,7 @@ tiny plastic star starfish	Familiar Weight: +1
 tiny plastic sweet nutcracker	Familiar Weight: +1
 tiny plastic turtle tamer	Muscle: +2, Mysticality: +1
 toy crazy train	Meat Drop: +10
-toy jet pack	Intrinsic Effect: Get Me Off This Crazy Thing!
+toy jet pack	Intrinsic Effect: "Get Me Off This Crazy Thing!"
 toy train	Meat Drop: +10
 tube sock	Moxie: +20
 walrus-tusk earring	Maximum HP: +10
@@ -1043,7 +1043,7 @@ white collar	Meat Drop: +3, Moxie: +1
 woven baling wire bracelets	Spell Damage: +15, Mana Cost: -1
 wrench bracelet	Muscle: +5, Melee Damage: +9
 # x-ray specs
-ye olde golde frontes	Muscle: +15, Class: Disco Bandit
+ye olde golde frontes	Muscle: +15, Class: "Disco Bandit"
 
 # Containers section of modifiers.txt
 
@@ -1220,13 +1220,13 @@ Jackasses' Symphony of Destruction	Melee Damage: +12, Spell Damage: +12
 Leash of Linguini	Familiar Weight: +5
 Magical Mojomuscular Melody	Mysticality: +10, Maximum MP: +20
 Man's Worst Enemy	Familiar Weight: +5
+Manicotti Meditation	Mysticality: +2
 Mariachi Mood	Moxie: +1, Maximum HP: +4
 Musk of the Moose	Combat Rate: +5
 Mysteriously Handsome	Monster Level: +3
 Object Detection	Item Drop: +12.5
 Optimist Primal	Familiar Weight: +5
 Orange Tongue	Experience +3
-Pasta Oneness	Mysticality: +2
 Patience of the Tortoise	Muscle: +1, Maximum HP: +4
 Peeled Eyeballs	Experience -1, Item Drop: +15, Meat Drop: -16
 Polka of Plenty	Meat Drop: +50

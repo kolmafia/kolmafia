@@ -291,11 +291,11 @@ public class Modifiers extends KoLDatabase
         private static final Object [][] stringModifiers = {
                 { "Class",
                   null,
-                  Pattern.compile( "Class: ([^,]+)" )
+                  Pattern.compile( "Class: \"(.*?)\"" )
                 },
                 { "Intrinsic Effect",
                   Pattern.compile( "Intrinsic effect: (.*)" ),
-                  Pattern.compile( "Intrinsic Effect: ([^,]+)" )
+                  Pattern.compile( "Intrinsic Effect: \"(.*?)\"" )
                 },
 	};
 
@@ -697,6 +697,7 @@ public class Modifiers extends KoLDatabase
 
 	private static String parseModifier( Object [][] table, String enchantment )
 	{
+		String quote = ( table == stringModifiers) ? "\"" : "" ;
 		for ( int i = 0; i < table.length; ++i )
 		{
 			Pattern pattern = modifierDescPattern( table, i );
@@ -705,7 +706,7 @@ public class Modifiers extends KoLDatabase
 
 			Matcher matcher = pattern.matcher( enchantment );
 			if ( matcher.find() )
-				return modifierName( table, i ) + ": " + matcher.group(1);
+				return modifierName( table, i ) + ": " + quote + matcher.group(1) + quote;
 		}
 
 		return null;
