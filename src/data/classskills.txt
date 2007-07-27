@@ -1,6 +1,6 @@
 1	Liver of Steel	0	1	0	0
 2	Chronic Indigestion	3	6	5	0
-3	The Smile of Mr. A.	2	1	5	0
+3	The Smile of Mr. A.	2	1	5	40
 4	Arse Shoot	2	1	5	0
 5	Stomach of Steel	0	1	0	0
 6	Spleen of Steel	0	1	0	0
@@ -61,12 +61,12 @@
 1012	Claws of the Walrus	0	4	0	0
 1013
 1014	Eye of the Stoat	0	4	0	0
-1015	Rage of the Reindeer	1	4	10	5
+1015	Rage of the Reindeer	1	4	10	10
 1016	Pulverize	0	1	0	0
 1017	Double-Fisted Skull Smashing	0	4	0	0
 1018	Northern Exposure	0	2	0	0
 1019	Musk of the Moose	1	10	10	10
-1020	Snarl of the Timberwolf	1	4	10	5
+1020	Snarl of the Timberwolf	1	4	10	10
 
 # Skills available to Turtle Tamers
 
