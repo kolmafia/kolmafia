@@ -201,6 +201,21 @@ public class KoLmafiaGUI extends KoLmafia
 		if ( frameName.equals( "" ) )
 			return;
 
+		if ( frameName.equals( "KoLMessenger" ) )
+		{
+			updateDisplay( "Retrieving chat color preferences..." );
+			RequestThread.postRequest( new ChannelColorsRequest() );
+
+			updateDisplay( "Initializing chat interface..." );
+			KoLMessenger.initialize();
+
+			RequestThread.postRequest( new ChatRequest( null, "/listen" ) );
+			updateDisplay( "Color preferences retrieved.  Chat started." );
+			RequestThread.enableDisplayIfSequenceComplete();
+
+			return;
+		}
+
 		try
 		{
 			Class frameClass = Class.forName( "net.sourceforge.kolmafia." + frameName );
@@ -337,20 +352,6 @@ public class KoLmafiaGUI extends KoLmafia
 
 				if ( KoLCharacter.hasDisplayCase() && collection.isEmpty() )
 					RequestThread.postRequest( new MuseumRequest() );
-			}
-			else if ( this.frameClass == KoLMessenger.class )
-			{
-				updateDisplay( "Retrieving chat color preferences..." );
-				RequestThread.postRequest( new ChannelColorsRequest() );
-
-				updateDisplay( "Initializing chat interface..." );
-				KoLMessenger.initialize();
-
-				RequestThread.postRequest( new ChatRequest( null, "/listen" ) );
-				updateDisplay( "Color preferences retrieved.  Chat started." );
-				RequestThread.enableDisplayIfSequenceComplete();
-
-				return;
 			}
 			else if ( this.frameClass == LocalRelayServer.class )
 			{
