@@ -233,6 +233,51 @@ public class AdventureRequest extends KoLRequest
 		}
 	}
 
+	private boolean canHandleElementTest( int currentLevel, boolean switchedOutfits, int element1, int element2,
+		AdventureResult effect1, AdventureResult effect2, AdventureResult desiredPhial )
+	{
+
+		float damage1 = (float) Math.pow( currentLevel, 1.52 ) / 2.0f;
+		float damage2 = damage1;
+
+		float resistance1 = KoLCharacter.getElementalResistance( element1 );
+		float resistance2 = KoLCharacter.getElementalResistance( element2 );
+
+		float expected1 = damage1 / 100.0f * (100.0f - resistance1);
+		float expected2 = damage2 / 100.0f * (100.0f - resistance2);
+
+		if ( expected1 + expected2 < KoLCharacter.getCurrentHP() )
+			return true;
+
+		if ( expected1 + expected2 < KoLCharacter.getMaximumHP() )
+		{
+			StaticEntity.getClient().recoverHP( (int) (expected1 + expected2) );
+			return KoLmafia.permitsContinue();
+		}
+
+		if ( !switchedOutfits )
+			return false;
+
+		expected1 = 1.0f;
+
+		if ( expected1 + expected2 >= KoLCharacter.getMaximumHP() )
+		{
+			KoLmafia.updateDisplay( ABORT_STATE, "Insufficient elemental resistance." );
+			return false;
+		}
+		else if ( !activeEffects.contains( effect1 ) && !activeEffects.contains( effect2 ) )
+		{
+			for ( int i = 0; i < ELEMENT_FORMS.length; ++i )
+				if ( activeEffects.contains( ELEMENT_FORMS[i] ) )
+					(new UneffectRequest( ELEMENT_FORMS[i] )).run();
+
+			(new ConsumeItemRequest( desiredPhial )).run();
+		}
+
+		StaticEntity.getClient().recoverHP( (int) (expected1 + expected2) );
+		return KoLmafia.permitsContinue();
+	}
+
 	private void handleBasement()
 	{
 		Matcher levelMatcher = BASEMENT_PATTERN.matcher( responseText );
@@ -301,39 +346,13 @@ public class AdventureRequest extends KoLRequest
 
 		if ( desiredPhial != null )
 		{
-			prepareBasementTest( "element" );
-
-			float damage1 = (float) Math.pow( currentLevel, 1.52 ) / 2.0f;
-			float damage2 = damage1;
-
-			float resistance1 = KoLCharacter.getElementalResistance( element1 );
-			float resistance2 = KoLCharacter.getElementalResistance( element2 );
-
-			float expected1 = damage1 / 100.0f * (100.0f - resistance1);
-			float expected2 = damage2 / 100.0f * (100.0f - resistance2);
-
-			if ( expected1 + expected2 >= KoLCharacter.getMaximumHP() )
+			if ( !canHandleElementTest( currentLevel, false, element1, element2, effect1, effect2, desiredPhial ) )
 			{
-				expected1 = 1.0f;
-
-				if ( expected1 + expected2 >= KoLCharacter.getMaximumHP() )
-				{
-					KoLmafia.updateDisplay( ABORT_STATE, "Insufficient elemental resistance." );
-				}
-				else if ( !activeEffects.contains( effect1 ) && !activeEffects.contains( effect2 ) )
-				{
-					for ( int i = 0; i < ELEMENT_FORMS.length; ++i )
-						if ( activeEffects.contains( ELEMENT_FORMS[i] ) )
-							(new UneffectRequest( ELEMENT_FORMS[i] )).run();
-
-					(new ConsumeItemRequest( desiredPhial )).run();
-				}
-
-				if ( KoLmafia.refusesContinue() )
+				prepareBasementTest( "element" );
+				if ( !canHandleElementTest( currentLevel, true, element1, element2, effect1, effect2, desiredPhial ) )
 					return;
 			}
 
-			StaticEntity.getClient().recoverHP( (int) (expected1 + expected2) );
 			this.addFormField( "action", "1" );
 		}
 		else
@@ -346,37 +365,52 @@ public class AdventureRequest extends KoLRequest
 
 			if ( this.responseText.indexOf( "Lift 'em" ) != -1 || this.responseText.indexOf( "Push It Real Good" ) != -1 || this.responseText.indexOf( "Ring That Bell" ) != -1 )
 			{
-				prepareBasementTest( "muscle" );
 				if ( KoLCharacter.getAdjustedMuscle() < statRequirement )
-					KoLmafia.updateDisplay( ABORT_STATE, "Insufficient muscle to continue." );
+				{
+					prepareBasementTest( "muscle" );
+					if ( KoLCharacter.getAdjustedMuscle() < statRequirement )
+						KoLmafia.updateDisplay( ABORT_STATE, "Insufficient muscle to continue." );
+				}
 			}
 			else if ( this.responseText.indexOf( "Gathering: The Magic" ) != -1 || this.responseText.indexOf( "Mop the Floor with the Mops" ) != -1 || this.responseText.indexOf( "Do away with the 'doo" ) != -1 )
 			{
-				prepareBasementTest( "mysticality" );
 				if ( KoLCharacter.getAdjustedMysticality() < statRequirement )
-					KoLmafia.updateDisplay( ABORT_STATE, "Insufficient mysticality to continue." );
+				{
+					prepareBasementTest( "mysticality" );
+					if ( KoLCharacter.getAdjustedMysticality() < statRequirement )
+						KoLmafia.updateDisplay( ABORT_STATE, "Insufficient mysticality to continue." );
+				}
 			}
 			else if ( this.responseText.indexOf( "Don't Wake the Baby" ) != -1 || this.responseText.indexOf( "Grab a cue" ) != -1 || this.responseText.indexOf( "Put on the Smooth Moves" ) != -1 )
 			{
-				prepareBasementTest( "moxie" );
 				if ( KoLCharacter.getAdjustedMoxie() < statRequirement )
-					KoLmafia.updateDisplay( ABORT_STATE, "Insufficient moxie to continue." );
+				{
+					prepareBasementTest( "moxie" );
+					if ( KoLCharacter.getAdjustedMoxie() < statRequirement )
+						KoLmafia.updateDisplay( ABORT_STATE, "Insufficient moxie to continue." );
+				}
 			}
 			else if ( this.responseText.indexOf( "Grab the Handles" ) != -1 )
 			{
-				prepareBasementTest( "mpdrain" );
 				if ( KoLCharacter.getMaximumMP() < drainRequirement )
-					KoLmafia.updateDisplay( ABORT_STATE, "Insufficient mana to continue." );
+				{
+					prepareBasementTest( "mpdrain" );
+					if ( KoLCharacter.getMaximumMP() < drainRequirement )
+						KoLmafia.updateDisplay( ABORT_STATE, "Insufficient mana to continue." );
+				}
 
 				StaticEntity.getClient().recoverMP( (int) drainRequirement );
 			}
 			else if ( this.responseText.indexOf( "Run the Gauntlet Gauntlet" ) != -1 )
 			{
-				prepareBasementTest( "gauntlet" );
 				if ( KoLCharacter.getMaximumHP() < drainRequirement )
-					KoLmafia.updateDisplay( ABORT_STATE, "Insufficient health to continue." );
+				{
+					prepareBasementTest( "gauntlet" );
+					if ( KoLCharacter.getMaximumHP() < drainRequirement )
+						KoLmafia.updateDisplay( ABORT_STATE, "Insufficient health to continue." );
 
-				StaticEntity.getClient().recoverHP( (int) drainRequirement );
+					StaticEntity.getClient().recoverHP( (int) drainRequirement );
+				}
 			}
 
 			if ( KoLmafia.refusesContinue() )
