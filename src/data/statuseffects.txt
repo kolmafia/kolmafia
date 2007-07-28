@@ -315,10 +315,10 @@
 315	Cuts Like a Buttered Knife	dripsword.gif	88d3ebc4d94e12aab78fea9b126c5312
 316	Impregnably Delicious	sphere.gif	4a7e1d0ef97a354031271c7590dfe698
 317	Fireproof Lips	lips.gif	2bf98e882e69d84ef7184450c88383f3
-318
+318	Fever From the Flavor	snowflake.gif
 319	Hyphemariffic	darkness.gif	6b0edfbc94593d4516065493f3607d93
-320
-321
+320	Can't Smell Nothin'	stench.gf
+321	Hyperoffended	sad.gif
 322
 323	Burning Hands	hand.gif	ff1abd7eea34159903507bb907c56803
 324	Burning Ears	humanears.gif	992e3b84ebe746affc1cf6038cd854ff
@@ -344,7 +344,7 @@
 344	Blessing of Pikachutlotal	jigawatts.gif	3f2ef271da5513fce8fd5f8ea8c27de8
 345	Blessing of Charcoatl           fire.gif	5a1caad47f9f3340c58af489d69bf55b
 346	Blessing of Squirtlcthulli	nopic2.gif
-347	Blessing of Bulbazinalli	leaf.gif
+347	Blessing of Bulbazinalli	leaf.gif	c59051266b90a4b990b4e92e29945228
 348	All Fired Up	fire.gif	5626ff49dbfe5c3bc7732a3dc9c1ea4e
 349	Go Get 'Em, Tiger!	strboost.gif	943ba3b11499412f041807f8a7835d75
 350	Starry-Eyed	snowflakes.gif	c45d2469bf8cfd8c9bbc953e2a44f3c4
