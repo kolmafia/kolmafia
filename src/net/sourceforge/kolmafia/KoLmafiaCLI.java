@@ -4577,18 +4577,20 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( lowercaseOutfitName.equals( "birthday suit" ) || lowercaseOutfitName.equals( "nothing" ) )
 			return SpecialOutfit.BIRTHDAY_SUIT;
 
-		Object [] outfits = new Object[ KoLCharacter.getOutfits().size() ];
-		KoLCharacter.getOutfits().toArray( outfits );
+		Object currentTest;
 
-		for ( int i = 0; i < outfits.length; ++i )
-			if ( outfits[i] instanceof SpecialOutfit && outfits[i].toString().toLowerCase().indexOf( lowercaseOutfitName ) != -1 )
-				return (SpecialOutfit) outfits[i];
+		for ( int i = 0; i < KoLCharacter.getCustomOutfits().size(); ++i )
+		{
+			currentTest = KoLCharacter.getCustomOutfits().get(i);
+			if ( currentTest instanceof SpecialOutfit && currentTest.toString().toLowerCase().indexOf( lowercaseOutfitName ) != -1 )
+				return (SpecialOutfit) currentTest;
+		}
 
 		for ( int i = 0; i < EquipmentDatabase.getOutfitCount(); ++i )
 		{
-			SpecialOutfit test = EquipmentDatabase.getOutfit( i );
-			if ( test != null && test.toString().toLowerCase().indexOf( lowercaseOutfitName ) != -1 )
-				return test;
+			currentTest = EquipmentDatabase.getOutfit( i );
+			if ( currentTest != null && currentTest.toString().toLowerCase().indexOf( lowercaseOutfitName ) != -1 )
+				return (SpecialOutfit) currentTest;
 		}
 
 		return null;
