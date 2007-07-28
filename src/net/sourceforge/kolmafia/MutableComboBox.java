@@ -88,8 +88,12 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 			return;
 
 		this.currentName = anObject.toString();
-		this.filter.deactivate();
-		this.model.applyListFilter( this.filter );
+
+		if ( !this.isPopupVisible() )
+		{
+			this.filter.deactivate();
+			this.model.applyListFilter( this.filter );
+		}
 	}
 
 	private void updateFilter()
@@ -132,24 +136,26 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 
 			editor.setSelectionStart( this.currentName.length() );
 			editor.setSelectionEnd( this.currentName.length() );
+			return;
 		}
 
-		if ( !this.allowAdditions || this.currentName.length() == 0 || keyCode == KeyEvent.VK_DELETE || keyCode == KeyEvent.VK_BACK_SPACE )
+		if ( this.currentName.length() == 0 || keyCode == KeyEvent.VK_DELETE || keyCode == KeyEvent.VK_BACK_SPACE )
 			return;
 
 		// Autohighlight and popup - note that this should only happen
 		// for standard typing keys, or the delete and backspace keys.
 
+		Object matchTest;
 		int matchCount = 0;
-		Object [] currentNames = this.model.toArray();
-
 		String lowercase = this.currentName.toLowerCase();
-		for ( int i = 0; i < currentNames.length; ++i )
+
+		for ( int i = 0; i < this.model.getSize(); ++i )
 		{
-			if ( currentNames[i].toString().toLowerCase().startsWith( lowercase ) )
+			matchTest = this.model.getElementAt(i);
+			if ( matchTest.toString().toLowerCase().startsWith( lowercase ) )
 			{
 				++matchCount;
-				this.currentMatch = currentNames[i];
+				this.currentMatch = matchTest;
 			}
 		}
 
