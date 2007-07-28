@@ -305,9 +305,6 @@ public class EquipmentDatabase extends KoLDatabase
 		KoLCharacter.getOutfits().add( SpecialOutfit.NO_CHANGE );
 		KoLCharacter.getOutfits().add( SpecialOutfit.BIRTHDAY_SUIT );
 
-		// Then any custom outfits
-		KoLCharacter.getOutfits().addAll( KoLCharacter.getCustomOutfits() );
-
 		// Finally any standard outfits
 		KoLCharacter.getOutfits().addAll( available );
 	}
