@@ -1755,9 +1755,26 @@ public class TradeableItemDatabase extends KoLDatabase
 
 	private static String parseEnchantments( String text, ArrayList unknown )
 	{
-		String known = Modifiers.parseDamageReduction( text );;
-		if ( known == null )
-			known = "";
+		String known = "";
+
+		// Several modifiers can appear outside the "Enchantments"
+		// section of the item description.
+
+		String dr = Modifiers.parseDamageReduction( text );
+		if ( dr != null )
+		{
+			if ( !known.equals( "" ) )
+				known += ", ";
+			known += dr;
+		}
+
+		String single = Modifiers.parseSingleEquip( text );
+		if ( single != null )
+		{
+			if ( !known.equals( "" ) )
+				known += ", ";
+			known += single;
+		}
 
 		Matcher matcher = ENCHANTMENT_PATTERN.matcher( text );
 		if ( !matcher.find() )
@@ -1766,8 +1783,6 @@ public class TradeableItemDatabase extends KoLDatabase
 		StringBuffer enchantments = new StringBuffer( matcher.group(1) );
 
 		StaticEntity.globalStringDelete( enchantments, "<b>NOTE:</b> Items that reduce the MP cost of skills will not do so by more than 3 points, in total." );
-		StaticEntity.globalStringDelete( enchantments, "<b>NOTE:</b> This item cannot be equipped while in Hardcore." );
-		StaticEntity.globalStringDelete( enchantments, "<b>NOTE:</b> You may not equip more than one of this item at a time." );
 		StaticEntity.globalStringDelete( enchantments, "<b>NOTE:</b> If you wear multiple items that increase Critical Hit chances, only the highest multiplier applies." );
 		StaticEntity.globalStringReplace( enchantments, "<br>", "\n" );
 

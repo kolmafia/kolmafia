@@ -3814,6 +3814,9 @@ public class KoLmafiaASH extends StaticEntity
 		result.addElement( new ScriptExistingFunction( "numeric_modifier", FLOAT_TYPE, params ) );
 
 		params = new ScriptType[] { ITEM_TYPE, STRING_TYPE  };
+		result.addElement( new ScriptExistingFunction( "boolean_modifier", BOOLEAN_TYPE, params ) );
+
+		params = new ScriptType[] { ITEM_TYPE, STRING_TYPE  };
 		result.addElement( new ScriptExistingFunction( "string_modifier", STRING_TYPE, params ) );
 
 		params = new ScriptType[] { EFFECT_TYPE, STRING_TYPE  };
@@ -6077,6 +6080,13 @@ public class KoLmafiaASH extends StaticEntity
 			String name = arg.toStringValue().toString();
 			String mod = modifier.toStringValue().toString();
 			return new ScriptValue( Modifiers.getNumericModifier( name, mod ) );
+		}
+
+		public ScriptValue boolean_modifier( ScriptVariable arg, ScriptVariable modifier )
+		{
+			String name = arg.toStringValue().toString();
+			String mod = modifier.toStringValue().toString();
+			return new ScriptValue( Modifiers.getBooleanModifier( name, mod ) );
 		}
 
 		public ScriptValue string_modifier( ScriptVariable arg, ScriptVariable modifier )

@@ -287,6 +287,22 @@ public class Modifiers extends KoLDatabase
 
 	public static final int FLOAT_MODIFIERS = floatModifiers.length;
 
+	public static final int SOFTCORE = 0;
+	public static final int SINGLE = 1;
+
+        private static final Object [][] booleanModifiers = {
+                { "Softcore Only",
+                  Pattern.compile( "This item cannot be equipped while in Hardcore" ),                  
+                  Pattern.compile( "Softcore Only" )
+                },
+                { "Single Equip",
+                  null,
+                  Pattern.compile( "Single Equip" )
+                },
+	};
+
+	public static final int BOOLEAN_MODIFIERS = booleanModifiers.length;
+
 	public static final int CLASS = 0;
 	public static final int INTRINSIC_EFFECT = 1;
 	public static final int EQUALIZE = 2;
@@ -356,12 +372,14 @@ public class Modifiers extends KoLDatabase
 
 	private boolean variable;
 	private float[] floats;
+	private boolean[] booleans;
 	private String[] strings;
 
 	public Modifiers()
 	{
 		this.variable = false;
 		this.floats = new float[ FLOAT_MODIFIERS ];
+		this.booleans = new boolean[ BOOLEAN_MODIFIERS ];
 		this.strings = new String[ STRING_MODIFIERS ];
 		reset();
 	};
@@ -370,6 +388,8 @@ public class Modifiers extends KoLDatabase
 	{
 		for ( int i = 0; i < this.floats.length; ++i )
 			this.floats[i] = 0.0f;
+		for ( int i = 0; i < this.booleans.length; ++i )
+			this.booleans[i] = false;
 		for ( int i = 0; i < this.strings.length; ++i )
 			this.strings[i] = "";
 	};
@@ -389,6 +409,23 @@ public class Modifiers extends KoLDatabase
 			return 0.0f;
 
 		return this.floats[index];
+	};
+
+	public boolean getBoolean( int index )
+	{
+		if ( index < 0 || index >= this.booleans.length )
+			return false;
+
+		return this.booleans[index];
+	};
+
+	public boolean getBoolean( String name )
+	{
+		int index = findName( booleanModifiers, name );
+		if ( index < 0 || index >= this.booleans.length )
+			return false;
+
+		return this.booleans[index];
 	};
 
 	public String getString( int index )
@@ -416,6 +453,19 @@ public class Modifiers extends KoLDatabase
 		if ( this.floats[index] != mod )
 		{
 			this.floats[index] = (float)mod;
+			return true;
+		}
+		return false;
+	};
+
+	public boolean set( int index, boolean mod )
+	{
+		if ( index < 0 || index >= this.booleans.length )
+			return false;
+
+		if ( this.booleans[index] != mod )
+		{
+			this.booleans[index] = mod;
 			return true;
 		}
 		return false;
@@ -449,6 +499,14 @@ public class Modifiers extends KoLDatabase
 			if ( this.floats[index] != copyFloats[index] )
 			{
 				this.floats[index] = copyFloats[index];
+				changed = true;
+			}
+
+		boolean [] copyBooleans = mods.booleans;
+		for ( int index = 0; index < this.booleans.length; ++index )
+			if ( this.booleans[index] != copyBooleans[index] )
+			{
+				this.booleans[index] = copyBooleans[index];
 				changed = true;
 			}
 
@@ -545,6 +603,7 @@ public class Modifiers extends KoLDatabase
 
 		Modifiers newMods = new Modifiers();
 		float [] newFloats = newMods.floats;
+		boolean [] newBooleans = newMods.booleans;
 		String [] newStrings = newMods.strings;
 
 		for ( int i = 0; i < newFloats.length; ++i )
@@ -556,6 +615,20 @@ public class Modifiers extends KoLDatabase
 				if ( matcher.find() )
 				{
 					newFloats[i] = Float.parseFloat ( matcher.group(1) );
+					continue;
+				}
+			}
+		}
+
+		for ( int i = 0; i < newBooleans.length; ++i )
+		{
+			Pattern pattern = modifierTagPattern( booleanModifiers, i );
+			if ( pattern != null )
+			{
+				Matcher matcher = pattern.matcher( string );
+				if ( matcher.find() )
+				{
+					newBooleans[i] = true;
 					continue;
 				}
 			}
@@ -713,6 +786,14 @@ public class Modifiers extends KoLDatabase
 		return mods.get( mod );
 	}
 
+	public static final boolean getBooleanModifier( String name, String mod )
+	{
+		Modifiers mods = getModifiers( name );
+		if ( mods == null )
+			return false;
+		return mods.getBoolean( mod );
+	}
+
 	public static final String getStringModifier( String name, String mod )
 	{
 		Modifiers mods = getModifiers( name );
@@ -770,6 +851,17 @@ public class Modifiers extends KoLDatabase
 		return null;
 	}
 
+	private static final Pattern SINGLE_PATTERN = Pattern.compile( "You may not equip more than one of this item at a time" );
+
+	public static String parseSingleEquip( String text )
+	{
+		Matcher matcher = SINGLE_PATTERN.matcher( text );
+		if (matcher.find() )
+			return modifierName( booleanModifiers, SINGLE );
+
+		return null;
+	}
+
 	private static final Pattern ALL_ATTR_PATTERN = Pattern.compile( "^All Attributes ([+-]\\d+)$" );
 	private static final Pattern ALL_ATTR_PCT_PATTERN = Pattern.compile( "^All Attributes ([+-]\\d+)%$" );
 	private static final Pattern CLASS_PATTERN = Pattern.compile( "Bonus for (.*) only" );
@@ -782,13 +874,19 @@ public class Modifiers extends KoLDatabase
 
 		// Search the float modifiers first
 
-		result = parseModifier( floatModifiers, enchantment );
+		result = parseModifier( floatModifiers, enchantment, false );
+		if (result != null )
+			return result;
+
+		// Then the boolean modifiers
+
+		result = parseModifier( booleanModifiers, enchantment, false );
 		if (result != null )
 			return result;
 
 		// Then the string modifiers
 
-		result = parseModifier( stringModifiers, enchantment );
+		result = parseModifier( stringModifiers, enchantment, true );
 		if (result != null )
 			return result;
 
@@ -827,7 +925,7 @@ public class Modifiers extends KoLDatabase
 				cls = KoLCharacter.SEAL_CLUBBER;
 			else if ( plural.equals( "Turtle Tamers" ) )
 				cls = KoLCharacter.TURTLE_TAMER;
-			return modifierName( stringModifiers, CLASS ) + ": " + cls;
+			return modifierName( stringModifiers, CLASS ) + ": \"" + cls + "\"";
 		}
 
 		matcher = COMBAT_PATTERN.matcher( enchantment );
@@ -847,9 +945,9 @@ public class Modifiers extends KoLDatabase
 		return null;
 	}
 
-	private static String parseModifier( Object [][] table, String enchantment )
+	private static String parseModifier( Object [][] table, String enchantment, boolean quoted )
 	{
-		String quote = ( table == stringModifiers) ? "\"" : "" ;
+		String quote = quoted ? "\"" : "" ;
 		for ( int i = 0; i < table.length; ++i )
 		{
 			Pattern pattern = modifierDescPattern( table, i );
@@ -858,7 +956,11 @@ public class Modifiers extends KoLDatabase
 
 			Matcher matcher = pattern.matcher( enchantment );
 			if ( matcher.find() )
+			{
+				if ( matcher.groupCount() == 0)
+					return modifierName( table, i );
 				return modifierName( table, i ) + ": " + quote + matcher.group(1) + quote;
+			}
 		}
 
 		return null;
