@@ -130,8 +130,13 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 		if ( this.creation == null )
 			return;
 
+		// Some frames have a recipient parameter that
+		// should be passed around.
+
 		if ( this.creationType == SkillBuffFrame.class && this.parameters.length == 1 )
 			((SkillBuffFrame)this.creation).setRecipient( (String) this.parameters[0] );
+		if ( this.creationType == SendMessageFrame.class && this.parameters.length == 1 )
+			((SendMessageFrame)this.creation).setRecipient( (String) this.parameters[0] );
 
 		this.creation.pack();
 		if ( !(this.creation instanceof KoLFrame) )

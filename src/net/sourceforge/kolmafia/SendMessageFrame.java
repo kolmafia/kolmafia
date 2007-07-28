@@ -89,13 +89,6 @@ public class SendMessageFrame extends KoLFrame
 		JComponentUtilities.setComponentSize( this.recipientEntry, 250, 25 );
 		JComponentUtilities.setComponentSize( refreshButton, 20, 20 );
 
-		if ( !recipient.equals( "" ) )
-		{
-			this.recipientEntry.addItem( recipient );
-			this.recipientEntry.getEditor().setItem( recipient );
-			this.recipientEntry.setSelectedItem( recipient );
-		}
-
 		JPanel contactsPanel = new JPanel( new BorderLayout( 5, 5 ) );
 		contactsPanel.add( this.recipientEntry, BorderLayout.CENTER );
 		contactsPanel.add( refreshButton, BorderLayout.EAST );
@@ -214,6 +207,18 @@ public class SendMessageFrame extends KoLFrame
 
 		this.framePanel.setLayout( new CardLayout( 10, 10 ) );
 		this.framePanel.add( this.tabs, "" );
+
+		this.setRecipient( recipient );
+	}
+
+	public void setRecipient( String recipient )
+	{
+		if ( !recipient.equals( "" ) )
+			return;
+
+		this.recipientEntry.addItem( recipient );
+		this.recipientEntry.getEditor().setItem( recipient );
+		this.recipientEntry.setSelectedItem( recipient );
 	}
 
 	public JPanel getLabelPanel( String text )
