@@ -3196,6 +3196,9 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "to_class", CLASS_TYPE, params ) );
 
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "to_stat", STAT_TYPE, params ) );
+
 		params = new ScriptType[] { INT_TYPE };
 		result.addElement( new ScriptExistingFunction( "to_skill", SKILL_TYPE, params ) );
 		params = new ScriptType[] { STRING_TYPE };
@@ -3813,6 +3816,9 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { ITEM_TYPE, STRING_TYPE  };
 		result.addElement( new ScriptExistingFunction( "string_modifier", STRING_TYPE, params ) );
 
+		params = new ScriptType[] { EFFECT_TYPE, STRING_TYPE  };
+		result.addElement( new ScriptExistingFunction( "string_modifier", STRING_TYPE, params ) );
+
 		return result;
 	}
 
@@ -4054,8 +4060,9 @@ public class KoLmafiaASH extends StaticEntity
 			if ( it2.hasNext() )
 				return false;
 
-			// Unfortunately, if it's an exact match and you're avoiding
-			// exact matches, you need to throw an exception.
+			// Unfortunately, if it's an exact match and you're
+			// avoiding exact matches, you need to throw an
+			// exception.
 
 			if ( avoidExactMatch )
 				throw new AdvancedScriptException( "Function '" + f.getName() + "' already defined " + getLineAndFile() );
@@ -4071,8 +4078,16 @@ public class KoLmafiaASH extends StaticEntity
 			ScriptFunction [] options = functions.findFunctions( f.getName() );
 
 			for ( int i = 0; i < options.length; ++i )
-				if ( options[i] instanceof ScriptUserDefinedFunction && isMatchingFunction( (ScriptUserDefinedFunction) options[i], f ) )
-					return (ScriptUserDefinedFunction) options[i];
+				if ( options[i] instanceof ScriptUserDefinedFunction )
+				{
+					ScriptUserDefinedFunction existing = (ScriptUserDefinedFunction)options[i];
+					if ( !isMatchingFunction( existing, f ) )
+						continue;
+
+					// Must use new definition's variables
+					existing.setVariableReferences( f.getVariableReferences() );
+					return existing;
+				}
 
 			addFunction( f );
 			return f;
@@ -4171,6 +4186,8 @@ public class KoLmafiaASH extends StaticEntity
 					return findFunction( "to_item", params );
 				if ( name.endsWith( "to_class" ) )
 					return findFunction( "to_class", params );
+				if ( name.endsWith( "to_stat" ) )
+					return findFunction( "to_stat", params );
 				if ( name.endsWith( "to_skill" ) )
 					return findFunction( "to_skill", params );
 				if ( name.endsWith( "to_effect" ) )
@@ -4682,6 +4699,11 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue to_class( ScriptVariable val )
 		{
 			return parseClassValue( val.toStringValue().toString() );
+		}
+
+		public ScriptValue to_stat( ScriptVariable val )
+		{
+			return parseStatValue( val.toStringValue().toString() );
 		}
 
 		public ScriptValue to_skill( ScriptVariable val )
