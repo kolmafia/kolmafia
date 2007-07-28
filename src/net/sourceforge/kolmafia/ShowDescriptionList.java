@@ -104,13 +104,18 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		if ( listModel == tally )
 		{
 			this.contextMenu.add( new ZeroTallyMenuItem() );
+			this.contextMenu.add( new AddToJunkListMenuItem() );
+			this.contextMenu.add( new AddToMementoListMenuItem() );
+
 			this.contextMenu.add( new JSeparator() );
+
 			this.contextMenu.add( new AutoSellMenuItem() );
 			this.contextMenu.add( new ConsumeMenuItem() );
 			this.contextMenu.add( new PulverizeMenuItem() );
 		}
 		else if ( listModel == inventory || listModel == closet || isEncyclopedia )
 		{
+			this.contextMenu.add( new AddToJunkListMenuItem() );
 			this.contextMenu.add( new AddToMementoListMenuItem() );
 		}
 		else if ( isMoodList )
@@ -432,6 +437,44 @@ public class ShowDescriptionList extends JList implements KoLConstants
 			MoodSettings.removeTriggers( items );
 			MoodSettings.saveSettings();
 			e.consume();
+		}
+	}
+
+	private class AddToJunkListMenuItem extends ContextMenuItem
+	{
+		public AddToJunkListMenuItem()
+		{	super( "Add to junk list" );
+		}
+
+		public void executeAction()
+		{
+			Object [] items = ShowDescriptionList.this.getSelectedValues();
+			ShowDescriptionList.this.clearSelection();
+
+			AdventureResult data;
+
+			for ( int i = 0; i < items.length; ++i )
+			{
+				data = null;
+
+				if ( items[i] instanceof ItemCreationRequest )
+					data = ((ItemCreationRequest)items[i]).createdItem;
+				else if ( items[i] instanceof AdventureResult && ((AdventureResult)items[i]).isItem() )
+					data = (AdventureResult) items[i];
+				else if ( items[i] instanceof String && TradeableItemDatabase.contains( (String) items[i] ) )
+					data = new AdventureResult( (String) items[i], 1, false );
+				else if ( items[i] instanceof Entry && TradeableItemDatabase.contains( (String) ((Entry)items[i]).getValue() ) )
+					data = new AdventureResult( (String) ((Entry)items[i]).getValue(), 1, false );
+
+				if ( data == null )
+					continue;
+
+				if ( !postRoninJunkList.contains( data ) )
+					postRoninJunkList.add( data );
+
+				if ( !KoLCharacter.canInteract() && !preRoninJunkList.contains( data ) )
+					preRoninJunkList.add( data );
+			}
 		}
 	}
 
