@@ -615,6 +615,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "relayAddsGraphicalCLI", "false" );
 		CLIENT_SETTINGS.put( "relayAddsKoLSimulator", "false" );
 		CLIENT_SETTINGS.put( "relayAddsMissingEffects", "true" );
+		CLIENT_SETTINGS.put( "relayAddsMonsterHealth", "false" );
 		CLIENT_SETTINGS.put( "relayAddsMoodRefreshLink", "true" );
 		CLIENT_SETTINGS.put( "relayAddsQuickScripts", "false" );
 		CLIENT_SETTINGS.put( "relayAddsRestoreLinks", "true" );

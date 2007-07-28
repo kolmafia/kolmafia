@@ -190,6 +190,8 @@ public class OptionsFrame extends KoLFrame
 			{ "relayUsesIntegratedChat", "Integrate chat and relay browser gCLI interfaces" },
 			{ "relayFormatsChatText", "Reformat incoming chat HTML to conform to web standards" },
 
+			{ "", "" },
+
 			{ "relayAddsGraphicalCLI", "Add link to command-line interface to right side pane" },
 			{ "relayAddsKoLSimulator", "Add link to Ayvuir's Simulator of Loathing to right side pane" },
 
@@ -198,12 +200,13 @@ public class OptionsFrame extends KoLFrame
 			{ "relayAddsUseLinks", "Add decorator [use] links when receiving items" },
 			{ "relayUsesInlineLinks", "Force results to reload inline for [use] links" },
 			{ "relayHidesJunkMallItems", "Hide junk and overpriced items in PC stores" },
+			{ "relayViewsCustomItems", "View items registered with OneTonTomato's Teh Kilt script" },
 
 			{ "", "" },
 
 			{ "relayAddsRoundNumber", "Add current round number to fight pages" },
+			{ "relayAddsMonsterHealth", "Add known monster data to fight pages" },
 			{ "relayAddsCustomCombat", "Add custom combat button to fight pages" },
-			{ "relayViewsCustomItems", "View items registered with OneTonTomato's Teh Kilt script" },
 
 			{ "", "" },
 
