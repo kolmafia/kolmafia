@@ -78,7 +78,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 	private KoLRequest request;
 	private AreaCombatData areaSummary;
-	private boolean shouldRunFullCheck;
+	private boolean isNonCombatsOnly;
 	private boolean isLikelyUnluckyZone;
 
 	/**
@@ -101,32 +101,15 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		this.adventureName = adventureName;
 
 		if ( formSource.equals( "sewer.php" ) )
-		{
-			this.shouldRunFullCheck = false;
 			this.request = new SewerRequest( false );
-		}
 		else if ( formSource.equals( "luckysewer.php" ) )
-		{
-			this.shouldRunFullCheck = false;
 			this.request = new SewerRequest( true );
-		}
 		else if ( formSource.equals( "campground.php" ) )
-		{
-			this.shouldRunFullCheck = false;
 			this.request = new CampgroundRequest( adventureId );
-		}
 		else if ( formSource.equals( "clan_gym.php" ) )
-		{
-			this.shouldRunFullCheck = false;
 			this.request = new ClanGymRequest( StaticEntity.parseInt( adventureId ) );
-		}
 		else
-		{
-			this.shouldRunFullCheck = formSource.equals( "adventure.php" ) || formSource.equals( "dungeon.php" ) ||
-				formSource.equals( "rats.php" ) || formSource.equals( "knob.php" ) || formSource.equals( "cyrpt.php" ) || formSource.equals( "lair3.php" );
-
 			this.request = new AdventureRequest( adventureName, formSource, adventureId );
-		}
 
 		this.areaSummary = AdventureDatabase.getAreaCombatData( adventureName );
 		this.isLikelyUnluckyZone = false;
@@ -141,10 +124,9 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			adventureId.equals( "112" ) || // Sleazy Back Alley
 			adventureId.equals( "113" ) || // The Haunted Pantry
 			adventureId.equals( "114" );   // Outskirts of The Knob
-	}
 
-	public boolean runsBetweenBattleScript()
-	{	return this.shouldRunFullCheck;
+		this.isNonCombatsOnly = !(this.request instanceof AdventureRequest) ||
+			(this.areaSummary != null && this.areaSummary.combats() == 0 && this.areaSummary.getMonsterCount() == 0);
 	}
 
 	/**
@@ -189,9 +171,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 	}
 
 	public boolean isNonCombatsOnly()
-	{
-		return !(this.request instanceof AdventureRequest) ||
-			(this.areaSummary != null && this.areaSummary.combats() == 0 && this.areaSummary.getMonsterCount() == 0);
+	{	return this.isNonCombatsOnly;
 	}
 
 	/**
@@ -702,7 +682,17 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 	public void run()
 	{
-		String action = StaticEntity.getProperty( "battleAction" );
+		if ( !KoLmafia.isRunningBetweenBattleChecks() && !(this.request instanceof CampgroundRequest) )
+		{
+			if ( !StaticEntity.getClient().runThresholdChecks() )
+				return;
+
+			lastVisitedLocation = this;
+			StaticEntity.getClient().runBetweenBattleChecks( this.isNonCombatsOnly() );
+
+			if ( !KoLmafia.permitsContinue() )
+				return;
+		}
 
 		// Validate the adventure before running it.
 		// If it's invalid, return and do nothing.
@@ -726,9 +716,11 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			return;
 		}
 
+		String action = StaticEntity.getProperty( "battleAction" );
+
 		if ( this.request instanceof AdventureRequest && !this.adventureId.equals( "80" ) )
 		{
-			if ( this.shouldRunFullCheck && action.indexOf( "dictionary" ) != -1 && (FightRequest.DICTIONARY1.getCount( inventory ) < 1 && FightRequest.DICTIONARY2.getCount( inventory ) < 1) )
+			if ( !this.isNonCombatsOnly() && action.indexOf( "dictionary" ) != -1 && (FightRequest.DICTIONARY1.getCount( inventory ) < 1 && FightRequest.DICTIONARY2.getCount( inventory ) < 1) )
 			{
 				KoLmafia.updateDisplay( ERROR_STATE, "Sorry, you don't have a dictionary." );
 				return;
@@ -747,7 +739,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			return;
 		}
 
-		if ( this.shouldRunFullCheck && this.request instanceof AdventureRequest )
+		if ( !this.isNonCombatsOnly() && this.request instanceof AdventureRequest )
 		{
 			// Check for dictionaries as a battle strategy, if the
 			// person is not adventuring at the chasm.
@@ -875,30 +867,14 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		if ( adventureId.equals( "123" ) && !activeEffects.contains( HYDRATED ) )
 			(new AdventureRequest( "Oasis in the Desert", "adventure.php", "122" )).run();
 
-		if ( !KoLmafia.isRunningBetweenBattleChecks() )
-		{
-			if ( KoLmafia.isAdventuring() )
-			{
-				if ( !(this.request instanceof CampgroundRequest) )
-				{
-					if ( StaticEntity.getClient().runThresholdChecks() )
-						StaticEntity.getClient().runBetweenBattleChecks( this.shouldRunFullCheck );
-				}
-			}
-			else
-			{
-				StaticEntity.getClient().runBetweenBattleChecks( false, StaticEntity.getBooleanProperty( "relayMaintainsEffects" ),
-					StaticEntity.getBooleanProperty( "relayMaintainsHealth" ), StaticEntity.getBooleanProperty( "relayMaintainsMana" ) );
-			}
-		}
-
 		// Update selected adventure information in order to
 		// keep the GUI synchronized.
 
 		if ( !StaticEntity.getProperty( "lastAdventure" ).equals( this.adventureName ) )
 		{
 			StaticEntity.setProperty( "lastAdventure", this.adventureName );
-			if ( this.shouldRunFullCheck )
+
+			if ( !this.isNonCombatsOnly() )
 			{
 				AdventureFrame.updateSelectedAdventure( this );
 				CharsheetFrame.updateSelectedAdventure( this );
@@ -1091,12 +1067,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		UseSkillRequest.revertCheckpointOutfit();
 
 		if ( shouldReset )
-		{
 			resetAutoAttack();
-
-			StaticEntity.getClient().runBetweenBattleChecks( false, StaticEntity.getBooleanProperty( "relayMaintainsEffects" ),
-				StaticEntity.getBooleanProperty( "relayMaintainsHealth" ), StaticEntity.getBooleanProperty( "relayMaintainsMana" ) );
-		}
 
 		if ( !KoLmafia.isAdventuring() )
 		{

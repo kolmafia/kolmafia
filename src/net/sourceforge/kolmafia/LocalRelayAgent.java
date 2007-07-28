@@ -225,8 +225,22 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 		{
 			AdventureRequest.handleDvoraksRevenge( this.request );
 		}
+		else if ( this.path.startsWith( "/charpane.php" ) )
+		{
+			if ( !KoLmafia.isRunningBetweenBattleChecks() && FightRequest.getActualRound() == 0 )
+			{
+				StaticEntity.getClient().runBetweenBattleChecks( false, StaticEntity.getBooleanProperty( "relayMaintainsEffects" ),
+					StaticEntity.getBooleanProperty( "relayMaintainsHealth" ), StaticEntity.getBooleanProperty( "relayMaintainsMana" ) );
+			}
+
+			this.request.run();
+		}
 		else
 		{
+			if ( !this.request.isDelayExempt() )
+				while ( KoLmafia.isRunningBetweenBattleChecks() )
+					KoLRequest.delay( 200 );
+
 			this.request.run();
 
 			if ( this.path.startsWith( "/valhalla.php" ) && this.request.responseCode == 302 )

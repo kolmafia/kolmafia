@@ -2963,7 +2963,7 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	public void runBetweenBattleChecks( boolean isFullCheck )
-	{	this.runBetweenBattleChecks( isFullCheck, isFullCheck, isFullCheck, isFullCheck );
+	{	this.runBetweenBattleChecks( isFullCheck, isFullCheck, true, isFullCheck );
 	}
 
 	public void runBetweenBattleChecks( boolean isScriptCheck, boolean isMoodCheck, boolean isHealthCheck, boolean isManaCheck )
