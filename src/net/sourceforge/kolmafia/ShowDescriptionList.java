@@ -124,7 +124,6 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		}
 
 		this.addMouseListener( new PopupListener() );
-		this.addMouseListener( new ShowDescriptionAdapter() );
 
 		this.listModel = filter == null ? listModel.getMirrorImage() : listModel.getMirrorImage( filter );
 		this.setModel( this.listModel );
@@ -239,29 +238,6 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		catch ( Exception e )
 		{
 			StaticEntity.printStackTrace( e );
-		}
-	}
-
-	/**
-	 * Shows the description of the item which was recently
-	 * double-clicked.
-	 */
-
-	private class ShowDescriptionAdapter extends MouseAdapter
-	{
-		public void mouseClicked( MouseEvent e )
-		{
-			if ( e.getClickCount() == 2 )
-			{
-				int index = ShowDescriptionList.this.locationToIndex( e.getPoint() );
-				Object item = ShowDescriptionList.this.getModel().getElementAt( index );
-
-				if ( item == null )
-					return;
-
-				ShowDescriptionList.this.ensureIndexIsVisible( index );
-				showGameDescription( item );
-			}
 		}
 	}
 
