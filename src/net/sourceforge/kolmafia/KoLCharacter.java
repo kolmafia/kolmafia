@@ -2602,10 +2602,6 @@ public abstract class KoLCharacter extends StaticEntity
 	// Effects that modify ML:
 	private static final AdventureResult ARIA = new AdventureResult( "Ur-Kel's Aria of Annoyance", 0 );
 
-	// Items that modify based on moon signs
-	private static final int JEKYLLIN = 1291;
-	private static final int GUAYABERA = 1546;
-
 	public static boolean recalculateAdjustments()
 	{
 		int taoFactor = hasSkill( "Tao of the Terrapin" ) ? 2 : 1;
@@ -2638,17 +2634,6 @@ public abstract class KoLCharacter extends StaticEntity
 
 			case SHIRT:
 				newModifiers.add( Modifiers.DAMAGE_ABSORPTION, EquipmentDatabase.getPower( item.getItemId() ) );
-				break;
-			}
-
-			switch ( item.getItemId() )
-			{
-			case GUAYABERA:
-				newModifiers.add( Modifiers.MONSTER_LEVEL, MoonPhaseDatabase.getGrimaciteEffect() );
-				break;
-
-			case JEKYLLIN:
-				newModifiers.add( Modifiers.ITEMDROP, 15 + MoonPhaseDatabase.getMoonlight() * 5 );
 				break;
 			}
 		}

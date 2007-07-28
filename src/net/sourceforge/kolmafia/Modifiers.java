@@ -114,7 +114,7 @@ public class Modifiers extends KoLDatabase
 	public static final int SPOOKY_SPELL_DAMAGE = 37;
 	public static final int STENCH_SPELL_DAMAGE = 38;
 	public static final int CRITICAL = 39;
-	public static final int FUMBLE = 41;
+	public static final int FUMBLE = 40;
 
 	private static final Object [][] floatModifiers = {
 		{ "Familiar Weight",
@@ -472,6 +472,18 @@ public class Modifiers extends KoLDatabase
 			if ( this.floats[index] < -3 )
 				this.floats[index] = -3;
 			break;
+		case  MOX_PCT:
+		case  MUS_PCT:
+		case  MYS_PCT:
+		case  HP_PCT:
+		case  MP_PCT:
+		case  SPELL_DAMAGE_PCT:
+			// Percents are multiplicative
+			double a = this.floats[index];
+			double b = mod;
+			double sum = ( ( a + 100.0 ) * ( b + 100.0 ) / 100.0 ) - 100.0;
+			this.floats[index] = (float)sum;
+			break;
 		default:
 			this.floats[index] += mod;
 			break;
@@ -549,8 +561,85 @@ public class Modifiers extends KoLDatabase
 			}
 		}
 
-		modifierMap.put( name, newMods );
+		// Some items require special handling. For now, do not save in
+		// the map, but recalculate every time they are needed.
+
+		if ( !newMods.override( name ) )
+			modifierMap.put( name, newMods );
+
 		return newMods;
+	};
+
+	// Items that modify based on moon signs
+	private static final int JEKYLLIN = 1291;
+
+	private static final int GOGGLES = 1540;
+	private static final int GLAIVE = 1541;
+	private static final int GREAVES = 1542;
+	private static final int GARTER = 1543;
+	private static final int GALOSHES = 1544;
+	private static final int GORGET = 1545;
+	private static final int GUAYABERA = 1546;
+
+	private static final int GASMASK = 2819;
+	private static final int GAT = 2820;
+	private static final int GAITERS = 2821;
+	private static final int GAUNTLETS = 2822;
+	private static final int GO_GO_BOOTS = 2823;
+	private static final int GIRDLE = 2824;
+	private static final int GOWN = 2825;
+
+	// Items that modify based on day of week
+	private static final int TUESDAYS_RUBY = 2604;
+
+	private boolean override( String name )
+	{
+		int itemId = TradeableItemDatabase.getItemId( name );
+
+		switch ( itemId )
+		{
+		case GALOSHES:
+		case GAT:
+		case GO_GO_BOOTS:
+		case GREAVES:
+			set( MOX_PCT, MoonPhaseDatabase.getGrimaciteEffect() );
+			return true;
+
+		case GAITERS:
+		case GARTER:
+		case GIRDLE:
+		case GOGGLES:
+			set( MYS_PCT, MoonPhaseDatabase.getGrimaciteEffect() );
+			return true;
+
+		case GASMASK:
+		case GAUNTLETS:
+		case GLAIVE:
+		case GORGET:
+			set( MUS_PCT, MoonPhaseDatabase.getGrimaciteEffect() );
+			return true;
+
+		case GUAYABERA:
+		case GOWN:
+			set( MONSTER_LEVEL, MoonPhaseDatabase.getGrimaciteEffect() );
+			return true;
+
+		case JEKYLLIN:
+			set( ITEMDROP, 15 + MoonPhaseDatabase.getMoonlight() * 5 );
+			return true;
+
+		case TUESDAYS_RUBY:
+			// Sunday	+5% Meat from Monsters
+			// Monday	Muscle +5%
+			// Tuesday	Regenerate 3-7 MP per adventure
+			// Wednesday	+5% Mysticality
+			// Thursday	+5% Item Drops from Monsters
+			// Friday	+5% Moxie
+			// Saturday	Regenerate 3-7 HP per adventure
+			return true;
+		}
+
+		return false;
 	};
 
 	public static final float getNumericModifier( String name, String mod )
