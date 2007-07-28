@@ -1142,24 +1142,25 @@ woolen cravat	Familiar Weight: +5
 
 # Special case overrides
 
-Grimacite gaiters	
-Grimacite galoshes	Meat Drop: +25
-Grimacite garter	Spell Damage: +15
-Grimacite gasmask	Melee Damage: +15
-Grimacite gat	Initiative: +20
-Grimacite gauntlets	Meat Drop: +30
-Grimacite girdle	Spell Damage: +20
-Grimacite glaive	Melee Damage: +15
-Grimacite go-go boots	Item Drop: +30
-Grimacite goggles	
-Grimacite gorget	Item Drop: +25
-Grimacite gown	
-Grimacite greaves	Initiative: +20
-Grimacite guayabera	
-Jekyllin hide belt	
+Grimacite gaiters	Mysticality Percent: +0
+Grimacite galoshes	Moxie Percent: +0, Meat Drop: +25
+Grimacite garter	Mysticality Percent: +0, Spell Damage: +15
+Grimacite gasmask	Muscle Percent: +0, Melee Damage: +15
+Grimacite gat	Moxie Percent: +0, Initiative: +20
+Grimacite gauntlets	Muscle Percent: +0, Meat Drop: +30
+Grimacite girdle	Mysticality Percent: +0, Spell Damage: +20
+Grimacite glaive	Muscle Percent: +0, Melee Damage: +15
+Grimacite go-go boots	Moxie Percent: +0, Item Drop: +30
+Grimacite goggles	Mysticality Percent: +0
+Grimacite gorget	Muscle Percent: +0, Item Drop: +25
+Grimacite gown	Monster Level: +0
+Grimacite greaves	Moxie Percent: +0, Initiative: +20
+Grimacite guayabera	Monster Level: +0
+Jekyllin hide belt	Muscle: +0, Mysticality: +0, Moxie: +0, Item Drop: +0
 Staff of the Greasefire	Spell Damage Percent: +35, Hot Spell Damage: +10, Sleaze Spell Damage: +10
+Talisman of Baio	Muscle Percent: +0, Mysticality Percent: +0, Moxie Percent: +0
 Travoltan trousers	Moxie: +15, Initiative: +30, Ranged Damage: +10
-Tuesday's ruby	
+Tuesday's ruby	Muscle Percent: +0, Mysticality Percent: +0, Moxie Percent: +0, Meat Drop: +0, Item Drop: +0
 bottle-rocket crossbow	Meat Drop: +15, Item Drop: +10, Moxie Percent: +15
 
 # Intrinsic Effects section of modifiers.txt
@@ -1250,6 +1251,7 @@ Engorged Weapon	Melee Damage: +10
 Enraged	Muscle Percent: +10
 Ermine Eyes	Item Drop: +5
 Erudite	Mysticality Percent: +10
+Expert Oiliness	Equalize: "Mysticality"
 Extreme Muscle Relaxation	Initiative: -50
 Extreme Muscle Relaxation	Initiative: -50, Muscle Percent: +25
 Extremely Poor Taste	Monster Level: +10
@@ -1367,6 +1369,7 @@ Sinuses For Miles	Meat Drop: +200
 Sleaze-Resistant Trousers	Sleaze Resistance: +20
 Sleazy Weapon	Sleaze Damage: +3
 Sleepy	Muscle Percent: -30
+Slippery Oiliness	Equalize: "Moxie"
 Smelly Pants	Stench Resistance: +20
 Smooth Movements	Combat Rate: -5
 Smugness	Moxie: +5
@@ -1383,6 +1386,7 @@ Spooky Weapon	Spooky Damage: +3
 Spookypants	Spooky Resistance: +20
 Springy Fusilli	Initiative: +40
 Squirming Like a Toad	Familiar Weight: +5, Moxie Percent: +10
+Stabilizing Oiliness	Equalize: "Muscle"
 Starry-Eyed	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
 Stenchtastic	Stench Damage: +10, Muscle Percent: +20, Mysticality Percent: +30, Moxie Percent: +10, Stench Resistance: +20
 Steroid Boost	Muscle: +2
@@ -1398,7 +1402,7 @@ Supafly	Sleaze Damage: +10, Muscle Percent: +15, Mysticality Percent: +15, Moxie
 Superhuman Sarcasm	Moxie Percent: +100
 Tamarind Torment	Muscle: +5, Moxie: -5
 Tangled Up	Moxie Percent: -20
-Temporary Lycanthropy
+Temporary Lycanthropy	Muscle Percent: +0
 Tenacity of the Snapper	Melee Damage: +8
 Tenuous Grip on Reality	Moxie Percent: -95
 Tetanus	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
