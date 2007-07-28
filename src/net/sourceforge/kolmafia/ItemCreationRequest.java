@@ -791,6 +791,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// all we do is parse out the ingredients which were used
 		// and then print the attempt to the screen.
 
+		int multiplier = 1;
 		boolean usesTurns = false;
 		boolean isCreationURL = false;
 
@@ -848,6 +849,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			isCreationURL = true;
 			command.append( "Pulverize " );
 			usesTurns = false;
+			multiplier = 5;
 		}
 
 		if ( !isCreationURL )
@@ -872,6 +874,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 			itemMatcher = ITEMID_PATTERN.matcher( urlString );
 		}
+
+		quantity *= multiplier;
 
 		if ( urlString.indexOf( "action=stillbooze" ) != -1 || urlString.indexOf( "action=stillfruit" ) != -1 )
 			KoLCharacter.decrementStillsAvailable( quantity );
