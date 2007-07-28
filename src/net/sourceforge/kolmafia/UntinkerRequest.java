@@ -190,20 +190,17 @@ public class UntinkerRequest extends KoLRequest
 		if ( action.indexOf( "dictionary" ) != -1 )
 			DEFAULT_SHELL.executeCommand( "set", "battleAction=attack" );
 
-		StaticEntity.getClient().makeRequest( AdventureDatabase.getAdventure( "degrassi" ), KoLCharacter.getAdventuresLeft() );
+		StaticEntity.getClient().makeRequest( AdventureDatabase.getAdventureByURL( "adventure.php?snarfblat=18" ), KoLCharacter.getAdventuresLeft() );
 		DEFAULT_SHELL.executeCommand( "set", "battleAction=" + action );
 
 		if ( !conditions.isEmpty() )
-		{
-			KoLmafia.updateDisplay( ERROR_STATE, "Unable to complete untinkerer's quest." );
-			conditions.clear();
-
-			conditions.addAll( temporary );
-			return false;
-		}
+			KoLmafia.updateDisplay( ABORT_STATE, "Unable to complete untinkerer's quest." );
 
 		conditions.clear();
 		conditions.addAll( temporary );
+
+		if ( KoLmafia.refusesContinue() )
+			return false;
 
 		// You should now have a screwdriver in your inventory.
 		// Go ahead and rerun the untinker request and you will

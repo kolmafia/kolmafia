@@ -941,7 +941,7 @@ public abstract class KoLmafia implements KoLConstants
 		// Process the adventure result through the conditions
 		// list, removing it if the condition is satisfied.
 
-		if ( result.isItem() && (result.getItemId() == HermitRequest.TRINKET.getItemId() || result.getItemId() == HermitRequest.GEWGAW.getItemId() || result.getItemId() == HermitRequest.KNICK_KNACK.getItemId()) )
+		if ( result.isItem() && HermitRequest.isWorthlessItem( result.getItemId() ) )
 			result = HermitRequest.WORTHLESS_ITEM.getInstance( result.getCount() );
 
 		int conditionIndex = conditions.indexOf( result );
@@ -1855,7 +1855,15 @@ public abstract class KoLmafia implements KoLConstants
 				{
 					if ( SewerRequest.GUM.getCount( inventory ) == 0 )
 					{
-						int stopCount = HermitRequest.WORTHLESS_ITEM.getCount( conditions );
+						int stopCount = 0;
+						AdventureResult currentCondition;
+						for ( int i = 0; i < conditions.size(); ++i )
+						{
+							currentCondition = (AdventureResult) conditions.get(i);
+							if ( currentCondition.isItem() )
+								stopCount += currentCondition.getCount();
+						}
+
 						int gumAmount = stopCount == 0 ? iterations : Math.min( stopCount, iterations );
 						if ( !AdventureDatabase.retrieveItem( SewerRequest.GUM.getInstance( gumAmount ) ) )
 							return;

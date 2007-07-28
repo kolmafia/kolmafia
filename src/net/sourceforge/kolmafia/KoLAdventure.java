@@ -508,14 +508,12 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 					temporary.addAll( conditions );
 					conditions.clear();
 
-					DEFAULT_SHELL.executeConditionsCommand( "add enchanted bean" );
-					DEFAULT_SHELL.executeLine( "adventure * beanbat" );
+					conditions.add( BEAN );
+					StaticEntity.getClient().makeRequest( AdventureDatabase.getAdventureByURL( "adventure.php?snarfblat=33" ),
+						KoLCharacter.getAdventuresLeft() );
 
 					if ( !conditions.isEmpty() )
-					{
-						KoLmafia.updateDisplay( ERROR_STATE, "Unable to complete enchanted bean quest." );
-						return;
-					}
+						KoLmafia.updateDisplay( ABORT_STATE, "Unable to complete enchanted bean quest." );
 
 					conditions.clear();
 					conditions.addAll( temporary );

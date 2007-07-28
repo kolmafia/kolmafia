@@ -1370,8 +1370,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "find" ) || command.equals( "acquire" ) || command.equals( "retrieve" ) )
 		{
-			conditions.clear();
-
 			AdventureResult item = getFirstMatchingItem( parameters );
 			if ( item != null )
 				AdventureDatabase.retrieveItem( item, true );
