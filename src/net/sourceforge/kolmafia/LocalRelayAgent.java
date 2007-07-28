@@ -225,6 +225,11 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 		{
 			AdventureRequest.handleDvoraksRevenge( this.request );
 		}
+		else if ( this.path.startsWith( "/sidepane.php" ) )
+		{
+			this.request.pseudoResponse( "HTTP/1.1 200 OK",
+				RequestEditorKit.getDisplayHTML( "charpane.php", CharpaneRequest.getInstance().responseText ) );
+		}
 		else if ( this.path.startsWith( "/charpane.php" ) )
 		{
 			if ( !KoLmafia.isRunningBetweenBattleChecks() && FightRequest.getActualRound() == 0 )
