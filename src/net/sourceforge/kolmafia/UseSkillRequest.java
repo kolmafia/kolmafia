@@ -51,6 +51,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	private static final int OTTER_TONGUE = 1007;
 	private static final int WALRUS_TONGUE = 1010;
 
+	private static boolean isOutfitCached = false;
 	public static String lastUpdate = "";
 
 	private int skillId;
@@ -262,14 +263,17 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 	public static void optimizeEquipment( int skillId )
 	{
-		if ( skillId > 2000 && skillId < 3000 )
-			prepareWeapon( TAMER_WEAPONS );
+		if ( ClassSkillsDatabase.isBuff( skillId ) )
+		{
+			if ( skillId > 2000 && skillId < 3000 )
+				prepareWeapon( TAMER_WEAPONS );
 
-		if ( skillId > 4000 && skillId < 5000 )
-			prepareWeapon( SAUCE_WEAPONS );
+			if ( skillId > 4000 && skillId < 5000 )
+				prepareWeapon( SAUCE_WEAPONS );
 
-		if ( skillId > 6000 && skillId < 7000 )
-			prepareWeapon( THIEF_WEAPONS );
+			if ( skillId > 6000 && skillId < 7000 )
+				prepareWeapon( THIEF_WEAPONS );
+		}
 
 		if ( StaticEntity.getBooleanProperty( "switchEquipmentForBuffs" ) )
 			reduceManaConsumption( skillId );
@@ -383,7 +387,11 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 		lastUpdate = "";
 
-		// Cast the skill as many times as needed
+		if ( !isOutfitCached && !KoLmafia.isRunningBetweenBattleChecks() )
+		{
+			isOutfitCached = true;
+			SpecialOutfit.createImplicitCheckpoint();
+		}
 
 		optimizeEquipment( this.skillId );
 
@@ -725,5 +733,14 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		}
 
 		return true;
+	}
+
+	public static void revertCheckpointOutfit()
+	{
+		if ( !isOutfitCached )
+			return;
+
+		isOutfitCached = false;
+		SpecialOutfit.restoreImplicitCheckpoint();
 	}
 }

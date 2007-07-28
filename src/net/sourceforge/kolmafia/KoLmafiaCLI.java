@@ -1351,9 +1351,7 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			if ( parameters.length() > 0 )
 			{
-				SpecialOutfit.createImplicitCheckpoint();
 				this.executeCastBuffRequest( parameters );
-				SpecialOutfit.restoreImplicitCheckpoint();
 				return;
 			}
 		}

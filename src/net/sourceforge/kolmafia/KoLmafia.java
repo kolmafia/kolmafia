@@ -2593,12 +2593,22 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( printing != availableSkills )
 		{
+			Object current;
 			for ( int i = 0; i < printing.size(); ++i )
 			{
-				if ( printing.get(i) == null )
+				current = printing.get(i);
+				if ( current == null )
 					continue;
 
-				buffer.append( printing.get(i).toString() );
+				buffer.append( current.toString() );
+
+				if ( current instanceof AdventureResult && ((AdventureResult)current).isItem() )
+				{
+					buffer.append( " (" );
+					buffer.append( ((AdventureResult)current).getCount() );
+					buffer.append( ")" );
+				}
+
 				buffer.append( LINE_BREAK );
 			}
 

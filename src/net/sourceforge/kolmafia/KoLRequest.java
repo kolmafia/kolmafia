@@ -310,10 +310,8 @@ public class KoLRequest extends Job implements KoLConstants
 		this.data = new ArrayList();
 		this.followRedirects = followRedirects;
 
-		this.constructURLString( formURLString );
-
-		this.isDelayExempt = this instanceof LoginRequest || this instanceof LogoutRequest ||
-			this instanceof ChatRequest || this instanceof CharpaneRequest;
+		if ( !formURLString.equals( "" ) )
+			this.constructURLString( formURLString );
 	}
 
 	public boolean isDelayExempt()
@@ -351,6 +349,9 @@ public class KoLRequest extends Job implements KoLConstants
 			this.formURLString.startsWith( "search" ) || this.formURLString.startsWith( "static" ) || this.formURLString.startsWith( "desc" ) ||
 			this.formURLString.startsWith( "show" ) || this.formURLString.startsWith( "doc" ) ||
 			(this.formURLString.startsWith( "clan" ) && !this.formURLString.startsWith( "clan_stash" ) && !this.formURLString.startsWith( "clan_rumpus" ));
+
+		this.isDelayExempt = this instanceof LoginRequest || this instanceof LogoutRequest ||
+			this.isChatRequest || this.shouldIgnoreResult || this.formURLString.startsWith( "charpane.php" );
 
 		return this;
 	}

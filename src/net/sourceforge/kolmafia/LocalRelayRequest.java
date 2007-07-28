@@ -70,9 +70,16 @@ public class LocalRelayRequest extends PasswordHashRequest
 	public String contentType = null;
 	public String statusLine = "HTTP/1.1 302 Found";
 
-	public LocalRelayRequest( String formURLString )
+	public LocalRelayRequest()
+	{	super( "" );
+	}
+
+	public KoLRequest constructURLString( String newURLString )
 	{
-		super( formURLString );
+		super.constructURLString( newURLString );
+
+		this.rawByteBuffer = null;
+		this.headers.clear();
 
 		if ( this.formURLString.endsWith( ".css" ) )
 			this.contentType = "text/css";
@@ -88,6 +95,8 @@ public class LocalRelayRequest extends PasswordHashRequest
 			this.contentType = "image/x-icon";
 		else
 			this.contentType = "text/html";
+
+		return this;
 	}
 
 	private static final boolean isJunkItem( int itemId, int price )
@@ -405,7 +414,6 @@ public class LocalRelayRequest extends PasswordHashRequest
 	{
 		this.statusLine = status;
 
-		this.headers.clear();
 		this.headers.add( "Date: " + ( new Date() ) );
 		this.headers.add( "Server: " + VERSION_NAME );
 
