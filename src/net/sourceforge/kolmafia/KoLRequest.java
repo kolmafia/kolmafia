@@ -1618,8 +1618,13 @@ public class KoLRequest extends Job implements KoLConstants
 			{
 				willIgnore = true;
 
+				// If we've already unlocked the gallery, try
+				// to unlock the second floor.
 				if ( decision.equals( "1" ) && StaticEntity.getIntegerProperty( "lastGalleryUnlock" ) == KoLCharacter.getAscensions() )
-					decision = "4";
+					decision = "99";
+
+				// If we've already unlocked the second floor,
+				// ignore this choice adventure.
 				if ( decision.equals( "99" ) && StaticEntity.getIntegerProperty( "lastSecondFloorUnlock" ) == KoLCharacter.getAscensions() )
 					decision = "4";
 			}
