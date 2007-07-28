@@ -234,9 +234,8 @@ public class AdventureRequest extends KoLRequest
 	}
 
 	private boolean canHandleElementTest( int currentLevel, boolean switchedOutfits, int element1, int element2,
-		AdventureResult effect1, AdventureResult effect2, AdventureResult desiredPhial )
+		AdventureResult effect1, AdventureResult effect2, AdventureResult phial1, AdventureResult phial2 )
 	{
-
 		float damage1 = (float) Math.pow( currentLevel, 1.52 ) / 2.0f;
 		float damage2 = damage1;
 
@@ -255,26 +254,69 @@ public class AdventureRequest extends KoLRequest
 			return KoLmafia.permitsContinue();
 		}
 
+		if ( activeEffects.contains( effect1 ) )
+		{
+			if ( 1.0f + expected2 < KoLCharacter.getCurrentHP() )
+				return true;
+
+			if ( 1.0f + expected2 < KoLCharacter.getMaximumHP() )
+			{
+				StaticEntity.getClient().recoverHP( (int) (1.0f + expected2) );
+				return KoLmafia.permitsContinue();
+			}
+
+			return false;
+		}
+
+		if ( activeEffects.contains( effect2 ) )
+		{
+			if ( 1.0f + expected1 < KoLCharacter.getCurrentHP() )
+				return true;
+
+			if ( 1.0f + expected1 < KoLCharacter.getMaximumHP() )
+			{
+				StaticEntity.getClient().recoverHP( (int) (1.0f + expected1) );
+				return KoLmafia.permitsContinue();
+			}
+
+			return false;
+		}
+
 		if ( !switchedOutfits )
 			return false;
 
-		expected1 = 1.0f;
-
-		if ( expected1 + expected2 >= KoLCharacter.getMaximumHP() )
+		if ( expected1 >= expected2 )
 		{
-			KoLmafia.updateDisplay( ABORT_STATE, "Insufficient elemental resistance." );
-			return false;
+			if ( 1.0f + expected2 >= KoLCharacter.getMaximumHP() )
+			{
+				KoLmafia.updateDisplay( ABORT_STATE, "Insufficient elemental resistance." );
+				return false;
+			}
 		}
-		else if ( !activeEffects.contains( effect1 ) && !activeEffects.contains( effect2 ) )
+		else
 		{
-			for ( int i = 0; i < ELEMENT_FORMS.length; ++i )
-				if ( activeEffects.contains( ELEMENT_FORMS[i] ) )
-					(new UneffectRequest( ELEMENT_FORMS[i] )).run();
-
-			(new ConsumeItemRequest( desiredPhial )).run();
+			if ( 1.0f + expected1 >= KoLCharacter.getMaximumHP() )
+			{
+				KoLmafia.updateDisplay( ABORT_STATE, "Insufficient elemental resistance." );
+				return false;
+			}
 		}
 
-		StaticEntity.getClient().recoverHP( (int) (expected1 + expected2) );
+		for ( int i = 0; i < ELEMENT_FORMS.length; ++i )
+			if ( activeEffects.contains( ELEMENT_FORMS[i] ) )
+				(new UneffectRequest( ELEMENT_FORMS[i] )).run();
+
+		if ( expected1 >= expected2 )
+		{
+			(new ConsumeItemRequest( phial1 )).run();
+			StaticEntity.getClient().recoverHP( (int) (1.0f + expected2) );
+		}
+		else
+		{
+			(new ConsumeItemRequest( phial2 )).run();
+			StaticEntity.getClient().recoverHP( (int) (1.0f + expected1) );
+		}
+
 		return KoLmafia.permitsContinue();
 	}
 
@@ -286,16 +328,17 @@ public class AdventureRequest extends KoLRequest
 
 		int currentLevel = StaticEntity.parseInt( levelMatcher.group(1) );
 		int element1 = -1, element2 = -1;
-		AdventureResult effect1 = null, effect2 = null;
 
-		AdventureResult desiredPhial = null;
+		AdventureResult phial1 = null, phial2 = null;
+		AdventureResult effect1 = null, effect2 = null;
 
 		if ( responseText.indexOf( "Hold your nose" ) != -1 )
 		{
 			element1 = MonsterDatabase.SLEAZE;
 			element2 = MonsterDatabase.STENCH;
 
-			desiredPhial = SLEAZE_PHIAL;
+			phial1 = SLEAZE_PHIAL;
+			phial2 = STENCH_PHIAL;
 
 			effect1 = SLEAZE_FORM;
 			effect2 = STENCH_FORM;
@@ -305,7 +348,8 @@ public class AdventureRequest extends KoLRequest
 			element1 = MonsterDatabase.COLD;
 			element2 = MonsterDatabase.SLEAZE;
 
-			desiredPhial = COLD_PHIAL;
+			phial1 = COLD_PHIAL;
+			phial2 = SLEAZE_PHIAL;
 
 			effect1 = COLD_FORM;
 			effect2 = SLEAZE_FORM;
@@ -315,7 +359,8 @@ public class AdventureRequest extends KoLRequest
 			element1 = MonsterDatabase.STENCH;
 			element2 = MonsterDatabase.HEAT;
 
-			desiredPhial = STENCH_PHIAL;
+			phial1 = STENCH_PHIAL;
+			phial2 = HOT_PHIAL;
 
 			effect1 = STENCH_FORM;
 			effect2 = HOT_FORM;
@@ -325,7 +370,8 @@ public class AdventureRequest extends KoLRequest
 			element1 = MonsterDatabase.HEAT;
 			element2 = MonsterDatabase.SPOOKY;
 
-			desiredPhial = HOT_PHIAL;
+			phial1 = HOT_PHIAL;
+			phial2 = SPOOKY_PHIAL;
 
 			effect1 = HOT_FORM;
 			effect2 = SPOOKY_FORM;
@@ -335,7 +381,8 @@ public class AdventureRequest extends KoLRequest
 			element1 = MonsterDatabase.SPOOKY;
 			element2 = MonsterDatabase.COLD;
 
-			desiredPhial = SPOOKY_PHIAL;
+			phial1 = SPOOKY_PHIAL;
+			phial2 = COLD_PHIAL;
 
 			effect1 = SPOOKY_FORM;
 			effect2 = COLD_FORM;
@@ -344,12 +391,12 @@ public class AdventureRequest extends KoLRequest
 		// If this is an elemental element check, check to see if
 		// additional elements are needed.
 
-		if ( desiredPhial != null )
+		if ( phial1 != null )
 		{
-			if ( !canHandleElementTest( currentLevel, false, element1, element2, effect1, effect2, desiredPhial ) )
+			if ( !canHandleElementTest( currentLevel, false, element1, element2, effect1, effect2, phial1, phial2 ) )
 			{
 				prepareBasementTest( "element" );
-				if ( !canHandleElementTest( currentLevel, true, element1, element2, effect1, effect2, desiredPhial ) )
+				if ( !canHandleElementTest( currentLevel, true, element1, element2, effect1, effect2, phial1, phial2 ) )
 					return;
 			}
 
