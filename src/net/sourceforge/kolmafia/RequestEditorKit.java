@@ -1466,7 +1466,28 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		changeSphereNames( buffer );
 
 		if ( StaticEntity.getBooleanProperty( "relayAddsRoundNumber" ) )
-			StaticEntity.singleStringReplace( buffer, "<b>Combat!</b>", "<b>Combat: Round " + FightRequest.getDisplayRound() + "</b>" );
+		{
+			int combatIndex = buffer.indexOf( "!</b>" );
+			if ( combatIndex != -1 )
+				buffer.insert( combatIndex, ": Round " + FightRequest.getDisplayRound() );
+		}
+
+		if ( !StaticEntity.getBooleanProperty( "relayAddsMonsterHealth" ) )
+			return;
+
+		if ( FightRequest.getMonsterHealth() <= 0 )
+			return;
+
+		int nameIndex = buffer.indexOf( "<span id='monname" );
+		if ( nameIndex == -1 )
+			return;
+
+		int combatIndex = buffer.indexOf( "</span>", nameIndex );
+		if ( combatIndex == -1 )
+			return;
+
+		buffer.insert( combatIndex + 7, "<br /><font size=2>(HP: " + FightRequest.getMonsterHealth() +
+			", Atk: " + FightRequest.getMonsterAttack() + ", Def: " + FightRequest.getMonsterDefense() + ")</font>" );
 	}
 
 	private static void addMultiuseModifiers( StringBuffer buffer )

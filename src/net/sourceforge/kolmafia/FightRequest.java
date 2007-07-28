@@ -549,7 +549,11 @@ public class FightRequest extends KoLRequest
 	}
 
 	public static int getMonsterHealth()
-	{	return monsterData.getAdjustedHP( KoLCharacter.getMonsterLevelAdjustment() ) - healthModifier;
+	{
+		if ( monsterData == null )
+			return 0;
+
+		return monsterData.getAdjustedHP( KoLCharacter.getMonsterLevelAdjustment() ) - healthModifier;
 	}
 
 	public static int getMonsterAttack()
@@ -844,7 +848,10 @@ public class FightRequest extends KoLRequest
 			// you are fighting against.
 
 			encounterLookup = CombatSettings.encounterKey( encounter );
-			monsterData = MonsterDatabase.findMonster( encounter );
+			monsterData = MonsterDatabase.findMonster( encounterLookup );
+
+			if ( monsterData == null )
+				System.out.println( encounterLookup );
 
 			isTrackingFights = false;
 			trackedRounds.clear();
@@ -1024,9 +1031,6 @@ public class FightRequest extends KoLRequest
 
 	private static void updateMonsterHealth( String responseText )
 	{
-		if ( !StaticEntity.getBooleanProperty( "logMonsterHealth" ) )
-			return;
-
 		boolean shouldLogAction = StaticEntity.getBooleanProperty( "logMonsterHealth" );
 
 		// Check if fumbled first, since that causes a special case later.
