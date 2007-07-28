@@ -2818,14 +2818,8 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			String search = "value=\"" + value + "\"";
 
 			for ( int i = 0; i < frames.length; ++i )
-			{
-				if ( !( frames[i] instanceof RequestFrame ) )
-					continue;
-
-				RequestFrame frame = (RequestFrame)frames[i];
-				if  ( frame.mainDisplay.getText().indexOf( search ) != -1 )
-				      return frame;
-			}
+				if ( frames[i] instanceof RequestFrame && ((RequestFrame)frames[i]).containsText( search ) )
+					return (RequestFrame) frames[i];
 
 			return null;
 		}

@@ -478,6 +478,10 @@ public class RequestFrame extends KoLFrame
 		}
 	}
 
+	public boolean containsText( String search )
+	{	return mainBuffer.getBuffer().indexOf( search ) != -1;
+	}
+
 	public static boolean instanceExists()
 	{	return frameCount > 0;
 	}
