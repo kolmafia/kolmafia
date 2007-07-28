@@ -980,7 +980,10 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 			AdventureResult wand = KoLCharacter.getZapper();
 			if ( wand != null )
-				StaticEntity.singleStringReplace( buffer, "]</a></font></td></tr></table></center>", "]</a>&nbsp;&nbsp;<a href=\"wand.php?whichwand=" + wand.getItemId() + "\">[zap items]</a></font></td></tr></table></center>" );
+			{
+				StaticEntity.singleStringReplace( buffer, "]</a></font></td></tr></table></center>",
+					"]</a>&nbsp;&nbsp;<a href=\"wand.php?whichwand=" + wand.getItemId() + "\">[zap items]</a></font></td></tr></table></center>" );
+			}
 
 			changeSphereImages( buffer );
 
@@ -988,6 +991,34 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			// purposes while adventuring in browser.
 
 			StaticEntity.singleStringReplace( buffer, "<input type=text name=outfitname", "<input type=text name=outfitname value=\"Backup\"" );
+
+			// Split the custom outfits from the normal outfits for
+			// easier browsing.
+
+			int selectBeginIndex = buffer.indexOf( "<option value=-" );
+			if ( selectBeginIndex != -1 )
+			{
+				int selectEndIndex = buffer.indexOf( "</select>", selectBeginIndex );
+				String outfitString = buffer.substring( selectBeginIndex, selectEndIndex );
+				buffer.delete( selectBeginIndex, selectEndIndex );
+
+				int formEndIndex = buffer.indexOf( "</form>", selectBeginIndex ) + 7;
+
+				StringBuffer customString = new StringBuffer();
+				customString.append( "<tr><td align=right><form name=outfit2 action=inv_equip.php><input type=hidden name=action value=\"outfit\"><input type=hidden name=which value=2><b>Custom:</b></td><td><select name=whichoutfit><option value=0>(select a custom outfit)</option>" );
+				customString.append( outfitString );
+				customString.append( "</select></td><td> <input class=button type=submit value=\"Dress Up!\"></form></td></tr></table>" );
+				StaticEntity.globalStringDelete( customString, "Custom: " );
+
+				buffer.insert( formEndIndex, customString.toString() );
+
+				StaticEntity.singleStringReplace( buffer, "<form name=outfit", "<table><tr><td align=right><form name=outfit" );
+				StaticEntity.singleStringReplace( buffer, "<select", "</td><td><select" );
+				StaticEntity.singleStringReplace( buffer, "</select>", "</select></td><td>" );
+				StaticEntity.singleStringReplace( buffer, "</form>", "</form></td></tr>" );
+
+				StaticEntity.globalStringReplace( buffer, "<select", "<select style=\"width: 250px\"" );
+			}
 		}
 
 		if ( StaticEntity.getBooleanProperty( "relayAddsUseLinks" ) )
