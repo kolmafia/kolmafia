@@ -62,7 +62,7 @@ public class GearChangeFrame extends KoLFrame
 	private ChangeComboBox [] equipment;
 	private SortedListModel weapons = new SortedListModel();
 	private SortedListModel offhands = new SortedListModel();
-	private ChangeComboBox outfitSelect, familiarSelect;
+	private ChangeComboBox outfitSelect, customSelect, familiarSelect;
 
 	public GearChangeFrame()
 	{
@@ -88,6 +88,7 @@ public class GearChangeFrame extends KoLFrame
 
 		this.familiarSelect = new ChangeComboBox( KoLCharacter.getFamiliarList() );
 		this.outfitSelect = new ChangeComboBox( KoLCharacter.getOutfits() );
+		this.customSelect = new ChangeComboBox( KoLCharacter.getCustomOutfits() );
 
 		this.framePanel.setLayout( new CardLayout( 10, 10 ) );
 		this.framePanel.add( new EquipPanel(), "" );
@@ -104,7 +105,7 @@ public class GearChangeFrame extends KoLFrame
 		{
 			super( "change gear", "save as outfit", new Dimension( 120, 20 ), new Dimension( 300, 20 ) );
 
-			VerifiableElement [] elements = new VerifiableElement[15];
+			VerifiableElement [] elements = new VerifiableElement[16];
 
 			elements[0] = new VerifiableElement( "Hat: ", GearChangeFrame.this.equipment[0] );
 			elements[1] = new VerifiableElement( "Weapon: ", GearChangeFrame.this.equipment[1] );
@@ -149,6 +150,7 @@ public class GearChangeFrame extends KoLFrame
 			elements[13] = new VerifiableElement();
 
 			elements[14] = new VerifiableElement( "Outfit: ", GearChangeFrame.this.outfitSelect );
+			elements[15] = new VerifiableElement( "Custom: ", GearChangeFrame.this.customSelect );
 
 			this.setContent( elements );
 			GearChangeFrame.this.outfitButton = this.cancelledButton;
@@ -239,11 +241,11 @@ public class GearChangeFrame extends KoLFrame
 		super.dispose();
 	}
 
-	private class ChangeComboBox extends JComboBox
+	private class ChangeComboBox extends MutableComboBox
 	{
 		public ChangeComboBox( LockableListModel slot )
 		{
-			super( slot );
+			super( slot, false );
 			this.setRenderer( AdventureResult.getEquipmentRenderer() );
 			this.addActionListener( new ChangeItemListener() );
 		}
@@ -259,7 +261,7 @@ public class GearChangeFrame extends KoLFrame
 				// If you're changing an outfit, then the change must
 				// occur right away.
 
-				if ( ChangeComboBox.this == GearChangeFrame.this.outfitSelect )
+				if ( ChangeComboBox.this == GearChangeFrame.this.outfitSelect || ChangeComboBox.this == GearChangeFrame.this.customSelect )
 				{
 					Object outfit = ChangeComboBox.this.getSelectedItem();
 					if ( outfit == null || !(outfit instanceof SpecialOutfit) )
