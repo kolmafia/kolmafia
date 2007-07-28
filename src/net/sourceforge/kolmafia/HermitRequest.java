@@ -42,11 +42,15 @@ public class HermitRequest extends KoLRequest
 
 	public static final AdventureResult WORTHLESS_ITEM = new AdventureResult( 13, 1 );
 
-	public static final AdventureResult PERMIT = new AdventureResult( 42, 1 );
-	public static final AdventureResult TRINKET = new AdventureResult( 43, 1 );
-	public static final AdventureResult GEWGAW = new AdventureResult( 44, 1 );
+	private static final int TRINKET_ID = 43;
+	private static final int GEWGAW_ID = 44;
+	private static final int KNICK_KNACK_ID = 45;
 
-	public static final AdventureResult KNICK_KNACK = new AdventureResult( 45, 1 );
+	public static final AdventureResult PERMIT = new AdventureResult( 42, 1 );
+
+	public static final AdventureResult TRINKET = new AdventureResult( TRINKET_ID, 1 );
+	public static final AdventureResult GEWGAW = new AdventureResult( GEWGAW_ID, 1 );
+	public static final AdventureResult KNICK_KNACK = new AdventureResult( KNICK_KNACK_ID, 1 );
 
 	private static final AdventureResult HACK_SCROLL = new AdventureResult( 567, 1 );
 	private static final AdventureResult SUMMON_SCROLL = new AdventureResult( 553, 1 );
@@ -248,6 +252,10 @@ public class HermitRequest extends KoLRequest
 		return true;
 	}
 
+	public static final boolean isWorthlessItem( int itemId )
+	{	return itemId == TRINKET_ID || itemId == GEWGAW_ID || itemId == KNICK_KNACK_ID;
+	}
+
 	private static int subtractWorthlessItems( AdventureResult item, int total )
 	{
 		int count = 0 - Math.min( total, item.getCount( inventory ) );
@@ -256,9 +264,7 @@ public class HermitRequest extends KoLRequest
 	}
 
 	public static final int getWorthlessItemCount()
-	{
-		return TRINKET.getCount( inventory ) +
-				GEWGAW.getCount( inventory ) + KNICK_KNACK.getCount( inventory );
+	{	return TRINKET.getCount( inventory ) + GEWGAW.getCount( inventory ) + KNICK_KNACK.getCount( inventory );
 	}
 
 	public static final boolean isCloverDay()

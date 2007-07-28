@@ -1319,7 +1319,7 @@ public class AdventureDatabase extends KoLDatabase
 			conditions.add( item.getInstance( missingCount ) );
 			StaticEntity.getClient().makeRequest( getAdventureByURL( "sewer.php" ), KoLCharacter.getAdventuresLeft() );
 
-			if ( HermitRequest.getWorthlessItemCount() < item.getCount() && KoLmafia.permitsContinue() )
+			if ( !conditions.isEmpty() )
 				KoLmafia.updateDisplay( ABORT_STATE, "Unable to acquire " + item.getCount() + " worthless items." );
 
 			conditions.clear();
