@@ -112,7 +112,7 @@ public class FamiliarRequest extends KoLRequest
 		// If the familiar is already wearing its default item, and the item does
 		// not give five weight, it's also probably better not to switch.
 
-		if ( this.changeTo.getItem().getName().equals( FamiliarsDatabase.getFamiliarItem( this.changeTo.getId() ) ) )
+		if ( !this.changeTo.getItem().equals( EquipmentRequest.UNEQUIP ) )
 			return;
 
 		// In all other cases, a switch is probably in order.  Go ahead and make
