@@ -36,7 +36,9 @@ package net.sourceforge.kolmafia;
 import java.io.BufferedReader;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.TreeMap;
 
 import java.util.regex.Matcher;
@@ -299,7 +301,7 @@ public class Modifiers extends KoLDatabase
                   Pattern.compile( "Intrinsic Effect: \"(.*?)\"" )
                 },
                 { "Equalize",
-                  Pattern.compile( "Equalize: (.*)" ),
+                  null,
                   Pattern.compile( "Equalize: \"(.*?)\"" )
                 },
 	};
@@ -656,13 +658,7 @@ public class Modifiers extends KoLDatabase
 			return true;
 
 		case TUESDAYS_RUBY:
-			// Sunday	+5% Meat from Monsters
-			// Monday	Muscle +5%
-			// Tuesday	Regenerate 3-7 MP per adventure
-			// Wednesday	+5% Mysticality
-			// Thursday	+5% Item Drops from Monsters
-			// Friday	+5% Moxie
-			// Saturday	Regenerate 3-7 HP per adventure
+			// Reset to defaults
 
 			set( MEATDROP, 0 );
 			set( ITEMDROP, 0 );
@@ -670,6 +666,39 @@ public class Modifiers extends KoLDatabase
 			set( MUS_PCT, 0 );
 			set( MYS_PCT, 0 );
 
+			// Set modifiers depending on what day of the week it
+			// is at the KoL servers
+
+			Calendar KoL = Calendar.getInstance( TimeZone.getTimeZone( "GMT-7" ) );
+			switch ( KoL.DAY_OF_WEEK )
+			{
+			case Calendar.SUNDAY:
+				// +5% Meat from Monsters
+				set( MEATDROP, 5 );
+				break;
+			case Calendar.MONDAY:
+				// Muscle +5%
+				set( MUS_PCT, 5 );
+				break;
+			case Calendar.TUESDAY:
+				// Regenerate 3-7 MP per adventure
+				break;
+			case Calendar.WEDNESDAY:
+				// +5% Mysticality
+				set( MYS_PCT, 5 );
+				break;
+			case Calendar.THURSDAY:
+				// +5% Item Drops from Monsters
+				set( ITEMDROP, 5 );
+				break;
+			case Calendar.FRIDAY:
+				// +5% Moxie
+				set( MOX_PCT, 5 );
+				break;
+			case Calendar.SATURDAY:
+				// Regenerate 3-7 HP per adventure
+				break;
+			}
 			return true;
 		}
 
