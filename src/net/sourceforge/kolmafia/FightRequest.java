@@ -341,13 +341,6 @@ public class FightRequest extends KoLRequest
 
 			int itemCount = (new AdventureResult( item1, 1 )).getCount( inventory );
 
-			if ( (item1 == DICTIONARY1.getItemId() || item1 == DICTIONARY2.getItemId()) && itemCount < 1 )
-			{
-				KoLmafia.updateDisplay( ABORT_STATE, "You don't have a dictionary." );
-				action1 = "abort";
-				return;
-			}
-
 			if ( itemCount == 0 )
 			{
 				item1 = item2;
@@ -359,6 +352,23 @@ public class FightRequest extends KoLRequest
 				{
 					action1 = "attack";
 					this.addFormField( "action", action1 );
+					return;
+				}
+			}
+
+			if ( (item1 == DICTIONARY1.getItemId() || item1 == DICTIONARY2.getItemId()) )
+			{
+				if ( itemCount < 1 )
+				{
+					KoLmafia.updateDisplay( ABORT_STATE, "You don't have a dictionary." );
+					action1 = "abort";
+					return;
+				}
+
+				if ( encounterLookup.equals( "rampaging adding machine" ) )
+				{
+					KoLmafia.updateDisplay( ABORT_STATE, "Dictionaries do not work against adding machines." );
+					action1 = "abort";
 					return;
 				}
 			}
