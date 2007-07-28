@@ -65,6 +65,9 @@
 # Jekyllin hide belt
 #	All Attributes +X
 #	+Y% Item Drops from Monsters
+#
+# Talisman of Baio
+# 	All Attributes Increase with Moonlight
 
 # Hats section of modifiers.txt
 
