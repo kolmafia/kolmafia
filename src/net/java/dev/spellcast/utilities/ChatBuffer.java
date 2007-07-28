@@ -93,8 +93,7 @@ import javax.swing.text.html.HTMLDocument;
 
 public class ChatBuffer
 {
-	private static final Object REFRESH_OBJECT = new Object();
-
+	private boolean shouldReset = false;
 	private DisplayPaneUpdater UPDATER = new DisplayPaneUpdater();
 	private DisplayQueueHandler HANDLER = new DisplayQueueHandler();
 
@@ -326,9 +325,7 @@ public class ChatBuffer
 		public void queueClear()
 		{
 			displayBuffer.setLength(0);
-
-			contentQueue.clear();
-			contentQueue.add( REFRESH_OBJECT );
+			shouldReset = true;
 
 			if ( this.isQueued )
 				return;
@@ -342,23 +339,21 @@ public class ChatBuffer
 		{
 			if ( newContents == null )
 			{
-				contentQueue.clear();
-				contentQueue.add( REFRESH_OBJECT );
+				shouldReset = true;
 			}
 			else if ( newContents.indexOf( "<body" ) != -1 )
 			{
-				contentQueue.clear();
-
 				displayBuffer.setLength(0);
 				displayBuffer.append( newContents.substring( newContents.indexOf( ">" ) + 1 ).trim() );
-
-				contentQueue.add( REFRESH_OBJECT );
+				shouldReset = true;
 			}
 			else
 			{
 				newContents = newContents.trim();
 				displayBuffer.append( newContents );
-				contentQueue.add( newContents );
+
+				if ( !shouldReset )
+					contentQueue.add( newContents );
 			}
 
 			if ( this.isQueued )
@@ -408,21 +403,22 @@ public class ChatBuffer
 			if ( displayPanes.isEmpty() )
 			{
 				contentQueue.clear();
+				shouldReset = false;
 				UPDATER.handlingFinished();
+
 				return;
 			}
 
-			while ( !contentQueue.isEmpty() )
+			while ( shouldReset || !contentQueue.isEmpty() )
 			{
-				this.newContents = contentQueue.remove(0);
-
-				if ( newContents == REFRESH_OBJECT )
+				if ( shouldReset )
 				{
 					contentQueue.clear();
 					reset();
 				}
 				else
 				{
+					this.newContents = contentQueue.remove(0);
 					append();
 				}
 			}
@@ -435,6 +431,8 @@ public class ChatBuffer
 		{
 			this.resetText = header + "<style>" + BUFFER_STYLE + "</style></head><body>" +
 				displayBuffer.toString() + "</body></html>";
+
+			shouldReset = false;
 
 			for ( int i = 0; i < displayPanes.size(); ++i )
 			{
