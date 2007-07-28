@@ -287,6 +287,7 @@ public class Modifiers extends KoLDatabase
 
 	public static final int CLASS = 0;
 	public static final int INTRINSIC_EFFECT = 1;
+	public static final int EQUALIZE = 2;
 
         private static final Object [][] stringModifiers = {
                 { "Class",
@@ -296,6 +297,10 @@ public class Modifiers extends KoLDatabase
                 { "Intrinsic Effect",
                   Pattern.compile( "Intrinsic effect: (.*)" ),
                   Pattern.compile( "Intrinsic Effect: \"(.*?)\"" )
+                },
+                { "Equalize",
+                  Pattern.compile( "Equalize: (.*)" ),
+                  Pattern.compile( "Equalize: \"(.*?)\"" )
                 },
 	};
 
@@ -347,11 +352,13 @@ public class Modifiers extends KoLDatabase
 		return -1;
 	};
 
-        private float[] floats;
-        private String[] strings;
+	private boolean variable;
+	private float[] floats;
+	private String[] strings;
 
 	public Modifiers()
 	{
+		this.variable = false;
 		this.floats = new float[ FLOAT_MODIFIERS ];
 		this.strings = new String[ STRING_MODIFIERS ];
 		reset();
@@ -522,7 +529,12 @@ public class Modifiers extends KoLDatabase
 			return null;
 
 		if ( modifier instanceof Modifiers )
-			return (Modifiers)modifier;
+		{
+			Modifiers mods = (Modifiers)modifier;
+			if ( mods.variable )
+				mods.override( name );
+			return mods;
+		}
 
 		if ( !( modifier instanceof String ) )
 			return null;
@@ -561,16 +573,14 @@ public class Modifiers extends KoLDatabase
 			}
 		}
 
-		// Some items require special handling. For now, do not save in
-		// the map, but recalculate every time they are needed.
-
-		if ( !newMods.override( name ) )
-			modifierMap.put( name, newMods );
+		newMods.variable = newMods.override( name );
+		modifierMap.put( name, newMods );
 
 		return newMods;
 	};
 
 	// Items that modify based on moon signs
+	private static final int BAIO = 877;
 	private static final int JEKYLLIN = 1291;
 
 	private static final int GOGGLES = 1540;
@@ -594,6 +604,12 @@ public class Modifiers extends KoLDatabase
 
 	private boolean override( String name )
 	{
+		if ( name.equalsIgnoreCase( "Temporary Lycanthropy" ) )
+		{
+			set( MUS_PCT, MoonPhaseDatabase.getBloodEffect() );
+			return true;
+		}
+
 		int itemId = TradeableItemDatabase.getItemId( name );
 
 		switch ( itemId )
@@ -624,8 +640,19 @@ public class Modifiers extends KoLDatabase
 			set( MONSTER_LEVEL, MoonPhaseDatabase.getGrimaciteEffect() );
 			return true;
 
+		case BAIO:
+			int mod = MoonPhaseDatabase.getBaioEffect();
+			set( MOX_PCT, mod );
+			set( MUS_PCT, mod );
+			set( MYS_PCT, mod );
+			return true;
+
 		case JEKYLLIN:
-			set( ITEMDROP, 15 + MoonPhaseDatabase.getMoonlight() * 5 );
+			int moonlight = MoonPhaseDatabase.getMoonlight();
+			set( MOX, 9 - moonlight );
+			set( MUS, 9 - moonlight );
+			set( MYS, 9 - moonlight );
+			set( ITEMDROP, 15 + moonlight * 5 );
 			return true;
 
 		case TUESDAYS_RUBY:
@@ -636,6 +663,13 @@ public class Modifiers extends KoLDatabase
 			// Thursday	+5% Item Drops from Monsters
 			// Friday	+5% Moxie
 			// Saturday	Regenerate 3-7 HP per adventure
+
+			set( MEATDROP, 0 );
+			set( ITEMDROP, 0 );
+			set( MOX_PCT, 0 );
+			set( MUS_PCT, 0 );
+			set( MYS_PCT, 0 );
+
 			return true;
 		}
 
