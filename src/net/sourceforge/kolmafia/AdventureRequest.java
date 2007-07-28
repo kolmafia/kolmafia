@@ -403,13 +403,16 @@ public class AdventureRequest extends KoLRequest
 			}
 			else if ( this.responseText.indexOf( "Run the Gauntlet Gauntlet" ) != -1 )
 			{
-				if ( KoLCharacter.getMaximumHP() < drainRequirement )
+				float damageAbsorb = 1.0f - (( ((float) Math.sqrt( KoLCharacter.getDamageAbsorption() / 10.0f )) - 1.0f ) / 10.0f);
+				float healthRequirement = drainRequirement * damageAbsorb;
+
+				if ( KoLCharacter.getMaximumHP() < healthRequirement )
 				{
 					prepareBasementTest( "gauntlet" );
-					if ( KoLCharacter.getMaximumHP() < drainRequirement )
+					if ( KoLCharacter.getMaximumHP() < healthRequirement )
 						KoLmafia.updateDisplay( ABORT_STATE, "Insufficient health to continue." );
 
-					StaticEntity.getClient().recoverHP( (int) drainRequirement );
+					StaticEntity.getClient().recoverHP( (int) healthRequirement );
 				}
 			}
 
