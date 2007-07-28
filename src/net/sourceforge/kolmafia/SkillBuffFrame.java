@@ -55,6 +55,7 @@ public class SkillBuffFrame extends KoLFrame
 	public SkillBuffFrame( String recipient )
 	{
 		super( "Skill Casting" );
+		this.setDefaultCloseOperation( HIDE_ON_CLOSE );
 
 		this.framePanel.add( new SkillBuffPanel(), BorderLayout.NORTH );
 
@@ -65,13 +66,13 @@ public class SkillBuffFrame extends KoLFrame
 		this.tabs.addTab( "Recovery Items", new RestorativeItemPanel() );
 
 		this.framePanel.add( this.tabs, BorderLayout.CENTER );
-
-		if ( !recipient.equals( "" ) )
-			this.setRecipient( recipient );
+		this.setRecipient( recipient );
 	}
 
 	public void setRecipient( String recipient )
-	{	this.targetSelect.setText( recipient );
+	{
+		if ( !recipient.equals( "" ) )
+			this.targetSelect.setText( recipient );
 	}
 
 	private class SkillReselector implements ListSelectionListener
