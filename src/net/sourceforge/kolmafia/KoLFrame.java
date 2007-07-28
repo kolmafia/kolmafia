@@ -338,10 +338,6 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	{	return false;
 	}
 
-	public void constructToolbar()
-	{
-	}
-
 	public JToolBar getToolbar()
 	{
 		JToolBar toolbarPanel = null;

@@ -228,7 +228,7 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 		catch ( Exception e )
 		{
-			//should not happen.  Therefore, print
+			// Should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
 			StaticEntity.printStackTrace( e );
@@ -397,17 +397,7 @@ public class KoLmafiaGUI extends KoLmafia
 				RequestThread.closeRequestSequence();
 			}
 
-			try
-			{
-				(new CreateFrameRunnable( frameClass )).run();
-			}
-			catch ( Exception e )
-			{
-				// Should not happen.  Therefore, print
-				// a stack trace for debug purposes.
-
-				StaticEntity.printStackTrace( e );
-			}
+			(new CreateFrameRunnable( frameClass )).run();
 		}
 	}
 

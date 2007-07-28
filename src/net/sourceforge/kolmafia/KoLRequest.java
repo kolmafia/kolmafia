@@ -651,10 +651,9 @@ public class KoLRequest extends Job implements KoLConstants
 
 		if ( this.needsRefresh || this.statusChanged )
 		{
+			CharpaneRequest.getInstance().run();
 			if ( RequestFrame.instanceExists() )
 				RequestFrame.refreshStatus();
-			else
-				CharpaneRequest.getInstance().run();
 		}
 		else if ( this.formURLString.startsWith( "charpane.php" ) )
 		{

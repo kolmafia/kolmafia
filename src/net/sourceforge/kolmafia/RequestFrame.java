@@ -57,6 +57,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class RequestFrame extends KoLFrame
 {
+	private static int frameCount = 0;
 	private static final int HISTORY_LIMIT = 4;
 	private static final Pattern IMAGE_PATTERN = Pattern.compile( "http://images\\.kingdomofloathing\\.com/[^\\s\"\'>]+" );
 
@@ -65,8 +66,6 @@ public class RequestFrame extends KoLFrame
 	private ArrayList shownHTML = new ArrayList();
 
 	private String currentLocation;
-	private KoLRequest currentRequest;
-
 	private LimitedSizeChatBuffer mainBuffer;
 	private LimitedSizeChatBuffer sideBuffer;
 
@@ -87,6 +86,7 @@ public class RequestFrame extends KoLFrame
 	public RequestFrame( String title )
 	{
 		super( title );
+		++frameCount;
 
 		this.mainDisplay = new RequestPane();
 		this.mainDisplay.addHyperlinkListener( new KoLHyperlinkAdapter() );
@@ -97,82 +97,7 @@ public class RequestFrame extends KoLFrame
 		// Game text descriptions and player searches should not add
 		// extra requests to the server by having a side panel.
 
-		if ( !this.hasSideBar() )
-		{
-			this.sideBuffer = null;
-
-			JComponentUtilities.setComponentSize( mainScroller, 400, 300 );
-			this.framePanel.setLayout( new BorderLayout() );
-			this.framePanel.add( mainScroller, BorderLayout.CENTER );
-		}
-		else
-		{
-			this.sideDisplay = new RequestPane();
-			this.sideDisplay.addHyperlinkListener( new KoLHyperlinkAdapter() );
-
-			this.sideBuffer = new LimitedSizeChatBuffer( false );
-			JScrollPane sideScroller = this.sideBuffer.setChatDisplay( this.sideDisplay );
-			JComponentUtilities.setComponentSize( sideScroller, 150, 450 );
-
-			JSplitPane horizontalSplit = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, true, sideScroller, mainScroller );
-			horizontalSplit.setOneTouchExpandable( true );
-			JComponentUtilities.setComponentSize( horizontalSplit, 600, 450 );
-
-			// Add the standard locations handled within the
-			// mini-browser, including inventory, character
-			// information, skills and account setup.
-
-			this.functionSelect = new BrowserComboBox();
-			this.functionSelect.addItem( new BrowserComboBoxItem( "- Select -", "" ) );
-
-			for ( int i = 0; i < FUNCTION_MENU.length; ++i )
-				this.functionSelect.addItem( new BrowserComboBoxItem( FUNCTION_MENU[i][0], FUNCTION_MENU[i][1] ) );
-
-			// Add the browser "goto" menu, because people
-			// are familiar with seeing this as well.  But,
-			// place it all inside of a "travel" menu.
-
-			this.gotoSelect = new BrowserComboBox();
-			this.gotoSelect.addItem( new BrowserComboBoxItem( "- Select -", "" ) );
-			for ( int i = 0; i < GOTO_MENU.length; ++i )
-				this.gotoSelect.addItem( new BrowserComboBoxItem( GOTO_MENU[i][0], GOTO_MENU[i][1] ) );
-
-			JPanel topMenu = new JPanel();
-			topMenu.setOpaque( true );
-			topMenu.setBackground( Color.white );
-
-			topMenu.add( new JLabel( "Function:" ) );
-			topMenu.add( this.functionSelect );
-			topMenu.add( new JLabel( "Go To:" ) );
-			topMenu.add( this.gotoSelect );
-			topMenu.add( Box.createHorizontalStrut( 20 ) );
-
-			RequestEditorKit.downloadImage( "http://images.kingdomofloathing.com/itemimages/smoon" + MoonPhaseDatabase.getRonaldPhase() + ".gif" );
-			RequestEditorKit.downloadImage( "http://images.kingdomofloathing.com/itemimages/smoon" + MoonPhaseDatabase.getGrimacePhase() + ".gif" );
-
-			topMenu.add( new JLabel( JComponentUtilities.getImage( "itemimages/smoon" + MoonPhaseDatabase.getRonaldPhase() + ".gif" ) ) );
-			topMenu.add( new JLabel( JComponentUtilities.getImage( "itemimages/smoon" + MoonPhaseDatabase.getGrimacePhase() + ".gif" ) ) );
-
-			topMenu.add( Box.createHorizontalStrut( 20 ) );
-
-			this.scriptSelect = new JComboBox();
-			String [] scriptList = StaticEntity.getProperty( "scriptList" ).split( " \\| " );
-			for ( int i = 0; i < scriptList.length; ++i )
-				this.scriptSelect.addItem( (i+1) + ": " + scriptList[i] );
-
-			topMenu.add( this.scriptSelect );
-			topMenu.add( new ExecuteScriptButton() );
-
-			this.functionSelect.setSelectedIndex( 0 );
-			this.gotoSelect.setSelectedIndex( 0 );
-
-			JPanel container = new JPanel( new BorderLayout() );
-			container.add( topMenu, BorderLayout.NORTH );
-			container.add( horizontalSplit, BorderLayout.CENTER );
-
-			this.framePanel.setLayout( new BorderLayout() );
-			this.framePanel.add( container, BorderLayout.CENTER );
-		}
+		constructSideBar( mainScroller );
 
 		// Add toolbar pieces so that people can quickly
 		// go to locations they like.
@@ -191,16 +116,85 @@ public class RequestFrame extends KoLFrame
 
 		GoButton button = new GoButton();
 		toolbarPanel.add( button );
-
-		// If this has a side bar, then it will need to be notified
-		// whenever there are updates to the player status.
-
-		if ( this.hasSideBar() )
-			refreshStatus();
 	}
 
-	public JTabbedPane getTabbedPane()
-	{	return null;
+	private void constructSideBar( JScrollPane mainScroller )
+	{
+		if ( !this.hasSideBar() )
+		{
+			this.sideBuffer = null;
+
+			JComponentUtilities.setComponentSize( mainScroller, 400, 300 );
+			this.framePanel.setLayout( new BorderLayout() );
+			this.framePanel.add( mainScroller, BorderLayout.CENTER );
+		}
+
+		this.sideDisplay = new RequestPane();
+		this.sideDisplay.addHyperlinkListener( new KoLHyperlinkAdapter() );
+
+		this.sideBuffer = new LimitedSizeChatBuffer( false );
+		JScrollPane sideScroller = this.sideBuffer.setChatDisplay( this.sideDisplay );
+		JComponentUtilities.setComponentSize( sideScroller, 150, 450 );
+
+		JSplitPane horizontalSplit = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, true, sideScroller, mainScroller );
+		horizontalSplit.setOneTouchExpandable( true );
+		JComponentUtilities.setComponentSize( horizontalSplit, 600, 450 );
+
+		// Add the standard locations handled within the
+		// mini-browser, including inventory, character
+		// information, skills and account setup.
+
+		this.functionSelect = new BrowserComboBox();
+		this.functionSelect.addItem( new BrowserComboBoxItem( "- Select -", "" ) );
+
+		for ( int i = 0; i < FUNCTION_MENU.length; ++i )
+			this.functionSelect.addItem( new BrowserComboBoxItem( FUNCTION_MENU[i][0], FUNCTION_MENU[i][1] ) );
+
+		// Add the browser "goto" menu, because people
+		// are familiar with seeing this as well.  But,
+		// place it all inside of a "travel" menu.
+
+		this.gotoSelect = new BrowserComboBox();
+		this.gotoSelect.addItem( new BrowserComboBoxItem( "- Select -", "" ) );
+		for ( int i = 0; i < GOTO_MENU.length; ++i )
+			this.gotoSelect.addItem( new BrowserComboBoxItem( GOTO_MENU[i][0], GOTO_MENU[i][1] ) );
+
+		JPanel topMenu = new JPanel();
+		topMenu.setOpaque( true );
+		topMenu.setBackground( Color.white );
+
+		topMenu.add( new JLabel( "Function:" ) );
+		topMenu.add( this.functionSelect );
+		topMenu.add( new JLabel( "Go To:" ) );
+		topMenu.add( this.gotoSelect );
+		topMenu.add( Box.createHorizontalStrut( 20 ) );
+
+		RequestEditorKit.downloadImage( "http://images.kingdomofloathing.com/itemimages/smoon" + MoonPhaseDatabase.getRonaldPhase() + ".gif" );
+		RequestEditorKit.downloadImage( "http://images.kingdomofloathing.com/itemimages/smoon" + MoonPhaseDatabase.getGrimacePhase() + ".gif" );
+
+		topMenu.add( new JLabel( JComponentUtilities.getImage( "itemimages/smoon" + MoonPhaseDatabase.getRonaldPhase() + ".gif" ) ) );
+		topMenu.add( new JLabel( JComponentUtilities.getImage( "itemimages/smoon" + MoonPhaseDatabase.getGrimacePhase() + ".gif" ) ) );
+
+		topMenu.add( Box.createHorizontalStrut( 20 ) );
+
+		this.scriptSelect = new JComboBox();
+		String [] scriptList = StaticEntity.getProperty( "scriptList" ).split( " \\| " );
+		for ( int i = 0; i < scriptList.length; ++i )
+			this.scriptSelect.addItem( (i+1) + ": " + scriptList[i] );
+
+		topMenu.add( this.scriptSelect );
+		topMenu.add( new ExecuteScriptButton() );
+
+		this.functionSelect.setSelectedIndex( 0 );
+		this.gotoSelect.setSelectedIndex( 0 );
+
+		JPanel container = new JPanel( new BorderLayout() );
+		container.add( topMenu, BorderLayout.NORTH );
+		container.add( horizontalSplit, BorderLayout.CENTER );
+
+		this.framePanel.setLayout( new BorderLayout() );
+		this.framePanel.add( container, BorderLayout.CENTER );
+		this.refreshStatus();
 	}
 
 	private class BrowserComboBox extends JComboBox
@@ -285,24 +279,19 @@ public class RequestFrame extends KoLFrame
 	public void refresh( KoLRequest request )
 	{
 		if ( removedFrames.contains( this ) )
-		{
 			removedFrames.remove( this );
-			this.setVisible( true );
-		}
 
 		if ( !existingFrames.contains( this ) )
 			existingFrames.add( this );
 
-		this.setCurrentRequest( request );
 		this.displayRequest( request );
-	}
 
-	private void setCurrentRequest( KoLRequest request )
-	{	this.currentRequest = request;
+		if ( !this.isVisible() && StaticEntity.getGlobalProperty( "initialDesktop" ).indexOf( getFrameName() ) == -1 )
+			this.setVisible( true );
 	}
 
 	public String getDisplayHTML( String responseText )
-	{	return RequestEditorKit.getDisplayHTML( this.currentRequest.getURLString(), responseText );
+	{	return RequestEditorKit.getDisplayHTML( this.currentLocation, responseText );
 	}
 
 	/**
@@ -315,14 +304,6 @@ public class RequestFrame extends KoLFrame
 			return;
 
 		this.currentLocation = request.getURLString();
-
-		if ( request instanceof FightRequest )
-		{
-			request = new KoLRequest( this.currentLocation );
-			request.responseText = FightRequest.INSTANCE.responseText;
-		}
-
-		this.currentRequest = request;
 		this.mainBuffer.clearBuffer();
 
 		if ( request.responseText == null || request.responseText.length() == 0 )
@@ -478,18 +459,14 @@ public class RequestFrame extends KoLFrame
 
 	public static void refreshStatus()
 	{
-		RequestThread.postRequest( CharpaneRequest.getInstance() );
-		refreshStatus( CharpaneRequest.getInstance().responseText );
-	}
-
-	private static void refreshStatus( String responseText )
-	{
-		if ( responseText == null )
+		if ( CharpaneRequest.getInstance().responseText == null )
 			return;
 
 		KoLFrame [] frames = StaticEntity.getExistingFrames();
 		if ( frames == null )
 			return;
+
+		String displayHTML = RequestEditorKit.getDisplayHTML( "charpane.php", CharpaneRequest.getInstance().responseText );
 
 		for ( int i = 0; i < frames.length; ++i )
 		{
@@ -497,25 +474,17 @@ public class RequestFrame extends KoLFrame
 				continue;
 
 			((RequestFrame)frames[i]).sideBuffer.clearBuffer();
-			((RequestFrame)frames[i]).sideBuffer.append( RequestEditorKit.getDisplayHTML( "charpane.php", responseText ) );
+			((RequestFrame)frames[i]).sideBuffer.append( displayHTML );
 		}
 	}
 
 	public static boolean instanceExists()
-	{
-		KoLFrame [] frames = StaticEntity.getExistingFrames();
-		if ( frames == null )
-			return false;
-
-		for ( int i = 0; i < frames.length; ++i )
-			if ( frames[i] != null && frames[i] instanceof RequestFrame && ((RequestFrame)frames[i]).sideBuffer != null )
-				return true;
-
-		return false;
+	{	return frameCount > 0;
 	}
 
 	public void dispose()
 	{
+		--frameCount;
 		this.history.clear();
 		this.shownHTML.clear();
 		super.dispose();
