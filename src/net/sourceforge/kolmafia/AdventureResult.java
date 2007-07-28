@@ -225,10 +225,10 @@ public class AdventureResult implements Comparable, KoLConstants
 
 	public void normalizeItemName()
 	{
+		this.priority = ITEM_PRIORITY;
 		if ( this.name.equals( "(none)" ) || this.name.equals( "-select an item-" ) )
 			return;
 
-		this.priority = ITEM_PRIORITY;
 		this.itemId = TradeableItemDatabase.getItemId( this.name, this.count[0] );
 
 		if ( this.itemId > 0 )
@@ -459,7 +459,6 @@ public class AdventureResult implements Comparable, KoLConstants
 		if ( this.priority != ITEM_PRIORITY )
 			return this.name + " (" + COMMA_FORMAT.format(this.count[0]) + ")";
 
-		String effect;
 		switch ( this.itemId )
 		{
 		case ConsumeItemRequest.MILKY_POTION:
@@ -472,19 +471,17 @@ public class AdventureResult implements Comparable, KoLConstants
 		case ConsumeItemRequest.DARK_POTION:
 		case ConsumeItemRequest.MURKY_POTION:
 
-			String potion = ConsumeItemRequest.bangPotionName( this.itemId, this.name );
-			return potion + " (" + COMMA_FORMAT.format(this.count[0]) + ")";
+			return ConsumeItemRequest.bangPotionName( this.itemId, this.name );
 
 		case FightRequest.MOSSY_STONE_SPHERE:
 		case FightRequest.SMOOTH_STONE_SPHERE:
 		case FightRequest.CRACKED_STONE_SPHERE:
 		case FightRequest.ROUGH_STONE_SPHERE:
 
-			String sphere = FightRequest.stoneSphereName( this.itemId, this.name );
-			return sphere + " (" + COMMA_FORMAT.format(this.count[0]) + ")";
+			return FightRequest.stoneSphereName( this.itemId, this.name );
 
 		default:
-			return this.name + " (" + COMMA_FORMAT.format(this.count[0]) + ")";
+			return this.name;
 		}
 	}
 
@@ -1026,13 +1023,11 @@ public class AdventureResult implements Comparable, KoLConstants
 
 	public AdventureResult getNegation()
 	{
-		// Allow for negation of substats as well.
-
 		if ( this.isItem() )
-			return new AdventureResult( this.itemId, 0 - this.getCount() );
+			return this.count[0] == 0 ? this : new AdventureResult( this.itemId, 0 - this.count[0] );
 
 		else if ( this.isStatusEffect() )
-			return new AdventureResult( this.name, 0 - this.getCount(), true );
+			return this.count[0] == 0 ? this : new AdventureResult( this.name, 0 - this.count[0], true );
 
 		int [] newcount = new int[ this.count.length ];
 		for ( int i = 0; i < this.count.length; ++i )
@@ -1043,9 +1038,13 @@ public class AdventureResult implements Comparable, KoLConstants
 
 	public AdventureResult getInstance( int quantity )
 	{
-		return this.isItem() ? new AdventureResult( this.name, quantity, false ) :
-			this.isStatusEffect() ? new AdventureResult( this.name, quantity, true ) :
-				new AdventureResult( this.name, quantity );
+		if ( this.isItem() )
+			return this.count[0] == quantity ? this : new AdventureResult( this.name, quantity, false );
+
+		if ( this.isStatusEffect() )
+			return this.count[0] == quantity ? this : new AdventureResult( this.name, quantity, true );
+
+		return new AdventureResult( this.name, quantity );
 	}
 
 	public AdventureResult getInstance( int [] quantity )

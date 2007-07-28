@@ -61,7 +61,7 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 	private LocalRelayRequest request;
 
 	public LocalRelayAgent( int id )
-	{
+	{	this.request = new LocalRelayRequest();
 	}
 
 	boolean isWaiting()
@@ -115,7 +115,6 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 		this.path = null;
 		this.reader = null;
 		this.writer = null;
-		this.request = null;
 
 		try
 		{
@@ -148,7 +147,7 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 		int spaceIndex = requestLine.indexOf( " " );
 
 		this.path = requestLine.substring( spaceIndex, requestLine.lastIndexOf( " " ) ).trim();
-		this.request = new LocalRelayRequest( this.path );
+		this.request.constructURLString( this.path );
 
 		String currentLine;
 

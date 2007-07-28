@@ -931,6 +931,8 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 		if ( matchingLocation != null )
 		{
+			UseSkillRequest.revertCheckpointOutfit();
+
 			matchingLocation.recordToSession();
 			String locationId = matchingLocation.adventureId;
 
@@ -1088,8 +1090,15 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		if ( urlString.indexOf( "?" ) == -1 )
 			return true;
 
+		UseSkillRequest.revertCheckpointOutfit();
+
 		if ( shouldReset )
+		{
 			resetAutoAttack();
+
+			StaticEntity.getClient().runBetweenBattleChecks( false, StaticEntity.getBooleanProperty( "relayMaintainsEffects" ),
+				StaticEntity.getBooleanProperty( "relayMaintainsHealth" ), StaticEntity.getBooleanProperty( "relayMaintainsMana" ) );
+		}
 
 		if ( !KoLmafia.isAdventuring() )
 		{
