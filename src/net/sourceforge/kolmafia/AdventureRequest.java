@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia;
 
+import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
@@ -195,6 +196,43 @@ public class AdventureRequest extends KoLRequest
 
 	private static final Pattern BASEMENT_PATTERN = Pattern.compile( "Level ([\\d,]+)" );
 
+	private void prepareBasementTest( String name )
+	{
+		boolean foundMatch = false;
+
+		Object currentTest;
+		String currentTestString;
+
+		List available = MoodSettings.getAvailableMoods();
+		for ( int i = 0; i < available.size() && !foundMatch; ++i )
+		{
+			currentTest = available.get(i);
+			currentTestString = currentTest.toString().toLowerCase();
+
+			if ( currentTestString.indexOf( name ) != -1 )
+			{
+				foundMatch = true;
+				MoodSettings.setMood( currentTestString );
+			}
+		}
+
+		if ( foundMatch )
+			MoodSettings.execute();
+
+		available = KoLCharacter.getCustomOutfits();
+		for ( int i = 0; i < available.size() && !foundMatch; ++i )
+		{
+			currentTest = available.get(i);
+			currentTestString = currentTest.toString().toLowerCase();
+
+			if ( currentTestString.indexOf( name ) != -1 )
+			{
+				RequestThread.postRequest( new EquipmentRequest( (SpecialOutfit) currentTest ) );
+				return;
+			}
+		}
+	}
+
 	private void handleBasement()
 	{
 		Matcher levelMatcher = BASEMENT_PATTERN.matcher( responseText );
@@ -263,6 +301,8 @@ public class AdventureRequest extends KoLRequest
 
 		if ( desiredPhial != null )
 		{
+			prepareBasementTest( "element" );
+
 			float damage1 = (float) Math.pow( currentLevel, 1.52 ) / 2.0f;
 			float damage2 = damage1;
 
@@ -301,26 +341,30 @@ public class AdventureRequest extends KoLRequest
 			// Stat tests check.  If you fail, do not bother
 			// submitting the request.
 
-			float drainRequirement = (float) Math.pow( currentLevel, 1.5 );
-			float statRequirement = (float) Math.pow( currentLevel, 1.4 );
+			float drainRequirement = (float) Math.pow( currentLevel, 1.52 );
+			float statRequirement = (float) Math.pow( currentLevel, 1.52 );
 
 			if ( this.responseText.indexOf( "Lift 'em" ) != -1 || this.responseText.indexOf( "Push It Real Good" ) != -1 || this.responseText.indexOf( "Ring That Bell" ) != -1 )
 			{
+				prepareBasementTest( "muscle" );
 				if ( KoLCharacter.getAdjustedMuscle() < statRequirement )
 					KoLmafia.updateDisplay( ABORT_STATE, "Insufficient muscle to continue." );
 			}
 			else if ( this.responseText.indexOf( "Gathering: The Magic" ) != -1 || this.responseText.indexOf( "Mop the Floor with the Mops" ) != -1 || this.responseText.indexOf( "Do away with the 'doo" ) != -1 )
 			{
+				prepareBasementTest( "mysticality" );
 				if ( KoLCharacter.getAdjustedMysticality() < statRequirement )
 					KoLmafia.updateDisplay( ABORT_STATE, "Insufficient mysticality to continue." );
 			}
 			else if ( this.responseText.indexOf( "Don't Wake the Baby" ) != -1 || this.responseText.indexOf( "Grab a cue" ) != -1 || this.responseText.indexOf( "Put on the Smooth Moves" ) != -1 )
 			{
+				prepareBasementTest( "moxie" );
 				if ( KoLCharacter.getAdjustedMoxie() < statRequirement )
 					KoLmafia.updateDisplay( ABORT_STATE, "Insufficient moxie to continue." );
 			}
 			else if ( this.responseText.indexOf( "Grab the Handles" ) != -1 )
 			{
+				prepareBasementTest( "mpdrain" );
 				if ( KoLCharacter.getMaximumMP() < drainRequirement )
 					KoLmafia.updateDisplay( ABORT_STATE, "Insufficient mana to continue." );
 
@@ -328,6 +372,7 @@ public class AdventureRequest extends KoLRequest
 			}
 			else if ( this.responseText.indexOf( "Run the Gauntlet Gauntlet" ) != -1 )
 			{
+				prepareBasementTest( "gauntlet" );
 				if ( KoLCharacter.getMaximumHP() < drainRequirement )
 					KoLmafia.updateDisplay( ABORT_STATE, "Insufficient health to continue." );
 
