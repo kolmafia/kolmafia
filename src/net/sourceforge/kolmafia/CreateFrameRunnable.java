@@ -81,6 +81,12 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 
 	public void run()
 	{
+		if ( this.creator == null )
+		{
+			KoLmafia.updateDisplay( ERROR_STATE, this.creationType.getName() + " could not be loaded" );
+			return;
+		}
+
 		if ( !SwingUtilities.isEventDispatchThread() )
 		{
 			try
@@ -98,20 +104,30 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			}
 		}
 
+		try
+		{
+			createFrame();
+		}
+		catch ( Exception e )
+		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+
+			StaticEntity.printStackTrace( e,  this.creationType.getName() + " could not be loaded" );
+			return;
+		}
+	}
+
+	public void createFrame()
+	{
 		// If there is no creation creation, then return
 		// from the method because there's nothing to do.
 
-		if ( this.creator == null )
-		{
-			KoLmafia.updateDisplay( ERROR_STATE, "Frame could not be loaded." );
-			return;
-		}
+		String tabSetting = StaticEntity.getGlobalProperty( "initialDesktop" );
+		String searchString = this.creationType.toString();
+		searchString = searchString.substring( searchString.lastIndexOf( "." ) + 1 );
 
-		String tabSetting = "," + StaticEntity.getGlobalProperty( "initialDesktop" ) + ",";
-		String searchString = ChatFrame.class.isAssignableFrom( this.creationType ) ? "KoLMessenger" :
-			KoLFrame.class.isAssignableFrom( this.creationType ) ? this.creationType.toString().substring( this.creationType.toString().lastIndexOf( "." ) + 1 ) : "...";
-
-		boolean appearsInTab = KoLFrame.class.isAssignableFrom( this.creationType ) && tabSetting.indexOf( searchString ) != -1;
+		boolean appearsInTab = tabSetting.indexOf( searchString ) != -1;
 
 		if ( !this.loadPreviousFrame() )
 		{
@@ -205,20 +221,16 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 
 		try
 		{
-			if ( this.creation == null )
-				this.creation = (JFrame) this.creator.newInstance( this.parameters );
+			this.creation = (JFrame) this.creator.newInstance( this.parameters );
 		}
 		catch ( Exception e )
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e,  this.creationType.getName() + " could not be loaded" );
+			StaticEntity.printStackTrace( e, this.creationType.getName() + " could not be loaded" );
 			return;
 		}
-
-		if ( this.creationType == RequestFrame.class )
-			appearsInTab &= ((RequestFrame)this.creation).hasSideBar();
 
 		if ( appearsInTab )
 			return;
@@ -231,7 +243,6 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 		{
 			if ( this.creation instanceof KoLFrame )
 			{
-				((KoLFrame)this.creation).constructToolbar();
 				if ( ((KoLFrame)this.creation).useSidePane() )
 					((KoLFrame)this.creation).addCompactPane();
 			}
