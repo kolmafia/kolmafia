@@ -1184,7 +1184,6 @@ Temporary Blindness	Mox%: -25, Item: -75
 # Status Effects section of modifiers.txt
 
 "The Disease"	Moxie: -5
-# Sticky Hands	
 A Little Bit Poisoned	Muscle Percent: -30, Mysticality Percent: -30, Moxie Percent: -30, Muscle: -5, Mysticality: -5, Moxie: -5
 Adrenaline Rush	Muscle Percent: +100
 Aloysius' Antiphon of Aptitude	Experience +3
@@ -1255,7 +1254,6 @@ Enraged	Muscle Percent: +10
 Ermine Eyes	Item Drop: +5
 Erudite	Mysticality Percent: +10
 Expert Oiliness	Equalize: "Mysticality"
-Extreme Muscle Relaxation	Initiative: -50
 Extreme Muscle Relaxation	Initiative: -50, Muscle Percent: +25
 Extremely Poor Taste	Monster Level: +10
 Eye of the Lihc	Spooky Resistance: +10
@@ -1395,10 +1393,10 @@ Stenchtastic	Stench Damage: +10, Muscle Percent: +20, Mysticality Percent: +30, 
 Steroid Boost	Muscle: +2
 Stevedave's Shanty of Superiority	Moxie Percent: +10, Muscle Percent: +10, Mysticality Percent: +10
 Sticky Fingers	Meat Drop: +20
+# Sticky Hands	
 Stinky Weapon	Stench Damage: +3
 Strange Mental Acuity	Mysticality Percent: +25
 Strength of Ten Ettins	Muscle Percent: +25
-Sugar Rush	Initiative: +20
 Sugar Rush:	Initiative: +20, Muscle Percent: +5, Mysticality Percent: -10, Moxie Percent: +5
 Sunburned	Muscle: -2, Moxie: -2
 Supafly	Sleaze Damage: +10, Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +30, Sleaze Resistance: +20
