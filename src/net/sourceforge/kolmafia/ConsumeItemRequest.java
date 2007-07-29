@@ -418,9 +418,13 @@ public class ConsumeItemRequest extends KoLRequest
 		// Make sure the player does not overdrink if they still
 		// have PvP attacks remaining.
 
-		if ( KoLCharacter.getAttacksLeft() > 0 && KoLCharacter.getInebriety() + inebrietyBonus > KoLCharacter.getInebrietyLimit() )
-			if ( !KoLFrame.confirm( "Are you sure you want to overdrink without PvPing?" ) )
+		if ( KoLCharacter.getInebriety() + inebrietyBonus > KoLCharacter.getInebrietyLimit() )
+		{
+			if ( KoLCharacter.getAttacksLeft() > 0 && !KoLFrame.confirm( "Are you sure you want to overdrink without PvPing?" ) )
 				return false;
+			else if ( KoLCharacter.getAdventuresLeft() > 40 && !KoLFrame.confirm( "Are you sure you want to overdrink?" ) )
+				return false;
+		}
 
 		return true;
 	}
