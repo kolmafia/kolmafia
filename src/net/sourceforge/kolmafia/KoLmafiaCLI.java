@@ -3139,40 +3139,45 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeCastBuffRequest( String parameters )
 	{
-		String [] splitParameters = parameters.replaceFirst( " [oO][nN] ", " => " ).split( " => " );
+		String [] buffs = parameters.split( "\\s*,\\s*" );
 
-		if ( splitParameters.length == 1 )
+		for ( int i = 0; i < buffs.length; ++i )
 		{
-			splitParameters = new String[2];
-			splitParameters[0] = parameters;
-			splitParameters[1] = null;
+			String [] splitParameters = buffs[i].replaceFirst( " [oO][nN] ", " => " ).split( " => " );
+
+			if ( splitParameters.length == 1 )
+			{
+				splitParameters = new String[2];
+				splitParameters[0] = buffs[i];
+				splitParameters[1] = null;
+			}
+
+			String [] buffParameters = this.splitCountAndName( splitParameters[0] );
+			String buffCountString = buffParameters[0];
+			String skillNameString = buffParameters[1];
+
+			String skillName = getUsableSkillName( skillNameString );
+			if ( skillName == null )
+			{
+				updateDisplay( "You don't have a skill matching \"" + parameters + "\"" );
+				return;
+			}
+
+			int buffCount = 1;
+
+			if ( buffCountString != null && buffCountString.equals( "*" ) )
+				buffCount = 0;
+			else if ( buffCountString != null )
+				buffCount = StaticEntity.parseInt( buffCountString );
+
+			if ( isExecutingCheckOnlyCommand )
+			{
+				RequestLogger.printLine( skillName + " (x" + buffCount + ")" );
+				return;
+			}
+
+			RequestThread.postRequest( UseSkillRequest.getInstance( skillName, splitParameters[1], buffCount ) );
 		}
-
-		String [] buffParameters = this.splitCountAndName( splitParameters[0] );
-		String buffCountString = buffParameters[0];
-		String skillNameString = buffParameters[1];
-
-		String skillName = getUsableSkillName( skillNameString );
-		if ( skillName == null )
-		{
-			updateDisplay( "You don't have a skill matching \"" + parameters + "\"" );
-			return;
-		}
-
-		int buffCount = 1;
-
-		if ( buffCountString != null && buffCountString.equals( "*" ) )
-			buffCount = 0;
-		else if ( buffCountString != null )
-			buffCount = StaticEntity.parseInt( buffCountString );
-
-		if ( isExecutingCheckOnlyCommand )
-		{
-			RequestLogger.printLine( skillName + " (x" + buffCount + ")" );
-			return;
-		}
-
-		RequestThread.postRequest( UseSkillRequest.getInstance( skillName, splitParameters[1], buffCount ) );
 	}
 
 	private String [] splitCountAndName( String parameters )
