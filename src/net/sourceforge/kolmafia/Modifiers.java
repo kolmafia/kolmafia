@@ -117,6 +117,10 @@ public class Modifiers extends KoLDatabase
 	public static final int STENCH_SPELL_DAMAGE = 38;
 	public static final int CRITICAL = 39;
 	public static final int FUMBLE = 40;
+	public static final int HP_REGEN_MIN = 41;
+	public static final int HP_REGEN_MAX = 42;
+	public static final int MP_REGEN_MIN = 43;
+	public static final int MP_REGEN_MAX = 44;
 
 	private static final Object [][] floatModifiers = {
 		{ "Familiar Weight",
@@ -283,22 +287,48 @@ public class Modifiers extends KoLDatabase
 		  Pattern.compile( "(\\d+)x chance of Fumble" ),
 		  Pattern.compile( "Fumble: ([+-]\\d+)" )
 		},
+		{ "HP Regen Min",
+		  null,
+		  Pattern.compile( "HP Regen Min: ([+-]\\d+)" )
+		},
+		{ "HP Regen Max",
+		  null,
+		  Pattern.compile( "HP Regen Max: ([+-]\\d+)" )
+		},
+		{ "MP Regen Min",
+		  null,
+		  Pattern.compile( "MP Regen Min: ([+-]\\d+)" )
+		},
+		{ "MP Regen Max",
+		  null,
+		  Pattern.compile( "MP Regen Max: ([+-]\\d+)" )
+		},
 	};
 
 	public static final int FLOAT_MODIFIERS = floatModifiers.length;
 
 	public static final int SOFTCORE = 0;
 	public static final int SINGLE = 1;
+	public static final int NEVER_FUMBLE = 2;
+	public static final int WEAKENS = 3;
 
         private static final Object [][] booleanModifiers = {
-                { "Softcore Only",
-                  Pattern.compile( "This item cannot be equipped while in Hardcore" ),                  
-                  Pattern.compile( "Softcore Only" )
-                },
-                { "Single Equip",
-                  null,
-                  Pattern.compile( "Single Equip" )
-                },
+		{ "Softcore Only",
+		  Pattern.compile( "This item cannot be equipped while in Hardcore" ),
+		  Pattern.compile( "Softcore Only" )
+		},
+		{ "Single Equip",
+		  null,
+		  Pattern.compile( "Single Equip" )
+		},
+		{ "Never Fumble",
+		  Pattern.compile( "Never Fumble" ),
+		  Pattern.compile( "Never Fumble" )
+		},
+		{ "Weakens Monster",
+		  Pattern.compile( "Successful hit weakens opponent" ),
+		  Pattern.compile( "Weakens Monster" )
+		},
 	};
 
 	public static final int BOOLEAN_MODIFIERS = booleanModifiers.length;
@@ -361,6 +391,11 @@ public class Modifiers extends KoLDatabase
 
 	private static final String HP_TAG = modifierName( floatModifiers, HP ) + ": ";
 	private static final String MP_TAG = modifierName( floatModifiers, MP ) + ": ";
+
+	private static final String HP_REGEN_MIN_TAG = modifierName( floatModifiers, HP_REGEN_MIN ) + ": ";
+	private static final String HP_REGEN_MAX_TAG = modifierName( floatModifiers, HP_REGEN_MAX ) + ": ";
+	private static final String MP_REGEN_MIN_TAG = modifierName( floatModifiers, MP_REGEN_MIN ) + ": ";
+	private static final String MP_REGEN_MAX_TAG = modifierName( floatModifiers, MP_REGEN_MAX ) + ": ";
 
 	private static int findName( Object [][] table, String name )
 	{
@@ -567,11 +602,18 @@ public class Modifiers extends KoLDatabase
 		if ( !type.equals( "" ) && !type.equals( KoLCharacter.getClassType() ) )
 			return;
 
+		// Add in the float modifiers
+
 		float [] addition = mods.floats;
 
 		for ( int i = 0; i < this.floats.length; ++i )
 			if ( addition[i] != 0.0f )
 				add( i, addition[i] );
+
+		// OR in certain boolean modifiers
+
+		booleans[ NEVER_FUMBLE ] |= mods.booleans[ NEVER_FUMBLE ];
+		booleans[ WEAKENS ] |= mods.booleans[ WEAKENS ];
 
 		// If the item provides an intrinsic effect, add it in
 		add( getModifiers( mods.getString( INTRINSIC_EFFECT ) ) );
@@ -738,6 +780,10 @@ public class Modifiers extends KoLDatabase
 			set( MOX_PCT, 0 );
 			set( MUS_PCT, 0 );
 			set( MYS_PCT, 0 );
+			set( HP_REGEN_MIN, 0 );
+			set( HP_REGEN_MAX, 0 );
+			set( MP_REGEN_MIN, 0 );
+			set( MP_REGEN_MAX, 0 );
 
 			// Set modifiers depending on what day of the week it
 			// is at the KoL servers
@@ -755,6 +801,8 @@ public class Modifiers extends KoLDatabase
 				break;
 			case Calendar.TUESDAY:
 				// Regenerate 3-7 MP per adventure
+				set( MP_REGEN_MIN, 3 );
+				set( MP_REGEN_MAX, 7 );
 				break;
 			case Calendar.WEDNESDAY:
 				// +5% Mysticality
@@ -770,6 +818,8 @@ public class Modifiers extends KoLDatabase
 				break;
 			case Calendar.SATURDAY:
 				// Regenerate 3-7 HP per adventure
+				set( HP_REGEN_MIN, 3 );
+				set( HP_REGEN_MAX, 7 );
 				break;
 			}
 			return true;
@@ -939,6 +989,9 @@ public class Modifiers extends KoLDatabase
 			return HP_TAG + mod + ", " + MP_TAG + mod;
 		}
 
+		if ( enchantment.indexOf( "Regenerate" ) != -1 )
+			return parseRegeneration( enchantment );
+
 		if ( enchantment.indexOf( "Resistance" ) != -1 )
 			return parseResistance( enchantment );
 
@@ -964,6 +1017,36 @@ public class Modifiers extends KoLDatabase
 		}
 
 		return null;
+	}
+
+	private static final Pattern REGEN_PATTERN = Pattern.compile( "Regenerate (\\d*)-?(\\d*)? ([HM]P)( and .*)? per [aA]dventure$" );
+
+	private static String parseRegeneration( String enchantment )
+	{
+		Matcher matcher = REGEN_PATTERN.matcher( enchantment );
+		if ( !matcher.find() )
+			return null;
+
+		String min = matcher.group(1);
+		String max = matcher.group(2) == null ? min : matcher.group(2);
+		boolean hp = matcher.group(3).equals( "HP" );
+		boolean both = matcher.group(4) != null;
+
+		if ( max.equals( "" ) )
+			max = min;
+
+		if ( both )
+			return	HP_REGEN_MIN_TAG + min + ", " +
+				HP_REGEN_MAX_TAG + max + ", " +
+				MP_REGEN_MIN_TAG + min + ", " +
+				MP_REGEN_MAX_TAG + max;
+
+		if ( hp )
+			return	HP_REGEN_MIN_TAG + min + ", " +
+				HP_REGEN_MAX_TAG + max;
+
+		return	MP_REGEN_MIN_TAG + min + ", " +
+			MP_REGEN_MAX_TAG + max;
 	}
 
 	private static String parseResistance( String enchantment )
