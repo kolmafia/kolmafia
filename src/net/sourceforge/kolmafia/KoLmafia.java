@@ -566,6 +566,7 @@ public abstract class KoLmafia implements KoLConstants
 		StaticEntity.setProperty( "breakfastCompleted", "false" );
 
 		StaticEntity.setProperty( "currentFullness", "0" );
+		StaticEntity.setProperty( "currentMojoFilters", "0" );
 		StaticEntity.setProperty( "currentSpleenUse", "0" );
 		StaticEntity.setProperty( "currentPvpVictories", "" );
 

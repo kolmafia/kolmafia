@@ -122,6 +122,7 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int COBBS_KNOB_MAP = 2442;
 	private static final int JEWELRY_BOOK = 2502;
 	private static final int ABSINTHE = 2655;
+	private static final int MOJO_FILTER = 2614;
 	private static final int LIBRARY_CARD = 2672;
 
 	private static final int GIFT1 = 1167;
@@ -216,6 +217,9 @@ public class ConsumeItemRequest extends KoLRequest
 	{
 		if ( itemId <= 0 )
 			return Integer.MAX_VALUE;
+
+		if ( itemId == MOJO_FILTER )
+			return Math.max( 0, 3 - StaticEntity.getIntegerProperty( "currentMojoFilters" ) );
 
 		Integer key = new Integer( itemId );
 
@@ -1218,6 +1222,25 @@ public class ConsumeItemRequest extends KoLRequest
 
 			if ( responseText.indexOf( "You acquire a skill" ) != -1 )
 				KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "Spleen of Steel" ) );
+			return;
+
+		case MOJO_FILTER:
+
+			// You strain some of the toxins out of your mojo, and discard
+			// the now-grodulated filter.
+
+			if ( responseText.indexOf( "now-grodulated" ) == -1 )
+			{
+				StaticEntity.getClient().processResult( lastItemUsed );
+				return;
+			}
+
+			StaticEntity.setProperty( "currentMojoFilters",
+				String.valueOf( StaticEntity.getIntegerProperty( "currentMojoFilters" ) + lastItemUsed.getCount() ) );
+
+			StaticEntity.setProperty( "currentSpleenUse", String.valueOf( Math.max( 0,
+				StaticEntity.getIntegerProperty( "currentSpleenUse" ) - lastItemUsed.getCount() ) ) );
+
 			return;
 
 		case MILKY_POTION:
