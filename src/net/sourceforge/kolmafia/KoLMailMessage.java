@@ -59,7 +59,6 @@ public class KoLMailMessage implements Comparable
 		this.completeHTML = this.completeHTML.substring( this.completeHTML.indexOf( ">" ) + 1,
 			this.completeHTML.indexOf( "reply</a>]" ) + 10 ) + this.completeHTML.substring( this.completeHTML.indexOf( "<br>" ) );
 
-
 		this.messageId = message.substring( message.indexOf( "name=" ) + 6, message.indexOf( "\">" ) );
 		StringTokenizer messageParser = new StringTokenizer( message, "<>" );
 
@@ -69,6 +68,8 @@ public class KoLMailMessage implements Comparable
 
 		this.senderId = lastToken.substring( lastToken.indexOf( "who=" ) + 4, lastToken.length() - 1 );
 		this.senderName = messageParser.nextToken();
+
+		KoLmafia.registerPlayer( senderName, senderId );
 
 		while ( !messageParser.nextToken().startsWith( "Date" ) );
 		messageParser.nextToken();
@@ -114,7 +115,7 @@ public class KoLMailMessage implements Comparable
 	public String getMessageId()
 	{	return this.messageId;
 	}
-	
+
 	public Date getTimestamp()
 	{	return this.timestamp;
 	}
