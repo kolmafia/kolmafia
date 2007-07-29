@@ -688,7 +688,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 				return;
 
 			lastVisitedLocation = this;
-			StaticEntity.getClient().runBetweenBattleChecks( this.isNonCombatsOnly() );
+			StaticEntity.getClient().runBetweenBattleChecks( !this.isNonCombatsOnly() );
 
 			if ( !KoLmafia.permitsContinue() )
 				return;
@@ -859,6 +859,8 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 	public void recordToSession()
 	{
 		lastVisitedLocation = this;
+		UseSkillRequest.revertCheckpointOutfit();
+
 		this.updateAutoAttack();
 
 		// Run between-combat scripts here to avoid potential
@@ -905,8 +907,6 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 		if ( matchingLocation != null )
 		{
-			UseSkillRequest.revertCheckpointOutfit();
-
 			matchingLocation.recordToSession();
 			String locationId = matchingLocation.adventureId;
 
