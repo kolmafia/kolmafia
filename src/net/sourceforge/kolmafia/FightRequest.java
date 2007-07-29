@@ -423,13 +423,6 @@ public class FightRequest extends KoLRequest
 		// Skills use MP. Make sure the character has enough
 		if ( KoLCharacter.getCurrentMP() < getActionCost() && passwordHash != null )
 		{
-			if ( this.isAcceptable( 0, 0 ) )
-			{
-				action1 = "attack";
-				this.addFormField( "action", action1 );
-				return;
-			}
-
 			for ( int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i )
 			{
 				if ( MPRestoreItemList.CONFIGURES[i].isCombatUsable() && inventory.contains( MPRestoreItemList.CONFIGURES[i].getItem() ) )
