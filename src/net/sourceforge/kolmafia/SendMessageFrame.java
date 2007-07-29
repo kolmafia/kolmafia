@@ -67,10 +67,6 @@ public class SendMessageFrame extends KoLFrame
 	public ItemManagePanel storagePanel;
 
 	public SendMessageFrame()
-	{	this( "" );
-	}
-
-	public SendMessageFrame( String recipient )
 	{
 		super( "Send a Message" );
 		this.setDefaultCloseOperation( HIDE_ON_CLOSE );
@@ -207,14 +203,20 @@ public class SendMessageFrame extends KoLFrame
 
 		this.framePanel.setLayout( new CardLayout( 10, 10 ) );
 		this.framePanel.add( this.tabs, "" );
+	}
 
+	public SendMessageFrame( String recipient )
+	{
+		this();
 		this.setRecipient( recipient );
 	}
 
 	public void setRecipient( String recipient )
 	{
-		if ( !recipient.equals( "" ) )
+		if ( recipient.equals( "" ) )
 			return;
+
+		recipient = KoLmafia.getPlayerName( recipient );
 
 		this.recipientEntry.addItem( recipient );
 		this.recipientEntry.getEditor().setItem( recipient );
