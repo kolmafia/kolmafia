@@ -859,8 +859,6 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 	public void recordToSession()
 	{
 		lastVisitedLocation = this;
-		UseSkillRequest.revertCheckpointOutfit();
-
 		this.updateAutoAttack();
 
 		// Run between-combat scripts here to avoid potential
@@ -1063,8 +1061,6 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 		if ( urlString.indexOf( "?" ) == -1 )
 			return true;
-
-		UseSkillRequest.revertCheckpointOutfit();
 
 		if ( shouldReset )
 			resetAutoAttack();
