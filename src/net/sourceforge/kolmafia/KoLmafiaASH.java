@@ -3813,20 +3813,17 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { SKILL_TYPE, STRING_TYPE  };
 		result.addElement( new ScriptExistingFunction( "numeric_modifier", FLOAT_TYPE, params ) );
 
-		params = new ScriptType[] { ITEM_TYPE, STRING_TYPE  };
+		params = new ScriptType[] { STRING_TYPE  };
 		result.addElement( new ScriptExistingFunction( "boolean_modifier", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] { ITEM_TYPE, STRING_TYPE  };
-		result.addElement( new ScriptExistingFunction( "string_modifier", STRING_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "boolean_modifier", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] { ITEM_TYPE, STRING_TYPE  };
 		result.addElement( new ScriptExistingFunction( "effect_modifier", EFFECT_TYPE, params ) );
 
 		params = new ScriptType[] { ITEM_TYPE, STRING_TYPE  };
 		result.addElement( new ScriptExistingFunction( "class_modifier", CLASS_TYPE, params ) );
-
-		params = new ScriptType[] { EFFECT_TYPE, STRING_TYPE  };
-		result.addElement( new ScriptExistingFunction( "string_modifier", STRING_TYPE, params ) );
 
 		params = new ScriptType[] { EFFECT_TYPE, STRING_TYPE  };
 		result.addElement( new ScriptExistingFunction( "stat_modifier", STAT_TYPE, params ) );
@@ -6091,18 +6088,17 @@ public class KoLmafiaASH extends StaticEntity
 			return new ScriptValue( Modifiers.getNumericModifier( name, mod ) );
 		}
 
+		public ScriptValue boolean_modifier( ScriptVariable modifier )
+		{
+			String mod = modifier.toStringValue().toString();
+			return new ScriptValue( KoLCharacter.currentBooleanModifier( mod ) );
+		}
+
 		public ScriptValue boolean_modifier( ScriptVariable arg, ScriptVariable modifier )
 		{
 			String name = arg.toStringValue().toString();
 			String mod = modifier.toStringValue().toString();
 			return new ScriptValue( Modifiers.getBooleanModifier( name, mod ) );
-		}
-
-		public ScriptValue string_modifier( ScriptVariable arg, ScriptVariable modifier )
-		{
-			String name = arg.toStringValue().toString();
-			String mod = modifier.toStringValue().toString();
-			return new ScriptValue( Modifiers.getStringModifier( name, mod ) );
 		}
 
 		public ScriptValue effect_modifier( ScriptVariable arg, ScriptVariable modifier )

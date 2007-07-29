@@ -1042,6 +1042,10 @@ public abstract class KoLCharacter extends StaticEntity
 	{	return currentModifiers.get( name );
 	}
 
+	public static boolean currentBooleanModifier( String name )
+	{	return currentModifiers.getBoolean( name );
+	}
+
 	/**
 	 * Accessor method to retrieve the total current monster level
 	 * adjustment
