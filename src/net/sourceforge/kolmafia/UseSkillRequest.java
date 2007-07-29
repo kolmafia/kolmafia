@@ -262,7 +262,9 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 	public static void optimizeEquipment( int skillId )
 	{
-		if ( ClassSkillsDatabase.isBuff( skillId ) )
+		boolean isBuff = ClassSkillsDatabase.isBuff( skillId );
+
+		if ( isBuff )
 		{
 			if ( skillId > 2000 && skillId < 3000 )
 				prepareWeapon( TAMER_WEAPONS );
@@ -274,8 +276,8 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 				prepareWeapon( THIEF_WEAPONS );
 		}
 
-		if ( StaticEntity.getBooleanProperty( "switchEquipmentForBuffs" ) && !KoLCharacter.canInteract() )
-			reduceManaConsumption( skillId );
+		if ( !KoLCharacter.canInteract() && StaticEntity.getBooleanProperty( "switchEquipmentForBuffs" ) )
+			reduceManaConsumption( skillId, isBuff );
 	}
 
 	private static boolean isValidSwitch( int slotId )
@@ -313,9 +315,15 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		return -1;
 	}
 
-	private static void reduceManaConsumption( int skillId )
+	private static void reduceManaConsumption( int skillId, boolean isBuff )
 	{
-		if ( skillId > 1000 && skillId != 6014 && ClassSkillsDatabase.isBuff( skillId ) && inventory.contains( WIZARD_HAT ) )
+		// Never bother trying to reduce mana consumption when casting
+		// ode to booze.
+
+		if ( skillId == 6014 )
+			return;
+
+		if ( isBuff && inventory.contains( WIZARD_HAT ) )
 			(new EquipmentRequest( WIZARD_HAT, KoLCharacter.HAT )).run();
 
 		// First determine which slots are available for switching in

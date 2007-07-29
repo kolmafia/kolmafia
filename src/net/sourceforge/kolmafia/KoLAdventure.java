@@ -838,21 +838,25 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			return;
 		}
 
+		if ( attack.startsWith( "attack" ) )
+		{
+			DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=" + attack );
+			changedAutoAttack = StaticEntity.getProperty( "defaultAutoAttack" );
+			return;
+		}
+
 		// If it's not a generic class skill (it's id is something
 		// non-standard), then don't update auto-attack.
 
-		if ( !attack.startsWith( "attack" ) )
-		{
-			int skillId = ClassSkillsDatabase.getSkillId( attack.substring(6).trim() );
+		int skillId = ClassSkillsDatabase.getSkillId( attack.substring(6).trim() );
 
-			if ( skillId < 1000 || skillId > 7000 )
-			{
-				resetAutoAttack();
-				return;
-			}
+		if ( skillId < 1000 || skillId > 7000 )
+		{
+			resetAutoAttack();
+			return;
 		}
 
-		DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=" + attack );
+		DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=" + skillId );
 		changedAutoAttack = StaticEntity.getProperty( "defaultAutoAttack" );
 	}
 
