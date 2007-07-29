@@ -51,7 +51,6 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	private static final int OTTER_TONGUE = 1007;
 	private static final int WALRUS_TONGUE = 1010;
 
-	private static boolean isOutfitCached = false;
 	public static String lastUpdate = "";
 
 	private int skillId;
@@ -275,7 +274,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 				prepareWeapon( THIEF_WEAPONS );
 		}
 
-		if ( StaticEntity.getBooleanProperty( "switchEquipmentForBuffs" ) )
+		if ( StaticEntity.getBooleanProperty( "switchEquipmentForBuffs" ) && !KoLCharacter.canInteract() )
 			reduceManaConsumption( skillId );
 	}
 
@@ -386,13 +385,6 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			return;
 
 		lastUpdate = "";
-
-		if ( !isOutfitCached && !KoLmafia.isRunningBetweenBattleChecks() )
-		{
-			isOutfitCached = true;
-			SpecialOutfit.createImplicitCheckpoint();
-		}
-
 		optimizeEquipment( this.skillId );
 
 		if ( !KoLmafia.permitsContinue() )
@@ -733,14 +725,5 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		}
 
 		return true;
-	}
-
-	public static void revertCheckpointOutfit()
-	{
-		if ( !isOutfitCached )
-			return;
-
-		isOutfitCached = false;
-		SpecialOutfit.restoreImplicitCheckpoint();
 	}
 }
