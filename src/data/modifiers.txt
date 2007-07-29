@@ -84,7 +84,7 @@ Dolphin King's crown	Moxie: +2, Muscle: +2, Mysticality: +2
 Dyspepsi-Cola helmet	Damage Absorption: +10
 El Sombrero De Lopez	Moxie: +7, Class: "Accordion Thief"
 Elder Turtle Shell	Muscle: +7, Class: "Turtle Tamer"
-Grimacite gasmask	Melee Damage: +15
+# Grimacite gasmask
 # Grimacite goggles
 # Kentucky-style derby
 Knob Goblin elite helm	Muscle: +3
@@ -116,11 +116,11 @@ black helmet	Maximum HP: +30
 blue traffic cone	Moxie: +3, Hot Resistance: +20
 bounty-hunting helmet	Item Drop: +20
 bowler	Muscle: +5
-bubblewrap bottlecap turtleban	Mysticality: +3, Maximum MP: +5
+bubblewrap bottlecap turtleban	Mysticality: +3, Maximum MP: +5, MP Regen Min: 2, MP Regen Max: 3
 # bugbear beanie
 bum cheek	Stench Resistance: +10
 catskin cap	Muscle: +9, Maximum HP: +40
-chef's hat	Mysticality: +2
+chef's hat	Mysticality: +2, MP Regen Min: 1, MP Regen Max: 1
 chrome helmet turtle	Moxie: +5, Muscle: +5, Mysticality: +5
 clockwork hat	Spooky Resistance: +10
 clown wig	Mysticality: +3, Spell Damage: +3
@@ -178,7 +178,7 @@ pail	Damage Absorption: +10
 # pentacorn hat
 pimpin' meat hat	Muscle: +2, Moxie: +2
 pixel hat	Moxie: +2, Muscle: +2, Mysticality: +2
-plexiglass pith helmet	Familiar Weight: +5, Muscle Percent: +30
+plexiglass pith helmet	Familiar Weight: +5, HP Regen Min: 10, HP Regen Max: 12, MP Regen Min: 10, MP Regen Max: 12, Muscle Percent: +30
 raspberry beret	Hot Resistance: +20
 # ravioli hat
 red traffic cone	Moxie: +3, Cold Resistance: +20
@@ -201,7 +201,7 @@ wolf mask	Intrinsic Effect: "Complete Delusion"
 wool hat	Damage Absorption: +20, Cold Resistance: +20
 worn tophat	Moxie: +7, Initiative: +20
 wreath of laurels	Muscle: +25, Maximum HP: +25, Maximum MP: +25
-# yak toupee
+yak toupee	MP Regen Min: 3, MP Regen Max: 4
 # yellow plastic hard hat
 yellow traffic cone	Moxie: +3, Sleaze Resistance: +20
 
@@ -217,7 +217,7 @@ Crimbo pants	Initiative: +30
 Danglin' Chad's loincloth	Sleaze Damage: +25, Moxie: -10
 Dyspepsi-Cola fatigues	Mysticality: +3
 # Grimacite gaiters
-Grimacite greaves	Initiative: +20
+# Grimacite greaves
 Knob Goblin Uberpants	Moxie: +2, Muscle: +2, Mysticality: +2
 Knob Goblin elite pants	Moxie: +3
 Knob Goblin harem pants	Moxie: +1
@@ -251,7 +251,7 @@ flowing hippy skirt	Mysticality: +9, Stench Spell Damage: +15
 furry kilt	Sleaze Damage: +5
 furry pants	Sleaze Damage: +5
 furry skirt	Sleaze Damage: +5
-gauze shorts	Damage Reduction: 3
+gauze shorts	Damage Reduction: 3, HP Regen Min: 6, HP Regen Max: 10
 giant discarded torn-up glove	Stench Damage: +5, Moxie: -10
 gnauga hide chaps	Damage Absorption: +30
 gnauga hide kilt	Damage Absorption: +30
@@ -345,26 +345,26 @@ tuxedo shirt	Moxie: +7
 # vampire cape
 white hat hacker T-shirt	Critical: 2, Moxie: +2, Muscle: +2, Mysticality: +2
 white snakeskin duster	Muscle: +2, Maximum HP: +10
-# yak anorak
+yak anorak	MP Regen Min: 3, MP Regen Max: 4
 
 # Weapons section of modifiers.txt
 
 17-alarm Saucepan	Mysticality: +11, Hot Spell Damage: +15
 # 25-meat staff
 5-Alarm Saucepan	Mysticality: +7, Class: "Sauceror"
-# 7-Foot Dwarven mattock
+7-Foot Dwarven mattock	Weakens Monster
 Bigger Bugfinder Blade	Moxie: +11, Muscle: +11, Mysticality: +11
 Bjorn's Hammer	Muscle: +10, Class: "Seal Clubber"
 Brimstone Bludgeon	Muscle Percent: +50, Mysticality Percent: -20, Melee Damage: +30
 Bugfinder Blade	Moxie: +7, Muscle: +7, Mysticality: +7
 Cerebral Crossbow	Cold Damage: +3, Spooky Damage: +3, Sleaze Damage: +3
-Chelonian Morningstar	Muscle: +11
+Chelonian Morningstar	Muscle: +11, Never Fumble
 # Cloaca-Cola-issue combat knife
 Crimbo sword	Melee Damage: +5
 Crimbo ukelele	Item Drop: +10
 Disco Banjo	Moxie: +7, Class: "Disco Bandit"
 Dr. Hobo's scalpel	Melee Damage: +3, Stench Damage: +1
-Drowsy Sword	Monster Level: -10
+Drowsy Sword	Weakens Monster, Monster Level: -10
 Frost&trade; brand sword	Muscle: +3, Monster Level: +3, Cold Damage: +3
 Gnollish autoplunger	Mysticality: +3
 # Gnollish flyswatter
@@ -373,8 +373,8 @@ Gnollish pie server	Spell Damage: +3
 # Gnollish plunger
 Gnollish slotted spoon	Spell Damage: +3
 Greek Pasta of Peril	Mysticality: +11, Initiative: +25
-Grimacite gat	Initiative: +20
-Grimacite glaive	Melee Damage: +15
+# Grimacite gat
+# Grimacite glaive
 Hammer of Smiting	Muscle: +16, Critical: 3
 Kentucky-fried meat crossbow	Moxie: +5
 Kentucky-fried meat staff	Mysticality: +5
@@ -394,22 +394,22 @@ Rock and Roll Legend	Moxie: +7, Class: "Accordion Thief"
 Shagadelic Disco Banjo	Moxie: +11, Meat Drop: +10
 Spirit Precipice	Muscle: +7, Mysticality: +5, Critical: 5
 Squeezebox of the Ages	Moxie: +11, Ranged Damage: +15
-Staff of Blood and Pudding	Spell Damage Percent: +25, Maximum HP: +15
-Staff of the Grand Flamb&eacute;	Spell Damage Percent: +150, Cold Resistance: +40
-Staff of the Grease Trap	Spell Damage Percent: +150, Sleaze Spell Damage: +20
-Staff of the Greasefire	Spell Damage Percent: +35
-Staff of the Kitchen Floor	Spell Damage Percent: +150, Stench Spell Damage: +20
-Staff of the Midnight Snack	Spell Damage Percent: +20, Spooky Spell Damage: +10
-Staff of the Short Order Cook	Spell Damage Percent: +20, Mysticality: +5
-Staff of the Walk-In Freezer	Spell Damage Percent: +150, Cold Spell Damage: +20
+Staff of Blood and Pudding	Spell Damage Percent: +25, Maximum HP: +15, MP Regen Min: 2, MP Regen Max: 3
+Staff of the Grand Flamb&eacute;	Spell Damage Percent: +150, Cold Resistance: +40, MP Regen Min: 8, MP Regen Max: 10
+Staff of the Grease Trap	Spell Damage Percent: +150, Sleaze Spell Damage: +20, MP Regen Min: 8, MP Regen Max: 10
+Staff of the Greasefire	Spell Damage Percent: +35, MP Regen Min: 3, MP Regen Max: 4
+Staff of the Kitchen Floor	Spell Damage Percent: +150, Stench Spell Damage: +20, MP Regen Min: 8, MP Regen Max: 10
+Staff of the Midnight Snack	Spell Damage Percent: +20, Spooky Spell Damage: +10, MP Regen Min: 2, MP Regen Max: 3
+Staff of the Short Order Cook	Spell Damage Percent: +20, Mysticality: +5, MP Regen Min: 2, MP Regen Max: 3
+Staff of the Walk-In Freezer	Spell Damage Percent: +150, Cold Spell Damage: +20, MP Regen Min: 8, MP Regen Max: 10
 Super Magic Power Sword X	Muscle: +4, Initiative: +20, Critical: 2
 # Totally Gay Claymore
 Tropical Crimbo Sword	Melee Damage: +5
-# Unionize The Elves sign
+Unionize The Elves sign	Weakens Monster
 # Wand of Nagamar
 Zim Merman's guitar	Ranged Damage: +20
 acoustic guitarrr	Meat Drop: +2
-antique spear	Initiative: -30
+antique spear	Initiative: -30, Weakens Monster
 armed gun	Melee Damage: +10, Critical: 2
 arse-shooting crossbow	Moxie: +15, Muscle: +15, Mysticality: +15
 asbestos crossbow	Moxie: +7, Muscle: +5
@@ -417,7 +417,7 @@ asbestos staff	Mysticality: +7, Moxie: +5
 asbestos sword	Muscle: +7, Mysticality: +5
 asparagus knife	Stench Damage: +1
 # automatic catapult
-balloon sword	Melee Damage: -2
+balloon sword	Never Fumble, Melee Damage: -2
 # bamboo bokuto
 bar whip	Familiar Weight: +2
 basic meat crossbow	Moxie: +1
@@ -468,7 +468,7 @@ clown whip	Sleaze Resistance: +20
 corn holder	Spell Damage: +1
 crazy bastard sword	Muscle: +10, Melee Damage: +15, Critical: 3
 crowbarrr	Initiative: +15
-curdflinger	Moxie: +3
+curdflinger	Moxie: +3, Weakens Monster
 demon whip	Hot Damage: +3, Sleaze Damage: +3, Stench Damage: +3
 denim axe	Muscle: +10, Melee Damage: +10
 dense meat crossbow	Moxie: +3
@@ -511,7 +511,7 @@ goulauncher	Moxie: +4, Spooky Damage: +5
 grass blade	Melee Damage: +5
 grave robbing shovel	Spooky Damage: +3, Initiative: -10
 grease gun	Moxie: +3, Melee Damage: +3, Sleaze Damage: +3
-hairy staff	Mysticality: +7, Spell Damage: +7
+hairy staff	Mysticality: +7, Spell Damage: +7, MP Regen Min: 5, MP Regen Max: 7
 halfberd	Melee Damage: +2
 happiness	Hot Damage: +12
 heavy metal thunderrr guitarrr	Melee Damage: +11
@@ -607,7 +607,7 @@ styrofoam sword	Muscle: +3, Monster Level: +3
 # suede shortsword
 # sweet ninja sword
 sword behind inappropriate prepositions	Muscle: +7
-sword of static	Muscle: +3, Moxie: +2
+sword of static	Muscle: +3, Moxie: +2, MP Regen Min: 2, MP Regen Max: 3
 tail o' nine cats	Initiative: +15, Monster Level: +5
 # time sword
 tiny ninja sword	Moxie: +1
@@ -625,7 +625,7 @@ wiffle-flail	Mysticality: +3, Muscle: +2, Initiative: +20
 wooden axe	Muscle: +3
 wooden stakes	Melee Damage: +1
 # worm-riding hooks
-# yak whip
+yak whip	Weakens Monster
 
 # Off-hand section of modifiers.txt
 
@@ -711,7 +711,7 @@ marionette	Mysticality: +3
 off-hand balloon	Muscle: +1, Mysticality: +1, Moxie: +1
 # oyster basket
 penguin skin buckler	Damage Reduction: 5, Moxie: +5
-pilgrim shield	Maximum HP: +30, Melee Damage: +15, Experience: +3, Softcore Only
+pilgrim shield	Maximum HP: +30, Melee Damage: +15, Experience: +3, HP Regen Min: 10, HP Regen Max: 12, Softcore Only
 pirate hook	Melee Damage: +3
 pixel shield	Damage Reduction: 3, Muscle: +5
 rag doll	Muscle: +3
@@ -784,12 +784,12 @@ Elmley shades	Single Equip, Muscle: +12, Critical: 2
 Gaia beads	Stench Damage: +10, Stench Spell Damage: +10
 Golden Mr. Accessory	Moxie: +15, Muscle: +15, Mysticality: +15, Softcore Only
 Green Clover of Justice	Single Equip, Moxie: +8, Muscle: +8, Mysticality: +8, Item Drop: +8
-Grimacite galoshes	Meat Drop: +25
-Grimacite garter	Spell Damage: +15
-Grimacite gauntlets	Meat Drop: +30
-Grimacite girdle	Spell Damage: +20
-Grimacite go-go boots	Item Drop: +30
-Grimacite gorget	Item Drop: +25
+# Grimacite galoshes
+# Grimacite garter
+# Grimacite gauntlets
+# Grimacite girdle
+# Grimacite go-go boots
+# Grimacite gorget
 Ice-Cold Aluminum Necklace	Single Equip, Moxie: +3, Muscle: +3, Mysticality: +3, Cold Spell Damage: +40
 Ice-Cold Beer Ring	Single Equip, Moxie: +3, Muscle: +3, Mysticality: +3, Cold Damage: +40
 Ice-Cold Beerring	Single Equip, Sleaze Resistance: +30, Stench Resistance: +30
@@ -854,7 +854,7 @@ arrrgyle socks	Mysticality: +6
 baconstone bracelet	Single Equip, Mysticality: +2, Mana Cost: -1
 baconstone earring	Single Equip, Mysticality: +2, Mana Cost: -1
 baconstone pendant	Mysticality: +4, Spell Damage: +10
-baconstone ring	Single Equip, Mysticality: +5, Maximum MP: +10
+baconstone ring	Single Equip, Mysticality: +5, Maximum MP: +10, MP Regen Min: 2, MP Regen Max: 4
 badass belt	Moxie: +5, Muscle: +5, Mysticality: +5
 beach glass necklace	Muscle: +5
 beaten-up Chucks	Initiative: +40
@@ -892,12 +892,12 @@ eXtreme mittens	Melee Damage: +2
 eXtreme nose ring	Moxie: +4, Muscle: +4, Mysticality: +4
 enchanted toothpick	Single Equip, Spell Damage: +12
 encoder ring	Single Equip
-energy drink IV	Single Equip
+energy drink IV	Single Equip, MP Regen Min: 5, MP Regen Max: 7
 evil flaming eyeball pendant	Single Equip, Initiative: +15, Meat Drop: +15, Softcore Only
 exclusive ultra-rare item	Moxie: +15, Muscle: +15, Mysticality: +15
 filigreed hamethyst earring	Muscle: +8, Critical: 3
 filigreed hamethyst necklace	Single Equip, Muscle: +10, Melee Damage: +8
-filigreed hamethyst ring	Single Equip, Muscle: +12, Maximum HP: +25
+filigreed hamethyst ring	Single Equip, Muscle: +12, Maximum HP: +25, HP Regen Min: 2, HP Regen Max: 4
 flashing novelty button	Maximum HP: +5, Moxie: -2
 furniture dolly	Single Equip, Initiative: +30
 furry green earmuffs	Cold Resistance: +10
@@ -911,10 +911,10 @@ green glowstick	Maximum MP: +5, Moxie: -3
 hamethyst bracelet	Single Equip, Muscle: +3, Critical: 3
 hamethyst earring	Muscle: +3, Critical: 3
 hamethyst necklace	Single Equip, Muscle: +4, Melee Damage: +5
-hamethyst ring	Single Equip, Muscle: +5, Maximum HP: +10
+hamethyst ring	Single Equip, Muscle: +5, Maximum HP: +10, HP Regen Min: 2, HP Regen Max: 4
 headhunter necktie	Single Equip, Muscle: +15, Moxie: -3
 # hemp string
-hippy medical kit	Single Equip, Mysticality: +10
+hippy medical kit	Single Equip, Mysticality: +10, HP Regen Min: 6, HP Regen Max: 10
 hippy protest button	Single Equip
 hockey stick of furious angry rage	Monster Level: +30, Muscle Percent: +5
 ice skates	Single Equip, Initiative: +15, Meat Drop: +15, Softcore Only
@@ -938,17 +938,17 @@ pat-a-cake pendant	Mysticality: +1
 peace-sign necklace	Damage Reduction: 3
 phat turquoise bracelet	Mysticality: +5
 pink glowstick	Maximum MP: +5, Moxie: -3
-plexiglass pendant	Single Equip, Moxie Percent: +30
+plexiglass pendant	Single Equip, Never Fumble, Moxie Percent: +30
 plexiglass pinky ring	Single Equip, Spell Damage: +30, Cold Resistance: +30, Hot Resistance: +30, Sleaze Resistance: +30, Spooky Resistance: +30, Stench Resistance: +30, Mysticality Percent: +30
 plexiglass pocketwatch	Single Equip, Mana Cost: -3, Mysticality Percent: +30
 polka-dot bowtie	Moxie: +3
-porquoise bracelet	Moxie: +4
-porquoise eyebrow ring	Moxie: +4
+porquoise bracelet	Moxie: +4, Never Fumble
+porquoise eyebrow ring	Moxie: +4, Never Fumble
 porquoise necklace	Single Equip, Moxie: +4, Meat Drop: +10
-porquoise ring	Single Equip, Moxie: +5, Maximum HP: +5, Maximum MP: +5
-pulled porquoise earring	Moxie: +9
+porquoise ring	Single Equip, Moxie: +5, Maximum HP: +5, Maximum MP: +5, HP Regen Min: 1, HP Regen Max: 2, MP Regen Min: 1, MP Regen Max: 2
+pulled porquoise earring	Moxie: +9, Never Fumble
 pulled porquoise pendant	Single Equip, Moxie: +10, Meat Drop: +15
-pulled porquoise ring	Single Equip, Moxie: +11, Maximum HP: +15, Maximum MP: +15
+pulled porquoise ring	Single Equip, Moxie: +11, Maximum HP: +15, Maximum MP: +15, HP Regen Min: 1, HP Regen Max: 2, MP Regen Min: 1, MP Regen Max: 2
 pygmy nose-bone	Single Equip, Moxie: +7
 ratskin belt	Single Equip, Moxie: +8, Meat Drop: +10
 reinforced furry underpants	Mysticality: +2, Sleaze Damage: +2
@@ -977,12 +977,12 @@ shiny ring	Moxie: +3, Muscle: +3, Mysticality: +3
 sk8board	Initiative: +15
 solid baconstone earring	Single Equip, Mysticality: +8, Maximum MP: +15, Mana Cost: -1
 solid baconstone necklace	Single Equip, Mysticality: +10, Spell Damage: +15
-solid baconstone ring	Single Equip, Mysticality: +12, Maximum MP: +30
+solid baconstone ring	Single Equip, Mysticality: +12, Maximum MP: +30, MP Regen Min: 2, MP Regen Max: 4
 # spade necklace
-spark plug earring	Spooky Resistance: +20
+spark plug earring	MP Regen Min: 3, MP Regen Max: 4, Spooky Resistance: +20
 sparkly engagement ring	Single Equip, Moxie: +15, Muscle: +15, Mysticality: +15
 special sauce glove	Single Equip, Class: "Sauceror"
-spooky glove	Moxie: +5, Spooky Damage: +5
+spooky glove	Never Fumble, Moxie: +5, Spooky Damage: +5
 stainless steel scarf	Single Equip, Spell Damage: +20, Monster Level: +20, Mysticality Percent: +15
 stainless steel solitaire	Single Equip, Mana Cost: -2, Mysticality Percent: +15
 stainless steel suspenders	Single Equip, Damage Absorption: +60, Maximum MP: +40, Moxie Percent: +15
@@ -997,8 +997,8 @@ tiny plastic Boris	Muscle: +5, Mysticality: +3, Moxie: +3
 tiny plastic Cheshire bat	Familiar Weight: +1
 tiny plastic Crimbo elf	Familiar Weight: +1
 tiny plastic Crimbo reindeer	Single Equip
-tiny plastic Crimbo wreath	Single Equip
-tiny plastic Crimboween pentagram	Single Equip
+tiny plastic Crimbo wreath	Single Equip, MP Regen Min: 1, MP Regen Max: 2
+tiny plastic Crimboween pentagram	Single Equip, MP Regen Min: 1, MP Regen Max: 2
 tiny plastic Jarlsberg	Mysticality: +5, Muscle: +3, Moxie: +3
 tiny plastic Scream Queen	Moxie: +1, Muscle: +1, Mysticality: +1
 tiny plastic Sneaky Pete	Moxie: +5, Muscle: +3, Mysticality: +3
@@ -1160,11 +1160,15 @@ Grimacite gorget	Muscle Percent: +0, Item Drop: +25
 Grimacite gown	Monster Level: +0
 Grimacite greaves	Moxie Percent: +0, Initiative: +20
 Grimacite guayabera	Monster Level: +0
+
 Jekyllin hide belt	Muscle: +0, Mysticality: +0, Moxie: +0, Item Drop: +0
 Staff of the Greasefire	Spell Damage Percent: +35, Hot Spell Damage: +10, Sleaze Spell Damage: +10
+
 Talisman of Baio	Muscle Percent: +0, Mysticality Percent: +0, Moxie Percent: +0
-Travoltan trousers	Moxie: +15, Initiative: +30, Ranged Damage: +10, Softcore Only
+
 Tuesday's ruby	Muscle Percent: +0, Mysticality Percent: +0, Moxie Percent: +0, Meat Drop: +0, Item Drop: +0
+
+Travoltan trousers	Moxie: +15, Initiative: +30, Ranged Damage: +10, Softcore Only
 bottle-rocket crossbow	Meat Drop: +15, Item Drop: +10, Moxie Percent: +15
 
 # Intrinsic Effects section of modifiers.txt
@@ -1523,30 +1527,15 @@ Tolerance of the Kitchen	Hot Resistance: +20
 # Makes Origami Towel Crane More Resistant to Wear and Tear
 # More likely to use more powerful attacks
 # Moxie used to determine Maximum MP
-# Never Fumble
 # Prevents Level Teleporting
 # Provides Mostly Accurate Battle Statistics During Fights
 # Reduces familiar's MP expenditure by 2-4.
-# Regenerate 1 MP per adventure
 # Regenerate 1 MP per adventure (sometimes)
-# Regenerate 1-2 HP and 1-2 MP per adventure
-# Regenerate 1-2 MP per adventure
-# Regenerate 10-12 HP and 10-12 MP per adventure
-# Regenerate 10-12 HP per adventure
-# Regenerate 2-3 MP per adventure
-# Regenerate 2-4 HP per adventure
-# Regenerate 2-4 MP per adventure
-# Regenerate 3-4 MP per Adventure
-# Regenerate 3-4 MP per adventure
-# Regenerate 5-7 MP per adventure
-# Regenerate 6-10 HP per adventure
-# Regenerate 8-10 MP per adventure
 # Regenerate MP Based on Level
 # Restores 3-24 MP on Critical Hit
 # Shoots Bottle-Rockets!
 # Sporadic HP Regeneration
 # Squeaky!
-# Successful hit weakens opponent.
 # Teddy Bear loses less stuffing when hit.
 # They Do Nothing!
 # Weakens Monster on Critical Hit

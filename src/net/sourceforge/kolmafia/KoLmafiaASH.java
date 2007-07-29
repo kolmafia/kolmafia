@@ -3819,8 +3819,17 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { ITEM_TYPE, STRING_TYPE  };
 		result.addElement( new ScriptExistingFunction( "string_modifier", STRING_TYPE, params ) );
 
+		params = new ScriptType[] { ITEM_TYPE, STRING_TYPE  };
+		result.addElement( new ScriptExistingFunction( "effect_modifier", EFFECT_TYPE, params ) );
+
+		params = new ScriptType[] { ITEM_TYPE, STRING_TYPE  };
+		result.addElement( new ScriptExistingFunction( "class_modifier", CLASS_TYPE, params ) );
+
 		params = new ScriptType[] { EFFECT_TYPE, STRING_TYPE  };
 		result.addElement( new ScriptExistingFunction( "string_modifier", STRING_TYPE, params ) );
+
+		params = new ScriptType[] { EFFECT_TYPE, STRING_TYPE  };
+		result.addElement( new ScriptExistingFunction( "stat_modifier", STAT_TYPE, params ) );
 
 		return result;
 	}
@@ -6094,6 +6103,27 @@ public class KoLmafiaASH extends StaticEntity
 			String name = arg.toStringValue().toString();
 			String mod = modifier.toStringValue().toString();
 			return new ScriptValue( Modifiers.getStringModifier( name, mod ) );
+		}
+
+		public ScriptValue effect_modifier( ScriptVariable arg, ScriptVariable modifier )
+		{
+			String name = arg.toStringValue().toString();
+			String mod = modifier.toStringValue().toString();
+			return new ScriptValue( parseEffectValue( Modifiers.getStringModifier( name, mod ) ) );
+		}
+
+		public ScriptValue class_modifier( ScriptVariable arg, ScriptVariable modifier )
+		{
+			String name = arg.toStringValue().toString();
+			String mod = modifier.toStringValue().toString();
+			return new ScriptValue( parseClassValue( Modifiers.getStringModifier( name, mod ) ) );
+		}
+
+		public ScriptValue stat_modifier( ScriptVariable arg, ScriptVariable modifier )
+		{
+			String name = arg.toStringValue().toString();
+			String mod = modifier.toStringValue().toString();
+			return new ScriptValue( parseStatValue( Modifiers.getStringModifier( name, mod ) ) );
 		}
 	}
 
