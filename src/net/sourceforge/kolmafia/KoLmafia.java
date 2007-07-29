@@ -631,10 +631,7 @@ public abstract class KoLmafia implements KoLConstants
 			}
 		}
 
-		SpecialOutfit.createImplicitCheckpoint();
 		this.castBreakfastSkills( checkSettings, 0 );
-		SpecialOutfit.restoreImplicitCheckpoint();
-
 		forceContinue();
 	}
 
@@ -1715,6 +1712,8 @@ public abstract class KoLmafia implements KoLConstants
 					return;
 
 				isAdventuring = true;
+
+				UseSkillRequest.revertCheckpointOutfit();
 				SpecialOutfit.createImplicitCheckpoint();
 			}
 
