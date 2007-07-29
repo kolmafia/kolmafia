@@ -1373,8 +1373,8 @@ public class FightRequest extends KoLRequest
 		return isTrackingFights;
 	}
 
-	public static String getLastMonster()
-	{	return encounterLookup == null ? "" : encounterLookup;
+	public static Monster getLastMonster()
+	{	return monsterData;
 	}
 
 	public static boolean registerRequest( boolean isExternal, String urlString )

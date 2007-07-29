@@ -47,6 +47,7 @@ import java.net.URLEncoder;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -1475,7 +1476,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( !StaticEntity.getBooleanProperty( "relayAddsMonsterHealth" ) )
 			return;
 
-		if ( FightRequest.getMonsterHealth() <= 0 )
+		if ( FightRequest.getLastMonster() == null )
 			return;
 
 		int nameIndex = buffer.indexOf( "<span id='monname" );
@@ -1486,8 +1487,27 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( combatIndex == -1 )
 			return;
 
-		buffer.insert( combatIndex + 7, "<br /><font size=2>(HP: " + FightRequest.getMonsterHealth() +
-			", Atk: " + FightRequest.getMonsterAttack() + ", Def: " + FightRequest.getMonsterDefense() + ")</font>" );
+		StringBuffer monsterData = new StringBuffer();
+		monsterData.append( "<br /><font size=2 color=gray>HP: " );
+		monsterData.append( FightRequest.getMonsterHealth() );
+		monsterData.append( ", Atk: " );
+		monsterData.append( FightRequest.getMonsterAttack() );
+		monsterData.append( ", Def: " );
+		monsterData.append( FightRequest.getMonsterDefense() );
+
+		List items = FightRequest.getLastMonster().getItems();
+		if ( !items.isEmpty() )
+		{
+			monsterData.append( "<br />Drops: " );
+			for ( int i = 0; i < items.size(); ++i )
+			{
+				if ( i != 0 ) monsterData.append( ", " );
+				monsterData.append( items.get(i) );
+			}
+		}
+
+		monsterData.append( "</font>" );
+		buffer.insert( combatIndex + 7, monsterData.toString() );
 	}
 
 	private static void addMultiuseModifiers( StringBuffer buffer )

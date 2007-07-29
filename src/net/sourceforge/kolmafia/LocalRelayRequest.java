@@ -712,7 +712,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		StaticEntity.globalStringReplace( scriptBuffer, "/*rockAndRoll*/", "false" );
 
 		StaticEntity.globalStringReplace( scriptBuffer, "/*lastZone*/", StaticEntity.getProperty( "lastAdventure" ) );
-		StaticEntity.globalStringReplace( scriptBuffer, "/*lastMonster*/", FightRequest.getLastMonster() );
+		StaticEntity.globalStringReplace( scriptBuffer, "/*lastMonster*/", FightRequest.getCurrentKey() );
 
 		StaticEntity.globalStringReplace( scriptBuffer, "/*moonPhase*/", (int) ((MoonPhaseDatabase.getGrimacePhase()-1) * 2
 			+ Math.round( (MoonPhaseDatabase.getRonaldPhase()-1) / 2.0f - Math.floor( (MoonPhaseDatabase.getRonaldPhase()-1) / 2.0f ) )) );
