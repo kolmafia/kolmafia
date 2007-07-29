@@ -125,6 +125,7 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 
 			if ( this.request.rawByteBuffer != null )
 			{
+//this.writer = System.out;
 				this.writer = new PrintStream( this.socket.getOutputStream(), false );
 				this.writer.println( this.request.statusLine );
 				this.request.printHeaders( this.writer );

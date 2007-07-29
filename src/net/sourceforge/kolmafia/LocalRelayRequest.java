@@ -390,22 +390,23 @@ public class LocalRelayRequest extends PasswordHashRequest
 				ostream.print( ": " );
 				ostream.println( this.formConnection.getHeaderField( i ) );
 			}
+
+			if ( this.responseCode == 200 && this.rawByteBuffer != null )
+			{
+				ostream.print( "Content-Type: " );
+				ostream.print( this.contentType );
+
+				if ( this.contentType.startsWith( "text" ) )
+					ostream.print( "; charset=UTF-8" );
+
+				ostream.println();
+
+				ostream.print( "Content-Length: " );
+				ostream.print( this.rawByteBuffer.length );
+				ostream.println();
+			}
 		}
 
-		if ( this.responseCode == 200 && this.rawByteBuffer != null )
-		{
-			ostream.print( "Content-Type" );
-			ostream.print( this.contentType );
-
-			if ( this.contentType.startsWith( "text" ) )
-				ostream.print( "; charset=UTF-8" );
-
-			ostream.println();
-
-			ostream.print( "Content-Length: " );
-			ostream.print( this.rawByteBuffer.length );
-			ostream.println();
-		}
 
 		ostream.println( "Connection: close" );
 	}
@@ -579,7 +580,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		{
 			if ( writePseudoResponse )
 			{
-				this.pseudoResponse( "200", replyBuffer.toString() );
+				this.pseudoResponse( "HTTP/1.1 200 OK", replyBuffer.toString() );
 				writePseudoResponse = false;
 			}
 
