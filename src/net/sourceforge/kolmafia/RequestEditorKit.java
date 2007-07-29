@@ -1069,6 +1069,23 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( location.startsWith( "hermit.php" ) )
 			StaticEntity.singleStringReplace( buffer, NO_PERMIT_TEXT, BUY_PERMIT_TEXT );
 
+		if ( location.startsWith( "pvp.php" ) )
+		{
+			StaticEntity.singleStringReplace( buffer, "value=rank checked", "value=rank" );
+			StaticEntity.singleStringReplace( buffer, "value=flowers", "value=flowers checked" );
+		}
+
+		if ( location.startsWith( "searchplayer.php" ) )
+		{
+			StaticEntity.singleStringReplace( buffer, "name=pvponly", "name=pvponly checked" );
+			StaticEntity.singleStringReplace( buffer, "value=0 checked", "value=0" );
+
+			if ( KoLCharacter.isHardcore() )
+				StaticEntity.singleStringReplace( buffer, "value=1", "value=1 checked" );
+			else
+				StaticEntity.singleStringReplace( buffer, "value=2", "value=2 checked" );
+		}
+
 		if ( addComplexFeatures )
 		{
 			if ( location.indexOf( "ascend.php" ) != -1 || location.indexOf( "valhalla.php" ) != -1 )
@@ -1080,6 +1097,12 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			if ( buffer.indexOf( "showplayer.php" ) != -1 && buffer.indexOf( "rcm.js" ) == -1 && buffer.indexOf( "rcm.2.js" ) == -1 )
 				addChatFeatures( buffer );
 		}
+
+		// Always select the contents of text fields when you click on them
+		// to make for easy editing.
+
+		if ( addComplexFeatures )
+			StaticEntity.globalStringReplace( buffer, "type=text ", "type=text onFocus=\"this.select();\" " );
 
 		String defaultColor = StaticEntity.getProperty( "defaultBorderColor" );
 		if ( !defaultColor.equals( "blue" ) )
