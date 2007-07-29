@@ -113,6 +113,7 @@ Baseball Bat	HP: 9 Def: 15 Atk: 15 Meat: 17-27	baseball (30)	sonar-in-a-biscuit 
 Batrat	HP: 20 Def: 23 Atk: 23 Meat: 18-28	bat wing (15)	bat guano (15)	batgut (15)
 Batwinged Gremlin	HP: 0
 Beanbat	HP: 18 Def: 21 Atk: 21 Meat: 28-43	enchanted bean (50)
+Beefy Bodyguard Bat	HP: 0
 Beer Bongadier	HP: 0
 Big Creepy Spider	HP: 1 Def: 1 Atk: 1 Meat: 4-7	spider web (30)	spider web (20)
 Black Adder	HP: 0
@@ -146,6 +147,7 @@ Cloaca-Cola Catapult Engineer	HP: 40 Def: 30 Atk: 30	Cloaca-Cola (15)	Cloaca-Col
 Cloaca-Cola Footsoldier	HP: 35 Def: 30 Atk: 30	Cloaca-Cola (15)	Cloaca-Cola (15)	Cloaca grenade (5)
 Cloaca-Cola Soldier	HP: 30 Def: 30 Atk: 30	Cloaca-Cola (15)	Cloaca-Cola (15)	Cloaca grenade (5)
 Cloud of Disembodied Whiskers	HP: 3 Def: 3 Atk: 1	shaving cream (20)
+Clownlord Beelzebozo	HP: 0
 Completely Different Spider	HP: 1 Def: 1 Atk: 1 Meat: 4-7	spider web (25)	spider web (25)
 Confused Goth Music Student	HP: 9 Def: 9 Atk: 9
 Conjoined Zmombie	HP: 60 Def: 71 Atk: 79 E: spooky
