@@ -1615,8 +1615,37 @@ public class AdventureDatabase extends KoLDatabase
 
 			adventureName = getCanonicalName( adventureName );
 
-			// First, try substring matches when attempting to
-			// find the adventure location.
+			// First, prefer adventures which start with the
+			// provided substring.  That failing, report all
+			// matches.
+
+			for ( int i = 0; i < this.size(); ++i )
+			{
+				if ( ((String) this.nameList.get(i)).startsWith( adventureName ) )
+				{
+					++matchCount;
+					adventureIndex = i;
+				}
+			}
+
+			if ( matchCount > 1 )
+			{
+				for ( int i = 0; i < this.size(); ++i )
+					if ( ((String)this.nameList.get(i)).startsWith( adventureName ) )
+						RequestLogger.printLine( (String) this.nameList.get(i) );
+
+				KoLmafia.updateDisplay( ERROR_STATE, "Multiple matches against " + adventureName + "." );
+				return null;
+			}
+
+			if ( matchCount == 1 )
+				return this.get( adventureIndex );
+
+			// Next, try substring matches when attempting to
+			// find the adventure location.  That failing,
+			// report all matches.
+
+			matchCount = 0;
 
 			for ( int i = 0; i < this.size(); ++i )
 			{
