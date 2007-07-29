@@ -1613,7 +1613,7 @@ public class AdventureDatabase extends KoLDatabase
 			int matchCount = 0;
 			int adventureIndex = -1;
 
-			adventureName = getCanonicalName( adventureName );
+			adventureName = getCanonicalName( CombatSettings.encounterKey( adventureName ) );
 
 			// First, prefer adventures which start with the
 			// provided substring.  That failing, report all

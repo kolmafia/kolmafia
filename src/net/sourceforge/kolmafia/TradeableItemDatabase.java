@@ -898,6 +898,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		case CONSUME_EAT:
 		case CONSUME_DRINK:
 		case CONSUME_USE:
+		case INFINITE_USES:
 		case CONSUME_MULTIPLE:
 		case GROW_FAMILIAR:
 		case CONSUME_ZAP:
