@@ -242,10 +242,15 @@ public class KoLmafiaASH extends StaticEntity
 		String script = request.getPath();
 
 		if ( !script.endsWith( ".ash" ) )
+		{
+			if ( KoLRequest.shouldIgnore( script ) )
+				return false;
+
 			script = script + ".ash";
+		}
 
 		File toExecute = new File( RELAY_DIRECTORY, script );
-		if ( toExecute == null || !toExecute.exists() )
+		if ( !toExecute.exists() )
 			return false;
 
 		synchronized ( KoLmafiaASH.class )
@@ -3206,7 +3211,11 @@ public class KoLmafiaASH extends StaticEntity
 
 		params = new ScriptType[] { STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "visit_url", STRING_TYPE, params ) );
+
 		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "relay_url", STRING_TYPE, params ) );
+
+		params = new ScriptType[] { STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "relay_url", STRING_TYPE, params ) );
 
 		params = new ScriptType[] { INT_TYPE };
@@ -4778,6 +4787,19 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptValue relay_url()
+		{	return relay_url( relayRequest.getURLString() );
+		}
+
+		public ScriptValue relay_url( ScriptVariable string )
+		{
+			String location = string.toStringValue().toString();
+			if ( KoLRequest.shouldIgnore( location ) )
+				return STRING_INIT;
+
+			return relay_url( location );
+		}
+
+		private ScriptValue relay_url( String location )
 		{
 			if ( relayScript == null )
 				return STRING_INIT;
