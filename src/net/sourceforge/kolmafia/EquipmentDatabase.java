@@ -334,6 +334,25 @@ public class EquipmentDatabase extends KoLDatabase
 	{	return outfit != null && outfit.isWearing();
 	}
 
+	/**
+	 * Utility method which determines the outfit ID the character is
+	 * currently wearing
+	 */
+
+	public static SpecialOutfit currentOutfit()
+	{
+		for ( int id = 1; id <= normalOutfits.size(); ++id )
+		{
+			SpecialOutfit outfit = normalOutfits.get( id );
+			if ( outfit == null )
+				continue;
+			if ( outfit.isWearing() )
+				return outfit;
+		}
+
+		return null;
+	}
+
 	public static int getOutfitId( KoLAdventure adventure )
 	{
 		String adventureId = adventure.getAdventureId();

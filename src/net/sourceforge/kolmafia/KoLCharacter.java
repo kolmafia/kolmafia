@@ -2643,28 +2643,9 @@ public abstract class KoLCharacter extends StaticEntity
 		}
 
 		// Certain outfits give benefits to the character
-		if ( EquipmentDatabase.isWearingOutfit( 6 ) )
-		{
-			// Hot and Cold Running Ninja Suit
-			newModifiers.add( Modifiers.COLD_RESISTANCE, 20);
-			newModifiers.add( Modifiers.HOT_RESISTANCE, 20);
-		}
-		else if ( EquipmentDatabase.isWearingOutfit( 7 ) )
-		{
-			// eXtreme Cold-Weather Gear
-			newModifiers.add( Modifiers.COLD_RESISTANCE, 30);
-		}
-		else if ( EquipmentDatabase.isWearingOutfit( 25 ) )
-		{
-			// Arboreal Raiment
-			newModifiers.add( Modifiers.STENCH_RESISTANCE, 10 );
-		}
-		else if ( EquipmentDatabase.isWearingOutfit( 14 ) )
-		{
-			// Furry Suit
-			newModifiers.add( Modifiers.MONSTER_LEVEL, 5 );
-			newModifiers.add( Modifiers.MOX_PCT, -75 );
-		}
+		SpecialOutfit outfit = EquipmentDatabase.currentOutfit();
+		if ( outfit != null )
+			newModifiers.add( Modifiers.getModifiers( outfit.getName() ) );
 
 		// Wearing a serpentine sword and a serpentine shield doubles
 		// the effect of the sword.
