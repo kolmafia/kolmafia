@@ -2440,7 +2440,7 @@ public class KoLmafiaCLI extends KoLmafia
 		return findScriptFile( SCRIPT_LOCATION, filename, false );
 	}
 
-	private static File findScriptFile( File directory, String filename )
+	public static File findScriptFile( File directory, String filename )
 	{	return findScriptFile( directory, filename, false );
 	}
 
