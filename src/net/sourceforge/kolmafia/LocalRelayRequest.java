@@ -876,6 +876,19 @@ public class LocalRelayRequest extends PasswordHashRequest
 			return;
 		}
 
+		System.out.println( this.formURLString );
+
+		if ( this.formURLString.endsWith( ".ash" ) )
+		{
+			String clientHTML = KoLmafiaASH.getClientHTML( this.formURLString, this.getFormField( "arg" ) );
+			if ( clientHTML.equals( "" ) )
+				this.sendNotFound();
+			else
+				this.pseudoResponse( "HTTP/1.1 200 OK", clientHTML );
+
+			return;
+		}
+
 		boolean isWebPage = this.formURLString.endsWith( ".php" ) || this.formURLString.endsWith( ".html" );
 		boolean isCommand = this.formURLString.startsWith( "KoLmafia/" );
 		boolean isImage = this.formURLString.startsWith( "images/" ) || this.formURLString.endsWith( ".css" ) || this.formURLString.endsWith( ".js" );
@@ -1011,10 +1024,6 @@ public class LocalRelayRequest extends PasswordHashRequest
 		else if ( this.formURLString.indexOf( "images/" ) != -1 )
 		{
 			this.sendLocalImage( this.formURLString );
-		}
-		else if ( this.formURLString.endsWith( ".ash" ) )
-		{
-			this.pseudoResponse( "HTTP/1.1 200 OK", KoLmafiaASH.getClientHTML( this.formURLString, this.getFormField( "arg" ) ) );
 		}
 		else if ( this.formURLString.indexOf( "lchat.php" ) != -1 )
 		{

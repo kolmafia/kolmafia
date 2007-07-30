@@ -238,6 +238,8 @@ public class KoLmafiaASH extends StaticEntity
 
 		clientScript.clientHTML.setLength(0);
 		clientScript.execute( "main", new String [] { argument == null ? "" : argument } );
+
+		System.out.println( clientScript.clientHTML.toString() );
 		return clientScript.clientHTML.toString();
 	}
 
@@ -3162,7 +3164,10 @@ public class KoLmafiaASH extends StaticEntity
 		result.addElement( new ScriptExistingFunction( "load_html", STRING_TYPE, params ) );
 
 		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "write_html", VOID_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "write", VOID_TYPE, params ) );
+
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "writeln", VOID_TYPE, params ) );
 
 		params = new ScriptType[] { STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "visit_url", STRING_TYPE, params ) );
@@ -3170,10 +3175,8 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { INT_TYPE };
 		result.addElement( new ScriptExistingFunction( "wait", VOID_TYPE, params ) );
 
-
 		// Type conversion functions which allow conversion
 		// of one data format to another.
-
 
 		params = new ScriptType[] { ANY_TYPE };
 		result.addElement( new ScriptExistingFunction( "to_string", STRING_TYPE, params ) );
@@ -4645,9 +4648,16 @@ public class KoLmafiaASH extends StaticEntity
 			return request.responseText == null ? STRING_INIT : new ScriptValue( request.responseText );
 		}
 
-		public ScriptValue write_html( ScriptVariable string )
+		public ScriptValue write( ScriptVariable string )
 		{
 			clientScript.clientHTML.append( string.toStringValue().toString() );
+			return VOID_VALUE;
+		}
+
+		public ScriptValue writeln( ScriptVariable string )
+		{
+			write( string );
+			clientScript.clientHTML.append( LINE_BREAK );
 			return VOID_VALUE;
 		}
 
