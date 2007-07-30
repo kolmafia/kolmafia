@@ -1425,6 +1425,7 @@ Tomato Power	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Turned Into a Skeleton	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
 Twinklebritches	Damage Absorption: +30
 Twinkly Weapon	Melee Damage: +3
+Ur-Kel's Aria of Annoyance	Monster Level: +0
 Very Clean Teeth	Moxie: +1
 Vitamin-Maxed	Muscle Percent: +10
 Wasabi Sinuses	Experience -1, Item Drop: -10, Meat Drop: +30
