@@ -538,7 +538,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 		StringBuffer replyBuffer = new StringBuffer();
 		String name = filename.substring( index + 1 );
-		String directory = index <= 0 ? "html" : "html/" + filename.substring( 0, index );
+		String directory = index <= 0 ? "relay" : "relay/" + filename.substring( 0, index );
 		BufferedReader reader = DataUtilities.getReader( directory, name );
 
 		if ( reader == null && filename.startsWith( "simulator" ) )
@@ -632,7 +632,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 	private void handleSimulatorIndex( StringBuffer replyBuffer ) throws IOException
 	{
-		StringBuffer scriptBuffer = this.readContents( DataUtilities.getReader( "html/simulator", "index.js" ) );
+		StringBuffer scriptBuffer = this.readContents( DataUtilities.getReader( "relay/simulator", "index.js" ) );
 
 		// This is the simple Javascript which can be added
 		// arbitrarily to the end without having to modify
@@ -882,7 +882,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// If this is a script request, then run the script and
 		// return the client HTML.
 
-		if ( allowOverride && RELAY_SCRIPTS_LOCATION.exists() && KoLmafiaASH.getClientHTML( this ) )
+		if ( allowOverride && RELAY_LOCATION.exists() && KoLmafiaASH.getClientHTML( this ) )
 			return;
 
 		boolean isWebPage = this.formURLString.endsWith( ".php" ) || this.formURLString.endsWith( ".html" );
@@ -1071,12 +1071,12 @@ public class LocalRelayRequest extends PasswordHashRequest
 				contents.append( LINE_BREAK );
 			}
 
-			File directory = new File( ROOT_LOCATION, "html/simulator/" );
+			File directory = new File( ROOT_LOCATION, "relay/simulator/" );
 			directory.mkdirs();
 
 			StaticEntity.globalStringReplace( contents, "images/", "http://sol.kolmafia.us/images/" );
 
-			PrintStream writer = RequestLogger.openStream( "html/simulator/" + filename, NullStream.INSTANCE, true );
+			PrintStream writer = RequestLogger.openStream( "relay/simulator/" + filename, NullStream.INSTANCE, true );
 			writer.println( contents.toString() );
 			writer.close();
 		}

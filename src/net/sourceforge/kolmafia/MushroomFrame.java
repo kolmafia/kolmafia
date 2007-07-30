@@ -537,15 +537,15 @@ public class MushroomFrame extends KoLFrame
 				this.saveLayout();
 
 			if ( !this.currentLayout.equals( "" ) )
-				DEFAULT_SHELL.executeLine( "call " + MushroomPlot.PLOT_DIRECTORY.getPath() + File.separator + this.currentLayout + ".ash" );
+				DEFAULT_SHELL.executeLine( "call " + PLOTS_DIRECTORY + this.currentLayout + ".ash" );
 		}
 
 		public void loadLayout()
 		{
-			if ( !MushroomPlot.PLOT_DIRECTORY.exists() )
+			if ( !PLOTS_LOCATION.exists() )
 				return;
 
-			File [] layouts = MushroomPlot.PLOT_DIRECTORY.listFiles();
+			File [] layouts = PLOTS_LOCATION.listFiles();
 			ArrayList names = new ArrayList();
 
 			for ( int i = 0; i < layouts.length; ++i )

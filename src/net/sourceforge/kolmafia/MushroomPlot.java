@@ -46,7 +46,6 @@ import java.util.regex.Pattern;
 
 public abstract class MushroomPlot extends StaticEntity
 {
-	public static final File PLOT_DIRECTORY = new File( ROOT_LOCATION, "planting" );
 	private static final Pattern PLOT_PATTERN = Pattern.compile( "<b>Your Mushroom Plot:</b><p><table>(<tr>.*?</tr><tr>.*></tr><tr>.*?</tr><tr>.*</tr>)</table>" );
 	private static final Pattern SQUARE_PATTERN = Pattern.compile( "<td>(.*?)</td>" );
 	private static final Pattern IMAGE_PATTERN = Pattern.compile( ".*/((.*)\\.gif)" );
@@ -586,7 +585,7 @@ public abstract class MushroomPlot extends StaticEntity
 		// the text file which was generated automatically.
 
 		int dayIndex = 0;
-		BufferedReader reader = KoLDatabase.getReader( new File( PLOT_DIRECTORY, filename + ".txt" ) );
+		BufferedReader reader = KoLDatabase.getReader( new File( PLOTS_LOCATION, filename + ".txt" ) );
 
 		try
 		{
@@ -671,7 +670,7 @@ public abstract class MushroomPlot extends StaticEntity
 	private static void copyMushroomImage( String location )
 	{
 		File source = new File( IMAGE_LOCATION, location );
-		File destination = new File( PLOT_DIRECTORY + "/" + location );
+		File destination = new File( PLOTS_LOCATION + "/" + location );
 
 		if ( !destination.getParentFile().exists() )
 			destination.getParentFile().mkdirs();
@@ -693,11 +692,11 @@ public abstract class MushroomPlot extends StaticEntity
 
 	public static void saveLayout( String filename, String [][] originalData, String [][] planningData )
 	{
-		File preview = new File( PLOT_DIRECTORY.getAbsolutePath(), filename + ".htm" );
+		File preview = new File( PLOTS_LOCATION.getAbsolutePath(), filename + ".htm" );
 
-		LogStream textLayout = LogStream.openStream( new File( PLOT_DIRECTORY.getAbsolutePath(), filename + ".txt" ), true );
+		LogStream textLayout = LogStream.openStream( new File( PLOTS_LOCATION, filename + ".txt" ), true );
 		LogStream htmlLayout = LogStream.openStream( preview, true );
-		LogStream plotScript = LogStream.openStream( new File( PLOT_DIRECTORY.getAbsolutePath(), filename + ".ash" ), true );
+		LogStream plotScript = LogStream.openStream( new File( PLOTS_LOCATION, filename + ".ash" ), true );
 
 		// The HTML file needs a little bit of header information
 		// to make it proper HTML.
