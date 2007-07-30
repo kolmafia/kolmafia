@@ -114,6 +114,10 @@ public class SpecialOutfit implements Comparable, KoLConstants
 	{	return this.outfitId;
 	}
 
+	public String getName()
+	{	return this.outfitName;
+	}
+
 	public boolean equals( Object o )
 	{
 		if ( o == null || !(o instanceof SpecialOutfit) )

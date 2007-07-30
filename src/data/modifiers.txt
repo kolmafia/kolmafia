@@ -1457,6 +1457,44 @@ Powers of Observatiogn	Item Drop: +10
 Skin of the Leatherback
 Tolerance of the Kitchen	Hot Resistance: +20
 
+# Outfits section of modifiers.txt
+
+# 8-Bit Finery
+Antique Arms and Armor	Muscle: +15
+Arboreal Raiment	Stench Resistance: +30
+Black Armaments	Muscle: +6
+# Bounty-Hunting Rig
+# Bow Tux
+Bugbear Costume	Mysticality: +3, Spell Damage: +3
+Cloaca-Cola Uniform	MP Regen Min: 1, MP Regen Max: 3
+# Clockwork Apparatus
+# Crimbo Duds
+Dyspepsi-Cola Uniform	MP Regen Min: 1, MP Regen Max: 3
+Encephalic Ensemble
+Filthy Hippy Disguise	Stench Damage: +5
+Frat Boy Ensemble	Sleaze Damage: +5
+Frat Warrior Fatigues	Sleaze Damage: +15
+Furry Suit	Moxie Percent: -75, Monster Level: +5
+Glad Bag Glad Rags	Mysticality: +10, Moxie: +10, Sleaze Damage: +5, Stench Damage: +5
+# Gnauga Hides
+Grass Guise	HP Regen Min: 1, HP Regen Max: 3
+Hot and Cold Running Ninja Suit	Cold Resistance: +20, Hot Resistance: +20
+Knob Goblin Elite Guard Uniform	Muscle: +7
+Knob Goblin Harem Girl Disguise	Sleaze Damage: +3
+# Mining Gear
+# OK Lumberjack Outfit	Critical: x
+Palmist Paraphernalia	Moxie: +7
+# Radio Free Regalia
+Star Garb	Muscle: +7, Mysticality: +7, Moxie: +7
+Swashbuckling Getup	Moxie: +7
+# Tapered Threads
+# Terrifying Clown Suit
+# Terrycloth Tackle
+# Time Trappings	Adventures: +3
+# Tropical Crimbo Duds
+War Hippy Fatigues	Stench Damage: +15
+# Yendorian Finery
+eXtreme Cold-Weather Gear	Cold Resistance: +30
 
 
 
