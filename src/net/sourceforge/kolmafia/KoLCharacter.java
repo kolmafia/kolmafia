@@ -2603,9 +2603,6 @@ public abstract class KoLCharacter extends StaticEntity
 			listenerArray[i].updateStatus();
 	}
 
-	// Effects that modify ML:
-	private static final AdventureResult ARIA = new AdventureResult( "Ur-Kel's Aria of Annoyance", 0 );
-
 	public static boolean recalculateAdjustments()
 	{
 		int taoFactor = hasSkill( "Tao of the Terrapin" ) ? 2 : 1;
@@ -2665,38 +2662,24 @@ public abstract class KoLCharacter extends StaticEntity
 		for ( int i = 0; i < activeEffects.size(); ++i )
 			newModifiers.add( Modifiers.getModifiers( ((AdventureResult)activeEffects.get(i)).getName() ) );
 
-		if ( ARIA.getCount( activeEffects ) > 0 )
-			newModifiers.add( Modifiers.MONSTER_LEVEL, 2 * getLevel() );
+		// Add familiar effects based on calculated weight adjustment,
 
-		// Now that we have calculated the familiar weight adjustment,
-		// look at familiar.
+		newModifiers.applyFamiliarModifiers( currentFamiliar );
 
-		float modifier = (float)( currentFamiliar.getWeight() + newModifiers.get( Modifiers.FAMILIAR_WEIGHT ) );
-		int familiarId = currentFamiliar.getId();
+		// Make sure that elemental resistance is capped by class.
 
-		if ( FamiliarsDatabase.isVolleyType( familiarId ) )
-			newModifiers.add( Modifiers.EXPERIENCE, Math.sqrt( modifier ) );
-		if ( FamiliarsDatabase.isItemDropType( familiarId ) )
-			newModifiers.add( Modifiers.ITEMDROP, modifier * 2.5 );
-		if ( FamiliarsDatabase.isMeatDropType( familiarId ) )
-			newModifiers.add( Modifiers.MEATDROP, modifier * 5 );
-
-		// Make sure the mana modifier is no more than
-		// three, no matter what.  Also make sure that
-		// elemental resistance is capped by class.
-
-		newModifiers.set( Modifiers.MANA_COST, Math.max( newModifiers.get( Modifiers.MANA_COST ), -3 ) );
+                int maxResistance = KoLCharacter.isMysticalityClass() ? 80 : 60;
 
 		newModifiers.set( Modifiers.HOT_RESISTANCE, activeEffects.contains( MAX_HOT ) ? 90 :
-			Math.max( newModifiers.get( Modifiers.HOT_RESISTANCE ), KoLCharacter.isMysticalityClass() ? 80 : 60 ) );
+			Math.max( newModifiers.get( Modifiers.HOT_RESISTANCE ), maxResistance ) );
 		newModifiers.set( Modifiers.COLD_RESISTANCE, activeEffects.contains( MAX_COLD ) ? 90 :
-			Math.max( newModifiers.get( Modifiers.COLD_RESISTANCE ), KoLCharacter.isMysticalityClass() ? 80 : 60 ) );
+			Math.max( newModifiers.get( Modifiers.COLD_RESISTANCE ), maxResistance ) );
 		newModifiers.set( Modifiers.SPOOKY_RESISTANCE, activeEffects.contains( MAX_SPOOKY ) ? 90 :
-			Math.max( newModifiers.get( Modifiers.SPOOKY_RESISTANCE ), KoLCharacter.isMysticalityClass() ? 80 : 60 ) );
+			Math.max( newModifiers.get( Modifiers.SPOOKY_RESISTANCE ), maxResistance ) );
 		newModifiers.set( Modifiers.STENCH_RESISTANCE, activeEffects.contains( MAX_STENCH ) ? 90 :
-			Math.max( newModifiers.get( Modifiers.STENCH_RESISTANCE ), KoLCharacter.isMysticalityClass() ? 80 : 60 ) );
+			Math.max( newModifiers.get( Modifiers.STENCH_RESISTANCE ), maxResistance ) );
 		newModifiers.set( Modifiers.SLEAZE_RESISTANCE, activeEffects.contains( MAX_SLEAZE ) ? 90 :
-			Math.max( newModifiers.get( Modifiers.SLEAZE_RESISTANCE ), KoLCharacter.isMysticalityClass() ? 80 : 60 ) );
+			Math.max( newModifiers.get( Modifiers.SLEAZE_RESISTANCE ), maxResistance ) );
 
 		// Add in strung-up quartet.
 

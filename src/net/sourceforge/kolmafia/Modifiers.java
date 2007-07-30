@@ -727,6 +727,12 @@ public class Modifiers extends KoLDatabase
 			return true;
 		}
 
+		if ( name.equalsIgnoreCase( "Ur-Kel's Aria of Annoyance" ) )
+		{
+			set( MONSTER_LEVEL, 2 * KoLCharacter.getLevel() );
+			return true;
+		}
+
 		int itemId = TradeableItemDatabase.getItemId( name );
 
 		switch ( itemId )
@@ -886,6 +892,39 @@ public class Modifiers extends KoLDatabase
 
 		if ( KoLCharacter.getFamiliar().getId() == 38 && KoLCharacter.hasAmphibianSympathy() )
 			add( FAMILIAR_WEIGHT, -10 );
+	}
+
+	public void applyFamiliarModifiers( FamiliarData familiar )
+	{
+		int familiarId = familiar.getId();
+		int weight = familiar.getWeight() + (int)get( FAMILIAR_WEIGHT );
+
+		if ( FamiliarsDatabase.isVolleyType( familiarId ) )
+			add( EXPERIENCE, Math.sqrt( weight ) );
+
+		if ( FamiliarsDatabase.isItemDropType( familiarId ) )
+			add( ITEMDROP, weight * 2.5 );
+
+		if ( FamiliarsDatabase.isMeatDropType( familiarId ) )
+			add( MEATDROP, weight * 5 );
+
+		switch ( familiarId )
+		{
+		case 72:
+			// Exotic Parrot
+
+			// Gives elemental resistances based on weight.
+			// 1 level for every 4 lbs, applied in the order
+			// Hot, Cold, Spooky, Stench, Sleaze.
+
+			add( HOT_RESISTANCE, ( ( weight + 16 ) / 20 ) * 10 );
+			add( COLD_RESISTANCE, ( ( weight + 12 ) / 20 ) * 10 );
+			add( SPOOKY_RESISTANCE, ( ( weight + 8 ) / 20 ) * 10 );
+			add( STENCH_RESISTANCE, ( ( weight + 4 ) / 20 ) * 10 );
+			add( SLEAZE_RESISTANCE, ( ( weight + 0 ) / 20 ) * 10 );
+
+			break;
+		}
 	}
 
 	// Parsing item enchantments into KoLmafia modifiers
