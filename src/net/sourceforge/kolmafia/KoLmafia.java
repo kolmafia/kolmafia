@@ -359,31 +359,19 @@ public abstract class KoLmafia implements KoLConstants
 		if ( username == null || username.length() == 0 )
 			username = StaticEntity.getProperty( "lastUsername" );
 
+		// If you're not using the GUI thread, make sure that
+		// you allow for an attempt to login.
+
+		if ( !useGUI )
+			DEFAULT_SHELL.attemptLogin( username );
+
 		if ( initialScript.length() != 0 )
 		{
 			String actualScript = initialScript.toString().trim();
 			if ( actualScript.startsWith( "script=" ) )
 				actualScript = actualScript.substring( 7 );
 
-			if ( !useGUI )
-				DEFAULT_SHELL.attemptLogin( username );
-
 			DEFAULT_SHELL.executeLine( "call " + actualScript );
-		}
-		else if ( !useGUI )
-		{
-			// If you're not using the GUI thread, make sure that
-			// you allow for an attempt to login.
-
-			DEFAULT_SHELL.attemptLogin( username );
-		}
-
-		else if ( !useGUI )
-		{
-			// If you're not using the GUI thread, make sure that
-			// you allow for an attempt to login.
-
-			DEFAULT_SHELL.attemptLogin( username );
 		}
 
 		// Always read input from the command line when you're not
@@ -2912,11 +2900,11 @@ public abstract class KoLmafia implements KoLConstants
 				"http://kolmafia.svn.sourceforge.net/viewvc/*checkout*/kolmafia/src/data/" + OVERRIDE_DATA[i] );
 
 			File output = new File( DATA_LOCATION, OVERRIDE_DATA[i] );
+			LogStream writer = LogStream.openStream( output, true );
 
 			try
 			{
 				String line;
-				LogStream writer = LogStream.openStream( output, true );
 
 				while ( (line = reader.readLine()) != null )
 					writer.println( line );
@@ -2932,7 +2920,9 @@ public abstract class KoLmafia implements KoLConstants
 				updateDisplay( ERROR_STATE, "Subversion service access failed for " + OVERRIDE_DATA[i] + "." );
 				e.printStackTrace();
 
+				writer.close();
 				output.delete();
+
 				RequestThread.closeRequestSequence();
 				return;
 			}

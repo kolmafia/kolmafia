@@ -966,7 +966,9 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "login" ) )
 		{
 			executeCommand( "logout", "" );
-			attemptLogin( parameters );
+			if ( LoginFrame.instanceExists() )
+				attemptLogin( parameters );
+
 			return;
 		}
 
