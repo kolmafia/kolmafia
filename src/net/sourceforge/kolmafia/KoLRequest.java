@@ -817,10 +817,7 @@ public class KoLRequest extends Job implements KoLConstants
 	}
 
 	public static boolean shouldIgnore( String formURLString )
-	{
-		return formURLString.indexOf( "mall" ) != -1 || formURLString.indexOf( "chat" ) != -1 ||
-			formURLString.indexOf( "send" ) != -1 || formURLString.indexOf( "bhh" ) != -1 ||
-			formURLString.indexOf( "login" ) != -1 || formURLString.indexOf( "logout" ) != -1;
+	{	return formURLString.indexOf( "mall" ) != -1 || formURLString.indexOf( "chat" ) != -1 || formURLString.startsWith( "bhh" );
 	}
 
 	public static boolean delay()
