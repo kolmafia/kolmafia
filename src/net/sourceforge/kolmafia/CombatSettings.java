@@ -445,7 +445,7 @@ public abstract class CombatSettings implements KoLConstants
 		if ( action.startsWith( "attack" ) || action.length() == 0 )
 			return "attack with weapon";
 
-		if ( action.indexOf( "steal" ) != -1 )
+		if ( action.indexOf( "steal" ) != -1 || action.indexOf( "pick" ) != -1 )
 			return "try to steal an item";
 
 		if ( action.startsWith( "default" ) || action.startsWith( "abort" ) || action.startsWith( "consult" ) )
@@ -533,7 +533,7 @@ public abstract class CombatSettings implements KoLConstants
 		if ( action.startsWith( "abort" ) )
 			return "abort";
 
-		if ( action.indexOf( "steal" ) != -1 )
+		if ( action.indexOf( "steal" ) != -1 || action.indexOf( "pick" ) != -1 )
 			return "steal";
 
 		if ( action.startsWith( "consult" ) )
