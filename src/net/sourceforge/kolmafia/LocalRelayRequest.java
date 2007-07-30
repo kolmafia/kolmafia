@@ -66,6 +66,8 @@ public class LocalRelayRequest extends PasswordHashRequest
 	private static String mainpane = "";
 
 	private boolean allowOverride;
+	private File relayEquivalent;
+
 	public List headers = new ArrayList();
 	public byte [] rawByteBuffer = null;
 	public String contentType = null;
@@ -293,14 +295,14 @@ public class LocalRelayRequest extends PasswordHashRequest
 			{
 				int linkIndex = responseBuffer.indexOf( "<a href" );
 				if ( linkIndex != -1 )
-					responseBuffer.insert( linkIndex, "<a href=\"KoLmafia/cli.html\"><b>KoLmafia gCLI</b></a></center><p>Type KoLmafia scripting commands in your browser!</p><center>" );
+					responseBuffer.insert( linkIndex, "<a href=\"cli.html\"><b>KoLmafia gCLI</b></a></center><p>Type KoLmafia scripting commands in your browser!</p><center>" );
 			}
 
 			if ( StaticEntity.getBooleanProperty( "relayAddsKoLSimulator" ) )
 			{
 				int linkIndex = responseBuffer.indexOf( "<a href" );
 				if ( linkIndex != -1 )
-					responseBuffer.insert( linkIndex, "<a href=\"KoLmafia/simulator/index.html\" target=\"_blank\"><b>KoL Simulator</b></a></center><p>See what might happen before it happens!</p><center>" );
+					responseBuffer.insert( linkIndex, "<a href=\"simulator/index.html\" target=\"_blank\"><b>KoL Simulator</b></a></center><p>See what might happen before it happens!</p><center>" );
 			}
 		}
 
@@ -489,9 +491,6 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 	private void sendLocalImageHelper( String filename ) throws Exception
 	{
-		// The word "KoLmafia" prefixes all of the local
-		// images.  Therefore, make sure it's removed.
-
 		BufferedInputStream in = new BufferedInputStream( RequestEditorKit.downloadImage(
 			"http://images.kingdomofloathing.com" + filename.substring(6) ).openConnection().getInputStream() );
 
@@ -511,6 +510,21 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 	private void sendSharedFile( String filename )
 	{
+		// If there's no override file, go ahead and
+		// request the page from the server normally.
+
+		if ( filename.endsWith( ".php" ) )
+		{
+			super.run();
+
+			if ( this.responseCode == 302 )
+				this.pseudoResponse( "HTTP/1.1 302 Found", this.redirectLocation );
+			else if ( this.responseCode != 200 )
+				this.sendNotFound();
+
+			return;
+		}
+
 		try
 		{
 			this.sendSharedFileHelper( filename );
@@ -529,16 +543,32 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 	private void sendSharedFileHelper( String filename ) throws Exception
 	{
-		boolean isServerRequest = !filename.startsWith( "KoLmafia" );
-		if ( !isServerRequest )
-			filename = filename.substring( 9 );
-
-		int index = filename.indexOf( "/" );
-		boolean writePseudoResponse = !isServerRequest;
-
+		boolean writePseudoResponse = false;
 		StringBuffer replyBuffer = new StringBuffer();
-		String name = filename.substring( index + 1 );
-		String directory = index <= 0 ? "relay" : "relay/" + filename.substring( 0, index );
+
+		String name, directory;
+		int index = filename.indexOf( "/" );
+
+		// Don't allow attempts to load files in the settings
+		// directory.  Detect attempts and auto-fail.
+
+		if ( index != -1 )
+		{
+			name = filename.substring( index + 1 );
+			directory = RELAY_DIRECTORY + filename.substring( 0, index + 1 );
+		}
+		else
+		{
+			name = filename;
+			directory = RELAY_DIRECTORY;
+		}
+
+		if ( directory.toLowerCase().endsWith( "settings/" ) )
+		{
+			this.sendNotFound();
+			return;
+		}
+
 		BufferedReader reader = DataUtilities.getReader( directory, name );
 
 		if ( reader == null && filename.startsWith( "simulator" ) )
@@ -555,11 +585,18 @@ public class LocalRelayRequest extends PasswordHashRequest
 			replyBuffer = this.readContents( reader );
 			writePseudoResponse = true;
 		}
-		else if ( isServerRequest )
-		{
-			// If there's no override file, go ahead and
-			// request the page from the server normally.
 
+		// Add Javascript to the KoL simulator pages so that
+		// everything loads correctly the first time.
+
+		if ( filename.endsWith( "simulator/index.html" ) )
+		{
+			writePseudoResponse = true;
+			this.handleSimulatorIndex( replyBuffer );
+		}
+
+		if ( !writePseudoResponse )
+		{
 			super.run();
 
 			if ( this.responseCode == 302 )
@@ -567,17 +604,16 @@ public class LocalRelayRequest extends PasswordHashRequest
 				this.pseudoResponse( "HTTP/1.1 302 Found", this.redirectLocation );
 				return;
 			}
-			else if ( this.responseCode != 200 )
+
+			if ( this.responseCode != 200 )
 			{
 				this.sendNotFound();
 				return;
 			}
 		}
-		else
-		{
-			this.sendNotFound();
-			return;
-		}
+
+		// If it's a relay browser request based on a
+		// menu item, then change the middle panel.
 
 		if ( (filename.equals( "main.html" ) || filename.equals( "main_c.html" )) && !mainpane.equals( "" ) )
 		{
@@ -591,15 +627,6 @@ public class LocalRelayRequest extends PasswordHashRequest
 				"name=mainpane src=\"" + mainpane + "\"" );
 
 			mainpane = "";
-		}
-
-		// Add brand new Javascript to every single page.  Check
-		// to see if a reader exists for the file.
-
-		if ( filename.endsWith( "simulator/index.html" ) )
-		{
-			writePseudoResponse = true;
-			this.handleSimulatorIndex( replyBuffer );
 		}
 
 		if ( writePseudoResponse )
@@ -780,7 +807,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 		StringBuffer warning = new StringBuffer();
 
-		warning.append( "<html><head><script language=Javascript src=\"/KoLmafia/basics.js\"></script>" );
+		warning.append( "<html><head><script language=Javascript src=\"/basics.js\"></script>" );
 
 		warning.append( "<script language=Javascript> " );
 		warning.append( "var default0 = " + mcd0 + "; " );
@@ -1071,7 +1098,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 				contents.append( LINE_BREAK );
 			}
 
-			File directory = new File( ROOT_LOCATION, "relay/simulator/" );
+			File directory = new File( RELAY_LOCATION, "simulator" );
 			directory.mkdirs();
 
 			StaticEntity.globalStringReplace( contents, "images/", "http://sol.kolmafia.us/images/" );

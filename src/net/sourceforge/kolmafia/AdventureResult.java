@@ -319,7 +319,31 @@ public class AdventureResult implements Comparable, KoLConstants
 	 */
 
 	public String getName()
-	{	return this.name;
+	{
+		switch ( this.itemId )
+		{
+		case ConsumeItemRequest.MILKY_POTION:
+		case ConsumeItemRequest.SWIRLY_POTION:
+		case ConsumeItemRequest.BUBBLY_POTION:
+		case ConsumeItemRequest.SMOKY_POTION:
+		case ConsumeItemRequest.CLOUDY_POTION:
+		case ConsumeItemRequest.EFFERVESCENT_POTION:
+		case ConsumeItemRequest.FIZZY_POTION:
+		case ConsumeItemRequest.DARK_POTION:
+		case ConsumeItemRequest.MURKY_POTION:
+
+			return ConsumeItemRequest.bangPotionName( this.itemId, this.name );
+
+		case FightRequest.MOSSY_STONE_SPHERE:
+		case FightRequest.SMOOTH_STONE_SPHERE:
+		case FightRequest.CRACKED_STONE_SPHERE:
+		case FightRequest.ROUGH_STONE_SPHERE:
+
+			return FightRequest.stoneSphereName( this.itemId, this.name );
+
+		default:
+			return this.name;
+		}
 	}
 
 	/**
@@ -459,30 +483,7 @@ public class AdventureResult implements Comparable, KoLConstants
 		if ( this.priority != ITEM_PRIORITY )
 			return this.name + " (" + COMMA_FORMAT.format(this.count[0]) + ")";
 
-		switch ( this.itemId )
-		{
-		case ConsumeItemRequest.MILKY_POTION:
-		case ConsumeItemRequest.SWIRLY_POTION:
-		case ConsumeItemRequest.BUBBLY_POTION:
-		case ConsumeItemRequest.SMOKY_POTION:
-		case ConsumeItemRequest.CLOUDY_POTION:
-		case ConsumeItemRequest.EFFERVESCENT_POTION:
-		case ConsumeItemRequest.FIZZY_POTION:
-		case ConsumeItemRequest.DARK_POTION:
-		case ConsumeItemRequest.MURKY_POTION:
-
-			return ConsumeItemRequest.bangPotionName( this.itemId, this.name );
-
-		case FightRequest.MOSSY_STONE_SPHERE:
-		case FightRequest.SMOOTH_STONE_SPHERE:
-		case FightRequest.CRACKED_STONE_SPHERE:
-		case FightRequest.ROUGH_STONE_SPHERE:
-
-			return FightRequest.stoneSphereName( this.itemId, this.name );
-
-		default:
-			return this.name;
-		}
+		return this.getName();
 	}
 
 	public String toConditionString()
