@@ -146,6 +146,10 @@ public abstract class KoLmafia implements KoLConstants
 		stopEncounters.add( "Drawn Onward" );
 		stopEncounters.add( "Mr. Alarm" );
 		stopEncounters.add( "We'll All Be Flat" );
+		stopEncounters.add( "Hoom Hah" );
+		stopEncounters.add( "Every Seashell Has a Story to Tell If You're Listening" );
+		stopEncounters.add( "Leavesdropping" );
+		stopEncounters.add( "These Pipes... Aren't Clean!" );
 	}
 
 	private static boolean acquireFileLock( String suffix )

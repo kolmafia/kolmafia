@@ -1103,4 +1103,22 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 		return evade1 - evade2;
 	}
+
+	public static String demonType( int i )
+	{
+		switch ( i )
+		{
+		case 1:
+			return "Summoning Chamber (pies)";
+		case 2:
+			return "Spooky Forest (Preternatural Greed)";
+		case 3:
+			return "Sonofa Beach (Fit To Be Tide)";
+		case 4:
+			return "Deep Fat Friars' Gate (Big Flaming Whip)";
+		case 5:
+			return "Haunted Bathroom (Demonic Taint)";
+		}
+		return "Unknown";
+	}
 }

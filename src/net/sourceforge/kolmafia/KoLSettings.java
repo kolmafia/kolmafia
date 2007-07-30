@@ -693,6 +693,11 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "defaultAutoAttack", "0" );
 		PLAYER_SETTINGS.put( "defaultFlowerLossMessage", "" );
 		PLAYER_SETTINGS.put( "defaultFlowerWinMessage", "" );
+		PLAYER_SETTINGS.put( "demonName1", "" );
+		PLAYER_SETTINGS.put( "demonName2", "" );
+		PLAYER_SETTINGS.put( "demonName3", "" );
+		PLAYER_SETTINGS.put( "demonName4", "" );
+		PLAYER_SETTINGS.put( "demonName5", "" );
 		PLAYER_SETTINGS.put( "grimoireSummons", "0" );
 		PLAYER_SETTINGS.put( "hpAutoRecovery", "-0.1" );
 		PLAYER_SETTINGS.put( "hpAutoRecoveryTarget", "1.0" );
