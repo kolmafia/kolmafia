@@ -3074,7 +3074,7 @@ public abstract class KoLmafia implements KoLConstants
 	public void launchSimulator()
 	{
 		this.startRelayServer();
-		StaticEntity.openSystemBrowser( "http://127.0.0.1:" + LocalRelayServer.getPort() + "/KoLmafia/simulator/index.html" );
+		StaticEntity.openSystemBrowser( "http://127.0.0.1:" + LocalRelayServer.getPort() + "/simulator/index.html" );
 	}
 
 	public static boolean isAdventuring()

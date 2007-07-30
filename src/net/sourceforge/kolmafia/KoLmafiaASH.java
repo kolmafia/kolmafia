@@ -4698,6 +4698,15 @@ public class KoLmafiaASH extends StaticEntity
 			if ( filename.startsWith( "http" ) )
 				return null;
 
+			int index = filename.indexOf( "/" );
+
+			if ( index != -1 )
+			{
+				String directory = filename.substring( 0, index ).toLowerCase();
+				if ( directory.endsWith( "settings" ) )
+					return null;
+			}
+
 			File f = new File( SCRIPT_LOCATION, filename );
 			if ( f.exists() )
 				return f;
@@ -4732,8 +4741,6 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue load_html( ScriptVariable string )
 		{
 			String location = string.toStringValue().toString();
-			if ( !location.endsWith( ".htm" ) && !location.endsWith( ".html" ) )
-				return STRING_INIT;
 
 			File input = getFile( location );
 			if ( input == null || !input.exists() )

@@ -558,20 +558,6 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( possibilities.size() == 1 )
 			return getItemId( (String) possibilities.get(0), count );
 
-		String testName, testProperty;
-		ConsumeItemRequest.ensureUpdatedPotionEffects();
-
-		for ( int i = 819; i <= 827; ++i )
-		{
-			testProperty = StaticEntity.getProperty( "lastBangPotion" + i );
-			if ( !testProperty.equals( "" ) )
-			{
-				testName = TradeableItemDatabase.getItemName( i ) + " of " + testProperty;
-				if ( testName.indexOf( canonicalName ) != -1 )
-					return i;
-			}
-		}
-
 		// Abort if it's clearly not going to be a plural,
 		// since this might kill off multi-item detection.
 

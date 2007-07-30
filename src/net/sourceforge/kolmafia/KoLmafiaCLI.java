@@ -3886,7 +3886,25 @@ public class KoLmafiaCLI extends KoLmafia
 			// in an NPC store.  If so, automatically default to it.
 
 			if ( !matchingNames.isEmpty() )
+			{
 				itemId = getFirstMatchingItemId( matchingNames );
+			}
+			else
+			{
+				String testName, testProperty;
+				ConsumeItemRequest.ensureUpdatedPotionEffects();
+
+				for ( int i = 819; i <= 827 && itemId == -1; ++i )
+				{
+					testProperty = StaticEntity.getProperty( "lastBangPotion" + i );
+					if ( !testProperty.equals( "" ) )
+					{
+						testName = TradeableItemDatabase.getItemName( i ) + " of " + testProperty;
+						if ( testName.equalsIgnoreCase( parameters ) )
+							itemId = i;
+					}
+				}
+			}
 
 			if ( itemId == 0 )
 			{
