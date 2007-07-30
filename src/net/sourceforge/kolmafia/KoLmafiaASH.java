@@ -172,8 +172,9 @@ public class KoLmafiaASH extends StaticEntity
 	private static final ScriptTypeList simpleTypes = getSimpleTypes();
 	private static final ScriptSymbolTable reservedWords = getReservedWords();
 
-	private StringBuffer clientHTML;
-	private static KoLmafiaASH clientScript = null;
+	private StringBuffer serverReplyBuffer;
+	private static LocalRelayRequest relayRequest;
+	private static KoLmafiaASH relayScript = null;
 
 	private StringBuffer concatenateBuffer = new StringBuffer();
 
@@ -205,7 +206,7 @@ public class KoLmafiaASH extends StaticEntity
 	public KoLmafiaASH()
 	{
 		this.global = new ScriptScope( new ScriptVariableList(), getExistingFunctionScope() );
-		this.clientHTML = new StringBuffer();
+		this.serverReplyBuffer = new StringBuffer();
 	}
 
 	public String getFileName()
@@ -217,7 +218,7 @@ public class KoLmafiaASH extends StaticEntity
 		this.global = source.global;
 		this.imports = source.imports;
 		this.fileName = scriptFile.getPath();
-		this.clientHTML = new StringBuffer();
+		this.serverReplyBuffer = new StringBuffer();
 
 		try
 		{
@@ -249,21 +250,22 @@ public class KoLmafiaASH extends StaticEntity
 
 		synchronized ( KoLmafiaASH.class )
 		{
-			clientScript = KoLmafiaASH.getInterpreter( toExecute );
-			if ( clientScript == null )
+			relayScript = KoLmafiaASH.getInterpreter( toExecute );
+			if ( relayScript == null )
 				return false;
 
-			clientScript.clientHTML.setLength(0);
-			clientScript.execute( "main", new String [] { request.getDataString( false ) } );
+			relayRequest = request;
+			relayScript.serverReplyBuffer.setLength(0);
+			relayScript.execute( "main", new String [] { request.getDataString( false ) } );
 
-			if ( clientScript.clientHTML.length() == 0 )
+			if ( relayScript.serverReplyBuffer.length() == 0 )
 			{
-				clientScript = null;
+				relayScript = null;
 				return false;
 			}
 
-			request.pseudoResponse( "HTTP/1.1 200 OK", clientScript.clientHTML.toString() );
-			clientScript = null;
+			request.pseudoResponse( "HTTP/1.1 200 OK", relayScript.serverReplyBuffer.toString() );
+			relayScript = null;
 		}
 
 		return true;
@@ -4736,20 +4738,20 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue write( ScriptVariable string )
 		{
-			if ( clientScript == null )
+			if ( relayScript == null )
 				return VOID_VALUE;
 
-			clientScript.clientHTML.append( string.toStringValue().toString() );
+			relayScript.serverReplyBuffer.append( string.toStringValue().toString() );
 			return VOID_VALUE;
 		}
 
 		public ScriptValue writeln( ScriptVariable string )
 		{
-			if ( clientScript == null )
+			if ( relayScript == null )
 				return VOID_VALUE;
 
 			write( string );
-			clientScript.clientHTML.append( LINE_BREAK );
+			relayScript.serverReplyBuffer.append( LINE_BREAK );
 			return VOID_VALUE;
 		}
 
@@ -4777,17 +4779,10 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue relay_url()
 		{
-			if ( clientScript == null )
+			if ( relayScript == null )
 				return STRING_INIT;
 
-			String location = clientScript.fileName;
-			location = location.substring( location.length() - 4 );
-
-			if ( KoLRequest.shouldIgnore( location ) )
-				return STRING_INIT;
-
-			RequestThread.postRequest( RELAYER.constructURLString( location ) );
-			StaticEntity.externalUpdate( location, RELAYER.responseText );
+			RequestThread.postRequest( RELAYER.constructURLString( relayRequest.getURLString() ) );
 			return RELAYER.responseText == null ? STRING_INIT : new ScriptValue( RELAYER.responseText );
 		}
 
