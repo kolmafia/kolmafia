@@ -1429,6 +1429,18 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( command.equals( "demons" ) )
+		{
+			for ( int i = 1; i <= 5; ++i )
+			{
+				String demon = KoLAdventure.demonType( i );
+				String name = StaticEntity.getProperty( "demonName" + i );
+				RequestLogger.printLine( demon + ": " + name );
+			}
+
+			return;
+		}
+
 		if ( command.equals( "logprint" ) )
 		{
 			this.executePrintCommand( parameters, true );
