@@ -3204,9 +3204,6 @@ public class KoLmafiaASH extends StaticEntity
 		result.addElement( new ScriptExistingFunction( "load_html", STRING_TYPE, params ) );
 
 		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "load_html", STRING_TYPE, params ) );
-
-		params = new ScriptType[] { STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "write", VOID_TYPE, params ) );
 
 		params = new ScriptType[] { STRING_TYPE };
@@ -3216,10 +3213,10 @@ public class KoLmafiaASH extends StaticEntity
 		result.addElement( new ScriptExistingFunction( "visit_url", STRING_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "relay_url", STRING_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "relay_url", BUFFER_TYPE, params ) );
 
 		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "relay_url", STRING_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "relay_url", BUFFER_TYPE, params ) );
 
 		params = new ScriptType[] { INT_TYPE };
 		result.addElement( new ScriptExistingFunction( "wait", VOID_TYPE, params ) );
@@ -4785,8 +4782,11 @@ public class KoLmafiaASH extends StaticEntity
 			}
 
 			RequestThread.postRequest( VISITOR.constructURLString( location ) );
+			if ( VISITOR.responseText == null )
+				return STRING_INIT;
+
 			StaticEntity.externalUpdate( location, VISITOR.responseText );
-			return VISITOR.responseText == null ? STRING_INIT : new ScriptValue( VISITOR.responseText );
+			return new ScriptValue( location );
 		}
 
 		public ScriptValue relay_url()
@@ -4804,11 +4804,18 @@ public class KoLmafiaASH extends StaticEntity
 
 		private ScriptValue relay_url( String location )
 		{
+			StringBuffer buffer = new StringBuffer();
+			ScriptValue returnValue = new ScriptValue( BUFFER_TYPE, "", buffer );
+
 			if ( relayScript == null )
-				return STRING_INIT;
+				return returnValue;
 
 			RequestThread.postRequest( RELAYER.constructURLString( relayRequest.getURLString() ) );
-			return RELAYER.responseText == null ? STRING_INIT : new ScriptValue( RELAYER.responseText );
+
+			if ( VISITOR.responseText != null )
+				buffer.append( VISITOR.responseText );
+
+			return returnValue;
 		}
 
 		public ScriptValue wait( ScriptVariable delay )
