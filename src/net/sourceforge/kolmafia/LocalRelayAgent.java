@@ -61,7 +61,7 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 	private LocalRelayRequest request;
 
 	public LocalRelayAgent( int id )
-	{	this.request = new LocalRelayRequest();
+	{	this.request = new LocalRelayRequest( true );
 	}
 
 	boolean isWaiting()

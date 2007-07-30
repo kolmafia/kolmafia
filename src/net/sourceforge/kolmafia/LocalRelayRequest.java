@@ -65,13 +65,16 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 	private static String mainpane = "";
 
+	private boolean allowOverride;
 	public List headers = new ArrayList();
 	public byte [] rawByteBuffer = null;
 	public String contentType = null;
 	public String statusLine = "HTTP/1.1 302 Found";
 
-	public LocalRelayRequest()
-	{	super( "" );
+	public LocalRelayRequest( boolean allowOverride )
+	{
+		super( "" );
+		this.allowOverride = allowOverride;
 	}
 
 	public KoLRequest constructURLString( String newURLString )
@@ -879,7 +882,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// If this is a script request, then run the script and
 		// return the client HTML.
 
-		if ( RELAY_LOCATION.exists() && KoLmafiaASH.getClientHTML( this ) )
+		if ( allowOverride && RELAY_LOCATION.exists() && KoLmafiaASH.getClientHTML( this ) )
 			return;
 
 		boolean isWebPage = this.formURLString.endsWith( ".php" ) || this.formURLString.endsWith( ".html" );

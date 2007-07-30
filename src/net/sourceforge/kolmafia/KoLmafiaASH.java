@@ -69,6 +69,9 @@ import net.sourceforge.kolmafia.StoreManager.SoldItem;
 
 public class KoLmafiaASH extends StaticEntity
 {
+	private static final KoLRequest VISITOR = new KoLRequest( "", true );
+	private static final LocalRelayRequest RELAYER = new LocalRelayRequest( false );
+
 	/* Variables for Advanced Scripting */
 
 	public final static char [] tokenList = { ' ', '.', ',', '{', '}', '(', ')', '$', '!', '+', '-', '=', '"', '\'', '*', '^', '/', '%', '[', ']', '!', ';', '<', '>' };
@@ -244,17 +247,25 @@ public class KoLmafiaASH extends StaticEntity
 		if ( toExecute == null || !toExecute.exists() )
 			return false;
 
-		clientScript = KoLmafiaASH.getInterpreter( toExecute );
-		if ( clientScript == null )
-			return false;
+		synchronized ( KoLmafiaASH.class )
+		{
+			clientScript = KoLmafiaASH.getInterpreter( toExecute );
+			if ( clientScript == null )
+				return false;
 
-		clientScript.clientHTML.setLength(0);
-		clientScript.execute( "main", new String [] { request.getDataString( false ) } );
+			clientScript.clientHTML.setLength(0);
+			clientScript.execute( "main", new String [] { request.getDataString( false ) } );
 
-		if ( clientScript.clientHTML.length() == 0 )
-			return false;
+			if ( clientScript.clientHTML.length() == 0 )
+			{
+				clientScript = null;
+				return false;
+			}
 
-		request.pseudoResponse( "HTTP/1.1 200 OK", clientScript.clientHTML.toString() );
+			request.pseudoResponse( "HTTP/1.1 200 OK", clientScript.clientHTML.toString() );
+			clientScript = null;
+		}
+
 		return true;
 	}
 
@@ -3183,6 +3194,9 @@ public class KoLmafiaASH extends StaticEntity
 		result.addElement( new ScriptExistingFunction( "load_html", STRING_TYPE, params ) );
 
 		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "load_html", STRING_TYPE, params ) );
+
+		params = new ScriptType[] { STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "write", VOID_TYPE, params ) );
 
 		params = new ScriptType[] { STRING_TYPE };
@@ -3190,6 +3204,8 @@ public class KoLmafiaASH extends StaticEntity
 
 		params = new ScriptType[] { STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "visit_url", STRING_TYPE, params ) );
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "relay_url", STRING_TYPE, params ) );
 
 		params = new ScriptType[] { INT_TYPE };
 		result.addElement( new ScriptExistingFunction( "wait", VOID_TYPE, params ) );
@@ -4720,12 +4736,18 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue write( ScriptVariable string )
 		{
+			if ( clientScript == null )
+				return VOID_VALUE;
+
 			clientScript.clientHTML.append( string.toStringValue().toString() );
 			return VOID_VALUE;
 		}
 
 		public ScriptValue writeln( ScriptVariable string )
 		{
+			if ( clientScript == null )
+				return VOID_VALUE;
+
 			write( string );
 			clientScript.clientHTML.append( LINE_BREAK );
 			return VOID_VALUE;
@@ -4748,11 +4770,25 @@ public class KoLmafiaASH extends StaticEntity
 				KoLRequest.delay();
 			}
 
-			KoLRequest request = new KoLRequest( location, true );
-			RequestThread.postRequest( request );
+			RequestThread.postRequest( VISITOR.constructURLString( location ) );
+			StaticEntity.externalUpdate( location, VISITOR.responseText );
+			return VISITOR.responseText == null ? STRING_INIT : new ScriptValue( VISITOR.responseText );
+		}
 
-			StaticEntity.externalUpdate( location, request.responseText );
-			return request.responseText == null ? STRING_INIT : new ScriptValue( request.responseText );
+		public ScriptValue relay_url()
+		{
+			if ( clientScript == null )
+				return STRING_INIT;
+
+			String location = clientScript.fileName;
+			location = location.substring( location.length() - 4 );
+
+			if ( KoLRequest.shouldIgnore( location ) )
+				return STRING_INIT;
+
+			RequestThread.postRequest( RELAYER.constructURLString( location ) );
+			StaticEntity.externalUpdate( location, RELAYER.responseText );
+			return RELAYER.responseText == null ? STRING_INIT : new ScriptValue( RELAYER.responseText );
 		}
 
 		public ScriptValue wait( ScriptVariable delay )
