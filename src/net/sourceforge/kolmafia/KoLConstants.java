@@ -168,12 +168,12 @@ public interface KoLConstants extends UtilityConstants
 	public static final String SCRIPT_DIRECTORY = "scripts/";
 	public static final String SETTINGS_DIRECTORY = "settings/";
 	public static final String SESSIONS_DIRECTORY = "sessions/";
-	public static final String RELAY_DIRECTORY = "html/";
+	public static final String RELAY_SCRIPTS_DIRECTORY = "scripts/relay/";
 
 	public static final File SCRIPT_LOCATION = new File( ROOT_LOCATION, "scripts" );
 	public static final File SETTINGS_LOCATION = new File( ROOT_LOCATION, "settings" );
 	public static final File SESSIONS_LOCATION = new File( ROOT_LOCATION, "sessions" );
-	public static final File RELAY_LOCATION = new File( ROOT_LOCATION, "html" );
+	public static final File RELAY_SCRIPTS_LOCATION = new File( SCRIPT_LOCATION, "relay" );
 
 	public static final KoLmafiaCLI DEFAULT_SHELL = new KoLmafiaCLI( System.in );
 	public static final KoLmafiaASH NAMESPACE_INTERPRETER = new KoLmafiaASH();

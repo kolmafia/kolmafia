@@ -882,7 +882,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// If this is a script request, then run the script and
 		// return the client HTML.
 
-		if ( allowOverride && RELAY_LOCATION.exists() && KoLmafiaASH.getClientHTML( this ) )
+		if ( allowOverride && RELAY_SCRIPTS_LOCATION.exists() && KoLmafiaASH.getClientHTML( this ) )
 			return;
 
 		boolean isWebPage = this.formURLString.endsWith( ".php" ) || this.formURLString.endsWith( ".html" );
