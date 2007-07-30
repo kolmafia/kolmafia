@@ -3706,6 +3706,11 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { MATCHER_TYPE, STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "reset", MATCHER_TYPE, params ) );
 
+		params = new ScriptType[] { BUFFER_TYPE, STRING_TYPE, STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "replace_string", STRING_TYPE, params ) );
+		params = new ScriptType[] { STRING_TYPE, STRING_TYPE, STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "replace_string", STRING_TYPE, params ) );
+
 		params = new ScriptType[] { STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "split_string", new ScriptAggregateType( STRING_TYPE, 0 ), params ) );
 		params = new ScriptType[] { STRING_TYPE, STRING_TYPE };
@@ -5856,6 +5861,20 @@ public class KoLmafiaASH extends StaticEntity
 			Matcher m = (Matcher) matcher.getValue().rawValue();
 			m.reset( input.toStringValue().toString() );
 			return matcher.getValue();
+		}
+
+		public ScriptValue replace_string( ScriptVariable source, ScriptVariable search, ScriptVariable replace )
+		{
+			if ( source.getValue().rawValue() instanceof StringBuffer )
+			{
+				StaticEntity.globalStringReplace( (StringBuffer) source.getValue().rawValue(),
+					search.toStringValue().toString(), replace.toStringValue().toString() );
+
+				return source.getValue();
+			}
+
+			return new ScriptValue( StaticEntity.globalStringReplace( source.toStringValue().toString(),
+				search.toStringValue().toString(), replace.toStringValue().toString() ) );
 		}
 
 		public ScriptValue split_string( ScriptVariable string )
