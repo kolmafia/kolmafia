@@ -164,6 +164,9 @@ public class KoLmafiaASH extends StaticEntity
 	private static final ScriptTypeList simpleTypes = getSimpleTypes();
 	private static final ScriptSymbolTable reservedWords = getReservedWords();
 
+	private StringBuffer clientHTML;
+	private static KoLmafiaASH clientScript = null;
+
 	private String fileName;
 	private String fullLine;
 	private String currentLine;
@@ -192,6 +195,7 @@ public class KoLmafiaASH extends StaticEntity
 	public KoLmafiaASH()
 	{
 		this.global = new ScriptScope( new ScriptVariableList(), getExistingFunctionScope() );
+		this.clientHTML = new StringBuffer();
 	}
 
 	public String getFileName()
@@ -203,6 +207,7 @@ public class KoLmafiaASH extends StaticEntity
 		this.global = source.global;
 		this.imports = source.imports;
 		this.fileName = scriptFile.getPath();
+		this.clientHTML = new StringBuffer();
 
 		try
 		{
@@ -219,6 +224,21 @@ public class KoLmafiaASH extends StaticEntity
 
 			throw new AdvancedScriptException( fileName + " could not be accessed" );
 		}
+	}
+
+	public static String getClientHTML( String script, String argument )
+	{
+		File toExecute = KoLmafiaCLI.findScriptFile( script );
+		if ( toExecute == null || !toExecute.exists() )
+			return "";
+
+		clientScript = KoLmafiaASH.getInterpreter( toExecute );
+		if ( clientScript == null )
+			return "";
+
+		clientScript.clientHTML.setLength(0);
+		clientScript.execute( "main", new String [] { argument == null ? "" : argument } );
+		return clientScript.clientHTML.toString();
 	}
 
 	public static final KoLmafiaASH getInterpreter( File toExecute )
@@ -567,30 +587,6 @@ public class KoLmafiaASH extends StaticEntity
 		if ( name == null )
 			return FAMILIAR_INIT;
 		return new ScriptValue( FAMILIAR_TYPE, num, name );
-	}
-
-	private static ScriptValue makeSlotValue( int num )
-	{
-		String name;
-
-		if ( num < 0 || num >= EquipmentRequest.slotNames.length )
-			name = "bogus";
-		else
-			name  = EquipmentRequest.slotNames[num];
-
-		return new ScriptValue( SLOT_TYPE, num, name );
-	}
-
-	private static ScriptValue makeElementValue( int num )
-	{
-		String name;
-
-		if ( num < 0 || num >= MonsterDatabase.elementNames.length )
-			name = "bogus";
-		else
-			name  = MonsterDatabase.elementNames[num];
-
-		return new ScriptValue( ELEMENT_TYPE, num, name );
 	}
 
 	// **************** Tracing *****************
@@ -3166,6 +3162,9 @@ public class KoLmafiaASH extends StaticEntity
 		result.addElement( new ScriptExistingFunction( "load_html", STRING_TYPE, params ) );
 
 		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "write_html", VOID_TYPE, params ) );
+
+		params = new ScriptType[] { STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "visit_url", STRING_TYPE, params ) );
 
 		params = new ScriptType[] { INT_TYPE };
@@ -4644,6 +4643,12 @@ public class KoLmafiaASH extends StaticEntity
 			request.loadResponseFromFile( input );
 
 			return request.responseText == null ? STRING_INIT : new ScriptValue( request.responseText );
+		}
+
+		public ScriptValue write_html( ScriptVariable string )
+		{
+			clientScript.clientHTML.append( string.toStringValue().toString() );
+			return VOID_VALUE;
 		}
 
 		public ScriptValue visit_url( ScriptVariable string )
