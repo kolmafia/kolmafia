@@ -1547,6 +1547,8 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 	private static void changePotionImages( StringBuffer buffer )
 	{
+		ConsumeItemRequest.ensureUpdatedPotionEffects();
+
 		if ( buffer.indexOf( "exclam.gif" ) == -1 )
 			return;
 
@@ -1584,6 +1586,8 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 	private static void changePotionNames( StringBuffer buffer )
 	{
+		ConsumeItemRequest.ensureUpdatedPotionEffects();
+
 		for ( int i = 819; i <= 827; ++i )
 		{
 			String name = TradeableItemDatabase.getItemName( i );
@@ -1600,6 +1604,8 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 	private static void changeDustyBottleNames( StringBuffer buffer )
 	{
+		FightRequest.ensureUpdatedSphereEffects();
+
 		int glyphs[] = new int[3];
 
 		Matcher matcher = GLYPH_PATTERN.matcher( buffer );
@@ -1638,6 +1644,8 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 	private static void changeSphereImages( StringBuffer buffer )
 	{
+		FightRequest.ensureUpdatedSphereEffects();
+
 		changeSphereImage( buffer, "spheremoss.gif", 2174 );
 		changeSphereImage( buffer, "spheresmooth.gif", 2175 );
 		changeSphereImage( buffer, "spherecrack.gif", 2176 );
