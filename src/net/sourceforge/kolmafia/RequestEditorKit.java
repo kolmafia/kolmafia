@@ -1499,7 +1499,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( !StaticEntity.getBooleanProperty( "relayAddsMonsterHealth" ) )
 			return;
 
-		if ( FightRequest.getLastMonster() == null )
+		if ( FightRequest.getLastMonster() == null || FightRequest.getLastMonster().getAdjustedHP(0) == 0 )
 			return;
 
 		int nameIndex = buffer.indexOf( "<span id='monname" );
