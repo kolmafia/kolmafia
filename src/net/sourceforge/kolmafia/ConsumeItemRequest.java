@@ -367,7 +367,7 @@ public class ConsumeItemRequest extends KoLRequest
 		if ( itemId == MACGUFFIN_DIARY )
 		{
 			KoLAdventure.ZONE_VALIDATOR.constructURLString( "diary.php?textversion=1" ).run();
-			KoLmafia.updateDisplay( "Diary read" );
+			KoLmafia.updateDisplay( "Your father's diary has been read." );
 			return;
 		}
 
@@ -1405,14 +1405,19 @@ public class ConsumeItemRequest extends KoLRequest
 
 		if ( lastItemUsed.getItemId() == BLACK_MARKET_MAP && KoLCharacter.getFamiliar().getId() != 59 )
 		{
+			AdventureResult map = lastItemUsed;
 			FamiliarData blackbird = new FamiliarData( 59 );
 			if ( !KoLCharacter.getFamiliarList().contains( blackbird ) )
 				(new ConsumeItemRequest( new AdventureResult( 2052, 1 ) )).run();
 
 			if ( !KoLmafia.permitsContinue() )
+			{
+				lastItemUsed = map;
 				return true;
+			}
 
-			DEFAULT_SHELL.executeCommand( "familiar", "Reassembled Blackbird" );
+			(new FamiliarRequest( blackbird )).run();
+			lastItemUsed = map;
 		}
 
 		RequestLogger.updateSessionLog();

@@ -97,22 +97,16 @@ public class FamiliarRequest extends KoLRequest
 		super.run();
 
 		// If you're not equipping a familiar, or your old familiar wasn't
-		// wearing something, or your old familiar can't equip the new item,
+		// wearing something, or your new familiar can't equip the old item,
 		// then do nothing further.
 
 		if ( familiar == null || familiar == FamiliarData.NO_FAMILIAR )
 			return;
 
-		if ( this.changeTo == null || this.changeTo == FamiliarData.NO_FAMILIAR )
+		if ( this.changeTo == null || this.changeTo == FamiliarData.NO_FAMILIAR || this.changeTo.getId() == 59 )
 			return;
 
-		if ( item == EquipmentRequest.UNEQUIP || !this.changeTo.canEquip( item ) )
-			return;
-
-		// If the familiar is already wearing its default item, and the item does
-		// not give five weight, it's also probably better not to switch.
-
-		if ( !this.changeTo.getItem().equals( EquipmentRequest.UNEQUIP ) )
+		if ( item == EquipmentRequest.UNEQUIP || !this.changeTo.getItem().equals( EquipmentRequest.UNEQUIP ) || !this.changeTo.canEquip( item ) )
 			return;
 
 		// In all other cases, a switch is probably in order.  Go ahead and make
