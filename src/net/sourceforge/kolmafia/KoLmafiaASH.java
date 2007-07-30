@@ -249,7 +249,7 @@ public class KoLmafiaASH extends StaticEntity
 			script = script + ".ash";
 		}
 
-		File toExecute = new File( RELAY_DIRECTORY, script );
+		File toExecute = new File( RELAY_SCRIPTS_LOCATION, script );
 		if ( !toExecute.exists() )
 			return false;
 
