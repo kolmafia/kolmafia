@@ -49,6 +49,10 @@ public class DescriptionFrame extends RequestFrame
 		super.dispose();
 	}
 
+	public boolean hasSideBar()
+	{	return false;
+	}
+
 	public static void showLocation( String location )
 	{	showRequest( RequestEditorKit.extractRequest( location ) );
 	}

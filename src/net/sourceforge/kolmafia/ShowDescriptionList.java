@@ -174,28 +174,28 @@ public class ShowDescriptionList extends JList implements KoLConstants
 				ShowDescriptionList.this.lastSelectIndex = -1;
 			}
 		}
-    }
+	}
 
 	public static void showGameDescription( Object item )
 	{
 		if ( item instanceof AdventureResult )
 		{
 			if ( ((AdventureResult)item).isItem() )
-				FightFrame.showLocation( "desc_item.php?whichitem=" + TradeableItemDatabase.getDescriptionId( ((AdventureResult)item).getItemId() ) );
+				StaticEntity.openRequestFrame( "desc_item.php?whichitem=" + TradeableItemDatabase.getDescriptionId( ((AdventureResult)item).getItemId() ) );
 			if ( ((AdventureResult)item).isStatusEffect() )
-				FightFrame.showLocation( "desc_effect.php?whicheffect=" + StatusEffectDatabase.getDescriptionId( StatusEffectDatabase.getEffectId( ((AdventureResult)item).getName() ) ) );
+				StaticEntity.openRequestFrame( "desc_effect.php?whicheffect=" + StatusEffectDatabase.getDescriptionId( StatusEffectDatabase.getEffectId( ((AdventureResult)item).getName() ) ) );
 		}
 		else if ( item instanceof ItemCreationRequest )
 		{
-			FightFrame.showLocation( "desc_item.php?whichitem=" + TradeableItemDatabase.getDescriptionId( ((ItemCreationRequest)item).getItemId() ) );
+			StaticEntity.openRequestFrame( "desc_item.php?whichitem=" + TradeableItemDatabase.getDescriptionId( ((ItemCreationRequest)item).getItemId() ) );
 		}
 		else if ( item instanceof Concoction )
 		{
-			FightFrame.showLocation( "desc_item.php?whichitem=" + TradeableItemDatabase.getDescriptionId( ((Concoction)item).getItemId() ) );
+			StaticEntity.openRequestFrame( "desc_item.php?whichitem=" + TradeableItemDatabase.getDescriptionId( ((Concoction)item).getItemId() ) );
 		}
 		else if ( item instanceof UseSkillRequest )
 		{
-			FightFrame.showLocation( "desc_skill.php?whichskill=" + ((UseSkillRequest)item).getSkillId() );
+			StaticEntity.openRequestFrame( "desc_skill.php?whichskill=" + ((UseSkillRequest)item).getSkillId() );
 		}
 		else if ( item instanceof String )
 		{

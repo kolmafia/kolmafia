@@ -466,9 +466,6 @@ public abstract class StaticEntity implements KoLConstants
 
 	public static void openRequestFrame( String location )
 	{
-		KoLFrame [] frames = getExistingFrames();
-		RequestFrame requestHolder = null;
-
 		KoLRequest request = RequestEditorKit.extractRequest( location );
 
 		if ( location.startsWith( "search" ) || location.startsWith( "desc" ) || location.startsWith( "static" ) || location.startsWith( "show" ) )
@@ -476,6 +473,9 @@ public abstract class StaticEntity implements KoLConstants
 			DescriptionFrame.showRequest( request );
 			return;
 		}
+
+		KoLFrame [] frames = getExistingFrames();
+		RequestFrame requestHolder = null;
 
 		for ( int i = frames.length - 1; i >= 0; --i )
 			if ( frames[i].getClass() == RequestFrame.class && ((RequestFrame)frames[i]).hasSideBar() )

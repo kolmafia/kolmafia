@@ -127,6 +127,7 @@ public class RequestFrame extends KoLFrame
 			JComponentUtilities.setComponentSize( mainScroller, 400, 300 );
 			this.framePanel.setLayout( new BorderLayout() );
 			this.framePanel.add( mainScroller, BorderLayout.CENTER );
+			return;
 		}
 
 		this.sideDisplay = new RequestPane();
