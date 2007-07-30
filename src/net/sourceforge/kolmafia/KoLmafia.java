@@ -556,7 +556,7 @@ public abstract class KoLmafia implements KoLConstants
 		{
 			String currentLayout = StaticEntity.getProperty( "plantingScript" );
 			if ( !currentLayout.equals( "" ) && KoLCharacter.inMuscleSign() && MushroomPlot.ownsPlot() )
-				DEFAULT_SHELL.executeLine( "call " + MushroomPlot.PLOT_DIRECTORY.getPath() + "/" + currentLayout + ".ash" );
+				DEFAULT_SHELL.executeLine( "call " + PLOTS_DIRECTORY + currentLayout + ".ash" );
 		}
 	}
 

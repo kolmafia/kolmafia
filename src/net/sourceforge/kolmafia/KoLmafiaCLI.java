@@ -2434,10 +2434,15 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( scriptFile.exists() )
 			return scriptFile.getAbsoluteFile();
 
+		scriptFile = findScriptFile( SCRIPT_LOCATION, filename, false );
+		if ( scriptFile != null )
+			return scriptFile;
+
+		scriptFile = new File( PLOTS_LOCATION, filename );
 		if ( scriptFile.exists() )
 			return scriptFile.getAbsoluteFile();
 
-		return findScriptFile( SCRIPT_LOCATION, filename, false );
+		return findScriptFile( RELAY_LOCATION, filename, false );
 	}
 
 	public static File findScriptFile( File directory, String filename )
