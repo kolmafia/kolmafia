@@ -243,10 +243,13 @@ public class KoLmafiaASH extends StaticEntity
 
 		if ( !script.endsWith( ".ash" ) )
 		{
+			if ( !script.endsWith( ".php" ) )
+				return false;
+
 			if ( KoLRequest.shouldIgnore( script ) )
 				return false;
 
-			script = script + ".ash";
+			script = script.substring( 0, script.length() - 4 ) + ".ash";
 		}
 
 		File toExecute = new File( RELAY_LOCATION, script );
