@@ -876,17 +876,17 @@ public class LocalRelayRequest extends PasswordHashRequest
 			return;
 		}
 
-		System.out.println( this.formURLString );
+		// If this is a script request, then run the script and
+		// return the client HTML.
 
-		if ( this.formURLString.endsWith( ".ash" ) )
+		if ( RELAY_LOCATION.exists() )
 		{
 			String clientHTML = KoLmafiaASH.getClientHTML( this.formURLString, this.getFormField( "arg" ) );
-			if ( clientHTML.equals( "" ) )
-				this.sendNotFound();
-			else
+			if ( !clientHTML.equals( "" ) )
+			{
 				this.pseudoResponse( "HTTP/1.1 200 OK", clientHTML );
-
-			return;
+				return;
+			}
 		}
 
 		boolean isWebPage = this.formURLString.endsWith( ".php" ) || this.formURLString.endsWith( ".html" );
@@ -898,6 +898,9 @@ public class LocalRelayRequest extends PasswordHashRequest
 			this.sendNotFound();
 			return;
 		}
+
+		// Load custom items from OneTonTomato's script if they
+		// are currently being requested.
 
 		if ( this.formURLString.equals( "desc_item.php" ) )
 		{

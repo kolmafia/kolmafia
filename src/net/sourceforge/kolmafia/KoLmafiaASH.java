@@ -228,7 +228,10 @@ public class KoLmafiaASH extends StaticEntity
 
 	public static String getClientHTML( String script, String argument )
 	{
-		File toExecute = KoLmafiaCLI.findScriptFile( script );
+		if ( !script.endsWith( ".ash" ) )
+			script = script + ".ash";
+
+		File toExecute = new File( RELAY_DIRECTORY, script );
 		if ( toExecute == null || !toExecute.exists() )
 			return "";
 
