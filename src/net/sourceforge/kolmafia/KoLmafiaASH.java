@@ -264,7 +264,7 @@ public class KoLmafiaASH extends StaticEntity
 
 			relayRequest = request;
 			relayScript.serverReplyBuffer.setLength(0);
-			relayScript.execute( "main", new String [] { request.getDataString( false ) } );
+			relayScript.execute( "main", new String [] { request.getPath(), request.getDataString( false ) } );
 
 			if ( relayScript.serverReplyBuffer.length() == 0 )
 			{
