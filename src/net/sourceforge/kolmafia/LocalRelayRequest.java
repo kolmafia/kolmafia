@@ -879,15 +879,8 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// If this is a script request, then run the script and
 		// return the client HTML.
 
-		if ( RELAY_LOCATION.exists() )
-		{
-			String clientHTML = KoLmafiaASH.getClientHTML( this.formURLString, this.getFormField( "arg" ) );
-			if ( !clientHTML.equals( "" ) )
-			{
-				this.pseudoResponse( "HTTP/1.1 200 OK", clientHTML );
-				return;
-			}
-		}
+		if ( RELAY_LOCATION.exists() && KoLmafiaASH.getClientHTML( this ) )
+			return;
 
 		boolean isWebPage = this.formURLString.endsWith( ".php" ) || this.formURLString.endsWith( ".html" );
 		boolean isCommand = this.formURLString.startsWith( "KoLmafia/" );

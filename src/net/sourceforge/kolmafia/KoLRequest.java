@@ -551,7 +551,11 @@ public class KoLRequest extends Job implements KoLConstants
 		return null;
 	}
 
-	private String getDataString( boolean includeHash )
+	public String getPath()
+	{	return this.formURLString;
+	}
+
+	public String getDataString( boolean includeHash )
 	{
 		StringBuffer dataBuffer = new StringBuffer();
 		String [] elements = new String[ this.data.size() ];
