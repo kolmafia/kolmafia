@@ -226,24 +226,29 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	public static String getClientHTML( String script, String argument )
+	public static boolean getClientHTML( LocalRelayRequest request )
 	{
+		String script = request.getPath();
+
 		if ( !script.endsWith( ".ash" ) )
 			script = script + ".ash";
 
 		File toExecute = new File( RELAY_DIRECTORY, script );
 		if ( toExecute == null || !toExecute.exists() )
-			return "";
+			return false;
 
 		clientScript = KoLmafiaASH.getInterpreter( toExecute );
 		if ( clientScript == null )
-			return "";
+			return false;
 
 		clientScript.clientHTML.setLength(0);
-		clientScript.execute( "main", new String [] { argument == null ? "" : argument } );
+		clientScript.execute( "main", new String [] { request.getDataString( false ) } );
 
-		System.out.println( clientScript.clientHTML.toString() );
-		return clientScript.clientHTML.toString();
+		if ( clientScript.clientHTML.length() == 0 )
+			return false;
+
+		request.pseudoResponse( "HTTP/1.1 200 OK", clientScript.clientHTML.toString() );
+		return true;
 	}
 
 	public static final KoLmafiaASH getInterpreter( File toExecute )
