@@ -1012,6 +1012,10 @@ public class LocalRelayRequest extends PasswordHashRequest
 		{
 			this.sendLocalImage( this.formURLString );
 		}
+		else if ( this.formURLString.endsWith( ".ash" ) )
+		{
+			this.pseudoResponse( "HTTP/1.1 200 OK", KoLmafiaASH.getClientHTML( this.formURLString, this.getFormField( "arg" ) ) );
+		}
 		else if ( this.formURLString.indexOf( "lchat.php" ) != -1 )
 		{
 			if ( StaticEntity.getBooleanProperty( "relayUsesIntegratedChat" ) )
