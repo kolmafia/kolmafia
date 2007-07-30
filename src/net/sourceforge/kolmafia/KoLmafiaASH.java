@@ -80,6 +80,8 @@ public class KoLmafiaASH extends StaticEntity
 	public static final int TYPE_INT = 3;
 	public static final int TYPE_FLOAT = 4;
 	public static final int TYPE_STRING = 5;
+	public static final int TYPE_BUFFER = 6;
+	public static final int TYPE_MATCHER = 7;
 
 	public static final int TYPE_ITEM = 100;
 	public static final int TYPE_LOCATION = 101;
@@ -116,6 +118,8 @@ public class KoLmafiaASH extends StaticEntity
 	private static final ScriptType INT_TYPE = new ScriptType( "int", TYPE_INT );
 	private static final ScriptType FLOAT_TYPE = new ScriptType( "float", TYPE_FLOAT );
 	private static final ScriptType STRING_TYPE = new ScriptType( "string", TYPE_STRING );
+	private static final ScriptType BUFFER_TYPE = new ScriptType( "buffer", TYPE_BUFFER );
+	private static final ScriptType MATCHER_TYPE = new ScriptType( "matcher", TYPE_MATCHER );
 
 	private static final ScriptType ITEM_TYPE = new ScriptType( "item", TYPE_ITEM );
 	private static final ScriptType LOCATION_TYPE = new ScriptType( "location", TYPE_LOCATION );
@@ -148,6 +152,7 @@ public class KoLmafiaASH extends StaticEntity
 	private static final ScriptValue INT_INIT = ZERO_VALUE;
 	private static final ScriptValue FLOAT_INIT = ZERO_FLOAT_VALUE;
 	private static final ScriptValue STRING_INIT = new ScriptValue( "" );
+
 	private static final ScriptValue ITEM_INIT = new ScriptValue( ITEM_TYPE, -1, "none" );
 	private static final ScriptValue LOCATION_INIT = new ScriptValue( LOCATION_TYPE, "none", (Object)null );
 	private static final ScriptValue CLASS_INIT = new ScriptValue( CLASS_TYPE, -1, "none" );
@@ -166,6 +171,8 @@ public class KoLmafiaASH extends StaticEntity
 
 	private StringBuffer clientHTML;
 	private static KoLmafiaASH clientScript = null;
+
+	private StringBuffer concatenateBuffer = new StringBuffer();
 
 	private String fileName;
 	private String fullLine;
@@ -742,12 +749,10 @@ public class KoLmafiaASH extends StaticEntity
 				lastImportString = "";
 
 				this.global = new ScriptScope( new ScriptVariableList(), getExistingFunctionScope() );
-				ScriptScope result = this.global;
-
 				String [] importList = importString.split( "," );
 
 				for ( int i = 0; i < importList.length; ++i )
-					result = parseFile( importList[i] );
+					parseFile( importList[i] );
 			}
 		}
 
@@ -2632,7 +2637,13 @@ public class KoLmafiaASH extends StaticEntity
 			func = (ScriptFunction) it.next();
 			hasDescription = func instanceof ScriptExistingFunction && ((ScriptExistingFunction)func).getDescription() != null;
 
-			if ( !filter.equals( "" ) && func.getName().toLowerCase().indexOf( filter ) == -1 )
+			boolean matches = filter.equals( "" );
+			matches |= func.getName().toLowerCase().indexOf( filter ) != -1;
+
+			Iterator it2 = func.getReferences();
+			matches |= it2.hasNext() && ((ScriptVariableReference) it2.next()).getType().toString().indexOf( filter ) != -1;
+
+			if ( !matches )
 				continue;
 
 			StringBuffer description = new StringBuffer();
@@ -2645,7 +2656,7 @@ public class KoLmafiaASH extends StaticEntity
 			description.append( func.getName() );
 			description.append( "( " );
 
-			Iterator it2 = func.getReferences();
+			it2 = func.getReferences();
 			ScriptVariableReference var;
 
 			while ( it2.hasNext() )
@@ -3614,23 +3625,70 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { STRING_TYPE, INT_TYPE, INT_TYPE };
 		result.addElement( new ScriptExistingFunction( "substring", STRING_TYPE, params ) );
 
-		params = new ScriptType[] { STRING_TYPE, STRING_TYPE, STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "replace_string", STRING_TYPE, params ) );
-
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "split_string", new ScriptAggregateType( STRING_TYPE, 0 ), params ) );
-
-		params = new ScriptType[] { STRING_TYPE, STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "split_string", new ScriptAggregateType( STRING_TYPE, 0 ), params ) );
-
-		params = new ScriptType[] { STRING_TYPE, STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "group_string", REGEX_GROUP_TYPE, params ) );
-
 		params = new ScriptType[] { STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "to_lower_case", STRING_TYPE, params ) );
 
 		params = new ScriptType[] { STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "to_upper_case", STRING_TYPE, params ) );
+
+
+		// String buffer functions
+
+		params = new ScriptType[] { BUFFER_TYPE, STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "append", BUFFER_TYPE, params ) );
+		params = new ScriptType[] { BUFFER_TYPE, INT_TYPE, STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "insert", BUFFER_TYPE, params ) );
+		params = new ScriptType[] { BUFFER_TYPE, INT_TYPE, INT_TYPE, STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "replace", BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { BUFFER_TYPE, INT_TYPE, INT_TYPE };
+		result.addElement( new ScriptExistingFunction( "delete", BUFFER_TYPE, params ) );
+
+		params = new ScriptType[] { MATCHER_TYPE, BUFFER_TYPE };
+		result.addElement( new ScriptExistingFunction( "append_tail", BUFFER_TYPE, params ) );
+		params = new ScriptType[] { MATCHER_TYPE, BUFFER_TYPE, STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "append_replacement", BUFFER_TYPE, params ) );
+
+
+		// Regular expression functions
+
+
+		params = new ScriptType[] { STRING_TYPE, STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "create_matcher", MATCHER_TYPE, params ) );
+
+		params = new ScriptType[] { MATCHER_TYPE };
+		result.addElement( new ScriptExistingFunction( "find", BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { MATCHER_TYPE };
+		result.addElement( new ScriptExistingFunction( "start", BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { MATCHER_TYPE };
+		result.addElement( new ScriptExistingFunction( "end", BOOLEAN_TYPE, params ) );
+
+		params = new ScriptType[] { MATCHER_TYPE };
+		result.addElement( new ScriptExistingFunction( "group", BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { MATCHER_TYPE, INT_TYPE };
+		result.addElement( new ScriptExistingFunction( "group", BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { MATCHER_TYPE };
+		result.addElement( new ScriptExistingFunction( "group_count", BOOLEAN_TYPE, params ) );
+
+		params = new ScriptType[] { MATCHER_TYPE, STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "replace_first", STRING_TYPE, params ) );
+		params = new ScriptType[] { MATCHER_TYPE, STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "replace_all", STRING_TYPE, params ) );
+
+		params = new ScriptType[] { MATCHER_TYPE };
+		result.addElement( new ScriptExistingFunction( "reset", MATCHER_TYPE, params ) );
+		params = new ScriptType[] { MATCHER_TYPE, STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "reset", MATCHER_TYPE, params ) );
+
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "split_string", new ScriptAggregateType( STRING_TYPE, 0 ), params ) );
+		params = new ScriptType[] { STRING_TYPE, STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "split_string", new ScriptAggregateType( STRING_TYPE, 0 ), params ) );
+		params = new ScriptType[] { STRING_TYPE, STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "group_string", REGEX_GROUP_TYPE, params ) );
+
+
+		// Assorted functions
+
 
 		params = new ScriptType[] { STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "chat_reply", VOID_TYPE, params ) );
@@ -3849,6 +3907,9 @@ public class KoLmafiaASH extends StaticEntity
 		result.addElement( INT_TYPE );
 		result.addElement( FLOAT_TYPE );
 		result.addElement( STRING_TYPE );
+		result.addElement( BUFFER_TYPE );
+		result.addElement( MATCHER_TYPE );
+
 		result.addElement( ITEM_TYPE );
 		result.addElement( LOCATION_TYPE );
 		result.addElement( CLASS_TYPE );
@@ -3898,6 +3959,9 @@ public class KoLmafiaASH extends StaticEntity
 		result.addElement( new ScriptSymbol( "int" ) );
 		result.addElement( new ScriptSymbol( "float" ) );
 		result.addElement( new ScriptSymbol( "string" ) );
+		result.addElement( new ScriptSymbol( "buffer" ) );
+		result.addElement( new ScriptSymbol( "matcher" ) );
+
 		result.addElement( new ScriptSymbol( "item" ) );
 		result.addElement( new ScriptSymbol( "location" ) );
 		result.addElement( new ScriptSymbol( "class" ) );
@@ -4303,8 +4367,6 @@ public class KoLmafiaASH extends StaticEntity
 
 	private static class ScriptSymbolTable extends Vector
 	{
-		private int searchIndex = -1;
-
 		public boolean addElement( ScriptSymbol n )
 		{
 			if ( findSymbol( n.getName() ) != null )
@@ -5606,10 +5668,124 @@ public class KoLmafiaASH extends StaticEntity
 			return new ScriptValue( string.substring( begin, end ) );
 		}
 
-		public ScriptValue replace_string( ScriptVariable string, ScriptVariable search, ScriptVariable replace )
+		public ScriptValue to_upper_case( ScriptVariable string )
+		{	return parseStringValue( string.toStringValue().toString().toUpperCase() );
+		}
+
+		public ScriptValue to_lower_case( ScriptVariable string )
+		{	return parseStringValue( string.toStringValue().toString().toLowerCase() );
+		}
+
+		public ScriptValue append( ScriptVariable buffer, ScriptVariable s )
 		{
-			return parseStringValue( StaticEntity.globalStringReplace( string.toStringValue().toString(),
-				search.toStringValue().toString(), replace.toStringValue().toString() ) );
+			StringBuffer current = (StringBuffer) buffer.getValue().rawValue();
+			current.append( s.toStringValue().toString() );
+			return buffer.getValue();
+		}
+
+		public ScriptValue insert( ScriptVariable buffer, ScriptVariable index, ScriptVariable s )
+		{
+			StringBuffer current = (StringBuffer) buffer.getValue().rawValue();
+			current.insert( index.intValue(), s.toStringValue().toString() );
+			return buffer.getValue();
+		}
+
+		public ScriptValue replace( ScriptVariable buffer, ScriptVariable start, ScriptVariable end, ScriptVariable s )
+		{
+			StringBuffer current = (StringBuffer) buffer.getValue().rawValue();
+			current.replace( start.intValue(), end.intValue(), s.toStringValue().toString() );
+			return buffer.getValue();
+		}
+
+		public ScriptValue delete( ScriptVariable buffer, ScriptVariable start, ScriptVariable end )
+		{
+			StringBuffer current = (StringBuffer) buffer.getValue().rawValue();
+			current.delete( start.intValue(), end.intValue() );
+			return buffer.getValue();
+		}
+
+		public ScriptValue append_tail( ScriptVariable matcher, ScriptVariable current )
+		{
+			Matcher m = (Matcher) matcher.getValue().rawValue();
+			StringBuffer buffer = (StringBuffer) current.getValue().rawValue();
+			m.appendTail( buffer );
+			return current.getValue();
+		}
+
+		public ScriptValue append_replacement( ScriptVariable matcher, ScriptVariable current, ScriptVariable replacement )
+		{
+			Matcher m = (Matcher) matcher.getValue().rawValue();
+			StringBuffer buffer = (StringBuffer) current.getValue().rawValue();
+			m.appendReplacement( buffer, replacement.toStringValue().toString() );
+			return matcher.getValue();
+		}
+
+		public ScriptValue create_matcher( ScriptVariable pattern, ScriptVariable string )
+		{
+			return new ScriptValue( MATCHER_TYPE, pattern.toStringValue().toString(),
+				Pattern.compile( pattern.toStringValue().toString(), Pattern.DOTALL ).matcher( string.toStringValue().toString() ) );
+		}
+
+		public ScriptValue find( ScriptVariable matcher )
+		{
+			Matcher m = (Matcher) matcher.getValue().rawValue();
+			return m.find() ? TRUE_VALUE : FALSE_VALUE;
+		}
+
+		public ScriptValue start( ScriptVariable matcher )
+		{
+			Matcher m = (Matcher) matcher.getValue().rawValue();
+			return new ScriptValue( m.start() );
+		}
+
+		public ScriptValue end( ScriptVariable matcher )
+		{
+			Matcher m = (Matcher) matcher.getValue().rawValue();
+			return new ScriptValue( m.end() );
+		}
+
+		public ScriptValue group( ScriptVariable matcher )
+		{
+			Matcher m = (Matcher) matcher.getValue().rawValue();
+			return new ScriptValue( m.group() );
+		}
+
+		public ScriptValue group( ScriptVariable matcher, ScriptVariable group )
+		{
+			Matcher m = (Matcher) matcher.getValue().rawValue();
+			return new ScriptValue( m.group( group.intValue() ) );
+		}
+
+		public ScriptValue group_count( ScriptVariable matcher )
+		{
+			Matcher m = (Matcher) matcher.getValue().rawValue();
+			return new ScriptValue( m.groupCount() );
+		}
+
+		public ScriptValue replace_first( ScriptVariable matcher, ScriptVariable replacement )
+		{
+			Matcher m = (Matcher) matcher.getValue().rawValue();
+			return new ScriptValue( m.replaceFirst( replacement.toStringValue().toString() ) );
+		}
+
+		public ScriptValue replace_all( ScriptVariable matcher, ScriptVariable replacement )
+		{
+			Matcher m = (Matcher) matcher.getValue().rawValue();
+			return new ScriptValue( m.replaceAll( replacement.toStringValue().toString() ) );
+		}
+
+		public ScriptValue reset( ScriptVariable matcher )
+		{
+			Matcher m = (Matcher) matcher.getValue().rawValue();
+			m.reset();
+			return matcher.getValue();
+		}
+
+		public ScriptValue reset( ScriptVariable matcher, ScriptVariable input )
+		{
+			Matcher m = (Matcher) matcher.getValue().rawValue();
+			m.reset( input.toStringValue().toString() );
+			return matcher.getValue();
 		}
 
 		public ScriptValue split_string( ScriptVariable string )
@@ -5650,8 +5826,6 @@ public class KoLmafiaASH extends StaticEntity
 			for ( int i = 0; i <= groupCount; ++i )
 				groupIndexes[i] = new ScriptValue( i );
 
-			String [] keyParts = new String[3];
-
 			ScriptValue matchIndex;
 			ScriptCompositeValue slice;
 
@@ -5679,14 +5853,6 @@ public class KoLmafiaASH extends StaticEntity
 			}
 
 			return value;
-		}
-
-		public ScriptValue to_upper_case( ScriptVariable string )
-		{	return parseStringValue( string.toStringValue().toString().toUpperCase() );
-		}
-
-		public ScriptValue to_lower_case( ScriptVariable string )
-		{	return parseStringValue( string.toStringValue().toString().toLowerCase() );
 		}
 
 		public ScriptValue chat_reply( ScriptVariable string )
@@ -7501,6 +7667,11 @@ public class KoLmafiaASH extends StaticEntity
 				return FLOAT_INIT;
 			case TYPE_STRING:
 				return STRING_INIT;
+			case TYPE_BUFFER:
+				return new ScriptValue( BUFFER_TYPE, "", new StringBuffer() );
+			case TYPE_MATCHER:
+				return new ScriptValue( MATCHER_TYPE, "", Pattern.compile( "" ).matcher( "" ) );
+
 			case TYPE_ITEM:
 				return ITEM_INIT;
 			case TYPE_LOCATION:
@@ -7965,6 +8136,9 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			if ( type.equals( TYPE_VOID ) )
 				return "void";
+
+			if ( type.equals( TYPE_BUFFER ) )
+				return ((StringBuffer)content).toString();
 
 			if ( contentString != null )
 				return contentString;
@@ -8676,7 +8850,7 @@ public class KoLmafiaASH extends StaticEntity
 				captureValue( rightValue);
 				if ( currentState == STATE_EXIT )
 					return null;
-				return new ScriptValue( leftValue.contains( rightValue) );
+				return new ScriptValue( leftValue.contains( rightValue ) );
 			}
 
 			// Binary operators
@@ -8689,7 +8863,12 @@ public class KoLmafiaASH extends StaticEntity
 			if ( operator.equals( "+" ) )
 			{
 				if ( lhs.getType().equals( TYPE_STRING ) || rhs.getType().equals( TYPE_STRING ) )
-					return new ScriptValue( leftValue.toStringValue().toString() + rightValue.toStringValue().toString() );
+				{
+					concatenateBuffer.setLength(0);
+					concatenateBuffer.append( leftValue.toStringValue().toString() );
+					concatenateBuffer.append( rightValue.toStringValue().toString() );
+					return new ScriptValue( concatenateBuffer.toString() );
+				}
 			}
 
 			if ( operator.equals( "=" ) || operator.equals( "==" ) )
