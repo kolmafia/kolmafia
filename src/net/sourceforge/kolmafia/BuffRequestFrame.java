@@ -55,7 +55,7 @@ import javax.swing.JTextArea;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.SortedListModel;
-import net.sourceforge.kolmafia.BuffBotDatabase.Offering;
+import net.sourceforge.kolmafia.BuffBotManager.Offering;
 
 public class BuffRequestFrame extends KoLFrame
 {

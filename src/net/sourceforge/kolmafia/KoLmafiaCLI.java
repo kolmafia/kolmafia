@@ -4658,13 +4658,6 @@ public class KoLmafiaCLI extends KoLmafia
 	private void executeBuffBotCommand( String parameters )
 	{
 		BuffBotManager.loadSettings();
-
-		if ( BuffBotManager.getBuffCostTable().isEmpty() )
-		{
-			updateDisplay( ERROR_STATE, "No sellable buffs defined." );
-			return;
-		}
-
 		BuffBotManager.runBuffBot( StaticEntity.parseInt( parameters ) );
 		updateDisplay( "Buffbot execution complete." );
 	}
