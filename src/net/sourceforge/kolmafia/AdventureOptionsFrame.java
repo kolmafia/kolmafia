@@ -402,7 +402,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 			this.add( AdventureOptionsFrame.this.constructLabelPair( "Use these restores: ", AdventureOptionsFrame.this.constructScroller( AdventureOptionsFrame.this.hpRestoreCheckbox = HPRestoreItemList.getCheckboxes() ) ) );
 
-			setSelectedIndex( AdventureOptionsFrame.this.hpHaltCombatSelect, "hpThreshold" );
+			setSelectedIndex( AdventureOptionsFrame.this.hpHaltCombatSelect, "autoAbortThreshold" );
 			setSelectedIndex( AdventureOptionsFrame.this.hpAutoRecoverSelect, "hpAutoRecovery" );
 			setSelectedIndex( AdventureOptionsFrame.this.hpAutoRecoverTargetSelect, "hpAutoRecoveryTarget" );
 

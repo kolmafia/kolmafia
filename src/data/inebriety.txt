@@ -21,6 +21,7 @@ Maiali Sifilitici Pinot Noir	1	10	6-10	60	60	60
 McMillicancuddy's Special Lager	1	10	2-4	10-15	10-15	10-15
 Mon Tiki	4	6	14-18	40-47	0	0
 Mt. Noob Pale Ale	2	1	4-9	0	0	0
+Neuromancer	4	6	14-18	25-27	0	16-20
 Oreille Divis&eacute;e brandy	3	4	12-15	15-25	15-25	15-25
 Pan-Dimensional Gargle Blaster	5	12	31	77	61	70
 Petite Porter	3	1	3-5	0	0	0
@@ -111,7 +112,6 @@ melted Jell-o shot	1	10	2-4	0	0	0
 mimosette	3	3	5-10	16-20	0	0
 monkey wrench	3	1	3-6	0	8-10	0
 moons-shine	4	1	6-10	7-8	7-8	7-8
-neuromancer	4	6	14-18	25-27	0	16-20
 ocean motion	4	4	10-14	25-27	8-10	0
 oily mushroom wine	3	7	12-17	14-15	12-15	12-15
 old-fashioned	3	3	5-10	0	8-10	0
