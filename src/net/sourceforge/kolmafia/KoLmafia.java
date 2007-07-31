@@ -812,9 +812,9 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Utility.  This method to parse an individual adventuring result.
-	 * Thi.  This method determines what the result actually was and
-	 * adds it to the tally.
+	 * Utility.  The method to parse an individual adventuring result.
+	 * This method determines what the result actually was and adds it to
+	 * the tally.
 	 *
 	 * @param	result	String to parse for the result
 	 */
@@ -882,10 +882,10 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Utilit.  This method used to process a result.  By default, this
-	 .  This method will also add an adventure result to the tally directly.
-	 * This is used whenever the nature of the result is already known
-	 * and no additional parsing is needed.
+	 * Utility.  The method used to process a result.  By default, this
+	 * method will also add an adventure result to the tally directly.
+	 * This is used whenever the nature of the result is already known and
+	 * no additional parsing is needed.
 	 *
 	 * @param	result	Result to add to the running tally of adventure results
 	 */
@@ -1092,7 +1092,7 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Utilit.  This method which ensures that the amount needed exists,
+	 * Utility. The method which ensures that the amount needed exists,
 	 * and if not, calls the appropriate scripts to do so.
 	 */
 
@@ -1350,10 +1350,10 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Utilit.  This method called inbetween battles.  Thi.  This method
-	 * checks to see if the character's HP has dropped below
-	 * the tolerance value, and recovers if it has (if
-	 * the user has specified this in their settings).
+	 * Utility.  The method called in between battles. This method checks
+	 * to see if the character's HP has dropped below the tolerance value,
+	 * and recovers if it has (if the user has specified this in their
+	 * settings).
 	 */
 
 	public final boolean recoverHP()
@@ -1377,8 +1377,8 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Utilit.  This method which uses the given recovery technique (not specified
-	 * in a script) in order to restore.
+	 * Utility. The method which uses the given recovery technique (not
+	 * specified in a script) in order to restore.
 	 */
 
 	private final void recoverOnce( Object technique, String techniqueName, int needed, boolean purchase )
@@ -1412,10 +1412,10 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Utilit.  This method called inbetween commands.  Thi.  This method
-	 * checks to see if the character's MP has dropped below
-	 * the tolerance value, and recovers if it has (if
-	 * the user has specified this in their settings).
+	 * Utility. The method called in between commands.  This method checks
+	 * to see if the character's MP has dropped below the tolerance value,
+	 * and recovers if it has (if the user has specified this in their
+	 * settings).
 	 */
 
 	public final boolean recoverMP()
@@ -1423,8 +1423,8 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Utility.  This method which restores the character's current
-	 * mana points above the given value.
+	 * Utility. The method which restores the character's current mana
+	 * points above the given value.
 	 */
 
 	public final boolean recoverMP( int mpNeeded )
@@ -1444,9 +1444,9 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Utilit.  This method used to process the results of any adventure
-	 * in the Kingdom of Loathing.  Thi.  This method searches for items,
-	 * stat gains, and losses within the provided string.
+	 * Utility. The method used to process the results of any adventure in
+	 * the Kingdom of Loathing This method searches for items, stat gains,
+	 * and losses within the provided string.
 	 *
 	 * @param	results	The string containing the results of the adventure
 	 * @return	<code>true</code> if any results existed
@@ -2430,7 +2430,7 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Utilit.  This method used to decode a saved password.
+	 * Utility. This method used to decode a saved password.
 	 * This should be called whenever a new password
 	 * intends to be stored in the global file.
 	 */
@@ -2488,7 +2488,7 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Utilit.  This method used to decode a saved password.
+	 * Utility. The method used to decode a saved password.
 	 * This should be called whenever a new password
 	 * intends to be stored in the global file.
 	 */
@@ -2714,8 +2714,8 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Utilit.  This method used to register a given adventure in
-	 * the running adventure summary.
+	 * Utility. The method used to register a given adventure in the
+	 * running adventure summary.
 	 */
 
 	public void registerAdventure( KoLAdventure adventureLocation )
@@ -2755,8 +2755,8 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Utilit.  This method used to register a given encounter in
-	 * the running adventure summary.
+	 * Utility. The method used to register a given encounter in the
+	 * running adventure summary.
 	 */
 
 	public void registerEncounter( String encounterName, String encounterType )

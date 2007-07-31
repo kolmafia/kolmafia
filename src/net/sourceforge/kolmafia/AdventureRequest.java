@@ -750,36 +750,76 @@ public class AdventureRequest extends KoLRequest
 
 			return encounter;
 		}
-		else if ( urlString.startsWith( "dungeon.php" ) || urlString.startsWith( "basement.php" ) )
+
+		if ( urlString.startsWith( "dungeon.php" ) || urlString.startsWith( "basement.php" ) )
 		{
 			return "";
 		}
+
+		int boldIndex = request.responseText.indexOf( "Results:</b>" ) + 1;
+		boldIndex = request.responseText.indexOf( "<b>", boldIndex ) + 3;
+
+		if ( boldIndex == 2 )
+			return "";
+
+		int endBoldIndex = request.responseText.indexOf( "</b>", boldIndex );
+
+		if ( endBoldIndex == -1 )
+			return "";
+
+		String encounter = request.responseText.substring( boldIndex, endBoldIndex );
+		if ( encounter.equals( "" ) )
+			return "";
+
+		RequestLogger.printLine( "Encounter: " + encounter );
+		RequestLogger.updateSessionLog( "Encounter: " + encounter );
+
+		registerDemonName( encounter, request.responseText );
+
+		if ( !urlString.startsWith( "choice.php" ) || urlString.indexOf( "option" ) == -1 )
+			StaticEntity.getClient().registerEncounter( encounter, "Noncombat" );
 		else
+			StaticEntity.getClient().recognizeEncounter( encounter );
+
+		return encounter;
+	}
+
+	private static final Object [][] demons = {
+		{ "Summoning Chamber",
+		  Pattern.compile( "Did you say your name was (.*?)\\?" ),
+		},
+		{ "Hoom Hah",
+		  Pattern.compile( "(.*?)! \\1, cooooome to meeeee!" )
+		},
+		{ "Every Seashell Has a Story to Tell If You're Listening",
+		  Pattern.compile( "Hello\\? Is (.*?) there\\?" )
+		},
+		{ "Leavesdropping",
+		  Pattern.compile( "(.*?), we call you! \\1, come to us!" )
+		},
+		{ "These Pipes... Aren't Clean!",
+		  Pattern.compile( "Blurgle. (.*?). Gurgle. By the way," )
+		},
+	};
+
+	public static void registerDemonName( String encounter, String responseText )
+	{
+		for ( int i = 0; i < demons.length; ++i )
 		{
-			int boldIndex = request.responseText.indexOf( "Results:</b>" ) + 1;
-			boldIndex = request.responseText.indexOf( "<b>", boldIndex ) + 3;
+			String name = (String)demons[i][0];
+			if ( name == null || !name.equals( encounter ) )
+				continue;
 
-			if ( boldIndex == 2 )
-				return "";
+			Pattern pattern = (Pattern)demons[i][1];
+			Matcher matcher = pattern.matcher( responseText );
+			if ( !matcher.find() )
+				return;
 
-			int endBoldIndex = request.responseText.indexOf( "</b>", boldIndex );
-
-			if ( endBoldIndex == -1 )
-				return "";
-
-			String encounter = request.responseText.substring( boldIndex, endBoldIndex );
-			if ( encounter.equals( "" ) )
-				return "";
-
-			RequestLogger.printLine( "Encounter: " + encounter );
-			RequestLogger.updateSessionLog( "Encounter: " + encounter );
-
-			if ( !urlString.startsWith( "choice.php" ) || urlString.indexOf( "option" ) == -1 )
-				StaticEntity.getClient().registerEncounter( encounter, "Noncombat" );
-			else
-				StaticEntity.getClient().recognizeEncounter( encounter );
-
-			return encounter;
+			String demon = matcher.group(1);
+			RequestLogger.printLine( "Demon name: " + demon );
+			RequestLogger.updateSessionLog( "Demon name: " + demon );
+			StaticEntity.setProperty( "demonName" + (i + 1), demon );
+			return;
 		}
 	}
 
