@@ -399,7 +399,7 @@ public class ClanManager extends StaticEntity
 			ostream.close();
 
 			String line;
-			BufferedReader script = DataUtilities.getReader( "html", "sorttable.js" );
+			BufferedReader script = DataUtilities.getReader( "relay", "sorttable.js" );
 
 			ostream = LogStream.openStream( sortingScript, true );
 			while ( (line = script.readLine()) != null )
