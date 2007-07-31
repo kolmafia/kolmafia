@@ -501,7 +501,10 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		// be a valid buff request.
 
 		if ( castList != null )
+		{
+			queueIncomingMessage( message, true );
 			return castList;
+		}
 
 		if ( meatSent >= 100000 )
 		{
@@ -583,11 +586,12 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		int meatSent = meatMatcher.find() ? parseInt( meatMatcher.group(1) ) : 0;
 		Offering castList = extractRequest( message, meatSent );
 
+		if ( castList == null )
+			return;
+
 		// Ensure that every buff is handled.  In the event
 		// that a buff was partially completed, pretend that
 		// all buffs were completed.
-
-		queueIncomingMessage( message, true );
 
 		String requestor = message.getSenderName();
 		String recipient = requestor;
