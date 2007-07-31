@@ -23,9 +23,30 @@
 	<!-- ========================================== -->
 
 	<target name="init">
+
 		<tstamp/>
 		<mkdir dir="${build}"/>
 		<mkdir dir="${dist}"/>
+
+	</target>
+
+
+	<!-- ================================== -->
+	<!--  update files from the repository  -->
+	<!-- ================================== -->
+
+	<target name="update">
+
+		<exec executable="svn" failifexecutionfails="false">
+			<arg value="update" />
+			<arg value="${root}" />
+		</exec>
+
+		<exec executable="svnversion" outputproperty="revision" failifexecutionfails="false">
+			<arg value="-n" />
+			<arg value="${root}" />
+		</exec>
+
 	</target>
 
 
@@ -50,7 +71,7 @@
 	<target name="build" depends="init">
 
 		<javac source="1.4" srcdir="${src}" destdir="${build}" classpath="${lib}/*.jar"
-			debug="on" debuglevel="lines,vars,source" deprecation="on"/>
+			debug="on" debuglevel="lines,vars,source" deprecation="on" nowarn="on" />
 
 		<copy todir="${build}" preservelastmodified="true">
 			<fileset dir="${src}">
@@ -84,22 +105,15 @@
 	<!--  generate the debugging JAR  -->
 	<!-- ============================ -->
 
-	<target name="debug" depends="clean">
-
-		<exec executable="svnversion" outputproperty="revision">
-			<arg value="-n" />
-			<arg value="${src}" />
-		</exec>
+	<target name="debug" depends="update,clean">
 
 		<replace file="${src}/net/sourceforge/kolmafia/KoLConstants.java"
 			token="v${version}" value="r${revision}" />
 
-		<antcall target="build" />
+		<antcall target="createjar" />
 
 		<replace file="${src}/net/sourceforge/kolmafia/KoLConstants.java"
 			token="r${revision}" value="v${version}" />
-
-		<antcall target="createjar" />
 
 	</target>
 
@@ -108,7 +122,7 @@
 	<!--  generate the distribution  -->
 	<!-- =========================== -->
 
-	<target name="dist" depends="clean,createjar">
+	<target name="dist" depends="update,clean,createjar">
 
 		<tar destfile="${tarfile}" basedir="${root}" compression="gzip">
 			<exclude name="CVS/**"/>
@@ -124,7 +138,7 @@
 	<!--  runs program with all needed libraries in the path  -->
 	<!-- ==================================================== -->
 
-	<target name="exec" depends="createjar">
+	<target name="exec" depends="update,createjar">
 		<java fork="true" jar="${jarfile}" dir="${dist}"/>
 	</target>
 
