@@ -1024,8 +1024,6 @@ public class FightRequest extends KoLRequest
 
 	private static void updateMonsterHealth( String responseText )
 	{
-		boolean shouldLogAction = StaticEntity.getBooleanProperty( "logMonsterHealth" );
-
 		// Check if fumbled first, since that causes a special case later.
 
 		boolean fumbled = FUMBLE_PATTERN.matcher( responseText ).find();
@@ -1083,6 +1081,9 @@ public class FightRequest extends KoLRequest
 		// Done with all processing for monster damage, now handle responseText.
 
 		healthModifier += damageThisRound;
+		if ( !StaticEntity.getBooleanProperty( "logMonsterHealth" ) )
+			return;
+
 		StringBuffer action = new StringBuffer();
 
 		if ( damageThisRound != 0 )
@@ -1106,8 +1107,7 @@ public class FightRequest extends KoLRequest
 			}
 
 			RequestLogger.printLine( action.toString() );
-			if ( shouldLogAction )
-				RequestLogger.updateSessionLog( action.toString() );
+			RequestLogger.updateSessionLog( action.toString() );
 		}
 
 		// Even though we don't have an exact value, at least try to
@@ -1125,8 +1125,7 @@ public class FightRequest extends KoLRequest
 			action.append( " heals an unspaded amount of hit points." );
 
 			RequestLogger.printLine( action.toString() );
-			if ( shouldLogAction )
-				RequestLogger.updateSessionLog( action.toString() );
+			RequestLogger.updateSessionLog( action.toString() );
 		}
 	}
 
