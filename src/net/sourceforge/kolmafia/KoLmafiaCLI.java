@@ -734,12 +734,11 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.startsWith( "http:" ) || command.indexOf( ".php" ) != -1 )
 		{
-			if ( KoLRequest.shouldIgnore( this.currentLine ) )
+			KoLRequest request = new KoLRequest( this.currentLine, true );
+			if ( KoLRequest.shouldIgnore( request.getPath() ) )
 				return;
 
-			KoLRequest request = new KoLRequest( this.currentLine, true );
 			RequestThread.postRequest( request );
-
 			StaticEntity.externalUpdate( request.getURLString(), request.responseText );
 			return;
 		}
