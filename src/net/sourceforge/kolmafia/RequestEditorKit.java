@@ -1056,7 +1056,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		{
 			if ( location.startsWith( "ascensionhistory.php" ) )
 			{
-				StaticEntity.singleStringReplace( buffer, "</head>", "<script language=\"Javascript\" src=\"/KoLmafia/sorttable.js\"></script></head>" );
+				StaticEntity.singleStringReplace( buffer, "</head>", "<script language=\"Javascript\" src=\"/sorttable.js\"></script></head>" );
 				StaticEntity.singleStringReplace( buffer, "<table><tr><td class=small>", "<table class=\"sortable\" id=\"history\"><tr><td class=small>" );
 				StaticEntity.globalStringReplace( buffer, "<tr><td colspan=9", "<tr class=\"sortbottom\" style=\"display:none\"><td colspan=9" );
 				StaticEntity.globalStringReplace( buffer, "<td></td>", "<td><img src=\"http://images.kingdomofloathing.com/itemimages/confused.gif\" title=\"No Data\" alt=\"No Data\" height=30 width=30></td>" );
