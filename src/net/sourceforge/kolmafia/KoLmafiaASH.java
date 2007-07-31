@@ -3209,14 +3209,11 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "writeln", VOID_TYPE, params ) );
 
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "visit_url", STRING_TYPE, params ) );
-
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "relay_url", BUFFER_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "visit_url", BUFFER_TYPE, params ) );
 
 		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "relay_url", BUFFER_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "visit_url", BUFFER_TYPE, params ) );
 
 		params = new ScriptType[] { INT_TYPE };
 		result.addElement( new ScriptExistingFunction( "wait", VOID_TYPE, params ) );
@@ -3529,22 +3526,22 @@ public class KoLmafiaASH extends StaticEntity
 		result.addElement( new ScriptExistingFunction( "use_skill", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "attack", STRING_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "attack", BUFFER_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "steal", STRING_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "steal", BUFFER_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "runaway", STRING_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "runaway", BUFFER_TYPE, params ) );
 
 		params = new ScriptType[] { SKILL_TYPE };
-		result.addElement( new ScriptExistingFunction( "use_skill", STRING_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "use_skill", BUFFER_TYPE, params ) );
 
 		params = new ScriptType[] { ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "throw_item", STRING_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "throw_item", BUFFER_TYPE, params ) );
 
 		params = new ScriptType[] { ITEM_TYPE, ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "throw_items", STRING_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "throw_items", BUFFER_TYPE, params ) );
 
 
 		// Equipment functions.
@@ -4776,56 +4773,50 @@ public class KoLmafiaASH extends StaticEntity
 			return VOID_VALUE;
 		}
 
+		public ScriptValue visit_url()
+		{
+			if ( relayRequest == null )
+				return new ScriptValue( BUFFER_TYPE, "", new StringBuffer() );
+
+			return visit_url( relayRequest.getURLString() );
+		}
+
 		public ScriptValue visit_url( ScriptVariable string )
 		{	return visit_url( string.toStringValue().toString() );
 		}
 
 		private ScriptValue visit_url( String location )
 		{
+			StringBuffer buffer = new StringBuffer();
+			ScriptValue returnValue = new ScriptValue( BUFFER_TYPE, "", buffer );
+
 			if ( KoLRequest.shouldIgnore( location ) )
-				return STRING_INIT;
+				return returnValue;
 
 			if ( location.startsWith( "fight.php" ) )
 			{
 				if ( FightRequest.getActualRound() == 0 )
-					return STRING_INIT;
+					return returnValue;
 
 				KoLRequest.delay();
 			}
 
-			RequestThread.postRequest( VISITOR.constructURLString( location ) );
-			if ( VISITOR.responseText == null )
-				return STRING_INIT;
-
-			StaticEntity.externalUpdate( location, VISITOR.responseText );
-			return new ScriptValue( location );
-		}
-
-		public ScriptValue relay_url()
-		{	return relay_url( relayRequest.getURLString() );
-		}
-
-		public ScriptValue relay_url( ScriptVariable string )
-		{
-			String location = string.toStringValue().toString();
-			if ( KoLRequest.shouldIgnore( location ) )
-				return STRING_INIT;
-
-			return relay_url( location );
-		}
-
-		private ScriptValue relay_url( String location )
-		{
-			StringBuffer buffer = new StringBuffer();
-			ScriptValue returnValue = new ScriptValue( BUFFER_TYPE, "", buffer );
-
 			if ( relayScript == null )
-				return returnValue;
+			{
+				RequestThread.postRequest( VISITOR.constructURLString( location ) );
+				if ( VISITOR.responseText != null )
+				{
+					buffer.append( VISITOR.responseText );
+					StaticEntity.externalUpdate( location, VISITOR.responseText );
+				}
+			}
+			else
+			{
+				RequestThread.postRequest( RELAYER.constructURLString( relayRequest.getURLString() ) );
 
-			RequestThread.postRequest( RELAYER.constructURLString( relayRequest.getURLString() ) );
-
-			if ( VISITOR.responseText != null )
-				buffer.append( VISITOR.responseText );
+				if ( RELAYER.responseText != null )
+					buffer.append( RELAYER.responseText );
+			}
 
 			return returnValue;
 		}
