@@ -1363,7 +1363,7 @@ public class TradeableItemDatabase extends KoLDatabase
 			return null;
 
 		String previous = rawDescriptions.get( itemId );
-		if ( !previous.equals( "" ) )
+		if ( previous != null && !previous.equals( "" ) )
 			return previous;
 
 		KoLRequest descRequest = new KoLRequest( "desc_item.php?whichitem=" + descId );
@@ -1395,15 +1395,19 @@ public class TradeableItemDatabase extends KoLDatabase
 				currentHTML.setLength(0);
 				int currentId = StaticEntity.parseInt( currentLine );
 
-				while ( !(currentLine = reader.readLine()).equals( "</html>" ) )
+				do
 				{
+					currentLine = reader.readLine();
 					currentHTML.append( currentLine );
 					currentHTML.append( LINE_BREAK );
 				}
+				while ( !currentLine.equals( "</html>" ) );
 
 				rawDescriptions.set( currentId, currentHTML.toString() );
 				reader.readLine();
 			}
+
+			reader.close();
 		}
 		catch ( Exception e )
 		{
@@ -1619,7 +1623,7 @@ public class TradeableItemDatabase extends KoLDatabase
 			isWeapon = true;
 		else if ( type.indexOf( "shield" ) != -1 )
 			isShield = true;
-		else if ( type.indexOf( "hat" ) != -1 || type.indexOf( "pants" ) != -1  || type.indexOf( "shirt" ) != -1	)
+		else if ( type.indexOf( "hat" ) != -1 || type.indexOf( "pants" ) != -1	|| type.indexOf( "shirt" ) != -1 )
 			hasPower = true;
 
 		int power = 0;
