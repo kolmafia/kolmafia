@@ -39,14 +39,12 @@ import java.io.PrintStream;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.SortedListModel;
 
 public abstract class BuffBotManager extends KoLMailManager implements KoLConstants
 {
@@ -66,7 +64,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	private static String thanksMessage;
 
 	private static Map buffCostMap = new TreeMap();
-	private static LockableListModel buffCostTable = new LockableListModel();
+	private static SortedListModel buffCostTable = new SortedListModel();
 	private static String [] whiteListArray = new String[0];
 
 	public static final Pattern MEAT_PATTERN = Pattern.compile( "<img src=\"http://images.kingdomofloathing.com/itemimages/meat.gif\" height=30 width=30 alt=\"Meat\">You gain ([\\d,]+) Meat" );
@@ -81,6 +79,8 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	public static void loadSettings()
 	{
 		isInitializing = true;
+
+		MPRestoreItemList.MYSTERY_JUICE.updateManaPerUse();
 		clearMailboxes();
 
 		buffCostMap.clear();
@@ -93,56 +93,36 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		String [] currentBuff;
 		BufferedReader reader = KoLDatabase.getReader( "buffs/" + KoLCharacter.baseUserName() + ".txt" );
 
+		if ( reader == null )
+		{
+			isInitializing = false;
+			saveBuffs();
+			return;
+		}
+
 		// It's possible the person is starting from an older release
 		// of KoLmafia.  If that's the case, reload the data from the
 		// properties file, clear it out, and continue.
 
-		if ( reader == null )
+		while ( (currentBuff = KoLDatabase.readData( reader )) != null )
 		{
-			String oldList = getProperty( "buffBotCasting" );
+			if ( currentBuff.length < 3 )
+				continue;
 
-			if ( !oldList.equals( "" ) )
-			{
-				String [] soldBuffs = oldList.split( ";" );
-
-				for ( int i = 0; i < soldBuffs.length; ++i )
-				{
-					currentBuff = soldBuffs[i].split( ":" );
-					System.out.println( soldBuffs[i] );
-
-					if ( currentBuff.length < 3 )
-						continue;
-
-					addBuff( ClassSkillsDatabase.getSkillName( parseInt( currentBuff[0] ) ), parseInt( currentBuff[1] ), parseInt( currentBuff[2] ),
-						currentBuff.length > 3 && currentBuff[3].equalsIgnoreCase( "true" ), currentBuff.length > 4 && currentBuff[4].equalsIgnoreCase( "true" ) );
-				}
-			}
-
-			removeProperty( "buffBotCasting" );
+			addBuff( ClassSkillsDatabase.getSkillName( parseInt( currentBuff[0] ) ),
+				parseInt( currentBuff[1] ), parseInt( currentBuff[2] ) );
 		}
-		else
+
+		try
 		{
-			while ( (currentBuff = KoLDatabase.readData( reader )) != null )
-			{
-				if ( currentBuff.length < 3 )
-					continue;
-
-				addBuff( ClassSkillsDatabase.getSkillName( parseInt( currentBuff[0] ) ), parseInt( currentBuff[1] ), parseInt( currentBuff[2] ),
-					currentBuff.length > 3 && currentBuff[3].equalsIgnoreCase( "true" ), currentBuff.length > 4 && currentBuff[4].equals( "true" ) );
-			}
-
-			try
-			{
-				reader.close();
-			}
-			catch ( Exception e )
-			{
-				StaticEntity.printStackTrace( e );
-			}
+			reader.close();
+		}
+		catch ( Exception e )
+		{
+			StaticEntity.printStackTrace( e );
 		}
 
 		isInitializing = false;
-		saveBuffs();
 	}
 
 	/**
@@ -150,7 +130,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	 * this buffbot.
 	 */
 
-	public static LockableListModel getBuffCostTable()
+	public static SortedListModel getBuffCostTable()
 	{	return buffCostTable;
 	}
 
@@ -160,35 +140,38 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	 * available buffs.
 	 */
 
-	public static void addBuff( String skillName, int price, int castCount, boolean restricted, boolean philanthropic )
+	public static void addBuff( String skillName, int price, int castCount )
 	{
+		if ( price <= 0 || castCount <= 0 )
+			return;
+
 		Integer newPrice = new Integer( price );
-		BuffBotCaster newCast = new BuffBotCaster( skillName, price, castCount, restricted, philanthropic );
 
 		// Because the new concept allows multiple buffs
 		// to have the same price, store things in a list.
 
-		List castList = (List) buffCostMap.get( newPrice );
+		Offering castList = (Offering) buffCostMap.get( newPrice );
 
 		// If this price has never existing before, go
 		// ahead and add a new list to the data structure.
 
 		if ( castList == null )
 		{
-			castList = new ArrayList();
+			castList = new Offering( skillName, price, castCount );
 			buffCostMap.put( newPrice, castList );
+			buffCostTable.add( castList );
 		}
+		else
+		{
+			int skillId = ClassSkillsDatabase.getSkillId( skillName );
+			int duration = Math.max( 5, ClassSkillsDatabase.getEffectDuration( skillId ) );
 
-		// Do not allow the same buff type to appear on
-		// the list more than once.
+			castList.addBuff( skillName, castCount * duration );
+			castList.updateFreeState();
 
-		int currentIndex = castList.indexOf( newCast );
-		if ( currentIndex != -1 )
-			buffCostTable.remove( castList.remove( currentIndex ) );
-
-		castList.add( newCast );
-		buffCostTable.add( newCast );
-		buffCostTable.sort();
+			int index = buffCostTable.indexOf( castList );
+			buffCostTable.fireContentsChanged( buffCostTable, index, index );
+		}
 
 		saveBuffs();
 	}
@@ -200,9 +183,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 	public static void removeBuffs( Object [] buffs )
 	{
-		List castList;
-		BuffBotCaster toRemove;
-
+		Offering toRemove;
 		boolean removedOne = false;
 
 		for ( int i = 0; i < buffs.length; ++i )
@@ -211,11 +192,9 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 				continue;
 
 			removedOne = true;
-			toRemove = (BuffBotCaster) buffs[i];
+			toRemove = (Offering) buffs[i];
 			buffCostTable.remove( toRemove );
-
-			castList = (List) buffCostMap.get( new Integer( toRemove.getPrice() ) );
-			castList.remove( toRemove );
+			buffCostMap.remove( new Integer( toRemove.getPrice() ) );
 		}
 
 		if ( removedOne )
@@ -241,125 +220,39 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		PrintStream settings = LogStream.openStream( datafile, true );
 		PrintStream document = LogStream.openStream( xmlfile, true );
 
-		BuffBotCaster [] casters = new BuffBotCaster[ buffCostTable.size() ];
-		buffCostTable.toArray( casters );
+		document.println( "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>" );
+		document.println( "<?xml-stylesheet type=\"text/xsl\" href=\"buffbot.xsl\"?>" );
+		document.println();
 
-		if ( document != null )
-		{
-			document.println( "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>" );
-			document.println( "<?xml-stylesheet type=\"text/xsl\" href=\"buffbot.xsl\"?>" );
-			document.println();
+		document.println( "<botdata>" );
+		document.println( "<name>" + KoLCharacter.getUserName() + "</name>" );
+		document.println( "<playerid>" + KoLCharacter.getUserId() + "</playerid>" );
 
-			document.println( "<botdata>" );
-			document.println( "<name>" + KoLCharacter.getUserName() + "</name>" );
-			document.println( "<playerid>" + KoLCharacter.getUserId() + "</playerid>" );
+		document.println( "<free-list>" );
+		Offering currentCast;
 
-			document.println( "<free-list>" );
-		}
-
-		TreeMap [] nameMap = new TreeMap[4];
-		for ( int i = 0; i < 4; ++i )
-			nameMap[i] = new TreeMap();
-
-		ArrayList currentList;
-
-		for ( int i = 0; i < casters.length; ++i )
+		for ( int i = 0; i < buffCostTable.size(); ++i )
 		{
 			// First, append the buff to the setting string, then
 			// print the buff to the XML tree.
 
-			settings.println( casters[i].toSettingString() );
+			currentCast = (Offering) buffCostTable.get(i);
+			settings.println( currentCast.toSettingString() );
 
-			// Don't print the cast to the XML tree if it happens
-			// to be restricted.
-
-			if ( casters[i].restricted )
-				continue;
-
-			if ( casters[i].philanthropic )
+			for ( int j = 0; j < currentCast.buffs.length; ++j )
 			{
 				document.println( "\t<buffdata>" );
-				document.println( "\t\t<name>" + casters[i].getBuffName() + "</name>" );
-				document.println( "\t\t<skillid>" + casters[i].getBuffId() + "</skillid>" );
-				document.println( "\t\t<price>" + COMMA_FORMAT.format( casters[i].getPrice() ) + "</price>" );
-				document.println( "\t\t<turns>" + COMMA_FORMAT.format( casters[i].getTurnCount() ) + "</turns>" );
-				document.println( "\t\t<philanthropic>" + casters[i].philanthropic + "</philanthropic>" );
+				document.println( "\t\t<name>" + currentCast.buffs[j] + "</name>" );
+				document.println( "\t\t<skillid>" + ClassSkillsDatabase.getSkillId( currentCast.buffs[j] ) + "</skillid>" );
+				document.println( "\t\t<price>" + COMMA_FORMAT.format( currentCast.price ) + "</price>" );
+				document.println( "\t\t<turns>" + COMMA_FORMAT.format( currentCast.turns[j] ) + "</turns>" );
+				document.println( "\t\t<philanthropic>" + currentCast.free + "</philanthropic>" );
 				document.println( "\t</buffdata>" );
 			}
-			else
-			{
-				int index = casters[i].getBuffId() / 2000;
-				if ( !nameMap[ index ].containsKey( casters[i].getBuffName() ) )
-					nameMap[ index ].put( casters[i].getBuffName(), new ArrayList() );
-
-				currentList = (ArrayList) nameMap[ index ].get( casters[i].getBuffName() );
-				currentList.add( casters[i] );
-			}
 		}
-
-		if ( document == null )
-			return;
 
 		document.println( "</free-list>" );
-		document.println( "<normal-list>" );
-
-		for ( int k = 0; k < 4; ++k )
-		{
-			if ( nameMap[k].isEmpty() )
-				continue;
-
-			document.println( "\t<skillset>" );
-			document.print( "\t\t<name>" );
-
-			switch ( k )
-			{
-			case 0:
-				document.print( "Non-Specific Buffs" );
-				break;
-			case 1:
-				document.print( "Turtle Tamer Buffs" );
-				break;
-			case 2:
-				document.print( "Sauceror Buffs" );
-				break;
-			case 3:
-				document.print( "Accordion Thief Buffs" );
-				break;
-			}
-
-			document.println( "</name>" );
-			Object [] keys = nameMap[k].keySet().toArray();
-
-			for ( int j = 0; j < keys.length; ++j )
-			{
-				currentList = (ArrayList) nameMap[k].get( keys[j] );
-				casters = new BuffBotCaster[ currentList.size() ];
-				currentList.toArray( casters );
-
-				document.println( "\t\t<buffset>" );
-				document.println( "\t\t\t<name>" + casters[0].getBuffName() + "</name>" );
-
-				for ( int i = 0; i < casters.length; ++i )
-				{
-					document.println( "\t\t\t<buffdata>" );
-
-					document.println( "\t\t\t\t<name>" + casters[i].getBuffName() + "</name>" );
-					document.println( "\t\t\t\t<skillid>" + casters[i].getBuffId() + "</skillid>" );
-					document.println( "\t\t\t\t<price>" + COMMA_FORMAT.format( casters[i].getPrice() ) + "</price>" );
-					document.println( "\t\t\t\t<turns>" + COMMA_FORMAT.format( casters[i].getTurnCount() ) + "</turns>" );
-					document.println( "\t\t\t\t<philanthropic>" + casters[i].philanthropic + "</philanthropic>" );
-
-					document.println( "\t\t\t</buffdata>" );
-				}
-
-				document.println( "\t\t</buffset>" );
-			}
-
-			document.println( "\t</skillset>" );
-		}
-
-		document.println( "</normal-list>" );
-
+		document.println( "<normal-list></normal-list>" );
 		document.println( "</botdata>" );
 		document.close();
 	}
@@ -599,6 +492,73 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		}
 	}
 
+	private static Offering extractRequest( KoLMailMessage message, int meatSent )
+	{
+		Offering castList = (Offering) buffCostMap.get( new Integer( meatSent ) );
+
+		// If what is sent does not match anything in the buff table,
+		// handle it.  Once it gets beyond this point, it is known to
+		// be a valid buff request.
+
+		if ( castList != null )
+			return castList;
+
+		if ( meatSent >= 100000 )
+		{
+			// If the amount of meat sent is extremely large,
+			// and no buff matches that value, assume that it's
+			// a donation and send a thank you note.
+
+			sendThankYou( message.getSenderName(), message.getMessageHTML() );
+			queueIncomingMessage( message, false );
+			return null;
+		}
+
+		if ( meatSent != 0 )
+		{
+			// If the cast list is empty, and the meat sent was
+			// not a donation, then the user is not receiving
+			// any buffs.  Therefore, reset the variable.
+
+			queueIncomingMessage( message, true );
+			BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Invalid amount (" + meatSent + " meat) received from " + message.getSenderName() );
+			sendRefund( message.getSenderName(), COMMA_FORMAT.format( meatSent ) + " meat is not a valid buff price.  " + refundMessage, meatSent );
+			return null;
+		}
+
+		// If it gets this far, then it's an empty message.
+		// Based on the user's settings, do something with
+		// the message (save, delete, etc.)
+
+		switch ( messageDisposalSetting )
+		{
+		case SAVEBOX:
+
+			String messageText = message.getMessageHTML().replaceAll( "<.*?>", "" );
+			boolean willDelete = messageText.length() < 10;
+
+			queueIncomingMessage( message, willDelete );
+
+			if ( willDelete )
+				BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Deleting non-buff message from [" + message.getSenderName() + "]" );
+			else
+				BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Saving non-buff message from [" + message.getSenderName() + "]" );
+
+			return null;
+
+		case DISPOSE:
+
+			queueIncomingMessage( message, true );
+			BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Deleting non-buff message from [" + message.getSenderName() + "]" );
+			return null;
+
+		default:
+
+			BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Ignoring non-buff message from [" + message.getSenderName() + "]" );
+			return null;
+		}
+	}
+
 	/**
 	 * Utility method which processes the message that was
 	 * received.  This parses out any applicable buffs and
@@ -621,78 +581,13 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 		Matcher meatMatcher = MEAT_PATTERN.matcher( message.getMessageHTML() );
 		int meatSent = meatMatcher.find() ? parseInt( meatMatcher.group(1) ) : 0;
-		List castList = (List) buffCostMap.get( new Integer( meatSent ) );
-
-		// If what is sent does not match anything in the buff table,
-		// handle it.  Once it gets beyond this point, it is known to
-		// be a valid buff request.
-
-		if ( castList == null || castList.isEmpty() )
-		{
-			if ( meatSent >= 100000 )
-			{
-				// If the amount of meat sent is extremely large,
-				// and no buff matches that value, assume that it's
-				// a donation and send a thank you note.
-
-				sendThankYou( message.getSenderName(), message.getMessageHTML() );
-				queueIncomingMessage( message, false );
-				return;
-			}
-			else if ( meatSent != 0 )
-			{
-				// If the cast list is empty, and the meat sent was
-				// not a donation, then the user is not receiving
-				// any buffs.  Therefore, reset the variable.
-
-				queueIncomingMessage( message, true );
-				BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Invalid amount (" + meatSent + " meat) received from " + message.getSenderName() );
-				sendRefund( message.getSenderName(), COMMA_FORMAT.format( meatSent ) + " meat is not a valid buff price.  " + refundMessage, meatSent );
-				return;
-			}
-
-			// If it gets this far, then it's an empty message.
-			// Based on the user's settings, do something with
-			// the message (save, delete, etc.)
-
-			switch ( messageDisposalSetting )
-			{
-			case SAVEBOX:
-
-				String messageText = message.getMessageHTML().replaceAll( "<.*?>", "" );
-				boolean willDelete = messageText.length() < 10;
-
-				queueIncomingMessage( message, willDelete );
-
-				if ( willDelete )
-					BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Deleting non-buff message from [" + message.getSenderName() + "]" );
-				else
-					BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Saving non-buff message from [" + message.getSenderName() + "]" );
-
-				break;
-
-			case DISPOSE:
-				queueIncomingMessage( message, true );
-				BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Deleting non-buff message from [" + message.getSenderName() + "]" );
-				break;
-
-			default:
-				BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Ignoring non-buff message from [" + message.getSenderName() + "]" );
-			}
-
-			return;
-		}
+		Offering castList = extractRequest( message, meatSent );
 
 		// Ensure that every buff is handled.  In the event
 		// that a buff was partially completed, pretend that
 		// all buffs were completed.
 
 		queueIncomingMessage( message, true );
-
-		BuffBotCaster currentBuff;
-		boolean receivedBuffs = false;
-		boolean gavePhilanthropicBuff = false;
-		boolean lastBuffSuccessful = true;
 
 		String requestor = message.getSenderName();
 		String recipient = requestor;
@@ -721,40 +616,20 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			}
 		}
 
-		int failureCount = BuffBotHome.getInstanceCount( 0, requestor );
+		if ( isGiftBuff && castList.free )
+			return;
 
-		for ( int i = 0; i < castList.size() && lastBuffSuccessful; ++i )
-		{
-			currentBuff = (BuffBotCaster) castList.get(i);
+		if ( executeBuff( castList, recipient, meatSent ) )
+			return;
 
-			if ( currentBuff.philanthropic && isGiftBuff )
-				continue;
+		int failureCount = BuffBotHome.getInstanceCount( 0, requestor ) + 1;
+		BuffBotHome.addToRecipientList( 0, requestor );
 
-			if ( failureCount < REFUND_THRESHOLD || !currentBuff.philanthropic )
-			{
-				lastBuffSuccessful = executeBuff( currentBuff, recipient, meatSent );
-				receivedBuffs |= lastBuffSuccessful;
-				gavePhilanthropicBuff |= currentBuff.philanthropic;
-			}
-		}
-
-		if ( receivedBuffs && gavePhilanthropicBuff )
-			BuffBotHome.addToRecipientList( meatSent, requestor );
-
-		if ( !receivedBuffs )
-		{
-			++failureCount;
-			BuffBotHome.addToRecipientList( 0, requestor );
-
-			if ( UseSkillRequest.lastUpdate.startsWith( "Selected target cannot receive" ) )
-				BuffBotHome.denyFutureBuffs( requestor );
-		}
+		if ( UseSkillRequest.lastUpdate.startsWith( "Selected target cannot receive" ) )
+			BuffBotHome.denyFutureBuffs( requestor );
 
 		// Record the inability to buff inside of a separate
 		// file which stores how many refunds were sent that day.
-
-		if ( receivedBuffs )
-			return;
 
 		if ( failureCount == REFUND_THRESHOLD + 1 )
 		{
@@ -785,36 +660,53 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		}
 	}
 
-	private static boolean executeBuff( BuffBotCaster buff, String recipient, int meatSent )
+	private static boolean executeBuff( Offering buff, String recipient, int meatSent )
 	{
-		if ( buff.restricted && !onWhiteList( recipient ) )
-		{
-			// This is a restricted buff for a non-allowed user.
-			// The user will not be buffed.
+		// If it's not a philanthropic buff, process the buff as
+		// normal (no need to slow down to verify).
 
-			BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Received white list request from un-whitelisted player" );
-			BuffBotHome.update( BuffBotHome.ERRORCOLOR, " ---> Could not cast " + buff.getBuffName() + " on " + recipient );
-			UseSkillRequest.lastUpdate = COMMA_FORMAT.format( meatSent ) + " meat is not a valid buff price.";
-			return false;
-		}
-		else if ( buff.philanthropic && StaticEntity.getIntegerProperty( "buffBotPhilanthropyType" ) == 0 )
+		if ( !buff.free )
+			return buff.castOnTarget( recipient );
+
+		// If it's not a philanthropic buff request, then go ahead
+		// and check to see that it's okay to send it.
+
+		switch ( StaticEntity.getIntegerProperty( "buffBotPhilanthropyType" ) )
 		{
+
+		case 0:
+
 			BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Philanthropic buff request from " + recipient );
-			BuffBotHome.update( BuffBotHome.ERRORCOLOR, " ---> Could not cast " + buff.getBuffName() + " on " + recipient );
+			BuffBotHome.update( BuffBotHome.ERRORCOLOR, " ---> Could not cast #" + meatSent + " on " + recipient );
 			UseSkillRequest.lastUpdate = "Philanthropic buffs temporarily disabled.";
 			return false;
-		}
 
-		else if ( buff.philanthropic && BuffBotHome.getInstanceCount( meatSent, recipient ) > 0 )
-		{
+		case 1:
+
+			if ( BuffBotHome.getInstanceCount( meatSent, recipient ) == 0 )
+				break;
+
 			// This is a philanthropic buff and the user has already
 			// requested it the maximum number of times alotted.  The
 			// user will not be buffed.
 
 			BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Philanthropy limit exceeded for " + recipient );
-			BuffBotHome.update( BuffBotHome.ERRORCOLOR, " ---> Could not cast " + buff.getBuffName() + " on " + recipient );
+			BuffBotHome.update( BuffBotHome.ERRORCOLOR, " ---> Could not cast #" + meatSent + " on " + recipient );
 
 			UseSkillRequest.lastUpdate = "Philanthropy limit exceeded.";
+			return false;
+
+		case 2:
+
+			if ( onWhiteList( recipient ) )
+				break;
+
+			// This is a restricted buff for a non-allowed user.
+			// The user will not be buffed.
+
+			BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Received white list request from un-whitelisted player" );
+			BuffBotHome.update( BuffBotHome.ERRORCOLOR, " ---> Could not cast #" + meatSent + " on " + recipient );
+			UseSkillRequest.lastUpdate = COMMA_FORMAT.format( meatSent ) + " meat is not a valid buff price.";
 			return false;
 		}
 
@@ -824,146 +716,259 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		return buff.castOnTarget( recipient );
 	}
 
-	/**
-	 * An internal class used to represent a single instance of casting a
-	 * buff.  This is used to manage buffs inside of the BuffBotManager
-	 * class by simply calling a method after a simple lookup.
-	 */
-
-	public static class BuffBotCaster implements Comparable
+	public static class Offering implements Comparable
 	{
+		private String botName;
 		private int price;
-		private int buffId;
-		private String buffName;
-		private int castCount;
-		private int turnCount;
+		private boolean free;
 
-		private boolean restricted;
-		private boolean philanthropic;
-		private String stringForm;
-		private String settingString;
+		private int lowestBuffId;
+		public String [] buffs;
+		public int [] casts;
+		public int [] turns;
 
-		private int requestsThisSession;
+		private boolean changed;
+		private boolean useFullStrings;
 
-		public BuffBotCaster( String buffName, int price, int castCount, boolean restricted, boolean philanthropic )
+		private StringBuffer settingString;
+		private StringBuffer stringForm;
+
+		public Offering( String buffName, int price, int casts )
 		{
-			this.buffId = ClassSkillsDatabase.getSkillId( buffName );
-			this.buffName = buffName;
+			this( buffName, KoLCharacter.getUserName(), price, 0, false );
+			int buffId = ClassSkillsDatabase.getSkillId( buffName );
+
+			this.casts[0] = casts;
+			this.turns[0] = casts * Math.max( 5, ClassSkillsDatabase.getEffectDuration( buffId ) );
+			this.updateFreeState();
+
+			this.useFullStrings = true;
+			this.changed = true;
+		}
+
+		public void updateFreeState()
+		{
+			int totalCost = 0;
+
+			for ( int i = 0; i < this.casts.length; ++i )
+			{
+				totalCost += this.casts[i] + ClassSkillsDatabase.getMPConsumptionById(
+					ClassSkillsDatabase.getSkillId( this.buffs[i] ) );
+			}
+
+			this.free = this.price <= totalCost * 95 / MPRestoreItemList.MYSTERY_JUICE.getManaPerUse();
+		}
+
+		public Offering( String buffName, String botName, int price, int turns, boolean free )
+		{
+			this.buffs = new String [] { buffName };
+			this.casts = new int [] { turns / 10 };
+			this.turns = new int [] { turns };
+			this.lowestBuffId = ClassSkillsDatabase.getSkillId( buffName );
+
+			this.botName = botName;
 			this.price = price;
-			this.castCount = castCount;
+			this.free = free;
 
-			this.turnCount = this.castCount * ClassSkillsDatabase.getEffectDuration( this.buffId );
-			this.restricted = restricted;
-			this.philanthropic = philanthropic;
+			this.settingString = new StringBuffer();
+			this.stringForm = new StringBuffer();
 
-			StringBuffer stringForm = new StringBuffer();
-			stringForm.append( "Cast " );
-			stringForm.append( this.buffName );
-			stringForm.append( ' ' );
-			stringForm.append( COMMA_FORMAT.format( castCount ) );
-			stringForm.append( " time" );
-
-			if ( castCount != 1 )
-				stringForm.append( "s" );
-
-			stringForm.append( " (" );
-			stringForm.append( COMMA_FORMAT.format( this.turnCount ) );
-			stringForm.append( " turns) for " );
-			stringForm.append( COMMA_FORMAT.format( price ) );
-			stringForm.append( " meat" );
-
-			if ( restricted )
-				stringForm.append( " (white list only)" );
-			if ( philanthropic )
-				stringForm.append( " (philanthropic)" );
-
-			this.stringForm = stringForm.toString();
-			this.settingString = this.buffId + "\t" + price + "\t" + castCount + "\t" + restricted + "\t" + philanthropic;
+			this.useFullStrings = false;
+			this.changed = true;
 		}
 
-		public boolean equals( Object o )
-		{	return o != null && o instanceof BuffBotCaster && this.price == ((BuffBotCaster)o).price && this.buffId == ((BuffBotCaster)o).buffId;
-		}
-
-		public int compareTo( Object o )
-		{	return o == null || !(o instanceof BuffBotCaster) ? - 1 : this.compareTo( (BuffBotCaster) o );
-		}
-
-		public int compareTo( BuffBotCaster bbc )
-		{
-			if ( this.price != bbc.price )
-				return this.price - bbc.price;
-
-			if ( this.restricted && !bbc.restricted )
-				return -1;
-
-			if ( !this.restricted && bbc.restricted )
-				return 1;
-
-			if ( this.philanthropic && !bbc.philanthropic )
-				return -1;
-
-			if ( !this.philanthropic && bbc.philanthropic )
-				return 1;
-
-			return 0;
-		}
-
-		public boolean castOnTarget( String target )
-		{
-			++this.requestsThisSession;
-			BuffBotHome.recordBuff( target, this.buffName, this.castCount, this.price );
-
-			// Figure out how much MP the buff will take, and then identify
-			// the number of casts per request that this character can handle.
-
-			BuffBotHome.update( BuffBotHome.BUFFCOLOR, "Casting " + this.buffName + ", " + this.castCount + " times on " +
-				target + " for " + this.price + " meat... " );
-
-			RequestThread.postRequest( UseSkillRequest.getInstance( this.buffName, target, this.castCount ) );
-
-			if ( UseSkillRequest.lastUpdate.equals( "" ) )
-			{
-				BuffBotHome.update( BuffBotHome.BUFFCOLOR, " ---> Successfully cast " + this.buffName + " on " + target );
-				return true;
-			}
-			else
-			{
-				BuffBotHome.update( BuffBotHome.ERRORCOLOR, " ---> Could not cast " + this.buffName + " on " + target );
-				return false;
-			}
-		}
-
-		public int getBuffId()
-		{	return this.buffId;
-		}
-
-		public String getBuffName()
-		{	return this.buffName;
+		public String getBotName()
+		{	return this.botName;
 		}
 
 		public int getPrice()
 		{	return this.price;
 		}
 
-		public int getTurnCount()
-		{	return this.turnCount;
+		public int [] getTurns()
+		{	return this.turns;
 		}
 
-		public int getCastCount()
-		{	return this.castCount;
+		public int getLowestBuffId()
+		{	return this.lowestBuffId;
 		}
 
 		public String toString()
-		{	return this.stringForm;
+		{
+			if ( this.changed )
+			{
+				this.constructStringForm();
+				this.changed = false;
+			}
+
+			return this.stringForm.toString();
 		}
 
 		public String toSettingString()
-		{	return this.settingString;
+		{
+			if ( this.changed )
+			{
+				this.constructStringForm();
+				this.changed = false;
+			}
+
+			return this.settingString.toString();
 		}
 
-		public int getRequestsThisSession()
-		{	return this.requestsThisSession;
+		public void addBuff( String buffName, int turns )
+		{
+			String [] tempNames = new String[ this.buffs.length + 1 ];
+			int [] tempCasts = new int[ this.casts.length + 1 ];
+			int [] tempTurns = new int[ this.turns.length + 1 ];
+
+			System.arraycopy( this.buffs, 0, tempNames, 0, this.buffs.length );
+			System.arraycopy( this.casts, 0, tempCasts, 0, this.buffs.length );
+			System.arraycopy( this.turns, 0, tempTurns, 0, this.buffs.length );
+
+			this.buffs = tempNames;
+			this.casts = tempCasts;
+			this.turns = tempTurns;
+
+			int skillId = ClassSkillsDatabase.getSkillId( buffName );
+			int duration = Math.max( 5, ClassSkillsDatabase.getEffectDuration( skillId ) );
+
+			this.buffs[ this.buffs.length - 1 ] = buffName;
+			this.casts[ this.casts.length - 1 ] = turns / duration;
+			this.turns[ this.turns.length - 1 ] = turns;
+
+			if ( skillId < this.lowestBuffId )
+				this.lowestBuffId = skillId;
+
+			this.changed = true;
+		}
+
+		public boolean castOnTarget( String target )
+		{
+			for ( int i = 0; i < buffs.length; ++i )
+			{
+				BuffBotHome.recordBuff( target, this.buffs[i], this.casts[i], this.price );
+
+				// Figure out how much MP the buff will take, and then identify
+				// the number of casts per request that this character can handle.
+
+				BuffBotHome.update( BuffBotHome.BUFFCOLOR, "Casting " + this.buffs[i] + ", " + this.casts[i] + " times on " +
+					target + " for " + this.price + " meat... " );
+
+				RequestThread.postRequest( UseSkillRequest.getInstance( this.buffs[i], target, this.casts[i] ) );
+
+				if ( UseSkillRequest.lastUpdate.equals( "" ) )
+				{
+					BuffBotHome.update( BuffBotHome.BUFFCOLOR, " ---> Successfully cast " + this.buffs[i] + " on " + target );
+				}
+				else
+				{
+					BuffBotHome.update( BuffBotHome.ERRORCOLOR, " ---> Could not cast " + this.buffs[i] + " on " + target );
+					return i == 0;
+				}
+			}
+
+			return true;
+		}
+
+		private void constructStringForm()
+		{
+			stringForm.setLength(0);
+
+			stringForm.append( "<html>" );
+
+			stringForm.append( COMMA_FORMAT.format( this.price ) );
+			stringForm.append( " meat for " );
+
+			if ( this.turns.length == 1 )
+			{
+				stringForm.append( COMMA_FORMAT.format( this.turns[0] ) );
+				stringForm.append( " turns" );
+
+				if ( this.useFullStrings )
+				{
+					stringForm.append( " of " );
+					stringForm.append( this.buffs[0] );
+
+					if ( this.free )
+						stringForm.append( " (once per day)" );
+				}
+			}
+			else
+			{
+				stringForm.append( "a" );
+
+				if ( this.useFullStrings && this.free )
+					stringForm.append( " Once-Per-Day" );
+
+				stringForm.append( " Buff Pack which includes:" );
+
+				for ( int i = 0; i < this.buffs.length; ++i )
+				{
+					stringForm.append( "<br> - " );
+					stringForm.append( COMMA_FORMAT.format( this.turns[i] ) );
+					stringForm.append( " turns of " );
+					stringForm.append( this.buffs[i] );
+				}
+			}
+
+			stringForm.append( "</html>" );
+
+			this.settingString.setLength(0);
+
+			for ( int i = 0; i < buffs.length; ++i )
+			{
+				this.settingString.append( ClassSkillsDatabase.getSkillId( buffs[i] ) );
+				this.settingString.append( '\t' );
+				this.settingString.append( this.price );
+				this.settingString.append( '\t' );
+				this.settingString.append( this.casts[i] );
+				this.settingString.append( LINE_BREAK );
+			}
+
+		}
+
+		public boolean equals( Object o )
+		{
+			if ( o == null || !(o instanceof Offering) )
+				return false;
+
+			Offering off = (Offering) o;
+			return this.botName.equalsIgnoreCase( off.botName ) && this.price == off.price && this.turns == off.turns && this.free == off.free;
+		}
+
+		public GreenMessageRequest toRequest()
+		{	return new GreenMessageRequest( this.botName, DEFAULT_KMAIL, new AdventureResult( AdventureResult.MEAT, this.price ) );
+		}
+
+		public int compareTo( Object o )
+		{
+			if ( o == null || !(o instanceof Offering) )
+				return -1;
+
+			Offering off = (Offering) o;
+
+			// First, buffpacks should come before standard offerings
+			if ( (this.turns.length == 1 || off.turns.length == 1) && this.turns.length != off.turns.length )
+				return off.turns.length - this.turns.length;
+
+			// If a buffpack, compare price
+			if ( this.turns.length > 1 && off.turns.length > 1 )
+				return this.price - off.price;
+
+			// Compare the Id of the lowest Id buffs
+			if ( this.lowestBuffId != off.lowestBuffId )
+				return this.lowestBuffId - off.lowestBuffId;
+
+			// Next compare turns
+			if ( this.turns[0] != off.turns[0] )
+				return this.turns[0] - off.turns[0];
+
+			// Next compare price
+			if ( this.price != off.price )
+				return this.price - off.price;
+
+			// Then, compare the names of the bots
+			return this.botName.compareToIgnoreCase( off.botName );
 		}
 	}
 }

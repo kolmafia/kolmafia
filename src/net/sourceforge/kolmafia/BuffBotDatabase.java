@@ -43,6 +43,7 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.sourceforge.kolmafia.BuffBotManager.Offering;
 
 public class BuffBotDatabase extends KoLDatabase
 {
@@ -353,7 +354,7 @@ public class BuffBotDatabase extends KoLDatabase
 					for ( int i = 0; i < tester.size(); ++i )
 					{
 						currentTest = (Offering) tester.get(i);
-						if ( currentTest.price == price )
+						if ( currentTest.getPrice() == price )
 							priceMatch = currentTest;
 					}
 
@@ -384,148 +385,6 @@ public class BuffBotDatabase extends KoLDatabase
 			// has been completed for this bot.
 
 			++buffBotsConfigured;
-		}
-	}
-
-	public static class Offering implements Comparable
-	{
-		private String botName;
-		private int price;
-		private boolean free;
-
-		private int lowestBuffId;
-		private String [] buffs;
-		private int [] turns;
-
-		private String stringForm;
-
-		public Offering( String buffName, String botName, int price, int turns, boolean free )
-		{
-			this.buffs = new String [] { buffName };
-			this.turns = new int [] { turns };
-			this.lowestBuffId = ClassSkillsDatabase.getSkillId( buffName );
-
-			this.botName = botName;
-			this.price = price;
-			this.free = free;
-
-			this.constructStringForm();
-		}
-
-		public String getBotName()
-		{	return this.botName;
-		}
-
-		public int getPrice()
-		{	return this.price;
-		}
-
-		public int [] getTurns()
-		{	return this.turns;
-		}
-
-		public int getLowestBuffId()
-		{	return this.lowestBuffId;
-		}
-
-		public String toString()
-		{	return this.stringForm;
-		}
-
-		private void addBuff( String buffName, int turns )
-		{
-			String [] tempNames = new String[ this.buffs.length + 1 ];
-			int [] tempTurns = new int[ this.turns.length + 1 ];
-
-			System.arraycopy( this.buffs, 0, tempNames, 0, this.buffs.length );
-			System.arraycopy( this.turns, 0, tempTurns, 0, this.buffs.length );
-
-			this.buffs = tempNames;
-			this.turns = tempTurns;
-
-			this.buffs[ this.buffs.length - 1 ] = buffName;
-			this.turns[ this.turns.length - 1 ] = turns;
-
-			int skillId = ClassSkillsDatabase.getSkillId( buffName );
-			if ( skillId < this.lowestBuffId )
-				this.lowestBuffId = skillId;
-
-			this.constructStringForm();
-		}
-
-		private void constructStringForm()
-		{
-			StringBuffer buffer = new StringBuffer();
-
-			buffer.append( "<html>" );
-
-			buffer.append( COMMA_FORMAT.format( this.price ) );
-			buffer.append( " meat for " );
-
-			if ( this.turns.length == 1 )
-			{
-				buffer.append( COMMA_FORMAT.format( this.turns[0] ) );
-				buffer.append( " turns" );
-			}
-			else
-			{
-				buffer.append( "a Buff Pack which includes:" );
-
-				for ( int i = 0; i < this.buffs.length; ++i )
-				{
-					buffer.append( "<br> - " );
-					buffer.append( COMMA_FORMAT.format( this.turns[i] ) );
-					buffer.append( " turns of " );
-					buffer.append( this.buffs[i] );
-				}
-			}
-
-			buffer.append( "</html>" );
-			this.stringForm = buffer.toString();
-		}
-
-		public boolean equals( Object o )
-		{
-			if ( o == null || !(o instanceof Offering) )
-				return false;
-
-			Offering off = (Offering) o;
-			return this.botName.equalsIgnoreCase( off.botName ) && this.price == off.price && this.turns == off.turns && this.free == off.free;
-		}
-
-		public GreenMessageRequest toRequest()
-		{	return new GreenMessageRequest( this.botName, DEFAULT_KMAIL, new AdventureResult( AdventureResult.MEAT, this.price ) );
-		}
-
-		public int compareTo( Object o )
-		{
-			if ( o == null || !(o instanceof Offering) )
-				return -1;
-
-			Offering off = (Offering) o;
-
-			// First, buffpacks should come before standard offerings
-			if ( (this.turns.length == 1 || off.turns.length == 1) && this.turns.length != off.turns.length )
-				return off.turns.length - this.turns.length;
-
-			// If a buffpack, compare price
-			if ( this.turns.length > 1 && off.turns.length > 1 )
-				return this.price - off.price;
-
-			// Compare the Id of the lowest Id buffs
-			if ( this.lowestBuffId != off.lowestBuffId )
-				return this.lowestBuffId - off.lowestBuffId;
-
-			// Next compare turns
-			if ( this.turns[0] != off.turns[0] )
-				return this.turns[0] - off.turns[0];
-
-			// Next compare price
-			if ( this.price != off.price )
-				return this.price - off.price;
-
-			// Then, compare the names of the bots
-			return this.botName.compareToIgnoreCase( off.botName );
 		}
 	}
 }

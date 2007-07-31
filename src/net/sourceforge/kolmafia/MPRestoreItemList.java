@@ -44,7 +44,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 	public static final MPRestoreItem BEANBAG = new MPRestoreItem( "relax in your beanbag", 80, false );
 
 	private static final MPRestoreItem GALAKTIK = new MPRestoreItem( "Galaktik's Fizzy Invigorating Tonic", 1, 17, false );
-	private static final MPRestoreItem MYSTERY_JUICE = new MPRestoreItem( "magical mystery juice", Integer.MAX_VALUE, 100, true );
+	public static final MPRestoreItem MYSTERY_JUICE = new MPRestoreItem( "magical mystery juice", Integer.MAX_VALUE, 100, true );
 	public static final MPRestoreItem SELTZER = new MPRestoreItem( "Knob Goblin seltzer", 10, 80, true );
 
 	public static final MPRestoreItem [] CONFIGURES = new MPRestoreItem []
