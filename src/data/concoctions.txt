@@ -377,7 +377,7 @@ Gordon Bennett	7	mimosette	little paper umbrella
 yellow brick road	7	vodka and tonic	little paper umbrella
 
 Mon Tiki	7	caipifruta	coconut shell
-neuromancer	7	gibson	coconut shell
+Neuromancer	7	gibson	coconut shell
 teqiwila slammer	7	teqiwila	coconut shell
 vodka stratocaster	7	vodka gibson	coconut shell
 
