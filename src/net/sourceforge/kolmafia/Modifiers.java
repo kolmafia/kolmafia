@@ -121,6 +121,7 @@ public class Modifiers extends KoLDatabase
 	public static final int HP_REGEN_MAX = 42;
 	public static final int MP_REGEN_MIN = 43;
 	public static final int MP_REGEN_MAX = 44;
+	public static final int ADVENTURES = 45;
 
 	private static final Object [][] floatModifiers = {
 		{ "Familiar Weight",
@@ -302,6 +303,10 @@ public class Modifiers extends KoLDatabase
 		{ "MP Regen Max",
 		  null,
 		  Pattern.compile( "MP Regen Max: ([+-]\\d+)" )
+		},
+		{ "Adventures",
+		  Pattern.compile( "([+-]\\d+) Adventure\\(s\\) per day when equipped" ),
+		  Pattern.compile( "Adventures: (\\d+)" )
 		},
 	};
 
