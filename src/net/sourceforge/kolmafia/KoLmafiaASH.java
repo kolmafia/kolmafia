@@ -2426,8 +2426,8 @@ public class KoLmafiaASH extends StaticEntity
 		if ( lhs.equals( TYPE_ANY ) && rhs.getType() != TYPE_AGGREGATE )
 			return true;
 
-		// Anything coerces to a string as a parameter
-		if  ( oper.equals( "parameter" ) && lhs.equals( TYPE_STRING ) )
+		// Anything coerces to a string
+		if  ( lhs.equals( TYPE_STRING ) )
 			return true;
 
 		// Anything coerces to a string for concatenation
