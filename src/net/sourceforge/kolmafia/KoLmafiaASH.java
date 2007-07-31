@@ -218,7 +218,6 @@ public class KoLmafiaASH extends StaticEntity
 		this.global = source.global;
 		this.imports = source.imports;
 		this.fileName = scriptFile.getPath();
-		this.serverReplyBuffer = new StringBuffer();
 
 		try
 		{
@@ -256,6 +255,8 @@ public class KoLmafiaASH extends StaticEntity
 		if ( !toExecute.exists() )
 			return false;
 
+		String resultText;
+
 		synchronized ( KoLmafiaASH.class )
 		{
 			relayScript = KoLmafiaASH.getInterpreter( toExecute );
@@ -266,17 +267,14 @@ public class KoLmafiaASH extends StaticEntity
 			relayScript.serverReplyBuffer.setLength(0);
 			relayScript.execute( "main", new String [] { request.getPath(), request.getDataString( false ) } );
 
-			if ( relayScript.serverReplyBuffer.length() == 0 )
-			{
-				relayScript = null;
-				return false;
-			}
-
-			request.pseudoResponse( "HTTP/1.1 200 OK", relayScript.serverReplyBuffer.toString() );
-			relayScript = null;
+			resultText = relayScript.serverReplyBuffer.toString();
 		}
 
-		return true;
+		if ( resultText.length() != 0 )
+			request.pseudoResponse( "HTTP/1.1 200 OK", relayScript.serverReplyBuffer.toString() );
+
+		relayScript = null;
+		return resultText.length() != 0;
 	}
 
 	public static final KoLmafiaASH getInterpreter( File toExecute )
@@ -3706,7 +3704,7 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { BUFFER_TYPE, STRING_TYPE, STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "replace_string", STRING_TYPE, params ) );
 		params = new ScriptType[] { STRING_TYPE, STRING_TYPE, STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "replace_string", STRING_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "replace_string", BUFFER_TYPE, params ) );
 
 		params = new ScriptType[] { STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "split_string", new ScriptAggregateType( STRING_TYPE, 0 ), params ) );
@@ -4253,7 +4251,7 @@ public class KoLmafiaASH extends StaticEntity
 				if ( errorMessage == null && (refIterator.hasNext() || valIterator.hasNext()) )
 				{
 					errorMessage = "Illegal amount of parameters for function " + name +
-						", got " + functions[i].getVariableReferences().size() + ", expected " + params.size() + " " + getLineAndFile();
+						", got " + params.size() + ", expected " + functions[i].getVariableReferences().size() + " " + getLineAndFile();
 				}
 
 				if ( errorMessage == null )
@@ -4793,16 +4791,11 @@ public class KoLmafiaASH extends StaticEntity
 			if ( KoLRequest.shouldIgnore( location ) )
 				return returnValue;
 
-			if ( location.startsWith( "fight.php" ) )
-			{
-				if ( FightRequest.getActualRound() == 0 )
-					return returnValue;
-
-				KoLRequest.delay();
-			}
-
 			if ( relayScript == null )
 			{
+				if ( location.startsWith( "fight.php" ) )
+					KoLRequest.delay();
+
 				RequestThread.postRequest( VISITOR.constructURLString( location ) );
 				if ( VISITOR.responseText != null )
 				{
@@ -4813,7 +4806,6 @@ public class KoLmafiaASH extends StaticEntity
 			else
 			{
 				RequestThread.postRequest( RELAYER.constructURLString( relayRequest.getURLString() ) );
-
 				if ( RELAYER.responseText != null )
 					buffer.append( RELAYER.responseText );
 			}
@@ -5856,16 +5848,22 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue replace_string( ScriptVariable source, ScriptVariable search, ScriptVariable replace )
 		{
+			StringBuffer buffer;
+			ScriptValue returnValue;
+
 			if ( source.getValue().rawValue() instanceof StringBuffer )
 			{
-				StaticEntity.globalStringReplace( (StringBuffer) source.getValue().rawValue(),
-					search.toStringValue().toString(), replace.toStringValue().toString() );
-
-				return source.getValue();
+				buffer = (StringBuffer) source.getValue().rawValue();
+				returnValue = source.getValue();
+			}
+			else
+			{
+				buffer = new StringBuffer( source.toStringValue().toString() );
+				returnValue = new ScriptValue( BUFFER_TYPE, "", buffer );
 			}
 
-			return new ScriptValue( StaticEntity.globalStringReplace( source.toStringValue().toString(),
-				search.toStringValue().toString(), replace.toStringValue().toString() ) );
+			StaticEntity.globalStringReplace( buffer, search.toStringValue().toString(), replace.toStringValue().toString() );
+			return returnValue;
 		}
 
 		public ScriptValue split_string( ScriptVariable string )
@@ -8214,11 +8212,11 @@ public class KoLmafiaASH extends StaticEntity
 
 		public String toString()
 		{
+			if ( content instanceof StringBuffer )
+				return ((StringBuffer)content).toString();
+
 			if ( type.equals( TYPE_VOID ) )
 				return "void";
-
-			if ( type.equals( TYPE_BUFFER ) )
-				return ((StringBuffer)content).toString();
 
 			if ( contentString != null )
 				return contentString;
