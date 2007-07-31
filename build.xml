@@ -4,7 +4,7 @@
 	<!--  set the global properties for this build  -->
 	<!-- ========================================== -->
 
-	<property name="debug" value="true"/>
+	<property name="version" value="11.2"/>
 
 	<property name="root" location="."/>
 	<property name="src" location="src"/>
@@ -43,14 +43,14 @@
 	</target>
 
 
-	<!-- ============================= -->
-	<!--  generate the executable JAR  -->
-	<!-- ============================= -->
+	<!-- ====================== -->
+	<!--  generate class files  -->
+	<!-- ====================== -->
 
-	<target name="createjar" depends="init">
+	<target name="build" depends="init">
 
 		<javac source="1.4" srcdir="${src}" destdir="${build}" classpath="${lib}/*.jar"
-			debug="${debug}" debuglevel="lines,vars,source" deprecation="on"/>
+			debug="on" debuglevel="lines,vars,source" deprecation="on"/>
 
 		<copy todir="${build}" preservelastmodified="true">
 			<fileset dir="${src}">
@@ -61,6 +61,15 @@
 		<copy todir="${build}" preservelastmodified="true">
 			<fileset dir="${lib}"/>
 		</copy>
+
+	</target>
+
+
+	<!-- ============================= -->
+	<!--  generate the executable JAR  -->
+	<!-- ============================= -->
+
+	<target name="createjar" depends="build">
 
 		<jar destfile="${jarfile}" basedir="${build}" update="true" index="yes">
 			<manifest>
@@ -75,18 +84,22 @@
 	<!--  generate the debugging JAR  -->
 	<!-- ============================ -->
 
-	<target name="debug" depends="clean,createjar"/>
+	<target name="debug" depends="clean">
 
+		<exec executable="svnversion" outputproperty="revision">
+			<arg value="-n" />
+			<arg value="${src}" />
+		</exec>
 
-	<!-- ============================= -->
-	<!--  regenerate the standard JAR  -->
-	<!-- ============================= -->
+		<replace file="${src}/net/sourceforge/kolmafia/KoLConstants.java"
+			token="v${version}" value="r${revision}" />
 
-	<target name="rejar" depends="clean">
+		<antcall target="build" />
 
-		<antcall target="createjar">
-			<param name="debug" value="false"/>
-		</antcall>
+		<replace file="${src}/net/sourceforge/kolmafia/KoLConstants.java"
+			token="r${revision}" value="v${version}" />
+
+		<antcall target="createjar" />
 
 	</target>
 
@@ -95,7 +108,7 @@
 	<!--  generate the distribution  -->
 	<!-- =========================== -->
 
-	<target name="dist" depends="rejar">
+	<target name="dist" depends="clean,createjar">
 
 		<tar destfile="${tarfile}" basedir="${root}" compression="gzip">
 			<exclude name="CVS/**"/>
