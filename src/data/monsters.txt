@@ -103,6 +103,7 @@ Animated Nightstand (White)	HP: 180 Def: 171 Atk: 147	grouchy restless spirit (8
 Anime Smiley	HP: 67 Def: 77 Atk: 77	334 scroll (30)	Tasty Fun Good rice candy (40)
 Apathetic Lizardman	HP: 14 Def: 20 Atk: 20
 Axe Handle	HP: 3 Def: 3 Atk: 1	pine tar (20)
+Bad ASCII Art	HP: 0
 BASIC Elemental	HP: 40 Def: 50 Atk: 50
 Bailey's Beetle	HP: 0
 Baiowulf	HP: 40 Def: 25 Atk: 25	Talisman of Baio (100)
@@ -352,6 +353,7 @@ Queen Filthworm	HP: 0
 Quiet Healer	HP: 90 Def: 95 Atk: 95 Meat: 66-143	amulet of extreme plot significance (10)	scroll of drastic healing (30)	soft green echo eyedrop antidote (30)
 Racecar Bob	HP: 115 Def: 118 Atk: 124 Meat: 43-67	enormous belt buckle (25)	leather chaps (15)	mesh cap (15)
 Raging Bull	HP: 20 Def: 25 Atk: 25 Meat: 24-42	pile of jumping beans (50)	can of Red Minotaur (30)
+Rampaging Adding Machine	HP: 0
 Ratbat	HP: 22 Def: 25 Atk: 25 Meat: 18-28	rat appendix (15)	ratgut (15)
 Rattlin' Duck	HP: 0
 Raver Giant	HP: 150 Def: 140 Atk: 140 Meat: 121-183	Angry Farmer candy (30)	giant needle (30)	Mick's IcyVapoHotness Rub (30)
