@@ -66,8 +66,6 @@ public class LocalRelayRequest extends PasswordHashRequest
 	private static String mainpane = "";
 
 	private boolean allowOverride;
-	private File relayEquivalent;
-
 	public List headers = new ArrayList();
 	public byte [] rawByteBuffer = null;
 	public String contentType = null;

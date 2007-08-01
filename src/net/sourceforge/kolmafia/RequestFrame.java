@@ -460,14 +460,11 @@ public class RequestFrame extends KoLFrame
 
 	public static void refreshStatus()
 	{
-		if ( CharpaneRequest.getInstance().responseText == null )
-			return;
-
 		KoLFrame [] frames = StaticEntity.getExistingFrames();
 		if ( frames == null )
 			return;
 
-		String displayHTML = RequestEditorKit.getDisplayHTML( "charpane.php", CharpaneRequest.getInstance().responseText );
+		String displayHTML = RequestEditorKit.getDisplayHTML( "charpane.php", CharpaneRequest.getLastResponse() );
 
 		for ( int i = 0; i < frames.length; ++i )
 		{

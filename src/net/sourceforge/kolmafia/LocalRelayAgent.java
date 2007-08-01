@@ -228,7 +228,7 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 		else if ( this.path.startsWith( "/sidepane.php" ) )
 		{
 			this.request.pseudoResponse( "HTTP/1.1 200 OK",
-				RequestEditorKit.getFeatureRichHTML( "charpane.php", CharpaneRequest.getInstance().responseText, true ) );
+				RequestEditorKit.getFeatureRichHTML( "charpane.php", CharpaneRequest.getLastResponse(), true ) );
 		}
 		else if ( this.path.startsWith( "/charpane.php" ) )
 		{

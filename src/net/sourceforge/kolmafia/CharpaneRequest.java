@@ -44,6 +44,7 @@ public class CharpaneRequest extends KoLRequest
 	private static boolean canInteract = false;
 	private static boolean isRunning = false;
 	private static boolean isProcessing = false;
+	private static String lastResponse = "";
 	private static final CharpaneRequest instance = new CharpaneRequest();
 
 	private CharpaneRequest()
@@ -78,7 +79,13 @@ public class CharpaneRequest extends KoLRequest
 	}
 
 	public void processResults()
-	{	processCharacterPane( this.responseText );
+	{
+		processCharacterPane( this.responseText );
+		lastResponse = this.responseText;
+	}
+
+	public static String getLastResponse()
+	{	return lastResponse;
 	}
 
 	public static void processCharacterPane( String responseText )
