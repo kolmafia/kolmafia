@@ -84,12 +84,22 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		new AdventureResult( 11, 1 )     // stolen accordion
 	};
 
-	public static final AdventureResult PENDANT = new AdventureResult( 1235, 1 );
+	public static final AdventureResult PLEXI_PENDANT = new AdventureResult( 1235, 1 );
 	public static final AdventureResult WIZARD_HAT = new AdventureResult( 1653, 1 );
-	public static final AdventureResult POCKETWATCH = new AdventureResult( 1232, 1 );
+
+	public static final AdventureResult PLEXI_WATCH = new AdventureResult( 1232, 1 );
+	public static final AdventureResult BRIM_BRACELET = new AdventureResult( 2818, 1 );
 	public static final AdventureResult SOLITAIRE = new AdventureResult( 1226, 1 );
-	public static final AdventureResult BRACELET = new AdventureResult( 717, 1 );
-	public static final AdventureResult EARRING = new AdventureResult( 715, 1 );
+
+	public static final AdventureResult WIRE_BRACELET = new AdventureResult( 2518, 1 );
+	public static final AdventureResult BACON_BRACELET = new AdventureResult( 717, 1 );
+	public static final AdventureResult BACON_EARRING = new AdventureResult( 715, 1 );
+	public static final AdventureResult SOLID_EARRING = new AdventureResult( 2780, 1 );
+
+	private static final AdventureResult [] AVOID_REMOVAL = new AdventureResult [] {
+		PLEXI_PENDANT, WIZARD_HAT, PLEXI_WATCH, BRIM_BRACELET, SOLITAIRE,
+		WIRE_BRACELET, BACON_BRACELET, BACON_EARRING, SOLID_EARRING
+	};
 
 	private UseSkillRequest( String skillName )
 	{
@@ -283,17 +293,15 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	private static boolean isValidSwitch( int slotId )
 	{
 		AdventureResult item = KoLCharacter.getEquipment( slotId );
-		return !item.equals( PENDANT ) && !item.equals( POCKETWATCH ) && !item.equals( SOLITAIRE ) && !item.equals( BRACELET ) && !item.equals( EARRING );
+		for ( int i = 0; i < AVOID_REMOVAL.length; ++i )
+			if ( item.equals( AVOID_REMOVAL[i] ) )
+				return false;
+
+		return true;
 	}
 
 	private static int attemptSwitch( int skillId, AdventureResult item, boolean slot1Allowed, boolean slot2Allowed, boolean slot3Allowed )
 	{
-		if ( ClassSkillsDatabase.getMPConsumptionById( skillId ) == 1 || KoLCharacter.getManaCostAdjustment() == -3 )
-			return -1;
-
-		if ( !canSwitchToItem( item ) )
-			return -1;
-
 		if ( slot3Allowed )
 		{
 			(new EquipmentRequest( item, KoLCharacter.ACCESSORY3 )).run();
@@ -333,58 +341,30 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		boolean slot2Allowed = isValidSwitch( KoLCharacter.ACCESSORY2 );
 		boolean slot3Allowed = isValidSwitch( KoLCharacter.ACCESSORY3 );
 
-		// Best switch is a pocketwatch, since it's a guaranteed -3 to
+		// Best switch is a PLEXI_WATCH, since it's a guaranteed -3 to
 		// spell cost.
 
-		switch ( attemptSwitch( skillId, POCKETWATCH, slot1Allowed, slot2Allowed, slot3Allowed ) )
+		for ( int i = 0; i < AVOID_REMOVAL.length; ++i )
 		{
-		case KoLCharacter.ACCESSORY1:
-			slot1Allowed = false;
-			break;
-		case KoLCharacter.ACCESSORY2:
-			slot2Allowed = false;
-			break;
-		case KoLCharacter.ACCESSORY3:
-			slot3Allowed = false;
-			break;
+			if ( ClassSkillsDatabase.getMPConsumptionById( skillId ) == 1 || KoLCharacter.getManaCostAdjustment() == -3 )
+				return;
+
+			if ( !canSwitchToItem( AVOID_REMOVAL[i] ) )
+				continue;
+
+			switch ( attemptSwitch( skillId, AVOID_REMOVAL[i], slot1Allowed, slot2Allowed, slot3Allowed ) )
+			{
+			case KoLCharacter.ACCESSORY1:
+				slot1Allowed = false;
+				break;
+			case KoLCharacter.ACCESSORY2:
+				slot2Allowed = false;
+				break;
+			case KoLCharacter.ACCESSORY3:
+				slot3Allowed = false;
+				break;
+			}
 		}
-
-		// Next best switch is a solitaire, since it's a guaranteed -2 to
-		// spell cost.
-
-		switch ( attemptSwitch( skillId, SOLITAIRE, slot1Allowed, slot2Allowed, slot3Allowed ) )
-		{
-		case KoLCharacter.ACCESSORY1:
-			slot1Allowed = false;
-			break;
-		case KoLCharacter.ACCESSORY2:
-			slot2Allowed = false;
-			break;
-		case KoLCharacter.ACCESSORY3:
-			slot3Allowed = false;
-			break;
-		}
-
-		// Earrings and bracelets are both a -1 to spell cost, so consider
-		// them in the last phase.
-
-		switch ( attemptSwitch( skillId, EARRING, slot1Allowed, slot2Allowed, slot3Allowed ) )
-		{
-		case KoLCharacter.ACCESSORY1:
-			slot1Allowed = false;
-			break;
-		case KoLCharacter.ACCESSORY2:
-			slot2Allowed = false;
-			break;
-		case KoLCharacter.ACCESSORY3:
-			slot3Allowed = false;
-			break;
-		}
-
-		// No need for a switch statement here, because it's the last thing
-		// being switched.
-
-		attemptSwitch( skillId, BRACELET, slot1Allowed, slot2Allowed, slot3Allowed );
 	}
 
 	public void run()
