@@ -1623,6 +1623,9 @@ public class AdventureDatabase extends KoLDatabase
 
 			for ( int i = 0; i < this.size(); ++i )
 			{
+				if ( ((String)this.nameList.get(i)).equals( adventureName ) )
+					return this.get( i );
+
 				if ( ((String) this.nameList.get(i)).startsWith( adventureName ) )
 				{
 					++matchCount;
@@ -1651,9 +1654,6 @@ public class AdventureDatabase extends KoLDatabase
 
 			for ( int i = 0; i < this.size(); ++i )
 			{
-				if ( ((String)this.nameList.get(i)).equals( adventureName ) )
-					return this.get( i );
-
 				if ( ((String)this.nameList.get(i)).indexOf( adventureName ) != -1 )
 				{
 					++matchCount;
