@@ -979,9 +979,8 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		for ( int pageId = 1; pageId <= 3; ++pageId )
 		{
-			updateRequest = new KoLRequest( "inventory.php?which=" + pageId );
-			RequestThread.postRequest( updateRequest );
-			itemMatcher = DESCRIPTION_PATTERN.matcher( updateRequest.responseText );
+			RequestThread.postRequest( VISITOR.constructURLString( "inventory.php?which=" + pageId ) );
+			itemMatcher = DESCRIPTION_PATTERN.matcher( VISITOR.responseText );
 
 			while ( itemMatcher.find() )
 			{
@@ -1356,6 +1355,8 @@ public class TradeableItemDatabase extends KoLDatabase
 		report.println( itemId + "\t" + name + "\t" + type + "\t" + descAccess + "\t" + descPrice );
 	}
 
+	private static final KoLRequest DESC_REQUEST = new KoLRequest( "desc_item.php" );
+
 	private static String rawDescriptionText( int itemId )
 	{
 		String descId = descriptionById.get( itemId );
@@ -1366,11 +1367,11 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( previous != null && !previous.equals( "" ) )
 			return previous;
 
-		KoLRequest descRequest = new KoLRequest( "desc_item.php?whichitem=" + descId );
-		RequestThread.postRequest( descRequest );
-		rawDescriptions.set( itemId, descRequest.responseText );
+		DESC_REQUEST.addFormField( "whichitem", descId );
+		RequestThread.postRequest( DESC_REQUEST );
+		rawDescriptions.set( itemId, DESC_REQUEST.responseText );
 
-		return descRequest.responseText;
+		return DESC_REQUEST.responseText;
 	}
 
 	private static void loadScrapeData()

@@ -69,7 +69,6 @@ import net.sourceforge.kolmafia.StoreManager.SoldItem;
 
 public class KoLmafiaASH extends StaticEntity
 {
-	private static final KoLRequest VISITOR = new KoLRequest( "", true );
 	private static final LocalRelayRequest RELAYER = new LocalRelayRequest( false );
 
 	/* Variables for Advanced Scripting */
@@ -243,9 +242,6 @@ public class KoLmafiaASH extends StaticEntity
 		if ( !script.endsWith( ".ash" ) )
 		{
 			if ( !script.endsWith( ".php" ) )
-				return false;
-
-			if ( KoLRequest.shouldIgnore( script ) )
 				return false;
 
 			script = script.substring( 0, script.length() - 4 ) + ".ash";
@@ -2431,7 +2427,7 @@ public class KoLmafiaASH extends StaticEntity
 			return true;
 
 		// Anything coerces to a string for concatenation
-		if ( oper.equals( "+" ) && ( lhs.equals( TYPE_STRING ) || rhs.equals( TYPE_STRING ) ) )
+		if ( oper.equals( "+" ) && rhs.equals( TYPE_STRING ) )
 			return true;
 
 		// Int coerces to float
@@ -4746,10 +4742,8 @@ public class KoLmafiaASH extends StaticEntity
 			if ( input == null || !input.exists() )
 				return STRING_INIT;
 
-			KoLRequest request = new KoLRequest( "", true );
-			request.loadResponseFromFile( input );
-
-			return request.responseText == null ? STRING_INIT : new ScriptValue( request.responseText );
+			VISITOR.loadResponseFromFile( input );
+			return VISITOR.responseText == null ? STRING_INIT : new ScriptValue( VISITOR.responseText );
 		}
 
 		public ScriptValue write( ScriptVariable string )
@@ -4788,7 +4782,8 @@ public class KoLmafiaASH extends StaticEntity
 			StringBuffer buffer = new StringBuffer();
 			ScriptValue returnValue = new ScriptValue( BUFFER_TYPE, "", buffer );
 
-			if ( KoLRequest.shouldIgnore( location ) )
+			VISITOR.constructURLString( location );
+			if ( KoLRequest.shouldIgnore( VISITOR ) )
 				return returnValue;
 
 			if ( relayScript == null )
@@ -4796,7 +4791,7 @@ public class KoLmafiaASH extends StaticEntity
 				if ( location.startsWith( "fight.php" ) )
 					KoLRequest.delay();
 
-				RequestThread.postRequest( VISITOR.constructURLString( location ) );
+				RequestThread.postRequest( VISITOR );
 				if ( VISITOR.responseText != null )
 				{
 					buffer.append( VISITOR.responseText );

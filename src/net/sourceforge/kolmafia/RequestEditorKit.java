@@ -2835,11 +2835,6 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					if ( elements[i] != null && elements[j] != null && fields[i].equals( fields[j] ) )
 						elements[j] = null;
 
-			// Now, prepare the request string that will
-			// be posted to KoL.
-
-			KoLRequest request;
-
 			if ( action.indexOf( "?" ) != -1 )
 			{
 				// For quirky URLs where there's a question mark
@@ -2859,7 +2854,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 				try
 				{
-					request = new KoLRequest( URLDecoder.decode( actionString.toString(), "ISO-8859-1" ), true );
+					VISITOR.constructURLString( URLDecoder.decode( actionString.toString(), "ISO-8859-1" ) );
 				}
 				catch ( Exception e )
 				{
@@ -2867,7 +2862,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					// a stack trace for debug purposes.
 
 					StaticEntity.printStackTrace( e );
-					request = new KoLRequest( actionString.toString(), true );
+					VISITOR.constructURLString( actionString.toString() );
 				}
 			}
 			else
@@ -2875,14 +2870,14 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				// For normal URLs, the form data can be submitted
 				// just like in every other request.
 
-				request = new KoLRequest( action, true );
+				VISITOR.constructURLString( action );
 				if ( elements[0].length() > 0 )
 					for ( int i = 0; i < elements.length; ++i )
 						if ( elements[i] != null )
-							request.addEncodedFormField( elements[i] );
+							VISITOR.addEncodedFormField( elements[i] );
 			}
 
-			frame.refresh( request );
+			frame.refresh( VISITOR );
 		}
 
 		private RequestFrame findFrame( String value )
@@ -2910,34 +2905,29 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			downloadImage( location );
 			location = location.substring( location.indexOf( "/" ) );
 
-			KoLRequest request = new KoLRequest( location );
-			request.responseCode = 200;
-			request.responseText = "<html><img src=\"" + location + "\"></html>";
-			request.responseText = request.responseText;
-			return request;
+			VISITOR.constructURLString( location );
+			VISITOR.responseCode = 200;
+			VISITOR.responseText = "<html><img src=\"" + location + "\"></html>";
+			VISITOR.responseText = VISITOR.responseText;
+			return VISITOR;
 		}
 
 		String [] urlData = location.split( "\\?" );
 		String [] formData = urlData.length == 1 ? new String[0] : urlData[1].split( "&" );
-
 		String [] currentField;
-		KoLRequest request = null;
 
-		if ( location.startsWith( "campground.php" ) )
-			request = new CampgroundRequest();
-		else
-			request = new KoLRequest( urlData[0], true );
+		VISITOR.constructURLString( urlData[0] );
 
 		for ( int i = 0; i < formData.length; ++i )
 		{
 			currentField = formData[i].split( "=" );
 
 			if ( currentField.length == 2 )
-				request.addFormField( currentField[0], currentField[1] );
+				VISITOR.addFormField( currentField[0], currentField[1] );
 			else
-				request.addFormField( formData[i] );
+				VISITOR.addFormField( formData[i] );
 		}
 
-		return request;
+		return VISITOR;
 	}
 }

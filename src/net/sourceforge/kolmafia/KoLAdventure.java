@@ -39,7 +39,6 @@ import net.sourceforge.foxtrot.Job;
 public class KoLAdventure extends Job implements KoLConstants, Comparable
 {
 	private static final AdventureResult HYDRATED = new AdventureResult( "Ultrahydrated", 1, true );
-	public static final KoLRequest ZONE_VALIDATOR = new KoLRequest( "", true );
 
 	public static final AdventureResult AMNESIA = new AdventureResult( "Amnesia", 1, true );
 	private static final AdventureResult PERFUME_ITEM = new AdventureResult( 307, 1 );
@@ -327,10 +326,10 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		{
 			if ( !KoLCharacter.hasItem( TRANSFUNCTIONER ) )
 			{
-				RequestThread.postRequest( ZONE_VALIDATOR.constructURLString( "mystic.php" ) );
-				RequestThread.postRequest( ZONE_VALIDATOR.constructURLString( "mystic.php?action=crackyes1" ) );
-				RequestThread.postRequest( ZONE_VALIDATOR.constructURLString( "mystic.php?action=crackyes2" ) );
-				RequestThread.postRequest( ZONE_VALIDATOR.constructURLString( "mystic.php?action=crackyes3" ) );
+				RequestThread.postRequest( VISITOR.constructURLString( "mystic.php" ) );
+				RequestThread.postRequest( VISITOR.constructURLString( "mystic.php?action=crackyes1" ) );
+				RequestThread.postRequest( VISITOR.constructURLString( "mystic.php?action=crackyes2" ) );
+				RequestThread.postRequest( VISITOR.constructURLString( "mystic.php?action=crackyes3" ) );
 			}
 
 			if ( EquipmentDatabase.getHands( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getName() ) > 1 )
@@ -473,10 +472,10 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			// questlog.php?which=3
 			// "You have planted a Beanstalk in the Nearby Plains."
 
-			ZONE_VALIDATOR.constructURLString( "plains.php" );
-			RequestThread.postRequest( ZONE_VALIDATOR );
+			VISITOR.constructURLString( "plains.php" );
+			RequestThread.postRequest( VISITOR );
 
-			if ( ZONE_VALIDATOR.responseText.indexOf( "beanstalk.php" ) == -1 )
+			if ( VISITOR.responseText.indexOf( "beanstalk.php" ) == -1 )
 			{
 				// If not, check to see if the player has an enchanted
 				// bean which can be used.  If they don't, then try to
@@ -508,8 +507,8 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 				DEFAULT_SHELL.executeLine( "use enchanted bean" );
 			}
 
-			ZONE_VALIDATOR.constructURLString( "beanstalk.php" );
-			RequestThread.postRequest( ZONE_VALIDATOR );
+			VISITOR.constructURLString( "beanstalk.php" );
+			RequestThread.postRequest( VISITOR );
 
 			KoLCharacter.armBeanstalk();
 			this.isValidAdventure = true;
@@ -563,19 +562,19 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 		else if ( this.adventureId.equals( "32" ) || this.adventureId.equals( "33" ) || this.adventureId.equals( "34" ) )
 		{
-			RequestThread.postRequest( ZONE_VALIDATOR.constructURLString( "bathole.php" ) );
+			RequestThread.postRequest( VISITOR.constructURLString( "bathole.php" ) );
 
-			if ( this.adventureId.equals( "32" ) && ZONE_VALIDATOR.responseText.indexOf( "batrockleft.gif" ) == -1 )
+			if ( this.adventureId.equals( "32" ) && VISITOR.responseText.indexOf( "batrockleft.gif" ) == -1 )
 			{
 				this.isValidAdventure = true;
 				return;
 			}
-			if ( this.adventureId.equals( "33" ) && ZONE_VALIDATOR.responseText.indexOf( "batrockright.gif" ) == -1 )
+			if ( this.adventureId.equals( "33" ) && VISITOR.responseText.indexOf( "batrockright.gif" ) == -1 )
 			{
 				this.isValidAdventure = true;
 				return;
 			}
-			if ( this.adventureId.equals( "34" ) && ZONE_VALIDATOR.responseText.indexOf( "batrockbottom.gif" ) == -1 )
+			if ( this.adventureId.equals( "34" ) && VISITOR.responseText.indexOf( "batrockbottom.gif" ) == -1 )
 			{
 				this.isValidAdventure = true;
 				return;
@@ -584,22 +583,22 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			int sonarCount = SONAR.getCount( inventory );
 			int sonarToUse = 0;
 
-			if ( ZONE_VALIDATOR.responseText.indexOf( "batrockleft.gif" ) != -1 )
+			if ( VISITOR.responseText.indexOf( "batrockleft.gif" ) != -1 )
 				sonarToUse = 3;
-			else if ( ZONE_VALIDATOR.responseText.indexOf( "batrockright.gif" ) != -1 )
+			else if ( VISITOR.responseText.indexOf( "batrockright.gif" ) != -1 )
 				sonarToUse = 2;
-			else if ( ZONE_VALIDATOR.responseText.indexOf( "batrockbottom.gif" ) != -1 )
+			else if ( VISITOR.responseText.indexOf( "batrockbottom.gif" ) != -1 )
 				sonarToUse = 1;
 
 			RequestThread.postRequest( new ConsumeItemRequest( SONAR.getInstance( Math.min( sonarToUse, sonarCount ) ) ) );
-			RequestThread.postRequest( ZONE_VALIDATOR );
+			RequestThread.postRequest( VISITOR );
 
 			if ( this.adventureId.equals( "32" ) )
-				this.isValidAdventure = ZONE_VALIDATOR.responseText.indexOf( "batrockleft.gif" ) == -1;
+				this.isValidAdventure = VISITOR.responseText.indexOf( "batrockleft.gif" ) == -1;
 			else if ( this.adventureId.equals( "33" ) )
-				this.isValidAdventure = ZONE_VALIDATOR.responseText.indexOf( "batrockright.gif" ) == -1;
+				this.isValidAdventure = VISITOR.responseText.indexOf( "batrockright.gif" ) == -1;
 			else
-				this.isValidAdventure = ZONE_VALIDATOR.responseText.indexOf( "batrockbottom.gif" ) == -1;
+				this.isValidAdventure = VISITOR.responseText.indexOf( "batrockbottom.gif" ) == -1;
 
 			return;
 		}
@@ -607,8 +606,8 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 		if ( this.adventureId.equals( "100" ) )
 		{
-			RequestThread.postRequest( ZONE_VALIDATOR.constructURLString( "woods.php" ) );
-			this.isValidAdventure = ZONE_VALIDATOR.responseText.indexOf( "grove.gif" ) != -1;
+			RequestThread.postRequest( VISITOR.constructURLString( "woods.php" ) );
+			this.isValidAdventure = VISITOR.responseText.indexOf( "grove.gif" ) != -1;
 
 			if ( !visitedCouncil && !this.isValidAdventure )
 			{
@@ -627,8 +626,8 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 				return;
 			}
 
-			RequestThread.postRequest( ZONE_VALIDATOR.constructURLString( "mclargehuge.php" ) );
-			if ( ZONE_VALIDATOR.responseText.indexOf( this.adventureId ) != -1 )
+			RequestThread.postRequest( VISITOR.constructURLString( "mclargehuge.php" ) );
+			if ( VISITOR.responseText.indexOf( this.adventureId ) != -1 )
 			{
 				this.isValidAdventure = true;
 				return;
@@ -641,7 +640,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			}
 
 			DEFAULT_SHELL.executeLine( "council" );
-			RequestThread.postRequest( ZONE_VALIDATOR.constructURLString( "trapper.php" ) );
+			RequestThread.postRequest( VISITOR.constructURLString( "trapper.php" ) );
 
 			this.validate( true );
 			return;

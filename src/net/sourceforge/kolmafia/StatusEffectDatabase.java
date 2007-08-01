@@ -198,12 +198,10 @@ public class StatusEffectDatabase extends KoLDatabase
 			return;
 
 		RequestLogger.printLine( "Checking for new status effects..." );
-
-		KoLRequest updateRequest = new KoLRequest( "uneffect.php" );
-		RequestThread.postRequest( updateRequest );
+		RequestThread.postRequest( VISITOR.constructURLString( "uneffect.php" ) );
 		RequestThread.postRequest( CharpaneRequest.getInstance() );
 
-		Matcher effectsMatcher = STATUS_EFFECT_PATTERN.matcher( updateRequest.responseText );
+		Matcher effectsMatcher = STATUS_EFFECT_PATTERN.matcher( VISITOR.responseText );
 
 		boolean foundChanges = false;
 

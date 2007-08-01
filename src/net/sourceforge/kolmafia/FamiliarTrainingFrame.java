@@ -63,6 +63,8 @@ import net.sourceforge.kolmafia.CakeArenaManager.ArenaOpponent;
 
 public class FamiliarTrainingFrame extends KoLFrame
 {
+	private static final KoLRequest FAMEQUIP_CHANGER = new KoLRequest( "familiar.php?pwd&action=equip" );
+
 	private static final Pattern PRIZE_PATTERN = Pattern.compile( "You've earned a prize from the Arena Goodies Sack!.*You acquire an item: <b>(.*?)</b>" );
 	private static final Pattern STEAL_PATTERN = Pattern.compile( "She also drops an item from her mouth.*You acquire an item: <b>(.*?)</b>" );
 	private static final Pattern CAGELOST_PATTERN = Pattern.compile( "You enter (.*?) against (.*?) in an Ultimate Cage Match.<p>(.*?\\1.*?\\.<p>)\\1 struggles for" );
@@ -541,8 +543,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 							AdventureResult item = new AdventureResult( itemName, 1, false );
 							if ( KoLCharacter.hasItem( item ) )
 							{
-								KoLRequest request = new KoLRequest( "familiar.php?pwd&action=equip&whichfam=" + familiars[i].getId() + "&whichitem=" + item.getItemId() );
-								RequestThread.postRequest( request );
+								FAMEQUIP_CHANGER.addFormField( "whichfam", String.valueOf( familiars[i].getId() ) );
+								FAMEQUIP_CHANGER.addFormField( "whichitem", String.valueOf( item.getItemId() ) );
+								RequestThread.postRequest( FAMEQUIP_CHANGER );
 							}
 						}
 					}

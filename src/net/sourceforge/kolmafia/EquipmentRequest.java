@@ -40,6 +40,10 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class EquipmentRequest extends PasswordHashRequest
 {
+	private static final EquipmentRequest REFRESH1 = new EquipmentRequest( EquipmentRequest.CONSUMABLES );
+	private static final EquipmentRequest REFRESH2 = new EquipmentRequest( EquipmentRequest.EQUIPMENT );
+	private static final EquipmentRequest REFRESH3 = new EquipmentRequest( EquipmentRequest.MISCELLANEOUS );
+
 	private static final Pattern CELL_PATTERN = Pattern.compile( "<td>(.*?)</td>" );
 	private static final Pattern SELECT_PATTERN = Pattern.compile( "<select.*?</select>", Pattern.DOTALL );
 	private static final Pattern MEAT_PATTERN = Pattern.compile( "[\\d,]+ meat\\.</b>" );
@@ -588,22 +592,20 @@ public class EquipmentRequest extends PasswordHashRequest
 			if ( KoLCharacter.inMuscleSign() || inventory.contains( PASTE ) )
 			{
 				KoLCharacter.resetInventory();
+				VISITOR.constructURLString( KoLCharacter.inMuscleSign() ? "knoll.php?place=paster" : "combine.php" ).run();
 
-				KoLRequest request = new KoLRequest( KoLCharacter.inMuscleSign() ? "knoll.php?place=paster" : "combine.php" );
-				request.run();
-
-				Matcher selectMatcher = SELECT_PATTERN.matcher( request.responseText );
+				Matcher selectMatcher = SELECT_PATTERN.matcher( VISITOR.responseText );
 				if ( selectMatcher.find() )
 					this.parseCloset( selectMatcher.group(), inventory );
 			}
 			else
 			{
 				KoLCharacter.resetInventory();
-				(new EquipmentRequest( EquipmentRequest.CONSUMABLES )).run();
-				(new EquipmentRequest( EquipmentRequest.MISCELLANEOUS )).run();
+				REFRESH1.run();
+				REFRESH3.run();
 			}
 
-			(new EquipmentRequest( EquipmentRequest.EQUIPMENT )).run();
+			REFRESH2.run();
 			return;
 		}
 
