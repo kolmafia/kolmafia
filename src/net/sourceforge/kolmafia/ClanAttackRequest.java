@@ -33,10 +33,26 @@
 
 package net.sourceforge.kolmafia;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import net.java.dev.spellcast.utilities.SortedListModel;
+
 public class ClanAttackRequest extends KoLRequest implements Comparable
 {
+	private static final Pattern CLANID_PATTERN = Pattern.compile( "name=whichclan value=(\\d+)></td><td><b>(.*?)</td><td>(.*?)</td>" );
+	private static final Pattern WAIT_PATTERN = Pattern.compile( "<br>Your clan can attack again in (.*?)<p>" );
+
+	private static SortedListModel enemyClans = new SortedListModel();
+
 	private String name;
 	private int goodies;
+
+	public ClanAttackRequest()
+	{
+		super( "clan_war.php" );
+		this.name = null;
+	}
 
 	public ClanAttackRequest( String id, String name, int goodies )
 	{
@@ -49,12 +65,38 @@ public class ClanAttackRequest extends KoLRequest implements Comparable
 
 	public void run()
 	{
-		KoLmafia.updateDisplay( "Attacking " + this.name + "..." );
+		if ( this.name != null )
+			KoLmafia.updateDisplay( "Attacking " + this.name + "..." );
+
 		super.run();
 	}
 
+	public static SortedListModel getEnemyClans()
+	{	return enemyClans;
+	}
+
 	public void processResults()
-	{	KoLmafia.updateDisplay( "Attack request processed." );
+	{
+		if ( this.name != null )
+			return;
+
+		if ( this.formURLString.equals( "clan_attack.php" ) )
+		{
+			Matcher clanMatcher = CLANID_PATTERN.matcher( this.responseText );
+
+			while ( clanMatcher.find() )
+				enemyClans.add( new ClanAttackRequest( clanMatcher.group(1), clanMatcher.group(2), Integer.parseInt( clanMatcher.group(3) ) ) );
+
+			if ( enemyClans.isEmpty() )
+				this.constructURLString( "clan_war.php" ).run();
+		}
+		else
+		{
+			Matcher nextMatcher = WAIT_PATTERN.matcher( this.responseText );
+			nextMatcher.find();
+
+			KoLmafia.updateDisplay( ERROR_STATE, "Your clan can attack again in " + nextMatcher.group(1) );
+		}
 	}
 
 	public String toString()

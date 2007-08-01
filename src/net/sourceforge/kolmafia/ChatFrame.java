@@ -459,11 +459,11 @@ public class ChatFrame extends KoLFrame
 				return;
 
 			case 5:
-				ProfileFrame.showRequest( new KoLRequest( "displaycollection.php?who=" + KoLmafia.getPlayerId( (String) parameters[0] ) ) );
+				ProfileFrame.showRequest( VISITOR.constructURLString( "displaycollection.php?who=" + KoLmafia.getPlayerId( (String) parameters[0] ) ) );
 				return;
 
 			case 6:
-				ProfileFrame.showRequest( new KoLRequest( "ascensionhistory.php?who=" + KoLmafia.getPlayerId( (String) parameters[0] ) ) );
+				ProfileFrame.showRequest( VISITOR.constructURLString( "ascensionhistory.php?who=" + KoLmafia.getPlayerId( (String) parameters[0] ) ) );
 				return;
 
 			case 7:

@@ -162,32 +162,30 @@ public class FlowerHunterRequest extends KoLRequest
 		case RANKVIEW:
 
 			this.parseAttack();
+			VISITOR.constructURLString( "questlog.php?which=3" ).run();
 
-			KoLRequest miniRequest = new KoLRequest( "questlog.php?which=3" );
-			miniRequest.run();
-
-			Matcher miniMatcher = TATTOO_PATTERN.matcher( miniRequest.responseText );
+			Matcher miniMatcher = TATTOO_PATTERN.matcher( VISITOR.responseText );
 			if ( miniMatcher.find() )
 				tattooCount = StaticEntity.parseInt( miniMatcher.group(1) );
 			else
 				tattooCount = 0;
 
-			miniMatcher = TROPHY_PATTERN.matcher( miniRequest.responseText );
+			miniMatcher = TROPHY_PATTERN.matcher( VISITOR.responseText );
 			if ( miniMatcher.find() )
 				trophyCount = StaticEntity.parseInt( miniMatcher.group(1) );
 			else
 				trophyCount = 0;
 
-			miniMatcher = FLOWER_PATTERN.matcher( miniRequest.responseText );
+			miniMatcher = FLOWER_PATTERN.matcher( VISITOR.responseText );
 			if ( miniMatcher.find() )
 				flowerCount = StaticEntity.parseInt( miniMatcher.group(1) );
 			else
 				flowerCount = 0;
 
-			miniRequest = new KoLRequest( "showconsumption.php" );
-			miniRequest.run();
+			VISITOR.constructURLString( "showconsumption.php" );
+			VISITOR.run();
 
-			miniMatcher = CANADA_PATTERN.matcher( miniRequest.responseText );
+			miniMatcher = CANADA_PATTERN.matcher( VISITOR.responseText );
 			if ( miniMatcher.find() )
 				canadaCount = StaticEntity.parseInt( miniMatcher.group(1) );
 			else
@@ -254,7 +252,7 @@ public class FlowerHunterRequest extends KoLRequest
 		Matcher rankMatcher = RANKING_PATTERN.matcher( this.responseText );
 		if ( !rankMatcher.find() )
 		{
-			(new KoLRequest( "campground.php?pwd&confirm=on&smashstone=Yep." )).run();
+			VISITOR.constructURLString( "campground.php?pwd&confirm=on&smashstone=Yep." ).run();
 			super.run();
 			return;
 		}

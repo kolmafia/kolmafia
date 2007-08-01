@@ -618,7 +618,7 @@ public abstract class KoLmafia implements KoLConstants
 			if ( StaticEntity.getIntegerProperty( "lastFilthClearance" ) == KoLCharacter.getAscensions() )
 			{
 				KoLmafia.updateDisplay( "Collecting cut of hippy profits..." );
-				RequestThread.postRequest( new KoLRequest( "store.php?whichstore=h" ) );
+				RequestThread.postRequest( VISITOR.constructURLString( "store.php?whichstore=h" ) );
 				forceContinue();
 			}
 		}
@@ -2270,15 +2270,13 @@ public abstract class KoLmafia implements KoLConstants
 	public void tradeGourdItems()
 	{
 		updateDisplay( "Determining items needed..." );
-
-		KoLRequest request = new KoLRequest( "town_right.php?place=gourd", true );
-		RequestThread.postRequest( request );
+		RequestThread.postRequest( VISITOR.constructURLString( "town_right.php?place=gourd" ) );
 
 		// For every class, it's the same -- the message reads, "Bring back"
 		// and then the number of the item needed.  Compare how many you need
 		// with how many you have.
 
-		Matcher neededMatcher = GOURD_PATTERN.matcher( request.responseText );
+		Matcher neededMatcher = GOURD_PATTERN.matcher( VISITOR.responseText );
 		AdventureResult item;
 
 		switch ( KoLCharacter.getPrimeIndex() )
@@ -2298,7 +2296,7 @@ public abstract class KoLmafia implements KoLConstants
 		while ( neededCount <= 25 && neededCount <= item.getCount( inventory ) )
 		{
 			updateDisplay( "Giving up " + neededCount + " " + item.getName() + "s..." );
-			RequestThread.postRequest( request.constructURLString( "town_right.php?place=gourd&action=gourd" ) );
+			RequestThread.postRequest( VISITOR.constructURLString( "town_right.php?place=gourd&action=gourd" ) );
 			this.processResult( item.getInstance( 0 - neededCount++ ) );
 		}
 
@@ -2321,28 +2319,26 @@ public abstract class KoLmafia implements KoLConstants
 		// their current stats.
 
 		updateDisplay( "Entering guild challenge area..." );
-		KoLRequest request = new KoLRequest( "guild.php?place=challenge", true );
+		RequestThread.postRequest( VISITOR.constructURLString( "guild.php?place=challenge" ) );
 
-		RequestThread.postRequest( request );
-
-		boolean success = stopAtPaco ? request.responseText.indexOf( "paco" ) != -1 :
-			request.responseText.indexOf( "store.php" ) != -1;
+		boolean success = stopAtPaco ? VISITOR.responseText.indexOf( "paco" ) != -1 :
+			VISITOR.responseText.indexOf( "store.php" ) != -1;
 
 		updateDisplay( "Completing guild tasks..." );
 
 		for ( int i = 0; i < 6 && !success && KoLCharacter.getAdventuresLeft() > 0 && permitsContinue(); ++i )
 		{
-			RequestThread.postRequest( request.constructURLString( "guild.php?action=chal" ) );
+			RequestThread.postRequest( VISITOR.constructURLString( "guild.php?action=chal" ) );
 
-			if ( request.responseText != null )
+			if ( VISITOR.responseText != null )
 			{
-				success |= stopAtPaco ? request.responseText.indexOf( "paco" ) != -1 :
-					request.responseText.indexOf( "You've already beaten" ) != -1;
+				success |= stopAtPaco ? VISITOR.responseText.indexOf( "paco" ) != -1 :
+					VISITOR.responseText.indexOf( "You've already beaten" ) != -1;
 			}
 		}
 
 		if ( success && KoLCharacter.getLevel() > 3 )
-			RequestThread.postRequest( request.constructURLString( "guild.php?place=paco" ) );
+			RequestThread.postRequest( VISITOR.constructURLString( "guild.php?place=paco" ) );
 
 		if ( success && stopAtPaco )
 			updateDisplay( "You have unlocked the guild meatcar quest." );

@@ -194,7 +194,7 @@ public class ClanManageFrame extends KoLFrame
 		public AttackPanel()
 		{
 			super( "Loot Another Clan", "attack", "refresh", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
-			this.enemyList = new JComboBox( ClanListRequest.getEnemyClans() );
+			this.enemyList = new JComboBox( ClanAttackRequest.getEnemyClans() );
 
 			VerifiableElement [] elements = new VerifiableElement[1];
 			elements[0] = new VerifiableElement( "Victim: ", this.enemyList );
@@ -206,7 +206,7 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		public void actionCancelled()
-		{	RequestThread.postRequest( new ClanListRequest() );
+		{	RequestThread.postRequest( new ClanAttackRequest() );
 		}
 	}
 

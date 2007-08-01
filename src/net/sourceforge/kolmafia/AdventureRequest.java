@@ -147,8 +147,8 @@ public class AdventureRequest extends KoLRequest
 
 		if ( this.formSource.equals( "mountains.php" ) )
 		{
-			KoLAdventure.ZONE_VALIDATOR.constructURLString( "mountains.php" ).run();
-			if ( KoLAdventure.ZONE_VALIDATOR.responseText.indexOf( "value=80" ) != -1 )
+			VISITOR.constructURLString( "mountains.php" ).run();
+			if ( VISITOR.responseText.indexOf( "value=80" ) != -1 )
 			{
 				KoLmafia.updateDisplay( PENDING_STATE, "The Orc Chasm has already been bridged." );
 				return;
@@ -871,22 +871,22 @@ public class AdventureRequest extends KoLRequest
 		if ( redirectLocation.indexOf( "main.php" ) != -1 )
 			return;
 
-		KoLRequest request = new KoLRequest( redirectLocation );
+		VISITOR.constructURLString( redirectLocation );
 
 		if ( redirectLocation.indexOf( "palinshelves.php" ) != -1 )
 		{
-			request.run();
-			request.constructURLString( "palinshelves.php?action=placeitems&whichitem1=2259&whichitem2=2260&whichitem3=493&whichitem4=2261" ).run();
+			VISITOR.run();
+			VISITOR.constructURLString( "palinshelves.php?action=placeitems&whichitem1=2259&whichitem2=2260&whichitem3=493&whichitem4=2261" ).run();
 			return;
 		}
 
 		if ( redirectLocation.indexOf( "tiles.php" ) != -1 )
 		{
-			handleDvoraksRevenge( request );
+			handleDvoraksRevenge( VISITOR );
 			return;
 		}
 
-		FightFrame.showRequest( request );
+		FightFrame.showRequest( VISITOR );
 		KoLmafia.updateDisplay( ABORT_STATE, "Unknown adventure type encountered." );
 	}
 

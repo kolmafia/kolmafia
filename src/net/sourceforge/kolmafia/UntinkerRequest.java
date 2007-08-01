@@ -108,17 +108,16 @@ public class UntinkerRequest extends KoLRequest
 		{
 			StaticEntity.getClient().processResult( new AdventureResult( this.itemId, 1 ) );
 
-			KoLRequest questCompleter = new KoLRequest( "town_right.php?place=untinker" );
-			questCompleter.run();
+			VISITOR.constructURLString( "town_right.php?place=untinker" ).run();
 
-			if ( questCompleter.responseText.indexOf( "<select" ) == -1 )
+			if ( VISITOR.responseText.indexOf( "<select" ) == -1 )
 			{
 				canUntinker = completeQuest();
 
 				if ( !canUntinker )
 					return;
 
-				questCompleter.run();
+				VISITOR.run();
 			}
 
 			super.run();
@@ -140,14 +139,13 @@ public class UntinkerRequest extends KoLRequest
 		// If the person does not have the accomplishment, visit
 		// the untinker to ensure that they get the quest.
 
-		KoLRequest questCompleter = new KoLRequest( "town_right.php?place=untinker" );
-		questCompleter.run();
+		VISITOR.constructURLString( "town_right.php?place=untinker" ).run();
 
 		// "I can take apart anything that's put together with meat
 		// paste, but you don't have anything like that..."
 
-		canUntinker = questCompleter.responseText.indexOf( "you don't have anything like that" ) != -1 ||
-			questCompleter.responseText.indexOf( "<select name=whichitem>" ) != -1;
+		canUntinker = VISITOR.responseText.indexOf( "you don't have anything like that" ) != -1 ||
+			VISITOR.responseText.indexOf( "<select name=whichitem>" ) != -1;
 
 		return canUntinker;
 	}
@@ -159,12 +157,8 @@ public class UntinkerRequest extends KoLRequest
 
 		if ( KoLCharacter.inMuscleSign() )
 		{
-			KoLRequest questCompleter = new KoLRequest( "knoll.php" );
-			questCompleter.run();
-
-			questCompleter.constructURLString( "knoll.php?place=smith" );
-			questCompleter.run();
-
+			VISITOR.constructURLString( "knoll.php" ).run();
+			VISITOR.constructURLString( "knoll.php?place=smith" ).run();
 			return true;
 		}
 
@@ -206,10 +200,8 @@ public class UntinkerRequest extends KoLRequest
 		// Go ahead and rerun the untinker request and you will
 		// have the needed accomplishment.
 
-		KoLRequest questCompleter = new KoLRequest( "town_right.php?place=untinker" );
-		questCompleter.run();
-
-		return questCompleter.responseText.indexOf( "Degrassi Knoll" ) == -1;
+		VISITOR.constructURLString( "town_right.php?place=untinker" ).run();
+		return VISITOR.responseText.indexOf( "Degrassi Knoll" ) == -1;
 	}
 
 	public static boolean registerRequest( String urlString )

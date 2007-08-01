@@ -177,6 +177,7 @@ public interface KoLConstants extends UtilityConstants
 	public static final File SESSIONS_LOCATION = new File( ROOT_LOCATION, "sessions" );
 	public static final File RELAY_LOCATION = new File( ROOT_LOCATION, "relay" );
 
+	public static final KoLRequest VISITOR = new KoLRequest( "", true );
 	public static final KoLmafiaCLI DEFAULT_SHELL = new KoLmafiaCLI( System.in );
 	public static final KoLmafiaASH NAMESPACE_INTERPRETER = new KoLmafiaASH();
 

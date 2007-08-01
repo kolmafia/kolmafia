@@ -80,7 +80,7 @@ public class RequestFrame extends KoLFrame
 	{
 		this( "Mini-Browser" );
 		this.setDefaultCloseOperation( HIDE_ON_CLOSE );
-		this.displayRequest( new KoLRequest( "main.php" ) );
+		this.displayRequest( VISITOR.constructURLString( "main.php" ) );
 	}
 
 	public RequestFrame( String title )
@@ -213,7 +213,7 @@ public class RequestFrame extends KoLFrame
 			BrowserComboBoxItem selected = (BrowserComboBoxItem) source.getSelectedItem();
 
 			if ( !selected.getLocation().equals( "" ) )
-				RequestFrame.this.refresh( new KoLRequest( selected.getLocation() ) );
+				RequestFrame.this.refresh( VISITOR.constructURLString( selected.getLocation() ) );
 
 			source.setSelectedIndex( 0 );
 		}
@@ -372,7 +372,7 @@ public class RequestFrame extends KoLFrame
 		}
 
 		public void run()
-		{	RequestFrame.this.refresh( new KoLRequest( "main.php", true ) );
+		{	RequestFrame.this.refresh( VISITOR.constructURLString( "main.php" ) );
 		}
 	}
 
@@ -423,7 +423,7 @@ public class RequestFrame extends KoLFrame
 			if ( RequestFrame.this.currentLocation == null )
 				return;
 
-			RequestFrame.this.refresh( new KoLRequest( RequestFrame.this.currentLocation, true ) );
+			RequestFrame.this.refresh( VISITOR.constructURLString( RequestFrame.this.currentLocation ) );
 		}
 	}
 

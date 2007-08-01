@@ -43,6 +43,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class AdventureDatabase extends KoLDatabase
 {
+	private static KoLRequest FAMEQUIP_CHANGER = new KoLRequest( "familiar.php?pwd&action=unequip" );
 	private static LockableListModel adventures = new LockableListModel();
 	private static AdventureArray allAdventures = new AdventureArray();
 
@@ -1298,7 +1299,8 @@ public class AdventureDatabase extends KoLDatabase
 			if ( current.getItem() != null && current.getItem().equals( item ) )
 			{
 				KoLmafia.updateDisplay( "Stealing " + item.getName() + " from " + current.getName() + " the " + current.getRace() + "..." );
-				RequestThread.postRequest( new KoLRequest( "familiar.php?pwd=&action=unequip&famid=" + current.getId(), true ) );
+				FAMEQUIP_CHANGER.addFormField( "famid", String.valueOf( current.getId() ) );
+				RequestThread.postRequest( FAMEQUIP_CHANGER );
 
 				--missingCount;
 
