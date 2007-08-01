@@ -1208,6 +1208,7 @@ Barking Dogs	Muscle Percent: -50
 Beaten Up	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
 Bells in the Batfry	Moxie Percent: +10
 Bestial Sympathy	Familiar Weight: +3
+Big Flaming Whip	Hot Damage: +20
 Big Veiny Brain	Experience +2, Meat Drop: -20
 Black Face	Muscle Percent: +10
 Black Tongue	Familiar Weight: +5, Experience +3, Item Drop: +30, Meat Drop: +30
@@ -1350,6 +1351,7 @@ Ponderous Potency	Melee Damage: +20
 Pop-eyed	Melee Damage: +30
 Power Ballad of the Arrowsmith	Muscle: +10, Maximum HP: +20
 Prestidigysfunction	Mysticality Percent: -95
+Preternatural Greed	Meat Drop: +100
 Pronounced Potency	Melee Damage: +5
 Provocative Perkiness	Initiative: +20
 Pumped Up	Muscle: +5

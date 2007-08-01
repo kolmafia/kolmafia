@@ -438,3 +438,7 @@
 438	Ham-fisted	ham.gif	a71e21c4a39a13558719fef8980422d4
 439	Baconstoned	bacon.gif	8a3686b9ef4909ca99587bc6489008c4
 440	Je Ne Sais Porquoise	confused.gif	7a1d33bd3c697d55c26eb70a1845a5d5
+441	Fit To Be Tide	waves.gif	938dde0221273af2e2cefeafacddf498 
+442	Preternatural Greed	meat.gif	77c8dcca272b5c6a62ff65ab673f09b8 
+443	Big Flaming Whip	whip.gif	1b8e17da0f810cea79461e5346364d13 
+444	Demonic Taint	stench.gif	2dbb492270ccad496291a6f7fdadde26
