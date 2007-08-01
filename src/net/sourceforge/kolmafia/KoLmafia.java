@@ -724,15 +724,15 @@ public abstract class KoLmafia implements KoLConstants
 		RequestThread.postRequest( new MoonPhaseRequest() );
 		KoLCharacter.setHoliday( MoonPhaseDatabase.getHoliday( new Date() ) );
 
-		if ( getQuestLog )
-			RequestThread.postRequest( new QuestLogRequest() );
-		else
-			QuestLogRequest.registerQuests( "" );
-
 		// Retrieve the character sheet first. It's necessary to do
 		// this before concoctions have a chance to get refreshed.
 
 		RequestThread.postRequest( new CharsheetRequest() );
+
+		if ( getQuestLog )
+			RequestThread.postRequest( new QuestLogRequest() );
+		else
+			QuestLogRequest.registerQuests( "" );
 
 		// Clear the violet fog path table and everything
 		// else that changes on the player.
