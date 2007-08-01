@@ -326,6 +326,7 @@ public class KoLRequest extends Job implements KoLConstants
 
 	public KoLRequest constructURLString( String newURLString, boolean usePostMethod )
 	{
+		this.responseText = null;
 		this.dataChanged = true;
 		this.data.clear();
 
