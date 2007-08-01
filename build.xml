@@ -4,8 +4,6 @@
 	<!--  set the global properties for this build  -->
 	<!-- ========================================== -->
 
-	<property name="version" value="11.2"/>
-
 	<property name="root" location="."/>
 	<property name="src" location="src"/>
 	<property name="lib" location="lib"/>
@@ -15,7 +13,7 @@
 
 	<property name="jarfile" location="${dist}/${ant.project.name}.jar"/>
 	<property name="tarfile" location="${dist}/${ant.project.name}.tar.gz"/>
-	<property name="main-class" value="net.sourceforge.kolmafia.KoLmafia"/>
+	<property name="main" value="net.sourceforge.kolmafia.KoLmafia"/>
 
 
 	<!-- ========================================== -->
@@ -35,17 +33,33 @@
 	<!--  update files from the repository  -->
 	<!-- ================================== -->
 
-	<target name="update">
+	<target name="update" unless="revision">
 
 		<exec executable="svn" failifexecutionfails="false">
-			<arg value="update" />
-			<arg value="${root}" />
+			<arg value="update"/>
+			<arg value="${root}"/>
 		</exec>
 
+		<antcall target="version"/>
+
+	</target>
+
+
+	<!-- ================================== -->
+	<!--  update files from the repository  -->
+	<!-- ================================== -->
+
+	<target name="version" unless="revision">
+
+		<property name="version" value="11.2"/>
+
 		<exec executable="svnversion" outputproperty="revision" failifexecutionfails="false">
-			<arg value="-n" />
-			<arg value="${root}" />
+			<arg value="-n"/>
+			<arg value="${root}"/>
 		</exec>
+
+		<property name="revision" value="0"/>
+		<echo message="Current revision: ${revision}"/>
 
 	</target>
 
@@ -75,7 +89,7 @@
 	<target name="build" depends="init">
 
 		<javac source="1.4" srcdir="${src}" destdir="${build}" classpath="${lib}/*.jar"
-			debug="on" debuglevel="lines,vars,source" deprecation="on" nowarn="on" />
+			debug="on" debuglevel="lines,vars,source" deprecation="on" nowarn="on"/>
 
 		<copy todir="${build}" preservelastmodified="true">
 			<fileset dir="${src}">
@@ -90,34 +104,34 @@
 	</target>
 
 
-	<!-- ============================= -->
-	<!--  generate the executable JAR  -->
-	<!-- ============================= -->
+	<!-- =========================== -->
+	<!--  generate the standard JAR  -->
+	<!-- =========================== -->
 
 	<target name="createjar" depends="build">
 
 		<jar destfile="${jarfile}" basedir="${build}" update="true" index="yes">
 			<manifest>
-				<attribute name="Main-Class" value="${main-class}"/>
+				<attribute name="Main-Class" value="${main}"/>
 			</manifest>
 		</jar>
 
 	</target>
 
 
-	<!-- ============================ -->
-	<!--  generate the debugging JAR  -->
-	<!-- ============================ -->
+	<!-- ================================ -->
+	<!--  generate the alpha testing JAR  -->
+	<!-- ================================ -->
 
-	<target name="debug" depends="update,clean">
-
-		<replace file="${src}/net/sourceforge/kolmafia/KoLConstants.java"
-			token="v${version}" value="v${version}, r${revision}" />
-
-		<antcall target="createjar" />
+	<target name="debug" depends="version">
 
 		<replace file="${src}/net/sourceforge/kolmafia/KoLConstants.java"
-			token="v${version}, r${revision}" value="v${version}" />
+			token="v${version}" value="v${version}, r${revision}"/>
+
+		<antcall target="createjar"/>
+
+		<replace file="${src}/net/sourceforge/kolmafia/KoLConstants.java"
+			token="v${version}, r${revision}" value="v${version}"/>
 
 	</target>
 
@@ -126,10 +140,21 @@
 	<!--  generate a daily build JAR  -->
 	<!-- ============================ -->
 
-	<target name="daily" depends="debug">
+	<target name="daily" depends="update,clean">
 
-		<fail unless="revision" />
-		<move file="${jarfile}" tofile="${dist}/${ant.project.name}-${revision}.jar" />
+		<replace file="${src}/net/sourceforge/kolmafia/KoLConstants.java"
+			token="v${version}" value="v${version}, r${revision}"/>
+
+		<antcall target="build"/>
+
+		<jar destfile="${dist}/${ant.project.name}-${revision}.jar" basedir="${build}" update="true" index="yes">
+			<manifest>
+				<attribute name="Main-Class" value="${main}"/>
+			</manifest>
+		</jar>
+
+		<replace file="${src}/net/sourceforge/kolmafia/KoLConstants.java"
+			token="v${version}, r${revision}" value="v${version}"/>
 
 	</target>
 
@@ -141,10 +166,8 @@
 	<target name="dist" depends="update,clean,createjar">
 
 		<tar destfile="${tarfile}" basedir="${root}" compression="gzip">
-			<exclude name="CVS/**"/>
 			<exclude name="build/**"/>
 			<exclude name="dist/**"/>
-			<exclude name="www/data/**"/>
 		</tar>
 
 	</target>
@@ -154,7 +177,7 @@
 	<!--  runs program with all needed libraries in the path  -->
 	<!-- ==================================================== -->
 
-	<target name="exec" depends="update,createjar">
+	<target name="exec" depends="createjar">
 		<java fork="true" jar="${jarfile}" dir="${dist}"/>
 	</target>
 
