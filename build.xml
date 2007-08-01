@@ -58,8 +58,12 @@
 
 		<delete dir="${build}"/>
 		<delete dir="${docs}"/>
-		<delete file="${jarfile}"/>
-		<delete file="${tarfile}"/>
+
+		<delete>
+			<fileset dir="${dist}">
+				<include name="${ant.project.name}*"/>
+			</fileset>
+		</delete>
 
 	</target>
 
@@ -108,12 +112,24 @@
 	<target name="debug" depends="update,clean">
 
 		<replace file="${src}/net/sourceforge/kolmafia/KoLConstants.java"
-			token="v${version}" value="r${revision}" />
+			token="v${version}" value="v${version}, r${revision}" />
 
 		<antcall target="createjar" />
 
 		<replace file="${src}/net/sourceforge/kolmafia/KoLConstants.java"
-			token="r${revision}" value="v${version}" />
+			token="v${version}, r${revision}" value="v${version}" />
+
+	</target>
+
+
+	<!-- ============================ -->
+	<!--  generate a daily build JAR  -->
+	<!-- ============================ -->
+
+	<target name="daily" depends="debug">
+
+		<fail unless="revision" />
+		<move file="${jarfile}" tofile="${dist}/${ant.project.name}-${revision}.jar" />
 
 	</target>
 
