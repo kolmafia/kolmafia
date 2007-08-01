@@ -1089,7 +1089,7 @@ public class TradeableItemDatabase extends KoLDatabase
 	public static void getDustyBottles()
 	{
 		int lastAscension = StaticEntity.getIntegerProperty( "lastDustyBottleReset" );
-		if ( lastAscension != KoLCharacter.getAscensions() )
+		if ( lastAscension < KoLCharacter.getAscensions() )
 		{
 			for ( int i = 2271; i <= 2276; ++i )
 				StaticEntity.setProperty( "lastDustyBottle" + i, "" );
