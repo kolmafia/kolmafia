@@ -169,11 +169,15 @@ public class CharsheetRequest extends KoLRequest
 		int oldAdventures = KoLCharacter.getAdventuresLeft();
 		int newAdventures = intToken( cleanContent );
 
-		StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, newAdventures - oldAdventures ) );
+		// *** Setting adventures and meat recalculates concoctions.
+		// *** Defer until after ascension count is read.
+
+		int adventures = newAdventures - oldAdventures;
 
 		while ( !token.startsWith( "Meat" ) )
 			token = cleanContent.nextToken();
-		KoLCharacter.setAvailableMeat( intToken( cleanContent ) );
+
+		int meat = intToken( cleanContent );
 
 		// Determine the player's ascension count, if any.
 		// This is seen by whether or not the word "Ascensions"
@@ -185,6 +189,11 @@ public class CharsheetRequest extends KoLRequest
 				token = cleanContent.nextToken();
 			KoLCharacter.setAscensions( intToken( cleanContent ) );
 		}
+
+		// *** Set deferred values
+
+		StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, adventures ) );
+		KoLCharacter.setAvailableMeat( meat );
 
 		// There may also be a "turns this run" field which
 		// allows you to have a Ronin countdown.
