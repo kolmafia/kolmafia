@@ -1000,7 +1000,7 @@ public class FightRequest extends KoLRequest
 	public static void ensureUpdatedSphereEffects()
 	{
 		int lastAscension = StaticEntity.getIntegerProperty( "lastStoneSphereReset" );
-		if ( lastAscension != KoLCharacter.getAscensions() )
+		if ( lastAscension < KoLCharacter.getAscensions() )
 		{
 			StaticEntity.setProperty( "lastStoneSphereReset", String.valueOf( KoLCharacter.getAscensions() ) );
 			for ( int i = 2174; i <= 2177; ++i )

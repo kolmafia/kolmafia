@@ -1290,7 +1290,7 @@ public class ConsumeItemRequest extends KoLRequest
 	public static void ensureUpdatedPotionEffects()
 	{
 		int lastAscension = StaticEntity.getIntegerProperty( "lastBangPotionReset" );
-		if ( lastAscension != KoLCharacter.getAscensions() )
+		if ( lastAscension < KoLCharacter.getAscensions() )
 		{
 			StaticEntity.setProperty( "lastBangPotionReset", String.valueOf( KoLCharacter.getAscensions() ) );
 			for ( int i = 819; i <= 827; ++i )
