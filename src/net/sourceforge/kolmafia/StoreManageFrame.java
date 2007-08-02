@@ -51,6 +51,7 @@ import javax.swing.ListSelectionModel;
 import com.sun.java.forums.TableSorter;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.sourceforge.kolmafia.KoLFrame.OverlapPanel;
 import net.sourceforge.kolmafia.StoreManager.SoldItem;
 
 public class StoreManageFrame extends KoLPanelFrame
@@ -70,6 +71,8 @@ public class StoreManageFrame extends KoLPanelFrame
 
 		this.tabs.add( "Price Setup", new StoreManagePanel() );
 		this.tabs.add( "Additions", new StoreAddPanel() );
+		this.tabs.add( "Restocker", new ProfitableItemsPanel() );
+		this.tabs.add( "End of Run", new EndOfRunSalePanel() );
 		this.tabs.add( "Removals", new StoreRemovePanel() );
 		this.tabs.add( "Store Log", new StoreLogPanel() );
 
@@ -379,6 +382,38 @@ public class StoreManageFrame extends KoLPanelFrame
 		{
 			Object [] items = this.getDesiredItems( "Autosell" );
 			RequestThread.postRequest( new AutoSellRequest( items, AutoSellRequest.AUTOSELL ) );
+		}
+	}
+
+	private class ProfitableItemsPanel extends OverlapPanel
+	{
+		public ProfitableItemsPanel()
+		{	super( "automall", "help", profitableList, true );
+		}
+
+		public void actionConfirmed()
+		{	StaticEntity.getClient().makeAutoMallRequest();
+		}
+
+		public void actionCancelled()
+		{	alert( "These items have been flagged as \"profitable\" because at some point in the past, you've opted to place them in the mall.  If you use the \"automall\" command, KoLmafia will place all of these items in the mall." );
+		}
+	}
+
+	private class EndOfRunSalePanel extends OverlapPanel
+	{
+		public EndOfRunSalePanel()
+		{	super( "host sale", "help", mementoList, false );
+		}
+
+		public void actionConfirmed()
+		{
+			KoLmafia.updateDisplay( "Gathering data..." );
+			StaticEntity.getClient().makeEndOfRunSaleRequest();
+		}
+
+		public void actionCancelled()
+		{	alert( "KoLmafia will place all items which are not already in your store into your store. " + StoreManageFrame.UNDERCUT_MESSAGE );
 		}
 	}
 

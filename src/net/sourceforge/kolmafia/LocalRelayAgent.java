@@ -257,7 +257,7 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 		}
 
 		if ( this.request.rawByteBuffer == null && this.request.responseText != null )
-			this.request.rawByteBuffer = this.request.responseText.getBytes();
+			this.request.rawByteBuffer = this.request.responseText.getBytes( "UTF-8" );
 	}
 
 	private void closeRelay()

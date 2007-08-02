@@ -137,11 +137,8 @@ public class ItemManageFrame extends KoLFrame
 		JTabbedPane filterActions = getTabbedPane();
 		filterActions.addTab( "Junk Items", new JunkItemsPanel() );
 		filterActions.addTab( "Memento Items", new MementoItemsPanel() );
-		filterActions.addTab( "Store Restock", new ProfitableItemsPanel() );
-		filterActions.addTab( "Display Matcher", new DisplayCaseMatchPanel() );
 
-		this.addPanel( "Script Actions", filterActions );
-		this.addPanel( " - End Run", new EndOfRunSalePanel() );
+		this.addPanel( "Item Filters", filterActions );
 
 		this.itemPanelList.addListSelectionListener( new CardSwitchListener() );
 		this.itemPanelList.setPrototypeCellValue( "ABCDEFGHIJKLM" );
@@ -221,65 +218,6 @@ public class ItemManageFrame extends KoLFrame
 		}
 	}
 
-	private class OverlapPanel extends ItemManagePanel
-	{
-		private boolean isOverlap;
-		private LockableListModel overlapModel;
-
-		public OverlapPanel( String confirmText, String cancelText, LockableListModel overlapModel, boolean isOverlap )
-		{
-			super( confirmText, cancelText, inventory );
-			this.overlapModel = overlapModel;
-			this.isOverlap = isOverlap;
-
-			elementList.addKeyListener( new OverlapAdapter() );
-
-			this.addFilters();
-			this.filterItems();
-		}
-
-		public FilterItemField getWordFilter()
-		{	return new OverlapFilterField();
-		}
-
-		private class OverlapFilterField extends FilterItemField
-		{
-			public SimpleListFilter getFilter()
-			{	return new OverlapFilter();
-			}
-
-			private class OverlapFilter extends ConsumptionBasedFilter
-			{
-				public boolean isVisible( Object element )
-				{
-					return super.isVisible( element ) &&
-						(isOverlap ? overlapModel.contains( element ) : !overlapModel.contains( element ));
-				}
-			}
-		}
-
-		private class OverlapAdapter extends KeyAdapter
-		{
-			public void keyReleased( KeyEvent e )
-			{
-				if ( e.isConsumed() )
-					return;
-
-				if ( e.getKeyCode() != KeyEvent.VK_DELETE && e.getKeyCode() != KeyEvent.VK_BACK_SPACE )
-					return;
-
-				Object [] items = elementList.getSelectedValues();
-				elementList.clearSelection();
-
-				for ( int i = 0; i < items.length; ++i )
-					overlapModel.remove( items[i] );
-
-				filterItems();
-				e.consume();
-			}
-		}
-	}
-
 	private class JunkItemsPanel extends OverlapPanel
 	{
 		public JunkItemsPanel()
@@ -295,21 +233,6 @@ public class ItemManageFrame extends KoLFrame
 		}
 	}
 
-	private class ProfitableItemsPanel extends OverlapPanel
-	{
-		public ProfitableItemsPanel()
-		{	super( "automall", "help", profitableList, true );
-		}
-
-		public void actionConfirmed()
-		{	StaticEntity.getClient().makeAutoMallRequest();
-		}
-
-		public void actionCancelled()
-		{	alert( "These items have been flagged as \"profitable\" because at some point in the past, you've opted to place them in the mall.  If you use the \"automall\" command, KoLmafia will place all of these items in the mall." );
-		}
-	}
-
 	private class MementoItemsPanel extends OverlapPanel
 	{
 		public MementoItemsPanel()
@@ -322,60 +245,6 @@ public class ItemManageFrame extends KoLFrame
 
 		public void actionCancelled()
 		{	alert( "These items are flagged as \"mementos\".  IF YOU SET A PREFERENCE, KoLmafia will never sell or pulverize these items." );
-		}
-	}
-
-	private class EndOfRunSalePanel extends OverlapPanel
-	{
-		public EndOfRunSalePanel()
-		{	super( "host sale", "help", mementoList, false );
-		}
-
-		public void actionConfirmed()
-		{
-			KoLmafia.updateDisplay( "Gathering data..." );
-			StaticEntity.getClient().makeEndOfRunSaleRequest();
-		}
-
-		public void actionCancelled()
-		{	alert( "KoLmafia will place all items which are not already in your store into your store. " + StoreManageFrame.UNDERCUT_MESSAGE );
-		}
-	}
-
-	private class DisplayCaseMatchPanel extends OverlapPanel
-	{
-		public DisplayCaseMatchPanel()
-		{	super( "display", "help", collection, true );
-		}
-
-		public void actionConfirmed()
-		{
-			KoLmafia.updateDisplay( "Gathering data..." );
-
-			AdventureResult [] display = new AdventureResult[ collection.size() ];
-			collection.toArray( display );
-
-			int itemCount;
-			ArrayList items = new ArrayList();
-
-			for ( int i = 0; i < display.length; ++i )
-			{
-				itemCount = display[i].getCount( inventory );
-				if ( itemCount > 0 && display[i].getCount() > 1 )
-					items.add( display[i].getInstance( itemCount ) );
-			}
-
-			if ( items.isEmpty() )
-			{
-				RequestThread.enableDisplayIfSequenceComplete();
-				return;
-			}
-
-			RequestThread.postRequest( new MuseumRequest( items.toArray(), true ) );
-		}
-
-		public void actionCancelled()
-		{	alert( "This feature scans your inventory and if it finds any items which are in your display case, it puts those items on display." );
 		}
 	}
 
