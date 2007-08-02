@@ -147,7 +147,7 @@ public abstract class KoLMessenger extends StaticEntity
 		useTabbedChat = getBooleanProperty( "useTabbedChatFrame" );
 
 		if ( useTabbedChat )
-			SwingUtilities.invokeLater( new CreateFrameRunnable( TabbedChatFrame.class ) );
+			(new CreateFrameRunnable( TabbedChatFrame.class )).run();
 	}
 
 	public static void setTabbedFrame( TabbedChatFrame tabbedFrame )
