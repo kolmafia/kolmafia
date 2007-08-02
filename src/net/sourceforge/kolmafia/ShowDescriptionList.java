@@ -136,11 +136,12 @@ public class ShowDescriptionList extends JList implements KoLConstants
 	public void setFilter( ListElementFilter filter )
 	{
 		this.filter = filter;
+		this.listModel.setFilter( this.filter );
 		this.updateFilter();
 	}
 
 	public void updateFilter()
-	{	this.listModel.updateFilter();
+	{	this.listModel.updateFilter( false );
 	}
 
 	/**

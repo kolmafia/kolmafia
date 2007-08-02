@@ -427,7 +427,6 @@ public class ConcoctionsDatabase extends KoLDatabase
 			}
 
 			c.queued = 0;
-			usableList.updateFilter();
 		}
 
 		SpecialOutfit.restoreImplicitCheckpoint();
@@ -605,6 +604,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// number of items inside of the old list.
 
 		ItemCreationRequest instance;
+		boolean changeDetected = false;
 
 		for ( int i = 1; i < concoctions.size(); ++i )
 		{
@@ -637,13 +637,17 @@ public class ConcoctionsDatabase extends KoLDatabase
 					creatableList.add( instance );
 					item.setPossible( true );
 				}
+				else
+				{
+					changeDetected = true;
+				}
 			}
 		}
 
 		if ( !ignoreRefresh )
 		{
-			creatableList.updateFilter();
-			usableList.updateFilter();
+			creatableList.updateFilter( changeDetected );
+			usableList.updateFilter( changeDetected );
 		}
 	}
 
