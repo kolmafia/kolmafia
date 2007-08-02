@@ -2433,15 +2433,9 @@ public abstract class KoLCharacter extends StaticEntity
 					shouldRefresh = ConcoctionsDatabase.isPermittedMethod( ConcoctionsDatabase.getMixingMethod( ((AdventureResult)uses.get(i)).getItemId() ) );
 
 				if ( shouldRefresh )
-				{
 					ConcoctionsDatabase.refreshConcoctions();
-					ConcoctionsDatabase.getUsables().updateFilter();
-				}
 				else if ( consumeType == CONSUME_EAT || consumeType == CONSUME_DRINK )
-				{
 					ConcoctionsDatabase.refreshConcoctions();
-					ConcoctionsDatabase.getUsables().updateFilter();
-				}
 			}
 		}
 		else if ( resultName.equals( AdventureResult.HP ) )
