@@ -2100,8 +2100,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				if ( useLocation.startsWith( "#" ) )
 				{
 					addedInlineLink = true;
-					useLinkMatcher.appendReplacement( buffer, "You acquire$1 <font size=1>[<a href=\"#\" onClick=\"" +
-						useLocation.substring(1).trim() + "; void(0);\">" + useType + "</a>]</font>" );
+					useLinkMatcher.appendReplacement( buffer, "<div id=\"acquire" + itemId + "\">You acquire$1</div>" );
 				}
 				else if ( !StaticEntity.getBooleanProperty( "relayUsesInlineLinks" ) || !useLocation.startsWith( "inv" ) )
 				{
@@ -2113,7 +2112,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					addedInlineLink = true;
 					String [] pieces = useLocation.toString().split( "\\?" );
 
-					useLinkMatcher.appendReplacement( buffer, "You acquire$1 <font id=\"link" + itemId + "\" size=1>[<a href=\"#\" onClick=\"" +
+					useLinkMatcher.appendReplacement( buffer, "You acquire$1 <font size=1>[<a href=\"#\" onClick=\"" +
 						"singleUse('" + pieces[0] + "', '" + pieces[1] + "'); void(0);\">" + useType + "</a>]</font>" );
 				}
 
@@ -2122,7 +2121,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 				if ( useLocation.startsWith( "#" ) )
 				{
-					buffer.append( "</td></tr><tr><td colspan=2 align=center><div style=\"display:none\" id=\"multiuse" );
+					buffer.append( "</td></tr><tr><td colspan=2 align=center><div id=\"multiuse" );
 					buffer.append( itemId );
 					buffer.append( "\">" );
 
