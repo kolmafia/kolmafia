@@ -727,7 +727,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 
 			if ( currentFilter.isVisible( element ) )
 			{
-				if ( visibleIndex == visibleElements.size() || !visibleElements.get( visibleIndex ).equals( element ) )
+				if ( visibleIndex == visibleElements.size() || visibleElements.get( visibleIndex ) != element )
 				{
 					visibleElements.add( visibleIndex, element );
 					fireIntervalAdded( this, visibleIndex, visibleIndex );
@@ -737,7 +737,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 			}
 			else
 			{
-				if ( visibleIndex < visibleElements.size() && visibleElements.get( visibleIndex ).equals( element ) )
+				if ( visibleIndex < visibleElements.size() && visibleElements.get( visibleIndex ) == element )
 				{
 					visibleElements.remove( visibleIndex );
 					fireIntervalRemoved( this, visibleIndex, visibleIndex );
