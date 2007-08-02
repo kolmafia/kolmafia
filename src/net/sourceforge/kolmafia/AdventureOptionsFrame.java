@@ -294,6 +294,9 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 			CombatSettings.restoreDefaults();
 			BufferedReader reader = KoLDatabase.getReader( SETTINGS_DIRECTORY + CombatSettings.settingsFileName() );
 
+			if ( reader == null )
+				return;
+
 			StringBuffer buffer = new StringBuffer();
 			String line;
 

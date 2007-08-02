@@ -45,6 +45,7 @@ import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -2304,6 +2305,65 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 					KoLFrame.this.tabs.repaint();
 				}
+			}
+		}
+	}
+
+	protected class OverlapPanel extends ItemManagePanel
+	{
+		private boolean isOverlap;
+		private LockableListModel overlapModel;
+
+		public OverlapPanel( String confirmText, String cancelText, LockableListModel overlapModel, boolean isOverlap )
+		{
+			super( confirmText, cancelText, inventory );
+			this.overlapModel = overlapModel;
+			this.isOverlap = isOverlap;
+
+			elementList.addKeyListener( new OverlapAdapter() );
+
+			this.addFilters();
+			this.filterItems();
+		}
+
+		public FilterItemField getWordFilter()
+		{	return new OverlapFilterField();
+		}
+
+		private class OverlapFilterField extends FilterItemField
+		{
+			public SimpleListFilter getFilter()
+			{	return new OverlapFilter();
+			}
+
+			private class OverlapFilter extends ConsumptionBasedFilter
+			{
+				public boolean isVisible( Object element )
+				{
+					return super.isVisible( element ) &&
+						(isOverlap ? overlapModel.contains( element ) : !overlapModel.contains( element ));
+				}
+			}
+		}
+
+		private class OverlapAdapter extends KeyAdapter
+		{
+			public void keyReleased( KeyEvent e )
+			{
+				if ( e.isConsumed() )
+					return;
+
+				if ( e.getKeyCode() != KeyEvent.VK_DELETE && e.getKeyCode() != KeyEvent.VK_BACK_SPACE )
+					return;
+
+				Object [] items = elementList.getSelectedValues();
+				elementList.clearSelection();
+
+				for ( int i = 0; i < items.length; ++i )
+					overlapModel.remove( items[i] );
+
+				filterItems();
+				e.consume();
 			}
 		}
 	}

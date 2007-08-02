@@ -386,8 +386,10 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 			for ( int i = 0; (header = this.formConnection.getHeaderFieldKey( i )) != null; ++i )
 			{
-				if ( header.equals( "Content-Type" ) || header.equals( "Content-Length" ) || header.equals( "Connection" ) || header.equals( "Transfer-Encoding" ) )
+				if ( header.startsWith( "Content" ) || header.equals( "Connection" ) || header.startsWith( "Transfer" ) )
 					continue;
+
+System.out.println( header );
 
 				ostream.print( header );
 				ostream.print( ": " );
@@ -397,6 +399,14 @@ public class LocalRelayRequest extends PasswordHashRequest
 			if ( this.responseCode == 200 && this.rawByteBuffer != null )
 			{
 				ostream.print( "Content-Type: " );
+				ostream.print( this.contentType );
+
+				if ( this.contentType.startsWith( "text" ) )
+					ostream.print( "; charset=UTF-8" );
+
+				ostream.println();
+
+				ostream.print( "Transfer-Encoding: UTF-8" );
 				ostream.print( this.contentType );
 
 				if ( this.contentType.startsWith( "text" ) )

@@ -462,7 +462,7 @@ public abstract class CombatSettings implements KoLConstants
 		if ( action.indexOf( "steal" ) != -1 || action.indexOf( "pick" ) != -1 )
 			return "try to steal an item";
 
-		if ( action.startsWith( "default" ) || action.startsWith( "abort" ) || action.startsWith( "consult" ) )
+		if ( action.startsWith( "abort" ) || action.startsWith( "consult" ) )
 			return action;
 
 		if ( action.startsWith( "custom" ) )

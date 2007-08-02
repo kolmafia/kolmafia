@@ -41,6 +41,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+
+import java.util.ArrayList;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.PanelList;
 import net.java.dev.spellcast.utilities.PanelListCell;
@@ -48,7 +50,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class MuseumFrame extends KoLFrame
 {
-	private JComponent general, shelves, ordering;
+	private JComponent general, restock, shelves, ordering;
 
 	/**
 	 * Constructs a new <code>MuseumFrame</code> and inserts all
@@ -60,14 +62,54 @@ public class MuseumFrame extends KoLFrame
 		super( "Museum Display" );
 
 		this.general = new AddRemovePanel();
+		this.restock = new DisplayCaseMatchPanel();
 		this.shelves = new MuseumShelfList();
 		this.ordering = new OrderingPanel();
 
 		this.addTab( "General", this.general );
+		this.addTab( "End of Run", this.restock );
 		this.addTab( "Shelves", this.shelves );
 		this.tabs.addTab( "Ordering", this.ordering );
 
 		this.framePanel.add( this.tabs, BorderLayout.CENTER );
+	}
+
+
+	private class DisplayCaseMatchPanel extends OverlapPanel
+	{
+		public DisplayCaseMatchPanel()
+		{	super( "display", "help", collection, true );
+		}
+
+		public void actionConfirmed()
+		{
+			KoLmafia.updateDisplay( "Gathering data..." );
+
+			AdventureResult [] display = new AdventureResult[ collection.size() ];
+			collection.toArray( display );
+
+			int itemCount;
+			ArrayList items = new ArrayList();
+
+			for ( int i = 0; i < display.length; ++i )
+			{
+				itemCount = display[i].getCount( inventory );
+				if ( itemCount > 0 && display[i].getCount() > 1 )
+					items.add( display[i].getInstance( itemCount ) );
+			}
+
+			if ( items.isEmpty() )
+			{
+				RequestThread.enableDisplayIfSequenceComplete();
+				return;
+			}
+
+			RequestThread.postRequest( new MuseumRequest( items.toArray(), true ) );
+		}
+
+		public void actionCancelled()
+		{	alert( "This feature scans your inventory and if it finds any items which are in your display case, it puts those items on display." );
+		}
 	}
 
 	/**

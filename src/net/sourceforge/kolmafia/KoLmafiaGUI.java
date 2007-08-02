@@ -344,9 +344,6 @@ public class KoLmafiaGUI extends KoLmafia
 				if ( StaticEntity.getBooleanProperty( "autoSatisfyWithStash" ) && KoLCharacter.canInteract() && KoLCharacter.hasClan() )
 					if ( !ClanManager.isStashRetrieved() )
 						RequestThread.postRequest( new ClanStashRequest() );
-
-				if ( KoLCharacter.hasDisplayCase() && collection.isEmpty() )
-					RequestThread.postRequest( new MuseumRequest() );
 			}
 			else if ( this.frameClass == LocalRelayServer.class )
 			{
