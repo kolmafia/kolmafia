@@ -85,13 +85,28 @@ public abstract class CombatSettings implements KoLConstants
 
 	public static void loadSettings( File source )
 	{
-		if ( source == null || settingsFile == null )
+		if ( source == null || settingsFile == null || !source.exists() )
 			return;
 
 		if ( settingsFile.getAbsolutePath().equals( source.getAbsolutePath() ) )
 			return;
 
-		settingsFile = source;
+		LogStream writer = LogStream.openStream( settingsFile, true );
+		BufferedReader reader = KoLDatabase.getReader( source );
+
+		try
+		{
+			String line;
+			while ( (line = reader.readLine()) != null )
+				writer.println( line );
+
+			reader.close();
+			writer.close();
+		}
+		catch ( Exception e )
+		{
+			StaticEntity.printStackTrace( e );
+		}
 
 		loadSettings();
 		ensureProperty( "default", "attack with weapon" );
