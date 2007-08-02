@@ -57,9 +57,10 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class RequestFrame extends KoLFrame
 {
-	private static int frameCount = 0;
 	private static final int HISTORY_LIMIT = 4;
 	private static final Pattern IMAGE_PATTERN = Pattern.compile( "http://images\\.kingdomofloathing\\.com/[^\\s\"\'>]+" );
+
+	private static ArrayList sideBarFrames = new ArrayList();
 
 	private int locationIndex = 0;
 	private ArrayList history = new ArrayList();
@@ -79,6 +80,7 @@ public class RequestFrame extends KoLFrame
 	public RequestFrame()
 	{
 		this( "Mini-Browser" );
+
 		this.setDefaultCloseOperation( HIDE_ON_CLOSE );
 		this.displayRequest( VISITOR.constructURLString( "main.php" ) );
 	}
@@ -86,7 +88,6 @@ public class RequestFrame extends KoLFrame
 	public RequestFrame( String title )
 	{
 		super( title );
-		++frameCount;
 
 		this.mainDisplay = new RequestPane();
 		this.mainDisplay.addHyperlinkListener( new KoLHyperlinkAdapter() );
@@ -129,6 +130,8 @@ public class RequestFrame extends KoLFrame
 			this.framePanel.add( mainScroller, BorderLayout.CENTER );
 			return;
 		}
+
+		sideBarFrames.add( this );
 
 		this.sideDisplay = new RequestPane();
 		this.sideDisplay.addHyperlinkListener( new KoLHyperlinkAdapter() );
@@ -460,19 +463,17 @@ public class RequestFrame extends KoLFrame
 
 	public static void refreshStatus()
 	{
-		KoLFrame [] frames = StaticEntity.getExistingFrames();
-		if ( frames == null )
+		if ( sideBarFrames.isEmpty() )
 			return;
 
+		RequestFrame current;
 		String displayHTML = RequestEditorKit.getDisplayHTML( "charpane.php", CharpaneRequest.getLastResponse() );
 
-		for ( int i = 0; i < frames.length; ++i )
+		for ( int i = 0; i < sideBarFrames.size(); ++i )
 		{
-			if ( frames[i] == null || !(frames[i] instanceof RequestFrame) || ((RequestFrame)frames[i]).sideBuffer == null )
-				continue;
-
-			((RequestFrame)frames[i]).sideBuffer.clearBuffer();
-			((RequestFrame)frames[i]).sideBuffer.append( displayHTML );
+			current = (RequestFrame) sideBarFrames.get(i);
+			current.sideBuffer.clearBuffer();
+			current.sideBuffer.append( displayHTML );
 		}
 	}
 
@@ -480,13 +481,10 @@ public class RequestFrame extends KoLFrame
 	{	return mainBuffer.getBuffer().indexOf( search ) != -1;
 	}
 
-	public static boolean instanceExists()
-	{	return frameCount > 0;
-	}
-
 	public void dispose()
 	{
-		--frameCount;
+		sideBarFrames.remove( this );
+
 		this.history.clear();
 		this.shownHTML.clear();
 		super.dispose();

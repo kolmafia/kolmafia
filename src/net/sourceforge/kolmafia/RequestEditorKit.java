@@ -1905,7 +1905,12 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					AdventureResult result = new AdventureResult( itemId, 1 );
 					itemCount = Math.min( ConsumeItemRequest.maximumUses( itemId ), result.getCount( inventory ) );
 
-					if ( itemCount == 1 )
+					if ( itemCount == 0 )
+					{
+						useType = null;
+						useLocation = null;
+					}
+					else if ( itemCount == 1 )
 					{
 						useType = "use";
 						useLocation = "inv_use.php?pwd=&which=1&whichitem=";
@@ -1913,7 +1918,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					else if ( StaticEntity.getBooleanProperty( "relayUsesInlineLinks" ) )
 					{
 						useType = "use";
-						useLocation = "# showObject('multiuse" + itemId + "')";
+						useLocation = "#";
 					}
 					else
 					{
@@ -2097,30 +2102,14 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				if ( useLocation.endsWith( "=" ) )
 					useLocation += itemId;
 
-				if ( useLocation.startsWith( "#" ) )
+				if ( useLocation.equals( "#" ) )
 				{
 					addedInlineLink = true;
-					useLinkMatcher.appendReplacement( buffer, "<div id=\"acquire" + itemId + "\">You acquire$1</div>" );
-				}
-				else if ( !StaticEntity.getBooleanProperty( "relayUsesInlineLinks" ) || !useLocation.startsWith( "inv" ) )
-				{
-					useLinkMatcher.appendReplacement( buffer, "You acquire$1 <font size=1>[<a href=\"" +
-						useLocation.trim() + "\">" + useType + "</a>]</font>" );
-				}
-				else
-				{
-					addedInlineLink = true;
-					String [] pieces = useLocation.toString().split( "\\?" );
+					useLinkMatcher.appendReplacement( buffer, "You acquire$1" );
 
-					useLinkMatcher.appendReplacement( buffer, "You acquire$1 <font size=1>[<a href=\"#\" onClick=\"" +
-						"singleUse('" + pieces[0] + "', '" + pieces[1] + "'); void(0);\">" + useType + "</a>]</font>" );
-				}
+					// Append a multi-use field rather than forcing
+					// an additional page load.
 
-				// Append a multi-use field rather than forcing
-				// an additional page load.
-
-				if ( useLocation.startsWith( "#" ) )
-				{
 					buffer.append( "</td></tr><tr><td colspan=2 align=center><div id=\"multiuse" );
 					buffer.append( itemId );
 					buffer.append( "\">" );
@@ -2139,6 +2128,19 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					buffer.append( "', " );
 					buffer.append( itemId );
 					buffer.append( "); void(0);\"></form></div>" );
+				}
+				else if ( !StaticEntity.getBooleanProperty( "relayUsesInlineLinks" ) || !useLocation.startsWith( "inv" ) )
+				{
+					useLinkMatcher.appendReplacement( buffer, "You acquire$1 <font size=1>[<a href=\"" +
+						useLocation.trim() + "\">" + useType + "</a>]</font>" );
+				}
+				else
+				{
+					addedInlineLink = true;
+					String [] pieces = useLocation.toString().split( "\\?" );
+
+					useLinkMatcher.appendReplacement( buffer, "You acquire$1 <font size=1>[<a href=\"#\" onClick=\"" +
+						"singleUse('" + pieces[0] + "', '" + pieces[1] + "'); void(0);\">" + useType + "</a>]</font>" );
 				}
 
 				buffer.append( "</td>" );

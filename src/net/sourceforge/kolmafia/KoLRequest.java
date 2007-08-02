@@ -660,8 +660,7 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( this.needsRefresh || this.statusChanged )
 		{
 			CharpaneRequest.getInstance().run();
-			if ( RequestFrame.instanceExists() )
-				RequestFrame.refreshStatus();
+			RequestFrame.refreshStatus();
 		}
 		else if ( this.formURLString.startsWith( "charpane.php" ) )
 		{
@@ -1325,7 +1324,7 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( this.shouldUpdateDebugLog() )
 			RequestLogger.updateDebugLog( LINE_BREAK_PATTERN.matcher( this.responseText ).replaceAll( "" ) );
 
-		this.statusChanged = this.responseText.indexOf( "charpane.php" ) != -1;
+		this.statusChanged = !isDelayExempt && this.responseText.indexOf( "charpane.php" ) != -1;
 		if ( this.statusChanged && !(this instanceof LocalRelayRequest) )
 			LocalRelayServer.addStatusMessage( "<!-- REFRESH -->" );
 
@@ -1357,10 +1356,9 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( AdventureRequest.useMarmotClover( this.formURLString, this.responseText ) || HermitRequest.useHermitClover( this.formURLString ) )
 			DEFAULT_SHELL.executeLine( "use * ten-leaf clover" );
 
-		this.needsRefresh &= !(this.getClass() == KoLRequest.class || this instanceof LocalRelayRequest || this instanceof FightRequest);
-		this.needsRefresh &= !this.formURLString.startsWith( "charpane.php" );
+		if ( this.needsRefresh )
+			this.needsRefresh = !(isDelayExempt || this instanceof FightRequest);
 
-		this.statusChanged &= !this.formURLString.startsWith( "charpane.php" );
 		KoLmafia.applyEffects();
 	}
 
