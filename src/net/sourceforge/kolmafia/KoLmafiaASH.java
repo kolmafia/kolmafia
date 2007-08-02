@@ -170,8 +170,9 @@ public class KoLmafiaASH extends StaticEntity
 	private static final ScriptFunctionList existingFunctions = getExistingFunctions();
 	private static final ScriptTypeList simpleTypes = getSimpleTypes();
 	private static final ScriptSymbolTable reservedWords = getReservedWords();
-	private static final StringBuffer serverReplyBuffer = new StringBuffer();
 
+	private static final TreeMap relayScriptMap = new TreeMap();
+	private static final StringBuffer serverReplyBuffer = new StringBuffer();
 	private static LocalRelayRequest relayRequest;
 	private static KoLmafiaASH relayScript = null;
 
@@ -237,7 +238,16 @@ public class KoLmafiaASH extends StaticEntity
 
 	public static final boolean getClientHTML( LocalRelayRequest request )
 	{
+		if ( KoLRequest.shouldIgnore( request ) )
+			return false;
+
 		String script = request.getPath();
+
+		if ( relayScriptMap.containsKey( script ) )
+		{
+			File toExecute = (File) relayScriptMap.get( script );
+			return toExecute.exists() && getClientHTML( request, toExecute );
+		}
 
 		if ( !script.endsWith( ".ash" ) )
 		{
@@ -248,29 +258,29 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		File toExecute = new File( RELAY_LOCATION, script );
-		if ( !toExecute.exists() )
+		relayScriptMap.put( request.getPath(), toExecute );
+		return toExecute.exists() && getClientHTML( request, toExecute );
+	}
+
+	private synchronized static final boolean getClientHTML( LocalRelayRequest request, File toExecute )
+	{
+		relayScript = KoLmafiaASH.getInterpreter( (File) toExecute );
+		if ( relayScript == null )
 			return false;
 
-		String resultText;
+		relayRequest = request;
+		serverReplyBuffer.setLength(0);
+		relayScript.execute( "main", new String [] { request.getPath(), request.getDataString( false ) } );
 
-		synchronized ( KoLmafiaASH.class )
+		if ( serverReplyBuffer.length() == 0 )
 		{
-			relayScript = KoLmafiaASH.getInterpreter( toExecute );
-			if ( relayScript == null )
-				return false;
-
-			relayRequest = request;
-			serverReplyBuffer.setLength(0);
-			relayScript.execute( "main", new String [] { request.getPath(), request.getDataString( false ) } );
-
-			resultText = serverReplyBuffer.toString();
+			relayScript = null;
+			return false;
 		}
 
-		if ( resultText.length() != 0 )
-			request.pseudoResponse( "HTTP/1.1 200 OK", serverReplyBuffer.toString() );
-
 		relayScript = null;
-		return resultText.length() != 0;
+		request.pseudoResponse( "HTTP/1.1 200 OK", serverReplyBuffer.toString() );
+		return true;
 	}
 
 	public static final KoLmafiaASH getInterpreter( File toExecute )
@@ -849,7 +859,7 @@ public class KoLmafiaASH extends StaticEntity
 	private ScriptScope parseFile( String fileName )
 	{
 		File scriptFile = KoLmafiaCLI.findScriptFile( fileName );
-		if ( scriptFile == null || !scriptFile.exists() )
+		if ( scriptFile == null )
 			throw new AdvancedScriptException( fileName + " could not be found" );
 
 		if ( imports.containsKey( scriptFile ) )
