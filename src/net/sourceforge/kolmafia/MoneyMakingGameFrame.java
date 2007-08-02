@@ -81,7 +81,7 @@ public class MoneyMakingGameFrame extends KoLFrame
 		}
 	}
 
-	public static String handleBetResult( String message )
+	public static final String handleBetResult( String message )
 	{
 		// <a target=mainpane href='showplayer.php?who=721048'><a href='bet.php' target=mainpane class=nounder><b>Interesting Sam</b></a> took your 1,000 Meat bet, and you won, earning you 1,998 Meat.</a>
 		Matcher matcher = BET_PATTERN.matcher( message );

@@ -96,7 +96,7 @@ public class MoonPhaseDatabase extends StaticEntity
 		}
 	}
 
-	// Static array of status effect day predictions
+	// static final array of status effect day predictions
 	// within the KoL lunar calendar.
 
 	private static final String [] STAT_EFFECT =
@@ -107,7 +107,7 @@ public class MoonPhaseDatabase extends StaticEntity
 		"Mysticism bonus today (not tomorrow).", "2 days until Moxie.", "Moxie bonus tomorrow (not today).", "Moxie bonus today and tomorrow."
 	};
 
-	// Static array of month names, as they exist within
+	// static final array of month names, as they exist within
 	// the KoL calendar.
 
 	private static final String [] MONTH_NAMES =
@@ -116,11 +116,11 @@ public class MoonPhaseDatabase extends StaticEntity
 		"Bor", "Petember", "Carlvember", "Porktober", "Boozember", "Dougtember"
 	};
 
-	// Static array of HOLIDAYS.  This holiday is filled with the
+	// static final array of HOLIDAYS.  This holiday is filled with the
 	// name of the holiday which occurs on the given KoL month and
 	// given KoL day.
 
-	private static String [][] HOLIDAYS = new String[13][9];
+	private static final String [][] HOLIDAYS = new String[13][9];
 
 	static
 	{
@@ -139,18 +139,18 @@ public class MoonPhaseDatabase extends StaticEntity
 		HOLIDAYS[11][7] = "Feast of Boris";
 	}
 
-	// Static array of when the special events in KoL occur, including
+	// static final array of when the special events in KoL occur, including
 	// stat days, HOLIDAYS and all that jazz.  Values are false where
 	// there is no special occasion, and true where there is.
 
-	private static int [] SPECIAL = new int[96];
+	private static final int [] SPECIAL = new int[96];
 
 	public static final int SP_NOTHING = 0;
 	public static final int SP_HOLIDAY = 1;
 
-	public static int SP_MUSDAY = 2;
-	public static int SP_MYSDAY = 3;
-	public static int SP_MOXDAY = 4;
+	public static final int SP_MUSDAY = 2;
+	public static final int SP_MYSDAY = 3;
+	public static final int SP_MOXDAY = 4;
 
 	static
 	{
@@ -430,7 +430,7 @@ public class MoonPhaseDatabase extends StaticEntity
 		return ronaldLight + grimaceLight + hamburglarLight;
 	}
 
-	public static int getHamburglarLight( int ronaldPhase, int grimacePhase, int hamburglarPosition )
+	public static final int getHamburglarLight( int ronaldPhase, int grimacePhase, int hamburglarPosition )
 	{
 		//         6    5    4    3
 		//
@@ -502,7 +502,7 @@ public class MoonPhaseDatabase extends StaticEntity
 	 * millisecond counts since January 1, 1970.
 	 */
 
-	public static int getCalendarDay( Date time )
+	public static final int getCalendarDay( Date time )
 	{
 		try
 		{
@@ -566,11 +566,11 @@ public class MoonPhaseDatabase extends StaticEntity
 	 * attribute is being a holiday.
 	 */
 
-	public static boolean isHoliday( Date time )
+	public static final boolean isHoliday( Date time )
 	{	return SPECIAL[ getCalendarDay( time ) ] == SP_HOLIDAY;
 	}
 
-	public static boolean isRealLifeHoliday( Date time )
+	public static final boolean isRealLifeHoliday( Date time )
 	{	return getRealLifeHoliday( DATED_FILENAME_FORMAT.format( time ) ) != null;
 	}
 
@@ -582,7 +582,7 @@ public class MoonPhaseDatabase extends StaticEntity
 	 * not be recognized as "stat days" in this method.
 	 */
 
-	public static boolean isMuscleDay( Date time )
+	public static final boolean isMuscleDay( Date time )
 	{	return SPECIAL[ getCalendarDay( time ) ] == SP_MUSDAY;
 	}
 
@@ -594,7 +594,7 @@ public class MoonPhaseDatabase extends StaticEntity
 	 * not be recognized as "stat days" in this method.
 	 */
 
-	public static boolean isMysticalityDay( Date time )
+	public static final boolean isMysticalityDay( Date time )
 	{	return SPECIAL[ getCalendarDay( time ) ] == SP_MYSDAY;
 	}
 
@@ -606,7 +606,7 @@ public class MoonPhaseDatabase extends StaticEntity
 	 * not be recognized as "stat days" in this method.
 	 */
 
-	public static boolean isMoxieDay( Date time )
+	public static final boolean isMoxieDay( Date time )
 	{	return SPECIAL[ getCalendarDay( time ) ] == SP_MOXDAY;
 	}
 
@@ -714,7 +714,7 @@ public class MoonPhaseDatabase extends StaticEntity
 	private static String cachedYear = "";
 	private static String easter = "";
 
-	public static String getRealLifeHoliday( String stringDate )
+	public static final String getRealLifeHoliday( String stringDate )
 	{
 		String currentYear = stringDate.substring( 0, 4 );
 		if ( !currentYear.equals( cachedYear ) )
@@ -766,7 +766,7 @@ public class MoonPhaseDatabase extends StaticEntity
 		return getRealLifeOnlyHoliday( stringDate );
 	}
 
-	public static String getRealLifeOnlyHoliday( String stringDate )
+	public static final String getRealLifeOnlyHoliday( String stringDate )
 	{
 		if ( stringDate.endsWith( "0202" ) )
 			return "Groundhog Day";

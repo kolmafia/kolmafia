@@ -111,7 +111,7 @@ public class VioletFog
 
 	private static int FogRoutingTable [][][];
 
-	private static int [] routingTuple( int source, int destination )
+	private static final int [] routingTuple( int source, int destination )
 	{
 		if ( source < FIRST_CHOICE || source > LAST_CHOICE ||
 		     destination < FIRST_CHOICE + 1 || destination > LAST_CHOICE )
@@ -119,7 +119,7 @@ public class VioletFog
 		return FogRoutingTable[ source - FIRST_CHOICE ][ destination - FIRST_CHOICE - 1];
 	}
 
-	private static int nextHop( int source, int destination )
+	private static final int nextHop( int source, int destination )
 	{
 		int [] tuple = routingTuple( source, destination );
 		return tuple == null ? -1 : tuple[0];
@@ -131,7 +131,7 @@ public class VioletFog
 		// printRoutingTable();
 	}
 
-	private static void buildRoutingTable()
+	private static final void buildRoutingTable()
 	{
 		// Get a zeroed array to start things off.
 		FogRoutingTable = new int [ LAST_CHOICE - FIRST_CHOICE + 1][ LAST_CHOICE - FIRST_CHOICE ][ 2 ];
@@ -235,9 +235,9 @@ public class VioletFog
 	//  0	Unknown
 	// xx	A destination
 
-	private static int FogChoiceTable [][] = new int [ LAST_CHOICE - FIRST_CHOICE + 1][ 4 ];
+	private static final int FogChoiceTable [][] = new int [ LAST_CHOICE - FIRST_CHOICE + 1][ 4 ];
 
-	public static void reset()
+	public static final void reset()
 	{
 		// Reset what we've "learned" about the fog choices
 		for ( int i = FIRST_CHOICE; i <= LAST_CHOICE; ++i )
@@ -250,11 +250,11 @@ public class VioletFog
 		}
 	}
 
-	public static boolean fogChoice( int choice )
+	public static final boolean fogChoice( int choice )
 	{	return ( choice >= FIRST_CHOICE && choice <= LAST_CHOICE );
 	}
 
-	public static String handleChoice( String choice )
+	public static final String handleChoice( String choice )
 	{
 		int source = StaticEntity.parseInt( choice );
 
@@ -304,7 +304,7 @@ public class VioletFog
 		return "";
 	}
 
-	public static boolean mapChoice( String text )
+	public static final boolean mapChoice( String text )
 	{
 		int lastChoice = KoLRequest.getLastChoice();
 		if ( !fogChoice( lastChoice ) )
@@ -373,7 +373,7 @@ public class VioletFog
 		return true;
 	}
 
-	public static String [][] choiceSpoilers( int choice )
+	public static final String [][] choiceSpoilers( int choice )
 	{
 		// We only handle Violet Fog choices
 		if ( !fogChoice( choice ) )
@@ -402,7 +402,7 @@ public class VioletFog
 		return result;
 	}
 
-	private static String choiceName( int choice, int destination )
+	private static final String choiceName( int choice, int destination )
 	{
 		// If it's unknown, no name
 		if ( destination == 0 )
@@ -416,7 +416,7 @@ public class VioletFog
 		return FogLocationNames[ destination - FIRST_CHOICE ];
 	}
 
-	public static boolean freeAdventure( String choice, String decision )
+	public static final boolean freeAdventure( String choice, String decision )
 	{
 		// "choiceAdventureX"
 		int source = StaticEntity.parseInt( choice.substring( 15 ) );
@@ -502,7 +502,7 @@ public class VioletFog
 		63,		// 22
 	};
 
-	private static int mafiaCode( int wikiCode )
+	private static final int mafiaCode( int wikiCode )
 	{	return WikiToMafia[ wikiCode - 1 ];
 	}
 
@@ -532,7 +532,7 @@ public class VioletFog
 		10,		// 70
 	};
 
-	private static int wikiCode( int mafiaCode )
+	private static final int wikiCode( int mafiaCode )
 	{	return MafiaToWiki[ mafiaCode - FIRST_CHOICE - 1 ];
 	}
 
@@ -543,7 +543,7 @@ public class VioletFog
 		buildWikiExits();
 	}
 
-	private static void buildWikiExits()
+	private static final void buildWikiExits()
 	{
 		// Get a zeroed array to start things off.
 		WikiFogLocationExits = new int [ LAST_CHOICE - FIRST_CHOICE][ 3 ];
@@ -580,7 +580,7 @@ public class VioletFog
         // Take the resulting 66 digit string and convert two digits at a time
         // from base 4 to base 16, resulting in a 33 digit hex string
 
-	public static String gemelliCode()
+	public static final String gemelliCode()
 	{
 		int code[] = new int[66];
 		int codeIndex = 0;
@@ -622,7 +622,7 @@ public class VioletFog
 		return String.valueOf( data );
 	}
 
-	public static void showGemelliMap()
+	public static final void showGemelliMap()
 	{	StaticEntity.openSystemBrowser( "http://www.feesher.com/fog_mapper.php?mapstring=" + gemelliCode() );
 	}
 }

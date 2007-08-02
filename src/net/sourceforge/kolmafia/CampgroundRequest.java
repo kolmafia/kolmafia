@@ -90,7 +90,8 @@ public class CampgroundRequest extends KoLRequest
 
 	public void processResults()
 	{
-		CampgroundRequest.relaxAllowed = this.responseText.indexOf( "relax" ) != -1;
+		relaxAllowed = this.responseText.indexOf( "relax" ) != -1;
+
 		KoLCharacter.setChef( this.responseText.indexOf( "cook.php" ) != -1 );
 		KoLCharacter.setBartender( this.responseText.indexOf( "cocktail.php" ) != -1 );
 		KoLCharacter.setToaster( this.responseText.indexOf( "action=toast" ) != -1 );

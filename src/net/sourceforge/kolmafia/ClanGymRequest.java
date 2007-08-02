@@ -43,7 +43,7 @@ public class ClanGymRequest extends KoLRequest
 	public static final int MOXIE = 3;
 	public static final int SOFA = 4;
 
-	public static int [][] MAXIMUM_USAGE = new int[10][];
+	public static final int [][] MAXIMUM_USAGE = new int[10][];
 	static
 	{
 		MAXIMUM_USAGE[0] = new int[0];
@@ -72,7 +72,7 @@ public class ClanGymRequest extends KoLRequest
 		this.equipmentId = equipmentId;
 	}
 
-	private static String chooseGym( int equipmentId )
+	private static final String chooseGym( int equipmentId )
 	{
 		switch ( equipmentId )
 		{
@@ -105,7 +105,7 @@ public class ClanGymRequest extends KoLRequest
 		}
 	}
 
-	private static String chooseAction( int equipmentId )
+	private static final String chooseAction( int equipmentId )
 	{
 		switch ( equipmentId )
 		{

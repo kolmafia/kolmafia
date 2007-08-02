@@ -51,21 +51,22 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	public static final int SAVEBOX = 0;
 	public static final int DISPOSE = 1;
 
+	private static final int REFUND_THRESHOLD = 4;
+
 	private static int initialRestores = 0;
-	public static final int REFUND_THRESHOLD = 4;
 	private static boolean isInitializing = false;
 
-	private static ArrayList saveList = new ArrayList();
-	private static ArrayList deleteList = new ArrayList();
-	private static ArrayList sendList = new ArrayList();
+	private static final ArrayList saveList = new ArrayList();
+	private static final ArrayList deleteList = new ArrayList();
+	private static final ArrayList sendList = new ArrayList();
 
 	private static int messageDisposalSetting;
 	private static String refundMessage;
 	private static String thanksMessage;
-
-	private static Map buffCostMap = new TreeMap();
-	private static SortedListModel buffCostTable = new SortedListModel();
 	private static String [] whiteListArray = new String[0];
+
+	private static final Map buffCostMap = new TreeMap();
+	private static final SortedListModel buffCostTable = new SortedListModel();
 
 	public static final Pattern MEAT_PATTERN = Pattern.compile( "<img src=\"http://images.kingdomofloathing.com/itemimages/meat.gif\" height=30 width=30 alt=\"Meat\">You gain ([\\d,]+) Meat" );
 	public static final Pattern GIFT1_PATTERN = Pattern.compile( "<a class=nounder style='color: blue' href='showplayer.php\\?who=(\\d+)' target=mainpane>" );
@@ -76,7 +77,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	 * appropriate variables from memory.
 	 */
 
-	public static void loadSettings()
+	public static final void loadSettings()
 	{
 		isInitializing = true;
 
@@ -130,7 +131,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	 * this buffbot.
 	 */
 
-	public static SortedListModel getBuffCostTable()
+	public static final SortedListModel getBuffCostTable()
 	{	return buffCostTable;
 	}
 
@@ -140,7 +141,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	 * available buffs.
 	 */
 
-	public static void addBuff( String skillName, int price, int castCount )
+	public static final void addBuff( String skillName, int price, int castCount )
 	{
 		if ( price <= 0 || castCount <= 0 )
 			return;
@@ -181,7 +182,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	 * from the current mappings.
 	 */
 
-	public static void removeBuffs( Object [] buffs )
+	public static final void removeBuffs( Object [] buffs )
 	{
 		Offering toRemove;
 		boolean removedOne = false;
@@ -206,7 +207,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	 * user-specific settings file.
 	 */
 
-	private static void saveBuffs()
+	private static final void saveBuffs()
 	{
 		if ( isInitializing )
 			return;
@@ -263,7 +264,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	 * mailbox, then iterates on the mailbox.
 	 */
 
-	public static void runBuffBot( int iterations )
+	public static final void runBuffBot( int iterations )
 	{
 		BuffBotHome.loadSettings();
 
@@ -346,7 +347,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		RequestThread.closeRequestSequence();
 	}
 
-	public static void runOnce()
+	public static final void runOnce()
 	{
 		getMessages( "Inbox" ).clear();
 		RequestThread.postRequest( new MailboxRequest( "Inbox" ) );
@@ -375,7 +376,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	 * result in refunds.
 	 */
 
-	private static void queueOutgoingMessage( String recipient, String message, AdventureResult result )
+	private static final void queueOutgoingMessage( String recipient, String message, AdventureResult result )
 	{
 		if ( sendList.isEmpty() )
 			sendList.add( new GreenMessageRequest( recipient, message, result ) );
@@ -386,7 +387,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	 * message only appears on one list.
 	 */
 
-	public static void queueIncomingMessage( KoLMailMessage message, boolean delete )
+	public static final void queueIncomingMessage( KoLMailMessage message, boolean delete )
 	{
 		if ( !saveList.contains( message ) && !deleteList.contains( message ) )
 		{
@@ -399,11 +400,11 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 	/**
 	 * Overrides/hides the message handling method in <code>KoLMailManager</code>.
-	 * Because this is a static entity, this doesn't really matter, but it is
+	 * Because this is a static final entity, this doesn't really matter, but it is
 	 * convenient to have, from a style perspective.
 	 */
 
-	public static KoLMailMessage addMessage( String boxname, String message )
+	public static final KoLMailMessage addMessage( String boxname, String message )
 	{
 		KoLMailMessage success = KoLMailManager.addMessage( boxname, message );
 
@@ -445,7 +446,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	 * current white list for restricted buffs.
 	 */
 
-	private static boolean onWhiteList( String userName )
+	private static final boolean onWhiteList( String userName )
 	{	return Arrays.binarySearch( whiteListArray, userName.toLowerCase() ) > -1;
 	}
 
@@ -454,7 +455,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	 * with the appropriate reason attached.
 	 */
 
-	private static void sendRefund( String recipient, String reason, int amount )
+	private static final void sendRefund( String recipient, String reason, int amount )
 	{
 		if ( sendList.isEmpty() )
 		{
@@ -471,7 +472,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	 * @return	<code>true</code> if there is a donation
 	 */
 
-	private static boolean containsDonation( KoLMailMessage message )
+	private static final boolean containsDonation( KoLMailMessage message )
 	{    return message.getMessageHTML().indexOf( "You acquire" ) != -1;
 	}
 
@@ -480,7 +481,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	 * HTML quoted.
 	 */
 
-	private static void sendThankYou( String recipient, String messageHTML )
+	private static final void sendThankYou( String recipient, String messageHTML )
 	{
 		if ( sendList.isEmpty() && !thanksMessage.equals( "" ) )
 		{
@@ -492,7 +493,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		}
 	}
 
-	private static Offering extractRequest( KoLMailMessage message, int meatSent )
+	private static final Offering extractRequest( KoLMailMessage message, int meatSent )
 	{
 		Offering castList = (Offering) buffCostMap.get( new Integer( meatSent ) );
 
@@ -568,7 +569,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	 * sends any applicable thank you messages.
 	 */
 
-	private static void processMessage( KoLMailMessage message ) throws Exception
+	private static final void processMessage( KoLMailMessage message ) throws Exception
 	{
 		// Now that you're guaranteed to be above the threshold,
 		// go ahead and process the message.
@@ -664,7 +665,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		}
 	}
 
-	private static boolean executeBuff( Offering buff, String recipient, int meatSent )
+	private static final boolean executeBuff( Offering buff, String recipient, int meatSent )
 	{
 		// If it's not a philanthropic buff, process the buff as
 		// normal (no need to slow down to verify).

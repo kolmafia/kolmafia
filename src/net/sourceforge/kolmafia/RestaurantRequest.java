@@ -45,7 +45,7 @@ public class RestaurantRequest extends KoLRequest
 	private boolean isPurchase;
 	private int price;
 
-	public static AdventureResult getDailySpecial()
+	public static final AdventureResult getDailySpecial()
 	{
 		if ( microbreweryItems.isEmpty() && KoLCharacter.inMoxieSign() )
 			RequestThread.postRequest( new MicrobreweryRequest() );
@@ -169,7 +169,7 @@ public class RestaurantRequest extends KoLRequest
 		KoLmafia.updateDisplay( "Menu retrieved." );
 	}
 
-	private static void addRestaurantItem( String itemName, int price )
+	private static final void addRestaurantItem( String itemName, int price )
 	{
 		restaurantItems.add( itemName );
 
@@ -178,7 +178,7 @@ public class RestaurantRequest extends KoLRequest
 		ConcoctionsDatabase.getUsables().add( chez );
 	}
 
-	public static boolean registerRequest( String urlString )
+	public static final boolean registerRequest( String urlString )
 	{
 		if ( !urlString.startsWith( "restaurant.php" ) )
 			return false;

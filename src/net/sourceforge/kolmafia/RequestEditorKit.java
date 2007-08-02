@@ -414,8 +414,8 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		{ "&euro;",	"\u20ac" }  // euro sign, U+20AC NEW
 	};
 
-	private static Map entities = new TreeMap();
-	private static Map unicodes = new TreeMap();
+	private static final Map entities = new TreeMap();
+	private static final Map unicodes = new TreeMap();
 
 	static
 	{
@@ -467,7 +467,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
 	private static final Pattern BOOKSHELF_PATTERN = Pattern.compile( "onclick=\"location.href='(.*?)';\"", Pattern.DOTALL );
 
-	public static void downloadFile( String remote, File local )
+	public static final void downloadFile( String remote, File local )
 	{
 		if ( local.exists() )
 			return;
@@ -521,7 +521,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 	 * and stores it locally.
 	 */
 
-	public static URL downloadImage( String filename )
+	public static final URL downloadImage( String filename )
 	{
 		if ( filename == null || filename.equals( "" ) )
 			return null;
@@ -929,7 +929,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		return displayHTML;
 	}
 
-	public static String getFeatureRichHTML( String location, String text, boolean addComplexFeatures )
+	public static final String getFeatureRichHTML( String location, String text, boolean addComplexFeatures )
 	{
 		if ( text == null || text.length() == 0 )
 			return "";
@@ -945,7 +945,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 	private static final String NO_PERMIT_TEXT = "<p>You don't have a Hermit Permit, so you're not allowed to visit the Hermit.<p><center>";
 	private static final String BUY_PERMIT_TEXT = NO_PERMIT_TEXT + "<a href=\"hermit.php?autopermit=on\">Buy a Hermit Permit</a></center></p><p><center>";
 
-	public static void getFeatureRichHTML( String location, StringBuffer buffer, boolean addComplexFeatures )
+	public static final void getFeatureRichHTML( String location, StringBuffer buffer, boolean addComplexFeatures )
 	{
 		if ( buffer.length() == 0 )
 			return;
@@ -1112,7 +1112,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		}
 	}
 
-	public static void addChatFeatures( StringBuffer buffer )
+	public static final void addChatFeatures( StringBuffer buffer )
 	{
 		StaticEntity.singleStringReplace( buffer, "</head>", "<script language=\"Javascript\"> var " + ChatRequest.getRightClickMenu() + " </script>" +
 			 "<script language=\"Javascript\" src=\"/images/scripts/rcm.2.js\"></script></head>" );
@@ -1120,7 +1120,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		StaticEntity.singleStringReplace( buffer, "</body>", "<div id='menu' class='rcm'></div></body>" );
 	}
 
-	private static void addPreAscensionReminders( StringBuffer buffer )
+	private static final void addPreAscensionReminders( StringBuffer buffer )
 	{
 		buffer.delete( buffer.indexOf( "<p>Are you" ), buffer.indexOf( "<p><center>" ) );
 		StaticEntity.singleStringReplace( buffer, "<p>Please", " Please" );
@@ -1257,7 +1257,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		return;
 	}
 
-	private static void addAscensionReminders( String location, StringBuffer buffer )
+	private static final void addAscensionReminders( String location, StringBuffer buffer )
 	{
 		if ( location.indexOf( "ascend.php" ) != -1 )
 		{
@@ -1421,7 +1421,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		buffer.append( suffix );
 	}
 
-	private static void createSkillTable( StringBuffer buffer, ArrayList skillList )
+	private static final void createSkillTable( StringBuffer buffer, ArrayList skillList )
 	{
 		buffer.append( "<table width=\"80%\"><tr>" );
 		buffer.append( "<td valign=\"top\" bgcolor=\"#ffcccc\"><table><tr><th style=\"text-decoration: underline; text-align: left;\">Muscle Skills</th></tr><tr><td><font size=\"-1\">" );
@@ -1439,7 +1439,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		buffer.append( "</tr></table>" );
 	}
 
-	private static void listPermanentSkills( StringBuffer buffer, ArrayList skillList, int startingPoint )
+	private static final void listPermanentSkills( StringBuffer buffer, ArrayList skillList, int startingPoint )
 	{
 		String skillName;
 		for ( int i = 0; i < 100; ++i )
@@ -1466,7 +1466,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		}
 	}
 
-	private static void addFightModifiers( String location, StringBuffer buffer, boolean addComplexFeatures )
+	private static final void addFightModifiers( String location, StringBuffer buffer, boolean addComplexFeatures )
 	{
 		// If the person opts to add a plinking link, check to see if it's
 		// a valid page to add plinking, and make sure the person hasn't
@@ -1533,19 +1533,19 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		buffer.insert( combatIndex + 7, monsterData.toString() );
 	}
 
-	private static void addMultiuseModifiers( StringBuffer buffer )
+	private static final void addMultiuseModifiers( StringBuffer buffer )
 	{
 		// Change bang potion names in item dropdown
 		changePotionNames( buffer );
 	}
 
-	private static void addWineCellarSpoilers( StringBuffer buffer )
+	private static final void addWineCellarSpoilers( StringBuffer buffer )
 	{
 		// Change dusty bottle names in item dropdown
 		changeDustyBottleNames( buffer );
 	}
 
-	private static void changePotionImages( StringBuffer buffer )
+	private static final void changePotionImages( StringBuffer buffer )
 	{
 		ConsumeItemRequest.ensureUpdatedPotionEffects();
 
@@ -1584,7 +1584,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		}
 	}
 
-	private static void changePotionNames( StringBuffer buffer )
+	private static final void changePotionNames( StringBuffer buffer )
 	{
 		ConsumeItemRequest.ensureUpdatedPotionEffects();
 
@@ -1602,7 +1602,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 	private static final Pattern GLYPH_PATTERN = Pattern.compile( "title=\"Arcane Glyph #(\\d)\"" );
 
-	private static void changeDustyBottleNames( StringBuffer buffer )
+	private static final void changeDustyBottleNames( StringBuffer buffer )
 	{
 		FightRequest.ensureUpdatedSphereEffects();
 
@@ -1642,7 +1642,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		}
 	}
 
-	private static void changeSphereImages( StringBuffer buffer )
+	private static final void changeSphereImages( StringBuffer buffer )
 	{
 		FightRequest.ensureUpdatedSphereEffects();
 
@@ -1652,7 +1652,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		changeSphereImage( buffer, "sphererough.gif", 2177 );
 	}
 
-	private static void changeSphereImage( StringBuffer buffer, String image, int itemId )
+	private static final void changeSphereImage( StringBuffer buffer, String image, int itemId )
 	{
 		if ( buffer.indexOf( image ) == -1 )
 			return;
@@ -1668,13 +1668,13 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		StaticEntity.globalStringReplace( buffer, name, name + " of " + effect );
 	}
 
-	private static void addHiddenCityModifiers( StringBuffer buffer )
+	private static final void addHiddenCityModifiers( StringBuffer buffer )
 	{
 		// Change stone sphere names in item dropdown
 		changeSphereNames( buffer );
 	}
 
-	private static void changeSphereNames( StringBuffer buffer )
+	private static final void changeSphereNames( StringBuffer buffer )
 	{
 		for ( int i = 2174; i <= 2177; ++i )
 		{
@@ -1686,7 +1686,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		}
 	}
 
-	private static void addUseLinks( String location, StringBuffer buffer )
+	private static final void addUseLinks( String location, StringBuffer buffer )
 	{
 		if ( buffer.indexOf( "You acquire" ) == -1 )
 			return;
@@ -2163,7 +2163,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		}
 	}
 
-	private static void addChoiceSpoilers( StringBuffer buffer )
+	private static final void addChoiceSpoilers( StringBuffer buffer )
 	{
 		// For the plus sign teleportitis adventure, replace the book
 		// message with a link to the plus sign.
@@ -2232,7 +2232,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		buffer.append( text.substring( index1 ) );
 	}
 
-	private static void addTavernSpoilers( StringBuffer buffer )
+	private static final void addTavernSpoilers( StringBuffer buffer )
 	{
 		String text = buffer.toString();
 		buffer.setLength(0);
@@ -2273,7 +2273,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		buffer.append( text );
 	}
 
-	private static void addRestoreLinks( StringBuffer buffer )
+	private static final void addRestoreLinks( StringBuffer buffer )
 	{
 		String text = buffer.toString();
 		buffer.setLength( 0 );
@@ -2377,7 +2377,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 	}
 
 
-	private static void addUpArrowLinks( StringBuffer buffer )
+	private static final void addUpArrowLinks( StringBuffer buffer )
 	{
 		String text = buffer.toString();
 		buffer.setLength( 0 );
@@ -2899,7 +2899,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 	 * should be sent, given the appropriate location.
 	 */
 
-	public static KoLRequest extractRequest( String location )
+	public static final KoLRequest extractRequest( String location )
 	{
 		if ( location.indexOf( "pics.communityofloathing.com" ) != -1 )
 		{

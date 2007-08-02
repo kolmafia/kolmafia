@@ -153,7 +153,7 @@ public class FamiliarData implements KoLConstants, Comparable
 	{	return Math.max( 1, this.weight + KoLCharacter.getFamiliarWeightAdjustment() );
 	}
 
-	public static int itemWeightModifier( int itemId )
+	public static final int itemWeightModifier( int itemId )
 	{
 		switch ( itemId )
 		{
@@ -304,7 +304,7 @@ public class FamiliarData implements KoLConstants, Comparable
 	}
 
 
-	public static DefaultListCellRenderer getRenderer()
+	public static final DefaultListCellRenderer getRenderer()
 	{	return new FamiliarRenderer();
 	}
 

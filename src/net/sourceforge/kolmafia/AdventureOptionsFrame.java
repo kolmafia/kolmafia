@@ -279,7 +279,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 		public boolean accept( File file )
 		{
 			String name = file.getName();
-			return !name.startsWith( "." ) && name.startsWith( "combat_" );
+			return name.endsWith( "_combat.txt" );
 		}
 
 		public String getDescription()
@@ -355,11 +355,11 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 		StaticEntity.setProperty( "mpAutoRecoveryItems", this.getSettingString( this.mpRestoreCheckbox ) );
 	}
 
-	private static String getPercentage( JComboBox option )
+	private static final String getPercentage( JComboBox option )
 	{	return String.valueOf( (option.getSelectedIndex() - 1) / 20.0f );
 	}
 
-	private static void setSelectedIndex( JComboBox option, String property )
+	private static final void setSelectedIndex( JComboBox option, String property )
 	{
 		int desiredIndex = (int) ((StaticEntity.getFloatProperty( property ) * 20.0f) + 1);
 		option.setSelectedIndex( Math.min( Math.max( desiredIndex, 0 ), option.getItemCount() ) );

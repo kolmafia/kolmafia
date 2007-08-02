@@ -209,8 +209,8 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			FlowerHunterRequest search = new FlowerHunterRequest( this.levelEntry.getText(), FlowerHunterFrame.this.rankEntry.getText() );
 			RequestThread.postRequest( search );
 
-			FlowerHunterFrame.this.results = new ProfileRequest[ search.getSearchResults().size() ];
-			search.getSearchResults().toArray( FlowerHunterFrame.this.results );
+			FlowerHunterFrame.this.results = new ProfileRequest[ FlowerHunterRequest.getSearchResults().size() ];
+			FlowerHunterRequest.getSearchResults().toArray( FlowerHunterFrame.this.results );
 
 			for ( int i = 0; i < resultLimit && i < FlowerHunterFrame.this.results.length && KoLmafia.permitsContinue(); ++i )
 			{
@@ -268,8 +268,8 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			FlowerHunterRequest search = new FlowerHunterRequest( this.clanId.getText() );
 			RequestThread.postRequest( search );
 
-			FlowerHunterFrame.this.results = new ProfileRequest[ search.getSearchResults().size() ];
-			search.getSearchResults().toArray( FlowerHunterFrame.this.results );
+			FlowerHunterFrame.this.results = new ProfileRequest[ FlowerHunterRequest.getSearchResults().size() ];
+			FlowerHunterRequest.getSearchResults().toArray( FlowerHunterFrame.this.results );
 
 			for ( int i = 0; i < FlowerHunterFrame.this.results.length; ++i )
 			{

@@ -1107,7 +1107,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 				String [] parameters = new String [] { idMatcher.find() ? idMatcher.group(1) : "" };
 				createDisplay( SendMessageFrame.class, parameters );
 			}
-			else if ( location.startsWith( "search" ) || location.startsWith( "desc" ) || location.startsWith( "static" ) || location.startsWith( "show" ) )
+			else if ( location.startsWith( "search" ) || location.startsWith( "desc" ) || location.startsWith( "static final" ) || location.startsWith( "show" ) )
 			{
 				DescriptionFrame.showLocation( location );
 				return;
@@ -1510,17 +1510,17 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		return true;
 	}
 
-	public static void createDisplay( Class frameClass )
+	public static final void createDisplay( Class frameClass )
 	{	KoLmafiaGUI.constructFrame( frameClass );
 	}
 
-	public static void createDisplay( Class frameClass, Object [] parameters )
+	public static final void createDisplay( Class frameClass, Object [] parameters )
 	{
 		CreateFrameRunnable creator = new CreateFrameRunnable( frameClass, parameters );
 		creator.run();
 	}
 
-	public static void compileScripts()
+	public static final void compileScripts()
 	{
 		scripts.clear();
 
@@ -1560,7 +1560,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	 * file.  This should be called after every update.
 	 */
 
-	public static void saveBookmarks()
+	public static final void saveBookmarks()
 	{
 		StringBuffer bookmarkData = new StringBuffer();
 
@@ -1579,7 +1579,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	 * current settings.
 	 */
 
-	public static void compileBookmarks()
+	public static final void compileBookmarks()
 	{
 		bookmarks.clear();
 		String [] bookmarkData = StaticEntity.getProperty( "browserBookmarks" ).split( "\\|" );

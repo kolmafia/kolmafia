@@ -723,7 +723,7 @@ public class AdventureRequest extends KoLRequest
 		}
 	}
 
-	public static String registerEncounter( KoLRequest request )
+	public static final String registerEncounter( KoLRequest request )
 	{
 		String urlString = request.getURLString();
 		if ( !(request instanceof AdventureRequest) && !containsEncounter( urlString, request.responseText ) )
@@ -802,7 +802,7 @@ public class AdventureRequest extends KoLRequest
 		},
 	};
 
-	public static void registerDemonName( String encounter, String responseText )
+	public static final void registerDemonName( String encounter, String responseText )
 	{
 		for ( int i = 0; i < demons.length; ++i )
 		{
@@ -823,7 +823,7 @@ public class AdventureRequest extends KoLRequest
 		}
 	}
 
-	private static boolean containsEncounter( String formSource, String responseText )
+	private static final boolean containsEncounter( String formSource, String responseText )
 	{
 		// The first round is unique in that there is no
 		// data fields.  Therefore, it will equal fight.php
@@ -866,7 +866,7 @@ public class AdventureRequest extends KoLRequest
 	{	return this.adventureName;
 	}
 
-	public static void handleServerRedirect( String redirectLocation )
+	public static final void handleServerRedirect( String redirectLocation )
 	{
 		if ( redirectLocation.indexOf( "main.php" ) != -1 )
 			return;
@@ -890,7 +890,7 @@ public class AdventureRequest extends KoLRequest
 		KoLmafia.updateDisplay( ABORT_STATE, "Unknown adventure type encountered." );
 	}
 
-	public static void handleDvoraksRevenge( KoLRequest request )
+	public static final void handleDvoraksRevenge( KoLRequest request )
 	{
 		StaticEntity.getClient().registerEncounter( "Dvorak's Revenge", "Noncombat" );
 		RequestLogger.printLine( "Encounter: Dvorak's Revenge" );
@@ -906,7 +906,7 @@ public class AdventureRequest extends KoLRequest
 		request.constructURLString( "tiles.php?action=jump&whichtile=3" ).run();
 	}
 
-	public static boolean useMarmotClover( String location, String responseText )
+	public static final boolean useMarmotClover( String location, String responseText )
 	{
 		return StaticEntity.getBooleanProperty( "cloverProtectActive" ) &&
 			location.startsWith( "adventure.php" ) && responseText.indexOf( "notice a ten-leaf clover" ) != -1 &&

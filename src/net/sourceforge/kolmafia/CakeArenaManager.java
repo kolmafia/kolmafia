@@ -40,7 +40,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 public class CakeArenaManager extends StaticEntity
 {
 	public static final Pattern WIN_PATTERN = Pattern.compile( "is the winner, and gains (\\d+) experience" );
-	private static LockableListModel opponentList = new LockableListModel();
+	private static final LockableListModel opponentList = new LockableListModel();
 
 	/**
 	 * Registers an opponent inside of the arena manager.
@@ -48,7 +48,7 @@ public class CakeArenaManager extends StaticEntity
 	 * relates to the arena.
 	 */
 
-	public static void registerOpponent( int opponentId, String name, String race, int weight )
+	public static final void registerOpponent( int opponentId, String name, String race, int weight )
 	{
 		ArenaOpponent ao = new ArenaOpponent( opponentId, name, race, weight );
 
@@ -67,7 +67,7 @@ public class CakeArenaManager extends StaticEntity
 	 * description for the opponent.
 	 */
 
-	public static void fightOpponent( String opponent, int eventId, int repeatCount )
+	public static final void fightOpponent( String opponent, int eventId, int repeatCount )
 	{
 		for ( int i = 0; i < opponentList.size(); ++i )
 		{
@@ -111,7 +111,7 @@ public class CakeArenaManager extends StaticEntity
 	 * the cake-shaped arena.
 	 */
 
-	public static LockableListModel getOpponentList()
+	public static final LockableListModel getOpponentList()
 	{
 		if ( opponentList.isEmpty() )
 			RequestThread.postRequest( new CakeArenaRequest() );
@@ -119,7 +119,7 @@ public class CakeArenaManager extends StaticEntity
 		return opponentList;
 	}
 
-	public static String getEvent( int eventId )
+	public static final String getEvent( int eventId )
 	{
 		switch ( eventId )
 		{

@@ -181,7 +181,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		}
 	}
 
-	public static void showGameDescription( Object item )
+	public static final void showGameDescription( Object item )
 	{
 		if ( item instanceof AdventureResult )
 		{
@@ -213,7 +213,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		}
 	}
 
-	public static void showWikiDescription( Object item )
+	public static final void showWikiDescription( Object item )
 	{
 		String name = null;
 

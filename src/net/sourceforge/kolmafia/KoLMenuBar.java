@@ -189,7 +189,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		questsMenu.add( new InvocationMenuItem( "Tower (To Shadow)", SorceressLair.class, "fightMostTowerGuardians" ) );
 
 		// Add script and bookmark menus, which use the
-		// listener-driven static lists.
+		// listener-driven static final lists.
 
 		if ( !bookmarks.isEmpty() )
 		{
@@ -739,7 +739,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		}
 	}
 
-	public static boolean shouldAddScript( File script )
+	public static final boolean shouldAddScript( File script )
 	{
 		if ( !script.isDirectory() )
 			return true;

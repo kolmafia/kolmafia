@@ -53,6 +53,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.TimeZone;
+import java.util.TreeMap;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -71,8 +72,52 @@ import net.sourceforge.kolmafia.MonsterDatabase.Monster;
 
 public abstract class KoLmafia implements KoLConstants
 {
+	static
+	{
+		if ( !DATA_LOCATION.exists() )
+			DATA_LOCATION.mkdirs();
+
+		TreeMap filesToMove = new TreeMap();
+
+		filesToMove.put( new File( SETTINGS_LOCATION, "checklist_GLOBAL.txt" ), new File( DATA_LOCATION, "checklist.txt" ) );
+		filesToMove.put( new File( SETTINGS_LOCATION, "junk_GLOBAL.txt" ), new File( DATA_LOCATION, "autosell.txt" ) );
+		filesToMove.put( new File( SETTINGS_LOCATION, "profitable_GLOBAL.txt" ), new File( DATA_LOCATION, "mallsell.txt" ) );
+		filesToMove.put( new File( SETTINGS_LOCATION, "memento_GLOBAL.txt" ), new File( DATA_LOCATION, "mementos.txt" ) );
+		filesToMove.put( new File( SETTINGS_LOCATION, "skillsets_GLOBAL.txt" ), new File( DATA_LOCATION, "skillgroup.txt" ) );
+
+		Object [] keys = filesToMove.keySet().toArray();
+		for ( int i = 0; i < keys.length; ++i )
+			if ( ((File)keys[i]).exists() )
+				((File)keys[i]).renameTo( (File) filesToMove.get( keys[i] ) );
+
+		String currentName;
+		File [] filelist = SETTINGS_LOCATION.listFiles();
+
+		for ( int i = 0; i < filelist.length; ++i )
+		{
+			currentName = filelist[i].getName();
+
+			if ( currentName.startsWith( "combat_" ) )
+			{
+				currentName = currentName.substring( 7, currentName.indexOf( ".txt" ) );
+				filelist[i].renameTo( new File( SETTINGS_LOCATION, currentName + "_combat.txt" ) );
+			}
+			else if ( currentName.startsWith( "moods_" ) )
+			{
+				currentName = currentName.substring( 6, currentName.indexOf( ".txt" ) );
+				filelist[i].renameTo( new File( SETTINGS_LOCATION, currentName + "_moods.txt" ) );
+			}
+			else if ( currentName.startsWith( "prefs_" ) )
+			{
+				currentName = currentName.substring( 6, currentName.indexOf( ".txt" ) );
+				filelist[i].renameTo( new File( SETTINGS_LOCATION, currentName + "_prefs.txt" ) );
+			}
+		}
+	}
+
 	private static boolean isRefreshing = false;
 	private static boolean isAdventuring = false;
+	private static int relayBrowserInstances = 0;
 
 	public static String lastMessage = "";
 
@@ -100,14 +145,14 @@ public abstract class KoLmafia implements KoLConstants
 		"spleenhit.txt", "statuseffects.txt", "tradeitems.txt", "zonelist.txt"
 	};
 
-	private static String currentIterationString = "";
+	protected static String currentIterationString = "";
 	protected static boolean recoveryActive = false;
 
 	public static boolean isMakingRequest = false;
 	public static KoLRequest currentRequest = null;
 	public static int continuationState = CONTINUE_STATE;
 
-	public static int [] initialStats = new int[3];
+	public static final int [] initialStats = new int[3];
 
 	public static boolean executedLogin = false;
 
@@ -131,8 +176,8 @@ public abstract class KoLmafia implements KoLConstants
 	private static File SESSION_FILE = null;
 
 	private static KoLAdventure currentAdventure;
-	private static final ArrayList stopEncounters = new ArrayList();
 
+	private static final ArrayList stopEncounters = new ArrayList();
 	static
 	{
 		stopEncounters.add( "History is Fun!" );
@@ -152,7 +197,7 @@ public abstract class KoLmafia implements KoLConstants
 		stopEncounters.add( "These Pipes... Aren't Clean!" );
 	}
 
-	private static boolean acquireFileLock( String suffix )
+	private static final boolean acquireFileLock( String suffix )
 	{
 		try
 		{
@@ -184,7 +229,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * of the <code>KoLmafiaGUI</code>.
 	 */
 
-	public static void main( String [] args )
+	public static final void main( String [] args )
 	{
 		if ( !acquireFileLock( "1" ) && !acquireFileLock( "2" ) )
 			System.exit(-1);
@@ -201,7 +246,6 @@ public abstract class KoLmafia implements KoLConstants
 			if ( args[i].equals( "--GUI" ) )
 				useGUI = true;
 		}
-
 
 		hermitItems.add( new AdventureResult( "banjo strings", 1, false ) );
 		hermitItems.add( new AdventureResult( "catsup", 1, false ) );
@@ -263,7 +307,7 @@ public abstract class KoLmafia implements KoLConstants
 				if ( outdated.exists() )
 					outdated.delete();
 
-				deleteSimulator( new File( ROOT_LOCATION, "html/simulator" ) );
+				deleteSimulator( new File( RELAY_LOCATION, "simulator" ) );
 			}
 		}
 
@@ -339,9 +383,9 @@ public abstract class KoLmafia implements KoLConstants
 		// you have an interface.
 
 		if ( useGUI )
-			KoLmafiaGUI.main( args );
+			KoLmafiaGUI.initialize();
 		else
-			KoLmafiaCLI.main( args );
+			KoLmafiaCLI.initialize();
 
 		// Now, maybe the person wishes to run something
 		// on startup, and they associated KoLmafia with
@@ -385,7 +429,7 @@ public abstract class KoLmafia implements KoLConstants
 			DEFAULT_SHELL.listenForCommands();
 	}
 
-	private static void deleteSimulator( File location )
+	private static final void deleteSimulator( File location )
 	{
 		if ( location.isDirectory() )
 		{
@@ -407,7 +451,7 @@ public abstract class KoLmafia implements KoLConstants
 	{
 	}
 
-	public static String getLastMessage()
+	public static final String getLastMessage()
 	{	return lastMessage;
 	}
 
@@ -466,13 +510,13 @@ public abstract class KoLmafia implements KoLConstants
 			KoLDesktop.getInstance().updateDisplayState( state );
 	}
 
-	public static void enableDisplay()
+	public static final void enableDisplay()
 	{
 		updateDisplayState( continuationState == ABORT_STATE || continuationState == ERROR_STATE ? ERROR_STATE : ENABLE_STATE, "" );
 		continuationState = CONTINUE_STATE;
 	}
 
-	public static boolean executedLogin()
+	public static final boolean executedLogin()
 	{	return executedLogin;
 	}
 
@@ -552,7 +596,7 @@ public abstract class KoLmafia implements KoLConstants
 		}
 	}
 
-	public static void resetCounters()
+	public static final void resetCounters()
 	{
 		StaticEntity.setProperty( "lastCounterDay", String.valueOf( MoonPhaseDatabase.getPhaseStep() ) );
 		StaticEntity.setProperty( "breakfastCompleted", "false" );
@@ -783,7 +827,7 @@ public abstract class KoLmafia implements KoLConstants
 		isRefreshing = false;
 	}
 
-	public static boolean isRefreshing()
+	public static final boolean isRefreshing()
 	{	return isRefreshing;
 	}
 
@@ -1002,7 +1046,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * if adventuring took place.
 	 */
 
-	public static void applyEffects()
+	public static final void applyEffects()
 	{
 		int oldCount = activeEffects.size();
 
@@ -1025,7 +1069,7 @@ public abstract class KoLmafia implements KoLConstants
 	 *          yet appeared in the chat (not likely, but possible).
 	 */
 
-	public static String getPlayerName( String playerId )
+	public static final String getPlayerName( String playerId )
 	{
 		if ( playerId == null )
 			return null;
@@ -1044,7 +1088,7 @@ public abstract class KoLmafia implements KoLConstants
 	 *			if the player's Id has not been seen.
 	 */
 
-	public static String getPlayerId( String playerName )
+	public static final String getPlayerId( String playerName )
 	{
 		if ( playerName == null )
 			return null;
@@ -1061,7 +1105,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * @param	playerId	The player Id associated with this player
 	 */
 
-	public static void registerPlayer( String playerName, String playerId )
+	public static final void registerPlayer( String playerName, String playerId )
 	{
 		playerName = playerName.replaceAll( "[^0-9A-Za-z_ ]", "" );
 		String lowercase = playerName.toLowerCase();
@@ -1073,7 +1117,7 @@ public abstract class KoLmafia implements KoLConstants
 		seenPlayerNames.put( playerId, playerName );
 	}
 
-	public static void registerContact( String playerName, String playerId )
+	public static final void registerContact( String playerName, String playerId )
 	{
 		playerName = playerName.toLowerCase().replaceAll( "[^0-9A-Za-z_ ]", "" );
 		registerPlayer( playerName, playerId );
@@ -1399,7 +1443,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * available to the player.
 	 */
 
-	public static int getRestoreCount()
+	public static final int getRestoreCount()
 	{
 		int restoreCount = 0;
 		String mpRestoreSetting = StaticEntity.getProperty( "mpAutoRecoveryItems" );
@@ -1959,7 +2003,7 @@ public abstract class KoLmafia implements KoLConstants
 		RequestThread.postRequest( new ZapRequest( selectedValue ) );
 	}
 
-	private static AdventureResult getSelectedValue( String message, LockableListModel list )
+	private static final AdventureResult getSelectedValue( String message, LockableListModel list )
 	{	return (AdventureResult) KoLFrame.input( message, list );
 	}
 
@@ -2108,7 +2152,7 @@ public abstract class KoLmafia implements KoLConstants
 		RequestThread.postRequest( request );
 	}
 
-	public static void validateFaucetQuest()
+	public static final void validateFaucetQuest()
 	{
 		int lastAscension = StaticEntity.getIntegerProperty( "lastTavernAscension" );
 		if ( lastAscension < KoLCharacter.getAscensions() )
@@ -2119,7 +2163,7 @@ public abstract class KoLmafia implements KoLConstants
 		}
 	}
 
-	public static void addTavernLocation( KoLRequest request )
+	public static final void addTavernLocation( KoLRequest request )
 	{
 		validateFaucetQuest();
 		if ( KoLCharacter.getAdventuresLeft() == 0 || KoLCharacter.getCurrentHP() == 0 )
@@ -2474,7 +2518,7 @@ public abstract class KoLmafia implements KoLConstants
 		}
 	}
 
-	public static void removeSaveState( String loginname )
+	public static final void removeSaveState( String loginname )
 	{
 		if ( loginname == null )
 			return;
@@ -2518,11 +2562,11 @@ public abstract class KoLmafia implements KoLConstants
 		}
 	}
 
-	public static boolean checkRequirements( List requirements )
+	public static final boolean checkRequirements( List requirements )
 	{	return checkRequirements( requirements, true );
 	}
 
-	public static boolean checkRequirements( List requirements, boolean retrieveItem )
+	public static final boolean checkRequirements( List requirements, boolean retrieveItem )
 	{
 		AdventureResult [] requirementsArray = new AdventureResult[ requirements.size() ];
 		requirements.toArray( requirementsArray );
@@ -2576,11 +2620,11 @@ public abstract class KoLmafia implements KoLConstants
 		return requirements.isEmpty();
 	}
 
-	public static void printList( List printing )
+	public static final void printList( List printing )
 	{	printList( printing, RequestLogger.INSTANCE );
 	}
 
-	public static void printList( List printing, PrintStream ostream )
+	public static final void printList( List printing, PrintStream ostream )
 	{
 		if ( printing == null || ostream == null )
 			return;
@@ -2734,7 +2778,7 @@ public abstract class KoLmafia implements KoLConstants
 		}
 	}
 
-	public static boolean isAutoStop( String encounterName )
+	public static final boolean isAutoStop( String encounterName )
 	{	return stopEncounters.contains( encounterName );
 	}
 
@@ -2932,7 +2976,7 @@ public abstract class KoLmafia implements KoLConstants
 		RequestThread.enableDisplayIfSequenceComplete();
 	}
 
-	public static boolean isRunningBetweenBattleChecks()
+	public static final boolean isRunningBetweenBattleChecks()
 	{	return recoveryActive || MoodSettings.isExecuting();
 	}
 
@@ -3039,8 +3083,6 @@ public abstract class KoLmafia implements KoLConstants
 			openRelayBrowser( "main.html" );
 	}
 
-	private static int relayBrowserInstances = 0;
-
 	public void openRelayBrowser( String location )
 	{
 		this.startRelayServer();
@@ -3077,7 +3119,7 @@ public abstract class KoLmafia implements KoLConstants
 		StaticEntity.openSystemBrowser( "http://127.0.0.1:" + LocalRelayServer.getPort() + "/simulator/index.html" );
 	}
 
-	public static boolean isAdventuring()
+	public static final boolean isAdventuring()
 	{	return isAdventuring;
 	}
 

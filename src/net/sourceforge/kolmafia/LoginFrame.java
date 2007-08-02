@@ -108,17 +108,17 @@ public class LoginFrame extends KoLFrame
 			this.usernameField.requestFocus();
 	}
 
-	public static boolean instanceExists()
+	public static final boolean instanceExists()
 	{	return INSTANCE != null;
 	}
 
-	public static void hideInstance()
+	public static final void hideInstance()
 	{
 		if ( INSTANCE != null )
 			INSTANCE.setVisible( false );
 	}
 
-	public static void disposeInstance()
+	public static final void disposeInstance()
 	{
 		if ( INSTANCE != null )
 			INSTANCE.dispose();

@@ -45,8 +45,8 @@ public class SpecialOutfit implements Comparable, KoLConstants
 {
 	private static final Pattern OPTION_PATTERN = Pattern.compile( "<option value=(.*?)>(.*?)</option>" );
 
-	private static Stack implicitPoints = new Stack();
-	private static Stack explicitPoints = new Stack();
+	private static final Stack implicitPoints = new Stack();
+	private static final Stack explicitPoints = new Stack();
 
 	private int outfitId;
 	private String outfitName;
@@ -142,7 +142,7 @@ public class SpecialOutfit implements Comparable, KoLConstants
 	 * the player needs to revert to their checkpointed outfit.
 	 */
 
-	private static void restoreCheckpoint( AdventureResult [] checkpoint )
+	private static final void restoreCheckpoint( AdventureResult [] checkpoint )
 	{
 		RequestThread.openRequestSequence();
 
@@ -167,7 +167,7 @@ public class SpecialOutfit implements Comparable, KoLConstants
 	 * the player needs an outfit marked to revert to.
 	 */
 
-	public static void createExplicitCheckpoint()
+	public static final void createExplicitCheckpoint()
 	{
 		AdventureResult [] explicit = new AdventureResult[ KoLCharacter.FAMILIAR + 1 ];
 
@@ -177,7 +177,7 @@ public class SpecialOutfit implements Comparable, KoLConstants
 		explicitPoints.push( explicit );
 	}
 
-	public static boolean markImplicitCheckpoint()
+	public static final boolean markImplicitCheckpoint()
 	{
 		if ( markedCheckpoint != -1 || implicitPoints.isEmpty() )
 			return false;
@@ -200,7 +200,7 @@ public class SpecialOutfit implements Comparable, KoLConstants
 	 * the player needs to revert to their checkpointed outfit.
 	 */
 
-	public static void restoreExplicitCheckpoint()
+	public static final void restoreExplicitCheckpoint()
 	{
 		if ( explicitPoints.isEmpty() )
 			return;
@@ -213,7 +213,7 @@ public class SpecialOutfit implements Comparable, KoLConstants
 	 * the player needs an outfit marked to revert to.
 	 */
 
-	public static void createImplicitCheckpoint()
+	public static final void createImplicitCheckpoint()
 	{
 		if ( KoLmafia.isRunningBetweenBattleChecks() )
 			return;
@@ -234,7 +234,7 @@ public class SpecialOutfit implements Comparable, KoLConstants
 	 * the player needs to revert to their checkpointed outfit.
 	 */
 
-	public static void restoreImplicitCheckpoint()
+	public static final void restoreImplicitCheckpoint()
 	{
 		if ( implicitPoints.isEmpty() || KoLmafia.isRunningBetweenBattleChecks() )
 			return;
@@ -253,13 +253,13 @@ public class SpecialOutfit implements Comparable, KoLConstants
 	}
 
 	/**
-	 * Static method used to determine all of the custom outfits,
+	 * static final method used to determine all of the custom outfits,
 	 * based on the given HTML enclosed in <code><select></code> tags.
 	 *
 	 * @return	A list of available outfits
 	 */
 
-	public static LockableListModel parseOutfits( String selectHTML )
+	public static final LockableListModel parseOutfits( String selectHTML )
 	{
 		Matcher singleOutfitMatcher = OPTION_PATTERN.matcher( selectHTML );
 

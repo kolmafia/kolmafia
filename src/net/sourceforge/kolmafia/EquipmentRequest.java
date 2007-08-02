@@ -70,6 +70,8 @@ public class EquipmentRequest extends PasswordHashRequest
 	private static final AdventureResult PASTE = new AdventureResult( MEAT_PASTE, 1 );
 	private static final AdventureResult SPECTACLES = new AdventureResult( 1916, 1 );
 
+	private static final int FAKE_HAND = 1511;
+
 	public static final int CLOSET = 1;
 	public static final int MISCELLANEOUS = 2;
 	public static final int EQUIPMENT = 3;
@@ -101,9 +103,6 @@ public class EquipmentRequest extends PasswordHashRequest
 		"acc1", "acc2", "acc3", "familiarequip", "fakehand"
 	};
 
-	private static boolean shouldSavePreviousOutfit = false;
-	private static final int FAKE_HAND = 1511;
-
 	private int requestType;
 	private int equipmentSlot;
 	private AdventureResult changeItem;
@@ -111,6 +110,8 @@ public class EquipmentRequest extends PasswordHashRequest
 	private int equipmentType;
 	private SpecialOutfit outfit;
 	private String error;
+
+	private static boolean shouldSavePreviousOutfit = false;
 
 	public EquipmentRequest( int requestType )
 	{
@@ -165,7 +166,7 @@ public class EquipmentRequest extends PasswordHashRequest
 	{	return true;
 	}
 
-	public static void savePreviousOutfit()
+	public static final void savePreviousOutfit()
 	{	shouldSavePreviousOutfit = true;
 	}
 
@@ -291,7 +292,7 @@ public class EquipmentRequest extends PasswordHashRequest
 		return null;
 	}
 
-	public static int chooseEquipmentSlot( int equipmentType )
+	public static final int chooseEquipmentSlot( int equipmentType )
 	{
 		switch ( equipmentType )
 		{
@@ -626,7 +627,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			parseQuestItems( this.responseText );
 	}
 
-	private static boolean switchItem( AdventureResult oldItem, AdventureResult newItem )
+	private static final boolean switchItem( AdventureResult oldItem, AdventureResult newItem )
 	{
 		// If the items are not equivalent, make sure
 		// the items should get switched out.
@@ -700,7 +701,7 @@ public class EquipmentRequest extends PasswordHashRequest
 		}
 	}
 
-	private static void parseQuestItems( String text )
+	private static final void parseQuestItems( String text )
 	{
 		Matcher itemMatcher = QUESTITEM_PATTERN.matcher( text );
 		while ( itemMatcher.find() )
@@ -732,7 +733,7 @@ public class EquipmentRequest extends PasswordHashRequest
 		}
 	}
 
-	public static void parseEquipment( String responseText )
+	public static final void parseEquipment( String responseText )
 	{
 		AdventureResult [] oldEquipment = new AdventureResult[9];
 		int oldFakeHands = KoLCharacter.getFakeHands();
@@ -915,7 +916,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			ConcoctionsDatabase.refreshConcoctions();
 	}
 
-	public static int slotNumber( String name )
+	public static final int slotNumber( String name )
 	{
 		for ( int i = 0; i < slotNames.length; ++i )
 			if ( name.equalsIgnoreCase( slotNames[i] ) )
@@ -937,7 +938,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			this.requestType == REMOVE_ITEM || this.requestType == UNEQUIP_ALL;
 	}
 
-	public static boolean registerRequest( String urlString )
+	public static final boolean registerRequest( String urlString )
 	{
 		if ( !urlString.startsWith( "inv_equip.php" ) )
 			return false;

@@ -45,7 +45,7 @@ public class QuestLogRequest extends KoLRequest
 	{	super( "questlog.php?which=2" );
 	}
 
-	public static boolean finishedQuest( String quest )
+	public static final boolean finishedQuest( String quest )
 	{	return contents.indexOf( quest ) != -1;
 	}
 
@@ -57,7 +57,7 @@ public class QuestLogRequest extends KoLRequest
 	{	registerQuests( this.responseText );
 	}
 
-	public static void registerQuests( String responseText )
+	public static final void registerQuests( String responseText )
 	{	contents = responseText;
 	}
 }

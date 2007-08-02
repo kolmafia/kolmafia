@@ -89,7 +89,7 @@ public class HermitRequest extends KoLRequest
 		this.addFormField( "pwd" );
 	}
 
-	public static boolean useHermitClover( String location )
+	public static final boolean useHermitClover( String location )
 	{	return StaticEntity.getBooleanProperty( "cloverProtectActive" ) && location.startsWith( "hermit.php" );
 	}
 
@@ -185,7 +185,7 @@ public class HermitRequest extends KoLRequest
 		KoLmafia.updateDisplay( "Hermit successfully looted!" );
 	}
 
-	public static boolean parseHermitTrade( String urlString, String responseText )
+	public static final boolean parseHermitTrade( String urlString, String responseText )
 	{
 		// There should be a form, or an indication of item receipt,
 		// for all valid hermit requests.
@@ -194,7 +194,7 @@ public class HermitRequest extends KoLRequest
 			return false;
 
 		// Only check for clovers.  All other items at the hermit
-		// are assumed to be static.
+		// are assumed to be static final.
 
 		hermitItems.remove( SewerRequest.CLOVER );
 
@@ -256,7 +256,7 @@ public class HermitRequest extends KoLRequest
 	{	return itemId == TRINKET_ID || itemId == GEWGAW_ID || itemId == KNICK_KNACK_ID;
 	}
 
-	private static int subtractWorthlessItems( AdventureResult item, int total )
+	private static final int subtractWorthlessItems( AdventureResult item, int total )
 	{
 		int count = 0 - Math.min( total, item.getCount( inventory ) );
 		StaticEntity.getClient().processResult( item.getInstance( count ) );

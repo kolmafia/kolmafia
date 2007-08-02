@@ -543,7 +543,7 @@ System.out.println( header );
 		}
 	}
 
-	public static void setNextMain( String mainpane )
+	public static final void setNextMain( String mainpane )
 	{	LocalRelayRequest.mainpane = mainpane;
 	}
 
@@ -652,7 +652,7 @@ System.out.println( header );
 		}
 	}
 
-	private static String getSimulatorName( int equipmentSlot )
+	private static final String getSimulatorName( int equipmentSlot )
 	{
 		AdventureResult item = KoLCharacter.getEquipment( equipmentSlot );
 

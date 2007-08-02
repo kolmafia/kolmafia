@@ -64,15 +64,15 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		TODAY_FORMATTER.setTimeZone( TimeZone.getDefault() );
 	}
 
-	// Static array of file names (not including .gif extension)
+	// static final array of file names (not including .gif extension)
 	// for the various months in the KoL calendar.
 
 	public static final String [] CALENDARS =
 	{	"", "jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"
 	};
 
-	// The following are static variables used to track the calendar.
-	// They are made static as a design decision to allow the oracle
+	// The following are static final variables used to track the calendar.
+	// They are made static final as a design decision to allow the oracle
 	// table nested inside of this class the access it needs to data.
 
 	private static int calendarDay = 0;
@@ -203,7 +203,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 	 * recalculation attempts.
 	 */
 
-	private static void updateDailyPage()
+	private static final void updateDailyPage()
 	{
 		if ( DATED_FILENAME_FORMAT.format( selectedDate.getTime() ).equals( "20051027" ) )
 		{
@@ -346,7 +346,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 	 * events on the KoL calendar.
 	 */
 
-	private static void updatePredictionsPage()
+	private static final void updatePredictionsPage()
 	{
 		StringBuffer displayHTML = new StringBuffer();
 		int phaseStep = MoonPhaseDatabase.getPhaseStep( ronaldPhase, grimacePhase );
@@ -375,7 +375,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 	 * percentage is zero.
 	 */
 
-	private static void appendModifierPercentage( StringBuffer buffer, int percentage )
+	private static final void appendModifierPercentage( StringBuffer buffer, int percentage )
 	{
 		if ( percentage > 0 )
 		{

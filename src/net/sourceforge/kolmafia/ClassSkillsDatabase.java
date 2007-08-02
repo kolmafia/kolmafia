@@ -47,15 +47,15 @@ import java.util.TreeMap;
 
 public class ClassSkillsDatabase extends KoLDatabase
 {
-	private static Map skillById = new TreeMap();
-	private static Map skillByName = new TreeMap();
-	private static Map mpConsumptionById = new TreeMap();
-	private static Map skillTypeById = new TreeMap();
-	private static Map durationById = new TreeMap();
+	private static final Map skillById = new TreeMap();
+	private static final Map skillByName = new TreeMap();
+	private static final Map mpConsumptionById = new TreeMap();
+	private static final Map skillTypeById = new TreeMap();
+	private static final Map durationById = new TreeMap();
 
-	private static final File categoriesFile = new File( SETTINGS_DIRECTORY, "skillsets_GLOBAL.txt" );
-	private static Map skillsByCategory = new TreeMap();
-	private static Map skillCategoryById = new TreeMap();
+	private static final File categoriesFile = new File( DATA_DIRECTORY, "skillgroup.txt" );
+	private static final Map skillsByCategory = new TreeMap();
+	private static final Map skillCategoryById = new TreeMap();
 
 	public static final int CASTABLE = -1;
 	public static final int PASSIVE = 0;
@@ -131,7 +131,7 @@ public class ClassSkillsDatabase extends KoLDatabase
 		loadCategories();
 	}
 
-	public static void saveCategories()
+	public static final void saveCategories()
 	{
 		PrintStream writer = LogStream.openStream( categoriesFile, true );
 		Object [] keys = skillsByCategory.keySet().toArray();
@@ -154,7 +154,7 @@ public class ClassSkillsDatabase extends KoLDatabase
 		writer.close();
 	}
 
-	public static void createBaseCategories()
+	public static final void createBaseCategories()
 	{
 		for ( int i = 1; i < CATEGORIES.length; ++i )
 			skillsByCategory.put( CATEGORIES[i].toLowerCase(), new ArrayList() );
@@ -170,7 +170,7 @@ public class ClassSkillsDatabase extends KoLDatabase
 		saveCategories();
 	}
 
-	public static void loadCategories()
+	public static final void loadCategories()
 	{
 		if ( !categoriesFile.exists() )
 		{
@@ -452,7 +452,7 @@ public class ClassSkillsDatabase extends KoLDatabase
 		return list;
 	}
 
-	private static String toTitleCase( String s )
+	private static final String toTitleCase( String s )
 	{
 		boolean found = false;
 		char [] chars = s.toLowerCase().toCharArray();
@@ -491,11 +491,11 @@ public class ClassSkillsDatabase extends KoLDatabase
 	 * @return	The set of skills keyed by name
 	 */
 
-	public static Set entrySet()
+	public static final Set entrySet()
 	{	return skillById.entrySet();
 	}
 
-	public static void generateSkillList( StringBuffer buffer, boolean appendHTML )
+	public static final void generateSkillList( StringBuffer buffer, boolean appendHTML )
 	{
 		Object [] keys = skillsByCategory.keySet().toArray();
 		ArrayList [] categories = new ArrayList[ keys.length ];
@@ -518,7 +518,7 @@ public class ClassSkillsDatabase extends KoLDatabase
 			appendSkillList( buffer, appendHTML, toTitleCase( (String) keys[i] ), categories[i] );
 	}
 
-	private static void appendSkillList( StringBuffer buffer, boolean appendHTML, String listName, ArrayList list )
+	private static final void appendSkillList( StringBuffer buffer, boolean appendHTML, String listName, ArrayList list )
 	{
 		if ( list.isEmpty() )
 			return;

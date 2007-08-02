@@ -50,20 +50,13 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 	private static final int MAXIMUM_SIZE = 16000;
 	private static final int DELETE_AMOUNT = MAXIMUM_SIZE - RESIZE_SIZE;
 
-	public static List colors;
-	public static List highlights;
-	public static List dehighlights;
+	public static final List colors = new ArrayList();
+	public static final List highlights = new ArrayList();
+	public static final List dehighlights = new ArrayList();
 	public static LimitedSizeChatBuffer highlightBuffer;
 
 	private boolean requiresTruncation;
 	private boolean affectsHighlightBuffer;
-
-	static
-	{
-		colors = new ArrayList();
-		highlights = new ArrayList();
-		dehighlights = new ArrayList();
-	}
 
 	public LimitedSizeChatBuffer()
 	{	this( "", true, false );
@@ -80,14 +73,14 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 		this.affectsHighlightBuffer = affectsHighlightBuffer;
 	}
 
-	public static void clearHighlights()
+	public static final void clearHighlights()
 	{
 		colors.clear();
 		highlights.clear();
 		dehighlights.clear();
 	}
 
-	public static String removeHighlight( int index )
+	public static final String removeHighlight( int index )
 	{
 		String removedColor = (String) colors.remove( index );
 		String removedPattern = ((Pattern) highlights.remove( index )).pattern();
@@ -101,7 +94,7 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 	 * this does not affect logging.
 	 */
 
-	public static void updateFontSize()
+	public static final void updateFontSize()
 	{
 		ChatBuffer.BUFFER_STYLE = "body { font-family: sans-serif; font-size: " +
 			StaticEntity.getProperty( "chatFontSize" ) + "; } a { color: black; text-decoration: none; }";
@@ -158,7 +151,7 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 			highlightBuffer.append( highlightMessage.replaceAll( "(<br>)+", "<br>" + LINE_BREAK ) );
 	}
 
-	public static String addHighlight( String highlight, Color color )
+	public static final String addHighlight( String highlight, Color color )
 	{
 		String colorString = DataUtilities.toHexString( color );
 

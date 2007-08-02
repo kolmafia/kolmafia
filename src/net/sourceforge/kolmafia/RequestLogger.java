@@ -64,23 +64,23 @@ public class RequestLogger extends NullStream implements KoLConstants
 	{	printLine( line );
 	}
 
-	public static void printLine()
+	public static final void printLine()
 	{	printLine( CONTINUE_STATE, "", true );
 	}
 
-	public static void printLine( String message )
+	public static final void printLine( String message )
 	{	printLine( CONTINUE_STATE, message, true );
 	}
 
-	public static void printLine( String message, boolean addToBuffer )
+	public static final void printLine( String message, boolean addToBuffer )
 	{	printLine( CONTINUE_STATE, message, addToBuffer );
 	}
 
-	public static void printLine( int state, String message )
+	public static final void printLine( int state, String message )
 	{	printLine( state, message, true );
 	}
 
-	public static void printLine( int state, String message, boolean addToBuffer )
+	public static final void printLine( int state, String message, boolean addToBuffer )
 	{
 		if ( message == null )
 			return;
@@ -166,79 +166,79 @@ public class RequestLogger extends NullStream implements KoLConstants
 		return LogStream.openStream( filename, false );
 	}
 
-	public static void openStandard()
+	public static final void openStandard()
 	{	outputStream = System.out;
 	}
 
-	public static void openMirror( String location )
+	public static final void openMirror( String location )
 	{	mirrorStream = openStream( location, mirrorStream, true );
 	}
 
-	public static void closeMirror()
+	public static final void closeMirror()
 	{
 		mirrorStream.close();
 		mirrorStream = NullStream.INSTANCE;
 	}
 
-	public static PrintStream getSessionStream()
+	public static final PrintStream getSessionStream()
 	{	return sessionStream;
 	}
 
-	public static void openSessionLog()
+	public static final void openSessionLog()
 	{
 		sessionStream = openStream( SESSIONS_DIRECTORY + StaticEntity.globalStringReplace( KoLCharacter.getUserName(), " ", "_" ) + "_" +
 			DATED_FILENAME_FORMAT.format( new Date() ) + ".txt", sessionStream, false );
 	}
 
-	public static void closeSessionLog()
+	public static final void closeSessionLog()
 	{
 		sessionStream.close();
 		sessionStream = NullStream.INSTANCE;
 	}
 
-	public static void updateSessionLog()
+	public static final void updateSessionLog()
 	{	sessionStream.println();
 	}
 
-	public static void updateSessionLog( String line )
+	public static final void updateSessionLog( String line )
 	{	sessionStream.println( line );
 	}
 
-	public static boolean isDebugging()
+	public static final boolean isDebugging()
 	{	return debugStream != NullStream.INSTANCE;
 	}
 
-	public static PrintStream getDebugStream()
+	public static final PrintStream getDebugStream()
 	{	return debugStream;
 	}
 
-	public static void openDebugLog()
+	public static final void openDebugLog()
 	{	debugStream = openStream( "DEBUG.txt", debugStream, true );
 	}
 
-	public static void closeDebugLog()
+	public static final void closeDebugLog()
 	{
 		debugStream.close();
 		debugStream = NullStream.INSTANCE;
 	}
 
-	public static void updateDebugLog()
+	public static final void updateDebugLog()
 	{	debugStream.println();
 	}
 
-	public static void updateDebugLog( String line )
+	public static final void updateDebugLog( String line )
 	{	debugStream.println( line );
 	}
 
-	public static void updateDebugLog( Throwable t )
+	public static final void updateDebugLog( Throwable t )
 	{	t.printStackTrace( debugStream );
 	}
 
-	public static void updateDebugLog( Object o )
+	public static final void updateDebugLog( Object o )
 	{	debugStream.println( o.toString() );
 	}
 
-	public static void registerRequest( KoLRequest request, String urlString )
+	public static final void registerRequest( KoLRequest request, String urlString )
 	{
 		try
 		{
@@ -253,7 +253,7 @@ public class RequestLogger extends NullStream implements KoLConstants
 		}
 	}
 
-	private static void doRegister( KoLRequest request, String urlString )
+	private static final void doRegister( KoLRequest request, String urlString )
 	{
 		boolean isExternal = request.getClass() == KoLRequest.class || request instanceof LocalRelayRequest;
 

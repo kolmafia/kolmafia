@@ -47,26 +47,16 @@ import javax.swing.tree.TreeNode;
 
 public abstract class CombatSettings implements KoLConstants
 {
-	static
-	{
-		// Renaming data files to make then easier to find for most
-		// people (so they aren't afraid to open them).
-
-		StaticEntity.renameDataFiles( "ccs", "combat" );
-	}
-
 	private static String [] keys = new String[0];
 	private static File settingsFile = null;
-	private static TreeMap reference = new TreeMap();
-	private static CombatSettingNode root = new CombatSettingNode();
+
+	private static final TreeMap reference = new TreeMap();
+	private static final CombatSettingNode root = new CombatSettingNode();
 
 	public static final void restoreDefaults()
 	{
 		root.removeAllChildren();
 		reference.clear();
-
-		if ( KoLCharacter.baseUserName().equals( "GLOBAL" ) )
-			return;
 
 		settingsFile = new File( SETTINGS_LOCATION, settingsFileName() );
 
@@ -76,14 +66,14 @@ public abstract class CombatSettings implements KoLConstants
 	}
 
 	public static final String settingsFileName()
-	{	return "combat_" + KoLCharacter.baseUserName() + ".txt";
+	{	return KoLCharacter.baseUserName() + "_combat.txt";
 	}
 
 	public static final TreeNode getRoot()
 	{	return root;
 	}
 
-	public static void loadSettings( File source )
+	public static final void loadSettings( File source )
 	{
 		if ( source == null || settingsFile == null || !source.exists() )
 			return;
@@ -121,7 +111,7 @@ public abstract class CombatSettings implements KoLConstants
 	 * @param	source	The file that contains (or will contain) the character data
 	 */
 
-	private static void loadSettings()
+	private static final void loadSettings()
 	{
 		try
 		{
@@ -216,11 +206,11 @@ public abstract class CombatSettings implements KoLConstants
 		}
 	}
 
-	public static String encounterKey( String line )
+	public static final String encounterKey( String line )
 	{	return encounterKey( line, true );
 	}
 
-	public static String encounterKey( String line, boolean changeCase )
+	public static final String encounterKey( String line, boolean changeCase )
 	{
 		line = line.trim();
 		String key = line.toLowerCase();
@@ -249,7 +239,7 @@ public abstract class CombatSettings implements KoLConstants
 		return changeCase ? key : line;
     }
 
-	public static void setDefaultAction( String actionList )
+	public static final void setDefaultAction( String actionList )
 	{
 		CombatSettingNode currentList = (CombatSettingNode) reference.get( "default" );
 		currentList.removeAllChildren();
@@ -259,7 +249,7 @@ public abstract class CombatSettings implements KoLConstants
 			currentList.add( new CombatActionNode( i + 1, rounds[i] ) );
 	}
 
-	public static List getDefaultAction()
+	public static final List getDefaultAction()
 	{
 		ArrayList nodeList = new ArrayList();
 		CombatSettingNode currentList = (CombatSettingNode) reference.get( "default" );
@@ -274,7 +264,7 @@ public abstract class CombatSettings implements KoLConstants
 	 * initializes it to the given value.
 	 */
 
-	private static void ensureProperty( String key, String defaultValue )
+	private static final void ensureProperty( String key, String defaultValue )
 	{
 		if ( !reference.containsKey( key ) )
 		{
@@ -294,7 +284,7 @@ public abstract class CombatSettings implements KoLConstants
 	 * the given file.
 	 */
 
-	public static void saveSettings()
+	public static final void saveSettings()
 	{
 		PrintStream writer = LogStream.openStream( settingsFile, true );
 
@@ -330,7 +320,7 @@ public abstract class CombatSettings implements KoLConstants
 		writer.close();
 	}
 
-	public static String getSettingKey( String encounter )
+	public static final String getSettingKey( String encounter )
 	{
 		String location = StaticEntity.getProperty( "lastAdventure" ).toLowerCase();
 
@@ -379,7 +369,7 @@ public abstract class CombatSettings implements KoLConstants
 		return keys[ longestMatch ];
 	}
 
-	public static String getSetting( String encounter, int roundCount )
+	public static final String getSetting( String encounter, int roundCount )
 	{
 		// Otherwise, you have a tactic for this round against
 		// the given monster.  Return that tactic.
@@ -449,7 +439,7 @@ public abstract class CombatSettings implements KoLConstants
 		}
 	}
 
-	public static String getLongCombatOptionName( String action )
+	public static final String getLongCombatOptionName( String action )
 	{
 		if ( action == null )
 			return "attack with weapon";
@@ -501,7 +491,7 @@ public abstract class CombatSettings implements KoLConstants
 		return item.startsWith( "attack" ) ? item : "item " + item;
 	}
 
-	private static String getLongItemAction( String action )
+	private static final String getLongItemAction( String action )
 	{
 		int commaIndex = action.indexOf( "," );
 		if ( commaIndex != -1 )
@@ -527,7 +517,7 @@ public abstract class CombatSettings implements KoLConstants
 		return TradeableItemDatabase.getItemName( itemId );
 	}
 
-	public static String getShortCombatOptionName( String action )
+	public static final String getShortCombatOptionName( String action )
 	{
 		if ( action == null )
 			return "attack";
@@ -581,7 +571,7 @@ public abstract class CombatSettings implements KoLConstants
 		return getShortItemAction( action );
 	}
 
-	private static String getShortItemAction( String action )
+	private static final String getShortItemAction( String action )
 	{
 		int commaIndex = action.indexOf( "," );
 		if ( commaIndex != -1 )

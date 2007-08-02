@@ -61,6 +61,8 @@ public class FlowerHunterRequest extends KoLRequest
 		"PWNED LIKE CRAPSTORM."
 	};
 
+	private static final List searchResults = new ArrayList();
+
 	private static int tattooCount = -1;
 	private static int trophyCount = -1;
 	private static int flowerCount = -1;
@@ -90,7 +92,6 @@ public class FlowerHunterRequest extends KoLRequest
 	private static final Pattern RANKING_PATTERN = Pattern.compile( "Your current PvP Ranking is (\\d+)" );
 
 	private int hunterType;
-	private List searchResults = new ArrayList();
 
 	public FlowerHunterRequest()
 	{
@@ -151,12 +152,14 @@ public class FlowerHunterRequest extends KoLRequest
 	{	this.addFormField( "who", target );
 	}
 
-	public List getSearchResults()
-	{	return this.searchResults;
+	public static final List getSearchResults()
+	{	return searchResults;
 	}
 
 	public void processResults()
 	{
+		searchResults.clear();
+
 		switch ( this.hunterType )
 		{
 		case RANKVIEW:
@@ -214,7 +217,7 @@ public class FlowerHunterRequest extends KoLRequest
 		while ( playerMatcher.find() )
 		{
 			KoLmafia.registerPlayer( playerMatcher.group(2), playerMatcher.group(1) );
-			this.searchResults.add( new ProfileRequest( playerMatcher.group(2) ) );
+			searchResults.add( new ProfileRequest( playerMatcher.group(2) ) );
 		}
 	}
 
@@ -233,10 +236,10 @@ public class FlowerHunterRequest extends KoLRequest
 				playerMatcher.group(4), Integer.valueOf( playerMatcher.group(5) ), playerMatcher.group(6),
 				Integer.valueOf( playerMatcher.group(7) ) );
 
-			this.searchResults.add( currentPlayer );
+			searchResults.add( currentPlayer );
 		}
 
-		Collections.sort( this.searchResults );
+		Collections.sort( searchResults );
 	}
 
 	private void parseAttack()
@@ -272,7 +275,7 @@ public class FlowerHunterRequest extends KoLRequest
 		}
 	}
 
-	public static void processDefenseContests()
+	public static final void processDefenseContests()
 	{
 		LogStream pvpResults = LogStream.openStream( "attacks/" + KoLCharacter.baseUserName() + "_defense.txt", false );
 
@@ -311,7 +314,7 @@ public class FlowerHunterRequest extends KoLRequest
 		}
 	}
 
-	public static void processOffenseContests( String responseText )
+	public static final void processOffenseContests( String responseText )
 	{
 		String resultText = StaticEntity.globalStringReplace( responseText.substring(
 			responseText.indexOf( "<td>" ) + 4, responseText.indexOf( "Your PvP Ranking" ) ), "<p>", LINE_BREAK );
@@ -358,7 +361,7 @@ public class FlowerHunterRequest extends KoLRequest
 			++flowerCount;
 	}
 
-	public static void processOffenseContest( String target, String line, LogStream ostream )
+	public static final void processOffenseContest( String target, String line, LogStream ostream )
 	{
 		String contest = null;
 
@@ -432,7 +435,7 @@ public class FlowerHunterRequest extends KoLRequest
 		ostream.println( result );
 	}
 
-	public static boolean registerRequest( String urlString )
+	public static final boolean registerRequest( String urlString )
 	{
 		if ( !urlString.startsWith( "pvp.php" ) )
 			return false;

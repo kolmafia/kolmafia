@@ -71,6 +71,7 @@ public class ConsumeItemRequest extends KoLRequest
 	}
 
 	public static String lastUpdate = "";
+	private static AdventureResult lastItemUsed = null;
 	private static String askedAboutOde = "";
 
 	private static final int DOLPHIN_KING_MAP = 26;
@@ -209,11 +210,11 @@ public class ConsumeItemRequest extends KoLRequest
 	{	return this.itemUsed;
 	}
 
-	public static int maximumUses( int itemId )
+	public static final int maximumUses( int itemId )
 	{	return maximumUses( itemId, true );
 	}
 
-	public static int maximumUses( int itemId, boolean allowOverDrink )
+	public static final int maximumUses( int itemId, boolean allowOverDrink )
 	{
 		if ( itemId <= 0 )
 			return Integer.MAX_VALUE;
@@ -393,7 +394,7 @@ public class ConsumeItemRequest extends KoLRequest
 		}
 	}
 
-	public static boolean allowBoozeConsumption( int inebrietyBonus )
+	public static final boolean allowBoozeConsumption( int inebrietyBonus )
 	{
 		if ( KoLCharacter.isFallingDown() || inebrietyBonus < 1 )
 			return true;
@@ -509,7 +510,7 @@ public class ConsumeItemRequest extends KoLRequest
 		this.needsRefresh |= originalEffectCount != activeEffects.size();
 	}
 
-	public static void parseConsumption( String responseText, boolean showHTML )
+	public static final void parseConsumption( String responseText, boolean showHTML )
 	{
 		if ( lastItemUsed == null )
 			return;
@@ -1287,7 +1288,7 @@ public class ConsumeItemRequest extends KoLRequest
 		}
 	}
 
-	public static void ensureUpdatedPotionEffects()
+	public static final void ensureUpdatedPotionEffects()
 	{
 		int lastAscension = StaticEntity.getIntegerProperty( "lastBangPotionReset" );
 		if ( lastAscension < KoLCharacter.getAscensions() )
@@ -1298,11 +1299,11 @@ public class ConsumeItemRequest extends KoLRequest
 		}
 	}
 
-	public static String bangPotionName( int itemId )
+	public static final String bangPotionName( int itemId )
 	{	return bangPotionName( itemId, TradeableItemDatabase.getItemName( itemId ) );
 	}
 
-	public static String bangPotionName( int itemId, String name )
+	public static final String bangPotionName( int itemId, String name )
 	{
 		ensureUpdatedPotionEffects();
 		String effect = StaticEntity.getProperty( "lastBangPotion" + itemId );
@@ -1312,7 +1313,7 @@ public class ConsumeItemRequest extends KoLRequest
 		return name + " of " + effect;
 	}
 
-	private static void showItemUsage( boolean showHTML, String text, boolean consumed )
+	private static final void showItemUsage( boolean showHTML, String text, boolean consumed )
 	{
 		if ( showHTML )
 			StaticEntity.getClient().showHTML( trimInventoryText( text ) );
@@ -1321,7 +1322,7 @@ public class ConsumeItemRequest extends KoLRequest
 			StaticEntity.getClient().processResult( lastItemUsed );
 	}
 
-	private static String trimInventoryText( String text )
+	private static final String trimInventoryText( String text )
 	{
 		// Get rid of first row of first table: the "Results" line
 		Matcher matcher = ROW_PATTERN.matcher( text );
@@ -1336,7 +1337,7 @@ public class ConsumeItemRequest extends KoLRequest
 		return text;
 	}
 
-	private static AdventureResult extractItem( String urlString )
+	private static final AdventureResult extractItem( String urlString )
 	{
 		if ( urlString.startsWith( "inv_eat.php" ) );
 		else if ( urlString.startsWith( "inv_booze.php" ) );
@@ -1368,9 +1369,7 @@ public class ConsumeItemRequest extends KoLRequest
 		return new AdventureResult( itemId, itemCount );
 	}
 
-	private static AdventureResult lastItemUsed = null;
-
-	public static boolean registerRequest( String urlString )
+	public static final boolean registerRequest( String urlString )
 	{
 		lastItemUsed = extractItem( urlString );
 		if ( lastItemUsed == null )

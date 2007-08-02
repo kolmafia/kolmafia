@@ -39,9 +39,9 @@ public class UneffectRequest extends KoLRequest
 	private boolean isShruggable;
 	private AdventureResult effect;
 
-	public static AdventureResult REMEDY = new AdventureResult( "soft green echo eyedrop antidote", 1 );
-	public static AdventureResult TINY_HOUSE = new AdventureResult( "tiny house", 1 );
-	public static AdventureResult FOREST_TEARS = new AdventureResult( "forest tears", 1 );
+	public static final AdventureResult REMEDY = new AdventureResult( "soft green echo eyedrop antidote", 1 );
+	public static final AdventureResult TINY_HOUSE = new AdventureResult( "tiny house", 1 );
+	public static final AdventureResult FOREST_TEARS = new AdventureResult( "forest tears", 1 );
 
 	public UneffectRequest( AdventureResult effect )
 	{
@@ -83,7 +83,7 @@ public class UneffectRequest extends KoLRequest
 	 * @return	skill	The name of the skill
 	 */
 
-	public static String effectToSkill( String effectName )
+	public static final String effectToSkill( String effectName )
 	{
 		if ( effectName.equalsIgnoreCase( "Polka of Plenty" ) || effectName.equalsIgnoreCase( "Power Ballad of the Arrowsmith" ) || effectName.equalsIgnoreCase( "Psalm of Pointiness" ) || effectName.equalsIgnoreCase( "Ode to Booze" ) )
 			return "The " + effectName;
@@ -109,7 +109,7 @@ public class UneffectRequest extends KoLRequest
 		return effectName;
 	}
 
-	public static String skillToEffect( String skillName )
+	public static final String skillToEffect( String skillName )
 	{
 		if ( skillName.equals( "The Polka of Plenty" ) ||
 			skillName.equals( "The Power Ballad of the Arrowsmith" ) ||

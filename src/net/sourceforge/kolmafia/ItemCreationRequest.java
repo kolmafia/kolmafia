@@ -189,7 +189,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			this.addFormField( "action", "combine" );
 	}
 
-	public static ItemCreationRequest getInstance( AdventureResult item )
+	public static final ItemCreationRequest getInstance( AdventureResult item )
 	{
 		ItemCreationRequest ir = getInstance( item.getItemId(), true );
 		if ( ir == null )
@@ -199,11 +199,11 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		return ir;
 	}
 
-	public static ItemCreationRequest getInstance( int itemId )
+	public static final ItemCreationRequest getInstance( int itemId )
 	{	return getInstance( itemId, true );
 	}
 
-	public static ItemCreationRequest getInstance( int itemId, boolean returnNullIfNotPermitted )
+	public static final ItemCreationRequest getInstance( int itemId, boolean returnNullIfNotPermitted )
 	{
 		ItemCreationRequest instance = ALL_CREATIONS.get( itemId );
 
@@ -223,7 +223,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		return instance;
 	}
 
-	public static ItemCreationRequest constructInstance( int itemId )
+	public static final ItemCreationRequest constructInstance( int itemId )
 	{
 		if ( itemId == MEAT_PASTE || itemId == MEAT_STACK || itemId == DENSE_STACK )
 			return new CombineMeatRequest( itemId );
@@ -771,7 +771,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		return 0;
 	}
 
-	public static boolean registerRequest( boolean isExternal, String urlString )
+	public static final boolean registerRequest( boolean isExternal, String urlString )
 	{
 		// First, delegate subclasses, if it's a subclass request.
 

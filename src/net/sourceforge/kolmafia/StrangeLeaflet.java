@@ -143,15 +143,15 @@ public abstract class StrangeLeaflet extends StaticEntity
 	private static boolean petunias;	// true if petunias are done
 	private static boolean giant;		// true if giant is done
 
-	public static void leafletNoMagic()
+	public static final void leafletNoMagic()
 	{	robStrangeLeaflet( false );
 	}
 
-	public static void leafletWithMagic()
+	public static final void leafletWithMagic()
 	{	robStrangeLeaflet( true );
 	}
 
-	public static void robStrangeLeaflet( boolean invokeMagic )
+	public static final void robStrangeLeaflet( boolean invokeMagic )
 	{
 		// Make sure the player has the Strange Leaflet.
 		if ( !KoLCharacter.hasItem( LEAFLET ) )
@@ -206,7 +206,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 			KoLCharacter.updateStatus();
 	}
 
-	private static void initialize()
+	private static final void initialize()
 	{
 		// We know nothing about the state of the objects.
 
@@ -245,7 +245,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		trophy = response.indexOf( "A shiny bowling trophy" ) != -1;
 	}
 
-	private static void parseLocation( String response )
+	private static final void parseLocation( String response )
 	{
 		for ( location = 0; location < LOCATIONS.length; ++location )
 			if ( response.indexOf( LOCATIONS[location] ) != -1 )
@@ -311,7 +311,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		}
 	}
 
-	private static void parseMantelpiece( String response )
+	private static final void parseMantelpiece( String response )
 	{
 		if ( response.indexOf( "brass bowling trophy" ) != -1 )
 			// "A brass bowling trophy sits on the mantelpiece."
@@ -330,7 +330,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 			magic = "yoho";
 	}
 
-	private static void parseMagic( String response )
+	private static final void parseMagic( String response )
 	{
 		// Bail if we didn't invoke a magic word.
 		if ( magic == null)
@@ -347,7 +347,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 			magic = null;
 	}
 
-	private static void getLeaflet()
+	private static final void getLeaflet()
 	{
 		// Can't go back
 		if ( location > BANK )
@@ -367,7 +367,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		leaflet = true;
 	}
 
-	private static void openChest()
+	private static final void openChest()
 	{
 		// Can't go back
 		if ( location > BANK )
@@ -388,7 +388,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		}
 	}
 
-	private static void robHole()
+	private static final void robHole()
 	{
 		// Can't go back
 		if ( location > BANK )
@@ -403,7 +403,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 	}
 
 	// Returns true if should proceed, false if should stop now
-	private static boolean invokeMagic( boolean invokeMagic )
+	private static final boolean invokeMagic( boolean invokeMagic )
 	{
 		// Can't go back
 		if ( location > BANK )
@@ -431,7 +431,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		return true;
 	}
 
-	private static void getRing()
+	private static final void getRing()
 	{
 		if ( ring )
 			return;
@@ -459,7 +459,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		ring = true;
 	}
 
-	private static void getScroll()
+	private static final void getScroll()
 	{
 		if ( scroll )
 			return;
@@ -477,7 +477,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		executeCommand( "read scroll" );
 	}
 
-	private static void getRuby()
+	private static final void getRuby()
 	{
 		if ( ruby )
 			return;
@@ -496,7 +496,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		ruby = true;
 	}
 
-	private static void goTo( int destination )
+	private static final void goTo( int destination )
 	{
 		// If you've already reached your destination,
 		// you do not need to move.
@@ -652,7 +652,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		}
 	}
 
-	private static void getSword()
+	private static final void getSword()
 	{
 		if ( sword )
 			return;
@@ -662,7 +662,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		sword = true;
 	}
 
-	private static void getStick()
+	private static final void getStick()
 	{
 		if ( stick || torch )
 			return;
@@ -672,7 +672,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		stick = true;
 	}
 
-	private static void cutHedge()
+	private static final void cutHedge()
 	{
 		if ( hedge )
 			return;
@@ -684,7 +684,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 			executeCommand( "cut hedge" );
 	}
 
-	private static void openDoor()
+	private static final void openDoor()
 	{
 		if ( door )
 			return;
@@ -695,7 +695,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 			executeCommand( "open door" );
 	}
 
-	private static void getTorch()
+	private static final void getTorch()
 	{
 		if ( torch )
 			return;
@@ -710,7 +710,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		torch = true;
 	}
 
-	private static void killSerpent()
+	private static final void killSerpent()
 	{
 		if ( serpent )
 			return;
@@ -721,7 +721,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 			executeCommand( "kill serpent" );
 	}
 
-	private static void wearBoots()
+	private static final void wearBoots()
 	{
 		if ( wornboots )
 			return;
@@ -731,7 +731,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		wornboots = true;
 	}
 
-	private static void getBoots()
+	private static final void getBoots()
 	{
 		if ( boots )
 			return;
@@ -741,7 +741,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		boots = true;
 	}
 
-	private static void lightFire()
+	private static final void lightFire()
 	{
 		getTorch();
 		goTo( HOUSE );
@@ -762,7 +762,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 
 	private static final KoLRequest LEAFLET_REQUEST = new KoLRequest( "leaflet.php?pwd" );
 
-	private static String executeCommand( String command )
+	private static final String executeCommand( String command )
 	{
 		LEAFLET_REQUEST.addFormField( "command", command );
 		RequestThread.postRequest( LEAFLET_REQUEST );

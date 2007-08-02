@@ -45,7 +45,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	private static final Pattern COUNT1_PATTERN = Pattern.compile( "bufftimes=([\\d,]+)" );
 	private static final Pattern COUNT2_PATTERN = Pattern.compile( "quantity=([\\d,]+)" );
 
-	public static String [] BREAKFAST_SKILLS =
+	public static final String [] BREAKFAST_SKILLS =
 		{ "Advanced Cocktailcrafting", "Pastamastery", "Advanced Saucecrafting", "Summon Snowcone", "Summon Hilarious Objects", "Summon Candy Hearts" };
 
 	private static final int OTTER_TONGUE = 1007;
@@ -266,11 +266,11 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		return this.lastStringForm;
 	}
 
-	private static boolean canSwitchToItem( AdventureResult item )
+	private static final boolean canSwitchToItem( AdventureResult item )
 	{	return !KoLCharacter.hasEquipped( item ) && EquipmentDatabase.canEquip( item.getName() ) && KoLCharacter.hasItem( item );
 	}
 
-	public static void optimizeEquipment( int skillId )
+	public static final void optimizeEquipment( int skillId )
 	{
 		boolean isBuff = ClassSkillsDatabase.isBuff( skillId );
 
@@ -290,7 +290,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			reduceManaConsumption( skillId, isBuff );
 	}
 
-	private static boolean isValidSwitch( int slotId )
+	private static final boolean isValidSwitch( int slotId )
 	{
 		AdventureResult item = KoLCharacter.getEquipment( slotId );
 		for ( int i = 0; i < AVOID_REMOVAL.length; ++i )
@@ -300,7 +300,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		return true;
 	}
 
-	private static int attemptSwitch( int skillId, AdventureResult item, boolean slot1Allowed, boolean slot2Allowed, boolean slot3Allowed )
+	private static final int attemptSwitch( int skillId, AdventureResult item, boolean slot1Allowed, boolean slot2Allowed, boolean slot3Allowed )
 	{
 		if ( slot3Allowed )
 		{
@@ -323,7 +323,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		return -1;
 	}
 
-	private static void reduceManaConsumption( int skillId, boolean isBuff )
+	private static final void reduceManaConsumption( int skillId, boolean isBuff )
 	{
 		// Never bother trying to reduce mana consumption when casting
 		// ode to booze.
@@ -494,7 +494,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			lastUpdate = "Error encountered during cast attempt.";
 	}
 
-	public static void prepareWeapon( AdventureResult [] options )
+	public static final void prepareWeapon( AdventureResult [] options )
 	{
 		for ( int i = 0; i < options.length; ++i )
 		{
@@ -619,15 +619,15 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	{	return o != null && o instanceof UseSkillRequest && this.getSkillName().equals( ((UseSkillRequest)o).getSkillName() );
 	}
 
-	public static UseSkillRequest getInstance( int skillId )
+	public static final UseSkillRequest getInstance( int skillId )
 	{	return getInstance( ClassSkillsDatabase.getSkillName( skillId ) );
 	}
 
-	public static UseSkillRequest getInstance( String skillName, int buffCount )
+	public static final UseSkillRequest getInstance( String skillName, int buffCount )
 	{	return getInstance( skillName, KoLCharacter.getUserName(), buffCount );
 	}
 
-	public static UseSkillRequest getInstance( String skillName, String target, int buffCount )
+	public static final UseSkillRequest getInstance( String skillName, String target, int buffCount )
 	{
 		UseSkillRequest instance = getInstance( skillName );
 		if ( instance == null )
@@ -638,7 +638,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		return instance;
 	}
 
-	public static UseSkillRequest getInstance( String skillName )
+	public static final UseSkillRequest getInstance( String skillName )
 	{
 		if ( skillName == null || !ClassSkillsDatabase.contains( skillName ) )
 			return null;
@@ -653,7 +653,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		return request;
 	}
 
-	public static boolean registerRequest( String urlString )
+	public static final boolean registerRequest( String urlString )
 	{
 		if ( !urlString.startsWith( "skills.php" ) )
 			return false;

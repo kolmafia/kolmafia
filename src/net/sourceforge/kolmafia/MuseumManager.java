@@ -49,29 +49,29 @@ public class MuseumManager extends StaticEntity
 	private static final Pattern SELECT_PATTERN = Pattern.compile( "<select.*?</select>" );
 	private static final Pattern SHELF_PATTERN = Pattern.compile( "<option value=(\\d+).*?>(.*?)</option>" );
 
-	private static LockableListModel headers = new LockableListModel();
-	private static LockableListModel shelves = new LockableListModel();
+	private static final LockableListModel headers = new LockableListModel();
+	private static final LockableListModel shelves = new LockableListModel();
 
-	public static void clearCache()
+	public static final void clearCache()
 	{
 		collection.clear();
 		headers.clear();
 		shelves.clear();
 	}
 
-	public static LockableListModel getHeaders()
+	public static final LockableListModel getHeaders()
 	{	return headers;
 	}
 
-	public static String getHeader( int shelf )
+	public static final String getHeader( int shelf )
 	{	return (String) headers.get( shelf );
 	}
 
-	public static LockableListModel getShelves()
+	public static final LockableListModel getShelves()
 	{	return shelves;
 	}
 
-	public static void move( Object [] moving, int sourceShelf, int destinationShelf )
+	public static final void move( Object [] moving, int sourceShelf, int destinationShelf )
 	{
 		// In order to take advantage of the utilities of the
 		// Collections interface, place everything inside of
@@ -97,7 +97,7 @@ public class MuseumManager extends StaticEntity
 		RequestThread.closeRequestSequence();
 	}
 
-	public static void reorder( String [] headers )
+	public static final void reorder( String [] headers )
 	{
 		headers[0] = "-none-";
 
@@ -164,7 +164,7 @@ public class MuseumManager extends StaticEntity
 		RequestThread.closeRequestSequence();
 	}
 
-	private static void save( List shelfOrder )
+	private static final void save( List shelfOrder )
 	{
 		int elementCounter = 0;
 		SortedListModel currentShelf;
@@ -196,7 +196,7 @@ public class MuseumManager extends StaticEntity
 		RequestThread.postRequest( new MuseumRequest( newItems, newShelves ) );
 	}
 
-	public static void update( String data )
+	public static final void update( String data )
 	{
 		updateShelves( data );
 		Matcher selectedMatcher;
@@ -222,13 +222,13 @@ public class MuseumManager extends StaticEntity
 		}
 	}
 
-	private static void registerItem( AdventureResult item, int shelf )
+	private static final void registerItem( AdventureResult item, int shelf )
 	{
 		collection.add( item );
 		((SortedListModel)shelves.get( shelf )).add( item );
 	}
 
-	private static void updateShelves( String data )
+	private static final void updateShelves( String data )
 	{
 		clearCache();
 

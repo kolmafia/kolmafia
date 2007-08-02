@@ -53,7 +53,6 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class AdventureFrame extends AdventureOptionsFrame
 {
 	private static AdventureFrame INSTANCE = null;
-
 	private JProgressBar requestMeter = null;
 
 	private JSplitPane sessionGrid;
@@ -112,7 +111,7 @@ public class AdventureFrame extends AdventureOptionsFrame
 		this.requestMeter.setString( message );
 	}
 
-	public static void updateRequestMeter( int value, int maximum )
+	public static final void updateRequestMeter( int value, int maximum )
 	{
 		if ( INSTANCE == null || INSTANCE.requestMeter == null )
 			return;
@@ -121,7 +120,7 @@ public class AdventureFrame extends AdventureOptionsFrame
 		INSTANCE.requestMeter.setValue( value );
 	}
 
-	public static void updateSelectedAdventure( KoLAdventure location )
+	public static final void updateSelectedAdventure( KoLAdventure location )
 	{
 		if ( INSTANCE == null || location == null || INSTANCE.zoneSelect == null || INSTANCE.locationSelect == null )
 			return;

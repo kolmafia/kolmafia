@@ -53,17 +53,18 @@ public class ConcoctionsDatabase extends KoLDatabase
 	private static int queuedInebriety = 0;
 	private static int queuedAdventuresUsed = 0;
 	private static int queuedStillsUsed = 0;
-	private static Stack queuedChanges = new Stack();
-	private static SortedListModel queuedIngredients = new SortedListModel();
 
-	private static Concoction stillsLimit = new Concoction( (AdventureResult) null, NOCREATE );
-	private static Concoction adventureLimit = new Concoction( (AdventureResult) null, NOCREATE );
+	private static final Stack queuedChanges = new Stack();
+	private static final SortedListModel queuedIngredients = new SortedListModel();
 
-	private static ConcoctionArray concoctions = new ConcoctionArray();
-	private static SortedListModelArray knownUses = new SortedListModelArray();
+	private static final Concoction stillsLimit = new Concoction( (AdventureResult) null, NOCREATE );
+	private static final Concoction adventureLimit = new Concoction( (AdventureResult) null, NOCREATE );
 
-	private static boolean [] PERMIT_METHOD = new boolean[ METHOD_COUNT ];
-	private static int [] ADVENTURE_USAGE = new int[ METHOD_COUNT ];
+	private static final ConcoctionArray concoctions = new ConcoctionArray();
+	private static final SortedListModelArray knownUses = new SortedListModelArray();
+
+	private static final boolean [] PERMIT_METHOD = new boolean[ METHOD_COUNT ];
+	private static final int [] ADVENTURE_USAGE = new int[ METHOD_COUNT ];
 	private static final AdventureResult [] NO_INGREDIENTS = new AdventureResult[0];
 
 	private static final int CHEF = 438;
@@ -298,7 +299,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 	{	return PERMIT_METHOD[ method ];
 	}
 
-	private static AdventureResult parseIngredient( String data )
+	private static final AdventureResult parseIngredient( String data )
 	{
 		// If the ingredient is specified inside of brackets,
 		// then a specific item Id is being designated.
@@ -319,11 +320,11 @@ public class ConcoctionsDatabase extends KoLDatabase
 		return AdventureResult.parseResult( data );
 	}
 
-	public static SortedListModel getQueue()
+	public static final SortedListModel getQueue()
 	{	return queuedIngredients;
 	}
 
-	public static void push( Concoction c, int quantity )
+	public static final void push( Concoction c, int quantity )
 	{
 		int adventureChange = queuedAdventuresUsed;
 		int stillChange = queuedStillsUsed;
@@ -345,7 +346,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		queuedChanges.push( c );
 	}
 
-	public static void pop()
+	public static final void pop()
 	{
 		if ( queuedChanges.isEmpty() )
 			return;
@@ -371,15 +372,15 @@ public class ConcoctionsDatabase extends KoLDatabase
 		queuedInebriety -= c.getInebriety() * quantity.intValue();
 	}
 
-	public static LockableListModel getUsables()
+	public static final LockableListModel getUsables()
 	{	return usableList;
 	}
 
-	public static SortedListModel getCreatables()
+	public static final SortedListModel getCreatables()
 	{	return creatableList;
 	}
 
-	public static void handleQueue( boolean consume )
+	public static final void handleQueue( boolean consume )
 	{
 		queuedChanges.clear();
 		queuedIngredients.clear();
@@ -436,15 +437,15 @@ public class ConcoctionsDatabase extends KoLDatabase
 		refreshConcoctions();
 	}
 
-	public static int getQueuedFullness()
+	public static final int getQueuedFullness()
 	{	return queuedFullness;
 	}
 
-	public static int getQueuedInebriety()
+	public static final int getQueuedInebriety()
 	{	return queuedInebriety;
 	}
 
-	private static List getAvailableIngredients()
+	private static final List getAvailableIngredients()
 	{
 		boolean includeCloset = !closet.isEmpty();
 		boolean includeStash = getBooleanProperty( "autoSatisfyWithStash" ) && KoLCharacter.canInteract() && !ClanManager.getStash().isEmpty();
@@ -486,7 +487,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		return availableIngredients;
 	}
 
-	private static void setBetterIngredient( AdventureResult item1, AdventureResult item2, List availableIngredients )
+	private static final void setBetterIngredient( AdventureResult item1, AdventureResult item2, List availableIngredients )
 	{
 		Concoction item;
 		int available = getBetterIngredient( item1, item2, availableIngredients ).getCount( availableIngredients );
@@ -510,7 +511,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 	 * item creation.
 	 */
 
-	public static synchronized void refreshConcoctions()
+	public static final synchronized void refreshConcoctions()
 	{
 		List availableIngredients = getAvailableIngredients();
 
@@ -651,7 +652,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		}
 	}
 
-	public static int getMeatPasteRequired( int itemId, int creationCount )
+	public static final int getMeatPasteRequired( int itemId, int creationCount )
 	{
 		Concoction item = concoctions.get( itemId );
 		if ( item == null )
@@ -662,7 +663,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		return item.getMeatPasteNeeded( creationCount + item.initial ) - item.initial + 1;
 	}
 
-	private static void calculateBasicItems( List availableIngredients )
+	private static final void calculateBasicItems( List availableIngredients )
 	{
 		// Meat paste and meat stacks can be created directly
 		// and are dependent upon the amount of meat available.
@@ -682,7 +683,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		}
 	}
 
-	private static void setBasicItem( List availableIngredients, AdventureResult item, int creatable )
+	private static final void setBasicItem( List availableIngredients, AdventureResult item, int creatable )
 	{
 		Concoction creation = concoctions.get( item.getItemId() );
 		if ( creation == null )
@@ -699,7 +700,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 	 * item creation.
 	 */
 
-	private static void cachePermitted( List availableIngredients )
+	private static final void cachePermitted( List availableIngredients )
 	{
 		boolean willBuyServant = KoLCharacter.canInteract() && getBooleanProperty( "autoSatisfyWithMall" );
 
@@ -912,7 +913,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 				PERMIT_METHOD[i] = ADVENTURE_USAGE[i] <= KoLCharacter.getAdventuresLeft();
 	}
 
-	private static boolean isAvailable( int servantId, int clockworkId )
+	private static final boolean isAvailable( int servantId, int clockworkId )
 	{
 		// Otherwise, return whether or not the quantity possible for
 		// the given box servants is non-zero.	This works because
@@ -926,7 +927,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 	 * Returns the mixing method for the item with the given Id.
 	 */
 
-	public static int getMixingMethod( int itemId )
+	public static final int getMixingMethod( int itemId )
 	{
 		Concoction item = concoctions.get( itemId );
 		return item == null ? NOCREATE : item.getMixingMethod();
@@ -938,7 +939,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 	 * will be returned instead.
 	 */
 
-	public static AdventureResult [] getIngredients( int itemId )
+	public static final AdventureResult [] getIngredients( int itemId )
 	{
 		List availableIngredients = getAvailableIngredients();
 
@@ -959,13 +960,13 @@ public class ConcoctionsDatabase extends KoLDatabase
 		return ingredients;
 	}
 
-	public static AdventureResult [] getStandardIngredients( int itemId )
+	public static final AdventureResult [] getStandardIngredients( int itemId )
 	{
 		Concoction item = concoctions.get( itemId );
 		return item == null ? NO_INGREDIENTS : item.getIngredients();
 	}
 
-	private static AdventureResult getBetterIngredient( AdventureResult ingredient1, AdventureResult ingredient2, List availableIngredients )
+	private static final AdventureResult getBetterIngredient( AdventureResult ingredient1, AdventureResult ingredient2, List availableIngredients )
 	{	return ingredient1.getCount( availableIngredients ) > ingredient2.getCount( availableIngredients ) ? ingredient1 : ingredient2;
 	}
 

@@ -59,14 +59,14 @@ public class AscensionSnapshotTable extends KoLDatabase
 	public static final int DISCO_BANDIT = 5;
 	public static final int ACCORDION_THIEF = 6;
 
-	private static Map ascensionMap = new TreeMap();
-	private static List ascensionDataList = new ArrayList();
-	private static List softcoreAscensionList = new ArrayList();
-	private static List hardcoreAscensionList = new ArrayList();
+	private static final Map ascensionMap = new TreeMap();
+	private static final List ascensionDataList = new ArrayList();
+	private static final List softcoreAscensionList = new ArrayList();
+	private static final List hardcoreAscensionList = new ArrayList();
 
 	private static final Pattern LINK_PATTERN = Pattern.compile( "</?a[^>]+>" );
 
-	public static void clearCache()
+	public static final void clearCache()
 	{
 		// First, initialize all of the lists and
 		// arrays which are used by the request.
@@ -78,23 +78,23 @@ public class AscensionSnapshotTable extends KoLDatabase
 		hardcoreAscensionList.clear();
 	}
 
-	public static void registerMember( String playerName )
+	public static final void registerMember( String playerName )
 	{
 		String lowerCaseName = playerName.toLowerCase();
 		ascensionMap.put( lowerCaseName, "" );
 	}
 
-	public static void unregisterMember( String playerId )
+	public static final void unregisterMember( String playerId )
 	{
 		String lowerCaseName = KoLmafia.getPlayerName( playerId ).toLowerCase();
 		ascensionMap.remove( lowerCaseName );
 	}
 
-	public static Map getAscensionMap()
+	public static final Map getAscensionMap()
 	{	return ascensionMap;
 	}
 
-	public static String getAscensionData( boolean isSoftcore, int mostAscensionsBoardSize, int mainBoardSize, int classBoardSize, int maxAge, boolean playerMoreThanOnce, boolean localProfileLink )
+	public static final String getAscensionData( boolean isSoftcore, int mostAscensionsBoardSize, int mainBoardSize, int classBoardSize, int maxAge, boolean playerMoreThanOnce, boolean localProfileLink )
 	{
 		initializeAscensionData();
 		StringBuffer strbuf = new StringBuffer();
@@ -185,7 +185,7 @@ public class AscensionSnapshotTable extends KoLDatabase
 		return strbuf.toString();
 	}
 
-	public static String getPathedAscensionData( boolean isSoftcore, int pathFilter, int mainBoardSize, int classBoardSize, int maxAge, boolean playerMoreThanOnce, boolean localProfileLink )
+	public static final String getPathedAscensionData( boolean isSoftcore, int pathFilter, int mainBoardSize, int classBoardSize, int maxAge, boolean playerMoreThanOnce, boolean localProfileLink )
 	{
 		StringBuffer strbuf = new StringBuffer();
 
@@ -242,7 +242,7 @@ public class AscensionSnapshotTable extends KoLDatabase
 		return strbuf.toString();
 	}
 
-	public static String getAscensionData( boolean isSoftcore, int pathFilter, int classFilter, int mainBoardSize, int classBoardSize, int maxAge, boolean playerMoreThanOnce, boolean localProfileLink )
+	public static final String getAscensionData( boolean isSoftcore, int pathFilter, int classFilter, int mainBoardSize, int classBoardSize, int maxAge, boolean playerMoreThanOnce, boolean localProfileLink )
 	{
 		StringBuffer strbuf = new StringBuffer();
 
@@ -360,7 +360,7 @@ public class AscensionSnapshotTable extends KoLDatabase
 		return strbuf.toString();
 	}
 
-	private static void initializeAscensionData()
+	private static final void initializeAscensionData()
 	{
 		// If the ascension lists have already been initialized,
 		// then return from this method call.

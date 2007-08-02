@@ -48,23 +48,23 @@ public class FamiliarsDatabase extends KoLDatabase
 	private static final String DEFAULT_ITEM = "steaming evil";
 	private static final Integer DEFAULT_LARVA = new Integer( 666 );
 
-	private static Map familiarById = new TreeMap();
-	private static Map familiarByName = new TreeMap();
-	private static Map familiarByLarva = new TreeMap();
-	private static Map familiarByItem = new TreeMap();
+	private static final Map familiarById = new TreeMap();
+	private static final Map familiarByName = new TreeMap();
+	private static final Map familiarByLarva = new TreeMap();
+	private static final Map familiarByItem = new TreeMap();
 
-	private static Map familiarItemById = new TreeMap();
-	private static Map familiarLarvaById = new TreeMap();
+	private static final Map familiarItemById = new TreeMap();
+	private static final Map familiarLarvaById = new TreeMap();
 
-	private static Map familiarImageById = new TreeMap();
+	private static final Map familiarImageById = new TreeMap();
 
-	private static BooleanArray combatById = new BooleanArray();
-	private static BooleanArray volleyById = new BooleanArray();
-	private static BooleanArray sombreroById = new BooleanArray();
-	private static BooleanArray meatDropById = new BooleanArray();
-	private static BooleanArray itemDropById = new BooleanArray();
+	private static final BooleanArray combatById = new BooleanArray();
+	private static final BooleanArray volleyById = new BooleanArray();
+	private static final BooleanArray sombreroById = new BooleanArray();
+	private static final BooleanArray meatDropById = new BooleanArray();
+	private static final BooleanArray itemDropById = new BooleanArray();
 
-	private static Map [] eventSkillByName = new TreeMap[4];
+	private static final Map [] eventSkillByName = new TreeMap[4];
 
 	static
 	{
@@ -140,7 +140,7 @@ public class FamiliarsDatabase extends KoLDatabase
 	 * login and is designed to minimize crashing as a result.
 	 */
 
-	public static void registerFamiliar( int familiarId, String familiarName )
+	public static final void registerFamiliar( int familiarId, String familiarName )
 	{
 		if ( familiarByName.containsKey( getCanonicalName( familiarName ) ) )
 			return;
@@ -206,23 +206,23 @@ public class FamiliarsDatabase extends KoLDatabase
 		return -1;
 	}
 
-	public static boolean isCombatType( int familiarId )
+	public static final boolean isCombatType( int familiarId )
 	{	return combatById.get( familiarId );
 	}
 
-	public static boolean isVolleyType( int familiarId )
+	public static final boolean isVolleyType( int familiarId )
 	{	return volleyById.get( familiarId );
 	}
 
-	public static boolean isSombreroType( int familiarId )
+	public static final boolean isSombreroType( int familiarId )
 	{	return sombreroById.get( familiarId );
 	}
 
-	public static boolean isItemDropType( int familiarId )
+	public static final boolean isItemDropType( int familiarId )
 	{	return itemDropById.get( familiarId );
 	}
 
-	public static boolean isMeatDropType( int familiarId )
+	public static final boolean isMeatDropType( int familiarId )
 	{	return meatDropById.get( familiarId );
 	}
 
@@ -236,12 +236,12 @@ public class FamiliarsDatabase extends KoLDatabase
 		return familiarId == null ? -1 : ((Integer)familiarId).intValue();
 	}
 
-	public static void setFamiliarImageLocation( int familiarId, String location )
+	public static final void setFamiliarImageLocation( int familiarId, String location )
 	{
 		familiarImageById.put( new Integer( familiarId ), location );
 	}
 
-	public static String getFamiliarImageLocation( int familiarId )
+	public static final String getFamiliarImageLocation( int familiarId )
 	{
 		String location = (String) familiarImageById.get( new Integer( familiarId ) );
 		if ( location != null )
@@ -254,17 +254,17 @@ public class FamiliarsDatabase extends KoLDatabase
 		return "debug.gif";
 	}
 
-	private static void downloadFamiliarImage( int familiarId )
+	private static final void downloadFamiliarImage( int familiarId )
 	{	RequestEditorKit.downloadImage( "http://images.kingdomofloathing.com/" + getFamiliarImageLocation( familiarId ) );
 	}
 
-	public static ImageIcon getFamiliarImage( int familiarId )
+	public static final ImageIcon getFamiliarImage( int familiarId )
 	{
 		downloadFamiliarImage( familiarId );
 		return JComponentUtilities.getImage( getFamiliarImageLocation( familiarId ) );
 	}
 
-	public static ImageIcon getFamiliarImage( String name )
+	public static final ImageIcon getFamiliarImage( String name )
 	{	return getFamiliarImage( getFamiliarId( name ) );
 	}
 
@@ -281,11 +281,11 @@ public class FamiliarsDatabase extends KoLDatabase
 	{	return familiarByName.containsKey( getCanonicalName( familiarName ) );
 	}
 
-	public static Integer getFamiliarSkill( String name, int event )
+	public static final Integer getFamiliarSkill( String name, int event )
 	{	return (Integer) eventSkillByName[ event - 1 ].get( getCanonicalName( name ) );
 	}
 
-	public static int [] getFamiliarSkills( int id )
+	public static final int [] getFamiliarSkills( int id )
 	{
 		String name = getCanonicalName( getFamiliarName( id ) );
 		int skills [] = new int[4];
@@ -294,7 +294,7 @@ public class FamiliarsDatabase extends KoLDatabase
 		return skills;
 	}
 
-	public static void setFamiliarSkills( String name, int [] skills )
+	public static final void setFamiliarSkills( String name, int [] skills )
 	{
 		for ( int i = 0; i < 4; ++i )
 			eventSkillByName[i].put( getCanonicalName ( name ), new Integer( skills[i] ) );
@@ -310,11 +310,11 @@ public class FamiliarsDatabase extends KoLDatabase
 	 * @return	The set of familiars keyed by name
 	 */
 
-	public static Set entrySet()
+	public static final Set entrySet()
 	{	return familiarById.entrySet();
 	}
 
-	private static void saveDataOverride()
+	private static final void saveDataOverride()
 	{
 		File output = new File( DATA_LOCATION, "familiars.txt" );
 		LogStream writer = LogStream.openStream( output, true );

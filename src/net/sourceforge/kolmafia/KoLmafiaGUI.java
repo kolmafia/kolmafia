@@ -49,7 +49,7 @@ public class KoLmafiaGUI extends KoLmafia
 	 * look and feel of all <code>JFrame</code> objects to decorated.
 	 */
 
-	public static void main( String [] args )
+	public static final void initialize()
 	{
 		KoLmafiaGUI session = new KoLmafiaGUI();
 		StaticEntity.setClient( session );
@@ -71,7 +71,7 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 	}
 
-	public static void checkFrameSettings()
+	public static final void checkFrameSettings()
 	{
 		String frameSetting = StaticEntity.getGlobalProperty( "initialFrames" );
 		String desktopSetting = StaticEntity.getGlobalProperty( "initialDesktop" );
@@ -196,7 +196,7 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 	}
 
-	public static void constructFrame( String frameName )
+	public static final void constructFrame( String frameName )
 	{
 		if ( frameName.equals( "" ) )
 			return;
@@ -225,7 +225,7 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 	}
 
-	public static void constructFrame( Class frameClass )
+	public static final void constructFrame( Class frameClass )
 	{
 		try
 		{

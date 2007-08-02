@@ -137,7 +137,7 @@ public class GreenMessageRequest extends SendMessageRequest
 	{	return true;
 	}
 
-	public static boolean registerRequest( String urlString )
+	public static final boolean registerRequest( String urlString )
 	{
 		if ( !urlString.startsWith( "sendmessage.php" ) )
 			return false;

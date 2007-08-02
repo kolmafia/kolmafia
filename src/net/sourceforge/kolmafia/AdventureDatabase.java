@@ -43,19 +43,19 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class AdventureDatabase extends KoLDatabase
 {
-	private static KoLRequest FAMEQUIP_CHANGER = new KoLRequest( "familiar.php?pwd&action=unequip" );
-	private static LockableListModel adventures = new LockableListModel();
-	private static AdventureArray allAdventures = new AdventureArray();
+	private static final KoLRequest FAMEQUIP_CHANGER = new KoLRequest( "familiar.php?pwd&action=unequip" );
+	private static final LockableListModel adventures = new LockableListModel();
+	private static final AdventureArray allAdventures = new AdventureArray();
 
 	public static final ArrayList PARENT_LIST = new ArrayList();
 	public static final TreeMap PARENT_ZONES = new TreeMap();
 	public static final TreeMap ZONE_DESCRIPTIONS = new TreeMap();
 
-	private static StringArray [] adventureTable = new StringArray[6];
+	private static final StringArray [] adventureTable = new StringArray[6];
 	private static final TreeMap areaCombatData = new TreeMap();
 	private static final TreeMap adventureLookup = new TreeMap();
 
-	private static StringArray conditionsById = new StringArray();
+	private static final StringArray conditionsById = new StringArray();
 	static
 	{
 		conditionsById.set( 15, "1 mosquito larva" ); // Spooky Forest
@@ -104,7 +104,7 @@ public class AdventureDatabase extends KoLDatabase
 		conditionsById.set( 119, "1 stunt nuts, 1 I Love Me Vol I" );  // Palindome
 	}
 
-	private static StringArray bountiesById = new StringArray();
+	private static final StringArray bountiesById = new StringArray();
 	static
 	{
 		// First set of bounties
@@ -233,7 +233,7 @@ public class AdventureDatabase extends KoLDatabase
 
 	private static boolean choicesOrderedByName = true;
 
-	public static void setChoiceOrdering( boolean choicesOrderedByName )
+	public static final void setChoiceOrdering( boolean choicesOrderedByName )
 	{	AdventureDatabase.choicesOrderedByName = choicesOrderedByName;
 	}
 
@@ -1064,7 +1064,7 @@ public class AdventureDatabase extends KoLDatabase
 		}
 	}
 
-	public static void refreshAdventureList()
+	public static final void refreshAdventureList()
 	{
 		adventures.clear();
 		allAdventures.clear();
@@ -1074,7 +1074,7 @@ public class AdventureDatabase extends KoLDatabase
 			addAdventure( getAdventure(i) );
 	}
 
-	public static void refreshAdventureList( String desiredZone )
+	public static final void refreshAdventureList( String desiredZone )
 	{
 		KoLAdventure location;
 		adventures.clear();
@@ -1087,7 +1087,7 @@ public class AdventureDatabase extends KoLDatabase
 		}
 	}
 
-	public static void addAdventure( KoLAdventure location )
+	public static final void addAdventure( KoLAdventure location )
 	{
 		adventures.add( location );
 		allAdventures.add( location );
@@ -1118,7 +1118,7 @@ public class AdventureDatabase extends KoLDatabase
 		return adventures;
 	}
 
-	public static KoLAdventure getAdventureByURL( String adventureURL )
+	public static final KoLAdventure getAdventureByURL( String adventureURL )
 	{
 		if ( adventureLookup.isEmpty() )
 			refreshAdventureList();
@@ -1133,7 +1133,7 @@ public class AdventureDatabase extends KoLDatabase
 		return location == null || location.getRequest() instanceof ClanGymRequest ? null : location;
 	}
 
-	public static KoLAdventure getAdventure( String adventureName )
+	public static final KoLAdventure getAdventure( String adventureName )
 	{
 		if ( adventureLookup.isEmpty() )
 			refreshAdventureList();
@@ -1145,7 +1145,7 @@ public class AdventureDatabase extends KoLDatabase
 
 	}
 
-	private static KoLAdventure getAdventure( int tableIndex )
+	private static final KoLAdventure getAdventure( int tableIndex )
 	{
 		return new KoLAdventure(
 			adventureTable[0].get( tableIndex ), adventureTable[1].get( tableIndex ),
@@ -1153,7 +1153,7 @@ public class AdventureDatabase extends KoLDatabase
 			adventureTable[4].get( tableIndex ), adventureTable[5].get( tableIndex ) );
 	}
 
-	public static String getDefaultConditions( KoLAdventure adventure )
+	public static final String getDefaultConditions( KoLAdventure adventure )
 	{
 		if ( adventure == null )
 			return "none";
@@ -1182,7 +1182,7 @@ public class AdventureDatabase extends KoLDatabase
 		return "none";
 	}
 
-	public static String [][] choiceSpoilers( int choice )
+	public static final String [][] choiceSpoilers( int choice )
 	{
 		String option = "choiceAdventure" + String.valueOf( choice );
 
@@ -1214,7 +1214,7 @@ public class AdventureDatabase extends KoLDatabase
 		return null;
 	}
 
-	public static AdventureResult getCost( String choice, String decision )
+	public static final AdventureResult getCost( String choice, String decision )
 	{
 		for ( int i = 0; i < CHOICE_COST.length; ++i )
 			if ( choice.equals( CHOICE_COST[i][0] ) && decision.equals( CHOICE_COST[i][1] ) )
@@ -1223,7 +1223,7 @@ public class AdventureDatabase extends KoLDatabase
 		return null;
 	}
 
-	public static boolean freeAdventure( String text )
+	public static final boolean freeAdventure( String text )
 	{
 		for ( int i = 0; i < FREE_ADVENTURES.length; ++i )
 			if ( text.indexOf( FREE_ADVENTURES[i] ) != -1 )
@@ -1231,7 +1231,7 @@ public class AdventureDatabase extends KoLDatabase
 		return false;
 	}
 
-	private static boolean validateAdventureArea( String area, String [] areas )
+	private static final boolean validateAdventureArea( String area, String [] areas )
 	{
 		for ( int i = 0; i < areas.length; ++i )
 			if ( area.equals( areas[i] ) )
@@ -1239,7 +1239,7 @@ public class AdventureDatabase extends KoLDatabase
 		return false;
 	}
 
-	public static AreaCombatData getAreaCombatData( String area )
+	public static final AreaCombatData getAreaCombatData( String area )
 	{
 		// Strip out zone name if present
 		int index = area.indexOf( ":" );
@@ -1489,7 +1489,7 @@ public class AdventureDatabase extends KoLDatabase
 		return false;
 	}
 
-	private static boolean hasAnyIngredient( int itemId )
+	private static final boolean hasAnyIngredient( int itemId )
 	{
 		if ( itemId < 0 )
 			return false;

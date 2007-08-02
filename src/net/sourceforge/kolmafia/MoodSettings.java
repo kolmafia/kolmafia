@@ -45,14 +45,6 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 public abstract class MoodSettings implements KoLConstants
 {
-	static
-	{
-		// Renaming data files to make then easier to find for most
-		// people (so they aren't afraid to open them).
-
-		StaticEntity.renameDataFiles( "kms", "moods" );
-	}
-
 	private static final AdventureResult [] AUTO_CLEAR =
 	{
 		new AdventureResult( "Beaten Up", 1, true ), new AdventureResult( "Tetanus", 1, true ),
@@ -61,24 +53,21 @@ public abstract class MoodSettings implements KoLConstants
 		new AdventureResult( "Really Quite Poisoned", 1, true )
 	};
 
-	private static final AdventureResult PENDANT = new AdventureResult( 1235, 1 );
+	private static final TreeMap reference = new TreeMap();
+	private static final SortedListModel displayList = new SortedListModel();
+	private static final SortedListModel availableMoods = new SortedListModel();
 
 	private static int thiefTriggerLimit = 3;
-
 	private static File settingsFile = null;
-	private static TreeMap reference = new TreeMap();
 
 	private static boolean isExecuting = false;
 	private static SortedListModel mappedList = null;
-	private static SortedListModel displayList = new SortedListModel();
-
-	private static SortedListModel availableMoods = new SortedListModel();
 
 	public static final String settingsFileName()
-	{	return "moods_" + KoLCharacter.baseUserName() + ".txt";
+	{	return KoLCharacter.baseUserName() + "_moods.txt";
 	}
 
-	public static boolean isExecuting()
+	public static final boolean isExecuting()
 	{	return isExecuting;
 	}
 
@@ -99,7 +88,7 @@ public abstract class MoodSettings implements KoLConstants
 		saveSettings();
 	}
 
-	public static SortedListModel getAvailableMoods()
+	public static final SortedListModel getAvailableMoods()
 	{	return availableMoods;
 	}
 
@@ -109,7 +98,7 @@ public abstract class MoodSettings implements KoLConstants
 	 * for the given mood if no data exists.
 	 */
 
-	public static void setMood( String mood )
+	public static final void setMood( String mood )
 	{
 		mood = (mood == null || mood.trim().equals( "" )) ? "default" :
 			StaticEntity.globalStringDelete( mood.toLowerCase().trim(), " " );
@@ -132,11 +121,11 @@ public abstract class MoodSettings implements KoLConstants
 	 * Retrieves the model associated with the given mood.
 	 */
 
-	public static SortedListModel getTriggers()
+	public static final SortedListModel getTriggers()
 	{	return displayList;
 	}
 
-	public static void addTriggers( Object [] nodes, int duration )
+	public static final void addTriggers( Object [] nodes, int duration )
 	{
 		removeTriggers( nodes );
 		StringBuffer newAction = new StringBuffer();
@@ -181,11 +170,11 @@ public abstract class MoodSettings implements KoLConstants
 	 * Adds a trigger to the temporary mood settings.
 	 */
 
-	public static void addTrigger( String type, String name, String action )
+	public static final void addTrigger( String type, String name, String action )
 	{	addTrigger( MoodTrigger.constructNode( type + " " + name + " => " + action ) );
 	}
 
-	private static void addTrigger( MoodTrigger node )
+	private static final void addTrigger( MoodTrigger node )
 	{
 		if ( node == null )
 			return;
@@ -201,19 +190,19 @@ public abstract class MoodSettings implements KoLConstants
 	 * Removes all the current displayList.
 	 */
 
-	public static void removeTriggers( Object [] toRemove )
+	public static final void removeTriggers( Object [] toRemove )
 	{
 		for ( int i = 0; i < toRemove.length; ++i )
 			removeTrigger( (MoodTrigger) toRemove[i] );
 	}
 
-	private static void removeTrigger( MoodTrigger toRemove )
+	private static final void removeTrigger( MoodTrigger toRemove )
 	{
 		mappedList.remove( toRemove );
 		displayList.remove( toRemove );
 	}
 
-	public static void minimalSet()
+	public static final void minimalSet()
 	{
 		// If there's any effects the player currently has and there
 		// is a known way to re-acquire it (internally known, anyway),
@@ -234,12 +223,12 @@ public abstract class MoodSettings implements KoLConstants
 	 * Fills up the trigger list automatically.
 	 */
 
-	public static void maximalSet()
+	public static final void maximalSet()
 	{
 		UseSkillRequest [] skills = new UseSkillRequest[ availableSkills.size() ];
 		availableSkills.toArray( skills );
 
-		thiefTriggerLimit = KoLCharacter.hasEquipped( PENDANT ) ? 4 : 3;
+		thiefTriggerLimit = KoLCharacter.hasEquipped( UseSkillRequest.PLEXI_PENDANT ) ? 4 : 3;
 		ArrayList thiefSkills = new ArrayList();
 
 		for ( int i = 0; i < skills.length; ++i )
@@ -332,7 +321,7 @@ public abstract class MoodSettings implements KoLConstants
 	 * to apathetic.
 	 */
 
-	public static void deleteCurrentMood()
+	public static final void deleteCurrentMood()
 	{
 		String currentMood = StaticEntity.getProperty( "currentMood" );
 
@@ -356,7 +345,7 @@ public abstract class MoodSettings implements KoLConstants
 	 * Duplicates the current trigger list into a new list
 	 */
 
-	public static void copyTriggers( String newListName )
+	public static final void copyTriggers( String newListName )
 	{
 		String currentMood = StaticEntity.getProperty( "currentMood" );
 
@@ -381,11 +370,11 @@ public abstract class MoodSettings implements KoLConstants
 	 * Executes all the mood displayList for the current mood.
 	 */
 
-	public static void execute()
+	public static final void execute()
 	{	execute( -1 );
 	}
 
-	public static void burnExtraMana( boolean isManualInvocation )
+	public static final void burnExtraMana( boolean isManualInvocation )
 	{
 		if ( !isManualInvocation )
 		{
@@ -411,7 +400,7 @@ public abstract class MoodSettings implements KoLConstants
 		isExecuting = false;
 	}
 
-	public static String getNextBurnCast( boolean shouldExecute )
+	public static final String getNextBurnCast( boolean shouldExecute )
 	{
 		// Rather than keeping a safety for the player, let the player
 		// make the mistake of burning below their auto-restore threshold.
@@ -511,7 +500,7 @@ public abstract class MoodSettings implements KoLConstants
 		return considerBreakfastBurning( minimum, shouldExecute );
 	}
 
-	private static String considerBreakfastBurning( int minimum, boolean shouldExecute )
+	private static final String considerBreakfastBurning( int minimum, boolean shouldExecute )
 	{
 		if ( !StaticEntity.getBooleanProperty( "allowBreakfastBurning" ) )
 			return null;
@@ -538,7 +527,7 @@ public abstract class MoodSettings implements KoLConstants
 		return null;
 	}
 
-	public static void execute( int multiplicity )
+	public static final void execute( int multiplicity )
 	{
 		if ( StaticEntity.getProperty( "currentMood" ).equals( "apathetic" ) )
 			return;
@@ -556,7 +545,7 @@ public abstract class MoodSettings implements KoLConstants
 		AdventureResult [] effects = new AdventureResult[ activeEffects.size() ];
 		activeEffects.toArray( effects );
 
-		thiefTriggerLimit = KoLCharacter.hasEquipped( PENDANT ) ? 4 : 3;
+		thiefTriggerLimit = KoLCharacter.hasEquipped( UseSkillRequest.PLEXI_PENDANT ) ? 4 : 3;
 
 		// If you have too many accordion thief buffs to execute
 		// your displayList, then shrug off your extra buffs, but
@@ -619,7 +608,7 @@ public abstract class MoodSettings implements KoLConstants
 		isExecuting = false;
 	}
 
-	public static boolean willExecute( int multiplicity )
+	public static final boolean willExecute( int multiplicity )
 	{
 		if ( displayList.isEmpty() )
 			return false;
@@ -635,7 +624,7 @@ public abstract class MoodSettings implements KoLConstants
 		return willExecute;
 	}
 
-	public static ArrayList getMissingEffects()
+	public static final ArrayList getMissingEffects()
 	{
 		ArrayList missing = new ArrayList();
 		if ( displayList.isEmpty() )
@@ -651,7 +640,7 @@ public abstract class MoodSettings implements KoLConstants
 		return missing;
 	}
 
-	public static void fixMaximumHealth( String restoreSetting )
+	public static final void fixMaximumHealth( String restoreSetting )
 	{
 		String action;
 
@@ -671,7 +660,7 @@ public abstract class MoodSettings implements KoLConstants
 		}
 	}
 
-	public static int getMaintenanceCost()
+	public static final int getMaintenanceCost()
 	{
 		if ( displayList.isEmpty() )
 			return 0;
@@ -723,7 +712,7 @@ public abstract class MoodSettings implements KoLConstants
 	 * object to disk for later retrieval.
 	 */
 
-	public static void saveSettings()
+	public static final void saveSettings()
 	{
 		PrintStream writer = LogStream.openStream( settingsFile, true );
 
@@ -749,7 +738,7 @@ public abstract class MoodSettings implements KoLConstants
 	 * into the appropriate file.
 	 */
 
-	public static void loadSettings()
+	public static final void loadSettings()
 	{
 		reference.clear();
 		availableMoods.clear();
@@ -828,7 +817,7 @@ public abstract class MoodSettings implements KoLConstants
 		}
 	}
 
-	public static String getDefaultAction( String type, String name )
+	public static final String getDefaultAction( String type, String name )
 	{
 		if ( type == null || name == null )
 			return "";
@@ -985,7 +974,7 @@ public abstract class MoodSettings implements KoLConstants
 	 * initializes it to the given value.
 	 */
 
-	private static void ensureProperty( String key )
+	private static final void ensureProperty( String key )
 	{
 		if ( !reference.containsKey( key ) )
 		{
@@ -1241,7 +1230,7 @@ public abstract class MoodSettings implements KoLConstants
 			}
 		}
 
-		public static MoodTrigger constructNode( String line )
+		public static final MoodTrigger constructNode( String line )
 		{
 			String [] pieces = line.split( " => " );
 			if ( pieces.length != 2 )

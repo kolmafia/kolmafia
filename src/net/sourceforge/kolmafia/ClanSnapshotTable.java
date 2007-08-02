@@ -61,14 +61,14 @@ public class ClanSnapshotTable extends KoLDatabase
 	{	"Player name", "Current level", "Antihippy rank", "Character class", "Accumulated karma", "Number of days idle"
 	};
 
-	private static Map levelMap = new TreeMap();
-	private static Map profileMap = new TreeMap();
-	private static Map rosterMap = new TreeMap();
+	private static final Map levelMap = new TreeMap();
+	private static final Map profileMap = new TreeMap();
+	private static final Map rosterMap = new TreeMap();
 
-	private static LockableListModel filterList = new LockableListModel();
-	private static ClanRosterRequest request = null;
+	private static final LockableListModel filterList = new LockableListModel();
+	private static final ClanRosterRequest request = new ClanRosterRequest();
 
-	public static void clearCache()
+	public static final void clearCache()
 	{
 		// First, initialize all of the lists and
 		// arrays which are used by the request.
@@ -77,22 +77,17 @@ public class ClanSnapshotTable extends KoLDatabase
 		profileMap.clear();
 		rosterMap.clear();
 		filterList.clear();
-
-		// Next, retrieve a detailed copy of the clan
-		// roster to complete initialization.
-
-		request = new ClanRosterRequest();
 	}
 
-	public static Map getProfileMap()
+	public static final Map getProfileMap()
 	{	return profileMap;
 	}
 
-	public static LockableListModel getFilteredList()
+	public static final LockableListModel getFilteredList()
 	{	return filterList;
 	}
 
-	public static void registerMember( String playerName, String level )
+	public static final void registerMember( String playerName, String level )
 	{
 		String lowerCaseName = playerName.toLowerCase();
 
@@ -100,7 +95,7 @@ public class ClanSnapshotTable extends KoLDatabase
 		profileMap.put( lowerCaseName, "" );
 	}
 
-	public static void unregisterMember( String playerId )
+	public static final void unregisterMember( String playerId )
 	{
 		ProfileRequest [] filterArray = new ProfileRequest[ filterList.size() ];
 		filterList.toArray( filterArray );
@@ -120,7 +115,7 @@ public class ClanSnapshotTable extends KoLDatabase
 		}
 	}
 
-	public static void applyFilter( int matchType, int filterType, String filter )
+	public static final void applyFilter( int matchType, int filterType, String filter )
 	{
 		// First, if you haven't retrieved a detailed
 		// roster for the clan, do so.
@@ -156,13 +151,13 @@ public class ClanSnapshotTable extends KoLDatabase
 		KoLmafia.updateDisplay( "Search results rendered." );
 	}
 
-	private static ProfileRequest getProfile( String name )
+	private static final ProfileRequest getProfile( String name )
 	{
 		return ProfileRequest.getInstance( name, KoLmafia.getPlayerId( name ), (String) levelMap.get(name),
 			(String) profileMap.get(name), (String) rosterMap.get(name) );
 	}
 
-	private static int compare( int filterType, String name, String filter )
+	private static final int compare( int filterType, String name, String filter )
 	{
 		int compareValue = 0;
 		ProfileRequest request = getProfile( name );
@@ -212,7 +207,7 @@ public class ClanSnapshotTable extends KoLDatabase
 		return compareValue < 0 ? -1 : compareValue > 0 ? 1 : 0;
 	}
 
-	public static String getStandardData( boolean localProfileLink )
+	public static final String getStandardData( boolean localProfileLink )
 	{
 		// First, if you haven't retrieved a detailed
 		// roster for the clan, do so.
@@ -325,7 +320,7 @@ public class ClanSnapshotTable extends KoLDatabase
 		return strbuf.toString();
 	}
 
-	private static String getOverviewDetail( String memberName, boolean localProfileLink )
+	private static final String getOverviewDetail( String memberName, boolean localProfileLink )
 	{
 		ProfileRequest memberLookup = getProfile( memberName );
 		StringBuffer strbuf = new StringBuffer();
@@ -390,13 +385,13 @@ public class ClanSnapshotTable extends KoLDatabase
 		return strbuf.toString();
 	}
 
-	private static String getOverviewHeader()
+	private static final String getOverviewHeader()
 	{
 		return "<td>Path</td><td align=center>Class</td><td align=center>Lvl</td>" +
 			"<td align=center>Turns</td><td align=center>Ascended</td><td align=center>Logged In</td>";
 	}
 
-	private static String getStatsSummary( String [] members )
+	private static final String getStatsSummary( String [] members )
 	{
 		StringBuffer strbuf = new StringBuffer();
 
@@ -498,7 +493,7 @@ public class ClanSnapshotTable extends KoLDatabase
 		return strbuf.toString();
 	}
 
-	private static String getStatsDetail( String memberName, boolean localProfileLink )
+	private static final String getStatsDetail( String memberName, boolean localProfileLink )
 	{
 		ProfileRequest memberLookup = getProfile( memberName );
 		StringBuffer strbuf = new StringBuffer();
@@ -564,12 +559,12 @@ public class ClanSnapshotTable extends KoLDatabase
 		return strbuf.toString();
 	}
 
-	private static String getStatsHeader()
+	private static final String getStatsHeader()
 	{
 		return "<td align=center>Path</td><td align=center>Class</td><td align=center>Lv</td><td>PvP</td><td align=center>Mus</td><td align=center>Mys</td><td align=center>Mox</td><td align=center>Total Turns</td><td align=center>Asc</td>";
 	}
 
-	private static String getSocialSummary( String [] members )
+	private static final String getSocialSummary( String [] members )
 	{
 		StringBuffer strbuf = new StringBuffer();
 
@@ -603,7 +598,7 @@ public class ClanSnapshotTable extends KoLDatabase
 		return strbuf.toString();
 	}
 
-	private static String getSocialDetail( String memberName, boolean localProfileLink )
+	private static final String getSocialDetail( String memberName, boolean localProfileLink )
 	{
 		ProfileRequest memberLookup = getProfile( memberName );
 		StringBuffer strbuf = new StringBuffer();
@@ -641,12 +636,12 @@ public class ClanSnapshotTable extends KoLDatabase
 		return strbuf.toString();
 	}
 
-	private static String getSocialHeader()
+	private static final String getSocialHeader()
 	{
 		return "<td>Rank</td><td>Favorite Food</td><td>Favorite Drink</td><td>Created</td>";
 	}
 
-	public static void addToRoster( String name, String row )
+	public static final void addToRoster( String name, String row )
 	{	rosterMap.put( name, row );
 	}
 }

@@ -56,7 +56,7 @@ public class CouncilFrame extends RequestFrame
 			"table width=95%", "table width=100%" );
 	}
 
-	public static void handleQuestChange( String location, String responseText )
+	public static final void handleQuestChange( String location, String responseText )
 	{
 		if ( location.startsWith( "council" ) )
 			handleCouncilChange( responseText );
@@ -72,7 +72,7 @@ public class CouncilFrame extends RequestFrame
 			handleSneakyPeteChange( responseText );
 	}
 
-	private static void handleBountyChange( String responseText )
+	private static final void handleBountyChange( String responseText )
 	{
 		int itemId = StaticEntity.getIntegerProperty( "currentBountyItem" );
 		if ( itemId == 0 )
@@ -86,7 +86,7 @@ public class CouncilFrame extends RequestFrame
 		StaticEntity.setProperty( "currentBountyItem", "0" );
 	}
 
-	private static void handleSneakyPeteChange( String responseText )
+	private static final void handleSneakyPeteChange( String responseText )
 	{
 		if ( KoLCharacter.hasEquipped( KoLmafia.NOVELTY_BUTTON ) && responseText.indexOf( "You hand him your button and take his glowstick" ) != -1 )
 		{
@@ -105,13 +105,13 @@ public class CouncilFrame extends RequestFrame
 		}
 	}
 
-	private static void handleGuildChange( String location, String responseText )
+	private static final void handleGuildChange( String location, String responseText )
 	{
 		if ( location.indexOf( "paco" ) != -1 && KoLCharacter.hasItem( KoLmafia.SATCHEL ) )
 			StaticEntity.getClient().processResult( KoLmafia.SATCHEL.getNegation() );
 	}
 
-	private static void handleFriarsChange( String responseText )
+	private static final void handleFriarsChange( String responseText )
 	{
 		// "Thank you, Adventurer."
 
@@ -125,7 +125,7 @@ public class CouncilFrame extends RequestFrame
 		}
 	}
 
-	private static void handleTrapperChange( String responseText )
+	private static final void handleTrapperChange( String responseText )
 	{
 		Matcher oreMatcher = ORE_PATTERN.matcher( responseText );
 		if ( oreMatcher.find() )
@@ -157,7 +157,7 @@ public class CouncilFrame extends RequestFrame
 			unlockGoatlet();
 	}
 
-	public static void unlockGoatlet()
+	public static final void unlockGoatlet()
 	{
 		if ( !EquipmentDatabase.hasOutfit( 8 ) )
 		{
@@ -177,7 +177,7 @@ public class CouncilFrame extends RequestFrame
 		SpecialOutfit.restoreImplicitCheckpoint();
 	}
 
-	private static void handleCouncilChange( String responseText )
+	private static final void handleCouncilChange( String responseText )
 	{
 		StaticEntity.setProperty( "lastCouncilVisit", String.valueOf( KoLCharacter.getLevel() ) );
 

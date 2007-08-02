@@ -98,7 +98,7 @@ public class NPCStoreDatabase extends KoLDatabase
 		return foundItem;
 	}
 
-	private static boolean canPurchase( String storeId, String shopName )
+	private static final boolean canPurchase( String storeId, String shopName )
 	{
 		if ( storeId == null )
 			return false;

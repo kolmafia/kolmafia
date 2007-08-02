@@ -49,21 +49,20 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class ClanManager extends StaticEntity
 {
-	private static String SNAPSHOT_DIRECTORY = "clan/";
-
+	private static String snapshotFolder = "clan/";
 	private static String clanId = null;
 	private static String clanName = null;
-
 	private static boolean stashRetrieved = false;
 	private static boolean ranksRetrieved = false;
-	private static Map profileMap = ClanSnapshotTable.getProfileMap();
-	private static Map ascensionMap = AscensionSnapshotTable.getAscensionMap();
-	private static List battleList = new ArrayList();
 
-	private static LockableListModel rankList = new LockableListModel();
-	private static SortedListModel stashContents = new SortedListModel();
+	private static final Map profileMap = ClanSnapshotTable.getProfileMap();
+	private static final Map ascensionMap = AscensionSnapshotTable.getAscensionMap();
+	private static final List battleList = new ArrayList();
 
-	public static void clearCache()
+	private static final LockableListModel rankList = new LockableListModel();
+	private static final SortedListModel stashContents = new SortedListModel();
+
+	public static final void clearCache()
 	{
 		ClanSnapshotTable.clearCache();
 		AscensionSnapshotTable.clearCache();
@@ -81,31 +80,31 @@ public class ClanManager extends StaticEntity
 		clanName = null;
 	}
 
-	public static void setStashRetrieved()
+	public static final void setStashRetrieved()
 	{	stashRetrieved = true;
 	}
 
-	public static boolean isStashRetrieved()
+	public static final boolean isStashRetrieved()
 	{	return stashRetrieved;
 	}
 
-	public static String getClanId()
+	public static final String getClanId()
 	{
 		retrieveClanId();
 		return clanId;
 	}
 
-	public static String getClanName()
+	public static final String getClanName()
 	{
 		retrieveClanId();
 		return clanName;
 	}
 
-	public static SortedListModel getStash()
+	public static final SortedListModel getStash()
 	{	return stashContents;
 	}
 
-	public static LockableListModel getRankList()
+	public static final LockableListModel getRankList()
 	{
 		if ( !ranksRetrieved )
 		{
@@ -116,7 +115,7 @@ public class ClanManager extends StaticEntity
 		return rankList;
 	}
 
-	private static void retrieveClanData()
+	private static final void retrieveClanData()
 	{
 		if ( KoLmafia.isAdventuring() )
 			return;
@@ -124,18 +123,18 @@ public class ClanManager extends StaticEntity
 		if ( profileMap.isEmpty() )
 		{
 			retrieveClanId();
-			SNAPSHOT_DIRECTORY = "clan/" + clanId + "/" + WEEKLY_FORMAT.format( new Date() ) + "/";
+			snapshotFolder = "clan/" + clanId + "/" + WEEKLY_FORMAT.format( new Date() ) + "/";
 			KoLmafia.updateDisplay( "Clan data retrieved." );
 		}
 	}
 
-	public static void resetClanId()
+	public static final void resetClanId()
 	{
 		clanId = null;
 		clanName = null;
 	}
 
-	private static void retrieveClanId()
+	private static final void retrieveClanId()
 	{
 		if ( clanId != null )
 			return;
@@ -147,7 +146,7 @@ public class ClanManager extends StaticEntity
 		clanName = cmr.getClanName();
 	}
 
-	private static boolean retrieveMemberData( boolean retrieveProfileData, boolean retrieveAscensionData )
+	private static final boolean retrieveMemberData( boolean retrieveProfileData, boolean retrieveAscensionData )
 	{
 		// First, determine how many member profiles need to be retrieved
 		// before this happens.
@@ -171,8 +170,8 @@ public class ClanManager extends StaticEntity
 			currentAscensionData = (String) ascensionMap.get( names[i] );
 
 			filename = getFileName( names[i] );
-			profile = new File( ROOT_LOCATION, SNAPSHOT_DIRECTORY + "profiles/" + filename );
-			ascensionData = new File( ROOT_LOCATION, SNAPSHOT_DIRECTORY + "ascensions/" + filename );
+			profile = new File( ROOT_LOCATION, snapshotFolder + "profiles/" + filename );
+			ascensionData = new File( ROOT_LOCATION, snapshotFolder + "ascensions/" + filename );
 
 			if ( retrieveProfileData )
 			{
@@ -229,17 +228,17 @@ public class ClanManager extends StaticEntity
 		return true;
 	}
 
-	public static String getURLName( String name )
-	{	return KoLCharacter.baseUserName( name ) + "_(%23" + KoLmafia.getPlayerId( name ) + ")" + ".htm";
+	public static final String getURLName( String name )
+	{	return KoLSettings.baseUserName( name ) + "_(%23" + KoLmafia.getPlayerId( name ) + ")" + ".htm";
 	}
 
-	public static String getFileName( String name )
-	{	return KoLCharacter.baseUserName( name ) + "_(#" + KoLmafia.getPlayerId( name ) + ")" + ".htm";
+	public static final String getFileName( String name )
+	{	return KoLSettings.baseUserName( name ) + "_(#" + KoLmafia.getPlayerId( name ) + ")" + ".htm";
 	}
 
-	private static void initializeProfile( String name )
+	private static final void initializeProfile( String name )
 	{
-		File profile = new File( ROOT_LOCATION, SNAPSHOT_DIRECTORY + "profiles/" + getFileName( name ) );
+		File profile = new File( ROOT_LOCATION, snapshotFolder + "profiles/" + getFileName( name ) );
 
 		if ( profile.exists() )
 		{
@@ -293,9 +292,9 @@ public class ClanManager extends StaticEntity
 		}
 	}
 
-	private static void initializeAscensionData( String name )
+	private static final void initializeAscensionData( String name )
 	{
-		File ascension = new File( ROOT_LOCATION, SNAPSHOT_DIRECTORY + "ascensions/" + getFileName( name ) );
+		File ascension = new File( ROOT_LOCATION, snapshotFolder + "ascensions/" + getFileName( name ) );
 
 		if ( ascension.exists() )
 		{
@@ -348,13 +347,13 @@ public class ClanManager extends StaticEntity
 		}
 	}
 
-	public static void registerMember( String playerName, String level )
+	public static final void registerMember( String playerName, String level )
 	{
 		ClanSnapshotTable.registerMember( playerName, level );
 		AscensionSnapshotTable.registerMember( playerName );
 	}
 
-	public static void unregisterMember( String playerId )
+	public static final void unregisterMember( String playerId )
 	{
 		ClanSnapshotTable.unregisterMember( playerId );
 		AscensionSnapshotTable.registerMember( playerId );
@@ -368,14 +367,14 @@ public class ClanManager extends StaticEntity
 	 * initialized, this method will also initialize that list.
 	 */
 
-	public static void takeSnapshot( int mostAscensionsBoardSize, int mainBoardSize, int classBoardSize, int maxAge, boolean playerMoreThanOnce, boolean localProfileLink )
+	public static final void takeSnapshot( int mostAscensionsBoardSize, int mainBoardSize, int classBoardSize, int maxAge, boolean playerMoreThanOnce, boolean localProfileLink )
 	{
 		retrieveClanData();
 
-		File standardFile = new File( ROOT_LOCATION, SNAPSHOT_DIRECTORY + "standard.htm" );
-		File softcoreFile = new File( ROOT_LOCATION, SNAPSHOT_DIRECTORY + "softcore.htm" );
-		File hardcoreFile = new File( ROOT_LOCATION, SNAPSHOT_DIRECTORY + "hardcore.htm" );
-		File sortingScript = new File( ROOT_LOCATION, SNAPSHOT_DIRECTORY + "sorttable.js" );
+		File standardFile = new File( ROOT_LOCATION, snapshotFolder + "standard.htm" );
+		File softcoreFile = new File( ROOT_LOCATION, snapshotFolder + "softcore.htm" );
+		File hardcoreFile = new File( ROOT_LOCATION, snapshotFolder + "hardcore.htm" );
+		File sortingScript = new File( ROOT_LOCATION, snapshotFolder + "sorttable.js" );
 
 		// If initialization was unsuccessful, then there isn't
 		// enough data to create a clan ClanSnapshotTable.
@@ -440,13 +439,13 @@ public class ClanManager extends StaticEntity
 	 * is being done with the stash.
 	 */
 
-	public static void saveStashLog()
+	public static final void saveStashLog()
 	{
 		retrieveClanData();
 		RequestThread.postRequest( new ClanStashLogRequest() );
 	}
 
-	public static boolean isMember( String memberName )
+	public static final boolean isMember( String memberName )
 	{
 		retrieveClanData();
 		Iterator it = profileMap.keySet().iterator();
@@ -463,7 +462,7 @@ public class ClanManager extends StaticEntity
 	 * list object.
 	 */
 
-	public static String [] retrieveClanList()
+	public static final String [] retrieveClanList()
 	{
 		retrieveClanData();
 
@@ -478,7 +477,7 @@ public class ClanManager extends StaticEntity
 	 * CDL (comma-delimited list)
 	 */
 
-	public static String retrieveClanListAsCDL()
+	public static final String retrieveClanListAsCDL()
 	{
 		String [] members = retrieveClanList();
 		StringBuffer clanCDL = new StringBuffer();
@@ -495,7 +494,7 @@ public class ClanManager extends StaticEntity
 		return clanCDL.toString();
 	}
 
-	public static void applyFilter( int matchType, int filterType, String filter )
+	public static final void applyFilter( int matchType, int filterType, String filter )
 	{
 		retrieveClanData();
 

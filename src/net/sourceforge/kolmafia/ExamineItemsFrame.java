@@ -49,10 +49,10 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class ExamineItemsFrame extends KoLFrame
 {
-	private static LockableListModel allItems = new LockableListModel( TradeableItemDatabase.entrySet() );
-	private static LockableListModel allEffects = new LockableListModel( StatusEffectDatabase.entrySet() );
-	private static LockableListModel allSkills = new LockableListModel( ClassSkillsDatabase.entrySet() );
-	private static LockableListModel allFamiliars = new LockableListModel( FamiliarsDatabase.entrySet() );
+	private static final LockableListModel allItems = new LockableListModel( TradeableItemDatabase.entrySet() );
+	private static final LockableListModel allEffects = new LockableListModel( StatusEffectDatabase.entrySet() );
+	private static final LockableListModel allSkills = new LockableListModel( ClassSkillsDatabase.entrySet() );
+	private static final LockableListModel allFamiliars = new LockableListModel( FamiliarsDatabase.entrySet() );
 
 	public ExamineItemsFrame()
 	{

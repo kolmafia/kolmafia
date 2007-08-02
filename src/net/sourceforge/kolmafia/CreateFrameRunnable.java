@@ -176,7 +176,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 	private boolean loadPreviousFrame()
 	{
 		// Check to see if this is a frame that should
-		// only be loaded once, based on the static list.
+		// only be loaded once, based on the static final list.
 
 		KoLFrame currentFrame;
 		Class currentType;
