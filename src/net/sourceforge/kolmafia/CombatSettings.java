@@ -140,37 +140,36 @@ public abstract class CombatSettings implements KoLConstants
 
 					reference.put( currentKey, currentList );
 					root.add( currentList );
+					continue;
 				}
-				else if ( line.length() != 0 )
+
+				if ( line.length() == 0 )
+					continue;
+
+				int desiredIndex = currentList.getChildCount() + 1;
+
+				// If it looks like this is a KoLmafia-created settings file,
+				// then parse it accordingly.
+
+				if ( Character.isDigit( line.charAt(0) ) )
 				{
-					// If it looks like this is a KoLmafia-created settings file,
-					// then parse it accordingly.
-
-					if ( Character.isDigit( line.charAt(0) ) )
+					int colonIndex = line.indexOf( ":" );
+					if ( colonIndex != -1 )
 					{
-						int colonIndex = line.indexOf( ":" );
-						int desiredIndex = colonIndex == -1 ? currentList.getChildCount() :
-							StaticEntity.parseInt( line.substring( 0, colonIndex ).trim() );
-
-						if ( desiredIndex >= currentList.getChildCount() )
-						{
-							String action = currentList.getChildCount() > 0 ?
-								((CombatActionNode) currentList.getLastChild()).action : "attack with weapon";
-
-							while ( currentList.getChildCount() < desiredIndex - 1 )
-								currentList.add( new CombatActionNode( currentList.getChildCount() + 1, action ) );
-
-							currentList.add( new CombatActionNode( desiredIndex, line.substring( colonIndex + 1 ).trim() ) );
-						}
+						desiredIndex = StaticEntity.parseInt( line.substring( 0, colonIndex ) );
+						line = line.substring( colonIndex + 1 );
 					}
+				}
 
-					// Otherwise, handle it as though the person is using the old
-					// style format.
+				if ( desiredIndex >= currentList.getChildCount() )
+				{
+					String action = currentList.getChildCount() > 0 ?
+						((CombatActionNode) currentList.getLastChild()).action : "attack with weapon";
 
-					else
-					{
-						currentList.add( new CombatActionNode( currentList.getChildCount() + 1, line ) );
-					}
+					while ( currentList.getChildCount() < desiredIndex - 1 )
+						currentList.add( new CombatActionNode( currentList.getChildCount() + 1, action ) );
+
+					currentList.add( new CombatActionNode( desiredIndex, line ) );
 				}
 			}
 
