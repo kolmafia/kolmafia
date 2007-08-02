@@ -54,6 +54,7 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 
 public class LocalRelayRequest extends PasswordHashRequest
 {
+	private static final boolean RELAY_EXISTS = RELAY_LOCATION.exists();
 	private static final Pattern EMAIL_PATTERN = Pattern.compile( "<table style='border: 1px solid black;' cellpadding=10>.*?</table>", Pattern.DOTALL );
 
 	private static final Pattern MENU1_PATTERN = Pattern.compile( "<select name=\"loc\".*?</select>", Pattern.DOTALL );
@@ -74,7 +75,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 	public LocalRelayRequest( boolean allowOverride )
 	{
 		super( "" );
-		this.allowOverride = allowOverride;
+		this.allowOverride = RELAY_EXISTS && allowOverride;
 	}
 
 	public KoLRequest constructURLString( String newURLString )
@@ -388,8 +389,6 @@ public class LocalRelayRequest extends PasswordHashRequest
 			{
 				if ( header.startsWith( "Content" ) || header.equals( "Connection" ) || header.startsWith( "Transfer" ) )
 					continue;
-
-System.out.println( header );
 
 				ostream.print( header );
 				ostream.print( ": " );
@@ -917,7 +916,7 @@ System.out.println( header );
 		// If this is a script request, then run the script and
 		// return the client HTML.
 
-		if ( allowOverride && RELAY_LOCATION.exists() && KoLmafiaASH.getClientHTML( this ) )
+		if ( allowOverride && KoLmafiaASH.getClientHTML( this ) )
 			return;
 
 		boolean isWebPage = this.formURLString.endsWith( ".php" ) || this.formURLString.endsWith( ".html" );
