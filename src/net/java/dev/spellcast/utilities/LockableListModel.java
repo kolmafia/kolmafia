@@ -35,8 +35,6 @@
 package net.java.dev.spellcast.utilities;
 
 import java.lang.ref.WeakReference;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -50,8 +48,6 @@ import javax.swing.AbstractListModel;
 import javax.swing.ComboBoxModel;
 import javax.swing.ListModel;
 import javax.swing.MutableComboBoxModel;
-
-import javax.swing.event.EventListenerList;
 
 /**
  * <p>Lockable aspects of this class have been removed due to incompatibilities with Swing;
@@ -112,7 +108,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 		selectedValue = null;
 		currentFilter = f;
 
-		mirrorList = new ArrayList();
+		mirrorList = l.mirrorList;
 		mirrorList.add( new WeakReference( this ) );
 
 		updateFilter( false );
@@ -190,8 +186,32 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 		if ( element == null )
 			return;
 
+		this.updateFilter( false );
 		actualElements.add( index, element );
-		updateFilter( false );
+		addVisibleElement( index, element );
+	}
+
+	private synchronized void addVisibleElement( int index, Object element )
+	{
+		LockableListModel mirror;
+		for ( int i = 0; i < mirrorList.size(); ++i )
+		{
+			mirror = getMirror(i);
+			if ( mirror == null )
+				continue;
+
+			addVisibleElement( mirror, index, element );
+		}
+	}
+
+	private synchronized void addVisibleElement( LockableListModel model, int index, Object element )
+	{
+		if ( model.currentFilter.isVisible( element ) )
+		{
+			int visibleIndex = model.computeVisibleIndex( index );
+			model.visibleElements.add( visibleIndex, element );
+			model.fireIntervalAdded( model, visibleIndex, visibleIndex );
+		}
 	}
 
 	/**
@@ -472,14 +492,40 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	 * information regarding this function.
 	 */
 
-	public Object remove( int index )
+	public synchronized Object remove( int index )
 	{
 		if ( index < 0 || index >= actualElements.size() )
 			return null;
 
-		Object returnValue = actualElements.remove( index );
-		updateFilter( false );
+		this.updateFilter( false );
+		Object returnValue = actualElements.get( index );
+		removeVisibleElement( index, returnValue );
+		actualElements.remove( index );
+
 		return returnValue;
+	}
+
+	private synchronized void removeVisibleElement( int index, Object element )
+	{
+		LockableListModel mirror;
+		for ( int i = 0; i < mirrorList.size(); ++i )
+		{
+			mirror = getMirror(i);
+			if ( mirror == null )
+				continue;
+
+			removeVisibleElement( mirror, index, element );
+		}
+	}
+
+	private synchronized void removeVisibleElement( LockableListModel model, int index, Object element )
+	{
+		if ( model.currentFilter.isVisible( element ) )
+		{
+			int visibleIndex = model.computeVisibleIndex( index );
+			model.visibleElements.remove( visibleIndex );
+			model.fireIntervalRemoved( model, visibleIndex, visibleIndex );
+		}
 	}
 
 	/**
@@ -540,9 +586,52 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 		if ( element == null )
 			return null;
 
-		Object returnValue = remove( index );
-		add( index, element );
+		this.updateFilter( false );
+		Object returnValue = actualElements.set( index, element );
+		setVisibleElement( index, element, returnValue );
 		return returnValue;
+	}
+
+	private synchronized void setVisibleElement( int index, Object element, Object originalValue )
+	{
+		LockableListModel mirror;
+		for ( int i = 0; i < mirrorList.size(); ++i )
+		{
+			mirror = getMirror(i);
+			if ( mirror == null )
+				continue;
+
+			setVisibleElement( mirror, index, element, originalValue );
+		}
+	}
+
+	private synchronized void setVisibleElement( LockableListModel model, int index, Object element, Object originalValue )
+	{
+		int visibleIndex = model.computeVisibleIndex( index );
+
+		if ( originalValue != null && model.currentFilter.isVisible( originalValue ) )
+		{
+			if ( !model.currentFilter.isVisible( element ) )
+			{
+				model.visibleElements.remove( visibleIndex );
+				model.fireIntervalRemoved( model, visibleIndex, visibleIndex );
+			}
+			else if ( visibleIndex == model.visibleElements.size() )
+			{
+				model.visibleElements.add( visibleIndex, element );
+				model.fireIntervalAdded( model, visibleIndex, visibleIndex );
+			}
+			else
+			{
+				model.visibleElements.set( visibleIndex, element );
+				model.fireContentsChanged( model, visibleIndex, visibleIndex );
+			}
+		}
+		else if ( model.currentFilter.isVisible( element ) )
+		{
+			model.visibleElements.add( visibleIndex, element );
+			model.fireIntervalAdded( model, visibleIndex, visibleIndex );
+		}
 	}
 
 	/**
@@ -603,7 +692,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 
 			if ( currentFilter.isVisible( element ) )
 			{
-				if ( visibleIndex == visibleElements.size() || visibleElements.get( visibleIndex ) != element )
+				if ( visibleIndex == visibleElements.size() || !visibleElements.get( visibleIndex ).equals( element ) )
 				{
 					visibleElements.add( visibleIndex, element );
 					fireIntervalAdded( this, visibleIndex, visibleIndex );
@@ -613,7 +702,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 			}
 			else
 			{
-				if ( visibleIndex < visibleElements.size() && visibleElements.get( visibleIndex ) == element )
+				if ( visibleIndex < visibleElements.size() && visibleElements.get( visibleIndex ).equals( element ) )
 				{
 					visibleElements.remove( visibleIndex );
 					fireIntervalRemoved( this, visibleIndex, visibleIndex );
@@ -623,6 +712,17 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 
 		if ( refresh )
 			fireContentsChanged( this, 0, visibleElements.size() - 1 );
+	}
+
+	private int computeVisibleIndex( int actualIndex )
+	{
+		int visibleIndex = 0;
+
+		for ( int i = 0; i < actualIndex && visibleIndex < visibleElements.size(); ++i )
+			if ( actualElements.get(i) == visibleElements.get(visibleIndex) )
+				++visibleIndex;
+
+		return visibleIndex;
 	}
 
 	/**

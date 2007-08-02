@@ -97,8 +97,8 @@ public class LoginRequest extends KoLRequest
 		KoLRequest.applySettings();
 		String lowercase = this.username.toLowerCase();
 
-		if ( lowercase.startsWith( "devster" ) || lowercase.equals( "holatuwol" ) )
-			setLoginServer( "dev.kingdomofloathing.com" );
+//		if ( lowercase.startsWith( "devster" ) || lowercase.equals( "holatuwol" ) )
+//			setLoginServer( "dev.kingdomofloathing.com" );
 
 		this.clearDataFields();
 
