@@ -359,7 +359,7 @@ public class AutoSellRequest extends SendMessageRequest
 		{
 			itemPattern = ITEMID_PATTERN;
 			quantityPattern = QTY_PATTERN;
-			sellType = "place in store";
+			sellType = "mallsell";
 		}
 
 		if ( itemPattern == null )
