@@ -1035,7 +1035,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			addHiddenCityModifiers( buffer );
 
 		if ( location.startsWith( "palinshelves.php" ) )
-			StaticEntity.singleStringReplace( buffer, "</html>", "<script language=\"Javascript\" src=\"/KoLmafia/palinshelves.js\" /></html>" );
+			StaticEntity.singleStringReplace( buffer, "</html>", "<script language=\"Javascript\" src=\"/palinshelves.js\" /></html>" );
 
 		if ( location.startsWith( "manor3.php" ) )
 			addWineCellarSpoilers( buffer );
