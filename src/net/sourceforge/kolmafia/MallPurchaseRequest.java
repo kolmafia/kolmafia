@@ -56,7 +56,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	private String npcStoreId;
 
 	private boolean canPurchase;
-	public static final int MAX_QUANTITY = 10000000;
+	public static final int MAX_QUANTITY = 16777215;
 
 	/**
 	 * Constructs a new <code>MallPurchaseRequest</code> which retrieves
@@ -538,7 +538,13 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		if ( !quantityMatcher.find() )
 			return true;
 
-		int quantity = StaticEntity.parseInt( quantityMatcher.group(1) );
+		String quantityString = quantityMatcher.group(1);
+
+		int quantity = 0;
+
+		if ( quantityString.length() < 8 )
+			quantity = Math.min( MAX_QUANTITY, StaticEntity.parseInt( quantityString ) );
+
 		if ( quantity == 0 )
 			quantity = 1;
 
