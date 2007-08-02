@@ -45,19 +45,19 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 
 public class KoLDatabase extends StaticEntity
 {
-	public static BufferedReader getReader( String filename )
+	public static final BufferedReader getReader( String filename )
 	{	return DataUtilities.getReader( filename );
 	}
 
-	public static BufferedReader getReader( File file )
+	public static final BufferedReader getReader( File file )
 	{	return DataUtilities.getReader( file );
 	}
 
-	public static BufferedReader getReader( InputStream istream )
+	public static final BufferedReader getReader( InputStream istream )
 	{	return DataUtilities.getReader( istream );
 	}
 
-	public static String readLine( BufferedReader reader )
+	public static final String readLine( BufferedReader reader )
 	{
 		if ( reader == null )
 			return null;
@@ -87,7 +87,7 @@ public class KoLDatabase extends StaticEntity
 		}
 	}
 
-	public static String [] readData( BufferedReader reader )
+	public static final String [] readData( BufferedReader reader )
 	{
 		if ( reader == null )
 			return null;
@@ -191,11 +191,11 @@ public class KoLDatabase extends StaticEntity
 				substringList.add( names[i] );
 	}
 
-	public static boolean substringMatches( String source, String substring )
+	public static final boolean substringMatches( String source, String substring )
 	{	return substringMatches( source, substring, false );
 	}
 
-	public static boolean substringMatches( String source, String substring, boolean checkBoundaries )
+	public static final boolean substringMatches( String source, String substring, boolean checkBoundaries )
 	{
 		int index = source.toLowerCase().indexOf( substring.toLowerCase() );
 
@@ -208,7 +208,7 @@ public class KoLDatabase extends StaticEntity
 		return !Character.isLetterOrDigit( source.charAt( index - 1 ) );
 	}
 
-	public static boolean fuzzyMatches( String source, String substring )
+	public static final boolean fuzzyMatches( String source, String substring )
 	{
 		if ( substring == null || substring.length() == 0 )
 			return true;
@@ -257,7 +257,7 @@ public class KoLDatabase extends StaticEntity
 		}
 	}
 
-	public static String getBreakdown( List items )
+	public static final String getBreakdown( List items )
 	{
 		StringBuffer strbuf = new StringBuffer();
 		strbuf.append( LINE_BREAK );

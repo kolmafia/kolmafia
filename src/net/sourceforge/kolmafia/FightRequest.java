@@ -40,6 +40,8 @@ import net.sourceforge.kolmafia.MonsterDatabase.Monster;
 
 public class FightRequest extends KoLRequest
 {
+	public static final FightRequest INSTANCE = new FightRequest();
+
 	private static final AdventureResult ANTIDOTE = new AdventureResult( 829, 1 );
 	private static final AdventureResult SOLDIER = new AdventureResult( 1397, 1 );
 	private static final AdventureResult MERCENARY = new AdventureResult( 2139, 1 );
@@ -51,7 +53,6 @@ public class FightRequest extends KoLRequest
 	public static final int ROUGH_STONE_SPHERE = 2177;
 
 	private static String lastPlayer = "";
-
 	private static String lostInitiative = "";
 	private static String wonInitiative = "";
 
@@ -60,11 +61,9 @@ public class FightRequest extends KoLRequest
 
 	private static boolean isTrackingFights = false;
 	private static boolean isAutomatingFight = false;
-
-	private static ArrayList trackedRounds = new ArrayList();
-
 	private static boolean isUsingConsultScript = false;
-	public static final FightRequest INSTANCE = new FightRequest();
+
+	private static final ArrayList trackedRounds = new ArrayList();
 
 	private static final Pattern SKILL_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
 	private static final Pattern ITEM1_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
@@ -114,6 +113,9 @@ public class FightRequest extends KoLRequest
 	private static Monster monsterData = null;
 	private static String encounterLookup = "";
 
+	private static AdventureResult lastAddingScroll = null;
+	private static AdventureResult lastDesiredScroll = null;
+
 	private static final AdventureResult SCROLL_334 = new AdventureResult( 547, 1 );
 	public static final AdventureResult SCROLL_668 = new AdventureResult( 548, 1 );
 	private static final AdventureResult SCROLL_30669 = new AdventureResult( 549, 1 );
@@ -144,7 +146,7 @@ public class FightRequest extends KoLRequest
 	{	return true;
 	}
 
-	public static boolean wonInitiative()
+	public static final boolean wonInitiative()
 	{	return currentRound == 1 && INSTANCE.responseText != null && INSTANCE.responseText.indexOf( "You get the jump" ) != -1;
 	}
 
@@ -243,7 +245,7 @@ public class FightRequest extends KoLRequest
 		this.updateCurrentAction();
 	}
 
-	public static String getCurrentKey()
+	public static final String getCurrentKey()
 	{	return CombatSettings.encounterKey( encounterLookup );
 	}
 
@@ -477,7 +479,7 @@ public class FightRequest extends KoLRequest
 		this.addFormField( "whichskill", action1.substring(5) );
 	}
 
-	private static boolean isInvalidThrustSmack( String action1 )
+	private static final boolean isInvalidThrustSmack( String action1 )
 	{
 		if ( !action1.equals( "1003" ) && !action1.equals( "1005" ) )
 			return false;
@@ -541,7 +543,7 @@ public class FightRequest extends KoLRequest
 		RequestThread.closeRequestSequence();
 	}
 
-	public static int getMonsterHealth()
+	public static final int getMonsterHealth()
 	{
 		if ( monsterData == null )
 			return 0;
@@ -549,7 +551,7 @@ public class FightRequest extends KoLRequest
 		return monsterData.getAdjustedHP( KoLCharacter.getMonsterLevelAdjustment() ) - healthModifier;
 	}
 
-	public static int getMonsterAttack()
+	public static final int getMonsterAttack()
 	{
 		if ( monsterData == null )
 			return 0;
@@ -557,7 +559,7 @@ public class FightRequest extends KoLRequest
 		return monsterData.getAttack() + FightRequest.offenseModifier + KoLCharacter.getMonsterLevelAdjustment();
 	}
 
-	public static int getMonsterDefense()
+	public static final int getMonsterDefense()
 	{
 		if ( monsterData == null )
 			return 0;
@@ -565,7 +567,7 @@ public class FightRequest extends KoLRequest
 		return monsterData.getDefense() + FightRequest.defenseModifier + KoLCharacter.getMonsterLevelAdjustment();
 	}
 
-	public static int getMonsterAttackElement()
+	public static final int getMonsterAttackElement()
 	{
 		if ( monsterData == null )
 			return MonsterDatabase.NONE;
@@ -573,7 +575,7 @@ public class FightRequest extends KoLRequest
 		return monsterData.getAttackElement();
 	}
 
-	public static int getMonsterDefenseElement()
+	public static final int getMonsterDefenseElement()
 	{
 		if ( monsterData == null )
 			return MonsterDatabase.NONE;
@@ -581,11 +583,11 @@ public class FightRequest extends KoLRequest
 		return monsterData.getDefenseElement();
 	}
 
-	public static boolean willUsuallyMiss()
+	public static final boolean willUsuallyMiss()
 	{	return willUsuallyMiss(0);
 	}
 
-	public static boolean willUsuallyMiss( int defenseModifier )
+	public static final boolean willUsuallyMiss( int defenseModifier )
 	{
 		if ( monsterData == null )
 			return false;
@@ -593,11 +595,11 @@ public class FightRequest extends KoLRequest
 		return monsterData.willUsuallyMiss( FightRequest.defenseModifier + defenseModifier );
 	}
 
-	public static boolean willUsuallyDodge()
+	public static final boolean willUsuallyDodge()
 	{	return willUsuallyDodge(0);
 	}
 
-	public static boolean willUsuallyDodge( int offenseModifier )
+	public static final boolean willUsuallyDodge( int offenseModifier )
 	{
 		if ( monsterData == null )
 			return false;
@@ -615,9 +617,6 @@ public class FightRequest extends KoLRequest
 
 		return KoLmafia.getRestoreCount() == 0;
 	}
-
-	private static AdventureResult lastAddingScroll = null;
-	private static AdventureResult lastDesiredScroll = null;
 
 	private void handleAddingMachine()
 	{
@@ -733,7 +732,7 @@ public class FightRequest extends KoLRequest
 		return desiredSkill == 0 ? "attack" : "skill" + desiredSkill;
 	}
 
-	private static void checkForInitiative( String responseText )
+	private static final void checkForInitiative( String responseText )
 	{
 		if ( isAutomatingFight )
 			RequestLogger.printLine( "Strategy: " + StaticEntity.getProperty( "battleAction" ) );
@@ -818,7 +817,7 @@ public class FightRequest extends KoLRequest
 		}
 	}
 
-	public static void updateCombatData( String encounter, String responseText )
+	public static final void updateCombatData( String encounter, String responseText )
 	{
 		INSTANCE.responseText = responseText;
 
@@ -918,7 +917,7 @@ public class FightRequest extends KoLRequest
 
 	private static final Pattern BANG_POTION_PATTERN = Pattern.compile( "You throw the (.*?) potion at your opponent.?.  It shatters against .*?[,\\.] (.*?)\\." );
 
-	private static void parseBangPotion( String responseText )
+	private static final void parseBangPotion( String responseText )
 	{
 		Matcher bangMatcher = BANG_POTION_PATTERN.matcher( responseText );
 		while ( bangMatcher.find() )
@@ -957,7 +956,7 @@ public class FightRequest extends KoLRequest
         // You hold the rough stone sphere up in the air.
 	private static final Pattern STONE_SPHERE_PATTERN = Pattern.compile( "You hold the (.*?) stone sphere up in the air.*?It radiates a (.*?)," );
 
-	private static void parseStoneSphere( String responseText )
+	private static final void parseStoneSphere( String responseText )
 	{
 		Matcher sphereMatcher = STONE_SPHERE_PATTERN.matcher( responseText );
 		while ( sphereMatcher.find() )
@@ -997,7 +996,7 @@ public class FightRequest extends KoLRequest
 		}
 	}
 
-	public static void ensureUpdatedSphereEffects()
+	public static final void ensureUpdatedSphereEffects()
 	{
 		int lastAscension = StaticEntity.getIntegerProperty( "lastStoneSphereReset" );
 		if ( lastAscension < KoLCharacter.getAscensions() )
@@ -1008,11 +1007,11 @@ public class FightRequest extends KoLRequest
 		}
 	}
 
-	public static String stoneSphereName( int itemId )
+	public static final String stoneSphereName( int itemId )
 	{	return stoneSphereName( itemId, TradeableItemDatabase.getItemName( itemId ) );
 	}
 
-	public static String stoneSphereName( int itemId, String name )
+	public static final String stoneSphereName( int itemId, String name )
 	{
 		ensureUpdatedSphereEffects();
 		String effect = StaticEntity.getProperty( "lastStoneSphere" + itemId );
@@ -1022,7 +1021,7 @@ public class FightRequest extends KoLRequest
 		return name + " of " + effect;
 	}
 
-	private static void updateMonsterHealth( String responseText )
+	private static final void updateMonsterHealth( String responseText )
 	{
 		// Check if fumbled first, since that causes a special case later.
 
@@ -1129,7 +1128,7 @@ public class FightRequest extends KoLRequest
 		}
 	}
 
-	private static void clearInstanceData()
+	private static final void clearInstanceData()
 	{
 		encounterLookup = "";
 		monsterData = null;
@@ -1147,7 +1146,7 @@ public class FightRequest extends KoLRequest
 		preparatoryRounds = 0;
 	}
 
-	private static int getActionCost()
+	private static final int getActionCost()
 	{
 		if ( action1.equals( "attack" ) )
 			return 0;
@@ -1158,7 +1157,7 @@ public class FightRequest extends KoLRequest
 		return ClassSkillsDatabase.getMPConsumptionById( StaticEntity.parseInt( action1 ) );
 	}
 
-	private static boolean hasActionCost( int itemId )
+	private static final boolean hasActionCost( int itemId )
 	{
 		switch ( itemId )
 		{
@@ -1191,7 +1190,7 @@ public class FightRequest extends KoLRequest
 		}
 	}
 
-	public static void payActionCost()
+	public static final void payActionCost()
 	{
 		if ( action1 == null || action1.equals( "" ) )
 			return;
@@ -1325,7 +1324,7 @@ public class FightRequest extends KoLRequest
 	{	return this.responseText == null || this.responseText.equals( "" ) || this.responseText.indexOf( "fight.php" ) != -1 ? 0 : 1;
 	}
 
-	public static String getNextTrackedRound()
+	public static final String getNextTrackedRound()
 	{
 		if ( !isTrackingFights )
 			return RequestEditorKit.getFeatureRichHTML( "fight.php", FightRequest.INSTANCE.responseText, true );
@@ -1343,21 +1342,21 @@ public class FightRequest extends KoLRequest
 		return RequestEditorKit.getFeatureRichHTML( "fight.php?action=script", (String) trackedRounds.remove(0), true );
 	}
 
-	public static int getActualRound()
+	public static final int getActualRound()
 	{	return currentRound;
 	}
 
-	public static int getDisplayRound()
+	public static final int getDisplayRound()
 	{	return isTrackingFights ? trackedRound : currentRound;
 	}
 
-	public static void beginTrackingFights()
+	public static final void beginTrackingFights()
 	{
 		isTrackingFights = true;
 		trackedRound = currentRound;
 	}
 
-	public static boolean isTrackingFights()
+	public static final boolean isTrackingFights()
 	{
 		if ( currentRound == 0 && trackedRounds.isEmpty() )
 			isTrackingFights = false;
@@ -1365,11 +1364,11 @@ public class FightRequest extends KoLRequest
 		return isTrackingFights;
 	}
 
-	public static Monster getLastMonster()
+	public static final Monster getLastMonster()
 	{	return monsterData;
 	}
 
-	public static boolean registerRequest( boolean isExternal, String urlString )
+	public static final boolean registerRequest( boolean isExternal, String urlString )
 	{
 		if ( urlString.indexOf( "fight.php" ) == -1 )
 			return false;

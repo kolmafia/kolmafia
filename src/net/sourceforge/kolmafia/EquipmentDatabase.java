@@ -41,14 +41,14 @@ import java.util.TreeMap;
 
 public class EquipmentDatabase extends KoLDatabase
 {
-	private static IntegerArray power = new IntegerArray();
-	private static IntegerArray hands = new IntegerArray();
-	private static StringArray type = new StringArray();
-	private static StringArray requirement = new StringArray();
+	private static final IntegerArray power = new IntegerArray();
+	private static final IntegerArray hands = new IntegerArray();
+	private static final StringArray type = new StringArray();
+	private static final StringArray requirement = new StringArray();
 
-	private static TreeMap outfitPieces = new TreeMap();
-	private static SpecialOutfitArray normalOutfits = new SpecialOutfitArray();
-	private static SpecialOutfitArray weirdOutfits = new SpecialOutfitArray();
+	private static final TreeMap outfitPieces = new TreeMap();
+	private static final SpecialOutfitArray normalOutfits = new SpecialOutfitArray();
+	private static final SpecialOutfitArray weirdOutfits = new SpecialOutfitArray();
 
 	static
 	{
@@ -129,7 +129,7 @@ public class EquipmentDatabase extends KoLDatabase
 		}
 	}
 
-	public static int getOutfitWithItem( int itemId )
+	public static final int getOutfitWithItem( int itemId )
 	{
 		if ( itemId < 0 )
 			return -1;
@@ -142,17 +142,17 @@ public class EquipmentDatabase extends KoLDatabase
 		return result == null ? -1 : result.intValue();
 	}
 
-	public static int getOutfitCount()
+	public static final int getOutfitCount()
 	{	return normalOutfits.size();
 	}
 
-	public static boolean contains( String itemName )
+	public static final boolean contains( String itemName )
 	{
 		int itemId = TradeableItemDatabase.getItemId( itemName );
 		return itemId > 0 && requirement.get( itemId ) != null;
 	}
 
-	public static boolean canEquip( String itemName )
+	public static final boolean canEquip( String itemName )
 	{
 		int itemId = TradeableItemDatabase.getItemId( itemName );
 
@@ -171,11 +171,11 @@ public class EquipmentDatabase extends KoLDatabase
 		return true;
 	}
 
-	public static int getPower( int itemId )
+	public static final int getPower( int itemId )
 	{	return power.get( itemId );
 	}
 
-	public static int getPower( String itemName )
+	public static final int getPower( String itemName )
 	{
 		if ( itemName == null )
 			return 0;
@@ -188,11 +188,11 @@ public class EquipmentDatabase extends KoLDatabase
 		return getPower( itemId );
 	}
 
-	public static int getHands( int itemId )
+	public static final int getHands( int itemId )
 	{	return hands.get( itemId );
 	}
 
-	public static int getHands( String itemName )
+	public static final int getHands( String itemName )
 	{
 		if ( itemName == null )
 			return 0;
@@ -205,11 +205,11 @@ public class EquipmentDatabase extends KoLDatabase
 		return getHands( itemId );
 	}
 
-	public static String getType( int itemId )
+	public static final String getType( int itemId )
 	{	return type.get( itemId );
 	}
 
-	public static String getType( String itemName )
+	public static final String getType( String itemName )
 	{
 		if ( itemName == null )
 			return null;
@@ -222,7 +222,7 @@ public class EquipmentDatabase extends KoLDatabase
 		return getType( itemId );
 	}
 
-	public static String getReq( int itemId )
+	public static final String getReq( int itemId )
 	{
 		String req = requirement.get( itemId );
 		if ( req != null )
@@ -230,7 +230,7 @@ public class EquipmentDatabase extends KoLDatabase
 		return "none";
 	}
 
-	public static String getReq( String itemName )
+	public static final String getReq( String itemName )
 	{
 		if ( itemName == null )
 			return "none";
@@ -243,7 +243,7 @@ public class EquipmentDatabase extends KoLDatabase
 		return getReq( itemId );
 	}
 
-	public static int equipStat( int itemId )
+	public static final int equipStat( int itemId )
 	{
 		String req = requirement.get( itemId );
 
@@ -257,7 +257,7 @@ public class EquipmentDatabase extends KoLDatabase
 		return MUSCLE;
 	}
 
-	public static int equipStat( String itemName )
+	public static final int equipStat( String itemName )
 	{
 		if ( itemName == null )
 			return MUSCLE;
@@ -270,23 +270,23 @@ public class EquipmentDatabase extends KoLDatabase
 		return equipStat( itemId );
 	}
 
-	public static boolean isRanged( int itemId )
+	public static final boolean isRanged( int itemId )
 	{	return equipStat( itemId ) == MOXIE;
 	}
 
-	public static boolean isRanged( String itemName )
+	public static final boolean isRanged( String itemName )
 	{	return equipStat( itemName ) == MOXIE;
 	}
 
-	public static boolean hasOutfit( int id )
+	public static final boolean hasOutfit( int id )
 	{	return KoLCharacter.getOutfits().contains( normalOutfits.get( id ) );
 	}
 
-	public static SpecialOutfit getOutfit( int id )
+	public static final SpecialOutfit getOutfit( int id )
 	{	return normalOutfits.get( id );
 	}
 
-	public static void updateOutfits()
+	public static final void updateOutfits()
 	{
 		ArrayList available = new ArrayList();
 
@@ -314,7 +314,7 @@ public class EquipmentDatabase extends KoLDatabase
 	 * corresponding to the given outfit is already equipped.
 	 */
 
-	public static boolean isWearingOutfit( int outfitId )
+	public static final boolean isWearingOutfit( int outfitId )
 	{
 		if ( outfitId < 0 )
 			return true;
@@ -330,7 +330,7 @@ public class EquipmentDatabase extends KoLDatabase
 	 * corresponding to the given outfit is already equipped.
 	 */
 
-	public static boolean isWearingOutfit( SpecialOutfit outfit )
+	public static final boolean isWearingOutfit( SpecialOutfit outfit )
 	{	return outfit != null && outfit.isWearing();
 	}
 
@@ -339,7 +339,7 @@ public class EquipmentDatabase extends KoLDatabase
 	 * currently wearing
 	 */
 
-	public static SpecialOutfit currentOutfit()
+	public static final SpecialOutfit currentOutfit()
 	{
 		for ( int id = 1; id <= normalOutfits.size(); ++id )
 		{
@@ -353,7 +353,7 @@ public class EquipmentDatabase extends KoLDatabase
 		return null;
 	}
 
-	public static int getOutfitId( KoLAdventure adventure )
+	public static final int getOutfitId( KoLAdventure adventure )
 	{
 		String adventureId = adventure.getAdventureId();
 
@@ -401,7 +401,7 @@ public class EquipmentDatabase extends KoLDatabase
 		return -1;
 	}
 
-	public static boolean addOutfitConditions( KoLAdventure adventure )
+	public static final boolean addOutfitConditions( KoLAdventure adventure )
 	{
 		int outfitId = getOutfitId( adventure );
 		if ( outfitId <= 0 )
@@ -411,7 +411,7 @@ public class EquipmentDatabase extends KoLDatabase
 		return true;
 	}
 
-	public static boolean retrieveOutfit( int outfitId )
+	public static final boolean retrieveOutfit( int outfitId )
 	{
 		if ( outfitId < 0 )
 			return true;
@@ -425,7 +425,7 @@ public class EquipmentDatabase extends KoLDatabase
 		return true;
 	}
 
-	public static void addOutfitConditions( int outfitId )
+	public static final void addOutfitConditions( int outfitId )
 	{
 		// Ignore custom outfits, since there's
 		// no way to know what they are (yet).

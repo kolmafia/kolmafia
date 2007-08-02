@@ -143,7 +143,7 @@ public class GiftMessageRequest extends SendMessageRequest
 	}
 
 
-	public static LockableListModel getPackages()
+	public static final LockableListModel getPackages()
 	{
 		// Which packages are available depends on ascension count.
 		// You start with two packages and receive an additional
@@ -163,7 +163,7 @@ public class GiftMessageRequest extends SendMessageRequest
 			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, 0 - this.materialCost ) );
 	}
 
-	public static boolean registerRequest( String urlString )
+	public static final boolean registerRequest( String urlString )
 	{
 		if ( !urlString.startsWith( "town_sendgift.php" ) )
 			return false;

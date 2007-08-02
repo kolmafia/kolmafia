@@ -69,11 +69,11 @@ public abstract class HPRestoreItemList extends StaticEntity
 		new HPRestoreItem( "Doc Galaktik's Pungent Unguent", 3, 30 )
 	};
 
-	public static void setPurchaseBasedSort( boolean purchaseBasedSort )
+	public static final void setPurchaseBasedSort( boolean purchaseBasedSort )
 	{	HPRestoreItemList.purchaseBasedSort = purchaseBasedSort;
 	}
 
-	public static boolean contains( AdventureResult item )
+	public static final boolean contains( AdventureResult item )
 	{
 		for ( int i = 0; i < CONFIGURES.length; ++i )
 			if ( CONFIGURES[i].itemUsed != null && CONFIGURES[i].itemUsed.equals( item ) )
@@ -82,7 +82,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 		return false;
 	}
 
-	public static JCheckBox [] getCheckboxes()
+	public static final JCheckBox [] getCheckboxes()
 	{
 		String hpRestoreSetting = getProperty( "hpAutoRecoveryItems" );
 		JCheckBox [] restoreCheckbox = new JCheckBox[ CONFIGURES.length ];

@@ -43,7 +43,7 @@ public class ClanAttackRequest extends KoLRequest implements Comparable
 	private static final Pattern CLANID_PATTERN = Pattern.compile( "name=whichclan value=(\\d+)></td><td><b>(.*?)</td><td>(.*?)</td>" );
 	private static final Pattern WAIT_PATTERN = Pattern.compile( "<br>Your clan can attack again in (.*?)<p>" );
 
-	private static SortedListModel enemyClans = new SortedListModel();
+	private static final SortedListModel enemyClans = new SortedListModel();
 
 	private String name;
 	private int goodies;
@@ -71,7 +71,7 @@ public class ClanAttackRequest extends KoLRequest implements Comparable
 		super.run();
 	}
 
-	public static SortedListModel getEnemyClans()
+	public static final SortedListModel getEnemyClans()
 	{	return enemyClans;
 	}
 

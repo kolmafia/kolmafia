@@ -71,13 +71,13 @@ public class KoLmafiaCLI extends KoLmafia
 	private static boolean isUsageMatch = false;
 	private static boolean isCreationMatch = false;
 	private static boolean isUntinkerMatch = false;
+	private static boolean isExecutingCheckOnlyCommand = false;
 
 	private String previousLine = null;
 	private String currentLine = null;
 	private BufferedReader commandStream;
 
-	private static boolean isExecutingCheckOnlyCommand = false;
-	private static TreeMap ALIASES = new TreeMap();
+	private static final TreeMap ALIASES = new TreeMap();
 	static
 	{
 		String [] data;
@@ -100,7 +100,7 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 	}
 
-	public static void main( String [] args )
+	public static final void initialize()
 	{
 		System.out.println();
 		System.out.println();
@@ -2316,7 +2316,7 @@ public class KoLmafiaCLI extends KoLmafia
 		RequestThread.closeRequestSequence();
 	}
 
-	public static void executeFlowerHuntRequest( ProfileRequest [] targets, FlowerHunterRequest request )
+	public static final void executeFlowerHuntRequest( ProfileRequest [] targets, FlowerHunterRequest request )
 	{
 		for ( int i = 0; i < targets.length && KoLmafia.permitsContinue() && KoLCharacter.getAttacksLeft() > 0; ++i )
 		{
@@ -2438,7 +2438,7 @@ public class KoLmafiaCLI extends KoLmafia
 			updateDisplay( ERROR_STATE, "Failed to send message to " + recipient );
 	}
 
-	public static File findScriptFile( String filename )
+	public static final File findScriptFile( String filename )
 	{
 		File scriptFile = new File( filename );
 		if ( scriptFile.exists() )
@@ -2472,11 +2472,11 @@ public class KoLmafiaCLI extends KoLmafia
 		return null;
 	}
 
-	public static File findScriptFile( File directory, String filename )
+	public static final File findScriptFile( File directory, String filename )
 	{	return findScriptFile( directory, filename, false );
 	}
 
-	private static File findScriptFile( File directory, String filename, boolean isFallback )
+	private static final File findScriptFile( File directory, String filename, boolean isFallback )
 	{
 		File scriptFile = new File( directory, filename );
 
@@ -2723,7 +2723,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 * meat and status effects.
 	 */
 
-	public static boolean testConditional( String parameters )
+	public static final boolean testConditional( String parameters )
 	{
 		if ( !permitsContinue() )
 			return false;
@@ -2809,7 +2809,7 @@ public class KoLmafiaCLI extends KoLmafia
 			false;
 	}
 
-	private static int lvalue( String left )
+	private static final int lvalue( String left )
 	{
 		if ( left.equals( "level" ) )
 			return KoLCharacter.getLevel();
@@ -2878,7 +2878,7 @@ public class KoLmafiaCLI extends KoLmafia
 		return 0;
 	}
 
-	private static int rvalue( String left, String right )
+	private static final int rvalue( String left, String right )
 	{
 		if ( right.endsWith( "%" ) )
 		{
@@ -2927,7 +2927,7 @@ public class KoLmafiaCLI extends KoLmafia
 		return StaticEntity.parseInt( right );
 	}
 
-	private static AdventureResult effectParameter( String parameter )
+	private static final AdventureResult effectParameter( String parameter )
 	{
 		List potentialEffects = StatusEffectDatabase.getMatchingNames( parameter );
 		if ( potentialEffects.isEmpty() )
@@ -2936,7 +2936,7 @@ public class KoLmafiaCLI extends KoLmafia
 		return new AdventureResult( (String) potentialEffects.get(0), 0, true );
 	}
 
-	private static AdventureResult itemParameter( String parameter )
+	private static final AdventureResult itemParameter( String parameter )
 	{
 		List potentialItems = TradeableItemDatabase.getMatchingNames( parameter );
 		if ( potentialItems.isEmpty() )
@@ -3250,7 +3250,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 * given a substring representing it.
 	 */
 
-	public static String getSkillName( String substring, List list )
+	public static final String getSkillName( String substring, List list )
 	{
 		UseSkillRequest [] skills = new UseSkillRequest[ list.size() ];
 		list.toArray( skills );
@@ -3282,7 +3282,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 * given a substring representing it.
 	 */
 
-	public static String getSkillName( String substring )
+	public static final String getSkillName( String substring )
 	{	return getSkillName( substring, availableSkills );
 	}
 
@@ -3291,7 +3291,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 * given a substring representing it.
 	 */
 
-	public static String getUsableSkillName( String substring )
+	public static final String getUsableSkillName( String substring )
 	{	return getSkillName( substring, usableSkills );
 	}
 
@@ -3300,7 +3300,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 * given a substring representing it.
 	 */
 
-	public static String getCombatSkillName( String substring )
+	public static final String getCombatSkillName( String substring )
 	{	return getSkillName( substring, ClassSkillsDatabase.getSkillsByType( ClassSkillsDatabase.COMBAT ) );
 	}
 
@@ -3658,7 +3658,7 @@ public class KoLmafiaCLI extends KoLmafia
 		desiredStream.println();
 	}
 
-	private static String getStatString( int base, int adjusted, int tnp )
+	private static final String getStatString( int base, int adjusted, int tnp )
 	{
 		StringBuffer statString = new StringBuffer();
 		statString.append( COMMA_FORMAT.format( adjusted ) );
@@ -3678,7 +3678,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 * specify an effect duration before the string.
 	 */
 
-	public static AdventureResult getFirstMatchingEffect( String parameters )
+	public static final AdventureResult getFirstMatchingEffect( String parameters )
 	{
 		String effectName = null;
 		int duration = 0;
@@ -3719,7 +3719,7 @@ public class KoLmafiaCLI extends KoLmafia
 		return new AdventureResult( effectName, duration, true );
 	}
 
-	public static int getFirstMatchingItemId( List nameList )
+	public static final int getFirstMatchingItemId( List nameList )
 	{
 		if ( nameList == null )
 			return -1;
@@ -3844,7 +3844,7 @@ public class KoLmafiaCLI extends KoLmafia
 		return 0;
 	}
 
-	private static List getMatchingItemNames( String itemName )
+	private static final List getMatchingItemNames( String itemName )
 	{	return TradeableItemDatabase.getMatchingNames( itemName );
 	}
 
@@ -3854,11 +3854,11 @@ public class KoLmafiaCLI extends KoLmafia
 	 * specify an item quantity before the string.
 	 */
 
-	public static AdventureResult getFirstMatchingItem( String parameters )
+	public static final AdventureResult getFirstMatchingItem( String parameters )
 	{	return getFirstMatchingItem( parameters, true );
 	}
 
-	public static AdventureResult getFirstMatchingItem( String parameters, boolean errorOnFailure )
+	public static final AdventureResult getFirstMatchingItem( String parameters, boolean errorOnFailure )
 	{
 		int itemId = -1;
 		int itemCount = 1;
@@ -4624,7 +4624,7 @@ public class KoLmafiaCLI extends KoLmafia
 		RequestThread.postRequest( new EquipmentRequest( intendedOutfit ) );
 	}
 
-	public static SpecialOutfit getMatchingOutfit( String name )
+	public static final SpecialOutfit getMatchingOutfit( String name )
 	{
 		String lowercaseOutfitName = name.toLowerCase().trim();
 		if ( lowercaseOutfitName.equals( "birthday suit" ) || lowercaseOutfitName.equals( "nothing" ) )

@@ -215,7 +215,7 @@ public class GearChangeFrame extends KoLFrame
 			RequestThread.postRequest( new EquipmentRequest( famitem, KoLCharacter.FAMILIAR ) );
 	}
 
-	public static void updateWeapons()
+	public static final void updateWeapons()
 	{
 		if ( INSTANCE == null )
 			return;
@@ -226,7 +226,7 @@ public class GearChangeFrame extends KoLFrame
 		INSTANCE.ensureValidSelections();
 	}
 
-	public static void clearWeaponLists()
+	public static final void clearWeaponLists()
 	{
 		if ( INSTANCE == null )
 			return;

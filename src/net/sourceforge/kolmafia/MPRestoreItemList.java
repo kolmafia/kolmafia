@@ -65,11 +65,11 @@ public abstract class MPRestoreItemList extends StaticEntity
 		new MPRestoreItem( "Cherry Cloaca Cola", 8, 80, true ), new MPRestoreItem( "soda water", 4, 70, false )
 	};
 
-	public static void setPurchaseBasedSort( boolean purchaseBasedSort )
+	public static final void setPurchaseBasedSort( boolean purchaseBasedSort )
 	{	MPRestoreItemList.purchaseBasedSort = purchaseBasedSort;
 	}
 
-	public static boolean contains( AdventureResult item )
+	public static final boolean contains( AdventureResult item )
 	{
 		for ( int i = 0; i < CONFIGURES.length; ++i )
 			if ( CONFIGURES[i].itemUsed != null && CONFIGURES[i].itemUsed.equals( item ) )
@@ -78,7 +78,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 		return false;
 	}
 
-	public static JCheckBox [] getCheckboxes()
+	public static final JCheckBox [] getCheckboxes()
 	{
 		String mpRestoreSetting = getProperty( "mpAutoRecoveryItems" );
 		JCheckBox [] restoreCheckbox = new JCheckBox[ CONFIGURES.length ];

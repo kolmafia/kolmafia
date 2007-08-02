@@ -148,7 +148,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		this.item = new AdventureResult( this.itemId, 1 );
 	}
 
-	public static String getStoreString( int itemId, int price )
+	public static final String getStoreString( int itemId, int price )
 	{
 		// With the basic fields out of the way, you need to construct
 		// the string representing the item you want to buy at the price
@@ -342,7 +342,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 			this.compareTo( (MallPurchaseRequest) o );
 	}
 
-	public static void setUsePriceComparison( boolean usePriceComparison )
+	public static final void setUsePriceComparison( boolean usePriceComparison )
 	{	MallPurchaseRequest.usePriceComparison = usePriceComparison;
 	}
 
@@ -521,7 +521,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 			this.shopName.equals( ((MallPurchaseRequest)o).shopName ) && this.itemId == ((MallPurchaseRequest)o).itemId;
 	}
 
-	public static boolean registerRequest( String urlString )
+	public static final boolean registerRequest( String urlString )
 	{
 		if ( !urlString.startsWith( "mallstore.php" ) && !urlString.startsWith( "store.php" ) && !urlString.startsWith( "galaktik.php" ) && !urlString.startsWith( "town_giftshop.php" ) )
 			return false;

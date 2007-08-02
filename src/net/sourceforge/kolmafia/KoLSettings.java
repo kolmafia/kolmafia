@@ -136,23 +136,19 @@ public class KoLSettings extends Properties implements KoLConstants
 
 	static
 	{
-		// Renaming data files to make then easier to find for most
-		// people (so they aren't afraid to open them).
-
 		initializeMaps();
-		StaticEntity.renameDataFiles( "kcs", "prefs" );
 	}
 
 	public static final KoLSettings GLOBAL_SETTINGS = new KoLSettings( "" );
 
 	private File settingsFile;
 
-	private static File junkItemsFile = new File( SETTINGS_LOCATION, "junk_GLOBAL.txt" );
-	private static File mementoFile = new File( SETTINGS_LOCATION, "memento_GLOBAL.txt" );
-	private static File profitableFile = new File( SETTINGS_LOCATION, "profitable_GLOBAL.txt" );
-	private static File checklistFile = new File( SETTINGS_LOCATION, "checklist_GLOBAL.txt" );
+	private static final File junkItemsFile = new File( DATA_LOCATION, "autosell.txt" );
+	private static final File mementoFile = new File( DATA_LOCATION, "mementos.txt" );
+	private static final File profitableFile = new File( DATA_LOCATION, "mallsell.txt" );
+	private static final File checklistFile = new File( DATA_LOCATION, "checklist.txt" );
 
-	public static void initializeLists()
+	public static final void initializeLists()
 	{
 		try
 		{
@@ -300,18 +296,24 @@ public class KoLSettings extends Properties implements KoLConstants
 
 	public KoLSettings( String characterName )
 	{
-		this.noExtensionName = KoLCharacter.baseUserName( characterName );
-		this.settingsFile = new File( SETTINGS_LOCATION, "prefs_" + this.noExtensionName + ".txt" );
+		noExtensionName = baseUserName( characterName );
+		settingsFile = new File( SETTINGS_LOCATION, noExtensionName + "_prefs.txt" );
 
-		this.loadSettings();
-		this.ensureDefaults();
+		loadSettings();
+		ensureDefaults();
 	}
 
-	public static boolean isUserEditable( String property )
+	public static final String baseUserName( String name )
+	{
+		return name == null || name.equals( "" ) ? "GLOBAL" :
+			StaticEntity.globalStringReplace( name, " ", "_" ).trim().toLowerCase();
+	}
+
+	public static final boolean isUserEditable( String property )
 	{	return !property.startsWith( "saveState" );
 	}
 
-	public static boolean isGlobalProperty( String name )
+	public static final boolean isGlobalProperty( String name )
 	{
 		return CLIENT_SETTINGS.containsKey( name ) || name.startsWith( "saveState" ) || name.startsWith( "displayName" ) ||
 			name.startsWith( "getBreakfast" ) || name.startsWith( "autoPlant" ) || name.startsWith( "visitRumpus" ) ||
@@ -373,7 +375,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		return oldValue == null ? "" : oldValue;
 	}
 
-	public static void registerCheckbox( String name, JCheckBox checkbox )
+	public static final void registerCheckbox( String name, JCheckBox checkbox )
 	{
 		ArrayList list = null;
 
@@ -390,7 +392,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		list.add( new WeakReference( checkbox ) );
 	}
 
-	public static void saveFlaggedItemList()
+	public static final void saveFlaggedItemList()
 	{
 		AdventureResult item;
 
@@ -530,7 +532,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		}
 	}
 
-	private static void initializeMaps()
+	private static final void initializeMaps()
 	{
 		// Do not initialize the maps more than once, as this
 		// would not serve any purpose.
@@ -925,7 +927,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		}
 	}
 
-	private static boolean forceChoiceDefault( int choiceId )
+	private static final boolean forceChoiceDefault( int choiceId )
 	{
 		switch ( choiceId )
 		{
@@ -958,7 +960,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		}
 	}
 
-	public static void printDefaults()
+	public static final void printDefaults()
 	{
 		LogStream ostream = LogStream.openStream( "choices.txt", true );
 
@@ -985,7 +987,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		ostream.close();
 	}
 
-	private static void printDefaults( ChoiceAdventure [] choices, LogStream ostream )
+	private static final void printDefaults( ChoiceAdventure [] choices, LogStream ostream )
 	{
 		for ( int i = 0; i < choices.length; ++i )
 		{

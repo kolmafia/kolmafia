@@ -61,7 +61,7 @@ public class AccountRequest extends PasswordHashRequest
 		parseAccountData( this.responseText );
 	}
 
-	public static void parseAccountData( String responseText )
+	public static final void parseAccountData( String responseText )
 	{
 		// Parse response text -- make sure you
 		// aren't accidentally parsing profiles.

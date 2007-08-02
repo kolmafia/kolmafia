@@ -43,25 +43,23 @@ import java.util.ArrayList;
 public class LocalRelayServer implements Runnable
 {
 	private static final int INITIAL_THREAD_COUNT = 10;
+	public static final ArrayList agentThreads = new ArrayList();
 
 	private static long lastStatusMessage = 0;
-
 	private static Thread relayThread = null;
-	private static final LocalRelayServer INSTANCE = new LocalRelayServer();
-
-	public static ArrayList agentThreads = new ArrayList();
 
 	private ServerSocket serverSocket = null;
 	private static int port = 60080;
 	private static boolean listening = false;
 
-	private static StringBuffer statusMessages = new StringBuffer();
+	private static final LocalRelayServer INSTANCE = new LocalRelayServer();
+	private static final StringBuffer statusMessages = new StringBuffer();
 
 	private LocalRelayServer()
 	{
 	}
 
-	public static void startThread()
+	public static final void startThread()
 	{
 		if ( relayThread != null )
 			return;
@@ -70,15 +68,15 @@ public class LocalRelayServer implements Runnable
 		relayThread.start();
 	}
 
-	public static int getPort()
+	public static final int getPort()
 	{	return port;
 	}
 
-	public static boolean isRunning()
+	public static final boolean isRunning()
 	{	return listening;
 	}
 
-	public static void stop()
+	public static final void stop()
 	{	listening = false;
 	}
 
@@ -183,7 +181,7 @@ public class LocalRelayServer implements Runnable
 		return agent;
 	}
 
-	public static void addStatusMessage( String message )
+	public static final void addStatusMessage( String message )
 	{
 		if ( System.currentTimeMillis() - lastStatusMessage < 4000 )
 			statusMessages.append( message );
@@ -191,7 +189,7 @@ public class LocalRelayServer implements Runnable
 			statusMessages.setLength(0);
 	}
 
-	public static String getNewStatusMessages()
+	public static final String getNewStatusMessages()
 	{
 		String newMessages = statusMessages.toString();
 		statusMessages.setLength(0);

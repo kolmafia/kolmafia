@@ -246,7 +246,7 @@ public class ClanStashRequest extends SendMessageRequest
 	{	return true;
 	}
 
-	public static boolean registerRequest( String urlString )
+	public static final boolean registerRequest( String urlString )
 	{
 		if ( !urlString.startsWith( "clan_stash.php" ) )
 			return false;

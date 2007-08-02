@@ -56,7 +56,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 public class MallSearchFrame extends KoLPanelFrame
 {
 	private static MallSearchFrame INSTANCE = null;
-	private static SortedListModel pastSearches = new SortedListModel();
+	private static final SortedListModel pastSearches = new SortedListModel();
 
 	private boolean currentlyBuying;
 	private SortedListModel results;
@@ -197,7 +197,7 @@ public class MallSearchFrame extends KoLPanelFrame
 		}
 	}
 
-	public static void searchMall( SearchMallRequest request )
+	public static final void searchMall( SearchMallRequest request )
 	{
 		if ( INSTANCE == null )
 			KoLmafiaGUI.constructFrame( "MallSearchFrame" );

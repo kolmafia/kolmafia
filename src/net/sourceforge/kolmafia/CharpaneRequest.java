@@ -45,6 +45,7 @@ public class CharpaneRequest extends KoLRequest
 	private static boolean isRunning = false;
 	private static boolean isProcessing = false;
 	private static String lastResponse = "";
+
 	private static final CharpaneRequest instance = new CharpaneRequest();
 
 	private CharpaneRequest()
@@ -56,7 +57,7 @@ public class CharpaneRequest extends KoLRequest
 		super( "charpane.php" );
 	}
 
-	public static CharpaneRequest getInstance()
+	public static final CharpaneRequest getInstance()
 	{	return instance;
 	}
 
@@ -64,7 +65,7 @@ public class CharpaneRequest extends KoLRequest
 	{	return true;
 	}
 
-	public static boolean canInteract()
+	public static final boolean canInteract()
 	{	return canInteract;
 	}
 
@@ -84,11 +85,11 @@ public class CharpaneRequest extends KoLRequest
 		lastResponse = this.responseText;
 	}
 
-	public static String getLastResponse()
+	public static final String getLastResponse()
 	{	return lastResponse;
 	}
 
-	public static void processCharacterPane( String responseText )
+	public static final void processCharacterPane( String responseText )
 	{
 		if ( isProcessing )
 			return;
@@ -134,7 +135,7 @@ public class CharpaneRequest extends KoLRequest
 		isProcessing = false;
 	}
 
-	private static void handleCompactMode( String responseText )
+	private static final void handleCompactMode( String responseText )
 	{
 		try
 		{
@@ -150,7 +151,7 @@ public class CharpaneRequest extends KoLRequest
 		}
 	}
 
-	private static void handleExpandedMode( String responseText )
+	private static final void handleExpandedMode( String responseText )
 	{
 		try
 		{
@@ -166,7 +167,7 @@ public class CharpaneRequest extends KoLRequest
 		}
 	}
 
-	private static void handleStatPoints( String responseText, String musString, String mysString, String moxString ) throws Exception
+	private static final void handleStatPoints( String responseText, String musString, String mysString, String moxString ) throws Exception
 	{
 		int [] modified = new int[3];
 
@@ -190,7 +191,7 @@ public class CharpaneRequest extends KoLRequest
 		}
 	}
 
-	private static void handleMiscPoints( String responseText, String hpString, String mpString, String meatString, String advString, String spacer, String openTag, String closeTag ) throws Exception
+	private static final void handleMiscPoints( String responseText, String hpString, String mpString, String meatString, String advString, String spacer, String openTag, String closeTag ) throws Exception
 	{
 		// On the other hand, health and all that good stuff
 		// is complicated, has nested images, and lots of other
@@ -222,7 +223,7 @@ public class CharpaneRequest extends KoLRequest
 		}
 	}
 
-	private static void handleMindControl( String responseText, String mcString ) throws Exception
+	private static final void handleMindControl( String responseText, String mcString ) throws Exception
 	{
 		Matcher matcher = Pattern.compile( mcString + "</a>: ?(</td><td>)?<b>(\\d+)</b>" ).matcher( responseText );
 
@@ -232,7 +233,7 @@ public class CharpaneRequest extends KoLRequest
 			KoLCharacter.setMindControlLevel( 0 );
 	}
 
-	private static void handleDetunedRadio( String responseText, String mcString ) throws Exception
+	private static final void handleDetunedRadio( String responseText, String mcString ) throws Exception
 	{
 		Matcher matcher = Pattern.compile( mcString + "</a>: ?(</td><td>)?<b>(\\d+)</b>" ).matcher( responseText );
 
@@ -242,7 +243,7 @@ public class CharpaneRequest extends KoLRequest
 			KoLCharacter.setDetunedRadioVolume( 0 );
 	}
 
-	private static void handleAnnoyotron( String responseText, String mcString ) throws Exception
+	private static final void handleAnnoyotron( String responseText, String mcString ) throws Exception
 	{
 		Matcher matcher = Pattern.compile( mcString + "</a>: ?(</td><td>)?<b>(\\d+)</b>" ).matcher( responseText );
 
@@ -252,7 +253,7 @@ public class CharpaneRequest extends KoLRequest
 			KoLCharacter.setAnnoyotronLevel( 0 );
 	}
 
-	public static AdventureResult extractEffect( String responseText, int searchIndex )
+	public static final AdventureResult extractEffect( String responseText, int searchIndex )
 	{
 		String effectName = null;
 		int durationIndex = -1;
@@ -296,7 +297,7 @@ public class CharpaneRequest extends KoLRequest
 		return new AdventureResult( effectName, StaticEntity.parseInt( duration ), true );
 	}
 
-	private static void refreshEffects( String responseText )
+	private static final void refreshEffects( String responseText )
 	{
 		int searchIndex = 0;
 		int onClickIndex = 0;

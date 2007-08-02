@@ -52,14 +52,14 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class CommandDisplayFrame extends KoLFrame
 {
-	private JTextField entryField;
-	private static int lastCommandIndex = 0;
-
-	private static CommandQueueHandler handler = new CommandQueueHandler();
+	private static final CommandQueueHandler handler = new CommandQueueHandler();
 	static { handler.start(); }
 
 	private static final ArrayList commandQueue = new ArrayList();
 	private static final ArrayList commandHistory = new ArrayList();
+	private static int lastCommandIndex = 0;
+
+	private JTextField entryField;
 
 	public CommandDisplayFrame()
 	{
@@ -167,11 +167,11 @@ public class CommandDisplayFrame extends KoLFrame
 		}
 	}
 
-	public static boolean hasQueuedCommands()
+	public static final boolean hasQueuedCommands()
 	{	return !commandQueue.isEmpty();
 	}
 
-	public static void executeCommand( String command )
+	public static final void executeCommand( String command )
 	{
 		if ( command.length() == 0 )
 			return;
@@ -204,7 +204,7 @@ public class CommandDisplayFrame extends KoLFrame
 	}
 
 
-	private static class CommandQueueHandler extends Thread
+	private static final class CommandQueueHandler extends Thread
 	{
 		private String command = "";
 

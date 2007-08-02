@@ -66,17 +66,16 @@ public class KoLRequest extends Job implements KoLConstants
 	private static final KoLRequest CHOICE_HANDLER = new KoLRequest( "choice.php" );
 
 	private static boolean delayActive = true;
-	private static long lastAdjustTime = Long.MAX_VALUE;
-
-	private static int INITIAL_CACHE_COUNT = 3;
-	private static int ADJUSTMENT_REFRESH = 60000;
-	private static int MINIMUM_TOLERANCE = 8000;
-	private static int MAXIMUM_TOLERANCE = 64000;
-
 	private static int totalActualDelay = 0;
 	private static int totalConsideredDelay = 0;
 
-	private static int currentDelay = 800;
+	private static final int INITIAL_CACHE_COUNT = 3;
+	private static final int ADJUSTMENT_REFRESH = 60000;
+	private static final int MINIMUM_TOLERANCE = 8000;
+	private static final int MAXIMUM_TOLERANCE = 64000;
+
+	private static final int currentDelay = 800;
+	private static long lastAdjustTime = Long.MAX_VALUE;
 	private static int lagTolerance = MINIMUM_TOLERANCE;
 
 	private static final Object WAIT_OBJECT = new Object();
@@ -108,7 +107,7 @@ public class KoLRequest extends Job implements KoLConstants
 	public static int lastChoice = 0;
 	public static int lastDecision = 0;
 
-	public String encounter = "";
+	protected String encounter = "";
 	private boolean shouldIgnoreResult;
 
 	public static boolean isCompactMode = false;
@@ -150,18 +149,18 @@ public class KoLRequest extends Job implements KoLConstants
 	public HttpURLConnection formConnection;
 	public String redirectLocation;
 
-	public static void setDelayActive( boolean delayActive )
+	public static final void setDelayActive( boolean delayActive )
 	{	KoLRequest.delayActive = delayActive;
 	}
 
 	/**
-	 * Static method called when <code>KoLRequest</code> is first
+	 * static final method called when <code>KoLRequest</code> is first
 	 * instantiated or whenever the settings have changed.  This
 	 * initializes the login server to the one stored in the user's
 	 * settings, as well as initializes the user's proxy settings.
 	 */
 
-	public static void applySettings()
+	public static final void applySettings()
 	{
 		applyProxySettings();
 
@@ -169,7 +168,7 @@ public class KoLRequest extends Job implements KoLConstants
 		setLoginServer( SERVERS[ defaultLoginServer == 0 ? 0 : 1 ][0] );
 	}
 
-	private static void applyProxySettings()
+	private static final void applyProxySettings()
 	{
 		if ( System.getProperty( "os.name" ).startsWith( "Mac" ) )
 			return;
@@ -231,19 +230,19 @@ public class KoLRequest extends Job implements KoLConstants
 		}
 	}
 
-	private static boolean substringMatches( String a, String b )
+	private static final boolean substringMatches( String a, String b )
 	{	return a.indexOf( b ) != -1 || b.indexOf( a ) != -1;
 	}
 
 	/**
-	 * Static method used to manually set the server to be used as
+	 * static final method used to manually set the server to be used as
 	 * the root for all requests by all KoLmafia clients running
 	 * on the current JVM instance.
 	 *
 	 * @param	server	The hostname of the server to be used.
 	 */
 
-	public static void setLoginServer( String server )
+	public static final void setLoginServer( String server )
 	{
 		if ( server == null )
 			return;
@@ -263,7 +262,7 @@ public class KoLRequest extends Job implements KoLConstants
 		}
 	}
 
-	private static void chooseNewLoginServer()
+	private static final void chooseNewLoginServer()
 	{
 		KoLmafia.updateDisplay( "Choosing new login server..." );
 		for ( int i = 0; i < SERVER_COUNT; ++i )
@@ -277,13 +276,13 @@ public class KoLRequest extends Job implements KoLConstants
 	}
 
 	/**
-	 * Static method used to return the server currently used by
+	 * static final method used to return the server currently used by
 	 * this KoLmafia session.
 	 *
 	 * @return	The host name for the current server
 	 */
 
-	public static String getRootHostName()
+	public static final String getRootHostName()
 	{	return KOL_HOST;
 	}
 
@@ -349,7 +348,7 @@ public class KoLRequest extends Job implements KoLConstants
 			!this.formURLString.startsWith( "lchat.php" ) && !this.formURLString.startsWith( "devchat.php" );
 
 		this.shouldIgnoreResult = this.isChatRequest || this.formURLString.startsWith( "message" ) || this.formURLString.startsWith( "ascension" ) ||
-			this.formURLString.startsWith( "search" ) || this.formURLString.startsWith( "static" ) || this.formURLString.startsWith( "desc" ) ||
+			this.formURLString.startsWith( "search" ) || this.formURLString.startsWith( "static final" ) || this.formURLString.startsWith( "desc" ) ||
 			this.formURLString.startsWith( "show" ) || this.formURLString.startsWith( "doc" ) ||
 			(this.formURLString.startsWith( "clan" ) && !this.formURLString.startsWith( "clan_stash" ) && !this.formURLString.startsWith( "clan_rumpus" ));
 
@@ -810,19 +809,19 @@ public class KoLRequest extends Job implements KoLConstants
 			return;
 	}
 
-	public static int getLastChoice()
+	public static final int getLastChoice()
 	{	return lastChoice;
 	}
 
-	public static int getLastDecision()
+	public static final int getLastDecision()
 	{	return lastDecision;
 	}
 
-	public static boolean shouldIgnore( KoLRequest request  )
+	public static final boolean shouldIgnore( KoLRequest request  )
 	{	return request.formURLString.indexOf( "mall" ) != -1 || request.formURLString.indexOf( "chat" ) != -1;
 	}
 
-	public static boolean delay()
+	public static final boolean delay()
 	{
 		++totalConsideredDelay;
 
@@ -833,7 +832,7 @@ public class KoLRequest extends Job implements KoLConstants
 		return delay( currentDelay );
 	}
 
-	public static void printTotalDelay()
+	public static final void printTotalDelay()
 	{
 		int seconds, minutes;
 
@@ -868,7 +867,7 @@ public class KoLRequest extends Job implements KoLConstants
 	 * reduced.
 	 */
 
-	public static boolean delay( long milliseconds )
+	public static final boolean delay( long milliseconds )
 	{
 		if ( milliseconds <= 0 )
 			return true;
@@ -1254,7 +1253,7 @@ public class KoLRequest extends Job implements KoLConstants
 		return true;
 	}
 
-	private static void addAdditionalCache()
+	private static final void addAdditionalCache()
 	{
 		synchronized ( BYTEFLAGS )
 		{
@@ -1289,7 +1288,7 @@ public class KoLRequest extends Job implements KoLConstants
 			BYTEFLAGS.set( desiredIndex, Boolean.TRUE );
 		}
 
-		// Read all the data into the static byte array output stream and then
+		// Read all the data into the static final byte array output stream and then
 		// convert that string to UTF-8.
 
 		byte [] array = (byte []) BYTEARRAYS.get( desiredIndex );

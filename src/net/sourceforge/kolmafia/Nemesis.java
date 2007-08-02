@@ -48,7 +48,7 @@ public abstract class Nemesis extends StaticEntity
 	private static final AdventureResult KETCHUP = new AdventureResult( 106, 1 );
 	private static final AdventureResult CATSUP = new AdventureResult( 107, 1 );
 
-	private static boolean checkPrerequisites()
+	private static final boolean checkPrerequisites()
 	{
 		if ( KoLCharacter.isFallingDown() )
 			return false;
@@ -71,7 +71,7 @@ public abstract class Nemesis extends StaticEntity
 		return true;
 	}
 
-	public static void faceNemesis()
+	public static final void faceNemesis()
 	{
 		// Make sure the player is qualified to use this script
 

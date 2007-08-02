@@ -63,7 +63,7 @@ public class CustomItemDatabase extends Properties implements KoLConstants
 		KoLCharacter.SHIRT, KoLCharacter.WEAPON, KoLCharacter.OFFHAND, KoLCharacter.PANTS,
 		KoLCharacter.ACCESSORY1, KoLCharacter.ACCESSORY2, KoLCharacter.ACCESSORY3, -1 };
 
-	private static void initialize()
+	private static final void initialize()
 	{
 		// Initialize the data if the file does not yet exist or
 		// the file hasn't been updated for a week.
@@ -87,7 +87,7 @@ public class CustomItemDatabase extends Properties implements KoLConstants
 		StaticEntity.setProperty( "lastCustomItemUpdate", thisWeek );
 	}
 
-	private static void updateParticipantList()
+	private static final void updateParticipantList()
 	{
 		// Clear out all existing data when downloading an update.
 		// It will get refreshed the next time the profile is seen.
@@ -109,7 +109,7 @@ public class CustomItemDatabase extends Properties implements KoLConstants
 		}
 	}
 
-	private static void updateItem( String playerId )
+	private static final void updateItem( String playerId )
 	{
 		// Clear out all existing data when downloading an update.
 		// It will get refreshed the next time the profile is seen.
@@ -149,7 +149,7 @@ public class CustomItemDatabase extends Properties implements KoLConstants
 		}
 	}
 
-	public static void linkCustomItem( LocalRelayRequest request )
+	public static final void linkCustomItem( LocalRelayRequest request )
 	{
 		// First, some preliminary checks to see if custom data
 		// should be added to this request.
@@ -208,7 +208,7 @@ public class CustomItemDatabase extends Properties implements KoLConstants
 			request.responseText = StaticEntity.singleStringReplace( request.responseText, lastDataString, lastDataString + customItemString );
 	}
 
-	public static String retrieveCustomItem( String playerId )
+	public static final String retrieveCustomItem( String playerId )
 	{
 		if ( playerId == null || !INSTANCE.containsKey( playerId + ".0" ) || INSTANCE.get( playerId + ".0" ).equals( "" ) )
 			return null;
@@ -389,7 +389,7 @@ public class CustomItemDatabase extends Properties implements KoLConstants
 		return content.toString();
 	}
 
-	private static void appendIntrinsicEffect( StringBuffer content, String playerId, String id )
+	private static final void appendIntrinsicEffect( StringBuffer content, String playerId, String id )
 	{
 		if ( INSTANCE.getProperty( playerId + "." + id ).equals( "" ) )
 			return;
@@ -399,15 +399,15 @@ public class CustomItemDatabase extends Properties implements KoLConstants
 		content.append( "</font></b><br>" );
 	}
 
-	private static void appendItemFlag( StringBuffer content, String playerId, String name, String id )
+	private static final void appendItemFlag( StringBuffer content, String playerId, String name, String id )
 	{	appendItemFlag( content, playerId, name, id, false );
 	}
 
-	private static void appendItemFlag( StringBuffer content, String playerId, String name, String id, boolean isBold )
+	private static final void appendItemFlag( StringBuffer content, String playerId, String name, String id, boolean isBold )
 	{	appendItemFlag( content, playerId, name, id, isBold, false );
 	}
 
-	private static void appendItemFlag( StringBuffer content, String playerId, String name, String id, boolean isBold, boolean isBlue )
+	private static final void appendItemFlag( StringBuffer content, String playerId, String name, String id, boolean isBold, boolean isBlue )
 	{
 		if ( StaticEntity.parseInt( INSTANCE.getProperty( playerId + "." + id ) ) == 0 )
 			return;
@@ -429,11 +429,11 @@ public class CustomItemDatabase extends Properties implements KoLConstants
 		content.append( "<br>" );
 	}
 
-	private static void appendItemData( StringBuffer content, String playerId, String prefix, String id )
+	private static final void appendItemData( StringBuffer content, String playerId, String prefix, String id )
 	{	appendItemData( content, playerId, prefix, "", id );
 	}
 
-	private static void appendItemData( StringBuffer content, String playerId, String prefix, String suffix, String id )
+	private static final void appendItemData( StringBuffer content, String playerId, String prefix, String suffix, String id )
 	{
 		if ( StaticEntity.parseInt( INSTANCE.getProperty( playerId + "." + id ) ) == 0 )
 			return;
@@ -447,7 +447,7 @@ public class CustomItemDatabase extends Properties implements KoLConstants
 		content.append( "</b><br>" );
 	}
 
-	public static void saveItemData()
+	public static final void saveItemData()
 	{
 		if ( INSTANCE.isEmpty() )
 			return;

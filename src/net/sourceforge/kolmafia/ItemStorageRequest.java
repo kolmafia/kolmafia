@@ -286,7 +286,7 @@ public class ItemStorageRequest extends SendMessageRequest
 		}
 	}
 
-	public static boolean registerRequest( String urlString )
+	public static final boolean registerRequest( String urlString )
 	{
 		if ( urlString.startsWith( "closet.php" ) && urlString.indexOf( "action=take" ) != -1 )
 			return registerRequest( "take from closet", urlString, closet, inventory, "amt", 0 );

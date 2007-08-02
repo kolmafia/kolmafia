@@ -103,7 +103,7 @@ public class StarChartRequest extends ItemCreationRequest
 		}
 	}
 
-	public static boolean registerRequest( String urlString )
+	public static final boolean registerRequest( String urlString )
 	{
 		Matcher starMatcher = STAR_PATTERN.matcher( urlString );
 		Matcher lineMatcher = LINE_PATTERN.matcher( urlString );

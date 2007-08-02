@@ -83,7 +83,7 @@ public class MultiUseRequest extends ItemCreationRequest
 		// Is there a general way to detect a failure?
 	}
 
-	public static boolean registerRequest( String urlString )
+	public static final boolean registerRequest( String urlString )
 	{
 		Matcher useMatcher = USE_PATTERN.matcher( urlString );
 

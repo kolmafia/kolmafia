@@ -71,7 +71,7 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 		this.ascensionData = new ArrayList();
 	}
 
-	public static void setComparator( boolean isSoftcoreComparator )
+	public static final void setComparator( boolean isSoftcoreComparator )
 	{	AscensionDataRequest.isSoftcoreComparator = isSoftcoreComparator;
 	}
 
@@ -321,12 +321,12 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 	}
 
 	/**
-	 * Static method used by the clan manager in order to
+	 * static final method used by the clan manager in order to
 	 * get an instance of a profile request based on the
 	 * data already known.
 	 */
 
-	public static AscensionDataRequest getInstance( String playerName, String playerId, String responseText )
+	public static final AscensionDataRequest getInstance( String playerName, String playerId, String responseText )
 	{
 		AscensionDataRequest instance = new AscensionDataRequest( playerName, playerId );
 
@@ -354,7 +354,7 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 	{	return this.ascensionData;
 	}
 
-	private static String [] extractColumns( String rowData )
+	private static final String [] extractColumns( String rowData )
 	{	return rowData.replaceFirst( "</tr><td.*?>", "" ).replaceAll( "&nbsp;", "" ).replaceAll( " ", "" ).split( "(</?t[rd].*?>)+" );
 	}
 

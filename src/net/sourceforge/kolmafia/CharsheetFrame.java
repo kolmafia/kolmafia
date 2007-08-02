@@ -105,7 +105,7 @@ public class CharsheetFrame extends AdventureOptionsFrame
 		super.dispose();
 	}
 
-	public static void removeExtraTabs()
+	public static final void removeExtraTabs()
 	{
 		CharsheetFrame.shouldAddExtraTabs = false;
 		if ( INSTANCE == null || INSTANCE.tabs == null )
@@ -237,7 +237,7 @@ public class CharsheetFrame extends AdventureOptionsFrame
 			this.locationSelect.requestFocus();
 	}
 
-	public static void updateSelectedAdventure( KoLAdventure location )
+	public static final void updateSelectedAdventure( KoLAdventure location )
 	{
 		if ( INSTANCE == null || location == null || INSTANCE.zoneSelect == null || INSTANCE.locationSelect == null )
 			return;

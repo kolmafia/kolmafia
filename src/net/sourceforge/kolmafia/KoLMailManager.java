@@ -39,7 +39,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 public abstract class KoLMailManager extends StaticEntity
 {
-	public static Map mailboxes = new TreeMap();
+	public static final Map mailboxes = new TreeMap();
 	static
 	{
 		mailboxes.put( "Inbox", new SortedListModel() );
@@ -48,7 +48,7 @@ public abstract class KoLMailManager extends StaticEntity
 		mailboxes.put( "Saved", new SortedListModel() );
 	}
 
-	public static void clearMailboxes()
+	public static final void clearMailboxes()
 	{
 		getMessages( "Inbox" ).clear();
 		getMessages( "PvP" ).clear();
@@ -56,7 +56,7 @@ public abstract class KoLMailManager extends StaticEntity
 		getMessages( "Saved" ).clear();
 	}
 
-	public static boolean hasNewMessages()
+	public static final boolean hasNewMessages()
 	{
 		String oldMessageId = getProperty( "lastMessageId" );
 
@@ -76,7 +76,7 @@ public abstract class KoLMailManager extends StaticEntity
 	 * specified mailbox.
 	 */
 
-	public static SortedListModel getMessages( String mailbox )
+	public static final SortedListModel getMessages( String mailbox )
 	{	return (SortedListModel) mailboxes.get( mailbox );
 	}
 
@@ -103,7 +103,7 @@ public abstract class KoLMailManager extends StaticEntity
 		return toadd;
 	}
 
-	public static void deleteMessage( String boxname, KoLMailMessage message )
+	public static final void deleteMessage( String boxname, KoLMailMessage message )
 	{
 		RequestThread.postRequest( new MailboxRequest( boxname, message, "delete" ) );
 
@@ -115,7 +115,7 @@ public abstract class KoLMailManager extends StaticEntity
 		setProperty( "lastMessageCount", String.valueOf( getMessages( "Inbox" ).size() ) );
 	}
 
-	public static void deleteMessages( String boxname, Object [] messages )
+	public static final void deleteMessages( String boxname, Object [] messages )
 	{
 		if ( messages.length == 0 )
 			return;
@@ -134,7 +134,7 @@ public abstract class KoLMailManager extends StaticEntity
 		setProperty( "lastMessageCount", String.valueOf( getMessages( "Inbox" ).size() ) );
 	}
 
-	public static void saveMessage( KoLMailMessage message )
+	public static final void saveMessage( KoLMailMessage message )
 	{
 		RequestThread.postRequest( new MailboxRequest( "Inbox", message, "save" ) );
 
@@ -146,7 +146,7 @@ public abstract class KoLMailManager extends StaticEntity
 		setProperty( "lastMessageCount", String.valueOf( getMessages( "Inbox" ).size() ) );
 	}
 
-	public static void saveMessages( Object [] messages )
+	public static final void saveMessages( Object [] messages )
 	{
 		if ( messages.length == 0 )
 			return;

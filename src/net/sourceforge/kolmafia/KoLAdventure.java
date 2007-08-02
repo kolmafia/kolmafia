@@ -781,11 +781,11 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		RequestThread.postRequest( this.request );
 	}
 
-	public static KoLAdventure lastVisitedLocation()
+	public static final KoLAdventure lastVisitedLocation()
 	{	return lastVisitedLocation;
 	}
 
-	public static void resetAutoAttack()
+	public static final void resetAutoAttack()
 	{
 		// In the event that the user made some sort of change
 		// to their auto-attack settings, do nothing.
@@ -899,7 +899,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			StaticEntity.getClient().registerEncounter( this.getAdventureName(), "Noncombat" );
 	}
 
-	public static boolean recordToSession( String urlString )
+	public static final boolean recordToSession( String urlString )
 	{
 		// In the event that this is an adventure, assume "snarfblat"
 		// instead of "adv" in order to determine the location.
@@ -1079,7 +1079,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		return true;
 	}
 
-	public static int getAdventureCount()
+	public static final int getAdventureCount()
 	{
 		return StaticEntity.getBooleanProperty( "logReverseOrder" ) ? KoLCharacter.getAdventuresLeft() :
 			KoLCharacter.getCurrentRun() + 1;
@@ -1103,7 +1103,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		return evade1 - evade2;
 	}
 
-	public static String demonType( int i )
+	public static final String demonType( int i )
 	{
 		switch ( i )
 		{

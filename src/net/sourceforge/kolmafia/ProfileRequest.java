@@ -249,12 +249,12 @@ public class ProfileRequest extends KoLRequest implements Comparable
 	}
 
 	/**
-	 * Static method used by the clan manager in order to
+	 * static final method used by the clan manager in order to
 	 * get an instance of a profile request based on the
 	 * data already known.
 	 */
 
-	public static ProfileRequest getInstance( String playerName, String playerId, String playerLevel, String responseText, String rosterRow )
+	public static final ProfileRequest getInstance( String playerName, String playerId, String playerLevel, String responseText, String rosterRow )
 	{
 		ProfileRequest instance = new ProfileRequest( playerName );
 		instance.playerId = playerId;
@@ -325,12 +325,12 @@ public class ProfileRequest extends KoLRequest implements Comparable
 	}
 
 	/**
-	 * Static method used by the flower hunter in order to
+	 * static final method used by the flower hunter in order to
 	 * get an instance of a profile request based on the
 	 * data already known.
 	 */
 
-	public static ProfileRequest getInstance( String playerName, String playerId, String clanName, Integer playerLevel, String classType, Integer pvpRank )
+	public static final ProfileRequest getInstance( String playerName, String playerId, String clanName, Integer playerLevel, String classType, Integer pvpRank )
 	{
 		ProfileRequest instance = new ProfileRequest( playerName );
 		instance.playerId = playerId;

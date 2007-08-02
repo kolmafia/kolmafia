@@ -60,7 +60,7 @@ public class RequestFrame extends KoLFrame
 	private static final int HISTORY_LIMIT = 4;
 	private static final Pattern IMAGE_PATTERN = Pattern.compile( "http://images\\.kingdomofloathing\\.com/[^\\s\"\'>]+" );
 
-	private static ArrayList sideBarFrames = new ArrayList();
+	private static final ArrayList sideBarFrames = new ArrayList();
 
 	private int locationIndex = 0;
 	private ArrayList history = new ArrayList();
@@ -461,7 +461,7 @@ public class RequestFrame extends KoLFrame
 		}
 	}
 
-	public static void refreshStatus()
+	public static final void refreshStatus()
 	{
 		if ( sideBarFrames.isEmpty() )
 			return;

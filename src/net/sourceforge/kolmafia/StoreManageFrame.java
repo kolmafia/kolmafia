@@ -57,8 +57,9 @@ import net.sourceforge.kolmafia.StoreManager.SoldItem;
 public class StoreManageFrame extends KoLPanelFrame
 {
 	private static StoreManageFrame INSTANCE = null;
-	private static JLabel searchLabel = JComponentUtilities.createLabel( "Mall Prices", JLabel.CENTER, Color.black, Color.white );
-	private static LockableListModel priceSummary = new LockableListModel();
+	private static final JLabel searchLabel = JComponentUtilities.createLabel(
+		"Mall Prices", JLabel.CENTER, Color.black, Color.white );
+	private static final LockableListModel priceSummary = new LockableListModel();
 
 	private JComboBox sellingList;
 	private JTable addTable, manageTable;
@@ -80,7 +81,7 @@ public class StoreManageFrame extends KoLPanelFrame
 		updateEarnings( StoreManager.getPotentialEarnings() );
 	}
 
-	public static void updateEarnings( long potentialEarnings )
+	public static final void updateEarnings( long potentialEarnings )
 	{
 		if ( INSTANCE == null || StaticEntity.getGlobalProperty( "initialDesktop" ).indexOf( "StoreManageFrame" ) != -1 )
 			return;

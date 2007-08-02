@@ -79,7 +79,7 @@ public class CharsheetRequest extends KoLRequest
 	{	parseStatus( this.responseText );
 	}
 
-	public static void parseStatus( String responseText )
+	public static final void parseStatus( String responseText )
 	{
 		// Set the character's avatar.
 		Matcher avatarMatcher = AVATAR_PATTERN.matcher( responseText );
@@ -282,7 +282,7 @@ public class CharsheetRequest extends KoLRequest
 	 * @return	The 2-element array containing the parsed statistics
 	 */
 
-	private static int [] findStatPoints( StringTokenizer tokenizer, String token, String searchString )
+	private static final int [] findStatPoints( StringTokenizer tokenizer, String token, String searchString )
 	{
 		int [] stats = new int[2];
 
@@ -312,7 +312,7 @@ public class CharsheetRequest extends KoLRequest
 	 * @return	The parsed base value, or the default value if no base value is found
 	 */
 
-	private static int retrieveBase( String token, int defaultBase )
+	private static final int retrieveBase( String token, int defaultBase )
 	{
 		Matcher baseMatcher = BASE_PATTERN.matcher( token );
 		return baseMatcher.find() ? StaticEntity.parseInt( baseMatcher.group(1) ) : defaultBase;

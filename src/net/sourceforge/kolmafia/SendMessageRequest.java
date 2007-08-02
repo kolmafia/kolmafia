@@ -280,15 +280,15 @@ public abstract class SendMessageRequest extends KoLRequest
 		}
 	}
 
-	public static boolean hadSendMessageFailure()
+	public static final boolean hadSendMessageFailure()
 	{	return hadSendMessageFailure;
 	}
 
-	public static boolean willUpdateDisplayOnFailure()
+	public static final boolean willUpdateDisplayOnFailure()
 	{	return updateDisplayOnFailure;
 	}
 
-	public static void setUpdateDisplayOnFailure( boolean shouldUpdate )
+	public static final void setUpdateDisplayOnFailure( boolean shouldUpdate )
 	{	updateDisplayOnFailure = shouldUpdate;
 	}
 
@@ -299,11 +299,11 @@ public abstract class SendMessageRequest extends KoLRequest
 	{	return false;
 	}
 
-	public static boolean registerRequest( String command, String urlString, List source, List destination, String meatField, int defaultQuantity )
+	public static final boolean registerRequest( String command, String urlString, List source, List destination, String meatField, int defaultQuantity )
 	{	return registerRequest( command, urlString, ITEMID_PATTERN, HOWMANY_PATTERN, source, destination, meatField, defaultQuantity );
 	}
 
-	public static boolean registerRequest( String command, String urlString, Pattern itemPattern, Pattern quantityPattern, List source, List destination, String meatField, int defaultQuantity )
+	public static final boolean registerRequest( String command, String urlString, Pattern itemPattern, Pattern quantityPattern, List source, List destination, String meatField, int defaultQuantity )
 	{
 		ArrayList itemList = new ArrayList();
 		StringBuffer itemListBuffer = new StringBuffer();

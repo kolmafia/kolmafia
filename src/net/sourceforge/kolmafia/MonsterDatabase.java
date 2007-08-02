@@ -61,7 +61,7 @@ public class MonsterDatabase extends KoLDatabase
 		"none", "cold", "hot", "sleaze", "spooky", "stench"
 	};
 
-	public static int elementNumber( String name )
+	public static final int elementNumber( String name )
 	{
 		for ( int i = 0; i < elementNames.length; ++i )
 			if ( name.equals( elementNames[i] ) )
@@ -125,11 +125,11 @@ public class MonsterDatabase extends KoLDatabase
 		}
 	}
 
-	public static Monster findMonster( String name )
+	public static final Monster findMonster( String name )
 	{	return findMonster( name, true );
 	}
 
-	public static Monster findMonster( String name, boolean trySubstrings )
+	public static final Monster findMonster( String name, boolean trySubstrings )
 	{
 		String keyName = CombatSettings.encounterKey( name, true );
 		String realName = (String) MONSTER_NAMES.get( keyName );
@@ -160,7 +160,7 @@ public class MonsterDatabase extends KoLDatabase
 		return null;
 	}
 
-	public static Monster registerMonster( String name, String s )
+	public static final Monster registerMonster( String name, String s )
 	{
 		Monster monster = findMonster( name, false );
 		if ( monster != null )
@@ -302,7 +302,7 @@ public class MonsterDatabase extends KoLDatabase
 		return new Monster( name, health, attack, defense, initiative, attackElement, defenseElement, minMeat, maxMeat );
 	}
 
-	private static int parseElement( String s )
+	private static final int parseElement( String s )
 	{
 		if ( s.equals( "heat" ) )
 			return HEAT;
@@ -517,7 +517,7 @@ public class MonsterDatabase extends KoLDatabase
 			return Math.max( 1.0f, this.statGain );
 		}
 
-		private static float sombreroAdjustment( float ml, FamiliarData familiar )
+		private static final float sombreroAdjustment( float ml, FamiliarData familiar )
 		{	return (float) Math.round( Math.sqrt( ml - 4.0f ) * familiar.getModifiedWeight() / 100.0f );
 		}
 

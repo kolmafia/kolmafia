@@ -54,12 +54,6 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 public abstract class KoLCharacter extends StaticEntity
 {
-	public static final AdventureResult MAX_HOT = new AdventureResult( "Fireproof Lips", 1, true );
-	public static final AdventureResult MAX_COLD = new AdventureResult( "Fever from the Flavor", 1, true );
-	public static final AdventureResult MAX_SPOOKY = new AdventureResult( "Hyphemariffic", 1, true );
-	public static final AdventureResult MAX_STENCH = new AdventureResult( "Can't Smell Nothin'", 1, true );
-	public static final AdventureResult MAX_SLEAZE = new AdventureResult( "Hyperoffended", 1, true );
-
 	private static final Pattern STILLS_PATTERN = Pattern.compile( "with (\\d+) bright" );
 
 	public static final String SEAL_CLUBBER = "Seal Clubber";
@@ -204,7 +198,7 @@ public abstract class KoLCharacter extends StaticEntity
 	public static final int FAMILIAR = 8;
 	public static final int FAKEHAND = 9;
 
-	// General static variables
+	// General static final variables
 
 	private static String username = "";
 	private static String avatar = "otherimages/discobandit_f.gif";
@@ -233,10 +227,10 @@ public abstract class KoLCharacter extends StaticEntity
 			equipment.add( EquipmentRequest.UNEQUIP );
 	}
 
-	public static SortedListModel battleSkillNames = new SortedListModel();
+	public static final SortedListModel battleSkillNames = new SortedListModel();
 
-	private static LockableListModel accessories = new SortedListModel();
-	private static LockableListModel [] equipmentLists = new LockableListModel[9];
+	private static final LockableListModel accessories = new SortedListModel();
+	private static final LockableListModel [] equipmentLists = new LockableListModel[9];
 
 	static
 	{
@@ -273,7 +267,7 @@ public abstract class KoLCharacter extends StaticEntity
 	// Status pane data which is rendered whenever
 	// the user changes equipment, effects, and familiar
 
-	private static final Modifiers currentModifiers = new Modifiers();
+	private static Modifiers currentModifiers = new Modifiers();
 
 	// Travel information
 
@@ -290,7 +284,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	// Familiar data for reference
 
-	private static SortedListModel familiars = new SortedListModel();
+	private static final SortedListModel familiars = new SortedListModel();
 	private static boolean isUsingStabBat = false;
 	private static FamiliarData currentFamiliar = FamiliarData.NO_FAMILIAR;
 
@@ -299,7 +293,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	// Listener-driven container items
 
-	private static List listenerList = new ArrayList();
+	private static final List listenerList = new ArrayList();
 	private static boolean beanstalkArmed = false;
 
 	// Ascension-related variables
@@ -316,7 +310,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	private static String autosellMode = "";
 
-	public static void resetInventory()
+	public static final void resetInventory()
 	{
 		inventory.clear();
 
@@ -345,7 +339,7 @@ public abstract class KoLCharacter extends StaticEntity
 		KoLCharacter.reset();
 	}
 
-	public static void reset()
+	public static final void reset()
 	{
 		classname = "";
 		classtype = "";
@@ -436,41 +430,41 @@ public abstract class KoLCharacter extends StaticEntity
 		battleSkillNames.setSelectedIndex( battleIndex == -1 ? 0 : battleIndex );
 	}
 
-	public static void setHoliday( String holiday )
+	public static final void setHoliday( String holiday )
 	{	isFullnessIncreased = holiday.equals( "Feast of Boris" );
 	}
 
-	public static int getFullness()
+	public static final int getFullness()
 	{	return StaticEntity.getIntegerProperty( "currentFullness" );
 	}
 
-	public static int getFullnessLimit()
+	public static final int getFullnessLimit()
 	{
 		int baseFullness = hasSkill( "Stomach of Steel" ) ? 20 : canEat() ? 15 : 0;
 		return baseFullness == 0 ? 0 : isFullnessIncreased ? baseFullness + 15 : baseFullness;
 	}
 
-	public static void setInebriety( int inebriety )
+	public static final void setInebriety( int inebriety )
 	{	KoLCharacter.inebriety = inebriety;
 	}
 
-	public static int getInebriety()
+	public static final int getInebriety()
 	{	return inebriety;
 	}
 
-	public static int getInebrietyLimit()
+	public static final int getInebrietyLimit()
 	{	return hasSkill( "Liver of Steel" ) ? 19 : canDrink() ? 14 : 0;
 	}
 
-	public static boolean isFallingDown()
+	public static final boolean isFallingDown()
 	{	return getInebriety() > getInebrietyLimit();
 	}
 
-	public static int getSpleenUse()
+	public static final int getSpleenUse()
 	{	return StaticEntity.getIntegerProperty( "currentSpleenUse" );
 	}
 
-	public static int getSpleenLimit()
+	public static final int getSpleenLimit()
 	{	return hasSkill( "Spleen of Steel" ) ? 20 : 15;
 	}
 
@@ -479,18 +473,12 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	The name of this character
 	 */
 
-	public static String getUserName()
+	public static final String getUserName()
 	{	return username;
 	}
 
-	public static String baseUserName()
-	{	return baseUserName( username );
-	}
-
-	public static String baseUserName( String name )
-	{
-		return name == null || name.equals( "" ) ? "GLOBAL" :
-			globalStringReplace( globalStringDelete( name, "/q" ), " ", "_" ).trim().toLowerCase();
+	public static final String baseUserName()
+	{	return KoLSettings.baseUserName( username );
 	}
 
 	/**
@@ -498,7 +486,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @param	userId	The user Id associated with this character
 	 */
 
-	public static void setUserId( int userId )
+	public static final void setUserId( int userId )
 	{
 		KoLCharacter.userId = userId;
 		KoLCharacter.playerId = String.valueOf( userId );
@@ -509,7 +497,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	The user Id associated with this character
 	 */
 
-	public static String getPlayerId()
+	public static final String getPlayerId()
 	{	return playerId;
 	}
 
@@ -518,7 +506,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	The user Id associated with this character
 	 */
 
-	public static int getUserId()
+	public static final int getUserId()
 	{	return userId;
 	}
 
@@ -527,7 +515,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @param	avatar	The avatar for this character
 	 */
 
-	public static void setAvatar( String avatar )
+	public static final void setAvatar( String avatar )
 	{	KoLCharacter.avatar = avatar;
 	}
 
@@ -536,7 +524,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	The avatar for this character
 	 */
 
-	public static String getAvatar()
+	public static final String getAvatar()
 	{
 		RequestEditorKit.downloadImage( "http://images.kingdomofloathing.com/" + avatar );
 		return avatar;
@@ -547,7 +535,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	The index of the prime stat
 	 */
 
-	public static int getPrimeIndex()
+	public static final int getPrimeIndex()
 	{	return classtype.startsWith( "Se" ) || classtype.startsWith( "Tu" ) ? 0 : classtype.startsWith( "Sa" ) || classtype.startsWith( "Pa" ) ? 1 : 2;
 	}
 
@@ -556,7 +544,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	The level of this character
 	 */
 
-	public static int getLevel()
+	public static final int getLevel()
 	{
 		int totalPrime = getTotalPrime();
 
@@ -570,19 +558,19 @@ public abstract class KoLCharacter extends StaticEntity
 		return currentLevel;
 	}
 
-	public static int getPvpRank()
+	public static final int getPvpRank()
 	{	return pvpRank;
 	}
 
-	public static void setPvpRank( int pvpRank )
+	public static final void setPvpRank( int pvpRank )
 	{	KoLCharacter.pvpRank = pvpRank;
 	}
 
-	public static int getAttacksLeft()
+	public static final int getAttacksLeft()
 	{	return attacksLeft;
 	}
 
-	public static void setAttacksLeft( int attacksLeft )
+	public static final void setAttacksLeft( int attacksLeft )
 	{	KoLCharacter.attacksLeft = attacksLeft;
 	}
 
@@ -591,7 +579,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @param	classname	The name of the character's class
 	 */
 
-	public static void setClassName( String classname )
+	public static final void setClassName( String classname )
 	{
 		KoLCharacter.classname = classname;
 		KoLCharacter.classtype = null;
@@ -603,7 +591,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	The name of the character's class
 	 */
 
-	public static String getClassName()
+	public static final String getClassName()
 	{	return classname;
 	}
 
@@ -612,7 +600,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	The type of the character's class
 	 */
 
-	public static String getClassType()
+	public static final String getClassType()
 	{
 		if ( classtype == null )
 		{
@@ -629,22 +617,22 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	The type of the character's class
 	 */
 
-	public static String getClassType( String classname )
+	public static final String getClassType( String classname )
 	{
 		return SEAL_CLUBBER_RANKS.contains( classname ) ? SEAL_CLUBBER : TURTLE_TAMER_RANKS.contains( classname ) ? TURTLE_TAMER :
 			PASTAMANCER_RANKS.contains( classname ) ? PASTAMANCER : SAUCEROR_RANKS.contains( classname ) ? SAUCEROR :
 			DISCO_BANDIT_RANKS.contains( classname ) ? DISCO_BANDIT : ACCORDION_THIEF_RANKS.contains( classname ) ? ACCORDION_THIEF : SAUCEROR;
 	}
 
-	public static boolean isMuscleClass()
+	public static final boolean isMuscleClass()
 	{	return classtype.equals( SEAL_CLUBBER ) || classtype.equals( TURTLE_TAMER );
 	}
 
-	public static boolean isMysticalityClass()
+	public static final boolean isMysticalityClass()
 	{	return classtype.equals( PASTAMANCER ) || classtype.equals( SAUCEROR );
 	}
 
-	public static boolean isMoxieClass()
+	public static final boolean isMoxieClass()
 	{	return classtype.equals( DISCO_BANDIT ) || classtype.equals( ACCORDION_THIEF );
 	}
 
@@ -655,7 +643,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @param	baseMaxHP	The base value for the character's maximum HP
 	 */
 
-	public static void setHP( int currentHP, int maximumHP, int baseMaxHP )
+	public static final void setHP( int currentHP, int maximumHP, int baseMaxHP )
 	{
 		KoLCharacter.currentHP = currentHP < 0 ? 0 :currentHP > maximumHP ? maximumHP : currentHP;
 		KoLCharacter.maximumHP = maximumHP;
@@ -667,7 +655,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	The character's current HP
 	 */
 
-	public static int getCurrentHP()
+	public static final int getCurrentHP()
 	{	return currentHP;
 	}
 
@@ -676,7 +664,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	The character's maximum HP
 	 */
 
-	public static int getMaximumHP()
+	public static final int getMaximumHP()
 	{	return maximumHP;
 	}
 
@@ -685,7 +673,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	The base value for the character's maximum HP
 	 */
 
-	public static int getBaseMaxHP()
+	public static final int getBaseMaxHP()
 	{	return baseMaxHP;
 	}
 
@@ -696,7 +684,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @param	baseMaxMP	The base value for the character's maximum MP
 	 */
 
-	public static void setMP( int currentMP, int maximumMP, int baseMaxMP )
+	public static final void setMP( int currentMP, int maximumMP, int baseMaxMP )
 	{
 		KoLCharacter.currentMP = currentMP < 0 ? 0 : currentMP > maximumMP ? maximumMP : currentMP;
 		KoLCharacter.maximumMP = maximumMP;
@@ -708,7 +696,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	The character's current MP
 	 */
 
-	public static int getCurrentMP()
+	public static final int getCurrentMP()
 	{	return currentMP;
 	}
 
@@ -717,7 +705,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	The character's maximum MP
 	 */
 
-	public static int getMaximumMP()
+	public static final int getMaximumMP()
 	{	return maximumMP;
 	}
 
@@ -726,15 +714,15 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	The base value for the character's maximum MP
 	 */
 
-	public static int getBaseMaxMP()
+	public static final int getBaseMaxMP()
 	{	return baseMaxMP;
 	}
 
-	public static void setStorageMeat( int storageMeat )
+	public static final void setStorageMeat( int storageMeat )
 	{	KoLCharacter.storageMeat = storageMeat;
 	}
 
-	public static int getStorageMeat()
+	public static final int getStorageMeat()
 	{	return storageMeat;
 	}
 
@@ -743,7 +731,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @param	closetMeat	The amount of meat in the character's closet.
 	 */
 
-	public static void setClosetMeat( int closetMeat )
+	public static final void setClosetMeat( int closetMeat )
 	{	KoLCharacter.closetMeat = closetMeat;
 	}
 
@@ -752,7 +740,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	The amount of meat in the character's closet.
 	 */
 
-	public static int getClosetMeat()
+	public static final int getClosetMeat()
 	{	return closetMeat;
 	}
 
@@ -763,7 +751,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @param	availableMeat	The character's available meat for spending
 	 */
 
-	public static void setAvailableMeat( int availableMeat )
+	public static final void setAvailableMeat( int availableMeat )
 	{
 		if ( KoLCharacter.availableMeat != availableMeat )
 			KoLCharacter.availableMeat = availableMeat;
@@ -776,7 +764,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	The character's available meat for spending
 	 */
 
-	public static int getAvailableMeat()
+	public static final int getAvailableMeat()
 	{	return availableMeat;
 	}
 
@@ -796,7 +784,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @param	totalMoxie	The total number of moxie subpoints acquired thus far
 	 */
 
-	public static void setStatPoints( int adjustedMuscle, int totalMuscle,
+	public static final void setStatPoints( int adjustedMuscle, int totalMuscle,
 		int adjustedMysticality, int totalMysticality, int adjustedMoxie, int totalMoxie )
 	{
 		adjustedStats[0] = adjustedMuscle;
@@ -818,7 +806,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	The total number of subpoints acquired since creation
 	 */
 
-	public static int calculateSubpoints( int baseValue, int sinceLastBase )
+	public static final int calculateSubpoints( int baseValue, int sinceLastBase )
 	{	return baseValue * baseValue - 1 + sinceLastBase;
 	}
 
@@ -830,7 +818,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	The base points associated with the subpoint value
 	 */
 
-	public static int calculateBasePoints( int totalSubpoints )
+	public static final int calculateBasePoints( int totalSubpoints )
 	{	return (int) Math.floor( Math.sqrt( totalSubpoints + 1 ) );
 	}
 
@@ -839,7 +827,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	The total subpoints to the current level
 	 */
 
-	public static int calculateLastLevel()
+	public static final int calculateLastLevel()
 	{
 		int level = currentLevel - 1;
 		int basePointsNeeded = level * level + 4;
@@ -851,7 +839,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	The total subpoints to the next level
 	 */
 
-	public static int calculateNextLevel()
+	public static final int calculateNextLevel()
 	{
 		int level = currentLevel;
 		int basePointsNeeded = level * level + 4;
@@ -863,7 +851,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	The total subpoints in the prime stat
 	 */
 
-	public static int getTotalPrime()
+	public static final int getTotalPrime()
 	{	return totalSubpoints[ getPrimeIndex() ];
 	}
 
@@ -872,7 +860,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * the total number of subpoints accumulated.
 	 */
 
-	private static int calculateTillNextPoint( int totalSubpoints )
+	private static final int calculateTillNextPoint( int totalSubpoints )
 	{
 		int basePoints = calculateBasePoints( totalSubpoints ) + 1;
 		return basePoints * basePoints - totalSubpoints - 1;
@@ -883,7 +871,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	The character's base value for muscle
 	 */
 
-	public static int getBaseMuscle()
+	public static final int getBaseMuscle()
 	{	return calculateBasePoints( totalSubpoints[0] );
 	}
 
@@ -894,7 +882,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	The total muscle subpoints so far
 	 */
 
-	public static int getTotalMuscle()
+	public static final int getTotalMuscle()
 	{	return totalSubpoints[0];
 	}
 
@@ -903,7 +891,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * before the character gains another full point of muscle.
 	 */
 
-	public static int getMuscleTNP()
+	public static final int getMuscleTNP()
 	{	return calculateTillNextPoint( totalSubpoints[0] );
 	}
 
@@ -912,7 +900,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	The character's adjusted value for muscle
 	 */
 
-	public static int getAdjustedMuscle()
+	public static final int getAdjustedMuscle()
 	{	return adjustedStats[0];
 	}
 
@@ -921,7 +909,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	The character's base value for muscle
 	 */
 
-	public static int getBaseMysticality()
+	public static final int getBaseMysticality()
 	{	return calculateBasePoints( totalSubpoints[1] );
 	}
 
@@ -932,7 +920,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	The total mysticality subpoints so far
 	 */
 
-	public static int getTotalMysticality()
+	public static final int getTotalMysticality()
 	{	return totalSubpoints[1];
 	}
 
@@ -941,7 +929,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * before the character gains another full point of mysticality.
 	 */
 
-	public static int getMysticalityTNP()
+	public static final int getMysticalityTNP()
 	{	return calculateTillNextPoint( totalSubpoints[1] );
 	}
 
@@ -950,7 +938,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	The character's adjusted value for mysticality
 	 */
 
-	public static int getAdjustedMysticality()
+	public static final int getAdjustedMysticality()
 	{	return adjustedStats[1];
 	}
 
@@ -959,7 +947,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	The character's base value for moxie
 	 */
 
-	public static int getBaseMoxie()
+	public static final int getBaseMoxie()
 	{	return calculateBasePoints( totalSubpoints[2] );
 	}
 
@@ -970,7 +958,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	The total moxie subpoints so far
 	 */
 
-	public static int getTotalMoxie()
+	public static final int getTotalMoxie()
 	{	return totalSubpoints[2];
 	}
 
@@ -979,7 +967,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * before the character gains another full point of moxie.
 	 */
 
-	public static int getMoxieTNP()
+	public static final int getMoxieTNP()
 	{	return calculateTillNextPoint( totalSubpoints[2] );
 	}
 
@@ -988,7 +976,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	The character's adjusted value for moxie
 	 */
 
-	public static int getAdjustedMoxie()
+	public static final int getAdjustedMoxie()
 	{	return adjustedStats[2];
 	}
 
@@ -999,7 +987,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @param	adventuresLeft	The number of adventures the character has left
 	 */
 
-	public static void setAdventuresLeft( int adventuresLeft )
+	public static final void setAdventuresLeft( int adventuresLeft )
 	{
 		if ( adventuresLeft != KoLCharacter.adventuresLeft )
 		{
@@ -1016,11 +1004,11 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	The number of adventures the character has left
 	 */
 
-	public static int getAdventuresLeft()
+	public static final int getAdventuresLeft()
 	{	return adventuresLeft;
 	}
 
-	public static void setCurrentRun( int currentRun )
+	public static final void setCurrentRun( int currentRun )
 	{	KoLCharacter.currentRun = currentRun;
 	}
 
@@ -1030,7 +1018,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * view, but sometimes, it's interesting to know.
 	 */
 
-	public static int getCurrentRun()
+	public static final int getCurrentRun()
 	{	return currentRun;
 	}
 
@@ -1038,11 +1026,11 @@ public abstract class KoLCharacter extends StaticEntity
 	 * Accessor method to retrieve the current value of a named modifier
 	 */
 
-	public static float currentNumericModifier( String name )
+	public static final float currentNumericModifier( String name )
 	{	return currentModifiers.get( name );
 	}
 
-	public static boolean currentBooleanModifier( String name )
+	public static final boolean currentBooleanModifier( String name )
 	{	return currentModifiers.getBoolean( name );
 	}
 
@@ -1051,7 +1039,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * adjustment
 	 */
 
-	public static int getMonsterLevelAdjustment()
+	public static final int getMonsterLevelAdjustment()
 	{	return (int) currentModifiers.get( Modifiers.MONSTER_LEVEL );
 	}
 
@@ -1060,11 +1048,11 @@ public abstract class KoLCharacter extends StaticEntity
 	 * adjustment
 	 */
 
-	public static int getFamiliarWeightAdjustment()
+	public static final int getFamiliarWeightAdjustment()
 	{	return (int) currentModifiers.get( Modifiers.FAMILIAR_WEIGHT );
 	}
 
-	public static int getManaCostAdjustment()
+	public static final int getManaCostAdjustment()
 	{	return (int) currentModifiers.get( Modifiers.MANA_COST );
 	}
 
@@ -1073,7 +1061,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * adjustment
 	 */
 
-	public static float getCombatRateAdjustment()
+	public static final float getCombatRateAdjustment()
 	{	return currentModifiers.get( Modifiers.COMBAT_RATE );
 	}
 
@@ -1082,7 +1070,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * adjustment
 	 */
 
-	public static float getInitiativeAdjustment()
+	public static final float getInitiativeAdjustment()
 	{	return currentModifiers.get( Modifiers.INITIATIVE );
 	}
 
@@ -1091,7 +1079,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * adjustment
 	 */
 
-	public static float getExperienceAdjustment()
+	public static final float getExperienceAdjustment()
 	{	return currentModifiers.get( Modifiers.EXPERIENCE );
 	}
 
@@ -1102,7 +1090,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	Total Current Meat Drop Percent Adjustment
 	 */
 
-	public static float getMeatDropPercentAdjustment()
+	public static final float getMeatDropPercentAdjustment()
 	{	return currentModifiers.get( Modifiers.MEATDROP );
 	}
 
@@ -1113,11 +1101,11 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	Total Current Item Drop Percent Adjustment
 	 */
 
-	public static float getItemDropPercentAdjustment()
+	public static final float getItemDropPercentAdjustment()
 	{	return currentModifiers.get( Modifiers.ITEMDROP );
 	}
 
-	public static void setEquipment( int slot, AdventureResult item )
+	public static final void setEquipment( int slot, AdventureResult item )
 	{
 		// Accessories are special in terms of testing for existence
 		// in equipment lists -- they are all mirrors of accessories.
@@ -1179,7 +1167,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @param	equipment	All of the available equipment, stored in an array index by the constants
 	 */
 
-	public static void setEquipment( AdventureResult [] equipment )
+	public static final void setEquipment( AdventureResult [] equipment )
 	{
 		for ( int i = HAT; i <= FAMILIAR; ++i )
 		{
@@ -1190,7 +1178,7 @@ public abstract class KoLCharacter extends StaticEntity
 		}
 	}
 
-	public static void setOutfits( List newOutfits )
+	public static final void setOutfits( List newOutfits )
 	{
 		// Rebuild outfits if given a new list
 		if ( newOutfits != null )
@@ -1207,7 +1195,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	The name of the item equipped on the character's familiar, <code>none</code> if no such item exists
 	 */
 
-	public static AdventureResult getFamiliarItem()
+	public static final AdventureResult getFamiliarItem()
 	{	return currentFamiliar == null ? EquipmentRequest.UNEQUIP : currentFamiliar.getItem();
 	}
 
@@ -1217,7 +1205,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	The name of the equipment, <code>none</code> if no such item exists
 	 */
 
-	public static AdventureResult getEquipment( int type )
+	public static final AdventureResult getEquipment( int type )
 	{
 		if ( type >= 0 && type < equipment.size() )
 			return (AdventureResult) equipment.get( type );
@@ -1228,11 +1216,11 @@ public abstract class KoLCharacter extends StaticEntity
 		return EquipmentRequest.UNEQUIP;
 	}
 
-	public static int getFakeHands()
+	public static final int getFakeHands()
 	{	return fakeHands;
 	}
 
-	public static void setFakeHands( int hands )
+	public static final void setFakeHands( int hands )
 	{	fakeHands = hands;
 	}
 
@@ -1241,7 +1229,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	int	number of hands needed
 	 */
 
-	public static int weaponHandedness()
+	public static final int weaponHandedness()
 	{	return EquipmentDatabase.getHands( getEquipment( WEAPON ).getName() );
 	}
 
@@ -1250,11 +1238,11 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	int	MUSCLE, MYSTICALITY, MOXIE
 	 */
 
-	public static int equipStat()
+	public static final int equipStat()
 	{	return EquipmentDatabase.equipStat( getEquipment( WEAPON ).getName() );
 	}
 
-	public static int hitStat()
+	public static final int hitStat()
 	{	return rangedWeapon() ? MOXIE : MUSCLE;
 	}
 
@@ -1263,7 +1251,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	int	adjusted muscle, mysticality, or moxie
 	 */
 
-	public static int getAdjustedHitStat()
+	public static final int getAdjustedHitStat()
 	{
 		switch ( hitStat() )
 		{
@@ -1278,7 +1266,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	boolean	true if weapon is ranged
 	 */
 
-	public static boolean rangedWeapon()
+	public static final boolean rangedWeapon()
 	{	return EquipmentDatabase.isRanged( getEquipment( WEAPON ).getName() );
 	}
 
@@ -1288,7 +1276,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	Total Current Damage Absorption
 	 */
 
-	public static int getDamageAbsorption()
+	public static final int getDamageAbsorption()
 	{	return (int) currentModifiers.get( Modifiers.DAMAGE_ABSORPTION );
 	}
 
@@ -1298,7 +1286,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	Total Current Damage Reduction
 	 */
 
-	public static int getDamageReduction()
+	public static final int getDamageReduction()
 	{	return (int) currentModifiers.get( Modifiers.DAMAGE_REDUCTION );
 	}
 
@@ -1308,7 +1296,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	Total Current  Resistance to specified element
 	 */
 
-	public static float getElementalResistance( int element )
+	public static final float getElementalResistance( int element )
 	{
 		switch ( element )
 		{
@@ -1332,7 +1320,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	boolean	true if character has two weapons equipped
 	 */
 
-	public static boolean dualWielding()
+	public static final boolean dualWielding()
 	{	return EquipmentDatabase.getHands( getEquipment( OFFHAND ).getName() ) == 1;
 	}
 
@@ -1341,11 +1329,11 @@ public abstract class KoLCharacter extends StaticEntity
 	 * by familiars.  Note this lists items which the current familiar cannot equip.
 	 */
 
-	public static LockableListModel [] getEquipmentLists()
+	public static final LockableListModel [] getEquipmentLists()
 	{	return equipmentLists;
 	}
 
-	public static int consumeFilterToEquipmentType( int consumeFilter )
+	public static final int consumeFilterToEquipmentType( int consumeFilter )
 	{
 		switch ( consumeFilter )
 		{
@@ -1368,7 +1356,7 @@ public abstract class KoLCharacter extends StaticEntity
 		}
 	}
 
-	public static int equipmentTypeToConsumeFilter( int equipmentType )
+	public static final int equipmentTypeToConsumeFilter( int equipmentType )
 	{
 		switch ( equipmentType )
 		{
@@ -1393,14 +1381,14 @@ public abstract class KoLCharacter extends StaticEntity
 		}
 	}
 
-	public static void updateEquipmentLists()
+	public static final void updateEquipmentLists()
 	{
 		EquipmentDatabase.updateOutfits();
 		for ( int i = 0; i <= FAMILIAR; ++i )
 			updateEquipmentList( i );
 	}
 
-	public static void updateEquipmentList( int listIndex )
+	public static final void updateEquipmentList( int listIndex )
 	{
 		int consumeFilter = equipmentTypeToConsumeFilter( listIndex );
 		if ( consumeFilter == -1 )
@@ -1446,7 +1434,7 @@ public abstract class KoLCharacter extends StaticEntity
 		equipmentLists[ listIndex ].setSelectedItem( equippedItem );
 	}
 
-	private static void updateEquipmentList( int filterId, List currentList )
+	private static final void updateEquipmentList( int filterId, List currentList )
 	{
 		ArrayList temporary = new ArrayList();
 		temporary.add( EquipmentRequest.UNEQUIP );
@@ -1517,7 +1505,7 @@ public abstract class KoLCharacter extends StaticEntity
 		currentList.addAll( temporary );
 	}
 
-	private static int getCount( AdventureResult accessory )
+	private static final int getCount( AdventureResult accessory )
 	{
 		int available = accessory.getCount( inventory );
 		if ( KoLCharacter.getEquipment( ACCESSORY1 ).equals( accessory ) )
@@ -1538,7 +1526,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	A <code>LockableListModel</code> of the available outfits
 	 */
 
-	public static LockableListModel getCustomOutfits()
+	public static final LockableListModel getCustomOutfits()
 	{	return customOutfits;
 	}
 
@@ -1550,7 +1538,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	A <code>LockableListModel</code> of the available outfits
 	 */
 
-	public static LockableListModel getOutfits()
+	public static final LockableListModel getOutfits()
 	{	return outfits;
 	}
 
@@ -1559,7 +1547,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	<code>true</code> if the beanstalk has been armed
 	 */
 
-	public static boolean beanstalkArmed()
+	public static final boolean beanstalkArmed()
 	{	return beanstalkArmed;
 	}
 
@@ -1567,7 +1555,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * Accessor method to indicate a change in state of the beanstalk
 	 */
 
-	public static void armBeanstalk()
+	public static final void armBeanstalk()
 	{	KoLCharacter.beanstalkArmed = true;
 	}
 
@@ -1576,7 +1564,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	<code>true</code> if the character has a store
 	 */
 
-	public static boolean hasStore()
+	public static final boolean hasStore()
 	{	return hasStore;
 	}
 
@@ -1585,7 +1573,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @param	hasStore	Whether or not the character currently has a store
 	 */
 
-	public static void setStore( boolean hasStore )
+	public static final void setStore( boolean hasStore )
 	{	KoLCharacter.hasStore = hasStore;
 	}
 
@@ -1594,7 +1582,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	<code>true</code> if the character has a display case
 	 */
 
-	public static boolean hasDisplayCase()
+	public static final boolean hasDisplayCase()
 	{	return hasDisplayCase;
 	}
 
@@ -1603,7 +1591,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @param	hasDisplayCase	Whether or not the character currently has display case
 	 */
 
-	public static void setDisplayCase( boolean hasDisplayCase )
+	public static final void setDisplayCase( boolean hasDisplayCase )
 	{	KoLCharacter.hasDisplayCase = hasDisplayCase;
 	}
 
@@ -1612,7 +1600,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	<code>true</code> if the character is in a clan
 	 */
 
-	public static boolean hasClan()
+	public static final boolean hasClan()
 	{	return hasClan;
 	}
 
@@ -1621,7 +1609,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @param	hasClan	Whether or not the character currently is in a clan
 	 */
 
-	public static void setClan( boolean hasClan )
+	public static final void setClan( boolean hasClan )
 	{	KoLCharacter.hasClan = hasClan;
 	}
 
@@ -1630,7 +1618,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	<code>true</code> if the character has a toaster
 	 */
 
-	public static boolean hasToaster()
+	public static final boolean hasToaster()
 	{	return hasToaster;
 	}
 
@@ -1639,7 +1627,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @param	hasToaster	Whether or not the character currently has a toaster
 	 */
 
-	public static void setToaster( boolean hasToaster )
+	public static final void setToaster( boolean hasToaster )
 	{	KoLCharacter.hasToaster = hasToaster;
 	}
 
@@ -1648,7 +1636,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	<code>true</code> if the character has golden arches
 	 */
 
-	public static boolean hasArches()
+	public static final boolean hasArches()
 	{	return hasArches;
 	}
 
@@ -1657,7 +1645,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @param	hasArches	Whether or not the character currently has golden arches
 	 */
 
-	public static void setArches( boolean hasArches )
+	public static final void setArches( boolean hasArches )
 	{	KoLCharacter.hasArches = hasArches;
 	}
 
@@ -1666,7 +1654,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	<code>true</code> if the character has a bartender-in-the-box
 	 */
 
-	public static boolean hasBartender()
+	public static final boolean hasBartender()
 	{	return hasBartender;
 	}
 
@@ -1675,7 +1663,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @param	hasBartender	Whether or not the character currently has a bartender
 	 */
 
-	public static void setBartender( boolean hasBartender )
+	public static final void setBartender( boolean hasBartender )
 	{
 		if ( KoLCharacter.hasBartender != hasBartender )
 		{
@@ -1689,7 +1677,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	<code>true</code> if the character has a chef-in-the-box
 	 */
 
-	public static boolean hasChef()
+	public static final boolean hasChef()
 	{	return hasChef;
 	}
 
@@ -1698,7 +1686,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @param	hasChef	Whether or not the character currently has a chef
 	 */
 
-	public static void setChef( boolean hasChef )
+	public static final void setChef( boolean hasChef )
 	{
 		if ( KoLCharacter.hasChef != hasChef )
 		{
@@ -1712,7 +1700,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * with other players (Ronin or Hardcore players cannot).
 	 */
 
-	public static boolean canInteract()
+	public static final boolean canInteract()
 	{	return CharpaneRequest.canInteract();
 	}
 
@@ -1720,7 +1708,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * Returns whether or not the character is currently in hardcore.
 	 */
 
-	public static boolean isHardcore()
+	public static final boolean isHardcore()
 	{	return isHardcore;
 	}
 
@@ -1729,7 +1717,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * in hardcore.
 	 */
 
-	public static void setHardcore( boolean isHardcore )
+	public static final void setHardcore( boolean isHardcore )
 	{	KoLCharacter.isHardcore = isHardcore;
 	}
 
@@ -1738,7 +1726,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	String
 	 */
 
-	public static int getAscensions()
+	public static final int getAscensions()
 	{	return ascensions;
 	}
 
@@ -1747,7 +1735,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	String
 	 */
 
-	public static String getSign()
+	public static final String getSign()
 	{	return ascensionSign;
 	}
 
@@ -1756,7 +1744,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	int
 	 */
 
-	public static int getSignStat()
+	public static final int getSignStat()
 	{	return ascensionSignType;
 	}
 
@@ -1765,7 +1753,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @param	ascensions	the new ascension count
 	 */
 
-	public static void setAscensions( int ascensions )
+	public static final void setAscensions( int ascensions )
 	{	KoLCharacter.ascensions = ascensions;
 	}
 
@@ -1774,7 +1762,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @param	ascensionSign	the new sign
 	 */
 
-	public static void setSign( String ascensionSign )
+	public static final void setSign( String ascensionSign )
 	{
 		if ( ascensionSign.startsWith("The ") )
 		     ascensionSign = ascensionSign.substring(4);
@@ -1791,19 +1779,19 @@ public abstract class KoLCharacter extends StaticEntity
 			ascensionSignType = NONE;
 	}
 
-	public static int getConsumptionRestriction()
+	public static final int getConsumptionRestriction()
 	{	return consumptionRestriction;
 	}
 
-	public static void setConsumptionRestriction( int consumptionRestriction )
+	public static final void setConsumptionRestriction( int consumptionRestriction )
 	{	KoLCharacter.consumptionRestriction = consumptionRestriction;
 	}
 
-	public static boolean canEat()
+	public static final boolean canEat()
 	{	return consumptionRestriction == AscensionSnapshotTable.NOPATH || consumptionRestriction == AscensionSnapshotTable.TEETOTALER;
 	}
 
-	public static boolean canDrink()
+	public static final boolean canDrink()
 	{	return consumptionRestriction == AscensionSnapshotTable.NOPATH || consumptionRestriction == AscensionSnapshotTable.BOOZETAFARIAN;
 	}
 
@@ -1812,7 +1800,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	int
 	 */
 
-	public static int getMindControlLevel()
+	public static final int getMindControlLevel()
 	{	return mindControlLevel;
 	}
 
@@ -1821,7 +1809,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @param	level	the new level
 	 */
 
-	public static void setMindControlLevel( int level )
+	public static final void setMindControlLevel( int level )
 	{
 		KoLCharacter.mindControlLevel = level;
 		recalculateAdjustments();
@@ -1833,7 +1821,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	int
 	 */
 
-	public static int getDetunedRadioVolume()
+	public static final int getDetunedRadioVolume()
 	{	return detunedRadioVolume;
 	}
 
@@ -1842,7 +1830,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @param	volume	the new level
 	 */
 
-	public static void setDetunedRadioVolume( int volume )
+	public static final void setDetunedRadioVolume( int volume )
 	{
 		KoLCharacter.detunedRadioVolume = volume;
 		recalculateAdjustments();
@@ -1854,7 +1842,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	int
 	 */
 
-	public static int getAnnoyotronLevel()
+	public static final int getAnnoyotronLevel()
 	{	return annoyotronLevel;
 	}
 
@@ -1863,7 +1851,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @param	volume	the new level
 	 */
 
-	public static void setAnnoyotronLevel( int level )
+	public static final void setAnnoyotronLevel( int level )
 	{
 		KoLCharacter.annoyotronLevel = level;
 		recalculateAdjustments();
@@ -1875,7 +1863,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	int
 	 */
 
-	public static int getSignedMLAdjustment()
+	public static final int getSignedMLAdjustment()
 	{
 		if ( mindControlLevel > 0 )
 			return mindControlLevel;
@@ -1891,7 +1879,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	String
 	 */
 
-	public static String getAutosellMode()
+	public static final String getAutosellMode()
 	{	return autosellMode;
 	}
 
@@ -1900,7 +1888,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @param	mode	the new mode
 	 */
 
-	public static void setAutosellMode( String mode )
+	public static final void setAutosellMode( String mode )
 	{	KoLCharacter.autosellMode = mode;
 	}
 
@@ -1920,7 +1908,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	<code>true</code> if the character is in a Muscle sign
 	 */
 
-	public static boolean inMuscleSign()
+	public static final boolean inMuscleSign()
 	{	return (ascensionSignType == MUSCLE);
 	}
 
@@ -1938,7 +1926,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	<code>true</code> if the character is in a Mysticality sign
 	 */
 
-	public static boolean inMysticalitySign()
+	public static final boolean inMysticalitySign()
 	{	return (ascensionSignType == MYSTICALITY);
 	}
 
@@ -1955,7 +1943,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	<code>true</code> if the character is in a Moxie sign
 	 */
 
-	public static boolean inMoxieSign()
+	public static final boolean inMoxieSign()
 	{	return (ascensionSignType == MOXIE);
 	}
 
@@ -1964,7 +1952,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @param	newSkillSet	The list of the names of available skills
 	 */
 
-	public static void setAvailableSkills( List newSkillSet )
+	public static final void setAvailableSkills( List newSkillSet )
 	{
 		if ( KoLCharacter.isMoxieClass() )
 			addAvailableSkill( UseSkillRequest.getInstance( "Moxious Maneuver" ) );
@@ -1985,7 +1973,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * possessed by this character.
 	 */
 
-	public static void addAvailableSkill( UseSkillRequest skill )
+	public static final void addAvailableSkill( UseSkillRequest skill )
 	{
 		if ( availableSkills.contains( skill ) )
 			return;
@@ -2029,7 +2017,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * Adds derived skills to appropriate lists
 	 */
 
-	public static void addDerivedSkills()
+	public static final void addDerivedSkills()
 	{
 		if ( classtype.startsWith( "Tu" ) )
 		{
@@ -2048,7 +2036,7 @@ public abstract class KoLCharacter extends StaticEntity
 		}
 	}
 
-	private static void addCombatSkill( String name )
+	private static final void addCombatSkill( String name )
 	{
 		String skillname = "skill " + name.toLowerCase();
 		if ( !battleSkillNames.contains( skillname ) )
@@ -2061,7 +2049,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * the selected index in the battle skills list.
 	 */
 
-	public static LockableListModel getBattleSkillNames()
+	public static final LockableListModel getBattleSkillNames()
 	{	return battleSkillNames;
 	}
 
@@ -2072,7 +2060,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	<code>true</code> if noodles can be summoned by this character
 	 */
 
-	public static boolean canSummonNoodles()
+	public static final boolean canSummonNoodles()
 	{	return hasSkill( "Pastamastery" );
 	}
 
@@ -2083,7 +2071,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	<code>true</code> if reagent can be summoned by this character
 	 */
 
-	public static boolean canSummonReagent()
+	public static final boolean canSummonReagent()
 	{	return hasSkill( "Advanced Saucecrafting" );
 	}
 
@@ -2094,7 +2082,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	<code>true</code> if shore-based items can be summoned by this character
 	 */
 
-	public static boolean canSummonShore()
+	public static final boolean canSummonShore()
 	{	return hasSkill( "Advanced Cocktailcrafting" );
 	}
 
@@ -2105,7 +2093,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	<code>true</code> if snowcones can be summoned by this character
 	 */
 
-	public static boolean canSummonSnowcones()
+	public static final boolean canSummonSnowcones()
 	{	return hasSkill( "Summon Snowcone" );
 	}
 
@@ -2116,7 +2104,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	<code>true</code> if this character can smith advanced weapons
 	 */
 
-	public static boolean canSmithWeapons()
+	public static final boolean canSmithWeapons()
 	{	return hasSkill( "Super-Advanced Meatsmithing" );
 	}
 
@@ -2127,7 +2115,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	<code>true</code> if this character can smith advanced armor
 	 */
 
-	public static boolean canSmithArmor()
+	public static final boolean canSmithArmor()
 	{	return hasSkill( "Armorcraftiness" );
 	}
 
@@ -2138,7 +2126,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	<code>true</code> if this character can smith advanced weapons
 	 */
 
-	public static boolean canCraftExpensiveJewelry()
+	public static final boolean canCraftExpensiveJewelry()
 	{	return hasSkill( "Really Expensive Jewelrycrafting" );
 	}
 
@@ -2149,7 +2137,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	<code>true</code> if this character has Amphibian Sympathy
 	 */
 
-	public static boolean hasAmphibianSympathy()
+	public static final boolean hasAmphibianSympathy()
 	{	return hasSkill( "Amphibian Sympathy" );
 	}
 
@@ -2158,15 +2146,15 @@ public abstract class KoLCharacter extends StaticEntity
 	 * has a skill of the given name.
 	 */
 
-	public static boolean hasSkill( int skillId )
+	public static final boolean hasSkill( int skillId )
 	{	return hasSkill( ClassSkillsDatabase.getSkillName( skillId ) );
 	}
 
-	public static boolean hasSkill( String skillName )
+	public static final boolean hasSkill( String skillName )
  	{	return hasSkill( skillName, availableSkills ) || hasSkill( skillName, usableSkills );
 	}
 
-	public static boolean hasSkill( String skillName, LockableListModel list )
+	public static final boolean hasSkill( String skillName, LockableListModel list )
 	{
 		for ( int i = 0; i < list.size(); ++i )
 			if ( ((UseSkillRequest)list.get(i)).getSkillName().equalsIgnoreCase( skillName ) )
@@ -2179,11 +2167,11 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	familiar	The current familiar
 	 */
 
-	public static FamiliarData getFamiliar()
+	public static final FamiliarData getFamiliar()
 	{	return currentFamiliar == null ? FamiliarData.NO_FAMILIAR : currentFamiliar;
 	}
 
-	public static boolean isUsingStabBat()
+	public static final boolean isUsingStabBat()
 	{	return isUsingStabBat;
 	}
 
@@ -2192,7 +2180,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	The number of arena wins
 	 */
 
-	public static int getArenaWins()
+	public static final int getArenaWins()
 	{
 		// Ensure that the arena opponent list is
 		// initialized.
@@ -2201,7 +2189,7 @@ public abstract class KoLCharacter extends StaticEntity
 		return arenaWins;
 	}
 
-	public static int getStillsAvailable()
+	public static final int getStillsAvailable()
 	{
 		if ( !hasSkill( "Superhuman Cocktailcrafting" ) || !isMoxieClass() || KoLRequest.sessionId == null )
 			return 0;
@@ -2221,17 +2209,17 @@ public abstract class KoLCharacter extends StaticEntity
 		return stillsAvailable;
 	}
 
-	public static void decrementStillsAvailable( int decrementAmount )
+	public static final void decrementStillsAvailable( int decrementAmount )
 	{
 		stillsAvailable -= decrementAmount;
 		ConcoctionsDatabase.refreshConcoctions();
 	}
 
-	public static boolean canUseWok()
+	public static final boolean canUseWok()
 	{	return hasSkill( "Transcendental Noodlecraft" ) && isMysticalityClass();
 	}
 
-	public static boolean canUseMalus()
+	public static final boolean canUseMalus()
 	{	return hasSkill( "Pulverize" ) && isMuscleClass();
 	}
 
@@ -2240,7 +2228,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @param	wins	The number of arena wins
 	 */
 
-	public static void setArenaWins( int wins )
+	public static final void setArenaWins( int wins )
 	{	arenaWins = wins;
 	}
 
@@ -2250,7 +2238,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	familiar	The first familiar matching this race
 	 */
 
-	public static FamiliarData findFamiliar( String race )
+	public static final FamiliarData findFamiliar( String race )
 	{
 		FamiliarData [] familiarArray = new FamiliarData[ familiars.size() ];
 		familiars.toArray( familiarArray );
@@ -2267,7 +2255,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @param	familiar	The new current familiar
 	 */
 
-	public static void setFamiliar( FamiliarData familiar )
+	public static final void setFamiliar( FamiliarData familiar )
 	{
 		currentFamiliar = addFamiliar( familiar );
 
@@ -2285,7 +2273,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * by one.
 	 */
 
-	public static void incrementFamilarWeight()
+	public static final void incrementFamilarWeight()
 	{
 		if ( currentFamiliar != null )
 			currentFamiliar.setWeight( currentFamiliar.getWeight() + 1 );
@@ -2296,7 +2284,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @param	familiar	The Id of the familiar to be added
 	 */
 
-	public static FamiliarData addFamiliar( FamiliarData familiar )
+	public static final FamiliarData addFamiliar( FamiliarData familiar )
 	{
 		if ( familiar == null )
 			return null;
@@ -2317,7 +2305,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @param	familiar	The Id of the familiar to be added
 	 */
 
-	public static void removeFamiliar( FamiliarData familiar )
+	public static final void removeFamiliar( FamiliarData familiar )
 	{
 		if ( familiar == null )
 			return;
@@ -2340,7 +2328,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	The list of familiars available to the character
 	 */
 
-	public static LockableListModel getFamiliarList()
+	public static final LockableListModel getFamiliarList()
 	{	return familiars;
 	}
 
@@ -2351,7 +2339,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	The string indicating the TNP advancement
 	 */
 
-	public static String getAdvancement()
+	public static final String getAdvancement()
 	{
 		int level = getLevel();
 		return COMMA_FORMAT.format( level * level + 4 - calculateBasePoints( getTotalPrime() ) ) + " " + AdventureResult.STAT_NAMES[ getPrimeIndex() ] +
@@ -2364,7 +2352,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @param	listener	The listener to be added to the listener list
 	 */
 
-	public static void addCharacterListener( KoLCharacterListener listener )
+	public static final void addCharacterListener( KoLCharacterListener listener )
 	{
 		if ( listener != null && !listenerList.contains( listener ) )
 			listenerList.add( listener );
@@ -2376,13 +2364,13 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @param	listener	The listener to be removed from the listener list
 	 */
 
-	public static void removeCharacterListener( KoLCharacterListener listener )
+	public static final void removeCharacterListener( KoLCharacterListener listener )
 	{
 		if ( listener != null )
 			listenerList.remove( listener );
 	}
 
-	public static void processResult( AdventureResult result )
+	public static final void processResult( AdventureResult result )
 	{	processResult( result, true );
 	}
 
@@ -2392,7 +2380,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * of other good stuff.
 	 */
 
-	public static void processResult( AdventureResult result, boolean updateCalculatedLists )
+	public static final void processResult( AdventureResult result, boolean updateCalculatedLists )
 	{
 		// Treat the result as normal from this point forward.
 		// Figure out which list the skill should be added to
@@ -2502,7 +2490,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * Returns the character's zapping wand, if any
 	 */
 
-	public static AdventureResult getZapper()
+	public static final AdventureResult getZapper()
 	{
 		if ( inventory.contains( DEAD_MIMIC ) )
 			RequestThread.postRequest( new ConsumeItemRequest( DEAD_MIMIC ) );
@@ -2514,11 +2502,11 @@ public abstract class KoLCharacter extends StaticEntity
 		return null;
 	}
 
-	public static boolean hasItem( AdventureResult item )
+	public static final boolean hasItem( AdventureResult item )
 	{	return hasItem( item, false );
 	}
 
-	public static boolean hasItem( AdventureResult item, boolean shouldCreate )
+	public static final boolean hasItem( AdventureResult item, boolean shouldCreate )
 	{
 		if ( item == null )
 			return false;
@@ -2555,11 +2543,11 @@ public abstract class KoLCharacter extends StaticEntity
 		return count > 0 && count >= item.getCount();
 	}
 
-	public static boolean hasEquipped( AdventureResult item, int equipmentSlot )
+	public static final boolean hasEquipped( AdventureResult item, int equipmentSlot )
 	{	return getEquipment( equipmentSlot ).getItemId() == item.getItemId();
 	}
 
-	public static boolean hasEquipped( AdventureResult item )
+	public static final boolean hasEquipped( AdventureResult item )
 	{
 		switch ( TradeableItemDatabase.getConsumptionType( item.getItemId() ) )
 		{
@@ -2588,7 +2576,7 @@ public abstract class KoLCharacter extends StaticEntity
 		return false;
 	}
 
-	public static void updateStatus()
+	public static final void updateStatus()
 	{
 		KoLCharacterListener [] listenerArray = new KoLCharacterListener[ listenerList.size() ];
 		listenerList.toArray( listenerArray );
@@ -2597,7 +2585,13 @@ public abstract class KoLCharacter extends StaticEntity
 			listenerArray[i].updateStatus();
 	}
 
-	public static boolean recalculateAdjustments()
+	private static final AdventureResult MAX_HOT = new AdventureResult( "Fireproof Lips", 1, true );
+	private static final AdventureResult MAX_COLD = new AdventureResult( "Fever from the Flavor", 1, true );
+	private static final AdventureResult MAX_SPOOKY = new AdventureResult( "Hyphemariffic", 1, true );
+	private static final AdventureResult MAX_STENCH = new AdventureResult( "Can't Smell Nothin'", 1, true );
+	private static final AdventureResult MAX_SLEAZE = new AdventureResult( "Hyperoffended", 1, true );
+
+	public static final boolean recalculateAdjustments()
 	{
 		int taoFactor = hasSkill( "Tao of the Terrapin" ) ? 2 : 1;
 		Modifiers newModifiers = new Modifiers();

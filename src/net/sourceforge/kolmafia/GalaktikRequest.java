@@ -83,7 +83,7 @@ public class GalaktikRequest extends KoLRequest
 
 	}
 
-	public static LockableListModel retrieveCures()
+	public static final LockableListModel retrieveCures()
 	{
 		LockableListModel cures = new LockableListModel();
 

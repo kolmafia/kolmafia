@@ -47,7 +47,7 @@ public abstract class RequestThread implements KoLConstants
 	 * The display will be enabled if there is no sequence.
 	 */
 
-	public static void postRequest( KoLRequest request )
+	public static final void postRequest( KoLRequest request )
 	{
 		if ( request == null )
 			return;
@@ -62,7 +62,7 @@ public abstract class RequestThread implements KoLConstants
 		}
 	}
 
-	public static void postRequest( KoLAdventure request )
+	public static final void postRequest( KoLAdventure request )
 	{
 		if ( request == null )
 			return;
@@ -93,7 +93,7 @@ public abstract class RequestThread implements KoLConstants
 	 * The display will be enabled if there is no sequence.
 	 */
 
-	public static void executeRequest( KoLRequest request )
+	public static final void executeRequest( KoLRequest request )
 	{
 		if ( request == null )
 			return;
@@ -122,7 +122,7 @@ public abstract class RequestThread implements KoLConstants
 		enableDisplayIfSequenceComplete();
 	}
 
-	public static void postRequest( Runnable request )
+	public static final void postRequest( Runnable request )
 	{
 		if ( sequenceCount == 0 )
 			KoLmafia.forceContinue();
@@ -148,7 +148,7 @@ public abstract class RequestThread implements KoLConstants
 		enableDisplayIfSequenceComplete();
 	}
 
-	public static void openRequestSequence()
+	public static final void openRequestSequence()
 	{
 		if ( sequenceCount == 0 )
 			KoLmafia.forceContinue();
@@ -156,7 +156,7 @@ public abstract class RequestThread implements KoLConstants
 		++sequenceCount;
 	}
 
-	public static void closeRequestSequence()
+	public static final void closeRequestSequence()
 	{
 		if ( sequenceCount <= 0 )
 			return;
@@ -165,7 +165,7 @@ public abstract class RequestThread implements KoLConstants
 		enableDisplayIfSequenceComplete();
 	}
 
-	public static boolean enableDisplayIfSequenceComplete()
+	public static final boolean enableDisplayIfSequenceComplete()
 	{
 		if ( sequenceCount != 0 )
 			return false;
@@ -188,12 +188,12 @@ public abstract class RequestThread implements KoLConstants
 	 * to be notified that they should stop as soon as possible.
 	 */
 
-	public static void declareWorldPeace()
+	public static final void declareWorldPeace()
 	{
 		KoLmafia.updateDisplay( ABORT_STATE, "KoLmafia declares world peace." );
 	}
 
-	public static void waitOneSecond()
+	public static final void waitOneSecond()
 	{
 		try
 		{

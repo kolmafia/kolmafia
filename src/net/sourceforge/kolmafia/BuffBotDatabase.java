@@ -58,11 +58,11 @@ public class BuffBotDatabase extends KoLDatabase
 	private static boolean hasNameList = false;
 	private static boolean isInitialized = false;
 
-	private static ArrayList nameList = new ArrayList();
-	private static TreeMap buffDataMap = new TreeMap();
+	private static final ArrayList nameList = new ArrayList();
+	private static final TreeMap buffDataMap = new TreeMap();
 
-	private static TreeMap normalOfferings = new TreeMap();
-	private static TreeMap freeOfferings = new TreeMap();
+	private static final TreeMap normalOfferings = new TreeMap();
+	private static final TreeMap freeOfferings = new TreeMap();
 
 	// Variables to know whether or not the buffbot database
 	// has been fully initialized during initialization.
@@ -72,7 +72,7 @@ public class BuffBotDatabase extends KoLDatabase
 
 	private static final CaseInsensitiveComparator NAME_COMPARATOR = new CaseInsensitiveComparator();
 
-	public static int getOffering( String name, int amount )
+	public static final int getOffering( String name, int amount )
 	{
 		// If you have no idea what the names present in
 		// the database are, go ahead and refresh it.
@@ -190,7 +190,7 @@ public class BuffBotDatabase extends KoLDatabase
 			UneffectRequest.skillToEffect( bestMatch.buffs[0] ), 1, true ) ) ? 0 : bestMatch.getPrice();
 	}
 
-	public static boolean hasOfferings()
+	public static final boolean hasOfferings()
 	{
 		if ( !isInitialized )
 			configureBuffBots();
@@ -198,7 +198,7 @@ public class BuffBotDatabase extends KoLDatabase
 		return !normalOfferings.isEmpty() || !freeOfferings.isEmpty();
 	}
 
-	public static Object [] getCompleteBotList()
+	public static final Object [] getCompleteBotList()
 	{
 		ArrayList completeList = new ArrayList();
 		completeList.addAll( normalOfferings.keySet() );
@@ -225,16 +225,16 @@ public class BuffBotDatabase extends KoLDatabase
 		}
 	}
 
-	public static LockableListModel getStandardOfferings( String botName )
+	public static final LockableListModel getStandardOfferings( String botName )
 	{	return botName != null && normalOfferings.containsKey( botName ) ? (LockableListModel) normalOfferings.get( botName ) : new LockableListModel();
 	}
 
 
-	public static LockableListModel getPhilanthropicOfferings( String botName )
+	public static final LockableListModel getPhilanthropicOfferings( String botName )
 	{	return botName != null && freeOfferings.containsKey( botName ) ? (LockableListModel) freeOfferings.get( botName ) : new LockableListModel();
 	}
 
-	private static void configureBuffBots()
+	private static final void configureBuffBots()
 	{
 		if ( isInitialized )
 			return;

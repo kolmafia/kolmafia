@@ -57,7 +57,7 @@ public abstract class MushroomPlot extends StaticEntity
 	//  9 10 11 12
 	// 13 14 15 16
 
-	private static String [][] actualPlot = new String[4][4];
+	private static final String [][] actualPlot = new String[4][4];
 	private static boolean ownsPlot = false;
 
 	// Empty spot
@@ -135,12 +135,12 @@ public abstract class MushroomPlot extends StaticEntity
 	private static final int [][] SPORE_DATA = { { SPOOKY, 30 }, { KNOB, 40 }, { KNOLL, 50 } };
 
 	/**
-	 * Static method which resets the state of the
+	 * static final method which resets the state of the
 	 * mushroom plot.  This should be used whenever
 	 * the login process is restarted.
 	 */
 
-	public static void reset()
+	public static final void reset()
 	{	ownsPlot = false;
 	}
 
@@ -149,7 +149,7 @@ public abstract class MushroomPlot extends StaticEntity
 	 * array showing the arrangement of the plot.
 	 */
 
-	public static String getMushroomPlot( boolean isDataOnly )
+	public static final String getMushroomPlot( boolean isDataOnly )
 	{
 		initialize();
 		return getMushroomPlot( isDataOnly, actualPlot );
@@ -161,11 +161,11 @@ public abstract class MushroomPlot extends StaticEntity
 	 * plot (ie: what the plot will look like tomorrow).
 	 */
 
-	public static String getForecastedPlot( boolean isDataOnly )
+	public static final String getForecastedPlot( boolean isDataOnly )
 	{	return getForecastedPlot( isDataOnly, actualPlot );
 	}
 
-	public static String getForecastedPlot( boolean isDataOnly, String [][] plot )
+	public static final String getForecastedPlot( boolean isDataOnly, String [][] plot )
 	{
 		// Construct the forecasted plot now.
 
@@ -222,7 +222,7 @@ public abstract class MushroomPlot extends StaticEntity
 		return getMushroomPlot( isDataOnly, forecastPlot );
 	}
 
-	private static String getForecastSquare( int row, int col, String [][] plot )
+	private static final String getForecastSquare( int row, int col, String [][] plot )
 	{
 		String [] touched = new String[4];
 
@@ -264,7 +264,7 @@ public abstract class MushroomPlot extends StaticEntity
 		return plot[ row ][ col ];
 	}
 
-	private static String getShorthand( int mushroomType, boolean isAdult )
+	private static final String getShorthand( int mushroomType, boolean isAdult )
 	{
 		for ( int i = 0; i < MUSHROOMS.length; ++i )
 			if ( mushroomType == ((Integer)MUSHROOMS[i][0]).intValue() )
@@ -273,7 +273,7 @@ public abstract class MushroomPlot extends StaticEntity
 		return "__";
 	}
 
-	private static String getMushroomPlot( boolean isDataOnly, String [][] plot )
+	private static final String getMushroomPlot( boolean isDataOnly, String [][] plot )
 	{
 		// Otherwise, you need to construct the string form
 		// of the mushroom plot.  Shorthand and hypertext are
@@ -327,7 +327,7 @@ public abstract class MushroomPlot extends StaticEntity
 	 * with the given mushroom type.
 	 */
 
-	public static String getMushroomImage( String mushroomType )
+	public static final String getMushroomImage( String mushroomType )
 	{
 		for ( int i = 1; i < MUSHROOMS.length; ++i )
 		{
@@ -345,7 +345,7 @@ public abstract class MushroomPlot extends StaticEntity
 	 * associated with the given image.
 	 */
 
-	public static int getMushroomType( String mushroomImage )
+	public static final int getMushroomType( String mushroomImage )
 	{
 		for ( int i = 0; i < MUSHROOMS.length; ++i )
 			if ( mushroomImage.endsWith( "/" + MUSHROOMS[i][1] ) )
@@ -360,7 +360,7 @@ public abstract class MushroomPlot extends StaticEntity
 	 * (or square) of the mushroom plot.
 	 */
 
-	public static boolean plantMushroom( int square, int spore )
+	public static final boolean plantMushroom( int square, int spore )
 	{
 		// Validate square parameter.  It's possible that
 		// the user input the wrong spore number.
@@ -433,7 +433,7 @@ public abstract class MushroomPlot extends StaticEntity
 		return true;
 	}
 
-	public static void clearField()
+	public static final void clearField()
 	{
 		RequestThread.openRequestSequence();
 		for ( int i = 1; i <= 16; ++i )
@@ -447,7 +447,7 @@ public abstract class MushroomPlot extends StaticEntity
 	 * to harvesting your mushroom crop, hence the name.
 	 */
 
-	public static void harvestMushrooms()
+	public static final void harvestMushrooms()
 	{
 		RequestThread.openRequestSequence();
 		for ( int i = 1; i <= 16; ++i )
@@ -461,7 +461,7 @@ public abstract class MushroomPlot extends StaticEntity
 	 * this method picks the mushroom located in the given square.
 	 */
 
-	public static boolean pickMushroom( int square, boolean pickSpores )
+	public static final boolean pickMushroom( int square, boolean pickSpores )
 	{
 		// Validate square parameter.  It's possible that
 		// the user input the wrong spore number.
@@ -503,7 +503,7 @@ public abstract class MushroomPlot extends StaticEntity
 	 * the plot into the one-dimensional array.
 	 */
 
-	private static boolean initialize()
+	private static final boolean initialize()
 	{
 		if ( !ownsPlot() )
 		{
@@ -514,7 +514,7 @@ public abstract class MushroomPlot extends StaticEntity
 		return true;
 	}
 
-	public static boolean ownsPlot()
+	public static final boolean ownsPlot()
 	{
 		// If you're not in a Muscle sign, no go.
 
@@ -531,7 +531,7 @@ public abstract class MushroomPlot extends StaticEntity
 		return ownsPlot;
 	}
 
-	public static void parsePlot( String text )
+	public static final void parsePlot( String text )
 	{
 		// Pretend all of the sections on the plot are empty
 		// before you begin parsing the plot.
@@ -561,7 +561,7 @@ public abstract class MushroomPlot extends StaticEntity
 			}
 	}
 
-	private static int parseSquare( String text )
+	private static final int parseSquare( String text )
 	{
 		// We figure out what's there based on the image.  This
 		// is done by checking the text in the square against
@@ -579,7 +579,7 @@ public abstract class MushroomPlot extends StaticEntity
 		return EMPTY;
 	}
 
-	public static int loadLayout( String filename, String [][] originalData, String [][] planningData )
+	public static final int loadLayout( String filename, String [][] originalData, String [][] planningData )
 	{
 		// The easiest file to parse that is already provided is
 		// the text file which was generated automatically.
@@ -667,7 +667,7 @@ public abstract class MushroomPlot extends StaticEntity
 		}
 	}
 
-	private static void copyMushroomImage( String location )
+	private static final void copyMushroomImage( String location )
 	{
 		File source = new File( IMAGE_LOCATION, location );
 		File destination = new File( PLOTS_LOCATION + "/" + location );
@@ -690,7 +690,7 @@ public abstract class MushroomPlot extends StaticEntity
 		}
 	}
 
-	public static void saveLayout( String filename, String [][] originalData, String [][] planningData )
+	public static final void saveLayout( String filename, String [][] originalData, String [][] planningData )
 	{
 		File preview = new File( PLOTS_LOCATION.getAbsolutePath(), filename + ".htm" );
 

@@ -126,7 +126,7 @@ public class FamiliarRequest extends KoLRequest
 			KoLCharacter.setEquipment( KoLCharacter.FAMILIAR, EquipmentRequest.UNEQUIP );
 	}
 
-	public static boolean registerRequest( String urlString )
+	public static final boolean registerRequest( String urlString )
 	{
 		if ( !urlString.startsWith( "familiar.php?" ) )
 			return false;

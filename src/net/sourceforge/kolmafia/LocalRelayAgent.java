@@ -46,8 +46,8 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 	private static final CustomCombatThread CUSTOM_THREAD = new CustomCombatThread();
 	static { CUSTOM_THREAD.start(); }
 
-	char [] data = new char[ 8096 ];
-	StringBuffer buffer = new StringBuffer();
+	private char [] data = new char[ 8096 ];
+	private StringBuffer buffer = new StringBuffer();
 
 	private static final Pattern INVENTORY_COOKIE_PATTERN = Pattern.compile( "inventory=(\\d+)" );
 
@@ -297,7 +297,7 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 
 	}
 
-	private static class CustomCombatThread extends Thread
+	private static final class CustomCombatThread extends Thread
 	{
 		public CustomCombatThread()
 		{	this.setDaemon( true );

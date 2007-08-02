@@ -49,13 +49,13 @@ import java.util.regex.Pattern;
 
 public class StatusEffectDatabase extends KoLDatabase
 {
-	private static Map nameById = new TreeMap();
-	private static Map dataNameById = new TreeMap();
-	private static Map effectByName = new TreeMap();
+	private static final Map nameById = new TreeMap();
+	private static final Map dataNameById = new TreeMap();
+	private static final Map effectByName = new TreeMap();
 
-	private static Map imageById = new TreeMap();
-	private static Map descriptionById = new TreeMap();
-	private static Map effectByDescription = new TreeMap();
+	private static final Map imageById = new TreeMap();
+	private static final Map descriptionById = new TreeMap();
+	private static final Map effectByDescription = new TreeMap();
 
 	static
 	{
@@ -81,7 +81,7 @@ public class StatusEffectDatabase extends KoLDatabase
 		}
 	}
 
-	private static void addToDatabase( Integer effectId, String name, String image, String descriptionId )
+	private static final void addToDatabase( Integer effectId, String name, String image, String descriptionId )
 	{
 		nameById.put( effectId, getDisplayName( name ) );
 		dataNameById.put( effectId, name );
@@ -144,11 +144,11 @@ public class StatusEffectDatabase extends KoLDatabase
 	 * @return	The set of status effects keyed by Id
 	 */
 
-	public static Set entrySet()
+	public static final Set entrySet()
 	{	return nameById.entrySet();
 	}
 
-	public static Collection values()
+	public static final Collection values()
 	{	return nameById.values();
 	}
 
@@ -176,7 +176,7 @@ public class StatusEffectDatabase extends KoLDatabase
 	{	return getMatchingNames( effectByName, substring );
 	}
 
-	public static void addDescriptionId( int effectId, String descriptionId )
+	public static final void addDescriptionId( int effectId, String descriptionId )
 	{
 		if ( effectId == -1 )
 			return;
@@ -192,7 +192,7 @@ public class StatusEffectDatabase extends KoLDatabase
 	private static final Pattern STATUS_EFFECT_PATTERN = Pattern.compile(
 		"<input type=radio name=whicheffect value=(\\d+)></td><td><img src=\"http://images.kingdomofloathing.com/itemimages/(.*?)\" width=30 height=30></td><td>(.*?) \\(" );
 
-	public static void findStatusEffects()
+	public static final void findStatusEffects()
 	{
 		if ( !inventory.contains( UneffectRequest.REMEDY ) )
 			return;
@@ -219,7 +219,7 @@ public class StatusEffectDatabase extends KoLDatabase
 			saveDataOverride();
 	}
 
-	public static void saveDataOverride()
+	public static final void saveDataOverride()
 	{
 		File output = new File( DATA_DIRECTORY, "statuseffects.txt" );
 		LogStream writer = LogStream.openStream( output, true );

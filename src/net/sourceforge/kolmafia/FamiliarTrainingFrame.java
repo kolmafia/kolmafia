@@ -72,7 +72,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 	private static final Pattern COURSELOST_PATTERN = Pattern.compile( "You enter (.*?) against (.*?) in an Obstacle Course race.<p>(.*?\\1.*?\\.<p>)\\1 makes it through the obstacle course" );
 	private static final Pattern HIdELOST_PATTERN = Pattern.compile( "You enter (.*?) against (.*?) in a game of Hide and Seek.<p>(.*?\\1.*?\\.<p>)\\1 manages to stay hidden" );
 
-	private static LimitedSizeChatBuffer results = new LimitedSizeChatBuffer( false );
+	private static final LimitedSizeChatBuffer results = new LimitedSizeChatBuffer( false );
+
 	private static int losses = 0;
 	private static boolean stop = false;
 
@@ -609,7 +610,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 	{	return null;
 	}
 
-	private static boolean levelFamiliar( int goal, int type )
+	private static final boolean levelFamiliar( int goal, int type )
 	{	return levelFamiliar( goal, type, StaticEntity.getBooleanProperty( "debugFamiliarTraining" ) );
 	}
 
@@ -623,7 +624,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 	 * @param	debug	true if we are debugging
 	 */
 
-	public static boolean levelFamiliar( int goal, int type, boolean debug )
+	public static final boolean levelFamiliar( int goal, int type, boolean debug )
 	{
 		// Clear the output
 		results.clearBuffer();
@@ -758,7 +759,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 	 * @param	trials	How many trials per event
 	 */
 
-	private static int [] learnFamiliarParameters( int trials )
+	private static final int [] learnFamiliarParameters( int trials )
 	{
 		// Clear the output
 		results.clearBuffer();
@@ -954,7 +955,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 	 * @param	weight	Weight goal for the familiar
 	 */
 
-	public static boolean buffFamiliar( int weight )
+	public static final boolean buffFamiliar( int weight )
 	{
 		// Get current familiar. If none, punt.
 
@@ -1043,7 +1044,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		return false;
 	}
 
-	private static void statusMessage( int state, String message )
+	private static final void statusMessage( int state, String message )
 	{
 		if ( state == ERROR_STATE || message.endsWith( "lost." ) )
 			results.append( "<font color=red>" + message + "</font><br>" );
@@ -1057,7 +1058,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		KoLmafia.updateDisplay( state, message );
 	}
 
-	private static void printFamiliar( FamiliarStatus status, int goal, int type )
+	private static final void printFamiliar( FamiliarStatus status, int goal, int type )
 	{
 		FamiliarData familiar = status.getFamiliar();
 		String name = familiar.getName();
@@ -1077,7 +1078,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		results.append( "Training " + name + " the " + weight + " lb. " + race + hope +	 ".<br>" );
 	}
 
-	private static void printOpponents( LockableListModel opponents )
+	private static final void printOpponents( LockableListModel opponents )
 	{
 		results.append( "Opponents:<br>" );
 		int opponentCount = opponents.size();
@@ -1091,7 +1092,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		}
 	}
 
-	private static boolean goalMet( FamiliarStatus status, int goal, int type )
+	private static final boolean goalMet( FamiliarStatus status, int goal, int type )
 	{
 		switch ( type )
 		{
@@ -1108,7 +1109,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		return false;
 	}
 
-	private static void printWeights( int [] weights )
+	private static final void printWeights( int [] weights )
 	{
 		StringBuffer text = new StringBuffer();
 
@@ -1126,7 +1127,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		results.append( text.toString() );
 	}
 
-	private static void printMatch( FamiliarStatus status, ArenaOpponent opponent, FamiliarTool tool, int match )
+	private static final void printMatch( FamiliarStatus status, ArenaOpponent opponent, FamiliarTool tool, int match )
 	{
 		FamiliarData familiar = status.getFamiliar();
 		int weight = tool.bestWeight();
@@ -1152,11 +1153,11 @@ public class FamiliarTrainingFrame extends KoLFrame
 		KoLmafia.updateDisplay( "Round " + round + ": " + familiar.getName() + " vs. " + opponent.getName() + "..." );
 	}
 
-	private static int fightMatch( FamiliarStatus status, FamiliarTool tool, ArenaOpponent opponent )
+	private static final int fightMatch( FamiliarStatus status, FamiliarTool tool, ArenaOpponent opponent )
 	{	return fightMatch( status, tool, opponent, tool.bestMatch() );
 	}
 
-	private static int fightMatch( FamiliarStatus status, FamiliarTool tool, ArenaOpponent opponent, int match )
+	private static final int fightMatch( FamiliarStatus status, FamiliarTool tool, ArenaOpponent opponent, int match )
 	{
 		// If user aborted, bail now
 		if ( KoLmafia.refusesContinue() )
@@ -1178,13 +1179,13 @@ public class FamiliarTrainingFrame extends KoLFrame
 		return badContest( request.responseText, match ) ? -1 : xp;
 	}
 
-	private static int earnedXP( String response )
+	private static final int earnedXP( String response )
 	{
 		Matcher matcher = CakeArenaManager.WIN_PATTERN.matcher( response );
 		return matcher.find() ? Integer.valueOf( matcher.group(1) ).intValue() : 0;
 	}
 
-	private static boolean badContest( String response, int match )
+	private static final boolean badContest( String response, int match )
 	{
 		// Look for special "this familiar sucks" message. Note the
 		// familiar can still win, even if such a message is present; a

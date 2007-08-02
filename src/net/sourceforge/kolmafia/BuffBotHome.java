@@ -57,15 +57,15 @@ public class BuffBotHome extends StaticEntity
 {
 	private static final DateFormat TIMESTAMP_FORMAT = DateFormat.getDateTimeInstance( DateFormat.SHORT, DateFormat.SHORT );
 
-	public static Color NOCOLOR = new Color( 0, 0, 0 );
-	public static Color ERRORCOLOR = new Color( 128, 0, 0 );
-	public static Color NONBUFFCOLOR = new Color( 0, 0, 128 );
-	public static Color BUFFCOLOR = new Color( 0, 128, 0 );
+	public static final Color NOCOLOR = new Color( 0, 0, 0 );
+	public static final Color ERRORCOLOR = new Color( 128, 0, 0 );
+	public static final Color NONBUFFCOLOR = new Color( 0, 0, 128 );
+	public static final Color BUFFCOLOR = new Color( 0, 128, 0 );
 
-	private static boolean isActive;
+	private static boolean isActive = false;
 
-	private static TreeMap pastRecipients = new TreeMap();
-	private static LockableListModel messages = new LockableListModel();
+	private static final TreeMap pastRecipients = new TreeMap();
+	private static final LockableListModel messages = new LockableListModel();
 	private static PrintStream textLogStream = System.out;
 	private static PrintStream hypertextLogStream = System.out;
 
@@ -76,7 +76,7 @@ public class BuffBotHome extends StaticEntity
 	 * content to be displayed.
 	 */
 
-	public static void loadSettings()
+	public static final void loadSettings()
 	{
 		messages.clear();
 		pastRecipients.clear();
@@ -127,7 +127,7 @@ public class BuffBotHome extends StaticEntity
 	 * given meat amount.
 	 */
 
-	private static List getPastRecipients( int meatSent )
+	private static final List getPastRecipients( int meatSent )
 	{
 		Integer key = new Integer( meatSent );
 		if ( !pastRecipients.containsKey( key ) )
@@ -141,7 +141,7 @@ public class BuffBotHome extends StaticEntity
 	 * associated with the given meat amount.
 	 */
 
-	public static int getInstanceCount( int meatSent, String name )
+	public static final int getInstanceCount( int meatSent, String name )
 	{
 		List pastRecipients = getPastRecipients( meatSent );
 		BuffRecord record = new BuffRecord( name );
@@ -195,7 +195,7 @@ public class BuffBotHome extends StaticEntity
 	 * with the given meat amount.
 	 */
 
-	public static void addToRecipientList( int meatSent, String name )
+	public static final void addToRecipientList( int meatSent, String name )
 	{
 		List pastRecipients = getPastRecipients( meatSent );
 		BuffRecord record = new BuffRecord( name );
@@ -212,7 +212,7 @@ public class BuffBotHome extends StaticEntity
 	 * future buff requests.
 	 */
 
-	public static void denyFutureBuffs( String name )
+	public static final void denyFutureBuffs( String name )
 	{
 		List pastRecipients = getPastRecipients( 0 );
 		BuffRecord record = new BuffRecord( name );
@@ -227,7 +227,7 @@ public class BuffBotHome extends StaticEntity
 			((BuffRecord) pastRecipients.get(index)).restrict();
 	}
 
-	public static boolean isPermitted( String name )
+	public static final boolean isPermitted( String name )
 	{
 		List pastRecipients = getPastRecipients( 0 );
 		BuffRecord record = new BuffRecord( name );
@@ -246,7 +246,7 @@ public class BuffBotHome extends StaticEntity
 	 * updates are attempted.
 	 */
 
-	public static void deinitialize()
+	public static final void deinitialize()
 	{
 		hypertextLogStream.println();
 		hypertextLogStream.println();
@@ -263,7 +263,7 @@ public class BuffBotHome extends StaticEntity
 	 * is required for a given buffbot entry.
 	 */
 
-	public static void update( Color c, String entry )
+	public static final void update( Color c, String entry )
 	{
 		if ( entry != null && hypertextLogStream != null )
 		{
@@ -283,7 +283,7 @@ public class BuffBotHome extends StaticEntity
 	 * the standard appending procedure is still valid.
 	 */
 
-	public static void timeStampedLogEntry( Color c, String entry )
+	public static final void timeStampedLogEntry( Color c, String entry )
 	{	update( c, TIMESTAMP_FORMAT.format( new Date() ) + ": " + entry );
 	}
 
@@ -293,7 +293,7 @@ public class BuffBotHome extends StaticEntity
 	 * and successfully processed.
 	 */
 
-	public static void recordBuff( String name, String buff, int casts, int meatSent )
+	public static final void recordBuff( String name, String buff, int casts, int meatSent )
 	{
 		textLogStream.println( TIMESTAMP_FORMAT.format( new Date() ) + "," + name + "," +
 			KoLmafia.getPlayerId( name ) + "," + buff + "," + casts + "," + meatSent );
@@ -304,7 +304,7 @@ public class BuffBotHome extends StaticEntity
 	 * message arrives.
 	 */
 
-	public static void setFrame( BuffBotFrame frame )
+	public static final void setFrame( BuffBotFrame frame )
 	{
 	}
 
@@ -315,7 +315,7 @@ public class BuffBotHome extends StaticEntity
 	 * buffbot itself is running.
 	 */
 
-	public static void setBuffBotActive( boolean isActive )
+	public static final void setBuffBotActive( boolean isActive )
 	{	BuffBotHome.isActive = isActive;
 	}
 
@@ -326,7 +326,7 @@ public class BuffBotHome extends StaticEntity
 	 * not the buffbot itself is running.
 	 */
 
-	public static boolean isBuffBotActive()
+	public static final boolean isBuffBotActive()
 	{	return isActive;
 	}
 
@@ -336,7 +336,7 @@ public class BuffBotHome extends StaticEntity
 	 * is a need to display the messages in some list form.
 	 */
 
-	public static LockableListModel getMessages()
+	public static final LockableListModel getMessages()
 	{	return messages;
 	}
 
@@ -345,7 +345,7 @@ public class BuffBotHome extends StaticEntity
 	 * to display the buff messages inside of a list setting.
 	 */
 
-	public static DefaultListCellRenderer getMessageRenderer()
+	public static final DefaultListCellRenderer getMessageRenderer()
 	{	return new BuffMessageRenderer();
 	}
 

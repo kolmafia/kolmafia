@@ -208,7 +208,7 @@ public abstract class SorceressLair extends StaticEntity
 		{ "giant potato", "Barrrnacle" }
 	};
 
-	private static boolean checkPrerequisites( int min, int max )
+	private static final boolean checkPrerequisites( int min, int max )
 	{
 		KoLmafia.updateDisplay( "Checking prerequisites..." );
 
@@ -318,7 +318,7 @@ public abstract class SorceressLair extends StaticEntity
 		return true;
 	}
 
-	private static AdventureResult pickOne( AdventureResult [] itemOptions )
+	private static final AdventureResult pickOne( AdventureResult [] itemOptions )
 	{
 		if ( itemOptions.length == 1 )
 			return itemOptions[0];
@@ -334,25 +334,25 @@ public abstract class SorceressLair extends StaticEntity
 		return itemOptions[0];
 	}
 
-	private static boolean isItemAvailable( AdventureResult item )
+	private static final boolean isItemAvailable( AdventureResult item )
 	{	return KoLCharacter.hasItem( item, true );
 	}
 
-	public static void completeCloveredEntryway()
+	public static final void completeCloveredEntryway()
 	{
 		SpecialOutfit.createImplicitCheckpoint();
 		completeEntryway( true );
 		SpecialOutfit.restoreImplicitCheckpoint();
 	}
 
-	public static void completeCloverlessEntryway()
+	public static final void completeCloverlessEntryway()
 	{
 		SpecialOutfit.createImplicitCheckpoint();
 		completeEntryway( false );
 		SpecialOutfit.restoreImplicitCheckpoint();
 	}
 
-	private static void completeEntryway( boolean useCloverForSkeleton )
+	private static final void completeEntryway( boolean useCloverForSkeleton )
 	{
 		if ( !checkPrerequisites( 1, 2 ) )
 			return;
@@ -443,7 +443,7 @@ public abstract class SorceressLair extends StaticEntity
 		KoLmafia.updateDisplay( "Sorceress entryway complete." );
 	}
 
-	private static boolean completeGateway()
+	private static final boolean completeGateway()
 	{
 		// Check to see if the person has crossed through the
 		// gates already.  If they haven't, then that's the
@@ -492,7 +492,7 @@ public abstract class SorceressLair extends StaticEntity
 		return true;
 	}
 
-	private static boolean passThreeGatePuzzle()
+	private static final boolean passThreeGatePuzzle()
 	{
 		// Visiting the gates with the correct effects opens them.
 		if ( VISITOR.responseText.indexOf( "gatesdone.gif" ) != -1 )
@@ -572,7 +572,7 @@ public abstract class SorceressLair extends StaticEntity
 		return false;
 	}
 
-	private static void addGateItem( int gate, Matcher gateMatcher, List requirements )
+	private static final void addGateItem( int gate, Matcher gateMatcher, List requirements )
 	{
 		// Find the name of the gate from the responseText
 		if ( !gateMatcher.find() )
@@ -625,7 +625,7 @@ public abstract class SorceressLair extends StaticEntity
 		requirements.add( item );
 	}
 
-	private static List retrieveRhythm( boolean useCloverForSkeleton )
+	private static final List retrieveRhythm( boolean useCloverForSkeleton )
 	{
 		// Skeleton key and a clover unless you already have the
 		// Really Evil Rhythms
@@ -687,7 +687,7 @@ public abstract class SorceressLair extends StaticEntity
 		return requirements;
 	}
 
-	private static List retrieveStrumming()
+	private static final List retrieveStrumming()
 	{
 		// Decide on which star weapon should be available for
 		// this whole process.
@@ -836,7 +836,7 @@ public abstract class SorceressLair extends StaticEntity
 		return requirements;
 	}
 
-	private static List retrieveSqueezings()
+	private static final List retrieveSqueezings()
 	{
 		// Digital key unless you already have the Squeezings of Woe
 
@@ -863,7 +863,7 @@ public abstract class SorceressLair extends StaticEntity
 		return requirements;
 	}
 
-	private static List retrieveScubaGear()
+	private static final List retrieveScubaGear()
 	{
 		List requirements = new ArrayList();
 
@@ -946,7 +946,7 @@ public abstract class SorceressLair extends StaticEntity
 	};
 
 
-	public static void completeHedgeMaze()
+	public static final void completeHedgeMaze()
 	{
 		if ( !checkPrerequisites( 3, 3 ) )
 			return;
@@ -1013,7 +1013,7 @@ public abstract class SorceressLair extends StaticEntity
 		KoLmafia.updateDisplay( "Hedge maze quest complete." );
 	}
 
-	private static boolean rotateHedgePiece( int x, int y, int rotations )
+	private static final boolean rotateHedgePiece( int x, int y, int rotations )
 	{
 		String url = "hedgepuzzle.php?action=" + (1 + (y*3) + x);
 
@@ -1038,7 +1038,7 @@ public abstract class SorceressLair extends StaticEntity
 		return KoLmafia.permitsContinue();
 	}
 
-	private static void initializeMaze( boolean [][][][] exits, int [][] interest )
+	private static final void initializeMaze( boolean [][][][] exits, int [][] interest )
 	{
 		KoLmafia.updateDisplay( "Retrieving maze status..." );
 		RequestThread.postRequest( VISITOR.constructURLString( "hedgepuzzle.php" ) );
@@ -1081,7 +1081,7 @@ public abstract class SorceressLair extends StaticEntity
 		}
 	}
 
-	private static void generateMazeConfigurations( boolean [][][][] exits, int [][] interest )
+	private static final void generateMazeConfigurations( boolean [][][][] exits, int [][] interest )
 	{
 		boolean allowConfig;
 
@@ -1108,7 +1108,7 @@ public abstract class SorceressLair extends StaticEntity
 		}
 	}
 
-	private static boolean isExitPermitted( int direction, int x, int y, int [][] interest )
+	private static final boolean isExitPermitted( int direction, int x, int y, int [][] interest )
 	{
 		switch ( direction )
 		{
@@ -1120,7 +1120,7 @@ public abstract class SorceressLair extends StaticEntity
 		}
 	}
 
-	private static int [][] computeSolution( boolean [][][][] exits, int [] start, int [] destination )
+	private static final int [][] computeSolution( boolean [][][][] exits, int [] start, int [] destination )
 	{
 		KoLmafia.updateDisplay( "Computing maze solution..." );
 
@@ -1143,7 +1143,7 @@ public abstract class SorceressLair extends StaticEntity
 		return optimalSolution;
 	}
 
-	private static void computeSolution( boolean [][] visited, int [][] currentSolution, int [][] optimalSolution, boolean [][][][] exits, int currentX, int currentY, int destinationX, int destinationY, int incomingDirection )
+	private static final void computeSolution( boolean [][] visited, int [][] currentSolution, int [][] optimalSolution, boolean [][][][] exits, int currentX, int currentY, int destinationX, int destinationY, int incomingDirection )
 	{
 		// If the destination has already been reached, replace the
 		// optimum value, if this involves fewer rotations.
@@ -1225,7 +1225,7 @@ public abstract class SorceressLair extends StaticEntity
 		visited[ currentX ][ currentY ] = false;
 	}
 
-	private static void retrieveHedgeKey( boolean [][][][] exits, int [] start, int [] destination )
+	private static final void retrieveHedgeKey( boolean [][][][] exits, int [] start, int [] destination )
 	{
 		// Before doing anything, check to see if the hedge
 		// maze has already been solved for the key.
@@ -1261,7 +1261,7 @@ public abstract class SorceressLair extends StaticEntity
 		}
 	}
 
-	private static void finalizeHedgeMaze( boolean [][][][] exits, int [] start, int [] destination )
+	private static final void finalizeHedgeMaze( boolean [][][][] exits, int [] start, int [] destination )
 	{
 		int [][] solution = computeSolution( exits, start, destination );
 
@@ -1294,15 +1294,15 @@ public abstract class SorceressLair extends StaticEntity
 		}
 	}
 
-	public static int fightAllTowerGuardians()
+	public static final int fightAllTowerGuardians()
 	{	return fightTowerGuardians( true );
 	}
 
-	public static int fightMostTowerGuardians()
+	public static final int fightMostTowerGuardians()
 	{	return fightTowerGuardians( false );
 	}
 
-	public static int fightTowerGuardians( boolean fightFamiliarGuardians )
+	public static final int fightTowerGuardians( boolean fightFamiliarGuardians )
 	{
 		if ( !checkPrerequisites( 4, 6 ) )
 			return -1;
@@ -1460,7 +1460,7 @@ public abstract class SorceressLair extends StaticEntity
 		return -1;
 	}
 
-	private static int fightGuardian( int towerLevel )
+	private static final int fightGuardian( int towerLevel )
 	{
 		if ( KoLCharacter.getAdventuresLeft() == 0 )
 		{
@@ -1511,7 +1511,7 @@ public abstract class SorceressLair extends StaticEntity
 		return guardianItem.getItemId();
 	}
 
-	private static AdventureResult getGuardianItem()
+	private static final AdventureResult getGuardianItem()
 	{
 		for ( int i = 0; i < GUARDIAN_DATA.length; ++i )
 			if ( FightRequest.getCurrentKey().equals( GUARDIAN_DATA[i][0] ) )
@@ -1523,7 +1523,7 @@ public abstract class SorceressLair extends StaticEntity
 		return new AdventureResult( 666, 1 );
 	}
 
-	private static void findDoorCode()
+	private static final void findDoorCode()
 	{
 		// Enter the chamber
 		KoLmafia.updateDisplay( "Cracking door code..." );
@@ -1545,7 +1545,7 @@ public abstract class SorceressLair extends StaticEntity
 			KoLmafia.updateDisplay( ERROR_STATE, "I used the wrong code. Sorry." );
 	}
 
-	private static String deduceCode( String text )
+	private static final String deduceCode( String text )
 	{
 		int start = text.indexOf( "<p>The guard playing South" );
 		if ( start == -1)
@@ -1605,7 +1605,7 @@ public abstract class SorceressLair extends StaticEntity
 		return ( digit1 + digit2 + digit3 );
 	}
 
-	private static void reflectEnergyBolt()
+	private static final void reflectEnergyBolt()
 	{
 		// Get current equipment
 		SpecialOutfit.createImplicitCheckpoint();
@@ -1621,14 +1621,14 @@ public abstract class SorceressLair extends StaticEntity
 		SpecialOutfit.restoreImplicitCheckpoint();
 	}
 
-	private static int getShadowBattleHealth( int shadowDamage, int healAmount )
+	private static final int getShadowBattleHealth( int shadowDamage, int healAmount )
 	{
 		int combatRounds = (int) Math.ceil( 96.0f / ((float) healAmount) ) - 1;
 		int neededHealth = shadowDamage + Math.max( shadowDamage - healAmount, 0 ) * combatRounds;
 		return neededHealth + 1;
 	}
 
-	private static void fightShadow()
+	private static final void fightShadow()
 	{
 		if ( true )
 		{
@@ -1718,7 +1718,7 @@ public abstract class SorceressLair extends StaticEntity
 		setProperty( "battleAction", oldAction );
 	}
 
-	public static void makeGuardianItems()
+	public static final void makeGuardianItems()
 	{
 		if ( StaticEntity.getIntegerProperty( "lastTowerClimb" ) == KoLCharacter.getAscensions() )
 			return;
@@ -1736,12 +1736,12 @@ public abstract class SorceressLair extends StaticEntity
 		StaticEntity.setProperty( "lastTowerClimb", String.valueOf( KoLCharacter.getAscensions() ) );
 	}
 
-	private static void familiarBattle( int n )
+	private static final void familiarBattle( int n )
 	{
 		familiarBattle( n, true );
 	}
 
-	private static void familiarBattle( int n, boolean requiresHeal )
+	private static final void familiarBattle( int n, boolean requiresHeal )
 	{
 		// Ensure that the player has more than 50 HP, since
 		// you cannot enter the familiar chamber with less.

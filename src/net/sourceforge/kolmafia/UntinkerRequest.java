@@ -204,7 +204,7 @@ public class UntinkerRequest extends KoLRequest
 		return VISITOR.responseText.indexOf( "Degrassi Knoll" ) == -1;
 	}
 
-	public static boolean registerRequest( String urlString )
+	public static final boolean registerRequest( String urlString )
 	{
 		if ( !urlString.startsWith( "town_right.php" ) || urlString.indexOf( "action=untinker" ) == -1 )
 			return false;

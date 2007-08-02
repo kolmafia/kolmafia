@@ -57,10 +57,9 @@ public abstract class StaticEntity implements KoLConstants
 	private static final Pattern NEWSKILL1_PATTERN = Pattern.compile( "<td>You learn a new skill: <b>(.*?)</b>" );
 	private static final Pattern NEWSKILL2_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
 	private static final Pattern NEWSKILL3_PATTERN = Pattern.compile( "<td>You acquire a skill: <[bB]>(.*?)</[bB]>" );
-	private static final Pattern SETTINGS_PATTERN = Pattern.compile( "prefs_(.*?).txt" );
 
 	private static KoLSettings settings = KoLSettings.GLOBAL_SETTINGS;
-	private static ArrayList relayCounters = new ArrayList();
+	private static final ArrayList relayCounters = new ArrayList();
 
 	private static KoLmafia client;
 	private static int usesSystemTray = 0;
@@ -216,7 +215,7 @@ public abstract class StaticEntity implements KoLConstants
 		return expired;
 	}
 
-	public static void saveCounters()
+	public static final void saveCounters()
 	{
 		TurnCounter current;
 		int currentTurns = KoLCharacter.getCurrentRun();
@@ -247,7 +246,7 @@ public abstract class StaticEntity implements KoLConstants
 		StaticEntity.setProperty( "relayCounters", counters.toString() );
 	}
 
-	public static void loadCounters()
+	public static final void loadCounters()
 	{
 		relayCounters.clear();
 
@@ -264,11 +263,11 @@ public abstract class StaticEntity implements KoLConstants
 	{	StaticEntity.client = client;
 	}
 
-	public static KoLmafia getClient()
+	public static final KoLmafia getClient()
 	{	return client;
 	}
 
-	public static void registerFrame( KoLFrame frame )
+	public static final void registerFrame( KoLFrame frame )
 	{
 		synchronized ( existingFrames )
 		{
@@ -277,7 +276,7 @@ public abstract class StaticEntity implements KoLConstants
 		}
 	}
 
-	public static void unregisterFrame( KoLFrame frame )
+	public static final void unregisterFrame( KoLFrame frame )
 	{
 		synchronized ( existingFrames )
 		{
@@ -287,7 +286,7 @@ public abstract class StaticEntity implements KoLConstants
 		}
 	}
 
-	public static void registerPanel( ActionPanel frame )
+	public static final void registerPanel( ActionPanel frame )
 	{
 		synchronized ( existingPanels )
 		{
@@ -296,7 +295,7 @@ public abstract class StaticEntity implements KoLConstants
 		}
 	}
 
-	public static void unregisterPanel( ActionPanel frame )
+	public static final void unregisterPanel( ActionPanel frame )
 	{
 		synchronized ( existingPanels )
 		{
@@ -305,7 +304,7 @@ public abstract class StaticEntity implements KoLConstants
 		}
 	}
 
-	public static KoLFrame [] getExistingFrames()
+	public static final KoLFrame [] getExistingFrames()
 	{
 		synchronized ( existingFrames )
 		{
@@ -325,7 +324,7 @@ public abstract class StaticEntity implements KoLConstants
 		}
 	}
 
-	public static ActionPanel [] getExistingPanels()
+	public static final ActionPanel [] getExistingPanels()
 	{
 		synchronized ( existingPanels )
 		{
@@ -345,7 +344,7 @@ public abstract class StaticEntity implements KoLConstants
 		}
 	}
 
-	public static boolean usesSystemTray()
+	public static final boolean usesSystemTray()
 	{
 		if ( usesSystemTray == 0 )
 			usesSystemTray = System.getProperty( "os.name" ).equals( "Windows XP" ) && getBooleanProperty( "useSystemTrayIcon" ) ? 1 : 2;
@@ -353,7 +352,7 @@ public abstract class StaticEntity implements KoLConstants
 		return usesSystemTray == 1;
 	}
 
-	public static boolean usesRelayWindows()
+	public static final boolean usesRelayWindows()
 	{
 		if ( usesRelayWindows == 0 )
 			usesRelayWindows = getBooleanProperty( "useRelayWindows" ) ? 1 : 2;
@@ -361,56 +360,7 @@ public abstract class StaticEntity implements KoLConstants
 		return usesRelayWindows == 1;
 	}
 
-	public static void renameDataFiles( String oldExtension, String newPrefix )
-	{
-		// If you detect any files with the old filenames,
-		// convert them over automatically.
-
-		try
-		{
-			if ( DATA_LOCATION.exists() )
-			{
-				File [] files = DATA_LOCATION.listFiles();
-
-				String location;
-				File destination;
-
-				for ( int i = 0; i < files.length; ++i )
-				{
-					location = files[i].getAbsolutePath();
-					location = location.substring( location.lastIndexOf( File.separator ) + 1 );
-
-					if ( location.endsWith( oldExtension ) )
-					{
-						location = location.length() == 5 ? "GLOBAL" : location.substring( 1, location.length() - 4 );
-						destination = new File( SETTINGS_LOCATION, newPrefix + "_" + location + ".txt" );
-
-						if ( destination.exists() )
-							continue;
-
-						FileInputStream input = new FileInputStream( files[i] );
-
-						destination.createNewFile();
-						OutputStream output = new FileOutputStream( destination );
-
-						byte [] buffer = new byte[ 1024 ];
-						int bufferLength;
-						while ( (bufferLength = input.read( buffer )) != -1 )
-							output.write( buffer, 0, bufferLength );
-
-						input.close();
-						output.close();
-					}
-				}
-			}
-		}
-		catch ( Exception e )
-		{
-			// Do nothing.
-		}
-	}
-
-	public static void reloadSettings( String username )
+	public static final void reloadSettings( String username )
 	{
 		settings = username.equals( "" ) ? KoLSettings.GLOBAL_SETTINGS : new KoLSettings( username );
 		KoLSettings.initializeLists();
@@ -440,7 +390,7 @@ public abstract class StaticEntity implements KoLConstants
 	{	return parseFloat( getProperty( name ) );
 	}
 
-	public static void openSystemBrowser( String location )
+	public static final void openSystemBrowser( String location )
 	{	(new SystemBrowserThread( location )).start();
 	}
 
@@ -464,11 +414,11 @@ public abstract class StaticEntity implements KoLConstants
 	 * need to be created in order to keep code modular.
 	 */
 
-	public static void openRequestFrame( String location )
+	public static final void openRequestFrame( String location )
 	{
 		KoLRequest request = RequestEditorKit.extractRequest( location );
 
-		if ( location.startsWith( "search" ) || location.startsWith( "desc" ) || location.startsWith( "static" ) || location.startsWith( "show" ) )
+		if ( location.startsWith( "search" ) || location.startsWith( "desc" ) || location.startsWith( "static final" ) || location.startsWith( "show" ) )
 		{
 			DescriptionFrame.showRequest( request );
 			return;
@@ -491,7 +441,7 @@ public abstract class StaticEntity implements KoLConstants
 			requestHolder.refresh( request );
 	}
 
-	public static void externalUpdate( String location, String responseText )
+	public static final void externalUpdate( String location, String responseText )
 	{
 		if ( location.indexOf( "account.php" ) != -1 )
 		{
@@ -753,7 +703,7 @@ public abstract class StaticEntity implements KoLConstants
 		t.printStackTrace( ostream );
 	}
 
-	public static void printRequestData( KoLRequest request )
+	public static final void printRequestData( KoLRequest request )
 	{
 		if ( request == null )
 			return;
@@ -841,7 +791,7 @@ public abstract class StaticEntity implements KoLConstants
 	{
 		// Using a regular expression, while faster, results
 		// in a lot of String allocation overhead.  So, use
-		// a statically-allocated StringBuffers.
+		// a static finalally-allocated StringBuffers.
 
 		int lastIndex = originalString.indexOf( searchString );
 		if ( lastIndex == -1 )
@@ -873,7 +823,7 @@ public abstract class StaticEntity implements KoLConstants
 	{
 		// Using a regular expression, while faster, results
 		// in a lot of String allocation overhead.  So, use
-		// a statically-allocated StringBuffers.
+		// a static finalally-allocated StringBuffers.
 
 		int lastIndex = originalString.indexOf( searchString );
 		if ( lastIndex == -1 )
@@ -904,7 +854,7 @@ public abstract class StaticEntity implements KoLConstants
 
 		// Using a regular expression, while faster, results
 		// in a lot of String allocation overhead.  So, use
-		// a statically-allocated StringBuffers.
+		// a static finalally-allocated StringBuffers.
 
 		int lastIndex = buffer.indexOf( tag );
 		while ( lastIndex != -1 )
@@ -914,31 +864,31 @@ public abstract class StaticEntity implements KoLConstants
 		}
 	}
 
-	private static String getPropertyName( String player, String name )
-	{	return player == null || player.equals( "" ) ? name : name + "." + KoLCharacter.baseUserName( player );
+	private static final String getPropertyName( String player, String name )
+	{	return player == null || player.equals( "" ) ? name : name + "." + KoLSettings.baseUserName( player );
 	}
 
 	public static final void removeGlobalProperty( String player, String name )
 	{	settings.remove( getPropertyName( player, name ) );
 	}
 
-	public static String getGlobalProperty( String name )
+	public static final String getGlobalProperty( String name )
 	{	return getGlobalProperty( KoLCharacter.getUserName(), name );
 	}
 
-	public static String getGlobalProperty( String player, String name )
+	public static final String getGlobalProperty( String player, String name )
 	{	return settings.getProperty( getPropertyName( player, name ) );
 	}
 
-	public static void setGlobalProperty( String name, String value )
+	public static final void setGlobalProperty( String name, String value )
 	{	setGlobalProperty( KoLCharacter.getUserName(), name, value );
 	}
 
-	public static void setGlobalProperty( String player, String name, String value )
+	public static final void setGlobalProperty( String player, String name, String value )
 	{	settings.setProperty( getPropertyName( player, name ), value );
 	}
 
-	public static String [] getPastUserList()
+	public static final String [] getPastUserList()
 	{
 		Matcher pathMatcher = null;
 		ArrayList pastUserList = new ArrayList();
@@ -951,11 +901,11 @@ public abstract class StaticEntity implements KoLConstants
 
 		for ( int i = 0; i < files.length; ++i )
 		{
-			pathMatcher = SETTINGS_PATTERN.matcher( files[i].getPath() );
-			if ( !pathMatcher.find() )
+			user = files[i].getName();
+			if ( user.startsWith( "GLOBAL" ) || !user.endsWith( "_prefs.txt" ) )
 				continue;
 
-			user = pathMatcher.group(1);
+			user = user.substring( 0, user.length() - 11 );
 			if ( !user.equals( "GLOBAL" ) && !pastUserList.contains( user ) )
 				pastUserList.add( user );
 		}
@@ -965,7 +915,7 @@ public abstract class StaticEntity implements KoLConstants
 		return pastUsers;
 	}
 
-	public static void disable( String name )
+	public static final void disable( String name )
 	{
 		String functionName;
 		StringTokenizer tokens = new StringTokenizer( name, ", " );
@@ -978,7 +928,7 @@ public abstract class StaticEntity implements KoLConstants
 		}
 	}
 
-	public static void enable( String name )
+	public static final void enable( String name )
 	{
 		if ( name.equals( "all" ) )
 		{

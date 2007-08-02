@@ -38,10 +38,10 @@ import java.util.regex.Pattern;
 
 public class ChatRequest extends KoLRequest
 {
-	private static String rightClickMenu = "";
 	private static final Pattern LASTSEEN_PATTERN = Pattern.compile( "<!--lastseen:(\\d+)-->" );
 	private static final int CHAT_DELAY = 8000;
 
+	private static String rightClickMenu = "";
 	private static String lastSeen = "";
 	private static ChatContinuationThread thread = null;
 
@@ -138,7 +138,7 @@ public class ChatRequest extends KoLRequest
 		this.shouldUpdateChat = shouldUpdateChat;
 	}
 
-	public static String executeChatCommand( String graf )
+	public static final String executeChatCommand( String graf )
 	{
 		if ( graf == null )
 			return null;
@@ -204,7 +204,7 @@ public class ChatRequest extends KoLRequest
 		}
 	}
 
-	public static String getRightClickMenu()
+	public static final String getRightClickMenu()
 	{
 		if ( rightClickMenu.equals( "" ) )
 		{

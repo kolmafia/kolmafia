@@ -99,7 +99,7 @@ public class Louvre
 		{ 4, 4, 1, 4, 1, 4 },		// 104
 	};
 
-	private static int goalHops( int source, int goal )
+	private static final int goalHops( int source, int goal )
 	{
 		if ( source < FIRST_CHOICE || source > LAST_CHOICE || goal < 1 || goal > 6 )
 			return Integer.MAX_VALUE;
@@ -169,7 +169,7 @@ public class Louvre
 		  { 0 }, { 5 }, { 0 } },
 	};
 
-	private static int [] routingTuple( int source, int goal )
+	private static final int [] routingTuple( int source, int goal )
 	{
 		if ( source < FIRST_CHOICE || source > LAST_CHOICE || goal < 1 || goal > 6 )
 			return null;
@@ -185,16 +185,16 @@ public class Louvre
 	// 1 - 6	A goal
 	// X		A destination
 
-	private static int LouvreChoiceTable [][] = new int [ LAST_CHOICE - FIRST_CHOICE + 1 ][ 3 ];
+	private static final int LouvreChoiceTable [][] = new int [ LAST_CHOICE - FIRST_CHOICE + 1 ][ 3 ];
 
-	private static int [] choiceTuple( int source )
+	private static final int [] choiceTuple( int source )
 	{
 		if ( source < FIRST_CHOICE || source > LAST_CHOICE )
 			return null;
 		return LouvreChoiceTable[ source - FIRST_CHOICE ];
 	}
 
-	public static void reset()
+	public static final void reset()
 	{
 		// Reset what we've "learned" about the Louvre choices
 		for ( int i = 0; i < LouvreChoiceTable.length; ++i )
@@ -219,7 +219,7 @@ public class Louvre
 				LouvreChoiceTable[i][j] = StaticEntity.parseInt( layoutSplit[currentIndex++] );
 	}
 
-	public static void saveMap()
+	public static final void saveMap()
 	{
 		StringBuffer map = new StringBuffer();
 
@@ -236,11 +236,11 @@ public class Louvre
 		StaticEntity.setProperty( "louvreLayout", map.toString() );
 	}
 
-	public static boolean louvreChoice( int choice )
+	public static final boolean louvreChoice( int choice )
 	{	return ( choice >= FIRST_CHOICE && choice <= LAST_CHOICE );
 	}
 
-	private static void resetDecisions()
+	private static final void resetDecisions()
 	{
 		int goal = StaticEntity.getIntegerProperty( "louvreDesiredGoal" );
 
@@ -276,7 +276,7 @@ public class Louvre
 		}
 	}
 
-	public static String handleChoice( String choice )
+	public static final String handleChoice( String choice )
 	{
 		resetDecisions();
 
@@ -293,9 +293,9 @@ public class Louvre
 	}
 
 	// Node marking to prevent loops
-	private static boolean NodeMarks [] = new boolean [ LAST_CHOICE - FIRST_CHOICE + 1 ];
+	private static final boolean NodeMarks [] = new boolean [ LAST_CHOICE - FIRST_CHOICE + 1 ];
 
-	private static String pickNewExit( int source, int goal )
+	private static final String pickNewExit( int source, int goal )
 	{
 		// Examine destinations and take shortest known path to goal
 		int [] choices = choiceTuple( source );
@@ -324,7 +324,7 @@ public class Louvre
 		return String.valueOf( choice + 1 );
 	}
 
-	private static int hopsTo( int hops, int source, int destination, int goal )
+	private static final int hopsTo( int hops, int source, int destination, int goal )
 	{
 		// If destination is the goal, we're there
 		if ( destination == goal )
@@ -360,7 +360,7 @@ public class Louvre
 		return nextHops;
 	}
 
-	public static String pickOldExit( int source, int goal )
+	public static final String pickOldExit( int source, int goal )
 	{
 		int [] tuple = routingTuple( source, goal );
 		if ( tuple == null )
@@ -394,7 +394,7 @@ public class Louvre
 		return "";
 	}
 
-	public static boolean mapChoice( String text )
+	public static final boolean mapChoice( String text )
 	{
 		int lastChoice = KoLRequest.getLastChoice();
 		if ( !louvreChoice( lastChoice ) )
@@ -437,7 +437,7 @@ public class Louvre
 		return false;
 	}
 
-	private static void mapChoice( int choice, int decision, int destination )
+	private static final void mapChoice( int choice, int decision, int destination )
 	{
 		int choices[] = choiceTuple( choice );
 		choices[ decision ] = destination;
@@ -487,7 +487,7 @@ public class Louvre
 		}
 	}
 
-	public static String [][] choiceSpoilers( int choice )
+	public static final String [][] choiceSpoilers( int choice )
 	{
 		// We only handle Louvre choices
 		if ( !louvreChoice( choice ) )
@@ -515,7 +515,7 @@ public class Louvre
 		return result;
 	}
 
-	private static String choiceName( int choice, int destination )
+	private static final String choiceName( int choice, int destination )
 	{
 		switch ( destination )
 		{
@@ -528,7 +528,7 @@ public class Louvre
 		}
 	}
 
-	public static boolean freeAdventure( String choice, String decision )
+	public static final boolean freeAdventure( String choice, String decision )
 	{
 		// "choiceAdventureX"
 		int source = StaticEntity.parseInt( choice.substring( 15 ) );
@@ -599,7 +599,7 @@ public class Louvre
 		3,		// 18
 	};
 
-	private static int mafiaCode( int wikiCode )
+	private static final int mafiaCode( int wikiCode )
 	{
 		if ( wikiCode == RANDOM )
 			return 0;
@@ -633,7 +633,7 @@ public class Louvre
 		15,		// 6
 	};
 
-	private static int wikiCode( int mafiaCode )
+	private static final int wikiCode( int mafiaCode )
 	{
 		// Map goals through one table
 		if ( mafiaCode >= 1 && mafiaCode <= 6 )
@@ -654,7 +654,7 @@ public class Louvre
 		buildWikiExits();
 	}
 
-	private static void buildWikiExits()
+	private static final void buildWikiExits()
 	{
 		// Get a zeroed array to start things off.
 		WikiLouvreLocationExits = new int [ LAST_CHOICE - FIRST_CHOICE + 1][ 3 ];
@@ -707,7 +707,7 @@ public class Louvre
 	// * the randomized paths from locations 5 and 11 connect to location 2
 	// * the randomized path from location 7 connects to location 3
 
-	public static String gemelliCode()
+	public static final String gemelliCode()
 	{
 		int code[] = new int[48];
 		int codeIndex = 0;
@@ -797,7 +797,7 @@ public class Louvre
 		return String.valueOf( data );
 	}
 
-	public static void showGemelliMap()
+	public static final void showGemelliMap()
 	{	StaticEntity.openSystemBrowser( "http://www.feesher.com/louvre_mapper.php?mapstring=" + gemelliCode() );
 	}
 }

@@ -112,7 +112,7 @@ public class SearchMallRequest extends KoLRequest
 	{	return true;
 	}
 
-	public static String getItemName( String searchString )
+	public static final String getItemName( String searchString )
 	{
 		if ( searchString.startsWith( "\"" ) || searchString.startsWith( "\'" ) )
 			return searchString;

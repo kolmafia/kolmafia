@@ -94,7 +94,7 @@ public class AutoSellRequest extends SendMessageRequest
 	{	return "sendmeat";
 	}
 
-	private static String getSellPage( int sellType )
+	private static final String getSellPage( int sellType )
 	{
 		if ( sellType == AUTOMALL )
 			return "managestore.php";
@@ -318,7 +318,7 @@ public class AutoSellRequest extends SendMessageRequest
 		KoLCharacter.updateStatus();
 	}
 
-	public static boolean registerRequest( String urlString )
+	public static final boolean registerRequest( String urlString )
 	{
 		Pattern itemPattern = null;
 		Pattern quantityPattern = null;

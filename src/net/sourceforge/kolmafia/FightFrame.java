@@ -49,11 +49,11 @@ public class FightFrame extends RequestFrame
 		super.dispose();
 	}
 
-	public static void showLocation( String location )
+	public static final void showLocation( String location )
 	{	showRequest( RequestEditorKit.extractRequest( location ) );
 	}
 
-	public static void showRequest( KoLRequest request )
+	public static final void showRequest( KoLRequest request )
 	{
 		if ( INSTANCE == null )
 			createDisplay( FightFrame.class );

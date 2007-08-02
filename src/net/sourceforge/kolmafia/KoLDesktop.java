@@ -214,7 +214,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 		isInitializing = false;
 	}
 
-	public static boolean isInitializing()
+	public static final boolean isInitializing()
 	{	return isInitializing;
 	}
 
@@ -236,11 +236,11 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 		INSTANCE = null;
 	}
 
-	public static boolean instanceExists()
+	public static final boolean instanceExists()
 	{	return INSTANCE != null;
 	}
 
-	public static KoLDesktop getInstance()
+	public static final KoLDesktop getInstance()
 	{
 		if ( INSTANCE == null )
 			INSTANCE = new KoLDesktop( VERSION_NAME );
@@ -248,7 +248,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 		return INSTANCE;
 	}
 
-	public static void addTab( KoLFrame content )
+	public static final void addTab( KoLFrame content )
 	{
 		if ( INSTANCE == null )
 			return;
@@ -270,13 +270,13 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 		}
 	}
 
-	public static boolean isInversionExempt( KoLFrame content )
+	public static final boolean isInversionExempt( KoLFrame content )
 	{
 		return StaticEntity.getBooleanProperty( "avoidInvertingTabs" ) || content instanceof AdventureFrame || content instanceof FlowerHunterFrame ||
 			content instanceof MailboxFrame || content instanceof SendMessageFrame;
 	}
 
-	public static void displayDesktop()
+	public static final void displayDesktop()
 	{
 		try
 		{
@@ -308,7 +308,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 			this.tabs.setSelectedIndex( 0 );
 	}
 
-	public static void removeTab( KoLFrame content )
+	public static final void removeTab( KoLFrame content )
 	{
 		if ( INSTANCE == null )
 			return;
@@ -321,7 +321,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 		}
 	}
 
-	public static void requestFocus( KoLFrame content )
+	public static final void requestFocus( KoLFrame content )
 	{
 		if ( INSTANCE == null )
 			return;
@@ -331,7 +331,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 			INSTANCE.tabs.setSelectedIndex( tabIndex );
 	}
 
-	public static void setTitle( KoLFrame content, String newTitle )
+	public static final void setTitle( KoLFrame content, String newTitle )
 	{
 		if ( INSTANCE == null )
 			return;
@@ -341,7 +341,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 			INSTANCE.tabs.setTitleAt( tabIndex, newTitle );
 	}
 
-	public static void updateTitle()
+	public static final void updateTitle()
 	{
 		if ( INSTANCE != null )
 			INSTANCE.setTitle( INSTANCE.lastTitle );
@@ -351,7 +351,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 			frames[i].setTitle( frames[i].lastTitle );
 	}
 
-	public static void addMainToolbar( JToolBar toolbarPanel )
+	public static final void addMainToolbar( JToolBar toolbarPanel )
 	{
 		if ( toolbarPanel != null )
 		{
@@ -397,7 +397,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 		}
 	}
 
-	public static void removeExtraTabs()
+	public static final void removeExtraTabs()
 	{
 		if ( INSTANCE == null )
 			return;

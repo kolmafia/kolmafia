@@ -49,7 +49,7 @@ public class ProfileFrame extends RequestFrame
 		super.dispose();
 	}
 
-	public static void showRequest( KoLRequest request )
+	public static final void showRequest( KoLRequest request )
 	{
 		if ( INSTANCE == null )
 			createDisplay( ProfileFrame.class );

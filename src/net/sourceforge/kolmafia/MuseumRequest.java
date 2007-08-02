@@ -125,7 +125,7 @@ public class MuseumRequest extends SendMessageRequest
 	{	return this.isDeposit ? "Placing items in display case" : this.isWithdrawal ? "Removing items from display case" : "Updating display case";
 	}
 
-	public static boolean registerRequest( String urlString )
+	public static final boolean registerRequest( String urlString )
 	{
 		if ( !urlString.startsWith( "managecollection.php" ) )
 			return false;

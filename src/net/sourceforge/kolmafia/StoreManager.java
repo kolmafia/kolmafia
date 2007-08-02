@@ -56,13 +56,13 @@ public abstract class StoreManager extends StaticEntity
 
 	private static int currentLogSort = RECENT_FIRST;
 	private static boolean sortItemsByName = false;
-
 	private static long potentialEarnings = 0;
-	private static LockableListModel storeLog = new LockableListModel();
-	private static LockableListModel soldItemList = new LockableListModel();
-	private static LockableListModel sortedSoldItemList = new LockableListModel();
 
-	public static void clearCache()
+	private static final LockableListModel storeLog = new LockableListModel();
+	private static final LockableListModel soldItemList = new LockableListModel();
+	private static final LockableListModel sortedSoldItemList = new LockableListModel();
+
+	public static final void clearCache()
 	{
 		potentialEarnings = 0;
 
@@ -71,7 +71,7 @@ public abstract class StoreManager extends StaticEntity
 		sortedSoldItemList.clear();
 	}
 
-	public static long getPotentialEarnings()
+	public static final long getPotentialEarnings()
 	{	return potentialEarnings;
 	}
 
@@ -81,7 +81,7 @@ public abstract class StoreManager extends StaticEntity
 	 * limit which is used to sell the item.
 	 */
 
-	public static SoldItem registerItem( int itemId, int quantity, int price, int limit, int lowest )
+	public static final SoldItem registerItem( int itemId, int quantity, int price, int limit, int lowest )
 	{
 		if ( price < 50000000 )
 			potentialEarnings += (long) price * (long) quantity;
@@ -121,7 +121,7 @@ public abstract class StoreManager extends StaticEntity
 	 * existing price.
 	 */
 
-	public static int getPrice( int itemId )
+	public static final int getPrice( int itemId )
 	{
 		int currentPrice = 999999999;
 		for ( int i = 0; i < soldItemList.size(); ++i )
@@ -131,19 +131,19 @@ public abstract class StoreManager extends StaticEntity
 		return currentPrice;
 	}
 
-	public static LockableListModel getSoldItemList()
+	public static final LockableListModel getSoldItemList()
 	{	return soldItemList;
 	}
 
-	public static LockableListModel getSortedSoldItemList()
+	public static final LockableListModel getSortedSoldItemList()
 	{	return sortedSoldItemList;
 	}
 
-	public static LockableListModel getStoreLog()
+	public static final LockableListModel getStoreLog()
 	{	return storeLog;
 	}
 
-	public static void sortStoreLog( boolean cycleSortType )
+	public static final void sortStoreLog( boolean cycleSortType )
 	{
 		if ( cycleSortType )
 		{
@@ -168,7 +168,7 @@ public abstract class StoreManager extends StaticEntity
 		storeLog.sort();
 	}
 
-	public static void update( String storeText, boolean isPriceManagement )
+	public static final void update( String storeText, boolean isPriceManagement )
 	{
 		potentialEarnings = 0;
 		ArrayList newItems = new ArrayList();
@@ -260,7 +260,7 @@ public abstract class StoreManager extends StaticEntity
 		StoreManageFrame.updateEarnings( potentialEarnings );
 	}
 
-	public static void parseLog( String logText )
+	public static final void parseLog( String logText )
 	{
 		storeLog.clear();
 
@@ -317,7 +317,7 @@ public abstract class StoreManager extends StaticEntity
 		}
 	}
 
-	public static ArrayList searchMall( String itemName )
+	public static final ArrayList searchMall( String itemName )
 	{
 		ArrayList results = new ArrayList();
 		searchMall( itemName, results, 10, false );
@@ -329,7 +329,7 @@ public abstract class StoreManager extends StaticEntity
 	 * given item.
 	 */
 
-	public static void searchMall( String itemName, List resultSummary, int maximumResults, boolean toString )
+	public static final void searchMall( String itemName, List resultSummary, int maximumResults, boolean toString )
 	{
 		resultSummary.clear();
 		if ( itemName == null )

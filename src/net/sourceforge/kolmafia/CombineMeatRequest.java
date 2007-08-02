@@ -82,7 +82,7 @@ public class CombineMeatRequest extends ItemCreationRequest
 	{	StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, this.costToMake * this.getQuantityNeeded() ) );
 	}
 
-	public static boolean registerRequest( String urlString )
+	public static final boolean registerRequest( String urlString )
 	{
 		Matcher itemMatcher = ITEMID_PATTERN.matcher( urlString );
 		if ( !itemMatcher.find() )

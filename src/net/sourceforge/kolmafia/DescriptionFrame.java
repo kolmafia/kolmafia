@@ -53,11 +53,11 @@ public class DescriptionFrame extends RequestFrame
 	{	return false;
 	}
 
-	public static void showLocation( String location )
+	public static final void showLocation( String location )
 	{	showRequest( RequestEditorKit.extractRequest( location ) );
 	}
 
-	public static void showRequest( KoLRequest request )
+	public static final void showRequest( KoLRequest request )
 	{
 		if ( INSTANCE == null )
 			createDisplay( DescriptionFrame.class );

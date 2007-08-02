@@ -51,7 +51,7 @@ public abstract class SystemTrayFrame implements KoLConstants
 {
 	private static WindowsTrayIcon icon = null;
 
-	public static void addTrayIcon()
+	public static final void addTrayIcon()
 	{
 		if ( icon != null )
 			return;
@@ -97,13 +97,13 @@ public abstract class SystemTrayFrame implements KoLConstants
 		}
 	}
 
-	public static void removeTrayIcon()
+	public static final void removeTrayIcon()
 	{
 		if ( icon != null )
 			WindowsTrayIcon.cleanUp();
 	}
 
-	public static void updateToolTip()
+	public static final void updateToolTip()
 	{
 		if ( icon == null )
 			return;
@@ -115,7 +115,7 @@ public abstract class SystemTrayFrame implements KoLConstants
 			icon.setToolTipText( VERSION_NAME + ": " + KoLCharacter.getUserName() );
 	}
 
-	public static void showBalloon( String message )
+	public static final void showBalloon( String message )
 	{
 		if ( icon == null )
 			return;
@@ -152,7 +152,7 @@ public abstract class SystemTrayFrame implements KoLConstants
 		}
 	}
 
-	public static void showDisplay()
+	public static final void showDisplay()
 	{
 		if ( existingFrames.isEmpty() )
 		{
@@ -169,7 +169,7 @@ public abstract class SystemTrayFrame implements KoLConstants
 		KoLDesktop.displayDesktop();
 	}
 
-	private abstract static class ThreadedTrayIconPopupSimpleItem extends TrayIconPopupSimpleItem implements ActionListener, Runnable
+	private static abstract class ThreadedTrayIconPopupSimpleItem extends TrayIconPopupSimpleItem implements ActionListener, Runnable
 	{
 		public ThreadedTrayIconPopupSimpleItem( String title )
 		{

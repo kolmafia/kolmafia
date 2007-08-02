@@ -66,11 +66,11 @@ import net.sourceforge.kolmafia.ConcoctionsDatabase.Concoction;
 public class ItemManageFrame extends KoLFrame
 {
 	private static int pullsRemaining = 0;
-
 	private static JTabbedPane fullnessTabs;
 	private static JTabbedPane inebrietyTabs;
-	private static JLabel pullsRemainingLabel1 = new JLabel( " " );
-	private static JLabel pullsRemainingLabel2 = new JLabel( " " );
+
+	private static final JLabel pullsRemainingLabel1 = new JLabel( " " );
+	private static final JLabel pullsRemainingLabel2 = new JLabel( " " );
 
 	private LockableListModel itemPanelNames = new LockableListModel();
 	private JList itemPanelList = new JList( this.itemPanelNames );
@@ -156,11 +156,11 @@ public class ItemManageFrame extends KoLFrame
 		this.framePanel.add( mainPanel, BorderLayout.CENTER );
 	}
 
-	public static int getPullsRemaining()
+	public static final int getPullsRemaining()
 	{	return pullsRemaining;
 	}
 
-	public static void setPullsRemaining( int pullsRemaining )
+	public static final void setPullsRemaining( int pullsRemaining )
 	{
 		ItemManageFrame.pullsRemaining = pullsRemaining;
 

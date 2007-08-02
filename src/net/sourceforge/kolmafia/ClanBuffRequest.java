@@ -65,7 +65,7 @@ public class ClanBuffRequest extends KoLRequest
 	 * @return	A complete <code>ListModel</code>
 	 */
 
-	public static LockableListModel getRequestList()
+	public static final LockableListModel getRequestList()
 	{
 		LockableListModel requestList = new LockableListModel();
 		for ( int i = 1; i <= 6; ++i )

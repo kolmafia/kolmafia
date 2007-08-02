@@ -73,8 +73,8 @@ public class KoLmafiaASH extends StaticEntity
 
 	/* Variables for Advanced Scripting */
 
-	public final static char [] tokenList = { ' ', '.', ',', '{', '}', '(', ')', '$', '!', '+', '-', '=', '"', '\'', '*', '^', '/', '%', '[', ']', '!', ';', '<', '>' };
-	public final static String [] multiCharTokenList = { "==", "!=", "<=", ">=", "||", "&&", "/*", "*/" };
+	public static final char [] tokenList = { ' ', '.', ',', '{', '}', '(', ')', '$', '!', '+', '-', '=', '"', '\'', '*', '^', '/', '%', '[', ']', '!', ';', '<', '>' };
+	public static final String [] multiCharTokenList = { "==", "!=", "<=", ">=", "||", "&&", "/*", "*/" };
 
 	public static final int TYPE_ANY = 0;
 	public static final int TYPE_VOID = 1;
@@ -170,8 +170,8 @@ public class KoLmafiaASH extends StaticEntity
 	private static final ScriptFunctionList existingFunctions = getExistingFunctions();
 	private static final ScriptTypeList simpleTypes = getSimpleTypes();
 	private static final ScriptSymbolTable reservedWords = getReservedWords();
+	private static final StringBuffer serverReplyBuffer = new StringBuffer();
 
-	private StringBuffer serverReplyBuffer;
 	private static LocalRelayRequest relayRequest;
 	private static KoLmafiaASH relayScript = null;
 
@@ -188,24 +188,24 @@ public class KoLmafiaASH extends StaticEntity
 	private ScriptFunction mainMethod = null;
 
 	// Variables used during execution
+
 	private ScriptScope global;
+
 	private int currentState = STATE_NORMAL;
-
-	// Feature control;
-
-	// disabled until and if we choose to document the feature
+	private static boolean isExecuting = false;
 	private static String lastImportString = "";
 	private static String notifyRecipient = null;
-	private static boolean isExecuting = false;
-	private static boolean arrays = false;
+
+	// Feature control;
+	// disabled until and if we choose to document the feature
+
+	private static final boolean arrays = false;
 
 	private static final TreeMap TIMESTAMPS = new TreeMap();
 	private static final TreeMap INTERPRETERS = new TreeMap();
 
 	public KoLmafiaASH()
-	{
-		this.global = new ScriptScope( new ScriptVariableList(), getExistingFunctionScope() );
-		this.serverReplyBuffer = new StringBuffer();
+	{	this.global = new ScriptScope( new ScriptVariableList(), getExistingFunctionScope() );
 	}
 
 	public String getFileName()
@@ -235,7 +235,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	public static boolean getClientHTML( LocalRelayRequest request )
+	public static final boolean getClientHTML( LocalRelayRequest request )
 	{
 		String script = request.getPath();
 
@@ -260,14 +260,14 @@ public class KoLmafiaASH extends StaticEntity
 				return false;
 
 			relayRequest = request;
-			relayScript.serverReplyBuffer.setLength(0);
+			serverReplyBuffer.setLength(0);
 			relayScript.execute( "main", new String [] { request.getPath(), request.getDataString( false ) } );
 
-			resultText = relayScript.serverReplyBuffer.toString();
+			resultText = serverReplyBuffer.toString();
 		}
 
 		if ( resultText.length() != 0 )
-			request.pseudoResponse( "HTTP/1.1 200 OK", relayScript.serverReplyBuffer.toString() );
+			request.pseudoResponse( "HTTP/1.1 200 OK", serverReplyBuffer.toString() );
 
 		relayScript = null;
 		return resultText.length() != 0;
@@ -315,9 +315,9 @@ public class KoLmafiaASH extends StaticEntity
 	// **************** Data Types *****************
 
 	// For each simple data type X, we supply:
-	// private static ScriptValue parseXValue( String name );
+	// private static final ScriptValue parseXValue( String name );
 
-	private static ScriptValue parseBooleanValue( String name )
+	private static final ScriptValue parseBooleanValue( String name )
 	{
 		if ( name.equalsIgnoreCase( "true" ) )
 			return TRUE_VALUE;
@@ -330,19 +330,19 @@ public class KoLmafiaASH extends StaticEntity
 		throw new AdvancedScriptException( "Can't interpret '" + name + "' as a boolean" );
 	}
 
-	private static ScriptValue parseIntValue( String name ) throws NumberFormatException
+	private static final ScriptValue parseIntValue( String name ) throws NumberFormatException
 	{	return new ScriptValue( parseInt( name ) );
 	}
 
-	private static ScriptValue parseFloatValue( String name ) throws NumberFormatException
+	private static final ScriptValue parseFloatValue( String name ) throws NumberFormatException
 	{	return new ScriptValue( parseFloat( name ) );
 	}
 
-	private static ScriptValue parseStringValue( String name )
+	private static final ScriptValue parseStringValue( String name )
 	{	return new ScriptValue( name );
 	}
 
-	private static ScriptValue parseItemValue( String name )
+	private static final ScriptValue parseItemValue( String name )
 	{
 		if ( name == null || name.equalsIgnoreCase( "none" ) )
 			return ITEM_INIT;
@@ -385,7 +385,7 @@ public class KoLmafiaASH extends StaticEntity
 		return new ScriptValue( ITEM_TYPE, itemId, name );
 	}
 
-	private static ScriptValue parseLocationValue( String name )
+	private static final ScriptValue parseLocationValue( String name )
 	{
 		if ( name.equalsIgnoreCase( "none" ) )
 			return LOCATION_INIT;
@@ -402,7 +402,7 @@ public class KoLmafiaASH extends StaticEntity
 		return new ScriptValue( LOCATION_TYPE, name, (Object) content );
 	}
 
-	private static int classToInt( String name )
+	private static final int classToInt( String name )
 	{
 		for ( int i = 0; i < CLASSES.length; ++i )
 			if ( name.equalsIgnoreCase( CLASSES[i] ) )
@@ -410,7 +410,7 @@ public class KoLmafiaASH extends StaticEntity
 		return -1;
 	}
 
-	private static ScriptValue parseClassValue( String name )
+	private static final ScriptValue parseClassValue( String name )
 	{
 		if ( name.equalsIgnoreCase( "none" ) || name.equals( "") )
 			return CLASS_INIT;
@@ -427,7 +427,7 @@ public class KoLmafiaASH extends StaticEntity
 		return new ScriptValue( CLASS_TYPE, num, CLASSES[num] );
 	}
 
-	private static int statToInt( String name )
+	private static final int statToInt( String name )
 	{
 		for ( int i = 0; i < STATS.length; ++i )
 			if ( name.equalsIgnoreCase( STATS[i] ) )
@@ -435,7 +435,7 @@ public class KoLmafiaASH extends StaticEntity
 		return -1;
 	}
 
-	private static ScriptValue parseStatValue( String name )
+	private static final ScriptValue parseStatValue( String name )
 	{
 		if ( name.equalsIgnoreCase( "none" ) )
 			return STAT_INIT;
@@ -452,7 +452,7 @@ public class KoLmafiaASH extends StaticEntity
 		return new ScriptValue( STAT_TYPE, num, STATS[num] );
 	}
 
-	private static ScriptValue parseSkillValue( String name )
+	private static final ScriptValue parseSkillValue( String name )
 	{
 		if ( name.equalsIgnoreCase( "none" ) )
 			return SKILL_INIT;
@@ -472,7 +472,7 @@ public class KoLmafiaASH extends StaticEntity
 		return new ScriptValue( SKILL_TYPE, num, name );
 	}
 
-	private static ScriptValue parseEffectValue( String name )
+	private static final ScriptValue parseEffectValue( String name )
 	{
 		if ( name.equalsIgnoreCase( "none" ) || name.equals( "" ) )
 			return EFFECT_INIT;
@@ -491,7 +491,7 @@ public class KoLmafiaASH extends StaticEntity
 		return new ScriptValue( EFFECT_TYPE, num, name );
 	}
 
-	private static ScriptValue parseFamiliarValue( String name )
+	private static final ScriptValue parseFamiliarValue( String name )
 	{
 		if ( name.equalsIgnoreCase( "none" ) )
 			return FAMILIAR_INIT;
@@ -509,7 +509,7 @@ public class KoLmafiaASH extends StaticEntity
 		return new ScriptValue( FAMILIAR_TYPE, num, name );
 	}
 
-	private static ScriptValue parseSlotValue( String name )
+	private static final ScriptValue parseSlotValue( String name )
 	{
 		if ( name.equalsIgnoreCase( "none" ) )
 			return SLOT_INIT;
@@ -527,7 +527,7 @@ public class KoLmafiaASH extends StaticEntity
 		return new ScriptValue( SLOT_TYPE, num, name );
 	}
 
-	private static ScriptValue parseMonsterValue( String name )
+	private static final ScriptValue parseMonsterValue( String name )
 	{
 		if ( name.equalsIgnoreCase( "none" ) )
 			return MONSTER_INIT;
@@ -544,7 +544,7 @@ public class KoLmafiaASH extends StaticEntity
 		return new ScriptValue( MONSTER_TYPE, monster.getName(), (Object)monster );
 	}
 
-	private static ScriptValue parseElementValue( String name )
+	private static final ScriptValue parseElementValue( String name )
 	{
 		if ( name.equalsIgnoreCase( "none" ) )
 			return ELEMENT_INIT;
@@ -562,16 +562,16 @@ public class KoLmafiaASH extends StaticEntity
 		return new ScriptValue( ELEMENT_TYPE, num, name );
 	}
 
-	private static ScriptValue parseValue( ScriptType type, String name )
+	private static final ScriptValue parseValue( ScriptType type, String name )
 	{	return type.parseValue( name );
 	}
 
 	// For data types which map to integers, also supply:
 	//
-	// private static ScriptValue makeXValue( int num )
+	// private static final ScriptValue makeXValue( int num )
 	//     throws nothing.
 
-	private static ScriptValue makeItemValue( int num )
+	private static final ScriptValue makeItemValue( int num )
 	{
 		String name = TradeableItemDatabase.getItemName( num );
 
@@ -581,7 +581,7 @@ public class KoLmafiaASH extends StaticEntity
 		return new ScriptValue( ITEM_TYPE, num, name );
 	}
 
-	private static ScriptValue makeItemValue( String name )
+	private static final ScriptValue makeItemValue( String name )
 	{
 		int num = TradeableItemDatabase.getItemId( name );
 
@@ -591,12 +591,12 @@ public class KoLmafiaASH extends StaticEntity
 		return new ScriptValue( ITEM_TYPE, num, name );
 	}
 
-	private static ScriptValue makeClassValue( String name )
+	private static final ScriptValue makeClassValue( String name )
 	{
 		return new ScriptValue( CLASS_TYPE, classToInt( name ), name );
 	}
 
-	private static ScriptValue makeSkillValue( int num )
+	private static final ScriptValue makeSkillValue( int num )
 	{
 		String name = ClassSkillsDatabase.getSkillName( num );
 		if ( name == null )
@@ -605,7 +605,7 @@ public class KoLmafiaASH extends StaticEntity
 		return new ScriptValue( SKILL_TYPE, num, name );
 	}
 
-	private static ScriptValue makeEffectValue( int num )
+	private static final ScriptValue makeEffectValue( int num )
 	{
 		String name = StatusEffectDatabase.getEffectName( num );
 		if ( name == null )
@@ -613,7 +613,7 @@ public class KoLmafiaASH extends StaticEntity
 		return new ScriptValue( EFFECT_TYPE, num, name );
 	}
 
-	private static ScriptValue makeFamiliarValue( int num )
+	private static final ScriptValue makeFamiliarValue( int num )
 	{
 		String name = FamiliarsDatabase.getFamiliarName( num );
 		if ( name == null )
@@ -626,24 +626,24 @@ public class KoLmafiaASH extends StaticEntity
 	private static boolean tracing = true;
 	private static int traceIndentation = 0;
 
-	private static void resetTracing()
+	private static final void resetTracing()
 	{
 		traceIndentation = 0;
 	}
 
-	private static void traceIndent()
+	private static final void traceIndent()
 	{	traceIndentation++;
 	}
 
-	private static void traceUnindent()
+	private static final void traceUnindent()
 	{	traceIndentation--;
 	}
 
-	private static void traceUnindent( int levels )
+	private static final void traceUnindent( int levels )
 	{	traceIndentation -= levels;
 	}
 
-	private static void trace( String string )
+	private static final void trace( String string )
 	{
 		if ( tracing )
 		{
@@ -652,7 +652,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private static String executionStateString( int state )
+	private static final String executionStateString( int state )
 	{
 		switch ( state )
 		{
@@ -2388,7 +2388,7 @@ public class KoLmafiaASH extends StaticEntity
 	{	return parseDirective( "import" );
 	}
 
-	private static boolean validCoercion( ScriptType lhs, ScriptType rhs, String oper )
+	private static final boolean validCoercion( ScriptType lhs, ScriptType rhs, String oper )
 	{
 		// Resolve aliases
 
@@ -2942,7 +2942,7 @@ public class KoLmafiaASH extends StaticEntity
 		RequestLogger.updateDebugLog( "<VARREF> " + varRef.getName() );
 	}
 
-	private static void indentLine( int indent )
+	private static final void indentLine( int indent )
 	{
 		for ( int i = 0; i < indent; ++i )
 			RequestLogger.getDebugStream().print( "   " );
@@ -3157,7 +3157,7 @@ public class KoLmafiaASH extends StaticEntity
 	{	return new ScriptScope( existingFunctions, null, simpleTypes );
 	}
 
-	public static ScriptFunctionList getExistingFunctions()
+	public static final ScriptFunctionList getExistingFunctions()
 	{
 		ScriptFunctionList result = new ScriptFunctionList();
 		ScriptType [] params;
@@ -3922,7 +3922,7 @@ public class KoLmafiaASH extends StaticEntity
 		return result;
 	}
 
-	public static ScriptTypeList getSimpleTypes()
+	public static final ScriptTypeList getSimpleTypes()
 	{
 		ScriptTypeList result = new ScriptTypeList();
 		result.addElement( VOID_TYPE );
@@ -3946,7 +3946,7 @@ public class KoLmafiaASH extends StaticEntity
 		return result;
 	}
 
-	public static ScriptSymbolTable getReservedWords()
+	public static final ScriptSymbolTable getReservedWords()
 	{
 		ScriptSymbolTable result = new ScriptSymbolTable();
 
@@ -4002,7 +4002,7 @@ public class KoLmafiaASH extends StaticEntity
 		return result;
 	}
 
-	public static boolean isReservedWord( String name )
+	public static final boolean isReservedWord( String name )
 	{	return reservedWords.findSymbol( name ) != null;
 	}
 
@@ -4751,7 +4751,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( relayScript == null )
 				return VOID_VALUE;
 
-			relayScript.serverReplyBuffer.append( string.toStringValue().toString() );
+			serverReplyBuffer.append( string.toStringValue().toString() );
 			return VOID_VALUE;
 		}
 
@@ -4761,7 +4761,7 @@ public class KoLmafiaASH extends StaticEntity
 				return VOID_VALUE;
 
 			write( string );
-			relayScript.serverReplyBuffer.append( LINE_BREAK );
+			serverReplyBuffer.append( LINE_BREAK );
 			return VOID_VALUE;
 		}
 

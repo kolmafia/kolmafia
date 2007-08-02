@@ -57,22 +57,22 @@ public class TradeableItemDatabase extends KoLDatabase
 
 	private static int maxItemId = 0;
 
-	private static IntegerArray useTypeById = new IntegerArray();
-	private static IntegerArray priceById = new IntegerArray();
-	private static StringArray descriptionById = new StringArray();
-	private static StringArray pluralById = new StringArray();
+	private static final IntegerArray useTypeById = new IntegerArray();
+	private static final IntegerArray priceById = new IntegerArray();
+	private static final StringArray descriptionById = new StringArray();
+	private static final StringArray pluralById = new StringArray();
 
-	private static Map nameById = new TreeMap();
-	private static Map dataNameById = new TreeMap();
-	private static Map itemIdByName = new TreeMap();
-	private static Map itemIdByPlural = new TreeMap();
+	private static final Map nameById = new TreeMap();
+	private static final Map dataNameById = new TreeMap();
+	private static final Map itemIdByName = new TreeMap();
+	private static final Map itemIdByPlural = new TreeMap();
 
-	private static Map levelReqByName = new TreeMap();
-	private static Map fullnessByName = new TreeMap();
-	private static Map inebrietyByName = new TreeMap();
-	private static Map spleenHitByName = new TreeMap();
+	private static final Map levelReqByName = new TreeMap();
+	private static final Map fullnessByName = new TreeMap();
+	private static final Map inebrietyByName = new TreeMap();
+	private static final Map spleenHitByName = new TreeMap();
 
-	private static Map [][][][] advsByName = new TreeMap[2][2][2][2];
+	private static final Map [][][][] advsByName = new TreeMap[2][2][2][2];
 
 	static
 	{
@@ -97,14 +97,14 @@ public class TradeableItemDatabase extends KoLDatabase
 		advsByName[1][1][1][1] = new TreeMap();
 	}
 
-	private static Map muscleByName = new TreeMap();
-	private static Map mysticalityByName = new TreeMap();
-	private static Map moxieByName = new TreeMap();
+	private static final Map muscleByName = new TreeMap();
+	private static final Map mysticalityByName = new TreeMap();
+	private static final Map moxieByName = new TreeMap();
 
-	private static Map accessById = new TreeMap();
-	private static BooleanArray tradeableById = new BooleanArray();
-	private static BooleanArray giftableById = new BooleanArray();
-	private static BooleanArray displayableById = new BooleanArray();
+	private static final Map accessById = new TreeMap();
+	private static final BooleanArray tradeableById = new BooleanArray();
+	private static final BooleanArray giftableById = new BooleanArray();
+	private static final BooleanArray displayableById = new BooleanArray();
 
 	static
 	{
@@ -295,7 +295,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		}
 	}
 
-	private static int getIncreasingGains( int value )
+	private static final int getIncreasingGains( int value )
 	{
 		// Adventure gains from Ode/Milk based on information
 		// derived by Istari Asuka on the Hardcore Oxygenation forums.
@@ -327,7 +327,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		}
 	}
 
-	private static int getDecreasingGains( int value )
+	private static final int getDecreasingGains( int value )
 	{
 		// Adventure gains from Ode/Milk based on information
 		// derived by Istari Asuka on the Hardcore Oxygenation forums.
@@ -353,7 +353,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		}
 	}
 
-	private static void addAdventureRange( String name, int unitCost, String range )
+	private static final void addAdventureRange( String name, int unitCost, String range )
 	{
 		range = range.trim();
 
@@ -380,7 +380,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		addAdventureRange( name, unitCost, true, true, gainSum3 / count );
 	}
 
-	private static void addAdventureRange( String name, int unitCost, boolean gainEffect1, boolean gainEffect2, float result )
+	private static final void addAdventureRange( String name, int unitCost, boolean gainEffect1, boolean gainEffect2, float result )
 	{
 		// Adventure gains from zodiac signs based on information
 		// provided on the Iocaine Powder forums.
@@ -393,11 +393,11 @@ public class TradeableItemDatabase extends KoLDatabase
 		getAdventureMap( true, true, gainEffect1, gainEffect2 ).put( name, SINGLE_PRECISION_FORMAT.format( result * 1.1f / unitCost ) );
 	}
 
-	private static Map getAdventureMap( boolean perUnit, boolean gainZodiac, boolean gainEffect1, boolean gainEffect2 )
+	private static final Map getAdventureMap( boolean perUnit, boolean gainZodiac, boolean gainEffect1, boolean gainEffect2 )
 	{	return advsByName[ perUnit ? 1 : 0 ][ gainZodiac ? 1 : 0 ][ gainEffect1 ? 1 : 0 ][ gainEffect2 ? 1 : 0 ];
 	}
 
-	private static String extractRange( String range )
+	private static final String extractRange( String range )
 	{
 		range = range.trim();
 
@@ -423,7 +423,7 @@ public class TradeableItemDatabase extends KoLDatabase
 	 * of that item name.
 	 */
 
-	private static String constructWikiName( String name )
+	private static final String constructWikiName( String name )
 	{	return StaticEntity.globalStringReplace( Character.toUpperCase( name.charAt(0) ) + name.substring(1), " ", "_" );
 	}
 
@@ -432,7 +432,7 @@ public class TradeableItemDatabase extends KoLDatabase
 	 * the item on the KoL wiki.
 	 */
 
-	public static void determineWikiData( String name )
+	public static final void determineWikiData( String name )
 	{
 		String line = null;
 		StringBuffer wikiRecord = new StringBuffer();
@@ -482,11 +482,11 @@ public class TradeableItemDatabase extends KoLDatabase
 	 * in the mall or in the player's inventory.
 	 */
 
-	public static void registerItem( int itemId, String itemName )
+	public static final void registerItem( int itemId, String itemName )
 	{	registerItem( itemId, itemName, "" );
 	}
 
-	public static void registerItem( int itemId, String itemName, String descriptionId )
+	public static final void registerItem( int itemId, String itemName, String descriptionId )
 	{
 		if ( itemName == null )
 			return;
@@ -939,7 +939,7 @@ public class TradeableItemDatabase extends KoLDatabase
 	 * @return	The set of item names keyed by id
 	 */
 
-	public static Set entrySet()
+	public static final Set entrySet()
 	{	return nameById.entrySet();
 	}
 
@@ -948,14 +948,14 @@ public class TradeableItemDatabase extends KoLDatabase
 	 * @return	The largest item ID
 	 */
 
-	public static int maxItemId()
+	public static final int maxItemId()
 	{	return maxItemId;
 	}
 
 	private static final Pattern CLOSET_ITEM_PATTERN = Pattern.compile( "<option value='(\\d+)' descid='(.*?)'>(.*?) \\(" );
 	private static final Pattern DESCRIPTION_PATTERN = Pattern.compile( "onClick='descitem\\((\\d+)\\);'></td><td valign=top><b>(.*?)</b>" );
 
-	public static void findItemDescriptions()
+	public static final void findItemDescriptions()
 	{
 		RequestLogger.printLine( "Checking for new non-quest items..." );
 
@@ -1002,7 +1002,7 @@ public class TradeableItemDatabase extends KoLDatabase
 			saveDataOverride();
 	}
 
-	public static void saveDataOverride()
+	public static final void saveDataOverride()
 	{
 		File output = new File( DATA_DIRECTORY, "tradeitems.txt" );
 		LogStream writer = LogStream.openStream( output, true );
@@ -1049,7 +1049,7 @@ public class TradeableItemDatabase extends KoLDatabase
 
 	// Support for dusty bottles of wine
 
-	public static void identifyDustyBottles()
+	public static final void identifyDustyBottles()
 	{
 		int lastAscension = StaticEntity.getIntegerProperty( "lastDustyBottleReset" );
 		if ( lastAscension == KoLCharacter.getAscensions() )
@@ -1071,7 +1071,7 @@ public class TradeableItemDatabase extends KoLDatabase
 
 	private static final Pattern GLYPH_PATTERN = Pattern.compile( "Arcane Glyph #(\\d)" );
 
-	private static void identifyDustyBottle( int itemId )
+	private static final void identifyDustyBottle( int itemId )
 	{
 		String glyph = "";
 
@@ -1086,7 +1086,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		StaticEntity.setProperty( "lastDustyBottle" + itemId, glyph );
 	}
 
-	public static void getDustyBottles()
+	public static final void getDustyBottles()
 	{
 		int lastAscension = StaticEntity.getIntegerProperty( "lastDustyBottleReset" );
 		if ( lastAscension < KoLCharacter.getAscensions() )
@@ -1098,7 +1098,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		setDustyBottles();
 	}
 
-	private static void setDustyBottles()
+	private static final void setDustyBottles()
 	{
 		setDustyBottle( 2271 );
 		setDustyBottle( 2272 );
@@ -1108,7 +1108,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		setDustyBottle( 2276 );
 	}
 
-	private static void setDustyBottle( int itemId )
+	private static final void setDustyBottle( int itemId )
 	{
 		int glyph = StaticEntity.getIntegerProperty( "lastDustyBottle" + itemId );
 		switch ( glyph )
@@ -1154,7 +1154,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		}
 	}
 
-	private static void setDustyBottle( int itemId, int inebriety, String adventures, String muscle, String mysticality, String moxie )
+	private static final void setDustyBottle( int itemId, int inebriety, String adventures, String muscle, String mysticality, String moxie )
 	{
 		String name = getCanonicalName( (String)dataNameById.get( new Integer( itemId ) ) );
 
@@ -1165,7 +1165,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		moxieByName.put( name, extractRange( moxie ) );
 	}
 
-	public static String dustyBottleType( int itemId )
+	public static final String dustyBottleType( int itemId )
 	{
 		int glyph = StaticEntity.getIntegerProperty( "lastDustyBottle" + itemId );
 		switch ( glyph )
@@ -1189,7 +1189,7 @@ public class TradeableItemDatabase extends KoLDatabase
 	// Support for the "checkdata" command, which compares KoLmafia's
 	// internal item data from what can be mined from the item description.
 
-	private static StringArray rawDescriptions = new StringArray();
+	private static final StringArray rawDescriptions = new StringArray();
 
 	private static final Map foods = new TreeMap();
 	private static final Map boozes = new TreeMap();
@@ -1202,7 +1202,7 @@ public class TradeableItemDatabase extends KoLDatabase
 	private static final Map containers = new TreeMap();
 	private static final Map famitems = new TreeMap();
 
-	public static void checkInternalData( int itemId )
+	public static final void checkInternalData( int itemId )
 	{
 		loadScrapeData();
 		RequestLogger.printLine( "Checking internal data..." );
@@ -1255,7 +1255,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		report.close();
 	}
 
-	private static void checkItem( int itemId, LogStream report )
+	private static final void checkItem( int itemId, LogStream report )
 	{
 		Integer id = new Integer( itemId );
 
@@ -1357,7 +1357,7 @@ public class TradeableItemDatabase extends KoLDatabase
 
 	private static final KoLRequest DESC_REQUEST = new KoLRequest( "desc_item.php" );
 
-	private static String rawDescriptionText( int itemId )
+	private static final String rawDescriptionText( int itemId )
 	{
 		String descId = descriptionById.get( itemId );
 		if ( descId == null || descId.equals( "" ) )
@@ -1374,7 +1374,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		return DESC_REQUEST.responseText;
 	}
 
-	private static void loadScrapeData()
+	private static final void loadScrapeData()
 	{
 		if ( rawDescriptions.size() > 0 )
 			return;
@@ -1419,7 +1419,7 @@ public class TradeableItemDatabase extends KoLDatabase
 
 	private static final Pattern DATA_PATTERN = Pattern.compile( "<img.*?><br>(.*?)<script", Pattern.DOTALL );
 
-	private static String descriptionText( String rawText )
+	private static final String descriptionText( String rawText )
 	{
 		Matcher matcher = DATA_PATTERN.matcher( rawText );
 		if ( !matcher.find() )
@@ -1430,7 +1430,7 @@ public class TradeableItemDatabase extends KoLDatabase
 
 	private static final Pattern NAME_PATTERN = Pattern.compile( "<b>(.*?)</b>" );
 
-	private static String parseName( String text )
+	private static final String parseName( String text )
 	{
 		Matcher matcher = NAME_PATTERN.matcher( text );
 		if ( !matcher.find() )
@@ -1442,7 +1442,7 @@ public class TradeableItemDatabase extends KoLDatabase
 
 	private static final Pattern PRICE_PATTERN = Pattern.compile( "Selling Price: <b>(\\d+) Meat.</b>" );
 
-	private static int parsePrice( String text )
+	private static final int parsePrice( String text )
 	{
 		Matcher matcher = PRICE_PATTERN.matcher( text );
 		if ( !matcher.find() )
@@ -1451,7 +1451,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		return StaticEntity.parseInt( matcher.group(1) );
 	}
 
-	private static String parseAccess( String text )
+	private static final String parseAccess( String text )
 	{
 		if ( text.indexOf( "Quest Item" ) != -1 )
 			return "none";
@@ -1467,7 +1467,7 @@ public class TradeableItemDatabase extends KoLDatabase
 
 	private static final Pattern TYPE_PATTERN = Pattern.compile( "Type: <b>(.*?)</b>" );
 
-	private static String parseType( String text )
+	private static final String parseType( String text )
 	{
 		Matcher matcher = TYPE_PATTERN.matcher( text );
 		if ( !matcher.find() )
@@ -1476,7 +1476,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		return matcher.group(1);
 	}
 
-	private static boolean typesMatch( int type, String descType )
+	private static final boolean typesMatch( int type, String descType )
 	{
 		if ( descType.equals( "" ) )
 			return true;
@@ -1527,7 +1527,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		return false;
 	}
 
-	private static void checkLevels( LogStream report )
+	private static final void checkLevels( LogStream report )
 	{
 
 		RequestLogger.printLine( "Checking level requirements..." );
@@ -1536,7 +1536,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		checkLevelMap( report, boozes, "Booze" );
 	}
 
-	private static void checkLevelMap( LogStream report, Map map, String tag )
+	private static final void checkLevelMap( LogStream report, Map map, String tag )
 	{
 		if ( map.size() == 0 )
 			return;
@@ -1555,7 +1555,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		}
 	}
 
-	private static void checkLevelDatum( String name, String text, LogStream report )
+	private static final void checkLevelDatum( String name, String text, LogStream report )
 	{
 		Integer requirement = (Integer)levelReqByName.get( getCanonicalName( name ) );
 		int level = requirement == null ? 0 : requirement.intValue();
@@ -1566,7 +1566,7 @@ public class TradeableItemDatabase extends KoLDatabase
 
 	private static final Pattern LEVEL_PATTERN = Pattern.compile( "Level required: <b>(.*?)</b>" );
 
-	private static int parseLevel( String text )
+	private static final int parseLevel( String text )
 	{
 		Matcher matcher = LEVEL_PATTERN.matcher( text );
 		if ( !matcher.find() )
@@ -1575,7 +1575,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		return StaticEntity.parseInt( matcher.group(1) );
 	}
 
-	private static void checkEquipment( LogStream report )
+	private static final void checkEquipment( LogStream report )
 	{
 
 		RequestLogger.printLine( "Checking equipment..." );
@@ -1589,7 +1589,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		checkEquipmentMap( report, containers, "Containers" );
 	}
 
-	private static void checkEquipmentMap( LogStream report, Map map, String tag )
+	private static final void checkEquipmentMap( LogStream report, Map map, String tag )
 	{
 		if ( map.size() == 0 )
 			return;
@@ -1613,7 +1613,7 @@ public class TradeableItemDatabase extends KoLDatabase
 	private static final Pattern REQ_PATTERN = Pattern.compile( "(\\w+) Required: <b>(\\d+)</b>" );
 	private static final Pattern WEAPON_PATTERN = Pattern.compile( "weapon [(](.*?)[)]" );
 
-	private static void checkEquipmentDatum( String name, String text, LogStream report )
+	private static final void checkEquipmentDatum( String name, String text, LogStream report )
 	{
 		Matcher matcher;
 
@@ -1698,7 +1698,7 @@ public class TradeableItemDatabase extends KoLDatabase
 			report.println( name + "\t" + power + "\t" + req );
 	}
 
-	private static void checkModifiers( LogStream report )
+	private static final void checkModifiers( LogStream report )
 	{
 		RequestLogger.printLine( "Checking modifiers..." );
 		ArrayList unknown = new ArrayList();
@@ -1727,7 +1727,7 @@ public class TradeableItemDatabase extends KoLDatabase
 			report.println( "# " + (String)unknown.get(i) );
 	}
 
-	private static void checkModifierMap( LogStream report, Map map, String tag, ArrayList unknown )
+	private static final void checkModifierMap( LogStream report, Map map, String tag, ArrayList unknown )
 	{
 		if ( map.size() == 0 )
 			return;
@@ -1747,7 +1747,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		}
 	}
 
-	private static void checkModifierDatum( String name, String text, LogStream report, ArrayList unknown )
+	private static final void checkModifierDatum( String name, String text, LogStream report, ArrayList unknown )
 	{
 		String known = parseEnchantments( text, unknown );
 
@@ -1759,7 +1759,7 @@ public class TradeableItemDatabase extends KoLDatabase
 
 	private static final Pattern ENCHANTMENT_PATTERN = Pattern.compile( "Enchantment:.*?<font color=blue>(.*)</font>", Pattern.DOTALL );
 
-	private static String parseEnchantments( String text, ArrayList unknown )
+	private static final String parseEnchantments( String text, ArrayList unknown )
 	{
 		String known = "";
 

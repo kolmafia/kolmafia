@@ -46,8 +46,8 @@ import java.util.regex.Pattern;
 
 public class Modifiers extends KoLDatabase
 {
-	private static Map modifierMap = new TreeMap();
-	private static ArrayList passiveSkills = new ArrayList();
+	private static final Map modifierMap = new TreeMap();
+	private static final ArrayList passiveSkills = new ArrayList();
 
 	static
 	{
@@ -402,7 +402,7 @@ public class Modifiers extends KoLDatabase
 	private static final String MP_REGEN_MIN_TAG = modifierName( floatModifiers, MP_REGEN_MIN ) + ": ";
 	private static final String MP_REGEN_MAX_TAG = modifierName( floatModifiers, MP_REGEN_MAX ) + ": ";
 
-	private static int findName( Object [][] table, String name )
+	private static final int findName( Object [][] table, String name )
 	{
 		for ( int i = 0; i < table.length; ++i )
 			if ( name.equals( (String)table[i][0] ) )
@@ -936,7 +936,7 @@ public class Modifiers extends KoLDatabase
 
 	private static final Pattern DR_PATTERN = Pattern.compile( "Damage Reduction: <b>(\\d+)</b>" );
 
-	public static String parseDamageReduction( String text )
+	public static final String parseDamageReduction( String text )
 	{
 		Matcher matcher = DR_PATTERN.matcher( text );
 		if (matcher.find() )
@@ -947,7 +947,7 @@ public class Modifiers extends KoLDatabase
 
 	private static final Pattern SINGLE_PATTERN = Pattern.compile( "You may not equip more than one of this item at a time" );
 
-	public static String parseSingleEquip( String text )
+	public static final String parseSingleEquip( String text )
 	{
 		Matcher matcher = SINGLE_PATTERN.matcher( text );
 		if (matcher.find() )
@@ -962,7 +962,7 @@ public class Modifiers extends KoLDatabase
 	private static final Pattern COMBAT_PATTERN = Pattern.compile( "Monsters will be (.*) attracted to you." );
 	private static final Pattern HP_MP_PATTERN = Pattern.compile( "^Maximum HP/MP ([+-]\\d+)$" );
 
-	public static String parseModifier( String enchantment )
+	public static final String parseModifier( String enchantment )
 	{
 		String result;
 
@@ -1042,7 +1042,7 @@ public class Modifiers extends KoLDatabase
 		return null;
 	}
 
-	private static String parseModifier( Object [][] table, String enchantment, boolean quoted )
+	private static final String parseModifier( Object [][] table, String enchantment, boolean quoted )
 	{
 		String quote = quoted ? "\"" : "" ;
 		for ( int i = 0; i < table.length; ++i )
@@ -1065,7 +1065,7 @@ public class Modifiers extends KoLDatabase
 
 	private static final Pattern REGEN_PATTERN = Pattern.compile( "Regenerate (\\d*)-?(\\d*)? ([HM]P)( and .*)? per [aA]dventure$" );
 
-	private static String parseRegeneration( String enchantment )
+	private static final String parseRegeneration( String enchantment )
 	{
 		Matcher matcher = REGEN_PATTERN.matcher( enchantment );
 		if ( !matcher.find() )
@@ -1093,7 +1093,7 @@ public class Modifiers extends KoLDatabase
 			MP_REGEN_MAX_TAG + max;
 	}
 
-	private static String parseResistance( String enchantment )
+	private static final String parseResistance( String enchantment )
 	{
 		String level = "";
 

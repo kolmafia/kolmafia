@@ -76,9 +76,9 @@ public class AdventureResult implements Comparable, KoLConstants
 	public static final String SUBSTATS = "Substats";
 	public static final String FULLSTATS = "Fullstats";
 
-	private static List MUS_SUBSTAT = new ArrayList();
-	private static List MYS_SUBSTAT = new ArrayList();
-	private static List MOX_SUBSTAT = new ArrayList();
+	private static final List MUS_SUBSTAT = new ArrayList();
+	private static final List MYS_SUBSTAT = new ArrayList();
+	private static final List MOX_SUBSTAT = new ArrayList();
 
 	static
 	{
@@ -241,7 +241,7 @@ public class AdventureResult implements Comparable, KoLConstants
 		}
 	}
 
-	public static AdventureResult bangPotion( String name )
+	public static final AdventureResult bangPotion( String name )
 	{
 		// Given "potion of confusion", look it up
 		if ( !name.startsWith( "potion of " ) )
@@ -386,7 +386,7 @@ public class AdventureResult implements Comparable, KoLConstants
 	}
 
 	/**
-	 * A static method which parses the given string for any content
+	 * A static final method which parses the given string for any content
 	 * which might be applicable to an <code>AdventureResult</code>,
 	 * and returns the resulting <code>AdventureResult</code>.
 	 *
@@ -396,7 +396,7 @@ public class AdventureResult implements Comparable, KoLConstants
 	 * @throws	ParseException	The value enclosed within parentheses was not a number.
 	 */
 
-	public static AdventureResult parseResult( String s )
+	public static final AdventureResult parseResult( String s )
 	{
 		if ( s.startsWith("You gain") || s.startsWith("You lose") )
 		{
@@ -591,7 +591,7 @@ public class AdventureResult implements Comparable, KoLConstants
 	 * @param	result	The result to add to the tally
 	 */
 
-	public static void addResultToList( List sourceList, AdventureResult result )
+	public static final void addResultToList( List sourceList, AdventureResult result )
 	{
 		int index = sourceList.indexOf( result );
 
@@ -650,15 +650,15 @@ public class AdventureResult implements Comparable, KoLConstants
 		sourceList.set( index, sumResult );
 	}
 
-	public static DefaultListCellRenderer getDefaultRenderer()
+	public static final DefaultListCellRenderer getDefaultRenderer()
 	{	return getDefaultRenderer( false );
 	}
 
-	public static DefaultListCellRenderer getDefaultRenderer( boolean isEquipment )
+	public static final DefaultListCellRenderer getDefaultRenderer( boolean isEquipment )
 	{	return new AdventureResultRenderer( isEquipment );
 	}
 
-	public static DefaultListCellRenderer getCreationQueueRenderer()
+	public static final DefaultListCellRenderer getCreationQueueRenderer()
 	{	return new ConcoctionRenderer();
 	}
 
@@ -958,7 +958,7 @@ public class AdventureResult implements Comparable, KoLConstants
 		}
 	}
 
-	public static DefaultListCellRenderer getEquipmentRenderer()
+	public static final DefaultListCellRenderer getEquipmentRenderer()
 	{	return new EquipmentRenderer();
 	}
 

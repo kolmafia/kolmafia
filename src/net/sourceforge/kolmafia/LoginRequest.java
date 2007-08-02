@@ -40,21 +40,22 @@ import java.util.regex.Pattern;
 
 public class LoginRequest extends KoLRequest
 {
-	private static boolean ignoreLoadBalancer = false;
 	private static final Pattern SESSIONID_COOKIE_PATTERN = Pattern.compile( "PHPSESSID=([^\\;]+)" );
 	private static final Pattern FAILURE_PATTERN = Pattern.compile( "<p><b>(.*?)</b>" );
 	private static final Pattern CHALLENGE_PATTERN = Pattern.compile( "<input type=hidden name=challenge value=\"([^\"]*?)\">" );
 
+	private static boolean ignoreLoadBalancer = false;
 	private static String lastUsername;
 	private static String lastPassword;
 	private static boolean isLoggingIn;
 
 	private static long lastLoginAttempt = 0;
-	private static long WAIT_THRESHOLD = 300000;
 
-	private static int STANDARD_WAIT = 75;
-	private static int TOO_MANY_WAIT = 960;
-	private static int BAD_CHALLENGE_WAIT = 15;
+	private static final long WAIT_THRESHOLD = 300000;
+	private static final int STANDARD_WAIT = 75;
+	private static final int TOO_MANY_WAIT = 960;
+	private static final int BAD_CHALLENGE_WAIT = 15;
+
 	private static int waitTime = STANDARD_WAIT;
 
 	private String username;
@@ -73,7 +74,7 @@ public class LoginRequest extends KoLRequest
 			StaticEntity.setProperty( "saveStateActive", "true" );
 	}
 
-	public static void setIgnoreLoadBalancer( boolean ignoreLoadBalancer )
+	public static final void setIgnoreLoadBalancer( boolean ignoreLoadBalancer )
 	{	LoginRequest.ignoreLoadBalancer = ignoreLoadBalancer;
 	}
 
@@ -140,7 +141,7 @@ public class LoginRequest extends KoLRequest
 		}
 	}
 
-	private static String digestPassword( String password, String challenge ) throws Exception
+	private static final String digestPassword( String password, String challenge ) throws Exception
 	{
 		// KoL now makes use of a HMAC-MD5 in order to preprocess the
 		// password so that we aren't submitting plaintext passwords
@@ -157,7 +158,7 @@ public class LoginRequest extends KoLRequest
 		return hash2;
 	}
 
-	private static String getHexString( byte [] bytes )
+	private static final String getHexString( byte [] bytes )
 	{
 		byte [] output = new byte[ bytes.length + 1 ];
 		for ( int i = 0; i < bytes.length; ++i )
@@ -211,13 +212,13 @@ public class LoginRequest extends KoLRequest
 		}
 	}
 
-	private static void forceLoginAbort()
+	private static final void forceLoginAbort()
 	{
 		StaticEntity.printStackTrace( new Exception(), "Concurrent logins detected" );
 		System.exit(-1);
 	}
 
-	public static void executeTimeInRequest()
+	public static final void executeTimeInRequest()
 	{
 		if ( System.currentTimeMillis() - lastLoginAttempt < WAIT_THRESHOLD )
 			forceLoginAbort();
@@ -348,11 +349,11 @@ public class LoginRequest extends KoLRequest
 		return true;
 	}
 
-	public static boolean isInstanceRunning()
+	public static final boolean isInstanceRunning()
 	{	return isLoggingIn;
 	}
 
-	public static void processLoginRequest( KoLRequest request )
+	public static final void processLoginRequest( KoLRequest request )
 	{
 		if ( request.redirectLocation == null || request.redirectLocation.startsWith( "maint" ) || !request.redirectLocation.startsWith( "main" ) )
 			return;
