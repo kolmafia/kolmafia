@@ -55,6 +55,8 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 
 		this.model = model;
 		this.filter = new SimpleListFilter( this );
+
+		this.model.setFilter( this.filter );
 		this.setEditable( true );
 
 		this.allowAdditions = allowAdditions;
@@ -92,7 +94,7 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 		if ( !this.isPopupVisible() )
 		{
 			this.filter.deactivate();
-			this.model.applyListFilter( this.filter );
+			this.model.updateFilter();
 		}
 	}
 
@@ -100,13 +102,13 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 	{
 		this.filter.activate();
 		this.filter.makeStrict();
-		this.model.applyListFilter( this.filter );
+		this.model.updateFilter();
 
 		if ( this.model.getSize() != 0 )
 			return;
 
 		this.filter.makeFuzzy();
-		this.model.applyListFilter( this.filter );
+		this.model.updateFilter();
 	}
 
 	public synchronized void findMatch( int keyCode )

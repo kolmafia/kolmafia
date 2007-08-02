@@ -869,7 +869,7 @@ public class ItemManageFrame extends KoLFrame
 				this.setFixedFilter( food, booze, equip, other, true );
 			}
 
-			ConcoctionsDatabase.getCreatables().applyListFilters();
+			ConcoctionsDatabase.getCreatables().updateFilter();
 			this.filterItems();
 		}
 

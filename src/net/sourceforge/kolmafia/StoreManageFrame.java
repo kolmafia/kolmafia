@@ -360,7 +360,7 @@ public class StoreManageFrame extends KoLPanelFrame
 		public StoreAddPanel()
 		{
 			super( "put in", "auto sell", inventory );
-			this.elementModel.applyListFilter( TRADE_FILTER );
+			this.elementModel.setFilter( TRADE_FILTER );
 		}
 
 		public void actionConfirmed()

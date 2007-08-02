@@ -590,6 +590,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 		public FilterItemField()
 		{
 			this.filter = this.getFilter();
+			ItemManagePanel.this.elementList.setFilter( this.filter );
 			this.addKeyListener( new FilterListener() );
 
 			this.food = true; this.booze = true; this.equip = true;
@@ -625,12 +626,12 @@ public class ItemManagePanel extends LabeledScrollPanel
 			}
 
 			this.filter.makeStrict();
-			ItemManagePanel.this.elementList.applyFilter( this.filter );
+			ItemManagePanel.this.elementList.updateFilter();
 
 			if ( ItemManagePanel.this.elementModel.getSize() == 0 )
 			{
 				this.filter.makeFuzzy();
-				ItemManagePanel.this.elementList.applyFilter( this.filter );
+				ItemManagePanel.this.elementList.updateFilter();
 			}
 		}
 
