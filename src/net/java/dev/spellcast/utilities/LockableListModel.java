@@ -770,7 +770,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 			return;
 
 		currentFilter = newFilter;
-		updateFilter( false );
+		updateSingleFilter( false );
 	}
 
 	public int getIndexOf( Object o )
