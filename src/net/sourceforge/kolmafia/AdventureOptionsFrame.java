@@ -213,10 +213,12 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 		public void actionConfirmed()
 		{
+			String saveText = AdventureOptionsFrame.this.combatEditor.getText();
+
 			File location = new File( SETTINGS_LOCATION, CombatSettings.settingsFileName() );
 			LogStream writer = LogStream.openStream( location, true );
 
-			writer.println( ((JTextArea)this.scrollComponent).getText() );
+			writer.print( saveText );
 			writer.close();
 			writer = null;
 
@@ -287,13 +289,10 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 	public void refreshCombatSettings()
 	{
-		if ( KoLCharacter.baseUserName().equals( "GLOBAL" ) )
-			return;
-
 		try
 		{
 			CombatSettings.restoreDefaults();
-			BufferedReader reader = KoLDatabase.getReader( "settings" + File.separator + CombatSettings.settingsFileName() );
+			BufferedReader reader = KoLDatabase.getReader( SETTINGS_DIRECTORY + CombatSettings.settingsFileName() );
 
 			StringBuffer buffer = new StringBuffer();
 			String line;
@@ -301,7 +300,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 			while ( (line = reader.readLine()) != null )
 			{
 				buffer.append( line );
-				buffer.append( System.getProperty( "line.separator" ) );
+				buffer.append( '\n' );
 			}
 
 			reader.close();
