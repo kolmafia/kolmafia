@@ -123,7 +123,7 @@
 	<!--  generate the alpha testing JAR  -->
 	<!-- ================================ -->
 
-	<target name="debug" depends="version">
+	<target name="debug" depends="version,clean">
 
 		<replace file="${src}/net/sourceforge/kolmafia/KoLConstants.java"
 			token="v${version}" value="v${version}, r${revision}"/>
