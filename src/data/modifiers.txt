@@ -1266,6 +1266,7 @@ Eye of the Lihc	Spooky Resistance: +10
 Fat Leon's Phat Loot Lyric	Item Drop: +20
 Fever From the Flavor	Cold Resistance: +90
 Fireproof Lips	Hot Resistance: +90
+Fit To Be Tide	HP Regen Min: 5, HP Regen Max: 16, MP Regen Min: 5, MP Regen Max: 16
 Flame-Retardent Trousers	Hot Resistance: +20
 Flaming Weapon	Hot Damage: +3
 Flamingly Floral	Hot Damage: +50
