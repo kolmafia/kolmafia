@@ -35,7 +35,6 @@ package net.sourceforge.kolmafia;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.IOException;
 import java.io.PrintStream;
 
 import java.net.Socket;
@@ -194,12 +193,13 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 		// If not requesting a server-side page, then it is safe
 		// to assume that no changes have been made (save time).
 
-		if ( this.isCheckingModified && !this.request.contentType.equals( "text/html" ) )
+		if ( this.isCheckingModified && request.formURLString.startsWith( "images" ) )
 		{
 			this.request.pseudoResponse( "HTTP/1.1 304 Not Modified", "" );
 			this.request.responseCode = 304;
 		}
-		else if ( this.path.equals( "/fight.php?action=script" ) )
+
+		if ( this.path.equals( "/fight.php?action=script" ) )
 		{
 			if ( !FightRequest.isTrackingFights() )
 				CUSTOM_THREAD.wake();
@@ -225,12 +225,7 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 		{
 			AdventureRequest.handleDvoraksRevenge( this.request );
 		}
-		else if ( this.path.startsWith( "/sidepane.php" ) )
-		{
-			this.request.pseudoResponse( "HTTP/1.1 200 OK",
-				RequestEditorKit.getFeatureRichHTML( "charpane.php", CharpaneRequest.getLastResponse(), true ) );
-		}
-		else if ( this.path.startsWith( "/charpane.php" ) )
+		else if ( this.path.startsWith( "/charpane.php" ) || this.path.startsWith( "/sidepane.php" ) )
 		{
 			if ( !KoLmafia.isRunningBetweenBattleChecks() && FightRequest.getActualRound() == 0 )
 			{
@@ -238,7 +233,8 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 					StaticEntity.getBooleanProperty( "relayMaintainsHealth" ), StaticEntity.getBooleanProperty( "relayMaintainsMana" ) );
 			}
 
-			this.request.run();
+			this.request.pseudoResponse( "HTTP/1.1 200 OK",
+				RequestEditorKit.getFeatureRichHTML( "charpane.php", CharpaneRequest.getLastResponse(), true ) );
 		}
 		else
 		{

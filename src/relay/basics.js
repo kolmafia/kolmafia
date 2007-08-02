@@ -44,13 +44,19 @@ function refreshSidebar()
 		if ( httpObject.readyState != 4 )
 			return;
 
-		top.charpane.document.getElementsByTagName( "body" )[0].innerHTML =
-			httpObject.responseText.replace( new RegExp( "<html>.*<center", "g" ), "<center" ).replace( new RegExp( "</body>.*</html>", "g" ), "" );
+		var bodyBegin = httpObject.responseText.indexOf( ">", httpObject.responseText.indexOf( "<body" ) ) + 1;
+		var bodyEnd = httpObject.responseText.indexOf( "</body>" );
+
+		if ( bodyBegin > 0 && bodyEnd > 0 )
+		{
+			top.charpane.document.getElementsByTagName( "body" )[0].innerHTML =
+				httpObject.responseText.substring( bodyBegin, bodyEnd );
+		}
 
 		isRefreshing = false;
 	}
 
-	httpObject.open( "POST", "/sidepane.php" );
+	httpObject.open( "POST", "/charpane.php" );
 	httpObject.send( "" );
 }
 
@@ -105,8 +111,8 @@ function inlineLoad( location, fields, id )
 		// Handle insertion of the data into the page.
 		// Steal KoL's divs for doing so.
 
-		var text = httpObject.responseText.substring(
-			httpObject.responseText.indexOf( "<body>" ) + 6, httpObject.responseText.indexOf( "</table><table" ) + 8 );
+		var text = "<center>" + httpObject.responseText.substring(
+			httpObject.responseText.indexOf( "<table" ), httpObject.responseText.indexOf( "</table><table" ) + 8 ) + "</center>";
 
 		var main = top.mainpane.document;
 		var div = getObject( "effdiv" );
@@ -117,6 +123,7 @@ function inlineLoad( location, fields, id )
 
 			container.id = "effdiv";
 			container.innerHTML = text;
+			container.style.textAlign = "center";
 			main.body.insertBefore( container, main.body.firstChild );
 
 			div = container;
@@ -130,7 +137,7 @@ function inlineLoad( location, fields, id )
 		top.mainpane.scrollTo( 0, 0 );
 	};
 
-	httpObject.open( "POST", "http://" + window.location.host + "/" + location );
+	httpObject.open( "POST", "/" + location );
 	httpObject.send( fields );
 	return true;
 }
