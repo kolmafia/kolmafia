@@ -133,10 +133,14 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		this.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789" );
 	}
 
-	public void applyFilter( ListElementFilter filter )
+	public void setFilter( ListElementFilter filter )
 	{
 		this.filter = filter;
-		this.listModel.applyListFilter( filter );
+		this.updateFilter();
+	}
+
+	public void updateFilter()
+	{	this.listModel.updateFilter();
 	}
 
 	/**

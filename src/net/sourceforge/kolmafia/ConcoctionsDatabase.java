@@ -427,7 +427,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			}
 
 			c.queued = 0;
-			usableList.applyListFilters();
+			usableList.updateFilter();
 		}
 
 		SpecialOutfit.restoreImplicitCheckpoint();
@@ -642,8 +642,8 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		if ( !ignoreRefresh )
 		{
-			creatableList.applyListFilters();
-			usableList.applyListFilters();
+			creatableList.updateFilter();
+			usableList.updateFilter();
 		}
 	}
 
