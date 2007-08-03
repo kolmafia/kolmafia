@@ -342,8 +342,8 @@
 342	Bestial Sympathy	teeth.gif	0acfb47ada804935ca1acf6ee1ae6dd7
 343	La Bamba	footprints.gif	957a452386df5dec88778c089e53b60e
 344	Blessing of Pikachutlotal	jigawatts.gif	3f2ef271da5513fce8fd5f8ea8c27de8
-345	Blessing of Charcoatl           fire.gif	5a1caad47f9f3340c58af489d69bf55b
-346	Blessing of Squirtlcthulli	nopic2.gif
+345	Blessing of Charcoatl	fire.gif	5a1caad47f9f3340c58af489d69bf55b
+346	Blessing of Squirtlcthulli	nopic2.gif	24d6ac5a1c833ff5b1ccb07a997ca10b
 347	Blessing of Bulbazinalli	leaf.gif	c59051266b90a4b990b4e92e29945228
 348	All Fired Up	fire.gif	5626ff49dbfe5c3bc7732a3dc9c1ea4e
 349	Go Get 'Em, Tiger!	strboost.gif	943ba3b11499412f041807f8a7835d75
