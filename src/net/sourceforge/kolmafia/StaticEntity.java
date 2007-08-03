@@ -511,6 +511,7 @@ public abstract class StaticEntity implements KoLConstants
 
 			KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( skillName ) );
 			KoLCharacter.addDerivedSkills();
+			usableSkills.sort();
 		}
 
 		learnedMatcher = NEWSKILL3_PATTERN.matcher( responseText );
@@ -520,6 +521,7 @@ public abstract class StaticEntity implements KoLConstants
 
 			KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( skillName ) );
 			KoLCharacter.addDerivedSkills();
+			usableSkills.sort();
 		}
 
 		// Unfortunately, if you learn a new skill from Frank

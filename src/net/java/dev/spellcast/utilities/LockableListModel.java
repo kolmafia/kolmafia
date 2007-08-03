@@ -136,6 +136,8 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	public void sort()
 	{
 		Collections.sort( actualElements );
+		Collections.sort( visibleElements );
+		fireContentsChanged( this, 0, visibleElements.size() - 1 );
 
 		LockableListModel mirror;
 		Iterator it = mirrorList.iterator();
@@ -147,13 +149,15 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 				return;
 
 			Collections.sort( mirror.visibleElements );
-			mirror.fireContentsChanged( this, 0, mirror.getSize() - 1 );
+			mirror.fireContentsChanged( this, 0, mirror.visibleElements.size() - 1 );
 		}
 	}
 
 	public void sort( Comparator c )
 	{
 		Collections.sort( actualElements, c );
+		Collections.sort( visibleElements, c );
+		fireContentsChanged( this, 0, visibleElements.size() - 1 );
 
 		LockableListModel mirror;
 		Iterator it = mirrorList.iterator();
@@ -165,7 +169,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 				return;
 
 			Collections.sort( mirror.visibleElements, c );
-			mirror.fireContentsChanged( this, 0, mirror.getSize() - 1 );
+			mirror.fireContentsChanged( this, 0, mirror.visibleElements.size() - 1 );
 		}
 	}
 

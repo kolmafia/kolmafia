@@ -1964,7 +1964,10 @@ public abstract class KoLCharacter extends StaticEntity
 			addAvailableSkill( (UseSkillRequest) newSkillSet.get(i) );
 
 		// Add derived skills based on base skills
+
 		addDerivedSkills();
+		usableSkills.sort();
+
 		battleSkillNames.setSelectedItem( StaticEntity.getProperty( "battleAction" ) );
 	}
 
