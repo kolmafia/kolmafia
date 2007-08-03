@@ -78,9 +78,6 @@ public abstract class MoodSettings implements KoLConstants
 		displayList.clear();
 
 		String currentMood = StaticEntity.getProperty( "currentMood" );
-		if ( KoLCharacter.baseUserName().equals( "GLOBAL" ) || currentMood.equals( "" ) )
-			return;
-
 		settingsFile = new File( SETTINGS_LOCATION, settingsFileName() );
 		loadSettings();
 
@@ -376,26 +373,15 @@ public abstract class MoodSettings implements KoLConstants
 
 	public static final void burnExtraMana( boolean isManualInvocation )
 	{
-		if ( !isManualInvocation )
-		{
-			if ( KoLCharacter.canInteract() )
-			{
-				if ( KoLCharacter.getCurrentMP() < KoLCharacter.getMaximumMP() )
-					return;
-			}
-			else
-			{
-				if ( KoLCharacter.getCurrentMP() < KoLCharacter.getMaximumMP() / 4 )
-					return;
-			}
-		}
+		if ( !isManualInvocation && KoLCharacter.canInteract() && KoLCharacter.getCurrentMP() < KoLCharacter.getMaximumMP() )
+			return;
 
 		String nextBurnCast;
 
 		isExecuting = true;
 
 		while ( (nextBurnCast = getNextBurnCast( true )) != null )
-			DEFAULT_SHELL.executeLine( nextBurnCast );
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( nextBurnCast );
 
 		isExecuting = false;
 	}
@@ -585,7 +571,7 @@ public abstract class MoodSettings implements KoLConstants
 
 		int buffsToRemove = thiefBuffs.size() + thiefSkills.size() - thiefTriggerLimit;
 		for ( int i = 0; i < buffsToRemove && i < thiefBuffs.size(); ++i )
-			DEFAULT_SHELL.executeLine( "uneffect " + ((AdventureResult)thiefBuffs.get(i)).getName() );
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "uneffect " + ((AdventureResult)thiefBuffs.get(i)).getName() );
 
 		// Now that everything is prepared, go ahead and execute
 		// the displayList which have been set.  First, start out
@@ -651,11 +637,11 @@ public abstract class MoodSettings implements KoLConstants
 				action = MoodSettings.getDefaultAction( "gain_effect", AUTO_CLEAR[i].getName() );
 
 				if ( action.startsWith( "cast" ) && restoreSetting.indexOf( action.substring(5) ) != -1 )
-					DEFAULT_SHELL.executeLine( action );
+					KoLmafiaCLI.DEFAULT_SHELL.executeLine( action );
 				else if ( action.startsWith( "use" ) && restoreSetting.indexOf( action.substring(4) ) != -1 )
-					DEFAULT_SHELL.executeLine( action );
+					KoLmafiaCLI.DEFAULT_SHELL.executeLine( action );
 				else if ( KoLCharacter.canInteract() )
-					DEFAULT_SHELL.executeLine( action );
+					KoLmafiaCLI.DEFAULT_SHELL.executeLine( action );
 			}
 		}
 	}
@@ -1120,7 +1106,7 @@ public abstract class MoodSettings implements KoLConstants
 				if ( multiplicity > 1 && (this.command.startsWith( "use" ) || this.command.startsWith("cast")) )
 					actualAction = this.command + " " + (StaticEntity.parseInt( this.count ) * multiplicity) + " " + this.parameters;
 
-				DEFAULT_SHELL.executeLine( actualAction );
+				KoLmafiaCLI.DEFAULT_SHELL.executeLine( actualAction );
 			}
 		}
 

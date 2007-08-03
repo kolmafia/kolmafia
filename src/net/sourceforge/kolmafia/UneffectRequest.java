@@ -144,7 +144,7 @@ public class UneffectRequest extends KoLRequest
 
 		if ( !action.equals( "" ) && !action.startsWith( "uneffect" ) )
 		{
-			DEFAULT_SHELL.executeLine( action );
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( action );
 			return;
 		}
 

@@ -148,7 +148,7 @@ public class ChatRequest extends KoLRequest
 
 		if ( lgraf.startsWith( "/msg 0 " ) )
 		{
-			DEFAULT_SHELL.executeLine( graf.substring(7).trim() );
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( graf.substring(7).trim() );
 			return KoLmafia.getLastMessage();
 		}
 
@@ -159,7 +159,7 @@ public class ChatRequest extends KoLRequest
 		if ( spaceIndex == -1 )
 			return null;
 
-		DEFAULT_SHELL.executeLine( graf.substring( spaceIndex + 1 ) );
+		KoLmafiaCLI.DEFAULT_SHELL.executeLine( graf.substring( spaceIndex + 1 ) );
 		return KoLmafia.getLastMessage();
 	}
 

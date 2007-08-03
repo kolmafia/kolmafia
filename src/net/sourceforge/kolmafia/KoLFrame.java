@@ -1263,7 +1263,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		}
 
 		public void run()
-		{	DEFAULT_SHELL.executeLine( this.scriptPath );
+		{	KoLmafiaCLI.DEFAULT_SHELL.executeLine( this.scriptPath );
 		}
 	}
 

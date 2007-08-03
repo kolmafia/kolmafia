@@ -158,7 +158,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		{
 			if ( KoLCharacter.getLevel() >= 9 )
 			{
-				RequestThread.postRequest( VISITOR.constructURLString( "council.php" ) );
+				RequestThread.postRequest( KoLRequest.VISITOR.constructURLString( "council.php" ) );
 			}
 			else
 			{

@@ -54,8 +54,10 @@ public interface UtilityConstants
 
 	public static final String DATA_DIRECTORY = "data/";
 	public static final String IMAGE_DIRECTORY = "images/";
+	public static final String SETTINGS_DIRECTORY = "settings/";
 
-	public static final File DATA_LOCATION = new File( ROOT_LOCATION, "data" );
-	public static final File IMAGE_LOCATION = new File( ROOT_LOCATION, "images" );
+	public static final File DATA_LOCATION = new File( ROOT_LOCATION, DATA_DIRECTORY );
+	public static final File IMAGE_LOCATION = new File( ROOT_LOCATION, IMAGE_DIRECTORY );
+	public static final File SETTINGS_LOCATION = new File( ROOT_LOCATION, SETTINGS_DIRECTORY );
 }
 

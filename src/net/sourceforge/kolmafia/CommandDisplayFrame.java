@@ -234,7 +234,7 @@ public class CommandDisplayFrame extends KoLFrame
 				try
 				{
 					KoLmafia.forceContinue();
-					DEFAULT_SHELL.executeLine( command );
+					KoLmafiaCLI.DEFAULT_SHELL.executeLine( command );
 				}
 				catch ( Exception e )
 				{

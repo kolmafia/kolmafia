@@ -43,7 +43,7 @@ public class CouncilFrame extends RequestFrame
 	public CouncilFrame()
 	{
 		super( "Council of Loathing" );
-		this.displayRequest( VISITOR.constructURLString( "council.php" ) );
+		this.displayRequest( KoLRequest.VISITOR.constructURLString( "council.php" ) );
 	}
 
 	public boolean hasSideBar()

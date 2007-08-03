@@ -314,7 +314,7 @@ public class SendMessageFrame extends KoLFrame
 			Object [] attachments = SendMessageFrame.this.getAttachedItems();
 
 			for ( int i = 0; i < recipients.length && KoLmafia.permitsContinue(); ++i )
-				DEFAULT_SHELL.executeSendRequest( recipients[i], message, attachments, SendMessageFrame.this.usingStorage, false );
+				KoLmafiaCLI.DEFAULT_SHELL.executeSendRequest( recipients[i], message, attachments, SendMessageFrame.this.usingStorage, false );
 
 			RequestThread.closeRequestSequence();
 		}

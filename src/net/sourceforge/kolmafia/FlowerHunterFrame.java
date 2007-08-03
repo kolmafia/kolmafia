@@ -224,7 +224,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 
 		public void actionCancelled()
 		{
-			DEFAULT_SHELL.executeLine( "flowers" );
+			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "flowers", "" );
 			FlowerHunterFrame.this.updateRank();
 		}
 

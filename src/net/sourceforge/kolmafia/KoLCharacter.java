@@ -2196,10 +2196,10 @@ public abstract class KoLCharacter extends StaticEntity
 
 		if ( stillsAvailable == -1 )
 		{
-			VISITOR.constructURLString( "guild.php?place=still" );
-			RequestThread.postRequest( VISITOR );
+			KoLRequest.VISITOR.constructURLString( "guild.php?place=still" );
+			RequestThread.postRequest( KoLRequest.VISITOR );
 
-			Matcher stillMatcher = STILLS_PATTERN.matcher( VISITOR.responseText );
+			Matcher stillMatcher = STILLS_PATTERN.matcher( KoLRequest.VISITOR.responseText );
 			if ( stillMatcher.find() )
 				stillsAvailable = parseInt( stillMatcher.group(1) );
 			else

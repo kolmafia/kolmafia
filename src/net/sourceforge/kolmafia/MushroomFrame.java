@@ -537,7 +537,7 @@ public class MushroomFrame extends KoLFrame
 				this.saveLayout();
 
 			if ( !this.currentLayout.equals( "" ) )
-				DEFAULT_SHELL.executeLine( "call " + PLOTS_DIRECTORY + this.currentLayout + ".ash" );
+				KoLmafiaCLI.DEFAULT_SHELL.executeLine( "call " + PLOTS_DIRECTORY + this.currentLayout + ".ash" );
 		}
 
 		public void loadLayout()

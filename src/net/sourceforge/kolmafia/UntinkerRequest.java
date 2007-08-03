@@ -182,10 +182,10 @@ public class UntinkerRequest extends KoLRequest
 
 		String action = StaticEntity.getProperty( "battleAction" );
 		if ( action.indexOf( "dictionary" ) != -1 )
-			DEFAULT_SHELL.executeCommand( "set", "battleAction=attack" );
+			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "battleAction=attack" );
 
 		StaticEntity.getClient().makeRequest( AdventureDatabase.getAdventureByURL( "adventure.php?snarfblat=18" ), KoLCharacter.getAdventuresLeft() );
-		DEFAULT_SHELL.executeCommand( "set", "battleAction=" + action );
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "battleAction=" + action );
 
 		if ( !conditions.isEmpty() )
 			KoLmafia.updateDisplay( ABORT_STATE, "Unable to complete untinkerer's quest." );

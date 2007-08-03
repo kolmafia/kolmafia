@@ -294,7 +294,7 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 			FightRequest.beginTrackingFights();
 
 			if ( !StaticEntity.getProperty( "battleAction" ).startsWith( "custom" ) )
-				DEFAULT_SHELL.executeCommand( "set", "battleAction=custom" );
+				KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "battleAction=custom" );
 
 			synchronized ( this )
 			{	this.notify();

@@ -87,49 +87,6 @@ public abstract class KoLmafia implements KoLConstants
 		RequestPane.registerEditorKitForContentType( "text/html", RequestEditorKit.class.getName() );
 		System.setProperty( "apple.laf.useScreenMenuBar", "true" );
 		System.setProperty( "http.referer", "www.kingdomofloathing.com" );
-
-		if ( !DATA_LOCATION.exists() )
-			DATA_LOCATION.mkdirs();
-
-		TreeMap filesToMove = new TreeMap();
-
-		filesToMove.put( new File( SETTINGS_LOCATION, "checklist_GLOBAL.txt" ), new File( DATA_LOCATION, "checklist.txt" ) );
-		filesToMove.put( new File( SETTINGS_LOCATION, "junk_GLOBAL.txt" ), new File( DATA_LOCATION, "autosell.txt" ) );
-		filesToMove.put( new File( SETTINGS_LOCATION, "profitable_GLOBAL.txt" ), new File( DATA_LOCATION, "mallsell.txt" ) );
-		filesToMove.put( new File( SETTINGS_LOCATION, "memento_GLOBAL.txt" ), new File( DATA_LOCATION, "mementos.txt" ) );
-		filesToMove.put( new File( SETTINGS_LOCATION, "skillsets_GLOBAL.txt" ), new File( DATA_LOCATION, "skillgroup.txt" ) );
-
-		Object [] keys = filesToMove.keySet().toArray();
-		for ( int i = 0; i < keys.length; ++i )
-			if ( ((File)keys[i]).exists() )
-				((File)keys[i]).renameTo( (File) filesToMove.get( keys[i] ) );
-
-		String currentName;
-		File [] filelist = SETTINGS_LOCATION.listFiles();
-
-		for ( int i = 0; i < filelist.length; ++i )
-		{
-			currentName = filelist[i].getName();
-
-			if ( currentName.startsWith( "combat_" ) )
-			{
-				currentName = currentName.substring( 7, currentName.indexOf( ".txt" ) );
-				filelist[i].renameTo( new File( SETTINGS_LOCATION, currentName + "_combat.txt" ) );
-			}
-			else if ( currentName.startsWith( "moods_" ) )
-			{
-				currentName = currentName.substring( 6, currentName.indexOf( ".txt" ) );
-				filelist[i].renameTo( new File( SETTINGS_LOCATION, currentName + "_moods.txt" ) );
-			}
-			else if ( currentName.startsWith( "prefs_" ) )
-			{
-				currentName = currentName.substring( 6, currentName.indexOf( ".txt" ) );
-				filelist[i].renameTo( new File( SETTINGS_LOCATION, currentName + "_prefs.txt" ) );
-			}
-		}
-
-		CombatSettings.restoreDefaults();
-		MoodSettings.restoreDefaults();
 	}
 
 	private static boolean hadPendingState = false;
@@ -408,7 +365,7 @@ public abstract class KoLmafia implements KoLConstants
 		// you allow for an attempt to login.
 
 		if ( !useGUI )
-			DEFAULT_SHELL.attemptLogin( username );
+			KoLmafiaCLI.DEFAULT_SHELL.attemptLogin( username );
 
 		if ( initialScript.length() != 0 )
 		{
@@ -416,14 +373,14 @@ public abstract class KoLmafia implements KoLConstants
 			if ( actualScript.startsWith( "script=" ) )
 				actualScript = actualScript.substring( 7 );
 
-			DEFAULT_SHELL.executeLine( "call " + actualScript );
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "call " + actualScript );
 		}
 
 		// Always read input from the command line when you're not
 		// in GUI mode.
 
 		if ( !useGUI )
-			DEFAULT_SHELL.listenForCommands();
+			KoLmafiaCLI.DEFAULT_SHELL.listenForCommands();
 	}
 
 	private static final void deleteSimulator( File location )
@@ -589,7 +546,7 @@ public abstract class KoLmafia implements KoLConstants
 		{
 			String currentLayout = StaticEntity.getProperty( "plantingScript" );
 			if ( !currentLayout.equals( "" ) && KoLCharacter.inMuscleSign() && MushroomPlot.ownsPlot() )
-				DEFAULT_SHELL.executeLine( "call " + PLOTS_DIRECTORY + currentLayout + ".ash" );
+				KoLmafiaCLI.DEFAULT_SHELL.executeLine( "call " + PLOTS_DIRECTORY + currentLayout + ".ash" );
 		}
 	}
 
@@ -651,7 +608,7 @@ public abstract class KoLmafia implements KoLConstants
 			if ( StaticEntity.getBooleanProperty( "grabClovers" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") ) )
 			{
 				if ( HermitRequest.getWorthlessItemCount() > 0 )
-					DEFAULT_SHELL.executeLine( "hermit * ten-leaf clover" );
+					KoLmafiaCLI.DEFAULT_SHELL.executeLine( "hermit * ten-leaf clover" );
 
 				forceContinue();
 			}
@@ -659,7 +616,7 @@ public abstract class KoLmafia implements KoLConstants
 			if ( StaticEntity.getIntegerProperty( "lastFilthClearance" ) == KoLCharacter.getAscensions() )
 			{
 				KoLmafia.updateDisplay( "Collecting cut of hippy profits..." );
-				RequestThread.postRequest( VISITOR.constructURLString( "store.php?whichstore=h" ) );
+				RequestThread.postRequest( KoLRequest.VISITOR.constructURLString( "store.php?whichstore=h" ) );
 				forceContinue();
 			}
 		}
@@ -2262,10 +2219,10 @@ public abstract class KoLmafia implements KoLConstants
 			return -1;
 		}
 
-		DEFAULT_SHELL.executeLine( "council" );
+		KoLRequest.VISITOR.constructURLString( "council.php" ).run();
 
 		updateDisplay( "Searching for faucet..." );
-		adventure.run();
+		RequestThread.postRequest( adventure );
 
 		// Random guess instead of straightforward search
 		// for the location of the faucet (lowers the chance
@@ -2276,7 +2233,7 @@ public abstract class KoLmafia implements KoLConstants
 			searchIndex = (Integer) searchList.remove( RNG.nextInt( searchList.size() ) );
 
 			adventure.getRequest().addFormField( "where", searchIndex.toString() );
-			adventure.run();
+			RequestThread.postRequest( adventure );
 
 			foundFaucet = adventure.getRequest().responseText != null &&
 				adventure.getRequest().responseText.indexOf( "faucetoff" ) != -1;
@@ -2309,13 +2266,13 @@ public abstract class KoLmafia implements KoLConstants
 	public void tradeGourdItems()
 	{
 		updateDisplay( "Determining items needed..." );
-		RequestThread.postRequest( VISITOR.constructURLString( "town_right.php?place=gourd" ) );
+		RequestThread.postRequest( KoLRequest.VISITOR.constructURLString( "town_right.php?place=gourd" ) );
 
 		// For every class, it's the same -- the message reads, "Bring back"
 		// and then the number of the item needed.  Compare how many you need
 		// with how many you have.
 
-		Matcher neededMatcher = GOURD_PATTERN.matcher( VISITOR.responseText );
+		Matcher neededMatcher = GOURD_PATTERN.matcher( KoLRequest.VISITOR.responseText );
 		AdventureResult item;
 
 		switch ( KoLCharacter.getPrimeIndex() )
@@ -2335,7 +2292,7 @@ public abstract class KoLmafia implements KoLConstants
 		while ( neededCount <= 25 && neededCount <= item.getCount( inventory ) )
 		{
 			updateDisplay( "Giving up " + neededCount + " " + item.getName() + "s..." );
-			RequestThread.postRequest( VISITOR.constructURLString( "town_right.php?place=gourd&action=gourd" ) );
+			RequestThread.postRequest( KoLRequest.VISITOR.constructURLString( "town_right.php?place=gourd&action=gourd" ) );
 			this.processResult( item.getInstance( 0 - neededCount++ ) );
 		}
 
@@ -2358,26 +2315,26 @@ public abstract class KoLmafia implements KoLConstants
 		// their current stats.
 
 		updateDisplay( "Entering guild challenge area..." );
-		RequestThread.postRequest( VISITOR.constructURLString( "guild.php?place=challenge" ) );
+		RequestThread.postRequest( KoLRequest.VISITOR.constructURLString( "guild.php?place=challenge" ) );
 
-		boolean success = stopAtPaco ? VISITOR.responseText.indexOf( "paco" ) != -1 :
-			VISITOR.responseText.indexOf( "store.php" ) != -1;
+		boolean success = stopAtPaco ? KoLRequest.VISITOR.responseText.indexOf( "paco" ) != -1 :
+			KoLRequest.VISITOR.responseText.indexOf( "store.php" ) != -1;
 
 		updateDisplay( "Completing guild tasks..." );
 
 		for ( int i = 0; i < 6 && !success && KoLCharacter.getAdventuresLeft() > 0 && permitsContinue(); ++i )
 		{
-			RequestThread.postRequest( VISITOR.constructURLString( "guild.php?action=chal" ) );
+			RequestThread.postRequest( KoLRequest.VISITOR.constructURLString( "guild.php?action=chal" ) );
 
-			if ( VISITOR.responseText != null )
+			if ( KoLRequest.VISITOR.responseText != null )
 			{
-				success |= stopAtPaco ? VISITOR.responseText.indexOf( "paco" ) != -1 :
-					VISITOR.responseText.indexOf( "You've already beaten" ) != -1;
+				success |= stopAtPaco ? KoLRequest.VISITOR.responseText.indexOf( "paco" ) != -1 :
+					KoLRequest.VISITOR.responseText.indexOf( "You've already beaten" ) != -1;
 			}
 		}
 
 		if ( success && KoLCharacter.getLevel() > 3 )
-			RequestThread.postRequest( VISITOR.constructURLString( "guild.php?place=paco" ) );
+			RequestThread.postRequest( KoLRequest.VISITOR.constructURLString( "guild.php?place=paco" ) );
 
 		if ( success && stopAtPaco )
 			updateDisplay( "You have unlocked the guild meatcar quest." );
@@ -3006,7 +2963,7 @@ public abstract class KoLmafia implements KoLConstants
 		{
 			String scriptPath = StaticEntity.getProperty( "betweenBattleScript" );
 			if ( !scriptPath.equals( "" ) )
-				DEFAULT_SHELL.executeLine( scriptPath );
+				KoLmafiaCLI.DEFAULT_SHELL.executeLine( scriptPath );
 		}
 
 		recoveryActive = false;
