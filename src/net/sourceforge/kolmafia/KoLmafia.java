@@ -72,8 +72,22 @@ import net.sourceforge.kolmafia.MonsterDatabase.Monster;
 
 public abstract class KoLmafia implements KoLConstants
 {
+	private static boolean isRefreshing = false;
+	private static boolean isAdventuring = false;
+	private static int relayBrowserInstances = 0;
+
+	public static String lastMessage = "";
+
 	static
 	{
+		System.setProperty( "com.apple.mrj.application.apple.menu.about.name", "KoLmafia" );
+		System.setProperty( "com.apple.mrj.application.live-resize", "true" );
+		System.setProperty( "com.apple.mrj.application.growbox.intrudes", "false" );
+
+		RequestPane.registerEditorKitForContentType( "text/html", RequestEditorKit.class.getName() );
+		System.setProperty( "apple.laf.useScreenMenuBar", "true" );
+		System.setProperty( "http.referer", "www.kingdomofloathing.com" );
+
 		if ( !DATA_LOCATION.exists() )
 			DATA_LOCATION.mkdirs();
 
@@ -113,23 +127,6 @@ public abstract class KoLmafia implements KoLConstants
 				filelist[i].renameTo( new File( SETTINGS_LOCATION, currentName + "_prefs.txt" ) );
 			}
 		}
-	}
-
-	private static boolean isRefreshing = false;
-	private static boolean isAdventuring = false;
-	private static int relayBrowserInstances = 0;
-
-	public static String lastMessage = "";
-
-	static
-	{
-		System.setProperty( "com.apple.mrj.application.apple.menu.about.name", "KoLmafia" );
-		System.setProperty( "com.apple.mrj.application.live-resize", "true" );
-		System.setProperty( "com.apple.mrj.application.growbox.intrudes", "false" );
-
-		RequestPane.registerEditorKitForContentType( "text/html", RequestEditorKit.class.getName() );
-		System.setProperty( "apple.laf.useScreenMenuBar", "true" );
-		System.setProperty( "http.referer", "www.kingdomofloathing.com" );
 
 		CombatSettings.restoreDefaults();
 		MoodSettings.restoreDefaults();
