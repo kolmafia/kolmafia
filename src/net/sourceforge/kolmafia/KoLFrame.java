@@ -2341,7 +2341,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 				public boolean isVisible( Object element )
 				{
 					return super.isVisible( element ) &&
-						(isOverlap ? overlapModel.contains( element ) : !overlapModel.contains( element ));
+						(isOverlap ? OverlapPanel.this.overlapModel.contains( element ) : !OverlapPanel.this.overlapModel.contains( element ));
 				}
 			}
 		}

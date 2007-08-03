@@ -905,7 +905,7 @@ public abstract class StaticEntity implements KoLConstants
 			if ( user.startsWith( "GLOBAL" ) || !user.endsWith( "_prefs.txt" ) )
 				continue;
 
-			user = user.substring( 0, user.length() - 11 );
+			user = user.substring( 0, user.length() - 10 );
 			if ( !user.equals( "GLOBAL" ) && !pastUserList.contains( user ) )
 				pastUserList.add( user );
 		}
