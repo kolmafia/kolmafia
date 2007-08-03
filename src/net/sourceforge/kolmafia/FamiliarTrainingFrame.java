@@ -981,8 +981,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 		if ( !KoLCharacter.hasItem( PUMPKIN_BUCKET ) && !KoLCharacter.hasItem( FLOWER_BOUQUET ) &&
 			status.familiarItemWeight != 0 && !KoLCharacter.hasItem( status.familiarItem ) && KoLCharacter.canInteract() )
 		{
-			DEFAULT_SHELL.executeLine( "buy 1 " + status.familiarItem.getName() );
-			DEFAULT_SHELL.executeLine( "equip " + status.familiarItem.getName() );
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "buy 1 " + status.familiarItem.getName() );
+			RequestThread.postRequest( new EquipmentRequest( status.familiarItem ) );
 
 			if ( familiar.getModifiedWeight() >= weight )
 				return true;
@@ -990,14 +990,14 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		if ( leashAvailable && leashActive == 0 )
 		{
-			DEFAULT_SHELL.executeLine( "cast 1 leash of linguini" );
+			RequestThread.postRequest( UseSkillRequest.getInstance( "leash of linguini", 1 ) );
 			if ( familiar.getModifiedWeight() >= weight )
 				return true;
 		}
 
 		if ( empathyAvailable && empathyActive == 0 )
 		{
-			DEFAULT_SHELL.executeLine( "cast 1 empathy of the newt" );
+			RequestThread.postRequest( UseSkillRequest.getInstance( "empathy of the newt", 1 ) );
 			if ( familiar.getModifiedWeight() >= weight )
 				return true;
 		}
@@ -1007,35 +1007,35 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		if ( greenHeartAvailable && greenHeartActive == 0 )
 		{
-			DEFAULT_SHELL.executeLine( "use 1 green candy heart" );
+			RequestThread.postRequest( new ConsumeItemRequest( GREEN_CANDY ) );
 			if ( familiar.getModifiedWeight() >= weight )
 				return true;
 		}
 
 		if ( bestialAvailable && bestialActive == 0 )
 		{
-			DEFAULT_SHELL.executeLine( "use 1 half-orchid" );
+			RequestThread.postRequest( new ConsumeItemRequest( HALF_ORCHID ) );
 			if ( familiar.getModifiedWeight() >= weight )
 				return true;
 		}
 
 		if ( greenConeAvailable && greenTongueActive == 0 )
 		{
-			DEFAULT_SHELL.executeLine( "use 1 green snowcone" );
+			RequestThread.postRequest( new ConsumeItemRequest( GREEN_SNOWCONE ) );
 			if ( familiar.getModifiedWeight() >= weight )
 				return true;
 		}
 
 		if ( !greenConeAvailable && greenTongueActive == 0 && blackConeAvailable && blackTongueActive == 0 )
 		{
-			DEFAULT_SHELL.executeLine( "use 1 black snowcone" );
+			RequestThread.postRequest( new ConsumeItemRequest( BLACK_SNOWCONE ) );
 			if ( familiar.getModifiedWeight() >= weight )
 				return true;
 		}
 
 		if ( heavyPettingAvailable && heavyPettingActive == 0 )
 		{
-			DEFAULT_SHELL.executeLine( "use 1 Knob Goblin pet-buffing spray" );
+			RequestThread.postRequest( new ConsumeItemRequest( BUFFING_SPRAY ) );
 			if ( familiar.getModifiedWeight() >= weight )
 				return true;
 		}

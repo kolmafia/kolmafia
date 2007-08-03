@@ -59,10 +59,10 @@ public abstract class Nemesis extends StaticEntity
 
 		// Make sure the player has been given the quest
 
-		VISITOR.constructURLString( "mountains.php" );
-		RequestThread.postRequest( VISITOR );
+		KoLRequest.VISITOR.constructURLString( "mountains.php" );
+		RequestThread.postRequest( KoLRequest.VISITOR );
 
-		if ( VISITOR.responseText.indexOf( "cave.php" ) == -1 )
+		if ( KoLRequest.VISITOR.responseText.indexOf( "cave.php" ) == -1 )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "You haven't been given the quest to defeat your Nemesis!" );
 			return false;
@@ -80,10 +80,10 @@ public abstract class Nemesis extends StaticEntity
 
 		// See how far the player has gotten in this quest
 
-		VISITOR.clearDataFields();
-		RequestThread.postRequest( VISITOR );
+		KoLRequest.VISITOR.clearDataFields();
+		RequestThread.postRequest( KoLRequest.VISITOR );
 
-		if ( VISITOR.responseText == null )
+		if ( KoLRequest.VISITOR.responseText == null )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "Unable to find quest." );
 			return;
@@ -91,19 +91,19 @@ public abstract class Nemesis extends StaticEntity
 
 		int region = 0;
 
-		if ( VISITOR.responseText.indexOf( "value='flies'" ) != -1 )
+		if ( KoLRequest.VISITOR.responseText.indexOf( "value='flies'" ) != -1 )
 			region = 4;
-		else if ( VISITOR.responseText.indexOf( "value='door1'" ) != -1 )
+		else if ( KoLRequest.VISITOR.responseText.indexOf( "value='door1'" ) != -1 )
 			region = 5;
-		else if ( VISITOR.responseText.indexOf( "value='troll1'" ) != -1 )
+		else if ( KoLRequest.VISITOR.responseText.indexOf( "value='troll1'" ) != -1 )
 			region = 6;
-		else if ( VISITOR.responseText.indexOf( "value='door2'" ) != -1 )
+		else if ( KoLRequest.VISITOR.responseText.indexOf( "value='door2'" ) != -1 )
 			region = 7;
-		else if ( VISITOR.responseText.indexOf( "value='troll2'" ) != -1 )
+		else if ( KoLRequest.VISITOR.responseText.indexOf( "value='troll2'" ) != -1 )
 			region = 8;
-		else if ( VISITOR.responseText.indexOf( "value='end'" ) != -1 )
+		else if ( KoLRequest.VISITOR.responseText.indexOf( "value='end'" ) != -1 )
 			region = 9;
-		else if ( VISITOR.responseText.indexOf( "cave9done" ) != -1 )
+		else if ( KoLRequest.VISITOR.responseText.indexOf( "cave9done" ) != -1 )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "You've already defeated your nemesis." );
 			return;
@@ -176,7 +176,6 @@ public abstract class Nemesis extends StaticEntity
 				// not currently equipped
 
 				RequestThread.postRequest( new EquipmentRequest( FLY_SWATTER, KoLCharacter.WEAPON ) );
-				DEFAULT_SHELL.executeLine( "equip Gnollish flyswatter" );
 				action = "flies";
 				KoLmafia.updateDisplay( "Swatting flies..." );
 				break;
@@ -195,7 +194,7 @@ public abstract class Nemesis extends StaticEntity
 
 			case 7:	// Salad-Covered Door
 
-				DEFAULT_SHELL.executeLine( "equip Knob Goblin tongs" );
+				RequestThread.postRequest( new EquipmentRequest( TONGS, KoLCharacter.WEAPON ) );
 				action = "door2";
 				KoLmafia.updateDisplay( "Plucking the salad door..." );
 				break;
@@ -209,10 +208,10 @@ public abstract class Nemesis extends StaticEntity
 			case 9: // Chamber of Epic Conflict
 
 				if ( initialWeapon != null )
-					DEFAULT_SHELL.executeLine( "equip weapon " + initialWeapon.getName() );
+					RequestThread.postRequest( new EquipmentRequest( initialWeapon, KoLCharacter.WEAPON ) );
 
 				if ( initialOffhand != null )
-					DEFAULT_SHELL.executeLine( "equip off-hand " + initialOffhand.getName() );
+					RequestThread.postRequest( new EquipmentRequest( initialOffhand, KoLCharacter.OFFHAND ) );
 
 				action = "end";
 				KoLmafia.updateDisplay( "Fighting your nemesis..." );
@@ -221,11 +220,11 @@ public abstract class Nemesis extends StaticEntity
 
 			// Visit the cave
 
-			VISITOR.clearDataFields();
-			VISITOR.addFormField( "action", action );
-			RequestThread.postRequest( VISITOR );
+			KoLRequest.VISITOR.clearDataFields();
+			KoLRequest.VISITOR.addFormField( "action", action );
+			RequestThread.postRequest( KoLRequest.VISITOR );
 
-			if ( VISITOR.responseText != null && VISITOR.responseText.indexOf( "You must have at least one Adventure left to fight your nemesis." ) != -1 )
+			if ( KoLRequest.VISITOR.responseText != null && KoLRequest.VISITOR.responseText.indexOf( "You must have at least one Adventure left to fight your nemesis." ) != -1 )
 			{
 				KoLmafia.updateDisplay( ERROR_STATE, "You're out of adventures." );
 				return;

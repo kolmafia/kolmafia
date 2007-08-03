@@ -63,7 +63,7 @@ public class LogoutRequest extends KoLRequest
 
 			String scriptSetting = StaticEntity.getProperty( "logoutScript" );
 			if ( !scriptSetting.equals( "" ) )
-				DEFAULT_SHELL.executeLine( scriptSetting );
+				KoLmafiaCLI.DEFAULT_SHELL.executeLine( scriptSetting );
 
 			KoLmafia.updateDisplay( ABORT_STATE, "Attempting to logout..." );
 			super.run();

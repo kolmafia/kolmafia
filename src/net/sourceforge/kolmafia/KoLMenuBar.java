@@ -803,7 +803,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		}
 
 		public void run()
-		{	DEFAULT_SHELL.executeCommand( "logout", "" );
+		{	KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "logout", "" );
 		}
 	}
 

@@ -49,9 +49,10 @@ import java.util.Properties;
 import java.util.TreeMap;
 
 import net.java.dev.spellcast.utilities.SortedListModel;
+import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.AdventureDatabase.ChoiceAdventure;
 
-public class KoLSettings extends Properties implements KoLConstants
+public class KoLSettings extends Properties implements UtilityConstants
 {
 	private boolean initializingDefaults = false;
 
@@ -136,6 +137,46 @@ public class KoLSettings extends Properties implements KoLConstants
 
 	static
 	{
+		if ( !DATA_LOCATION.exists() )
+			DATA_LOCATION.mkdirs();
+
+		TreeMap filesToMove = new TreeMap();
+
+		filesToMove.put( new File( SETTINGS_LOCATION, "checklist_GLOBAL.txt" ), new File( DATA_LOCATION, "checklist.txt" ) );
+		filesToMove.put( new File( SETTINGS_LOCATION, "junk_GLOBAL.txt" ), new File( DATA_LOCATION, "autosell.txt" ) );
+		filesToMove.put( new File( SETTINGS_LOCATION, "profitable_GLOBAL.txt" ), new File( DATA_LOCATION, "mallsell.txt" ) );
+		filesToMove.put( new File( SETTINGS_LOCATION, "memento_GLOBAL.txt" ), new File( DATA_LOCATION, "mementos.txt" ) );
+		filesToMove.put( new File( SETTINGS_LOCATION, "skillsets_GLOBAL.txt" ), new File( DATA_LOCATION, "skillgroup.txt" ) );
+
+		Object [] keys = filesToMove.keySet().toArray();
+		for ( int i = 0; i < keys.length; ++i )
+			if ( ((File)keys[i]).exists() )
+				((File)keys[i]).renameTo( (File) filesToMove.get( keys[i] ) );
+
+		String currentName;
+		File [] filelist = SETTINGS_LOCATION.listFiles();
+
+		for ( int i = 0; i < filelist.length; ++i )
+		{
+			currentName = filelist[i].getName();
+
+			if ( currentName.startsWith( "combat_" ) )
+			{
+				currentName = currentName.substring( 7, currentName.indexOf( ".txt" ) );
+				filelist[i].renameTo( new File( SETTINGS_LOCATION, currentName + "_combat.txt" ) );
+			}
+			else if ( currentName.startsWith( "moods_" ) )
+			{
+				currentName = currentName.substring( 6, currentName.indexOf( ".txt" ) );
+				filelist[i].renameTo( new File( SETTINGS_LOCATION, currentName + "_moods.txt" ) );
+			}
+			else if ( currentName.startsWith( "prefs_" ) )
+			{
+				currentName = currentName.substring( 6, currentName.indexOf( ".txt" ) );
+				filelist[i].renameTo( new File( SETTINGS_LOCATION, currentName + "_prefs.txt" ) );
+			}
+		}
+
 		initializeMaps();
 	}
 
@@ -152,10 +193,10 @@ public class KoLSettings extends Properties implements KoLConstants
 	{
 		try
 		{
-			preRoninJunkList.clear();
-			postRoninJunkList.clear();
+			KoLConstants.preRoninJunkList.clear();
+			KoLConstants.postRoninJunkList.clear();
 
-			SortedListModel junkItemList = preRoninJunkList;
+			SortedListModel junkItemList = KoLConstants.preRoninJunkList;
 
 			if ( !junkItemsFile.exists() )
 			{
@@ -176,7 +217,7 @@ public class KoLSettings extends Properties implements KoLConstants
 						continue;
 
 					if ( line.startsWith( "[" ) )
-						junkItemList = preRoninJunkList.indexOf( "pre-ronin" ) != -1 ? preRoninJunkList : postRoninJunkList;
+						junkItemList = KoLConstants.preRoninJunkList.indexOf( "pre-ronin" ) != -1 ? KoLConstants.preRoninJunkList : KoLConstants.postRoninJunkList;
 
 					if ( !TradeableItemDatabase.contains( line ) )
 						continue;
@@ -189,12 +230,12 @@ public class KoLSettings extends Properties implements KoLConstants
 				reader.close();
 			}
 
-			mementoList.clear();
+			KoLConstants.mementoList.clear();
 
 			if ( !mementoFile.exists() )
 			{
 				for ( int i = 0; i < COMMON_MEMENTOS.length; ++i )
-					mementoList.add( new AdventureResult( COMMON_MEMENTOS[i], 1, false ) );
+					KoLConstants.mementoList.add( new AdventureResult( COMMON_MEMENTOS[i], 1, false ) );
 			}
 			else
 			{
@@ -210,19 +251,19 @@ public class KoLSettings extends Properties implements KoLConstants
 						continue;
 
 					data = new AdventureResult( line, 1, false );
-					if ( !mementoList.contains( data ) )
-						mementoList.add( data );
+					if ( !KoLConstants.mementoList.contains( data ) )
+						KoLConstants.mementoList.add( data );
 				}
 
 				reader.close();
 			}
 
-			ascensionCheckList.clear();
+			KoLConstants.ascensionCheckList.clear();
 
 			if ( !checklistFile.exists() )
 			{
 				for ( int i = 0; i < COMMON_CHECKLIST.length; ++i )
-					ascensionCheckList.add( KoLmafiaCLI.getFirstMatchingItem( COMMON_CHECKLIST[i] ) );
+					KoLConstants.ascensionCheckList.add( KoLmafiaCLI.getFirstMatchingItem( COMMON_CHECKLIST[i] ) );
 			}
 			else
 			{
@@ -241,14 +282,14 @@ public class KoLSettings extends Properties implements KoLConstants
 					if ( data == null )
 						continue;
 
-					if ( !ascensionCheckList.contains( data ) )
-						ascensionCheckList.add( data );
+					if ( !KoLConstants.ascensionCheckList.contains( data ) )
+						KoLConstants.ascensionCheckList.add( data );
 				}
 
 				reader.close();
 			}
 
-			profitableList.clear();
+			KoLConstants.profitableList.clear();
 
 			if ( profitableFile.exists() )
 			{
@@ -267,8 +308,8 @@ public class KoLSettings extends Properties implements KoLConstants
 					if ( data == null )
 						continue;
 
-					if ( !profitableList.contains( data ) )
-						profitableList.add( data );
+					if ( !KoLConstants.profitableList.contains( data ) )
+						KoLConstants.profitableList.add( data );
 				}
 
 				reader.close();
@@ -400,45 +441,45 @@ public class KoLSettings extends Properties implements KoLConstants
 
 		ostream.println( "[pre-ronin]" );
 
-		for ( int i = 0; i < preRoninJunkList.size(); ++i )
+		for ( int i = 0; i < KoLConstants.preRoninJunkList.size(); ++i )
 		{
-			item = (AdventureResult) preRoninJunkList.get(i);
+			item = (AdventureResult) KoLConstants.preRoninJunkList.get(i);
 			ostream.println( item.getName() );
 		}
 
 		ostream.println();
 		ostream.println( "[post-ronin]" );
 
-		for ( int i = 0; i < postRoninJunkList.size(); ++i )
+		for ( int i = 0; i < KoLConstants.postRoninJunkList.size(); ++i )
 		{
-			item = (AdventureResult) postRoninJunkList.get(i);
+			item = (AdventureResult) KoLConstants.postRoninJunkList.get(i);
 			ostream.println( item.getName() );
 		}
 
 		ostream.close();
 
 		ostream = LogStream.openStream( mementoFile, true );
-		for ( int i = 0; i < mementoList.size(); ++i )
+		for ( int i = 0; i < KoLConstants.mementoList.size(); ++i )
 		{
-			item = (AdventureResult)mementoList.get(i);
+			item = (AdventureResult)KoLConstants.mementoList.get(i);
 			ostream.println( item.getName() );
 		}
 
 		ostream.close();
 
 		ostream = LogStream.openStream( checklistFile, true );
-		for ( int i = 0; i < ascensionCheckList.size(); ++i )
+		for ( int i = 0; i < KoLConstants.ascensionCheckList.size(); ++i )
 		{
-			item = (AdventureResult) ascensionCheckList.get(i);
+			item = (AdventureResult) KoLConstants.ascensionCheckList.get(i);
 			ostream.println( item.getCount() + " " + item.getName() );
 		}
 
 		ostream.close();
 
 		ostream = LogStream.openStream( profitableFile, true );
-		for ( int i = 0; i < profitableList.size(); ++i )
+		for ( int i = 0; i < KoLConstants.profitableList.size(); ++i )
 		{
-			item = (AdventureResult) profitableList.get(i);
+			item = (AdventureResult) KoLConstants.profitableList.get(i);
 			ostream.println( item.getCount() + " " + item.getName() );
 		}
 
@@ -458,9 +499,9 @@ public class KoLSettings extends Properties implements KoLConstants
 			// actually printing them.
 
 			ByteArrayOutputStream ostream = new ByteArrayOutputStream();
-			this.store( ostream, VERSION_NAME );
+			this.store( ostream, KoLConstants.VERSION_NAME );
 
-			String [] lines = ostream.toString().split( LINE_BREAK );
+			String [] lines = ostream.toString().split( KoLConstants.LINE_BREAK );
 			Arrays.sort( lines );
 
 			ostream.reset();
@@ -471,7 +512,7 @@ public class KoLSettings extends Properties implements KoLConstants
 					continue;
 
 				ostream.write( lines[i].getBytes() );
-				ostream.write( LINE_BREAK.getBytes() );
+				ostream.write( KoLConstants.LINE_BREAK.getBytes() );
 			}
 
 			if ( this.settingsFile.exists() )
@@ -541,7 +582,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "addCreationQueue", "true" );
 		CLIENT_SETTINGS.put( "addExitMenuItems", String.valueOf( !System.getProperty( "os.name" ).startsWith( "Mac" ) ) );
 		CLIENT_SETTINGS.put( "addStatusBarToFrames", "false" );
-		CLIENT_SETTINGS.put( "allowBreakfastBurning", "false" );
+		CLIENT_SETTINGS.put( "allowBreakfastBurning", "true" );
 		CLIENT_SETTINGS.put( "allowCloseableDesktopTabs", "false" );
 		CLIENT_SETTINGS.put( "allowEncounterRateBurning", "true" );
 		CLIENT_SETTINGS.put( "allowGenericUse", "false" );
@@ -609,7 +650,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "pathedSummonsHardcore", "true" );
 		CLIENT_SETTINGS.put( "pathedSummonsSoftcore", "false" );
 		CLIENT_SETTINGS.put( "previousNotifyList", "<>" );
-		CLIENT_SETTINGS.put( "previousUpdateVersion", VERSION_NAME );
+		CLIENT_SETTINGS.put( "previousUpdateVersion", KoLConstants.VERSION_NAME );
 		CLIENT_SETTINGS.put( "protectAgainstOverdrink", "true" );
 
 		CLIENT_SETTINGS.put( "readManualHardcore", "true" );
@@ -911,11 +952,11 @@ public class KoLSettings extends Properties implements KoLConstants
 		if ( GLOBAL_SETTINGS == null || this == GLOBAL_SETTINGS )
 			return;
 
-		if ( super.getProperty( "lastChoiceUpdate" ).equals( VERSION_NAME ) )
+		if ( super.getProperty( "lastChoiceUpdate" ).equals( KoLConstants.VERSION_NAME ) )
 			return;
 
 		String setting;
-		super.setProperty( "lastChoiceUpdate", VERSION_NAME );
+		super.setProperty( "lastChoiceUpdate", KoLConstants.VERSION_NAME );
 
 		for ( int i = 0; i < AdventureDatabase.CHOICE_ADV_SPOILERS.length; ++i )
 		{

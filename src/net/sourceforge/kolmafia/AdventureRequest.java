@@ -155,9 +155,6 @@ public class AdventureRequest extends KoLRequest
 			}
 		}
 
-		if ( StaticEntity.getBooleanProperty( "cloverProtectActive" ) )
-			DEFAULT_SHELL.executeLine( "use * ten-leaf clover" );
-
 		if ( this.formSource.equals( "shore.php" ) )
 		{
 			if ( KoLCharacter.getAdventuresLeft() < 2 )
@@ -186,12 +183,14 @@ public class AdventureRequest extends KoLRequest
 
 			super.run();
 		}
-
-		if ( this.formSource.equals( "basement.php" ) )
+		else if ( this.formSource.equals( "basement.php" ) )
+		{
 			handleBasement();
-
-		if ( StaticEntity.getBooleanProperty( "cloverProtectActive" ) )
-			DEFAULT_SHELL.executeLine( "use * ten-leaf clover" );
+		}
+		else
+		{
+			useMarmotClover( this.formSource, this.responseText );
+		}
 	}
 
 	private static final Pattern BASEMENT_PATTERN = Pattern.compile( "Level ([\\d,]+)" );
@@ -908,8 +907,16 @@ public class AdventureRequest extends KoLRequest
 
 	public static final boolean useMarmotClover( String location, String responseText )
 	{
-		return StaticEntity.getBooleanProperty( "cloverProtectActive" ) &&
-			location.startsWith( "adventure.php" ) && responseText.indexOf( "notice a ten-leaf clover" ) != -1 &&
-			responseText.indexOf( "our ten-leaf clover" ) == -1 && responseText.indexOf( "puff of smoke" ) == -1;
+		if ( !location.startsWith( "adventure.php" ) )
+			return false;
+
+		if ( !StaticEntity.getBooleanProperty( "cloverProtectActive" ) )
+			return false;
+
+		if ( responseText.indexOf( "notice a ten-leaf clover" ) == -1 || responseText.indexOf( "puff of smoke" ) != -1 )
+			return false;
+
+		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "use * ten-leaf clover" );
+		return true;
 	}
 }

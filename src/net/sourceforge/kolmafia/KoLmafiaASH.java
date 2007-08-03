@@ -69,8 +69,6 @@ import net.sourceforge.kolmafia.StoreManager.SoldItem;
 
 public class KoLmafiaASH extends StaticEntity
 {
-	private static final LocalRelayRequest RELAYER = new LocalRelayRequest( false );
-
 	/* Variables for Advanced Scripting */
 
 	public static final char [] tokenList = { ' ', '.', ',', '{', '}', '(', ')', '$', '!', '+', '-', '=', '"', '\'', '*', '^', '/', '%', '[', ']', '!', ';', '<', '>' };
@@ -204,6 +202,9 @@ public class KoLmafiaASH extends StaticEntity
 
 	private static final TreeMap TIMESTAMPS = new TreeMap();
 	private static final TreeMap INTERPRETERS = new TreeMap();
+
+	private static final LocalRelayRequest RELAYER = new LocalRelayRequest( false );
+	public static final KoLmafiaASH NAMESPACE_INTERPRETER = new KoLmafiaASH();
 
 	public KoLmafiaASH()
 	{	this.global = new ScriptScope( new ScriptVariableList(), getExistingFunctionScope() );
@@ -4695,7 +4696,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue cli_execute( ScriptVariable string )
 		{
-			DEFAULT_SHELL.executeLine( string.toStringValue().toString() );
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( string.toStringValue().toString() );
 			return continueValue();
 		}
 
@@ -4752,8 +4753,8 @@ public class KoLmafiaASH extends StaticEntity
 			if ( input == null || !input.exists() )
 				return STRING_INIT;
 
-			VISITOR.loadResponseFromFile( input );
-			return VISITOR.responseText == null ? STRING_INIT : new ScriptValue( VISITOR.responseText );
+			KoLRequest.VISITOR.loadResponseFromFile( input );
+			return KoLRequest.VISITOR.responseText == null ? STRING_INIT : new ScriptValue( KoLRequest.VISITOR.responseText );
 		}
 
 		public ScriptValue write( ScriptVariable string )
@@ -4792,8 +4793,8 @@ public class KoLmafiaASH extends StaticEntity
 			StringBuffer buffer = new StringBuffer();
 			ScriptValue returnValue = new ScriptValue( BUFFER_TYPE, "", buffer );
 
-			VISITOR.constructURLString( location );
-			if ( KoLRequest.shouldIgnore( VISITOR ) )
+			KoLRequest.VISITOR.constructURLString( location );
+			if ( KoLRequest.shouldIgnore( KoLRequest.VISITOR ) )
 				return returnValue;
 
 			if ( relayScript == null )
@@ -4801,16 +4802,16 @@ public class KoLmafiaASH extends StaticEntity
 				if ( location.startsWith( "fight.php" ) )
 					KoLRequest.delay();
 
-				RequestThread.postRequest( VISITOR );
-				if ( VISITOR.responseText != null )
+				RequestThread.postRequest( KoLRequest.VISITOR );
+				if ( KoLRequest.VISITOR.responseText != null )
 				{
-					buffer.append( VISITOR.responseText );
-					StaticEntity.externalUpdate( location, VISITOR.responseText );
+					buffer.append( KoLRequest.VISITOR.responseText );
+					StaticEntity.externalUpdate( location, KoLRequest.VISITOR.responseText );
 				}
 			}
 			else
 			{
-				RequestThread.postRequest( RELAYER.constructURLString( relayRequest.getURLString() ) );
+				RequestThread.postRequest( RELAYER.constructURLString( location ) );
 				if ( RELAYER.responseText != null )
 					buffer.append( RELAYER.responseText );
 			}
@@ -4820,7 +4821,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue wait( ScriptVariable delay )
 		{
-			DEFAULT_SHELL.executeLine( "wait " + delay.intValue() );
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "wait " + delay.intValue() );
 			return VOID_VALUE;
 		}
 
@@ -5011,7 +5012,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( count.intValue() <= 0 )
 				return continueValue();
 
-			DEFAULT_SHELL.executeLine( "adventure " + count.intValue() + " " + loc.toStringValue() );
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "adventure " + count.intValue() + " " + loc.toStringValue() );
 			return continueValue();
 		}
 
@@ -5020,7 +5021,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( count.intValue() <= 0 )
 				return VOID_VALUE;
 
-			DEFAULT_SHELL.executeLine( "conditions add " + count.intValue() + " " + item.toStringValue() );
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "conditions add " + count.intValue() + " " + item.toStringValue() );
 			return VOID_VALUE;
 		}
 
@@ -5031,7 +5032,7 @@ public class KoLmafiaASH extends StaticEntity
 
 			AdventureResult itemToBuy = new AdventureResult( item.intValue(), 1 );
 			int initialAmount = itemToBuy.getCount( inventory );
-			DEFAULT_SHELL.executeLine( "buy " + count.intValue() + " " + item.toStringValue() );
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "buy " + count.intValue() + " " + item.toStringValue() );
 			return initialAmount + count.intValue() == itemToBuy.getCount( inventory ) ? TRUE_VALUE : FALSE_VALUE;
 		}
 
@@ -5040,7 +5041,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( count.intValue() <= 0 )
 				return continueValue();
 
-			DEFAULT_SHELL.executeLine( "create " + count.intValue() + " " + item.toStringValue() );
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "create " + count.intValue() + " " + item.toStringValue() );
 			return continueValue();
 		}
 
@@ -5049,7 +5050,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( count.intValue() <= 0 )
 				return continueValue();
 
-			DEFAULT_SHELL.executeLine( "use " + count.intValue() + " " + item.toStringValue() );
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "use " + count.intValue() + " " + item.toStringValue() );
 			return ConsumeItemRequest.lastUpdate.equals( "" ) ? continueValue() : FALSE_VALUE;
 		}
 
@@ -5058,7 +5059,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( count.intValue() <= 0 )
 				return continueValue();
 
-			DEFAULT_SHELL.executeLine( "eat " + count.intValue() + " " + item.toStringValue() );
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "eat " + count.intValue() + " " + item.toStringValue() );
 			return ConsumeItemRequest.lastUpdate.equals( "" ) ? continueValue() : FALSE_VALUE;
 		}
 
@@ -5067,7 +5068,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( count.intValue() <= 0 )
 				return continueValue();
 
-			DEFAULT_SHELL.executeLine( "drink " + count.intValue() + " " + item.toStringValue() );
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "drink " + count.intValue() + " " + item.toStringValue() );
 			return ConsumeItemRequest.lastUpdate.equals( "" ) ? continueValue() : FALSE_VALUE;
 		}
 
@@ -5076,13 +5077,13 @@ public class KoLmafiaASH extends StaticEntity
 			if ( count.intValue() <= 0 )
 				return continueValue();
 
-			DEFAULT_SHELL.executeLine( "closet put " + count.intValue() + " " + item.toStringValue() );
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "closet put " + count.intValue() + " " + item.toStringValue() );
 			return continueValue();
 		}
 
 		public ScriptValue put_shop( ScriptVariable price, ScriptVariable limit, ScriptVariable item )
 		{
-			DEFAULT_SHELL.executeLine( "mallsell " + item.toStringValue() + " @ " + price.intValue() + " limit " + limit.intValue() );
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "mallsell " + item.toStringValue() + " @ " + price.intValue() + " limit " + limit.intValue() );
 			return continueValue();
 		}
 
@@ -5091,7 +5092,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( count.intValue() <= 0 )
 				return continueValue();
 
-			DEFAULT_SHELL.executeLine( "stash put " + count.intValue() + " " + item.toStringValue() );
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "stash put " + count.intValue() + " " + item.toStringValue() );
 			return continueValue();
 		}
 
@@ -5100,7 +5101,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( count.intValue() <= 0 )
 				return continueValue();
 
-			DEFAULT_SHELL.executeLine( "display put " + count.intValue() + " " + item.toStringValue() );
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "display put " + count.intValue() + " " + item.toStringValue() );
 			return continueValue();
 		}
 
@@ -5109,7 +5110,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( count.intValue() <= 0 )
 				return continueValue();
 
-			DEFAULT_SHELL.executeLine( "closet take " + count.intValue() + " " + item.toStringValue() );
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "closet take " + count.intValue() + " " + item.toStringValue() );
 			return continueValue();
 		}
 
@@ -5118,7 +5119,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( count.intValue() <= 0 )
 				return continueValue();
 
-			DEFAULT_SHELL.executeLine( "hagnk " + count.intValue() + " " + item.toStringValue() );
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "hagnk " + count.intValue() + " " + item.toStringValue() );
 			return continueValue();
 		}
 
@@ -5127,7 +5128,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( count.intValue() <= 0 )
 				return continueValue();
 
-			DEFAULT_SHELL.executeLine( "display take " + count.intValue() + " " + item.toStringValue() );
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "display take " + count.intValue() + " " + item.toStringValue() );
 			return continueValue();
 		}
 
@@ -5136,7 +5137,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( count.intValue() <= 0 )
 				return continueValue();
 
-			DEFAULT_SHELL.executeLine( "stash take " + count.intValue() + " " + item.toStringValue() );
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "stash take " + count.intValue() + " " + item.toStringValue() );
 			return continueValue();
 		}
 
@@ -5145,7 +5146,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( count.intValue() <= 0 )
 				return continueValue();
 
-			DEFAULT_SHELL.executeLine( "sell " + count.intValue() + " " + item.toStringValue() );
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "sell " + count.intValue() + " " + item.toStringValue() );
 			return continueValue();
 		}
 
@@ -5154,7 +5155,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( count.intValue() <= 0 )
 				return continueValue();
 
-			DEFAULT_SHELL.executeLine( "hermit " + count.intValue() + " " + item.toStringValue() );
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "hermit " + count.intValue() + " " + item.toStringValue() );
 			return continueValue();
 		}
 
@@ -5465,7 +5466,7 @@ public class KoLmafiaASH extends StaticEntity
 				return TRUE_VALUE;
 			}
 
-			DEFAULT_SHELL.executeLine( "cast " + count.intValue() + " " + skill.toStringValue() );
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "cast " + count.intValue() + " " + skill.toStringValue() );
 			return new ScriptValue( UseSkillRequest.lastUpdate.equals( "" ) );
 		}
 
@@ -5477,7 +5478,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( ClassSkillsDatabase.isCombat( skill.intValue() ) )
 				return visit_url( "fight.php?action=skill&whichskill=" + skill.intValue() );
 
-			DEFAULT_SHELL.executeLine( "cast 1 " + skill.toStringValue() );
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "cast 1 " + skill.toStringValue() );
 			return new ScriptValue( UseSkillRequest.lastUpdate );
 		}
 
@@ -5497,7 +5498,7 @@ public class KoLmafiaASH extends StaticEntity
 				return TRUE_VALUE;
 			}
 
-			DEFAULT_SHELL.executeLine( "cast " + count.intValue() + " " + skill.toStringValue() + " on " + target.toStringValue() );
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "cast " + count.intValue() + " " + skill.toStringValue() + " on " + target.toStringValue() );
 			return new ScriptValue( UseSkillRequest.lastUpdate.equals( "" ) );
 		}
 
@@ -5533,16 +5534,16 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue equip( ScriptVariable item )
 		{
-			DEFAULT_SHELL.executeLine( "equip " + item.toStringValue() );
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "equip " + item.toStringValue() );
 			return continueValue();
 		}
 
 		public ScriptValue equip( ScriptVariable slot, ScriptVariable item )
 		{
 			if ( item.getValue().equals( ITEM_INIT ) )
-				DEFAULT_SHELL.executeLine( "unequip " + slot.toStringValue() );
+				KoLmafiaCLI.DEFAULT_SHELL.executeLine( "unequip " + slot.toStringValue() );
 			else
-				DEFAULT_SHELL.executeLine( "equip " + slot.toStringValue() + " " + item.toStringValue() );
+				KoLmafiaCLI.DEFAULT_SHELL.executeLine( "equip " + slot.toStringValue() + " " + item.toStringValue() );
 
 			return continueValue();
 		}
@@ -5557,7 +5558,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue outfit( ScriptVariable outfit )
 		{
-			DEFAULT_SHELL.executeLine( "outfit " + outfit.toStringValue().toString() );
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "outfit " + outfit.toStringValue().toString() );
 			return continueValue();
 		}
 
@@ -5599,7 +5600,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue use_familiar( ScriptVariable familiar )
 		{
-			DEFAULT_SHELL.executeLine( "familiar " + familiar.toStringValue() );
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "familiar " + familiar.toStringValue() );
 			return continueValue();
 		}
 
@@ -5619,7 +5620,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue council()
 		{
-			DEFAULT_SHELL.executeLine( "council" );
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "council" );
 			return VOID_VALUE;
 		}
 
@@ -5629,7 +5630,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue change_mcd( ScriptVariable level )
 		{
-			DEFAULT_SHELL.executeLine( "mind-control " + level.intValue() );
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "mind-control " + level.intValue() );
 			return continueValue();
 		}
 
@@ -5951,13 +5952,13 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue entryway()
 		{
-			DEFAULT_SHELL.executeLine( "entryway" );
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "entryway" );
 			return continueValue();
 		}
 
 		public ScriptValue hedgemaze()
 		{
-			DEFAULT_SHELL.executeLine( "hedgemaze" );
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "hedgemaze" );
 			return continueValue();
 		}
 
@@ -5969,7 +5970,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue chamber()
 		{
-			DEFAULT_SHELL.executeLine( "chamber" );
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "chamber" );
 			return continueValue();
 		}
 
@@ -6030,7 +6031,7 @@ public class KoLmafiaASH extends StaticEntity
 			// In order to avoid code duplication for combat
 			// related settings, use the shell.
 
-			DEFAULT_SHELL.executeCommand( "set", name.toStringValue().toString() + "=" + value.toStringValue().toString() );
+			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", name.toStringValue().toString() + "=" + value.toStringValue().toString() );
 			return VOID_VALUE;
 		}
 

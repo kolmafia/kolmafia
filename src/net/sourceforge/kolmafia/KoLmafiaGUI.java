@@ -334,10 +334,10 @@ public class KoLmafiaGUI extends KoLmafia
 
 				if ( KoLCharacter.canDrink() && KoLCharacter.inMoxieSign() && microbreweryItems.isEmpty() )
 				{
-					VISITOR.constructURLString( "main.php" );
-					RequestThread.postRequest( VISITOR );
+					KoLRequest.VISITOR.constructURLString( "main.php" );
+					RequestThread.postRequest( KoLRequest.VISITOR );
 
-					if ( VISITOR.responseText.indexOf( "beach.php" ) != -1 )
+					if ( KoLRequest.VISITOR.responseText.indexOf( "beach.php" ) != -1 )
 						RequestThread.postRequest( new MicrobreweryRequest() );
 				}
 
@@ -396,7 +396,7 @@ public class KoLmafiaGUI extends KoLmafia
 
 	public void showHTML( String text )
 	{
-		VISITOR.responseText = text;
-		FightFrame.showRequest( VISITOR );
+		KoLRequest.VISITOR.responseText = text;
+		FightFrame.showRequest( KoLRequest.VISITOR );
 	}
 }

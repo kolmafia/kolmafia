@@ -63,8 +63,6 @@ import com.velocityreviews.forums.HttpTimeoutHandler;
 
 public class KoLRequest extends Job implements KoLConstants
 {
-	private static final KoLRequest CHOICE_HANDLER = new KoLRequest( "choice.php" );
-
 	private static boolean delayActive = true;
 	private static int totalActualDelay = 0;
 	private static int totalConsideredDelay = 0;
@@ -145,6 +143,9 @@ public class KoLRequest extends Job implements KoLConstants
 	public String responseText;
 	public HttpURLConnection formConnection;
 	public String redirectLocation;
+
+	private static final KoLRequest CHOICE_HANDLER = new KoLRequest( "choice.php" );
+	public static final KoLRequest VISITOR = new KoLRequest( "", true );
 
 	public static final void setDelayActive( boolean delayActive )
 	{	KoLRequest.delayActive = delayActive;
@@ -608,16 +609,16 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( location.startsWith( "sewer.php" ) )
 		{
 			if ( StaticEntity.getBooleanProperty( "relayAlwaysBuysGum" ) )
-				DEFAULT_SHELL.executeLine( "acquire chewing gum on a string" );
+				AdventureDatabase.retrieveItem( SewerRequest.GUM.getInstance(1) );
 		}
 		else if ( location.startsWith( "hermit.php?autopermit=on" ) )
 		{
-			DEFAULT_SHELL.executeLine( "acquire hermit permit" );
+			AdventureDatabase.retrieveItem( HermitRequest.PERMIT.getInstance(1) );
 		}
 
 		else if ( location.startsWith( "casino.php" ) )
 		{
-			DEFAULT_SHELL.executeLine( "acquire casino pass" );
+			AdventureDatabase.retrieveItem( KoLAdventure.CASINO_PASS );
 		}
 
 		// To avoid wasting turns, buy a can of hair spray before
@@ -1341,11 +1342,8 @@ public class KoLRequest extends Job implements KoLConstants
 		this.processResults();
 
 		// Let the mappers do their work
+
 		this.mapCurrentChoice( this.responseText );
-
-		if ( AdventureRequest.useMarmotClover( this.formURLString, this.responseText ) || HermitRequest.useHermitClover( this.formURLString ) )
-			DEFAULT_SHELL.executeLine( "use * ten-leaf clover" );
-
 		KoLmafia.applyEffects();
 	}
 

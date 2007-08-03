@@ -51,6 +51,7 @@ import java.util.regex.Pattern;
 
 public class KoLmafiaCLI extends KoLmafia
 {
+	public static final KoLmafiaCLI DEFAULT_SHELL = new KoLmafiaCLI( System.in );
 	private static final KoLRequest AUTO_ATTACKER = new KoLRequest( "account.php?action=autoattack" );
 
 	private static final Pattern HTMLTAG_PATTERN = Pattern.compile( "<.*?>", Pattern.DOTALL );
@@ -736,11 +737,11 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.startsWith( "http:" ) || command.indexOf( ".php" ) != -1 )
 		{
-			if ( KoLRequest.shouldIgnore( VISITOR.constructURLString( this.currentLine ) ) )
+			if ( KoLRequest.shouldIgnore( KoLRequest.VISITOR.constructURLString( this.currentLine ) ) )
 				return;
 
-			RequestThread.postRequest( VISITOR );
-			StaticEntity.externalUpdate( VISITOR.getURLString(), VISITOR.responseText );
+			RequestThread.postRequest( KoLRequest.VISITOR );
+			StaticEntity.externalUpdate( KoLRequest.VISITOR.getURLString(), KoLRequest.VISITOR.responseText );
 			return;
 		}
 
@@ -749,12 +750,12 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "text" ) )
 		{
-			if ( KoLRequest.shouldIgnore( VISITOR.constructURLString( this.currentLine ) ) )
+			if ( KoLRequest.shouldIgnore( KoLRequest.VISITOR.constructURLString( this.currentLine ) ) )
 				return;
 
-			RequestThread.postRequest( VISITOR );
-			StaticEntity.externalUpdate( VISITOR.getURLString(), VISITOR.responseText );
-			this.showHTML( VISITOR.responseText );
+			RequestThread.postRequest( KoLRequest.VISITOR );
+			StaticEntity.externalUpdate( KoLRequest.VISITOR.getURLString(), KoLRequest.VISITOR.responseText );
+			this.showHTML( KoLRequest.VISITOR.responseText );
 
 			return;
 
@@ -1056,7 +1057,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "ashref" ) )
 		{
-			NAMESPACE_INTERPRETER.showExistingFunctions( parameters );
+			KoLmafiaASH.NAMESPACE_INTERPRETER.showExistingFunctions( parameters );
 			return;
 		}
 
@@ -1186,15 +1187,15 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( result == null )
 				return;
 
-			VISITOR.constructURLString( "desc_item.php?whichitem=" +
+			KoLRequest.VISITOR.constructURLString( "desc_item.php?whichitem=" +
 				TradeableItemDatabase.getDescriptionId( result.getItemId() ) );
 
-			RequestThread.postRequest( VISITOR );
+			RequestThread.postRequest( KoLRequest.VISITOR );
 
 			if ( StaticEntity.getClient() instanceof KoLmafiaGUI )
-				FightFrame.showRequest( VISITOR );
+				FightFrame.showRequest( KoLRequest.VISITOR );
 			else
-				this.showHTML( VISITOR.responseText );
+				this.showHTML( KoLRequest.VISITOR.responseText );
 
 			return;
 		}
@@ -1329,9 +1330,9 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "council" ) )
 		{
-			RequestThread.postRequest( VISITOR.constructURLString( "council.php" ) );
+			RequestThread.postRequest( KoLRequest.VISITOR.constructURLString( "council.php" ) );
 
-			this.showHTML( StaticEntity.singleStringReplace( VISITOR.responseText,
+			this.showHTML( StaticEntity.singleStringReplace( KoLRequest.VISITOR.responseText,
 				"<a href=\"town.php\">Back to Seaside Town</a>", "" ) );
 
 			return;
@@ -2591,7 +2592,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 			if ( scriptFile == null )
 			{
-				NAMESPACE_INTERPRETER.execute( parameters, arguments );
+				KoLmafiaASH.NAMESPACE_INTERPRETER.execute( parameters, arguments );
 				return;
 			}
 

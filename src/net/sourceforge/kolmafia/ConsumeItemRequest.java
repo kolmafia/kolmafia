@@ -933,7 +933,7 @@ public class ConsumeItemRequest extends KoLRequest
 
 			if ( !StaticEntity.getProperty( "preBlackbirdFamiliar" ).equals( "" ) )
 			{
-				DEFAULT_SHELL.executeCommand( "familiar", StaticEntity.getProperty( "preBlackbirdFamiliar" ) );
+				KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "familiar", StaticEntity.getProperty( "preBlackbirdFamiliar" ) );
 				if ( item != null && KoLCharacter.getFamiliar().canEquip( item ) )
 					(new EquipmentRequest( item )).run();
 

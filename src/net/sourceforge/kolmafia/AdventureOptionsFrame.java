@@ -1036,10 +1036,10 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 				{
 					if ( splitConditions[i].startsWith( "+" ) )
 					{
-						if ( !DEFAULT_SHELL.executeConditionsCommand( "add " + splitConditions[i].substring(1) ) )
+						if ( !KoLmafiaCLI.DEFAULT_SHELL.executeConditionsCommand( "add " + splitConditions[i].substring(1) ) )
 							return false;
 					}
-					else if ( !DEFAULT_SHELL.executeConditionsCommand( "set " + splitConditions[i] ) )
+					else if ( !KoLmafiaCLI.DEFAULT_SHELL.executeConditionsCommand( "set " + splitConditions[i] ) )
 					{
 						return false;
 					}

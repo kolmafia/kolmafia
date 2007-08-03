@@ -90,7 +90,15 @@ public class HermitRequest extends KoLRequest
 	}
 
 	public static final boolean useHermitClover( String location )
-	{	return StaticEntity.getBooleanProperty( "cloverProtectActive" ) && location.startsWith( "hermit.php" );
+	{
+		if ( !location.startsWith( "hermit.php" ) || location.indexOf( "whichitem=24" ) == -1 )
+			return false;
+
+		if ( !StaticEntity.getBooleanProperty( "cloverProtectActive" ) )
+			return false;
+
+		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "use * ten-leaf clover" );
+		return true;
 	}
 
 	/**
@@ -124,16 +132,18 @@ public class HermitRequest extends KoLRequest
 		}
 
 		if ( getWorthlessItemCount() < this.quantity )
-			DEFAULT_SHELL.executeLine( "acquire " + this.quantity + " worthless item" );
+			AdventureDatabase.retrieveItem( WORTHLESS_ITEM.getInstance( this.quantity ) );
 		else if ( getWorthlessItemCount() == 0 )
-			DEFAULT_SHELL.executeLine( "acquire 1 worthless item" );
+			AdventureDatabase.retrieveItem( WORTHLESS_ITEM );
 
 		if ( getWorthlessItemCount() == 0 )
 			return;
 
 		this.quantity = Math.min( this.quantity, getWorthlessItemCount() );
 		KoLmafia.updateDisplay( "Robbing the hermit..." );
+
 		super.run();
+		useHermitClover( this.getURLString() );
 	}
 
 	public void processResults()

@@ -44,8 +44,12 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 	private static final AdventureResult PERFUME_ITEM = new AdventureResult( 307, 1 );
 	private static final AdventureResult PERFUME_EFFECT = new AdventureResult( "Knob Goblin Perfume", 1, true );
 
+	public static final AdventureResult CASINO_PASS = new AdventureResult( 40, 1 );
+
 	public static final AdventureResult DINGHY = new AdventureResult( 141, 1 );
 	private static final AdventureResult PLANS = new AdventureResult( 146, 1 );
+	private static final AdventureResult PLANKS = new AdventureResult( 140, 1 );
+
 	private static final AdventureResult TRANSFUNCTIONER = new AdventureResult( 458, 1 );
 	private static final AdventureResult TALISMAN = new AdventureResult( 486, 1 );
 	private static final AdventureResult SONAR = new AdventureResult( 563, 1 );
@@ -78,7 +82,6 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 	private KoLRequest request;
 	private AreaCombatData areaSummary;
 	private boolean isNonCombatsOnly;
-	private boolean isLikelyUnluckyZone;
 
 	/**
 	 * Constructs a new <code>KoLAdventure</code> with the given
@@ -111,18 +114,9 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			this.request = new AdventureRequest( adventureName, formSource, adventureId );
 
 		this.areaSummary = AdventureDatabase.getAreaCombatData( adventureName );
-		this.isLikelyUnluckyZone = false;
 
 		if ( adventureId == null )
 			return;
-
-		this.isLikelyUnluckyZone =
-			adventureId.equals( "15" ) ||  // Spooky Forest
-			adventureId.equals( "16" ) ||  // The Haiku Dungeon
-			adventureId.equals( "19" ) ||  // The Limerick Dungeon
-			adventureId.equals( "112" ) || // Sleazy Back Alley
-			adventureId.equals( "113" ) || // The Haunted Pantry
-			adventureId.equals( "114" );   // Outskirts of The Knob
 
 		this.isNonCombatsOnly = !(this.request instanceof AdventureRequest) ||
 			(this.areaSummary != null && this.areaSummary.combats() == 0 && this.areaSummary.getMonsterCount() == 0);
@@ -255,7 +249,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			{
 				this.isValidAdventure = AdventureDatabase.retrieveItem( MUSHROOM );
 				if ( this.isValidAdventure )
-					DEFAULT_SHELL.executeLine( "use astral mushroom" );
+					RequestThread.postRequest( new ConsumeItemRequest( MUSHROOM ) );
 			}
 
 			this.isValidAdventure = activeEffects.contains( ASTRAL );
@@ -298,7 +292,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			// you visit the council beforehand.
 
 			if ( !this.isValidAdventure )
-				DEFAULT_SHELL.executeLine( "council" );
+				KoLmafiaCLI.DEFAULT_SHELL.executeLine( "council" );
 		}
 
 		// Disguise zones require outfits
@@ -326,10 +320,10 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		{
 			if ( !KoLCharacter.hasItem( TRANSFUNCTIONER ) )
 			{
-				RequestThread.postRequest( VISITOR.constructURLString( "mystic.php" ) );
-				RequestThread.postRequest( VISITOR.constructURLString( "mystic.php?action=crackyes1" ) );
-				RequestThread.postRequest( VISITOR.constructURLString( "mystic.php?action=crackyes2" ) );
-				RequestThread.postRequest( VISITOR.constructURLString( "mystic.php?action=crackyes3" ) );
+				RequestThread.postRequest( KoLRequest.VISITOR.constructURLString( "mystic.php" ) );
+				RequestThread.postRequest( KoLRequest.VISITOR.constructURLString( "mystic.php?action=crackyes1" ) );
+				RequestThread.postRequest( KoLRequest.VISITOR.constructURLString( "mystic.php?action=crackyes2" ) );
+				RequestThread.postRequest( KoLRequest.VISITOR.constructURLString( "mystic.php?action=crackyes3" ) );
 			}
 
 			if ( EquipmentDatabase.getHands( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getName() ) > 1 )
@@ -338,7 +332,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 				return;
 			}
 
-			DEFAULT_SHELL.executeLine( "equip " + TRANSFUNCTIONER.getName() );
+			RequestThread.postRequest( new EquipmentRequest( TRANSFUNCTIONER ) );
 			this.isValidAdventure = true;
 			return;
 		}
@@ -350,7 +344,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 				if ( !AdventureDatabase.retrieveItem( TALISMAN ) )
 					return;
 
-				DEFAULT_SHELL.executeLine( "equip talisman o'nam" );
+				RequestThread.postRequest( new EquipmentRequest( TALISMAN ) );
 			}
 
 			this.isValidAdventure = true;
@@ -370,7 +364,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			int astral = ASTRAL.getCount( ( activeEffects ) );
 			if ( astral == 0 )
 			{
-				DEFAULT_SHELL.executeLine( "use 1 astral mushroom" );
+				RequestThread.postRequest( new ConsumeItemRequest( MUSHROOM ) );
 				if ( !KoLmafia.permitsContinue() )
 				{
 					this.isValidAdventure = false;
@@ -408,7 +402,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 		if ( this.zone.equals( "Casino" ) )
 		{
-			this.isValidAdventure = AdventureDatabase.retrieveItem( "casino pass" );
+			this.isValidAdventure = AdventureDatabase.retrieveItem( CASINO_PASS );
 			return;
 		}
 
@@ -424,9 +418,9 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 				if ( !this.isValidAdventure )
 					return;
 
-				this.isValidAdventure = AdventureDatabase.retrieveItem( "dingy planks" );
+				this.isValidAdventure = AdventureDatabase.retrieveItem( PLANKS );
 				if ( this.isValidAdventure )
-					DEFAULT_SHELL.executeLine( "use dinghy plans" );
+					RequestThread.postRequest( new ConsumeItemRequest( PLANKS ) );
 			}
 
 			return;
@@ -472,10 +466,10 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			// questlog.php?which=3
 			// "You have planted a Beanstalk in the Nearby Plains."
 
-			VISITOR.constructURLString( "plains.php" );
-			RequestThread.postRequest( VISITOR );
+			KoLRequest.VISITOR.constructURLString( "plains.php" );
+			RequestThread.postRequest( KoLRequest.VISITOR );
 
-			if ( VISITOR.responseText.indexOf( "beanstalk.php" ) == -1 )
+			if ( KoLRequest.VISITOR.responseText.indexOf( "beanstalk.php" ) == -1 )
 			{
 				// If not, check to see if the player has an enchanted
 				// bean which can be used.  If they don't, then try to
@@ -503,12 +497,12 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 				// advantage of item consumption automatically doing
 				// what's needed in grabbing the item.
 
-				DEFAULT_SHELL.executeLine( "council" );
-				DEFAULT_SHELL.executeLine( "use enchanted bean" );
+				RequestThread.postRequest( KoLRequest.VISITOR.constructURLString( "council.php" ) );
+				RequestThread.postRequest( new ConsumeItemRequest( BEAN ) );
 			}
 
-			VISITOR.constructURLString( "beanstalk.php" );
-			RequestThread.postRequest( VISITOR );
+			KoLRequest.VISITOR.constructURLString( "beanstalk.php" );
+			RequestThread.postRequest( KoLRequest.VISITOR );
 
 			KoLCharacter.armBeanstalk();
 			this.isValidAdventure = true;
@@ -562,19 +556,19 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 		else if ( this.adventureId.equals( "32" ) || this.adventureId.equals( "33" ) || this.adventureId.equals( "34" ) )
 		{
-			RequestThread.postRequest( VISITOR.constructURLString( "bathole.php" ) );
+			RequestThread.postRequest( KoLRequest.VISITOR.constructURLString( "bathole.php" ) );
 
-			if ( this.adventureId.equals( "32" ) && VISITOR.responseText.indexOf( "batrockleft.gif" ) == -1 )
+			if ( this.adventureId.equals( "32" ) && KoLRequest.VISITOR.responseText.indexOf( "batrockleft.gif" ) == -1 )
 			{
 				this.isValidAdventure = true;
 				return;
 			}
-			if ( this.adventureId.equals( "33" ) && VISITOR.responseText.indexOf( "batrockright.gif" ) == -1 )
+			if ( this.adventureId.equals( "33" ) && KoLRequest.VISITOR.responseText.indexOf( "batrockright.gif" ) == -1 )
 			{
 				this.isValidAdventure = true;
 				return;
 			}
-			if ( this.adventureId.equals( "34" ) && VISITOR.responseText.indexOf( "batrockbottom.gif" ) == -1 )
+			if ( this.adventureId.equals( "34" ) && KoLRequest.VISITOR.responseText.indexOf( "batrockbottom.gif" ) == -1 )
 			{
 				this.isValidAdventure = true;
 				return;
@@ -583,22 +577,22 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			int sonarCount = SONAR.getCount( inventory );
 			int sonarToUse = 0;
 
-			if ( VISITOR.responseText.indexOf( "batrockleft.gif" ) != -1 )
+			if ( KoLRequest.VISITOR.responseText.indexOf( "batrockleft.gif" ) != -1 )
 				sonarToUse = 3;
-			else if ( VISITOR.responseText.indexOf( "batrockright.gif" ) != -1 )
+			else if ( KoLRequest.VISITOR.responseText.indexOf( "batrockright.gif" ) != -1 )
 				sonarToUse = 2;
-			else if ( VISITOR.responseText.indexOf( "batrockbottom.gif" ) != -1 )
+			else if ( KoLRequest.VISITOR.responseText.indexOf( "batrockbottom.gif" ) != -1 )
 				sonarToUse = 1;
 
 			RequestThread.postRequest( new ConsumeItemRequest( SONAR.getInstance( Math.min( sonarToUse, sonarCount ) ) ) );
-			RequestThread.postRequest( VISITOR );
+			RequestThread.postRequest( KoLRequest.VISITOR );
 
 			if ( this.adventureId.equals( "32" ) )
-				this.isValidAdventure = VISITOR.responseText.indexOf( "batrockleft.gif" ) == -1;
+				this.isValidAdventure = KoLRequest.VISITOR.responseText.indexOf( "batrockleft.gif" ) == -1;
 			else if ( this.adventureId.equals( "33" ) )
-				this.isValidAdventure = VISITOR.responseText.indexOf( "batrockright.gif" ) == -1;
+				this.isValidAdventure = KoLRequest.VISITOR.responseText.indexOf( "batrockright.gif" ) == -1;
 			else
-				this.isValidAdventure = VISITOR.responseText.indexOf( "batrockbottom.gif" ) == -1;
+				this.isValidAdventure = KoLRequest.VISITOR.responseText.indexOf( "batrockbottom.gif" ) == -1;
 
 			return;
 		}
@@ -606,8 +600,8 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 		if ( this.adventureId.equals( "100" ) )
 		{
-			RequestThread.postRequest( VISITOR.constructURLString( "woods.php" ) );
-			this.isValidAdventure = VISITOR.responseText.indexOf( "grove.gif" ) != -1;
+			RequestThread.postRequest( KoLRequest.VISITOR.constructURLString( "woods.php" ) );
+			this.isValidAdventure = KoLRequest.VISITOR.responseText.indexOf( "grove.gif" ) != -1;
 
 			if ( !visitedCouncil && !this.isValidAdventure )
 			{
@@ -626,8 +620,8 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 				return;
 			}
 
-			RequestThread.postRequest( VISITOR.constructURLString( "mclargehuge.php" ) );
-			if ( VISITOR.responseText.indexOf( this.adventureId ) != -1 )
+			RequestThread.postRequest( KoLRequest.VISITOR.constructURLString( "mclargehuge.php" ) );
+			if ( KoLRequest.VISITOR.responseText.indexOf( this.adventureId ) != -1 )
 			{
 				this.isValidAdventure = true;
 				return;
@@ -639,8 +633,8 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 				return;
 			}
 
-			DEFAULT_SHELL.executeLine( "council" );
-			RequestThread.postRequest( VISITOR.constructURLString( "trapper.php" ) );
+			RequestThread.postRequest( KoLRequest.VISITOR.constructURLString( "council.php" ) );
+			RequestThread.postRequest( KoLRequest.VISITOR.constructURLString( "trapper.php" ) );
 
 			this.validate( true );
 			return;
@@ -791,7 +785,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		// to their auto-attack settings, do nothing.
 
 		if ( initialAutoAttack.equals( "0" ) )
-			DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=0" );
+			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=0" );
 
 		initialAutoAttack = "";
 	}
@@ -839,7 +833,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 		if ( attack.startsWith( "attack" ) )
 		{
-			DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=" + attack );
+			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=" + attack );
 			changedAutoAttack = StaticEntity.getProperty( "defaultAutoAttack" );
 			return;
 		}
@@ -855,7 +849,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			return;
 		}
 
-		DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=" + skillId );
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=" + skillId );
 		changedAutoAttack = StaticEntity.getProperty( "defaultAutoAttack" );
 	}
 
@@ -915,9 +909,6 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			// player has a high probability of accidentally using
 			// a ten-leaf clover.
 
-			if ( StaticEntity.getBooleanProperty( "cloverProtectActive" ) && matchingLocation.isLikelyUnluckyZone )
-				DEFAULT_SHELL.executeLine( "use * ten-leaf clover" );
-
 			if ( !(matchingLocation.getRequest() instanceof AdventureRequest) || matchingLocation.isValidAdventure )
 				return true;
 
@@ -939,7 +930,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			// time ago.
 
 			if ( locationId.equals( "67" ) && StaticEntity.getIntegerProperty( "lastCouncilVisit" ) < 9 )
-				DEFAULT_SHELL.executeLine( "council" );
+				KoLRequest.VISITOR.constructURLString( "council.php" ).run();
 
 			matchingLocation.isValidAdventure = true;
 

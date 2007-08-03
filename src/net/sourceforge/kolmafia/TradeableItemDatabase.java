@@ -979,8 +979,8 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		for ( int pageId = 1; pageId <= 3; ++pageId )
 		{
-			RequestThread.postRequest( VISITOR.constructURLString( "inventory.php?which=" + pageId ) );
-			itemMatcher = DESCRIPTION_PATTERN.matcher( VISITOR.responseText );
+			RequestThread.postRequest( KoLRequest.VISITOR.constructURLString( "inventory.php?which=" + pageId ) );
+			itemMatcher = DESCRIPTION_PATTERN.matcher( KoLRequest.VISITOR.responseText );
 
 			while ( itemMatcher.find() )
 			{

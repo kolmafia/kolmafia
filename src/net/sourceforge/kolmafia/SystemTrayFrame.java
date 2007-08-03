@@ -215,7 +215,7 @@ public abstract class SystemTrayFrame implements KoLConstants
 		}
 
 		public void run()
-		{	DEFAULT_SHELL.executeCommand( "logout", "" );
+		{	KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "logout", "" );
 		}
 	}
 
@@ -226,7 +226,7 @@ public abstract class SystemTrayFrame implements KoLConstants
 		}
 
 		public void run()
-		{	DEFAULT_SHELL.executeCommand( "exit", "" );
+		{	KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "exit", "" );
 		}
 	}
 }
