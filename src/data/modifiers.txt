@@ -1213,6 +1213,7 @@ Big Veiny Brain	Experience +2, Meat Drop: -20
 Black Face	Muscle Percent: +10
 Black Tongue	Familiar Weight: +5, Experience +3, Item Drop: +30, Meat Drop: +30
 Blessing of Charcoatl	Hot Damage: +10
+Blessing of Squirtlcthulli	HP Regen Min: 7, HP Regen Max: 9, MP Regen Min: 7, MP Regen Max: 9
 Bloody Bloody Bloody!	Spooky Damage: +50
 Bloody Hand	Muscle: -1
 Blue Tongue	Item Drop: +30
