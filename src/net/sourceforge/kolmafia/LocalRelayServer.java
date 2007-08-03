@@ -51,12 +51,17 @@ public class LocalRelayServer implements Runnable
 	private ServerSocket serverSocket = null;
 	private static int port = 60080;
 	private static boolean listening = false;
+	private static boolean updateStatus = false;
 
 	private static final LocalRelayServer INSTANCE = new LocalRelayServer();
 	private static final StringBuffer statusMessages = new StringBuffer();
 
 	private LocalRelayServer()
 	{
+	}
+
+	public static final void updateStatus()
+	{	updateStatus = true;
 	}
 
 	public static final void startThread()
@@ -191,6 +196,12 @@ public class LocalRelayServer implements Runnable
 
 	public static final String getNewStatusMessages()
 	{
+		if ( updateStatus )
+		{
+			updateStatus = false;
+			statusMessages.append( "<!-- REFRESH -->" );
+		}
+
 		String newMessages = statusMessages.toString();
 		statusMessages.setLength(0);
 

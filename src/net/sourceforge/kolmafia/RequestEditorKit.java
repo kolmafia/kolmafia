@@ -1493,7 +1493,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		{
 			int combatIndex = buffer.indexOf( "!</b>" );
 			if ( combatIndex != -1 )
-				buffer.insert( combatIndex, ": Round " + FightRequest.getDisplayRound() );
+				buffer.insert( combatIndex, ": Round " + FightRequest.getCurrentRound() );
 		}
 
 		if ( !StaticEntity.getBooleanProperty( "relayAddsMonsterHealth" ) )
@@ -2395,12 +2395,12 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		if ( StaticEntity.getBooleanProperty( "relayAddsMoodRefreshLink" ) && MoodSettings.willExecute( 0 ) )
 		{
-			fontColor = FightRequest.getActualRound() == 0 ? "black" : "gray";
+			fontColor = FightRequest.getCurrentRound() == 0 ? "black" : "gray";
 			moodText = "mood " + StaticEntity.getProperty( "currentMood" );
 		}
 		else if ( MoodSettings.getNextBurnCast( false ) != null )
 		{
-			fontColor = FightRequest.getActualRound() == 0 ? "black" : "gray";
+			fontColor = FightRequest.getCurrentRound() == 0 ? "black" : "gray";
 			moodText = "burn extra mp";
 		}
 		else if ( !StaticEntity.getBooleanProperty( "relayAddsMoodRefreshLink" ) )

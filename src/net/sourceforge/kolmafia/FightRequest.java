@@ -33,7 +33,6 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.MonsterDatabase.Monster;
@@ -56,21 +55,18 @@ public class FightRequest extends KoLRequest
 	private static String lostInitiative = "";
 	private static String wonInitiative = "";
 
-	private static int trackedRound = 0;
 	private static int preparatoryRounds = 0;
-
 	private static boolean isTrackingFights = false;
 	private static boolean isAutomatingFight = false;
 	private static boolean isUsingConsultScript = false;
 
-	private static final ArrayList trackedRounds = new ArrayList();
+	private static boolean foundNextRound = false;
 
 	private static final Pattern SKILL_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
 	private static final Pattern ITEM1_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 	private static final Pattern ITEM2_PATTERN = Pattern.compile( "whichitem2=(\\d+)" );
 
 	private static final Pattern FAMILIAR_ACT_PATTERN = Pattern.compile( "<table><tr><td align=center.*?</table>", Pattern.DOTALL );
-
 	private static final Pattern FUMBLE_PATTERN = Pattern.compile( "You drop your .*? on your .*?, doing [\\d,]+ damage" );
 	private static final Pattern ELEMENTAL_PATTERN = Pattern.compile( "<font color=[\"]?\\w+[\"]?><b>\\+?([\\d,]+)</b></font> (?:damage|points|HP worth)" );
 
@@ -820,11 +816,9 @@ public class FightRequest extends KoLRequest
 	public static final void updateCombatData( String encounter, String responseText )
 	{
 		INSTANCE.responseText = responseText;
+		foundNextRound = true;
 
 		// Round tracker should include this data.
-
-		if ( isTrackingFights )
-			trackedRounds.add( responseText );
 
 		parseBangPotion( responseText );
 		parseStoneSphere( responseText );
@@ -846,8 +840,6 @@ public class FightRequest extends KoLRequest
 				System.out.println( encounterLookup );
 
 			isTrackingFights = false;
-			trackedRounds.clear();
-
 			checkForInitiative( responseText );
 		}
 
@@ -1329,37 +1321,34 @@ public class FightRequest extends KoLRequest
 		if ( !isTrackingFights )
 			return RequestEditorKit.getFeatureRichHTML( "fight.php", FightRequest.INSTANCE.responseText, true );
 
-		while ( trackedRounds.isEmpty() && !KoLmafia.refusesContinue() )
+		while ( !foundNextRound && !KoLmafia.refusesContinue() )
 			delay( 200 );
 
-		if ( trackedRounds.isEmpty() || KoLmafia.refusesContinue() )
+		if ( !foundNextRound || KoLmafia.refusesContinue() )
 		{
+			foundNextRound = false;
 			isTrackingFights = false;
 			return RequestEditorKit.getFeatureRichHTML( "fight.php", FightRequest.INSTANCE.responseText, true );
 		}
 
-		++trackedRound;
-		return RequestEditorKit.getFeatureRichHTML( "fight.php?action=script", (String) trackedRounds.remove(0), true );
+		foundNextRound = false;
+		return RequestEditorKit.getFeatureRichHTML( "fight.php?action=script", FightRequest.INSTANCE.responseText, true );
 	}
 
-	public static final int getActualRound()
+	public static final int getCurrentRound()
 	{	return currentRound;
-	}
-
-	public static final int getDisplayRound()
-	{	return isTrackingFights ? trackedRound : currentRound;
 	}
 
 	public static final void beginTrackingFights()
 	{
 		isTrackingFights = true;
-		trackedRound = currentRound;
+		foundNextRound = false;
 	}
 
 	public static final boolean isTrackingFights()
 	{
-		if ( currentRound == 0 && trackedRounds.isEmpty() )
-			isTrackingFights = false;
+		if ( currentRound == 0 )
+			isTrackingFights = foundNextRound;
 
 		return isTrackingFights;
 	}
