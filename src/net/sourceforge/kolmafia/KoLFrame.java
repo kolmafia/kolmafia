@@ -2306,9 +2306,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			this.isOverlap = isOverlap;
 
 			elementList.addKeyListener( new OverlapAdapter() );
-
 			this.addFilters();
-			this.filterItems();
 		}
 
 		public FilterItemField getWordFilter()
@@ -2356,9 +2354,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	protected class RestorativeItemPanel extends ItemManagePanel
 	{
 		public RestorativeItemPanel()
-		{
-			super( "use item", "check wiki", inventory );
-			this.filterItems();
+		{	super( "use item", "check wiki", inventory );
 		}
 
 		public void addFilters()

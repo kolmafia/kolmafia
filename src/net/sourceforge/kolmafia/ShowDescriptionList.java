@@ -133,17 +133,6 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		this.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789" );
 	}
 
-	public void setFilter( ListElementFilter filter )
-	{
-		this.filter = filter;
-		this.listModel.setFilter( this.filter );
-		this.updateFilter();
-	}
-
-	public void updateFilter()
-	{	this.listModel.updateFilter( false );
-	}
-
 	/**
 	 * Shows and hides the applicable context menu item.  Actually
 	 * all it does is show it -- the VM will handle hiding it.

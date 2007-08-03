@@ -775,9 +775,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	 */
 
 	public void setFilter( ListElementFilter newFilter )
-	{
-		currentFilter = newFilter == null ? NO_FILTER : newFilter;
-		updateSingleFilter( false );
+	{	currentFilter = newFilter == null ? NO_FILTER : newFilter;
 	}
 
 	public int getIndexOf( Object o )

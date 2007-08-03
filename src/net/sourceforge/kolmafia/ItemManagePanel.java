@@ -132,6 +132,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 		this.filterfield = this.getWordFilter();
 
+
 		if ( addFilterField )
 			this.centerPanel.add( this.filterfield, BorderLayout.NORTH );
 
@@ -154,6 +155,8 @@ public class ItemManagePanel extends LabeledScrollPanel
 		this.filterfield.equip = equip;
 		this.filterfield.other = other;
 		this.filterfield.notrade = notrade;
+
+		this.filterItems();
 	}
 
 	public void addFilters()
@@ -174,6 +177,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 		}
 
 		this.northPanel.add( filterPanel, BorderLayout.NORTH );
+		this.filterItems();
 	}
 
 	public void filterItems()
@@ -590,7 +594,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 		public FilterItemField()
 		{
 			this.filter = this.getFilter();
-			ItemManagePanel.this.elementList.setFilter( this.filter );
+			ItemManagePanel.this.elementModel.setFilter( this.filter );
 			this.addKeyListener( new FilterListener() );
 
 			this.food = true; this.booze = true; this.equip = true;
@@ -626,12 +630,12 @@ public class ItemManagePanel extends LabeledScrollPanel
 			}
 
 			this.filter.makeStrict();
-			ItemManagePanel.this.elementList.updateFilter();
+			ItemManagePanel.this.elementModel.updateFilter( false );
 
 			if ( ItemManagePanel.this.elementModel.getSize() == 0 )
 			{
 				this.filter.makeFuzzy();
-				ItemManagePanel.this.elementList.updateFilter();
+				ItemManagePanel.this.elementModel.updateFilter( false );
 			}
 		}
 
@@ -647,7 +651,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 				int itemId = TradeableItemDatabase.getItemId( name );
 
 				if ( itemId < 1 )
-					return false;
+					return filters == null && super.isVisible( element );
 
 				if ( !FilterItemField.this.notrade && !TradeableItemDatabase.isTradeable( itemId ) )
 					return false;
