@@ -813,7 +813,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		// Areas that have no combats do not need to have auto-attack
 		// reset.  Therefore, skip out.
 
-		if ( FightRequest.getActualRound() != 0 || isNonCombatsOnly() )
+		if ( FightRequest.getCurrentRound() != 0 || isNonCombatsOnly() )
 			return;
 
 		// If you're searching for special scrolls, do not enable

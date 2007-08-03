@@ -204,37 +204,23 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 			if ( !FightRequest.isTrackingFights() )
 				CUSTOM_THREAD.wake();
 
-			String fightResponse = FightRequest.getNextTrackedRound();
-
-			if ( fightResponse == null )
-			{
-				this.request.pseudoResponse( "HTTP/1.1 200 OK", "Timeout." );
-			}
-			else
-			{
-				if ( FightRequest.isTrackingFights() )
-				{
-					this.request.pseudoResponse(  "HTTP/1.1 200 OK", StaticEntity.singleStringDelete( fightResponse, "top.charpane.location.href=\"charpane.php\";" ) );
-					this.request.headers.add( "Refresh: 0" );
-				}
-				else
-					this.request.pseudoResponse( "HTTP/1.1 200 OK", fightResponse );
-			}
+			this.request.pseudoResponse( "HTTP/1.1 200 OK", FightRequest.getNextTrackedRound() );
+			if ( FightRequest.isTrackingFights() )
+				this.request.headers.add( "Refresh: 0" );
 		}
 		else if ( this.path.startsWith( "/tiles.php" ) )
 		{
 			AdventureRequest.handleDvoraksRevenge( this.request );
 		}
-		else if ( this.path.startsWith( "/charpane.php" ) || this.path.startsWith( "/sidepane.php" ) )
+		else if ( this.path.startsWith( "/charpane.php" ) )
 		{
-			if ( !KoLmafia.isRunningBetweenBattleChecks() && FightRequest.getActualRound() == 0 )
+			if ( !KoLmafia.isRunningBetweenBattleChecks() && FightRequest.getCurrentRound() == 0 )
 			{
 				StaticEntity.getClient().runBetweenBattleChecks( false, StaticEntity.getBooleanProperty( "relayMaintainsEffects" ),
 					StaticEntity.getBooleanProperty( "relayMaintainsHealth" ), StaticEntity.getBooleanProperty( "relayMaintainsMana" ) );
 			}
 
-			this.request.pseudoResponse( "HTTP/1.1 200 OK",
-				RequestEditorKit.getFeatureRichHTML( "charpane.php", CharpaneRequest.getLastResponse(), true ) );
+			this.request.run();
 		}
 		else
 		{

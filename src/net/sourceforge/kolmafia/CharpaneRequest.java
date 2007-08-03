@@ -80,9 +80,7 @@ public class CharpaneRequest extends KoLRequest
 	}
 
 	public void processResults()
-	{
-		processCharacterPane( this.responseText );
-		lastResponse = this.responseText;
+	{	processCharacterPane( this.responseText );
 	}
 
 	public static final String getLastResponse()
@@ -94,6 +92,7 @@ public class CharpaneRequest extends KoLRequest
 		if ( isProcessing )
 			return;
 
+		lastResponse = responseText;
 		isProcessing = true;
 
 		// By refreshing the KoLCharacter pane, you can
