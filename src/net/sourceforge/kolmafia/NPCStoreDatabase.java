@@ -38,8 +38,10 @@ import java.util.ArrayList;
 
 public class NPCStoreDatabase extends KoLDatabase
 {
-	private static final ArrayList NPC_ITEMS = new ArrayList();
+	private static final String BLACK_MARKET_STRING = "You've picked up your father's diary, and things just got a whole lot more complicated. Oh dear.";
+	private static final String ISLAND_WAR_STRING = "You've managed to get the war between the hippies and frat boys started, and now the Council wants you to finish it.";
 
+	private static final ArrayList NPC_ITEMS = new ArrayList();
 	private static final AdventureResult LAB_KEY = new AdventureResult( 339, 1 );
 
 	static
@@ -154,12 +156,25 @@ public class NPCStoreDatabase extends KoLDatabase
 			int level = KoLCharacter.getLevel();
 
 			if ( shopName.equals( "Hippy Store (Pre-War)" ) )
-				return level < 12 && inventory.contains( KoLAdventure.DINGHY ) && EquipmentDatabase.hasOutfit( 2 );
+			{
+				if ( !inventory.contains( KoLAdventure.DINGHY ) || !EquipmentDatabase.hasOutfit( 2 ) )
+					return false;
+
+				if ( level < 12 )
+					return true;
+
+				if ( StaticEntity.getIntegerProperty( "lastFilthClearance" ) == KoLCharacter.getAscensions() )
+					return false;
+
+				if ( QuestLogRequest.startedQuest( ISLAND_WAR_STRING ) || QuestLogRequest.finishedQuest( QuestLogRequest.ISLAND_WAR ) )
+					return false;
+
+				return true;
+			}
 
 			// Here, you insert any logic which is able to detect the
 			// completion of the filthworm infestation and which outfit
-			// was used to complete it.  But, for now, just assume that
-			// the store is not accessible.
+			// was used to complete it.
 
 			if ( level < 12 || StaticEntity.getIntegerProperty( "lastFilthClearance" ) != KoLCharacter.getAscensions() )
 				return false;
@@ -175,11 +190,17 @@ public class NPCStoreDatabase extends KoLDatabase
 			return QuestLogRequest.finishedQuest( QuestLogRequest.ISLAND_WAR ) || EquipmentDatabase.hasOutfit( 32 );
 		}
 
+		// Check the quest log when determining if you've used the
+		// black market map.
+
+		else if ( storeId.equals( "l" ) )
+			return QuestLogRequest.startedQuest( BLACK_MARKET_STRING ) || QuestLogRequest.finishedQuest( QuestLogRequest.MACGUFFIN );
+
 		// Check the quest log when determining whether the person has
 		// access to the Citadel.
 
 		else if ( storeId.equals( "w" ) )
-			return QuestLogRequest.finishedQuest( "White Citadel" );
+			return QuestLogRequest.finishedQuest( QuestLogRequest.CITADEL );
 
 		// If it gets this far, then the item is definitely available
 		// for purchase from the NPC store.
