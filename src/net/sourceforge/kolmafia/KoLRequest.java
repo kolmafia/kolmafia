@@ -1446,6 +1446,8 @@ public class KoLRequest extends Job implements KoLConstants
 
 		if ( this.formURLString.startsWith( "sewer.php" ) && this.responseText.indexOf( "You acquire" ) != -1 )
 			StaticEntity.getClient().processResult( SewerRequest.GUM );
+
+		StaticEntity.getClient().processResults( this.responseText );
 	}
 
 	public void processResults()
