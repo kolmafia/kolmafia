@@ -198,8 +198,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 		if ( element == null )
 			return;
 
-		if ( !mirrorList.isEmpty() )
-			this.updateFilter( false );
+		this.updateFilter( false );
 
 		actualElements.add( index, element );
 		addVisibleElement( index, element );
@@ -520,6 +519,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 			return null;
 
 		this.updateFilter( false );
+
 		Object returnValue = actualElements.get( index );
 		removeVisibleElement( index, returnValue );
 		actualElements.remove( index );
@@ -613,55 +613,15 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 			return null;
 
 		this.updateFilter( false );
-		Object returnValue = actualElements.set( index, element );
-		setVisibleElement( index, element, returnValue );
+
+		Object returnValue = actualElements.get( index );
+		removeVisibleElement( index, returnValue );
+		actualElements.remove( index );
+
+		actualElements.add( index, element );
+		addVisibleElement( index, element );
+
 		return returnValue;
-	}
-
-	private void setVisibleElement( int index, Object element, Object originalValue )
-	{
-		setVisibleElement( this, index, element, originalValue );
-
-		LockableListModel mirror;
-		Iterator it = mirrorList.iterator();
-
-		while ( it.hasNext() )
-		{
-			mirror = getNextMirror( it );
-			if ( mirror == null )
-				return;
-
-			setVisibleElement( mirror, index, element, originalValue );
-		}
-	}
-
-	private void setVisibleElement( LockableListModel model, int index, Object element, Object originalValue )
-	{
-		int visibleIndex = model.computeVisibleIndex( index );
-
-		if ( originalValue != null && model.currentFilter.isVisible( originalValue ) )
-		{
-			if ( !model.currentFilter.isVisible( element ) )
-			{
-				model.visibleElements.remove( visibleIndex );
-				model.fireIntervalRemoved( model, visibleIndex, visibleIndex );
-			}
-			else if ( visibleIndex == model.visibleElements.size() )
-			{
-				model.visibleElements.add( visibleIndex, element );
-				model.fireIntervalAdded( model, visibleIndex, visibleIndex );
-			}
-			else
-			{
-				model.visibleElements.set( visibleIndex, element );
-				model.fireContentsChanged( model, visibleIndex, visibleIndex );
-			}
-		}
-		else if ( model.currentFilter.isVisible( element ) )
-		{
-			model.visibleElements.add( visibleIndex, element );
-			model.fireIntervalAdded( model, visibleIndex, visibleIndex );
-		}
 	}
 
 	/**
