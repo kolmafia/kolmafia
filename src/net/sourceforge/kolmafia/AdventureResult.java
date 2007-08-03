@@ -480,10 +480,7 @@ public class AdventureResult implements Comparable, KoLConstants
 		if ( this.priority == MONSTER_PRIORITY )
 			return this.name;
 
-		if ( this.priority != ITEM_PRIORITY )
-			return this.name + " (" + COMMA_FORMAT.format(this.count[0]) + ")";
-
-		return this.getName();
+		return this.getName() + " (" + COMMA_FORMAT.format(this.count[0]) + ")";
 	}
 
 	public String toConditionString()
