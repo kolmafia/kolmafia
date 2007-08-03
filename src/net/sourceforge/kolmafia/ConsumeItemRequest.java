@@ -1083,10 +1083,13 @@ public class ConsumeItemRequest extends KoLRequest
 			// mind. Delicious snowflakes."
 
 			if ( responseText.indexOf( "You read the incantation" ) == -1 )
+			{
 				StaticEntity.getClient().processResult( lastItemUsed );
-			else
-				KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "Summon Snowcone" ) );
+				return;
+			}
 
+			KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "Summon Snowcone" ) );
+			usableSkills.sort();
 			return;
 
 
@@ -1097,10 +1100,13 @@ public class ConsumeItemRequest extends KoLRequest
 			// clear to you."
 
 			if ( responseText.indexOf( "You pore over the tome" ) == -1 )
+			{
 				StaticEntity.getClient().processResult( lastItemUsed );
-			else
-				KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "Summon Hilarious Objects" ) );
+				return;
+			}
 
+			KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "Summon Hilarious Objects" ) );
+			usableSkills.sort();
 			return;
 
 		case JEWELRY_BOOK:
