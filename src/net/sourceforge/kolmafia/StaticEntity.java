@@ -418,7 +418,7 @@ public abstract class StaticEntity implements KoLConstants
 	{
 		KoLRequest request = RequestEditorKit.extractRequest( location );
 
-		if ( location.startsWith( "search" ) || location.startsWith( "desc" ) || location.startsWith( "static final" ) || location.startsWith( "show" ) )
+		if ( location.startsWith( "search" ) || location.startsWith( "desc" ) || location.startsWith( "static" ) || location.startsWith( "show" ) )
 		{
 			DescriptionFrame.showRequest( request );
 			return;

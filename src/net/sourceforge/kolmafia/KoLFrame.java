@@ -1104,7 +1104,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 				String [] parameters = new String [] { idMatcher.find() ? idMatcher.group(1) : "" };
 				createDisplay( SendMessageFrame.class, parameters );
 			}
-			else if ( location.startsWith( "search" ) || location.startsWith( "desc" ) || location.startsWith( "static final" ) || location.startsWith( "show" ) )
+			else if ( location.startsWith( "search" ) || location.startsWith( "desc" ) || location.startsWith( "static" ) || location.startsWith( "show" ) )
 			{
 				DescriptionFrame.showLocation( location );
 				return;

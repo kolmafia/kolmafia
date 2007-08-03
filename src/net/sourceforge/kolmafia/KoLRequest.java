@@ -345,7 +345,7 @@ public class KoLRequest extends Job implements KoLConstants
 			!this.formURLString.startsWith( "lchat.php" ) && !this.formURLString.startsWith( "devchat.php" );
 
 		this.shouldIgnoreResult = this.isChatRequest || this.formURLString.startsWith( "message" ) || this.formURLString.startsWith( "ascension" ) ||
-			this.formURLString.startsWith( "search" ) || this.formURLString.startsWith( "static final" ) || this.formURLString.startsWith( "desc" ) ||
+			this.formURLString.startsWith( "search" ) || this.formURLString.startsWith( "static" ) || this.formURLString.startsWith( "desc" ) ||
 			this.formURLString.startsWith( "show" ) || this.formURLString.startsWith( "doc" ) ||
 			(this.formURLString.startsWith( "clan" ) && !this.formURLString.startsWith( "clan_stash" ) && !this.formURLString.startsWith( "clan_rumpus" ));
 
@@ -1283,8 +1283,8 @@ public class KoLRequest extends Job implements KoLConstants
 			BYTEFLAGS.set( desiredIndex, Boolean.TRUE );
 		}
 
-		// Read all the data into the static final byte array output stream and then
-		// convert that string to UTF-8.
+		// Read all the data into the static byte array output stream
+		// and then convert that string to UTF-8.
 
 		byte [] array = (byte []) BYTEARRAYS.get( desiredIndex );
 		ByteArrayOutputStream stream = (ByteArrayOutputStream) BYTESTREAMS.get( desiredIndex );
