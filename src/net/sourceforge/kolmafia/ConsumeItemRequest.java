@@ -505,9 +505,6 @@ public class ConsumeItemRequest extends KoLRequest
 
 		lastItemUsed = this.itemUsed;
 		parseConsumption( this.responseText, true );
-
-		// We might have removed - or added - an effect
-		this.needsRefresh |= originalEffectCount != activeEffects.size();
 	}
 
 	public static final void parseConsumption( String responseText, boolean showHTML )

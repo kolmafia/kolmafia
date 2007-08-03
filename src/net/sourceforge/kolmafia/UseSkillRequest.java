@@ -608,10 +608,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			KoLmafia.applyEffects();
 
 			if ( this.skillId == OTTER_TONGUE || this.skillId == WALRUS_TONGUE )
-			{
 				activeEffects.remove( KoLAdventure.BEATEN_UP );
-				this.needsRefresh = true;
-			}
 		}
 	}
 
