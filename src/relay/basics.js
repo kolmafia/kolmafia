@@ -56,7 +56,7 @@ function refreshSidebar()
 		isRefreshing = false;
 	}
 
-	httpObject.open( "POST", "/charpane.php" );
+	httpObject.open( "POST", "/sidepane.php" );
 	httpObject.send( "" );
 }
 
