@@ -91,7 +91,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	public static final AdventureResult BRIM_BRACELET = new AdventureResult( 2818, 1 );
 	public static final AdventureResult SOLITAIRE = new AdventureResult( 1226, 1 );
 
-	public static final AdventureResult WIRE_BRACELET = new AdventureResult( 2518, 1 );
+	public static final AdventureResult WIRE_BRACELET = new AdventureResult( 2514, 1 );
 	public static final AdventureResult BACON_BRACELET = new AdventureResult( 717, 1 );
 	public static final AdventureResult BACON_EARRING = new AdventureResult( 715, 1 );
 	public static final AdventureResult SOLID_EARRING = new AdventureResult( 2780, 1 );
