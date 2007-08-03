@@ -643,17 +643,11 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 			public boolean isVisible( Object element )
 			{
-				if ( this.isNonResult( element ) )
-					return ItemManagePanel.this.filters == null && super.isVisible( element );
-
-				boolean isItem = element instanceof ItemCreationRequest;
-				isItem |= element instanceof AdventureResult && ((AdventureResult)element).isItem();
-
-				if ( !isItem )
-					return super.isVisible( element );
-
-				String name = element instanceof AdventureResult ? ((AdventureResult)element).getName() : ((ItemCreationRequest)element).getName();
+				String name = getResultName( element );
 				int itemId = TradeableItemDatabase.getItemId( name );
+
+				if ( itemId < 1 )
+					return false;
 
 				if ( !FilterItemField.this.notrade && !TradeableItemDatabase.isTradeable( itemId ) )
 					return false;
@@ -682,16 +676,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 				default:
 
-					if ( element instanceof AdventureResult )
-					{
-						// Milk of magnesium is marked as food, as are
-						// munchies pills; all others are marked as expected.
-
-						isVisibleWithFilter = FilterItemField.this.other;
-						if ( name.equalsIgnoreCase( "milk of magnesium" ) || name.equalsIgnoreCase( "munchies pills" ) )
-							isVisibleWithFilter |= FilterItemField.this.food;
-					}
-					else
+					if ( element instanceof ItemCreationRequest )
 					{
 						switch ( ConcoctionsDatabase.getMixingMethod( itemId ) )
 						{
@@ -717,6 +702,15 @@ public class ItemManagePanel extends LabeledScrollPanel
 							isVisibleWithFilter = FilterItemField.this.other;
 							break;
 						}
+					}
+					else
+					{
+						// Milk of magnesium is marked as food, as are
+						// munchies pills; all others are marked as expected.
+
+						isVisibleWithFilter = FilterItemField.this.other;
+						if ( name.equalsIgnoreCase( "milk of magnesium" ) || name.equalsIgnoreCase( "munchies pills" ) )
+							isVisibleWithFilter |= FilterItemField.this.food;
 					}
 				}
 
