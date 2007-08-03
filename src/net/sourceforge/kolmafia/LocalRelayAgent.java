@@ -284,7 +284,6 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 			// The only time this happens is if the
 			// socket is already closed.  Ignore.
 		}
-
 	}
 
 	private static final class CustomCombatThread extends Thread

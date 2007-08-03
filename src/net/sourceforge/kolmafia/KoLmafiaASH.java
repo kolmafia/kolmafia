@@ -171,7 +171,7 @@ public class KoLmafiaASH extends StaticEntity
 
 	private static final TreeMap relayScriptMap = new TreeMap();
 	private static final StringBuffer serverReplyBuffer = new StringBuffer();
-	private static LocalRelayRequest relayRequest;
+	private static final LocalRelayRequest relayRequest = new LocalRelayRequest( false );
 	private static KoLmafiaASH relayScript = null;
 
 	private StringBuffer concatenateBuffer = new StringBuffer();
@@ -203,7 +203,7 @@ public class KoLmafiaASH extends StaticEntity
 	private static final TreeMap TIMESTAMPS = new TreeMap();
 	private static final TreeMap INTERPRETERS = new TreeMap();
 
-	private static final LocalRelayRequest RELAYER = new LocalRelayRequest( false );
+	public static final LocalRelayRequest RELAYER = new LocalRelayRequest( false );
 	public static final KoLmafiaASH NAMESPACE_INTERPRETER = new KoLmafiaASH();
 
 	public KoLmafiaASH()
@@ -263,25 +263,31 @@ public class KoLmafiaASH extends StaticEntity
 		return toExecute.exists() && getClientHTML( request, toExecute );
 	}
 
-	private synchronized static final boolean getClientHTML( LocalRelayRequest request, File toExecute )
+	private static final boolean getClientHTML( LocalRelayRequest request, File toExecute )
 	{
-		relayScript = KoLmafiaASH.getInterpreter( (File) toExecute );
-		if ( relayScript == null )
-			return false;
-
-		relayRequest = request;
-		serverReplyBuffer.setLength(0);
-		relayScript.execute( "main", new String [] { request.getPath(), request.getDataString( false ) } );
-
-		if ( serverReplyBuffer.length() == 0 )
+		synchronized ( serverReplyBuffer )
 		{
-			relayScript = null;
-			return false;
-		}
+			relayScript = KoLmafiaASH.getInterpreter( (File) toExecute );
+			if ( relayScript == null )
+				return false;
 
-		relayScript = null;
-		request.pseudoResponse( "HTTP/1.1 200 OK", serverReplyBuffer.toString() );
-		return true;
+			serverReplyBuffer.setLength(0);
+			relayRequest.constructURLString( request.getURLString() );
+
+			relayScript.execute( "main", null );
+
+			if ( serverReplyBuffer.length() == 0 )
+			{
+				if ( relayRequest.responseText != null && relayRequest.responseText.length() != 0 )
+					serverReplyBuffer.append( relayRequest.responseText );
+			}
+
+			if ( serverReplyBuffer.length() != 0 )
+				request.pseudoResponse( "HTTP/1.1 200 OK", serverReplyBuffer.toString() );
+
+			relayScript = null;
+			return serverReplyBuffer.length() != 0;
+		}
 	}
 
 	public static final KoLmafiaASH getInterpreter( File toExecute )
@@ -3214,6 +3220,9 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "writeln", VOID_TYPE, params ) );
 
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "form_field", STRING_TYPE, params ) );
+
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "visit_url", BUFFER_TYPE, params ) );
 
@@ -3547,6 +3556,9 @@ public class KoLmafiaASH extends StaticEntity
 
 		params = new ScriptType[] { ITEM_TYPE, ITEM_TYPE };
 		result.addElement( new ScriptExistingFunction( "throw_items", BUFFER_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "run_combat", BUFFER_TYPE, params ) );
 
 
 		// Equipment functions.
@@ -4776,12 +4788,25 @@ public class KoLmafiaASH extends StaticEntity
 			return VOID_VALUE;
 		}
 
-		public ScriptValue visit_url()
+		public ScriptValue form_field( ScriptVariable key )
 		{
 			if ( relayRequest == null )
-				return new ScriptValue( BUFFER_TYPE, "", new StringBuffer() );
+				return STRING_INIT;
 
-			return visit_url( relayRequest.getURLString() );
+			String value = relayRequest.getFormField( key.toStringValue().toString() );
+			return value == null ? STRING_INIT : new ScriptValue( value );
+		}
+
+		public ScriptValue visit_url()
+		{
+			StringBuffer buffer = new StringBuffer();
+			ScriptValue returnValue = new ScriptValue( BUFFER_TYPE, "", buffer );
+
+			RequestThread.postRequest( relayRequest );
+			if ( relayRequest.responseText != null )
+				buffer.append( relayRequest.responseText );
+
+			return returnValue;
 		}
 
 		public ScriptValue visit_url( ScriptVariable string )
@@ -4797,10 +4822,11 @@ public class KoLmafiaASH extends StaticEntity
 			if ( KoLRequest.shouldIgnore( KoLRequest.VISITOR ) )
 				return returnValue;
 
-			if ( relayScript == null )
+			if ( relayRequest == null )
 			{
-				if ( location.startsWith( "fight.php" ) )
-					KoLRequest.delay();
+				if ( KoLRequest.VISITOR.getPath().equals( "fight.php" ) )
+					if ( FightRequest.getCurrentRound() == 0 )
+						return returnValue;
 
 				RequestThread.postRequest( KoLRequest.VISITOR );
 				if ( KoLRequest.VISITOR.responseText != null )
@@ -5524,6 +5550,15 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue throw_items( ScriptVariable item1, ScriptVariable item2 )
 		{	return visit_url( "fight.php?action=useitem&whichitem=" + item1.intValue() + "&whichitem2=" + item2.intValue() );
+		}
+
+		public ScriptValue run_combat()
+		{
+			RequestThread.postRequest( FightRequest.INSTANCE );
+			String response = relayScript == null ? FightRequest.INSTANCE.responseText :
+				FightRequest.getNextTrackedRound();
+
+			return new ScriptValue( BUFFER_TYPE, "", new StringBuffer( response == null ? "" : response ) );
 		}
 
 		// Equipment functions.
