@@ -651,7 +651,15 @@ public class KoLRequest extends Job implements KoLConstants
 		// Once everything is complete, decide whether or not
 		// you should refresh your status.
 
-		if ( !isDelayExempt )
+		if ( this.formURLString.equals( "charpane.php" ) )
+		{
+			KoLCharacter.recalculateAdjustments();
+			KoLCharacter.updateStatus();
+
+			RequestFrame.refreshStatus();
+			LocalRelayServer.updateStatus();
+		}
+		else if ( !isDelayExempt )
 		{
 			if ( this instanceof LocalRelayRequest )
 			{
@@ -669,12 +677,6 @@ public class KoLRequest extends Job implements KoLConstants
 				if ( this.responseText.indexOf( "charpane" ) != -1 )
 					CharpaneRequest.getInstance().run();
 			}
-		}
-		else if ( this.formURLString.equals( "charpane.php" ) )
-		{
-			KoLCharacter.recalculateAdjustments();
-			KoLCharacter.updateStatus();
-			RequestFrame.refreshStatus();
 		}
 	}
 
@@ -1333,7 +1335,7 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( !this.shouldIgnoreResult )
 			this.parseResults();
 
-		if ( !LoginRequest.isInstanceRunning() && !(this instanceof LocalRelayRequest) && !(this instanceof CharpaneRequest) && !this.isChatRequest && this.formURLString.indexOf( "search" ) == -1 )
+		if ( !isDelayExempt && !LoginRequest.isInstanceRunning() && !(this instanceof LocalRelayRequest) )
 			this.showInBrowser( false );
 
 		// Now let the main method of result processing for
