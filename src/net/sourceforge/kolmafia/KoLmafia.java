@@ -772,8 +772,6 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( getQuestLog )
 			RequestThread.postRequest( new QuestLogRequest() );
-		else
-			QuestLogRequest.registerQuests( "" );
 
 		// Clear the violet fog path table and everything
 		// else that changes on the player.

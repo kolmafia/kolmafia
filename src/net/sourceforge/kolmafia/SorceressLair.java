@@ -1256,8 +1256,6 @@ public abstract class SorceressLair extends StaticEntity
 			RequestThread.postRequest( VISITOR.constructURLString( "lair3.php?action=hedge" ) );
 			if ( VISITOR.responseText.indexOf( "You're out of adventures." ) != -1 )
 				KoLmafia.updateDisplay( ERROR_STATE, "Ran out of adventures." );
-			if ( !VISITOR.needsRefresh )
-				RequestThread.postRequest( CharpaneRequest.getInstance() );
 		}
 	}
 
@@ -1287,10 +1285,6 @@ public abstract class SorceressLair extends StaticEntity
 
 			if ( VISITOR.responseText.indexOf( "You're out of adventures." ) != -1 )
 				KoLmafia.updateDisplay( ERROR_STATE, "Ran out of adventures." );
-
-			// Decrement adventure tally
-			if ( !VISITOR.needsRefresh )
-				RequestThread.postRequest( CharpaneRequest.getInstance() );
 		}
 	}
 

@@ -140,9 +140,7 @@ public class KoLRequest extends Job implements KoLConstants
 	private boolean dataChanged = true;
 	private byte [] dataString = null;
 
-	public boolean needsRefresh;
 	public boolean statusChanged;
-
 	private boolean isDelayExempt;
 	public int responseCode;
 	public String responseText;
@@ -634,7 +632,6 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( location.startsWith( "lair4.php" ) || location.startsWith( "lair5.php" ) )
 			SorceressLair.makeGuardianItems();
 
-		this.needsRefresh = false;
 		this.execute();
 
 		if ( this.responseCode != 200 )
@@ -656,7 +653,7 @@ public class KoLRequest extends Job implements KoLConstants
 		// Once everything is complete, decide whether or not
 		// you should refresh your status.
 
-		if ( this.needsRefresh || this.statusChanged )
+		if ( this.statusChanged )
 		{
 			CharpaneRequest.getInstance().run();
 			RequestFrame.refreshStatus();
@@ -704,14 +701,12 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( urlString.startsWith( "lair6.php" ) && urlString.indexOf( "place=5" ) != -1 )
 		{
 			activeEffects.clear();
-			this.needsRefresh = true;
 		}
 
 		if ( urlString.startsWith( "lair6.php" ) && urlString.indexOf( "place=6" ) != -1 )
 		{
 			KoLCharacter.setHardcore( false );
 			KoLCharacter.setConsumptionRestriction( AscensionSnapshotTable.NOPATH );
-			this.needsRefresh = true;
 		}
 
 		if ( urlString.startsWith( "ascend.php" ) )
@@ -1324,7 +1319,7 @@ public class KoLRequest extends Job implements KoLConstants
 			RequestLogger.updateDebugLog( LINE_BREAK_PATTERN.matcher( this.responseText ).replaceAll( "" ) );
 
 		this.statusChanged = !isDelayExempt && this.responseText.indexOf( "charpane.php" ) != -1;
-		if ( this.statusChanged && !(this instanceof LocalRelayRequest) )
+		if ( this.statusChanged )
 			LocalRelayServer.addStatusMessage( "<!-- REFRESH -->" );
 
 		if ( !isChatRequest )
@@ -1354,9 +1349,6 @@ public class KoLRequest extends Job implements KoLConstants
 
 		if ( AdventureRequest.useMarmotClover( this.formURLString, this.responseText ) || HermitRequest.useHermitClover( this.formURLString ) )
 			DEFAULT_SHELL.executeLine( "use * ten-leaf clover" );
-
-		if ( this.needsRefresh )
-			this.needsRefresh = !(isDelayExempt || this instanceof FightRequest);
 
 		KoLmafia.applyEffects();
 	}
@@ -1458,24 +1450,6 @@ public class KoLRequest extends Job implements KoLConstants
 
 		if ( this.formURLString.startsWith( "sewer.php" ) && this.responseText.indexOf( "You acquire" ) != -1 )
 			StaticEntity.getClient().processResult( SewerRequest.GUM );
-
-		int previousHP = KoLCharacter.getCurrentHP();
-		this.needsRefresh |= StaticEntity.getClient().processResults( this.responseText );
-		this.needsRefresh |= this.getAdventuresUsed() > 0;
-
-		// If the character's health drops below zero, make sure
-		// that beaten up is added to the effects.
-
-		if ( previousHP != 0 && KoLCharacter.getCurrentHP() == 0 )
-		{
-			// Wild hare is exempt from beaten up status if you
-			// are beaten up in the middle of a battle.
-
-			if ( !this.formURLString.equals( "fight.php" ) || this.responseText.indexOf( "lair6.php" ) != -1 )
-				this.needsRefresh |= StaticEntity.getClient().processResult( KoLAdventure.BEATEN_UP.getInstance( 4 - KoLAdventure.BEATEN_UP.getCount( activeEffects ) ) );
-			else if ( KoLCharacter.getFamiliar().getId() != 50 )
-				this.needsRefresh |= StaticEntity.getClient().processResult( KoLAdventure.BEATEN_UP.getInstance( 3 - KoLAdventure.BEATEN_UP.getCount( activeEffects ) ) );
-		}
 	}
 
 	public void processResults()
@@ -1824,18 +1798,6 @@ public class KoLRequest extends Job implements KoLConstants
 			if ( event.indexOf( "/" ) == -1 )
 				continue;
 
-			// If it's a song or a buff, must update status
-
-			// <name> has played a song (The Ode to Booze) for you
-			// An Elemental Saucesphere has been conjured around you by <name>
-			// <name> has imbued you with Reptilian Fortitude
-			// <name> has given you the Tenacity of the Snapper
-			// <name> has fortified you with Empathy of the Newt
-
-			if ( event.indexOf( " has " ) != -1 )
-				this.needsRefresh = true;
-
-			// Add the event to the event list
 			eventHistory.add( event );
 
 			// Print everything to the default shell; this way, the
