@@ -241,11 +241,11 @@ public class GearChangeFrame extends KoLFrame
 		super.dispose();
 	}
 
-	private class ChangeComboBox extends MutableComboBox
+	private class ChangeComboBox extends JComboBox
 	{
 		public ChangeComboBox( LockableListModel slot )
 		{
-			super( slot, false );
+			super( slot );
 			this.setRenderer( AdventureResult.getEquipmentRenderer() );
 			this.addActionListener( new ChangeItemListener() );
 		}
