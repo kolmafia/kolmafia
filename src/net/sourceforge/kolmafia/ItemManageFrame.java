@@ -618,9 +618,7 @@ public class ItemManageFrame extends KoLFrame
 	protected class UsableItemPanel extends InventoryManagePanel
 	{
 		public UsableItemPanel()
-		{
-			super( inventory, false );
-			this.filterItems();
+		{	super( inventory, false );
 		}
 
 		public FilterItemField getWordFilter()
@@ -739,7 +737,6 @@ public class ItemManageFrame extends KoLFrame
 			}
 
 			ConcoctionsDatabase.getCreatables().updateFilter( false );
-			this.filterItems();
 		}
 
 		public void addFilters()
@@ -842,8 +839,6 @@ public class ItemManageFrame extends KoLFrame
 
 			if ( !this.isEquipmentOnly )
 				this.movers[2].setSelected( true );
-
-			this.filterItems();
 		}
 
 		public InventoryManagePanel( String confirmText, String cancelText, LockableListModel model, boolean isEquipmentOnly )
@@ -852,8 +847,6 @@ public class ItemManageFrame extends KoLFrame
 			this.isEquipmentOnly = isEquipmentOnly;
 
 			this.addFilters();
-			this.filterItems();
-
 			elementList.setCellRenderer( AdventureResult.getDefaultRenderer( this.isEquipmentOnly ) );
 		}
 
@@ -884,6 +877,7 @@ public class ItemManageFrame extends KoLFrame
 			}
 
 			this.northPanel.add( filterPanel, BorderLayout.NORTH );
+			this.filterItems();
 		}
 
 		public void addMovers()
