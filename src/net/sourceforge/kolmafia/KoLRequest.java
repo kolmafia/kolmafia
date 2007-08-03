@@ -1007,9 +1007,6 @@ public class KoLRequest extends Job implements KoLConstants
 		{
 			this.formConnection.setRequestMethod( "POST" );
 
-			if ( this.shouldUpdateDebugLog() )
-				this.printRequestProperties();
-
 			OutputStream ostream = this.formConnection.getOutputStream();
 			ostream.write( this.dataString );
 
