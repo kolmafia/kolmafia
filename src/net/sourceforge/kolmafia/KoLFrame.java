@@ -102,12 +102,9 @@ import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
-import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 
 public abstract class KoLFrame extends JFrame implements KoLConstants
 {
-	public static final TradeableItemFilter TRADE_FILTER = new TradeableItemFilter();
-
 	protected HashMap listenerMap;
 	private KoLMenuBar menuBar;
 
@@ -1587,18 +1584,6 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		if ( bookmarkData.length > 1 )
 			for ( int i = 0; i < bookmarkData.length; ++i )
 				bookmarks.add( bookmarkData[i] + "|" + bookmarkData[++i] + "|" + bookmarkData[++i] );
-	}
-
-	private static class TradeableItemFilter extends ListElementFilter
-	{
-		public boolean isVisible( Object element )
-		{
-			if ( !(element instanceof AdventureResult) )
-				return true;
-
-			int itemId = ((AdventureResult)element).getItemId();
-			return itemId < 1 || TradeableItemDatabase.isTradeable( itemId );
-		}
 	}
 
 	protected class LabelColorChanger extends JLabel implements MouseListener

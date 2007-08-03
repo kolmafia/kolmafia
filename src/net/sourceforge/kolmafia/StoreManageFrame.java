@@ -49,8 +49,11 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import com.sun.java.forums.TableSorter;
+
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
+
 import net.sourceforge.kolmafia.KoLFrame.OverlapPanel;
 import net.sourceforge.kolmafia.StoreManager.SoldItem;
 
@@ -99,7 +102,7 @@ public class StoreManageFrame extends KoLPanelFrame
 	{
 		public StoreManagePanel()
 		{
-			super( "save changes to prices", "reprice recent adds", true );
+			super( "save prices", "auto reprice", true );
 
 			StoreManageFrame.this.addTable = new StoreListTable( null );
 			SimpleScrollPane addScroller = new SimpleScrollPane( StoreManageFrame.this.addTable );
@@ -124,7 +127,7 @@ public class StoreManageFrame extends KoLPanelFrame
 			JPanel searchResults = new SearchResultsPanel();
 
 			this.setContent( elements, true );
-			this.eastContainer.add( searchResults, BorderLayout.SOUTH );
+			this.eastContainer.add( searchResults, BorderLayout.CENTER );
 			this.container.add( storePanel, BorderLayout.CENTER );
 		}
 
@@ -224,7 +227,7 @@ public class StoreManageFrame extends KoLPanelFrame
 					new Class [] { String.class, Integer.class, Integer.class, Integer.class, Boolean.class, JButton.class, JButton.class },
 					new boolean [] { true, true, false, true, true, false, false }, new LockableListModel() );
 
-			LockableListModel dataModel = inventory.getMirrorImage( TRADE_FILTER );
+			LockableListModel dataModel = inventory.getMirrorImage( new TradeableItemFilter() );
 			StoreManageFrame.this.sellingList = new JComboBox( dataModel );
 
 			Vector value = new Vector();
@@ -364,7 +367,12 @@ public class StoreManageFrame extends KoLPanelFrame
 		public StoreAddPanel()
 		{
 			super( "put in", "auto sell", inventory );
-			this.elementModel.setFilter( TRADE_FILTER );
+			this.addFilters();
+
+			this.filters[4].setSelected( false );
+			this.filters[4].setEnabled( false );
+
+			this.filterItems();
 		}
 
 		public void actionConfirmed()
@@ -389,7 +397,13 @@ public class StoreManageFrame extends KoLPanelFrame
 	private class ProfitableItemsPanel extends OverlapPanel
 	{
 		public ProfitableItemsPanel()
-		{	super( "automall", "help", profitableList, true );
+		{
+			super( "automall", "help", profitableList, true );
+
+			this.filters[4].setSelected( false );
+			this.filters[4].setEnabled( false );
+
+			this.filterItems();
 		}
 
 		public void actionConfirmed()
@@ -404,7 +418,13 @@ public class StoreManageFrame extends KoLPanelFrame
 	private class EndOfRunSalePanel extends OverlapPanel
 	{
 		public EndOfRunSalePanel()
-		{	super( "host sale", "help", mementoList, false );
+		{
+			super( "host sale", "help", mementoList, false );
+
+			this.filters[4].setSelected( false );
+			this.filters[4].setEnabled( false );
+
+			this.filterItems();
 		}
 
 		public void actionConfirmed()
@@ -421,7 +441,14 @@ public class StoreManageFrame extends KoLPanelFrame
 	private class StoreRemovePanel extends ItemManagePanel
 	{
 		public StoreRemovePanel()
-		{	super( "take out", "auto sell", StoreManager.getSortedSoldItemList() );
+		{
+			super( "take out", "auto sell", StoreManager.getSortedSoldItemList() );
+			this.addFilters();
+
+			this.filters[4].setSelected( false );
+			this.filters[4].setEnabled( false );
+
+			this.filterItems();
 		}
 
 		public void actionConfirmed()
@@ -499,6 +526,18 @@ public class StoreManageFrame extends KoLPanelFrame
 
 		public void actionCancelled()
 		{	StoreManager.sortStoreLog( true );
+		}
+	}
+
+	private class TradeableItemFilter extends ListElementFilter
+	{
+		public boolean isVisible( Object element )
+		{
+			if ( !(element instanceof AdventureResult) )
+				return false;
+
+			int itemId = ((AdventureResult)element).getItemId();
+			return itemId < 1 || TradeableItemDatabase.isTradeable( itemId );
 		}
 	}
 }

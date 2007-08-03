@@ -104,7 +104,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 		visibleElements = new ArrayList();
 
 		selectedValue = null;
-		currentFilter = f;
+		currentFilter = f == null ? NO_FILTER : f;
 
 		mirrorList = new ArrayList();
 		l.mirrorList.add( new WeakReference( this ) );
@@ -712,6 +712,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	public void updateFilter( boolean refresh )
 	{
 		this.updateSingleFilter( refresh );
+
 		LockableListModel mirror;
 		Iterator it = mirrorList.iterator();
 
@@ -775,10 +776,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 
 	public void setFilter( ListElementFilter newFilter )
 	{
-		if ( newFilter == null )
-			return;
-
-		currentFilter = newFilter;
+		currentFilter = newFilter == null ? NO_FILTER : newFilter;
 		updateSingleFilter( false );
 	}
 
