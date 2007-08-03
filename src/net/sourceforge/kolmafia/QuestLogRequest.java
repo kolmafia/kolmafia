@@ -37,27 +37,45 @@ public class QuestLogRequest extends KoLRequest
 {
 	public static final String TRAPPER = "Am I my Trapper's Keeper?";
 	public static final String ISLAND_WAR = "Make War, Not...";
+	public static final String CITADEL = "White Citadel";
 	public static final String GALAKTIK = "What's Up, Doc?";
+	public static final String MACGUFFIN = "Quest for the Holy MacGuffin";
 
-	private static String contents = "";
+	private static String started = "";
+	private static String finished = "";
 
 	public QuestLogRequest()
-	{	super( "questlog.php?which=2" );
+	{	super( "questlog.php" );
+	}
+
+	public void run()
+	{
+		addFormField( "which", "1" );
+		super.run();
+		registerQuests( this.getURLString(), this.responseText );
+
+		addFormField( "which", "2" );
+		super.run();
+		registerQuests( this.getURLString(), this.responseText );
+	}
+
+	public static final boolean startedQuest( String quest )
+	{	return started.indexOf( quest ) != -1;
 	}
 
 	public static final boolean finishedQuest( String quest )
-	{	return contents.indexOf( quest ) != -1;
+	{	return finished.indexOf( quest ) != -1;
 	}
 
 	protected boolean retryOnTimeout()
 	{	return true;
 	}
 
-	public void processResults()
-	{	registerQuests( this.responseText );
-	}
-
-	public static final void registerQuests( String responseText )
-	{	contents = responseText;
+	public static final void registerQuests( String urlString, String responseText )
+	{
+		if ( urlString.indexOf( "which=1" ) != -1 )
+			started = responseText;
+		if ( urlString.indexOf( "which=2" ) != -1 )
+			finished = responseText;
 	}
 }
