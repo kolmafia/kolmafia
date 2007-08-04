@@ -2443,11 +2443,11 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		File scriptFile = new File( filename );
 		if ( scriptFile.exists() )
-			return scriptFile.isDirectory() ? null : scriptFile.getAbsoluteFile();
+			return scriptFile.isDirectory() ? null : scriptFile;
 
 		scriptFile = new File( ROOT_LOCATION, filename );
 		if ( scriptFile.exists() )
-			return scriptFile.isDirectory() ? null : scriptFile.getAbsoluteFile();
+			return scriptFile.isDirectory() ? null : scriptFile;
 
 		if ( SCRIPT_LOCATION.exists() )
 		{
@@ -2460,14 +2460,14 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			scriptFile = new File( PLOTS_LOCATION, filename );
 			if ( scriptFile.exists() )
-				return scriptFile.isDirectory() ? null : scriptFile.getAbsoluteFile();
+				return scriptFile.isDirectory() ? null : scriptFile;
 		}
 
 		if ( RELAY_LOCATION.exists() )
 		{
 			scriptFile = findScriptFile( RELAY_LOCATION, filename, false );
 			if ( scriptFile != null )
-				return scriptFile.isDirectory() ? null : scriptFile.getAbsoluteFile();
+				return scriptFile.isDirectory() ? null : scriptFile;
 		}
 
 		return null;
@@ -2482,7 +2482,7 @@ public class KoLmafiaCLI extends KoLmafia
 		File scriptFile = new File( directory, filename );
 
 		if ( scriptFile.exists() )
-			return scriptFile.getAbsoluteFile();
+			return scriptFile;
 
 		if ( !isFallback )
 		{
