@@ -32,7 +32,7 @@ function getHttpObject()
 };
 
 
-function refreshSidebar()
+function refreshSidebar( boolean forceReload )
 {
 	var httpObject = getHttpObject();
 	if ( !httpObject )
@@ -56,7 +56,7 @@ function refreshSidebar()
 		isRefreshing = false;
 	}
 
-	httpObject.open( "POST", "/sidepane.php" );
+	httpObject.open( "POST", forceReload ? "/charpane.php" : "/sidepane.php" );
 	httpObject.send( "" );
 }
 
@@ -81,7 +81,7 @@ function updateDisplay( display, responseText )
 	display.scrollTop = display.scrollHeight;
 
 	if ( !isRefreshing && responseText.indexOf("<!-- REFRESH -->") != -1 )
-		refreshSidebar();
+		refreshSidebar( false );
 }
 
 
@@ -105,8 +105,6 @@ function inlineLoad( location, fields, id )
 			if ( toRemove )
 				toRemove.style.display = "none";
 		}
-
-		refreshSidebar();
 
 		// Handle insertion of the data into the page.
 		// Steal KoL's divs for doing so.
@@ -133,8 +131,10 @@ function inlineLoad( location, fields, id )
 			div.innerHTML = text;
 		}
 
+		if ( httpObject.responseText.indexOf( "charpane" ) != -1 )
+			refreshSidebar( true );
+
 		div.style.display = "block";
-		top.mainpane.scrollTo( 0, 0 );
 	};
 
 	httpObject.open( "POST", "/" + location );
