@@ -591,6 +591,23 @@ public class Modifiers extends KoLDatabase
 			double sum = ( ( a + 100.0 ) * ( b + 100.0 ) / 100.0 ) - 100.0;
 			this.floats[index] = (float)sum;
 			break;
+		case COLD_RESISTANCE:
+		case HOT_RESISTANCE:
+		case SLEAZE_RESISTANCE:
+		case SPOOKY_RESISTANCE:
+		case STENCH_RESISTANCE:
+			// If already at maximal resistance, keep it
+			if ( this.floats[index] == 90 )
+				break;
+			// If new mod is maximal, set maximal
+			if ( mod == 90 )
+			{
+				this.floats[index] = 90;
+				break;
+			}
+			// Otherwise, cap at 60 or 80
+			this.floats[index] = Math.min( this.floats[index] + (float)mod, KoLCharacter.isMysticalityClass() ? 80 : 60 );
+			break;
 		default:
 			this.floats[index] += mod;
 			break;
