@@ -641,8 +641,12 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( this.followRedirects )
 			location = this.getURLString();
 
-		boolean isQuestLocation = location.startsWith( "council" ) || location.startsWith( "guild" ) ||
-			location.startsWith( "friars" ) || location.startsWith( "trapper" ) || location.startsWith( "bhh" ) ||
+		boolean isQuestLocation = location.startsWith( "council" ) ||
+			location.startsWith( "guild" ) ||
+			location.startsWith( "friars" ) ||
+			location.startsWith( "trapper" ) ||
+			location.startsWith( "bhh" ) ||
+			location.startsWith( "manor3" ) ||
 			(location.startsWith( "adventure" ) && location.indexOf( "=84" ) != -1);
 
 		if ( isQuestLocation )
