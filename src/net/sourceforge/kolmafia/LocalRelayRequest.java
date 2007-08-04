@@ -901,6 +901,60 @@ public class LocalRelayRequest extends PasswordHashRequest
 		this.pseudoResponse( "HTTP/1.1 200 OK", warning.toString() );
 	}
 
+	private void handleCommand()
+	{
+		// None of the above checks wound up happening.  So, do some
+		// special handling, catching any exceptions that happen to
+		// popup along the way.
+
+		if ( this.formURLString.endsWith( "submitCommand" ) )
+		{
+			this.submitCommand();
+		}
+		else if ( this.formURLString.endsWith( "executeCommand" ) )
+		{
+			this.executeCommand();
+		}
+		else if ( this.formURLString.endsWith( "sideCommand" ) )
+		{
+			this.sideCommand();
+		}
+		else if ( this.formURLString.endsWith( "messageUpdate" ) )
+		{
+			this.pseudoResponse( "HTTP/1.1 200 OK", LocalRelayServer.getNewStatusMessages() );
+		}
+		else
+		{
+			this.pseudoResponse( "HTTP/1.1 200 OK", "" );
+		}
+	}
+
+	private void handleChat()
+	{
+		// If you are in chat, and the person submitted a command
+		// via chat, check to see if it's a CLI command.  Otherwise,
+		// run it as normal.
+
+		String chatResponse = ChatRequest.executeChatCommand( this.getFormField( "graf" ) );
+		if ( chatResponse != null )
+		{
+			this.pseudoResponse( "HTTP/1.1 200 OK",
+				"<font color=\"blue\"><b><a target=\"mainpane\" href=\"showplayer.php?who=458968\" style=\"color:blue\">" +
+				VERSION_NAME + "</a> (private)</b>: " + chatResponse + "</font><br>" );
+
+			return;
+		}
+
+		super.run();
+
+		if ( !KoLMessenger.isRunning() || this.formURLString.indexOf( "submitnewchat.php" ) != -1 )
+			KoLMessenger.updateChat( this.responseText );
+
+		if ( StaticEntity.getBooleanProperty( "relayFormatsChatText" ) )
+			this.responseText = KoLMessenger.getNormalizedContent( this.responseText, false );
+
+	}
+
 	public void run()
 	{
 		// If there is an attempt to view the error page, or if
@@ -913,19 +967,71 @@ public class LocalRelayRequest extends PasswordHashRequest
 			return;
 		}
 
-		// If this is a script request, then run the script and
-		// return the client HTML.
+		// If this is a command from the browser, handle it before
+		// moving on to anything else.
 
-		if ( allowOverride && KoLmafiaASH.getClientHTML( this ) )
+		if ( this.formURLString.startsWith( "KoLmafia/" ) )
+		{
+			this.handleCommand();
 			return;
+		}
 
-		boolean isWebPage = this.formURLString.endsWith( ".php" ) || this.formURLString.endsWith( ".html" );
-		boolean isCommand = this.formURLString.startsWith( "KoLmafia/" );
-		boolean isImage = this.formURLString.startsWith( "images/" ) || this.formURLString.endsWith( ".css" ) || this.formURLString.endsWith( ".js" );
+		// Check to see if it's a request from the local images folder.
+		// If it is, go ahead and send it.
 
-		if ( !isWebPage && !isCommand && !isImage )
+		if ( this.formURLString.startsWith( "images/playerpics/" ) )
+		{
+			RequestEditorKit.downloadImage( "http://pics.communityofloathing.com/albums/" +
+				this.formURLString.substring( this.formURLString.indexOf( "playerpics" ) ) );
+
+			this.sendLocalImage( this.formURLString );
+			return;
+		}
+
+		if ( this.formURLString.startsWith( "images/" ) )
+		{
+			this.sendLocalImage( this.formURLString );
+			return;
+		}
+
+		if ( this.formURLString.endsWith( ".css" ) || this.formURLString.endsWith( ".js" ) )
+		{
+			this.sendSharedFile( this.formURLString );
+			return;
+		}
+
+		// If it gets this far, it has to be a web page.  If it's
+		// not a web page, send a 404.
+
+		if ( !this.formURLString.endsWith( ".php" ) && !this.formURLString.endsWith( ".html" ) )
 		{
 			this.sendNotFound();
+			return;
+		}
+
+		// If it's a chat request, handle it right away and return.
+		// Otherwise, continue on.
+
+		if ( this.isChatRequest )
+		{
+			this.handleChat();
+			return;
+		}
+
+		if ( this.formURLString.equals( "lchat.php" ) )
+		{
+			if ( StaticEntity.getBooleanProperty( "relayUsesIntegratedChat" ) )
+			{
+				this.sendSharedFile( "chat.html" );
+				return;
+			}
+
+			super.run();
+
+			this.responseText = StaticEntity.globalStringReplace( this.responseText, "<p>", "<br><br>" );
+			this.responseText = StaticEntity.globalStringReplace( this.responseText, "<P>", "<br><br>" );
+			this.responseText = StaticEntity.singleStringDelete( this.responseText, "</span>" );
+
 			return;
 		}
 
@@ -942,10 +1048,19 @@ public class LocalRelayRequest extends PasswordHashRequest
 			}
 		}
 
+		// HTML files never have form fields.  Remove them, because
+		// they're probably just used for data tracking purposes
+		// client-side.
+
+		if ( this.formURLString.endsWith( ".html" ) )
+		{
+			this.data.clear();
+		}
+
 		// Special handling of adventuring locations before it's
 		// registered internally with KoLmafia.
 
-		if ( this.formURLString.indexOf( "adventure.php" ) != -1 )
+		else if ( this.formURLString.equals( "adventure.php" ) )
 		{
 			String location = this.getFormField( "snarfblat" );
 			if ( location == null )
@@ -976,118 +1091,56 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// More MCD rewards.  This one is for the Knob Goblin King,
 		// who has special items at 3 and 7.
 
-		if ( this.formURLString.indexOf( "knob.php" ) != -1 &&
-			this.getFormField( "king" ) != null && this.getFormField( "override" ) == null )
+		else if ( this.formURLString.equals( "knob.php" ) )
 		{
-			this.sendBossWarning( "Knob Goblin King", "goblinking.gif", 3, "glassballs.gif", 7, "batcape.gif" );
-			return;
+			if ( this.getFormField( "king" ) != null && this.getFormField( "override" ) == null )
+			{
+				this.sendBossWarning( "Knob Goblin King", "goblinking.gif", 3, "glassballs.gif", 7, "batcape.gif" );
+				return;
+			}
 		}
 
 		// More MCD rewards.  This one is for the Bonerdagon, who has
 		// special items at 5 and 10.
 
-		if ( this.formURLString.indexOf( "cyrpt.php" ) != -1 &&
-			this.getFormField( "action" ) != null && this.getFormField( "override" ) == null )
+		else if ( this.formURLString.equals( "cyrpt.php" ) )
 		{
-			this.sendBossWarning( "Bonerdagon", "bonedragon.gif", 5, "rib.gif", 10, "vertebra.gif" );
-			return;
+			if ( this.getFormField( "action" ) != null && this.getFormField( "override" ) == null )
+			{
+				this.sendBossWarning( "Bonerdagon", "bonedragon.gif", 5, "rib.gif", 10, "vertebra.gif" );
+				return;
+			}
 		}
 
 		// If the person is visiting the sorceress and they forgot
 		// to make the Wand, remind them.
 
-		if ( this.formURLString.indexOf( "lair6.php" ) != -1 && this.getFormField( "place" ) != null &&
-			this.getFormField( "place" ).equals( "5" ) && this.getFormField( "override" ) == null )
+		else if ( this.formURLString.equals( "lair6.php" ) )
 		{
 			// As of NS 13,they need not have it equipped. In fact,
 			// there are far better weapons to equip for the
 			// battle. But, just in case, check current equipment
 			// as well as inventory.
 
-			if ( !KoLCharacter.hasEquipped( SorceressLair.NAGAMAR ) && !AdventureDatabase.retrieveItem( SorceressLair.NAGAMAR ) )
+			if ( this.getFormField( "place" ) != null && this.getFormField( "place" ).equals( "5" ) &&
+				this.getFormField( "override" ) == null && !KoLCharacter.hasEquipped( SorceressLair.NAGAMAR ) &&
+				!AdventureDatabase.retrieveItem( SorceressLair.NAGAMAR ) )
 			{
 				this.sendGeneralWarning( "wand.gif", "It's possible there is something very important you're forgetting to do." );
 				return;
 			}
 		}
 
-		if ( this.formURLString.indexOf( "ascend.php" ) != -1 && this.getFormField( "action" ) != null )
-			RequestThread.postRequest( new EquipmentRequest( SpecialOutfit.BIRTHDAY_SUIT ) );
-
-		// If you are in chat, and the person submitted a command
-		// via chat, check to see if it's a CLI command.
-
-		String chatResponse = ChatRequest.executeChatCommand( this.getFormField( "graf" ) );
-		if ( chatResponse != null )
+		else if ( this.formURLString.equals( "ascend.php" ) )
 		{
-			this.pseudoResponse( "HTTP/1.1 200 OK",
-				"<font color=\"blue\"><b><a target=\"mainpane\" href=\"showplayer.php?who=458968\" style=\"color:blue\">" +
-				VERSION_NAME + "</a> (private)</b>: " + chatResponse + "</font><br>" );
-
-			return;
+			if ( this.getFormField( "action" ) != null )
+				RequestThread.postRequest( new EquipmentRequest( SpecialOutfit.BIRTHDAY_SUIT ) );
 		}
 
-		// None of the above checks wound up happening.  So, do some
-		// special handling, catching any exceptions that happen to
-		// popup along the way.
+		// If it gets this far, it's a normal file.  Go ahead and
+		// process it accordingly.
 
-		if ( this.formURLString.endsWith( "submitCommand" ) )
-		{
-			this.submitCommand();
-		}
-		else if ( this.formURLString.endsWith( "executeCommand" ) )
-		{
-			this.executeCommand();
-		}
-		else if ( this.formURLString.endsWith( "sideCommand" ) )
-		{
-			this.sideCommand();
-		}
-		else if ( this.formURLString.endsWith( "messageUpdate" ) )
-		{
-			this.pseudoResponse( "HTTP/1.1 200 OK", LocalRelayServer.getNewStatusMessages() );
-		}
-		else if ( this.formURLString.indexOf( "images/playerpics/" ) != -1 )
-		{
-			RequestEditorKit.downloadImage( "http://pics.communityofloathing.com/albums/" +
-				this.formURLString.substring( this.formURLString.indexOf( "playerpics" ) ) );
-
-			this.sendLocalImage( this.formURLString );
-		}
-		else if ( this.formURLString.indexOf( "images/" ) != -1 )
-		{
-			this.sendLocalImage( this.formURLString );
-		}
-		else if ( this.formURLString.indexOf( "lchat.php" ) != -1 )
-		{
-			if ( StaticEntity.getBooleanProperty( "relayUsesIntegratedChat" ) )
-			{
-				this.sendSharedFile( "chat.html" );
-			}
-			else
-			{
-				this.sendSharedFile( this.formURLString );
-				this.responseText = StaticEntity.globalStringReplace( this.responseText, "<p>", "<br><br>" );
-				this.responseText = StaticEntity.globalStringReplace( this.responseText, "<P>", "<br><br>" );
-				this.responseText = StaticEntity.singleStringDelete( this.responseText, "</span>" );
-			}
-		}
-		else
-		{
-			if ( this.formURLString.endsWith( ".html" ) )
-				this.data.clear();
-
-			this.sendSharedFile( this.formURLString );
-
-			if ( this.isChatRequest )
-			{
-				if ( !KoLMessenger.isRunning() || this.formURLString.indexOf( "submitnewchat.php" ) != -1 )
-					KoLMessenger.updateChat( this.responseText );
-
-				if ( StaticEntity.getBooleanProperty( "relayFormatsChatText" ) )
-					this.responseText = KoLMessenger.getNormalizedContent( this.responseText, false );
-			}
-		}
+		this.sendSharedFile( this.formURLString );
 	}
 
 	private void downloadSimulatorFile( String filename )
