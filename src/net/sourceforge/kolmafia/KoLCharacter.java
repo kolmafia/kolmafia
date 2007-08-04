@@ -2657,21 +2657,6 @@ public abstract class KoLCharacter extends StaticEntity
 
 		newModifiers.applyFamiliarModifiers( currentFamiliar );
 
-		// Make sure that elemental resistance is capped by class.
-
-                int maxResistance = KoLCharacter.isMysticalityClass() ? 80 : 60;
-
-		newModifiers.set( Modifiers.HOT_RESISTANCE, activeEffects.contains( MAX_HOT ) ? 90 :
-			Math.max( newModifiers.get( Modifiers.HOT_RESISTANCE ), maxResistance ) );
-		newModifiers.set( Modifiers.COLD_RESISTANCE, activeEffects.contains( MAX_COLD ) ? 90 :
-			Math.max( newModifiers.get( Modifiers.COLD_RESISTANCE ), maxResistance ) );
-		newModifiers.set( Modifiers.SPOOKY_RESISTANCE, activeEffects.contains( MAX_SPOOKY ) ? 90 :
-			Math.max( newModifiers.get( Modifiers.SPOOKY_RESISTANCE ), maxResistance ) );
-		newModifiers.set( Modifiers.STENCH_RESISTANCE, activeEffects.contains( MAX_STENCH ) ? 90 :
-			Math.max( newModifiers.get( Modifiers.STENCH_RESISTANCE ), maxResistance ) );
-		newModifiers.set( Modifiers.SLEAZE_RESISTANCE, activeEffects.contains( MAX_SLEAZE ) ? 90 :
-			Math.max( newModifiers.get( Modifiers.SLEAZE_RESISTANCE ), maxResistance ) );
-
 		// Add in strung-up quartet.
 
 		if ( KoLCharacter.getAscensions() == StaticEntity.getIntegerProperty( "lastQuartetAscension" ) )

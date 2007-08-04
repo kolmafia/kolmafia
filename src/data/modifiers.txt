@@ -1200,7 +1200,7 @@ Apathy	Muscle Percent: -30, Mysticality Percent: -30, Moxie Percent: -30
 Arabian Knighthood	Muscle: +5
 Arse-a'fire	Muscle Percent: +10
 Aspect of the Twinklefairy	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Meless Damage: +5, Spell Damage: +5
-Astral Shell	Damage Absorption: +80, Cold Resistance +10, Hot Resistance: +10, Sleaze Resistance: +10, Spooky Resistance: +10, Stench Resistance: +10
+Astral Shell	Damage Absorption: +80, Cold Resistance: +10, Hot Resistance: +10, Sleaze Resistance: +10, Spooky Resistance: +10, Stench Resistance: +10
 Axe Wound	Muscle: -5
 Baconstoned	Mysticality Percent: +50
 Bananas!	Muscle: +40, Mysticality: +40, Moxie: +40
@@ -1230,7 +1230,7 @@ Chauve-Souris Merde Fou	Stench Damage: +50
 Clean-Shaven	Moxie: +5
 Cletus's Canticle of Celerity	Initiative: +30
 Cock of the Walk	Moxie Percent: +200
-Cold Blooded	HCold Damage: +10, Muscle Percent: +30, Mysticality Percent: +20, Moxie Percent: +10, Cold Resistance +20
+Cold Blooded	Cold Damage: +10, Muscle Percent: +30, Mysticality Percent: +20, Moxie Percent: +10, Cold Resistance: +20
 Compensatory Cruelness	Melee Damage: +5
 Concentrated Concentration	Spell Damage Percent: +20
 Concentration	Spell Damage Percent: +10
@@ -1252,7 +1252,7 @@ Egg-headedness	Mysticality Percent: +10
 Egg-stortionary Tactics	Meat Drop: +50
 Egg-stra Arm	Muscle Percent: +10
 Eggs-tra Sensory Perception	Item Drop: +50
-Elemental Saucesphere	Cold Resistance +20, Hot Resistance: +20, Sleaze Resistance: +20, Spooky Resistance: +20, Stench Resistance: +20
+Elemental Saucesphere	Cold Resistance: +20, Hot Resistance: +20, Sleaze Resistance: +20, Spooky Resistance: +20, Stench Resistance: +20
 Elvish	Moxie Percent: +10, Muscle Percent: +10, Mysticality Percent: +10
 Embarrassed	Moxie Percent: -30
 Empathy	Familiar Weight: +5
@@ -1311,7 +1311,7 @@ Hyperoffended	Sleaze Resistance: +90
 Hyphemariffic	Spooky Resistance: +90
 Incredibly Hulking	Muscle Percent: +200
 Inspired!	Mysticality Percent: +20, Moxie Percent: -20
-Insulated Trousers	Cold Resistance +20
+Insulated Trousers	Cold Resistance: +20
 Izchak's Blessing	Moxie Percent: +25
 Jackasses' Symphony of Destruction	Melee Damage: +12, Spell Damage: +12
 Je Ne Sais Porquoise	Moxie Percent: +50
@@ -1370,7 +1370,7 @@ Roids of the Rhinoceros	Muscle: +100
 Rushin' Hands	Melee Damage: +3
 Salamander In Your Stomach	Mysticality: +25
 Saucemastery	Mysticality: +1, Maximum HP: +4
-Scarysauce	Cold Resistance +20, Sleaze Resistance: +20
+Scarysauce	Cold Resistance: +20, Sleaze Resistance: +20
 Seal Clubbing Frenzy	Muscle: +2
 Seeing Colors	Mysticality Percent: +50
 Seriously Mutated	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
@@ -1456,7 +1456,7 @@ Hide of the Otter	Damage Absorption: +20
 Hide of the Walrus	Damage Absorption: +40
 Mad Looting Skillz	Item Drop: +20
 Nimble Fingers	Meat Drop: +20
-Northern Exposure	Cold Resistance +20
+Northern Exposure	Cold Resistance: +20
 Overdeveloped Sense of Self Preservation	Initiative: +20
 Powers of Observatiogn	Item Drop: +10
 Skin of the Leatherback
