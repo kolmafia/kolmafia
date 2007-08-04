@@ -55,6 +55,7 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.lang.ref.WeakReference;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Vector;
 import java.util.regex.Matcher;
@@ -1526,6 +1527,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			SCRIPT_LOCATION.mkdirs();
 
 		File [] scriptList = SCRIPT_LOCATION.listFiles( BACKUP_FILTER );
+		Arrays.sort( scriptList );
 
 		// Iterate through the files.  Do this in two
 		// passes to make sure that directories start
