@@ -32,7 +32,7 @@ function getHttpObject()
 };
 
 
-function refreshSidebar( boolean forceReload )
+function refreshSidebar( desiredRefresh )
 {
 	var httpObject = getHttpObject();
 	if ( !httpObject )
@@ -56,7 +56,7 @@ function refreshSidebar( boolean forceReload )
 		isRefreshing = false;
 	}
 
-	httpObject.open( "POST", forceReload ? "/charpane.php" : "/sidepane.php" );
+	httpObject.open( "POST", desiredRefresh );
 	httpObject.send( "" );
 }
 
@@ -81,7 +81,7 @@ function updateDisplay( display, responseText )
 	display.scrollTop = display.scrollHeight;
 
 	if ( !isRefreshing && responseText.indexOf("<!-- REFRESH -->") != -1 )
-		refreshSidebar( false );
+		refreshSidebar( "/sidepane.php" );
 }
 
 
@@ -132,7 +132,7 @@ function inlineLoad( location, fields, id )
 		}
 
 		if ( httpObject.responseText.indexOf( "charpane" ) != -1 )
-			refreshSidebar( true );
+			refreshSidebar( "/charpane.php" );
 
 		div.style.display = "block";
 	};
