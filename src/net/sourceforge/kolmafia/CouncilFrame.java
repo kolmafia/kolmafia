@@ -68,6 +68,8 @@ public class CouncilFrame extends RequestFrame
 			handleTrapperChange( responseText );
 		else if ( location.startsWith( "bhh" ) )
 			handleBountyChange( responseText );
+		else if ( location.startsWith( "manor3" ) && location.indexOf( "action=summon" ) != -1 )
+			AdventureRequest.registerDemonName( "Summoning Chamber", responseText );
 		else if ( location.startsWith( "adventure" ) && location.indexOf( "=84" ) != -1 )
 			handleSneakyPeteChange( responseText );
 	}
