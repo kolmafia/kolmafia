@@ -3262,6 +3262,9 @@ public abstract class KoLmafia implements KoLConstants
 				if ( mementoList.contains( currentItem ) )
 					continue;
 
+				if ( currentItem.getName().startsWith( "antique" ) )
+					continue;
+
 				itemCount = currentItem.getCount( inventory );
 				itemPower = EquipmentDatabase.getPower( currentItem.getItemId() );
 
