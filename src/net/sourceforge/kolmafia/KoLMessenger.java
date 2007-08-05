@@ -405,7 +405,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 	public static final void updateContactList( String [] contactList )
 	{
-		if ( contactsFrame == null )
+		if ( contactsFrame == null || !isRunning )
 			return;
 
 		onlineContacts.clear();

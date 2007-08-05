@@ -1129,6 +1129,10 @@ public class AdventureDatabase extends KoLDatabase
 		if ( adventureURL.startsWith( "/" ) )
 			adventureURL = adventureURL.substring(1);
 
+		int subAdventureIndex = adventureURL.indexOf( "&subsnarfblat");
+		if ( subAdventureIndex != -1 )
+			adventureURL = adventureURL.substring( 0, subAdventureIndex );
+
 		KoLAdventure location = (KoLAdventure) adventureLookup.get( adventureURL );
 		return location == null || location.getRequest() instanceof ClanGymRequest ? null : location;
 	}
