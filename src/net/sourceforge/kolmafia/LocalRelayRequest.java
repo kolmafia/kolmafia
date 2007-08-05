@@ -1000,6 +1000,14 @@ public class LocalRelayRequest extends PasswordHashRequest
 			return;
 		}
 
+		if ( this.formURLString.endsWith( ".ash" ) )
+		{
+			if ( !KoLmafiaASH.getClientHTML( this ) )
+				this.sendNotFound();
+
+			return;
+		}
+
 		// If it gets this far, it has to be a web page.  If it's
 		// not a web page, send a 404.
 
@@ -1034,6 +1042,9 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 			return;
 		}
+
+		if ( allowOverride && KoLmafiaASH.getClientHTML( this ) )
+			return;
 
 		// Load custom items from OneTonTomato's script if they
 		// are currently being requested.
