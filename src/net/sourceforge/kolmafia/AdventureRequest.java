@@ -166,8 +166,10 @@ public class AdventureRequest extends KoLRequest
 
 		delay();
 
-		if ( formSource.equals( "dungeon.php" ) || formSource.equals( "basement.php" ) )
+		if ( this.formSource.equals( "dungeon.php" ) || this.formSource.equals( "basement.php" ) )
 			this.data.clear();
+		else if ( this.formSource.equals( "adventure.php" ) && this.adventureId.equals( "120" ) )
+			addFormField( "subsnarfblat", String.valueOf( RNG.nextInt( 3 ) + 1 ) );
 
 		super.run();
 
