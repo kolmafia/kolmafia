@@ -1184,14 +1184,14 @@ Radio Head	Moxie: +20
 Red Neck	Moxie: -5, Muscle: +15
 Shiny Happy Weapon	Muscle: +20
 # Sleeping with the Fishes
-Temporary Blindness	Mox%: -25, Item: -75
+Temporary Blindness	Moxie Percent: -25, Item Drop: -75
 
 # Status Effects section of modifiers.txt
 
 "The Disease"	Moxie: -5
 A Little Bit Poisoned	Muscle Percent: -30, Mysticality Percent: -30, Moxie Percent: -30, Muscle: -5, Mysticality: -5, Moxie: -5
 Adrenaline Rush	Muscle Percent: +100
-Aloysius' Antiphon of Aptitude	Experience +3
+Aloysius' Antiphon of Aptitude	Experience: +3
 Also Schmeckt Zarathustra	Mysticality: +30
 Amorous	Moxie: +5, Sleaze Damage: +5
 Ancestral Disapproval	Mysticality Percent: +10
@@ -1199,7 +1199,7 @@ Antsy in your Pantsy	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent:
 Apathy	Muscle Percent: -30, Mysticality Percent: -30, Moxie Percent: -30
 Arabian Knighthood	Muscle: +5
 Arse-a'fire	Muscle Percent: +10
-Aspect of the Twinklefairy	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Meless Damage: +5, Spell Damage: +5
+Aspect of the Twinklefairy	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Melee Damage: +5, Spell Damage: +5
 Astral Shell	Damage Absorption: +80, Cold Resistance: +10, Hot Resistance: +10, Sleaze Resistance: +10, Spooky Resistance: +10, Stench Resistance: +10
 Axe Wound	Muscle: -5
 Baconstoned	Mysticality Percent: +50
@@ -1209,9 +1209,9 @@ Beaten Up	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
 Bells in the Batfry	Moxie Percent: +10
 Bestial Sympathy	Familiar Weight: +3
 Big Flaming Whip	Hot Damage: +20
-Big Veiny Brain	Experience +2, Meat Drop: -20
+Big Veiny Brain	Experience: +2, Meat Drop: -20
 Black Face	Muscle Percent: +10
-Black Tongue	Familiar Weight: +5, Experience +3, Item Drop: +30, Meat Drop: +30
+Black Tongue	Familiar Weight: +5, Experience: +3, Item Drop: +30, Meat Drop: +30
 Blessing of Charcoatl	Hot Damage: +10
 Blessing of Squirtlcthulli	HP Regen Min: 7, HP Regen Max: 9, MP Regen Min: 7, MP Regen Max: 9
 Bloody Bloody Bloody!	Spooky Damage: +50
@@ -1240,7 +1240,7 @@ Contemptible Emanations	Monster Level: +20
 Crimbo Epiphany	Mysticality Percent: +10
 Cupcake of Choice	Item Drop: +30
 Cuts Like a Buttered Knife	Sleaze Damage: +50
-Dirge of Dreadfulness	Spooky Damage: +12, Spooky Spell Damage +12
+Dirge of Dreadfulness	Spooky Damage: +12, Spooky Spell Damage: +12
 Disco Concentration	Item Drop: +20
 Disco Inferno	Moxie: +5, Hot Damage: +3
 Disco State of Mind	Moxie: +2
@@ -1298,7 +1298,7 @@ Heart of Green	Muscle: +3, Mysticality: +3, Moxie: +3, Familiar Weight: +3
 Heart of Lavender	Muscle: +3, Mysticality: +3, Moxie: +3, Item Drop: +10
 Heart of Orange	Muscle: +3, Mysticality: +3, Moxie: +3, Hot Damage: +5, Hot Spell Damage: +5
 Heart of Pink	Muscle: +3, Mysticality: +3, Moxie: +3, Meat Drop: +20
-Heart of White	Muscle: +1, Mysticality: +1, Moxie: +1, Experience +1
+Heart of White	Muscle: +1, Mysticality: +1, Moxie: +1, Experience: +1
 Heart of Yellow	Muscle: +3, Mysticality: +3, Moxie: +3, Initiative: +20
 Heavy Petting	Familiar Weight: +5
 Hennaliciousness	Mysticality: +3
@@ -1328,7 +1328,7 @@ Manicotti Meditation	Mysticality: +2
 Mariachi Mood	Moxie: +1, Maximum HP: +4
 Material Witness	Meat Drop: +15
 Memento Moir&eacute;	Experience: +3
-Missing Fingers	Muscle -3
+Missing Fingers	Muscle: -3
 Moon June Spooned	Moxie Percent: +20, Muscle Percent: -20
 Musk of the Moose	Combat Rate: +5
 Mutated	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25
@@ -1340,11 +1340,11 @@ Object Detection	Item Drop: +5
 Ocelot Eyes	Item Drop: +10
 On the Shoulders of Giants	Mysticality Percent: +200
 Optimist Primal	Familiar Weight: +5
-Orange Tongue	Experience +3
+Orange Tongue	Experience: +3
 Oriental Mysticicsm	Mysticality Percent: +5
 Papowerful	Experience: +2, Melee Damage: +10
 Patience of the Tortoise	Muscle: +1, Maximum HP: +4
-Peeled Eyeballs	Experience -1, Item Drop: +15, Meat Drop: -16
+Peeled Eyeballs	Experience: -1, Item Drop: +15, Meat Drop: -16
 Permafrosty	Cold Damage: +50
 Phorcefullness	Muscle Percent: +100
 Piratastic	Moxie: +100
@@ -1374,7 +1374,7 @@ Scarysauce	Cold Resistance: +20, Sleaze Resistance: +20
 Seal Clubbing Frenzy	Muscle: +2
 Seeing Colors	Mysticality Percent: +50
 Seriously Mutated	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
-Shiny Happy Cupcake	Experience +3
+Shiny Happy Cupcake	Experience: +3
 Sinuses For Miles	Meat Drop: +200
 Sleaze-Resistant Trousers	Sleaze Resistance: +20
 Sleazy Weapon	Sleaze Damage: +3
@@ -1432,7 +1432,7 @@ Twinkly Weapon	Melee Damage: +3
 Ur-Kel's Aria of Annoyance	Monster Level: +0
 Very Clean Teeth	Moxie: +1
 Vitamin-Maxed	Muscle Percent: +10
-Wasabi Sinuses	Experience -1, Item Drop: -10, Meat Drop: +30
+Wasabi Sinuses	Experience: -1, Item Drop: -10, Meat Drop: +30
 What's That Smell?	Stench Damage: +3
 Whitened Teeth	Moxie Percent: +10
 Wintergreen Warmongery	Muscle: +30

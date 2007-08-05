@@ -1529,7 +1529,6 @@ public class TradeableItemDatabase extends KoLDatabase
 
 	private static final void checkLevels( LogStream report )
 	{
-
 		RequestLogger.printLine( "Checking level requirements..." );
 
 		checkLevelMap( report, foods, "Food" );

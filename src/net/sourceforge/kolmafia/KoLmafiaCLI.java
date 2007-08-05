@@ -841,6 +841,13 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( command.equals( "checkmodifiers" ) )
+		{
+			Modifiers.checkModifiers();
+			RequestLogger.printLine( "Modifiers checked." );
+			return;
+		}
+
 		if ( command.equals( "clear" ) || command.equals( "cls" ) )
 		{
 			commandBuffer.clearBuffer();
