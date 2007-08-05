@@ -828,10 +828,8 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			do
 			{
-				// Read a currentLine from input, and break out of the
-				// do-while loop when you've read a valid currentLine
-				// (which is a non-comment and a non-blank currentLine
-				// ) or when you've reached EOF.
+				// Read a line from input, and break out of the
+				// do-while loop when you've read a valid line
 
 				this.fullLine = commandStream.readLine();
 
@@ -839,15 +837,10 @@ public class KoLmafiaASH extends StaticEntity
 				if ( this.fullLine == null )
 					return null;
 
-				// Remove in-currentLine comment
-				int comment = this.fullLine.indexOf( "//" );
-				if ( comment != -1 )
-					this.fullLine = this.fullLine.substring( 0, comment );
-
 				// Remove whitespace at front and end
 				this.fullLine = this.fullLine.trim();
 			}
-			while ( this.fullLine.length() == 0 || this.fullLine.startsWith( "#" ) || this.fullLine.startsWith( "\'" ) || this.fullLine.startsWith( "//" ) );
+			while ( this.fullLine.length() == 0 );
 
 			// Found valid currentLine - return it
 
@@ -2462,6 +2455,12 @@ public class KoLmafiaASH extends StaticEntity
 		fixLines();
 		if ( currentLine == null )
 			return null;
+
+		while ( currentLine.startsWith( "#" ) || currentLine.startsWith( "//" ) )
+		{
+			currentLine = "";
+			fixLines();
+		}
 
 		if ( !currentLine.trim().equals( "/*" ) )
 			return currentLine.substring( 0, tokenLength( currentLine ) );
@@ -6876,7 +6875,7 @@ public class KoLmafiaASH extends StaticEntity
 
 			if ( expectedType != null && returnValue != null )
 			{
-				if ( !validCoercion( returnValue.getType(), expectedType, "return" ) )
+				if ( !validCoercion( expectedType, returnValue.getType(), "return" ) )
 					throw new AdvancedScriptException( "Cannot apply " + returnValue.getType() + " to " + expectedType + " " + getLineAndFile() );
 			}
 
