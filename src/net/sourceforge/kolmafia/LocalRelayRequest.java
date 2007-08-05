@@ -955,7 +955,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 	}
 
-	public void run()
+	public void handleSimple()
 	{
 		// If there is an attempt to view the error page, or if
 		// there is an attempt to view the robots file, neither
@@ -1000,6 +1000,9 @@ public class LocalRelayRequest extends PasswordHashRequest
 			return;
 		}
 
+		// If it's an ASH override script, make sure to handle it
+		// exactly as it should.
+
 		if ( this.formURLString.endsWith( ".ash" ) )
 		{
 			if ( !KoLmafiaASH.getClientHTML( this ) )
@@ -1008,12 +1011,25 @@ public class LocalRelayRequest extends PasswordHashRequest
 			return;
 		}
 
-		// If it gets this far, it has to be a web page.  If it's
-		// not a web page, send a 404.
+		// HTML files never have form fields.  Remove them, because
+		// they're probably just used for data tracking purposes
+		// client-side.
 
-		if ( !this.formURLString.endsWith( ".php" ) && !this.formURLString.endsWith( ".html" ) )
+		if ( this.formURLString.endsWith( ".html" ) )
 		{
-			this.sendNotFound();
+			this.data.clear();
+			this.sendSharedFile( this.formURLString );
+			return;
+		}
+
+		this.sendNotFound();
+	}
+
+	public void run()
+	{
+		if ( !this.formURLString.endsWith( ".php" ) )
+		{
+			this.handleSimple();
 			return;
 		}
 
@@ -1025,6 +1041,12 @@ public class LocalRelayRequest extends PasswordHashRequest
 			this.handleChat();
 			return;
 		}
+
+		// If it gets this far, consider firing a relay browser
+		// override for it.
+
+		if ( allowOverride && KoLmafiaASH.getClientHTML( this ) )
+			return;
 
 		if ( this.formURLString.equals( "lchat.php" ) )
 		{
@@ -1043,9 +1065,6 @@ public class LocalRelayRequest extends PasswordHashRequest
 			return;
 		}
 
-		if ( allowOverride && KoLmafiaASH.getClientHTML( this ) )
-			return;
-
 		// Load custom items from OneTonTomato's script if they
 		// are currently being requested.
 
@@ -1057,15 +1076,6 @@ public class LocalRelayRequest extends PasswordHashRequest
 				this.pseudoResponse( "HTTP/1.1 200 OK", CustomItemDatabase.retrieveCustomItem( item.substring(6) ) );
 				return;
 			}
-		}
-
-		// HTML files never have form fields.  Remove them, because
-		// they're probably just used for data tracking purposes
-		// client-side.
-
-		if ( this.formURLString.endsWith( ".html" ) )
-		{
-			this.data.clear();
 		}
 
 		// Special handling of adventuring locations before it's
