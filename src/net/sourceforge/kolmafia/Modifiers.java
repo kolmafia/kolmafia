@@ -282,31 +282,31 @@ public class Modifiers extends KoLDatabase
 		},
 		{ "Critical",
 		  Pattern.compile( "(\\d+)x chance of Critical Hit" ),
-		  Pattern.compile( "Critical: ([+-]\\d+)" )
+		  Pattern.compile( "Critical: (\\d+)" )
 		},
 		{ "Fumble",
 		  Pattern.compile( "(\\d+)x chance of Fumble" ),
-		  Pattern.compile( "Fumble: ([+-]\\d+)" )
+		  Pattern.compile( "Fumble: (\\d+)" )
 		},
 		{ "HP Regen Min",
 		  null,
-		  Pattern.compile( "HP Regen Min: ([+-]\\d+)" )
+		  Pattern.compile( "HP Regen Min: (\\d+)" )
 		},
 		{ "HP Regen Max",
 		  null,
-		  Pattern.compile( "HP Regen Max: ([+-]\\d+)" )
+		  Pattern.compile( "HP Regen Max: (\\d+)" )
 		},
 		{ "MP Regen Min",
 		  null,
-		  Pattern.compile( "MP Regen Min: ([+-]\\d+)" )
+		  Pattern.compile( "MP Regen Min: (\\d+)" )
 		},
 		{ "MP Regen Max",
 		  null,
-		  Pattern.compile( "MP Regen Max: ([+-]\\d+)" )
+		  Pattern.compile( "MP Regen Max: (\\d+)" )
 		},
 		{ "Adventures",
 		  Pattern.compile( "([+-]\\d+) Adventure\\(s\\) per day when equipped" ),
-		  Pattern.compile( "Adventures: (\\d+)" )
+		  Pattern.compile( "Adventures: ([+]\\d+)" )
 		},
 	};
 
@@ -1142,5 +1142,62 @@ public class Modifiers extends KoLDatabase
 			return STENCH + level;
 
 		return null;
+	}
+
+	private static final boolean findModifier( Object [][] table, String tag )
+	{
+		for ( int i = 0; i < table.length; ++i )
+		{
+			Pattern pattern = modifierTagPattern( table, i );
+			if ( pattern == null )
+				continue;
+
+			Matcher matcher = pattern.matcher( tag );
+			if ( matcher.find() )
+				return true;
+		}
+		return false;
+	}
+
+	public static final void checkModifiers()
+	{
+		Object [] keys = modifierMap.keySet().toArray();
+		for ( int i = 0; i < keys.length; ++i )
+		{
+			String name = (String)keys[i];
+			Object modifier = modifierMap.get( name );
+
+			if ( modifier == null )
+			{
+				RequestLogger.printLine( "Key \"" + name + "\" has no modifiers" );
+				continue;
+			}
+
+			if ( modifier instanceof Modifiers )
+			{
+				RequestLogger.printLine( "Key \"" + name + "\" already parsed. Skipping." );
+				continue;
+			}
+
+			if ( !( modifier instanceof String ) )
+			{
+				RequestLogger.printLine( "Key \"" + name + "\" has bogus modifiers of class " + modifier.getClass().toString() );
+				continue;
+			}
+
+			// It's a string. Check all modifiers.
+			String [] strings = ((String)modifier).split( ", " );
+			for ( int j = 0; j < strings.length; ++j )
+			{
+				String mod = strings[j].trim();
+				if ( findModifier( floatModifiers, mod ) )
+					continue;
+				if ( findModifier( booleanModifiers, mod ) )
+					continue;
+				if ( findModifier( stringModifiers, mod ) )
+					continue;
+				RequestLogger.printLine( "Key \"" + name + "\" has unknown modifier: \"" + mod + "\"" );
+			}
+		}
 	}
 }
