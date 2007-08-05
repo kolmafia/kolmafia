@@ -359,8 +359,30 @@ public abstract class SendMessageRequest extends KoLRequest
 
 		if ( source == inventory )
 		{
+			AdventureResult item;
 			for ( int i = 0; i < itemList.size(); ++i )
-				StaticEntity.getClient().processResult( ((AdventureResult) itemList.get(i)).getNegation() );
+			{
+				item = (AdventureResult) itemList.get(i);
+				StaticEntity.getClient().processResult( item.getNegation() );
+
+				if ( !command.endsWith( "sell" ) )
+					continue;
+
+				if ( command.equals( "autosell" ) && defaultQuantity == 0 )
+				{
+					if ( !postRoninJunkList.contains( item ) )
+						postRoninJunkList.add( item );
+
+					if ( !KoLCharacter.canInteract() && !preRoninJunkList.contains( item ) )
+						preRoninJunkList.add( item );
+				}
+				else if ( command.equals( "mallsell" ) )
+				{
+					if ( !profitableList.contains( item ) )
+						profitableList.add( item );
+				}
+
+			}
 		}
 		else if ( source != null )
 		{
