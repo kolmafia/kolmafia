@@ -123,7 +123,7 @@
 	<!--  generate the alpha testing JAR  -->
 	<!-- ================================ -->
 
-	<target name="debug" depends="version,clean">
+	<target name="debug" depends="version,clean,init">
 
 		<replace file="${src}/net/sourceforge/kolmafia/KoLConstants.java"
 			token="v${version}" value="v${version}, r${revision}"/>
@@ -140,7 +140,7 @@
 	<!--  generate a daily build JAR  -->
 	<!-- ============================ -->
 
-	<target name="daily" depends="update,clean">
+	<target name="daily" depends="update,clean,init">
 
 		<replace file="${src}/net/sourceforge/kolmafia/KoLConstants.java"
 			token="v${version}" value="v${version}, r${revision}"/>
