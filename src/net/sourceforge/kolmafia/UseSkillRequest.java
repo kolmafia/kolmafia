@@ -496,6 +496,15 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 	public static final void prepareWeapon( AdventureResult [] options )
 	{
+		if ( KoLCharacter.canInteract() )
+		{
+			if ( KoLCharacter.hasItem( options[0], false ) || KoLCharacter.hasItem( options[1], false ) )
+				return;
+
+			AdventureDatabase.retrieveItem( options[1] );
+			return;
+		}
+
 		for ( int i = 0; i < options.length; ++i )
 		{
 			if ( !KoLCharacter.hasItem( options[i], true ) )
