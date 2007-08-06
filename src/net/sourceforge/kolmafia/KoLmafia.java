@@ -114,6 +114,7 @@ public abstract class KoLmafia implements KoLConstants
 	private static final Pattern CARBS_PATTERN = Pattern.compile( "some of your blood, to the tune of ([\\d,]+) damage" );
 	private static final Pattern TAVERN_PATTERN = Pattern.compile( "where=(\\d+)" );
 	private static final Pattern GOURD_PATTERN = Pattern.compile( "Bring back (\\d+)" );
+	private static final Pattern DISCARD_PATTERN = Pattern.compile( "You discard your (.*?)\\." );
 
 	private static final AdventureResult CATNIP = new AdventureResult( 1486, 1 );
 	private static final AdventureResult GLIDER = new AdventureResult( 1487, 1 );
@@ -1651,6 +1652,16 @@ public abstract class KoLmafia implements KoLConstants
 						if ( StaticEntity.getBooleanProperty( "logGainMessages" ) )
 							RequestLogger.updateSessionLog( lastToken );
 					}
+				}
+			}
+			else if ( lastToken.startsWith( "You discard" ) )
+			{
+				Matcher matcher = DISCARD_PATTERN.matcher( lastToken );
+				if ( matcher.find() )
+				{
+					AdventureResult item = new AdventureResult( matcher.group(1), -1, false );
+					AdventureResult.addResultToList( inventory, item );
+					AdventureResult.addResultToList( tally, item );
 				}
 			}
 		}
