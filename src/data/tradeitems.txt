@@ -1434,7 +1434,7 @@
 1434	fruit basket	4	all	400
 1435	hot pink lipstick	7	all	0
 1436	hot stuffing	0	all	100
-1437	useless powder	4	all	0
+1437	useless powder	3	all	0
 1438	twinkly powder	4	all	30
 1439	hot powder	4	all	30
 1440	cold powder	4	all	30
