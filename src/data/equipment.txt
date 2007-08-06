@@ -81,6 +81,7 @@ grass hat	80	Mox: 25
 green traffic cone	60	Mox: 15
 helmet turtle	10	none
 ice pick	100	none
+indie comic hipster glasses	10	none
 irate sombrero	45	Mox: 7
 jewel-eyed wizard hat	10	none
 knobby helmet turtle	20	none

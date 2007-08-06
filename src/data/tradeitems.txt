@@ -2832,3 +2832,6 @@
 2832	digital key lime pie	1	all	123
 2833	star key lime pie	1	all	123
 2834	bottle-rocket crossbow	12	all	0
+2835	indie comic hipster glasses	9	display	0
+2836	wizard action figure	5	all	0
+2837	mint-condition magic wand	7	all	0
