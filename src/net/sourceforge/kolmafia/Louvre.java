@@ -202,7 +202,7 @@ public class Louvre
 				LouvreChoiceTable[i][j] = 0;
 
 		int lastLouvreAscension = StaticEntity.getIntegerProperty( "lastLouvreMap" );
-		if ( lastLouvreAscension < KoLCharacter.getAscensions() )
+		if ( lastLouvreAscension != KoLCharacter.getAscensions() )
 		{
 			StaticEntity.setProperty( "lastLouvreMap", String.valueOf( KoLCharacter.getAscensions() ) );
 			StaticEntity.setProperty( "louvreLayout", "" );

@@ -399,7 +399,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 			return oldValue;
 
 		super.setProperty( name, value );
-		this.saveSettings();
 
 		if ( checkboxMap.containsKey( name ) )
 		{
@@ -1095,8 +1094,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 				super.setProperty( (String) keys[i], (String) PLAYER_SETTINGS.get( keys[i] ) );
 
 		this.ensureChoiceDefaults();
-
 		this.initializingDefaults = false;
-		this.saveSettings();
 	}
 }

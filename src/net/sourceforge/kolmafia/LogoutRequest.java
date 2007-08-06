@@ -35,6 +35,8 @@ package net.sourceforge.kolmafia;
 
 public class LogoutRequest extends KoLRequest
 {
+	private static boolean isRunning = false;
+
 	public LogoutRequest()
 	{	super( "logout.php", true );
 	}
@@ -45,35 +47,44 @@ public class LogoutRequest extends KoLRequest
 
 	public void run()
 	{
-		synchronized ( LogoutRequest.class )
-		{
-			if ( sessionId == null )
-				return;
+		if ( sessionId == null || isRunning )
+			return;
 
-			StaticEntity.saveCounters();
-			KoLSettings.saveFlaggedItemList();
+		isRunning = true;
+		KoLmafia.updateDisplay( "Preparing for logout..." );
 
-			KoLAdventure.resetAutoAttack();
+		if ( KoLDesktop.instanceExists() )
+			KoLDesktop.getInstance().dispose();
 
-			if ( KoLDesktop.instanceExists() )
-				KoLDesktop.getInstance().dispose();
+		KoLFrame [] frames = StaticEntity.getExistingFrames();
+		for ( int i = 0; i < frames.length; ++i )
+			frames[i].dispose();
 
-			KoLMessenger.dispose();
-			BuffBotHome.setBuffBotActive( false );
+		StaticEntity.saveCounters();
+		KoLSettings.saveFlaggedItemList();
+		StaticEntity.saveSettings();
 
-			String scriptSetting = StaticEntity.getProperty( "logoutScript" );
-			if ( !scriptSetting.equals( "" ) )
-				KoLmafiaCLI.DEFAULT_SHELL.executeLine( scriptSetting );
+		KoLAdventure.resetAutoAttack();
 
-			KoLmafia.updateDisplay( ABORT_STATE, "Attempting to logout..." );
-			super.run();
-			KoLmafia.updateDisplay( ABORT_STATE, "Logout request submitted." );
+		if ( KoLDesktop.instanceExists() )
+			KoLDesktop.getInstance().dispose();
 
-			StaticEntity.getClient().setCurrentRequest( null );
-			KoLCharacter.reset( "" );
+		KoLMessenger.dispose();
+		BuffBotHome.setBuffBotActive( false );
 
-			sessionId = null;
-		}
+		String scriptSetting = StaticEntity.getProperty( "logoutScript" );
+		if ( !scriptSetting.equals( "" ) )
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( scriptSetting );
+
+		super.run();
+
+		StaticEntity.getClient().setCurrentRequest( null );
+		KoLCharacter.reset( "" );
+
+		KoLmafia.updateDisplay( ABORT_STATE, "Logout request submitted." );
+
+		sessionId = null;
+		isRunning = false;
 	}
 }
 
