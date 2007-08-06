@@ -647,6 +647,10 @@ public class AdventureResult implements Comparable, KoLConstants
 		sourceList.set( index, sumResult );
 	}
 
+	public static final DefaultListCellRenderer getNameOnlyRenderer()
+	{	return new NameOnlyRenderer();
+	}
+
 	public static final DefaultListCellRenderer getDefaultRenderer()
 	{	return getDefaultRenderer( false );
 	}
@@ -657,6 +661,15 @@ public class AdventureResult implements Comparable, KoLConstants
 
 	public static final DefaultListCellRenderer getCreationQueueRenderer()
 	{	return new ConcoctionRenderer();
+	}
+
+	private static class NameOnlyRenderer extends DefaultListCellRenderer
+	{
+		public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus )
+		{
+			return super.getListCellRendererComponent(
+				list, value instanceof AdventureResult ? ((AdventureResult)value).getName() : value, index, isSelected, cellHasFocus );
+		}
 	}
 
 	private static class ConcoctionRenderer extends DefaultListCellRenderer
