@@ -3432,7 +3432,14 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		public void run()
 		{
-			RequestThread.postRequest( new LogoutRequest() );
+			StaticEntity.saveCounters();
+			KoLSettings.saveFlaggedItemList();
+			StaticEntity.saveSettings();
+			CustomItemDatabase.saveItemData();
+
+			RequestLogger.closeSessionLog();
+			RequestLogger.closeDebugLog();
+			RequestLogger.closeMirror();
 
 			SystemTrayFrame.removeTrayIcon();
 			LocalRelayServer.stop();
