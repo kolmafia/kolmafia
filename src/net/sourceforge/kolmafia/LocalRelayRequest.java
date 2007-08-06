@@ -115,12 +115,8 @@ public class LocalRelayRequest extends PasswordHashRequest
 			if ( price == 100 || price > TradeableItemDatabase.getPriceById( itemId ) * 2 )
 				return true;
 
-		for ( int i = 0; i < preRoninJunkList.size(); ++i )
-			if ( ((AdventureResult)preRoninJunkList.get(i)).getItemId() == itemId )
-				return true;
-
-		for ( int i = 0; i < postRoninJunkList.size(); ++i )
-			if ( ((AdventureResult)postRoninJunkList.get(i)).getItemId() == itemId )
+		for ( int i = 0; i < junkList.size(); ++i )
+			if ( ((AdventureResult)junkList.get(i)).getItemId() == itemId )
 				return true;
 
 		return false;

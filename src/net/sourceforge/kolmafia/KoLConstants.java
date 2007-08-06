@@ -159,11 +159,10 @@ public interface KoLConstants extends UtilityConstants
 
 	public static final ArrayList disabledScripts = new ArrayList();
 
-	public static final SortedListModel preRoninJunkList = new SortedListModel();
-	public static final SortedListModel postRoninJunkList = new SortedListModel();
+	public static final SortedListModel junkList = new SortedListModel();
+	public static final SortedListModel singletonList = new SortedListModel();
 	public static final SortedListModel mementoList = new SortedListModel();
 	public static final SortedListModel profitableList = new SortedListModel();
-	public static final SortedListModel ascensionCheckList = new SortedListModel();
 
 	public static final String PLOTS_DIRECTORY = "planting/";
 	public static final String SCRIPT_DIRECTORY = "scripts/";

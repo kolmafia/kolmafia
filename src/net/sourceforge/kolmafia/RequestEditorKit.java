@@ -1212,43 +1212,27 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		reminders.append( "</font></td></tr></table></td>" );
 		reminders.append( "<td bgcolor=\"#eeeeff\" valign=top><table><tr><th style=\"text-decoration: underline\" align=center>Common Stuff You Didn't Do</th></tr><tr><td align=center><font size=\"-1\">" );
 
-		AdventureResult item;
-		int currentCount;
-
-		for ( int i = 0; i < ascensionCheckList.size(); ++i )
-		{
-			item = (AdventureResult) ascensionCheckList.get(i);
-			currentCount = item.getCount( inventory ) + item.getCount( closet ) + item.getCount( storage );
-
-			for ( int j = KoLCharacter.HAT; j <= KoLCharacter.FAMILIAR; ++j )
-				if ( KoLCharacter.getEquipment( j ).equals( item ) )
-					++currentCount;
-
-			if ( currentCount < item.getCount() )
-			{
-				reminders.append( "<nobr>" );
-
-				reminders.append( "acquire " );
-				reminders.append( String.valueOf( item.getCount() ) );
-				reminders.append( " " );
-				reminders.append( item.getName().toLowerCase() );
-
-				if ( item.getCount() > 1 )
-				{
-					reminders.append( " (you have " );
-					reminders.append( currentCount );
-					reminders.append( ")" );
-				}
-
-				reminders.append( "</nobr><br>" );
-			}
-		}
-
 		if ( KoLCharacter.hasChef() )
 			reminders.append( "<nobr>blow up your chef</nobr><br>" );
 
 		if ( KoLCharacter.hasBartender() )
 			reminders.append( "<nobr>blow up your bartender</nobr><br>" );
+
+		AdventureResult roe = new AdventureResult( "rubber emo roe", 1, false );
+		if ( inventory.contains( roe ) )
+			reminders.append( "<nobr>send your rubber emo roes to Veracity</nobr><br>" );
+
+		AdventureResult trinket = new AdventureResult( "valuable trinket", 1, false );
+		if ( inventory.contains( trinket ) )
+			reminders.append( "<nobr>send your valuable trinkets to Veracity</nobr><br>" );
+
+		AdventureResult lime = new AdventureResult( "lime", 1, false );
+		if ( inventory.contains( lime ) )
+			reminders.append( "<nobr>send your limes to shwei</nobr><br>" );
+
+		AdventureResult cocoabo = new AdventureResult( "stuffed cocoabo", 1, false );
+		if ( inventory.contains( cocoabo ) )
+			reminders.append( "<nobr>send your stuffed cocoabos to holatuwol</nobr><br>" );
 
 		reminders.append( "</font></td></tr></table></td></tr></table>" );
 

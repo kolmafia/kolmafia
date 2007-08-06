@@ -85,14 +85,8 @@ public class PulverizeRequest extends KoLRequest
 		if ( StaticEntity.getBooleanProperty( "mementoListActive" ) && mementoList.contains( this.item ) )
 			return;
 
-		if ( item.getCount( inventory ) == item.getCount() )
-		{
-			if ( !postRoninJunkList.contains( item ) )
-				postRoninJunkList.add( item );
-
-			if ( !KoLCharacter.canInteract() && !preRoninJunkList.contains( item ) )
-				preRoninJunkList.add( item );
-		}
+		if ( item.getCount( inventory ) == item.getCount() && !junkList.contains( item ) )
+			junkList.add( item );
 
 		switch ( TradeableItemDatabase.getConsumptionType( this.item.getItemId() ) )
 		{

@@ -370,11 +370,8 @@ public abstract class SendMessageRequest extends KoLRequest
 
 				if ( command.equals( "autosell" ) && !NPCStoreDatabase.contains( item.getName(), false ) && defaultQuantity == 0 )
 				{
-					if ( !postRoninJunkList.contains( item ) )
-						postRoninJunkList.add( item );
-
-					if ( !KoLCharacter.canInteract() && !preRoninJunkList.contains( item ) )
-						preRoninJunkList.add( item );
+					if ( !junkList.contains( item ) )
+						junkList.add( item );
 				}
 				else if ( command.equals( "mallsell" ) )
 				{

@@ -48,7 +48,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.TreeMap;
 
-import net.java.dev.spellcast.utilities.SortedListModel;
+import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.AdventureDatabase.ChoiceAdventure;
 
@@ -59,11 +59,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 	private static final TreeMap checkboxMap = new TreeMap();
 	private static final TreeMap CLIENT_SETTINGS = new TreeMap();
 	private static final TreeMap PLAYER_SETTINGS = new TreeMap();
-
-	public static final String [] COMMON_CHECKLIST =
-	{
-		"1 dope wheels", "1 Meat maid", "1 chef-in-the-box", "1 bartender-in-the-box"
-	};
 
 	public static final String [] COMMON_JUNK =
 	{
@@ -97,13 +92,34 @@ public class KoLSettings extends Properties implements UtilityConstants
 		"Warm Subject gift certificate", "disturbing fanfic", "probability potion", "procrastination potion", "Mick's IcyVapoHotness Rub"
 	};
 
-	public static final String [] COMMON_MEMENTOS =
+	public static final String [] SINGLETON_ITEMS =
 	{
+		"meat paste",
+
 		// Things which are generally used during a softcore ascension should not
 		// be placed on the junk list, unless they're easy to find.
 
 		"turtle totem", "saucepan", "stolen accordion",
+		"Mace of the Tortoise", "5-Alarm Saucepan", "Rock and Roll Legend",
+		"skeleton bone", "broken skull", "skeleton key", "digital key",
+		"ruby W", "metallic A", "lowercase N", "heavy D", "Wand of Nagamar",
+		"Richard's star key", "star crossbow", "star staff", "star sword",
 
+		// Items which are used on tower guardians should also be considered junk,
+		// but leave around one of the item just in case.
+
+		"lime-and-chile-flavored chewing gum", "jaba&ntilde;ero-flavored chewing gum",
+		"lime-and-chile-flavored chewing gum", "pickle-flavored chewing gum", "tamarind-flavored chewing gum",
+		"Angry Farmer candy", "Tasty Fun Good rice candy", "marzipan skull",
+		"Meleegra&trade; pills", "handsomeness potion", "wussiness potion",
+		"pygmy pygment",  "thin black candle", "picture of a dead guy's girlfriend", "Black No. 2",
+		"super-spikey hair gel", "Mick's IcyVapoHotness Rub", "adder bladder", "gremlin juice",
+		"milky potion", "swirly potion", "bubbly potion", "smoky potion",
+		"cloudy potion", "effervescent potion", "fizzy potion", "dark potion", "murky potion",
+	};
+
+	public static final String [] COMMON_MEMENTOS =
+	{
 		// Crimbo 2005/2006 accessories, if they're still around, probably shouldn't
 		// be placed in the player's store.
 
@@ -142,7 +158,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 
 		TreeMap filesToMove = new TreeMap();
 
-		filesToMove.put( new File( SETTINGS_LOCATION, "checklist_GLOBAL.txt" ), new File( DATA_LOCATION, "checklist.txt" ) );
 		filesToMove.put( new File( SETTINGS_LOCATION, "junk_GLOBAL.txt" ), new File( DATA_LOCATION, "autosell.txt" ) );
 		filesToMove.put( new File( SETTINGS_LOCATION, "profitable_GLOBAL.txt" ), new File( DATA_LOCATION, "mallsell.txt" ) );
 		filesToMove.put( new File( SETTINGS_LOCATION, "memento_GLOBAL.txt" ), new File( DATA_LOCATION, "mementos.txt" ) );
@@ -185,135 +200,46 @@ public class KoLSettings extends Properties implements UtilityConstants
 	private File settingsFile;
 
 	private static final File junkItemsFile = new File( DATA_LOCATION, "autosell.txt" );
+	private static final File singletonFile = new File( DATA_LOCATION, "singleton.txt" );
 	private static final File mementoFile = new File( DATA_LOCATION, "mementos.txt" );
 	private static final File profitableFile = new File( DATA_LOCATION, "mallsell.txt" );
-	private static final File checklistFile = new File( DATA_LOCATION, "checklist.txt" );
 
-	public static final void initializeLists()
+	private static final void initializeList( LockableListModel model, File input, String [] defaults )
 	{
+		AdventureResult item;
+
+		if ( !input.exists() )
+		{
+			for ( int i = 0; i < defaults.length; ++i )
+			{
+				item =  new AdventureResult( defaults[i], 1, false );
+				model.add( item );
+			}
+
+			return;
+		}
+
 		try
 		{
-			KoLConstants.preRoninJunkList.clear();
-			KoLConstants.postRoninJunkList.clear();
+			FileInputStream istream = new FileInputStream( input );
+			BufferedReader reader = new BufferedReader( new InputStreamReader( istream ) );
 
-			SortedListModel junkItemList = KoLConstants.preRoninJunkList;
+			String line;
 
-			if ( !junkItemsFile.exists() )
+			while ( (line = reader.readLine()) != null )
 			{
-				for ( int i = 0; i < COMMON_JUNK.length; ++i )
-					junkItemList.add( new AdventureResult( COMMON_JUNK[i], 1, false ) );
-			}
-			else
-			{
-				FileInputStream istream = new FileInputStream( junkItemsFile );
-				BufferedReader reader = new BufferedReader( new InputStreamReader( istream ) );
+				if ( line.equals( "" ) || line.startsWith( "[" ) )
+					continue;
 
-				String line;
-				AdventureResult data;
+				if ( !TradeableItemDatabase.contains( line ) )
+					continue;
 
-				while ( (line = reader.readLine()) != null )
-				{
-					if ( line.equals( "" ) )
-						continue;
-
-					if ( line.startsWith( "[" ) )
-						junkItemList = KoLConstants.preRoninJunkList.indexOf( "pre-ronin" ) != -1 ? KoLConstants.preRoninJunkList : KoLConstants.postRoninJunkList;
-
-					if ( !TradeableItemDatabase.contains( line ) )
-						continue;
-
-					data = new AdventureResult( line, 1, false );
-					if ( !junkItemList.contains( data ) )
-						junkItemList.add( data );
-				}
-
-				reader.close();
+				item = new AdventureResult( line, 1, false );
+				if ( !model.contains( item ) )
+					model.add( item );
 			}
 
-			KoLConstants.mementoList.clear();
-
-			if ( !mementoFile.exists() )
-			{
-				for ( int i = 0; i < COMMON_MEMENTOS.length; ++i )
-					KoLConstants.mementoList.add( new AdventureResult( COMMON_MEMENTOS[i], 1, false ) );
-			}
-			else
-			{
-				FileInputStream istream = new FileInputStream( mementoFile );
-				BufferedReader reader = new BufferedReader( new InputStreamReader( istream ) );
-
-				String line;
-				AdventureResult data;
-
-				while ( (line = reader.readLine()) != null )
-				{
-					if ( !TradeableItemDatabase.contains( line ) )
-						continue;
-
-					data = new AdventureResult( line, 1, false );
-					if ( !KoLConstants.mementoList.contains( data ) )
-						KoLConstants.mementoList.add( data );
-				}
-
-				reader.close();
-			}
-
-			KoLConstants.ascensionCheckList.clear();
-
-			if ( !checklistFile.exists() )
-			{
-				for ( int i = 0; i < COMMON_CHECKLIST.length; ++i )
-					KoLConstants.ascensionCheckList.add( KoLmafiaCLI.getFirstMatchingItem( COMMON_CHECKLIST[i] ) );
-			}
-			else
-			{
-				FileInputStream istream = new FileInputStream( checklistFile );
-				BufferedReader reader = new BufferedReader( new InputStreamReader( istream ) );
-
-				String line;
-				AdventureResult data;
-
-				while ( (line = reader.readLine()) != null )
-				{
-					if ( line.equals( "" ) || line.startsWith( "[" ) )
-						continue;
-
-					data = KoLmafiaCLI.getFirstMatchingItem( line );
-					if ( data == null )
-						continue;
-
-					if ( !KoLConstants.ascensionCheckList.contains( data ) )
-						KoLConstants.ascensionCheckList.add( data );
-				}
-
-				reader.close();
-			}
-
-			KoLConstants.profitableList.clear();
-
-			if ( profitableFile.exists() )
-			{
-				FileInputStream istream = new FileInputStream( profitableFile );
-				BufferedReader reader = new BufferedReader( new InputStreamReader( istream ) );
-
-				String line;
-				AdventureResult data;
-
-				while ( (line = reader.readLine()) != null )
-				{
-					if ( line.equals( "" ) || line.startsWith( "[" ) )
-						continue;
-
-					data = KoLmafiaCLI.getFirstMatchingItem( line );
-					if ( data == null )
-						continue;
-
-					if ( !KoLConstants.profitableList.contains( data ) )
-						KoLConstants.profitableList.add( data );
-				}
-
-				reader.close();
-			}
+			reader.close();
 		}
 		catch ( IOException e )
 		{
@@ -322,6 +248,22 @@ public class KoLSettings extends Properties implements UtilityConstants
 
 			StaticEntity.printStackTrace( e );
 		}
+	}
+
+	public static final void initializeLists()
+	{
+		KoLConstants.junkList.clear();
+		initializeList( KoLConstants.junkList, junkItemsFile, COMMON_JUNK );
+
+		KoLConstants.singletonList.clear();
+		initializeList( KoLConstants.junkList, singletonFile, SINGLETON_ITEMS );
+		initializeList( KoLConstants.singletonList, singletonFile, SINGLETON_ITEMS );
+
+		KoLConstants.mementoList.clear();
+		initializeList( KoLConstants.mementoList, mementoFile, COMMON_MEMENTOS );
+
+		KoLConstants.profitableList.clear();
+		initializeList( KoLConstants.profitableList, profitableFile, new String[0] );
 	}
 
 	private String noExtensionName;
@@ -438,20 +380,18 @@ public class KoLSettings extends Properties implements UtilityConstants
 
 		LogStream ostream = LogStream.openStream( junkItemsFile, true );
 
-		ostream.println( "[pre-ronin]" );
-
-		for ( int i = 0; i < KoLConstants.preRoninJunkList.size(); ++i )
+		for ( int i = 0; i < KoLConstants.junkList.size(); ++i )
 		{
-			item = (AdventureResult) KoLConstants.preRoninJunkList.get(i);
+			item = ((AdventureResult) KoLConstants.junkList.get(i));
 			ostream.println( item.getName() );
 		}
 
-		ostream.println();
-		ostream.println( "[post-ronin]" );
+		ostream.close();
 
-		for ( int i = 0; i < KoLConstants.postRoninJunkList.size(); ++i )
+		ostream = LogStream.openStream( singletonFile, true );
+		for ( int i = 0; i < KoLConstants.singletonList.size(); ++i )
 		{
-			item = (AdventureResult) KoLConstants.postRoninJunkList.get(i);
+			item = (AdventureResult)KoLConstants.singletonList.get(i);
 			ostream.println( item.getName() );
 		}
 
@@ -462,15 +402,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 		{
 			item = (AdventureResult)KoLConstants.mementoList.get(i);
 			ostream.println( item.getName() );
-		}
-
-		ostream.close();
-
-		ostream = LogStream.openStream( checklistFile, true );
-		for ( int i = 0; i < KoLConstants.ascensionCheckList.size(); ++i )
-		{
-			item = (AdventureResult) KoLConstants.ascensionCheckList.get(i);
-			ostream.println( item.getCount() + " " + item.getName() );
 		}
 
 		ostream.close();

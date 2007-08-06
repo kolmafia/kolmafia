@@ -103,10 +103,11 @@ public class ShowDescriptionList extends JList implements KoLConstants
 
 		if ( displayModel == tally )
 		{
+			this.contextMenu.add( new ZeroTallyMenuItem() );
 			this.contextMenu.add( new JSeparator() );
 
-			this.contextMenu.add( new ZeroTallyMenuItem() );
 			this.contextMenu.add( new AddToJunkListMenuItem() );
+			this.contextMenu.add( new AddToSingletonListMenuItem() );
 			this.contextMenu.add( new AddToMementoListMenuItem() );
 
 			this.contextMenu.add( new JSeparator() );
@@ -119,6 +120,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		{
 			this.contextMenu.add( new AddToJunkListMenuItem() );
 			this.contextMenu.add( new AddToMementoListMenuItem() );
+			this.contextMenu.add( new AddToSingletonListMenuItem() );
 		}
 		else if ( isMoodList )
 		{
@@ -446,11 +448,45 @@ public class ShowDescriptionList extends JList implements KoLConstants
 				if ( data == null )
 					continue;
 
-				if ( !postRoninJunkList.contains( data ) )
-					postRoninJunkList.add( data );
+				if ( !junkList.contains( data ) )
+					junkList.add( data );
+			}
+		}
+	}
 
-				if ( !KoLCharacter.canInteract() && !preRoninJunkList.contains( data ) )
-					preRoninJunkList.add( data );
+	private class AddToSingletonListMenuItem extends ContextMenuItem
+	{
+		public AddToSingletonListMenuItem()
+		{	super( "Add to singleton list" );
+		}
+
+		public void executeAction()
+		{
+			Object [] items = ShowDescriptionList.this.getSelectedValues();
+			ShowDescriptionList.this.clearSelection();
+
+			AdventureResult data;
+
+			for ( int i = 0; i < items.length; ++i )
+			{
+				data = null;
+
+				if ( items[i] instanceof ItemCreationRequest )
+					data = ((ItemCreationRequest)items[i]).createdItem;
+				else if ( items[i] instanceof AdventureResult && ((AdventureResult)items[i]).isItem() )
+					data = (AdventureResult) items[i];
+				else if ( items[i] instanceof String && TradeableItemDatabase.contains( (String) items[i] ) )
+					data = new AdventureResult( (String) items[i], 1, false );
+				else if ( items[i] instanceof Entry && TradeableItemDatabase.contains( (String) ((Entry)items[i]).getValue() ) )
+					data = new AdventureResult( (String) ((Entry)items[i]).getValue(), 1, false );
+
+				if ( data == null )
+					continue;
+
+				if ( !junkList.contains( data ) )
+					junkList.add( data );
+				if ( !singletonList.contains( data ) )
+					singletonList.add( data );
 			}
 		}
 	}
