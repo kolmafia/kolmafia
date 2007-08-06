@@ -100,7 +100,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 		// be placed on the junk list, unless they're easy to find.
 
 		"turtle totem", "saucepan", "stolen accordion",
-		"Mace of the Tortoise", "5-Alarm Saucepan", "Rock and Roll Legend",
 		"skeleton bone", "broken skull", "skeleton key", "digital key",
 		"ruby W", "metallic A", "lowercase N", "heavy D", "Wand of Nagamar",
 		"Richard's star key", "star crossbow", "star staff", "star sword",
