@@ -360,6 +360,13 @@ public abstract class StaticEntity implements KoLConstants
 		return usesRelayWindows == 1;
 	}
 
+	public static final void saveSettings()
+	{
+		settings.saveSettings();
+		if ( settings != KoLSettings.GLOBAL_SETTINGS )
+			KoLSettings.GLOBAL_SETTINGS.saveSettings();
+	}
+
 	public static final void reloadSettings( String username )
 	{
 		settings = username.equals( "" ) ? KoLSettings.GLOBAL_SETTINGS : new KoLSettings( username );

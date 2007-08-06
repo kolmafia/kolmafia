@@ -988,21 +988,10 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "logout" ) )
 		{
-			if ( !attemptedLogin )
-			{
-				if ( KoLDesktop.instanceExists() )
-					KoLDesktop.getInstance().dispose();
-
-				KoLFrame [] frames = StaticEntity.getExistingFrames();
-				for ( int i = 0; i < frames.length; ++i )
-					frames[i].dispose();
-			}
-
-			if ( !KoLCharacter.getUserName().equals( "" ) )
-				RequestThread.postRequest( new LogoutRequest() );
-
 			if ( attemptedLogin )
 				System.exit(0);
+			else
+				RequestThread.postRequest( new LogoutRequest() );
 
 			return;
 		}
