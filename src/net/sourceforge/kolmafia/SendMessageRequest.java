@@ -368,7 +368,7 @@ public abstract class SendMessageRequest extends KoLRequest
 				if ( !command.endsWith( "sell" ) )
 					continue;
 
-				if ( command.equals( "autosell" ) && defaultQuantity == 0 )
+				if ( command.equals( "autosell" ) && !NPCStoreDatabase.contains( item.getName(), false ) && defaultQuantity == 0 )
 				{
 					if ( !postRoninJunkList.contains( item ) )
 						postRoninJunkList.add( item );

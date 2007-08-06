@@ -236,11 +236,21 @@ public class ItemManageFrame extends KoLFrame
 	private class MementoItemsPanel extends OverlapPanel
 	{
 		public MementoItemsPanel()
-		{	super( "win game", "help", mementoList, true );
+		{	super( "closet", "help", mementoList, true );
 		}
 
 		public void actionConfirmed()
-		{	CommandDisplayFrame.executeCommand( "win game" );
+		{
+			AdventureResult current;
+			AdventureResult [] items = new AdventureResult[ mementoList.size() ];
+			for ( int i = 0; i < mementoList.size(); ++i )
+			{
+				current = (AdventureResult) mementoList.get(i);
+				items[i] = current.getInstance( current.getCount( inventory ) );
+			}
+
+			RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, items ) );
+
 		}
 
 		public void actionCancelled()

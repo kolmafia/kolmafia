@@ -2376,7 +2376,7 @@ public abstract class KoLmafia implements KoLConstants
 			int minimumPrice = Math.max( 100, TradeableItemDatabase.getPriceById( sold[i].getItemId() ) * 2 );
 			int desiredPrice = Math.max( minimumPrice, sold[i].getLowest() - sold[i].getLowest() % 100 );
 
-			if ( sold[i].getPrice() == 999999999 )
+			if ( sold[i].getPrice() == 999999999 && desiredPrice > 100 )
 				prices[i] = desiredPrice;
 			else
 				prices[i] = sold[i].getPrice();
@@ -3432,13 +3432,10 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		public void run()
 		{
-			CustomItemDatabase.saveItemData();
+			RequestThread.postRequest( new LogoutRequest() );
+
 			SystemTrayFrame.removeTrayIcon();
 			LocalRelayServer.stop();
-
-			RequestLogger.closeSessionLog();
-			RequestLogger.closeDebugLog();
-			RequestLogger.closeMirror();
 
 			try
 			{
