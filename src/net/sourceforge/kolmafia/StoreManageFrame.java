@@ -371,6 +371,7 @@ public class StoreManageFrame extends KoLPanelFrame
 
 			this.filters[4].setSelected( false );
 			this.filters[4].setEnabled( false );
+			this.filterItems();
 		}
 
 		public void actionConfirmed()
@@ -400,6 +401,7 @@ public class StoreManageFrame extends KoLPanelFrame
 
 			this.filters[4].setSelected( false );
 			this.filters[4].setEnabled( false );
+			this.filterItems();
 		}
 
 		public void actionConfirmed()
@@ -419,6 +421,7 @@ public class StoreManageFrame extends KoLPanelFrame
 
 			this.filters[4].setSelected( false );
 			this.filters[4].setEnabled( false );
+			this.filterItems();
 		}
 
 		public void actionConfirmed()
