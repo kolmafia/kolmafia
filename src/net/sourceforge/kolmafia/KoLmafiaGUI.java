@@ -400,6 +400,6 @@ public class KoLmafiaGUI extends KoLmafia
 	public void showHTML( String text )
 	{
 		KoLRequest.VISITOR.responseText = text;
-		FightFrame.showRequest( KoLRequest.VISITOR );
+		DescriptionFrame.showRequest( KoLRequest.VISITOR );
 	}
 }
