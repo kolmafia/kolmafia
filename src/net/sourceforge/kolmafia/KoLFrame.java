@@ -954,9 +954,20 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			else
 			{
 				int spaceIndex = text.lastIndexOf( " ", 80 );
-				result.append( text.substring( 0, spaceIndex ).trim() );
-				result.append( LINE_BREAK );
-				text = text.substring( spaceIndex ).trim();
+				int breakIndex = text.lastIndexOf( "\n", spaceIndex );
+
+				if ( breakIndex != -1 )
+				{
+					result.append( text.substring( 0, breakIndex ) );
+					result.append( "\n" );
+					text = text.substring( breakIndex ).trim();
+				}
+				else
+				{
+					result.append( text.substring( 0, spaceIndex ).trim() );
+					result.append( "\n" );
+					text = text.substring( spaceIndex ).trim();
+				}
 			}
 		}
 
@@ -2303,7 +2314,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		public OverlapPanel( String confirmText, String cancelText, LockableListModel overlapModel, boolean isOverlap )
 		{
-			super( confirmText, cancelText, isOverlap ? overlapModel : inventory );
+			super( confirmText, cancelText, isOverlap ? overlapModel : inventory, true, false );
 			this.overlapModel = overlapModel;
 			this.isOverlap = isOverlap;
 

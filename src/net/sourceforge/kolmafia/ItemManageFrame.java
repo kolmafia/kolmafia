@@ -62,6 +62,7 @@ import javax.swing.event.ListSelectionListener;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.ConcoctionsDatabase.Concoction;
+import net.sourceforge.kolmafia.KoLFrame.OverlapPanel;
 
 public class ItemManageFrame extends KoLFrame
 {
@@ -134,12 +135,13 @@ public class ItemManageFrame extends KoLFrame
 
 		this.addSeparator();
 
-		JTabbedPane filterActions = getTabbedPane();
-		filterActions.addTab( "Junk Items", new JunkItemsPanel() );
-		filterActions.addTab( "Singletons", new SingletonItemsPanel() );
-		filterActions.addTab( "Mementos", new MementoItemsPanel() );
+		JTabbedPane cleanupActions = getTabbedPane();
+		cleanupActions.addTab( "Junk Items", new JunkItemsPanel() );
+		cleanupActions.addTab( "Singletons", new SingletonItemsPanel() );
 
-		this.addPanel( "Item Filters", filterActions );
+		this.addPanel( "Item Filters", new MementoItemsPanel() );
+		this.addPanel( " - Cleanup", cleanupActions );
+		this.addPanel( " - Restock", new RestockPanel() );
 
 		this.itemPanelList.addListSelectionListener( new CardSwitchListener() );
 		this.itemPanelList.setPrototypeCellValue( "ABCDEFGHIJKLM" );
@@ -256,7 +258,7 @@ public class ItemManageFrame extends KoLFrame
 		}
 
 		public void actionCancelled()
-		{	alert( "These items are flagged as \"singletons\".  Using the \"closet\" button, KoLmafia will try to ensure that at least one of the item exists in your closet.  IF THE PLAYER IS STILL IN HARDCORE OR RONIN, these items are treated as a special class of junk items where during the \"cleanup\" routine mentioned in the junk tab, KoLmafia will attempt to leave one of the item in the players inventory.  Once the player breaks Ronin, KoLmafia will treat these items as normal junk." );
+		{	alert( "These items are flagged as \"singletons\".  Using the \"closet\" button, KoLmafia will try to ensure that at least one of the item exists in your closet.\n\nIF THE PLAYER IS STILL IN HARDCORE OR RONIN, these items are treated as a special class of junk items where during the \"cleanup\" routine mentioned in the junk tab, KoLmafia will attempt to leave one of the item in the players inventory.\n\nPlease take note that once the player breaks Ronin, KoLmafia will treat these items as normal junk and ignore the general preservation rule." );
 		}
 	}
 	private class MementoItemsPanel extends OverlapPanel
@@ -861,12 +863,12 @@ public class ItemManageFrame extends KoLFrame
 			this.setButtons( true, new ActionListener [] {
 
 				new ConsumeListener(),
-				new PutInClosetListener( isCloset ),
 				new AutoSellListener( isCloset, AutoSellRequest.AUTOSELL ),
 				new AutoSellListener( isCloset, AutoSellRequest.AUTOMALL ),
 				new PulverizeListener( isCloset ),
+				new PutInClosetListener( isCloset ),
 				new PutOnDisplayListener( isCloset ),
-				new GiveToClanListener( isCloset )
+				new GiveToClanListener( isCloset ),
 
 			} );
 
@@ -1057,6 +1059,35 @@ public class ItemManageFrame extends KoLFrame
 			}
 
 			RequestThread.closeRequestSequence();
+		}
+	}
+
+	private class RestockPanel extends OverlapPanel
+	{
+		public RestockPanel()
+		{
+			super( "automall", "host sale", profitableList, true );
+
+			this.filters[4].setSelected( false );
+			this.filters[4].setEnabled( false );
+			this.filterItems();
+		}
+
+		public void actionConfirmed()
+		{
+			if ( !confirm( "ALL OF THE ITEMS IN THIS LIST, not just the ones you've selected, will be placed into your store.  Are you sure you wish to continue?" ) )
+				return;
+
+			StaticEntity.getClient().makeAutoMallRequest();
+		}
+
+		public void actionCancelled()
+		{
+			if ( !confirm( "KoLmafia will place all tradeable, autosellable items into your store at 999,999,999 meat. " + StoreManageFrame.UNDERCUT_MESSAGE ) )
+				return;
+
+			KoLmafia.updateDisplay( "Gathering data..." );
+			StaticEntity.getClient().makeEndOfRunSaleRequest();
 		}
 	}
 }
