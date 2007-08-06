@@ -59,50 +59,52 @@ public class ShowDescriptionList extends JList implements KoLConstants
 	public JPopupMenu contextMenu;
 	public ListElementFilter filter;
 
-	private LockableListModel listModel;
+	private LockableListModel displayModel, originalModel;
 	private static final Pattern PLAYERID_MATCHER = Pattern.compile( "\\(#(\\d+)\\)" );
 
-	public ShowDescriptionList( LockableListModel listModel )
-	{	this( listModel, null, 4 );
+	public ShowDescriptionList( LockableListModel displayModel )
+	{	this( displayModel, null, 4 );
 	}
 
-	public ShowDescriptionList( LockableListModel listModel, int visibleRowCount )
-	{	this( listModel, null, visibleRowCount );
+	public ShowDescriptionList( LockableListModel displayModel, int visibleRowCount )
+	{	this( displayModel, null, visibleRowCount );
 	}
 
-	public ShowDescriptionList( LockableListModel listModel, ListElementFilter filter )
-	{	this( listModel, filter, 4 );
+	public ShowDescriptionList( LockableListModel displayModel, ListElementFilter filter )
+	{	this( displayModel, filter, 4 );
 	}
 
-	public ShowDescriptionList( LockableListModel listModel, ListElementFilter filter, int visibleRowCount )
+	public ShowDescriptionList( LockableListModel displayModel, ListElementFilter filter, int visibleRowCount )
 	{
 		this.contextMenu = new JPopupMenu();
 
-		boolean isMoodList = listModel == MoodSettings.getTriggers();
-		boolean isEncyclopedia = !listModel.isEmpty() && listModel.get(0) instanceof Entry;
+		boolean isMoodList = displayModel == MoodSettings.getTriggers();
+		boolean isEncyclopedia = !displayModel.isEmpty() && displayModel.get(0) instanceof Entry;
 
 		if ( !isMoodList )
 		{
-			if ( listModel.size() == 0 || !isEncyclopedia )
+			if ( displayModel.size() == 0 || !isEncyclopedia )
 				this.contextMenu.add( new DescriptionMenuItem() );
 
 			this.contextMenu.add( new WikiLookupMenuItem() );
 		}
 
-		if ( listModel == activeEffects )
+		if ( displayModel == activeEffects )
 		{
 			this.contextMenu.add( new ShrugOffMenuItem() );
 			this.contextMenu.add( new BoostEffectMenuItem() );
 		}
 
-		if ( listModel == usableSkills || listModel == availableSkills )
+		if ( displayModel == usableSkills || displayModel == availableSkills )
 		{
 			this.contextMenu.add( new CastSkillMenuItem() );
 			this.contextMenu.add( new BoostSkillMenuItem() );
 		}
 
-		if ( listModel == tally )
+		if ( displayModel == tally )
 		{
+			this.contextMenu.add( new JSeparator() );
+
 			this.contextMenu.add( new ZeroTallyMenuItem() );
 			this.contextMenu.add( new AddToJunkListMenuItem() );
 			this.contextMenu.add( new AddToMementoListMenuItem() );
@@ -113,7 +115,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 			this.contextMenu.add( new ConsumeMenuItem() );
 			this.contextMenu.add( new PulverizeMenuItem() );
 		}
-		else if ( listModel == inventory || listModel == closet || isEncyclopedia )
+		else if ( displayModel == inventory || displayModel == closet || isEncyclopedia )
 		{
 			this.contextMenu.add( new AddToJunkListMenuItem() );
 			this.contextMenu.add( new AddToMementoListMenuItem() );
@@ -125,12 +127,17 @@ public class ShowDescriptionList extends JList implements KoLConstants
 
 		this.addMouseListener( new PopupListener() );
 
-		this.listModel = filter == null ? listModel.getMirrorImage() : listModel.getMirrorImage( filter );
-		this.setModel( this.listModel );
+		this.originalModel = displayModel;
+		this.displayModel = filter == null ? displayModel.getMirrorImage() : displayModel.getMirrorImage( filter );
+		this.setModel( this.displayModel );
 
 		this.setVisibleRowCount( visibleRowCount );
 		this.setCellRenderer( AdventureResult.getDefaultRenderer() );
 		this.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789" );
+	}
+
+	public LockableListModel getOriginalModel()
+	{	return originalModel;
 	}
 
 	/**

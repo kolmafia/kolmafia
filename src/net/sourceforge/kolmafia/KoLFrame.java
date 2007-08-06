@@ -2303,9 +2303,12 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		public OverlapPanel( String confirmText, String cancelText, LockableListModel overlapModel, boolean isOverlap )
 		{
-			super( confirmText, cancelText, inventory );
+			super( confirmText, cancelText, isOverlap ? overlapModel : inventory );
 			this.overlapModel = overlapModel;
 			this.isOverlap = isOverlap;
+
+			if ( this.isOverlap )
+				elementList.setCellRenderer( AdventureResult.getNameOnlyRenderer() );
 
 			elementList.addKeyListener( new OverlapAdapter() );
 			this.addFilters();
@@ -2326,7 +2329,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 				public boolean isVisible( Object element )
 				{
 					return super.isVisible( element ) &&
-						(isOverlap ? OverlapPanel.this.overlapModel.contains( element ) : !OverlapPanel.this.overlapModel.contains( element ));
+						(isOverlap ? inventory.contains( element ) : !OverlapPanel.this.overlapModel.contains( element ));
 				}
 			}
 		}

@@ -282,6 +282,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 			return null;
 
 		int neededSize = items.length;
+		boolean isTally = this.elementList.getOriginalModel() == tally;
 
 		String itemName;
 		int itemCount;
@@ -291,7 +292,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 			if ( items[i] instanceof AdventureResult )
 			{
 				itemName = ((AdventureResult) items[i]).getName();
-				itemCount = ((AdventureResult) items[i]).getCount();
+				itemCount = isTally? ((AdventureResult)items[i]).getCount( inventory ) : ((AdventureResult) items[i]).getCount();
 			}
 			else
 			{
