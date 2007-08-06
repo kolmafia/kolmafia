@@ -516,6 +516,8 @@ public class ConsumeItemRequest extends KoLRequest
 		// In the event that the item is not used, then proceed to
 		// undo the consumption.
 
+		StaticEntity.getClient().processResult( lastItemUsed.getNegation() );
+
 		int consumptionType = TradeableItemDatabase.getConsumptionType( lastItemUsed.getItemId() );
 		if ( consumptionType == MESSAGE_DISPLAY )
 		{
@@ -524,9 +526,10 @@ public class ConsumeItemRequest extends KoLRequest
 		}
 
 		if ( consumptionType == INFINITE_USES )
+		{
+			showItemUsage( showHTML, responseText, false );
 			return;
-
-		StaticEntity.getClient().processResult( lastItemUsed.getNegation() );
+		}
 
 		// Check for familiar growth - if a familiar is added,
 		// make sure to update the StaticEntity.getClient().
