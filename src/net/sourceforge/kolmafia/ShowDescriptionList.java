@@ -122,6 +122,10 @@ public class ShowDescriptionList extends JList implements KoLConstants
 			this.contextMenu.add( new AddToMementoListMenuItem() );
 			this.contextMenu.add( new AddToSingletonListMenuItem() );
 		}
+		else if ( displayModel == junkList )
+		{
+			this.contextMenu.add( new AddToSingletonListMenuItem() );
+		}
 		else if ( isMoodList )
 		{
 			addKeyListener( new RemoveTriggerListener() );
