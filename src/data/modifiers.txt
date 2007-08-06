@@ -152,6 +152,7 @@ grass hat	Maximum MP: +10
 green traffic cone	Moxie: +3, Stench Resistance: +20
 # helmet turtle
 ice pick	Item Drop: +15, Softcore Only
+indie comic hipster glasses	Moxie: +5, Muscle: +5, Mysticality: +5
 irate sombrero	Melee Damage: +3
 jewel-eyed wizard hat	Maximum MP: +30, Mana Cost: -1, Softcore Only
 knobby helmet turtle	Melee Damage: +1
@@ -1110,6 +1111,7 @@ miniature carton of clove cigarettes	Familiar Weight: +5
 # miniature dormouse
 miniature espresso maker	Familiar Weight: +5
 miniature gravy-covered maypole	Item Drop: +25, Softcore Only
+# mint-condition magic wand
 # moonglasses
 palm-frond toupee	Familiar Weight: +5
 # penguin-smacking club

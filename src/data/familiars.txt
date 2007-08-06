@@ -71,3 +71,4 @@
 70	Green Pixie	combat,item0	2650	green pixie spog	2	1	0	2
 71	Ragamuffin Imp	combat	2738		3	3	3	3
 72	Exotic Parrot	none	2709	cracker	3	3	1	0
+73	Wizard Action Figure	combat, stat0, item0	2836	mint-condition magic wand	0	0	0	0

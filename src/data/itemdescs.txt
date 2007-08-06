@@ -2837,3 +2837,6 @@
 2832	321645219	digital key lime pie
 2833	716860490	star key lime pie
 2834	718987658	bottle-rocket crossbow	bottle-rocket crossbows
+2835	182815586	indie comic hipster glasses
+2836	684142773	wizard action figure
+2837	288162140	mint-condition magic wand
