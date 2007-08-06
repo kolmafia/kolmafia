@@ -119,6 +119,19 @@
 	</target>
 
 
+	<!-- =========================== -->
+	<!--  generate the standard EXE  -->
+	<!-- =========================== -->
+
+	<target name="jsmooth" depends="createjar">
+
+		<exec executable="jsmoothcmd" failifexecutionfails="false" os="Windows XP">
+			<arg value="${lib}/build.jsmooth"/>
+		</exec>
+
+	</target>
+
+
 	<!-- ================================ -->
 	<!--  generate the alpha testing JAR  -->
 	<!-- ================================ -->
@@ -140,7 +153,7 @@
 	<!--  generate a daily build JAR  -->
 	<!-- ============================ -->
 
-	<target name="daily" depends="update,clean,init">
+	<target name="daily" depends="clean,update,init">
 
 		<replace file="${src}/net/sourceforge/kolmafia/KoLConstants.java"
 			token="v${version}" value="v${version}, r${revision}"/>
@@ -163,7 +176,10 @@
 	<!--  generate the distribution  -->
 	<!-- =========================== -->
 
-	<target name="dist" depends="update,clean,createjar">
+	<target name="dist" depends="clean,update">
+
+		<antcall target="createjar"/>
+		<antcall target="jsmooth"/>
 
 		<tar destfile="${tarfile}" basedir="${root}" compression="gzip">
 			<exclude name="build/**"/>
