@@ -2279,16 +2279,20 @@ public class KoLmafiaASH extends StaticEntity
 					if ( indices.isEmpty() )
 						throw new AdvancedScriptException( "Variable '" + var.getName() + "' cannot be indexed " + getLineAndFile() );
 					else
-						throw new AdvancedScriptException( "Too many keys " + getLineAndFile() );
+						throw new AdvancedScriptException( "Too many keys for '" + var.getName() + "' " + getLineAndFile() );
 				}
 
 				ScriptAggregateType atype = (ScriptAggregateType) type;
 				index = parseExpression( scope );
 				if ( index == null )
-					throw new AdvancedScriptException( "Index expression expected " + getLineAndFile() );
+					throw new AdvancedScriptException( "Index for '" + var.getName() + "' expected " + getLineAndFile() );
 
 				if ( !index.getType().equals( atype.getIndexType() ) )
-					throw new AdvancedScriptException( "Index has wrong data type " + getLineAndFile() );
+				{
+					throw new AdvancedScriptException( "Index for '" + var.getName() + "' has wrong data type " +
+						"(expected " + atype.getIndexType() + ", got " + index.getType() + ") " + getLineAndFile() );
+				}
+
 				type = atype.getDataType();
 			}
 			else
@@ -2311,7 +2315,7 @@ public class KoLmafiaASH extends StaticEntity
 
 				index = rtype.getFieldIndex( field );
 				if ( index == null )
-					throw new AdvancedScriptException( "Invalid field name " + getLineAndFile() );
+					throw new AdvancedScriptException( "Invalid field name '" + field + "' " + getLineAndFile() );
 				readToken(); // read name
 				type = rtype.getDataType( index );
 			}
