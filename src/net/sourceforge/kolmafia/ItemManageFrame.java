@@ -136,7 +136,8 @@ public class ItemManageFrame extends KoLFrame
 
 		JTabbedPane filterActions = getTabbedPane();
 		filterActions.addTab( "Junk Items", new JunkItemsPanel() );
-		filterActions.addTab( "Memento Items", new MementoItemsPanel() );
+		filterActions.addTab( "Singletons", new SingletonItemsPanel() );
+		filterActions.addTab( "Mementos", new MementoItemsPanel() );
 
 		this.addPanel( "Item Filters", filterActions );
 
@@ -221,7 +222,7 @@ public class ItemManageFrame extends KoLFrame
 	private class JunkItemsPanel extends OverlapPanel
 	{
 		public JunkItemsPanel()
-		{	super( "cleanup", "help", KoLCharacter.canInteract() ? postRoninJunkList : preRoninJunkList, true );
+		{	super( "cleanup", "help", junkList, true );
 		}
 
 		public void actionConfirmed()
@@ -233,6 +234,20 @@ public class ItemManageFrame extends KoLFrame
 		}
 	}
 
+	private class SingletonItemsPanel extends OverlapPanel
+	{
+		public SingletonItemsPanel()
+		{	super( "win game", "help", singletonList, true );
+		}
+
+		public void actionConfirmed()
+		{	KoLmafiaCLI.DEFAULT_SHELL.executeLine( "win game" );
+		}
+
+		public void actionCancelled()
+		{	alert( "These items are flagged as \"singletons\".  IF THE PLAYER IS STILL IN HARDCORE OR RONIN, these items are treated as a special class of junk items where during the \"cleanup\" routine mentioned in the junk tab, KoLmafia will attempt to leave one of the item in the players inventory.  Once the player breaks Ronin, KoLmafia will treat these items as normal junk." );
+		}
+	}
 	private class MementoItemsPanel extends OverlapPanel
 	{
 		public MementoItemsPanel()

@@ -788,18 +788,6 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		if ( command.equals( "checklist" ) )
-		{
-			if ( KoLCharacter.hasItem( KoLAdventure.MEATCAR ) )
-				RequestThread.postRequest( new UntinkerRequest( KoLAdventure.MEATCAR.getItemId() ) );
-
-			conditions.clear();
-			conditions.addAll( ascensionCheckList );
-
-			this.executeConditionsCommand( "check" );
-			return;
-		}
-
 		if ( command.equals( "junk" ) || command.equals( "cleanup" ) )
 		{
 			this.makeJunkRemovalRequest();

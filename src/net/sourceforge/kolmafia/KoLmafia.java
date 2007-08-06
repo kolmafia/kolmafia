@@ -3128,6 +3128,9 @@ public abstract class KoLmafia implements KoLConstants
 
 		for ( int i = 0; i < items.length; ++i )
 		{
+			if ( items[i].getItemId() == MEAT_PASTE || items[i].getItemId() == MEAT_STACK || items[i].getItemId() == DENSE_STACK )
+				continue;
+
 			if ( !TradeableItemDatabase.isTradeable( items[i].getItemId() ) )
 				continue;
 
@@ -3179,7 +3182,7 @@ public abstract class KoLmafia implements KoLConstants
 			if ( mementoList.contains( currentItem ) )
 				continue;
 
-			if ( currentItem.getItemId() == MEAT_PASTE )
+			if ( currentItem.getItemId() == MEAT_PASTE || currentItem.getItemId() == MEAT_STACK || currentItem.getItemId() == DENSE_STACK )
 				continue;
 
 			itemCount = currentItem.getCount( inventory );
@@ -3199,7 +3202,7 @@ public abstract class KoLmafia implements KoLConstants
 		int itemCount;
 		AdventureResult currentItem;
 
-		Object [] items = KoLCharacter.canInteract() ? postRoninJunkList.toArray() : preRoninJunkList.toArray();
+		Object [] items = junkList.toArray();
 
 		// Before doing anything else, go through the list of items which are
 		// traditionally used and use them.  Also, if the item can be untinkered,
@@ -3277,6 +3280,9 @@ public abstract class KoLmafia implements KoLConstants
 					continue;
 
 				itemCount = currentItem.getCount( inventory );
+				if ( !KoLCharacter.canInteract() && singletonList.contains( currentItem ) )
+					--itemCount;
+
 				itemPower = EquipmentDatabase.getPower( currentItem.getItemId() );
 
 				if ( itemCount > 0 && !NPCStoreDatabase.contains( currentItem.getName(), false ) )
@@ -3325,17 +3331,43 @@ public abstract class KoLmafia implements KoLConstants
 			if ( mementoList.contains( currentItem ) )
 				continue;
 
+			if ( !KoLCharacter.canInteract() && singletonList.contains( currentItem ) )
+				continue;
+
 			if ( currentItem.getItemId() == MEAT_PASTE )
 				continue;
 
 			itemCount = currentItem.getCount( inventory );
-
 			if ( itemCount > 0 )
 				sellList.add( currentItem.getInstance( itemCount ) );
 		}
 
 		if ( !sellList.isEmpty() )
+		{
 			RequestThread.postRequest( new AutoSellRequest( sellList.toArray(), AutoSellRequest.AUTOSELL ) );
+			sellList.clear();
+		}
+
+		if ( !KoLCharacter.canInteract() )
+		{
+			for ( int i = 0; i < items.length; ++i )
+			{
+				currentItem = (AdventureResult) items[i];
+
+				if ( mementoList.contains( currentItem ) || !singletonList.contains( currentItem ) )
+					continue;
+
+				if ( currentItem.getItemId() == MEAT_PASTE )
+					continue;
+
+				itemCount = currentItem.getCount( inventory ) - 1;
+				if ( itemCount > 0 )
+					sellList.add( currentItem.getInstance( itemCount ) );
+			}
+
+			if ( !sellList.isEmpty() )
+				RequestThread.postRequest( new AutoSellRequest( sellList.toArray(), AutoSellRequest.AUTOSELL ) );
+		}
 
 		RequestThread.closeRequestSequence();
 	}
