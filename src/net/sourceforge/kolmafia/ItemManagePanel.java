@@ -475,7 +475,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 		}
 
 		public String toString()
-		{	return this.retrieveFromClosetFirst ? "inventory" : "closet";
+		{	return this.retrieveFromClosetFirst ? "put in bag" : "put in closet";
 		}
 	}
 
@@ -485,7 +485,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 		public AutoSellListener( boolean retrieveFromClosetFirst, int sellType )
 		{
-			super( sellType == AutoSellRequest.AUTOSELL ? "Autoselling" : "Automalling", retrieveFromClosetFirst );
+			super( sellType == AutoSellRequest.AUTOSELL ? "Autoselling" : "Mallselling", retrieveFromClosetFirst );
 			this.sellType = sellType;
 		}
 

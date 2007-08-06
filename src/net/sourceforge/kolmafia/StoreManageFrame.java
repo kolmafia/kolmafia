@@ -40,6 +40,7 @@ import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -54,7 +55,6 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 
-import net.sourceforge.kolmafia.KoLFrame.OverlapPanel;
 import net.sourceforge.kolmafia.StoreManager.SoldItem;
 
 public class StoreManageFrame extends KoLPanelFrame
@@ -75,8 +75,6 @@ public class StoreManageFrame extends KoLPanelFrame
 
 		this.tabs.add( "Price Setup", new StoreManagePanel() );
 		this.tabs.add( "Additions", new StoreAddPanel() );
-		this.tabs.add( "Restocker", new ProfitableItemsPanel() );
-		this.tabs.add( "End of Run", new EndOfRunSalePanel() );
 		this.tabs.add( "Removals", new StoreRemovePanel() );
 		this.tabs.add( "Store Log", new StoreLogPanel() );
 
@@ -170,7 +168,7 @@ public class StoreManageFrame extends KoLPanelFrame
 
 		public void actionCancelled()
 		{
-			if ( !confirm( UNDERCUT_MESSAGE + "Are you sure you wish to continue with this repricing?" ) )
+			if ( !confirm( UNDERCUT_MESSAGE ) )
 				return;
 
 			StaticEntity.getClient().priceItemsAtLowestPrice();
@@ -178,9 +176,8 @@ public class StoreManageFrame extends KoLPanelFrame
 	}
 
 	public static final String UNDERCUT_MESSAGE =
-		"KoLmafia will take items priced at 999,999,999 meat and attempt to reprice them. " +
-		"In this attempt, it will match or undercut the current lowest price in the mall. " +
-		"As a warning, if someone holds an \"anti-raffle,\" KoLmafia will price based on that price.  ";
+		"KoLmafia will take items priced at 999,999,999 meat and attempt to undercut the current lowest price in the mall, as long as that lowest price is greater than 100 meat.\n\n" +
+		"As a warning, however, this feature is not immune to \"anti-raffles\".  Are you sure you wish to continue?";
 
 	private class StoreListTable extends TransparentTable
 	{
@@ -366,7 +363,7 @@ public class StoreManageFrame extends KoLPanelFrame
 	{
 		public StoreAddPanel()
 		{
-			super( "put in", "auto sell", inventory );
+			super( "mallsell", "autosell", inventory );
 			this.addFilters();
 
 			this.filters[4].setSelected( false );
@@ -376,7 +373,7 @@ public class StoreManageFrame extends KoLPanelFrame
 
 		public void actionConfirmed()
 		{
-			Object [] items = this.getDesiredItems( "Automall" );
+			Object [] items = this.getDesiredItems( "Mallsell" );
 			if ( items == null || items.length == 0 )
 				return;
 
@@ -393,53 +390,11 @@ public class StoreManageFrame extends KoLPanelFrame
 		}
 	}
 
-	private class ProfitableItemsPanel extends OverlapPanel
-	{
-		public ProfitableItemsPanel()
-		{
-			super( "automall", "help", profitableList, true );
-
-			this.filters[4].setSelected( false );
-			this.filters[4].setEnabled( false );
-			this.filterItems();
-		}
-
-		public void actionConfirmed()
-		{	StaticEntity.getClient().makeAutoMallRequest();
-		}
-
-		public void actionCancelled()
-		{	alert( "These items have been flagged as \"profitable\" because at some point in the past, you've opted to place them in the mall.  If you use the \"automall\" command, KoLmafia will place all of these items in the mall." );
-		}
-	}
-
-	private class EndOfRunSalePanel extends OverlapPanel
-	{
-		public EndOfRunSalePanel()
-		{
-			super( "host sale", "help", mementoList, false );
-
-			this.filters[4].setSelected( false );
-			this.filters[4].setEnabled( false );
-			this.filterItems();
-		}
-
-		public void actionConfirmed()
-		{
-			KoLmafia.updateDisplay( "Gathering data..." );
-			StaticEntity.getClient().makeEndOfRunSaleRequest();
-		}
-
-		public void actionCancelled()
-		{	alert( "KoLmafia will place all items which are not already in your store into your store. " + StoreManageFrame.UNDERCUT_MESSAGE );
-		}
-	}
-
 	private class StoreRemovePanel extends ItemManagePanel
 	{
 		public StoreRemovePanel()
 		{
-			super( "take out", "auto sell", StoreManager.getSortedSoldItemList() );
+			super( "take out", "autosell", StoreManager.getSortedSoldItemList() );
 			this.addFilters();
 
 			this.filters[4].setSelected( false );
