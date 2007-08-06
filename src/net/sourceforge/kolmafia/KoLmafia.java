@@ -3280,7 +3280,7 @@ public abstract class KoLmafia implements KoLConstants
 					continue;
 
 				itemCount = currentItem.getCount( inventory );
-				if ( !KoLCharacter.canInteract() && singletonList.contains( currentItem ) )
+				if ( !KoLCharacter.canInteract() && singletonList.contains( currentItem ) && !closet.contains( currentItem ) )
 					--itemCount;
 
 				itemPower = EquipmentDatabase.getPower( currentItem.getItemId() );
@@ -3331,7 +3331,7 @@ public abstract class KoLmafia implements KoLConstants
 			if ( mementoList.contains( currentItem ) )
 				continue;
 
-			if ( !KoLCharacter.canInteract() && singletonList.contains( currentItem ) )
+			if ( !KoLCharacter.canInteract() && singletonList.contains( currentItem ) && !closet.contains( currentItem ) )
 				continue;
 
 			if ( currentItem.getItemId() == MEAT_PASTE )
