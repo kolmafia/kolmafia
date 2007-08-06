@@ -318,6 +318,9 @@ public class KoLmafiaGUI extends KoLmafia
 			{
 				KoLmafia.updateDisplay( "Determining number of attacks remaining..." );
 				RequestThread.postRequest( new FlowerHunterRequest() );
+
+				if ( KoLmafia.refusesContinue() )
+					return;
 			}
 			else if ( this.frameClass == ItemManageFrame.class )
 			{

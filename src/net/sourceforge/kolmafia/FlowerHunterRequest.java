@@ -255,6 +255,12 @@ public class FlowerHunterRequest extends KoLRequest
 		Matcher rankMatcher = RANKING_PATTERN.matcher( this.responseText );
 		if ( !rankMatcher.find() )
 		{
+			if ( !KoLFrame.confirm( "Would you like to break your hippy stone?" ) )
+			{
+				KoLmafia.updateDisplay( ABORT_STATE, "This feature is not available to hippies." );
+				return;
+			}
+
 			VISITOR.constructURLString( "campground.php?pwd&confirm=on&smashstone=Yep." ).run();
 			super.run();
 			return;
