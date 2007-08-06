@@ -237,15 +237,26 @@ public class ItemManageFrame extends KoLFrame
 	private class SingletonItemsPanel extends OverlapPanel
 	{
 		public SingletonItemsPanel()
-		{	super( "win game", "help", singletonList, true );
+		{	super( "closet", "help", singletonList, true );
 		}
 
 		public void actionConfirmed()
-		{	KoLmafiaCLI.DEFAULT_SHELL.executeLine( "win game" );
+		{
+			AdventureResult current;
+			AdventureResult [] items = new AdventureResult[ singletonList.size() ];
+			for ( int i = 0; i < singletonList.size(); ++i )
+			{
+				current = (AdventureResult) singletonList.get(i);
+				items[i] = current.getInstance( Math.min( current.getCount( inventory ),
+					Math.max( 0, 1 - current.getCount( closet ) ) ) );
+			}
+
+			RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, items ) );
+
 		}
 
 		public void actionCancelled()
-		{	alert( "These items are flagged as \"singletons\".  IF THE PLAYER IS STILL IN HARDCORE OR RONIN, these items are treated as a special class of junk items where during the \"cleanup\" routine mentioned in the junk tab, KoLmafia will attempt to leave one of the item in the players inventory.  Once the player breaks Ronin, KoLmafia will treat these items as normal junk." );
+		{	alert( "These items are flagged as \"singletons\".  Using the \"closet\" button, KoLmafia will try to ensure that at least one of the item exists in your closet.  IF THE PLAYER IS STILL IN HARDCORE OR RONIN, these items are treated as a special class of junk items where during the \"cleanup\" routine mentioned in the junk tab, KoLmafia will attempt to leave one of the item in the players inventory.  Once the player breaks Ronin, KoLmafia will treat these items as normal junk." );
 		}
 	}
 	private class MementoItemsPanel extends OverlapPanel
@@ -265,7 +276,6 @@ public class ItemManageFrame extends KoLFrame
 			}
 
 			RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, items ) );
-
 		}
 
 		public void actionCancelled()
