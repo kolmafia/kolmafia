@@ -656,7 +656,9 @@ public class FightRequest extends KoLRequest
 
 		if ( lastAddingScroll != null )
 		{
+			++preparatoryRounds;
 			action1 = String.valueOf( part2.getItemId() );
+
 			lastAddingScroll = null;
 			lastDesiredScroll = null;
 			return true;
@@ -669,12 +671,15 @@ public class FightRequest extends KoLRequest
 		{
 			if ( !KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) )
 			{
+				++preparatoryRounds;
 				action1 = String.valueOf( part1.getItemId() );
+
 				lastAddingScroll = part1;
 				lastDesiredScroll = scroll;
 				return true;
 			}
 
+			++preparatoryRounds;
 			action1 = part1.getItemId() + "," + part2.getItemId();
 			return true;
 		}

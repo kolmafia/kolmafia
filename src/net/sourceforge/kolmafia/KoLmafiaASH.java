@@ -3403,6 +3403,9 @@ public class KoLmafiaASH extends StaticEntity
 		result.addElement( new ScriptExistingFunction( "creatable_amount", INT_TYPE, params ) );
 
 		params = new ScriptType[] { ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "get_ingredients", RESULT_TYPE, params ) );
+
+		params = new ScriptType[] { ITEM_TYPE };
 		result.addElement( new ScriptExistingFunction( "storage_amount", INT_TYPE, params ) );
 
 		params = new ScriptType[] { ITEM_TYPE };
@@ -3911,6 +3914,12 @@ public class KoLmafiaASH extends StaticEntity
 
 		params = new ScriptType[] { MONSTER_TYPE };
 		result.addElement( new ScriptExistingFunction( "monster_hp", INT_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "item_drops", INT_TYPE, params ) );
+
+		params = new ScriptType[] { MONSTER_TYPE };
+		result.addElement( new ScriptExistingFunction( "item_drops", INT_TYPE, params ) );
 
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "will_usually_miss", BOOLEAN_TYPE, params ) );
@@ -5250,6 +5259,17 @@ public class KoLmafiaASH extends StaticEntity
 			return new ScriptValue( item == null ? 0 : item.getQuantityPossible() );
 		}
 
+		public ScriptValue get_ingredients( ScriptVariable item )
+		{
+			AdventureResult [] data = ConcoctionsDatabase.getIngredients( item.intValue() );
+			ScriptMap value = new ScriptMap( RESULT_TYPE );
+
+			for ( int i = 0; i < data.length; ++i )
+				value.aset( parseItemValue( data[i].getName() ), parseIntValue( String.valueOf( data[i].getCount() ) ) );
+
+			return value;
+		}
+
 		public ScriptValue storage_amount( ScriptVariable arg )
 		{
 			AdventureResult item = new AdventureResult( arg.intValue(), 0 );
@@ -6378,6 +6398,39 @@ public class KoLmafiaASH extends StaticEntity
 			return new ScriptValue( monster.getAdjustedHP( KoLCharacter.getMonsterLevelAdjustment() ) );
 		}
 
+		public ScriptValue item_drops()
+		{
+			Monster monster = FightRequest.getLastMonster();
+			List data = monster == null ? new ArrayList() : monster.getItems();
+
+			ScriptMap value = new ScriptMap( RESULT_TYPE );
+			AdventureResult result;
+
+			for ( int i = 0; i < data.size(); ++i )
+			{
+				result = (AdventureResult) data.get(i);
+				value.aset( parseItemValue( result.getName() ), parseIntValue( String.valueOf( result.getCount() ) ) );
+			}
+
+			return value;
+		}
+
+		public ScriptValue item_drops( ScriptVariable arg )
+		{
+			Monster monster = (Monster) arg.rawValue();
+			List data = monster == null ? new ArrayList() : monster.getItems();
+
+			ScriptMap value = new ScriptMap( RESULT_TYPE );
+			AdventureResult result;
+
+			for ( int i = 0; i < data.size(); ++i )
+			{
+				result = (AdventureResult) data.get(i);
+				value.aset( parseItemValue( result.getName() ), parseIntValue( String.valueOf( result.getCount() ) ) );
+			}
+
+			return value;
+		}
 
 		public ScriptValue will_usually_dodge()
 		{	return FightRequest.willUsuallyDodge() ? TRUE_VALUE : FALSE_VALUE;
