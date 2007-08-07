@@ -1163,6 +1163,8 @@ public class KoLmafiaASH extends StaticEntity
 			if ( v == null )
 				return false;
 
+			parentScope.addCommand( new ScriptAssignment( new ScriptVariableReference( v.getName(), parentScope ), null ) );
+
 			if ( currentToken().equals( "," ) )
 			{
 				readToken(); //read ,
@@ -1206,7 +1208,9 @@ public class KoLmafiaASH extends StaticEntity
 			rhs = parseExpression( scope );
 		}
 		else
-			rhs = t.initialValueExpression();
+		{
+			rhs = null;
+		}
 
 		scope.addCommand( new ScriptAssignment( lhs, rhs ) );
 		return result;
@@ -1311,7 +1315,6 @@ public class KoLmafiaASH extends StaticEntity
 
 		else if ( (result = parseValue( scope )) != null )
 			;
-
 		else
 			return null;
 
@@ -7679,7 +7682,7 @@ public class KoLmafiaASH extends StaticEntity
 			this.lhs = lhs;
 			this.rhs = rhs;
 
-			if ( !validCoercion( lhs.getType(), rhs.getType(), "assign" ) )
+			if ( rhs != null && !validCoercion( lhs.getType(), rhs.getType(), "assign" ) )
 				throw new AdvancedScriptException( "Cannot store " + rhs.getType() + " in " + lhs + " of type " + lhs.getType() + " " + getLineAndFile() );
 		}
 
@@ -7690,7 +7693,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptExpression getRightHandSide()
 		{
-			return rhs;
+			return rhs == null ? lhs.getType().initialValueExpression() : rhs;
 		}
 
 		public ScriptType getType()
@@ -7706,23 +7709,32 @@ public class KoLmafiaASH extends StaticEntity
 				return null;
 			}
 
-			traceIndent();
-			trace( "Eval: " + rhs );
+			ScriptValue value;
 
-			ScriptValue value = rhs.execute();
-			captureValue( value );
+			if ( rhs == null )
+			{
+				value = lhs.getType().initialValue();
+			}
+			else
+			{
+				traceIndent();
+				trace( "Eval: " + rhs );
 
-			trace( "Set: " + value );
-			traceUnindent();
+				value = rhs.execute();
+				captureValue( value );
+
+				trace( "Set: " + value );
+				traceUnindent();
+			}
 
 			if ( currentState == STATE_EXIT )
 				return null;
 
 			if ( lhs.getType().equals( TYPE_STRING ) )
 				lhs.setValue( value.toStringValue() );
-			else if ( lhs.getType().equals( TYPE_INT ) && rhs.getType().equals( TYPE_FLOAT ) )
+			else if ( lhs.getType().equals( TYPE_INT ) )
 				lhs.setValue( value.toIntValue() );
-			else if ( lhs.getType().equals( TYPE_FLOAT ) && rhs.getType().equals( TYPE_INT ) )
+			else if ( lhs.getType().equals( TYPE_FLOAT ) )
 				lhs.setValue( value.toFloatValue() );
 			else
 				lhs.setValue( value );
@@ -7731,7 +7743,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public String toString()
-		{	return lhs.getName() + " = " + rhs;
+		{	return rhs == null ? lhs.getName() : lhs.getName() + " = " + rhs;
 		}
 	}
 
