@@ -1467,6 +1467,9 @@ public class KoLmafiaASH extends StaticEntity
 		if ( currentToken() == null || !currentToken().equals( ")" ) )
 			parseError( ")", currentToken() );
 
+		if ( expression.getType() != BOOLEAN_TYPE )
+			throw new AdvancedScriptException( "\"if\" requires a boolean conditional expression " + getLineAndFile() );
+
 		readToken(); // )
 
 		ScriptIf result = null;
@@ -1600,6 +1603,9 @@ public class KoLmafiaASH extends StaticEntity
 		if ( currentToken() == null || !currentToken().equals( ")" ) )
 			parseError( ")", currentToken() );
 
+		if ( expression.getType() != BOOLEAN_TYPE )
+			throw new AdvancedScriptException( "\"while\" requires a boolean conditional expression " + getLineAndFile() );
+
 		readToken(); // )
 
 		ScriptScope scope = parseLoopScope( functionType, null, parentScope );
@@ -1630,6 +1636,9 @@ public class KoLmafiaASH extends StaticEntity
 		ScriptExpression expression = parseExpression( parentScope );
 		if ( currentToken() == null || !currentToken().equals( ")" ) )
 			parseError( ")", currentToken() );
+
+		if ( expression.getType() != BOOLEAN_TYPE )
+			throw new AdvancedScriptException( "\"repeat\" requires a boolean conditional expression " + getLineAndFile() );
 
 		readToken(); // )
 
