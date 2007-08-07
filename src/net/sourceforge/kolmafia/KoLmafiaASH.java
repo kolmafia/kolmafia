@@ -3384,6 +3384,9 @@ public class KoLmafiaASH extends StaticEntity
 		// information.
 
 
+		params = new ScriptType[] { ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "is_npc_item", BOOLEAN_TYPE, params ) );
+
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "daily_special", ITEM_TYPE, params ) );
 
@@ -5210,6 +5213,10 @@ public class KoLmafiaASH extends StaticEntity
 
 		// Major functions which provide item-related
 		// information.
+
+		public ScriptValue is_npc_item( ScriptVariable item )
+		{	return NPCStoreDatabase.contains( TradeableItemDatabase.getItemName( item.intValue() ), false ) ? TRUE_VALUE : FALSE_VALUE;
+		}
 
 		public ScriptValue daily_special()
 		{
