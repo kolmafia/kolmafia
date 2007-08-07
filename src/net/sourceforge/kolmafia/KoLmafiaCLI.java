@@ -829,6 +829,14 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( command.equals( "checkplurals" ) )
+		{
+			int itemId = StaticEntity.parseInt( parameters );
+			TradeableItemDatabase.checkPlurals( itemId );
+			RequestLogger.printLine( "Plurals checked." );
+			return;
+		}
+
 		if ( command.equals( "checkmodifiers" ) )
 		{
 			Modifiers.checkModifiers();

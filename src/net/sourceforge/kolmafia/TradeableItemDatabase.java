@@ -52,7 +52,7 @@ public class TradeableItemDatabase extends KoLDatabase
 
 	private static final Pattern WIKI_ITEMID_PATTERN = Pattern.compile( "Item number</a>:</b> (\\d+)<br />" );
 	private static final Pattern WIKI_DESCID_PATTERN = Pattern.compile( "<b>Description ID:</b> (\\d+)<br />" );
-	private static final Pattern WIKI_PLURAL_PATTERN = Pattern.compile( "\\(Plural: <i>(.*?)<\\/i>\\)", Pattern.DOTALL );
+	private static final Pattern WIKI_PLURAL_PATTERN = Pattern.compile( "\\(.*?In-game plural</a>: <i>(.*?)</i>\\)", Pattern.DOTALL );
 	private static final Pattern WIKI_AUTOSELL_PATTERN = Pattern.compile( "Selling Price: <b>(\\d+) Meat.</b>" );
 
 	private static int maxItemId = 0;
@@ -424,15 +424,12 @@ public class TradeableItemDatabase extends KoLDatabase
 	 */
 
 	private static final String constructWikiName( String name )
-	{	return StaticEntity.globalStringReplace( Character.toUpperCase( name.charAt(0) ) + name.substring(1), " ", "_" );
+	{
+		name = StaticEntity.globalStringReplace( getDisplayName( name ), " ", "_" );
+		return Character.toUpperCase( name.charAt(0) ) + name.substring(1);
 	}
 
-	/**
-	 * Utility method which searches for the plural version of
-	 * the item on the KoL wiki.
-	 */
-
-	public static final void determineWikiData( String name )
+	private static final String readWikiData( String name )
 	{
 		String line = null;
 		StringBuffer wikiRecord = new StringBuffer();
@@ -442,38 +439,49 @@ public class TradeableItemDatabase extends KoLDatabase
 			BufferedReader reader = KoLDatabase.getReader( "http://kol.coldfront.net/thekolwiki/index.php/" + constructWikiName( name ) );
 			while ( (line = reader.readLine()) != null )
 				wikiRecord.append( line );
-
-			String wikiData = wikiRecord.toString();
-
-			Matcher itemMatcher = WIKI_ITEMID_PATTERN.matcher( wikiData );
-			if ( !itemMatcher.find() )
-			{
-				RequestLogger.printLine( name + " did not match a valid an item entry." );
-				return;
-			}
-
-			Matcher descMatcher = WIKI_DESCID_PATTERN.matcher( wikiData );
-			if ( !descMatcher.find() )
-			{
-				RequestLogger.printLine( name + " did not match a valid an item entry." );
-				return;
-			}
-
-			RequestLogger.printLine( "item: " + name + " (#" + itemMatcher.group(1) + ")" );
-			RequestLogger.printLine( "desc: " + descMatcher.group(1) );
-
-			Matcher pluralMatcher = WIKI_PLURAL_PATTERN.matcher( wikiData );
-			if ( pluralMatcher.find() )
-				RequestLogger.printLine( "plural: " + pluralMatcher.group(1) );
-
-			Matcher sellMatcher = WIKI_AUTOSELL_PATTERN.matcher( wikiData );
-			if ( sellMatcher.find() )
-				RequestLogger.printLine( "autosell: " + sellMatcher.group(1) );
+			reader.close();
 		}
 		catch ( Exception e )
 		{
 			e.printStackTrace();
 		}
+
+		return wikiRecord.toString();
+	}
+
+	/**
+	 * Utility method which searches for the plural version of
+	 * the item on the KoL wiki.
+	 */
+
+	public static final void determineWikiData( String name )
+	{
+		String wikiData = readWikiData( name );
+
+		Matcher itemMatcher = WIKI_ITEMID_PATTERN.matcher( wikiData );
+		if ( !itemMatcher.find() )
+		{
+			RequestLogger.printLine( name + " did not match a valid an item entry." );
+			return;
+		}
+
+		Matcher descMatcher = WIKI_DESCID_PATTERN.matcher( wikiData );
+		if ( !descMatcher.find() )
+		{
+			RequestLogger.printLine( name + " did not match a valid an item entry." );
+			return;
+		}
+
+		RequestLogger.printLine( "item: " + name + " (#" + itemMatcher.group(1) + ")" );
+		RequestLogger.printLine( "desc: " + descMatcher.group(1) );
+
+		Matcher pluralMatcher = WIKI_PLURAL_PATTERN.matcher( wikiData );
+		if ( pluralMatcher.find() )
+			RequestLogger.printLine( "plural: " + pluralMatcher.group(1) );
+
+		Matcher sellMatcher = WIKI_AUTOSELL_PATTERN.matcher( wikiData );
+		if ( sellMatcher.find() )
+			RequestLogger.printLine( "autosell: " + sellMatcher.group(1) );
 	}
 
 	/**
@@ -1813,5 +1821,61 @@ public class TradeableItemDatabase extends KoLDatabase
 		}
 
 		return known;
+	}
+
+	public static final void checkPlurals( int itemId )
+	{
+		RequestLogger.printLine( "Checking plurals..." );
+		LogStream report = LogStream.openStream( new File( DATA_DIRECTORY, "plurals.txt" ), true );
+
+		if ( itemId == 0 )
+		{
+			for ( int i = 1; i < descriptionById.size(); ++i )
+				checkPlural( i, report );
+		}
+		else
+			checkPlural( itemId, report );
+
+		report.close();
+	}
+
+	private static final void checkPlural( int itemId, LogStream report )
+	{
+		Integer id = new Integer( itemId );
+
+		String name = (String)dataNameById.get( id );
+		if ( name == null )
+		{
+			report.println( itemId );
+			return;
+		}
+
+		String descId = descriptionById.get( itemId );
+		String plural = pluralById.get(itemId);
+
+		// Don't bother checking quest items
+		String access = (String)accessById.get( id );
+		if ( access != null && !access.equals( "none" ) )
+		{
+			String wikiData = readWikiData( name );
+			Matcher matcher = WIKI_PLURAL_PATTERN.matcher( wikiData );
+			String wikiPlural = matcher.find() ? matcher.group(1) : "";
+			if ( plural == null || plural.equals( "" ) )
+			{
+				// No plural. Wiki plural replaces it
+				plural = wikiPlural;
+			}
+			else if ( !wikiPlural.equals( plural ) )
+			{
+				// Wiki plural differs from KoLmafia plural
+				// Assume Wiki is wrong. (!)
+				RequestLogger.printLine( "*** " + name + ": KoLmafia plural = \"" + plural + "\", Wiki plural = \"" + wikiPlural + "\"" );
+			}
+		}
+
+		if ( plural.equals( "" ) )
+			report.println( itemId + "\t" + descId + "\t" + name );
+		else
+			report.println( itemId + "\t" + descId + "\t" + name + "\t" + plural );
 	}
 }
