@@ -113,32 +113,22 @@ function inlineLoad( location, fields, id )
 			httpObject.responseText.indexOf( "<table" ), httpObject.responseText.indexOf( "</table><table" ) + 8 ) + "</center>";
 
 		var main = top.mainpane.document;
-		var div = getObject( "effdiv" );
+		var container = main.createElement( "div" );
+		container.innerHTML = text;
+		container.style.textAlign = "center";
 
-		if ( !div )
-		{
-			var container = main.createElement( "div" );
-
-			container.id = "effdiv";
-			container.innerHTML = text;
-			container.style.textAlign = "center";
+		if ( main.location.href.indexOf( "store" ) != -1 )
 			main.body.insertBefore( container, main.body.firstChild );
-
-			div = container;
-		}
 		else
-		{
-			div.innerHTML = text;
-		}
+			main.body.appendChild( container );
 
 		if ( httpObject.responseText.indexOf( "charpane" ) != -1 )
 			refreshSidebar( "/charpane.php" );
 
-		div.style.display = "block";
 	};
 
-	httpObject.open( "POST", "/" + location );
-	httpObject.send( fields );
+	httpObject.open( "POST", "/" + location + "?" + fields );
+	httpObject.send( null );
 	return true;
 }
 

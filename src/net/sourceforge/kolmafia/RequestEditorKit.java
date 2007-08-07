@@ -2123,7 +2123,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					addedInlineLink = true;
 					String [] pieces = useLocation.toString().split( "\\?" );
 
-					useLinkMatcher.appendReplacement( buffer, "You acquire$1 <font size=1>[<a href=\"#\" onClick=\"" +
+					useLinkMatcher.appendReplacement( buffer, "You acquire$1 <font size=1>[<a href=\"javascript: " +
 						"singleUse('" + pieces[0] + "', '" + pieces[1] + "'); void(0);\">" + useType + "</a>]</font>" );
 				}
 
