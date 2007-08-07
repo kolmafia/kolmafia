@@ -640,7 +640,6 @@ public class KoLmafiaASH extends StaticEntity
 
 	// **************** Tracing *****************
 
-	private static boolean tracing = true;
 	private static int traceIndentation = 0;
 
 	private static final void resetTracing()
@@ -656,17 +655,10 @@ public class KoLmafiaASH extends StaticEntity
 	{	traceIndentation--;
 	}
 
-	private static final void traceUnindent( int levels )
-	{	traceIndentation -= levels;
-	}
-
 	private static final void trace( String string )
 	{
-		if ( tracing )
-		{
-			indentLine( traceIndentation );
-			RequestLogger.updateDebugLog( string );
-		}
+		indentLine( traceIndentation );
+		RequestLogger.updateDebugLog( string );
 	}
 
 	private static final String executionStateString( int state )
@@ -1162,8 +1154,6 @@ public class KoLmafiaASH extends StaticEntity
 			ScriptVariable v = parseVariable( t, parentScope );
 			if ( v == null )
 				return false;
-
-			parentScope.addCommand( new ScriptAssignment( new ScriptVariableReference( v.getName(), parentScope ), null ) );
 
 			if ( currentToken().equals( "," ) )
 			{
