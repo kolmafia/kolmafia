@@ -277,7 +277,7 @@ public class FlowerHunterRequest extends KoLRequest
 		if ( this.hunterType != RANKVIEW )
 		{
 			processOffenseContests( this.responseText );
-			FightFrame.showRequest( this );
+			ProfileFrame.showRequest( this );
 		}
 	}
 

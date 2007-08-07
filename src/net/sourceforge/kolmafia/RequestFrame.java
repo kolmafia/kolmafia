@@ -198,7 +198,7 @@ public class RequestFrame extends KoLFrame
 
 		this.framePanel.setLayout( new BorderLayout() );
 		this.framePanel.add( container, BorderLayout.CENTER );
-		this.refreshStatus();
+		refreshStatus();
 	}
 
 	private class BrowserComboBox extends JComboBox
@@ -235,7 +235,7 @@ public class RequestFrame extends KoLFrame
 				return;
 
 			command = command.substring( command.indexOf( ":" ) + 1 ).trim();
-			CommandDisplayFrame.executeCommand( command );
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( command );
 		}
 	}
 
@@ -307,6 +307,12 @@ public class RequestFrame extends KoLFrame
 		if ( this.mainBuffer == null || request == null )
 			return;
 
+		if ( request instanceof FightRequest )
+		{
+			request = KoLRequest.VISITOR.constructURLString( request.getURLString() );
+			request.responseText = FightRequest.INSTANCE.responseText;
+		}
+
 		this.currentLocation = request.getURLString();
 		this.mainBuffer.clearBuffer();
 
@@ -333,10 +339,10 @@ public class RequestFrame extends KoLFrame
 			}
 		}
 
-		showHTML( request.getURLString(), request.responseText );
+		showHTML( this.currentLocation, request.responseText );
 
 		if ( request.getClass() == KoLRequest.class )
-			StaticEntity.externalUpdate( request.getURLString(), request.responseText );
+			StaticEntity.externalUpdate( this.currentLocation, request.responseText );
 	}
 
 	public void showHTML( String location, String responseText )
