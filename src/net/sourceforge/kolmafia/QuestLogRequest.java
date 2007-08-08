@@ -36,27 +36,53 @@ package net.sourceforge.kolmafia;
 public class QuestLogRequest extends KoLRequest
 {
 	public static final String TRAPPER = "Am I my Trapper's Keeper?";
-	public static final String ISLAND_WAR = "Make War, Not...";
 	public static final String CITADEL = "White Citadel";
 	public static final String GALAKTIK = "What's Up, Doc?";
-	public static final String MACGUFFIN = "Quest for the Holy MacGuffin";
+
+	private static final String BLACK_MARKET_STRING = "You've picked up your father's diary, and things just got a whole lot more complicated. Oh dear.";
+	private static final String MACGUFFIN = "Quest for the Holy MacGuffin";
+
+	private static final String ISLAND_WAR = "Make War, Not...";
+	private static final String ISLAND_WAR_STRING = "You've managed to get the war between the hippies and frat boys started, and now the Council wants you to finish it.";
 
 	private static String started = "";
 	private static String finished = "";
 
+	private static boolean blackMarketAvailable = false;
+	private static boolean hippyStoreAvailable = false;
+
 	public QuestLogRequest()
 	{	super( "questlog.php" );
+	}
+
+	public static final boolean isBlackMarketAvailable()
+	{	return blackMarketAvailable;
+	}
+
+	public static final void setBlackMarketAvailable()
+	{	blackMarketAvailable = true;
+	}
+
+	public static final boolean isHippyStoreAvailable()
+	{	return hippyStoreAvailable;
+	}
+
+	public static final void setHippyStoreUnavailable()
+	{	hippyStoreAvailable = false;
 	}
 
 	public void run()
 	{
 		addFormField( "which", "1" );
 		super.run();
-		registerQuests( this.getURLString(), this.responseText );
+		registerQuests( false, this.getURLString(), this.responseText );
 
 		addFormField( "which", "2" );
 		super.run();
-		registerQuests( this.getURLString(), this.responseText );
+		registerQuests( false, this.getURLString(), this.responseText );
+
+		blackMarketAvailable = startedQuest( BLACK_MARKET_STRING ) || finishedQuest( MACGUFFIN );
+		hippyStoreAvailable = !startedQuest( ISLAND_WAR_STRING ) || finishedQuest( ISLAND_WAR );
 	}
 
 	public static final boolean startedQuest( String quest )
@@ -71,11 +97,28 @@ public class QuestLogRequest extends KoLRequest
 	{	return true;
 	}
 
-	public static final void registerQuests( String urlString, String responseText )
+	public static final void registerQuests( boolean isExternal, String urlString, String responseText )
 	{
 		if ( urlString.indexOf( "which=1" ) != -1 )
+		{
 			started = responseText;
+
+			if ( isExternal )
+			{
+				blackMarketAvailable |= startedQuest( BLACK_MARKET_STRING );
+				hippyStoreAvailable &= !startedQuest( ISLAND_WAR_STRING );
+			}
+		}
+
 		if ( urlString.indexOf( "which=2" ) != -1 )
+		{
 			finished = responseText;
+
+			if ( isExternal )
+			{
+				blackMarketAvailable |= finishedQuest( BLACK_MARKET_STRING );
+				hippyStoreAvailable |= finishedQuest( ISLAND_WAR );
+			}
+		}
 	}
 }

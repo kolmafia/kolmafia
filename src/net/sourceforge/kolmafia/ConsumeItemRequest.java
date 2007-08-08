@@ -943,6 +943,7 @@ public class ConsumeItemRequest extends KoLRequest
 				StaticEntity.setProperty( "preBlackbirdFamiliar", "" );
 			}
 
+			QuestLogRequest.setBlackMarketAvailable();
 			return;
 
 		case SPOOKY_TEMPLE_MAP:

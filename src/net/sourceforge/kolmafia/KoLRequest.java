@@ -92,7 +92,6 @@ public class KoLRequest extends Job implements KoLConstants
 	private static final AdventureResult BALLROOM_KEY = new AdventureResult( 1766, 1 );
 
 	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
-	private static final Pattern CHOICE_DECISION_PATTERN = Pattern.compile( "whichchoice=(\\d+).*?option=(\\d+)" );
 	private static final Pattern EVENT_PATTERN = Pattern.compile( "<table width=.*?<table><tr><td>(.*?)</td></tr></table>.*?<td height=4></td></tr></table>" );
 
 	public static final Pattern REDIRECT_PATTERN = Pattern.compile( "([^\\/]+)\\/login\\.php", Pattern.DOTALL );
@@ -704,7 +703,7 @@ public class KoLRequest extends Job implements KoLConstants
 			RequestLogger.registerRequest( this, urlString );
 
 		if ( urlString.startsWith( "choice.php" ) )
-			this.saveLastChoice( urlString );
+			this.saveLastChoice();
 
 		if ( !isDelayExempt )
 			StaticEntity.getClient().setCurrentRequest( this );
@@ -754,54 +753,60 @@ public class KoLRequest extends Job implements KoLConstants
 		}
 	}
 
-	private void saveLastChoice( String url )
+	private void saveLastChoice()
 	{
-		Matcher choiceMatcher = CHOICE_DECISION_PATTERN.matcher( url );
-		if ( choiceMatcher.find() )
+		if ( data.isEmpty() )
+			return;
+
+		lastChoice = StaticEntity.parseInt( getFormField( "whichchoice" ) );
+		lastDecision = StaticEntity.parseInt( getFormField( "option" ) );
+
+		switch ( lastChoice )
 		{
-			lastChoice = StaticEntity.parseInt( choiceMatcher.group(1) );
-			lastDecision = StaticEntity.parseInt( choiceMatcher.group(2) );
+		// Strung-Up Quartet
+		case 106:
 
-			switch ( lastChoice )
+			if ( lastDecision != 4 )
 			{
-			// Strung-Up Quartet
-			case 106:
+				StaticEntity.setProperty( "lastQuartetAscension", String.valueOf( KoLCharacter.getAscensions() ) );
+				StaticEntity.setProperty( "lastQuartetRequest", String.valueOf( lastDecision ) );
 
-				if ( lastDecision != 4 )
-				{
-					StaticEntity.setProperty( "lastQuartetAscension", String.valueOf( KoLCharacter.getAscensions() ) );
-					StaticEntity.setProperty( "lastQuartetRequest", String.valueOf( lastDecision ) );
-
-					if ( KoLCharacter.recalculateAdjustments() )
-						KoLCharacter.updateStatus();
-				}
-
-				break;
-
-			// Wheel In the Sky Keep on Turning: Muscle Position
-			case 9:
-				StaticEntity.setProperty( "currentWheelPosition",
-					String.valueOf( lastDecision == 1 ? "mysticality" : lastDecision == 2 ? "moxie" : "muscle" ) );
-				break;
-
-			// Wheel In the Sky Keep on Turning: Mysticality Position
-			case 10:
-				StaticEntity.setProperty( "currentWheelPosition",
-					String.valueOf( lastDecision == 1 ? "map quest" : lastDecision == 2 ? "muscle" : "mysticality" ) );
-				break;
-
-			// Wheel In the Sky Keep on Turning: Map Quest Position
-			case 11:
-				StaticEntity.setProperty( "currentWheelPosition",
-					String.valueOf( lastDecision == 1 ? "moxie" : lastDecision == 2 ? "mysticality" : "map quest" ) );
-				break;
-
-			// Wheel In the Sky Keep on Turning: Moxie Position
-			case 12:
-				StaticEntity.setProperty( "currentWheelPosition",
-					String.valueOf( lastDecision == 1 ? "muscle" : lastDecision == 2 ? "map quest" : "moxie" ) );
-				break;
+				if ( KoLCharacter.recalculateAdjustments() )
+					KoLCharacter.updateStatus();
 			}
+
+			break;
+
+		// Wheel In the Sky Keep on Turning: Muscle Position
+		case 9:
+			StaticEntity.setProperty( "currentWheelPosition",
+				String.valueOf( lastDecision == 1 ? "mysticality" : lastDecision == 2 ? "moxie" : "muscle" ) );
+			break;
+
+		// Wheel In the Sky Keep on Turning: Mysticality Position
+		case 10:
+			StaticEntity.setProperty( "currentWheelPosition",
+				String.valueOf( lastDecision == 1 ? "map quest" : lastDecision == 2 ? "muscle" : "mysticality" ) );
+			break;
+
+		// Wheel In the Sky Keep on Turning: Map Quest Position
+		case 11:
+			StaticEntity.setProperty( "currentWheelPosition",
+				String.valueOf( lastDecision == 1 ? "moxie" : lastDecision == 2 ? "mysticality" : "map quest" ) );
+			break;
+
+		// Wheel In the Sky Keep on Turning: Moxie Position
+		case 12:
+			StaticEntity.setProperty( "currentWheelPosition",
+				String.valueOf( lastDecision == 1 ? "muscle" : lastDecision == 2 ? "map quest" : "moxie" ) );
+			break;
+
+		// Start the Island War Quest
+		case 142:
+		case 146:
+			if ( lastDecision == 3 )
+				QuestLogRequest.setHippyStoreUnavailable();
+			break;
 		}
 	}
 
