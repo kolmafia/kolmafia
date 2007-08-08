@@ -556,6 +556,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		CLIENT_SETTINGS.put( "initialDesktop", "AdventureFrame,CommandDisplayFrame,MallSearchFrame,SkillBuffFrame" );
 		CLIENT_SETTINGS.put( "initialFrames", "EventsFrame" );
 		CLIENT_SETTINGS.put( "itemManagerIndex", "0" );
+		CLIENT_SETTINGS.put( "lastBuffRequestType", "0" );
 		CLIENT_SETTINGS.put( "lastUsername", "" );
 		CLIENT_SETTINGS.put( "logChatMessages", "true" );
 		CLIENT_SETTINGS.put( "loginServerName", "" );

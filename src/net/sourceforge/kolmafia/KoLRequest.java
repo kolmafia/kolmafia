@@ -350,7 +350,9 @@ public class KoLRequest extends Job implements KoLConstants
 			this.formURLString.startsWith( "show" ) || this.formURLString.startsWith( "doc" ) ||
 			(this.formURLString.startsWith( "clan" ) && !this.formURLString.startsWith( "clan_stash" ) && !this.formURLString.startsWith( "clan_rumpus" ));
 
-		this.isDelayExempt = this.shouldIgnoreResult || this.formURLString.equals( "charpane.php" ) || this instanceof LoginRequest || this instanceof LogoutRequest;
+		this.isDelayExempt = this.shouldIgnoreResult || this.formURLString.equals( "charpane.php" ) ||
+			this instanceof LoginRequest || this instanceof LogoutRequest || this.formURLString.startsWith( "http://" );
+
 		return this;
 	}
 
