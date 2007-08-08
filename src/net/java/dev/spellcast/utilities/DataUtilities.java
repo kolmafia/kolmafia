@@ -46,6 +46,8 @@ import java.io.Reader;
 import java.net.URL;
 import java.net.URLConnection;
 
+import com.velocityreviews.forums.HttpTimeoutHandler;
+
 /**
  * Formed after the same idea as <code>SwingUtilities</code>, this contains common
  * functions needed by many of the data-related classes.  Any methods which
@@ -106,7 +108,7 @@ public class DataUtilities implements UtilityConstants
 		{
 			if ( filename.startsWith( "http://" ) )
 			{
-				URLConnection connection = (new URL( filename )).openConnection();
+				URLConnection connection = (new URL( null, filename, HttpTimeoutHandler.getInstance() )).openConnection();
 				return getReader( connection.getInputStream(), connection.getContentEncoding() );
 			}
 

@@ -291,25 +291,12 @@ public class BuffBotDatabase extends KoLDatabase
 				return;
 			}
 
-			BufferedReader reader = KoLDatabase.getReader( this.location );
-			StringBuffer dataBuffer = new StringBuffer();
+			KoLRequest checker = new KoLRequest( this.location );
+			checker.run();
 
-			try
+			if ( checker.responseText == null )
 			{
-				String line;
-				while ( (line = reader.readLine()) != null )
-					dataBuffer.append( line );
-
-				reader.close();
-			}
-			catch ( Exception e )
-			{
-				// If an exception happens, just catch the
-				// exception, incremental the buffbots which
-				// have been parsed, and return.
-
 				++buffBotsConfigured;
-				nameList.remove( this.botName );
 				return;
 			}
 
@@ -318,7 +305,7 @@ public class BuffBotDatabase extends KoLDatabase
 			// expression matching and assume we have a properly-structured
 			// XML file -- which is assumed because of the XSLT.
 
-			Matcher nodeMatcher = BUFFDATA_PATTERN.matcher( dataBuffer.toString() );
+			Matcher nodeMatcher = BUFFDATA_PATTERN.matcher( checker.responseText );
 			LockableListModel freeBuffs = new LockableListModel();
 			LockableListModel normalBuffs = new LockableListModel();
 

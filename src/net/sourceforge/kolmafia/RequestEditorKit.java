@@ -67,6 +67,9 @@ import javax.swing.text.html.FormView;
 import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.ImageView;
+
+import com.velocityreviews.forums.HttpTimeoutHandler;
+
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
@@ -472,7 +475,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		try
 		{
-			URLConnection connection = (new URL( remote )).openConnection();
+			URLConnection connection = (new URL( null, remote, HttpTimeoutHandler.getInstance() )).openConnection();
 			if ( remote.startsWith( "http://pics.communityofloathing.com" ) )
 			{
 				Matcher idMatcher = FILEID_PATTERN.matcher( local.getPath() );
