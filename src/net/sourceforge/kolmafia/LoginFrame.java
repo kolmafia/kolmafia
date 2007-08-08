@@ -287,10 +287,10 @@ public class LoginFrame extends KoLFrame
 		public void actionCancelled()
 		{
 			if ( !LoginRequest.isInstanceRunning() )
+			{
 				StaticEntity.setProperty( "relayBrowserOnly", "true" );
-
-			StaticEntity.getClient().openRelayBrowser();
-			LoginFrame.this.setVisible( false );
+				actionConfirmed();
+			}
 		}
 
 		private class AutoLoginListener implements ActionListener

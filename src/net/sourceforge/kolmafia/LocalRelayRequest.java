@@ -45,6 +45,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.TreeMap;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -54,14 +55,10 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 
 public class LocalRelayRequest extends PasswordHashRequest
 {
-	private static final boolean RELAY_EXISTS = RELAY_LOCATION.exists();
+	private static final TreeMap overrideMap = new TreeMap();
 	private static final Pattern EMAIL_PATTERN = Pattern.compile( "<table style='border: 1px solid black;' cellpadding=10>.*?</table>", Pattern.DOTALL );
-
-	private static final Pattern MENU1_PATTERN = Pattern.compile( "<select name=\"loc\".*?</select>", Pattern.DOTALL );
-	private static final Pattern MENU2_PATTERN = Pattern.compile( "<select name=location.*?</select>", Pattern.DOTALL );
 	private static final Pattern WHITESPACE_PATTERN = Pattern.compile( "['\\s-]" );
 
-	private static final Pattern SEARCHITEM_PATTERN = Pattern.compile( "searchitem=(\\d+)&searchprice=(\\d+)" );
 	private static final Pattern STORE_PATTERN = Pattern.compile( "<tr><td><input name=whichitem type=radio value=(\\d+).*?</tr>", Pattern.DOTALL );
 
 	private static String mainpane = "";
@@ -75,7 +72,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 	public LocalRelayRequest( boolean allowOverride )
 	{
 		super( "" );
-		this.allowOverride = RELAY_EXISTS && allowOverride;
+		this.allowOverride = allowOverride && StaticEntity.getBooleanProperty( "relayAllowsOverride" );
 	}
 
 	public KoLRequest constructURLString( String newURLString )
@@ -136,22 +133,55 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 		StringBuffer responseBuffer = new StringBuffer( this.responseText );
 
+		// Fix KoLmafia getting outdated by events happening
+		// in the browser by using the sidepane.
+
+		if ( this.formURLString.equals( "charpane.php" ) )
+		{
+			CharpaneRequest.processCharacterPane( this.responseText );
+		}
+
+		// Allow a way to get from KoL back to the gCLI
+		// using the chat launcher.
+
+		else if ( this.formURLString.equals( "chatlaunch.php" ) )
+		{
+			if ( StaticEntity.getBooleanProperty( "relayAddsGraphicalCLI" ) )
+			{
+				int linkIndex = responseBuffer.indexOf( "<a href" );
+				if ( linkIndex != -1 )
+					responseBuffer.insert( linkIndex, "<a href=\"cli.html\"><b>KoLmafia gCLI</b></a></center><p>Type KoLmafia scripting commands in your browser!</p><center>" );
+			}
+
+			if ( StaticEntity.getBooleanProperty( "relayAddsKoLSimulator" ) )
+			{
+				int linkIndex = responseBuffer.indexOf( "<a href" );
+				if ( linkIndex != -1 )
+					responseBuffer.insert( linkIndex, "<a href=\"simulator/index.html\" target=\"_blank\"><b>KoL Simulator</b></a></center><p>See what might happen before it happens!</p><center>" );
+			}
+		}
+
+		// Fix it a little more by making sure that familiar
+		// changes and equipment changes are remembered.
+
+		else if ( this.formURLString.equals( "main.php" ) )
+		{
+			Matcher emailMatcher = EMAIL_PATTERN.matcher( this.responseText );
+			if ( emailMatcher.find() )
+				responseBuffer = new StringBuffer( emailMatcher.replaceAll( "" ) );
+		}
 		// If this is a store, you can opt to remove all the min-priced items from view
 		// along with all the items which are priced above affordable levels.
 
-		if ( this.formURLString.indexOf( "mallstore.php" ) != -1 )
+		else if ( this.formURLString.equals( "mallstore.php" ) )
 		{
 			int searchItemId = -1;
 			int searchPrice = -1;
 
-			Matcher itemMatcher = SEARCHITEM_PATTERN.matcher( this.getURLString() );
-			if ( itemMatcher.find() )
-			{
-				searchItemId = StaticEntity.parseInt( itemMatcher.group(1) );
-				searchPrice = StaticEntity.parseInt( itemMatcher.group(2) );
-			}
+			searchItemId = StaticEntity.parseInt( getFormField( "searchitem" ) );
+			searchPrice = StaticEntity.parseInt( getFormField( "searchprice" ) );
 
-			itemMatcher = STORE_PATTERN.matcher( this.responseText );
+			Matcher itemMatcher = STORE_PATTERN.matcher( this.responseText );
 
 			while ( itemMatcher.find() )
 			{
@@ -173,171 +203,9 @@ public class LocalRelayRequest extends PasswordHashRequest
 				StaticEntity.singleStringReplace( responseBuffer, "value=" + searchString, "checked value=" + searchString );
 			}
 		}
-
-		if ( this.formURLString.indexOf( "compactmenu.php" ) != -1 )
-		{
-			// Mafiatize the function menu
-
-			StringBuffer functionMenu = new StringBuffer();
-			functionMenu.append( "<select name=\"loc\" onChange=\"goloc();\">" );
-			functionMenu.append( "<option value=\"nothing\">- Select -</option>" );
-
-			for ( int i = 0; i < FUNCTION_MENU.length; ++i )
-			{
-				functionMenu.append( "<option value=\"" );
-				functionMenu.append( FUNCTION_MENU[i][1] );
-				functionMenu.append( "\">" );
-				functionMenu.append( FUNCTION_MENU[i][0] );
-				functionMenu.append( "</option>" );
-			}
-
-			functionMenu.append( "<option value=\"donatepopup.php?pid=" );
-			functionMenu.append( KoLCharacter.getUserId() );
-			functionMenu.append( "\">Donate</option>" );
-			functionMenu.append( "</select>" );
-
-			Matcher menuMatcher = MENU1_PATTERN.matcher( this.responseText );
-			if ( menuMatcher.find() )
-				StaticEntity.singleStringReplace( responseBuffer, menuMatcher.group(), functionMenu.toString() );
-
-			// Mafiatize the goto menu
-
-			StringBuffer gotoMenu = new StringBuffer();
-			gotoMenu.append( "<select name=location onChange='move();'>" );
-
-			gotoMenu.append( "<option value=\"nothing\">- Select -</option>" );
-			for ( int i = 0; i < GOTO_MENU.length; ++i )
-			{
-				gotoMenu.append( "<option value=\"" );
-				gotoMenu.append( GOTO_MENU[i][1] );
-				gotoMenu.append( "\">" );
-				gotoMenu.append( GOTO_MENU[i][0] );
-				gotoMenu.append( "</option>" );
-			}
-
-			String [] bookmarkData = StaticEntity.getProperty( "browserBookmarks" ).split( "\\|" );
-
-			if ( bookmarkData.length > 1 )
-			{
-				gotoMenu.append( "<option value=\"nothing\"> </option>" );
-				gotoMenu.append( "<option value=\"nothing\">- Select -</option>" );
-
-				for ( int i = 0; i < bookmarkData.length; i += 3 )
-				{
-					gotoMenu.append( "<option value=\"" );
-					gotoMenu.append( bookmarkData[i+1] );
-					gotoMenu.append( "\">" );
-					gotoMenu.append( bookmarkData[i] );
-					gotoMenu.append( "</option>" );
-				}
-			}
-
-			gotoMenu.append( "</select>" );
-
-			menuMatcher = MENU2_PATTERN.matcher( this.responseText );
-			if ( menuMatcher.find() )
-				StaticEntity.singleStringReplace( responseBuffer, menuMatcher.group(), gotoMenu.toString() );
-
-			// Now kill off the weird focusing problems inherent in
-			// the Javascript.
-
-			StaticEntity.globalStringReplace( responseBuffer, "selectedIndex=0;", "selectedIndex=0; if ( parent && parent.mainpane ) parent.mainpane.focus();" );
-		}
-
-		// Fix chat javascript problems with relay system
-
-		else if ( this.formURLString.indexOf( "lchat.php" ) != -1 )
-		{
-			StaticEntity.globalStringDelete( responseBuffer, "spacing: 0px;" );
-			StaticEntity.globalStringReplace( responseBuffer, "cycles++", "cycles = 0" );
-			StaticEntity.globalStringReplace( responseBuffer, "location.hostname", "location.host" );
-
-			StaticEntity.singleStringReplace( responseBuffer, "if (postedgraf", "if (postedgraf == \"/exit\") { document.location.href = \"chatlaunch.php\"; return true; } if (postedgraf" );
-
-			// This is a hack to fix KoL chat, as it is handled
-			// in Opera.  No guarantees it works, though.
-
-			StaticEntity.singleStringReplace( responseBuffer, "http.onreadystatechange", "executed = false; http.onreadystatechange" );
-			StaticEntity.singleStringReplace( responseBuffer, "readyState==4) {", "readyState==4 && !executed) { executed = true;" );
-		}
-
-		// Fix KoLmafia getting outdated by events happening
-		// in the browser by using the sidepane.
-
-		else if ( this.formURLString.indexOf( "charpane.php" ) != -1 )
-		{
-			CharpaneRequest.processCharacterPane( this.responseText );
-		}
-
-		// Fix it a little more by making sure that familiar
-		// changes and equipment changes are remembered.
-
-		else if ( this.formURLString.indexOf( "main.php" ) != -1 )
-		{
-			Matcher emailMatcher = EMAIL_PATTERN.matcher( this.responseText );
-			if ( emailMatcher.find() )
-				responseBuffer = new StringBuffer( emailMatcher.replaceAll( "" ) );
-		}
 		else
+		{
 			StaticEntity.externalUpdate( this.getURLString(), this.responseText );
-
-		// Allow a way to get from KoL back to the gCLI
-		// using the chat launcher.
-
-		if ( this.formURLString.indexOf( "chatlaunch" ) != -1 )
-		{
-			if ( StaticEntity.getBooleanProperty( "relayAddsGraphicalCLI" ) )
-			{
-				int linkIndex = responseBuffer.indexOf( "<a href" );
-				if ( linkIndex != -1 )
-					responseBuffer.insert( linkIndex, "<a href=\"cli.html\"><b>KoLmafia gCLI</b></a></center><p>Type KoLmafia scripting commands in your browser!</p><center>" );
-			}
-
-			if ( StaticEntity.getBooleanProperty( "relayAddsKoLSimulator" ) )
-			{
-				int linkIndex = responseBuffer.indexOf( "<a href" );
-				if ( linkIndex != -1 )
-					responseBuffer.insert( linkIndex, "<a href=\"simulator/index.html\" target=\"_blank\"><b>KoL Simulator</b></a></center><p>See what might happen before it happens!</p><center>" );
-			}
-		}
-
-		if ( StaticEntity.getBooleanProperty( "relayAddsQuickScripts" ) && this.formURLString.indexOf( "menu" ) != -1 )
-		{
-			try
-			{
-				StringBuffer selectBuffer = new StringBuffer();
-				selectBuffer.append( "<td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><form name=\"gcli\">" );
-				selectBuffer.append( "<select id=\"scriptbar\">" );
-
-				String [] scriptList = StaticEntity.getProperty( "scriptList" ).split( " \\| " );
-				for ( int i = 0; i < scriptList.length; ++i )
-				{
-					selectBuffer.append( "<option value=\"" );
-					selectBuffer.append( URLEncoder.encode( scriptList[i], "UTF-8" ) );
-					selectBuffer.append( "\">" );
-					selectBuffer.append( i + 1 );
-					selectBuffer.append( ": " );
-					selectBuffer.append( scriptList[i] );
-					selectBuffer.append( "</option>" );
-				}
-
-				selectBuffer.append( "</select></td><td>&nbsp;</td><td>" );
-				selectBuffer.append( "<input type=\"button\" class=\"button\" value=\"exec\" onClick=\"" );
-
-				selectBuffer.append( "var script = document.getElementById( 'scriptbar' ).value; " );
-				selectBuffer.append( "parent.charpane.location = '/KoLmafia/sideCommand?cmd=' + script; void(0);" );
-				selectBuffer.append( "\">" );
-				selectBuffer.append( "</form></td>" );
-
-				int lastRowIndex = responseBuffer.lastIndexOf( "</tr>" );
-				if ( lastRowIndex != -1 )
-					responseBuffer.insert( lastRowIndex, selectBuffer.toString() );
-			}
-			catch ( Exception e )
-			{
-				// Something bad happened, let's ignore it for now, because
-				// no script bar isn't the end of the world.
-			}
 		}
 
 		try
@@ -462,21 +330,28 @@ public class LocalRelayRequest extends PasswordHashRequest
 		}
 	}
 
-	private StringBuffer readContents( BufferedReader reader ) throws IOException
+	private StringBuffer readContents( BufferedReader reader )
 	{
 		String line = null;
 		StringBuffer contentBuffer = new StringBuffer();
 
-		if ( reader == null )
-			return contentBuffer;
-
-		while ( (line = reader.readLine()) != null )
+		try
 		{
-			contentBuffer.append( line );
-			contentBuffer.append( LINE_BREAK );
+			if ( reader == null )
+				return contentBuffer;
+
+			while ( (line = reader.readLine()) != null )
+			{
+				contentBuffer.append( line );
+				contentBuffer.append( LINE_BREAK );
+			}
+
+			reader.close();
+		}
+		catch ( IOException e )
+		{
 		}
 
-		reader.close();
 		return contentBuffer;
 	}
 
@@ -484,53 +359,21 @@ public class LocalRelayRequest extends PasswordHashRequest
 	{
 		try
 		{
-			this.sendLocalImageHelper( filename );
-		}
-		catch ( Exception e )
-		{
-			this.sendNotFound();
-		}
-	}
+			BufferedInputStream in = new BufferedInputStream( RequestEditorKit.downloadImage(
+				"http://images.kingdomofloathing.com" + filename.substring(6) ).openConnection().getInputStream() );
 
-	private void sendLocalImageHelper( String filename ) throws Exception
-	{
-		BufferedInputStream in = new BufferedInputStream( RequestEditorKit.downloadImage(
-			"http://images.kingdomofloathing.com" + filename.substring(6) ).openConnection().getInputStream() );
+			ByteArrayOutputStream outbytes = new ByteArrayOutputStream( 4096 );
+			byte [] buffer = new byte[4096];
 
-		ByteArrayOutputStream outbytes = new ByteArrayOutputStream( 4096 );
-		byte [] buffer = new byte[4096];
+			int offset;
+			while ((offset = in.read(buffer)) > 0)
+				outbytes.write(buffer, 0, offset);
 
-		int offset;
-		while ((offset = in.read(buffer)) > 0)
-			outbytes.write(buffer, 0, offset);
+			in.close();
+			outbytes.flush();
 
-		in.close();
-		outbytes.flush();
-
-		this.rawByteBuffer = outbytes.toByteArray();
-		this.pseudoResponse( "HTTP/1.1 200 OK", "" );
-	}
-
-	private void sendSharedFile( String filename )
-	{
-		// If there's no override file, go ahead and
-		// request the page from the server normally.
-
-		if ( filename.endsWith( ".php" ) )
-		{
-			super.run();
-
-			if ( this.responseCode == 302 )
-				this.pseudoResponse( "HTTP/1.1 302 Found", this.redirectLocation );
-			else if ( this.responseCode != 200 )
-				this.sendNotFound();
-
-			return;
-		}
-
-		try
-		{
-			this.sendSharedFileHelper( filename );
+			this.rawByteBuffer = outbytes.toByteArray();
+			this.pseudoResponse( "HTTP/1.1 200 OK", "" );
 		}
 		catch ( Exception e )
 		{
@@ -542,112 +385,81 @@ public class LocalRelayRequest extends PasswordHashRequest
 	{	LocalRelayRequest.mainpane = mainpane;
 	}
 
+	private void handleMain()
+	{
+		if ( this.responseText == null )
+			super.run();
+
+		if ( mainpane.equals( "" ) )
+			return;
+
+		// If it's a relay browser request based on a
+		// menu item, then change the middle panel.
+
+		this.responseText = MAINPANE_PATTERN.matcher( this.responseText ).replaceFirst(
+			"name=mainpane src=\"" + mainpane + "\"" );
+
+		mainpane = "";
+	}
+
 	private static final Pattern MAINPANE_PATTERN = Pattern.compile( "name=mainpane src=\"(.*?)\"", Pattern.DOTALL );
 
-	private void sendSharedFileHelper( String filename ) throws Exception
+	private void sendLocalFile( String filename )
 	{
-		boolean writePseudoResponse = false;
 		StringBuffer replyBuffer = new StringBuffer();
 
-		String name, directory;
-		int index = filename.indexOf( "/" );
+		if ( !overrideMap.containsKey( filename ) )
+			overrideMap.put( filename, new File( RELAY_DIRECTORY, filename ) );
 
-		// Don't allow attempts to load files in the settings
-		// directory.  Detect attempts and auto-fail.
+		File override = (File) overrideMap.get( filename );
+		if ( !override.exists() )
+		{
+			if ( filename.equals( "main.html" ) || filename.equals( "main_c.html" ) )
+			{
+				this.handleMain();
+				return;
+			}
 
-		if ( index != -1 )
-		{
-			name = filename.substring( index + 1 );
-			directory = RELAY_DIRECTORY + filename.substring( 0, index + 1 );
-		}
-		else
-		{
-			name = filename;
-			directory = RELAY_DIRECTORY;
-		}
+			if ( !filename.startsWith( "simulator/" ) )
+			{
+				this.sendNotFound();
+				return;
+			}
 
-		if ( directory.toLowerCase().endsWith( "settings/" ) )
-		{
-			this.sendNotFound();
-			return;
+			this.downloadSimulatorFile( filename.substring( filename.lastIndexOf( "/" ) + 1 ) );
 		}
 
-		BufferedReader reader = DataUtilities.getReader( directory, name );
-
-		if ( reader == null && filename.startsWith( "simulator" ) )
-		{
-			this.downloadSimulatorFile( name );
-			reader = DataUtilities.getReader( directory, name );
-		}
-
-		if ( reader != null )
-		{
-			// Now that you know the reader exists, read the
-			// contents of the reader.
-
-			replyBuffer = this.readContents( reader );
-			writePseudoResponse = true;
-		}
+		replyBuffer = this.readContents( DataUtilities.getReader( override ) );
 
 		// Add Javascript to the KoL simulator pages so that
 		// everything loads correctly the first time.
 
 		if ( filename.endsWith( "simulator/index.html" ) )
-		{
-			writePseudoResponse = true;
 			this.handleSimulatorIndex( replyBuffer );
-		}
 
-		if ( !writePseudoResponse )
+		// Make sure to print the reply buffer to the
+		// response buffer for the local relay server.
+
+		if ( this.isChatRequest )
+			StaticEntity.globalStringReplace( replyBuffer, "<br>", "</font><br>" );
+
+		if ( filename.endsWith( "chat.html" ) )
+			RequestEditorKit.addChatFeatures( replyBuffer );
+
+		this.pseudoResponse( "HTTP/1.1 200 OK", replyBuffer.toString() );
+
+		if ( filename.equals( "main.html" ) || filename.equals( "main_c.html" ) )
 		{
-			super.run();
-
-			if ( this.responseCode == 302 )
-			{
-				this.pseudoResponse( "HTTP/1.1 302 Found", this.redirectLocation );
-				return;
-			}
-
-			if ( this.responseCode != 200 )
-			{
-				this.sendNotFound();
-				return;
-			}
-		}
-
-		// If it's a relay browser request based on a
-		// menu item, then change the middle panel.
-
-		if ( (filename.equals( "main.html" ) || filename.equals( "main_c.html" )) && !mainpane.equals( "" ) )
-		{
-			if ( writePseudoResponse )
-			{
-				this.pseudoResponse( "HTTP/1.1 200 OK", replyBuffer.toString() );
-				writePseudoResponse = false;
-			}
-
-			this.responseText = MAINPANE_PATTERN.matcher( this.responseText ).replaceFirst(
-				"name=mainpane src=\"" + mainpane + "\"" );
-
-			mainpane = "";
-		}
-
-		if ( writePseudoResponse )
-		{
-			// Make sure to print the reply buffer to the
-			// response buffer for the local relay server.
-
-			if ( this.isChatRequest )
-				StaticEntity.globalStringReplace( replyBuffer, "<br>", "</font><br>" );
-
-			if ( filename.endsWith( "chat.html" ) )
-				RequestEditorKit.addChatFeatures( replyBuffer );
-
-			this.pseudoResponse( "HTTP/1.1 200 OK", replyBuffer.toString() );
+			this.handleMain();
+			return;
 		}
 	}
 
-	private static final String getSimulatorName( int equipmentSlot )
+	private static final String getSimulatorEffectName( String effectName )
+	{	return WHITESPACE_PATTERN.matcher( effectName ).replaceAll( "" ).toLowerCase();
+	}
+
+	private static final String getSimulatorEquipName( int equipmentSlot )
 	{
 		AdventureResult item = KoLCharacter.getEquipment( equipmentSlot );
 
@@ -660,9 +472,16 @@ public class LocalRelayRequest extends PasswordHashRequest
 		return item.getName();
 	}
 
-	private void handleSimulatorIndex( StringBuffer replyBuffer ) throws IOException
+	private void handleSimulatorIndex( StringBuffer replyBuffer )
 	{
-		StringBuffer scriptBuffer = this.readContents( DataUtilities.getReader( "relay/simulator", "index.js" ) );
+		StringBuffer scriptBuffer = new StringBuffer();
+		scriptBuffer.append( LINE_BREAK );
+
+		scriptBuffer.append( "<script language=\"Javascript\">" );
+		scriptBuffer.append( LINE_BREAK );
+		scriptBuffer.append( LINE_BREAK );
+		scriptBuffer.append( "LoadKingdomStateLong( { " );
+
 
 		// This is the simple Javascript which can be added
 		// arbitrarily to the end without having to modify
@@ -673,89 +492,106 @@ public class LocalRelayRequest extends PasswordHashRequest
 			if ( KoLmafiaASH.CLASSES[i].equalsIgnoreCase( KoLCharacter.getClassType() ) )
 				classIndex = i;
 
-		// Basic additions of player state info
+		// Player state
 
-		StaticEntity.globalStringReplace( scriptBuffer, "/*classIndex*/", classIndex );
-		StaticEntity.globalStringReplace( scriptBuffer, "/*baseMuscle*/", KoLCharacter.getBaseMuscle() );
-		StaticEntity.globalStringReplace( scriptBuffer, "/*baseMysticality*/", KoLCharacter.getBaseMysticality() );
-		StaticEntity.globalStringReplace( scriptBuffer, "/*baseMoxie*/", KoLCharacter.getBaseMoxie() );
-		StaticEntity.globalStringReplace( scriptBuffer, "/*mindControl*/", KoLCharacter.getMindControlLevel() );
+		scriptBuffer.append( "charclass: " );
+		scriptBuffer.append( classIndex );
+		scriptBuffer.append( ", mus: " );
+		scriptBuffer.append( KoLCharacter.getBaseMuscle() );
+		scriptBuffer.append( ", mys: " );
+		scriptBuffer.append( KoLCharacter.getBaseMysticality() );
+		scriptBuffer.append( ", mox: " );
+		scriptBuffer.append( KoLCharacter.getBaseMoxie() );
+		scriptBuffer.append( ", " );
 
-		// Change the player's familiar to the current
-		// familiar.  Input the weight and change the
-		// familiar equipment.
+		// Current equipment
 
-		StaticEntity.globalStringReplace( scriptBuffer, "/*familiar*/",  KoLCharacter.getFamiliar().getRace() );
-		StaticEntity.globalStringReplace( scriptBuffer, "/*familiarWeight*/", KoLCharacter.getFamiliar().getWeight() );
+		scriptBuffer.append( "hat: \"" );
+		scriptBuffer.append( getSimulatorEquipName( KoLCharacter.HAT ) );
+		scriptBuffer.append( "\", weapon: \"" );
+		scriptBuffer.append( getSimulatorEquipName( KoLCharacter.WEAPON ) );
+		scriptBuffer.append( "\", offhand: \"" );
+		scriptBuffer.append( getSimulatorEquipName( KoLCharacter.OFFHAND ) );
+		scriptBuffer.append( "\", shirt: \"" );
+		scriptBuffer.append( getSimulatorEquipName( KoLCharacter.SHIRT ) );
+		scriptBuffer.append( "\", pants: \"" );
+		scriptBuffer.append( getSimulatorEquipName( KoLCharacter.PANTS ) );
+		scriptBuffer.append( "\", acc1: \"" );
+		scriptBuffer.append( getSimulatorEquipName( KoLCharacter.ACCESSORY1 ) );
+		scriptBuffer.append( "\", acc2: \"" );
+		scriptBuffer.append( getSimulatorEquipName( KoLCharacter.ACCESSORY2 ) );
+		scriptBuffer.append( "\", acc3: \"" );
+		scriptBuffer.append( getSimulatorEquipName( KoLCharacter.ACCESSORY3 ) );
+		scriptBuffer.append( "\", " );
 
-		String familiarEquipment = getSimulatorName( KoLCharacter.FAMILIAR );
+		// Current familiar
+
+		scriptBuffer.append( "familiar: \"" );
+		scriptBuffer.append( KoLCharacter.getFamiliar().getRace() );
+		scriptBuffer.append( "\", weight: " );
+		scriptBuffer.append( KoLCharacter.getFamiliar().getWeight() );
+		scriptBuffer.append( ", fameq: \"" );
+
+		String familiarEquipment = getSimulatorEquipName( KoLCharacter.FAMILIAR );
 		if ( FamiliarData.itemWeightModifier( TradeableItemDatabase.getItemId( familiarEquipment ) ) == 5 )
-			StaticEntity.globalStringReplace( scriptBuffer, "/*familiarEquip*/", "familiar-specific +5 lbs." );
+			scriptBuffer.append( "familiar-specific +5 lbs." );
 		else
-			StaticEntity.globalStringReplace( scriptBuffer, "/*familiarEquip*/", familiarEquipment );
+			scriptBuffer.append( familiarEquipment );
 
-		// Change the player's equipment
+		// Status effects
 
-		StaticEntity.globalStringReplace( scriptBuffer, "/*hat*/", getSimulatorName( KoLCharacter.HAT ) );
-		StaticEntity.globalStringReplace( scriptBuffer, "/*weapon*/", getSimulatorName( KoLCharacter.WEAPON ) );
-		StaticEntity.globalStringReplace( scriptBuffer, "/*offhand*/", getSimulatorName( KoLCharacter.OFFHAND ) );
-		StaticEntity.globalStringReplace( scriptBuffer, "/*shirt*/", getSimulatorName( KoLCharacter.SHIRT ) );
-		StaticEntity.globalStringReplace( scriptBuffer, "/*pants*/", getSimulatorName( KoLCharacter.PANTS ) );
+		scriptBuffer.append( "\", rockandroll: false, effects: [ " );
+		int effectCount = 0;
 
-		// Change the player's accessories
-
-		StaticEntity.globalStringReplace( scriptBuffer, "/*accessory1*/", getSimulatorName( KoLCharacter.ACCESSORY1 ) );
-		StaticEntity.globalStringReplace( scriptBuffer, "/*accessory2*/", getSimulatorName( KoLCharacter.ACCESSORY2 ) );
-		StaticEntity.globalStringReplace( scriptBuffer, "/*accessory3*/", getSimulatorName( KoLCharacter.ACCESSORY3 ) );
-
-		// Load up the player's current skillset to figure
-		// out what passive skills are available.
-
-		UseSkillRequest [] skills = new UseSkillRequest[ availableSkills.size() ];
-		availableSkills.toArray( skills );
-
-		StringBuffer passiveSkills = new StringBuffer();
-		for ( int i = 0; i < skills.length; ++i )
+		for ( int i = 0; i < availableSkills.size(); ++i )
 		{
-			int skillId = skills[i].getSkillId();
-			if ( !( ClassSkillsDatabase.getSkillType( skillId ) == ClassSkillsDatabase.PASSIVE && !(skillId < 10 || (skillId > 14 && skillId < 1000)) ) )
+			UseSkillRequest current = (UseSkillRequest) availableSkills.get(i);
+			int skillId = current.getSkillId();
+
+			if ( ClassSkillsDatabase.getSkillType( skillId ) != ClassSkillsDatabase.PASSIVE )
 				continue;
 
-			passiveSkills.append( "\"" );
-			passiveSkills.append( WHITESPACE_PATTERN.matcher( skills[i].getSkillName() ).replaceAll( "" ).toLowerCase() );
-			passiveSkills.append( "\"," );
+			if ( effectCount > 0 )
+				scriptBuffer.append( ',' );
+
+			++effectCount;
+			scriptBuffer.append( '\"' );
+			scriptBuffer.append( getSimulatorEffectName( current.getSkillName() ) );
+			scriptBuffer.append( '\"' );
 		}
 
-		StaticEntity.globalStringReplace( scriptBuffer, "/*passiveSkills*/", passiveSkills.toString() );
-
-		// Also load up the player's current active effects
-		// and fill them into the buffs area.
-
-		AdventureResult [] effects = new AdventureResult[ activeEffects.size() ];
-		activeEffects.toArray( effects );
-
-		StringBuffer activeEffects = new StringBuffer();
-		for ( int i = 0; i < effects.length; ++i )
+		for ( int i = 0; i < activeEffects.size(); ++i )
 		{
-			activeEffects.append( "\"" );
-			activeEffects.append( WHITESPACE_PATTERN.matcher( effects[i].getName() ).replaceAll( "" ).replaceAll( "\u00f1", "n" ).toLowerCase() );
-			activeEffects.append( "\"," );
+			AdventureResult current = (AdventureResult) activeEffects.get(i);
+			if ( effectCount > 0 )
+				scriptBuffer.append( ',' );
+
+			++effectCount;
+			scriptBuffer.append( '\"' );
+			scriptBuffer.append( getSimulatorEffectName( current.getName() ) );
+			scriptBuffer.append( '\"' );
 		}
 
-		StaticEntity.globalStringReplace( scriptBuffer, "/*activeEffects*/", activeEffects.toString() );
-		StaticEntity.globalStringReplace( scriptBuffer, "/*rockAndRoll*/", "false" );
+		scriptBuffer.append( " ], " );
 
-		StaticEntity.globalStringReplace( scriptBuffer, "/*lastZone*/", StaticEntity.getProperty( "lastAdventure" ) );
-		StaticEntity.globalStringReplace( scriptBuffer, "/*lastMonster*/", FightRequest.getCurrentKey() );
+		// Adventure modifiers
 
-		StaticEntity.globalStringReplace( scriptBuffer, "/*moonPhase*/", (int) ((MoonPhaseDatabase.getGrimacePhase()-1) * 2
+		scriptBuffer.append( "zone: \"" );
+		scriptBuffer.append( StaticEntity.getProperty( "lastAdventure" ) );
+		scriptBuffer.append( "\", monster: \"" );
+		scriptBuffer.append( FightRequest.getCurrentKey() );
+		scriptBuffer.append( "\", mcd: " );
+		scriptBuffer.append( KoLCharacter.getMindControlLevel() );
+		scriptBuffer.append( ", " );
+
+		scriptBuffer.append( "moonphase: " );
+		scriptBuffer.append( (int) ((MoonPhaseDatabase.getGrimacePhase()-1) * 2
 			+ Math.round( (MoonPhaseDatabase.getRonaldPhase()-1) / 2.0f - Math.floor( (MoonPhaseDatabase.getRonaldPhase()-1) / 2.0f ) )) );
 
-		StaticEntity.globalStringReplace( scriptBuffer, "/*minimoonPhase*/", String.valueOf( MoonPhaseDatabase.getHamburglarPosition( new Date() ) ) );
+		scriptBuffer.append( ", moonminiphase: " );
+		scriptBuffer.append( MoonPhaseDatabase.getHamburglarPosition( new Date() ) );
+		scriptBuffer.append( " } );" );
 
-		scriptBuffer.insert( 0, LINE_BREAK );
-		scriptBuffer.insert( 0, LINE_BREAK );
-		scriptBuffer.insert( 0, "<script language=\"Javascript\">" );
 		scriptBuffer.append( LINE_BREAK );
 		scriptBuffer.append( LINE_BREAK );
 		scriptBuffer.append( "</script>" );
@@ -992,7 +828,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 		if ( this.formURLString.endsWith( ".css" ) || this.formURLString.endsWith( ".js" ) )
 		{
-			this.sendSharedFile( this.formURLString );
+			this.sendLocalFile( this.formURLString );
 			return;
 		}
 
@@ -1014,7 +850,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		if ( this.formURLString.endsWith( ".html" ) )
 		{
 			this.data.clear();
-			this.sendSharedFile( this.formURLString );
+			this.sendLocalFile( this.formURLString );
 			return;
 		}
 
@@ -1048,7 +884,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		{
 			if ( StaticEntity.getBooleanProperty( "relayUsesIntegratedChat" ) )
 			{
-				this.sendSharedFile( "chat.html" );
+				this.sendLocalFile( "chat.html" );
 				return;
 			}
 
@@ -1157,7 +993,14 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// If it gets this far, it's a normal file.  Go ahead and
 		// process it accordingly.
 
-		this.sendSharedFile( this.formURLString );
+		super.run();
+
+		if ( this.responseCode == 302 )
+			this.pseudoResponse( "HTTP/1.1 302 Found", this.redirectLocation );
+		else if ( this.responseCode != 200 )
+			this.sendNotFound();
+
+		return;
 	}
 
 	private void downloadSimulatorFile( String filename )

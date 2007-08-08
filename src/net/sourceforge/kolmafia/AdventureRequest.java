@@ -909,6 +909,18 @@ public class AdventureRequest extends KoLRequest
 
 	public static final boolean useMarmotClover( String location, String responseText )
 	{
+		if ( location.startsWith( "barrels.php" ) )
+		{
+			if ( !StaticEntity.getBooleanProperty( "cloverProtectActive" ) )
+				return false;
+
+			if ( responseText.indexOf( "ten-leaf clover" ) == -1 )
+				return false;
+
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "use * ten-leaf clover" );
+			return true;
+		}
+
 		if ( !location.startsWith( "adventure.php" ) )
 			return false;
 

@@ -748,7 +748,7 @@ public abstract class StaticEntity implements KoLConstants
 		return clean.equals( "" ) ? 0.0f : Float.parseFloat( clean );
 	}
 
-	public static final boolean loadLibrary( String filename )
+	public static final boolean loadLibrary( File parent, String directory, String filename )
 	{
 		try
 		{
@@ -756,29 +756,26 @@ public abstract class StaticEntity implements KoLConstants
 			// in the system tray.  For now, this will be the old
 			// icon used by KoLmelion.
 
-			IMAGE_LOCATION.mkdirs();
-			File library = new File( IMAGE_LOCATION, filename );
+			parent.mkdirs();
+			File library = new File( parent, filename );
 
-			if ( !library.exists() )
-			{
-				InputStream input = DataUtilities.getInputStream( "images", filename );
-				if ( input == null )
-					input = DataUtilities.getInputStream( "", filename );
-				if ( input == null )
-					return false;
+			if ( library.exists() )
+				return true;
 
-				library.createNewFile();
-				OutputStream output = new FileOutputStream( library );
+			InputStream input = DataUtilities.getInputStream( directory, filename );
+			if ( input == null )
+				return false;
 
-				byte [] buffer = new byte[ 1024 ];
-				int bufferLength;
-				while ( (bufferLength = input.read( buffer )) != -1 )
-					output.write( buffer, 0, bufferLength );
+			library.createNewFile();
+			OutputStream output = new FileOutputStream( library );
 
-				input.close();
-				output.close();
-			}
+			byte [] buffer = new byte[ 1024 ];
+			int bufferLength;
+			while ( (bufferLength = input.read( buffer )) != -1 )
+				output.write( buffer, 0, bufferLength );
 
+			input.close();
+			output.close();
 			return true;
 
 		}

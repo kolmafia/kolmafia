@@ -515,9 +515,6 @@ public abstract class MoodSettings implements KoLConstants
 
 	public static final void execute( int multiplicity )
 	{
-		if ( StaticEntity.getProperty( "currentMood" ).equals( "apathetic" ) )
-			return;
-
 		if ( KoLmafia.refusesContinue() )
 			return;
 
@@ -596,7 +593,7 @@ public abstract class MoodSettings implements KoLConstants
 
 	public static final boolean willExecute( int multiplicity )
 	{
-		if ( displayList.isEmpty() )
+		if ( displayList.isEmpty() || StaticEntity.getProperty( "currentMood" ).equals( "apathetic" ) )
 			return false;
 
 		boolean willExecute = false;
