@@ -165,18 +165,14 @@ public class OptionsFrame extends KoLFrame
 
 		private final String [][] options =
 		{
-			{ "relayOpensNewWindow", "Attempt to open a new window/tab for each instance" },
+			{ "relayAllowsOverrides", "Enable user-scripted relay browser overrides" },
+			{ "relayUsesCachedImages", "Cache KoL images to conserve bandwidth (dialup)" },
 
 			{ "", "" },
 
 			{ "relayAddsRestoreLinks", "Add HP/MP restore links to left side pane" },
 			{ "relayAddsUpArrowLinks", "Add buff maintenance links to left side pane" },
 			{ "relayTextualizesEffects", "Textualize effect links in left side pane" },
-
-			{ "", "" },
-
-			{ "relayAddsMissingEffects", "Display expired effects listed in mood" },
-			{ "relayAddsMoodRefreshLink", "Add mood links (overrides MP burn links)" },
 
 			{ "", "" },
 
@@ -192,15 +188,14 @@ public class OptionsFrame extends KoLFrame
 
 			{ "", "" },
 
-			{ "relayAddsGraphicalCLI", "Add link to command-line interface to right side pane" },
-			{ "relayAddsKoLSimulator", "Add link to Ayvuir's Simulator of Loathing to right side pane" },
+			{ "relayAddsGraphicalCLI", "Add command-line interface to right side pane" },
+			{ "relayAddsKoLSimulator", "Add Ayvuir's Simulator of Loathing to right side pane" },
 
 			{ "", "" },
 
 			{ "relayAddsUseLinks", "Add decorator [use] links when receiving items" },
 			{ "relayUsesInlineLinks", "Force results to reload inline for [use] links" },
 			{ "relayHidesJunkMallItems", "Hide junk and overpriced items in PC stores" },
-			{ "relayViewsCustomItems", "View items registered with OneTonTomato's Teh Kilt script" },
 
 			{ "", "" },
 
@@ -211,7 +206,7 @@ public class OptionsFrame extends KoLFrame
 			{ "", "" },
 
 			{ "relayAlwaysBuysGum", "Automatically buy gum when visiting the sewer" },
-			{ "relayUsesCachedImages", "Cache KoL images to conserve local bandwidth (extremely slow)" }
+			{ "relayViewsCustomItems", "View items registered with OneTonTomato's Kilt script" },
 		};
 
 		/**

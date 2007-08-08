@@ -59,20 +59,15 @@ public abstract class SystemTrayFrame implements KoLConstants
 		// Now, make calls to SystemTrayIconManager in order
 		// to make use of the system tray.
 
-		if ( !StaticEntity.loadLibrary( "TrayIcon12.dll" ) )
-		{
-			KoLmafia.updateDisplay( "Failed to load tray icon." );
-			return;
-		}
+		StaticEntity.loadLibrary( IMAGE_LOCATION, IMAGE_DIRECTORY, "TrayIcon12.gif" );
+		StaticEntity.loadLibrary( IMAGE_LOCATION, IMAGE_DIRECTORY, "TrayIcon12.dll" );
 
 		File iconfile = new File( IMAGE_LOCATION, "TrayIcon12.dll" );
-
 		System.load( iconfile.getAbsolutePath() );
 		WindowsTrayIcon.initTrayIcon( "KoLmafia" );
 
 		try
 		{
-			StaticEntity.loadLibrary( "TrayIcon12.gif" );
 			ImageIcon image = JComponentUtilities.getImage( "", "TrayIcon12.gif" );
 
 			icon = new WindowsTrayIcon( image.getImage(), 16, 16 );

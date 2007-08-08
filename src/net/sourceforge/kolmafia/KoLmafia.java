@@ -3047,7 +3047,7 @@ public abstract class KoLmafia implements KoLConstants
 		}
 		else if ( location.endsWith( ".html" ) )
 		{
-			if ( StaticEntity.getBooleanProperty( "relayOpensNewWindow" ) )
+			if ( System.getProperty( "os.name" ).startsWith( "Mac" ) )
 				StaticEntity.openSystemBrowser( "http://127.0.0.1:" + LocalRelayServer.getPort() + "/" + location + "?" + relayBrowserInstances++ );
 			else
 				StaticEntity.openSystemBrowser( "http://127.0.0.1:" + LocalRelayServer.getPort() + "/" + location );

@@ -586,14 +586,13 @@ public class KoLSettings extends Properties implements UtilityConstants
 		CLIENT_SETTINGS.put( "readManualSoftcore", "true" );
 		CLIENT_SETTINGS.put( "relayAddsGraphicalCLI", "false" );
 		CLIENT_SETTINGS.put( "relayAddsKoLSimulator", "false" );
-		CLIENT_SETTINGS.put( "relayAddsMissingEffects", "true" );
 		CLIENT_SETTINGS.put( "relayAddsMonsterHealth", "false" );
-		CLIENT_SETTINGS.put( "relayAddsMoodRefreshLink", "true" );
 		CLIENT_SETTINGS.put( "relayAddsQuickScripts", "false" );
 		CLIENT_SETTINGS.put( "relayAddsRestoreLinks", "true" );
 		CLIENT_SETTINGS.put( "relayAddsRoundNumber", "false" );
 		CLIENT_SETTINGS.put( "relayAddsUpArrowLinks", "true" );
 		CLIENT_SETTINGS.put( "relayAddsUseLinks", "true" );
+		CLIENT_SETTINGS.put( "relayAllowsOverrides", "false" );
 		CLIENT_SETTINGS.put( "relayAlwaysBuysGum", "true" );
 		CLIENT_SETTINGS.put( "relayBrowserOnly", "false" );
 		CLIENT_SETTINGS.put( "relayFormatsChatText", "true" );
@@ -602,7 +601,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 		CLIENT_SETTINGS.put( "relayMaintainsHealth", "true" );
 		CLIENT_SETTINGS.put( "relayMaintainsMana", "false" );
 		CLIENT_SETTINGS.put( "relayBrowserOnly", "false" );
-		CLIENT_SETTINGS.put( "relayOpensNewWindow", String.valueOf( System.getProperty( "os.name" ).startsWith( "Mac" ) ) );
 		CLIENT_SETTINGS.put( "relayTextualizesEffects", "false" );
 		CLIENT_SETTINGS.put( "relayUsesCachedImages", "false" );
 		CLIENT_SETTINGS.put( "relayUsesInlineLinks", "false" );
