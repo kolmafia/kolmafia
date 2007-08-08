@@ -38,9 +38,6 @@ import java.util.ArrayList;
 
 public class NPCStoreDatabase extends KoLDatabase
 {
-	private static final String BLACK_MARKET_STRING = "You've picked up your father's diary, and things just got a whole lot more complicated. Oh dear.";
-	private static final String ISLAND_WAR_STRING = "You've managed to get the war between the hippies and frat boys started, and now the Council wants you to finish it.";
-
 	private static final ArrayList NPC_ITEMS = new ArrayList();
 	private static final AdventureResult LAB_KEY = new AdventureResult( 339, 1 );
 
@@ -166,10 +163,7 @@ public class NPCStoreDatabase extends KoLDatabase
 				if ( StaticEntity.getIntegerProperty( "lastFilthClearance" ) == KoLCharacter.getAscensions() )
 					return false;
 
-				if ( QuestLogRequest.startedQuest( ISLAND_WAR_STRING ) || QuestLogRequest.finishedQuest( QuestLogRequest.ISLAND_WAR ) )
-					return false;
-
-				return true;
+				return QuestLogRequest.isHippyStoreAvailable();
 			}
 
 			// Here, you insert any logic which is able to detect the
@@ -187,14 +181,14 @@ public class NPCStoreDatabase extends KoLDatabase
 				if ( !StaticEntity.getProperty( "currentHippyStore" ).equals( "fratboy" ) )
 					return false;
 
-			return QuestLogRequest.finishedQuest( QuestLogRequest.ISLAND_WAR ) || EquipmentDatabase.hasOutfit( 32 );
+			return QuestLogRequest.isHippyStoreAvailable() || EquipmentDatabase.hasOutfit( 32 );
 		}
 
 		// Check the quest log when determining if you've used the
 		// black market map.
 
 		else if ( storeId.equals( "l" ) )
-			return QuestLogRequest.startedQuest( BLACK_MARKET_STRING ) || QuestLogRequest.finishedQuest( QuestLogRequest.MACGUFFIN );
+			return QuestLogRequest.isBlackMarketAvailable();
 
 		// Check the quest log when determining whether the person has
 		// access to the Citadel.
