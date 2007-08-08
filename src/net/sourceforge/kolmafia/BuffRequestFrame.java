@@ -38,8 +38,6 @@ import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import java.lang.ref.WeakReference;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.TreeMap;
@@ -113,7 +111,7 @@ public class BuffRequestFrame extends KoLFrame
 		this.framePanel.add( this.mainPanel = new BuffRequestPanel(), "" );
 
 		this.nameContainer.add( new SimpleScrollPane( new JPanel() ), "" );
-		this.types.setSelectedIndex(-1);
+		this.types.setSelectedIndex( StaticEntity.getIntegerProperty( "lastBuffRequestType" ) );
 		this.resetCard();
 	}
 
@@ -123,6 +121,8 @@ public class BuffRequestFrame extends KoLFrame
 
 	public void dispose()
 	{
+		StaticEntity.setProperty( "lastBuffRequestType", String.valueOf( types.getSelectedIndex() ) );
+
 		this.panelMap.clear();
 		this.mainPanel.dispose();
 
@@ -157,7 +157,7 @@ public class BuffRequestFrame extends KoLFrame
 					continue;
 
 				RequestPanel panel = new RequestPanel( (String) list[i] );
-				BuffRequestFrame.this.panelMap.put( list[i], new WeakReference( panel ) );
+				BuffRequestFrame.this.panelMap.put( list[i], panel );
 				BuffRequestFrame.this.nameContainer.add( panel, list[i] );
 			}
 
@@ -173,29 +173,31 @@ public class BuffRequestFrame extends KoLFrame
 		{
 			RequestPanel panel = getPanel();
 
+			if ( panel == null )
+				return;
+
 			JCheckBox [] checkboxes = panel.checkboxes;
 			Offering [] offerings = panel.offerings;
 
 			ArrayList requests = new ArrayList();
 			for ( int i = 0; i < checkboxes.length; ++i )
-				if ( checkboxes[i].isSelected() )
+			{
+				if ( checkboxes[i] != null && checkboxes[i].isSelected() )
 				{
 					checkboxes[i].setSelected( false );
 					requests.add( offerings[i].toRequest() );
 				}
+			}
 
 			if ( requests.isEmpty() )
 				return;
 
-			GreenMessageRequest [] runnables = new GreenMessageRequest[ requests.size() ];
-			requests.toArray( runnables );
-
 			RequestThread.openRequestSequence();
 
-			for ( int i = 0; i < runnables.length; ++i )
+			for ( int i = 0; i < requests.size(); ++i )
 			{
-				KoLmafia.updateDisplay( "Submitting buff request " + (i+1) + " of " + runnables.length + " to " + BuffRequestFrame.this.botName + "..." );
-				RequestThread.postRequest( runnables[i] );
+				KoLmafia.updateDisplay( "Submitting buff request " + (i+1) + " of " + requests.size() + " to " + BuffRequestFrame.this.botName + "..." );
+				RequestThread.postRequest( (GreenMessageRequest) requests.get(i) );
 			}
 
 			KoLmafia.updateDisplay( "Buff requests complete." );
@@ -216,8 +218,6 @@ public class BuffRequestFrame extends KoLFrame
 		private int lastBuffId = 0;
 		private boolean addedBuffPackLabel = false;
 		private CardLayout categoryCards = new CardLayout();
-
-		private JPanel currentPanel = new JPanel();
 		private JPanel [] categoryPanels = new JPanel[4];
 
 		private JCheckBox [] checkboxes;
@@ -253,32 +253,31 @@ public class BuffRequestFrame extends KoLFrame
 			this.offerings = new Offering[ list.size() ];
 			list.toArray( this.offerings );
 
-			checkboxes = new JCheckBox[ this.offerings.length ];
+			this.checkboxes = new JCheckBox[ this.offerings.length ];
 
-			for ( int i = 0; i < checkboxes.length; ++i )
+			for ( int i = 0; i < this.checkboxes.length; ++i )
 			{
 				if ( this.offerings[i].getLowestBuffId() < 1000 )
 					continue;
 
-				checkboxes[i] = new JCheckBox( this.offerings[i].toString() );
-				checkboxes[i].setVerticalTextPosition( JCheckBox.TOP );
+				this.checkboxes[i] = new JCheckBox( this.offerings[i].toString() );
+				this.checkboxes[i].setVerticalTextPosition( JCheckBox.TOP );
 				addActionListener( checkboxes[i], priceUpdater );
 
 				int price = this.offerings[i].getPrice();
 				int [] turns = this.offerings[i].getTurns();
 				String tooltip = price + " meat (" + FLOAT_FORMAT.format( (float)turns[0] / (float)price ) + " turns/meat)";
-				checkboxes[i].setToolTipText( tooltip );
+				this.checkboxes[i].setToolTipText( tooltip );
 
 				int buffId = this.offerings[i].getLowestBuffId();
 				int categoryId = getCategory( turns.length, buffId );
 
-				currentPanel = categoryPanels[categoryId];
-				addBuffLabel( turns.length, buffId );
+				addBuffLabel( turns.length, buffId, categoryId );
 
 				if ( !nameList[categoryId].contains( botName ) )
 					nameList[categoryId].add( botName );
 
-				currentPanel.add( checkboxes[i] );
+				categoryPanels[categoryId].add( checkboxes[i] );
 			}
 		}
 
@@ -313,7 +312,7 @@ public class BuffRequestFrame extends KoLFrame
 			}
 		}
 
-		private void addBuffLabel( int count, int buffId )
+		private void addBuffLabel( int count, int buffId, int categoryId )
 		{
 			if ( count > 1 )
 			{
@@ -321,8 +320,8 @@ public class BuffRequestFrame extends KoLFrame
 					return;
 
 				addedBuffPackLabel = true;
-				currentPanel.add( new JLabel( "<html><h3>Buff Packs</h3></html>" ) );
-				currentPanel.add( Box.createVerticalStrut( 5 ) );
+				categoryPanels[categoryId].add( new JLabel( "<html><h3>Buff Packs</h3></html>" ) );
+				categoryPanels[categoryId].add( Box.createVerticalStrut( 5 ) );
 				return;
 			}
 
@@ -330,8 +329,8 @@ public class BuffRequestFrame extends KoLFrame
 				return;
 
 			lastBuffId = buffId;
-			currentPanel.add( new JLabel( "<html><h3>" + ClassSkillsDatabase.getSkillName( buffId ) + "</h3></html>" ) );
-			currentPanel.add( Box.createVerticalStrut( 5 ) );
+			categoryPanels[categoryId].add( new JLabel( "<html><h3>" + ClassSkillsDatabase.getSkillName( buffId ) + "</h3></html>" ) );
+			categoryPanels[categoryId].add( Box.createVerticalStrut( 5 ) );
 		}
 	}
 
@@ -403,8 +402,7 @@ public class BuffRequestFrame extends KoLFrame
 		if ( cardId == null )
 			return null;
 
-		WeakReference ref = (WeakReference) this.panelMap.get( cardId );
-		return ref == null || ref.get() == null ? null : (RequestPanel) ref.get();
+		return (RequestPanel) this.panelMap.get( cardId );
 	}
 
 	private class CardSwitchListener extends ThreadedListener
