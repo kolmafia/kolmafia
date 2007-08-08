@@ -35,9 +35,8 @@ package net.sourceforge.kolmafia;
 
 public class QuestLogRequest extends KoLRequest
 {
-	public static final String TRAPPER = "Am I my Trapper's Keeper?";
-	public static final String CITADEL = "White Citadel";
-	public static final String GALAKTIK = "What's Up, Doc?";
+	private static final String GALAKTIK = "What's Up, Doc?";
+	private static final String CITADEL = "White Citadel";
 
 	private static final String BLACK_MARKET_STRING = "You've picked up your father's diary, and things just got a whole lot more complicated. Oh dear.";
 	private static final String MACGUFFIN = "Quest for the Holy MacGuffin";
@@ -48,11 +47,29 @@ public class QuestLogRequest extends KoLRequest
 	private static String started = "";
 	private static String finished = "";
 
+	private static boolean galaktikCuresAvailable = false;
+	private static boolean whiteCitadelAvailable = false;
 	private static boolean blackMarketAvailable = false;
 	private static boolean hippyStoreAvailable = false;
 
 	public QuestLogRequest()
 	{	super( "questlog.php" );
+	}
+
+	private static final boolean startedQuest( String quest )
+	{	return started.indexOf( quest ) != -1;
+	}
+
+	private static final boolean finishedQuest( String quest )
+	{	return finished.indexOf( quest ) != -1;
+	}
+
+	public static final boolean galaktikCuresAvailable()
+	{	return galaktikCuresAvailable;
+	}
+
+	public static final boolean isWhiteCitadelAvailable()
+	{	return whiteCitadelAvailable;
 	}
 
 	public static final boolean isBlackMarketAvailable()
@@ -85,14 +102,6 @@ public class QuestLogRequest extends KoLRequest
 		hippyStoreAvailable = !startedQuest( ISLAND_WAR_STRING ) || finishedQuest( ISLAND_WAR );
 	}
 
-	public static final boolean startedQuest( String quest )
-	{	return started.indexOf( quest ) != -1;
-	}
-
-	public static final boolean finishedQuest( String quest )
-	{	return finished.indexOf( quest ) != -1;
-	}
-
 	protected boolean retryOnTimeout()
 	{	return true;
 	}
@@ -113,6 +122,9 @@ public class QuestLogRequest extends KoLRequest
 		if ( urlString.indexOf( "which=2" ) != -1 )
 		{
 			finished = responseText;
+
+			galaktikCuresAvailable = finishedQuest( GALAKTIK );
+			whiteCitadelAvailable = finishedQuest( CITADEL );
 
 			if ( isExternal )
 			{

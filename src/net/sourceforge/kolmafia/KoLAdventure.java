@@ -614,12 +614,6 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 		if ( this.zone.equals( "McLarge" ) )
 		{
-			if ( QuestLogRequest.finishedQuest( QuestLogRequest.TRAPPER ) )
-			{
-				this.isValidAdventure = true;
-				return;
-			}
-
 			RequestThread.postRequest( KoLRequest.VISITOR.constructURLString( "mclargehuge.php" ) );
 			if ( KoLRequest.VISITOR.responseText.indexOf( this.adventureId ) != -1 )
 			{

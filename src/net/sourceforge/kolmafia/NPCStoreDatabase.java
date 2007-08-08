@@ -194,7 +194,7 @@ public class NPCStoreDatabase extends KoLDatabase
 		// access to the Citadel.
 
 		else if ( storeId.equals( "w" ) )
-			return QuestLogRequest.finishedQuest( QuestLogRequest.CITADEL );
+			return QuestLogRequest.isWhiteCitadelAvailable();
 
 		// If it gets this far, then the item is definitely available
 		// for purchase from the NPC store.

@@ -154,7 +154,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 				// The restore rate on magical mystery juice changes
 				// based on your current level.
 
-				this.purchaseCost = QuestLogRequest.finishedQuest( QuestLogRequest.GALAKTIK ) ? 6 : 10;
+				this.purchaseCost = QuestLogRequest.galaktikCuresAvailable() ? 6 : 10;
 			}
 		}
 
