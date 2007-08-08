@@ -117,10 +117,9 @@ public class SearchMallRequest extends KoLRequest
 		if ( searchString.startsWith( "\"" ) || searchString.startsWith( "\'" ) )
 			return searchString;
 
-		if ( TradeableItemDatabase.contains( searchString ) )
-			return "\"" + searchString + "\"";
-
-		return KoLDatabase.getCanonicalName( searchString );
+		String canonical = KoLDatabase.getCanonicalName( searchString );
+		int entityIndex = canonical.indexOf( "&" );
+		return entityIndex == -1 ? canonical : canonical.substring( 0, entityIndex );
 	}
 
 	public List getResults()
@@ -176,7 +175,7 @@ public class SearchMallRequest extends KoLRequest
 
 			if ( itemNames.size() == 1 )
 			{
-				this.searchString = "\"" + itemNames.get(0) + "\"";
+				this.searchString = getItemName( this.searchString );
 				this.addFormField( "whichitem", this.searchString );
 			}
 
