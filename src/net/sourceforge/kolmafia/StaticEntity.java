@@ -347,7 +347,7 @@ public abstract class StaticEntity implements KoLConstants
 	public static final boolean usesSystemTray()
 	{
 		if ( usesSystemTray == 0 )
-			usesSystemTray = System.getProperty( "os.name" ).startsWith( "Win" ) && getBooleanProperty( "useSystemTrayIcon" ) ? 1 : 2;
+			usesSystemTray = System.getProperty( "os.name" ).equals( "Windows XP" ) && getBooleanProperty( "useSystemTrayIcon" ) ? 1 : 2;
 
 		return usesSystemTray == 1;
 	}
