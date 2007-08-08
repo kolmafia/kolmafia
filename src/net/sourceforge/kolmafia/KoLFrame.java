@@ -2136,7 +2136,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		private String [][] options =
 
-			System.getProperty( "os.name" ).startsWith( "Win" ) ?
+			System.getProperty( "os.name" ).equals( "Windows XP" ) ?
 
 			new String [][]
 			{
