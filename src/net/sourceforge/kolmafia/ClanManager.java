@@ -38,10 +38,15 @@ import java.io.File;
 import java.io.PrintStream;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import edu.stanford.ejalbert.BrowserLauncher;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -49,11 +54,16 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class ClanManager extends StaticEntity
 {
+	private static final Pattern WHITELIST_PATTERN = Pattern.compile( "<b>([^<]+)</b> \\(#(\\d+)\\)" );
+
 	private static String snapshotFolder = "clan/";
 	private static String clanId = null;
 	private static String clanName = null;
 	private static boolean stashRetrieved = false;
 	private static boolean ranksRetrieved = false;
+
+	private static final ArrayList currentMembers = new ArrayList();
+	private static final ArrayList whiteListMembers = new ArrayList();
 
 	private static final Map profileMap = ClanSnapshotTable.getProfileMap();
 	private static final Map ascensionMap = AscensionSnapshotTable.getAscensionMap();
@@ -120,12 +130,30 @@ public class ClanManager extends StaticEntity
 		if ( KoLmafia.isAdventuring() )
 			return;
 
-		if ( profileMap.isEmpty() )
+		if ( !profileMap.isEmpty() )
+			return;
+
+		retrieveClanId();
+		snapshotFolder = "clan/" + clanId + "/" + WEEKLY_FORMAT.format( new Date() ) + "/";
+		KoLmafia.updateDisplay( "Clan data retrieved." );
+
+		KoLRequest whiteListFinder = new KoLRequest( "clan_whitelist.php" );
+		whiteListFinder.run();
+
+		String currentName;
+		Matcher whiteListMatcher = WHITELIST_PATTERN.matcher( whiteListFinder.responseText );
+		while ( whiteListMatcher.find() )
 		{
-			retrieveClanId();
-			snapshotFolder = "clan/" + clanId + "/" + WEEKLY_FORMAT.format( new Date() ) + "/";
-			KoLmafia.updateDisplay( "Clan data retrieved." );
+			currentName = whiteListMatcher.group(1);
+			KoLmafia.registerPlayer( currentName, whiteListMatcher.group(2) );
+
+			currentName = currentName.toLowerCase();
+			if ( !currentMembers.contains( currentName ) )
+				whiteListMembers.add( currentName );
 		}
+
+		Collections.sort( currentMembers );
+		Collections.sort( whiteListMembers );
 	}
 
 	public static final void resetClanId()
@@ -349,14 +377,26 @@ public class ClanManager extends StaticEntity
 
 	public static final void registerMember( String playerName, String level )
 	{
+		String lowercase = playerName.toLowerCase();
+
+		if ( !currentMembers.contains( lowercase ) )
+			currentMembers.add( lowercase );
+		if ( !whiteListMembers.contains( lowercase ) )
+			whiteListMembers.add( lowercase );
+
 		ClanSnapshotTable.registerMember( playerName, level );
 		AscensionSnapshotTable.registerMember( playerName );
 	}
 
 	public static final void unregisterMember( String playerId )
 	{
+		String lowercase = KoLmafia.getPlayerName( playerId ).toLowerCase();
+
+		currentMembers.remove( lowercase );
+		whiteListMembers.remove( lowercase );
+
 		ClanSnapshotTable.unregisterMember( playerId );
-		AscensionSnapshotTable.registerMember( playerId );
+		AscensionSnapshotTable.unregisterMember( playerId );
 	}
 
 	/**
@@ -445,53 +485,21 @@ public class ClanManager extends StaticEntity
 		RequestThread.postRequest( new ClanStashLogRequest() );
 	}
 
-	public static final boolean isMember( String memberName )
-	{
-		retrieveClanData();
-		Iterator it = profileMap.keySet().iterator();
-
-		while ( it.hasNext() )
-			if ( memberName.equalsIgnoreCase( (String) it.next() ) )
-				return true;
-
-		return false;
-	}
-
 	/**
 	 * Retrieves the clan membership in the form of a
 	 * list object.
 	 */
 
-	public static final String [] retrieveClanList()
+	public static final List getWhiteList()
 	{
 		retrieveClanData();
-
-		String [] members = new String[ profileMap.size() ];
-		profileMap.keySet().toArray( members );
-
-		return members;
+		return whiteListMembers;
 	}
 
-	/**
-	 * Retrieves the clan membership in the form of a
-	 * CDL (comma-delimited list)
-	 */
-
-	public static final String retrieveClanListAsCDL()
+	public static final boolean isMember( String memberName )
 	{
-		String [] members = retrieveClanList();
-		StringBuffer clanCDL = new StringBuffer();
-
-		if ( members.length > 0 )
-			clanCDL.append( members[0] );
-
-		for ( int i = 1; i < members.length; ++i )
-		{
-			clanCDL.append( ", " );
-			clanCDL.append( members[i] );
-		}
-
-		return clanCDL.toString();
+		retrieveClanData();
+		return Collections.binarySearch( whiteListMembers, memberName.toLowerCase() ) != -1;
 	}
 
 	public static final void applyFilter( int matchType, int filterType, String filter )
