@@ -367,7 +367,7 @@ public class KoLmafiaGUI extends KoLmafia
 					return;
 				}
 
-				if ( collection.isEmpty() )
+				if ( MuseumManager.getHeaders().isEmpty() )
 					RequestThread.postRequest( new MuseumRequest() );
 			}
 			else if ( this.frameClass == MushroomFrame.class )

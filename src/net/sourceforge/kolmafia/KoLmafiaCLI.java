@@ -3745,6 +3745,7 @@ public class KoLmafiaCLI extends KoLmafia
 				case CONSUME_EAT:
 				case CONSUME_DRINK:
 				case CONSUME_USE:
+				case MESSAGE_DISPLAY:
 				case INFINITE_USES:
 				case CONSUME_MULTIPLE:
 				case HP_RESTORE:

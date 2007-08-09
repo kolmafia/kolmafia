@@ -251,7 +251,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 			for ( int i = 0; (header = this.formConnection.getHeaderFieldKey( i )) != null; ++i )
 			{
-				if ( header.startsWith( "Content" ) || header.equals( "Connection" ) || header.startsWith( "Transfer" ) )
+				if ( header.startsWith( "Content" ) || header.startsWith( "Cache" ) || header.equals( "Pragma" ) )
 					continue;
 
 				ostream.print( header );
@@ -269,22 +269,14 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 				ostream.println();
 
-				ostream.print( "Transfer-Encoding: UTF-8" );
-				ostream.print( this.contentType );
-
-				if ( this.contentType.startsWith( "text" ) )
-					ostream.print( "; charset=UTF-8" );
-
-				ostream.println();
-
 				ostream.print( "Content-Length: " );
 				ostream.print( this.rawByteBuffer.length );
 				ostream.println();
+
+				ostream.println( "Cache-Control: no-cache, must-revalidate" );
+				ostream.println( "Pragma: no-cache" );
 			}
 		}
-
-
-		ostream.println( "Connection: close" );
 	}
 
 	public void pseudoResponse( String status, String responseText )
@@ -328,6 +320,8 @@ public class LocalRelayRequest extends PasswordHashRequest
 		{
 			this.responseText = " ";
 		}
+
+		this.headers.add( "Connection: close" );
 	}
 
 	private StringBuffer readContents( BufferedReader reader )
