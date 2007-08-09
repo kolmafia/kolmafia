@@ -154,6 +154,8 @@ public class KoLSettings extends Properties implements UtilityConstants
 	{
 		if ( !DATA_LOCATION.exists() )
 			DATA_LOCATION.mkdirs();
+		if ( !SETTINGS_LOCATION.exists() )
+			SETTINGS_LOCATION.mkdirs();
 
 		TreeMap filesToMove = new TreeMap();
 
