@@ -672,6 +672,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		FamiliarTool tool = new FamiliarTool( opponents );
 
 		// Let the battles begin!
+
 		KoLmafia.updateDisplay( "Starting training session..." );
 
 		// Iterate until we reach the goal
@@ -872,7 +873,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 					if ( match != contest + 1 )
 					{
 						// Informative message only. Do not stop session.
-						statusMessage( ERROR_STATE, "Internal error: Familiar Tool selected " + CakeArenaManager.getEvent( match ) + " rather than " + CakeArenaManager.getEvent( contest + 1 ) );
+						statusMessage( ERROR_STATE, "Internal error: Selected " + CakeArenaManager.getEvent( match ) +
+							" rather than " + CakeArenaManager.getEvent( contest + 1 ) );
 						// Use contest, even if with bad weight
 						match = contest + 1;
 					}
@@ -1258,15 +1260,15 @@ public class FamiliarTrainingFrame extends KoLFrame
 		AdventureResult [] acc = new AdventureResult[3];
 
 		// Available equipment which affects weight
-		AdventureResult pithHelmet;
 		AdventureResult specItem;
 		int specWeight;
 
-		AdventureResult leadNecklace;
-		AdventureResult ratHeadBalloon;
-		AdventureResult pumpkinBucket;
-		AdventureResult flowerBouquet;
-		AdventureResult doppelganger;
+		boolean pithHelmet;
+		boolean leadNecklace;
+		boolean ratHeadBalloon;
+		boolean pumpkinBucket;
+		boolean flowerBouquet;
+		boolean doppelganger;
 
 		int tpCount;
 		int whipCount;
@@ -1349,8 +1351,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		}
 
 		private void checkCurrentEquipment( AdventureResult weapon, AdventureResult offhand,
-			AdventureResult hat, AdventureResult item,
-			AdventureResult acc1, AdventureResult acc2, AdventureResult acc3 )
+			AdventureResult hat, AdventureResult item, AdventureResult acc1, AdventureResult acc2, AdventureResult acc3 )
 		{
 			// Initialize equipment to default
 			this.weapon = null;
@@ -1358,26 +1359,25 @@ public class FamiliarTrainingFrame extends KoLFrame
 			this.hat = null;
 			this.item = null;
 
-			this.acc[0] = null;
-			this.acc[1] = null;
-			this.acc[2] = null;
-
-			this.pithHelmet = null;
 			this.specItem = null;
 			this.specWeight = 0;
 
-			this.leadNecklace = null;
-			this.ratHeadBalloon = null;
-			this.pumpkinBucket = null;
-			this.flowerBouquet = null;
-			this.doppelganger = null;
+			this.pithHelmet = false;
+			this.leadNecklace = false;
+			this.ratHeadBalloon = false;
+			this.pumpkinBucket = false;
+			this.flowerBouquet = false;
+			this.doppelganger = false;
 
 			this.whipCount = 0;
 			this.tpCount = 0;
 
 			// Check hat for pithiness
-			if ( hat != null && hat.getItemId() == PITH_HELMET.getItemId() )
-				this.hat = this.pithHelmet = PITH_HELMET;
+			if ( hat.getItemId() == PITH_HELMET.getItemId() )
+			{
+				pithHelmet = true;
+				this.hat = PITH_HELMET;
+			}
 
 			if ( weapon != null && weapon.getItemId() == BAR_WHIP.getItemId() )
 			{
@@ -1395,18 +1395,41 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( item != null )
 			{
 				int itemId = item.getItemId();
+
 				if ( itemId == this.familiarItem.getItemId() )
+				{
 					this.item = this.specItem = this.familiarItem;
-				else if ( itemId == PUMPKIN_BUCKET.getItemId() )
-					this.item = this.pumpkinBucket = PUMPKIN_BUCKET;
-				else if ( itemId == FLOWER_BOUQUET.getItemId() )
-					this.item = this.flowerBouquet = FLOWER_BOUQUET;
-				else if ( itemId == LEAD_NECKLACE.getItemId() )
-					this.item = this.leadNecklace = LEAD_NECKLACE;
-				else if ( itemId == RAT_HEAD_BALLOON.getItemId() )
-					this.item = this.ratHeadBalloon = RAT_HEAD_BALLOON;
-				else if ( itemId == DOPPELGANGER.getItemId() )
-					this.item = this.doppelganger = DOPPELGANGER;
+				}
+
+				if ( itemId == PUMPKIN_BUCKET.getItemId() )
+				{
+					this.pumpkinBucket = true;
+					this.item = PUMPKIN_BUCKET;
+				}
+
+				if ( itemId == FLOWER_BOUQUET.getItemId() )
+				{
+					this.flowerBouquet = true;
+					this.item = FLOWER_BOUQUET;
+				}
+
+				if ( itemId == LEAD_NECKLACE.getItemId() )
+				{
+					this.leadNecklace = true;
+					this.item = LEAD_NECKLACE;
+				}
+
+				if ( itemId == RAT_HEAD_BALLOON.getItemId() )
+				{
+					this.ratHeadBalloon = true;
+					this.item = RAT_HEAD_BALLOON;
+				}
+
+				if ( itemId == DOPPELGANGER.getItemId() )
+				{
+					this.doppelganger = true;
+					this.item = DOPPELGANGER;
+				}
 			}
 
 			// Check accessories for tininess and plasticity
@@ -1445,10 +1468,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		private void checkAvailableEquipment( LockableListModel inventory )
 		{
 			// If not wearing a pith helmet, search inventory
-			if ( this.pithHelmet == null &&
-			     PITH_HELMET.getCount( inventory ) > 0 &&
-			     EquipmentDatabase.canEquip( "plexiglass pith helmet" ) )
-				this.pithHelmet = PITH_HELMET;
+			this.pithHelmet |= PITH_HELMET.getCount( inventory ) > 0 && EquipmentDatabase.canEquip( "plexiglass pith helmet" );
 
 			// If current familiar item is not the special item and
 			// such an item affects weight, search inventory
@@ -1458,81 +1478,28 @@ public class FamiliarTrainingFrame extends KoLFrame
 				this.specWeight = this.familiarItemWeight;
 			}
 
-			// If current familiar is not wearing a pumpkin basket,
-			// search inventory
-			if ( this.pumpkinBucket == null && !KoLCharacter.isHardcore() && PUMPKIN_BUCKET.getCount( inventory ) > 0 )
-				this.pumpkinBucket = PUMPKIN_BUCKET;
+			if ( !KoLCharacter.isHardcore() )
+			{
+				// If current familiar is not wearing a pumpkin basket,
+				// search inventory
+				this.pumpkinBucket |= PUMPKIN_BUCKET.getCount( inventory ) > 0;
 
-			// If current familiar is not wearing a flowerBouquet,
-			// search inventory
-			if ( this.flowerBouquet == null && !KoLCharacter.isHardcore() && FLOWER_BOUQUET.getCount( inventory ) > 0 )
-				this.flowerBouquet = FLOWER_BOUQUET;
+				// If current familiar is not wearing a flowerBouquet,
+				// search inventory
+				this.flowerBouquet |= FLOWER_BOUQUET.getCount( inventory ) > 0;
+			}
 
 			// If current familiar is not wearing a lead necklace,
 			// search inventory
-			if ( this.leadNecklace == null && LEAD_NECKLACE.getCount( inventory ) > 0 )
-				this.leadNecklace = LEAD_NECKLACE;
+			this.leadNecklace |= LEAD_NECKLACE.getCount( inventory ) > 0;
 
 			// If current familiar is not wearing a rat head
 			// balloon, search inventory
-			if ( this.ratHeadBalloon == null && RAT_HEAD_BALLOON.getCount( inventory ) > 0 )
-				this.ratHeadBalloon = RAT_HEAD_BALLOON;
+			this.ratHeadBalloon |= RAT_HEAD_BALLOON.getCount( inventory ) > 0;
 
 			// If current familiar is not wearing a doppel,
 			// search inventory
-			if ( this.doppelganger == null && !KoLCharacter.isHardcore() && DOPPELGANGER.getCount( inventory ) > 0 )
-				this.doppelganger = DOPPELGANGER;
-
-			// If we're not training a chameleon and we don't have
-			// a lead necklace or a rat head balloon, search other
-			// familiars; we'll steal it from them if necessary
-			else if ( this.familiar.getId() != CHAMELEON && ( this.leadNecklace == null || this.ratHeadBalloon == null || this.pumpkinBucket == null || this.flowerBouquet == null ) )
-			{
-				// Find first familiar with item
-				LockableListModel familiars = KoLCharacter.getFamiliarList();
-				for ( int i = 0; i < familiars.size(); ++i )
-				{
-					FamiliarData familiar = (FamiliarData)familiars.get(i);
-					AdventureResult item = familiar.getItem();
-					if ( item == null )
-						continue;
-
-					if ( item.equals( LEAD_NECKLACE ) )
-					{
-						// We found a lead necklace
-						if ( this.leadNecklace == null )
-							this.leadNecklace = LEAD_NECKLACE;
-					}
-
-					if ( item.equals( RAT_HEAD_BALLOON ) )
-					{
-						// We found a balloon
-						if ( this.ratHeadBalloon == null )
-							this.ratHeadBalloon = RAT_HEAD_BALLOON;
-					}
-
-					if ( item.equals( PUMPKIN_BUCKET ) )
-					{
-						// We found a plastic pumpkin basket
-						if ( this.pumpkinBucket == null )
-							this.pumpkinBucket = PUMPKIN_BUCKET;
-					}
-
-					if ( item.equals( FLOWER_BOUQUET ) )
-					{
-						// We found a flowerBouquet
-						if ( this.flowerBouquet == null )
-							this.flowerBouquet = FLOWER_BOUQUET;
-					}
-
-					if ( item.equals( DOPPELGANGER ) )
-					{
-						// We found a doppelganger
-						if ( this.doppelganger == null )
-							this.doppelganger = DOPPELGANGER;
-					}
-				}
-			}
+			this.doppelganger |= DOPPELGANGER.getCount( inventory ) > 0;
 
 			this.whipCount = Math.min( KoLCharacter.hasSkill( "Double-Fisted Skull Smashing" ) ? 2 : 1,
 				this.whipCount + BAR_WHIP.getCount( inventory ) );
@@ -1545,6 +1512,31 @@ public class FamiliarTrainingFrame extends KoLFrame
 			// Check Tiny Plastic Crimbo objects
 			for ( int i = 0; i < tinyPlasticCrimbo.length; ++i )
 				this.addTinyPlastic( tinyPlasticCrimbo[i] );
+
+			// If we're not training a chameleon and we don't have
+			// a lead necklace or a rat head balloon, search other
+			// familiars; we'll steal it from them if necessary
+
+			if ( this.familiar.getId() == CHAMELEON || (this.leadNecklace && this.ratHeadBalloon && this.pumpkinBucket && this.flowerBouquet) )
+				return;
+
+			// Find first familiar with item
+
+			LockableListModel familiars = KoLCharacter.getFamiliarList();
+			for ( int i = 0; i < familiars.size(); ++i )
+			{
+				FamiliarData familiar = (FamiliarData)familiars.get(i);
+				AdventureResult item = familiar.getItem();
+
+				if ( item == null )
+					continue;
+
+				this.leadNecklace |= item.getItemId() == LEAD_NECKLACE.getItemId();
+				this.ratHeadBalloon |= item.getItemId() == RAT_HEAD_BALLOON.getItemId();
+				this.pumpkinBucket |= item.getItemId() == PUMPKIN_BUCKET.getItemId();
+				this.flowerBouquet |= item.getItemId() == FLOWER_BOUQUET.getItemId();
+				this.doppelganger |= item.getItemId() == DOPPELGANGER.getItemId();
+			}
 		}
 
 		private void addTinyPlastic( int id )
@@ -1610,33 +1602,33 @@ public class FamiliarTrainingFrame extends KoLFrame
 			// Get current familiar
 			FamiliarData familiar = KoLCharacter.getFamiliar();
 
-			// Only consider familiar items if current familiar is
-			// not a chameleon and you have no doppelganger
-			if ( familiar.getId() != CHAMELEON && this.doppelganger == null )
-			{
-				// If familiar specific item adds weight, calculate
-				if ( this.specWeight != 0 )
-					this.getAccessoryWeights( weight + this.specWeight );
-
-				// If we have a pumpkin basket, use it
-				if ( this.pumpkinBucket != null )
-					this.getAccessoryWeights( weight + 5 );
-
-				// If we have a flower bouquet, use it
-				if ( this.flowerBouquet != null )
-					this.getAccessoryWeights( weight + 5 );
-
-				// If we have a lead necklace, use it
-				if ( this.leadNecklace != null )
-					this.getAccessoryWeights( weight + 3 );
-
-				// If we have a rat head balloon, use it
-				if ( this.ratHeadBalloon != null )
-					this.getAccessoryWeights( weight - 3 );
-			}
-
 			// Calculate Accessory Weights with no Familiar Items
 			this.getAccessoryWeights( weight );
+
+			// Only consider familiar items if current familiar is
+			// not a chameleon and you have no doppelganger
+			if ( familiar.getId() == CHAMELEON || this.doppelganger )
+				return;
+
+			// If familiar specific item adds weight, calculate
+			if ( this.specWeight != 0 )
+				this.getAccessoryWeights( weight + this.specWeight );
+
+			// If we have a pumpkin basket, use it
+			if ( this.pumpkinBucket )
+				this.getAccessoryWeights( weight + 5 );
+
+			// If we have a flower bouquet, use it
+			if ( this.flowerBouquet )
+				this.getAccessoryWeights( weight + 5 );
+
+			// If we have a lead necklace, use it
+			if ( this.leadNecklace )
+				this.getAccessoryWeights( weight + 3 );
+
+			// If we have a rat head balloon, use it
+			if ( this.ratHeadBalloon )
+				this.getAccessoryWeights( weight - 3 );
 		}
 
 		private void getAccessoryWeights( int weight )
@@ -1656,7 +1648,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		private void getHatWeights( int weight )
 		{
 			// Add weight with helmet
-			if ( this.pithHelmet != null )
+			if ( this.pithHelmet )
 				this.weights.add( new Integer( Math.max( weight + 5, 1 ) ) );
 
 			// Add weight with no helmet
@@ -1674,7 +1666,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			// Make a GearSet describing what we have now
 			GearSet current = new GearSet();
 
-			if ( this.doppelganger != null )
+			if ( this.doppelganger )
 				RequestThread.postRequest( new EquipmentRequest( DOPPELGANGER, KoLCharacter.FAMILIAR ) );
 
 			// If we are already suitably equipped, stop now
@@ -1792,8 +1784,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 		private GearSet chooseGearSet( GearSet current, int weight )
 		{
 			// Clear out the accumulated list of GearSets
-			this.gearSets.clear();
 
+			this.gearSets.clear();
 			this.getHatGearSets( weight );
 
 			// Iterate over all the GearSets and choose the first
@@ -1805,40 +1797,44 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		private void getHatGearSets( int weight )
 		{
-			if ( this.pithHelmet != null )
-				this.getItemGearSets( weight, this.pithHelmet );
+			if ( this.pithHelmet )
+				this.getItemGearSets( weight, PITH_HELMET );
 
 			this.getItemGearSets( weight, null );
 		}
 
 		private void getItemGearSets( int weight, AdventureResult hat )
 		{
-			// Get current familiar
-			FamiliarData familiar = KoLCharacter.getFamiliar();
-
 			// If it's a comma chameleon or we have a doppelganger,
 			// don't look at familiar items.
-			if ( familiar.getId() == CHAMELEON || this.doppelganger != null )
+
+			if ( KoLCharacter.getFamiliar().getId() == CHAMELEON )
 			{
-				this.getAccessoryGearSets( weight, this.doppelganger, hat );
+				this.getAccessoryGearSets( weight, null, hat );
 				return;
 			}
 
-			if ( this.pumpkinBucket != null )
-				this.getAccessoryGearSets( weight, this.pumpkinBucket, hat );
-			if ( this.flowerBouquet != null )
-				this.getAccessoryGearSets( weight, this.flowerBouquet, hat );
+			if ( this.doppelganger )
+			{
+				this.getAccessoryGearSets( weight, DOPPELGANGER, hat );
+				return;
+			}
+
 			if ( this.specItem != null )
 				this.getAccessoryGearSets( weight, this.specItem, hat );
-			if ( this.leadNecklace != null )
-				this.getAccessoryGearSets( weight, this.leadNecklace, hat );
-			if ( this.ratHeadBalloon != null )
-				this.getAccessoryGearSets( weight, this.ratHeadBalloon, hat );
+			if ( this.pumpkinBucket )
+				this.getAccessoryGearSets( weight, PUMPKIN_BUCKET, hat );
+			if ( this.flowerBouquet )
+				this.getAccessoryGearSets( weight, FLOWER_BOUQUET, hat );
+			if ( this.leadNecklace )
+				this.getAccessoryGearSets( weight, LEAD_NECKLACE, hat );
+			if ( this.ratHeadBalloon )
+				this.getAccessoryGearSets( weight, RAT_HEAD_BALLOON, hat );
 
 			this.getAccessoryGearSets( weight, null, hat );
 		}
 
-		private void getAccessoryGearSets( int weight, AdventureResult item,  AdventureResult hat )
+		private void getAccessoryGearSets( int weight, AdventureResult item, AdventureResult hat )
 		{
 			// No matter how many Tiny Plastic Objects we have, a
 			// configuration with none equipped is legal
@@ -1888,28 +1884,29 @@ public class FamiliarTrainingFrame extends KoLFrame
 			this.addGearSet( weight, this.tp[1], this.tp[2], this.tp[0], item, hat );
 		}
 
-		private void addGearSet( int weight, AdventureResult acc1, AdventureResult acc2, AdventureResult acc3, AdventureResult item,  AdventureResult hat )
+		private void addGearSet( int weight, AdventureResult acc1, AdventureResult acc2, AdventureResult acc3, AdventureResult item, AdventureResult hat )
 		{
-			int gearWeight = gearSetWeight( null, null, hat, item, acc1, acc2, acc3 );
+			int gearWeight = gearSetWeight( null, null, acc1, acc2, acc3, item, hat );
 			if ( weight == gearWeight )
-				this.gearSets.add( new GearSet( null, null, hat, item, acc1, acc2, acc3 ) );
+				this.gearSets.add( new GearSet( null, null, acc1, acc2, acc3, item, hat ) );
 
 			if ( this.whipCount > 0 )
 			{
-				gearWeight = gearSetWeight( BAR_WHIP, null, hat, item, acc1, acc2, acc3 );
+				gearWeight = gearSetWeight( BAR_WHIP, null, acc1, acc2, acc3, item, hat );
 				if ( weight == gearWeight )
-					this.gearSets.add( new GearSet( BAR_WHIP, null, hat, item, acc1, acc2, acc3 ) );
+					this.gearSets.add( new GearSet( BAR_WHIP, null, acc1, acc2, acc3, item, hat ) );
 			}
 
 			if ( this.whipCount > 1 )
 			{
-				gearWeight = gearSetWeight( BAR_WHIP, BAR_WHIP, hat, item, acc1, acc2, acc3 );
+				gearWeight = gearSetWeight( BAR_WHIP, BAR_WHIP, acc1, acc2, acc3, item, hat );
 				if ( weight == gearWeight )
-					this.gearSets.add( new GearSet( BAR_WHIP, BAR_WHIP, hat, item, acc1, acc2, acc3 ) );
+					this.gearSets.add( new GearSet( BAR_WHIP, BAR_WHIP, acc1, acc2, acc3, item, hat ) );
 			}
 		}
 
-		private int gearSetWeight( AdventureResult weapon, AdventureResult offhand, AdventureResult acc1, AdventureResult acc2, AdventureResult acc3, AdventureResult item,  AdventureResult hat )
+		private int gearSetWeight( AdventureResult weapon, AdventureResult offhand, AdventureResult acc1, AdventureResult acc2, AdventureResult acc3,
+			AdventureResult item,  AdventureResult hat )
 		{
 			int weight = this.familiar.getWeight();
 
@@ -1932,7 +1929,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( bestialActive > 0 )
 				weight += 3;
 
-			if ( item == this.specItem )
+			if ( item == DOPPELGANGER )
+				;
+			else if ( item == this.specItem )
 				weight += this.specWeight;
 			else if ( item == PUMPKIN_BUCKET )
 				weight += 5;
@@ -1996,7 +1995,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			{
 				if ( prize.equals( LEAD_NECKLACE.getName() ) )
 				{
-					this.leadNecklace = LEAD_NECKLACE;
+					this.leadNecklace = true;
 				}
 				else if ( this.familiarItemWeight > 0 )
 				{
@@ -2081,13 +2080,13 @@ public class FamiliarTrainingFrame extends KoLFrame
 			}
 
 			// Add available familiar items
-			if ( this.pumpkinBucket != null )
+			if ( this.pumpkinBucket )
 				weight += 5;
-			else if ( this.flowerBouquet != null )
+			else if ( this.flowerBouquet )
 				weight += 5;
 			else if ( this.specWeight > 3 )
 				weight += this.specWeight;
-			else if ( this.leadNecklace != null )
+			else if ( this.leadNecklace )
 				weight += 3;
 
 			// Add available tiny plastic items
@@ -2095,7 +2094,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			weight += 2 * this.whipCount;
 
 			// Add pith helmet
-			if ( this.pithHelmet != null )
+			if ( this.pithHelmet )
 				weight += 5;
 
 			return Math.max( weight, 1 );
@@ -2197,20 +2196,25 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( this.hat == PITH_HELMET )
 				text.append( " plexiglass pith helmet (+5)" );
 
-			if ( this.doppelganger != null )
+			if ( this.doppelganger )
+			{
 				text.append( " flaming familiar doppelg&auml;nger (+0)" );
-			if ( this.pithHelmet != null )
-				text.append( " plexiglass pith helmet (+5)" );
-			if ( this.specItem != null )
-				text.append( " " + this.specItem.getName() + " (+" + this.specWeight + ")" );
-			if ( this.pumpkinBucket != null )
-				text.append( " plastic pumpkin bucket (+5)" );
-			if ( this.flowerBouquet != null )
-				text.append( " mayflower bouquet (+5)" );
-			if ( this.leadNecklace != null )
-				text.append( " lead necklace (+3)" );
-			if ( this.ratHeadBalloon != null )
-				text.append( " rat head balloon (-3)" );
+			}
+			else
+			{
+				if ( this.pithHelmet )
+					text.append( " plexiglass pith helmet (+5)" );
+				if ( this.specItem != null )
+					text.append( " " + this.specItem.getName() + " (+" + this.specWeight + ")" );
+				if ( this.pumpkinBucket )
+					text.append( " plastic pumpkin bucket (+5)" );
+				if ( this.flowerBouquet )
+					text.append( " mayflower bouquet (+5)" );
+				if ( this.leadNecklace )
+					text.append( " lead necklace (+3)" );
+				if ( this.ratHeadBalloon )
+					text.append( " rat head balloon (-3)" );
+			}
 
 			for ( int i = 0; i < this.tpCount; ++i )
 				text.append( " " + this.tp[i].getName() + " (+1)" );
@@ -2232,20 +2236,20 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			public GearSet()
 			{
-				this( FamiliarStatus.this.weapon, FamiliarStatus.this.offhand, FamiliarStatus.this.hat,
-					FamiliarStatus.this.item, FamiliarStatus.this.acc[0], FamiliarStatus.this.acc[1], FamiliarStatus.this.acc[2] );
+				this( FamiliarStatus.this.weapon, FamiliarStatus.this.offhand,
+					FamiliarStatus.this.acc[0], FamiliarStatus.this.acc[1], FamiliarStatus.this.acc[2], FamiliarStatus.this.item, FamiliarStatus.this.hat );
 			}
 
-			public GearSet( AdventureResult weapon, AdventureResult offhand, AdventureResult hat,
-				AdventureResult item, AdventureResult acc1, AdventureResult acc2, AdventureResult acc3 )
+			public GearSet( AdventureResult weapon, AdventureResult offhand,
+				AdventureResult acc1, AdventureResult acc2, AdventureResult acc3, AdventureResult item, AdventureResult hat )
 			{
 				this.weapon = weapon;
 				this.offhand = offhand;
-				this.hat = hat;
-				this.item = item;
 				this.acc1 = acc1;
 				this.acc2 = acc2;
 				this.acc3 = acc3;
+				this.item = item;
+				this.hat = hat;
 			}
 
 			public int weight()
@@ -2271,9 +2275,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 				// is less than ideal, standard item is ideal.
 
 				if ( this.item != that.item )
-				{
-					changes += that.item == null ? 1 :
-						that.item == FamiliarStatus.this.pumpkinBucket || that.item == FamiliarStatus.this.flowerBouquet ? 5 : that.item == FamiliarStatus.this.leadNecklace ? 10 : 5;
+				{	changes += that.item == null ? 1 : that.item.getItemId() == LEAD_NECKLACE.getItemId() ? 10 : 5;
 				}
 
 				if ( this.weapon != that.weapon )
