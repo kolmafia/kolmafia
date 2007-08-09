@@ -1003,6 +1003,11 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				StaticEntity.globalStringReplace( buffer, "370834526", "328909735" );
 			}
 		}
+		else if ( location.startsWith( "basement.php" ) )
+		{
+			if ( AdventureRequest.checkBasement( buffer.toString() ) )
+				buffer.insert( buffer.lastIndexOf( "</html>" ), "<script language=\"Javascript\"><!-- top.charpane.document.location.reload(); --></script>" );
+		}
 		else if ( location.startsWith( "bathole.php" ) )
 		{
 			StaticEntity.globalStringReplace( buffer, "action=bathole.php", "action=adventure.php" );
