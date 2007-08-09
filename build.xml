@@ -33,14 +33,12 @@
 	<!--  update files from the repository  -->
 	<!-- ================================== -->
 
-	<target name="update" unless="revision">
+	<target name="update">
 
 		<exec executable="svn" failifexecutionfails="false">
 			<arg value="update"/>
 			<arg value="${root}"/>
 		</exec>
-
-		<antcall target="version"/>
 
 	</target>
 
@@ -49,7 +47,7 @@
 	<!--  update files from the repository  -->
 	<!-- ================================== -->
 
-	<target name="version" unless="revision">
+	<target name="version">
 
 		<property name="version" value="11.2"/>
 
@@ -136,7 +134,7 @@
 	<!--  generate the alpha testing JAR  -->
 	<!-- ================================ -->
 
-	<target name="debug" depends="version,clean,init">
+	<target name="debug" depends="clean,init,version">
 
 		<replace file="${src}/net/sourceforge/kolmafia/KoLConstants.java"
 			token="v${version}" value="v${version}, r${revision}"/>
@@ -153,7 +151,7 @@
 	<!--  generate a daily build JAR  -->
 	<!-- ============================ -->
 
-	<target name="daily" depends="clean,update,init">
+	<target name="daily" depends="clean,init,update,version">
 
 		<replace file="${src}/net/sourceforge/kolmafia/KoLConstants.java"
 			token="v${version}" value="v${version}, r${revision}"/>
@@ -176,7 +174,7 @@
 	<!--  generate the distribution  -->
 	<!-- =========================== -->
 
-	<target name="dist" depends="clean,update">
+	<target name="dist" depends="clean,init,update">
 
 		<antcall target="createjar"/>
 		<antcall target="jsmooth"/>
