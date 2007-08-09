@@ -38,7 +38,8 @@ import java.io.File;
 import java.io.PrintStream;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -63,7 +64,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	private static int messageDisposalSetting;
 	private static String refundMessage;
 	private static String thanksMessage;
-	private static String [] whiteListArray = new String[0];
+	private static List whiteList = new ArrayList();
 
 	private static final Map buffCostMap = new TreeMap();
 	private static final SortedListModel buffCostTable = new SortedListModel();
@@ -278,10 +279,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Buffbot started." );
 
 		messageDisposalSetting = parseInt( getProperty( "buffBotMessageDisposal" ) );
-
-		String whiteListString = ClanManager.retrieveClanListAsCDL();
-		whiteListArray = whiteListString.split( "\\s*,\\s*" );
-		Arrays.sort( whiteListArray );
+		whiteList = ClanManager.getWhiteList();
 
 		refundMessage = getProperty( "invalidBuffMessage" );
 		thanksMessage = getProperty( "thanksMessage" );
@@ -447,7 +445,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	 */
 
 	private static final boolean onWhiteList( String userName )
-	{	return Arrays.binarySearch( whiteListArray, userName.toLowerCase() ) > -1;
+	{	return Collections.binarySearch( whiteList, userName.toLowerCase() ) > -1;
 	}
 
 	/**
@@ -688,7 +686,8 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 		case 1:
 
-			if ( BuffBotHome.getInstanceCount( meatSent, recipient ) == 0 )
+			int instanceCount = BuffBotHome.getInstanceCount( meatSent, recipient );
+			if ( instanceCount == 0 || (buff.casts.length == 1 && buff.getLowestBuffId() == 6014 && instanceCount == 1) )
 				break;
 
 			// This is a philanthropic buff and the user has already

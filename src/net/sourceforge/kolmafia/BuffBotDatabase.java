@@ -37,7 +37,6 @@ import java.io.BufferedReader;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.TreeMap;
 
 import java.util.regex.Matcher;
@@ -69,8 +68,6 @@ public class BuffBotDatabase extends KoLDatabase
 
 	private static int buffBotsAvailable = 0;
 	private static int buffBotsConfigured = 0;
-
-	private static final CaseInsensitiveComparator NAME_COMPARATOR = new CaseInsensitiveComparator();
 
 	public static final int getOffering( String name, int amount )
 	{
@@ -208,21 +205,10 @@ public class BuffBotDatabase extends KoLDatabase
 			if ( !completeList.contains( philanthropic[i] ) )
 				completeList.add( philanthropic[i] );
 
-		Collections.sort( completeList, NAME_COMPARATOR );
+		Collections.sort( completeList, new CaseInsensitiveComparator() );
 		completeList.add( 0, "" );
 
 		return completeList.toArray();
-	}
-
-	private static class CaseInsensitiveComparator implements Comparator
-	{
-		public int compare( Object o1, Object o2 )
-		{	return ((String)o1).compareToIgnoreCase( (String) o2 );
-		}
-
-		public boolean equals( Object o )
-		{	return o instanceof CaseInsensitiveComparator;
-		}
 	}
 
 	public static final LockableListModel getStandardOfferings( String botName )

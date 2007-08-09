@@ -47,6 +47,7 @@ import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Locale;
 import java.util.Random;
 import java.util.TreeMap;
@@ -362,6 +363,18 @@ public interface KoLConstants extends UtilityConstants
 	// Include just the event history buffer and the command line buffer.
 
 	public static final LockableListModel eventHistory = new LockableListModel();
+
+	public static class CaseInsensitiveComparator implements Comparator
+	{
+		public int compare( Object o1, Object o2 )
+		{	return ((String)o1).compareToIgnoreCase( (String) o2 );
+		}
+
+		public boolean equals( Object o )
+		{	return o instanceof CaseInsensitiveComparator;
+		}
+	}
+
 
 	/**
 	 * A special kind of ByteArrayOutputStream which provides access to the
