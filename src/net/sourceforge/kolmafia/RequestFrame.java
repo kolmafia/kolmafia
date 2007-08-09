@@ -49,7 +49,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 
@@ -465,6 +464,10 @@ public class RequestFrame extends KoLFrame
 				e.consume();
 			}
 		}
+	}
+	
+	public static final boolean sidebarFrameExists()
+	{	return !sideBarFrames.isEmpty();
 	}
 
 	public static final void refreshStatus()

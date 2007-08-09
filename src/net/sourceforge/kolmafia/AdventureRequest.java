@@ -197,6 +197,9 @@ public class AdventureRequest extends KoLRequest
 		{
 			useMarmotClover( this.formSource, this.responseText );
 		}
+
+		if ( !containsUpdate && !RequestFrame.sidebarFrameExists() )
+			CharpaneRequest.getInstance().run();
 	}
 
 	public static final boolean stateChanged()

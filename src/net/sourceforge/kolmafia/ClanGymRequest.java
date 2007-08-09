@@ -186,6 +186,9 @@ public class ClanGymRequest extends KoLRequest
 			KoLmafia.updateDisplay( "Executing request..." );
 
 		super.run();
+
+		if ( this.turnCount > 0 )
+			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, 0 - turnCount ) );
 	}
 
 	public void processResults()

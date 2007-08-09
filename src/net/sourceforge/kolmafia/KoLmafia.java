@@ -1631,7 +1631,11 @@ public abstract class KoLmafia implements KoLConstants
 				// possibly a ParseException to be thrown.  catch them and
 				// do nothing (eventhough it's technically bad style).
 
-				if ( !lastToken.startsWith( "You gain a" ) && !lastToken.startsWith( "You gain some" ) )
+				if ( lastToken.startsWith( "You gain a" ) || lastToken.startsWith( "You gain some" ) )
+				{
+					requiresRefresh = true;
+				}
+				else
 				{
 					lastResult = this.parseResult( lastToken );
 					if ( data == null )
@@ -1666,6 +1670,7 @@ public abstract class KoLmafia implements KoLConstants
 			}
 		}
 
+		applyEffects();
 		return requiresRefresh;
 	}
 

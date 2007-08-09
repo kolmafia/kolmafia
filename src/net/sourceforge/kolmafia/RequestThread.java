@@ -98,7 +98,7 @@ public abstract class RequestThread implements KoLConstants
 		if ( request == null )
 			return;
 
-		if ( sequenceCount == 0 && !request.isDelayExempt() )
+		if ( sequenceCount == 0 && !request.hasNoResult() )
 			KoLmafia.forceContinue();
 
 		++sequenceCount;

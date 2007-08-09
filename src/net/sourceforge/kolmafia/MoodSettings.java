@@ -1123,7 +1123,6 @@ public abstract class MoodSettings implements KoLConstants
 			}
 			else if ( this.type.equals( "gain_effect" ) )
 			{
-				KoLmafia.applyEffects();
 				shouldExecute = activeEffects.contains( this.effect );
 			}
 			else if ( this.type.equals( "lose_effect" ) )

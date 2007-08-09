@@ -204,9 +204,16 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 			if ( !FightRequest.isTrackingFights() )
 				CUSTOM_THREAD.wake();
 
-			this.request.pseudoResponse( "HTTP/1.1 200 OK", FightRequest.getNextTrackedRound() );
+			String fightResponse = FightRequest.getNextTrackedRound();
+
 			if ( FightRequest.isTrackingFights() )
+			{
+				fightResponse = SCRIPT_PATTERN.matcher( fightResponse ).replaceAll( "" );
+				this.request.pseudoResponse( "HTTP/1.1 200 OK", fightResponse );
 				this.request.headers.add( "Refresh: 0" );
+			}
+			else
+				this.request.pseudoResponse( "HTTP/1.1 200 OK", fightResponse );
 		}
 		else if ( this.path.startsWith( "/tiles.php" ) )
 		{
@@ -228,7 +235,7 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 		}
 		else
 		{
-			if ( !this.request.isDelayExempt() )
+			if ( !this.request.hasNoResult() )
 				while ( KoLmafia.isRunningBetweenBattleChecks() )
 					KoLRequest.delay( 200 );
 
