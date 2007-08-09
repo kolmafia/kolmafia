@@ -1005,8 +1005,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		}
 		else if ( location.startsWith( "basement.php" ) )
 		{
-			if ( AdventureRequest.checkBasement( buffer.toString() ) )
-				buffer.insert( buffer.lastIndexOf( "</html>" ), "<script language=\"Javascript\"><!-- top.charpane.document.location.reload(); --></script>" );
+			addBasementSpoilers( buffer );
 		}
 		else if ( location.startsWith( "bathole.php" ) )
 		{
@@ -1172,6 +1171,45 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		StaticEntity.singleStringReplace( buffer, "</body>", "<div id='menu' class='rcm'></div></body>" );
 	}
 
+	public static final void addBasementSpoilers( StringBuffer buffer )
+	{
+		if ( buffer.indexOf( "Got Silk?" ) != -1 || buffer.indexOf( "Save the Dolls" ) != -1 || buffer.indexOf( "Take the Red Pill" ) != -1 )
+			return;
+
+		buffer.insert( buffer.indexOf( "</head>" ), "<script language=\"Javascript\" src=\"/basics.js\" />" );
+
+		boolean hasCheck = AdventureRequest.checkBasement( buffer.toString() );
+
+		if ( AdventureRequest.stateChanged() )
+			buffer.insert( buffer.indexOf( "</html>" ), "<script language=\"Javascript\"><!-- refreshSidebar(); --></script>" );
+
+		StringBuffer outfits = new StringBuffer();
+		outfits.append( "<br/><select id=\"outfit\" style=\"width: 250px\" onChange=\"var select = document.getElementById('outfit');  var option = select.options[select.selectedIndex]; top.charpane.document.location.href = '/KoLmafia/sideCommand?cmd=outfit+' + option.value; document.location.reload(); return true;\"><option value=\"none\">- select an outfit -</option>" );
+		Object [] outfitList = KoLCharacter.getCustomOutfits().toArray();
+
+		for ( int i = 0; i < outfitList.length; ++i )
+		{
+			outfits.append( "<option value=\"" );
+			outfits.append( StaticEntity.globalStringReplace( ((SpecialOutfit)outfitList[i]).getName(), " ", "+" ) );
+			outfits.append( "\"" );
+
+			outfits.append( ">" );
+			outfits.append( ((SpecialOutfit)outfitList[i]).getName() );
+			outfits.append( "</option>" );
+		}
+
+		outfits.append( "</select><br/>" );
+		buffer.insert( buffer.indexOf( "</center><blockquote>" ), outfits.toString() );
+
+		if ( hasCheck )
+		{
+			buffer.insert( buffer.lastIndexOf( "</b>" ) + 4, "<br/>" );
+			buffer.insert( buffer.lastIndexOf( "<img" ), "<table><tr><td>" );
+			buffer.insert( buffer.indexOf( ">", buffer.lastIndexOf( "<img" ) ) + 1, "</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><font size=2>" +
+				AdventureRequest.getRequirement() + "</font></td></tr></table>" );
+		}
+	}
+
 	private static final void addPreAscensionReminders( StringBuffer buffer )
 	{
 		buffer.delete( buffer.indexOf( "<p>Are you" ), buffer.indexOf( "<p><center>" ) );
@@ -1189,38 +1227,19 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		StaticEntity.singleStringReplace( buffer, "</center><p>", predictions.toString() );
 
 		int startPoint = 0;
-		String classImage = "http://images.kingdomofloathing.com/itemimages/confused.gif";
 
 		if ( KoLCharacter.getClassType().equals( KoLCharacter.SEAL_CLUBBER ) )
-		{
 			startPoint = 1000;
-			classImage = "http://images.kingdomofloathing.com/itemimages/club.gif";
-		}
 		else if ( KoLCharacter.getClassType().equals( KoLCharacter.TURTLE_TAMER ) )
-		{
 			startPoint = 2000;
-			classImage = "http://images.kingdomofloathing.com/itemimages/turtle.gif";
-		}
 		else if ( KoLCharacter.getClassType().equals( KoLCharacter.PASTAMANCER ) )
-		{
 			startPoint = 3000;
-			classImage = "http://images.kingdomofloathing.com/itemimages/pastaspoon.gif";
-		}
 		else if ( KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) )
-		{
 			startPoint = 4000;
-			classImage = "http://images.kingdomofloathing.com/itemimages/saucepan.gif";
-		}
 		else if ( KoLCharacter.getClassType().equals( KoLCharacter.DISCO_BANDIT ) )
-		{
 			startPoint = 5000;
-			classImage = "http://images.kingdomofloathing.com/itemimages/discoball.gif";
-		}
 		else if ( KoLCharacter.getClassType().equals( KoLCharacter.ACCORDION_THIEF ) )
-		{
 			startPoint = 6000;
-			classImage = "http://images.kingdomofloathing.com/itemimages/accordion.gif";
-		}
 
 		StringBuffer reminders = new StringBuffer();
 		reminders.append( "<br><table>" );
