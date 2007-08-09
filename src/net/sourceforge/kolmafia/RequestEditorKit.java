@@ -1548,7 +1548,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		{
 			int combatIndex = buffer.indexOf( "!</b>" );
 			if ( combatIndex != -1 )
-				buffer.insert( combatIndex, ": Round " + FightRequest.getCurrentRound() );
+				buffer.insert( combatIndex, ": Round " + FightRequest.getTrackedRound() );
 		}
 
 		if ( !StaticEntity.getBooleanProperty( "relayAddsMonsterHealth" ) )
