@@ -1048,6 +1048,7 @@ woven baling wire bracelets	Spell Damage: +15, Mana Cost: -1
 wrench bracelet	Muscle: +5, Melee Damage: +9
 # x-ray specs
 ye olde golde frontes	Single Equip, Muscle: +15, Class: "Disco Bandit"
+yellow glowstick	Maximum MP: +5, Moxie: -3
 
 # Containers section of modifiers.txt
 
