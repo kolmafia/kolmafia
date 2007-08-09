@@ -72,7 +72,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 	private static final Pattern COURSELOST_PATTERN = Pattern.compile( "You enter (.*?) against (.*?) in an Obstacle Course race.<p>(.*?\\1.*?\\.<p>)\\1 makes it through the obstacle course" );
 	private static final Pattern HIdELOST_PATTERN = Pattern.compile( "You enter (.*?) against (.*?) in a game of Hide and Seek.<p>(.*?\\1.*?\\.<p>)\\1 manages to stay hidden" );
 
-	private static final LimitedSizeChatBuffer results = new LimitedSizeChatBuffer( false );
+	private static final LimitedSizeChatBuffer results = new LimitedSizeChatBuffer( true );
 
 	private static int losses = 0;
 	private static boolean stop = false;
