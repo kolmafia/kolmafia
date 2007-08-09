@@ -174,6 +174,8 @@ Pump Up Muscle	0
 Pump Up Mysticality	0
 Roulette Tables	0
 Sewer With Clovers	0
-St. Sneaky Pete's Day Stupor	0
+# St. Sneaky Pete's Day is unusual in that although it has no combats,
+# you might want a between-battle script to execute.
+St. Sneaky Pete's Day Stupor	-1
 Trick-or-Treating	0
 Unlucky Sewer	0
