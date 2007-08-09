@@ -127,20 +127,18 @@ public class ItemManageFrame extends KoLFrame
 		this.addSeparator();
 
 		this.addPanel( "Equipment", new InventoryManagePanel( inventory, true ) );
-		this.addPanel( " - Create", new CreateItemPanel( false, false, true, false ) );
 		this.addPanel( " - Storage", new HagnkStoragePanel( true ) );
+		this.addPanel( " - Create", new CreateItemPanel( false, false, true, false ) );
 
 		// Now a special panel which does nothing more than list
 		// some common actions and some descriptions.
 
 		this.addSeparator();
 
-		JTabbedPane cleanupActions = getTabbedPane();
-		cleanupActions.addTab( "Junk Items", new JunkItemsPanel() );
-		cleanupActions.addTab( "Singletons", new SingletonItemsPanel() );
-
-		this.addPanel( "Item Filters", new MementoItemsPanel() );
-		this.addPanel( " - Cleanup", cleanupActions );
+		this.itemPanelNames.add( "Item Filters" );
+		this.addPanel( " - Mementos", new MementoItemsPanel() );
+		this.addPanel( " - Cleanup", new JunkItemsPanel() );
+		this.addPanel( " - Keep One", new SingletonItemsPanel() );
 		this.addPanel( " - Restock", new RestockPanel() );
 
 		this.itemPanelList.addListSelectionListener( new CardSwitchListener() );
@@ -662,6 +660,10 @@ public class ItemManageFrame extends KoLFrame
 		{	return new UsableItemFilterField();
 		}
 
+		public void addMovers()
+		{
+		}
+
 		public void actionConfirmed()
 		{
 			Object [] items = this.getDesiredItems( "Consume" );
@@ -874,7 +876,7 @@ public class ItemManageFrame extends KoLFrame
 
 			elementList.setCellRenderer( AdventureResult.getDefaultRenderer( this.isEquipmentOnly ) );
 
-			if ( !this.isEquipmentOnly )
+			if ( this.movers != null )
 				this.movers[2].setSelected( true );
 		}
 
@@ -915,12 +917,6 @@ public class ItemManageFrame extends KoLFrame
 
 			this.northPanel.add( filterPanel, BorderLayout.NORTH );
 			this.filterItems();
-		}
-
-		public void addMovers()
-		{
-			if ( !this.isEquipmentOnly )
-				super.addMovers();
 		}
 
 		public FilterItemField getWordFilter()
@@ -1017,6 +1013,12 @@ public class ItemManageFrame extends KoLFrame
 				this.eastPanel.add( pullsRemainingLabel1, BorderLayout.SOUTH );
 			else
 				this.eastPanel.add( pullsRemainingLabel2, BorderLayout.SOUTH );
+		}
+
+		public void addMovers()
+		{
+			if ( !this.isEquipmentOnly )
+				super.addMovers();
 		}
 
 		private Object [] pullItems()
