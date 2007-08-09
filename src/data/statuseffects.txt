@@ -78,7 +78,7 @@
 78	Yuletide Sappiness	scook3.gif
 79
 80	Missing Fingers	sad.gif	c6100ac99a847dc3b60d9f8c1a2c223d
-81	Gnawed-Off Arm	sad.gif
+81	Gnawed-Off Arm	sad.gif	99337ac6df628a7b13162ef7a725f01d
 82	Broken Knees	sad.gif
 83	And Your Family, Too	sad.gif
 84

@@ -984,6 +984,7 @@ woven baling wire bracelets	0	Mys: 75
 wrench bracelet	0	Mys: 75
 x-ray specs	0	none
 ye olde golde frontes	0	none
+yellow glowstick	0	none
 
 # Containers section of equipment.txt
 

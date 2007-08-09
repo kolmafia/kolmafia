@@ -2835,3 +2835,4 @@
 2835	indie comic hipster glasses	9	display	0
 2836	wizard action figure	5	all	0
 2837	mint-condition magic wand	7	all	0
+2838	yellow glowstick	8	display	0
