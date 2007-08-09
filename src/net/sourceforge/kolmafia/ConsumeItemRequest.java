@@ -501,8 +501,6 @@ public class ConsumeItemRequest extends KoLRequest
 
 	public void processResults()
 	{
-		int originalEffectCount = activeEffects.size();
-
 		lastItemUsed = this.itemUsed;
 		parseConsumption( this.responseText, true );
 	}
@@ -512,24 +510,24 @@ public class ConsumeItemRequest extends KoLRequest
 		if ( lastItemUsed == null )
 			return;
 
+		int consumptionType = TradeableItemDatabase.getConsumptionType( lastItemUsed.getItemId() );
+
+		if ( consumptionType == INFINITE_USES )
+			return;
+
+		if ( consumptionType == MESSAGE_DISPLAY )
+		{
+			if ( !LoginRequest.isInstanceRunning() )
+				showItemUsage( showHTML, responseText, true );
+
+			return;
+		}
+
 		// Assume initially that this causes the item to disappear.
 		// In the event that the item is not used, then proceed to
 		// undo the consumption.
 
 		StaticEntity.getClient().processResult( lastItemUsed.getNegation() );
-
-		int consumptionType = TradeableItemDatabase.getConsumptionType( lastItemUsed.getItemId() );
-		if ( consumptionType == MESSAGE_DISPLAY )
-		{
-			showItemUsage( showHTML, responseText, true );
-			return;
-		}
-
-		if ( consumptionType == INFINITE_USES )
-		{
-			showItemUsage( showHTML, responseText, false );
-			return;
-		}
 
 		// Check for familiar growth - if a familiar is added,
 		// make sure to update the StaticEntity.getClient().
