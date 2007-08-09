@@ -43,7 +43,15 @@ public class AdventureRequest extends KoLRequest
 	private String formSource;
 	private String adventureId;
 
+	private static boolean stateChanged = false;
+	private static float basementTestValue = 0;
+	private static float basementTestCurrent = 0;
+	private static String basementTestString = "";
+
 	private static String basementErrorMessage = null;
+	private static int element1 = -1, element2 = -1;
+	private static AdventureResult phial1 = null, phial2 = null;
+	private static AdventureResult effect1 = null, effect2 = null;
 
 	private static final AdventureResult HOT_PHIAL = new AdventureResult( 1637, 1 );
 	private static final AdventureResult COLD_PHIAL = new AdventureResult( 1638, 1 );
@@ -191,10 +199,26 @@ public class AdventureRequest extends KoLRequest
 		}
 	}
 
+	public static final boolean stateChanged()
+	{	return stateChanged;
+	}
+
+	public static final String getRequirement()
+	{
+		if ( basementTestString.equals( "Elemental Resist" ) )
+		{
+			return "<u>Elemental Resist</u><br/>Current: " + COMMA_FORMAT.format( basementTestCurrent ) +
+			"%<br/>Needed: " + COMMA_FORMAT.format( basementTestValue ) + "%";
+		}
+		else
+		{
+			return "<u>" + basementTestString + "</u><br/>Current: " + COMMA_FORMAT.format( basementTestCurrent ) +
+				"<br/>Needed: " + COMMA_FORMAT.format( basementTestValue );
+		}
+	}
+
 	private static final void changeBasementOutfit( String name )
 	{
-		boolean foundMatch = false;
-
 		Object currentTest;
 		String currentTestString;
 
@@ -206,6 +230,7 @@ public class AdventureRequest extends KoLRequest
 
 			if ( currentTestString.indexOf( name ) != -1 )
 			{
+				stateChanged = true;
 				RequestThread.postRequest( new EquipmentRequest( (SpecialOutfit) currentTest ) );
 				return;
 			}
@@ -214,11 +239,7 @@ public class AdventureRequest extends KoLRequest
 
 	private static final boolean checkForElementalTest( String responseText )
 	{
-		int element1 = -1, element2 = -1;
-		AdventureResult phial1 = null, phial2 = null;
-		AdventureResult effect1 = null, effect2 = null;
-
-		if ( responseText.indexOf( "Hold your nose" ) != -1 )
+		if ( responseText.indexOf( "<b>Peace, Bra</b>" ) != -1 )
 		{
 			element1 = MonsterDatabase.SLEAZE;
 			element2 = MonsterDatabase.STENCH;
@@ -229,7 +250,7 @@ public class AdventureRequest extends KoLRequest
 			effect1 = SLEAZE_FORM;
 			effect2 = STENCH_FORM;
 		}
-		else if ( responseText.indexOf( "Drink the Drunk's Drink" ) != -1 )
+		else if ( responseText.indexOf( "<b>Singled Out</b>" ) != -1 )
 		{
 			element1 = MonsterDatabase.COLD;
 			element2 = MonsterDatabase.SLEAZE;
@@ -240,7 +261,7 @@ public class AdventureRequest extends KoLRequest
 			effect1 = COLD_FORM;
 			effect2 = SLEAZE_FORM;
 		}
-		else if ( responseText.indexOf( "Pwn the Cone" ) != -1 )
+		else if ( responseText.indexOf( "<b>Still Better Than Pistachio</b>" ) != -1 )
 		{
 			element1 = MonsterDatabase.STENCH;
 			element2 = MonsterDatabase.HEAT;
@@ -251,7 +272,7 @@ public class AdventureRequest extends KoLRequest
 			effect1 = STENCH_FORM;
 			effect2 = HOT_FORM;
 		}
-		else if ( responseText.indexOf( "What's a Typewriter" ) != -1 )
+		else if ( responseText.indexOf( "<b>Unholy Writes</b>" ) != -1 )
 		{
 			element1 = MonsterDatabase.HEAT;
 			element2 = MonsterDatabase.SPOOKY;
@@ -262,7 +283,7 @@ public class AdventureRequest extends KoLRequest
 			effect1 = HOT_FORM;
 			effect2 = SPOOKY_FORM;
 		}
-		else if ( responseText.indexOf( "Evade the Vampsicle" ) != -1 )
+		else if ( responseText.indexOf( "<b>The Unthawed</b>" ) != -1 )
 		{
 			element1 = MonsterDatabase.SPOOKY;
 			element2 = MonsterDatabase.COLD;
@@ -311,6 +332,15 @@ public class AdventureRequest extends KoLRequest
 		// If you can survive the current elemental test even without a phial
 		// assumption, then don't bother with any extra buffing.
 
+		boolean hasPerfectResist = false;
+		for ( int i = 0; i < ELEMENT_FORMS.length; ++i )
+			hasPerfectResist |= activeEffects.contains( ELEMENT_FORMS[i] );
+
+		basementTestString = "Elemental Resist";
+		basementTestCurrent = Math.max( resistance1, resistance2 );
+		basementTestValue = Math.max( 0, (int) Math.ceil( 100.0f *
+				(1.0f - KoLCharacter.getMaximumHP() / (damage1 + (hasPerfectResist ? 0.0f : damage2) ))) );
+
 		if ( expected1 + expected2 < KoLCharacter.getCurrentHP() )
 			return true;
 
@@ -330,6 +360,7 @@ public class AdventureRequest extends KoLRequest
 
 			if ( 1.0f + expected2 < KoLCharacter.getMaximumHP() )
 			{
+				stateChanged = true;
 				StaticEntity.getClient().recoverHP( (int) (1.0f + expected2) );
 				return KoLmafia.permitsContinue();
 			}
@@ -344,6 +375,7 @@ public class AdventureRequest extends KoLRequest
 
 			if ( 1.0f + expected1 < KoLCharacter.getMaximumHP() )
 			{
+				stateChanged = true;
 				StaticEntity.getClient().recoverHP( (int) (1.0f + expected1) );
 				return KoLmafia.permitsContinue();
 			}
@@ -364,7 +396,7 @@ public class AdventureRequest extends KoLRequest
 		{
 			if ( 1.0f + expected2 >= KoLCharacter.getMaximumHP() )
 			{
-				basementErrorMessage = "Insufficient elemental resistance.";
+				basementErrorMessage = "You must have at least " + basementTestValue + "% elemental resistance.";
 				return false;
 			}
 		}
@@ -372,10 +404,12 @@ public class AdventureRequest extends KoLRequest
 		{
 			if ( 1.0f + expected1 >= KoLCharacter.getMaximumHP() )
 			{
-				basementErrorMessage = "Insufficient elemental resistance.";
+				basementErrorMessage = "You must have at least " + basementTestValue + "% elemental resistance.";
 				return false;
 			}
 		}
+
+		stateChanged = true;
 
 		// You can survive, but you need an elemental phial in order to do
 		// so.  Go ahead and save it.
@@ -413,11 +447,15 @@ public class AdventureRequest extends KoLRequest
 
 		if ( responseText.indexOf( "Lift 'em" ) != -1 || responseText.indexOf( "Push It Real Good" ) != -1 || responseText.indexOf( "Ring That Bell" ) != -1 )
 		{
+			basementTestString = "Buffed Muscle";
+			basementTestCurrent = KoLCharacter.getAdjustedMuscle();
+			basementTestValue = (int) statRequirement;
+
 			if ( KoLCharacter.getAdjustedMuscle() < statRequirement )
 			{
 				changeBasementOutfit( "muscle" );
 				if ( KoLCharacter.getAdjustedMuscle() < statRequirement )
-					basementErrorMessage = "Insufficient muscle to continue.";
+					basementErrorMessage = "You must have at least " + basementTestValue + " muscle.";
 			}
 
 			return true;
@@ -425,11 +463,15 @@ public class AdventureRequest extends KoLRequest
 
 		if ( responseText.indexOf( "Gathering: The Magic" ) != -1 || responseText.indexOf( "Mop the Floor" ) != -1 || responseText.indexOf( "'doo" ) != -1 )
 		{
+			basementTestString = "Buffed Mysticality";
+			basementTestCurrent = KoLCharacter.getAdjustedMysticality();
+			basementTestValue = (int) statRequirement;
+
 			if ( KoLCharacter.getAdjustedMysticality() < statRequirement )
 			{
 				changeBasementOutfit( "mysticality" );
 				if ( KoLCharacter.getAdjustedMysticality() < statRequirement )
-					basementErrorMessage = "Insufficient mysticality to continue.";
+					basementErrorMessage = "You must have at least " + basementTestValue + " mysticality.";
 			}
 
 			return true;
@@ -437,11 +479,15 @@ public class AdventureRequest extends KoLRequest
 
 		if ( responseText.indexOf( "Don't Wake the Baby" ) != -1 || responseText.indexOf( "Grab a cue" ) != -1 || responseText.indexOf( "Smooth Moves" ) != -1 )
 		{
+			basementTestString = "Buffed Moxie";
+			basementTestCurrent = KoLCharacter.getAdjustedMoxie();
+			basementTestValue = (int) statRequirement;
+
 			if ( KoLCharacter.getAdjustedMoxie() < statRequirement )
 			{
 				changeBasementOutfit( "moxie" );
 				if ( KoLCharacter.getAdjustedMoxie() < statRequirement )
-					basementErrorMessage = "Insufficient moxie to continue.";
+					basementErrorMessage = "You must have at least " + basementTestValue + " moxie.";
 			}
 
 			return true;
@@ -465,6 +511,10 @@ public class AdventureRequest extends KoLRequest
 
 		if ( responseText.indexOf( "Grab the Handles" ) != -1 )
 		{
+			basementTestString = "Maximum MP";
+			basementTestCurrent = KoLCharacter.getMaximumMP();
+			basementTestValue = (int) drainRequirement;
+
 			if ( KoLCharacter.getMaximumMP() < drainRequirement )
 			{
 				changeBasementOutfit( "mpdrain" );
@@ -481,6 +531,10 @@ public class AdventureRequest extends KoLRequest
 
 		if ( responseText.indexOf( "Run the Gauntlet Gauntlet" ) != -1 )
 		{
+			basementTestString = "Maximum HP";
+			basementTestCurrent = KoLCharacter.getMaximumHP();
+			basementTestValue = (int) drainRequirement;
+
 			float damageAbsorb = 1.0f - (( ((float) Math.sqrt( KoLCharacter.getDamageAbsorption() / 10.0f )) - 1.0f ) / 10.0f);
 			float healthRequirement = drainRequirement * damageAbsorb;
 
@@ -508,7 +562,17 @@ public class AdventureRequest extends KoLRequest
 	public static final boolean checkBasement( String responseText )
 	{
 		basementErrorMessage = null;
-		return checkForElementalTest( responseText ) || checkForStatTest( responseText ) || checkForDrainTest( responseText );
+		basementTestString = "None";
+		basementTestValue = 0;
+
+		if ( responseText.indexOf( "Got Silk?" ) != -1 || responseText.indexOf( "Save the Dolls" ) != -1 || responseText.indexOf( "Take the Red Pill" ) != -1 )
+			return false;
+
+		if ( checkForElementalTest( responseText ) || checkForStatTest( responseText ) || checkForDrainTest( responseText ) )
+			return true;
+
+		changeBasementOutfit( "damage" );
+		return false;
 	}
 
 	private void handleBasement()
@@ -521,14 +585,20 @@ public class AdventureRequest extends KoLRequest
 
 		if ( this.responseText.indexOf( "Got Silk?" ) != -1 )
 		{
+			basementTestString = "None";
+			basementTestValue = 0;
 			this.addFormField( "action", KoLCharacter.isMoxieClass() ? "1" : "2" );
 		}
 		else if ( this.responseText.indexOf( "Save the Dolls" ) != -1 )
 		{
+			basementTestString = "None";
+			basementTestValue = 0;
 			this.addFormField( "action", KoLCharacter.isMysticalityClass() ? "1" : "2" );
 		}
 		else if ( this.responseText.indexOf( "Take the Red Pill" ) != -1 )
 		{
+			basementTestString = "None";
+			basementTestValue = 0;
 			this.addFormField( "action", KoLCharacter.isMuscleClass() ? "1" : "2" );
 		}
 		else
