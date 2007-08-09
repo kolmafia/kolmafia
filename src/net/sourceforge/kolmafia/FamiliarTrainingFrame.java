@@ -769,9 +769,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 		stop = false;
 
 		// Get current familiar
-		FamiliarData familiar = KoLCharacter.getFamiliar();
 
-		if ( familiar == FamiliarData.NO_FAMILIAR )
+		if ( KoLCharacter.getFamiliar() == FamiliarData.NO_FAMILIAR )
 		{
 			statusMessage( ERROR_STATE, "No familiar selected to train." );
 			return null;
@@ -823,83 +822,90 @@ public class FamiliarTrainingFrame extends KoLFrame
 		int [][] xp = new int[4][3];
 
 		// Array of skills to test with
-		int test [] = new int[4];
+		int [] test = new int[4];
 
 		// Array of contest suckage
-		boolean suckage [] = new boolean[4];
+
+		int [] skills = new int[4];
+		boolean [] suckage = new boolean[4];
 
 		// Iterate for the specified number of trials
 		for ( int trial = 0; trial < trials; ++trial )
+			skills = learnFamiliarParameters( trial, status, tool, xp, test, suckage );
+
+		return skills;
+	}
+
+	private static final int [] learnFamiliarParameters( int trial, FamiliarStatus status, FamiliarTool tool, int [][] xp, int [] test, boolean [] suckage )
+	{
+		// Iterate through the contests
+		for ( int contest = 0; contest < 4; ++contest )
 		{
-			// Iterate through the contests
-			for ( int contest = 0; contest < 4; ++contest )
+			// Initialize test parameters
+			test[0] = test[1] = test[2] = test[3] = 0;
+
+			// Iterate through the ranks
+			for ( int rank = 0; rank < 3; ++rank )
 			{
-				// Initialize test parameters
-				test[0] = test[1] = test[2] = test[3] = 0;
+				// Skip contests in which the familiar
+				// sucks
+				if ( suckage[contest] )
+					continue;
 
-				// Iterate through the ranks
-				for ( int rank = 0; rank < 3; ++rank )
+				// If user canceled, bail now
+				if ( stop || !KoLmafia.permitsContinue() )
 				{
-					// Skip contests in which the familiar
-					// sucks
-					if ( suckage[contest] )
-						continue;
-
-					// If user canceled, bail now
-					if ( stop || !KoLmafia.permitsContinue() )
-					{
-						statusMessage( ERROR_STATE, "Training session aborted." );
-						return null;
-					}
-
-					// Initialize test parameters
-					test[contest] = rank + 1;
-
-					statusMessage( CONTINUE_STATE, CakeArenaManager.getEvent( contest + 1) + " rank " + ( rank + 1 ) + ": trial " + ( trial + 1 ) );
-
-					// Choose possible weights
-					int [] weights = status.getWeights();
-
-					// Choose next opponent
-					ArenaOpponent opponent = tool.bestOpponent( test, weights );
-
-					if ( opponent == null )
-					{
-						statusMessage( ERROR_STATE, "Couldn't choose a suitable opponent." );
-						return null;
-					}
-
-					int match = tool.bestMatch();
-					if ( match != contest + 1 )
-					{
-						// Informative message only. Do not stop session.
-						statusMessage( ERROR_STATE, "Internal error: Selected " + CakeArenaManager.getEvent( match ) +
-							" rather than " + CakeArenaManager.getEvent( contest + 1 ) );
-						// Use contest, even if with bad weight
-						match = contest + 1;
-					}
-
-					// Change into appropriate gear
-					status.changeGear( tool.bestWeight() );
-					if ( !KoLmafia.permitsContinue() )
-					{
-						statusMessage( ERROR_STATE, "Training stopped: internal error." );
-						return null;
-					}
-
-					// Enter the contest
-					int trialXP = fightMatch( status, tool, opponent, match );
-
-					if ( trialXP < 0 )
-						suckage[contest] = true;
-					else
-						xp[contest][rank] += trialXP;
+					statusMessage( ERROR_STATE, "Training session aborted." );
+					return null;
 				}
+
+				// Initialize test parameters
+				test[contest] = rank + 1;
+
+				statusMessage( CONTINUE_STATE, CakeArenaManager.getEvent( contest + 1) + " rank " + ( rank + 1 ) + ": trial " + ( trial + 1 ) );
+
+				// Choose possible weights
+				int [] weights = status.getWeights();
+
+				// Choose next opponent
+				ArenaOpponent opponent = tool.bestOpponent( test, weights );
+
+				if ( opponent == null )
+				{
+					statusMessage( ERROR_STATE, "Couldn't choose a suitable opponent." );
+					return null;
+				}
+
+				int match = tool.bestMatch();
+				if ( match != contest + 1 )
+				{
+					// Informative message only. Do not stop session.
+					statusMessage( ERROR_STATE, "Internal error: Selected " + CakeArenaManager.getEvent( match ) +
+						" rather than " + CakeArenaManager.getEvent( contest + 1 ) );
+					// Use contest, even if with bad weight
+					match = contest + 1;
+				}
+
+				// Change into appropriate gear
+				status.changeGear( tool.bestWeight() );
+				if ( !KoLmafia.permitsContinue() )
+				{
+					statusMessage( ERROR_STATE, "Training stopped: internal error." );
+					return null;
+				}
+
+				// Enter the contest
+				int trialXP = fightMatch( status, tool, opponent, match );
+
+				if ( trialXP < 0 )
+					suckage[contest] = true;
+				else
+					xp[contest][rank] += trialXP;
 			}
 		}
 
 		// Original skill rankings
-		int [] original = FamiliarsDatabase.getFamiliarSkills( familiar.getId() );
+		int [] original = FamiliarsDatabase.getFamiliarSkills( KoLCharacter.getFamiliar().getId() );
 
 		// Derived skill rankings
 		int skills [] = new int[4];
@@ -945,7 +951,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 		// Close the table
 		text.append( "</table>" );
 
-		results.append( "<br>Final results for " + familiar.getRace() + " with " + trials + " trials using " + status.turnsUsed() + " turns:<br><br>" );
+		results.append( "<br>Results for " + KoLCharacter.getFamiliar().getRace() + " after " + trial +
+			" trials using " + status.turnsUsed() + " turns:<br><br>" );
+
 		results.append( text.toString() );
 		return skills;
 	}
