@@ -346,7 +346,8 @@ public class KoLRequest extends Job implements KoLConstants
 		this.hasNoResult = this.isChatRequest || !this.formURLString.endsWith( ".php" ) || this.formURLString.startsWith( "http://" ) ||
 			this.formURLString.startsWith( "char" ) || this.formURLString.endsWith( "menu.php" ) || this.formURLString.startsWith( "desc" ) ||
 			this.formURLString.startsWith( "display" ) || this.formURLString.startsWith( "search" ) || this.formURLString.startsWith( "show" ) ||
-			this instanceof LoginRequest || this instanceof LogoutRequest || (this instanceof LocalRelayRequest && this.formURLString.startsWith( "clan" ));
+			this instanceof LoginRequest || this instanceof LogoutRequest || this.formURLString.startsWith( "message" ) ||
+			this.formURLString.startsWith( "makeoffer" ) || (this instanceof LocalRelayRequest && this.formURLString.startsWith( "clan" ));
 
 		return this;
 	}
