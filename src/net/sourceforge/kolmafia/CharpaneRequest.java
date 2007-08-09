@@ -220,7 +220,9 @@ public class CharpaneRequest extends KoLRequest
 			String adventuresLeft = miscMatcher.group(6).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
 			int oldAdventures = KoLCharacter.getAdventuresLeft();
 			int newAdventures = StaticEntity.parseInt( adventuresLeft );
-			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, newAdventures - oldAdventures ) );
+
+			if ( oldAdventures != newAdventures )
+				StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, newAdventures - oldAdventures ) );
 		}
 	}
 

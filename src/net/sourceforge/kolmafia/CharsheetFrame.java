@@ -218,8 +218,6 @@ public class CharsheetFrame extends AdventureOptionsFrame
 	{
 		public void run()
 		{
-			KoLmafia.applyEffects();
-
 			CharsheetFrame.this.refreshValuePanel( 0, KoLCharacter.getBaseMuscle(), KoLCharacter.getAdjustedMuscle(), KoLCharacter.getMuscleTNP() );
 			CharsheetFrame.this.refreshValuePanel( 1, KoLCharacter.getBaseMysticality(), KoLCharacter.getAdjustedMysticality(), KoLCharacter.getMysticalityTNP() );
 			CharsheetFrame.this.refreshValuePanel( 2, KoLCharacter.getBaseMoxie(), KoLCharacter.getAdjustedMoxie(), KoLCharacter.getMoxieTNP() );

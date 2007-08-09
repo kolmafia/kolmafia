@@ -476,8 +476,44 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			for ( int i = 0; i < ingredients.length; ++i )
 				StaticEntity.getClient().processResult( new AdventureResult( ingredients[i].getItemId(), quantityDifference * ingredients[i].getCount() ) );
 
-			if ( this.mixingMethod == COMBINE && !KoLCharacter.inMuscleSign() )
-				StaticEntity.getClient().processResult( new AdventureResult( MEAT_PASTE, quantityDifference ) );
+			switch ( this.mixingMethod )
+			{
+			case COMBINE:
+				if ( !KoLCharacter.inMuscleSign() )
+					StaticEntity.getClient().processResult( new AdventureResult( MEAT_PASTE, quantityDifference ) );
+				break;
+
+			case SMITH:
+				if ( !KoLCharacter.inMuscleSign() )
+					StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, 0 - quantityDifference ) );
+				break;
+
+			case SMITH_WEAPON:
+			case SMITH_ARMOR:
+			case WOK:
+				StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, 0 - quantityDifference ) );
+				break;
+
+			case JEWELRY:
+			case EXPENSIVE_JEWELRY:
+				StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, 0 - 3 * quantityDifference ) );
+				break;
+
+			case COOK:
+			case COOK_REAGENT:
+			case SUPER_REAGENT:
+			case COOK_PASTA:
+				if ( !KoLCharacter.hasChef() )
+					StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, 0 - quantityDifference ) );
+				break;
+
+			case MIX:
+			case MIX_SPECIAL:
+			case MIX_SUPER:
+				if ( !KoLCharacter.hasBartender() )
+					StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, 0 - quantityDifference ) );
+				break;
+			}
 		}
 
 		// Check to see if box-servant was overworked and exploded.

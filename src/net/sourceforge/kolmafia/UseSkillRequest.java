@@ -614,8 +614,6 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			// removes any beaten up.
 
 			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MP, 0 - (ClassSkillsDatabase.getMPConsumptionById( this.skillId ) * this.buffCount) ) );
-			KoLmafia.applyEffects();
-
 			if ( this.skillId == OTTER_TONGUE || this.skillId == WALRUS_TONGUE )
 				activeEffects.remove( KoLAdventure.BEATEN_UP );
 		}

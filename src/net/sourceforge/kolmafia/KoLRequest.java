@@ -105,8 +105,6 @@ public class KoLRequest extends Job implements KoLConstants
 	public static int lastDecision = 0;
 
 	protected String encounter = "";
-	private boolean shouldIgnoreResult;
-
 	public static boolean isCompactMode = false;
 
 	public static final String [][] SERVERS =
@@ -137,7 +135,9 @@ public class KoLRequest extends Job implements KoLConstants
 	private boolean dataChanged = true;
 	private byte [] dataString = null;
 
-	private boolean isDelayExempt;
+	private boolean hasNoResult;
+	public boolean containsUpdate;
+
 	public int responseCode;
 	public String responseText;
 	public HttpURLConnection formConnection;
@@ -312,8 +312,8 @@ public class KoLRequest extends Job implements KoLConstants
 			this.constructURLString( formURLString );
 	}
 
-	public boolean isDelayExempt()
-	{	return this.isDelayExempt;
+	public boolean hasNoResult()
+	{	return this.hasNoResult;
 	}
 
 	public KoLRequest constructURLString( String newURLString )
@@ -341,22 +341,13 @@ public class KoLRequest extends Job implements KoLConstants
 			this.addEncodedFormFields( newURLString.substring( formSplitIndex + 1 ) );
 		}
 
-		this.isChatRequest = this.formURLString.indexOf( "chat" ) != -1 && !this.formURLString.startsWith( "chatlaunch.php" ) &&
-			!this.formURLString.startsWith( "lchat.php" ) && !this.formURLString.startsWith( "devchat.php" );
+		this.isChatRequest = this.formURLString.equals( "newchatmessages.php" ) || this.formURLString.equals( "submitnewchat.php" );
 
-		this.shouldIgnoreResult = this.isChatRequest || this.formURLString.startsWith( "message" ) || this.formURLString.startsWith( "ascension" ) ||
-			this.formURLString.startsWith( "search" ) || this.formURLString.startsWith( "static" ) || this.formURLString.startsWith( "desc" ) ||
-			this.formURLString.startsWith( "show" ) || this.formURLString.startsWith( "doc" ) ||
-			(this.formURLString.startsWith( "clan" ) && !this.formURLString.startsWith( "clan_stash" ) && !this.formURLString.startsWith( "clan_rumpus" ));
-
-		this.isDelayExempt = this.shouldIgnoreResult || this.formURLString.equals( "charpane.php" ) ||
-			this instanceof LoginRequest || this instanceof LogoutRequest || this.formURLString.startsWith( "http://" );
+		this.hasNoResult = this.isChatRequest || this.formURLString.startsWith( "char" ) || this.formURLString.startsWith( "desc" ) ||
+			this.formURLString.startsWith( "display" ) || this.formURLString.startsWith( "search" ) || this.formURLString.startsWith( "show" ) ||
+			(this instanceof LocalRelayRequest && this.formURLString.startsWith( "clan" ));
 
 		return this;
-	}
-
-	public boolean ignoreResult()
-	{	return this.shouldIgnoreResult;
 	}
 
 	/**
@@ -595,9 +586,10 @@ public class KoLRequest extends Job implements KoLConstants
 
 	public void run()
 	{
-		if ( sessionId == null && !isDelayExempt )
+		if ( sessionId == null && !hasNoResult )
 			return;
 
+		containsUpdate = false;
 		String location = this.getURLString();
 
 		if ( location.indexOf( "clan" ) != -1 )
@@ -642,19 +634,12 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( this.followRedirects )
 			location = this.getURLString();
 
-		boolean isQuestLocation = location.startsWith( "council" ) ||
-			location.startsWith( "guild" ) ||
-			location.startsWith( "friars" ) ||
-			location.startsWith( "trapper" ) ||
-			location.startsWith( "bhh" ) ||
-			location.startsWith( "manor3" ) ||
-			(location.startsWith( "adventure" ) && location.indexOf( "=84" ) != -1);
+		boolean isQuestLocation = location.startsWith( "council" ) || location.startsWith( "guild" ) ||
+			location.startsWith( "friars" ) || location.startsWith( "trapper" ) || location.startsWith( "bhh" ) ||
+			location.startsWith( "manor3" ) || (location.startsWith( "adventure" ) && location.indexOf( "=84" ) != -1);
 
 		if ( isQuestLocation )
 			CouncilFrame.handleQuestChange( location, responseText );
-
-		// Once everything is complete, decide whether or not
-		// you should refresh your status.
 
 		if ( this.formURLString.equals( "charpane.php" ) )
 		{
@@ -663,25 +648,6 @@ public class KoLRequest extends Job implements KoLConstants
 
 			RequestFrame.refreshStatus();
 			LocalRelayServer.updateStatus();
-		}
-		else if ( !isDelayExempt )
-		{
-			if ( this instanceof LocalRelayRequest )
-			{
-				return;
-			}
-			else if ( this instanceof FightRequest )
-			{
-				if ( FightRequest.getCurrentRound() == 0 )
-					CharpaneRequest.getInstance().run();
-				else
-					KoLCharacter.updateStatus();
-			}
-			else
-			{
-				if ( this.responseText.indexOf( "charpane" ) != -1 )
-					CharpaneRequest.getInstance().run();
-			}
 		}
 	}
 
@@ -693,19 +659,19 @@ public class KoLRequest extends Job implements KoLConstants
 		// to reflect a fight sequence (mini-browser compatibility).
 
 		isRatQuest |= urlString.startsWith( "rats.php" );
-		if ( !isDelayExempt && !urlString.startsWith( "rats.php" ) )
+		if ( !hasNoResult && !urlString.startsWith( "rats.php" ) )
 			isRatQuest &= urlString.startsWith( "fight.php" );
 
 		if ( isRatQuest )
 			KoLmafia.addTavernLocation( this );
 
-		if ( !this.shouldIgnoreResult )
+		if ( !this.hasNoResult )
 			RequestLogger.registerRequest( this, urlString );
 
 		if ( urlString.startsWith( "choice.php" ) )
 			this.saveLastChoice();
 
-		if ( !isDelayExempt )
+		if ( !hasNoResult )
 			StaticEntity.getClient().setCurrentRequest( this );
 
 		// If you're about to fight the Naughty Sorceress,
@@ -742,7 +708,7 @@ public class KoLRequest extends Job implements KoLConstants
 		}
 		while ( !this.postClientData() || !this.retrieveServerReply() );
 
-		if ( this.isDelayExempt || this.responseCode != 200 )
+		if ( this.hasNoResult || this.responseCode != 200 )
 			return;
 
 		if ( System.currentTimeMillis() - ADJUSTMENT_REFRESH > lastAdjustTime )
@@ -829,7 +795,7 @@ public class KoLRequest extends Job implements KoLConstants
 	{	return lastDecision;
 	}
 
-	public static final boolean shouldIgnore( KoLRequest request  )
+	public static final boolean shouldIgnore( KoLRequest request )
 	{	return request.formURLString.indexOf( "mall" ) != -1 || request.formURLString.indexOf( "chat" ) != -1;
 	}
 
@@ -1343,11 +1309,12 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( this.formURLString.equals( "fight.php" ) )
 			FightRequest.updateCombatData( this.encounter, this.responseText );
 
-		if ( !this.shouldIgnoreResult )
+		if ( !this.hasNoResult )
+		{
 			this.parseResults();
-
-		if ( !isDelayExempt && !LoginRequest.isInstanceRunning() && !(this instanceof LocalRelayRequest) )
-			this.showInBrowser( false );
+			if ( !LoginRequest.isInstanceRunning() && !(this instanceof LocalRelayRequest) )
+				this.showInBrowser( false );
+		}
 
 		// Now let the main method of result processing for
 		// each request type happen.
@@ -1357,7 +1324,6 @@ public class KoLRequest extends Job implements KoLConstants
 		// Let the mappers do their work
 
 		this.mapCurrentChoice( this.responseText );
-		KoLmafia.applyEffects();
 	}
 
 	/**
@@ -1458,7 +1424,16 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( this.formURLString.startsWith( "sewer.php" ) && this.responseText.indexOf( "You acquire" ) != -1 )
 			StaticEntity.getClient().processResult( SewerRequest.GUM );
 
-		StaticEntity.getClient().processResults( this.responseText );
+		this.containsUpdate = StaticEntity.getClient().processResults( this.responseText );
+
+		// Once everything is complete, decide whether or not
+		// you should refresh your status.
+
+		if ( this instanceof LocalRelayRequest )
+			return;
+
+		if ( this.containsUpdate || RequestFrame.sidebarFrameExists() )
+			CharpaneRequest.getInstance().run();
 	}
 
 	public void processResults()

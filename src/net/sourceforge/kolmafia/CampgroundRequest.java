@@ -104,11 +104,15 @@ public class CampgroundRequest extends KoLRequest
 		{
 			if ( this.responseText.indexOf( "You sleep" ) == -1 )
 				KoLmafia.updateDisplay( ERROR_STATE, "Could not rest." );
+			else
+				StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 		}
 		else if ( this.action.equals( "relax" ) )
 		{
 			if ( this.responseText.indexOf( "You relax" ) == -1 )
 				KoLmafia.updateDisplay( ERROR_STATE, "Could not relax." );
+			else
+				StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 		}
 
 		// Make sure that the character received something if

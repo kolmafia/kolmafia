@@ -72,6 +72,9 @@ public class SewerRequest extends KoLRequest
 		}
 		else
 			this.runUnluckySewer();
+
+		if ( KoLmafia.permitsContinue() )
+			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 	}
 
 	/**
