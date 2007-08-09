@@ -43,6 +43,8 @@ public class AdventureRequest extends KoLRequest
 	private String formSource;
 	private String adventureId;
 
+	private static String basementErrorMessage = null;
+
 	private static final AdventureResult HOT_PHIAL = new AdventureResult( 1637, 1 );
 	private static final AdventureResult COLD_PHIAL = new AdventureResult( 1638, 1 );
 	private static final AdventureResult SPOOKY_PHIAL = new AdventureResult( 1639, 1 );
@@ -55,6 +57,7 @@ public class AdventureRequest extends KoLRequest
 	private static final AdventureResult STENCH_FORM = new AdventureResult( "Stenchform", 1, true );
 	private static final AdventureResult SLEAZE_FORM = new AdventureResult( "Sleazeform", 1, true );
 
+	private static final Pattern BASEMENT_PATTERN = Pattern.compile( "Level ([\\d,]+)" );
 	private static final AdventureResult [] ELEMENT_FORMS = new AdventureResult [] { HOT_FORM, COLD_FORM, SPOOKY_FORM, STENCH_FORM, SLEAZE_FORM };
 
 	private static final AdventureResult SKELETON_KEY = new AdventureResult( 642, 1 );
@@ -64,6 +67,7 @@ public class AdventureRequest extends KoLRequest
 	public static final AdventureResult DODECAGRAM = new AdventureResult( 479, -1 );
 	public static final AdventureResult CANDLES = new AdventureResult( 480, -1 );
 	public static final AdventureResult BUTTERKNIFE = new AdventureResult( 481, -1 );
+
 
 	/**
 	 * Constructs a new <code>AdventureRequest</code> which executes the
@@ -129,14 +133,6 @@ public class AdventureRequest extends KoLRequest
 	{	return true;
 	}
 
-	/**
-	 * Executes the <code>AdventureRequest</code>.  All items and stats gained
-	 * or lost will be reported to the as well as any errors encountered
-	 * through adventuring.  Meat lost due to an adventure (such as those to
-	 * the casino, the shore, or the tavern) will also be reported.  Note that
-	 * adventure costs are not yet being reported.
-	 */
-
 	public void run()
 	{
 		// Prevent the request from happening if they attempted
@@ -195,33 +191,15 @@ public class AdventureRequest extends KoLRequest
 		}
 	}
 
-	private static final Pattern BASEMENT_PATTERN = Pattern.compile( "Level ([\\d,]+)" );
-
-	private void prepareBasementTest( String name )
+	private static final void changeBasementOutfit( String name )
 	{
 		boolean foundMatch = false;
 
 		Object currentTest;
 		String currentTestString;
 
-		List available = MoodSettings.getAvailableMoods();
-		for ( int i = 0; i < available.size() && !foundMatch; ++i )
-		{
-			currentTest = available.get(i);
-			currentTestString = currentTest.toString().toLowerCase();
-
-			if ( currentTestString.indexOf( name ) != -1 )
-			{
-				foundMatch = true;
-				MoodSettings.setMood( currentTestString );
-			}
-		}
-
-		if ( foundMatch )
-			MoodSettings.execute();
-
-		available = KoLCharacter.getCustomOutfits();
-		for ( int i = 0; i < available.size() && !foundMatch; ++i )
+		List available = KoLCharacter.getCustomOutfits();
+		for ( int i = 0; i < available.size(); ++i )
 		{
 			currentTest = available.get(i);
 			currentTestString = currentTest.toString().toLowerCase();
@@ -234,10 +212,94 @@ public class AdventureRequest extends KoLRequest
 		}
 	}
 
-	private boolean canHandleElementTest( int currentLevel, boolean switchedOutfits, int element1, int element2,
+	private static final boolean checkForElementalTest( String responseText )
+	{
+		int element1 = -1, element2 = -1;
+		AdventureResult phial1 = null, phial2 = null;
+		AdventureResult effect1 = null, effect2 = null;
+
+		if ( responseText.indexOf( "Hold your nose" ) != -1 )
+		{
+			element1 = MonsterDatabase.SLEAZE;
+			element2 = MonsterDatabase.STENCH;
+
+			phial1 = SLEAZE_PHIAL;
+			phial2 = STENCH_PHIAL;
+
+			effect1 = SLEAZE_FORM;
+			effect2 = STENCH_FORM;
+		}
+		else if ( responseText.indexOf( "Drink the Drunk's Drink" ) != -1 )
+		{
+			element1 = MonsterDatabase.COLD;
+			element2 = MonsterDatabase.SLEAZE;
+
+			phial1 = COLD_PHIAL;
+			phial2 = SLEAZE_PHIAL;
+
+			effect1 = COLD_FORM;
+			effect2 = SLEAZE_FORM;
+		}
+		else if ( responseText.indexOf( "Pwn the Cone" ) != -1 )
+		{
+			element1 = MonsterDatabase.STENCH;
+			element2 = MonsterDatabase.HEAT;
+
+			phial1 = STENCH_PHIAL;
+			phial2 = HOT_PHIAL;
+
+			effect1 = STENCH_FORM;
+			effect2 = HOT_FORM;
+		}
+		else if ( responseText.indexOf( "What's a Typewriter" ) != -1 )
+		{
+			element1 = MonsterDatabase.HEAT;
+			element2 = MonsterDatabase.SPOOKY;
+
+			phial1 = HOT_PHIAL;
+			phial2 = SPOOKY_PHIAL;
+
+			effect1 = HOT_FORM;
+			effect2 = SPOOKY_FORM;
+		}
+		else if ( responseText.indexOf( "Evade the Vampsicle" ) != -1 )
+		{
+			element1 = MonsterDatabase.SPOOKY;
+			element2 = MonsterDatabase.COLD;
+
+			phial1 = SPOOKY_PHIAL;
+			phial2 = COLD_PHIAL;
+
+			effect1 = SPOOKY_FORM;
+			effect2 = COLD_FORM;
+		}
+
+		// If this is an elemental element check, check to see if
+		// additional elements are needed.
+
+		if ( phial1 == null )
+			return false;
+
+		Matcher levelMatcher = BASEMENT_PATTERN.matcher( responseText );
+		if ( !levelMatcher.find() )
+			return false;
+
+		int currentLevel = StaticEntity.parseInt( levelMatcher.group(1) );
+		if ( canHandleElementTest( currentLevel, false, element1, element2, effect1, effect2, phial1, phial2 ) )
+			return true;
+
+		changeBasementOutfit( "element" );
+		canHandleElementTest( currentLevel, true, element1, element2, effect1, effect2, phial1, phial2 );
+		return true;
+	}
+
+	private static final boolean canHandleElementTest( int currentLevel, boolean switchedOutfits, int element1, int element2,
 		AdventureResult effect1, AdventureResult effect2, AdventureResult phial1, AdventureResult phial2 )
 	{
-		float damage1 = (float) Math.pow( currentLevel, 1.52 ) / 2.0f;
+		// According to http://forums.hardcoreoxygenation.com/viewtopic.php?t=3973,
+		// elemental damage is roughly 4.4 * x^1.4.  Assume the worst-case.
+
+		float damage1 = ((float) Math.pow( currentLevel, 1.4 )) * 4.8f / 2.0f;
 		float damage2 = damage1;
 
 		float resistance1 = KoLCharacter.getElementalResistance( element1 );
@@ -245,6 +307,9 @@ public class AdventureRequest extends KoLRequest
 
 		float expected1 = damage1 / 100.0f * (100.0f - resistance1);
 		float expected2 = damage2 / 100.0f * (100.0f - resistance2);
+
+		// If you can survive the current elemental test even without a phial
+		// assumption, then don't bother with any extra buffing.
 
 		if ( expected1 + expected2 < KoLCharacter.getCurrentHP() )
 			return true;
@@ -254,6 +319,9 @@ public class AdventureRequest extends KoLRequest
 			StaticEntity.getClient().recoverHP( (int) (expected1 + expected2) );
 			return KoLmafia.permitsContinue();
 		}
+
+		// If you already have one of the phial effects and it's the right phial
+		// effect, check to see if it's sufficient.
 
 		if ( activeEffects.contains( effect1 ) )
 		{
@@ -283,14 +351,20 @@ public class AdventureRequest extends KoLRequest
 			return false;
 		}
 
+		// If you haven't switched outfits yet, it's possible that a simple
+		// outfit switch will be sufficient to buff up.
+
 		if ( !switchedOutfits )
 			return false;
+
+		// If you can't survive the test, even after an outfit switch, then
+		// automatically fail.
 
 		if ( expected1 >= expected2 )
 		{
 			if ( 1.0f + expected2 >= KoLCharacter.getMaximumHP() )
 			{
-				KoLmafia.updateDisplay( ABORT_STATE, "Insufficient elemental resistance." );
+				basementErrorMessage = "Insufficient elemental resistance.";
 				return false;
 			}
 		}
@@ -298,10 +372,13 @@ public class AdventureRequest extends KoLRequest
 		{
 			if ( 1.0f + expected1 >= KoLCharacter.getMaximumHP() )
 			{
-				KoLmafia.updateDisplay( ABORT_STATE, "Insufficient elemental resistance." );
+				basementErrorMessage = "Insufficient elemental resistance.";
 				return false;
 			}
 		}
+
+		// You can survive, but you need an elemental phial in order to do
+		// so.  Go ahead and save it.
 
 		for ( int i = 0; i < ELEMENT_FORMS.length; ++i )
 			if ( activeEffects.contains( ELEMENT_FORMS[i] ) )
@@ -321,6 +398,119 @@ public class AdventureRequest extends KoLRequest
 		return KoLmafia.permitsContinue();
 	}
 
+	private static final boolean checkForStatTest( String responseText )
+	{
+		Matcher levelMatcher = BASEMENT_PATTERN.matcher( responseText );
+		if ( !levelMatcher.find() )
+			return false;
+
+		int currentLevel = StaticEntity.parseInt( levelMatcher.group(1) );
+
+		// According to http://forums.hardcoreoxygenation.com/viewtopic.php?t=3973,
+		// stat requirement is x^1.4 + 2.  Assume the worst-case.
+
+		float statRequirement = ((float) Math.pow( currentLevel, 1.4 ) + 2.0f) * 1.1f;
+
+		if ( responseText.indexOf( "Lift 'em" ) != -1 || responseText.indexOf( "Push It Real Good" ) != -1 || responseText.indexOf( "Ring That Bell" ) != -1 )
+		{
+			if ( KoLCharacter.getAdjustedMuscle() < statRequirement )
+			{
+				changeBasementOutfit( "muscle" );
+				if ( KoLCharacter.getAdjustedMuscle() < statRequirement )
+					basementErrorMessage = "Insufficient muscle to continue.";
+			}
+
+			return true;
+		}
+
+		if ( responseText.indexOf( "Gathering: The Magic" ) != -1 || responseText.indexOf( "Mop the Floor" ) != -1 || responseText.indexOf( "'doo" ) != -1 )
+		{
+			if ( KoLCharacter.getAdjustedMysticality() < statRequirement )
+			{
+				changeBasementOutfit( "mysticality" );
+				if ( KoLCharacter.getAdjustedMysticality() < statRequirement )
+					basementErrorMessage = "Insufficient mysticality to continue.";
+			}
+
+			return true;
+		}
+
+		if ( responseText.indexOf( "Don't Wake the Baby" ) != -1 || responseText.indexOf( "Grab a cue" ) != -1 || responseText.indexOf( "Smooth Moves" ) != -1 )
+		{
+			if ( KoLCharacter.getAdjustedMoxie() < statRequirement )
+			{
+				changeBasementOutfit( "moxie" );
+				if ( KoLCharacter.getAdjustedMoxie() < statRequirement )
+					basementErrorMessage = "Insufficient moxie to continue.";
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
+	private static final boolean checkForDrainTest( String responseText )
+	{
+		Matcher levelMatcher = BASEMENT_PATTERN.matcher( responseText );
+		if ( !levelMatcher.find() )
+			return false;
+
+		int currentLevel = StaticEntity.parseInt( levelMatcher.group(1) );
+
+		// According to http://forums.hardcoreoxygenation.com/viewtopic.php?t=3973,
+		// drain requirement is 1.7 * x^1.4  Assume the worst-case.
+
+		float drainRequirement = (float) Math.pow( currentLevel, 1.4 ) * 1.8f;
+
+		if ( responseText.indexOf( "Grab the Handles" ) != -1 )
+		{
+			if ( KoLCharacter.getMaximumMP() < drainRequirement )
+			{
+				changeBasementOutfit( "mpdrain" );
+				if ( KoLCharacter.getMaximumMP() < drainRequirement )
+				{
+					basementErrorMessage = "Insufficient mana to continue.";
+					return true;
+				}
+			}
+
+			StaticEntity.getClient().recoverMP( (int) drainRequirement );
+			return true;
+		}
+
+		if ( responseText.indexOf( "Run the Gauntlet Gauntlet" ) != -1 )
+		{
+			float damageAbsorb = 1.0f - (( ((float) Math.sqrt( KoLCharacter.getDamageAbsorption() / 10.0f )) - 1.0f ) / 10.0f);
+			float healthRequirement = drainRequirement * damageAbsorb;
+
+			if ( KoLCharacter.getMaximumHP() < healthRequirement )
+			{
+				changeBasementOutfit( "gauntlet" );
+
+				damageAbsorb = 1.0f - (( ((float) Math.sqrt( KoLCharacter.getDamageAbsorption() / 10.0f )) - 1.0f ) / 10.0f);
+				healthRequirement = drainRequirement * damageAbsorb;
+
+				if ( KoLCharacter.getMaximumHP() < healthRequirement )
+				{
+					basementErrorMessage = "Insufficient health to continue.";
+					return true;
+				}
+			}
+
+			StaticEntity.getClient().recoverHP( (int) healthRequirement );
+			return true;
+		}
+
+		return false;
+	}
+
+	public static final boolean checkBasement( String responseText )
+	{
+		basementErrorMessage = null;
+		return checkForElementalTest( responseText ) || checkForStatTest( responseText ) || checkForDrainTest( responseText );
+	}
+
 	private void handleBasement()
 	{
 		Matcher levelMatcher = BASEMENT_PATTERN.matcher( responseText );
@@ -328,159 +518,29 @@ public class AdventureRequest extends KoLRequest
 			return;
 
 		int currentLevel = StaticEntity.parseInt( levelMatcher.group(1) );
-		int element1 = -1, element2 = -1;
 
-		AdventureResult phial1 = null, phial2 = null;
-		AdventureResult effect1 = null, effect2 = null;
-
-		if ( responseText.indexOf( "Hold your nose" ) != -1 )
+		if ( this.responseText.indexOf( "Got Silk?" ) != -1 )
 		{
-			element1 = MonsterDatabase.SLEAZE;
-			element2 = MonsterDatabase.STENCH;
-
-			phial1 = SLEAZE_PHIAL;
-			phial2 = STENCH_PHIAL;
-
-			effect1 = SLEAZE_FORM;
-			effect2 = STENCH_FORM;
+			this.addFormField( "action", KoLCharacter.isMoxieClass() ? "1" : "2" );
 		}
-		else if ( responseText.indexOf( "Drink the Drunk's Drink" ) != -1 )
+		else if ( this.responseText.indexOf( "Save the Dolls" ) != -1 )
 		{
-			element1 = MonsterDatabase.COLD;
-			element2 = MonsterDatabase.SLEAZE;
-
-			phial1 = COLD_PHIAL;
-			phial2 = SLEAZE_PHIAL;
-
-			effect1 = COLD_FORM;
-			effect2 = SLEAZE_FORM;
+			this.addFormField( "action", KoLCharacter.isMysticalityClass() ? "1" : "2" );
 		}
-		else if (responseText.indexOf( "Pwn the Cone" ) != -1 )
+		else if ( this.responseText.indexOf( "Take the Red Pill" ) != -1 )
 		{
-			element1 = MonsterDatabase.STENCH;
-			element2 = MonsterDatabase.HEAT;
-
-			phial1 = STENCH_PHIAL;
-			phial2 = HOT_PHIAL;
-
-			effect1 = STENCH_FORM;
-			effect2 = HOT_FORM;
-		}
-		else if (responseText.indexOf( "What's a Typewriter" ) != -1 )
-		{
-			element1 = MonsterDatabase.HEAT;
-			element2 = MonsterDatabase.SPOOKY;
-
-			phial1 = HOT_PHIAL;
-			phial2 = SPOOKY_PHIAL;
-
-			effect1 = HOT_FORM;
-			effect2 = SPOOKY_FORM;
-		}
-		else if (responseText.indexOf( "Evade the Vampsicle" ) != -1 )
-		{
-			element1 = MonsterDatabase.SPOOKY;
-			element2 = MonsterDatabase.COLD;
-
-			phial1 = SPOOKY_PHIAL;
-			phial2 = COLD_PHIAL;
-
-			effect1 = SPOOKY_FORM;
-			effect2 = COLD_FORM;
-		}
-
-		// If this is an elemental element check, check to see if
-		// additional elements are needed.
-
-		if ( phial1 != null )
-		{
-			if ( !canHandleElementTest( currentLevel, false, element1, element2, effect1, effect2, phial1, phial2 ) )
-			{
-				prepareBasementTest( "element" );
-				if ( !canHandleElementTest( currentLevel, true, element1, element2, effect1, effect2, phial1, phial2 ) )
-					return;
-			}
-
-			this.addFormField( "action", "1" );
+			this.addFormField( "action", KoLCharacter.isMuscleClass() ? "1" : "2" );
 		}
 		else
 		{
-			// Stat tests check.  If you fail, do not bother
-			// submitting the request.
+			checkBasement( responseText );
+			this.addFormField( "action", "1" );
+		}
 
-			float drainRequirement = (float) Math.pow( currentLevel, 1.52 );
-			float statRequirement = (float) Math.pow( currentLevel, 1.52 );
-
-			if ( this.responseText.indexOf( "Lift 'em" ) != -1 || this.responseText.indexOf( "Push It Real Good" ) != -1 || this.responseText.indexOf( "Ring That Bell" ) != -1 )
-			{
-				if ( KoLCharacter.getAdjustedMuscle() < statRequirement )
-				{
-					prepareBasementTest( "muscle" );
-					if ( KoLCharacter.getAdjustedMuscle() < statRequirement )
-						KoLmafia.updateDisplay( ABORT_STATE, "Insufficient muscle to continue." );
-				}
-			}
-			else if ( this.responseText.indexOf( "Gathering: The Magic" ) != -1 || this.responseText.indexOf( "Mop the Floor with the Mops" ) != -1 || this.responseText.indexOf( "Do away with the 'doo" ) != -1 )
-			{
-				if ( KoLCharacter.getAdjustedMysticality() < statRequirement )
-				{
-					prepareBasementTest( "mysticality" );
-					if ( KoLCharacter.getAdjustedMysticality() < statRequirement )
-						KoLmafia.updateDisplay( ABORT_STATE, "Insufficient mysticality to continue." );
-				}
-			}
-			else if ( this.responseText.indexOf( "Don't Wake the Baby" ) != -1 || this.responseText.indexOf( "Grab a cue" ) != -1 || this.responseText.indexOf( "Put on the Smooth Moves" ) != -1 )
-			{
-				if ( KoLCharacter.getAdjustedMoxie() < statRequirement )
-				{
-					prepareBasementTest( "moxie" );
-					if ( KoLCharacter.getAdjustedMoxie() < statRequirement )
-						KoLmafia.updateDisplay( ABORT_STATE, "Insufficient moxie to continue." );
-				}
-			}
-			else if ( this.responseText.indexOf( "Grab the Handles" ) != -1 )
-			{
-				if ( KoLCharacter.getMaximumMP() < drainRequirement )
-				{
-					prepareBasementTest( "mpdrain" );
-					if ( KoLCharacter.getMaximumMP() < drainRequirement )
-						KoLmafia.updateDisplay( ABORT_STATE, "Insufficient mana to continue." );
-				}
-
-				StaticEntity.getClient().recoverMP( (int) drainRequirement );
-			}
-			else if ( this.responseText.indexOf( "Run the Gauntlet Gauntlet" ) != -1 )
-			{
-				float damageAbsorb = 1.0f - (( ((float) Math.sqrt( KoLCharacter.getDamageAbsorption() / 10.0f )) - 1.0f ) / 10.0f);
-				float healthRequirement = drainRequirement * damageAbsorb;
-
-				if ( KoLCharacter.getMaximumHP() < healthRequirement )
-				{
-					prepareBasementTest( "gauntlet" );
-
-					damageAbsorb = 1.0f - (( ((float) Math.sqrt( KoLCharacter.getDamageAbsorption() / 10.0f )) - 1.0f ) / 10.0f);
-					healthRequirement = drainRequirement * damageAbsorb;
-
-					if ( KoLCharacter.getMaximumHP() < healthRequirement )
-						KoLmafia.updateDisplay( ABORT_STATE, "Insufficient health to continue." );
-
-					StaticEntity.getClient().recoverHP( (int) healthRequirement );
-				}
-			}
-
-			if ( KoLmafia.refusesContinue() )
-				return;
-
-			// Since everything's safe, choose your option.
-
-			if ( this.responseText.indexOf( "Got Silk?" ) != -1 )
-				this.addFormField( "action", KoLCharacter.isMoxieClass() ? "1" : "2" );
-			else if ( this.responseText.indexOf( "Save the Dolls" ) != -1 )
-				this.addFormField( "action", KoLCharacter.isMysticalityClass() ? "1" : "2" );
-			else if ( this.responseText.indexOf( "Take the Red Pill" ) != -1 )
-				this.addFormField( "action", KoLCharacter.isMuscleClass() ? "1" : "2" );
-			else
-				this.addFormField( "action", "1" );
+		if ( basementErrorMessage != null )
+		{
+			KoLmafia.updateDisplay( ERROR_STATE, basementErrorMessage );
+			return;
 		}
 
 		super.run();
@@ -495,7 +555,7 @@ public class AdventureRequest extends KoLRequest
 		}
 
 		levelMatcher = BASEMENT_PATTERN.matcher( responseText );
-		if ( !levelMatcher.find() || currentLevel != StaticEntity.parseInt( levelMatcher.group(1) ) )
+		if ( !levelMatcher.find() || currentLevel == StaticEntity.parseInt( levelMatcher.group(1) ) )
 			KoLmafia.updateDisplay( ERROR_STATE, "Failed to pass basement test." );
 	}
 
