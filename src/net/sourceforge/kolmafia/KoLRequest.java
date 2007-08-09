@@ -645,11 +645,11 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( this.formURLString.equals( "charpane.php" ) )
 		{
 			KoLCharacter.recalculateAdjustments();
-			KoLCharacter.updateStatus();
-
 			RequestFrame.refreshStatus();
 			LocalRelayServer.updateStatus();
 		}
+
+		KoLCharacter.updateStatus();
 	}
 
 	public void execute()

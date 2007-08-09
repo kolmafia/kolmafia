@@ -1203,6 +1203,10 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		if ( position == null || position.indexOf( "," ) == -1 )
 		{
 			this.setLocationRelativeTo( null );
+
+			if ( this.tabs != null && this.tabs.getTabCount() > 0 )
+				this.tabs.setSelectedIndex( 0 );
+
 			return;
 		}
 
