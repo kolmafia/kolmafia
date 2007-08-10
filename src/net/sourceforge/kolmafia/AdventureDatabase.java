@@ -689,6 +689,11 @@ public class AdventureDatabase extends KoLDatabase
 		new ChoiceAdventure( "Beanstalk", "choiceAdventure178", "Airship Shirt",
 		  new String [] { "bronze breastplate", "skip adventure" },
 		  new String [] { "2126", null } ),
+
+		// A Pre-War Dresser Drawer, Pa!
+		new ChoiceAdventure( "Plains", "choiceAdventure180", "Palindome Shirt",
+		  new String [] { "Ye Olde Navy Fleece", "skip adventure" },
+		  new String [] { "2125", null } ),
 	};
 
 	static
