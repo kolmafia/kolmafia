@@ -32,9 +32,13 @@
  */
 
 package net.sourceforge.kolmafia;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ChefstaffRequest extends ItemCreationRequest
 {
+	private static final Pattern WHICH_PATTERN = Pattern.compile( "whichstaff=(\\d+)" );
+
 	public ChefstaffRequest( int itemId )
 	{
 		super( "guild.php", itemId );
@@ -65,6 +69,40 @@ public class ChefstaffRequest extends ItemCreationRequest
 			KoLmafia.updateDisplay( "Creating " + this.getName() + " (" + i + " of " + this.getQuantityNeeded() + ")..." );
 			super.run();
 		}
+	}
+
+	public static final boolean registerRequest( String urlString )
+	{
+		Matcher itemMatcher = WHICH_PATTERN.matcher( urlString );
+		if ( !itemMatcher.find() )
+			return true;
+
+		// Item ID of the base staff
+		int baseId = StaticEntity.parseInt( itemMatcher.group(1) );
+
+		// Find chefstaff item ID
+		int itemId = ConcoctionsDatabase.findConcoction( STAFF, baseId );
+
+		StringBuffer chefstaffString = new StringBuffer();
+		chefstaffString.append( "Chefstaff " );
+
+		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemId );
+		for ( int i = 0; i < ingredients.length; ++i )
+		{
+			if ( i > 0 )
+				chefstaffString.append( ", " );
+
+			chefstaffString.append( ingredients[i].getCount() );
+			chefstaffString.append( " " );
+			chefstaffString.append( ingredients[i].getName() );
+
+			StaticEntity.getClient().processResult( ingredients[i].getInstance( -1 * ingredients[i].getCount() ) );
+		}
+
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( chefstaffString.toString() );
+
+		return true;
 	}
 }
 

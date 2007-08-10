@@ -817,6 +817,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		if ( urlString.startsWith( "mystic.php" ) )
 			return PixelRequest.registerRequest( urlString );
 
+		if ( urlString.indexOf( "action=makestaff" ) != -1 )
+			return ChefstaffRequest.registerRequest( urlString );
+
 		if ( urlString.indexOf( "action=makepaste" ) != -1 )
 			return CombineMeatRequest.registerRequest( urlString );
 
