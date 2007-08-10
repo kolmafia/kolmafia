@@ -466,7 +466,7 @@ public class AdventureDatabase extends KoLDatabase
 		  new String [] { "3 papayas", "trade 3 papayas for stats", "stats" },
 		  new String [] { "498", null, null } ),
 
-		// Choice 128 are unknown
+		// Choice 128 is unknown
 		// Choice 129 is Do Geese See God?
 		// Choice 130 is Rod Nevada, Vendor
 		// Choice 131 is Dr. Awkward

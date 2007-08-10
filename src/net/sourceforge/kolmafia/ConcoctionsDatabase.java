@@ -966,6 +966,31 @@ public class ConcoctionsDatabase extends KoLDatabase
 		return item == null ? NO_INGREDIENTS : item.getIngredients();
 	}
 
+	/**
+	 * Find a concoction made in a particular way that includes the
+	 * specified ingredient
+	 */
+
+	public static final int findConcoction( int mixingMethod, int itemId )
+	{
+		AdventureResult ingredient = new AdventureResult( itemId, 1 );
+		for ( int i = 0; i < concoctions.size(); ++i )
+		{
+			Concoction concoction = concoctions.get(i);
+			if ( concoction == null || concoction.getMixingMethod() != mixingMethod )
+				continue;
+
+			AdventureResult [] ingredients = getStandardIngredients( i );
+			if ( ingredients == null )
+				continue;
+
+			for ( int j = 0; j < ingredients.length; ++j )
+				if ( ingredients[j].equals( ingredient ) )
+					return i;
+		}
+		return -1;
+	}
+
 	private static final AdventureResult getBetterIngredient( AdventureResult ingredient1, AdventureResult ingredient2, List availableIngredients )
 	{	return ingredient1.getCount( availableIngredients ) > ingredient2.getCount( availableIngredients ) ? ingredient1 : ingredient2;
 	}

@@ -896,7 +896,7 @@ Mudflap-Girl Ring	25	tawdry amethyst	extra-fancy ring setting
 # Chef staves made by Rodoric
 
 Staff of the Short Order Cook	26	basic meat staff	bowl of cottage cheese	ice-cold Sir Schlitz (3)	twinkly powder (3)	magicalness-in-a-can (5)
-Staff of the Midnight Snack	26	spooky staff	fricasseed brains	bottle of popskull	spooky powder (3)	can of spray paint (3)
+Staff of the Midnight Snack	26	spooky staff	fricasseed brains	bottle of popskull	spooky powder (3)	spray paint (3)
 Staff of Blood and Pudding	26	dripping meat staff	mugcake	bloody mary	twinkly nuggets	bottle of used blood
 Staff of the Greasefire	26	Kentucky-fried meat staff	spicy noodles	bottle of tequila	hot nuggets	sleaze nuggets
 Staff of the Kitchen Floor	26	linoleum staff	stinky hi mein (3)	stinky mushroom wine	stench wad (10)	fetid feather
