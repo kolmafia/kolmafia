@@ -97,7 +97,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	public static final AdventureResult SOLID_EARRING = new AdventureResult( 2780, 1 );
 
 	private static final AdventureResult [] AVOID_REMOVAL = new AdventureResult [] {
-		PLEXI_PENDANT, WIZARD_HAT, PLEXI_WATCH, BRIM_BRACELET, SOLITAIRE,
+		PLEXI_PENDANT, PLEXI_WATCH, BRIM_BRACELET, SOLITAIRE,
 		WIRE_BRACELET, BACON_BRACELET, BACON_EARRING, SOLID_EARRING
 	};
 
