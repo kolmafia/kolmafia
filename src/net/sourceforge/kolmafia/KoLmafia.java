@@ -155,7 +155,7 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		try
 		{
-			SESSION_FILE = new File( System.getProperty( "user.home" ), "kolmafia." + suffix );
+			SESSION_FILE = new File( SESSIONS_LOCATION, "active_session." + suffix );
 
 			if ( SESSION_FILE.exists() )
 			{
@@ -1523,7 +1523,7 @@ public abstract class KoLmafia implements KoLConstants
 			// Skip effect acquisition - it's followed by a boldface
 			// which makes the parser think it's found an item.
 
-			if ( lastToken.indexOf( "You acquire a skill" ) != -1 )
+			if ( lastToken.indexOf( "You acquire a skill" ) != -1 || lastToken.indexOf( "You gain a skill" ) != -1 )
 				continue;
 
 			if ( lastToken.startsWith( "You acquire" ) )

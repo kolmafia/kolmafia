@@ -819,7 +819,13 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		// Custom combat and deleveling do not need to have auto-attack
 		// changed, because these users probably are micro-managing.
 
-		if ( !KoLmafia.isAdventuring() || attack.startsWith( "custom" ) || attack.startsWith( "delevel" ) || attack.startsWith( "item" ) )
+		if ( !KoLmafia.isAdventuring() || this.formSource.equals( "dungeon.php" ) )
+		{
+			resetAutoAttack();
+			return;
+		}
+
+		if ( attack.startsWith( "custom" ) || attack.startsWith( "delevel" ) || attack.startsWith( "item" ) )
 		{
 			resetAutoAttack();
 			return;

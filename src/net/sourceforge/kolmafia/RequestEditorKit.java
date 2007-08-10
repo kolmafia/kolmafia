@@ -1184,7 +1184,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			buffer.insert( buffer.indexOf( "</html>" ), "<script language=\"Javascript\"><!-- refreshSidebar(); --></script>" );
 
 		StringBuffer outfits = new StringBuffer();
-		outfits.append( "<br/><select id=\"outfit\" style=\"width: 250px\" onChange=\"var select = document.getElementById('outfit');  var option = select.options[select.selectedIndex]; top.charpane.document.location.href = '/KoLmafia/sideCommand?cmd=outfit+' + option.value; document.location.reload(); return true;\"><option value=\"none\">- select an outfit -</option>" );
+		outfits.append( "<br/><select id=\"outfit\" style=\"width: 250px\" onChange=\"var select = document.getElementById('outfit');  var option = select.options[select.selectedIndex]; top.charpane.document.location.href = '/KoLmafia/sideCommand?cmd=outfit+' + option.value; document.location.href = 'basement.php'; return true;\"><option value=\"none\">- select an outfit -</option>" );
 		Object [] outfitList = KoLCharacter.getCustomOutfits().toArray();
 
 		for ( int i = 0; i < outfitList.length; ++i )
