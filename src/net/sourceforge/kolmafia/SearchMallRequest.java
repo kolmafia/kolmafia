@@ -117,6 +117,13 @@ public class SearchMallRequest extends KoLRequest
 		if ( searchString.startsWith( "\"" ) || searchString.startsWith( "\'" ) )
 			return searchString;
 
+		if ( !searchString.startsWith( "potion" ) )
+		{
+			int spoilerIndex = searchString.indexOf( "potion of" );
+			if ( spoilerIndex != -1 )
+				searchString = searchString.substring( 0, spoilerIndex + 6 );
+		}
+
 		boolean isItemName = TradeableItemDatabase.contains( searchString );
 
 		String canonical = KoLDatabase.getCanonicalName( searchString );

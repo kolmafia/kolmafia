@@ -183,7 +183,10 @@ public class AdventureRequest extends KoLRequest
 			this.addFormField( "action", "Yep." );
 
 			if ( this.responseText.indexOf( "Locked Door" ) != -1 && SKELETON_KEY.getCount( inventory ) + SKELETON_KEY.getCount( closet ) > 1 )
+			{
+				StaticEntity.getClient().processResult( SKELETON_KEY.getInstance( -1 ) );
 				this.addFormField( "option", "2" );
+			}
 			else
 				this.addFormField( "option", "1" );
 
