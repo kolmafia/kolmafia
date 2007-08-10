@@ -1042,7 +1042,7 @@ public class AdventureRequest extends KoLRequest
 
 	public static final boolean useMarmotClover( String location, String responseText )
 	{
-		if ( location.startsWith( "barrels.php" ) )
+		if ( location.startsWith( "barrels.php" ) || location.startsWith( "shore.php" ) )
 		{
 			if ( !StaticEntity.getBooleanProperty( "cloverProtectActive" ) )
 				return false;
