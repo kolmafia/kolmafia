@@ -875,6 +875,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		PLAYER_SETTINGS.put( "choiceAdventure172", "1" );
 		PLAYER_SETTINGS.put( "choiceAdventure177", "4" );
 		PLAYER_SETTINGS.put( "choiceAdventure178", "1" );
+		PLAYER_SETTINGS.put( "choiceAdventure180", "1" );
 	}
 
 	private void ensureChoiceDefaults()
