@@ -1178,7 +1178,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		buffer.insert( buffer.indexOf( "</head>" ), "<script language=\"Javascript\" src=\"/basics.js\" />" );
 
-		boolean hasCheck = AdventureRequest.checkBasement( buffer.toString() );
+		boolean hasCheck = AdventureRequest.checkBasement( false, buffer.toString() );
 
 		if ( AdventureRequest.stateChanged() )
 			buffer.insert( buffer.indexOf( "</html>" ), "<script language=\"Javascript\"><!-- refreshSidebar(); --></script>" );

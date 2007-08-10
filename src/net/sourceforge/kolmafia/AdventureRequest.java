@@ -243,7 +243,7 @@ public class AdventureRequest extends KoLRequest
 		}
 	}
 
-	private static final boolean checkForElementalTest( String responseText )
+	private static final boolean checkForElementalTest( boolean autoSwitch, String responseText )
 	{
 		if ( responseText.indexOf( "<b>Peace, Bra</b>" ) != -1 )
 		{
@@ -312,16 +312,19 @@ public class AdventureRequest extends KoLRequest
 			return false;
 
 		int currentLevel = StaticEntity.parseInt( levelMatcher.group(1) );
-		if ( canHandleElementTest( currentLevel, false, element1, element2, effect1, effect2, phial1, phial2 ) )
+		if ( canHandleElementTest( autoSwitch, currentLevel, false, element1, element2, effect1, effect2, phial1, phial2 ) )
+			return true;
+
+		if ( autoSwitch )
 			return true;
 
 		changeBasementOutfit( "element" );
-		canHandleElementTest( currentLevel, true, element1, element2, effect1, effect2, phial1, phial2 );
+		canHandleElementTest( autoSwitch, currentLevel, true, element1, element2, effect1, effect2, phial1, phial2 );
 		return true;
 	}
 
-	private static final boolean canHandleElementTest( int currentLevel, boolean switchedOutfits, int element1, int element2,
-		AdventureResult effect1, AdventureResult effect2, AdventureResult phial1, AdventureResult phial2 )
+	private static final boolean canHandleElementTest( boolean autoSwitch, int currentLevel, boolean switchedOutfits,
+		int element1, int element2, AdventureResult effect1, AdventureResult effect2, AdventureResult phial1, AdventureResult phial2 )
 	{
 		// According to http://forums.hardcoreoxygenation.com/viewtopic.php?t=3973,
 		// elemental damage is roughly 4.4 * x^1.4.  Assume the worst-case.
@@ -338,14 +341,10 @@ public class AdventureRequest extends KoLRequest
 		// If you can survive the current elemental test even without a phial
 		// assumption, then don't bother with any extra buffing.
 
-		boolean hasPerfectResist = false;
-		for ( int i = 0; i < ELEMENT_FORMS.length; ++i )
-			hasPerfectResist |= activeEffects.contains( ELEMENT_FORMS[i] );
-
 		basementTestString = "Elemental Resist";
 		basementTestCurrent = Math.max( resistance1, resistance2 );
-		basementTestValue = Math.max( 0, (int) Math.ceil( 100.0f *
-				(1.0f - KoLCharacter.getMaximumHP() / (damage1 + (hasPerfectResist ? 0.0f : damage2) ))) );
+		basementTestValue = Math.max( 0, (int) Math.ceil( 100.0f * (1.0f - KoLCharacter.getMaximumHP() /
+			(damage1 + (autoSwitch || activeEffects.contains( effect1 ) || activeEffects.contains( effect2 ) ? 1.0f : damage2) ))) );
 
 		if ( expected1 + expected2 < KoLCharacter.getCurrentHP() )
 			return true;
@@ -415,6 +414,12 @@ public class AdventureRequest extends KoLRequest
 			}
 		}
 
+		if ( !autoSwitch )
+		{
+			basementErrorMessage = "You must have at least " + basementTestValue + "% elemental resistance.";
+			return false;
+		}
+
 		stateChanged = true;
 
 		// You can survive, but you need an elemental phial in order to do
@@ -438,7 +443,7 @@ public class AdventureRequest extends KoLRequest
 		return KoLmafia.permitsContinue();
 	}
 
-	private static final boolean checkForStatTest( String responseText )
+	private static final boolean checkForStatTest( boolean autoSwitch, String responseText )
 	{
 		Matcher levelMatcher = BASEMENT_PATTERN.matcher( responseText );
 		if ( !levelMatcher.find() )
@@ -459,7 +464,9 @@ public class AdventureRequest extends KoLRequest
 
 			if ( KoLCharacter.getAdjustedMuscle() < statRequirement )
 			{
-				changeBasementOutfit( "muscle" );
+				if ( autoSwitch )
+					changeBasementOutfit( "muscle" );
+
 				if ( KoLCharacter.getAdjustedMuscle() < statRequirement )
 					basementErrorMessage = "You must have at least " + basementTestValue + " muscle.";
 			}
@@ -475,7 +482,9 @@ public class AdventureRequest extends KoLRequest
 
 			if ( KoLCharacter.getAdjustedMysticality() < statRequirement )
 			{
-				changeBasementOutfit( "mysticality" );
+				if ( autoSwitch )
+					changeBasementOutfit( "mysticality" );
+
 				if ( KoLCharacter.getAdjustedMysticality() < statRequirement )
 					basementErrorMessage = "You must have at least " + basementTestValue + " mysticality.";
 			}
@@ -491,7 +500,9 @@ public class AdventureRequest extends KoLRequest
 
 			if ( KoLCharacter.getAdjustedMoxie() < statRequirement )
 			{
-				changeBasementOutfit( "moxie" );
+				if ( autoSwitch )
+					changeBasementOutfit( "moxie" );
+
 				if ( KoLCharacter.getAdjustedMoxie() < statRequirement )
 					basementErrorMessage = "You must have at least " + basementTestValue + " moxie.";
 			}
@@ -502,7 +513,7 @@ public class AdventureRequest extends KoLRequest
 		return false;
 	}
 
-	private static final boolean checkForDrainTest( String responseText )
+	private static final boolean checkForDrainTest( boolean autoSwitch, String responseText )
 	{
 		Matcher levelMatcher = BASEMENT_PATTERN.matcher( responseText );
 		if ( !levelMatcher.find() )
@@ -523,7 +534,9 @@ public class AdventureRequest extends KoLRequest
 
 			if ( KoLCharacter.getMaximumMP() < drainRequirement )
 			{
-				changeBasementOutfit( "mpdrain" );
+				if ( autoSwitch )
+					changeBasementOutfit( "mpdrain" );
+
 				if ( KoLCharacter.getMaximumMP() < drainRequirement )
 				{
 					basementErrorMessage = "Insufficient mana to continue.";
@@ -546,7 +559,8 @@ public class AdventureRequest extends KoLRequest
 
 			if ( KoLCharacter.getMaximumHP() < healthRequirement )
 			{
-				changeBasementOutfit( "gauntlet" );
+				if ( autoSwitch )
+					changeBasementOutfit( "gauntlet" );
 
 				damageAbsorb = 1.0f - (( ((float) Math.sqrt( KoLCharacter.getDamageAbsorption() / 10.0f )) - 1.0f ) / 10.0f);
 				healthRequirement = drainRequirement * damageAbsorb;
@@ -565,7 +579,7 @@ public class AdventureRequest extends KoLRequest
 		return false;
 	}
 
-	public static final boolean checkBasement( String responseText )
+	public static final boolean checkBasement( boolean autoSwitch, String responseText )
 	{
 		basementErrorMessage = null;
 		basementTestString = "None";
@@ -574,10 +588,12 @@ public class AdventureRequest extends KoLRequest
 		if ( responseText.indexOf( "Got Silk?" ) != -1 || responseText.indexOf( "Save the Dolls" ) != -1 || responseText.indexOf( "Take the Red Pill" ) != -1 )
 			return false;
 
-		if ( checkForElementalTest( responseText ) || checkForStatTest( responseText ) || checkForDrainTest( responseText ) )
+		if ( checkForElementalTest( autoSwitch, responseText ) || checkForStatTest( autoSwitch, responseText ) || checkForDrainTest( autoSwitch, responseText ) )
 			return true;
 
-		changeBasementOutfit( "damage" );
+		if ( autoSwitch )
+			changeBasementOutfit( "damage" );
+
 		return false;
 	}
 
@@ -609,7 +625,7 @@ public class AdventureRequest extends KoLRequest
 		}
 		else
 		{
-			checkBasement( responseText );
+			checkBasement( true, responseText );
 			this.addFormField( "action", "1" );
 		}
 
