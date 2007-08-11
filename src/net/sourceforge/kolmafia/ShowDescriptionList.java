@@ -260,7 +260,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		public void run()
 		{
 			this.index = ShowDescriptionList.this.lastSelectIndex == -1 ? ShowDescriptionList.this.getSelectedIndex() : ShowDescriptionList.this.lastSelectIndex;
-			this.item = ShowDescriptionList.this.getModel().getElementAt( this.index );
+			this.item = displayModel.getElementAt( this.index );
 
 			if ( this.item == null )
 				return;
