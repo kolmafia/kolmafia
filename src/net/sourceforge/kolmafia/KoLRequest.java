@@ -1326,6 +1326,15 @@ public class KoLRequest extends Job implements KoLConstants
 		// Let the mappers do their work
 
 		this.mapCurrentChoice( this.responseText );
+
+		// Once everything is complete, decide whether or not
+		// you should refresh your status.
+
+		if ( this instanceof LocalRelayRequest )
+			return;
+
+		if ( this.containsUpdate || RequestFrame.sidebarFrameExists() )
+			CharpaneRequest.getInstance().run();
 	}
 
 	/**
@@ -1427,15 +1436,6 @@ public class KoLRequest extends Job implements KoLConstants
 			StaticEntity.getClient().processResult( SewerRequest.GUM );
 
 		this.containsUpdate = StaticEntity.getClient().processResults( this.responseText );
-
-		// Once everything is complete, decide whether or not
-		// you should refresh your status.
-
-		if ( this instanceof LocalRelayRequest )
-			return;
-
-		if ( this.containsUpdate || RequestFrame.sidebarFrameExists() )
-			CharpaneRequest.getInstance().run();
 	}
 
 	public void processResults()
