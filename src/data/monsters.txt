@@ -248,6 +248,7 @@ Grave Rober Zmobie	HP: 50 Def: 59 Atk: 59 E: spooky	dead guy's watch (10)	rusty 
 Greasy Duck	HP: 0
 Green Ops Soldier	HP: 0
 Guard Bugbear	HP: 6 Def: 12 Atk: 12 Meat: 21-30	bugbear beanie (25)
+Guy Made Of Bees	HP: 0	guy made of bee pollen (100)
 Guy with a Pitchfork, and his Wife	HP: 120 Def: 110 Atk: 110	pitchfork (5)
 Handsome Mariachi	HP: 15 Def: 17 Atk: 23 Meat: 4-7	bottle of tequila (30)	chorizo taco (20)	handsomeness potion (20)
 Heavy Kegtank	HP: 0
