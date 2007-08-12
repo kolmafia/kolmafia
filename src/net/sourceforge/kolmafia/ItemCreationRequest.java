@@ -853,7 +853,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			command.append( "Cook " );
 			usesTurns = !KoLCharacter.hasChef();
 		}
-		else if ( urlString.startsWith( "smith.php" ) )
+		else if ( urlString.startsWith( "smith.php" ) || (urlString.startsWith( "knoll.php" ) && urlString.indexOf( "action=smith" ) != -1) )
 		{
 			isCreationURL = urlString.indexOf( "action=pulverize" ) == -1;
 			command.append( "Smith " );
