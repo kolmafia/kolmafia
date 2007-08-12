@@ -44,7 +44,7 @@ Battlefield (Frat Uniform)	100	Bailey's Beetle	Green Ops Soldier	Mobile Armored 
 Battlefield (Hippy Uniform)	100	Beer Bongadier	Sorority Nurse	Sorority Operator	War Frat 110th Infantryman	War Frat 151st Infantryman	War Frat 500th Infantrygentleman	War Frat Wartender	War Frat Grill Sergeant	War Frat Kegrider	Elite Beer Bongadier	Naughty Sorority Nurse	Heavy Kegtank	Panty Raider Frat Boy	War Frat Elite 110th Captain	War Frat 151st Captain	War Frat Elite 500th Captain	War Frat Elite Wartender	War Frat Mobile Grill Unit	War Frat Senior Grill Sergeant	War Frat Streaker	Brutus, the Toga-Clad Lout	Danglin' Chad	Monty Basingstoke-Pratt, IV	Next Generation Frat Boy	The Man: 0
 Battlefield (No Uniform)	0	Time Bandit: -1
 Beanbat Chamber	100	Beanbat
-Black Forest	100	Black Adder	Black Knight	Black Panther	Black Widow
+Black Forest	100	Black Adder	Black Knight	Black Panther	Black Widow	Blackberry Bush
 Bog	100	Rattlin' Duck	Swamp Duck
 Boss Bat's Lair	100	Beefy Bodyguard Bat	The Boss Bat
 Bugbear Pens	100	An Angry Bugbear: 3	A Bugged Bugbear: 3	Mad Bugbears: 3	A Revolting Bugbear: 3	A Revolving Bugbear: 3	An Annoying Spooky Gravy Fairy: 2

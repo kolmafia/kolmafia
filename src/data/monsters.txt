@@ -117,10 +117,11 @@ Beanbat	HP: 18 Def: 21 Atk: 21 Meat: 28-43	enchanted bean (50)
 Beefy Bodyguard Bat	HP: 0
 Beer Bongadier	HP: 0
 Big Creepy Spider	HP: 1 Def: 1 Atk: 1 Meat: 4-7	spider web (30)	spider web (20)
-Black Adder	HP: 0
-Black Knight	HP: 0
-Black Panther	HP: 0
-Black Widow	HP: 0
+Black Adder	HP: 0	adder bladder (30)	black snake skin (15)
+Black Knight	HP: 0	black greaves (15)	black helmet (15)	black shield (15)	black sword (15)
+Black Panther	HP: 0	Black No. 2 ( 20)
+Black Widow	HP: 0	black picnic basket (15)	black pension check (30)
+Blackberry Bush	HP: 0	blackberry (15)	blackberry (15)	blackberry (15)
 Blooper	HP: 15 Def: 25 Atk: 25	white pixel (70)	white pixel (70)	white pixel (70)
 Blur	HP: 0
 Boaraffe	HP: 0
@@ -138,7 +139,7 @@ Burly Sidekick	HP: 100 Def: 100 Atk: 100 Meat: 79-168	cocoa eggshell fragment (3
 Business Hippy	HP: 25 Def: 38 Atk: 38	filthy corduroys (0)	filthy knitted dread sack (0)	herbs (0)	reodorant (0)	massive bag of catnip (0)
 Buzzy Beetle	HP: 15 Def: 20 Atk: 20	black pixel (50)	white pixel (50)	red pixel (65)
 C.A.R.N.I.V.O.R.E. Operative	HP: 0
-Cactuary	HP: 0
+Cactuary	HP: 0	bit-o-cactus (27)	giant cactus quill (5)	cactus fruit (20)	handful of sand (20)
 Carnivorous Dill Plant	HP: 180 Def: 200 Atk: 200	dill (30)	dill (30)
 Carnivorous Moxie Weed	HP: 56 Def: 66 Atk: 66	moxie weed (30)	giant moxie weed (15)	giant moxie weed (15)
 Chalkdust Wraith	HP: 10 Def: 20 Atk: 20 ED: spooky	handful of hand chalk (100)
@@ -218,7 +219,7 @@ Ghastly Organist	HP: 120 Def: 110 Atk: 100	opera mask (20)
 Ghost Miner	HP: 31  Def: 30 Atk: 30 E: spooky	bubblewrap ore (10)	bubblewrap ore (10)	cardboard ore (10)	cardboard ore (10)	styrofoam ore (10)	styrofoam ore (10)
 Ghostly Pickle Factory Worker	HP: 180 Def: 200 Atk: 200	ghost cucumber (30)	ghost cucumber (30)
 Ghuol	HP: 10 Def: 19 Atk: 19 E: spooky Meat: 28-40	ghuol egg (25)	ghuol ears (25)
-Giant Giant Giant Centipede	HP: 0
+Giant Giant Giant Centipede	HP: 0	centipede eggs (20)	handful of sand (25)	handful of sand (15)
 Giant Giant Moth	HP: 11 Def: 12 Atk: 11
 Giant Pair of Tweezers	HP: 8 Def: 18 Atk: 16
 Giant Skeelton	HP: 60 Def: 73 Atk: 77 E: spooky
@@ -334,7 +335,7 @@ Paper Towelgeist	HP: 6 Def: 4 Atk: 4	cardboard katana (5)
 Pencil Golem	HP: 11 Def: 15 Atk: 15
 Perpendicular Bat	HP: 12 Def: 18 Atk: 18 Meat: 26-40	batgut (15)	bat wing (15)	sonar-in-a-biscuit (20)
 Pine Bat	HP: 8  Def: 12 Atk: 16 EA: stench Meat: 18-27	bat wing (15)	Pine-Fresh air freshener (15)	batgut (15)
-Plaque of Locusts	HP: 0
+Plaque of Locusts	HP: 0	bronzed locust (20)	honey-dipped locust (20)	handful of sand (20)
 Pooltergeist	HP: 25 Def: 20 Atk: 20	1-ball (3)	2-ball (3)	3-ball (3)	4-ball (3)	5-ball (3)	6-ball (3)	7-ball (3)	8-ball (15)
 Portly Abomination	HP: 63 Def: 73 Atk: 73 Meat: 61-91
 Possessed Can of Tomatoes	HP: 1 Def: 2 Atk: 1 Meat: 2-4	razor-sharp can lid (45)	tomato (60)
@@ -359,7 +360,7 @@ Rattlin' Duck	HP: 0
 Raver Giant	HP: 150 Def: 140 Atk: 140 Meat: 121-183	Angry Farmer candy (30)	giant needle (30)	Mick's IcyVapoHotness Rub (30)
 Regular Old Bat	HP: 8  Def: 13 Atk: 13 Meat: 18-28	bat guano (15)	batgut (15)	bat wing (15)
 Remains of a Jilted Mistress	HP: 145 Def: 155 Atk: 173 ED: spooky
-Rock Scorpion	HP: 0
+Rock Scorpion	HP: 0	handful of sand (25)	handful of sand (15)	scorpion whip (5)
 Rock-Banging Cave Elf		rock (8)	stick (7)	stick (15)
 Rolling Stone	HP: 0
 Rotund Duck	HP: 0
@@ -412,7 +413,7 @@ Striking Pencil-Pusher Elf		felt (10)	wooden block (10)	googly eye (10)	length o
 Striking Stocking-Stuffer Elf		length of string (10)	stuffing (10)	wooden block (10)	googly eye (10)	felt (10)	toy wheel (10)
 Sub-Assistant Knob Mad Scientist	HP: 1 Def: 2 Atk: 2 Meat: 5-7	Knob Goblin firecracker (100)	Knob Goblin pants (10)	strongness elixir (30)
 Swamp Duck	HP: 0
-Swarm of Fire Ants	HP: 0
+Swarm of Fire Ants	HP: 0	ant agonist (20)	ant hoe (1)	ant pick (1)	ant pitchfork (1)	ant rake (1)	ant sickle (1)	handful of sand (20)
 Swarm of Killer Bees	HP: 45 Def: 39 Atk: 41	baby killer bee (5)	royal jelly (25)
 Swarm of Scarab Beatles	HP: 0
 Swarthy Pirate	HP: 53 Def: 63 Atk: 63 Meat: 20-32	leotarrrd (10)	pirate pelvis (20)	stuffed shoulder parrot (10)
