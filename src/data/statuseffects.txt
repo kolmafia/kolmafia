@@ -73,9 +73,9 @@
 73	Ticking Clock	clock.gif	6e54ea1584f2410c94c93032c5a038f0
 74	Fresh Scent	happy.gif	a12c86c626c44ecd48540d1e55bf1204
 75	Hippy Stench	stench.gif	70ff46e1347de854172cb7a644f2854e
-76	Wreathed in Merriment	scook1.gif
-77	Fury of the Bells	scook2.gif
-78	Yuletide Sappiness	scook3.gif
+76	Wreathed in Merriment	scook1.gif	074e5435520828037e01f4059da13cf7
+77	Fury of the Bells	scook2.gif	8166c389286809c05b40933c210194cf
+78	Yuletide Sappiness	scook3.gif	b4a14c949225b6e8427fbad113c8d777
 79
 80	Missing Fingers	sad.gif	c6100ac99a847dc3b60d9f8c1a2c223d
 81	Gnawed-Off Arm	sad.gif	99337ac6df628a7b13162ef7a725f01d
@@ -104,8 +104,8 @@
 104	Izchak's Blessing	light.gif	2b0bab3aa6c3cabbe27d693dc4a2c8c0
 105	Corroded Weapon	corroded.gif	8af5fd34414f0f52907fabfa3287fa2b
 106	Canadianity	mapleleaf.gif	8a3629f6e6d964a3e491b3a393348a46
-107	Enraged	angry.gif
-108	Ancestral Disapproval	skull.gif
+107	Enraged	angry.gif	8a81256346b6ec6aa9b91b0e2641681c
+108	Ancestral Disapproval	skull.gif	66df2793b0008e892884c0de9f33c808
 109	Whitened Teeth	goldfronts.gif	0f3c00c6477cf3c3ca13602bfee2d863
 110	Hopped Up on Goofballs	hoppedup.gif	061ca4225eeb3189b93a4a6c5e47351e
 111	Goofball Withdrawal	withdraw.gif	29b44ff4d574d3698bb85eb97c4d37bc
@@ -259,7 +259,7 @@
 259	Very Clean Teeth	goldfronts.gif	e8b4295bb508c8a821c6acbb9a733d6b
 260	Arse-a'fire	pepper.gif
 261	Lemon Enlightenment	lemon.gif
-262	Squirming Like a Toad	squashfrog.gif
+262	Squirming Like a Toad	squashfrog.gif	6f748e8117c8d27ae1442f99998a7d5f
 263	Eau D'tortue	stench.gif	f3a452bc7787ab2f5985d28d164a4fb0
 264	Majorly Poisoned	poison.gif	37b23526c38b844f4983a17a72ad992e
 265	Tenuous Grip on Reality	hoppeddown.gif	c22c212fdf9d6b611be955785ff37775
@@ -276,7 +276,7 @@
 276	Disco Inferno	discoball.gif
 277	Disco Nirvana	discoball.gif
 278	Disco Concentration	discoball.gif
-279
+279	Full of Vinegar	wine2.gif	68d41be21e343fcf84c5bfc5d96fecf0
 280	Kiss of the Black Fairy	skull.gif	8348ca470188c975bcb78c67a58c39ab
 281	Tangled Up	sad.gif	224ddd0d75c25d180c1f10a90bdab68a
 282	A Little Bit Poisoned	poison.gif	15e7e83d8630cf9b824a2645851458c5
@@ -300,7 +300,7 @@
 300	Infinite Loop	nopic.gif
 301	Cunctatitis	disease.gif	9a12b9329e0701252387afe75dee34ee
 302	Mild Lycanthropy	moon2.gif	30ef4348fb5125c55c5be56867b795dd
-303	Lycanthropy, Eh?	moon2.gif
+303	Lycanthropy, Eh?	moon2.gif	f0d184c3e271a091974dc74fa36640f3
 304	Roids of the Rhinoceros	strboost.gif	7162d29ed4d4ab9247e32a65fdc0508a
 305	Happy Trails	farout.gif	0d08ec701054748c0ff754e1eb8993fa
 306	Piratastic	poison.gif	326cfa0c7a97220cda6575f7d887c38f
@@ -315,10 +315,10 @@
 315	Cuts Like a Buttered Knife	dripsword.gif	88d3ebc4d94e12aab78fea9b126c5312
 316	Impregnably Delicious	sphere.gif	4a7e1d0ef97a354031271c7590dfe698
 317	Fireproof Lips	lips.gif	2bf98e882e69d84ef7184450c88383f3
-318	Fever From the Flavor	snowflake.gif
+318	Fever From the Flavor	snowflake.gif	9d1a493fe8640eaaaa3208b9e0e4758c
 319	Hyphemariffic	darkness.gif	6b0edfbc94593d4516065493f3607d93
-320	Can't Smell Nothin'	stench.gf
-321	Hyperoffended	sad.gif
+320	Can't Smell Nothin'	stench.gf	1711b26207212327de89f2c030dc4089
+321	Hyperoffended	sad.gif	cfc7cd0d0bd5dc7d2437bd4027677791
 322
 323	Burning Hands	hand.gif	ff1abd7eea34159903507bb907c56803
 324	Burning Ears	humanears.gif	992e3b84ebe746affc1cf6038cd854ff
@@ -424,7 +424,7 @@
 424
 425
 426
-427
+427	Hiding in Plain Sight	smallbush.gif	73b1d28fdca4f7e8f4d94d425a001720
 428	Compensatory Cruelness	angry.gif	fcfb0679f0e80509cbff567a600ca998
 429	Mutated	spooklines.gif	a8e35050197871d1fbe5b3afc865af7e
 430	Seriously Mutated	spooklines.gif	dd78d480e08de5cc8e633202d699844f
