@@ -944,8 +944,8 @@ public abstract class MoodSettings implements KoLConstants
 				if ( action.startsWith( "use" ) )
 				{
 					this.item = KoLmafiaCLI.getFirstMatchingItem( parameters );
-					this.count = item.getCount();
-					this.action = "use " + count + " " + this.item.getName();
+					this.count = this.item.getCount();
+					this.action = "use " + this.count + " " + this.item.getName();
 				}
 				else
 				{
@@ -958,9 +958,11 @@ public abstract class MoodSettings implements KoLConstants
 						parameters = parameters.substring( spaceIndex ).trim();
 					}
 
-					parameters = KoLmafiaCLI.getSkillName( parameters );
+					if ( !ClassSkillsDatabase.contains( parameters ) )
+						parameters = KoLmafiaCLI.getSkillName( parameters );
+
 					this.skill = UseSkillRequest.getInstance( parameters );
-					this.action = "cast " + count + " " + this.skill.getSkillName();
+					this.action = "cast " + this.count + " " + this.skill.getSkillName();
 				}
 			}
 			else
