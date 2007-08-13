@@ -540,7 +540,7 @@ public class CharpaneRequest extends KoLRequest
 				if ( moodText.startsWith( "mood" ) )
 					buffer.append( "mood+execute" );
 				else
-					buffer.append( URLEncoder.encode( moodText, "ISO-8859-1" ) );
+					buffer.append( URLEncoder.encode( moodText, "UTF-8" ) );
 			}
 			catch ( Exception e )
 			{
@@ -584,7 +584,7 @@ public class CharpaneRequest extends KoLRequest
 				if ( moodText.startsWith( "mood" ) )
 					buffer.append( "mood+execute" );
 				else
-					buffer.append( URLEncoder.encode( moodText, "ISO-8859-1" ) );
+					buffer.append( URLEncoder.encode( moodText, "UTF-8" ) );
 			}
 			catch ( Exception e )
 			{
@@ -650,7 +650,19 @@ public class CharpaneRequest extends KoLRequest
 					buffer.append( "<td><font size=2>" );
 
 				buffer.append( " (0)</font>&nbsp;<a href=\"/KoLmafia/sideCommand?cmd=" );
-				buffer.append( StaticEntity.globalStringReplace( MoodSettings.getDefaultAction( "lose_effect", currentEffect.getName() ), " ", "+" ) );
+
+				try
+				{
+					buffer.append( URLEncoder.encode(
+						MoodSettings.getDefaultAction( "lose_effect", currentEffect.getName() ), "UTF-8" ) );
+				}
+				catch ( Exception e )
+				{
+					// Hm, something bad happened.  Instead of giving a real link,
+					// give a fake link instead.
+
+					buffer.append( "win+game" );
+				}
 
 				buffer.append( "\" title=\"Increase rounds of " );
 				buffer.append( currentEffect.getName() );
@@ -742,7 +754,7 @@ public class CharpaneRequest extends KoLRequest
 
 				try
 				{
-					buffer.append( URLEncoder.encode( removeAction, "ISO-8859-1" ) );
+					buffer.append( URLEncoder.encode( removeAction, "UTF-8" ) );
 				}
 				catch ( Exception e )
 				{
@@ -798,7 +810,7 @@ public class CharpaneRequest extends KoLRequest
 
 				try
 				{
-					buffer.append( URLEncoder.encode( upkeepAction, "ISO-8859-1" ) );
+					buffer.append( URLEncoder.encode( upkeepAction, "UTF-8" ) );
 				}
 				catch ( Exception e )
 				{

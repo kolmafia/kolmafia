@@ -404,8 +404,8 @@ public class KoLRequest extends Job implements KoLConstants
 
 		try
 		{
-			encodedName = URLEncoder.encode( encodedName, this instanceof LoginRequest ? "UTF-8" : "ISO-8859-1" ) + "=";
-			encodedValue = URLEncoder.encode( encodedValue, this instanceof LoginRequest ? "UTF-8" : "ISO-8859-1" );
+			encodedName = URLEncoder.encode( encodedName, isChatRequest ? "ISO-8859-1" : "UTF-8" ) + "=";
+			encodedValue = URLEncoder.encode( encodedValue, isChatRequest ? "ISO-8859-1" : "UTF-8" );
 		}
 		catch ( Exception e )
 		{
@@ -529,7 +529,7 @@ public class KoLRequest extends Job implements KoLConstants
 				// Everything was encoded as ISO-8859-1, so go
 				// ahead and decode it that way.
 
-				return URLDecoder.decode( value, "ISO-8859-1" );
+				return URLDecoder.decode( value, isChatRequest ? "ISO-8859-1" : "UTF-8" );
 			}
 			catch ( Exception e )
 			{
