@@ -1178,34 +1178,46 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( buffer.indexOf( "basics.js" ) == -1 )
 			buffer.insert( buffer.indexOf( "</head>" ), "<script language=\"Javascript\" src=\"/basics.js\"></script></head>" );
 
+
 		boolean hasCheck = AdventureRequest.checkBasement( false, buffer.toString() );
 
 		if ( AdventureRequest.stateChanged() )
 			buffer.insert( buffer.indexOf( "</html>" ), "<script language=\"Javascript\"><!-- refreshSidebar(); --></script>" );
 
-		StringBuffer outfits = new StringBuffer();
-		outfits.append( "<br/><select id=\"outfit\" style=\"width: 250px\" onChange=\"var select = document.getElementById('outfit');  var option = select.options[select.selectedIndex]; top.charpane.document.location.href = '/KoLmafia/sideCommand?cmd=outfit+' + option.value; document.location.href = 'basement.php'; return true;\"><option value=\"none\">- select an outfit -</option>" );
-		Object [] outfitList = KoLCharacter.getCustomOutfits().toArray();
+		StringBuffer changes = new StringBuffer();
+		changes.append( "<br/><select id=\"outfit\" style=\"width: 250px\"><option value=\"none\">- select an outfit -</option>" );
 
-		for ( int i = 0; i < outfitList.length; ++i )
+		SpecialOutfit current;
+		for ( int i = 0; i < KoLCharacter.getCustomOutfits().size(); ++i )
 		{
-			outfits.append( "<option value=\"" );
-			outfits.append( StaticEntity.globalStringReplace( ((SpecialOutfit)outfitList[i]).getName(), " ", "+" ) );
-			outfits.append( "\"" );
+			current = (SpecialOutfit) KoLCharacter.getCustomOutfits().get(i);
 
-			outfits.append( ">" );
-			outfits.append( ((SpecialOutfit)outfitList[i]).getName() );
-			outfits.append( "</option>" );
+			changes.append( "<option value=\"" );
+			changes.append( StaticEntity.globalStringReplace( current.getName(), " ", "+" ) );
+			changes.append( "\"" );
+
+			changes.append( ">" );
+			changes.append( current.getName() );
+			changes.append( "</option>" );
 		}
 
-		outfits.append( "</select><br/>" );
-		buffer.insert( buffer.indexOf( "</center><blockquote>" ), outfits.toString() );
+		changes.append( "</select>&nbsp;<input class=\"button\" type=\"button\" value=\"update\" onClick=\"changeBasementOutfit();\">" );
+
+		if ( false )
+		{
+			changes.append( "<br/><select id=\"potion\" style=\"width: 250px\"><option value=\"none\">- select a status effect -</option>" );
+
+			changes.append( "</select>&nbsp;<input class=\"button\" type=\"button\" value=\"update\" onClick=\"changeBasementPotion();\">" );
+		}
+
+		changes.append( "<br/>" );
+		buffer.insert( buffer.indexOf( "</center><blockquote>" ), changes.toString() );
 
 		if ( hasCheck )
 		{
 			buffer.insert( buffer.lastIndexOf( "</b>" ) + 4, "<br/>" );
 			buffer.insert( buffer.lastIndexOf( "<img" ), "<table><tr><td>" );
-			buffer.insert( buffer.indexOf( ">", buffer.lastIndexOf( "<img" ) ) + 1, "</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><font size=2>" +
+			buffer.insert( buffer.indexOf( ">", buffer.lastIndexOf( "<img" ) ) + 1, "</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><font id=\"spoiler\" size=2>" +
 				AdventureRequest.getRequirement() + "</font></td></tr></table>" );
 		}
 	}
