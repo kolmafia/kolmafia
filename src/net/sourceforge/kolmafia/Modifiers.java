@@ -916,6 +916,8 @@ public class Modifiers extends KoLDatabase
 			add( FAMILIAR_WEIGHT, -10 );
 	}
 
+	private static final double dropFamiliarExponent = 1.0 / Math.sqrt( 2 );
+
 	public void applyFamiliarModifiers( FamiliarData familiar )
 	{
 		int familiarId = familiar.getId();
@@ -924,11 +926,15 @@ public class Modifiers extends KoLDatabase
 		if ( FamiliarsDatabase.isVolleyType( familiarId ) )
 			add( EXPERIENCE, Math.sqrt( weight ) );
 
+		// http://jick-nerfed.us/forums/viewtopic.php?p=56342
+		// ( .02 * x ) ** ( 1 / sqrt(2) )
 		if ( FamiliarsDatabase.isItemDropType( familiarId ) )
-			add( ITEMDROP, weight * 2.5 );
+			add( ITEMDROP, 100.0 * Math.pow( weight * 0.02 , dropFamiliarExponent ) );
 
+		// http://jick-nerfed.us/forums/viewtopic.php?t=3872
+		// ( .05 * x ) ** ( 1 / sqrt(2) )
 		if ( FamiliarsDatabase.isMeatDropType( familiarId ) )
-			add( MEATDROP, weight * 5 );
+			add( MEATDROP, 100.0 * Math.pow( weight * 0.05 , dropFamiliarExponent ) );
 
 		switch ( familiarId )
 		{
