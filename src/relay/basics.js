@@ -158,6 +158,54 @@ function showObject( id )
 }
 
 
+function changeBasementOutfit()
+{
+	var select = document.getElementById( "outfit" );
+	var option = select.options[select.selectedIndex];
+	top.charpane.document.location.href = "/KoLmafia/sideCommand?cmd=outfit+" + option.value;
+
+	var httpObject = getHttpObject();
+	if ( !httpObject )
+		return true;
+
+	httpObject.onreadystatechange = function()
+	{
+		if ( httpObject.readyState != 4 )
+			return;
+
+		getObject( "spoiler" ).innerHTML = httpObject.responseText;
+	}
+
+	httpObject.open( "POST", "/KoLmafia/basementSpoiler" );
+	httpObject.send( null );
+	return true;
+}
+
+
+function changeBasementPotion()
+{
+	var select = document.getElementById( "potion" );
+	var option = select.options[select.selectedIndex];
+	top.charpane.document.location.href = "/KoLmafia/sideCommand?cmd=" + option.value;
+
+	var httpObject = getHttpObject();
+	if ( !httpObject )
+		return true;
+
+	httpObject.onreadystatechange = function()
+	{
+		if ( httpObject.readyState != 4 )
+			return;
+
+		getObject( "spoiler" ).innerHTML = httpObject.responseText;
+	}
+
+	httpObject.open( "POST", "/KoLmafia/basementSpoiler" );
+	httpObject.send( null );
+	return true;
+}
+
+
 // ====================================================================
 //			 URLEncode and URLDecode functions
 //
