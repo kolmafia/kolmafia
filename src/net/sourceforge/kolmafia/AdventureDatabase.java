@@ -1128,11 +1128,14 @@ public class AdventureDatabase extends KoLDatabase
 		if ( adventureLookup.isEmpty() )
 			refreshAdventureList();
 
-		if ( adventureURL.indexOf( "sewer.php" ) != -1 && adventureURL.indexOf( "doodit" ) != -1 )
-			return (KoLAdventure) adventureLookup.get( "sewer.php?doodit=1" );
-
 		if ( adventureURL.startsWith( "/" ) )
 			adventureURL = adventureURL.substring(1);
+
+		if ( adventureURL.startsWith( "basement.php" ) )
+			return null;
+
+		if ( adventureURL.startsWith( "sewer.php" ) )
+			return adventureURL.indexOf( "doodit" ) == -1 ? null : (KoLAdventure) adventureLookup.get( "sewer.php?doodit=1" );
 
 		int subAdventureIndex = adventureURL.indexOf( "&subsnarfblat");
 		if ( subAdventureIndex != -1 )

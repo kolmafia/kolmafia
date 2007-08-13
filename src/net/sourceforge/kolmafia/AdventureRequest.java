@@ -43,6 +43,7 @@ public class AdventureRequest extends KoLRequest
 	private String formSource;
 	private String adventureId;
 
+	private static int basementLevel = 0;
 	private static boolean stateChanged = false;
 	private static float basementTestValue = 0;
 	private static float basementTestCurrent = 0;
@@ -201,6 +202,10 @@ public class AdventureRequest extends KoLRequest
 		if ( !containsUpdate && !RequestFrame.sidebarFrameExists() )
 			CharpaneRequest.getInstance().run();
 	}
+	
+	public static final int getBasementLevel()
+	{	return basementLevel;
+	}
 
 	public static final boolean stateChanged()
 	{	return stateChanged;
@@ -234,7 +239,7 @@ public class AdventureRequest extends KoLRequest
 		}
 	}
 
-	private static final boolean checkForElementalTest( boolean autoSwitch, int currentLevel, String responseText )
+	private static final boolean checkForElementalTest( boolean autoSwitch, String responseText )
 	{
 		int element1 = -1, element2 = -1;
 		AdventureResult phial1 = null, phial2 = null;
@@ -301,24 +306,24 @@ public class AdventureRequest extends KoLRequest
 			return false;
 		}
 
-		if ( canHandleElementTest( autoSwitch, currentLevel, false, element1, element2, effect1, effect2, phial1, phial2 ) )
+		if ( canHandleElementTest( autoSwitch, false, element1, element2, effect1, effect2, phial1, phial2 ) )
 			return true;
 
 		if ( !autoSwitch )
 			return true;
 
 		changeBasementOutfit( "element" );
-		canHandleElementTest( autoSwitch, currentLevel, true, element1, element2, effect1, effect2, phial1, phial2 );
+		canHandleElementTest( autoSwitch, true, element1, element2, effect1, effect2, phial1, phial2 );
 		return true;
 	}
 
-	private static final boolean canHandleElementTest( boolean autoSwitch, int currentLevel, boolean switchedOutfits,
+	private static final boolean canHandleElementTest( boolean autoSwitch, boolean switchedOutfits,
 		int element1, int element2, AdventureResult effect1, AdventureResult effect2, AdventureResult phial1, AdventureResult phial2 )
 	{
 		// According to http://forums.hardcoreoxygenation.com/viewtopic.php?t=3973,
 		// total elemental damage is roughly 4.8 * x^1.4.  Assume the worst-case.
 
-		float totalDamage = ((float) Math.pow( currentLevel, 1.4 )) * 4.8f;
+		float totalDamage = ((float) Math.pow( basementLevel, 1.4 )) * 4.8f;
 		float damage1 = totalDamage / 2.0f;
 		float damage2 = totalDamage / 2.0f;
 
@@ -433,12 +438,12 @@ public class AdventureRequest extends KoLRequest
 		return KoLmafia.permitsContinue();
 	}
 
-	private static final boolean checkForStatTest( boolean autoSwitch, int currentLevel, String responseText )
+	private static final boolean checkForStatTest( boolean autoSwitch, String responseText )
 	{
 		// According to http://forums.hardcoreoxygenation.com/viewtopic.php?t=3973,
 		// stat requirement is x^1.4 + 2.  Assume the worst-case.
 
-		float statRequirement = ((float) Math.pow( currentLevel, 1.4 ) + 2.0f) * 1.1f;
+		float statRequirement = ((float) Math.pow( basementLevel, 1.4 ) + 2.0f) * 1.1f;
 
 		if ( responseText.indexOf( "Lift 'em" ) != -1 || responseText.indexOf( "Push It Real Good" ) != -1 || responseText.indexOf( "Ring That Bell" ) != -1 )
 		{
@@ -497,12 +502,12 @@ public class AdventureRequest extends KoLRequest
 		return false;
 	}
 
-	private static final boolean checkForDrainTest( boolean autoSwitch, int currentLevel, String responseText )
+	private static final boolean checkForDrainTest( boolean autoSwitch, String responseText )
 	{
 		// According to http://forums.hardcoreoxygenation.com/viewtopic.php?t=3973,
 		// drain requirement is 1.7 * x^1.4  Assume the worst-case.
 
-		float drainRequirement = (float) Math.pow( currentLevel, 1.4 ) * 1.8f;
+		float drainRequirement = (float) Math.pow( basementLevel, 1.4 ) * 1.8f;
 
 		if ( responseText.indexOf( "Grab the Handles" ) != -1 )
 		{
@@ -563,22 +568,22 @@ public class AdventureRequest extends KoLRequest
 		basementTestString = "None";
 		basementTestValue = 0;
 
-		if ( responseText.indexOf( "Got Silk?" ) != -1 || responseText.indexOf( "Save the Dolls" ) != -1 || responseText.indexOf( "Take the Red Pill" ) != -1 )
-			return false;
-
 		Matcher levelMatcher = BASEMENT_PATTERN.matcher( responseText );
 		if ( !levelMatcher.find() )
 			return false;
 
-		int currentLevel = StaticEntity.parseInt( levelMatcher.group(1) );
+		basementLevel = StaticEntity.parseInt( levelMatcher.group(1) );
 
-		if ( checkForElementalTest( autoSwitch, currentLevel, responseText ) )
+		if ( responseText.indexOf( "Got Silk?" ) != -1 || responseText.indexOf( "Save the Dolls" ) != -1 || responseText.indexOf( "Take the Red Pill" ) != -1 )
+			return false;
+
+		if ( checkForElementalTest( autoSwitch, responseText ) )
 			return true;
 
-		if ( checkForStatTest( autoSwitch, currentLevel, responseText ) )
+		if ( checkForStatTest( autoSwitch, responseText ) )
 			return true;
 
-		if ( checkForDrainTest( autoSwitch, currentLevel, responseText ) )
+		if ( checkForDrainTest( autoSwitch, responseText ) )
 			return true;
 
 		if ( autoSwitch )
@@ -593,7 +598,7 @@ public class AdventureRequest extends KoLRequest
 		if ( !levelMatcher.find() )
 			return;
 
-		int currentLevel = StaticEntity.parseInt( levelMatcher.group(1) );
+		basementLevel = StaticEntity.parseInt( levelMatcher.group(1) );
 
 		if ( this.responseText.indexOf( "Got Silk?" ) != -1 )
 		{
@@ -637,7 +642,7 @@ public class AdventureRequest extends KoLRequest
 		}
 
 		levelMatcher = BASEMENT_PATTERN.matcher( responseText );
-		if ( !levelMatcher.find() || currentLevel == StaticEntity.parseInt( levelMatcher.group(1) ) )
+		if ( !levelMatcher.find() || basementLevel == StaticEntity.parseInt( levelMatcher.group(1) ) )
 			KoLmafia.updateDisplay( ERROR_STATE, "Failed to pass basement test." );
 	}
 

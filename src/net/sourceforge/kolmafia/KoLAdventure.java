@@ -974,6 +974,11 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			shouldReset = false;
 			location = "Guild Challenge";
 		}
+		else if ( urlString.startsWith( "basement.php" ) )
+		{
+			shouldReset = false;
+			location = "Fernswarthy's Basement (Level " + AdventureRequest.getBasementLevel() + ")";
+		}
 		else if ( urlString.startsWith( "dungeon.php" ) )
 		{
 			shouldReset = true;
