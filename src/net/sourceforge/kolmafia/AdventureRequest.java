@@ -49,9 +49,6 @@ public class AdventureRequest extends KoLRequest
 	private static String basementTestString = "";
 
 	private static String basementErrorMessage = null;
-	private static int element1 = -1, element2 = -1;
-	private static AdventureResult phial1 = null, phial2 = null;
-	private static AdventureResult effect1 = null, effect2 = null;
 
 	private static final AdventureResult HOT_PHIAL = new AdventureResult( 1637, 1 );
 	private static final AdventureResult COLD_PHIAL = new AdventureResult( 1638, 1 );
@@ -211,16 +208,10 @@ public class AdventureRequest extends KoLRequest
 
 	public static final String getRequirement()
 	{
-		if ( basementTestString.equals( "Elemental Resist" ) )
-		{
-			return "<u>Elemental Resist</u><br/>Current: " + COMMA_FORMAT.format( basementTestCurrent ) +
-			"%<br/>Needed: " + COMMA_FORMAT.format( basementTestValue ) + "%";
-		}
-		else
-		{
-			return "<u>" + basementTestString + "</u><br/>Current: " + COMMA_FORMAT.format( basementTestCurrent ) +
-				"<br/>Needed: " + COMMA_FORMAT.format( basementTestValue );
-		}
+		String percent = basementTestString.equals( "Elemental Resist" ) ? "%" : "";
+		return "<u>" + basementTestString + "</u><br/>" +
+			"Current: " + COMMA_FORMAT.format( basementTestCurrent ) + percent + "<br/>" +
+			"Needed: " + COMMA_FORMAT.format( basementTestValue ) + percent;
 	}
 
 	private static final void changeBasementOutfit( String name )
@@ -243,8 +234,12 @@ public class AdventureRequest extends KoLRequest
 		}
 	}
 
-	private static final boolean checkForElementalTest( boolean autoSwitch, String responseText )
+	private static final boolean checkForElementalTest( boolean autoSwitch, int currentLevel, String responseText )
 	{
+		int element1 = -1, element2 = -1;
+		AdventureResult phial1 = null, phial2 = null;
+		AdventureResult effect1 = null, effect2 = null;
+
 		if ( responseText.indexOf( "<b>Peace, Bra</b>" ) != -1 )
 		{
 			element1 = MonsterDatabase.SLEAZE;
@@ -267,7 +262,7 @@ public class AdventureRequest extends KoLRequest
 			effect1 = COLD_FORM;
 			effect2 = SLEAZE_FORM;
 		}
-		else if ( responseText.indexOf( "<b>Still Better Than Pistachio</b>" ) != -1 )
+		else if ( responseText.indexOf( "<b>Still Better than Pistachio</b>" ) != -1 )
 		{
 			element1 = MonsterDatabase.STENCH;
 			element2 = MonsterDatabase.HEAT;
@@ -300,22 +295,16 @@ public class AdventureRequest extends KoLRequest
 			effect1 = SPOOKY_FORM;
 			effect2 = COLD_FORM;
 		}
-
-		// If this is an elemental element check, check to see if
-		// additional elements are needed.
-
-		if ( phial1 == null )
+		else
+		{
+			// Not a known elemental test
 			return false;
+		}
 
-		Matcher levelMatcher = BASEMENT_PATTERN.matcher( responseText );
-		if ( !levelMatcher.find() )
-			return false;
-
-		int currentLevel = StaticEntity.parseInt( levelMatcher.group(1) );
 		if ( canHandleElementTest( autoSwitch, currentLevel, false, element1, element2, effect1, effect2, phial1, phial2 ) )
 			return true;
 
-		if ( autoSwitch )
+		if ( !autoSwitch )
 			return true;
 
 		changeBasementOutfit( "element" );
@@ -327,19 +316,20 @@ public class AdventureRequest extends KoLRequest
 		int element1, int element2, AdventureResult effect1, AdventureResult effect2, AdventureResult phial1, AdventureResult phial2 )
 	{
 		// According to http://forums.hardcoreoxygenation.com/viewtopic.php?t=3973,
-		// elemental damage is roughly 4.4 * x^1.4.  Assume the worst-case.
+		// total elemental damage is roughly 4.8 * x^1.4.  Assume the worst-case.
 
-		float damage1 = ((float) Math.pow( currentLevel, 1.4 )) * 4.8f / 2.0f;
-		float damage2 = damage1;
+		float totalDamage = ((float) Math.pow( currentLevel, 1.4 )) * 4.8f;
+		float damage1 = totalDamage / 2.0f;
+		float damage2 = totalDamage / 2.0f;
 
 		float resistance1 = KoLCharacter.getElementalResistance( element1 );
 		float resistance2 = KoLCharacter.getElementalResistance( element2 );
 
-		float expected1 = damage1 / 100.0f * (100.0f - resistance1);
-		float expected2 = damage2 / 100.0f * (100.0f - resistance2);
+		float expected1 = damage1 * ( (100.0f - resistance1) / 100.0f );
+		float expected2 = damage2 * ( (100.0f - resistance2) / 100.0f );
 
-		// If you can survive the current elemental test even without a phial
-		// assumption, then don't bother with any extra buffing.
+		// If you can survive the current elemental test even without a phial,
+		// then don't bother with any extra buffing.
 
 		basementTestString = "Elemental Resist";
 		basementTestCurrent = Math.max( resistance1, resistance2 );
@@ -443,14 +433,8 @@ public class AdventureRequest extends KoLRequest
 		return KoLmafia.permitsContinue();
 	}
 
-	private static final boolean checkForStatTest( boolean autoSwitch, String responseText )
+	private static final boolean checkForStatTest( boolean autoSwitch, int currentLevel, String responseText )
 	{
-		Matcher levelMatcher = BASEMENT_PATTERN.matcher( responseText );
-		if ( !levelMatcher.find() )
-			return false;
-
-		int currentLevel = StaticEntity.parseInt( levelMatcher.group(1) );
-
 		// According to http://forums.hardcoreoxygenation.com/viewtopic.php?t=3973,
 		// stat requirement is x^1.4 + 2.  Assume the worst-case.
 
@@ -513,14 +497,8 @@ public class AdventureRequest extends KoLRequest
 		return false;
 	}
 
-	private static final boolean checkForDrainTest( boolean autoSwitch, String responseText )
+	private static final boolean checkForDrainTest( boolean autoSwitch, int currentLevel, String responseText )
 	{
-		Matcher levelMatcher = BASEMENT_PATTERN.matcher( responseText );
-		if ( !levelMatcher.find() )
-			return false;
-
-		int currentLevel = StaticEntity.parseInt( levelMatcher.group(1) );
-
 		// According to http://forums.hardcoreoxygenation.com/viewtopic.php?t=3973,
 		// drain requirement is 1.7 * x^1.4  Assume the worst-case.
 
@@ -588,7 +566,19 @@ public class AdventureRequest extends KoLRequest
 		if ( responseText.indexOf( "Got Silk?" ) != -1 || responseText.indexOf( "Save the Dolls" ) != -1 || responseText.indexOf( "Take the Red Pill" ) != -1 )
 			return false;
 
-		if ( checkForElementalTest( autoSwitch, responseText ) || checkForStatTest( autoSwitch, responseText ) || checkForDrainTest( autoSwitch, responseText ) )
+		Matcher levelMatcher = BASEMENT_PATTERN.matcher( responseText );
+		if ( !levelMatcher.find() )
+			return false;
+
+		int currentLevel = StaticEntity.parseInt( levelMatcher.group(1) );
+
+		if ( checkForElementalTest( autoSwitch, currentLevel, responseText ) )
+			return true;
+
+		if ( checkForStatTest( autoSwitch, currentLevel, responseText ) )
+			return true;
+
+		if ( checkForDrainTest( autoSwitch, currentLevel, responseText ) )
 			return true;
 
 		if ( autoSwitch )

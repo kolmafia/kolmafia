@@ -1172,8 +1172,23 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 	public static final void addBasementSpoilers( StringBuffer buffer )
 	{
-		if ( buffer.indexOf( "Got Silk?" ) != -1 || buffer.indexOf( "Save the Dolls" ) != -1 || buffer.indexOf( "Take the Red Pill" ) != -1 )
+		if ( buffer.indexOf( "Got Silk?" ) != -1 )
+		{
+			addBasementChoiceSpoilers( buffer, "Moxie", "Muscle" );
 			return;
+		}
+
+		if ( buffer.indexOf( "Save the Dolls" ) != -1 )
+		{
+			addBasementChoiceSpoilers( buffer, "Mysticality", "Moxie" );
+			return;
+		}
+
+		if ( buffer.indexOf( "Take the Red Pill" ) != -1 )
+		{
+			addBasementChoiceSpoilers( buffer, "Muscle", "Mysticality" );
+			return;
+		}
 
 		if ( buffer.indexOf( "basics.js" ) == -1 )
 			buffer.insert( buffer.indexOf( "</head>" ), "<script language=\"Javascript\" src=\"/basics.js\"></script></head>" );
@@ -1220,6 +1235,29 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			buffer.insert( buffer.indexOf( ">", buffer.lastIndexOf( "<img" ) ) + 1, "</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><font id=\"spoiler\" size=2>" +
 				AdventureRequest.getRequirement() + "</font></td></tr></table>" );
 		}
+	}
+
+	private static final void addBasementChoiceSpoilers( StringBuffer buffer, String choice1, String choice2 )
+	{
+		String text = buffer.toString();
+		buffer.setLength(0);
+
+		int index1 = 0, index2;
+
+		// Add first choice spoiler
+		index2 = text.indexOf( "</form>", index1 );
+		buffer.append( text.substring( index1, index2 ) );
+		buffer.append( "<br><font size=-1>(" + choice1 + ")</font></form>" );
+		index1 = index2 + 7;
+
+		// Add second choice spoiler
+		index2 = text.indexOf( "</form>", index1 );
+		buffer.append( text.substring( index1, index2 ) );
+		buffer.append( "<br><font size=-1>(" + choice2 + ")</font></form>" );
+		index1 = index2 + 7;
+
+		// Append remainder of buffer
+		buffer.append( text.substring( index1 ) );
 	}
 
 	private static final void addPreAscensionReminders( StringBuffer buffer )
