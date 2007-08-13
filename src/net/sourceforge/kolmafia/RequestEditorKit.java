@@ -1152,7 +1152,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			if ( buffer.indexOf( "showplayer.php" ) != -1 && buffer.indexOf( "rcm.js" ) == -1 && buffer.indexOf( "rcm.2.js" ) == -1 )
 				addChatFeatures( buffer );
 
-			StaticEntity.globalStringReplace( buffer, "type=text ", "type=text onFocus=\"this.select();\" " );
+			StaticEntity.globalStringReplace( buffer, "type=text ", "type=text onFocus='this.select();' " );
 		}
 
 		String defaultColor = StaticEntity.getProperty( "defaultBorderColor" );
