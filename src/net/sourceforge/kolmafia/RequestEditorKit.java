@@ -43,7 +43,6 @@ import java.io.FileOutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -1176,7 +1175,8 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( buffer.indexOf( "Got Silk?" ) != -1 || buffer.indexOf( "Save the Dolls" ) != -1 || buffer.indexOf( "Take the Red Pill" ) != -1 )
 			return;
 
-		buffer.insert( buffer.indexOf( "</head>" ), "<script language=\"Javascript\" src=\"/basics.js\" />" );
+		if ( buffer.indexOf( "basics.js" ) == -1 )
+			buffer.insert( buffer.indexOf( "</head>" ), "<script language=\"Javascript\" src=\"/basics.js\"></script></head>" );
 
 		boolean hasCheck = AdventureRequest.checkBasement( false, buffer.toString() );
 
