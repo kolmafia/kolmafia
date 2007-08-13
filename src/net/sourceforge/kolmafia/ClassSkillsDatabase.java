@@ -297,11 +297,15 @@ public class ClassSkillsDatabase extends KoLDatabase
 	 */
 
 	public static final int getMPConsumptionById( int skillId )
+	{	return getMPConsumptionById( skillId, false );
+	}
+
+	public static final int getMPConsumptionById( int skillId, boolean justCast )
 	{
 		// Summon Candy Hearts has a special mana cost.
 		if ( skillId == 18 )
 		{
-			int count = StaticEntity.getIntegerProperty( "candyHeartSummons" );
+			int count = StaticEntity.getIntegerProperty( "candyHeartSummons" ) - (justCast ? 1 : 0);
 			return Math.max( ((count + 1) * (count + 2)) / 2 + KoLCharacter.getManaCostAdjustment(), 1 );
 		}
 
