@@ -299,14 +299,6 @@ public abstract class MoodSettings implements KoLConstants
 			}
 		}
 
-		// Muscle class characters are rather special when it comes
-		// to their default displayList.
-
-		if ( NPCStoreDatabase.contains( "cheap wind-up clock" ) )
-			addTrigger( "lose_effect", "Ticking Clock", getDefaultAction( "lose_effect", "Ticking Clock" ) );
-		if ( NPCStoreDatabase.contains( "blood of the wereseal" ) )
-			addTrigger( "lose_effect", "Temporary Lycanthropy", getDefaultAction( "lose_effect", "Temporary Lycanthropy" ) );
-
 		// Now add in all the buffs from the minimal buff set, as those
 		// are included here.
 
@@ -889,64 +881,9 @@ public abstract class MoodSettings implements KoLConstants
 		}
 		else if ( type.equals( "lose_effect" ) )
 		{
-			if ( name.equals( "Ultrahydrated" ) )
-				return "adventure 1 oasis";
-
-			if ( name.equals( "Butt-Rock Hair" ) )
-				return "use 5 can of hair spray";
-
-			if ( name.equals( "Go Get 'Em, Tiger!" ) )
-				return "use 5 Ben-Gal Balm";
-
-			if ( name.equals( "Ticking Clock" ) )
-				return "use 1 cheap wind-up clock";
-
-			if ( name.equals( "Temporary Lycanthropy" ) )
-				return "use 1 blood of the Wereseal";
-
-			if ( name.equals( "Half-Astral" ) )
-				return "use 1 astral mushroom";
-
-			// Tongues require snowcones
-
-			if ( name.endsWith( "Tongue" ) )
-				return "use 1 " + name.substring( 0, name.indexOf( " " ) ).toLowerCase() + " snowcone";
-
-			// Cupcake effects require cupcakes
-
-			if ( name.equals( "Cupcake of Choice" ) )
-				return "use 1 blue-frosted astral cupcake";
-			if ( name.equals( "The Cupcake of Wrath" ) )
-				return "use 1 green-frosted astral cupcake";
-			if ( name.equals( "Shiny Happy Cupcake" ) )
-				return "use 1 orange-frosted astral cupcake";
-			if ( name.equals( "Your Cupcake Senses Are Tingling" ) )
-				return "use 1 pink-frosted astral cupcake";
-			if ( name.equals( "Tiny Bubbles in the Cupcake" ) )
-				return "use 1 purple-frosted astral cupcake";
-
-			// Laboratory effects
-
-			if ( name.equals( "Wasabi Sinuses" ) )
-				return "use 1 Knob Goblin nasal spray";
-
-			if ( name.equals( "Peeled Eyeballs" ) )
-				return "use 1 Knob Goblin eyedrops";
-
-			if ( name.equals( "Sharp Weapon" ) )
-				return "use 1 Knob Goblin sharpening spray";
-
-			if ( name.equals( "Heavy Petting" ) )
-				return "use 1 Knob Goblin pet-buffing spray";
-
-			if ( name.equals( "Big Veiny Brain" ) )
-				return "use 1 Knob Goblin learning pill";
-
-			// Finally, fall back on skills
-
-			String skillName = UneffectRequest.effectToSkill( name );
-			if ( KoLCharacter.hasSkill( skillName ) )
-				return "cast 1 " + skillName;
+			String action = StatusEffectDatabase.getDefaultAction( name );
+			if ( action != null )
+				return action;
 		}
 
 		return strictAction;
@@ -983,8 +920,12 @@ public abstract class MoodSettings implements KoLConstants
 
 		private StringBuffer stringForm;
 
+		private String action;
 		private String type, name;
-		private String action, command, count, parameters;
+
+		private int count;
+		private AdventureResult item;
+		private UseSkillRequest skill;
 
 		public MoodTrigger( String type, AdventureResult effect, String action )
 		{
@@ -998,41 +939,32 @@ public abstract class MoodSettings implements KoLConstants
 				// and the parameter's unambiguous form.
 
 				int spaceIndex = action.indexOf( " " );
+				String parameters = KoLDatabase.getDisplayName( action.substring( spaceIndex + 1 ).trim() );
 
-				this.command = action.substring( 0, spaceIndex );
-				this.parameters = action.substring( spaceIndex + 1 ).trim();
-
-				if ( this.command.equals( "use" ) )
+				if ( action.startsWith( "use" ) )
 				{
-					AdventureResult item = KoLmafiaCLI.getFirstMatchingItem( this.parameters );
-
-					this.count = String.valueOf( item.getCount() );
-					this.parameters = KoLDatabase.getCanonicalName( item.getName() );
+					this.item = KoLmafiaCLI.getFirstMatchingItem( parameters );
+					this.count = item.getCount();
+					this.action = "use " + count + " " + this.item.getName();
 				}
 				else
 				{
-					this.count = "1";
+					this.count = 1;
 
-					if ( Character.isDigit( this.parameters.charAt(0) ) )
+					if ( Character.isDigit( parameters.charAt(0) ) )
 					{
-						spaceIndex = this.parameters.indexOf( " " );
-						this.count = this.parameters.substring( 0, spaceIndex );
-
-						this.parameters = this.parameters.substring( spaceIndex ).trim();
-
-						if ( !ClassSkillsDatabase.contains( this.parameters ) )
-							this.parameters = KoLmafiaCLI.getSkillName( this.parameters );
+						spaceIndex = parameters.indexOf( " " );
+						this.count = StaticEntity.parseInt( parameters.substring( 0, spaceIndex ) );
+						parameters = parameters.substring( spaceIndex ).trim();
 					}
-				}
 
-				this.action = this.command + " " + this.count + " " + this.parameters;
+					parameters = KoLmafiaCLI.getSkillName( parameters );
+					this.skill = UseSkillRequest.getInstance( parameters );
+					this.action = "cast " + count + " " + this.skill.getSkillName();
+				}
 			}
 			else
 			{
-				this.command = action;
-				this.count = "";
-				this.parameters = "";
-
 				this.action = action;
 			}
 
@@ -1062,18 +994,28 @@ public abstract class MoodSettings implements KoLConstants
 		{	return this.action;
 		}
 
-		public String getCommand()
-		{	return this.command;
-		}
-
 		public String toString()
 		{	return this.stringForm.toString();
 		}
 
 		public String toSetting()
 		{
-			return this.effect == null ? this.type + " => " + this.action : this.type + " " +
-				KoLDatabase.getCanonicalName( this.name ) + " => " + this.action;
+			if ( this.effect == null )
+				return this.type + " => " + this.action;
+
+			if ( this.item != null )
+			{
+				return this.type + " " + KoLDatabase.getCanonicalName( this.name ) +
+					" => use " + this.count + " " + KoLDatabase.getCanonicalName( this.item.getName() );
+			}
+
+			if ( this.skill != null )
+			{
+				return this.type + " " + KoLDatabase.getCanonicalName( this.name ) +
+					" => cast " + this.count + " " + KoLDatabase.getCanonicalName( this.skill.getSkillName() );
+			}
+
+			return this.type + " " + KoLDatabase.getCanonicalName( this.name ) + " => " + this.action;
 		}
 
 		public boolean equals( Object o )
@@ -1096,15 +1038,22 @@ public abstract class MoodSettings implements KoLConstants
 
 		public void execute( int multiplicity )
 		{
-			if ( this.shouldExecute( multiplicity ) )
+			if ( !this.shouldExecute( multiplicity ) )
+				return;
+
+			if ( item != null )
 			{
-				String actualAction = this.action;
-
-				if ( multiplicity > 1 && (this.command.startsWith( "use" ) || this.command.startsWith("cast")) )
-					actualAction = this.command + " " + (StaticEntity.parseInt( this.count ) * multiplicity) + " " + this.parameters;
-
-				KoLmafiaCLI.DEFAULT_SHELL.executeLine( actualAction );
+				RequestThread.postRequest( new ConsumeItemRequest( item.getInstance( item.getCount() * multiplicity ) ) );
+				return;
 			}
+			else if ( skill != null )
+			{
+				skill.setBuffCount( this.count * multiplicity );
+				RequestThread.postRequest( skill );
+				return;
+			}
+
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( this.action );
 		}
 
 		public boolean shouldExecute( int multiplicity )
@@ -1197,19 +1146,7 @@ public abstract class MoodSettings implements KoLConstants
 			}
 
 			this.stringForm.append( ", " );
-
-			if ( this.action.startsWith( "use" ) )
-			{
-				this.stringForm.append( this.command );
-				this.stringForm.append( " " );
-				this.stringForm.append( this.count );
-				this.stringForm.append( " " );
-				this.stringForm.append( KoLDatabase.getDisplayName( this.parameters ) );
-			}
-			else
-			{
-				this.stringForm.append( this.action );
-			}
+			this.stringForm.append( this.action );
 		}
 
 		public static final MoodTrigger constructNode( String line )

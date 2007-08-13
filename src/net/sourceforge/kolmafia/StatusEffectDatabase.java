@@ -36,7 +36,6 @@ package net.sourceforge.kolmafia;
 import java.io.BufferedReader;
 import java.io.File;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -52,6 +51,7 @@ public class StatusEffectDatabase extends KoLDatabase
 	private static final Map nameById = new TreeMap();
 	private static final Map dataNameById = new TreeMap();
 	private static final Map effectByName = new TreeMap();
+	private static final TreeMap defaultActions = new TreeMap();
 
 	private static final Map imageById = new TreeMap();
 	private static final Map descriptionById = new TreeMap();
@@ -65,7 +65,10 @@ public class StatusEffectDatabase extends KoLDatabase
 		while ( (data = readData( reader )) != null )
 		{
 			if ( data.length >= 3 )
-				addToDatabase( Integer.valueOf( data[0] ), data[1], data[2], data.length > 3 ? data[3] : null );
+			{
+				addToDatabase( Integer.valueOf( data[0] ), data[1], data[2],
+					data.length > 3 ? data[3] : null, data.length > 4 ? data[4] : null );
+			}
 		}
 
 		try
@@ -81,7 +84,7 @@ public class StatusEffectDatabase extends KoLDatabase
 		}
 	}
 
-	private static final void addToDatabase( Integer effectId, String name, String image, String descriptionId )
+	private static final void addToDatabase( Integer effectId, String name, String image, String descriptionId, String defaultAction )
 	{
 		nameById.put( effectId, getDisplayName( name ) );
 		dataNameById.put( effectId, name );
@@ -93,6 +96,13 @@ public class StatusEffectDatabase extends KoLDatabase
 
 		descriptionById.put( effectId, descriptionId );
 		effectByDescription.put( descriptionId, effectId );
+
+		if ( defaultAction != null )
+			defaultActions.put( name, defaultAction );
+	}
+
+	public static final String getDefaultAction( String effectName )
+	{	return getDisplayName( (String) defaultActions.get( effectName ) );
 	}
 
 	/**
@@ -212,7 +222,7 @@ public class StatusEffectDatabase extends KoLDatabase
 				continue;
 
 			foundChanges = true;
-			addToDatabase( effectId, effectsMatcher.group(3), effectsMatcher.group(2), null );
+			addToDatabase( effectId, effectsMatcher.group(3), effectsMatcher.group(2), null, null );
 		}
 
 		if ( foundChanges )
@@ -225,6 +235,7 @@ public class StatusEffectDatabase extends KoLDatabase
 		LogStream writer = LogStream.openStream( output, true );
 
 		int lastInteger = 1;
+		String defaultAction;
 		Iterator it = dataNameById.keySet().iterator();
 
 		while ( it.hasNext() )
@@ -238,7 +249,13 @@ public class StatusEffectDatabase extends KoLDatabase
 				imageById.get( nextInteger ) );
 
 			if ( descriptionById.containsKey( nextInteger ) )
+			{
 				writer.print( "\t" + descriptionById.get( nextInteger ) );
+
+				defaultAction = (String) defaultActions.get( dataNameById.get( nextInteger ) );
+				if ( !defaultAction.equals( "" ) )
+					writer.print( "\t" + defaultAction );
+			}
 
 			writer.println();
 		}

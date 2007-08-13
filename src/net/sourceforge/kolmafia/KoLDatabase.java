@@ -106,18 +106,8 @@ public class KoLDatabase extends StaticEntity
 
 	public static final String getCanonicalName( String name )
 	{
-		if ( name == null )
-			return null;
-
-		// If the name already contains character entities, getEntities
-		// will turn the "&" characters themselves into "&amp;" entities.
-
-		// Therefore, convert the string to unicode before converting
-		// it (back into) entities
-
-		return StaticEntity.globalStringReplace(
-			RequestEditorKit.getEntities( RequestEditorKit.getUnicode( name ) ).toLowerCase(),
-			"  ", " " );
+		return name == null ? null : name.indexOf( "&" ) != -1 ? name.toLowerCase() :
+			RequestEditorKit.getEntities( name ).toLowerCase();
 	}
 
 	/**
