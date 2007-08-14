@@ -53,7 +53,6 @@ public class AdventureRequest extends KoLRequest
 	private static AdventureResult goodphial = null;
 	private static AdventureResult goodeffect = null;
 	private static int badelement1 = -1, badelement2 = -1, badelement3 = -1;
-	private static AdventureResult badphial1 = null, badphial2 = null, badphial3 = null;
 	private static AdventureResult badeffect1 = null, badeffect2 = null, badeffect3 = null;
 
 	private static float resistance1, resistance2;
@@ -295,18 +294,15 @@ public class AdventureRequest extends KoLRequest
 
 			// Stench is vulnerable to Sleaze
 			badelement1 = MonsterDatabase.STENCH;
-			badphial1 = STENCH_PHIAL;
 			badeffect1 = STENCH_FORM;
 
 			// Spooky is vulnerable to Stench
 			badelement2 = MonsterDatabase.SPOOKY;
-			badphial2 = SPOOKY_PHIAL;
 			badeffect2 = SPOOKY_FORM;
 
 			// Hot is vulnerable to Sleaze and Stench
 			badelement3 = MonsterDatabase.HEAT;
-			badphial3 = HOT_PHIAL;
-			badeffect2 = HOT_FORM;
+			badeffect3 = HOT_FORM;
 		}
 		else if ( responseText.indexOf( "<b>Singled Out</b>" ) != -1 )
 		{
@@ -319,18 +315,15 @@ public class AdventureRequest extends KoLRequest
 
 			// Sleaze is vulnerable to Cold
 			badelement1 = MonsterDatabase.SLEAZE;
-			badphial1 = SLEAZE_PHIAL;
 			badeffect1 = SLEAZE_FORM;
 
 			// Stench is vulnerable to Cold
 			badelement2 = MonsterDatabase.STENCH;
-			badphial2 = STENCH_PHIAL;
 			badeffect2 = STENCH_FORM;
 
 			// Hot is vulnerable to Sleaze
 			badelement3 = MonsterDatabase.HEAT;
-			badphial3 = HOT_PHIAL;
-			badeffect2 = HOT_FORM;
+			badeffect3 = HOT_FORM;
 		}
 		else if ( responseText.indexOf( "<b>Still Better than Pistachio</b>" ) != -1 )
 		{
@@ -343,18 +336,15 @@ public class AdventureRequest extends KoLRequest
 
 			// Cold is vulnerable to Hot
 			badelement1 = MonsterDatabase.COLD;
-			badphial1 = COLD_PHIAL;
 			badeffect1 = COLD_FORM;
 
 			// Spooky is vulnerable to Hot
 			badelement2 = MonsterDatabase.SPOOKY;
-			badphial2 = SPOOKY_PHIAL;
 			badeffect2 = SPOOKY_FORM;
 
 			// Hot is vulnerable to Stench
 			badelement3 = MonsterDatabase.HEAT;
-			badphial3 = HOT_PHIAL;
-			badeffect2 = HOT_FORM;
+			badeffect3 = HOT_FORM;
 		}
 		else if ( responseText.indexOf( "<b>Unholy Writes</b>" ) != -1 )
 		{
@@ -367,18 +357,15 @@ public class AdventureRequest extends KoLRequest
 
 			// Cold is vulnerable to Spooky
 			badelement1 = MonsterDatabase.COLD;
-			badphial1 = COLD_PHIAL;
 			badeffect1 = COLD_FORM;
 
 			// Spooky is vulnerable to Hot
 			badelement2 = MonsterDatabase.SPOOKY;
-			badphial2 = SPOOKY_PHIAL;
 			badeffect2 = SPOOKY_FORM;
 
 			// Sleaze is vulnerable to Spooky
 			badelement3 = MonsterDatabase.SLEAZE;
-			badphial3 = SLEAZE_PHIAL;
-			badeffect2 = SLEAZE_FORM;
+			badeffect3 = SLEAZE_FORM;
 		}
 		else if ( responseText.indexOf( "<b>The Unthawed</b>" ) != -1 )
 		{
@@ -391,18 +378,15 @@ public class AdventureRequest extends KoLRequest
 
 			// Cold is vulnerable to Spooky
 			badelement1 = MonsterDatabase.COLD;
-			badphial1 = COLD_PHIAL;
 			badeffect1 = COLD_FORM;
 
 			// Stench is vulnerable to Cold
 			badelement2 = MonsterDatabase.STENCH;
-			badphial2 = STENCH_PHIAL;
 			badeffect2 = STENCH_FORM;
 
 			// Sleaze is vulnerable to Cold
 			badelement3 = MonsterDatabase.SLEAZE;
-			badphial3 = SLEAZE_PHIAL;
-			badeffect2 = SLEAZE_FORM;
+			badeffect3 = SLEAZE_FORM;
 		}
 		else
 		{
@@ -676,38 +660,51 @@ public class AdventureRequest extends KoLRequest
 
 	private static final boolean checkForMonster( String responseText )
 	{
-		if ( responseText.indexOf( "The Beast with" ) != -1 )
+		if ( responseText.indexOf( "Don't Fear the Ear" ) != -1 )
 		{
+			// The Beast with n Ears
+			basementTestString = "Monster";
+			return true;
+		}
+
+		if ( responseText.indexOf( "Commence to Pokin" ) != -1 )
+		{
+			// The Beast with n Eyes
 			basementTestString = "Monster";
 			return true;
 		}
 
 		if ( responseText.indexOf( "Stone Golem" ) != -1 )
 		{
+			// A n Stone Golem
 			basementTestString = "Monster";
 			return true;
 		}
 
 		if ( responseText.indexOf( "Hydra" ) != -1 )
 		{
+			// A n-Headed Hydra
 			basementTestString = "Monster";
 			return true;
 		}
 
-		if ( responseText.indexOf( "The Ghost of Fernswarthy" ) != -1 )
+		if ( responseText.indexOf( "Toast the Ghost" ) != -1 )
 		{
+			// The Ghost of Fernswarthy's n great-grandfather
 			basementTestString = "Monster: physically resistant";
 			return true;
 		}
 
 		if ( responseText.indexOf( "Bottles of Beer on a Golem" ) != -1 )
 		{
+			// N Bottles of Beer on a Golem
 			basementTestString = "Monster: blocks most spells";
 			return true;
 		}
 
-		if ( responseText.indexOf( "Dimensional Horror" ) != -1 )
+		if ( responseText.indexOf( "Collapse That Waveform" ) != -1 )
 		{
+			// A n-Dimensional Horror
 			basementTestString = "Monster: blocks physical attacks";
 			return true;
 		}
@@ -722,9 +719,13 @@ public class AdventureRequest extends KoLRequest
 		basementTestValue = 0;
 
 		element1 = -1; element2 = -1;
-                goodelement = badelement1 = badelement2 = badelement3 = -1;
-		goodphial = badphial1 = badphial2 = badphial3 = null;
-		goodeffect = badeffect1 = badeffect2 = badeffect3 = null;
+
+		goodelement = -1;
+		goodphial = null;
+		goodeffect = null;
+
+		badeffect1 = null; badeffect2 = null; badeffect3 = null;
+		badelement1 = -1; badelement2 = -1; badelement3 = -1;
 
 		Matcher levelMatcher = BASEMENT_PATTERN.matcher( responseText );
 		if ( !levelMatcher.find() )
