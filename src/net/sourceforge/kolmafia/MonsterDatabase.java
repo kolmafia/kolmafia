@@ -69,6 +69,24 @@ public class MonsterDatabase extends KoLDatabase
 		return -1;
 	}
 
+	public static final boolean elementalVulnerability( int element1, int element2 )
+	{
+		switch ( element1 )
+		{
+		case COLD:
+			return ( element2 == HEAT || element2 == SPOOKY );
+		case HEAT:
+			return ( element2 == SLEAZE || element2 == STENCH );
+		case SLEAZE:
+			return ( element2 == COLD || element2 == SPOOKY );
+		case SPOOKY:
+			return ( element2 == HEAT || element2 == STENCH );
+		case STENCH:
+			return ( element2 == SLEAZE || element2 == COLD );
+		}
+		return false;
+	}
+
 	static
 	{
 		refreshMonsterTable();

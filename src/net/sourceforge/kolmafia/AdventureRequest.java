@@ -49,8 +49,12 @@ public class AdventureRequest extends KoLRequest
 	private static String basementTestString = "";
 
 	private static int element1 = -1, element2 = -1;
-	private static AdventureResult phial1 = null, phial2 = null;
-	private static AdventureResult effect1 = null, effect2 = null;
+	private static int goodelement = -1;
+	private static AdventureResult goodphial = null;
+	private static AdventureResult goodeffect = null;
+	private static int badelement1 = -1, badelement2 = -1, badelement3 = -1;
+	private static AdventureResult badphial1 = null, badphial2 = null, badphial3 = null;
+	private static AdventureResult badeffect1 = null, badeffect2 = null, badeffect3 = null;
 
 	private static float resistance1, resistance2;
 	private static float expected1, expected2;
@@ -215,7 +219,7 @@ public class AdventureRequest extends KoLRequest
 
 	public static final String getBasementLevelSummary()
 	{
-		if ( basementTestString.equals( "None" ) )
+		if ( basementTestString.equals( "None" ) || basementTestString.startsWith( "Monster" ) )
 			return "";
 
 		if ( basementTestString.equals( "Elemental Resist" ) )
@@ -243,7 +247,15 @@ public class AdventureRequest extends KoLRequest
 				COMMA_FORMAT.format( expected1 ) + " hp), " +
 				COMMA_FORMAT.format( resistance2 ) + "% " + MonsterDatabase.elementNames[ element2 ] + " (" +
 				COMMA_FORMAT.format( expected2 ) + " hp)</br>" +
-				"Needed: " + COMMA_FORMAT.format( basementTestValue ) + "% average resistance";
+				"Needed: " + COMMA_FORMAT.format( basementTestValue ) + "% average resistance or " + goodeffect.getName();
+		}
+
+		if ( basementTestString.startsWith( "Monster" ) )
+		{
+			int index = basementTestString.indexOf( ": " );
+			if ( index == -1 )
+				return "";
+			return "<u>Monster</u>: " + basementTestString.substring( index + 2 );
 		}
 
 		return "<u>" + basementTestString + "</u><br/>" +
@@ -272,60 +284,125 @@ public class AdventureRequest extends KoLRequest
 
 	private static final boolean checkForElementalTest( boolean autoSwitch, String responseText )
 	{
-		if ( responseText.indexOf( "<b>Peace, Bra</b>" ) != -1 )
+		if ( responseText.indexOf( "<b>Peace, Bra!</b>" ) != -1 )
 		{
-			element1 = MonsterDatabase.SLEAZE;
-			element2 = MonsterDatabase.STENCH;
+			element1 = MonsterDatabase.STENCH;
+			element2 = MonsterDatabase.SLEAZE;
 
-			phial1 = SLEAZE_PHIAL;
-			phial2 = STENCH_PHIAL;
+			goodelement = element2;
+			goodphial = SLEAZE_PHIAL;
+			goodeffect = SLEAZE_FORM;
 
-			effect1 = SLEAZE_FORM;
-			effect2 = STENCH_FORM;
+			// Stench is vulnerable to Sleaze
+			badelement1 = MonsterDatabase.STENCH;
+			badphial1 = STENCH_PHIAL;
+			badeffect1 = STENCH_FORM;
+
+			// Spooky is vulnerable to Stench
+			badelement2 = MonsterDatabase.SPOOKY;
+			badphial2 = SPOOKY_PHIAL;
+			badeffect2 = SPOOKY_FORM;
+
+			// Hot is vulnerable to Sleaze and Stench
+			badelement3 = MonsterDatabase.HEAT;
+			badphial3 = HOT_PHIAL;
+			badeffect2 = HOT_FORM;
 		}
 		else if ( responseText.indexOf( "<b>Singled Out</b>" ) != -1 )
 		{
 			element1 = MonsterDatabase.COLD;
 			element2 = MonsterDatabase.SLEAZE;
 
-			phial1 = COLD_PHIAL;
-			phial2 = SLEAZE_PHIAL;
+			goodelement = element1;
+			goodphial = COLD_PHIAL;
+			goodeffect = COLD_FORM;
 
-			effect1 = COLD_FORM;
-			effect2 = SLEAZE_FORM;
+			// Sleaze is vulnerable to Cold
+			badelement1 = MonsterDatabase.SLEAZE;
+			badphial1 = SLEAZE_PHIAL;
+			badeffect1 = SLEAZE_FORM;
+
+			// Stench is vulnerable to Cold
+			badelement2 = MonsterDatabase.STENCH;
+			badphial2 = STENCH_PHIAL;
+			badeffect2 = STENCH_FORM;
+
+			// Hot is vulnerable to Sleaze
+			badelement3 = MonsterDatabase.HEAT;
+			badphial3 = HOT_PHIAL;
+			badeffect2 = HOT_FORM;
 		}
 		else if ( responseText.indexOf( "<b>Still Better than Pistachio</b>" ) != -1 )
 		{
 			element1 = MonsterDatabase.STENCH;
 			element2 = MonsterDatabase.HEAT;
 
-			phial1 = STENCH_PHIAL;
-			phial2 = HOT_PHIAL;
+			goodelement = element1;
+			goodphial = STENCH_PHIAL;
+			goodeffect = STENCH_FORM;
 
-			effect1 = STENCH_FORM;
-			effect2 = HOT_FORM;
+			// Cold is vulnerable to Hot
+			badelement1 = MonsterDatabase.COLD;
+			badphial1 = COLD_PHIAL;
+			badeffect1 = COLD_FORM;
+
+			// Spooky is vulnerable to Hot
+			badelement2 = MonsterDatabase.SPOOKY;
+			badphial2 = SPOOKY_PHIAL;
+			badeffect2 = SPOOKY_FORM;
+
+			// Hot is vulnerable to Stench
+			badelement3 = MonsterDatabase.HEAT;
+			badphial3 = HOT_PHIAL;
+			badeffect2 = HOT_FORM;
 		}
 		else if ( responseText.indexOf( "<b>Unholy Writes</b>" ) != -1 )
 		{
 			element1 = MonsterDatabase.HEAT;
 			element2 = MonsterDatabase.SPOOKY;
 
-			phial1 = HOT_PHIAL;
-			phial2 = SPOOKY_PHIAL;
+			goodelement = element1;
+			goodphial = HOT_PHIAL;
+			goodeffect = HOT_FORM;
 
-			effect1 = HOT_FORM;
-			effect2 = SPOOKY_FORM;
+			// Cold is vulnerable to Spooky
+			badelement1 = MonsterDatabase.COLD;
+			badphial1 = COLD_PHIAL;
+			badeffect1 = COLD_FORM;
+
+			// Spooky is vulnerable to Hot
+			badelement2 = MonsterDatabase.SPOOKY;
+			badphial2 = SPOOKY_PHIAL;
+			badeffect2 = SPOOKY_FORM;
+
+			// Sleaze is vulnerable to Spooky
+			badelement3 = MonsterDatabase.SLEAZE;
+			badphial3 = SLEAZE_PHIAL;
+			badeffect2 = SLEAZE_FORM;
 		}
 		else if ( responseText.indexOf( "<b>The Unthawed</b>" ) != -1 )
 		{
 			element1 = MonsterDatabase.SPOOKY;
 			element2 = MonsterDatabase.COLD;
 
-			phial1 = SPOOKY_PHIAL;
-			phial2 = COLD_PHIAL;
+			goodelement = element1;
+			goodphial = SPOOKY_PHIAL;
+			goodeffect = SPOOKY_FORM;
 
-			effect1 = SPOOKY_FORM;
-			effect2 = COLD_FORM;
+			// Cold is vulnerable to Spooky
+			badelement1 = MonsterDatabase.COLD;
+			badphial1 = COLD_PHIAL;
+			badeffect1 = COLD_FORM;
+
+			// Stench is vulnerable to Cold
+			badelement2 = MonsterDatabase.STENCH;
+			badphial2 = STENCH_PHIAL;
+			badeffect2 = STENCH_FORM;
+
+			// Sleaze is vulnerable to Cold
+			badelement3 = MonsterDatabase.SLEAZE;
+			badphial3 = SLEAZE_PHIAL;
+			badeffect2 = SLEAZE_FORM;
 		}
 		else
 		{
@@ -349,26 +426,45 @@ public class AdventureRequest extends KoLRequest
 		// According to http://forums.hardcoreoxygenation.com/viewtopic.php?t=3973,
 		// total elemental damage is roughly 4.48 * x^1.4.  Assume the worst-case.
 
-		float damage = (((float) Math.pow( basementLevel, 1.4 )) * 4.48f + 8.0f) * 1.05f;
+		float damage1 = (((float) Math.pow( basementLevel, 1.4 )) * 4.48f + 8.0f) * 1.05f;
+		float damage2 = damage1;
 
 		resistance1 = KoLCharacter.getElementalResistance( element1 );
 		resistance2 = KoLCharacter.getElementalResistance( element2 );
 
-		if ( activeEffects.contains( effect1 ) )
-			resistance1 = 100.0f;
+		if ( activeEffects.contains( goodeffect ) )
+                {
+                        if ( element1 == goodelement )
+                                resistance1 = 100.0f;
+                        else
+                                resistance2 = 100.0f;
+                }
 
-		if ( activeEffects.contains( effect2 ) )
-			resistance2 = 100.0f;
+		if ( activeEffects.contains( badeffect1 ) ||
+		     activeEffects.contains( badeffect2 ) ||
+		     activeEffects.contains( badeffect3 ) )
+		{
+			if ( element1 == badelement1 || element1 == badelement2 || element1 == badelement3 )
+			{
+				damage1 *= 2;
+				resistance1 /= 2;
+			}
+			else
+			{
+				damage2 *= 2;
+				resistance2 /= 2;
+			}
+		}
 
-		expected1 = Math.max( 1.0f, damage * ( (100.0f - resistance1) / 100.0f ) );
-		expected2 = Math.max( 1.0f, damage * ( (100.0f - resistance2) / 100.0f ) );
+		expected1 = Math.max( 1.0f, damage1 * ( (100.0f - resistance1) / 100.0f ) );
+		expected2 = Math.max( 1.0f, damage2 * ( (100.0f - resistance2) / 100.0f ) );
 
 		// If you can survive the current elemental test even without a phial,
 		// then don't bother with any extra buffing.
 
 		basementTestString = "Elemental Resist";
 		basementTestCurrent = Math.min( resistance1, resistance2 );
-		basementTestValue = Math.max( 0, (int) Math.ceil( 100.0f * (1.0f - KoLCharacter.getMaximumHP() / (damage + damage) )) );
+		basementTestValue = Math.max( 0, (int) Math.ceil( 100.0f * (1.0f - KoLCharacter.getMaximumHP() / (damage1 + damage2) )) );
 
 		if ( expected1 + expected2 < KoLCharacter.getCurrentHP() )
 			return true;
@@ -379,10 +475,10 @@ public class AdventureRequest extends KoLRequest
 			return KoLmafia.permitsContinue();
 		}
 
-		// If you already have one of the phial effects and it's the right phial
-		// effect, check to see if it's sufficient.
+		// If you already have the right phial effect, check to see if
+		// it's sufficient.
 
-		if ( activeEffects.contains( effect1 ) || activeEffects.contains( effect2 ) )
+		if ( activeEffects.contains( goodeffect ) )
 			return false;
 
 		// If you haven't switched outfits yet, it's possible that a simple
@@ -424,16 +520,9 @@ public class AdventureRequest extends KoLRequest
 			if ( activeEffects.contains( ELEMENT_FORMS[i] ) )
 				(new UneffectRequest( ELEMENT_FORMS[i] )).run();
 
-		if ( expected1 >= expected2 )
-		{
-			(new ConsumeItemRequest( phial1 )).run();
-			StaticEntity.getClient().recoverHP( (int) (1.0f + expected2) );
-		}
-		else
-		{
-			(new ConsumeItemRequest( phial2 )).run();
-			StaticEntity.getClient().recoverHP( (int) (1.0f + expected1) );
-		}
+		(new ConsumeItemRequest( goodphial )).run();
+		float damage = ( expected1 >= expected2 ) ? expected2 : expected1;
+		StaticEntity.getClient().recoverHP( (int) (1.0f + damage) );
 
 		return KoLmafia.permitsContinue();
 	}
@@ -463,7 +552,7 @@ public class AdventureRequest extends KoLRequest
 			return true;
 		}
 
-		if ( responseText.indexOf( "Gathering: +The Magic" ) != -1 || responseText.indexOf( "Mop the Floor" ) != -1 || responseText.indexOf( "'doo" ) != -1 )
+		if ( responseText.indexOf( "Gathering:  The Magic" ) != -1 || responseText.indexOf( "Mop the Floor" ) != -1 || responseText.indexOf( "'doo" ) != -1 )
 		{
 			basementTestString = "Buffed Mysticality";
 			basementTestCurrent = KoLCharacter.getAdjustedMysticality();
@@ -585,6 +674,47 @@ public class AdventureRequest extends KoLRequest
 		return false;
 	}
 
+	private static final boolean checkForMonster( String responseText )
+	{
+		if ( responseText.indexOf( "The Beast with" ) != -1 )
+		{
+			basementTestString = "Monster";
+			return true;
+		}
+
+		if ( responseText.indexOf( "Stone Golem" ) != -1 )
+		{
+			basementTestString = "Monster";
+			return true;
+		}
+
+		if ( responseText.indexOf( "Hydra" ) != -1 )
+		{
+			basementTestString = "Monster";
+			return true;
+		}
+
+		if ( responseText.indexOf( "The Ghost of Fernswarthy" ) != -1 )
+		{
+			basementTestString = "Monster: physically resistant";
+			return true;
+		}
+
+		if ( responseText.indexOf( "Bottles of Beer on a Golem" ) != -1 )
+		{
+			basementTestString = "Monster: blocks most spells";
+			return true;
+		}
+
+		if ( responseText.indexOf( "Dimensional Horror" ) != -1 )
+		{
+			basementTestString = "Monster: blocks physical attacks";
+			return true;
+		}
+
+		return false;
+	}
+
 	public static final void newBasementLevel( String responseText )
 	{
 		basementErrorMessage = null;
@@ -592,8 +722,9 @@ public class AdventureRequest extends KoLRequest
 		basementTestValue = 0;
 
 		element1 = -1; element2 = -1;
-		phial1 = null; phial2 = null;
-		effect1 = null; effect2 = null;
+                goodelement = badelement1 = badelement2 = badelement3 = -1;
+		goodphial = badphial1 = badphial2 = badphial3 = null;
+		goodeffect = badeffect1 = badeffect2 = badeffect3 = null;
 
 		Matcher levelMatcher = BASEMENT_PATTERN.matcher( responseText );
 		if ( !levelMatcher.find() )
@@ -618,10 +749,14 @@ public class AdventureRequest extends KoLRequest
 		if ( checkForDrainTest( autoSwitch, responseText ) )
 			return true;
 
+		if ( !checkForMonster( responseText ) )
+			// Presumably, it's a reward room
+			return false;
+
 		if ( autoSwitch )
 			changeBasementOutfit( "damage" );
 
-		return false;
+		return true;
 	}
 
 	private void handleBasement()
