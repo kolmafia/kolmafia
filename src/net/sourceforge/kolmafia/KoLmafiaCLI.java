@@ -3460,7 +3460,7 @@ public class KoLmafiaCLI extends KoLmafia
 		int spaceIndex = parameters.indexOf( " " );
 
 		String list = spaceIndex == -1 ? parameters : parameters.substring( 0, spaceIndex ).trim();
-		String filter = spaceIndex == -1 ? "" : parameters.substring( spaceIndex ).trim();
+		String filter = spaceIndex == -1 ? "" : KoLDatabase.getCanonicalName( parameters.substring( spaceIndex ).trim() );
 
 		PrintStream desiredOutputStream = sessionPrint ? RequestLogger.getSessionStream() : RequestLogger.INSTANCE;
 
@@ -3639,7 +3639,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 				for ( int i = 0; i < items.length; ++i )
 				{
-					currentItem = items[i].toString().toLowerCase();
+					currentItem = KoLDatabase.getCanonicalName( items[i].toString() );
 					if ( currentItem.indexOf( filter ) != -1 )
 						resultList.add( items[i] );
 				}
