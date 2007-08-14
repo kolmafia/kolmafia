@@ -141,10 +141,21 @@ public abstract class KoLmafia implements KoLConstants
 		stopEncounters.add( "The Oracle Will See You Now" );
 		stopEncounters.add( "A Grave Situation" );
 		stopEncounters.add( "Take a Dusty Look!" );
-		stopEncounters.add( "Let's Make a Deal!" );
 		stopEncounters.add( "Drawn Onward" );
 		stopEncounters.add( "Mr. Alarm" );
 		stopEncounters.add( "We'll All Be Flat" );
+		// Adventure in the Arid, Extra-Dry desert until you find the Oasis
+		stopEncounters.add( "Let's Make a Deal!" );
+		// Get Ultra-hydrated and adventure in the Arid, Extra-Dry
+		// desert until you are given the task to find a stone rose.
+		stopEncounters.add( "A Sietch in Time" );
+		// Adventure in Oasis until you have a stone rose and a drum machine,
+		// Buy black paint.
+		// Come back to the Arid, Extra-Dry Desert and adventure until you are
+		// tasked to find the missing pages from the worm-riding manual.
+		stopEncounters.add( "Walk Without Rhythm" );
+		// Adventure in Oasis until you have worm-riding manual pages 3-15
+		// Adventure in Arid, Extra-Dry Desert until you have worm-riding hooks.
 		stopEncounters.add( "Hoom Hah" );
 		stopEncounters.add( "Every Seashell Has a Story to Tell If You're Listening" );
 		stopEncounters.add( "Leavesdropping" );

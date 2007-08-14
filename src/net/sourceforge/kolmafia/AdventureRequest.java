@@ -215,6 +215,9 @@ public class AdventureRequest extends KoLRequest
 
 	public static final String getBasementLevelSummary()
 	{
+		if ( basementTestString.equals( "None" ) )
+			return "";
+
 		if ( basementTestString.equals( "Elemental Resist" ) )
 		{
 			return basementTestString + " Test: " +
@@ -223,6 +226,9 @@ public class AdventureRequest extends KoLRequest
 				COMMA_FORMAT.format( resistance2 ) + "% " + MonsterDatabase.elementNames[ element2 ] + " (" +
 				COMMA_FORMAT.format( expected2 ) + " hp)";
 		}
+
+		if ( basementTestString.startsWith( "Encounter" ) )
+			return basementTestString;
 
 		return basementTestString + " Test: " + COMMA_FORMAT.format( basementTestCurrent ) + " current, " +
 			COMMA_FORMAT.format( basementTestValue ) + " needed";
@@ -439,7 +445,7 @@ public class AdventureRequest extends KoLRequest
 
 		float statRequirement = ((float) Math.pow( basementLevel, 1.4 ) + 2.0f) * 1.05f;
 
-		if ( responseText.indexOf( "Lift 'em" ) != -1 || responseText.indexOf( "Push It Real Good" ) != -1 || responseText.indexOf( "Ring That Bell" ) != -1 )
+		if ( responseText.indexOf( "Lift 'em" ) != -1 || responseText.indexOf( "Push it Real Good" ) != -1 || responseText.indexOf( "Ring that Bell" ) != -1 )
 		{
 			basementTestString = "Buffed Muscle";
 			basementTestCurrent = KoLCharacter.getAdjustedMuscle();
@@ -457,7 +463,7 @@ public class AdventureRequest extends KoLRequest
 			return true;
 		}
 
-		if ( responseText.indexOf( "Gathering: The Magic" ) != -1 || responseText.indexOf( "Mop the Floor" ) != -1 || responseText.indexOf( "'doo" ) != -1 )
+		if ( responseText.indexOf( "Gathering: +The Magic" ) != -1 || responseText.indexOf( "Mop the Floor" ) != -1 || responseText.indexOf( "'doo" ) != -1 )
 		{
 			basementTestString = "Buffed Mysticality";
 			basementTestCurrent = KoLCharacter.getAdjustedMysticality();
@@ -556,7 +562,30 @@ public class AdventureRequest extends KoLRequest
 		return false;
 	}
 
-	public static final boolean checkBasement( boolean autoSwitch, String responseText )
+	private static final boolean checkForStatReward( String responseText )
+	{
+		if ( responseText.indexOf( "Got Silk?" ) != -1 )
+		{
+			basementTestString = "Encounter: Got Silk?/Leather is Betther";
+			return true;
+		}
+
+		if ( responseText.indexOf( "Save the Dolls" ) != -1 )
+		{
+                        basementTestString = "Encounter: Save the Dolls/Save the Cardboard";
+			return true;
+		}
+
+		if ( responseText.indexOf( "Take the Red Pill" ) != -1 )
+		{
+			basementTestString = "Encounter: Take the Red Pill/Take the Blue Pill";
+			return true;
+		}
+
+		return false;
+	}
+
+	public static final void newBasementLevel( String responseText )
 	{
 		basementErrorMessage = null;
 		basementTestString = "None";
@@ -568,11 +597,16 @@ public class AdventureRequest extends KoLRequest
 
 		Matcher levelMatcher = BASEMENT_PATTERN.matcher( responseText );
 		if ( !levelMatcher.find() )
-			return false;
+			return;
 
 		basementLevel = StaticEntity.parseInt( levelMatcher.group(1) );
+	}
 
-		if ( responseText.indexOf( "Got Silk?" ) != -1 || responseText.indexOf( "Save the Dolls" ) != -1 || responseText.indexOf( "Take the Red Pill" ) != -1 )
+	public static final boolean checkBasement( boolean autoSwitch, String responseText )
+	{
+		newBasementLevel( responseText );
+
+		if ( checkForStatReward( responseText ) )
 			return false;
 
 		if ( checkForElementalTest( autoSwitch, responseText ) )
@@ -592,33 +626,22 @@ public class AdventureRequest extends KoLRequest
 
 	private void handleBasement()
 	{
-		Matcher levelMatcher = BASEMENT_PATTERN.matcher( responseText );
-		if ( !levelMatcher.find() )
-			return;
-
-		basementLevel = StaticEntity.parseInt( levelMatcher.group(1) );
+		checkBasement( true, responseText );
 
 		if ( this.responseText.indexOf( "Got Silk?" ) != -1 )
 		{
-			basementTestString = "None";
-			basementTestValue = 0;
 			this.addFormField( "action", KoLCharacter.isMoxieClass() ? "1" : "2" );
 		}
 		else if ( this.responseText.indexOf( "Save the Dolls" ) != -1 )
 		{
-			basementTestString = "None";
-			basementTestValue = 0;
 			this.addFormField( "action", KoLCharacter.isMysticalityClass() ? "1" : "2" );
 		}
 		else if ( this.responseText.indexOf( "Take the Red Pill" ) != -1 )
 		{
-			basementTestString = "None";
-			basementTestValue = 0;
 			this.addFormField( "action", KoLCharacter.isMuscleClass() ? "1" : "2" );
 		}
 		else
 		{
-			checkBasement( true, responseText );
 			this.addFormField( "action", "1" );
 		}
 
@@ -639,7 +662,7 @@ public class AdventureRequest extends KoLRequest
 			super.run();
 		}
 
-		levelMatcher = BASEMENT_PATTERN.matcher( responseText );
+		Matcher levelMatcher = BASEMENT_PATTERN.matcher( responseText );
 		if ( !levelMatcher.find() || basementLevel == StaticEntity.parseInt( levelMatcher.group(1) ) )
 			KoLmafia.updateDisplay( ERROR_STATE, "Failed to pass basement test." );
 	}
