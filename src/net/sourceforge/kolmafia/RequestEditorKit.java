@@ -1172,6 +1172,8 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 	public static final void addBasementSpoilers( StringBuffer buffer )
 	{
+		boolean hasCheck = AdventureRequest.checkBasement( false, buffer.toString() );
+
 		if ( buffer.indexOf( "Got Silk?" ) != -1 )
 		{
 			addBasementChoiceSpoilers( buffer, "Moxie", "Muscle" );
@@ -1192,9 +1194,6 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		if ( buffer.indexOf( "basics.js" ) == -1 )
 			buffer.insert( buffer.indexOf( "</head>" ), "<script language=\"Javascript\" src=\"/basics.js\"></script></head>" );
-
-
-		boolean hasCheck = AdventureRequest.checkBasement( false, buffer.toString() );
 
 		StringBuffer changes = new StringBuffer();
 		changes.append( "<br/><select id=\"outfit\" style=\"width: 250px\"><option value=\"none\">- select an outfit -</option>" );

@@ -1076,9 +1076,11 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		if ( urlString.startsWith( "basement.php" ) )
 		{
 			String summary = AdventureRequest.getBasementLevelSummary();
-
-			RequestLogger.printLine( summary );
-			RequestLogger.updateSessionLog( summary );
+			if ( !summary.equals( "" ) )
+			{
+				RequestLogger.printLine( summary );
+				RequestLogger.updateSessionLog( summary );
+			}
 		}
 
 		return true;
