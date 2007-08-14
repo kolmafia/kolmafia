@@ -237,7 +237,7 @@ public class AdventureRequest extends KoLRequest
 				COMMA_FORMAT.format( expected1 ) + " hp), " +
 				COMMA_FORMAT.format( resistance2 ) + "% " + MonsterDatabase.elementNames[ element2 ] + " (" +
 				COMMA_FORMAT.format( expected2 ) + " hp)</br>" +
-				"Needed: " + COMMA_FORMAT.format( basementTestValue ) + "%";
+				"Needed: " + COMMA_FORMAT.format( basementTestValue ) + "% average resistance";
 		}
 
 		return "<u>" + basementTestString + "</u><br/>" +
@@ -343,9 +343,7 @@ public class AdventureRequest extends KoLRequest
 		// According to http://forums.hardcoreoxygenation.com/viewtopic.php?t=3973,
 		// total elemental damage is roughly 4.48 * x^1.4.  Assume the worst-case.
 
-		float totalDamage = ((float) Math.pow( basementLevel, 1.4 )) * 4.48f * 1.05f;
-		float damage1 = totalDamage / 2.0f;
-		float damage2 = totalDamage / 2.0f;
+		float damage = (((float) Math.pow( basementLevel, 1.4 )) * 4.48f + 8.0f) * 1.05f;
 
 		resistance1 = KoLCharacter.getElementalResistance( element1 );
 		resistance2 = KoLCharacter.getElementalResistance( element2 );
@@ -356,15 +354,15 @@ public class AdventureRequest extends KoLRequest
 		if ( activeEffects.contains( effect2 ) )
 			resistance2 = 100.0f;
 
-		expected1 = Math.max( 1.0f, damage1 * ( (100.0f - resistance1) / 100.0f ) );
-		expected2 = Math.max( 1.0f, damage2 * ( (100.0f - resistance2) / 100.0f ) );
+		expected1 = Math.max( 1.0f, damage * ( (100.0f - resistance1) / 100.0f ) );
+		expected2 = Math.max( 1.0f, damage * ( (100.0f - resistance2) / 100.0f ) );
 
 		// If you can survive the current elemental test even without a phial,
 		// then don't bother with any extra buffing.
 
 		basementTestString = "Elemental Resist";
 		basementTestCurrent = Math.min( resistance1, resistance2 );
-		basementTestValue = Math.max( 0, (int) Math.ceil( 100.0f * (1.0f - KoLCharacter.getMaximumHP() / (damage1 + damage2) )) );
+		basementTestValue = Math.max( 0, (int) Math.ceil( 100.0f * (1.0f - KoLCharacter.getMaximumHP() / (damage + damage) )) );
 
 		if ( expected1 + expected2 < KoLCharacter.getCurrentHP() )
 			return true;
