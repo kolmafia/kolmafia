@@ -217,14 +217,15 @@ public class AdventureRequest extends KoLRequest
 	{
 		if ( basementTestString.equals( "Elemental Resist" ) )
 		{
-			return basementTestString + " (Current: " +
-				COMMA_FORMAT.format( resistance1 ) + "% " + MonsterDatabase.elementNames[ element1 ] + " = " +
-				COMMA_FORMAT.format( expected1 ) + " damage, " +
-				COMMA_FORMAT.format( resistance2 ) + "% " + MonsterDatabase.elementNames[ element2 ] + " = " +
-				COMMA_FORMAT.format( expected2 ) + " damage)";
+			return basementTestString + " Test: " +
+				COMMA_FORMAT.format( resistance1 ) + "% " + MonsterDatabase.elementNames[ element1 ] + " (" +
+				COMMA_FORMAT.format( expected1 ) + " hp), " +
+				COMMA_FORMAT.format( resistance2 ) + "% " + MonsterDatabase.elementNames[ element2 ] + " (" +
+				COMMA_FORMAT.format( expected2 ) + " hp)";
 		}
 
-		return basementTestString + " (Current: " + COMMA_FORMAT.format( basementTestCurrent ) + ")";
+		return basementTestString + " Test: " + COMMA_FORMAT.format( basementTestCurrent ) + " current, " +
+			COMMA_FORMAT.format( basementTestValue ) + " needed";
 	}
 
 	public static final String getRequirement()
@@ -232,10 +233,10 @@ public class AdventureRequest extends KoLRequest
 		if ( basementTestString.equals( "Elemental Resist" ) )
 		{
 			return "<u>" + basementTestString + "</u><br/>Current: " +
-				COMMA_FORMAT.format( resistance1 ) + "% " + MonsterDatabase.elementNames[ element1 ] + " = " +
-				COMMA_FORMAT.format( expected1 ) + " damage, " +
-				COMMA_FORMAT.format( resistance2 ) + "% " + MonsterDatabase.elementNames[ element2 ] + " = " +
-				COMMA_FORMAT.format( expected2 ) + " damage</br>" +
+				COMMA_FORMAT.format( resistance1 ) + "% " + MonsterDatabase.elementNames[ element1 ] + " (" +
+				COMMA_FORMAT.format( expected1 ) + " hp), " +
+				COMMA_FORMAT.format( resistance2 ) + "% " + MonsterDatabase.elementNames[ element2 ] + " (" +
+				COMMA_FORMAT.format( expected2 ) + " hp)</br>" +
 				"Needed: " + COMMA_FORMAT.format( basementTestValue ) + "%";
 		}
 
@@ -326,19 +327,18 @@ public class AdventureRequest extends KoLRequest
 			return false;
 		}
 
-		if ( canHandleElementTest( autoSwitch, false, element1, element2, effect1, effect2, phial1, phial2 ) )
+		if ( canHandleElementTest( autoSwitch, false ) )
 			return true;
 
 		if ( !autoSwitch )
 			return true;
 
 		changeBasementOutfit( "element" );
-		canHandleElementTest( autoSwitch, true, element1, element2, effect1, effect2, phial1, phial2 );
+		canHandleElementTest( autoSwitch, true );
 		return true;
 	}
 
-	private static final boolean canHandleElementTest( boolean autoSwitch, boolean switchedOutfits,
-		int element1, int element2, AdventureResult effect1, AdventureResult effect2, AdventureResult phial1, AdventureResult phial2 )
+	private static final boolean canHandleElementTest( boolean autoSwitch, boolean switchedOutfits )
 	{
 		// According to http://forums.hardcoreoxygenation.com/viewtopic.php?t=3973,
 		// total elemental damage is roughly 4.48 * x^1.4.  Assume the worst-case.
@@ -347,8 +347,8 @@ public class AdventureRequest extends KoLRequest
 		float damage1 = totalDamage / 2.0f;
 		float damage2 = totalDamage / 2.0f;
 
-		float resistance1 = KoLCharacter.getElementalResistance( element1 );
-		float resistance2 = KoLCharacter.getElementalResistance( element2 );
+		resistance1 = KoLCharacter.getElementalResistance( element1 );
+		resistance2 = KoLCharacter.getElementalResistance( element2 );
 
 		if ( activeEffects.contains( effect1 ) )
 			resistance1 = 100.0f;
@@ -356,8 +356,8 @@ public class AdventureRequest extends KoLRequest
 		if ( activeEffects.contains( effect2 ) )
 			resistance2 = 100.0f;
 
-		float expected1 = Math.max( 1.0f, damage1 * ( (100.0f - resistance1) / 100.0f ) );
-		float expected2 = Math.max( 1.0f, damage2 * ( (100.0f - resistance2) / 100.0f ) );
+		expected1 = Math.max( 1.0f, damage1 * ( (100.0f - resistance1) / 100.0f ) );
+		expected2 = Math.max( 1.0f, damage2 * ( (100.0f - resistance2) / 100.0f ) );
 
 		// If you can survive the current elemental test even without a phial,
 		// then don't bother with any extra buffing.
