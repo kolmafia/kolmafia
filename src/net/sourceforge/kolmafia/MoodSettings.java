@@ -1045,12 +1045,12 @@ public abstract class MoodSettings implements KoLConstants
 
 			if ( item != null )
 			{
-				RequestThread.postRequest( new ConsumeItemRequest( item.getInstance( item.getCount() * multiplicity ) ) );
+				RequestThread.postRequest( new ConsumeItemRequest( item.getInstance( Math.max( 1, item.getCount() * multiplicity ) ) ) );
 				return;
 			}
 			else if ( skill != null )
 			{
-				skill.setBuffCount( this.count * multiplicity );
+				skill.setBuffCount( Math.max( 1, this.count * multiplicity ) );
 				RequestThread.postRequest( skill );
 				return;
 			}
