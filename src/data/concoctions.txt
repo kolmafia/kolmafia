@@ -252,7 +252,7 @@ white chocolate chip cookies	2	white chocolate chips	wad of dough
 
 fishy fish	2	displaced fish	dehydrated caviar
 fishy fish casserole	2	fishy fish	Gnollish casserole dish
-gnatloaf	2	filet of tangy gnat	ancient spice
+gnatloaf	2	filet of tangy gnat (&quot;fotelif&quot;)	ancient spice
 gnatloaf casserole	2	gnatloaf	Gnollish casserole dish
 long pork chop sandwiches	2	long pork	black pepper
 long pork casserole	2	long pork chop sandwiches	Gnollish casserole dish
