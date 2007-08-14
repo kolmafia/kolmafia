@@ -103,22 +103,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		String [] data;
 
 		while ( (data = readData( reader )) != null )
-		{
-			try
-			{
-				addConcoction( data );
-			}
-			catch ( Exception e )
-			{
-				// This should not happen.  Therefore, print
-				// a stack trace for debug purposes.
-
-				printStackTrace( e );
-				System.out.println( data.length );
-				for ( int i = 0; i < data.length; ++i )
-					System.out.println( data[i] );
-			}
-		}
+			addConcoction( data );
 
 		try
 		{
@@ -153,14 +138,14 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		if ( itemId <= 0 )
 		{
-			System.out.println( "Unknown concoction: " + name );
+			RequestLogger.printLine( "Unknown concoction: " + name );
 			bogus = true;
 		}
 
 		int mixingMethod = parseInt( data[1] );
 		if ( mixingMethod <= 0 || mixingMethod >= METHOD_COUNT )
 		{
-			System.out.println( "Unknown mixing method (" + mixingMethod + ") for concoction: " + name );
+			RequestLogger.printLine( "Unknown mixing method (" + mixingMethod + ") for concoction: " + name );
 			bogus = true;
 		}
 
@@ -170,7 +155,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			AdventureResult ingredient = parseIngredient( data[i] );
 			if ( ingredient == null || ingredient.getItemId() == -1 || ingredient.getName() == null )
 			{
-				System.out.println( "Unknown ingredient (" + data[i] + ") for concoction: " + name );
+				RequestLogger.printLine( "Unknown ingredient (" + data[i] + ") for concoction: " + name );
 				bogus = true;
 				continue;
 			}

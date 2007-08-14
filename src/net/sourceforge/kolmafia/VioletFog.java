@@ -202,7 +202,7 @@ public class VioletFog
 
 			if ( filled == 0 )
 			{
-				System.out.println( "Internal error: " + unfilled + " unreachable nodes in violet fog routing table" );
+				RequestLogger.printLine( "Internal error: " + unfilled + " unreachable nodes in violet fog routing table" );
 				break;
 			}
 

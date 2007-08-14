@@ -1042,7 +1042,7 @@ public class AdventureDatabase extends KoLDatabase
 			{
 				if ( !validateAdventureArea( data[0], adventures ) )
 				{
-					System.out.println( "Invalid adventure area: \"" + data[0] + "\"" );
+					RequestLogger.printLine( "Invalid adventure area: \"" + data[0] + "\"" );
 					continue;
 				}
 

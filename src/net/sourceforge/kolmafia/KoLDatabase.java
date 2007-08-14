@@ -135,12 +135,10 @@ public class KoLDatabase extends StaticEntity
 		List substringList = new ArrayList();
 		String searchString = getCanonicalName( substring.startsWith( "\"" ) ? substring.substring( 1, substring.length() - 1 ) : substring ).trim();
 
-System.out.println( searchString );
-
 		if ( substring.length() == 0 )
 			return substringList;
 
-		if ( substring.indexOf( "\"" ) != -1 )
+		if ( substring.startsWith( "\"" ) )
 		{
 			if ( nameMap.containsKey( searchString ) )
 				substringList.add( searchString );
