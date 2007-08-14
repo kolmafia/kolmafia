@@ -1196,9 +1196,6 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		boolean hasCheck = AdventureRequest.checkBasement( false, buffer.toString() );
 
-		if ( AdventureRequest.stateChanged() )
-			buffer.insert( buffer.indexOf( "</html>" ), "<script language=\"Javascript\"><!-- refreshSidebar(); --></script>" );
-
 		StringBuffer changes = new StringBuffer();
 		changes.append( "<br/><select id=\"outfit\" style=\"width: 250px\"><option value=\"none\">- select an outfit -</option>" );
 
