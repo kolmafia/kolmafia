@@ -99,7 +99,8 @@ public class MonsterDatabase extends KoLDatabase
 						monster.addItem( item );
 						continue;
 					}
-					System.out.println( "Bad item for monster \"" + data[0] + "\": " + data[i] );
+
+					RequestLogger.printLine( "Bad item for monster \"" + data[0] + "\": " + data[i] );
 					bad = true;
 				}
 
@@ -286,7 +287,7 @@ public class MonsterDatabase extends KoLDatabase
 					}
 				}
 
-				System.out.println( "Monster: \"" + name + "\": unknown option: " + option );
+				RequestLogger.printLine( "Monster: \"" + name + "\": unknown option: " + option );
 			}
 			catch ( Exception e )
 			{
