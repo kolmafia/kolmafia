@@ -976,7 +976,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		}
 		else if ( urlString.startsWith( "basement.php" ) )
 		{
-			shouldReset = false;
+			shouldReset = true;
 			location = "Fernswarthy's Basement (Level " + AdventureRequest.getBasementLevel() + ")";
 		}
 		else if ( urlString.startsWith( "dungeon.php" ) )
@@ -1072,6 +1072,10 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "[" + getAdventureCount() + "] " + location );
+
+		if ( urlString.startsWith( "basement.php" ) )
+			RequestLogger.updateSessionLog( AdventureRequest.getBasementLevelSummary() );
+
 		return true;
 	}
 

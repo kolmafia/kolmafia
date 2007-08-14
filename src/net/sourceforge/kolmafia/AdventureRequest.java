@@ -44,10 +44,16 @@ public class AdventureRequest extends KoLRequest
 	private String adventureId;
 
 	private static int basementLevel = 0;
-	private static boolean stateChanged = false;
 	private static float basementTestValue = 0;
 	private static float basementTestCurrent = 0;
 	private static String basementTestString = "";
+
+	private static int element1 = -1, element2 = -1;
+	private static AdventureResult phial1 = null, phial2 = null;
+	private static AdventureResult effect1 = null, effect2 = null;
+
+	private static float resistance1, resistance2;
+	private static float expected1, expected2;
 
 	private static String basementErrorMessage = null;
 
@@ -202,21 +208,40 @@ public class AdventureRequest extends KoLRequest
 		if ( !containsUpdate && !RequestFrame.sidebarFrameExists() )
 			CharpaneRequest.getInstance().run();
 	}
-	
+
 	public static final int getBasementLevel()
 	{	return basementLevel;
 	}
 
-	public static final boolean stateChanged()
-	{	return stateChanged;
+	public static final String getBasementLevelSummary()
+	{
+		if ( basementTestString.equals( "Elemental Resist" ) )
+		{
+			return basementTestString + " (Current: " +
+				COMMA_FORMAT.format( resistance1 ) + "% " + MonsterDatabase.elementNames[ element1 ] + " = " +
+				COMMA_FORMAT.format( expected1 ) + " damage, " +
+				COMMA_FORMAT.format( resistance2 ) + "% " + MonsterDatabase.elementNames[ element2 ] + " = " +
+				COMMA_FORMAT.format( expected2 ) + " damage)";
+		}
+
+		return basementTestString + " (Current: " + COMMA_FORMAT.format( basementTestCurrent ) + ")";
 	}
 
 	public static final String getRequirement()
 	{
-		String percent = basementTestString.equals( "Elemental Resist" ) ? "%" : "";
+		if ( basementTestString.equals( "Elemental Resist" ) )
+		{
+			return "<u>" + basementTestString + "</u><br/>Current: " +
+				COMMA_FORMAT.format( resistance1 ) + "% " + MonsterDatabase.elementNames[ element1 ] + " = " +
+				COMMA_FORMAT.format( expected1 ) + " damage, " +
+				COMMA_FORMAT.format( resistance2 ) + "% " + MonsterDatabase.elementNames[ element2 ] + " = " +
+				COMMA_FORMAT.format( expected2 ) + " damage</br>" +
+				"Needed: " + COMMA_FORMAT.format( basementTestValue ) + "%";
+		}
+
 		return "<u>" + basementTestString + "</u><br/>" +
-			"Current: " + COMMA_FORMAT.format( basementTestCurrent ) + percent + "<br/>" +
-			"Needed: " + COMMA_FORMAT.format( basementTestValue ) + percent;
+			"Current: " + COMMA_FORMAT.format( basementTestCurrent ) + "<br/>" +
+			"Needed: " + COMMA_FORMAT.format( basementTestValue );
 	}
 
 	private static final void changeBasementOutfit( String name )
@@ -232,7 +257,6 @@ public class AdventureRequest extends KoLRequest
 
 			if ( currentTestString.indexOf( name ) != -1 )
 			{
-				stateChanged = true;
 				RequestThread.postRequest( new EquipmentRequest( (SpecialOutfit) currentTest ) );
 				return;
 			}
@@ -241,10 +265,6 @@ public class AdventureRequest extends KoLRequest
 
 	private static final boolean checkForElementalTest( boolean autoSwitch, String responseText )
 	{
-		int element1 = -1, element2 = -1;
-		AdventureResult phial1 = null, phial2 = null;
-		AdventureResult effect1 = null, effect2 = null;
-
 		if ( responseText.indexOf( "<b>Peace, Bra</b>" ) != -1 )
 		{
 			element1 = MonsterDatabase.SLEAZE;
@@ -321,25 +341,30 @@ public class AdventureRequest extends KoLRequest
 		int element1, int element2, AdventureResult effect1, AdventureResult effect2, AdventureResult phial1, AdventureResult phial2 )
 	{
 		// According to http://forums.hardcoreoxygenation.com/viewtopic.php?t=3973,
-		// total elemental damage is roughly 4.8 * x^1.4.  Assume the worst-case.
+		// total elemental damage is roughly 4.48 * x^1.4.  Assume the worst-case.
 
-		float totalDamage = ((float) Math.pow( basementLevel, 1.4 )) * 4.8f;
+		float totalDamage = ((float) Math.pow( basementLevel, 1.4 )) * 4.48f * 1.05f;
 		float damage1 = totalDamage / 2.0f;
 		float damage2 = totalDamage / 2.0f;
 
 		float resistance1 = KoLCharacter.getElementalResistance( element1 );
 		float resistance2 = KoLCharacter.getElementalResistance( element2 );
 
-		float expected1 = damage1 * ( (100.0f - resistance1) / 100.0f );
-		float expected2 = damage2 * ( (100.0f - resistance2) / 100.0f );
+		if ( activeEffects.contains( effect1 ) )
+			resistance1 = 100.0f;
+
+		if ( activeEffects.contains( effect2 ) )
+			resistance2 = 100.0f;
+
+		float expected1 = Math.max( 1.0f, damage1 * ( (100.0f - resistance1) / 100.0f ) );
+		float expected2 = Math.max( 1.0f, damage2 * ( (100.0f - resistance2) / 100.0f ) );
 
 		// If you can survive the current elemental test even without a phial,
 		// then don't bother with any extra buffing.
 
 		basementTestString = "Elemental Resist";
-		basementTestCurrent = Math.max( resistance1, resistance2 );
-		basementTestValue = Math.max( 0, (int) Math.ceil( 100.0f * (1.0f - KoLCharacter.getMaximumHP() /
-			(damage1 + (autoSwitch || activeEffects.contains( effect1 ) || activeEffects.contains( effect2 ) ? 1.0f : damage2) ))) );
+		basementTestCurrent = Math.min( resistance1, resistance2 );
+		basementTestValue = Math.max( 0, (int) Math.ceil( 100.0f * (1.0f - KoLCharacter.getMaximumHP() / (damage1 + damage2) )) );
 
 		if ( expected1 + expected2 < KoLCharacter.getCurrentHP() )
 			return true;
@@ -353,35 +378,8 @@ public class AdventureRequest extends KoLRequest
 		// If you already have one of the phial effects and it's the right phial
 		// effect, check to see if it's sufficient.
 
-		if ( activeEffects.contains( effect1 ) )
-		{
-			if ( 1.0f + expected2 < KoLCharacter.getCurrentHP() )
-				return true;
-
-			if ( 1.0f + expected2 < KoLCharacter.getMaximumHP() )
-			{
-				stateChanged = true;
-				StaticEntity.getClient().recoverHP( (int) (1.0f + expected2) );
-				return KoLmafia.permitsContinue();
-			}
-
+		if ( activeEffects.contains( effect1 ) || activeEffects.contains( effect2 ) )
 			return false;
-		}
-
-		if ( activeEffects.contains( effect2 ) )
-		{
-			if ( 1.0f + expected1 < KoLCharacter.getCurrentHP() )
-				return true;
-
-			if ( 1.0f + expected1 < KoLCharacter.getMaximumHP() )
-			{
-				stateChanged = true;
-				StaticEntity.getClient().recoverHP( (int) (1.0f + expected1) );
-				return KoLmafia.permitsContinue();
-			}
-
-			return false;
-		}
 
 		// If you haven't switched outfits yet, it's possible that a simple
 		// outfit switch will be sufficient to buff up.
@@ -415,8 +413,6 @@ public class AdventureRequest extends KoLRequest
 			return false;
 		}
 
-		stateChanged = true;
-
 		// You can survive, but you need an elemental phial in order to do
 		// so.  Go ahead and save it.
 
@@ -443,7 +439,7 @@ public class AdventureRequest extends KoLRequest
 		// According to http://forums.hardcoreoxygenation.com/viewtopic.php?t=3973,
 		// stat requirement is x^1.4 + 2.  Assume the worst-case.
 
-		float statRequirement = ((float) Math.pow( basementLevel, 1.4 ) + 2.0f) * 1.1f;
+		float statRequirement = ((float) Math.pow( basementLevel, 1.4 ) + 2.0f) * 1.05f;
 
 		if ( responseText.indexOf( "Lift 'em" ) != -1 || responseText.indexOf( "Push It Real Good" ) != -1 || responseText.indexOf( "Ring That Bell" ) != -1 )
 		{
@@ -505,9 +501,9 @@ public class AdventureRequest extends KoLRequest
 	private static final boolean checkForDrainTest( boolean autoSwitch, String responseText )
 	{
 		// According to http://forums.hardcoreoxygenation.com/viewtopic.php?t=3973,
-		// drain requirement is 1.7 * x^1.4  Assume the worst-case.
+		// drain requirement is 1.67 * x^1.4  Assume the worst-case.
 
-		float drainRequirement = (float) Math.pow( basementLevel, 1.4 ) * 1.8f;
+		float drainRequirement = (float) Math.pow( basementLevel, 1.4 ) * 1.67f * 1.05f;
 
 		if ( responseText.indexOf( "Grab the Handles" ) != -1 )
 		{
@@ -567,6 +563,10 @@ public class AdventureRequest extends KoLRequest
 		basementErrorMessage = null;
 		basementTestString = "None";
 		basementTestValue = 0;
+
+		element1 = -1; element2 = -1;
+		phial1 = null; phial2 = null;
+		effect1 = null; effect2 = null;
 
 		Matcher levelMatcher = BASEMENT_PATTERN.matcher( responseText );
 		if ( !levelMatcher.find() )
