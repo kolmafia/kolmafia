@@ -106,8 +106,8 @@ public class KoLDatabase extends StaticEntity
 
 	public static final String getCanonicalName( String name )
 	{
-		return name == null ? null : name.indexOf( "&" ) != -1 ? name.toLowerCase() :
-			RequestEditorKit.getEntities( name ).toLowerCase();
+		return name == null ? null : globalStringReplace(
+			RequestEditorKit.getEntities( RequestEditorKit.getUnicode( name ) ).toLowerCase(), "  ", " " );
 	}
 
 	/**
