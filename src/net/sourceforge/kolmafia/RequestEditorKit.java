@@ -1227,13 +1227,10 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( hasCheck )
 		{
 			String checkString = AdventureRequest.getRequirement();
-			if ( !checkString.equals( "" ) )
-			{
-				buffer.insert( buffer.lastIndexOf( "</b>" ) + 4, "<br/>" );
-				buffer.insert( buffer.lastIndexOf( "<img" ), "<table><tr><td>" );
-				buffer.insert( buffer.indexOf( ">", buffer.lastIndexOf( "<img" ) ) + 1, "</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><font id=\"spoiler\" size=2>" +
-					       checkString + "</font></td></tr></table>" );
-			}
+			buffer.insert( buffer.lastIndexOf( "</b>" ) + 4, "<br/>" );
+			buffer.insert( buffer.lastIndexOf( "<img" ), "<table><tr><td>" );
+			buffer.insert( buffer.indexOf( ">", buffer.lastIndexOf( "<img" ) ) + 1, "</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><font id=\"spoiler\" size=2>" +
+				       checkString + "</font></td></tr></table>" );
 		}
 	}
 
