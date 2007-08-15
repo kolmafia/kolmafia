@@ -58,7 +58,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 		SOFA, CAMPGROUND, GALAKTIK, HERBS, SCROLL, COCOON,
 		new HPRestoreItem( "red pixel potion", 110 ), new HPRestoreItem( "really thick bandage", 109 ),
 		new HPRestoreItem( "gauze garter", 100 ), new HPRestoreItem( "bottle of Vangoghbitussin", 100 ),
-		new HPRestoreItem( "ancient Magi-wipes", 55 ), new HPRestoreItem( "phonics down", 48 ),
+		new HPRestoreItem( "ancient Magi-Wipes", 55 ), new HPRestoreItem( "phonics down", 48 ),
 		new HPRestoreItem( "Disco Power Nap", 40 ), WALRUS, new HPRestoreItem( "honey-dipped locust", 36 ),
 		new HPRestoreItem( "red paisley oyster egg", 33 ), new HPRestoreItem( "red polka-dot oyster egg", 33 ),
 		new HPRestoreItem( "red striped oyster egg", 33 ), new HPRestoreItem( "tiny house", 22 ),
