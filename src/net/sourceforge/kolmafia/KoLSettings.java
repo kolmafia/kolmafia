@@ -229,8 +229,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 				item =  new AdventureResult( defaults[i], 1, false );
 				model.add( item );
 			}
-
-			return;
 		}
 
 		if ( !input.exists() )
