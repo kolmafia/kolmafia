@@ -88,9 +88,66 @@ public class BasementRequest extends AdventureRequest
 
 	public void run()
 	{
+		// Clear the data flags and probe the basement to see what we have.
+
 		data.clear();
 		super.run();
-		handleBasement();
+
+		// Load up the data variables and switch outfits if it's a fight.
+
+		checkBasement( true, responseText );
+
+		// If we know we can't pass the test, give an error and bail out now.
+
+		if ( basementErrorMessage != null )
+		{
+			KoLmafia.updateDisplay( ERROR_STATE, basementErrorMessage );
+			return;
+		}
+
+		// Decide which action to set. If it's a stat reward, always boost prime stat.
+
+		if ( this.responseText.indexOf( "Got Silk?" ) != -1 )
+		{
+			this.addFormField( "action", KoLCharacter.isMoxieClass() ? "1" : "2" );
+		}
+		else if ( this.responseText.indexOf( "Save the Dolls" ) != -1 )
+		{
+			this.addFormField( "action", KoLCharacter.isMysticalityClass() ? "1" : "2" );
+		}
+		else if ( this.responseText.indexOf( "Take the Red Pill" ) != -1 )
+		{
+			this.addFormField( "action", KoLCharacter.isMuscleClass() ? "1" : "2" );
+		}
+		else
+		{
+			this.addFormField( "action", "1" );
+		}
+
+		// Attempt to pass the test.
+
+		super.run();
+
+                // Handle redirection
+
+		if ( this.responseCode != 200 )
+		{
+			// If it was a fight and we won, good.
+
+			if ( FightRequest.INSTANCE.responseCode == 200 && FightRequest.INSTANCE.responseText.indexOf( "<!--WINWINWIN-->" ) != -1 )
+				return;
+
+			// Otherwise ... what is this? Refetch the page and see if we passed test.
+
+			this.data.clear();
+			super.run();
+		}
+
+		// See what basement level we are on now and fail if we've not advanced.
+
+		Matcher levelMatcher = BASEMENT_PATTERN.matcher( responseText );
+		if ( !levelMatcher.find() || basementLevel == StaticEntity.parseInt( levelMatcher.group(1) ) )
+			KoLmafia.updateDisplay( ERROR_STATE, "Failed to pass basement test." );
 	}
 
 	public static final int getBasementLevel()
@@ -639,48 +696,5 @@ public class BasementRequest extends AdventureRequest
 			changeBasementOutfit( "damage" );
 
 		return true;
-	}
-
-	private void handleBasement()
-	{
-		checkBasement( true, responseText );
-
-		if ( this.responseText.indexOf( "Got Silk?" ) != -1 )
-		{
-			this.addFormField( "action", KoLCharacter.isMoxieClass() ? "1" : "2" );
-		}
-		else if ( this.responseText.indexOf( "Save the Dolls" ) != -1 )
-		{
-			this.addFormField( "action", KoLCharacter.isMysticalityClass() ? "1" : "2" );
-		}
-		else if ( this.responseText.indexOf( "Take the Red Pill" ) != -1 )
-		{
-			this.addFormField( "action", KoLCharacter.isMuscleClass() ? "1" : "2" );
-		}
-		else
-		{
-			this.addFormField( "action", "1" );
-		}
-
-		if ( basementErrorMessage != null )
-		{
-			KoLmafia.updateDisplay( ERROR_STATE, basementErrorMessage );
-			return;
-		}
-
-		super.run();
-
-		if ( this.responseCode != 200 )
-		{
-			if ( FightRequest.INSTANCE.responseCode == 200 && FightRequest.INSTANCE.responseText.indexOf( "<!--WINWINWIN-->" ) != -1 )
-				return;
-
-			this.data.clear();
-			super.run();
-		}
-
-		Matcher levelMatcher = BASEMENT_PATTERN.matcher( responseText );
-		if ( !levelMatcher.find() || basementLevel == StaticEntity.parseInt( levelMatcher.group(1) ) )
-			KoLmafia.updateDisplay( ERROR_STATE, "Failed to pass basement test." );
 	}
 }
