@@ -80,7 +80,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		// other reasons beyond these items.
 
 		"hill of beans", "Knob Goblin love potion", "Knob Goblin steroids", "Imp Ale", "hot wing", "evil golden arch", "leather mask",
-		"necklace chain", "hemp string", "piercing post", "phat turquoise bead", "carob chunks", "Feng Shui for Big Dumb Idiots", "homoerotic frat-paddle",
+		"necklace chain", "hemp string", "piercing post", "phat turquoise bead", "carob chunks", "Feng Shui for Big Dumb Idiots",
 		"crowbarrr", "sunken chest", "barrrnacle", "safarrri hat", "arrrgyle socks", "charrrm", "leotarrrd", "pirate pelvis",
 		"grave robbing shovel", "ghuol ears", "ghuol egg", "ghuol guolash", "lihc eye",
 		"mind flayer corpse", "royal jelly", "goat beard", "sabre teeth", "t8r tots", "pail", "Trollhouse cookies", "Spam Witch sammich",
@@ -103,6 +103,19 @@ public class KoLSettings extends Properties implements UtilityConstants
 		"skeleton bone", "broken skull", "skeleton key", "digital key",
 		"ruby W", "metallic A", "lowercase N", "heavy D", "Wand of Nagamar",
 		"Richard's star key", "star crossbow", "star staff", "star sword",
+
+		// Common outfit pieces should also be kept
+
+		"bugbear beanie", "bugbear bungguard",
+		"filthy knitted dread sack", "filthy corduroys",
+		"homoerotic frat-paddle", "Orcish baseball cap", "Orcish cargo shorts",
+		"Knob Goblin harem veil", "Knob Goblin harem pants",
+		"Knob Goblin elite helm", "Knob Goblin elite polearm", "Knob Goblin elite pants",
+		"eyepatch", "swashbuckling pants", "stuffed shoulder parrot",
+		"Cloaca-Cola fatigues", "Cloaca-Cola helmet", "Cloaca-Cola shield",
+		"Dyspepsi-Cola fatigues", "Dyspepsi-Cola helmet", "Dyspepsi-Cola shield",
+		"bullet-proof corduroys", "round purple sunglasses", "reinforced beaded headband",
+		"beer helmet", "distressed denim pants", "bejeweled pledge pin",
 
 		// Items which are used on tower guardians should also be considered junk,
 		// but leave around one of the item just in case.
@@ -209,7 +222,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 	{
 		AdventureResult item;
 
-		if ( !input.exists() )
+		if ( defaults == SINGLETON_ITEMS || !input.exists() )
 		{
 			for ( int i = 0; i < defaults.length; ++i )
 			{
@@ -219,6 +232,9 @@ public class KoLSettings extends Properties implements UtilityConstants
 
 			return;
 		}
+
+		if ( !input.exists() )
+			return;
 
 		try
 		{
