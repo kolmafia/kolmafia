@@ -123,7 +123,7 @@ public class KoLRequest extends Job implements KoLConstants
 	public static final int SERVER_COUNT = 8;
 
 	public static String KOL_HOST = SERVERS[1][0];
-	public static String KOL_ROOT = "http://" + SERVERS[1][1] + "/";
+	public static URL KOL_ROOT = null;
 
 	public URL formURL;
 	public boolean followRedirects;
@@ -250,7 +250,15 @@ public class KoLRequest extends Job implements KoLConstants
 				continue;
 
 			KOL_HOST = SERVERS[i][0];
-			KOL_ROOT = "http://" + SERVERS[i][1] + "/";
+
+			try
+			{
+				KOL_ROOT = new URL( "http", SERVERS[i][1], 80, "/" );
+			}
+			catch ( Exception e )
+			{
+				StaticEntity.printStackTrace( e );
+			}
 
 			StaticEntity.setProperty( "loginServerName", KOL_HOST );
 
@@ -263,13 +271,13 @@ public class KoLRequest extends Job implements KoLConstants
 	{
 		KoLmafia.updateDisplay( "Choosing new login server..." );
 		for ( int i = 0; i < SERVER_COUNT; ++i )
+		{
 			if ( SERVERS[i][0].equals( KOL_HOST ) )
 			{
-				int next = ( i + 1 ) % SERVERS.length;
-				KOL_HOST = SERVERS[next][0];
-				KOL_ROOT = "http://" + SERVERS[next][1] + "/";
+				setLoginServer( SERVERS[ (i+1) % SERVERS.length ][0] );
 				return;
 			}
+		}
 	}
 
 	/**
@@ -322,8 +330,12 @@ public class KoLRequest extends Job implements KoLConstants
 
 	public KoLRequest constructURLString( String newURLString, boolean usePostMethod )
 	{
+		if ( this.formURLString == null || !newURLString.startsWith( this.formURLString ) )
+			this.formURL = null;
+
 		this.responseText = null;
 		this.dataChanged = true;
+
 		this.data.clear();
 
 		if ( newURLString.startsWith( "/" ) )
@@ -897,21 +909,22 @@ public class KoLRequest extends Job implements KoLConstants
 			// For now, because there isn't HTTPS support, just open the
 			// connection and directly cast it into an HttpURLConnection
 
-			this.formURL = null;
-
-			if ( StaticEntity.getBooleanProperty( "testSocketTimeout" ) )
+			if ( this.formURL == null )
 			{
-				if ( this.formURLString.startsWith( "http:" ) )
-					this.formURL = new URL( null, this.formURLString, HttpTimeoutHandler.getInstance() );
+				if ( StaticEntity.getBooleanProperty( "testSocketTimeout" ) )
+				{
+					if ( this.formURLString.startsWith( "http:" ) )
+						this.formURL = new URL( null, this.formURLString, HttpTimeoutHandler.getInstance() );
+					else
+						this.formURL = new URL( KOL_ROOT, this.formURLString, HttpTimeoutHandler.getInstance() );
+				}
 				else
-					this.formURL = new URL( null, KOL_ROOT + this.formURLString, HttpTimeoutHandler.getInstance() );
-			}
-			else
-			{
-				if ( this.formURLString.startsWith( "http:" ) )
-					this.formURL = new URL( this.formURLString );
-				else
-					this.formURL = new URL( KOL_ROOT + this.formURLString );
+				{
+					if ( this.formURLString.startsWith( "http:" ) )
+						this.formURL = new URL( this.formURLString );
+					else
+						this.formURL = new URL( KOL_ROOT, this.formURLString );
+				}
 			}
 
 			this.formConnection = (HttpURLConnection) this.formURL.openConnection();
