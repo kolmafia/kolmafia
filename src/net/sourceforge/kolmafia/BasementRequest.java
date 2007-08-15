@@ -307,10 +307,10 @@ public class BasementRequest extends AdventureRequest
 		}
 		else if ( responseText.indexOf( "<b>The Unthawed</b>" ) != -1 )
 		{
-			element1 = MonsterDatabase.SPOOKY;
-			element2 = MonsterDatabase.COLD;
+			element1 = MonsterDatabase.COLD;
+			element2 = MonsterDatabase.SPOOKY;
 
-			goodelement = element1;
+			goodelement = element2;
 			goodphial = SPOOKY_PHIAL;
 			goodeffect = SPOOKY_FORM;
 
