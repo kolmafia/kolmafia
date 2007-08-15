@@ -749,7 +749,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		}
 		else if ( this.formURLString.endsWith( "basementSpoiler" ) )
 		{
-			this.pseudoResponse( "HTTP/1.1 200 OK", AdventureRequest.getRequirement() );
+			this.pseudoResponse( "HTTP/1.1 200 OK", BasementRequest.getRequirement() );
 		}
 		else
 		{

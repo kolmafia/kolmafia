@@ -110,6 +110,8 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			this.request = new CampgroundRequest( adventureId );
 		else if ( formSource.equals( "clan_gym.php" ) )
 			this.request = new ClanGymRequest( StaticEntity.parseInt( adventureId ) );
+		else if ( formSource.equals( "basement.php" ) )
+			this.request = new BasementRequest();
 		else
 			this.request = new AdventureRequest( adventureName, formSource, adventureId );
 
@@ -977,7 +979,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		else if ( urlString.startsWith( "basement.php" ) )
 		{
 			shouldReset = true;
-			location = "Fernswarthy's Basement (Level " + AdventureRequest.getBasementLevel() + ")";
+			location = "Fernswarthy's Basement (Level " + BasementRequest.getBasementLevel() + ")";
 		}
 		else if ( urlString.startsWith( "dungeon.php" ) )
 		{
@@ -1075,7 +1077,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 		if ( urlString.startsWith( "basement.php" ) )
 		{
-			String summary = AdventureRequest.getBasementLevelSummary();
+			String summary = BasementRequest.getBasementLevelSummary();
 			if ( !summary.equals( "" ) )
 			{
 				RequestLogger.printLine( summary );
