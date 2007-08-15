@@ -111,7 +111,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		else if ( formSource.equals( "clan_gym.php" ) )
 			this.request = new ClanGymRequest( StaticEntity.parseInt( adventureId ) );
 		else if ( formSource.equals( "basement.php" ) )
-			this.request = new BasementRequest();
+			this.request = new BasementRequest( adventureName );
 		else
 			this.request = new AdventureRequest( adventureName, formSource, adventureId );
 

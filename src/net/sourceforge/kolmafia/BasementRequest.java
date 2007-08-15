@@ -78,12 +78,12 @@ public class BasementRequest extends AdventureRequest
 	 *
 	 * @param	adventureName	The name of the adventure location
 	 * @param	formSource	The form to which the data will be posted
-	 * @param	adventureId	The identifer for the adventure to be executed
+	 * @param	adventureId	The identifier for the adventure to be executed
 	 */
 
-	public BasementRequest()
+	public BasementRequest( String adventureName )
 	{
-		super( "Fernswarthy's Basement", "basement.php", "0" );
+		super( adventureName, "basement.php", "0" );
 	}
 
 	public void run()
