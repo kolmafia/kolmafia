@@ -1355,6 +1355,15 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "up" ) )
 		{
+			if ( parameters.indexOf( "," ) != -1 )
+			{
+				String [] effects = parameters.split( "\\s*,\\s*" );
+				for ( int i = 0; i < effects.length; ++i )
+					DEFAULT_SHELL.executeCommand( "up", effects[i] );
+
+				return;
+			}
+
 			int effectId = StatusEffectDatabase.getEffectId( parameters );
 			if ( effectId != -1 )
 			{
@@ -1387,6 +1396,15 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "shrug" ) || command.equals( "shrugoff" ) || command.equals( "uneffect" ) || command.equals( "remedy" ) )
 		{
+			if ( parameters.indexOf( "," ) != -1 )
+			{
+				String [] effects = parameters.split( "\\s*,\\s*" );
+				for ( int i = 0; i < effects.length; ++i )
+					DEFAULT_SHELL.executeCommand( "uneffect", effects[i] );
+
+				return;
+			}
+
 			this.executeUneffectRequest( parameters );
 			return;
 		}
@@ -1953,7 +1971,7 @@ public class KoLmafiaCLI extends KoLmafia
 				MoodSettings.saveSettings();
 				printList( MoodSettings.getTriggers() );
 			}
-			else if ( parameters.equals( "" ) || parameters.startsWith( "exec" ) )
+			else if ( parameters.equals( "execute" ) )
 			{
 				if ( isRunningBetweenBattleChecks() )
 					return;
