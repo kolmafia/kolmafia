@@ -1172,7 +1172,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 	public static final void addBasementSpoilers( StringBuffer buffer )
 	{
-		boolean hasCheck = AdventureRequest.checkBasement( false, buffer.toString() );
+		boolean hasCheck = BasementRequest.checkBasement( false, buffer.toString() );
 
 		if ( buffer.indexOf( "Got Silk?" ) != -1 )
 		{
@@ -1226,7 +1226,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		if ( hasCheck )
 		{
-			String checkString = AdventureRequest.getRequirement();
+			String checkString = BasementRequest.getRequirement();
 			buffer.insert( buffer.lastIndexOf( "</b>" ) + 4, "<br/>" );
 			buffer.insert( buffer.lastIndexOf( "<img" ), "<table><tr><td>" );
 			buffer.insert( buffer.indexOf( ">", buffer.lastIndexOf( "<img" ) ) + 1, "</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><font id=\"spoiler\" size=2>" +
