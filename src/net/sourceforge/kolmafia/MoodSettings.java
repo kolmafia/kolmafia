@@ -810,81 +810,64 @@ public abstract class MoodSettings implements KoLConstants
 				strictAction = current.action;
 		}
 
-		if ( !strictAction.equals( "" ) && type.equals( "lose_effect" ) )
-			return strictAction;
-
 		if ( type.equals( "unconditional" ) )
-		{
-		}
-		else if ( type.equals( "gain_effect" ) )
-		{
-			if ( name.equals( "Beaten Up" ) )
-			{
-				if ( KoLCharacter.hasSkill( "Tongue of the Walrus" ) )
-					return "cast Tongue of the Walrus";
-				if ( KoLCharacter.hasSkill( "Tongue of the Otter" ) )
-					return "cast Tongue of the Otter";
-				if ( KoLCharacter.hasItem( UneffectRequest.FOREST_TEARS ) )
-					return "use forest tears";
-				if ( KoLCharacter.hasItem( UneffectRequest.REMEDY ) )
-					return "uneffect Beaten Up";
-				if ( KoLCharacter.hasItem( UneffectRequest.TINY_HOUSE ) || KoLCharacter.canInteract() )
-					return "use tiny house";
-
-				return strictAction;
-			}
-
-			if ( name.indexOf( "Poisoned" ) != -1 )
-				return "use anti-anti-antidote";
-
-			if ( name.equals( "Wussiness" ) || name.equals( "Confused" ) )
-			{
-				if ( KoLCharacter.hasSkill( "Disco Power Nap" ) )
-					return "cast Disco Power Nap";
-				if ( KoLCharacter.hasSkill( "Disco Nap" ) )
-					return "cast Disco Nap";
-				if ( KoLCharacter.hasItem( UneffectRequest.REMEDY ) )
-					return "uneffect " + name;
-				if ( KoLCharacter.hasItem( UneffectRequest.TINY_HOUSE ) || KoLCharacter.canInteract() )
-					return "use tiny house";
-			}
-
-			if ( name.equals( "Sleepy" ) || name.equals( "Embarrassed" ) )
-			{
-				if ( KoLCharacter.hasSkill( "Disco Power Nap" ) )
-					return "cast Disco Power Nap";
-				if ( KoLCharacter.hasSkill( "Disco Nap" ) )
-					return "cast Disco Nap";
-			}
-
-			if ( name.equals( "Cunctatitis" ) || name.equals( "Tetanus" ) )
-			{
-				if ( KoLCharacter.hasSkill( "Disco Power Nap" ) )
-					return "cast Disco Power Nap";
-			}
-
-			if ( name.equals( "Sunburned" ) )
-			{
-				if ( KoLCharacter.hasItem( UneffectRequest.REMEDY ) )
-					return "uneffect Sunburned";
-				if ( KoLCharacter.hasItem( UneffectRequest.TINY_HOUSE ) || KoLCharacter.canInteract() )
-					return "use tiny house";
-			}
-
-			if ( name.equals( "Goofball Withdrawal" ) || name.equals( "Eau de Tortue" ) )
-				return strictAction;
-
-			if ( UneffectRequest.isShruggable( name ) || KoLCharacter.hasItem( UneffectRequest.REMEDY ) || KoLCharacter.canInteract() )
-				return "uneffect " + name;
-
 			return strictAction;
-		}
-		else if ( type.equals( "lose_effect" ) )
+
+		if ( type.equals( "lose_effect" ) )
 		{
+			if ( !strictAction.equals( "" ) )
+				return strictAction;
+
 			String action = StatusEffectDatabase.getDefaultAction( name );
 			if ( action != null )
 				return action;
+
+			return strictAction;
 		}
+
+		if ( UneffectRequest.isShruggable( name ) )
+			return "uneffect " + name;
+
+		if ( name.indexOf( "Poisoned" ) != -1 )
+			return "use anti-anti-antidote";
+
+		if ( name.equals( "Beaten Up" ) )
+		{
+			if ( KoLCharacter.hasSkill( "Tongue of the Walrus" ) )
+				return "cast Tongue of the Walrus";
+			if ( KoLCharacter.hasSkill( "Tongue of the Otter" ) )
+				return "cast Tongue of the Otter";
+			if ( KoLCharacter.hasItem( UneffectRequest.FOREST_TEARS ) )
+				return "use 1 forest tears";
+		}
+
+		boolean powerNapClearable = name.equals( "Confused" ) || name.equals( "Cunctatitis" ) ||
+			name.equals( "Embarrassed" ) || name.equals( "Easily Embarrassed" ) ||
+			name.equals( "Prestidigysfunction" ) || name.equals( "Sleepy" ) ||
+			name.equals( "Socialismydia" ) || name.equals( "Sunburned" ) ||
+			name.equals( "Tenuous Grip on Reality" ) || name.equals( "Tetanus" ) ||
+			name.equals( "Wussiness" );
+
+		if ( powerNapClearable && KoLCharacter.hasSkill( "Disco Power Nap" ) )
+			return "cast Disco Power Nap";
+
+		boolean discoNapClearable = name.equals( "Wussiness" ) || name.equals( "Sleepy" ) ||
+			name.equals( "Embarrassed" ) || name.equals( "Confused" );
+
+		if ( discoNapClearable && KoLCharacter.hasSkill( "Disco Nap" ) )
+			return "cast Disco Nap";
+
+		if ( KoLCharacter.hasItem( UneffectRequest.REMEDY ) )
+			return "uneffect " + name;
+
+		boolean tinyHouseClearable = name.equals( "Beaten Up" ) || name.equals( "Confused" ) ||
+			name.equals( "Sunburned" ) || name.equals( "Wussiness" );
+
+		if ( tinyHouseClearable && (KoLCharacter.canInteract() || KoLCharacter.hasItem( UneffectRequest.TINY_HOUSE )) )
+			return "use 1 tiny house";
+
+		if ( KoLCharacter.canInteract() )
+			return "uneffect " + name;
 
 		return strictAction;
 	}
