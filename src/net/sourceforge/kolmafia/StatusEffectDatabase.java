@@ -134,7 +134,14 @@ public class StatusEffectDatabase extends KoLDatabase
 	public static final int getEffectId( String effectName )
 	{
 		Object effectId = effectByName.get( getCanonicalName( effectName ) );
-		return effectId == null ? -1 : ((Integer)effectId).intValue();
+		if ( effectId != null )
+			return ((Integer)effectId).intValue();
+
+		List names = getMatchingNames( effectName );
+		if ( names.size() == 1 )
+			return getEffectId( (String) names.get(0) );
+
+		return -1;
 	}
 
 	/**

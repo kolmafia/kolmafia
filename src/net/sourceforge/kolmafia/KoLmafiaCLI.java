@@ -1353,6 +1353,35 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 		}
 
+		if ( command.equals( "up" ) )
+		{
+			int effectId = StatusEffectDatabase.getEffectId( parameters );
+			if ( effectId != -1 )
+			{
+				String effect = StatusEffectDatabase.getEffectName( effectId );
+				String action = MoodSettings.getDefaultAction( "lose_effect", effect );
+				if ( action.equals( "" ) )
+				{
+					KoLmafia.updateDisplay( ERROR_STATE, "No booster known: " + effect );
+					return;
+				}
+
+				DEFAULT_SHELL.executeLine( action );
+				return;
+			}
+
+			List names = StatusEffectDatabase.getMatchingNames( parameters );
+			if ( names.isEmpty() )
+			{
+				KoLmafia.updateDisplay( ERROR_STATE, "Unknown effect: " + parameters );
+				return;
+			}
+
+			KoLmafia.updateDisplay( ERROR_STATE, "Ambiguous effect name: " + parameters );
+			printList( names );
+			return;
+		}
+
 		// Uneffect with martians are related to buffs,
 		// so listing them next seems logical.
 
@@ -4706,8 +4735,6 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 
 			updateDisplay( ERROR_STATE, "Ambiguous effect name: " + parameters );
-
-			RequestLogger.printLine( "This could match any of the following " + matchingEffects.size() + " effects: " );
 			printList( matchingEffects );
 
 			return;

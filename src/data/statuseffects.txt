@@ -260,7 +260,7 @@
 260	Arse-a'fire	pepper.gif
 261	Lemon Enlightenment	lemon.gif
 262	Squirming Like a Toad	squashfrog.gif	6f748e8117c8d27ae1442f99998a7d5f	use 1 powdered toad horn
-263	Eau D'tortue	stench.gif	f3a452bc7787ab2f5985d28d164a4fb0	use 1 turtle pheromones
+263	Eau de Tortue	stench.gif	f3a452bc7787ab2f5985d28d164a4fb0	use 1 turtle pheromones
 264	Majorly Poisoned	poison.gif	37b23526c38b844f4983a17a72ad992e
 265	Tenuous Grip on Reality	hoppeddown.gif	c22c212fdf9d6b611be955785ff37775
 266	Turned Into a Skeleton	skeldoll.gif	555395c91aca7ddf5a60688c63214f73
@@ -348,13 +348,13 @@
 348	All Fired Up	fire.gif	5626ff49dbfe5c3bc7732a3dc9c1ea4e
 349	Go Get 'Em, Tiger!	strboost.gif	943ba3b11499412f041807f8a7835d75	use 5 Ben-Gal&trade; Balm
 350	Starry-Eyed	snowflakes.gif	c45d2469bf8cfd8c9bbc953e2a44f3c4
-351	Comic Violence	clownham.gif	e81282d9c752ffcf7d033dd0bd8fec6f
-352	Tranquilized Mind	sleepy.gif	e6d8c1e5ee549f897340b97b3cc26053
-353	Woad Warrior	foamfinger.gif	c884a8b10f7b236002288fc760129e09
-354	Red Door Syndrome	blackpaint.gif	08c89971feb489d775ce5e8b2b845503
+351	Comic Violence	clownham.gif	e81282d9c752ffcf7d033dd0bd8fec6f	use 1 gremlin juice
+352	Tranquilized Mind	sleepy.gif	e6d8c1e5ee549f897340b97b3cc26053	use 1 mother's little helper
+353	Woad Warrior	foamfinger.gif	c884a8b10f7b236002288fc760129e09	use 1 pygmy pygment
+354	Red Door Syndrome	blackpaint.gif	08c89971feb489d775ce5e8b2b845503	use 1 can of black paint
 355	Spirit of Alph	river.gif	e5bd49c7432e33b1684e494f3b7ec1c3
 356	Night Vision	bigeyes.gif	7404a77ea90f3e51ec8b1e1e3450351b
-357	Absinthe-Minded	snowflakes.gif	ebaff6fa82fe65630faccf2d1177b7cc
+357	Absinthe-Minded	snowflakes.gif	ebaff6fa82fe65630faccf2d1177b7cc	use 1 tiny bottle of absinthe
 358	Rat-Faced	ratmask.gif	57f86c875130ff236081eb409213be09
 359	Dancing Prowess	footprints.gif	f52232fc8d5e5fcdd13c8266f2be1b62
 360	No Vertigo	spiral.gif	d43b6af05c4093274e2d58050e4d234e
@@ -362,16 +362,16 @@
 362	Bats in the Belfry	batwing.gif	3188a0b4d646a166ad32ee827d5b0f8b
 363	Unusual Fashion Sense	confused.gif	52816dcf5d94b5eba565c8688f04ed24
 364	Feelin' Philosophical	realbrain.gif	92c569a3c9aa120e4c79c5914c37c7e3
-365	Moon June Spooned	moon2.gif	733e8838261278c9b6173d392a4d09d7
-366	Inspired!	bulb.gif	cee83e927355a2c84cd8ee46745bd87a
-367	Ringing Ears	bell.gif	547a82f65523083eb7ea2349b1dd97a3
-368	Man's Worst Enemy	teeth.gif	2842a345ac05d148c862015d1fcc4e4b
-369	Extremely Poor Taste	sad.gif	c3ef42f53a008404112cf3a9dd744404
-370	The Real Deal	light.gif	526472c3f3acbe7a8068ccf92628a40a
+365	Moon June Spooned	moon2.gif	733e8838261278c9b6173d392a4d09d7	use 1 sensitive poetry journal
+366	Inspired!	bulb.gif	cee83e927355a2c84cd8ee46745bd87a	use 1 bottled inspiration
+367	Ringing Ears	bell.gif	547a82f65523083eb7ea2349b1dd97a3	use 1 bellhop bell
+368	Man's Worst Enemy	teeth.gif	2842a345ac05d148c862015d1fcc4e4b	use 1 disintegrating spiky collar
+369	Extremely Poor Taste	sad.gif	c3ef42f53a008404112cf3a9dd744404	use 1 escargotsicle
+370	The Real Deal	light.gif	526472c3f3acbe7a8068ccf92628a40a	use 1 bottle of realpagne
 371	Memento Moir&eacute;	photograph.gif	731ba2df034beec5412f82879eec9392
 372	Flashing Eyes	bigeyes.gif	eaa0f2cd06a00116af53bd65177fdf4b
 373	Mmmmmelon	melon.gif	bd27dcbc85c224d16256b51a8ca02db5
-374	Contagious Bad Luck	bmirror.gif	86bb1d1be1a84c4554906852f4273f90
+374	Contagious Bad Luck	bmirror.gif	86bb1d1be1a84c4554906852f4273f90	use 1 bottle of black cat tonic
 375	Sparkling Consciousness	snowflakes.gif	a735ff0b16a7d7491c0dbb79c2e7895c
 376	Sneaky Serpentine Subtlety	snakehead.gif	1539b9172f5093b00da60bf5764477a6
 377	Adrenaline Rush	hoppeddown.gif	47a740988991d8f1ef1ab26e72ee2a86
