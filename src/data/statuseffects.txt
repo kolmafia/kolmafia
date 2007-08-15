@@ -426,8 +426,8 @@
 426
 427	Hiding in Plain Sight	smallbush.gif	73b1d28fdca4f7e8f4d94d425a001720
 428	Compensatory Cruelness	angry.gif	fcfb0679f0e80509cbff567a600ca998
-429	Mutated	spooklines.gif	a8e35050197871d1fbe5b3afc865af7e
-430	Seriously Mutated	spooklines.gif	dd78d480e08de5cc8e633202d699844f
+429	Mutated	spooklines.gif	a8e35050197871d1fbe5b3afc865af7e	use 1 gremlin mutagen
+430	Seriously Mutated	spooklines.gif	dd78d480e08de5cc8e633202d699844f	use 1 extra-potent gremlin mutagen
 431
 432	Flared Nostrils	pupils.gif	a148b9106d6593dbec45dad76cedc163
 433	Easily Embarrassed	blush.gif	4b7988bd236d2b89dc8cbe162b697fa6
