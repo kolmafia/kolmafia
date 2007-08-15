@@ -589,8 +589,8 @@
 589	cocoa eggshell fragment	1	all	114
 590	large cocoa eggshell fragment	1	all	214
 591	cocoa egg	5	all	403
-592	tiny house	14	all	107
-593	phonics down	14	all	115
+592	tiny house	17	all	107
+593	phonics down	17	all	115
 594	amulet of extreme plot significance	8	all	205
 595	scroll of drastic healing	16	all	107
 596	titanium assault umbrella	12	all	155
@@ -1947,7 +1947,7 @@
 1947	worn tophat	9	all	130
 1948	tap shoes	8	all	130
 1949	Manetwich	1	all	120
-1950	bottle of Vangoghbitussin	3	all	115
+1950	bottle of Vangoghbitussin	17	all	115
 1951	bottle of Pinot Renoir	2	all	125
 1952	desiccated apricot	1	all	48
 1953	flute of flat champagne	2	all	86
@@ -1962,7 +1962,7 @@
 1962	Bit O' Ectoplasm	4	all	0
 1963	dance card	3	all	55
 1964	opera mask	9	all	37
-1965	bottle of Monsieur Bubble	4	all	50
+1965	bottle of Monsieur Bubble	14	all	50
 1966	Amulet of Yendor	8	gift	5
 1967	jitterbug larva	5	all	0
 1968	bottle of perfume	7	all	75

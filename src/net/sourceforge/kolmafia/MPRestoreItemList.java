@@ -52,7 +52,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 		SOFA, BEANBAG, CAMPGROUND, GALAKTIK, new MPRestoreItem( "natural fennel soda", 100, false ),
 		new MPRestoreItem( "bottle of Vangoghbitussin", 100, false ), new MPRestoreItem( "monstar energy beverage", 75, false ),
 		new MPRestoreItem( "carbonated soy milk", 75, false ), new MPRestoreItem( "carbonated water lily", 65, false ),
-		new MPRestoreItem( "bottle of Monsieur Bubble", 56, true ), new MPRestoreItem( "ancient Magi-wipes", 55, false ),
+		new MPRestoreItem( "bottle of Monsieur Bubble", 56, true ), new MPRestoreItem( "ancient Magi-Wipes", 55, false ),
 		new MPRestoreItem( "unrefined mountain stream syrup", 55, true ), new MPRestoreItem( "phonics down", 48, false ),
 		new MPRestoreItem( "tonic water", 40, false ), new MPRestoreItem( "honey-dipped locust", 36, false ),
 		new MPRestoreItem( "Marquis de Poivre soda", 35, false ), new MPRestoreItem( "blue paisley oyster egg", 33, false ),

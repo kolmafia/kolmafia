@@ -2429,10 +2429,10 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 					{
 					case MP_RESTORE:
 					case HP_RESTORE:
+					case HPMP_RESTORE:
 						return super.isVisible( element );
 
 					default:
-					case NO_CONSUME:
 						return false;
 					}
 				}
