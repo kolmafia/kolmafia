@@ -3040,27 +3040,24 @@ public abstract class KoLmafia implements KoLConstants
 	public void openRelayBrowser()
 	{
 		if ( KoLRequest.sessionId == null )
-			openRelayBrowser( "login.php" );
+			openRelayBrowser( "login.php", false );
 		else if ( KoLRequest.isCompactMode )
-			openRelayBrowser( "main_c.html" );
+			openRelayBrowser( "main_c.html", false );
 		else
-			openRelayBrowser( "main.html" );
+			openRelayBrowser( "main.html", false );
 	}
 
 	public void openRelayBrowser( String location )
+	{	openRelayBrowser( location, true );
+	}
+
+	public void openRelayBrowser( String location, boolean forceMain )
 	{
 		this.startRelayServer();
 
-		if ( location.equals( "login.php" ) )
+		if ( !forceMain )
 		{
 			StaticEntity.openSystemBrowser( "http://127.0.0.1:" + LocalRelayServer.getPort() + "/" + location );
-		}
-		else if ( location.endsWith( ".html" ) )
-		{
-			if ( System.getProperty( "os.name" ).startsWith( "Mac" ) )
-				StaticEntity.openSystemBrowser( "http://127.0.0.1:" + LocalRelayServer.getPort() + "/" + location + "?" + relayBrowserInstances++ );
-			else
-				StaticEntity.openSystemBrowser( "http://127.0.0.1:" + LocalRelayServer.getPort() + "/" + location );
 		}
 		else
 		{
