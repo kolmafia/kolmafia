@@ -1,71 +1,65 @@
 # Spleen hit values taken from the KoL Wiki
 # http://kol.coldfront.net/thekolwiki/index.php/Spleen
 
+ancient protein powder	1 
+antique bottle of cough syrup	1 
 astronaut ice-cream	1
-Medicinal Herb's medicinal herbs	1
-
-twinkly wad	1
-hot wad	1
+bit-o-cactus	1
+black paisley oyster egg	1
+black polka-dot oyster egg	1
+black striped oyster egg	1
+blue paisley oyster egg	1
+blue polka-dot oyster egg	1
+blue striped oyster egg	1
+bottle of ultravitamins	1 
+can-can-in-a-can	1
 cold wad	1
-stench wad	1
-spooky wad	1
-sleaze wad	1
-
-magicalness-in-a-can	1
-moxie weed	1
-strongness elixir	1
 concentrated magicalness pill	1
 enchanted barbell	1
-giant moxie weed	1
 extra-strength strongness elixir	1
+giant moxie weed	1
+handful of moss	1 
+hot wad	1
 jug-o-magicalness	1
-suntan lotion of moxiousness	1
-
-red striped oyster egg	1
-red polka-dot oyster egg	1
-red paisley oyster egg	1
-red plastic oyster egg	1
-blue striped oyster egg	1
-blue polka-dot oyster egg	1
-blue paisley oyster egg	1
-blue plastic oyster egg	1
-puce striped oyster egg	1
-puce polka-dot oyster egg	1
-puce paisley oyster egg	1
-puce plastic oyster egg	1
-mauve striped oyster egg	1
-mauve polka-dot oyster egg	1
-mauve paisley oyster egg	1
-mauve plastic oyster egg	1
-lavender striped oyster egg	1
-lavender polka-dot oyster egg	1
 lavender paisley oyster egg	1
-lavender plastic oyster egg	1
-black striped oyster egg	1
-black polka-dot oyster egg	1
-black paisley oyster egg	1
-black plastic oyster egg	1
-off-white striped oyster egg	1
-off-white polka-dot oyster egg	1
-off-white paisley oyster egg	1
-off-white plastic oyster egg	1
-yellow striped oyster egg	1
-yellow polka-dot oyster egg	1
-yellow paisley oyster egg	1
-yellow plastic oyster egg	1
-
-can-can-in-a-can	1
+lavender polka-dot oyster egg	1
+lavender striped oyster egg	1
+magicalness-in-a-can	1
 Mariner's Friend cough drops	1
+mauve paisley oyster egg	1
+mauve polka-dot oyster egg	1
+mauve striped oyster egg	1
+Medicinal Herb's medicinal herbs	1
+moxie weed	1
+off-white paisley oyster egg	1
+off-white polka-dot oyster egg	1
+off-white striped oyster egg	1
 patent antipsychotics	1
+puce paisley oyster egg	1
+puce polka-dot oyster egg	1
+puce striped oyster egg	1
+red paisley oyster egg	1
+red polka-dot oyster egg	1
+red striped oyster egg	1
+sleaze wad	1
+spooky wad	1
+stench wad	1
+strongness elixir	1
+suntan lotion of moxiousness	1
+tube of hair oil	1 
+twinkly wad	1
+yellow paisley oyster egg	1
+yellow polka-dot oyster egg	1
+yellow striped oyster egg	1
 
 can of Red Minotaur	3
 guy made of bee pollen	3
 
 not-a-pipe	4
 
-Hatorade	5
 Breathetastic&trade; Premium Canned Air	5
 enchanted leopard-print barbell	5
+Hatorade	5
 steel-scented air freshener	5
 
 ultimate wad	15
