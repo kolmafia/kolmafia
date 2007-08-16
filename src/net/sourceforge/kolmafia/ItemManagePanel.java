@@ -655,7 +655,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 			public boolean isVisible( Object element )
 			{
 				String name = getResultName( element );
-				int itemId = TradeableItemDatabase.getItemId( name );
+				int itemId = AdventureResult.itemId( name );
 
 				if ( itemId < 1 )
 					return filters == null && super.isVisible( element );
