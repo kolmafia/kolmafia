@@ -1568,20 +1568,164 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		}
 	}
 
+	private static final String getActionName( String action )
+	{
+		if ( action.equals( "attack" ) )
+			return FightRequest.getCurrentRound() == 0 ? "again" : "attack";
+
+		if ( action.equals( "steal" ) || action.equals( "script" ) )
+			return action;
+
+		int skillId = StaticEntity.parseInt( action );
+		String name = ClassSkillsDatabase.getSkillName( skillId ).toLowerCase();
+
+		switch ( skillId )
+		{
+		case 15: // CLEESH
+		case 7002: // Shake Hands
+		case 7003: // Hot Breath
+		case 7004: // Cold Breath
+		case 7005: // Spooky Breath
+		case 7006: // Stinky Breath
+		case 7007: // Sleazy Breath
+			name = StaticEntity.globalStringDelete( name, " " );
+			break;
+
+		case 7008: // Moxious Maneuver
+			name = "moxman";
+			break;
+
+		case 7010: // red bottle-rocket
+		case 7011: // blue bottle-rocket
+		case 7012: // orange bottle-rocket
+		case 7013: // purple bottle-rocket
+		case 7014: // black bottle-rocket
+			name = StaticEntity.globalStringDelete( StaticEntity.globalStringDelete( name, "fire "), "bottle-" );
+			break;
+
+		case 2103: // Head + Knee Combo
+		case 2105: // Head + Shield Combo
+		case 2106: // Knee + Shield Combo
+		case 2107: // Head + Knee + Shield Combo
+			name = name.substring( 0, name.length() - 6 );
+			break;
+
+		case 1003: // thrust-smack
+			name = "thrust";
+			break;
+
+		case 1004: // lunge-smack
+		case 1005: // lunging thrust-smack
+			name = "lunge";
+			break;
+
+		case 3004: // Entangling Noodles
+		case 3009: // Lasagna Bandages
+		case 3019: // Fearful Fettucini
+			name = name.substring( name.indexOf( " " ) + 1 );
+			break;
+
+		case 3003: // Minor Ray of Something
+		case 3005: // eXtreme Ray of Something
+		case 3007: // Cone of Whatever
+		case 3008: // Weapon of the Pastalord
+		case 3020: // Spaghetti Spear
+		case 4003: // Stream of Sauce
+		case 4009: // Wave of Sauce
+		case 5019: // Tango of Terror
+			name = name.substring( 0, name.indexOf( " " ) );
+			break;
+
+		case 5003: // Disco Eye-Poke
+		case 5012: // Disco Face Stab
+			name = StaticEntity.globalStringDelete( StaticEntity.globalStringDelete( name.substring( 6 ), "-" ), " " );
+			break;
+
+		case 5005: // Disco Dance of Doom
+			name = "dance1";
+			break;
+
+		case 5008: // Disco Dance II: Electric Boogaloo
+			name = "dance2";
+			break;
+		}
+
+		return name;
+	}
+
+	private static final void addFightButton( StringBuffer response, StringBuffer buffer, String action, boolean isEnabled )
+	{
+		String name = getActionName( action );
+		buffer.append( "<input type=\"button\" onClick=\"document.location.href='" );
+
+		if ( FightRequest.getCurrentRound() == 0 )
+		{
+			String location = "main.php";
+			int startIndex = response.indexOf( "<a href=\"" );
+			if ( startIndex != -1 )
+				location = response.substring( startIndex + 9, response.indexOf( "\"", startIndex + 10 ) );
+
+			buffer.append( location );
+		}
+		else
+		{
+			buffer.append( "fight.php?" );
+			if ( action.equals( "attack" ) || action.equals( "steal" ) || action.equals( "script" ) )
+			{
+				buffer.append( "action=" );
+				buffer.append( action );
+			}
+			else
+			{
+				buffer.append( "action=skill&whichskill=" );
+				buffer.append( action );
+			}
+		}
+
+		buffer.append( "'; void(0);\" value=\"" );
+		buffer.append( name );
+
+		if ( isEnabled )
+			buffer.append( "\">" );
+		else
+			buffer.append( "\" disabled>" );
+	}
+
 	private static final void addFightModifiers( String location, StringBuffer buffer, boolean addComplexFeatures )
 	{
 		// If the person opts to add a plinking link, check to see if it's
 		// a valid page to add plinking, and make sure the person hasn't
 		// already started plinking.
 
-		if ( addComplexFeatures && StaticEntity.getBooleanProperty( "relayAddsCustomCombat" ) &&
-			buffer.indexOf( "fight.php" ) != -1 && location.indexOf( "action=script" ) == -1 )
+		if ( addComplexFeatures )
 		{
-			int firstFormIndex = buffer.indexOf( "</form>" ) + 7;
-			if ( firstFormIndex > 6 )
+			int debugIndex = buffer.indexOf( "<font size=1>" );
+			if ( debugIndex != -1 )
+				buffer.delete( debugIndex, buffer.indexOf( "</font>", debugIndex ) );
+
+			int insertionPoint = buffer.indexOf( "<tr" );
+			if ( insertionPoint != -1 )
 			{
-				buffer.insert( firstFormIndex,
-					"<tr><td align=center><form action=fight.php method=\"GET\"><input type=hidden name=\"action\" value=\"script\"><input class=\"button\" type=\"submit\" value=\"Run Custom Combat Script\"></form></td></tr>" );
+				StringBuffer actionBuffer = new StringBuffer();
+				actionBuffer.append( "<tr><td align=left>" );
+
+				addFightButton( buffer, actionBuffer, "attack", true );
+
+				if ( KoLCharacter.isMoxieClass() )
+					addFightButton( buffer, actionBuffer, "steal", FightRequest.getCurrentRound() == 1 );
+
+				addFightButton( buffer, actionBuffer, "script", StaticEntity.getBooleanProperty( "relayAddsCustomCombat" ) &&
+					FightRequest.getCurrentRound() != 0 );
+
+				for ( int i = 1; i <= 5; ++i )
+				{
+					String action = StaticEntity.getProperty( "customCombatSkill" + i );
+					if ( !action.equals( "" ) )
+						addFightButton( buffer, actionBuffer, action, FightRequest.getCurrentRound() > 0 );
+				}
+
+				actionBuffer.append( "</td></tr>" );
+				buffer.insert( insertionPoint, actionBuffer.toString() );
 			}
 		}
 
