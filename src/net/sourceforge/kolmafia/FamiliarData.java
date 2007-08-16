@@ -100,7 +100,6 @@ public class FamiliarData implements KoLConstants, Comparable
 			itemData.indexOf( "antfork.gif" ) != -1 ? new AdventureResult( "ant pitchfork", 1, false ) :
 			itemData.indexOf( "antsickle.gif" ) != -1 ? new AdventureResult( "ant sickle", 1, false ) :
 			itemData.indexOf( "antpick.gif" ) != -1 ? new AdventureResult( "ant pick", 1, false ) :
-			itemData.indexOf( "bust.gif" ) != -1 ? new AdventureResult( "tiny bust of Pallas", 1, false ) :
 			new AdventureResult( FamiliarsDatabase.getFamiliarItem( this.id ), 1, false );
 	}
 
@@ -276,7 +275,6 @@ public class FamiliarData implements KoLConstants, Comparable
 		case 1260:  // wax lips
 		case 1539:  // lucky Tam O'Shatner
 		case 1971:  // plastic pumpkin bucket
-		case 2053:  // tiny bust of Pallas
 		case 2225:  // flaming familiar doppelg&auml;nger
 		case 2541:  // Mayflower bouquet
 		case 2570:  // ant hoe
