@@ -1591,6 +1591,10 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			name = StaticEntity.globalStringDelete( name, " " );
 			break;
 
+		case 7001: // Give In To Your Vampiric Urges
+			name = "bakula";
+			break;
+
 		case 7008: // Moxious Maneuver
 			name = "moxman";
 			break;
@@ -1619,10 +1623,12 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			name = "lunge";
 			break;
 
+		case 2:    // Chronic Indigestion
+		case 7009: // Magic Missile
 		case 3004: // Entangling Noodles
 		case 3009: // Lasagna Bandages
 		case 3019: // Fearful Fettucini
-			name = name.substring( name.indexOf( " " ) + 1 );
+			name = name.substring( name.lastIndexOf( " " ) + 1 );
 			break;
 
 		case 3003: // Minor Ray of Something
@@ -1679,6 +1685,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			{
 				buffer.append( "action=skill&whichskill=" );
 				buffer.append( action );
+				isEnabled &= ClassSkillsDatabase.getMPConsumptionById( StaticEntity.parseInt( action ) ) <= KoLCharacter.getCurrentMP();
 			}
 		}
 
@@ -1693,16 +1700,16 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 	private static final void addFightModifiers( String location, StringBuffer buffer, boolean addComplexFeatures )
 	{
+		int debugIndex = buffer.indexOf( "<font size=1>" );
+		if ( debugIndex != -1 )
+			buffer.delete( debugIndex, buffer.indexOf( "</font>", debugIndex ) );
+
 		// If the person opts to add a plinking link, check to see if it's
 		// a valid page to add plinking, and make sure the person hasn't
 		// already started plinking.
 
-		if ( addComplexFeatures )
+		if ( addComplexFeatures && StaticEntity.getBooleanProperty( "relayAddsCustomCombat" ) )
 		{
-			int debugIndex = buffer.indexOf( "<font size=1>" );
-			if ( debugIndex != -1 )
-				buffer.delete( debugIndex, buffer.indexOf( "</font>", debugIndex ) );
-
 			int insertionPoint = buffer.indexOf( "<tr" );
 			if ( insertionPoint != -1 )
 			{
@@ -1714,8 +1721,10 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				if ( KoLCharacter.isMoxieClass() )
 					addFightButton( buffer, actionBuffer, "steal", FightRequest.getCurrentRound() == 1 );
 
-				addFightButton( buffer, actionBuffer, "script", StaticEntity.getBooleanProperty( "relayAddsCustomCombat" ) &&
-					FightRequest.getCurrentRound() != 0 );
+				if ( KoLCharacter.hasSkill( "Entangling Noodles" ) )
+					addFightButton( buffer, actionBuffer, "3004", FightRequest.getCurrentRound() > 0 );
+
+				addFightButton( buffer, actionBuffer, "script", FightRequest.getCurrentRound() > 0 );
 
 				for ( int i = 1; i <= 5; ++i )
 				{

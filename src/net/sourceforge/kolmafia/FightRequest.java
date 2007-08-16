@@ -1404,27 +1404,7 @@ public class FightRequest extends KoLRequest
 			if ( isInvalidThrustSmack( skillMatcher.group(1) ) )
 				return true;
 
-			String skillId = skillMatcher.group(1);
-
-			String testAction;
-			int insertIndex = 6;
-
-			for ( int i = 1; i <= 5 && insertIndex == 6; ++i )
-			{
-				testAction = StaticEntity.getProperty( "customCombatSkill" + i );
-				if ( testAction.equals( "" ) || testAction.equals( skillId ) )
-					insertIndex = i;
-			}
-
-			if ( insertIndex == 6 )
-			{
-				insertIndex = 5;
-				for ( int i = 2; i <= 5; ++i )
-					StaticEntity.setProperty( "customCombatSkill" + (i-1), StaticEntity.getProperty( "customCombatSkill" + i ) );
-			}
-
-			StaticEntity.setProperty( "customCombatSkill" + insertIndex, skillId );
-			String skill = ClassSkillsDatabase.getSkillName( StaticEntity.parseInt( skillId ) );
+			String skill = ClassSkillsDatabase.getSkillName( StaticEntity.parseInt( skillMatcher.group(1) ) );
 			if ( skill == null )
 			{
 				if ( shouldLogAction )
