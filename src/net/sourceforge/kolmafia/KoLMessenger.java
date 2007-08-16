@@ -924,15 +924,15 @@ public abstract class KoLMessenger extends StaticEntity
 				linkBuffer.append( useColors ? "<font color=blue>" : "<font color=gray>" );
 				linkBuffer.append( "[p]</font></a>" );
 
-				linkBuffer.append( "<a href=\"" + link + "_4\" alt=\"send trade request\">" );
+				linkBuffer.append( "<a href=\"" + link + "_3\" alt=\"send trade request\">" );
 				linkBuffer.append( useColors ? "<font color=green>" : "<font color=gray>" );
 				linkBuffer.append( "[t]</font></a>" );
 
-				linkBuffer.append( "<a href=\"" + link + "_5\" alt=\"search mall store\">" );
+				linkBuffer.append( "<a href=\"" + link + "_4\" alt=\"search mall store\">" );
 				linkBuffer.append( useColors ? "<font color=maroon>" : "<font color=gray>" );
 				linkBuffer.append( "[m]</font></a>" );
 
-				linkBuffer.append( "<a href=\"" + link + "_9\" alt=\"put on ignore list\">" );
+				linkBuffer.append( "<a href=\"" + link + "_8\" alt=\"put on ignore list\">" );
 				linkBuffer.append( useColors ? "<font color=red>" : "<font color=gray>" );
 				linkBuffer.append( "[x]</font></a>" );
 

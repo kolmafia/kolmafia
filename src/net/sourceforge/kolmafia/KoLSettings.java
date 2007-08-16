@@ -547,6 +547,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		CLIENT_SETTINGS.put( "cacheMallSearches", "false" );
 		CLIENT_SETTINGS.put( "charsheetDropdown", "1" );
 		CLIENT_SETTINGS.put( "chatFontSize", System.getProperty( "os.name" ).startsWith( "Mac" ) ? "medium" : "small" );
+		CLIENT_SETTINGS.put( "chatLinksUseRelay", "false" );
 		CLIENT_SETTINGS.put( "chatStyle", "0" );
 		CLIENT_SETTINGS.put( "cloverProtectActive", "true" );
 		CLIENT_SETTINGS.put( "commandLineNamespace", "" );

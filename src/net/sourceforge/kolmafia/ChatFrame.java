@@ -112,9 +112,8 @@ public class ChatFrame extends KoLFrame
 		this.nameClickSelect = new JComboBox();
 		this.nameClickSelect.addItem( "Name click shows player profile" );
 		this.nameClickSelect.addItem( "Name click opens blue message" );
-		this.nameClickSelect.addItem( "Name click opens green message" );
-		this.nameClickSelect.addItem( "Name click opens gift message" );
-		this.nameClickSelect.addItem( "Name click opens trade message" );
+		this.nameClickSelect.addItem( "Name click sends kmail message" );
+		this.nameClickSelect.addItem( "Name click opens trade request" );
 		this.nameClickSelect.addItem( "Name click shows display case" );
 		this.nameClickSelect.addItem( "Name click shows ascension history" );
 		this.nameClickSelect.addItem( "Name click shows mall store" );
@@ -134,9 +133,9 @@ public class ChatFrame extends KoLFrame
 		if ( this.mainPanel != null && associatedContact != null )
 		{
 			if ( associatedContact.startsWith( "/" ) )
-				this.setTitle( "KoL Chat: " + associatedContact );
+				this.setTitle( associatedContact );
 			else
-				this.setTitle( "KoL PM: " + KoLCharacter.getUserName() + " / " + associatedContact );
+				this.setTitle( "private to " + associatedContact );
 		}
 	}
 
@@ -438,7 +437,7 @@ public class ChatFrame extends KoLFrame
 			if ( linkOption == 0 )
 				linkOption = ChatFrame.this.nameClickSelect.getSelectedIndex();
 
-			Class frameClass;
+			String urlString = null;
 
 			switch ( linkOption )
 			{
@@ -447,46 +446,42 @@ public class ChatFrame extends KoLFrame
 				return;
 
 			case 2:
-				frameClass = SendMessageFrame.class;
-				break;
+				createDisplay( SendMessageFrame.class, parameters );
+				return;
 
 			case 3:
-				frameClass = SendMessageFrame.class;
+				urlString = "makeoffer.php?action=proposeoffer&towho=" + parameters[0];
 				break;
 
 			case 4:
-				StaticEntity.getClient().openRelayBrowser( "makeoffer.php?action=proposeoffer&towho=" + parameters[0] );
-				return;
+				urlString = "displaycollection.php?who=" + KoLmafia.getPlayerId( (String) parameters[0] );
+				break;
 
 			case 5:
-				ProfileFrame.showRequest( KoLRequest.VISITOR.constructURLString( "displaycollection.php?who=" + KoLmafia.getPlayerId( (String) parameters[0] ) ) );
-				return;
+				urlString = "ascensionhistory.php?who=" + KoLmafia.getPlayerId( (String) parameters[0] );
+				break;
 
 			case 6:
-				ProfileFrame.showRequest( KoLRequest.VISITOR.constructURLString( "ascensionhistory.php?who=" + KoLmafia.getPlayerId( (String) parameters[0] ) ) );
-				return;
-
-			case 7:
 				MallSearchFrame.searchMall( new SearchMallRequest( StaticEntity.parseInt( KoLmafia.getPlayerId( (String) parameters[0] ) ) ) );
 				return;
 
-			case 8:
+			case 7:
 				RequestThread.postRequest( new ChatRequest( "/whois", (String) parameters[0] ) );
 				return;
 
-			case 9:
+			case 8:
 				RequestThread.postRequest( new ChatRequest( "/baleet", (String) parameters[0] ) );
 				return;
 
 			default:
-				ProfileFrame.showRequest( new ProfileRequest( (String) parameters[0] ) );
-				return;
+				urlString = "showplayer.php?who=" + KoLmafia.getPlayerId( (String) parameters[0] );
+				break;
 			}
 
-			// Now, determine what needs to be done based
-			// on the link option.
-
-			createDisplay( frameClass, parameters );
+			if ( StaticEntity.getBooleanProperty( "chatLinksUseRelay" ) || !urlString.startsWith( "show" ) )
+				StaticEntity.getClient().openRelayBrowser( urlString );
+			else
+				ProfileFrame.showRequest( KoLRequest.VISITOR.constructURLString( urlString ) );
 		}
 	}
 
