@@ -38,6 +38,7 @@ import java.util.regex.Pattern;
 
 public class CouncilFrame extends RequestFrame
 {
+	private static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 	private static final Pattern ORE_PATTERN = Pattern.compile( "3 chunks of (\\w+) ore" );
 
 	public CouncilFrame()
@@ -67,21 +68,38 @@ public class CouncilFrame extends RequestFrame
 		else if ( location.startsWith( "trapper" ) )
 			handleTrapperChange( responseText );
 		else if ( location.startsWith( "bhh" ) )
-			handleBountyChange( responseText );
+			handleBountyChange( location, responseText );
 		else if ( location.startsWith( "manor3" ) && location.indexOf( "action=summon" ) != -1 )
 			AdventureRequest.registerDemonName( "Summoning Chamber", responseText );
 		else if ( location.startsWith( "adventure" ) && location.indexOf( "=84" ) != -1 )
 			handleSneakyPeteChange( responseText );
 	}
 
-	private static final void handleBountyChange( String responseText )
+	private static final void handleBountyChange( String location, String responseText )
 	{
 		int itemId = StaticEntity.getIntegerProperty( "currentBountyItem" );
 		if ( itemId == 0 )
 			return;
 
-		if ( responseText.indexOf( "takebounty" ) != -1 || responseText.indexOf( "abandonbounty" ) != -1 )
+		if ( location.indexOf( "action=abandonbounty" ) != -1 )
+		{
+			AdventureResult item = new AdventureResult( itemId, 1 );
+			StaticEntity.getClient().processResult( item.getInstance( 0 - item.getCount( inventory ) ) );
+			StaticEntity.setProperty( "currentBountyItem", "0" );
 			return;
+		}
+
+		if ( responseText.indexOf( "takebounty" ) != -1 )
+		{
+			Matcher idMatcher = ITEMID_PATTERN.matcher( location );
+			if ( !idMatcher.find() )
+				return;
+
+			StaticEntity.setProperty( "currentBountyItem", idMatcher.group(1) );
+			itemId = StaticEntity.getIntegerProperty( "currentBountyItem" );
+			AdventureFrame.updateSelectedAdventure( AdventureDatabase.getBountyLocation( TradeableItemDatabase.getItemName( itemId ) ) );
+			return;
+		}
 
 		AdventureResult item = new AdventureResult( itemId, 1 );
 		StaticEntity.getClient().processResult( item.getInstance( 0 - item.getCount( inventory ) ) );

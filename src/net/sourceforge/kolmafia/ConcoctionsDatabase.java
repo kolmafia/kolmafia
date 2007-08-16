@@ -367,6 +367,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 	public static final void handleQueue( boolean consume )
 	{
+
 		queuedChanges.clear();
 		queuedIngredients.clear();
 		refreshConcoctions();
@@ -379,8 +380,9 @@ public class ConcoctionsDatabase extends KoLDatabase
 		ignoreRefresh = true;
 
 		RequestThread.openRequestSequence();
-		SpecialOutfit.createImplicitCheckpoint();
+		KoLmafia.updateDisplay( "Processing queued items..." );
 
+		SpecialOutfit.createImplicitCheckpoint();
 		Concoction c;
 
 		for ( int i = 0; i < usableList.size(); ++i )

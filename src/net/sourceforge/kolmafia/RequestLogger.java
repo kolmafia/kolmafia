@@ -50,7 +50,6 @@ public class RequestLogger extends NullStream implements KoLConstants
 
 	private static String previousUpdateString = "";
 	private static boolean wasLastRequestSimple = false;
-	private static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 
 	private RequestLogger()
 	{
@@ -303,31 +302,6 @@ public class RequestLogger extends NullStream implements KoLConstants
 			else if ( !cost.isItem() || cost.getCount( inventory ) > 0 )
 				StaticEntity.getClient().processResult( cost );
 
-			return;
-		}
-
-		if ( urlString.startsWith( "bhh.php" ) )
-		{
-			if ( urlString.indexOf( "action=abandonbounty" ) != -1 )
-			{
-				int itemId = StaticEntity.getIntegerProperty( "currentBountyItem" );
-				if ( itemId == 0 )
-					return;
-
-				AdventureResult item = new AdventureResult( itemId, 1 );
-				StaticEntity.getClient().processResult( item.getInstance( 0 - item.getCount( inventory ) ) );
-				StaticEntity.setProperty( "currentBountyItem", "0" );
-				return;
-			}
-
-			if ( urlString.indexOf( "action=takebounty" ) == -1 )
-				return;
-
-			Matcher idMatcher = ITEMID_PATTERN.matcher( urlString );
-			if ( !idMatcher.find() )
-				return;
-
-			StaticEntity.setProperty( "currentBountyItem", idMatcher.group(1) );
 			return;
 		}
 
