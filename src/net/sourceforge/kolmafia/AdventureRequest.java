@@ -531,7 +531,7 @@ public class AdventureRequest extends KoLRequest
 					String text = (String)demons[j][2];
 					if ( responseText.indexOf( text ) != -1 )
 					{
-						index = j;
+						index = j + 1;
 						break;
 					}
 				}
