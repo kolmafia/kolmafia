@@ -2031,6 +2031,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					break;
 
 				case CONSUME_USE:
+				case MESSAGE_DISPLAY:
 				case INFINITE_USES:
 
 					if ( itemId == 146 )
