@@ -1056,7 +1056,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			// easier browsing.
 
 			int selectBeginIndex = buffer.indexOf( "<option value=-" );
-			if ( selectBeginIndex != -1 )
+			if ( selectBeginIndex != -1 && addComplexFeatures )
 			{
 				int selectEndIndex = buffer.indexOf( "</select>", selectBeginIndex );
 				String outfitString = buffer.substring( selectBeginIndex, selectEndIndex );
