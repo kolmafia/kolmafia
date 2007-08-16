@@ -906,16 +906,10 @@ public class LocalRelayRequest extends PasswordHashRequest
 			}
 		}
 
-		// Special handling of adventuring locations before it's
-		// registered internally with KoLmafia.
-
-		else if ( this.formURLString.equals( "adventure.php" ) )
+		if ( AdventureDatabase.getAdventureByURL( this.getURLString() ) != null )
 		{
-			String location = this.getFormField( "snarfblat" );
-			if ( location == null )
-				location = this.getFormField( "adv" );
-
-			TurnCounter expired = StaticEntity.getExpiredCounter( location );
+			TurnCounter expired = StaticEntity.getExpiredCounter(
+				this.formURLString.equals( "adventure.php" ) ? this.getFormField( "snarfblat" ) : "" );
 
 			if ( expired != null )
 			{
@@ -926,38 +920,48 @@ public class LocalRelayRequest extends PasswordHashRequest
 				return;
 			}
 
-			// Sometimes, people want the MCD rewards from various boss
-			// monsters.  Let's help out.  This one's for the Boss Bat,
-			// who has special items at 4 and 8.
+			// Special handling of adventuring locations before it's
+			// registered internally with KoLmafia.
 
-			if ( location != null && location.equals( "34" ) && this.getFormField( "override" ) == null )
+			if ( this.formURLString.equals( "adventure.php" ) )
 			{
-				this.sendBossWarning( "Boss Bat", "bossbat.gif", 4, "batpants.gif", 8, "batbling.gif" );
-				return;
+				String location = this.getFormField( "snarfblat" );
+				if ( location == null )
+					location = this.getFormField( "adv" );
+
+				// Sometimes, people want the MCD rewards from various boss
+				// monsters.  Let's help out.  This one's for the Boss Bat,
+				// who has special items at 4 and 8.
+
+				if ( location != null && location.equals( "34" ) && this.getFormField( "override" ) == null )
+				{
+					this.sendBossWarning( "Boss Bat", "bossbat.gif", 4, "batpants.gif", 8, "batbling.gif" );
+					return;
+				}
 			}
-		}
 
-		// More MCD rewards.  This one is for the Knob Goblin King,
-		// who has special items at 3 and 7.
+			// More MCD rewards.  This one is for the Knob Goblin King,
+			// who has special items at 3 and 7.
 
-		else if ( this.formURLString.equals( "knob.php" ) )
-		{
-			if ( this.getFormField( "king" ) != null && this.getFormField( "override" ) == null )
+			else if ( this.formURLString.equals( "knob.php" ) )
 			{
-				this.sendBossWarning( "Knob Goblin King", "goblinking.gif", 3, "glassballs.gif", 7, "batcape.gif" );
-				return;
+				if ( this.getFormField( "king" ) != null && this.getFormField( "override" ) == null )
+				{
+					this.sendBossWarning( "Knob Goblin King", "goblinking.gif", 3, "glassballs.gif", 7, "batcape.gif" );
+					return;
+				}
 			}
-		}
 
-		// More MCD rewards.  This one is for the Bonerdagon, who has
-		// special items at 5 and 10.
+			// More MCD rewards.  This one is for the Bonerdagon, who has
+			// special items at 5 and 10.
 
-		else if ( this.formURLString.equals( "cyrpt.php" ) )
-		{
-			if ( this.getFormField( "action" ) != null && this.getFormField( "override" ) == null )
+			else if ( this.formURLString.equals( "cyrpt.php" ) )
 			{
-				this.sendBossWarning( "Bonerdagon", "bonedragon.gif", 5, "rib.gif", 10, "vertebra.gif" );
-				return;
+				if ( this.getFormField( "action" ) != null && this.getFormField( "override" ) == null )
+				{
+					this.sendBossWarning( "Bonerdagon", "bonedragon.gif", 5, "rib.gif", 10, "vertebra.gif" );
+					return;
+				}
 			}
 		}
 

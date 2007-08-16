@@ -109,7 +109,7 @@ public class AdventureDatabase extends KoLDatabase
 	{
 		// First set of bounties
 		bountiesById.set( 15, "3 triffid bark" ); // Spooky Forest
-		bountiesById.set( 18, "oily rag" );  // Degrassi Knoll
+		bountiesById.set( 18, "6 oily rag" );  // Degrassi Knoll
 		bountiesById.set( 20, "20 empty greasepaint tube" );  // Fun House
 		bountiesById.set( 22, "7 wilted lettuce" );  // Fernswarthy's Tower
 		bountiesById.set( 30, "14 pink bat eye" );  // Bat Hole Entryway
@@ -138,6 +138,7 @@ public class AdventureDatabase extends KoLDatabase
 		bountiesById.set( 120, "20 disintegrating cork" );  // Haunted Wine Cellar
 	}
 
+	private static final TreeMap locationByBounty = new TreeMap();
 	static
 	{
 		for ( int i = 0; i < 6; ++i )
@@ -1077,6 +1078,20 @@ public class AdventureDatabase extends KoLDatabase
 
 		for ( int i = 0; i < adventureTable[3].size(); ++i )
 			addAdventure( getAdventure(i) );
+
+		for ( int i = 0; i < bountiesById.size(); ++i )
+		{
+			String bounty = bountiesById.get(i);
+			if ( bounty == null || bounty.equals( "" ) )
+				continue;
+
+			bounty = bounty.substring( bounty.indexOf( " " ) + 1 );
+			locationByBounty.put( bounty, getAdventureByURL( "adventure.php?snarfblat=" + i ) );
+		}
+	}
+
+	public static final KoLAdventure getBountyLocation( String item )
+	{	return (KoLAdventure) locationByBounty.get( item );
 	}
 
 	public static final void refreshAdventureList( String desiredZone )

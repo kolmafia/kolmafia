@@ -257,10 +257,16 @@ public class ItemManagePanel extends LabeledScrollPanel
 	public void setEnabled( boolean isEnabled )
 	{
 		if ( this.elementList == null || this.buttons == null )
+		{
+			super.setEnabled( isEnabled );
 			return;
+		}
 
 		if ( this.buttons.length > 0 && this.buttons[ this.buttons.length - 1 ] == null )
+		{
+			super.setEnabled( isEnabled );
 			return;
+		}
 
 		this.elementList.setEnabled( isEnabled );
 		for ( int i = 0; i < this.buttons.length; ++i )

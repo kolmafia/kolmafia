@@ -3048,7 +3048,7 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	public void openRelayBrowser( String location )
-	{	openRelayBrowser( location, true );
+	{	openRelayBrowser( location, !System.getProperty( "os.name" ).startsWith( "Mac" ) );
 	}
 
 	public void openRelayBrowser( String location, boolean forceMain )
