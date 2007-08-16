@@ -261,6 +261,8 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 					StaticEntity.setProperty( "customCombatSkill" + insertIndex, skillId );
 				}
 			}
+
+			this.request.run();
 		}
 		else
 		{
