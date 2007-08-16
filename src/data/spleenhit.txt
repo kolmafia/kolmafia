@@ -1,8 +1,8 @@
 # Spleen hit values taken from the KoL Wiki
 # http://kol.coldfront.net/thekolwiki/index.php/Spleen
 
-ancient protein powder	1 
-antique bottle of cough syrup	1 
+ancient protein powder	1
+antique bottle of cough syrup	1
 astronaut ice-cream	1
 bit-o-cactus	1
 black paisley oyster egg	1
@@ -11,14 +11,14 @@ black striped oyster egg	1
 blue paisley oyster egg	1
 blue polka-dot oyster egg	1
 blue striped oyster egg	1
-bottle of ultravitamins	1 
+bottle of ultravitamins	1
 can-can-in-a-can	1
 cold wad	1
 concentrated magicalness pill	1
 enchanted barbell	1
 extra-strength strongness elixir	1
 giant moxie weed	1
-handful of moss	1 
+handful of moss	1
 hot wad	1
 jug-o-magicalness	1
 lavender paisley oyster egg	1
@@ -46,7 +46,7 @@ spooky wad	1
 stench wad	1
 strongness elixir	1
 suntan lotion of moxiousness	1
-tube of hair oil	1 
+tube of hair oil	1
 twinkly wad	1
 yellow paisley oyster egg	1
 yellow polka-dot oyster egg	1
