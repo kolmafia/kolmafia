@@ -497,9 +497,9 @@ public class OptionsFrame extends KoLFrame
 	{
 		private String [][] options =
 		{
-			{ "logChatMessages", "Log chats when using KoLmafia (requires restart)" },
 			{ "useTabbedChatFrame", "Use tabbed, rather than multi-window, chat" },
 			{ "useSeparateChannels", "Put different channels into separate displays" },
+			{ "chatLinksUseRelay", "Use the relay browser when clicking on chat links" },
 			{},
 			{ "greenScreenProtection", "Ignore all event messages in KoLmafia chat" },
 			{ "useChatMonitor", "Add an \"as KoL would show it\" display" },
@@ -508,7 +508,7 @@ public class OptionsFrame extends KoLFrame
 			{ "useShinyTabbedChat", "Use shiny closeable tabs when using tabbed chat" },
 			{ "useContactsFrame", "Use a popup window for /friends and /who" },
 			{ "useChatToolbar", "Add a toolbar to chat windows for special commands" },
-
+			{ "logChatMessages", "Log chats when using KoLmafia (requires restart)" },
 		};
 
 		private ButtonGroup fontSizeGroup;

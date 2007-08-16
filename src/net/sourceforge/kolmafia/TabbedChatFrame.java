@@ -61,6 +61,8 @@ public class TabbedChatFrame extends ChatFrame implements ChangeListener, CloseL
 		commandLineDisplay = new ChatPanel( GCLI_TAB );
 		addGCLI = StaticEntity.getBooleanProperty( "addChatCommandLine" );
 		KoLMessenger.setTabbedFrame( this );
+
+		setTitle( "KoLmafia Chat" );
 	}
 
 	public JTabbedPane getTabbedPane()

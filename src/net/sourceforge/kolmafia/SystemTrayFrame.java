@@ -100,14 +100,19 @@ public abstract class SystemTrayFrame implements KoLConstants
 
 	public static final void updateToolTip()
 	{
+		if ( KoLCharacter.getUserName().equals( "" ) )
+			updateToolTip( VERSION_NAME );
+		else
+			updateToolTip( VERSION_NAME + ": " + KoLCharacter.getUserName() );
+	}
+
+	public static final void updateToolTip( String message )
+	{
 		if ( icon == null )
 			return;
 
 		icon.setVisible( true );
-		if ( KoLCharacter.getUserName().equals( "" ) )
-			icon.setToolTipText( VERSION_NAME );
-		else
-			icon.setToolTipText( VERSION_NAME + ": " + KoLCharacter.getUserName() );
+		icon.setToolTipText( message );
 	}
 
 	public static final void showBalloon( String message )

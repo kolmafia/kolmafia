@@ -436,6 +436,7 @@ public abstract class KoLmafia implements KoLConstants
 			continuationState = state;
 
 		RequestLogger.printLine( state, message );
+		SystemTrayFrame.updateToolTip( message );
 		lastMessage = message;
 
 		if ( message.indexOf( LINE_BREAK ) == -1 )
