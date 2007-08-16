@@ -241,22 +241,30 @@ public class AdventureResult implements Comparable, KoLConstants
 		}
 	}
 
+	public static final int itemId( String name )
+	{
+		int id = -1;
+
+		id = bangPotionId( name );
+		if ( id != -1 )
+			return id;
+
+		id = stoneSphereId( name );
+		if ( id != -1 )
+			return id;
+
+		return TradeableItemDatabase.getItemId( name, 1 );
+	}
+
 	public static final AdventureResult bangPotion( String name )
 	{
 		// Given "potion of confusion", look it up
 		if ( !name.startsWith( "potion of " ) )
 		     return null;
 
-		// Get the effect name;
-		String effect = name.substring( 10 );
-
-		// Make sure we have potion properties
-		ConsumeItemRequest.ensureUpdatedPotionEffects();
-
-		// Look up the effect name
-		for ( int i = 819; i <= 827; ++i )
-			if ( effect.equals( StaticEntity.getProperty( "lastBangPotion" + i ) ) )
-				return new AdventureResult( i, 1 );
+		int id = bangPotionId( name );
+		if ( id > 0 )
+			return new AdventureResult( id, 1 );
 
 		// We don't know which potion makes this effect.
 		// Make a pseudo-item with the required name
@@ -264,6 +272,46 @@ public class AdventureResult implements Comparable, KoLConstants
 		AdventureResult item = new AdventureResult( "(none)", 1, false );
 		item.name = name;
 		return item;
+	}
+
+	private static int bangPotionId( String name )
+	{
+		int index =  name.indexOf( "potion of " );
+		if ( index == -1 )
+			return -1;
+
+		// Get the effect name;
+		String effect = name.substring( index + 10 );
+
+		// Make sure we have potion properties
+		ConsumeItemRequest.ensureUpdatedPotionEffects();
+
+		// Look up the effect name
+		for ( int i = 819; i <= 827; ++i )
+			if ( effect.equals( StaticEntity.getProperty( "lastBangPotion" + i ) ) )
+				return i;
+
+		return -1;
+	}
+
+	private static int stoneSphereId( String name )
+	{
+		int index =  name.indexOf( "sphere of " );
+		if ( index == -1 )
+			return -1;
+
+		// Get the effect name;
+		String effect = name.substring( index + 10 );
+
+		// Make sure we have sphere properties
+		FightRequest.ensureUpdatedSphereEffects();
+
+		// Look up the effect name
+		for ( int i = 2174; i <= 2177; ++i )
+			if ( effect.equals( StaticEntity.getProperty( "lastStoneSphere" + i ) ) )
+				return i;
+
+		return -1;
 	}
 
 	/**
@@ -807,41 +855,7 @@ public class AdventureResult implements Comparable, KoLConstants
 				return defaultComponent;
 
 			StringBuffer stringForm = new StringBuffer();
-			stringForm.append( ar.name );
-
-			String effect;
-			switch ( ar.getItemId() )
-			{
-			case ConsumeItemRequest.MILKY_POTION:
-			case ConsumeItemRequest.SWIRLY_POTION:
-			case ConsumeItemRequest.BUBBLY_POTION:
-			case ConsumeItemRequest.SMOKY_POTION:
-			case ConsumeItemRequest.CLOUDY_POTION:
-			case ConsumeItemRequest.EFFERVESCENT_POTION:
-			case ConsumeItemRequest.FIZZY_POTION:
-			case ConsumeItemRequest.DARK_POTION:
-			case ConsumeItemRequest.MURKY_POTION:
-
-				ConsumeItemRequest.ensureUpdatedPotionEffects();
-				effect = StaticEntity.getProperty( "lastBangPotion" + ar.getItemId() );
-
-				if ( !effect.equals( "" ) )
-					stringForm.append( " of " + effect );
-				break;
-
-			case FightRequest.MOSSY_STONE_SPHERE:
-			case FightRequest.SMOOTH_STONE_SPHERE:
-			case FightRequest.CRACKED_STONE_SPHERE:
-			case FightRequest.ROUGH_STONE_SPHERE:
-
-				FightRequest.ensureUpdatedSphereEffects();
-				effect = StaticEntity.getProperty( "lastStoneSphere" + ar.getItemId() );
-
-				if ( !effect.equals( "" ) )
-					stringForm.append( " of " + effect );
-				break;
-			}
-
+			stringForm.append( ar.getName() );
 
 			if ( this.isEquipment )
 			{
