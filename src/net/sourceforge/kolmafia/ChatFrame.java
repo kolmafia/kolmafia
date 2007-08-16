@@ -411,15 +411,11 @@ public class ChatFrame extends KoLFrame
 	{
 		public void handleInternalLink( String location )
 		{
-			if ( location.startsWith( "makeoffer.php" ) || location.startsWith( "counteroffer.php" ) )
+			if ( location.startsWith( "makeoffer" ) || location.startsWith( "counteroffer" ) || location.startsWith( "bet" ) )
 			{
 				StaticEntity.getClient().openRelayBrowser( location );
 				return;
 			}
-
-			// <name> took your bet
-			if ( location.startsWith( "bet.php" ) )
-				return;
 
 			String [] locationSplit = location.split( "[=_]" );
 
@@ -479,7 +475,7 @@ public class ChatFrame extends KoLFrame
 			}
 
 			if ( StaticEntity.getBooleanProperty( "chatLinksUseRelay" ) || !urlString.startsWith( "show" ) )
-				StaticEntity.getClient().openRelayBrowser( urlString );
+				StaticEntity.getClient().openRelayBrowser( urlString, false );
 			else
 				ProfileFrame.showRequest( KoLRequest.VISITOR.constructURLString( urlString ) );
 		}
