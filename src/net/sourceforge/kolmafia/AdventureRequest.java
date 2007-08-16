@@ -465,20 +465,27 @@ public class AdventureRequest extends KoLRequest
 	private static final Object [][] demons = {
 		{ "Summoning Chamber",
 		  Pattern.compile( "Did you say your name was (.*?)\\?" ),
+		  "delicious-looking pies"
 		},
 		{ "Hoom Hah",
-		  Pattern.compile( "(.*?)! \\1, cooooome to meeeee!" )
+		  Pattern.compile( "(.*?)! \\1, cooooome to meeeee!" ),
+		  "fifty meat"
 		},
 		{ "Every Seashell Has a Story to Tell If You're Listening",
-		  Pattern.compile( "Hello\\? Is (.*?) there\\?" )
+		  Pattern.compile( "Hello\\? Is (.*?) there\\?" ),
+		  "fish-guy"
 		},
 		{ "Leavesdropping",
-		  Pattern.compile( "(.*?), we call you! \\1, come to us!" )
+		  Pattern.compile( "(.*?), we call you! \\1, come to us!" ),
+		  "bullwhip"
 		},
 		{ "These Pipes... Aren't Clean!",
-		  Pattern.compile( "Blurgle. (.*?). Gurgle. By the way," )
+		  Pattern.compile( "Blurgle. (.*?). Gurgle. By the way," ),
+		  "coprodaemon"
 		},
 	};
+
+        private static final Pattern NAME_PATTERN = Pattern.compile( "<b>&quot;(.*?)&quot;</b>" );
 
 	public static final void registerDemonName( String encounter, String responseText )
 	{
@@ -490,13 +497,53 @@ public class AdventureRequest extends KoLRequest
 
 			Pattern pattern = (Pattern)demons[i][1];
 			Matcher matcher = pattern.matcher( responseText );
-			if ( !matcher.find() )
-				return;
 
-			String demon = matcher.group(1);
+			String demon = null;
+			int index = -1;
+
+			if ( matcher.find() )
+			{
+				// We found the name
+				demon = matcher.group(1);
+				index = (i + 1);
+			}
+			else if ( i != 0 )
+			{
+				// It's not the Summoning Chamber.
+				return;
+			}
+			else
+			{
+				// It is the Summoning Chamber. If he used a
+				// valid demon name, we can deduce which one it
+				// is from the result text
+
+				matcher = NAME_PATTERN.matcher( responseText );
+				if ( !matcher.find() )
+					return;
+
+				// Save the name he used.
+				demon = matcher.group(1);
+
+				// Look for tell-tale string
+				for ( int j = 0; j < demons.length; ++j )
+				{
+					String text = (String)demons[j][2];
+					if ( responseText.indexOf( text ) != -1 )
+					{
+						index = j;
+						break;
+					}
+				}
+
+				// Couldn't figure out which demon he called.
+				if ( index == -1 )
+					return;
+			}
+
 			RequestLogger.printLine( "Demon name: " + demon );
 			RequestLogger.updateSessionLog( "Demon name: " + demon );
-			StaticEntity.setProperty( "demonName" + (i + 1), demon );
+			StaticEntity.setProperty( "demonName" + index, demon );
 			return;
 		}
 	}
