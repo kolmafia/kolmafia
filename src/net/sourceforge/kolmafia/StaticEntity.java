@@ -760,7 +760,12 @@ public abstract class StaticEntity implements KoLConstants
 			File library = new File( parent, filename );
 
 			if ( library.exists() )
-				return true;
+			{
+				if ( filename.equals( "basics.js" ) )
+					library.delete();
+				else
+					return true;
+			}
 
 			InputStream input = DataUtilities.getInputStream( directory, filename );
 			if ( input == null )

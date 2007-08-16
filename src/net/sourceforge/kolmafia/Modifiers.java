@@ -46,7 +46,8 @@ import java.util.regex.Pattern;
 
 public class Modifiers extends KoLDatabase
 {
-	private static final Map modifierMap = new TreeMap();
+	private static final Map modifiersByName = new TreeMap();
+	private static final Map effectsByModifier = new TreeMap();
 	private static final ArrayList passiveSkills = new ArrayList();
 
 	static
@@ -55,13 +56,13 @@ public class Modifiers extends KoLDatabase
 		String [] data;
 
 		while ( (data = readData( reader )) != null )
-                {
+		{
 			if ( data.length != 2 )
-                                continue;
+				continue;
 
-                        String name = getCanonicalName( data[0] );
-                        modifierMap.put( name, data[1] );
-                }
+			String name = getCanonicalName( data[0] );
+			modifiersByName.put( name, data[1] );
+		}
 
 		try
 		{
@@ -317,7 +318,7 @@ public class Modifiers extends KoLDatabase
 	public static final int NEVER_FUMBLE = 2;
 	public static final int WEAKENS = 3;
 
-        private static final Object [][] booleanModifiers = {
+		private static final Object [][] booleanModifiers = {
 		{ "Softcore Only",
 		  Pattern.compile( "This item cannot be equipped while in Hardcore" ),
 		  Pattern.compile( "Softcore Only" )
@@ -342,22 +343,26 @@ public class Modifiers extends KoLDatabase
 	public static final int INTRINSIC_EFFECT = 1;
 	public static final int EQUALIZE = 2;
 
-        private static final Object [][] stringModifiers = {
-                { "Class",
-                  null,
-                  Pattern.compile( "Class: \"(.*?)\"" )
-                },
-                { "Intrinsic Effect",
-                  Pattern.compile( "Intrinsic effect: (.*)" ),
-                  Pattern.compile( "Intrinsic Effect: \"(.*?)\"" )
-                },
-                { "Equalize",
-                  null,
-                  Pattern.compile( "Equalize: \"(.*?)\"" )
-                },
+		private static final Object [][] stringModifiers = {
+				{ "Class",
+				  null,
+				  Pattern.compile( "Class: \"(.*?)\"" )
+				},
+				{ "Intrinsic Effect",
+				  Pattern.compile( "Intrinsic effect: (.*)" ),
+				  Pattern.compile( "Intrinsic Effect: \"(.*?)\"" )
+				},
+				{ "Equalize",
+				  null,
+				  Pattern.compile( "Equalize: \"(.*?)\"" )
+				},
 	};
 
 	public static final int STRING_MODIFIERS = stringModifiers.length;
+
+	public static final String getModifierName( int index )
+	{	return modifierName( floatModifiers, index );
+	}
 
 	private static final String modifierName( Object [][] table, int index )
 	{
@@ -402,6 +407,34 @@ public class Modifiers extends KoLDatabase
 	private static final String MP_REGEN_MIN_TAG = modifierName( floatModifiers, MP_REGEN_MIN ) + ": ";
 	private static final String MP_REGEN_MAX_TAG = modifierName( floatModifiers, MP_REGEN_MAX ) + ": ";
 
+	public static ArrayList getBoostingEffects( int index )
+	{
+		Integer key = new Integer( index );
+		ArrayList available = (ArrayList) effectsByModifier.get( key );
+
+		if ( available == null )
+		{
+			available = new ArrayList();
+			effectsByModifier.put( key, available );
+
+			Modifiers currentTest;
+			Object [] check = modifiersByName.keySet().toArray();
+
+			for ( int i = 0; i < check.length; ++i )
+			{
+				if ( !StatusEffectDatabase.contains( (String) check[i] ) )
+					continue;
+
+				currentTest = getModifiers( (String) check[i] );
+				float value = ((Modifiers)currentTest).get( index );
+				if ( value > 0.0f )
+					available.add( new AdventureResult( (String) check[i], 1, true ) );
+			}
+		}
+
+		return available;
+	}
+
 	private static final int findName( Object [][] table, String name )
 	{
 		for ( int i = 0; i < table.length; ++i )
@@ -424,7 +457,7 @@ public class Modifiers extends KoLDatabase
 		reset();
 	};
 
-        public void reset()
+		public void reset()
 	{
 		for ( int i = 0; i < this.floats.length; ++i )
 			this.floats[i] = 0.0f;
@@ -647,7 +680,7 @@ public class Modifiers extends KoLDatabase
 			return null;
 
 		name = getCanonicalName( name );
-		Object modifier = modifierMap.get( name );
+		Object modifier = modifiersByName.get( name );
 
 		if ( modifier == null )
 			return null;
@@ -713,7 +746,7 @@ public class Modifiers extends KoLDatabase
 		}
 
 		newMods.variable = newMods.override( name );
-		modifierMap.put( name, newMods );
+		modifiersByName.put( name, newMods );
 
 		return newMods;
 	};
@@ -816,8 +849,8 @@ public class Modifiers extends KoLDatabase
 			// Set modifiers depending on what day of the week it
 			// is at the KoL servers
 
-			Calendar KoL = Calendar.getInstance( TimeZone.getTimeZone( "GMT-7" ) );
-			switch ( KoL.DAY_OF_WEEK )
+			Calendar date = Calendar.getInstance( TimeZone.getTimeZone( "GMT-7" ) );
+			switch ( date.get( Calendar.DAY_OF_WEEK ) )
 			{
 			case Calendar.SUNDAY:
 				// +5% Meat from Monsters
@@ -888,7 +921,7 @@ public class Modifiers extends KoLDatabase
 
 		if ( passiveSkills.isEmpty() )
 		{
-			Object [] keys = modifierMap.keySet().toArray();
+			Object [] keys = modifiersByName.keySet().toArray();
 			for ( int i = 0; i < keys.length; ++i )
 			{
 				String skill = (String)keys[i];
@@ -1167,11 +1200,11 @@ public class Modifiers extends KoLDatabase
 
 	public static final void checkModifiers()
 	{
-		Object [] keys = modifierMap.keySet().toArray();
+		Object [] keys = modifiersByName.keySet().toArray();
 		for ( int i = 0; i < keys.length; ++i )
 		{
 			String name = (String)keys[i];
-			Object modifier = modifierMap.get( name );
+			Object modifier = modifiersByName.get( name );
 
 			if ( modifier == null )
 			{

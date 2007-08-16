@@ -567,7 +567,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		{	super( elem );
 		}
 
-	    public URL getImageURL()
+		public URL getImageURL()
 		{
 			String src = (String) this.getElement().getAttributes().getAttribute( HTML.Attribute.SRC );
 
@@ -1004,7 +1004,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		}
 		else if ( location.startsWith( "basement.php" ) )
 		{
-			addBasementSpoilers( buffer );
+			BasementRequest.decorate( buffer );
 		}
 		else if ( location.startsWith( "bathole.php" ) )
 		{
@@ -1168,93 +1168,6 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			 "<script language=\"Javascript\" src=\"/images/scripts/rcm.2.js\"></script></head>" );
 
 		StaticEntity.singleStringReplace( buffer, "</body>", "<div id='menu' class='rcm'></div></body>" );
-	}
-
-	public static final void addBasementSpoilers( StringBuffer buffer )
-	{
-		boolean hasCheck = BasementRequest.checkBasement( false, buffer.toString() );
-
-		if ( buffer.indexOf( "Got Silk?" ) != -1 )
-		{
-			addBasementChoiceSpoilers( buffer, "Moxie", "Muscle" );
-			return;
-		}
-
-		if ( buffer.indexOf( "Save the Dolls" ) != -1 )
-		{
-			addBasementChoiceSpoilers( buffer, "Mysticality", "Moxie" );
-			return;
-		}
-
-		if ( buffer.indexOf( "Take the Red Pill" ) != -1 )
-		{
-			addBasementChoiceSpoilers( buffer, "Muscle", "Mysticality" );
-			return;
-		}
-
-		if ( buffer.indexOf( "basics.js" ) == -1 )
-			buffer.insert( buffer.indexOf( "</head>" ), "<script language=\"Javascript\" src=\"/basics.js\"></script></head>" );
-
-		StringBuffer changes = new StringBuffer();
-		changes.append( "<br/><select id=\"outfit\" style=\"width: 250px\"><option value=\"none\">- select an outfit -</option>" );
-
-		SpecialOutfit current;
-		for ( int i = 0; i < KoLCharacter.getCustomOutfits().size(); ++i )
-		{
-			current = (SpecialOutfit) KoLCharacter.getCustomOutfits().get(i);
-
-			changes.append( "<option value=\"" );
-			changes.append( StaticEntity.globalStringReplace( current.getName(), " ", "+" ) );
-			changes.append( "\"" );
-
-			changes.append( ">" );
-			changes.append( current.getName() );
-			changes.append( "</option>" );
-		}
-
-		changes.append( "</select>&nbsp;<input class=\"button\" type=\"button\" value=\"update\" onClick=\"changeBasementOutfit();\">" );
-
-		if ( false )
-		{
-			changes.append( "<br/><select id=\"potion\" style=\"width: 250px\"><option value=\"none\">- select a status effect -</option>" );
-
-			changes.append( "</select>&nbsp;<input class=\"button\" type=\"button\" value=\"update\" onClick=\"changeBasementPotion();\">" );
-		}
-
-		changes.append( "<br/>" );
-		buffer.insert( buffer.indexOf( "</center><blockquote>" ), changes.toString() );
-
-		if ( hasCheck )
-		{
-			String checkString = BasementRequest.getRequirement();
-			buffer.insert( buffer.lastIndexOf( "</b>" ) + 4, "<br/>" );
-			buffer.insert( buffer.lastIndexOf( "<img" ), "<table><tr><td>" );
-			buffer.insert( buffer.indexOf( ">", buffer.lastIndexOf( "<img" ) ) + 1, "</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><font id=\"spoiler\" size=2>" +
-				       checkString + "</font></td></tr></table>" );
-		}
-	}
-
-	private static final void addBasementChoiceSpoilers( StringBuffer buffer, String choice1, String choice2 )
-	{
-		String text = buffer.toString();
-		buffer.setLength(0);
-
-		int index1 = 0, index2;
-
-		// Add first choice spoiler
-		index2 = text.indexOf( "</form>", index1 );
-		buffer.append( text.substring( index1, index2 ) );
-		buffer.append( "<br><font size=-1>(" + choice1 + ")</font></form>" );
-		index1 = index2 + 7;
-
-		// Add second choice spoiler
-		index2 = text.indexOf( "</form>", index1 );
-		buffer.append( text.substring( index1, index2 ) );
-		buffer.append( "<br><font size=-1>(" + choice2 + ")</font></form>" );
-		index1 = index2 + 7;
-
-		// Append remainder of buffer
-		buffer.append( text.substring( index1 ) );
 	}
 
 	private static final void addPreAscensionReminders( StringBuffer buffer )
@@ -1733,7 +1646,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 						addFightButton( buffer, actionBuffer, action, FightRequest.getCurrentRound() > 0 );
 				}
 
-				actionBuffer.append( "</td></tr>" );
+				actionBuffer.append( "</td></tr><tr height=4><td></td></tr>" );
 				buffer.insert( insertionPoint, actionBuffer.toString() );
 			}
 		}
