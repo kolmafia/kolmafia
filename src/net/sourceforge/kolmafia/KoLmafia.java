@@ -73,7 +73,6 @@ public abstract class KoLmafia implements KoLConstants
 {
 	private static boolean isRefreshing = false;
 	private static boolean isAdventuring = false;
-	private static int relayBrowserInstances = 0;
 
 	public static String lastMessage = "";
 

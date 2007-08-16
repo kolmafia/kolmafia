@@ -200,6 +200,9 @@ function changeBasementPotion()
 		getObject( "spoiler" ).innerHTML = httpObject.responseText;
 	}
 
+	select.removeChild( select.options[select.selectedIndex] );
+	select.selectedIndex = 0;
+
 	httpObject.open( "POST", "/KoLmafia/basementSpoiler" );
 	httpObject.send( null );
 	return true;
