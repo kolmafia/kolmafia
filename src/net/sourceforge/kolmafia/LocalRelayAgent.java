@@ -233,6 +233,35 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 		{
 			this.request.pseudoResponse( "HTTP/1.1 200 OK", RequestEditorKit.getFeatureRichHTML( "charpane.php", CharpaneRequest.getLastResponse(), true ) );
 		}
+		else if ( this.path.startsWith( "/fight.php" ) )
+		{
+			String action = request.getFormField( "action" );
+			if ( action != null && action.equals( "skill" ) )
+			{
+				String skillId = request.getFormField( "whichskill" );
+				if ( !skillId.equals( "3004" ) )
+				{
+					String testAction;
+					int insertIndex = 6;
+
+					for ( int i = 1; i <= 5 && insertIndex == 6; ++i )
+					{
+						testAction = StaticEntity.getProperty( "customCombatSkill" + i );
+						if ( testAction.equals( "" ) || testAction.equals( skillId ) )
+							insertIndex = i;
+					}
+
+					if ( insertIndex == 6 )
+					{
+						insertIndex = 5;
+						for ( int i = 2; i <= 5; ++i )
+							StaticEntity.setProperty( "customCombatSkill" + (i-1), StaticEntity.getProperty( "customCombatSkill" + i ) );
+					}
+
+					StaticEntity.setProperty( "customCombatSkill" + insertIndex, skillId );
+				}
+			}
+		}
 		else
 		{
 			if ( !this.request.hasNoResult() )
@@ -302,9 +331,6 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 		public void wake()
 		{
 			FightRequest.beginTrackingFights();
-
-			if ( !StaticEntity.getProperty( "battleAction" ).startsWith( "custom" ) )
-				KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "battleAction=custom" );
 
 			synchronized ( this )
 			{	this.notify();
