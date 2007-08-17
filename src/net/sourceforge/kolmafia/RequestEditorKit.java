@@ -1611,7 +1611,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				}
 				else
 				{
-					buffer.append( "script" );
+					buffer.append( "custom" );
 				}
 			}
 			else if ( action.equals( "attack" ) || action.equals( "steal" ) )
@@ -1688,7 +1688,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		{
 			int combatIndex = buffer.indexOf( "!</b>" );
 			if ( combatIndex != -1 )
-				buffer.insert( combatIndex, ": Round " + FightRequest.getTrackedRound() );
+				buffer.insert( combatIndex, ": Round " + FightRequest.getCurrentRound() );
 		}
 
 		if ( !StaticEntity.getBooleanProperty( "relayAddsMonsterHealth" ) )

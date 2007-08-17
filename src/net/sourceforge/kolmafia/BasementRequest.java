@@ -159,7 +159,7 @@ public class BasementRequest extends AdventureRequest
 		{
 			// If it was a fight and we won, good.
 
-			if ( FightRequest.INSTANCE.responseCode == 200 && FightRequest.INSTANCE.responseText.indexOf( "<!--WINWINWIN-->" ) != -1 )
+			if ( FightRequest.INSTANCE.responseCode == 200 && FightRequest.lastResponseText.indexOf( "<!--WINWINWIN-->" ) != -1 )
 				return;
 
 			// Otherwise ... what is this? Refetch the page and see if we passed test.

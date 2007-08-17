@@ -5587,7 +5587,7 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue run_combat()
 		{
 			RequestThread.postRequest( FightRequest.INSTANCE );
-			String response = relayScript == null ? FightRequest.INSTANCE.responseText :
+			String response = relayScript == null ? FightRequest.lastResponseText :
 				FightRequest.getNextTrackedRound();
 
 			return new ScriptValue( BUFFER_TYPE, "", new StringBuffer( response == null ? "" : response ) );

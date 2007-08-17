@@ -199,11 +199,24 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 			this.request.responseCode = 304;
 		}
 
-		if ( this.path.equals( "/fight.php?action=script" ) )
+		if ( this.path.equals( "/fight.php?action=custom" ) )
 		{
 			if ( !FightRequest.isTrackingFights() )
 				CUSTOM_THREAD.wake();
 
+			String fightResponse = FightRequest.getNextTrackedRound();
+
+			if ( FightRequest.isTrackingFights() )
+			{
+				fightResponse = SCRIPT_PATTERN.matcher( fightResponse ).replaceAll( "" );
+				this.request.pseudoResponse( "HTTP/1.1 200 OK", fightResponse );
+				this.request.headers.add( "Refresh: 0; URL=fight.php?action=script" );
+			}
+			else
+				this.request.pseudoResponse( "HTTP/1.1 200 OK", fightResponse );
+		}
+		else if ( this.path.equals( "/fight.php?action=script" ) )
+		{
 			String fightResponse = FightRequest.getNextTrackedRound();
 
 			if ( FightRequest.isTrackingFights() )
@@ -217,12 +230,8 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 		}
 		else if ( this.path.equals( "/fight.php?action=abort" ) )
 		{
-			KoLmafia.updateDisplay( ABORT_STATE, "You're on your own, partner." );
-
-			String fightResponse = FightRequest.getNextTrackedRound();
-
-			fightResponse = SCRIPT_PATTERN.matcher( fightResponse ).replaceAll( "" );
-			this.request.pseudoResponse( "HTTP/1.1 200 OK", fightResponse );
+			FightRequest.stopTrackingFights();
+			this.request.pseudoResponse( "HTTP/1.1 200 OK", FightRequest.getNextTrackedRound() );
 		}
 		else if ( this.path.startsWith( "/tiles.php" ) )
 		{
