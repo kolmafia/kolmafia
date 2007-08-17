@@ -215,6 +215,11 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 			else
 				this.request.pseudoResponse( "HTTP/1.1 200 OK", fightResponse );
 		}
+		else if ( this.path.equals( "/fight.php?action=abort" ) )
+		{
+			KoLmafia.updateDisplay( ABORT_STATE, "You're on your own, partner." );
+			this.request.pseudoResponse( "HTTP/1.1 200 OK", RequestEditorKit.getFeatureRichHTML( "fight.php", FightRequest.INSTANCE.responseText, true ) );
+		}
 		else if ( this.path.startsWith( "/tiles.php" ) )
 		{
 			AdventureRequest.handleDvoraksRevenge( this.request );
@@ -236,7 +241,7 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 		else if ( this.path.startsWith( "/fight.php" ) )
 		{
 			String action = request.getFormField( "action" );
-			if ( action != null && action.equals( "skill" ) )
+			if ( action != null )
 			{
 				String skillId = request.getFormField( "whichskill" );
 				if ( !skillId.equals( "3004" ) )

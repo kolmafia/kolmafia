@@ -1332,8 +1332,20 @@ public class FightRequest extends KoLRequest
 
 		if ( trackedRounds.isEmpty() || KoLmafia.refusesContinue() )
 		{
+			trackedRound += trackedRounds.size();
+			trackedRounds.clear();
+
 			isTrackingFights = false;
 			return RequestEditorKit.getFeatureRichHTML( "fight.php", FightRequest.INSTANCE.responseText, true );
+		}
+
+		if ( !StaticEntity.getBooleanProperty( "showIntermediateRounds" ) )
+		{
+			while ( trackedRounds.size() > 1 )
+			{
+				trackedRounds.remove(0);
+				++trackedRound;
+			}
 		}
 
 		++trackedRound;
