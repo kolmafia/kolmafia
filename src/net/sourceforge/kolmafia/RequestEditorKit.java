@@ -1631,9 +1631,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		buffer.append( name );
 
 		if ( isEnabled )
-			buffer.append( "\">" );
+			buffer.append( "\">&nbsp;" );
 		else
-			buffer.append( "\" disabled>" );
+			buffer.append( "\" disabled>&nbsp;" );
 	}
 
 	private static final void addFightButtons( String urlString, StringBuffer buffer )
