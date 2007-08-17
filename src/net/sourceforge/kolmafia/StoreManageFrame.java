@@ -214,7 +214,7 @@ public class StoreManageFrame extends KoLPanelFrame
 			this.getColumnModel().getColumn(6).setMinWidth( 40 );
 			this.getColumnModel().getColumn(6).setMaxWidth( 40 );
 		}
-    }
+	}
 
 	private class StoreAddTableModel extends ListWrapperTableModel
 	{
@@ -471,7 +471,9 @@ public class StoreManageFrame extends KoLPanelFrame
 		}
 
 		public void actionConfirmed()
-		{	RequestThread.postRequest( new StoreManageRequest( true ) );
+		{
+			StoreManager.getStoreLog().clear();
+			RequestThread.postRequest( new StoreManageRequest( true ) );
 		}
 
 		public void actionCancelled()
