@@ -531,6 +531,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		CLIENT_SETTINGS.put( "allowCloseableDesktopTabs", "false" );
 		CLIENT_SETTINGS.put( "allowEncounterRateBurning", "true" );
 		CLIENT_SETTINGS.put( "allowGenericUse", "false" );
+		CLIENT_SETTINGS.put( "allowNegativeTally", "true" );
 		CLIENT_SETTINGS.put( "allowNonMoodBurning", "true" );
 		CLIENT_SETTINGS.put( "alwaysGetBreakfast", "false" );
 		CLIENT_SETTINGS.put( "autoBuyRestores", "true" );
