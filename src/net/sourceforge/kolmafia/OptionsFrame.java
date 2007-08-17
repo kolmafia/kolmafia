@@ -58,15 +58,6 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class OptionsFrame extends KoLFrame
 {
-	/**
-	 * Constructs a new <code>OptionsFrame</code> that will be
-	 * associated with the given client.  When this frame is
-	 * closed, it will attempt to return focus to the currently
-	 * active frame; note that if this is done while the client
-	 * is shuffling active frames, closing the window will not
-	 * properly transfer focus.
-	 */
-
 	public OptionsFrame()
 	{
 		super( "Preferences" );
@@ -202,6 +193,7 @@ public class OptionsFrame extends KoLFrame
 			{ "relayAddsRoundNumber", "Add current round number to fight pages" },
 			{ "relayAddsMonsterHealth", "Add known monster data to fight pages" },
 			{ "relayAddsCustomCombat", "Add custom combat button to fight pages" },
+			{ "showIntermediateRounds", "Show intermediate rounds during scripted combat" },
 
 			{ "", "" },
 

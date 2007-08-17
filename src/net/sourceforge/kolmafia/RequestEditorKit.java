@@ -1014,8 +1014,8 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		}
 		else if ( location.startsWith( "choice.php" ) )
 		{
-			addChoiceSpoilers( buffer );
 			addFightButtons( location, buffer );
+			addChoiceSpoilers( buffer );
 		}
 		else if ( location.startsWith( "fight.php" ) )
 		{
@@ -1599,7 +1599,22 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		else
 		{
 			buffer.append( "fight.php?" );
-			if ( action.equals( "attack" ) || action.equals( "steal" ) || action.equals( "script" ) )
+
+			if ( action.equals( "script" ) )
+			{
+				buffer.append( "action=" );
+
+				if ( urlString.endsWith( "action=script" ) && isEnabled )
+				{
+					name = "abort";
+					buffer.append( "abort" );
+				}
+				else
+				{
+					buffer.append( "script" );
+				}
+			}
+			else if ( action.equals( "attack" ) || action.equals( "steal" ) )
 			{
 				buffer.append( "action=" );
 				buffer.append( action );
