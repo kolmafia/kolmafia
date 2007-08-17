@@ -1774,8 +1774,12 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			if ( buffer.indexOf( name ) != -1 )
 			{
 				String effect = StaticEntity.getProperty( "lastBangPotion" + i );
-				if ( !effect.equals( "" ) )
-					StaticEntity.globalStringReplace( buffer, name, name + " of " + effect );
+				if ( effect.equals( "" ) )
+					continue;
+
+				StaticEntity.globalStringReplace( buffer, name, name + " of " + effect );
+				// Pluralize correctly
+				StaticEntity.globalStringReplace( buffer, name + " of " + effect + "s", name + "s of " + effect );
 			}
 		}
 	}
