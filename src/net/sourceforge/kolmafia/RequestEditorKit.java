@@ -2100,6 +2100,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				case CONSUME_MULTIPLE:
 				case HP_RESTORE:
 				case MP_RESTORE:
+				case HPMP_RESTORE:
 
 					AdventureResult result = new AdventureResult( itemId, 1 );
 					itemCount = Math.min( ConsumeItemRequest.maximumUses( itemId ), result.getCount( inventory ) );
