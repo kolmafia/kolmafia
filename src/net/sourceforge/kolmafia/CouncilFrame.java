@@ -77,18 +77,6 @@ public class CouncilFrame extends RequestFrame
 
 	private static final void handleBountyChange( String location, String responseText )
 	{
-		int itemId = StaticEntity.getIntegerProperty( "currentBountyItem" );
-		if ( itemId == 0 )
-			return;
-
-		if ( location.indexOf( "action=abandonbounty" ) != -1 )
-		{
-			AdventureResult item = new AdventureResult( itemId, 1 );
-			StaticEntity.getClient().processResult( item.getInstance( 0 - item.getCount( inventory ) ) );
-			StaticEntity.setProperty( "currentBountyItem", "0" );
-			return;
-		}
-
 		if ( responseText.indexOf( "takebounty" ) != -1 )
 		{
 			Matcher idMatcher = ITEMID_PATTERN.matcher( location );
@@ -96,10 +84,17 @@ public class CouncilFrame extends RequestFrame
 				return;
 
 			StaticEntity.setProperty( "currentBountyItem", idMatcher.group(1) );
-			itemId = StaticEntity.getIntegerProperty( "currentBountyItem" );
+			int itemId = StaticEntity.getIntegerProperty( "currentBountyItem" );
 			AdventureFrame.updateSelectedAdventure( AdventureDatabase.getBountyLocation( TradeableItemDatabase.getItemName( itemId ) ) );
 			return;
 		}
+
+		if ( location.indexOf( "action=abandonbounty" ) == -1 && responseText.indexOf( "You acquire" ) == -1 )
+			return;
+
+		int itemId = StaticEntity.getIntegerProperty( "currentBountyItem" );
+		if ( itemId == 0 )
+			return;
 
 		AdventureResult item = new AdventureResult( itemId, 1 );
 		StaticEntity.getClient().processResult( item.getInstance( 0 - item.getCount( inventory ) ) );
