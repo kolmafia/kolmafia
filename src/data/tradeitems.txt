@@ -2628,7 +2628,7 @@
 2628	catskin buckler	13	all	185
 2629	tail o' nine cats	12	all	35
 2630	Hugo's Weaving Manual	15	none	0
-2631	gremlin juice	4	all	75
+2631	gremlin juice	3	all	75
 2632	mother's little helper	4	all	115
 2633	pat-a-cake pendant	8	all	25
 2634	mummy wrapping	4	all	50
