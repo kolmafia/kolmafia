@@ -136,7 +136,7 @@ public class AdventureRequest extends KoLRequest
 
 		if ( this.formSource.equals( "shore.php" ) )
 		{
-			if ( KoLCharacter.getAdventuresLeft() < 2 )
+			if ( KoLCharacter.getAdventuresLeft() < 3 )
 			{
 				KoLmafia.updateDisplay( ERROR_STATE, "Ran out of adventures." );
 				return;
