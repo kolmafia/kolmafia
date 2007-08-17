@@ -1749,7 +1749,7 @@ public abstract class KoLmafia implements KoLConstants
 		}
 	}
 
-	private boolean handleConditions( AdventureResult [] items, ItemCreationRequest [] creatables, boolean hadNonMonsterConditions )
+	private boolean handleConditions( AdventureResult [] items, ItemCreationRequest [] creatables  )
 	{
 		if ( conditions.isEmpty() )
 			return true;
@@ -1784,8 +1784,7 @@ public abstract class KoLmafia implements KoLConstants
 		// If the conditions existed and have been satisfied,
 		// then you should stop.
 
-		return conditions.isEmpty() ||
-			(conditions.size() == 1 && conditions.get(0) instanceof Monster && hadNonMonsterConditions);
+		return conditions.isEmpty();
 	}
 
 	private void executeRequest( Runnable request, int iterations, boolean wasAdventuring )
@@ -1806,8 +1805,6 @@ public abstract class KoLmafia implements KoLConstants
 		// during the iterations.
 
 		boolean hadConditions = !conditions.isEmpty();
-		boolean hadNonMonsterConditions = !conditions.isEmpty() && ( !(conditions.get(0) instanceof Monster) || conditions.size() > 1 );
-
 		int adventuresBeforeRequest = 0;
 
 		// Begin the adventuring process, or the request execution
@@ -1849,9 +1846,14 @@ public abstract class KoLmafia implements KoLConstants
 
 			if ( request instanceof KoLAdventure )
 			{
-				if ( hadConditions && this.handleConditions( items, creatables, hadNonMonsterConditions ) )
+				if ( hadConditions && this.handleConditions( items, creatables ) )
 				{
 					conditions.clear();
+
+					int bountyItem = StaticEntity.getIntegerProperty( "currentBountyItem" );
+					if ( bountyItem != 0 && AdventureDatabase.getBountyLocation( TradeableItemDatabase.getItemName( bountyItem ) ) == request )
+						RequestThread.postRequest( KoLRequest.VISITOR.constructURLString( "bhh.php" ) );
+
 					updateDisplay( PENDING_STATE, "Conditions satisfied after " + (currentIteration - 1) +
 						((currentIteration == 2) ? " request." : " requests.") );
 
