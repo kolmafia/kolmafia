@@ -193,7 +193,6 @@ public class OptionsFrame extends KoLFrame
 			{ "relayAddsRoundNumber", "Add current round number to fight pages" },
 			{ "relayAddsMonsterHealth", "Add known monster data to fight pages" },
 			{ "relayAddsCustomCombat", "Add custom combat button to fight pages" },
-			{ "showIntermediateRounds", "Show intermediate rounds during scripted combat" },
 
 			{ "", "" },
 

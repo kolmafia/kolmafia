@@ -631,7 +631,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 		CLIENT_SETTINGS.put( "scriptButtonPosition", "0" );
 		CLIENT_SETTINGS.put( "scriptList", "restore hp | restore mp" );
 		CLIENT_SETTINGS.put( "showAllRequests", "false" );
-		CLIENT_SETTINGS.put( "showIntermediateRounds", "false" );
 		CLIENT_SETTINGS.put( "swingLookAndFeel", "" );
 		CLIENT_SETTINGS.put( "switchEquipmentForBuffs", "true" );
 		CLIENT_SETTINGS.put( "testSocketTimeout", "true" );

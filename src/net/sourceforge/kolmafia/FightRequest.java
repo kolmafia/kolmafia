@@ -57,9 +57,9 @@ public class FightRequest extends KoLRequest
 	private static String wonInitiative = "";
 	private static int preparatoryRounds = 0;
 
-	private static int trackedRound = 0;
+	public static String lastResponseText = "";
 	private static boolean isTrackingFights = false;
-	private static ArrayList trackedRounds = new ArrayList();
+	private static boolean foundNextRound = false;
 
 	private static boolean isAutomatingFight = false;
 	private static boolean isUsingConsultScript = false;
@@ -145,7 +145,7 @@ public class FightRequest extends KoLRequest
 	}
 
 	public static final boolean wonInitiative()
-	{	return currentRound == 1 && INSTANCE.responseText != null && INSTANCE.responseText.indexOf( "You get the jump" ) != -1;
+	{	return currentRound == 1 && lastResponseText.indexOf( "You get the jump" ) != -1;
 	}
 
 	public void nextRound()
@@ -822,7 +822,8 @@ public class FightRequest extends KoLRequest
 
 	public static final void updateCombatData( String encounter, String responseText )
 	{
-		INSTANCE.responseText = responseText;
+		foundNextRound = true;
+		lastResponseText = responseText;
 
 		// Round tracker should include this data.
 
@@ -845,9 +846,6 @@ public class FightRequest extends KoLRequest
 			isTrackingFights = false;
 			checkForInitiative( responseText );
 		}
-
-		if ( isTrackingFights )
-			trackedRounds.add( responseText );
 
 		int blindIndex = responseText.indexOf( "... something.</div>" );
 
@@ -1325,49 +1323,32 @@ public class FightRequest extends KoLRequest
 	public static final String getNextTrackedRound()
 	{
 		if ( !isTrackingFights )
-			return RequestEditorKit.getFeatureRichHTML( "fight.php", FightRequest.INSTANCE.responseText, true );
+			return RequestEditorKit.getFeatureRichHTML( "fight.php", lastResponseText, true );
 
-		while ( trackedRounds.isEmpty() && !KoLmafia.refusesContinue() )
+		while ( !foundNextRound && !KoLmafia.refusesContinue() )
 			delay( 200 );
 
-		if ( trackedRounds.isEmpty() || KoLmafia.refusesContinue() )
-		{
-			trackedRound += trackedRounds.size();
-			trackedRounds.clear();
-
+		if ( !foundNextRound || KoLmafia.refusesContinue() )
 			isTrackingFights = false;
-			return RequestEditorKit.getFeatureRichHTML( "fight.php", FightRequest.INSTANCE.responseText, true );
-		}
 
-		if ( !StaticEntity.getBooleanProperty( "showIntermediateRounds" ) )
-		{
-			while ( trackedRounds.size() > 1 )
-			{
-				trackedRounds.remove(0);
-				++trackedRound;
-			}
-		}
-
-		++trackedRound;
-		String fightResponse = RequestEditorKit.getFeatureRichHTML( "fight.php?action=script", (String) trackedRounds.remove(0), true );
-
-		isTrackingFights = currentRound != 0 || !trackedRounds.isEmpty();
-		return fightResponse;
+		foundNextRound = false;
+		return RequestEditorKit.getFeatureRichHTML( isTrackingFights ? "fight.php?action=script" : "fight.php", lastResponseText, true );
 	}
 
 	public static final int getCurrentRound()
 	{	return currentRound;
 	}
 
-	public static final int getTrackedRound()
-	{	return isTrackingFights ? trackedRound : currentRound;
-	}
-
 	public static final void beginTrackingFights()
 	{
-		trackedRounds.clear();
 		isTrackingFights = true;
-		trackedRound = currentRound;
+		foundNextRound = false;
+	}
+
+	public static final void stopTrackingFights()
+	{
+		isTrackingFights = false;
+		foundNextRound = false;
 	}
 
 	public static final boolean isTrackingFights()

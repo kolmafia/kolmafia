@@ -309,7 +309,7 @@ public class RequestFrame extends KoLFrame
 		if ( request instanceof FightRequest )
 		{
 			request = KoLRequest.VISITOR.constructURLString( request.getURLString() );
-			request.responseText = FightRequest.INSTANCE.responseText;
+			request.responseText = FightRequest.lastResponseText;
 		}
 
 		this.currentLocation = request.getURLString();
@@ -465,7 +465,7 @@ public class RequestFrame extends KoLFrame
 			}
 		}
 	}
-	
+
 	public static final boolean sidebarFrameExists()
 	{	return !sideBarFrames.isEmpty();
 	}
