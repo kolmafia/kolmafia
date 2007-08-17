@@ -115,6 +115,7 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int HILARIOUS_TOME = 1498;
 	private static final int MUNCHIES_PILL = 1619;
 	private static final int ASTRAL_MUSHROOM = 1622;
+	public static final int EXPRESS_CARD = 1687;
 	private static final int DUSTY_ANIMAL_SKULL = 1799;
 	private static final int QUILL_PEN = 1957;
 	public static final int MACGUFFIN_DIARY = 2044;
@@ -221,6 +222,9 @@ public class ConsumeItemRequest extends KoLRequest
 
 		if ( itemId == MOJO_FILTER )
 			return Math.max( 0, 3 - StaticEntity.getIntegerProperty( "currentMojoFilters" ) );
+
+		if ( itemId == EXPRESS_CARD )
+			return StaticEntity.getBooleanProperty( "expressCardUsed" ) ? 0 : 1;
 
 		Integer key = new Integer( itemId );
 
@@ -1396,6 +1400,9 @@ public class ConsumeItemRequest extends KoLRequest
 		}
 		else
 		{
+			if ( lastItemUsed.getItemId() == EXPRESS_CARD )
+				StaticEntity.setProperty( "expressCardUsed", "true" );
+
 			if ( lastItemUsed.getItemId() == MUNCHIES_PILL )
 			{
 				StaticEntity.setProperty( "munchiesPillsUsed",
