@@ -354,9 +354,6 @@ public class BasementRequest extends AdventureRequest
 		primaryBoost = Modifiers.MUS_PCT;
 		secondaryBoost = Modifiers.MUS;
 
-		desirableEffects.addAll( Modifiers.getBoostingEffects( Modifiers.MUS_PCT ) );
-		desirableEffects.addAll( Modifiers.getBoostingEffects( Modifiers.MUS ) );
-
 		if ( canHandleElementTest( autoSwitch, false ) )
 			return true;
 
@@ -501,8 +498,6 @@ public class BasementRequest extends AdventureRequest
 			secondaryBoost = Modifiers.MUS;
 
 			desirableEffects.add( getDesiredEqualizer() );
-			desirableEffects.addAll( Modifiers.getBoostingEffects( Modifiers.MUS_PCT ) );
-			desirableEffects.addAll( Modifiers.getBoostingEffects( Modifiers.MUS ) );
 
 			if ( KoLCharacter.getAdjustedMuscle() < statRequirement )
 			{
@@ -527,8 +522,6 @@ public class BasementRequest extends AdventureRequest
 			secondaryBoost = Modifiers.MYS;
 
 			desirableEffects.add( getDesiredEqualizer() );
-			desirableEffects.addAll( Modifiers.getBoostingEffects( Modifiers.MYS_PCT ) );
-			desirableEffects.addAll( Modifiers.getBoostingEffects( Modifiers.MYS ) );
 
 			if ( KoLCharacter.getAdjustedMysticality() < statRequirement )
 			{
@@ -553,8 +546,6 @@ public class BasementRequest extends AdventureRequest
 			secondaryBoost = Modifiers.MOX;
 
 			desirableEffects.add( getDesiredEqualizer() );
-			desirableEffects.addAll( Modifiers.getBoostingEffects( Modifiers.MOX_PCT ) );
-			desirableEffects.addAll( Modifiers.getBoostingEffects( Modifiers.MOX ) );
 
 			if ( KoLCharacter.getAdjustedMoxie() < statRequirement )
 			{
@@ -589,8 +580,6 @@ public class BasementRequest extends AdventureRequest
 			secondaryBoost = Modifiers.MYS;
 
 			desirableEffects.add( getDesiredEqualizer() );
-			desirableEffects.addAll( Modifiers.getBoostingEffects( Modifiers.MYS ) );
-			desirableEffects.addAll( Modifiers.getBoostingEffects( Modifiers.MYS_PCT ) );
 
 			if ( KoLCharacter.getMaximumMP() < drainRequirement )
 			{
@@ -619,8 +608,6 @@ public class BasementRequest extends AdventureRequest
 			secondaryBoost = Modifiers.MUS;
 
 			desirableEffects.add( getDesiredEqualizer() );
-			desirableEffects.addAll( Modifiers.getBoostingEffects( Modifiers.MUS ) );
-			desirableEffects.addAll( Modifiers.getBoostingEffects( Modifiers.MUS_PCT ) );
 
 			float damageAbsorb = 1.0f - (( ((float) Math.sqrt( KoLCharacter.getDamageAbsorption() / 10.0f )) - 1.0f ) / 10.0f);
 			float healthRequirement = drainRequirement * damageAbsorb;
@@ -773,15 +760,13 @@ public class BasementRequest extends AdventureRequest
 		return true;
 	}
 
-	private static final ArrayList getDesiredEffects()
+	private static final void getDesiredEffects( ArrayList sourceList, ArrayList targetList )
 	{
-		ArrayList desiredEffects = new ArrayList();
-
 		String currentAction;
 		AdventureResult currentTest;
 		DesiredEffect currentAddition;
 
-		Iterator it = desirableEffects.iterator();
+		Iterator it = sourceList.iterator();
 
 		while ( it.hasNext() )
 		{
@@ -799,12 +784,33 @@ public class BasementRequest extends AdventureRequest
 
 			currentAddition = new DesiredEffect( currentTest.getName() );
 
-			if ( !desiredEffects.contains( currentAddition ) )
-				desiredEffects.add( currentAddition );
+			if ( !targetList.contains( currentAddition ) )
+				targetList.add( currentAddition );
+		}
+	}
+
+	private static final ArrayList getDesiredEffects()
+	{
+		ArrayList targetList = new ArrayList();
+
+		getDesiredEffects( desirableEffects, targetList );
+
+		getDesiredEffects( Modifiers.getBoostingEffects( primaryBoost ), targetList );
+		getDesiredEffects( Modifiers.getBoostingEffects( secondaryBoost ), targetList );
+
+		if ( actualBoost == Modifiers.HP )
+		{
+			getDesiredEffects( Modifiers.getBoostingEffects( Modifiers.HP_PCT ), targetList );
+			getDesiredEffects( Modifiers.getBoostingEffects( Modifiers.HP ), targetList );
+		}
+		else if ( actualBoost == Modifiers.MP )
+		{
+			getDesiredEffects( Modifiers.getBoostingEffects( Modifiers.MP_PCT ), targetList );
+			getDesiredEffects( Modifiers.getBoostingEffects( Modifiers.MP ), targetList );
 		}
 
-		Collections.sort( desiredEffects );
-		return desiredEffects;
+		Collections.sort( targetList );
+		return targetList;
 	}
 
 	public static final void decorate( StringBuffer buffer )
@@ -861,7 +867,6 @@ public class BasementRequest extends AdventureRequest
 			changes.append( "<br/><select id=\"potion\" style=\"width: 250px\"><option value=\"none\">- add " );
 			changes.append( modifierName );
 			changes.append( "-boosting effect -</option>" );
-
 
 			DesiredEffect effect;
 
@@ -974,13 +979,23 @@ public class BasementRequest extends AdventureRequest
 			if ( m == null )
 				return 0.0f;
 
-			float boost = Math.max( m.get( secondaryBoost ),
-				m.get( primaryBoost ) * getEqualizedStat() / 100.0f );
+			float base = getEqualizedStat();
+			float boost = m.get( secondaryBoost ) + m.get( primaryBoost ) * base / 100.0f;
 
-			if ( actualBoost == Modifiers.HP && KoLCharacter.isMuscleClass() )
-				boost *= 1.5f;
-			if ( actualBoost == Modifiers.MP && KoLCharacter.isMysticalityClass() )
-				boost *= 1.5f;
+			if ( actualBoost == Modifiers.HP )
+			{
+				if ( KoLCharacter.isMuscleClass() )
+					boost *= 1.5f;
+
+				boost += m.get( Modifiers.HP ) + m.get( Modifiers.HP_PCT ) * base / 100.0f;
+			}
+			if ( actualBoost == Modifiers.MP )
+			{
+				if ( KoLCharacter.isMysticalityClass() )
+					boost *= 1.5f;
+
+				boost += m.get( Modifiers.MP ) + m.get( Modifiers.MP_PCT ) * base / 100.0f;
+			}
 
 			return boost;
 		}
