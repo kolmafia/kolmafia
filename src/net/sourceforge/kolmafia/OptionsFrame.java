@@ -294,6 +294,7 @@ public class OptionsFrame extends KoLFrame
 
 			{ "", "" },
 
+			{ "allowNegativeTally", "Allow item counts in session results to go negative" },
 			{ "autoSatisfyWithNPCs", "Buy items from NPC stores whenever needed" },
 			{ "autoSatisfyWithMall", "Buy items from the mall whenever needed" },
 			{ "autoSatisfyWithStash", "Take items from the clan stash whenever needed" }

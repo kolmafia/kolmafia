@@ -260,7 +260,7 @@ public class AdventureResult implements Comparable, KoLConstants
 	{
 		// Given "potion of confusion", look it up
 		if ( !name.startsWith( "potion of " ) )
-		     return null;
+			 return null;
 
 		int id = bangPotionId( name );
 		if ( id > 0 )
@@ -664,32 +664,42 @@ public class AdventureResult implements Comparable, KoLConstants
 		AdventureResult sumResult;
 
 		if ( current.count.length == 1 )
-			sumResult = current.getInstance( 0 );
+		{
+			sumResult = current.getInstance( current.count[0] + result.count[0] );
+		}
 		else
+		{
 			sumResult = current.getInstance( new int[ current.count.length ] );
-
-		for ( int i = 0; i < current.count.length; ++i )
-			sumResult.count[i] = current.count[i] + result.count[i];
+			for ( int i = 0; i < current.count.length; ++i )
+				sumResult.count[i] = current.count[i] + result.count[i];
+		}
 
 		// Check to make sure that the result didn't transform the value
 		// to zero - if it did, then remove the item from the list if
 		// it's an item (non-items are exempt).
 
-		if ( sumResult.getCount() == 0 )
+		if ( sumResult.isItem() )
 		{
-			if ( sumResult.isItem() || sumResult.isStatusEffect() || sumResult.getName().equals( CHOICE ) )
+			if ( sumResult.getCount() == 0 )
+			{
+				sourceList.remove( index );
+				return;
+			}
+			else if ( sumResult.getCount() < 0 && (sourceList != tally || StaticEntity.getBooleanProperty( "allowNegativeTally" )) )
 			{
 				sourceList.remove( index );
 				return;
 			}
 		}
-		else if ( sumResult.getCount() < 0 )
+		else if ( sumResult.getCount() == 0 && (sumResult.isStatusEffect() || sumResult.getName().equals( CHOICE )) )
 		{
-			if ( sumResult.isStatusEffect() )
-			{
-				sourceList.remove( index );
-				return;
-			}
+			sourceList.remove( index );
+			return;
+		}
+		else if ( sumResult.getCount() < 0 && sumResult.isStatusEffect() )
+		{
+			sourceList.remove( index );
+			return;
 		}
 
 		sourceList.set( index, sumResult );
