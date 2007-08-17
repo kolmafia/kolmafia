@@ -618,10 +618,12 @@ public class Modifiers extends KoLDatabase
 		case  HP_PCT:
 		case  MP_PCT:
 		case  SPELL_DAMAGE_PCT:
-			// Percents are multiplicative
 			double a = this.floats[index];
 			double b = mod;
-			double sum = ( ( a + 100.0 ) * ( b + 100.0 ) / 100.0 ) - 100.0;
+			double sum = a + b;
+			// Negative percents are multiplicative
+			if ( b < 0 )
+				sum = ( ( a + 100.0 ) * ( b + 100.0 ) / 100.0 ) - 100.0;
 			this.floats[index] = (float)sum;
 			break;
 		case COLD_RESISTANCE:
@@ -774,6 +776,9 @@ public class Modifiers extends KoLDatabase
 	// Items that modify based on day of week
 	private static final int TUESDAYS_RUBY = 2604;
 
+	// Items that modify based on character level
+	private static final int PILGRIM_SHIELD = 2090;
+
 	private boolean override( String name )
 	{
 		if ( name.equalsIgnoreCase( "Temporary Lycanthropy" ) )
@@ -883,6 +888,10 @@ public class Modifiers extends KoLDatabase
 				set( HP_REGEN_MAX, 7 );
 				break;
 			}
+			return true;
+
+		case PILGRIM_SHIELD:
+			set( DAMAGE_REDUCTION, KoLCharacter.getLevel() );
 			return true;
 		}
 
