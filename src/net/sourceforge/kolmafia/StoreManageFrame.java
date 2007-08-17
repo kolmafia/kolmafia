@@ -479,7 +479,7 @@ public class StoreManageFrame extends KoLPanelFrame
 		}
 	}
 
-	private class TradeableItemFilter extends ListElementFilter
+	private class TradeableItemFilter implements ListElementFilter
 	{
 		public boolean isVisible( Object element )
 		{

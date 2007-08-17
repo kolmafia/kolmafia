@@ -65,7 +65,7 @@ import javax.swing.MutableComboBoxModel;
 
 public class LockableListModel extends AbstractListModel implements Cloneable, List, ListModel, ComboBoxModel, MutableComboBoxModel
 {
-	private static final ListElementFilter NO_FILTER = new ListElementFilter();
+	private static final ListElementFilter NO_FILTER = new ShowEverythingFilter();
 
 	private ArrayList mirrorList;
 	private ArrayList actualElements;
@@ -804,13 +804,13 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	{	return visibleElements.size();
 	}
 
-    /**
-     * Please refer to {@link javax.swing.ComboBoxModel#getSelectedItem()} for more
-     * information regarding this function.
-     */
+	/**
+	 * Please refer to {@link javax.swing.ComboBoxModel#getSelectedItem()} for more
+	 * information regarding this function.
+	 */
 
-    public Object getSelectedItem()
-    {	return contains( selectedValue ) ? selectedValue : null;
+	public Object getSelectedItem()
+	{	return contains( selectedValue ) ? selectedValue : null;
 	}
 
 	/**
@@ -826,10 +826,10 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	{	return visibleElements.indexOf( selectedValue );
 	}
 
-    /**
-     * Please refer to {@link javax.swing.ComboBoxModel#setSelectedItem(Object)} for more
-     * information regarding this function.
-     */
+	/**
+	 * Please refer to {@link javax.swing.ComboBoxModel#setSelectedItem(Object)} for more
+	 * information regarding this function.
+	 */
 
 	public void setSelectedItem( Object o )
 	{
@@ -847,37 +847,37 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	{	setSelectedItem( getElementAt( index ) );
 	}
 
-    /**
-     * Please refer to {@link javax.swing.MutableComboBoxModel#addElement(Object)} for more
-     * information regarding this function.
-     */
+	/**
+	 * Please refer to {@link javax.swing.MutableComboBoxModel#addElement(Object)} for more
+	 * information regarding this function.
+	 */
 
 	public void addElement( Object element )
 	{	add( element );
 	}
 
-    /**
-     * Please refer to {@link javax.swing.MutableComboBoxModel#insertElementAt(Object,int)} for more
-     * information regarding this function.
-     */
+	/**
+	 * Please refer to {@link javax.swing.MutableComboBoxModel#insertElementAt(Object,int)} for more
+	 * information regarding this function.
+	 */
 
 	public void insertElementAt( Object element, int index )
 	{	add( element );
 	}
 
-    /**
-     * Please refer to {@link javax.swing.MutableComboBoxModel#removeElement(Object)} for more
-     * information regarding this function.
-     */
+	/**
+	 * Please refer to {@link javax.swing.MutableComboBoxModel#removeElement(Object)} for more
+	 * information regarding this function.
+	 */
 
 	public void removeElement( Object element )
 	{	remove( element );
 	}
 
-    /**
-     * Please refer to {@link javax.swing.MutableComboBoxModel#removeElementAt(int)} for more
-     * information regarding this function.
-     */
+	/**
+	 * Please refer to {@link javax.swing.MutableComboBoxModel#removeElementAt(int)} for more
+	 * information regarding this function.
+	 */
 
 	public void removeElementAt( int index )
 	{	remove( visibleElements.get( index ) );
@@ -1033,7 +1033,12 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	 * this list model.
 	 */
 
-	public static class ListElementFilter
+	public static interface ListElementFilter
+	{
+		public boolean isVisible( Object element );
+	}
+
+	private static class ShowEverythingFilter implements ListElementFilter
 	{
 		public boolean isVisible( Object element )
 		{	return true;

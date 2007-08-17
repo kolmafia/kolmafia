@@ -40,7 +40,7 @@ import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 import net.sourceforge.kolmafia.ConcoctionsDatabase.Concoction;
 import net.sourceforge.kolmafia.StoreManager.SoldItem;
 
-public class SimpleListFilter extends ListElementFilter
+public class SimpleListFilter implements ListElementFilter
 {
 	private JTextField field;
 	private MutableComboBox model;
