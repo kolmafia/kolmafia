@@ -1337,7 +1337,9 @@ public abstract class SorceressLair extends StaticEntity
 		for ( int towerLevel = currentLevel; KoLCharacter.getAdventuresLeft() > 0 && KoLmafia.permitsContinue() && towerLevel <= 6; ++towerLevel )
 		{
 			requiredItemId = fightGuardian( towerLevel );
-			RequestThread.postRequest( CharpaneRequest.getInstance() );
+
+			if ( !KoLRequest.VISITOR.containsUpdate )
+				RequestThread.postRequest( CharpaneRequest.getInstance() );
 
 			getClient().runBetweenBattleChecks( false );
 

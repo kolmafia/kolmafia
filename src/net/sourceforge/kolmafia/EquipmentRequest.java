@@ -96,7 +96,7 @@ public class EquipmentRequest extends PasswordHashRequest
 		"acc1", "acc2", "acc3", "familiar", "fakehand"
 	};
 
-        // These are the names used in the PHP file
+		// These are the names used in the PHP file
 	public static final String [] phpSlotNames =
 	{
 		"hat", "weapon", "offhand", "shirt", "pants",
@@ -559,17 +559,25 @@ public class EquipmentRequest extends PasswordHashRequest
 				TradeableItemDatabase.identifyDustyBottles();
 
 			KoLmafia.updateDisplay( "Equipment changed." );
-			CharpaneRequest.getInstance().run();
+			if ( !containsUpdate )
+				CharpaneRequest.getInstance().run();
+
 			break;
 
 		case REMOVE_ITEM:
+
 			KoLmafia.updateDisplay( "Equipment changed." );
-			CharpaneRequest.getInstance().run();
+			if ( !containsUpdate )
+				CharpaneRequest.getInstance().run();
+
 			break;
 
 		case UNEQUIP_ALL:
+
 			KoLmafia.updateDisplay( "Everything removed." );
-			CharpaneRequest.getInstance().run();
+			if ( !containsUpdate )
+				CharpaneRequest.getInstance().run();
+
 			break;
 		}
 	}
