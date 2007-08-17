@@ -685,7 +685,7 @@ public class AdventureResult implements Comparable, KoLConstants
 				sourceList.remove( index );
 				return;
 			}
-			else if ( sumResult.getCount() < 0 && (sourceList != tally || StaticEntity.getBooleanProperty( "allowNegativeTally" )) )
+			else if ( sumResult.getCount() < 0 && (sourceList != tally || !StaticEntity.getBooleanProperty( "allowNegativeTally" )) )
 			{
 				sourceList.remove( index );
 				return;
