@@ -50,7 +50,7 @@ public class ClanGymRequest extends KoLRequest
 		MAXIMUM_USAGE[1] = new int [] { 0, 0, 0, 0, 1 };
 		MAXIMUM_USAGE[2] = new int [] { 0, 0, 0, 0 };
 		MAXIMUM_USAGE[3] = new int [] { 0, 3, 0, 3 };
-		MAXIMUM_USAGE[4] = new int [] { 0, 0, 1, 0 };
+		MAXIMUM_USAGE[4] = new int [] { 0, 1, 1, 0 };
 		MAXIMUM_USAGE[5] = new int [] { 0, 0, 0, 0 };
 		MAXIMUM_USAGE[6] = new int[0];
 		MAXIMUM_USAGE[7] = new int[0];
