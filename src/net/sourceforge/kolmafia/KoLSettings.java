@@ -687,6 +687,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		PLAYER_SETTINGS.put( "demonName3", "" );
 		PLAYER_SETTINGS.put( "demonName4", "" );
 		PLAYER_SETTINGS.put( "demonName5", "" );
+		PLAYER_SETTINGS.put( "expressCardUsed", "false" );
 		PLAYER_SETTINGS.put( "grimoireSummons", "0" );
 		PLAYER_SETTINGS.put( "hpAutoRecovery", "-0.1" );
 		PLAYER_SETTINGS.put( "hpAutoRecoveryTarget", "1.0" );

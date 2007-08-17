@@ -559,6 +559,7 @@ public abstract class KoLmafia implements KoLConstants
 		StaticEntity.setProperty( "lastCounterDay", String.valueOf( MoonPhaseDatabase.getPhaseStep() ) );
 		StaticEntity.setProperty( "breakfastCompleted", "false" );
 
+		StaticEntity.setProperty( "expressCardUsed", "false" );
 		StaticEntity.setProperty( "currentFullness", "0" );
 		StaticEntity.setProperty( "currentMojoFilters", "0" );
 		StaticEntity.setProperty( "currentSpleenUse", "0" );

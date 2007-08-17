@@ -37,8 +37,10 @@ import javax.swing.JCheckBox;
 
 public abstract class MPRestoreItemList extends StaticEntity
 {
+	private static final AdventureResult EXPRESS_CARD = new AdventureResult( ConsumeItemRequest.EXPRESS_CARD, 1 );
 	private static boolean purchaseBasedSort = false;
 
+	public static final MPRestoreItem EXPRESS = new MPRestoreItem( "Platinum Yendorian Express Card", Integer.MAX_VALUE, false );
 	public static final MPRestoreItem SOFA = new MPRestoreItem( "sleep on your clan sofa", Integer.MAX_VALUE, false );
 	public static final MPRestoreItem CAMPGROUND = new MPRestoreItem( "rest at your campground", 40, false );
 	public static final MPRestoreItem BEANBAG = new MPRestoreItem( "relax in your beanbag", 80, false );
@@ -49,7 +51,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 
 	public static final MPRestoreItem [] CONFIGURES = new MPRestoreItem []
 	{
-		SOFA, BEANBAG, CAMPGROUND, GALAKTIK, new MPRestoreItem( "natural fennel soda", 100, false ),
+		EXPRESS, SOFA, BEANBAG, CAMPGROUND, GALAKTIK, new MPRestoreItem( "natural fennel soda", 100, false ),
 		new MPRestoreItem( "bottle of Vangoghbitussin", 100, false ), new MPRestoreItem( "monstar energy beverage", 75, false ),
 		new MPRestoreItem( "carbonated soy milk", 75, false ), new MPRestoreItem( "carbonated water lily", 65, false ),
 		new MPRestoreItem( "bottle of Monsieur Bubble", 56, true ), new MPRestoreItem( "ancient Magi-Wipes", 55, false ),
@@ -184,6 +186,32 @@ public abstract class MPRestoreItemList extends StaticEntity
 		{
 			if ( !KoLmafia.permitsContinue() )
 				return;
+
+			if ( this == EXPRESS )
+			{
+				if ( StaticEntity.getBooleanProperty( "expressCardUsed" ) )
+					return;
+
+				if ( inventory.contains( EXPRESS_CARD ) )
+				{
+					RequestThread.postRequest( new ConsumeItemRequest( EXPRESS_CARD ) );
+					return;
+				}
+
+				if ( !KoLCharacter.canInteract() )
+					return;
+
+				if ( ClanManager.getStash().isEmpty() )
+					RequestThread.postRequest( new ClanStashRequest() );
+
+				if ( !ClanManager.getStash().contains( EXPRESS_CARD ) )
+					return;
+
+				RequestThread.postRequest( new ClanStashRequest( new Object [] { EXPRESS_CARD }, ClanStashRequest.STASH_TO_ITEMS ) );
+				RequestThread.postRequest( new ConsumeItemRequest( EXPRESS_CARD ) );
+				RequestThread.postRequest( new ClanStashRequest( new Object [] { EXPRESS_CARD }, ClanStashRequest.ITEMS_TO_STASH ) );
+				return;
+			}
 
 			if ( this == BEANBAG )
 			{
