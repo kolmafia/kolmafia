@@ -654,6 +654,9 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 			public boolean isVisible( Object element )
 			{
+				if ( element instanceof AdventureResult && ((AdventureResult)element).getCount() < 0 )
+					return false;
+
 				String name = getResultName( element );
 				int itemId = AdventureResult.itemId( name );
 
