@@ -1765,7 +1765,7 @@ public abstract class KoLCharacter extends StaticEntity
 	public static final void setSign( String ascensionSign )
 	{
 		if ( ascensionSign.startsWith("The ") )
-		     ascensionSign = ascensionSign.substring(4);
+			 ascensionSign = ascensionSign.substring(4);
 
 		KoLCharacter.ascensionSign = ascensionSign;
 
@@ -2587,12 +2587,6 @@ public abstract class KoLCharacter extends StaticEntity
 		for ( int i = 0; i < listenerArray.length; ++i )
 			listenerArray[i].updateStatus();
 	}
-
-	private static final AdventureResult MAX_HOT = new AdventureResult( "Fireproof Lips", 1, true );
-	private static final AdventureResult MAX_COLD = new AdventureResult( "Fever from the Flavor", 1, true );
-	private static final AdventureResult MAX_SPOOKY = new AdventureResult( "Hyphemariffic", 1, true );
-	private static final AdventureResult MAX_STENCH = new AdventureResult( "Can't Smell Nothin'", 1, true );
-	private static final AdventureResult MAX_SLEAZE = new AdventureResult( "Hyperoffended", 1, true );
 
 	public static final boolean recalculateAdjustments()
 	{

@@ -71,11 +71,21 @@ public class BasementRequest extends AdventureRequest
 	private static final AdventureResult MYS_EQUAL = new AdventureResult( "Expert Oiliness", 1, true );
 	private static final AdventureResult MOX_EQUAL = new AdventureResult( "Slippery Oiliness", 1, true );
 
+	private static final AdventureResult ASTRAL_SHELL = new AdventureResult( "Astral Shell", 1, true );
+	private static final AdventureResult ELEMENTAL_SPHERE = new AdventureResult( "Elemental Saucesphere", 1, true );
+	private static final AdventureResult BLACK_PAINT = new AdventureResult( "Red Door Syndrome", 1, true );
+
 	private static final AdventureResult HOT_PHIAL = new AdventureResult( 1637, 1 );
 	private static final AdventureResult COLD_PHIAL = new AdventureResult( 1638, 1 );
 	private static final AdventureResult SPOOKY_PHIAL = new AdventureResult( 1639, 1 );
 	private static final AdventureResult STENCH_PHIAL = new AdventureResult( 1640, 1 );
 	private static final AdventureResult SLEAZE_PHIAL = new AdventureResult( 1641, 1 );
+
+	public static final AdventureResult MAX_HOT = new AdventureResult( "Fireproof Lips", 1, true );
+	public static final AdventureResult MAX_COLD = new AdventureResult( "Fever from the Flavor", 1, true );
+	public static final AdventureResult MAX_SPOOKY = new AdventureResult( "Hyphemariffic", 1, true );
+	public static final AdventureResult MAX_STENCH = new AdventureResult( "Can't Smell Nothin'", 1, true );
+	public static final AdventureResult MAX_SLEAZE = new AdventureResult( "Hyperoffended", 1, true );
 
 	private static final AdventureResult HOT_FORM = new AdventureResult( "Hotform", 1, true );
 	private static final AdventureResult COLD_FORM = new AdventureResult( "Coldform", 1, true );
@@ -190,7 +200,7 @@ public class BasementRequest extends AdventureRequest
 			COMMA_FORMAT.format( basementTestValue ) + " needed";
 	}
 
-	private static final String getRequirement()
+	public static final String getRequirement()
 	{
 		if ( basementTestString.equals( "Elemental Resist" ) )
 		{
@@ -244,6 +254,7 @@ public class BasementRequest extends AdventureRequest
 			goodelement = element2;
 			goodphial = SLEAZE_PHIAL;
 			goodeffect = SLEAZE_FORM;
+			desirableEffects.add( MAX_STENCH );
 
 			// Stench is vulnerable to Sleaze
 			badelement1 = MonsterDatabase.STENCH;
@@ -265,6 +276,7 @@ public class BasementRequest extends AdventureRequest
 			goodelement = element1;
 			goodphial = COLD_PHIAL;
 			goodeffect = COLD_FORM;
+			desirableEffects.add( MAX_SLEAZE );
 
 			// Sleaze is vulnerable to Cold
 			badelement1 = MonsterDatabase.SLEAZE;
@@ -286,6 +298,7 @@ public class BasementRequest extends AdventureRequest
 			goodelement = element1;
 			goodphial = STENCH_PHIAL;
 			goodeffect = STENCH_FORM;
+			desirableEffects.add( MAX_HOT );
 
 			// Cold is vulnerable to Hot
 			badelement1 = MonsterDatabase.COLD;
@@ -307,6 +320,7 @@ public class BasementRequest extends AdventureRequest
 			goodelement = element1;
 			goodphial = HOT_PHIAL;
 			goodeffect = HOT_FORM;
+			desirableEffects.add( MAX_SPOOKY );
 
 			// Cold is vulnerable to Spooky
 			badelement1 = MonsterDatabase.COLD;
@@ -328,6 +342,7 @@ public class BasementRequest extends AdventureRequest
 			goodelement = element2;
 			goodphial = SPOOKY_PHIAL;
 			goodeffect = SPOOKY_FORM;
+			desirableEffects.add( MAX_COLD );
 
 			// Cold is vulnerable to Spooky
 			badelement1 = MonsterDatabase.COLD;
@@ -348,6 +363,11 @@ public class BasementRequest extends AdventureRequest
 		}
 
 		desirableEffects.add( goodeffect );
+
+		desirableEffects.add( ASTRAL_SHELL );
+		desirableEffects.add( ELEMENTAL_SPHERE );
+		desirableEffects.add( BLACK_PAINT );
+
 		desirableEffects.add( getDesiredEqualizer() );
 
 		actualBoost = Modifiers.HP;
@@ -891,9 +911,20 @@ public class BasementRequest extends AdventureRequest
 				if ( effect.boost == 0.0f )
 				{
 					if ( effect.name.equals( MUS_EQUAL.getName() ) || effect.name.equals( MYS_EQUAL.getName() ) || effect.name.equals( MOX_EQUAL.getName() ))
+					{
 						changes.append( "stat equalizer" );
+					}
 					else
-						changes.append( "element immunity" );
+					{
+						boolean isImmunity = false;
+						for ( int j = 0; j < ELEMENT_FORMS.length; ++j )
+							isImmunity |= effect.name.equals( ELEMENT_FORMS[j].getName() );
+
+						if ( isImmunity )
+							changes.append( "element immunity" );
+						else
+							changes.append( "element resist" );
+					}
 				}
 				else
 				{
@@ -989,6 +1020,7 @@ public class BasementRequest extends AdventureRequest
 
 				boost += m.get( Modifiers.HP ) + m.get( Modifiers.HP_PCT ) * base / 100.0f;
 			}
+
 			if ( actualBoost == Modifiers.MP )
 			{
 				if ( KoLCharacter.isMysticalityClass() )
