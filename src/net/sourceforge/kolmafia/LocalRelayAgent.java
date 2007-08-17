@@ -355,6 +355,9 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 					// interrupted.  Fall through.
 				}
 
+				if ( !StaticEntity.getProperty( "battleAction" ).startsWith( "custom" ) )
+					KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "battleAction=custom" );
+
 				FightRequest.INSTANCE.run();
 			}
 		}
