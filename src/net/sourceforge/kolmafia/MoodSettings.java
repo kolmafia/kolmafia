@@ -447,7 +447,7 @@ public abstract class MoodSettings implements KoLConstants
 				castCount = (KoLCharacter.getCurrentMP() - minimum) / ClassSkillsDatabase.getMPConsumptionById( skillId );
 			}
 
-			if ( currentEffect.getCount() >= KoLCharacter.getAdventuresLeft() + 200 )
+			if ( currentEffect.getCount() >= KoLCharacter.getAdventuresLeft() + 1000 )
 				return null;
 
 			// If the player only wishes to cast buffs related to their
