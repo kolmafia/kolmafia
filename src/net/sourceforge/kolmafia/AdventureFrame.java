@@ -128,7 +128,7 @@ public class AdventureFrame extends AdventureOptionsFrame
 		if ( !conditions.isEmpty() )
 			return;
 
-		INSTANCE.zoneSelect.setSelectedItem( AdventureDatabase.ZONE_DESCRIPTIONS.get( location.getParentZone() ) );
+		INSTANCE.zoneSelect.setText( location.getAdventureName() );
 		INSTANCE.locationSelect.setSelectedValue( location, true );
 	}
 

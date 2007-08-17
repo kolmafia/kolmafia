@@ -41,6 +41,7 @@ import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -78,6 +79,7 @@ import javax.swing.event.ListSelectionListener;
 
 import javax.swing.filechooser.FileFilter;
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.MoodSettings.MoodTrigger;
 
@@ -106,7 +108,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 	protected JList moodList;
 	protected JList locationSelect;
-	protected JComboBox zoneSelect;
+	protected JTextField zoneSelect;
 
 	protected KoLAdventure lastAdventure = null;
 	protected JCheckBox autoSetCheckBox = new JCheckBox();
@@ -734,8 +736,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 			Object currentZone;
 			AdventureOptionsFrame.this.zoneMap = new TreeMap();
 
-			AdventureOptionsFrame.this.zoneSelect = new JComboBox();
-			AdventureOptionsFrame.this.zoneSelect.addItem( "All Locations" );
+			AdventureOptionsFrame.this.zoneSelect = new FilterAdventureField( adventureList );
 
 			Object [] zones = AdventureDatabase.PARENT_LIST.toArray();
 
@@ -743,7 +744,6 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 			{
 				currentZone = AdventureDatabase.ZONE_DESCRIPTIONS.get( zones[i] );
 				AdventureOptionsFrame.this.zoneMap.put( currentZone, zones[i] );
-				AdventureOptionsFrame.this.zoneSelect.addItem( currentZone );
 			}
 
 			if ( enableAdventures )
@@ -761,7 +761,6 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 			zonePanel.add( AdventureOptionsFrame.this.zoneSelect, BorderLayout.CENTER );
 
-			AdventureOptionsFrame.this.zoneSelect.addActionListener( new ZoneChangeListener() );
 			AdventureOptionsFrame.this.locationSelect = new JList( adventureList );
 			AdventureOptionsFrame.this.locationSelect.setVisibleRowCount( 4 );
 
@@ -792,6 +791,52 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 			else if ( desired <= 0 || desired > KoLCharacter.getAdventuresLeft() )
 				AdventureOptionsFrame.this.countField.setValue( new Integer( KoLCharacter.getAdventuresLeft() ) );
 
+		}
+
+		/**
+		 * Special instance of a JComboBox which overrides the default
+		 * key events of a JComboBox to allow you to catch key events.
+		 */
+
+		private class FilterAdventureField extends JTextField implements ListElementFilter
+		{
+			private String text;
+			private boolean strict;
+			private LockableListModel model;
+
+			public FilterAdventureField( LockableListModel model )
+			{
+				this.model = model;
+				this.model.setFilter( this );
+				this.addKeyListener( new FilterListener() );
+			}
+
+			public class FilterListener extends KeyAdapter
+			{
+				public void keyReleased( KeyEvent e )
+				{
+					FilterAdventureField.this.text = FilterAdventureField.this.getText().toLowerCase();
+
+					FilterAdventureField.this.strict = true;
+					FilterAdventureField.this.model.updateFilter( false );
+					if ( FilterAdventureField.this.model.getSize() > 0 )
+						return;
+
+					FilterAdventureField.this.strict = true;
+					FilterAdventureField.this.model.updateFilter( false );
+				}
+			}
+
+			public boolean isVisible( Object element )
+			{
+				String zone = ((KoLAdventure)element).getZone();
+				String name = ((KoLAdventure)element).getAdventureName();
+
+				if ( strict )
+					return zone.toLowerCase().indexOf( text ) != -1 || name.toLowerCase().indexOf( text ) != -1;
+
+				return KoLDatabase.fuzzyMatches( name, text );
+			}
 		}
 
 		public void requestFocus()
@@ -861,29 +906,6 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 				AdventureOptionsFrame.this.conditionField.setEnabled(
 					AdventureOptionsFrame.this.autoSetCheckBox.isSelected() && !KoLmafia.isAdventuring() );
 			}
-		}
-	}
-
-	private class ZoneChangeListener implements ActionListener
-	{
-		public void actionPerformed( ActionEvent e )
-		{
-			if ( AdventureOptionsFrame.this.zoneSelect.getSelectedIndex() == 0 )
-			{
-				AdventureDatabase.refreshAdventureList();
-				return;
-			}
-
-			String zone = (String) AdventureOptionsFrame.this.zoneSelect.getSelectedItem();
-
-			if ( zone == null )
-				return;
-
-			zone = (String) AdventureOptionsFrame.this.zoneMap.get( zone );
-			if ( zone == null )
-				return;
-
-			AdventureDatabase.refreshAdventureList( zone );
 		}
 	}
 
