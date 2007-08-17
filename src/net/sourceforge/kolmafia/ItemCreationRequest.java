@@ -57,6 +57,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	private static final AdventureResult BARTENDER = new AdventureResult( 440, 1 );
 	private static final AdventureResult CLOCKWORK_BARTENDER = new AdventureResult( 1111, 1 );
 
+	private static final int DRY_NOODLES = 304;
+	private static final int MSG = 1549;
+
 	public String name;
 	public AdventureResult createdItem;
 	public boolean shouldRerun = false;
@@ -940,6 +943,18 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		if ( urlString.startsWith( "combine.php" ) )
 			StaticEntity.getClient().processResult( new AdventureResult( MEAT_PASTE, 0 - quantity ) );
+		else if ( urlString.indexOf( "action=wokcook" ) != -1 )
+		{
+			command.append( " + " );
+			command.append( quantity );
+			command.append( " dry noodles" );
+			StaticEntity.getClient().processResult( new AdventureResult( DRY_NOODLES, 0 - quantity ) );
+
+			command.append( " + " );
+			command.append( quantity );
+			command.append( " MSG'" );
+			StaticEntity.getClient().processResult( new AdventureResult( MSG, 0 - quantity ) );
+		}
 
 		if ( usesTurns )
 			command.insert( 0, "[" + (KoLAdventure.getAdventureCount() + 1) + "] " );
