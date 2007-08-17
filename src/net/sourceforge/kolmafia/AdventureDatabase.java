@@ -1085,13 +1085,13 @@ public class AdventureDatabase extends KoLDatabase
 			if ( bounty == null || bounty.equals( "" ) )
 				continue;
 
-			bounty = bounty.substring( bounty.indexOf( " " ) + 1 );
+			bounty = getCanonicalName( bounty.substring( bounty.indexOf( " " ) + 1 ) );
 			locationByBounty.put( bounty, getAdventureByURL( "adventure.php?snarfblat=" + i ) );
 		}
 	}
 
 	public static final KoLAdventure getBountyLocation( String item )
-	{	return (KoLAdventure) locationByBounty.get( item );
+	{	return (KoLAdventure) locationByBounty.get( getCanonicalName( item ) );
 	}
 
 	public static final void refreshAdventureList( String desiredZone )

@@ -77,15 +77,15 @@ public class CouncilFrame extends RequestFrame
 
 	private static final void handleBountyChange( String location, String responseText )
 	{
-		if ( responseText.indexOf( "takebounty" ) != -1 )
+		if ( location.indexOf( "takebounty" ) != -1 )
 		{
 			Matcher idMatcher = ITEMID_PATTERN.matcher( location );
 			if ( !idMatcher.find() )
 				return;
 
 			StaticEntity.setProperty( "currentBountyItem", idMatcher.group(1) );
-			int itemId = StaticEntity.getIntegerProperty( "currentBountyItem" );
-			AdventureFrame.updateSelectedAdventure( AdventureDatabase.getBountyLocation( TradeableItemDatabase.getItemName( itemId ) ) );
+			String itemName = TradeableItemDatabase.getItemName( StaticEntity.parseInt( idMatcher.group(1) ) );
+			AdventureFrame.updateSelectedAdventure( AdventureDatabase.getBountyLocation( itemName ) );
 			return;
 		}
 
