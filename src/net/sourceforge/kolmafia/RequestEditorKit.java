@@ -1663,7 +1663,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					addFightButton( urlString, buffer, actionBuffer, action, FightRequest.getCurrentRound() > 0 );
 			}
 
-			actionBuffer.append( "</td></tr><tr height=4><td></td></tr>" );
+			actionBuffer.append( "</td></tr><tr><td><font size=1>&nbsp;</font></td></tr>" );
 			buffer.insert( insertionPoint, actionBuffer.toString() );
 		}
 	}
