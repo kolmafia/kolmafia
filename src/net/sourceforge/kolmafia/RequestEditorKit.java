@@ -1582,16 +1582,11 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		if ( FightRequest.getCurrentRound() == 0 )
 		{
-			String location = urlString;
+			String location = "main.php";
 
-			if ( !location.startsWith( "adventure.php" ) )
-			{
-				location = "main.php";
-
-				int startIndex = response.indexOf( "<a href=\"" );
-				if ( startIndex != -1 )
-					location = response.substring( startIndex + 9, response.indexOf( "\"", startIndex + 10 ) );
-			}
+			int startIndex = response.indexOf( "<a href=\"" );
+			if ( startIndex != -1 )
+				location = response.substring( startIndex + 9, response.indexOf( "\"", startIndex + 10 ) );
 
 			buffer.append( location );
 			isEnabled &= buffer.indexOf( "adventure.php" ) != -1;
