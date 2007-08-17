@@ -972,6 +972,8 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		if ( location.startsWith( "adventure.php" ) )
 		{
+			addFightButtons( location, buffer );
+
 			if ( AdventureRequest.useMarmotClover( location, buffer.toString() ) )
 			{
 				StaticEntity.globalStringReplace( buffer, "ten-leaf", "disassembled" );
@@ -1013,6 +1015,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		else if ( location.startsWith( "choice.php" ) )
 		{
 			addChoiceSpoilers( buffer );
+			addFightButtons( location, buffer );
 		}
 		else if ( location.startsWith( "fight.php" ) )
 		{
@@ -1572,19 +1575,26 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		return name;
 	}
 
-	private static final void addFightButton( StringBuffer response, StringBuffer buffer, String action, boolean isEnabled )
+	private static final void addFightButton( String urlString, StringBuffer response, StringBuffer buffer, String action, boolean isEnabled )
 	{
 		String name = getActionName( action );
 		buffer.append( "<input type=\"button\" onClick=\"document.location.href='" );
 
 		if ( FightRequest.getCurrentRound() == 0 )
 		{
-			String location = "main.php";
-			int startIndex = response.indexOf( "<a href=\"" );
-			if ( startIndex != -1 )
-				location = response.substring( startIndex + 9, response.indexOf( "\"", startIndex + 10 ) );
+			String location = urlString;
+
+			if ( !location.startsWith( "adventure.php" ) )
+			{
+				location = "main.php";
+
+				int startIndex = response.indexOf( "<a href=\"" );
+				if ( startIndex != -1 )
+					location = response.substring( startIndex + 9, response.indexOf( "\"", startIndex + 10 ) );
+			}
 
 			buffer.append( location );
+			isEnabled &= buffer.indexOf( "adventure.php" ) != -1;
 		}
 		else
 		{
@@ -1611,45 +1621,47 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			buffer.append( "\" disabled>" );
 	}
 
-	private static final void addFightModifiers( String location, StringBuffer buffer, boolean addComplexFeatures )
+	private static final void addFightButtons( String urlString, StringBuffer buffer )
 	{
 		int debugIndex = buffer.indexOf( "<font size=1>" );
 		if ( debugIndex != -1 )
 			buffer.delete( debugIndex, buffer.indexOf( "</font>", debugIndex ) );
 
-		// If the person opts to add a plinking link, check to see if it's
-		// a valid page to add plinking, and make sure the person hasn't
-		// already started plinking.
+		if ( !StaticEntity.getBooleanProperty( "relayAddsCustomCombat" ) )
+			return;
 
-		if ( addComplexFeatures && StaticEntity.getBooleanProperty( "relayAddsCustomCombat" ) )
+		int insertionPoint = buffer.indexOf( "<tr" );
+		if ( insertionPoint != -1 )
 		{
-			int insertionPoint = buffer.indexOf( "<tr" );
-			if ( insertionPoint != -1 )
+			StringBuffer actionBuffer = new StringBuffer();
+			actionBuffer.append( "<tr><td align=left>" );
+
+			addFightButton( urlString, buffer, actionBuffer, "attack", true );
+
+			if ( KoLCharacter.isMoxieClass() )
+				addFightButton( urlString, buffer, actionBuffer, "steal", FightRequest.getCurrentRound() == 1 );
+
+			if ( KoLCharacter.hasSkill( "Entangling Noodles" ) )
+				addFightButton( urlString, buffer, actionBuffer, "3004", FightRequest.getCurrentRound() > 0 );
+
+			addFightButton( urlString, buffer, actionBuffer, "script", FightRequest.getCurrentRound() > 0 );
+
+			for ( int i = 1; i <= 5; ++i )
 			{
-				StringBuffer actionBuffer = new StringBuffer();
-				actionBuffer.append( "<tr><td align=left>" );
-
-				addFightButton( buffer, actionBuffer, "attack", true );
-
-				if ( KoLCharacter.isMoxieClass() )
-					addFightButton( buffer, actionBuffer, "steal", FightRequest.getCurrentRound() == 1 );
-
-				if ( KoLCharacter.hasSkill( "Entangling Noodles" ) )
-					addFightButton( buffer, actionBuffer, "3004", FightRequest.getCurrentRound() > 0 );
-
-				addFightButton( buffer, actionBuffer, "script", FightRequest.getCurrentRound() > 0 );
-
-				for ( int i = 1; i <= 5; ++i )
-				{
-					String action = StaticEntity.getProperty( "customCombatSkill" + i );
-					if ( !action.equals( "" ) )
-						addFightButton( buffer, actionBuffer, action, FightRequest.getCurrentRound() > 0 );
-				}
-
-				actionBuffer.append( "</td></tr><tr height=4><td></td></tr>" );
-				buffer.insert( insertionPoint, actionBuffer.toString() );
+				String action = StaticEntity.getProperty( "customCombatSkill" + i );
+				if ( !action.equals( "" ) )
+					addFightButton( urlString, buffer, actionBuffer, action, FightRequest.getCurrentRound() > 0 );
 			}
+
+			actionBuffer.append( "</td></tr><tr height=4><td></td></tr>" );
+			buffer.insert( insertionPoint, actionBuffer.toString() );
 		}
+	}
+
+	private static final void addFightModifiers( String location, StringBuffer buffer, boolean addComplexFeatures )
+	{
+		if ( addComplexFeatures )
+			addFightButtons( location, buffer );
 
 		// Change bang potion names in item dropdown
 		changePotionNames( buffer );
