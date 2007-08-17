@@ -229,7 +229,7 @@ public abstract class KoLmafia implements KoLConstants
 		// to ensure different localizations work.
 
 		TimeZone koltime = (TimeZone) TimeZone.getDefault().clone();
-		koltime.setRawOffset( 1000 * 60 * 60 * -5 );
+		koltime.setRawOffset( 1000 * 60 * -270 );
 		DATED_FILENAME_FORMAT.setTimeZone( koltime );
 
 		// Reload your settings and determine all the different users which
