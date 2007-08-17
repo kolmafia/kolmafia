@@ -70,11 +70,11 @@ public class CakeArenaRequest extends KoLRequest
 	public void processResults()
 	{
 		if ( this.responseText.indexOf( "You can't" ) != -1 ||
-		     this.responseText.indexOf( "You shouldn't" ) != -1 ||
-		     this.responseText.indexOf( "You don't" ) != -1 ||
-		     this.responseText.indexOf( "You need" ) != -1 ||
-		     this.responseText.indexOf( "You're way too beaten" ) != -1 ||
-		     this.responseText.indexOf( "You're too drunk" ) != -1 )
+			 this.responseText.indexOf( "You shouldn't" ) != -1 ||
+			 this.responseText.indexOf( "You don't" ) != -1 ||
+			 this.responseText.indexOf( "You need" ) != -1 ||
+			 this.responseText.indexOf( "You're way too beaten" ) != -1 ||
+			 this.responseText.indexOf( "You're too drunk" ) != -1 )
 		{
 			// Notify theof failure by telling it that
 			// the adventure did not take place and the client
@@ -87,6 +87,7 @@ public class CakeArenaRequest extends KoLRequest
 
 		if ( this.isCompetition )
 		{
+			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, -100 ) );
 
 			// If the familiar won, increment win count
@@ -100,7 +101,7 @@ public class CakeArenaRequest extends KoLRequest
 			// "Copycat Grrl is the winner, and gains 5 experience!"
 
 			if ( this.responseText.indexOf( "Congratulations" ) != -1 ||
-			     this.responseText.indexOf( "is the winner" ) != -1)
+				 this.responseText.indexOf( "is the winner" ) != -1)
 				KoLCharacter.setArenaWins( KoLCharacter.getArenaWins() + 1 );
 			return;
 		}
