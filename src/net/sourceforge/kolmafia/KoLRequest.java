@@ -1346,7 +1346,10 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( this instanceof LocalRelayRequest )
 			return;
 
-		if ( this.containsUpdate || RequestFrame.sidebarFrameExists() )
+		if ( !hasNoResult && RequestFrame.sidebarFrameExists() )
+			this.containsUpdate |= this.responseText.indexOf( "charpane" ) != -1;
+
+		if ( this.containsUpdate )
 			CharpaneRequest.getInstance().run();
 	}
 

@@ -174,7 +174,7 @@ public class AdventureRequest extends KoLRequest
 			useMarmotClover( this.formSource, this.responseText );
 		}
 
-		if ( !containsUpdate && !RequestFrame.sidebarFrameExists() )
+		if ( !containsUpdate )
 			CharpaneRequest.getInstance().run();
 	}
 
