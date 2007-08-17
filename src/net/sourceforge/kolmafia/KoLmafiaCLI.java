@@ -425,7 +425,7 @@ public class KoLmafiaCLI extends KoLmafia
 					if ( current.length() > 0 )
 						sequenceList.add( current );
 					remainder = remainder.substring( splitIndex + 1 ).trim();
-                                        splitIndex = remainder.indexOf( ";" );
+										splitIndex = remainder.indexOf( ";" );
 				}
 			}
 			while ( splitIndex != -1 );
@@ -971,9 +971,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "login" ) )
 		{
 			executeCommand( "logout", "" );
-			if ( LoginFrame.instanceExists() )
-				attemptLogin( parameters );
-
+			attemptLogin( parameters );
 			return;
 		}
 
@@ -2656,7 +2654,7 @@ public class KoLmafiaCLI extends KoLmafia
 				{
 					KoLmafiaASH interpreter = KoLmafiaASH.getInterpreter( scriptFile );
 					if ( interpreter != null )
-	                    RequestLogger.printLine( "Script verification complete." );
+						RequestLogger.printLine( "Script verification complete." );
 
 					return;
 				}

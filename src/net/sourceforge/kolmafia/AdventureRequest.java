@@ -162,6 +162,8 @@ public class AdventureRequest extends KoLRequest
 				StaticEntity.getClient().processResult( SKELETON_KEY.getInstance( -1 ) );
 				this.addFormField( "option", "2" );
 			}
+			else if ( this.responseText.indexOf( "\"Move on\"" ) != -1 )
+				this.addFormField( "option", "2" );
 			else
 				this.addFormField( "option", "1" );
 
@@ -485,7 +487,7 @@ public class AdventureRequest extends KoLRequest
 		},
 	};
 
-        private static final Pattern NAME_PATTERN = Pattern.compile( "<b>&quot;(.*?)&quot;</b>" );
+		private static final Pattern NAME_PATTERN = Pattern.compile( "<b>&quot;(.*?)&quot;</b>" );
 
 	public static final void registerDemonName( String encounter, String responseText )
 	{
