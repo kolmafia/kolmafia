@@ -69,6 +69,8 @@ public class KoLmafiaCLI extends KoLmafia
 	public static final int BOOZE = 5;
 
 	private static boolean attemptedLogin = false;
+	private static boolean isFoodMatch = false;
+	private static boolean isBoozeMatch = false;
 	private static boolean isUsageMatch = false;
 	private static boolean isCreationMatch = false;
 	private static boolean isUntinkerMatch = false;
@@ -1489,7 +1491,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// requests are complicated, so delegate to the
 		// appropriate utility method.
 
-		if ( command.equals( "eat" ) || command.equals( "drink" ) || command.equals( "use" ) || command.equals( "hobodrink" ) )
+		if ( command.equals( "eat" ) || command.equals( "drink" ) || command.equals( "use" ) || command.equals( "hobo" ) )
 		{
 			SpecialOutfit.createImplicitCheckpoint();
 			this.executeConsumeItemRequest( parameters );
@@ -3783,12 +3785,33 @@ public class KoLmafiaCLI extends KoLmafia
 			itemId = TradeableItemDatabase.getItemId( itemName );
 			useType = TradeableItemDatabase.getConsumptionType( itemId );
 
+			if ( isFoodMatch && useType != CONSUME_EAT )
+			{
+				nameList.remove(i--);
+				continue;
+			}
+
+			if ( isBoozeMatch && useType != CONSUME_DRINK )
+			{
+				nameList.remove(i--);
+				continue;
+			}
+
 			if ( isUsageMatch )
 			{
 				switch ( useType )
 				{
 				case CONSUME_EAT:
 				case CONSUME_DRINK:
+
+					if ( !StaticEntity.getBooleanProperty( "allowGenericUse" ) )
+					{
+						nameList.remove(i--);
+						continue;
+					}
+
+					break;
+
 				case CONSUME_USE:
 				case MESSAGE_DISPLAY:
 				case INFINITE_USES:
@@ -3856,7 +3879,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( npcStoreMatch || nameList.size() == 1 )
 			return lowestId;
 
-		if ( !isUsageMatch )
+		if ( !isUsageMatch && !isFoodMatch && !isBoozeMatch )
 			return 0;
 
 		for ( int i = 0; i < nameList.size(); ++i )
@@ -4529,9 +4552,15 @@ public class KoLmafiaCLI extends KoLmafia
 
 		AdventureResult currentMatch;
 
-		isUsageMatch = true;
+		isFoodMatch = this.currentLine.startsWith( "eat" );
+		isBoozeMatch = this.currentLine.startsWith( "drink" ) || this.currentLine.startsWith( "hobo" );
+		isUsageMatch = !isFoodMatch && !isBoozeMatch;
+
 		Object [] itemList = this.getMatchingItemList( parameters );
+
 		isUsageMatch = false;
+		isBoozeMatch = false;
+		isFoodMatch = false;
 
 		for ( int i = 0; i < itemList.length; ++i )
 		{
@@ -4546,7 +4575,7 @@ public class KoLmafiaCLI extends KoLmafia
 				}
 			}
 
-			if ( this.currentLine.startsWith( "drink" ) || this.currentLine.startsWith( "hobodrink" ) )
+			if ( this.currentLine.startsWith( "drink" ) || this.currentLine.startsWith( "hobo" ) )
 			{
 				if ( TradeableItemDatabase.getConsumptionType( currentMatch.getItemId() ) != CONSUME_DRINK )
 				{
@@ -4568,7 +4597,7 @@ public class KoLmafiaCLI extends KoLmafia
 				}
 			}
 
-			ConsumeItemRequest request = !this.currentLine.startsWith( "hobodrink" ) ? new ConsumeItemRequest( currentMatch ) :
+			ConsumeItemRequest request = !this.currentLine.startsWith( "hobo" ) ? new ConsumeItemRequest( currentMatch ) :
 				new ConsumeItemRequest( CONSUME_HOBO, currentMatch );
 
 			RequestThread.postRequest( request );
