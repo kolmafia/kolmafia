@@ -204,16 +204,7 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 			if ( !FightRequest.isTrackingFights() )
 				CUSTOM_THREAD.wake();
 
-			String fightResponse = FightRequest.getNextTrackedRound();
-
-			if ( FightRequest.isTrackingFights() )
-			{
-				fightResponse = SCRIPT_PATTERN.matcher( fightResponse ).replaceAll( "" );
-				this.request.pseudoResponse( "HTTP/1.1 200 OK", fightResponse );
-				this.request.headers.add( "Refresh: 0; URL=fight.php?action=script" );
-			}
-			else
-				this.request.pseudoResponse( "HTTP/1.1 200 OK", fightResponse );
+			this.request.pseudoResponse( "HTTP/1.1 302 Found", "fight.php?action=script" );
 		}
 		else if ( this.path.equals( "/fight.php?action=script" ) )
 		{
@@ -254,7 +245,7 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 		else if ( this.path.startsWith( "/fight.php" ) )
 		{
 			String action = request.getFormField( "action" );
-			if ( action != null )
+			if ( action != null && action.equals( "skill" ) )
 			{
 				String skillId = request.getFormField( "whichskill" );
 				if ( !skillId.equals( "3004" ) )
