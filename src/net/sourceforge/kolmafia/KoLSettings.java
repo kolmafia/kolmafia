@@ -425,6 +425,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 			}
 		}
 
+		this.saveToFile();
 		return oldValue == null ? "" : oldValue;
 	}
 
@@ -485,13 +486,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 		}
 
 		ostream.close();
-	}
-
-	public static final void saveSettings()
-	{
-		userSettings.saveToFile();
-		if ( userSettings != globalSettings )
-			globalSettings.saveToFile();
 	}
 
 	public void saveToFile()

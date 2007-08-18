@@ -901,6 +901,7 @@ public abstract class KoLmafia implements KoLConstants
 		}
 		else if ( resultName.equals( AdventureResult.ADV ) && result.getCount() < 0 )
 		{
+			StaticEntity.saveCounters();
 			AdventureResult.addResultToList( tally, result.getNegation() );
 		}
 		else if ( result.isItem() || resultName.equals( AdventureResult.SUBSTATS ) || resultName.equals( AdventureResult.MEAT ) )
@@ -3459,9 +3460,6 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		public void run()
 		{
-			StaticEntity.saveCounters();
-			KoLSettings.saveSettings();
-
 			KoLSettings.saveFlaggedItemList();
 			CustomItemDatabase.saveItemData();
 
