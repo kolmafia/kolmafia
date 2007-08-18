@@ -173,7 +173,7 @@ public abstract class StaticEntity implements KoLConstants
 		{
 			current = (TurnCounter) it.next();
 
-			if ( current.value <= currentTurns )
+			if ( current.value < currentTurns )
 			{
 				it.remove();
 				continue;
@@ -226,7 +226,7 @@ public abstract class StaticEntity implements KoLConstants
 		{
 			current = (TurnCounter) it.next();
 
-			if ( current.value <= currentTurns )
+			if ( current.value < currentTurns )
 			{
 				it.remove();
 				continue;
