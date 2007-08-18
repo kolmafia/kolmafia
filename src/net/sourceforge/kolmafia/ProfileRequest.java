@@ -226,16 +226,15 @@ public class ProfileRequest extends KoLRequest implements Comparable
 		{
 			while ( !st.nextToken().startsWith( "Equipment" ) );
 
-			String currentItem;
-			while ( EquipmentDatabase.contains( currentItem = st.nextToken() ) )
+			while ( EquipmentDatabase.contains( token = st.nextToken() ) )
 			{
-				switch ( TradeableItemDatabase.getConsumptionType( currentItem ) )
+				switch ( TradeableItemDatabase.getConsumptionType( token ) )
 				{
 				case EQUIP_HAT:
 				case EQUIP_PANTS:
 				case EQUIP_SHIRT:
 
-					this.equipmentPower += EquipmentDatabase.getPower( currentItem );
+					this.equipmentPower += EquipmentDatabase.getPower( token );
 					break;
 				}
 			}
@@ -243,7 +242,9 @@ public class ProfileRequest extends KoLRequest implements Comparable
 
 		if ( cleanHTML.indexOf( "\nClan" ) != -1 )
 		{
-			while ( !st.nextToken().startsWith( "Clan" ) );
+			while ( !token.startsWith( "Clan" ) )
+				token = st.nextToken();
+
 			this.clanName = st.nextToken();
 		}
 	}
