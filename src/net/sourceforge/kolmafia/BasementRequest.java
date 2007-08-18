@@ -678,19 +678,25 @@ public class BasementRequest extends AdventureRequest
 		return false;
 	}
 
+	private static final String monsterLevelString()
+	{
+		float level = 2.0f * (float)Math.pow( basementLevel, 1.4 ) + KoLCharacter.getMonsterLevelAdjustment();
+		return "Monster: Attack/Defense = " + (int)Math.ceil( level / 2 );
+	}
+
 	private static final boolean checkForMonster( String responseText )
 	{
 		if ( responseText.indexOf( "Don't Fear the Ear" ) != -1 )
 		{
 			// The Beast with n Ears
-			basementTestString = "Monster";
+			basementTestString = monsterLevelString();
 			return true;
 		}
 
 		if ( responseText.indexOf( "Commence to Pokin" ) != -1 )
 		{
 			// The Beast with n Eyes
-			basementTestString = "Monster";
+			basementTestString = monsterLevelString();
 			return true;
 		}
 
@@ -704,28 +710,28 @@ public class BasementRequest extends AdventureRequest
 		if ( responseText.indexOf( "Hydra" ) != -1 )
 		{
 			// A n-Headed Hydra
-			basementTestString = "Monster";
+			basementTestString = monsterLevelString();
 			return true;
 		}
 
 		if ( responseText.indexOf( "Toast the Ghost" ) != -1 )
 		{
 			// The Ghost of Fernswarthy's n great-grandfather
-			basementTestString = "Monster: physically resistant";
+			basementTestString = monsterLevelString() + "<br>Physically resistant";
 			return true;
 		}
 
 		if ( responseText.indexOf( "Bottles of Beer on a Golem" ) != -1 )
 		{
 			// N Bottles of Beer on a Golem
-			basementTestString = "Monster: blocks most spells";
+			basementTestString = monsterLevelString() + "<br>Blocks most spells";
 			return true;
 		}
 
 		if ( responseText.indexOf( "Collapse That Waveform" ) != -1 )
 		{
 			// A n-Dimensional Horror
-			basementTestString = "Monster: blocks physical attacks";
+			basementTestString = monsterLevelString() + "<br>Blocks physical attacks";
 			return true;
 		}
 
