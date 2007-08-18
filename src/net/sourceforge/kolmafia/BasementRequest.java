@@ -94,7 +94,7 @@ public class BasementRequest extends AdventureRequest
 	private static final AdventureResult SLEAZE_FORM = new AdventureResult( "Sleazeform", 1, true );
 
 	private static final Pattern BASEMENT_PATTERN = Pattern.compile( "Level ([\\d,]+)" );
-	private static final AdventureResult [] ELEMENT_FORMS = new AdventureResult [] { HOT_FORM, COLD_FORM, SPOOKY_FORM, STENCH_FORM, SLEAZE_FORM };
+	public static final AdventureResult [] ELEMENT_FORMS = new AdventureResult [] { HOT_FORM, COLD_FORM, SPOOKY_FORM, STENCH_FORM, SLEAZE_FORM };
 
 	/**
 	 * Constructs a new <code>/code> which executes an
