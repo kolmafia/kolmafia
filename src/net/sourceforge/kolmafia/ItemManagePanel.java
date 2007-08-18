@@ -38,6 +38,8 @@ import java.awt.GridLayout;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyAdapter;
 
@@ -593,7 +595,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 	 * key events of a JComboBox to allow you to catch key events.
 	 */
 
-	public class FilterItemField extends JTextField implements ActionListener
+	public class FilterItemField extends JTextField implements ActionListener, FocusListener
 	{
 		public SimpleListFilter filter;
 		public boolean food, booze, equip, restores, other, notrade;
@@ -610,6 +612,14 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 		public SimpleListFilter getFilter()
 		{	return new ConsumptionBasedFilter();
+		}
+
+		public void focusGained( FocusEvent e )
+		{	this.selectAll();
+		}
+
+		public  void focusLost( FocusEvent e )
+		{
 		}
 
 		public void actionPerformed( ActionEvent e )

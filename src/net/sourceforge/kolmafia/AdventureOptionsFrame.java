@@ -45,6 +45,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import java.util.TreeMap;
 
@@ -798,7 +800,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 		 * key events of a JComboBox to allow you to catch key events.
 		 */
 
-		private class FilterAdventureField extends JTextField implements ListElementFilter
+		private class FilterAdventureField extends JTextField implements ListElementFilter, FocusListener
 		{
 			private String text;
 			private boolean strict;
@@ -808,7 +810,17 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 			{
 				this.model = model;
 				this.model.setFilter( this );
+
+				this.addFocusListener( this );
 				this.addKeyListener( new FilterListener() );
+			}
+
+			public void focusGained( FocusEvent e )
+			{	this.selectAll();
+			}
+
+			public void focusLost( FocusEvent e )
+			{
 			}
 
 			public class FilterListener extends KeyAdapter
