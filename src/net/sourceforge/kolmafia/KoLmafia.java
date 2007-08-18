@@ -3474,8 +3474,9 @@ public abstract class KoLmafia implements KoLConstants
 		public void run()
 		{
 			StaticEntity.saveCounters();
-			KoLSettings.saveFlaggedItemList();
 			StaticEntity.saveSettings();
+
+			KoLSettings.saveFlaggedItemList();
 			CustomItemDatabase.saveItemData();
 
 			RequestLogger.closeSessionLog();

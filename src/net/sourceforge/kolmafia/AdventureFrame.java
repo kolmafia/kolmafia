@@ -357,8 +357,7 @@ public class AdventureFrame extends AdventureOptionsFrame
 			}
 
 			public void actionConfirmed()
-			{
-				ChoiceOptionsPanel.this.saveSettings();
+			{	ChoiceOptionsPanel.this.saveSettings();
 			}
 
 			public void actionCancelled()

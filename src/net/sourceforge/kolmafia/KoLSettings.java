@@ -55,8 +55,6 @@ import net.sourceforge.kolmafia.AdventureDatabase.ChoiceAdventure;
 public class KoLSettings extends Properties implements UtilityConstants
 {
 	private boolean settingsChanged = false;
-	private boolean initializingDefaults = false;
-
 	private static final TreeMap checkboxMap = new TreeMap();
 	private static final TreeMap CLIENT_SETTINGS = new TreeMap();
 	private static final TreeMap PLAYER_SETTINGS = new TreeMap();
@@ -435,9 +433,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 
 	public synchronized void saveSettings()
 	{
-		if ( this.initializingDefaults )
-			return;
-
 		if ( !this.settingsChanged )
 			return;
 
@@ -1025,8 +1020,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 
 	private void ensureDefaults()
 	{
-		this.initializingDefaults = true;
-
 		boolean isGlobal = this.noExtensionName.equals( "GLOBAL" );
 		Object [] keys = isGlobal ? CLIENT_SETTINGS.keySet().toArray() :
 			PLAYER_SETTINGS.keySet().toArray();
@@ -1043,7 +1036,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 		if ( isGlobal )
 			this.ensureChoiceDefaults();
 
-		this.initializingDefaults = false;
 		this.saveSettings();
 	}
 }
