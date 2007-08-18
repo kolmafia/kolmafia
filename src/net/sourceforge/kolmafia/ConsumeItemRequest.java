@@ -189,7 +189,7 @@ public class ConsumeItemRequest extends KoLRequest
 	public ConsumeItemRequest( int consumptionType, AdventureResult item )
 	{
 		this( consumptionType == CONSUME_EAT ? "inv_eat.php" : consumptionType == CONSUME_DRINK ? "inv_booze.php" :
-			consumptionType == GROW_FAMILIAR ? "inv_familiar.php" : consumptionType == MP_RESTORE ? "skills.php" :
+			consumptionType == GROW_FAMILIAR ? "inv_familiar.php" : consumptionType == HPMP_RESTORE || consumptionType == MP_RESTORE ? "skills.php" :
 			consumptionType == CONSUME_HOBO ? "inventory.php" : consumptionType == CONSUME_MULTIPLE ? "multiuse.php" :
 			consumptionType == HP_RESTORE && item.getCount() > 1 ? "multiuse.php" : "inv_use.php", consumptionType, item );
 	}
