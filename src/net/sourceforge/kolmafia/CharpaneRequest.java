@@ -722,21 +722,19 @@ public class CharpaneRequest extends KoLRequest
 			lastAppendIndex = nextAppendIndex;
 
 			String upkeepAction = MoodSettings.getDefaultAction( "lose_effect", effectName );
-			String imageAction = null;
-
-			if ( upkeepAction.equals( "" ) )
-			{
-				if ( effectName.equals( "Absinthe-Minded" ) )
-				{
-					imageAction = "Go to Worm Wood";
-					upkeepAction = "wormwood.php";
-				}
-			}
-
-			String removeAction = MoodSettings.getDefaultAction( "gain_effect", effectName );
 
 			if ( upkeepAction.endsWith( "snowcone" ) || upkeepAction.endsWith( "mushroom" ) || upkeepAction.endsWith( "cupcake" ) )
 				upkeepAction = "";
+
+			String imageAction = null;
+
+			if ( upkeepAction.endsWith( "absinthe" ) )
+			{
+				imageAction = "Go to Worm Wood";
+				upkeepAction = "wormwood.php";
+			}
+
+			String removeAction = MoodSettings.getDefaultAction( "gain_effect", effectName );
 
 			String skillName = UneffectRequest.effectToSkill( effectName );
 			int skillType = ClassSkillsDatabase.getSkillType( ClassSkillsDatabase.getSkillId( skillName ) );
