@@ -747,6 +747,11 @@ public class LocalRelayRequest extends PasswordHashRequest
 		{
 			this.pseudoResponse( "HTTP/1.1 200 OK", LocalRelayServer.getNewStatusMessages() );
 		}
+		else if ( this.formURLString.endsWith( "basementSpoiler" ) )
+		{
+			BasementRequest.reCheckBasement();
+			this.pseudoResponse( "HTTP/1.1 200 OK", BasementRequest.getRequirement() );
+		}
 		else
 		{
 			this.pseudoResponse( "HTTP/1.1 200 OK", "" );

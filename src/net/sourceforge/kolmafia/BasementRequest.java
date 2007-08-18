@@ -65,6 +65,7 @@ public class BasementRequest extends AdventureRequest
 	private static float resistance1, resistance2;
 	private static float expected1, expected2;
 
+	private static String lastResponseText = "";
 	private static String basementErrorMessage = null;
 
 	private static final AdventureResult MUS_EQUAL = new AdventureResult( "Stabilizing Oiliness", 1, true );
@@ -753,8 +754,14 @@ public class BasementRequest extends AdventureRequest
 		basementLevel = StaticEntity.parseInt( levelMatcher.group(1) );
 	}
 
+	public static final void reCheckBasement()
+	{	checkBasement( false, lastResponseText );
+	}
+
 	private static final boolean checkBasement( boolean autoSwitch, String responseText )
 	{
+		lastResponseText = responseText;
+
 		desirableEffects.clear();
 		newBasementLevel( responseText );
 
