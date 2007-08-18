@@ -46,7 +46,7 @@
 46	Spiky Hair	spikyhair.gif	89acaef20b7c355d36fdf0990bf6a5ec	use 1 super-spikey hair gel
 47	Complete Delusion	wolfmask.gif	b00a05823151fd7e6c8fe7697c0420ca
 48	The Smile of Mr. A.	gma.gif	59e9f58e87d531b3ef613515a3417210	use 1 box of sunshine
-49	Macho Profundo	notes.gif	a02c6fb27a3f9f4bf2c48d59584adc56
+49	Macho Profundo	notes.gif	a02c6fb27a3f9f4bf2c48d59584adc56	use 1 mafia aria
 50	Empathy	happy.gif	ac32e95f470a7e0999863fa0db58d808	cast 1 Empathy of the Newt
 51	Tenacity of the Snapper	turtle.gif	c05dc4b01f6f2826be599f07620979f7	cast 1 Tenacity of the Snapper
 52	Astral Shell	turtle.gif	4e66acac6b908fb6f70b49092dcff375	cast 1 Astral Shell
@@ -375,14 +375,14 @@
 375	Sparkling Consciousness	snowflakes.gif	a735ff0b16a7d7491c0dbb79c2e7895c
 376	Sneaky Serpentine Subtlety	snakehead.gif	1539b9172f5093b00da60bf5764477a6
 377	Adrenaline Rush	hoppeddown.gif	47a740988991d8f1ef1ab26e72ee2a86
-378	Crusty Head	hippywig.gif	81b2fce49b337b3ef3c6a1b11d77c2df
-379	Florid Cheeks	henna.gif	c6eba521aa725f3dbd0a27ac95cabaab
+378	Crusty Head	hippywig.gif	81b2fce49b337b3ef3c6a1b11d77c2df	use 1 tube of dread wax
+379	Florid Cheeks	henna.gif	c6eba521aa725f3dbd0a27ac95cabaab	use 1 henna face paint
 380
 381
-382	Seeing Colors	snowflakes.gif	a25aa7677bc87baea8d0350e61b04e9d
-383	Black Face	blackface.gif	c74fee3997d020f53cc3e077d4897c10
-384	Erudite	spectacles.gif	bf4f8342a8efe1d4c27054fa73ec1d7a
-385	Radiating Black Body&trade;	radiation.gif	3de3c7f145ae87e58ee391127ed697fd
+382	Seeing Colors	snowflakes.gif	a25aa7677bc87baea8d0350e61b04e9d	use 1 funky dried mushroom
+383	Black Face	blackface.gif	c74fee3997d020f53cc3e077d4897c10	use 1 black facepaint
+384	Erudite	spectacles.gif	bf4f8342a8efe1d4c27054fa73ec1d7a	use 1 black sheepskin diploma
+385	Radiating Black Body&trade;	radiation.gif	3de3c7f145ae87e58ee391127ed697fd	use 1 Black Body&trade; spray
 386
 387
 388
@@ -424,7 +424,7 @@
 424
 425
 426
-427	Hiding in Plain Sight	smallbush.gif	73b1d28fdca4f7e8f4d94d425a001720
+427	Hiding in Plain Sight	smallbush.gif	73b1d28fdca4f7e8f4d94d425a001720	use 1 panty raider camouflage
 428	Compensatory Cruelness	angry.gif	fcfb0679f0e80509cbff567a600ca998
 429	Mutated	spooklines.gif	a8e35050197871d1fbe5b3afc865af7e	use 1 gremlin mutagen
 430	Seriously Mutated	spooklines.gif	dd78d480e08de5cc8e633202d699844f	use 1 extra-potent gremlin mutagen
