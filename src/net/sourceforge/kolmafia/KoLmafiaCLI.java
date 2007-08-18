@@ -3946,7 +3946,7 @@ public class KoLmafiaCLI extends KoLmafia
 				itemCount = 0;
 				parameters = parameters.substring(1).trim();
 			}
-			else if ( TradeableItemDatabase.contains( parameters ) )
+			else if ( AdventureResult.itemId( parameters ) != -1 )
 			{
 				itemCount = 1;
 			}
@@ -3964,7 +3964,7 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 		}
 
-		itemId = TradeableItemDatabase.getItemId( parameters );
+		itemId = AdventureResult.itemId( parameters );
 
 		if ( itemId == -1 )
 		{
