@@ -585,8 +585,6 @@ public class OptionsFrame extends KoLFrame
 
 			commandBuffer.fireBufferChanged();
 			KoLMessenger.updateFontSize();
-
-			super.actionConfirmed();
 		}
 
 		public void actionCancelled()

@@ -179,7 +179,6 @@ public abstract class RequestThread implements KoLConstants
 		if ( KoLmafia.permitsContinue() || KoLmafia.refusesContinue() )
 			KoLmafia.enableDisplay();
 
-		StaticEntity.saveSettings();
 		return true;
 	}
 

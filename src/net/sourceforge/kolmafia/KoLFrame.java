@@ -1264,10 +1264,6 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		{	super( panelTitle, left, right );
 		}
 
-		public void actionConfirmed()
-		{
-		}
-
 		public void setEnabled( boolean isEnabled )
 		{
 		}
@@ -1309,8 +1305,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		{
 			TableColumnModel columnModel = this.table.getColumnModel();
 
-		    int row = e.getY() / this.table.getRowHeight();
-		    int column = columnModel.getColumnIndexAtX( e.getX() );
+			int row = e.getY() / this.table.getRowHeight();
+			int column = columnModel.getColumnIndexAtX( e.getX() );
 
 			if ( row >= 0 && row < this.table.getRowCount() && column >= 0 && column < this.table.getColumnCount() )
 			{
@@ -2283,8 +2279,6 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 				for ( int i = 0; i < UserInterfacePanel.this.options.length; ++i )
 					if ( UserInterfacePanel.this.options[i].length > 0 )
 						StaticEntity.setProperty( UserInterfacePanel.this.options[i][0], String.valueOf( UserInterfacePanel.this.optionBoxes[i].isSelected() ) );
-
-				super.actionConfirmed();
 			}
 
 			public void actionCancelled()
