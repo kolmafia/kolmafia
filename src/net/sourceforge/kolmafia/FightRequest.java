@@ -620,14 +620,14 @@ public class FightRequest extends KoLRequest
 	{
 		if ( lastDesiredScroll != null )
 			createAddingScroll( lastDesiredScroll );
-		else if ( conditions.contains( SCROLL_668 ) )
-			createAddingScroll( SCROLL_668 );
 		else if ( conditions.contains( SCROLL_64067 ) )
 			createAddingScroll( SCROLL_64067 );
 		else if ( conditions.contains( SCROLL_64735 ) )
 			createAddingScroll( SCROLL_64735 );
 		else if ( conditions.contains( SCROLL_31337 ) )
 			createAddingScroll( SCROLL_31337 );
+		else
+			createAddingScroll( SCROLL_668 );
 	}
 
 	private boolean createAddingScroll( AdventureResult scroll )
@@ -1330,7 +1330,7 @@ public class FightRequest extends KoLRequest
 
 		if ( !foundNextRound || KoLmafia.refusesContinue() )
 			isTrackingFights = false;
-		else
+		else if ( isTrackingFights )
 			isTrackingFights = currentRound != 0;
 
 		foundNextRound = false;
