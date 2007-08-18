@@ -302,7 +302,7 @@ public class AdventureFrame extends AdventureOptionsFrame
 				this.add( new ChoicePanel( optionsList ), (String) keys[i] );
 			}
 
-			this.actionCancelled();
+			this.loadSettings();
 			AdventureFrame.this.locationSelect.addListSelectionListener( new UpdateChoicesListener() );
 		}
 
@@ -357,7 +357,8 @@ public class AdventureFrame extends AdventureOptionsFrame
 			}
 
 			public void actionConfirmed()
-			{	ChoiceOptionsPanel.this.actionConfirmed();
+			{
+				ChoiceOptionsPanel.this.saveSettings();
 			}
 
 			public void actionCancelled()
@@ -385,11 +386,8 @@ public class AdventureFrame extends AdventureOptionsFrame
 			}
 		}
 
-		public void actionConfirmed()
+		public void saveSettings()
 		{
-			if ( this.isRefreshing )
-				return;
-
 			StaticEntity.setProperty( "violetFogGoal", String.valueOf( this.violetFogSelect.getSelectedIndex() ) );
 			StaticEntity.setProperty( "luckySewerAdventure", (String) this.sewerSelect.getSelectedItem() );
 			StaticEntity.setProperty( "choiceAdventure89", String.valueOf( this.maidenSelect.getSelectedIndex() ) );
@@ -589,7 +587,7 @@ public class AdventureFrame extends AdventureOptionsFrame
 			}
 		}
 
-		public void actionCancelled()
+		public void loadSettings()
 		{
 			this.isRefreshing = true;
 

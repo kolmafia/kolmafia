@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.AdventureDatabase.ChoiceAdventure;
 
 public class KoLSettings extends Properties implements UtilityConstants
 {
+	private boolean settingsChanged = false;
 	private boolean initializingDefaults = false;
 
 	private static final TreeMap checkboxMap = new TreeMap();
@@ -355,6 +356,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		if ( oldValue != null && oldValue.equals( value ) )
 			return oldValue;
 
+		this.settingsChanged = true;
 		super.setProperty( name, value );
 
 		if ( checkboxMap.containsKey( name ) )
@@ -434,6 +436,9 @@ public class KoLSettings extends Properties implements UtilityConstants
 	public synchronized void saveSettings()
 	{
 		if ( this.initializingDefaults )
+			return;
+
+		if ( !this.settingsChanged )
 			return;
 
 		SETTINGS_LOCATION.mkdirs();
@@ -913,6 +918,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 			if ( !forceChoiceDefault( StaticEntity.parseInt( setting.substring(15) ) ) )
 				continue;
 
+			this.settingsChanged = true;
 			super.setProperty( setting, (String) PLAYER_SETTINGS.get( setting ) );
 		}
 	}
@@ -1021,29 +1027,23 @@ public class KoLSettings extends Properties implements UtilityConstants
 	{
 		this.initializingDefaults = true;
 
-		// If this is the set of global settings, be sure
-		// to initialize the global settings.
+		boolean isGlobal = this.noExtensionName.equals( "GLOBAL" );
+		Object [] keys = isGlobal ? CLIENT_SETTINGS.keySet().toArray() :
+			PLAYER_SETTINGS.keySet().toArray();
 
-		if ( this.noExtensionName.equals( "GLOBAL" ) )
+		for ( int i = 0; i < keys.length; ++i )
 		{
-			Object [] keys = CLIENT_SETTINGS.keySet().toArray();
-			for ( int i = 0; i < keys.length; ++i )
-				if ( !this.containsKey( keys[i] ) )
-					super.setProperty( (String) keys[i], (String) CLIENT_SETTINGS.get( keys[i] ) );
-
-			this.initializingDefaults = false;
-			return;
+			if ( !this.containsKey( keys[i] ) )
+			{
+				this.settingsChanged = true;
+				super.setProperty( (String) keys[i], (String) CLIENT_SETTINGS.get( keys[i] ) );
+			}
 		}
 
-		// Otherwise, initialize the client-specific settings.
-		// No global settings will be loaded.
+		if ( isGlobal )
+			this.ensureChoiceDefaults();
 
-		Object [] keys = PLAYER_SETTINGS.keySet().toArray();
-		for ( int i = 0; i < keys.length; ++i )
-			if ( !this.containsKey( keys[i] ) )
-				super.setProperty( (String) keys[i], (String) PLAYER_SETTINGS.get( keys[i] ) );
-
-		this.ensureChoiceDefaults();
 		this.initializingDefaults = false;
+		this.saveSettings();
 	}
 }
