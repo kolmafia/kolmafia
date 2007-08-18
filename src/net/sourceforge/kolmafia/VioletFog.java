@@ -263,7 +263,7 @@ public class VioletFog
 			return "";
 
 		// Get the user specified goal
-		int goal = StaticEntity.getIntegerProperty( "violetFogGoal" );
+		int goal = KoLSettings.getIntegerProperty( "violetFogGoal" );
 
 		// If no goal, return "4".
 		// - If we are not at a "goal" location, this will exit the fog
@@ -425,7 +425,7 @@ public class VioletFog
 		if ( source == 71 )
 		{
 			// We got diverted from where we thought we were going
-			StaticEntity.setProperty( "lastAdventure", "A Journey to the Center of Your Mind" );
+			KoLSettings.setUserProperty( "lastAdventure", "A Journey to the Center of Your Mind" );
 			// Switch location to the trip of choice.
 			String name = "";
 			if ( decision.equals( "1" ) )
@@ -435,7 +435,7 @@ public class VioletFog
 			else if ( decision.equals( "3" ) )
 			     name = "An Incredibly Strange Place (Great Trip)";
 
-			StaticEntity.setProperty( "chosenTrip", name );
+			KoLSettings.setUserProperty( "chosenTrip", name );
 			return true;
 		}
 

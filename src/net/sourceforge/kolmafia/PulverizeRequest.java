@@ -82,7 +82,7 @@ public class PulverizeRequest extends KoLRequest
 
 	public void run()
 	{
-		if ( StaticEntity.getBooleanProperty( "mementoListActive" ) && mementoList.contains( this.item ) )
+		if ( KoLSettings.getBooleanProperty( "mementoListActive" ) && mementoList.contains( this.item ) )
 			return;
 
 		if ( item.getCount( inventory ) == item.getCount() && !junkList.contains( item ) )

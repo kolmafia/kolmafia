@@ -238,11 +238,11 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			// Update the choice adventure setting
 
 			if ( this.adventureId.equals( "96" ) )
-				StaticEntity.setProperty( "choiceAdventure71", "1" );
+				KoLSettings.setUserProperty( "choiceAdventure71", "1" );
 			else if ( this.adventureId.equals( "98" ) )
-				StaticEntity.setProperty( "choiceAdventure71", "2" );
+				KoLSettings.setUserProperty( "choiceAdventure71", "2" );
 			else
-				StaticEntity.setProperty( "choiceAdventure71", "3" );
+				KoLSettings.setUserProperty( "choiceAdventure71", "3" );
 
 			// If the player is not half-astral, then
 			// make sure they are before continuing.
@@ -386,10 +386,10 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 					choice = "3";
 
 				// Choose the trip
-				StaticEntity.setProperty( "choiceAdventure71", choice );
+				KoLSettings.setUserProperty( "choiceAdventure71", choice );
 
 				String name = this.getAdventureName();
-				StaticEntity.setProperty( "chosenTrip", name );
+				KoLSettings.setUserProperty( "chosenTrip", name );
 
 				this.isValidAdventure = true;
 				return;
@@ -705,7 +705,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			return;
 		}
 
-		String action = StaticEntity.getProperty( "battleAction" );
+		String action = KoLSettings.getUserProperty( "battleAction" );
 
 		if ( this.request instanceof AdventureRequest && !this.adventureId.equals( "80" ) )
 		{
@@ -788,8 +788,8 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 	private void updateAutoAttack()
 	{
-		String attack = StaticEntity.getProperty( "battleAction" );
-		String autoAttack = StaticEntity.getProperty( "defaultAutoAttack" );
+		String attack = KoLSettings.getUserProperty( "battleAction" );
+		String autoAttack = KoLSettings.getUserProperty( "defaultAutoAttack" );
 
 		if ( initialAutoAttack.equals( "" ) || !autoAttack.equals( changedAutoAttack ) )
 			initialAutoAttack = autoAttack;
@@ -836,7 +836,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		if ( attack.startsWith( "attack" ) )
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=" + attack );
-			changedAutoAttack = StaticEntity.getProperty( "defaultAutoAttack" );
+			changedAutoAttack = KoLSettings.getUserProperty( "defaultAutoAttack" );
 			return;
 		}
 
@@ -852,7 +852,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		}
 
 		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=" + skillId );
-		changedAutoAttack = StaticEntity.getProperty( "defaultAutoAttack" );
+		changedAutoAttack = KoLSettings.getUserProperty( "defaultAutoAttack" );
 	}
 
 	public void recordToSession()
@@ -869,9 +869,9 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		// Update selected adventure information in order to
 		// keep the GUI synchronized.
 
-		if ( !StaticEntity.getProperty( "lastAdventure" ).equals( this.adventureName ) )
+		if ( !KoLSettings.getUserProperty( "lastAdventure" ).equals( this.adventureName ) )
 		{
-			StaticEntity.setProperty( "lastAdventure", this.adventureName );
+			KoLSettings.setUserProperty( "lastAdventure", this.adventureName );
 
 			if ( !this.isNonCombatsOnly() )
 			{
@@ -931,7 +931,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			// in disguise, if your last council visit was a long
 			// time ago.
 
-			if ( locationId.equals( "67" ) && StaticEntity.getIntegerProperty( "lastCouncilVisit" ) < 9 )
+			if ( locationId.equals( "67" ) && KoLSettings.getIntegerProperty( "lastCouncilVisit" ) < 9 )
 				KoLRequest.VISITOR.constructURLString( "council.php" ).run();
 
 			matchingLocation.isValidAdventure = true;
@@ -1090,7 +1090,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 	public static final int getAdventureCount()
 	{
-		return StaticEntity.getBooleanProperty( "logReverseOrder" ) ? KoLCharacter.getAdventuresLeft() :
+		return KoLSettings.getBooleanProperty( "logReverseOrder" ) ? KoLCharacter.getAdventuresLeft() :
 			KoLCharacter.getCurrentRun() + 1;
 	}
 

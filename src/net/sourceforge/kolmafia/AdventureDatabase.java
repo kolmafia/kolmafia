@@ -1194,7 +1194,7 @@ public class AdventureDatabase extends KoLDatabase
 		}
 
 		int adventureId = StaticEntity.parseInt( adventure.getAdventureId() );
-		int bountyId = StaticEntity.getIntegerProperty( "currentBountyItem" );
+		int bountyId = KoLSettings.getIntegerProperty( "currentBountyItem" );
 
 		if ( bountyId != 0 )
 		{
@@ -1363,11 +1363,11 @@ public class AdventureDatabase extends KoLDatabase
 
 		int price = TradeableItemDatabase.getPriceById( itemId );
 
-		boolean shouldUseMall = force || getBooleanProperty( "autoSatisfyWithMall" ) &&
+		boolean shouldUseMall = force || KoLSettings.getBooleanProperty( "autoSatisfyWithMall" ) &&
 			((price > 0 || item.getName().indexOf( "clover" ) != -1) && KoLCharacter.canInteract() && TradeableItemDatabase.isTradeable( itemId ));
 
-		boolean shouldUseStash = getBooleanProperty( "autoSatisfyWithStash" );
-		boolean shouldUseNPCStore = NPCStoreDatabase.contains( item.getName() ) && (force || getBooleanProperty( "autoSatisfyWithNPCs" ));
+		boolean shouldUseStash = KoLSettings.getBooleanProperty( "autoSatisfyWithStash" );
+		boolean shouldUseNPCStore = NPCStoreDatabase.contains( item.getName() ) && (force || KoLSettings.getBooleanProperty( "autoSatisfyWithNPCs" ));
 
 		int mixingMethod = ConcoctionsDatabase.getMixingMethod( itemId );
 		ItemCreationRequest creator = ItemCreationRequest.getInstance( itemId );

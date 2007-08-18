@@ -214,7 +214,7 @@ public class KoLmafiaCLI extends KoLmafia
 			StaticEntity.printStackTrace( e );
 		}
 
-		if ( StaticEntity.getGlobalProperty( "initialFrames" ).indexOf( "LocalRelayServer" ) != -1 )
+		if ( KoLSettings.getGlobalProperty( "initialFrames" ).indexOf( "LocalRelayServer" ) != -1 )
 			KoLmafiaGUI.constructFrame( "LocalRelayServer" );
 	}
 
@@ -893,7 +893,7 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( splitIndex == -1 )
 			{
 				if ( KoLSettings.isUserEditable( parameters ) )
-					RequestLogger.printLine( StaticEntity.getProperty( parameters ) );
+					RequestLogger.printLine( KoLSettings.getUserProperty( parameters ) );
 
 				return;
 			}
@@ -942,18 +942,18 @@ public class KoLmafiaCLI extends KoLmafia
 					value = String.valueOf( ClassSkillsDatabase.getSkillId( skillName ) );
 				}
 
-				if ( !StaticEntity.getProperty( "defaultAutoAttack" ).equals( value ) )
+				if ( !KoLSettings.getUserProperty( "defaultAutoAttack" ).equals( value ) )
 				{
 					AUTO_ATTACKER.addFormField( "whichattack", value );
 					RequestThread.postRequest( AUTO_ATTACKER );
 				}
 			}
 
-			if ( StaticEntity.getProperty( name ).equals( value ) )
+			if ( KoLSettings.getUserProperty( name ).equals( value ) )
 				return;
 
 			RequestLogger.printLine( name + " => " + value );
-			StaticEntity.setProperty( name, value );
+			KoLSettings.setUserProperty( name, value );
 
 			if ( name.equals( "buffBotCasting" ) )
 				BuffBotManager.loadSettings();
@@ -1009,7 +1009,7 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			// Validate the script first.
 
-			String [] scripts = StaticEntity.getProperty( "commandLineNamespace" ).split( "," );
+			String [] scripts = KoLSettings.getUserProperty( "commandLineNamespace" ).split( "," );
 			for ( int i = 0; i < scripts.length; ++i )
 			{
 				RequestLogger.printLine( scripts[i] );
@@ -1061,7 +1061,7 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( !permitsContinue() )
 				return;
 
-			String namespace = StaticEntity.getProperty( "commandLineNamespace" );
+			String namespace = KoLSettings.getUserProperty( "commandLineNamespace" );
 			if ( namespace.startsWith( parameters + "," ) || namespace.endsWith( "," + parameters ) || namespace.indexOf( "," + parameters + "," ) != -1 )
 				return;
 
@@ -1070,7 +1070,7 @@ public class KoLmafiaCLI extends KoLmafia
 			else
 				namespace = namespace + "," + parameters;
 
-			StaticEntity.setProperty( "commandLineNamespace", namespace.toString() );
+			KoLSettings.setUserProperty( "commandLineNamespace", namespace.toString() );
 			return;
 		}
 
@@ -1451,7 +1451,7 @@ public class KoLmafiaCLI extends KoLmafia
 			{
 				String potion = TradeableItemDatabase.getItemName( i );
 				potion = potion.substring( 0, potion.length() - 7 );
-				RequestLogger.printLine( potion + ": " + StaticEntity.getProperty( "lastBangPotion" + i ) );
+				RequestLogger.printLine( potion + ": " + KoLSettings.getUserProperty( "lastBangPotion" + i ) );
 			}
 
 			return;
@@ -1474,7 +1474,7 @@ public class KoLmafiaCLI extends KoLmafia
 			for ( int i = 1; i <= 5; ++i )
 			{
 				String demon = KoLAdventure.demonType( i );
-				String name = StaticEntity.getProperty( "demonName" + i );
+				String name = KoLSettings.getUserProperty( "demonName" + i );
 				RequestLogger.printLine( demon + ": " + name );
 			}
 
@@ -2006,7 +2006,7 @@ public class KoLmafiaCLI extends KoLmafia
 					parameters = parameters.substring( 0, spaceIndex );
 				}
 
-				String previousMood = StaticEntity.getProperty( "currentMood" );
+				String previousMood = KoLSettings.getUserProperty( "currentMood" );
 				MoodSettings.setMood( parameters );
 
 				executeCommand( "mood", "repeat " + multiplicity );
@@ -2366,7 +2366,7 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( KoLCharacter.getPvpRank() - 50 > targets[i].getPvpRank().intValue() )
 				continue;
 
-			if ( StaticEntity.getProperty( "currentPvpVictories" ).indexOf( targets[i].getPlayerName() ) != -1 )
+			if ( KoLSettings.getUserProperty( "currentPvpVictories" ).indexOf( targets[i].getPlayerName() ) != -1 )
 				continue;
 
 			if ( ClanManager.getClanName().equals( targets[i].getClanName() ) )
@@ -2377,7 +2377,7 @@ public class KoLmafiaCLI extends KoLmafia
 			RequestThread.postRequest( request );
 
 			if ( request.responseText.indexOf( "Your PvP Ranking increased by" ) != -1 )
-				StaticEntity.setProperty( "currentPvpVictories", StaticEntity.getProperty( "currentPvpVictories" ) + targets[i].getPlayerName() + "," );
+				KoLSettings.setUserProperty( "currentPvpVictories", KoLSettings.getUserProperty( "currentPvpVictories" ) + targets[i].getPlayerName() + "," );
 			else
 				updateDisplay( ERROR_STATE, "You lost to " + targets[i].getPlayerName() + "." );
 
@@ -3159,7 +3159,7 @@ public class KoLmafiaCLI extends KoLmafia
 			String outfitLocation;
 
 			if (conditionString.equals("outfit"))
-				outfitLocation = StaticEntity.getProperty("lastAdventure");
+				outfitLocation = KoLSettings.getUserProperty("lastAdventure");
 			else
 				outfitLocation = conditionString.substring(0, conditionString.length() - 7);
 
@@ -3804,7 +3804,7 @@ public class KoLmafiaCLI extends KoLmafia
 				case CONSUME_EAT:
 				case CONSUME_DRINK:
 
-					if ( !StaticEntity.getBooleanProperty( "allowGenericUse" ) )
+					if ( !KoLSettings.getBooleanProperty( "allowGenericUse" ) )
 					{
 						nameList.remove(i--);
 						continue;
@@ -3973,7 +3973,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 				for ( int i = 819; i <= 827 && itemId == -1; ++i )
 				{
-					testProperty = StaticEntity.getProperty( "lastBangPotion" + i );
+					testProperty = KoLSettings.getUserProperty( "lastBangPotion" + i );
 					if ( !testProperty.equals( "" ) )
 					{
 						testName = TradeableItemDatabase.getItemName( i ) + " of " + testProperty;
@@ -4584,7 +4584,7 @@ public class KoLmafiaCLI extends KoLmafia
 				}
 			}
 
-			if ( this.currentLine.startsWith( "use" ) && !StaticEntity.getBooleanProperty( "allowGenericUse" ) )
+			if ( this.currentLine.startsWith( "use" ) && !KoLSettings.getBooleanProperty( "allowGenericUse" ) )
 			{
 				switch ( TradeableItemDatabase.getConsumptionType( currentMatch.getItemId() ) )
 				{
@@ -4635,7 +4635,7 @@ public class KoLmafiaCLI extends KoLmafia
 	private void executeAdventureRequest( String parameters )
 	{
 		int adventureCount;
-		KoLAdventure adventure = AdventureDatabase.getAdventure( parameters.equalsIgnoreCase( "last" ) ? StaticEntity.getProperty( "lastAdventure" ) : parameters );
+		KoLAdventure adventure = AdventureDatabase.getAdventure( parameters.equalsIgnoreCase( "last" ) ? KoLSettings.getUserProperty( "lastAdventure" ) : parameters );
 
 		if ( adventure != null )
 			adventureCount = 1;

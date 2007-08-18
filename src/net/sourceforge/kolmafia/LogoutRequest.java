@@ -57,7 +57,7 @@ public class LogoutRequest extends KoLRequest
 			KoLDesktop.getInstance().dispose();
 
 		StaticEntity.saveCounters();
-		StaticEntity.saveSettings();
+		KoLSettings.saveSettings();
 
 		KoLFrame [] frames = StaticEntity.getExistingFrames();
 		for ( int i = 0; i < frames.length; ++i )
@@ -71,7 +71,7 @@ public class LogoutRequest extends KoLRequest
 		KoLMessenger.dispose();
 		BuffBotHome.setBuffBotActive( false );
 
-		String scriptSetting = StaticEntity.getProperty( "logoutScript" );
+		String scriptSetting = KoLSettings.getUserProperty( "logoutScript" );
 		if ( !scriptSetting.equals( "" ) )
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( scriptSetting );
 

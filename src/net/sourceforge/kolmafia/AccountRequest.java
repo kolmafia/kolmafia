@@ -115,20 +115,20 @@ public class AccountRequest extends PasswordHashRequest
 			Matcher optionMatcher = SELECTED2_PATTERN.matcher( selectMatcher.group() );
 			if ( optionMatcher.find() )
 			{
-				StaticEntity.setProperty( "defaultAutoAttack", optionMatcher.group(1) );
+				KoLSettings.setUserProperty( "defaultAutoAttack", optionMatcher.group(1) );
 			}
 			else
 			{
 				optionMatcher = SELECTED3_PATTERN.matcher( selectMatcher.group() );
 				if ( optionMatcher.find() )
-					StaticEntity.setProperty( "defaultAutoAttack", optionMatcher.group(1) );
+					KoLSettings.setUserProperty( "defaultAutoAttack", optionMatcher.group(1) );
 				else
-					StaticEntity.setProperty( "defaultAutoAttack", "0" );
+					KoLSettings.setUserProperty( "defaultAutoAttack", "0" );
 			}
 		}
 		else
 		{
-			StaticEntity.setProperty( "defaultAutoAttack", "0" );
+			KoLSettings.setUserProperty( "defaultAutoAttack", "0" );
 		}
 	}
 }

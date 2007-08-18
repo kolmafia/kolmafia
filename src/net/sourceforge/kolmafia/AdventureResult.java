@@ -288,7 +288,7 @@ public class AdventureResult implements Comparable, KoLConstants
 
 		// Look up the effect name
 		for ( int i = 819; i <= 827; ++i )
-			if ( effect.equals( StaticEntity.getProperty( "lastBangPotion" + i ) ) )
+			if ( effect.equals( KoLSettings.getUserProperty( "lastBangPotion" + i ) ) )
 				return i;
 
 		return -1;
@@ -308,7 +308,7 @@ public class AdventureResult implements Comparable, KoLConstants
 
 		// Look up the effect name
 		for ( int i = 2174; i <= 2177; ++i )
-			if ( effect.equals( StaticEntity.getProperty( "lastStoneSphere" + i ) ) )
+			if ( effect.equals( KoLSettings.getUserProperty( "lastStoneSphere" + i ) ) )
 				return i;
 
 		return -1;
@@ -685,7 +685,7 @@ public class AdventureResult implements Comparable, KoLConstants
 				sourceList.remove( index );
 				return;
 			}
-			else if ( sumResult.getCount() < 0 && (sourceList != tally || !StaticEntity.getBooleanProperty( "allowNegativeTally" )) )
+			else if ( sumResult.getCount() < 0 && (sourceList != tally || !KoLSettings.getBooleanProperty( "allowNegativeTally" )) )
 			{
 				sourceList.remove( index );
 				return;
@@ -792,7 +792,7 @@ public class AdventureResult implements Comparable, KoLConstants
 
 			this.appendRange( stringForm, TradeableItemDatabase.getAdventureRange( item.getName() ), "adv" );
 
-			if ( StaticEntity.getBooleanProperty( "showGainsPerUnit" ) )
+			if ( KoLSettings.getBooleanProperty( "showGainsPerUnit" ) )
 			{
 				if ( inebriety > 0 )
 					stringForm.append( " / drunk" );
@@ -898,7 +898,7 @@ public class AdventureResult implements Comparable, KoLConstants
 			stringForm.append( COMMA_FORMAT.format( ar.count[0] ) );
 			stringForm.append( ")" );
 
-			if ( StaticEntity.getBooleanProperty( "mementoListActive" ) && mementoList.contains( ar ) )
+			if ( KoLSettings.getBooleanProperty( "mementoListActive" ) && mementoList.contains( ar ) )
 			{
 				stringForm.insert( 0, "<html><font color=olive>" );
 				stringForm.append( "</font></html>" );

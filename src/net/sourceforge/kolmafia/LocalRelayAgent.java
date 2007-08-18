@@ -161,7 +161,7 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 				{
 					Matcher inventoryMatcher = INVENTORY_COOKIE_PATTERN.matcher( currentLine );
 					if ( inventoryMatcher.find() )
-						StaticEntity.setProperty( "visibleBrowserInventory", "inventory=" + inventoryMatcher.group(1) );
+						KoLSettings.setUserProperty( "visibleBrowserInventory", "inventory=" + inventoryMatcher.group(1) );
 				}
 			}
 		}
@@ -232,8 +232,8 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 		{
 			if ( !KoLmafia.isRunningBetweenBattleChecks() && FightRequest.getCurrentRound() == 0 )
 			{
-				StaticEntity.getClient().runBetweenBattleChecks( false, StaticEntity.getBooleanProperty( "relayMaintainsEffects" ),
-					StaticEntity.getBooleanProperty( "relayMaintainsHealth" ), StaticEntity.getBooleanProperty( "relayMaintainsMana" ) );
+				StaticEntity.getClient().runBetweenBattleChecks( false, KoLSettings.getBooleanProperty( "relayMaintainsEffects" ),
+					KoLSettings.getBooleanProperty( "relayMaintainsHealth" ), KoLSettings.getBooleanProperty( "relayMaintainsMana" ) );
 			}
 
 			this.request.run();
@@ -257,7 +257,7 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 
 					for ( int i = 1; i <= 5 && insertIndex == 6; ++i )
 					{
-						testAction = StaticEntity.getProperty( "customCombatSkill" + i );
+						testAction = KoLSettings.getUserProperty( "customCombatSkill" + i );
 						if ( testAction.equals( "" ) || testAction.equals( skillId ) )
 							insertIndex = i;
 					}
@@ -266,10 +266,10 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 					{
 						insertIndex = 5;
 						for ( int i = 2; i <= 5; ++i )
-							StaticEntity.setProperty( "customCombatSkill" + (i-1), StaticEntity.getProperty( "customCombatSkill" + i ) );
+							KoLSettings.setUserProperty( "customCombatSkill" + (i-1), KoLSettings.getUserProperty( "customCombatSkill" + i ) );
 					}
 
-					StaticEntity.setProperty( "customCombatSkill" + insertIndex, skillId );
+					KoLSettings.setUserProperty( "customCombatSkill" + insertIndex, skillId );
 				}
 			}
 
@@ -366,7 +366,7 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 					// interrupted.  Fall through.
 				}
 
-				if ( !StaticEntity.getProperty( "battleAction" ).startsWith( "custom" ) )
+				if ( !KoLSettings.getUserProperty( "battleAction" ).startsWith( "custom" ) )
 					KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "battleAction=custom" );
 
 				FightRequest.INSTANCE.run();

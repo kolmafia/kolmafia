@@ -187,7 +187,7 @@ public class FightRequest extends KoLRequest
 			}
 		}
 
-		action1 = CombatSettings.getShortCombatOptionName( StaticEntity.getProperty( "battleAction" ) );
+		action1 = CombatSettings.getShortCombatOptionName( KoLSettings.getUserProperty( "battleAction" ) );
 		action2 = null;
 
 		// Adding machine should override custom combat scripts as well,
@@ -738,7 +738,7 @@ public class FightRequest extends KoLRequest
 	private static final void checkForInitiative( String responseText )
 	{
 		if ( isAutomatingFight )
-			RequestLogger.printLine( "Strategy: " + StaticEntity.getProperty( "battleAction" ) );
+			RequestLogger.printLine( "Strategy: " + KoLSettings.getUserProperty( "battleAction" ) );
 
 		if ( !KoLCharacter.getUserName().equals( lastPlayer ) )
 		{
@@ -747,7 +747,7 @@ public class FightRequest extends KoLRequest
 			wonInitiative = "Round 0: " + lastPlayer + " wins initiative!";
 		}
 
-		boolean shouldLogAction = StaticEntity.getBooleanProperty( "logBattleAction" );
+		boolean shouldLogAction = KoLSettings.getBooleanProperty( "logBattleAction" );
 
 		// Whether or not you get initiative is easy -- look for the
 		// text saying "You get the jump".
@@ -775,7 +775,7 @@ public class FightRequest extends KoLRequest
 			RequestLogger.updateSessionLog( wonInitiative );
 		}
 
-		action1 = StaticEntity.getProperty( "defaultAutoAttack" );
+		action1 = KoLSettings.getUserProperty( "defaultAutoAttack" );
 
 		// If no default action is made by the player, then the round remains
 		// the same.  Simply report winning/losing initiative.
@@ -786,7 +786,7 @@ public class FightRequest extends KoLRequest
 		StringBuffer action = new StringBuffer();
 		++currentRound;
 
-		if ( StaticEntity.getBooleanProperty( "ignoreAutoAttack" ) )
+		if ( KoLSettings.getBooleanProperty( "ignoreAutoAttack" ) )
 			++preparatoryRounds;
 
 		if ( shouldLogAction )
@@ -852,7 +852,7 @@ public class FightRequest extends KoLRequest
 		// Log familiar actions, if the player wishes to include this
 		// information in their session logs.
 
-		if ( StaticEntity.getBooleanProperty( "logFamiliarActions" ) )
+		if ( KoLSettings.getBooleanProperty( "logFamiliarActions" ) )
 		{
 			Matcher familiarActMatcher = FAMILIAR_ACT_PATTERN.matcher( responseText );
 			while ( familiarActMatcher.find() )
@@ -895,7 +895,7 @@ public class FightRequest extends KoLRequest
 		while ( blindIndex != -1 )
 		{
 			RequestLogger.printLine( "You acquire... something." );
-			if ( StaticEntity.getBooleanProperty( "logAcquiredItems" ) )
+			if ( KoLSettings.getBooleanProperty( "logAcquiredItems" ) )
 				RequestLogger.updateSessionLog( "You acquire... something." );
 
 			blindIndex = responseText.indexOf( "... something.</div>", blindIndex + 1 );
@@ -945,7 +945,7 @@ public class FightRequest extends KoLRequest
 			ConsumeItemRequest.ensureUpdatedPotionEffects();
 
 			if ( effectData != null )
-				StaticEntity.setProperty( "lastBangPotion" + potionId, effectData );
+				KoLSettings.setUserProperty( "lastBangPotion" + potionId, effectData );
 		}
 	}
 
@@ -988,18 +988,18 @@ public class FightRequest extends KoLRequest
 			ensureUpdatedSphereEffects();
 
 			if ( effectData != null )
-				StaticEntity.setProperty( "lastStoneSphere" + sphereId, effectData );
+				KoLSettings.setUserProperty( "lastStoneSphere" + sphereId, effectData );
 		}
 	}
 
 	public static final void ensureUpdatedSphereEffects()
 	{
-		int lastAscension = StaticEntity.getIntegerProperty( "lastStoneSphereReset" );
+		int lastAscension = KoLSettings.getIntegerProperty( "lastStoneSphereReset" );
 		if ( lastAscension < KoLCharacter.getAscensions() )
 		{
-			StaticEntity.setProperty( "lastStoneSphereReset", String.valueOf( KoLCharacter.getAscensions() ) );
+			KoLSettings.setUserProperty( "lastStoneSphereReset", String.valueOf( KoLCharacter.getAscensions() ) );
 			for ( int i = 2174; i <= 2177; ++i )
-				StaticEntity.setProperty( "lastStoneSphere" + i, "" );
+				KoLSettings.setUserProperty( "lastStoneSphere" + i, "" );
 		}
 	}
 
@@ -1010,7 +1010,7 @@ public class FightRequest extends KoLRequest
 	public static final String stoneSphereName( int itemId, String name )
 	{
 		ensureUpdatedSphereEffects();
-		String effect = StaticEntity.getProperty( "lastStoneSphere" + itemId );
+		String effect = KoLSettings.getUserProperty( "lastStoneSphere" + itemId );
 		if ( effect.equals( "" ) )
 			return name;
 
@@ -1076,7 +1076,7 @@ public class FightRequest extends KoLRequest
 		// Done with all processing for monster damage, now handle responseText.
 
 		healthModifier += damageThisRound;
-		if ( !StaticEntity.getBooleanProperty( "logMonsterHealth" ) )
+		if ( !KoLSettings.getBooleanProperty( "logMonsterHealth" ) )
 			return;
 
 		StringBuffer action = new StringBuffer();
@@ -1367,7 +1367,7 @@ public class FightRequest extends KoLRequest
 		action1 = null;
 		action2 = null;
 
-		boolean shouldLogAction = StaticEntity.getBooleanProperty( "logBattleAction" );
+		boolean shouldLogAction = KoLSettings.getBooleanProperty( "logBattleAction" );
 		StringBuffer action = shouldLogAction ? new StringBuffer() : null;
 
 		if ( urlString.indexOf( "fight.php?" ) == -1 )

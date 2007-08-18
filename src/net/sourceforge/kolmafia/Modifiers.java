@@ -484,7 +484,7 @@ public class Modifiers extends KoLDatabase
 		return this.floats[index];
 	};
 
-	public boolean getBoolean( int index )
+	public boolean getBooleanProperty( int index )
 	{
 		if ( index < 0 || index >= this.booleans.length )
 			return false;
@@ -492,7 +492,7 @@ public class Modifiers extends KoLDatabase
 		return this.booleans[index];
 	};
 
-	public boolean getBoolean( String name )
+	public boolean getBooleanProperty( String name )
 	{
 		int index = findName( booleanModifiers, name );
 		if ( index < 0 || index >= this.booleans.length )
@@ -906,12 +906,12 @@ public class Modifiers extends KoLDatabase
 		return mods.get( mod );
 	}
 
-	public static final boolean getBooleanModifier( String name, String mod )
+	public static final boolean getBooleanPropertyModifier( String name, String mod )
 	{
 		Modifiers mods = getModifiers( name );
 		if ( mods == null )
 			return false;
-		return mods.getBoolean( mod );
+		return mods.getBooleanProperty( mod );
 	}
 
 	public static final String getStringModifier( String name, String mod )

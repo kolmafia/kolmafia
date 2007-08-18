@@ -83,7 +83,7 @@ public class CouncilFrame extends RequestFrame
 			if ( !idMatcher.find() )
 				return;
 
-			StaticEntity.setProperty( "currentBountyItem", idMatcher.group(1) );
+			KoLSettings.setUserProperty( "currentBountyItem", idMatcher.group(1) );
 			String itemName = TradeableItemDatabase.getItemName( StaticEntity.parseInt( idMatcher.group(1) ) );
 			AdventureFrame.updateSelectedAdventure( AdventureDatabase.getBountyLocation( itemName ) );
 			return;
@@ -92,13 +92,13 @@ public class CouncilFrame extends RequestFrame
 		if ( location.indexOf( "action=abandonbounty" ) == -1 && responseText.indexOf( "You acquire" ) == -1 )
 			return;
 
-		int itemId = StaticEntity.getIntegerProperty( "currentBountyItem" );
+		int itemId = KoLSettings.getIntegerProperty( "currentBountyItem" );
 		if ( itemId == 0 )
 			return;
 
 		AdventureResult item = new AdventureResult( itemId, 1 );
 		StaticEntity.getClient().processResult( item.getInstance( 0 - item.getCount( inventory ) ) );
-		StaticEntity.setProperty( "currentBountyItem", "0" );
+		KoLSettings.setUserProperty( "currentBountyItem", "0" );
 	}
 
 	private static final void handleSneakyPeteChange( String responseText )
@@ -144,7 +144,7 @@ public class CouncilFrame extends RequestFrame
 	{
 		Matcher oreMatcher = ORE_PATTERN.matcher( responseText );
 		if ( oreMatcher.find() )
-			StaticEntity.setProperty( "trapperOre", oreMatcher.group(1) + " ore" );
+			KoLSettings.setUserProperty( "trapperOre", oreMatcher.group(1) + " ore" );
 
 		// If you receive items from the trapper, then you
 		// lose some items already in your inventory.
@@ -194,7 +194,7 @@ public class CouncilFrame extends RequestFrame
 
 	private static final void handleCouncilChange( String responseText )
 	{
-		StaticEntity.setProperty( "lastCouncilVisit", String.valueOf( KoLCharacter.getLevel() ) );
+		KoLSettings.setUserProperty( "lastCouncilVisit", String.valueOf( KoLCharacter.getLevel() ) );
 
 		if ( responseText.indexOf( "500" ) != -1 )
 			StaticEntity.getClient().processResult( new AdventureResult( "mosquito larva", -1, false ) );

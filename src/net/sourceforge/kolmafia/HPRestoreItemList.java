@@ -84,7 +84,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 	public static final JCheckBox [] getCheckboxes()
 	{
-		String hpRestoreSetting = getProperty( "hpAutoRecoveryItems" );
+		String hpRestoreSetting = KoLSettings.getUserProperty( "hpAutoRecoveryItems" );
 		JCheckBox [] restoreCheckbox = new JCheckBox[ CONFIGURES.length ];
 
 		for ( int i = 0; i < CONFIGURES.length; ++i )

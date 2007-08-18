@@ -239,12 +239,12 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 	public boolean shouldAddStatusBar()
 	{
-		return StaticEntity.getBooleanProperty( "addStatusBarToFrames" ) &&
-			StaticEntity.getGlobalProperty( "initialDesktop" ).indexOf( this.frameName ) == -1;
+		return KoLSettings.getBooleanProperty( "addStatusBarToFrames" ) &&
+			KoLSettings.getGlobalProperty( "initialDesktop" ).indexOf( this.frameName ) == -1;
 	}
 
 	public JTabbedPane getTabbedPane()
-	{	return StaticEntity.getBooleanProperty( "useDecoratedTabs" ) ? new CloseTabbedPane() : new JTabbedPane();
+	{	return KoLSettings.getBooleanProperty( "useDecoratedTabs" ) ? new CloseTabbedPane() : new JTabbedPane();
 	}
 
 	public void addHotKeys()
@@ -350,7 +350,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	{
 		JToolBar toolbarPanel = null;
 
-		switch ( StaticEntity.getIntegerProperty( "toolbarPosition" ) )
+		switch ( KoLSettings.getIntegerProperty( "toolbarPosition" ) )
 		{
 		case 1:
 			toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
@@ -1192,11 +1192,11 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		if ( this.tabs == null )
 		{
-			StaticEntity.setProperty( this.frameName, ((int)p.getX()) + "," + ((int)p.getY()) );
+			KoLSettings.setUserProperty( this.frameName, ((int)p.getX()) + "," + ((int)p.getY()) );
 		}
 		else
 		{
-			StaticEntity.setProperty( this.frameName, ((int)p.getX()) + "," + ((int)p.getY()) + "," +
+			KoLSettings.setUserProperty( this.frameName, ((int)p.getX()) + "," + ((int)p.getY()) + "," +
 				tabs.getSelectedIndex() );
 		}
 	}
@@ -1207,7 +1207,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		int yLocation = 0;
 
 		Dimension screenSize = TOOLKIT.getScreenSize();
-		String position = StaticEntity.getProperty( this.frameName );
+		String position = KoLSettings.getUserProperty( this.frameName );
 
 		if ( position == null || position.indexOf( "," ) == -1 )
 		{
@@ -1590,7 +1590,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			bookmarkData.append( (String) bookmarks.getElementAt(i) );
 		}
 
-		StaticEntity.setProperty( "browserBookmarks", bookmarkData.toString() );
+		KoLSettings.setUserProperty( "browserBookmarks", bookmarkData.toString() );
 	}
 
 	/**
@@ -1601,7 +1601,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	public static final void compileBookmarks()
 	{
 		bookmarks.clear();
-		String [] bookmarkData = StaticEntity.getProperty( "browserBookmarks" ).split( "\\|" );
+		String [] bookmarkData = KoLSettings.getUserProperty( "browserBookmarks" ).split( "\\|" );
 
 		if ( bookmarkData.length > 1 )
 			for ( int i = 0; i < bookmarkData.length; ++i )
@@ -1625,7 +1625,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			if ( c == null )
 				return;
 
-			StaticEntity.setProperty( this.property, DataUtilities.toHexString( c ) );
+			KoLSettings.setUserProperty( this.property, DataUtilities.toHexString( c ) );
 			this.setBackground( c );
 			this.applyChanges();
 		}
@@ -1673,8 +1673,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			Object [] effects = this.elementList.getSelectedValues();
 			this.elementList.clearSelection();
 
-			if ( StaticEntity.getProperty( "currentMood" ).equals( "apathetic" ) )
-				StaticEntity.setProperty( "currentMood", "default" );
+			if ( KoLSettings.getUserProperty( "currentMood" ).equals( "apathetic" ) )
+				KoLSettings.setUserProperty( "currentMood", "default" );
 
 			String name, action;
 
@@ -1801,16 +1801,16 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		public void actionConfirmed()
 		{
-			StaticEntity.setProperty( "loginScript", this.loginScript.getText() );
-			StaticEntity.setProperty( "logoutScript", this.logoutScript.getText() );
+			KoLSettings.setUserProperty( "loginScript", this.loginScript.getText() );
+			KoLSettings.setUserProperty( "logoutScript", this.logoutScript.getText() );
 		}
 
 		public void actionCancelled()
 		{
-			String loginScript = StaticEntity.getProperty( "loginScript" );
+			String loginScript = KoLSettings.getUserProperty( "loginScript" );
 			this.loginScript.setText( loginScript );
 
-			String logoutScript = StaticEntity.getProperty( "logoutScript" );
+			String logoutScript = KoLSettings.getUserProperty( "logoutScript" );
 			this.logoutScript.setText( logoutScript );
 		}
 
@@ -1899,27 +1899,27 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 				}
 			}
 
-			StaticEntity.setProperty( "breakfast" + this.breakfastType, skillString.toString() );
-			StaticEntity.setProperty( "loginRecovery" + this.breakfastType, String.valueOf( this.loginRecovery.isSelected() ) );
-			StaticEntity.setProperty( "pathedSummons" + this.breakfastType, String.valueOf( this.pathedSummons.isSelected() ) );
-			StaticEntity.setProperty( "visitRumpus" + this.breakfastType, String.valueOf( this.rumpusRoom.isSelected() ) );
-			StaticEntity.setProperty( "autoPlant" + this.breakfastType, String.valueOf( this.mushroomPlot.isSelected() ) );
-			StaticEntity.setProperty( "grabClovers" + this.breakfastType, String.valueOf( this.grabClovers.isSelected() ) );
-			StaticEntity.setProperty( "readManual" + this.breakfastType, String.valueOf( this.readManual.isSelected() ) );
+			KoLSettings.setUserProperty( "breakfast" + this.breakfastType, skillString.toString() );
+			KoLSettings.setUserProperty( "loginRecovery" + this.breakfastType, String.valueOf( this.loginRecovery.isSelected() ) );
+			KoLSettings.setUserProperty( "pathedSummons" + this.breakfastType, String.valueOf( this.pathedSummons.isSelected() ) );
+			KoLSettings.setUserProperty( "visitRumpus" + this.breakfastType, String.valueOf( this.rumpusRoom.isSelected() ) );
+			KoLSettings.setUserProperty( "autoPlant" + this.breakfastType, String.valueOf( this.mushroomPlot.isSelected() ) );
+			KoLSettings.setUserProperty( "grabClovers" + this.breakfastType, String.valueOf( this.grabClovers.isSelected() ) );
+			KoLSettings.setUserProperty( "readManual" + this.breakfastType, String.valueOf( this.readManual.isSelected() ) );
 		}
 
 		public void actionCancelled()
 		{
-			String skillString = StaticEntity.getProperty( "breakfast" + this.breakfastType );
+			String skillString = KoLSettings.getUserProperty( "breakfast" + this.breakfastType );
 			for ( int i = 0; i < UseSkillRequest.BREAKFAST_SKILLS.length; ++i )
 				this.skillOptions[i].setSelected( skillString.indexOf( UseSkillRequest.BREAKFAST_SKILLS[i] ) != -1 );
 
-			this.loginRecovery.setSelected( StaticEntity.getBooleanProperty( "loginRecovery" + this.breakfastType ) );
-			this.pathedSummons.setSelected( StaticEntity.getBooleanProperty( "pathedSummons" + this.breakfastType ) );
-			this.rumpusRoom.setSelected( StaticEntity.getBooleanProperty( "visitRumpus" + this.breakfastType ) );
-			this.mushroomPlot.setSelected( StaticEntity.getBooleanProperty( "autoPlant" + this.breakfastType ) );
-			this.grabClovers.setSelected( StaticEntity.getBooleanProperty( "grabClovers" + this.breakfastType ) );
-			this.readManual.setSelected( StaticEntity.getBooleanProperty( "readManual" + this.breakfastType ) );
+			this.loginRecovery.setSelected( KoLSettings.getBooleanProperty( "loginRecovery" + this.breakfastType ) );
+			this.pathedSummons.setSelected( KoLSettings.getBooleanProperty( "pathedSummons" + this.breakfastType ) );
+			this.rumpusRoom.setSelected( KoLSettings.getBooleanProperty( "visitRumpus" + this.breakfastType ) );
+			this.mushroomPlot.setSelected( KoLSettings.getBooleanProperty( "autoPlant" + this.breakfastType ) );
+			this.grabClovers.setSelected( KoLSettings.getBooleanProperty( "grabClovers" + this.breakfastType ) );
+			this.readManual.setSelected( KoLSettings.getBooleanProperty( "readManual" + this.breakfastType ) );
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -2022,8 +2022,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		public void actionConfirmed()
 		{
-			StaticEntity.setProperty( "loginScript", this.loginScript.getText() );
-			StaticEntity.setProperty( "logoutScript", this.logoutScript.getText() );
+			KoLSettings.setUserProperty( "loginScript", this.loginScript.getText() );
+			KoLSettings.setUserProperty( "logoutScript", this.logoutScript.getText() );
 
 			this.actionCancelled();
 		}
@@ -2039,13 +2039,13 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			this.startupList.clear();
 			this.desktopList.clear();
 
-			String frameString = StaticEntity.getGlobalProperty( username, "initialFrames" );
-			String desktopString = StaticEntity.getGlobalProperty( username, "initialDesktop" );
+			String frameString = KoLSettings.getGlobalProperty( username, "initialFrames" );
+			String desktopString = KoLSettings.getGlobalProperty( username, "initialDesktop" );
 
 			if ( frameString.equals( "" ) && desktopString.equals( "" ) )
 			{
-				frameString = StaticEntity.getGlobalProperty( "", "initialFrames" );
-				desktopString = StaticEntity.getGlobalProperty( "", "initialDesktop" );
+				frameString = KoLSettings.getGlobalProperty( "", "initialFrames" );
+				desktopString = KoLSettings.getGlobalProperty( "", "initialDesktop" );
 			}
 
 			String [] pieces;
@@ -2065,8 +2065,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			this.isRefreshing = false;
 			this.saveLayoutSettings();
 
-			this.loginScript.setText( StaticEntity.getProperty( "loginScript" ) );
-			this.logoutScript.setText( StaticEntity.getProperty( "logoutScript" ) );
+			this.loginScript.setText( KoLSettings.getUserProperty( "loginScript" ) );
+			this.logoutScript.setText( KoLSettings.getUserProperty( "logoutScript" ) );
 		}
 
 		public boolean shouldAddStatusLabel( VerifiableElement [] elements )
@@ -2120,8 +2120,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 						desktopString.append( this.FRAME_OPTIONS[j][1] );
 					}
 
-			StaticEntity.setGlobalProperty( "", "initialFrames", frameString.toString() );
-			StaticEntity.setGlobalProperty( "", "initialDesktop", desktopString.toString() );
+			KoLSettings.setGlobalProperty( "", "initialFrames", frameString.toString() );
+			KoLSettings.setGlobalProperty( "", "initialDesktop", desktopString.toString() );
 
 			if ( saveStateNames.size() != 0 )
 			{
@@ -2129,8 +2129,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 				if ( username == null )
 					username = "";
 
-				StaticEntity.setGlobalProperty( username, "initialFrames", frameString.toString() );
-				StaticEntity.setGlobalProperty( username, "initialDesktop", desktopString.toString() );
+				KoLSettings.setGlobalProperty( username, "initialFrames", frameString.toString() );
+				KoLSettings.setGlobalProperty( username, "initialDesktop", desktopString.toString() );
 			}
 		}
 	}
@@ -2225,18 +2225,18 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		{
 			String lookAndFeel = (String) this.looks.getSelectedItem();
 			if ( lookAndFeel != null )
-				StaticEntity.setProperty( "swingLookAndFeel", lookAndFeel );
+				KoLSettings.setUserProperty( "swingLookAndFeel", lookAndFeel );
 
-			StaticEntity.setProperty( "useToolbars", String.valueOf( this.toolbars.getSelectedIndex() != 0 ) );
-			StaticEntity.setProperty( "scriptButtonPosition", String.valueOf( this.scripts.getSelectedIndex() ) );
-			StaticEntity.setProperty( "toolbarPosition", String.valueOf( this.toolbars.getSelectedIndex() ) );
+			KoLSettings.setUserProperty( "useToolbars", String.valueOf( this.toolbars.getSelectedIndex() != 0 ) );
+			KoLSettings.setUserProperty( "scriptButtonPosition", String.valueOf( this.scripts.getSelectedIndex() ) );
+			KoLSettings.setUserProperty( "toolbarPosition", String.valueOf( this.toolbars.getSelectedIndex() ) );
 		}
 
 		public void actionCancelled()
 		{
-			this.looks.setSelectedItem( StaticEntity.getProperty( "swingLookAndFeel" ) );
-			this.toolbars.setSelectedIndex( StaticEntity.getIntegerProperty( "toolbarPosition" ) );
-			this.scripts.setSelectedIndex( StaticEntity.getIntegerProperty( "scriptButtonPosition" ) );
+			this.looks.setSelectedItem( KoLSettings.getUserProperty( "swingLookAndFeel" ) );
+			this.toolbars.setSelectedIndex( KoLSettings.getIntegerProperty( "toolbarPosition" ) );
+			this.scripts.setSelectedIndex( KoLSettings.getIntegerProperty( "scriptButtonPosition" ) );
 		}
 
 		private class InterfaceCheckboxPanel extends OptionsPanel
@@ -2278,14 +2278,14 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			{
 				for ( int i = 0; i < UserInterfacePanel.this.options.length; ++i )
 					if ( UserInterfacePanel.this.options[i].length > 0 )
-						StaticEntity.setProperty( UserInterfacePanel.this.options[i][0], String.valueOf( UserInterfacePanel.this.optionBoxes[i].isSelected() ) );
+						KoLSettings.setUserProperty( UserInterfacePanel.this.options[i][0], String.valueOf( UserInterfacePanel.this.optionBoxes[i].isSelected() ) );
 			}
 
 			public void actionCancelled()
 			{
 				for ( int i = 0; i < UserInterfacePanel.this.options.length; ++i )
 					if ( UserInterfacePanel.this.options[i].length > 0 )
-						UserInterfacePanel.this.optionBoxes[i].setSelected( StaticEntity.getBooleanProperty( UserInterfacePanel.this.options[i][0] ) );
+						UserInterfacePanel.this.optionBoxes[i].setSelected( KoLSettings.getBooleanProperty( UserInterfacePanel.this.options[i][0] ) );
 
 				this.innerGradient.setBackground( tab.CloseTabPaneEnhancedUI.selectedA );
 				this.outerGradient.setBackground( tab.CloseTabPaneEnhancedUI.selectedB );

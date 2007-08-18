@@ -252,18 +252,18 @@ public class BuffBotFrame extends KoLFrame
 
 		public void actionConfirmed()
 		{
-			StaticEntity.setProperty( "buffBotPhilanthropyType", String.valueOf( this.philanthropyModeSelect.getSelectedIndex() ) );
-			StaticEntity.setProperty( "buffBotMessageDisposal", String.valueOf( this.messageDisposalSelect.getSelectedIndex() ) );
-			StaticEntity.setProperty( "invalidBuffMessage", this.invalidPriceMessage.getText() );
-			StaticEntity.setProperty( "thanksMessage", this.thanksMessage.getText() );
+			KoLSettings.setUserProperty( "buffBotPhilanthropyType", String.valueOf( this.philanthropyModeSelect.getSelectedIndex() ) );
+			KoLSettings.setUserProperty( "buffBotMessageDisposal", String.valueOf( this.messageDisposalSelect.getSelectedIndex() ) );
+			KoLSettings.setUserProperty( "invalidBuffMessage", this.invalidPriceMessage.getText() );
+			KoLSettings.setUserProperty( "thanksMessage", this.thanksMessage.getText() );
 		}
 
 		public void actionCancelled()
 		{
-			this.philanthropyModeSelect.setSelectedIndex( StaticEntity.getIntegerProperty( "buffBotPhilanthropyType" ) );
-			this.messageDisposalSelect.setSelectedIndex( StaticEntity.getIntegerProperty( "buffBotMessageDisposal" ) );
-			this.invalidPriceMessage.setText( StaticEntity.getProperty( "invalidBuffMessage" ) );
-			this.thanksMessage.setText( StaticEntity.getProperty( "thanksMessage" ) );
+			this.philanthropyModeSelect.setSelectedIndex( KoLSettings.getIntegerProperty( "buffBotPhilanthropyType" ) );
+			this.messageDisposalSelect.setSelectedIndex( KoLSettings.getIntegerProperty( "buffBotMessageDisposal" ) );
+			this.invalidPriceMessage.setText( KoLSettings.getUserProperty( "invalidBuffMessage" ) );
+			this.thanksMessage.setText( KoLSettings.getUserProperty( "thanksMessage" ) );
 		}
 	}
 }

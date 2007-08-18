@@ -1304,7 +1304,7 @@ public abstract class SorceressLair extends StaticEntity
 		// Make sure that auto-attack is deactivated for the
 		// shadow fight, otherwise it will fail.
 
-		String previousAutoAttack = StaticEntity.getProperty( "defaultAutoAttack" );
+		String previousAutoAttack = KoLSettings.getUserProperty( "defaultAutoAttack" );
 
 		if ( !previousAutoAttack.equals( "0" ) )
 			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=0" );
@@ -1701,8 +1701,8 @@ public abstract class SorceressLair extends StaticEntity
 
 		// Start the battle!
 
-		String oldAction = getProperty( "battleAction" );
-		setProperty( "battleAction", "item " + option.getName().toLowerCase() );
+		String oldAction = KoLSettings.getUserProperty( "battleAction" );
+		KoLSettings.setUserProperty( "battleAction", "item " + option.getName().toLowerCase() );
 
 		RequestThread.postRequest( KoLRequest.VISITOR.constructURLString( "lair6.php?place=2" ) );
 		if ( KoLRequest.VISITOR.responseText.indexOf( "You don't have time to mess around up here." ) != -1 )
@@ -1711,12 +1711,12 @@ public abstract class SorceressLair extends StaticEntity
 		// Reset all of the old battle action settings, including
 		// the original KoL-side auto-attack.
 
-		setProperty( "battleAction", oldAction );
+		KoLSettings.setUserProperty( "battleAction", oldAction );
 	}
 
 	public static final void makeGuardianItems()
 	{
-		if ( StaticEntity.getIntegerProperty( "lastTowerClimb" ) == KoLCharacter.getAscensions() )
+		if ( KoLSettings.getIntegerProperty( "lastTowerClimb" ) == KoLCharacter.getAscensions() )
 			return;
 
 		for ( int i = 0; i < GUARDIAN_DATA.length; ++i )
@@ -1729,7 +1729,7 @@ public abstract class SorceressLair extends StaticEntity
 			}
 		}
 
-		StaticEntity.setProperty( "lastTowerClimb", String.valueOf( KoLCharacter.getAscensions() ) );
+		KoLSettings.setUserProperty( "lastTowerClimb", String.valueOf( KoLCharacter.getAscensions() ) );
 	}
 
 	private static final void familiarBattle( int n )

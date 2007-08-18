@@ -54,10 +54,8 @@ import net.sourceforge.kolmafia.AdventureDatabase.ChoiceAdventure;
 
 public class KoLSettings extends Properties implements UtilityConstants
 {
-	private boolean settingsChanged = false;
+	private boolean valuesChanged = false;
 	private static final TreeMap checkboxMap = new TreeMap();
-	private static final TreeMap CLIENT_SETTINGS = new TreeMap();
-	private static final TreeMap PLAYER_SETTINGS = new TreeMap();
 
 	public static final String [] COMMON_JUNK =
 	{
@@ -162,6 +160,9 @@ public class KoLSettings extends Properties implements UtilityConstants
 		"rubber WWtNSD? bracelet", "heart necklace", "spade necklace", "diamond necklace", "club necklace",
 	};
 
+	private static final TreeMap GLOBAL_MAP = new TreeMap();
+	private static final TreeMap USER_MAP = new TreeMap();
+
 	static
 	{
 		if ( !DATA_LOCATION.exists() )
@@ -208,9 +209,10 @@ public class KoLSettings extends Properties implements UtilityConstants
 		initializeMaps();
 	}
 
-	public static final KoLSettings GLOBAL_SETTINGS = new KoLSettings( "" );
+	private static KoLSettings globalSettings = new KoLSettings( "" );
+	private static KoLSettings userSettings = globalSettings;
 
-	private File settingsFile;
+	private File userSettingsFile;
 
 	private static final File junkItemsFile = new File( DATA_LOCATION, "autosell.txt" );
 	private static final File singletonFile = new File( DATA_LOCATION, "singleton.txt" );
@@ -280,23 +282,37 @@ public class KoLSettings extends Properties implements UtilityConstants
 		initializeList( KoLConstants.profitableList, profitableFile, new String[0] );
 	}
 
+	public static final void reset( String username )
+	{
+		if ( username.equals( "" ) )
+		{
+			userSettings = globalSettings;
+			return;
+		}
+
+		userSettings = new KoLSettings( username );
+
+		CombatSettings.restoreDefaults();
+		MoodSettings.restoreDefaults();
+	}
+
 	private String noExtensionName;
 
 	/**
-	 * Constructs a settings file for a character with the specified name.
+	 * Constructs a userSettings file for a character with the specified name.
 	 * Note that in the data file created, all spaces in the character name
 	 * will be replaced with an underscore, and all other punctuation will
 	 * be removed.
 	 *
-	 * @param	characterName	The name of the character this settings file represents
+	 * @param	characterName	The name of the character this userSettings file represents
 	 */
 
-	public KoLSettings( String characterName )
+	private KoLSettings( String characterName )
 	{
 		noExtensionName = baseUserName( characterName );
-		settingsFile = new File( SETTINGS_LOCATION, noExtensionName + "_prefs.txt" );
+		userSettingsFile = new File( SETTINGS_LOCATION, noExtensionName + "_prefs.txt" );
 
-		loadSettings();
+		loadFromFile();
 		ensureDefaults();
 	}
 
@@ -310,9 +326,49 @@ public class KoLSettings extends Properties implements UtilityConstants
 	{	return !property.startsWith( "saveState" );
 	}
 
+	private static final String getPropertyName( String player, String name )
+	{	return player == null || player.equals( "" ) ? name : name + "." + KoLSettings.baseUserName( player );
+	}
+
+	public static final void setUserProperty( String name, String value )
+	{	userSettings.setProperty( name, value );
+	}
+
+	public static final String getUserProperty( String name )
+	{	return userSettings.getProperty( name );
+	}
+
+	public static final void setGlobalProperty( String name, String value )
+	{	setGlobalProperty( KoLCharacter.getUserName(), name, value );
+	}
+
+	public static final String getGlobalProperty( String name )
+	{	return getGlobalProperty( KoLCharacter.getUserName(), name );
+	}
+
+	public static final void setGlobalProperty( String player, String name, String value )
+	{	userSettings.setProperty( getPropertyName( player, name ), value );
+	}
+
+	public static final String getGlobalProperty( String player, String name )
+	{	return userSettings.getProperty( getPropertyName( player, name ) );
+	}
+
+	public static final boolean getBooleanProperty( String name )
+	{	return getUserProperty( name ).equals( "true" );
+	}
+
+	public static final int getIntegerProperty( String name )
+	{	return StaticEntity.parseInt( getUserProperty( name ) );
+	}
+
+	public static final float getFloatProperty( String name )
+	{	return StaticEntity.parseFloat( getUserProperty( name ) );
+	}
+
 	public static final boolean isGlobalProperty( String name )
 	{
-		return CLIENT_SETTINGS.containsKey( name ) || name.startsWith( "saveState" ) || name.startsWith( "displayName" ) ||
+		return GLOBAL_MAP.containsKey( name ) || name.startsWith( "saveState" ) || name.startsWith( "displayName" ) ||
 			name.startsWith( "getBreakfast" ) || name.startsWith( "autoPlant" ) || name.startsWith( "visitRumpus" ) ||
 			name.startsWith( "initialFrames" ) || name.startsWith( "initialDesktop" );
 	}
@@ -321,12 +377,12 @@ public class KoLSettings extends Properties implements UtilityConstants
 	{
 		boolean isGlobalProperty = isGlobalProperty( name );
 
-		if ( isGlobalProperty && (GLOBAL_SETTINGS == null || this != GLOBAL_SETTINGS) )
+		if ( isGlobalProperty && (globalSettings == null || this != globalSettings) )
 		{
-			String value = GLOBAL_SETTINGS.getProperty( name );
+			String value = globalSettings.getProperty( name );
 			return value == null ? "" : value;
 		}
-		else if ( !isGlobalProperty && this == GLOBAL_SETTINGS )
+		else if ( !isGlobalProperty && this == globalSettings )
 			return "";
 
 		String value = super.getProperty( name );
@@ -340,9 +396,9 @@ public class KoLSettings extends Properties implements UtilityConstants
 
 		boolean isGlobalProperty = isGlobalProperty( name );
 
-		if ( isGlobalProperty && (GLOBAL_SETTINGS == null || this != GLOBAL_SETTINGS) )
-			return GLOBAL_SETTINGS.setProperty( name, value );
-		else if ( !isGlobalProperty && this == GLOBAL_SETTINGS )
+		if ( isGlobalProperty && (globalSettings == null || this != globalSettings) )
+			return globalSettings.setProperty( name, value );
+		else if ( !isGlobalProperty && this == globalSettings )
 			return "";
 
 		// All tests passed.  Now, go ahead and execute the
@@ -354,7 +410,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		if ( oldValue != null && oldValue.equals( value ) )
 			return oldValue;
 
-		this.settingsChanged = true;
+		this.valuesChanged = true;
 		super.setProperty( name, value );
 
 		if ( checkboxMap.containsKey( name ) )
@@ -431,9 +487,16 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ostream.close();
 	}
 
-	public synchronized void saveSettings()
+	public static final void saveSettings()
 	{
-		if ( !this.settingsChanged )
+		userSettings.saveToFile();
+		if ( userSettings != globalSettings )
+			globalSettings.saveToFile();
+	}
+
+	public void saveToFile()
+	{
+		if ( !this.valuesChanged )
 			return;
 
 		SETTINGS_LOCATION.mkdirs();
@@ -460,11 +523,11 @@ public class KoLSettings extends Properties implements UtilityConstants
 				ostream.write( KoLConstants.LINE_BREAK.getBytes() );
 			}
 
-			if ( this.settingsFile.exists() )
-				this.settingsFile.delete();
+			if ( this.userSettingsFile.exists() )
+				this.userSettingsFile.delete();
 
-			this.settingsFile.createNewFile();
-			ostream.writeTo( new FileOutputStream( this.settingsFile ) );
+			this.userSettingsFile.createNewFile();
+			ostream.writeTo( new FileOutputStream( this.userSettingsFile ) );
 		}
 		catch ( IOException e )
 		{
@@ -473,28 +536,28 @@ public class KoLSettings extends Properties implements UtilityConstants
 	}
 
 	/**
-	 * Loads the settings located in the given file into this object.
-	 * Note that all settings are overridden; if the given file does
-	 * not exist, the current global settings will also be rewritten
+	 * Loads the userSettings located in the given file into this object.
+	 * Note that all userSettings are overridden; if the given file does
+	 * not exist, the current global userSettings will also be rewritten
 	 * into the appropriate file.
 	 *
 	 * @param	source	The file that contains (or will contain) the character data
 	 */
 
-	private void loadSettings()
+	private void loadFromFile()
 	{
 		try
 		{
-			// First guarantee that a settings file exists with
+			// First guarantee that a userSettings file exists with
 			// the appropriate Properties data.
 
-			if ( !this.settingsFile.exists() )
+			if ( !this.userSettingsFile.exists() )
 				return;
 
 			// Now that it is guaranteed that an XML file exists
 			// with the appropriate properties, load the file.
 
-			FileInputStream istream = new FileInputStream( this.settingsFile );
+			FileInputStream istream = new FileInputStream( this.userSettingsFile );
 			this.load( istream );
 
 			istream.close();
@@ -509,12 +572,12 @@ public class KoLSettings extends Properties implements UtilityConstants
 		}
 		catch ( Exception e2 )
 		{
-			// Somehow, the settings were corrupted; this
+			// Somehow, the userSettings were corrupted; this
 			// means that they will have to be created after
 			// the current file is deleted.
 
 			StaticEntity.printStackTrace( e2 );
-			this.settingsFile.delete();
+			this.userSettingsFile.delete();
 		}
 	}
 
@@ -523,382 +586,382 @@ public class KoLSettings extends Properties implements UtilityConstants
 		// Do not initialize the maps more than once, as this
 		// would not serve any purpose.
 
-		CLIENT_SETTINGS.put( "addChatCommandLine", "false" );
-		CLIENT_SETTINGS.put( "addCreationQueue", "true" );
-		CLIENT_SETTINGS.put( "addExitMenuItems", String.valueOf( !System.getProperty( "os.name" ).startsWith( "Mac" ) ) );
-		CLIENT_SETTINGS.put( "addStatusBarToFrames", "false" );
-		CLIENT_SETTINGS.put( "allowBreakfastBurning", "true" );
-		CLIENT_SETTINGS.put( "allowCloseableDesktopTabs", "false" );
-		CLIENT_SETTINGS.put( "allowEncounterRateBurning", "true" );
-		CLIENT_SETTINGS.put( "allowGenericUse", "false" );
-		CLIENT_SETTINGS.put( "allowNegativeTally", "true" );
-		CLIENT_SETTINGS.put( "allowNonMoodBurning", "true" );
-		CLIENT_SETTINGS.put( "alwaysGetBreakfast", "false" );
-		CLIENT_SETTINGS.put( "autoBuyRestores", "true" );
-		CLIENT_SETTINGS.put( "autoLogin", "" );
-		CLIENT_SETTINGS.put( "autoPlantHardcore", "false" );
-		CLIENT_SETTINGS.put( "autoPlantSoftcore", "false" );
-		CLIENT_SETTINGS.put( "autoSatisfyWithNPCs", "true" );
-		CLIENT_SETTINGS.put( "autoSatisfyWithMall", "true" );
-		CLIENT_SETTINGS.put( "autoSatisfyWithStash", "false" );
-		CLIENT_SETTINGS.put( "avoidInvertingTabs", "false" );
-		CLIENT_SETTINGS.put( "breakfastSoftcore", "Summon Snowcone,Summon Hilarious Objects,Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting" );
-		CLIENT_SETTINGS.put( "breakfastHardcore", "Summon Snowcone,Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting" );
-		CLIENT_SETTINGS.put( "browserBookmarks", "" );
-		CLIENT_SETTINGS.put( "cacheMallSearches", "false" );
-		CLIENT_SETTINGS.put( "charsheetDropdown", "1" );
-		CLIENT_SETTINGS.put( "chatFontSize", System.getProperty( "os.name" ).startsWith( "Mac" ) ? "medium" : "small" );
-		CLIENT_SETTINGS.put( "chatLinksUseRelay", "false" );
-		CLIENT_SETTINGS.put( "chatStyle", "0" );
-		CLIENT_SETTINGS.put( "cloverProtectActive", "true" );
-		CLIENT_SETTINGS.put( "commandLineNamespace", "" );
-		CLIENT_SETTINGS.put( "completeHealthRestore", "false" );
-		CLIENT_SETTINGS.put( "defaultBorderColor", "blue" );
-		CLIENT_SETTINGS.put( "defaultDropdown1", "0" );
-		CLIENT_SETTINGS.put( "defaultDropdown2", "1" );
-		CLIENT_SETTINGS.put( "defaultDropdownSplit", "0" );
-		CLIENT_SETTINGS.put( "defaultLimit", "5" );
-		CLIENT_SETTINGS.put( "defaultLoginServer", "1" );
-		CLIENT_SETTINGS.put( "eSoluScriptType", "0" );
-		CLIENT_SETTINGS.put( "grabCloversHardcore", "false" );
-		CLIENT_SETTINGS.put( "grabCloversSoftcore", "true" );
-		CLIENT_SETTINGS.put( "greenScreenProtection", "false" );
-		CLIENT_SETTINGS.put( "guiUsesOneWindow", "false" );
-		CLIENT_SETTINGS.put( "highlightList", "" );
-		CLIENT_SETTINGS.put( "http.proxyHost", "" );
-		CLIENT_SETTINGS.put( "http.proxyPort", "" );
-		CLIENT_SETTINGS.put( "http.proxyUser", "" );
-		CLIENT_SETTINGS.put( "http.proxyPassword", "" );
-		CLIENT_SETTINGS.put( "proxySet", "false" );
-		CLIENT_SETTINGS.put( "ignoreAutoAttack", "false" );
-		CLIENT_SETTINGS.put( "initialDesktop", "AdventureFrame,CommandDisplayFrame,MallSearchFrame,SkillBuffFrame" );
-		CLIENT_SETTINGS.put( "initialFrames", "EventsFrame" );
-		CLIENT_SETTINGS.put( "itemManagerIndex", "0" );
-		CLIENT_SETTINGS.put( "lastBuffRequestType", "0" );
-		CLIENT_SETTINGS.put( "lastUsername", "" );
-		CLIENT_SETTINGS.put( "logChatMessages", "true" );
-		CLIENT_SETTINGS.put( "loginServerName", "" );
-		CLIENT_SETTINGS.put( "loginWindowLogo", "lantern.jpg" );
-		CLIENT_SETTINGS.put( "loginRecoveryHardcore", "false" );
-		CLIENT_SETTINGS.put( "loginRecoverySoftcore", "true" );
-		CLIENT_SETTINGS.put( "loginScript", "" );
-		CLIENT_SETTINGS.put( "logoutScript", "" );
+		GLOBAL_MAP.put( "addChatCommandLine", "false" );
+		GLOBAL_MAP.put( "addCreationQueue", "true" );
+		GLOBAL_MAP.put( "addExitMenuItems", String.valueOf( !System.getProperty( "os.name" ).startsWith( "Mac" ) ) );
+		GLOBAL_MAP.put( "addStatusBarToFrames", "false" );
+		GLOBAL_MAP.put( "allowBreakfastBurning", "true" );
+		GLOBAL_MAP.put( "allowCloseableDesktopTabs", "false" );
+		GLOBAL_MAP.put( "allowEncounterRateBurning", "true" );
+		GLOBAL_MAP.put( "allowGenericUse", "false" );
+		GLOBAL_MAP.put( "allowNegativeTally", "true" );
+		GLOBAL_MAP.put( "allowNonMoodBurning", "true" );
+		GLOBAL_MAP.put( "alwaysGetBreakfast", "false" );
+		GLOBAL_MAP.put( "autoBuyRestores", "true" );
+		GLOBAL_MAP.put( "autoLogin", "" );
+		GLOBAL_MAP.put( "autoPlantHardcore", "false" );
+		GLOBAL_MAP.put( "autoPlantSoftcore", "false" );
+		GLOBAL_MAP.put( "autoSatisfyWithNPCs", "true" );
+		GLOBAL_MAP.put( "autoSatisfyWithMall", "true" );
+		GLOBAL_MAP.put( "autoSatisfyWithStash", "false" );
+		GLOBAL_MAP.put( "avoidInvertingTabs", "false" );
+		GLOBAL_MAP.put( "breakfastSoftcore", "Summon Snowcone,Summon Hilarious Objects,Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting" );
+		GLOBAL_MAP.put( "breakfastHardcore", "Summon Snowcone,Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting" );
+		GLOBAL_MAP.put( "browserBookmarks", "" );
+		GLOBAL_MAP.put( "cacheMallSearches", "false" );
+		GLOBAL_MAP.put( "charsheetDropdown", "1" );
+		GLOBAL_MAP.put( "chatFontSize", System.getProperty( "os.name" ).startsWith( "Mac" ) ? "medium" : "small" );
+		GLOBAL_MAP.put( "chatLinksUseRelay", "false" );
+		GLOBAL_MAP.put( "chatStyle", "0" );
+		GLOBAL_MAP.put( "cloverProtectActive", "true" );
+		GLOBAL_MAP.put( "commandLineNamespace", "" );
+		GLOBAL_MAP.put( "completeHealthRestore", "false" );
+		GLOBAL_MAP.put( "defaultBorderColor", "blue" );
+		GLOBAL_MAP.put( "defaultDropdown1", "0" );
+		GLOBAL_MAP.put( "defaultDropdown2", "1" );
+		GLOBAL_MAP.put( "defaultDropdownSplit", "0" );
+		GLOBAL_MAP.put( "defaultLimit", "5" );
+		GLOBAL_MAP.put( "defaultLoginServer", "1" );
+		GLOBAL_MAP.put( "eSoluScriptType", "0" );
+		GLOBAL_MAP.put( "grabCloversHardcore", "false" );
+		GLOBAL_MAP.put( "grabCloversSoftcore", "true" );
+		GLOBAL_MAP.put( "greenScreenProtection", "false" );
+		GLOBAL_MAP.put( "guiUsesOneWindow", "false" );
+		GLOBAL_MAP.put( "highlightList", "" );
+		GLOBAL_MAP.put( "http.proxyHost", "" );
+		GLOBAL_MAP.put( "http.proxyPort", "" );
+		GLOBAL_MAP.put( "http.proxyUser", "" );
+		GLOBAL_MAP.put( "http.proxyPassword", "" );
+		GLOBAL_MAP.put( "proxySet", "false" );
+		GLOBAL_MAP.put( "ignoreAutoAttack", "false" );
+		GLOBAL_MAP.put( "initialDesktop", "AdventureFrame,CommandDisplayFrame,MallSearchFrame,SkillBuffFrame" );
+		GLOBAL_MAP.put( "initialFrames", "EventsFrame" );
+		GLOBAL_MAP.put( "itemManagerIndex", "0" );
+		GLOBAL_MAP.put( "lastBuffRequestType", "0" );
+		GLOBAL_MAP.put( "lastUsername", "" );
+		GLOBAL_MAP.put( "logChatMessages", "true" );
+		GLOBAL_MAP.put( "loginServerName", "" );
+		GLOBAL_MAP.put( "loginWindowLogo", "lantern.jpg" );
+		GLOBAL_MAP.put( "loginRecoveryHardcore", "false" );
+		GLOBAL_MAP.put( "loginRecoverySoftcore", "true" );
+		GLOBAL_MAP.put( "loginScript", "" );
+		GLOBAL_MAP.put( "logoutScript", "" );
 
-		CLIENT_SETTINGS.put( "logAcquiredItems", "true" );
-		CLIENT_SETTINGS.put( "logBattleAction", "true" );
-		CLIENT_SETTINGS.put( "logFamiliarActions", "false" );
-		CLIENT_SETTINGS.put( "logGainMessages", "true" );
-		CLIENT_SETTINGS.put( "logMonsterHealth", "false" );
-		CLIENT_SETTINGS.put( "logReverseOrder", "false" );
-		CLIENT_SETTINGS.put( "logStatGains", "true" );
-		CLIENT_SETTINGS.put( "logStatusEffects", "false" );
+		GLOBAL_MAP.put( "logAcquiredItems", "true" );
+		GLOBAL_MAP.put( "logBattleAction", "true" );
+		GLOBAL_MAP.put( "logFamiliarActions", "false" );
+		GLOBAL_MAP.put( "logGainMessages", "true" );
+		GLOBAL_MAP.put( "logMonsterHealth", "false" );
+		GLOBAL_MAP.put( "logReverseOrder", "false" );
+		GLOBAL_MAP.put( "logStatGains", "true" );
+		GLOBAL_MAP.put( "logStatusEffects", "false" );
 
-		CLIENT_SETTINGS.put( "mapLoadsMiniBrowser", "false" );
-		CLIENT_SETTINGS.put( "mementoListActive", "false" );
-		CLIENT_SETTINGS.put( "pathedSummonsHardcore", "true" );
-		CLIENT_SETTINGS.put( "pathedSummonsSoftcore", "false" );
-		CLIENT_SETTINGS.put( "previousNotifyList", "<>" );
-		CLIENT_SETTINGS.put( "previousUpdateVersion", KoLConstants.VERSION_NAME );
-		CLIENT_SETTINGS.put( "protectAgainstOverdrink", "true" );
+		GLOBAL_MAP.put( "mapLoadsMiniBrowser", "false" );
+		GLOBAL_MAP.put( "mementoListActive", "false" );
+		GLOBAL_MAP.put( "pathedSummonsHardcore", "true" );
+		GLOBAL_MAP.put( "pathedSummonsSoftcore", "false" );
+		GLOBAL_MAP.put( "previousNotifyList", "<>" );
+		GLOBAL_MAP.put( "previousUpdateVersion", KoLConstants.VERSION_NAME );
+		GLOBAL_MAP.put( "protectAgainstOverdrink", "true" );
 
-		CLIENT_SETTINGS.put( "readManualHardcore", "true" );
-		CLIENT_SETTINGS.put( "readManualSoftcore", "true" );
-		CLIENT_SETTINGS.put( "relayAddsGraphicalCLI", "false" );
-		CLIENT_SETTINGS.put( "relayAddsKoLSimulator", "false" );
-		CLIENT_SETTINGS.put( "relayAddsMonsterHealth", "false" );
-		CLIENT_SETTINGS.put( "relayAddsQuickScripts", "false" );
-		CLIENT_SETTINGS.put( "relayAddsRestoreLinks", "true" );
-		CLIENT_SETTINGS.put( "relayAddsRoundNumber", "false" );
-		CLIENT_SETTINGS.put( "relayAddsUpArrowLinks", "true" );
-		CLIENT_SETTINGS.put( "relayAddsUseLinks", "true" );
-		CLIENT_SETTINGS.put( "relayAllowsOverrides", "false" );
-		CLIENT_SETTINGS.put( "relayAlwaysBuysGum", "true" );
-		CLIENT_SETTINGS.put( "relayBrowserOnly", "false" );
-		CLIENT_SETTINGS.put( "relayFormatsChatText", "true" );
-		CLIENT_SETTINGS.put( "relayHidesJunkMallItems", "true" );
-		CLIENT_SETTINGS.put( "relayMaintainsEffects", "false" );
-		CLIENT_SETTINGS.put( "relayMaintainsHealth", "true" );
-		CLIENT_SETTINGS.put( "relayMaintainsMana", "false" );
-		CLIENT_SETTINGS.put( "relayBrowserOnly", "false" );
-		CLIENT_SETTINGS.put( "basementBuysItems", "false" );
-		CLIENT_SETTINGS.put( "relayTextualizesEffects", "false" );
-		CLIENT_SETTINGS.put( "relayUsesCachedImages", "false" );
-		CLIENT_SETTINGS.put( "relayUsesInlineLinks", "false" );
-		CLIENT_SETTINGS.put( "relayUsesIntegratedChat", "false" );
-		CLIENT_SETTINGS.put( "relayViewsCustomItems", "false" );
+		GLOBAL_MAP.put( "readManualHardcore", "true" );
+		GLOBAL_MAP.put( "readManualSoftcore", "true" );
+		GLOBAL_MAP.put( "relayAddsGraphicalCLI", "false" );
+		GLOBAL_MAP.put( "relayAddsKoLSimulator", "false" );
+		GLOBAL_MAP.put( "relayAddsMonsterHealth", "false" );
+		GLOBAL_MAP.put( "relayAddsQuickScripts", "false" );
+		GLOBAL_MAP.put( "relayAddsRestoreLinks", "true" );
+		GLOBAL_MAP.put( "relayAddsRoundNumber", "false" );
+		GLOBAL_MAP.put( "relayAddsUpArrowLinks", "true" );
+		GLOBAL_MAP.put( "relayAddsUseLinks", "true" );
+		GLOBAL_MAP.put( "relayAllowsOverrides", "false" );
+		GLOBAL_MAP.put( "relayAlwaysBuysGum", "true" );
+		GLOBAL_MAP.put( "relayBrowserOnly", "false" );
+		GLOBAL_MAP.put( "relayFormatsChatText", "true" );
+		GLOBAL_MAP.put( "relayHidesJunkMallItems", "true" );
+		GLOBAL_MAP.put( "relayMaintainsEffects", "false" );
+		GLOBAL_MAP.put( "relayMaintainsHealth", "true" );
+		GLOBAL_MAP.put( "relayMaintainsMana", "false" );
+		GLOBAL_MAP.put( "relayBrowserOnly", "false" );
+		GLOBAL_MAP.put( "basementBuysItems", "false" );
+		GLOBAL_MAP.put( "relayTextualizesEffects", "false" );
+		GLOBAL_MAP.put( "relayUsesCachedImages", "false" );
+		GLOBAL_MAP.put( "relayUsesInlineLinks", "false" );
+		GLOBAL_MAP.put( "relayUsesIntegratedChat", "false" );
+		GLOBAL_MAP.put( "relayViewsCustomItems", "false" );
 
-		CLIENT_SETTINGS.put( "saveState", "" );
-		CLIENT_SETTINGS.put( "saveStateActive", "" );
-		CLIENT_SETTINGS.put( "scriptButtonPosition", "0" );
-		CLIENT_SETTINGS.put( "scriptList", "restore hp | restore mp" );
-		CLIENT_SETTINGS.put( "showAllRequests", "false" );
-		CLIENT_SETTINGS.put( "swingLookAndFeel", "" );
-		CLIENT_SETTINGS.put( "switchEquipmentForBuffs", "true" );
-		CLIENT_SETTINGS.put( "testSocketTimeout", "true" );
-		CLIENT_SETTINGS.put( "toolbarPosition", "1" );
+		GLOBAL_MAP.put( "saveState", "" );
+		GLOBAL_MAP.put( "saveStateActive", "" );
+		GLOBAL_MAP.put( "scriptButtonPosition", "0" );
+		GLOBAL_MAP.put( "scriptList", "restore hp | restore mp" );
+		GLOBAL_MAP.put( "showAllRequests", "false" );
+		GLOBAL_MAP.put( "swingLookAndFeel", "" );
+		GLOBAL_MAP.put( "switchEquipmentForBuffs", "true" );
+		GLOBAL_MAP.put( "testSocketTimeout", "true" );
+		GLOBAL_MAP.put( "toolbarPosition", "1" );
 
-		CLIENT_SETTINGS.put( "useDecoratedTabs", String.valueOf( !System.getProperty( "os.name" ).startsWith( "Mac" ) ) );
-		CLIENT_SETTINGS.put( "innerTabColor", "#8ca9ff" );
-		CLIENT_SETTINGS.put( "outerTabColor", "#0f46b4" );
-		CLIENT_SETTINGS.put( "innerChatColor", "#ffa98c" );
-		CLIENT_SETTINGS.put( "outerChatColor", "#b4460f" );
+		GLOBAL_MAP.put( "useDecoratedTabs", String.valueOf( !System.getProperty( "os.name" ).startsWith( "Mac" ) ) );
+		GLOBAL_MAP.put( "innerTabColor", "#8ca9ff" );
+		GLOBAL_MAP.put( "outerTabColor", "#0f46b4" );
+		GLOBAL_MAP.put( "innerChatColor", "#ffa98c" );
+		GLOBAL_MAP.put( "outerChatColor", "#b4460f" );
 
-		CLIENT_SETTINGS.put( "useChatMonitor", "false" );
-		CLIENT_SETTINGS.put( "useChatToolbar", "true" );
-		CLIENT_SETTINGS.put( "useContactsFrame", "true" );
-		CLIENT_SETTINGS.put( "useFastOutfitSwitch", "true" );
-		CLIENT_SETTINGS.put( "useLowBandwidthRadio", "false" );
-		CLIENT_SETTINGS.put( "useSeparateChannels", "true" );
-		CLIENT_SETTINGS.put( "useShinyTabbedChat", "true" );
-		CLIENT_SETTINGS.put( "useSystemTrayIcon", "false" );
-		CLIENT_SETTINGS.put( "useTabbedChatFrame", "true" );
-		CLIENT_SETTINGS.put( "useToolbars", "true" );
-		CLIENT_SETTINGS.put( "visitRumpusHardcore", "true" );
-		CLIENT_SETTINGS.put( "visitRumpusSoftcore", "true" );
+		GLOBAL_MAP.put( "useChatMonitor", "false" );
+		GLOBAL_MAP.put( "useChatToolbar", "true" );
+		GLOBAL_MAP.put( "useContactsFrame", "true" );
+		GLOBAL_MAP.put( "useFastOutfitSwitch", "true" );
+		GLOBAL_MAP.put( "useLowBandwidthRadio", "false" );
+		GLOBAL_MAP.put( "useSeparateChannels", "true" );
+		GLOBAL_MAP.put( "useShinyTabbedChat", "true" );
+		GLOBAL_MAP.put( "useSystemTrayIcon", "false" );
+		GLOBAL_MAP.put( "useTabbedChatFrame", "true" );
+		GLOBAL_MAP.put( "useToolbars", "true" );
+		GLOBAL_MAP.put( "visitRumpusHardcore", "true" );
+		GLOBAL_MAP.put( "visitRumpusSoftcore", "true" );
 
-		// Individual player settings which are not set on
+		// Individual player userSettings which are not set on
 		// a global level.
 
-		PLAYER_SETTINGS.put( "autoAbortThreshold", "-0.1" );
-		PLAYER_SETTINGS.put( "autoRepairBoxServants", "true" );
-		PLAYER_SETTINGS.put( "battleAction", "attack with weapon" );
-		PLAYER_SETTINGS.put( "betweenBattleScript", "" );
-		PLAYER_SETTINGS.put( "breakfastCompleted", "false" );
-		PLAYER_SETTINGS.put( "buffBotCasting", "" );
-		PLAYER_SETTINGS.put( "buffBotMessageDisposal", "0" );
-		PLAYER_SETTINGS.put( "buffBotPhilanthropyType", "1" );
-		PLAYER_SETTINGS.put( "candyHeartSummons", "0" );
-		PLAYER_SETTINGS.put( "chatbotScript", "" );
-		PLAYER_SETTINGS.put( "chatbotScriptExecuted", "false" );
-		PLAYER_SETTINGS.put( "chosenTrip", "" );
-		PLAYER_SETTINGS.put( "cocktailSummons", "0" );
-		PLAYER_SETTINGS.put( "currentBountyItem", "0" );
-		PLAYER_SETTINGS.put( "currentFullness", "0" );
-		PLAYER_SETTINGS.put( "currentHippyStore", "none" );
-		PLAYER_SETTINGS.put( "currentMojoFilters", "0" );
-		PLAYER_SETTINGS.put( "currentMood", "default" );
-		PLAYER_SETTINGS.put( "currentPvpVictories", "" );
-		PLAYER_SETTINGS.put( "currentSpleenUse", "0" );
-		PLAYER_SETTINGS.put( "currentWheelPosition", "muscle" );
-		PLAYER_SETTINGS.put( "defaultAutoAttack", "0" );
-		PLAYER_SETTINGS.put( "defaultFlowerLossMessage", "" );
-		PLAYER_SETTINGS.put( "defaultFlowerWinMessage", "" );
-		PLAYER_SETTINGS.put( "demonName1", "" );
-		PLAYER_SETTINGS.put( "demonName2", "" );
-		PLAYER_SETTINGS.put( "demonName3", "" );
-		PLAYER_SETTINGS.put( "demonName4", "" );
-		PLAYER_SETTINGS.put( "demonName5", "" );
-		PLAYER_SETTINGS.put( "expressCardUsed", "false" );
-		PLAYER_SETTINGS.put( "grimoireSummons", "0" );
-		PLAYER_SETTINGS.put( "hpAutoRecovery", "-0.1" );
-		PLAYER_SETTINGS.put( "hpAutoRecoveryTarget", "1.0" );
-		PLAYER_SETTINGS.put( "hpAutoRecoveryItems", "cannelloni cocoon;scroll of drastic healing;tongue of the walrus;lasagna bandages;doc galaktik's ailment ointment" );
-		PLAYER_SETTINGS.put( "invalidBuffMessage", "You sent an amount which does not correspond to a valid buff amount." );
-		PLAYER_SETTINGS.put( "lastAdventure", "" );
-		PLAYER_SETTINGS.put( "lastCouncilVisit", "0" );
-		PLAYER_SETTINGS.put( "lastEmptiedStorage", "-1" );
-		PLAYER_SETTINGS.put( "lastFilthClearance", "-1" );
+		USER_MAP.put( "autoAbortThreshold", "-0.1" );
+		USER_MAP.put( "autoRepairBoxServants", "true" );
+		USER_MAP.put( "battleAction", "attack with weapon" );
+		USER_MAP.put( "betweenBattleScript", "" );
+		USER_MAP.put( "breakfastCompleted", "false" );
+		USER_MAP.put( "buffBotCasting", "" );
+		USER_MAP.put( "buffBotMessageDisposal", "0" );
+		USER_MAP.put( "buffBotPhilanthropyType", "1" );
+		USER_MAP.put( "candyHeartSummons", "0" );
+		USER_MAP.put( "chatbotScript", "" );
+		USER_MAP.put( "chatbotScriptExecuted", "false" );
+		USER_MAP.put( "chosenTrip", "" );
+		USER_MAP.put( "cocktailSummons", "0" );
+		USER_MAP.put( "currentBountyItem", "0" );
+		USER_MAP.put( "currentFullness", "0" );
+		USER_MAP.put( "currentHippyStore", "none" );
+		USER_MAP.put( "currentMojoFilters", "0" );
+		USER_MAP.put( "currentMood", "default" );
+		USER_MAP.put( "currentPvpVictories", "" );
+		USER_MAP.put( "currentSpleenUse", "0" );
+		USER_MAP.put( "currentWheelPosition", "muscle" );
+		USER_MAP.put( "defaultAutoAttack", "0" );
+		USER_MAP.put( "defaultFlowerLossMessage", "" );
+		USER_MAP.put( "defaultFlowerWinMessage", "" );
+		USER_MAP.put( "demonName1", "" );
+		USER_MAP.put( "demonName2", "" );
+		USER_MAP.put( "demonName3", "" );
+		USER_MAP.put( "demonName4", "" );
+		USER_MAP.put( "demonName5", "" );
+		USER_MAP.put( "expressCardUsed", "false" );
+		USER_MAP.put( "grimoireSummons", "0" );
+		USER_MAP.put( "hpAutoRecovery", "-0.1" );
+		USER_MAP.put( "hpAutoRecoveryTarget", "1.0" );
+		USER_MAP.put( "hpAutoRecoveryItems", "cannelloni cocoon;scroll of drastic healing;tongue of the walrus;lasagna bandages;doc galaktik's ailment ointment" );
+		USER_MAP.put( "invalidBuffMessage", "You sent an amount which does not correspond to a valid buff amount." );
+		USER_MAP.put( "lastAdventure", "" );
+		USER_MAP.put( "lastCouncilVisit", "0" );
+		USER_MAP.put( "lastEmptiedStorage", "-1" );
+		USER_MAP.put( "lastFilthClearance", "-1" );
 
-		PLAYER_SETTINGS.put( "lastDustyBottleReset", "-1" );
-		PLAYER_SETTINGS.put( "lastDustyBottle2271", "" );
-		PLAYER_SETTINGS.put( "lastDustyBottle2272", "" );
-		PLAYER_SETTINGS.put( "lastDustyBottle2273", "" );
-		PLAYER_SETTINGS.put( "lastDustyBottle2274", "" );
-		PLAYER_SETTINGS.put( "lastDustyBottle2275", "" );
-		PLAYER_SETTINGS.put( "lastDustyBottle2276", "" );
+		USER_MAP.put( "lastDustyBottleReset", "-1" );
+		USER_MAP.put( "lastDustyBottle2271", "" );
+		USER_MAP.put( "lastDustyBottle2272", "" );
+		USER_MAP.put( "lastDustyBottle2273", "" );
+		USER_MAP.put( "lastDustyBottle2274", "" );
+		USER_MAP.put( "lastDustyBottle2275", "" );
+		USER_MAP.put( "lastDustyBottle2276", "" );
 
-		PLAYER_SETTINGS.put( "lastBangPotionReset", "-1" );
-		PLAYER_SETTINGS.put( "lastBangPotion819", "" );
-		PLAYER_SETTINGS.put( "lastBangPotion820", "" );
-		PLAYER_SETTINGS.put( "lastBangPotion821", "" );
-		PLAYER_SETTINGS.put( "lastBangPotion822", "" );
-		PLAYER_SETTINGS.put( "lastBangPotion823", "" );
-		PLAYER_SETTINGS.put( "lastBangPotion824", "" );
-		PLAYER_SETTINGS.put( "lastBangPotion825", "" );
-		PLAYER_SETTINGS.put( "lastBangPotion826", "" );
-		PLAYER_SETTINGS.put( "lastBangPotion827", "" );
+		USER_MAP.put( "lastBangPotionReset", "-1" );
+		USER_MAP.put( "lastBangPotion819", "" );
+		USER_MAP.put( "lastBangPotion820", "" );
+		USER_MAP.put( "lastBangPotion821", "" );
+		USER_MAP.put( "lastBangPotion822", "" );
+		USER_MAP.put( "lastBangPotion823", "" );
+		USER_MAP.put( "lastBangPotion824", "" );
+		USER_MAP.put( "lastBangPotion825", "" );
+		USER_MAP.put( "lastBangPotion826", "" );
+		USER_MAP.put( "lastBangPotion827", "" );
 
-		PLAYER_SETTINGS.put( "lastStoneSphereReset", "-1" );
-		PLAYER_SETTINGS.put( "lastStoneSphere2174", "" );
-		PLAYER_SETTINGS.put( "lastStoneSphere2175", "" );
-		PLAYER_SETTINGS.put( "lastStoneSphere2176", "" );
-		PLAYER_SETTINGS.put( "lastStoneSphere2177", "" );
+		USER_MAP.put( "lastStoneSphereReset", "-1" );
+		USER_MAP.put( "lastStoneSphere2174", "" );
+		USER_MAP.put( "lastStoneSphere2175", "" );
+		USER_MAP.put( "lastStoneSphere2176", "" );
+		USER_MAP.put( "lastStoneSphere2177", "" );
 
-		PLAYER_SETTINGS.put( "lastBreakfast", "-1" );
-		PLAYER_SETTINGS.put( "lastCounterDay", "-1" );
-		PLAYER_SETTINGS.put( "lastGalleryUnlock", "-1" );
-		PLAYER_SETTINGS.put( "lastMessageId", "" );
-		PLAYER_SETTINGS.put( "lastQuartetAscension", "-1" );
-		PLAYER_SETTINGS.put( "lastQuartetRequest", "0" );
-		PLAYER_SETTINGS.put( "lastSecondFloorUnlock", "-1" );
-		PLAYER_SETTINGS.put( "lastTowerClimb", "-1" );
-		PLAYER_SETTINGS.put( "luckySewerAdventure", "stolen accordion" );
-		PLAYER_SETTINGS.put( "manaBurningThreshold", "-0.1" );
+		USER_MAP.put( "lastBreakfast", "-1" );
+		USER_MAP.put( "lastCounterDay", "-1" );
+		USER_MAP.put( "lastGalleryUnlock", "-1" );
+		USER_MAP.put( "lastMessageId", "" );
+		USER_MAP.put( "lastQuartetAscension", "-1" );
+		USER_MAP.put( "lastQuartetRequest", "0" );
+		USER_MAP.put( "lastSecondFloorUnlock", "-1" );
+		USER_MAP.put( "lastTowerClimb", "-1" );
+		USER_MAP.put( "luckySewerAdventure", "stolen accordion" );
+		USER_MAP.put( "manaBurningThreshold", "-0.1" );
 
-		PLAYER_SETTINGS.put( "munchiesPillsUsed", "0" );
-		PLAYER_SETTINGS.put( "mpAutoRecovery", "0.0" );
-		PLAYER_SETTINGS.put( "mpAutoRecoveryTarget", "0.3" );
-		PLAYER_SETTINGS.put( "mpAutoRecoveryItems", "phonics down;knob goblin superseltzer;mountain stream soda;magical mystery juice;knob goblin seltzer;cherry cloaca cola;soda water" );
-		PLAYER_SETTINGS.put( "noodleSummons", "0" );
-		PLAYER_SETTINGS.put( "plantingDay", "-1" );
-		PLAYER_SETTINGS.put( "plantingDate", "" );
-		PLAYER_SETTINGS.put( "plantingLength", "" );
-		PLAYER_SETTINGS.put( "plantingScript", "" );
-		PLAYER_SETTINGS.put( "preBlackbirdFamiliar", "" );
-		PLAYER_SETTINGS.put( "reagentSummons", "0" );
-		PLAYER_SETTINGS.put( "relayAddsCustomCombat", "true" );
-		PLAYER_SETTINGS.put( "relayCounters", "" );
-		PLAYER_SETTINGS.put( "requireBoxServants", "true" );
-		PLAYER_SETTINGS.put( "retrieveContacts", "true" );
-		PLAYER_SETTINGS.put( "showGainsPerUnit", "false" );
-		PLAYER_SETTINGS.put( "snowconeSummons", "0" );
-		PLAYER_SETTINGS.put( "thanksMessage", "Thank you for the donation!" );
-		PLAYER_SETTINGS.put( "trapperOre", "chrome ore" );
-		PLAYER_SETTINGS.put( "violetFogGoal", "0" );
-		PLAYER_SETTINGS.put( "visibleBrowserInventory", "" );
+		USER_MAP.put( "munchiesPillsUsed", "0" );
+		USER_MAP.put( "mpAutoRecovery", "0.0" );
+		USER_MAP.put( "mpAutoRecoveryTarget", "0.3" );
+		USER_MAP.put( "mpAutoRecoveryItems", "phonics down;knob goblin superseltzer;mountain stream soda;magical mystery juice;knob goblin seltzer;cherry cloaca cola;soda water" );
+		USER_MAP.put( "noodleSummons", "0" );
+		USER_MAP.put( "plantingDay", "-1" );
+		USER_MAP.put( "plantingDate", "" );
+		USER_MAP.put( "plantingLength", "" );
+		USER_MAP.put( "plantingScript", "" );
+		USER_MAP.put( "preBlackbirdFamiliar", "" );
+		USER_MAP.put( "reagentSummons", "0" );
+		USER_MAP.put( "relayAddsCustomCombat", "true" );
+		USER_MAP.put( "relayCounters", "" );
+		USER_MAP.put( "requireBoxServants", "true" );
+		USER_MAP.put( "retrieveContacts", "true" );
+		USER_MAP.put( "showGainsPerUnit", "false" );
+		USER_MAP.put( "snowconeSummons", "0" );
+		USER_MAP.put( "thanksMessage", "Thank you for the donation!" );
+		USER_MAP.put( "trapperOre", "chrome ore" );
+		USER_MAP.put( "violetFogGoal", "0" );
+		USER_MAP.put( "visibleBrowserInventory", "" );
 
-		// These are settings related to the tavern faucet
+		// These are userSettings related to the tavern faucet
 		// used to make the interface friendlier.
 
-		PLAYER_SETTINGS.put( "lastTavernSquare", "0" );
-		PLAYER_SETTINGS.put( "lastTavernAscension", "0" );
-		PLAYER_SETTINGS.put( "tavernLayout", "0000000000000000000000000" );
+		USER_MAP.put( "lastTavernSquare", "0" );
+		USER_MAP.put( "lastTavernAscension", "0" );
+		USER_MAP.put( "tavernLayout", "0000000000000000000000000" );
 
 		// Yay for the Louvre.
 
-		PLAYER_SETTINGS.put( "lastLouvreMap", "0" );
-		PLAYER_SETTINGS.put( "louvreLayout", "" );
-		PLAYER_SETTINGS.put( "louvreDesiredGoal", "7" );
-		PLAYER_SETTINGS.put( "louvreGoal", "0" );
+		USER_MAP.put( "lastLouvreMap", "0" );
+		USER_MAP.put( "louvreLayout", "" );
+		USER_MAP.put( "louvreDesiredGoal", "7" );
+		USER_MAP.put( "louvreGoal", "0" );
 
-		// These are settings related to choice adventures.
+		// These are userSettings related to choice adventures.
 		// Ensure that they exist, and if they do not, load
-		// them to their default settings.
+		// them to their default userSettings.
 
-		PLAYER_SETTINGS.put( "lastChoiceUpdate", "" );
-		PLAYER_SETTINGS.put( "choiceAdventure2", "2" );
-		PLAYER_SETTINGS.put( "choiceAdventure3", "3" );
-		PLAYER_SETTINGS.put( "choiceAdventure4", "3" );
-		PLAYER_SETTINGS.put( "choiceAdventure5", "2" );
-		PLAYER_SETTINGS.put( "choiceAdventure6", "1" );
-		PLAYER_SETTINGS.put( "choiceAdventure7", "1" );
-		PLAYER_SETTINGS.put( "choiceAdventure8", "3" );
-		PLAYER_SETTINGS.put( "choiceAdventure9", "2" );
-		PLAYER_SETTINGS.put( "choiceAdventure10", "1" );
-		PLAYER_SETTINGS.put( "choiceAdventure11", "3" );
-		PLAYER_SETTINGS.put( "choiceAdventure12", "2" );
-		PLAYER_SETTINGS.put( "choiceAdventure14", "4" );
-		PLAYER_SETTINGS.put( "choiceAdventure15", "4" );
-		PLAYER_SETTINGS.put( "choiceAdventure16", "4" );
-		PLAYER_SETTINGS.put( "choiceAdventure17", "4" );
-		PLAYER_SETTINGS.put( "choiceAdventure18", "4" );
-		PLAYER_SETTINGS.put( "choiceAdventure19", "4" );
-		PLAYER_SETTINGS.put( "choiceAdventure20", "4" );
-		PLAYER_SETTINGS.put( "choiceAdventure21", "2" );
-		PLAYER_SETTINGS.put( "choiceAdventure22", "4" );
-		PLAYER_SETTINGS.put( "choiceAdventure23", "4" );
-		PLAYER_SETTINGS.put( "choiceAdventure24", "4" );
-		PLAYER_SETTINGS.put( "choiceAdventure25", "2" );
-		PLAYER_SETTINGS.put( "choiceAdventure26", "2" );
-		PLAYER_SETTINGS.put( "choiceAdventure27", "2" );
-		PLAYER_SETTINGS.put( "choiceAdventure28", "2" );
-		PLAYER_SETTINGS.put( "choiceAdventure29", "2" );
-		PLAYER_SETTINGS.put( "choiceAdventure40", "3" );
-		PLAYER_SETTINGS.put( "choiceAdventure41", "3" );
-		PLAYER_SETTINGS.put( "choiceAdventure42", "3" );
-		PLAYER_SETTINGS.put( "choiceAdventure45", "1" );
-		PLAYER_SETTINGS.put( "choiceAdventure46", "3" );
-		PLAYER_SETTINGS.put( "choiceAdventure47", "2" );
-		PLAYER_SETTINGS.put( "choiceAdventure71", "1" );
-		PLAYER_SETTINGS.put( "choiceAdventure72", "2" );
-		PLAYER_SETTINGS.put( "choiceAdventure73", "2" );
-		PLAYER_SETTINGS.put( "choiceAdventure74", "2" );
-		PLAYER_SETTINGS.put( "choiceAdventure75", "3" );
-		PLAYER_SETTINGS.put( "choiceAdventure76", "3" );
-		PLAYER_SETTINGS.put( "choiceAdventure77", "2" );
-		PLAYER_SETTINGS.put( "choiceAdventure78", "1" );
-		PLAYER_SETTINGS.put( "choiceAdventure79", "1" );
-		PLAYER_SETTINGS.put( "choiceAdventure80", "99" );
-		PLAYER_SETTINGS.put( "choiceAdventure81", "1" );
-		PLAYER_SETTINGS.put( "choiceAdventure82", "1" );
-		PLAYER_SETTINGS.put( "choiceAdventure83", "1" );
-		PLAYER_SETTINGS.put( "choiceAdventure84", "2" );
-		PLAYER_SETTINGS.put( "choiceAdventure85", "1" );
-		PLAYER_SETTINGS.put( "choiceAdventure86", "2" );
-		PLAYER_SETTINGS.put( "choiceAdventure87", "2" );
-		PLAYER_SETTINGS.put( "choiceAdventure88", "1" );
-		PLAYER_SETTINGS.put( "choiceAdventure89", "3" );
-		PLAYER_SETTINGS.put( "choiceAdventure90", "2" );
-		PLAYER_SETTINGS.put( "choiceAdventure91", "1" );
-		PLAYER_SETTINGS.put( "choiceAdventure105", "3" );
-		PLAYER_SETTINGS.put( "choiceAdventure106", "4" );
-		PLAYER_SETTINGS.put( "choiceAdventure107", "4" );
-		PLAYER_SETTINGS.put( "choiceAdventure108", "4" );
-		PLAYER_SETTINGS.put( "choiceAdventure109", "1" );
-		PLAYER_SETTINGS.put( "choiceAdventure110", "4" );
-		PLAYER_SETTINGS.put( "choiceAdventure111", "3" );
-		PLAYER_SETTINGS.put( "choiceAdventure112", "2" );
-		PLAYER_SETTINGS.put( "choiceAdventure113", "2" );
-		PLAYER_SETTINGS.put( "choiceAdventure114", "2" );
-		PLAYER_SETTINGS.put( "choiceAdventure115", "1" );
-		PLAYER_SETTINGS.put( "choiceAdventure116", "4" );
-		PLAYER_SETTINGS.put( "choiceAdventure117", "1" );
-		PLAYER_SETTINGS.put( "choiceAdventure118", "2" );
-		PLAYER_SETTINGS.put( "choiceAdventure120", "4" );
-		PLAYER_SETTINGS.put( "choiceAdventure123", "2" );
-		PLAYER_SETTINGS.put( "choiceAdventure125", "3" );
-		PLAYER_SETTINGS.put( "choiceAdventure126", "1" );
-		PLAYER_SETTINGS.put( "choiceAdventure127", "3" );
-		PLAYER_SETTINGS.put( "choiceAdventure129", "1" );
-		PLAYER_SETTINGS.put( "choiceAdventure130", "1" );
-		PLAYER_SETTINGS.put( "choiceAdventure131", "1" );
-		PLAYER_SETTINGS.put( "choiceAdventure132", "2" );
-		PLAYER_SETTINGS.put( "choiceAdventure134", "2" );
-		PLAYER_SETTINGS.put( "choiceAdventure135", "2" );
-		PLAYER_SETTINGS.put( "choiceAdventure136", "4" );
-		PLAYER_SETTINGS.put( "choiceAdventure137", "4" );
-		PLAYER_SETTINGS.put( "choiceAdventure138", "4" );
-		PLAYER_SETTINGS.put( "choiceAdventure139", "1" );
-		PLAYER_SETTINGS.put( "choiceAdventure140", "2" );
-		PLAYER_SETTINGS.put( "choiceAdventure141", "1" );
-		PLAYER_SETTINGS.put( "choiceAdventure142", "3" );
-		PLAYER_SETTINGS.put( "choiceAdventure143", "1" );
-		PLAYER_SETTINGS.put( "choiceAdventure144", "1" );
-		PLAYER_SETTINGS.put( "choiceAdventure145", "1" );
-		PLAYER_SETTINGS.put( "choiceAdventure146", "3" );
-		PLAYER_SETTINGS.put( "choiceAdventure147", "3" );
-		PLAYER_SETTINGS.put( "choiceAdventure148", "1" );
-		PLAYER_SETTINGS.put( "choiceAdventure149", "2" );
-		PLAYER_SETTINGS.put( "choiceAdventure151", "2" );
-		PLAYER_SETTINGS.put( "choiceAdventure152", "1" );
-		PLAYER_SETTINGS.put( "choiceAdventure153", "4" );
-		PLAYER_SETTINGS.put( "choiceAdventure154", "1" );
-		PLAYER_SETTINGS.put( "choiceAdventure155", "4" );
-		PLAYER_SETTINGS.put( "choiceAdventure156", "1" );
-		PLAYER_SETTINGS.put( "choiceAdventure157", "4" );
-		PLAYER_SETTINGS.put( "choiceAdventure158", "1" );
-		PLAYER_SETTINGS.put( "choiceAdventure159", "4" );
-		PLAYER_SETTINGS.put( "choiceAdventure160", "1" );
-		PLAYER_SETTINGS.put( "choiceAdventure161", "4" );
-		PLAYER_SETTINGS.put( "choiceAdventure162", "1" );
-		PLAYER_SETTINGS.put( "choiceAdventure163", "1" );
-		PLAYER_SETTINGS.put( "choiceAdventure164", "2" );
-		PLAYER_SETTINGS.put( "choiceAdventure165", "2" );
-		PLAYER_SETTINGS.put( "choiceAdventure166", "3" );
-		PLAYER_SETTINGS.put( "choiceAdventure167", "3" );
-		PLAYER_SETTINGS.put( "choiceAdventure168", "3" );
-		PLAYER_SETTINGS.put( "choiceAdventure169", "3" );
-		PLAYER_SETTINGS.put( "choiceAdventure170", "1" );
-		PLAYER_SETTINGS.put( "choiceAdventure171", "3" );
-		PLAYER_SETTINGS.put( "choiceAdventure172", "1" );
-		PLAYER_SETTINGS.put( "choiceAdventure177", "4" );
-		PLAYER_SETTINGS.put( "choiceAdventure178", "1" );
-		PLAYER_SETTINGS.put( "choiceAdventure180", "1" );
+		USER_MAP.put( "lastChoiceUpdate", "" );
+		USER_MAP.put( "choiceAdventure2", "2" );
+		USER_MAP.put( "choiceAdventure3", "3" );
+		USER_MAP.put( "choiceAdventure4", "3" );
+		USER_MAP.put( "choiceAdventure5", "2" );
+		USER_MAP.put( "choiceAdventure6", "1" );
+		USER_MAP.put( "choiceAdventure7", "1" );
+		USER_MAP.put( "choiceAdventure8", "3" );
+		USER_MAP.put( "choiceAdventure9", "2" );
+		USER_MAP.put( "choiceAdventure10", "1" );
+		USER_MAP.put( "choiceAdventure11", "3" );
+		USER_MAP.put( "choiceAdventure12", "2" );
+		USER_MAP.put( "choiceAdventure14", "4" );
+		USER_MAP.put( "choiceAdventure15", "4" );
+		USER_MAP.put( "choiceAdventure16", "4" );
+		USER_MAP.put( "choiceAdventure17", "4" );
+		USER_MAP.put( "choiceAdventure18", "4" );
+		USER_MAP.put( "choiceAdventure19", "4" );
+		USER_MAP.put( "choiceAdventure20", "4" );
+		USER_MAP.put( "choiceAdventure21", "2" );
+		USER_MAP.put( "choiceAdventure22", "4" );
+		USER_MAP.put( "choiceAdventure23", "4" );
+		USER_MAP.put( "choiceAdventure24", "4" );
+		USER_MAP.put( "choiceAdventure25", "2" );
+		USER_MAP.put( "choiceAdventure26", "2" );
+		USER_MAP.put( "choiceAdventure27", "2" );
+		USER_MAP.put( "choiceAdventure28", "2" );
+		USER_MAP.put( "choiceAdventure29", "2" );
+		USER_MAP.put( "choiceAdventure40", "3" );
+		USER_MAP.put( "choiceAdventure41", "3" );
+		USER_MAP.put( "choiceAdventure42", "3" );
+		USER_MAP.put( "choiceAdventure45", "1" );
+		USER_MAP.put( "choiceAdventure46", "3" );
+		USER_MAP.put( "choiceAdventure47", "2" );
+		USER_MAP.put( "choiceAdventure71", "1" );
+		USER_MAP.put( "choiceAdventure72", "2" );
+		USER_MAP.put( "choiceAdventure73", "2" );
+		USER_MAP.put( "choiceAdventure74", "2" );
+		USER_MAP.put( "choiceAdventure75", "3" );
+		USER_MAP.put( "choiceAdventure76", "3" );
+		USER_MAP.put( "choiceAdventure77", "2" );
+		USER_MAP.put( "choiceAdventure78", "1" );
+		USER_MAP.put( "choiceAdventure79", "1" );
+		USER_MAP.put( "choiceAdventure80", "99" );
+		USER_MAP.put( "choiceAdventure81", "1" );
+		USER_MAP.put( "choiceAdventure82", "1" );
+		USER_MAP.put( "choiceAdventure83", "1" );
+		USER_MAP.put( "choiceAdventure84", "2" );
+		USER_MAP.put( "choiceAdventure85", "1" );
+		USER_MAP.put( "choiceAdventure86", "2" );
+		USER_MAP.put( "choiceAdventure87", "2" );
+		USER_MAP.put( "choiceAdventure88", "1" );
+		USER_MAP.put( "choiceAdventure89", "3" );
+		USER_MAP.put( "choiceAdventure90", "2" );
+		USER_MAP.put( "choiceAdventure91", "1" );
+		USER_MAP.put( "choiceAdventure105", "3" );
+		USER_MAP.put( "choiceAdventure106", "4" );
+		USER_MAP.put( "choiceAdventure107", "4" );
+		USER_MAP.put( "choiceAdventure108", "4" );
+		USER_MAP.put( "choiceAdventure109", "1" );
+		USER_MAP.put( "choiceAdventure110", "4" );
+		USER_MAP.put( "choiceAdventure111", "3" );
+		USER_MAP.put( "choiceAdventure112", "2" );
+		USER_MAP.put( "choiceAdventure113", "2" );
+		USER_MAP.put( "choiceAdventure114", "2" );
+		USER_MAP.put( "choiceAdventure115", "1" );
+		USER_MAP.put( "choiceAdventure116", "4" );
+		USER_MAP.put( "choiceAdventure117", "1" );
+		USER_MAP.put( "choiceAdventure118", "2" );
+		USER_MAP.put( "choiceAdventure120", "4" );
+		USER_MAP.put( "choiceAdventure123", "2" );
+		USER_MAP.put( "choiceAdventure125", "3" );
+		USER_MAP.put( "choiceAdventure126", "1" );
+		USER_MAP.put( "choiceAdventure127", "3" );
+		USER_MAP.put( "choiceAdventure129", "1" );
+		USER_MAP.put( "choiceAdventure130", "1" );
+		USER_MAP.put( "choiceAdventure131", "1" );
+		USER_MAP.put( "choiceAdventure132", "2" );
+		USER_MAP.put( "choiceAdventure134", "2" );
+		USER_MAP.put( "choiceAdventure135", "2" );
+		USER_MAP.put( "choiceAdventure136", "4" );
+		USER_MAP.put( "choiceAdventure137", "4" );
+		USER_MAP.put( "choiceAdventure138", "4" );
+		USER_MAP.put( "choiceAdventure139", "1" );
+		USER_MAP.put( "choiceAdventure140", "2" );
+		USER_MAP.put( "choiceAdventure141", "1" );
+		USER_MAP.put( "choiceAdventure142", "3" );
+		USER_MAP.put( "choiceAdventure143", "1" );
+		USER_MAP.put( "choiceAdventure144", "1" );
+		USER_MAP.put( "choiceAdventure145", "1" );
+		USER_MAP.put( "choiceAdventure146", "3" );
+		USER_MAP.put( "choiceAdventure147", "3" );
+		USER_MAP.put( "choiceAdventure148", "1" );
+		USER_MAP.put( "choiceAdventure149", "2" );
+		USER_MAP.put( "choiceAdventure151", "2" );
+		USER_MAP.put( "choiceAdventure152", "1" );
+		USER_MAP.put( "choiceAdventure153", "4" );
+		USER_MAP.put( "choiceAdventure154", "1" );
+		USER_MAP.put( "choiceAdventure155", "4" );
+		USER_MAP.put( "choiceAdventure156", "1" );
+		USER_MAP.put( "choiceAdventure157", "4" );
+		USER_MAP.put( "choiceAdventure158", "1" );
+		USER_MAP.put( "choiceAdventure159", "4" );
+		USER_MAP.put( "choiceAdventure160", "1" );
+		USER_MAP.put( "choiceAdventure161", "4" );
+		USER_MAP.put( "choiceAdventure162", "1" );
+		USER_MAP.put( "choiceAdventure163", "1" );
+		USER_MAP.put( "choiceAdventure164", "2" );
+		USER_MAP.put( "choiceAdventure165", "2" );
+		USER_MAP.put( "choiceAdventure166", "3" );
+		USER_MAP.put( "choiceAdventure167", "3" );
+		USER_MAP.put( "choiceAdventure168", "3" );
+		USER_MAP.put( "choiceAdventure169", "3" );
+		USER_MAP.put( "choiceAdventure170", "1" );
+		USER_MAP.put( "choiceAdventure171", "3" );
+		USER_MAP.put( "choiceAdventure172", "1" );
+		USER_MAP.put( "choiceAdventure177", "4" );
+		USER_MAP.put( "choiceAdventure178", "1" );
+		USER_MAP.put( "choiceAdventure180", "1" );
 	}
 
 	private void ensureChoiceDefaults()
 	{
-		if ( GLOBAL_SETTINGS == null || this == GLOBAL_SETTINGS )
+		if ( globalSettings == null || this == globalSettings )
 			return;
 
 		if ( super.getProperty( "lastChoiceUpdate" ).equals( KoLConstants.VERSION_NAME ) )
@@ -913,8 +976,8 @@ public class KoLSettings extends Properties implements UtilityConstants
 			if ( !forceChoiceDefault( StaticEntity.parseInt( setting.substring(15) ) ) )
 				continue;
 
-			this.settingsChanged = true;
-			super.setProperty( setting, (String) PLAYER_SETTINGS.get( setting ) );
+			this.valuesChanged = true;
+			super.setProperty( setting, (String) USER_MAP.get( setting ) );
 		}
 	}
 
@@ -986,7 +1049,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 			if ( !forceChoiceDefault( StaticEntity.parseInt( setting.substring(15) ) ) )
 				continue;
 
-			int defaultOption = StaticEntity.parseInt( (String) PLAYER_SETTINGS.get( setting ) ) - 1;
+			int defaultOption = StaticEntity.parseInt( (String) USER_MAP.get( setting ) ) - 1;
 
 			ostream.print( "[" + setting.substring(15) + "] " );
 			ostream.print( choices[i].getName() + ": " );
@@ -1021,21 +1084,22 @@ public class KoLSettings extends Properties implements UtilityConstants
 	private void ensureDefaults()
 	{
 		boolean isGlobal = this.noExtensionName.equals( "GLOBAL" );
-		Object [] keys = isGlobal ? CLIENT_SETTINGS.keySet().toArray() :
-			PLAYER_SETTINGS.keySet().toArray();
+		TreeMap currentMap = isGlobal ? GLOBAL_MAP : USER_MAP;
+
+		Object [] keys = currentMap.keySet().toArray();
 
 		for ( int i = 0; i < keys.length; ++i )
 		{
 			if ( !this.containsKey( keys[i] ) )
 			{
-				this.settingsChanged = true;
-				super.setProperty( (String) keys[i], (String) CLIENT_SETTINGS.get( keys[i] ) );
+				this.valuesChanged = true;
+				super.setProperty( (String) keys[i], (String) currentMap.get( keys[i] ) );
 			}
 		}
 
 		if ( isGlobal )
 			this.ensureChoiceDefaults();
 
-		this.saveSettings();
+		this.saveToFile();
 	}
 }

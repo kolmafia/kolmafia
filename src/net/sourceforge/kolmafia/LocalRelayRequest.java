@@ -70,7 +70,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 	public LocalRelayRequest( boolean allowOverride )
 	{
 		super( "" );
-		this.allowOverride = allowOverride && StaticEntity.getBooleanProperty( "relayAllowsOverride" );
+		this.allowOverride = allowOverride && KoLSettings.getBooleanProperty( "relayAllowsOverride" );
 	}
 
 	public KoLRequest constructURLString( String newURLString )
@@ -100,7 +100,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 	private static final boolean isJunkItem( int itemId, int price )
 	{
-		if ( !StaticEntity.getBooleanProperty( "relayHidesJunkMallItems" ) )
+		if ( !KoLSettings.getBooleanProperty( "relayHidesJunkMallItems" ) )
 			return false;
 
 		if ( price > KoLCharacter.getAvailableMeat() )
@@ -144,14 +144,14 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 		else if ( this.formURLString.equals( "chatlaunch.php" ) )
 		{
-			if ( StaticEntity.getBooleanProperty( "relayAddsGraphicalCLI" ) )
+			if ( KoLSettings.getBooleanProperty( "relayAddsGraphicalCLI" ) )
 			{
 				int linkIndex = responseBuffer.indexOf( "<a href" );
 				if ( linkIndex != -1 )
 					responseBuffer.insert( linkIndex, "<a href=\"cli.html\"><b>KoLmafia gCLI</b></a></center><p>Type KoLmafia scripting commands in your browser!</p><center>" );
 			}
 
-			if ( StaticEntity.getBooleanProperty( "relayAddsKoLSimulator" ) )
+			if ( KoLSettings.getBooleanProperty( "relayAddsKoLSimulator" ) )
 			{
 				int linkIndex = responseBuffer.indexOf( "<a href" );
 				if ( linkIndex != -1 )
@@ -218,7 +218,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// Load image files locally to reduce bandwidth
 		// and improve mini-browser performance.
 
-		if ( StaticEntity.getBooleanProperty( "relayUsesCachedImages" ) )
+		if ( KoLSettings.getBooleanProperty( "relayUsesCachedImages" ) )
 			StaticEntity.globalStringReplace( responseBuffer, "http://images.kingdomofloathing.com", "/images" );
 		else
 			StaticEntity.globalStringReplace( responseBuffer, "http://images.kingdomofloathing.com/scripts", "/images/scripts" );
@@ -569,7 +569,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// Adventure modifiers
 
 		scriptBuffer.append( "zone: \"" );
-		scriptBuffer.append( StaticEntity.getProperty( "lastAdventure" ) );
+		scriptBuffer.append( KoLSettings.getUserProperty( "lastAdventure" ) );
 		scriptBuffer.append( "\", monster: \"" );
 		scriptBuffer.append( FightRequest.getCurrentKey() );
 		scriptBuffer.append( "\", mcd: " );
@@ -774,7 +774,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		if ( !KoLMessenger.isRunning() || this.formURLString.indexOf( "submitnewchat.php" ) != -1 )
 			KoLMessenger.updateChat( this.responseText );
 
-		if ( StaticEntity.getBooleanProperty( "relayFormatsChatText" ) )
+		if ( KoLSettings.getBooleanProperty( "relayFormatsChatText" ) )
 			this.responseText = KoLMessenger.getNormalizedContent( this.responseText, false );
 
 	}
@@ -874,7 +874,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 		if ( this.formURLString.equals( "lchat.php" ) )
 		{
-			if ( StaticEntity.getBooleanProperty( "relayUsesIntegratedChat" ) )
+			if ( KoLSettings.getBooleanProperty( "relayUsesIntegratedChat" ) )
 			{
 				this.sendLocalFile( "chat.html" );
 				return;

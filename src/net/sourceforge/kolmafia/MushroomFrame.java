@@ -437,7 +437,7 @@ public class MushroomFrame extends KoLFrame
 			this.add( this.centerPanel, "" );
 
 			this.enableLayout();
-			this.currentLayout = StaticEntity.getProperty( "plantingScript" );
+			this.currentLayout = KoLSettings.getUserProperty( "plantingScript" );
 			this.initializeLayout();
 		}
 
@@ -490,14 +490,14 @@ public class MushroomFrame extends KoLFrame
 
 			if ( this.currentLayout.equals( "" ) )
 			{
-				StaticEntity.setProperty( "plantingDay", "-1" );
-				StaticEntity.setProperty( "plantingDate", "" );
-				StaticEntity.setProperty( "plantingLength", "0" );
+				KoLSettings.setUserProperty( "plantingDay", "-1" );
+				KoLSettings.setUserProperty( "plantingDate", "" );
+				KoLSettings.setUserProperty( "plantingLength", "0" );
 			}
 			else
 			{
 				plantingLength = MushroomPlot.loadLayout( this.currentLayout, this.originalData, this.planningData );
-				indexToHighlight = StaticEntity.getIntegerProperty( "plantingDay" );
+				indexToHighlight = KoLSettings.getIntegerProperty( "plantingDay" );
 			}
 
 			if ( plantingLength > this.currentForecast )
@@ -522,7 +522,7 @@ public class MushroomFrame extends KoLFrame
 
 			String today = DATED_FILENAME_FORMAT.format( new Date() );
 
-			if ( !StaticEntity.getProperty( "plantingDate" ).equals( today ) )
+			if ( !KoLSettings.getUserProperty( "plantingDate" ).equals( today ) )
 				++indexToHighlight;
 
 			for ( int i = 0; i < this.currentForecast; ++i )

@@ -180,7 +180,7 @@ public class UntinkerRequest extends KoLRequest
 		// Make sure that paco has been visited, or else
 		// the knoll won't be available.
 
-		String action = StaticEntity.getProperty( "battleAction" );
+		String action = KoLSettings.getUserProperty( "battleAction" );
 		if ( action.indexOf( "dictionary" ) != -1 )
 			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "battleAction=attack" );
 

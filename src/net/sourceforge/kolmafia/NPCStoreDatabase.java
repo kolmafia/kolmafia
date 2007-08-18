@@ -160,7 +160,7 @@ public class NPCStoreDatabase extends KoLDatabase
 				if ( level < 12 )
 					return true;
 
-				if ( StaticEntity.getIntegerProperty( "lastFilthClearance" ) == KoLCharacter.getAscensions() )
+				if ( KoLSettings.getIntegerProperty( "lastFilthClearance" ) == KoLCharacter.getAscensions() )
 					return false;
 
 				return QuestLogRequest.isHippyStoreAvailable();
@@ -170,15 +170,15 @@ public class NPCStoreDatabase extends KoLDatabase
 			// completion of the filthworm infestation and which outfit
 			// was used to complete it.
 
-			if ( level < 12 || StaticEntity.getIntegerProperty( "lastFilthClearance" ) != KoLCharacter.getAscensions() )
+			if ( level < 12 || KoLSettings.getIntegerProperty( "lastFilthClearance" ) != KoLCharacter.getAscensions() )
 				return false;
 
 			if ( shopName.equals( "Hippy Store (Hippy)" ) )
-				if ( !StaticEntity.getProperty( "currentHippyStore" ).equals( "hippy" ) )
+				if ( !KoLSettings.getUserProperty( "currentHippyStore" ).equals( "hippy" ) )
 					return false;
 
 			if ( shopName.equals( "Hippy Store (Fratboy)" ) )
-				if ( !StaticEntity.getProperty( "currentHippyStore" ).equals( "fratboy" ) )
+				if ( !KoLSettings.getUserProperty( "currentHippyStore" ).equals( "fratboy" ) )
 					return false;
 
 			return QuestLogRequest.isHippyStoreAvailable() || EquipmentDatabase.hasOutfit( 32 );

@@ -177,7 +177,7 @@ public class FamiliarRequest extends KoLRequest
 			// the map, KoLmafia knows to change it back.
 
 			if ( changeTo.getId() == 59 )
-				StaticEntity.setProperty( "preBlackbirdFamiliar", KoLCharacter.getFamiliar().getRace() );
+				KoLSettings.setUserProperty( "preBlackbirdFamiliar", KoLCharacter.getFamiliar().getRace() );
 
 			int index = KoLCharacter.getFamiliarList().indexOf( changeTo );
 

@@ -58,7 +58,6 @@ public abstract class StaticEntity implements KoLConstants
 	private static final Pattern NEWSKILL2_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
 	private static final Pattern NEWSKILL3_PATTERN = Pattern.compile( "<td>You acquire a skill: <[bB]>(.*?)</[bB]>" );
 
-	private static KoLSettings settings = KoLSettings.GLOBAL_SETTINGS;
 	private static final ArrayList relayCounters = new ArrayList();
 
 	private static KoLmafia client;
@@ -243,14 +242,14 @@ public abstract class StaticEntity implements KoLConstants
 			counters.append( current.image );
 		}
 
-		StaticEntity.setProperty( "relayCounters", counters.toString() );
+		KoLSettings.setUserProperty( "relayCounters", counters.toString() );
 	}
 
 	public static final void loadCounters()
 	{
 		relayCounters.clear();
 
-		String counters = StaticEntity.getProperty( "relayCounters" );
+		String counters = KoLSettings.getUserProperty( "relayCounters" );
 		if ( counters.length() == 0 )
 			return;
 
@@ -347,7 +346,7 @@ public abstract class StaticEntity implements KoLConstants
 	public static final boolean usesSystemTray()
 	{
 		if ( usesSystemTray == 0 )
-			usesSystemTray = System.getProperty( "os.name" ).startsWith( "Windows" ) && getBooleanProperty( "useSystemTrayIcon" ) ? 1 : 2;
+			usesSystemTray = System.getProperty( "os.name" ).startsWith( "Windows" ) && KoLSettings.getBooleanProperty( "useSystemTrayIcon" ) ? 1 : 2;
 
 		return usesSystemTray == 1;
 	}
@@ -355,46 +354,9 @@ public abstract class StaticEntity implements KoLConstants
 	public static final boolean usesRelayWindows()
 	{
 		if ( usesRelayWindows == 0 )
-			usesRelayWindows = getBooleanProperty( "useRelayWindows" ) ? 1 : 2;
+			usesRelayWindows = KoLSettings.getBooleanProperty( "useRelayWindows" ) ? 1 : 2;
 
 		return usesRelayWindows == 1;
-	}
-
-	public static final void saveSettings()
-	{
-		settings.saveSettings();
-		if ( settings != KoLSettings.GLOBAL_SETTINGS )
-			KoLSettings.GLOBAL_SETTINGS.saveSettings();
-	}
-
-	public static final void reloadSettings( String username )
-	{
-		settings = username.equals( "" ) ? KoLSettings.GLOBAL_SETTINGS : new KoLSettings( username );
-		KoLSettings.initializeLists();
-	}
-
-	public static final void setProperty( String name, String value )
-	{	settings.setProperty( name, value );
-	}
-
-	public static final void removeProperty( String name )
-	{	settings.remove( name );
-	}
-
-	public static final String getProperty( String name )
-	{	return settings.getProperty( name );
-	}
-
-	public static final boolean getBooleanProperty( String name )
-	{	return getProperty( name ).equals( "true" );
-	}
-
-	public static final int getIntegerProperty( String name )
-	{	return parseInt( getProperty( name ) );
-	}
-
-	public static final float getFloatProperty( String name )
-	{	return parseFloat( getProperty( name ) );
 	}
 
 	public static final void openSystemBrowser( String location )
@@ -553,20 +515,20 @@ public abstract class StaticEntity implements KoLConstants
 		// items offered in the hippy store are special.
 
 		if ( location.startsWith( "store.php" ) && location.indexOf( "whichstore=h" ) != -1 &&
-			StaticEntity.getIntegerProperty( "lastFilthClearance" ) != KoLCharacter.getAscensions() )
+			KoLSettings.getIntegerProperty( "lastFilthClearance" ) != KoLCharacter.getAscensions() )
 		{
 			if ( responseText.indexOf( "peach" ) != -1 && responseText.indexOf( "pear" ) != -1 && responseText.indexOf( "plum" ) != -1 )
 			{
-				StaticEntity.setProperty( "lastFilthClearance", String.valueOf( KoLCharacter.getAscensions() ) );
-				StaticEntity.setProperty( "currentHippyStore", "hippy" );
+				KoLSettings.setUserProperty( "lastFilthClearance", String.valueOf( KoLCharacter.getAscensions() ) );
+				KoLSettings.setUserProperty( "currentHippyStore", "hippy" );
 			}
 			else if ( responseText.indexOf( "bowl of rye sprouts" ) != -1 && responseText.indexOf( "cob of corn" ) != -1 && responseText.indexOf( "juniper berries" ) != -1 )
 			{
-				StaticEntity.setProperty( "lastFilthClearance", String.valueOf( KoLCharacter.getAscensions() ) );
-				StaticEntity.setProperty( "currentHippyStore", "fratboy" );
+				KoLSettings.setUserProperty( "lastFilthClearance", String.valueOf( KoLCharacter.getAscensions() ) );
+				KoLSettings.setUserProperty( "currentHippyStore", "fratboy" );
 			}
 			else
-				StaticEntity.setProperty( "currentHippyStore", "none" );
+				KoLSettings.setUserProperty( "currentHippyStore", "none" );
 		}
 	}
 
@@ -873,30 +835,6 @@ public abstract class StaticEntity implements KoLConstants
 			buffer.replace( lastIndex, lastIndex + tag.length(), replaceWith );
 			lastIndex = buffer.indexOf( tag, lastIndex + replaceWith.length() );
 		}
-	}
-
-	private static final String getPropertyName( String player, String name )
-	{	return player == null || player.equals( "" ) ? name : name + "." + KoLSettings.baseUserName( player );
-	}
-
-	public static final void removeGlobalProperty( String player, String name )
-	{	settings.remove( getPropertyName( player, name ) );
-	}
-
-	public static final String getGlobalProperty( String name )
-	{	return getGlobalProperty( KoLCharacter.getUserName(), name );
-	}
-
-	public static final String getGlobalProperty( String player, String name )
-	{	return settings.getProperty( getPropertyName( player, name ) );
-	}
-
-	public static final void setGlobalProperty( String name, String value )
-	{	setGlobalProperty( KoLCharacter.getUserName(), name, value );
-	}
-
-	public static final void setGlobalProperty( String player, String name, String value )
-	{	settings.setProperty( getPropertyName( player, name ), value );
 	}
 
 	public static final String [] getPastUserList()

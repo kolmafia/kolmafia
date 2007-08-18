@@ -69,7 +69,7 @@ public class CustomItemDatabase extends Properties implements KoLConstants
 		// the file hasn't been updated for a week.
 
 		String thisWeek = WEEKLY_FORMAT.format( new Date() );
-		if ( KILT_FILE.exists() && StaticEntity.getProperty( "lastCustomItemUpdate" ).equals( thisWeek ) )
+		if ( KILT_FILE.exists() && KoLSettings.getUserProperty( "lastCustomItemUpdate" ).equals( thisWeek ) )
 		{
 			try
 			{
@@ -84,7 +84,7 @@ public class CustomItemDatabase extends Properties implements KoLConstants
 		}
 
 		updateParticipantList();
-		StaticEntity.setProperty( "lastCustomItemUpdate", thisWeek );
+		KoLSettings.setUserProperty( "lastCustomItemUpdate", thisWeek );
 	}
 
 	private static final void updateParticipantList()
@@ -154,7 +154,7 @@ public class CustomItemDatabase extends Properties implements KoLConstants
 		// First, some preliminary checks to see if custom data
 		// should be added to this request.
 
-		if ( !StaticEntity.getBooleanProperty( "relayViewsCustomItems" ) )
+		if ( !KoLSettings.getBooleanProperty( "relayViewsCustomItems" ) )
 			return;
 
 		String urlString = request.getURLString();

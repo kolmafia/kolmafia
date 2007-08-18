@@ -545,7 +545,7 @@ public class AdventureRequest extends KoLRequest
 
 			RequestLogger.printLine( "Demon name: " + demon );
 			RequestLogger.updateSessionLog( "Demon name: " + demon );
-			StaticEntity.setProperty( "demonName" + index, demon );
+			KoLSettings.setUserProperty( "demonName" + index, demon );
 			return;
 		}
 	}
@@ -637,7 +637,7 @@ public class AdventureRequest extends KoLRequest
 	{
 		if ( location.startsWith( "barrels.php" ) || location.startsWith( "shore.php" ) )
 		{
-			if ( !StaticEntity.getBooleanProperty( "cloverProtectActive" ) )
+			if ( !KoLSettings.getBooleanProperty( "cloverProtectActive" ) )
 				return false;
 
 			if ( responseText.indexOf( "ten-leaf clover" ) == -1 )
@@ -650,7 +650,7 @@ public class AdventureRequest extends KoLRequest
 		if ( !location.startsWith( "adventure.php" ) )
 			return false;
 
-		if ( !StaticEntity.getBooleanProperty( "cloverProtectActive" ) )
+		if ( !KoLSettings.getBooleanProperty( "cloverProtectActive" ) )
 			return false;
 
 		if ( responseText.indexOf( "notice a ten-leaf clover" ) == -1 || responseText.indexOf( "puff of smoke" ) != -1 )

@@ -340,8 +340,8 @@ public class ShowDescriptionList extends JList implements KoLConstants
 			Object [] skills = ShowDescriptionList.this.getSelectedValues();
 			ShowDescriptionList.this.clearSelection();
 
-			if ( StaticEntity.getProperty( "currentMood" ).equals( "apathetic" ) )
-				StaticEntity.setProperty( "currentMood", "default" );
+			if ( KoLSettings.getUserProperty( "currentMood" ).equals( "apathetic" ) )
+				KoLSettings.setUserProperty( "currentMood", "default" );
 
 			String name, action;
 
@@ -367,8 +367,8 @@ public class ShowDescriptionList extends JList implements KoLConstants
 			Object [] effects = ShowDescriptionList.this.getSelectedValues();
 			ShowDescriptionList.this.clearSelection();
 
-			if ( StaticEntity.getProperty( "currentMood" ).equals( "apathetic" ) )
-				StaticEntity.setProperty( "currentMood", "default" );
+			if ( KoLSettings.getUserProperty( "currentMood" ).equals( "apathetic" ) )
+				KoLSettings.setUserProperty( "currentMood", "default" );
 
 			String name, action;
 
@@ -525,7 +525,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 					mementoList.add( data );
 			}
 
-			StaticEntity.setProperty( "mementoListActive", "true" );
+			KoLSettings.setUserProperty( "mementoListActive", "true" );
 		}
 	}
 

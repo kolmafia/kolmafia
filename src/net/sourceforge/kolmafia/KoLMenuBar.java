@@ -98,7 +98,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		statusMenu.add( new DisplayFrameMenuItem( "Gear Changer", "GearChangeFrame" ) );
 		statusMenu.add( new DisplayFrameMenuItem( "Skill Casting", "SkillBuffFrame" ) );
 
-		if ( StaticEntity.getBooleanProperty( "addExitMenuItems" ) )
+		if ( KoLSettings.getBooleanProperty( "addExitMenuItems" ) )
 		{
 			statusMenu.add( new JSeparator() );
 			statusMenu.add( new LogoutMenuItem() );
@@ -317,7 +317,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 				if ( this.frameReference == null )
 				{
 					KoLFrame [] frames = StaticEntity.getExistingFrames();
-					String interfaceSetting = StaticEntity.getGlobalProperty( "initialDesktop" );
+					String interfaceSetting = KoLSettings.getGlobalProperty( "initialDesktop" );
 
 					for ( int i = 0; i < frames.length; ++i )
 						if ( interfaceSetting.indexOf( frames[i].getFrameName() ) == -1 )
@@ -332,7 +332,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 				KoLFrame frame = (KoLFrame) this.frameReference.get();
 				if ( frame != null )
 				{
-					boolean appearsInTab = StaticEntity.getGlobalProperty( "initialDesktop" ).indexOf(
+					boolean appearsInTab = KoLSettings.getGlobalProperty( "initialDesktop" ).indexOf(
 						frame instanceof ChatFrame ? "KoLMessenger" : frame.getFrameName() ) != -1;
 
 					if ( !appearsInTab )
@@ -789,7 +789,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		public void run()
 		{
-			if ( StaticEntity.getProperty( "loginServerName" ).startsWith( "dev" ) )
+			if ( KoLSettings.getUserProperty( "loginServerName" ).startsWith( "dev" ) )
 				LoginRequest.executeTimeInRequest();
 			else
 				StaticEntity.getClient().refreshSession();

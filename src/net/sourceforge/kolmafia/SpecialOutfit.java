@@ -188,7 +188,7 @@ public class SpecialOutfit implements Comparable, KoLConstants
 		for ( int i = 0; i <= KoLCharacter.FAMILIAR; ++i )
 		{
 			itemName = KoLCharacter.getEquipment(i).getName();
-			isIdentical &= StaticEntity.getProperty( "implicitEquipmentSlot" + i ).equals( itemName );
+			isIdentical &= KoLSettings.getUserProperty( "implicitEquipmentSlot" + i ).equals( itemName );
 		}
 
 		markedCheckpoint = implicitPoints.size();
@@ -225,7 +225,7 @@ public class SpecialOutfit implements Comparable, KoLConstants
 
 		implicitPoints.push( implicit );
 
-		if ( StaticEntity.getBooleanProperty( "useFastOutfitSwitch" ) )
+		if ( KoLSettings.getBooleanProperty( "useFastOutfitSwitch" ) )
 			EquipmentRequest.savePreviousOutfit();
 	}
 

@@ -66,7 +66,7 @@ public class SimpleScrollPane extends JScrollPane implements KoLConstants
 
 		if ( view instanceof JList )
 		{
-			if ( StaticEntity.getProperty( "swingLookAndFeel" ).equals( UIManager.getCrossPlatformLookAndFeelClassName() ) )
+			if ( KoLSettings.getUserProperty( "swingLookAndFeel" ).equals( UIManager.getCrossPlatformLookAndFeelClassName() ) )
 				((JList)view).setFont( DEFAULT_FONT );
 		}
 		else if ( !(view instanceof JTextComponent) )

@@ -322,7 +322,7 @@ public abstract class CombatSettings implements KoLConstants
 
 	public static final String getSettingKey( String encounter )
 	{
-		String location = StaticEntity.getProperty( "lastAdventure" ).toLowerCase();
+		String location = KoLSettings.getUserProperty( "lastAdventure" ).toLowerCase();
 
 		// Allow for longer matches (closer to exact matches)
 		// by tracking the length of the match.

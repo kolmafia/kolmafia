@@ -123,7 +123,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 		// If there is no creation creation, then return
 		// from the method because there's nothing to do.
 
-		String tabSetting = StaticEntity.getGlobalProperty( "initialDesktop" );
+		String tabSetting = KoLSettings.getGlobalProperty( "initialDesktop" );
 		String searchString = this.creationType.toString();
 		searchString = searchString.substring( searchString.lastIndexOf( "." ) + 1 );
 
@@ -213,7 +213,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 
 	private void runConstruction( boolean appearsInTab )
 	{
-		if ( this.creationType != LoginFrame.class && StaticEntity.getBooleanProperty( "guiUsesOneWindow" ) )
+		if ( this.creationType != LoginFrame.class && KoLSettings.getBooleanProperty( "guiUsesOneWindow" ) )
 		{
 			KoLDesktop.removeExtraTabs();
 			appearsInTab = true;

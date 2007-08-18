@@ -347,10 +347,10 @@ public class CharpaneRequest extends KoLRequest
 
 	public static final void decorate( StringBuffer buffer )
 	{
-		if ( StaticEntity.getBooleanProperty( "relayAddsRestoreLinks" ) )
+		if ( KoLSettings.getBooleanProperty( "relayAddsRestoreLinks" ) )
 			addRestoreLinks( buffer );
 
-		if ( StaticEntity.getBooleanProperty( "relayAddsUpArrowLinks" ) )
+		if ( KoLSettings.getBooleanProperty( "relayAddsUpArrowLinks" ) )
 			addUpArrowLinks( buffer );
 	}
 
@@ -367,8 +367,8 @@ public class CharpaneRequest extends KoLRequest
 		// First, locate your HP information inside of the response
 		// text and replace it with a restore HP link.
 
-		float threshold = StaticEntity.getFloatProperty( "hpAutoRecoveryTarget" ) * ((float) KoLCharacter.getMaximumHP());
-		float dangerous = StaticEntity.getFloatProperty( "hpAutoRecovery" ) * ((float) KoLCharacter.getMaximumHP());
+		float threshold = KoLSettings.getFloatProperty( "hpAutoRecoveryTarget" ) * ((float) KoLCharacter.getMaximumHP());
+		float dangerous = KoLSettings.getFloatProperty( "hpAutoRecovery" ) * ((float) KoLCharacter.getMaximumHP());
 
 		if ( KoLCharacter.getCurrentHP() < threshold )
 		{
@@ -423,8 +423,8 @@ public class CharpaneRequest extends KoLRequest
 		// Next, locate your MP information inside of the response
 		// text and replace it with a restore MP link.
 
-		threshold = StaticEntity.getFloatProperty( "mpAutoRecoveryTarget" ) * ((float) KoLCharacter.getMaximumMP());
-		dangerous = StaticEntity.getFloatProperty( "mpAutoRecovery" ) * ((float) KoLCharacter.getMaximumMP());
+		threshold = KoLSettings.getFloatProperty( "mpAutoRecoveryTarget" ) * ((float) KoLCharacter.getMaximumMP());
+		dangerous = KoLSettings.getFloatProperty( "mpAutoRecovery" ) * ((float) KoLCharacter.getMaximumMP());
 
 		if ( KoLCharacter.getCurrentMP() < threshold )
 		{
@@ -476,14 +476,14 @@ public class CharpaneRequest extends KoLRequest
 		if ( MoodSettings.willExecute( 0 ) )
 		{
 			fontColor = FightRequest.getCurrentRound() == 0 ? "black" : "gray";
-			moodText = "mood " + StaticEntity.getProperty( "currentMood" );
+			moodText = "mood " + KoLSettings.getUserProperty( "currentMood" );
 		}
 		else if ( MoodSettings.getNextBurnCast( false ) != null )
 		{
 			fontColor = FightRequest.getCurrentRound() == 0 ? "black" : "gray";
 			moodText = "burn extra mp";
 		}
-		else if ( !StaticEntity.getBooleanProperty( "relayAddsMoodRefreshLink" ) )
+		else if ( !KoLSettings.getBooleanProperty( "relayAddsMoodRefreshLink" ) )
 		{
 			fontColor = "gray";
 			moodText = "burn extra mp";
@@ -491,7 +491,7 @@ public class CharpaneRequest extends KoLRequest
 		else if ( !MoodSettings.getTriggers().isEmpty() )
 		{
 			fontColor = "gray";
-			moodText = "mood " + StaticEntity.getProperty( "currentMood" );
+			moodText = "mood " + KoLSettings.getUserProperty( "currentMood" );
 		}
 		else
 		{
@@ -626,7 +626,7 @@ public class CharpaneRequest extends KoLRequest
 
 				buffer.append( "<tr>" );
 
-				if ( !KoLRequest.isCompactMode || !StaticEntity.getBooleanProperty( "relayTextualizesEffects" ) )
+				if ( !KoLRequest.isCompactMode || !KoLSettings.getBooleanProperty( "relayTextualizesEffects" ) )
 				{
 					buffer.append( "<td><img src=\"" );
 					buffer.append( StatusEffectDatabase.getImage( effectId ) );
@@ -637,7 +637,7 @@ public class CharpaneRequest extends KoLRequest
 					buffer.append( "\" onClick='eff(\"" + descriptionId + "\");'></td>" );
 				}
 
-				if ( !KoLRequest.isCompactMode || StaticEntity.getBooleanProperty( "relayTextualizesEffects" ) )
+				if ( !KoLRequest.isCompactMode || KoLSettings.getBooleanProperty( "relayTextualizesEffects" ) )
 				{
 					buffer.append( "<td><font size=2>" );
 
@@ -699,7 +699,7 @@ public class CharpaneRequest extends KoLRequest
 
 			if ( KoLRequest.isCompactMode )
 			{
-				if ( StaticEntity.getBooleanProperty( "relayTextualizesEffects" ) )
+				if ( KoLSettings.getBooleanProperty( "relayTextualizesEffects" ) )
 				{
 					nextAppendIndex = text.indexOf( "></td>", startingIndex );
 					buffer.append( text.substring( lastAppendIndex, nextAppendIndex ) );
