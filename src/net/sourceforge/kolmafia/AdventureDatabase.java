@@ -242,7 +242,7 @@ public class AdventureDatabase extends KoLDatabase
 	public static final ChoiceAdventure LUCKY_SEWER =
 		new ChoiceAdventure( "Town", "luckySewerAdventure", "Sewer Gnomes",
 		  new String [] { "seal-clubbing club", "seal tooth", "helmet turtle", "turtle totem", "pasta spoon", "ravioli hat",
-		    "saucepan", "disco mask", "disco ball", "stolen accordion", "mariachi pants" } );
+			"saucepan", "disco mask", "disco ball", "stolen accordion", "mariachi pants" } );
 
 
 	public static final ChoiceAdventure [] CHOICE_ADVS =
@@ -473,7 +473,7 @@ public class AdventureDatabase extends KoLDatabase
 		// Choice 131 is Dr. Awkward
 
 		// Let's Make a Deal!
-		new ChoiceAdventure( "Beach", "choiceAdventure132", "Arid, Extra-Dry Desert",
+		new ChoiceAdventure( "Beach", "choiceAdventure132", "Desert (Pre-Oasis)",
 		  new String [] { "broken carburetor", "Unlock Oasis" },
 		  new String [] { "2316", null } ),
 
@@ -1262,7 +1262,7 @@ public class AdventureDatabase extends KoLDatabase
 	{
 		for ( int i = 0; i < areas.length; ++i )
 			if ( area.equals( areas[i] ) )
-			     return true;
+				 return true;
 		return false;
 	}
 
