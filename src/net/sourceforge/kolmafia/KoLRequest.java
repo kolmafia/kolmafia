@@ -1343,10 +1343,10 @@ public class KoLRequest extends Job implements KoLConstants
 		// Once everything is complete, decide whether or not
 		// you should refresh your status.
 
-		if ( this instanceof LocalRelayRequest )
+		if ( hasNoResult || this instanceof LocalRelayRequest )
 			return;
 
-		if ( !hasNoResult && RequestFrame.sidebarFrameExists() )
+		if ( RequestFrame.sidebarFrameExists() )
 			this.containsUpdate |= this.responseText.indexOf( "charpane" ) != -1;
 
 		if ( this.containsUpdate )
