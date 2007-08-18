@@ -116,7 +116,7 @@
 116	Radio Head	radhat.gif	93a84005b9089f8b39237450c0af0ff3
 117	Free Bird	radpants.gif	587b577f3cf49f2d944450aa4751584d
 118	Shiny Happy Weapon	radsword.gif	c182e3297f3732ed05601d63d5980f1d
-119	On the Shoulders of Giants	farout.gif	68ea640257b2b74627e74ce275a555fc
+119	On the Shoulders of Giants	farout.gif	68ea640257b2b74627e74ce275a555fc	use 1 Hawking's Elixir of Brilliance
 120	Shot in the Arse	shotarse.gif
 121	Cock of the Walk	cockghost.gif	4bd0338c8030f6aaa95ea5eda777484c	use 1 Connery's Elixir of Audacity
 122	Eggs-tra Sensory Perception	eggplain.gif	5ca8ae9f3177d3f1bfee8ceccde554b7	use 1 off-white paisley oyster egg
