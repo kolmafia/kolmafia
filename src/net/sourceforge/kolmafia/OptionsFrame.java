@@ -196,6 +196,7 @@ public class OptionsFrame extends KoLFrame
 
 			{ "", "" },
 
+			{ "basementBuysItems", "List effects for items you don't have while basement diving" },
 			{ "relayAlwaysBuysGum", "Automatically buy gum when visiting the sewer" },
 			{ "relayViewsCustomItems", "View items registered with OneTonTomato's Kilt script" },
 		};

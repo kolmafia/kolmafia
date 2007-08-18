@@ -787,6 +787,7 @@ public class BasementRequest extends AdventureRequest
 		DesiredEffect currentAddition;
 
 		Iterator it = sourceList.iterator();
+		boolean buyItems = StaticEntity.getBooleanProperty( "basementBuysItems" );
 
 		while ( it.hasNext() )
 		{
@@ -799,8 +800,18 @@ public class BasementRequest extends AdventureRequest
 			if ( currentAction.equals( "" ) )
 				continue;
 
-			if ( currentAction.startsWith( "cast" ) && !KoLCharacter.hasSkill( UneffectRequest.effectToSkill( currentTest.getName() ) ) )
-				continue;
+			if ( currentAction.startsWith( "cast" ) )
+			{
+				if ( !KoLCharacter.hasSkill( UneffectRequest.effectToSkill( currentTest.getName() ) ) )
+					continue;
+			}
+
+			if ( !buyItems && currentAction.startsWith( "use" ) )
+			{
+				AdventureResult item = KoLmafiaCLI.getFirstMatchingItem( currentAction.substring(4).trim() );
+				if ( !KoLCharacter.hasItem( item ) )
+					continue;
+			}
 
 			currentAddition = new DesiredEffect( currentTest.getName() );
 
