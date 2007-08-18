@@ -98,6 +98,7 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int WARM_SUBJECT = 621;
 	private static final int TOASTER = 637;
 	private static final int GIANT_CASTLE_MAP = 667;
+	private static final int MAFIA_ARIA = 781;
 	private static final int ANTIDOTE = 829;
 	private static final int TEARS = 869;
 	private static final int ROLLING_PIN = 873;
@@ -159,6 +160,8 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int STEEL_STOMACH = 2742;
 	private static final int STEEL_LIVER = 2743;
 	private static final int STEEL_SPLEEN = 2744;
+
+	private static final AdventureResult CUMMERBUND = new AdventureResult( 778, 1 );
 
 	private static final AdventureResult ASPARAGUS_KNIFE = new AdventureResult( 19, -1 );
 	private static final AdventureResult SAPLING = new AdventureResult( 75, 1 );
@@ -338,12 +341,12 @@ public class ConsumeItemRequest extends KoLRequest
 
 		int price = TradeableItemDatabase.getPriceById( itemId );
 
-		if ( itemId == SELTZER )
+		if ( itemId == SELTZER || itemId == MAFIA_ARIA )
 			SpecialOutfit.createImplicitCheckpoint();
 
 		if ( price != 0 && this.consumptionType != INFINITE_USES && !AdventureDatabase.retrieveItem( this.itemUsed ) )
 		{
-			if ( itemId == SELTZER )
+			if ( itemId == SELTZER || itemId == MAFIA_ARIA )
 				SpecialOutfit.restoreImplicitCheckpoint();
 
 			return;
@@ -376,6 +379,12 @@ public class ConsumeItemRequest extends KoLRequest
 			return;
 		}
 
+		if ( itemId == MAFIA_ARIA )
+		{
+			if ( !KoLCharacter.hasEquipped( CUMMERBUND ) )
+				RequestThread.postRequest( new EquipmentRequest( CUMMERBUND ) );
+		}
+
 		String useTypeAsString = (this.consumptionType == CONSUME_EAT) ? "Eating" :
 			(this.consumptionType == CONSUME_DRINK) ? "Drinking" : "Using";
 
@@ -390,6 +399,9 @@ public class ConsumeItemRequest extends KoLRequest
 
 			this.useOnce( i, iterations, useTypeAsString );
 		}
+
+		if ( itemId == MAFIA_ARIA )
+			SpecialOutfit.restoreImplicitCheckpoint();
 
 		if ( KoLmafia.permitsContinue() )
 		{
