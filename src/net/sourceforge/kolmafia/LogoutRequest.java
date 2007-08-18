@@ -56,15 +56,11 @@ public class LogoutRequest extends KoLRequest
 		if ( KoLDesktop.instanceExists() )
 			KoLDesktop.getInstance().dispose();
 
-		StaticEntity.saveCounters();
-		KoLSettings.saveSettings();
-
 		KoLFrame [] frames = StaticEntity.getExistingFrames();
 		for ( int i = 0; i < frames.length; ++i )
 			frames[i].dispose();
 
 		KoLAdventure.resetAutoAttack();
-
 		if ( KoLDesktop.instanceExists() )
 			KoLDesktop.getInstance().dispose();
 
