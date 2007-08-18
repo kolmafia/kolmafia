@@ -949,7 +949,7 @@ public class FightRequest extends KoLRequest
 		}
 	}
 
-        // You hold the rough stone sphere up in the air.
+		// You hold the rough stone sphere up in the air.
 	private static final Pattern STONE_SPHERE_PATTERN = Pattern.compile( "You hold the (.*?) stone sphere up in the air.*?It radiates a (.*?)," );
 
 	private static final void parseStoneSphere( String responseText )
@@ -1332,6 +1332,7 @@ public class FightRequest extends KoLRequest
 			isTrackingFights = false;
 
 		foundNextRound = false;
+		isTrackingFights = currentRound != 0;
 		return RequestEditorKit.getFeatureRichHTML( isTrackingFights ? "fight.php?action=script" : "fight.php", lastResponseText, true );
 	}
 
