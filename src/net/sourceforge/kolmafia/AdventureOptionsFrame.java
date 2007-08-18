@@ -728,7 +728,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 		{
 			super( new BorderLayout( 10, 10 ) );
 
-			LockableListModel adventureList = AdventureDatabase.getAsLockableListModel().mirrorImage();
+			LockableListModel adventureList = AdventureDatabase.getAsLockableListModel().getMirrorImage();
 
 			// West pane is a scroll pane which lists all of the available
 			// locations -- to be included is a map on a separate tab.
