@@ -1330,9 +1330,10 @@ public class FightRequest extends KoLRequest
 
 		if ( !foundNextRound || KoLmafia.refusesContinue() )
 			isTrackingFights = false;
+		else
+			isTrackingFights = currentRound != 0;
 
 		foundNextRound = false;
-		isTrackingFights = currentRound != 0;
 		return RequestEditorKit.getFeatureRichHTML( isTrackingFights ? "fight.php?action=script" : "fight.php", lastResponseText, true );
 	}
 
