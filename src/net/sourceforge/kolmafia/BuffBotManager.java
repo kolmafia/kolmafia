@@ -278,14 +278,14 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		BuffBotHome.setBuffBotActive( true );
 		BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Buffbot started." );
 
-		messageDisposalSetting = parseInt( getProperty( "buffBotMessageDisposal" ) );
+		messageDisposalSetting = parseInt( KoLSettings.getUserProperty( "buffBotMessageDisposal" ) );
 		whiteList = ClanManager.getWhiteList();
 
-		refundMessage = getProperty( "invalidBuffMessage" );
-		thanksMessage = getProperty( "thanksMessage" );
+		refundMessage = KoLSettings.getUserProperty( "invalidBuffMessage" );
+		thanksMessage = KoLSettings.getUserProperty( "thanksMessage" );
 		initialRestores = Math.max( KoLmafia.getRestoreCount(), 100 );
 
-		String restoreItems = getProperty( "mpAutoRecoveryItems" );
+		String restoreItems = KoLSettings.getUserProperty( "mpAutoRecoveryItems" );
 		boolean usingAdventures = restoreItems.indexOf( "rest" ) != -1 || restoreItems.indexOf( "relax" ) != -1;
 
 		// The outer loop goes until user cancels, or
@@ -674,7 +674,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		// If it's not a philanthropic buff request, then go ahead
 		// and check to see that it's okay to send it.
 
-		switch ( StaticEntity.getIntegerProperty( "buffBotPhilanthropyType" ) )
+		switch ( KoLSettings.getIntegerProperty( "buffBotPhilanthropyType" ) )
 		{
 
 		case 0:

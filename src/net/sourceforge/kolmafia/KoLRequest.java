@@ -161,7 +161,7 @@ public class KoLRequest extends Job implements KoLConstants
 	{
 		applyProxySettings();
 
-		int defaultLoginServer = StaticEntity.getIntegerProperty( "defaultLoginServer" );
+		int defaultLoginServer = KoLSettings.getIntegerProperty( "defaultLoginServer" );
 		setLoginServer( SERVERS[ defaultLoginServer == 0 ? 0 : 1 ][0] );
 	}
 
@@ -172,9 +172,9 @@ public class KoLRequest extends Job implements KoLConstants
 
 		try
 		{
-			String proxySet = StaticEntity.getProperty( "proxySet" );
-			String proxyHost = StaticEntity.getProperty( "http.proxyHost" );
-			String proxyUser = StaticEntity.getProperty( "http.proxyUser" );
+			String proxySet = KoLSettings.getUserProperty( "proxySet" );
+			String proxyHost = KoLSettings.getUserProperty( "http.proxyHost" );
+			String proxyUser = KoLSettings.getUserProperty( "http.proxyUser" );
 
 			System.setProperty( "proxySet", proxySet );
 
@@ -201,7 +201,7 @@ public class KoLRequest extends Job implements KoLConstants
 					System.setProperty( "http.proxyHost", proxyHost );
 				}
 
-				System.setProperty( "http.proxyPort", StaticEntity.getProperty( "http.proxyPort" ) );
+				System.setProperty( "http.proxyPort", KoLSettings.getUserProperty( "http.proxyPort" ) );
 			}
 
 			// Remove the proxy user from the system properties
@@ -214,8 +214,8 @@ public class KoLRequest extends Job implements KoLConstants
 			}
 			else
 			{
-				System.setProperty( "http.proxyUser", StaticEntity.getProperty( "http.proxyUser" ) );
-				System.setProperty( "http.proxyPassword", StaticEntity.getProperty( "http.proxyPassword" ) );
+				System.setProperty( "http.proxyUser", KoLSettings.getUserProperty( "http.proxyUser" ) );
+				System.setProperty( "http.proxyPassword", KoLSettings.getUserProperty( "http.proxyPassword" ) );
 			}
 		}
 		catch ( Exception e )
@@ -260,7 +260,7 @@ public class KoLRequest extends Job implements KoLConstants
 				StaticEntity.printStackTrace( e );
 			}
 
-			StaticEntity.setProperty( "loginServerName", KOL_HOST );
+			KoLSettings.setUserProperty( "loginServerName", KOL_HOST );
 
 			RequestLogger.printLine( "Redirected to " + KOL_HOST + "..." );
 			System.setProperty( "http.referer", "http://" + KOL_HOST + "/main.php" );
@@ -615,7 +615,7 @@ public class KoLRequest extends Job implements KoLConstants
 
 		if ( location.startsWith( "sewer.php" ) )
 		{
-			if ( StaticEntity.getBooleanProperty( "relayAlwaysBuysGum" ) )
+			if ( KoLSettings.getBooleanProperty( "relayAlwaysBuysGum" ) )
 				AdventureDatabase.retrieveItem( SewerRequest.GUM.getInstance(1) );
 		}
 		else if ( location.startsWith( "hermit.php?autopermit=on" ) )
@@ -748,8 +748,8 @@ public class KoLRequest extends Job implements KoLConstants
 
 			if ( lastDecision != 4 )
 			{
-				StaticEntity.setProperty( "lastQuartetAscension", String.valueOf( KoLCharacter.getAscensions() ) );
-				StaticEntity.setProperty( "lastQuartetRequest", String.valueOf( lastDecision ) );
+				KoLSettings.setUserProperty( "lastQuartetAscension", String.valueOf( KoLCharacter.getAscensions() ) );
+				KoLSettings.setUserProperty( "lastQuartetRequest", String.valueOf( lastDecision ) );
 
 				if ( KoLCharacter.recalculateAdjustments() )
 					KoLCharacter.updateStatus();
@@ -759,25 +759,25 @@ public class KoLRequest extends Job implements KoLConstants
 
 		// Wheel In the Sky Keep on Turning: Muscle Position
 		case 9:
-			StaticEntity.setProperty( "currentWheelPosition",
+			KoLSettings.setUserProperty( "currentWheelPosition",
 				String.valueOf( lastDecision == 1 ? "mysticality" : lastDecision == 2 ? "moxie" : "muscle" ) );
 			break;
 
 		// Wheel In the Sky Keep on Turning: Mysticality Position
 		case 10:
-			StaticEntity.setProperty( "currentWheelPosition",
+			KoLSettings.setUserProperty( "currentWheelPosition",
 				String.valueOf( lastDecision == 1 ? "map quest" : lastDecision == 2 ? "muscle" : "mysticality" ) );
 			break;
 
 		// Wheel In the Sky Keep on Turning: Map Quest Position
 		case 11:
-			StaticEntity.setProperty( "currentWheelPosition",
+			KoLSettings.setUserProperty( "currentWheelPosition",
 				String.valueOf( lastDecision == 1 ? "moxie" : lastDecision == 2 ? "mysticality" : "map quest" ) );
 			break;
 
 		// Wheel In the Sky Keep on Turning: Moxie Position
 		case 12:
-			StaticEntity.setProperty( "currentWheelPosition",
+			KoLSettings.setUserProperty( "currentWheelPosition",
 				String.valueOf( lastDecision == 1 ? "muscle" : lastDecision == 2 ? "map quest" : "moxie" ) );
 			break;
 
@@ -911,7 +911,7 @@ public class KoLRequest extends Job implements KoLConstants
 
 			if ( this.formURL == null )
 			{
-				if ( StaticEntity.getBooleanProperty( "testSocketTimeout" ) )
+				if ( KoLSettings.getBooleanProperty( "testSocketTimeout" ) )
 				{
 					if ( this.formURLString.startsWith( "http:" ) )
 						this.formURL = new URL( null, this.formURLString, HttpTimeoutHandler.getInstance() );
@@ -952,8 +952,8 @@ public class KoLRequest extends Job implements KoLConstants
 
 		if ( sessionId != null )
 		{
-			if ( this.formURLString.startsWith( "inventory.php" ) && !StaticEntity.getProperty( "visibleBrowserInventory" ).equals( "" ) )
-				this.formConnection.addRequestProperty( "Cookie", StaticEntity.getProperty( "visibleBrowserInventory" ) + "; " + sessionId );
+			if ( this.formURLString.startsWith( "inventory.php" ) && !KoLSettings.getUserProperty( "visibleBrowserInventory" ).equals( "" ) )
+				this.formConnection.addRequestProperty( "Cookie", KoLSettings.getUserProperty( "visibleBrowserInventory" ) + "; " + sessionId );
 			else
 				this.formConnection.addRequestProperty( "Cookie", sessionId );
 		}
@@ -1504,7 +1504,7 @@ public class KoLRequest extends Job implements KoLConstants
 
 			choice = choiceMatcher.group(1);
 			option = "choiceAdventure" + choice;
-			decision = StaticEntity.getProperty( option );
+			decision = KoLSettings.getUserProperty( option );
 
 			// Certain choices should always be taken.  These
 			// choices are handled here.
@@ -1529,7 +1529,7 @@ public class KoLRequest extends Job implements KoLConstants
 			// automatically switches things for them.
 
 			if ( choice.equals( "85" ) && conditions.contains( BALLROOM_KEY ) )
-				StaticEntity.setProperty( option, decision.equals( "1" ) ? "2" : "1" );
+				KoLSettings.setUserProperty( option, decision.equals( "1" ) ? "2" : "1" );
 
 			// Auto-skip the goatlet adventure if you're not wearing
 			// the mining outfit so it can be tried again later.
@@ -1544,7 +1544,7 @@ public class KoLRequest extends Job implements KoLConstants
 
 			if ( choice.equals( "91" ) )
 			{
-				decision = StaticEntity.getIntegerProperty( "louvreDesiredGoal" ) != 0 ? "1" : "2";
+				decision = KoLSettings.getIntegerProperty( "louvreDesiredGoal" ) != 0 ? "1" : "2";
 			}
 
 			// If there is no setting which determines the
@@ -1579,7 +1579,7 @@ public class KoLRequest extends Job implements KoLConstants
 			{
 				willIgnore = true;
 
-				if ( decision.equals( "99" ) && StaticEntity.getIntegerProperty( "lastSecondFloorUnlock" ) == KoLCharacter.getAscensions() )
+				if ( decision.equals( "99" ) && KoLSettings.getIntegerProperty( "lastSecondFloorUnlock" ) == KoLCharacter.getAscensions() )
 					decision = "4";
 			}
 			else if ( choice.equals( "81" ) )
@@ -1588,12 +1588,12 @@ public class KoLRequest extends Job implements KoLConstants
 
 				// If we've already unlocked the gallery, try
 				// to unlock the second floor.
-				if ( decision.equals( "1" ) && StaticEntity.getIntegerProperty( "lastGalleryUnlock" ) == KoLCharacter.getAscensions() )
+				if ( decision.equals( "1" ) && KoLSettings.getIntegerProperty( "lastGalleryUnlock" ) == KoLCharacter.getAscensions() )
 					decision = "99";
 
 				// If we've already unlocked the second floor,
 				// ignore this choice adventure.
-				if ( decision.equals( "99" ) && StaticEntity.getIntegerProperty( "lastSecondFloorUnlock" ) == KoLCharacter.getAscensions() )
+				if ( decision.equals( "99" ) && KoLSettings.getIntegerProperty( "lastSecondFloorUnlock" ) == KoLCharacter.getAscensions() )
 					decision = "4";
 			}
 
@@ -1741,7 +1741,7 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( existingFrames.isEmpty() )
 			return;
 
-		if ( !exceptional && !StaticEntity.getBooleanProperty( "showAllRequests" ) )
+		if ( !exceptional && !KoLSettings.getBooleanProperty( "showAllRequests" ) )
 			return;
 
 		// Only show the request if the response code is
@@ -1820,7 +1820,7 @@ public class KoLRequest extends Job implements KoLConstants
 			}
 		}
 
-		shouldLoadEventFrame &= StaticEntity.getGlobalProperty( "initialFrames" ).indexOf( "EventsFrame" ) != -1;
+		shouldLoadEventFrame &= KoLSettings.getGlobalProperty( "initialFrames" ).indexOf( "EventsFrame" ) != -1;
 
 		// If we're not a GUI and there are no GUI windows open
 		// (ie: the GUI loader command wasn't used), quit now.
@@ -1832,7 +1832,7 @@ public class KoLRequest extends Job implements KoLConstants
 		// the events.  Use the standard run method so that you wait
 		// for it to finish before calling it again on another event.
 
-		shouldLoadEventFrame |= StaticEntity.getGlobalProperty( "initialDesktop" ).indexOf( "EventsFrame" ) != -1 &&
+		shouldLoadEventFrame |= KoLSettings.getGlobalProperty( "initialDesktop" ).indexOf( "EventsFrame" ) != -1 &&
 			KoLDesktop.getInstance().isVisible();
 
 		if ( shouldLoadEventFrame )

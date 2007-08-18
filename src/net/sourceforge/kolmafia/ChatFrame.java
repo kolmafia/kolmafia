@@ -140,7 +140,7 @@ public class ChatFrame extends KoLFrame
 	}
 
 	public JToolBar getToolbar()
-	{	return StaticEntity.getBooleanProperty( "useChatToolbar" ) ? super.getToolbar() : null;
+	{	return KoLSettings.getBooleanProperty( "useChatToolbar" ) ? super.getToolbar() : null;
 	}
 
 	public JTabbedPane getTabbedPane()
@@ -474,7 +474,7 @@ public class ChatFrame extends KoLFrame
 				break;
 			}
 
-			if ( StaticEntity.getBooleanProperty( "chatLinksUseRelay" ) || !urlString.startsWith( "show" ) )
+			if ( KoLSettings.getBooleanProperty( "chatLinksUseRelay" ) || !urlString.startsWith( "show" ) )
 				StaticEntity.getClient().openRelayBrowser( urlString, false );
 			else
 				ProfileFrame.showRequest( KoLRequest.VISITOR.constructURLString( urlString ) );

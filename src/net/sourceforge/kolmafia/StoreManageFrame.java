@@ -84,7 +84,7 @@ public class StoreManageFrame extends KoLPanelFrame
 
 	public static final void updateEarnings( long potentialEarnings )
 	{
-		if ( INSTANCE == null || StaticEntity.getGlobalProperty( "initialDesktop" ).indexOf( "StoreManageFrame" ) != -1 )
+		if ( INSTANCE == null || KoLSettings.getGlobalProperty( "initialDesktop" ).indexOf( "StoreManageFrame" ) != -1 )
 			return;
 
 		INSTANCE.setTitle( "Store Manager (potential earnings: " + COMMA_FORMAT.format( potentialEarnings ) + " meat)" );

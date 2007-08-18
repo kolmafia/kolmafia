@@ -1148,7 +1148,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 			changePotionImages( buffer );
 
-			if ( StaticEntity.getBooleanProperty( "relayAddsUseLinks" ) )
+			if ( KoLSettings.getBooleanProperty( "relayAddsUseLinks" ) )
 				addUseLinks( location, buffer );
 
 			if ( buffer.indexOf( "showplayer.php" ) != -1 && buffer.indexOf( "rcm.js" ) == -1 && buffer.indexOf( "rcm.2.js" ) == -1 )
@@ -1157,7 +1157,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			StaticEntity.globalStringReplace( buffer, "type=text ", "type=text onFocus='this.select();' " );
 		}
 
-		String defaultColor = StaticEntity.getProperty( "defaultBorderColor" );
+		String defaultColor = KoLSettings.getUserProperty( "defaultBorderColor" );
 		if ( !defaultColor.equals( "blue" ) )
 		{
 			StaticEntity.globalStringReplace( buffer, "bgcolor=blue", "bgcolor=\"" + defaultColor + "\"" );
@@ -1637,7 +1637,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( debugIndex != -1 )
 			buffer.delete( debugIndex, buffer.indexOf( "</font>", debugIndex ) );
 
-		if ( !StaticEntity.getBooleanProperty( "relayAddsCustomCombat" ) )
+		if ( !KoLSettings.getBooleanProperty( "relayAddsCustomCombat" ) )
 			return;
 
 		int insertionPoint = buffer.indexOf( "<tr" );
@@ -1658,7 +1658,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 			for ( int i = 1; i <= 5; ++i )
 			{
-				String action = StaticEntity.getProperty( "customCombatSkill" + i );
+				String action = KoLSettings.getUserProperty( "customCombatSkill" + i );
 				if ( !action.equals( "" ) )
 					addFightButton( urlString, buffer, actionBuffer, action, FightRequest.getCurrentRound() > 0 );
 			}
@@ -1679,14 +1679,14 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// Change stone sphere names in item dropdown
 		changeSphereNames( buffer );
 
-		if ( StaticEntity.getBooleanProperty( "relayAddsRoundNumber" ) )
+		if ( KoLSettings.getBooleanProperty( "relayAddsRoundNumber" ) )
 		{
 			int combatIndex = buffer.indexOf( "!</b>" );
 			if ( combatIndex != -1 )
 				buffer.insert( combatIndex, ": Round " + FightRequest.getCurrentRound() );
 		}
 
-		if ( !StaticEntity.getBooleanProperty( "relayAddsMonsterHealth" ) )
+		if ( !KoLSettings.getBooleanProperty( "relayAddsMonsterHealth" ) )
 			return;
 
 		if ( FightRequest.getLastMonster() == null || FightRequest.getLastMonster().getAdjustedHP(0) == 0 )
@@ -1750,7 +1750,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			String name = TradeableItemDatabase.getItemName( i );
 			if ( buffer.indexOf( name ) != -1 )
 			{
-				String effect = StaticEntity.getProperty( "lastBangPotion" + i );
+				String effect = KoLSettings.getUserProperty( "lastBangPotion" + i );
 				if ( !effect.equals( "" ) )
 				{
 					potionNames.add( name );
@@ -1783,7 +1783,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			String name = TradeableItemDatabase.getItemName( i );
 			if ( buffer.indexOf( name ) != -1 )
 			{
-				String effect = StaticEntity.getProperty( "lastBangPotion" + i );
+				String effect = KoLSettings.getUserProperty( "lastBangPotion" + i );
 				if ( effect.equals( "" ) )
 					continue;
 
@@ -1820,7 +1820,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		for ( int i = 2271; i <= 2276; ++i )
 		{
-			int glyph = StaticEntity.getIntegerProperty( "lastDustyBottle" + i );
+			int glyph = KoLSettings.getIntegerProperty( "lastDustyBottle" + i );
 			for ( int j = 0; j < 3; ++j )
 				if ( glyph == glyphs[j] )
 				{
@@ -1855,7 +1855,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( buffer.indexOf( name ) == -1 )
 			return;
 
-		String effect = StaticEntity.getProperty( "lastStoneSphere" + itemId );
+		String effect = KoLSettings.getUserProperty( "lastStoneSphere" + itemId );
 		if ( effect.equals( "" ) )
 			return;
 
@@ -1873,7 +1873,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		for ( int i = 2174; i <= 2177; ++i )
 		{
 			String name = TradeableItemDatabase.getItemName( i );
-			String effect = StaticEntity.getProperty( "lastStoneSphere" + i );
+			String effect = KoLSettings.getUserProperty( "lastStoneSphere" + i );
 
 			if ( buffer.indexOf( name ) != -1 && !effect.equals( "" ) )
 				StaticEntity.globalStringReplace( buffer, name, name + " of " + effect );
@@ -2110,7 +2110,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 						useType = "use";
 						useLocation = "inv_use.php?pwd=&which=1&whichitem=";
 					}
-					else if ( StaticEntity.getBooleanProperty( "relayUsesInlineLinks" ) )
+					else if ( KoLSettings.getBooleanProperty( "relayUsesInlineLinks" ) )
 					{
 						useType = "use";
 						useLocation = "#";
@@ -2214,7 +2214,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 					else if ( (itemId == 363 || itemId == 364 || itemId == 365) )
 					{
-						AdventureResult ore = new AdventureResult( StaticEntity.getProperty( "trapperOre" ), itemCount, false );
+						AdventureResult ore = new AdventureResult( KoLSettings.getUserProperty( "trapperOre" ), itemCount, false );
 
 						if ( ore.getItemId() == itemId )
 						{
@@ -2282,10 +2282,10 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					// Bounty items get a count and a link
 					// to the Bounty Hunter Hunter.
 
-					else if ( itemId == StaticEntity.getIntegerProperty( "currentBountyItem" ) ||
+					else if ( itemId == KoLSettings.getIntegerProperty( "currentBountyItem" ) ||
 						  TradeableItemDatabase.isBountyItem( itemId ) )
 					{
-						StaticEntity.setProperty( "currentBountyItem", String.valueOf( itemId ) );
+						KoLSettings.setUserProperty( "currentBountyItem", String.valueOf( itemId ) );
 						AdventureResult item = new AdventureResult( itemId, 0 );
 						useType = String.valueOf( item.getCount( inventory ) );
 						useLocation = "bhh.php";
@@ -2325,7 +2325,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					buffer.append( itemId );
 					buffer.append( "); void(0);\"></form></div>" );
 				}
-				else if ( !StaticEntity.getBooleanProperty( "relayUsesInlineLinks" ) || !useLocation.startsWith( "inv" ) )
+				else if ( !KoLSettings.getBooleanProperty( "relayUsesInlineLinks" ) || !useLocation.startsWith( "inv" ) )
 				{
 					useLinkMatcher.appendReplacement( buffer, "You acquire$1 <font size=1>[<a href=\"" +
 						useLocation.trim() + "\">" + useType + "</a>]</font>" );
@@ -2433,7 +2433,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		String text = buffer.toString();
 		buffer.setLength(0);
 
-		String layout = StaticEntity.getProperty( "tavernLayout" );
+		String layout = KoLSettings.getUserProperty( "tavernLayout" );
 
 		for ( int i = 1; i <= 25; ++i )
 		{

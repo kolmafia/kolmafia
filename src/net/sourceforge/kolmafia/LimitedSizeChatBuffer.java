@@ -97,7 +97,7 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 	public static final void updateFontSize()
 	{
 		ChatBuffer.BUFFER_STYLE = "body { font-family: sans-serif; font-size: " +
-			StaticEntity.getProperty( "chatFontSize" ) + "; } a { color: black; text-decoration: none; }";
+			KoLSettings.getUserProperty( "chatFontSize" ) + "; } a { color: black; text-decoration: none; }";
 	}
 
 	/**

@@ -335,8 +335,13 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static final void reset( String newUserName )
 	{
+		if ( newUserName.equals( username ) )
+			return;
+
 		username = newUserName;
+
 		KoLCharacter.reset();
+		KoLSettings.reset( username );
 	}
 
 	public static final void reset()
@@ -426,7 +431,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 		resetInventory();
 
-		int battleIndex = battleSkillNames.indexOf( StaticEntity.getProperty( "battleAction" ) );
+		int battleIndex = battleSkillNames.indexOf( KoLSettings.getUserProperty( "battleAction" ) );
 		battleSkillNames.setSelectedIndex( battleIndex == -1 ? 0 : battleIndex );
 	}
 
@@ -435,7 +440,7 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	public static final int getFullness()
-	{	return StaticEntity.getIntegerProperty( "currentFullness" );
+	{	return KoLSettings.getIntegerProperty( "currentFullness" );
 	}
 
 	public static final int getFullnessLimit()
@@ -461,7 +466,7 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	public static final int getSpleenUse()
-	{	return StaticEntity.getIntegerProperty( "currentSpleenUse" );
+	{	return KoLSettings.getIntegerProperty( "currentSpleenUse" );
 	}
 
 	public static final int getSpleenLimit()
@@ -1031,7 +1036,7 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	public static final boolean currentBooleanModifier( String name )
-	{	return currentModifiers.getBoolean( name );
+	{	return currentModifiers.getBooleanProperty( name );
 	}
 
 	/**
@@ -1968,7 +1973,7 @@ public abstract class KoLCharacter extends StaticEntity
 		addDerivedSkills();
 		usableSkills.sort();
 
-		battleSkillNames.setSelectedItem( StaticEntity.getProperty( "battleAction" ) );
+		battleSkillNames.setSelectedItem( KoLSettings.getUserProperty( "battleAction" ) );
 	}
 
 	/**
@@ -2653,9 +2658,9 @@ public abstract class KoLCharacter extends StaticEntity
 
 		// Add in strung-up quartet.
 
-		if ( KoLCharacter.getAscensions() == StaticEntity.getIntegerProperty( "lastQuartetAscension" ) )
+		if ( KoLCharacter.getAscensions() == KoLSettings.getIntegerProperty( "lastQuartetAscension" ) )
 		{
-			switch ( StaticEntity.getIntegerProperty( "lastQuartetRequest" ) )
+			switch ( KoLSettings.getIntegerProperty( "lastQuartetRequest" ) )
 			{
 			case 1:
 				newModifiers.add( Modifiers.MONSTER_LEVEL, 5 );

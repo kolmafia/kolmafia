@@ -201,14 +201,14 @@ public class Louvre
 			for ( int j = 0; j < LouvreChoiceTable[i].length; ++j )
 				LouvreChoiceTable[i][j] = 0;
 
-		int lastLouvreAscension = StaticEntity.getIntegerProperty( "lastLouvreMap" );
+		int lastLouvreAscension = KoLSettings.getIntegerProperty( "lastLouvreMap" );
 		if ( lastLouvreAscension != KoLCharacter.getAscensions() )
 		{
-			StaticEntity.setProperty( "lastLouvreMap", String.valueOf( KoLCharacter.getAscensions() ) );
-			StaticEntity.setProperty( "louvreLayout", "" );
+			KoLSettings.setUserProperty( "lastLouvreMap", String.valueOf( KoLCharacter.getAscensions() ) );
+			KoLSettings.setUserProperty( "louvreLayout", "" );
 		}
 
-		String layout = StaticEntity.getProperty( "louvreLayout" );
+		String layout = KoLSettings.getUserProperty( "louvreLayout" );
 		if ( layout.equals( "" ) )
 			return;
 
@@ -232,8 +232,8 @@ public class Louvre
 			}
 		}
 
-		StaticEntity.setProperty( "lastLouvreMap", String.valueOf( KoLCharacter.getAscensions() ) );
-		StaticEntity.setProperty( "louvreLayout", map.toString() );
+		KoLSettings.setUserProperty( "lastLouvreMap", String.valueOf( KoLCharacter.getAscensions() ) );
+		KoLSettings.setUserProperty( "louvreLayout", map.toString() );
 	}
 
 	public static final boolean louvreChoice( int choice )
@@ -242,16 +242,16 @@ public class Louvre
 
 	private static final void resetDecisions()
 	{
-		int goal = StaticEntity.getIntegerProperty( "louvreDesiredGoal" );
+		int goal = KoLSettings.getIntegerProperty( "louvreDesiredGoal" );
 
 		if ( goal == Louvre.LouvreGoals.length + 1 )
 		{
 			if ( KoLCharacter.isMuscleClass() )
-				StaticEntity.setProperty( "louvreGoal", "4" );
+				KoLSettings.setUserProperty( "louvreGoal", "4" );
 			else if ( KoLCharacter.isMysticalityClass() )
-				StaticEntity.setProperty( "louvreGoal", "5" );
+				KoLSettings.setUserProperty( "louvreGoal", "5" );
 			else
-				StaticEntity.setProperty( "louvreGoal", "6" );
+				KoLSettings.setUserProperty( "louvreGoal", "6" );
 		}
 		else if ( goal == Louvre.LouvreGoals.length + 2 )
 		{
@@ -264,15 +264,15 @@ public class Louvre
 			int mox = KoLCharacter.getTotalMoxie();
 
 			if ( mus <= mys && mus <= mox )
-				StaticEntity.setProperty( "louvreGoal", "4" );
+				KoLSettings.setUserProperty( "louvreGoal", "4" );
 			else if ( mys <= mus && mys <= mox )
-				StaticEntity.setProperty( "louvreGoal", "5" );
+				KoLSettings.setUserProperty( "louvreGoal", "5" );
 			else
-				StaticEntity.setProperty( "louvreGoal", "6" );
+				KoLSettings.setUserProperty( "louvreGoal", "6" );
 		}
 		else
 		{
-			StaticEntity.setProperty( "louvreGoal", StaticEntity.getProperty( "louvreDesiredGoal" ) );
+			KoLSettings.setUserProperty( "louvreGoal", KoLSettings.getUserProperty( "louvreDesiredGoal" ) );
 		}
 	}
 
@@ -286,7 +286,7 @@ public class Louvre
 			return "";
 
 		// Get the routing tuple for this choice/goal
-		int goal = StaticEntity.getIntegerProperty( "louvreGoal" );
+		int goal = KoLSettings.getIntegerProperty( "louvreGoal" );
 
 		// Pick the best choice
 		return KoLCharacter.getLevel() < 14 ? pickNewExit( source, goal ) : pickOldExit( source, goal );

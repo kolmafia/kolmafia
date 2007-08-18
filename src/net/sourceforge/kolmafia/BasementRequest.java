@@ -787,7 +787,7 @@ public class BasementRequest extends AdventureRequest
 		DesiredEffect currentAddition;
 
 		Iterator it = sourceList.iterator();
-		boolean buyItems = StaticEntity.getBooleanProperty( "basementBuysItems" );
+		boolean buyItems = KoLSettings.getBooleanProperty( "basementBuysItems" );
 
 		while ( it.hasNext() )
 		{

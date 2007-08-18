@@ -58,7 +58,7 @@ public abstract class KoLMailManager extends StaticEntity
 
 	public static final boolean hasNewMessages()
 	{
-		String oldMessageId = getProperty( "lastMessageId" );
+		String oldMessageId = KoLSettings.getUserProperty( "lastMessageId" );
 
 		SortedListModel inbox = getMessages( "Inbox" );
 		if ( inbox.isEmpty() )
@@ -67,7 +67,7 @@ public abstract class KoLMailManager extends StaticEntity
 		KoLMailMessage latest = (KoLMailMessage) inbox.get(0);
 		String newMessageId = latest.getMessageId();
 
-		setProperty( "lastMessageId", newMessageId );
+		KoLSettings.setUserProperty( "lastMessageId", newMessageId );
 		return !oldMessageId.equals( newMessageId );
 	}
 
@@ -112,7 +112,7 @@ public abstract class KoLMailManager extends StaticEntity
 		if ( messageIndex != -1 )
 			mailbox.remove( messageIndex );
 
-		setProperty( "lastMessageCount", String.valueOf( getMessages( "Inbox" ).size() ) );
+		KoLSettings.setUserProperty( "lastMessageCount", String.valueOf( getMessages( "Inbox" ).size() ) );
 	}
 
 	public static final void deleteMessages( String boxname, Object [] messages )
@@ -131,7 +131,7 @@ public abstract class KoLMailManager extends StaticEntity
 				mailbox.remove( messageIndex );
 		}
 
-		setProperty( "lastMessageCount", String.valueOf( getMessages( "Inbox" ).size() ) );
+		KoLSettings.setUserProperty( "lastMessageCount", String.valueOf( getMessages( "Inbox" ).size() ) );
 	}
 
 	public static final void saveMessage( KoLMailMessage message )
@@ -143,7 +143,7 @@ public abstract class KoLMailManager extends StaticEntity
 		if ( messageIndex != -1 )
 			mailbox.remove( messageIndex );
 
-		setProperty( "lastMessageCount", String.valueOf( getMessages( "Inbox" ).size() ) );
+		KoLSettings.setUserProperty( "lastMessageCount", String.valueOf( getMessages( "Inbox" ).size() ) );
 	}
 
 	public static final void saveMessages( Object [] messages )
@@ -162,6 +162,6 @@ public abstract class KoLMailManager extends StaticEntity
 				mailbox.remove( messageIndex );
 		}
 
-		setProperty( "lastMessageCount", String.valueOf( getMessages( "Inbox" ).size() ) );
+		KoLSettings.setUserProperty( "lastMessageCount", String.valueOf( getMessages( "Inbox" ).size() ) );
 	}
 }

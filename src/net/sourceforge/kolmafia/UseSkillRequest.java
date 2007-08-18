@@ -156,7 +156,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		if ( this.skillId == 18 )
 		{
 			int mpRemaining = KoLCharacter.getCurrentMP();
-			int count = StaticEntity.getIntegerProperty( "candyHeartSummons" );
+			int count = KoLSettings.getIntegerProperty( "candyHeartSummons" );
 
 			while ( mpCost <= mpRemaining )
 			{
@@ -165,7 +165,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 				mpCost = Math.max( ((count + 1) * (count + 2)) / 2 + KoLCharacter.getManaCostAdjustment(), 1 );
 			}
 
-			maxPossible = count - StaticEntity.getIntegerProperty( "candyHeartSummons" );
+			maxPossible = count - KoLSettings.getIntegerProperty( "candyHeartSummons" );
 		}
 
 		if ( buffCount < 1 )
@@ -207,12 +207,12 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 		case 16:
 
-			maximumCast = Math.max( 1 - StaticEntity.getIntegerProperty( "snowconeSummons" ), 0 );
+			maximumCast = Math.max( 1 - KoLSettings.getIntegerProperty( "snowconeSummons" ), 0 );
 			break;
 
 		case 17:
 
-			maximumCast = Math.max( 1 - StaticEntity.getIntegerProperty( "grimoireSummons" ), 0 );
+			maximumCast = Math.max( 1 - KoLSettings.getIntegerProperty( "grimoireSummons" ), 0 );
 			break;
 
 		// Transcendental Noodlecraft affects # of summons for
@@ -224,7 +224,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			if ( KoLCharacter.hasSkill( "Transcendental Noodlecraft" ) )
 				maximumCast = 5;
 
-			maximumCast = Math.max( maximumCast - StaticEntity.getIntegerProperty( "noodleSummons" ), 0 );
+			maximumCast = Math.max( maximumCast - KoLSettings.getIntegerProperty( "noodleSummons" ), 0 );
 			break;
 
 		// The Way of Sauce affects # of summons for
@@ -236,7 +236,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			if ( KoLCharacter.hasSkill( "The Way of Sauce" ) )
 				maximumCast = 5;
 
-			maximumCast = Math.max( maximumCast - StaticEntity.getIntegerProperty( "reagentSummons" ), 0 );
+			maximumCast = Math.max( maximumCast - KoLSettings.getIntegerProperty( "reagentSummons" ), 0 );
 			break;
 
 		// Superhuman Cocktailcrafting affects # of summons for
@@ -248,7 +248,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			if ( KoLCharacter.hasSkill( "Superhuman Cocktailcrafting" ) )
 				maximumCast = 5;
 
-			maximumCast = Math.max( maximumCast - StaticEntity.getIntegerProperty( "cocktailSummons" ), 0 );
+			maximumCast = Math.max( maximumCast - KoLSettings.getIntegerProperty( "cocktailSummons" ), 0 );
 			break;
 
 		}
@@ -286,7 +286,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 				prepareWeapon( THIEF_WEAPONS );
 		}
 
-		if ( !KoLCharacter.canInteract() && StaticEntity.getBooleanProperty( "switchEquipmentForBuffs" ) )
+		if ( !KoLCharacter.canInteract() && KoLSettings.getBooleanProperty( "switchEquipmentForBuffs" ) )
 			reduceManaConsumption( skillId, isBuff );
 	}
 
@@ -691,30 +691,30 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		switch ( skillId )
 		{
 		case 16:
-			StaticEntity.setProperty( "snowconeSummons", String.valueOf( StaticEntity.getIntegerProperty( "snowconeSummons" ) + 1 ) );
+			KoLSettings.setUserProperty( "snowconeSummons", String.valueOf( KoLSettings.getIntegerProperty( "snowconeSummons" ) + 1 ) );
 			break;
 
 		case 17:
-			StaticEntity.setProperty( "grimoireSummons", String.valueOf( StaticEntity.getIntegerProperty( "grimoireSummons" ) + 1 ) );
+			KoLSettings.setUserProperty( "grimoireSummons", String.valueOf( KoLSettings.getIntegerProperty( "grimoireSummons" ) + 1 ) );
 			break;
 
 		case 18:
 			if ( ClassSkillsDatabase.getMPConsumptionById( 18 ) <= KoLCharacter.getCurrentMP() )
-				StaticEntity.setProperty( "candyHeartSummons", String.valueOf( StaticEntity.getIntegerProperty( "candyHeartSummons" ) + 1 ) );
+				KoLSettings.setUserProperty( "candyHeartSummons", String.valueOf( KoLSettings.getIntegerProperty( "candyHeartSummons" ) + 1 ) );
 
 			usableSkills.sort();
 			break;
 
 		case 3006:
-			StaticEntity.setProperty( "noodleSummons", String.valueOf( StaticEntity.getIntegerProperty( "noodleSummons" ) + count ) );
+			KoLSettings.setUserProperty( "noodleSummons", String.valueOf( KoLSettings.getIntegerProperty( "noodleSummons" ) + count ) );
 			break;
 
 		case 4006:
-			StaticEntity.setProperty( "reagentSummons", String.valueOf( StaticEntity.getIntegerProperty( "reagentSummons" ) + count ) );
+			KoLSettings.setUserProperty( "reagentSummons", String.valueOf( KoLSettings.getIntegerProperty( "reagentSummons" ) + count ) );
 			break;
 
 		case 5014:
-			StaticEntity.setProperty( "cocktailSummons", String.valueOf( StaticEntity.getIntegerProperty( "cocktailSummons" ) + count ) );
+			KoLSettings.setUserProperty( "cocktailSummons", String.valueOf( KoLSettings.getIntegerProperty( "cocktailSummons" ) + count ) );
 			break;
 		}
 

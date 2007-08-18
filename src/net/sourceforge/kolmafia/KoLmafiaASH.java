@@ -747,7 +747,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		if ( this == NAMESPACE_INTERPRETER )
 		{
-			String importString = getProperty( "commandLineNamespace" );
+			String importString = KoLSettings.getUserProperty( "commandLineNamespace" );
 			if ( importString.equals( "" ) )
 			{
 				KoLmafia.updateDisplay( ERROR_STATE, "No available namespace with function: " + functionName );
@@ -781,11 +781,11 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		String currentScript = (fileName == null) ? "<>" : "<" + fileName + ">";
-		String notifyList = StaticEntity.getProperty( "previousNotifyList" );
+		String notifyList = KoLSettings.getUserProperty( "previousNotifyList" );
 
 		if ( notifyRecipient != null && notifyList.indexOf( currentScript ) == -1 )
 		{
-			StaticEntity.setProperty( "previousNotifyList", notifyList + currentScript );
+			KoLSettings.setUserProperty( "previousNotifyList", notifyList + currentScript );
 
 			GreenMessageRequest notifier = new GreenMessageRequest( notifyRecipient, this );
 			RequestThread.postRequest( notifier );
@@ -3013,7 +3013,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		if ( !executeTopLevel )
 		{
-			String importString = getProperty( "commandLineNamespace" );
+			String importString = KoLSettings.getUserProperty( "commandLineNamespace" );
 			executeTopLevel = !importString.equals( lastImportString );
 			lastImportString = importString;
 		}
@@ -3128,7 +3128,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		case TYPE_LOCATION:
 			return (String) ((KoLAdventure) KoLFrame.input( message, AdventureDatabase.getAsLockableListModel().toArray(),
-				AdventureDatabase.getAdventure( getProperty( "lastAdventure" ) ) )).getAdventureName();
+				AdventureDatabase.getAdventure( KoLSettings.getUserProperty( "lastAdventure" ) ) )).getAdventureName();
 
 		case TYPE_SKILL:
 			return (String) ((UseSkillRequest) KoLFrame.input( message,
@@ -3169,7 +3169,7 @@ public class KoLmafiaASH extends StaticEntity
 	public String getLineAndFile()
 	{
 		if ( fileName == null )
-			return "(" + StaticEntity.getProperty( "commandLineNamespace" ) + ")";
+			return "(" + KoLSettings.getUserProperty( "commandLineNamespace" ) + ")";
 
 		String partialName = fileName.substring( fileName.lastIndexOf( File.separator ) + 1 );
 		return "(" + partialName + ", line " + lineNumber + ")";
@@ -3806,9 +3806,6 @@ public class KoLmafiaASH extends StaticEntity
 
 		params = new ScriptType[] { STRING_TYPE, STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "set_property", VOID_TYPE, params ) );
-
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "remove_property", VOID_TYPE, params ) );
 
 
 		// Functions for aggregates.
@@ -6090,7 +6087,7 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue get_property( ScriptVariable name )
 		{
 			String property = name.toStringValue().toString();
-			return !KoLSettings.isUserEditable( property ) ? STRING_INIT : new ScriptValue( getProperty( property ) );
+			return !KoLSettings.isUserEditable( property ) ? STRING_INIT : new ScriptValue( KoLSettings.getUserProperty( property ) );
 		}
 
 		public ScriptValue set_property( ScriptVariable name, ScriptVariable value )
@@ -6099,15 +6096,6 @@ public class KoLmafiaASH extends StaticEntity
 			// related settings, use the shell.
 
 			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", name.toStringValue().toString() + "=" + value.toStringValue().toString() );
-			return VOID_VALUE;
-		}
-
-		public ScriptValue remove_property( ScriptVariable name )
-		{
-			// In order to avoid code duplication for combat
-			// related settings, use the shell.
-
-			StaticEntity.removeProperty( name.toStringValue().toString() );
 			return VOID_VALUE;
 		}
 
@@ -6222,7 +6210,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue my_location()
 		{
-			String location = getProperty( "lastAdventure" );
+			String location = KoLSettings.getUserProperty( "lastAdventure" );
 			return location.equals( "" ) ? parseLocationValue( "Rest" ) : parseLocationValue( location );
 		}
 
@@ -6471,7 +6459,7 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			String name = arg.toStringValue().toString();
 			String mod = modifier.toStringValue().toString();
-			return new ScriptValue( Modifiers.getBooleanModifier( name, mod ) );
+			return new ScriptValue( Modifiers.getBooleanPropertyModifier( name, mod ) );
 		}
 
 		public ScriptValue effect_modifier( ScriptVariable arg, ScriptVariable modifier )

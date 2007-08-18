@@ -77,7 +77,7 @@ public abstract class MoodSettings implements KoLConstants
 		availableMoods.clear();
 		displayList.clear();
 
-		String currentMood = StaticEntity.getProperty( "currentMood" );
+		String currentMood = KoLSettings.getUserProperty( "currentMood" );
 		settingsFile = new File( SETTINGS_LOCATION, settingsFileName() );
 		loadSettings();
 
@@ -103,7 +103,7 @@ public abstract class MoodSettings implements KoLConstants
 		if ( mood.equals( "clear" ) || mood.equals( "autofill" ) || mood.startsWith( "exec" ) || mood.startsWith( "repeat" ) )
 			return;
 
-		StaticEntity.setProperty( "currentMood", mood );
+		KoLSettings.setUserProperty( "currentMood", mood );
 
 		ensureProperty( mood );
 		availableMoods.setSelectedItem( mood );
@@ -312,7 +312,7 @@ public abstract class MoodSettings implements KoLConstants
 
 	public static final void deleteCurrentMood()
 	{
-		String currentMood = StaticEntity.getProperty( "currentMood" );
+		String currentMood = KoLSettings.getUserProperty( "currentMood" );
 
 		if ( currentMood.equals( "default" ) )
 		{
@@ -336,7 +336,7 @@ public abstract class MoodSettings implements KoLConstants
 
 	public static final void copyTriggers( String newListName )
 	{
-		String currentMood = StaticEntity.getProperty( "currentMood" );
+		String currentMood = KoLSettings.getUserProperty( "currentMood" );
 
 		if ( newListName == "" )
 			return;
@@ -383,11 +383,11 @@ public abstract class MoodSettings implements KoLConstants
 		// Rather than keeping a safety for the player, let the player
 		// make the mistake of burning below their auto-restore threshold.
 
-		int starting = (int) (StaticEntity.getFloatProperty( "manaBurningThreshold" ) * (float) KoLCharacter.getMaximumMP());
+		int starting = (int) (KoLSettings.getFloatProperty( "manaBurningThreshold" ) * (float) KoLCharacter.getMaximumMP());
 		if ( shouldExecute && (starting < 0 || KoLCharacter.getCurrentMP() <= starting) )
 			return null;
 
-		int minimum = Math.max( 0, (int) (StaticEntity.getFloatProperty( "mpAutoRecovery" ) * (float) KoLCharacter.getMaximumMP()) ) + 1;
+		int minimum = Math.max( 0, (int) (KoLSettings.getFloatProperty( "mpAutoRecovery" ) * (float) KoLCharacter.getMaximumMP()) ) + 1;
 		minimum = Math.max( minimum, starting );
 
 		if ( shouldExecute && KoLCharacter.getCurrentMP() <= minimum )
@@ -428,7 +428,7 @@ public abstract class MoodSettings implements KoLConstants
 			if ( skillId == 6014 )
 				continue;
 
-			if ( !StaticEntity.getBooleanProperty( "allowEncounterRateBurning" ) )
+			if ( !KoLSettings.getBooleanProperty( "allowEncounterRateBurning" ) )
 				if ( skillId == 1019 || skillId == 5017 || skillId == 6015 || skillId == 6016 )
 					continue;
 
@@ -453,7 +453,7 @@ public abstract class MoodSettings implements KoLConstants
 			// If the player only wishes to cast buffs related to their
 			// mood, then skip the buff if it's not in the player's moods.
 
-			if ( !StaticEntity.getBooleanProperty( "allowNonMoodBurning" ) )
+			if ( !KoLSettings.getBooleanProperty( "allowNonMoodBurning" ) )
 			{
 				boolean shouldIgnore = true;
 
@@ -480,7 +480,7 @@ public abstract class MoodSettings implements KoLConstants
 
 	private static final String considerBreakfastBurning( int minimum, boolean shouldExecute )
 	{
-		if ( !StaticEntity.getBooleanProperty( "allowBreakfastBurning" ) )
+		if ( !KoLSettings.getBooleanProperty( "allowBreakfastBurning" ) )
 			return null;
 
 		for ( int i = 0; i < UseSkillRequest.BREAKFAST_SKILLS.length; ++i )
@@ -585,7 +585,7 @@ public abstract class MoodSettings implements KoLConstants
 
 	public static final boolean willExecute( int multiplicity )
 	{
-		if ( displayList.isEmpty() || StaticEntity.getProperty( "currentMood" ).equals( "apathetic" ) )
+		if ( displayList.isEmpty() || KoLSettings.getUserProperty( "currentMood" ).equals( "apathetic" ) )
 			return false;
 
 		boolean willExecute = false;
@@ -771,7 +771,7 @@ public abstract class MoodSettings implements KoLConstants
 			reader.close();
 			reader = null;
 
-			setMood( StaticEntity.getProperty( "currentMood" ) );
+			setMood( KoLSettings.getUserProperty( "currentMood" ) );
 		}
 		catch ( IOException e1 )
 		{

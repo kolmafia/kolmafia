@@ -144,7 +144,7 @@ public abstract class KoLMessenger extends StaticEntity
 		instantMessageBuffers.clear();
 
 		contactsFrame = new ContactListFrame( onlineContacts );
-		useTabbedChat = getBooleanProperty( "useTabbedChatFrame" );
+		useTabbedChat = KoLSettings.getBooleanProperty( "useTabbedChatFrame" );
 
 		if ( useTabbedChat )
 			(new CreateFrameRunnable( TabbedChatFrame.class )).run();
@@ -156,9 +156,9 @@ public abstract class KoLMessenger extends StaticEntity
 
 	private static final void updateSettings()
 	{
-		enableMonitor = StaticEntity.getBooleanProperty( "useChatMonitor" );
-		channelsSeparate = StaticEntity.getBooleanProperty( "useSeparateChannels" );
-		eventsIgnored = StaticEntity.getBooleanProperty( "greenScreenProtection" );
+		enableMonitor = KoLSettings.getBooleanProperty( "useChatMonitor" );
+		channelsSeparate = KoLSettings.getBooleanProperty( "useSeparateChannels" );
+		eventsIgnored = KoLSettings.getBooleanProperty( "greenScreenProtection" );
 	}
 
 	public static final String getChatLogName( String key )
@@ -214,7 +214,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 		LimitedSizeChatBuffer.clearHighlights();
 
-		String [] highlights = getProperty( "highlightList" ).trim().split( "\n+" );
+		String [] highlights = KoLSettings.getUserProperty( "highlightList" ).trim().split( "\n+" );
 
 		if ( highlights.length > 1 )
 		{
@@ -413,7 +413,7 @@ public abstract class KoLMessenger extends StaticEntity
 		for ( int i = 1; i < contactList.length; ++i )
 			onlineContacts.add( contactList[i] );
 
-		if ( getBooleanProperty( "useContactsFrame" ) )
+		if ( KoLSettings.getBooleanProperty( "useContactsFrame" ) )
 		{
 			contactsFrame.setTitle( contactList[0] );
 			contactsFrame.setVisible( true );
@@ -476,7 +476,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 			updateContactList( contactList );
 
-			if ( !getBooleanProperty( "useContactsFrame" ) )
+			if ( !KoLSettings.getBooleanProperty( "useContactsFrame" ) )
 			{
 				LimitedSizeChatBuffer currentChatBuffer = getChatBuffer( updateChannel );
 				currentChatBuffer.append( StaticEntity.singleStringReplace(
@@ -772,7 +772,7 @@ public abstract class KoLMessenger extends StaticEntity
 			return true;
 		}
 
-		String scriptName = StaticEntity.getProperty( "chatbotScript" );
+		String scriptName = KoLSettings.getUserProperty( "chatbotScript" );
 		if ( scriptName.equals( "" ) )
 			return false;
 
@@ -781,9 +781,9 @@ public abstract class KoLMessenger extends StaticEntity
 			return false;
 
 		lastBlueMessage = channel;
-		StaticEntity.setProperty( "chatbotScriptExecuted", "false" );
+		KoLSettings.setUserProperty( "chatbotScriptExecuted", "false" );
 		interpreter.execute( "main", new String [] { channel, message } );
-		return StaticEntity.getBooleanProperty( "chatbotScriptExecuted" );
+		return KoLSettings.getBooleanProperty( "chatbotScriptExecuted" );
 	}
 
 	public static final String lastBlueMessage()
@@ -811,7 +811,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 			LimitedSizeChatBuffer buffer = getChatBuffer( bufferKey );
 
-			if ( StaticEntity.getBooleanProperty( "logChatMessages" ) )
+			if ( KoLSettings.getBooleanProperty( "logChatMessages" ) )
 				buffer.setActiveLogFile( getChatLogName( bufferKey ) );
 
 			buffer.append( displayHTML );
@@ -908,13 +908,13 @@ public abstract class KoLMessenger extends StaticEntity
 		// Add the appropriate eSolu scriptlet additions to the
 		// processed chat message.
 
-		if ( !getProperty( "eSoluScriptType" ).equals( "0" ) )
+		if ( !KoLSettings.getUserProperty( "eSoluScriptType" ).equals( "0" ) )
 		{
 			Matcher whoMatcher = Pattern.compile( "showplayer\\.php\\?who=[\\d]+" ).matcher( message );
 			if ( whoMatcher.find() )
 			{
 				String link = whoMatcher.group();
-				boolean useColors = getProperty( "eSoluScriptType" ).equals( "1" );
+				boolean useColors = KoLSettings.getUserProperty( "eSoluScriptType" ).equals( "1" );
 
 				StringBuffer linkBuffer = new StringBuffer();
 
@@ -1019,7 +1019,7 @@ public abstract class KoLMessenger extends StaticEntity
 		{
 			LimitedSizeChatBuffer buffer = new LimitedSizeChatBuffer( KoLCharacter.getUserName() + ": " +
 				channel + " - Started " + Calendar.getInstance().getTime().toString(), true,
-				isRunning && (!channel.equals( "[main]" ) || StaticEntity.getBooleanProperty( "useSeparateChannels" )) );
+				isRunning && (!channel.equals( "[main]" ) || KoLSettings.getBooleanProperty( "useSeparateChannels" )) );
 
 			instantMessageBuffers.put( channel, buffer );
 			if ( channel.startsWith( "/" ) )
@@ -1033,7 +1033,7 @@ public abstract class KoLMessenger extends StaticEntity
 					SwingUtilities.invokeLater( new CreateFrameRunnable( ChatFrame.class, new String [] { channel } ) );
 			}
 
-			if ( StaticEntity.getBooleanProperty( "logChatMessages" ) )
+			if ( KoLSettings.getBooleanProperty( "logChatMessages" ) )
 				buffer.setActiveLogFile( getChatLogName( channel ) );
 
 			if ( highlighting && !channel.equals( "[high]" ) )
@@ -1097,11 +1097,11 @@ public abstract class KoLMessenger extends StaticEntity
 
 		StringBuffer newSetting = new StringBuffer();
 
-		newSetting.append( getProperty( "highlightList" ) );
+		newSetting.append( KoLSettings.getUserProperty( "highlightList" ) );
 		newSetting.append( "\n" );
 		newSetting.append( LimitedSizeChatBuffer.addHighlight( highlight, color ) );
 
-		setProperty( "highlightList", newSetting.toString().trim() );
+		KoLSettings.setUserProperty( "highlightList", newSetting.toString().trim() );
 
 		Object [] keys = instantMessageBuffers.keySet().toArray();
 		for ( int i = 0; i < keys.length; ++i )
@@ -1144,7 +1144,7 @@ public abstract class KoLMessenger extends StaticEntity
 				String settingString = LimitedSizeChatBuffer.removeHighlight(i);
 				LimitedSizeChatBuffer.highlightBuffer.clearBuffer();
 
-				String oldSetting = getProperty( "highlightList" );
+				String oldSetting = KoLSettings.getUserProperty( "highlightList" );
 				int startIndex = oldSetting.indexOf( settingString );
 				int endIndex = startIndex + settingString.length();
 
@@ -1154,7 +1154,7 @@ public abstract class KoLMessenger extends StaticEntity
 				if ( endIndex < oldSetting.length() )
 					newSetting.append( oldSetting.substring( endIndex ) );
 
-				setProperty( "highlightList", MULTILINE_PATTERN.matcher( newSetting.toString() ).replaceAll( "\n" ).trim() );
+				KoLSettings.setUserProperty( "highlightList", MULTILINE_PATTERN.matcher( newSetting.toString() ).replaceAll( "\n" ).trim() );
 			}
 		}
 

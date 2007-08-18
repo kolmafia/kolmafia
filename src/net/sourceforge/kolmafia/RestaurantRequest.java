@@ -219,7 +219,7 @@ public class RestaurantRequest extends KoLRequest
 		RequestLogger.updateSessionLog( "eat 1 " + itemName );
 
 		if ( fullness > 0 && KoLCharacter.getFullness() + fullness <= KoLCharacter.getFullnessLimit() )
-			StaticEntity.setProperty( "currentFullness", String.valueOf( KoLCharacter.getFullness() + fullness ) );
+			KoLSettings.setUserProperty( "currentFullness", String.valueOf( KoLCharacter.getFullness() + fullness ) );
 
 		return true;
 	}

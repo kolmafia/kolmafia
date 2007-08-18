@@ -111,7 +111,7 @@ public class BuffRequestFrame extends KoLFrame
 		this.framePanel.add( this.mainPanel = new BuffRequestPanel(), "" );
 
 		this.nameContainer.add( new SimpleScrollPane( new JPanel() ), "" );
-		this.types.setSelectedIndex( StaticEntity.getIntegerProperty( "lastBuffRequestType" ) );
+		this.types.setSelectedIndex( KoLSettings.getIntegerProperty( "lastBuffRequestType" ) );
 		this.resetCard();
 	}
 
@@ -121,7 +121,7 @@ public class BuffRequestFrame extends KoLFrame
 
 	public void dispose()
 	{
-		StaticEntity.setProperty( "lastBuffRequestType", String.valueOf( types.getSelectedIndex() ) );
+		KoLSettings.setUserProperty( "lastBuffRequestType", String.valueOf( types.getSelectedIndex() ) );
 
 		this.panelMap.clear();
 		this.mainPanel.dispose();

@@ -100,7 +100,7 @@ public class MallSearchFrame extends KoLPanelFrame
 		{
 			super( "search", "purchase", "cancel", new Dimension( 100, 20 ), new Dimension( 250, 20 ) );
 
-			this.searchField = StaticEntity.getBooleanProperty( "cacheMallSearches" ) ?
+			this.searchField = KoLSettings.getBooleanProperty( "cacheMallSearches" ) ?
 				(JComponent) new MutableComboBox( pastSearches, true ) : (JComponent) new JTextField();
 
 			this.countField = new JTextField();
@@ -124,7 +124,7 @@ public class MallSearchFrame extends KoLPanelFrame
 			elements[1] = new VerifiableElement( "Search Limit: ", this.countField );
 			elements[2] = new VerifiableElement( " ", checkBoxPanels, false );
 
-			int searchCount = StaticEntity.getIntegerProperty( "defaultLimit" );
+			int searchCount = KoLSettings.getIntegerProperty( "defaultLimit" );
 			this.countField.setText( searchCount <= 0 ? "5" : String.valueOf( searchCount ) );
 
 			this.setContent( elements );
@@ -137,7 +137,7 @@ public class MallSearchFrame extends KoLPanelFrame
 		{
 			int searchCount = getValue( this.countField, 0 );
 			if ( searchCount > 0 )
-				StaticEntity.setProperty( "defaultLimit", String.valueOf( searchCount ) );
+				KoLSettings.setUserProperty( "defaultLimit", String.valueOf( searchCount ) );
 
 			MallPurchaseRequest.setUsePriceComparison( this.forceSortingCheckBox.isSelected() );
 

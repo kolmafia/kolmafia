@@ -760,15 +760,15 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( fullness > 0 )
 		{
 			range = (String) getAdventureMap(
-				StaticEntity.getBooleanProperty( "showGainsPerUnit" ),
+				KoLSettings.getBooleanProperty( "showGainsPerUnit" ),
 				KoLCharacter.getSign().indexOf( "Opossum" ) != -1,
 				activeEffects.contains( GOT_MILK ),
-				StaticEntity.getIntegerProperty( "munchiesPillsUsed" ) > 0 ).get( getCanonicalName( name ) );
+				KoLSettings.getIntegerProperty( "munchiesPillsUsed" ) > 0 ).get( getCanonicalName( name ) );
 		}
 		else if ( inebriety > 0 )
 		{
 			range = (String) getAdventureMap(
-				StaticEntity.getBooleanProperty( "showGainsPerUnit" ),
+				KoLSettings.getBooleanProperty( "showGainsPerUnit" ),
 				KoLCharacter.getSign().indexOf( "Blender" ) != -1,
 				activeEffects.contains( ODE ),
 				false ).get( getCanonicalName( name ) );
@@ -1060,7 +1060,7 @@ public class TradeableItemDatabase extends KoLDatabase
 
 	public static final void identifyDustyBottles()
 	{
-		int lastAscension = StaticEntity.getIntegerProperty( "lastDustyBottleReset" );
+		int lastAscension = KoLSettings.getIntegerProperty( "lastDustyBottleReset" );
 		if ( lastAscension == KoLCharacter.getAscensions() )
 			return;
 
@@ -1071,7 +1071,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		for ( int i = 2271; i <= 2276; ++i )
 			identifyDustyBottle( i );
 
-		StaticEntity.setProperty( "lastDustyBottleReset", String.valueOf( KoLCharacter.getAscensions() ) );
+		KoLSettings.setUserProperty( "lastDustyBottleReset", String.valueOf( KoLCharacter.getAscensions() ) );
 
 		// Set the consumption data
 
@@ -1092,16 +1092,16 @@ public class TradeableItemDatabase extends KoLDatabase
 				glyph = matcher.group(1);
 		}
 
-		StaticEntity.setProperty( "lastDustyBottle" + itemId, glyph );
+		KoLSettings.setUserProperty( "lastDustyBottle" + itemId, glyph );
 	}
 
 	public static final void getDustyBottles()
 	{
-		int lastAscension = StaticEntity.getIntegerProperty( "lastDustyBottleReset" );
+		int lastAscension = KoLSettings.getIntegerProperty( "lastDustyBottleReset" );
 		if ( lastAscension < KoLCharacter.getAscensions() )
 		{
 			for ( int i = 2271; i <= 2276; ++i )
-				StaticEntity.setProperty( "lastDustyBottle" + i, "" );
+				KoLSettings.setUserProperty( "lastDustyBottle" + i, "" );
 		}
 
 		setDustyBottles();
@@ -1119,7 +1119,7 @@ public class TradeableItemDatabase extends KoLDatabase
 
 	private static final void setDustyBottle( int itemId )
 	{
-		int glyph = StaticEntity.getIntegerProperty( "lastDustyBottle" + itemId );
+		int glyph = KoLSettings.getIntegerProperty( "lastDustyBottle" + itemId );
 		switch ( glyph )
 		{
 		case 0:
@@ -1176,7 +1176,7 @@ public class TradeableItemDatabase extends KoLDatabase
 
 	public static final String dustyBottleType( int itemId )
 	{
-		int glyph = StaticEntity.getIntegerProperty( "lastDustyBottle" + itemId );
+		int glyph = KoLSettings.getIntegerProperty( "lastDustyBottle" + itemId );
 		switch ( glyph )
 		{
 		case 1:

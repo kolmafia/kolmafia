@@ -306,8 +306,8 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 		{
 			super( "attack", "profile" );
 
-			this.winMessage = new JTextField( StaticEntity.getProperty( "defaultFlowerWinMessage" ) );
-			this.lossMessage = new JTextField( StaticEntity.getProperty( "defaultFlowerLossMessage" ) );
+			this.winMessage = new JTextField( KoLSettings.getUserProperty( "defaultFlowerWinMessage" ) );
+			this.lossMessage = new JTextField( KoLSettings.getUserProperty( "defaultFlowerLossMessage" ) );
 
 			this.stanceSelect = new JComboBox();
 			this.stanceSelect.addItem( "Bully your opponent" );
@@ -432,7 +432,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 
 		public TableCellRenderer getCellRenderer( int row, int column )
 		{
-			if ( StaticEntity.getProperty( "currentPvpVictories" ).indexOf( (String) this.getValueAt( row, 0 ) ) != -1 )
+			if ( KoLSettings.getUserProperty( "currentPvpVictories" ).indexOf( (String) this.getValueAt( row, 0 ) ) != -1 )
 				return DISABLED_ROW_RENDERER;
 
 			return ENABLED_ROW_RENDERER;

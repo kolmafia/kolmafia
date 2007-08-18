@@ -132,8 +132,8 @@ public class FlowerHunterRequest extends KoLRequest
 		this.addFormField( "winmessage", win );
 		this.addFormField( "losemessage", lose );
 
-		StaticEntity.setProperty( "defaultFlowerWinMessage", win );
-		StaticEntity.setProperty( "defaultFlowerLossMessage", lose );
+		KoLSettings.setUserProperty( "defaultFlowerWinMessage", win );
+		KoLSettings.setUserProperty( "defaultFlowerLossMessage", lose );
 	}
 
 	public FlowerHunterRequest( String clanId )

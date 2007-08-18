@@ -82,7 +82,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 
 	public static final JCheckBox [] getCheckboxes()
 	{
-		String mpRestoreSetting = getProperty( "mpAutoRecoveryItems" );
+		String mpRestoreSetting = KoLSettings.getUserProperty( "mpAutoRecoveryItems" );
 		JCheckBox [] restoreCheckbox = new JCheckBox[ CONFIGURES.length ];
 
 		for ( int i = 0; i < CONFIGURES.length; ++i )
@@ -189,7 +189,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 
 			if ( this == EXPRESS )
 			{
-				if ( StaticEntity.getBooleanProperty( "expressCardUsed" ) )
+				if ( KoLSettings.getBooleanProperty( "expressCardUsed" ) )
 					return;
 
 				if ( inventory.contains( EXPRESS_CARD ) )

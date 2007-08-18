@@ -181,7 +181,7 @@ public class RequestFrame extends KoLFrame
 		topMenu.add( Box.createHorizontalStrut( 20 ) );
 
 		this.scriptSelect = new JComboBox();
-		String [] scriptList = StaticEntity.getProperty( "scriptList" ).split( " \\| " );
+		String [] scriptList = KoLSettings.getUserProperty( "scriptList" ).split( " \\| " );
 		for ( int i = 0; i < scriptList.length; ++i )
 			this.scriptSelect.addItem( (i+1) + ": " + scriptList[i] );
 
@@ -289,7 +289,7 @@ public class RequestFrame extends KoLFrame
 
 		this.displayRequest( request );
 
-		if ( !this.isVisible() && StaticEntity.getGlobalProperty( "initialDesktop" ).indexOf( getFrameName() ) == -1 )
+		if ( !this.isVisible() && KoLSettings.getGlobalProperty( "initialDesktop" ).indexOf( getFrameName() ) == -1 )
 			this.setVisible( true );
 	}
 
@@ -320,11 +320,11 @@ public class RequestFrame extends KoLFrame
 			// New prevention mechanism: tell the requests that there
 			// will be no synchronization.
 
-			String original = StaticEntity.getProperty( "showAllRequests" );
-			StaticEntity.setProperty( "showAllRequests", "false" );
+			String original = KoLSettings.getUserProperty( "showAllRequests" );
+			KoLSettings.setUserProperty( "showAllRequests", "false" );
 
 			RequestThread.postRequest( request );
-			StaticEntity.setProperty( "showAllRequests", original );
+			KoLSettings.setUserProperty( "showAllRequests", original );
 
 			// If this resulted in a redirect, then update the display
 			// to indicate that you were redirected and the display

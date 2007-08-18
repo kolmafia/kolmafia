@@ -618,8 +618,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 	private boolean useBoxServant( AdventureResult servant, AdventureResult clockworkServant, AdventureResult noServantItem, AdventureResult skullItem, AdventureResult boxedItem )
 	{
-		if ( !StaticEntity.getBooleanProperty( "autoRepairBoxServants" ) )
-			return !StaticEntity.getBooleanProperty( "requireBoxServants" ) && AdventureDatabase.retrieveItem( noServantItem );
+		if ( !KoLSettings.getBooleanProperty( "autoRepairBoxServants" ) )
+			return !KoLSettings.getBooleanProperty( "requireBoxServants" ) && AdventureDatabase.retrieveItem( noServantItem );
 
 		// First, check to see if a box servant is available
 		// for usage, either normally, or through some form
@@ -648,11 +648,11 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 					usedServant = servant;
 			}
 
-			if ( KoLCharacter.canInteract() && StaticEntity.getBooleanProperty( "autoSatisfyWithMall" ) )
+			if ( KoLCharacter.canInteract() && KoLSettings.getBooleanProperty( "autoSatisfyWithMall" ) )
 				usedServant = servant;
 
 			if ( usedServant == null )
-				return !StaticEntity.getBooleanProperty( "requireBoxServants" ) && AdventureDatabase.retrieveItem( noServantItem );
+				return !KoLSettings.getBooleanProperty( "requireBoxServants" ) && AdventureDatabase.retrieveItem( noServantItem );
 		}
 
 		// Once you hit this point, you're guaranteed to

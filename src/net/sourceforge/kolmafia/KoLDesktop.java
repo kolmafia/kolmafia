@@ -93,7 +93,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 
 		JToolBar toolbarPanel = null;
 
-		switch ( StaticEntity.getIntegerProperty( "toolbarPosition" ) )
+		switch ( KoLSettings.getIntegerProperty( "toolbarPosition" ) )
 		{
 		case 1:
 			toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
@@ -116,11 +116,11 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 			addMainToolbar( toolbarPanel );
 
 		this.tabs.addChangeListener( this );
-		int scriptButtons = StaticEntity.getIntegerProperty( "scriptButtonPosition" );
+		int scriptButtons = KoLSettings.getIntegerProperty( "scriptButtonPosition" );
 
 		if ( scriptButtons != 0 )
 		{
-			String [] scriptList = StaticEntity.getProperty( "scriptList" ).split( " \\| " );
+			String [] scriptList = KoLSettings.getUserProperty( "scriptList" ).split( " \\| " );
 
 			JToolBar scriptBar = null;
 
@@ -150,11 +150,11 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 
 	public JTabbedPane getTabbedPane()
 	{
-		if ( StaticEntity.getBooleanProperty( "useDecoratedTabs" ) )
+		if ( KoLSettings.getBooleanProperty( "useDecoratedTabs" ) )
 		{
 			JTabbedPane tabs = new CloseTabbedPane();
 
-			if ( StaticEntity.getBooleanProperty( "allowCloseableDesktopTabs" ) )
+			if ( KoLSettings.getBooleanProperty( "allowCloseableDesktopTabs" ) )
 			{
 				((CloseTabbedPane)tabs).setCloseIconStyle( CloseTabPaneUI.RED_CLOSE_ICON );
 				((CloseTabbedPane)tabs).addCloseListener( this );
@@ -163,7 +163,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 			return tabs;
 		}
 
-		return StaticEntity.getBooleanProperty( "allowCloseableDesktopTabs" ) ?
+		return KoLSettings.getBooleanProperty( "allowCloseableDesktopTabs" ) ?
 			new CloseableTabbedPane() : new JTabbedPane();
 	}
 
@@ -191,7 +191,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 		isInitializing = true;
 		KoLmafiaGUI.checkFrameSettings();
 
-		String interfaceSetting = StaticEntity.getGlobalProperty( "initialDesktop" );
+		String interfaceSetting = KoLSettings.getGlobalProperty( "initialDesktop" );
 		if ( !interfaceSetting.equals( "" ) )
 		{
 			String [] interfaceArray = interfaceSetting.split( "," );
@@ -222,7 +222,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 	{
 		setVisible( false );
 
-		String setting = StaticEntity.getGlobalProperty( "initialDesktop" );
+		String setting = KoLSettings.getGlobalProperty( "initialDesktop" );
 		KoLFrame [] frames = StaticEntity.getExistingFrames();
 
 		for ( int i = 0; i < frames.length; ++i )
@@ -272,7 +272,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 
 	public static final boolean isInversionExempt( KoLFrame content )
 	{
-		return StaticEntity.getBooleanProperty( "avoidInvertingTabs" ) || content instanceof AdventureFrame || content instanceof FlowerHunterFrame ||
+		return KoLSettings.getBooleanProperty( "avoidInvertingTabs" ) || content instanceof AdventureFrame || content instanceof FlowerHunterFrame ||
 			content instanceof MailboxFrame || content instanceof SendMessageFrame;
 	}
 
@@ -360,7 +360,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 
 			toolbarPanel.add( new DisplayFrameButton( "Council", "council.gif", "CouncilFrame" ) );
 
-			if ( StaticEntity.getBooleanProperty( "mapLoadsMiniBrowser" ) )
+			if ( KoLSettings.getBooleanProperty( "mapLoadsMiniBrowser" ) )
 				toolbarPanel.add( new DisplayFrameButton( "Load in Mini Browser", "browser.gif", "RequestFrame" ) );
 			else
 				toolbarPanel.add( new InvocationButton( "Load in Web Browser", "browser.gif", StaticEntity.getClient(), "openRelayBrowser" ) );
@@ -402,7 +402,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 		if ( INSTANCE == null )
 			return;
 
-		String setting = StaticEntity.getGlobalProperty( "initialDesktop" );
+		String setting = KoLSettings.getGlobalProperty( "initialDesktop" );
 		for ( int i = 0; i < INSTANCE.tabListing.size(); ++i )
 		{
 			KoLFrame frame = (KoLFrame) INSTANCE.tabListing.get( i );

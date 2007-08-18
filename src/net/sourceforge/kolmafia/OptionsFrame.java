@@ -137,14 +137,14 @@ public class OptionsFrame extends KoLFrame
 		{
 			for ( int i = 0; i < this.options.length; ++i )
 				if ( this.options[i].length != 0 )
-					StaticEntity.setProperty( this.options[i][0], String.valueOf( this.optionBoxes[i].isSelected() ) );
+					KoLSettings.setUserProperty( this.options[i][0], String.valueOf( this.optionBoxes[i].isSelected() ) );
 		}
 
 		public void actionCancelled()
 		{
 			for ( int i = 0; i < this.options.length; ++i )
 				if ( this.options[i].length != 0 )
-					this.optionBoxes[i].setSelected( StaticEntity.getBooleanProperty( this.options[i][0] ) );
+					this.optionBoxes[i].setSelected( KoLSettings.getBooleanProperty( this.options[i][0] ) );
 		}
 	}
 
@@ -235,20 +235,20 @@ public class OptionsFrame extends KoLFrame
 			for ( int i = 0; i < this.options.length; ++i )
 			{
 				if ( !this.options[i][0].equals( "" ) )
-					StaticEntity.setProperty( this.options[i][0], String.valueOf( this.optionBoxes[i].isSelected() ) );
+					KoLSettings.setUserProperty( this.options[i][0], String.valueOf( this.optionBoxes[i].isSelected() ) );
 			}
 		}
 
 		public void actionCancelled()
 		{
-			String color = StaticEntity.getProperty( "defaultBorderColor" );
+			String color = KoLSettings.getUserProperty( "defaultBorderColor" );
 			if ( color.equals( "blue" ) )
 				this.colorChanger.setBackground( Color.blue );
 			else
 				this.colorChanger.setBackground( DataUtilities.toColor( color ) );
 
 			for ( int i = 0; i < this.options.length; ++i )
-				this.optionBoxes[i].setSelected( StaticEntity.getBooleanProperty( this.options[i][0] ) );
+				this.optionBoxes[i].setSelected( KoLSettings.getBooleanProperty( this.options[i][0] ) );
 		}
 	}
 
@@ -319,7 +319,7 @@ public class OptionsFrame extends KoLFrame
 		{
 			for ( int i = 0; i < this.options.length; ++i )
 				if ( !this.options[i][0].equals( "" ) )
-					StaticEntity.setProperty( this.options[i][0], String.valueOf( this.optionBoxes[i].isSelected() ) );
+					KoLSettings.setUserProperty( this.options[i][0], String.valueOf( this.optionBoxes[i].isSelected() ) );
 
 			this.actionCancelled();
 			ConcoctionsDatabase.refreshConcoctions();
@@ -329,7 +329,7 @@ public class OptionsFrame extends KoLFrame
 		{
 			for ( int i = 0; i < this.options.length; ++i )
 				if ( !this.options[i][0].equals( "" ) )
-					this.optionBoxes[i].setSelected( StaticEntity.getBooleanProperty( this.options[i][0] ) );
+					this.optionBoxes[i].setSelected( KoLSettings.getBooleanProperty( this.options[i][0] ) );
 		}
 	}
 
@@ -391,7 +391,7 @@ public class OptionsFrame extends KoLFrame
 		public ScriptButtonPanel()
 		{
 			super( "gCLI Toolbar Buttons", new LockableListModel() );
-			String [] scriptList = StaticEntity.getProperty( "scriptList" ).split( " \\| " );
+			String [] scriptList = KoLSettings.getUserProperty( "scriptList" ).split( " \\| " );
 
 			for ( int i = 0; i < scriptList.length; ++i )
 				this.list.add( scriptList[i] );
@@ -476,7 +476,7 @@ public class OptionsFrame extends KoLFrame
 				settingString.append( (String) this.list.getElementAt(i) );
 			}
 
-			StaticEntity.setProperty( "scriptList", settingString.toString() );
+			KoLSettings.setUserProperty( "scriptList", settingString.toString() );
 		}
 	}
 
@@ -569,17 +569,17 @@ public class OptionsFrame extends KoLFrame
 		{
 			for ( int i = 0; i < options.length; ++i )
 				if ( options[i].length > 0 )
-					StaticEntity.setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
+					KoLSettings.setUserProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
 
-			StaticEntity.setProperty( "eSoluScriptType", this.eSoluActiveOption.isSelected() ?
+			KoLSettings.setUserProperty( "eSoluScriptType", this.eSoluActiveOption.isSelected() ?
 				(this.eSoluColorlessOption.isSelected() ? "2" : "1") : "0" );
 
 			if ( this.fontSizes[0].isSelected() )
-				StaticEntity.setProperty( "chatFontSize", "small" );
+				KoLSettings.setUserProperty( "chatFontSize", "small" );
 			else if ( this.fontSizes[1].isSelected() )
-				StaticEntity.setProperty( "chatFontSize", "medium" );
+				KoLSettings.setUserProperty( "chatFontSize", "medium" );
 			else if ( this.fontSizes[2].isSelected() )
-				StaticEntity.setProperty( "chatFontSize", "large" );
+				KoLSettings.setUserProperty( "chatFontSize", "large" );
 
 			LimitedSizeChatBuffer.updateFontSize();
 
@@ -591,15 +591,15 @@ public class OptionsFrame extends KoLFrame
 		{
 			for ( int i = 0; i < options.length; ++i )
 				if ( options[i].length > 0 )
-					optionBoxes[i].setSelected( StaticEntity.getBooleanProperty( options[i][0] ) );
+					optionBoxes[i].setSelected( KoLSettings.getBooleanProperty( options[i][0] ) );
 
-			this.eSoluActiveOption.setSelected( StaticEntity.getIntegerProperty( "eSoluScriptType" ) > 0 );
-			this.eSoluColorlessOption.setSelected( StaticEntity.getIntegerProperty( "eSoluScriptType" ) > 1 );
+			this.eSoluActiveOption.setSelected( KoLSettings.getIntegerProperty( "eSoluScriptType" ) > 0 );
+			this.eSoluColorlessOption.setSelected( KoLSettings.getIntegerProperty( "eSoluScriptType" ) > 1 );
 
 			this.innerGradient.setBackground( tab.CloseTabPaneEnhancedUI.notifiedA );
 			this.outerGradient.setBackground( tab.CloseTabPaneEnhancedUI.notifiedB );
 
-			String fontSize = StaticEntity.getProperty( "chatFontSize" );
+			String fontSize = KoLSettings.getUserProperty( "chatFontSize" );
 			this.fontSizes[ fontSize.equals( "large" ) ? 2 : fontSize.equals( "medium" ) ? 1 : 0 ].setSelected( true );
 		}
 

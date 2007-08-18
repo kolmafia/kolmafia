@@ -225,7 +225,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 			writer = null;
 
 			KoLCharacter.battleSkillNames.setSelectedItem( "custom combat script" );
-			StaticEntity.setProperty( "battleAction", "custom combat script" );
+			KoLSettings.setUserProperty( "battleAction", "custom combat script" );
 
 			// After storing all the data on disk, go ahead
 			// and reload the data inside of the tree.
@@ -346,15 +346,15 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 	public void saveRestoreSettings()
 	{
-		StaticEntity.setProperty( "autoAbortThreshold", getPercentage( this.hpHaltCombatSelect ) );
-		StaticEntity.setProperty( "hpAutoRecovery", getPercentage( this.hpAutoRecoverSelect ) );
-		StaticEntity.setProperty( "hpAutoRecoveryTarget", getPercentage( this.hpAutoRecoverTargetSelect ) );
-		StaticEntity.setProperty( "hpAutoRecoveryItems", this.getSettingString( this.hpRestoreCheckbox ) );
+		KoLSettings.setUserProperty( "autoAbortThreshold", getPercentage( this.hpHaltCombatSelect ) );
+		KoLSettings.setUserProperty( "hpAutoRecovery", getPercentage( this.hpAutoRecoverSelect ) );
+		KoLSettings.setUserProperty( "hpAutoRecoveryTarget", getPercentage( this.hpAutoRecoverTargetSelect ) );
+		KoLSettings.setUserProperty( "hpAutoRecoveryItems", this.getSettingString( this.hpRestoreCheckbox ) );
 
-		StaticEntity.setProperty( "manaBurningThreshold", getPercentage( this.mpBalanceSelect ) );
-		StaticEntity.setProperty( "mpAutoRecovery", getPercentage( this.mpAutoRecoverSelect ) );
-		StaticEntity.setProperty( "mpAutoRecoveryTarget", getPercentage( this.mpAutoRecoverTargetSelect ) );
-		StaticEntity.setProperty( "mpAutoRecoveryItems", this.getSettingString( this.mpRestoreCheckbox ) );
+		KoLSettings.setUserProperty( "manaBurningThreshold", getPercentage( this.mpBalanceSelect ) );
+		KoLSettings.setUserProperty( "mpAutoRecovery", getPercentage( this.mpAutoRecoverSelect ) );
+		KoLSettings.setUserProperty( "mpAutoRecoveryTarget", getPercentage( this.mpAutoRecoverTargetSelect ) );
+		KoLSettings.setUserProperty( "mpAutoRecoveryItems", this.getSettingString( this.mpRestoreCheckbox ) );
 	}
 
 	private static final String getPercentage( JComboBox option )
@@ -363,7 +363,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 	private static final void setSelectedIndex( JComboBox option, String property )
 	{
-		int desiredIndex = (int) ((StaticEntity.getFloatProperty( property ) * 20.0f) + 1);
+		int desiredIndex = (int) ((KoLSettings.getFloatProperty( property ) * 20.0f) + 1);
 		option.setSelectedIndex( Math.min( Math.max( desiredIndex, 0 ), option.getItemCount() ) );
 	}
 
@@ -530,7 +530,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 		public void actionConfirmed()
 		{
-			String currentMood = StaticEntity.getProperty( "currentMood" );
+			String currentMood = KoLSettings.getUserProperty( "currentMood" );
 			if ( currentMood.equals( "apathetic" ) )
 			{
 				alert( "You cannot add triggers to an apathetic mood." );
@@ -652,7 +652,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 			public MoodComboBox()
 			{
 				super( MoodSettings.getAvailableMoods() );
-				this.setSelectedItem( StaticEntity.getProperty( "currentMood" ) );
+				this.setSelectedItem( KoLSettings.getUserProperty( "currentMood" ) );
 				this.addActionListener( new MoodComboBoxListener() );
 			}
 
@@ -859,8 +859,8 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 			conditionPanel.add( AdventureOptionsFrame.this.conditionField, BorderLayout.CENTER );
 			conditionPanel.add( AdventureOptionsFrame.this.autoSetCheckBox, BorderLayout.EAST );
 
-			AdventureOptionsFrame.this.autoSetCheckBox.setSelected( StaticEntity.getBooleanProperty( "autoSetConditions" ) );
-			AdventureOptionsFrame.this.conditionField.setEnabled( StaticEntity.getBooleanProperty( "autoSetConditions" ) );
+			AdventureOptionsFrame.this.autoSetCheckBox.setSelected( KoLSettings.getBooleanProperty( "autoSetConditions" ) );
+			AdventureOptionsFrame.this.conditionField.setEnabled( KoLSettings.getBooleanProperty( "autoSetConditions" ) );
 
 			addActionListener( AdventureOptionsFrame.this.autoSetCheckBox, new EnableObjectivesListener() );
 
@@ -880,7 +880,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 		public void actionConfirmed()
 		{
-			StaticEntity.setProperty( "battleAction", (String) AdventureOptionsFrame.this.actionSelect.getSelectedItem() );
+			KoLSettings.setUserProperty( "battleAction", (String) AdventureOptionsFrame.this.actionSelect.getSelectedItem() );
 			MoodSettings.setMood( (String) AdventureOptionsFrame.this.activeMood.getSelectedItem() );
 		}
 
@@ -900,7 +900,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 		{
 			public void run()
 			{
-				StaticEntity.setProperty( "autoSetConditions", String.valueOf(
+				KoLSettings.setUserProperty( "autoSetConditions", String.valueOf(
 					AdventureOptionsFrame.this.autoSetCheckBox.isSelected() ) );
 
 				AdventureOptionsFrame.this.conditionField.setEnabled(
@@ -1115,7 +1115,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 	protected JPanel getAdventureSummary( String property, JList locationSelect )
 	{
-		int selectedIndex = StaticEntity.getIntegerProperty( property );
+		int selectedIndex = KoLSettings.getIntegerProperty( property );
 
 		CardLayout resultCards = new CardLayout();
 		JPanel resultPanel = new JPanel( resultCards );
@@ -1181,7 +1181,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 		{
 			String index = String.valueOf( this.resultSelect.getSelectedIndex() );
 			this.resultCards.show( this.resultPanel, index );
-			StaticEntity.setProperty( this.property, index );
+			KoLSettings.setUserProperty( this.property, index );
 
 		}
 	}

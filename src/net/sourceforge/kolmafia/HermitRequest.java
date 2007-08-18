@@ -94,7 +94,7 @@ public class HermitRequest extends KoLRequest
 		if ( !location.startsWith( "hermit.php" ) || location.indexOf( "whichitem=24" ) == -1 )
 			return false;
 
-		if ( !StaticEntity.getBooleanProperty( "cloverProtectActive" ) )
+		if ( !KoLSettings.getBooleanProperty( "cloverProtectActive" ) )
 			return false;
 
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "use * ten-leaf clover" );

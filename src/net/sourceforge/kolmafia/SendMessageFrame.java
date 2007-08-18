@@ -232,9 +232,9 @@ public class SendMessageFrame extends KoLFrame
 
 	public boolean shouldAddStatusBar()
 	{
-		return (!StaticEntity.getBooleanProperty( "addStatusBarToFrames" ) &&
-			StaticEntity.getGlobalProperty( "initialDesktop" ).indexOf( this.frameName ) != -1) ||
-			StaticEntity.getGlobalProperty( "initialDesktop" ).indexOf( this.frameName ) == -1;
+		return (!KoLSettings.getBooleanProperty( "addStatusBarToFrames" ) &&
+			KoLSettings.getGlobalProperty( "initialDesktop" ).indexOf( this.frameName ) != -1) ||
+			KoLSettings.getGlobalProperty( "initialDesktop" ).indexOf( this.frameName ) == -1;
 	}
 
 	private abstract class AttachmentMenuItem extends ThreadedMenuItem

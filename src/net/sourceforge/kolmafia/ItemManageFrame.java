@@ -95,7 +95,7 @@ public class ItemManageFrame extends KoLFrame
 
 		JPanel foodPanel = new JPanel( new BorderLayout() );
 
-		if ( StaticEntity.getBooleanProperty( "addCreationQueue" ) )
+		if ( KoLSettings.getBooleanProperty( "addCreationQueue" ) )
 			foodPanel.add( new ConsumePanel( true, false ), BorderLayout.NORTH );
 		foodPanel.add( new QueuePanel( true, false ), BorderLayout.CENTER );
 
@@ -103,7 +103,7 @@ public class ItemManageFrame extends KoLFrame
 
 		JPanel boozePanel = new JPanel( new BorderLayout() );
 
-		if ( StaticEntity.getBooleanProperty( "addCreationQueue" ) )
+		if ( KoLSettings.getBooleanProperty( "addCreationQueue" ) )
 			boozePanel.add( new ConsumePanel( false, true ), BorderLayout.NORTH );
 		boozePanel.add( new QueuePanel( false, true ), BorderLayout.CENTER );
 
@@ -153,7 +153,7 @@ public class ItemManageFrame extends KoLFrame
 		mainPanel.add( listHolder, BorderLayout.WEST );
 		mainPanel.add( this.managePanel, BorderLayout.CENTER );
 
-		this.itemPanelList.setSelectedIndex( StaticEntity.getIntegerProperty( "itemManagerIndex" ) );
+		this.itemPanelList.setSelectedIndex( KoLSettings.getIntegerProperty( "itemManagerIndex" ) );
 		this.framePanel.add( mainPanel, BorderLayout.CENTER );
 	}
 
@@ -214,7 +214,7 @@ public class ItemManageFrame extends KoLFrame
 			if ( ItemManageFrame.this.itemPanelNames.get( cardIndex ) instanceof JComponent )
 				return;
 
-			StaticEntity.setProperty( "itemManagerIndex", String.valueOf( cardIndex ) );
+			KoLSettings.setUserProperty( "itemManagerIndex", String.valueOf( cardIndex ) );
 			ItemManageFrame.this.itemPanelCards.show( ItemManageFrame.this.managePanel, String.valueOf( cardIndex + 1 ) );
 		}
 	}
@@ -413,7 +413,7 @@ public class ItemManageFrame extends KoLFrame
 			this.food = food;
 			this.booze = booze;
 
-			if ( StaticEntity.getBooleanProperty( "addCreationQueue" ) )
+			if ( KoLSettings.getBooleanProperty( "addCreationQueue" ) )
 				this.setButtons( false, new ActionListener [] { new EnqueueListener(), new ExecuteListener(), new BuffUpListener() } );
 			else
 				this.setButtons( false, new ActionListener [] { new ExecuteListener(), new BuffUpListener() } );
@@ -606,7 +606,7 @@ public class ItemManageFrame extends KoLFrame
 			super( food && booze ? "per full/drunk" : booze ? "per drunk" : "per full" );
 
 			this.setToolTipText( "Sort gains per adventure" );
-			this.setSelected( StaticEntity.getBooleanProperty( "showGainsPerUnit" ) );
+			this.setSelected( KoLSettings.getBooleanProperty( "showGainsPerUnit" ) );
 
 			this.addActionListener( this );
 			KoLSettings.registerCheckbox( "showGainsPerUnit", this );
@@ -614,10 +614,10 @@ public class ItemManageFrame extends KoLFrame
 
 		public void actionPerformed( ActionEvent e )
 		{
-			if ( StaticEntity.getBooleanProperty( "showGainsPerUnit" ) == this.isSelected() )
+			if ( KoLSettings.getBooleanProperty( "showGainsPerUnit" ) == this.isSelected() )
 				return;
 
-			StaticEntity.setProperty( "showGainsPerUnit", String.valueOf( this.isSelected() ) );
+			KoLSettings.setUserProperty( "showGainsPerUnit", String.valueOf( this.isSelected() ) );
 			ConcoctionsDatabase.getUsables().sort();
 		}
 	}
@@ -632,7 +632,7 @@ public class ItemManageFrame extends KoLFrame
 			super( label );
 
 			this.setToolTipText( tooltip );
-			this.setSelected( StaticEntity.getBooleanProperty( property ) );
+			this.setSelected( KoLSettings.getBooleanProperty( property ) );
 
 			this.addActionListener( this );
 
@@ -642,10 +642,10 @@ public class ItemManageFrame extends KoLFrame
 
 		public void actionPerformed( ActionEvent e )
 		{
-			if ( StaticEntity.getBooleanProperty( this.property ) == this.isSelected() )
+			if ( KoLSettings.getBooleanProperty( this.property ) == this.isSelected() )
 				return;
 
-			StaticEntity.setProperty( this.property, String.valueOf( this.isSelected() ) );
+			KoLSettings.setUserProperty( this.property, String.valueOf( this.isSelected() ) );
 			ConcoctionsDatabase.refreshConcoctions();
 		}
 	}

@@ -139,7 +139,7 @@ public class LoginFrame extends KoLFrame
 	{
 		JPanel imagePanel = new JPanel( new BorderLayout( 0, 0 ) );
 		imagePanel.add( new JLabel( " " ), BorderLayout.NORTH );
-		imagePanel.add( new JLabel( JComponentUtilities.getImage( StaticEntity.getProperty( "loginWindowLogo" ) ), JLabel.CENTER ), BorderLayout.SOUTH );
+		imagePanel.add( new JLabel( JComponentUtilities.getImage( KoLSettings.getUserProperty( "loginWindowLogo" ) ), JLabel.CENTER ), BorderLayout.SOUTH );
 
 		JPanel containerPanel = new JPanel( new BorderLayout() );
 		containerPanel.add( imagePanel, BorderLayout.NORTH );
@@ -200,9 +200,9 @@ public class LoginFrame extends KoLFrame
 			this.actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ), BorderLayout.CENTER );
 			this.actionStatusPanel.add( checkBoxPanels, BorderLayout.NORTH );
 
-			String autoLoginSetting = StaticEntity.getProperty( "autoLogin" );
+			String autoLoginSetting = KoLSettings.getUserProperty( "autoLogin" );
 			if ( autoLoginSetting.equals( "" ) )
-				autoLoginSetting = StaticEntity.getProperty( "lastUsername" );
+				autoLoginSetting = KoLSettings.getUserProperty( "lastUsername" );
 			else
 				this.autoLoginCheckBox.setSelected( true );
 
@@ -217,7 +217,7 @@ public class LoginFrame extends KoLFrame
 				this.savePasswordCheckBox.setSelected( true );
 			}
 
-			this.getBreakfastCheckBox.setSelected( StaticEntity.getBooleanProperty( "alwaysGetBreakfast" ) );
+			this.getBreakfastCheckBox.setSelected( KoLSettings.getBooleanProperty( "alwaysGetBreakfast" ) );
 			this.getBreakfastCheckBox.addActionListener( new GetBreakfastListener() );
 			this.autoLoginCheckBox.addActionListener( new AutoLoginListener() );
 			this.savePasswordCheckBox.addActionListener( new RemovePasswordListener() );
@@ -252,8 +252,8 @@ public class LoginFrame extends KoLFrame
 
 		public void actionConfirmed()
 		{
-			StaticEntity.setProperty( "relayBrowserOnly", "false" );
-			StaticEntity.setProperty( "alwaysGetBreakfast", String.valueOf( this.getBreakfastCheckBox.isSelected() ) );
+			KoLSettings.setUserProperty( "relayBrowserOnly", "false" );
+			KoLSettings.setUserProperty( "alwaysGetBreakfast", String.valueOf( this.getBreakfastCheckBox.isSelected() ) );
 
 			LoginFrame.this.username = null;
 
@@ -274,11 +274,11 @@ public class LoginFrame extends KoLFrame
 			}
 
 			if ( this.autoLoginCheckBox.isSelected() )
-				StaticEntity.setProperty( "autoLogin", LoginFrame.this.username );
+				KoLSettings.setUserProperty( "autoLogin", LoginFrame.this.username );
 			else
-				StaticEntity.setProperty( "autoLogin", "" );
+				KoLSettings.setUserProperty( "autoLogin", "" );
 
-			StaticEntity.setGlobalProperty( LoginFrame.this.username, "getBreakfast", String.valueOf( this.getBreakfastCheckBox.isSelected() ) );
+			KoLSettings.setGlobalProperty( LoginFrame.this.username, "getBreakfast", String.valueOf( this.getBreakfastCheckBox.isSelected() ) );
 
 			LoginFrame.this.honorProxySettings();
 			RequestThread.postRequest( new LoginRequest( LoginFrame.this.username, password ) );
@@ -288,7 +288,7 @@ public class LoginFrame extends KoLFrame
 		{
 			if ( !LoginRequest.isInstanceRunning() )
 			{
-				StaticEntity.setProperty( "relayBrowserOnly", "true" );
+				KoLSettings.setUserProperty( "relayBrowserOnly", "true" );
 				actionConfirmed();
 			}
 		}
@@ -300,14 +300,14 @@ public class LoginFrame extends KoLFrame
 				if ( LoginPanel.this.autoLoginCheckBox.isSelected() )
 					LoginPanel.this.actionConfirmed();
 				else
-					StaticEntity.setProperty( "autoLogin", "" );
+					KoLSettings.setUserProperty( "autoLogin", "" );
 			}
 		}
 
 		private class GetBreakfastListener implements ActionListener
 		{
 			public void actionPerformed( ActionEvent e )
-			{	StaticEntity.setGlobalProperty( LoginFrame.this.username, "getBreakfast", String.valueOf( LoginPanel.this.getBreakfastCheckBox.isSelected() ) );
+			{	KoLSettings.setGlobalProperty( LoginFrame.this.username, "getBreakfast", String.valueOf( LoginPanel.this.getBreakfastCheckBox.isSelected() ) );
 			}
 		}
 
@@ -326,7 +326,7 @@ public class LoginFrame extends KoLFrame
 					LoginPanel.this.passwordField.setText( "" );
 				}
 
-				StaticEntity.setProperty( "saveStateActive", String.valueOf( LoginPanel.this.savePasswordCheckBox.isSelected() ) );
+				KoLSettings.setUserProperty( "saveStateActive", String.valueOf( LoginPanel.this.savePasswordCheckBox.isSelected() ) );
 			}
 		}
 
@@ -377,7 +377,7 @@ public class LoginFrame extends KoLFrame
 				LoginPanel.this.passwordField.setText( password );
 				LoginPanel.this.savePasswordCheckBox.setSelected( true );
 
-				boolean breakfastSetting = StaticEntity.getGlobalProperty( (String) this.currentMatch, "getBreakfast" ).equals( "true" );
+				boolean breakfastSetting = KoLSettings.getGlobalProperty( (String) this.currentMatch, "getBreakfast" ).equals( "true" );
 				LoginPanel.this.getBreakfastCheckBox.setSelected( breakfastSetting );
 				LoginPanel.this.setEnabled( true );
 			}
@@ -435,9 +435,9 @@ public class LoginFrame extends KoLFrame
 
 		public void actionConfirmed()
 		{
-			StaticEntity.setProperty( "defaultLoginServer", String.valueOf( LoginFrame.this.servers.getSelectedIndex() ) );
+			KoLSettings.setUserProperty( "defaultLoginServer", String.valueOf( LoginFrame.this.servers.getSelectedIndex() ) );
 			for ( int i = 0; i < this.options.length; ++i )
-				StaticEntity.setProperty( this.options[i][0], String.valueOf( this.optionBoxes[i].isSelected() ) );
+				KoLSettings.setUserProperty( this.options[i][0], String.valueOf( this.optionBoxes[i].isSelected() ) );
 
 			LoginRequest.setIgnoreLoadBalancer( loadBalancer.isSelected() );
 			KoLRequest.setDelayActive( loadDistributer.isSelected() );
@@ -445,9 +445,9 @@ public class LoginFrame extends KoLFrame
 
 		public void actionCancelled()
 		{
-			LoginFrame.this.servers.setSelectedIndex( StaticEntity.getIntegerProperty( "defaultLoginServer" ) );
+			LoginFrame.this.servers.setSelectedIndex( KoLSettings.getIntegerProperty( "defaultLoginServer" ) );
 			for ( int i = 0; i < this.options.length; ++i )
-				this.optionBoxes[i].setSelected( StaticEntity.getBooleanProperty( this.options[i][0] ) );
+				this.optionBoxes[i].setSelected( KoLSettings.getBooleanProperty( this.options[i][0] ) );
 
 			loadBalancer.setSelected( false );
 			loadDistributer.setSelected( true );
@@ -463,10 +463,10 @@ public class LoginFrame extends KoLFrame
 
 	public void honorProxySettings()
 	{
-		StaticEntity.setProperty( "http.proxyHost", this.proxyHost.getText() );
-		StaticEntity.setProperty( "http.proxyPort", this.proxyPort.getText() );
-		StaticEntity.setProperty( "http.proxyUser", this.proxyLogin.getText() );
-		StaticEntity.setProperty( "http.proxyPassword", this.proxyPassword.getText() );
+		KoLSettings.setUserProperty( "http.proxyHost", this.proxyHost.getText() );
+		KoLSettings.setUserProperty( "http.proxyPort", this.proxyPort.getText() );
+		KoLSettings.setUserProperty( "http.proxyUser", this.proxyLogin.getText() );
+		KoLSettings.setUserProperty( "http.proxyPassword", this.proxyPassword.getText() );
 	}
 
 	/**
@@ -521,10 +521,10 @@ public class LoginFrame extends KoLFrame
 			}
 			else
 			{
-				LoginFrame.this.proxyHost.setText( StaticEntity.getProperty( "http.proxyHost" ) );
-				LoginFrame.this.proxyPort.setText( StaticEntity.getProperty( "http.proxyPort" ) );
-				LoginFrame.this.proxyLogin.setText( StaticEntity.getProperty( "http.proxyUser" ) );
-				LoginFrame.this.proxyPassword.setText( StaticEntity.getProperty( "http.proxyPassword" ) );
+				LoginFrame.this.proxyHost.setText( KoLSettings.getUserProperty( "http.proxyHost" ) );
+				LoginFrame.this.proxyPort.setText( KoLSettings.getUserProperty( "http.proxyPort" ) );
+				LoginFrame.this.proxyLogin.setText( KoLSettings.getUserProperty( "http.proxyUser" ) );
+				LoginFrame.this.proxyPassword.setText( KoLSettings.getUserProperty( "http.proxyPassword" ) );
 			}
 		}
 

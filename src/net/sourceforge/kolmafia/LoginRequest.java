@@ -67,11 +67,11 @@ public class LoginRequest extends KoLRequest
 		super( "login.php" );
 
 		this.username = username == null ? "" : StaticEntity.globalStringReplace( username, "/q", "" );
-		StaticEntity.setGlobalProperty( this.username, "displayName", this.username );
+		KoLSettings.setGlobalProperty( this.username, "displayName", this.username );
 
 		this.password = password;
 		if ( StaticEntity.getClient() instanceof KoLmafiaCLI )
-			StaticEntity.setProperty( "saveStateActive", "true" );
+			KoLSettings.setUserProperty( "saveStateActive", "true" );
 	}
 
 	public static final void setIgnoreLoadBalancer( boolean ignoreLoadBalancer )
@@ -382,14 +382,14 @@ public class LoginRequest extends KoLRequest
 
 		RequestThread.postRequest( new KoLRequest( "chatlaunch.php" ) );
 		StaticEntity.getClient().initialize( name );
-		String scriptSetting = StaticEntity.getProperty( "loginScript" );
+		String scriptSetting = KoLSettings.getUserProperty( "loginScript" );
 		if ( !scriptSetting.equals( "" ) )
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( scriptSetting );
 
 		isLoggingIn = false;
 		RequestThread.closeRequestSequence();
 
-		if ( StaticEntity.getBooleanProperty( "saveStateActive" ) && request instanceof LoginRequest )
+		if ( KoLSettings.getBooleanProperty( "saveStateActive" ) && request instanceof LoginRequest )
 			KoLmafia.addSaveState( lastUsername, lastPassword );
 	}
 }

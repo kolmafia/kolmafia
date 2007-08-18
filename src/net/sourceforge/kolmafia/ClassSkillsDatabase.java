@@ -305,7 +305,7 @@ public class ClassSkillsDatabase extends KoLDatabase
 		// Summon Candy Hearts has a special mana cost.
 		if ( skillId == 18 )
 		{
-			int count = StaticEntity.getIntegerProperty( "candyHeartSummons" ) - (justCast ? 1 : 0);
+			int count = KoLSettings.getIntegerProperty( "candyHeartSummons" ) - (justCast ? 1 : 0);
 			return Math.max( ((count + 1) * (count + 2)) / 2 + KoLCharacter.getManaCostAdjustment(), 1 );
 		}
 

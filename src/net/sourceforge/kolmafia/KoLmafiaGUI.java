@@ -59,7 +59,7 @@ public class KoLmafiaGUI extends KoLmafia
 		// All that completed, check to see if there is an auto-login
 		// which should occur.
 
-		String autoLogin = StaticEntity.getProperty( "autoLogin" );
+		String autoLogin = KoLSettings.getUserProperty( "autoLogin" );
 		if ( !autoLogin.equals( "" ) )
 		{
 			// Make sure that a password was stored for this
@@ -73,19 +73,19 @@ public class KoLmafiaGUI extends KoLmafia
 
 	public static final void checkFrameSettings()
 	{
-		String frameSetting = StaticEntity.getGlobalProperty( "initialFrames" );
-		String desktopSetting = StaticEntity.getGlobalProperty( "initialDesktop" );
+		String frameSetting = KoLSettings.getGlobalProperty( "initialFrames" );
+		String desktopSetting = KoLSettings.getGlobalProperty( "initialDesktop" );
 
 		// If this user doesn't have any data, then go
 		// ahead and copy the global data instead.
 
 		if ( frameSetting.equals( "" ) && desktopSetting.equals( "" ) )
 		{
-			StaticEntity.setGlobalProperty( "initialFrames", StaticEntity.getGlobalProperty( "", "initialFrames" ) );
-			StaticEntity.setGlobalProperty( "initialDesktop", StaticEntity.getGlobalProperty( "", "initialDesktop" ) );
+			KoLSettings.setGlobalProperty( "initialFrames", KoLSettings.getGlobalProperty( "", "initialFrames" ) );
+			KoLSettings.setGlobalProperty( "initialDesktop", KoLSettings.getGlobalProperty( "", "initialDesktop" ) );
 
-			frameSetting = StaticEntity.getGlobalProperty( "initialFrames" );
-			desktopSetting = StaticEntity.getGlobalProperty( "initialDesktop" );
+			frameSetting = KoLSettings.getGlobalProperty( "initialFrames" );
+			desktopSetting = KoLSettings.getGlobalProperty( "initialDesktop" );
 		}
 
 		// If there is still no data (somehow the global data
@@ -93,8 +93,8 @@ public class KoLmafiaGUI extends KoLmafia
 
 		if ( frameSetting.equals( "" ) && desktopSetting.equals( "" ) )
 		{
-			StaticEntity.setGlobalProperty( "initialFrames", "LocalRelayServer" );
-			StaticEntity.setGlobalProperty( "initialDesktop", "" );
+			KoLSettings.setGlobalProperty( "initialFrames", "LocalRelayServer" );
+			KoLSettings.setGlobalProperty( "initialDesktop", "" );
 		}
 	}
 
@@ -111,18 +111,18 @@ public class KoLmafiaGUI extends KoLmafia
 
 		if ( KoLRequest.passwordHash != null )
 		{
-			if ( StaticEntity.getBooleanProperty( "retrieveContacts" ) )
+			if ( KoLSettings.getBooleanProperty( "retrieveContacts" ) )
 			{
 				RequestThread.postRequest( new ContactListRequest() );
-				StaticEntity.setProperty( "retrieveContacts", String.valueOf( !contactList.isEmpty() ) );
+				KoLSettings.setUserProperty( "retrieveContacts", String.valueOf( !contactList.isEmpty() ) );
 			}
 		}
 
 		LoginFrame.hideInstance();
 
 		checkFrameSettings();
-		String frameSetting = StaticEntity.getGlobalProperty( "initialFrames" );
-		String desktopSetting = StaticEntity.getGlobalProperty( "initialDesktop" );
+		String frameSetting = KoLSettings.getGlobalProperty( "initialFrames" );
+		String desktopSetting = KoLSettings.getGlobalProperty( "initialDesktop" );
 
 		// Reset all the titles on all existing frames.
 
@@ -135,7 +135,7 @@ public class KoLmafiaGUI extends KoLmafia
 		if ( !desktopSetting.equals( "" ) )
 		{
 			KoLDesktop.getInstance().initializeTabs();
-			if ( !StaticEntity.getBooleanProperty( "relayBrowserOnly" ) )
+			if ( !KoLSettings.getBooleanProperty( "relayBrowserOnly" ) )
 				KoLDesktop.displayDesktop();
 		}
 
@@ -159,7 +159,7 @@ public class KoLmafiaGUI extends KoLmafia
 		for ( int i = 0; i < desktopArray.length; ++i )
 			initialFrameList.remove( desktopArray[i] );
 
-		if ( !initialFrameList.isEmpty() && !StaticEntity.getBooleanProperty( "relayBrowserOnly" ) )
+		if ( !initialFrameList.isEmpty() && !KoLSettings.getBooleanProperty( "relayBrowserOnly" ) )
 		{
 			String [] initialFrames = new String[ initialFrameList.size() ];
 			initialFrameList.toArray( initialFrames );
@@ -302,7 +302,7 @@ public class KoLmafiaGUI extends KoLmafia
 				if ( contactList.isEmpty() )
 					RequestThread.postRequest( new ContactListRequest() );
 
-				if ( StaticEntity.getGlobalProperty( "initialDesktop" ).indexOf( "ContactListFrame" ) != -1 )
+				if ( KoLSettings.getGlobalProperty( "initialDesktop" ).indexOf( "ContactListFrame" ) != -1 )
 					return;
 			}
 			else if ( this.frameClass == FamiliarTrainingFrame.class )
@@ -344,7 +344,7 @@ public class KoLmafiaGUI extends KoLmafia
 						RequestThread.postRequest( new MicrobreweryRequest() );
 				}
 
-				if ( StaticEntity.getBooleanProperty( "autoSatisfyWithStash" ) && KoLCharacter.canInteract() && KoLCharacter.hasClan() )
+				if ( KoLSettings.getBooleanProperty( "autoSatisfyWithStash" ) && KoLCharacter.canInteract() && KoLCharacter.hasClan() )
 					if ( !ClanManager.isStashRetrieved() )
 						RequestThread.postRequest( new ClanStashRequest() );
 			}

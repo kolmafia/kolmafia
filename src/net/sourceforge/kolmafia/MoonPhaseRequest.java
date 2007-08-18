@@ -129,7 +129,7 @@ public class MoonPhaseRequest extends KoLRequest
 			gotoMenu.append( "</option>" );
 		}
 
-		String [] bookmarkData = StaticEntity.getProperty( "browserBookmarks" ).split( "\\|" );
+		String [] bookmarkData = KoLSettings.getUserProperty( "browserBookmarks" ).split( "\\|" );
 
 		if ( bookmarkData.length > 1 )
 		{
@@ -157,13 +157,13 @@ public class MoonPhaseRequest extends KoLRequest
 
 		StaticEntity.globalStringReplace( buffer, "selectedIndex=0;", "selectedIndex=0; if ( parent && parent.mainpane ) parent.mainpane.focus();" );
 
-		if ( StaticEntity.getBooleanProperty( "relayAddsQuickScripts" ) )
+		if ( KoLSettings.getBooleanProperty( "relayAddsQuickScripts" ) )
 		{
 			StringBuffer selectBuffer = new StringBuffer();
 			selectBuffer.append( "<td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><form name=\"gcli\">" );
 			selectBuffer.append( "<select id=\"scriptbar\">" );
 
-			String [] scriptList = StaticEntity.getProperty( "scriptList" ).split( " \\| " );
+			String [] scriptList = KoLSettings.getUserProperty( "scriptList" ).split( " \\| " );
 			for ( int i = 0; i < scriptList.length; ++i )
 			{
 				selectBuffer.append( "<option value=\"" );

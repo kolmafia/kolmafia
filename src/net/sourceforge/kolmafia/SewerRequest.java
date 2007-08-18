@@ -65,7 +65,7 @@ public class SewerRequest extends KoLRequest
 
 		if ( this.isLuckySewer )
 		{
-			if ( StaticEntity.getBooleanProperty( "cloverProtectActive" ) )
+			if ( KoLSettings.getBooleanProperty( "cloverProtectActive" ) )
 				KoLmafia.updateDisplay( ERROR_STATE, "Turn off clover protection if you want to go here." );
 			else
 				this.runLuckySewer();
@@ -90,7 +90,7 @@ public class SewerRequest extends KoLRequest
 		// items, so if you have fewer than three items, report
 		// an error.
 
-		String thirdItemString = StaticEntity.getProperty( "luckySewerAdventure" );
+		String thirdItemString = KoLSettings.getUserProperty( "luckySewerAdventure" );
 		int thirdItem = thirdItemString.indexOf( "random" ) != -1 ? RNG.nextInt( 11 ) + 1 : Character.isDigit( thirdItemString.charAt(0) ) ?
 			StaticEntity.parseInt( thirdItemString ) : TradeableItemDatabase.getItemId( thirdItemString );
 
