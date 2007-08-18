@@ -77,7 +77,7 @@
 77	Fury of the Bells	scook2.gif	8166c389286809c05b40933c210194cf
 78	Yuletide Sappiness	scook3.gif	b4a14c949225b6e8427fbad113c8d777
 79
-80	Missing Fingers	sad.gif	c6100ac99a847dc3b60d9f8c1a2c223d
+80	Missing Fingers	sad.gif	c6100ac99a847dc3b60d9f8c1a2c223d	use 1 Knob Goblin firecracker
 81	Gnawed-Off Arm	sad.gif	99337ac6df628a7b13162ef7a725f01d
 82	Broken Knees	sad.gif
 83	And Your Family, Too	sad.gif
@@ -118,12 +118,12 @@
 118	Shiny Happy Weapon	radsword.gif	c182e3297f3732ed05601d63d5980f1d
 119	On the Shoulders of Giants	farout.gif	68ea640257b2b74627e74ce275a555fc
 120	Shot in the Arse	shotarse.gif
-121	Cock of the Walk	cockghost.gif	4bd0338c8030f6aaa95ea5eda777484c
-122	Eggs-tra Sensory Perception	eggplain.gif	5ca8ae9f3177d3f1bfee8ceccde554b7
-123	Egg-stortionary Tactics	eggplain.gif	3cef8a2a9750292400d4380caacda408
-124	Egg-stra Arm	eggplain.gif	f571d1555a2465e9e8fb0fb3b31b18e5
-125	Egg-headedness	eggplain.gif	e6b783e02fa92072ca81c7585912ba37
-126	Egg-cellent Vocabulary	eggplain.gif	f7347c1d229420acff2226dac4125a0a
+121	Cock of the Walk	cockghost.gif	4bd0338c8030f6aaa95ea5eda777484c	use 1 Connery's Elixir of Audacity
+122	Eggs-tra Sensory Perception	eggplain.gif	5ca8ae9f3177d3f1bfee8ceccde554b7	use 1 off-white paisley oyster egg
+123	Egg-stortionary Tactics	eggplain.gif	3cef8a2a9750292400d4380caacda408	use 1 black paisley oyster egg
+124	Egg-stra Arm	eggplain.gif	f571d1555a2465e9e8fb0fb3b31b18e5	use 1 yellow striped oyster egg
+125	Egg-headedness	eggplain.gif	e6b783e02fa92072ca81c7585912ba37	use 1 yellow paisley oyster egg
+126	Egg-cellent Vocabulary	eggplain.gif	f7347c1d229420acff2226dac4125a0a	use 1 yellow polka-dot oyster egg
 127	Gothy	gothy.gif	06cb86ddd689278c5af31423a8210a72
 128	Flower Power	flower.gif	e91ceabee446030ff33cc79d06a8d551
 129	Eye of the Lihc	eyeball.gif	19a38797f559f112930b8d33f3dd48e3
@@ -178,7 +178,7 @@
 178	Bootyliciousness	chest2.gif	4dd00fb300f035693ca9ac4f6e33c4f4
 179	Make Meat FA$T!	meat.gif	2b0a872a72b015c6db5c4974140f0483
 180	Temporary Blindness	hernia.gif	1b3d98f1187a8572fc12cf6fd02f35c3
-181	Jazz Hands	glove.gif	d847d0fc434d9f9b69d6c029b7b91582
+181	Jazz Hands	glove.gif	d847d0fc434d9f9b69d6c029b7b91582	use 1 jazz soap
 182
 183	Half-Astral	hoppedup.gif	51e5c65bc1771744da18fc0cd3a2fe92	use 1 astral mushroom
 184	Cupcake of Choice	cupcake.gif	606df8164432029da3468eee90911ca3	use 1 blue-frosted astral cupcake
@@ -223,7 +223,7 @@
 223	Dreams and Lights	snowflakes.gif	360467118bd69ef869a1af2002117e63
 224	Scarysauce	skullshld.gif	f7551a889b9c61510fc3f73f96ecc98e	cast 1 Scarysauce
 225	Dirge of Dreadfulness	notes.gif	6121ba486d7ad86165d117ea62794d09	cast 1 Dirge of Dreadfulness
-226	Talking Like a Pirate	piratehead.gif	defbfe64c65b2d495dc0133506223c1f
+226	Talking Like a Pirate	piratehead.gif	defbfe64c65b2d495dc0133506223c1f	use 1 can of Binarrrca
 227	The 'Tussin	happy.gif	295f414c903d22c44ec2f92f789cad71	use 1 bottle of Vangoghbitussin
 228	Pie in the Face	pieface.gif	9c9794f2ff9a0fcb1090c281c2c442f1
 229	Hip to Be Square Dancin'	footprints.gif	37f9f99df81ca3d29abe85139a302f67
@@ -435,9 +435,9 @@
 435	Beer in Your Shoes	footprints.gif	fb06ebe1f825ce046930e2630203969a
 436	Toad In The Hole	squashfrog.gif	b17642b2ee44782a692b2d7861b50ac0
 437	Strangulated	sad.gif	65e393732d2282a4a698417581c1e899
-438	Ham-fisted	ham.gif	a71e21c4a39a13558719fef8980422d4
-439	Baconstoned	bacon.gif	8a3686b9ef4909ca99587bc6489008c4
-440	Je Ne Sais Porquoise	confused.gif	7a1d33bd3c697d55c26eb70a1845a5d5
+438	Ham-fisted	ham.gif	a71e21c4a39a13558719fef8980422d4	use 1 jug of hamethyst juice
+439	Baconstoned	bacon.gif	8a3686b9ef4909ca99587bc6489008c4	use 1 jug of baconstone juice
+440	Je Ne Sais Porquoise	confused.gif	7a1d33bd3c697d55c26eb70a1845a5d5	use 1 jug of porquoise juice
 441	Fit To Be Tide	waves.gif	938dde0221273af2e2cefeafacddf498
 442	Preternatural Greed	meat.gif	77c8dcca272b5c6a62ff65ab673f09b8
 443	Big Flaming Whip	whip.gif	1b8e17da0f810cea79461e5346364d13
