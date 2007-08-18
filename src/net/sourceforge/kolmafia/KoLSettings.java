@@ -620,6 +620,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		CLIENT_SETTINGS.put( "relayMaintainsHealth", "true" );
 		CLIENT_SETTINGS.put( "relayMaintainsMana", "false" );
 		CLIENT_SETTINGS.put( "relayBrowserOnly", "false" );
+		CLIENT_SETTINGS.put( "basementBuysItems", "false" );
 		CLIENT_SETTINGS.put( "relayTextualizesEffects", "false" );
 		CLIENT_SETTINGS.put( "relayUsesCachedImages", "false" );
 		CLIENT_SETTINGS.put( "relayUsesInlineLinks", "false" );
