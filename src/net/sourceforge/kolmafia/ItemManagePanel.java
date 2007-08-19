@@ -183,7 +183,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 	}
 
 	public void filterItems()
-	{	this.filterfield.filterItems();
+	{	this.filterfield.update();
 	}
 
 	public void setButtons( ActionListener [] buttonListeners )
@@ -595,45 +595,19 @@ public class ItemManagePanel extends LabeledScrollPanel
 	 * key events of a JComboBox to allow you to catch key events.
 	 */
 
-	public class FilterItemField extends JTextField implements ActionListener, FocusListener
+	public class FilterItemField extends FilterTextField
 	{
-		public SimpleListFilter filter;
 		public boolean food, booze, equip, restores, other, notrade;
 
 		public FilterItemField()
 		{
-			this.filter = this.getFilter();
-			ItemManagePanel.this.elementModel.setFilter( this.filter );
-			this.addKeyListener( new FilterListener() );
+			super(  ItemManagePanel.this.elementModel );
 
 			this.food = true; this.booze = true; this.equip = true;
 			this.restores = true; this.other = true; this.notrade = true;
 		}
 
-		public SimpleListFilter getFilter()
-		{	return new ConsumptionBasedFilter();
-		}
-
-		public void focusGained( FocusEvent e )
-		{	this.selectAll();
-		}
-
-		public  void focusLost( FocusEvent e )
-		{
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{	this.filterItems();
-		}
-
-		public class FilterListener extends KeyAdapter
-		{
-			public void keyReleased( KeyEvent e )
-			{	FilterItemField.this.filterItems();
-			}
-		}
-
-		public void filterItems()
+		public void update()
 		{
 			if ( ItemManagePanel.this.filters != null )
 			{
@@ -646,103 +620,89 @@ public class ItemManagePanel extends LabeledScrollPanel
 				this.notrade = ItemManagePanel.this.filters[4].isSelected();
 			}
 
-			this.filter.makeStrict();
-			ItemManagePanel.this.elementModel.updateFilter( false );
-
-			if ( ItemManagePanel.this.elementModel.getSize() == 0 )
-			{
-				this.filter.makeFuzzy();
-				ItemManagePanel.this.elementModel.updateFilter( false );
-			}
+			super.update();
 		}
 
-		public class ConsumptionBasedFilter extends SimpleListFilter
+		public boolean isVisible( Object element )
 		{
-			public ConsumptionBasedFilter()
-			{	super( FilterItemField.this );
-			}
+			if ( element instanceof AdventureResult && ((AdventureResult)element).getCount() < 0 )
+				return false;
 
-			public boolean isVisible( Object element )
+			String name = getResultName( element );
+			int itemId = AdventureResult.itemId( name );
+
+			if ( itemId < 1 )
+				return filters == null && super.isVisible( element );
+
+			if ( !FilterItemField.this.notrade && !TradeableItemDatabase.isTradeable( itemId ) )
+				return false;
+
+			boolean isVisibleWithFilter = true;
+
+			switch ( TradeableItemDatabase.getConsumptionType( itemId ) )
 			{
-				if ( element instanceof AdventureResult && ((AdventureResult)element).getCount() < 0 )
-					return false;
+			case CONSUME_EAT:
+				isVisibleWithFilter = FilterItemField.this.food;
+				break;
 
-				String name = getResultName( element );
-				int itemId = AdventureResult.itemId( name );
+			case CONSUME_DRINK:
+				isVisibleWithFilter = FilterItemField.this.booze;
+				break;
 
-				if ( itemId < 1 )
-					return filters == null && super.isVisible( element );
+			case EQUIP_HAT:
+			case EQUIP_SHIRT:
+			case EQUIP_WEAPON:
+			case EQUIP_OFFHAND:
+			case EQUIP_PANTS:
+			case EQUIP_ACCESSORY:
+			case EQUIP_FAMILIAR:
+				isVisibleWithFilter = FilterItemField.this.equip;
+				break;
 
-				if ( !FilterItemField.this.notrade && !TradeableItemDatabase.isTradeable( itemId ) )
-					return false;
+			default:
 
-				boolean isVisibleWithFilter = true;
-
-				switch ( TradeableItemDatabase.getConsumptionType( itemId ) )
+				if ( element instanceof ItemCreationRequest )
 				{
-				case CONSUME_EAT:
-					isVisibleWithFilter = FilterItemField.this.food;
-					break;
-
-				case CONSUME_DRINK:
-					isVisibleWithFilter = FilterItemField.this.booze;
-					break;
-
-				case EQUIP_HAT:
-				case EQUIP_SHIRT:
-				case EQUIP_WEAPON:
-				case EQUIP_OFFHAND:
-				case EQUIP_PANTS:
-				case EQUIP_ACCESSORY:
-				case EQUIP_FAMILIAR:
-					isVisibleWithFilter = FilterItemField.this.equip;
-					break;
-
-				default:
-
-					if ( element instanceof ItemCreationRequest )
+					switch ( ConcoctionsDatabase.getMixingMethod( itemId ) )
 					{
-						switch ( ConcoctionsDatabase.getMixingMethod( itemId ) )
-						{
-						case COOK:
-						case COOK_REAGENT:
-						case SUPER_REAGENT:
-							isVisibleWithFilter = FilterItemField.this.food || FilterItemField.this.other;
-							break;
+					case COOK:
+					case COOK_REAGENT:
+					case SUPER_REAGENT:
+						isVisibleWithFilter = FilterItemField.this.food || FilterItemField.this.other;
+						break;
 
-						case COOK_PASTA:
-						case WOK:
-							isVisibleWithFilter = FilterItemField.this.food;
-							break;
+					case COOK_PASTA:
+					case WOK:
+						isVisibleWithFilter = FilterItemField.this.food;
+						break;
 
-						case MIX:
-						case MIX_SPECIAL:
-						case STILL_BOOZE:
-						case MIX_SUPER:
-							isVisibleWithFilter = FilterItemField.this.booze;
-							break;
+					case MIX:
+					case MIX_SPECIAL:
+					case STILL_BOOZE:
+					case MIX_SUPER:
+						isVisibleWithFilter = FilterItemField.this.booze;
+						break;
 
-						default:
-							isVisibleWithFilter = FilterItemField.this.other;
-							break;
-						}
-					}
-					else
-					{
-						// Milk of magnesium is marked as food, as are
-						// munchies pills; all others are marked as expected.
-
+					default:
 						isVisibleWithFilter = FilterItemField.this.other;
-						if ( name.equalsIgnoreCase( "milk of magnesium" ) || name.equalsIgnoreCase( "munchies pills" ) )
-							isVisibleWithFilter |= FilterItemField.this.food;
+						break;
 					}
 				}
+				else
+				{
+					// Milk of magnesium is marked as food, as are
+					// munchies pills; all others are marked as expected.
 
-				if ( !isVisibleWithFilter )
-					return false;
-
-				return super.isVisible( element );
+					isVisibleWithFilter = FilterItemField.this.other;
+					if ( name.equalsIgnoreCase( "milk of magnesium" ) || name.equalsIgnoreCase( "munchies pills" ) )
+						isVisibleWithFilter |= FilterItemField.this.food;
+				}
 			}
+
+			if ( !isVisibleWithFilter )
+				return false;
+
+			return super.isVisible( element );
 		}
 	}
 

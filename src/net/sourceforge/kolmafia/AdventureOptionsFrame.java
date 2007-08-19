@@ -800,54 +800,17 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 		 * key events of a JComboBox to allow you to catch key events.
 		 */
 
-		private class FilterAdventureField extends JTextField implements ListElementFilter, FocusListener
+		private class FilterAdventureField extends FilterTextField
 		{
-			private String text;
-			private boolean strict;
-			private LockableListModel model;
-
 			public FilterAdventureField( LockableListModel model )
-			{
-				this.model = model;
-				this.model.setFilter( this );
-
-				this.addFocusListener( this );
-				this.addKeyListener( new FilterListener() );
-			}
-
-			public void focusGained( FocusEvent e )
-			{	this.selectAll();
-			}
-
-			public void focusLost( FocusEvent e )
-			{
-			}
-
-			public class FilterListener extends KeyAdapter
-			{
-				public void keyReleased( KeyEvent e )
-				{
-					FilterAdventureField.this.text = FilterAdventureField.this.getText().toLowerCase();
-
-					FilterAdventureField.this.strict = true;
-					FilterAdventureField.this.model.updateFilter( false );
-					if ( FilterAdventureField.this.model.getSize() > 0 )
-						return;
-
-					FilterAdventureField.this.strict = true;
-					FilterAdventureField.this.model.updateFilter( false );
-				}
+			{	super( model );
 			}
 
 			public boolean isVisible( Object element )
 			{
 				String zone = ((KoLAdventure)element).getZone();
 				String name = ((KoLAdventure)element).getAdventureName();
-
-				if ( strict )
-					return zone.toLowerCase().indexOf( text ) != -1 || name.toLowerCase().indexOf( text ) != -1;
-
-				return KoLDatabase.fuzzyMatches( name, text );
+				return zone.toLowerCase().indexOf( text ) != -1 || name.toLowerCase().indexOf( text ) != -1;
 			}
 		}
 
