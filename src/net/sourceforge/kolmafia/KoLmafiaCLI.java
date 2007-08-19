@@ -3622,9 +3622,9 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 		else
 		{
-			List mainList = desiredData.equals( "closet" ) ? closet : desiredData.equals( "summary" ) ? tally :
-				desiredData.equals( "storage" ) ? storage : desiredData.equals( "outfits" ) ? KoLCharacter.getOutfits() :
-				desiredData.equals( "familiars" ) ? KoLCharacter.getFamiliarList() :
+			List mainList = desiredData.equals( "closet" ) ? closet :desiredData.equals( "summary" ) ? tally :
+				desiredData.equals( "storage" ) ? storage : desiredData.equals( "display" ) ? collection :
+				desiredData.equals( "outfits" ) ? KoLCharacter.getOutfits() : desiredData.equals( "familiars" ) ? KoLCharacter.getFamiliarList() :
 				desiredData.equals( "effects" ) ? activeEffects : inventory;
 
 			if ( desiredData.startsWith( "skills" ) )
@@ -4625,9 +4625,15 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( collection.isEmpty() )
 			RequestThread.postRequest( new MuseumRequest() );
 
-		if ( parameters.length() <= 4 )
+		if ( parameters.length() == 0 )
 		{
 			printList( collection );
+			return;
+		}
+
+		if ( !parameters.startsWith( "put" ) && !parameters.startsWith( "take" ) )
+		{
+			executePrintCommand( "display " + parameters );
 			return;
 		}
 

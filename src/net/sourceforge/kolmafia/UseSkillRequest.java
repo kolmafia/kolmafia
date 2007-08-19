@@ -447,7 +447,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 					return;
 				}
 
-				currentCast = Math.min( castsRemaining, KoLCharacter.getCurrentMP() / mpPerCast );
+				currentCast = Math.min( getMaximumCast(), Math.min( castsRemaining, KoLCharacter.getCurrentMP() / mpPerCast ) );
 			}
 
 			if ( KoLmafia.refusesContinue() )
