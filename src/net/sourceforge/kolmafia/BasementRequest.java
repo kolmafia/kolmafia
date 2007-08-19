@@ -434,7 +434,9 @@ public class BasementRequest extends AdventureRequest
 
 		if ( expected1 + expected2 < KoLCharacter.getMaximumHP() )
 		{
-			StaticEntity.getClient().recoverHP( (int) (expected1 + expected2) );
+			if ( autoSwitch )
+				StaticEntity.getClient().recoverHP( (int) (expected1 + expected2) );
+
 			return KoLmafia.permitsContinue();
 		}
 
@@ -614,7 +616,9 @@ public class BasementRequest extends AdventureRequest
 				}
 			}
 
-			StaticEntity.getClient().recoverMP( (int) drainRequirement );
+			if ( autoSwitch )
+				StaticEntity.getClient().recoverMP( (int) drainRequirement );
+
 			return true;
 		}
 
@@ -648,7 +652,9 @@ public class BasementRequest extends AdventureRequest
 				}
 			}
 
-			StaticEntity.getClient().recoverHP( (int) healthRequirement );
+			if ( autoSwitch )
+				StaticEntity.getClient().recoverHP( (int) healthRequirement );
+
 			return true;
 		}
 

@@ -484,6 +484,7 @@ public class ConsumeItemRequest extends KoLRequest
 			this.addFormField( "quantity", String.valueOf( this.itemUsed.getCount() ) );
 			break;
 
+		case HPMP_RESTORE:
 		case MP_RESTORE:
 			this.addFormField( "action", "useitem" );
 			this.addFormField( "itemquantity", String.valueOf( this.itemUsed.getCount() ) );
