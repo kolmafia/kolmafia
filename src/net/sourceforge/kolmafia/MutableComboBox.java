@@ -40,23 +40,25 @@ import java.awt.event.KeyEvent;
 import javax.swing.JComboBox;
 import javax.swing.text.JTextComponent;
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 
-public class MutableComboBox extends JComboBox implements KoLConstants
+public class MutableComboBox extends JComboBox implements ListElementFilter
 {
 	public String currentName;
 	public Object currentMatch;
 	public LockableListModel model;
 	public boolean allowAdditions;
-	public SimpleListFilter filter;
+
+	private boolean active, strict;
+	private boolean changed, filtering;
+	private Object waitObject = new Object();
 
 	public MutableComboBox( LockableListModel model, boolean allowAdditions )
 	{
 		super( model );
 
 		this.model = model;
-		this.filter = new SimpleListFilter( this );
-
-		this.model.setFilter( this.filter );
+		this.model.setFilter( this );
 		this.setEditable( true );
 
 		this.allowAdditions = allowAdditions;
@@ -64,10 +66,10 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 
 		this.getEditor().getEditorComponent().addFocusListener( listener );
 		this.getEditor().getEditorComponent().addKeyListener( listener );
-	}
 
-	public String getCurrentName()
-	{	return this.currentName;
+		this.changed = false;
+		this.filtering = false;
+		(new FilterThread()).start();
 	}
 
 	public void forceAddition()
@@ -89,26 +91,26 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 		if ( anObject == null )
 			return;
 
-		this.currentName = anObject.toString();
+		this.currentName = anObject.toString().toLowerCase();
 
 		if ( !this.isPopupVisible() )
 		{
-			this.filter.deactivate();
+			active = false;
 			this.model.updateFilter( false );
 		}
 	}
 
-	private void updateFilter()
+	private void update()
 	{
-		this.filter.activate();
-		this.filter.makeStrict();
-		this.model.updateFilter( false );
+		this.active = true;
+		this.changed = true;
 
-		if ( this.model.getSize() != 0 )
+		if ( this.filtering )
 			return;
 
-		this.filter.makeFuzzy();
-		this.model.updateFilter( false );
+		synchronized ( waitObject )
+		{	waitObject.notify();
+		}
 	}
 
 	public synchronized void findMatch( int keyCode )
@@ -117,12 +119,13 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 		// then make sure that the current name is stored
 		// before the key typed event is fired
 
-		this.currentName = this.getEditor().getItem().toString();
+		String matchName = this.getEditor().getItem().toString();
+		this.currentName = matchName.toLowerCase();
 		JTextComponent editor = (JTextComponent) this.getEditor().getEditorComponent();
 
-		if ( this.model.contains( this.currentName ) )
+		if ( this.model.contains( matchName ) )
 		{
-			this.setSelectedItem( this.currentName );
+			this.setSelectedItem( matchName );
 			return;
 		}
 
@@ -133,11 +136,11 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 			if ( !this.isPopupVisible() )
 				this.showPopup();
 
-			this.updateFilter();
-			this.getEditor().setItem( this.currentName );
+			this.update();
+			this.getEditor().setItem( matchName );
 
-			editor.setSelectionStart( this.currentName.length() );
-			editor.setSelectionEnd( this.currentName.length() );
+			editor.setSelectionStart( matchName.length() );
+			editor.setSelectionEnd( matchName.length() );
 			return;
 		}
 
@@ -149,12 +152,11 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 
 		Object matchTest;
 		int matchCount = 0;
-		String lowercase = this.currentName.toLowerCase();
 
 		for ( int i = 0; i < this.model.getSize(); ++i )
 		{
 			matchTest = this.model.getElementAt(i);
-			if ( matchTest.toString().toLowerCase().startsWith( lowercase ) )
+			if ( matchTest.toString().toLowerCase().startsWith( currentName ) )
 			{
 				++matchCount;
 				this.currentMatch = matchTest;
@@ -171,8 +173,27 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 		// Highlight the rest of the possible name.
 
 		this.getEditor().setItem( this.currentMatch );
-		editor.setSelectionStart( this.currentMatch.toString().toLowerCase().indexOf( this.currentName.toLowerCase() ) + this.currentName.toString().length() );
+		editor.setSelectionStart( this.currentMatch.toString().toLowerCase().indexOf( this.currentName ) + this.currentName.length() );
 		editor.setSelectionEnd( this.currentMatch.toString().length() );
+	}
+
+	public boolean isVisible( Object element )
+	{
+		if ( !this.active )
+			return true;
+
+		// If it's not a result, then check to see if you need to
+		// filter based on its string form.
+
+		String elementName = (String) element;
+
+		if ( this.currentName == null || this.currentName.length() == 0 )
+			return true;
+
+		if ( this.strict )
+			return elementName.toLowerCase().indexOf( this.currentName ) != -1;
+
+		return KoLDatabase.fuzzyMatches( elementName, this.currentName );
 	}
 
 	private class NameInputListener extends KeyAdapter implements FocusListener
@@ -202,6 +223,47 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 				MutableComboBox.this.forceAddition();
 			else
 				MutableComboBox.this.setSelectedItem( MutableComboBox.this.currentMatch );
+		}
+	}
+
+	private class FilterThread extends Thread
+	{
+		public void run()
+		{
+			while ( true )
+			{
+				try
+				{
+					synchronized ( waitObject )
+					{	waitObject.wait();
+					}
+				}
+				catch ( Exception e )
+				{
+					// This shouldn't happen, so go ahead and
+					// fall through.
+				}
+
+				while( MutableComboBox.this.changed )
+				{
+					MutableComboBox.this.filtering = true;
+					MutableComboBox.this.changed = false;
+
+					applyFilter();
+					MutableComboBox.this.filtering = false;
+				}
+			}
+		}
+
+		private void applyFilter()
+		{
+			MutableComboBox.this.strict = true;
+			MutableComboBox.this.model.updateFilter( false );
+			if ( MutableComboBox.this.model.getSize() > 0 )
+				return;
+
+			MutableComboBox.this.strict = false;
+			MutableComboBox.this.model.updateFilter( false );
 		}
 	}
 }

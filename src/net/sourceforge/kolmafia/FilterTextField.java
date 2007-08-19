@@ -34,71 +34,82 @@
 package net.sourceforge.kolmafia;
 
 import java.util.Map.Entry;
-import javax.swing.JTextField;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
+import javax.swing.JTextField;
+import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
+
 import net.sourceforge.kolmafia.ConcoctionsDatabase.Concoction;
 import net.sourceforge.kolmafia.StoreManager.SoldItem;
 
-public class SimpleListFilter implements ListElementFilter
+public class FilterTextField extends JTextField implements ActionListener, FocusListener, ListElementFilter
 {
-	private JTextField field;
-	private MutableComboBox model;
+	protected String text;
 
-	private boolean active = true;
-	private boolean strict = true;
+	private LockableListModel model;
+	private boolean strict;
 
-	public SimpleListFilter( JTextField field )
-	{	this.field = field;
-	}
+	protected boolean changed, filtering;
 
-	public SimpleListFilter( MutableComboBox model )
-	{	this.model = model;
-	}
+	private Object waitObject = new Object();
 
-	public void activate()
-	{	this.active = true;
-	}
-
-	public void deactivate()
-	{	this.active = false;
-	}
-
-	public void makeStrict()
-	{	this.strict = true;
-	}
-
-	public void makeFuzzy()
-	{	this.strict = false;
-	}
-
-	private String getCurrentName()
+	public FilterTextField( LockableListModel model )
 	{
-		if ( this.model != null )
-			return this.model.getCurrentName();
+		this.model = model;
+		this.model.setFilter( this );
 
-		if ( this.field != null )
-			return this.field.getText();
+		this.addFocusListener( this );
+		this.addKeyListener( new FilterListener() );
 
-		return "";
+		this.changed = false;
+		this.filtering = false;
+		(new FilterThread()).start();
+	}
+
+	public void actionPerformed( ActionEvent e )
+	{	update();
+	}
+
+	public void focusGained( FocusEvent e )
+	{	this.selectAll();
+	}
+
+	public void focusLost( FocusEvent e )
+	{
+	}
+
+	public synchronized void update()
+	{
+		this.changed = true;
+
+		if ( this.filtering )
+			return;
+
+		synchronized ( waitObject )
+		{	waitObject.notify();
+		}
 	}
 
 	public boolean isVisible( Object element )
 	{
-		if ( !this.active )
-			return true;
-
 		// If it's not a result, then check to see if you need to
 		// filter based on its string form.
 
 		String elementName = getResultName( element );
-		String currentName = this.getCurrentName();
+		String currentName = this.text;
 
 		if ( currentName == null || currentName.length() == 0 )
 			return true;
 
 		if ( this.strict )
-			return elementName.toLowerCase().indexOf( currentName.toLowerCase() ) != -1;
+			return elementName.toLowerCase().indexOf( text ) != -1;
 
 		return KoLDatabase.fuzzyMatches( elementName, currentName );
 	}
@@ -121,5 +132,55 @@ public class SimpleListFilter implements ListElementFilter
 			return ((Entry)element).getValue().toString();
 
 		return element.toString();
+	}
+
+	private class FilterListener extends KeyAdapter
+	{
+		public void keyReleased( KeyEvent e )
+		{	update();
+		}
+	}
+
+	private class FilterThread extends Thread
+	{
+		public void run()
+		{
+			while ( true )
+			{
+				try
+				{
+					synchronized ( waitObject )
+					{	waitObject.wait();
+					}
+				}
+				catch ( Exception e )
+				{
+					// This shouldn't happen, so go ahead and
+					// fall through.
+				}
+
+				while( FilterTextField.this.changed )
+				{
+					FilterTextField.this.filtering = true;
+					FilterTextField.this.changed = false;
+
+					applyFilter();
+					FilterTextField.this.filtering = false;
+				}
+			}
+		}
+
+		private void applyFilter()
+		{
+			FilterTextField.this.text = FilterTextField.this.getText().toLowerCase();
+
+			FilterTextField.this.strict = true;
+			FilterTextField.this.model.updateFilter( false );
+			if ( FilterTextField.this.model.getSize() > 0 )
+				return;
+
+			FilterTextField.this.strict = false;
+			FilterTextField.this.model.updateFilter( false );
+		}
 	}
 }

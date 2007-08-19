@@ -370,33 +370,22 @@ public class ItemManageFrame extends KoLFrame
 
 		private class ConsumableFilterField extends FilterItemField
 		{
-			public SimpleListFilter getFilter()
-			{	return new ConsumableFilter();
-			}
-
-			private class ConsumableFilter extends SimpleListFilter
+			public boolean isVisible( Object element )
 			{
-				public ConsumableFilter()
-				{	super( ConsumableFilterField.this );
-				}
+				Concoction creation = (Concoction) element;
 
-				public boolean isVisible( Object element )
-				{
-					Concoction creation = (Concoction) element;
+				if ( creation.getQueued() == 0 )
+					return false;
 
-					if ( creation.getQueued() == 0 )
-						return false;
+				int fullness = TradeableItemDatabase.getFullness( creation.getName() );
+				int inebriety = TradeableItemDatabase.getInebriety( creation.getName() );
 
-					int fullness = TradeableItemDatabase.getFullness( creation.getName() );
-					int inebriety = TradeableItemDatabase.getInebriety( creation.getName() );
-
-					if ( fullness > 0 )
-						return ConsumePanel.this.food && super.isVisible( element );
-					else if ( inebriety > 0 )
-						return ConsumePanel.this.booze && super.isVisible( element );
-					else
-						return false;
-				}
+				if ( fullness > 0 )
+					return ConsumePanel.this.food && super.isVisible( element );
+				else if ( inebriety > 0 )
+					return ConsumePanel.this.booze && super.isVisible( element );
+				else
+					return false;
 			}
 		}
 	}
@@ -532,69 +521,58 @@ public class ItemManageFrame extends KoLFrame
 
 		private class ConsumableFilterField extends FilterItemField
 		{
-			public SimpleListFilter getFilter()
-			{	return new ConsumableFilter();
-			}
-
-			private class ConsumableFilter extends SimpleListFilter
+			public boolean isVisible( Object element )
 			{
-				public ConsumableFilter()
-				{	super( ConsumableFilterField.this );
-				}
+				Concoction creation = (Concoction) element;
 
-				public boolean isVisible( Object element )
+				int fullness = TradeableItemDatabase.getFullness( creation.getName() );
+				int inebriety = TradeableItemDatabase.getInebriety( creation.getName() );
+
+				if ( fullness > 0 )
 				{
-					Concoction creation = (Concoction) element;
-
-					int fullness = TradeableItemDatabase.getFullness( creation.getName() );
-					int inebriety = TradeableItemDatabase.getInebriety( creation.getName() );
-
-					if ( fullness > 0 )
-					{
-						if ( !QueuePanel.this.food )
-							return false;
-					}
-					else if ( inebriety > 0 )
-					{
-						if ( !QueuePanel.this.booze )
-							return false;
-					}
-					else
+					if ( !QueuePanel.this.food )
 						return false;
-
-					if ( creation.getTotal() == 0 )
-						return false;
-
-					if ( QueuePanel.this.filters[0].isSelected() )
-					{
-						AdventureResult item = creation.getItem();
-						if ( item != null && item.getCount( inventory ) == 0 )
-							return false;
-					}
-
-					if ( QueuePanel.this.filters[1].isSelected() )
-					{
-						String range = TradeableItemDatabase.getMuscleRange( creation.getName() );
-						if ( range.equals( "+0.0" ) || range.startsWith( "-" ) )
-							return false;
-					}
-
-					if ( QueuePanel.this.filters[2].isSelected() )
-					{
-						String range = TradeableItemDatabase.getMysticalityRange( creation.getName() );
-						if ( range.equals( "+0.0" ) || range.startsWith( "-" ) )
-							return false;
-					}
-
-					if ( QueuePanel.this.filters[3].isSelected() )
-					{
-						String range = TradeableItemDatabase.getMoxieRange( creation.getName() );
-						if ( range.equals( "+0.0" ) || range.startsWith( "-" ) )
-							return false;
-					}
-
-					return super.isVisible( element );
 				}
+				else if ( inebriety > 0 )
+				{
+					if ( !QueuePanel.this.booze )
+						return false;
+				}
+				else
+					return false;
+
+				if ( creation.getTotal() == 0 )
+					return false;
+
+				if ( QueuePanel.this.filters[0].isSelected() )
+				{
+					AdventureResult item = creation.getItem();
+					if ( item != null && item.getCount( inventory ) == 0 )
+						return false;
+				}
+
+				if ( QueuePanel.this.filters[1].isSelected() )
+				{
+					String range = TradeableItemDatabase.getMuscleRange( creation.getName() );
+					if ( range.equals( "+0.0" ) || range.startsWith( "-" ) )
+						return false;
+				}
+
+				if ( QueuePanel.this.filters[2].isSelected() )
+				{
+					String range = TradeableItemDatabase.getMysticalityRange( creation.getName() );
+					if ( range.equals( "+0.0" ) || range.startsWith( "-" ) )
+						return false;
+				}
+
+				if ( QueuePanel.this.filters[3].isSelected() )
+				{
+					String range = TradeableItemDatabase.getMoxieRange( creation.getName() );
+					if ( range.equals( "+0.0" ) || range.startsWith( "-" ) )
+						return false;
+				}
+
+				return super.isVisible( element );
 			}
 		}
 	}
@@ -689,62 +667,51 @@ public class ItemManageFrame extends KoLFrame
 
 		private class UsableItemFilterField extends FilterItemField
 		{
-			public SimpleListFilter getFilter()
-			{	return new UsableItemFilter();
-			}
-
-			private class UsableItemFilter extends SimpleListFilter
+			public boolean isVisible( Object element )
 			{
-				public UsableItemFilter()
-				{	super( UsableItemFilterField.this );
-				}
+				AdventureResult item = (AdventureResult)element;
+				int itemId = item.getItemId();
 
-				public boolean isVisible( Object element )
+				if ( !UsableItemFilterField.this.notrade && !TradeableItemDatabase.isTradeable( itemId ) )
+					 return false;
+
+				boolean filter = false;
+
+				switch ( TradeableItemDatabase.getConsumptionType( itemId ) )
 				{
-					AdventureResult item = (AdventureResult)element;
-					int itemId = item.getItemId();
+				case CONSUME_EAT:
+					filter = UsableItemFilterField.this.food;
+					break;
 
-					if ( !UsableItemFilterField.this.notrade && !TradeableItemDatabase.isTradeable( itemId ) )
-					     return false;
+				case CONSUME_DRINK:
+					filter = UsableItemFilterField.this.booze;
+					break;
 
-					boolean filter = false;
+				case CONSUME_USE:
+				case INFINITE_USES:
+				case CONSUME_MULTIPLE:
+				case GROW_FAMILIAR:
+				case CONSUME_ZAP:
+				case MP_RESTORE:
+				case HP_RESTORE:
+					filter = UsableItemFilterField.this.other;
+					break;
 
-					switch ( TradeableItemDatabase.getConsumptionType( itemId ) )
-					{
-					case CONSUME_EAT:
-						filter = UsableItemFilterField.this.food;
-						break;
+				case EQUIP_FAMILIAR:
+				case EQUIP_ACCESSORY:
+				case EQUIP_HAT:
+				case EQUIP_PANTS:
+				case EQUIP_SHIRT:
+				case EQUIP_WEAPON:
+				case EQUIP_OFFHAND:
+					filter = UsableItemFilterField.this.equip;
+					break;
 
-					case CONSUME_DRINK:
-						filter = UsableItemFilterField.this.booze;
-						break;
-
-					case CONSUME_USE:
-					case INFINITE_USES:
-					case CONSUME_MULTIPLE:
-					case GROW_FAMILIAR:
-					case CONSUME_ZAP:
-					case MP_RESTORE:
-					case HP_RESTORE:
-						filter = UsableItemFilterField.this.other;
-						break;
-
-					case EQUIP_FAMILIAR:
-					case EQUIP_ACCESSORY:
-					case EQUIP_HAT:
-					case EQUIP_PANTS:
-					case EQUIP_SHIRT:
-					case EQUIP_WEAPON:
-					case EQUIP_OFFHAND:
-						filter = UsableItemFilterField.this.equip;
-						break;
-
-					default:
-						return false;
-					}
-
-					return filter && super.isVisible( element );
+				default:
+					return false;
 				}
+
+				return filter && super.isVisible( element );
 			}
 		}
 	}
@@ -938,64 +905,57 @@ public class ItemManageFrame extends KoLFrame
 
 		private class EquipmentFilterField extends FilterItemField
 		{
-			public SimpleListFilter getFilter()
-			{	return new EquipmentFilter();
-			}
-
-			private class EquipmentFilter extends ConsumptionBasedFilter
+			public boolean isVisible( Object element )
 			{
-				public boolean isVisible( Object element )
+				if ( InventoryManagePanel.this.equipmentFilters == null )
+					return super.isVisible( element );
+
+				boolean isVisibleWithFilter = true;
+
+				if ( element == null )
+					return false;
+
+				int itemId = element instanceof AdventureResult ? ((AdventureResult)element).getItemId() :
+					element instanceof ItemCreationRequest ? ((ItemCreationRequest)element).getItemId() : -1;
+
+				if ( itemId == -1 )
+					return false;
+
+				switch ( TradeableItemDatabase.getConsumptionType( itemId ) )
 				{
-					if ( InventoryManagePanel.this.equipmentFilters == null )
-						return super.isVisible( element );
+				case EQUIP_WEAPON:
+					isVisibleWithFilter = InventoryManagePanel.this.equipmentFilters[0].isSelected();
+					break;
 
-					boolean isVisibleWithFilter = true;
+				case EQUIP_OFFHAND:
+					isVisibleWithFilter = InventoryManagePanel.this.equipmentFilters[1].isSelected();
+					break;
 
-					if ( element == null )
-						return false;
+				case EQUIP_HAT:
+					isVisibleWithFilter = InventoryManagePanel.this.equipmentFilters[2].isSelected();
+					break;
 
-					int itemId = element instanceof AdventureResult ? ((AdventureResult)element).getItemId() :
-						element instanceof ItemCreationRequest ? ((ItemCreationRequest)element).getItemId() : -1;
+				case EQUIP_SHIRT:
+					isVisibleWithFilter = InventoryManagePanel.this.equipmentFilters[3].isSelected();
+					break;
 
-					if ( itemId == -1 )
-						return false;
+				case EQUIP_PANTS:
+					isVisibleWithFilter = InventoryManagePanel.this.equipmentFilters[4].isSelected();
+					break;
 
-					switch ( TradeableItemDatabase.getConsumptionType( itemId ) )
-					{
-					case EQUIP_WEAPON:
-						isVisibleWithFilter = InventoryManagePanel.this.equipmentFilters[0].isSelected();
-						break;
+				case EQUIP_ACCESSORY:
+					isVisibleWithFilter = InventoryManagePanel.this.equipmentFilters[5].isSelected();
+					break;
 
-					case EQUIP_OFFHAND:
-						isVisibleWithFilter = InventoryManagePanel.this.equipmentFilters[1].isSelected();
-						break;
+				case EQUIP_FAMILIAR:
+					isVisibleWithFilter = InventoryManagePanel.this.equipmentFilters[6].isSelected();
+					break;
 
-					case EQUIP_HAT:
-						isVisibleWithFilter = InventoryManagePanel.this.equipmentFilters[2].isSelected();
-						break;
-
-					case EQUIP_SHIRT:
-						isVisibleWithFilter = InventoryManagePanel.this.equipmentFilters[3].isSelected();
-						break;
-
-					case EQUIP_PANTS:
-						isVisibleWithFilter = InventoryManagePanel.this.equipmentFilters[4].isSelected();
-						break;
-
-					case EQUIP_ACCESSORY:
-						isVisibleWithFilter = InventoryManagePanel.this.equipmentFilters[5].isSelected();
-						break;
-
-					case EQUIP_FAMILIAR:
-						isVisibleWithFilter = InventoryManagePanel.this.equipmentFilters[6].isSelected();
-						break;
-
-					default:
-						return false;
-					}
-
-					return isVisibleWithFilter && super.isVisible( element );
+				default:
+					return false;
 				}
+
+				return isVisibleWithFilter && super.isVisible( element );
 			}
 		}
 	}

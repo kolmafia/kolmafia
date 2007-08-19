@@ -2338,17 +2338,10 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		private class OverlapFilterField extends FilterItemField
 		{
-			public SimpleListFilter getFilter()
-			{	return new OverlapFilter();
-			}
-
-			private class OverlapFilter extends ConsumptionBasedFilter
+			public boolean isVisible( Object element )
 			{
-				public boolean isVisible( Object element )
-				{
-					return super.isVisible( element ) &&
-						(isOverlap ? inventory.contains( element ) : !OverlapPanel.this.overlapModel.contains( element ));
-				}
+				return super.isVisible( element ) &&
+					(isOverlap ? inventory.contains( element ) : !OverlapPanel.this.overlapModel.contains( element ));
 			}
 		}
 
@@ -2413,31 +2406,20 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		private class RestorativeItemFilterField extends FilterItemField
 		{
-			public SimpleListFilter getFilter()
-			{	return new RestorativeItemFilter();
-			}
-
-			private class RestorativeItemFilter extends SimpleListFilter
+			public boolean isVisible( Object element )
 			{
-				public RestorativeItemFilter()
-				{	super( RestorativeItemFilterField.this );
-				}
+				AdventureResult item = (AdventureResult)element;
+				int itemId = item.getItemId();
 
-				public boolean isVisible( Object element )
+				switch ( TradeableItemDatabase.getConsumptionType( itemId ) )
 				{
-					AdventureResult item = (AdventureResult)element;
-					int itemId = item.getItemId();
+				case MP_RESTORE:
+				case HP_RESTORE:
+				case HPMP_RESTORE:
+					return super.isVisible( element );
 
-					switch ( TradeableItemDatabase.getConsumptionType( itemId ) )
-					{
-					case MP_RESTORE:
-					case HP_RESTORE:
-					case HPMP_RESTORE:
-						return super.isVisible( element );
-
-					default:
-						return false;
-					}
+				default:
+					return false;
 				}
 			}
 		}
