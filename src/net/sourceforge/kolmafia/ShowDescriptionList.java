@@ -237,15 +237,9 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		if ( name == null )
 			return;
 
-		try
-		{
-			name = URLEncoder.encode( name, "UTF-8" );
-			StaticEntity.openSystemBrowser( "http://kol.coldfront.net/thekolwiki/index.php/Special:Search?search=" + name );
-		}
-		catch ( Exception e )
-		{
-			StaticEntity.printStackTrace( e );
-		}
+		name = StaticEntity.globalStringReplace( name, " ", "_" );
+		name = Character.toUpperCase( name.charAt( 0 ) ) + name.substring( 1 );
+		StaticEntity.openSystemBrowser( "http://kol.coldfront.net/thekolwiki/index.php/" + name );
 	}
 
 	private abstract class ContextMenuItem extends ThreadedMenuItem
