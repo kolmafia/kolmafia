@@ -55,9 +55,9 @@ public class MutableComboBox extends JComboBox implements ListElementFilter
 
 	public MutableComboBox( LockableListModel model, boolean allowAdditions )
 	{
-		super( model );
+		this.model = model.getMirrorImage();
+		this.setModel( this.model );
 
-		this.model = model;
 		this.model.setFilter( this );
 		this.setEditable( true );
 
@@ -185,15 +185,12 @@ public class MutableComboBox extends JComboBox implements ListElementFilter
 		// If it's not a result, then check to see if you need to
 		// filter based on its string form.
 
-		String elementName = (String) element;
-
 		if ( this.currentName == null || this.currentName.length() == 0 )
 			return true;
 
-		if ( this.strict )
-			return elementName.toLowerCase().indexOf( this.currentName ) != -1;
-
-		return KoLDatabase.fuzzyMatches( elementName, this.currentName );
+		String elementName = element.toString().toLowerCase();
+		return this.strict ? elementName.indexOf( this.currentName ) != -1 :
+			KoLDatabase.fuzzyMatches( elementName, this.currentName );
 	}
 
 	private class NameInputListener extends KeyAdapter implements FocusListener
