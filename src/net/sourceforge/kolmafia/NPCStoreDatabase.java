@@ -190,6 +190,9 @@ public class NPCStoreDatabase extends KoLDatabase
 		else if ( storeId.equals( "l" ) )
 			return QuestLogRequest.isBlackMarketAvailable();
 
+		else if ( storeId.equals( "n" ) )
+			return KoLCharacter.inMoxieSign();
+
 		// Check the quest log when determining whether the person has
 		// access to the Citadel.
 
