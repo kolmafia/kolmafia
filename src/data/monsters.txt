@@ -88,7 +88,7 @@
 A Bugged Bugbear	HP: 14 Def: 18 Atk: 14	gnoll teeth (30)	gnoll lips (30)
 A Revolting Bugbear	HP: 10 Def: 13 Atk: 13
 A Revolving Bugbear	HP: 11 Def: 15 Atk: 15
-A.M.C. Gremlin	HP: 0
+A.M.C. Gremlin	HP: 0	gremlin juice (0)
 Acid Blob	HP: 40 Def: 38 Atk: 38
 Albino Bat	HP: 8  Def: 14 Atk: 10 Meat: 16-26	batgut (10)	bat guano (10)
 Alphabet Giant	HP: 150 Def: 145 Atk: 145 Meat: 122-183	heavy D (40)	original G (40)
@@ -112,7 +112,7 @@ Bar	HP: 5 Def: 3 Atk: 1 Meat: 12-20	bar skin (25)	barskin hat (5)
 Baron Von Ratsworth
 Baseball Bat	HP: 9 Def: 15 Atk: 15 Meat: 17-27	baseball (30)	sonar-in-a-biscuit (20)
 Batrat	HP: 20 Def: 23 Atk: 23 Meat: 18-28	bat wing (15)	bat guano (15)	batgut (15)
-Batwinged Gremlin	HP: 0
+Batwinged Gremlin	HP: 0	gremlin juice (0)	molybdenum hammer (0)
 Beanbat	HP: 18 Def: 21 Atk: 21 Meat: 28-43	enchanted bean (50)
 Beefy Bodyguard Bat	HP: 0
 Beer Bongadier	HP: 0
@@ -185,7 +185,7 @@ Dyspepsi-Cola Knight	HP: 35 Def: 30 Atk: 30	Dyspepsi-Cola (15)	Dyspepsi-Cola (15
 Dyspepsi-Cola Soldier	HP: 30 Def: 30 Atk: 30	Dyspepsi-Cola (15)	Dyspepsi-Cola (15)	Dyspepsi grenade (5)
 Elite Beer Bongadier	HP: 0
 Empty Suit of Armor	HP: 120 Def: 115 Atk: 115 ED: spooky	antique greaves (10)	antique helmet (10)	antique spear (10)	antique shield (10)
-Erudite Gremlin	HP: 0
+Erudite Gremlin	HP: 0	gremlin juice (0)	molybdenum crescent wrench (0)
 Evil Olive	HP: 120 Def: 125 Atk: 125	bottle of gin (30)	olive (40)	jumbo olive (10)
 eXtreme Cross-Country Hippy	HP: 65 Def: 73 Atk: 73 E: stench	eXtreme mittens (5)	eXtreme scarf (10)	Mountain Stream soda (30)
 eXtreme Orcish Snowboarder	HP: 65 Def: 74 Atk: 76 Meat: 32-50 E: sleaze	eXtreme mittens (5)	Mountain Stream soda (30)	snowboarder pants (10)
@@ -398,7 +398,7 @@ Sorority Nurse	HP: 0
 Sorority Operator	HP: 0
 Spam Witch	HP: 75 Def: 85 Atk: 85 EA: sleaze Meat: 24-38	30669 scroll (30)	Spam Witch sammich (50)
 Spectral Jellyfish	HP: 60 Def: 70 Atk: 70
-Spider Gremlin	HP: 0
+Spider Gremlin	HP: 0	gremlin juice (0)	molybdenum pliers (0)
 Spiny Skelelton	HP: 50 Def: 54 Atk: 54 E: spooky	skeleton bone (40)	smart skull (50)	spiked femur (10)
 Spooky Gravy Fairy Guard	HP: 45 Def: 54 Atk: 56 E: spooky	spooky mushroom (40)	halfberd (5)	small leather glove (10)
 Spooky Gravy Fairy Ninja	HP: 55 Def: 65 Atk: 65 E: spooky	spooky mushroom (40)	teeny-tiny ninja stars (5)	tiny ninja sword (5)
@@ -462,7 +462,7 @@ Upgraded Ram	HP: 95 Def: 104 Atk: 104 ED: cold	ram horns (5)	ram stick (5)	Ram's
 Vampire Bat	HP: 10 Def: 16 Atk: 18 Meat: 34-54	bat wing (15)	batgut (15)	sonar-in-a-biscuit (20)
 Vampire Clam	HP: 14 Def: 19 Atk: 21
 Vampire Duck	HP: 0
-Vegetable Gremlin	HP: 0
+Vegetable Gremlin	HP: 0	gremlin juice (0)	molybdenum screwdriver (0)
 Vicious Gnauga	HP: 40 Def: 45 Atk: 45	gnauga hide (10)
 Vine Gar	HP: 180 Def: 200 Atk: 200	vinegar (30)	vinegar (30)
 W Imp	HP: 40 Def: 40 Atk: 40 E: heat Meat: 24-39	Imp Ale (30)	ruby W (30)	wussiness potion (30)
