@@ -125,9 +125,8 @@ public class KoLRequest extends Job implements KoLConstants
 	public static String KOL_HOST = SERVERS[1][0];
 	public static URL KOL_ROOT = null;
 
-	public URL formURL;
-	public boolean followRedirects;
-	public String formURLString;
+	private URL formURL;
+	private String formURLString;
 
 	public boolean isChatRequest = false;
 
@@ -144,7 +143,6 @@ public class KoLRequest extends Job implements KoLConstants
 	public String redirectLocation;
 
 	private static final KoLRequest CHOICE_HANDLER = new KoLRequest( "choice.php" );
-	public static final KoLRequest VISITOR = new KoLRequest( "", true );
 
 	public static final void setDelayActive( boolean delayActive )
 	{	KoLRequest.delayActive = delayActive;
@@ -298,26 +296,11 @@ public class KoLRequest extends Job implements KoLConstants
 	 * @param	formURLString	The form to be used in posting data
 	 */
 
-	public KoLRequest( String formURLString )
-	{	this( formURLString, false );
-	}
-
-	/**
-	 * Constructs a new KoLRequest which will notify the given client
-	 * of any changes and will use the given URL for data submission,
-	 * possibly following redirects if the parameter so specifies.
-	 *
-	 * @param	formURLString	The form to be used in posting data
-	 * @param	followRedirects	<code>true</code> if redirects are to be followed
-	 */
-
-	public KoLRequest( String formURLString, boolean followRedirects )
+	public KoLRequest( String newURLString )
 	{
 		this.data = new ArrayList();
-		this.followRedirects = followRedirects;
-
-		if ( !formURLString.equals( "" ) )
-			this.constructURLString( formURLString );
+		if ( !newURLString.equals( "" ) )
+			this.constructURLString( newURLString );
 	}
 
 	public boolean hasNoResult()
@@ -644,9 +627,6 @@ public class KoLRequest extends Job implements KoLConstants
 
 		// When following redirects, you will get different URL
 		// strings, so make sure you update.
-
-		if ( this.followRedirects )
-			location = this.getURLString();
 
 		boolean isQuestLocation = location.startsWith( "council" ) || location.startsWith( "guild" ) ||
 			location.startsWith( "friars" ) || location.startsWith( "trapper" ) || location.startsWith( "bhh" ) ||
@@ -1175,12 +1155,9 @@ public class KoLRequest extends Job implements KoLConstants
 		}
 
 		if ( this.formURLString.startsWith( "fight.php" ) )
-		{
-			FightRequest.updateCombatData( this.encounter, "" );
 			return true;
-		}
 
-		if ( this.followRedirects )
+		if ( this instanceof EquipmentRequest || this.getClass() == KoLRequest.class )
 		{
 			// Re-setup this request to follow the redirect
 			// desired and rerun the request.

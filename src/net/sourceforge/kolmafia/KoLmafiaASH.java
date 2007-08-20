@@ -203,7 +203,9 @@ public class KoLmafiaASH extends StaticEntity
 	private static final TreeMap TIMESTAMPS = new TreeMap();
 	private static final TreeMap INTERPRETERS = new TreeMap();
 
-	public static final LocalRelayRequest RELAYER = new LocalRelayRequest( false );
+	private static final KoLRequest VISITOR = new KoLRequest( "" );
+	private static final LocalRelayRequest RELAYER = new LocalRelayRequest( false );
+
 	public static final KoLmafiaASH NAMESPACE_INTERPRETER = new KoLmafiaASH();
 
 	public KoLmafiaASH()
@@ -1039,7 +1041,7 @@ public class KoLmafiaASH extends StaticEntity
 				parseError( "}", "EOF" );
 
 			if ( currentToken().equals( "}" ) )
-			     break;
+				 break;
 		}
 
 		readToken(); // read }
@@ -1137,11 +1139,11 @@ public class KoLmafiaASH extends StaticEntity
 
 		result.setScope( scope );
 		if ( !result.assertReturn() && !functionType.equals( TYPE_VOID )
-		     // The following clause can't be correct. I think it
-		     // depends on the various conditional & loop constructs
-		     // returning a boolean. Or something. But without it,
-		     // existing scripts break. Aargh!
-		     && !functionType.equals( TYPE_BOOLEAN ) )
+			 // The following clause can't be correct. I think it
+			 // depends on the various conditional & loop constructs
+			 // returning a boolean. Or something. But without it,
+			 // existing scripts break. Aargh!
+			 && !functionType.equals( TYPE_BOOLEAN ) )
 			throw new AdvancedScriptException( "Missing return value " + getLineAndFile() );
 
 		return result;
@@ -2448,10 +2450,10 @@ public class KoLmafiaASH extends StaticEntity
 
 		// Int coerces to float
 		if ( lhs.equals( TYPE_INT ) && rhs.equals( TYPE_FLOAT ) )
-		     return true;
+			 return true;
 
 		if ( lhs.equals( TYPE_FLOAT ) && rhs.equals( TYPE_INT ) )
-		     return true;
+			 return true;
 
 		return false;
 	}
@@ -4430,7 +4432,7 @@ public class KoLmafiaASH extends StaticEntity
 		public boolean addElement( ScriptSymbol n )
 		{
 			if ( findSymbol( n.getName() ) != null )
-			     return false;
+				 return false;
 
 			super.addElement( n );
 			return true;
@@ -4779,8 +4781,8 @@ public class KoLmafiaASH extends StaticEntity
 			if ( input == null || !input.exists() )
 				return STRING_INIT;
 
-			KoLRequest.VISITOR.loadResponseFromFile( input );
-			return KoLRequest.VISITOR.responseText == null ? STRING_INIT : new ScriptValue( KoLRequest.VISITOR.responseText );
+			VISITOR.loadResponseFromFile( input );
+			return VISITOR.responseText == null ? STRING_INIT : new ScriptValue( VISITOR.responseText );
 		}
 
 		public ScriptValue write( ScriptVariable string )
@@ -4832,21 +4834,21 @@ public class KoLmafiaASH extends StaticEntity
 			StringBuffer buffer = new StringBuffer();
 			ScriptValue returnValue = new ScriptValue( BUFFER_TYPE, "", buffer );
 
-			KoLRequest.VISITOR.constructURLString( location );
-			if ( KoLRequest.shouldIgnore( KoLRequest.VISITOR ) )
+			VISITOR.constructURLString( location );
+			if ( KoLRequest.shouldIgnore( VISITOR ) )
 				return returnValue;
 
-			if ( relayRequest == null )
+			if ( relayScript == null )
 			{
-				if ( KoLRequest.VISITOR.getPath().equals( "fight.php" ) )
+				if ( VISITOR.getPath().equals( "fight.php" ) )
 					if ( FightRequest.getCurrentRound() == 0 )
 						return returnValue;
 
-				RequestThread.postRequest( KoLRequest.VISITOR );
-				if ( KoLRequest.VISITOR.responseText != null )
+				RequestThread.postRequest( VISITOR );
+				if ( VISITOR.responseText != null )
 				{
-					buffer.append( KoLRequest.VISITOR.responseText );
-					StaticEntity.externalUpdate( location, KoLRequest.VISITOR.responseText );
+					buffer.append( VISITOR.responseText );
+					StaticEntity.externalUpdate( location, VISITOR.responseText );
 				}
 			}
 			else
@@ -6837,7 +6839,7 @@ public class KoLmafiaASH extends StaticEntity
 		public String toString()
 		{	return target.getName() + "[]";
 		}
-        }
+		}
 
 	private static class ScriptVariableReferenceList extends ScriptList
 	{
@@ -7535,10 +7537,10 @@ public class KoLmafiaASH extends StaticEntity
 			if ( direction > 0 )
 				up = true;
 			else if ( direction < 0 )
-                        {
+						{
 				up = false;
 				increment = -increment;
-                        }
+						}
 			else
 				up = ( current <= end );
 
@@ -7924,7 +7926,7 @@ public class KoLmafiaASH extends StaticEntity
 
 	private static class ScriptNamedType extends ScriptType
 	{
-                ScriptType base;
+				ScriptType base;
 
 		public ScriptNamedType( String name, ScriptType base )
 		{
@@ -7968,7 +7970,7 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptExpression initialValueExpression()
 		{	return new ScriptTypeInitializer( this );
 		}
-        }
+		}
 
 	private static class ScriptAggregateType extends ScriptCompositeType
 	{
@@ -8084,19 +8086,19 @@ public class KoLmafiaASH extends StaticEntity
 
 		public String [] getFieldNames()
 		{	return fieldNames;
-                }
+				}
 
 		public ScriptType [] getFieldTypes()
 		{	return fieldTypes;
-                }
+				}
 
 		public ScriptValue [] getFieldIndices()
 		{	return fieldIndices;
-                }
+				}
 
 		public int fieldCount()
 		{	return fieldTypes.length;
-                }
+				}
 
 		public ScriptType getIndexType()
 		{	return STRING_TYPE;
@@ -8104,7 +8106,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptType getDataType( Object key )
 		{
-                        if ( !( key instanceof ScriptValue ) )
+						if ( !( key instanceof ScriptValue ) )
 				throw new RuntimeException( "Internal error: key is not a ScriptValue" );
 			int index = indexOf( (ScriptValue)key );
 			if ( index < 0 || index >= fieldTypes.length )
@@ -8677,7 +8679,7 @@ public class KoLmafiaASH extends StaticEntity
 			super( type );
 
 			ScriptType [] dataTypes = type.getFieldTypes();
-                        int size = dataTypes.length;
+						int size = dataTypes.length;
 			ScriptValue [] content = new ScriptValue[ size ];
 			for ( int i = 0; i < size; ++i )
 				content[i] = dataTypes[i].initialValue();
@@ -9055,16 +9057,16 @@ public class KoLmafiaASH extends StaticEntity
 			if ( operator.equals( "=" ) || operator.equals( "==" ) )
 			{
 				if ( lhs.getType().equals( TYPE_STRING ) ||
-				     lhs.getType().equals( TYPE_LOCATION ) ||
-				     lhs.getType().equals( TYPE_MONSTER ) )
+					 lhs.getType().equals( TYPE_LOCATION ) ||
+					 lhs.getType().equals( TYPE_MONSTER ) )
 					return new ScriptValue( leftValue.toString().equalsIgnoreCase( rightValue.toString() ) );
 			}
 
 			if ( operator.equals( "!=" ) )
 			{
 				if ( lhs.getType().equals( TYPE_STRING ) ||
-				     lhs.getType().equals( TYPE_LOCATION ) ||
-				     lhs.getType().equals( TYPE_MONSTER ) )
+					 lhs.getType().equals( TYPE_LOCATION ) ||
+					 lhs.getType().equals( TYPE_MONSTER ) )
 					return new ScriptValue( !leftValue.toString().equalsIgnoreCase( rightValue.toString() ) );
 			}
 

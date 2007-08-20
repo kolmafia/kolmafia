@@ -985,26 +985,24 @@ public class TradeableItemDatabase extends KoLDatabase
 		}
 
 		RequestLogger.printLine( "Parsing for quest items..." );
+		KoLRequest itemChecker = new KoLRequest( "inventory.php?which=3" );
 
-		for ( int pageId = 1; pageId <= 3; ++pageId )
+		RequestThread.postRequest( itemChecker );
+		itemMatcher = DESCRIPTION_PATTERN.matcher( itemChecker.responseText );
+
+		while ( itemMatcher.find() )
 		{
-			RequestThread.postRequest( KoLRequest.VISITOR.constructURLString( "inventory.php?which=" + pageId ) );
-			itemMatcher = DESCRIPTION_PATTERN.matcher( KoLRequest.VISITOR.responseText );
+			String itemName = itemMatcher.group(2);
+			int itemId = TradeableItemDatabase.getItemId( itemName );
 
-			while ( itemMatcher.find() )
-			{
-				String itemName = itemMatcher.group(2);
-				int itemId = TradeableItemDatabase.getItemId( itemName );
+			if ( itemId == -1 )
+				continue;
 
-				if ( itemId == -1 )
-					continue;
+			if ( !descriptionById.get( itemId ).equals( "" ) )
+				continue;
 
-				if ( !descriptionById.get( itemId ).equals( "" ) )
-					continue;
-
-				foundChanges = true;
-				registerItem( itemId, itemName, itemMatcher.group(1) );
-			}
+			foundChanges = true;
+			registerItem( itemId, itemName, itemMatcher.group(1) );
 		}
 
 		if ( foundChanges )

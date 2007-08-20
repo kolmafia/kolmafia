@@ -40,6 +40,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class EquipmentRequest extends PasswordHashRequest
 {
+	private static final KoLRequest COMBINE_PAGE = new KoLRequest( "" );
 	private static final EquipmentRequest REFRESH1 = new EquipmentRequest( EquipmentRequest.CONSUMABLES );
 	private static final EquipmentRequest REFRESH2 = new EquipmentRequest( EquipmentRequest.EQUIPMENT );
 	private static final EquipmentRequest REFRESH3 = new EquipmentRequest( EquipmentRequest.MISCELLANEOUS );
@@ -115,7 +116,7 @@ public class EquipmentRequest extends PasswordHashRequest
 
 	public EquipmentRequest( int requestType )
 	{
-		super( requestType == CLOSET ? "closet.php" : requestType == UNEQUIP_ALL ? "inv_equip.php" : "inventory.php", true );
+		super( requestType == CLOSET ? "closet.php" : requestType == UNEQUIP_ALL ? "inv_equip.php" : "inventory.php" );
 
 		this.requestType = requestType;
 		this.outfit = null;
@@ -140,7 +141,7 @@ public class EquipmentRequest extends PasswordHashRequest
 
 	public EquipmentRequest( String changeName )
 	{
-		super( "inv_equip.php", true );
+		super( "inv_equip.php" );
 
 		this.addFormField( "which", "2" );
 		this.addFormField( "action", "customoutfit" );
@@ -158,7 +159,7 @@ public class EquipmentRequest extends PasswordHashRequest
 
 	public EquipmentRequest( AdventureResult changeItem, int equipmentSlot, boolean force )
 	{
-		super( "inv_equip.php", true );
+		super( "inv_equip.php" );
 		this.initializeChangeData( changeItem, equipmentSlot, force );
 	}
 
@@ -210,7 +211,7 @@ public class EquipmentRequest extends PasswordHashRequest
 
 	public EquipmentRequest( SpecialOutfit change )
 	{
-		super( "inv_equip.php", true );
+		super( "inv_equip.php" );
 
 		this.addFormField( "action", "outfit" );
 		this.addFormField( "which", "2" );
@@ -601,9 +602,9 @@ public class EquipmentRequest extends PasswordHashRequest
 			if ( KoLCharacter.inMuscleSign() || inventory.contains( PASTE ) )
 			{
 				KoLCharacter.resetInventory();
-				VISITOR.constructURLString( KoLCharacter.inMuscleSign() ? "knoll.php?place=paster" : "combine.php" ).run();
+				COMBINE_PAGE.constructURLString( KoLCharacter.inMuscleSign() ? "knoll.php?place=paster" : "combine.php" ).run();
 
-				Matcher selectMatcher = SELECT_PATTERN.matcher( VISITOR.responseText );
+				Matcher selectMatcher = SELECT_PATTERN.matcher( COMBINE_PAGE.responseText );
 				if ( selectMatcher.find() )
 					this.parseCloset( selectMatcher.group(), inventory );
 			}

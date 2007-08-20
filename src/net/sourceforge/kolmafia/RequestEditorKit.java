@@ -2563,6 +2563,8 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					if ( elements[i] != null && elements[j] != null && fields[i].equals( fields[j] ) )
 						elements[j] = null;
 
+			KoLRequest formSubmitter = new KoLRequest( "" );
+
 			if ( action.indexOf( "?" ) != -1 )
 			{
 				// For quirky URLs where there's a question mark
@@ -2582,7 +2584,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 				try
 				{
-					KoLRequest.VISITOR.constructURLString( URLDecoder.decode( actionString.toString(), "ISO-8859-1" ) );
+					formSubmitter.constructURLString( URLDecoder.decode( actionString.toString(), "ISO-8859-1" ) );
 				}
 				catch ( Exception e )
 				{
@@ -2590,7 +2592,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					// a stack trace for debug purposes.
 
 					StaticEntity.printStackTrace( e );
-					KoLRequest.VISITOR.constructURLString( actionString.toString() );
+					formSubmitter.constructURLString( actionString.toString() );
 				}
 			}
 			else
@@ -2598,14 +2600,14 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				// For normal URLs, the form data can be submitted
 				// just like in every other request.
 
-				KoLRequest.VISITOR.constructURLString( action );
+				formSubmitter.constructURLString( action );
 				if ( elements[0].length() > 0 )
 					for ( int i = 0; i < elements.length; ++i )
 						if ( elements[i] != null )
-							KoLRequest.VISITOR.addEncodedFormField( elements[i] );
+							formSubmitter.addEncodedFormField( elements[i] );
 			}
 
-			frame.refresh( KoLRequest.VISITOR );
+			frame.refresh( formSubmitter );
 		}
 
 		private RequestFrame findFrame( String value )
@@ -2633,29 +2635,13 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			downloadImage( location );
 			location = location.substring( location.indexOf( "/" ) );
 
-			KoLRequest.VISITOR.constructURLString( location );
-			KoLRequest.VISITOR.responseCode = 200;
-			KoLRequest.VISITOR.responseText = "<html><img src=\"" + location + "\"></html>";
-			KoLRequest.VISITOR.responseText = KoLRequest.VISITOR.responseText;
-			return KoLRequest.VISITOR;
+			KoLRequest extractedRequest = new KoLRequest( location );
+			extractedRequest.responseCode = 200;
+			extractedRequest.responseText = "<html><img src=\"" + location + "\"></html>";
+			extractedRequest.responseText = extractedRequest.responseText;
+			return extractedRequest;
 		}
 
-		String [] urlData = location.split( "\\?" );
-		String [] formData = urlData.length == 1 ? new String[0] : urlData[1].split( "&" );
-		String [] currentField;
-
-		KoLRequest.VISITOR.constructURLString( urlData[0] );
-
-		for ( int i = 0; i < formData.length; ++i )
-		{
-			currentField = formData[i].split( "=" );
-
-			if ( currentField.length == 2 )
-				KoLRequest.VISITOR.addFormField( currentField[0], currentField[1] );
-			else
-				KoLRequest.VISITOR.addFormField( formData[i] );
-		}
-
-		return KoLRequest.VISITOR;
+		return new KoLRequest( location );
 	}
 }

@@ -57,7 +57,7 @@ import net.sourceforge.kolmafia.BuffBotManager.Offering;
 
 public class BuffRequestFrame extends KoLFrame
 {
-	public static final KoLRequest ONLINE_VALIDATOR = new KoLRequest( "submitnewchat.php", true );
+	public static final KoLRequest ONLINE_VALIDATOR = new KoLRequest( "submitnewchat.php" );
 
 	private static final String NO_REQUEST_TEXT = "\nTo whom it may concern:\n\n" +
 		"At the frequent request of individuals wanting to see the name 'BOT_NAME' listed in KoLmafia's buff purchase interface, " +

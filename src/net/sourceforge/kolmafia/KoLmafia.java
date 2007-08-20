@@ -144,7 +144,7 @@ public abstract class KoLmafia implements KoLConstants
 		stopEncounters.add( "Mr. Alarm" );
 		stopEncounters.add( "We'll All Be Flat" );
 
-                // Adventures that start the Around the World Quest
+				// Adventures that start the Around the World Quest
 
 		stopEncounters.add( "I Just Wanna Fly" );
 		stopEncounters.add( "Me Just Want Fly" );
@@ -626,7 +626,7 @@ public abstract class KoLmafia implements KoLConstants
 			if ( KoLSettings.getIntegerProperty( "lastFilthClearance" ) == KoLCharacter.getAscensions() )
 			{
 				KoLmafia.updateDisplay( "Collecting cut of hippy profits..." );
-				RequestThread.postRequest( KoLRequest.VISITOR.constructURLString( "store.php?whichstore=h" ) );
+				RequestThread.postRequest( new KoLRequest( "store.php?whichstore=h" ) );
 				forceContinue();
 			}
 		}
@@ -1859,7 +1859,7 @@ public abstract class KoLmafia implements KoLConstants
 
 					int bountyItem = KoLSettings.getIntegerProperty( "currentBountyItem" );
 					if ( bountyItem != 0 && AdventureDatabase.getBountyLocation( TradeableItemDatabase.getItemName( bountyItem ) ) == request )
-						RequestThread.postRequest( KoLRequest.VISITOR.constructURLString( "bhh.php" ) );
+						RequestThread.postRequest( new KoLRequest( "bhh.php" ) );
 
 					updateDisplay( PENDING_STATE, "Conditions satisfied after " + (currentIteration - 1) +
 						((currentIteration == 2) ? " request." : " requests.") );
@@ -2247,7 +2247,7 @@ public abstract class KoLmafia implements KoLConstants
 			return -1;
 		}
 
-		KoLRequest.VISITOR.constructURLString( "council.php" ).run();
+		CouncilFrame.COUNCIL_VISIT.run();
 
 		updateDisplay( "Searching for faucet..." );
 		RequestThread.postRequest( adventure );
@@ -2293,14 +2293,16 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void tradeGourdItems()
 	{
+		KoLRequest gourdVisit = new KoLRequest( "town_right.php?place=gourd" );
+
 		updateDisplay( "Determining items needed..." );
-		RequestThread.postRequest( KoLRequest.VISITOR.constructURLString( "town_right.php?place=gourd" ) );
+		RequestThread.postRequest( gourdVisit );
 
 		// For every class, it's the same -- the message reads, "Bring back"
 		// and then the number of the item needed.  Compare how many you need
 		// with how many you have.
 
-		Matcher neededMatcher = GOURD_PATTERN.matcher( KoLRequest.VISITOR.responseText );
+		Matcher neededMatcher = GOURD_PATTERN.matcher( gourdVisit.responseText );
 		AdventureResult item;
 
 		switch ( KoLCharacter.getPrimeIndex() )
@@ -2316,11 +2318,12 @@ public abstract class KoLmafia implements KoLConstants
 		}
 
 		int neededCount = neededMatcher.find() ? StaticEntity.parseInt( neededMatcher.group(1) ) : 26;
+		gourdVisit.addFormField( "action=gourd" );
 
 		while ( neededCount <= 25 && neededCount <= item.getCount( inventory ) )
 		{
 			updateDisplay( "Giving up " + neededCount + " " + item.getName() + "s..." );
-			RequestThread.postRequest( KoLRequest.VISITOR.constructURLString( "town_right.php?place=gourd&action=gourd" ) );
+			RequestThread.postRequest( gourdVisit );
 			this.processResult( item.getInstance( 0 - neededCount++ ) );
 		}
 
@@ -2337,32 +2340,35 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void unlockGuildStore( boolean stopAtPaco )
 	{
+		KoLRequest guildVisit = new KoLRequest( "town_right.php?place=gourd" );
+
 		// The wiki claims that your prime stats are somehow connected,
 		// but the exact procedure is uncertain.  Therefore, just allow
 		// the person to attempt to unlock their store, regardless of
 		// their current stats.
 
 		updateDisplay( "Entering guild challenge area..." );
-		RequestThread.postRequest( KoLRequest.VISITOR.constructURLString( "guild.php?place=challenge" ) );
+		RequestThread.postRequest( guildVisit.constructURLString( "guild.php?place=challenge" ) );
 
-		boolean success = stopAtPaco ? KoLRequest.VISITOR.responseText.indexOf( "paco" ) != -1 :
-			KoLRequest.VISITOR.responseText.indexOf( "store.php" ) != -1;
+		boolean success = stopAtPaco ? guildVisit.responseText.indexOf( "paco" ) != -1 :
+			guildVisit.responseText.indexOf( "store.php" ) != -1;
 
+		guildVisit.constructURLString( "guild.php?action=chal" );
 		updateDisplay( "Completing guild tasks..." );
 
 		for ( int i = 0; i < 6 && !success && KoLCharacter.getAdventuresLeft() > 0 && permitsContinue(); ++i )
 		{
-			RequestThread.postRequest( KoLRequest.VISITOR.constructURLString( "guild.php?action=chal" ) );
+			RequestThread.postRequest( guildVisit );
 
-			if ( KoLRequest.VISITOR.responseText != null )
+			if ( guildVisit.responseText != null )
 			{
-				success |= stopAtPaco ? KoLRequest.VISITOR.responseText.indexOf( "paco" ) != -1 :
-					KoLRequest.VISITOR.responseText.indexOf( "You've already beaten" ) != -1;
+				success |= stopAtPaco ? guildVisit.responseText.indexOf( "paco" ) != -1 :
+					guildVisit.responseText.indexOf( "You've already beaten" ) != -1;
 			}
 		}
 
-		if ( success && KoLCharacter.getLevel() > 3 )
-			RequestThread.postRequest( KoLRequest.VISITOR.constructURLString( "guild.php?place=paco" ) );
+		if ( success )
+			RequestThread.postRequest( guildVisit.constructURLString( "guild.php?place=paco" ) );
 
 		if ( success && stopAtPaco )
 			updateDisplay( "You have unlocked the guild meatcar quest." );
@@ -2409,7 +2415,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * Show an HTML string to the user
 	 */
 
-	public abstract void showHTML( String text );
+	public abstract void showHTML( String location, String text );
 
 	public static final boolean hadPendingState()
 	{	return hadPendingState;

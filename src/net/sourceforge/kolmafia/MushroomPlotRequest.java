@@ -36,7 +36,7 @@ package net.sourceforge.kolmafia;
 public class MushroomPlotRequest extends KoLRequest
 {
 	public MushroomPlotRequest()
-	{	super( "knoll_mushrooms.php", true );
+	{	super( "knoll_mushrooms.php" );
 	}
 
 	public MushroomPlotRequest( int square )

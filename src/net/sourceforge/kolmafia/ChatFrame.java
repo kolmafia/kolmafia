@@ -57,6 +57,8 @@ import javax.swing.JToolBar;
 
 public class ChatFrame extends KoLFrame
 {
+	private static final KoLRequest PROFILER = new KoLRequest( "" );
+
 	protected static final String MSGS_TAB = "/msgs";
 	protected static final String GCLI_TAB = "/gcli";
 
@@ -478,7 +480,7 @@ public class ChatFrame extends KoLFrame
 			if ( KoLSettings.getBooleanProperty( "chatLinksUseRelay" ) || !urlString.startsWith( "show" ) )
 				StaticEntity.getClient().openRelayBrowser( urlString, false );
 			else
-				ProfileFrame.showRequest( KoLRequest.VISITOR.constructURLString( urlString ) );
+				ProfileFrame.showRequest( PROFILER.constructURLString( urlString ) );
 		}
 	}
 

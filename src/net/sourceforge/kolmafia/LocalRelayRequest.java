@@ -80,17 +80,17 @@ public class LocalRelayRequest extends PasswordHashRequest
 		this.rawByteBuffer = null;
 		this.headers.clear();
 
-		if ( this.formURLString.endsWith( ".css" ) )
+		if ( this.getPath().endsWith( ".css" ) )
 			this.contentType = "text/css";
-		else if ( this.formURLString.endsWith( ".js" ) )
+		else if ( this.getPath().endsWith( ".js" ) )
 			this.contentType = "text/javascript";
-		else if ( this.formURLString.endsWith( ".gif" ) )
+		else if ( this.getPath().endsWith( ".gif" ) )
 			this.contentType = "image/gif";
-		else if ( this.formURLString.endsWith( ".png" ) )
+		else if ( this.getPath().endsWith( ".png" ) )
 			this.contentType = "image/png";
-		else if ( this.formURLString.endsWith( ".jpg" ) || this.formURLString.endsWith( ".jpeg" ) )
+		else if ( this.getPath().endsWith( ".jpg" ) || this.getPath().endsWith( ".jpeg" ) )
 			this.contentType = "image/jpeg";
-		else if ( this.formURLString.endsWith( ".ico" ) )
+		else if ( this.getPath().endsWith( ".ico" ) )
 			this.contentType = "image/x-icon";
 		else
 			this.contentType = "text/html";
@@ -125,7 +125,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 	{
 		this.statusLine = "HTTP/1.1 200 OK";
 
-		if ( this.formURLString.startsWith( "http" ) )
+		if ( this.getPath().startsWith( "http" ) )
 			return;
 
 		StringBuffer responseBuffer = new StringBuffer( this.responseText );
@@ -133,7 +133,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// Fix KoLmafia getting outdated by events happening
 		// in the browser by using the sidepane.
 
-		if ( this.formURLString.equals( "charpane.php" ) )
+		if ( this.getPath().equals( "charpane.php" ) )
 		{
 			CharpaneRequest.processCharacterPane( this.responseText );
 		}
@@ -141,7 +141,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// Allow a way to get from KoL back to the gCLI
 		// using the chat launcher.
 
-		else if ( this.formURLString.equals( "chatlaunch.php" ) )
+		else if ( this.getPath().equals( "chatlaunch.php" ) )
 		{
 			if ( KoLSettings.getBooleanProperty( "relayAddsGraphicalCLI" ) )
 			{
@@ -161,7 +161,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// Fix it a little more by making sure that familiar
 		// changes and equipment changes are remembered.
 
-		else if ( this.formURLString.equals( "main.php" ) )
+		else if ( this.getPath().equals( "main.php" ) )
 		{
 			Matcher emailMatcher = EMAIL_PATTERN.matcher( this.responseText );
 			if ( emailMatcher.find() )
@@ -170,7 +170,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// If this is a store, you can opt to remove all the min-priced items from view
 		// along with all the items which are priced above affordable levels.
 
-		else if ( this.formURLString.equals( "mallstore.php" ) )
+		else if ( this.getPath().equals( "mallstore.php" ) )
 		{
 			int searchItemId = -1;
 			int searchPrice = -1;
@@ -207,7 +207,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 		try
 		{
-			RequestEditorKit.getFeatureRichHTML( this.formURLString.toString(), responseBuffer, true );
+			RequestEditorKit.getFeatureRichHTML( this.getPath().toString(), responseBuffer, true );
 		}
 		catch ( Exception e )
 		{
@@ -730,23 +730,23 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// special handling, catching any exceptions that happen to
 		// popup along the way.
 
-		if ( this.formURLString.endsWith( "submitCommand" ) )
+		if ( this.getPath().endsWith( "submitCommand" ) )
 		{
 			this.submitCommand();
 		}
-		else if ( this.formURLString.endsWith( "executeCommand" ) )
+		else if ( this.getPath().endsWith( "executeCommand" ) )
 		{
 			this.executeCommand();
 		}
-		else if ( this.formURLString.endsWith( "sideCommand" ) )
+		else if ( this.getPath().endsWith( "sideCommand" ) )
 		{
 			this.sideCommand();
 		}
-		else if ( this.formURLString.endsWith( "messageUpdate" ) )
+		else if ( this.getPath().endsWith( "messageUpdate" ) )
 		{
 			this.pseudoResponse( "HTTP/1.1 200 OK", LocalRelayServer.getNewStatusMessages() );
 		}
-		else if ( this.formURLString.endsWith( "basementSpoiler" ) )
+		else if ( this.getPath().endsWith( "basementSpoiler" ) )
 		{
 			BasementRequest.reCheckBasement();
 			this.pseudoResponse( "HTTP/1.1 200 OK", BasementRequest.getRequirement() );
@@ -775,7 +775,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 		super.run();
 
-		if ( !KoLMessenger.isRunning() || this.formURLString.indexOf( "submitnewchat.php" ) != -1 )
+		if ( !KoLMessenger.isRunning() || this.getPath().indexOf( "submitnewchat.php" ) != -1 )
 			KoLMessenger.updateChat( this.responseText );
 
 		if ( KoLSettings.getBooleanProperty( "relayFormatsChatText" ) )
@@ -789,7 +789,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// there is an attempt to view the robots file, neither
 		// are available on KoL, so return.
 
-		if ( this.formURLString.equals( "missingimage.gif" ) || this.formURLString.endsWith( "robots.txt" ) || this.formURLString.endsWith( "favicon.ico" ) )
+		if ( this.getPath().equals( "missingimage.gif" ) || this.getPath().endsWith( "robots.txt" ) || this.getPath().endsWith( "favicon.ico" ) )
 		{
 			this.sendNotFound();
 			return;
@@ -798,7 +798,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// If this is a command from the browser, handle it before
 		// moving on to anything else.
 
-		if ( this.formURLString.startsWith( "KoLmafia/" ) )
+		if ( this.getPath().startsWith( "KoLmafia/" ) )
 		{
 			this.handleCommand();
 			return;
@@ -807,31 +807,31 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// Check to see if it's a request from the local images folder.
 		// If it is, go ahead and send it.
 
-		if ( this.formURLString.startsWith( "images/playerpics/" ) )
+		if ( this.getPath().startsWith( "images/playerpics/" ) )
 		{
 			RequestEditorKit.downloadImage( "http://pics.communityofloathing.com/albums/" +
-				this.formURLString.substring( this.formURLString.indexOf( "playerpics" ) ) );
+				this.getPath().substring( this.getPath().indexOf( "playerpics" ) ) );
 
-			this.sendLocalImage( this.formURLString );
+			this.sendLocalImage( this.getPath() );
 			return;
 		}
 
-		if ( this.formURLString.startsWith( "images/" ) )
+		if ( this.getPath().startsWith( "images/" ) )
 		{
-			this.sendLocalImage( this.formURLString );
+			this.sendLocalImage( this.getPath() );
 			return;
 		}
 
-		if ( this.formURLString.endsWith( ".css" ) || this.formURLString.endsWith( ".js" ) )
+		if ( this.getPath().endsWith( ".css" ) || this.getPath().endsWith( ".js" ) )
 		{
-			this.sendLocalFile( this.formURLString );
+			this.sendLocalFile( this.getPath() );
 			return;
 		}
 
 		// If it's an ASH override script, make sure to handle it
 		// exactly as it should.
 
-		if ( this.formURLString.endsWith( ".ash" ) )
+		if ( this.getPath().endsWith( ".ash" ) )
 		{
 			if ( !KoLmafiaASH.getClientHTML( this ) )
 				this.sendNotFound();
@@ -843,10 +843,10 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// they're probably just used for data tracking purposes
 		// client-side.
 
-		if ( this.formURLString.endsWith( ".html" ) )
+		if ( this.getPath().endsWith( ".html" ) )
 		{
 			this.data.clear();
-			this.sendLocalFile( this.formURLString );
+			this.sendLocalFile( this.getPath() );
 			return;
 		}
 
@@ -855,7 +855,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 	public void run()
 	{
-		if ( !this.formURLString.endsWith( ".php" ) )
+		if ( !this.getPath().endsWith( ".php" ) )
 		{
 			this.handleSimple();
 			return;
@@ -876,7 +876,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		if ( allowOverride && KoLmafiaASH.getClientHTML( this ) )
 			return;
 
-		if ( this.formURLString.equals( "lchat.php" ) )
+		if ( this.getPath().equals( "lchat.php" ) )
 		{
 			if ( KoLSettings.getBooleanProperty( "relayUsesIntegratedChat" ) )
 			{
@@ -896,7 +896,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// Load custom items from OneTonTomato's script if they
 		// are currently being requested.
 
-		if ( this.formURLString.equals( "desc_item.php" ) )
+		if ( this.getPath().equals( "desc_item.php" ) )
 		{
 			String item = this.getFormField( "whichitem" );
 			if ( item != null && item.startsWith( "custom" ) )
@@ -909,7 +909,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		if ( AdventureDatabase.getAdventureByURL( this.getURLString() ) != null )
 		{
 			TurnCounter expired = StaticEntity.getExpiredCounter(
-				this.formURLString.equals( "adventure.php" ) ? this.getFormField( "snarfblat" ) : "" );
+				this.getPath().equals( "adventure.php" ) ? this.getFormField( "snarfblat" ) : "" );
 
 			if ( expired != null )
 			{
@@ -923,7 +923,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 			// Special handling of adventuring locations before it's
 			// registered internally with KoLmafia.
 
-			if ( this.formURLString.equals( "adventure.php" ) )
+			if ( this.getPath().equals( "adventure.php" ) )
 			{
 				String location = this.getFormField( "snarfblat" );
 				if ( location == null )
@@ -943,7 +943,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 			// More MCD rewards.  This one is for the Knob Goblin King,
 			// who has special items at 3 and 7.
 
-			else if ( this.formURLString.equals( "knob.php" ) )
+			else if ( this.getPath().equals( "knob.php" ) )
 			{
 				if ( this.getFormField( "king" ) != null && this.getFormField( "override" ) == null )
 				{
@@ -955,7 +955,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 			// More MCD rewards.  This one is for the Bonerdagon, who has
 			// special items at 5 and 10.
 
-			else if ( this.formURLString.equals( "cyrpt.php" ) )
+			else if ( this.getPath().equals( "cyrpt.php" ) )
 			{
 				if ( this.getFormField( "action" ) != null && this.getFormField( "override" ) == null )
 				{
@@ -968,7 +968,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// If the person is visiting the sorceress and they forgot
 		// to make the Wand, remind them.
 
-		else if ( this.formURLString.equals( "lair6.php" ) )
+		else if ( this.getPath().equals( "lair6.php" ) )
 		{
 			// As of NS 13,they need not have it equipped. In fact,
 			// there are far better weapons to equip for the
@@ -984,7 +984,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 			}
 		}
 
-		else if ( this.formURLString.equals( "ascend.php" ) )
+		else if ( this.getPath().equals( "ascend.php" ) )
 		{
 			if ( this.getFormField( "action" ) != null )
 				RequestThread.postRequest( new EquipmentRequest( SpecialOutfit.BIRTHDAY_SUIT ) );
