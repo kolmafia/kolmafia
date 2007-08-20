@@ -390,6 +390,7 @@ Mafia violin case	Muscle: +20, Melee Damage: +30
 Maxwell's Silver Hammer	Mysticality: +10, Melee Damage: +10
 # Mjolnir Jr.
 Pasta of Peril	Mysticality: +7, Initiative: +15, Class: "Pastamancer"
+Periodical Paintbrush	Softcore Only
 Radio Free Foil	Intrinsic Effect: "Shiny Happy Weapon"
 Rock and Roll Legend	Moxie: +7, Class: "Accordion Thief"
 Shagadelic Disco Banjo	Moxie: +11, Meat Drop: +10

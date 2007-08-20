@@ -319,6 +319,7 @@ Mafia violin case	100	Mus: 35	1-handed club
 Maxwell's Silver Hammer	165	Mus: 67	1-handed club
 Mjolnir Jr.	200	Mys: 85	1-handed utensil
 Pasta of Peril	50	Mys: 10	1-handed utensil
+Periodical Paintbrush	100	Mus: 0	1-handed
 Radio Free Foil	150	Mus: 60	2-handed sword
 Rock and Roll Legend	50	Mox: 10	2-handed accordion
 Shagadelic Disco Banjo	90	Mox: 15	2-handed banjo
