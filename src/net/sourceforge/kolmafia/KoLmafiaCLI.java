@@ -739,11 +739,12 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.startsWith( "http:" ) || command.indexOf( ".php" ) != -1 )
 		{
-			if ( KoLRequest.shouldIgnore( KoLRequest.VISITOR.constructURLString( this.currentLine ) ) )
+			KoLRequest visitor = new KoLRequest( this.currentLine );
+			if ( KoLRequest.shouldIgnore( visitor ) )
 				return;
 
-			RequestThread.postRequest( KoLRequest.VISITOR );
-			StaticEntity.externalUpdate( KoLRequest.VISITOR.getURLString(), KoLRequest.VISITOR.responseText );
+			RequestThread.postRequest( visitor );
+			StaticEntity.externalUpdate( visitor.getURLString(), visitor.responseText );
 			return;
 		}
 
@@ -752,15 +753,15 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "text" ) )
 		{
-			if ( KoLRequest.shouldIgnore( KoLRequest.VISITOR.constructURLString( this.currentLine ) ) )
+			KoLRequest visitor = new KoLRequest( this.currentLine );
+			if ( KoLRequest.shouldIgnore( visitor ) )
 				return;
 
-			RequestThread.postRequest( KoLRequest.VISITOR );
-			StaticEntity.externalUpdate( KoLRequest.VISITOR.getURLString(), KoLRequest.VISITOR.responseText );
-			this.showHTML( KoLRequest.VISITOR.responseText );
+			RequestThread.postRequest( visitor );
+			StaticEntity.externalUpdate( visitor.getURLString(), visitor.responseText );
 
+			this.showHTML( visitor.getURLString(), visitor.responseText );
 			return;
-
 		}
 
 		// Maybe the person wants to load up their browser
@@ -1179,15 +1180,15 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( result == null )
 				return;
 
-			KoLRequest.VISITOR.constructURLString( "desc_item.php?whichitem=" +
+			KoLRequest visitor = new KoLRequest( "desc_item.php?whichitem=" +
 				TradeableItemDatabase.getDescriptionId( result.getItemId() ) );
 
-			RequestThread.postRequest( KoLRequest.VISITOR );
+			RequestThread.postRequest( visitor );
 
 			if ( StaticEntity.getClient() instanceof KoLmafiaGUI )
-				FightFrame.showRequest( KoLRequest.VISITOR );
+				DescriptionFrame.showRequest( visitor );
 			else
-				this.showHTML( KoLRequest.VISITOR.responseText );
+				this.showHTML( visitor.getURLString(), visitor.responseText );
 
 			return;
 		}
@@ -1200,7 +1201,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "survival" ) || command.equals( "locdata" ) )
 		{
-			this.showHTML( AdventureDatabase.getAreaCombatData( AdventureDatabase.getAdventure( parameters ).toString() ).toString() );
+			this.showHTML( "", AdventureDatabase.getAreaCombatData( AdventureDatabase.getAdventure( parameters ).toString() ).toString() );
 			return;
 		}
 
@@ -1322,9 +1323,9 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "council" ) )
 		{
-			RequestThread.postRequest( KoLRequest.VISITOR.constructURLString( "council.php" ) );
+			RequestThread.postRequest( CouncilFrame.COUNCIL_VISIT );
 
-			this.showHTML( StaticEntity.singleStringReplace( KoLRequest.VISITOR.responseText,
+			this.showHTML( "council.php", StaticEntity.singleStringReplace( CouncilFrame.COUNCIL_VISIT.responseText,
 				"<a href=\"town.php\">Back to Seaside Town</a>", "" ) );
 
 			return;
@@ -2139,7 +2140,7 @@ public class KoLmafiaCLI extends KoLmafia
 		this.executeScript( this.currentLine );
 	}
 
-	public void showHTML( String text )
+	public void showHTML( String location, String text )
 	{
 		// Strip out all the new lines found in the source
 		// so you don't accidentally add more new lines than

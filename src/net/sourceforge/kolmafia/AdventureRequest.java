@@ -39,6 +39,8 @@ import java.util.regex.Matcher;
 
 public class AdventureRequest extends KoLRequest
 {
+	private static final KoLRequest ZONE_UNLOCK = new KoLRequest( "" );
+
 	private String adventureName;
 	private String formSource;
 	private String adventureId;
@@ -126,8 +128,8 @@ public class AdventureRequest extends KoLRequest
 
 		if ( this.formSource.equals( "mountains.php" ) )
 		{
-			VISITOR.constructURLString( "mountains.php" ).run();
-			if ( VISITOR.responseText.indexOf( "value=80" ) != -1 )
+			ZONE_UNLOCK.constructURLString( "mountains.php" ).run();
+			if ( ZONE_UNLOCK.responseText.indexOf( "value=80" ) != -1 )
 			{
 				KoLmafia.updateDisplay( PENDING_STATE, "The Orc Chasm has already been bridged." );
 				return;
@@ -598,22 +600,22 @@ public class AdventureRequest extends KoLRequest
 		if ( redirectLocation.indexOf( "main.php" ) != -1 )
 			return;
 
-		VISITOR.constructURLString( redirectLocation );
+		ZONE_UNLOCK.constructURLString( redirectLocation );
 
 		if ( redirectLocation.indexOf( "palinshelves.php" ) != -1 )
 		{
-			VISITOR.run();
-			VISITOR.constructURLString( "palinshelves.php?action=placeitems&whichitem1=2259&whichitem2=2260&whichitem3=493&whichitem4=2261" ).run();
+			ZONE_UNLOCK.run();
+			ZONE_UNLOCK.constructURLString( "palinshelves.php?action=placeitems&whichitem1=2259&whichitem2=2260&whichitem3=493&whichitem4=2261" ).run();
 			return;
 		}
 
 		if ( redirectLocation.indexOf( "tiles.php" ) != -1 )
 		{
-			handleDvoraksRevenge( VISITOR );
+			handleDvoraksRevenge( ZONE_UNLOCK );
 			return;
 		}
 
-		FightFrame.showRequest( VISITOR );
+		FightFrame.showRequest( ZONE_UNLOCK );
 		KoLmafia.updateDisplay( ABORT_STATE, "Unknown adventure type encountered." );
 	}
 

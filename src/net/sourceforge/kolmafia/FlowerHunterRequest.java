@@ -159,36 +159,37 @@ public class FlowerHunterRequest extends KoLRequest
 	public void processResults()
 	{
 		searchResults.clear();
+		KoLRequest miniChecker = new KoLRequest( "questlog.php?which=3" );
 
 		switch ( this.hunterType )
 		{
 		case RANKVIEW:
 
 			this.parseAttack();
-			VISITOR.constructURLString( "questlog.php?which=3" ).run();
+			miniChecker.constructURLString( "questlog.php?which=3" ).run();
 
-			Matcher miniMatcher = TATTOO_PATTERN.matcher( VISITOR.responseText );
+			Matcher miniMatcher = TATTOO_PATTERN.matcher( miniChecker.responseText );
 			if ( miniMatcher.find() )
 				tattooCount = StaticEntity.parseInt( miniMatcher.group(1) );
 			else
 				tattooCount = 0;
 
-			miniMatcher = TROPHY_PATTERN.matcher( VISITOR.responseText );
+			miniMatcher = TROPHY_PATTERN.matcher( miniChecker.responseText );
 			if ( miniMatcher.find() )
 				trophyCount = StaticEntity.parseInt( miniMatcher.group(1) );
 			else
 				trophyCount = 0;
 
-			miniMatcher = FLOWER_PATTERN.matcher( VISITOR.responseText );
+			miniMatcher = FLOWER_PATTERN.matcher( miniChecker.responseText );
 			if ( miniMatcher.find() )
 				flowerCount = StaticEntity.parseInt( miniMatcher.group(1) );
 			else
 				flowerCount = 0;
 
-			VISITOR.constructURLString( "showconsumption.php" );
-			VISITOR.run();
+			miniChecker.constructURLString( "showconsumption.php" );
+			miniChecker.run();
 
-			miniMatcher = CANADA_PATTERN.matcher( VISITOR.responseText );
+			miniMatcher = CANADA_PATTERN.matcher( miniChecker.responseText );
 			if ( miniMatcher.find() )
 				canadaCount = StaticEntity.parseInt( miniMatcher.group(1) );
 			else
@@ -261,8 +262,9 @@ public class FlowerHunterRequest extends KoLRequest
 				return;
 			}
 
-			VISITOR.constructURLString( "campground.php?pwd&confirm=on&smashstone=Yep." ).run();
+			new KoLRequest( "campground.php?pwd&confirm=on&smashstone=Yep." ).run();
 			super.run();
+
 			return;
 		}
 

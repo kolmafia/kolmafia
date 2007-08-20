@@ -196,7 +196,7 @@ public class ConsumeItemRequest extends KoLRequest
 
 	private ConsumeItemRequest( String location, int consumptionType, AdventureResult item )
 	{
-		super( location, true );
+		super( location );
 
 		this.addFormField( "pwd" );
 		this.addFormField( "whichitem", String.valueOf( item.getItemId() ) );
@@ -374,7 +374,7 @@ public class ConsumeItemRequest extends KoLRequest
 
 		if ( itemId == MACGUFFIN_DIARY )
 		{
-			VISITOR.constructURLString( "diary.php?textversion=1" ).run();
+			(new KoLRequest( "diary.php?textversion=1" )).run();
 			KoLmafia.updateDisplay( "Your father's diary has been read." );
 			return;
 		}
@@ -1338,7 +1338,7 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final void showItemUsage( boolean showHTML, String text, boolean consumed )
 	{
 		if ( showHTML )
-			StaticEntity.getClient().showHTML( trimInventoryText( text ) );
+			StaticEntity.getClient().showHTML( "inventory.php?action=message", trimInventoryText( text ) );
 
 		if ( !consumed )
 			StaticEntity.getClient().processResult( lastItemUsed );

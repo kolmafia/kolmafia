@@ -38,6 +38,7 @@ import net.sourceforge.foxtrot.Job;
 
 public class KoLAdventure extends Job implements KoLConstants, Comparable
 {
+	private static final KoLRequest ZONE_UNLOCK = new KoLRequest( "" );
 	private static final AdventureResult HYDRATED = new AdventureResult( "Ultrahydrated", 1, true );
 
 	public static final AdventureResult AMNESIA = new AdventureResult( "Amnesia", 1, true );
@@ -322,10 +323,10 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		{
 			if ( !KoLCharacter.hasItem( TRANSFUNCTIONER ) )
 			{
-				RequestThread.postRequest( KoLRequest.VISITOR.constructURLString( "mystic.php" ) );
-				RequestThread.postRequest( KoLRequest.VISITOR.constructURLString( "mystic.php?action=crackyes1" ) );
-				RequestThread.postRequest( KoLRequest.VISITOR.constructURLString( "mystic.php?action=crackyes2" ) );
-				RequestThread.postRequest( KoLRequest.VISITOR.constructURLString( "mystic.php?action=crackyes3" ) );
+				RequestThread.postRequest( ZONE_UNLOCK.constructURLString( "mystic.php" ) );
+				RequestThread.postRequest( ZONE_UNLOCK.constructURLString( "mystic.php?action=crackyes1" ) );
+				RequestThread.postRequest( ZONE_UNLOCK.constructURLString( "mystic.php?action=crackyes2" ) );
+				RequestThread.postRequest( ZONE_UNLOCK.constructURLString( "mystic.php?action=crackyes3" ) );
 			}
 
 			if ( EquipmentDatabase.getHands( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getName() ) > 1 )
@@ -468,10 +469,10 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			// questlog.php?which=3
 			// "You have planted a Beanstalk in the Nearby Plains."
 
-			KoLRequest.VISITOR.constructURLString( "plains.php" );
-			RequestThread.postRequest( KoLRequest.VISITOR );
+			ZONE_UNLOCK.constructURLString( "plains.php" );
+			RequestThread.postRequest( ZONE_UNLOCK );
 
-			if ( KoLRequest.VISITOR.responseText.indexOf( "beanstalk.php" ) == -1 )
+			if ( ZONE_UNLOCK.responseText.indexOf( "beanstalk.php" ) == -1 )
 			{
 				// If not, check to see if the player has an enchanted
 				// bean which can be used.  If they don't, then try to
@@ -499,12 +500,12 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 				// advantage of item consumption automatically doing
 				// what's needed in grabbing the item.
 
-				RequestThread.postRequest( KoLRequest.VISITOR.constructURLString( "council.php" ) );
+				RequestThread.postRequest( CouncilFrame.COUNCIL_VISIT );
 				RequestThread.postRequest( new ConsumeItemRequest( BEAN ) );
 			}
 
-			KoLRequest.VISITOR.constructURLString( "beanstalk.php" );
-			RequestThread.postRequest( KoLRequest.VISITOR );
+			ZONE_UNLOCK.constructURLString( "beanstalk.php" );
+			RequestThread.postRequest( ZONE_UNLOCK );
 
 			KoLCharacter.armBeanstalk();
 			this.isValidAdventure = true;
@@ -558,19 +559,19 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 		else if ( this.adventureId.equals( "32" ) || this.adventureId.equals( "33" ) || this.adventureId.equals( "34" ) )
 		{
-			RequestThread.postRequest( KoLRequest.VISITOR.constructURLString( "bathole.php" ) );
+			RequestThread.postRequest( ZONE_UNLOCK.constructURLString( "bathole.php" ) );
 
-			if ( this.adventureId.equals( "32" ) && KoLRequest.VISITOR.responseText.indexOf( "batrockleft.gif" ) == -1 )
+			if ( this.adventureId.equals( "32" ) && ZONE_UNLOCK.responseText.indexOf( "batrockleft.gif" ) == -1 )
 			{
 				this.isValidAdventure = true;
 				return;
 			}
-			if ( this.adventureId.equals( "33" ) && KoLRequest.VISITOR.responseText.indexOf( "batrockright.gif" ) == -1 )
+			if ( this.adventureId.equals( "33" ) && ZONE_UNLOCK.responseText.indexOf( "batrockright.gif" ) == -1 )
 			{
 				this.isValidAdventure = true;
 				return;
 			}
-			if ( this.adventureId.equals( "34" ) && KoLRequest.VISITOR.responseText.indexOf( "batrockbottom.gif" ) == -1 )
+			if ( this.adventureId.equals( "34" ) && ZONE_UNLOCK.responseText.indexOf( "batrockbottom.gif" ) == -1 )
 			{
 				this.isValidAdventure = true;
 				return;
@@ -579,22 +580,22 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			int sonarCount = SONAR.getCount( inventory );
 			int sonarToUse = 0;
 
-			if ( KoLRequest.VISITOR.responseText.indexOf( "batrockleft.gif" ) != -1 )
+			if ( ZONE_UNLOCK.responseText.indexOf( "batrockleft.gif" ) != -1 )
 				sonarToUse = 3;
-			else if ( KoLRequest.VISITOR.responseText.indexOf( "batrockright.gif" ) != -1 )
+			else if ( ZONE_UNLOCK.responseText.indexOf( "batrockright.gif" ) != -1 )
 				sonarToUse = 2;
-			else if ( KoLRequest.VISITOR.responseText.indexOf( "batrockbottom.gif" ) != -1 )
+			else if ( ZONE_UNLOCK.responseText.indexOf( "batrockbottom.gif" ) != -1 )
 				sonarToUse = 1;
 
 			RequestThread.postRequest( new ConsumeItemRequest( SONAR.getInstance( Math.min( sonarToUse, sonarCount ) ) ) );
-			RequestThread.postRequest( KoLRequest.VISITOR );
+			RequestThread.postRequest( ZONE_UNLOCK );
 
 			if ( this.adventureId.equals( "32" ) )
-				this.isValidAdventure = KoLRequest.VISITOR.responseText.indexOf( "batrockleft.gif" ) == -1;
+				this.isValidAdventure = ZONE_UNLOCK.responseText.indexOf( "batrockleft.gif" ) == -1;
 			else if ( this.adventureId.equals( "33" ) )
-				this.isValidAdventure = KoLRequest.VISITOR.responseText.indexOf( "batrockright.gif" ) == -1;
+				this.isValidAdventure = ZONE_UNLOCK.responseText.indexOf( "batrockright.gif" ) == -1;
 			else
-				this.isValidAdventure = KoLRequest.VISITOR.responseText.indexOf( "batrockbottom.gif" ) == -1;
+				this.isValidAdventure = ZONE_UNLOCK.responseText.indexOf( "batrockbottom.gif" ) == -1;
 
 			return;
 		}
@@ -602,8 +603,8 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 		if ( this.adventureId.equals( "100" ) )
 		{
-			RequestThread.postRequest( KoLRequest.VISITOR.constructURLString( "woods.php" ) );
-			this.isValidAdventure = KoLRequest.VISITOR.responseText.indexOf( "grove.gif" ) != -1;
+			RequestThread.postRequest( ZONE_UNLOCK.constructURLString( "woods.php" ) );
+			this.isValidAdventure = ZONE_UNLOCK.responseText.indexOf( "grove.gif" ) != -1;
 
 			if ( !visitedCouncil && !this.isValidAdventure )
 			{
@@ -616,8 +617,8 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 		if ( this.zone.equals( "McLarge" ) )
 		{
-			RequestThread.postRequest( KoLRequest.VISITOR.constructURLString( "mclargehuge.php" ) );
-			if ( KoLRequest.VISITOR.responseText.indexOf( this.adventureId ) != -1 )
+			RequestThread.postRequest( ZONE_UNLOCK.constructURLString( "mclargehuge.php" ) );
+			if ( ZONE_UNLOCK.responseText.indexOf( this.adventureId ) != -1 )
 			{
 				this.isValidAdventure = true;
 				return;
@@ -629,8 +630,8 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 				return;
 			}
 
-			RequestThread.postRequest( KoLRequest.VISITOR.constructURLString( "council.php" ) );
-			RequestThread.postRequest( KoLRequest.VISITOR.constructURLString( "trapper.php" ) );
+			RequestThread.postRequest( CouncilFrame.COUNCIL_VISIT );
+			RequestThread.postRequest( ZONE_UNLOCK.constructURLString( "trapper.php" ) );
 
 			this.validate( true );
 			return;
@@ -932,7 +933,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			// time ago.
 
 			if ( locationId.equals( "67" ) && KoLSettings.getIntegerProperty( "lastCouncilVisit" ) < 9 )
-				KoLRequest.VISITOR.constructURLString( "council.php" ).run();
+				RequestThread.postRequest( CouncilFrame.COUNCIL_VISIT );
 
 			matchingLocation.isValidAdventure = true;
 

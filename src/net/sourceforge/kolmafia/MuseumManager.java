@@ -44,6 +44,8 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class MuseumManager extends StaticEntity
 {
+	private static final KoLRequest SHELF_REORDER = new KoLRequest( "managecollection.php" );
+
 	private static final Pattern SELECTED_PATTERN = Pattern.compile( "(\\d+) selected>" );
 	private static final Pattern OPTION_PATTERN = Pattern.compile( "<td>([^<]*?)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>.*?<select name=whichshelf(\\d+)>(.*?)</select>" );
 	private static final Pattern SELECT_PATTERN = Pattern.compile( "<select.*?</select>" );
@@ -117,16 +119,15 @@ public class MuseumManager extends StaticEntity
 		}
 
 		RequestThread.openRequestSequence();
-		KoLRequest.VISITOR.constructURLString( "managecollection.php" );
 
 		for ( int i = 0; i < deleted.length; ++i )
 		{
 			if ( deleted[i] )
 			{
-				KoLRequest.VISITOR.addFormField( "action", "newshelf" );
-				KoLRequest.VISITOR.addFormField( "pwd" );
-				KoLRequest.VISITOR.addFormField( "shelfname", "Deleted Shelf " + i );
-				RequestThread.postRequest( KoLRequest.VISITOR );
+				SHELF_REORDER.addFormField( "action", "newshelf" );
+				SHELF_REORDER.addFormField( "pwd" );
+				SHELF_REORDER.addFormField( "shelfname", "Deleted Shelf " + i );
+				RequestThread.postRequest( SHELF_REORDER );
 			}
 		}
 
@@ -146,18 +147,18 @@ public class MuseumManager extends StaticEntity
 		// Redelete the previously deleted shelves so that the
 		// user isn't stuck with shelves they aren't going to use.
 
-		KoLRequest.VISITOR.clearDataFields();
-		KoLRequest.VISITOR.addFormField( "action", "modifyshelves" );
-		KoLRequest.VISITOR.addFormField( "pwd" );
+		SHELF_REORDER.clearDataFields();
+		SHELF_REORDER.addFormField( "action", "modifyshelves" );
+		SHELF_REORDER.addFormField( "pwd" );
 
 		for ( int i = 1; i < headers.length; ++i )
 		{
-			KoLRequest.VISITOR.addFormField( "newname" + i, headers[i] );
+			SHELF_REORDER.addFormField( "newname" + i, headers[i] );
 			if ( deleted[i] )
-				KoLRequest.VISITOR.addFormField( "delete" + i, "on" );
+				SHELF_REORDER.addFormField( "delete" + i, "on" );
 		}
 
-		RequestThread.postRequest( KoLRequest.VISITOR );
+		RequestThread.postRequest( SHELF_REORDER );
 		RequestThread.postRequest( new MuseumRequest() );
 
 		KoLmafia.updateDisplay( "Display case updated." );

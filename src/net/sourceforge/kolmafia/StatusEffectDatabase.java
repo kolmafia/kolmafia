@@ -214,12 +214,11 @@ public class StatusEffectDatabase extends KoLDatabase
 		if ( !inventory.contains( UneffectRequest.REMEDY ) )
 			return;
 
+		KoLRequest effectChecker = new KoLRequest( "uneffect.php" );
 		RequestLogger.printLine( "Checking for new status effects..." );
-		RequestThread.postRequest( KoLRequest.VISITOR.constructURLString( "uneffect.php" ) );
-		RequestThread.postRequest( CharpaneRequest.getInstance() );
+		RequestThread.postRequest( effectChecker );
 
-		Matcher effectsMatcher = STATUS_EFFECT_PATTERN.matcher( KoLRequest.VISITOR.responseText );
-
+		Matcher effectsMatcher = STATUS_EFFECT_PATTERN.matcher( effectChecker.responseText );
 		boolean foundChanges = false;
 
 		while ( effectsMatcher.find() )
@@ -231,6 +230,8 @@ public class StatusEffectDatabase extends KoLDatabase
 			foundChanges = true;
 			addToDatabase( effectId, effectsMatcher.group(3), effectsMatcher.group(2), null, null );
 		}
+
+		RequestThread.postRequest( CharpaneRequest.getInstance() );
 
 		if ( foundChanges )
 			saveDataOverride();

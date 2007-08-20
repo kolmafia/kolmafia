@@ -38,13 +38,16 @@ import java.util.regex.Pattern;
 
 public class CouncilFrame extends RequestFrame
 {
+	public static final KoLRequest COUNCIL_VISIT = new KoLRequest( "council.php" );
 	private static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 	private static final Pattern ORE_PATTERN = Pattern.compile( "3 chunks of (\\w+) ore" );
 
 	public CouncilFrame()
 	{
 		super( "Council of Loathing" );
-		this.displayRequest( KoLRequest.VISITOR.constructURLString( "council.php" ) );
+
+		COUNCIL_VISIT.responseText = null;
+		this.displayRequest( COUNCIL_VISIT );
 	}
 
 	public boolean hasSideBar()

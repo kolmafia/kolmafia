@@ -38,7 +38,7 @@ public class LogoutRequest extends KoLRequest
 	private static boolean isRunning = false;
 
 	public LogoutRequest()
-	{	super( "logout.php", true );
+	{	super( "logout.php" );
 	}
 
 	protected boolean retryOnTimeout()

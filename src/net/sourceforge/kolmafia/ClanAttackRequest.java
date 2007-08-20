@@ -80,7 +80,7 @@ public class ClanAttackRequest extends KoLRequest implements Comparable
 		if ( this.name != null )
 			return;
 
-		if ( this.formURLString.equals( "clan_attack.php" ) )
+		if ( this.getPath().equals( "clan_attack.php" ) )
 		{
 			Matcher clanMatcher = CLANID_PATTERN.matcher( this.responseText );
 

@@ -38,6 +38,8 @@ import java.util.regex.Matcher;
 
 public class UntinkerRequest extends KoLRequest
 {
+	private static final KoLRequest AVAILABLE_CHECKER = new KoLRequest( "town_right.php?place=untinker" );
+
 	private static boolean canUntinker;
 	private static String lastUsername = "";
 
@@ -108,16 +110,16 @@ public class UntinkerRequest extends KoLRequest
 		{
 			StaticEntity.getClient().processResult( new AdventureResult( this.itemId, 1 ) );
 
-			VISITOR.constructURLString( "town_right.php?place=untinker" ).run();
+			AVAILABLE_CHECKER.run();
 
-			if ( VISITOR.responseText.indexOf( "<select" ) == -1 )
+			if ( AVAILABLE_CHECKER.responseText.indexOf( "<select" ) == -1 )
 			{
 				canUntinker = completeQuest();
 
 				if ( !canUntinker )
 					return;
 
-				VISITOR.run();
+				AVAILABLE_CHECKER.run();
 			}
 
 			super.run();
@@ -139,13 +141,13 @@ public class UntinkerRequest extends KoLRequest
 		// If the person does not have the accomplishment, visit
 		// the untinker to ensure that they get the quest.
 
-		VISITOR.constructURLString( "town_right.php?place=untinker" ).run();
+		AVAILABLE_CHECKER.run();
 
 		// "I can take apart anything that's put together with meat
 		// paste, but you don't have anything like that..."
 
-		canUntinker = VISITOR.responseText.indexOf( "you don't have anything like that" ) != -1 ||
-			VISITOR.responseText.indexOf( "<select name=whichitem>" ) != -1;
+		canUntinker = AVAILABLE_CHECKER.responseText.indexOf( "you don't have anything like that" ) != -1 ||
+		AVAILABLE_CHECKER.responseText.indexOf( "<select name=whichitem>" ) != -1;
 
 		return canUntinker;
 	}
@@ -157,8 +159,12 @@ public class UntinkerRequest extends KoLRequest
 
 		if ( KoLCharacter.inMuscleSign() )
 		{
-			VISITOR.constructURLString( "knoll.php" ).run();
-			VISITOR.constructURLString( "knoll.php?place=smith" ).run();
+			KoLRequest knollVisit = new KoLRequest( "knoll.php" );
+			knollVisit.run();
+
+			knollVisit.addFormField( "place=smith" );
+			knollVisit.run();
+
 			return true;
 		}
 
@@ -200,8 +206,8 @@ public class UntinkerRequest extends KoLRequest
 		// Go ahead and rerun the untinker request and you will
 		// have the needed accomplishment.
 
-		VISITOR.constructURLString( "town_right.php?place=untinker" ).run();
-		return VISITOR.responseText.indexOf( "Degrassi Knoll" ) == -1;
+		AVAILABLE_CHECKER.run();
+		return AVAILABLE_CHECKER.responseText.indexOf( "Degrassi Knoll" ) == -1;
 	}
 
 	public static final boolean registerRequest( String urlString )

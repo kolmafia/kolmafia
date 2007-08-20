@@ -70,18 +70,18 @@ public abstract class StrangeLeaflet extends StaticEntity
 	//                   | N/S
 	//                   v      E/W
 	//               Open Field <-> Inside House
-        //                   ^
-        //                   | N/S
-        //                   v
-        //               South Bank           Table top
-        //                   |                     ^
-        //                   | S + S               | U/D
-        //                   v                     v
-        //               Forest Maze         Middle of tree
-        //                   |                     ^
-        //         N/S/E/W   |                     | U/D
-        //                   |                     v
-        //                   +-------------> Bottom of tree
+		//                   ^
+		//                   | N/S
+		//                   v
+		//               South Bank           Table top
+		//                   |                     ^
+		//                   | S + S               | U/D
+		//                   v                     v
+		//               Forest Maze         Middle of tree
+		//                   |                     ^
+		//         N/S/E/W   |                     | U/D
+		//                   |                     v
+		//                   +-------------> Bottom of tree
 
 	private static final int HOUSE = 0;
 	private static final int FIELD = 1;
@@ -158,7 +158,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		{
 			if ( KoLCharacter.getLevel() >= 9 )
 			{
-				RequestThread.postRequest( KoLRequest.VISITOR.constructURLString( "council.php" ) );
+				RequestThread.postRequest( CouncilFrame.COUNCIL_VISIT );
 			}
 			else
 			{
@@ -338,12 +338,12 @@ public abstract class StrangeLeaflet extends StaticEntity
 
 		// Check for failures
 		if ( response.indexOf( "That only works once." ) != -1 ||
-		     // The player already invoked the correct word
-		     response.indexOf( "send the plover over" ) != -1  ||
-		     // "Red rover, red rover, send the plover over"
-		     response.indexOf( "nothing happens" ) != -1 )
-		     // "You chant the magic word, and nothing happens. You
-		     // hear thunder rumbling in the distance..."
+			 // The player already invoked the correct word
+			 response.indexOf( "send the plover over" ) != -1  ||
+			 // "Red rover, red rover, send the plover over"
+			 response.indexOf( "nothing happens" ) != -1 )
+			 // "You chant the magic word, and nothing happens. You
+			 // hear thunder rumbling in the distance..."
 			magic = null;
 	}
 

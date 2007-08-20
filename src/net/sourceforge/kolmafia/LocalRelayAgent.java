@@ -193,7 +193,7 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 		// If not requesting a server-side page, then it is safe
 		// to assume that no changes have been made (save time).
 
-		if ( this.isCheckingModified && request.formURLString.startsWith( "images" ) )
+		if ( this.isCheckingModified && request.getPath().startsWith( "images" ) )
 		{
 			this.request.pseudoResponse( "HTTP/1.1 304 Not Modified", "" );
 			this.request.responseCode = 304;

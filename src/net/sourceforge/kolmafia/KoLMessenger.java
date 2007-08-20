@@ -1172,7 +1172,7 @@ public abstract class KoLMessenger extends StaticEntity
 	private static class ChannelColorsRequest extends KoLRequest
 	{
 		public ChannelColorsRequest()
-		{	super( "account_chatcolors.php", true );
+		{	super( "account_chatcolors.php" );
 		}
 
 		public void run()
