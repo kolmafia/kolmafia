@@ -695,6 +695,11 @@ public class AdventureDatabase extends KoLDatabase
 		new ChoiceAdventure( "Plains", "choiceAdventure180", "Palindome Shirt",
 		  new String [] { "Ye Olde Navy Fleece", "skip adventure" },
 		  new String [] { "2125", null } ),
+
+		// Chieftain of the Flies
+		new ChoiceAdventure( "Island", "choiceAdventure181", "Post-War Frat House",
+		  new String [] { "around the world", "skip adventure" },
+		  new String [] { "1634", "1633" } ),
 	};
 
 	static
@@ -905,7 +910,7 @@ public class AdventureDatabase extends KoLDatabase
 
 	};
 
-	// Some choice adventures have options that cost meat
+	// Some choice adventures have options that cost meat or items
 
 	public static final Object [][] CHOICE_COST =
 	{
@@ -924,7 +929,14 @@ public class AdventureDatabase extends KoLDatabase
 		{ "25", "2", new AdventureResult( AdventureResult.MEAT, -5000 ) },
 
 		// Have a Heart
-		{ "47", "1", new AdventureResult( "bottle of used blood", 0 ) },
+		// This trades all vampire hearts for an equal number of
+		// bottles of used blood.
+		{ "47", "1", new AdventureResult( "vampire heart", 0 ) },
+
+		// Lording Over The Flies
+		// This trades 5 Spanish flies for around the worlds.
+		// Excess flies are left in inventory.
+		{ "72", "1", new AdventureResult( "Spanish fly", -5 ) },
 
 		// No sir, away!  A papaya war is on!
 		{ "127", "2", new AdventureResult( "papaya", -3 ) },
@@ -942,6 +954,11 @@ public class AdventureDatabase extends KoLDatabase
 		{ "177", "1", new AdventureResult( "blackberry", -10 ) },
 		{ "177", "2", new AdventureResult( "blackberry", -10 ) },
 		{ "177", "3", new AdventureResult( "blackberry", -10 ) },
+
+		// Chieftain of the Flies
+		// This trades 5 Spanish flies for around the worlds.
+		// Excess flies are left in inventory.
+		{ "181", "1", new AdventureResult( "Spanish fly", -5 ) },
 	};
 
 	// Some adventures don't actually cost a turn

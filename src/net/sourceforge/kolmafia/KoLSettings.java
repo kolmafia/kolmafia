@@ -951,6 +951,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		USER_MAP.put( "choiceAdventure177", "4" );
 		USER_MAP.put( "choiceAdventure178", "1" );
 		USER_MAP.put( "choiceAdventure180", "1" );
+		USER_MAP.put( "choiceAdventure181", "1" );
 	}
 
 	private void ensureChoiceDefaults()
