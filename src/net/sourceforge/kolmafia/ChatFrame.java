@@ -154,6 +154,7 @@ public class ChatFrame extends KoLFrame
 	public void dispose()
 	{
 		super.dispose();
+
 		if ( this.getAssociatedContact() == null )
 			KoLMessenger.dispose();
 		else

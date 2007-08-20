@@ -223,11 +223,14 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 		setVisible( false );
 
 		String setting = KoLSettings.getGlobalProperty( "initialDesktop" );
-		KoLFrame [] frames = StaticEntity.getExistingFrames();
-
-		for ( int i = 0; i < frames.length; ++i )
-			if ( setting.indexOf( frames[i].getFrameName() ) != -1 )
-				frames[i].dispose();
+		for ( int i = 0; i < tabListing.size(); ++i )
+		{
+			KoLFrame frame = (KoLFrame) INSTANCE.tabListing.get( i );
+			if ( setting.indexOf( frame.getFrameName() ) != -1 )
+				frame.dispose();
+			else if ( frame instanceof ChatFrame && setting.indexOf( "KoLMessenger" ) != -1 )
+				frame.dispose();
+		}
 
 		if ( tabs != null && tabs instanceof CloseTabbedPane )
 			((CloseTabbedPane)tabs).removeCloseListener( this );
@@ -406,10 +409,8 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 		for ( int i = 0; i < INSTANCE.tabListing.size(); ++i )
 		{
 			KoLFrame frame = (KoLFrame) INSTANCE.tabListing.get( i );
-			if ( setting.indexOf( frame.getFrameName() ) != -1 )
-				continue;
-
-			frame.dispose();
+			if ( !(frame instanceof ChatFrame) && setting.indexOf( frame.getFrameName() ) == -1 )
+				frame.dispose();
 		}
 	}
 
