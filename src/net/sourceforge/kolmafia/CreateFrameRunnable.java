@@ -127,7 +127,8 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 		String searchString = this.creationType.toString();
 		searchString = searchString.substring( searchString.lastIndexOf( "." ) + 1 );
 
-		boolean appearsInTab = tabSetting.indexOf( searchString ) != -1;
+		boolean appearsInTab = searchString.endsWith( "ChatFrame" ) ?
+			tabSetting.indexOf( "KoLMessenger" ) != -1 : tabSetting.indexOf( searchString ) != -1;
 
 		if ( !this.loadPreviousFrame() )
 		{
@@ -213,10 +214,13 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 
 	private void runConstruction( boolean appearsInTab )
 	{
-		if ( this.creationType != LoginFrame.class && KoLSettings.getBooleanProperty( "guiUsesOneWindow" ) )
+		if ( KoLSettings.getBooleanProperty( "guiUsesOneWindow" ) )
 		{
-			KoLDesktop.removeExtraTabs();
-			appearsInTab = true;
+			if ( this.creationType != LoginFrame.class && this.creationType != ChatFrame.class && this.creationType != TabbedChatFrame.class )
+			{
+				KoLDesktop.removeExtraTabs();
+				appearsInTab = true;
+			}
 		}
 
 		try
