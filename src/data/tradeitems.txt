@@ -2836,3 +2836,8 @@
 2836	wizard action figure	5	all	0
 2837	mint-condition magic wand	7	all	0
 2838	yellow glowstick	8	display	0
+2839	Periodical Paintbrush	12	display	0
+2840	bottle of cooking sherry	2	all	35
+2841	antique packet of ketchup	1	all	15
+2842	accidental cider	2	all	35
+2843	dire fudgesicle	1	all	30

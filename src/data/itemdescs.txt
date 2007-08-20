@@ -2841,3 +2841,8 @@
 2836	684142773	wizard action figure	wizard action figures
 2837	288162140	mint-condition magic wand	mint-condition magic wands
 2838	723026141	yellow glowstick	yellow glowstyx
+2839	122462796	Periodical Paintbrush
+2840	534081992	bottle of cooking sherry	bottles of cooking sherry
+2841	688312860	antique packet of ketchup	antique packets of ketchup
+2842	227703670	accidental cider	jugs of accidental cider
+2843	317424968	dire fudgesicle	dire fudgesicles
