@@ -1925,6 +1925,8 @@ public class KoLmafiaASH extends StaticEntity
 				throw new AdvancedScriptException( "Value expected " + getLineAndFile() );
 
 			lhs = new ScriptExpression( lhs, null, new ScriptOperator( operator ) );
+                        if ( lhs.getType() != BOOLEAN_TYPE )
+                                throw new AdvancedScriptException( "\"!\" operator requires a boolean value " + getLineAndFile() );
 		}
 		else if ( currentToken().equals( "-" ) )
 		{
@@ -7232,7 +7234,10 @@ public class KoLmafiaASH extends StaticEntity
 			ScriptAggregateValue slice = (ScriptAggregateValue) aggregate.execute();
 			captureValue( slice );
 			if ( currentState == STATE_EXIT )
+			{
+				traceUnindent();
 				return null;
+			}
 
 			// Iterate over the slice with bound keyvar
 
@@ -8973,26 +8978,55 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue applyTo( ScriptExpression lhs, ScriptExpression rhs )
 		{
+			traceIndent();
+			trace( "Operator: " + operator );
+
 			// Unary operator with special evaluation of argument
 			if ( operator.equals( "remove" ) )
-				return ((ScriptCompositeReference)lhs).removeKey();
+			{
+				ScriptCompositeReference operand = (ScriptCompositeReference)lhs;
+				traceIndent();
+				trace( "Operand: " + operand );
+				traceUnindent();
+                                ScriptValue result = operand.removeKey();
+				trace( "<- " + result );
+				traceUnindent();
+				return result;
+			}
 
+			traceIndent();
+			trace( "Operand 1: " + lhs );
 			ScriptValue leftValue = lhs.execute();
 			captureValue( leftValue );
+			trace( "[" + executionStateString( currentState ) + "] <- " + leftValue.toQuotedString() );
+			traceUnindent();
 			if ( currentState == STATE_EXIT )
+			{
+				traceUnindent();
 				return null;
+			}
 
 			// Unary Operators
 			if ( operator.equals( "!" ) )
-				return new ScriptValue( leftValue.intValue() == 0 );
+			{
+				ScriptValue result = new ScriptValue( leftValue.intValue() == 0 );
+				trace( "<- " + result );
+				traceUnindent();
+				return result;
+			}
 
 			if ( operator.equals( "-" ) && rhs == null )
 			{
+				ScriptValue result = null;
 				if ( lhs.getType().equals( TYPE_INT ) )
-					return new ScriptValue( 0 - leftValue.intValue() );
-				if ( lhs.getType().equals( TYPE_FLOAT ) )
-					return new ScriptValue( 0.0f - leftValue.floatValue() );
-				throw new RuntimeException( "Unary minus can only be applied to numbers" );
+					result = new ScriptValue( 0 - leftValue.intValue() );
+				else if ( lhs.getType().equals( TYPE_FLOAT ) )
+					result = new ScriptValue( 0.0f - leftValue.floatValue() );
+				else
+					throw new RuntimeException( "Unary minus can only be applied to numbers" );
+				trace( "<- " + result );
+				traceUnindent();
+				return result;
 			}
 
 			// Unknown operator
@@ -9003,22 +9037,48 @@ public class KoLmafiaASH extends StaticEntity
 			if ( operator.equals( "||" ) )
 			{
 				if ( leftValue.intValue() == 1 )
+				{
+					trace( "<- " + TRUE_VALUE );
+					traceUnindent();
 					return TRUE_VALUE;
+				}
+				traceIndent();
+				trace( "Operand 2: " + rhs );
 				ScriptValue rightValue = rhs.execute();
 				captureValue( rightValue );
+				trace( "[" + executionStateString( currentState ) + "] <- " + rightValue.toQuotedString() );
+				traceUnindent();
 				if ( currentState == STATE_EXIT )
+				{
+					traceUnindent();
 					return null;
+				}
+				trace( "<- " + rightValue );
+				traceUnindent();
 				return rightValue;
 			}
 
 			if ( operator.equals( "&&" ) )
 			{
 				if ( leftValue.intValue() == 0 )
+				{
+					traceUnindent();
+					trace( "<- " + FALSE_VALUE );
 					return FALSE_VALUE;
+				}
+				traceIndent();
+				trace( "Operand 2: " + rhs );
 				ScriptValue rightValue = rhs.execute();
 				captureValue( rightValue);
+				trace( "[" + executionStateString( currentState ) + "] <- " + rightValue.toQuotedString() );
+				traceUnindent();
 				if ( currentState == STATE_EXIT )
+				{
+					traceUnindent();
 					return null;
+				}
+				trace( "<- " + rightValue );
+				traceUnindent();
 				return rightValue;
 			}
 
@@ -9029,18 +9089,35 @@ public class KoLmafiaASH extends StaticEntity
 			// Special binary operator: <aggref> contains <any>
 			if ( operator.equals( "contains" ) )
 			{
+				traceIndent();
+				trace( "Operand 2: " + rhs );
 				ScriptValue rightValue = rhs.execute();
 				captureValue( rightValue);
+				trace( "[" + executionStateString( currentState ) + "] <- " + rightValue.toQuotedString() );
+				traceUnindent();
 				if ( currentState == STATE_EXIT )
+				{
+					traceUnindent();
 					return null;
-				return new ScriptValue( leftValue.contains( rightValue ) );
+				}
+				ScriptValue result = new ScriptValue( leftValue.contains( rightValue ) );
+				trace( "<- " + result );
+				traceUnindent();
+				return result;
 			}
 
 			// Binary operators
+			traceIndent();
+			trace( "Operand 2: " + rhs );
 			ScriptValue rightValue = rhs.execute();
 			captureValue( rightValue );
+			trace( "[" + executionStateString( currentState ) + "] <- " + rightValue.toQuotedString() );
+			traceUnindent();
 			if ( currentState == STATE_EXIT )
+			{
+				traceUnindent();
 				return null;
+			}
 
 			// String operators
 			if ( operator.equals( "+" ) )
@@ -9050,7 +9127,10 @@ public class KoLmafiaASH extends StaticEntity
 					concatenateBuffer.setLength(0);
 					concatenateBuffer.append( leftValue.toStringValue().toString() );
 					concatenateBuffer.append( rightValue.toStringValue().toString() );
-					return new ScriptValue( concatenateBuffer.toString() );
+					ScriptValue result = new ScriptValue( concatenateBuffer.toString() );
+					trace( "<- " + result );
+					traceUnindent();
+					return result;
 				}
 			}
 
@@ -9059,7 +9139,12 @@ public class KoLmafiaASH extends StaticEntity
 				if ( lhs.getType().equals( TYPE_STRING ) ||
 					 lhs.getType().equals( TYPE_LOCATION ) ||
 					 lhs.getType().equals( TYPE_MONSTER ) )
-					return new ScriptValue( leftValue.toString().equalsIgnoreCase( rightValue.toString() ) );
+				{
+					ScriptValue result = new ScriptValue( leftValue.toString().equalsIgnoreCase( rightValue.toString() ) );
+					trace( "<- " + result );
+					traceUnindent();
+					return result;
+				}
 			}
 
 			if ( operator.equals( "!=" ) )
@@ -9067,7 +9152,12 @@ public class KoLmafiaASH extends StaticEntity
 				if ( lhs.getType().equals( TYPE_STRING ) ||
 					 lhs.getType().equals( TYPE_LOCATION ) ||
 					 lhs.getType().equals( TYPE_MONSTER ) )
-					return new ScriptValue( !leftValue.toString().equalsIgnoreCase( rightValue.toString() ) );
+				{
+					ScriptValue result = new ScriptValue( !leftValue.toString().equalsIgnoreCase( rightValue.toString() ) );
+					trace( "<- " + result );
+					traceUnindent();
+					return result;
+				}
 			}
 
 			// Arithmetic operators
@@ -9090,86 +9180,98 @@ public class KoLmafiaASH extends StaticEntity
 
 			if ( operator.equals( "+" ) )
 			{
-				if ( isInt )
-					return new ScriptValue( lint + rint );
-				return new ScriptValue( lfloat + rfloat );
+				ScriptValue result = ( isInt ) ? new ScriptValue( lint + rint ) : new ScriptValue( lfloat + rfloat );
+				trace( "<- " + result );
+				traceUnindent();
+				return result;
 			}
 
 			if ( operator.equals( "-" ) )
 			{
-				if ( isInt )
-					return new ScriptValue( lint - rint );
-				return new ScriptValue( lfloat - rfloat );
+				ScriptValue result = ( isInt ) ? new ScriptValue( lint - rint ) : new ScriptValue( lfloat - rfloat );
+				trace( "<- " + result );
+				traceUnindent();
+				return result;
 			}
 
 			if ( operator.equals( "*" ) )
 			{
-				if ( isInt )
-					return new ScriptValue( lint * rint );
-				return new ScriptValue( lfloat * rfloat );
+				ScriptValue result = ( isInt ) ? new ScriptValue( lint * rint ) : new ScriptValue( lfloat * rfloat );
+				trace( "<- " + result );
+				traceUnindent();
+				return result;
 			}
 
 			if ( operator.equals( "^" ) )
 			{
-				if ( isInt )
-					return new ScriptValue( (int) Math.pow( lint, rint ) );
-				return new ScriptValue( (float) Math.pow( lfloat, rfloat ) );
+				ScriptValue result = ( isInt ) ? new ScriptValue( (int) Math.pow( lint, rint ) ) : new ScriptValue( (float) Math.pow( lfloat, rfloat ) );
+				trace( "<- " + result );
+				traceUnindent();
+				return result;
 			}
 
 			if ( operator.equals( "/" ) )
 			{
-				if ( isInt )
-					return new ScriptValue( ((float)lint) / ((float)rint) );
-				return new ScriptValue( lfloat / rfloat );
+				ScriptValue result = ( isInt ) ? new ScriptValue( ((float)lint) / ((float)rint) ) : new ScriptValue( lfloat / rfloat );
+				trace( "<- " + result );
+				traceUnindent();
+				return result;
 			}
 
 			if ( operator.equals( "%" ) )
 			{
-				if ( isInt )
-					return new ScriptValue( lint % rint );
-				return new ScriptValue( lfloat % rfloat );
+				ScriptValue result = ( isInt ) ? new ScriptValue( lint % rint ) : new ScriptValue( lfloat % rfloat );
+				trace( "<- " + result );
+				traceUnindent();
+				return result;
 			}
 
 			if ( operator.equals( "<" ) )
 			{
-				if ( isInt )
-					return new ScriptValue( lint < rint );
-				return new ScriptValue( lfloat < rfloat );
+				ScriptValue result = ( isInt ) ? new ScriptValue( lint < rint ) : new ScriptValue( lfloat < rfloat );
+				trace( "<- " + result );
+				traceUnindent();
+				return result;
 			}
 
 			if ( operator.equals( ">" ) )
 			{
-				if ( isInt )
-					return new ScriptValue( lint > rint );
-				return new ScriptValue( lfloat > rfloat );
+				ScriptValue result = ( isInt ) ? new ScriptValue( lint > rint ) : new ScriptValue( lfloat > rfloat );
+				trace( "<- " + result );
+				traceUnindent();
+				return result;
 			}
 
 			if ( operator.equals( "<=" ) )
 			{
-				if ( isInt )
-					return new ScriptValue( lint <= rint );
-				return new ScriptValue( lfloat <= rfloat );
+				ScriptValue result = ( isInt ) ? new ScriptValue( lint <= rint ) : new ScriptValue( lfloat <= rfloat );
+				trace( "<- " + result );
+				traceUnindent();
+				return result;
 			}
 
 			if ( operator.equals( ">=" ) )
 			{
-				if ( isInt )
-					return new ScriptValue( lint >= rint );
-				return new ScriptValue( lfloat >= rfloat );
+				ScriptValue result = ( isInt ) ? new ScriptValue( lint >= rint ) : new ScriptValue( lfloat >= rfloat );
+				trace( "<- " + result );
+				traceUnindent();
+				return result;
 			}
 
 			if ( operator.equals( "=" ) || operator.equals( "==" ) )
 			{
-				if ( isInt )
-					return new ScriptValue( lint == rint );
-				return new ScriptValue( lfloat == rfloat );
+				ScriptValue result = ( isInt ) ? new ScriptValue( lint = rint ) : new ScriptValue( lfloat == rfloat );
+				trace( "<- " + result );
+				traceUnindent();
+				return result;
 			}
 
 			if ( operator.equals( "!=" ) )
 			{
-				if ( isInt )
-					return new ScriptValue( lint != rint );
-				return new ScriptValue( lfloat != rfloat );
+				ScriptValue result = ( isInt ) ? new ScriptValue( lint != rint ) : new ScriptValue( lfloat != rfloat );
+				trace( "<- " + result );
+				traceUnindent();
+				return result;
 			}
 
 			// Unknown operator
