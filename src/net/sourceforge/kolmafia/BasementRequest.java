@@ -587,13 +587,15 @@ public class BasementRequest extends AdventureRequest
 
 	private static final boolean checkForDrainTest( boolean autoSwitch, String responseText )
 	{
-		// According to http://forums.hardcoreoxygenation.com/viewtopic.php?t=3973,
-		// drain requirement is 1.67 * x^1.4  Assume the worst-case.
-
-		float drainRequirement = (float) Math.pow( basementLevel, 1.4 ) * 1.67f * 1.05f;
 
 		if ( responseText.indexOf( "Grab the Handles" ) != -1 )
 		{
+                        // According to
+                        // http://forums.hardcoreoxygenation.com/viewtopic.php?t=3973,
+                        // drain requirement is 1.67 * x^1.4 Assume worst-case.
+
+                        float drainRequirement = (float) Math.pow( basementLevel, 1.4 ) * 1.67f * 1.05f;
+
 			basementTestString = "Maximum MP";
 			basementTestCurrent = KoLCharacter.getMaximumMP();
 			basementTestValue = (int) drainRequirement;
@@ -624,6 +626,12 @@ public class BasementRequest extends AdventureRequest
 
 		if ( responseText.indexOf( "Run the Gauntlet Gauntlet" ) != -1 )
 		{
+			// According to starwed at
+			// http://forums.kingdomofloathing.com/viewtopic.php?t=83342&start=201
+			// drain requirement is 5.0 * x^1.4. Assume worst-case.
+
+			float drainRequirement = (float) Math.pow( basementLevel, 1.4 ) * 5.00f * 1.05f;
+
 			basementTestString = "Maximum HP";
 			basementTestCurrent = KoLCharacter.getMaximumHP();
 			basementTestValue = (int) drainRequirement;
