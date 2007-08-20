@@ -910,6 +910,9 @@ public class ItemManageFrame extends KoLFrame
 				if ( InventoryManagePanel.this.equipmentFilters == null )
 					return super.isVisible( element );
 
+				if ( element instanceof AdventureResult && !((AdventureResult)element).isItem() )
+					return false;
+
 				boolean isVisibleWithFilter = true;
 
 				if ( element == null )

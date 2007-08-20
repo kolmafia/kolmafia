@@ -1305,7 +1305,7 @@ public class KoLRequest extends Job implements KoLConstants
 	 * server response.
 	 */
 
-	public void processResponse()
+	public final void processResponse()
 	{
 		if ( this.responseText == null )
 			return;
@@ -1437,7 +1437,7 @@ public class KoLRequest extends Job implements KoLConstants
 	{	return this.formURLString.startsWith( "choice.php" ) ? 1 : 0;
 	}
 
-	public void parseResults()
+	private final void parseResults()
 	{
 		// If this is a lucky adventure, then remove a clover
 		// from the player's inventory -- this will occur when

@@ -121,10 +121,9 @@ public class LocalRelayRequest extends PasswordHashRequest
 	{	return true;
 	}
 
-	public void processResponse()
+	public void processResults()
 	{
 		this.statusLine = "HTTP/1.1 200 OK";
-		super.processResponse();
 
 		if ( this.formURLString.startsWith( "http" ) )
 			return;
