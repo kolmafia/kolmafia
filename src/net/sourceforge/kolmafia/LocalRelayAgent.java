@@ -214,7 +214,7 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 			{
 				fightResponse = SCRIPT_PATTERN.matcher( fightResponse ).replaceAll( "" );
 				this.request.pseudoResponse( "HTTP/1.1 200 OK", fightResponse );
-				this.request.headers.add( "Refresh: 0" );
+				this.request.headers.add( "Refresh: 1" );
 			}
 			else
 				this.request.pseudoResponse( "HTTP/1.1 200 OK", fightResponse );
