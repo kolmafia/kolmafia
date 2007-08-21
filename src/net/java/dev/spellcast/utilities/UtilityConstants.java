@@ -49,7 +49,7 @@ public interface UtilityConstants
 	public static final ClassLoader SYSTEM_CLASSLOADER    = ClassLoader.getSystemClassLoader();
 	public static final ClassLoader MAINCLASS_CLASSLOADER = net.java.dev.spellcast.utilities.UtilityConstants.class.getClassLoader();
 
-	public static final File ROOT_LOCATION = System.getProperty( "os.name" ).startsWith( "Mac" ) ?
+	public static final File ROOT_LOCATION = System.getProperty( "app.name" ) != null ?
 		new File( new File( System.getProperty( "user.home" ) ).getAbsoluteFile(), "Library/Application Support/KoLmafia" ) :
 		new File( System.getProperty( "user.dir" ) ).getAbsoluteFile();
 
