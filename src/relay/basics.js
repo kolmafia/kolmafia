@@ -1,9 +1,14 @@
 function getObject( id )
+{	return getObject( top.mainpane.document, id );
+}
+
+
+function getObject( pane, id )
 {
-	if ( top.mainpane.document.getElementById )
-		return top.mainpane.document.getElementById( id );
-	if ( top.mainpane.document.all )
-		return top.mainpane.document.all[ id ];
+	if ( document.getElementById )
+		return pane.getElementById( id );
+	if ( document.all )
+		return pane.all[ id ];
 
 	return false;
 }
@@ -179,29 +184,34 @@ function getAdventureId( link )
 }
 
 
+function hideSafetyText( e )
+{
+	var safety = getObject( top.chatpane.document, "safety" );
+	if ( safety )
+		safety.style.display = "none";
+
+	return true;
+}
+
+
 function showSafetyText( e )
 {
-	var safety = getObject( "safety" );
+	var safety = getObject( top.chatpane.document, "safety" );
 
 	if ( !safety )
 	{
-		safety = document.createElement( "div" );
+		safety = top.chatpane.document.createElement( "div" );
 		safety.id = "safety";
 
 		safety.style.textAlign = "left";
-		safety.style.backgroundColor = "#fffff0";
+		safety.style.backgroundColor = "#fcfcfc";
 
-		safety.style.height = 400;
-		safety.style.border = "2px";
-		safety.style.overflow = "scroll";
+		top.chatpane.document.body.appendChild( safety );
 
-		document.body.appendChild( safety );
-
-		safety.style.padding = "8px";
 		safety.style.position = "absolute";
-		safety.style.top = 5;
-		safety.style.left = 5;
-		safety.style.display = "inline";
+		safety.style.top = 0;
+		safety.style.left = 0;
+		safety.style.padding = "8px";
 	}
 
 	var adventureId = getAdventureId( this.href );
@@ -217,6 +227,7 @@ function showSafetyText( e )
 		if ( httpObject.readyState != 4 )
 			return;
 
+		safety.style.display = "inline";
 		safety.innerHTML = httpObject.responseText;
 	}
 
@@ -232,9 +243,15 @@ function attachReference()
 	for ( var i = 0; i < links.length; ++i )
 	{
 		if ( links[i].href.indexOf( "adventure.php" ) != -1 )
+		{
 			links[i].onmouseover = showSafetyText;
+			links[i].onmouseout = hideSafetyText;
+		}
 		else if ( links[i].href.indexOf( "submit" ) != -1 )
+		{
 			links[i].onmouseover = showSafetyText;
+			links[i].onmouseout = hideSafetyText;
+		}
 	}
 
 	return true;
