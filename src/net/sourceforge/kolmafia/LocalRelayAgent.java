@@ -226,9 +226,7 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 		}
 		else if ( this.path.equals( "/choice.php?action=auto" ) )
 		{
-			this.request.processChoiceAdventure();
-			this.request.pseudoResponse( "HTTP/1.1 200 OK",
-				RequestEditorKit.getFeatureRichHTML( "choice.php", KoLRequest.CHOICE_HANDLER.responseText, true ) );
+			KoLRequest.processChoiceAdventure( this.request );
 		}
 		else if ( this.path.startsWith( "/tiles.php" ) )
 		{
