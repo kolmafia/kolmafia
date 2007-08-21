@@ -743,12 +743,11 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 				if ( combat != null )
 				{
-					buffer.append( "<font size=1><u>" );
+					buffer.append( "<font size=2><u>" );
 					buffer.append( location.getAdventureName() );
 					buffer.append( "</u><br/><br/>" );
 
 					String combatData = combat.toString();
-//					combatData = combatData.substring( 6, combatData.indexOf( "<br><br>" ) );
 					combatData = combatData.substring( 6, combatData.length() - 7 );
 
 					buffer.append( combatData );
