@@ -356,6 +356,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( !acquireFileLock( "1" ) && !acquireFileLock( "2" ) )
 			System.exit(-1);
 
+		KoLSettings.initializeLists();
 		Runtime.getRuntime().addShutdownHook( new ShutdownThread() );
 
 		// Now run the main routines for each, so that
