@@ -145,7 +145,7 @@ public class AreaCombatData implements KoLConstants
 	public boolean willHitSomething()
 	{
 		int ml = KoLCharacter.getMonsterLevelAdjustment();
-                int hitStat = KoLCharacter.getAdjustedHitStat();
+				int hitStat = KoLCharacter.getAdjustedHitStat();
 
 		return hitPercent( hitStat - ml, this.minHit() ) > 0.0f;
 	}
@@ -197,12 +197,12 @@ public class AreaCombatData implements KoLConstants
 
 		buffer.append( "<br><b>Evade</b>: " );
 		buffer.append( this.getRateString( minEvadePercent, minPerfectEvade, maxEvadePercent, maxPerfectEvade, "Mox" ) );
-		buffer.append( "<br><b>Combat Frequency</b>: " );
+		buffer.append( "<br><b>Combat Rate</b>: " );
 
 		if ( this.combats > 0 )
 		{
 			buffer.append( this.format( combatFactor * 100.0f ) + "%" );
-			buffer.append( "<br><b>Average Experience / Turn</b>: " + FLOAT_FORMAT.format( averageExperience * combatFactor ) );
+			buffer.append( "<br><b>Combat XP</b>: " + FLOAT_FORMAT.format( averageExperience * combatFactor ) );
 		}
 		else if ( this.combats == 0 )
 			buffer.append( "0%" );
@@ -294,7 +294,7 @@ public class AreaCombatData implements KoLConstants
 			buffer.append( "special" );
 		else
 			buffer.append( this.format( 100.0f * combatFactor * weighting / this.weights ) + "%" );
-                buffer.append( ")<br>Hit: <font color=" + elementColor( ed ) + ">" );
+				buffer.append( ")<br>Hit: <font color=" + elementColor( ed ) + ">" );
 		buffer.append( this.format( hitPercent ) );
 		buffer.append( "%</font>, Evade: <font color=" + elementColor( ea ) + ">" );
 		buffer.append( this.format( evadePercent ) );
@@ -314,8 +314,8 @@ public class AreaCombatData implements KoLConstants
 
 		float modifier = ( KoLCharacter.getMeatDropPercentAdjustment() + 100.0f ) / 100.0f;
 		buffer.append( "<br>Meat: " +
-	       this.format( (minMeat) * modifier ) + "-" + this.format( (maxMeat) * modifier ) + " (" +
-	       this.format( (minMeat + maxMeat) * modifier / 2.0f ) + " average)" );
+		   this.format( (minMeat) * modifier ) + "-" + this.format( (maxMeat) * modifier ) + " (" +
+		   this.format( (minMeat + maxMeat) * modifier / 2.0f ) + " average)" );
 	}
 
 	private void appendItemList( StringBuffer buffer, List items, List pocketRates )

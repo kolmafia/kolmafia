@@ -49,10 +49,9 @@ import java.util.Properties;
 import java.util.TreeMap;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
-import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.AdventureDatabase.ChoiceAdventure;
 
-public class KoLSettings extends Properties implements UtilityConstants
+public class KoLSettings extends Properties implements KoLConstants
 {
 	private boolean valuesChanged = false;
 	private static final TreeMap checkboxMap = new TreeMap();
@@ -170,40 +169,34 @@ public class KoLSettings extends Properties implements UtilityConstants
 		if ( !SETTINGS_LOCATION.exists() )
 			SETTINGS_LOCATION.mkdirs();
 
-		TreeMap filesToMove = new TreeMap();
+		// Move all files to ~/Library/Application Support/KoLmafia
+		// if the user is on a Macintosh, just for consistency.
 
-		filesToMove.put( new File( SETTINGS_LOCATION, "junk_GLOBAL.txt" ), new File( DATA_LOCATION, "autosell.txt" ) );
-		filesToMove.put( new File( SETTINGS_LOCATION, "profitable_GLOBAL.txt" ), new File( DATA_LOCATION, "mallsell.txt" ) );
-		filesToMove.put( new File( SETTINGS_LOCATION, "memento_GLOBAL.txt" ), new File( DATA_LOCATION, "mementos.txt" ) );
-		filesToMove.put( new File( SETTINGS_LOCATION, "skillsets_GLOBAL.txt" ), new File( DATA_LOCATION, "skillgroup.txt" ) );
+		File source;
 
-		Object [] keys = filesToMove.keySet().toArray();
-		for ( int i = 0; i < keys.length; ++i )
-			if ( ((File)keys[i]).exists() )
-				((File)keys[i]).renameTo( (File) filesToMove.get( keys[i] ) );
-
-		String currentName;
-		File [] filelist = SETTINGS_LOCATION.listFiles();
-
-		for ( int i = 0; i < filelist.length; ++i )
+		if ( System.getProperty( "os.name" ).startsWith( "Mac" ) )
 		{
-			currentName = filelist[i].getName();
-
-			if ( currentName.startsWith( "combat_" ) )
-			{
-				currentName = currentName.substring( 7, currentName.indexOf( ".txt" ) );
-				filelist[i].renameTo( new File( SETTINGS_LOCATION, currentName + "_combat.txt" ) );
-			}
-			else if ( currentName.startsWith( "moods_" ) )
-			{
-				currentName = currentName.substring( 6, currentName.indexOf( ".txt" ) );
-				filelist[i].renameTo( new File( SETTINGS_LOCATION, currentName + "_moods.txt" ) );
-			}
-			else if ( currentName.startsWith( "prefs_" ) )
-			{
-				currentName = currentName.substring( 6, currentName.indexOf( ".txt" ) );
-				filelist[i].renameTo( new File( SETTINGS_LOCATION, currentName + "_prefs.txt" ) );
-			}
+			source = new File( System.getProperty( "user.dir" ), DATA_DIRECTORY );
+			if ( source.exists() )
+				source.renameTo( DATA_LOCATION );
+			source = new File( System.getProperty( "user.dir" ), IMAGE_DIRECTORY );
+			if ( source.exists() )
+				source.renameTo( IMAGE_LOCATION );
+			source = new File( System.getProperty( "user.dir" ), SETTINGS_DIRECTORY );
+			if ( source.exists() )
+				source.renameTo( SETTINGS_LOCATION );
+			source = new File( System.getProperty( "user.dir" ), PLOTS_DIRECTORY );
+			if ( source.exists() )
+				source.renameTo( PLOTS_LOCATION );
+			source = new File( System.getProperty( "user.dir" ), SCRIPT_DIRECTORY );
+			if ( source.exists() )
+				source.renameTo( SCRIPT_LOCATION );
+			source = new File( System.getProperty( "user.dir" ), SESSIONS_DIRECTORY );
+			if ( source.exists() )
+				source.renameTo( SESSIONS_LOCATION );
+			source = new File( System.getProperty( "user.dir" ), RELAY_DIRECTORY );
+			if ( source.exists() )
+				source.renameTo( RELAY_LOCATION );
 		}
 
 		initializeMaps();
@@ -268,18 +261,18 @@ public class KoLSettings extends Properties implements UtilityConstants
 
 	public static final void initializeLists()
 	{
-		KoLConstants.junkList.clear();
-		initializeList( KoLConstants.junkList, junkItemsFile, COMMON_JUNK );
+		junkList.clear();
+		initializeList( junkList, junkItemsFile, COMMON_JUNK );
 
-		KoLConstants.singletonList.clear();
-		initializeList( KoLConstants.junkList, singletonFile, SINGLETON_ITEMS );
-		initializeList( KoLConstants.singletonList, singletonFile, SINGLETON_ITEMS );
+		singletonList.clear();
+		initializeList( junkList, singletonFile, SINGLETON_ITEMS );
+		initializeList( singletonList, singletonFile, SINGLETON_ITEMS );
 
-		KoLConstants.mementoList.clear();
-		initializeList( KoLConstants.mementoList, mementoFile, COMMON_MEMENTOS );
+		mementoList.clear();
+		initializeList( mementoList, mementoFile, COMMON_MEMENTOS );
 
-		KoLConstants.profitableList.clear();
-		initializeList( KoLConstants.profitableList, profitableFile, new String[0] );
+		profitableList.clear();
+		initializeList( profitableList, profitableFile, new String[0] );
 	}
 
 	public static final void reset( String username )
@@ -452,36 +445,36 @@ public class KoLSettings extends Properties implements UtilityConstants
 
 		LogStream ostream = LogStream.openStream( junkItemsFile, true );
 
-		for ( int i = 0; i < KoLConstants.junkList.size(); ++i )
+		for ( int i = 0; i < junkList.size(); ++i )
 		{
-			item = ((AdventureResult) KoLConstants.junkList.get(i));
+			item = ((AdventureResult) junkList.get(i));
 			ostream.println( item.getName() );
 		}
 
 		ostream.close();
 
 		ostream = LogStream.openStream( singletonFile, true );
-		for ( int i = 0; i < KoLConstants.singletonList.size(); ++i )
+		for ( int i = 0; i < singletonList.size(); ++i )
 		{
-			item = (AdventureResult)KoLConstants.singletonList.get(i);
+			item = (AdventureResult)singletonList.get(i);
 			ostream.println( item.getName() );
 		}
 
 		ostream.close();
 
 		ostream = LogStream.openStream( mementoFile, true );
-		for ( int i = 0; i < KoLConstants.mementoList.size(); ++i )
+		for ( int i = 0; i < mementoList.size(); ++i )
 		{
-			item = (AdventureResult)KoLConstants.mementoList.get(i);
+			item = (AdventureResult)mementoList.get(i);
 			ostream.println( item.getName() );
 		}
 
 		ostream.close();
 
 		ostream = LogStream.openStream( profitableFile, true );
-		for ( int i = 0; i < KoLConstants.profitableList.size(); ++i )
+		for ( int i = 0; i < profitableList.size(); ++i )
 		{
-			item = (AdventureResult) KoLConstants.profitableList.get(i);
+			item = (AdventureResult) profitableList.get(i);
 			ostream.println( item.getCount() + " " + item.getName() );
 		}
 
@@ -501,9 +494,9 @@ public class KoLSettings extends Properties implements UtilityConstants
 			// actually printing them.
 
 			ByteArrayOutputStream ostream = new ByteArrayOutputStream();
-			this.store( ostream, KoLConstants.VERSION_NAME );
+			this.store( ostream, VERSION_NAME );
 
-			String [] lines = ostream.toString().split( KoLConstants.LINE_BREAK );
+			String [] lines = ostream.toString().split( LINE_BREAK );
 			Arrays.sort( lines );
 
 			ostream.reset();
@@ -514,7 +507,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 					continue;
 
 				ostream.write( lines[i].getBytes() );
-				ostream.write( KoLConstants.LINE_BREAK.getBytes() );
+				ostream.write( LINE_BREAK.getBytes() );
 			}
 
 			if ( this.userSettingsFile.exists() )
@@ -621,6 +614,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		GLOBAL_MAP.put( "grabCloversSoftcore", "true" );
 		GLOBAL_MAP.put( "greenScreenProtection", "false" );
 		GLOBAL_MAP.put( "guiUsesOneWindow", "false" );
+		GLOBAL_MAP.put( "hideServerDebugText", "false" );
 		GLOBAL_MAP.put( "highlightList", "" );
 		GLOBAL_MAP.put( "http.proxyHost", "" );
 		GLOBAL_MAP.put( "http.proxyPort", "" );
@@ -632,6 +626,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		GLOBAL_MAP.put( "initialFrames", "EventsFrame" );
 		GLOBAL_MAP.put( "itemManagerIndex", "0" );
 		GLOBAL_MAP.put( "lastBuffRequestType", "0" );
+		GLOBAL_MAP.put( "lastRelayUpdate", "" );
 		GLOBAL_MAP.put( "lastUsername", "" );
 		GLOBAL_MAP.put( "logChatMessages", "true" );
 		GLOBAL_MAP.put( "loginServerName", "" );
@@ -655,7 +650,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		GLOBAL_MAP.put( "pathedSummonsHardcore", "true" );
 		GLOBAL_MAP.put( "pathedSummonsSoftcore", "false" );
 		GLOBAL_MAP.put( "previousNotifyList", "<>" );
-		GLOBAL_MAP.put( "previousUpdateVersion", KoLConstants.VERSION_NAME );
+		GLOBAL_MAP.put( "previousUpdateVersion", VERSION_NAME );
 		GLOBAL_MAP.put( "protectAgainstOverdrink", "true" );
 
 		GLOBAL_MAP.put( "readManualHardcore", "true" );
@@ -959,11 +954,11 @@ public class KoLSettings extends Properties implements UtilityConstants
 		if ( globalSettings == null || this == globalSettings )
 			return;
 
-		if ( super.getProperty( "lastChoiceUpdate" ).equals( KoLConstants.VERSION_NAME ) )
+		if ( super.getProperty( "lastChoiceUpdate" ).equals( VERSION_NAME ) )
 			return;
 
 		String setting;
-		super.setProperty( "lastChoiceUpdate", KoLConstants.VERSION_NAME );
+		super.setProperty( "lastChoiceUpdate", VERSION_NAME );
 
 		for ( int i = 0; i < AdventureDatabase.CHOICE_ADV_SPOILERS.length; ++i )
 		{

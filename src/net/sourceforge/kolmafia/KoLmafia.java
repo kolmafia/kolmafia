@@ -67,7 +67,6 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.HPRestoreItemList.HPRestoreItem;
 import net.sourceforge.kolmafia.MPRestoreItemList.MPRestoreItem;
 import net.sourceforge.kolmafia.StoreManager.SoldItem;
-import net.sourceforge.kolmafia.MonsterDatabase.Monster;
 
 public abstract class KoLmafia implements KoLConstants
 {

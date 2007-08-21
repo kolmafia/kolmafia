@@ -950,6 +950,14 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( buffer.length() == 0 )
 			return;
 
+		if ( addComplexFeatures )
+		{
+			StaticEntity.singleStringReplace( buffer, "</head>", "<script language=\"Javascript\" src=\"/basics.js\"></script></head>" );
+
+			if ( !location.startsWith( "char" ) && location.indexOf( "menu" ) == -1 && location.indexOf( "chat" ) == -1 )
+				StaticEntity.singleStringReplace( buffer, "<body", "<body onLoad=\"attachReference();\"" );
+		}
+
 		// Make all the character pane adjustments first, since
 		// they only happen once and they occur frequently.
 
@@ -1633,9 +1641,17 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 	private static final void addFightButtons( String urlString, StringBuffer buffer )
 	{
-		int debugIndex = buffer.indexOf( "<font size=1>" );
-		if ( debugIndex != -1 )
-			buffer.delete( debugIndex, buffer.indexOf( "</font>", debugIndex ) );
+		String debug = "&nbsp;";
+
+		int beginDebug = buffer.indexOf( "<font size=1>" );
+		if ( beginDebug != -1 )
+		{
+			int endDebug = buffer.indexOf( "</font>", beginDebug ) + 7;
+			if ( endDebug - beginDebug > 20 && !KoLSettings.getBooleanProperty( "hideServerDebugText" ) )
+				debug = "<br/>" + buffer.substring( beginDebug + 13, endDebug - 7 ) + "<br/>";
+
+			buffer.delete( beginDebug, endDebug );
+		}
 
 		if ( !KoLSettings.getBooleanProperty( "relayAddsCustomCombat" ) )
 			return;
@@ -1663,7 +1679,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					addFightButton( urlString, buffer, actionBuffer, action, FightRequest.getCurrentRound() > 0 );
 			}
 
-			actionBuffer.append( "</td></tr><tr><td><font size=1>&nbsp;</font></td></tr>" );
+			actionBuffer.append( "</td></tr><tr><td><font size=1>" );
+			actionBuffer.append( debug );
+			actionBuffer.append( "</font></td></tr>" );
 			buffer.insert( insertionPoint, actionBuffer.toString() );
 		}
 	}
@@ -1895,8 +1913,6 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		Matcher useLinkMatcher = ACQUIRE_PATTERN.matcher( text );
 
 		int specialLinkId = 0;
-		boolean addedInlineLink = false;
-
 		String specialLinkText = null;
 
 		while ( useLinkMatcher.find() )
@@ -2300,7 +2316,6 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 				if ( useLocation.equals( "#" ) )
 				{
-					addedInlineLink = true;
 					useLinkMatcher.appendReplacement( buffer, "You acquire$1" );
 
 					// Append a multi-use field rather than forcing
@@ -2332,7 +2347,6 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				}
 				else
 				{
-					addedInlineLink = true;
 					String [] pieces = useLocation.toString().split( "\\?" );
 
 					useLinkMatcher.appendReplacement( buffer, "You acquire$1 <font size=1>[<a href=\"javascript: " +
@@ -2348,9 +2362,6 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		}
 
 		useLinkMatcher.appendTail( buffer );
-
-		if ( addedInlineLink )
-			StaticEntity.singleStringReplace( buffer, "</head>", "<script language=Javascript src=\"/basics.js\"></script></head>" );
 
 		if ( specialLinkText != null )
 		{

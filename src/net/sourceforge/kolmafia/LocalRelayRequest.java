@@ -604,27 +604,6 @@ public class LocalRelayRequest extends PasswordHashRequest
 		}
 	}
 
-	public void submitCommand()
-	{
-		CommandDisplayFrame.executeCommand( this.getFormField( "cmd" ) );
-		this.pseudoResponse( "HTTP/1.1 200 OK", "" );
-	}
-
-	public void executeCommand()
-	{
-		CommandDisplayFrame.executeCommand( this.getFormField( "cmd" ) );
-		this.pseudoResponse( "HTTP/1.1 200 OK", "" );
-	}
-
-	public void sideCommand()
-	{
-		CommandDisplayFrame.executeCommand( this.getFormField( "cmd" ) );
-		while ( CommandDisplayFrame.hasQueuedCommands() )
-			delay( 500 );
-
-		this.pseudoResponse( "HTTP/1.1 302 Found", "/charpane.php" );
-	}
-
 	public void sendNotFound()
 	{
 		this.pseudoResponse( "HTTP/1.1 404 Not Found", "" );
@@ -732,19 +711,52 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 		if ( this.getPath().endsWith( "submitCommand" ) )
 		{
-			this.submitCommand();
+			CommandDisplayFrame.executeCommand( this.getFormField( "cmd" ) );
+			this.pseudoResponse( "HTTP/1.1 200 OK", "" );
 		}
 		else if ( this.getPath().endsWith( "executeCommand" ) )
 		{
-			this.executeCommand();
+			CommandDisplayFrame.executeCommand( this.getFormField( "cmd" ) );
+			this.pseudoResponse( "HTTP/1.1 200 OK", "" );
 		}
 		else if ( this.getPath().endsWith( "sideCommand" ) )
 		{
-			this.sideCommand();
+			CommandDisplayFrame.executeCommand( this.getFormField( "cmd" ) );
+			while ( CommandDisplayFrame.hasQueuedCommands() )
+				delay( 500 );
+
+			this.pseudoResponse( "HTTP/1.1 302 Found", "/charpane.php" );
 		}
 		else if ( this.getPath().endsWith( "messageUpdate" ) )
 		{
 			this.pseudoResponse( "HTTP/1.1 200 OK", LocalRelayServer.getNewStatusMessages() );
+		}
+		else if ( this.getPath().endsWith( "lookupLocation" ) )
+		{
+			StringBuffer buffer = new StringBuffer();
+			KoLAdventure location = AdventureDatabase.getAdventureByURL(
+				"adventure.php?snarfblat=" + this.getFormField( "snarfblat" ) );
+
+			if ( location != null )
+			{
+				AreaCombatData combat = location.getAreaSummary();
+
+				if ( combat != null )
+				{
+					buffer.append( "<font size=1><u>" );
+					buffer.append( location.getAdventureName() );
+					buffer.append( "</u><br/><br/>" );
+
+					String combatData = combat.toString();
+//					combatData = combatData.substring( 6, combatData.indexOf( "<br><br>" ) );
+					combatData = combatData.substring( 6, combatData.length() - 7 );
+
+					buffer.append( combatData );
+					buffer.append( "</font>" );
+				}
+			}
+
+			this.pseudoResponse( "HTTP/1.1 200 OK", buffer.toString() );
 		}
 		else if ( this.getPath().endsWith( "basementSpoiler" ) )
 		{

@@ -58,11 +58,15 @@ public class LocalRelayServer implements Runnable
 
 	private LocalRelayServer()
 	{
+		StaticEntity.loadLibrary( KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, "basement.js" );
 		StaticEntity.loadLibrary( KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, "basics.js" );
 		StaticEntity.loadLibrary( KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, "chat.html" );
 		StaticEntity.loadLibrary( KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, "cli.html" );
 		StaticEntity.loadLibrary( KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, "palinshelves.js" );
+		StaticEntity.loadLibrary( KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, "safety.js" );
 		StaticEntity.loadLibrary( KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, "sorttable.js" );
+
+		KoLSettings.setUserProperty( "lastRelayUpdate", KoLConstants.VERSION_NAME );
 	}
 
 	public static final void updateStatus()

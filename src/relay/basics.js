@@ -2,10 +2,10 @@ function getObject( id )
 {
 	if ( top.mainpane.document.getElementById )
 		return top.mainpane.document.getElementById( id );
-	else if ( top.mainpane.document.all )
+	if ( top.mainpane.document.all )
 		return top.mainpane.document.all[ id ];
-	else
-		return false;
+
+	return false;
 }
 
 
@@ -149,76 +149,95 @@ function multiUse( location, id )
 
 function showObject( id )
 {
-	var object = getObject(id);
-	if ( !object )
-		return false;
-
-	object.style.display = 'inline';
+	getObject(id).style.display = "inline";
 	return true;
 }
 
 
-function basementUpdate( select, command )
+function hideObject( id )
 {
-	var httpObject1 = getHttpObject();
-	if ( !httpObject1 )
+	getObject(id).style.display = "none";
 	return true;
+}
 
-	isRefreshing = true;
-	httpObject1.onreadystatechange = function()
+
+function getAdventureId( link )
+{
+	if ( link.indexOf( "adventure.php" ) != -1 )
+		return link.substring( link.lastIndexOf( "?" ) + 1 );
+
+	var name = link.substring( link.indexOf( "document." ) + 9, link.indexOf( ".submit" ) );
+	var forms = document.getElementsByTagName( "form" );
+
+	for ( var i = 0; i < forms.length; ++i )
+		if ( forms[i].name == name )
+			for ( var j = 0; j < forms[i].length; ++j )
+				if ( forms[i][j].name == "adv" || forms[i][j].name == "snarfblat" )
+					return "snarfblat=" + forms[i][j].value;
+
+	return "";
+}
+
+
+function showSafetyText( e )
+{
+	var safety = getObject( "safety" );
+
+	if ( !safety )
 	{
-		if ( httpObject1.readyState != 4 )
-			return;
+		safety = document.createElement( "div" );
+		safety.id = "safety";
 
-		var bodyBegin = httpObject1.responseText.indexOf( ">", httpObject1.responseText.indexOf( "<body" ) ) + 1;
-		var bodyEnd = httpObject1.responseText.indexOf( "</body>" );
+		safety.style.textAlign = "left";
+		safety.style.backgroundColor = "#fffff0";
 
-		if ( bodyBegin > 0 && bodyEnd > 0 )
-		{
-			top.charpane.document.getElementsByTagName( "body" )[0].innerHTML =
-				httpObject1.responseText.substring( bodyBegin, bodyEnd );
-		}
+		safety.style.height = 400;
+		safety.style.border = "2px";
+		safety.style.overflow = "scroll";
 
-		isRefreshing = false;
+		document.body.appendChild( safety );
 
-		var httpObject2 = getHttpObject();
-		if ( !httpObject2 )
-			return true;
-
-		httpObject2.onreadystatechange = function()
-		{
-			if ( httpObject2.readyState != 4 )
-				return;
-
-			getObject( "spoiler" ).innerHTML = httpObject2.responseText;
-			select.selectedIndex = 0;
-			select.disabled = false;
-		}
-
-		httpObject2.open( "POST", "/KoLmafia/basementSpoiler" );
-		httpObject2.send( null );
-		return true;
+		safety.style.padding = "8px";
+		safety.style.position = "absolute";
+		safety.style.top = 5;
+		safety.style.left = 5;
+		safety.style.display = "inline";
 	}
 
-	select.disabled = true;
-	httpObject1.open( "POST", "/KoLmafia/sideCommand?cmd=" + command );
-	httpObject1.send( "" );
+	var adventureId = getAdventureId( this.href );
+	if ( adventureId == "" )
+		return true;
+
+	var httpObject = getHttpObject();
+	if ( !httpObject )
+		return true;
+
+	httpObject.onreadystatechange = function()
+	{
+		if ( httpObject.readyState != 4 )
+			return;
+
+		safety.innerHTML = httpObject.responseText;
+	}
+
+	httpObject.open( "POST", "/KoLmafia/lookupLocation?" + adventureId );
+	httpObject.send( null );
+	return true;
 }
 
 
-function changeBasementOutfit()
+function attachReference()
 {
-	var select = document.getElementById( "outfit" );
-	var option = select.options[select.selectedIndex];
-	basementUpdate( select, "outfit+" + option.value );
-}
+	var links = document.getElementsByTagName( "a" );
+	for ( var i = 0; i < links.length; ++i )
+	{
+		if ( links[i].href.indexOf( "adventure.php" ) != -1 )
+			links[i].onmouseover = showSafetyText;
+		else if ( links[i].href.indexOf( "submit" ) != -1 )
+			links[i].onmouseover = showSafetyText;
+	}
 
-
-function changeBasementPotion()
-{
-	var select = document.getElementById( "potion" );
-	var option = select.options[select.selectedIndex];
-	basementUpdate( select, option.value );
+	return true;
 }
 
 
