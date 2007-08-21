@@ -893,8 +893,7 @@ public class BasementRequest extends AdventureRequest
 			return;
 		}
 
-		if ( buffer.indexOf( "basics.js" ) == -1 )
-			buffer.insert( buffer.indexOf( "</head>" ), "<script language=\"Javascript\" src=\"/basics.js\"></script></head>" );
+		buffer.insert( buffer.indexOf( "</head>" ), "<script language=\"Javascript\" src=\"/basement.js\"></script></head>" );
 
 		StringBuffer changes = new StringBuffer();
 		changes.append( "<br/><select id=\"outfit\" style=\"width: 250px\"><option value=\"none\">- select an outfit -</option>" );

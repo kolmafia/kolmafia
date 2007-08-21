@@ -34,7 +34,6 @@
 package net.sourceforge.kolmafia;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -723,7 +722,7 @@ public abstract class StaticEntity implements KoLConstants
 
 			if ( library.exists() )
 			{
-				if ( filename.equals( "basics.js" ) )
+				if ( !KoLSettings.getUserProperty( "lastRelayUpdate" ).equals( VERSION_NAME ) && parent == RELAY_LOCATION )
 					library.delete();
 				else
 					return true;
