@@ -1588,7 +1588,12 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		String name = getActionName( action );
 		buffer.append( "<input type=\"button\" onClick=\"document.location.href='" );
 
-		if ( FightRequest.getCurrentRound() == 0 )
+		if ( urlString.startsWith( "choice.php" ) && response.indexOf( "choice.php" ) != -1 )
+		{
+			name = "auto";
+			buffer.append( "choice.php?action=auto" );
+		}
+		else if ( FightRequest.getCurrentRound() == 0 )
 		{
 			String location = "main.php";
 

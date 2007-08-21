@@ -205,6 +205,9 @@ public class ConsumeItemRequest extends KoLRequest
 		this.itemUsed = item;
 	}
 
+	protected boolean shouldFollowRedirect()
+	{	return true;
+	}
 
 	public int getConsumptionType()
 	{	return this.consumptionType;
