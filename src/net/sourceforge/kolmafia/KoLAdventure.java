@@ -80,6 +80,8 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 	private int baseRequirement, buffedRequirement;
 	private String zone, parentZone, adventureId, formSource, adventureName;
 
+	private String lowercaseName, lowercaseZone, lowercaseZoneDescription;
+
 	private KoLRequest request;
 	private AreaCombatData areaSummary;
 	private boolean isNonCombatsOnly;
@@ -95,13 +97,18 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 	public KoLAdventure( String zone, String baseRequirement, String buffedRequirement, String formSource, String adventureId, String adventureName )
 	{
-		this.zone = zone;
-		this.parentZone = (String) AdventureDatabase.PARENT_ZONES.get( zone );
 		this.baseRequirement = StaticEntity.parseInt( baseRequirement );
 		this.buffedRequirement = StaticEntity.parseInt( buffedRequirement );
 		this.formSource = formSource;
 		this.adventureId = adventureId;
+
+		this.zone = zone;
+		this.parentZone = (String) AdventureDatabase.PARENT_ZONES.get( zone );
 		this.adventureName = adventureName;
+
+		this.lowercaseName = KoLDatabase.getCanonicalName( adventureName );
+		this.lowercaseZone = KoLDatabase.getCanonicalName( zone );
+		this.lowercaseZoneDescription = KoLDatabase.getCanonicalName( (String) AdventureDatabase.ZONE_DESCRIPTIONS.get( zone ) );
 
 		if ( formSource.equals( "sewer.php" ) )
 			this.request = new SewerRequest( false );
@@ -123,6 +130,12 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 		this.isNonCombatsOnly = !(this.request instanceof AdventureRequest) ||
 			(this.areaSummary != null && this.areaSummary.combats() == 0 && this.areaSummary.getMonsterCount() == 0);
+	}
+
+	public boolean matches( String searchString )
+	{
+		return lowercaseName.indexOf( searchString ) != -1 || lowercaseZone.indexOf( searchString ) != -1 ||
+			lowercaseZoneDescription.indexOf( searchString ) != -1;
 	}
 
 	/**
