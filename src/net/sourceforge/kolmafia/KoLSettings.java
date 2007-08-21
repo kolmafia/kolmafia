@@ -362,7 +362,7 @@ public class KoLSettings extends Properties implements KoLConstants
 
 	public static final boolean isGlobalProperty( String name )
 	{
-		return name.startsWith( "saveState" ) || name.startsWith( "displayName" ) ||
+		return GLOBAL_MAP.containsKey( name ) || name.startsWith( "saveState" ) || name.startsWith( "displayName" ) ||
 			name.startsWith( "getBreakfast" ) || name.startsWith( "autoPlant" ) || name.startsWith( "visitRumpus" ) ||
 			name.startsWith( "initialFrames" ) || name.startsWith( "initialDesktop" );
 	}
