@@ -164,11 +164,6 @@ public class KoLSettings extends Properties implements KoLConstants
 
 	static
 	{
-		if ( !DATA_LOCATION.exists() )
-			DATA_LOCATION.mkdirs();
-		if ( !SETTINGS_LOCATION.exists() )
-			SETTINGS_LOCATION.mkdirs();
-
 		// Move all files to ~/Library/Application Support/KoLmafia
 		// if the user is on a Macintosh, just for consistency.
 
@@ -198,6 +193,11 @@ public class KoLSettings extends Properties implements KoLConstants
 			if ( source.exists() )
 				source.renameTo( RELAY_LOCATION );
 		}
+
+		if ( !DATA_LOCATION.exists() )
+			DATA_LOCATION.mkdirs();
+		if ( !SETTINGS_LOCATION.exists() )
+			SETTINGS_LOCATION.mkdirs();
 
 		initializeMaps();
 	}

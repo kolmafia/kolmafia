@@ -213,11 +213,6 @@ public abstract class KoLmafia implements KoLConstants
 
 	public static final void main( String [] args )
 	{
-		if ( !acquireFileLock( "1" ) && !acquireFileLock( "2" ) )
-			System.exit(-1);
-
-		Runtime.getRuntime().addShutdownHook( new ShutdownThread() );
-
 		boolean useGUI = true;
 		System.setProperty( "http.agent", VERSION_NAME );
 
@@ -357,6 +352,11 @@ public abstract class KoLmafia implements KoLConstants
 
 		tab.CloseTabPaneEnhancedUI.notifiedA = DataUtilities.toColor( KoLSettings.getUserProperty( "innerChatColor" ) );
 		tab.CloseTabPaneEnhancedUI.notifiedB = DataUtilities.toColor( KoLSettings.getUserProperty( "outerChatColor" ) );
+
+		if ( !acquireFileLock( "1" ) && !acquireFileLock( "2" ) )
+			System.exit(-1);
+
+		Runtime.getRuntime().addShutdownHook( new ShutdownThread() );
 
 		// Now run the main routines for each, so that
 		// you have an interface.
