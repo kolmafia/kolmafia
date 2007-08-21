@@ -222,18 +222,14 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 	{
 		setVisible( false );
 
-		String setting = KoLSettings.getGlobalProperty( "initialDesktop" );
-		for ( int i = 0; i < tabListing.size(); ++i )
-		{
-			KoLFrame frame = (KoLFrame) INSTANCE.tabListing.get( i );
-			if ( setting.indexOf( frame.getFrameName() ) != -1 )
-				frame.dispose();
-			else if ( frame instanceof ChatFrame && setting.indexOf( "KoLMessenger" ) != -1 )
-				frame.dispose();
-		}
-
 		if ( tabs != null && tabs instanceof CloseTabbedPane )
 			((CloseTabbedPane)tabs).removeCloseListener( this );
+
+		while ( !tabListing.isEmpty() )
+		{
+			tabs.removeTabAt(0);
+			((KoLFrame)tabListing.remove(0)).dispose();
+		}
 
 		super.dispose();
 		INSTANCE = null;
