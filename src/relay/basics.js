@@ -78,12 +78,12 @@ function updateDisplay( display, responseText )
 
 	if ( display.innerHTML.length > 30000 )
 	{
-		var lineIndex = display.innerHTML.indexOf( "<br>", 10000 );
+		var lineIndex = display.innerHTML.indexOf( "<br", 10000 );
 		if ( lineIndex == -1 )
-			lineIndex = this.displayBuffer.lastIndexOf( "<br>", DELETE_AMOUNT );
+			lineIndex = this.displayBuffer.lastIndexOf( "<br", DELETE_AMOUNT );
 
 		if ( lineIndex != -1 )
-			display.innerHTML = display.innerHTML.substring( lineIndex + 4 );
+			display.innerHTML = display.innerHTML.substring( display.indexOf( ">", lineIndex ) + 1 );
 		else
 			display.innerHTML = "";
 	}
