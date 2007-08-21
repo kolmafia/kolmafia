@@ -80,7 +80,7 @@ function updateDisplay( display, responseText )
 	{
 		var lineIndex = display.innerHTML.indexOf( "<br", 10000 );
 		if ( lineIndex == -1 )
-			lineIndex = this.displayBuffer.lastIndexOf( "<br", DELETE_AMOUNT );
+			lineIndex = this.displayBuffer.lastIndexOf( "<br", 10000 );
 
 		if ( lineIndex != -1 )
 			display.innerHTML = display.innerHTML.substring( display.indexOf( ">", lineIndex ) + 1 );
