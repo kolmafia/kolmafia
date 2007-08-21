@@ -807,10 +807,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 			}
 
 			public boolean isVisible( Object element )
-			{
-				String zone = ((KoLAdventure)element).getZone();
-				String name = ((KoLAdventure)element).getAdventureName();
-				return zone.toLowerCase().indexOf( text ) != -1 || name.toLowerCase().indexOf( text ) != -1;
+			{	return ((KoLAdventure)element).matches( text );
 			}
 		}
 
