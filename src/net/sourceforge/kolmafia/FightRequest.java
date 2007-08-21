@@ -331,7 +331,6 @@ public class FightRequest extends KoLRequest
 			if ( !jiggledChefstaff && KoLCharacter.wieldingChefstaff() )
 			{
 				this.addFormField( "action", "chefstaff" );
-				jiggledChefstaff = true;
 				return;
 			}
 
@@ -1213,6 +1212,12 @@ public class FightRequest extends KoLRequest
 
 		if ( action1.equals( "attack" ) || action1.equals( "runaway" ) || action1.equals( "steal" ) )
 			return;
+
+		if ( action1.equals( "jiggle" ) )
+		{
+			jiggledChefstaff = true;
+			return;
+		}
 
 		if ( !action1.startsWith( "skill" ) )
 		{
