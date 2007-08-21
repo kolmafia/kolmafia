@@ -49,18 +49,8 @@ public class LoginRequest extends KoLRequest
 	private static String lastPassword;
 	private static boolean isLoggingIn;
 
-	private static long lastLoginAttempt = 0;
-
-	private static final long WAIT_THRESHOLD = 300000;
-	private static final int STANDARD_WAIT = 75;
-	private static final int TOO_MANY_WAIT = 960;
-	private static final int BAD_CHALLENGE_WAIT = 15;
-
-	private static int waitTime = STANDARD_WAIT;
-
 	private String username;
 	private String password;
-	private boolean runCountdown;
 
 	public LoginRequest( String username, String password )
 	{
@@ -184,47 +174,18 @@ public class LoginRequest extends KoLRequest
 
 	public void run()
 	{
-		this.runCountdown = true;
 		StaticEntity.getClient().setCurrentRequest( null );
 
 		lastUsername = this.username;
 		lastPassword = this.password;
+
 		KoLmafia.forceContinue();
-
-		try
-		{
-			this.runCountdown = true;
-
-			if ( this.executeLogin() && this.runCountdown )
-			{
-				StaticEntity.executeCountdown( "Next login attempt in ", waitTime );
-				if ( !KoLmafia.refusesContinue() && this.executeLogin() )
-					forceLoginAbort();
-			}
-		}
-		catch ( Exception e )
-		{
-			// It's possible that all the login hangups are due
-			// to an exception in executeLogin().  Let's try to
-			// catch it.
-
-			StaticEntity.printStackTrace( e );
-		}
-	}
-
-	private static final void forceLoginAbort()
-	{
-		StaticEntity.printStackTrace( new Exception(), "Concurrent logins detected" );
-		System.exit(-1);
+		this.executeLogin();
 	}
 
 	public static final void executeTimeInRequest()
 	{
-		if ( System.currentTimeMillis() - lastLoginAttempt < WAIT_THRESHOLD )
-			forceLoginAbort();
-
 		sessionId = null;
-		waitTime = STANDARD_WAIT;
 
 		(new LoginRequest( lastUsername, lastPassword )).run();
 
@@ -233,12 +194,11 @@ public class LoginRequest extends KoLRequest
 
 	}
 
-	public boolean executeLogin()
+	public void executeLogin()
 	{
 		sessionId = null;
-		lastLoginAttempt = System.currentTimeMillis();
 
-		if ( waitTime == BAD_CHALLENGE_WAIT || !this.runCountdown || !this.detectChallenge() )
+		if ( !this.detectChallenge() )
 		{
 			this.clearDataFields();
 			this.addFormField( "loginname", this.username );
@@ -250,18 +210,16 @@ public class LoginRequest extends KoLRequest
 		}
 
 		this.addFormField( "loggingin", "Yup." );
-		waitTime = STANDARD_WAIT;
-
 		sessionId = null;
 
 		if ( KoLmafia.refusesContinue() )
-			return false;
+			return;
 
 		KoLmafia.updateDisplay( "Sending login request..." );
 		super.run();
 
 		if ( KoLmafia.refusesContinue() )
-			return false;
+			return;
 
 		if ( this.responseCode == 302 && this.redirectLocation.equals( "maint.php" ) )
 		{
@@ -269,84 +227,75 @@ public class LoginRequest extends KoLRequest
 			// retrying.  Let the user do it manually later.
 
 			KoLmafia.updateDisplay( ABORT_STATE, "Nightly maintenance." );
-			return false;
+			return;
 		}
-		else if ( this.responseCode == 302 && this.redirectLocation.startsWith( "main" ) )
-		{
-			processLoginRequest( this );
-			return false;
-		}
-		else if ( this.responseCode == 302 )
-		{
-			// It's possible that KoL will eventually make the redirect
-			// the way it used to be, but enforce the redirect.  If this
-			// happens, then validate here.
 
-			Matcher matcher = REDIRECT_PATTERN.matcher( this.redirectLocation );
-			if ( matcher.find() )
-			{
-				this.runCountdown = false;
-				setLoginServer( matcher.group(1) );
-				return true;
-			}
-		}
-		else if ( this.responseText.indexOf( "wait fifteen minutes" ) != -1 )
+		if ( this.responseCode == 302 )
 		{
-			// Ooh, logged in too fast.  KoLmafia should recognize this and
-			// try again automatically in 1000 seconds.
-
-			waitTime = TOO_MANY_WAIT;
-			return true;
+			handleRedirect();
+			return;
 		}
-		else if ( this.responseText.indexOf( "wait" ) != -1 )
+
+		if ( this.responseText.indexOf( "name=formredirect" ) != -1 )
+		{
+			// <form name=formredirect method=post action="http://www.kingdomofloathing.com/login.php">
+
+			Matcher matcher = REDIRECT_PATTERN.matcher( this.responseText );
+
+			if ( !matcher.find() )
+				return;
+
+			setLoginServer( matcher.group(1) );
+			return;
+		}
+
+		if ( this.responseText.indexOf( "wait fifteen minutes" ) != -1 )
+		{
+			KoLmafia.updateDisplay( ABORT_STATE, "Please wait fifteen minutes and try again." );
+			return;
+		}
+
+		if ( this.responseText.indexOf( "wait" ) != -1 )
 		{
 			// Ooh, logged in too fast.  KoLmafia should recognize this and
 			// try again automatically in 75 seconds.
 
-			waitTime = STANDARD_WAIT;
-			return true;
+			KoLmafia.updateDisplay( ABORT_STATE, "Please wait one minute and try again." );
+			return;
 		}
-		else if ( this.responseText.indexOf( "login.php" ) != -1 )
-		{
-			// KoL sometimes switches servers while logging in. It returns a hidden form
-			// with responseCode 200.
 
-			// <html>
-			//   <body>
-			//     <form name=formredirect method=post action="http://www.kingdomofloathing.com/login.php">
-			//	 <input type=hidden name=loginname value="xxx">
-			//	 <input type=hidden name=loggingin value="Yup.">
-			//	 <input type=hidden name=password value="xxx">
-			//     </form>
-			//   </body>
-			// </html>Redirecting to www.
-
-			this.runCountdown = false;
-			Matcher matcher = REDIRECT_PATTERN.matcher( this.responseText );
-
-			if ( matcher.find() )
-			{
-				setLoginServer( matcher.group(1) );
-				return true;
-			}
-		}
-		else if ( this.responseText.indexOf( "Too many" ) != -1 )
+		if ( this.responseText.indexOf( "Too many" ) != -1 )
 		{
 			// Too many bad logins in too short a time span.
 			// Notify the user that something bad happened.
 
 			KoLmafia.updateDisplay( ABORT_STATE, "Too many failed login attempts." );
-			return false;
+			return;
 		}
 
 		Matcher failureMatcher = FAILURE_PATTERN.matcher( this.responseText );
-		if ( failureMatcher.find() )
-			KoLmafia.updateDisplay( ERROR_STATE, failureMatcher.group(1) );
-		else
-			KoLmafia.updateDisplay( ABORT_STATE, "Encountered error in login." );
+		KoLmafia.updateDisplay( ABORT_STATE, failureMatcher.find() ? failureMatcher.group(1) : "Encountered error in login." );
+	}
 
-		waitTime = BAD_CHALLENGE_WAIT;
-		return true;
+	private void handleRedirect()
+	{
+		if ( this.redirectLocation.startsWith( "main" ) )
+		{
+			processLoginRequest( this );
+			return;
+		}
+
+		// It's possible that KoL will eventually make the redirect
+		// the way it used to be, but enforce the redirect.  If this
+		// happens, then validate here.
+
+		Matcher matcher = REDIRECT_PATTERN.matcher( this.redirectLocation );
+		if ( matcher.find() )
+		{
+			setLoginServer( matcher.group(1) );
+			this.executeLogin();
+			return;
+		}
 	}
 
 	public static final boolean isInstanceRunning()

@@ -120,6 +120,12 @@ public class KoLmafiaGUI extends KoLmafia
 
 		LoginFrame.hideInstance();
 
+		if ( StaticEntity.getExistingFrames().length > 0 )
+		{
+			LoginFrame.disposeInstance();
+			return;
+		}
+
 		checkFrameSettings();
 		String frameSetting = KoLSettings.getGlobalProperty( "initialFrames" );
 		String desktopSetting = KoLSettings.getGlobalProperty( "initialDesktop" );
@@ -173,7 +179,6 @@ public class KoLmafiaGUI extends KoLmafia
 		// used -- account for minimalist loadings.
 
 		LoginFrame.disposeInstance();
-
 
 		if ( KoLMailManager.hasNewMessages() )
 		{
