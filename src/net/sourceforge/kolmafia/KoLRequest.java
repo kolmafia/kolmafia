@@ -142,7 +142,7 @@ public class KoLRequest extends Job implements KoLConstants
 	public HttpURLConnection formConnection;
 	public String redirectLocation;
 
-	private static final KoLRequest CHOICE_HANDLER = new KoLRequest( "choice.php" );
+	public static final KoLRequest CHOICE_HANDLER = new KoLRequest( "choice.php" );
 
 	public static final void setDelayActive( boolean delayActive )
 	{	KoLRequest.delayActive = delayActive;
@@ -1157,7 +1157,7 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( this.formURLString.startsWith( "fight.php" ) )
 			return true;
 
-		if ( this instanceof ConsumeItemRequest || this instanceof EquipmentRequest || this.getClass() == KoLRequest.class )
+		if ( this.shouldFollowRedirect() )
 		{
 			// Re-setup this request to follow the redirect
 			// desired and rerun the request.
@@ -1218,6 +1218,10 @@ public class KoLRequest extends Job implements KoLConstants
 			RequestLogger.updateDebugLog( "Redirected: " + this.redirectLocation );
 
 		return true;
+	}
+
+	protected boolean shouldFollowRedirect()
+	{	return this != CHOICE_HANDLER && this.getClass() == KoLRequest.class;
 	}
 
 	private static final void addAdditionalCache()

@@ -163,6 +163,10 @@ public class EquipmentRequest extends PasswordHashRequest
 		this.initializeChangeData( changeItem, equipmentSlot, force );
 	}
 
+	protected boolean shouldFollowRedirect()
+	{	return true;
+	}
+
 	protected boolean retryOnTimeout()
 	{	return true;
 	}
