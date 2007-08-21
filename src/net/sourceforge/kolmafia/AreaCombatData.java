@@ -151,6 +151,10 @@ public class AreaCombatData implements KoLConstants
 	}
 
 	public String toString()
+	{	return toString( false );
+	}
+
+	public String toString( boolean fullString )
 	{
 		int ml = KoLCharacter.getMonsterLevelAdjustment();
 		int moxie = KoLCharacter.getAdjustedMoxie() - ml;
@@ -193,10 +197,10 @@ public class AreaCombatData implements KoLConstants
 		StringBuffer buffer = new StringBuffer();
 
 		buffer.append( "<html><b>Hit</b>: " );
-		buffer.append( this.getRateString( minHitPercent, minPerfectHit, maxHitPercent, maxPerfectHit, statName ) );
+		buffer.append( this.getRateString( minHitPercent, minPerfectHit, maxHitPercent, maxPerfectHit, statName, fullString ) );
 
 		buffer.append( "<br><b>Evade</b>: " );
-		buffer.append( this.getRateString( minEvadePercent, minPerfectEvade, maxEvadePercent, maxPerfectEvade, "Mox" ) );
+		buffer.append( this.getRateString( minEvadePercent, minPerfectEvade, maxEvadePercent, maxPerfectEvade, "Mox", fullString ) );
 		buffer.append( "<br><b>Combat Rate</b>: " );
 
 		if ( this.combats > 0 )
@@ -212,7 +216,7 @@ public class AreaCombatData implements KoLConstants
 		for ( int i = 0; i < this.monsters.size(); ++i )
 		{
 			buffer.append( "<br><br>" );
-			buffer.append( this.getMonsterString( this.getMonster( i ), moxie, hitstat, ml, this.getWeighting( i ), combatFactor ) );
+			buffer.append( this.getMonsterString( this.getMonster( i ), moxie, hitstat, ml, this.getWeighting( i ), combatFactor, fullString ) );
 		}
 
 		buffer.append( "</html>" );
@@ -237,7 +241,7 @@ public class AreaCombatData implements KoLConstants
 		return Math.max( 0.0f, Math.min( 100.0f, pct ) );
 	}
 
-	private String getRateString( float minPercent, int minMargin, float maxPercent, int maxMargin, String statName )
+	private String getRateString( float minPercent, int minMargin, float maxPercent, int maxMargin, String statName, boolean fullString )
 	{
 		StringBuffer buffer = new StringBuffer();
 
@@ -245,7 +249,12 @@ public class AreaCombatData implements KoLConstants
 		buffer.append( "%/" );
 
 		buffer.append( this.format( maxPercent ) );
-		buffer.append( "% (" );
+		buffer.append( "%" );
+
+		if ( !fullString )
+			return;
+
+		buffer.append( " (" );
 
 		buffer.append( statName );
 
@@ -263,7 +272,7 @@ public class AreaCombatData implements KoLConstants
 		return buffer.toString();
 	}
 
-	private String getMonsterString( Monster monster, int moxie, int hitstat, int ml, int weighting, float combatFactor )
+	private String getMonsterString( Monster monster, int moxie, int hitstat, int ml, int weighting, float combatFactor, boolean fullString )
 	{
 		// moxie and hitstat already adjusted for monster level
 
@@ -288,19 +297,30 @@ public class AreaCombatData implements KoLConstants
 		buffer.append( " <font color=" + elementColor( element ) + "><b>" );
 		buffer.append( monster.getName() );
 		buffer.append( "</b></font> (" );
+
 		if ( weighting < 0 )
+		{
 			buffer.append( "ultra-rare" );
+		}
 		else if ( weighting == 0 )
+		{
 			buffer.append( "special" );
+		}
 		else
+		{
 			buffer.append( this.format( 100.0f * combatFactor * weighting / this.weights ) + "%" );
 				buffer.append( ")<br>Hit: <font color=" + elementColor( ed ) + ">" );
+		}
+
 		buffer.append( this.format( hitPercent ) );
 		buffer.append( "%</font>, Evade: <font color=" + elementColor( ea ) + ">" );
 		buffer.append( this.format( evadePercent ) );
 		buffer.append( "%</font><br>HP: " + health + ", XP: " + FLOAT_FORMAT.format( statGain ) );
-		this.appendMeatDrop( buffer, monster );
-		this.appendItemList( buffer, monster.getItems(), monster.getPocketRates() );
+
+		if ( fullString )
+			this.appendMeatDrop( buffer, monster );
+
+		this.appendItemList( buffer, monster.getItems(), monster.getPocketRates(), fullString );
 
 		return buffer.toString();
 	}
@@ -318,7 +338,7 @@ public class AreaCombatData implements KoLConstants
 		   this.format( (minMeat + maxMeat) * modifier / 2.0f ) + " average)" );
 	}
 
-	private void appendItemList( StringBuffer buffer, List items, List pocketRates )
+	private void appendItemList( StringBuffer buffer, List items, List pocketRates, boolean fullString )
 	{
 		if ( items.size() == 0 )
 			return;
@@ -327,13 +347,24 @@ public class AreaCombatData implements KoLConstants
 
 		for ( int i = 0; i < items.size(); ++i )
 		{
-			buffer.append( "<br>" );
 			AdventureResult item = (AdventureResult) items.get(i);
+
+			if ( !fullString )
+			{
+				if ( i == 0 )
+					buffer.append( "<br>" );
+				else
+					buffer.append( ", " );
+
+				buffer.append( item.getName() );
+				continue;
+			}
+
+			buffer.append( "<br>" );
 
 			float stealRate = KoLCharacter.isMoxieClass() && !KoLCharacter.canInteract() ? ((Float) pocketRates.get(i)).floatValue() : 0.0f;
 			float dropRate = Math.min( (item.getCount()) * itemModifier, 100.0f );
 			float effectiveDropRate = (stealRate * 100.0f) + ((1.0f - stealRate) * dropRate);
-
 
 			String rate1 = this.format( dropRate );
 			String rate2 = this.format( effectiveDropRate );

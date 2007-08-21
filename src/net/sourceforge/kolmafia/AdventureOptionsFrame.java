@@ -1199,7 +1199,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 				return;
 
 			AreaCombatData combat = request.getAreaSummary();
-			String text = ( combat == null ) ? " " : combat.toString();
+			String text = ( combat == null ) ? " " : combat.toString( true );
 
 			// Avoid rendering and screen flicker if no change.
 			// Compare with our own copy of what we set, since
