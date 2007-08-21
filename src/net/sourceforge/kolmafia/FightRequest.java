@@ -1361,6 +1361,10 @@ public class FightRequest extends KoLRequest
 	{	return currentRound;
 	}
 
+	public static final boolean alreadyJiggled()
+	{	return jiggledChefstaff;
+	}
+
 	public static final void beginTrackingFights()
 	{
 		isTrackingFights = true;

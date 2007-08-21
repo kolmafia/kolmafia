@@ -1497,7 +1497,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( action.equals( "attack" ) )
 			return FightRequest.getCurrentRound() == 0 ? "again" : "attack";
 
-		if ( action.equals( "steal" ) || action.equals( "script" ) )
+		if ( action.equals( "steal" ) || action.equals( "jiggle" ) || action.equals( "script" ) )
 			return action;
 
 		int skillId = StaticEntity.parseInt( action );
@@ -1622,6 +1622,11 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				buffer.append( "action=" );
 				buffer.append( action );
 			}
+			else if ( action.equals( "jiggle" ) )
+			{
+				buffer.append( "action=chefstaff" );
+				isEnabled &= !FightRequest.alreadyJiggled();
+			}
 			else
 			{
 				buffer.append( "action=skill&whichskill=" );
@@ -1667,6 +1672,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			if ( KoLCharacter.isMoxieClass() )
 				addFightButton( urlString, buffer, actionBuffer, "steal", FightRequest.getCurrentRound() == 1 );
 
+			if ( KoLCharacter.wieldingChefstaff() )
+				addFightButton( urlString, buffer, actionBuffer, "jiggle", FightRequest.getCurrentRound() > 0 );
+
 			if ( KoLCharacter.hasSkill( "Entangling Noodles" ) )
 				addFightButton( urlString, buffer, actionBuffer, "3004", FightRequest.getCurrentRound() > 0 );
 
@@ -1675,6 +1683,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			for ( int i = 1; i <= 5; ++i )
 			{
 				String action = KoLSettings.getUserProperty( "customCombatSkill" + i );
+				if ( action.equals( "" ) )
+					continue;
+
 				String name = ClassSkillsDatabase.getSkillName( Integer.parseInt( action ) );
 
 				if ( !KoLCharacter.hasSkill( name ) )
@@ -1684,11 +1695,10 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 							KoLSettings.getUserProperty( "customCombatSkill" + (j+1) ) );
 
 					KoLSettings.setUserProperty( "customCombatSkill5", "" );
-					action = "";
+					continue;
 				}
 
-				if ( !action.equals( "" ) )
-					addFightButton( urlString, buffer, actionBuffer, action, FightRequest.getCurrentRound() > 0 );
+				addFightButton( urlString, buffer, actionBuffer, action, FightRequest.getCurrentRound() > 0 );
 			}
 
 			actionBuffer.append( "</td></tr><tr><td><font size=1>" );
