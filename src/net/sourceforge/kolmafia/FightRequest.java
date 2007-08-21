@@ -1417,72 +1417,6 @@ public class FightRequest extends KoLRequest
 		if ( shouldLogAction )
 			action.append( "Round " + currentRound + ": " + KoLCharacter.getUserName() + " " );
 
-		Matcher skillMatcher = SKILL_PATTERN.matcher( urlString );
-		if ( skillMatcher.find() )
-		{
-			if ( isInvalidThrustSmack( skillMatcher.group(1) ) )
-				return true;
-
-			String skill = ClassSkillsDatabase.getSkillName( StaticEntity.parseInt( skillMatcher.group(1) ) );
-			if ( skill == null )
-			{
-				if ( shouldLogAction )
-					action.append( "casts CHANCE!" );
-			}
-			else
-			{
-				action1 = CombatSettings.getShortCombatOptionName( "skill " + skill );
-				if ( shouldLogAction )
-					action.append( "casts " + skill.toUpperCase() + "!" );
-			}
-
-			if ( shouldLogAction )
-			{
-				RequestLogger.printLine( action.toString() );
-				RequestLogger.updateSessionLog( action.toString() );
-			}
-
-			return true;
-		}
-
-		Matcher itemMatcher = ITEM1_PATTERN.matcher( urlString );
-		if ( itemMatcher.find() )
-		{
-			String item = TradeableItemDatabase.getItemName( StaticEntity.parseInt( itemMatcher.group(1) ) );
-			if ( item == null )
-			{
-				if ( shouldLogAction )
-					action.append( "plays Garin's Harp" );
-			}
-			else
-			{
-				action1 = CombatSettings.getShortCombatOptionName( item );
-				if ( shouldLogAction )
-					action.append( "uses the " + item );
-			}
-
-			itemMatcher = ITEM2_PATTERN.matcher( urlString );
-			if ( itemMatcher.find() )
-			{
-				item = TradeableItemDatabase.getItemName( StaticEntity.parseInt( itemMatcher.group(1) ) );
-				if ( item != null )
-				{
-					action2 = CombatSettings.getShortCombatOptionName( item );
-					if ( shouldLogAction )
-						action.append( " and uses the " + item );
-				}
-			}
-
-			if ( shouldLogAction )
-			{
-				action.append( "!" );
-				RequestLogger.printLine( action.toString() );
-				RequestLogger.updateSessionLog( action.toString() );
-			}
-
-			return true;
-		}
-
 		if ( urlString.indexOf( "runaway" ) != -1 )
 		{
 			action1 = "runaway";
@@ -1505,13 +1439,67 @@ public class FightRequest extends KoLRequest
 		{
 			action1 = "jiggle";
 			if ( shouldLogAction )
-				action.append( "jiggles her chefstaff!" );
+			{
+				action.append( "jiggles the " );
+				action.append( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getName() );
+			}
 		}
 		else
 		{
-			action1 = null;
-			if ( shouldLogAction )
-				action.append( "casts CHANCE!" );
+			Matcher skillMatcher = SKILL_PATTERN.matcher( urlString );
+			if ( skillMatcher.find() )
+			{
+				if ( isInvalidThrustSmack( skillMatcher.group(1) ) )
+					return true;
+
+				String skill = ClassSkillsDatabase.getSkillName( StaticEntity.parseInt( skillMatcher.group(1) ) );
+				if ( skill == null )
+				{
+					if ( shouldLogAction )
+						action.append( "casts CHANCE!" );
+				}
+				else
+				{
+					action1 = CombatSettings.getShortCombatOptionName( "skill " + skill );
+					if ( shouldLogAction )
+						action.append( "casts " + skill.toUpperCase() + "!" );
+				}
+				return true;
+			}
+			else
+			{
+				Matcher itemMatcher = ITEM1_PATTERN.matcher( urlString );
+				if ( itemMatcher.find() )
+				{
+					String item = TradeableItemDatabase.getItemName( StaticEntity.parseInt( itemMatcher.group(1) ) );
+					if ( item == null )
+					{
+						if ( shouldLogAction )
+							action.append( "plays Garin's Harp" );
+					}
+					else
+					{
+						action1 = CombatSettings.getShortCombatOptionName( item );
+						if ( shouldLogAction )
+							action.append( "uses the " + item );
+					}
+
+					itemMatcher = ITEM2_PATTERN.matcher( urlString );
+					if ( itemMatcher.find() )
+					{
+						item = TradeableItemDatabase.getItemName( StaticEntity.parseInt( itemMatcher.group(1) ) );
+						if ( item != null )
+						{
+							action2 = CombatSettings.getShortCombatOptionName( item );
+							if ( shouldLogAction )
+								action.append( " and uses the " + item );
+						}
+					}
+
+					if ( shouldLogAction )
+						action.append( "!" );
+				}
+			}
 		}
 
 		if ( shouldLogAction )
