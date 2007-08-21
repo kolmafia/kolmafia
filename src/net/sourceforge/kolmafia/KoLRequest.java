@@ -1157,7 +1157,7 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( this.formURLString.startsWith( "fight.php" ) )
 			return true;
 
-		if ( this instanceof EquipmentRequest || this.getClass() == KoLRequest.class )
+		if ( this instanceof ConsumeItemRequest || this instanceof EquipmentRequest || this.getClass() == KoLRequest.class )
 		{
 			// Re-setup this request to follow the redirect
 			// desired and rerun the request.
