@@ -1063,12 +1063,12 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 	{
 		StringBuffer conditionString = new StringBuffer();
 
-		for ( int i = 0; i < conditions.size(); ++i )
+		for ( int i = 0; i < conditions.getSize(); ++i )
 		{
 			if ( i > 0 )
 				conditionString.append( ", " );
 
-			conditionString.append( ((AdventureResult)conditions.get(i)).toConditionString() );
+			conditionString.append( ((AdventureResult)conditions.getElementAt(i)).toConditionString() );
 		}
 
 		if ( conditionString.length() == 0 )
