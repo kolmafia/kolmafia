@@ -1046,29 +1046,20 @@ public abstract class MoodSettings implements KoLConstants
 			if ( KoLmafia.refusesContinue() )
 				return false;
 
+			if ( this.type.equals( "unconditional" ) || this.effect == null )
+				return true;
+
 			if ( this.type.equals( "lose_effect" ) && multiplicity > 0 )
 				return true;
 
-			boolean shouldExecute = false;
+			if ( this.type.equals( "gain_effect" ) )
+				return activeEffects.contains( this.effect );
 
-			if ( this.effect == null )
-			{
-				shouldExecute = true;
-			}
-			else if ( this.type.equals( "gain_effect" ) )
-			{
-				shouldExecute = activeEffects.contains( this.effect );
-			}
-			else if ( this.type.equals( "lose_effect" ) )
-			{
-				boolean unstackable = this.action.indexOf( "cupcake" ) != -1 || this.action.indexOf( "snowcone" ) != -1 ||
-					this.action.indexOf( "mushroom" ) != -1 || this.action.indexOf( "oasis" ) != -1;
+			boolean unstackable = this.action.indexOf( "cupcake" ) != -1 || this.action.indexOf( "snowcone" ) != -1 ||
+				this.action.indexOf( "mushroom" ) != -1 || this.action.indexOf( "oasis" ) != -1;
 
-				shouldExecute = unstackable ? !activeEffects.contains( this.effect ) :
-					this.effect.getCount( activeEffects ) <= (multiplicity == -1 ? 1 : 5);
-			}
-
-			return shouldExecute;
+			return unstackable ? !activeEffects.contains( this.effect ) :
+				this.effect.getCount( activeEffects ) <= (multiplicity == -1 ? 1 : 5);
 		}
 
 		public boolean isThiefTrigger()
