@@ -1675,6 +1675,18 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			for ( int i = 1; i <= 5; ++i )
 			{
 				String action = KoLSettings.getUserProperty( "customCombatSkill" + i );
+				String name = ClassSkillsDatabase.getSkillName( Integer.parseInt( action ) );
+
+				if ( !KoLCharacter.hasSkill( name ) )
+				{
+					for ( int j = i; j < 5; ++j )
+						KoLSettings.setUserProperty( "customCombatSkill" + j,
+							KoLSettings.getUserProperty( "customCombatSkill" + (j+1) ) );
+
+					KoLSettings.setUserProperty( "customCombatSkill5", "" );
+					action = "";
+				}
+
 				if ( !action.equals( "" ) )
 					addFightButton( urlString, buffer, actionBuffer, action, FightRequest.getCurrentRound() > 0 );
 			}
@@ -1712,7 +1724,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		// Don't show monster unless we know combat stats or items
 		if ( FightRequest.getLastMonster().getHP() == 0 &&
-		     FightRequest.getLastMonster().getItems().isEmpty() )
+			 FightRequest.getLastMonster().getItems().isEmpty() )
 			return;
 
 		int nameIndex = buffer.indexOf( "<span id='monname" );
