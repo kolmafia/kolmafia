@@ -2742,8 +2742,8 @@
 2742	steel lasagna	1	none	0
 2743	steel margarita	2	none	0
 2744	steel-scented air freshener	3	none	0
-2745	gremlin mutagen	4	all	124
-2746	Extra-potent gremlin mutagen	4	all	184
+2745	gremlin mutagen	3	all	124
+2746	Extra-potent gremlin mutagen	3	all	184
 2747	chunk of depleted Grimacite	0	all	0
 2748	furniture dolly	8	all	180
 2749	Staff of the Grease Trap	12	display	25
