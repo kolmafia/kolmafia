@@ -78,8 +78,14 @@ function updateDisplay( display, responseText )
 
 	if ( display.innerHTML.length > 30000 )
 	{
-		display.innerHTML = display.innerHTML.substring(
-			display.innerHTML.lastIndexOf( "<br>", 10000 ) + 4 );
+		var lineIndex = display.innerHTML.indexOf( "<br>", 10000 );
+		if ( lineIndex == -1 )
+			lineIndex = this.displayBuffer.lastIndexOf( "<br>", DELETE_AMOUNT );
+
+		if ( lineIndex != -1 )
+			display.innerHTML = display.innerHTML.substring( lineIndex + 4 );
+		else
+			display.innerHTML = "";
 	}
 
 	display.style.width = initwidth;
