@@ -1707,7 +1707,12 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( !KoLSettings.getBooleanProperty( "relayAddsMonsterHealth" ) )
 			return;
 
-		if ( FightRequest.getLastMonster() == null || FightRequest.getLastMonster().getAdjustedHP(0) == 0 )
+		if ( FightRequest.getLastMonster() == null )
+			return;
+
+		// Don't show monster unless we know combat stats or items
+		if ( FightRequest.getLastMonster().getHP() == 0 &&
+		     FightRequest.getLastMonster().getItems().isEmpty() )
 			return;
 
 		int nameIndex = buffer.indexOf( "<span id='monname" );
@@ -1719,12 +1724,16 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			return;
 
 		StringBuffer monsterData = new StringBuffer();
-		monsterData.append( "<br /><font size=2 color=gray>HP: " );
-		monsterData.append( FightRequest.getMonsterHealth() );
-		monsterData.append( ", Atk: " );
-		monsterData.append( FightRequest.getMonsterAttack() );
-		monsterData.append( ", Def: " );
-		monsterData.append( FightRequest.getMonsterDefense() );
+		monsterData.append( "<font size=2 color=gray>" );
+		if ( FightRequest.getLastMonster().getHP() != 0 )
+		{
+			monsterData.append( "<br />HP: " );
+			monsterData.append( FightRequest.getMonsterHealth() );
+			monsterData.append( ", Atk: " );
+			monsterData.append( FightRequest.getMonsterAttack() );
+			monsterData.append( ", Def: " );
+			monsterData.append( FightRequest.getMonsterDefense() );
+		}
 
 		List items = FightRequest.getLastMonster().getItems();
 		if ( !items.isEmpty() )
