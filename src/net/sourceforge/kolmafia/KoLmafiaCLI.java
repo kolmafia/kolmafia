@@ -2112,6 +2112,8 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "location" ) )
 		{
 			int spaceIndex = parameters.indexOf( " " );
+			if ( spaceIndex == -1 )
+				return;
 
 			KoLAdventure adventure = new KoLAdventure( "Holiday", "0", "0",
 				"adventure.php", parameters.substring( 0, spaceIndex ), parameters.substring( spaceIndex ).trim() );
