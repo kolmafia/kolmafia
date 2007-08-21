@@ -169,7 +169,7 @@ public class KoLSettings extends Properties implements KoLConstants
 
 		File source;
 
-		if ( System.getProperty( "os.name" ).startsWith( "Mac" ) )
+		if ( System.getProperty( "app.name" ) != null )
 		{
 			source = new File( System.getProperty( "user.dir" ), DATA_DIRECTORY );
 			if ( source.exists() )
