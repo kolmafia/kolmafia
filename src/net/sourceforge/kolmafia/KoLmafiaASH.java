@@ -1925,8 +1925,8 @@ public class KoLmafiaASH extends StaticEntity
 				throw new AdvancedScriptException( "Value expected " + getLineAndFile() );
 
 			lhs = new ScriptExpression( lhs, null, new ScriptOperator( operator ) );
-                        if ( lhs.getType() != BOOLEAN_TYPE )
-                                throw new AdvancedScriptException( "\"!\" operator requires a boolean value " + getLineAndFile() );
+						if ( lhs.getType() != BOOLEAN_TYPE )
+								throw new AdvancedScriptException( "\"!\" operator requires a boolean value " + getLineAndFile() );
 		}
 		else if ( currentToken().equals( "-" ) )
 		{
@@ -4759,7 +4759,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( filename.endsWith( ".dat" ) )
 				return getFile( filename.substring( 0, filename.length() - 4 ) + ".txt" );
 
-			return new File( DATA_LOCATION, filename );
+			return new File( SCRIPT_LOCATION, filename );
 		}
 
 		private BufferedReader getReader( String filename )
@@ -8988,7 +8988,7 @@ public class KoLmafiaASH extends StaticEntity
 				traceIndent();
 				trace( "Operand: " + operand );
 				traceUnindent();
-                                ScriptValue result = operand.removeKey();
+								ScriptValue result = operand.removeKey();
 				trace( "<- " + result );
 				traceUnindent();
 				return result;
