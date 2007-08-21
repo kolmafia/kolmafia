@@ -102,6 +102,7 @@ public class FightRequest extends KoLRequest
 	private static final String MERCENARY_ACTION = "item" + MERCENARY.getItemId();
 
 	private static boolean castCleesh = false;
+	private static boolean jiggledChefstaff = false;
 	private static int currentRound = 0;
 	private static int offenseModifier = 0, defenseModifier = 0;
 	private static int healthModifier = 0;
@@ -317,6 +318,24 @@ public class FightRequest extends KoLRequest
 				return;
 			}
 
+			--preparatoryRounds;
+			this.nextRound();
+			return;
+		}
+
+		// Jiggle chefstaff if the action says to jiggle and we're
+		// wielding a chefstaff. Otherwise, skip this action.
+
+		if ( action1.startsWith( "jiggle" ) )
+		{
+			if ( !jiggledChefstaff && KoLCharacter.wieldingChefstaff() )
+			{
+				this.addFormField( "action", "chefstaff" );
+				jiggledChefstaff = true;
+				return;
+			}
+
+			// You can only jiggle once per round.
 			--preparatoryRounds;
 			this.nextRound();
 			return;
@@ -1130,6 +1149,7 @@ public class FightRequest extends KoLRequest
 		monsterData = null;
 
 		castCleesh = false;
+		jiggledChefstaff = false;
 		offenseModifier = 0;
 		defenseModifier = 0;
 		healthModifier = 0;
@@ -1476,6 +1496,12 @@ public class FightRequest extends KoLRequest
 			action1 = "attack";
 			if ( shouldLogAction )
 				action.append( "attacks!" );
+		}
+		else if ( urlString.indexOf( "chefstaff" ) != -1 )
+		{
+			action1 = "jiggle";
+			if ( shouldLogAction )
+				action.append( "jiggles her chefstaff!" );
 		}
 		else
 		{

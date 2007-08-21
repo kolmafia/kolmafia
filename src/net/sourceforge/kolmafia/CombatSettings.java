@@ -452,6 +452,9 @@ public abstract class CombatSettings implements KoLConstants
 		if ( action.indexOf( "steal" ) != -1 || action.indexOf( "pick" ) != -1 )
 			return "try to steal an item";
 
+		if ( action.startsWith( "jiggle" ) )
+			return "jiggle chefstaff";
+
 		if ( action.startsWith( "abort" ) || action.startsWith( "consult" ) )
 			return action;
 
@@ -539,6 +542,9 @@ public abstract class CombatSettings implements KoLConstants
 
 		if ( action.indexOf( "steal" ) != -1 || action.indexOf( "pick" ) != -1 )
 			return "steal";
+
+		if ( action.startsWith( "jiggle" ) )
+			return "jiggle";
 
 		if ( action.startsWith( "consult" ) )
 			return action;
