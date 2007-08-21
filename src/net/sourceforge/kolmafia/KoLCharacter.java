@@ -1276,6 +1276,15 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	/**
+	 * Accessor method to determine if character's weapon is a chefstaff
+	 * @return	boolean	true if weapon is a chefstaff
+	 */
+
+	public static final boolean wieldingChefstaff()
+	{	return EquipmentDatabase.getType( getEquipment( WEAPON ).getName() ).equals( "chefstaff" );
+	}
+
+	/**
 	 * Accessor method to retrieve the total current damage absorption
 	 *
 	 * @return	Total Current Damage Absorption
