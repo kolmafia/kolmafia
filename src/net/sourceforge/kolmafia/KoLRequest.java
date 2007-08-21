@@ -142,7 +142,7 @@ public class KoLRequest extends Job implements KoLConstants
 	public HttpURLConnection formConnection;
 	public String redirectLocation;
 
-	public static final KoLRequest CHOICE_HANDLER = new KoLRequest( "choice.php" );
+	private static final KoLRequest CHOICE_HANDLER = new KoLRequest( "choice.php" );
 
 	public static final void setDelayActive( boolean delayActive )
 	{	KoLRequest.delayActive = delayActive;
@@ -1439,12 +1439,16 @@ public class KoLRequest extends Job implements KoLConstants
 	{
 	}
 
+	private static final void processChoiceAdventure()
+	{	processChoiceAdventure( CHOICE_HANDLER );
+	}
+
 	/**
 	 * Utility method which notifies thethat it needs to process
 	 * the given choice adventure.
 	 */
 
-	public void processChoiceAdventure()
+	public static final void processChoiceAdventure( KoLRequest request )
 	{
 		if ( sessionId == null || passwordHash == null )
 			return;
@@ -1455,22 +1459,22 @@ public class KoLRequest extends Job implements KoLConstants
 
 		StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.CHOICE, 1 ) );
 
-		CHOICE_HANDLER.clearDataFields();
-		CHOICE_HANDLER.run();
+		request.clearDataFields();
+		request.run();
 
-		if ( CHOICE_HANDLER.responseCode == 302 )
+		if ( request.responseCode == 302 )
 			return;
 
 		String choice = null;
 		String option = null;
 		String decision = null;
 
-		while ( CHOICE_HANDLER.responseText.indexOf( "choice.php" ) != -1 )
+		while ( request.responseText.indexOf( "choice.php" ) != -1 )
 		{
 			// Slight delay before each choice is made
 
 			KoLRequest.delay();
-			Matcher choiceMatcher = CHOICE_PATTERN.matcher( CHOICE_HANDLER.responseText );
+			Matcher choiceMatcher = CHOICE_PATTERN.matcher( request.responseText );
 
 			if ( !choiceMatcher.find() )
 			{
@@ -1479,7 +1483,7 @@ public class KoLRequest extends Job implements KoLConstants
 				// finish by hand.
 
 				KoLmafia.updateDisplay( ABORT_STATE, "Encountered choice adventure with no choices." );
-				CHOICE_HANDLER.showInBrowser( true );
+				request.showInBrowser( true );
 				return;
 			}
 
@@ -1546,8 +1550,8 @@ public class KoLRequest extends Job implements KoLConstants
 			if ( decision.equals( "" ) )
 			{
 				KoLmafia.updateDisplay( ABORT_STATE, "Unsupported choice adventure #" + choice );
-				CHOICE_HANDLER.showInBrowser( true );
-				StaticEntity.printRequestData( CHOICE_HANDLER );
+				request.showInBrowser( true );
+				StaticEntity.printRequestData( request );
 				return;
 			}
 
@@ -1609,21 +1613,21 @@ public class KoLRequest extends Job implements KoLConstants
 			// and remember to store the result.
 
 			if ( !willIgnore )
-				decision = this.pickOutfitChoice( option, decision );
+				decision = pickOutfitChoice( option, decision );
 
-			CHOICE_HANDLER.clearDataFields();
+			request.clearDataFields();
 
-			CHOICE_HANDLER.addFormField( "pwd" );
-			CHOICE_HANDLER.addFormField( "whichchoice", choice );
-			CHOICE_HANDLER.addFormField( "option", decision );
-			CHOICE_HANDLER.run();
+			request.addFormField( "pwd" );
+			request.addFormField( "whichchoice", choice );
+			request.addFormField( "option", decision );
+			request.run();
 		}
 
 		if ( KoLmafia.isAdventuring() && choice != null && choice.equals( "162" ) && !EquipmentDatabase.isWearingOutfit( 8 ) )
 			CouncilFrame.unlockGoatlet();
 	}
 
-	private String pickOutfitChoice( String option, String decision )
+	private static final String pickOutfitChoice( String option, String decision )
 	{
 		// Find the options for the choice we've encountered
 
