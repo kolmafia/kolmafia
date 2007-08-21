@@ -289,7 +289,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		MoodSettings.restoreDefaults();
 	}
 
-	private String noExtensionName;
+	private boolean isGlobal;
 
 	/**
 	 * Constructs a userSettings file for a character with the specified name.
@@ -302,7 +302,8 @@ public class KoLSettings extends Properties implements KoLConstants
 
 	private KoLSettings( String characterName )
 	{
-		noExtensionName = baseUserName( characterName );
+		this.isGlobal = characterName.equals( "" );
+		String noExtensionName = baseUserName( characterName );
 		userSettingsFile = new File( SETTINGS_LOCATION, noExtensionName + "_prefs.txt" );
 
 		loadFromFile();
@@ -361,7 +362,7 @@ public class KoLSettings extends Properties implements KoLConstants
 
 	public static final boolean isGlobalProperty( String name )
 	{
-		return GLOBAL_MAP.containsKey( name ) || name.startsWith( "saveState" ) || name.startsWith( "displayName" ) ||
+		return name.startsWith( "saveState" ) || name.startsWith( "displayName" ) ||
 			name.startsWith( "getBreakfast" ) || name.startsWith( "autoPlant" ) || name.startsWith( "visitRumpus" ) ||
 			name.startsWith( "initialFrames" ) || name.startsWith( "initialDesktop" );
 	}
@@ -370,12 +371,12 @@ public class KoLSettings extends Properties implements KoLConstants
 	{
 		boolean isGlobalProperty = isGlobalProperty( name );
 
-		if ( isGlobalProperty && (globalSettings == null || this != globalSettings) )
+		if ( isGlobalProperty && !isGlobal )
 		{
 			String value = globalSettings.getProperty( name );
 			return value == null ? "" : value;
 		}
-		else if ( !isGlobalProperty && this == globalSettings )
+		else if ( !isGlobalProperty && isGlobal )
 			return "";
 
 		String value = super.getProperty( name );
@@ -389,9 +390,9 @@ public class KoLSettings extends Properties implements KoLConstants
 
 		boolean isGlobalProperty = isGlobalProperty( name );
 
-		if ( isGlobalProperty && (globalSettings == null || this != globalSettings) )
+		if ( isGlobalProperty && !isGlobal )
 			return globalSettings.setProperty( name, value );
-		else if ( !isGlobalProperty && this == globalSettings )
+		else if ( !isGlobalProperty && isGlobal )
 			return "";
 
 		// All tests passed.  Now, go ahead and execute the
@@ -949,61 +950,6 @@ public class KoLSettings extends Properties implements KoLConstants
 		USER_MAP.put( "choiceAdventure181", "1" );
 	}
 
-	private void ensureChoiceDefaults()
-	{
-		if ( globalSettings == null || this == globalSettings )
-			return;
-
-		if ( super.getProperty( "lastChoiceUpdate" ).equals( VERSION_NAME ) )
-			return;
-
-		String setting;
-		super.setProperty( "lastChoiceUpdate", VERSION_NAME );
-
-		for ( int i = 0; i < AdventureDatabase.CHOICE_ADV_SPOILERS.length; ++i )
-		{
-			setting = AdventureDatabase.CHOICE_ADV_SPOILERS[i].getSetting();
-			if ( !forceChoiceDefault( StaticEntity.parseInt( setting.substring(15) ) ) )
-				continue;
-
-			this.valuesChanged = true;
-			super.setProperty( setting, (String) USER_MAP.get( setting ) );
-		}
-	}
-
-	private static final boolean forceChoiceDefault( int choiceId )
-	{
-		switch ( choiceId )
-		{
-		case 6:
-		case 7:
-		case 8:
-		case 9:
-		case 10:
-		case 11:
-		case 12:
-		case 26:
-		case 27:
-		case 28:
-		case 29:
-		case 77:
-		case 78:
-		case 79:
-		case 80:
-		case 81:
-		case 86:
-		case 87:
-		case 88:
-		case 89:
-		case 91:
-		case 152:
-			return false;
-
-		default:
-			return true;
-		}
-	}
-
 	public static final void printDefaults()
 	{
 		LogStream ostream = LogStream.openStream( "choices.txt", true );
@@ -1036,9 +982,6 @@ public class KoLSettings extends Properties implements KoLConstants
 		for ( int i = 0; i < choices.length; ++i )
 		{
 			String setting = choices[i].getSetting();
-			if ( !forceChoiceDefault( StaticEntity.parseInt( setting.substring(15) ) ) )
-				continue;
-
 			int defaultOption = StaticEntity.parseInt( (String) USER_MAP.get( setting ) ) - 1;
 
 			ostream.print( "[" + setting.substring(15) + "] " );
@@ -1073,7 +1016,6 @@ public class KoLSettings extends Properties implements KoLConstants
 
 	private void ensureDefaults()
 	{
-		boolean isGlobal = this.noExtensionName.equals( "GLOBAL" );
 		TreeMap currentMap = isGlobal ? GLOBAL_MAP : USER_MAP;
 
 		Object [] keys = currentMap.keySet().toArray();
@@ -1086,9 +1028,6 @@ public class KoLSettings extends Properties implements KoLConstants
 				super.setProperty( (String) keys[i], (String) currentMap.get( keys[i] ) );
 			}
 		}
-
-		if ( isGlobal )
-			this.ensureChoiceDefaults();
 
 		this.saveToFile();
 	}

@@ -293,6 +293,8 @@ public class AdventureFrame extends AdventureOptionsFrame
 			for ( int i = 0; i < this.optionSelects.length; ++i )
 				this.addChoiceSelect( AdventureDatabase.CHOICE_ADVS[i].getZone(), AdventureDatabase.CHOICE_ADVS[i].getName(), this.optionSelects[i] );
 
+			this.loadSettings();
+
 			ArrayList optionsList;
 			Object [] keys = this.choiceMap.keySet().toArray();
 
@@ -302,7 +304,6 @@ public class AdventureFrame extends AdventureOptionsFrame
 				this.add( new ChoicePanel( optionsList ), (String) keys[i] );
 			}
 
-			this.loadSettings();
 			AdventureFrame.this.locationSelect.addListSelectionListener( new UpdateChoicesListener() );
 		}
 
