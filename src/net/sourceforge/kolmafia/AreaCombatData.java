@@ -252,7 +252,7 @@ public class AreaCombatData implements KoLConstants
 		buffer.append( "%" );
 
 		if ( !fullString )
-			return;
+			return buffer.toString();
 
 		buffer.append( " (" );
 
