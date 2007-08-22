@@ -731,6 +731,18 @@ public class LocalRelayRequest extends PasswordHashRequest
 		{
 			this.pseudoResponse( "HTTP/1.1 200 OK", LocalRelayServer.getNewStatusMessages() );
 		}
+		else if ( this.getPath().endsWith( "wikiDescription" ) )
+		{
+			String item = this.getFormField( "item" );
+			if ( item != null )
+				ShowDescriptionList.showWikiDescription( TradeableItemDatabase.getItemName( item ) );
+
+			String effect = this.getFormField( "effect" );
+			if ( effect != null )
+				ShowDescriptionList.showWikiDescription( new AdventureResult( StatusEffectDatabase.getEffectName( effect ), 1, true ) );
+
+			this.pseudoResponse( "HTTP/1.1 200 OK", "" );
+		}
 		else if ( this.getPath().endsWith( "lookupLocation" ) )
 		{
 			StringBuffer buffer = new StringBuffer();

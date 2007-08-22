@@ -157,6 +157,7 @@ public class OptionsFrame extends KoLFrame
 		private final String [][] options =
 		{
 			{ "relayAllowsOverrides", "Enable user-scripted relay browser overrides" },
+			{ "relayAddsWikiLinks", "Check wiki for item descriptions (fails for unknowns)" },
 			{ "relayUsesCachedImages", "Cache KoL images to conserve bandwidth (dialup)" },
 
 			{ "", "" },

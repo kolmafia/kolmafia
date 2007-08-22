@@ -968,7 +968,15 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( location.startsWith( "charpane.php" ) )
 		{
 			if ( addComplexFeatures )
+			{
 				CharpaneRequest.decorate( buffer );
+
+				if ( KoLSettings.getBooleanProperty( "relayAddsWikiLinks" ) )
+				{
+					StaticEntity.globalStringReplace( buffer, "descitem(", "lookupItem(" );
+					StaticEntity.globalStringReplace( buffer, "eff(", "lookupEffect(" );
+				}
+			}
 
 			return;
 		}
@@ -976,6 +984,16 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( location.indexOf( "menu" ) != -1 )
 		{
 			MoonPhaseRequest.decorate( buffer );
+
+			if ( addComplexFeatures )
+			{
+				if ( KoLSettings.getBooleanProperty( "relayAddsWikiLinks" ) )
+				{
+					StaticEntity.globalStringReplace( buffer, "descitem(", "lookupItem(" );
+					StaticEntity.globalStringReplace( buffer, "eff(", "lookupEffect(" );
+				}
+			}
+
 			return;
 		}
 
@@ -1167,6 +1185,12 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				addChatFeatures( buffer );
 
 			StaticEntity.globalStringReplace( buffer, "type=text ", "type=text onFocus='this.select();' " );
+
+			if ( KoLSettings.getBooleanProperty( "relayAddsWikiLinks" ) )
+			{
+				StaticEntity.globalStringReplace( buffer, "descitem(", "lookupItem(" );
+				StaticEntity.globalStringReplace( buffer, "eff(", "lookupEffect(" );
+			}
 		}
 
 		String defaultColor = KoLSettings.getUserProperty( "defaultBorderColor" );

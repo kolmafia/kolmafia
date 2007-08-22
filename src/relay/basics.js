@@ -148,6 +148,7 @@ function singleUse( location, fields )
 {	return inlineLoad( location, fields, false );
 }
 
+
 function multiUse( location, id )
 {
 	var qfield = "quantity";
@@ -157,6 +158,7 @@ function multiUse( location, id )
 	var qvalue = getObject( "quantity" + id ).value;
 	return inlineLoad( location, "pwd=&action=useitem&whichitem= " + id + "&" + qfield + "=" + qvalue, id );
 }
+
 
 function showObject( id )
 {
@@ -260,6 +262,30 @@ function attachSafetyText()
 		}
 	}
 
+	return true;
+}
+
+
+function lookupItem( desc )
+{
+	var httpObject = getHttpObject();
+	if ( !httpObject )
+		return true;
+
+	httpObject.open( "POST", "/KoLmafia/wikiDescription?item=" + desc );
+	httpObject.send( null );
+	return true;
+}
+
+
+function lookupEffect( desc )
+{
+	var httpObject = getHttpObject();
+	if ( !httpObject )
+		return true;
+
+	httpObject.open( "POST", "/KoLmafia/wikiDescription?effect=" + desc );
+	httpObject.send( null );
 	return true;
 }
 

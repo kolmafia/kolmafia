@@ -67,6 +67,8 @@ public class TradeableItemDatabase extends KoLDatabase
 	private static final Map itemIdByName = new TreeMap();
 	private static final Map itemIdByPlural = new TreeMap();
 
+	private static final Map itemIdByDescription = new TreeMap();
+
 	private static final Map levelReqByName = new TreeMap();
 	private static final Map fullnessByName = new TreeMap();
 	private static final Map inebrietyByName = new TreeMap();
@@ -179,6 +181,7 @@ public class TradeableItemDatabase extends KoLDatabase
 				{
 					int itemId = StaticEntity.parseInt( data[0].trim() );
 					descriptionById.set( itemId, data[1] );
+					itemIdByDescription.put( data[1], new Integer( itemId ) );
 
 					if ( data.length == 4 )
 					{
@@ -863,6 +866,18 @@ public class TradeableItemDatabase extends KoLDatabase
 
 	public static final String getItemName( int itemId )
 	{	return (String) nameById.get( new Integer( itemId ) );
+	}
+
+	/**
+	 * Returns the name for an item, given its Id number.
+	 * @param	itemId	The Id number of the item to lookup
+	 * @return	The name of the corresponding item
+	 */
+
+	public static final String getItemName( String descriptionId )
+	{
+		Integer itemId = (Integer) itemIdByDescription.get( descriptionId );
+		return itemId == null ? null : getItemName( itemId.intValue() );
 	}
 
 	/**
