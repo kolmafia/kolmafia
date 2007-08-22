@@ -212,7 +212,7 @@ public class RequestLogger extends NullStream implements KoLConstants
 	}
 
 	public static final void openDebugLog()
-	{	debugStream = openStream( "DEBUG.txt", debugStream, true );
+	{	debugStream = openStream( "DEBUG_" + DATED_FILENAME_FORMAT.format( new Date() ) + ".txt", debugStream, true );
 	}
 
 	public static final void closeDebugLog()
