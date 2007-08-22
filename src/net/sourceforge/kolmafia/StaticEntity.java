@@ -257,6 +257,21 @@ public abstract class StaticEntity implements KoLConstants
 			startCounting( StaticEntity.parseInt( tokens.nextToken() ) - KoLCharacter.getCurrentRun(), tokens.nextToken(), tokens.nextToken() );
 	}
 
+	public static final String getVersion()
+	{
+		if ( REVISION == null )
+			return VERSION_NAME;
+
+		int colonIndex = REVISION.indexOf( ":" );
+		if ( colonIndex != -1 )
+			return "KoLmafia r" + REVISION.substring( 0, colonIndex );
+
+		if ( REVISION.endsWith( "M" ) )
+			return "KoLmafia r" + REVISION.substring( 0, REVISION.length() - 1 );
+
+		return "KoLmafia r" + REVISION;
+	}
+
 	public static final void setClient( KoLmafia client )
 	{	StaticEntity.client = client;
 	}
