@@ -273,7 +273,7 @@ public class OptionsFrame extends KoLFrame
 
 			{ "", "" },
 
-			{ "cloverProtectActive", "Protect against automated clover adventures" },
+			{ "cloverProtectActive", "Auto-disassemble hermit, marmot and barrel clovers" },
 			{ "mementoListActive", "Prevent accidental destruction of 'memento' items" },
 			{ "allowGenericUse", "Enable generic item usage in scripted \"use\"" },
 			{ "cacheMallSearches", "Cache mall search terms in mall search interface" },
