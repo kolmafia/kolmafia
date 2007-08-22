@@ -56,10 +56,6 @@ public class FilterTextField extends JTextField implements ActionListener, Focus
 	private LockableListModel model;
 	private boolean strict;
 
-	protected boolean changed, filtering;
-
-	private Object waitObject = new Object();
-
 	public FilterTextField( LockableListModel model )
 	{
 		this.model = model;
@@ -67,10 +63,6 @@ public class FilterTextField extends JTextField implements ActionListener, Focus
 
 		this.addFocusListener( this );
 		this.addKeyListener( new FilterListener() );
-
-		this.changed = false;
-		this.filtering = false;
-		(new FilterThread()).start();
 	}
 
 	public void actionPerformed( ActionEvent e )
@@ -85,33 +77,34 @@ public class FilterTextField extends JTextField implements ActionListener, Focus
 	{
 	}
 
-	public synchronized void update()
+	public void update()
 	{
-		this.changed = true;
+		FilterTextField.this.text = FilterTextField.this.getText().toLowerCase();
 
-		if ( this.filtering )
+		FilterTextField.this.strict = true;
+		FilterTextField.this.model.updateFilter( false );
+		if ( FilterTextField.this.model.getSize() > 0 )
 			return;
 
-		synchronized ( waitObject )
-		{	waitObject.notify();
-		}
+		FilterTextField.this.strict = false;
+		FilterTextField.this.model.updateFilter( false );
 	}
 
 	public boolean isVisible( Object element )
 	{
+		if ( this.text == null || this.text.length() == 0 )
+			return true;
+
 		// If it's not a result, then check to see if you need to
 		// filter based on its string form.
 
 		String elementName = getResultName( element );
-		String currentName = this.text;
 
-		if ( currentName == null || currentName.length() == 0 )
+		if ( this.text == null || this.text.length() == 0 )
 			return true;
 
-		if ( this.strict )
-			return elementName.toLowerCase().indexOf( text ) != -1;
-
-		return KoLDatabase.fuzzyMatches( elementName, currentName );
+		return this.strict ? elementName.toLowerCase().indexOf( this.text ) != -1 :
+			KoLDatabase.fuzzyMatches( elementName, this.text );
 	}
 
 	public static final String getResultName( Object element )
@@ -138,49 +131,6 @@ public class FilterTextField extends JTextField implements ActionListener, Focus
 	{
 		public void keyReleased( KeyEvent e )
 		{	update();
-		}
-	}
-
-	private class FilterThread extends Thread
-	{
-		public void run()
-		{
-			while ( true )
-			{
-				try
-				{
-					synchronized ( waitObject )
-					{	waitObject.wait();
-					}
-				}
-				catch ( Exception e )
-				{
-					// This shouldn't happen, so go ahead and
-					// fall through.
-				}
-
-				while( FilterTextField.this.changed )
-				{
-					FilterTextField.this.filtering = true;
-					FilterTextField.this.changed = false;
-
-					applyFilter();
-					FilterTextField.this.filtering = false;
-				}
-			}
-		}
-
-		private void applyFilter()
-		{
-			FilterTextField.this.text = FilterTextField.this.getText().toLowerCase();
-
-			FilterTextField.this.strict = true;
-			FilterTextField.this.model.updateFilter( false );
-			if ( FilterTextField.this.model.getSize() > 0 )
-				return;
-
-			FilterTextField.this.strict = false;
-			FilterTextField.this.model.updateFilter( false );
 		}
 	}
 }
