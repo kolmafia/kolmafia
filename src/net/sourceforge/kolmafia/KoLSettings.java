@@ -650,6 +650,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		GLOBAL_MAP.put( "mementoListActive", "false" );
 		GLOBAL_MAP.put( "pathedSummonsHardcore", "true" );
 		GLOBAL_MAP.put( "pathedSummonsSoftcore", "false" );
+		GLOBAL_MAP.put( "preferredWebBrowser", "" );
 		GLOBAL_MAP.put( "previousNotifyList", "<>" );
 		GLOBAL_MAP.put( "previousUpdateVersion", VERSION_NAME );
 		GLOBAL_MAP.put( "protectAgainstOverdrink", "true" );

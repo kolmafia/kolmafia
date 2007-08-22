@@ -65,6 +65,7 @@ public class BrowserLauncher {
 
 	/** The browser for the system */
 	private static Object browser;
+	private static String executable;
 
 	/**
 	 * Caches whether any classes, methods, and fields that are not part of the JDK and need to
@@ -297,7 +298,7 @@ public class BrowserLauncher {
 				}
 				break;
 			case MRJ_3_0:
-			    try {
+				try {
 					Class linker = Class.forName("com.apple.mrj.jdirect.Linker");
 					Constructor constructor = linker.getConstructor(new Class[]{ Class.class });
 					linkage = constructor.newInstance(new Object[] { BrowserLauncher.class });
@@ -331,7 +332,7 @@ public class BrowserLauncher {
 				}
 				break;
 			default:
-			    break;
+				break;
 		}
 		return true;
 	}
@@ -345,9 +346,11 @@ public class BrowserLauncher {
 	 *			that provides the means of calling the default browser.
 	 */
 	private static Object locateBrowser() {
+
 		if (browser != null) {
 			return browser;
 		}
+
 		switch (jvm) {
 			case MRJ_2_0:
 				try {
@@ -413,7 +416,6 @@ public class BrowserLauncher {
 							}
 						}
 					} catch (IllegalArgumentException iare) {
-						browser = browser;
 						errorMessage = iare.getMessage();
 						return null;
 					} catch (IllegalAccessException iae) {
@@ -446,6 +448,112 @@ public class BrowserLauncher {
 		return browser;
 	}
 
+	private static boolean openOverrideBrowser( String url )
+	{
+		if ( System.getProperty( "os.browser" ) == null )
+			return false;
+
+		Process process;
+
+		try
+		{
+			if ( System.getProperty( "os.name" ).startsWith( "Mac" ) )
+			{
+				process = Runtime.getRuntime().exec(new String[] { "open", "/Applications/" +
+					System.getProperty( "os.browser" ) + ".app", url } );
+			}
+			else if ( System.getProperty( "os.name" ).startsWith( "Win" ) )
+			{
+				Object browser = locateBrowser();
+				if ( browser == null )
+					return false;
+
+				String executable = getWindowsExecutable( System.getProperty( "os.browser" ), url );
+				if ( executable == null )
+					return false;
+
+				process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c", executable, url } );
+			}
+			else
+			{
+				process = Runtime.getRuntime().exec( System.getProperty( "os.browser" ) + " " + url );
+			}
+
+			process.waitFor();
+			process.exitValue();
+			return true;
+		}
+		catch ( Exception e )
+		{
+			System.err.println("Error loading browser: " + e.getMessage());
+			return false;
+		}
+	}
+
+	private static final String getWindowsExecutable( String browser, String url )
+	{
+		if ( executable != null )
+			return executable;
+
+		if ( browser.indexOf( ":" ) != -1 )
+		{
+			File alternative = new File( browser );
+			if ( alternative.exists() )
+			{
+				executable = "\"" + browser + "\"";
+				return executable;
+			}
+		}
+
+		if ( browser.equalsIgnoreCase( "Opera" ) )
+			browser = ":\\Program Files\\Opera\\Opera.exe";
+		else if ( browser.equalsIgnoreCase( "Firefox" ) )
+			browser = ":\\Program Files\\Mozilla Firefox\\firefox.exe";
+		else
+			browser = ":\\Program Files\\Internet Explorer\\iexplore.exe";
+
+		String test;
+		for ( char drive = 'C'; drive <= 'Z'; ++drive )
+		{
+			test = drive + browser;
+			File alternative = new File( test );
+
+			if ( alternative.exists() )
+			{
+				executable = "\"" + test + "\"";
+				return executable;
+			}
+		}
+
+		return null;
+	}
+
+	private static final String getWindowsExecutable( String url )
+	{
+		if ( executable != null )
+			return executable;
+
+		if ( !url.startsWith( "http" ) )
+			return "rundll32.exe";
+
+		executable = getWindowsExecutable( "Opera", url );
+		if ( executable != null )
+			return executable;
+
+		executable = getWindowsExecutable( "Firefox", url );
+		if ( executable != null )
+			return executable;
+
+		executable = getWindowsExecutable( "", url );
+		if ( executable != null )
+			return executable;
+
+		// If you still can't find your browser, let the operating
+		// system try to figure it out.
+
+		return "rundll32.exe";
+	}
+
 	/**
 	 * Attempts to open the default web browser to the given URL.
 	 * @param url The URL to open
@@ -453,6 +561,9 @@ public class BrowserLauncher {
 
 	public static void openURL( String url )
 	{
+		if ( openOverrideBrowser( url ) )
+			return;
+
 		if (!loadedWithoutErrors)
 		{
 			System.err.println("Exception in finding browser: " + errorMessage);
@@ -564,34 +675,7 @@ public class BrowserLauncher {
 				// most common browsers and invoke them.
 
 				Process process = null;
-
-				String executable = null;
-				boolean foundBrowser = false;
-				String [] browsers = { "Opera\\Opera.exe", "Mozilla Firefox\\firefox.exe", "Internet Explorer\\iexplore.exe" };
-
-				if ( url.startsWith( "http" ) )
-				{
-					for ( char drive = 'C'; drive <= 'Z' && !foundBrowser; ++drive )
-					{
-						for ( int i = 0; i < browsers.length && !foundBrowser; ++i )
-						{
-							executable = drive + ":\\Program Files\\" + browsers[i];
-							File alternative = new File( executable );
-
-							if ( alternative.exists() )
-							{
-								foundBrowser = true;
-								executable = "\"" + executable + "\"";
-							}
-						}
-					}
-
-					// If you still can't find your browser, let the operating
-					// system try to figure it out.
-
-					if ( !foundBrowser )
-						executable = "rundll32.exe";
-				}
+				String executable = getWindowsExecutable( url );
 
 				// Add quotes around the URL to allow ampersands and other special
 				// characters to work.
