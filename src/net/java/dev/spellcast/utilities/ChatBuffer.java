@@ -138,6 +138,7 @@ public class ChatBuffer
 		this.displayPanes = new ArrayList();
 
 		UPDATER.queueClear();
+		shouldReset = false;
 		UPDATER.start();
 	}
 
@@ -429,10 +430,10 @@ public class ChatBuffer
 
 		private void reset()
 		{
+			shouldReset = false;
+
 			this.resetText = header + "<style>" + BUFFER_STYLE + "</style></head><body>" +
 				displayBuffer.toString() + "</body></html>";
-
-			shouldReset = false;
 
 			for ( int i = 0; i < displayPanes.size(); ++i )
 			{

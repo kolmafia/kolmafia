@@ -69,6 +69,12 @@ public class FilterTextField extends JTextField implements ActionListener, Focus
 	{	update();
 	}
 
+	public void setText( String text )
+	{
+		super.setText( text );
+		this.update();
+	}
+
 	public void focusGained( FocusEvent e )
 	{	this.selectAll();
 	}
