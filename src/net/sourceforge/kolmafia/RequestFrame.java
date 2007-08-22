@@ -336,12 +336,11 @@ public class RequestFrame extends KoLFrame
 				this.mainBuffer.append( "<br><b>Redirected</b>: " + request.redirectLocation );
 				return;
 			}
+
+			StaticEntity.externalUpdate( this.currentLocation, request.responseText );
 		}
 
 		showHTML( this.currentLocation, request.responseText );
-
-		if ( request.getClass() == KoLRequest.class )
-			StaticEntity.externalUpdate( this.currentLocation, request.responseText );
 	}
 
 	public void showHTML( String location, String responseText )

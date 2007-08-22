@@ -494,6 +494,18 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			lastUpdate = "Error encountered during cast attempt.";
 	}
 
+	public static final boolean hasAccordion()
+	{
+		if ( KoLCharacter.canInteract() )
+			return true;
+
+		for ( int i = 0; i < THIEF_WEAPONS.length; ++i )
+			if ( KoLCharacter.hasItem( THIEF_WEAPONS[i], true ) )
+				return true;
+
+		return false;
+	}
+
 	public static final void prepareWeapon( AdventureResult [] options )
 	{
 		if ( KoLCharacter.canInteract() )
