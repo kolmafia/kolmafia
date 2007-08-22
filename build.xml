@@ -49,8 +49,6 @@
 
 	<target name="version">
 
-		<property name="version" value="11.4"/>
-
 		<exec executable="svnversion" outputproperty="revision" failifexecutionfails="false">
 			<arg value="-n"/>
 			<arg value="${root}"/>
@@ -137,12 +135,12 @@
 	<target name="debug" depends="clean,init,version">
 
 		<replace file="${src}/net/sourceforge/kolmafia/KoLConstants.java"
-			token="v${version}" value="v${version}, r${revision}"/>
+			token="REVISION = null" value='REVISION = "${revision}"'/>
 
 		<antcall target="createjar"/>
 
 		<replace file="${src}/net/sourceforge/kolmafia/KoLConstants.java"
-			token="v${version}, r${revision}" value="v${version}"/>
+			token='REVISION = "${revision}"' value="REVISION = null"/>
 
 	</target>
 
@@ -154,7 +152,7 @@
 	<target name="daily" depends="clean,init,update,version">
 
 		<replace file="${src}/net/sourceforge/kolmafia/KoLConstants.java"
-			token="v${version}" value="v${version}, r${revision}"/>
+			token="REVISION = null" value='REVISION = "${revision}"'/>
 
 		<antcall target="build"/>
 
@@ -165,7 +163,7 @@
 		</jar>
 
 		<replace file="${src}/net/sourceforge/kolmafia/KoLConstants.java"
-			token="v${version}, r${revision}" value="v${version}"/>
+			token='REVISION = "${revision}"' value="REVISION = null"/>
 
 	</target>
 

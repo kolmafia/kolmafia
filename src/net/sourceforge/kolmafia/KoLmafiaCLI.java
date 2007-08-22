@@ -107,7 +107,7 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		System.out.println();
 		System.out.println();
-		System.out.println(  VERSION_NAME );
+		System.out.println( StaticEntity.getVersion() );
 		System.out.println( "Running on " + System.getProperty( "os.name" ) );
 		System.out.println( "Using Java " + System.getProperty( "java.version" ) );
 		System.out.println();
@@ -596,6 +596,12 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		// If the command has already been disabled, then return
 		// from this function.
+
+		if ( command.equals( "version" ) )
+		{
+			RequestLogger.printLine( StaticEntity.getVersion() );
+			return;
+		}
 
 		if ( StaticEntity.isDisabled( command ) )
 		{

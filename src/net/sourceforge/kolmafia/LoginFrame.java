@@ -39,7 +39,6 @@ import java.awt.Dimension;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 
 import java.util.Date;
 
@@ -70,7 +69,7 @@ public class LoginFrame extends KoLFrame
 
 	public LoginFrame()
 	{
-		super( VERSION_NAME + ": Login" );
+		super( StaticEntity.getVersion() + ": Login" );
 
 		INSTANCE = this;
 		this.tabs.addTab( "KoL Login", this.constructLoginPanel() );

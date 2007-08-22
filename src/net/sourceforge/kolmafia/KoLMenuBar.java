@@ -615,7 +615,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	private class VersionDataPanel extends JPanel
 	{
 		private final String [] versionData = {
-			VERSION_NAME, VERSION_DATE, " ",
+			StaticEntity.getVersion(), VERSION_DATE, " ",
 			"Copyright © 2005-2007 KoLmafia development team",
 			"Berkeley Software Development (BSD) License",
 			"http://kolmafia.sourceforge.net/",

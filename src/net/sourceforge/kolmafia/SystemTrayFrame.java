@@ -101,9 +101,9 @@ public abstract class SystemTrayFrame implements KoLConstants
 	public static final void updateToolTip()
 	{
 		if ( KoLCharacter.getUserName().equals( "" ) )
-			updateToolTip( VERSION_NAME );
+			updateToolTip( StaticEntity.getVersion() );
 		else
-			updateToolTip( VERSION_NAME + ": " + KoLCharacter.getUserName() );
+			updateToolTip( StaticEntity.getVersion() + ": " + KoLCharacter.getUserName() );
 	}
 
 	public static final void updateToolTip( String message )
@@ -132,7 +132,7 @@ public abstract class SystemTrayFrame implements KoLConstants
 
 		try
 		{
-			icon.showBalloon( message, VERSION_NAME, 0, WindowsTrayIcon.BALLOON_INFO );
+			icon.showBalloon( message, StaticEntity.getVersion(), 0, WindowsTrayIcon.BALLOON_INFO );
 		}
 		catch ( Exception e )
 		{
