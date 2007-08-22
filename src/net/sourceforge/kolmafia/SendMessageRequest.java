@@ -392,6 +392,21 @@ public abstract class SendMessageRequest extends KoLRequest
 			for ( int i = 0; i < itemList.size(); ++i )
 				StaticEntity.getClient().processResult( (AdventureResult) itemList.get(i) );
 		}
+		else if ( destination == collection )
+		{
+			if ( !collection.isEmpty() )
+			{
+				AdventureResult current;
+				for ( int i = 0; i < itemList.size(); ++i )
+				{
+					current = (AdventureResult) itemList.get(i);
+					if ( !collection.contains( current ) )
+						((List)MuseumManager.getShelves().get(0)).add( current );
+
+					AdventureResult.addResultToList( collection, current );
+				}
+			}
+		}
 		else if ( destination != null )
 		{
 			for ( int i = 0; i < itemList.size(); ++i )
