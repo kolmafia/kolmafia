@@ -115,6 +115,12 @@ public class StatusEffectDatabase extends KoLDatabase
 	{	return effectId == -1 ? "Unknown effect" : getDisplayName( (String) nameById.get( new Integer( effectId ) ) );
 	}
 
+	public static final String getEffectName( String descriptionId )
+	{
+		Object effectId = effectByDescription.get( descriptionId );
+		return effectId == null ? null : getEffectName( ((Integer)effectId).intValue() );
+	}
+
 	public static final int getEffect( String descriptionId )
 	{
 		Object effectId = effectByDescription.get( descriptionId );

@@ -664,6 +664,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		GLOBAL_MAP.put( "relayAddsRoundNumber", "false" );
 		GLOBAL_MAP.put( "relayAddsUpArrowLinks", "true" );
 		GLOBAL_MAP.put( "relayAddsUseLinks", "true" );
+		GLOBAL_MAP.put( "relayAddsWikiLinks", "false" );
 		GLOBAL_MAP.put( "relayAllowsOverrides", "false" );
 		GLOBAL_MAP.put( "relayAlwaysBuysGum", "true" );
 		GLOBAL_MAP.put( "relayBrowserOnly", "false" );

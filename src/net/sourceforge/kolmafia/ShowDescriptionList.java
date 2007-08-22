@@ -217,18 +217,23 @@ public class ShowDescriptionList extends JList implements KoLConstants
 
 	public static final void showWikiDescription( Object item )
 	{
+		if ( item == null )
+			return;
+
 		String name = null;
+		boolean isEffect = item instanceof AdventureResult && ((AdventureResult)item).isStatusEffect();
+		boolean isSkill = item instanceof UseSkillRequest;
 
 		if ( item instanceof AdventureResult )
 			name = ((AdventureResult)item).getName();
+		else if ( isSkill )
+			name = ((UseSkillRequest) item).getSkillName();
 		else if ( item instanceof ItemCreationRequest )
 			name = ((ItemCreationRequest)item).getName();
 		else if ( item instanceof Concoction )
 			name = ((Concoction)item).getName();
 		else if ( item instanceof SoldItem )
 			name = ((SoldItem) item).getItemName();
-		else if ( item instanceof UseSkillRequest )
-			name = ((UseSkillRequest) item).getSkillName();
 		else if ( item instanceof String )
 			name = (String) item;
 		else if ( item instanceof Entry )
@@ -237,8 +242,14 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		if ( name == null )
 			return;
 
+		if ( isEffect && ClassSkillsDatabase.contains( name ) )
+			name = name + " (effect)";
+		else if ( isSkill && StatusEffectDatabase.contains( name ) )
+			name = name + " (skill)";
+
 		name = StaticEntity.globalStringReplace( name, " ", "_" );
 		name = Character.toUpperCase( name.charAt( 0 ) ) + name.substring( 1 );
+
 		StaticEntity.openSystemBrowser( "http://kol.coldfront.net/thekolwiki/index.php/" + name );
 	}
 
