@@ -215,10 +215,10 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		}
 	}
 
-	public static final void showWikiDescription( Object item )
+	public static final String getWikiLocation( Object item )
 	{
 		if ( item == null )
-			return;
+			return null;
 
 		String name = null;
 		boolean isEffect = item instanceof AdventureResult && ((AdventureResult)item).isStatusEffect();
@@ -240,7 +240,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 			name = (String) ((Entry)item).getValue();
 
 		if ( name == null )
-			return;
+			return null;
 
 		if ( isEffect && ClassSkillsDatabase.contains( name ) )
 			name = name + " (effect)";
@@ -249,8 +249,15 @@ public class ShowDescriptionList extends JList implements KoLConstants
 
 		name = StaticEntity.globalStringReplace( name, " ", "_" );
 		name = Character.toUpperCase( name.charAt( 0 ) ) + name.substring( 1 );
+		return "http://kol.coldfront.net/thekolwiki/index.php/" + name;
+	}
 
-		StaticEntity.openSystemBrowser( "http://kol.coldfront.net/thekolwiki/index.php/" + name );
+	public static final void showWikiDescription( Object item )
+	{
+		String location = getWikiLocation( item );
+
+		if ( location != null )
+			StaticEntity.openSystemBrowser( location );
 	}
 
 	private abstract class ContextMenuItem extends ThreadedMenuItem
