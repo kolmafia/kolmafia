@@ -386,7 +386,12 @@ public abstract class StaticEntity implements KoLConstants
 		}
 
 		public void run()
-		{	BrowserLauncher.openURL( this.location );
+		{
+			String browser = KoLSettings.getUserProperty( "preferredWebBrowser" );
+			if ( !browser.equals( "" ) )
+				System.setProperty( "os.browser", browser );
+
+			BrowserLauncher.openURL( this.location );
 		}
 	}
 
