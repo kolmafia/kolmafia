@@ -954,7 +954,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		{
 			StaticEntity.singleStringReplace( buffer, "</head>", "<script language=\"Javascript\" src=\"/basics.js\"></script></head>" );
 
-			boolean attachSafetyText = !location.startsWith( "char" ) && location.indexOf( "chat" ) == -1 &&
+			boolean attachSafetyText = location.indexOf( "chat" ) == -1 &&
 				location.indexOf( "menu" ) == -1 && !location.startsWith( "adventure" ) && !location.startsWith( "fight" ) &&
 				!location.startsWith( "choice" ) && !location.startsWith( "palin" ) && !location.startsWith( "tiles" );
 
