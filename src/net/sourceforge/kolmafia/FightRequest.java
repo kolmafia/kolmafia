@@ -1469,7 +1469,6 @@ public class FightRequest extends KoLRequest
 					if ( shouldLogAction )
 						action.append( "casts " + skill.toUpperCase() + "!" );
 				}
-				return true;
 			}
 			else
 			{
