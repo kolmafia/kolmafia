@@ -1135,18 +1135,6 @@ public class KoLRequest extends Job implements KoLConstants
 		// construct the URL string and notify the browser that it should
 		// change everything.
 
-		Matcher matcher = REDIRECT_PATTERN.matcher( this.redirectLocation );
-		int lastSlashIndex = this.redirectLocation.lastIndexOf( "/" );
-		if ( lastSlashIndex != -1 )
-			this.redirectLocation = this.redirectLocation.substring( lastSlashIndex + 1 );
-
-		if ( matcher.find() )
-		{
-			setLoginServer( matcher.group(1) );
-			this.constructURLString( this.redirectLocation, false );
-			return false;
-		}
-
 		if ( this.formURLString.startsWith( "login.php" ) )
 		{
 			LoginRequest.processLoginRequest( this );
@@ -1182,7 +1170,6 @@ public class KoLRequest extends Job implements KoLConstants
 
 		if ( this.redirectLocation.startsWith( "login.php" ) && !(this instanceof ChatRequest) )
 		{
-System.out.println( sessionId );
 			LoginRequest.executeTimeInRequest();
 			return sessionId == null;
 		}
