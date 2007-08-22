@@ -199,8 +199,6 @@ public class LocalRelayServer implements Runnable
 	{
 		if ( System.currentTimeMillis() - lastStatusMessage < 4000 )
 			statusMessages.append( message );
-		else
-			statusMessages.setLength(0);
 	}
 
 	public static final String getNewStatusMessages()

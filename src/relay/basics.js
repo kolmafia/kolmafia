@@ -81,6 +81,8 @@ function updateDisplay( display, responseText )
 		var lineIndex = display.innerHTML.indexOf( "<br", 10000 );
 		if ( lineIndex == -1 )
 			lineIndex = display.innerHTML.lastIndexOf( "<br", 10000 );
+		if ( lineIndex != -1 )
+			lineIndex = display.innerHTML.indexOf( ">", lineIndex ) + 1;
 
 		if ( lineIndex != -1 )
 			display.innerHTML = display.innerHTML.substring( display.indexOf( ">", lineIndex ) + 1 );

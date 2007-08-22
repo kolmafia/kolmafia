@@ -46,8 +46,8 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 
 public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 {
-	private static final int RESIZE_SIZE = 12000;
-	private static final int MAXIMUM_SIZE = 16000;
+	private static final int RESIZE_SIZE = 8000;
+	private static final int MAXIMUM_SIZE = 12000;
 	private static final int DELETE_AMOUNT = MAXIMUM_SIZE - RESIZE_SIZE;
 
 	public static final List colors = new ArrayList();
@@ -139,12 +139,16 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 			int lineIndex = this.displayBuffer.indexOf( "<br", DELETE_AMOUNT );
 			if ( lineIndex == -1 )
 				lineIndex = this.displayBuffer.lastIndexOf( "<br", DELETE_AMOUNT );
-
 			if ( lineIndex != -1 )
-				this.displayBuffer.delete( 0, this.displayBuffer.indexOf( ">", lineIndex ) + 1 );
-			else
-				this.displayBuffer.setLength( 0 );
+				lineIndex = this.displayBuffer.indexOf( ">", lineIndex ) + 1;
 
+			if ( lineIndex == -1 )
+			{
+				this.clearBuffer();
+				return;
+			}
+
+			this.displayBuffer.delete( 0, lineIndex );
 			this.fireBufferChanged();
 		}
 
