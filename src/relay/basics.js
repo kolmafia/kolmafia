@@ -243,7 +243,7 @@ function showSafetyText( e )
 }
 
 
-function attachReference()
+function attachSafetyText()
 {
 	var links = document.getElementsByTagName( "a" );
 	for ( var i = 0; i < links.length; ++i )
