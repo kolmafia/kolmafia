@@ -50,7 +50,7 @@ public class MutableComboBox extends JComboBox implements ListElementFilter
 
 	private String currentName;
 	private String matchString;
-	private Object currentMatch;
+	public Object currentMatch;
 	private LockableListModel model;
 	private boolean allowAdditions;
 
