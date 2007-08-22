@@ -737,7 +737,7 @@ public abstract class StaticEntity implements KoLConstants
 
 			if ( library.exists() )
 			{
-				if ( !KoLSettings.getUserProperty( "lastRelayUpdate" ).equals( VERSION_NAME ) && parent == RELAY_LOCATION )
+				if ( parent == RELAY_LOCATION && (REVISION != null || !KoLSettings.getUserProperty( "lastRelayUpdate" ).equals( VERSION_NAME )) )
 					library.delete();
 				else
 					return true;

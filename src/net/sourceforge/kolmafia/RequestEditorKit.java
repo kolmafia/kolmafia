@@ -954,8 +954,12 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		{
 			StaticEntity.singleStringReplace( buffer, "</head>", "<script language=\"Javascript\" src=\"/basics.js\"></script></head>" );
 
-			if ( !location.startsWith( "char" ) && location.indexOf( "menu" ) == -1 && location.indexOf( "chat" ) == -1 )
-				StaticEntity.singleStringReplace( buffer, "<body", "<body onLoad=\"attachReference();\"" );
+			boolean attachSafetyText = !location.startsWith( "char" ) && location.indexOf( "chat" ) == -1 &&
+				location.indexOf( "menu" ) == -1 && !location.startsWith( "adventure" ) && !location.startsWith( "fight" ) &&
+				!location.startsWith( "choice" ) && !location.startsWith( "palin" ) && !location.startsWith( "tiles" );
+
+			if ( attachSafetyText )
+				StaticEntity.singleStringReplace( buffer, "<body", "<body onLoad=\"attachSafetyText();\"" );
 		}
 
 		// Make all the character pane adjustments first, since
