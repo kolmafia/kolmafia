@@ -80,7 +80,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 	private int baseRequirement, buffedRequirement;
 	private String zone, parentZone, adventureId, formSource, adventureName;
 
-	private String lowercaseName, lowercaseZone, lowercaseZoneDescription;
+	private String normalString, lowercaseString;
 
 	private KoLRequest request;
 	private AreaCombatData areaSummary;
@@ -106,9 +106,8 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		this.parentZone = (String) AdventureDatabase.PARENT_ZONES.get( zone );
 		this.adventureName = adventureName;
 
-		this.lowercaseName = KoLDatabase.getCanonicalName( adventureName );
-		this.lowercaseZone = KoLDatabase.getCanonicalName( zone );
-		this.lowercaseZoneDescription = KoLDatabase.getCanonicalName( (String) AdventureDatabase.ZONE_DESCRIPTIONS.get( zone ) );
+		this.normalString = this.zone + ": " + this.adventureName;
+		this.lowercaseString = this.normalString.toLowerCase();
 
 		if ( formSource.equals( "sewer.php" ) )
 			this.request = new SewerRequest( false );
@@ -133,9 +132,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 	}
 
 	public boolean matches( String searchString )
-	{
-		return lowercaseName.indexOf( searchString ) != -1 || lowercaseZone.indexOf( searchString ) != -1 ||
-			lowercaseZoneDescription.indexOf( searchString ) != -1;
+	{	return lowercaseString.indexOf( searchString ) != -1;
 	}
 
 	/**
@@ -218,26 +215,49 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			return false;
 		}
 
-		int baseValue = 0;
-		int buffedValue = 0;
-
-		switch ( KoLCharacter.getPrimeIndex() )
+		if ( this.baseRequirement != 0 )
 		{
-		case 0:
-			baseValue = KoLCharacter.getBaseMuscle();
-			buffedValue = KoLCharacter.getAdjustedMuscle();
-			break;
-		case 1:
-			baseValue = KoLCharacter.getBaseMysticality();
-			buffedValue = KoLCharacter.getAdjustedMysticality();
-			break;
-		case 2:
-			baseValue = KoLCharacter.getBaseMoxie();
-			buffedValue = KoLCharacter.getAdjustedMoxie();
-			break;
+			int baseValue = 0;
+
+			switch ( KoLCharacter.getPrimeIndex() )
+			{
+			case 0:
+				baseValue = KoLCharacter.getBaseMuscle();
+				break;
+			case 1:
+				baseValue = KoLCharacter.getBaseMysticality();
+				break;
+			case 2:
+				baseValue = KoLCharacter.getBaseMoxie();
+				break;
+			}
+
+			if ( baseValue < this.baseRequirement )
+				return false;
 		}
 
-		return baseValue >= this.baseRequirement && buffedValue >= this.buffedRequirement;
+		if ( this.buffedRequirement != 0 )
+		{
+			int buffedValue = 0;
+
+			switch ( KoLCharacter.getPrimeIndex() )
+			{
+			case 0:
+				buffedValue = KoLCharacter.getAdjustedMuscle();
+				break;
+			case 1:
+				buffedValue = KoLCharacter.getAdjustedMysticality();
+				break;
+			case 2:
+				buffedValue = KoLCharacter.getAdjustedMoxie();
+				break;
+			}
+
+			if ( buffedValue < this.buffedRequirement )
+				return false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -661,21 +681,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 	 */
 
 	public String toString()
-	{
-		boolean canAdventureHere = this.meetsGeneralRequirements();
-		StringBuffer stringForm = new StringBuffer();
-
-		if ( !canAdventureHere )
-			stringForm.append( "<html><font color=gray>" );
-
-		stringForm.append( this.zone );
-		stringForm.append( ": " );
-
-		stringForm.append( this.adventureName );
-		if ( !canAdventureHere )
-			stringForm.append( "</font></html>" );
-
-		return stringForm.toString();
+	{	return normalString;
 	}
 
 	/**
