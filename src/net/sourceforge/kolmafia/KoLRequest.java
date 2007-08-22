@@ -1122,14 +1122,21 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( this.redirectLocation == null )
 			return true;
 
+		if ( this.redirectLocation.startsWith( "maint.php" ) )
+		{
+			// If the system is down for maintenance, the user must be
+			// notified that they should try again later.
+
+			KoLmafia.updateDisplay( ABORT_STATE, "Nightly maintenance." );
+			return true;
+		}
+
 		// Check to see if this is a login page redirect.  If it is, then
 		// construct the URL string and notify the browser that it should
 		// change everything.
 
 		Matcher matcher = REDIRECT_PATTERN.matcher( this.redirectLocation );
-
 		int lastSlashIndex = this.redirectLocation.lastIndexOf( "/" );
-
 		if ( lastSlashIndex != -1 )
 			this.redirectLocation = this.redirectLocation.substring( lastSlashIndex + 1 );
 
@@ -1140,19 +1147,14 @@ public class KoLRequest extends Job implements KoLConstants
 			return false;
 		}
 
-		if ( sessionId == null && this.redirectLocation.startsWith( "login.php" ) )
+		if ( this.formURLString.startsWith( "login.php" ) )
 		{
-			this.constructURLString( this.redirectLocation, false );
-			return false;
+			LoginRequest.processLoginRequest( this );
+			return true;
 		}
 
 		if ( this instanceof LocalRelayRequest )
-		{
-			if ( this.formURLString.startsWith( "login.php" ) )
-				LoginRequest.processLoginRequest( this );
-
 			return true;
-		}
 
 		if ( this.formURLString.startsWith( "fight.php" ) )
 			return true;
@@ -1180,17 +1182,9 @@ public class KoLRequest extends Job implements KoLConstants
 
 		if ( this.redirectLocation.startsWith( "login.php" ) && !(this instanceof ChatRequest) )
 		{
+System.out.println( sessionId );
 			LoginRequest.executeTimeInRequest();
 			return sessionId == null;
-		}
-
-		if ( this.redirectLocation.startsWith( "maint.php" ) )
-		{
-			// If the system is down for maintenance, the user must be
-			// notified that they should try again later.
-
-			KoLmafia.updateDisplay( ABORT_STATE, "Nightly maintenance." );
-			return true;
 		}
 
 		if ( this.redirectLocation.startsWith( "choice.php" ) )

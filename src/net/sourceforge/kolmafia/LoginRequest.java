@@ -45,8 +45,7 @@ public class LoginRequest extends KoLRequest
 	private static final Pattern CHALLENGE_PATTERN = Pattern.compile( "<input type=hidden name=challenge value=\"([^\"]*?)\">" );
 
 	private static boolean ignoreLoadBalancer = false;
-	private static String lastUsername;
-	private static String lastPassword;
+	private static LoginRequest lastRequest = null;
 	private static boolean isLoggingIn;
 
 	private String username;
@@ -174,92 +173,43 @@ public class LoginRequest extends KoLRequest
 
 	public void run()
 	{
-		StaticEntity.getClient().setCurrentRequest( null );
+		if ( KoLSettings.getBooleanProperty( "saveStateActive" ) )
+			KoLmafia.addSaveState( this.username, this.password );
 
-		lastUsername = this.username;
-		lastPassword = this.password;
-
+		lastRequest = this;
 		KoLmafia.forceContinue();
-		this.executeLogin();
-	}
 
-	public static final void executeTimeInRequest()
-	{
 		sessionId = null;
 
-		(new LoginRequest( lastUsername, lastPassword )).run();
-
-		if ( sessionId != null )
-			KoLmafia.updateDisplay( "Session timed-in." );
-
-	}
-
-	public void executeLogin()
-	{
-		sessionId = null;
-
-		if ( !this.detectChallenge() )
-		{
-			this.clearDataFields();
-			this.addFormField( "loginname", this.username );
-			this.addFormField( "password", this.password );
-		}
-		else
+		if ( this.detectChallenge() )
 		{
 			this.addFormField( "loginname", this.username + "/q" );
 		}
+		else
+		{
+			this.clearDataFields();
+			this.addFormField( "loginname", this.username + "/q" );
+			this.addFormField( "password", this.password );
+		}
 
 		this.addFormField( "loggingin", "Yup." );
-		sessionId = null;
-
-		if ( KoLmafia.refusesContinue() )
-			return;
-
 		KoLmafia.updateDisplay( "Sending login request..." );
+
 		super.run();
 
-		if ( KoLmafia.refusesContinue() )
+		if ( this.responseCode != 200 )
 			return;
-
-		if ( this.responseCode == 302 && this.redirectLocation.equals( "maint.php" ) )
-		{
-			// Nightly maintenance, so KoLmafia should not bother
-			// retrying.  Let the user do it manually later.
-
-			KoLmafia.updateDisplay( ABORT_STATE, "Nightly maintenance." );
-			return;
-		}
-
-		if ( this.responseCode == 302 )
-		{
-			handleRedirect();
-			return;
-		}
-
-		if ( this.responseText.indexOf( "name=formredirect" ) != -1 )
-		{
-			// <form name=formredirect method=post action="http://www.kingdomofloathing.com/login.php">
-
-			Matcher matcher = REDIRECT_PATTERN.matcher( this.responseText );
-
-			if ( !matcher.find() )
-				return;
-
-			setLoginServer( matcher.group(1) );
-			return;
-		}
 
 		if ( this.responseText.indexOf( "wait fifteen minutes" ) != -1 )
 		{
+			// Ooh, logged in too fast.
 			KoLmafia.updateDisplay( ABORT_STATE, "Please wait fifteen minutes and try again." );
 			return;
 		}
 
 		if ( this.responseText.indexOf( "wait" ) != -1 )
 		{
-			// Ooh, logged in too fast.  KoLmafia should recognize this and
-			// try again automatically in 75 seconds.
-
+			// Ooh, logged in too fast.
 			KoLmafia.updateDisplay( ABORT_STATE, "Please wait one minute and try again." );
 			return;
 		}
@@ -267,8 +217,6 @@ public class LoginRequest extends KoLRequest
 		if ( this.responseText.indexOf( "Too many" ) != -1 )
 		{
 			// Too many bad logins in too short a time span.
-			// Notify the user that something bad happened.
-
 			KoLmafia.updateDisplay( ABORT_STATE, "Too many failed login attempts." );
 			return;
 		}
@@ -277,25 +225,21 @@ public class LoginRequest extends KoLRequest
 		KoLmafia.updateDisplay( ABORT_STATE, failureMatcher.find() ? failureMatcher.group(1) : "Encountered error in login." );
 	}
 
-	private void handleRedirect()
+	public static final void executeTimeInRequest()
 	{
-		if ( this.redirectLocation.startsWith( "main" ) )
-		{
-			processLoginRequest( this );
+		if ( lastRequest == null )
 			return;
+
+		if ( LoginRequest.isInstanceRunning() )
+		{
+			StaticEntity.printStackTrace();
+			System.exit(-1);
 		}
 
-		// It's possible that KoL will eventually make the redirect
-		// the way it used to be, but enforce the redirect.  If this
-		// happens, then validate here.
+		RequestThread.postRequest( lastRequest );
 
-		Matcher matcher = REDIRECT_PATTERN.matcher( this.redirectLocation );
-		if ( matcher.find() )
-		{
-			setLoginServer( matcher.group(1) );
-			this.executeLogin();
-			return;
-		}
+		if ( sessionId != null )
+			KoLmafia.updateDisplay( "Session timed-in." );
 	}
 
 	public static final boolean isInstanceRunning()
@@ -304,8 +248,20 @@ public class LoginRequest extends KoLRequest
 
 	public static final void processLoginRequest( KoLRequest request )
 	{
-		if ( request.redirectLocation == null || request.redirectLocation.startsWith( "maint" ) || !request.redirectLocation.startsWith( "main" ) )
+		if ( request.redirectLocation == null )
 			return;
+
+		// It's possible that KoL will eventually make the redirect
+		// the way it used to be, but enforce the redirect.  If this
+		// happens, then validate here.
+
+		Matcher matcher = REDIRECT_PATTERN.matcher( request.redirectLocation );
+		if ( matcher.find() )
+		{
+			setLoginServer( matcher.group(1) );
+			request.run();
+			return;
+		}
 
 		if ( request.redirectLocation.equals( "main_c.html" ) )
 			KoLRequest.isCompactMode = true;
@@ -337,8 +293,5 @@ public class LoginRequest extends KoLRequest
 
 		isLoggingIn = false;
 		RequestThread.closeRequestSequence();
-
-		if ( KoLSettings.getBooleanProperty( "saveStateActive" ) && request instanceof LoginRequest )
-			KoLmafia.addSaveState( lastUsername, lastPassword );
 	}
 }
