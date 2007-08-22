@@ -49,7 +49,7 @@
 
 	<target name="version">
 
-		<property name="version" value="11.2"/>
+		<property name="version" value="11.4"/>
 
 		<exec executable="svnversion" outputproperty="revision" failifexecutionfails="false">
 			<arg value="-n"/>
