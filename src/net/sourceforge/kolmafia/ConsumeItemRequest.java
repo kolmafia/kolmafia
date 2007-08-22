@@ -426,7 +426,15 @@ public class ConsumeItemRequest extends KoLRequest
 
 		if ( !activeEffects.contains( TradeableItemDatabase.ODE ) )
 		{
-			if ( availableSkills.contains( UseSkillRequest.getInstance( "The Ode to Booze" ) ) && !askedAboutOde.equals( KoLCharacter.getUserName() ) )
+			UseSkillRequest ode = UseSkillRequest.getInstance( "The Ode to Booze" );
+			boolean knowsOde = availableSkills.contains( ode );
+
+			if ( knowsOde && UseSkillRequest.hasAccordion() && KoLCharacter.getCurrentMP() >= ClassSkillsDatabase.getMPConsumptionById( 6014 ) )
+			{
+				ode.setBuffCount( 1 );
+				RequestThread.postRequest( ode );
+			}
+			else if ( knowsOde && !askedAboutOde.equals( KoLCharacter.getUserName() ) )
 			{
 				if ( !KoLFrame.confirm( "Are you sure you want to drink without ode?" ) )
 					return false;
