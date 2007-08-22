@@ -404,7 +404,7 @@ public class KoLmafiaGUI extends KoLmafia
 
 	public void showHTML( String location, String text )
 	{
-		KoLRequest request = new KoLRequest( "" );
+		KoLRequest request = new KoLRequest( location );
 		request.responseText = text;
 		DescriptionFrame.showRequest( request );
 	}

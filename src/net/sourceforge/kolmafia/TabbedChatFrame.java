@@ -135,7 +135,20 @@ public class TabbedChatFrame extends ChatFrame implements ChangeListener, CloseL
 			if ( tabs.getTitleAt(i).trim().equals( tabName ) )
 				return;
 
-		SwingUtilities.invokeLater( new TabAdder( tabName ) );
+		try
+		{
+			TabAdder add = new TabAdder( tabName );
+
+			if ( SwingUtilities.isEventDispatchThread() )
+				add.run();
+			else
+				SwingUtilities.invokeAndWait( add );
+		}
+		catch ( Exception e )
+		{
+			// This should not happen.  However, skip it
+			// since nothing bad really happened.
+		}
 	}
 
 	public void highlightTab( String tabName )

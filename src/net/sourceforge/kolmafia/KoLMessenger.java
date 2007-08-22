@@ -1027,10 +1027,24 @@ public abstract class KoLMessenger extends StaticEntity
 
 			if ( shouldOpenWindow )
 			{
-				if ( useTabbedChat )
-					tabbedFrame.addTab( channel );
-				else
-					SwingUtilities.invokeLater( new CreateFrameRunnable( ChatFrame.class, new String [] { channel } ) );
+				try
+				{
+					if ( useTabbedChat )
+						tabbedFrame.addTab( channel );
+					else
+					{
+						CreateFrameRunnable creator = new CreateFrameRunnable( ChatFrame.class, new String [] { channel } );
+						if ( SwingUtilities.isEventDispatchThread() )
+							creator.run();
+						else
+							SwingUtilities.invokeAndWait( creator );
+					}
+				}
+				catch ( Exception e )
+				{
+					// Whoo, exception occurred.  Pretend nothing
+					// happened and skip the exception.
+				}
 			}
 
 			if ( KoLSettings.getBooleanProperty( "logChatMessages" ) )
