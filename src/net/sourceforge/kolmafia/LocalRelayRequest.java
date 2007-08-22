@@ -731,18 +731,6 @@ public class LocalRelayRequest extends PasswordHashRequest
 		{
 			this.pseudoResponse( "HTTP/1.1 200 OK", LocalRelayServer.getNewStatusMessages() );
 		}
-		else if ( this.getPath().endsWith( "wikiDescription" ) )
-		{
-			String item = this.getFormField( "item" );
-			if ( item != null )
-				ShowDescriptionList.showWikiDescription( TradeableItemDatabase.getItemName( item ) );
-
-			String effect = this.getFormField( "effect" );
-			if ( effect != null )
-				ShowDescriptionList.showWikiDescription( new AdventureResult( StatusEffectDatabase.getEffectName( effect ), 1, true ) );
-
-			this.pseudoResponse( "HTTP/1.1 200 OK", "" );
-		}
 		else if ( this.getPath().endsWith( "lookupLocation" ) )
 		{
 			StringBuffer buffer = new StringBuffer();
@@ -878,6 +866,12 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 	public void run()
 	{
+		if ( this.getPath().startsWith( "http" ) )
+		{
+			super.run();
+			return;
+		}
+
 		if ( !this.getPath().endsWith( ".php" ) )
 		{
 			this.handleSimple();
@@ -925,6 +919,28 @@ public class LocalRelayRequest extends PasswordHashRequest
 			if ( item != null && item.startsWith( "custom" ) )
 			{
 				this.pseudoResponse( "HTTP/1.1 200 OK", CustomItemDatabase.retrieveCustomItem( item.substring(6) ) );
+				return;
+			}
+
+			if ( KoLSettings.getBooleanProperty( "relayAddsWikiLinks" ) )
+			{
+				String location = ShowDescriptionList.getWikiLocation( TradeableItemDatabase.getItemName( item ) );
+				if ( location != null )
+				{
+					this.pseudoResponse( "HTTP/1.1 302 Found", location );
+					return;
+				}
+			}
+		}
+
+		if ( this.getPath().equals( "desc_effect.php" ) && KoLSettings.getBooleanProperty( "relayAddsWikiLinks" ) )
+		{
+			String effect = this.getFormField( "whicheffect" );
+			String location = ShowDescriptionList.getWikiLocation( new AdventureResult( StatusEffectDatabase.getEffectName( effect ), 1, true ) );
+
+			if ( location != null )
+			{
+				this.pseudoResponse( "HTTP/1.1 302 Found", location );
 				return;
 			}
 		}

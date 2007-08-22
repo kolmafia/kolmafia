@@ -266,30 +266,6 @@ function attachSafetyText()
 }
 
 
-function lookupItem( desc )
-{
-	var httpObject = getHttpObject();
-	if ( !httpObject )
-		return true;
-
-	httpObject.open( "POST", "/KoLmafia/wikiDescription?item=" + desc );
-	httpObject.send( null );
-	return true;
-}
-
-
-function lookupEffect( desc )
-{
-	var httpObject = getHttpObject();
-	if ( !httpObject )
-		return true;
-
-	httpObject.open( "POST", "/KoLmafia/wikiDescription?effect=" + desc );
-	httpObject.send( null );
-	return true;
-}
-
-
 // ====================================================================
 //			 URLEncode and URLDecode functions
 //
