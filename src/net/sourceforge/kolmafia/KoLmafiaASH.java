@@ -6463,7 +6463,7 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			String name = arg.toStringValue().toString();
 			String mod = modifier.toStringValue().toString();
-			return new ScriptValue( Modifiers.getBooleanPropertyModifier( name, mod ) );
+			return new ScriptValue( Modifiers.getBooleanModifier( name, mod ) );
 		}
 
 		public ScriptValue effect_modifier( ScriptVariable arg, ScriptVariable modifier )

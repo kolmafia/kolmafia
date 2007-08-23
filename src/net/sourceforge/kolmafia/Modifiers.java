@@ -318,7 +318,7 @@ public class Modifiers extends KoLDatabase
 	public static final int NEVER_FUMBLE = 2;
 	public static final int WEAKENS = 3;
 
-		private static final Object [][] booleanModifiers = {
+	private static final Object [][] booleanModifiers = {
 		{ "Softcore Only",
 		  Pattern.compile( "This item cannot be equipped while in Hardcore" ),
 		  Pattern.compile( "Softcore Only" )
@@ -343,19 +343,19 @@ public class Modifiers extends KoLDatabase
 	public static final int INTRINSIC_EFFECT = 1;
 	public static final int EQUALIZE = 2;
 
-		private static final Object [][] stringModifiers = {
-				{ "Class",
-				  null,
-				  Pattern.compile( "Class: \"(.*?)\"" )
-				},
-				{ "Intrinsic Effect",
-				  Pattern.compile( "Intrinsic effect: (.*)" ),
-				  Pattern.compile( "Intrinsic Effect: \"(.*?)\"" )
-				},
-				{ "Equalize",
-				  null,
-				  Pattern.compile( "Equalize: \"(.*?)\"" )
-				},
+	private static final Object [][] stringModifiers = {
+		{ "Class",
+		  null,
+		  Pattern.compile( "Class: \"(.*?)\"" )
+		},
+		{ "Intrinsic Effect",
+		  Pattern.compile( "Intrinsic effect: (.*)" ),
+		  Pattern.compile( "Intrinsic Effect: \"(.*?)\"" )
+		},
+		{ "Equalize",
+		  null,
+		  Pattern.compile( "Equalize: \"(.*?)\"" )
+		},
 	};
 
 	public static final int STRING_MODIFIERS = stringModifiers.length;
@@ -457,7 +457,7 @@ public class Modifiers extends KoLDatabase
 		reset();
 	};
 
-		public void reset()
+	public void reset()
 	{
 		for ( int i = 0; i < this.floats.length; ++i )
 			this.floats[i] = 0.0f;
@@ -484,7 +484,7 @@ public class Modifiers extends KoLDatabase
 		return this.floats[index];
 	};
 
-	public boolean getBooleanProperty( int index )
+	public boolean getBoolean( int index )
 	{
 		if ( index < 0 || index >= this.booleans.length )
 			return false;
@@ -492,7 +492,7 @@ public class Modifiers extends KoLDatabase
 		return this.booleans[index];
 	};
 
-	public boolean getBooleanProperty( String name )
+	public boolean getBoolean( String name )
 	{
 		int index = findName( booleanModifiers, name );
 		if ( index < 0 || index >= this.booleans.length )
@@ -671,9 +671,6 @@ public class Modifiers extends KoLDatabase
 
 		booleans[ NEVER_FUMBLE ] |= mods.booleans[ NEVER_FUMBLE ];
 		booleans[ WEAKENS ] |= mods.booleans[ WEAKENS ];
-
-		// If the item provides an intrinsic effect, add it in
-		add( getModifiers( mods.getString( INTRINSIC_EFFECT ) ) );
 	}
 
 	public static final Modifiers getModifiers( String name )
@@ -906,12 +903,12 @@ public class Modifiers extends KoLDatabase
 		return mods.get( mod );
 	}
 
-	public static final boolean getBooleanPropertyModifier( String name, String mod )
+	public static final boolean getBooleanModifier( String name, String mod )
 	{
 		Modifiers mods = getModifiers( name );
 		if ( mods == null )
 			return false;
-		return mods.getBooleanProperty( mod );
+		return mods.getBoolean( mod );
 	}
 
 	public static final String getStringModifier( String name, String mod )

@@ -1036,7 +1036,7 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	public static final boolean currentBooleanModifier( String name )
-	{	return currentModifiers.getBooleanProperty( name );
+	{	return currentModifiers.getBoolean( name );
 	}
 
 	/**
