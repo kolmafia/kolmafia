@@ -87,7 +87,7 @@ Haunted Conservatory	100	Anglerbush	Confused Goth Music Student	Man-Eating Plant
 Haunted Gallery	80	Guy with a Pitchfork, and his Wife	Cubist Bull	Empty Suit of Armor	Knight (Snake): 0	Knight (Wolf): 0
 Haunted Kitchen	100	Demonic Icebox	Paper Towelgeist	Possessed Silverware Drawer	Skullery Maid	Zombie Chef
 Haunted Library	-1	Banshee Librarian	Bookbat	Writing Desk
-Haunted Pantry	50	Possessed Can of Tomatoes: 3	Fiendish Can of Asparagus: 3	Flame-Broiled Meat Blob: 2	Undead Elbow Macaroni: 3
+Haunted Pantry	80	Possessed Can of Tomatoes	Fiendish Can of Asparagus	Flame-Broiled Meat Blob	Overdone Flame-Broiled Meat Blob	Undead Elbow Macaroni
 Haunted Wine Cellar	100	Possessed Wine Rack	Skeletal Sommelier
 Hidden City	100	Ancient Protector Spirit	Boaraffe	Protector Spectre	Pygmy Blowgunner	Pygmy Assault Squad	Pygmy Headhunter
 Hippy Camp	100	Crusty Hippy	Crusty Hippy Jewelry Maker	Crusty Hippy Vegan Chef	Dirty Hippy	Dirty Hippy Jewelry Maker	Dirty Hippy Vegan Chef	Filthy Hippy	Filthy Hippy Jewelry Maker	Filthy Hippy Vegan Chef
