@@ -166,10 +166,13 @@ public class MonsterDatabase extends KoLDatabase
 		{
 			MONSTER_STRINGS = new String[ MONSTER_NAMES.size() ];
 			MONSTER_NAMES.keySet().toArray( MONSTER_STRINGS );
+
+			for ( int i = 0; i < MONSTER_STRINGS.length; ++i )
+				MONSTER_STRINGS[i] = MONSTER_STRINGS[i].toLowerCase();
 		}
 
 		for ( int i = 0; i < MONSTER_STRINGS.length; ++i )
-			if ( MONSTER_STRINGS[i].indexOf( keyName ) == 0 )
+			if ( MONSTER_STRINGS[i].startsWith( keyName ) )
 				return (Monster) MONSTER_DATA.get( MONSTER_NAMES.get( MONSTER_STRINGS[i] ) );
 
 		for ( int i = 0; i < MONSTER_STRINGS.length; ++i )

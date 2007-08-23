@@ -142,24 +142,34 @@ public class KoLDatabase extends StaticEntity
 		{
 			if ( nameMap.containsKey( searchString ) )
 				substringList.add( searchString );
+
+			return substringList;
 		}
-		else if ( nameMap.containsKey( searchString ) )
+
+		if ( nameMap.containsKey( searchString ) )
 		{
 			substringList.add( searchString );
-		}
-		else
-		{
-			String [] names = new String[ nameMap.size() ];
-			nameMap.keySet().toArray( names );
-
-			for ( int i = 0; i < names.length; ++i )
-				if ( substringMatches( names[i], searchString ) )
-					substringList.add( names[i] );
-
-			if ( substringList.isEmpty() )
-				getMatchingAbbreviations( substringList, names, searchString );
+			return substringList;
 		}
 
+		String [] names = new String[ nameMap.size() ];
+		nameMap.keySet().toArray( names );
+
+		for ( int i = 0; i < names.length; ++i )
+			if ( names[i].startsWith( searchString ) )
+				substringList.add( names[i] );
+
+		if ( !substringList.isEmpty() )
+			return substringList;
+
+		for ( int i = 0; i < names.length; ++i )
+			if ( substringMatches( names[i], searchString ) )
+				substringList.add( names[i] );
+
+		if ( !substringList.isEmpty() )
+			return substringList;
+
+		getMatchingAbbreviations( substringList, names, searchString );
 		return substringList;
 	}
 
@@ -187,8 +197,7 @@ public class KoLDatabase extends StaticEntity
 
 	public static final boolean substringMatches( String source, String substring, boolean checkBoundaries )
 	{
-		int index = source.toLowerCase().indexOf( substring.toLowerCase() );
-
+		int index = source.indexOf( substring );
 		if ( index == -1 )
 			return false;
 
