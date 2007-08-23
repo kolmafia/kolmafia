@@ -770,7 +770,7 @@ public class AdventureDatabase extends KoLDatabase
 		new ChoiceAdventure( "choiceAdventure29", "Spooky Forest",
 		  new String [] { KoLCharacter.DISCO_BANDIT, KoLCharacter.ACCORDION_THIEF } ),
 
-		// Choice 45 is Maps and Legends
+		// Maps and Legends
 		new ChoiceAdventure( "choiceAdventure45", "Spooky Forest",
 		  new String [] { "Spooky Temple map", "skip adventure", "skip adventure" },
 		  new String [] { "74", null, null } ),
