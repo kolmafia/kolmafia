@@ -1690,27 +1690,31 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 
 			String lowerCaseName = parameters.toLowerCase();
-			List familiars = KoLCharacter.getFamiliarList();
+			List familiarList = KoLCharacter.getFamiliarList();
+
+			String [] familiars = new String[ familiarList.size() ];
+			for ( int i = 0; i < familiarList.size(); ++i )
+				familiars[i] = familiarList.get(i).toString().toLowerCase();
 
 			FamiliarData newFamiliar = null;
 
 			// First, try substring matching against the list of
 			// familiars.
 
-			for ( int i = 0; i < familiars.size() && newFamiliar == null; ++i )
-				if ( KoLDatabase.substringMatches( familiars.get(i).toString(), lowerCaseName, true ) )
-					newFamiliar = (FamiliarData) familiars.get(i);
+			for ( int i = 0; i < familiars.length && newFamiliar == null; ++i )
+				if ( KoLDatabase.substringMatches( familiars[i], lowerCaseName, true ) )
+					newFamiliar = (FamiliarData) familiarList.get(i);
 
-			for ( int i = 0; i < familiars.size() && newFamiliar == null; ++i )
-				if ( KoLDatabase.substringMatches( familiars.get(i).toString(), lowerCaseName, false ) )
-					newFamiliar = (FamiliarData) familiars.get(i);
+			for ( int i = 0; i < familiars.length && newFamiliar == null; ++i )
+				if ( KoLDatabase.substringMatches( familiars[i], lowerCaseName, false ) )
+					newFamiliar = (FamiliarData) familiarList.get(i);
 
 			// Boo, no matches.  Now try fuzzy matching, because the
 			// end-user might be abbreviating.
 
-			for ( int i = 0; i < familiars.size() && newFamiliar == null; ++i )
-				if ( KoLDatabase.fuzzyMatches( familiars.get(i).toString(), lowerCaseName ) )
-					newFamiliar = (FamiliarData) familiars.get(i);
+			for ( int i = 0; i < familiars.length && newFamiliar == null; ++i )
+				if ( KoLDatabase.fuzzyMatches( familiars[i], lowerCaseName ) )
+					newFamiliar = (FamiliarData) familiarList.get(i);
 
 			if ( newFamiliar != null )
 			{
@@ -4950,7 +4954,7 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			String name = (String) restaurantItems.get(i);
 
-			if ( !KoLDatabase.substringMatches( name, nameString ) )
+			if ( !KoLDatabase.substringMatches( name.toLowerCase(), nameString ) )
 				continue;
 
 			if ( isExecutingCheckOnlyCommand )
@@ -5005,7 +5009,7 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			String name = (String) microbreweryItems.get(i);
 
-			if ( !KoLDatabase.substringMatches( name, nameString ) )
+			if ( !KoLDatabase.substringMatches( name.toLowerCase(), nameString ) )
 				continue;
 
 			if ( isExecutingCheckOnlyCommand )
