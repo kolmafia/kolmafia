@@ -79,7 +79,7 @@ public abstract class LabeledKoLPanel extends KoLPanel
 	{
 	}
 
-	public void addStatusLabel()
-	{
+	public boolean shouldAddStatusLabel()
+	{	return false;
 	}
 }

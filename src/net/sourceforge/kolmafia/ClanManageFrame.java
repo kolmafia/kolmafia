@@ -46,6 +46,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -189,15 +190,19 @@ public class ClanManageFrame extends KoLFrame
 
 	private class AttackPanel extends LabeledKoLPanel
 	{
+		private JLabel nextAttack;
 		private MutableComboBox enemyList;
 
 		public AttackPanel()
 		{
 			super( "Loot Another Clan", "attack", "refresh", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
+
+			this.nextAttack = new JLabel( ClanAttackRequest.getNextAttack() );
 			this.enemyList = new MutableComboBox( ClanAttackRequest.getEnemyClans(), false );
 
-			VerifiableElement [] elements = new VerifiableElement[1];
+			VerifiableElement [] elements = new VerifiableElement[2];
 			elements[0] = new VerifiableElement( "Victim: ", this.enemyList );
+			elements[1] = new VerifiableElement( " ", this.nextAttack );
 			this.setContent( elements );
 		}
 
@@ -208,10 +213,7 @@ public class ClanManageFrame extends KoLFrame
 		public void actionCancelled()
 		{
 			RequestThread.postRequest( new ClanAttackRequest() );
-			int available = ClanAttackRequest.getEnemyClans().getSize();
-
-			if ( available > 0 )
-				ClanAttackRequest.getEnemyClans().setSelectedIndex( RNG.nextInt( available ) );
+			this.nextAttack.setText( ClanAttackRequest.getNextAttack() );
 		}
 	}
 
