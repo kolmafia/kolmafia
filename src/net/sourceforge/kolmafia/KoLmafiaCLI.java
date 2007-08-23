@@ -2616,26 +2616,6 @@ public class KoLmafiaCLI extends KoLmafia
 				}
 			}
 
-			// If no script was found, perhaps there's parentheses indicating
-			// that this is an ASH script invocation.
-
-			if ( scriptFile == null )
-			{
-				int paren = parameters.indexOf( "(" );
-				if ( paren != -1 )
-				{
-					arguments = this.parseScriptArguments( parameters.substring( paren + 1 ) );
-					if ( arguments == null )
-					{
-						updateDisplay( ERROR_STATE, "Failed to parse arguments" );
-						return;
-					}
-
-					parameters = parameters.substring( 0, paren ).trim();
-					scriptFile = findScriptFile( parameters );
-				}
-			}
-
 			// Maybe the more ambiguous invocation of an ASH script which does
 			// not use parentheses?
 
@@ -2644,7 +2624,7 @@ public class KoLmafiaCLI extends KoLmafia
 				int spaceIndex = parameters.indexOf( " " );
 				if ( spaceIndex != -1 && arguments == null )
 				{
-					arguments = this.parseScriptArguments( parameters.substring( spaceIndex ).trim() );
+					arguments = new String [] { parameters.substring( spaceIndex + 1 ).trim() };
 					parameters = parameters.substring( 0, spaceIndex );
 					scriptFile = findScriptFile( parameters );
 				}
@@ -2713,72 +2693,6 @@ public class KoLmafiaCLI extends KoLmafia
 			StaticEntity.printStackTrace( e );
 			return;
 		}
-	}
-
-	private String [] parseScriptArguments( String parameters )
-	{
-		int rparen = parameters.lastIndexOf( ")" );
-
-		if ( rparen != -1 )
-			parameters = parameters.substring( 0, rparen ).trim();
-
-		if ( parameters.indexOf( "," ) != -1 )
-		{
-			boolean isSingleParameter = parameters.startsWith( "\"" );
-			isSingleParameter &= parameters.indexOf( "\"", 1 ) == parameters.length() - 1;
-
-			if ( !isSingleParameter )
-				return this.parseScriptArguments( parameters, "," );
-		}
-
-		if ( rparen != -1 || parameters.indexOf( "\"" ) != -1 )
-			return new String [] { parameters };
-
-		return this.parseScriptArguments( parameters, " " );
-	}
-
-	private String [] parseScriptArguments( String parameters, String delimiter )
-	{
-		ArrayList resultList = new ArrayList();
-
-		int quoteIndex = parameters.indexOf( "\"" );
-		int delimiterIndex = parameters.indexOf( delimiter );
-
-		while ( !parameters.equals( "" ) )
-		{
-			if ( quoteIndex != -1 && quoteIndex < delimiterIndex )
-			{
-				int endQuoteIndex = parameters.indexOf( "\"", quoteIndex + 1 );
-				while ( endQuoteIndex != -1 && endQuoteIndex != 0 && parameters.charAt( endQuoteIndex - 1 ) == '\\' )
-					endQuoteIndex = parameters.indexOf( "\"", endQuoteIndex + 1 );
-
-				if ( endQuoteIndex == -1 )
-					endQuoteIndex = parameters.length() - 1;
-
-				resultList.add( parameters.substring( 1, endQuoteIndex ) );
-
-				delimiterIndex = parameters.indexOf( delimiter, endQuoteIndex );
-				parameters = delimiterIndex == -1 ? "" : parameters.substring( delimiterIndex + 1 ).trim();
-			}
-			else if ( delimiterIndex != -1 )
-			{
-				resultList.add( parameters.substring( 0, delimiterIndex ).trim() );
-				parameters = parameters.substring( delimiterIndex + 1 ).trim();
-			}
-			else
-			{
-				resultList.add( parameters );
-				parameters = "";
-			}
-
-			quoteIndex = parameters.indexOf( "\"" );
-			delimiterIndex = parameters.indexOf( delimiter );
-		}
-
-		String [] result = new String[ resultList.size() ];
-		resultList.toArray( result );
-		return result;
-
 	}
 
 	/**
