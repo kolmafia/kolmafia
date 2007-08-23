@@ -438,7 +438,11 @@ public class AdventureDatabase extends KoLDatabase
 		// Choice 109 is Dumpster Diving
 		// Choice 110 is The Entertainer
 		// Choice 111 is Malice in Chains
-		// Choice 112 is Please, Hammer
+
+		// Please, Hammer
+		new ChoiceAdventure( "choiceAdventure112", "Sleazy Back Alley",
+		  new String [] { "accept hammer quest", "reject quest", "muscle substats" } ),
+
 		// Choice 113 is Knob Goblin BBQ
 		// Choice 114 is The Baker's Dilemma
 		// Choice 115 is Oh No, Hobo
@@ -837,10 +841,6 @@ public class AdventureDatabase extends KoLDatabase
 		// Malice in Chains
 		new ChoiceAdventure( "choiceAdventure111", "Knob Outskirts",
 		  new String [] { "muscle substats", "muscle substats", "enter combat" } ),
-
-		// Please, Hammer
-		new ChoiceAdventure( "choiceAdventure112", "Sleazy Back Alley",
-		  new String [] { "accept hammer quest", "reject quest", "muscle substats" } ),
 
 		// Knob Goblin BBQ
 		new ChoiceAdventure( "choiceAdventure113", "Knob Outskirts",

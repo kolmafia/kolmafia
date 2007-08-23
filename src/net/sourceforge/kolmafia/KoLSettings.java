@@ -892,7 +892,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		USER_MAP.put( "choiceAdventure109", "1" );
 		USER_MAP.put( "choiceAdventure110", "4" );
 		USER_MAP.put( "choiceAdventure111", "3" );
-		USER_MAP.put( "choiceAdventure112", "2" );
+		USER_MAP.put( "choiceAdventure112", "1" );
 		USER_MAP.put( "choiceAdventure113", "2" );
 		USER_MAP.put( "choiceAdventure114", "2" );
 		USER_MAP.put( "choiceAdventure115", "1" );

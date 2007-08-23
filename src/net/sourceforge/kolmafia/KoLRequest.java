@@ -1618,8 +1618,14 @@ public class KoLRequest extends Job implements KoLConstants
 			request.run();
 		}
 
-		if ( KoLmafia.isAdventuring() && choice != null && choice.equals( "162" ) && !EquipmentDatabase.isWearingOutfit( 8 ) )
-			CouncilFrame.unlockGoatlet();
+		if ( KoLmafia.isAdventuring() && choice != null )
+		{
+			if ( choice.equals( "112" ) && decision.equals( "1" ) )
+				AdventureDatabase.retrieveItem( new AdventureResult( 2184, 1 ) );
+
+			if ( choice.equals( "162" ) && !EquipmentDatabase.isWearingOutfit( 8 ) )
+				CouncilFrame.unlockGoatlet();
+		}
 	}
 
 	private static final String pickOutfitChoice( String option, String decision )
