@@ -71,6 +71,7 @@ public class KoLRequest extends Job implements KoLConstants
 	private static final int ADJUSTMENT_REFRESH = 60000;
 	private static final int MINIMUM_TOLERANCE = 8000;
 	private static final int MAXIMUM_TOLERANCE = 64000;
+	private static final int TIMEOUT_DELAY = 8000;
 
 	private static final int currentDelay = 800;
 	private static long lastAdjustTime = Long.MAX_VALUE;
@@ -1001,7 +1002,7 @@ public class KoLRequest extends Job implements KoLConstants
 			if ( this instanceof LoginRequest )
 				chooseNewLoginServer();
 
-			delay( lagTolerance );
+			delay( TIMEOUT_DELAY );
 			return false;
 		}
 	}
@@ -1040,13 +1041,17 @@ public class KoLRequest extends Job implements KoLConstants
 		catch ( Exception e1 )
 		{
 			boolean shouldRetry = retryOnTimeout();
-			RequestLogger.printLine( "Time out during response (" + this.formURLString + ")." );
+
+			if ( !isChatRequest )
+				RequestLogger.printLine( "Time out during response (" + this.formURLString + ")." );
 
 			if ( !shouldRetry && processOnFailure() )
 				processResults();
 
 			if ( !isChatRequest && this.shouldUpdateDebugLog() )
 				RequestLogger.updateDebugLog( "Connection timed out during response." );
+
+			delay( TIMEOUT_DELAY );
 
 			lagTolerance = Math.min( MAXIMUM_TOLERANCE, lagTolerance + MINIMUM_TOLERANCE );
 			HttpTimeoutClient.setHttpTimeout( lagTolerance );
@@ -1067,10 +1072,7 @@ public class KoLRequest extends Job implements KoLConstants
 				chooseNewLoginServer();
 
 			if ( shouldRetry )
-			{
-				delay( lagTolerance );
 				return false;
-			}
 
 			this.responseCode = 302;
 			this.redirectLocation = "main.php";
