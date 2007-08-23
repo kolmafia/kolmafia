@@ -9260,7 +9260,7 @@ public class KoLmafiaASH extends StaticEntity
 
 			if ( operator.equals( "=" ) || operator.equals( "==" ) )
 			{
-				ScriptValue result = ( isInt ) ? new ScriptValue( lint = rint ) : new ScriptValue( lfloat == rfloat );
+				ScriptValue result = ( isInt ) ? new ScriptValue( lint == rint ) : new ScriptValue( lfloat == rfloat );
 				trace( "<- " + result );
 				traceUnindent();
 				return result;
