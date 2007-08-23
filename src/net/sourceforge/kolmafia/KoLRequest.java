@@ -1592,6 +1592,18 @@ public class KoLRequest extends Job implements KoLConstants
 				}
 			}
 
+			else if ( choice.equals( "161" ) )
+			{
+				decision = "1";
+
+				for ( int i = 2566; i <= 2568; ++i )
+				{
+					AdventureResult item = new AdventureResult( i, 1 );
+					if ( !inventory.contains( item ) )
+						decision = "4";
+				}
+			}
+
 			// Always change the option whenever it's not an ignore option
 			// and remember to store the result.
 
