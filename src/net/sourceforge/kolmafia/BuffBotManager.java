@@ -867,7 +867,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 				else
 				{
 					BuffBotHome.update( BuffBotHome.ERRORCOLOR, " ---> Could not cast " + this.buffs[i] + " on " + target );
-					return i == 0;
+					return i != 0;
 				}
 			}
 
