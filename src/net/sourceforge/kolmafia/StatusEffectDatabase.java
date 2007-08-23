@@ -267,7 +267,7 @@ public class StatusEffectDatabase extends KoLDatabase
 				writer.print( "\t" + descriptionById.get( nextInteger ) );
 
 				defaultAction = (String) defaultActions.get( dataNameById.get( nextInteger ) );
-				if ( !defaultAction.equals( "" ) )
+				if ( defaultAction != null && !defaultAction.equals( "" ) )
 					writer.print( "\t" + defaultAction );
 			}
 
