@@ -114,7 +114,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 	protected KoLAdventure lastAdventure = null;
 	protected JCheckBox autoSetCheckBox = new JCheckBox();
-	protected JTextField conditionField = new JTextField();
+	protected ConditionsField conditionField = new ConditionsField();
 
 	public AdventureOptionsFrame( String title )
 	{	super( title );
@@ -918,6 +918,23 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 				return;
 
 			AdventureOptionsFrame.this.fillCurrentConditions();
+		}
+	}
+
+	private class ConditionsField extends JTextField implements FocusListener
+	{
+		public ConditionsField()
+		{
+			super();
+			this.addFocusListener( this );
+		}
+
+		public void focusGained( FocusEvent e )
+		{	this.selectAll();
+		}
+
+		public void focusLost( FocusEvent e )
+		{
 		}
 	}
 
