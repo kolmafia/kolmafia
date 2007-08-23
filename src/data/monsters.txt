@@ -330,6 +330,7 @@ Orcish Frat Boy (French Maid)	HP: 30 Def: 41 Atk: 41 E: sleaze Meat: 24-39	bottl
 Orcish Frat Boy (Paddling)	HP: 30 Def: 40 Atk: 40 E: sleaze Meat: 24-39	bottle of vodka (20)	homoerotic frat-paddle (5)	Ice-cold Sir Schlitz (20)	deodorant (5)
 Orcish Frat Boy (Sorority Orcs)	HP: 30 Def: 39 Atk: 39 E: sleaze Meat: 24-39	Ice-cold Sir Schlitz (20)	ice-cold fotie (20)	Orcish baseball cap (5)	deodorant (5)
 Orcish Frat Boy Spy	HP: 0
+Overdone Flame-Broiled Meat Blob	HP: 2 Def: 1 Atk: 1 E: heat Meat: 4-7	meat paste (40)	meat paste (40)	meat paste (40)
 P Imp	HP: 42 Def: 42 Atk: 42 E: heat Meat: 24-39	Imp Ale (30)	hot wing (30)	diamond-studded cane (5)
 Panty Raider Frat Boy	HP: 0
 Paper Towelgeist	HP: 6 Def: 4 Atk: 4	cardboard katana (5)
