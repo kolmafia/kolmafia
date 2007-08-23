@@ -40,27 +40,25 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class ClanAttackRequest extends KoLRequest implements Comparable
 {
-	private static final Pattern CLANID_PATTERN = Pattern.compile( "name=whichclan value=(\\d+)></td><td><b>(.*?)</td><td>(.*?)</td>" );
+	private static final Pattern CLANID_PATTERN = Pattern.compile( "name=whichclan value=(\\d+)></td><td><b>([^<]+)</td><td>([\\d]+)</td>" );
 	private static final Pattern WAIT_PATTERN = Pattern.compile( "<br>Your clan can attack again in (.*?)<p>" );
 
 	private static final SortedListModel enemyClans = new SortedListModel();
 
 	private String name;
-	private int goodies;
 
 	public ClanAttackRequest()
 	{
-		super( "clan_war.php" );
+		super( "clan_attack.php" );
 		this.name = null;
 	}
 
-	public ClanAttackRequest( String id, String name, int goodies )
+	private ClanAttackRequest( String id, String name )
 	{
 		super( "clan_attack.php" );
 		this.addFormField( "whichclan", id );
 
 		this.name = name;
-		this.goodies = goodies;
 	}
 
 	public void run()
@@ -82,10 +80,17 @@ public class ClanAttackRequest extends KoLRequest implements Comparable
 
 		if ( this.getPath().equals( "clan_attack.php" ) )
 		{
+			enemyClans.clear();
+
+			int bagCount = 0;
 			Matcher clanMatcher = CLANID_PATTERN.matcher( this.responseText );
 
 			while ( clanMatcher.find() )
-				enemyClans.add( new ClanAttackRequest( clanMatcher.group(1), clanMatcher.group(2), Integer.parseInt( clanMatcher.group(3) ) ) );
+			{
+				bagCount = Integer.parseInt( clanMatcher.group(3) );
+				if ( bagCount == 1 )
+					enemyClans.add( new ClanAttackRequest( clanMatcher.group(1), clanMatcher.group(2) ) );
+			}
 
 			if ( enemyClans.isEmpty() )
 				this.constructURLString( "clan_war.php" ).run();
@@ -100,7 +105,7 @@ public class ClanAttackRequest extends KoLRequest implements Comparable
 	}
 
 	public String toString()
-	{	return this.name + " (" + COMMA_FORMAT.format( this.goodies ) + " " + (this.goodies == 1 ? "bag" : "bags") + ")";
+	{	return this.name;
 	}
 
 	public int compareTo( Object o )
@@ -108,9 +113,7 @@ public class ClanAttackRequest extends KoLRequest implements Comparable
 	}
 
 	public int compareTo( ClanAttackRequest car )
-	{
-		int goodiesDifference = car.goodies - this.goodies;
-		return goodiesDifference != 0 ? goodiesDifference : this.name.compareToIgnoreCase( car.name );
+	{	return this.name.compareToIgnoreCase( car.name );
 	}
 }
 
