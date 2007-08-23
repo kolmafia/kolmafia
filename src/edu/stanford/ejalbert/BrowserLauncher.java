@@ -63,7 +63,7 @@ public class BrowserLauncher {
 
 	/** The browser for the system */
 	private static Object browser;
-	private static String executable;
+	private static String remote, local;
 
 	/**
 	 * Caches whether any classes, methods, and fields that are not part of the JDK and need to
@@ -448,7 +448,7 @@ public class BrowserLauncher {
 
 	private static boolean openOverrideBrowser( String url )
 	{
-		if ( System.getProperty( "os.browser" ) == null )
+		if ( System.getProperty( "os.browser" ) == null || !url.startsWith( "http://127.0.0.1" ) )
 			return false;
 
 		Process process;
@@ -462,15 +462,13 @@ public class BrowserLauncher {
 			}
 			else if ( System.getProperty( "os.name" ).startsWith( "Win" ) )
 			{
-				Object browser = locateBrowser();
-				if ( browser == null )
+				if ( locateBrowser() == null )
 					return false;
 
-				String executable = getWindowsExecutable( System.getProperty( "os.browser" ), url );
-				if ( executable == null )
+				if ( getWindowsExecutable( System.getProperty( "os.browser" ), url ) == null )
 					return false;
 
-				process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c", executable, url } );
+				process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c", local, url } );
 			}
 			else
 			{
@@ -490,16 +488,27 @@ public class BrowserLauncher {
 
 	private static final String getWindowsExecutable( String browser, String url )
 	{
-		if ( executable != null )
-			return executable;
+		if ( (System.getProperty( "os.browser" ) != null && url.startsWith( "http://127.0.0.1" )) && local != null )
+			return local;
+
+		if ( (System.getProperty( "os.browser" ) == null || !url.startsWith( "http://127.0.0.1" )) && remote != null )
+			return remote;
 
 		if ( browser.indexOf( ":" ) != -1 )
 		{
 			File alternative = new File( browser );
 			if ( alternative.exists() )
 			{
-				executable = "\"" + browser + "\"";
-				return executable;
+				if ( url.startsWith( "http://127.0.0.1" ) )
+				{
+					local = "\"" + browser + "\"";
+					return local;
+				}
+				else
+				{
+					remote = "\"" + browser + "\"";
+					return remote;
+				}
 			}
 		}
 
@@ -518,8 +527,16 @@ public class BrowserLauncher {
 
 			if ( alternative.exists() )
 			{
-				executable = "\"" + test + "\"";
-				return executable;
+				if ( url.startsWith( "http://127.0.0.1" ) )
+				{
+					local = "\"" + test + "\"";
+					return local;
+				}
+				else
+				{
+					remote = "\"" + test + "\"";
+					return remote;
+				}
 			}
 		}
 
@@ -528,23 +545,23 @@ public class BrowserLauncher {
 
 	private static final String getWindowsExecutable( String url )
 	{
-		if ( executable != null )
-			return executable;
+		if ( remote != null )
+			return remote;
 
 		if ( !url.startsWith( "http" ) )
 			return "rundll32.exe";
 
-		executable = getWindowsExecutable( "Opera", url );
-		if ( executable != null )
-			return executable;
+		remote = getWindowsExecutable( "Opera", url );
+		if ( remote != null )
+			return remote;
 
-		executable = getWindowsExecutable( "Firefox", url );
-		if ( executable != null )
-			return executable;
+		remote = getWindowsExecutable( "Firefox", url );
+		if ( remote != null )
+			return remote;
 
-		executable = getWindowsExecutable( "", url );
-		if ( executable != null )
-			return executable;
+		remote = getWindowsExecutable( "", url );
+		if ( remote != null )
+			return remote;
 
 		// If you still can't find your browser, let the operating
 		// system try to figure it out.
@@ -673,7 +690,9 @@ public class BrowserLauncher {
 				// most common browsers and invoke them.
 
 				Process process = null;
-				String executable = getWindowsExecutable( url );
+
+				if ( getWindowsExecutable( url ) == null )
+					return;
 
 				// Add quotes around the URL to allow ampersands and other special
 				// characters to work.
@@ -682,10 +701,10 @@ public class BrowserLauncher {
 
 				try
 				{
-					if ( executable.equals( "rundll32.exe" ) )
-						process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c", executable, "url.dll,FileProtocolHandler", url } );
+					if ( remote.equals( "rundll32.exe" ) )
+						process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c", remote, "url.dll,FileProtocolHandler", url } );
 					else
-						process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c", executable, url } );
+						process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c", remote, url } );
 
 					// This avoids a memory leak on some versions of Java on Windows.
 					// That's hinted at in <http://developer.java.sun.com/developer/qow/archive/68/>.
