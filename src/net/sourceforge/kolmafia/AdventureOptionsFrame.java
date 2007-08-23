@@ -56,6 +56,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -114,7 +115,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 	protected KoLAdventure lastAdventure = null;
 	protected JCheckBox autoSetCheckBox = new JCheckBox();
-	protected ConditionsField conditionField = new ConditionsField();
+	protected FocusSelectingTextField conditionField = new FocusSelectingTextField();
 
 	public AdventureOptionsFrame( String title )
 	{	super( title );
@@ -792,7 +793,6 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 				AdventureOptionsFrame.this.countField.setValue( new Integer( 1 ) );
 			else if ( desired <= 0 || desired > KoLCharacter.getAdventuresLeft() )
 				AdventureOptionsFrame.this.countField.setValue( new Integer( KoLCharacter.getAdventuresLeft() ) );
-
 		}
 
 		/**
@@ -921,9 +921,9 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 		}
 	}
 
-	private class ConditionsField extends JTextField implements FocusListener
+	private class FocusSelectingTextField extends JTextField implements FocusListener
 	{
-		public ConditionsField()
+		public FocusSelectingTextField()
 		{
 			super();
 			this.addFocusListener( this );
