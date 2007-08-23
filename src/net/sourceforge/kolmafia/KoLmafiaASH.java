@@ -4270,6 +4270,8 @@ public class KoLmafiaASH extends StaticEntity
 				{
 					if ( stringCount == 1 )
 						return functions[i];
+					else if ( bestMatch != null )
+						return null;
 					else
 						bestMatch = functions[i];
 				}
