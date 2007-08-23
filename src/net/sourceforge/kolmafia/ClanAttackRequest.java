@@ -44,6 +44,7 @@ public class ClanAttackRequest extends KoLRequest implements Comparable
 	private static final Pattern WAIT_PATTERN = Pattern.compile( "<br>Your clan can attack again in (.*?)<p>" );
 
 	private static final SortedListModel enemyClans = new SortedListModel();
+	private static String nextAttack = null;
 
 	private String name;
 
@@ -63,10 +64,19 @@ public class ClanAttackRequest extends KoLRequest implements Comparable
 
 	public void run()
 	{
-		if ( this.name != null )
-			KoLmafia.updateDisplay( "Attacking " + this.name + "..." );
+		if ( this.getPath().equals( "clan_attack.php" ) )
+		{
+			if ( this.name == null )
+				KoLmafia.updateDisplay( "Retrieving clan attack state..." );
+			else
+				KoLmafia.updateDisplay( "Attacking " + this.name + "..." );
+		}
 
 		super.run();
+	}
+
+	public static final String getNextAttack()
+	{	return nextAttack == null ? "You may attack right now." : nextAttack;
 	}
 
 	public static final SortedListModel getEnemyClans()
@@ -77,6 +87,8 @@ public class ClanAttackRequest extends KoLRequest implements Comparable
 	{
 		if ( this.name != null )
 			return;
+
+		nextAttack = null;
 
 		if ( this.getPath().equals( "clan_attack.php" ) )
 		{
@@ -93,14 +105,31 @@ public class ClanAttackRequest extends KoLRequest implements Comparable
 			}
 
 			if ( enemyClans.isEmpty() )
+			{
 				this.constructURLString( "clan_war.php" ).run();
+				return;
+			}
+
+			KoLSettings.setUserProperty( "clanAttacksEnabled", "true" );
+
+			if ( enemyClans.getSize() > 0 )
+				enemyClans.setSelectedIndex( RNG.nextInt( enemyClans.getSize() ) );
 		}
 		else
 		{
 			Matcher nextMatcher = WAIT_PATTERN.matcher( this.responseText );
-			nextMatcher.find();
+			if ( nextMatcher.find() )
+			{
+				nextAttack = "You may attack again in " + nextMatcher.group(1);
+				KoLSettings.setUserProperty( "clanAttacksEnabled", "true" );
+			}
+			else
+			{
+				KoLSettings.setUserProperty( "clanAttacksEnabled", "false" );
+				nextAttack = "You do not have the ability to attack.";
+			}
 
-			KoLmafia.updateDisplay( ERROR_STATE, "Your clan can attack again in " + nextMatcher.group(1) );
+			KoLmafia.updateDisplay( nextAttack );
 		}
 	}
 

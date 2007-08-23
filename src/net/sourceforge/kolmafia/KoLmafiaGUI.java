@@ -296,7 +296,10 @@ public class KoLmafiaGUI extends KoLmafia
 			}
 			else if ( this.frameClass == ClanManageFrame.class )
 			{
-				if ( ClanManager.getStash().isEmpty() )
+				if ( KoLSettings.getBooleanProperty( "clanAttacksEnabled" ) )
+					RequestThread.postRequest( new ClanAttackRequest() );
+
+				if ( KoLSettings.getBooleanProperty( "autoSatisfyWithStash" ) && ClanManager.getStash().isEmpty() )
 				{
 					KoLmafia.updateDisplay( "Retrieving clan stash contents..." );
 					RequestThread.postRequest( new ClanStashRequest() );

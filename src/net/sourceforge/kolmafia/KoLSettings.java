@@ -726,6 +726,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		USER_MAP.put( "chatbotScript", "" );
 		USER_MAP.put( "chatbotScriptExecuted", "false" );
 		USER_MAP.put( "chosenTrip", "" );
+		USER_MAP.put( "clanAttacksEnabled", "false" );
 		USER_MAP.put( "cocktailSummons", "0" );
 		USER_MAP.put( "currentBountyItem", "0" );
 		USER_MAP.put( "currentFullness", "0" );
