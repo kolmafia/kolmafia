@@ -3003,7 +3003,8 @@ public class KoLmafiaASH extends StaticEntity
 		currentState = STATE_NORMAL;
 		resetTracing();
 
-		main = functionName.equals( "main" ) ? mainMethod : topScope.findFunction( functionName, null );
+		main = functionName.equals( "main" ) ? mainMethod :
+			topScope.findFunction( functionName, parameters != null );
 
 		if ( main == null && !topScope.getCommands().hasNext() )
 		{
@@ -4238,6 +4239,43 @@ public class KoLmafiaASH extends StaticEntity
 
 			addFunction( f );
 			return f;
+		}
+
+		private ScriptFunction findFunction( String name, boolean hasParameters )
+		{
+			ScriptFunction [] functions = this.functions.findFunctions( name );
+
+			int paramCount, stringCount;
+			ScriptFunction bestMatch = null;
+
+			for ( int i = 0; i < functions.length; ++i )
+			{
+				paramCount = 0;
+				stringCount = 0;
+
+				Iterator refIterator = functions[i].getReferences();
+
+				while ( refIterator.hasNext() )
+				{
+					++paramCount;
+					if ( ((ScriptVariableReference)refIterator.next()).getType().equals( STRING_TYPE ) )
+						++stringCount;
+				}
+
+				if ( !hasParameters && paramCount == 0 )
+				{
+					return functions[i];
+				}
+				if ( hasParameters && paramCount == 1 )
+				{
+					if ( stringCount == 1 )
+						return functions[i];
+					else
+						bestMatch = functions[i];
+				}
+			}
+
+			return bestMatch;
 		}
 
 		private ScriptFunction findFunction( ScriptFunctionList source, String name, ScriptExpressionList params, boolean isExactMatch )
