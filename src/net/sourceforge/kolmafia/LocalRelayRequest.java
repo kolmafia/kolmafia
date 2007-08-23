@@ -743,14 +743,32 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 				if ( combat != null )
 				{
-					buffer.append( "<font size=2><u>" );
+					buffer.append( "<table width=\"100%\"><tr><td align=left><font size=2>" );
 					buffer.append( location.getAdventureName() );
-					buffer.append( "</u><br/><br/>" );
+					buffer.append( "</font></td><td align=right><font size=2>" );
+
+					buffer.append( "<a style=\"text-decoration: none\" href=\"javascript: " );
+
+					buffer.append( "var safety; if ( document.getElementById ) " );
+						buffer.append( "safety = top.chatpane.document.getElementById( 'safety' ); " );
+					buffer.append( "else if ( document.all ) " );
+						buffer.append( "safety = top.chatpane.document.all[ 'safety' ]; " );
+
+					buffer.append( "safety.style.display = 'none'; " );
+					buffer.append( "var nodes = top.chatpane.document.body.childNodes; " );
+					buffer.append( "for ( var i = 0; i < nodes.length; ++i ) " );
+						buffer.append( "if ( nodes[i].style && nodes[i].id != 'safety' ) " );
+							buffer.append( "nodes[i].style.display = 'inline'; " );
+
+
+					buffer.append( "void(0);\">x</a></font></td></tr></table>" );
+
+					buffer.append( "<font size=2>" );
 
 					String combatData = combat.toString();
 					combatData = combatData.substring( 6, combatData.length() - 7 );
-
 					buffer.append( combatData );
+
 					buffer.append( "</font>" );
 				}
 			}
