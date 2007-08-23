@@ -309,9 +309,10 @@ public class AreaCombatData implements KoLConstants
 		else
 		{
 			buffer.append( this.format( 100.0f * combatFactor * weighting / this.weights ) + "%" );
-				buffer.append( ")<br>Hit: <font color=" + elementColor( ed ) + ">" );
+				buffer.append( ")" );
 		}
 
+		buffer.append( "<br>Hit: <font color=" + elementColor( ed ) + ">" );
 		buffer.append( this.format( hitPercent ) );
 		buffer.append( "%</font>, Evade: <font color=" + elementColor( ea ) + ">" );
 		buffer.append( this.format( evadePercent ) );

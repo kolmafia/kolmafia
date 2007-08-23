@@ -194,16 +194,6 @@ function getAdventureId( link )
 }
 
 
-function hideSafetyText( e )
-{
-	var safety = getObject( top.chatpane.document, "safety" );
-	if ( safety )
-		safety.style.display = "none";
-
-	return true;
-}
-
-
 function showSafetyText( e )
 {
 	var safety = getObject( top.chatpane.document, "safety" );
@@ -214,8 +204,6 @@ function showSafetyText( e )
 		safety.id = "safety";
 
 		safety.style.textAlign = "left";
-		safety.style.backgroundColor = "#fcfcfc";
-
 		top.chatpane.document.body.appendChild( safety );
 
 		safety.style.position = "absolute";
@@ -237,6 +225,11 @@ function showSafetyText( e )
 		if ( httpObject.readyState != 4 )
 			return;
 
+		var nodes = top.chatpane.document.body.childNodes;
+		for ( var i = 0; i < nodes.length; ++i )
+			if ( nodes[i].style && nodes[i].id != "safety" )
+				nodes[i].style.display = "none";
+
 		safety.style.display = "inline";
 		safety.innerHTML = httpObject.responseText;
 	}
@@ -255,12 +248,10 @@ function attachSafetyText()
 		if ( links[i].href.indexOf( "adventure.php" ) != -1 )
 		{
 			links[i].onmouseover = showSafetyText;
-			links[i].onmouseout = hideSafetyText;
 		}
 		else if ( links[i].href.indexOf( "submit" ) != -1 )
 		{
 			links[i].onmouseover = showSafetyText;
-			links[i].onmouseout = hideSafetyText;
 		}
 	}
 
