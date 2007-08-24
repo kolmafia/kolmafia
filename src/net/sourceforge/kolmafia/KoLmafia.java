@@ -238,6 +238,10 @@ public abstract class KoLmafia implements KoLConstants
 		hermitItems.add( new AdventureResult( "volleyball", 1, false ) );
 		hermitItems.add( new AdventureResult( "wooden figurine", 1, false ) );
 
+		trapperItems.add( new AdventureResult( 394, 1 ) );
+		trapperItems.add( new AdventureResult( 393, 1 ) );
+		trapperItems.add( new AdventureResult( 395, 1 ) );
+
 		// Change it so that it doesn't recognize daylight savings in order
 		// to ensure different localizations work.
 
@@ -1976,15 +1980,15 @@ public abstract class KoLmafia implements KoLConstants
 		if ( KoLCharacter.getZapper() == null )
 			return;
 
-		AdventureResult selectedValue = getSelectedValue( "Let's explodey my wand!", inventory );
+		AdventureResult selectedValue = (AdventureResult) getSelectedValue( "Let's explodey my wand!", inventory );
 		if ( selectedValue == null )
 			return;
 
 		RequestThread.postRequest( new ZapRequest( selectedValue ) );
 	}
 
-	private static final AdventureResult getSelectedValue( String message, LockableListModel list )
-	{	return (AdventureResult) KoLFrame.input( message, list );
+	private static final Object getSelectedValue( String message, LockableListModel list )
+	{	return KoLFrame.input( message, list );
 	}
 
 	/**
@@ -2001,7 +2005,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( !permitsContinue() )
 			return;
 
-		AdventureResult selectedValue = getSelectedValue( "I have worthless items!", hermitItems );
+		AdventureResult selectedValue = (AdventureResult) getSelectedValue( "I have worthless items!", hermitItems );
 		if ( selectedValue == null )
 			return;
 
@@ -2026,6 +2030,81 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 
 		RequestThread.postRequest( new HermitRequest( selected, tradeCount ) );
+	}
+
+	/**
+	 * Makes a request to the hermit, looking for the given number of
+	 * items.  This method should prompt the user to determine which
+	 * item to retrieve the hermit.
+	 */
+
+	public void makeTrapperRequest()
+	{
+		AdventureResult selectedValue = (AdventureResult) getSelectedValue( "I want skins!", trapperItems );
+		if ( selectedValue == null )
+			return;
+
+		int selected = selectedValue.getItemId();
+		int maximumValue = CouncilFrame.YETI_FUR.getCount( inventory );
+
+		String message = "(You have " + maximumValue + " furs available)";
+		int tradeCount = KoLFrame.getQuantity( "How many " + ((AdventureResult)selectedValue).getName() + " to get?\n" + message, maximumValue, maximumValue );
+		if ( tradeCount == 0 )
+			return;
+
+		KoLmafia.updateDisplay( "Visiting the trapper..." );
+		RequestThread.postRequest( new KoLRequest( "trapper.php?pwd&action=Yep.&whichitem=" + selected + "&qty=" + tradeCount ) );
+	}
+
+	/**
+	 * Makes a request to the hermit, looking for the given number of
+	 * items.  This method should prompt the user to determine which
+	 * item to retrieve the hermit.
+	 */
+
+	public void makeHunterRequest()
+	{
+		KoLRequest hunterRequest = new KoLRequest( "bhh.php" );
+		RequestThread.postRequest( hunterRequest );
+
+		Matcher bountyMatcher = Pattern.compile( "name=whichitem value=(\\d+)" ).matcher( hunterRequest.responseText );
+
+		LockableListModel bounties = new LockableListModel();
+		while ( bountyMatcher.find() )
+		{
+			String item = TradeableItemDatabase.getItemName( StaticEntity.parseInt( bountyMatcher.group(1) ) );
+			if ( item == null )
+				continue;
+
+			KoLAdventure location = AdventureDatabase.getBountyLocation( item );
+			if ( location == null )
+				continue;
+
+			bounties.add( item + " (" + location.getAdventureName() + ")" );
+		}
+
+		if ( bounties.isEmpty() )
+		{
+			int bounty = KoLSettings.getIntegerProperty( "currentBountyItem" );
+			if ( bounty == 0 )
+			{
+				updateDisplay( ERROR_STATE, "You're already on a bounty hunt." );
+			}
+			else
+			{
+				AdventureFrame.updateSelectedAdventure( AdventureDatabase.getBountyLocation(
+					TradeableItemDatabase.getItemName( StaticEntity.parseInt( bountyMatcher.group(1) ) ) ) );
+			}
+
+			return;
+		}
+
+		String selectedValue = (String) getSelectedValue( "Time to collect bounties!", bounties );
+		if ( selectedValue == null )
+			return;
+
+		int itemId = TradeableItemDatabase.getItemId( selectedValue.substring( 0, selectedValue.lastIndexOf( "(" ) - 1 ) );
+		RequestThread.postRequest( new KoLRequest( "bhh.php?pwd&action=takebounty&whichitem=" + itemId ) );
 	}
 
 	/**
@@ -2058,7 +2137,7 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
-		AdventureResult selectedValue = getSelectedValue( "You can unscrew meat paste?", untinkerItems );
+		AdventureResult selectedValue = (AdventureResult) getSelectedValue( "You can unscrew meat paste?", untinkerItems );
 		if ( selectedValue == null )
 			return;
 

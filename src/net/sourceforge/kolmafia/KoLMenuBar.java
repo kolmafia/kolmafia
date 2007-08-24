@@ -163,8 +163,8 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		travelMenu.add( new InvocationMenuItem( "Untinker Items", StaticEntity.getClient(), "makeUntinkerRequest" ) );
 		travelMenu.add( new JSeparator() );
 		travelMenu.add( new InvocationMenuItem( "Loot the Hermit", StaticEntity.getClient(), "makeHermitRequest" ) );
-		travelMenu.add( new RelayBrowserMenuItem( "Visit the Trapper", "trapper.php" ) );
-		travelMenu.add( new RelayBrowserMenuItem( "Visit the Hunter", "bhh.php" ) );
+		travelMenu.add( new InvocationMenuItem( "Visit the Trapper", StaticEntity.getClient(), "makeTrapperRequest" ) );
+		travelMenu.add( new InvocationMenuItem( "Visit the Hunter", StaticEntity.getClient(), "makeHunterRequest" ) );
 
 		// Add in automatic quest completion scripts.
 

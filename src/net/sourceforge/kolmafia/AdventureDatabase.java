@@ -1108,7 +1108,7 @@ public class AdventureDatabase extends KoLDatabase
 	}
 
 	public static final KoLAdventure getBountyLocation( String item )
-	{	return (KoLAdventure) locationByBounty.get( getCanonicalName( item ) );
+	{	return item == null ? null : (KoLAdventure) locationByBounty.get( getCanonicalName( item ) );
 	}
 
 	public static final void refreshAdventureList( String desiredZone )
@@ -1167,7 +1167,8 @@ public class AdventureDatabase extends KoLDatabase
 			return (KoLAdventure) adventureLookup.get( adventureURL );
 
 		if ( adventureURL.startsWith( "sewer.php" ) )
-			return adventureURL.indexOf( "doodit" ) == -1 ? null : (KoLAdventure) adventureLookup.get( "sewer.php?doodit=1" );
+			return adventureURL.indexOf( "doodit" ) == -1 ?
+				(KoLAdventure) adventureLookup.get( "sewer.php" ) : (KoLAdventure) adventureLookup.get( "sewer.php?doodit=1" );
 
 		int subAdventureIndex = adventureURL.indexOf( "&subsnarfblat");
 		if ( subAdventureIndex != -1 )
@@ -1468,6 +1469,21 @@ public class AdventureDatabase extends KoLDatabase
 				RequestThread.postRequest( new HermitRequest( itemId, Math.min( worthlessItemCount, missingCount ) ) );
 				missingCount = item.getCount() - item.getCount( inventory );
 
+				if ( missingCount <= 0 )
+					return true;
+			}
+		}
+
+		if ( trapperItems.contains( item ) )
+		{
+			int furCount = CouncilFrame.YETI_FUR.getCount( inventory );
+			if ( furCount > 0 )
+			{
+				KoLmafia.updateDisplay( "Visiting the trapper..." );
+				RequestThread.postRequest( new KoLRequest( "trapper.php?pwd&action=Yep.&whichitem=" + itemId + "&qty=" +
+					Math.min( missingCount, furCount ) ) );
+
+				missingCount = item.getCount() - item.getCount( inventory );
 				if ( missingCount <= 0 )
 					return true;
 			}

@@ -528,7 +528,8 @@ public class AdventureResult implements Comparable, KoLConstants
 		if ( this.priority == MONSTER_PRIORITY )
 			return this.name;
 
-		return this.getName() + " (" + COMMA_FORMAT.format(this.count[0]) + ")";
+		return this.count[0] == 1 ? this.getName() :
+			this.getName() + " (" + COMMA_FORMAT.format(this.count[0]) + ")";
 	}
 
 	public String toConditionString()
