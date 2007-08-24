@@ -668,6 +668,10 @@ public class ConcoctionsDatabase extends KoLDatabase
 			if ( item.getItemId() != SewerRequest.TEN_LEAF_CLOVER )
 				setBasicItem( availableIngredients, item, worthlessItems );
 		}
+
+		int furCount = CouncilFrame.YETI_FUR.getCount( inventory );
+		for ( int i = 0; i < trapperItems.size(); ++i )
+			setBasicItem( availableIngredients, (AdventureResult) trapperItems.get(i), furCount );
 	}
 
 	private static final void setBasicItem( List availableIngredients, AdventureResult item, int creatable )

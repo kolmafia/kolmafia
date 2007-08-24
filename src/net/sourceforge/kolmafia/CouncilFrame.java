@@ -39,6 +39,9 @@ import java.util.regex.Pattern;
 public class CouncilFrame extends RequestFrame
 {
 	public static final KoLRequest COUNCIL_VISIT = new KoLRequest( "council.php" );
+	public static final AdventureResult YETI_FUR = new AdventureResult( 388, 1 );
+
+	private static final Pattern QTY_PATTERN = Pattern.compile( "qty=(\\d+)" );
 	private static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 	private static final Pattern ORE_PATTERN = Pattern.compile( "3 chunks of (\\w+) ore" );
 
@@ -69,7 +72,7 @@ public class CouncilFrame extends RequestFrame
 		else if ( location.startsWith( "friars" ) )
 			handleFriarsChange( responseText );
 		else if ( location.startsWith( "trapper" ) )
-			handleTrapperChange( responseText );
+			handleTrapperChange( location, responseText );
 		else if ( location.startsWith( "bhh" ) )
 			handleBountyChange( location, responseText );
 		else if ( location.startsWith( "manor3" ) && location.indexOf( "action=summon" ) != -1 )
@@ -143,8 +146,27 @@ public class CouncilFrame extends RequestFrame
 		}
 	}
 
-	private static final void handleTrapperChange( String responseText )
+	private static final void handleTrapperChange( String location, String responseText )
 	{
+		if ( location.indexOf( "max=on" ) != -1 )
+		{
+			int furCount = YETI_FUR.getCount( inventory );
+			StaticEntity.getClient().processResult( YETI_FUR.getInstance( 0 - furCount ) );
+			return;
+		}
+
+		if ( location.indexOf( "qty" ) != -1 )
+		{
+			Matcher qtyMatcher = QTY_PATTERN.matcher( location );
+			if ( qtyMatcher.find() )
+			{
+				int furCount = Math.min( YETI_FUR.getCount( inventory ), StaticEntity.parseInt( qtyMatcher.group(1) ) );
+				StaticEntity.getClient().processResult( YETI_FUR.getInstance( 0 - furCount ) );
+			}
+
+			return;
+		}
+
 		Matcher oreMatcher = ORE_PATTERN.matcher( responseText );
 		if ( oreMatcher.find() )
 			KoLSettings.setUserProperty( "trapperOre", oreMatcher.group(1) + " ore" );

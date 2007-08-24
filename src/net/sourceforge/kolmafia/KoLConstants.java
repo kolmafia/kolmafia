@@ -348,10 +348,7 @@ public interface KoLConstants extends UtilityConstants
 	public static final SortedListModel contactList = new SortedListModel();
 
 	public static final SortedListModel hermitItems = new SortedListModel();
-	public static final SortedListModel hunterItems = new SortedListModel();
-	public static final String [] trapperItemNames = { "yak skin", "penguin skin", "hippopotamus skin" };
-	public static final int [] trapperItemNumbers = { 394, 393, 395 };
-
+	public static final SortedListModel trapperItems = new SortedListModel();
 	public static final LockableListModel restaurantItems = new LockableListModel();
 	public static final LockableListModel microbreweryItems = new LockableListModel();
 
