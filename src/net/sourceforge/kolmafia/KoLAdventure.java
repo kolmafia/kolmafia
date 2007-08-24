@@ -829,10 +829,11 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		// If you're searching for special scrolls, do not enable
 		// your auto-attack.
 
-		if ( adventureId.equals( "80" ) && conditions.contains( FightRequest.SCROLL_668 ) ||
-			conditions.contains( FightRequest.SCROLL_64735 ) || conditions.contains( FightRequest.SCROLL_31337 ) )
+		if ( adventureId.equals( "80" ) && (conditions.contains( FightRequest.SCROLL_668 ) ||
+			conditions.contains( FightRequest.SCROLL_64735 ) || conditions.contains( FightRequest.SCROLL_31337 )) )
 		{
-			resetAutoAttack();
+			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=0" );
+			initialAutoAttack = "";
 			return;
 		}
 
