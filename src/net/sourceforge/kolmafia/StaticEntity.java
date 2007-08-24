@@ -147,6 +147,8 @@ public abstract class StaticEntity implements KoLConstants
 			if ( current.label.equals( label ) )
 				it.remove();
 		}
+
+		saveCounters();
 	}
 
 	public static final void startCounting( int value, String label, String image )
@@ -157,7 +159,10 @@ public abstract class StaticEntity implements KoLConstants
 		TurnCounter counter = new TurnCounter( value, label, image );
 
 		if ( !relayCounters.contains( counter ) )
+		{
 			relayCounters.add( counter );
+			saveCounters();
+		}
 	}
 
 	public static final String getUnexpiredCounters()

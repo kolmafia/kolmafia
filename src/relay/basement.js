@@ -20,24 +20,7 @@ function basementUpdate( select, command )
 		}
 
 		isRefreshing = false;
-
-		var httpObject2 = getHttpObject();
-		if ( !httpObject2 )
-			return true;
-
-		httpObject2.onreadystatechange = function()
-		{
-			if ( httpObject2.readyState != 4 )
-				return;
-
-			getObject( "spoiler" ).innerHTML = httpObject2.responseText;
-			select.selectedIndex = 0;
-			select.disabled = false;
-		}
-
-		httpObject2.open( "POST", "/KoLmafia/basementSpoiler" );
-		httpObject2.send( null );
-		return true;
+		document.location.href = "basement.php";
 	}
 
 	select.disabled = true;
@@ -60,5 +43,3 @@ function changeBasementPotion()
 	var option = select.options[select.selectedIndex];
 	basementUpdate( select, option.value );
 }
-
-
