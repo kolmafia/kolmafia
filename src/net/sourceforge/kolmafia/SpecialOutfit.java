@@ -218,15 +218,18 @@ public class SpecialOutfit implements Comparable, KoLConstants
 		if ( KoLmafia.isRunningBetweenBattleChecks() )
 			return;
 
-		AdventureResult [] implicit = new AdventureResult[ KoLCharacter.FAMILIAR + 1 ];
+		synchronized ( SpecialOutfit.class )
+		{
+			AdventureResult [] implicit = new AdventureResult[ KoLCharacter.FAMILIAR + 1 ];
 
-		for ( int i = 0; i < implicit.length; ++i )
-			implicit[i] = KoLCharacter.getEquipment(i);
+			for ( int i = 0; i < implicit.length; ++i )
+				implicit[i] = KoLCharacter.getEquipment(i);
 
-		implicitPoints.push( implicit );
+			implicitPoints.push( implicit );
 
-		if ( KoLSettings.getBooleanProperty( "useFastOutfitSwitch" ) )
-			EquipmentRequest.savePreviousOutfit();
+			if ( KoLSettings.getBooleanProperty( "useFastOutfitSwitch" ) )
+				EquipmentRequest.savePreviousOutfit();
+		}
 	}
 
 	/**

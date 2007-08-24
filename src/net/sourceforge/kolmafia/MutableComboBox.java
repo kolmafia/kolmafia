@@ -55,6 +55,7 @@ public class MutableComboBox extends JComboBox implements ListElementFilter
 	private boolean allowAdditions;
 
 	private boolean active, strict;
+	private JTextComponent editor;
 
 	public MutableComboBox( LockableListModel model, boolean allowAdditions )
 	{
@@ -68,8 +69,10 @@ public class MutableComboBox extends JComboBox implements ListElementFilter
 		NameInputListener listener = new NameInputListener();
 
 		this.addItemListener( listener );
-		this.getEditor().getEditorComponent().addFocusListener( listener );
-		this.getEditor().getEditorComponent().addKeyListener( listener );
+		this.editor = (JTextComponent) this.getEditor().getEditorComponent();
+
+		this.editor.addFocusListener( listener );
+		this.editor.addKeyListener( listener );
 	}
 
 	public void forceAddition()
@@ -116,10 +119,24 @@ public class MutableComboBox extends JComboBox implements ListElementFilter
 		this.update();
 
 		if ( allowAdditions )
+		{
+			if ( this.model.getSize() != 1 || keyCode == KeyEvent.VK_BACK_SPACE || keyCode == KeyEvent.VK_DELETE )
+			{
+				this.editor.setText( this.currentName );
+				return;
+			}
+
+			this.currentMatch = this.model.getElementAt(0);
+			this.matchString = this.currentMatch.toString().toLowerCase();
+
+			this.editor.setText( this.currentMatch.toString() );
+			this.editor.setSelectionStart( this.currentName.length() );
+			this.editor.setSelectionEnd( this.matchString.length() );
+
 			return;
+		}
 
-		((JTextComponent)this.getEditor().getEditorComponent()).setText( this.currentName );
-
+		this.editor.setText( this.currentName );
 		if ( !this.isPopupVisible() )
 			this.showPopup();
 	}
