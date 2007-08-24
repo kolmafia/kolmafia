@@ -194,6 +194,33 @@ function getAdventureId( link )
 }
 
 
+function updateSafetyText()
+{
+	var safety = getObject( top.chatpane.document, "safety" );
+	if ( !safety )
+		return true;
+
+	if ( safety.style.display == "none" )
+		return true;
+
+	var httpObject = getHttpObject();
+	if ( !httpObject )
+		return true;
+
+	httpObject.onreadystatechange = function()
+	{
+		if ( httpObject.readyState != 4 )
+			return;
+
+		safety.innerHTML = httpObject.responseText;
+	}
+
+	httpObject.open( "POST", "/KoLmafia/updateLocation" );
+	httpObject.send( null );
+	return true;
+}
+
+
 function showSafetyText( e )
 {
 	var safety = getObject( top.chatpane.document, "safety" );
