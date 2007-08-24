@@ -43,6 +43,7 @@ import java.awt.GridLayout;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -56,7 +57,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
-import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -66,6 +66,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.JTextField;
 import javax.swing.JTree;
+import javax.swing.SwingUtilities;
 
 import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.StyleConstants;
@@ -82,7 +83,6 @@ import javax.swing.event.ListSelectionListener;
 
 import javax.swing.filechooser.FileFilter;
 import net.java.dev.spellcast.utilities.LockableListModel;
-import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.MoodSettings.MoodTrigger;
 
@@ -725,7 +725,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 	 * selection in the <code>AdventureFrame</code>.
 	 */
 
-	public class AdventureSelectPanel extends JPanel implements ChangeListener
+	public class AdventureSelectPanel extends JPanel
 	{
 		public AdventureSelectPanel( boolean enableAdventures )
 		{
@@ -750,11 +750,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 			}
 
 			if ( enableAdventures )
-			{
-				AdventureOptionsFrame.this.countField = new JSpinner();
-				AdventureOptionsFrame.this.countField.addChangeListener( this );
-				JComponentUtilities.setComponentSize( AdventureOptionsFrame.this.countField, 50, 24 );
-			}
+				AdventureOptionsFrame.this.countField = new AdventureCountField();
 
 			JComponentUtilities.setComponentSize( AdventureOptionsFrame.this.zoneSelect, 200, 24 );
 			JPanel zonePanel = new JPanel( new BorderLayout( 5, 5 ) );
@@ -775,24 +771,15 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 			{
 				JPanel locationHolder = new JPanel( new CardLayout( 10, 10 ) );
 				locationHolder.add( locationPanel, "" );
-				this.add( locationHolder, BorderLayout.WEST );
 
+				this.add( locationHolder, BorderLayout.WEST );
 				this.add( new ObjectivesPanel(), BorderLayout.CENTER );
-				((JSpinner.DefaultEditor)AdventureOptionsFrame.this.countField.getEditor()).getTextField().addKeyListener( AdventureOptionsFrame.this.begin );
+				AdventureOptionsFrame.this.countField.addKeyListener( AdventureOptionsFrame.this.begin );
 			}
 			else
 			{
 				this.add( locationPanel, BorderLayout.WEST );
 			}
-		}
-
-		public void stateChanged( ChangeEvent e )
-		{
-			int desired = getValue( AdventureOptionsFrame.this.countField, KoLCharacter.getAdventuresLeft() );
-			if ( desired == KoLCharacter.getAdventuresLeft() + 1 )
-				AdventureOptionsFrame.this.countField.setValue( new Integer( 1 ) );
-			else if ( desired <= 0 || desired > KoLCharacter.getAdventuresLeft() )
-				AdventureOptionsFrame.this.countField.setValue( new Integer( KoLCharacter.getAdventuresLeft() ) );
 		}
 
 		/**
@@ -1172,6 +1159,51 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 			this.resultCards.show( this.resultPanel, index );
 			KoLSettings.setUserProperty( this.property, index );
 
+		}
+	}
+
+	private class AdventureCountField extends JSpinner implements ChangeListener, FocusListener, Runnable
+	{
+		private JTextField field;
+
+		public AdventureCountField()
+		{
+			this.addChangeListener( this );
+			JComponentUtilities.setComponentSize( this, 50, 24 );
+
+			this.field = ((JSpinner.DefaultEditor)getEditor()).getTextField();
+			this.field.addFocusListener( this );
+		}
+
+		public void addKeyListener( KeyListener l )
+		{	this.field.addKeyListener( l );
+		}
+
+		public void setValue( Object value )
+		{
+			super.setValue( value );
+			this.field.selectAll();
+		}
+
+		public void focusGained( FocusEvent e )
+		{	SwingUtilities.invokeLater( this );
+		}
+
+		public void focusLost( FocusEvent e )
+		{
+		}
+
+		public void run()
+		{	this.field.selectAll();
+		}
+
+		public void stateChanged( ChangeEvent e )
+		{
+			int desired = KoLFrame.getValue( this, KoLCharacter.getAdventuresLeft() );
+			if ( desired == KoLCharacter.getAdventuresLeft() + 1 )
+				this.setValue( new Integer( 1 ) );
+			else if ( desired <= 0 || desired > KoLCharacter.getAdventuresLeft() )
+				this.setValue( new Integer( KoLCharacter.getAdventuresLeft() ) );
 		}
 	}
 
