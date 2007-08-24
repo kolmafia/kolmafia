@@ -40,6 +40,8 @@ import java.util.regex.Pattern;
 
 public class ConsumeItemRequest extends KoLRequest
 {
+	private static final KoLRequest REDIRECT_REQUEST = new KoLRequest( "inventory.php?action=message" );
+
 	private static final Pattern ROW_PATTERN = Pattern.compile( "<tr>.*?</tr>" );
 	private static final Pattern INVENTORY_PATTERN = Pattern.compile( "</table><table.*?</body>" );
 	private static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
@@ -203,10 +205,6 @@ public class ConsumeItemRequest extends KoLRequest
 
 		this.consumptionType = consumptionType;
 		this.itemUsed = item;
-	}
-
-	protected boolean shouldFollowRedirect()
-	{	return true;
 	}
 
 	public int getConsumptionType()
@@ -525,6 +523,12 @@ public class ConsumeItemRequest extends KoLRequest
 		// based on the user's current settings.
 
 		super.run();
+
+		if ( this.responseCode == 302 )
+		{
+			REDIRECT_REQUEST.constructURLString( this.redirectLocation ).run();
+			parseConsumption( REDIRECT_REQUEST.responseText, true );
+		}
 	}
 
 	public void processResults()
