@@ -2469,7 +2469,10 @@ public class KoLmafiaASH extends StaticEntity
 		while ( currentLine.startsWith( "#" ) || currentLine.startsWith( "//" ) )
 		{
 			currentLine = "";
+
 			fixLines();
+			if ( currentLine == null )
+				return null;
 		}
 
 		if ( !currentLine.trim().equals( "/*" ) )
