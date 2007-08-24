@@ -170,16 +170,22 @@ public class GearChangeFrame extends KoLFrame
 
 		public void actionConfirmed()
 		{
-			RequestThread.openRequestSequence();
-			GearChangeFrame.this.changeItems();
-			RequestThread.closeRequestSequence();
+			synchronized ( SpecialOutfit.class )
+			{
+				RequestThread.openRequestSequence();
+				GearChangeFrame.this.changeItems();
+				RequestThread.closeRequestSequence();
+			}
 		}
 
 		public void actionCancelled()
 		{
-			RequestThread.openRequestSequence();
-			GearChangeFrame.this.changeItems();
-			RequestThread.closeRequestSequence();
+			synchronized ( SpecialOutfit.class )
+			{
+				RequestThread.openRequestSequence();
+				GearChangeFrame.this.changeItems();
+				RequestThread.closeRequestSequence();
+			}
 
 			String currentValue = input( "Name your outfit!", "Backup" );
 			if ( currentValue != null )
@@ -267,8 +273,11 @@ public class GearChangeFrame extends KoLFrame
 					if ( outfit == null || !(outfit instanceof SpecialOutfit) )
 						return;
 
-					RequestThread.postRequest( new EquipmentRequest( (SpecialOutfit) outfit ) );
-					RequestThread.enableDisplayIfSequenceComplete();
+					synchronized ( SpecialOutfit.class )
+					{
+						RequestThread.postRequest( new EquipmentRequest( (SpecialOutfit) outfit ) );
+						RequestThread.enableDisplayIfSequenceComplete();
+					}
 
 					ChangeComboBox.this.setSelectedItem( null );
 					return;
@@ -280,14 +289,17 @@ public class GearChangeFrame extends KoLFrame
 
 				if ( ChangeComboBox.this == GearChangeFrame.this.familiarSelect )
 				{
-					RequestThread.openRequestSequence();
-					GearChangeFrame.this.changeItems();
+					synchronized ( SpecialOutfit.class )
+					{
+						RequestThread.openRequestSequence();
+						GearChangeFrame.this.changeItems();
 
-					FamiliarData familiar = (FamiliarData) GearChangeFrame.this.familiarSelect.getSelectedItem();
-					if ( familiar != null && !familiar.equals( KoLCharacter.getFamiliar() ) )
-						RequestThread.postRequest( new FamiliarRequest( familiar ) );
+						FamiliarData familiar = (FamiliarData) GearChangeFrame.this.familiarSelect.getSelectedItem();
+						if ( familiar != null && !familiar.equals( KoLCharacter.getFamiliar() ) )
+							RequestThread.postRequest( new FamiliarRequest( familiar ) );
 
-					RequestThread.closeRequestSequence();
+						RequestThread.closeRequestSequence();
+					}
 
 					return;
 				}
@@ -375,9 +387,9 @@ public class GearChangeFrame extends KoLFrame
 			equipStat = EquipmentDatabase.equipStat( currentItem.getName() );
 
 			if ( this.weaponTypes[0].isSelected() ||
-			     ( this.weaponTypes[1].isSelected() && equipStat == MUSCLE ) ||
-			     ( this.weaponTypes[2].isSelected() && equipStat == MYSTICALITY ) ||
-			     ( this.weaponTypes[3].isSelected() && equipStat == MOXIE ) )
+				 ( this.weaponTypes[1].isSelected() && equipStat == MUSCLE ) ||
+				 ( this.weaponTypes[2].isSelected() && equipStat == MYSTICALITY ) ||
+				 ( this.weaponTypes[3].isSelected() && equipStat == MOXIE ) )
 				items.add( currentItem );
 		}
 
@@ -385,10 +397,10 @@ public class GearChangeFrame extends KoLFrame
 
 		equipStat = EquipmentDatabase.equipStat( currentWeapon.getName() );
 		if ( !items.contains( currentWeapon ) &&
-		     ( this.weaponTypes[0].isSelected() ||
-		       ( this.weaponTypes[1].isSelected() && equipStat == MUSCLE ) ||
-		       ( this.weaponTypes[2].isSelected() && equipStat == MYSTICALITY ) ||
-		       ( this.weaponTypes[3].isSelected() && equipStat == MOXIE ) ) )
+			 ( this.weaponTypes[0].isSelected() ||
+			   ( this.weaponTypes[1].isSelected() && equipStat == MUSCLE ) ||
+			   ( this.weaponTypes[2].isSelected() && equipStat == MYSTICALITY ) ||
+			   ( this.weaponTypes[3].isSelected() && equipStat == MOXIE ) ) )
 			items.add( currentWeapon );
 
 		// Add "(none)"
