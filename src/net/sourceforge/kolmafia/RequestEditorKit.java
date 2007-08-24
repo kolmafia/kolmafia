@@ -958,7 +958,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				location.indexOf( "menu" ) == -1 && !location.startsWith( "adventure" ) && !location.startsWith( "fight" ) &&
 				!location.startsWith( "choice" ) && !location.startsWith( "palin" ) && !location.startsWith( "tiles" );
 
-			if ( attachSafetyText )
+			if ( location.startsWith( "charpane" ) )
+				StaticEntity.singleStringReplace( buffer, "<body", "<body onLoad=\"attachSafetyText(); updateSafetyText();\"" );
+			else if ( attachSafetyText )
 				StaticEntity.singleStringReplace( buffer, "<body", "<body onLoad=\"attachSafetyText();\"" );
 		}
 

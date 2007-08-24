@@ -60,6 +60,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 	private static final Pattern STORE_PATTERN = Pattern.compile( "<tr><td><input name=whichitem type=radio value=(\\d+).*?</tr>", Pattern.DOTALL );
 
 	private static String mainpane = "";
+	private static KoLAdventure lastSafety = null;
 
 	private boolean allowOverride;
 	public List headers = new ArrayList();
@@ -703,6 +704,53 @@ public class LocalRelayRequest extends PasswordHashRequest
 		this.pseudoResponse( "HTTP/1.1 200 OK", warning.toString() );
 	}
 
+	private void handleSafety()
+	{
+		if ( lastSafety == null )
+		{
+			this.pseudoResponse( "HTTP/1.1 200 OK", "" );
+			return;
+		}
+
+		AreaCombatData combat = lastSafety.getAreaSummary();
+
+		if ( combat == null )
+		{
+			this.pseudoResponse( "HTTP/1.1 200 OK", "" );
+			return;
+		}
+
+		StringBuffer buffer = new StringBuffer();
+		buffer.append( "<table width=\"100%\"><tr><td align=left valign=top><font size=3>" );
+		buffer.append( lastSafety.getAdventureName() );
+		buffer.append( "</font></td><td align=right valign=top><font size=2>" );
+
+		buffer.append( "<a style=\"text-decoration: none\" href=\"javascript: " );
+
+		buffer.append( "var safety; if ( document.getElementById ) " );
+			buffer.append( "safety = top.chatpane.document.getElementById( 'safety' ); " );
+		buffer.append( "else if ( document.all ) " );
+			buffer.append( "safety = top.chatpane.document.all[ 'safety' ]; " );
+
+		buffer.append( "safety.style.display = 'none'; " );
+		buffer.append( "var nodes = top.chatpane.document.body.childNodes; " );
+		buffer.append( "for ( var i = 0; i < nodes.length; ++i ) " );
+			buffer.append( "if ( nodes[i].style && nodes[i].id != 'safety' ) " );
+				buffer.append( "nodes[i].style.display = 'inline'; " );
+
+
+		buffer.append( "void(0);\">x</a></font></td></tr></table>" );
+
+		buffer.append( "<br/><font size=2>" );
+
+		String combatData = combat.toString( true );
+		combatData = combatData.substring( 6, combatData.length() - 7 );
+		buffer.append( combatData );
+
+		buffer.append( "</font>" );
+		this.pseudoResponse( "HTTP/1.1 200 OK", buffer.toString() );
+	}
+
 	private void handleCommand()
 	{
 		// None of the above checks wound up happening.  So, do some
@@ -733,47 +781,12 @@ public class LocalRelayRequest extends PasswordHashRequest
 		}
 		else if ( this.getPath().endsWith( "lookupLocation" ) )
 		{
-			StringBuffer buffer = new StringBuffer();
-			KoLAdventure location = AdventureDatabase.getAdventureByURL(
-				"adventure.php?snarfblat=" + this.getFormField( "snarfblat" ) );
-
-			if ( location != null )
-			{
-				AreaCombatData combat = location.getAreaSummary();
-
-				if ( combat != null )
-				{
-					buffer.append( "<table width=\"100%\"><tr><td align=left><font size=2>" );
-					buffer.append( location.getAdventureName() );
-					buffer.append( "</font></td><td align=right><font size=2>" );
-
-					buffer.append( "<a style=\"text-decoration: none\" href=\"javascript: " );
-
-					buffer.append( "var safety; if ( document.getElementById ) " );
-						buffer.append( "safety = top.chatpane.document.getElementById( 'safety' ); " );
-					buffer.append( "else if ( document.all ) " );
-						buffer.append( "safety = top.chatpane.document.all[ 'safety' ]; " );
-
-					buffer.append( "safety.style.display = 'none'; " );
-					buffer.append( "var nodes = top.chatpane.document.body.childNodes; " );
-					buffer.append( "for ( var i = 0; i < nodes.length; ++i ) " );
-						buffer.append( "if ( nodes[i].style && nodes[i].id != 'safety' ) " );
-							buffer.append( "nodes[i].style.display = 'inline'; " );
-
-
-					buffer.append( "void(0);\">x</a></font></td></tr></table>" );
-
-					buffer.append( "<font size=2>" );
-
-					String combatData = combat.toString();
-					combatData = combatData.substring( 6, combatData.length() - 7 );
-					buffer.append( combatData );
-
-					buffer.append( "</font>" );
-				}
-			}
-
-			this.pseudoResponse( "HTTP/1.1 200 OK", buffer.toString() );
+			lastSafety = AdventureDatabase.getAdventureByURL( "adventure.php?snarfblat=" + this.getFormField( "snarfblat" ) );
+			this.handleSafety();
+		}
+		else if ( this.getPath().endsWith( "updateLocation" ) )
+		{
+			this.handleSafety();
 		}
 		else if ( this.getPath().endsWith( "basementSpoiler" ) )
 		{
