@@ -2093,7 +2093,7 @@ public abstract class KoLmafia implements KoLConstants
 			else
 			{
 				AdventureFrame.updateSelectedAdventure( AdventureDatabase.getBountyLocation(
-					TradeableItemDatabase.getItemName( StaticEntity.parseInt( bountyMatcher.group(1) ) ) ) );
+					TradeableItemDatabase.getItemName( bounty ) ) );
 			}
 
 			return;
