@@ -129,6 +129,7 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int ABSINTHE = 2655;
 	private static final int MOJO_FILTER = 2614;
 	private static final int LIBRARY_CARD = 2672;
+	private static final int DUCT_TAPE = 2697;
 
 	private static final int GIFT1 = 1167;
 	private static final int GIFT2 = 1168;
@@ -1220,6 +1221,13 @@ public class ConsumeItemRequest extends KoLRequest
 			// It worked. Also remove the ink and paper.
 			StaticEntity.getClient().processResult( INKWELL.getInstance( 0 - lastItemUsed.getCount() ) );
 			StaticEntity.getClient().processResult( SCRAP_OF_PAPER.getInstance( 0 - lastItemUsed.getCount() ) );
+			return;
+
+		case DUCT_TAPE:
+
+			if ( responseText.indexOf( "You acquire" ) == -1 )
+				StaticEntity.getClient().processResult( lastItemUsed );
+
 			return;
 
 		case DRUM_MACHINE:
