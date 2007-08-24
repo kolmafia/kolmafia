@@ -2694,7 +2694,7 @@
 2694	stone baseball cap	9	all	150
 2695	cup of primitive beer	2	all	30
 2696	ovoid leather thing	0	all	150
-2697	duct tape	15	display	25
+2697	duct tape	4	display	25
 2698	duct tape wallet	4	display	100
 2699	duct tape shirt	11	display	325
 2700	duct tape fedora	9	display	210
