@@ -308,8 +308,8 @@ public class ChatFrame extends KoLFrame
 
 				if ( message.equals( "/m" ) || message.startsWith( "/mark" ) )
 				{
-					buffer.append( "<center><font size=2>&mdash;&mdash;&mdash;&nbsp;" +
-						MARK_TIMESTAMP.format( new Date() ) + "&nbsp;&mdash;&mdash;&mdash;</font>" );
+					buffer.append( "<br><hr><center><font size=2>" +
+						MARK_TIMESTAMP.format( new Date() ) + "</font></center><br>" );
 
 					return;
 				}
