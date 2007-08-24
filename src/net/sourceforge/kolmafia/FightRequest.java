@@ -112,8 +112,7 @@ public class FightRequest extends KoLRequest
 	private static Monster monsterData = null;
 	private static String encounterLookup = "";
 
-	private static AdventureResult lastAddingScroll = null;
-	private static AdventureResult lastDesiredScroll = null;
+	private static AdventureResult desiredScroll = null;
 
 	private static final AdventureResult SCROLL_334 = new AdventureResult( 547, 1 );
 	public static final AdventureResult SCROLL_668 = new AdventureResult( 548, 1 );
@@ -636,16 +635,16 @@ public class FightRequest extends KoLRequest
 
 	private void handleAddingMachine()
 	{
-		if ( lastDesiredScroll != null )
-			createAddingScroll( lastDesiredScroll );
-		else if ( conditions.contains( SCROLL_64067 ) )
-			createAddingScroll( SCROLL_64067 );
+		if ( desiredScroll != null )
+			createAddingScroll( desiredScroll );
 		else if ( conditions.contains( SCROLL_64735 ) )
 			createAddingScroll( SCROLL_64735 );
-		else if ( conditions.contains( SCROLL_31337 ) )
-			createAddingScroll( SCROLL_31337 );
-		else
+		else if ( conditions.contains( SCROLL_64067 ) )
+			createAddingScroll( SCROLL_64067 );
+		else if ( conditions.contains( SCROLL_668 ) )
 			createAddingScroll( SCROLL_668 );
+		else
+			createAddingScroll( SCROLL_31337 );
 	}
 
 	private boolean createAddingScroll( AdventureResult scroll )
@@ -653,58 +652,64 @@ public class FightRequest extends KoLRequest
 		AdventureResult part1 = null;
 		AdventureResult part2 = null;
 
-		if ( scroll == SCROLL_668 )
+		if ( scroll == SCROLL_64735 )
+		{
+			part1 = SCROLL_668;
+			part2 = SCROLL_64067;
+		}
+		else if ( scroll == SCROLL_64067 )
+		{
+			if ( !conditions.contains( SCROLL_64067 ) && inventory.contains( SCROLL_64067 ) )
+				return false;
+
+			part1 = SCROLL_30669;
+			part2 = SCROLL_33398;
+		}
+		else if ( scroll == SCROLL_668 )
 		{
 			part1 = SCROLL_334;
 			part2 = SCROLL_334;
 		}
-		else if ( scroll == SCROLL_64067 )
-		{
-			part1 = SCROLL_30669;
-			part2 = SCROLL_33398;
-		}
-		else if ( scroll == SCROLL_64735 )
-		{
-			part1 = SCROLL_64067;
-			part2 = SCROLL_668;
-		}
 		else if ( scroll == SCROLL_31337 )
 		{
-			part1 = SCROLL_30669;
-			part2 = SCROLL_668;
+			part1 = SCROLL_668;
+			part2 = SCROLL_30669;
+		}
+		else
+		{
+			return false;
 		}
 
-		if ( lastAddingScroll != null )
+		if ( desiredScroll != null )
 		{
 			++preparatoryRounds;
 			action1 = String.valueOf( part2.getItemId() );
 
-			lastAddingScroll = null;
-			lastDesiredScroll = null;
+			desiredScroll = null;
 			return true;
 		}
 
-		if ( part1 == null || (part1 == part2 && part1.getCount( inventory ) < 2) )
+		if ( (part1 == part2 && part1.getCount( inventory ) < 2) )
 			return false;
 
-		if ( inventory.contains( part1 ) && inventory.contains( part2 ) )
+		if ( !inventory.contains( part1 ) )
+			return createAddingScroll( part1 ) || createAddingScroll( part2 );
+
+		if ( !inventory.contains( part2 ) )
+			return createAddingScroll( part2 );
+
+		if ( !KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) )
 		{
-			if ( !KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) )
-			{
-				++preparatoryRounds;
-				action1 = String.valueOf( part1.getItemId() );
-
-				lastAddingScroll = part1;
-				lastDesiredScroll = scroll;
-				return true;
-			}
-
 			++preparatoryRounds;
-			action1 = part1.getItemId() + "," + part2.getItemId();
+			action1 = String.valueOf( part1.getItemId() );
+
+			desiredScroll = scroll;
 			return true;
 		}
 
-		return createAddingScroll( part1 ) || createAddingScroll( part2 );
+		++preparatoryRounds;
+		action1 = part1.getItemId() + "," + part2.getItemId();
+		return true;
 	}
 
 	private String getMonsterWeakenAction()
@@ -1149,13 +1154,14 @@ public class FightRequest extends KoLRequest
 
 		castCleesh = false;
 		jiggledChefstaff = false;
+		desiredScroll = null;
+
 		offenseModifier = 0;
 		defenseModifier = 0;
 		healthModifier = 0;
 
 		action1 = null;
 		action2 = null;
-		lastAddingScroll = null;
 
 		currentRound = 0;
 		preparatoryRounds = 0;
