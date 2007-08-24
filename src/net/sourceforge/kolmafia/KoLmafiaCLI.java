@@ -979,31 +979,18 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "login" ) )
 		{
-			executeCommand( "logout", "" );
-			attemptLogin( parameters );
-			return;
-		}
-
-		// Next, handle any requests that request exiting.
-		// Note that a logout request should be sent in
-		// order to be friendlier to the server, if the
-		// character has already logged in.
-
-		if ( command.equals( "logout" ) )
-		{
 			if ( attemptedLogin )
 				System.exit(0);
-			else
-				RequestThread.postRequest( new LogoutRequest() );
 
+			attemptLogin( parameters );
 			return;
 		}
 
 		// Now for formal exit commands.
 
-		if ( command.equals( "exit" ) || command.equals( "quit" ) )
+		if ( command.equals( "logout" ) || command.equals( "exit" ) || command.equals( "quit" ) )
 		{
-			executeCommand( "logout", "" );
+			RequestThread.postRequest( new LogoutRequest() );
 			System.exit(0);
 		}
 
