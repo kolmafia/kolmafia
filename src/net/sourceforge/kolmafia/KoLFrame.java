@@ -1475,7 +1475,6 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 			if ( this.editCellAt( row, column ) )
 			{
-				this.getEditorComponent().requestFocusInWindow();
 				if ( this.getEditorComponent() instanceof JTextField )
 					((JTextField)this.getEditorComponent()).selectAll();
 			}
