@@ -3654,6 +3654,10 @@ public class KoLmafiaCLI extends KoLmafia
 	}
 
 	public static final int getFirstMatchingItemId( List nameList )
+	{	return getFirstMatchingItemId( nameList, null );
+	}
+
+	public static final int getFirstMatchingItemId( List nameList, String searchString )
 	{
 		if ( nameList == null )
 			return -1;
@@ -3679,17 +3683,26 @@ public class KoLmafiaCLI extends KoLmafia
 			itemId = TradeableItemDatabase.getItemId( itemName );
 			useType = TradeableItemDatabase.getConsumptionType( itemId );
 
+			// If this is a food match, and the item you're looking at is
+			// not a food item, then skip it.
+
 			if ( isFoodMatch && useType != CONSUME_EAT )
 			{
 				nameList.remove(i--);
 				continue;
 			}
 
+			// If this is a booze match, and the item you're looking at is
+			// not a booze item, then skip it.
+
 			if ( isBoozeMatch && useType != CONSUME_DRINK )
 			{
 				nameList.remove(i--);
 				continue;
 			}
+
+			// If this is a usage match, and the item you're looking at is
+			// not a usable item, then skip it.
 
 			if ( isUsageMatch )
 			{
@@ -3720,6 +3733,9 @@ public class KoLmafiaCLI extends KoLmafia
 				}
 			}
 
+			// If this is a creatable match, and the item you're looking at is
+			// not a creatable item, then skip it.
+
 			if ( (isCreationMatch || isUntinkerMatch) && ConcoctionsDatabase.getMixingMethod( itemId ) == NOCREATE )
 			{
 				if ( itemId != MEAT_PASTE && itemId != MEAT_STACK && itemId != DENSE_STACK )
@@ -3728,6 +3744,9 @@ public class KoLmafiaCLI extends KoLmafia
 					continue;
 				}
 			}
+
+			// Prefer NPC store items over all other items, as they are the
+			// most likely matches.
 
 			npcstore = NPCStoreDatabase.getPurchaseRequest( itemName );
 
@@ -3767,14 +3786,61 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 		}
 
+		// If there were no matches, or there was an exact match,
+		// then return from this method.
+
 		if ( lowestId == Integer.MAX_VALUE )
 			return -1;
 
 		if ( npcStoreMatch || nameList.size() == 1 )
 			return lowestId;
 
+		// Always prefer items which start with the search string
+		// over items where the name appears in the middle.
+
+		if ( searchString != null )
+		{
+			int matchCount = 0;
+			String bestMatch = null;
+
+			for ( int i = 0; i < nameList.size(); ++i )
+			{
+				itemName = (String) nameList.get(i);
+				if ( itemName.toLowerCase().startsWith( searchString ) )
+				{
+					++matchCount;
+					bestMatch = itemName;
+				}
+			}
+
+			if ( matchCount == 1 )
+				return TradeableItemDatabase.getItemId( bestMatch );
+		}
+
+		// If you have a usage match, the message display items are
+		// not likely to be what you're looking for.
+
+		if ( isUsageMatch )
+		{
+			for ( int i = 0; i < nameList.size(); ++i )
+			{
+				itemName = (String) nameList.get(i);
+				itemId = TradeableItemDatabase.getItemId( itemName );
+				useType = TradeableItemDatabase.getConsumptionType( itemId );
+
+				if ( useType == MESSAGE_DISPLAY )
+					nameList.remove(i--);
+			}
+
+			if ( nameList.size() == 1 )
+				return TradeableItemDatabase.getItemId( (String) nameList.get(0) );
+		}
+
 		if ( !isUsageMatch && !isFoodMatch && !isBoozeMatch )
 			return 0;
+
+		// Candy hearts, snowcones and cupcakes take precedence over
+		// all the other items in the game.
 
 		for ( int i = 0; i < nameList.size(); ++i )
 		{
@@ -3858,7 +3924,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 			if ( !matchingNames.isEmpty() )
 			{
-				itemId = getFirstMatchingItemId( matchingNames );
+				itemId = getFirstMatchingItemId( matchingNames, parameters );
 			}
 			else
 			{

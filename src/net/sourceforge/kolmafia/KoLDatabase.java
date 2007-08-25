@@ -156,13 +156,6 @@ public class KoLDatabase extends StaticEntity
 		nameMap.keySet().toArray( names );
 
 		for ( int i = 0; i < names.length; ++i )
-			if ( names[i].startsWith( searchString ) )
-				substringList.add( names[i] );
-
-		if ( !substringList.isEmpty() )
-			return substringList;
-
-		for ( int i = 0; i < names.length; ++i )
 			if ( substringMatches( names[i], searchString ) )
 				substringList.add( names[i] );
 
