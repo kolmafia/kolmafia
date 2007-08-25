@@ -100,7 +100,6 @@ public abstract class KoLmafia implements KoLConstants
 	protected static boolean recoveryActive = false;
 
 	public static boolean isMakingRequest = false;
-	public static KoLRequest currentRequest = null;
 	public static int continuationState = CONTINUE_STATE;
 
 	public static final int [] initialStats = new int[3];
@@ -742,7 +741,10 @@ public abstract class KoLmafia implements KoLConstants
 		RequestThread.postRequest( new CharsheetRequest() );
 
 		if ( getQuestLog )
+		{
+			RequestThread.postRequest( new AccountRequest() );
 			RequestThread.postRequest( new QuestLogRequest() );
+		}
 
 		// Clear the violet fog path table and everything
 		// else that changes on the player.
@@ -2914,14 +2916,6 @@ public abstract class KoLmafia implements KoLConstants
 
 			return this.type.equals( "Combat" ) ? 1 : -1;
 		}
-	}
-
-	public KoLRequest getCurrentRequest()
-	{	return currentRequest;
-	}
-
-	public void setCurrentRequest( KoLRequest request)
-	{	currentRequest = request;
 	}
 
 	public final String [] extractTargets( String targetList )

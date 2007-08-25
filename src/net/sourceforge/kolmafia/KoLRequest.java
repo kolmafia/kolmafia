@@ -666,9 +666,6 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( urlString.startsWith( "choice.php" ) )
 			this.saveLastChoice();
 
-		if ( !hasNoResult )
-			StaticEntity.getClient().setCurrentRequest( this );
-
 		// If you're about to fight the Naughty Sorceress,
 		// clear your list of effects.
 

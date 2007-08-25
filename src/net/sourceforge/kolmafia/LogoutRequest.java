@@ -72,8 +72,6 @@ public class LogoutRequest extends KoLRequest
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( scriptSetting );
 
 		super.run();
-
-		StaticEntity.getClient().setCurrentRequest( null );
 		KoLCharacter.reset( "" );
 
 		RequestLogger.closeSessionLog();

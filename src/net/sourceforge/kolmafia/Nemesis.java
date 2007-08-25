@@ -255,14 +255,5 @@ public abstract class Nemesis extends StaticEntity
 				break;
 			}
 		}
-
-		if ( getClient().getCurrentRequest() != null && getClient().getCurrentRequest().responseText != null &&
-			getClient().getCurrentRequest().responseText.indexOf( "WINWINWIN" ) == -1 )
-		{
-			KoLmafia.updateDisplay( ERROR_STATE, "KoLmafia was unable to defeat your nemesis." );
-			return;
-		}
-
-		KoLmafia.updateDisplay( "You defeated your nemesis. Congratulations!" );
 	}
 }
