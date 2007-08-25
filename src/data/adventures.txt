@@ -36,8 +36,8 @@ Floor1	0/0	adventure=102	Haunted Kitchen
 Floor1	0/6	adventure=103	Haunted Conservatory
 Floor1	0/40	adventure=104	Haunted Library
 Floor1	0/10	adventure=105	Haunted Billiards Room
+Floor1	0/68	adventure=106	Haunted Gallery
 
-Floor2	0/68	adventure=106	Haunted Gallery
 Floor2	0/68	adventure=107	Haunted Bathroom
 Floor2	0/85	adventure=108	Haunted Bedroom
 Floor2	0/68	adventure=109	Haunted Ballroom
