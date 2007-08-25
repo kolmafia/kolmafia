@@ -54,6 +54,7 @@ public class BasementRequest extends AdventureRequest
 	private static int secondaryBoost = 0;
 
 	private static int element1 = -1, element2 = -1;
+	private static int vulnerability = 0;
 	private static int goodelement = -1;
 	private static AdventureResult goodphial = null;
 	private static AdventureResult goodeffect = null;
@@ -188,9 +189,9 @@ public class BasementRequest extends AdventureRequest
 		if ( basementTestString.equals( "Elemental Resist" ) )
 		{
 			return basementTestString + " Test: " +
-				COMMA_FORMAT.format( resistance1 ) + "% " + MonsterDatabase.elementNames[ element1 ] + " (" +
+				COMMA_FORMAT.format( resistance1 ) + "% " + ( vulnerability == 1 ? "(vulnerable) " : "" ) + MonsterDatabase.elementNames[ element1 ] + " (" +
 				COMMA_FORMAT.format( expected1 ) + " hp), " +
-				COMMA_FORMAT.format( resistance2 ) + "% " + MonsterDatabase.elementNames[ element2 ] + " (" +
+				COMMA_FORMAT.format( resistance2 ) + "% " + ( vulnerability == 2 ? "(vulnerable) " : "" ) + MonsterDatabase.elementNames[ element2 ] + " (" +
 				COMMA_FORMAT.format( expected2 ) + " hp)";
 		}
 
@@ -206,9 +207,9 @@ public class BasementRequest extends AdventureRequest
 		if ( basementTestString.equals( "Elemental Resist" ) )
 		{
 			return "<u>" + basementTestString + "</u><br/>Current: " +
-				COMMA_FORMAT.format( resistance1 ) + "% " + MonsterDatabase.elementNames[ element1 ] + " (" +
+				COMMA_FORMAT.format( resistance1 ) + "% " + ( vulnerability == 1 ? "(vulnerable) " : "" ) + MonsterDatabase.elementNames[ element1 ] + " (" +
 				COMMA_FORMAT.format( expected1 ) + " hp), " +
-				COMMA_FORMAT.format( resistance2 ) + "% " + MonsterDatabase.elementNames[ element2 ] + " (" +
+				COMMA_FORMAT.format( resistance2 ) + "% " + ( vulnerability == 2 ? "(vulnerable) " : "" ) + MonsterDatabase.elementNames[ element2 ] + " (" +
 				COMMA_FORMAT.format( expected2 ) + " hp)</br>" +
 				"Needed: " + COMMA_FORMAT.format( basementTestValue ) + "% average resistance or " + goodeffect.getName();
 		}
@@ -405,17 +406,23 @@ public class BasementRequest extends AdventureRequest
 				resistance2 = 100.0f;
 		}
 
+		vulnerability = 0;
+
+		// If you have an elemental form which gives you vulnerability
+		// to an element, you retain your elemental resistance (as
+		// shown on the Character Sheet), but damage taken seems to be
+		// quadrupled.
 		if ( activeEffects.contains( badeffect1 ) || activeEffects.contains( badeffect2 ) || activeEffects.contains( badeffect3 ) )
 		{
 			if ( element1 == badelement1 || element1 == badelement2 || element1 == badelement3 )
 			{
-				damage1 *= 2;
-				resistance1 /= 2;
+				vulnerability = 1;
+				damage1 *= 4;
 			}
 			else
 			{
-				damage2 *= 2;
-				resistance2 /= 2;
+				vulnerability = 2;
+				damage2 *= 4;
 			}
 		}
 
@@ -759,6 +766,7 @@ public class BasementRequest extends AdventureRequest
 		basementTestValue = 0;
 
 		element1 = -1; element2 = -1;
+		vulnerability = 0;
 
 		goodelement = -1;
 		goodphial = null;
