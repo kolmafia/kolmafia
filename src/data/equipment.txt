@@ -593,8 +593,7 @@ antique shield	230	Mus: 85
 arrow'd heart balloon	0	none
 barskin buckler	27	none
 basic meat foon	0	Mys: 10
-# *** battered hubcap is a shield of unknown power.
-battered hubcap	0	Mus: 65
+battered hubcap	220	Mus: 65
 black shield	160	Mus: 65
 bobble-hip hula elf doll	0	none
 box	0	none
