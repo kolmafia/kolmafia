@@ -103,7 +103,7 @@ public class ClanMembersRequest extends KoLRequest
 			// belong to.  This is done by doing a
 			// profile lookup on yourself.
 
-			KoLmafia.updateDisplay( "Determining clan Id..." );
+			KoLmafia.updateDisplay( "Determining clan id..." );
 			ProfileRequest clanIdLookup = new ProfileRequest( KoLCharacter.getUserName() );
 			clanIdLookup.run();
 

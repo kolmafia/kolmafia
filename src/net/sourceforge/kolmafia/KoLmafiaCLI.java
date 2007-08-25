@@ -68,7 +68,6 @@ public class KoLmafiaCLI extends KoLmafia
 	public static final int FOOD = 4;
 	public static final int BOOZE = 5;
 
-	private static boolean attemptedLogin = false;
 	private static boolean isFoodMatch = false;
 	private static boolean isBoozeMatch = false;
 	private static boolean isUsageMatch = false;
@@ -105,7 +104,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public static final void initialize()
 	{
-		System.out.println();
 		System.out.println();
 		System.out.println( StaticEntity.getVersion() );
 		System.out.println( "Running on " + System.getProperty( "os.name" ) );
@@ -178,7 +176,6 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 
 			System.out.println();
-			attemptedLogin = true;
 			RequestThread.postRequest( new LoginRequest( username, password ) );
 		}
 		catch ( IOException e )
@@ -684,25 +681,7 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 			}
 
-			if ( command.equals( "events" ) )
-			{
-				KoLmafiaGUI.constructFrame( "EventsFrame" );
-				return;
-			}
-
-			if ( command.equals( "compose" ) )
-			{
-				KoLmafiaGUI.constructFrame( "GreenMessageFrame" );
-				return;
-			}
-
-			if ( command.equals( "gift" ) )
-			{
-				KoLmafiaGUI.constructFrame( "GiftMessageFrame" );
-				return;
-			}
-
-			if ( command.equals( "options" ) )
+			if ( command.startsWith( "opt" ) )
 			{
 				KoLmafiaGUI.constructFrame( "OptionsFrame" );
 				return;
@@ -773,7 +752,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// Maybe the person wants to load up their browser
 		// from the KoLmafia CLI?
 
-		if ( command.equals( "relay" ) || command.equals( "serve" ) )
+		if ( command.equals( "relay" ) )
 		{
 			StaticEntity.getClient().openRelayBrowser();
 			return;
@@ -806,7 +785,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// Preconditions kickass, so they're handled right
 		// after the wait command.  (Right)
 
-		if ( command.equals( "conditions" ) || command.equals( "objectives" ) )
+		if ( command.startsWith( "goal" ) || command.startsWith( "condition" ) || command.startsWith( "objective" ) )
 		{
 			this.executeConditionsCommand( parameters );
 			return;
@@ -834,7 +813,7 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			int itemId = StaticEntity.parseInt( parameters );
 			TradeableItemDatabase.checkInternalData( itemId );
-			RequestLogger.printLine( "Internal Data checked." );
+			RequestLogger.printLine( "Internal data checked." );
 			return;
 		}
 
@@ -881,6 +860,17 @@ public class KoLmafiaCLI extends KoLmafia
 
 			return;
 		}
+
+		if ( command.equals( "events" ) )
+		{
+			if ( parameters.equals( "clear" ) )
+				eventHistory.clear();
+			else
+				printList( eventHistory );
+
+			return;
+		}
+
 
 		if ( command.equals( "echo" ) )
 		{
@@ -961,17 +951,13 @@ public class KoLmafiaCLI extends KoLmafia
 
 			RequestLogger.printLine( name + " => " + value );
 			KoLSettings.setUserProperty( name, value );
-
-			if ( name.equals( "buffBotCasting" ) )
-				BuffBotManager.loadSettings();
-
 			return;
 		}
 
 		// Next, handle any requests to login or relogin.
 		// This will be done by calling a utility method.
 
-		if ( command.equals( "relogin" ) || command.equals( "timein" ) )
+		if ( command.equals( "timein" ) )
 		{
 			LoginRequest.executeTimeInRequest();
 			return;
@@ -979,7 +965,10 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "login" ) )
 		{
-			if ( attemptedLogin )
+			// Only allow the login command to work if no
+			// login has occurred this session.
+
+			if ( LoginRequest.completedLogin() )
 				System.exit(0);
 
 			attemptLogin( parameters );
@@ -1021,26 +1010,6 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		if ( command.startsWith( "func" ) )
-		{
-			File f = findScriptFile( parameters );
-			if ( f == null )
-			{
-				KoLmafia.updateDisplay( ERROR_STATE, "No script located named " + parameters + "." );
-				return;
-			}
-
-			KoLmafiaASH interpreter = KoLmafiaASH.getInterpreter( f );
-			if ( interpreter == null )
-			{
-				KoLmafia.updateDisplay( ERROR_STATE, "Invalid script " + f.getAbsolutePath() + "." );
-				return;
-			}
-
-			interpreter.showUserFunctions( "" );
-			return;
-		}
-
 		if ( command.equals( "ashref" ) )
 		{
 			KoLmafiaASH.NAMESPACE_INTERPRETER.showExistingFunctions( parameters );
@@ -1068,7 +1037,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		if ( command.equals( "verify" ) || command.equals( "validate" ) || command.equals( "check" ) || command.equals( "using" ) || command.equals( "call" ) || command.equals( "run" ) || command.startsWith( "exec" ) || command.equals( "load" ) || command.equals( "start" ) )
+		if ( command.equals( "verify" ) || command.equals( "validate" ) || command.equals( "check" ) || command.equals( "call" ) || command.equals( "run" ) || command.startsWith( "exec" ) || command.equals( "load" ) || command.equals( "start" ) )
 		{
 			this.executeScriptCommand( command, parameters );
 			return;
@@ -1186,13 +1155,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		if ( command.equals( "wiki" ) )
-		{
-			TradeableItemDatabase.determineWikiData( parameters );
-			return;
-		}
-
-		if ( command.equals( "survival" ) || command.equals( "locdata" ) )
+		if ( command.equals( "safe" ) )
 		{
 			this.showHTML( "", AdventureDatabase.getAreaCombatData( AdventureDatabase.getAdventure( parameters ).toString() ).toString() );
 			return;
@@ -1249,7 +1212,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// Sorceress hedge maze!  This is placed
 		// right after for consistency.
 
-		if ( command.equals( "maze" ) || command.equals( "hedgemaze" ) )
+		if ( command.equals( "maze" ) || command.startsWith( "hedge" ) )
 		{
 			SorceressLair.completeHedgeMaze();
 			return;
@@ -1327,7 +1290,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// Campground activities are fairly common, so
 		// they will be listed first after the above.
 
-		if ( command.equals( "campground" ) )
+		if ( command.startsWith( "camp" ) )
 		{
 			this.executeCampgroundRequest( parameters );
 			return;
@@ -1399,7 +1362,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// Uneffect with martians are related to buffs,
 		// so listing them next seems logical.
 
-		if ( command.equals( "shrug" ) || command.equals( "shrugoff" ) || command.equals( "uneffect" ) || command.equals( "remedy" ) )
+		if ( command.equals( "shrug" ) || command.equals( "uneffect" ) || command.equals( "remedy" ) )
 		{
 			if ( parameters.indexOf( "," ) != -1 )
 			{
@@ -1450,7 +1413,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		if ( command.equals( "!" ) )
+		if ( command.equals( "!" ) || command.equals( "bang" ) )
 		{
 			for ( int i = 819; i <= 827; ++i )
 			{
@@ -2647,7 +2610,13 @@ public class KoLmafiaCLI extends KoLmafia
 				{
 					KoLmafiaASH interpreter = KoLmafiaASH.getInterpreter( scriptFile );
 					if ( interpreter != null )
+					{
+						RequestLogger.printLine();
+						interpreter.showUserFunctions( "" );
+
+						RequestLogger.printLine();
 						RequestLogger.printLine( "Script verification complete." );
+					}
 
 					return;
 				}

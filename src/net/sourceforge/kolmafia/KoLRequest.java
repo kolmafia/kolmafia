@@ -933,7 +933,7 @@ public class KoLRequest extends Job implements KoLConstants
 
 		if ( sessionId != null )
 		{
-			if ( this.formURLString.startsWith( "inventory.php" ) && !KoLSettings.getUserProperty( "visibleBrowserInventory" ).equals( "" ) )
+			if ( this instanceof LocalRelayRequest && this.formURLString.startsWith( "inventory.php" ) )
 				this.formConnection.addRequestProperty( "Cookie", KoLSettings.getUserProperty( "visibleBrowserInventory" ) + "; " + sessionId );
 			else
 				this.formConnection.addRequestProperty( "Cookie", sessionId );
@@ -1179,7 +1179,7 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( this.redirectLocation.startsWith( "choice.php" ) )
 		{
 			handlingChoices = true;
-			this.processChoiceAdventure();
+			processChoiceAdventure();
 			handlingChoices = false;
 
 			return true;

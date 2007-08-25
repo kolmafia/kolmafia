@@ -40,7 +40,8 @@ import java.util.regex.Pattern;
 
 public class LoginRequest extends KoLRequest
 {
-	private static final Pattern SESSIONID_COOKIE_PATTERN = Pattern.compile( "PHPSESSID=([^\\;]+)" );
+	private static boolean completedLogin = false;
+
 	private static final Pattern FAILURE_PATTERN = Pattern.compile( "<p><b>(.*?)</b>" );
 	private static final Pattern CHALLENGE_PATTERN = Pattern.compile( "<input type=hidden name=challenge value=\"([^\"]*?)\">" );
 
@@ -246,6 +247,10 @@ public class LoginRequest extends KoLRequest
 	{	return isLoggingIn;
 	}
 
+	public static final boolean completedLogin()
+	{	return completedLogin;
+	}
+
 	public static final void processLoginRequest( KoLRequest request )
 	{
 		if ( request.redirectLocation == null )
@@ -263,6 +268,8 @@ public class LoginRequest extends KoLRequest
 			return;
 		}
 
+		completedLogin = true;
+
 		if ( request.redirectLocation.equals( "main_c.html" ) )
 			KoLRequest.isCompactMode = true;
 
@@ -272,11 +279,7 @@ public class LoginRequest extends KoLRequest
 
 		String serverCookie = request.formConnection.getHeaderField( "Set-Cookie" );
 		if ( serverCookie != null )
-		{
-			Matcher sessionMatcher = SESSIONID_COOKIE_PATTERN.matcher( serverCookie );
-			if ( sessionMatcher.find() )
-				KoLRequest.sessionId = "PHPSESSID=" + sessionMatcher.group(1) + "; path=/";
-		}
+			KoLRequest.sessionId = serverCookie;
 
 		String name = request.getFormField( "loginname" );
 		if ( name.endsWith( "/q" ) )
