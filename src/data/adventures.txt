@@ -13,7 +13,7 @@ Beach	0/0	adventure=156	Grim Grimacite Site
 
 Pyramid	104/0	adventure=124	The Upper Chamber
 Pyramid	104/0	adventure=125	The Middle Chamber
-Pyramid	104/0	action=lower	The Lower Chambers
+Pyramid	104/0	pyramid=lower	The Lower Chambers
 
 Casino	0/0	casino=1	Goat Party
 Casino	0/0	casino=2	Pirate Party
@@ -104,7 +104,7 @@ Island	0/30	adventure=65	Hippy Camp In Disguise
 Island	125/125	adventure=149	Post-War Hippy Camp
 Island	0/45	adventure=66	Pirate Cove
 Island	0/45	adventure=67	Pirate Cove In Disguise
-Island	125/125	adventure=154	Junkyard	 
+Island	125/125	adventure=154	Junkyard
 Island	125/125	adventure=136	Sonofa Beach
 Island	125/125	adventure=155	McMillicancuddy's Farm
 
