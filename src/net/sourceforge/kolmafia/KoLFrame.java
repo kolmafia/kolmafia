@@ -338,8 +338,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 	public void requestFocus()
 	{
-		super.requestFocus();
 		KoLDesktop.requestFocus( this );
+		super.requestFocus();
 	}
 
 	public boolean useSidePane()
