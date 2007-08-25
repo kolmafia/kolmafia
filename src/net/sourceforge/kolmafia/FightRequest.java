@@ -1398,29 +1398,17 @@ public class FightRequest extends KoLRequest
 
 	public static final boolean registerRequest( boolean isExternal, String urlString )
 	{
-		if ( urlString.indexOf( "fight.php" ) == -1 )
+		if ( !urlString.startsWith( "fight.php" ) )
 			return false;
 
 		action1 = null;
 		action2 = null;
 
-		boolean shouldLogAction = KoLSettings.getBooleanProperty( "logBattleAction" );
-		StringBuffer action = shouldLogAction ? new StringBuffer() : null;
-
-		if ( urlString.indexOf( "fight.php?" ) == -1 )
-		{
-			if ( currentRound != 0 )
-			{
-				if ( shouldLogAction )
-				{
-					action.append( "Round " + currentRound + ": " + KoLCharacter.getUserName() + " twiddles their thumbs" );
-					RequestLogger.printLine( action.toString() );
-					RequestLogger.updateSessionLog( action.toString() );
-				}
-			}
-
+		if ( urlString.equals( "fight.php" ) )
 			return true;
-		}
+
+		boolean shouldLogAction = KoLSettings.getBooleanProperty( "logBattleAction" );
+		StringBuffer action = new StringBuffer();
 
 		// Begin logging all the different combat actions and storing
 		// relevant data for post-processing.

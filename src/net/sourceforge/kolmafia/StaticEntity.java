@@ -677,8 +677,6 @@ public abstract class StaticEntity implements KoLConstants
 
 		if ( t.getCause() != null )
 			printStackTrace( t.getCause(), message );
-		else
-			printRequestData( client.getCurrentRequest() );
 
 		try
 		{
