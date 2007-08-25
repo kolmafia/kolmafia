@@ -449,7 +449,7 @@ public class ChatFrame extends KoLFrame
 				return;
 
 			case 3:
-				urlString = "makeoffer.php?action=proposeoffer&towho=" + parameters[0];
+				urlString = "makeoffer.php?towho=" + parameters[0];
 				break;
 
 			case 4:
