@@ -171,25 +171,29 @@ public class KoLSettings extends Properties implements KoLConstants
 
 		if ( System.getProperty( "app.name" ) != null )
 		{
-			source = new File( System.getProperty( "user.dir" ), DATA_DIRECTORY );
+			File parent = new File( System.getProperty( "user.dir" ) ).getAbsoluteFile();
+
+			ROOT_LOCATION.mkdirs();
+
+			source = new File( parent, DATA_DIRECTORY );
 			if ( source.exists() )
 				source.renameTo( DATA_LOCATION );
-			source = new File( System.getProperty( "user.dir" ), IMAGE_DIRECTORY );
+			source = new File( parent, IMAGE_DIRECTORY );
 			if ( source.exists() )
 				source.renameTo( IMAGE_LOCATION );
-			source = new File( System.getProperty( "user.dir" ), SETTINGS_DIRECTORY );
+			source = new File( parent, SETTINGS_DIRECTORY );
 			if ( source.exists() )
 				source.renameTo( SETTINGS_LOCATION );
-			source = new File( System.getProperty( "user.dir" ), PLOTS_DIRECTORY );
+			source = new File( parent, PLOTS_DIRECTORY );
 			if ( source.exists() )
 				source.renameTo( PLOTS_LOCATION );
-			source = new File( System.getProperty( "user.dir" ), SCRIPT_DIRECTORY );
+			source = new File( parent, SCRIPT_DIRECTORY );
 			if ( source.exists() )
 				source.renameTo( SCRIPT_LOCATION );
-			source = new File( System.getProperty( "user.dir" ), SESSIONS_DIRECTORY );
+			source = new File( parent, SESSIONS_DIRECTORY );
 			if ( source.exists() )
 				source.renameTo( SESSIONS_LOCATION );
-			source = new File( System.getProperty( "user.dir" ), RELAY_DIRECTORY );
+			source = new File( parent, RELAY_DIRECTORY );
 			if ( source.exists() )
 				source.renameTo( RELAY_LOCATION );
 		}

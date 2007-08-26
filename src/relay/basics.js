@@ -223,6 +223,9 @@ function updateSafetyText()
 
 function showSafetyText( e )
 {
+	if ( top.chatpane.document.href.indexOf( "lchat.php" ) == -1 )
+		return true;
+
 	var safety = getObject( top.chatpane.document, "safety" );
 
 	if ( !safety )
