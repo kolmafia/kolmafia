@@ -1,9 +1,9 @@
 function getObject( id )
-{	return getObject( top.mainpane.document, id );
+{	return getObjectInPane( top.mainpane.document, id );
 }
 
 
-function getObject( pane, id )
+function getObjectInPane( pane, id )
 {
 	if ( document.getElementById )
 		return pane.getElementById( id );
@@ -196,7 +196,7 @@ function getAdventureId( link )
 
 function updateSafetyText()
 {
-	var safety = getObject( top.chatpane.document, "safety" );
+	var safety = getObjectInPane( top.chatpane.document, "safety" );
 	if ( !safety )
 		return true;
 
@@ -210,6 +210,9 @@ function updateSafetyText()
 	httpObject.onreadystatechange = function()
 	{
 		if ( httpObject.readyState != 4 )
+			return;
+
+		if ( httpObject.responseText.length() < 2 )
 			return;
 
 		safety.innerHTML = httpObject.responseText;
@@ -228,7 +231,7 @@ function showSafetyText( e )
 	if ( chatLocation.indexOf( "chatlaunch.php" ) == -1 && chatLocation.indexOf( "cli.html" ) == -1 )
 		return true;
 
-	var safety = getObject( top.chatpane.document, "safety" );
+	var safety = getObjectInPane( top.chatpane.document, "safety" );
 
 	if ( !safety )
 	{
@@ -255,6 +258,9 @@ function showSafetyText( e )
 	httpObject.onreadystatechange = function()
 	{
 		if ( httpObject.readyState != 4 )
+			return;
+
+		if ( httpObject.responseText.length() < 2 )
 			return;
 
 		var nodes = top.chatpane.document.body.childNodes;
