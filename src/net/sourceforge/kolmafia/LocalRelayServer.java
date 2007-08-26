@@ -66,7 +66,7 @@ public class LocalRelayServer implements Runnable
 		StaticEntity.loadLibrary( KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, "safety.js" );
 		StaticEntity.loadLibrary( KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, "sorttable.js" );
 
-		KoLSettings.setUserProperty( "lastRelayUpdate", KoLConstants.VERSION_NAME );
+		KoLSettings.setUserProperty( "lastRelayUpdate", StaticEntity.getVersion() );
 	}
 
 	public static final void updateStatus()
