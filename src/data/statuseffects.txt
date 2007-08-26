@@ -442,3 +442,7 @@
 442	Preternatural Greed	meat.gif	77c8dcca272b5c6a62ff65ab673f09b8
 443	Big Flaming Whip	whip.gif	1b8e17da0f810cea79461e5346364d13
 444	Demonic Taint	stench.gif	2dbb492270ccad496291a6f7fdadde26
+445
+446	Hella Tough	strboost.gif
+447	Hella Smart	realbrain.gi
+448	Hella Smooth	roundglasses.gif	9fc2c05bd8dff7c2b3c5a27b56a0240f
