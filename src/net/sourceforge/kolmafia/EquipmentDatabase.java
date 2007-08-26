@@ -206,18 +206,20 @@ public class EquipmentDatabase extends KoLDatabase
 	}
 
 	public static final String getType( int itemId )
-	{	return type.get( itemId );
+	{
+		String res = type.get( itemId );
+		return res == null ? "" : res;
 	}
 
 	public static final String getType( String itemName )
 	{
 		if ( itemName == null )
-			return null;
+			return "";
 
 		int itemId = TradeableItemDatabase.getItemId( itemName );
 
 		if ( itemId == -1 )
-			return null;
+			return "";
 
 		return getType( itemId );
 	}
