@@ -256,7 +256,6 @@ public class BasementRequest extends AdventureRequest
 			goodelement = element2;
 			goodphial = SLEAZE_PHIAL;
 			goodeffect = SLEAZE_FORM;
-			desirableEffects.add( MAX_STENCH );
 
 			// Stench is vulnerable to Sleaze
 			badelement1 = MonsterDatabase.STENCH;
@@ -278,7 +277,6 @@ public class BasementRequest extends AdventureRequest
 			goodelement = element1;
 			goodphial = COLD_PHIAL;
 			goodeffect = COLD_FORM;
-			desirableEffects.add( MAX_SLEAZE );
 
 			// Sleaze is vulnerable to Cold
 			badelement1 = MonsterDatabase.SLEAZE;
@@ -300,7 +298,6 @@ public class BasementRequest extends AdventureRequest
 			goodelement = element1;
 			goodphial = STENCH_PHIAL;
 			goodeffect = STENCH_FORM;
-			desirableEffects.add( MAX_HOT );
 
 			// Cold is vulnerable to Hot
 			badelement1 = MonsterDatabase.COLD;
@@ -322,7 +319,6 @@ public class BasementRequest extends AdventureRequest
 			goodelement = element1;
 			goodphial = HOT_PHIAL;
 			goodeffect = HOT_FORM;
-			desirableEffects.add( MAX_SPOOKY );
 
 			// Cold is vulnerable to Spooky
 			badelement1 = MonsterDatabase.COLD;
@@ -344,7 +340,6 @@ public class BasementRequest extends AdventureRequest
 			goodelement = element2;
 			goodphial = SPOOKY_PHIAL;
 			goodeffect = SPOOKY_FORM;
-			desirableEffects.add( MAX_COLD );
 
 			// Cold is vulnerable to Spooky
 			badelement1 = MonsterDatabase.COLD;
@@ -364,13 +359,18 @@ public class BasementRequest extends AdventureRequest
 			return false;
 		}
 
+		// Add the only beneficial elemental form for this test
 		desirableEffects.add( goodeffect );
+		desirableEffects.add( getDesiredEqualizer() );
 
+		// Add effects that resist the specific elements being tested
+		addDesirableEffects( Modifiers.getBoostingEffects( Modifiers.elementalResistance( element1 ) ) );
+		addDesirableEffects( Modifiers.getBoostingEffects( Modifiers.elementalResistance( element2 ) ) );
+
+		// Add some effects that resist all elements
 		desirableEffects.add( ASTRAL_SHELL );
 		desirableEffects.add( ELEMENTAL_SPHERE );
 		desirableEffects.add( BLACK_PAINT );
-
-		desirableEffects.add( getDesiredEqualizer() );
 
 		actualBoost = Modifiers.HP;
 		primaryBoost = Modifiers.MUS_PCT;
@@ -817,42 +817,58 @@ public class BasementRequest extends AdventureRequest
 
 	private static final void getDesiredEffects( ArrayList sourceList, ArrayList targetList )
 	{
-		String currentAction;
-		AdventureResult currentTest;
-		DesiredEffect currentAddition;
-
 		Iterator it = sourceList.iterator();
 		boolean buyItems = KoLSettings.getBooleanProperty( "basementBuysItems" );
 
 		while ( it.hasNext() )
 		{
-			currentTest = (AdventureResult) it.next();
-
-			if ( activeEffects.contains( currentTest ) )
+			AdventureResult effect = (AdventureResult) it.next();
+			if ( !wantEffect( effect, buyItems ) )
 				continue;
 
-			currentAction = MoodSettings.getDefaultAction( "lose_effect", currentTest.getName() );
-			if ( currentAction.equals( "" ) )
-				continue;
+			DesiredEffect addition = new DesiredEffect( effect.getName() );
 
-			if ( currentAction.startsWith( "cast" ) )
-			{
-				if ( !KoLCharacter.hasSkill( UneffectRequest.effectToSkill( currentTest.getName() ) ) )
-					continue;
-			}
-
-			if ( !buyItems && currentAction.startsWith( "use" ) )
-			{
-				AdventureResult item = KoLmafiaCLI.getFirstMatchingItem( currentAction.substring(4).trim() );
-				if ( !KoLCharacter.hasItem( item ) )
-					continue;
-			}
-
-			currentAddition = new DesiredEffect( currentTest.getName() );
-
-			if ( !targetList.contains( currentAddition ) )
-				targetList.add( currentAddition );
+			if ( !targetList.contains( addition ) )
+				targetList.add( addition );
 		}
+	}
+
+	private static final void addDesirableEffects( ArrayList sourceList )
+	{
+		Iterator it = sourceList.iterator();
+		boolean buyItems = KoLSettings.getBooleanProperty( "basementBuysItems" );
+
+		while ( it.hasNext() )
+		{
+			AdventureResult effect = (AdventureResult) it.next();
+			if ( wantEffect( effect, buyItems ) && !desirableEffects.contains( effect ) )
+				desirableEffects.add( effect );
+		}
+	}
+
+	private static final boolean wantEffect( AdventureResult effect, boolean buyItems )
+	{
+		if ( activeEffects.contains( effect ) )
+			return false;
+
+		String action = MoodSettings.getDefaultAction( "lose_effect", effect.getName() );
+		if ( action.equals( "" ) )
+			return false;
+
+		if ( action.startsWith( "cast" ) )
+		{
+			if ( !KoLCharacter.hasSkill( UneffectRequest.effectToSkill( effect.getName() ) ) )
+				return false;
+		}
+
+		if ( !buyItems && action.startsWith( "use" ) )
+		{
+			AdventureResult item = KoLmafiaCLI.getFirstMatchingItem( action.substring(4).trim() );
+			if ( !KoLCharacter.hasItem( item ) )
+				return false;
+		}
+
+		return true;
 	}
 
 	private static final ArrayList getDesiredEffects()

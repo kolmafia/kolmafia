@@ -407,6 +407,24 @@ public class Modifiers extends KoLDatabase
 	private static final String MP_REGEN_MIN_TAG = modifierName( floatModifiers, MP_REGEN_MIN ) + ": ";
 	private static final String MP_REGEN_MAX_TAG = modifierName( floatModifiers, MP_REGEN_MAX ) + ": ";
 
+	public static int elementalResistance( int element )
+	{
+		switch ( element )
+		{
+		case MonsterDatabase.COLD:
+			return COLD_RESISTANCE;
+		case MonsterDatabase.HEAT:
+			return HOT_RESISTANCE;
+		case MonsterDatabase.SLEAZE:
+			return SLEAZE_RESISTANCE;
+		case MonsterDatabase.SPOOKY:
+			return SPOOKY_RESISTANCE;
+		case MonsterDatabase.STENCH:
+			return STENCH_RESISTANCE;
+		}
+		return -1;
+	}
+
 	public static ArrayList getBoostingEffects( int index )
 	{
 		Integer key = new Integer( index );
