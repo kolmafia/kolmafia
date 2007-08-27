@@ -945,6 +945,28 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 	private static final String NO_PERMIT_TEXT = "<p>You don't have a Hermit Permit, so you're not allowed to visit the Hermit.<p><center>";
 	private static final String BUY_PERMIT_TEXT = NO_PERMIT_TEXT + "<a href=\"hermit.php?autopermit=on\">Buy a Hermit Permit</a></center></p><p><center>";
 
+	private static final ArrayList maps = new ArrayList();
+	static
+	{
+		maps.add( "plains.php" );
+		maps.add( "bathole.php" );
+		maps.add( "fernruin.php" );
+		maps.add( "knob.php" );
+		maps.add( "knob2.php" );
+		maps.add( "cyrpt.php" );
+		maps.add( "beanstalk.php" );
+		maps.add( "woods.php" );
+		maps.add( "friars.php" );
+		maps.add( "wormwood.php" );
+		maps.add( "island.php" );
+		maps.add( "beach.php" );
+		maps.add( "town_wrong.php" );
+		maps.add( "town_right.php" );
+		maps.add( "manor.php" );
+		maps.add( "manor2.php" );
+		maps.add( "manor3.php" );
+	}
+
 	public static final void getFeatureRichHTML( String location, StringBuffer buffer, boolean addComplexFeatures )
 	{
 		if ( buffer.length() == 0 )
@@ -953,15 +975,11 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( addComplexFeatures )
 		{
 			StaticEntity.singleStringReplace( buffer, "</head>", "<script language=\"Javascript\" src=\"/basics.js\"></script></head>" );
-
-			boolean attachSafetyText = location.indexOf( "chat" ) == -1 &&
-				location.indexOf( "menu" ) == -1 && !location.startsWith( "adventure" ) && !location.startsWith( "fight" ) &&
-				!location.startsWith( "choice" ) && !location.startsWith( "palin" ) && !location.startsWith( "tiles" );
-
-			if ( location.startsWith( "charpane" ) )
-				StaticEntity.singleStringReplace( buffer, "<body", "<body onLoad=\"attachSafetyText(); updateSafetyText();\"" );
-			else if ( attachSafetyText )
-				StaticEntity.singleStringReplace( buffer, "<body", "<body onLoad=\"attachSafetyText();\"" );
+			if ( location.indexOf( "?" ) == -1 && maps.contains( location ) )
+			{
+				buffer.insert( buffer.indexOf( "</tr>"), "<td width=15 valign=bottom align=left bgcolor=blue><a style=\"color: white; font-weight: normal; font-size: small; text-decoration: underline\" href=\"javascript: attachSafetyText(); void(0);\">?</a>" );
+				buffer.insert( buffer.indexOf( "<td", buffer.indexOf( "</tr>" ) ) + 3, " colspan=2" );
+			}
 		}
 
 		// Make all the character pane adjustments first, since

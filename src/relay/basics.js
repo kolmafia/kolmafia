@@ -224,13 +224,8 @@ function updateSafetyText()
 }
 
 
-function showSafetyText( e )
+function showSafetyText( url )
 {
-	var chatLocation = top.chatpane.document.location.href;
-
-	if ( chatLocation.indexOf( "chatlaunch.php" ) == -1 && chatLocation.indexOf( "cli.html" ) == -1 )
-		return true;
-
 	var safety = getObjectInPane( top.chatpane.document, "safety" );
 
 	if ( !safety )
@@ -247,7 +242,7 @@ function showSafetyText( e )
 		safety.style.padding = "8px";
 	}
 
-	var adventureId = getAdventureId( this.href );
+	var adventureId = getAdventureId( url );
 	if ( adventureId == "" )
 		return true;
 
@@ -274,6 +269,19 @@ function showSafetyText( e )
 
 	httpObject.open( "POST", "/KoLmafia/lookupLocation?" + adventureId );
 	httpObject.send( null );
+
+	attachOriginalLinks();
+	return true;
+}
+
+
+function attachOriginalLinks()
+{
+	var links = document.getElementsByTagName( "a" );
+	for ( var i = 0; i < links.length; ++i )
+		if ( links[i].data )
+			links[i].href = links[i].data;
+
 	return true;
 }
 
@@ -285,11 +293,13 @@ function attachSafetyText()
 	{
 		if ( links[i].href.indexOf( "adventure.php" ) != -1 )
 		{
-			links[i].onmouseover = showSafetyText;
+			links[i].data = links[i].href;
+			links[i].href = "javascript: showSafetyText( '" + links[i].href + "' ); void(0);";
 		}
 		else if ( links[i].href.indexOf( "submit" ) != -1 )
 		{
-			links[i].onmouseover = showSafetyText;
+			links[i].data = links[i].href;
+			links[i].href = "javascript: showSafetyText( '" + links[i].href + "' ); void(0);";
 		}
 	}
 
