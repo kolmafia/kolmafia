@@ -215,6 +215,12 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			return false;
 		}
 
+		if ( this.zone.equals( "BadMoon" ) && !KoLCharacter.inBadMoon() )
+		{
+			this.isValidAdventure = false;
+			return false;
+		}
+
 		if ( this.baseRequirement != 0 )
 		{
 			int baseValue = 0;
