@@ -3225,7 +3225,7 @@ public class KoLmafiaASH extends StaticEntity
 		result.addElement( new ScriptExistingFunction( "cli_execute", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "load_html", STRING_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "load_html", BUFFER_TYPE, params ) );
 
 		params = new ScriptType[] { STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "write", VOID_TYPE, params ) );
@@ -4781,14 +4781,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( filename.startsWith( "http" ) )
 				return null;
 
-			int index = filename.indexOf( "/" );
-
-			if ( index != -1 )
-			{
-				String directory = filename.substring( 0, index ).toLowerCase();
-				if ( directory.endsWith( "settings" ) )
-					return null;
-			}
+			filename = filename.substring( filename.lastIndexOf( "/" ) + 1 );
 
 			File f = new File( SCRIPT_LOCATION, filename );
 			if ( f.exists() )
@@ -4823,14 +4816,22 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue load_html( ScriptVariable string )
 		{
+			StringBuffer buffer = new StringBuffer();
+			ScriptValue returnValue = new ScriptValue( BUFFER_TYPE, "", buffer );
+
 			String location = string.toStringValue().toString();
+			if ( !location.endsWith( ".htm" ) && !location.endsWith( ".html" ) )
+				return returnValue;
 
 			File input = getFile( location );
 			if ( input == null || !input.exists() )
-				return STRING_INIT;
+				return returnValue;
 
 			VISITOR.loadResponseFromFile( input );
-			return VISITOR.responseText == null ? STRING_INIT : new ScriptValue( VISITOR.responseText );
+			if ( VISITOR.responseText != null )
+				buffer.append( VISITOR.responseText );
+
+			return returnValue;
 		}
 
 		public ScriptValue write( ScriptVariable string )
