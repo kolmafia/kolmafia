@@ -225,7 +225,8 @@ public class KoLSettings extends Properties implements KoLConstants
 			for ( int i = 0; i < defaults.length; ++i )
 			{
 				item =  new AdventureResult( defaults[i], 1, false );
-				model.add( item );
+				if ( !model.contains( item ) )
+					model.add( item );
 			}
 		}
 
