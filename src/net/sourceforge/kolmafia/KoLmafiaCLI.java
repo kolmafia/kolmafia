@@ -2002,6 +2002,12 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( command.indexOf( "kitchen" ) != -1 )
+		{
+			this.makeKitchenRequest( parameters );
+			return;
+		}
+
 		// Campground commands, like relaxing at the beanbag, or
 		// resting at your house/tent.
 
@@ -4507,11 +4513,21 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeConsumeItemRequest( String parameters )
 	{
-		if ( this.currentLine.startsWith( "eat" ) && this.makeRestaurantRequest( parameters ) )
-			return;
+		if ( this.currentLine.startsWith( "eat" ) )
+		{
+			if ( this.makeKitchenRequest( parameters ) )
+				return;
+			if ( this.makeRestaurantRequest( parameters ) )
+				return;
+		}
 
-		if ( this.currentLine.startsWith( "drink" ) && this.makeMicrobreweryRequest( parameters ) )
-			return;
+		if ( this.currentLine.startsWith( "drink" ) )
+		{
+			if ( this.makeKitchenRequest( parameters ) )
+				return;
+			if ( this.makeMicrobreweryRequest( parameters ) )
+				return;
+		}
 
 		// Now, handle the instance where the first item is actually
 		// the quantity desired, and the next is the amount to use
@@ -4867,6 +4883,67 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		RequestThread.postRequest( new HermitRequest( itemId, count ) );
+	}
+
+	/**
+	 * Makes a request to Hell's Kitchen to purchase an item.  If the item
+	 * is not available, this method does not report an error.
+	 */
+
+	public boolean makeKitchenRequest( String parameters )
+	{
+		if ( !KoLCharacter.inBadMoon() )
+			return false;
+
+		if ( kitchenItems.isEmpty() )
+			KitchenRequest.getMenu();
+
+		if ( parameters.equals( "" ) )
+			return false;
+
+		String [] splitParameters = this.splitCountAndName( parameters );
+		String countString = splitParameters[0];
+		String nameString = splitParameters[1];
+
+		for ( int i = 0; i < kitchenItems.size(); ++i )
+		{
+			String name = (String) kitchenItems.get(i);
+
+			if ( !KoLDatabase.substringMatches( name.toLowerCase(), nameString ) )
+				continue;
+
+			if ( isExecutingCheckOnlyCommand )
+			{
+				RequestLogger.printLine( name );
+				return true;
+			}
+
+			int count = countString == null || countString.length() == 0 ? 1 :
+				StaticEntity.parseInt( countString );
+
+			if ( count == 0 )
+			{
+				if ( name.equals( "Imp Ale" ) )
+				{
+					int inebriety = TradeableItemDatabase.getInebriety( name );
+					if ( inebriety > 0 )
+						count = (KoLCharacter.getInebrietyLimit() - KoLCharacter.getInebriety()) / inebriety;
+				}
+				else
+				{
+					int fullness = TradeableItemDatabase.getFullness( name );
+					if ( fullness > 0 )
+						count = (KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness()) / fullness;
+				}
+			}
+
+			for ( int j = 0; j < count; ++j )
+				RequestThread.postRequest( new KitchenRequest( name ) );
+
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
