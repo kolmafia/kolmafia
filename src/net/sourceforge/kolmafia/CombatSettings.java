@@ -237,7 +237,7 @@ public abstract class CombatSettings implements KoLConstants
 		}
 
 		return changeCase ? key : line;
-    }
+	}
 
 	public static final void setDefaultAction( String actionList )
 	{
@@ -567,7 +567,7 @@ public abstract class CombatSettings implements KoLConstants
 		if ( action.startsWith( "skill" ) )
 		{
 			String name = KoLmafiaCLI.getCombatSkillName( action.substring(5).trim() );
-			return name == null ? "attack with weapon" : "skill" + ClassSkillsDatabase.getSkillId( name );
+			return name == null ? "attack" : "skill" + ClassSkillsDatabase.getSkillId( name );
 		}
 
 		String potentialSkill = KoLmafiaCLI.getCombatSkillName( action );
