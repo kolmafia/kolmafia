@@ -157,6 +157,7 @@ MusSign	0/40	adventure=49	Post-Quest Bugbear Pens
 MysSign	0/0	adventure=43	Outskirts of Camp
 MysSign	0/30	adventure=44	Camp Logging Camp
 MoxSign	13/25	adventure=46	Thugnderdome
+BadMoon	0/0	adventure=148	Heartbreaker's Hotel
 
 # Astral Plane
 

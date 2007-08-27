@@ -43,6 +43,7 @@ Gyms	Signed Zones	Clan/Signed Gyms
 MusSign	Signed Zones	Muscle Sign
 MysSign	Signed Zones	Mysticality Sign
 MoxSign	Signed Zones	Moxie Sign
+BadMoon	Signed Zones	Bad Moon
 
 Item-Driven	Item-Driven	Item-Driven Zones
 Astral	Item-Driven	Astral Plane
