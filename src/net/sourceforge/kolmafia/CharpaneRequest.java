@@ -347,6 +347,8 @@ public class CharpaneRequest extends KoLRequest
 
 	public static final void decorate( StringBuffer buffer )
 	{
+		StaticEntity.singleStringReplace( buffer, "<body", "<body onLoad=\"updateSafetyText();\"" );
+
 		if ( KoLSettings.getBooleanProperty( "relayAddsRestoreLinks" ) )
 			addRestoreLinks( buffer );
 
