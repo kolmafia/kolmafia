@@ -224,7 +224,9 @@ function updateSafetyText()
 }
 
 
-function showSafetyText( url )
+var lastAdventureId;
+
+function showSafetyText( location )
 {
 	var safety = getObjectInPane( top.chatpane.document, "safety" );
 
@@ -242,10 +244,17 @@ function showSafetyText( url )
 		safety.style.padding = "8px";
 	}
 
-	var adventureId = getAdventureId( url );
+	var adventureId = getAdventureId( location );
 	if ( adventureId == "" )
 		return true;
 
+	if ( adventureId == lastAdventureId )
+	{
+		document.location.href = "adventure.php?snarfblat=" + adventureId;
+		return true;
+	}
+
+	lastAdventureId = adventureId;
 	var httpObject = getHttpObject();
 	if ( !httpObject )
 		return true;
@@ -269,8 +278,6 @@ function showSafetyText( url )
 
 	httpObject.open( "POST", "/KoLmafia/lookupLocation?" + adventureId );
 	httpObject.send( null );
-
-	attachOriginalLinks();
 	return true;
 }
 
@@ -279,8 +286,13 @@ function attachOriginalLinks()
 {
 	var links = document.getElementsByTagName( "a" );
 	for ( var i = 0; i < links.length; ++i )
+	{
 		if ( links[i].data )
+		{
 			links[i].href = links[i].data;
+			links[i].style.cursor = "hand";
+		}
+	}
 
 	return true;
 }
@@ -295,11 +307,13 @@ function attachSafetyText()
 		{
 			links[i].data = links[i].href;
 			links[i].href = "javascript: showSafetyText( '" + links[i].href + "' ); void(0);";
+			links[i].style.cursor = "help";
 		}
 		else if ( links[i].href.indexOf( "submit" ) != -1 )
 		{
 			links[i].data = links[i].href;
 			links[i].href = "javascript: showSafetyText( '" + links[i].href + "' ); void(0);";
+			links[i].style.cursor = "help";
 		}
 	}
 
