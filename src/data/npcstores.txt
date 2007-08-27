@@ -63,6 +63,10 @@ Hippy Store (Fratboy)	h	bowl of rye sprouts	300
 Hippy Store (Fratboy)	h	cob of corn	300
 Hippy Store (Fratboy)	h	juniper berries	300
 
+Nervewrecker's Store	y	cocktailcrafting kit	500
+Nervewrecker's Store	y	E-Z Cook Oven&trade;	500
+Nervewrecker's Store	y	tenderizing hammer	500
+
 Market Demon	m	Ben-Gal&trade; Balm	24
 Market Demon	m	can of hair spray	24
 Market Demon	m	chewing gum on a string	30
@@ -239,7 +243,3 @@ Black Market	l	black sheepskin diploma	300
 Black Market	l	can of black paint	1000
 Black Market	l	forged identification documents	5000
 Black Market	l	exotic parrot egg	500000
-
-Nervewrecker's Store	y	cocktailcrafting kit	500
-Nervewrecker's Store	y	E-Z Cook Oven&trade;	500
-Nervewrecker's Store	y	tenderizing hammer	500
