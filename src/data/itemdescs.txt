@@ -2567,7 +2567,7 @@
 2562	592454967	half-rotten brain	half-rotten brains
 2563	723337113	rusty bonesaw	rusty bonesaws
 2564	778300928	plus-sized phylactery
-2565	684313382	can of Ghuol-B-Gone&trade;
+2565	684313382	can of Ghuol-B-Gone&trade;	cans of Ghuol-B-Gone&trade;
 2566	610128060	Azazel's unicorn
 2567	776720729	Azazel's lollipop
 2568	955022525	Azazel's tutu
@@ -2700,8 +2700,8 @@
 2695	632041342	cup of primitive beer	cups of primitive beer
 2696	846092406	ovoid leather thing	ovoid leather thingies
 2697	453222342	duct tape	lengths of duct tape
-2698	717877878	duct tape wallet
-2699	755252822	duct tape shirt
+2698	717877878	duct tape wallet	duct tape wallets
+2699	755252822	duct tape shirt	duct tape shirts
 2700	847582760	duct tape fedora
 2701	454519872	duct tape sword
 2702	267560694	duct tape dockers	pairs of duct tape dockers
@@ -2715,10 +2715,10 @@
 2710	666635034	cracker	crackers
 2711	121774283	black facepaint	jars of black facepaint
 2712	978143454	black sheepskin diploma	black sheepskin diplomas
-2713	319521618	Black Body&trade; spray
+2713	319521618	Black Body&trade; spray	cans of Black Body&trade; spray
 2714	443929466	floorboard cruft	piles of floorboard cruft
 2715	163102385	sausage bomb	sausage bombs
-2716	691160228	battered hubcap
+2716	691160228	battered hubcap	battered hubcaps
 2717	631967761	shiny hood ornament	shiny hood ornaments
 2718	748480874	spare kidney
 2719
