@@ -185,12 +185,13 @@ public interface KoLConstants extends UtilityConstants
 	public static final int PENDING_STATE  = 4;
 	public static final int CONTINUE_STATE = 5;
 
-	// Stats
+	// Stats / Zodiac Sign categories
 
 	public static final int NONE = 0;
 	public static final int MUSCLE = 1;
 	public static final int MYSTICALITY = 2;
 	public static final int MOXIE = 3;
+	public static final int BAD_MOON = 4;
 
 	// Item consumption types
 

@@ -1789,6 +1789,8 @@ public abstract class KoLCharacter extends StaticEntity
 			ascensionSignType = MYSTICALITY;
 		else if (ascensionSign.equals("Wombat") || ascensionSign.equals("Blender") || ascensionSign.equals("Packrat"))
 			ascensionSignType = MOXIE;
+		else if (ascensionSign.equals("Bad Moon"))
+			ascensionSignType = BAD_MOON;
 		else
 			ascensionSignType = NONE;
 	}
@@ -1959,6 +1961,23 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static final boolean inMoxieSign()
 	{	return (ascensionSignType == MOXIE);
+	}
+
+	/**
+	 * Accessor method which indicates whether the character is in
+	 * Bad Moon
+	 *
+	 * KoLmafia could/should use this to:
+	 *
+	 * - Eliminate access to Hagnks
+	 * - Provide access to Hell's Kitchen
+	 * - Provide access to Nervewrecker's Store
+	 *
+	 * @return	<code>true</code> if the character is in a Moxie sign
+	 */
+
+	public static final boolean inBadMoon()
+	{	return (ascensionSignType == BAD_MOON);
 	}
 
 	/**

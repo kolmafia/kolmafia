@@ -628,7 +628,9 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		{
 			this.levelLabel.setText( "Level " + KoLCharacter.getLevel() );
 
-			if ( KoLCharacter.isHardcore() )
+			if ( KoLCharacter.inBadMoon() )
+				this.roninLabel.setText( "(Bad Moon)" );
+			else if ( KoLCharacter.isHardcore() )
 				this.roninLabel.setText( "(Hardcore)" );
 			else if ( KoLCharacter.canInteract() )
 				this.roninLabel.setText( "(Ronin Clear)" );
