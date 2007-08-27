@@ -322,11 +322,14 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		if ( !KoLmafia.permitsContinue() || this.quantityNeeded <= 0 )
 			return;
 
+		boolean usesAdventures;
+
 		do
 		{
 			this.shouldRerun = false;
 			this.reconstructFields();
 
+			usesAdventures = getAdventuresUsed() > 0;
 			this.beforeQuantity = this.createdItem.getCount( inventory );
 
 			switch ( this.mixingMethod )
@@ -346,6 +349,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				this.combineItems();
 				break;
 			}
+
+			if ( !containsUpdate && usesAdventures )
+				CharpaneRequest.getInstance().run();
 		}
 		while ( this.shouldRerun && KoLmafia.permitsContinue() );
 	}
