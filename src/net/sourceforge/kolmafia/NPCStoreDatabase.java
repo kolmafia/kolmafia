@@ -190,6 +190,8 @@ public class NPCStoreDatabase extends KoLDatabase
 		else if ( storeId.equals( "l" ) )
 			return QuestLogRequest.isBlackMarketAvailable();
 
+		// Gno-Mart in the Gnomish camp
+
 		else if ( storeId.equals( "n" ) )
 			return KoLCharacter.inMoxieSign();
 
@@ -198,6 +200,11 @@ public class NPCStoreDatabase extends KoLDatabase
 
 		else if ( storeId.equals( "w" ) )
 			return QuestLogRequest.isWhiteCitadelAvailable();
+
+		// Nervewrecker's Store in Hey-Deze
+
+		else if ( storeId.equals( "y" ) )
+			return KoLCharacter.inBadMoon();
 
 		// If it gets this far, then the item is definitely available
 		// for purchase from the NPC store.
