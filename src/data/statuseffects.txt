@@ -213,7 +213,7 @@
 213	Frog In Your Throat	squashfrog.gif	52cf0120a2ecbc702da6ef92e588d242	use 1 frogade
 214	Salamander In Your Stomach	liver.gif	1c2325ff89b6a58b386e5563da098e46	use 1 salamander slurry
 215	Newt Gets In Your Eyes	eyes.gif	46a5628ca44d03f0f26bdf3467f1c0c2	use 1 eyedrops of newt
-216	Blessed by the RNG	fence2.gif
+216	Blessed by the RNG	fence2.gif	e449f82b68903398fc800a02cf2aa318
 217	Cursed by the RNG	tinycow.gif
 218	Amorous	lips.gif	e8430f88372ba98df5e361f0b091fe65	use 1 roofie
 219	Bubble, Bubble	sphere.gif	6ede1a75e47f82c98a429c9a50d067b4	use 1 alphabet gum
