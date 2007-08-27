@@ -332,16 +332,24 @@ public class KoLmafiaGUI extends KoLmafia
 			}
 			else if ( this.frameClass == ItemManageFrame.class )
 			{
-				// If the person is in a mysticality sign, make sure
-				// you retrieve information from the restaurant.
+				// If the person is in Bad Moon, retrieve
+				// information from Hell's Kitchen.
+
+				if ( KoLCharacter.inBadMoon() )
+					if ( kitchenItems.isEmpty() )
+                                                KitchenRequest.getMenu();
+
+				// If the person is in a mysticality sign, make
+				// sure you retrieve information from the
+				// restaurant.
 
 				if ( KoLCharacter.canEat() && KoLCharacter.inMysticalitySign() )
 					if ( restaurantItems.isEmpty() )
 						RequestThread.postRequest( new RestaurantRequest() );
 
-				// If the person is in a moxie sign and they have completed
-				// the beach quest, then retrieve information from the
-				// microbrewery.
+				// If the person is in a moxie sign and they
+				// have completed the beach quest, then
+				// retrieve information from the microbrewery.
 
 				if ( KoLCharacter.canDrink() && KoLCharacter.inMoxieSign() && microbreweryItems.isEmpty() )
 				{
