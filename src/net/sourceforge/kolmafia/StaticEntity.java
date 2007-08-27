@@ -436,7 +436,7 @@ public abstract class StaticEntity implements KoLConstants
 
 	public static final void externalUpdate( String location, String responseText )
 	{
-		if ( location.indexOf( "account.php" ) != -1 )
+		if ( location.startsWith( "account.php" ) )
 		{
 			boolean wasHardcore = KoLCharacter.isHardcore();
 			boolean hadRestrictions = !KoLCharacter.canEat() || !KoLCharacter.canDrink();
@@ -458,7 +458,7 @@ public abstract class StaticEntity implements KoLConstants
 			}
 		}
 
-		if ( location.indexOf( "questlog.php" ) != -1 )
+		if ( location.startsWith( "questlog.php" ) )
 			QuestLogRequest.registerQuests( true, location, responseText );
 
 		// Keep theupdated of your current equipment and

@@ -437,17 +437,21 @@ public class ClassSkillsDatabase extends KoLDatabase
 	{
 		ArrayList list = new ArrayList();
 
+		int skillId;
 		boolean shouldAdd = false;
 		Object [] keys = skillTypeById.keySet().toArray();
 
 		for ( int i = 0; i < keys.length; ++i )
 		{
 			shouldAdd = false;
+			skillId = ((Integer)keys[i]).intValue();
 
 			if ( type == CASTABLE )
-				shouldAdd = isType( ((Integer)keys[i]).intValue(), SELF_ONLY ) || isType( ((Integer)keys[i]).intValue(), BUFF );
+				shouldAdd = isType( skillId, SELF_ONLY ) || isType( skillId, BUFF );
+			else if ( skillId == 3009 )
+				shouldAdd = type == SELF_ONLY || type == COMBAT;
 			else
-				shouldAdd = isType( ((Integer)keys[i]).intValue(), type );
+				shouldAdd = isType( skillId, type );
 
 			if ( shouldAdd )
 				list.add( UseSkillRequest.getInstance( ((Integer)keys[i]).intValue() ) );

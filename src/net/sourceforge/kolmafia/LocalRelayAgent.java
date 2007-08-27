@@ -246,39 +246,6 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 		{
 			this.request.pseudoResponse( "HTTP/1.1 200 OK", RequestEditorKit.getFeatureRichHTML( "charpane.php", CharpaneRequest.getLastResponse(), true ) );
 		}
-		else if ( this.path.startsWith( "/fight.php" ) )
-		{
-			FightRequest.stopTrackingFights();
-
-			String action = request.getFormField( "action" );
-			if ( action != null && action.equals( "skill" ) )
-			{
-				String skillId = request.getFormField( "whichskill" );
-				if ( !skillId.equals( "3004" ) )
-				{
-					String testAction;
-					int insertIndex = 6;
-
-					for ( int i = 1; i <= 5 && insertIndex == 6; ++i )
-					{
-						testAction = KoLSettings.getUserProperty( "customCombatSkill" + i );
-						if ( testAction.equals( "" ) || testAction.equals( skillId ) )
-							insertIndex = i;
-					}
-
-					if ( insertIndex == 6 )
-					{
-						insertIndex = 5;
-						for ( int i = 2; i <= 5; ++i )
-							KoLSettings.setUserProperty( "customCombatSkill" + (i-1), KoLSettings.getUserProperty( "customCombatSkill" + i ) );
-					}
-
-					KoLSettings.setUserProperty( "customCombatSkill" + insertIndex, skillId );
-				}
-			}
-
-			this.request.run();
-		}
 		else
 		{
 			if ( !this.request.hasNoResult() )

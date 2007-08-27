@@ -1274,7 +1274,7 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( this.shouldUpdateDebugLog() )
 			RequestLogger.updateDebugLog( LINE_BREAK_PATTERN.matcher( this.responseText ).replaceAll( "" ) );
 
-		if ( !isChatRequest )
+		if ( !isChatRequest && !this.formURLString.startsWith( "fight.php" ) )
 			this.checkForNewEvents();
 
 		if ( isRatQuest )

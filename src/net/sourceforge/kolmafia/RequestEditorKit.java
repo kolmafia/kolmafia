@@ -993,7 +993,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			return;
 		}
 
-		if ( location.indexOf( "menu" ) != -1 )
+		if ( location.indexOf( "menu.php" ) != -1 )
 		{
 			MoonPhaseRequest.decorate( buffer );
 			return;

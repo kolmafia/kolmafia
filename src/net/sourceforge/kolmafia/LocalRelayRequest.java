@@ -125,16 +125,14 @@ public class LocalRelayRequest extends PasswordHashRequest
 	public void processResults()
 	{
 		this.statusLine = "HTTP/1.1 200 OK";
-
-		if ( this.getPath().startsWith( "http" ) )
-			return;
+		String path = this.getPath();
 
 		StringBuffer responseBuffer = new StringBuffer( this.responseText );
 
 		// Fix KoLmafia getting outdated by events happening
 		// in the browser by using the sidepane.
 
-		if ( this.getPath().equals( "charpane.php" ) )
+		if ( path.equals( "charpane.php" ) )
 		{
 			CharpaneRequest.processCharacterPane( this.responseText );
 		}
@@ -142,7 +140,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// Allow a way to get from KoL back to the gCLI
 		// using the chat launcher.
 
-		else if ( this.getPath().equals( "chatlaunch.php" ) )
+		else if ( path.equals( "chatlaunch.php" ) )
 		{
 			if ( KoLSettings.getBooleanProperty( "relayAddsGraphicalCLI" ) )
 			{
@@ -162,7 +160,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// Fix it a little more by making sure that familiar
 		// changes and equipment changes are remembered.
 
-		else if ( this.getPath().equals( "main.php" ) )
+		else if ( path.equals( "main.php" ) )
 		{
 			Matcher emailMatcher = EMAIL_PATTERN.matcher( this.responseText );
 			if ( emailMatcher.find() )
@@ -171,7 +169,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// If this is a store, you can opt to remove all the min-priced items from view
 		// along with all the items which are priced above affordable levels.
 
-		else if ( this.getPath().equals( "mallstore.php" ) )
+		else if ( path.equals( "mallstore.php" ) )
 		{
 			int searchItemId = -1;
 			int searchPrice = -1;
@@ -201,6 +199,36 @@ public class LocalRelayRequest extends PasswordHashRequest
 				StaticEntity.singleStringReplace( responseBuffer, "value=" + searchString, "checked value=" + searchString );
 			}
 		}
+		else if ( path.equals( "fight.php" ) )
+		{
+			String action = this.getFormField( "action" );
+			if ( action != null && action.equals( "skill" ) )
+			{
+				String skillId = this.getFormField( "whichskill" );
+				if ( !skillId.equals( "3004" ) )
+				{
+					String testAction;
+					int insertIndex = 6;
+
+					for ( int i = 1; i <= 5 && insertIndex == 6; ++i )
+					{
+						testAction = KoLSettings.getUserProperty( "customCombatSkill" + i );
+						if ( testAction.equals( "" ) || testAction.equals( skillId ) )
+							insertIndex = i;
+					}
+
+					if ( insertIndex == 6 )
+					{
+						insertIndex = 5;
+						for ( int i = 2; i <= 5; ++i )
+							KoLSettings.setUserProperty( "customCombatSkill" + (i-1), KoLSettings.getUserProperty( "customCombatSkill" + i ) );
+					}
+
+					KoLSettings.setUserProperty( "customCombatSkill" + insertIndex, skillId );
+				}
+			}
+		}
+
 		else
 		{
 			StaticEntity.externalUpdate( this.getURLString(), this.responseText );
@@ -208,7 +236,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 		try
 		{
-			RequestEditorKit.getFeatureRichHTML( this.getPath().toString(), responseBuffer, true );
+			RequestEditorKit.getFeatureRichHTML( this.getURLString(), responseBuffer, true );
 		}
 		catch ( Exception e )
 		{
