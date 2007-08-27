@@ -383,47 +383,72 @@
 383	Black Face	blackface.gif	c74fee3997d020f53cc3e077d4897c10	use 1 black facepaint
 384	Erudite	spectacles.gif	bf4f8342a8efe1d4c27054fa73ec1d7a	use 1 black sheepskin diploma
 385	Radiating Black Body&trade;	radiation.gif	3de3c7f145ae87e58ee391127ed697fd	use 1 Black Body&trade; spray
+# Here's the block of Bad Moon effects.
+#	Duhhh		duncecap.gif	1a193e72ad6e010246f9c2174d831fc8
+#	Re-Possessed	stogie.gif	27e835ef2ee194eed4e43c64a8cf65ac
+#	Burning Heart	heartrock.gif	ab7ab0ba8a213f24649b9d0152c57cc3
+#	Freaked Out	hoppeddown.gif	0e5f80059469710470e31e21b2cc36fa
+#	Cupshotten	snifter.gif
+#	Frostbitten	snowflake.gif
+#	Scared Stiff	hoppeddown.gif
+#	Minioned	cuffs.gif	c434d018e751777925ec8957d9860aac
+#	Scent of a Kitchen Elf	houseelf.gif	6691b3cb35ed3188f393b95909e017a9
+#	Affronted Decency	angry.gif	5e24e5adb243a87b8511d58fa4af1efe
+#	Guanified	guano.gif
+#	Braaains	realbrain.gif
+#	Side Affectation	goofballs.gif
+#	Paw swap	hand.gif
+#	Basted	slimed.gif
+#	Missing Kidney	kidney.gif	a3271a164706776e733cd78e060cb5e1
+#	Dang Near Cut In Half	axegash.gif	73b1728ec6c9c1491f2aa5ae7134cfaa
+#	Shirtless in Seattle
+#	The Rage	angry.gif
+#	Shamed &amp; Manipulated	blush.gif	02e465f136feb826854bd8493a9943e4
+#	Dreadlocked	hippywig.gif	e08a647c81c873f82505057ee2f50cc8
+#	Drummed Out	drum.gif	304469441fccda71b602573731342e4e
+#	Hornswoggled	eyepatch.gif
+#	Third Eye Blind	eyepatch.gif	ffce3a7c5e9897b1484a2e8c7ed6dd01
 386
 387
 388
-389
+389	Maid Disservice	skirt.gif	58a1a5cd7aaf097eaf8dec6f91d176b8
 390
-391
-392
-393
+391	Enhanced Archaeologist	cocobra.gif	ec61cf56f1ceb2a7aadceefb4e346f17
+392	Chronologically Pummeled	watch.gif	1b990437bdd4345f717b2a33d26a1571
+393	Animal Exploiter	reindeer.gif	d18158063a35b1914a3b7f1117e3648c
 394
-395
+395	Once Bitten, Twice Shy	teeth.gif	d5a2591989bb310c9f3fb8453b0bf4ee
 396
 397
 398
 399
 400
 401
-402
-403
+402	The Vitus Virus	virus.gif	700d9925ed2b90dd1ae23928cbfabef9
+403	Your #1 Problem	footprints.gif	52d44b4d25aef7481e19083450ee0fdb
 404
-405
+405	Braaaaaains	realbrain.gif	4b54aa2a3caf4bf6dec36da0fc39f757
 406
 407
 408
 409
 410
 411
-412
-413
-414
-415
-416
-417
-418
+412	Raving Lunatic	hoppedup.gif	5cb64a8593bdf71300d242a39d06cac6
+413	Solar Flair	sun2.gif	f8cdfd0bd04d7c75528b6702756c738d
+414	Hyperbolic Hypothermia	snowflake.gif
+415	Slimed	slimed.gif
+416	Tar-Struck	blpudding.gif	44d5caa5c134dad2a5bce2caa126f6f9
+417	Greased	bacon.gif	6887f57ba64c592ab1ddf8f2af13e1f7
+418	Batigue	batwing.gif	5d68832346f34f355f71840c51fe01cb
 419
-420
+420	Deep-Fried	cheesestaf.gif	c90fb985575f40b9a11a82e2089845ed
 421
 422
 423
 424
-425
-426
+425	Midgetized	whitepix.gif	0cf9f537a2dda9b00815a52018fcd0d3
+426	Synthesized	stuffcocoa.gif	549804c10e37636d6be9045a142d6fe2
 427	Hiding in Plain Sight	smallbush.gif	73b1d28fdca4f7e8f4d94d425a001720	use 1 panty raider camouflage
 428	Compensatory Cruelness	angry.gif	fcfb0679f0e80509cbff567a600ca998
 429	Mutated	spooklines.gif	a8e35050197871d1fbe5b3afc865af7e	use 1 gremlin mutagen
@@ -444,5 +469,5 @@
 444	Demonic Taint	stench.gif	2dbb492270ccad496291a6f7fdadde26
 445
 446	Hella Tough	strboost.gif
-447	Hella Smart	realbrain.gi
+447	Hella Smart	realbrain.gif	4972f34f7622eaa1fc8fd2ab6eb43f40
 448	Hella Smooth	roundglasses.gif	9fc2c05bd8dff7c2b3c5a27b56a0240f
