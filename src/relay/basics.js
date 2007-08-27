@@ -212,7 +212,7 @@ function updateSafetyText()
 		if ( httpObject.readyState != 4 )
 			return;
 
-		if ( httpObject.responseText.length() < 2 )
+		if ( httpObject.responseText.length < 2 )
 			return;
 
 		safety.innerHTML = httpObject.responseText;
@@ -260,7 +260,7 @@ function showSafetyText( e )
 		if ( httpObject.readyState != 4 )
 			return;
 
-		if ( httpObject.responseText.length() < 2 )
+		if ( httpObject.responseText.length < 2 )
 			return;
 
 		var nodes = top.chatpane.document.body.childNodes;
