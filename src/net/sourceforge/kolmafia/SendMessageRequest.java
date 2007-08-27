@@ -217,7 +217,7 @@ public abstract class SendMessageRequest extends KoLRequest
 	 * it merely parses the results to see if any gains were made.
 	 */
 
-	public final void run()
+	public void run()
 	{
 		// First, check to see how many attachments are to be
 		// placed in the closet - if there's too many,

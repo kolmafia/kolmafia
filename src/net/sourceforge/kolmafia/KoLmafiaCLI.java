@@ -4230,6 +4230,12 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeHagnkRequest( String parameters )
 	{
+		if ( KoLCharacter.inBadMoon() )
+		{
+			KoLmafia.updateDisplay( ERROR_STATE, "Hagnk's Storage is not available in Bad Moon" );
+			return;
+		}
+
 		Object [] items = this.getMatchingItemList( parameters );
 		if ( items.length == 0 )
 			return;

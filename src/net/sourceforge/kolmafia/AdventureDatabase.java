@@ -1408,7 +1408,7 @@ public class AdventureDatabase extends KoLDatabase
 		// Next, attempt to pull the items out of storage,
 		// if you are out of ronin.
 
-		if ( KoLCharacter.canInteract() )
+		if ( KoLCharacter.canInteract() && !KoLCharacter.inBadMoon() )
 		{
 			itemCount = item.getCount( storage );
 

@@ -3467,6 +3467,9 @@ public class KoLmafiaASH extends StaticEntity
 		result.addElement( new ScriptExistingFunction( "in_moxie_sign", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "in_bad_moon", BOOLEAN_TYPE, params ) );
+
+		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "my_class", CLASS_TYPE, params ) );
 
 		params = new ScriptType[] {};
@@ -5413,6 +5416,10 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue in_moxie_sign()
 		{	return new ScriptValue( KoLCharacter.inMoxieSign() );
+		}
+
+		public ScriptValue in_bad_moon()
+		{	return new ScriptValue( KoLCharacter.inBadMoon() );
 		}
 
 		public ScriptValue my_class()
