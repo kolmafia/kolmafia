@@ -47,8 +47,8 @@ public class RestaurantRequest extends KoLRequest
 
 	public static final AdventureResult getDailySpecial()
 	{
-		if ( microbreweryItems.isEmpty() && KoLCharacter.inMoxieSign() )
-			RequestThread.postRequest( new MicrobreweryRequest() );
+		if ( restaurantItems.isEmpty() && KoLCharacter.inMysticalitySign() )
+			RequestThread.postRequest( new RestaurantRequest() );
 
 		return dailySpecial;
 	}

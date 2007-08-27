@@ -185,6 +185,24 @@ public class ItemStorageRequest extends SendMessageRequest
 		return "";
 	}
 
+	public final void run()
+	{
+		if ( KoLCharacter.inBadMoon() )
+		{
+			switch ( this.moveType )
+			{
+			case EMPTY_STORAGE:
+			case RETRIEVE_STORAGE:
+			case STORAGE_TO_INVENTORY:
+			case PULL_MEAT_FROM_STORAGE:
+				KoLmafia.updateDisplay( ERROR_STATE, "Hagnk's Storage is not available in Bad Moon" );
+				return;
+			}
+		}
+
+		super.run();
+	}
+
 	public void processResults()
 	{
 		super.processResults();

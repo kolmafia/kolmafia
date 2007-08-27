@@ -780,7 +780,7 @@ public abstract class KoLmafia implements KoLConstants
 			RequestThread.postRequest( new CampgroundRequest() );
 		}
 
-		if ( KoLSettings.getIntegerProperty( "lastEmptiedStorage" ) != KoLCharacter.getAscensions() )
+		if ( !KoLCharacter.inBadMoon() && KoLSettings.getIntegerProperty( "lastEmptiedStorage" ) != KoLCharacter.getAscensions() )
 		{
 			RequestThread.postRequest( new ItemStorageRequest() );
 			if ( storage.isEmpty() )
