@@ -1713,7 +1713,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 			for ( int i = 1; i <= 5; ++i )
 			{
-				String action = KoLSettings.getUserProperty( "customCombatSkill" + i );
+				String action = KoLSettings.getUserProperty( "stationaryButton" + i );
 				if ( action.equals( "" ) )
 					continue;
 
@@ -1722,10 +1722,10 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				if ( !KoLCharacter.hasSkill( name ) )
 				{
 					for ( int j = i; j < 5; ++j )
-						KoLSettings.setUserProperty( "customCombatSkill" + j,
-							KoLSettings.getUserProperty( "customCombatSkill" + (j+1) ) );
+						KoLSettings.setUserProperty( "stationaryButton" + j,
+							KoLSettings.getUserProperty( "stationaryButton" + (j+1) ) );
 
-					KoLSettings.setUserProperty( "customCombatSkill5", "" );
+					KoLSettings.setUserProperty( "stationaryButton5", "" );
 					continue;
 				}
 
