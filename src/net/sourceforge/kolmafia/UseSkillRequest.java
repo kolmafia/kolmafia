@@ -50,6 +50,8 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 	private static final int OTTER_TONGUE = 1007;
 	private static final int WALRUS_TONGUE = 1010;
+	private static final int DISCO_NAP = 5007;
+	private static final int POWER_NAP = 5011;
 
 	public static String lastUpdate = "";
 
@@ -630,6 +632,9 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 			if ( this.skillId == OTTER_TONGUE || this.skillId == WALRUS_TONGUE )
 				activeEffects.remove( KoLAdventure.BEATEN_UP );
+
+			if ( this.skillId == DISCO_NAP || this.skillId == POWER_NAP )
+				activeEffects.clear();
 		}
 	}
 

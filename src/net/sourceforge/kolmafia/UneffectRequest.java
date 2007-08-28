@@ -180,10 +180,6 @@ public class UneffectRequest extends KoLRequest
 				StaticEntity.getClient().processResult( REMEDY.getNegation() );
 
 			KoLmafia.updateDisplay( this.effect.getName() + " removed." );
-
-			if ( !containsUpdate )
-				RequestThread.postRequest( CharpaneRequest.getInstance() );
-
 			RequestFrame.refreshStatus();
 		}
 		else if ( !this.isShruggable )

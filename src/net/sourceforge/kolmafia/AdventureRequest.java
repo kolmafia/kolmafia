@@ -175,9 +175,6 @@ public class AdventureRequest extends KoLRequest
 		{
 			useMarmotClover( this.formSource, this.responseText );
 		}
-
-		if ( !containsUpdate )
-			CharpaneRequest.getInstance().run();
 	}
 
 	public void processResults()
@@ -588,7 +585,7 @@ public class AdventureRequest extends KoLRequest
 	}
 
 	public int getAdventuresUsed()
-	{	return 1;
+	{	return formSource.startsWith( "shore" ) ? 3 : 1;
 	}
 
 	public String toString()
