@@ -454,7 +454,11 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				this.addFormField( "item" + (i+1), String.valueOf( ingredients[i].getItemId() ) );
 		}
 
-		this.addFormField( "quantity", String.valueOf( this.quantityNeeded ) );
+		if ( (mixingMethod == COOK_REAGENT || mixingMethod == SUPER_REAGENT) && KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) )
+			this.addFormField( "quantity", String.valueOf( (int) Math.ceil( this.quantityNeeded / 3.0f ) ) );
+		else
+			this.addFormField( "quantity", String.valueOf( this.quantityNeeded ) );
+
 		KoLmafia.updateDisplay( "Creating " + this.name + " (" + this.quantityNeeded + ")..." );
 		super.run();
 	}
