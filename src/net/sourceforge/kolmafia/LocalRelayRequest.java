@@ -760,6 +760,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		buffer.append( "else if ( document.all ) " );
 			buffer.append( "safety = top.chatpane.document.all[ 'safety' ]; " );
 
+		buffer.append( "safety.closed = true;" );
 		buffer.append( "safety.style.display = 'none'; " );
 		buffer.append( "var nodes = top.chatpane.document.body.childNodes; " );
 		buffer.append( "for ( var i = 0; i < nodes.length; ++i ) " );
