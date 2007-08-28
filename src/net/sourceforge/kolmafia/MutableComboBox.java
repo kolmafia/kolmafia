@@ -47,6 +47,7 @@ import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 public class MutableComboBox extends JComboBox implements ListElementFilter
 {
 	private int currentIndex = -1;
+	private boolean isRecentFocus = false;
 
 	private String currentName;
 	private String matchString;
@@ -91,6 +92,10 @@ public class MutableComboBox extends JComboBox implements ListElementFilter
 		if ( this.currentName == null )
 			return;
 
+		this.isRecentFocus = false;
+		this.currentIndex = -1;
+		this.model.setSelectedItem( null );
+
 		this.active = true;
 		this.matchString = this.currentName.toLowerCase();
 
@@ -106,7 +111,6 @@ public class MutableComboBox extends JComboBox implements ListElementFilter
 
 	public synchronized void findMatch( int keyCode )
 	{
-		this.currentIndex = -1;
 		this.currentName = this.getEditor().getItem().toString();
 
 		if ( !allowAdditions && this.model.contains( this.currentName ) )
@@ -164,13 +168,17 @@ public class MutableComboBox extends JComboBox implements ListElementFilter
 		{
 			if ( e.getKeyCode() == KeyEvent.VK_DOWN )
 			{
-				if ( currentIndex + 1 < model.getSize() )
+				if ( !isRecentFocus && currentIndex + 1 < model.getSize() )
 					currentMatch = model.getElementAt( ++currentIndex );
+
+				isRecentFocus = false;
 			}
 			else if ( e.getKeyCode() == KeyEvent.VK_UP )
 			{
-				if ( model.getSize() > 0 && currentIndex > 0 )
+				if ( !isRecentFocus && model.getSize() > 0 && currentIndex > 0 )
 					currentMatch = model.getElementAt( --currentIndex );
+
+				isRecentFocus = false;
 			}
 			else if ( e.getKeyCode() == KeyEvent.VK_ENTER || e.getKeyCode() == KeyEvent.VK_TAB )
 				this.focusLost( null );
@@ -180,7 +188,6 @@ public class MutableComboBox extends JComboBox implements ListElementFilter
 
 		public final void itemStateChanged( ItemEvent e )
 		{
-			currentIndex = -1;
 			currentMatch = getSelectedItem();
 
 			if ( currentMatch == null )
@@ -197,14 +204,14 @@ public class MutableComboBox extends JComboBox implements ListElementFilter
 
 		public final void focusGained( FocusEvent e )
 		{
-			currentIndex = -1;
 			getEditor().selectAll();
+
+			isRecentFocus = true;
+			currentIndex = MutableComboBox.this.model.getSelectedIndex();
 		}
 
 		public final void focusLost( FocusEvent e )
 		{
-			currentIndex = -1;
-
 			if ( currentMatch != null )
 				setSelectedItem( currentMatch );
 			else if ( currentName != null && currentName.trim().length() != 0 )
