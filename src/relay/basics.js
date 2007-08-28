@@ -296,6 +296,9 @@ function attachSafetyText()
 	var links = document.getElementsByTagName( "a" );
 	for ( var i = 0; i < links.length; ++i )
 	{
+		if ( links[i].href.indexOf( "showSafetyText" ) != -1 )
+			return true;
+
 		if ( links[i].href.indexOf( "adventure.php" ) != -1 )
 		{
 			links[i].data = links[i].href;
