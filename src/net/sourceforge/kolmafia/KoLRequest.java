@@ -1295,6 +1295,7 @@ public class KoLRequest extends Job implements KoLConstants
 		// Now let the main method of result processing for
 		// each request type happen.
 
+		int effectCount = activeEffects.size();
 		this.processResults();
 
 		// Let the mappers do their work
@@ -1307,7 +1308,9 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( hasNoResult || this instanceof LocalRelayRequest )
 			return;
 
-		if ( RequestFrame.sidebarFrameExists() )
+		if ( effectCount != activeEffects.size() || getAdventuresUsed() > 0 )
+			this.containsUpdate = true;
+		else if ( RequestFrame.sidebarFrameExists() )
 			this.containsUpdate |= this.responseText.indexOf( "charpane" ) != -1;
 
 		if ( this.containsUpdate )

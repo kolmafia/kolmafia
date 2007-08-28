@@ -195,9 +195,6 @@ public class ClanGymRequest extends KoLRequest
 			if ( this.equipmentId != BREAKFAST )
 				KoLmafia.updateDisplay( "Workout completed." );
 
-			if ( this.turnCount > 0 )
-				StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, 0 - turnCount ) );
-
 			return;
 		}
 
