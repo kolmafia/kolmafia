@@ -1714,7 +1714,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			for ( int i = 1; i <= 5; ++i )
 			{
 				String action = KoLSettings.getUserProperty( "stationaryButton" + i );
-				if ( action.equals( "" ) )
+				if ( action.equals( "" ) || action.equals( "none" ) )
 					continue;
 
 				String name = ClassSkillsDatabase.getSkillName( Integer.parseInt( action ) );

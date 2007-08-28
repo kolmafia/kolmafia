@@ -205,7 +205,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 			if ( action != null && action.equals( "skill" ) )
 			{
 				String skillId = this.getFormField( "whichskill" );
-				if ( !skillId.equals( "3004" ) )
+				if ( skillId != null && !skillId.equals( "none" ) && !skillId.equals( "3004" ) )
 				{
 					String testAction;
 					int insertIndex = 6;
@@ -213,7 +213,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 					for ( int i = 1; i <= 5 && insertIndex == 6; ++i )
 					{
 						testAction = KoLSettings.getUserProperty( "stationaryButton" + i );
-						if ( testAction.equals( "" ) || testAction.equals( skillId ) )
+						if ( testAction.equals( "" ) || testAction.equals( "none" ) || testAction.equals( skillId ) )
 							insertIndex = i;
 					}
 
