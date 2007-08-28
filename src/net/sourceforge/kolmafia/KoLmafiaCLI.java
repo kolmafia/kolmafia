@@ -68,6 +68,8 @@ public class KoLmafiaCLI extends KoLmafia
 	public static final int FOOD = 4;
 	public static final int BOOZE = 5;
 
+	private static List matchList = inventory;
+
 	private static boolean isFoodMatch = false;
 	private static boolean isBoozeMatch = false;
 	private static boolean isUsageMatch = false;
@@ -3974,12 +3976,17 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		else
-			matchCount = firstMatch.getCount( inventory );
+			matchCount = firstMatch.getCount( matchList );
 
 		// In the event that the person wanted all except a certain
 		// quantity, be sure to update the item count.
 
-		if ( itemCount <= 0 )
+		if ( matchList == storage && KoLCharacter.canInteract() )
+		{
+			itemCount = matchCount;
+			firstMatch = firstMatch.getInstance( itemCount );
+		}
+		else if ( itemCount <= 0 )
 		{
 			itemCount = matchCount + itemCount;
 			firstMatch = firstMatch.getInstance( itemCount );
@@ -4231,7 +4238,10 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		matchList = storage;
 		Object [] items = this.getMatchingItemList( parameters );
+		matchList = inventory;
+
 		if ( items.length == 0 )
 			return;
 
@@ -4293,7 +4303,12 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( parameters.startsWith( "take" ) )
+			matchList = closet;
+
 		Object [] itemList = this.getMatchingItemList( parameters.substring(4).trim() );
+		matchList = inventory;
+
 		if ( itemList.length == 0 )
 			return;
 
@@ -4597,7 +4612,12 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( parameters.startsWith( "take" ) )
+			matchList = collection;
+
 		Object [] items = this.getMatchingItemList( parameters.substring(4).trim() );
+		matchList = inventory;
+
 		if ( items.length == 0 )
 			return;
 
