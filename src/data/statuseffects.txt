@@ -395,7 +395,6 @@
 #	Scent of a Kitchen Elf	houseelf.gif	6691b3cb35ed3188f393b95909e017a9
 #	Affronted Decency	angry.gif	5e24e5adb243a87b8511d58fa4af1efe
 #	Guanified	guano.gif
-#	Braaains	realbrain.gif
 #	Side Affectation	goofballs.gif
 #	Paw swap	hand.gif
 #	Basted	slimed.gif
@@ -426,7 +425,7 @@
 401
 402	The Vitus Virus	virus.gif	700d9925ed2b90dd1ae23928cbfabef9
 403	Your #1 Problem	footprints.gif	52d44b4d25aef7481e19083450ee0fdb
-404
+404	Braaains	realbrain.gif	cef7b7b9bd69838c097f00f584106cf8
 405	Braaaaaains	realbrain.gif	4b54aa2a3caf4bf6dec36da0fc39f757
 406
 407
