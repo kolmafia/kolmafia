@@ -949,6 +949,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 	static
 	{
 		maps.add( "plains.php" );
+		maps.add( "plains2.php" );
 		maps.add( "bathole.php" );
 		maps.add( "fernruin.php" );
 		maps.add( "knob.php" );
@@ -958,13 +959,22 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		maps.add( "woods.php" );
 		maps.add( "friars.php" );
 		maps.add( "wormwood.php" );
+		maps.add( "mountains.php" );
+		maps.add( "mclargehuge.php" );
 		maps.add( "island.php" );
+		maps.add( "bigisland.php" );
+		maps.add( "postwarisland.php" );
 		maps.add( "beach.php" );
+		maps.add( "pyramid.php" );
 		maps.add( "town_wrong.php" );
 		maps.add( "town_right.php" );
 		maps.add( "manor.php" );
 		maps.add( "manor2.php" );
 		maps.add( "manor3.php" );
+		maps.add( "dungeons.php" );
+		maps.add( "canadia.php" );
+		maps.add( "gnomes.php" );
+		maps.add( "heydeze.php" );
 	}
 
 	public static final void getFeatureRichHTML( String location, StringBuffer buffer, boolean addComplexFeatures )
