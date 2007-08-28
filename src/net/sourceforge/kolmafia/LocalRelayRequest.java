@@ -212,7 +212,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 					for ( int i = 1; i <= 5 && insertIndex == 6; ++i )
 					{
-						testAction = KoLSettings.getUserProperty( "customCombatSkill" + i );
+						testAction = KoLSettings.getUserProperty( "stationaryButton" + i );
 						if ( testAction.equals( "" ) || testAction.equals( skillId ) )
 							insertIndex = i;
 					}
@@ -221,10 +221,13 @@ public class LocalRelayRequest extends PasswordHashRequest
 					{
 						insertIndex = 5;
 						for ( int i = 2; i <= 5; ++i )
-							KoLSettings.setUserProperty( "customCombatSkill" + (i-1), KoLSettings.getUserProperty( "customCombatSkill" + i ) );
+						{
+							KoLSettings.setUserProperty( "stationaryButton" + (i-1),
+								KoLSettings.getUserProperty( "stationaryButton" + i ) );
+						}
 					}
 
-					KoLSettings.setUserProperty( "customCombatSkill" + insertIndex, skillId );
+					KoLSettings.setUserProperty( "stationaryButton" + insertIndex, skillId );
 				}
 			}
 		}

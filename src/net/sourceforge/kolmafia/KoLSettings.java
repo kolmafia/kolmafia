@@ -813,6 +813,11 @@ public class KoLSettings extends Properties implements KoLConstants
 		USER_MAP.put( "retrieveContacts", "true" );
 		USER_MAP.put( "showGainsPerUnit", "false" );
 		USER_MAP.put( "snowconeSummons", "0" );
+		USER_MAP.put( "stationaryButton1", "" );
+		USER_MAP.put( "stationaryButton2", "" );
+		USER_MAP.put( "stationaryButton3", "" );
+		USER_MAP.put( "stationaryButton4", "" );
+		USER_MAP.put( "stationaryButton5", "" );
 		USER_MAP.put( "thanksMessage", "Thank you for the donation!" );
 		USER_MAP.put( "trapperOre", "chrome ore" );
 		USER_MAP.put( "violetFogGoal", "0" );
