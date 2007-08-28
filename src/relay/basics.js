@@ -238,6 +238,7 @@ function showSafetyText( location )
 	{
 		safety = top.chatpane.document.createElement( "div" );
 		safety.id = "safety";
+		safety.closed = false;
 
 		safety.style.textAlign = "left";
 		top.chatpane.document.body.appendChild( safety );
@@ -252,7 +253,7 @@ function showSafetyText( location )
 	if ( adventureId == "" )
 		return true;
 
-	if ( adventureId == lastAdventureId )
+	if ( safety.closed || adventureId == lastAdventureId )
 	{
 		document.location.href = "adventure.php?" + adventureId;
 		return true;
@@ -288,6 +289,10 @@ function showSafetyText( location )
 
 function attachSafetyText()
 {
+	var safety = getObjectInPane( top.chatpane.document );
+	if ( safety )
+		safety.closed = false;
+
 	var links = document.getElementsByTagName( "a" );
 	for ( var i = 0; i < links.length; ++i )
 	{
