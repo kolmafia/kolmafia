@@ -927,8 +927,17 @@ public abstract class MoodSettings implements KoLConstants
 				if ( action.startsWith( "use" ) )
 				{
 					this.item = KoLmafiaCLI.getFirstMatchingItem( parameters );
-					this.count = this.item.getCount();
-					this.action = "use " + this.count + " " + this.item.getName();
+
+					if ( this.item == null )
+					{
+						this.count = 1;
+						this.action = action;
+					}
+					else
+					{
+						this.count = this.item.getCount();
+						this.action = "use " + this.count + " " + this.item.getName();
+					}
 				}
 				else
 				{

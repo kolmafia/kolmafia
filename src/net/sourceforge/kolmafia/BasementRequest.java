@@ -866,7 +866,7 @@ public class BasementRequest extends AdventureRequest
 		if ( !buyItems && action.startsWith( "use" ) )
 		{
 			AdventureResult item = KoLmafiaCLI.getFirstMatchingItem( action.substring(4).trim(), false );
-			if ( !KoLCharacter.hasItem( item ) )
+			if ( item == null || !KoLCharacter.hasItem( item ) )
 				return false;
 		}
 
