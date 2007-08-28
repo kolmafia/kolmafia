@@ -856,7 +856,9 @@ public class FightRequest extends KoLRequest
 		// Spend MP and consume items
 
 		++currentRound;
-		payActionCost();
+
+		if ( !activeEffects.contains( KoLAdventure.CUNCTATITIS ) || responseText.indexOf( "You decide" ) == -1 )
+			payActionCost();
 
 		if ( currentRound == 1 )
 		{
