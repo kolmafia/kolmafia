@@ -643,7 +643,6 @@ public class BasementRequest extends AdventureRequest
 
 			basementTestString = "Maximum HP";
 			basementTestCurrent = KoLCharacter.getMaximumHP();
-			basementTestValue = (int) drainRequirement;
 
 			actualBoost = Modifiers.HP;
 			primaryBoost = Modifiers.MUS_PCT;
@@ -653,6 +652,7 @@ public class BasementRequest extends AdventureRequest
 
 			float damageAbsorb = 1.0f - (( ((float) Math.sqrt( KoLCharacter.getDamageAbsorption() / 10.0f )) - 1.0f ) / 10.0f);
 			float healthRequirement = drainRequirement * damageAbsorb;
+			basementTestValue = (int) healthRequirement;
 
 			if ( KoLCharacter.getMaximumHP() < healthRequirement )
 			{
@@ -661,6 +661,7 @@ public class BasementRequest extends AdventureRequest
 
 				damageAbsorb = 1.0f - (( ((float) Math.sqrt( KoLCharacter.getDamageAbsorption() / 10.0f )) - 1.0f ) / 10.0f);
 				healthRequirement = drainRequirement * damageAbsorb;
+				basementTestValue = (int) healthRequirement;
 
 				if ( KoLCharacter.getMaximumHP() < healthRequirement )
 				{
