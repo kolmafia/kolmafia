@@ -96,7 +96,9 @@ public class BasementRequest extends AdventureRequest
 	private static final AdventureResult SLEAZE_FORM = new AdventureResult( "Sleazeform", 1, true );
 
 	private static final Pattern BASEMENT_PATTERN = Pattern.compile( "Level ([\\d,]+)" );
+
 	public static final AdventureResult [] ELEMENT_FORMS = new AdventureResult [] { HOT_FORM, COLD_FORM, SPOOKY_FORM, STENCH_FORM, SLEAZE_FORM };
+	public static final AdventureResult [] ELEMENT_PHIALS = new AdventureResult [] { HOT_PHIAL, COLD_PHIAL, SPOOKY_PHIAL, STENCH_PHIAL, SLEAZE_PHIAL };
 
 	/**
 	 * Constructs a new <code>/code> which executes an
@@ -597,11 +599,11 @@ public class BasementRequest extends AdventureRequest
 
 		if ( responseText.indexOf( "Grab the Handles" ) != -1 )
 		{
-                        // According to
-                        // http://forums.hardcoreoxygenation.com/viewtopic.php?t=3973,
-                        // drain requirement is 1.67 * x^1.4 Assume worst-case.
+						// According to
+						// http://forums.hardcoreoxygenation.com/viewtopic.php?t=3973,
+						// drain requirement is 1.67 * x^1.4 Assume worst-case.
 
-                        float drainRequirement = (float) Math.pow( basementLevel, 1.4 ) * 1.67f * 1.05f;
+						float drainRequirement = (float) Math.pow( basementLevel, 1.4 ) * 1.67f * 1.05f;
 
 			basementTestString = "Maximum MP";
 			basementTestCurrent = KoLCharacter.getMaximumMP();
@@ -863,7 +865,7 @@ public class BasementRequest extends AdventureRequest
 
 		if ( !buyItems && action.startsWith( "use" ) )
 		{
-			AdventureResult item = KoLmafiaCLI.getFirstMatchingItem( action.substring(4).trim() );
+			AdventureResult item = KoLmafiaCLI.getFirstMatchingItem( action.substring(4).trim(), false );
 			if ( !KoLCharacter.hasItem( item ) )
 				return false;
 		}
