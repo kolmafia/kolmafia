@@ -47,6 +47,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 	public static final SortedListModel creatableList = new SortedListModel();
 	public static final LockableListModel usableList = new LockableListModel();
 
+	private static boolean tripleReagent = false;
 	private static boolean ignoreRefresh = false;
 
 	private static int queuedFullness = 0;
@@ -698,6 +699,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 	private static final void cachePermitted( List availableIngredients )
 	{
+		tripleReagent = KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR );
 		boolean willBuyServant = KoLCharacter.canInteract() && KoLSettings.getBooleanProperty( "autoSatisfyWithMall" );
 
 		// Adventures are considered Item #0 in the event that the
@@ -1332,6 +1334,12 @@ public class ConcoctionsDatabase extends KoLDatabase
 				// to the total, less the initial.
 
 				this.creatable = this.total - this.initial;
+
+				if ( tripleReagent && (this.mixingMethod == COOK_REAGENT || this.mixingMethod == SUPER_REAGENT) )
+				{
+					this.creatable *= 3;
+					this.total = this.initial + this.creatable;
+				}
 			}
 
 			// Now that all the calculations are complete, unmark
