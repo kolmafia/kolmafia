@@ -113,87 +113,244 @@ public abstract class SorceressLair extends StaticEntity
 	private static final AdventureResult RED_POTION = new AdventureResult( "red pixel potion", 4 );
 	private static final AdventureResult PLASTIC_EGG = new AdventureResult( "red plastic oyster egg", 3 );
 
-	// Gates, the effects you need to pass them, and where to get it
+	// Gates, what they look like through the Telescope, the effects you
+	// need to pass them, and where to get it
 
 	public static final String [][] GATE_DATA =
 	{
-		{ "gate of bad taste", "Spicy Limeness",
-		  "lime-and-chile-flavored chewing gum" },
-		{ "gate of flame", "Spicy Mouth",
-		  "jaba&ntilde;ero-flavored chewing gum" },
-		{ "gate of hilarity", "Comic Violence",
+		// The first gate: Miscellaneous effects
+		{ "gate of hilarity",
+		  "a banana peel",
+		  "Comic Violence",
 		  "gremlin juice" },
-		{ "gate of humility", "Wussiness",
+		{ "gate of humility",
+		  "a cowardly-looking man",
+		  "Wussiness",
 		  "wussiness potion" },
-		{ "gate of intrigue", "Mysteriously Handsome",
-		  "handsomeness potion" },
-		{ "gate of light", "Izchak's Blessing",
-		  "potion of blessing" },
-		{ "gate of machismo", "Engorged Weapon",
-		  "Meleegra&trade; pills" },
-		{ "gate of morose morbidity and moping", "Rainy Soul Miasma",
+		{ "gate of morose morbidity and moping",
+		  "a glum teenager", 
+		  "Rainy Soul Miasma",
 		  "thin black candle", "picture of a dead guy's girlfriend" },
-		{ "gate of mystery", "Mystic Pickleness",
-		  "pickle-flavored chewing gum"	 },
-		{ "gate of slack", "Extreme Muscle Relaxation",
-		  "Mick's IcyVapoHotness Rub"  },
-		{ "gate of spirit", "Woad Warrior",
+		{ "gate of slack",
+		  "a smiling man smoking a pipe",
+		  "Extreme Muscle Relaxation",
+		  "Mick's IcyVapoHotness Rub" },
+		{ "gate of spirit",
+		  "an armchair",
+		  "Woad Warrior",
 		  "pygmy pygment" },
-		{ "gate of that which is hidden", "Object Detection",
-		  "potion of detection" },
-		{ "gate of the dead", "Hombre Muerto Caminando",
-		  "marzipan skull" },
-		{ "gate of the mind", "Strange Mental Acuity",
-		  "potion of mental acuity" },
-		{ "gate of the observant", "Object Detection",
-		  "potion of detection" },
-		{ "gate of the ogre", "Strength of Ten Ettins",
-		  "potion of ettin strength" },
-		{ "gate of the porcupine", "Spiky Hair",
+		{ "gate of the porcupine",
+		  "a hedgehog",
+		  "Spiky Hair",
 		  "super-spikey hair gel" },
-		{ "twitching gates of the suc rose", "Sugar Rush",
+		{ "twitching gates of the suc rose",
+		  "a rose",
+		  "Sugar Rush",
 		  "Angry Farmer candy", "Tasty Fun Good rice candy", "marzipan skull" },
-		{ " gate of the viper", "Deadly Flashing Blade",
+		{ "gate of the viper",
+		  "a coiled viper",
+		  "Deadly Flashing Blade",
 		  "adder bladder" },
-		{ "gate of torment", "Tamarind Torment",
-		  "tamarind-flavored chewing gum" },
-		{ "gate of zest", "Spicy Limeness",
-		  "lime-and-chile-flavored chewing gum" },
-		{ "gate that is not a gate", "Teleportitis",
-		  "potion of teleportitis" },
-		{ "locked gate", "Locks Like the Raven",
+		{ "locked gate",
+		  "a raven",
+		  "Locks Like the Raven",
 		  "Black No. 2" },
+
+		// The second gate: South of the Border effects
+		{ "gate of bad taste",
+		  "",
+		  "Spicy Limeness",
+		  "lime-and-chile-flavored chewing gum" },
+		{ "gate of flame",
+		  "",
+		  "Spicy Mouth",
+		  "jaba&ntilde;ero-flavored chewing gum" },
+		{ "gate of intrigue",
+		  "",
+		  "Mysteriously Handsome",
+		  "handsomeness potion" },
+		{ "gate of machismo",
+		  "",
+		  "Engorged Weapon",
+		  "Meleegra&trade; pills" },
+		{ "gate of mystery",
+		  "",
+		  "Mystic Pickleness",
+		  "pickle-flavored chewing gum"	 },
+		{ "gate of the dead",
+		  "",
+		  "Hombre Muerto Caminando",
+		  "marzipan skull" },
+		{ "gate of torment",
+		  "",
+		  "Tamarind Torment",
+		  "tamarind-flavored chewing gum" },
+		{ "gate of zest",
+		  "",
+		  "Spicy Limeness",
+		  "lime-and-chile-flavored chewing gum" },
+
+		// The third gate: Bang potion effects
+		{ "gate of light",
+		  "",
+		  "Izchak's Blessing",
+		  "potion of blessing" },
+		{ "gate of that which is hidden",
+		  "",
+		  "Object Detection",
+		  "potion of detection" },
+		{ "gate of the mind",
+		  "",
+		  "Strange Mental Acuity",
+		  "potion of mental acuity" },
+		{ "gate of the observant",
+		  "",
+		  "Object Detection",
+		  "potion of detection" },
+		{ "gate of the ogre",
+		  "",
+		  "Strength of Ten Ettins",
+		  "potion of ettin strength" },
+		{ "gate that is not a gate",
+		  "",
+		  "Teleportitis",
+		  "potion of teleportitis" },
 	};
 
-	// Guardians and the items that defeat them
+	public static String gateName( String [] gateData )
+	{	return gateData[0];
+	}
+
+	public static String gateDescription( String [] gateData )
+	{	return gateData[1];
+	}
+
+	public static String gateEffect( String [] gateData )
+	{	return gateData[2];
+	}
+
+	public static String [] findGateByName( String gateName )
+	{
+		for ( int i = 0; i < GATE_DATA.length; ++i)
+			if ( gateName.equalsIgnoreCase( GATE_DATA[i][0] ) )
+				return GATE_DATA[i];
+		return null;
+	}
+
+	public static String [] findGateByDescription( String text )
+	{
+		for ( int i = 0; i < GATE_DATA.length; ++i)
+			if ( text.indexOf( GATE_DATA[i][1] ) != -1 )
+				return GATE_DATA[i];
+		return null;
+	}
+
+	// Guardians, what they look like through the Telescope, and the items
+	// that defeat them
 
 	public static final String [][] GUARDIAN_DATA =
 	{
-		{ "beer batter", "baseball" },
-		{ "best-selling novelist", "plot hole" },
-		{ "big meat golem", "meat vortex" },
-		{ "bowling cricket", "sonar-in-a-biscuit" },
-		{ "bronze chef", "leftovers of indeterminate origin" },
-		{ "collapsed mineshaft golem", "stick of dynamite" },
-		{ "concert pianist", "Knob Goblin firecracker" },
-		{ "darkness", "inkwell" },
-		{ "el diablo", "mariachi G-string" },
-		{ "electron submarine", "photoprotoneutron torpedo" },
-		{ "endangered inflatable white tiger", "pygmy blowgun" },
-		{ "enraged cow", "barbed-wire fence" },
-		{ "fancy bath slug", "fancy bath salts" },
-		{ "fickle finger of f8", "razor-sharp can lid" },
-		{ "flaming samurai", "frigid ninja stars" },
-		{ "giant bee", "tropical orchid" },
-		{ "giant fried egg", "black pepper" },
-		{ "giant desktop globe", "NG" },
-		{ "ice cube", "can of hair spray" },
-		{ "malevolent crop circle", "bronzed locust" },
-		{ "possessed pipe-organ", "powdered organs" },
-		{ "pretty fly", "spider web" },
-		{ "tyrannosaurus tex", "chaos butterfly" },
-		{ "vicious easel", "disease" },
+		{ "beer batter", 
+		  "tip of a baseball bat",
+		  "baseball" },
+		{ "best-selling novelist",
+		  "writing desk",
+		  "plot hole" },
+		{ "big meat golem", 
+		  "huge face made of Meat",
+		  "meat vortex" },
+		{ "bowling cricket", 
+		  "fancy-looking tophat",
+		  "sonar-in-a-biscuit" },
+		{ "bronze chef", 
+		  "bronze figure holding a spatula",
+		  "leftovers of indeterminate origin" },
+		{ "collapsed mineshaft golem", 
+		  "wooden beam",
+		  "stick of dynamite" },
+		{ "concert pianist", 
+		  "long coattails",
+		  "Knob Goblin firecracker" },
+		{ "darkness", 
+		  "strange shadow",
+		  "inkwell" },
+		{ "el diablo", 
+		  "neck of a huge bass guitar",
+		  "mariachi G-string" },
+		{ "electron submarine", 
+		  "periscope",
+		  "photoprotoneutron torpedo" },
+		{ "endangered inflatable white tiger", 
+		  "giant white ear",
+		  "pygmy blowgun" },
+		{ "enraged cow", 
+		  "pair of horns",
+		  "barbed-wire fence" },
+		{ "fancy bath slug", 
+		  "slimy eyestalk",
+		  "fancy bath salts" },
+		{ "fickle finger of f8", 
+		  "giant cuticle",
+		  "razor-sharp can lid" },
+		{ "flaming samurai", 
+		  "flaming katana",
+		  "frigid ninja stars" },
+		{ "giant bee", 
+		  "formidable stinger",
+		  "tropical orchid" },
+		{ "giant fried egg", 
+		  "...unknown...",
+		  "black pepper" },
+		{ "giant desktop globe", 
+		  "the North Pole",
+		  "NG" },
+		{ "ice cube", 
+		  "moonlight reflecting off of what appears to be ice",
+		  "can of hair spray" },
+		{ "malevolent crop circle", 
+		  "amber waves of grain",
+		  "bronzed locust" },
+		{ "possessed pipe-organ", 
+		  "pipes with steam shooting out of them",
+		  "powdered organs" },
+		{ "pretty fly", 
+		  "translucent wing",
+		  "spider web" },
+		{ "tyrannosaurus tex", 
+		  "large cowboy hat",
+		  "chaos butterfly" },
+		{ "vicious easel", 
+		  "tall wooden frame",
+		  "disease" },
 	};
+
+	public static String guardianName( String [] guardianData )
+	{	return guardianData[0];
+	}
+
+	public static String guardianDescription( String [] guardianData )
+	{	return guardianData[1];
+	}
+
+	public static String guardianItem( String [] guardianData )
+	{	return guardianData[2];
+	}
+
+	public static String [] findGuardianByName( String guardianName )
+	{
+		for ( int i = 0; i < GUARDIAN_DATA.length; ++i)
+			if ( guardianName.equalsIgnoreCase( GUARDIAN_DATA[i][0] ) )
+				return GUARDIAN_DATA[i];
+		return null;
+	}
+
+	public static String [] findGuardianByDescription( String text )
+	{
+		for ( int i = 0; i < GUARDIAN_DATA.length; ++i)
+			if ( text.indexOf( GUARDIAN_DATA[i][1] ) != -1 )
+				return GUARDIAN_DATA[i];
+		return null;
+	}
 
 	// Items for the Sorceress's Chamber
 
@@ -592,13 +749,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		// Find the gate in our data
 
-		String [] gateData = null;
-		for ( int i = 0; i < GATE_DATA.length; ++i)
-			if ( gateName.equalsIgnoreCase( GATE_DATA[i][0] ) )
-			{
-				gateData = GATE_DATA[i];
-				break;
-			}
+		String [] gateData = findGateByName( gateName );
 
 		if ( gateData == null )
 		{
@@ -607,18 +758,18 @@ public abstract class SorceressLair extends StaticEntity
 		}
 
 		// See if we have the needed effect already
-		AdventureResult effect = new AdventureResult( gateData[1], 1, true );
+		AdventureResult effect = new AdventureResult( gateEffect( gateData ), 1, true );
 		if ( activeEffects.contains( effect ) )
 			return;
 
 		// Pick an item that grants the effect
-		AdventureResult [] items = new AdventureResult [ gateData.length - 2 ];
-		for ( int i = 2; i < gateData.length; ++i )
+		AdventureResult [] items = new AdventureResult [ gateData.length - 3 ];
+		for ( int i = 3; i < gateData.length; ++i )
 		{
 			String name = gateData[i];
 			AdventureResult item = name.startsWith( "potion of " ) ?
 				AdventureResult.bangPotion( name ) : new AdventureResult( name, 1, false );
-			items[ i - 2 ] = item;
+			items[ i - 3 ] = item;
 		}
 
 		AdventureResult item =	pickOne( items );
@@ -1511,9 +1662,9 @@ public abstract class SorceressLair extends StaticEntity
 
 	private static final AdventureResult getGuardianItem()
 	{
-		for ( int i = 0; i < GUARDIAN_DATA.length; ++i )
-			if ( FightRequest.getCurrentKey().equals( GUARDIAN_DATA[i][0] ) )
-				return new AdventureResult( GUARDIAN_DATA[i][1], 1 );
+		String [] guardian = findGuardianByName( FightRequest.getCurrentKey() );
+		if ( guardian != null )
+			return	new AdventureResult( guardianItem( guardian ) );
 
 		// Shouldn't get here.
 
@@ -1723,10 +1874,11 @@ public abstract class SorceressLair extends StaticEntity
 
 		for ( int i = 0; i < GUARDIAN_DATA.length; ++i )
 		{
-			AdventureResult item = new AdventureResult( GUARDIAN_DATA[i][1], 1, false );
+			String name = guardianItem( GUARDIAN_DATA[i] );
+			AdventureResult item = new AdventureResult( name, 1, false );
 			if ( !inventory.contains( item ) )
 			{
-				if ( isItemAvailable( item ) || NPCStoreDatabase.contains( GUARDIAN_DATA[i][1] ) )
+				if ( isItemAvailable( item ) || NPCStoreDatabase.contains( name ) )
 					AdventureDatabase.retrieveItem( item );
 			}
 		}
