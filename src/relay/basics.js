@@ -228,6 +228,10 @@ var lastAdventureId;
 
 function showSafetyText( location )
 {
+	var chatLocation = top.chatpane.document.location.href;
+	if ( chatLocation.indexOf( "chat.html" ) != -1 )
+		return true;
+
 	var safety = getObjectInPane( top.chatpane.document, "safety" );
 
 	if ( !safety )
@@ -250,7 +254,7 @@ function showSafetyText( location )
 
 	if ( adventureId == lastAdventureId )
 	{
-		document.location.href = "adventure.php?snarfblat=" + adventureId;
+		document.location.href = "adventure.php?" + adventureId;
 		return true;
 	}
 
@@ -278,22 +282,6 @@ function showSafetyText( location )
 
 	httpObject.open( "POST", "/KoLmafia/lookupLocation?" + adventureId );
 	httpObject.send( null );
-	return true;
-}
-
-
-function attachOriginalLinks()
-{
-	var links = document.getElementsByTagName( "a" );
-	for ( var i = 0; i < links.length; ++i )
-	{
-		if ( links[i].data )
-		{
-			links[i].href = links[i].data;
-			links[i].style.cursor = "hand";
-		}
-	}
-
 	return true;
 }
 
