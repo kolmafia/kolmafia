@@ -341,6 +341,24 @@ public class ConsumeItemRequest extends KoLRequest
 		if ( this.itemUsed.getCount() < 1 )
 			return;
 
+		// If it's an elemental phial, then remove the
+		// other elemental effects first.
+
+		int phialIndex = -1;
+		for ( int i = 0; i < BasementRequest.ELEMENT_PHIALS.length; ++i )
+			if ( itemId == BasementRequest.ELEMENT_PHIALS[i].getItemId() )
+				phialIndex = i;
+
+		if ( phialIndex != -1 )
+		{
+			for ( int i = 0; i < BasementRequest.ELEMENT_FORMS.length && KoLmafia.permitsContinue(); ++i )
+				if ( i != phialIndex && activeEffects.contains( BasementRequest.ELEMENT_FORMS[i] ) )
+					(new UneffectRequest( BasementRequest.ELEMENT_FORMS[i] )).run();
+
+			if ( !KoLmafia.permitsContinue() )
+				return;
+		}
+
 		int price = TradeableItemDatabase.getPriceById( itemId );
 
 		if ( itemId == SELTZER || itemId == MAFIA_ARIA )

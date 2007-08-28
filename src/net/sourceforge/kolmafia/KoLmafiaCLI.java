@@ -1332,17 +1332,6 @@ public class KoLmafiaCLI extends KoLmafia
 					return;
 				}
 
-				boolean useElementPhial = false;
-				for ( int i = 0; i < BasementRequest.ELEMENT_FORMS.length; ++i )
-					useElementPhial |= effect.equals( BasementRequest.ELEMENT_FORMS[i].getName() );
-
-				if ( useElementPhial )
-				{
-					for ( int i = 0; i < BasementRequest.ELEMENT_FORMS.length; ++i )
-						if ( activeEffects.contains( BasementRequest.ELEMENT_FORMS[i] ) && !effect.equals( BasementRequest.ELEMENT_FORMS[i].getName() ) )
-							RequestThread.postRequest( new UneffectRequest( BasementRequest.ELEMENT_FORMS[i] ) );
-				}
-
 				DEFAULT_SHELL.executeLine( action );
 				return;
 			}
