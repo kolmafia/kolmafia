@@ -133,7 +133,7 @@ public class AdventureFrame extends AdventureOptionsFrame
 		if ( INSTANCE.zoneSelect instanceof JTextField )
 			((JTextField)INSTANCE.zoneSelect).setText( location.getZone() );
 		else
-			((MutableComboBox)INSTANCE.zoneSelect).setSelectedItem( location.getParentZoneDescription() );
+			((JComboBox)INSTANCE.zoneSelect).setSelectedItem( location.getParentZoneDescription() );
 
 		INSTANCE.locationSelect.setSelectedValue( location, true );
 	}
