@@ -297,20 +297,6 @@ public class Louvre
 					return "3";
 			}
 		}
-		else if ( !override.equals( "" ) && override.length() > stepCount )
-		{
-			switch ( Character.toLowerCase( override.charAt( stepCount ) ) )
-			{
-			case '1':
-			case 'u':
-				return "1";
-			case '2':
-			case 'd':
-				return "2";
-			default:
-				return "3";
-			}
-		}
 
 		int source = StaticEntity.parseInt( choice );
 		if ( !louvreChoice( source ) )
