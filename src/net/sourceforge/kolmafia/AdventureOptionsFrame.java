@@ -731,16 +731,11 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 		{
 			super( new BorderLayout( 10, 10 ) );
 
-			LockableListModel adventureList = AdventureDatabase.getAsLockableListModel().getMirrorImage();
-
 			// West pane is a scroll pane which lists all of the available
 			// locations -- to be included is a map on a separate tab.
 
 			Object currentZone;
 			AdventureOptionsFrame.this.zoneMap = new TreeMap();
-
-			AdventureOptionsFrame.this.zoneSelect = new FilterAdventureField( adventureList );
-
 			Object [] zones = AdventureDatabase.PARENT_LIST.toArray();
 
 			for ( int i = 0; i < zones.length; ++i )
@@ -749,19 +744,20 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 				AdventureOptionsFrame.this.zoneMap.put( currentZone, zones[i] );
 			}
 
-			if ( enableAdventures )
-				AdventureOptionsFrame.this.countField = new AdventureCountField();
+			AdventureOptionsFrame.this.locationSelect = new JList( AdventureDatabase.getAsLockableListModel().getMirrorImage() );
+			AdventureOptionsFrame.this.locationSelect.setVisibleRowCount( 4 );
 
-			JComponentUtilities.setComponentSize( AdventureOptionsFrame.this.zoneSelect, 200, 24 );
 			JPanel zonePanel = new JPanel( new BorderLayout( 5, 5 ) );
-
-			if ( enableAdventures )
-				zonePanel.add( AdventureOptionsFrame.this.countField, BorderLayout.EAST );
+			AdventureOptionsFrame.this.zoneSelect = new FilterAdventureField();
+			JComponentUtilities.setComponentSize( AdventureOptionsFrame.this.zoneSelect, 200, 24 );
 
 			zonePanel.add( AdventureOptionsFrame.this.zoneSelect, BorderLayout.CENTER );
 
-			AdventureOptionsFrame.this.locationSelect = new JList( adventureList );
-			AdventureOptionsFrame.this.locationSelect.setVisibleRowCount( 4 );
+			if ( enableAdventures )
+			{
+				AdventureOptionsFrame.this.countField = new AdventureCountField();
+				zonePanel.add( AdventureOptionsFrame.this.countField, BorderLayout.EAST );
+			}
 
 			JPanel locationPanel = new JPanel( new BorderLayout( 5, 5 ) );
 			locationPanel.add( zonePanel, BorderLayout.NORTH );
@@ -789,8 +785,8 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 		private class FilterAdventureField extends FilterTextField
 		{
-			public FilterAdventureField( LockableListModel model )
-			{	super( model );
+			public FilterAdventureField()
+			{	super( AdventureOptionsFrame.this.locationSelect );
 			}
 
 			public boolean isVisible( Object element )
