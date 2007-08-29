@@ -549,7 +549,10 @@ public class FightRequest extends KoLRequest
 			if ( action1 != null && action1.equals( "abort" ) )
 				KoLmafia.updateDisplay( ABORT_STATE, "You're on your own, partner." );
 		}
-		while ( currentRound != 0 && !KoLmafia.refusesContinue() );
+		while ( responseCode == 200 && currentRound != 0 && !KoLmafia.refusesContinue() );
+
+		if ( responseCode == 302 )
+			clearInstanceData();
 
 		if ( KoLmafia.refusesContinue() && currentRound != 0 )
 			this.showInBrowser( true );
