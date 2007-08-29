@@ -836,6 +836,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		USER_MAP.put( "louvreLayout", "" );
 		USER_MAP.put( "louvreDesiredGoal", "7" );
 		USER_MAP.put( "louvreGoal", "0" );
+		USER_MAP.put( "louvreOverride", "" );
 
 		// Telescope settings
 

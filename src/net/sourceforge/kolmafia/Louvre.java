@@ -276,11 +276,42 @@ public class Louvre
 		}
 	}
 
-	public static final String handleChoice( String choice )
+	public static final String handleChoice( String choice, int stepCount )
 	{
 		resetDecisions();
 
 		// We only handle Louvre choices
+
+		String override = KoLSettings.getUserProperty( "louvreOverride" );
+
+		if ( override.indexOf( "," ) != -1 )
+		{
+			String [] options = override.split( "\\s*,\\s*" );
+			if ( options.length > stepCount )
+			{
+				if ( options[ stepCount ].equalsIgnoreCase( "up" ) )
+					return "1";
+				else if ( options[ stepCount ].equalsIgnoreCase( "down" ) )
+					return "2";
+				else
+					return "3";
+			}
+		}
+		else if ( !override.equals( "" ) && override.length() > stepCount )
+		{
+			switch ( Character.toLowerCase( override.charAt( stepCount ) ) )
+			{
+			case '1':
+			case 'u':
+				return "1";
+			case '2':
+			case 'd':
+				return "2";
+			default:
+				return "3";
+			}
+		}
+
 		int source = StaticEntity.parseInt( choice );
 		if ( !louvreChoice( source ) )
 			return "";
@@ -377,7 +408,7 @@ public class Louvre
 				// If routing table destination is 0, we any of
 				// 92 - 95 will do. Otherwise, need exact match
 				if ( ( option == 0 && ( destination >= 92 && destination <= 95 ) ) ||
-				     ( option != 0 && option == destination ) )
+					 ( option != 0 && option == destination ) )
 					return String.valueOf( j + 1 );
 			}
 		}
