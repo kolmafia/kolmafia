@@ -124,6 +124,12 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 	public void processResults()
 	{
+		if ( !hasNoResult() && !this.getPath().equals( "fight.php" ) )
+			StaticEntity.externalUpdate( this.getURLString(), this.responseText );
+	}
+
+	public void formatResponse()
+	{
 		this.statusLine = "HTTP/1.1 200 OK";
 		String path = this.getPath();
 
@@ -230,11 +236,6 @@ public class LocalRelayRequest extends PasswordHashRequest
 					KoLSettings.setUserProperty( "stationaryButton" + insertIndex, skillId );
 				}
 			}
-		}
-
-		else
-		{
-			StaticEntity.externalUpdate( this.getURLString(), this.responseText );
 		}
 
 		try

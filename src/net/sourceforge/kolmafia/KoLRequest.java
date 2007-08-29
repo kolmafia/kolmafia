@@ -643,6 +643,7 @@ public class KoLRequest extends Job implements KoLConstants
 			LocalRelayServer.updateStatus();
 		}
 
+		this.formatResponse();
 		KoLCharacter.updateStatus();
 	}
 
@@ -1305,16 +1306,30 @@ public class KoLRequest extends Job implements KoLConstants
 		// Once everything is complete, decide whether or not
 		// you should refresh your status.
 
-		if ( hasNoResult || this instanceof LocalRelayRequest )
+		if ( hasNoResult )
 			return;
 
-		if ( effectCount != activeEffects.size() || getAdventuresUsed() > 0 )
+		if ( this instanceof LocalRelayRequest )
+		{
+			if ( !this.formURLString.equals( "basement.php" ) )
+				return;
+
+			this.containsUpdate = true;
+		}
+
+		if ( this.containsUpdate )
+			;
+		else if ( effectCount != activeEffects.size() || getAdventuresUsed() > 0 )
 			this.containsUpdate = true;
 		else if ( RequestFrame.sidebarFrameExists() )
-			this.containsUpdate |= this.responseText.indexOf( "charpane" ) != -1;
+			this.containsUpdate = this.responseText.indexOf( "charpane" ) != -1;
 
 		if ( this.containsUpdate )
 			CharpaneRequest.getInstance().run();
+	}
+
+	public void formatResponse()
+	{
 	}
 
 	/**
