@@ -82,7 +82,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 	private int baseRequirement, buffedRequirement;
 	private String zone, parentZone, adventureId, formSource, adventureName;
 
-	private String normalString, lowercaseString;
+	private String normalString, lowercaseString, parentZoneDescription;
 
 	private KoLRequest request;
 	private AreaCombatData areaSummary;
@@ -110,6 +110,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 		this.normalString = this.zone + ": " + this.adventureName;
 		this.lowercaseString = this.normalString.toLowerCase();
+		this.parentZoneDescription = (String) AdventureDatabase.ZONE_DESCRIPTIONS.get( this.parentZone );
 
 		if ( formSource.equals( "sewer.php" ) )
 			this.request = new SewerRequest( false );
@@ -133,8 +134,8 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			(this.areaSummary != null && this.areaSummary.combats() == 0 && this.areaSummary.getMonsterCount() == 0);
 	}
 
-	public boolean matches( String searchString )
-	{	return lowercaseString.indexOf( searchString ) != -1;
+	public String toLowerCaseString()
+	{	return lowercaseString;
 	}
 
 	/**
@@ -155,6 +156,10 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 	public String getParentZone()
 	{	return this.parentZone;
+	}
+
+	public String getParentZoneDescription()
+	{	return this.parentZoneDescription;
 	}
 
 	/**

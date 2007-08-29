@@ -41,7 +41,6 @@ import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.ActionEvent;
@@ -83,6 +82,7 @@ import javax.swing.event.ListSelectionListener;
 
 import javax.swing.filechooser.FileFilter;
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.MoodSettings.MoodTrigger;
 
@@ -111,7 +111,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 	protected JList moodList;
 	protected JList locationSelect;
-	protected JTextField zoneSelect;
+	protected JComponent zoneSelect;
 
 	protected KoLAdventure lastAdventure = null;
 	protected JCheckBox autoSetCheckBox = new JCheckBox();
@@ -727,6 +727,8 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 	public class AdventureSelectPanel extends JPanel
 	{
+		private LockableListModel matchingAdventures;
+
 		public AdventureSelectPanel( boolean enableAdventures )
 		{
 			super( new BorderLayout( 10, 10 ) );
@@ -734,23 +736,36 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 			// West pane is a scroll pane which lists all of the available
 			// locations -- to be included is a map on a separate tab.
 
-			Object currentZone;
+			this.matchingAdventures = AdventureDatabase.getAsLockableListModel().getMirrorImage();
+			AdventureOptionsFrame.this.locationSelect = new JList( matchingAdventures );
+			AdventureOptionsFrame.this.locationSelect.setVisibleRowCount( 4 );
+
+			JPanel zonePanel = new JPanel( new BorderLayout( 5, 5 ) );
+
+			boolean useZoneComboBox = KoLSettings.getBooleanProperty( "useZoneComboBox" );
+			if ( useZoneComboBox )
+			{
+				AdventureOptionsFrame.this.zoneSelect = new FilterAdventureComboBox();
+				matchingAdventures.setFilter( (FilterAdventureComboBox) AdventureOptionsFrame.this.zoneSelect );
+			}
+			else
+				AdventureOptionsFrame.this.zoneSelect = new FilterAdventureField();
+
 			AdventureOptionsFrame.this.zoneMap = new TreeMap();
 			Object [] zones = AdventureDatabase.PARENT_LIST.toArray();
+
+			Object currentZone;
 
 			for ( int i = 0; i < zones.length; ++i )
 			{
 				currentZone = AdventureDatabase.ZONE_DESCRIPTIONS.get( zones[i] );
 				AdventureOptionsFrame.this.zoneMap.put( currentZone, zones[i] );
+
+				if ( useZoneComboBox )
+					((JComboBox)AdventureOptionsFrame.this.zoneSelect).addItem( currentZone );
 			}
 
-			AdventureOptionsFrame.this.locationSelect = new JList( AdventureDatabase.getAsLockableListModel().getMirrorImage() );
-			AdventureOptionsFrame.this.locationSelect.setVisibleRowCount( 4 );
-
-			JPanel zonePanel = new JPanel( new BorderLayout( 5, 5 ) );
-			AdventureOptionsFrame.this.zoneSelect = new FilterAdventureField();
 			JComponentUtilities.setComponentSize( AdventureOptionsFrame.this.zoneSelect, 200, 24 );
-
 			zonePanel.add( AdventureOptionsFrame.this.zoneSelect, BorderLayout.CENTER );
 
 			if ( enableAdventures )
@@ -790,7 +805,23 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 			}
 
 			public boolean isVisible( Object element )
-			{	return ((KoLAdventure)element).matches( text );
+			{	return ((KoLAdventure)element).toLowerCaseString().indexOf( text ) != -1;
+			}
+		}
+
+		private class FilterAdventureComboBox extends JComboBox implements ListElementFilter
+		{
+			private Object selectedZone;
+
+			public void setSelectedItem( Object element )
+			{
+				super.setSelectedItem( element );
+				this.selectedZone = element;
+				matchingAdventures.updateFilter( false );
+			}
+
+			public boolean isVisible( Object element )
+			{	return ((KoLAdventure) element).getParentZoneDescription().equals( selectedZone );
 			}
 		}
 
