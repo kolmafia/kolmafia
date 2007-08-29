@@ -4223,6 +4223,12 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( KoLCharacter.inBadMoon() )
+		{
+			updateDisplay( ERROR_STATE, "Your telescope is unavailable in Bad Moon" );
+			return;
+		}
+
 		if ( command.equals( "high" ) )
 		{
 			RequestThread.postRequest( new TelescopeRequest( TelescopeRequest.HIGH ) );

@@ -71,6 +71,12 @@ public class TelescopeRequest extends KoLRequest
 			return;
 		}
 
+		if ( KoLCharacter.inBadMoon() )
+		{
+			KoLmafia.updateDisplay( ERROR_STATE, "Your telescope is unavailable in Bad Moon" );
+			return;
+		}
+
 		if ( this.where != HIGH && this.where != LOW )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "You can't look there." );
