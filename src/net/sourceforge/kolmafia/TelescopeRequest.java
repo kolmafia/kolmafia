@@ -40,6 +40,7 @@ public class TelescopeRequest extends KoLRequest
 {
 	public static final int HIGH = 1;
 	public static final int LOW = 2;
+	private static final Pattern WHERE_PATTERN = Pattern.compile( "action=telescope([^?]*)" );
 
 	private int where;
 
@@ -49,16 +50,16 @@ public class TelescopeRequest extends KoLRequest
 
 	public TelescopeRequest( int where )
 	{
-		super( "telescope.php" );
+		super( "campground.php" );
 
 		this.where = where;
 		switch ( where )
 		{
 		case HIGH:
-			this.addFormField( "action", "lookhigh" );
+			this.addFormField( "action", "telescopehigh" );
 			break;
 		case LOW:
-			this.addFormField( "action", "looklow" );
+			this.addFormField( "action", "telescopelow" );
 			break;
 		}
 	}
@@ -158,5 +159,17 @@ public class TelescopeRequest extends KoLRequest
 
 		KoLCharacter.setTelescopeUpgrades( upgrades );
 		KoLSettings.setUserProperty( "telescopeUpgrades", String.valueOf( upgrades ) );
+	}
+
+	public static final boolean registerRequest( String urlString )
+	{
+		Matcher matcher = WHERE_PATTERN.matcher( urlString );
+		if ( !matcher.find() )
+			return false;
+
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( "telescope look " + matcher.group(1) );
+
+		return true;
 	}
 }

@@ -244,7 +244,7 @@ public abstract class SorceressLair extends StaticEntity
 			String desc = GATE_DATA[i][1];
 			if ( desc.equals( "" ) )
 				continue;
-			if ( desc.indexOf( text ) != -1 )
+			if ( text.indexOf( desc ) != -1 )
 				return GATE_DATA[i];
 		}
 		return null;
@@ -356,7 +356,7 @@ public abstract class SorceressLair extends StaticEntity
 			String desc = GUARDIAN_DATA[i][1];
 			if ( desc.equals( "" ) )
 				continue;
-			if ( desc.indexOf( text ) != -1 )
+			if ( text.indexOf( desc ) != -1 )
 				return GUARDIAN_DATA[i];
 		}
 		return null;

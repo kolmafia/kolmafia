@@ -401,7 +401,7 @@
 #	Missing Kidney	kidney.gif	a3271a164706776e733cd78e060cb5e1
 #	Dang Near Cut In Half	axegash.gif	73b1728ec6c9c1491f2aa5ae7134cfaa
 #	Shirtless in Seattle
-#	The Rage	angry.gif
+#	The Rage	angry.gif	1851096b46967124186f87a3a9f2bbf4
 #	Shamed &amp; Manipulated	blush.gif	02e465f136feb826854bd8493a9943e4
 #	Dreadlocked	hippywig.gif	e08a647c81c873f82505057ee2f50cc8
 #	Drummed Out	drum.gif	304469441fccda71b602573731342e4e
