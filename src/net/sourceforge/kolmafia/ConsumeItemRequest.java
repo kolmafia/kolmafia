@@ -126,6 +126,7 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int DRUM_MACHINE = 2328;
 	private static final int COBBS_KNOB_MAP = 2442;
 	private static final int JEWELRY_BOOK = 2502;
+	private static final int TELESCOPE = 2599;
 	private static final int ABSINTHE = 2655;
 	private static final int MOJO_FILTER = 2614;
 	private static final int LIBRARY_CARD = 2672;
@@ -1172,6 +1173,15 @@ public class ConsumeItemRequest extends KoLRequest
 			else
 				KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "Really Expensive Jewelrycrafting" ) );
 
+			return;
+
+		case TELESCOPE:
+			// We've added or upgraded our telescope
+			KoLCharacter.setTelescope( true );
+
+			// Look through it to check number of upgrades
+			KoLSettings.setUserProperty( "lastTelescopeReset", "-1" );
+			KoLCharacter.checkTelescope();
 			return;
 
 		case ASTRAL_MUSHROOM:

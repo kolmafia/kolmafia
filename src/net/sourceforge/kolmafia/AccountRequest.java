@@ -83,9 +83,8 @@ public class AccountRequest extends PasswordHashRequest
 			responseText.indexOf( "<input class=button type=submit value=\"Drop Teetotaler\">" ) != -1 ? AscensionSnapshotTable.TEETOTALER :
 			AscensionSnapshotTable.NOPATH );
 
-		// Whether or not a player is currently in
-		// hardcore is also found here through the
-		// presence of buttons.
+		// Whether or not a player is currently in hardcore is also
+		// found here through the presence of buttons.
 
 		KoLCharacter.setHardcore( responseText.indexOf( "<input class=button type=submit value=\"Drop Hardcore\">" ) != -1 );
 

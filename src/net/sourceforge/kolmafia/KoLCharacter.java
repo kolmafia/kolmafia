@@ -281,6 +281,7 @@ public abstract class KoLCharacter extends StaticEntity
 	private static boolean hasArches = false;
 	private static boolean hasChef = false;
 	private static boolean hasBartender = false;
+	private static int telescopeUpgrades = 0;
 
 	// Familiar data for reference
 
@@ -401,6 +402,7 @@ public abstract class KoLCharacter extends StaticEntity
 		hasArches = false;
 		hasChef = false;
 		hasBartender = false;
+		telescopeUpgrades = 0;
 
 		familiars.clear();
 		familiars.add( FamiliarData.NO_FAMILIAR );
@@ -1707,6 +1709,50 @@ public abstract class KoLCharacter extends StaticEntity
 			KoLCharacter.hasChef = hasChef;
 			ConcoctionsDatabase.refreshConcoctions();
 		}
+	}
+
+	/**
+	 * Accessor method which indicates how many times the character has
+	 * upgraded their telescope
+	 * @return	<code>int/code> power of telescope
+	 */
+
+	public static final int getTelescopeUpgrades()
+	{	return telescopeUpgrades;
+	}
+
+	/**
+	 * Accessor method to indicate a change in state of the telescope
+	 */
+
+	public static final void setTelescopeUpgrades( int upgrades )
+	{	telescopeUpgrades = upgrades;
+	}
+
+	/**
+	 * Accessor method to indicate a change in state of the telescope
+	 */
+
+	public static final void setTelescope( boolean present )
+	{
+		telescopeUpgrades = KoLSettings.getIntegerProperty( "telescopeUpgrades" );
+		// Assume minimal telescope if we just detected it.
+		// We'll look through it and figure out real power later
+		if ( present && telescopeUpgrades == 0 )
+			telescopeUpgrades = 1;
+	}
+
+	/**
+	 * Method to look through the telescope if it hasn't been done yet
+	 */
+
+	public static final void checkTelescope()
+	{
+		/* ...until I get info on how to really go to the telescope...
+		int lastAscension = KoLSettings.getIntegerProperty( "lastTelescopeReset" );
+		if ( lastAscension < ascensions )
+			RequestThread.postRequest( new TelescopeRequest( TelescopeRequest.LOW) );
+		*/
 	}
 
 	/**

@@ -808,6 +808,15 @@ public class Modifiers extends KoLDatabase
 			return true;
 		}
 
+		if ( name.equalsIgnoreCase( "Starry-Eyed" ) )
+		{
+			int mod = 5 * KoLCharacter.getTelescopeUpgrades();
+			set( MUS_PCT, mod );
+			set( MYS_PCT, mod );
+			set( MOX_PCT, mod );
+			return true;
+		}
+
 		int itemId = TradeableItemDatabase.getItemId( name );
 
 		switch ( itemId )

@@ -240,8 +240,13 @@ public abstract class SorceressLair extends StaticEntity
 	public static String [] findGateByDescription( String text )
 	{
 		for ( int i = 0; i < GATE_DATA.length; ++i)
-			if ( text.indexOf( GATE_DATA[i][1] ) != -1 )
+		{
+			String desc = GATE_DATA[i][1];
+			if ( desc.equals( "" ) )
+				continue;
+			if ( desc.indexOf( text ) != -1 )
 				return GATE_DATA[i];
+		}
 		return null;
 	}
 
@@ -299,7 +304,7 @@ public abstract class SorceressLair extends StaticEntity
 		  "formidable stinger",
 		  "tropical orchid" },
 		{ "giant fried egg", 
-		  "...unknown...",
+		  "UNKNOWN",
 		  "black pepper" },
 		{ "giant desktop globe", 
 		  "the North Pole",
@@ -347,8 +352,13 @@ public abstract class SorceressLair extends StaticEntity
 	public static String [] findGuardianByDescription( String text )
 	{
 		for ( int i = 0; i < GUARDIAN_DATA.length; ++i)
-			if ( text.indexOf( GUARDIAN_DATA[i][1] ) != -1 )
+		{
+			String desc = GUARDIAN_DATA[i][1];
+			if ( desc.equals( "" ) )
+				continue;
+			if ( desc.indexOf( text ) != -1 )
 				return GUARDIAN_DATA[i];
+		}
 		return null;
 	}
 

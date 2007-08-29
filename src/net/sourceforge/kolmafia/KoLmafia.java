@@ -778,6 +778,7 @@ public abstract class KoLmafia implements KoLConstants
 		{
 			updateDisplay( "Retrieving campground data..." );
 			RequestThread.postRequest( new CampgroundRequest() );
+			KoLCharacter.checkTelescope();
 		}
 
 		if ( !KoLCharacter.inBadMoon() && KoLSettings.getIntegerProperty( "lastEmptiedStorage" ) != KoLCharacter.getAscensions() )
