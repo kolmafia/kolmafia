@@ -769,11 +769,9 @@ public class LocalRelayRequest extends PasswordHashRequest
 		buffer.append( "var nodes = top.chatpane.document.body.childNodes; " );
 		buffer.append( "for ( var i = 0; i < nodes.length; ++i ) " );
 			buffer.append( "if ( nodes[i].style && nodes[i].id != 'safety' ) " );
-				buffer.append( "nodes[i].style.display = 'inline'; " );
-
+				buffer.append( "nodes[i].style.display = nodes[i].unsafety; " );
 
 		buffer.append( "void(0);\">x</a></font></td></tr></table>" );
-
 		buffer.append( "<br/><font size=2>" );
 
 		String combatData = combat.toString( true );

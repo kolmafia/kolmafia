@@ -228,10 +228,6 @@ var lastAdventureId;
 
 function showSafetyText( location )
 {
-	var chatLocation = top.chatpane.document.location.href;
-	if ( chatLocation.indexOf( "chat.html" ) != -1 )
-		return true;
-
 	var safety = getObjectInPane( top.chatpane.document, "safety" );
 
 	if ( !safety )
@@ -255,6 +251,7 @@ function showSafetyText( location )
 
 	if ( safety.closed || adventureId == lastAdventureId )
 	{
+		lastAdventureId = "";
 		document.location.href = "adventure.php?" + adventureId;
 		return true;
 	}
@@ -275,7 +272,10 @@ function showSafetyText( location )
 		var nodes = top.chatpane.document.body.childNodes;
 		for ( var i = 0; i < nodes.length; ++i )
 			if ( nodes[i].style && nodes[i].id != "safety" )
+			{
+				nodes[i].unsafety = nodes[i].style.display;
 				nodes[i].style.display = "none";
+			}
 
 		safety.style.display = "inline";
 		safety.innerHTML = httpObject.responseText;
@@ -289,7 +289,7 @@ function showSafetyText( location )
 
 function attachSafetyText()
 {
-	var safety = getObjectInPane( top.chatpane.document );
+	var safety = getObjectInPane( top.chatpane.document, "safety" );
 	if ( safety )
 		safety.closed = false;
 
