@@ -423,15 +423,19 @@ public class AdventureFrame extends AdventureOptionsFrame
 
 		public void saveSettings()
 		{
+			Object override = this.manualLouvre.getSelectedItem();
+			if ( override == null )
+				return;
+
+			int overrideIndex = this.manualLouvre.getSelectedIndex();
+			KoLSettings.setUserProperty( "louvreOverride", overrideIndex == 0 ? "" : (String) override );
+
 			KoLSettings.setUserProperty( "violetFogGoal", String.valueOf( this.violetFogSelect.getSelectedIndex() ) );
 			KoLSettings.setUserProperty( "luckySewerAdventure", (String) this.sewerSelect.getSelectedItem() );
 			KoLSettings.setUserProperty( "choiceAdventure89", String.valueOf( this.maidenSelect.getSelectedIndex() ) );
 
 			int louvreGoal = this.louvreSelect.getSelectedIndex();
-			KoLSettings.setUserProperty( "louvreOverride", this.manualLouvre.getSelectedIndex() <= 0 ? "" :
-				(String) this.manualLouvre.getSelectedItem() );
-
-			KoLSettings.setUserProperty( "choiceAdventure91",  String.valueOf( louvreGoal > 0 ? "1" : "2" ) );
+			KoLSettings.setUserProperty( "choiceAdventure91",  String.valueOf( overrideIndex > 0 || louvreGoal > 0 ? "1" : "2" ) );
 			KoLSettings.setUserProperty( "louvreDesiredGoal", String.valueOf( louvreGoal ) );
 
 			for ( int i = 0; i < this.optionSelects.length; ++i )
