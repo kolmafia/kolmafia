@@ -381,9 +381,6 @@ public class ChatBuffer
 					// interrupted.  Fall through.
 				}
 
-				if ( this.isQueued )
-					continue;
-
 				this.isQueued = true;
 				SwingUtilities.invokeLater( HANDLER );
 			}
