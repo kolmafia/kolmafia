@@ -462,91 +462,88 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// Figure out how many items were created
 
 		AdventureResult createdItem = new AdventureResult( this.itemId, 0 );
-
 		int createdQuantity = createdItem.getCount( inventory ) - this.beforeQuantity;
-		int quantityDifference = this.quantityNeeded - createdQuantity;
-
-		if ( (mixingMethod == COOK_REAGENT || mixingMethod == SUPER_REAGENT) && KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) )
-			quantityDifference /= 3;
-
+		KoLmafia.updateDisplay( "Successfully created " + createdQuantity + " " + this.getName() );
 
 		// Because an explosion might have occurred, the
 		// quantity that has changed might not be accurate.
 		// Therefore, update with the actual value.
 
-		if ( quantityDifference != 0 )
+		if ( this.quantityNeeded == createdQuantity )
+			return;
+
+		int undoAmount = this.quantityNeeded - createdQuantity;
+		if ( (mixingMethod == COOK_REAGENT || mixingMethod == SUPER_REAGENT) && KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) )
+			undoAmount /= 3;
+
+		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( this.itemId );
+
+		for ( int i = 0; i < ingredients.length; ++i )
+			StaticEntity.getClient().processResult( new AdventureResult( ingredients[i].getItemId(), undoAmount * ingredients[i].getCount() ) );
+
+		switch ( this.mixingMethod )
 		{
-			AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( this.itemId );
+		case COMBINE:
+			if ( !KoLCharacter.inMuscleSign() )
+				StaticEntity.getClient().processResult( new AdventureResult( MEAT_PASTE, undoAmount ) );
+			break;
 
-			for ( int i = 0; i < ingredients.length; ++i )
-				StaticEntity.getClient().processResult( new AdventureResult( ingredients[i].getItemId(), quantityDifference * ingredients[i].getCount() ) );
+		case SMITH:
+			if ( !KoLCharacter.inMuscleSign() )
+				StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, 0 - undoAmount ) );
+			break;
 
-			switch ( this.mixingMethod )
-			{
-			case COMBINE:
-				if ( !KoLCharacter.inMuscleSign() )
-					StaticEntity.getClient().processResult( new AdventureResult( MEAT_PASTE, quantityDifference ) );
-				break;
+		case SMITH_WEAPON:
+		case SMITH_ARMOR:
+		case WOK:
+			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, 0 - undoAmount ) );
+			break;
 
-			case SMITH:
-				if ( !KoLCharacter.inMuscleSign() )
-					StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, 0 - quantityDifference ) );
-				break;
+		case JEWELRY:
+		case EXPENSIVE_JEWELRY:
+			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, 0 - 3 * undoAmount ) );
+			break;
 
-			case SMITH_WEAPON:
-			case SMITH_ARMOR:
-			case WOK:
-				StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, 0 - quantityDifference ) );
-				break;
+		case COOK:
+		case COOK_REAGENT:
+		case SUPER_REAGENT:
+		case COOK_PASTA:
+			if ( !KoLCharacter.hasChef() )
+				StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, 0 - undoAmount ) );
+			break;
 
-			case JEWELRY:
-			case EXPENSIVE_JEWELRY:
-				StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, 0 - 3 * quantityDifference ) );
-				break;
-
-			case COOK:
-			case COOK_REAGENT:
-			case SUPER_REAGENT:
-			case COOK_PASTA:
-				if ( !KoLCharacter.hasChef() )
-					StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, 0 - quantityDifference ) );
-				break;
-
-			case MIX:
-			case MIX_SPECIAL:
-			case MIX_SUPER:
-				if ( !KoLCharacter.hasBartender() )
-					StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, 0 - quantityDifference ) );
-				break;
-			}
+		case MIX:
+		case MIX_SPECIAL:
+		case MIX_SUPER:
+			if ( !KoLCharacter.hasBartender() )
+				StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, 0 - undoAmount ) );
+			break;
 		}
 
 		// Check to see if box-servant was overworked and exploded.
 
-		KoLmafia.updateDisplay( "Successfully created " + createdQuantity + " " + this.getName() );
+		if ( this.responseText.indexOf( "Smoke" ) == -1 )
+			return;
 
-		if ( this.responseText.indexOf( "Smoke" ) != -1 )
+		KoLmafia.updateDisplay( "Your box servant has escaped!" );
+		this.quantityNeeded = this.quantityNeeded - createdQuantity;
+
+		switch ( this.mixingMethod )
 		{
-			KoLmafia.updateDisplay( "Your box servant has escaped!" );
-			this.quantityNeeded = this.quantityNeeded - createdQuantity;
+		case COOK:
+		case COOK_REAGENT:
+		case SUPER_REAGENT:
+		case COOK_PASTA:
+			KoLCharacter.setChef( false );
+			this.shouldRerun = this.quantityNeeded > 0;
+			break;
 
-			switch ( this.mixingMethod )
-			{
-			case COOK:
-			case COOK_REAGENT:
-			case SUPER_REAGENT:
-			case COOK_PASTA:
-				KoLCharacter.setChef( false );
-				this.shouldRerun = this.quantityNeeded > 0;
-				break;
-
-			case MIX:
-			case MIX_SPECIAL:
-			case MIX_SUPER:
-				KoLCharacter.setBartender( false );
-				this.shouldRerun = this.quantityNeeded > 0;
-				break;
-			}
+		case MIX:
+		case MIX_SPECIAL:
+		case MIX_SUPER:
+			KoLCharacter.setBartender( false );
+			this.shouldRerun = this.quantityNeeded > 0;
+			break;
 		}
 	}
 
