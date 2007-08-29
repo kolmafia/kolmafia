@@ -91,7 +91,7 @@
 91	Tingly Biceps	feather.gif	fbf879a2f5e27198361d24f57cfd1130
 92	Sticky Hands	glove.gif	652fac966f18c8d0051cc3af5ad42740	use 1 pine tar
 93	Clean-Shaven	shaven.gif	58e37fc744c725866f00b6e96da534a8	use 1 shaving cream
-94	Aspect of the GravyPlum Fairy	gravy.gif
+94	Aspect of the GravyPlum Fairy	gravy.gif	4b79673d34d9748b440cb33977667cbd
 95	Rushin' Hands	glove.gif
 96	Reedy Pipes	reedpipes.gif
 97	Oriental Mysticism	fumanchu.gif	178439b5d20a975ff913fa8510b78891

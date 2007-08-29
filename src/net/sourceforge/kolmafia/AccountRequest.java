@@ -83,10 +83,20 @@ public class AccountRequest extends PasswordHashRequest
 			responseText.indexOf( "<input class=button type=submit value=\"Drop Teetotaler\">" ) != -1 ? AscensionSnapshotTable.TEETOTALER :
 			AscensionSnapshotTable.NOPATH );
 
-		// Whether or not a player is currently in hardcore is also
-		// found here through the presence of buttons.
+		// Whether or not a player is currently in Bad Moon or hardcore
+		// is also found here through the presence of buttons.
 
-		KoLCharacter.setHardcore( responseText.indexOf( "<input class=button type=submit value=\"Drop Hardcore\">" ) != -1 );
+		if ( responseText.indexOf( "<input class=button type=submit value=\"Drop Bad Moon\">" ) != -1 )
+		{
+			KoLCharacter.setSign( "Bad Moon" );
+			KoLCharacter.setHardcore( true );
+		}
+		else
+		{
+			if ( KoLCharacter.getSignStat() == BAD_MOON )
+				KoLCharacter.setSign( "None" );
+			KoLCharacter.setHardcore( responseText.indexOf( "<input class=button type=submit value=\"Drop Hardcore\">" ) != -1 );
+		}
 
 		// Also parse out the player's current time
 		// zone in the process.
