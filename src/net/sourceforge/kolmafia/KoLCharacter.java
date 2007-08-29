@@ -1736,8 +1736,8 @@ public abstract class KoLCharacter extends StaticEntity
 	public static final void setTelescope( boolean present )
 	{
 		telescopeUpgrades = KoLSettings.getIntegerProperty( "telescopeUpgrades" );
-		// Assume minimal telescope if we just detected it.
-		// We'll look through it and figure out real power later
+		// Assume newly detected telescope is basic. We'll look through
+		// it when checkTelescope is called.
 		if ( present && telescopeUpgrades == 0 )
 			telescopeUpgrades = 1;
 	}
@@ -1748,6 +1748,9 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static final void checkTelescope()
 	{
+		if ( telescopeUpgrades == 0 )
+			return;
+
 		/* ...until I get info on how to really go to the telescope...
 		int lastAscension = KoLSettings.getIntegerProperty( "lastTelescopeReset" );
 		if ( lastAscension < ascensions )
