@@ -930,12 +930,7 @@ public class KoLRequest extends Job implements KoLConstants
 		this.formConnection.setInstanceFollowRedirects( false );
 
 		if ( sessionId != null )
-		{
-			if ( this instanceof LocalRelayRequest && this.formURLString.startsWith( "inventory.php" ) )
-				this.formConnection.addRequestProperty( "Cookie", KoLSettings.getUserProperty( "visibleBrowserInventory" ) + "; " + sessionId );
-			else
-				this.formConnection.addRequestProperty( "Cookie", sessionId );
-		}
+			this.formConnection.addRequestProperty( "Cookie", sessionId );
 
 		this.formConnection.setRequestProperty( "User-Agent", VERSION_NAME );
 
@@ -1034,7 +1029,7 @@ public class KoLRequest extends Job implements KoLConstants
 		{
 			istream = this.formConnection.getInputStream();
 			this.responseCode = this.formConnection.getResponseCode();
-			this.redirectLocation = this.formConnection.getHeaderField( "Location" );
+			this.redirectLocation = responseCode != 302 ? null : this.formConnection.getHeaderField( "Location" );
 		}
 		catch ( Exception e1 )
 		{
@@ -1075,6 +1070,10 @@ public class KoLRequest extends Job implements KoLConstants
 			this.responseCode = 302;
 			this.redirectLocation = "main.php";
 		}
+
+		String serverCookie = this.formConnection.getHeaderField( "Set-Cookie" );
+		if ( serverCookie != null )
+			sessionId = serverCookie;
 
 		if ( this.shouldUpdateDebugLog() )
 			this.printHeaderFields();

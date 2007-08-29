@@ -277,10 +277,6 @@ public class LoginRequest extends KoLRequest
 		// of success.  But first, if there was a desire to
 		// save the password, do so here.
 
-		String serverCookie = request.formConnection.getHeaderField( "Set-Cookie" );
-		if ( serverCookie != null )
-			KoLRequest.sessionId = serverCookie;
-
 		String name = request.getFormField( "loginname" );
 		if ( name.endsWith( "/q" ) )
 			name = name.substring( 0, name.length() - 2 ).trim();
