@@ -96,6 +96,7 @@ public class CampgroundRequest extends KoLRequest
 		KoLCharacter.setBartender( this.responseText.indexOf( "cocktail.php" ) != -1 );
 		KoLCharacter.setToaster( this.responseText.indexOf( "action=toast" ) != -1 );
 		KoLCharacter.setArches( this.responseText.indexOf( "action=arches" ) != -1 );
+		KoLCharacter.setTelescope( this.responseText.indexOf( "telescope.php" ) != -1 );
 
 		// Update adventure tally for resting and relaxing
 		// at the campground.

@@ -1562,6 +1562,14 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		// Commands to manipulate the tlescope
+
+		if ( command.equals( "telescope" ) )
+		{
+			this.executeTelescopeRequest( parameters );
+			return;
+		}
+
 		// One of the largest commands is adventuring,
 		// which (as usual) gets its own module.
 
@@ -4185,6 +4193,72 @@ public class KoLmafiaCLI extends KoLmafia
 			plotDetails.append( MushroomPlot.getForecastedPlot( false ) );
 			plotDetails.append( LINE_BREAK );
 			RequestLogger.printLine( plotDetails.toString() );
+		}
+	}
+
+	/**
+	 * Play with the telescope
+	 */
+
+	private void executeTelescopeRequest( String parameters )
+	{
+		String [] split = parameters.split( " " );
+		String command = split[0];
+
+		if ( command.equals( "look" ) )
+		{
+			if ( split.length < 2 )
+			{
+				updateDisplay( ERROR_STATE, "Syntax: telescope [look] high|low" );
+				return;
+			}
+
+			command = split[1];
+		}
+
+		int upgrades = KoLCharacter.getTelescopeUpgrades();
+		if ( upgrades < 1 )
+		{
+			updateDisplay( ERROR_STATE, "You don't have a telescope." );
+			return;
+		}
+
+		if ( command.equals( "high" ) )
+		{
+			RequestThread.postRequest( new TelescopeRequest( TelescopeRequest.HIGH ) );
+			return;
+		}
+
+		if ( command.equals( "low" ) )
+		{
+			RequestThread.postRequest( new TelescopeRequest( TelescopeRequest.LOW ) );
+		}
+
+		// Display what you saw through the telescope
+		RequestLogger.printLine( "You have a telescope with " + (upgrades - 1) + " upgrades" );
+
+		// Every telescope shows you the gates.
+		String gates = KoLSettings.getUserProperty( "telescope1" );
+		String [] desc = SorceressLair.findGateByDescription( gates );
+		if ( desc != null )
+		{
+			String name = SorceressLair.gateName( desc );
+			String effect = SorceressLair.gateEffect( desc );
+			String remedy = desc[3];
+			RequestLogger.printLine( "Outer gate: " + name + " (" + effect + "/" + remedy + ")");
+		}
+
+		// Upgraded telescopes can show you tower monsters
+		for ( int i = 1; i < upgrades; ++i )
+		{
+			String prop = KoLSettings.getUserProperty( "telescope" + (i + 1) );
+			desc = SorceressLair.findGuardianByDescription( prop );
+			if ( desc != null )
+			{
+				String name = SorceressLair.guardianName( desc );
+				String item = SorceressLair.guardianItem( desc );
+				RequestLogger.printLine( "Tower Guardian #" + i + ": " + name + " (" + item + ")");
+			}
 		}
 	}
 

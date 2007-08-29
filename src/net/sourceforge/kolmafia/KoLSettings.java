@@ -837,6 +837,18 @@ public class KoLSettings extends Properties implements KoLConstants
 		USER_MAP.put( "louvreDesiredGoal", "7" );
 		USER_MAP.put( "louvreGoal", "0" );
 
+		// Telescope settings
+
+		USER_MAP.put( "lastTelescopeReset", "-1" );
+		USER_MAP.put( "telescopeUpgrades", "0" );
+		USER_MAP.put( "telescope1", "" );
+		USER_MAP.put( "telescope2", "" );
+		USER_MAP.put( "telescope3", "" );
+		USER_MAP.put( "telescope4", "" );
+		USER_MAP.put( "telescope5", "" );
+		USER_MAP.put( "telescope6", "" );
+		USER_MAP.put( "telescope7", "" );
+
 		// These are userSettings related to choice adventures.
 		// Ensure that they exist, and if they do not, load
 		// them to their default userSettings.
