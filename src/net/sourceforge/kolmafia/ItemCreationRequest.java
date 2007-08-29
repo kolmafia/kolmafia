@@ -464,13 +464,11 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		AdventureResult createdItem = new AdventureResult( this.itemId, 0 );
 
 		int createdQuantity = createdItem.getCount( inventory ) - this.beforeQuantity;
-
-		int quantityDifference = 0;
+		int quantityDifference = this.quantityNeeded - createdQuantity;
 
 		if ( (mixingMethod == COOK_REAGENT || mixingMethod == SUPER_REAGENT) && KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) )
-			quantityDifference = this.quantityNeeded - (createdQuantity / 3);
-		else
-			quantityDifference = this.quantityNeeded - createdQuantity;
+			quantityDifference /= 3;
+
 
 		// Because an explosion might have occurred, the
 		// quantity that has changed might not be accurate.
