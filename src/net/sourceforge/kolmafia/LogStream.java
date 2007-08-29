@@ -64,7 +64,7 @@ public class LogStream extends PrintStream implements KoLConstants
 
 			newStream = new LogStream( file );
 
-			if ( file.getName().equals( "DEBUG.txt" ) )
+			if ( file.getName().startsWith( "DEBUG" ) )
 			{
 				newStream.println();
 				newStream.println();
