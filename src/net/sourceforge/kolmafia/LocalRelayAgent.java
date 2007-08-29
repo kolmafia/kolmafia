@@ -49,8 +49,6 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 	private char [] data = new char[ 8096 ];
 	private StringBuffer buffer = new StringBuffer();
 
-	private static final Pattern INVENTORY_COOKIE_PATTERN = Pattern.compile( "inventory=(\\d+)" );
-
 	private Socket socket = null;
 	private BufferedReader reader;
 	private PrintStream writer;
@@ -156,13 +154,6 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 			{
 				if ( currentLine.startsWith( "If-Modified-Since" ) )
 					this.isCheckingModified = true;
-
-				if ( currentLine.startsWith( "Cookie" ) && this.path.startsWith( "/inventory.php" ) )
-				{
-					Matcher inventoryMatcher = INVENTORY_COOKIE_PATTERN.matcher( currentLine );
-					if ( inventoryMatcher.find() )
-						KoLSettings.setUserProperty( "visibleBrowserInventory", "inventory=" + inventoryMatcher.group(1) );
-				}
 			}
 		}
 		else

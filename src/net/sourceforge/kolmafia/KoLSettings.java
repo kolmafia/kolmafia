@@ -822,7 +822,6 @@ public class KoLSettings extends Properties implements KoLConstants
 		USER_MAP.put( "thanksMessage", "Thank you for the donation!" );
 		USER_MAP.put( "trapperOre", "chrome ore" );
 		USER_MAP.put( "violetFogGoal", "0" );
-		USER_MAP.put( "visibleBrowserInventory", "" );
 
 		// These are userSettings related to the tavern faucet
 		// used to make the interface friendlier.
