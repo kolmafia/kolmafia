@@ -42,7 +42,9 @@ import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import javax.swing.JList;
 import javax.swing.JTextField;
+
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 
@@ -51,14 +53,15 @@ import net.sourceforge.kolmafia.StoreManager.SoldItem;
 
 public class FilterTextField extends JTextField implements ActionListener, FocusListener, ListElementFilter
 {
+	protected JList list;
 	protected String text;
+	protected LockableListModel model;
+	protected boolean strict;
 
-	private LockableListModel model;
-	private boolean strict;
-
-	public FilterTextField( LockableListModel model )
+	public FilterTextField( JList list )
 	{
-		this.model = model;
+		this.list = list;
+		this.model = (LockableListModel) list.getModel();
 		this.model.setFilter( this );
 
 		this.addFocusListener( this );
@@ -89,11 +92,22 @@ public class FilterTextField extends JTextField implements ActionListener, Focus
 
 		FilterTextField.this.strict = true;
 		FilterTextField.this.model.updateFilter( false );
+
+		if ( this.model.getSize() == 1 )
+			this.list.setSelectedIndex(0);
+		else
+			this.list.clearSelection();
+
 		if ( FilterTextField.this.model.getSize() > 0 )
 			return;
 
 		FilterTextField.this.strict = false;
 		FilterTextField.this.model.updateFilter( false );
+
+		if ( this.model.getSize() == 1 )
+			this.list.setSelectedIndex(0);
+		else
+			this.list.clearSelection();
 	}
 
 	public boolean isVisible( Object element )

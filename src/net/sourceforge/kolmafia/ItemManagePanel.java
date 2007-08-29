@@ -601,7 +601,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 		public FilterItemField()
 		{
-			super(  ItemManagePanel.this.elementModel );
+			super( elementList );
 
 			this.food = true; this.booze = true; this.equip = true;
 			this.restores = true; this.other = true; this.notrade = true;
