@@ -1467,7 +1467,7 @@ public class KoLRequest extends Job implements KoLConstants
 		String option = null;
 		String decision = null;
 
-		while ( request.responseText.indexOf( "choice.php" ) != -1 )
+		for ( int stepCount = 0; request.responseText.indexOf( "choice.php" ) != -1; ++stepCount )
 		{
 			// Slight delay before each choice is made
 
@@ -1534,7 +1534,7 @@ public class KoLRequest extends Job implements KoLConstants
 			// decision, see if it's in the violet fog
 
 			if ( decision.equals( "" ) )
-				decision = VioletFog.handleChoice( choice );
+				decision = VioletFog.handleChoice( choice, stepCount );
 
 			// If there is no setting which determines the
 			// decision, see if it's in the Louvre
