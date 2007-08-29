@@ -4202,19 +4202,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeTelescopeRequest( String parameters )
 	{
-		String [] split = parameters.split( " " );
-		String command = split[0];
-
-		if ( command.equals( "look" ) )
-		{
-			if ( split.length < 2 )
-			{
-				updateDisplay( ERROR_STATE, "Syntax: telescope [look] high|low" );
-				return;
-			}
-
-			command = split[1];
-		}
+		// Find out how good our telescope is.
+		KoLCharacter.setTelescope( false );
 
 		int upgrades = KoLCharacter.getTelescopeUpgrades();
 		if ( upgrades < 1 )
@@ -4229,6 +4218,20 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		String [] split = parameters.split( " " );
+		String command = split[0];
+
+		if ( command.equals( "look" ) )
+		{
+			if ( split.length < 2 )
+			{
+				updateDisplay( ERROR_STATE, "Syntax: telescope [look] high|low" );
+				return;
+			}
+
+			command = split[1];
+		}
+
 		if ( command.equals( "high" ) )
 		{
 			RequestThread.postRequest( new TelescopeRequest( TelescopeRequest.HIGH ) );
@@ -4238,6 +4241,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "low" ) )
 		{
 			RequestThread.postRequest( new TelescopeRequest( TelescopeRequest.LOW ) );
+			upgrades = KoLCharacter.getTelescopeUpgrades();
 		}
 
 		// Display what you saw through the telescope
