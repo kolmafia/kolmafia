@@ -49,6 +49,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class AdventureFrame extends AdventureOptionsFrame
 {
@@ -186,6 +187,7 @@ public class AdventureFrame extends AdventureOptionsFrame
 		private JComboBox violetFogSelect;
 		private JComboBox maidenSelect;
 		private JComboBox louvreSelect;
+		private JComboBox manualLouvre;
 		private JComboBox billiardRoomSelect;
 		private JComboBox riseSelect, fallSelect;
 
@@ -251,6 +253,20 @@ public class AdventureFrame extends AdventureOptionsFrame
 			this.louvreSelect.addItem( "Boost Prime Stat" );
 			this.louvreSelect.addItem( "Boost Lowest Stat" );
 
+			LockableListModel overrideList = new LockableListModel();
+
+			this.manualLouvre = new MutableComboBox( overrideList, true );
+			overrideList.add( "Use specified goal" );
+
+			for ( int i = 1; i <= 3; ++i )
+				for ( int j = 1; j <= 3; ++j )
+					for ( int k = 1; k <=3; ++k )
+						overrideList.add( getLouvreDirection(i) + ", " + getLouvreDirection(j) + ", " + getLouvreDirection(k) );
+
+			String overrideSetting = KoLSettings.getUserProperty( "louvreOverride" );
+			if ( !overrideSetting.equals( "" ) && !overrideList.contains( overrideSetting ) )
+				overrideList.add( 1, overrideSetting );
+
 			this.maidenSelect = new JComboBox();
 			this.maidenSelect.addItem( "Fight a random knight" );
 			this.maidenSelect.addItem( "Only fight the wolf knight" );
@@ -285,7 +301,8 @@ public class AdventureFrame extends AdventureOptionsFrame
 			this.addChoiceSelect( "Manor", "Billiard Room", this.billiardRoomSelect );
 			this.addChoiceSelect( "Manor", "Rise of Spookyraven", this.riseSelect );
 			this.addChoiceSelect( "Manor", "Fall of Spookyraven", this.fallSelect );
-			this.addChoiceSelect( "Manor", "The Louvre", this.louvreSelect );
+			this.addChoiceSelect( "Manor", "Louvre Goal", this.louvreSelect );
+			this.addChoiceSelect( "Manor", "Louvre Override", this.manualLouvre );
 			this.addChoiceSelect( "Manor", "The Maidens", this.maidenSelect );
 
 			this.addChoiceSelect( AdventureDatabase.LUCKY_SEWER.getZone(), AdventureDatabase.LUCKY_SEWER.getName(), this.sewerSelect );
@@ -305,6 +322,19 @@ public class AdventureFrame extends AdventureOptionsFrame
 			}
 
 			AdventureFrame.this.locationSelect.addListSelectionListener( new UpdateChoicesListener() );
+		}
+
+		private String getLouvreDirection( int i )
+		{
+			switch ( i )
+			{
+			case 1:
+				return "up";
+			case 2:
+				return "down";
+			default:
+				return "side";
+			}
 		}
 
 		private void addChoiceSelect( String zone, String name, JComboBox option )
@@ -393,6 +423,9 @@ public class AdventureFrame extends AdventureOptionsFrame
 			KoLSettings.setUserProperty( "choiceAdventure89", String.valueOf( this.maidenSelect.getSelectedIndex() ) );
 
 			int louvreGoal = this.louvreSelect.getSelectedIndex();
+			KoLSettings.setUserProperty( "louvreOverride", this.manualLouvre.getSelectedIndex() <= 0 ? "" :
+				(String) this.manualLouvre.getSelectedItem() );
+
 			KoLSettings.setUserProperty( "choiceAdventure91",  String.valueOf( louvreGoal > 0 ? "1" : "2" ) );
 			KoLSettings.setUserProperty( "louvreDesiredGoal", String.valueOf( louvreGoal ) );
 
@@ -594,6 +627,12 @@ public class AdventureFrame extends AdventureOptionsFrame
 			int index = KoLSettings.getIntegerProperty( "violetFogGoal" );
 			if ( index >= 0 )
 				this.violetFogSelect.setSelectedIndex( index );
+
+			String setting = KoLSettings.getUserProperty( "louvreOverride" );
+			if ( setting.equals( "" ) )
+				this.manualLouvre.setSelectedIndex( 0 );
+			else
+				this.manualLouvre.setSelectedItem( setting );
 
 			index = KoLSettings.getIntegerProperty( "louvreDesiredGoal" );
 			if ( index >= 0 )

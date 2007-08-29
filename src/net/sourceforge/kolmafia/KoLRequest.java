@@ -1534,13 +1534,13 @@ public class KoLRequest extends Job implements KoLConstants
 			// decision, see if it's in the violet fog
 
 			if ( decision.equals( "" ) )
-				decision = VioletFog.handleChoice( choice, stepCount );
+				decision = VioletFog.handleChoice( choice );
 
 			// If there is no setting which determines the
 			// decision, see if it's in the Louvre
 
 			if ( decision.equals( "" ) )
-				decision = Louvre.handleChoice( choice );
+				decision = Louvre.handleChoice( choice, stepCount );
 
 			// If there is currently no setting which determines the
 			// decision, give an error and bail.
