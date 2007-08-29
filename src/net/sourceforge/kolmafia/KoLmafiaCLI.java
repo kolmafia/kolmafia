@@ -4245,7 +4245,7 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		// Display what you saw through the telescope
-		RequestLogger.printLine( "You have a telescope with " + (upgrades - 1) + " upgrades" );
+		RequestLogger.printLine( "You have a telescope with " + (upgrades - 1) + " additional upgrades" );
 
 		// Every telescope shows you the gates.
 		String gates = KoLSettings.getUserProperty( "telescope1" );

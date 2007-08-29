@@ -308,6 +308,13 @@ public class RequestLogger extends NullStream implements KoLConstants
 		if ( urlString.startsWith( "login" ) || urlString.startsWith( "logout" ) || urlString.startsWith( "charpane" ) )
 			return;
 
+		// This is a campground request and so must go here.
+		if ( (request instanceof TelescopeRequest || isExternal) && TelescopeRequest.registerRequest( urlString ) )
+		{
+			wasLastRequestSimple = false;
+			return;
+		}
+
 		if ( urlString.startsWith( "leaflet" ) || urlString.startsWith( "cave" ) || urlString.startsWith( "lair" ) || urlString.startsWith( "campground" ) )
 			return;
 

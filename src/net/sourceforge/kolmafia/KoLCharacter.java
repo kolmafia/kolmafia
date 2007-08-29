@@ -1751,11 +1751,9 @@ public abstract class KoLCharacter extends StaticEntity
 		if ( telescopeUpgrades == 0 )
 			return;
 
-		/* ...until I get info on how to really go to the telescope...
 		int lastAscension = KoLSettings.getIntegerProperty( "lastTelescopeReset" );
 		if ( lastAscension < ascensions )
 			RequestThread.postRequest( new TelescopeRequest( TelescopeRequest.LOW) );
-		*/
 	}
 
 	/**
