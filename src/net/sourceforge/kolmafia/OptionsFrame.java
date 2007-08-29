@@ -260,8 +260,13 @@ public class OptionsFrame extends KoLFrame
 		private final String [][] options =
 		{
 			{ "showAllRequests", "Show all requests in a mini-browser window" },
-			{ "mapLoadsMiniBrowser", "Map button loads mini browser instead of relay browser" },
 			{ "avoidInvertingTabs", "Do not invert nested tabs in main window" },
+
+			{ "", "" },
+
+			{ "useZoneComboBox", "Use zone selection instead of adventure name filter" },
+			{ "cacheMallSearches", "Cache mall search terms in mall search interface" },
+			{ "mapLoadsMiniBrowser", "Map button loads mini browser instead of relay browser" },
 			{ "useLowBandwidthRadio", "Use lower bandwidth server for KoL Radio" },
 
 			{ "", "" },
@@ -276,7 +281,6 @@ public class OptionsFrame extends KoLFrame
 			{ "cloverProtectActive", "Auto-disassemble hermit, marmot and barrel clovers" },
 			{ "mementoListActive", "Prevent accidental destruction of 'memento' items" },
 			{ "allowGenericUse", "Enable generic item usage in scripted \"use\"" },
-			{ "cacheMallSearches", "Cache mall search terms in mall search interface" },
 
 			{ "", "" },
 

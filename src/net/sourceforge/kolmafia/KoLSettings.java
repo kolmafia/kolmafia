@@ -713,6 +713,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		GLOBAL_MAP.put( "useSystemTrayIcon", "false" );
 		GLOBAL_MAP.put( "useTabbedChatFrame", "true" );
 		GLOBAL_MAP.put( "useToolbars", "true" );
+		GLOBAL_MAP.put( "useZoneComboBox", "false" );
 		GLOBAL_MAP.put( "visitRumpusHardcore", "true" );
 		GLOBAL_MAP.put( "visitRumpusSoftcore", "true" );
 
