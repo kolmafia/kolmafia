@@ -154,7 +154,7 @@ public class TelescopeRequest extends KoLRequest
 				break;
 
 			upgrades++;
-			KoLSettings.setUserProperty( "telescope" + upgrades, matcher.group(0) );
+			KoLSettings.setUserProperty( "telescope" + upgrades, matcher.group(1) );
 		}
 
 		KoLCharacter.setTelescopeUpgrades( upgrades );

@@ -4257,6 +4257,10 @@ public class KoLmafiaCLI extends KoLmafia
 			String remedy = desc[3];
 			RequestLogger.printLine( "Outer gate: " + name + " (" + effect + "/" + remedy + ")");
 		}
+		else
+		{
+			RequestLogger.printLine( "Outer gate: " + gates + " (unrecognized)");
+		}
 
 		// Upgraded telescopes can show you tower monsters
 		for ( int i = 1; i < upgrades; ++i )
@@ -4268,6 +4272,10 @@ public class KoLmafiaCLI extends KoLmafia
 				String name = SorceressLair.guardianName( desc );
 				String item = SorceressLair.guardianItem( desc );
 				RequestLogger.printLine( "Tower Guardian #" + i + ": " + name + " (" + item + ")");
+			}
+			else
+			{
+				RequestLogger.printLine( "Tower Guardian #" + i + ": " + prop + " (unrecognized)");
 			}
 		}
 	}
