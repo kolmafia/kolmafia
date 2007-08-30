@@ -53,18 +53,18 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class SendMessageFrame extends KoLFrame
 {
-	public boolean usingStorage;
-	public JPanel messagePanel;
-	public JComboBox recipientEntry;
-	public JTextArea messageEntry;
-	public JButton sendMessageButton;
+	private boolean usingStorage;
+	private JComboBox recipientEntry;
+	private JTextArea messageEntry;
+	private JButton sendMessageButton;
 
-	public JTextField attachedMeat;
-	public SortedListModel attachments;
+	private JTextField attachedMeat;
+	private SortedListModel attachments;
 
-	public ShowDescriptionList attachmentList;
-	public ItemManagePanel inventoryPanel;
-	public ItemManagePanel storagePanel;
+	private LockableListModel contacts;
+	private ShowDescriptionList attachmentList;
+	private ItemManagePanel inventoryPanel;
+	private ItemManagePanel storagePanel;
 
 	public SendMessageFrame()
 	{
@@ -79,7 +79,8 @@ public class SendMessageFrame extends KoLFrame
 
 		// Who you want to send it to.
 
-		this.recipientEntry = new MutableComboBox( (LockableListModel) contactList.clone(), true );
+		this.contacts = (LockableListModel) contactList.clone();
+		this.recipientEntry = new MutableComboBox( contacts, true );
 
 		JButton refreshButton = new InvocationButton( "Refresh contact list", "refresh.gif", this, "refreshContactList" );
 		JComponentUtilities.setComponentSize( this.recipientEntry, 250, 25 );
@@ -213,14 +214,18 @@ public class SendMessageFrame extends KoLFrame
 
 	public void setRecipient( String recipient )
 	{
-		if ( recipient.equals( "" ) )
-			return;
+		if ( !contacts.contains( recipient ) )
+		{
+			recipient = KoLmafia.getPlayerName( recipient );
+			this.recipientEntry.addItem( recipient );
+		}
 
-		recipient = KoLmafia.getPlayerName( recipient );
-
-		this.recipientEntry.addItem( recipient );
 		this.recipientEntry.getEditor().setItem( recipient );
 		this.recipientEntry.setSelectedItem( recipient );
+
+		this.attachedMeat.setText( "" );
+		this.attachments.clear();
+		this.messageEntry.setText( "" );
 	}
 
 	public JPanel getLabelPanel( String text )
