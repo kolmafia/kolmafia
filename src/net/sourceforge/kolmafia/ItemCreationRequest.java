@@ -465,6 +465,32 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		int createdQuantity = createdItem.getCount( inventory ) - this.beforeQuantity;
 		KoLmafia.updateDisplay( "Successfully created " + createdQuantity + " " + this.getName() );
 
+		// Check to see if box-servant was overworked and exploded.
+
+		if ( this.responseText.indexOf( "Smoke" ) != -1 )
+		{
+			KoLmafia.updateDisplay( "Your box servant has escaped!" );
+			this.quantityNeeded = this.quantityNeeded - createdQuantity;
+
+			switch ( this.mixingMethod )
+			{
+			case COOK:
+			case COOK_REAGENT:
+			case SUPER_REAGENT:
+			case COOK_PASTA:
+				KoLCharacter.setChef( false );
+				this.shouldRerun = this.quantityNeeded > 0;
+				break;
+
+			case MIX:
+			case MIX_SPECIAL:
+			case MIX_SUPER:
+				KoLCharacter.setBartender( false );
+				this.shouldRerun = this.quantityNeeded > 0;
+				break;
+			}
+		}
+
 		// Because an explosion might have occurred, the
 		// quantity that has changed might not be accurate.
 		// Therefore, update with the actual value.
@@ -517,32 +543,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		case MIX_SUPER:
 			if ( !KoLCharacter.hasBartender() )
 				StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, 0 - undoAmount ) );
-			break;
-		}
-
-		// Check to see if box-servant was overworked and exploded.
-
-		if ( this.responseText.indexOf( "Smoke" ) == -1 )
-			return;
-
-		KoLmafia.updateDisplay( "Your box servant has escaped!" );
-		this.quantityNeeded = this.quantityNeeded - createdQuantity;
-
-		switch ( this.mixingMethod )
-		{
-		case COOK:
-		case COOK_REAGENT:
-		case SUPER_REAGENT:
-		case COOK_PASTA:
-			KoLCharacter.setChef( false );
-			this.shouldRerun = this.quantityNeeded > 0;
-			break;
-
-		case MIX:
-		case MIX_SPECIAL:
-		case MIX_SUPER:
-			KoLCharacter.setBartender( false );
-			this.shouldRerun = this.quantityNeeded > 0;
 			break;
 		}
 	}
