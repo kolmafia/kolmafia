@@ -83,7 +83,7 @@ public class AdventureDatabase extends KoLDatabase
 		conditionsById.set( 63, "outfit" );  // eXtreme Slope
 		conditionsById.set( 66, "outfit" );  // Pirate Cove
 		conditionsById.set( 67, "1 abridged dictionary" );  // Pirate Cove in Disguise
-		conditionsById.set( 73, "1 digital key, 4 red pixel potion" );  // 8-Bit Realm
+		conditionsById.set( 73, "1 digital key" );  // 8-Bit Realm
 		conditionsById.set( 75, "1 wussiness potion, 1 ruby W, 1 dodecagram" );  // Friar's Quest 1
 		conditionsById.set( 76, "1 box of birthday candles" );  // Friar's Quest 2
 		conditionsById.set( 77, "1 eldritch butterknife" );  // Friar's Quest 3
