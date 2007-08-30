@@ -544,7 +544,7 @@ public class ConsumeItemRequest extends KoLRequest
 
 		super.run();
 
-		if ( this.responseCode == 302 )
+		if ( this.responseCode == 302 && this.redirectLocation.startsWith( "inventory" ) )
 		{
 			REDIRECT_REQUEST.constructURLString( this.redirectLocation ).run();
 			parseConsumption( REDIRECT_REQUEST.responseText, true );

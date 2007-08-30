@@ -1157,8 +1157,11 @@ public class KoLRequest extends Job implements KoLConstants
 
 		if ( this.redirectLocation.startsWith( "fight.php" ) )
 		{
-			if ( this instanceof UseSkillRequest || this instanceof ConsumeItemRequest )
+			if ( !(this instanceof AdventureRequest || this instanceof BasementRequest) && !LoginRequest.isInstanceRunning() )
+			{
+				KoLmafia.updateDisplay( ABORT_STATE, "You're in the middle of a fight." );
 				return true;
+			}
 
 			// You have been redirected to a fight!  Here, you need
 			// to complete the fight before you can continue.
