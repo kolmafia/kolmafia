@@ -95,7 +95,7 @@
 95	Rushin' Hands	glove.gif
 96	Reedy Pipes	reedpipes.gif
 97	Oriental Mysticism	fumanchu.gif	178439b5d20a975ff913fa8510b78891
-98	Arabian Knighthood	scimitar.gif
+98	Arabian Knighthood	scimitar.gif	037d391acc55edb9d5ec9bfca00097d2
 99
 100	Stabilizing Oiliness	potion4.gif	8a69297f136daef36aea0330f986bc78	use 1 oil of stability
 101	Slippery Oiliness	potion4.gif	1598c6d326da799034f65bc9da00c288	use 1 oil of slipperiness
