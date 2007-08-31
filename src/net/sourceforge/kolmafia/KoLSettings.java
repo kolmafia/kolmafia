@@ -622,6 +622,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		GLOBAL_MAP.put( "guiUsesOneWindow", "false" );
 		GLOBAL_MAP.put( "hideServerDebugText", "false" );
 		GLOBAL_MAP.put( "highlightList", "" );
+		GLOBAL_MAP.put( "httpTimeout", "4000" );
 		GLOBAL_MAP.put( "http.proxyHost", "" );
 		GLOBAL_MAP.put( "http.proxyPort", "" );
 		GLOBAL_MAP.put( "http.proxyUser", "" );

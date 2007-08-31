@@ -67,6 +67,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.HPRestoreItemList.HPRestoreItem;
 import net.sourceforge.kolmafia.MPRestoreItemList.MPRestoreItem;
 import net.sourceforge.kolmafia.StoreManager.SoldItem;
+import com.velocityreviews.forums.HttpTimeoutClient;
 
 public abstract class KoLmafia implements KoLConstants
 {
@@ -361,6 +362,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		KoLSettings.initializeLists();
 		Runtime.getRuntime().addShutdownHook( new ShutdownThread() );
+		HttpTimeoutClient.setHttpTimeout( Math.max( 100, KoLSettings.getIntegerProperty( "httpTimeout" ) ) );
 
 		// Now run the main routines for each, so that
 		// you have an interface.
