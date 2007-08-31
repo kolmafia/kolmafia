@@ -156,6 +156,8 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 
 		if ( requestLine.startsWith( "GET" ) )
 		{
+			isValid = !this.path.startsWith( "/KoLmafia" );
+
 			while ( (currentLine = reader.readLine()) != null && !currentLine.equals( "" ) )
 			{
 				if ( currentLine.startsWith( "If-Modified-Since" ) )
