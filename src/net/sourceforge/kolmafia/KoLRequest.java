@@ -239,39 +239,35 @@ public class KoLRequest extends Job implements KoLConstants
 			return;
 
 		for ( int i = 0; i < SERVERS.length; ++i )
-		{
-			if ( !substringMatches( server, SERVERS[i][0] ) && !substringMatches( server, SERVERS[i][1] ) )
-				continue;
-
-			KOL_HOST = SERVERS[i][0];
-
-			try
-			{
-				KOL_ROOT = new URL( "http", SERVERS[i][1], 80, "/" );
-			}
-			catch ( Exception e )
-			{
-				StaticEntity.printStackTrace( e );
-			}
-
-			KoLSettings.setUserProperty( "loginServerName", KOL_HOST );
-
-			RequestLogger.printLine( "Redirected to " + KOL_HOST + "..." );
-			System.setProperty( "http.referer", "http://" + KOL_HOST + "/main.php" );
-		}
+			if ( substringMatches( server, SERVERS[i][0] ) || substringMatches( server, SERVERS[i][1] ) )
+				setLoginServer( i );
 	}
+	
+	private static final void setLoginServer( int serverIndex )
+	{
+		KOL_HOST = SERVERS[ serverIndex ][0];
 
+		try
+		{
+			KOL_ROOT = new URL( "http", SERVERS[ serverIndex ][1], 80, "/" );
+		}
+		catch ( Exception e )
+		{
+			StaticEntity.printStackTrace( e );
+		}
+
+		KoLSettings.setUserProperty( "loginServerName", KOL_HOST );
+		System.setProperty( "http.referer", "http://" + KOL_HOST + "/main.php" );
+	}
+	
+	private static int retryServer = 0;
 	private static final void chooseNewLoginServer()
 	{
 		KoLmafia.updateDisplay( "Choosing new login server..." );
-		for ( int i = 0; i < SERVER_COUNT; ++i )
-		{
-			if ( SERVERS[i][0].equals( KOL_HOST ) )
-			{
-				setLoginServer( SERVERS[ (i+1) % SERVERS.length ][0] );
-				return;
-			}
-		}
+		LoginRequest.setIgnoreLoadBalancer( true );
+		
+		retryServer = Math.max( 1, (retryServer + 1) % SERVERS.length );
+		setLoginServer( retryServer );
 	}
 
 	/**
