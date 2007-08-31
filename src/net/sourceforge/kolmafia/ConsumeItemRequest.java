@@ -981,13 +981,13 @@ public class ConsumeItemRequest extends KoLRequest
 			KoLCharacter.removeFamiliar( blackbird );
 
 			AdventureResult item = blackbird.getItem();
-			if ( item != null )
+			if ( item != null && !item.equals( EquipmentRequest.UNEQUIP ) )
 				AdventureResult.addResultToList( inventory, item );
 
 			if ( !KoLSettings.getUserProperty( "preBlackbirdFamiliar" ).equals( "" ) )
 			{
 				KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "familiar", KoLSettings.getUserProperty( "preBlackbirdFamiliar" ) );
-				if ( item != null && KoLCharacter.getFamiliar().canEquip( item ) )
+				if ( item != null && !item.equals( EquipmentRequest.UNEQUIP ) && KoLCharacter.getFamiliar().canEquip( item ) )
 					(new EquipmentRequest( item )).run();
 
 				KoLSettings.setUserProperty( "preBlackbirdFamiliar", "" );
