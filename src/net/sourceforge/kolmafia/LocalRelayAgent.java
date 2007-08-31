@@ -117,7 +117,12 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 		{
 			this.reader = new BufferedReader( new InputStreamReader( this.socket.getInputStream() ) );
 
-			this.readBrowserRequest();
+			if ( !this.readBrowserRequest() )
+			{
+				this.closeRelay();
+				return;
+			}
+
 			this.readServerResponse();
 
 			if ( this.request.rawByteBuffer != null )
@@ -138,7 +143,7 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 		this.closeRelay();
 	}
 
-	public void readBrowserRequest() throws Exception
+	public boolean readBrowserRequest() throws Exception
 	{
 		String requestLine = reader.readLine();
 		int spaceIndex = requestLine.indexOf( " " );
@@ -147,6 +152,7 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 		this.request.constructURLString( this.path );
 
 		String currentLine;
+		boolean isValid = true;
 
 		if ( requestLine.startsWith( "GET" ) )
 		{
@@ -154,6 +160,9 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 			{
 				if ( currentLine.startsWith( "If-Modified-Since" ) )
 					this.isCheckingModified = true;
+
+				if ( currentLine.indexOf( "Referer" ) != -1 )
+					isValid = currentLine.indexOf( "http://127.0.0.1" ) != -1;
 			}
 		}
 		else
@@ -177,6 +186,8 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 			this.request.addEncodedFormFields( buffer.toString() );
 			buffer.setLength(0);
 		}
+
+		return isValid;
 	}
 
 	private void readServerResponse() throws Exception
