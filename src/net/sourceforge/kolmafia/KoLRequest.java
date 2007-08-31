@@ -68,6 +68,7 @@ public class KoLRequest extends Job implements KoLConstants
 	private static int totalConsideredDelay = 0;
 
 	private static final int INITIAL_CACHE_COUNT = 3;
+	private static final int TIMEOUT_DELAY = 500;
 	private static final int ADJUSTMENT_REFRESH = 60000;
 	private static final int MINIMUM_TOLERANCE = 8000;
 	private static final int MAXIMUM_TOLERANCE = 64000;
@@ -911,12 +912,10 @@ public class KoLRequest extends Job implements KoLConstants
 		}
 		catch ( Exception e )
 		{
-			// In the event that an Exception is thrown, one can assume
-			// that there was a timeout; return false and let the loop
-			// attempt to connect again
+			RequestLogger.updateDebugLog( "Error opening connection (" + this.getURLString() + ").  Retrying..." );
 
 			if ( this.shouldUpdateDebugLog() )
-				RequestLogger.updateDebugLog( "Error opening connection.  Retrying..." );
+				RequestLogger.updateDebugLog( "Error opening connection (" + this.getURLString() + ").  Retrying..." );
 
 			if ( this instanceof LoginRequest )
 				chooseNewLoginServer();
@@ -988,9 +987,10 @@ public class KoLRequest extends Job implements KoLConstants
 		catch ( Exception e )
 		{
 			RequestLogger.printLine( "Time out during data post (" + this.formURLString + ").  This could be bad..." );
+			delay( TIMEOUT_DELAY );
 
 			if ( this.shouldUpdateDebugLog() )
-				RequestLogger.updateDebugLog( "Connection timed out during post.  Retrying..." );
+				RequestLogger.printLine( "Time out during data post (" + this.formURLString + ").  This could be bad..." );
 
 			if ( this instanceof LoginRequest )
 				chooseNewLoginServer();
@@ -1033,15 +1033,13 @@ public class KoLRequest extends Job implements KoLConstants
 		catch ( Exception e1 )
 		{
 			boolean shouldRetry = retryOnTimeout();
-
-			if ( !isChatRequest )
-				RequestLogger.printLine( "Time out during response (" + this.formURLString + ")." );
+			RequestLogger.printLine( "Time out during response (" + this.formURLString + ")." );
 
 			if ( !shouldRetry && processOnFailure() )
 				processResults();
 
-			if ( !isChatRequest && this.shouldUpdateDebugLog() )
-				RequestLogger.updateDebugLog( "Connection timed out during response." );
+			if ( this.shouldUpdateDebugLog() )
+				RequestLogger.printLine( "Time out during response (" + this.formURLString + ")." );
 
 			lagTolerance = Math.min( MAXIMUM_TOLERANCE, lagTolerance + MINIMUM_TOLERANCE );
 			HttpTimeoutClient.setHttpTimeout( lagTolerance );
@@ -1057,6 +1055,8 @@ public class KoLRequest extends Job implements KoLConstants
 				// The input stream was already closed.  Ignore this
 				// error and continue.
 			}
+
+			delay( TIMEOUT_DELAY );
 
 			if ( this instanceof LoginRequest )
 				chooseNewLoginServer();
