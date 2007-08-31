@@ -1863,11 +1863,6 @@ public abstract class KoLmafia implements KoLConstants
 				if ( hadConditions && this.handleConditions( items, creatables ) )
 				{
 					conditions.clear();
-
-					int bountyItem = KoLSettings.getIntegerProperty( "currentBountyItem" );
-					if ( bountyItem != 0 && AdventureDatabase.getBountyLocation( TradeableItemDatabase.getItemName( bountyItem ) ) == request )
-						RequestThread.postRequest( new KoLRequest( "bhh.php" ) );
-
 					updateDisplay( PENDING_STATE, "Conditions satisfied after " + (currentIteration - 1) +
 						((currentIteration == 2) ? " request." : " requests.") );
 
@@ -1945,6 +1940,13 @@ public abstract class KoLmafia implements KoLConstants
 				updateDisplay( ERROR_STATE, "You are too drunk to continue." );
 				return;
 			}
+		}
+
+		if ( hadConditions && conditions.isEmpty() )
+		{
+			int bountyItem = KoLSettings.getIntegerProperty( "currentBountyItem" );
+			if ( bountyItem != 0 && AdventureDatabase.getBountyLocation( TradeableItemDatabase.getItemName( bountyItem ) ) == request )
+				RequestThread.postRequest( new KoLRequest( "bhh.php" ) );
 		}
 
 		if ( request instanceof KoLAdventure )
