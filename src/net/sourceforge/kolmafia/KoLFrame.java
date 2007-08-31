@@ -106,6 +106,8 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public abstract class KoLFrame extends JFrame implements KoLConstants
 {
+	private static KoLFrame activeWindow = null;
+
 	protected HashMap listenerMap;
 	private KoLMenuBar menuBar;
 
@@ -908,25 +910,25 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	}
 
 	public static final void alert( String message )
-	{	JOptionPane.showMessageDialog( null, basicTextWrap( message ) );
+	{	JOptionPane.showMessageDialog( activeWindow, basicTextWrap( message ) );
 	}
 
 	public static final boolean confirm( String message )
-	{	return JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null, basicTextWrap( message ), "", JOptionPane.YES_NO_OPTION );
+	{	return JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( activeWindow, basicTextWrap( message ), "", JOptionPane.YES_NO_OPTION );
 	}
 
 	public static final String input( String message )
-	{	return JOptionPane.showInputDialog( null, basicTextWrap( message ) );
+	{	return JOptionPane.showInputDialog( activeWindow, basicTextWrap( message ) );
 	}
 
 	public static final String input( String message, String initial )
-	{	return JOptionPane.showInputDialog( null, basicTextWrap( message ), initial );
+	{	return JOptionPane.showInputDialog( activeWindow, basicTextWrap( message ), initial );
 	}
 
 	public static final Object input( String message, LockableListModel inputs )
 	{
 		JList selector = new JList( inputs );
-		int option = JOptionPane.showConfirmDialog( null, new SimpleScrollPane( selector ), basicTextWrap( message ),
+		int option = JOptionPane.showConfirmDialog( activeWindow, new SimpleScrollPane( selector ), basicTextWrap( message ),
 			JOptionPane.OK_CANCEL_OPTION );
 		return option == JOptionPane.CANCEL_OPTION ? null : selector.getSelectedValue();
 	}
@@ -944,7 +946,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		if ( inputs == null || inputs.length == 0 )
 			return null;
 
-		return JOptionPane.showInputDialog( null, basicTextWrap( message ), "",
+		return JOptionPane.showInputDialog( activeWindow, basicTextWrap( message ), "",
 			JOptionPane.INFORMATION_MESSAGE, null, inputs, initial );
 	}
 
@@ -1070,16 +1072,24 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		super.processWindowEvent( e );
 
-		if ( e.getID() == WindowEvent.WINDOW_CLOSING && existingFrames.contains( this ) )
+		if ( e.getID() == WindowEvent.WINDOW_CLOSING )
 		{
-			existingFrames.remove( this );
-			removedFrames.add( this );
-			checkForLogout();
+			if ( existingFrames.contains( this ) )
+			{
+				existingFrames.remove( this );
+				removedFrames.add( this );
+				checkForLogout();
+			}
 		}
-		else if ( e.getID() == WindowEvent.WINDOW_ACTIVATED && removedFrames.contains( this ) )
+		else if ( e.getID() == WindowEvent.WINDOW_ACTIVATED )
 		{
-			existingFrames.add( this );
-			removedFrames.remove( this );
+			if ( removedFrames.contains( this ) )
+			{
+				removedFrames.remove( this );
+				existingFrames.add( this );
+			}
+
+			activeWindow = this;
 		}
 	}
 
