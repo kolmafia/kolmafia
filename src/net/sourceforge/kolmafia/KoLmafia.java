@@ -362,7 +362,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		KoLSettings.initializeLists();
 		Runtime.getRuntime().addShutdownHook( new ShutdownThread() );
-		HttpTimeoutClient.setHttpTimeout( Math.max( 100, KoLSettings.getIntegerProperty( "httpTimeout" ) ) );
+		HttpTimeoutClient.setHttpTimeout( Math.max( 100, KoLSettings.getIntegerProperty( "http.socketTimeout" ) ) );
 
 		// Now run the main routines for each, so that
 		// you have an interface.
