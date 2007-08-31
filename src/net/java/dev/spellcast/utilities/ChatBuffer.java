@@ -321,15 +321,10 @@ public class ChatBuffer
 
 	private class DisplayPaneUpdater extends Thread
 	{
-		private boolean isQueued = false;
-
 		public void queueClear()
 		{
 			displayBuffer.setLength(0);
 			shouldReset = true;
-
-			if ( this.isQueued )
-				return;
 
 			synchronized ( this )
 			{	notify();
@@ -357,9 +352,6 @@ public class ChatBuffer
 					contentQueue.add( newContents );
 			}
 
-			if ( this.isQueued )
-				return;
-
 			synchronized ( this )
 			{	notify();
 			}
@@ -374,20 +366,15 @@ public class ChatBuffer
 					synchronized ( this )
 					{	wait();
 					}
+
+					SwingUtilities.invokeLater( HANDLER );
 				}
 				catch ( InterruptedException e )
 				{
 					// We expect this to happen only when we are
 					// interrupted.  Fall through.
 				}
-
-				this.isQueued = true;
-				SwingUtilities.invokeLater( HANDLER );
 			}
-		}
-
-		public void handlingFinished()
-		{	this.isQueued = false;
 		}
 	}
 
@@ -402,8 +389,6 @@ public class ChatBuffer
 			{
 				contentQueue.clear();
 				shouldReset = false;
-				UPDATER.handlingFinished();
-
 				return;
 			}
 
@@ -422,7 +407,6 @@ public class ChatBuffer
 			}
 
 			scroll();
-			UPDATER.handlingFinished();
 		}
 
 		private void reset()
