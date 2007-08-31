@@ -359,6 +359,10 @@ public class KoLRequest extends Job implements KoLConstants
 	{	this.data.clear();
 	}
 
+	public boolean refreshPasswordHash()
+	{	return true;
+	}
+
 	/**
 	 * Adds the given form field to the KoLRequest.  Descendant classes
 	 * should use this method if they plan on submitting forms to Kingdom
@@ -374,10 +378,13 @@ public class KoLRequest extends Job implements KoLConstants
 	{
 		this.dataChanged = true;
 
-		if ( !(this instanceof LocalRelayRequest) && (name.equals( "pwd" ) || name.equals( "phash" )) )
+		if ( name.equals( "pwd" ) || name.equals( "phash" ) )
 		{
-			this.data.add( name );
-			return;
+			if ( refreshPasswordHash() )
+			{
+				this.data.add( name );
+				return;
+			}
 		}
 
 		String encodedName = name == null ? "" : name;

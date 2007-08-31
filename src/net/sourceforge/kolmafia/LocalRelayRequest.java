@@ -62,6 +62,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 	private static String mainpane = "";
 	private static KoLAdventure lastSafety = null;
 
+	private boolean refreshHash;
 	private boolean allowOverride;
 	public List headers = new ArrayList();
 	public byte [] rawByteBuffer = null;
@@ -71,7 +72,12 @@ public class LocalRelayRequest extends PasswordHashRequest
 	public LocalRelayRequest( boolean allowOverride )
 	{
 		super( "" );
+		this.refreshHash = !allowOverride;
 		this.allowOverride = allowOverride && KoLSettings.getBooleanProperty( "relayAllowsOverride" );
+	}
+
+	public boolean refreshPasswordHash()
+	{	return refreshHash;
 	}
 
 	public KoLRequest constructURLString( String newURLString )
