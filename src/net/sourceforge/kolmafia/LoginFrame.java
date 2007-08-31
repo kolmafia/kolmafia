@@ -392,7 +392,8 @@ public class LoginFrame extends KoLFrame
 		private final String [][] options =
 		{
 			{ "proxySet", "Use a proxy to connect to the Kingdom of Loathing" },
-			{ "testSocketTimeout", "Allow socket timeouts for unstable connections" }
+			{ "testSocketTimeout", "Allow socket timeouts for unstable connections" },
+			{ "printSocketTimeouts", "Show error message when a socket timeout occurs" }
 		};
 
 		public ConnectionOptionsPanel()
