@@ -273,6 +273,8 @@ public class LoginRequest extends KoLRequest
 		if ( matcher.find() )
 		{
 			setLoginServer( matcher.group(1) );
+			RequestLogger.printLine( "Redirected to " + KOL_HOST + "..." );
+
 			request.run();
 			return;
 		}
