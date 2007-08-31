@@ -924,13 +924,11 @@ public class KoLRequest extends Job implements KoLConstants
 			this.dataString = this.getDataString( true ).getBytes();
 		}
 
-		this.formConnection.setRequestProperty( "Content-Type", "application/x-www-form-urlencoded" );
-
 		if ( !this.data.isEmpty() )
+		{
+			this.formConnection.setRequestProperty( "Content-Type", "application/x-www-form-urlencoded" );
 			this.formConnection.setRequestProperty( "Content-Length", String.valueOf( this.dataString.length ) );
-		else
-			this.formConnection.setRequestProperty( "Content-Length", "0" );
-
+		}
 
 		return true;
 	}

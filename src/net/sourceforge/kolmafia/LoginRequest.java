@@ -242,7 +242,7 @@ public class LoginRequest extends KoLRequest
 
 		if ( LoginRequest.isInstanceRunning() )
 		{
-			StaticEntity.printStackTrace( requestLocation );
+			StaticEntity.printStackTrace( requestLocation + ": " + sessionId );
 			System.exit(-1);
 		}
 
