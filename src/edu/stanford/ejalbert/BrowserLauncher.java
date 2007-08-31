@@ -457,8 +457,8 @@ public class BrowserLauncher {
 		{
 			if ( System.getProperty( "os.name" ).startsWith( "Mac" ) )
 			{
-				process = Runtime.getRuntime().exec(new String[] {
-					"open \"/Applications/" + System.getProperty( "os.browser" ) + ".app\" " + url } );
+				process = Runtime.getRuntime().exec(
+					"open \"/Applications/" + System.getProperty( "os.browser" ) + ".app\" " + url );
 			}
 			else if ( System.getProperty( "os.name" ).startsWith( "Win" ) )
 			{
