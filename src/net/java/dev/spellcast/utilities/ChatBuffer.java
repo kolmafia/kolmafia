@@ -100,10 +100,6 @@ public class ChatBuffer
 	private static TreeMap activeLogFiles = new TreeMap();
 	private ArrayList contentQueue = new ArrayList();
 
-	protected static final int CONTENT_CHANGE = 0;
-	protected static final int DISPLAY_CHANGE = 1;
-	protected static final int LOGFILE_CHANGE = 2;
-
 	private String title;
 	private String header;
 	private String filename;
@@ -186,7 +182,9 @@ public class ChatBuffer
 		scrollBars.add( new WeakReference( scroller.getVerticalScrollBar() ) );
 		displayPanes.add( new WeakReference( display ) );
 
-		fireBufferChanged( DISPLAY_CHANGE, null );
+		display.setText( header + "<style>" + BUFFER_STYLE + "</style></head><body>" +
+				displayBuffer.toString() + "</body></html>" );
+
 		return scroller;
 	}
 
@@ -234,7 +232,7 @@ public class ChatBuffer
 				}
 			}
 
-			fireBufferChanged( LOGFILE_CHANGE, null );
+			updateLogFile( displayBuffer.toString() );
 		}
 		catch ( Exception e )
 		{	throw new RuntimeException( "The file <" + filename + "> could not be opened for writing" );
@@ -274,11 +272,11 @@ public class ChatBuffer
 		if ( message == null || message.trim().length() == 0 )
 			return;
 
-		fireBufferChanged( CONTENT_CHANGE, message );
+		fireBufferChanged( message );
 	}
 
 	public void fireBufferChanged()
-	{	 fireBufferChanged( CONTENT_CHANGE, null );
+	{	 fireBufferChanged( null );
 	}
 
 	/**
@@ -288,17 +286,11 @@ public class ChatBuffer
 	 * display window or the file to which the data is being logged.
 	 */
 
-	private void fireBufferChanged( int changeType, String newContents )
+	private void fireBufferChanged( String newContents )
 	{
-		if ( changeType != LOGFILE_CHANGE )
-		{
-			UPDATER.queueUpdate( newContents );
-			if ( changeType == CONTENT_CHANGE && activeLogWriter != null && newContents != null )
-				updateLogFile( newContents );
-		}
-
-		else if ( activeLogWriter != null )
-			updateLogFile( displayBuffer.toString() );
+		UPDATER.queueUpdate( newContents );
+		if ( activeLogWriter != null && newContents != null )
+			updateLogFile( newContents );
 	}
 
 	/**
