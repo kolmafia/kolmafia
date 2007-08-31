@@ -646,14 +646,18 @@ public abstract class StaticEntity implements KoLConstants
 	}
 
 	public static final void printStackTrace()
+	{	printStackTrace( "Forced stack trace" );
+	}
+
+	public static final void printStackTrace( String message )
 	{
 		try
 		{
-			throw new Exception( "Forced stack trace" );
+			throw new Exception( message );
 		}
 		catch ( Exception e )
 		{
-			e.printStackTrace();
+			printStackTrace( e );
 		}
 	}
 
