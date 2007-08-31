@@ -898,7 +898,8 @@ public class KoLRequest extends Job implements KoLConstants
 		}
 		catch ( Exception e )
 		{
-			RequestLogger.updateDebugLog( "Error opening connection (" + this.getURLString() + ").  Retrying..." );
+			if ( KoLSettings.getBooleanProperty( "printSocketTimeouts" ) )
+				RequestLogger.updateDebugLog( "Error opening connection (" + this.getURLString() + ").  Retrying..." );
 
 			if ( this.shouldUpdateDebugLog() )
 				RequestLogger.updateDebugLog( "Error opening connection (" + this.getURLString() + ").  Retrying..." );
@@ -972,11 +973,13 @@ public class KoLRequest extends Job implements KoLConstants
 		}
 		catch ( Exception e )
 		{
-			RequestLogger.printLine( "Time out during data post (" + this.formURLString + ").  This could be bad..." );
-			delay( TIMEOUT_DELAY );
+			if ( KoLSettings.getBooleanProperty( "printSocketTimeouts" ) )
+				RequestLogger.printLine( "Time out during data post (" + this.formURLString + ").  This could be bad..." );
 
 			if ( this.shouldUpdateDebugLog() )
 				RequestLogger.printLine( "Time out during data post (" + this.formURLString + ").  This could be bad..." );
+
+			delay( TIMEOUT_DELAY );
 
 			if ( this instanceof LoginRequest )
 				chooseNewLoginServer();
@@ -1019,7 +1022,9 @@ public class KoLRequest extends Job implements KoLConstants
 		catch ( Exception e1 )
 		{
 			boolean shouldRetry = retryOnTimeout();
-			RequestLogger.printLine( "Time out during response (" + this.formURLString + ")." );
+
+			if ( KoLSettings.getBooleanProperty( "printSocketTimeouts" ) )
+				RequestLogger.printLine( "Time out during response (" + this.formURLString + ")." );
 
 			if ( !shouldRetry && processOnFailure() )
 				processResults();

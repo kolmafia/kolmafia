@@ -659,6 +659,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		GLOBAL_MAP.put( "preferredWebBrowser", "" );
 		GLOBAL_MAP.put( "previousNotifyList", "<>" );
 		GLOBAL_MAP.put( "previousUpdateVersion", VERSION_NAME );
+		GLOBAL_MAP.put( "printSocketTimeouts", "true" );
 		GLOBAL_MAP.put( "protectAgainstOverdrink", "true" );
 
 		GLOBAL_MAP.put( "readManualHardcore", "true" );
