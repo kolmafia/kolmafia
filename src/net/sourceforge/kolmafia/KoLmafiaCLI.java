@@ -49,6 +49,8 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.velocityreviews.forums.HttpTimeoutClient;
+
 public class KoLmafiaCLI extends KoLmafia
 {
 	public static final KoLmafiaCLI DEFAULT_SHELL = new KoLmafiaCLI( System.in );
@@ -950,6 +952,14 @@ public class KoLmafiaCLI extends KoLmafia
 
 			if ( KoLSettings.getUserProperty( name ).equals( value ) )
 				return;
+
+			if ( name.equals( "httpTimeout" ) )
+			{
+				int timeout = Math.max( 100, StaticEntity.parseInt( value ) );
+				KoLSettings.setUserProperty( name, String.valueOf( timeout ) );
+				HttpTimeoutClient.setHttpTimeout( timeout );
+			}
+
 
 			RequestLogger.printLine( name + " => " + value );
 			KoLSettings.setUserProperty( name, value );
