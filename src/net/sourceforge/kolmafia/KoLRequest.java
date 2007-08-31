@@ -160,7 +160,9 @@ public class KoLRequest extends Job implements KoLConstants
 		applyProxySettings();
 
 		int defaultLoginServer = KoLSettings.getIntegerProperty( "defaultLoginServer" );
-		setLoginServer( SERVERS[ defaultLoginServer == 0 ? 0 : 1 ][0] );
+		if ( defaultLoginServer >= SERVERS.length )
+			defaultLoginServer = 0;
+		setLoginServer( SERVERS[ defaultLoginServer ][0] );
 	}
 
 	private static final void applyProxySettings()
