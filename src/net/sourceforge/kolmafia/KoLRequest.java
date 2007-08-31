@@ -58,7 +58,6 @@ import java.util.regex.Pattern;
 import javax.swing.SwingUtilities;
 
 import net.sourceforge.foxtrot.Job;
-import com.velocityreviews.forums.HttpTimeoutClient;
 import com.velocityreviews.forums.HttpTimeoutHandler;
 
 public class KoLRequest extends Job implements KoLConstants
@@ -69,13 +68,7 @@ public class KoLRequest extends Job implements KoLConstants
 
 	private static final int INITIAL_CACHE_COUNT = 3;
 	private static final int TIMEOUT_DELAY = 500;
-	private static final int ADJUSTMENT_REFRESH = 60000;
-	private static final int MINIMUM_TOLERANCE = 8000;
-	private static final int MAXIMUM_TOLERANCE = 64000;
-
 	private static final int currentDelay = 800;
-	private static long lastAdjustTime = Long.MAX_VALUE;
-	private static int lagTolerance = MINIMUM_TOLERANCE;
 
 	private static final Object WAIT_OBJECT = new Object();
 
@@ -705,13 +698,6 @@ public class KoLRequest extends Job implements KoLConstants
 
 		if ( this.hasNoResult || this.responseCode != 200 )
 			return;
-
-		if ( System.currentTimeMillis() - ADJUSTMENT_REFRESH > lastAdjustTime )
-		{
-			lagTolerance -= MINIMUM_TOLERANCE;
-			HttpTimeoutClient.setHttpTimeout( lagTolerance );
-			lastAdjustTime = lagTolerance == MINIMUM_TOLERANCE ? Long.MAX_VALUE : System.currentTimeMillis();
-		}
 	}
 
 	private void saveLastChoice()
@@ -1040,10 +1026,6 @@ public class KoLRequest extends Job implements KoLConstants
 
 			if ( this.shouldUpdateDebugLog() )
 				RequestLogger.printLine( "Time out during response (" + this.formURLString + ")." );
-
-			lagTolerance = Math.min( MAXIMUM_TOLERANCE, lagTolerance + MINIMUM_TOLERANCE );
-			HttpTimeoutClient.setHttpTimeout( lagTolerance );
-			lastAdjustTime = System.currentTimeMillis();
 
 			try
 			{
