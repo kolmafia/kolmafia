@@ -457,8 +457,11 @@ public class BrowserLauncher {
 		{
 			if ( System.getProperty( "os.name" ).startsWith( "Mac" ) )
 			{
-				process = Runtime.getRuntime().exec(
-					"open \"/Applications/" + System.getProperty( "os.browser" ) + ".app\" " + url );
+				String browser = getMacintoshExecutable( System.getProperty( "os.browser" ) );
+				if ( browser == null )
+					return false;
+
+				process = Runtime.getRuntime().exec( new String [] { browser, url } );
 			}
 			else if ( System.getProperty( "os.name" ).startsWith( "Win" ) )
 			{
@@ -484,6 +487,12 @@ public class BrowserLauncher {
 			System.err.println("Error loading browser: " + e.getMessage());
 			return false;
 		}
+	}
+
+	private static final String getMacintoshExecutable( String browser )
+	{
+		File test = new File( browser.endsWith( ".app" ) ? browser : "/Applications/" + browser + ".app" );
+		return test.exists() ? test.getAbsolutePath() : null;
 	}
 
 	private static final String getWindowsExecutable( String browser, String url )
