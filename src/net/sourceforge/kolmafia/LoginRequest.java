@@ -167,6 +167,10 @@ public class LoginRequest extends KoLRequest
 		return result.toString();
 	}
 
+	public boolean shouldFollowRedirect()
+	{	return true;
+	}
+
 	/**
 	 * Runs the <code>LoginRequest</code>.  This method determines
 	 * whether or not the login was successful, and updates the
