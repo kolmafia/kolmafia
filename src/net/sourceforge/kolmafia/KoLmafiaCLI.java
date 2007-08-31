@@ -953,7 +953,7 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( KoLSettings.getUserProperty( name ).equals( value ) )
 				return;
 
-			if ( name.equals( "httpTimeout" ) )
+			if ( name.equals( "http.socketTimeout" ) )
 			{
 				int timeout = Math.max( 100, StaticEntity.parseInt( value ) );
 				KoLSettings.setUserProperty( name, String.valueOf( timeout ) );

@@ -622,12 +622,11 @@ public class KoLSettings extends Properties implements KoLConstants
 		GLOBAL_MAP.put( "guiUsesOneWindow", "false" );
 		GLOBAL_MAP.put( "hideServerDebugText", "false" );
 		GLOBAL_MAP.put( "highlightList", "" );
-		GLOBAL_MAP.put( "httpTimeout", "4000" );
 		GLOBAL_MAP.put( "http.proxyHost", "" );
 		GLOBAL_MAP.put( "http.proxyPort", "" );
 		GLOBAL_MAP.put( "http.proxyUser", "" );
 		GLOBAL_MAP.put( "http.proxyPassword", "" );
-		GLOBAL_MAP.put( "proxySet", "false" );
+		GLOBAL_MAP.put( "http.socketTimeout", "8000" );
 		GLOBAL_MAP.put( "ignoreAutoAttack", "false" );
 		GLOBAL_MAP.put( "initialDesktop", "AdventureFrame,CommandDisplayFrame,MallSearchFrame,SkillBuffFrame" );
 		GLOBAL_MAP.put( "initialFrames", "EventsFrame" );
@@ -661,6 +660,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		GLOBAL_MAP.put( "previousUpdateVersion", VERSION_NAME );
 		GLOBAL_MAP.put( "printSocketTimeouts", "true" );
 		GLOBAL_MAP.put( "protectAgainstOverdrink", "true" );
+		GLOBAL_MAP.put( "proxySet", "false" );
 
 		GLOBAL_MAP.put( "readManualHardcore", "true" );
 		GLOBAL_MAP.put( "readManualSoftcore", "true" );
