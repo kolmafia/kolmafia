@@ -242,7 +242,7 @@ public class KoLRequest extends Job implements KoLConstants
 			if ( substringMatches( server, SERVERS[i][0] ) || substringMatches( server, SERVERS[i][1] ) )
 				setLoginServer( i );
 	}
-	
+
 	private static final void setLoginServer( int serverIndex )
 	{
 		KOL_HOST = SERVERS[ serverIndex ][0];
@@ -259,13 +259,13 @@ public class KoLRequest extends Job implements KoLConstants
 		KoLSettings.setUserProperty( "loginServerName", KOL_HOST );
 		System.setProperty( "http.referer", "http://" + KOL_HOST + "/main.php" );
 	}
-	
+
 	private static int retryServer = 0;
 	private static final void chooseNewLoginServer()
 	{
 		KoLmafia.updateDisplay( "Choosing new login server..." );
 		LoginRequest.setIgnoreLoadBalancer( true );
-		
+
 		retryServer = Math.max( 1, (retryServer + 1) % SERVERS.length );
 		setLoginServer( retryServer );
 	}
@@ -374,15 +374,9 @@ public class KoLRequest extends Job implements KoLConstants
 	{
 		this.dataChanged = true;
 
-		if ( name.equals( "pwd" ) || name.equals( "phash" ) )
+		if ( !(this instanceof LocalRelayRequest) && (name.equals( "pwd" ) || name.equals( "phash" )) )
 		{
 			this.data.add( name );
-			return;
-		}
-
-		if ( name.equals( "playerid" ) && value.equals( "" ) )
-		{
-			this.data.add( "playerid=" + KoLCharacter.getUserId() );
 			return;
 		}
 
@@ -537,17 +531,18 @@ public class KoLRequest extends Job implements KoLConstants
 	public String getDataString( boolean includeHash )
 	{
 		StringBuffer dataBuffer = new StringBuffer();
-		String [] elements = new String[ this.data.size() ];
-		this.data.toArray( elements );
 
-		for ( int i = 0; i < elements.length; ++i )
+		String element;
+		for ( int i = 0; i < data.size(); ++i )
 		{
 			if ( i > 0 )
 				dataBuffer.append( '&' );
 
-			if ( elements[i].equals( "pwd" ) || elements[i].equals( "phash" ) )
+			element = (String) data.get(i);
+
+			if ( element.equals( "pwd" ) || element.equals( "phash" ) )
 			{
-				dataBuffer.append( elements[i] );
+				dataBuffer.append( element );
 
 				if ( includeHash )
 				{
@@ -556,7 +551,7 @@ public class KoLRequest extends Job implements KoLConstants
 				}
 			}
 			else
-				dataBuffer.append( elements[i] );
+				dataBuffer.append( element );
 		}
 
 		return dataBuffer.toString();

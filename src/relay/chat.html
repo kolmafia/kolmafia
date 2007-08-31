@@ -1,5 +1,6 @@
 <html><head>
 <title>KoLmafia Chat</title>
+
 <script language="JavaScript" src="basics.js"></script>
 <link rel="stylesheet" type="text/css" href="images/styles.css">
 
@@ -250,9 +251,12 @@
 			updateDisplay( display, httpObject.responseText );
 
 			var index = httpObject.responseText.lastIndexOf( "lastseen" );
-			var newlast = httpObject.responseText.substring( index + 9, index + 19 );
-			if ( newlast > 0 )
-				lastseen = newlast;
+
+			if ( index != -1 )
+				lastseen = httpObject.responseText.substring( index + 9, index + 19 );
+			else
+				lastseen = 0;
+
 		}
 
 		httpObject.open( "POST", "/newchatmessages.php" );
@@ -314,7 +318,7 @@
 		}
 
 		httpObject.open( "POST", "/submitnewchat.php" );
-		httpObject.send( "playerid=&pwd=&graf=" + URLEncode( postedgraf ) );
+		httpObject.send( "playerid=PID&pwd=PHASH&graf=" + URLEncode( postedgraf ) );
 
 		document.inputform.data.focus();
 		return true;
@@ -327,17 +331,17 @@
 
  <body link=black alink=black vlink=black onLoad="switchToChat(); submitchat( '/channel' ); getChatUpdate(); getCLIUpdate();" onResize="initSizes();">
 
-  <div id="ToggleDisplay" class=toggledisplay><a href="javascript:switchToChat(); document.inputform.data.focus();" id="ChatTag">Chat</a> /
-  <a href="javascript:switchToCLI(); document.inputform.data.focus();" id="CmdTag"> gCLI</a> /
-  <a href="chatlaunch.php">Exit</a></div>
+	<div id="ToggleDisplay" class=toggledisplay><a href="javascript:switchToChat(); document.inputform.data.focus();" id="ChatTag">Chat</a> /
+	<a href="javascript:switchToCLI(); document.inputform.data.focus();" id="CmdTag"> gCLI</a> /
+	<a href="chatlaunch.php">Exit</a></div>
 
-  <div id="ChatWindow" class=chatdisplay></div>
-  <div id="CmdWindow" class=cmddisplay></div>
+	<div id="ChatWindow" class=chatdisplay></div>
+	<div id="CmdWindow" class=cmddisplay></div>
 
-   <div id="InputForm" class=inputform><center><form name=inputform onSubmit='return false;'>
-     <input style="width: 70%" maxlength=200 class=text type=text size=12 name=data onKeyUp='checkForKeyEvent( event );' autocomplete="off">
-     <input class=button type=button onClick="submitEvent();" value="exec">
-   </form></center></div>
+	 <div id="InputForm" class=inputform><center><form name=inputform onSubmit='return false;'>
+		 <input style="width: 70%" maxlength=200 class=text type=text size=12 name=data onKeyUp='checkForKeyEvent( event );' autocomplete="off">
+		 <input class=button type=button onClick="submitEvent();" value="exec">
+	 </form></center></div>
 
  </body>
 </html>

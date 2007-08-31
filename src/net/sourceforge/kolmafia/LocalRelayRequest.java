@@ -461,6 +461,12 @@ public class LocalRelayRequest extends PasswordHashRequest
 		if ( filename.endsWith( "simulator/index.html" ) )
 			this.handleSimulatorIndex( replyBuffer );
 
+		if ( filename.equals( "chat.html" ) )
+		{
+			StaticEntity.singleStringReplace( replyBuffer, "PID", KoLCharacter.getPlayerId() );
+			StaticEntity.singleStringReplace( replyBuffer, "PHASH", passwordHash );
+		}
+
 		// Make sure to print the reply buffer to the
 		// response buffer for the local relay server.
 
