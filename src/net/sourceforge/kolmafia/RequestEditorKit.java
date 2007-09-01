@@ -1798,6 +1798,10 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			}
 		}
 
+		String gremlinTool = FightRequest.missingGremlinTool();
+		if ( gremlinTool != null )
+			monsterData.append( "<br />This gremlin does NOT have a " + gremlinTool );
+
 		monsterData.append( "</font>" );
 		buffer.insert( combatIndex + 7, monsterData.toString() );
 	}
