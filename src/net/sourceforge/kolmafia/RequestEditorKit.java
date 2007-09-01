@@ -1320,8 +1320,6 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( buffer.indexOf( "<form" ) == -1 )
 			return;
 
-		boolean newMoonSign = buffer.indexOf( "<option value=9>The Packrat</option><option value=10>" ) != -1;
-
 		// What we're going to do is kill the standard form and replace it with
 		// one that requires a lot less scrolling while still retaining all of
 		// the form fields.  But first, extract needed information from it.
@@ -1411,8 +1409,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		buffer.append( "<option value=1>The Mongoose</option><option value=2>The Wallaby</option><option value=3>The Vole</option>" );
 		buffer.append( "<option value=4>The Platypus</option><option value=5>The Opossum</option><option value=6>The Marmot</option>" );
 		buffer.append( "<option value=7>The Wombat</option><option value=8>The Blender</option><option value=9>The Packrat</option>" );
-		if ( newMoonSign )
-			buffer.append( "<option value=10>Bad Moon</option>" );
+		buffer.append( "<option value=10>Bad Moon</option>" );
 		buffer.append( "</select></td></tr>" );
 		buffer.append( LINE_BREAK );
 
