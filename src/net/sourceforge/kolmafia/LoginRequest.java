@@ -185,8 +185,6 @@ public class LoginRequest extends KoLRequest
 		lastRequest = this;
 		KoLmafia.forceContinue();
 
-		sessionId = null;
-
 		if ( this.detectChallenge() )
 		{
 			this.addFormField( "loginname", this.username + "/q" );
@@ -247,9 +245,6 @@ public class LoginRequest extends KoLRequest
 		}
 
 		RequestThread.postRequest( lastRequest );
-
-		if ( sessionId != null )
-			KoLmafia.updateDisplay( "Session timed-in." );
 	}
 
 	public static final boolean isInstanceRunning()
@@ -280,7 +275,6 @@ public class LoginRequest extends KoLRequest
 		}
 
 		completedLogin = true;
-
 		if ( request.redirectLocation.equals( "main_c.html" ) )
 			KoLRequest.isCompactMode = true;
 

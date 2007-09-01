@@ -47,7 +47,7 @@ public class LogoutRequest extends KoLRequest
 
 	public void run()
 	{
-		if ( sessionId == null || isRunning )
+		if ( isRunning )
 			return;
 
 		isRunning = true;
@@ -79,8 +79,6 @@ public class LogoutRequest extends KoLRequest
 		RequestLogger.closeMirror();
 
 		KoLmafia.updateDisplay( ABORT_STATE, "Logout request submitted." );
-
-		sessionId = null;
 		isRunning = false;
 	}
 }
