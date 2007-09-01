@@ -90,7 +90,9 @@ public class KoLRequest extends Job implements KoLConstants
 
 	public static final Pattern REDIRECT_PATTERN = Pattern.compile( "([^\\/]+)\\/login\\.php", Pattern.DOTALL );
 
-	public static String sessionId = null;
+	public static String clientCookie = null;
+	public static String serverCookie = null;
+
 	public static String passwordHash = null;
 	public static boolean isRatQuest = false;
 	public static boolean handlingChoices = false;
@@ -914,8 +916,13 @@ public class KoLRequest extends Job implements KoLConstants
 		this.formConnection.setUseCaches( false );
 		this.formConnection.setInstanceFollowRedirects( false );
 
-		if ( sessionId != null )
-			this.formConnection.addRequestProperty( "Cookie", sessionId );
+		if ( serverCookie != null )
+		{
+			if ( clientCookie != null )
+				this.formConnection.addRequestProperty( "Cookie", clientCookie + "; " + serverCookie );
+			else
+				this.formConnection.addRequestProperty( "Cookie", serverCookie );
+		}
 
 		this.formConnection.setRequestProperty( "User-Agent", VERSION_NAME );
 
@@ -1015,10 +1022,6 @@ public class KoLRequest extends Job implements KoLConstants
 			istream = this.formConnection.getInputStream();
 			this.responseCode = this.formConnection.getResponseCode();
 			this.redirectLocation = responseCode != 302 ? null : this.formConnection.getHeaderField( "Location" );
-
-			String serverCookie = this.formConnection.getHeaderField( "Set-Cookie" );
-			if ( serverCookie != null && serverCookie.length() != 0 )
-				KoLRequest.sessionId = serverCookie;
 		}
 		catch ( Exception e1 )
 		{
@@ -1877,6 +1880,8 @@ public class KoLRequest extends Job implements KoLConstants
 		while ( iterator.hasNext() )
 		{
 			Entry entry = (Entry)iterator.next();
+
+			System.out.println( entry.getValue().getClass() );
 			RequestLogger.updateDebugLog( "Field: " + entry.getKey() + " = " + entry.getValue() );
 		}
 

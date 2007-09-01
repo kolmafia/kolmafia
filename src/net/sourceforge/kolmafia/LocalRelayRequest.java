@@ -287,7 +287,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 			for ( int i = 0; (header = this.formConnection.getHeaderFieldKey( i )) != null; ++i )
 			{
-				if ( header.startsWith( "Content" ) || header.startsWith( "Cache" ) || header.equals( "Pragma" ) )
+				if ( header.startsWith( "Content" ) || header.startsWith( "Cache" ) || header.equals( "Pragma" ) || header.equals( "Set-Cookie" ) )
 					continue;
 
 				ostream.print( header );
