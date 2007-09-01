@@ -222,7 +222,8 @@ public class AdventureDatabase extends KoLDatabase
 			if ( choicesOrderedByName )
 			{
 				int result = this.name.compareToIgnoreCase( ((ChoiceAdventure)o).name );
-				return result != 0 ? result : this.setting.compareToIgnoreCase( ((ChoiceAdventure)o).setting );
+				if ( result != 0 )
+					return result;
 			}
 
 			int a = StaticEntity.parseInt( this.setting.substring(15) );
@@ -349,7 +350,10 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Choices 43 - 44 are unknown
 		// Choice 45 is Maps and Legends
-		// Choice 46 is An Interesting Choice
+
+		// An Interesting Choice
+		new ChoiceAdventure( "choiceAdventure46", "Spooky Forest",
+		  new String [] { "moxie substats", "muscle substats", "enter combat" } ),
 
 		// Have a Heart
 		new ChoiceAdventure( "Woods", "choiceAdventure47", "Spooky Forest",
@@ -434,13 +438,21 @@ public class AdventureDatabase extends KoLDatabase
 		  new String [] { "antique bottle of cough syrup", "tube of hair oil", "bottle of ultravitamins", "skip adventure" },
 		  new String [] { "2086", "2087", "2085", null } ),
 
-		// Choice 108 is Aww, Craps
+		// Aww, Craps
+		new ChoiceAdventure( "Town", "choiceAdventure108", "Sleazy Back Alley",
+		  new String [] { "moxie substats", "meat and moxie", "random effect", "skip adventure" } ),
+
 		// Choice 109 is Dumpster Diving
-		// Choice 110 is The Entertainer
+
+		// The Entertainer
+		new ChoiceAdventure( "Town", "choiceAdventure110", "Sleazy Back Alley",
+		  new String [] { "moxie substats", "moxie and muscle", "small meat boost", "skip adventure" },
+		  new String [] { null, null, null, null } ),
+
 		// Choice 111 is Malice in Chains
 
 		// Please, Hammer
-		new ChoiceAdventure( "choiceAdventure112", "Sleazy Back Alley",
+		new ChoiceAdventure( "Town", "choiceAdventure112", "Sleazy Back Alley",
 		  new String [] { "accept hammer quest", "reject quest", "muscle substats" } ),
 
 		// Choice 113 is Knob Goblin BBQ
@@ -779,10 +791,6 @@ public class AdventureDatabase extends KoLDatabase
 		  new String [] { "Spooky Temple map", "skip adventure", "skip adventure" },
 		  new String [] { "74", null, null } ),
 
-		// An Interesting Choice
-		new ChoiceAdventure( "choiceAdventure46", "Spooky Forest",
-		  new String [] { "moxie substats", "muscle substats", "enter combat" } ),
-
 		// A Journey to the Center of Your Mind -> Self Explanatory
 
 		// Minnesota Incorporeals
@@ -824,22 +832,8 @@ public class AdventureDatabase extends KoLDatabase
 		new ChoiceAdventure( "choiceAdventure91", "Haunted Gallery",
 		  new String [] { "Enter the Drawing", "skip adventure" } ),
 
-		// Aww, Craps
-		new ChoiceAdventure( "choiceAdventure108", "Sleazy Back Alley",
-		  new String [] { "moxie substats", "meat and moxie", "random effect", "skip adventure" } ),
-
-		// Dumpster Diving
-		new ChoiceAdventure( "choiceAdventure109", "Sleazy Back Alley",
-		  new String [] { "enter combat", "meat and moxie", "Mad Train wine" },
-		  new String [] { null, null, "564" } ),
-
-		// The Entertainer
-		new ChoiceAdventure( "choiceAdventure110", "Sleazy Back Alley",
-		  new String [] { "moxie substats", "moxie and muscle", "small meat boost", "skip adventure" },
-		  new String [] { null, null, null, null } ),
-
 		// Malice in Chains
-		new ChoiceAdventure( "choiceAdventure111", "Knob Outskirts",
+		new ChoiceAdventure( "Knob", "choiceAdventure111", "Knob Outskirts",
 		  new String [] { "muscle substats", "muscle substats", "enter combat" } ),
 
 		// Knob Goblin BBQ
@@ -865,6 +859,11 @@ public class AdventureDatabase extends KoLDatabase
 		// When Rocks Attack
 		new ChoiceAdventure( "choiceAdventure118", "Knob Outskirts",
 		  new String [] { "accept unguent quest", "skip adventure" } ),
+
+		// Dumpster Diving
+		new ChoiceAdventure( "choiceAdventure109", "Sleazy Back Alley",
+		  new String [] { "enter combat", "meat and moxie", "Mad Train wine" },
+		  new String [] { null, null, "564" } ),
 
 		// At Least It's Not Full Of Trash
 		new ChoiceAdventure( "choiceAdventure123", "Hidden Temple",
