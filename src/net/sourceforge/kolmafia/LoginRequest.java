@@ -72,6 +72,10 @@ public class LoginRequest extends KoLRequest
 	{	return true;
 	}
 
+	public String getURLString()
+	{	return "login.php";
+	}
+
 	/**
 	 * Handles the challenge in order to send the password securely
 	 * via KoL.
