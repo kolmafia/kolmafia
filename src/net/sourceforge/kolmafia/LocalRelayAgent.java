@@ -153,6 +153,7 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 
 		String currentLine;
 		boolean isValid = true;
+		boolean hadReferrer = false;
 
 		int contentLength = 0;
 
@@ -162,7 +163,10 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 				this.isCheckingModified = true;
 
 			if ( currentLine.indexOf( "Referer" ) != -1 )
+			{
 				isValid = currentLine.indexOf( "http://127.0.0.1" ) != -1;
+				hadReferrer = isValid;
+			}
 
 			if ( currentLine.startsWith( "Content-Length" ) )
 				contentLength = StaticEntity.parseInt( currentLine.substring( 16 ) );
@@ -181,7 +185,7 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 
 		if ( requestLine.startsWith( "GET" ) )
 		{
-			isValid = !this.path.startsWith( "/KoLmafia" );
+			isValid = this.path.indexOf( "?" ) == -1 || hadReferrer || !this.path.startsWith( "/KoLmafia" );
 		}
 		else
 		{
