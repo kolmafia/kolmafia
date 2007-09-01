@@ -347,7 +347,7 @@
 347	Blessing of Bulbazinalli	leaf.gif	c59051266b90a4b990b4e92e29945228
 348	All Fired Up	fire.gif	5626ff49dbfe5c3bc7732a3dc9c1ea4e
 349	Go Get 'Em, Tiger!	strboost.gif	943ba3b11499412f041807f8a7835d75	use 5 Ben-Gal&trade; Balm
-350	Starry-Eyed	snowflakes.gif	c45d2469bf8cfd8c9bbc953e2a44f3c4
+350	Starry-Eyed	snowflakes.gif	c45d2469bf8cfd8c9bbc953e2a44f3c4	telescope look low
 351	Comic Violence	clownham.gif	e81282d9c752ffcf7d033dd0bd8fec6f	use 1 gremlin juice
 352	Tranquilized Mind	sleepy.gif	e6d8c1e5ee549f897340b97b3cc26053	use 1 mother's little helper
 353	Woad Warrior	foamfinger.gif	c884a8b10f7b236002288fc760129e09	use 1 pygmy pygment
@@ -383,40 +383,37 @@
 383	Black Face	blackface.gif	c74fee3997d020f53cc3e077d4897c10	use 1 black facepaint
 384	Erudite	spectacles.gif	bf4f8342a8efe1d4c27054fa73ec1d7a	use 1 black sheepskin diploma
 385	Radiating Black Body&trade;	radiation.gif	3de3c7f145ae87e58ee391127ed697fd	use 1 Black Body&trade; spray
-# Here's the block of Bad Moon effects.
-#	Duhhh		duncecap.gif	1a193e72ad6e010246f9c2174d831fc8
-#	Re-Possessed	stogie.gif	27e835ef2ee194eed4e43c64a8cf65ac
+# Bad Moon effects that give +10 elemental damage
 #	Burning Heart	heartrock.gif	ab7ab0ba8a213f24649b9d0152c57cc3
-#	Freaked Out	hoppeddown.gif	0e5f80059469710470e31e21b2cc36fa
 #	Frostbitten	snowflake.gif
-#	Minioned	cuffs.gif	c434d018e751777925ec8957d9860aac
-#	Scent of a Kitchen Elf	houseelf.gif	6691b3cb35ed3188f393b95909e017a9
+#	Freaked Out	hoppeddown.gif	0e5f80059469710470e31e21b2cc36fa
 #	Guanified	guano.gif
-#	Paw swap	hand.gif
 #	Basted	slimed.gif
-#	Missing Kidney	kidney.gif	a3271a164706776e733cd78e060cb5e1
+# Bad Moon effects that give -50% to a stat
 #	Dang Near Cut In Half	axegash.gif	73b1728ec6c9c1491f2aa5ae7134cfaa
-#	Shirtless in Seattle
+# Bad Moon effects with unknown effect
+#	Missing Kidney	kidney.gif	a3271a164706776e733cd78e060cb5e1
+#	Re-Possessed	stogie.gif	27e835ef2ee194eed4e43c64a8cf65ac
+# Bad Moon effects that give +50% to one stat and -50% to another
 #	The Rage	angry.gif	1851096b46967124186f87a3a9f2bbf4
 #	Shamed &amp; Manipulated	blush.gif	02e465f136feb826854bd8493a9943e4
-#	Dreadlocked	hippywig.gif	e08a647c81c873f82505057ee2f50cc8
 #	Drummed Out	drum.gif	304469441fccda71b602573731342e4e
 #	Hornswaggled	eyepatch.gif
 #	Third Eye Blind	eyepatch.gif	ffce3a7c5e9897b1484a2e8c7ed6dd01
 386
-387
+387	Duhhh	duncecap.gif	1a193e72ad6e010246f9c2174d831fc8
 388	Affronted Decency	angry.gif	5e24e5adb243a87b8511d58fa4af1efe
 389	Maid Disservice	skirt.gif	58a1a5cd7aaf097eaf8dec6f91d176b8
-390
+390	Minioned	cuffs.gif	c434d018e751777925ec8957d9860aac
 391	Enhanced Archaeologist	cocobra.gif	ec61cf56f1ceb2a7aadceefb4e346f17
 392	Chronologically Pummeled	watch.gif	1b990437bdd4345f717b2a33d26a1571
 393	Animal Exploiter	reindeer.gif	d18158063a35b1914a3b7f1117e3648c
-394
+394	Scent of a Kitchen Elf	houseelf.gif	6691b3cb35ed3188f393b95909e017a9
 395	Once Bitten, Twice Shy	teeth.gif	d5a2591989bb310c9f3fb8453b0bf4ee
 396
 397
 398
-399
+399	Dreadlocked	hippywig.gif	e08a647c81c873f82505057ee2f50cc8
 400
 401
 402	The Vitus Virus	virus.gif	700d9925ed2b90dd1ae23928cbfabef9
@@ -438,9 +435,9 @@
 418	Batigue	batwing.gif	5d68832346f34f355f71840c51fe01cb
 419	Cupshotten	snifter.gif	82541262be85f3bedec59f853d34392e
 420	Deep-Fried	cheesestaf.gif	c90fb985575f40b9a11a82e2089845ed
-421
+421	Paw Swap	hand.gif
 422	Side Affectation	goofballs.gif	c4128e09aa945f3a0c2a248c44383748
-423
+423	Shirtless in Seattle	unknown.gif
 424	Scared Stiff	hoppeddown.gif	7e4c1c9a394dae1dbf7d99c44c5e9a89
 425	Midgetized	whitepix.gif	0cf9f537a2dda9b00815a52018fcd0d3
 426	Synthesized	stuffcocoa.gif	549804c10e37636d6be9045a142d6fe2
