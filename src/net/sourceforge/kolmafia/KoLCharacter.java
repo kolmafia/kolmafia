@@ -2274,7 +2274,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static final int getStillsAvailable()
 	{
-		if ( !hasSkill( "Superhuman Cocktailcrafting" ) || !isMoxieClass() || KoLRequest.sessionId == null )
+		if ( !hasSkill( "Superhuman Cocktailcrafting" ) || !isMoxieClass() )
 			return 0;
 
 		if ( stillsAvailable == -1 )

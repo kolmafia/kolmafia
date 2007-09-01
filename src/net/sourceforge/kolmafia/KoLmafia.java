@@ -3131,9 +3131,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void openRelayBrowser()
 	{
-		if ( KoLRequest.sessionId == null )
-			openRelayBrowser( "login.php", false );
-		else if ( KoLRequest.isCompactMode )
+		if ( KoLRequest.isCompactMode )
 			openRelayBrowser( "main_c.html", false );
 		else
 			openRelayBrowser( "main.html", false );

@@ -577,9 +577,6 @@ public class KoLRequest extends Job implements KoLConstants
 
 	public void run()
 	{
-		if ( sessionId == null && !hasNoResult )
-			return;
-
 		containsUpdate = false;
 		String location = this.getURLString();
 
@@ -1014,6 +1011,10 @@ public class KoLRequest extends Job implements KoLConstants
 			istream = this.formConnection.getInputStream();
 			this.responseCode = this.formConnection.getResponseCode();
 			this.redirectLocation = responseCode != 302 ? null : this.formConnection.getHeaderField( "Location" );
+
+			String serverCookie = this.formConnection.getHeaderField( "Set-Cookie" );
+			if ( serverCookie != null && serverCookie.length() != 0 )
+				KoLRequest.sessionId = serverCookie;
 		}
 		catch ( Exception e1 )
 		{
@@ -1050,10 +1051,6 @@ public class KoLRequest extends Job implements KoLConstants
 			this.responseCode = 302;
 			this.redirectLocation = "main.php";
 		}
-
-		String serverCookie = this.formConnection.getHeaderField( "Set-Cookie" );
-		if ( serverCookie != null )
-			sessionId = serverCookie;
 
 		if ( this.shouldUpdateDebugLog() )
 			this.printHeaderFields();
@@ -1150,10 +1147,10 @@ public class KoLRequest extends Job implements KoLConstants
 			return true;
 		}
 
-		if ( this.redirectLocation.startsWith( "login.php" ) && !(this instanceof ChatRequest) )
+		if ( this.redirectLocation.startsWith( "login.php" ) )
 		{
 			LoginRequest.executeTimeInRequest( this.getURLString() );
-			return sessionId == null;
+			return false;
 		}
 
 		if ( this.redirectLocation.startsWith( "choice.php" ) )
@@ -1430,9 +1427,6 @@ public class KoLRequest extends Job implements KoLConstants
 
 	public static final void processChoiceAdventure( KoLRequest request )
 	{
-		if ( sessionId == null || passwordHash == null )
-			return;
-
 		// You can no longer simply ignore a choice adventure.	One of
 		// the options may have that effect, but we must at least run
 		// choice.php to find out which choice it is.
