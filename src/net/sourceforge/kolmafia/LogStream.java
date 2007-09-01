@@ -71,7 +71,7 @@ public class LogStream extends PrintStream implements KoLConstants
 				newStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
 
 				StringBuffer versionData = new StringBuffer();
-				versionData.append( VERSION_NAME );
+				versionData.append( StaticEntity.getVersion() );
 				versionData.append( ", " );
 				versionData.append( System.getProperty( "os.name" ) );
 				versionData.append( ", Java " );
