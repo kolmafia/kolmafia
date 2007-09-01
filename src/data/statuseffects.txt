@@ -388,14 +388,10 @@
 #	Re-Possessed	stogie.gif	27e835ef2ee194eed4e43c64a8cf65ac
 #	Burning Heart	heartrock.gif	ab7ab0ba8a213f24649b9d0152c57cc3
 #	Freaked Out	hoppeddown.gif	0e5f80059469710470e31e21b2cc36fa
-#	Cupshotten	snifter.gif
 #	Frostbitten	snowflake.gif
-#	Scared Stiff	hoppeddown.gif
 #	Minioned	cuffs.gif	c434d018e751777925ec8957d9860aac
 #	Scent of a Kitchen Elf	houseelf.gif	6691b3cb35ed3188f393b95909e017a9
-#	Affronted Decency	angry.gif	5e24e5adb243a87b8511d58fa4af1efe
 #	Guanified	guano.gif
-#	Side Affectation	goofballs.gif
 #	Paw swap	hand.gif
 #	Basted	slimed.gif
 #	Missing Kidney	kidney.gif	a3271a164706776e733cd78e060cb5e1
@@ -405,11 +401,11 @@
 #	Shamed &amp; Manipulated	blush.gif	02e465f136feb826854bd8493a9943e4
 #	Dreadlocked	hippywig.gif	e08a647c81c873f82505057ee2f50cc8
 #	Drummed Out	drum.gif	304469441fccda71b602573731342e4e
-#	Hornswoggled	eyepatch.gif
+#	Hornswaggled	eyepatch.gif
 #	Third Eye Blind	eyepatch.gif	ffce3a7c5e9897b1484a2e8c7ed6dd01
 386
 387
-388
+388	Affronted Decency	angry.gif	5e24e5adb243a87b8511d58fa4af1efe
 389	Maid Disservice	skirt.gif	58a1a5cd7aaf097eaf8dec6f91d176b8
 390
 391	Enhanced Archaeologist	cocobra.gif	ec61cf56f1ceb2a7aadceefb4e346f17
@@ -440,12 +436,12 @@
 416	Tar-Struck	blpudding.gif	44d5caa5c134dad2a5bce2caa126f6f9
 417	Greased	bacon.gif	6887f57ba64c592ab1ddf8f2af13e1f7
 418	Batigue	batwing.gif	5d68832346f34f355f71840c51fe01cb
-419
+419	Cupshotten	snifter.gif	82541262be85f3bedec59f853d34392e
 420	Deep-Fried	cheesestaf.gif	c90fb985575f40b9a11a82e2089845ed
 421
-422
+422	Side Affectation	goofballs.gif	c4128e09aa945f3a0c2a248c44383748
 423
-424
+424	Scared Stiff	hoppeddown.gif	7e4c1c9a394dae1dbf7d99c44c5e9a89
 425	Midgetized	whitepix.gif	0cf9f537a2dda9b00815a52018fcd0d3
 426	Synthesized	stuffcocoa.gif	549804c10e37636d6be9045a142d6fe2
 427	Hiding in Plain Sight	smallbush.gif	73b1d28fdca4f7e8f4d94d425a001720	use 1 panty raider camouflage
