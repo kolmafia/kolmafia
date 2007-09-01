@@ -395,22 +395,22 @@ public class AdventureDatabase extends KoLDatabase
 		// Choice 81 is Take a Look, it's in a Book!
 
 		// One NightStand (simple white)
-		new ChoiceAdventure( "Manor", "choiceAdventure82", "Haunted Bedroom",
+		new ChoiceAdventure( "Manor2", "choiceAdventure82", "Haunted Bedroom",
 		  new String [] { "old leather wallet", "muscle substats", "enter combat" },
 		  new String [] { "1917", null, null } ),
 
 		// One NightStand (mahogany)
-		new ChoiceAdventure( "Manor", "choiceAdventure83", "Haunted Bedroom",
+		new ChoiceAdventure( "Manor2", "choiceAdventure83", "Haunted Bedroom",
 		  new String [] { "old coin purse", "enter combat", "quest item" },
 		  new String [] { "1918", null, null } ),
 
 		// One NightStand (ornate)
-		new ChoiceAdventure( "Manor", "choiceAdventure84", "Haunted Bedroom",
+		new ChoiceAdventure( "Manor2", "choiceAdventure84", "Haunted Bedroom",
 		  new String [] { "small meat boost", "mysticality substats", "Lord Spookyraven's spectacles" },
 		  new String [] { null, null, "1916" } ),
 
 		// One NightStand (simple wooden)
-		new ChoiceAdventure( "Manor", "choiceAdventure85", "Haunted Bedroom",
+		new ChoiceAdventure( "Manor2", "choiceAdventure85", "Haunted Bedroom",
 		  new String [] { "moxie (ballroom key step 1)", "empty drawer (ballroom key step 2)", "enter combat" } ),
 
 		// Choice 86 is History is Fun!
@@ -419,22 +419,22 @@ public class AdventureDatabase extends KoLDatabase
 		// Choice 89 is Out in the Garden
 
 		// Curtains
-		new ChoiceAdventure( "Manor", "choiceAdventure90", "Haunted Ballroom",
+		new ChoiceAdventure( "Manor2", "choiceAdventure90", "Haunted Ballroom",
 		  new String [] { "enter combat", "moxie substats", "skip adventure" } ),
 
 		// Choice 91 is Louvre It or Leave It
 		// Choices 92 - 104 are Escher print adventures
 
 		// Having a Medicine Ball
-		new ChoiceAdventure( "Manor", "choiceAdventure105", "Haunted Bathroom",
+		new ChoiceAdventure( "Manor2", "choiceAdventure105", "Haunted Bathroom",
 		  new String [] { "moxie substats", "other options", "guy made of bees" } ),
 
 		// Strung-Up Quartet
-		new ChoiceAdventure( "Manor", "choiceAdventure106", "Haunted Ballroom",
+		new ChoiceAdventure( "Manor2", "choiceAdventure106", "Haunted Ballroom",
 		  new String [] { "increase monster level", "decrease combat frequency", "increase item drops", "skip adventure" } ),
 
 		// Bad Medicine is What You Need
-		new ChoiceAdventure( "Manor", "choiceAdventure107", "Haunted Bathroom",
+		new ChoiceAdventure( "Manor2", "choiceAdventure107", "Haunted Bathroom",
 		  new String [] { "antique bottle of cough syrup", "tube of hair oil", "bottle of ultravitamins", "skip adventure" },
 		  new String [] { "2086", "2087", "2085", null } ),
 
@@ -442,24 +442,48 @@ public class AdventureDatabase extends KoLDatabase
 		new ChoiceAdventure( "Town", "choiceAdventure108", "Sleazy Back Alley",
 		  new String [] { "moxie substats", "meat and moxie", "random effect", "skip adventure" } ),
 
-		// Choice 109 is Dumpster Diving
+		// Dumpster Diving
+		new ChoiceAdventure( "Town", "choiceAdventure109", "Sleazy Back Alley",
+		  new String [] { "enter combat", "meat and moxie", "Mad Train wine" },
+		  new String [] { null, null, "564" } ),
 
 		// The Entertainer
 		new ChoiceAdventure( "Town", "choiceAdventure110", "Sleazy Back Alley",
 		  new String [] { "moxie substats", "moxie and muscle", "small meat boost", "skip adventure" },
 		  new String [] { null, null, null, null } ),
 
-		// Choice 111 is Malice in Chains
+		// Malice in Chains
+		new ChoiceAdventure( "Knob", "choiceAdventure111", "Knob Outskirts",
+		  new String [] { "muscle substats", "muscle substats", "enter combat" } ),
 
 		// Please, Hammer
 		new ChoiceAdventure( "Town", "choiceAdventure112", "Sleazy Back Alley",
 		  new String [] { "accept hammer quest", "reject quest", "muscle substats" } ),
 
-		// Choice 113 is Knob Goblin BBQ
-		// Choice 114 is The Baker's Dilemma
-		// Choice 115 is Oh No, Hobo
-		// Choice 116 is The Singing Tree
-		// Choice 117 is Tresspasser
+		// Knob Goblin BBQ
+		new ChoiceAdventure( "Knob", "choiceAdventure113", "Knob Outskirts",
+		  new String [] { "complete cake quest", "enter combat", "get a random item" } ),
+
+		// The Baker's Dilemma
+		new ChoiceAdventure( "Manor1", "choiceAdventure114", "Haunted Pantry",
+		  new String [] { "accept cake quest", "reject quest", "moxie and meat" } ),
+
+		// Oh No, Hobo
+		new ChoiceAdventure( "Manor1", "choiceAdventure115", "Haunted Pantry",
+		  new String [] { "enter combat", "Good Karma", "mysticality, moxie, and meat" } ),
+
+		// The Singing Tree
+		new ChoiceAdventure( "Manor1", "choiceAdventure116", "Haunted Pantry",
+		  new String [] { "mysticality substats", "moxie substats", "random effect", "skip adventure" } ),
+
+		// Tresspasser
+		new ChoiceAdventure( "Manor1", "choiceAdventure117", "Haunted Pantry",
+		  new String [] { "enter combat", "mysticality substats", "get a random item" } ),
+
+		// When Rocks Attack
+		new ChoiceAdventure( "Knob", "choiceAdventure118", "Knob Outskirts",
+		  new String [] { "accept unguent quest", "skip adventure" } ),
+
 		// Choice 118 is When Rocks Attack
 		// Choice 119 is unknown
 
@@ -609,7 +633,7 @@ public class AdventureDatabase extends KoLDatabase
 		// Choice 162 is Between a Rock and Some Other Rocks
 
 		// Melvil Dewey Would Be Ashamed
-		new ChoiceAdventure( "Manor", "choiceAdventure163", "Haunted Library",
+		new ChoiceAdventure( "Manor1", "choiceAdventure163", "Haunted Library",
 		  new String [] { "Necrotelicomnicon", "Cookbook of the Damned", "Sinful Desires", "skip adventure" },
 		  new String [] { "2494", "2495", "2496", null } ),
 
@@ -831,39 +855,6 @@ public class AdventureDatabase extends KoLDatabase
 		// Louvre It or Leave It
 		new ChoiceAdventure( "choiceAdventure91", "Haunted Gallery",
 		  new String [] { "Enter the Drawing", "skip adventure" } ),
-
-		// Malice in Chains
-		new ChoiceAdventure( "Knob", "choiceAdventure111", "Knob Outskirts",
-		  new String [] { "muscle substats", "muscle substats", "enter combat" } ),
-
-		// Knob Goblin BBQ
-		new ChoiceAdventure( "choiceAdventure113", "Knob Outskirts",
-		  new String [] { "complete cake quest", "enter combat", "get a random item" } ),
-
-		// The Baker's Dilemma
-		new ChoiceAdventure( "choiceAdventure114", "Haunted Pantry",
-		  new String [] { "accept cake quest", "reject quest", "moxie and meat" } ),
-
-		// Oh No, Hobo
-		new ChoiceAdventure( "choiceAdventure115", "Haunted Pantry",
-		  new String [] { "enter combat", "Good Karma", "mysticality, moxie, and meat" } ),
-
-		// The Singing Tree
-		new ChoiceAdventure( "choiceAdventure116", "Haunted Pantry",
-		  new String [] { "mysticality substats", "moxie substats", "random effect", "skip adventure" } ),
-
-		// Tresspasser
-		new ChoiceAdventure( "choiceAdventure117", "Haunted Pantry",
-		  new String [] { "enter combat", "mysticality substats", "get a random item" } ),
-
-		// When Rocks Attack
-		new ChoiceAdventure( "choiceAdventure118", "Knob Outskirts",
-		  new String [] { "accept unguent quest", "skip adventure" } ),
-
-		// Dumpster Diving
-		new ChoiceAdventure( "choiceAdventure109", "Sleazy Back Alley",
-		  new String [] { "enter combat", "meat and moxie", "Mad Train wine" },
-		  new String [] { null, null, "564" } ),
 
 		// At Least It's Not Full Of Trash
 		new ChoiceAdventure( "choiceAdventure123", "Hidden Temple",
