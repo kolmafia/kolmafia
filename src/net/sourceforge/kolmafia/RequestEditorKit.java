@@ -1616,7 +1616,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		if ( urlString.startsWith( "choice.php" ) && response.indexOf( "choice.php" ) != -1 )
 		{
-			name = "auto";
+			if ( action.equals( "attack" ) )
+				name = "auto";
+
 			buffer.append( "choice.php?action=auto" );
 		}
 		else if ( FightRequest.getCurrentRound() == 0 )
