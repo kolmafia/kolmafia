@@ -1149,7 +1149,7 @@ public class KoLRequest extends Job implements KoLConstants
 
 		if ( this.redirectLocation.startsWith( "login.php" ) )
 		{
-			LoginRequest.executeTimeInRequest( this.getURLString() );
+			LoginRequest.executeTimeInRequest( this.getURLString(), this.redirectLocation );
 			return false;
 		}
 
