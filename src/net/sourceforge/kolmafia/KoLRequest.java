@@ -120,6 +120,7 @@ public class KoLRequest extends Job implements KoLConstants
 	public static URL KOL_ROOT = null;
 
 	private URL formURL;
+	private String currentHost;
 	private String formURLString;
 
 	public boolean isChatRequest = false;
@@ -306,7 +307,10 @@ public class KoLRequest extends Job implements KoLConstants
 	public KoLRequest constructURLString( String newURLString, boolean usePostMethod )
 	{
 		if ( this.formURLString == null || !newURLString.startsWith( this.formURLString ) )
+		{
+			this.currentHost = KOL_HOST;
 			this.formURL = null;
+		}
 
 		this.responseText = null;
 		this.dataChanged = true;
@@ -871,7 +875,7 @@ public class KoLRequest extends Job implements KoLConstants
 			// For now, because there isn't HTTPS support, just open the
 			// connection and directly cast it into an HttpURLConnection
 
-			if ( this.formURL == null )
+			if ( this.formURL == null || !this.currentHost.equals( KOL_HOST ) )
 			{
 				if ( KoLSettings.getBooleanProperty( "testSocketTimeout" ) )
 				{
@@ -1098,6 +1102,7 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( this.redirectLocation == null )
 			return true;
 
+
 		if ( this.redirectLocation.startsWith( "maint.php" ) )
 		{
 			// If the system is down for maintenance, the user must be
@@ -1111,8 +1116,22 @@ public class KoLRequest extends Job implements KoLConstants
 		// construct the URL string and notify the browser that it should
 		// change everything.
 
-		if ( this.formURLString.startsWith( "login.php" ) )
+		if ( this.formURLString.equals( "login.php" ) )
 		{
+			if ( this.redirectLocation.startsWith( "login.php" ) )
+			{
+				constructURLString( this.redirectLocation, false );
+				return false;
+			}
+
+			Matcher matcher = REDIRECT_PATTERN.matcher( this.redirectLocation );
+			if ( matcher.find() )
+			{
+				setLoginServer( matcher.group(1) );
+				RequestLogger.printLine( "Redirected to " + KOL_HOST + "..." );
+				return false;
+			}
+
 			LoginRequest.processLoginRequest( this );
 			return true;
 		}

@@ -268,16 +268,6 @@ public class LoginRequest extends KoLRequest
 		// the way it used to be, but enforce the redirect.  If this
 		// happens, then validate here.
 
-		Matcher matcher = REDIRECT_PATTERN.matcher( request.redirectLocation );
-		if ( matcher.find() )
-		{
-			setLoginServer( matcher.group(1) );
-			RequestLogger.printLine( "Redirected to " + KOL_HOST + "..." );
-
-			request.run();
-			return;
-		}
-
 		completedLogin = true;
 		if ( request.redirectLocation.equals( "main_c.html" ) )
 			KoLRequest.isCompactMode = true;
