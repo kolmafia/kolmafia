@@ -154,27 +154,30 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 		String currentLine;
 		boolean isValid = true;
 
+		int contentLength = 0;
+
+		while ( (currentLine = reader.readLine()) != null && !currentLine.equals( "" ) )
+		{
+			if ( currentLine.startsWith( "If-Modified-Since" ) )
+				this.isCheckingModified = true;
+
+			if ( currentLine.indexOf( "Referer" ) != -1 )
+				isValid = currentLine.indexOf( "http://127.0.0.1" ) != -1;
+
+			if ( currentLine.startsWith( "Content-Length" ) )
+				contentLength = StaticEntity.parseInt( currentLine.substring( 16 ) );
+
+			if ( currentLine.startsWith( "Cookie" ) && this.path.startsWith( "/inventory" ) )
+				KoLRequest.clientCookie = currentLine.substring(8);
+		}
+
+
 		if ( requestLine.startsWith( "GET" ) )
 		{
 			isValid = !this.path.startsWith( "/KoLmafia" );
-
-			while ( (currentLine = reader.readLine()) != null && !currentLine.equals( "" ) )
-			{
-				if ( currentLine.startsWith( "If-Modified-Since" ) )
-					this.isCheckingModified = true;
-
-				if ( currentLine.indexOf( "Referer" ) != -1 )
-					isValid = currentLine.indexOf( "http://127.0.0.1" ) != -1;
-			}
 		}
 		else
 		{
-			int contentLength = 0;
-
-			while ( (currentLine = reader.readLine()) != null && !currentLine.equals( "" ) )
-				if ( currentLine.startsWith( "Content-Length" ) )
-					contentLength = StaticEntity.parseInt( currentLine.substring( 16 ) );
-
 			int current;
 			int remaining = contentLength;
 

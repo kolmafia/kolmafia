@@ -264,6 +264,12 @@ public class LoginRequest extends KoLRequest
 		if ( request.redirectLocation == null )
 			return;
 
+		String serverCookie = request.formConnection.getHeaderField( "Set-Cookie" );
+		if ( serverCookie != null && serverCookie.indexOf( "PHPSESSID" ) != -1 )
+			KoLRequest.serverCookie = serverCookie;
+		else if ( serverCookie != null )
+			KoLRequest.clientCookie = serverCookie;
+
 		// It's possible that KoL will eventually make the redirect
 		// the way it used to be, but enforce the redirect.  If this
 		// happens, then validate here.
