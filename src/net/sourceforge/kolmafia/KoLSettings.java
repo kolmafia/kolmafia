@@ -719,7 +719,9 @@ public class KoLSettings extends Properties implements KoLConstants
 		GLOBAL_MAP.put( "visitRumpusHardcore", "true" );
 		GLOBAL_MAP.put( "visitRumpusSoftcore", "true" );
 
-		// Individual player userSettings which are not set on
+		GLOBAL_MAP.put( "cookies.inventory", "" );
+
+		// Individual player settings which are not set on
 		// a global level.
 
 		USER_MAP.put( "autoAbortThreshold", "-0.1" );

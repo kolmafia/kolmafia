@@ -90,7 +90,7 @@ public class KoLRequest extends Job implements KoLConstants
 
 	public static final Pattern REDIRECT_PATTERN = Pattern.compile( "([^\\/]+)\\/login\\.php", Pattern.DOTALL );
 
-	public static String clientCookie = null;
+	public static String inventoryCookie = null;
 	public static String serverCookie = null;
 
 	public static String passwordHash = null;
@@ -918,8 +918,8 @@ public class KoLRequest extends Job implements KoLConstants
 
 		if ( serverCookie != null )
 		{
-			if ( clientCookie != null )
-				this.formConnection.addRequestProperty( "Cookie", clientCookie + "; " + serverCookie );
+			if ( this.formURLString.startsWith( "inventory" ) && inventoryCookie != null )
+				this.formConnection.addRequestProperty( "Cookie", inventoryCookie + "; " + serverCookie );
 			else
 				this.formConnection.addRequestProperty( "Cookie", serverCookie );
 		}
