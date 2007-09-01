@@ -110,6 +110,7 @@ public class FightRequest extends KoLRequest
 	private static String action1 = null;
 	private static String action2 = null;
 	private static Monster monsterData = null;
+	private static String missingGremlinTool = null;
 	private static String encounterLookup = "";
 
 	private static AdventureResult desiredScroll = null;
@@ -715,6 +716,32 @@ public class FightRequest extends KoLRequest
 		return true;
 	}
 
+	private static void handleGremlin( String responseText )
+	{
+		// Batwinged Gremlin has molybdenum hammer OR
+		// "It does a bombing run over your head..."
+
+		// Erudite Gremlin has molybdenum crescent wrench OR
+		// "He uses the random junk around him to make an automatic
+		// eyeball-peeler..."
+
+		// Spider Gremlin has molybdenum pliers OR
+		// "It bites you in the fibula with its mandibles..."
+
+		// Vegetable Gremlin has molybdenum screwdriver OR
+		// "It picks a <x> off of itself and beats you with it..."
+
+		String text = responseText;
+		if ( text.indexOf( "bombing run" ) != -1 )
+			missingGremlinTool = "molybdenum hammer";
+		else if ( text.indexOf( "eyeball-peeler" ) != -1 )
+			missingGremlinTool = "molybdenum crescent wrench";
+		else if ( text.indexOf( "fibula" ) != -1 )
+			missingGremlinTool = "molybdenum pliers";
+		else if ( text.indexOf( "off of itself" ) != -1 )
+			missingGremlinTool = "molybdenum screwdriver";
+	}
+
 	private String getMonsterWeakenAction()
 	{
 		if ( this.isAcceptable( 0, 0 ) )
@@ -874,6 +901,11 @@ public class FightRequest extends KoLRequest
 			isTrackingFights = false;
 			checkForInitiative( responseText );
 		}
+
+		// Quest gremlins - adventure=139 - might have a tool.
+		// We should check for adventure #, not monster name
+		if ( encounterLookup.indexOf( "gremlin" ) != -1 )
+			handleGremlin( responseText );
 
 		int blindIndex = responseText.indexOf( "... something.</div>" );
 
@@ -1156,6 +1188,7 @@ public class FightRequest extends KoLRequest
 	{
 		encounterLookup = "";
 		monsterData = null;
+		missingGremlinTool = null;
 
 		castCleesh = false;
 		jiggledChefstaff = false;
@@ -1379,6 +1412,10 @@ public class FightRequest extends KoLRequest
 
 	public static final boolean alreadyJiggled()
 	{	return jiggledChefstaff;
+	}
+
+	public static final String missingGremlinTool()
+	{	return missingGremlinTool;
 	}
 
 	public static final void beginTrackingFights()
