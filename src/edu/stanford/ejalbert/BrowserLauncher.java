@@ -490,7 +490,32 @@ public class BrowserLauncher {
 	}
 
 	private static final String getMacintoshExecutable( String browser )
-	{	return "/Applications/" + browser + ".app/Contents/MacOS/" + browser.toLowerCase();
+	{
+		boolean shouldRelaunch = true;
+		String application = "/Applications/" + browser + ".app/Contents/MacOS/" + browser.toLowerCase();
+
+		Process process;
+
+		try
+		{
+			process = Runtime.getRuntime().exec( "ps -A -o command | grep " + application );
+
+			String psResult;
+			BufferedReader stream = new BufferedReader( new InputStreamReader( process.getInputStream() ) );
+
+			while ( (psResult = stream.readLine()) != null )
+				shouldRelaunch = psResult.startsWith( application );
+
+			process.waitFor();
+			process.exitValue();
+		}
+		catch ( Exception e )
+		{
+			// If there's an exception, go ahead and continue
+			// on -- the correct application should be chosen.
+		}
+
+		return shouldRelaunch ? application : "open -a " + browser;
 	}
 
 	private static final String getWindowsExecutable( String browser, String url )
