@@ -388,7 +388,9 @@ public class KoLRequest extends Job implements KoLConstants
 		{
 			if ( refreshPasswordHash() )
 			{
-				this.data.add( name );
+				if ( !this.data.contains( name ) )
+					this.data.add( name );
+
 				return;
 			}
 		}
@@ -447,13 +449,6 @@ public class KoLRequest extends Job implements KoLConstants
 
 		if ( name.equals( "pwd" ) || name.equals( "phash" ) )
 		{
-			// If you were in Valhalla on login, then
-			// make sure you discover the password hash
-			// in some other way.
-
-			if ( (passwordHash == null || passwordHash.equals( "" )) && value.length() != 0 )
-				passwordHash = value;
-
 			this.addFormField( name, "", false );
 		}
 		else
@@ -1449,13 +1444,15 @@ public class KoLRequest extends Job implements KoLConstants
 
 	public static final void processChoiceAdventure( KoLRequest request )
 	{
+		if ( passwordHash == null )
+			return;
+
 		// You can no longer simply ignore a choice adventure.	One of
 		// the options may have that effect, but we must at least run
 		// choice.php to find out which choice it is.
 
 		StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.CHOICE, 1 ) );
-
-		request.clearDataFields();
+		request.constructURLString( "choice.php" );
 		request.run();
 
 		if ( request.responseCode == 302 )
@@ -1625,9 +1622,10 @@ public class KoLRequest extends Job implements KoLConstants
 
 			request.clearDataFields();
 
-			request.addFormField( "pwd" );
+			request.addFormField( "pwd", passwordHash );
 			request.addFormField( "whichchoice", choice );
 			request.addFormField( "option", decision );
+
 			request.run();
 		}
 
@@ -1880,8 +1878,6 @@ public class KoLRequest extends Job implements KoLConstants
 		while ( iterator.hasNext() )
 		{
 			Entry entry = (Entry)iterator.next();
-
-			System.out.println( entry.getValue().getClass() );
 			RequestLogger.updateDebugLog( "Field: " + entry.getKey() + " = " + entry.getValue() );
 		}
 
