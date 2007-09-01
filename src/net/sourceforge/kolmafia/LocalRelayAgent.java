@@ -168,7 +168,14 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 				contentLength = StaticEntity.parseInt( currentLine.substring( 16 ) );
 
 			if ( currentLine.startsWith( "Cookie" ) && this.path.startsWith( "/inventory" ) )
-				KoLRequest.clientCookie = currentLine.substring(8);
+			{
+				String [] cookieList = currentLine.substring(8).split( "\\s*;\\s*" );
+				for ( int i = 0; i < cookieList.length; ++i )
+				{
+					if ( cookieList[i].startsWith( "inventory" ) )
+						KoLRequest.inventoryCookie = cookieList[i];
+				}
+			}
 		}
 
 
