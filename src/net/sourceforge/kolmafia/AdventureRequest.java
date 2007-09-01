@@ -145,6 +145,18 @@ public class AdventureRequest extends KoLRequest
 			}
 		}
 
+		if ( this.formSource.equals( "mountains.php" ) )
+		{
+			if ( inventory.contains( ABRIDGED ) )
+				(new UntinkerRequest( ABRIDGED.getItemId() )).run();
+
+			if ( !inventory.contains( BRIDGE ) )
+			{
+				KoLmafia.updateDisplay( ERROR_STATE, "You can't cross the Orc Chasm." );
+				return;
+			}
+		}
+
 		delay();
 
 		if ( this.formSource.equals( "dungeon.php" ) )
@@ -336,35 +348,8 @@ public class AdventureRequest extends KoLRequest
 
 		if ( this.formSource.equals( "mountains.php" ) )
 		{
-			// If there's no link to the valley beyond, put down a
-			// brIDGE
-
-			if ( this.responseText.indexOf( "value=80" ) == -1 )
-			{
-				// If you have an unabridged dictionary in your
-				// inventory, visit the untinkerer
-				// automatically and repeat the request.
-
-				if ( KoLCharacter.hasItem( ABRIDGED ) )
-				{
-					(new UntinkerRequest( ABRIDGED.getItemId() )).run();
-					this.run();
-					return;
-				}
-
-				// Otherwise, the player is unable to cross the
-				// orc chasm at this time.
-
-				KoLmafia.updateDisplay( ERROR_STATE, "You can't cross the Orc Chasm." );
-				return;
-			}
-
-			if ( this.responseText.indexOf( "the path to the Valley is clear" ) != -1 )
-			{
-				KoLmafia.updateDisplay( PENDING_STATE, "You have bridged the Orc Chasm." );
-				StaticEntity.getClient().processResult( BRIDGE );
-			}
-
+			KoLmafia.updateDisplay( "You have bridged the Orc Chasm." );
+			StaticEntity.getClient().processResult( BRIDGE );
 			return;
 		}
 
