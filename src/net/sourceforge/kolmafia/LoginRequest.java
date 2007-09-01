@@ -230,17 +230,17 @@ public class LoginRequest extends KoLRequest
 	}
 
 	public static final void executeTimeInRequest()
-	{	executeTimeInRequest( "main.php" );
+	{	executeTimeInRequest( "main.php", "login.php" );
 	}
 
-	public static final void executeTimeInRequest( String requestLocation )
+	public static final void executeTimeInRequest( String requestLocation, String redirectLocation )
 	{
 		if ( lastRequest == null )
 			return;
 
 		if ( LoginRequest.isInstanceRunning() )
 		{
-			StaticEntity.printStackTrace( requestLocation + ": " + sessionId );
+			StaticEntity.printStackTrace( requestLocation + " => " + redirectLocation );
 			System.exit(-1);
 		}
 
