@@ -904,8 +904,13 @@ public class FightRequest extends KoLRequest
 
 		// Quest gremlins - adventure=139 - might have a tool.
 		// We should check for adventure #, not monster name
+
 		if ( encounterLookup.indexOf( "gremlin" ) != -1 )
-			handleGremlin( responseText );
+		{
+			KoLAdventure location = KoLAdventure.lastVisitedLocation();
+			if ( location != null && location.getAdventureId().equals( "139" ) )
+				handleGremlin( responseText );
+		}
 
 		int blindIndex = responseText.indexOf( "... something.</div>" );
 
