@@ -303,12 +303,12 @@ public class AdventureFrame extends AdventureOptionsFrame
 			this.addChoiceSelect( "Plains", "Castle Wheel", this.castleWheelSelect );
 			this.addChoiceSelect( "Woods", "Forest Corpses", this.spookyForestSelect );
 			this.addChoiceSelect( "Item-Driven", "Violet Fog", this.violetFogSelect );
-			this.addChoiceSelect( "Manor", "Billiard Room", this.billiardRoomSelect );
-			this.addChoiceSelect( "Manor", "Rise of Spookyraven", this.riseSelect );
-			this.addChoiceSelect( "Manor", "Fall of Spookyraven", this.fallSelect );
-			this.addChoiceSelect( "Manor", "Louvre Goal", this.louvreSelect );
-			this.addChoiceSelect( "Manor", "Louvre Override", this.manualLouvre );
-			this.addChoiceSelect( "Manor", "The Maidens", this.maidenSelect );
+			this.addChoiceSelect( "Manor1", "Billiard Room", this.billiardRoomSelect );
+			this.addChoiceSelect( "Manor1", "Rise of Spookyraven", this.riseSelect );
+			this.addChoiceSelect( "Manor1", "Fall of Spookyraven", this.fallSelect );
+			this.addChoiceSelect( "Manor2", "Louvre Goal", this.louvreSelect );
+			this.addChoiceSelect( "Manor2", "Louvre Override", this.manualLouvre );
+			this.addChoiceSelect( "Manor2", "The Maidens", this.maidenSelect );
 
 			this.addChoiceSelect( AdventureDatabase.LUCKY_SEWER.getZone(), AdventureDatabase.LUCKY_SEWER.getName(), this.sewerSelect );
 
