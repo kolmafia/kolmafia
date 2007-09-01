@@ -1779,7 +1779,6 @@ public class KoLRequest extends Job implements KoLConstants
 			if ( events[i].indexOf( "logged" ) != -1 )
 				continue;
 
-			shouldLoadEventFrame = true;
 			String event = events[i];
 
 			// The event may be marked up with color and links to
@@ -1797,6 +1796,7 @@ public class KoLRequest extends Job implements KoLConstants
 			if ( event.indexOf( "/" ) == -1 )
 				continue;
 
+			shouldLoadEventFrame = true;
 			eventHistory.add( event );
 
 			// Print everything to the default shell; this way, the
