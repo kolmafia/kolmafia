@@ -2343,7 +2343,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			this.addFilters();
 		}
 
-		public FilterItemField getWordFilter()
+		public FilterTextField getWordFilter()
 		{	return new OverlapFilterField();
 		}
 
@@ -2386,7 +2386,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			this.filterItems();
 		}
 
-		public FilterItemField getWordFilter()
+		public FilterTextField getWordFilter()
 		{	return new RestorativeItemFilterField();
 		}
 
