@@ -259,7 +259,21 @@ public class CharsheetRequest extends KoLRequest
 					skipTokens( cleanContent, 2 );
 			}
 			else if ( ClassSkillsDatabase.contains( token ) )
-				newSkillSet.add( UseSkillRequest.getInstance( token ) );
+			{
+				boolean shouldAddSkill = true;
+				int skillId = ClassSkillsDatabase.getSkillId( token );
+
+				switch ( skillId )
+				{
+				case 16: // Summon Snowcone
+				case 17: // Summon Hilarious Objects
+				case 18: // Summon Candy Hearts
+					shouldAddSkill = !KoLCharacter.inBadMoon();
+				}
+
+				if ( shouldAddSkill )
+					newSkillSet.add( UseSkillRequest.getInstance( token ) );
+			}
 
 			// No more tokens if no familiar equipped
 			if ( !cleanContent.hasMoreTokens() )
