@@ -39,9 +39,14 @@ import java.io.InputStream;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
 import net.java.dev.spellcast.utilities.DataUtilities;
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class KoLDatabase extends StaticEntity
 {
@@ -419,6 +424,72 @@ public class KoLDatabase extends StaticEntity
 
 		public int size()
 		{	return this.internalList.size();
+		}
+	}
+
+	public static final LockableListModel createListModel( Set entries )
+	{
+		LockableListModel model = new LockableListModel();
+
+		Iterator it = entries.iterator();
+		while ( it.hasNext() )
+			model.add( new LowerCaseEntry( (Entry) it.next() ) );
+
+		return model;
+	}
+
+	public static class LowerCaseEntry implements Entry
+	{
+		private Entry original;
+		private Object key, value;
+		private String pairString, lowercase;
+
+		public LowerCaseEntry( Entry original )
+		{
+			this.original = original;
+			this.key = original.getKey();
+			this.value = original.getValue();
+			this.pairString = value + " (" + key + ")";
+			this.lowercase = value.toString().toLowerCase();
+		}
+
+		public boolean equals( Object o )
+		{
+			if ( o instanceof LowerCaseEntry )
+				return original.equals( ((LowerCaseEntry)o).original );
+
+			return original.equals( o );
+		}
+
+		public Object getKey()
+		{	return key;
+		}
+
+		public Object getValue()
+		{	return value;
+		}
+
+		public String toString()
+		{	return pairString;
+		}
+
+		public int hashCode()
+		{	return original.hashCode();
+		}
+
+		public Object setValue( Object newValue )
+		{
+			Object returnValue = original.setValue( newValue );
+
+			this.value = newValue;
+			this.pairString = this.value + " (" + this.key + ")";
+			this.lowercase = this.value.toString().toLowerCase();
+
+			return returnValue;
+		}
+
+		public String getLowerCase()
+		{	return this.lowercase;
 		}
 	}
 }

@@ -184,6 +184,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	private static final int BAKULA = 1519;
 	private static final int WIZARD_HAT = 1653;
+	private static final int NAVEL_RING = 2844;
 
 	// Equipment constants
 
@@ -1155,6 +1156,9 @@ public abstract class KoLCharacter extends StaticEntity
 
 		switch ( item.getItemId() )
 		{
+		case NAVEL_RING:
+			addAvailableSkill( UseSkillRequest.getInstance( "Omphaloskepsis" ) );
+			break;
 		case WIZARD_HAT:
 			addAvailableSkill( UseSkillRequest.getInstance( "Magic Missile" ) );
 			break;
@@ -2492,6 +2496,9 @@ public abstract class KoLCharacter extends StaticEntity
 					int equipmentType = consumeFilterToEquipmentType( consumeType );
 					if ( equipmentType != -1 )
 						AdventureResult.addResultToList( equipmentLists[ equipmentType ], result );
+
+					if ( equipmentType == WEAPON || equipmentType == OFFHAND )
+						GearChangeFrame.updateWeapons();
 				}
 
 				if ( EquipmentDatabase.getOutfitWithItem( result.getItemId() ) != -1 )

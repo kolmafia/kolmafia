@@ -71,7 +71,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 	public JCheckBox [] filters;
 	public JRadioButton [] movers;
 
-	private FilterItemField filterfield;
+	private FilterTextField filterfield;
 
 	public ItemManagePanel( String confirmedText, String cancelledText, LockableListModel elementModel )
 	{
@@ -102,7 +102,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 		this.actualPanel.add( this.northPanel, BorderLayout.NORTH );
 	}
 
-	protected FilterItemField getWordFilter()
+	protected FilterTextField getWordFilter()
 	{	return new FilterItemField();
 	}
 
@@ -151,11 +151,16 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 	public void setFixedFilter( boolean food, boolean booze, boolean equip, boolean other, boolean notrade )
 	{
-		this.filterfield.food = food;
-		this.filterfield.booze = booze;
-		this.filterfield.equip = equip;
-		this.filterfield.other = other;
-		this.filterfield.notrade = notrade;
+		if ( this.filterfield instanceof FilterItemField )
+		{
+			FilterItemField itemfilter = (FilterItemField) this.filterfield;
+
+			itemfilter.food = food;
+			itemfilter.booze = booze;
+			itemfilter.equip = equip;
+			itemfilter.other = other;
+			itemfilter.notrade = notrade;
+		}
 
 		this.filterItems();
 	}
@@ -628,8 +633,8 @@ public class ItemManagePanel extends LabeledScrollPanel
 				return false;
 
 			String name = getResultName( element );
-			int itemId = AdventureResult.itemId( name );
 
+			int itemId = AdventureResult.itemId( name );
 			if ( itemId < 1 )
 				return filters == null && super.isVisible( element );
 
