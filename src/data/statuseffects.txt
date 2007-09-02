@@ -347,7 +347,7 @@
 347	Blessing of Bulbazinalli	leaf.gif	c59051266b90a4b990b4e92e29945228
 348	All Fired Up	fire.gif	5626ff49dbfe5c3bc7732a3dc9c1ea4e
 349	Go Get 'Em, Tiger!	strboost.gif	943ba3b11499412f041807f8a7835d75	use 5 Ben-Gal&trade; Balm
-350	Starry-Eyed	snowflakes.gif	c45d2469bf8cfd8c9bbc953e2a44f3c4	telescope look low
+350	Starry-Eyed	snowflakes.gif	c45d2469bf8cfd8c9bbc953e2a44f3c4	telescope look high
 351	Comic Violence	clownham.gif	e81282d9c752ffcf7d033dd0bd8fec6f	use 1 gremlin juice
 352	Tranquilized Mind	sleepy.gif	e6d8c1e5ee549f897340b97b3cc26053	use 1 mother's little helper
 353	Woad Warrior	foamfinger.gif	c884a8b10f7b236002288fc760129e09	use 1 pygmy pygment
@@ -394,12 +394,6 @@
 # Bad Moon effects with unknown effect
 #	Missing Kidney	kidney.gif	a3271a164706776e733cd78e060cb5e1
 #	Re-Possessed	stogie.gif	27e835ef2ee194eed4e43c64a8cf65ac
-# Bad Moon effects that give +50% to one stat and -50% to another
-#	The Rage	angry.gif	1851096b46967124186f87a3a9f2bbf4
-#	Shamed &amp; Manipulated	blush.gif	02e465f136feb826854bd8493a9943e4
-#	Drummed Out	drum.gif	304469441fccda71b602573731342e4e
-#	Hornswaggled	eyepatch.gif
-#	Third Eye Blind	eyepatch.gif	ffce3a7c5e9897b1484a2e8c7ed6dd01
 386
 387	Duhhh	duncecap.gif	1a193e72ad6e010246f9c2174d831fc8
 388	Affronted Decency	angry.gif	5e24e5adb243a87b8511d58fa4af1efe
@@ -410,12 +404,12 @@
 393	Animal Exploiter	reindeer.gif	d18158063a35b1914a3b7f1117e3648c
 394	Scent of a Kitchen Elf	houseelf.gif	6691b3cb35ed3188f393b95909e017a9
 395	Once Bitten, Twice Shy	teeth.gif	d5a2591989bb310c9f3fb8453b0bf4ee
-396
-397
-398
+396	The Rage	angry.gif	1851096b46967124186f87a3a9f2bbf4
+397	Shamed &amp; Manipulated	blush.gif	02e465f136feb826854bd8493a9943e4
+398	Drummed Out	drum.gif	304469441fccda71b602573731342e4e
 399	Dreadlocked	hippywig.gif	e08a647c81c873f82505057ee2f50cc8
-400
-401
+400	Hornswaggled	eyepatch.gif
+401	Third Eye Blind	eyepatch.gif	ffce3a7c5e9897b1484a2e8c7ed6dd01
 402	The Vitus Virus	virus.gif	700d9925ed2b90dd1ae23928cbfabef9
 403	Your #1 Problem	footprints.gif	52d44b4d25aef7481e19083450ee0fdb
 404	Braaains	realbrain.gif	cef7b7b9bd69838c097f00f584106cf8
