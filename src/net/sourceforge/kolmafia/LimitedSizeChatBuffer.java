@@ -137,8 +137,6 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 		if ( this.requiresTruncation && this.displayBuffer.length() > MAXIMUM_SIZE )
 		{
 			int lineIndex = this.displayBuffer.indexOf( "<br", DELETE_AMOUNT );
-			if ( lineIndex == -1 )
-				lineIndex = this.displayBuffer.lastIndexOf( "<br", DELETE_AMOUNT );
 			if ( lineIndex != -1 )
 				lineIndex = this.displayBuffer.indexOf( ">", lineIndex ) + 1;
 

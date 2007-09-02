@@ -24,7 +24,7 @@ function basementUpdate( select, command )
 	}
 
 	select.disabled = true;
-	httpObject1.open( "POST", "/KoLmafia/sideCommand?cmd=" + command );
+	httpObject1.open( "POST", "/KoLmafia/sideCommand?cmd=" + command, true );
 	httpObject1.send( "" );
 }
 

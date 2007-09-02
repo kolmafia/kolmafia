@@ -143,8 +143,8 @@
 			updateDisplay( display, httpObject.responseText );
 		};
 
-		httpObject.open( "POST", "/KoLmafia/messageUpdate", true );
-		httpObject.send( null );
+		httpObject.open( "POST", "/KoLmafia/messageUpdate" );
+		httpObject.send( "" );
 
 		setTimeout( getCLIUpdate, 4000 );
 		return true;
@@ -177,8 +177,8 @@
 
 		executed = false;
 
-		httpObject.open( "POST", "/KoLmafia/submitCommand", true );
-		httpObject.send( "cmd=" + URLEncode( command ) );
+		httpObject.open( "POST", "/KoLmafia/submitCommand?cmd=" + URLEncode( command ) );
+		httpObject.send( "" );
 
 		document.cmdform.cmd.focus();
 		return true;
@@ -191,12 +191,12 @@
 
  <body link=black alink=black vlink=black onLoad="initSizes(); getCLIUpdate();" onResize="initSizes();">
 
-  <div id="ToggleDisplay" class=toggledisplay><b>KoLmafia gCLI</b><br>[ <u><a href="/chatlaunch.php">Announcements</a></u> ]</div>
-  <div id="CmdWindow" class=cmddisplay></div>
+	<div id="ToggleDisplay" class=toggledisplay><b>KoLmafia gCLI</b><br>[ <u><a href="/chatlaunch.php">Announcements</a></u> ]</div>
+	<div id="CmdWindow" class=cmddisplay></div>
 
-   <div id="InputForm" class=inputform><center><form name=cmdform onSubmit='return false;'>
-     <input style="width: 70%" maxlength=200 class=text type=text size=12 name=cmd onKeyUp='checkForKeyEvent( event );' autocomplete="off">
-     <input class=button type=button onClick="submitCommand();" value="exec">
-   </form></center></div>
+	 <div id="InputForm" class=inputform><center><form name=cmdform onSubmit='return false;'>
+		 <input style="width: 70%" maxlength=200 class=text type=text size=12 name=cmd onKeyUp='checkForKeyEvent( event );' autocomplete="off">
+		 <input class=button type=button onClick="submitCommand();" value="exec">
+	 </form></center></div>
  </body>
 </html>

@@ -205,8 +205,6 @@ public abstract class KoLMessenger extends StaticEntity
 			return;
 
 		reset();
-		isRunning = true;
-
 		openInstantMessage( "[main]", enableMonitor );
 
 		// Clear the highlights and add all the ones which
@@ -224,6 +222,8 @@ public abstract class KoLMessenger extends StaticEntity
 			for ( int i = 0; i < highlights.length; ++i )
 				LimitedSizeChatBuffer.addHighlight( highlights[i], DataUtilities.toColor( highlights[++i] ) );
 		}
+
+		isRunning = true;
 
 		RequestThread.postRequest( new ChatRequest( null, "/listen" ) );
 		RequestThread.postRequest( new ChannelColorsRequest() );
@@ -816,7 +816,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 			buffer.append( displayHTML );
 
-			if ( useTabbedChat )
+			if ( isRunning && useTabbedChat )
 				tabbedFrame.highlightTab( bufferKey );
 		}
 		catch ( Exception e )

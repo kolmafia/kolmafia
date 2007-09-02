@@ -61,16 +61,13 @@ function refreshSidebar( desiredRefresh )
 		isRefreshing = false;
 	}
 
-	httpObject.open( "POST", desiredRefresh );
+	httpObject.open( "POST", desiredRefresh, true );
 	httpObject.send( "" );
 }
 
 
 function updateDisplay( display, responseText )
 {
-	if ( responseText == null )
-		return;
-
 	if ( responseText.length < 2 )
 		return;
 
@@ -78,21 +75,20 @@ function updateDisplay( display, responseText )
 
 	if ( display.innerHTML.length > 30000 )
 	{
-		var lineIndex = display.innerHTML.indexOf( "<br", 10000 );
-		if ( lineIndex == -1 )
-			lineIndex = display.innerHTML.lastIndexOf( "<br", 10000 );
+		var lineIndex = display.innerHTML.indexOf( "<br", 20000 );
 		if ( lineIndex != -1 )
 			lineIndex = display.innerHTML.indexOf( ">", lineIndex ) + 1;
 
 		if ( lineIndex != -1 )
-			display.innerHTML = display.innerHTML.substring( display.indexOf( ">", lineIndex ) + 1 );
+		{
+			var length = display.innerHTML.length;
+			display.innerHTML = display.innerHTML.substring( lineIndex + 1, length );
+		}
 		else
 			display.innerHTML = "";
 	}
 
-	display.style.width = initwidth;
 	display.scrollTop = display.scrollHeight;
-
 	if ( !isRefreshing && responseText.indexOf("<!-- REFRESH -->") != -1 )
 		refreshSidebar( "/sidepane.php" );
 }
@@ -140,8 +136,8 @@ function inlineLoad( location, fields, id )
 
 	};
 
-	httpObject.open( "POST", "/" + location + "?" + fields );
-	httpObject.send( null );
+	httpObject.open( "POST", "/" + location + "?" + fields, true );
+	httpObject.send( "" );
 	return true;
 }
 
@@ -218,8 +214,8 @@ function updateSafetyText()
 		safety.innerHTML = httpObject.responseText;
 	}
 
-	httpObject.open( "POST", "/KoLmafia/updateLocation" );
-	httpObject.send( null );
+	httpObject.open( "POST", "/KoLmafia/updateLocation", true );
+	httpObject.send( "" );
 	return true;
 }
 
@@ -281,8 +277,8 @@ function showSafetyText( location )
 		safety.innerHTML = httpObject.responseText;
 	}
 
-	httpObject.open( "POST", "/KoLmafia/lookupLocation?" + adventureId );
-	httpObject.send( null );
+	httpObject.open( "POST", "/KoLmafia/lookupLocation?" + adventureId, true );
+	httpObject.send( "" );
 	return true;
 }
 
