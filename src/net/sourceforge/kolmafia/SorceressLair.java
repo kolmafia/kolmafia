@@ -108,10 +108,10 @@ public abstract class SorceressLair extends StaticEntity
 	// Items for the shadow battle
 
 	private static final AdventureResult MIRROR_SHARD = new AdventureResult( "huge mirror shard", 1, false );
-	private static final AdventureResult DOC_ELIXIR = new AdventureResult( "Doc Galaktik's Homeopathic Elixir", 6 );
-	private static final AdventureResult DOC_BALM = new AdventureResult( "Doc Galaktik's Restorative Balm", 8 );
-	private static final AdventureResult RED_POTION = new AdventureResult( "red pixel potion", 4 );
-	private static final AdventureResult PLASTIC_EGG = new AdventureResult( "red plastic oyster egg", 3 );
+
+	private static final AdventureResult RED_POTION = new AdventureResult( "red pixel potion", 1 );
+	private static final AdventureResult HIPPY_HEAL = new AdventureResult( "filthy poultice", 1 );
+	private static final AdventureResult FRATBOY_HEAL = new AdventureResult( "filthy poultice", 1 );
 
 	// Gates, what they look like through the Telescope, the effects you
 	// need to pass them, and where to get it
@@ -128,7 +128,7 @@ public abstract class SorceressLair extends StaticEntity
 		  "Wussiness",
 		  "wussiness potion" },
 		{ "gate of morose morbidity and moping",
-		  "a glum teenager", 
+		  "a glum teenager",
 		  "Rainy Soul Miasma",
 		  "thin black candle", "picture of a dead guy's girlfriend" },
 		{ "gate of slack",
@@ -255,76 +255,76 @@ public abstract class SorceressLair extends StaticEntity
 
 	public static final String [][] GUARDIAN_DATA =
 	{
-		{ "beer batter", 
+		{ "beer batter",
 		  "tip of a baseball bat",
 		  "baseball" },
 		{ "best-selling novelist",
 		  "writing desk",
 		  "plot hole" },
-		{ "big meat golem", 
+		{ "big meat golem",
 		  "huge face made of Meat",
 		  "meat vortex" },
-		{ "bowling cricket", 
+		{ "bowling cricket",
 		  "fancy-looking tophat",
 		  "sonar-in-a-biscuit" },
-		{ "bronze chef", 
+		{ "bronze chef",
 		  "bronze figure holding a spatula",
 		  "leftovers of indeterminate origin" },
-		{ "collapsed mineshaft golem", 
+		{ "collapsed mineshaft golem",
 		  "wooden beam",
 		  "stick of dynamite" },
-		{ "concert pianist", 
+		{ "concert pianist",
 		  "long coattails",
 		  "Knob Goblin firecracker" },
-		{ "darkness", 
+		{ "darkness",
 		  "strange shadow",
 		  "inkwell" },
-		{ "el diablo", 
+		{ "el diablo",
 		  "neck of a huge bass guitar",
 		  "mariachi G-string" },
-		{ "electron submarine", 
+		{ "electron submarine",
 		  "periscope",
 		  "photoprotoneutron torpedo" },
-		{ "endangered inflatable white tiger", 
+		{ "endangered inflatable white tiger",
 		  "giant white ear",
 		  "pygmy blowgun" },
-		{ "enraged cow", 
+		{ "enraged cow",
 		  "pair of horns",
 		  "barbed-wire fence" },
-		{ "fancy bath slug", 
+		{ "fancy bath slug",
 		  "slimy eyestalk",
 		  "fancy bath salts" },
-		{ "fickle finger of f8", 
+		{ "fickle finger of f8",
 		  "giant cuticle",
 		  "razor-sharp can lid" },
-		{ "flaming samurai", 
+		{ "flaming samurai",
 		  "flaming katana",
 		  "frigid ninja stars" },
-		{ "giant bee", 
+		{ "giant bee",
 		  "formidable stinger",
 		  "tropical orchid" },
-		{ "giant fried egg", 
+		{ "giant fried egg",
 		  "UNKNOWN",
 		  "black pepper" },
-		{ "giant desktop globe", 
+		{ "giant desktop globe",
 		  "the North Pole",
 		  "NG" },
-		{ "ice cube", 
+		{ "ice cube",
 		  "moonlight reflecting off of what appears to be ice",
 		  "can of hair spray" },
-		{ "malevolent crop circle", 
+		{ "malevolent crop circle",
 		  "amber waves of grain",
 		  "bronzed locust" },
-		{ "possessed pipe-organ", 
+		{ "possessed pipe-organ",
 		  "pipes with steam shooting out of them",
 		  "powdered organs" },
-		{ "pretty fly", 
+		{ "pretty fly",
 		  "translucent wing",
 		  "spider web" },
-		{ "tyrannosaurus tex", 
+		{ "tyrannosaurus tex",
 		  "large cowboy hat",
 		  "chaos butterfly" },
-		{ "vicious easel", 
+		{ "vicious easel",
 		  "tall wooden frame",
 		  "disease" },
 	};
@@ -1780,83 +1780,20 @@ public abstract class SorceressLair extends StaticEntity
 		SpecialOutfit.restoreImplicitCheckpoint();
 	}
 
-	private static final int getShadowBattleHealth( int shadowDamage, int healAmount )
-	{
-		int combatRounds = (int) Math.ceil( 96.0f / ((float) healAmount) ) - 1;
-		int neededHealth = shadowDamage + Math.max( shadowDamage - healAmount, 0 ) * combatRounds;
-		return neededHealth + 1;
-	}
-
 	private static final void fightShadow()
 	{
-		if ( true )
-		{
-			KoLmafia.updateDisplay( ERROR_STATE, "KoLmafia doesn't support fighting the NS 13 shadow yet." );
+		StaticEntity.getClient().recoverHP( KoLCharacter.getMaximumHP() );
+		if ( !KoLmafia.permitsContinue() )
 			return;
-		}
 
-		List requirements = new ArrayList();
+		int itemCount = 0;
+		AdventureResult [] options = new AdventureResult [] { RED_POTION, HIPPY_HEAL, FRATBOY_HEAL };
+		for ( int i = 0; i < options.length; ++i )
+			itemCount += options[i].getCount( inventory );
 
-		// In order to see what happens, we calculate the health needed
-		// to survive the shadow fight using red pixel potions.  We use
-		// worst-case scenario in all cases (minimum recovery, maximum
-		// damage, which may happen).
-
-		int shadowDamage = 22 + ((int)Math.floor( KoLCharacter.getMaximumHP() / 5 )) + 3;
-
-		AdventureResult option = RED_POTION;
-		int neededHealth = getShadowBattleHealth( shadowDamage, 25 );
-
-		// If the person has red plastic oyster eggs, then they are an
-		// alternative if the person can't survive using red pixel potions.
-
-		if ( neededHealth > KoLCharacter.getMaximumHP() || !isItemAvailable( RED_POTION ) )
+		if ( itemCount < 4 )
 		{
-			if ( isItemAvailable( PLASTIC_EGG ) )
-			{
-				option = PLASTIC_EGG;
-				neededHealth = getShadowBattleHealth( shadowDamage, 35 );
-			}
-		}
-
-		// In the event that you have Ambidextrous Funkslinging, then
-		// always rely on elixirs.
-
-		if ( KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) )
-		{
-			option = DOC_BALM;
-			neededHealth = getShadowBattleHealth( shadowDamage, 26 );
-
-			if ( neededHealth > KoLCharacter.getCurrentHP() || KoLCharacter.hasItem( DOC_ELIXIR ) )
-			{
-				option = DOC_ELIXIR;
-				neededHealth = getShadowBattleHealth( shadowDamage, 36 );
-			}
-		}
-
-		// Make sure you can get enough health for the shadow
-		// fight.  If not, then abort.
-
-		if ( neededHealth > KoLCharacter.getMaximumHP() )
-		{
-			KoLmafia.updateDisplay( ERROR_STATE, "The shadow fight is too dangerous with " + KoLCharacter.getMaximumHP() + " maximum HP." );
-			return;
-		}
-
-		// Now, we validate against the requirements by seeing
-		// if we have the item to use against the shadow.
-
-		requirements.add( option );
-		if ( !KoLmafia.checkRequirements( requirements ) )
-		{
-			KoLmafia.updateDisplay( ERROR_STATE, "Could not determine items to use to fight shadow." );
-			return;
-		}
-
-		getClient().recoverHP( neededHealth );
-		if ( KoLCharacter.getCurrentHP() < neededHealth )
-		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You must have at least " + neededHealth + " HP to fight your shadow." );
+			KoLmafia.updateDisplay( ERROR_STATE, "Insufficient healing items to continue." );
 			return;
 		}
 
@@ -1864,17 +1801,48 @@ public abstract class SorceressLair extends StaticEntity
 
 		// Start the battle!
 
-		String oldAction = KoLSettings.getUserProperty( "battleAction" );
-		KoLSettings.setUserProperty( "battleAction", "item " + option.getName().toLowerCase() );
-
 		RequestThread.postRequest( QUEST_HANDLER.constructURLString( "lair6.php?place=2" ) );
 		if ( QUEST_HANDLER.responseText.indexOf( "You don't have time to mess around up here." ) != -1 )
 			KoLmafia.updateDisplay( ERROR_STATE, "You're out of adventures." );
 
-		// Reset all of the old battle action settings, including
-		// the original KoL-side auto-attack.
+		int itemIndex = 0;
+		QUEST_HANDLER.constructURLString( "fight.php" );
 
-		KoLSettings.setUserProperty( "battleAction", oldAction );
+		for ( int i = 0; i < 4; ++i )
+		{
+			while ( !inventory.contains( options[ itemIndex ] ) )
+				++itemIndex;
+
+			QUEST_HANDLER.addFormField( "action", "useitem" );
+			QUEST_HANDLER.addFormField( "whichitem", String.valueOf( options[ itemIndex ].getItemId() ) );
+
+			if ( KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) )
+			{
+				++i;  // Increment the rounds elapsed
+
+				boolean needsIncrement = !inventory.contains( options[ itemIndex ] ) ||
+					options[ itemIndex ].getCount( inventory ) < 2;
+
+				if ( needsIncrement )
+				{
+					++itemIndex;
+					while ( !inventory.contains( options[ itemIndex ] ) )
+						++itemIndex;
+				}
+
+				QUEST_HANDLER.addFormField( "whichitem2", String.valueOf( options[ itemIndex ].getItemId() ) );
+				RequestThread.postRequest( QUEST_HANDLER );
+
+				if ( QUEST_HANDLER.responseText.indexOf( "fight.php" ) == -1 )
+					break;
+			}
+		}
+
+
+		if ( KoLCharacter.getCurrentHP() > 0 )
+			KoLmafia.updateDisplay( "Your shadow has been defeated." );
+		else
+			KoLmafia.updateDisplay( ERROR_STATE, "Unable to defeat your shadow." );
 	}
 
 	public static final void makeGuardianItems()
