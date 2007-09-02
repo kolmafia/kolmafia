@@ -328,7 +328,7 @@ public class ItemManageFrame extends KoLFrame
 			this.filterItems();
 		}
 
-		public FilterItemField getWordFilter()
+		public FilterTextField getWordFilter()
 		{	return new ConsumableFilterField();
 		}
 
@@ -439,7 +439,7 @@ public class ItemManageFrame extends KoLFrame
 			this.filterItems();
 		}
 
-		public FilterItemField getWordFilter()
+		public FilterTextField getWordFilter()
 		{	return new ConsumableFilterField();
 		}
 
@@ -636,7 +636,7 @@ public class ItemManageFrame extends KoLFrame
 		{	super( inventory, false );
 		}
 
-		public FilterItemField getWordFilter()
+		public FilterTextField getWordFilter()
 		{	return new UsableItemFilterField();
 		}
 
@@ -889,7 +889,7 @@ public class ItemManageFrame extends KoLFrame
 			this.filterItems();
 		}
 
-		public FilterItemField getWordFilter()
+		public FilterTextField getWordFilter()
 		{	return new EquipmentFilterField();
 		}
 

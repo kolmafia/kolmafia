@@ -36,14 +36,12 @@ package net.sourceforge.kolmafia;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
-import javax.swing.JComboBox;
-
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 public class SkillBuffFrame extends KoLFrame
 {
-	private JComboBox skillSelect;
+	private MutableComboBox skillSelect;
 	private AutoHighlightField amountField;
 	private AutoHighlightField targetSelect;
 	private ShowDescriptionList effectList;
@@ -93,7 +91,7 @@ public class SkillBuffFrame extends KoLFrame
 		{
 			super( "cast", "maxcast", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
-			SkillBuffFrame.this.skillSelect = new JComboBox( usableSkills );
+			SkillBuffFrame.this.skillSelect = new MutableComboBox( usableSkills, false );
 			SkillBuffFrame.this.amountField = new AutoHighlightField();
 			SkillBuffFrame.this.targetSelect = new AutoHighlightField();
 
