@@ -50,7 +50,6 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
-import javax.swing.JTextField;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
@@ -62,10 +61,10 @@ public class LoginFrame extends KoLFrame
 	private JComboBox servers;
 	private JComponent usernameField;
 
-	private JTextField proxyHost;
-	private JTextField proxyPort;
-	private JTextField proxyLogin;
-	private JTextField proxyPassword;
+	private AutoHighlightField proxyHost;
+	private AutoHighlightField proxyPort;
+	private AutoHighlightField proxyLogin;
+	private AutoHighlightField proxyPassword;
 
 	public LoginFrame()
 	{
@@ -171,7 +170,7 @@ public class LoginFrame extends KoLFrame
 			super( "login", "relay" );
 
 			boolean useTextField = saveStateNames.isEmpty();
-			LoginFrame.this.usernameField = useTextField ? (JComponent) new JTextField() : (JComponent) new LoginNameComboBox();
+			LoginFrame.this.usernameField = useTextField ? (JComponent) new AutoHighlightField() : (JComponent) new LoginNameComboBox();
 			this.passwordField = new JPasswordField();
 
 			this.savePasswordCheckBox = new JCheckBox();
@@ -256,8 +255,8 @@ public class LoginFrame extends KoLFrame
 
 			LoginFrame.this.username = null;
 
-			if ( LoginFrame.this.usernameField instanceof JTextField )
-				LoginFrame.this.username = ((JTextField)LoginFrame.this.usernameField).getText();
+			if ( LoginFrame.this.usernameField instanceof AutoHighlightField )
+				LoginFrame.this.username = ((AutoHighlightField)LoginFrame.this.usernameField).getText();
 			else if ( ((LoginNameComboBox)LoginFrame.this.usernameField).getSelectedItem() != null )
 				LoginFrame.this.username = (String) ((LoginNameComboBox)LoginFrame.this.usernameField).getSelectedItem();
 			else
@@ -486,10 +485,10 @@ public class LoginFrame extends KoLFrame
 		{
 			super( "Proxy Settings", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
-			LoginFrame.this.proxyHost = new JTextField();
-			LoginFrame.this.proxyPort = new JTextField();
-			LoginFrame.this.proxyLogin = new JTextField();
-			LoginFrame.this.proxyPassword = new JTextField();
+			LoginFrame.this.proxyHost = new AutoHighlightField();
+			LoginFrame.this.proxyPort = new AutoHighlightField();
+			LoginFrame.this.proxyLogin = new AutoHighlightField();
+			LoginFrame.this.proxyPassword = new AutoHighlightField();
 
 			VerifiableElement [] elements = new VerifiableElement[4];
 			elements[0] = new VerifiableElement( "Host: ", LoginFrame.this.proxyHost );

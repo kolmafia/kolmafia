@@ -62,8 +62,8 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
-import javax.swing.JTextPane;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
 
@@ -97,6 +97,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 	private TreeMap zoneMap;
 	private JSpinner countField;
+	private LockableListModel matchingAdventures;
 
 	protected JTree combatTree;
 	protected JTextArea combatEditor;
@@ -114,11 +115,14 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 	protected JComponent zoneSelect;
 
 	protected KoLAdventure lastAdventure = null;
+
 	protected JCheckBox autoSetCheckBox = new JCheckBox();
-	protected FocusSelectingTextField conditionField = new FocusSelectingTextField();
+	protected AutoHighlightField conditionField = new AutoHighlightField();
 
 	public AdventureOptionsFrame( String title )
-	{	super( title );
+	{
+		super( title );
+		this.matchingAdventures = AdventureDatabase.getAsLockableListModel().getMirrorImage();
 	}
 
 	public JPanel constructLabelPair( String label, JComponent element1 )
@@ -727,8 +731,6 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 	public class AdventureSelectPanel extends JPanel
 	{
-		private LockableListModel matchingAdventures;
-
 		public AdventureSelectPanel( boolean enableAdventures )
 		{
 			super( new BorderLayout( 10, 10 ) );
@@ -736,7 +738,6 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 			// West pane is a scroll pane which lists all of the available
 			// locations -- to be included is a map on a separate tab.
 
-			this.matchingAdventures = AdventureDatabase.getAsLockableListModel().getMirrorImage();
 			AdventureOptionsFrame.this.locationSelect = new JList( matchingAdventures );
 			AdventureOptionsFrame.this.locationSelect.setVisibleRowCount( 4 );
 
@@ -795,42 +796,38 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 			}
 		}
 
-		/**
-		 * Special instance of a JComboBox which overrides the default
-		 * key events of a JComboBox to allow you to catch key events.
-		 */
-
-		private class FilterAdventureField extends FilterTextField
-		{
-			public FilterAdventureField()
-			{	super( AdventureOptionsFrame.this.locationSelect );
-			}
-
-			public boolean isVisible( Object element )
-			{	return ((KoLAdventure)element).toLowerCaseString().indexOf( text ) != -1;
-			}
-		}
-
-		private class FilterAdventureComboBox extends JComboBox implements ListElementFilter
-		{
-			private Object selectedZone;
-
-			public void setSelectedItem( Object element )
-			{
-				super.setSelectedItem( element );
-				this.selectedZone = element;
-				matchingAdventures.updateFilter( false );
-			}
-
-			public boolean isVisible( Object element )
-			{	return ((KoLAdventure) element).getParentZoneDescription().equals( selectedZone );
-			}
-		}
-
 		public void requestFocus()
 		{	AdventureOptionsFrame.this.locationSelect.requestFocus();
 		}
 	}
+
+	protected class FilterAdventureField extends FilterTextField
+	{
+		public FilterAdventureField()
+		{	super( AdventureOptionsFrame.this.locationSelect );
+		}
+
+		public boolean isVisible( Object element )
+		{	return ((KoLAdventure)element).toLowerCaseString().indexOf( text ) != -1;
+		}
+	}
+
+	protected class FilterAdventureComboBox extends JComboBox implements ListElementFilter
+	{
+		private Object selectedZone;
+
+		public void setSelectedItem( Object element )
+		{
+			super.setSelectedItem( element );
+			this.selectedZone = element;
+			matchingAdventures.updateFilter( false );
+		}
+
+		public boolean isVisible( Object element )
+		{	return ((KoLAdventure) element).getParentZoneDescription().equals( selectedZone );
+		}
+	}
+
 
 	private class ObjectivesPanel extends KoLPanel
 	{
@@ -934,23 +931,6 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 				return;
 
 			AdventureOptionsFrame.this.fillCurrentConditions();
-		}
-	}
-
-	private class FocusSelectingTextField extends JTextField implements FocusListener
-	{
-		public FocusSelectingTextField()
-		{
-			super();
-			this.addFocusListener( this );
-		}
-
-		public void focusGained( FocusEvent e )
-		{	this.selectAll();
-		}
-
-		public void focusLost( FocusEvent e )
-		{
 		}
 	}
 

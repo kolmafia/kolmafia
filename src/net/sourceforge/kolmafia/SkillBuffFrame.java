@@ -35,8 +35,8 @@ package net.sourceforge.kolmafia;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+
 import javax.swing.JComboBox;
-import javax.swing.JTextField;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -44,8 +44,8 @@ import javax.swing.event.ListSelectionListener;
 public class SkillBuffFrame extends KoLFrame
 {
 	private JComboBox skillSelect;
-	private JTextField amountField;
-	private JTextField targetSelect;
+	private AutoHighlightField amountField;
+	private AutoHighlightField targetSelect;
 	private ShowDescriptionList effectList;
 
 	public SkillBuffFrame()
@@ -94,8 +94,8 @@ public class SkillBuffFrame extends KoLFrame
 			super( "cast", "maxcast", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
 			SkillBuffFrame.this.skillSelect = new JComboBox( usableSkills );
-			SkillBuffFrame.this.amountField = new JTextField();
-			SkillBuffFrame.this.targetSelect = new JTextField();
+			SkillBuffFrame.this.amountField = new AutoHighlightField();
+			SkillBuffFrame.this.targetSelect = new AutoHighlightField();
 
 			VerifiableElement [] elements = new VerifiableElement[3];
 			elements[0] = new VerifiableElement( "Skill Name: ", SkillBuffFrame.this.skillSelect );

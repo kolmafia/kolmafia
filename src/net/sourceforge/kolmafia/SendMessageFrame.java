@@ -45,7 +45,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -58,7 +57,7 @@ public class SendMessageFrame extends KoLFrame
 	private JTextArea messageEntry;
 	private JButton sendMessageButton;
 
-	private JTextField attachedMeat;
+	private AutoHighlightField attachedMeat;
 	private SortedListModel attachments;
 
 	private LockableListModel contacts;
@@ -114,7 +113,7 @@ public class SendMessageFrame extends KoLFrame
 
 		// Add in meat attachments.
 
-		this.attachedMeat = new JTextField( "0" );
+		this.attachedMeat = new AutoHighlightField( "0" );
 		JComponentUtilities.setComponentSize( this.attachedMeat, 250, 25 );
 
 		JPanel meatPanel = new JPanel( new BorderLayout() );

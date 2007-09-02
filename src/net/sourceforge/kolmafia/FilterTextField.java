@@ -43,7 +43,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import javax.swing.JList;
-import javax.swing.JTextField;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
@@ -51,7 +50,7 @@ import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 import net.sourceforge.kolmafia.ConcoctionsDatabase.Concoction;
 import net.sourceforge.kolmafia.StoreManager.SoldItem;
 
-public class FilterTextField extends JTextField implements ActionListener, FocusListener, ListElementFilter
+public class FilterTextField extends AutoHighlightField implements ActionListener, ListElementFilter
 {
 	protected JList list;
 	protected String text;
@@ -62,9 +61,8 @@ public class FilterTextField extends JTextField implements ActionListener, Focus
 	{
 		this.list = list;
 		this.model = (LockableListModel) list.getModel();
-		this.model.setFilter( this );
 
-		this.addFocusListener( this );
+		this.model.setFilter( this );
 		this.addKeyListener( new FilterListener() );
 	}
 
@@ -76,14 +74,6 @@ public class FilterTextField extends JTextField implements ActionListener, Focus
 	{
 		super.setText( text );
 		this.update();
-	}
-
-	public void focusGained( FocusEvent e )
-	{	this.selectAll();
-	}
-
-	public void focusLost( FocusEvent e )
-	{
 	}
 
 	public void update()

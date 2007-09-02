@@ -45,7 +45,6 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.ToolTipManager;
 
 import javax.swing.event.ListSelectionEvent;
@@ -63,7 +62,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 	private JPanel resultCardPanel;
 	private AttackPanel attackPanel;
 
-	private JTextField rankEntry;
+	private AutoHighlightField rankEntry;
 
 	private Vector rankLabels = new Vector();
 	private JTable [] resultsTable = new JTable[2];
@@ -172,16 +171,16 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 
 	private class SearchPanel extends KoLPanel
 	{
-		private JTextField levelEntry;
-		private JTextField limitEntry;
+		private AutoHighlightField levelEntry;
+		private AutoHighlightField limitEntry;
 
 		public SearchPanel()
 		{
 			super( "search", "flowers" );
 
-			this.levelEntry = new JTextField();
-			FlowerHunterFrame.this.rankEntry = new JTextField();
-			this.limitEntry = new JTextField();
+			this.levelEntry = new AutoHighlightField();
+			FlowerHunterFrame.this.rankEntry = new AutoHighlightField();
+			this.limitEntry = new AutoHighlightField();
 
 			VerifiableElement [] elements = new VerifiableElement[3];
 			elements[0] = new VerifiableElement( "Player Level: ", this.levelEntry );
@@ -237,13 +236,13 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 
 	private class ClanPanel extends KoLPanel
 	{
-		private JTextField clanId;
+		private AutoHighlightField clanId;
 
 		public ClanPanel()
 		{
 			super( "profile", true );
 
-			this.clanId = new JTextField();
+			this.clanId = new AutoHighlightField();
 
 			VerifiableElement [] elements = new VerifiableElement[1];
 			elements[0] = new VerifiableElement( "Clan Id: ", this.clanId );
@@ -296,8 +295,8 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 
 	private class AttackPanel extends KoLPanel
 	{
-		private JTextField winMessage;
-		private JTextField lossMessage;
+		private AutoHighlightField winMessage;
+		private AutoHighlightField lossMessage;
 
 		private JComboBox stanceSelect;
 		private JComboBox victorySelect;
@@ -306,8 +305,8 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 		{
 			super( "attack", "profile" );
 
-			this.winMessage = new JTextField( KoLSettings.getUserProperty( "defaultFlowerWinMessage" ) );
-			this.lossMessage = new JTextField( KoLSettings.getUserProperty( "defaultFlowerLossMessage" ) );
+			this.winMessage = new AutoHighlightField( KoLSettings.getUserProperty( "defaultFlowerWinMessage" ) );
+			this.lossMessage = new AutoHighlightField( KoLSettings.getUserProperty( "defaultFlowerLossMessage" ) );
 
 			this.stanceSelect = new JComboBox();
 			this.stanceSelect.addItem( "Bully your opponent" );

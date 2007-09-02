@@ -49,7 +49,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.JTextField;
 import javax.swing.JToolBar;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
@@ -74,7 +73,7 @@ public class RequestFrame extends KoLFrame
 
 	private JComboBox scriptSelect;
 	private BrowserComboBox functionSelect, gotoSelect;
-	private JTextField locationField = new JTextField();
+	private AutoHighlightField locationField = new AutoHighlightField();
 
 	public RequestFrame()
 	{

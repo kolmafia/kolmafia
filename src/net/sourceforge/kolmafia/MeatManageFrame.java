@@ -40,7 +40,6 @@ import java.awt.GridLayout;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
@@ -76,7 +75,7 @@ public class MeatManageFrame extends KoLFrame
 	private class HeroDonationPanel extends LabeledKoLPanel
 	{
 		private JComboBox heroField;
-		private JTextField amountField;
+		private AutoHighlightField amountField;
 
 		public HeroDonationPanel()
 		{
@@ -88,7 +87,7 @@ public class MeatManageFrame extends KoLFrame
 			heroes.add( "Statue of Sneaky Pete" );
 
 			this.heroField = new JComboBox( heroes );
-			this.amountField = new JTextField();
+			this.amountField = new AutoHighlightField();
 
 			VerifiableElement [] elements = new VerifiableElement[2];
 			elements[0] = new VerifiableElement( "Donate To: ", this.heroField );

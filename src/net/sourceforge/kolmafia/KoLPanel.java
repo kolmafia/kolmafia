@@ -52,7 +52,6 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
@@ -173,11 +172,7 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 			((JTextField)component).addKeyListener( listener );
 			listenerMap.put( component, new WeakReference( listener ) );
 		}
-		if ( component instanceof JPasswordField )
-		{
-			((JPasswordField)component).addKeyListener( listener );
-			listenerMap.put( component, new WeakReference( listener ) );
-		}
+
 		if ( component instanceof MutableComboBox )
 		{
 			JTextComponent editor = (JTextComponent) ((MutableComboBox)component).getEditor().getEditorComponent();
@@ -224,8 +219,6 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 	private void removeListener( Object component, ActionConfirmListener listener )
 	{
 		if ( component instanceof JTextField )
-			((JTextField)component).removeKeyListener( listener );
-		if ( component instanceof JPasswordField )
 			((JTextField)component).removeKeyListener( listener );
 	}
 
@@ -311,10 +304,10 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 
 	public class ScriptSelectPanel extends JPanel implements ActionListener, FocusListener
 	{
-		private JTextField scriptField;
+		private AutoHighlightField scriptField;
 		private JButton scriptButton;
 
-		public ScriptSelectPanel( JTextField scriptField )
+		public ScriptSelectPanel( AutoHighlightField scriptField )
 		{
 			this.setLayout( new BorderLayout( 0, 0 ) );
 
