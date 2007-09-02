@@ -167,7 +167,8 @@ public class KoLDatabase extends StaticEntity
 		if ( !substringList.isEmpty() )
 			return substringList;
 
-		if ( searchString.indexOf( " " ) != -1 )
+		int spaceIndex = searchString.indexOf( " " );
+		if ( spaceIndex != -1 )
 		{
 			String tempSearchString = StaticEntity.globalStringDelete( searchString, " " );
 
@@ -180,6 +181,10 @@ public class KoLDatabase extends StaticEntity
 		}
 
 		getMatchingAbbreviations( substringList, names, searchString );
+		if ( !substringList.isEmpty() || spaceIndex == -1 )
+			return substringList;
+
+		getMatchingAbbreviations( substringList, names, StaticEntity.globalStringDelete( searchString, " " ) );
 		return substringList;
 	}
 
