@@ -48,6 +48,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 
 import net.sourceforge.kolmafia.ConcoctionsDatabase.Concoction;
+import net.sourceforge.kolmafia.KoLDatabase.LowerCaseEntry;
 import net.sourceforge.kolmafia.StoreManager.SoldItem;
 
 public class FilterTextField extends AutoHighlightField implements ActionListener, ListElementFilter
@@ -131,8 +132,8 @@ public class FilterTextField extends AutoHighlightField implements ActionListene
 		if ( element instanceof SoldItem )
 			return ((SoldItem)element).getItemName();
 
-		if ( element instanceof Entry )
-			return ((Entry)element).getValue().toString();
+		if ( element instanceof LowerCaseEntry )
+			return ((LowerCaseEntry)element).getLowerCase();
 
 		return element.toString();
 	}

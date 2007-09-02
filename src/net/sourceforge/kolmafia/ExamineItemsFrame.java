@@ -49,10 +49,10 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class ExamineItemsFrame extends KoLFrame
 {
-	private static final LockableListModel allItems = new LockableListModel( TradeableItemDatabase.entrySet() );
-	private static final LockableListModel allEffects = new LockableListModel( StatusEffectDatabase.entrySet() );
-	private static final LockableListModel allSkills = new LockableListModel( ClassSkillsDatabase.entrySet() );
-	private static final LockableListModel allFamiliars = new LockableListModel( FamiliarsDatabase.entrySet() );
+	private static final LockableListModel allItems = KoLDatabase.createListModel( TradeableItemDatabase.entrySet() );
+	private static final LockableListModel allEffects = KoLDatabase.createListModel( StatusEffectDatabase.entrySet() );
+	private static final LockableListModel allSkills = KoLDatabase.createListModel( ClassSkillsDatabase.entrySet() );
+	private static final LockableListModel allFamiliars = KoLDatabase.createListModel( FamiliarsDatabase.entrySet() );
 
 	public ExamineItemsFrame()
 	{
@@ -70,7 +70,6 @@ public class ExamineItemsFrame extends KoLFrame
 
 	private class ItemLookupPanel extends ItemManagePanel
 	{
-		private LockableListModel list;
 		public String type;
 		public String which;
 
@@ -78,29 +77,30 @@ public class ExamineItemsFrame extends KoLFrame
 		{
 			super( "Sort by name", "Sort by " + type + " #", list );
 
-			this.list = list;
 			this.type = type;
 			this.which = which;
 
 			this.elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 			this.elementList.addMouseListener( new ShowEntryAdapter() );
-			this.elementList.setCellRenderer( new EntryCellRenderer() );
-
 			this.elementList.contextMenu.add( new DescriptionMenuItem(), 0 );
 
 			this.actionConfirmed();
 		}
 
+		public FilterTextField getWordFilter()
+		{	return new FilterTextField( this.elementList );
+		}
+
 		public void actionConfirmed()
 		{
 			// Sort elements by name
-			this.list.sort( new EntryNameComparator() );
+			this.elementModel.sort( new EntryNameComparator() );
 		}
 
 		public void actionCancelled()
 		{
 			// Sort elements by Id number
-			this.list.sort( new EntryIdComparator() );
+			this.elementModel.sort( new EntryIdComparator() );
 		}
 
 		/**
@@ -166,32 +166,6 @@ public class ExamineItemsFrame extends KoLFrame
 
 		public String getId( Entry e )
 		{	return StatusEffectDatabase.getDescriptionId( ((Integer)e.getKey()).intValue() );
-		}
-	}
-
-	private class EntryCellRenderer extends DefaultListCellRenderer
-	{
-		public EntryCellRenderer()
-		{	this.setOpaque( true );
-		}
-
-		public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus )
-		{
-			Component defaultComponent = super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
-
-			if ( value == null || !(value instanceof Entry ) )
-				return defaultComponent;
-
-			Entry entry = (Entry) value;
-
-			StringBuffer stringForm = new StringBuffer();
-			stringForm.append( (String)entry.getValue() );
-			stringForm.append( " (" );
-			stringForm.append( entry.getKey() );
-			stringForm.append( ")" );
-
-			((JLabel) defaultComponent).setText( stringForm.toString() );
-			return defaultComponent;
 		}
 	}
 
