@@ -441,7 +441,6 @@ public class ItemManagePanel extends LabeledScrollPanel
 				switch ( usageType )
 				{
 				case NO_CONSUME:
-				case MESSAGE_DISPLAY:
 					break;
 
 				case EQUIP_FAMILIAR:
@@ -455,6 +454,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 					break;
 
 				default:
+				case MESSAGE_DISPLAY:
 					RequestThread.postRequest( new ConsumeItemRequest( (AdventureResult) items[i] ) );
 					break;
 				}

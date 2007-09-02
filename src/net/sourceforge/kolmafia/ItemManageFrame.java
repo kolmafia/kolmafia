@@ -690,6 +690,7 @@ public class ItemManageFrame extends KoLFrame
 					break;
 
 				case CONSUME_USE:
+				case MESSAGE_DISPLAY:
 				case INFINITE_USES:
 				case CONSUME_MULTIPLE:
 				case GROW_FAMILIAR:

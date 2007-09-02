@@ -84,6 +84,7 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int ENCHANTED_BEAN = 186;
 	private static final int FENG_SHUI = 210;
 	private static final int SELTZER = 344;
+	private static final int PIRATE_SKULL = 407;
 	private static final int CHEF = 438;
 	private static final int BARTENDER = 440;
 	private static final int KETCHUP_HOUND = 493;
@@ -175,6 +176,9 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final AdventureResult DOUGH = new AdventureResult( 159, 1 );
 	private static final AdventureResult FOUNTAIN = new AdventureResult( 211, 1 );
 	private static final AdventureResult FLAT_DOUGH = new AdventureResult( 301, 1 );
+	private static final AdventureResult SUNKEN_CHEST = new AdventureResult( 405, -1 );
+	private static final AdventureResult PIRATE_PELVIS = new AdventureResult( 406, -1 );
+	private static final AdventureResult SKELETON_BONE = new AdventureResult( 163, -8 );
 	private static final AdventureResult NUTS = new AdventureResult( 509, -1 );
 	private static final AdventureResult PLAN = new AdventureResult( 502, -1 );
 	private static final AdventureResult WINDCHIMES = new AdventureResult( 212, 1 );
@@ -539,14 +543,12 @@ public class ConsumeItemRequest extends KoLRequest
 		else
 			KoLmafia.updateDisplay( useTypeAsString + " " + this.itemUsed.getName() + " (" + currentIteration + " of " + totalIterations + ")..." );
 
-		// Run to see if booze consumption is permitted
-		// based on the user's current settings.
-
 		super.run();
 
 		if ( this.responseCode == 302 && this.redirectLocation.startsWith( "inventory" ) )
 		{
 			REDIRECT_REQUEST.constructURLString( this.redirectLocation ).run();
+			lastItemUsed = this.itemUsed;
 			parseConsumption( REDIRECT_REQUEST.responseText, true );
 		}
 	}
@@ -1029,6 +1031,23 @@ public class ConsumeItemRequest extends KoLRequest
 
 			return;
 
+		case PIRATE_SKULL:
+
+                        // "Unable to find enough parts, the semi-formed
+                        // skeleton gives up and falls to pieces."
+			if ( responseText.indexOf( "gives up and falls to pieces." ) != -1 )
+			{
+				StaticEntity.getClient().processResult( lastItemUsed );
+			}
+			else
+			{
+				StaticEntity.getClient().processResult( SUNKEN_CHEST );
+				StaticEntity.getClient().processResult( PIRATE_PELVIS );
+				StaticEntity.getClient().processResult( SKELETON_BONE );
+			}
+			showItemUsage( showHTML, responseText, true );
+			break;
+
 		case FENG_SHUI:
 
 			if ( KoLCharacter.hasItem( FOUNTAIN ) && KoLCharacter.hasItem( WINDCHIMES ) )
@@ -1437,7 +1456,6 @@ public class ConsumeItemRequest extends KoLRequest
 			if ( quantityMatcher.find() )
 				itemCount = StaticEntity.parseInt( quantityMatcher.group(1) );
 		}
-
 
 		return new AdventureResult( itemId, itemCount );
 	}
