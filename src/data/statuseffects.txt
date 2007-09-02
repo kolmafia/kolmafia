@@ -93,7 +93,7 @@
 93	Clean-Shaven	shaven.gif	58e37fc744c725866f00b6e96da534a8	use 1 shaving cream
 94	Aspect of the GravyPlum Fairy	gravy.gif	4b79673d34d9748b440cb33977667cbd
 95	Rushin' Hands	glove.gif	0b68ba6ca2791b564710697b7f02d2bd
-96	Reedy Pipes	reedpipes.gif
+96	Reedy Pipes	reedpipes.gif	f4e6e0c3a947fbee42763af3bc8fc0ec
 97	Oriental Mysticism	fumanchu.gif	178439b5d20a975ff913fa8510b78891
 98	Arabian Knighthood	scimitar.gif	037d391acc55edb9d5ec9bfca00097d2
 99
@@ -423,7 +423,7 @@
 412	Raving Lunatic	hoppedup.gif	5cb64a8593bdf71300d242a39d06cac6
 413	Solar Flair	sun2.gif	f8cdfd0bd04d7c75528b6702756c738d
 414	Hyperbolic Hypothermia	snowflake.gif
-415	Slimed	slimed.gif
+415	Slimed	slimed.gif	c93be8b786d989c1a655e9721460e8bb
 416	Tar-Struck	blpudding.gif	44d5caa5c134dad2a5bce2caa126f6f9
 417	Greased	bacon.gif	6887f57ba64c592ab1ddf8f2af13e1f7
 418	Batigue	batwing.gif	5d68832346f34f355f71840c51fe01cb
