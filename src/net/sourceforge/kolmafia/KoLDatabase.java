@@ -162,6 +162,18 @@ public class KoLDatabase extends StaticEntity
 		if ( !substringList.isEmpty() )
 			return substringList;
 
+		if ( searchString.indexOf( " " ) != -1 )
+		{
+			String tempSearchString = StaticEntity.globalStringDelete( searchString, " " );
+
+			for ( int i = 0; i < names.length; ++i )
+				if ( substringMatches( names[i], tempSearchString ) )
+					substringList.add( names[i] );
+
+			if ( !substringList.isEmpty() )
+				return substringList;
+		}
+
 		getMatchingAbbreviations( substringList, names, searchString );
 		return substringList;
 	}

@@ -3683,14 +3683,64 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( nameList.size() == 1 )
 			return TradeableItemDatabase.getItemId( (String) nameList.get(0) );
 
-		int lowestId = Integer.MAX_VALUE;
-
-		boolean npcStoreMatch = false;
-		boolean isRestoreMatch = false;
-
 		String itemName;
 		int itemId, useType;
-		MallPurchaseRequest npcstore;
+
+		// First, if it's a usage match, then iterate through the
+		// different names and remove any item which is not usable.
+		// Also, prefer HP/MP restoratives over all items -- if any
+		// wind up matching, remove non-restorative items.
+
+		if ( isUsageMatch )
+		{
+			ArrayList restoreList = new ArrayList();
+
+			for ( int i = 0; i < nameList.size(); ++i )
+			{
+				itemName = (String) nameList.get(i);
+				itemId = TradeableItemDatabase.getItemId( itemName );
+				useType = TradeableItemDatabase.getConsumptionType( itemId );
+
+				switch ( useType )
+				{
+				case CONSUME_EAT:
+				case CONSUME_DRINK:
+
+					if ( !KoLSettings.getBooleanProperty( "allowGenericUse" ) )
+					{
+						nameList.remove(i--);
+						continue;
+					}
+
+					break;
+
+				case CONSUME_USE:
+				case MESSAGE_DISPLAY:
+				case INFINITE_USES:
+				case CONSUME_MULTIPLE:
+
+					break;
+
+				case HP_RESTORE:
+				case MP_RESTORE:
+				case HPMP_RESTORE:
+
+					restoreList.add( itemName );
+					break;
+
+				default:
+
+					nameList.remove(i--);
+					continue;
+				}
+			}
+
+			if ( !restoreList.isEmpty() )
+			{
+				nameList.clear();
+				nameList.addAll( restoreList );
+			}
+		}
 
 		for ( int i = 0; i < nameList.size(); ++i )
 		{
@@ -3716,38 +3766,6 @@ public class KoLmafiaCLI extends KoLmafia
 				continue;
 			}
 
-			// If this is a usage match, and the item you're looking at is
-			// not a usable item, then skip it.
-
-			if ( isUsageMatch )
-			{
-				switch ( useType )
-				{
-				case CONSUME_EAT:
-				case CONSUME_DRINK:
-
-					if ( !KoLSettings.getBooleanProperty( "allowGenericUse" ) )
-					{
-						nameList.remove(i--);
-						continue;
-					}
-
-					break;
-
-				case CONSUME_USE:
-				case MESSAGE_DISPLAY:
-				case INFINITE_USES:
-				case CONSUME_MULTIPLE:
-				case HP_RESTORE:
-				case MP_RESTORE:
-					break;
-
-				default:
-					nameList.remove(i--);
-					continue;
-				}
-			}
-
 			// If this is a creatable match, and the item you're looking at is
 			// not a creatable item, then skip it.
 
@@ -3759,56 +3777,13 @@ public class KoLmafiaCLI extends KoLmafia
 					continue;
 				}
 			}
-
-			// Prefer NPC store items over all other items, as they are the
-			// most likely matches.
-
-			npcstore = NPCStoreDatabase.getPurchaseRequest( itemName );
-
-			if ( npcstore != null )
-			{
-				if ( useType == MP_RESTORE )
-				{
-					if ( !isRestoreMatch || itemId < lowestId )
-						lowestId = itemId;
-
-					isRestoreMatch = true;
-					npcStoreMatch = true;
-				}
-				else if ( useType == HP_RESTORE )
-				{
-					if ( !isRestoreMatch || itemId < lowestId )
-						lowestId = itemId;
-
-					isRestoreMatch = true;
-					npcStoreMatch = true;
-				}
-				else if ( isRestoreMatch )
-				{
-				}
-				else if ( !npcstore.getURLString().startsWith( "town_gift" ) )
-				{
-					if ( !npcStoreMatch || TradeableItemDatabase.getPriceById( itemId ) < TradeableItemDatabase.getPriceById( lowestId ) )
-						lowestId = itemId;
-
-					npcStoreMatch = true;
-				}
-			}
-			else if ( !npcStoreMatch )
-			{
-				if ( itemId < lowestId )
-					lowestId = itemId;
-			}
 		}
 
 		// If there were no matches, or there was an exact match,
 		// then return from this method.
 
-		if ( lowestId == Integer.MAX_VALUE )
-			return -1;
-
-		if ( npcStoreMatch || nameList.size() == 1 )
-			return lowestId;
+		if ( nameList.size() == 1 )
+			return TradeableItemDatabase.getItemId( (String) nameList.get(0) );
 
 		// Always prefer items which start with the search string
 		// over items where the name appears in the middle.
