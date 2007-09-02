@@ -77,7 +77,7 @@ function updateDisplay( display, responseText )
 	{
 		var lineIndex = display.innerHTML.indexOf( "<br", 20000 );
 		if ( lineIndex != -1 )
-			lineIndex = display.innerHTML.indexOf( ">", lineIndex ) + 1;
+			lineIndex = display.innerHTML.indexOf( ">", lineIndex );
 
 		if ( lineIndex != -1 )
 		{
