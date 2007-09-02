@@ -44,7 +44,6 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
 import javax.swing.event.ListSelectionEvent;
@@ -91,7 +90,7 @@ public class MallSearchFrame extends KoLPanelFrame
 	private class MallSearchPanel extends KoLPanel
 	{
 		private JComponent searchField;
-		private JTextField countField;
+		private AutoHighlightField countField;
 
 		private JCheckBox forceSortingCheckBox;
 		private JCheckBox limitPurchasesCheckBox;
@@ -101,9 +100,9 @@ public class MallSearchFrame extends KoLPanelFrame
 			super( "search", "purchase", "cancel", new Dimension( 100, 20 ), new Dimension( 250, 20 ) );
 
 			this.searchField = KoLSettings.getBooleanProperty( "cacheMallSearches" ) ?
-				(JComponent) new MutableComboBox( pastSearches, true ) : (JComponent) new JTextField();
+				(JComponent) new MutableComboBox( pastSearches, true ) : (JComponent) new AutoHighlightField();
 
-			this.countField = new JTextField();
+			this.countField = new AutoHighlightField();
 
 			this.forceSortingCheckBox = new JCheckBox();
 			this.limitPurchasesCheckBox = new JCheckBox();
@@ -143,9 +142,9 @@ public class MallSearchFrame extends KoLPanelFrame
 
 			String searchText = null;
 
-			if ( this.searchField instanceof JTextField )
+			if ( this.searchField instanceof AutoHighlightField )
 			{
-				searchText = ((JTextField)this.searchField).getText();
+				searchText = ((AutoHighlightField)this.searchField).getText();
 			}
 			else
 			{

@@ -1716,7 +1716,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	protected class MeatTransferPanel extends LabeledKoLPanel
 	{
 		private int transferType;
-		private JTextField amountField;
+		private AutoHighlightField amountField;
 		private JLabel closetField;
 
 		public MeatTransferPanel( int transferType )
@@ -1727,7 +1727,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 				transferType == ItemStorageRequest.PULL_MEAT_FROM_STORAGE ? "Pull Meat from Hagnk's" :
 				"Unknown Transfer Type", "transfer", "bedidall", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
-			this.amountField = new JTextField();
+			this.amountField = new AutoHighlightField();
 			this.closetField = new JLabel( " " );
 
 			VerifiableElement [] elements = new VerifiableElement[2];
@@ -1798,8 +1798,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		{
 			super( "Miscellaneous Scripts" );
 
-			this.loginScript = new ScriptSelectPanel( new JTextField() );
-			this.logoutScript = new ScriptSelectPanel( new JTextField() );
+			this.loginScript = new ScriptSelectPanel( new AutoHighlightField() );
+			this.logoutScript = new ScriptSelectPanel( new AutoHighlightField() );
 
 			VerifiableElement [] elements = new VerifiableElement[3];
 			elements[0] = new VerifiableElement( "On Login: ", this.loginScript );
@@ -1994,8 +1994,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			super( new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
 
 			this.usernameComboBox = new JComboBox( saveStateNames );
-			this.loginScript = new ScriptSelectPanel( new JTextField() );
-			this.logoutScript = new ScriptSelectPanel( new JTextField() );
+			this.loginScript = new ScriptSelectPanel( new AutoHighlightField() );
+			this.logoutScript = new ScriptSelectPanel( new AutoHighlightField() );
 
 			VerifiableElement [] elements = new VerifiableElement[1];
 			elements[0] = new VerifiableElement( "Settings:  ", this.usernameComboBox );

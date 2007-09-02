@@ -49,7 +49,6 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 
 import com.sun.java.forums.TableSorter;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
@@ -155,7 +154,7 @@ public class ClanManageFrame extends KoLFrame
 	{
 		private boolean isBuffing;
 		private JComboBox buffField;
-		private JTextField countField;
+		private AutoHighlightField countField;
 
 		public ClanBuffPanel()
 		{
@@ -163,7 +162,7 @@ public class ClanManageFrame extends KoLFrame
 			this.isBuffing = false;
 
 			this.buffField = new JComboBox( ClanBuffRequest.getRequestList() );
-			this.countField = new JTextField();
+			this.countField = new AutoHighlightField();
 
 			VerifiableElement [] elements = new VerifiableElement[2];
 			elements[0] = new VerifiableElement( "Clan Buff: ", this.buffField );
@@ -219,20 +218,20 @@ public class ClanManageFrame extends KoLFrame
 
 	private class WarfarePanel extends LabeledKoLPanel
 	{
-		private JTextField goodies;
-		private JTextField oatmeal, recliners;
-		private JTextField grunts, flyers, archers;
+		private AutoHighlightField goodies;
+		private AutoHighlightField oatmeal, recliners;
+		private AutoHighlightField grunts, flyers, archers;
 
 		public WarfarePanel()
 		{
 			super( "Prepare for WAR!!!", "purchase", "calculate", new Dimension( 120, 20 ), new Dimension( 200, 20 ) );
 
-			this.goodies = new JTextField();
-			this.oatmeal = new JTextField();
-			this.recliners = new JTextField();
-			this.grunts = new JTextField();
-			this.flyers = new JTextField();
-			this.archers = new JTextField();
+			this.goodies = new AutoHighlightField();
+			this.oatmeal = new AutoHighlightField();
+			this.recliners = new AutoHighlightField();
+			this.grunts = new AutoHighlightField();
+			this.flyers = new AutoHighlightField();
+			this.archers = new AutoHighlightField();
 
 			VerifiableElement [] elements = new VerifiableElement[6];
 			elements[0] = new VerifiableElement( "Goodies: ", this.goodies );
@@ -268,13 +267,13 @@ public class ClanManageFrame extends KoLFrame
 
 	private class DonationPanel extends LabeledKoLPanel
 	{
-		private JTextField amountField;
+		private AutoHighlightField amountField;
 
 		public DonationPanel()
 		{
 			super( "Fund Your Clan", "donate meat", "loot clan", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
-			this.amountField = new JTextField();
+			this.amountField = new AutoHighlightField();
 			VerifiableElement [] elements = new VerifiableElement[1];
 			elements[0] = new VerifiableElement( "Amount: ", this.amountField );
 			this.setContent( elements );
@@ -386,7 +385,7 @@ public class ClanManageFrame extends KoLFrame
 	{
 		private JComboBox parameterSelect;
 		private JComboBox matchSelect;
-		private JTextField valueField;
+		private AutoHighlightField valueField;
 
 		public MemberSearchPanel()
 		{
@@ -401,7 +400,7 @@ public class ClanManageFrame extends KoLFrame
 			this.matchSelect.addItem( "Equal to..." );
 			this.matchSelect.addItem( "Greater than..." );
 
-			this.valueField = new JTextField();
+			this.valueField = new AutoHighlightField();
 
 			VerifiableElement [] elements = new VerifiableElement[3];
 			elements[0] = new VerifiableElement( "Parameter: ", this.parameterSelect );
@@ -495,10 +494,10 @@ public class ClanManageFrame extends KoLFrame
 
 	private class SnapshotPanel extends LabeledKoLPanel
 	{
-		private JTextField mostAscensionsBoardSizeField;
-		private JTextField mainBoardSizeField;
-		private JTextField classBoardSizeField;
-		private JTextField maxAgeField;
+		private AutoHighlightField mostAscensionsBoardSizeField;
+		private AutoHighlightField mainBoardSizeField;
+		private AutoHighlightField classBoardSizeField;
+		private AutoHighlightField maxAgeField;
 
 		private JCheckBox playerMoreThanOnceOption;
 		private JCheckBox localProfileOption;
@@ -509,10 +508,10 @@ public class ClanManageFrame extends KoLFrame
 
 			VerifiableElement [] elements = new VerifiableElement[ 7 ];
 
-			this.mostAscensionsBoardSizeField = new JTextField( "20" );
-			this.mainBoardSizeField = new JTextField( "10" );
-			this.classBoardSizeField = new JTextField( "5" );
-			this.maxAgeField = new JTextField( "0" );
+			this.mostAscensionsBoardSizeField = new AutoHighlightField( "20" );
+			this.mainBoardSizeField = new AutoHighlightField( "10" );
+			this.classBoardSizeField = new AutoHighlightField( "5" );
+			this.maxAgeField = new AutoHighlightField( "0" );
 
 			this.playerMoreThanOnceOption = new JCheckBox();
 			this.localProfileOption = new JCheckBox();

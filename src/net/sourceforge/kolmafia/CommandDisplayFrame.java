@@ -46,7 +46,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
@@ -59,7 +58,7 @@ public class CommandDisplayFrame extends KoLFrame
 	private static final ArrayList commandHistory = new ArrayList();
 	private static int lastCommandIndex = 0;
 
-	private JTextField entryField;
+	private AutoHighlightField entryField;
 
 	public CommandDisplayFrame()
 	{
@@ -104,7 +103,7 @@ public class CommandDisplayFrame extends KoLFrame
 			JComponentUtilities.setComponentSize( scrollPane, 400, 300 );
 
 			JPanel entryPanel = new JPanel( new BorderLayout() );
-			CommandDisplayFrame.this.entryField = new JTextField();
+			CommandDisplayFrame.this.entryField = new AutoHighlightField();
 			CommandDisplayFrame.this.entryField.addKeyListener( new CommandEntryListener() );
 
 			this.entryButton = new JButton( "exec" );

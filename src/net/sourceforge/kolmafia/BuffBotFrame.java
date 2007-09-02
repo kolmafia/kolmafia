@@ -44,7 +44,6 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
@@ -130,7 +129,7 @@ public class BuffBotFrame extends KoLFrame
 	private class BuffOptionsPanel extends KoLPanel
 	{
 		private JComboBox skillSelect;
-		private JTextField priceField, countField;
+		private AutoHighlightField priceField, countField;
 
 		public BuffOptionsPanel()
 		{
@@ -145,8 +144,8 @@ public class BuffBotFrame extends KoLFrame
 
 			this.skillSelect = new JComboBox( buffSet );
 
-			this.priceField = new JTextField();
-			this.countField = new JTextField();
+			this.priceField = new AutoHighlightField();
+			this.countField = new AutoHighlightField();
 
 			VerifiableElement [] elements = new VerifiableElement[3];
 			elements[0] = new VerifiableElement( "Buff to cast: ", this.skillSelect );

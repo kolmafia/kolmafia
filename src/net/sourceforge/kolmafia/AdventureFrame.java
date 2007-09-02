@@ -45,7 +45,6 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -130,8 +129,8 @@ public class AdventureFrame extends AdventureOptionsFrame
 		if ( !conditions.isEmpty() )
 			return;
 
-		if ( INSTANCE.zoneSelect instanceof JTextField )
-			((JTextField)INSTANCE.zoneSelect).setText( location.getZone() );
+		if ( INSTANCE.zoneSelect instanceof FilterAdventureField )
+			((FilterAdventureField)INSTANCE.zoneSelect).setText( location.getZone() );
 		else
 			((JComboBox)INSTANCE.zoneSelect).setSelectedItem( location.getParentZoneDescription() );
 
