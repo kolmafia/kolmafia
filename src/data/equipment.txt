@@ -601,8 +601,7 @@ box turtle	50	Mus: 10
 box-in-the-box	0	none
 box-in-the-box-in-the-box	0	none
 cardboard box turtle	70	Mus: 20
-# *** catskin buckler is a shield of unknown power.
-catskin buckler	0	Mus: 75
+catskin buckler	177	Mus: 75
 clockwork detective skull	0	Mox: 25
 clownskin buckler	60	Mus: 15
 coffin lid	55	Mus: 10
@@ -611,8 +610,7 @@ deck of tropical cards	0	none
 defective skull	0	none
 demon buckler	77	Mus: 25
 detective skull	0	none
-# *** duct tape buckler is a shield of unknown power.
-duct tape buckler	0	Mus: 82
+duct tape buckler	200	Mus: 82
 easter egg balloon	0	Mys: 35
 enchanted brass knuckles	0	Mys: 10
 fake hand	0	none
