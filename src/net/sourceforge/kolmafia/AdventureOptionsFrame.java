@@ -785,6 +785,8 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 				this.add( locationHolder, BorderLayout.WEST );
 				this.add( new ObjectivesPanel(), BorderLayout.CENTER );
+
+				AdventureOptionsFrame.this.zoneSelect.addKeyListener( AdventureOptionsFrame.this.begin );
 				AdventureOptionsFrame.this.countField.addKeyListener( AdventureOptionsFrame.this.begin );
 			}
 			else
