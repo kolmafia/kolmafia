@@ -123,7 +123,7 @@ public class Modifiers extends KoLDatabase
 	public static final int MP_REGEN_MIN = 43;
 	public static final int MP_REGEN_MAX = 44;
 	public static final int ADVENTURES = 45;
-	public static final int FAMILIAR_WEIGHT_PERCENT = 46;
+	public static final int FAMILIAR_WEIGHT_PCT = 46;
 
 	private static final Object [][] floatModifiers = {
 		{ "Familiar Weight",
@@ -641,6 +641,7 @@ public class Modifiers extends KoLDatabase
 		case  HP_PCT:
 		case  MP_PCT:
 		case  SPELL_DAMAGE_PCT:
+		case  FAMILIAR_WEIGHT_PCT:
 			double a = this.floats[index];
 			double b = mod;
 			double sum = a + b;
@@ -993,7 +994,7 @@ public class Modifiers extends KoLDatabase
 	{
 		int familiarId = familiar.getId();
 		int weight = familiar.getWeight() + (int)get( FAMILIAR_WEIGHT );
-		float percent = get( FAMILIAR_WEIGHT_PERCENT ) / 100.0f;
+		float percent = get( FAMILIAR_WEIGHT_PCT ) / 100.0f;
 
 		if ( percent != 0.0f )
 			weight = (int)Math.max( 1.0, Math.ceil( weight + weight * percent ) );
