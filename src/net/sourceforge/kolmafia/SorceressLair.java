@@ -1791,7 +1791,7 @@ public abstract class SorceressLair extends StaticEntity
 		for ( int i = 0; i < options.length; ++i )
 			itemCount += options[i].getCount( inventory );
 
-		if ( itemCount < 4 )
+		if ( itemCount < 6 )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "Insufficient healing items to continue." );
 			return;
@@ -1808,7 +1808,7 @@ public abstract class SorceressLair extends StaticEntity
 		int itemIndex = 0;
 		QUEST_HANDLER.constructURLString( "fight.php" );
 
-		for ( int i = 0; i < 4; ++i )
+		for ( int i = 0; i < 6; ++i )
 		{
 			while ( !inventory.contains( options[ itemIndex ] ) )
 				++itemIndex;
