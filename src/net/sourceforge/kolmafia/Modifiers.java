@@ -123,6 +123,7 @@ public class Modifiers extends KoLDatabase
 	public static final int MP_REGEN_MIN = 43;
 	public static final int MP_REGEN_MAX = 44;
 	public static final int ADVENTURES = 45;
+	public static final int FAMILIAR_WEIGHT_PERCENT = 46;
 
 	private static final Object [][] floatModifiers = {
 		{ "Familiar Weight",
@@ -159,7 +160,7 @@ public class Modifiers extends KoLDatabase
 		},
 		{ "Damage Reduction",
 		  Pattern.compile( "Damage Reduction: (\\d+)" ),
-		  Pattern.compile( "Damage Reduction: (\\d+)" )
+		  Pattern.compile( "Damage Reduction: ([+-]?\\d+)" )
 		},
 		{ "Cold Resistance",
 		  null,
@@ -308,6 +309,10 @@ public class Modifiers extends KoLDatabase
 		{ "Adventures",
 		  Pattern.compile( "([+-]\\d+) Adventure\\(s\\) per day when equipped" ),
 		  Pattern.compile( "Adventures: ([+]\\d+)" )
+		},
+		{ "Familiar Weight Percent",
+		  null,
+		  Pattern.compile( "Familiar Weight Percent: ([+-]\\d+)" )
 		},
 	};
 
@@ -988,6 +993,10 @@ public class Modifiers extends KoLDatabase
 	{
 		int familiarId = familiar.getId();
 		int weight = familiar.getWeight() + (int)get( FAMILIAR_WEIGHT );
+		float percent = get( FAMILIAR_WEIGHT_PERCENT ) / 100.0f;
+
+		if ( percent != 0.0f )
+			weight = (int)Math.max( 1.0, Math.ceil( weight + weight * percent ) );
 
 		if ( FamiliarsDatabase.isVolleyType( familiarId ) )
 			add( EXPERIENCE, Math.sqrt( weight ) );

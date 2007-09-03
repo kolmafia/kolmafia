@@ -640,7 +640,7 @@ yak whip	Weakens Monster
 6-ball	Stench Damage: +5, Stench Spell Damage: +5
 7-ball	Meat Drop: +5
 9-ball	Melee Damage: +5, Ranged Damage: +5, Spell Damage: +5
-Brimstone Bunker	Damage Reduction: 15, Muscle Percent: +50, Moxie Percent: -20, Damage Reduction: 10
+Brimstone Bunker	Muscle Percent: +50, Moxie Percent: -20, Damage Reduction: 10
 Cloaca-Cola shield	Damage Reduction: 4, Mysticality: +1
 Codex of Capsaicin Conjuration	Spell Damage: +10
 Cookbook of the Damned	Spell Damage: +10
@@ -1512,6 +1512,21 @@ Overdeveloped Sense of Self Preservation	Initiative: +20
 Powers of Observatiogn	Item Drop: +10
 Skin of the Leatherback
 Tolerance of the Kitchen	Hot Resistance: +20
+
+# Bad Moon passive skills: the Seven Deadly Sins.
+# The skills positively or negatively modify seven aspects of gameplay
+# Each skill has one positive modifier and one negative modifier.
+# A modifier is twice as potent when positive as when negative
+
+Lust	Initiative: +50, Melee Damage: -5, Spell Damage: -5
+# Gluttony duplicates Opossum's food gains
+Gluttony	Experience: -2
+Greed	Meat Drop: +50, Item Drop: -15
+Sloth	Damage Reduction: +8, Initiative: -25
+Wrath	Melee Damage: +10, Spell Damage: +10, Damage Reduction: -4
+Envy	Item Drop: +30, Meat Drop: -25
+# Pride lowers food gains
+Pride	Experience: +4
 
 # Outfits section of modifiers.txt
 
