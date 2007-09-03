@@ -5050,10 +5050,10 @@ public class KoLmafiaCLI extends KoLmafia
 
 		String [] splitParameters = this.splitCountAndName( parameters );
 		String countString = splitParameters[0];
-		String nameString = splitParameters[1];
+		String nameString = splitParameters[1].toLowerCase();
 
 		if ( nameString.equalsIgnoreCase( "daily special" ) )
-			nameString = RestaurantRequest.getDailySpecial().getName();
+			nameString = RestaurantRequest.getDailySpecial().getName().toLowerCase();
 
 		for ( int i = 0; i < restaurantItems.size(); ++i )
 		{
@@ -5105,10 +5105,10 @@ public class KoLmafiaCLI extends KoLmafia
 
 		String [] splitParameters = this.splitCountAndName( parameters );
 		String countString = splitParameters[0];
-		String nameString = splitParameters[1];
+		String nameString = splitParameters[1].toLowerCase();
 
 		if ( nameString.equalsIgnoreCase( "daily special" ) )
-			nameString = MicrobreweryRequest.getDailySpecial().getName();
+			nameString = MicrobreweryRequest.getDailySpecial().getName().toLowerCase();
 
 		for ( int i = 0; i < microbreweryItems.size(); ++i )
 		{
