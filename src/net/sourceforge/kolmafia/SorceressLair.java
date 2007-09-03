@@ -1674,7 +1674,7 @@ public abstract class SorceressLair extends StaticEntity
 	{
 		String [] guardian = findGuardianByName( FightRequest.getCurrentKey() );
 		if ( guardian != null )
-			return	new AdventureResult( guardianItem( guardian ) );
+			return new AdventureResult( guardianItem( guardian ), 1, false );
 
 		// Shouldn't get here.
 
