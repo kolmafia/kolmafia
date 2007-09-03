@@ -102,6 +102,9 @@ public class AdventureDatabase extends KoLDatabase
 		conditionsById.set( 113, "1 razor-sharp can lid" );  // Haunted Pantry
 		conditionsById.set( 114, "1 chef's hat" );  // Knob Outskirts
 		conditionsById.set( 119, "1 stunt nuts, 1 I Love Me Vol I" );  // Palindome
+		conditionsById.set( 151, "1 choiceadv" );  // Stately Pleasure Dome
+		conditionsById.set( 152, "1 choiceadv" );  // Mouldering Mansion
+		conditionsById.set( 153, "1 choiceadv" );  // Rogue Windmill
 	}
 
 	private static final StringArray bountiesById = new StringArray();
