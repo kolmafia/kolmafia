@@ -259,8 +259,6 @@ public abstract class HPRestoreItemList extends StaticEntity
 						numberToBuy = Math.min( KoLCharacter.getAvailableMeat() / unitPrice, 3 );
 					else if ( NPCStoreDatabase.contains( this.itemUsed.getName() ) )
 						numberToBuy = Math.min( KoLCharacter.getAvailableMeat() / unitPrice, numberToUse );
-					else if ( this == SCROLL && KoLCharacter.canInteract() )
-						numberToBuy = Math.min( KoLCharacter.getAvailableMeat() / unitPrice, 20 );
 
 					if ( !AdventureDatabase.retrieveItem( this.itemUsed.getInstance( numberToBuy ) ) )
 						return;
