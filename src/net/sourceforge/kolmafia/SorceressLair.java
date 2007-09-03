@@ -304,7 +304,7 @@ public abstract class SorceressLair extends StaticEntity
 		  "formidable stinger",
 		  "tropical orchid" },
 		{ "giant fried egg",
-		  "UNKNOWN",
+		  "flash of albumen",
 		  "black pepper" },
 		{ "giant desktop globe",
 		  "the North Pole",
