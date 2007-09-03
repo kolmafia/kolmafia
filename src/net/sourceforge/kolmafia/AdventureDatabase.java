@@ -1380,6 +1380,8 @@ public class AdventureDatabase extends KoLDatabase
 		int mixingMethod = ConcoctionsDatabase.getMixingMethod( itemId );
 		ItemCreationRequest creator = ItemCreationRequest.getInstance( itemId );
 
+		int purchaseCount = missingCount;
+
 		// First, attempt to pull the item from the closet.
 		// If this is successful, return from the method.
 
@@ -1425,7 +1427,7 @@ public class AdventureDatabase extends KoLDatabase
 			if ( itemCount > 0 )
 			{
 				RequestThread.postRequest( new ClanStashRequest(
-					new AdventureResult [] { item.getInstance( Math.min( itemCount, missingCount ) ) },
+					new AdventureResult [] { item.getInstance( Math.min( itemCount, getPurchaseCount( itemId, missingCount ) ) ) },
 					ClanStashRequest.STASH_TO_ITEMS ) );
 
 				missingCount = item.getCount() - item.getCount( inventory );
@@ -1482,9 +1484,9 @@ public class AdventureDatabase extends KoLDatabase
 		// If the item should be bought early, go ahead and purchase it now,
 		// after having checked the clan stash.
 
-		if ( shouldUseNPCStore || (shouldUseMall && !hasAnyIngredient( item.getItemId() )) )
+		if ( shouldUseNPCStore || (shouldUseMall && !hasAnyIngredient( itemId )) )
 		{
-			StaticEntity.getClient().makePurchases( StoreManager.searchMall( item.getName() ), missingCount );
+			StaticEntity.getClient().makePurchases( StoreManager.searchMall( item.getName() ), getPurchaseCount( itemId, missingCount ) );
 			missingCount = item.getCount() - item.getCount( inventory );
 
 			if ( missingCount <= 0 )
@@ -1524,7 +1526,7 @@ public class AdventureDatabase extends KoLDatabase
 
 		if ( shouldUseMall )
 		{
-			StaticEntity.getClient().makePurchases( StoreManager.searchMall( item.getName() ), missingCount );
+			StaticEntity.getClient().makePurchases( StoreManager.searchMall( item.getName() ), getPurchaseCount( itemId, missingCount ) );
 			missingCount = item.getCount() - item.getCount( inventory );
 
 			if ( missingCount <= 0 )
@@ -1537,6 +1539,23 @@ public class AdventureDatabase extends KoLDatabase
 
 		KoLmafia.updateDisplay( ERROR_STATE, "You need " + missingCount + " more " + item.getName() + " to continue." );
 		return false;
+	}
+
+	private static int getPurchaseCount( int itemId, int missingCount )
+	{
+		if ( !KoLCharacter.canInteract() )
+			return missingCount;
+
+		switch ( itemId )
+		{
+		case 588: // soft green echo eyedrop antidote
+		case 592: // tiny house
+		case 595: // scroll of drastic healing
+			return Math.max( 20, missingCount );
+
+		default:
+			return missingCount;
+		}
 	}
 
 	private static final boolean hasAnyIngredient( int itemId )
