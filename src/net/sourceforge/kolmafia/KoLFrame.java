@@ -939,8 +939,12 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	public static final Object input( String message, LockableListModel inputs )
 	{
 		JList selector = new JList( inputs );
-		int option = JOptionPane.showConfirmDialog( activeWindow, new SimpleScrollPane( selector ), basicTextWrap( message ),
-			JOptionPane.OK_CANCEL_OPTION );
+
+		JPanel panel = new JPanel( new BorderLayout() );
+		panel.add( new FilterTextField( selector ), BorderLayout.NORTH );
+		panel.add( new SimpleScrollPane( selector ), BorderLayout.CENTER );
+
+		int option = JOptionPane.showConfirmDialog( activeWindow, panel, basicTextWrap( message ), JOptionPane.OK_CANCEL_OPTION );
 		return option == JOptionPane.CANCEL_OPTION ? null : selector.getSelectedValue();
 	}
 
@@ -949,9 +953,11 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		JList selector = new JList( inputs );
 		selector.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 
-		int option = JOptionPane.showConfirmDialog( activeWindow, new SimpleScrollPane( selector ), basicTextWrap( message ),
-			JOptionPane.OK_CANCEL_OPTION );
+		JPanel panel = new JPanel( new BorderLayout() );
+		panel.add( new FilterTextField( selector ), BorderLayout.NORTH );
+		panel.add( new SimpleScrollPane( selector ), BorderLayout.CENTER );
 
+		int option = JOptionPane.showConfirmDialog( activeWindow, panel, basicTextWrap( message ), JOptionPane.OK_CANCEL_OPTION );
 		return option == JOptionPane.CANCEL_OPTION ? new Object[0] : selector.getSelectedValues();
 	}
 

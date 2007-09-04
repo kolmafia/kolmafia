@@ -58,7 +58,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class SendMessageFrame extends KoLFrame
 {
-	private boolean isStorage;
+	private boolean isStorage = false;
 
 	private JComboBox sourceSelect;
 	private LockableListModel contacts;
@@ -152,6 +152,9 @@ public class SendMessageFrame extends KoLFrame
 
 	public void setRecipient( String recipient )
 	{
+		this.isStorage = false;
+		this.sourceSelect.setSelectedIndex( 0 );
+
 		if ( !contacts.contains( recipient ) )
 		{
 			recipient = KoLmafia.getPlayerName( recipient );
@@ -173,13 +176,17 @@ public class SendMessageFrame extends KoLFrame
 	private class AttachmentClearListener implements ActionListener
 	{
 		public void actionPerformed( ActionEvent e )
-		{	attachments.clear();
+		{
+			boolean wasStorage = isStorage;
+			isStorage = sourceSelect.getSelectedIndex() == 1;
+
+			if ( isStorage != wasStorage )
+				attachments.clear();
 		}
 	}
 
 	public void sendMessage()
 	{
-		isStorage = sourceSelect.getSelectedIndex() == 1;
 		String [] recipients = StaticEntity.getClient().extractTargets( (String) this.recipientEntry.getSelectedItem() );
 
 		RequestThread.openRequestSequence();
@@ -191,7 +198,6 @@ public class SendMessageFrame extends KoLFrame
 
 	public void attachItem()
 	{
-		isStorage = sourceSelect.getSelectedIndex() == 1;
 		LockableListModel source = isStorage ? storage : inventory;
 		if ( source.isEmpty() )
 			return;
