@@ -40,6 +40,9 @@ import java.awt.Dimension;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -55,6 +58,8 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class SendMessageFrame extends KoLFrame
 {
+	private boolean isStorage;
+
 	private JComboBox sourceSelect;
 	private LockableListModel contacts;
 	private MutableComboBox recipientEntry;
@@ -79,6 +84,7 @@ public class SendMessageFrame extends KoLFrame
 		sourceSelect = new JComboBox();
 		sourceSelect.addItem( "Send items/meat from inventory" );
 		sourceSelect.addItem( "Send items/meat from ancestral storage" );
+		sourceSelect.addActionListener( new AttachmentClearListener() );
 
 		// Who you want to send it to.
 
@@ -133,7 +139,7 @@ public class SendMessageFrame extends KoLFrame
 		// Add a button to the bottom panel.
 
 		JPanel sendPanel = new JPanel();
-		sendPanel.add( new JButton( "send message" ) );
+		sendPanel.add( new InvocationButton( "send message", this, "sendMessage" ) );
 		mainHolder.add( sendPanel, BorderLayout.SOUTH );
 
 		// Layout the major container.
@@ -155,6 +161,7 @@ public class SendMessageFrame extends KoLFrame
 		this.recipientEntry.getEditor().setItem( recipient );
 		this.recipientEntry.setSelectedItem( recipient );
 
+		this.attachments.clear();
 		this.attachedMeat.setText( "" );
 		this.messageEntry.setText( "" );
 	}
@@ -163,23 +170,47 @@ public class SendMessageFrame extends KoLFrame
 	{	return true;
 	}
 
+	private class AttachmentClearListener implements ActionListener
+	{
+		public void actionPerformed( ActionEvent e )
+		{	attachments.clear();
+		}
+	}
+
+	public void sendMessage()
+	{
+		isStorage = sourceSelect.getSelectedIndex() == 1;
+		String [] recipients = StaticEntity.getClient().extractTargets( (String) this.recipientEntry.getSelectedItem() );
+
+		RequestThread.openRequestSequence();
+		for ( int i = 0; i < recipients.length; ++i )
+			KoLmafiaCLI.DEFAULT_SHELL.executeSendRequest( recipients[i], this.messageEntry.getText(), attachments.toArray(), isStorage, false );
+
+		RequestThread.closeRequestSequence();
+	}
+
 	public void attachItem()
 	{
-		if ( inventory.isEmpty() )
+		isStorage = sourceSelect.getSelectedIndex() == 1;
+		LockableListModel source = isStorage ? storage : inventory;
+		if ( source.isEmpty() )
 			return;
 
 		AdventureResult current;
-		Object [] values = multiple( "What would you like to send?", inventory );
+		Object [] values = multiple( "What would you like to send?", source );
 
-		for ( int i = 0; i < values.length; ++i )
+		if ( values.length < source.size() )
 		{
-			current = (AdventureResult) values[i];
-			int amount = getQuantity( "How many " + current.getName() + " to send?", current.getCount(), 1 );
+			for ( int i = 0; i < values.length; ++i )
+			{
+				current = (AdventureResult) values[i];
+				int amount = getQuantity( "How many " + current.getName() + " to send?", current.getCount() );
 
-			if ( amount <= 0 )
-				values[i] = null;
-			else
-				values[i] = current.getInstance( amount );
+				if ( amount <= 0 )
+					values[i] = null;
+				else
+					values[i] = current.getInstance( amount );
+			}
 		}
 
 		for ( int i = 0; i < values.length; ++i )
