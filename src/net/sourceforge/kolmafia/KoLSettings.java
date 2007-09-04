@@ -366,10 +366,7 @@ public class KoLSettings extends Properties implements KoLConstants
 	}
 
 	public static final boolean isGlobalProperty( String name )
-	{
-		return GLOBAL_MAP.containsKey( name ) || name.startsWith( "saveState" ) || name.startsWith( "displayName" ) ||
-			name.startsWith( "getBreakfast" ) || name.startsWith( "autoPlant" ) || name.startsWith( "visitRumpus" ) ||
-			name.startsWith( "initialFrames" ) || name.startsWith( "initialDesktop" );
+	{	return GLOBAL_MAP.containsKey( name ) || name.startsWith( "saveState" ) || name.startsWith( "displayName" ) || name.startsWith( "getBreakfast" );
 	}
 
 	public String getProperty( String name )
@@ -628,7 +625,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		GLOBAL_MAP.put( "http.proxyPassword", "" );
 		GLOBAL_MAP.put( "http.socketTimeout", "8000" );
 		GLOBAL_MAP.put( "ignoreAutoAttack", "false" );
-		GLOBAL_MAP.put( "initialDesktop", "AdventureFrame,CommandDisplayFrame,MallSearchFrame,SkillBuffFrame" );
+		GLOBAL_MAP.put( "initialDesktop", "AdventureFrame,CommandDisplayFrame,GearChangeFrame" );
 		GLOBAL_MAP.put( "initialFrames", "EventsFrame" );
 		GLOBAL_MAP.put( "itemManagerIndex", "0" );
 		GLOBAL_MAP.put( "lastBuffRequestType", "0" );

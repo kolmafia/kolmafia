@@ -73,29 +73,14 @@ public class KoLmafiaGUI extends KoLmafia
 
 	public static final void checkFrameSettings()
 	{
-		String frameSetting = KoLSettings.getGlobalProperty( "initialFrames" );
-		String desktopSetting = KoLSettings.getGlobalProperty( "initialDesktop" );
-
-		// If this user doesn't have any data, then go
-		// ahead and copy the global data instead.
-
-		if ( frameSetting.equals( "" ) && desktopSetting.equals( "" ) )
-		{
-			KoLSettings.setGlobalProperty( "initialFrames", KoLSettings.getGlobalProperty( "", "initialFrames" ) );
-			KoLSettings.setGlobalProperty( "initialDesktop", KoLSettings.getGlobalProperty( "", "initialDesktop" ) );
-
-			frameSetting = KoLSettings.getGlobalProperty( "initialFrames" );
-			desktopSetting = KoLSettings.getGlobalProperty( "initialDesktop" );
-		}
+		String frameSetting = KoLSettings.getUserProperty( "initialFrames" );
+		String desktopSetting = KoLSettings.getUserProperty( "initialDesktop" );
 
 		// If there is still no data (somehow the global data
 		// got emptied), default to relay-browser only).
 
-		if ( frameSetting.equals( "" ) && desktopSetting.equals( "" ) )
-		{
-			KoLSettings.setGlobalProperty( "initialFrames", "LocalRelayServer" );
-			KoLSettings.setGlobalProperty( "initialDesktop", "" );
-		}
+		if ( desktopSetting.equals( "" ) )
+			KoLSettings.setUserProperty( "initialDesktop", "AdventureFrame,CommandDisplayFrame,GearChangeFrame" );
 	}
 
 	/**
@@ -127,8 +112,8 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 
 		checkFrameSettings();
-		String frameSetting = KoLSettings.getGlobalProperty( "initialFrames" );
-		String desktopSetting = KoLSettings.getGlobalProperty( "initialDesktop" );
+		String frameSetting = KoLSettings.getUserProperty( "initialFrames" );
+		String desktopSetting = KoLSettings.getUserProperty( "initialDesktop" );
 
 		// Reset all the titles on all existing frames.
 
