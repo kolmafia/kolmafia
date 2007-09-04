@@ -2324,7 +2324,7 @@ public abstract class KoLmafia implements KoLConstants
 		// If the faucet has not yet been found, then go through
 		// the process of trying to locate it.
 
-		KoLAdventure adventure = new KoLAdventure( "", "0", "0", "rats.php", "", "Typical Tavern (Pre-Rat)" );
+		KoLAdventure adventure = new KoLAdventure( "Woods", "0", "0", "rats.php", "", "Typical Tavern (Pre-Rat)" );
 		boolean foundFaucet = searchList.size() < 2;
 
 		if ( KoLCharacter.getLevel() < 3 )
@@ -2333,7 +2333,7 @@ public abstract class KoLmafia implements KoLConstants
 			return -1;
 		}
 
-		CouncilFrame.COUNCIL_VISIT.run();
+		RequestThread.postRequest( CouncilFrame.COUNCIL_VISIT );
 
 		updateDisplay( "Searching for faucet..." );
 		RequestThread.postRequest( adventure );
