@@ -93,20 +93,6 @@ public class ChatFrame extends KoLFrame
 		// simply clicks on for functionality.
 
 		JToolBar toolbarPanel = this.getToolbar();
-		if ( toolbarPanel != null )
-		{
-			toolbarPanel.add( new MessengerButton( "/who", "who2.gif", "checkChannel" ) );
-
-			toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
-
-			toolbarPanel.add( new MessengerButton( "Add Highlighting", "highlight1.gif", "addHighlighting" ) );
-			toolbarPanel.add( new MessengerButton( "Remove Highlighting", "highlight2.gif", "removeHighlighting" ) );
-
-			toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
-
-
-			toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
-		}
 
 		// Add the name click options as a giant combo
 		// box, rather than a hidden menu.
@@ -142,7 +128,24 @@ public class ChatFrame extends KoLFrame
 	}
 
 	public JToolBar getToolbar()
-	{	return KoLSettings.getBooleanProperty( "useChatToolbar" ) ? super.getToolbar() : null;
+	{
+
+		if ( !KoLSettings.getBooleanProperty( "useChatToolbar" ) )
+			return null;
+
+		JToolBar toolbarPanel = super.getToolbar();
+		if ( toolbarPanel == null )
+			return null;
+
+		toolbarPanel.setFloatable( false );
+		toolbarPanel.add( new MessengerButton( "/who", "who2.gif", "checkChannel" ) );
+
+		toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
+
+		toolbarPanel.add( new MessengerButton( "Add Highlighting", "highlight1.gif", "addHighlighting" ) );
+		toolbarPanel.add( new MessengerButton( "Remove Highlighting", "highlight2.gif", "removeHighlighting" ) );
+
+		return toolbarPanel;
 	}
 
 	public JTabbedPane getTabbedPane()
