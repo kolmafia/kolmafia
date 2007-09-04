@@ -1980,10 +1980,6 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		};
 
 		private boolean isRefreshing = false;
-		private JComboBox usernameComboBox;
-
-		private ScriptSelectPanel loginScript;
-		private ScriptSelectPanel logoutScript;
 
 		private LockableListModel completeList = new LockableListModel();
 		private LockableListModel startupList = new LockableListModel();
@@ -1991,16 +1987,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		public StartupFramesPanel()
 		{
-			super( new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
-
-			this.usernameComboBox = new JComboBox( saveStateNames );
-			this.loginScript = new ScriptSelectPanel( new AutoHighlightField() );
-			this.logoutScript = new ScriptSelectPanel( new AutoHighlightField() );
-
-			VerifiableElement [] elements = new VerifiableElement[1];
-			elements[0] = new VerifiableElement( "Settings:  ", this.usernameComboBox );
-
-			this.setContent( elements );
+			super( new Dimension( 100, 20 ), new Dimension( 300, 20 ) );
+			this.setContent( null );
 
 			for ( int i = 0; i < this.FRAME_OPTIONS.length; ++i )
 				this.completeList.add( this.FRAME_OPTIONS[i][0] );
@@ -2032,11 +2020,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		}
 
 		public void actionConfirmed()
-		{
-			KoLSettings.setUserProperty( "loginScript", this.loginScript.getText() );
-			KoLSettings.setUserProperty( "logoutScript", this.logoutScript.getText() );
-
-			this.actionCancelled();
+		{	this.actionCancelled();
 		}
 
 		public void actionCancelled()
@@ -2050,14 +2034,10 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			this.startupList.clear();
 			this.desktopList.clear();
 
-			String frameString = KoLSettings.getGlobalProperty( username, "initialFrames" );
-			String desktopString = KoLSettings.getGlobalProperty( username, "initialDesktop" );
+			KoLmafiaGUI.checkFrameSettings();
 
-			if ( frameString.equals( "" ) && desktopString.equals( "" ) )
-			{
-				frameString = KoLSettings.getGlobalProperty( "", "initialFrames" );
-				desktopString = KoLSettings.getGlobalProperty( "", "initialDesktop" );
-			}
+			String frameString = KoLSettings.getUserProperty( "initialFrames" );
+			String desktopString = KoLSettings.getUserProperty( "initialDesktop" );
 
 			String [] pieces;
 
@@ -2075,9 +2055,6 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 			this.isRefreshing = false;
 			this.saveLayoutSettings();
-
-			this.loginScript.setText( KoLSettings.getUserProperty( "loginScript" ) );
-			this.logoutScript.setText( KoLSettings.getUserProperty( "logoutScript" ) );
 		}
 
 		public boolean shouldAddStatusLabel( VerifiableElement [] elements )
@@ -2131,18 +2108,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 						desktopString.append( this.FRAME_OPTIONS[j][1] );
 					}
 
-			KoLSettings.setGlobalProperty( "", "initialFrames", frameString.toString() );
-			KoLSettings.setGlobalProperty( "", "initialDesktop", desktopString.toString() );
-
-			if ( saveStateNames.size() != 0 )
-			{
-				String username = (String) saveStateNames.getSelectedItem();
-				if ( username == null )
-					username = "";
-
-				KoLSettings.setGlobalProperty( username, "initialFrames", frameString.toString() );
-				KoLSettings.setGlobalProperty( username, "initialDesktop", desktopString.toString() );
-			}
+			KoLSettings.setUserProperty( "initialFrames", frameString.toString() );
+			KoLSettings.setUserProperty( "initialDesktop", desktopString.toString() );
 		}
 	}
 
