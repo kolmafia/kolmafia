@@ -90,13 +90,18 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		this.getContentPane().add( splitPane );
 
 		JToolBar toolbarPanel = this.getToolbar();
+	}
 
-		if ( toolbarPanel != null )
-		{
-			toolbarPanel.add( new SaveAllButton() );
-			toolbarPanel.add( new DeleteButton() );
-			toolbarPanel.add( new RefreshButton() );
-		}
+	public JToolBar getToolbar()
+	{
+		JToolBar toolbarPanel = super.getToolbar( true );
+
+		toolbarPanel.setFloatable( false );
+		toolbarPanel.add( new SaveAllButton() );
+		toolbarPanel.add( new DeleteButton() );
+		toolbarPanel.add( new RefreshButton() );
+
+		return toolbarPanel;
 	}
 
 	public void setEnabled( boolean isEnabled )
