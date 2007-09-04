@@ -551,6 +551,10 @@ public abstract class KoLmafia implements KoLConstants
 		{
 			this.getBreakfast( true, KoLSettings.getIntegerProperty( "lastBreakfast" ) != today );
 			KoLSettings.setUserProperty( "lastBreakfast", String.valueOf( today ) );
+
+			String scriptSetting = KoLSettings.getUserProperty( "loginScript" );
+			if ( !scriptSetting.equals( "" ) )
+				KoLmafiaCLI.DEFAULT_SHELL.executeLine( scriptSetting );
 		}
 
 		// Also, do mushrooms, if a mushroom script has already

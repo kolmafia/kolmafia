@@ -295,9 +295,6 @@ public class LoginRequest extends KoLRequest
 
 		RequestThread.postRequest( new KoLRequest( "chatlaunch.php" ) );
 		StaticEntity.getClient().initialize( name );
-		String scriptSetting = KoLSettings.getUserProperty( "loginScript" );
-		if ( !scriptSetting.equals( "" ) )
-			KoLmafiaCLI.DEFAULT_SHELL.executeLine( scriptSetting );
 
 		isLoggingIn = false;
 		RequestThread.closeRequestSequence();
