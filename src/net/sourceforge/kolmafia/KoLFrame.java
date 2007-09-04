@@ -84,6 +84,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
@@ -349,6 +350,10 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	}
 
 	public JToolBar getToolbar()
+	{	return getToolbar( false );
+	}
+
+	public JToolBar getToolbar( boolean force )
 	{
 		JToolBar toolbarPanel = null;
 
@@ -382,6 +387,12 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 				this.getContentPane().add( toolbarPanel, BorderLayout.NORTH );
 				break;
 			}
+		}
+
+		if ( toolbarPanel == null && force )
+		{
+			toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
+			this.getContentPane().add( toolbarPanel, BorderLayout.NORTH );
 		}
 
 		return toolbarPanel;
@@ -931,6 +942,17 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		int option = JOptionPane.showConfirmDialog( activeWindow, new SimpleScrollPane( selector ), basicTextWrap( message ),
 			JOptionPane.OK_CANCEL_OPTION );
 		return option == JOptionPane.CANCEL_OPTION ? null : selector.getSelectedValue();
+	}
+
+	public static final Object [] multiple( String message, LockableListModel inputs )
+	{
+		JList selector = new JList( inputs );
+		selector.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
+
+		int option = JOptionPane.showConfirmDialog( activeWindow, new SimpleScrollPane( selector ), basicTextWrap( message ),
+			JOptionPane.OK_CANCEL_OPTION );
+
+		return option == JOptionPane.CANCEL_OPTION ? new Object[0] : selector.getSelectedValues();
 	}
 
 	public static final Object input( String message, Object [] inputs )

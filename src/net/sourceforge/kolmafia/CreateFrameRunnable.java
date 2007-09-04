@@ -123,7 +123,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 		// If there is no creation creation, then return
 		// from the method because there's nothing to do.
 
-		String tabSetting = KoLSettings.getGlobalProperty( "initialDesktop" );
+		String tabSetting = KoLSettings.getUserProperty( "initialDesktop" );
 		String searchString = this.creationType.toString();
 		searchString = searchString.substring( searchString.lastIndexOf( "." ) + 1 );
 

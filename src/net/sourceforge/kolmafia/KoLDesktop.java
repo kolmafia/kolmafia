@@ -91,31 +91,10 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 		this.getContentPane().add( this.tabs, BorderLayout.CENTER );
 		this.addCompactPane();
 
-		JToolBar toolbarPanel = null;
-
-		switch ( KoLSettings.getIntegerProperty( "toolbarPosition" ) )
-		{
-		case 1:
-			toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
-			this.getContentPane().add( toolbarPanel, BorderLayout.NORTH );
-			break;
-
-		case 2:
-			toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
-			this.getContentPane().add( toolbarPanel, BorderLayout.SOUTH );
-			break;
-
-		case 3:
-			toolbarPanel = new JToolBar( "KoLmafia Toolbar", JToolBar.VERTICAL );
-			this.getContentPane().add( toolbarPanel, BorderLayout.WEST );
-			break;
-		}
-
+		JToolBar toolbarPanel = getToolbar();
 		this.setJMenuBar( new KoLMenuBar() );
-		if ( toolbarPanel != null )
-			addMainToolbar( toolbarPanel );
-
 		this.tabs.addChangeListener( this );
+
 		int scriptButtons = KoLSettings.getIntegerProperty( "scriptButtonPosition" );
 
 		if ( scriptButtons != 0 )
@@ -191,7 +170,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 		isInitializing = true;
 		KoLmafiaGUI.checkFrameSettings();
 
-		String interfaceSetting = KoLSettings.getGlobalProperty( "initialDesktop" );
+		String interfaceSetting = KoLSettings.getUserProperty( "initialDesktop" );
 		if ( !interfaceSetting.equals( "" ) )
 		{
 			String [] interfaceArray = interfaceSetting.split( "," );
@@ -350,50 +329,53 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 			frames[i].setTitle( frames[i].lastTitle );
 	}
 
-	public static final void addMainToolbar( JToolBar toolbarPanel )
+	public JToolBar getToolbar()
 	{
-		if ( toolbarPanel != null )
-		{
-			toolbarPanel.setFloatable( false );
-			toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
+		 JToolBar toolbarPanel = super.getToolbar();
+		 if ( toolbarPanel == null )
+		 	return null;
 
-			toolbarPanel.add( new DisplayFrameButton( "Council", "council.gif", "CouncilFrame" ) );
 
-			if ( KoLSettings.getBooleanProperty( "mapLoadsMiniBrowser" ) )
-				toolbarPanel.add( new DisplayFrameButton( "Load in Mini Browser", "browser.gif", "RequestFrame" ) );
-			else
-				toolbarPanel.add( new InvocationButton( "Load in Web Browser", "browser.gif", StaticEntity.getClient(), "openRelayBrowser" ) );
+		toolbarPanel.setFloatable( false );
+		toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
 
-			toolbarPanel.add( new DisplayFrameButton( "Graphical CLI", "command.gif", "CommandDisplayFrame" ) );
+		toolbarPanel.add( new DisplayFrameButton( "Council", "council.gif", "CouncilFrame" ) );
 
-			toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
+		if ( KoLSettings.getBooleanProperty( "mapLoadsMiniBrowser" ) )
+			toolbarPanel.add( new DisplayFrameButton( "Load in Mini Browser", "browser.gif", "RequestFrame" ) );
+		else
+			toolbarPanel.add( new InvocationButton( "Load in Web Browser", "browser.gif", StaticEntity.getClient(), "openRelayBrowser" ) );
 
-			toolbarPanel.add( new DisplayFrameButton( "IcePenguin Express", "mail.gif", "MailboxFrame" ) );
-			toolbarPanel.add( new DisplayFrameButton( "KoLmafia Chat", "chat.gif", "KoLMessenger" ) );
-			toolbarPanel.add( new DisplayFrameButton( "Clan Manager", "clan.gif", "ClanManageFrame" ) );
+		toolbarPanel.add( new DisplayFrameButton( "Graphical CLI", "command.gif", "CommandDisplayFrame" ) );
 
-			toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
+		toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
 
-			toolbarPanel.add( new DisplayFrameButton( "Player Status", "hp.gif", "CharsheetFrame" ) );
-			toolbarPanel.add( new DisplayFrameButton( "Item Manager", "inventory.gif", "ItemManageFrame" ) );
-			toolbarPanel.add( new DisplayFrameButton( "Equipment Manager", "equipment.gif", "GearChangeFrame" ) );
-			toolbarPanel.add( new DisplayFrameButton( "Store Manager", "mall.gif", "StoreManageFrame") );
+		toolbarPanel.add( new DisplayFrameButton( "IcePenguin Express", "mail.gif", "MailboxFrame" ) );
+		toolbarPanel.add( new DisplayFrameButton( "KoLmafia Chat", "chat.gif", "KoLMessenger" ) );
+		toolbarPanel.add( new DisplayFrameButton( "Clan Manager", "clan.gif", "ClanManageFrame" ) );
 
-			toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
+		toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
 
-			toolbarPanel.add( new DisplayFrameButton( "Purchase Buffs", "buff.gif", "BuffRequestFrame" ) );
-			toolbarPanel.add( new DisplayFrameButton( "Familiar Trainer", "arena.gif", "FamiliarTrainingFrame" ) );
-			toolbarPanel.add( new DisplayFrameButton( "Player vs. Player", "flower.gif", "FlowerHunterFrame" ) );
-			toolbarPanel.add( new DisplayFrameButton( "Mushroom Plot", "mushroom.gif", "MushroomFrame" ) );
+		toolbarPanel.add( new DisplayFrameButton( "Player Status", "hp.gif", "CharsheetFrame" ) );
+		toolbarPanel.add( new DisplayFrameButton( "Item Manager", "inventory.gif", "ItemManageFrame" ) );
+		toolbarPanel.add( new DisplayFrameButton( "Equipment Manager", "equipment.gif", "GearChangeFrame" ) );
+		toolbarPanel.add( new DisplayFrameButton( "Store Manager", "mall.gif", "StoreManageFrame") );
 
-			toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
+		toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
 
-			toolbarPanel.add( new InvocationButton( "Radio KoL", "radsword.gif", StaticEntity.getClient(), "launchRadioKoL" ) );
-			toolbarPanel.add( new DisplayFrameButton( "Farmer's Almanac", "calendar.gif", "CalendarFrame" ) );
-			toolbarPanel.add( new DisplayFrameButton( "Preferences", "preferences.gif", "OptionsFrame" ) );
+		toolbarPanel.add( new DisplayFrameButton( "Purchase Buffs", "buff.gif", "BuffRequestFrame" ) );
+		toolbarPanel.add( new DisplayFrameButton( "Familiar Trainer", "arena.gif", "FamiliarTrainingFrame" ) );
+		toolbarPanel.add( new DisplayFrameButton( "Player vs. Player", "flower.gif", "FlowerHunterFrame" ) );
+		toolbarPanel.add( new DisplayFrameButton( "Mushroom Plot", "mushroom.gif", "MushroomFrame" ) );
 
-			toolbarPanel.add( Box.createVerticalStrut( 50 ) );
-		}
+		toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
+
+		toolbarPanel.add( new InvocationButton( "Radio KoL", "radsword.gif", StaticEntity.getClient(), "launchRadioKoL" ) );
+		toolbarPanel.add( new DisplayFrameButton( "Farmer's Almanac", "calendar.gif", "CalendarFrame" ) );
+		toolbarPanel.add( new DisplayFrameButton( "Preferences", "preferences.gif", "OptionsFrame" ) );
+
+		toolbarPanel.add( Box.createVerticalStrut( 50 ) );
+		return toolbarPanel;
 	}
 
 	public static final void removeExtraTabs()
@@ -401,7 +383,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 		if ( INSTANCE == null )
 			return;
 
-		String setting = KoLSettings.getGlobalProperty( "initialDesktop" );
+		String setting = KoLSettings.getUserProperty( "initialDesktop" );
 		for ( int i = 0; i < INSTANCE.tabListing.size(); ++i )
 		{
 			KoLFrame frame = (KoLFrame) INSTANCE.tabListing.get( i );
