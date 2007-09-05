@@ -252,7 +252,7 @@ white chocolate chip cookies	2	white chocolate chips	wad of dough
 
 fishy fish	2	displaced fish	dehydrated caviar
 fishy fish casserole	2	fishy fish	Gnollish casserole dish
-gnatloaf	2	filet of tangy gnat (&quot;fotelif&quot;)	ancient spice
+gnatloaf	2	[2528]	ancient spice
 gnatloaf casserole	2	gnatloaf	Gnollish casserole dish
 long pork chop sandwiches	2	long pork	black pepper
 long pork casserole	2	long pork chop sandwiches	Gnollish casserole dish
@@ -283,7 +283,7 @@ shot of peach schnapps	3	fermenting powder	peach
 # Standard, tier 1 and tier 2 beverages.  Nothing special about
 # these mixtures except everyone can make them.
 
-bloody beer	3	tomato	[41]
+bloody beer	3	tomato	ice-cold Sir Schlitz
 bloody mary	3	tomato	bottle of vodka
 eggnog	3	ghuol egg	spiced rum
 fine wine	3	fermenting powder	grapes
@@ -292,7 +292,7 @@ shot of flower schnapps	3	fermenting powder	pretty flower
 shot of grapefruit schnapps	3	fermenting powder	grapefruit
 shot of orange schnapps	3	fermenting powder	orange
 shot of tomato schnapps	3	fermenting powder	tomato
-green beer	3	ten-leaf clover	[41]
+green beer	3	ten-leaf clover	ice-cold Sir Schlitz
 
 
 # Tier 3 and tier 4 beverages which can be made by anyone.  These are
