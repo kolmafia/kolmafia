@@ -1798,6 +1798,7 @@ public abstract class SorceressLair extends StaticEntity
 		}
 
 		KoLmafia.updateDisplay( "Fighting your shadow..." );
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=0" );
 
 		// Start the battle!
 
