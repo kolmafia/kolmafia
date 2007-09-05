@@ -640,10 +640,6 @@ public class ItemManageFrame extends KoLFrame
 		{	return new UsableItemFilterField();
 		}
 
-		public void addMovers()
-		{
-		}
-
 		public void actionConfirmed()
 		{
 			Object [] items = this.getDesiredItems( "Consume" );

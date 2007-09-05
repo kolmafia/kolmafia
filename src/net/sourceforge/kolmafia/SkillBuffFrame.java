@@ -38,12 +38,15 @@ import java.awt.Dimension;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class SkillBuffFrame extends KoLFrame
 {
+	private LockableListModel contacts;
+
 	private MutableComboBox skillSelect;
 	private AutoHighlightField amountField;
-	private AutoHighlightField targetSelect;
+	private MutableComboBox targetSelect;
 	private ShowDescriptionList effectList;
 
 	public SkillBuffFrame()
@@ -69,8 +72,14 @@ public class SkillBuffFrame extends KoLFrame
 
 	public void setRecipient( String recipient )
 	{
-		if ( !recipient.equals( "" ) )
-			this.targetSelect.setText( recipient );
+		if ( !contacts.contains( recipient ) )
+		{
+			recipient = KoLmafia.getPlayerName( recipient );
+			contacts.add( 0, recipient );
+		}
+
+		this.targetSelect.getEditor().setItem( recipient );
+		this.targetSelect.setSelectedItem( recipient );
 	}
 
 	private class SkillReselector implements ListSelectionListener
@@ -93,7 +102,9 @@ public class SkillBuffFrame extends KoLFrame
 
 			SkillBuffFrame.this.skillSelect = new MutableComboBox( usableSkills, false );
 			SkillBuffFrame.this.amountField = new AutoHighlightField();
-			SkillBuffFrame.this.targetSelect = new AutoHighlightField();
+
+			SkillBuffFrame.this.contacts = (LockableListModel) contactList.clone();
+			SkillBuffFrame.this.targetSelect = new MutableComboBox( contacts, true );
 
 			VerifiableElement [] elements = new VerifiableElement[3];
 			elements[0] = new VerifiableElement( "Skill Name: ", SkillBuffFrame.this.skillSelect );
@@ -128,7 +139,7 @@ public class SkillBuffFrame extends KoLFrame
 			if ( buffName == null )
 				return;
 
-			String [] targets = StaticEntity.getClient().extractTargets( SkillBuffFrame.this.targetSelect.getText() );
+			String [] targets = StaticEntity.getClient().extractTargets( (String) SkillBuffFrame.this.targetSelect.getSelectedItem() );
 
 			int buffCount = !maxBuff ? getValue( SkillBuffFrame.this.amountField, 1 ) : Integer.MAX_VALUE;
 			if ( buffCount == 0 )
