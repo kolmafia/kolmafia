@@ -916,7 +916,9 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		}
 
 		public void run()
-		{	RequestThread.postRequest( this.request );
+		{
+			RequestThread.postRequest( this.request );
+			RequestThread.postRequest( CharpaneRequest.getInstance() );
 		}
 	}
 
