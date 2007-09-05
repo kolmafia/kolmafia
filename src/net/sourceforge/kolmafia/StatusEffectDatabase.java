@@ -98,7 +98,7 @@ public class StatusEffectDatabase extends KoLDatabase
 		effectByDescription.put( descriptionId, effectId );
 
 		if ( defaultAction != null )
-			defaultActions.put( name, defaultAction );
+			defaultActions.put( getDisplayName( name ), defaultAction );
 	}
 
 	public static final String getDefaultAction( String effectName )
