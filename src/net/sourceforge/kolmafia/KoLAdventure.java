@@ -790,7 +790,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 			if ( activeEffects.contains( CUNCTATITIS ) )
 			{
-				RequestThread.postRequest( new UneffectRequest( CUNCTATITIS ) );
+				RequestThread.postRequest( new UneffectRequest( CUNCTATITIS, KoLCharacter.canInteract() ) );
 				if ( !KoLmafia.permitsContinue() )
 					return;
 			}
