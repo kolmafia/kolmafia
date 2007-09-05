@@ -160,7 +160,7 @@ public class UneffectRequest extends KoLRequest
 
 		if ( !this.isShruggable )
 		{
-			if ( KoLCharacter.canInteract() )
+			if ( force && KoLCharacter.canInteract() )
 				AdventureDatabase.retrieveItem( REMEDY.getName() );
 
 			if ( !inventory.contains( REMEDY ) )
