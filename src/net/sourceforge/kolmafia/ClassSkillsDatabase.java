@@ -53,7 +53,6 @@ public class ClassSkillsDatabase extends KoLDatabase
 	private static final Map skillTypeById = new TreeMap();
 	private static final Map durationById = new TreeMap();
 
-	private static final File categoriesFile = new File( DATA_DIRECTORY, "skillgroup.txt" );
 	private static final Map skillsByCategory = new TreeMap();
 	private static final Map skillCategoryById = new TreeMap();
 
@@ -63,19 +62,16 @@ public class ClassSkillsDatabase extends KoLDatabase
 	public static final int BUFF = 2;
 	public static final int COMBAT = 3;
 
+	private static final String UNCATEGORIZED = "uncategorized";
+	private static final String GNOME_SKILLS = "gnome trainer";
+	private static final String BAD_MOON = "bad moon";
+	private static final String MR_SKILLS = "mr. skills";
+	private static final String EQUIPMENT = "equipment";
+
 	private static final String [] CATEGORIES = new String []
 	{
-		"",
-		"General Purpose",
-		"Passive Defense",
-		"Castable Defense",
-		"Damage Bonuses",
-		"Physical Attacks",
-		"Magical Attacks",
-		"Monster Delevelers",
-		"Health Restoration",
-		"Buffed Stat Tweaks",
-		"Rng Hate Mitigation",
+		UNCATEGORIZED, "seal clubber", "turtle tamer", "pastamancer", "sauceror", "accordion thief", "disco bandit",
+		GNOME_SKILLS, MR_SKILLS, BAD_MOON, EQUIPMENT
 	};
 
 	static
@@ -85,35 +81,17 @@ public class ClassSkillsDatabase extends KoLDatabase
 		// examined and float-referenced: once in the name-lookup,
 		// and again in the Id lookup.
 
+		for ( int i = 0; i < CATEGORIES.length; ++i )
+			skillsByCategory.put( CATEGORIES[i], new ArrayList() );
+
 		BufferedReader reader = getReader( "classskills.txt" );
 
 		String [] data;
-		Integer skillId, skillType, skillCategory;
-		Integer mpConsumption, duration;
-		String skillName;
 
 		while ( (data = readData( reader )) != null )
 		{
-			if ( data.length == 6 )
-			{
-				skillId = Integer.valueOf( data[0] );
-				skillName = getDisplayName( data[1] );
-
-				skillType = Integer.valueOf( data[2] );
-				skillCategory = Integer.valueOf( data[3] );
-
-				mpConsumption = Integer.valueOf( data[4] );
-				duration = Integer.valueOf( data[5] );
-
-				skillById.put( skillId, skillName );
-				skillByName.put( getCanonicalName( skillName ), skillId );
-
-				skillTypeById.put( skillId, skillType );
-				skillCategoryById.put( skillId, skillCategory );
-
-				mpConsumptionById.put( skillId, mpConsumption );
-				durationById.put( skillId, duration );
-			}
+			if ( data.length == 5 )
+				addSkill( Integer.valueOf( data[0] ), getDisplayName( data[1] ), Integer.valueOf( data[2] ), Integer.valueOf( data[3] ), Integer.valueOf( data[4] ) );
 		}
 
 		try
@@ -127,112 +105,75 @@ public class ClassSkillsDatabase extends KoLDatabase
 
 			printStackTrace( e );
 		}
-
-		loadCategories();
 	}
 
-	public static final void saveCategories()
+	private static final void addSkill( Integer skillId, String skillName, Integer skillType, Integer mpConsumption, Integer duration )
 	{
-		PrintStream writer = LogStream.openStream( categoriesFile, true );
-		Object [] keys = skillsByCategory.keySet().toArray();
-		ArrayList currentList;
+		skillById.put( skillId, skillName );
+		skillByName.put( getCanonicalName( skillName ), skillId );
 
-		for ( int i = 0; i < keys.length; ++i )
+		skillTypeById.put( skillId, skillType );
+
+		mpConsumptionById.put( skillId, mpConsumption );
+		durationById.put( skillId, duration );
+
+		String category;
+		int categoryId = skillId.intValue() / 1000;
+
+		switch ( skillId.intValue() )
 		{
-			writer.println( "[ " + toTitleCase( (String) keys[i] ) + " ]" );
-			writer.println();
+		case 3:  // Smile of Mr. A
+		case 16: // Summon Snowcone
+		case 17: // Summon Hilarious Objects
+		case 18: // Summon Candy Hearts
 
-			currentList = (ArrayList) skillsByCategory.get( keys[i] );
+			category = MR_SKILLS;
+			break;
 
-			for ( int j = 0; j < currentList.size(); ++j )
-				writer.println( ((UseSkillRequest)currentList.get(j)).getSkillName() );
+		case 10: // Powers of Observatiogn
+		case 11: // Gnefarious Pickpocketing
+		case 12: // Torso Awaregness
+		case 13: // Gnomish Hardigness
+		case 14: // Cosmic Ugnderstanding
 
-			writer.println();
-			writer.println();
+			category = GNOME_SKILLS;
+			break;
+
+
+		case 21: // Lust
+		case 22: // Gluttony
+		case 23: // Greed
+		case 24: // Sloth
+		case 25: // Wrath
+		case 26: // Envy
+		case 27: // Pride
+
+			category = BAD_MOON;
+			break;
+
+		default:
+
+			// Moxious maneuver has a 7000 id, but
+			// it's not gained by equipment.
+
+			if ( categoryId == 7008 )
+				category = UNCATEGORIZED;
+
+			// The remainder of the 7000 series are
+			// granted by equipment.
+
+			else if ( categoryId == 7 )
+				category = EQUIPMENT;
+
+			// All other skills fall under categories
+			// already specified.
+
+			else
+				category = CATEGORIES[ categoryId ];
 		}
 
-		writer.close();
-	}
-
-	public static final void createBaseCategories()
-	{
-		for ( int i = 1; i < CATEGORIES.length; ++i )
-			skillsByCategory.put( CATEGORIES[i].toLowerCase(), new ArrayList() );
-
-		Object [] keys = skillCategoryById.keySet().toArray();
-		for ( int i = 0; i < keys.length; ++i )
-		{
-			Object skillCategory = skillCategoryById.get( keys[i] );
-			ArrayList currentList = (ArrayList) skillsByCategory.get( CATEGORIES[ ((Integer)skillCategory).intValue() ].toLowerCase() );
-			currentList.add( UseSkillRequest.getInstance( ((Integer)keys[i]).intValue() ) );
-		}
-
-		saveCategories();
-	}
-
-	public static final void loadCategories()
-	{
-		if ( !categoriesFile.exists() )
-		{
-			createBaseCategories();
-			return;
-		}
-
-		try
-		{
-			BufferedReader reader = KoLDatabase.getReader( categoriesFile );
-
-			String line;
-			String currentKey = "";
-
-			ArrayList currentList = null;
-			UseSkillRequest skill;
-
-			while ( (line = reader.readLine()) != null )
-			{
-				line = line.trim();
-				if ( line.startsWith( "[" ) )
-				{
-					currentKey = line.substring( 1, line.length() - 1 ).trim().toLowerCase();
-
-					if ( skillsByCategory.containsKey( currentKey ) )
-					{
-						currentList = (ArrayList) skillsByCategory.get( currentKey );
-					}
-					else
-					{
-						currentList = new ArrayList();
-						skillsByCategory.put( currentKey, currentList );
-					}
-				}
-				else if ( line.length() != 0 )
-				{
-					skill = UseSkillRequest.getInstance( line );
-					if ( skill != null )
-						currentList.add( skill );
-				}
-			}
-
-			reader.close();
-			reader = null;
-		}
-		catch ( IOException e1 )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e1 );
-		}
-		catch ( Exception e2 )
-		{
-			// Somehow, the settings were corrupted; this
-			// means that they will have to be created after
-			// the current file is deleted.
-
-			StaticEntity.printStackTrace( e2 );
-			categoriesFile.delete();
-			loadCategories();
-		}
+		skillCategoryById.put( skillId, category );
+		((ArrayList)skillsByCategory.get( category )).add( skillName );
 	}
 
 	public static final List getSkillsByCategory( String category )
@@ -240,7 +181,12 @@ public class ClassSkillsDatabase extends KoLDatabase
 		if ( category == null )
 			return new ArrayList();
 
-		List skills = (List) skillsByCategory.get( category.trim().toLowerCase() );
+		category = category.trim().toLowerCase();
+		for ( int i = 0; i < CATEGORIES.length; ++i )
+			if ( substringMatches( CATEGORIES[i], category ) )
+				category = CATEGORIES[i];
+
+		List skills = (List) skillsByCategory.get( category );
 		return skills == null ? new ArrayList() : skills;
 	}
 
@@ -503,27 +449,28 @@ public class ClassSkillsDatabase extends KoLDatabase
 	{	return skillById.entrySet();
 	}
 
+	private static final ArrayList skillNames = new ArrayList();
+
 	public static final void generateSkillList( StringBuffer buffer, boolean appendHTML )
 	{
-		Object [] keys = skillsByCategory.keySet().toArray();
-		ArrayList [] categories = new ArrayList[ keys.length ];
-
 		ArrayList uncategorized = new ArrayList();
-		uncategorized.addAll( availableSkills );
+		ArrayList [] categories = new ArrayList[ CATEGORIES.length ];
 
-		for ( int i = 0; i < keys.length; ++i )
-		{
-			categories[i] = new ArrayList();
-			categories[i].addAll( (ArrayList) skillsByCategory.get( keys[i] ) );
-			categories[i].retainAll( availableSkills );
-
-			uncategorized.removeAll( categories[i] );
-		}
-
-		appendSkillList( buffer, appendHTML, "Uncategorized", uncategorized );
+		if ( skillNames.isEmpty() )
+			skillNames.addAll( skillByName.keySet() );
 
 		for ( int i = 0; i < categories.length; ++i )
-			appendSkillList( buffer, appendHTML, toTitleCase( (String) keys[i] ), categories[i] );
+		{
+			categories[i] = new ArrayList();
+			categories[i].addAll( (ArrayList) skillsByCategory.get( CATEGORIES[i] ) );
+
+			for ( int j = 0; j < categories[i].size(); ++j )
+				if ( !availableSkills.contains( UseSkillRequest.getInstance( (String) categories[i].get(j) ) ) )
+					categories[i].remove(j--);
+		}
+
+		for ( int i = 0; i < categories.length; ++i )
+			appendSkillList( buffer, appendHTML, toTitleCase( (String) CATEGORIES[i] ), categories[i] );
 	}
 
 	private static final void appendSkillList( StringBuffer buffer, boolean appendHTML, String listName, ArrayList list )
@@ -543,16 +490,16 @@ public class ClassSkillsDatabase extends KoLDatabase
 		else
 			buffer.append( LINE_BREAK );
 
-		UseSkillRequest currentSkill;
+		String currentSkill;
 
 		for ( int j = 0; j < list.size(); ++j )
 		{
-			currentSkill = (UseSkillRequest) list.get(j);
+			currentSkill = (String) list.get(j);
 
 			if ( appendHTML )
 			{
 				buffer.append( "<a onClick=\"javascript:skill(" );
-				buffer.append( currentSkill.getSkillId() );
+				buffer.append( getSkillId( currentSkill ) );
 				buffer.append( ");\">" );
 			}
 			else
@@ -560,7 +507,7 @@ public class ClassSkillsDatabase extends KoLDatabase
 				buffer.append( " - " );
 			}
 
-			buffer.append( currentSkill.getSkillName() );
+			buffer.append( currentSkill );
 
 			if ( appendHTML )
 				buffer.append( "</a><br>" );
