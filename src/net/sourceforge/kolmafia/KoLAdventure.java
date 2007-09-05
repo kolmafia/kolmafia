@@ -783,7 +783,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 			if ( activeEffects.contains( AMNESIA ) )
 			{
-				RequestThread.postRequest( new UneffectRequest( AMNESIA ) );
+				RequestThread.postRequest( new UneffectRequest( AMNESIA, KoLCharacter.canInteract() ) );
 				if ( !KoLmafia.permitsContinue() )
 					return;
 			}

@@ -147,6 +147,9 @@ public class UneffectRequest extends KoLRequest
 
 	public void run()
 	{
+		if ( !activeEffects.contains( this.effect ) )
+			return;
+
 		String action = MoodSettings.getDefaultAction( "gain_effect", this.effect.getName() );
 
 		if ( !action.equals( "" ) && !action.startsWith( "uneffect" ) )
@@ -155,19 +158,16 @@ public class UneffectRequest extends KoLRequest
 			return;
 		}
 
-		if ( !force )
+		if ( !this.force )
 			return;
 
 		if ( !this.isShruggable )
 		{
-			if ( force && KoLCharacter.canInteract() )
+			if ( KoLCharacter.canInteract() )
 				AdventureDatabase.retrieveItem( REMEDY.getName() );
 
 			if ( !inventory.contains( REMEDY ) )
-			{
-				KoLmafia.updateDisplay( ERROR_STATE, "You don't have any soft green fluffy martians." );
 				return;
-			}
 		}
 
 		KoLmafia.updateDisplay( this.isShruggable ? "Shrugging off your buff..." : "Using soft green whatever..." );
@@ -192,7 +192,7 @@ public class UneffectRequest extends KoLRequest
 			RequestFrame.refreshStatus();
 		}
 		else if ( !this.isShruggable )
-			KoLmafia.updateDisplay( "Failed to remove " + this.effect.getName() + "." );
+			KoLmafia.updateDisplay( ERROR_STATE, "Failed to remove " + this.effect.getName() + "." );
 	}
 }
 
