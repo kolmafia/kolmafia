@@ -2759,7 +2759,12 @@ public abstract class KoLCharacter extends StaticEntity
 		// Lastly, experience adjustment also implicitly depends on
 		// monster level.  Add that information.
 
-		newModifiers.add( Modifiers.EXPERIENCE, newModifiers.get( Modifiers.MONSTER_LEVEL) / 4.0f );
+		float monsterLevel = newModifiers.get( Modifiers.MONSTER_LEVEL );
+		newModifiers.add( Modifiers.EXPERIENCE, monsterLevel / 4.0f );
+
+		float combatRate = newModifiers.get( Modifiers.COMBAT_RATE );
+		if ( combatRate < 0.0f )
+			newModifiers.add( Modifiers.COMBAT_RATE, Math.min( (monsterLevel - getSignedMLAdjustment()) / 5.0f, 0 - combatRate ) );
 
 		// Determine whether or not data has changed
 
