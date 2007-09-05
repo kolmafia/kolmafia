@@ -1198,7 +1198,6 @@ Temporary Blindness	Moxie Percent: -25, Item Drop: -75
 # Freaked Out	Spooky Damage: +10
 # Guanified	Stench Damage: +10
 # Basted	Sleaze Damage: +10
-# Dang Near Cut In Half	Muscle Percent: -50
 # Missing Kidney
 # Re-Possessed
 # The Vitus Virus
@@ -1264,6 +1263,7 @@ Crimbo Epiphany	Mysticality Percent: +10
 Cupcake of Choice	Item Drop: +30
 Cupshotten	Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20
 Cuts Like a Buttered Knife	Sleaze Damage: +50
+Dang Near Cut In Half	Muscle Percent: -50
 Deep Fried	Hot Resistance: +20
 Dirge of Dreadfulness	Spooky Damage: +12, Spooky Spell Damage: +12
 Disco Concentration	Item Drop: +20

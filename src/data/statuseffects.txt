@@ -389,8 +389,6 @@
 #	Freaked Out	hoppeddown.gif	0e5f80059469710470e31e21b2cc36fa
 #	Guanified	guano.gif
 #	Basted	slimed.gif
-# Bad Moon effects that give -50% to a stat
-#	Dang Near Cut In Half	axegash.gif	73b1728ec6c9c1491f2aa5ae7134cfaa
 # Bad Moon effects with unknown effect
 #	Missing Kidney	kidney.gif	a3271a164706776e733cd78e060cb5e1
 #	Re-Possessed	stogie.gif	27e835ef2ee194eed4e43c64a8cf65ac
@@ -453,7 +451,7 @@
 442	Preternatural Greed	meat.gif	77c8dcca272b5c6a62ff65ab673f09b8
 443	Big Flaming Whip	whip.gif	1b8e17da0f810cea79461e5346364d13
 444	Demonic Taint	stench.gif	2dbb492270ccad496291a6f7fdadde26
-445
+445	Dang Near Cut In Half	axegash.gif	73b1728ec6c9c1491f2aa5ae7134cfaa
 446	Hella Tough	strboost.gif	1a46f0679200550d66cf30810ab7c47e
 447	Hella Smart	realbrain.gif	4972f34f7622eaa1fc8fd2ab6eb43f40
 448	Hella Smooth	roundglasses.gif	9fc2c05bd8dff7c2b3c5a27b56a0240f
