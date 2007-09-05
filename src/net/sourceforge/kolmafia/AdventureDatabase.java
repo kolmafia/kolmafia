@@ -1374,7 +1374,7 @@ public class AdventureDatabase extends KoLDatabase
 
 		int price = TradeableItemDatabase.getPriceById( itemId );
 
-		boolean shouldUseMall = force || (isRestorePurchase( itemId ) || KoLSettings.getBooleanProperty( "autoSatisfyWithMall" )) &&
+		boolean shouldUseMall = force || KoLSettings.getBooleanProperty( "autoSatisfyWithMall" ) &&
 			((price > 0 || item.getName().indexOf( "clover" ) != -1) && KoLCharacter.canInteract() && TradeableItemDatabase.isTradeable( itemId ));
 
 		boolean shouldUseStash = KoLSettings.getBooleanProperty( "autoSatisfyWithStash" );
@@ -1527,7 +1527,7 @@ public class AdventureDatabase extends KoLDatabase
 			}
 		}
 
-		if ( shouldUseMall )
+		if ( shouldUseMall || isRestorePurchase( itemId ) )
 		{
 			StaticEntity.getClient().makePurchases( StoreManager.searchMall( item.getName() ), getPurchaseCount( itemId, missingCount ) );
 			missingCount = item.getCount() - item.getCount( inventory );
