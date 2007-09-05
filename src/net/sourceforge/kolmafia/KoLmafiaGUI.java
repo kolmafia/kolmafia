@@ -388,7 +388,6 @@ public class KoLmafiaGUI extends KoLmafia
 				RequestThread.openRequestSequence();
 
 				StoreManager.clearCache();
-				RequestThread.postRequest( new StoreManageRequest( true ) );
 				RequestThread.postRequest( new StoreManageRequest( false ) );
 
 				RequestThread.closeRequestSequence();
