@@ -328,9 +328,9 @@ perpendicular hula with a fly in it	3	strawberry daiquiri	magical ice cube with 
 rockin' wagon with a fly in it	3	vodka martini	magical ice cube with a fly in it
 slap and tickle with a fly in it	3	salty dog	magical ice cube with a fly in it
 Mae West with a fly in it	3	rabbit punch	magical ice cube with a fly in it
-# mandarina colada with a fly in it	3	zmobie	magical ice cube with a fly in it
+mandarina colada with a fly in it	3	zmobie	magical ice cube with a fly in it
 tangarita with a fly in it	3	tequila sunset	magical ice cube with a fly in it
-# prussian cathouse with a fly in it	3	parisian cathouse	magical ice cube with a fly in it
+prussian cathouse with a fly in it	3	parisian cathouse	magical ice cube with a fly in it
 
 # Tier 3, 4 and 5 beverages which can only be made by someone with
 # Advanced Cocktailcrafting.  These include the popular umbrella,
