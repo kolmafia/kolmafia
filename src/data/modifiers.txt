@@ -1564,7 +1564,7 @@ Swashbuckling Getup	Moxie: +7
 Time Trappings	Adventures: +3
 # Tropical Crimbo Duds
 War Hippy Fatigues	Stench Damage: +15
-# Yendorian Finery
+Yendorian Finery	Combat Rate: -5
 eXtreme Cold-Weather Gear	Cold Resistance: +30
 
 
