@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 public class UneffectRequest extends KoLRequest
 {
 	private int effectId;
+	private boolean force;
 	private boolean isShruggable;
 	private AdventureResult effect;
 
@@ -44,8 +45,14 @@ public class UneffectRequest extends KoLRequest
 	public static final AdventureResult FOREST_TEARS = new AdventureResult( "forest tears", 1 );
 
 	public UneffectRequest( AdventureResult effect )
+	{	this( effect, true );
+	}
+
+	public UneffectRequest( AdventureResult effect, boolean force )
 	{
 		super( isShruggable( effect.getName() ) ? "charsheet.php" : "uneffect.php" );
+
+		this.force = force;
 
 		this.effect = effect;
 		this.effectId = StatusEffectDatabase.getEffectId( effect.getName() );
@@ -148,15 +155,17 @@ public class UneffectRequest extends KoLRequest
 			return;
 		}
 
+		if ( !force )
+			return;
+
 		if ( !this.isShruggable )
 		{
 			if ( KoLCharacter.canInteract() )
-			{
 				AdventureDatabase.retrieveItem( REMEDY.getName() );
-			}
-			else if ( !inventory.contains( REMEDY ) )
+
+			if ( !inventory.contains( REMEDY ) )
 			{
-				KoLmafia.updateDisplay( "You don't have any soft green fluffy martians." );
+				KoLmafia.updateDisplay( ERROR_STATE, "You don't have any soft green fluffy martians." );
 				return;
 			}
 		}

@@ -1374,7 +1374,7 @@ public class AdventureDatabase extends KoLDatabase
 
 		int price = TradeableItemDatabase.getPriceById( itemId );
 
-		boolean shouldUseMall = force || KoLSettings.getBooleanProperty( "autoSatisfyWithMall" ) &&
+		boolean shouldUseMall = force || (isRestorePurchase( itemId ) || KoLSettings.getBooleanProperty( "autoSatisfyWithMall" )) &&
 			((price > 0 || item.getName().indexOf( "clover" ) != -1) && KoLCharacter.canInteract() && TradeableItemDatabase.isTradeable( itemId ));
 
 		boolean shouldUseStash = KoLSettings.getBooleanProperty( "autoSatisfyWithStash" );
@@ -1544,21 +1544,26 @@ public class AdventureDatabase extends KoLDatabase
 		return false;
 	}
 
-	private static int getPurchaseCount( int itemId, int missingCount )
+	private static boolean isRestorePurchase( int itemId )
 	{
-		if ( !KoLCharacter.canInteract() )
-			return missingCount;
-
 		switch ( itemId )
 		{
 		case 588: // soft green echo eyedrop antidote
 		case 592: // tiny house
 		case 595: // scroll of drastic healing
-			return Math.max( 20, missingCount );
+			return true;
 
 		default:
-			return missingCount;
+			return false;
 		}
+	}
+
+	private static int getPurchaseCount( int itemId, int missingCount )
+	{
+		if ( !KoLCharacter.canInteract() )
+			return missingCount;
+
+		return isRestorePurchase( itemId ) ? Math.max( 20, missingCount ) : missingCount;
 	}
 
 	private static final boolean hasAnyIngredient( int itemId )
