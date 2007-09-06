@@ -177,24 +177,14 @@ public class CouncilFrame extends RequestFrame
 		if ( responseText.indexOf( "You acquire" ) == -1 )
 			return;
 
-		if ( responseText.indexOf( "goat cheese pizza" ) != -1 )
-		{
-			StaticEntity.getClient().processResult( new AdventureResult( "goat cheese", -6, false ) );
-			return;
-		}
-
-		if ( responseText.indexOf( "crossbow" ) == -1 && responseText.indexOf( "staff" ) == -1 && responseText.indexOf( "sword" ) == -1 )
-			return;
-
 		if ( responseText.indexOf( "asbestos" ) != -1 )
 			StaticEntity.getClient().processResult( new AdventureResult( "asbestos ore", -3, false ) );
-		else if (responseText.indexOf( "linoleum" ) != -1 )
+		else if ( responseText.indexOf( "linoleum" ) != -1 )
 			StaticEntity.getClient().processResult( new AdventureResult( "linoleum ore", -3, false ) );
-		else
+		else if ( responseText.indexOf( "chrome" ) != -1 )
 			StaticEntity.getClient().processResult( new AdventureResult( "chrome ore", -3, false ) );
-
-		if ( KoLmafia.isAdventuring() )
-			unlockGoatlet();
+		else if ( responseText.indexOf( "goat cheese pizza" ) != -1 )
+			StaticEntity.getClient().processResult( new AdventureResult( "goat cheese", -6, false ) );
 	}
 
 	public static final void unlockGoatlet()
