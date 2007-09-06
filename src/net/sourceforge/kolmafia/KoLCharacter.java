@@ -2602,6 +2602,16 @@ public abstract class KoLCharacter extends StaticEntity
 			return false;
 
 		int count = item.getCount( inventory ) + item.getCount( closet );
+
+		if ( canInteract() )
+		{
+			if ( !inBadMoon() )
+				count += item.getCount( storage );
+
+			if ( hasClan() && KoLSettings.getBooleanProperty( "autoSatisfyWithStash" ) )
+				count += item.getCount( ClanManager.getStash() );
+		}
+
 		switch ( TradeableItemDatabase.getConsumptionType( item.getItemId() ) )
 		{
 		case EQUIP_HAT:
