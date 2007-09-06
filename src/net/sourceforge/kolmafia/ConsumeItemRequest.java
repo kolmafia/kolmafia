@@ -131,6 +131,9 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int ABSINTHE = 2655;
 	private static final int MOJO_FILTER = 2614;
 	private static final int LIBRARY_CARD = 2672;
+
+	private static final int PALM_FROND = 2605;
+	private static final int MUMMY_WRAP = 2634;
 	private static final int DUCT_TAPE = 2697;
 
 	private static final int GIFT1 = 1167;
@@ -1033,8 +1036,8 @@ public class ConsumeItemRequest extends KoLRequest
 
 		case PIRATE_SKULL:
 
-                        // "Unable to find enough parts, the semi-formed
-                        // skeleton gives up and falls to pieces."
+						// "Unable to find enough parts, the semi-formed
+						// skeleton gives up and falls to pieces."
 			if ( responseText.indexOf( "gives up and falls to pieces." ) != -1 )
 			{
 				StaticEntity.getClient().processResult( lastItemUsed );
@@ -1270,6 +1273,8 @@ public class ConsumeItemRequest extends KoLRequest
 			StaticEntity.getClient().processResult( SCRAP_OF_PAPER.getInstance( 0 - lastItemUsed.getCount() ) );
 			return;
 
+		case PALM_FROND:
+		case MUMMY_WRAP:
 		case DUCT_TAPE:
 
 			if ( responseText.indexOf( "You acquire" ) == -1 )
