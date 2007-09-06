@@ -441,7 +441,8 @@ public class ConcoctionsDatabase extends KoLDatabase
 	private static final List getAvailableIngredients()
 	{
 		boolean includeCloset = !closet.isEmpty();
-		boolean includeStash = KoLSettings.getBooleanProperty( "autoSatisfyWithStash" ) && KoLCharacter.canInteract() && !ClanManager.getStash().isEmpty();
+		boolean includeStorage = KoLCharacter.canInteract() && !storage.isEmpty();
+		boolean includeStash = KoLCharacter.canInteract() && KoLSettings.getBooleanProperty( "autoSatisfyWithStash" ) && !ClanManager.getStash().isEmpty();
 		boolean includeQueue = !queuedIngredients.isEmpty();
 
 		if ( !includeCloset && !includeStash && !includeQueue )
@@ -452,29 +453,27 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		if ( includeCloset )
 		{
-			AdventureResult [] items = new AdventureResult[ closet.size() ];
-			closet.toArray( items );
+			for ( int i = 0; i < closet.size(); ++i )
+				AdventureResult.addResultToList( availableIngredients, (AdventureResult) closet.get(i) );
+		}
 
-			for ( int i = 0; i < items.length; ++i )
-				AdventureResult.addResultToList( availableIngredients, items[i] );
+		if ( includeStorage )
+		{
+			for ( int i = 0; i < storage.size(); ++i )
+				AdventureResult.addResultToList( availableIngredients, (AdventureResult) storage.get(i) );
 		}
 
 		if ( includeStash )
 		{
-			AdventureResult [] items = new AdventureResult[ ClanManager.getStash().size() ];
-			ClanManager.getStash().toArray( items );
-
-			for ( int i = 0; i < items.length; ++i )
-				AdventureResult.addResultToList( availableIngredients, items[i] );
+			List stash = ClanManager.getStash();
+			for ( int i = 0; i < stash.size(); ++i )
+				AdventureResult.addResultToList( availableIngredients, (AdventureResult) stash.get(i) );
 		}
 
 		if ( includeQueue )
 		{
-			AdventureResult [] items = new AdventureResult[ queuedIngredients.size() ];
-			queuedIngredients.toArray( items );
-
-			for ( int i = 0; i < items.length; ++i )
-				AdventureResult.addResultToList( availableIngredients, items[i].getNegation() );
+			for ( int i = 0; i < queuedIngredients.size(); ++i )
+				AdventureResult.addResultToList( availableIngredients, ((AdventureResult)queuedIngredients.get(i)).getNegation() );
 		}
 
 		return availableIngredients;
