@@ -94,6 +94,7 @@ public class AdventureDatabase extends KoLDatabase
 		conditionsById.set( 85, "outfit" );  // Cola Battlefield
 		conditionsById.set( 100, "1 bird rib, 1 lion oil" );  // Whitey's Grove
 		conditionsById.set( 102, "1 chef's hat" );  // Haunted Kitchen
+		conditionsById.set( 103, "1 Spookyraven gallery key" ); // Haunted Conservatory
 		conditionsById.set( 105, "1 pool cue, 1 handful of hand chalk" );  // Haunted Billiards
 		conditionsById.set( 107, "1 fancy bath salts" );  // Haunted Bathroom
 		conditionsById.set( 108, "1 Spookyraven ballroom key, 1 Lord Spookyraven's spectacles" );  // Haunted Bedroom
