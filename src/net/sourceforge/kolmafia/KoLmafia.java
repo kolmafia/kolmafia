@@ -551,10 +551,6 @@ public abstract class KoLmafia implements KoLConstants
 		{
 			this.getBreakfast( true, KoLSettings.getIntegerProperty( "lastBreakfast" ) != today );
 			KoLSettings.setUserProperty( "lastBreakfast", String.valueOf( today ) );
-
-			String scriptSetting = KoLSettings.getUserProperty( "loginScript" );
-			if ( !scriptSetting.equals( "" ) )
-				KoLmafiaCLI.DEFAULT_SHELL.executeLine( scriptSetting );
 		}
 
 		// Also, do mushrooms, if a mushroom script has already
@@ -566,6 +562,10 @@ public abstract class KoLmafia implements KoLConstants
 			if ( !currentLayout.equals( "" ) && KoLCharacter.inMuscleSign() && MushroomPlot.ownsPlot() )
 				KoLmafiaCLI.DEFAULT_SHELL.executeLine( "call " + PLOTS_DIRECTORY + currentLayout + ".ash" );
 		}
+
+		String scriptSetting = KoLSettings.getUserProperty( "loginScript" );
+		if ( !scriptSetting.equals( "" ) )
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( scriptSetting );
 	}
 
 	public static final void resetCounters()
