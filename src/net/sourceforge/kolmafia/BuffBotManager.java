@@ -756,7 +756,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 			for ( int i = 0; i < this.casts.length; ++i )
 			{
-				totalCost += this.casts[i] + ClassSkillsDatabase.getMPConsumptionById(
+				totalCost += this.casts[i] * ClassSkillsDatabase.getMPConsumptionById(
 					ClassSkillsDatabase.getSkillId( this.buffs[i] ) );
 			}
 
