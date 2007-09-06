@@ -687,10 +687,10 @@ public class KoLRequest extends Job implements KoLConstants
 
 		do
 		{
-			if ( !this.prepareConnection() && KoLmafia.refusesContinue() )
+			if ( !this.prepareConnection() )
 				break;
 		}
-		while ( !this.postClientData() || !this.retrieveServerReply() );
+		while ( !this.postClientData() && !this.retrieveServerReply() );
 
 		if ( this.hasNoResult || this.responseCode != 200 )
 			return;
@@ -983,7 +983,7 @@ public class KoLRequest extends Job implements KoLConstants
 			if ( this instanceof LoginRequest )
 				chooseNewLoginServer();
 
-			return false;
+			return KoLmafia.refusesContinue();
 		}
 	}
 
@@ -1048,7 +1048,7 @@ public class KoLRequest extends Job implements KoLConstants
 				chooseNewLoginServer();
 
 			if ( shouldRetry )
-				return false;
+				return KoLmafia.refusesContinue();
 
 			this.responseCode = 302;
 			this.redirectLocation = "main.php";
@@ -1084,7 +1084,7 @@ public class KoLRequest extends Job implements KoLConstants
 		}
 
 		istream = null;
-		return shouldStop;
+		return shouldStop || KoLmafia.refusesContinue();
 	}
 
 	protected boolean retryOnTimeout()
