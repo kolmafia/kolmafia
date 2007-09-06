@@ -47,7 +47,9 @@ public class BasementRequest extends AdventureRequest
 	private static int basementLevel = 0;
 	private static float basementTestValue = 0;
 	private static float basementTestCurrent = 0;
+
 	private static String basementTestString = "";
+	private static String gauntletString = "";
 
 	private static int actualBoost = 0;
 	private static int primaryBoost = 0;
@@ -200,6 +202,9 @@ public class BasementRequest extends AdventureRequest
 		if ( basementTestString.startsWith( "Encounter" ) )
 			return basementTestString;
 
+		if ( basementTestString.equals( "Maximum HP" ) )
+			return basementTestString + " Test: " + COMMA_FORMAT.format( basementTestCurrent ) + " current, " + gauntletString + " needed";
+
 		return basementTestString + " Test: " + COMMA_FORMAT.format( basementTestCurrent ) + " current, " +
 			COMMA_FORMAT.format( basementTestValue ) + " needed";
 	}
@@ -221,7 +226,15 @@ public class BasementRequest extends AdventureRequest
 			int index = basementTestString.indexOf( ": " );
 			if ( index == -1 )
 				return "";
+
 			return "<u>Monster</u>: " + basementTestString.substring( index + 2 );
+		}
+
+		if ( basementTestString.equals( "Maximum HP" ) )
+		{
+			return "<u>" + basementTestString + "</u><br/>" +
+				"Current: " + COMMA_FORMAT.format( basementTestCurrent ) + "<br/>" +
+				"Needed: " + gauntletString;
 		}
 
 		return "<u>" + basementTestString + "</u><br/>" +
@@ -599,11 +612,11 @@ public class BasementRequest extends AdventureRequest
 
 		if ( responseText.indexOf( "Grab the Handles" ) != -1 )
 		{
-						// According to
-						// http://forums.hardcoreoxygenation.com/viewtopic.php?t=3973,
-						// drain requirement is 1.67 * x^1.4 Assume worst-case.
+			// According to
+			// http://forums.hardcoreoxygenation.com/viewtopic.php?t=3973,
+			// drain requirement is 1.67 * x^1.4 Assume worst-case.
 
-						float drainRequirement = (float) Math.pow( basementLevel, 1.4 ) * 1.67f * 1.05f;
+			float drainRequirement = (float) Math.pow( basementLevel, 1.4 ) * 1.67f * 1.05f;
 
 			basementTestString = "Maximum MP";
 			basementTestCurrent = KoLCharacter.getMaximumMP();
@@ -654,7 +667,10 @@ public class BasementRequest extends AdventureRequest
 				Math.min( 800, KoLCharacter.getDamageAbsorption() ) / 10.0f )) - 1.0f) / 10.0f);
 
 			float healthRequirement = drainRequirement;
+
 			basementTestValue = (int) healthRequirement;
+			gauntletString = COMMA_FORMAT.format( drainRequirement ) + " * " + FLOAT_FORMAT.format( damageAbsorb ) + " (" +
+				KoLCharacter.getDamageAbsorption() + " DA) = " + COMMA_FORMAT.format( healthRequirement );
 
 			if ( KoLCharacter.getMaximumHP() < healthRequirement )
 			{
