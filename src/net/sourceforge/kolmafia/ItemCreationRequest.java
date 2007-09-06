@@ -647,7 +647,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 					usedServant = servant;
 			}
 
-			if ( KoLCharacter.canInteract() && KoLSettings.getBooleanProperty( "autoSatisfyWithMall" ) )
+			if ( KoLCharacter.canInteract() && (KoLSettings.getBooleanProperty( "autoSatisfyWithMall" ) || KoLSettings.getBooleanProperty( "autoSatisfyWithStash")) )
 				usedServant = servant;
 
 			if ( usedServant == null )
