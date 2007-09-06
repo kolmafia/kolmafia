@@ -62,7 +62,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 	public String name;
 	public AdventureResult createdItem;
-	public boolean shouldRerun = false;
 	public int itemId, beforeQuantity, mixingMethod;
 
 	private int quantityNeeded, quantityPossible;
@@ -322,9 +321,17 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		if ( !KoLmafia.permitsContinue() || this.quantityNeeded <= 0 )
 			return;
 
+		// Validate the ingredients once for the item
+		// creation process.
+
+		if ( this.mixingMethod != SUBCLASS && this.mixingMethod != ROLLING_PIN )
+			if ( !this.makeIngredients() )
+				return;
+
+		int createdQuantity = 0;
+
 		do
 		{
-			this.shouldRerun = false;
 			this.reconstructFields();
 
 			this.beforeQuantity = this.createdItem.getCount( inventory );
@@ -346,8 +353,15 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				this.combineItems();
 				break;
 			}
+
+			// After each iteration, determine how many were
+			// successfully made, and rerun if you're still
+			// short and continuation is possible.
+
+			createdQuantity = this.createdItem.getCount( inventory ) - this.beforeQuantity;
+			this.quantityNeeded -= createdQuantity;
 		}
-		while ( this.shouldRerun && KoLmafia.permitsContinue() );
+		while ( this.quantityNeeded > 0 && KoLmafia.permitsContinue() );
 	}
 
 	public void makeDough()
@@ -419,12 +433,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 	private void combineItems()
 	{
-		// First, make all the required ingredients for
-		// this concoction.
-
-		if ( !this.makeIngredients() )
-			return;
-
 		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( this.itemId );
 
 		if ( ingredients.length == 1 || this.mixingMethod == CATALYST || this.mixingMethod == WOK )
@@ -463,14 +471,13 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		AdventureResult createdItem = new AdventureResult( this.itemId, 0 );
 		int createdQuantity = createdItem.getCount( inventory ) - this.beforeQuantity;
-		KoLmafia.updateDisplay( "Successfully created " + createdQuantity + " " + this.getName() );
+		KoLmafia.updateDisplay( "Successfully created " + this.getName() + " (" + createdQuantity + ")" );
 
 		// Check to see if box-servant was overworked and exploded.
 
 		if ( this.responseText.indexOf( "Smoke" ) != -1 )
 		{
 			KoLmafia.updateDisplay( "Your box servant has escaped!" );
-			this.quantityNeeded = this.quantityNeeded - createdQuantity;
 
 			switch ( this.mixingMethod )
 			{
@@ -479,14 +486,12 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			case SUPER_REAGENT:
 			case COOK_PASTA:
 				KoLCharacter.setChef( false );
-				this.shouldRerun = this.quantityNeeded > 0;
 				break;
 
 			case MIX:
 			case MIX_SPECIAL:
 			case MIX_SUPER:
 				KoLCharacter.setBartender( false );
-				this.shouldRerun = this.quantityNeeded > 0;
 				break;
 			}
 		}
@@ -664,7 +669,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 	public boolean makeIngredients()
 	{
-		KoLmafia.updateDisplay( "Verifying ingredients for " + this.name + "..." );
+		KoLmafia.updateDisplay( "Verifying ingredients for " + this.name + " (" + this.quantityNeeded + ")..." );
 
 		boolean foundAllIngredients = true;
 
