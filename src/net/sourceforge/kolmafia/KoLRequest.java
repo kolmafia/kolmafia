@@ -955,7 +955,7 @@ public class KoLRequest extends Job implements KoLConstants
 		// should be enough
 
 		if ( this.data.isEmpty() )
-			return true;
+			return false;
 
 		try
 		{
@@ -968,7 +968,7 @@ public class KoLRequest extends Job implements KoLConstants
 			ostream.close();
 
 			ostream = null;
-			return true;
+			return false;
 		}
 		catch ( Exception e )
 		{
