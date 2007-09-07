@@ -1167,7 +1167,23 @@ public class KoLRequest extends Job implements KoLConstants
 				return !LoginRequest.isInstanceRunning();
 			}
 
-			KoLmafia.updateDisplay( ABORT_STATE, "You're in the middle of a fight." );
+			if ( this instanceof ConsumeItemRequest && ConsumeItemRequest.currentItemId() == ConsumeItemRequest.DRUM_MACHINE )
+			{
+				FightRequest.INSTANCE.run();
+				return !LoginRequest.isInstanceRunning();
+			}
+
+			if ( this instanceof ConsumeItemRequest && ConsumeItemRequest.currentItemId() == ConsumeItemRequest.BLACK_PUDDING )
+			{
+				FightRequest.INSTANCE.run();
+				KoLSettings.setUserProperty( "currentFullness", String.valueOf( KoLCharacter.getFullness() - 3 ) );
+				return !LoginRequest.isInstanceRunning();
+			}
+
+			// This is a request which should not have lead to a
+			// fight, but it did.  Notify the user.
+
+			KoLmafia.updateDisplay( ABORT_STATE, "Redirected to a fight page." );
 			return true;
 		}
 

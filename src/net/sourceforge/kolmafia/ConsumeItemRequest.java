@@ -124,7 +124,8 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int QUILL_PEN = 1957;
 	public static final int MACGUFFIN_DIARY = 2044;
 	private static final int BLACK_MARKET_MAP = 2054;
-	private static final int DRUM_MACHINE = 2328;
+	public static final int DRUM_MACHINE = 2328;
+	public static final int BLACK_PUDDING = 2338;
 	private static final int COBBS_KNOB_MAP = 2442;
 	private static final int JEWELRY_BOOK = 2502;
 	private static final int TELESCOPE = 2599;
@@ -214,6 +215,10 @@ public class ConsumeItemRequest extends KoLRequest
 
 		this.consumptionType = consumptionType;
 		this.itemUsed = item;
+	}
+
+	public static final int currentItemId()
+	{	return lastItemUsed == null ? -1 : lastItemUsed.getItemId();
 	}
 
 	public int getConsumptionType()
