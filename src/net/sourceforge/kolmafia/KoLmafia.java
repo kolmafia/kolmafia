@@ -1862,12 +1862,9 @@ public abstract class KoLmafia implements KoLConstants
 		{
 			AdventureFrame.updateRequestMeter( 1, 1 );
 
-			if ( conditions.isEmpty() )
-			{
-				int bountyItem = KoLSettings.getIntegerProperty( "currentBountyItem" );
-				if ( bountyItem != 0 && AdventureDatabase.getBountyLocation( TradeableItemDatabase.getItemName( bountyItem ) ) == request )
-					RequestThread.postRequest( new KoLRequest( "bhh.php" ) );
-			}
+			int bountyItem = KoLSettings.getIntegerProperty( "currentBountyItem" );
+			if ( bountyItem != 0 && AdventureDatabase.getBountyLocation( TradeableItemDatabase.getItemName( bountyItem ) ) == request )
+				RequestThread.postRequest( new KoLRequest( "bhh.php" ) );
 		}
 
 		// If you've completed the requests, make sure to update
