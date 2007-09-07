@@ -1534,7 +1534,7 @@ Pride	Experience: +4
 Antique Arms and Armor	Muscle: +15
 Arboreal Raiment	Stench Resistance: +30
 Black Armaments	Muscle: +6
-# Bounty-Hunting Rig
+Bounty-Hunting Rig	Item Drop: +15
 # Bow Tux
 Bugbear Costume	Mysticality: +3, Spell Damage: +3
 Cloaca-Cola Uniform	MP Regen Min: 1, MP Regen Max: 3
