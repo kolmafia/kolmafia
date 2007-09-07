@@ -44,62 +44,57 @@ import java.util.TreeMap;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 public abstract class CombatSettings implements KoLConstants
 {
 	private static String [] keys = new String[0];
 	private static File settingsFile = null;
 
+	private static final LockableListModel availableScripts = new LockableListModel();
 	private static final TreeMap reference = new TreeMap();
 	private static final CombatSettingNode root = new CombatSettingNode();
 
-	public static final void restoreDefaults()
+	public static final LockableListModel getAvailableScripts()
 	{
-		root.removeAllChildren();
-		reference.clear();
+		availableScripts.clear();
 
-		settingsFile = new File( SETTINGS_LOCATION, settingsFileName() );
+		String [] list = DATA_LOCATION.list();
+		for ( int i = 0; i < list.length; ++i )
+			if ( list[i].endsWith( ".ccs" ) )
+				availableScripts.add( list[i].substring( 0, list[i].length() - 4 ) );
 
-		loadSettings();
-		ensureProperty( "default", "attack with weapon" );
-		saveSettings();
+		if ( !availableScripts.contains( "default" ) )
+			availableScripts.add( "default" );
+
+		return availableScripts;
+	}
+
+	public static void setScript( String name )
+	{
+		if ( name == null || name.equals( "" ) )
+			name = "default";
+
+		name = StaticEntity.globalStringDelete( name.toLowerCase().trim(), " " );
+		if ( !availableScripts.contains( name ) )
+			availableScripts.add( name );
+
+		KoLSettings.setUserProperty( "customCombatScript", name + ".ccs" );
+		loadSettings( name + ".ccs" );
+	}
+
+	public static final String settingName()
+	{
+		String script = KoLSettings.getUserProperty( "customCombatScript" );
+		return script.endsWith( ".ccs" ) ? script.substring( 0, script.length() - 4 ) : "default";
 	}
 
 	public static final String settingsFileName()
-	{	return KoLCharacter.baseUserName() + "_combat.txt";
+	{	return settingName() + ".ccs";
 	}
 
 	public static final TreeNode getRoot()
 	{	return root;
-	}
-
-	public static final void loadSettings( File source )
-	{
-		if ( source == null || settingsFile == null || !source.exists() )
-			return;
-
-		if ( settingsFile.getAbsolutePath().equals( source.getAbsolutePath() ) )
-			return;
-
-		LogStream writer = LogStream.openStream( settingsFile, true );
-		BufferedReader reader = KoLDatabase.getReader( source );
-
-		try
-		{
-			String line;
-			while ( (line = reader.readLine()) != null )
-				writer.println( line );
-
-			reader.close();
-			writer.close();
-		}
-		catch ( Exception e )
-		{
-			StaticEntity.printStackTrace( e );
-		}
-
-		loadSettings();
-		ensureProperty( "default", "attack with weapon" );
 	}
 
 	/**
@@ -111,8 +106,17 @@ public abstract class CombatSettings implements KoLConstants
 	 * @param	source	The file that contains (or will contain) the character data
 	 */
 
-	private static final void loadSettings()
+	public static final void loadSettings()
+	{	loadSettings( settingsFileName() );
+	}
+
+	private static final void loadSettings( String filename )
 	{
+		root.removeAllChildren();
+		reference.clear();
+
+		settingsFile = new File( DATA_LOCATION, filename );
+
 		try
 		{
 			// First guarantee that a settings file exists with
@@ -120,12 +124,10 @@ public abstract class CombatSettings implements KoLConstants
 
 			if ( !settingsFile.exists() )
 			{
-				settingsFile.createNewFile();
-
-				keys = new String[ reference.size() ];
-				reference.keySet().toArray( keys );
-
-				return;
+				LogStream ostream = LogStream.openStream( settingsFile, true );
+				ostream.println( "[ default ]" );
+				ostream.println( "1: attack with weapon" );
+				ostream.close();
 			}
 
 			BufferedReader reader = KoLDatabase.getReader( settingsFile );
@@ -202,7 +204,7 @@ public abstract class CombatSettings implements KoLConstants
 
 			StaticEntity.printStackTrace( e2 );
 			settingsFile.delete();
-			loadSettings();
+			loadSettings( filename );
 		}
 	}
 
@@ -459,7 +461,7 @@ public abstract class CombatSettings implements KoLConstants
 			return action;
 
 		if ( action.startsWith( "custom" ) )
-			return "custom combat script";
+			return action.indexOf( ": " ) == -1 ? "custom: " + settingsFileName() : action;
 
 		if ( action.startsWith( "delevel" ) )
 			return "delevel and plink";

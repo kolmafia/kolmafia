@@ -62,6 +62,9 @@ import com.velocityreviews.forums.HttpTimeoutHandler;
 
 public class KoLRequest extends Job implements KoLConstants
 {
+	private int timeoutCount = 0;
+	private static final int TIMEOUT_LIMIT = 3;
+
 	private static boolean delayActive = true;
 	private static int totalActualDelay = 0;
 	private static int totalConsideredDelay = 0;
@@ -578,6 +581,7 @@ public class KoLRequest extends Job implements KoLConstants
 
 	public void run()
 	{
+		timeoutCount = 0;
 		containsUpdate = false;
 		String location = this.getURLString();
 
@@ -690,7 +694,7 @@ public class KoLRequest extends Job implements KoLConstants
 			if ( !this.prepareConnection() )
 				break;
 		}
-		while ( !this.postClientData() && !this.retrieveServerReply() );
+		while ( !this.postClientData() && !this.retrieveServerReply() && this.timeoutCount < TIMEOUT_LIMIT );
 
 		if ( this.hasNoResult || this.responseCode != 200 )
 			return;
@@ -972,6 +976,8 @@ public class KoLRequest extends Job implements KoLConstants
 		}
 		catch ( Exception e )
 		{
+			++this.timeoutCount;
+
 			if ( KoLSettings.getBooleanProperty( "printSocketTimeouts" ) )
 				RequestLogger.printLine( "Time out during data post (" + this.formURLString + ").  This could be bad..." );
 
@@ -1020,6 +1026,7 @@ public class KoLRequest extends Job implements KoLConstants
 		}
 		catch ( Exception e1 )
 		{
+			++this.timeoutCount;
 			boolean shouldRetry = retryOnTimeout();
 
 			if ( KoLSettings.getBooleanProperty( "printSocketTimeouts" ) )

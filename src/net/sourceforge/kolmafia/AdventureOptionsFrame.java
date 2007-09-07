@@ -34,7 +34,10 @@
 package net.sourceforge.kolmafia;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.BufferedReader;
+import java.nio.channels.FileChannel;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -192,6 +195,9 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 		this.combatPanel.add( "tree", new CustomCombatTreePanel() );
 		this.combatPanel.add( "editor", new CustomCombatPanel() );
 
+		CombatSettings.loadSettings();
+		this.refreshCombatTree();
+
 		SimpleScrollPane restoreScroller = new SimpleScrollPane( restorePanel );
 		JComponentUtilities.setComponentSize( restoreScroller, 560, 400 );
 
@@ -217,14 +223,14 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 			super( "Editor", "save", "help", new JTextArea() );
 			AdventureOptionsFrame.this.combatEditor = (JTextArea) this.scrollComponent;
 			AdventureOptionsFrame.this.combatEditor.setFont( DEFAULT_FONT );
-			AdventureOptionsFrame.this.refreshCombatSettings();
+			AdventureOptionsFrame.this.refreshCombatTree();
 		}
 
 		public void actionConfirmed()
 		{
 			String saveText = AdventureOptionsFrame.this.combatEditor.getText();
 
-			File location = new File( SETTINGS_LOCATION, CombatSettings.settingsFileName() );
+			File location = new File( DATA_LOCATION, CombatSettings.settingsFileName() );
 			LogStream writer = LogStream.openStream( location, true );
 
 			writer.print( saveText );
@@ -237,6 +243,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 			// After storing all the data on disk, go ahead
 			// and reload the data inside of the tree.
 
+			CombatSettings.loadSettings();
 			AdventureOptionsFrame.this.refreshCombatTree();
 			AdventureOptionsFrame.this.combatCards.show( AdventureOptionsFrame.this.combatPanel, "tree" );
 		}
@@ -252,56 +259,122 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 	public class CustomCombatTreePanel extends LabeledScrollPanel
 	{
+		public JComboBox availableScripts;
+
 		public CustomCombatTreePanel()
 		{
-			super( "Custom Combat", "edit", "load", AdventureOptionsFrame.this.combatTree );
+			super( "", "edit", "help", AdventureOptionsFrame.this.combatTree );
 			AdventureOptionsFrame.this.combatTree.setVisibleRowCount( 8 );
+
+			this.availableScripts = new CombatComboBox();
+			this.centerPanel.add( this.availableScripts, BorderLayout.NORTH );
+
+			JPanel extraButtons = new JPanel( new GridLayout( 2, 1, 5, 5 ) );
+
+			extraButtons.add( new NewScriptButton() );
+			extraButtons.add( new CopyScriptButton() );
+
+			JPanel buttonHolder = new JPanel( new BorderLayout() );
+			buttonHolder.add( extraButtons, BorderLayout.NORTH );
+
+			this.eastPanel.add( buttonHolder, BorderLayout.SOUTH );
 		}
 
 		public void actionConfirmed()
 		{
+			CombatSettings.loadSettings();
 			AdventureOptionsFrame.this.refreshCombatSettings();
 			AdventureOptionsFrame.this.combatCards.show( AdventureOptionsFrame.this.combatPanel, "editor" );
 		}
 
 		public void actionCancelled()
 		{
-			JFileChooser chooser = new JFileChooser( SETTINGS_LOCATION.getAbsolutePath() );
-			chooser.setFileFilter( CCS_FILTER );
-
-			int returnVal = chooser.showOpenDialog( null );
-
-			if ( chooser.getSelectedFile() == null || returnVal != JFileChooser.APPROVE_OPTION )
-				return;
-
-			CombatSettings.loadSettings( chooser.getSelectedFile() );
-			AdventureOptionsFrame.this.refreshCombatSettings();
 		}
 
 		public void setEnabled( boolean isEnabled )
 		{
 		}
-	}
 
-	public static final FileFilter CCS_FILTER = new FileFilter()
-	{
-		public boolean accept( File file )
+		public class CombatComboBox extends JComboBox
 		{
-			String name = file.getName();
-			return name.endsWith( "_combat.txt" );
+			public CombatComboBox()
+			{
+				super( CombatSettings.getAvailableScripts() );
+				this.setSelectedItem( CombatSettings.settingName() );
+				this.addActionListener( new CombatComboBoxListener() );
+			}
+
+			public class CombatComboBoxListener implements ActionListener
+			{
+				public void actionPerformed( ActionEvent e )
+				{
+					CombatSettings.setScript( (String) CombatComboBox.this.getSelectedItem() );
+					AdventureOptionsFrame.this.refreshCombatTree();
+				}
+			}
 		}
 
-		public String getDescription()
-		{	return "Custom Combat Settings";
+		public class NewScriptButton extends ThreadedButton
+		{
+			public NewScriptButton()
+			{	super( "new" );
+			}
+
+			public void run()
+			{
+				String name = input( "Give your combat script a name!" );
+				if ( name == null )
+					return;
+
+				CombatSettings.setScript( name );
+				availableScripts.setSelectedItem( CombatSettings.settingName() );
+				CombatSettings.saveSettings();
+			}
 		}
-	};
+
+		public class CopyScriptButton extends ThreadedButton
+		{
+			public CopyScriptButton()
+			{	super( "copy" );
+			}
+
+			public void run()
+			{
+				String name = input( "Make a copy of current script called:" );
+				if ( name == null )
+					return;
+
+				if ( name.equals( "default" ) )
+					return;
+
+				try
+				{
+					String sourceName = CombatSettings.settingsFileName();
+					CombatSettings.setScript( name );
+					String targetName = CombatSettings.settingsFileName();
+
+					FileChannel source = (new FileInputStream( new File( DATA_LOCATION, sourceName ) )).getChannel();
+					FileChannel target = (new FileOutputStream( new File( DATA_LOCATION, targetName ) )).getChannel();
+
+					source.transferTo( 0, source.size(), target );
+					source.close();
+					target.close();
+				}
+				catch ( Exception e )
+				{
+					StaticEntity.printStackTrace( e );
+				}
+
+				CombatSettings.setScript( name );
+			}
+		}
+	}
 
 	public void refreshCombatSettings()
 	{
 		try
 		{
-			CombatSettings.restoreDefaults();
-			BufferedReader reader = KoLDatabase.getReader( SETTINGS_DIRECTORY + CombatSettings.settingsFileName() );
+			BufferedReader reader = KoLDatabase.getReader( DATA_DIRECTORY + CombatSettings.settingsFileName() );
 
 			if ( reader == null )
 				return;
@@ -317,11 +390,6 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 			reader.close();
 			reader = null;
-
-			// If the buffer is empty, add in the default settings.
-
-			if ( buffer.length() == 0 )
-				buffer.append( "[ default ]\n1: attack with weapon" );
 
 			this.combatEditor.setText( buffer.toString() );
 		}
@@ -343,7 +411,6 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 	public void refreshCombatTree()
 	{
-		CombatSettings.restoreDefaults();
 		this.combatModel.setRoot( CombatSettings.getRoot() );
 		this.combatTree.setRootVisible( false );
 
