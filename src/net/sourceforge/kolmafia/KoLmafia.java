@@ -1771,6 +1771,9 @@ public abstract class KoLmafia implements KoLConstants
 
 	private boolean handleConditions( AdventureResult [] items, ItemCreationRequest [] creatables  )
 	{
+		if ( items.length == 0 )
+			return false;
+
 		if ( conditions.isEmpty() )
 			return true;
 
@@ -1807,31 +1810,14 @@ public abstract class KoLmafia implements KoLConstants
 		return conditions.isEmpty();
 	}
 
-	private void executeRequest( Runnable request, int iterations, boolean wasAdventuring )
+	private void executeRequest( Runnable request, int totalIterations, boolean wasAdventuring )
 	{
 		hadPendingState = false;
-
-		boolean isCheckExempt = !(request instanceof KoLAdventure) || ((KoLAdventure)request).getRequest() instanceof CampgroundRequest ||
-			KoLCharacter.getInebriety() > 25 || ((KoLAdventure)request).getZone().equals( "Holiday" );
-
-		if ( KoLCharacter.isFallingDown() && !isCheckExempt )
-		{
-			updateDisplay( ERROR_STATE, "You are too drunk to continue." );
-			return;
-		}
-
-		// Check to see if there are any end conditions.  If
-		// there are conditions, be sure that they are checked
-		// during the iterations.
-
-		boolean hadConditions = !conditions.isEmpty();
-		int adventuresBeforeRequest = 0;
 
 		// Begin the adventuring process, or the request execution
 		// process (whichever is applicable).
 
-		int currentIteration = 0;
-
+		boolean isAdventure = request instanceof KoLAdventure;
 		AdventureResult [] items = new AdventureResult[ conditions.size() ];
 		ItemCreationRequest [] creatables = new ItemCreationRequest[ conditions.size() ];
 
@@ -1845,9 +1831,12 @@ public abstract class KoLmafia implements KoLConstants
 		// player isn't using custom combat.
 
 		forceContinue();
+
+		int adventuresBeforeRequest;
+		int currentIteration = 0;
 		int currentIterationCount = 0;
 
-		while ( permitsContinue() && ++currentIteration <= iterations )
+		while ( permitsContinue() && ++currentIteration <= totalIterations )
 		{
 			if ( currentIterationCount > 4 )
 			{
@@ -1855,118 +1844,38 @@ public abstract class KoLmafia implements KoLConstants
 				break;
 			}
 
-			// Account for the possibility that you could have run
-			// out of adventures mid-request.
-
-			if ( KoLCharacter.getAdventuresLeft() == 0 && request instanceof KoLAdventure )
-				break;
-
-			// See if you can create anything to satisfy your item
-			// conditions, but only do so if it's an adventure.
-
-			if ( request instanceof KoLAdventure )
-			{
-				if ( hadConditions && this.handleConditions( items, creatables ) )
-				{
-					conditions.clear();
-					updateDisplay( PENDING_STATE, "Conditions satisfied after " + (currentIteration - 1) +
-						((currentIteration == 2) ? " request." : " requests.") );
-
-					break;
-				}
-
-				if ( ((KoLAdventure)request).getRequest() instanceof SewerRequest )
-				{
-					if ( SewerRequest.GUM.getCount( inventory ) == 0 )
-					{
-						int stopCount = 0;
-						AdventureResult currentCondition;
-						for ( int i = 0; i < conditions.size(); ++i )
-						{
-							currentCondition = (AdventureResult) conditions.get(i);
-							if ( currentCondition.isItem() )
-								stopCount += currentCondition.getCount();
-						}
-
-						int gumAmount = stopCount == 0 ? iterations : Math.min( stopCount, iterations );
-						if ( !AdventureDatabase.retrieveItem( SewerRequest.GUM.getInstance( gumAmount ) ) )
-							return;
-					}
-				}
-
-				// Otherwise, disable the display and update the user
-				// and the current request number.  Different requests
-				// have different displays.  They are handled here.
-
-				if ( iterations > 1 )
-					currentIterationString = "Request " + currentIteration + " of " + iterations + " (" + request.toString() + ") in progress...";
-				else
-					currentIterationString = "Visit to " + request.toString() + " in progress...";
-			}
-			else if ( request instanceof CampgroundRequest )
-			{
-				currentIterationString = "Canpground request " + currentIteration + " of " + iterations + " in progress...";
-			}
-
-			if ( refusesContinue() )
-				break;
-
 			adventuresBeforeRequest = KoLCharacter.getAdventuresLeft();
+			executeRequestOnce( request, wasAdventuring, currentIteration, totalIterations, items, creatables );
 
-			if ( request instanceof KoLAdventure && !wasAdventuring )
-				AdventureFrame.updateRequestMeter( currentIteration - 1, iterations );
-
-			RequestLogger.printLine();
-
-			if ( request instanceof KoLRequest )
-				RequestThread.postRequest( (KoLRequest) request );
-			else if ( request instanceof KoLAdventure )
-				RequestThread.postRequest( (KoLAdventure) request );
-			else
-				request.run();
-
-			RequestLogger.printLine();
-
-			// Decrement the counter to null out the increment
-			// effect on the next iteration of the loop.
-
-			if ( request instanceof KoLAdventure && adventuresBeforeRequest == KoLCharacter.getAdventuresLeft() )
+			if ( isAdventure && adventuresBeforeRequest == KoLCharacter.getAdventuresLeft() )
 			{
 				--currentIteration;
 				++currentIterationCount;
 			}
 			else
-				currentIterationCount = 0;
-
-			// Prevent drunkenness adventures from occurring by
-			// testing inebriety levels after the request is run.
-
-			if ( KoLCharacter.isFallingDown() && !isCheckExempt )
 			{
-				updateDisplay( ERROR_STATE, "You are too drunk to continue." );
-				return;
+				currentIterationCount = 0;
 			}
 		}
 
-		if ( hadConditions && conditions.isEmpty() )
+		if ( isAdventure )
 		{
-			int bountyItem = KoLSettings.getIntegerProperty( "currentBountyItem" );
-			if ( bountyItem != 0 && AdventureDatabase.getBountyLocation( TradeableItemDatabase.getItemName( bountyItem ) ) == request )
-				RequestThread.postRequest( new KoLRequest( "bhh.php" ) );
-		}
-
-		if ( request instanceof KoLAdventure )
-			currentIterationString = "";
-
-		if ( request instanceof KoLAdventure )
 			AdventureFrame.updateRequestMeter( 1, 1 );
+
+			if ( conditions.isEmpty() )
+			{
+				int bountyItem = KoLSettings.getIntegerProperty( "currentBountyItem" );
+				if ( bountyItem != 0 && AdventureDatabase.getBountyLocation( TradeableItemDatabase.getItemName( bountyItem ) ) == request )
+					RequestThread.postRequest( new KoLRequest( "bhh.php" ) );
+			}
+		}
 
 		// If you've completed the requests, make sure to update
 		// the display.
 
 		if ( permitsContinue() && !isRunningBetweenBattleChecks() )
 		{
-			if ( request instanceof KoLAdventure && !conditions.isEmpty() )
+			if ( isAdventure && !conditions.isEmpty() )
 			{
 				updateDisplay( ERROR_STATE, "Conditions not satisfied after " + (currentIteration - 1) +
 					((currentIteration == 2) ? " adventure." : " adventures.") );
@@ -1978,8 +1887,88 @@ public abstract class KoLmafia implements KoLConstants
 			forceContinue();
 		}
 
-		if ( request instanceof KoLAdventure )
+		if ( isAdventure )
 			KoLRequest.printTotalDelay();
+	}
+
+	private void executeAdventureOnce( KoLAdventure adventure, boolean wasAdventuring, int currentIteration, int totalIterations, AdventureResult [] items, ItemCreationRequest [] creatables )
+	{
+		if ( KoLCharacter.getAdventuresLeft() == 0 )
+		{
+			updateDisplay( PENDING_STATE, "Ran out of adventures." );
+			return;
+		}
+
+		if ( this.handleConditions( items, creatables ) )
+		{
+			updateDisplay( PENDING_STATE, "Conditions satisfied after " + currentIteration + " adventures." );
+			return;
+		}
+
+		if ( KoLCharacter.isFallingDown() && KoLCharacter.getInebriety() <= 25 )
+		{
+			updateDisplay( ERROR_STATE, "You are too drunk to continue." );
+			return;
+		}
+
+		if ( adventure.getRequest() instanceof SewerRequest )
+		{
+			if ( SewerRequest.GUM.getCount( inventory ) == 0 )
+			{
+				int stopCount = 0;
+				AdventureResult currentCondition;
+				for ( int i = 0; i < conditions.size(); ++i )
+				{
+					currentCondition = (AdventureResult) conditions.get(i);
+					if ( currentCondition.isItem() )
+						stopCount += currentCondition.getCount();
+				}
+
+				int gumAmount = stopCount == 0 ? totalIterations : Math.min( stopCount, totalIterations );
+				if ( !AdventureDatabase.retrieveItem( SewerRequest.GUM.getInstance( gumAmount ) ) )
+					return;
+			}
+		}
+
+		// Otherwise, disable the display and update the user
+		// and the current request number.  Different requests
+		// have different displays.  They are handled here.
+
+		if ( totalIterations > 1 )
+			currentIterationString = "Request " + currentIteration + " of " + totalIterations + " (" + adventure.toString() + ") in progress...";
+		else
+			currentIterationString = "Visit to " + adventure.toString() + " in progress...";
+
+		if ( !wasAdventuring )
+			AdventureFrame.updateRequestMeter( currentIteration - 1, totalIterations );
+
+		RequestLogger.printLine();
+		RequestThread.postRequest( adventure );
+		RequestLogger.printLine();
+
+		currentIterationString = "";
+
+		if ( this.handleConditions( items, creatables ) )
+		{
+			updateDisplay( PENDING_STATE, "Conditions satisfied after " + currentIteration + " adventures." );
+			return;
+		}
+	}
+
+	private void executeRequestOnce( Runnable request, boolean wasAdventuring, int currentIteration, int totalIterations, AdventureResult [] items, ItemCreationRequest [] creatables )
+	{
+		if ( request instanceof KoLAdventure )
+		{
+			executeAdventureOnce( (KoLAdventure) request, wasAdventuring, currentIteration, totalIterations, items, creatables );
+			return;
+		}
+
+		if ( request instanceof CampgroundRequest )
+			currentIterationString = "Canpground request " + currentIteration + " of " + totalIterations + " in progress...";
+
+		RequestLogger.printLine();
+		RequestThread.postRequest( (KoLRequest) request );
+		RequestLogger.printLine();
 	}
 
 	/**
