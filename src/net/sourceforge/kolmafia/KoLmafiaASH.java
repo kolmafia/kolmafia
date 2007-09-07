@@ -193,7 +193,7 @@ public class KoLmafiaASH extends StaticEntity
 	private int currentState = STATE_NORMAL;
 	private static boolean isExecuting = false;
 	private static String lastImportString = "";
-	private static String notifyRecipient = null;
+	private String notifyRecipient = null;
 
 	// Feature control;
 	// disabled until and if we choose to document the feature
