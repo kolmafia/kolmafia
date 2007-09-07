@@ -77,8 +77,8 @@ public class LoginFrame extends KoLFrame
 		breakfastPanel.setLayout( new BoxLayout( breakfastPanel, BoxLayout.Y_AXIS ) );
 
 		breakfastPanel.add( new ScriptPanel() );
-		breakfastPanel.add( new BreakfastPanel( "Softcore Characters", "Softcore" ) );
-		breakfastPanel.add( new BreakfastPanel( "Hardcore Characters", "Hardcore" ) );
+		breakfastPanel.add( new BreakfastPanel( "Ronin-Clear Characters", "Softcore" ) );
+		breakfastPanel.add( new BreakfastPanel( "In-Ronin Characters", "Hardcore" ) );
 
 		this.tabs.addTab( "Main Tabs", new StartupFramesPanel() );
 		this.tabs.addTab( "Look & Feel", new UserInterfacePanel()  );
