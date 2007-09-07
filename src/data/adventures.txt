@@ -23,8 +23,8 @@ Casino	0/0	adventure=71	Poker Room
 
 Dungeon	0/5	adventure=16	Haiku Dungeon
 Dungeon	19/0	adventure=19	Limerick Dungeon
-Dungeon	47/0	adventure=38	Greater-Than Sign
-Dungeon	47/0	adventure=39	Dungeons of Doom
+Dungeon	44/44	adventure=38	Greater-Than Sign
+Dungeon	44/44	adventure=39	Dungeons of Doom
 Dungeon	0/0	dungeon=0	Daily Dungeon
 
 Town	0/0	sewer=0	Unlucky Sewer
