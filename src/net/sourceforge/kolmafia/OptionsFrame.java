@@ -285,9 +285,9 @@ public class OptionsFrame extends KoLFrame
 			{ "", "" },
 
 			{ "switchEquipmentForBuffs", "Allow equipment changing when casting buffs" },
-			{ "allowEncounterRateBurning", "Cast combat rate modifiers during conditional recast" },
-			{ "allowBreakfastBurning", "Cast breakfast skills during conditional recast" },
-			{ "allowNonMoodBurning", "Cast buffs not defined in moods during conditional recast" },
+			{ "allowEncounterRateBurning", "Cast combat rate modifiers during buff balancing" },
+			{ "allowBreakfastBurning", "Summon noodles/reagents/garnishes/hearts during buff balancing" },
+			{ "allowNonMoodBurning", "Cast buffs not defined in moods during buff balancing" },
 
 			{ "", "" },
 
