@@ -6300,7 +6300,7 @@ public class KoLmafiaASH extends StaticEntity
 			int baseValue = Math.max( 0, FightRequest.getMonsterAttack() - KoLCharacter.getAdjustedMoxie() ) +
 				(FightRequest.getMonsterAttack() / 4) - KoLCharacter.getDamageReduction();
 
-			float damageAbsorb = 1.0f - (( ((float) Math.sqrt( KoLCharacter.getDamageAbsorption() / 10.0f )) - 1.0f ) / 10.0f);
+			float damageAbsorb = 1.0f - (( ((float) Math.sqrt( Math.min( 1000, KoLCharacter.getDamageAbsorption() ) / 10.0f )) - 1.0f ) / 10.0f);
 			float elementAbsorb = 1.0f - KoLCharacter.getElementalResistance( FightRequest.getMonsterAttackElement() );
 			return new ScriptValue( (int) Math.ceil( baseValue * damageAbsorb * elementAbsorb ) );
 		}
@@ -6316,7 +6316,7 @@ public class KoLmafiaASH extends StaticEntity
 			int baseValue = Math.max( 0, monster.getAttack() - KoLCharacter.getAdjustedMoxie() ) +
 				(FightRequest.getMonsterAttack() / 4) - KoLCharacter.getDamageReduction();
 
-			float damageAbsorb = 1.0f - (( ((float) Math.sqrt( KoLCharacter.getDamageAbsorption() / 10.0f )) - 1.0f ) / 10.0f);
+			float damageAbsorb = 1.0f - (( ((float) Math.sqrt( Math.min( 1000, KoLCharacter.getDamageAbsorption() ) / 10.0f )) - 1.0f ) / 10.0f);
 			float elementAbsorb = 1.0f - KoLCharacter.getElementalResistance( monster.getAttackElement() );
 			return new ScriptValue( (int) Math.ceil( baseValue * damageAbsorb * elementAbsorb ) );
 		}
@@ -6339,7 +6339,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue damage_absorption_percent()
 		{
-			int raw = KoLCharacter.getDamageAbsorption();
+			int raw = Math.min( 1000, KoLCharacter.getDamageAbsorption() );
 			if ( raw == 0 )
 				return ZERO_FLOAT_VALUE;
 
