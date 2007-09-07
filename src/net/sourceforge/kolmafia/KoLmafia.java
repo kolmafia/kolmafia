@@ -556,7 +556,7 @@ public abstract class KoLmafia implements KoLConstants
 		// Also, do mushrooms, if a mushroom script has already
 		// been setup by the user.
 
-		if ( KoLSettings.getBooleanProperty( "autoPlant" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") ) )
+		if ( KoLSettings.getBooleanProperty( "autoPlant" + (KoLCharacter.canInteract() ? "Softcore" : "Hardcore") ) )
 		{
 			String currentLayout = KoLSettings.getUserProperty( "plantingScript" );
 			if ( !currentLayout.equals( "" ) && KoLCharacter.inMuscleSign() && MushroomPlot.ownsPlot() )
@@ -609,13 +609,13 @@ public abstract class KoLmafia implements KoLConstants
 				forceContinue();
 			}
 
-			if ( KoLSettings.getBooleanProperty( "visitRumpus" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") ) )
+			if ( KoLSettings.getBooleanProperty( "visitRumpus" + (KoLCharacter.canInteract() ? "Softcore" : "Hardcore") ) )
 			{
 				RequestThread.postRequest( new ClanGymRequest( ClanGymRequest.SEARCH ) );
 				forceContinue();
 			}
 
-			if ( KoLSettings.getBooleanProperty( "readManual" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") ) )
+			if ( KoLSettings.getBooleanProperty( "readManual" + (KoLCharacter.canInteract() ? "Softcore" : "Hardcore") ) )
 			{
 				AdventureResult manual = KoLCharacter.isMuscleClass() ? MANUAL_1 : KoLCharacter.isMysticalityClass() ? MANUAL_2 : MANUAL_3;
 				if ( KoLCharacter.hasItem( manual ) )
@@ -624,7 +624,7 @@ public abstract class KoLmafia implements KoLConstants
 				forceContinue();
 			}
 
-			if ( KoLSettings.getBooleanProperty( "grabClovers" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") ) )
+			if ( KoLSettings.getBooleanProperty( "grabClovers" + (KoLCharacter.canInteract() ? "Softcore" : "Hardcore") ) )
 			{
 				if ( HermitRequest.getWorthlessItemCount() > 0 )
 					KoLmafiaCLI.DEFAULT_SHELL.executeLine( "hermit * ten-leaf clover" );
@@ -649,7 +649,7 @@ public abstract class KoLmafia implements KoLConstants
 	public void castBreakfastSkills( boolean checkSettings, int manaRemaining )
 	{
 		this.castBreakfastSkills( checkSettings,
-			KoLSettings.getBooleanProperty( "loginRecovery" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") ), manaRemaining );
+			KoLSettings.getBooleanProperty( "loginRecovery" + (KoLCharacter.canInteract() ? "Softcore" : "Hardcore") ), manaRemaining );
 	}
 
 	public boolean castBreakfastSkills( boolean checkSettings, boolean allowRestore, int manaRemaining )
@@ -660,8 +660,8 @@ public abstract class KoLmafia implements KoLConstants
 		boolean shouldCast = false;
 		boolean limitExceeded = true;
 
-		String skillSetting = KoLSettings.getUserProperty( "breakfast" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") );
-		boolean pathedSummons = KoLSettings.getBooleanProperty( "pathedSummons" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") );
+		String skillSetting = KoLSettings.getUserProperty( "breakfast" + (KoLCharacter.canInteract() ? "Softcore" : "Hardcore") );
+		boolean pathedSummons = KoLSettings.getBooleanProperty( "pathedSummons" + (KoLCharacter.canInteract() ? "Softcore" : "Hardcore") );
 
 		if ( skillSetting != null )
 		{
