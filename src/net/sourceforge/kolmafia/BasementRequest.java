@@ -652,7 +652,7 @@ public class BasementRequest extends AdventureRequest
 			// http://forums.kingdomofloathing.com/viewtopic.php?t=83342&start=201
 			// drain requirement is 5.0 * x^1.4. Assume worst-case.
 
-			float drainRequirement = (float) Math.pow( basementLevel, 1.4 ) * 5.00f * 1.05f;
+			float drainRequirement = (float) Math.pow( basementLevel, 1.4 ) * 10.0f * 1.1f;
 
 			basementTestString = "Maximum HP";
 			basementTestCurrent = KoLCharacter.getMaximumHP();
