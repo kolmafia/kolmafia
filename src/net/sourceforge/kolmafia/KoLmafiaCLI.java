@@ -914,8 +914,10 @@ public class KoLmafiaCLI extends KoLmafia
 					CombatSettings.setDefaultAction( value );
 					value = "custom combat script";
 				}
-
-				value = CombatSettings.getLongCombatOptionName( value );
+				else
+				{
+					value = CombatSettings.getLongCombatOptionName( value );
+				}
 
 				// Special handling of the battle action property,
 				// such that auto-recovery gets reset as needed.

@@ -198,6 +198,11 @@ public class KoLSettings extends Properties implements KoLConstants
 				source.renameTo( RELAY_LOCATION );
 		}
 
+		File [] listing = SETTINGS_LOCATION.listFiles();
+		for ( int i = 0; i < listing.length; ++i )
+			if ( listing[i].getPath().endsWith( "_combat.txt" ) )
+				listing[i].delete();
+
 		if ( !DATA_LOCATION.exists() )
 			DATA_LOCATION.mkdirs();
 		if ( !SETTINGS_LOCATION.exists() )
@@ -290,7 +295,7 @@ public class KoLSettings extends Properties implements KoLConstants
 
 		userSettings = new KoLSettings( username );
 
-		CombatSettings.restoreDefaults();
+		CombatSettings.loadSettings();
 		MoodSettings.restoreDefaults();
 	}
 
@@ -743,6 +748,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		USER_MAP.put( "currentPvpVictories", "" );
 		USER_MAP.put( "currentSpleenUse", "0" );
 		USER_MAP.put( "currentWheelPosition", "muscle" );
+		USER_MAP.put( "customCombatScript", "default" );
 		USER_MAP.put( "defaultAutoAttack", "0" );
 		USER_MAP.put( "defaultFlowerLossMessage", "" );
 		USER_MAP.put( "defaultFlowerWinMessage", "" );
