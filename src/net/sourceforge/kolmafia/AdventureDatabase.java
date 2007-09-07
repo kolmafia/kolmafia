@@ -103,6 +103,9 @@ public class AdventureDatabase extends KoLDatabase
 		conditionsById.set( 113, "1 razor-sharp can lid" );  // Haunted Pantry
 		conditionsById.set( 114, "1 chef's hat" );  // Knob Outskirts
 		conditionsById.set( 119, "1 stunt nuts, 1 I Love Me Vol I" );  // Palindome
+		conditionsById.set( 127, "1 filthworm hatchling scent gland" ); // The Hatching Chamber
+		conditionsById.set( 128, "1 filthworm drone scent gland" ); // The Feeding Chamber
+		conditionsById.set( 129, "1 filthworm royal guard scent gland" ); // The Guards Chamber
 		conditionsById.set( 151, "1 choiceadv" );  // Stately Pleasure Dome
 		conditionsById.set( 152, "1 choiceadv" );  // Mouldering Mansion
 		conditionsById.set( 153, "1 choiceadv" );  // Rogue Windmill
