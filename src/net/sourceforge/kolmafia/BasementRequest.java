@@ -664,7 +664,7 @@ public class BasementRequest extends AdventureRequest
 			desirableEffects.add( getDesiredEqualizer() );
 
 			float damageAbsorb = 1.0f - ((((float) Math.sqrt(
-				Math.min( 800, KoLCharacter.getDamageAbsorption() ) / 10.0f )) - 1.0f) / 10.0f);
+				Math.min( 1000, KoLCharacter.getDamageAbsorption() ) / 10.0f )) - 1.0f) / 10.0f);
 
 			float healthRequirement = drainRequirement;
 
