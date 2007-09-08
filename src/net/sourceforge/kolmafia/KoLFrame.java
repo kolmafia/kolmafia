@@ -357,43 +357,48 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	{
 		JToolBar toolbarPanel = null;
 
-		switch ( KoLSettings.getIntegerProperty( "toolbarPosition" ) )
+		if ( force )
 		{
-		case 1:
 			toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
 			this.getContentPane().add( toolbarPanel, BorderLayout.NORTH );
-			break;
-
-		case 2:
-			toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
-			this.getContentPane().add( toolbarPanel, BorderLayout.SOUTH );
-			break;
-
-		case 3:
-			toolbarPanel = new JToolBar( "KoLmafia Toolbar", JToolBar.VERTICAL );
-			this.getContentPane().add( toolbarPanel, BorderLayout.WEST );
-			break;
-
-		case 4:
-			toolbarPanel = new JToolBar( "KoLmafia Toolbar", JToolBar.VERTICAL );
-			this.getContentPane().add( toolbarPanel, BorderLayout.EAST );
-			break;
-
-		default:
-
-			toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
-			if ( this instanceof LoginFrame || this instanceof ChatFrame )
+		}
+		else
+		{
+			switch ( KoLSettings.getIntegerProperty( "toolbarPosition" ) )
 			{
+			case 1:
+				toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
 				this.getContentPane().add( toolbarPanel, BorderLayout.NORTH );
 				break;
+
+			case 2:
+				toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
+				this.getContentPane().add( toolbarPanel, BorderLayout.SOUTH );
+				break;
+
+			case 3:
+				toolbarPanel = new JToolBar( "KoLmafia Toolbar", JToolBar.VERTICAL );
+				this.getContentPane().add( toolbarPanel, BorderLayout.WEST );
+				break;
+
+			case 4:
+				toolbarPanel = new JToolBar( "KoLmafia Toolbar", JToolBar.VERTICAL );
+				this.getContentPane().add( toolbarPanel, BorderLayout.EAST );
+				break;
+
+			default:
+
+				toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
+				if ( this instanceof LoginFrame || this instanceof ChatFrame )
+				{
+					this.getContentPane().add( toolbarPanel, BorderLayout.NORTH );
+					break;
+				}
 			}
 		}
 
-		if ( toolbarPanel == null && force )
-		{
-			toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
-			this.getContentPane().add( toolbarPanel, BorderLayout.NORTH );
-		}
+		if ( toolbarPanel != null )
+			toolbarPanel.setFloatable( false );
 
 		return toolbarPanel;
 	}

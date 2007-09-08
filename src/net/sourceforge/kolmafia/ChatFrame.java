@@ -132,13 +132,9 @@ public class ChatFrame extends KoLFrame
 		if ( !KoLSettings.getBooleanProperty( "useChatToolbar" ) )
 			return null;
 
-		JToolBar toolbarPanel = super.getToolbar();
-		if ( toolbarPanel == null )
-			return null;
+		JToolBar toolbarPanel = super.getToolbar( true );
 
-		toolbarPanel.setFloatable( false );
 		toolbarPanel.add( new MessengerButton( "/who", "who2.gif", "checkChannel" ) );
-
 		toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
 
 		toolbarPanel.add( new MessengerButton( "Add Highlighting", "highlight1.gif", "addHighlighting" ) );

@@ -335,10 +335,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 		 if ( toolbarPanel == null )
 		 	return null;
 
-
-		toolbarPanel.setFloatable( false );
 		toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
-
 		toolbarPanel.add( new DisplayFrameButton( "Council", "council.gif", "CouncilFrame" ) );
 
 		if ( KoLSettings.getBooleanProperty( "mapLoadsMiniBrowser" ) )
