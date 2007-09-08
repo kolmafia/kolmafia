@@ -1161,7 +1161,7 @@ public class AdventureDatabase extends KoLDatabase
 			adventureURL = adventureURL.substring(1);
 
 		if ( adventureURL.startsWith( "basement.php" ) )
-			return (KoLAdventure) adventureLookup.get( adventureURL );
+			return null;
 
 		if ( adventureURL.startsWith( "sewer.php" ) )
 			return adventureURL.indexOf( "doodit" ) == -1 ?
