@@ -663,13 +663,11 @@ public class BasementRequest extends AdventureRequest
 
 			desirableEffects.add( getDesiredEqualizer() );
 
-			float damageAbsorb = 1.0f - ((((float) Math.sqrt(
-				Math.min( 1000, KoLCharacter.getDamageAbsorption() ) / 10.0f )) - 1.0f) / 10.0f);
-
-			float healthRequirement = drainRequirement;
+			float damageAbsorb = 1.0f - ((((float) Math.sqrt( Math.min( 1000, KoLCharacter.getDamageAbsorption() ) / 10.0f )) - 1.0f) / 10.0f);
+			float healthRequirement = drainRequirement * damageAbsorb;
 
 			basementTestValue = (int) healthRequirement;
-			gauntletString = COMMA_FORMAT.format( drainRequirement ) + " * " + FLOAT_FORMAT.format( damageAbsorb ) + " (" +
+			gauntletString =((int)drainRequirement) + " * " + FLOAT_FORMAT.format( damageAbsorb ) + " (" +
 				KoLCharacter.getDamageAbsorption() + " DA) = " + COMMA_FORMAT.format( healthRequirement );
 
 			if ( KoLCharacter.getMaximumHP() < healthRequirement )
