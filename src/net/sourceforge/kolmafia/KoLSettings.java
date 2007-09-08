@@ -198,15 +198,15 @@ public class KoLSettings extends Properties implements KoLConstants
 				source.renameTo( RELAY_LOCATION );
 		}
 
-		File [] listing = SETTINGS_LOCATION.listFiles();
-		for ( int i = 0; i < listing.length; ++i )
-			if ( listing[i].getPath().endsWith( "_combat.txt" ) )
-				listing[i].delete();
-
 		if ( !DATA_LOCATION.exists() )
 			DATA_LOCATION.mkdirs();
 		if ( !SETTINGS_LOCATION.exists() )
 			SETTINGS_LOCATION.mkdirs();
+
+		File [] listing = SETTINGS_LOCATION.listFiles();
+		for ( int i = 0; i < listing.length; ++i )
+			if ( listing[i].getPath().endsWith( "_combat.txt" ) )
+				listing[i].delete();
 
 		initializeMaps();
 	}
