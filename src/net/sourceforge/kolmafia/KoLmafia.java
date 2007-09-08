@@ -1306,7 +1306,7 @@ public abstract class KoLmafia implements KoLConstants
 		// For areas that are all noncombats, then you can go ahead
 		// and heal using only unguent.
 
-		if ( isNonCombatHealthRestore && KoLSettings.getBooleanProperty( "autoBuyRestores" ) && KoLCharacter.getAvailableMeat() >= 30 )
+		if ( isNonCombatHealthRestore && KoLCharacter.getAvailableMeat() >= 30 )
 		{
 			RequestThread.postRequest( new ConsumeItemRequest( new AdventureResult( 231, 1 ) ) );
 			return true;
@@ -1315,7 +1315,7 @@ public abstract class KoLmafia implements KoLConstants
 		// If things are still not restored, try looking for items you
 		// don't have but can purchase.
 
-		if ( !possibleItems.isEmpty() && KoLSettings.getBooleanProperty( "autoBuyRestores" ) )
+		if ( !possibleItems.isEmpty() )
 		{
 			HPRestoreItemList.setPurchaseBasedSort( true );
 			MPRestoreItemList.setPurchaseBasedSort( true );

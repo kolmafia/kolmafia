@@ -592,7 +592,6 @@ public class KoLSettings extends Properties implements KoLConstants
 		GLOBAL_MAP.put( "allowNegativeTally", "true" );
 		GLOBAL_MAP.put( "allowNonMoodBurning", "true" );
 		GLOBAL_MAP.put( "alwaysGetBreakfast", "false" );
-		GLOBAL_MAP.put( "autoBuyRestores", "true" );
 		GLOBAL_MAP.put( "autoLogin", "" );
 		GLOBAL_MAP.put( "autoPlantHardcore", "false" );
 		GLOBAL_MAP.put( "autoPlantSoftcore", "false" );
