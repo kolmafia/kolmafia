@@ -97,12 +97,15 @@ public class RequestFrame extends KoLFrame
 		// extra requests to the server by having a side panel.
 
 		constructSideBar( mainScroller );
+		this.getToolbar();
+	}
+
+	public JToolBar getToolbar()
+	{
+		JToolBar toolbarPanel = super.getToolbar( true );
 
 		// Add toolbar pieces so that people can quickly
 		// go to locations they like.
-
-		JToolBar toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
-		this.getContentPane().add( toolbarPanel, BorderLayout.NORTH );
 
 		toolbarPanel.add( new BackButton() );
 		toolbarPanel.add( new ForwardButton() );
@@ -115,6 +118,8 @@ public class RequestFrame extends KoLFrame
 
 		GoButton button = new GoButton();
 		toolbarPanel.add( button );
+
+		return toolbarPanel;
 	}
 
 	private void constructSideBar( JScrollPane mainScroller )

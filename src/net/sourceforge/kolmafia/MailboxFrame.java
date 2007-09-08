@@ -96,7 +96,6 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 	{
 		JToolBar toolbarPanel = super.getToolbar( true );
 
-		toolbarPanel.setFloatable( false );
 		toolbarPanel.add( new SaveAllButton() );
 		toolbarPanel.add( new DeleteButton() );
 		toolbarPanel.add( new RefreshButton() );
