@@ -403,7 +403,7 @@ public class BasementRequest extends AdventureRequest
 		// According to http://forums.hardcoreoxygenation.com/viewtopic.php?t=3973,
 		// total elemental damage is roughly 4.48 * x^1.4.  Assume the worst-case.
 
-		float damage1 = (((float) Math.pow( basementLevel, 1.4 )) * 4.48f + 8.0f) * 1.05f;
+		float damage1 = (((float) Math.pow( basementLevel, 1.4 )) * 4.48f + 8.0f) * 1.1f;
 		float damage2 = damage1;
 
 		resistance1 = KoLCharacter.getElementalResistance( element1 );
@@ -526,7 +526,7 @@ public class BasementRequest extends AdventureRequest
 		// According to http://forums.hardcoreoxygenation.com/viewtopic.php?t=3973,
 		// stat requirement is x^1.4 + 2.  Assume the worst-case.
 
-		float statRequirement = ((float) Math.pow( basementLevel, 1.4 ) + 2.0f) * 1.05f;
+		float statRequirement = ((float) Math.pow( basementLevel, 1.4 ) + 2.0f) * 1.1f;
 
 		if ( responseText.indexOf( "Lift 'em" ) != -1 || responseText.indexOf( "Push it Real Good" ) != -1 || responseText.indexOf( "Ring that Bell" ) != -1 )
 		{
@@ -612,7 +612,7 @@ public class BasementRequest extends AdventureRequest
 			// http://forums.hardcoreoxygenation.com/viewtopic.php?t=3973,
 			// drain requirement is 1.67 * x^1.4 Assume worst-case.
 
-			float drainRequirement = (float) Math.pow( basementLevel, 1.4 ) * 1.67f * 1.05f;
+			float drainRequirement = (float) Math.pow( basementLevel, 1.4 ) * 1.67f * 1.1f;
 
 			basementTestString = "Maximum MP";
 			basementTestCurrent = KoLCharacter.getMaximumMP();
