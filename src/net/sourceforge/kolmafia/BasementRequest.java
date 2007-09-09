@@ -691,8 +691,38 @@ public class BasementRequest extends AdventureRequest
 		return false;
 	}
 
-	private static final boolean checkForStatReward( String responseText )
+	private static final boolean checkForReward( String responseText )
 	{
+		if ( responseText.indexOf( "De Los Dioses" ) != -1 )
+		{
+			basementTestString = "Encounter: De Los Dioses";
+			return true;
+		}
+
+		if ( responseText.indexOf( "The Dusk Zone" ) != -1 )
+		{
+			basementTestString = "Encounter: The Dusk Zone";
+			return true;
+		}
+
+		if ( responseText.indexOf( "Giggity Bobbity Boo!" ) != -1 )
+		{
+			basementTestString = "Encounter: Giggity Bobbity Boo!";
+			return true;
+		}
+
+		if ( responseText.indexOf( "No Good Deed" ) != -1 )
+		{
+			basementTestString = "Encounter: No Good Deed";
+			return true;
+		}
+
+		if ( responseText.indexOf( "Fernswarthy's Basement, Level 500" ) != -1 )
+		{
+			basementTestString = "Encounter: Fernswarthy's Basement, Level 500";
+			return true;
+		}
+
 		if ( responseText.indexOf( "Got Silk?" ) != -1 )
 		{
 			basementTestString = "Encounter: Got Silk?/Leather is Betther";
@@ -808,7 +838,7 @@ public class BasementRequest extends AdventureRequest
 		desirableEffects.clear();
 		newBasementLevel( responseText );
 
-		if ( checkForStatReward( responseText ) )
+		if ( checkForReward( responseText ) )
 			return false;
 
 		if ( checkForElementalTest( autoSwitch, responseText ) )
