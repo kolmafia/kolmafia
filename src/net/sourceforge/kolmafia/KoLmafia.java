@@ -452,6 +452,9 @@ public abstract class KoLmafia implements KoLConstants
 		if ( continuationState == ABORT_STATE && state != ABORT_STATE )
 			return;
 
+if ( message.equals( "August 31" ) )
+StaticEntity.printStackTrace();
+
 		if ( continuationState != PENDING_STATE )
 			continuationState = state;
 

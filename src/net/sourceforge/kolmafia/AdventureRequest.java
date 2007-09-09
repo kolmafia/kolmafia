@@ -166,6 +166,14 @@ public class AdventureRequest extends KoLRequest
 
 		super.run();
 
+		if ( this.responseCode != 200 )
+		{
+			if ( this.redirectLocation.equals( "fight.php" ) )
+				CharpaneRequest.getInstance().run();
+
+			return;
+		}
+
 		if ( this.formSource.equals( "dungeon.php" ) )
 		{
 			this.addFormField( "pwd" );
