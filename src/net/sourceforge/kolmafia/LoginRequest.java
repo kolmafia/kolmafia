@@ -41,8 +41,6 @@ import java.util.regex.Pattern;
 public class LoginRequest extends KoLRequest
 {
 	private static boolean completedLogin = false;
-
-	private static final Pattern FAILURE_PATTERN = Pattern.compile( "<p><b>(.*?)</b>" );
 	private static final Pattern CHALLENGE_PATTERN = Pattern.compile( "<input type=hidden name=challenge value=\"([^\"]*?)\">" );
 
 	private static boolean ignoreLoadBalancer = false;
@@ -229,8 +227,7 @@ public class LoginRequest extends KoLRequest
 			return;
 		}
 
-		Matcher failureMatcher = FAILURE_PATTERN.matcher( this.responseText );
-		KoLmafia.updateDisplay( ABORT_STATE, failureMatcher.find() ? failureMatcher.group(1) : "Encountered error in login." );
+		KoLmafia.updateDisplay( ABORT_STATE, "Encountered error in login." );
 	}
 
 	public static final void executeTimeInRequest()
