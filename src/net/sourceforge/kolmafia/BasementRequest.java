@@ -136,24 +136,9 @@ public class BasementRequest extends AdventureRequest
 			return;
 		}
 
-		// Decide which action to set. If it's a stat reward, always boost prime stat.
-
-		if ( this.responseText.indexOf( "Got Silk?" ) != -1 )
-		{
-			this.addFormField( "action", KoLCharacter.isMoxieClass() ? "1" : "2" );
-		}
-		else if ( this.responseText.indexOf( "Save the Dolls" ) != -1 )
-		{
-			this.addFormField( "action", KoLCharacter.isMysticalityClass() ? "1" : "2" );
-		}
-		else if ( this.responseText.indexOf( "Take the Red Pill" ) != -1 )
-		{
-			this.addFormField( "action", KoLCharacter.isMuscleClass() ? "1" : "2" );
-		}
-		else
-		{
-			this.addFormField( "action", "1" );
-		}
+		// Decide which action to set. If it's a stat reward, always
+		// boost prime stat.
+		this.addFormField( "action", getBasementAction( this.responseText ) );
 
 		// Attempt to pass the test.
 
@@ -179,6 +164,17 @@ public class BasementRequest extends AdventureRequest
 		Matcher levelMatcher = BASEMENT_PATTERN.matcher( responseText );
 		if ( !levelMatcher.find() || basementLevel == StaticEntity.parseInt( levelMatcher.group(1) ) )
 			KoLmafia.updateDisplay( ERROR_STATE, "Failed to pass basement test." );
+	}
+
+	public static final String getBasementAction( String text )
+	{
+		if ( text.indexOf( "Got Silk?" ) != -1 )
+			return KoLCharacter.isMoxieClass() ? "1" : "2";
+		if ( text.indexOf( "Save the Dolls" ) != -1 )
+			return KoLCharacter.isMysticalityClass() ? "1" : "2";
+		if ( text.indexOf( "Take the Red Pill" ) != -1 )
+			return KoLCharacter.isMuscleClass() ? "1" : "2";
+		return "1";
 	}
 
 	public static final int getBasementLevel()
