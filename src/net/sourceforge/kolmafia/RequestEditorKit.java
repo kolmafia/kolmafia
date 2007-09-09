@@ -1048,6 +1048,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		}
 		else if ( location.startsWith( "basement.php" ) )
 		{
+			addBasementButtons( buffer );
 			BasementRequest.decorate( buffer );
 		}
 		else if ( location.startsWith( "bathole.php" ) )
@@ -1627,7 +1628,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				location = response.substring( startIndex + 9, response.indexOf( "\"", startIndex + 10 ) );
 
 			buffer.append( location );
-			isEnabled &= buffer.indexOf( "adventure.php" ) != -1;
+			isEnabled &= ( buffer.indexOf( "adventure.php" ) != -1 || buffer.indexOf( "basement.php" ) != -1 );
 		}
 		else
 		{
@@ -1804,6 +1805,35 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		monsterData.append( "</font>" );
 		buffer.insert( combatIndex + 7, monsterData.toString() );
+	}
+
+	private static final void addBasementButton( String urlString, StringBuffer response, StringBuffer buffer, String action, boolean isEnabled )
+	{
+		buffer.append( "<input type=\"button\" onClick=\"document.location.href='" );
+
+		buffer.append( urlString );
+		buffer.append( "'; void(0);\" value=\"" );
+		buffer.append( action );
+		buffer.append( "\"" + ( ( isEnabled ) ? "" : " disabled" ) + ">&nbsp;" );
+	}
+
+	private static final void addBasementButtons( StringBuffer buffer )
+	{
+		if ( !KoLSettings.getBooleanProperty( "relayAddsCustomCombat" ) )
+			return;
+
+		int insertionPoint = buffer.indexOf( "<tr" );
+		if ( insertionPoint != -1 )
+		{
+			StringBuffer actionBuffer = new StringBuffer();
+			actionBuffer.append( "<tr><td align=left>" );
+
+			addBasementButton( "basement.php?action=" + BasementRequest.getBasementAction( buffer.toString() ), buffer, actionBuffer, "Try it!", true );
+
+			actionBuffer.append( "</td></tr>" );
+
+			buffer.insert( insertionPoint, actionBuffer.toString() );
+		}
 	}
 
 	private static final void addMultiuseModifiers( StringBuffer buffer )
