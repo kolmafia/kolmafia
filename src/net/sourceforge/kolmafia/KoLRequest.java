@@ -1164,18 +1164,22 @@ public class KoLRequest extends Job implements KoLConstants
 			if ( LoginRequest.isInstanceRunning() || this == CHOICE_HANDLER || this instanceof AdventureRequest || this instanceof BasementRequest )
 			{
 				FightRequest.INSTANCE.run();
+				CharpaneRequest.getInstance().run();
 				return !LoginRequest.isInstanceRunning();
 			}
 
 			if ( this instanceof ConsumeItemRequest && ConsumeItemRequest.currentItemId() == ConsumeItemRequest.DRUM_MACHINE )
 			{
 				FightRequest.INSTANCE.run();
+				CharpaneRequest.getInstance().run();
 				return !LoginRequest.isInstanceRunning();
 			}
 
 			if ( this instanceof ConsumeItemRequest && ConsumeItemRequest.currentItemId() == ConsumeItemRequest.BLACK_PUDDING )
 			{
 				FightRequest.INSTANCE.run();
+				CharpaneRequest.getInstance().run();
+
 				KoLSettings.setUserProperty( "currentFullness", String.valueOf( KoLCharacter.getFullness() - 3 ) );
 				return !LoginRequest.isInstanceRunning();
 			}
@@ -1199,12 +1203,14 @@ public class KoLRequest extends Job implements KoLConstants
 			processChoiceAdventure();
 			handlingChoices = false;
 
+			CharpaneRequest.getInstance().run();
 			return true;
 		}
 
 		if ( this instanceof AdventureRequest || this.formURLString.startsWith( "choice.php" ) )
 		{
 			AdventureRequest.handleServerRedirect( this.redirectLocation );
+			CharpaneRequest.getInstance().run();
 			return true;
 		}
 
@@ -1432,7 +1438,7 @@ public class KoLRequest extends Job implements KoLConstants
 	 */
 
 	public int getAdventuresUsed()
-	{	return this.formURLString.startsWith( "choice.php" ) ? 1 : 0;
+	{	return 0;
 	}
 
 	private final void parseResults()
