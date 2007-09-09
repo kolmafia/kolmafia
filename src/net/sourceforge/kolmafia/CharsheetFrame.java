@@ -241,7 +241,7 @@ public class CharsheetFrame extends AdventureOptionsFrame
 		if ( INSTANCE == null || location == null || INSTANCE.zoneSelect == null || INSTANCE.locationSelect == null )
 			return;
 
-		if ( !conditions.isEmpty() )
+		if ( INSTANCE.locationSelect.getSelectedValue() == location || !conditions.isEmpty() )
 			return;
 
 		if ( INSTANCE.zoneSelect instanceof FilterAdventureField )
@@ -250,5 +250,6 @@ public class CharsheetFrame extends AdventureOptionsFrame
 			((JComboBox)INSTANCE.zoneSelect).setSelectedItem( location.getParentZoneDescription() );
 
 		INSTANCE.locationSelect.setSelectedValue( location, true );
+		INSTANCE.locationSelect.ensureIndexIsVisible( INSTANCE.locationSelect.getSelectedIndex() );
 	}
 }
