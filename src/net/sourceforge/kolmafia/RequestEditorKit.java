@@ -1828,10 +1828,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			StringBuffer actionBuffer = new StringBuffer();
 			actionBuffer.append( "<tr><td align=left>" );
 
-			addBasementButton( "basement.php?action=" + BasementRequest.getBasementAction( buffer.toString() ), buffer, actionBuffer, "Try it!", true );
+			addBasementButton( "basement.php?action=" + BasementRequest.getBasementAction( buffer.toString() ), buffer, actionBuffer, "try it", true );
 
-			actionBuffer.append( "</td></tr>" );
-
+			actionBuffer.append( "</td></tr><tr><td><font size=1>&nbsp;</font></td></tr>" );
 			buffer.insert( insertionPoint, actionBuffer.toString() );
 		}
 	}
