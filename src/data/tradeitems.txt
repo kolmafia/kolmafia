@@ -2801,15 +2801,15 @@
 2801	vial of Gnomochloric acid	0	all	250
 2802	flask of Gnomochloric acid	0	all	500
 2803	jug of Gnomochloric acid	0	all	2500
-2804	vial of hamethyst juice	4	all	200
-2805	vial of baconstone juice	4	all	200
-2806	vial of porquoise juice	4	all	200
-2807	flask of hamethyst juice	4	all	400
-2808	flask of baconstone juice	4	all	400
-2809	flask of porquoise juice	4	all	400
-2810	jug of hamethyst juice	4	all	600
-2811	jug of baconstone juice	4	all	600
-2812	jug of porquoise juice	4	all	600
+2804	vial of hamethyst juice	3	all	200
+2805	vial of baconstone juice	3	all	200
+2806	vial of porquoise juice	3	all	200
+2807	flask of hamethyst juice	3	all	400
+2808	flask of baconstone juice	3	all	400
+2809	flask of porquoise juice	3	all	400
+2810	jug of hamethyst juice	3	all	600
+2811	jug of baconstone juice	3	all	600
+2812	jug of porquoise juice	3	all	600
 2813	Brimstone Beret	9	display	0
 2814	Brimstone Bludgeon	12	display	0
 2815	Brimstone Bunker	13	display	0
