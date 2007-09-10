@@ -536,7 +536,7 @@ public abstract class KoLmafia implements KoLConstants
 		this.resetSession();
 
 		if ( KoLSettings.getBooleanProperty( "logStatusOnLogin" ) )
-			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "logprint", "complete" );
+			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "logprint", "snapshot" );
 
 		// If the password hash is non-null, then that means you
 		// might be mid-transition.

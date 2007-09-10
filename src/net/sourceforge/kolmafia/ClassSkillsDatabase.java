@@ -66,12 +66,11 @@ public class ClassSkillsDatabase extends KoLDatabase
 	private static final String GNOME_SKILLS = "gnome trainer";
 	private static final String BAD_MOON = "bad moon";
 	private static final String MR_SKILLS = "mr. skills";
-	private static final String EQUIPMENT = "equipment";
 
 	private static final String [] CATEGORIES = new String []
 	{
 		UNCATEGORIZED, "seal clubber", "turtle tamer", "pastamancer", "sauceror", "accordion thief", "disco bandit",
-		GNOME_SKILLS, MR_SKILLS, BAD_MOON, EQUIPMENT
+		GNOME_SKILLS, MR_SKILLS, BAD_MOON
 	};
 
 	static
@@ -156,14 +155,8 @@ public class ClassSkillsDatabase extends KoLDatabase
 			// Moxious maneuver has a 7000 id, but
 			// it's not gained by equipment.
 
-			if ( categoryId == 7008 )
+			if ( categoryId == 7 )
 				category = UNCATEGORIZED;
-
-			// The remainder of the 7000 series are
-			// granted by equipment.
-
-			else if ( categoryId == 7 )
-				category = EQUIPMENT;
 
 			// All other skills fall under categories
 			// already specified.
@@ -469,8 +462,24 @@ public class ClassSkillsDatabase extends KoLDatabase
 					categories[i].remove(j--);
 		}
 
+		boolean printedList = false;
+
 		for ( int i = 0; i < categories.length; ++i )
+		{
+			if ( categories[i].isEmpty() )
+				continue;
+
+			if ( printedList )
+			{
+				if ( appendHTML )
+					buffer.append( "<br>" );
+				else
+					buffer.append( LINE_BREAK );
+			}
+
 			appendSkillList( buffer, appendHTML, toTitleCase( (String) CATEGORIES[i] ), categories[i] );
+			printedList = true;
+		}
 	}
 
 	private static final void appendSkillList( StringBuffer buffer, boolean appendHTML, String listName, ArrayList list )
@@ -514,10 +523,5 @@ public class ClassSkillsDatabase extends KoLDatabase
 			else
 				buffer.append( LINE_BREAK );
 		}
-
-		if ( appendHTML )
-			buffer.append( "<br>" );
-		else
-			buffer.append( LINE_BREAK );
 	}
 }
