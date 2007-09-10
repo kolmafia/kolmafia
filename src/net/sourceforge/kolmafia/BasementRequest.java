@@ -126,7 +126,8 @@ public class BasementRequest extends AdventureRequest
 
 		// Load up the data variables and switch outfits if it's a fight.
 
-		checkBasement( true, responseText );
+		lastResponseText = responseText;
+		checkBasement();
 
 		// If we know we can't pass the test, give an error and bail out now.
 
@@ -223,7 +224,7 @@ public class BasementRequest extends AdventureRequest
 			if ( index == -1 )
 				return "";
 
-			return "<u>Monster</u>: " + basementTestString.substring( index + 2 );
+			return "<u>Monster</u><br/>" + basementTestString.substring( index + 2 );
 		}
 
 		if ( basementTestString.equals( "Maximum HP" ) )
@@ -827,8 +828,14 @@ public class BasementRequest extends AdventureRequest
 		basementLevel = StaticEntity.parseInt( levelMatcher.group(1) );
 	}
 
-	public static final void reCheckBasement()
-	{	checkBasement( false, lastResponseText );
+	public static final void checkBasement()
+	{
+		KoLmafiaASH interpreter = KoLmafiaASH.getInterpreter( KoLmafiaCLI.findScriptFile( "basement.ash" ) );
+		if ( interpreter != null )
+			interpreter.execute( "main", new String[] { String.valueOf( basementLevel ), lastResponseText,
+				String.valueOf( basementTestCurrent >= basementTestValue ) } );
+
+		checkBasement( true, lastResponseText );
 	}
 
 	private static final boolean checkBasement( boolean autoSwitch, String responseText )
