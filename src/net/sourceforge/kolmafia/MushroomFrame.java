@@ -520,7 +520,7 @@ public class MushroomFrame extends KoLFrame
 			}
 
 
-			String today = DATED_FILENAME_FORMAT.format( new Date() );
+			String today = DAILY_FORMAT.format( new Date() );
 
 			if ( !KoLSettings.getUserProperty( "plantingDate" ).equals( today ) )
 				++indexToHighlight;

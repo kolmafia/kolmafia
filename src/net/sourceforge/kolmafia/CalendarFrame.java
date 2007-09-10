@@ -55,13 +55,13 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class CalendarFrame extends KoLFrame implements ListSelectionListener
 {
-	private static final SimpleDateFormat CALENDAR_FORMAT = new SimpleDateFormat( "yyyyMMdd", Locale.US );
-	private static final SimpleDateFormat TODAY_FORMATTER = new SimpleDateFormat( "MMMM d, yyyy", Locale.US );
+	public static final SimpleDateFormat SHORT_FORMAT = new SimpleDateFormat( "yyyyMMdd", Locale.US );
+	public static final SimpleDateFormat LONG_FORMAT = new SimpleDateFormat( "MMMM d, yyyy", Locale.US );
 
 	static
 	{
-		CALENDAR_FORMAT.setTimeZone( TimeZone.getDefault() );
-		TODAY_FORMATTER.setTimeZone( TimeZone.getDefault() );
+		SHORT_FORMAT.setTimeZone( TimeZone.getDefault() );
+		LONG_FORMAT.setTimeZone( TimeZone.getDefault() );
 	}
 
 	// static final array of file names (not including .gif extension)
@@ -205,7 +205,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 
 	private static final void updateDailyPage()
 	{
-		if ( DATED_FILENAME_FORMAT.format( selectedDate.getTime() ).equals( "20051027" ) )
+		if ( DAILY_FORMAT.format( selectedDate.getTime() ).equals( "20051027" ) )
 		{
 			dailyBuffer.clearBuffer();
 			dailyBuffer.append( "<center><h1>White Wednesday</h1></center>" );
@@ -244,7 +244,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		displayHTML.append( "<tr><td><img src=\"http://images.kingdomofloathing.com/otherimages/" + artDirectory + "/" );
 		displayHTML.append( CALENDARS[ MoonPhaseDatabase.getCalendarMonth( selectedDate.getTime() ) ] );
 		displayHTML.append( ".gif\"></td></tr><tr><td align=center>" );
-		displayHTML.append( TODAY_FORMATTER.format( selectedDate.getTime() ) );
+		displayHTML.append( LONG_FORMAT.format( selectedDate.getTime() ) );
 		displayHTML.append( "</td></tr><tr><td align=center><font size=+1><b>" );
 		displayHTML.append( MoonPhaseDatabase.getCalendarDayAsString( selectedDate.getTime() ) );
 		displayHTML.append( "</b></font></td></tr></table></center>" );
@@ -356,7 +356,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		// link shown in the clan calendar.
 
 		displayHTML.append( "<b><u>" );
-		displayHTML.append( TODAY_FORMATTER.format( selectedDate.getTime() ) );
+		displayHTML.append( LONG_FORMAT.format( selectedDate.getTime() ) );
 		displayHTML.append( "</u></b><br><i>" );
 		displayHTML.append( MoonPhaseDatabase.getCalendarDayAsString( selectedDate.getTime() ) );
 		displayHTML.append( "</i><br>&nbsp;<br>" );
@@ -453,14 +453,14 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 				this.dateCalculator.set( this.model.getCurrentYear(), this.model.getCurrentMonth(), StaticEntity.parseInt( dayString ) );
 				Date selectedTime = this.dateCalculator.getTime();
 
-				if ( CALENDAR_FORMAT.format( new Date() ).equals( CALENDAR_FORMAT.format( this.dateCalculator.getTime() ) ) )
+				if ( SHORT_FORMAT.format( new Date() ).equals( SHORT_FORMAT.format( this.dateCalculator.getTime() ) ) )
 					return this.todayRenderer;
 
 				// White wednesday special highlighting.
 				// But, because white doesn't show up,
 				// make it black instead.
 
-				if ( DATED_FILENAME_FORMAT.format( this.dateCalculator.getTime() ).equals( "20051027" ) )
+				if ( DAILY_FORMAT.format( this.dateCalculator.getTime() ).equals( "20051027" ) )
 					return this.specialRenderer;
 
 				// Otherwise, if the date selected is equal

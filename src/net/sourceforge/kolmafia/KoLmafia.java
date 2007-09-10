@@ -247,7 +247,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		TimeZone koltime = (TimeZone) TimeZone.getDefault().clone();
 		koltime.setRawOffset( 1000 * 60 * -270 );
-		DATED_FILENAME_FORMAT.setTimeZone( koltime );
+		DAILY_FORMAT.setTimeZone( koltime );
 
 		// Reload your settings and determine all the different users which
 		// are present in your save state list.
