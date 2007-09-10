@@ -506,7 +506,7 @@ public class MoonPhaseDatabase extends StaticEntity
 	{
 		try
 		{
-			long timeDifference = DATED_FILENAME_FORMAT.parse( DATED_FILENAME_FORMAT.format( time ) ).getTime() - NEWYEAR;
+			long timeDifference = DAILY_FORMAT.parse( DAILY_FORMAT.format( time ) ).getTime() - NEWYEAR;
 
 			if ( timeDifference > BOUNDARY )
 				timeDifference -= 86400000L;
@@ -571,7 +571,7 @@ public class MoonPhaseDatabase extends StaticEntity
 	}
 
 	public static final boolean isRealLifeHoliday( Date time )
-	{	return getRealLifeHoliday( DATED_FILENAME_FORMAT.format( time ) ) != null;
+	{	return getRealLifeHoliday( DAILY_FORMAT.format( time ) ) != null;
 	}
 
 	/**
@@ -639,7 +639,7 @@ public class MoonPhaseDatabase extends StaticEntity
 
 				for ( int j = 0; j < currentEstimate; ++j )
 				{
-					testDate = DATED_FILENAME_FORMAT.format( holidayTester.getTime() );
+					testDate = DAILY_FORMAT.format( holidayTester.getTime() );
 					testResult = getRealLifeHoliday( testDate );
 
 					if ( holiday != null && testResult != null && testResult.equals( holiday ) )
@@ -658,7 +658,7 @@ public class MoonPhaseDatabase extends StaticEntity
 
 		if ( SPECIAL[ getCalendarDay( time ) ] != SP_HOLIDAY )
 		{
-			String holiday = getRealLifeOnlyHoliday( DATED_FILENAME_FORMAT.format( time ) );
+			String holiday = getRealLifeOnlyHoliday( DAILY_FORMAT.format( time ) );
 			if ( holiday != null )
 				predictionsList.add( holiday + ": today" );
 		}
@@ -683,7 +683,7 @@ public class MoonPhaseDatabase extends StaticEntity
 		int [] calendarDayAsArray = convertCalendarDayToArray( calendarDay );
 
 		String gameHoliday = HOLIDAYS[ calendarDayAsArray[0] ][ calendarDayAsArray[1] ];
-		String realHoliday = getRealLifeHoliday( DATED_FILENAME_FORMAT.format( time ) );
+		String realHoliday = getRealLifeHoliday( DAILY_FORMAT.format( time ) );
 
 		if ( showPrediction && realHoliday == null )
 		{
@@ -744,7 +744,7 @@ public class MoonPhaseDatabase extends StaticEntity
 			holidayFinder.set( Calendar.MONTH, m - 1 );
 			holidayFinder.set( Calendar.DAY_OF_MONTH, d );
 
-			easter = DATED_FILENAME_FORMAT.format( holidayFinder.getTime() );
+			easter = DAILY_FORMAT.format( holidayFinder.getTime() );
 		}
 
 		// Real-life holiday list borrowed from JRSiebz's

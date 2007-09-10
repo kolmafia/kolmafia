@@ -166,7 +166,7 @@ public abstract class KoLMessenger extends StaticEntity
 		if ( key.startsWith( "/" ) )
 			key = "[" + key.substring(1) + "]";
 
-		String filename = "chats/" + DATED_FILENAME_FORMAT.format( new Date() ) + "_" + KoLCharacter.baseUserName();
+		String filename = "chats/" + DAILY_FORMAT.format( new Date() ) + "_" + KoLCharacter.baseUserName();
 		return key.equals( "[main]" ) ? filename + ".html" : filename + "_" + key + ".html";
 	}
 

@@ -5019,7 +5019,7 @@ public class KoLmafiaASH extends StaticEntity
 		// updated usually once per day.
 
 		public ScriptValue today_to_string()
-		{	return parseStringValue( DATED_FILENAME_FORMAT.format( new Date() ) );
+		{	return parseStringValue( DAILY_FORMAT.format( new Date() ) );
 		}
 
 		public ScriptValue moon_phase()
@@ -5069,7 +5069,7 @@ public class KoLmafiaASH extends StaticEntity
 			{
 				contents.setLength(0);
 				filename = StaticEntity.globalStringReplace( name, " ", "_" ) + "_" +
-					DATED_FILENAME_FORMAT.format( timestamp.getTime() ) + ".txt";
+					DAILY_FORMAT.format( timestamp.getTime() ) + ".txt";
 
 				reader = KoLDatabase.getReader( new File( SESSIONS_DIRECTORY, filename ) );
 				timestamp.add( Calendar.DATE, -1 );

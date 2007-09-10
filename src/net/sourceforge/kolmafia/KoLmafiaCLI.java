@@ -204,7 +204,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		try
 		{
-			String holiday = MoonPhaseDatabase.getHoliday( DATED_FILENAME_FORMAT.parse( DATED_FILENAME_FORMAT.format( new Date() ) ), true );
+			String holiday = MoonPhaseDatabase.getHoliday( DAILY_FORMAT.parse( DAILY_FORMAT.format( new Date() ) ), true );
 			updateDisplay( holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
 		}
 		catch ( Exception e )
@@ -3451,15 +3451,11 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( desiredData.startsWith( "moon" ) )
 		{
-			desiredStream.println( "Ronald: " + MoonPhaseDatabase.getRonaldPhaseAsString() );
-			desiredStream.println( "Grimace: " + MoonPhaseDatabase.getGrimacePhaseAsString() );
-			desiredStream.println();
-
 			Date today = new Date();
 
 			try
 			{
-				today = DATED_FILENAME_FORMAT.parse( DATED_FILENAME_FORMAT.format( today ) );
+				today = DAILY_FORMAT.parse( DAILY_FORMAT.format( today ) );
 			}
 			catch ( Exception e )
 			{
@@ -3467,8 +3463,14 @@ public class KoLmafiaCLI extends KoLmafia
 				// a stack trace for debug purposes.
 
 				StaticEntity.printStackTrace( e );
-				return;
 			}
+
+			desiredStream.println( CalendarFrame.LONG_FORMAT.format( today ) + " - " + MoonPhaseDatabase.getCalendarDayAsString( today ) );
+			desiredStream.println();
+
+			desiredStream.println( "Ronald: " + MoonPhaseDatabase.getRonaldPhaseAsString() );
+			desiredStream.println( "Grimace: " + MoonPhaseDatabase.getGrimacePhaseAsString() );
+			desiredStream.println();
 
 			String [] holidayPredictions = MoonPhaseDatabase.getHolidayPredictions( today );
 			for ( int i = 0; i < holidayPredictions.length; ++i )

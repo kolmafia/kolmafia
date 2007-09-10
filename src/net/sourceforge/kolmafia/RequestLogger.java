@@ -186,7 +186,7 @@ public class RequestLogger extends NullStream implements KoLConstants
 	public static final void openSessionLog()
 	{
 		sessionStream = openStream( SESSIONS_DIRECTORY + StaticEntity.globalStringReplace( KoLCharacter.getUserName(), " ", "_" ) + "_" +
-			DATED_FILENAME_FORMAT.format( new Date() ) + ".txt", sessionStream, false );
+			DAILY_FORMAT.format( new Date() ) + ".txt", sessionStream, false );
 	}
 
 	public static final void closeSessionLog()
@@ -212,7 +212,7 @@ public class RequestLogger extends NullStream implements KoLConstants
 	}
 
 	public static final void openDebugLog()
-	{	debugStream = openStream( "DEBUG_" + DATED_FILENAME_FORMAT.format( new Date() ) + ".txt", debugStream, true );
+	{	debugStream = openStream( "DEBUG_" + DAILY_FORMAT.format( new Date() ) + ".txt", debugStream, true );
 	}
 
 	public static final void closeDebugLog()

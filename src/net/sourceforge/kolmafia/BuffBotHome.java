@@ -105,7 +105,7 @@ public class BuffBotHome extends StaticEntity
 
 		if ( extension.equals( ".txt" ) || extension.equals( ".html" ) )
 			return new File( ROOT_LOCATION, "buffs/" + KoLCharacter.baseUserName() + "_" +
-				DATED_FILENAME_FORMAT.format( new Date() ) + "_" + extension );
+				DAILY_FORMAT.format( new Date() ) + "_" + extension );
 
 		return new File( ROOT_LOCATION, "buffs/" + KoLCharacter.baseUserName() + "_" +
 			WEEKLY_FORMAT.format( new Date() ) + extension );

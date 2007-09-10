@@ -222,7 +222,7 @@ public class LoginFrame extends KoLFrame
 
 			try
 			{
-				String holiday = MoonPhaseDatabase.getHoliday( DATED_FILENAME_FORMAT.parse( DATED_FILENAME_FORMAT.format( new Date() ) ), true );
+				String holiday = MoonPhaseDatabase.getHoliday( DAILY_FORMAT.parse( DAILY_FORMAT.format( new Date() ) ), true );
 				this.setStatusMessage( holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
 			}
 			catch ( Exception e )
