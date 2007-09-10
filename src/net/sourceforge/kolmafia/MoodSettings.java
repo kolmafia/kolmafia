@@ -1065,7 +1065,7 @@ public abstract class MoodSettings implements KoLConstants
 				return activeEffects.contains( this.effect );
 
 			boolean unstackable = this.action.indexOf( "cupcake" ) != -1 || this.action.indexOf( "snowcone" ) != -1 ||
-				this.action.indexOf( "mushroom" ) != -1 || this.action.indexOf( "oasis" ) != -1;
+				this.action.indexOf( "absinthe" ) != -1 || this.action.indexOf( "astral mushroom" ) != -1 || this.action.indexOf( "oasis" ) != -1;
 
 			return unstackable ? !activeEffects.contains( this.effect ) :
 				this.effect.getCount( activeEffects ) <= (multiplicity == -1 ? 1 : 5);

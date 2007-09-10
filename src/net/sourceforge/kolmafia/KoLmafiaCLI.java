@@ -1887,11 +1887,7 @@ public class KoLmafiaCLI extends KoLmafia
 			boolean wasRecoveryActive = KoLmafia.isRunningBetweenBattleChecks();
 			SpecialOutfit.createImplicitCheckpoint();
 
-			if ( parameters.equals( "" ) )
-			{
-				StaticEntity.getClient().runBetweenBattleChecks( false );
-			}
-			else if ( parameters.equalsIgnoreCase( "hp" ) || parameters.equalsIgnoreCase( "health" ) )
+			if ( parameters.equalsIgnoreCase( "hp" ) || parameters.equalsIgnoreCase( "health" ) )
 			{
 				recoveryActive = true;
 				StaticEntity.getClient().recoverHP( KoLCharacter.getCurrentHP() + 1 );

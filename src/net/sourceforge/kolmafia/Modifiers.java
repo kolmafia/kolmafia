@@ -47,7 +47,6 @@ import java.util.regex.Pattern;
 public class Modifiers extends KoLDatabase
 {
 	private static final Map modifiersByName = new TreeMap();
-	private static final Map effectsByModifier = new TreeMap();
 	private static final ArrayList passiveSkills = new ArrayList();
 
 	static
@@ -430,29 +429,34 @@ public class Modifiers extends KoLDatabase
 		return -1;
 	}
 
-	public static ArrayList getBoostingEffects( int index )
+	public static ArrayList getPotentialChanges( int index )
 	{
-		Integer key = new Integer( index );
-		ArrayList available = (ArrayList) effectsByModifier.get( key );
+		ArrayList available = new ArrayList();
 
-		if ( available == null )
+		Modifiers currentTest;
+		Object [] check = modifiersByName.keySet().toArray();
+
+		boolean hasEffect;
+		AdventureResult currentEffect;
+
+		for ( int i = 0; i < check.length; ++i )
 		{
-			available = new ArrayList();
-			effectsByModifier.put( key, available );
+			if ( !StatusEffectDatabase.contains( (String) check[i] ) )
+				continue;
 
-			Modifiers currentTest;
-			Object [] check = modifiersByName.keySet().toArray();
+			currentTest = getModifiers( (String) check[i] );
+			float value = ((Modifiers)currentTest).get( index );
 
-			for ( int i = 0; i < check.length; ++i )
-			{
-				if ( !StatusEffectDatabase.contains( (String) check[i] ) )
-					continue;
+			if ( value == 0.0f )
+				continue;
 
-				currentTest = getModifiers( (String) check[i] );
-				float value = ((Modifiers)currentTest).get( index );
-				if ( value > 0.0f )
-					available.add( new AdventureResult( (String) check[i], 1, true ) );
-			}
+			currentEffect = new AdventureResult( (String) check[i], 1, true );
+			hasEffect = activeEffects.contains( currentEffect );
+
+			if ( value > 0.0f && !hasEffect )
+				available.add( currentEffect );
+			else if ( value < 0.0f && hasEffect )
+				available.add( currentEffect );
 		}
 
 		return available;

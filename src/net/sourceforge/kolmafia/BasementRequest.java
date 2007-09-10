@@ -102,6 +102,15 @@ public class BasementRequest extends AdventureRequest
 	public static final AdventureResult [] ELEMENT_FORMS = new AdventureResult [] { HOT_FORM, COLD_FORM, SPOOKY_FORM, STENCH_FORM, SLEAZE_FORM };
 	public static final AdventureResult [] ELEMENT_PHIALS = new AdventureResult [] { HOT_PHIAL, COLD_PHIAL, SPOOKY_PHIAL, STENCH_PHIAL, SLEAZE_PHIAL };
 
+	public static final FamiliarData [] POSSIBLE_FAMILIARS = new FamiliarData [] {
+		new FamiliarData( 18 ), // Hovering Sombrero
+		new FamiliarData( 72 ), // Exotic Parrot
+		new FamiliarData( 43 ), // Temporal Riftlet
+		new FamiliarData( 50 ), // Wild Hare
+		new FamiliarData( 53 ), // Astral Badger
+		new FamiliarData( 70 ), // Green Pixie
+	};
+
 	/**
 	 * Constructs a new <code>/code> which executes an
 	 * adventure in Fernswarthy's Basement by posting to the provided form,
@@ -376,8 +385,8 @@ public class BasementRequest extends AdventureRequest
 		desirableEffects.add( getDesiredEqualizer() );
 
 		// Add effects that resist the specific elements being tested
-		addDesirableEffects( Modifiers.getBoostingEffects( Modifiers.elementalResistance( element1 ) ) );
-		addDesirableEffects( Modifiers.getBoostingEffects( Modifiers.elementalResistance( element2 ) ) );
+		addDesirableEffects( Modifiers.getPotentialChanges( Modifiers.elementalResistance( element1 ) ) );
+		addDesirableEffects( Modifiers.getPotentialChanges( Modifiers.elementalResistance( element2 ) ) );
 
 		// Add some effects that resist all elements
 		desirableEffects.add( ASTRAL_SHELL );
@@ -900,9 +909,6 @@ public class BasementRequest extends AdventureRequest
 
 	private static final boolean wantEffect( AdventureResult effect, boolean buyItems )
 	{
-		if ( activeEffects.contains( effect ) )
-			return false;
-
 		String action = MoodSettings.getDefaultAction( "lose_effect", effect.getName() );
 		if ( action.equals( "" ) )
 			return false;
@@ -929,18 +935,18 @@ public class BasementRequest extends AdventureRequest
 
 		getDesiredEffects( desirableEffects, targetList );
 
-		getDesiredEffects( Modifiers.getBoostingEffects( primaryBoost ), targetList );
-		getDesiredEffects( Modifiers.getBoostingEffects( secondaryBoost ), targetList );
+		getDesiredEffects( Modifiers.getPotentialChanges( primaryBoost ), targetList );
+		getDesiredEffects( Modifiers.getPotentialChanges( secondaryBoost ), targetList );
 
 		if ( actualBoost == Modifiers.HP )
 		{
-			getDesiredEffects( Modifiers.getBoostingEffects( Modifiers.HP_PCT ), targetList );
-			getDesiredEffects( Modifiers.getBoostingEffects( Modifiers.HP ), targetList );
+			getDesiredEffects( Modifiers.getPotentialChanges( Modifiers.HP_PCT ), targetList );
+			getDesiredEffects( Modifiers.getPotentialChanges( Modifiers.HP ), targetList );
 		}
 		else if ( actualBoost == Modifiers.MP )
 		{
-			getDesiredEffects( Modifiers.getBoostingEffects( Modifiers.MP_PCT ), targetList );
-			getDesiredEffects( Modifiers.getBoostingEffects( Modifiers.MP ), targetList );
+			getDesiredEffects( Modifiers.getPotentialChanges( Modifiers.MP_PCT ), targetList );
+			getDesiredEffects( Modifiers.getPotentialChanges( Modifiers.MP ), targetList );
 		}
 
 		Collections.sort( targetList );
@@ -972,23 +978,38 @@ public class BasementRequest extends AdventureRequest
 		buffer.insert( buffer.indexOf( "</head>" ), "<script language=\"Javascript\" src=\"/basement.js\"></script></head>" );
 
 		StringBuffer changes = new StringBuffer();
-		changes.append( "<br/><select id=\"outfit\" style=\"width: 250px\"><option value=\"none\">- select an outfit -</option>" );
+		changes.append( "<table>" );
+		changes.append( "<tr><td><select id=\"gear\" style=\"width: 320px\"><option value=\"none\">- change your equipment -</option>" );
 
-		SpecialOutfit current;
+		// Add outfits
+
+		SpecialOutfit outfit;
 		for ( int i = 0; i < KoLCharacter.getCustomOutfits().size(); ++i )
 		{
-			current = (SpecialOutfit) KoLCharacter.getCustomOutfits().get(i);
+			outfit = (SpecialOutfit) KoLCharacter.getCustomOutfits().get(i);
 
-			changes.append( "<option value=\"" );
-			changes.append( StaticEntity.globalStringReplace( current.getName(), " ", "+" ) );
-			changes.append( "\"" );
-
-			changes.append( ">" );
-			changes.append( current.getName() );
+			changes.append( "<option value=\"outfit+" );
+			changes.append( StaticEntity.globalStringReplace( outfit.getName(), " ", "+" ) );
+			changes.append( "\">outfit " );
+			changes.append( outfit.getName().substring(8) );
 			changes.append( "</option>" );
 		}
 
-		changes.append( "</select>&nbsp;<input class=\"button\" type=\"button\" value=\"update\" onClick=\"changeBasementOutfit();\">" );
+		for ( int i = 0; i < POSSIBLE_FAMILIARS.length; ++i )
+		{
+			if ( !KoLCharacter.getFamiliarList().contains( POSSIBLE_FAMILIARS[i] ) )
+				continue;
+
+			changes.append( "<option value=\"familiar+" );
+			changes.append( StaticEntity.globalStringReplace( POSSIBLE_FAMILIARS[i].getRace(), " ", "+" ) );
+			changes.append( "\">familiar " );
+			changes.append( POSSIBLE_FAMILIARS[i].getRace() );
+			changes.append( "</option>" );
+		}
+
+		changes.append( "</select></td><td>&nbsp;</td><td valign=top><input type=\"button\" value=\"exec\" onClick=\"changeBasementGear();\"></td></tr>" );
+
+		// Add effects
 
 		ArrayList listedEffects = getDesiredEffects();
 
@@ -997,31 +1018,30 @@ public class BasementRequest extends AdventureRequest
 			String modifierName = Modifiers.getModifierName( actualBoost );
 			modifierName = StaticEntity.globalStringDelete( modifierName, "Maximum " ).toLowerCase();
 
-			changes.append( "<br/><select id=\"potion\" style=\"width: 250px\"><option value=\"none\">- add " );
-			changes.append( modifierName );
-			changes.append( "-boosting effect -</option>" );
+			changes.append( "<tr><td><select id=\"potion\" style=\"width: 320px\" multiple size=5>" );
 
 			DesiredEffect effect;
 
 			for ( int i = 0; i < listedEffects.size(); ++i )
 			{
 				effect = (DesiredEffect) listedEffects.get(i);
-				changes.append( "<option value=\"up+" );
+				changes.append( "<option value=\"" );
 
 				try
 				{
-					changes.append( URLEncoder.encode( effect.name, "UTF-8" ) );
+					changes.append( URLEncoder.encode( effect.action, "UTF-8" ) );
 				}
 				catch ( Exception e )
 				{
-					changes.append( effect.name );
+					changes.append( effect.action );
 				}
 
 				changes.append( "\">" );
-				changes.append( effect.name );
+
+				changes.append( effect.action );
 				changes.append( " (" );
 
-				if ( effect.boost == 0.0f )
+				if ( effect.computedBoost == 0.0f )
 				{
 					if ( effect.name.equals( MUS_EQUAL.getName() ) || effect.name.equals( MYS_EQUAL.getName() ) || effect.name.equals( MOX_EQUAL.getName() ))
 					{
@@ -1042,16 +1062,16 @@ public class BasementRequest extends AdventureRequest
 				else
 				{
 					changes.append( "+" );
-					changes.append( COMMA_FORMAT.format( effect.boost ) );
+					changes.append( COMMA_FORMAT.format( effect.effectiveBoost ) );
 				}
 
 				changes.append( ")</option>" );
 			}
 
-			changes.append( "</select>&nbsp;<input class=\"button\" type=\"button\" value=\"update\" onClick=\"changeBasementPotion();\">" );
+			changes.append( "</select></td><td>&nbsp;</td><td valign=top><input type=\"button\" value=\"exec\" onClick=\"changeBasementEffects();\"></td></tr>" );
 		}
 
-		changes.append( "<br/>" );
+		changes.append( "</table>" );
 		buffer.insert( buffer.indexOf( "</center><blockquote>" ), changes.toString() );
 
 		if ( hasCheck )
@@ -1089,13 +1109,17 @@ public class BasementRequest extends AdventureRequest
 
 	private static class DesiredEffect implements Comparable
 	{
-		private String name;
-		private float boost;
+		private String name, action;
+		private float computedBoost;
+		private float effectiveBoost;
 
 		public DesiredEffect( String name )
 		{
 			this.name = name;
-			this.boost = getEffectiveBoost();
+			this.action = MoodSettings.getDefaultAction( "lose_effect", name );
+
+			this.computedBoost = computeBoost();
+			this.effectiveBoost = this.computedBoost > 0.0f ? this.computedBoost : 0 - this.computedBoost;
 		}
 
 		public boolean equals( Object o )
@@ -1105,19 +1129,19 @@ public class BasementRequest extends AdventureRequest
 
 		public int compareTo( Object o )
 		{
-			if ( this.boost == 0.0f )
-				return ((DesiredEffect)o).boost != 0.0f ? -1 : this.name.compareToIgnoreCase( ((DesiredEffect)o).name );
+			if ( this.effectiveBoost == 0.0f )
+				return ((DesiredEffect)o).effectiveBoost != 0.0f ? -1 : this.name.compareToIgnoreCase( ((DesiredEffect)o).name );
 
-			if ( ((DesiredEffect)o).boost == 0.0f )
+			if ( ((DesiredEffect)o).effectiveBoost == 0.0f )
 				return 1;
 
-			if ( this.boost != ((DesiredEffect)o).boost )
-				return this.boost > ((DesiredEffect)o).boost ? -1 : 1;
+			if ( this.effectiveBoost != ((DesiredEffect)o).effectiveBoost )
+				return this.effectiveBoost > ((DesiredEffect)o).effectiveBoost ? -1 : 1;
 
 			return this.name.compareToIgnoreCase( ((DesiredEffect)o).name );
 		}
 
-		public float getEffectiveBoost()
+		public float computeBoost()
 		{
 			Modifiers m = Modifiers.getModifiers( this.name );
 			if ( m == null )
