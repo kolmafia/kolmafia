@@ -667,6 +667,12 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( parameters.equals( "" ) )
 		{
+			if ( command.equals( "basement" ) )
+			{
+				BasementRequest.checkBasement();
+				return;
+			}
+
 			if ( findScriptFile( command ) != null )
 			{
 				this.executeScript( command );
@@ -1071,42 +1077,6 @@ public class KoLmafiaCLI extends KoLmafia
 					this.executeLine( this.previousLine );
 				}
 			}
-
-			return;
-		}
-
-		// Next, print out the moon phase, if the user
-		// wishes to know what moon phase it is.
-
-		if ( command.startsWith( "moon" ) )
-		{
-			updateDisplay( "Ronald: " + MoonPhaseDatabase.getRonaldPhaseAsString() );
-			updateDisplay( "Grimace: " + MoonPhaseDatabase.getGrimacePhaseAsString() );
-			RequestLogger.printLine();
-
-			Date today = new Date();
-
-			try
-			{
-				today = DATED_FILENAME_FORMAT.parse( DATED_FILENAME_FORMAT.format( today ) );
-			}
-			catch ( Exception e )
-			{
-				// This should not happen.  Therefore, print
-				// a stack trace for debug purposes.
-
-				StaticEntity.printStackTrace( e );
-				return;
-			}
-
-			String [] holidayPredictions = MoonPhaseDatabase.getHolidayPredictions( today );
-			for ( int i = 0; i < holidayPredictions.length; ++i )
-				updateDisplay( holidayPredictions[i] );
-
-			RequestLogger.printLine();
-			updateDisplay( MoonPhaseDatabase.getHoliday( today ) );
-			updateDisplay( MoonPhaseDatabase.getMoonEffect() );
-			RequestLogger.printLine();
 
 			return;
 		}
@@ -2076,7 +2046,7 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		if ( command.startsWith( "inv" ) || command.equals( "closet" ) || command.equals( "storage" ) || command.equals( "session" ) || command.equals( "summary" ) ||
-			command.equals( "effects" ) || command.equals( "status" ) || command.equals( "skills" ) || command.equals( "locations" ) || command.equals( "encounters" ) || command.equals( "counters" ) )
+			command.equals( "effects" ) || command.equals( "status" ) || command.equals( "skills" ) || command.equals( "locations" ) || command.equals( "encounters" ) || command.equals( "counters" ) || command.startsWith( "moon" ) )
 		{
 			this.executePrintCommand( command + " " + parameters );
 			return;
@@ -3446,7 +3416,39 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		desiredStream.println();
 
-		if ( desiredData.equals( "session" ) )
+		if ( desiredData.startsWith( "moon" ) )
+		{
+			desiredStream.println( "Ronald: " + MoonPhaseDatabase.getRonaldPhaseAsString() );
+			desiredStream.println( "Grimace: " + MoonPhaseDatabase.getGrimacePhaseAsString() );
+			desiredStream.println();
+
+			Date today = new Date();
+
+			try
+			{
+				today = DATED_FILENAME_FORMAT.parse( DATED_FILENAME_FORMAT.format( today ) );
+			}
+			catch ( Exception e )
+			{
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+
+				StaticEntity.printStackTrace( e );
+				return;
+			}
+
+			String [] holidayPredictions = MoonPhaseDatabase.getHolidayPredictions( today );
+			for ( int i = 0; i < holidayPredictions.length; ++i )
+				desiredStream.println( holidayPredictions[i] );
+
+			desiredStream.println();
+			desiredStream.println( MoonPhaseDatabase.getHoliday( today ) );
+			desiredStream.println( MoonPhaseDatabase.getMoonEffect() );
+			desiredStream.println();
+
+			return;
+		}
+		else if ( desiredData.equals( "session" ) )
 		{
 			desiredStream.println( "Player: " + KoLCharacter.getUserName() );
 			desiredStream.println( "Session Id: " + KoLRequest.serverCookie );

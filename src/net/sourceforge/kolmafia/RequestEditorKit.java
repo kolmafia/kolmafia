@@ -1809,10 +1809,26 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 	private static final void addBasementButton( String urlString, StringBuffer response, StringBuffer buffer, String action, boolean isEnabled )
 	{
-		buffer.append( "<input type=\"button\" onClick=\"document.location.href='" );
+		buffer.append( "<input type=\"button\" onClick=\"" );
 
-		buffer.append( urlString );
-		buffer.append( "'; void(0);\" value=\"" );
+		if ( urlString.startsWith( "rebuff" ) )
+		{
+			buffer.append( "runBasementScript(); void(0);" );
+		}
+		else
+		{
+			buffer.append( "document.location.href='basement.php" );
+
+			if ( urlString.equals( "action" ) )
+			{
+				buffer.append( "?action=" );
+				buffer.append( BasementRequest.getBasementAction( response.toString() ) );
+			}
+
+			buffer.append( "'; void(0);" );
+		}
+
+		buffer.append( "\" value=\"" );
 		buffer.append( action );
 		buffer.append( "\"" + ( ( isEnabled ) ? "" : " disabled" ) + ">&nbsp;" );
 	}
@@ -1828,7 +1844,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			StringBuffer actionBuffer = new StringBuffer();
 			actionBuffer.append( "<tr><td align=left>" );
 
-			addBasementButton( "basement.php?action=" + BasementRequest.getBasementAction( buffer.toString() ), buffer, actionBuffer, "try it", true );
+			addBasementButton( "action", buffer, actionBuffer, "auto", true );
+			addBasementButton( "rebuff", buffer, actionBuffer, "rebuff", false );
+			addBasementButton( "", buffer, actionBuffer, "refresh", true );
 
 			actionBuffer.append( "</td></tr><tr><td><font size=1>&nbsp;</font></td></tr>" );
 			buffer.insert( insertionPoint, actionBuffer.toString() );

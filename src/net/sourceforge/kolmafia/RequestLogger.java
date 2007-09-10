@@ -420,6 +420,12 @@ public class RequestLogger extends NullStream implements KoLConstants
 			return;
 		}
 
+		if ( (request instanceof UneffectRequest || isExternal) && UneffectRequest.registerRequest( urlString ) )
+		{
+			wasLastRequestSimple = false;
+			return;
+		}
+
 		if ( (request instanceof UntinkerRequest || isExternal) && UntinkerRequest.registerRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;

@@ -33,6 +33,9 @@
 
 package net.sourceforge.kolmafia;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class UneffectRequest extends KoLRequest
 {
 	private int effectId;
@@ -43,6 +46,9 @@ public class UneffectRequest extends KoLRequest
 	public static final AdventureResult REMEDY = new AdventureResult( "soft green echo eyedrop antidote", 1 );
 	public static final AdventureResult TINY_HOUSE = new AdventureResult( "tiny house", 1 );
 	public static final AdventureResult FOREST_TEARS = new AdventureResult( "forest tears", 1 );
+
+	private static final Pattern ID1_PATTERN = Pattern.compile( "whicheffect=(\\d+)" );
+	private static final Pattern ID2_PATTERN = Pattern.compile( "whichbuff=(\\d+)" );
 
 	public UneffectRequest( AdventureResult effect )
 	{	this( effect, true );
@@ -193,6 +199,24 @@ public class UneffectRequest extends KoLRequest
 		}
 		else if ( !this.isShruggable )
 			KoLmafia.updateDisplay( ERROR_STATE, "Failed to remove " + this.effect.getName() + "." );
+	}
+
+	public static final boolean registerRequest( String location )
+	{
+		if ( !location.startsWith( "uneffect.php" ) && !location.startsWith( "charsheet.php" ) )
+			return false;
+
+		if ( location.indexOf( "?" ) == -1 )
+			return true;
+
+		Matcher idMatcher = location.startsWith( "uneffect.php" ) ? ID1_PATTERN.matcher( location ) :
+			ID2_PATTERN.matcher( location );
+
+		if ( !idMatcher.find() )
+			return true;
+
+		RequestLogger.printLine( "uneffect " + StatusEffectDatabase.getEffectName( StaticEntity.parseInt( idMatcher.group(1) ) ) );
+		return true;
 	}
 }
 

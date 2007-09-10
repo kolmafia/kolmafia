@@ -23,7 +23,9 @@ function basementUpdate( select, command )
 		document.location.href = "basement.php";
 	}
 
-	select.disabled = true;
+	if ( select )
+		select.disabled = true;
+
 	httpObject1.open( "POST", "/KoLmafia/sideCommand?cmd=" + command, true );
 	httpObject1.send( "" );
 }
@@ -42,4 +44,9 @@ function changeBasementPotion()
 	var select = document.getElementById( "potion" );
 	var option = select.options[select.selectedIndex];
 	basementUpdate( select, option.value );
+}
+
+
+function runBasementScript()
+{	basementUpdate( false, "divehelp" );
 }
