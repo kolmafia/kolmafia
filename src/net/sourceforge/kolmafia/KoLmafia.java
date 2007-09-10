@@ -3544,6 +3544,9 @@ public abstract class KoLmafia implements KoLConstants
 
 		printList( availableSkills, sessionStream );
 		sessionStream.println();
+
+		sessionStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
+
 		sessionStream.println();
 		sessionStream.println();
 
