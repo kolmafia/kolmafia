@@ -622,6 +622,45 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( command.equals( "logprint" ) )
+		{
+			if ( parameters.equals( "snapshot" ) )
+			{
+				executeCommand( "logprint", "moon, status, equipment, skills, effects, modifiers" );
+				return;
+			}
+
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
+
+			StringBuffer title = new StringBuffer( "Player Snapshot" );
+
+			int leftIndent = (66 - title.length()) / 2;
+			for ( int i = 0; i < leftIndent; ++i )
+				title.insert( 0, ' ' );
+
+			RequestLogger.updateSessionLog( title.toString() );
+			RequestLogger.updateSessionLog( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
+
+			String [] options = parameters.split( "\\s*,\\s*" );
+
+			for ( int i = 0; i < options.length; ++i )
+			{
+				RequestLogger.updateSessionLog();
+				RequestLogger.updateSessionLog( " > " + options[i] );
+
+				this.executePrintCommand( options[i], true );
+			}
+
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
+
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog();
+
+			return;
+		}
+
 		if ( command.equals( "alias" ) )
 		{
 			int spaceIndex = parameters.indexOf( " " );
@@ -1419,36 +1458,6 @@ public class KoLmafiaCLI extends KoLmafia
 				RequestLogger.printLine( demon + ": " + name );
 			}
 
-			return;
-		}
-
-		if ( command.equals( "logprint" ) )
-		{
-			RequestLogger.updateSessionLog();
-			RequestLogger.updateSessionLog( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
-
-			StringBuffer title = new StringBuffer();
-			title.append( parameters.toUpperCase() );
-
-			int leftIndent = (66 - title.length()) / 2;
-			for ( int i = 0; i < leftIndent; ++i )
-				title.insert( 0, ' ' );
-
-			RequestLogger.updateSessionLog( title.toString() );
-			RequestLogger.updateSessionLog( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
-
-			if ( parameters.equals( "complete" ) )
-			{
-				this.executePrintCommand( "moon", true );
-				this.executePrintCommand( "status", true );
-				this.executePrintCommand( "equipment", true );
-				this.executePrintCommand( "skills", true );
-				this.executePrintCommand( "effects", true );
-			}
-			else
-				this.executePrintCommand( parameters, true );
-
-			RequestLogger.updateSessionLog( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
 			return;
 		}
 
@@ -3417,7 +3426,7 @@ public class KoLmafiaCLI extends KoLmafia
 		PrintStream desiredOutputStream = sessionPrint ? RequestLogger.getSessionStream() : RequestLogger.INSTANCE;
 
 		if ( !filter.equals( "" ) &&
-			(parameters.startsWith( "summary" ) || parameters.startsWith( "session" ) || parameters.startsWith( "stat" ) || parameters.startsWith( "equip" ) || parameters.startsWith( "encounters" ) || parameters.startsWith( "locations" ) ) )
+			(parameters.startsWith( "summary" ) || parameters.startsWith( "session" ) || parameters.equals( "status" ) || parameters.startsWith( "equip" ) || parameters.startsWith( "encounters" ) || parameters.startsWith( "locations" ) ) )
 		{
 			desiredOutputStream = LogStream.openStream( new File( ROOT_LOCATION, filter ), false );
 		}
@@ -3469,8 +3478,6 @@ public class KoLmafiaCLI extends KoLmafia
 			desiredStream.println( MoonPhaseDatabase.getHoliday( today ) );
 			desiredStream.println( MoonPhaseDatabase.getMoonEffect() );
 			desiredStream.println();
-
-			return;
 		}
 		else if ( desiredData.equals( "session" ) )
 		{
@@ -3478,8 +3485,9 @@ public class KoLmafiaCLI extends KoLmafia
 			desiredStream.println( "Session Id: " + KoLRequest.serverCookie );
 			desiredStream.println( "Password Hash: " + KoLRequest.passwordHash );
 			desiredStream.println( "Current Server: " + KoLRequest.KOL_HOST );
+			desiredStream.println();
 		}
-		else if ( desiredData.startsWith( "stat" ) )
+		else if ( desiredData.equals( "status" ) )
 		{
 			desiredStream.println( "Lv: " + KoLCharacter.getLevel() );
 			desiredStream.println( "HP: " + KoLCharacter.getCurrentHP() + " / " + COMMA_FORMAT.format( KoLCharacter.getMaximumHP() ) );
@@ -3498,9 +3506,20 @@ public class KoLmafiaCLI extends KoLmafia
 			desiredStream.println( "Drunk: " + KoLCharacter.getInebriety() );
 
 			desiredStream.println();
+		}
+		else if ( desiredData.equals( "modifiers" ) )
+		{
+			desiredStream.println( "ML: " + MODIFIER_FORMAT.format( KoLCharacter.getMonsterLevelAdjustment() ) );
+			desiredStream.println( "Enc: " + ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getCombatRateAdjustment() ) + "%" );
+			desiredStream.println( "Init: " + ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getInitiativeAdjustment() ) + "%" );
 
-			desiredStream.println( "Pet: " + KoLCharacter.getFamiliar() );
-			desiredStream.println( "Item: " + KoLCharacter.getFamiliarItem() );
+			desiredStream.println();
+
+			desiredStream.println( "Exp: " + ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getExperienceAdjustment() ) );
+			desiredStream.println( "Meat: " + ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getMeatDropPercentAdjustment() ) + "%" );
+			desiredStream.println( "Item: " + ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getItemDropPercentAdjustment() ) + "%" );
+
+			desiredStream.println();
 		}
 		else if ( desiredData.startsWith( "equip" ) )
 		{
@@ -3545,6 +3564,7 @@ public class KoLmafiaCLI extends KoLmafia
 			desiredStream.println();
 
 			desiredStream.println( StaticEntity.getUnexpiredCounters() );
+			desiredStream.println();
 		}
 		else
 		{
@@ -3631,8 +3651,6 @@ public class KoLmafiaCLI extends KoLmafia
 				printList( resultList, desiredStream );
 			}
 		}
-
-		desiredStream.println();
 	}
 
 	private static final String getStatString( int base, int adjusted, int tnp )

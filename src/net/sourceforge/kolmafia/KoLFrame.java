@@ -670,8 +670,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			this.meatLabel.setText( COMMA_FORMAT.format( KoLCharacter.getAvailableMeat() ) );
 			this.advLabel.setText( String.valueOf( KoLCharacter.getAdventuresLeft() ) );
 
-			int ml = KoLCharacter.getMonsterLevelAdjustment();
-			this.mlLabel.setText( MODIFIER_FORMAT.format( ml ) );
+			this.mlLabel.setText( MODIFIER_FORMAT.format( KoLCharacter.getMonsterLevelAdjustment() ) );
 			this.encLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getCombatRateAdjustment() ) + "%" );
 			this.initLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getInitiativeAdjustment() ) + "%" );
 			this.expLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getExperienceAdjustment() ) );
