@@ -276,7 +276,7 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 			{
 				StaticEntity.getClient().handleAscension();
 
-				this.request.constructURLString( this.request.redirectLocation );
+				this.request.constructURLString( this.request.redirectLocation ).run();
 				this.request.constructURLString( "mtnoob.php?action=toot" ).run();
 
 				this.request.responseText = StaticEntity.singleStringReplace( this.request.responseText, "</html>",

@@ -631,16 +631,16 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 
 			RequestLogger.updateSessionLog();
-			RequestLogger.updateSessionLog( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
+			RequestLogger.updateSessionLog( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
 
 			StringBuffer title = new StringBuffer( "Player Snapshot" );
 
-			int leftIndent = (66 - title.length()) / 2;
+			int leftIndent = (46 - title.length()) / 2;
 			for ( int i = 0; i < leftIndent; ++i )
 				title.insert( 0, ' ' );
 
 			RequestLogger.updateSessionLog( title.toString() );
-			RequestLogger.updateSessionLog( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
+			RequestLogger.updateSessionLog( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
 
 			String [] options = parameters.split( "\\s*,\\s*" );
 
@@ -653,7 +653,7 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 
 			RequestLogger.updateSessionLog();
-			RequestLogger.updateSessionLog( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
+			RequestLogger.updateSessionLog( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
 
 			RequestLogger.updateSessionLog();
 			RequestLogger.updateSessionLog();
