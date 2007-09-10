@@ -94,6 +94,7 @@ public class OptionsFrame extends KoLFrame
 
 		private final String [][] options =
 		{
+			{ "logStatusOnLogin", "Session log records your player's state on login" },
 			{ "logReverseOrder", "Log adventures left instead of adventures used" },
 			{},
 			{ "logBattleAction", "Session log records attacks for each round" },
