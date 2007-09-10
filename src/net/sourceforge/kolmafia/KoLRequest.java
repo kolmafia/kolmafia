@@ -1170,6 +1170,9 @@ public class KoLRequest extends Job implements KoLConstants
 
 			if ( this instanceof ConsumeItemRequest && ConsumeItemRequest.currentItemId() == ConsumeItemRequest.DRUM_MACHINE )
 			{
+				RequestLogger.printLine();
+				RequestLogger.printLine( "[" + KoLAdventure.getAdventureCount() + "] Drum Machine" );
+
 				FightRequest.INSTANCE.run();
 				CharpaneRequest.getInstance().run();
 				return !LoginRequest.isInstanceRunning();
@@ -1177,6 +1180,11 @@ public class KoLRequest extends Job implements KoLConstants
 
 			if ( this instanceof ConsumeItemRequest && ConsumeItemRequest.currentItemId() == ConsumeItemRequest.BLACK_PUDDING )
 			{
+				RequestLogger.printLine();
+				RequestLogger.printLine( "[" + KoLAdventure.getAdventureCount() + "] Black Pudding" );
+
+				StaticEntity.getClient().processResult( new AdventureResult( ConsumeItemRequest.BLACK_PUDDING, -1 ) );
+
 				FightRequest.INSTANCE.run();
 				CharpaneRequest.getInstance().run();
 
