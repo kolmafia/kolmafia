@@ -1424,7 +1424,31 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "logprint" ) )
 		{
-			this.executePrintCommand( parameters, true );
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
+
+			StringBuffer title = new StringBuffer();
+			title.append( parameters.toUpperCase() );
+
+			int leftIndent = (66 - title.length()) / 2;
+			for ( int i = 0; i < leftIndent; ++i )
+				title.insert( 0, ' ' );
+
+			RequestLogger.updateSessionLog( title.toString() );
+			RequestLogger.updateSessionLog( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
+
+			if ( parameters.equals( "complete" ) )
+			{
+				this.executePrintCommand( "moon", true );
+				this.executePrintCommand( "status", true );
+				this.executePrintCommand( "equipment", true );
+				this.executePrintCommand( "skills", true );
+				this.executePrintCommand( "effects", true );
+			}
+			else
+				this.executePrintCommand( parameters, true );
+
+			RequestLogger.updateSessionLog( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
 			return;
 		}
 

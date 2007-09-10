@@ -651,6 +651,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		GLOBAL_MAP.put( "logReverseOrder", "false" );
 		GLOBAL_MAP.put( "logStatGains", "true" );
 		GLOBAL_MAP.put( "logStatusEffects", "false" );
+		GLOBAL_MAP.put( "logStatusOnLogin", "false" );
 
 		GLOBAL_MAP.put( "mapLoadsMiniBrowser", "false" );
 		GLOBAL_MAP.put( "mementoListActive", "false" );
