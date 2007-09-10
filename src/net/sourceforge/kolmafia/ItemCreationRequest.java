@@ -46,12 +46,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	public static final AdventureResult OVEN = new AdventureResult( 157, 1 );
 	public static final AdventureResult KIT = new AdventureResult( 236, 1 );
 
-	private static final AdventureResult BOX = new AdventureResult( 427, 1 );
-	private static final AdventureResult CHEF_SKULL = new AdventureResult( 437, 1 );
-	private static final AdventureResult CHEF_SKULL_BOX = new AdventureResult( 438, 1 );
-	private static final AdventureResult BARTENDER_SKULL = new AdventureResult( 439, 1 );
-	private static final AdventureResult BARTENDER_SKULL_BOX = new AdventureResult( 440, 1 );
-
 	private static final AdventureResult CHEF = new AdventureResult( 438, 1 );
 	private static final AdventureResult CLOCKWORK_CHEF = new AdventureResult( 1112, 1 );
 	private static final AdventureResult BARTENDER = new AdventureResult( 440, 1 );
@@ -604,13 +598,13 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		case COOK_REAGENT:
 		case SUPER_REAGENT:
 		case COOK_PASTA:
-			autoRepairSuccessful = this.useBoxServant( CHEF, CLOCKWORK_CHEF, OVEN, CHEF_SKULL, CHEF_SKULL_BOX );
+			autoRepairSuccessful = this.useBoxServant( CHEF, CLOCKWORK_CHEF, OVEN );
 			break;
 
 		case MIX:
 		case MIX_SPECIAL:
 		case MIX_SUPER:
-			autoRepairSuccessful = this.useBoxServant( BARTENDER, CLOCKWORK_BARTENDER, KIT, BARTENDER_SKULL, BARTENDER_SKULL_BOX );
+			autoRepairSuccessful = this.useBoxServant( BARTENDER, CLOCKWORK_BARTENDER, KIT );
 			break;
 		}
 
@@ -620,10 +614,14 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		return autoRepairSuccessful && KoLmafia.permitsContinue();
 	}
 
-	private boolean useBoxServant( AdventureResult servant, AdventureResult clockworkServant, AdventureResult noServantItem, AdventureResult skullItem, AdventureResult boxedItem )
+	private boolean retrieveNoServantItem( AdventureResult noServantItem )
+	{	return !KoLSettings.getBooleanProperty( "requireBoxServants" ) && KoLCharacter.getAdventuresLeft() > 0 && AdventureDatabase.retrieveItem( noServantItem );
+	}
+
+	private boolean useBoxServant( AdventureResult servant, AdventureResult clockworkServant, AdventureResult noServantItem )
 	{
 		if ( !KoLSettings.getBooleanProperty( "autoRepairBoxServants" ) )
-			return !KoLSettings.getBooleanProperty( "requireBoxServants" ) && AdventureDatabase.retrieveItem( noServantItem );
+			return retrieveNoServantItem( noServantItem );
 
 		// First, check to see if a box servant is available
 		// for usage, either normally, or through some form
@@ -642,21 +640,10 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			// If the player can construct the box servant with just a few
 			// more purchases, then do so.
 
-			if ( KoLCharacter.hasItem( boxedItem, true ) )
-			{
-				usedServant = servant;
-			}
-			else if ( KoLCharacter.inMuscleSign() )
-			{
-				if ( KoLCharacter.hasItem( skullItem, true ) && KoLCharacter.hasItem( BOX, false ) )
-					usedServant = servant;
-			}
-
 			if ( KoLCharacter.canInteract() && (KoLSettings.getBooleanProperty( "autoSatisfyWithMall" ) || KoLSettings.getBooleanProperty( "autoSatisfyWithStash")) )
 				usedServant = servant;
-
-			if ( usedServant == null )
-				return !KoLSettings.getBooleanProperty( "requireBoxServants" ) && AdventureDatabase.retrieveItem( noServantItem );
+			else
+				return retrieveNoServantItem( noServantItem );
 		}
 
 		// Once you hit this point, you're guaranteed to
