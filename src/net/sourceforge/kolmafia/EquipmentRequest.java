@@ -97,7 +97,7 @@ public class EquipmentRequest extends PasswordHashRequest
 		"acc1", "acc2", "acc3", "familiar", "fakehand"
 	};
 
-		// These are the names used in the PHP file
+	// These are the names used in the PHP file
 	public static final String [] phpSlotNames =
 	{
 		"hat", "weapon", "offhand", "shirt", "pants",
@@ -997,10 +997,27 @@ public class EquipmentRequest extends PasswordHashRequest
 			RequestLogger.updateSessionLog();
 			RequestLogger.updateSessionLog( "equip off-hand " + itemName );
 		}
-		else
+		else if ( urlString.indexOf( "slot=1" ) != -1 )
 		{
 			RequestLogger.updateSessionLog();
-			RequestLogger.updateSessionLog( "equip " + itemName );
+			RequestLogger.updateSessionLog( "equip acc1 " + itemName );
+		}
+		else if ( urlString.indexOf( "slot=2" ) != -1 )
+		{
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( "equip acc2 " + itemName );
+		}
+		else if ( urlString.indexOf( "slot=3" ) != -1 )
+		{
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( "equip acc3 " + itemName );
+		}
+		else
+		{
+			int slot = chooseEquipmentSlot( TradeableItemDatabase.getConsumptionType( itemName ) );
+
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( "equip " + slotNames[slot] + " " + itemName );
 		}
 
 		return true;
