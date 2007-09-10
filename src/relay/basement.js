@@ -1,4 +1,4 @@
-function basementUpdate( select, command )
+function basementUpdate( command )
 {
 	var httpObject1 = getHttpObject();
 	if ( !httpObject1 )
@@ -23,30 +23,40 @@ function basementUpdate( select, command )
 		document.location.href = "basement.php";
 	}
 
-	if ( select )
-		select.disabled = true;
+	var selects = document.getElementsByTagName( "select" );
+	for ( var i = 0; i < selects.length; ++i )
+		selects[i].disabled = true;
+
+	var buttons = document.getElementsByTagName( "input" );
+	for ( var i = 0; i < buttons.length; ++i )
+		buttons[i].disabled = true;
 
 	httpObject1.open( "POST", "/KoLmafia/sideCommand?cmd=" + command, true );
 	httpObject1.send( "" );
 }
 
 
-function changeBasementOutfit()
+function changeBasementGear()
 {
-	var select = document.getElementById( "outfit" );
-	var option = select.options[select.selectedIndex];
-	basementUpdate( select, "outfit+" + option.value );
+	var select = document.getElementById( "gear" );
+	if ( select.selectedIndex != 0 )
+		basementUpdate( select.options[select.selectedIndex].value );
 }
 
 
-function changeBasementPotion()
+function changeBasementEffects()
 {
+	var command = "";
 	var select = document.getElementById( "potion" );
-	var option = select.options[select.selectedIndex];
-	basementUpdate( select, option.value );
+
+	for ( var i = 0; i < select.options.length; ++i )
+		if ( select.options[i].selected )
+			command += select.options[i].value + "; ";
+
+	basementUpdate( command );
 }
 
 
 function runBasementScript()
-{	basementUpdate( false, "divehelp" );
+{	basementUpdate( "divehelp" );
 }
