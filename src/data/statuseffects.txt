@@ -429,7 +429,7 @@
 420	Deep-Fried	cheesestaf.gif	c90fb985575f40b9a11a82e2089845ed
 421	Paw Swap	hand.gif
 422	Side Affectation	goofballs.gif	c4128e09aa945f3a0c2a248c44383748
-423	Shirtless in Seattle	unknown.gif
+423	Shirtless in Seattle	wtee.gif	4c978713d382fd0854b873daaceecd93
 424	Scared Stiff	hoppeddown.gif	7e4c1c9a394dae1dbf7d99c44c5e9a89
 425	Midgetized	whitepix.gif	0cf9f537a2dda9b00815a52018fcd0d3
 426	Synthesized	stuffcocoa.gif	549804c10e37636d6be9045a142d6fe2
