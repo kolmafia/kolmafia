@@ -205,8 +205,23 @@ public class KoLSettings extends Properties implements KoLConstants
 
 		File [] listing = SETTINGS_LOCATION.listFiles();
 		for ( int i = 0; i < listing.length; ++i )
-			if ( listing[i].getPath().endsWith( "_combat.txt" ) )
+		{
+			String path = listing[i].getPath();
+			if ( path.startsWith( "combat_" ) || path.endsWith( "_combat.txt" ) )
+			{
 				listing[i].delete();
+			}
+			else if ( path.startsWith( "moods_" ) )
+			{
+				path = path.substring( 6, path.indexOf( ".txt" ) );
+				listing[i].renameTo( new File( SETTINGS_LOCATION, path + "_moods.txt" ) );
+			}
+			else if ( path.startsWith( "prefs_" ) )
+			{
+				path = path.substring( 6, path.indexOf( ".txt" ) );
+				listing[i].renameTo( new File( SETTINGS_LOCATION, path + "_prefs.txt" ) );
+			}
+		}
 
 		initializeMaps();
 	}
