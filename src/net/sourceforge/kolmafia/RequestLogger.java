@@ -305,6 +305,15 @@ public class RequestLogger extends NullStream implements KoLConstants
 			return;
 		}
 
+		if ( urlString.startsWith( "manor3.php" ) )
+		{
+			String demon = request.getFormField( "demonname" );
+			if ( demon != null && !demon.equals( "" ) )
+				updateSessionLog( "summon " + demon );
+
+			return;
+		}
+
 		if ( urlString.startsWith( "login" ) || urlString.startsWith( "logout" ) || urlString.startsWith( "charpane" ) )
 			return;
 
