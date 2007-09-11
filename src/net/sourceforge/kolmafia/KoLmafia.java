@@ -3296,6 +3296,18 @@ public abstract class KoLmafia implements KoLConstants
 		boolean canUntinker = UntinkerRequest.canUntinker();
 
 		RequestThread.openRequestSequence();
+		ArrayList closetList = new ArrayList();
+
+		for ( int i = 0; i < items.length; ++i )
+		{
+			if ( !singletonList.contains( items[i] ) || closet.contains( items[i] ) )
+				continue;
+
+			if ( inventory.contains( items[i] ) )
+				closetList.add( ((AdventureResult)items[i]).getInstance(1) );
+		}
+
+		RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, closetList.toArray() ) );
 
 		do
 		{
@@ -3364,9 +3376,6 @@ public abstract class KoLmafia implements KoLConstants
 					continue;
 
 				itemCount = currentItem.getCount( inventory );
-				if ( !KoLCharacter.canInteract() && singletonList.contains( currentItem ) && !closet.contains( currentItem ) )
-					--itemCount;
-
 				itemPower = EquipmentDatabase.getPower( currentItem.getItemId() );
 
 				if ( itemCount > 0 && !NPCStoreDatabase.contains( currentItem.getName(), false ) )
@@ -3415,9 +3424,6 @@ public abstract class KoLmafia implements KoLConstants
 			if ( mementoList.contains( currentItem ) )
 				continue;
 
-			if ( !KoLCharacter.canInteract() && singletonList.contains( currentItem ) && !closet.contains( currentItem ) )
-				continue;
-
 			if ( currentItem.getItemId() == MEAT_PASTE )
 				continue;
 
@@ -3438,7 +3444,7 @@ public abstract class KoLmafia implements KoLConstants
 			{
 				currentItem = (AdventureResult) items[i];
 
-				if ( mementoList.contains( currentItem ) || !singletonList.contains( currentItem ) )
+				if ( mementoList.contains( currentItem ) )
 					continue;
 
 				if ( currentItem.getItemId() == MEAT_PASTE )

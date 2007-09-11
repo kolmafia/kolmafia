@@ -61,7 +61,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		// Items which usually get autosold by people, regardless of the situation.
 		// This includes the various meat combinables, sewer items, and stat boosters.
 
-		"meat paste", "meat stack", "dense meat stack", "twinkly powder",
+		"meat stack", "dense meat stack", "twinkly powder",
 		"seal-clubbing club", "seal tooth", "helmet turtle", "pasta spoon", "ravioli hat", "disco mask", "mariachi pants",
 		"moxie weed", "strongness elixir", "magicalness-in-a-can", "enchanted barbell", "concentrated magicalness pill", "giant moxie weed", "extra-strength strongness elixir", "jug-o-magicalness", "suntan lotion of moxiousness",
 
@@ -88,20 +88,11 @@ public class KoLSettings extends Properties implements KoLConstants
 		"Warm Subject gift certificate", "disturbing fanfic", "probability potion", "procrastination potion", "Mick's IcyVapoHotness Rub"
 	};
 
+	// For now, only outfit pieces should be considered as
+	// part of the default singleton set.
+
 	public static final String [] SINGLETON_ITEMS =
 	{
-		"meat paste",
-
-		// Things which are generally used during a softcore ascension should not
-		// be placed on the junk list, unless they're easy to find.
-
-		"turtle totem", "saucepan", "stolen accordion",
-		"skeleton bone", "broken skull", "skeleton key", "digital key",
-		"ruby W", "metallic A", "lowercase N", "heavy D", "Wand of Nagamar",
-		"Richard's star key", "star crossbow", "star staff", "star sword",
-
-		// Common outfit pieces should also be kept
-
 		"bugbear beanie", "bugbear bungguard",
 		"filthy knitted dread sack", "filthy corduroys",
 		"homoerotic frat-paddle", "Orcish baseball cap", "Orcish cargo shorts",
@@ -111,19 +102,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		"Cloaca-Cola fatigues", "Cloaca-Cola helmet", "Cloaca-Cola shield",
 		"Dyspepsi-Cola fatigues", "Dyspepsi-Cola helmet", "Dyspepsi-Cola shield",
 		"bullet-proof corduroys", "round purple sunglasses", "reinforced beaded headband",
-		"beer helmet", "distressed denim pants", "bejeweled pledge pin",
-
-		// Items which are used on tower guardians should also be considered junk,
-		// but leave around one of the item just in case.
-
-		"lime-and-chile-flavored chewing gum", "jaba&ntilde;ero-flavored chewing gum",
-		"lime-and-chile-flavored chewing gum", "pickle-flavored chewing gum", "tamarind-flavored chewing gum",
-		"Angry Farmer candy", "Tasty Fun Good rice candy", "marzipan skull",
-		"Meleegra&trade; pills", "handsomeness potion", "wussiness potion",
-		"pygmy pygment",  "thin black candle", "picture of a dead guy's girlfriend", "Black No. 2",
-		"super-spikey hair gel", "Mick's IcyVapoHotness Rub", "adder bladder", "gremlin juice",
-		"milky potion", "swirly potion", "bubbly potion", "smoky potion",
-		"cloudy potion", "effervescent potion", "fizzy potion", "dark potion", "murky potion",
+		"beer helmet", "distressed denim pants", "bejeweled pledge pin"
 	};
 
 	public static final String [] COMMON_MEMENTOS =
@@ -230,47 +209,74 @@ public class KoLSettings extends Properties implements KoLConstants
 	private static KoLSettings userSettings = globalSettings;
 
 	private File userSettingsFile;
+	private static final File itemFlagsFile = new File( DATA_LOCATION, "itemflags.txt" );
 
-	private static final File junkItemsFile = new File( DATA_LOCATION, "autosell.txt" );
-	private static final File singletonFile = new File( DATA_LOCATION, "singleton.txt" );
-	private static final File mementoFile = new File( DATA_LOCATION, "mementos.txt" );
-	private static final File profitableFile = new File( DATA_LOCATION, "mallsell.txt" );
-
-	private static final void initializeList( LockableListModel model, File input, String [] defaults )
+	private static final void initializeList( LockableListModel model, String [] defaults )
 	{
+		model.clear();
 		AdventureResult item;
 
-		if ( defaults == SINGLETON_ITEMS || !input.exists() )
+		for ( int i = 0; i < defaults.length; ++i )
 		{
-			for ( int i = 0; i < defaults.length; ++i )
-			{
-				item =  new AdventureResult( defaults[i], 1, false );
-				if ( !model.contains( item ) )
-					model.add( item );
-			}
-		}
+			item =  new AdventureResult( defaults[i], 1, false );
+			if ( !model.contains( item ) )
+				model.add( item );
 
-		if ( !input.exists() )
+			if ( model == singletonList && !junkList.contains( item ) )
+				junkList.add( item );
+		}
+	}
+
+	public static final void initializeLists()
+	{
+		if ( !itemFlagsFile.exists() )
+		{
+			initializeList( junkList, COMMON_JUNK );
+			initializeList( singletonList, SINGLETON_ITEMS );
+			initializeList( mementoList, COMMON_MEMENTOS );
+
+			profitableList.clear();
 			return;
+		}
 
 		try
 		{
-			FileInputStream istream = new FileInputStream( input );
+			AdventureResult item;
+			FileInputStream istream = new FileInputStream( itemFlagsFile );
 			BufferedReader reader = new BufferedReader( new InputStreamReader( istream ) );
 
 			String line;
+			LockableListModel model = null;
 
 			while ( (line = reader.readLine()) != null )
 			{
-				if ( line.equals( "" ) || line.startsWith( "[" ) )
+				if ( line.equals( "" ) )
 					continue;
 
-				if ( !TradeableItemDatabase.contains( line ) )
-					continue;
+				if ( line.startsWith( " > " ) )
+				{
+					if ( line.endsWith( "junk" ) )
+						model = junkList;
+					else if ( line.endsWith( "singleton" ) )
+						model = singletonList;
+					else if ( line.endsWith( "mementos" ) )
+						model = mementoList;
+					else if ( line.endsWith( "profitable" ) )
+						model = profitableList;
 
-				item = new AdventureResult( line, 1, false );
-				if ( !model.contains( item ) )
-					model.add( item );
+					if ( model != null )
+						model.clear();
+				}
+				else if ( model != null && TradeableItemDatabase.contains( line ) )
+				{
+					item = new AdventureResult( line, 1, false );
+
+					if ( !model.contains( item ) )
+						model.add( item );
+
+					if ( model == singletonList && !junkList.contains( item ) )
+						junkList.add( item );
+				}
 			}
 
 			reader.close();
@@ -282,22 +288,6 @@ public class KoLSettings extends Properties implements KoLConstants
 
 			StaticEntity.printStackTrace( e );
 		}
-	}
-
-	public static final void initializeLists()
-	{
-		junkList.clear();
-		initializeList( junkList, junkItemsFile, COMMON_JUNK );
-
-		singletonList.clear();
-		initializeList( junkList, singletonFile, SINGLETON_ITEMS );
-		initializeList( singletonList, singletonFile, SINGLETON_ITEMS );
-
-		mementoList.clear();
-		initializeList( mementoList, mementoFile, COMMON_MEMENTOS );
-
-		profitableList.clear();
-		initializeList( profitableList, profitableFile, new String[0] );
 	}
 
 	public static final void reset( String username )
@@ -466,35 +456,42 @@ public class KoLSettings extends Properties implements KoLConstants
 	{
 		AdventureResult item;
 
-		LogStream ostream = LogStream.openStream( junkItemsFile, true );
+		LogStream ostream = LogStream.openStream( itemFlagsFile, true );
+
+		ostream.println( " > junk" );
+		ostream.println();
 
 		for ( int i = 0; i < junkList.size(); ++i )
 		{
 			item = ((AdventureResult) junkList.get(i));
-			ostream.println( item.getName() );
+			if ( !singletonList.contains( item ) )
+				ostream.println( item.getName() );
 		}
 
-		ostream.close();
+		ostream.println();
+		ostream.println( " > singleton" );
+		ostream.println();
 
-		ostream = LogStream.openStream( singletonFile, true );
 		for ( int i = 0; i < singletonList.size(); ++i )
 		{
 			item = (AdventureResult)singletonList.get(i);
 			ostream.println( item.getName() );
 		}
 
-		ostream.close();
+		ostream.println();
+		ostream.println( " > mementos" );
+		ostream.println();
 
-		ostream = LogStream.openStream( mementoFile, true );
 		for ( int i = 0; i < mementoList.size(); ++i )
 		{
 			item = (AdventureResult)mementoList.get(i);
 			ostream.println( item.getName() );
 		}
 
-		ostream.close();
+		ostream.println();
+		ostream.println( " > profitable" );
+		ostream.println();
 
-		ostream = LogStream.openStream( profitableFile, true );
 		for ( int i = 0; i < profitableList.size(); ++i )
 		{
 			item = (AdventureResult) profitableList.get(i);

@@ -78,7 +78,7 @@ public class ItemStorageRequest extends SendMessageRequest
 
 	public ItemStorageRequest( int moveType, Object [] attachments )
 	{
-		super( "fight.php", attachments );
+		super( "closet.php", attachments );
 		this.moveType = moveType;
 
 		// Figure out the actual URL information based on the
