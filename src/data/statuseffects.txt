@@ -301,7 +301,7 @@
 301	Cunctatitis	disease.gif	9a12b9329e0701252387afe75dee34ee
 302	Mild Lycanthropy	moon2.gif	30ef4348fb5125c55c5be56867b795dd
 303	Lycanthropy, Eh?	moon2.gif	f0d184c3e271a091974dc74fa36640f3
-304	Roids of the Rhinoceros	strboost.gif	7162d29ed4d4ab9247e32a65fdc0508a	use 1 bottle of rhinoceros hormones
+304	'Roids of the Rhinoceros	strboost.gif	7162d29ed4d4ab9247e32a65fdc0508a	use 1 bottle of rhinoceros hormones
 305	Happy Trails	farout.gif	0d08ec701054748c0ff754e1eb8993fa	use 1 teeny-tiny magic scroll
 306	Piratastic	poison.gif	326cfa0c7a97220cda6575f7d887c38f	use 1 bottle of pirate juice
 307	Healthy Green Glow	light.gif	179ea341b15b46366812867e26705ed0	use 1 irradiated pet snacks

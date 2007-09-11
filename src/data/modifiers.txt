@@ -1407,7 +1407,7 @@ Red Tongue	Meat Drop: +30
 Reedy Pipes	Moxie Percent: +5
 Reptilian Fortitude	Maximum HP: +30
 Ringing Ears	Muscle Percent: +20, Mysticality Percent: -20
-Roids of the Rhinoceros	Muscle: +100
+'Roids of the Rhinoceros	Muscle: +100
 Rushin' Hands	Melee Damage: +3
 Salamander In Your Stomach	Mysticality: +25
 Saucemastery	Mysticality: +1, Maximum HP: +4
