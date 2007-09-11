@@ -33,18 +33,38 @@
 
 package net.sourceforge.kolmafia;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class MindControlRequest extends KoLRequest
 {
-	int level;
+	private int level;
+	private int maxLevel;
+
+	private static final AdventureResult RADIO = new AdventureResult( 2682, 1 );
+
+	private static final Pattern MCD1_PATTERN = Pattern.compile( "whichlevel=(\\d+)" );
+	private static final Pattern MCD2_PATTERN = Pattern.compile( "tuneradio=(\\d+)" );
 
 	public MindControlRequest( int level )
 	{
-		super( "canadia.php" );
+		super( KoLCharacter.inMysticalitySign() ? "canadia.php" :
+			KoLCharacter.inMoxieSign() ? "gnomes.php" : "inv_use.php" );
 
-		this.addFormField( "action", "changedial" );
-		this.addFormField( "whichlevel", String.valueOf( level ) );
+		if ( KoLCharacter.inMuscleSign() )
+		{
+			this.addFormField( "pwd" );
+			this.addFormField( "whichitem", String.valueOf( RADIO.getItemId() ) );
+			this.addFormField( "tuneradio", String.valueOf( level ) );
+		}
+		else
+		{
+			this.addFormField( "action", "changedial" );
+			this.addFormField( "whichlevel", String.valueOf( level ) );
+		}
 
 		this.level = level;
+		this.maxLevel = KoLCharacter.inMysticalitySign() ? 11 : 10;
 	}
 
 	protected boolean retryOnTimeout()
@@ -55,19 +75,14 @@ public class MindControlRequest extends KoLRequest
 	{
 		// Avoid server hits if user gives an invalid level
 
-		if ( this.level < 0 || this.level > 11 )
+		if ( this.level < 0 || this.level > maxLevel )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "The dial only goes from 0 to 11." );
+			KoLmafia.updateDisplay( ERROR_STATE, "The dial only goes from 0 to " + maxLevel + "." );
 			return;
 		}
 
-		// This is only available in Mysticality signs
-
-		if ( !KoLCharacter.inMysticalitySign() )
-		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You can't find the Mind Control device." );
+		if ( KoLCharacter.inMuscleSign() && !AdventureDatabase.retrieveItem( RADIO ) )
 			return;
-		}
 
 		KoLmafia.updateDisplay( "Resetting mind control device..." );
 		super.run();
@@ -77,6 +92,21 @@ public class MindControlRequest extends KoLRequest
 	{
 		KoLmafia.updateDisplay( "Mind control device reset." );
 		KoLCharacter.setMindControlLevel( this.level );
+	}
+
+	public static boolean registerRequest( String urlString )
+	{
+		if ( urlString.indexOf( "action=changedial" ) != -1 && urlString.indexOf( "tuneradio" ) == -1 )
+			return false;
+
+		Matcher levelMatcher = KoLCharacter.inMuscleSign() ? MCD2_PATTERN.matcher( urlString ) :
+			MCD1_PATTERN.matcher( urlString );
+
+		if ( !levelMatcher.find() )
+			return false;
+
+		RequestLogger.updateSessionLog( "mcd " + levelMatcher.group(1) );
+		return true;
 	}
 }
 
