@@ -37,7 +37,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.KeyAdapter;
-import java.net.URLEncoder;
 
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
@@ -52,6 +51,7 @@ import net.sourceforge.kolmafia.ConcoctionsDatabase.Concoction;
 import net.sourceforge.kolmafia.StoreManager.SoldItem;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
+import net.sourceforge.kolmafia.MoodSettings.MoodTrigger;
 
 public class ShowDescriptionList extends JList implements KoLConstants
 {
@@ -122,13 +122,12 @@ public class ShowDescriptionList extends JList implements KoLConstants
 			this.contextMenu.add( new AddToMementoListMenuItem() );
 			this.contextMenu.add( new AddToSingletonListMenuItem() );
 		}
-		else if ( displayModel == junkList )
-		{
-			this.contextMenu.add( new AddToSingletonListMenuItem() );
-		}
 		else if ( isMoodList )
 		{
-			addKeyListener( new RemoveTriggerListener() );
+			this.contextMenu.add( new ForceExecuteMenuItem() );
+			this.contextMenu.add( new RemoveTriggerMenuItem() );
+
+			this.addKeyListener( new RemoveTriggerListener() );
 		}
 
 		this.addMouseListener( new PopupListener() );
@@ -316,6 +315,57 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		}
 	}
 
+	public void removeTriggers()
+	{
+		Object [] items = ShowDescriptionList.this.getSelectedValues();
+		ShowDescriptionList.this.clearSelection();
+
+		MoodSettings.removeTriggers( items );
+		MoodSettings.saveSettings();
+	}
+
+	private class ForceExecuteMenuItem extends ContextMenuItem
+	{
+		public ForceExecuteMenuItem()
+		{	super( "Force execution" );
+		}
+
+		public void executeAction()
+		{
+			Object [] items = ShowDescriptionList.this.getSelectedValues();
+			ShowDescriptionList.this.clearSelection();
+
+			for ( int i = 0; i < items.length; ++i )
+				KoLmafiaCLI.DEFAULT_SHELL.executeLine( ((MoodTrigger)items[i]).getAction() );
+		}
+	}
+
+	private class RemoveTriggerMenuItem extends ContextMenuItem
+	{
+		public RemoveTriggerMenuItem()
+		{	super( "Remove selected" );
+		}
+
+		public void executeAction()
+		{	removeTriggers();
+		}
+	}
+
+	private class RemoveTriggerListener extends KeyAdapter
+	{
+		public void keyReleased( KeyEvent e )
+		{
+			if ( e.isConsumed() )
+				return;
+
+			if ( e.getKeyCode() != KeyEvent.VK_DELETE && e.getKeyCode() != KeyEvent.VK_BACK_SPACE )
+				return;
+
+			removeTriggers();
+			e.consume();
+		}
+	}
+
 	private class CastSkillMenuItem extends ContextMenuItem
 	{
 		public CastSkillMenuItem()
@@ -413,25 +463,6 @@ public class ShowDescriptionList extends JList implements KoLConstants
 			Object [] effects = ShowDescriptionList.this.getSelectedValues();
 			for ( int i = 0; i < effects.length; ++i )
 				RequestThread.postRequest( new UneffectRequest( (AdventureResult) effects[i] ) );
-		}
-	}
-
-	private class RemoveTriggerListener extends KeyAdapter
-	{
-		public void keyReleased( KeyEvent e )
-		{
-			if ( e.isConsumed() )
-				return;
-
-			if ( e.getKeyCode() != KeyEvent.VK_DELETE && e.getKeyCode() != KeyEvent.VK_BACK_SPACE )
-				return;
-
-			Object [] items = ShowDescriptionList.this.getSelectedValues();
-			ShowDescriptionList.this.clearSelection();
-
-			MoodSettings.removeTriggers( items );
-			MoodSettings.saveSettings();
-			e.consume();
 		}
 	}
 
