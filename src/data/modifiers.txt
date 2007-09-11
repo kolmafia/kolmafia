@@ -1265,6 +1265,7 @@ Cupshotten	Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20
 Cuts Like a Buttered Knife	Sleaze Damage: +50
 Dang Near Cut In Half	Muscle Percent: -50
 Deep Fried	Hot Resistance: +20
+Demonic Taint	Stench Damage: +30
 Dirge of Dreadfulness	Spooky Damage: +12, Spooky Spell Damage: +12
 Disco Concentration	Item Drop: +20
 Disco Inferno	Moxie: +5, Hot Damage: +3
