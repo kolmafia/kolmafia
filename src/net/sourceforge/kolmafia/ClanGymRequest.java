@@ -33,6 +33,9 @@
 
 package net.sourceforge.kolmafia;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class ClanGymRequest extends KoLRequest
 {
 	private static final int BREAKFAST = -1;
@@ -42,6 +45,8 @@ public class ClanGymRequest extends KoLRequest
 	public static final int MYSTICALITY = 2;
 	public static final int MOXIE = 3;
 	public static final int SOFA = 4;
+
+	private static final Pattern TURN_PATTERN = Pattern.compile( "numturns=(\\d+)" );
 
 	public static final int [][] MAXIMUM_USAGE = new int[10][];
 	static
@@ -266,6 +271,43 @@ public class ClanGymRequest extends KoLRequest
 
 	public int getAdventuresUsed()
 	{	return this.turnCount;
+	}
+
+	public static boolean registerRequest( String urlString )
+	{
+		String gymType = null;
+
+		if ( urlString.startsWith( "knoll.php" ) && urlString.indexOf( "action=gym" ) != -1 )
+			gymType = "Pump Up Muscle";
+
+		if ( urlString.startsWith( "canadia.php" ) && urlString.indexOf( "action=institute" ) != -1 )
+			gymType = "Pump Up Mysticality";
+
+		if ( urlString.startsWith( "gnomes.php" ) && urlString.indexOf( "action=train" ) != -1 )
+			gymType = "Pump Up Moxie";
+
+		if ( urlString.startsWith( "clan_rumpus.php" ) && urlString.indexOf( "action=3" ) != -1 )
+			gymType = "Pump Up Muscle";
+
+		if ( urlString.startsWith( "clan_rumpus.php" ) && urlString.indexOf( "action=1" ) != -1 )
+			gymType = "Pump Up Mysticality";
+
+		if ( urlString.startsWith( "clan_rumpus.php" ) && urlString.indexOf( "action=2" ) != -1 )
+			gymType = "Pump Up Moxie";
+
+		if ( urlString.startsWith( "clan_rumpus.php" ) && urlString.indexOf( "action=5" ) != -1 )
+			gymType = "Rest in Clan Sofa";
+
+		if ( gymType == null )
+			return false;
+
+		Matcher turnMatcher = TURN_PATTERN.matcher( urlString );
+		if ( !turnMatcher.find() )
+			return false;
+
+		RequestLogger.printLine( "[" + KoLAdventure.getAdventureCount() + "] " + gymType + " (" + turnMatcher.group(1) + " turns)" );
+		RequestLogger.updateSessionLog( "[" + KoLAdventure.getAdventureCount() + "] " + gymType + " (" + turnMatcher.group(1) + " turns)" );
+		return true;
 	}
 }
 

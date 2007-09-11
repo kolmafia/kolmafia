@@ -4147,14 +4147,7 @@ public class KoLmafiaCLI extends KoLmafia
 	public void executeMindControlRequest( String parameters )
 	{
 		int setting = StaticEntity.parseInt( parameters );
-
-		if ( KoLCharacter.inMysticalitySign() )
-			RequestThread.postRequest( new MindControlRequest( setting ) );
-		else if ( KoLCharacter.inMuscleSign() )
-			RequestThread.postRequest( new DetunedRadioRequest( setting ) );
-		else if ( KoLCharacter.inMoxieSign() )
-			RequestThread.postRequest( new AnnoyotronRequest( setting ) );
-
+		RequestThread.postRequest( new MindControlRequest( setting ) );
 	}
 
 	/**

@@ -2173,13 +2173,7 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 
 		int setting = StaticEntity.parseInt( selectedLevel.split( " " )[1] );
-
-		if ( KoLCharacter.inMysticalitySign() )
-			RequestThread.postRequest( new MindControlRequest( setting ) );
-		else if ( KoLCharacter.inMuscleSign() )
-			RequestThread.postRequest( new DetunedRadioRequest( setting ) );
-		else if ( KoLCharacter.inMoxieSign() )
-			RequestThread.postRequest( new AnnoyotronRequest( setting ) );
+		RequestThread.postRequest( new MindControlRequest( setting ) );
 	}
 
 	public void makeCampgroundRestRequest()
