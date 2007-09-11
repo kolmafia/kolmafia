@@ -38,6 +38,15 @@ import net.sourceforge.foxtrot.Job;
 
 public class KoLAdventure extends Job implements KoLConstants, Comparable
 {
+	public static final String [][] DEMON_TYPES =
+	{
+		{ "Summoning Chamber", "Pies" },
+		{ "Spooky Forest", "Preternatural Greed" },
+		{ "Sonofa Beach", "Fit To Be Tide" },
+		{ "Deep Fat Friars' Gate", "Big Flaming Whip" },
+		{ "Haunted Bathroom", "Demonic Taint" }
+	};
+
 	private static final KoLRequest ZONE_UNLOCK = new KoLRequest( "" );
 	private static final AdventureResult HYDRATED = new AdventureResult( "Ultrahydrated", 1, true );
 
@@ -1158,23 +1167,5 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			return this.adventureName.compareTo( ka.adventureName );
 
 		return evade1 - evade2;
-	}
-
-	public static final String demonType( int i )
-	{
-		switch ( i )
-		{
-		case 1:
-			return "Summoning Chamber (pies)";
-		case 2:
-			return "Spooky Forest (Preternatural Greed)";
-		case 3:
-			return "Sonofa Beach (Fit To Be Tide)";
-		case 4:
-			return "Deep Fat Friars' Gate (Big Flaming Whip)";
-		case 5:
-			return "Haunted Bathroom (Demonic Taint)";
-		}
-		return "Unknown";
 	}
 }

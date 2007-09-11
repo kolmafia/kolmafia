@@ -1451,12 +1451,46 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "demons" ) )
 		{
-			for ( int i = 1; i <= 5; ++i )
+			for ( int i = 0; i <= KoLAdventure.DEMON_TYPES.length; ++i )
 			{
-				String demon = KoLAdventure.demonType( i );
-				String name = KoLSettings.getUserProperty( "demonName" + i );
-				RequestLogger.printLine( demon + ": " + name );
+				RequestLogger.printLine( (i+1) + ": " + KoLSettings.getUserProperty( "demonName" + (i+1) ) );
+				RequestLogger.printLine( " => Found in the " + KoLAdventure.DEMON_TYPES[i][0] );
+				RequestLogger.printLine( " => Gives " + KoLAdventure.DEMON_TYPES[i][1] );
 			}
+
+			return;
+		}
+
+		if ( command.equals( "summon" ) )
+		{
+			if ( parameters.length() == 0 )
+				return;
+
+			String demon = parameters;
+			if ( Character.isDigit( parameters.charAt(0) ) )
+			{
+				demon = KoLSettings.getUserProperty( "demonName" + parameters );
+			}
+			else
+			{
+				for ( int i = 0; i < KoLAdventure.DEMON_TYPES.length; ++i )
+				{
+					if ( parameters.equalsIgnoreCase( KoLAdventure.DEMON_TYPES[i][0] ) )
+						demon = KoLSettings.getUserProperty( "demonName" + (i+1) );
+					else if ( parameters.equalsIgnoreCase( KoLAdventure.DEMON_TYPES[i][1] ) )
+						demon = KoLSettings.getUserProperty( "demonName" + (i+1) );
+					else if ( parameters.equalsIgnoreCase( KoLSettings.getUserProperty( "demonName" + (i+1) ) ) )
+						demon = KoLSettings.getUserProperty( "demonName" + (i+1) );
+				}
+			}
+
+			KoLRequest demonSummon = new KoLRequest( "manor3.php" );
+			demonSummon.addFormField( "action", "summon" );
+			demonSummon.addFormField( "demonname", demon );
+
+			updateDisplay( "Summoning " + demon + "..." );
+			RequestThread.postRequest( demonSummon );
+			RequestThread.enableDisplayIfSequenceComplete();
 
 			return;
 		}
