@@ -115,7 +115,7 @@ public class ExamineItemsFrame extends KoLFrame
 			}
 
 			public void run()
-			{	ItemLookupPanel.this.showDescription( (Entry) ItemLookupPanel.this.elementModel.get( ItemLookupPanel.this.elementList.lastSelectIndex ) );
+			{	ItemLookupPanel.this.showDescription( (Entry) ItemLookupPanel.this.elementModel.getElementAt( ItemLookupPanel.this.elementList.lastSelectIndex ) );
 			}
 		}
 
@@ -174,7 +174,7 @@ public class ExamineItemsFrame extends KoLFrame
 		public int compare( Object o1, Object o2 )
 		{
 			if ( !(o1 instanceof Entry ) ||
-			     !(o2 instanceof Entry ) )
+				 !(o2 instanceof Entry ) )
 				throw new ClassCastException();
 
 			int i1 = ((Integer)((Entry)o1).getKey()).intValue();
@@ -188,7 +188,7 @@ public class ExamineItemsFrame extends KoLFrame
 		public int compare( Object o1, Object o2 )
 		{
 			if ( !(o1 instanceof Entry ) ||
-			     !(o2 instanceof Entry ) )
+				 !(o2 instanceof Entry ) )
 				throw new ClassCastException();
 
 			String s1 = (String)((Entry)o1).getValue();
