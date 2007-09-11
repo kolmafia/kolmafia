@@ -129,6 +129,7 @@ public abstract class SendMessageRequest extends KoLRequest
 		SendMessageRequest subinstance = null;
 
 		boolean allowNoGift = this.allowUngiftableTransfer();
+		boolean allowSingleton = this.allowSingletonTransfer();
 		boolean allowNoTrade = this.allowUntradeableTransfer();
 		boolean allowMemento = !KoLSettings.getBooleanProperty( "mementoListActive" ) || this.allowMementoTransfer();
 
@@ -156,6 +157,9 @@ public abstract class SendMessageRequest extends KoLRequest
 					continue;
 
 				if ( !allowMemento && mementoList.contains( item ) )
+					continue;
+
+				if ( !allowSingleton && singletonList.contains( item ) && !closet.contains( item ) )
 					continue;
 
 				availableCount = item.getCount( this.source );
@@ -293,6 +297,11 @@ public abstract class SendMessageRequest extends KoLRequest
 	}
 
 	public abstract boolean allowMementoTransfer();
+
+	public boolean allowSingletonTransfer()
+	{	return true;
+	}
+
 	public abstract boolean allowUntradeableTransfer();
 
 	public boolean allowUngiftableTransfer()

@@ -354,6 +354,10 @@ public class AutoSellRequest extends SendMessageRequest
 	{	return false;
 	}
 
+	public boolean allowSingletonTransfer()
+	{	return false;
+	}
+
 	public boolean allowUntradeableTransfer()
 	{	return this.sellType == AUTOSELL;
 	}

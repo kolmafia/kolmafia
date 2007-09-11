@@ -88,6 +88,12 @@ public class PulverizeRequest extends KoLRequest
 		if ( item.getCount( inventory ) == item.getCount() && !junkList.contains( item ) )
 			junkList.add( item );
 
+		if ( singletonList.contains( item ) && !closet.contains( item ) )
+		{
+			this.item = item.getInstance( item.getCount() - 1 );
+			this.addFormField( "quantity", String.valueOf( item.getCount() ) );
+		}
+
 		switch ( TradeableItemDatabase.getConsumptionType( this.item.getItemId() ) )
 		{
 		case EQUIP_ACCESSORY:
