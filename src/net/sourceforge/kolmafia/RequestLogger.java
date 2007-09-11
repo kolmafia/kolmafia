@@ -308,8 +308,13 @@ public class RequestLogger extends NullStream implements KoLConstants
 		if ( urlString.startsWith( "manor3.php" ) )
 		{
 			String demon = request.getFormField( "demonname" );
-			if ( demon != null && !demon.equals( "" ) )
+			if ( demon != null && !demon.equals( "" ) && AdventureDatabase.retrieveItem( KoLAdventure.BLACK_CANDLE ) && AdventureDatabase.retrieveItem( KoLAdventure.EVIL_SCROLL ) )
+			{
 				updateSessionLog( "summon " + demon );
+
+				StaticEntity.getClient().processResult( KoLAdventure.BLACK_CANDLE.getNegation() );
+				StaticEntity.getClient().processResult( KoLAdventure.EVIL_SCROLL.getNegation() );
+			}
 
 			return;
 		}

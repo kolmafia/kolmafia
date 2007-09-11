@@ -1466,6 +1466,14 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( parameters.length() == 0 )
 				return;
 
+			AdventureDatabase.retrieveItem( KoLAdventure.BLACK_CANDLE );
+			if ( !KoLmafia.permitsContinue() )
+				return;
+
+			AdventureDatabase.retrieveItem( KoLAdventure.EVIL_SCROLL );
+			if ( !KoLmafia.permitsContinue() )
+				return;
+
 			String demon = parameters;
 			if ( Character.isDigit( parameters.charAt(0) ) )
 			{
