@@ -2340,7 +2340,6 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			if ( this.isOverlap )
 				elementList.setCellRenderer( AdventureResult.getNameOnlyRenderer() );
 
-			elementList.addKeyListener( new OverlapAdapter() );
 			this.addFilters();
 		}
 
@@ -2371,7 +2370,11 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 				elementList.clearSelection();
 
 				for ( int i = 0; i < items.length; ++i )
+				{
 					overlapModel.remove( items[i] );
+					if ( overlapModel == singletonList )
+						junkList.remove( items[i] );
+				}
 
 				filterItems();
 				e.consume();
