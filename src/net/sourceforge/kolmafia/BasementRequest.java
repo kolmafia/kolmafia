@@ -1116,10 +1116,12 @@ public class BasementRequest extends AdventureRequest
 		public DesiredEffect( String name )
 		{
 			this.name = name;
-			this.action = MoodSettings.getDefaultAction( "lose_effect", name );
 
 			this.computedBoost = computeBoost();
 			this.effectiveBoost = this.computedBoost > 0.0f ? this.computedBoost : 0 - this.computedBoost;
+
+			this.action = this.computedBoost < 0 ? "uneffect " + name :
+				MoodSettings.getDefaultAction( "lose_effect", name );
 		}
 
 		public boolean equals( Object o )
