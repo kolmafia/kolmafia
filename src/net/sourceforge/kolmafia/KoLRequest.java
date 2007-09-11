@@ -88,6 +88,12 @@ public class KoLRequest extends Job implements KoLConstants
 	private static final AdventureResult MAIDEN_EFFECT = new AdventureResult( "Dreams and Lights", 1, true );
 	private static final AdventureResult BALLROOM_KEY = new AdventureResult( 1766, 1 );
 
+	private static final AdventureResult [] MISTRESS_ITEMS = new AdventureResult [] {
+		new AdventureResult( 1941, 1 ), new AdventureResult( 1942, 1 ), new AdventureResult( 1943, 1 ),
+		new AdventureResult( 1944, 1 ), new AdventureResult( 1945, 1 ), new AdventureResult( 1946, 1 ),
+		new AdventureResult( 2092, 1 )
+	};
+
 	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
 	private static final Pattern EVENT_PATTERN = Pattern.compile( "<table width=.*?<table><tr><td>(.*?)</td></tr></table>.*?<td height=4></td></tr></table>" );
 
@@ -1543,8 +1549,19 @@ public class KoLRequest extends Job implements KoLConstants
 			// then update their preferences so that KoLmafia
 			// automatically switches things for them.
 
-			if ( choice.equals( "85" ) && conditions.contains( BALLROOM_KEY ) )
-				KoLSettings.setUserProperty( option, decision.equals( "1" ) ? "2" : "1" );
+			if ( choice.equals( "85" ) )
+			{
+				if ( !inventory.contains( BALLROOM_KEY ) )
+				{
+					KoLSettings.setUserProperty( option, decision.equals( "1" ) ? "2" : "1" );
+				}
+				else
+				{
+					for ( int i = 0; i < MISTRESS_ITEMS.length; ++i )
+						if ( conditions.contains( MISTRESS_ITEMS[i] ) )
+							decision = "3";
+				}
+			}
 
 			// Auto-skip the goatlet adventure if you're not wearing
 			// the mining outfit so it can be tried again later.

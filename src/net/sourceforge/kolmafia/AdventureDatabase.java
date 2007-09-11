@@ -97,7 +97,7 @@ public class AdventureDatabase extends KoLDatabase
 		conditionsById.set( 103, "1 Spookyraven gallery key" ); // Haunted Conservatory
 		conditionsById.set( 105, "1 pool cue, 1 handful of hand chalk" );  // Haunted Billiards
 		conditionsById.set( 107, "1 fancy bath salts" );  // Haunted Bathroom
-		conditionsById.set( 108, "1 Spookyraven ballroom key, 1 Lord Spookyraven's spectacles" );  // Haunted Bedroom
+		conditionsById.set( 108, "1 Lord Spookyraven's spectacles" );  // Haunted Bedroom
 		conditionsById.set( 111, "1 sunken eyes, 1 broken wings, 1 black market map" );  // Black Forest
 		conditionsById.set( 112, "1 spider web" );  // Sleazy Back Alley
 		conditionsById.set( 113, "1 razor-sharp can lid" );  // Haunted Pantry
@@ -360,7 +360,8 @@ public class AdventureDatabase extends KoLDatabase
 
 		// An Interesting Choice
 		new ChoiceAdventure( "choiceAdventure46", "Spooky Forest",
-		  new String [] { "moxie substats", "muscle substats", "enter combat" } ),
+		  new String [] { "moxie substats", "muscle substats", "vampire heart" },
+		  new String [] { null, null, "1518" } ),
 
 		// Have a Heart
 		new ChoiceAdventure( "Woods", "choiceAdventure47", "Spooky Forest",
