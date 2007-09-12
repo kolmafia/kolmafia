@@ -1301,6 +1301,7 @@ Fit To Be Tide	HP Regen Min: 5, HP Regen Max: 16, MP Regen Min: 5, MP Regen Max:
 Flame-Retardent Trousers	Hot Resistance: +20
 Flaming Weapon	Hot Damage: +3
 Flamingly Floral	Hot Damage: +50
+Florid Cheeks	MP Regen Min: 25, MP Regen Max: 30
 Flower Power	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
 Fresh Scent	Combat Rate: -5
 Frigid Weapon	Cold Damage: +3

@@ -1451,7 +1451,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "demons" ) )
 		{
-			for ( int i = 0; i <= KoLAdventure.DEMON_TYPES.length; ++i )
+			for ( int i = 0; i < KoLAdventure.DEMON_TYPES.length; ++i )
 			{
 				RequestLogger.printLine( (i+1) + ": " + KoLSettings.getUserProperty( "demonName" + (i+1) ) );
 				RequestLogger.printLine( " => Found in the " + KoLAdventure.DEMON_TYPES[i][0] );
