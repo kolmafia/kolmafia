@@ -381,17 +381,25 @@ public class BasementRequest extends AdventureRequest
 		}
 
 		// Add the only beneficial elemental form for this test
-		desirableEffects.add( goodeffect );
-		desirableEffects.add( getDesiredEqualizer() );
+
+		if ( !activeEffects.contains( goodeffect ) )
+			desirableEffects.add( goodeffect );
+
+		addDesiredEqualizer();
 
 		// Add effects that resist the specific elements being tested
 		addDesirableEffects( Modifiers.getPotentialChanges( Modifiers.elementalResistance( element1 ) ) );
 		addDesirableEffects( Modifiers.getPotentialChanges( Modifiers.elementalResistance( element2 ) ) );
 
 		// Add some effects that resist all elements
-		desirableEffects.add( ASTRAL_SHELL );
-		desirableEffects.add( ELEMENTAL_SPHERE );
-		desirableEffects.add( BLACK_PAINT );
+		if ( !activeEffects.contains( ASTRAL_SHELL ) )
+			desirableEffects.add( ASTRAL_SHELL );
+
+		if ( !activeEffects.contains( ELEMENTAL_SPHERE ) )
+			desirableEffects.add( ELEMENTAL_SPHERE );
+
+		if ( !activeEffects.contains( BLACK_PAINT ) )
+			desirableEffects.add( BLACK_PAINT );
 
 		actualBoost = Modifiers.HP;
 		primaryBoost = Modifiers.MUS_PCT;
@@ -531,6 +539,13 @@ public class BasementRequest extends AdventureRequest
 		return MOX_EQUAL;
 	}
 
+	private static final void addDesiredEqualizer()
+	{
+		AdventureResult equalizer = getDesiredEqualizer();
+		if ( !activeEffects.contains( equalizer ) )
+			desirableEffects.add( equalizer );
+	}
+
 	private static final boolean checkForStatTest( boolean autoSwitch, String responseText )
 	{
 		// According to http://forums.hardcoreoxygenation.com/viewtopic.php?t=3973,
@@ -548,7 +563,7 @@ public class BasementRequest extends AdventureRequest
 			primaryBoost = Modifiers.MUS_PCT;
 			secondaryBoost = Modifiers.MUS;
 
-			desirableEffects.add( getDesiredEqualizer() );
+			addDesiredEqualizer();
 
 			if ( KoLCharacter.getAdjustedMuscle() < statRequirement )
 			{
@@ -572,7 +587,7 @@ public class BasementRequest extends AdventureRequest
 			primaryBoost = Modifiers.MYS_PCT;
 			secondaryBoost = Modifiers.MYS;
 
-			desirableEffects.add( getDesiredEqualizer() );
+			addDesiredEqualizer();
 
 			if ( KoLCharacter.getAdjustedMysticality() < statRequirement )
 			{
@@ -596,7 +611,7 @@ public class BasementRequest extends AdventureRequest
 			primaryBoost = Modifiers.MOX_PCT;
 			secondaryBoost = Modifiers.MOX;
 
-			desirableEffects.add( getDesiredEqualizer() );
+			addDesiredEqualizer();
 
 			if ( KoLCharacter.getAdjustedMoxie() < statRequirement )
 			{
@@ -632,7 +647,7 @@ public class BasementRequest extends AdventureRequest
 			primaryBoost = Modifiers.MYS_PCT;
 			secondaryBoost = Modifiers.MYS;
 
-			desirableEffects.add( getDesiredEqualizer() );
+			addDesiredEqualizer();
 
 			if ( KoLCharacter.getMaximumMP() < drainRequirement )
 			{
@@ -667,7 +682,7 @@ public class BasementRequest extends AdventureRequest
 			primaryBoost = Modifiers.MUS_PCT;
 			secondaryBoost = Modifiers.MUS;
 
-			desirableEffects.add( getDesiredEqualizer() );
+			addDesiredEqualizer();
 
 			float damageAbsorb = 1.0f - ((((float) Math.sqrt( Math.min( 1000, KoLCharacter.getDamageAbsorption() ) / 10.0f )) - 1.0f) / 10.0f);
 			float healthRequirement = drainRequirement * damageAbsorb;
@@ -870,6 +885,10 @@ public class BasementRequest extends AdventureRequest
 			// Presumably, it's a reward room
 			return false;
 
+		actualBoost = Modifiers.HP;
+		primaryBoost = Modifiers.MUS_PCT;
+		secondaryBoost = Modifiers.MUS;
+
 		if ( autoSwitch )
 			changeBasementOutfit( "damage" );
 
@@ -1007,7 +1026,7 @@ public class BasementRequest extends AdventureRequest
 			changes.append( "</option>" );
 		}
 
-		changes.append( "</select></td><td>&nbsp;</td><td valign=top><input type=\"button\" value=\"exec\" onClick=\"changeBasementGear();\"></td></tr>" );
+		changes.append( "</select></td><td>&nbsp;</td><td valign=top align=left><input type=\"button\" value=\"exec\" onClick=\"changeBasementGear();\"></td></tr>" );
 
 		// Add effects
 
@@ -1015,28 +1034,23 @@ public class BasementRequest extends AdventureRequest
 
 		if ( !listedEffects.isEmpty() )
 		{
+			String computeFunction = "computeNetBoost(" + ((int) basementTestCurrent) + "," + ((int) basementTestValue) + ");";
+
 			String modifierName = Modifiers.getModifierName( actualBoost );
 			modifierName = StaticEntity.globalStringDelete( modifierName, "Maximum " ).toLowerCase();
 
-			changes.append( "<tr><td><select id=\"potion\" style=\"width: 320px\" multiple size=5>" );
+			changes.append( "<tr><td><select onChange=\"" );
+			changes.append( computeFunction );
+			changes.append( "\" id=\"potion\" style=\"width: 320px\" multiple size=5>" );
 
 			DesiredEffect effect;
 
 			for ( int i = 0; i < listedEffects.size(); ++i )
 			{
 				effect = (DesiredEffect) listedEffects.get(i);
-				changes.append( "<option value=\"" );
-
-				try
-				{
-					changes.append( URLEncoder.encode( effect.action, "UTF-8" ) );
-				}
-				catch ( Exception e )
-				{
-					changes.append( effect.action );
-				}
-
-				changes.append( "\">" );
+				changes.append( "<option value=" );
+				changes.append( effect.effectiveBoost );
+				changes.append( ">" );
 
 				changes.append( effect.action );
 				changes.append( " (" );
@@ -1068,7 +1082,13 @@ public class BasementRequest extends AdventureRequest
 				changes.append( ")</option>" );
 			}
 
-			changes.append( "</select></td><td>&nbsp;</td><td valign=top><input type=\"button\" value=\"exec\" onClick=\"changeBasementEffects();\"></td></tr>" );
+			changes.append( "</select></td><td>&nbsp;</td><td valign=top align=left>" );
+			changes.append( "<input type=\"button\" value=\"exec\" onClick=\"changeBasementEffects();\">" );
+			changes.append( "<br/><br/><font size=-1><font id=\"changeup\">" );
+			changes.append( (int) basementTestCurrent );
+			changes.append( "</font><br/>" );
+			changes.append( (int) basementTestValue );
+			changes.append( "</font></td></tr>" );
 		}
 
 		changes.append( "</table>" );
@@ -1080,7 +1100,7 @@ public class BasementRequest extends AdventureRequest
 			buffer.insert( buffer.lastIndexOf( "</b>" ) + 4, "<br/>" );
 			buffer.insert( buffer.lastIndexOf( "<img" ), "<table><tr><td>" );
 			buffer.insert( buffer.indexOf( ">", buffer.lastIndexOf( "<img" ) ) + 1, "</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><font id=\"spoiler\" size=2>" +
-					   checkString + "</font></td></tr></table>" );
+				checkString + "</font></td></tr></table>" );
 		}
 	}
 
@@ -1110,14 +1130,14 @@ public class BasementRequest extends AdventureRequest
 	private static class DesiredEffect implements Comparable
 	{
 		private String name, action;
-		private float computedBoost;
-		private float effectiveBoost;
+		private int computedBoost;
+		private int effectiveBoost;
 
 		public DesiredEffect( String name )
 		{
 			this.name = name;
 
-			this.computedBoost = computeBoost();
+			this.computedBoost = (int) Math.ceil( computeBoost() );
 			this.effectiveBoost = this.computedBoost > 0.0f ? this.computedBoost : 0 - this.computedBoost;
 
 			this.action = this.computedBoost < 0 ? "uneffect " + name :

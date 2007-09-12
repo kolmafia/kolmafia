@@ -49,11 +49,38 @@ function changeBasementEffects()
 	var command = "";
 	var select = document.getElementById( "potion" );
 
+	var current;
+
 	for ( var i = 0; i < select.options.length; ++i )
+	{
 		if ( select.options[i].selected )
-			command += select.options[i].value + "; ";
+		{
+			current = select.options[i].innerHTML;
+			current = current.substring( 0, current.indexOf( " (" ) );
+			command += current + "; ";
+		}
+	}
 
 	basementUpdate( command );
+}
+
+
+function computeNetBoost( initial )
+{
+	var boost = 0;
+	var select = document.getElementById( "potion" );
+
+	for ( var i = 0; i < select.options.length; ++i )
+		if ( select.options[i].selected )
+			boost += 1 * select.options[i].value;
+
+	var changeup = getObject( "changeup" );
+	changeup.innerHTML = "" + (initial + boost);
+
+	if ( boost == 0 )
+		changeup.style.color = "black";
+	else
+		changeup.style.color = "blue";
 }
 
 
