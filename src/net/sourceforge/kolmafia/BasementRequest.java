@@ -1001,7 +1001,7 @@ public class BasementRequest extends AdventureRequest
 
 		StringBuffer changes = new StringBuffer();
 		changes.append( "<table>" );
-		changes.append( "<tr><td><select id=\"gear\" style=\"width: 320px\"><option value=\"none\">- change your equipment -</option>" );
+		changes.append( "<tr><td><select id=\"gear\" style=\"width: 400px\"><option value=\"none\">- change your equipment -</option>" );
 
 		// Add outfits
 
@@ -1044,46 +1044,10 @@ public class BasementRequest extends AdventureRequest
 
 			changes.append( "<tr><td><select onChange=\"" );
 			changes.append( computeFunction );
-			changes.append( "\" id=\"potion\" style=\"width: 320px\" multiple size=5>" );
-
-			DesiredEffect effect;
+			changes.append( "\" id=\"potion\" style=\"width: 400px\" multiple size=5>" );
 
 			for ( int i = 0; i < listedEffects.size(); ++i )
-			{
-				effect = (DesiredEffect) listedEffects.get(i);
-				changes.append( "<option value=" );
-				changes.append( effect.effectiveBoost );
-				changes.append( ">" );
-
-				changes.append( effect.action );
-				changes.append( " (" );
-
-				if ( effect.computedBoost == 0.0f )
-				{
-					if ( effect.name.equals( MUS_EQUAL.getName() ) || effect.name.equals( MYS_EQUAL.getName() ) || effect.name.equals( MOX_EQUAL.getName() ))
-					{
-						changes.append( "stat equalizer" );
-					}
-					else
-					{
-						boolean isImmunity = false;
-						for ( int j = 0; j < ELEMENT_FORMS.length; ++j )
-							isImmunity |= effect.name.equals( ELEMENT_FORMS[j].getName() );
-
-						if ( isImmunity )
-							changes.append( "element immunity" );
-						else
-							changes.append( "element resist" );
-					}
-				}
-				else
-				{
-					changes.append( "+" );
-					changes.append( COMMA_FORMAT.format( effect.effectiveBoost ) );
-				}
-
-				changes.append( ")</option>" );
-			}
+				appendBasementEffect( changes, (DesiredEffect) listedEffects.get(i) );
 
 			changes.append( "</select></td><td>&nbsp;</td><td valign=top align=left>" );
 			changes.append( "<input type=\"button\" value=\"exec\" onClick=\"changeBasementEffects();\">" );
@@ -1105,6 +1069,46 @@ public class BasementRequest extends AdventureRequest
 			buffer.insert( buffer.indexOf( ">", buffer.lastIndexOf( "<img" ) ) + 1, "</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><font id=\"spoiler\" size=2>" +
 				checkString + "</font></td></tr></table>" );
 		}
+	}
+
+	private static final void appendBasementEffect( StringBuffer changes, DesiredEffect effect )
+	{
+		changes.append( "<option value=" );
+		changes.append( effect.effectiveBoost );
+
+		if ( effect.usesSpleen && KoLCharacter.getSpleenUse() == KoLCharacter.getSpleenLimit() )
+			changes.append( " disabled" );
+
+		changes.append( ">" );
+
+		changes.append( effect.action );
+		changes.append( " (" );
+
+		if ( effect.computedBoost == 0.0f )
+		{
+			if ( effect.name.equals( MUS_EQUAL.getName() ) || effect.name.equals( MYS_EQUAL.getName() ) || effect.name.equals( MOX_EQUAL.getName() ))
+			{
+				changes.append( "stat equalizer" );
+			}
+			else
+			{
+				boolean isImmunity = false;
+				for ( int j = 0; j < ELEMENT_FORMS.length; ++j )
+					isImmunity |= effect.name.equals( ELEMENT_FORMS[j].getName() );
+
+				if ( isImmunity )
+					changes.append( "element immunity" );
+				else
+					changes.append( "element resist" );
+			}
+		}
+		else
+		{
+			changes.append( "+" );
+			changes.append( COMMA_FORMAT.format( effect.effectiveBoost ) );
+		}
+
+		changes.append( ")</option>" );
 	}
 
 	private static final void addBasementChoiceSpoilers( StringBuffer buffer, String choice1, String choice2 )
@@ -1135,6 +1139,7 @@ public class BasementRequest extends AdventureRequest
 		private String name, action;
 		private int computedBoost;
 		private int effectiveBoost;
+		private boolean usesSpleen;
 
 		public DesiredEffect( String name )
 		{
@@ -1145,6 +1150,16 @@ public class BasementRequest extends AdventureRequest
 
 			this.action = this.computedBoost < 0 ? "uneffect " + name :
 				MoodSettings.getDefaultAction( "lose_effect", name );
+
+			if ( this.action.startsWith( "use 1 " ) )
+			{
+				String item = this.action.substring(6);
+				this.usesSpleen = TradeableItemDatabase.getSpleenHit( item ) > 0;
+			}
+			else
+			{
+				this.usesSpleen = false;
+			}
 		}
 
 		public boolean equals( Object o )
