@@ -1147,6 +1147,32 @@ public class KoLRequest extends Job implements KoLConstants
 			return true;
 		}
 
+		if ( this.redirectLocation.startsWith( "fight.php" ) )
+		{
+			if ( ConsumeItemRequest.currentItemId() == ConsumeItemRequest.DRUM_MACHINE )
+			{
+				StaticEntity.getClient().processResult( KoLAdventure.DRUM_MACHINE );
+
+				RequestLogger.printLine();
+				RequestLogger.printLine( "[" + KoLAdventure.getAdventureCount() + "] Drum Machine" );
+
+				RequestLogger.updateSessionLog();
+				RequestLogger.updateSessionLog( "[" + KoLAdventure.getAdventureCount() + "] Drum Machine" );
+			}
+
+			if ( ConsumeItemRequest.currentItemId() == ConsumeItemRequest.BLACK_PUDDING )
+			{
+				StaticEntity.getClient().processResult( new AdventureResult( ConsumeItemRequest.BLACK_PUDDING, -1 ) );
+				KoLSettings.setUserProperty( "currentFullness", String.valueOf( KoLCharacter.getFullness() - 3 ) );
+
+				RequestLogger.printLine();
+				RequestLogger.printLine( "[" + KoLAdventure.getAdventureCount() + "] Black Pudding" );
+
+				RequestLogger.updateSessionLog();
+				RequestLogger.updateSessionLog( "[" + KoLAdventure.getAdventureCount() + "] Black Pudding" );
+			}
+		}
+
 		if ( this instanceof LocalRelayRequest )
 			return true;
 
@@ -1174,27 +1200,10 @@ public class KoLRequest extends Job implements KoLConstants
 				return !LoginRequest.isInstanceRunning();
 			}
 
-			if ( this instanceof ConsumeItemRequest && ConsumeItemRequest.currentItemId() == ConsumeItemRequest.DRUM_MACHINE )
+			if ( ConsumeItemRequest.currentItemId() == ConsumeItemRequest.DRUM_MACHINE || ConsumeItemRequest.currentItemId() == ConsumeItemRequest.BLACK_PUDDING )
 			{
-				RequestLogger.printLine();
-				RequestLogger.printLine( "[" + KoLAdventure.getAdventureCount() + "] Drum Machine" );
-
 				FightRequest.INSTANCE.run();
 				CharpaneRequest.getInstance().run();
-				return !LoginRequest.isInstanceRunning();
-			}
-
-			if ( this instanceof ConsumeItemRequest && ConsumeItemRequest.currentItemId() == ConsumeItemRequest.BLACK_PUDDING )
-			{
-				RequestLogger.printLine();
-				RequestLogger.printLine( "[" + KoLAdventure.getAdventureCount() + "] Black Pudding" );
-
-				StaticEntity.getClient().processResult( new AdventureResult( ConsumeItemRequest.BLACK_PUDDING, -1 ) );
-
-				FightRequest.INSTANCE.run();
-				CharpaneRequest.getInstance().run();
-
-				KoLSettings.setUserProperty( "currentFullness", String.valueOf( KoLCharacter.getFullness() - 3 ) );
 				return !LoginRequest.isInstanceRunning();
 			}
 

@@ -1289,28 +1289,23 @@ public class ConsumeItemRequest extends KoLRequest
 
 		case DRUM_MACHINE:
 
-			// "You don't have time to play the drums."
-
-			if ( responseText.indexOf( "don't have time" ) != -1 )
-			{
-				lastUpdate = "Insufficient adventures left.";
-				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
-				StaticEntity.getClient().processResult( lastItemUsed );
-				return;
-			}
-
 			// "Dammit! Your hooks were still on there! Oh well. At
 			// least now you know where the pyramid is."
+
 			if ( responseText.indexOf( "hooks were still on" ) != -1 )
 			{
 				// You lose your weapon
 				KoLCharacter.setEquipment( KoLCharacter.WEAPON, EquipmentRequest.UNEQUIP );
 				AdventureResult.addResultToList( inventory, WORM_RIDING_HOOKS.getInstance(1) );
 				StaticEntity.getClient().processResult( WORM_RIDING_HOOKS );
-				return;
+			}
+			else
+			{
+				lastUpdate = "Insufficient adventures left.";
+				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
+				StaticEntity.getClient().processResult( lastItemUsed );
 			}
 
-			// You are redirected into a fight. Do we handle it?
 			return;
 
 		case STEEL_STOMACH:
