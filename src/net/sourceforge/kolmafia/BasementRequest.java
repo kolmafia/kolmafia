@@ -885,6 +885,9 @@ public class BasementRequest extends AdventureRequest
 			// Presumably, it's a reward room
 			return false;
 
+		basementTestCurrent = 0;
+		basementTestValue = 0;
+
 		actualBoost = Modifiers.HP;
 		primaryBoost = Modifiers.MUS_PCT;
 		secondaryBoost = Modifiers.MUS;
