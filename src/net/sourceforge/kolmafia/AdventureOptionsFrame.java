@@ -59,9 +59,11 @@ import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
@@ -73,7 +75,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
-
 import javax.swing.tree.DefaultTreeModel;
 
 import javax.swing.event.ChangeEvent;
@@ -88,7 +89,6 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.MoodSettings.MoodTrigger;
-
 
 public abstract class AdventureOptionsFrame extends KoLFrame
 {
@@ -1285,7 +1285,8 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 	protected class SafetyField extends JPanel implements Runnable, ListSelectionListener
 	{
-		private JTextPane safetyText;
+		private JEditorPane safetyEditor;
+		private LimitedSizeChatBuffer safetyText;
 		private String savedText = " ";
 		private JList locationSelect;
 
@@ -1293,18 +1294,20 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 		{
 			super( new BorderLayout() );
 
-			this.safetyText = new JTextPane();
+			this.safetyText = new LimitedSizeChatBuffer( false );
 			this.locationSelect = locationSelect;
 
-			SimpleScrollPane textScroller = new SimpleScrollPane( this.safetyText );
+			this.safetyEditor = new JEditorPane();
+			this.safetyEditor.setContentType( "text/html" );
+			this.safetyEditor.setEditable( false );
+
+			JScrollPane textScroller = this.safetyText.setChatDisplay( this.safetyEditor );
 			JComponentUtilities.setComponentSize( textScroller, 100, 100 );
 			this.add( textScroller, BorderLayout.CENTER );
 
 			KoLCharacter.addCharacterListener( new KoLCharacterAdapter( this ) );
 			locationSelect.addListSelectionListener( this );
 
-			this.safetyText.setContentType( "text/html" );
-			this.safetyText.setEditable( false );
 			this.setSafetyString();
 		}
 
@@ -1334,20 +1337,8 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 				return;
 
 			this.savedText = text;
-			this.safetyText.setText( text );
-
-			// Change the font for the JEditorPane to the
-			// same ones used in a JLabel.
-
-			MutableAttributeSet fonts = this.safetyText.getInputAttributes();
-
-			StyleConstants.setFontSize( fonts, DEFAULT_FONT.getSize() );
-			StyleConstants.setFontFamily( fonts, DEFAULT_FONT.getFamily() );
-
-			StyledDocument html = this.safetyText.getStyledDocument();
-			html.setCharacterAttributes( 0, html.getLength() + 1, fonts, false );
-
-			this.safetyText.setCaretPosition( 0 );
+			this.safetyText.clearBuffer();
+			this.safetyText.append( text );
 		}
 	}
 }
