@@ -1117,13 +1117,13 @@ public class BasementRequest extends AdventureRequest
 		// Add first choice spoiler
 		index2 = text.indexOf( "</form>", index1 );
 		buffer.append( text.substring( index1, index2 ) );
-		buffer.append( "<br><font size=-1>(" + choice1 + ")</font></form>" );
+		buffer.append( "<br><font size=-1>(" + choice1 + ")</font><br/></form>" );
 		index1 = index2 + 7;
 
 		// Add second choice spoiler
 		index2 = text.indexOf( "</form>", index1 );
 		buffer.append( text.substring( index1, index2 ) );
-		buffer.append( "<br><font size=-1>(" + choice2 + ")</font></form>" );
+		buffer.append( "<br><font size=-1>(" + choice2 + ")</font><br/></form>" );
 		index1 = index2 + 7;
 
 		// Append remainder of buffer
