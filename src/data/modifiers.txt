@@ -1358,7 +1358,6 @@ Lemon Enlightenment	Mysticality Percent: +10
 Locks Like the Raven	Moxie: +15
 Macho Profundo	Muscle Percent: +60, Moxie Percent: +60
 Mad at Science	Muscle: +3
-Magical Mojomuscular Melody	Mysticality: +10, Maximum MP: +20
 Maid Disservice		Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20
 Majorly Poisoned	Muscle Percent: -90, Mysticality Percent: -90, Moxie Percent: -90, Muscle: -11, Mysticality: -11, Moxie: -11
 Man's Worst Enemy	Familiar Weight: +5
@@ -1466,6 +1465,7 @@ Tenacity of the Snapper	Melee Damage: +8
 Tenuous Grip on Reality	Moxie Percent: -95
 Tetanus	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
 The Cupcake of Wrath	Monster Level: +10
+The Magical Mojomuscular Melody	Mysticality: +10, Maximum MP: +20
 The Moxious Madrigal	Moxie: +10
 The Q Is Talking To You	Mysticality Percent: +10
 The Rage	Muscle Percent: +50, Mysticality Percent: +50
