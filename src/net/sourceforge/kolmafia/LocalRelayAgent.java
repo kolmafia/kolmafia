@@ -273,15 +273,7 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 			this.request.run();
 
 			if ( this.path.startsWith( "/valhalla.php" ) && this.request.responseCode == 302 )
-			{
 				StaticEntity.getClient().handleAscension();
-
-				this.request.constructURLString( this.request.redirectLocation ).run();
-				this.request.constructURLString( "mtnoob.php?action=toot" ).run();
-
-				this.request.responseText = StaticEntity.singleStringReplace( this.request.responseText, "</html>",
-					"<script language=\"Javascript\"><!-- menupane.document.location.reload(); charpane.document.location.reload(); --></script></html>" );
-			}
 		}
 
 		if ( this.request.rawByteBuffer == null && this.request.responseText != null )

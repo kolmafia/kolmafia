@@ -1191,10 +1191,7 @@ public class FightRequest extends KoLRequest
 
 	private static final void clearInstanceData()
 	{
-		encounterLookup = "";
-		monsterData = null;
 		missingGremlinTool = null;
-
 		castCleesh = false;
 		jiggledChefstaff = false;
 		desiredScroll = null;
@@ -1427,6 +1424,10 @@ public class FightRequest extends KoLRequest
 
 	public static final boolean isTrackingFights()
 	{	return isTrackingFights;
+	}
+
+	public static final String getLastMonsterName()
+	{	return encounterLookup;
 	}
 
 	public static final Monster getLastMonster()

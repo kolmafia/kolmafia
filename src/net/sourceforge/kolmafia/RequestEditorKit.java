@@ -1623,12 +1623,22 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		{
 			String location = "main.php";
 
-			int startIndex = response.indexOf( "<a href=\"" );
-			if ( startIndex != -1 )
-				location = response.substring( startIndex + 9, response.indexOf( "\"", startIndex + 10 ) );
+			if ( FightRequest.getLastMonsterName().equals( "giant sandworm" ) )
+			{
+				if ( inventory.contains( KoLAdventure.DRUM_MACHINE ) )
+					location = "inv_use.php?pwd&whichitem=" + ConsumeItemRequest.DRUM_MACHINE;
+				else
+					location = "adventure.php?snarfblat=122";
+			}
+			else
+			{
+				int startIndex = response.indexOf( "<a href=\"" );
+				if ( startIndex != -1 )
+					location = response.substring( startIndex + 9, response.indexOf( "\"", startIndex + 10 ) );
+			}
 
 			buffer.append( location );
-			isEnabled &= ( buffer.indexOf( "adventure.php" ) != -1 || buffer.indexOf( "basement.php" ) != -1 );
+			isEnabled &= !location.equals( "main.php" );
 		}
 		else
 		{

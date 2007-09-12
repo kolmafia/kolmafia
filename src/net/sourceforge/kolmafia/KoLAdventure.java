@@ -59,6 +59,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 	public static final AdventureResult BLACK_CANDLE = new AdventureResult( 620, 3 );
 	public static final AdventureResult EVIL_SCROLL = new AdventureResult( 1960, 1 );
 
+	public static final AdventureResult DRUM_MACHINE = new AdventureResult( ConsumeItemRequest.DRUM_MACHINE, -1 );
 	public static final AdventureResult CASINO_PASS = new AdventureResult( 40, 1 );
 
 	public static final AdventureResult DINGHY = new AdventureResult( 141, 1 );
