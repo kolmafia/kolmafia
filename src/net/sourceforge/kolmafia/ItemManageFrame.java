@@ -797,7 +797,7 @@ public class ItemManageFrame extends KoLFrame
 			RequestThread.postRequest( selection );
 			SpecialOutfit.restoreImplicitCheckpoint();
 
-			RequestThread.postRequest( new ConsumeItemRequest( new AdventureResult( selection.getItemId(), selection.getQuantityNeeded() ) ) );
+			RequestThread.postRequest( new ConsumeItemRequest( new AdventureResult( selection.getItemId(), quantityDesired ) ) );
 			RequestThread.closeRequestSequence();
 		}
 	}
