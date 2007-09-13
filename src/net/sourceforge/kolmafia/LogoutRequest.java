@@ -79,6 +79,7 @@ public class LogoutRequest extends KoLRequest
 		RequestLogger.closeMirror();
 
 		KoLmafia.updateDisplay( ABORT_STATE, "Logout request submitted." );
+		serverCookie = null;
 		isRunning = false;
 	}
 }
