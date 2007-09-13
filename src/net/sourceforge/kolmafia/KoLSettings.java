@@ -829,7 +829,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		USER_MAP.put( "reagentSummons", "0" );
 		USER_MAP.put( "relayAddsCustomCombat", "true" );
 		USER_MAP.put( "relayCounters", "" );
-		USER_MAP.put( "requireBoxServants", "true" );
+		USER_MAP.put( "requireBoxServants", "false" );
 		USER_MAP.put( "retrieveContacts", "true" );
 		USER_MAP.put( "showGainsPerUnit", "false" );
 		USER_MAP.put( "snowconeSummons", "0" );
