@@ -130,7 +130,7 @@ public class CharpaneRequest extends KoLRequest
 		refreshEffects( responseText );
 		KoLCharacter.updateStatus();
 
-		canInteract = !KoLCharacter.isHardcore() &&
+		canInteract = !KoLCharacter.isHardcore() && !KoLCharacter.inBadMoon() &&
 			(KoLCharacter.getCurrentRun() >= 1000 || responseText.indexOf( "storage.php" ) == -1);
 
 		isProcessing = false;

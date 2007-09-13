@@ -273,7 +273,12 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 			this.request.run();
 
 			if ( this.path.startsWith( "/valhalla.php" ) && this.request.responseCode == 302 )
-				StaticEntity.getClient().handleAscension();
+			{
+				if ( this.path.indexOf( "asctype=1" ) != -1 )
+					KoLmafia.resetCounters();
+				else
+					StaticEntity.getClient().handleAscension();
+			}
 		}
 
 		if ( this.request.rawByteBuffer == null && this.request.responseText != null )
