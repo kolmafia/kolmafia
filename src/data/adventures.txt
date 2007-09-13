@@ -103,8 +103,8 @@ Island	0/30	adventure=65	Hippy Camp In Disguise
 Island	125/125	adventure=149	Post-War Hippy Camp
 Island	0/45	adventure=66	Pirate Cove
 Island	0/45	adventure=67	Pirate Cove In Disguise
-Island	125/125	adventure=154	Junkyard
-Island	125/125	adventure=136	Sonofa Beach
+Island	125/125	adventure=154	Post-War Junkyard
+Island	125/125	adventure=136	Post-War Sonofa Beach
 Island	125/125	adventure=155	McMillicancuddy's Farm
 
 IsleWar	125/125	adventure=132	Battlefield (Frat Uniform)
@@ -113,8 +113,8 @@ IsleWar	0/30	adventure=135	Wartime Frat House
 IsleWar	0/30	adventure=134	Wartime Frat House (Hippy Disguise)
 IsleWar	0/30	adventure=133	Wartime Hippy Camp
 IsleWar	0/30	adventure=131	Wartime Hippy Camp (Frat Disguise)
-IsleWar	125/125	adventure=139	Junkyard
-IsleWar	125/125	adventure=136	Sonofa Beach
+IsleWar	125/125	adventure=139	Wartime Junkyard
+IsleWar	125/125	adventure=136	Wartime Sonofa Beach
 IsleWar	125/124	adventure=126	Themthar Hills
 
 Farm	125/125	adventure=137	Barn
