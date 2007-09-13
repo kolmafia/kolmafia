@@ -200,6 +200,7 @@ public class BuffBotFrame extends KoLFrame
 			LockableListModel philanthropyModeChoices = new LockableListModel();
 			philanthropyModeChoices.add( "Disabled" );
 			philanthropyModeChoices.add( "Once per day" );
+			philanthropyModeChoices.add( "Clan only" );
 			this.philanthropyModeSelect = new JComboBox( philanthropyModeChoices );
 
 			LockableListModel messageDisposalChoices = new LockableListModel();
