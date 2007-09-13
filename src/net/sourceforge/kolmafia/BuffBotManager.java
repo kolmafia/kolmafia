@@ -717,6 +717,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		// Under all other circumstances, you go ahead and
 		// process the buff request.
 
+		BuffBotHome.addToRecipientList( meatSent, recipient );
 		return buff.castOnTarget( recipient );
 	}
 
