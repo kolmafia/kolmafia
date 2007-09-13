@@ -30,11 +30,8 @@ Pyramid	Beach	Ancient Buried Pyramid
 Island	Island	Mysterious Island
 
 IsleWar	IsleWar	Island War Quest
-Junkyard	IsleWar	Junkyard
-Lighthouse	IsleWar	Lighthouse
 Farm	IsleWar	McMillicancuddy's Farm
 Orchard	IsleWar	Organic Orchard
-Nunnery	IsleWar	Our Lady of Perpetual Indecision
 
 Signed Zones	Signed Zones	Signed Zones
 Gyms	Signed Zones	Clan/Signed Gyms
