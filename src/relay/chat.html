@@ -247,7 +247,7 @@
 			if ( httpObject.readyState != 4 )
 				return;
 
-			setTimeout( getChatUpdate, 8000 );
+			setTimeout( getChatUpdate, 10000 );
 			updateDisplay( display, httpObject.responseText );
 
 			var index = httpObject.responseText.lastIndexOf( "lastseen" );
