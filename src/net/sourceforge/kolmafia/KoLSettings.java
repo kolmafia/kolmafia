@@ -665,6 +665,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		GLOBAL_MAP.put( "logStatusEffects", "false" );
 		GLOBAL_MAP.put( "logStatusOnLogin", "false" );
 
+		GLOBAL_MAP.put( "lucreCoreLeaderboard", "false" );
 		GLOBAL_MAP.put( "mapLoadsMiniBrowser", "false" );
 		GLOBAL_MAP.put( "mementoListActive", "false" );
 		GLOBAL_MAP.put( "pathedSummonsHardcore", "true" );

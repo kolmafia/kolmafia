@@ -1205,6 +1205,9 @@ public class FightRequest extends KoLRequest
 
 		currentRound = 0;
 		preparatoryRounds = 0;
+
+		if ( encounterLookup.startsWith( "naughty sorceress" ) && KoLSettings.getBooleanProperty( "lucreCoreLeaderboard" ) )
+			(new Thread( new GreenMessageRequest( "koldbot", "Completed ascension." ) )).start();
 	}
 
 	private static final int getActionCost()
