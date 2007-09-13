@@ -111,7 +111,11 @@ public class BuffRequestFrame extends KoLFrame
 		this.framePanel.add( this.mainPanel = new BuffRequestPanel(), "" );
 
 		this.nameContainer.add( new SimpleScrollPane( new JPanel() ), "" );
-		this.types.setSelectedIndex( KoLSettings.getIntegerProperty( "lastBuffRequestType" ) );
+
+		int lastSelectedIndex = KoLSettings.getIntegerProperty( "lastBuffRequestType" );
+		if ( lastSelectedIndex >= 0 && lastSelectedIndex < 4 )
+			this.types.setSelectedIndex( lastSelectedIndex );
+
 		this.resetCard();
 	}
 
