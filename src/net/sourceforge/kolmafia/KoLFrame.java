@@ -2002,7 +2002,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			{ "Familiar Trainer", "FamiliarTrainingFrame" },
 
 			{ "IcePenguin Express", "MailboxFrame" },
-			{ "KoLmafia Chat", "KoLMessenger" },
+			{ "Loathing Chat", "KoLMessenger" },
 			{ "Recent Events", "EventsFrame" },
 
 			{ "Clan Management", "ClanManageFrame" },
