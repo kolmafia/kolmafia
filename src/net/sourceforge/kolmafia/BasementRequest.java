@@ -55,6 +55,7 @@ public class BasementRequest extends AdventureRequest
 	private static int primaryBoost = 0;
 	private static int secondaryBoost = 0;
 
+	private static float averageResistanceNeeded = 0.0f;
 	private static int element1 = -1, element2 = -1;
 	private static int vulnerability = 0;
 	private static int goodelement = -1;
@@ -224,7 +225,7 @@ public class BasementRequest extends AdventureRequest
 				COMMA_FORMAT.format( expected1 ) + " hp), " +
 				COMMA_FORMAT.format( resistance2 ) + "% " + ( vulnerability == 2 ? "(vulnerable) " : "" ) + MonsterDatabase.elementNames[ element2 ] + " (" +
 				COMMA_FORMAT.format( expected2 ) + " hp)</br>" +
-				"Needed: " + COMMA_FORMAT.format( basementTestValue ) + "% average resistance or " + goodeffect.getName();
+				"Needed: " + COMMA_FORMAT.format( averageResistanceNeeded ) + "% average resistance or " + goodeffect.getName();
 		}
 
 		if ( basementTestString.startsWith( "Monster" ) )
@@ -462,8 +463,10 @@ public class BasementRequest extends AdventureRequest
 		// then don't bother with any extra buffing.
 
 		basementTestString = "Elemental Resist";
-		basementTestCurrent = Math.min( resistance1, resistance2 );
-		basementTestValue = Math.max( 0, (int) Math.ceil( 100.0f * (1.0f - KoLCharacter.getMaximumHP() / (damage1 + damage2) )) );
+		averageResistanceNeeded = Math.max( 0, (int) Math.ceil( 100.0f * (1.0f - KoLCharacter.getMaximumHP() / (damage1 + damage2) )) );
+
+		basementTestCurrent = KoLCharacter.getMaximumHP();
+		basementTestValue = expected1 + expected2;
 
 		if ( expected1 + expected2 < KoLCharacter.getCurrentHP() )
 			return true;
@@ -1051,11 +1054,11 @@ public class BasementRequest extends AdventureRequest
 
 			changes.append( "</select></td><td>&nbsp;</td><td valign=top align=left>" );
 			changes.append( "<input type=\"button\" value=\"exec\" onClick=\"changeBasementEffects();\">" );
-			changes.append( "<br/><br/><font size=-1><font id=\"changeup\">" );
+			changes.append( "<br/><br/><font size=-1><nobr id=\"changevalue\">" );
 			changes.append( (int) basementTestCurrent );
-			changes.append( "</font><br/>" );
+			changes.append( "</nobr><br/><nobr id=\"changetarget\">" );
 			changes.append( (int) basementTestValue );
-			changes.append( "</font></td></tr>" );
+			changes.append( "</nobr></td></tr>" );
 		}
 
 		changes.append( "</table>" );
@@ -1107,6 +1110,9 @@ public class BasementRequest extends AdventureRequest
 			changes.append( "+" );
 			changes.append( COMMA_FORMAT.format( effect.effectiveBoost ) );
 		}
+
+		if ( effect.usesSpleen )
+			changes.append( "*" );
 
 		changes.append( ")</option>" );
 	}

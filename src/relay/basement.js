@@ -65,22 +65,43 @@ function changeBasementEffects()
 }
 
 
-function computeNetBoost( initial )
+function computeNetBoost( value, target )
 {
 	var boost = 0;
+	var unknown = false;
 	var select = document.getElementById( "potion" );
 
 	for ( var i = 0; i < select.options.length; ++i )
+	{
 		if ( select.options[i].selected )
-			boost += 1 * select.options[i].value;
+		{
+			if ( select.options[i].disabled )
+				select.options[i].selected = false;
+			else if ( 1 * select.options[i].value == 0 )
+				unknown = true;
+			else
+				boost += 1 * select.options[i].value;
+		}
+	}
 
-	var changeup = getObject( "changeup" );
-	changeup.innerHTML = "" + (initial + boost);
+	var changevalue = getObject( "changevalue" );
+	var changetarget = getObject( "changetarget" );
 
-	if ( boost == 0 )
-		changeup.style.color = "black";
+	if ( unknown )
+	{
+		changevalue.innerHTML = "???";
+		changetarget.innerHTML = "???";
+	}
 	else
-		changeup.style.color = "blue";
+	{
+		changevalue.innerHTML = "" + (value + boost);
+		changetarget.innerHTML = "" + target;
+	}
+
+	if ( boost == 0 && !unknown )
+		changevalue.style.color = "black";
+	else
+		changevalue.style.color = "blue";
 }
 
 
