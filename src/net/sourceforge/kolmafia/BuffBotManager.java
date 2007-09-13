@@ -710,7 +710,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 			BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Received white list request from un-whitelisted player" );
 			BuffBotHome.update( BuffBotHome.ERRORCOLOR, " ---> Could not cast #" + meatSent + " on " + recipient );
-			UseSkillRequest.lastUpdate = COMMA_FORMAT.format( meatSent ) + " meat is not a valid buff price.";
+			UseSkillRequest.lastUpdate = "Philanthropic buffs temporarily disabled.";
 			return false;
 		}
 
