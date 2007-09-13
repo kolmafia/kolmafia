@@ -282,6 +282,11 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 				else
 					StaticEntity.getClient().handleAscension();
 			}
+			else if ( this.path.endsWith( "noobmessage=true" ) )
+			{
+				if ( KoLSettings.getBooleanProperty( "lucreCoreLeaderboard" ) )
+					(new Thread( new GreenMessageRequest( "koldbot", "Started ascension." ) )).start();
+			}
 		}
 
 		if ( this.request.rawByteBuffer == null && this.request.responseText != null )

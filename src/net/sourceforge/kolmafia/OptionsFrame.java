@@ -163,6 +163,11 @@ public class OptionsFrame extends KoLFrame
 
 			{ "", "" },
 
+			{ "relayViewsCustomItems", "View items registered with OneTonTomato's Kilt script" },
+			{ "lucreCoreLeaderboard", "Participate in Oxbarn's KoLDB Lucre-core leaderboard" },
+
+			{ "", "" },
+
 			{ "relayAddsRestoreLinks", "Add HP/MP restore links to left side pane" },
 			{ "relayAddsUpArrowLinks", "Add buff maintenance links to left side pane" },
 			{ "relayTextualizesEffects", "Textualize effect links in left side pane" },
@@ -199,8 +204,7 @@ public class OptionsFrame extends KoLFrame
 			{ "", "" },
 
 			{ "basementBuysItems", "List effects for items you don't have while basement diving" },
-			{ "relayAlwaysBuysGum", "Automatically buy gum when visiting the sewer" },
-			{ "relayViewsCustomItems", "View items registered with OneTonTomato's Kilt script" },
+			{ "relayAlwaysBuysGum", "Automatically buy gum when visiting the sewer" }
 		};
 
 		/**
