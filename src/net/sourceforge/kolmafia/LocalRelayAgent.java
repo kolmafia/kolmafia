@@ -252,13 +252,16 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 		}
 		else if ( this.path.startsWith( "/charpane.php" ) )
 		{
-			if ( !KoLmafia.isRunningBetweenBattleChecks() && FightRequest.getCurrentRound() == 0 )
+			int initialCount = KoLCharacter.getAdventuresLeft();
+			this.request.run();
+
+			if ( initialCount != KoLCharacter.getAdventuresLeft() && !KoLmafia.isRunningBetweenBattleChecks() && FightRequest.getCurrentRound() == 0 )
 			{
 				StaticEntity.getClient().runBetweenBattleChecks( false, KoLSettings.getBooleanProperty( "relayMaintainsEffects" ),
 					KoLSettings.getBooleanProperty( "relayMaintainsHealth" ), KoLSettings.getBooleanProperty( "relayMaintainsMana" ) );
-			}
 
-			this.request.run();
+				this.request.run();
+			}
 		}
 		else if ( this.path.startsWith( "/sidepane.php" ) )
 		{
