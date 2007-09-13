@@ -355,7 +355,7 @@ public class AutoSellRequest extends SendMessageRequest
 	}
 
 	public boolean allowSingletonTransfer()
-	{	return false;
+	{	return KoLCharacter.canInteract();
 	}
 
 	public boolean allowUntradeableTransfer()
