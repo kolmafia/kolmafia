@@ -215,7 +215,7 @@ public class UneffectRequest extends KoLRequest
 		if ( !idMatcher.find() )
 			return true;
 
-		RequestLogger.printLine( "uneffect " + StatusEffectDatabase.getEffectName( StaticEntity.parseInt( idMatcher.group(1) ) ) );
+		RequestLogger.updateSessionLog( "uneffect " + StatusEffectDatabase.getEffectName( StaticEntity.parseInt( idMatcher.group(1) ) ) );
 		return true;
 	}
 }
