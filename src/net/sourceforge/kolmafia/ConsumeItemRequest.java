@@ -842,19 +842,7 @@ public class ConsumeItemRequest extends KoLRequest
 			return;
 
 		case ANTIDOTE:
-
-			AdventureResult [] effects = new AdventureResult[ activeEffects.size() ];
-			activeEffects.toArray( effects );
-
-			for ( int i = 0; i < effects.length; ++i )
-				if ( effects[i].getName().toLowerCase().indexOf( "poison" ) != -1 )
-					activeEffects.remove( effects[i] );
-
-			return;
-
 		case TINY_HOUSE:
-
-			// Tiny houses remove lots of different effects.
 
 			activeEffects.clear();
 			return;
