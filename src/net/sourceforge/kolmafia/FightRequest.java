@@ -42,6 +42,7 @@ public class FightRequest extends KoLRequest
 {
 	public static final FightRequest INSTANCE = new FightRequest();
 
+	private static final AdventureResult LUCRE = new AdventureResult( 2098, 1 );
 	private static final AdventureResult ANTIDOTE = new AdventureResult( 829, 1 );
 	private static final AdventureResult SOLDIER = new AdventureResult( 1397, 1 );
 	private static final AdventureResult MERCENARY = new AdventureResult( 2139, 1 );
@@ -1207,7 +1208,16 @@ public class FightRequest extends KoLRequest
 		preparatoryRounds = 0;
 
 		if ( encounterLookup.startsWith( "naughty sorceress" ) && KoLSettings.getBooleanProperty( "lucreCoreLeaderboard" ) )
-			(new Thread( new GreenMessageRequest( "koldbot", "Completed ascension." ) )).start();
+			(new Thread( new LucreCoreUpdater() )).start();
+	}
+
+	private static class LucreCoreUpdater implements Runnable
+	{
+		public void run()
+		{
+			(new MuseumRequest( new Object [] { LUCRE.getInstance( LUCRE.getCount( inventory ) ) }, true )).run();
+			(new GreenMessageRequest( "koldbot", "Completed ascension." )).run();
+		}
 	}
 
 	private static final int getActionCost()
