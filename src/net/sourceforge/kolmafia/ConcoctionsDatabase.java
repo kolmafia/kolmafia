@@ -825,9 +825,12 @@ public class ConcoctionsDatabase extends KoLDatabase
 		PERMIT_METHOD[ COOK ] = willBuyServant || KoLCharacter.hasChef() || isAvailable( CHEF, CLOCKWORK_CHEF );
 		ADVENTURE_USAGE[ COOK ] = 0;
 
+		boolean useMall = KoLSettings.getBooleanProperty( "autoSatisfyWithMall" );
+		boolean useStash = KoLSettings.getBooleanProperty( "autoSatisfyWithStash" );
+
 		if ( !PERMIT_METHOD[ COOK ] )
 		{
-			PERMIT_METHOD[ COOK ] = KoLCharacter.canInteract() && KoLSettings.getBooleanProperty( "autoSatisfyWithMall" );
+			PERMIT_METHOD[ COOK ] = KoLCharacter.canInteract() && (useMall || useStash);
 
 			if ( !PERMIT_METHOD[ COOK ] && !KoLSettings.getBooleanProperty( "requireBoxServants" ) )
 			{
@@ -856,7 +859,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		if ( !PERMIT_METHOD[ MIX ] )
 		{
-			PERMIT_METHOD[ MIX ] = KoLCharacter.canInteract() && KoLSettings.getBooleanProperty( "autoSatisfyWithMall" );
+			PERMIT_METHOD[ MIX ] = KoLCharacter.canInteract() && (useMall || useStash);
 
 			if ( !PERMIT_METHOD[ MIX ] && !KoLSettings.getBooleanProperty( "requireBoxServants" ) )
 			{

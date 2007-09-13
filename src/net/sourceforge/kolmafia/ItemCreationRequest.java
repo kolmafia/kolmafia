@@ -327,7 +327,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		do
 		{
 			this.reconstructFields();
-
 			this.beforeQuantity = this.createdItem.getCount( inventory );
 
 			switch ( this.mixingMethod )
@@ -431,6 +430,12 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		if ( ingredients.length == 1 || this.mixingMethod == CATALYST || this.mixingMethod == WOK )
 		{
+			if ( getAdventuresUsed() > KoLCharacter.getAdventuresLeft() )
+			{
+				KoLmafia.updateDisplay( ERROR_STATE, "Ran out of adventures." );
+				return;
+			}
+
 			// If there is only one ingredient, then it probably
 			// only needs a "whichitem" field added to the request.
 
