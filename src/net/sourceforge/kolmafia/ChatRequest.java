@@ -39,7 +39,7 @@ import java.util.regex.Pattern;
 public class ChatRequest extends KoLRequest
 {
 	private static final Pattern LASTSEEN_PATTERN = Pattern.compile( "<!--lastseen:(\\d+)-->" );
-	private static final int CHAT_DELAY = 8000;
+	private static final int CHAT_DELAY = 10000;
 
 	private static String rightClickMenu = "";
 	private static String lastSeen = "";
