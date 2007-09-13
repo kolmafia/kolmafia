@@ -642,11 +642,7 @@ public class CharpaneRequest extends KoLRequest
 				if ( !KoLRequest.isCompactMode || KoLSettings.getBooleanProperty( "relayTextualizesEffects" ) )
 				{
 					buffer.append( "<td><font size=2>" );
-
-					if ( !KoLRequest.isCompactMode )
-						buffer.append( currentEffect.getName() );
-					else
-						buffer.append( "<nobr>" + StatusEffectDatabase.getEffectName( effectId ) + "</nobr>" );
+					buffer.append( currentEffect.getName() );
 				}
 				else
 					buffer.append( "<td><font size=2>" );
