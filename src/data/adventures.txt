@@ -113,10 +113,9 @@ IsleWar	0/30	adventure=135	Wartime Frat House
 IsleWar	0/30	adventure=134	Wartime Frat House (Hippy Disguise)
 IsleWar	0/30	adventure=133	Wartime Hippy Camp
 IsleWar	0/30	adventure=131	Wartime Hippy Camp (Frat Disguise)
-
-Junkyard	125/125	adventure=139	Junkyard
-Lighthouse	125/125	adventure=136	Sonofa Beach
-Nunnery	125/124	adventure=126	Themthar Hills
+IsleWar	125/125	adventure=139	Junkyard
+IsleWar	125/125	adventure=136	Sonofa Beach
+IsleWar	125/124	adventure=126	Themthar Hills
 
 Farm	125/125	adventure=137	Barn
 Farm	125/125	adventure=141	Pond
