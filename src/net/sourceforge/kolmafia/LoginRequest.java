@@ -181,6 +181,8 @@ public class LoginRequest extends KoLRequest
 
 	public void run()
 	{
+		serverCookie = null;
+
 		if ( KoLSettings.getBooleanProperty( "saveStateActive" ) )
 			KoLmafia.addSaveState( this.username, this.password );
 
@@ -208,15 +210,15 @@ public class LoginRequest extends KoLRequest
 
 		if ( this.responseText.indexOf( "wait fifteen minutes" ) != -1 )
 		{
-			// Ooh, logged in too fast.
-			KoLmafia.updateDisplay( ABORT_STATE, "Please wait fifteen minutes and try again." );
+			StaticEntity.executeCountdown( "Login reattempt in ", 15 * 60 );
+			this.run();
 			return;
 		}
 
 		if ( this.responseText.indexOf( "wait" ) != -1 )
 		{
-			// Ooh, logged in too fast.
-			KoLmafia.updateDisplay( ABORT_STATE, "Please wait one minute and try again." );
+			StaticEntity.executeCountdown( "Login reattempt in ", 75 );
+			this.run();
 			return;
 		}
 

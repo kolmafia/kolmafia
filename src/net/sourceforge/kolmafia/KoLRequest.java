@@ -587,6 +587,9 @@ public class KoLRequest extends Job implements KoLConstants
 
 	public void run()
 	{
+		if ( serverCookie == null && !(this instanceof LoginRequest) )
+			return;
+
 		timeoutCount = 0;
 		containsUpdate = false;
 		String location = this.getURLString();
@@ -1119,7 +1122,8 @@ public class KoLRequest extends Job implements KoLConstants
 			// If the system is down for maintenance, the user must be
 			// notified that they should try again later.
 
-			KoLmafia.updateDisplay( ABORT_STATE, "Nightly maintenance." );
+			KoLmafia.updateDisplay( ABORT_STATE, "Nightly maintenance.  Please restart KoLmafia." );
+			serverCookie = null;
 			return true;
 		}
 
