@@ -183,6 +183,7 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	private static final int BAKULA = 1519;
+	private static final int BOTTLE_ROCKET = 2834;
 	private static final int WIZARD_HAT = 1653;
 	private static final int NAVEL_RING = 2844;
 
@@ -1158,6 +1159,13 @@ public abstract class KoLCharacter extends StaticEntity
 		{
 		case NAVEL_RING:
 			addAvailableSkill( UseSkillRequest.getInstance( "Omphaloskepsis" ) );
+			break;
+		case BOTTLE_ROCKET:
+			addAvailableSkill( UseSkillRequest.getInstance( "Fire red bottle-rocket" ) );
+			addAvailableSkill( UseSkillRequest.getInstance( "Fire blue bottle-rocket" ) );
+			addAvailableSkill( UseSkillRequest.getInstance( "Fire orange bottle-rocket" ) );
+			addAvailableSkill( UseSkillRequest.getInstance( "Fire purple bottle-rocket" ) );
+			addAvailableSkill( UseSkillRequest.getInstance( "Fire black bottle-rocket" ) );
 			break;
 		case WIZARD_HAT:
 			addAvailableSkill( UseSkillRequest.getInstance( "Magic Missile" ) );
