@@ -1917,6 +1917,12 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( command.equals( "styx" ) )
+		{
+			this.executeStyxRequest( parameters );
+			return;
+		}
+
 		if ( command.equals( "mpitems" ) )
 		{
 			int restores = getRestoreCount();
@@ -4986,6 +4992,38 @@ public class KoLmafiaCLI extends KoLmafia
 
 		for ( int i = 0; i < itemList.length; ++i )
 			RequestThread.postRequest( new PulverizeRequest( (AdventureResult) itemList[i] ) );
+	}
+
+	/**
+	 * Attempts to visit the Styx Pixie
+	 */
+
+	public void executeStyxRequest( String parameters )
+	{
+		if ( !KoLCharacter.inBadMoon() )
+		{
+			updateDisplay( ERROR_STATE, "You can't find the Styx unless you are in Bad Moon." );
+			return;
+		}
+
+		String [] split = parameters.split( " " );
+		String command = split[0];
+		int stat = NONE;
+
+		if ( command.equalsIgnoreCase( "muscle" ) )
+			stat = MUSCLE;
+		else if ( command.equalsIgnoreCase( "mysticality" ) )
+			stat = MYSTICALITY;
+		else if ( command.equalsIgnoreCase( "moxie" ) )
+			stat = MOXIE;
+
+		if ( stat == NONE )
+		{
+			updateDisplay( ERROR_STATE, "You can only buff muscle, mysticality, or moxie." );
+			return;
+		}
+
+		RequestThread.postRequest( new StyxPixieRequest( stat ) );
 	}
 
 	/**
