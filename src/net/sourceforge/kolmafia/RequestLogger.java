@@ -446,6 +446,12 @@ public class RequestLogger extends NullStream implements KoLConstants
 			return;
 		}
 
+		if ( (request instanceof StyxPixieRequest || isExternal) && StyxPixieRequest.registerRequest( urlString ) )
+		{
+			wasLastRequestSimple = false;
+			return;
+		}
+
 		if ( (request instanceof UneffectRequest || isExternal) && UneffectRequest.registerRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;
