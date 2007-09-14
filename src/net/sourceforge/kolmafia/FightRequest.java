@@ -369,8 +369,8 @@ public class FightRequest extends KoLRequest
 
 				if ( itemCount == 0 )
 				{
-					action1 = "attack";
-					this.addFormField( "action", action1 );
+					KoLmafia.updateDisplay( ABORT_STATE, "You don't have enough " + TradeableItemDatabase.getItemName( item1 ) );
+					action1 = "abort";
 					return;
 				}
 			}
@@ -408,6 +408,9 @@ public class FightRequest extends KoLRequest
 					this.addFormField( "whichitem2", String.valueOf( item2 ) );
 					return;
 				}
+
+				KoLmafia.updateDisplay( ABORT_STATE, "You don't have enough " + TradeableItemDatabase.getItemName( item2 ) );
+				action1 = "abort";
 			}
 
 			if ( itemCount >= 2 && item1 != ANTIDOTE.getItemId() && item1 != DICTIONARY1.getItemId() && item1 != DICTIONARY2.getItemId() )
