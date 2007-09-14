@@ -101,14 +101,8 @@ public class BuffBotHome extends StaticEntity
 
 	private static final File getFile( String extension )
 	{
-		String dateString = "";
-
-		if ( extension.equals( ".txt" ) || extension.equals( ".html" ) )
-			return new File( ROOT_LOCATION, "buffs/" + KoLCharacter.baseUserName() + "_" +
-				DAILY_FORMAT.format( new Date() ) + "_" + extension );
-
-		return new File( ROOT_LOCATION, "buffs/" + KoLCharacter.baseUserName() + "_" +
-			WEEKLY_FORMAT.format( new Date() ) + extension );
+		return new File( BUFFBOT_LOCATION, KoLCharacter.baseUserName() + "_" +
+			DAILY_FORMAT.format( new Date() ) + "_" + extension );
 	}
 
 	/**

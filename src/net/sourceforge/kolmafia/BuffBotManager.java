@@ -93,7 +93,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		sendList.clear();
 
 		String [] currentBuff;
-		BufferedReader reader = KoLDatabase.getReader( "buffs/" + KoLCharacter.baseUserName() + ".txt" );
+		BufferedReader reader = KoLDatabase.getReader( new File( BUFFBOT_LOCATION, KoLCharacter.baseUserName() + ".txt" ) );
 
 		if ( reader == null )
 		{
@@ -214,10 +214,10 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			return;
 
 		RequestEditorKit.downloadFile( "http://kolmafia.sourceforge.net/buffbot.xsl",
-			new File( ROOT_LOCATION, "buffs/buffbot.xsl" ) );
+			new File( BUFFBOT_LOCATION, "buffbot.xsl" ) );
 
-		File datafile = new File( ROOT_LOCATION, "buffs/" + KoLCharacter.baseUserName() + ".txt" );
-		File xmlfile = new File( ROOT_LOCATION, "buffs/" + KoLCharacter.baseUserName() + ".xml" );
+		File datafile = new File( BUFFBOT_LOCATION, KoLCharacter.baseUserName() + ".txt" );
+		File xmlfile = new File( BUFFBOT_LOCATION, KoLCharacter.baseUserName() + ".xml" );
 
 		PrintStream settings = LogStream.openStream( datafile, true );
 		PrintStream document = LogStream.openStream( xmlfile, true );
