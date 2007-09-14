@@ -288,7 +288,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 				prepareWeapon( THIEF_WEAPONS );
 		}
 
-		if ( !KoLCharacter.canInteract() && KoLSettings.getBooleanProperty( "switchEquipmentForBuffs" ) )
+		if ( KoLSettings.getBooleanProperty( "switchEquipmentForBuffs" ) )
 			reduceManaConsumption( skillId, isBuff );
 	}
 
@@ -328,13 +328,16 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	private static final void reduceManaConsumption( int skillId, boolean isBuff )
 	{
 		// Never bother trying to reduce mana consumption when casting
-		// ode to booze.
+		// ode to booze or summon candy hearts.
 
-		if ( skillId == 6014 )
+		if ( skillId == 18 || skillId == 6014 )
 			return;
 
 		if ( isBuff && inventory.contains( WIZARD_HAT ) )
 			(new EquipmentRequest( WIZARD_HAT, KoLCharacter.HAT )).run();
+
+		if ( KoLCharacter.canInteract() )
+			return;
 
 		// First determine which slots are available for switching in
 		// MP reduction items.
@@ -426,8 +429,9 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			if ( currentCast == 0 )
 			{
 				currentCast = Math.min( castsRemaining, maximumCast );
-
 				currentMP = KoLCharacter.getCurrentMP();
+
+				SpecialOutfit.createImplicitCheckpoint();
 
 				if ( MoodSettings.isExecuting() )
 				{
@@ -438,6 +442,8 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 				{
 					StaticEntity.getClient().recoverMP( mpPerCast * currentCast );
 				}
+
+				SpecialOutfit.restoreImplicitCheckpoint();
 
 				// If no change occurred, that means the person was
 				// unable to recover MP; abort the process.
