@@ -150,7 +150,14 @@ public class FamiliarData implements KoLConstants, Comparable
 	}
 
 	public int getModifiedWeight()
-	{	return Math.max( 1, this.weight + KoLCharacter.getFamiliarWeightAdjustment() );
+	{
+		int weight = this.weight + KoLCharacter.getFamiliarWeightAdjustment();
+		float percent = KoLCharacter.getFamiliarWeightPercentAdjustment() / 100.0f;
+
+		if ( percent != 0.0f )
+			weight = (int)Math.floor( weight + weight * percent );
+
+		return Math.max( 1, weight );
 	}
 
 	public static final int itemWeightModifier( int itemId )

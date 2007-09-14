@@ -1061,6 +1061,10 @@ public abstract class KoLCharacter extends StaticEntity
 	{	return (int) currentModifiers.get( Modifiers.FAMILIAR_WEIGHT );
 	}
 
+	public static final int getFamiliarWeightPercentAdjustment()
+	{	return (int) currentModifiers.get( Modifiers.FAMILIAR_WEIGHT_PCT );
+	}
+
 	public static final int getManaCostAdjustment()
 	{	return (int) currentModifiers.get( Modifiers.MANA_COST );
 	}
