@@ -1923,6 +1923,12 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( command.equals( "concert" ) )
+		{
+			this.executeArenaRequest( parameters );
+			return;
+		}
+
 		if ( command.equals( "mpitems" ) )
 		{
 			int restores = getRestoreCount();
@@ -5024,6 +5030,26 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		RequestThread.postRequest( new StyxPixieRequest( stat ) );
+	}
+
+
+	/**
+	 * Attempts to listen to a concert at the Arena
+	 */
+
+	public void executeArenaRequest( String parameters )
+	{
+		String [] split = parameters.split( " " );
+		String actionString = split[0];
+		int action = StaticEntity.parseInt( actionString );
+
+		if ( action < 1 || action > 3 )
+		{
+			updateDisplay( ERROR_STATE, "Pick action 1, 2, or 3." );
+			return;
+		}
+
+		RequestThread.postRequest( new ArenaRequest( action ) );
 	}
 
 	/**

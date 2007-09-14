@@ -1767,6 +1767,9 @@ public abstract class KoLCharacter extends StaticEntity
 		if ( telescopeUpgrades == 0 )
 			return;
 
+		if (ascensionSignType == BAD_MOON)
+			return;
+
 		int lastAscension = KoLSettings.getIntegerProperty( "lastTelescopeReset" );
 		if ( lastAscension < ascensions )
 			RequestThread.postRequest( new TelescopeRequest( TelescopeRequest.LOW) );
