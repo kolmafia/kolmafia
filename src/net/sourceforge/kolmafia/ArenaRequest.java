@@ -36,41 +36,23 @@ package net.sourceforge.kolmafia;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class StyxPixieRequest extends KoLRequest
+public class ArenaRequest extends KoLRequest
 {
-	private int effectId = 0;
-	private String desc = "";
+	private int option = 0;
 
-	private static final Pattern ID_PATTERN = Pattern.compile( "whichbuff=(\\d+)" );
+	private static final Pattern ID_PATTERN = Pattern.compile( "action=concert.*?option=(\\d+)" );
 
-	public StyxPixieRequest( int stat )
+	public ArenaRequest( int option )
 	{
-		super( "heydeze.php" );
+		super( "postwarisland.php" );
 
+		this.addFormField( "action", "concert" );
 		this.addFormField( "pwd" );
-		this.addFormField( "action", "styxbuff" );
-
-		switch ( stat )
+		if ( option >= 1 && option <= 3 )
 		{
-		case MUSCLE:
-			// Hella Tough
-			effectId = 446;
-			desc = "tougher";
-			break;
-		case MYSTICALITY:
-			// Hella Smart
-			effectId = 447;
-			desc = "smarter";
-			break;
-		case MOXIE:
-			// Hella Smooth
-			effectId = 448;
-			desc = "smoother";
-			break;
+			this.option = option;
+			this.addFormField( "option", String.valueOf( option ) );
 		}
-
-		if ( effectId != 0 )
-			this.addFormField( "whichbuff", String.valueOf( this.effectId ) );
 	}
 
 	protected boolean retryOnTimeout()
@@ -79,68 +61,45 @@ public class StyxPixieRequest extends KoLRequest
 
 	public void run()
 	{
-		if ( !KoLCharacter.inBadMoon() )
+		if ( option == 0 )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You can't find the Styx Pixie." );
-			// return;
-		}
-
-		if ( effectId == 0 )
-		{
-			KoLmafia.updateDisplay( ERROR_STATE, "Choose a stat to buff." );
+			KoLmafia.updateDisplay( ERROR_STATE, "Decide what to do at the concert." );
 			return;
 		}
 
-		KoLmafia.updateDisplay( "Visiting the Styx Pixie..." );
+		KoLmafia.updateDisplay( "Visiting the Mysterious Island Arena..." );
 		super.run();
 	}
 
 	public void processResults()
 	{
-		if ( this.responseText == null || this.responseText.equals( "") )
+		if ( this.responseText == null || this.responseText.equals( "")	)
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You can't find the Styx Pixie." );
+			KoLmafia.updateDisplay( ERROR_STATE, "You can't find the Mysterious Island Arena." );
 			return;
 		}
 
-		// "You already got a buff today"
-                if ( this.responseText.indexOf( "already got a buff today" ) != -1 )
+		if ( this.responseText.indexOf( "You're all rocked out." ) != -1 )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You can only visit the Styx Pixie once a day." );
+			KoLmafia.updateDisplay( ERROR_STATE, "You can only visit the Mysterious Island Arena once a day." );
 			return;
 		}
 
-		KoLmafia.updateDisplay( "You feel " + desc + "." );
+		KoLmafia.updateDisplay( "A music lover is you." );
 		RequestFrame.refreshStatus();
 	}
 
 	public static final boolean registerRequest( String location )
 	{
-		if ( !location.startsWith( "heydeze.php" ) )
+		if ( !location.startsWith( "postwarisland.php" ) )
 			return false;
 
-		Matcher idMatcher = ID_PATTERN.matcher( location );
+		Matcher matcher = ID_PATTERN.matcher( location );
 
-		if ( !idMatcher.find() )
+		if ( !matcher.find() )
 			return true;
 
-		String stat = "";
-
-		switch ( StaticEntity.parseInt( idMatcher.group(1) ) )
-		{
-		case 446:
-			stat = "muscle";
-			break;
-		case 447:
-			stat = "mysticality";
-			break;
-		case 448:
-			stat = "moxie";
-			break;
-		}
-
-		RequestLogger.updateSessionLog( "styx " + stat );
+		RequestLogger.updateSessionLog( "concert " + matcher.group(1) );
 		return true;
 	}
 }
-

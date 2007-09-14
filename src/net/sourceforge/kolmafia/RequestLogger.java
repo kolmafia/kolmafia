@@ -338,6 +338,12 @@ public class RequestLogger extends NullStream implements KoLConstants
 		// The following lists all the remaining requests in
 		// alphabetical order.
 
+		if ( (request instanceof ArenaRequest || isExternal) && ArenaRequest.registerRequest( urlString ) )
+		{
+			wasLastRequestSimple = false;
+			return;
+		}
+
 		if ( (request instanceof AutoSellRequest || isExternal) && AutoSellRequest.registerRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;
