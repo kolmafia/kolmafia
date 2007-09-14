@@ -649,10 +649,14 @@ public class FightRequest extends KoLRequest
 			createAddingScroll( SCROLL_64735 );
 		else if ( conditions.contains( SCROLL_64067 ) )
 			createAddingScroll( SCROLL_64067 );
+		else if ( conditions.contains( SCROLL_31337 ) )
+			createAddingScroll( SCROLL_31337 );
 		else if ( conditions.contains( SCROLL_668 ) )
 			createAddingScroll( SCROLL_668 );
-		else
+		else if ( KoLSettings.getBooleanProperty( "createHackerSummons" ) )
 			createAddingScroll( SCROLL_31337 );
+		else
+			createAddingScroll( SCROLL_668 );
 	}
 
 	private boolean createAddingScroll( AdventureResult scroll )
