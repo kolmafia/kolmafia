@@ -1001,7 +1001,9 @@ public class Modifiers extends KoLDatabase
 		float percent = get( FAMILIAR_WEIGHT_PCT ) / 100.0f;
 
 		if ( percent != 0.0f )
-			weight = (int)Math.max( 1.0, Math.ceil( weight + weight * percent ) );
+			weight = (int)Math.floor( weight + weight * percent );
+
+		weight = Math.max( 1, weight );
 
 		if ( FamiliarsDatabase.isVolleyType( familiarId ) )
 			add( EXPERIENCE, Math.sqrt( weight ) );
