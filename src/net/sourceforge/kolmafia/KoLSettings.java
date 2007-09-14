@@ -148,7 +148,7 @@ public class KoLSettings extends Properties implements KoLConstants
 
 		File source;
 
-		if ( System.getProperty( "app.name" ) != null )
+		if ( System.getProperty( "os.name" ).startsWith( "Mac" ) && System.getProperty( "app.name" ) != null )
 		{
 			File parent = new File( System.getProperty( "user.dir" ) ).getAbsoluteFile();
 
@@ -163,6 +163,16 @@ public class KoLSettings extends Properties implements KoLConstants
 			source = new File( parent, SETTINGS_DIRECTORY );
 			if ( source.exists() )
 				source.renameTo( SETTINGS_LOCATION );
+
+			source = new File( parent, ATTACKS_DIRECTORY );
+			if ( source.exists() )
+				source.renameTo( ATTACKS_LOCATION );
+			source = new File( parent, BUFFBOT_DIRECTORY );
+			if ( source.exists() )
+				source.renameTo( BUFFBOT_LOCATION );
+			source = new File( parent, CHATLOG_DIRECTORY );
+			if ( source.exists() )
+				source.renameTo( CHATLOG_LOCATION );
 			source = new File( parent, PLOTS_DIRECTORY );
 			if ( source.exists() )
 				source.renameTo( PLOTS_LOCATION );

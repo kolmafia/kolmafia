@@ -194,8 +194,13 @@ public class ChatBuffer
 	 * the buffer, the file will also be modified to reflect these changes.
 	 */
 
-	public void setActiveLogFile( String filename )
+	public void setActiveLogFile( File f )
 	{
+		if ( f == null || title == null )
+			return;
+
+		String filename = f.getPath();
+
 		if ( filename == null || title == null )
 			return;
 
@@ -211,15 +216,14 @@ public class ChatBuffer
 			}
 			else
 			{
-				File file = new File( filename );
-				if ( file.getParentFile() != null )
-					file.getParentFile().mkdirs();
+				if ( f.getParentFile() != null )
+					f.getParentFile().mkdirs();
 
-				boolean shouldAppend = file.exists();
+				boolean shouldAppend = f.exists();
 				if ( !shouldAppend )
-					file.createNewFile();
+					f.createNewFile();
 
-				activeLogWriter = new PrintWriter( new FileOutputStream( file, shouldAppend ), true );
+				activeLogWriter = new PrintWriter( new FileOutputStream( f, shouldAppend ), true );
 
 				this.filename = filename;
 				activeLogFiles.put( filename, activeLogWriter );

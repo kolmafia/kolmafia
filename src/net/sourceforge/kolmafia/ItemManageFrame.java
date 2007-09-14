@@ -39,10 +39,7 @@ import java.awt.Component;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
-import java.util.ArrayList;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -62,7 +59,6 @@ import javax.swing.event.ListSelectionListener;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.ConcoctionsDatabase.Concoction;
-import net.sourceforge.kolmafia.KoLFrame.OverlapPanel;
 
 public class ItemManageFrame extends KoLFrame
 {

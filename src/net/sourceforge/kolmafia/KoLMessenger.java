@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia;
 
 import java.awt.Color;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
@@ -166,7 +167,7 @@ public abstract class KoLMessenger extends StaticEntity
 		if ( key.startsWith( "/" ) )
 			key = "[" + key.substring(1) + "]";
 
-		String filename = "chats/" + DAILY_FORMAT.format( new Date() ) + "_" + KoLCharacter.baseUserName();
+		String filename = DAILY_FORMAT.format( new Date() ) + "_" + KoLCharacter.baseUserName();
 		return key.equals( "[main]" ) ? filename + ".html" : filename + "_" + key + ".html";
 	}
 
@@ -812,7 +813,7 @@ public abstract class KoLMessenger extends StaticEntity
 			LimitedSizeChatBuffer buffer = getChatBuffer( bufferKey );
 
 			if ( KoLSettings.getBooleanProperty( "logChatMessages" ) )
-				buffer.setActiveLogFile( getChatLogName( bufferKey ) );
+				buffer.setActiveLogFile( new File( CHATLOG_LOCATION, getChatLogName( bufferKey ) ) );
 
 			buffer.append( displayHTML );
 
@@ -1048,7 +1049,7 @@ public abstract class KoLMessenger extends StaticEntity
 			}
 
 			if ( KoLSettings.getBooleanProperty( "logChatMessages" ) )
-				buffer.setActiveLogFile( getChatLogName( channel ) );
+				buffer.setActiveLogFile( new File( CHATLOG_LOCATION, getChatLogName( channel ) ) );
 
 			if ( highlighting && !channel.equals( "[high]" ) )
 				buffer.applyHighlights();

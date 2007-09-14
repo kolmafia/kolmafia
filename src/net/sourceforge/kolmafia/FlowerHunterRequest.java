@@ -33,7 +33,9 @@
 
 package net.sourceforge.kolmafia;
 
+import java.io.File;
 import java.net.URLDecoder;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -285,7 +287,7 @@ public class FlowerHunterRequest extends KoLRequest
 
 	public static final void processDefenseContests()
 	{
-		LogStream pvpResults = LogStream.openStream( "attacks/" + KoLCharacter.baseUserName() + "_defense.txt", false );
+		LogStream pvpResults = LogStream.openStream( new File( KoLCharacter.baseUserName() + "_defense.txt" ), false );
 
 		RequestThread.postRequest( new FlowerHunterRequest() );
 		RequestThread.postRequest( new MailboxRequest( "PvP" ) );
@@ -344,7 +346,7 @@ public class FlowerHunterRequest extends KoLRequest
 			fightData[i] = null;
 		}
 
-		LogStream pvpResults = LogStream.openStream( "attacks/" + KoLCharacter.baseUserName() + "_offense.txt", false );
+		LogStream pvpResults = LogStream.openStream( new File( ATTACKS_LOCATION, KoLCharacter.baseUserName() + "_offense.txt" ), false );
 
 		pvpResults.println();
 		pvpResults.println( new Date() );

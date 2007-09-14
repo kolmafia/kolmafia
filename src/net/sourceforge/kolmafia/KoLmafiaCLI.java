@@ -2193,12 +2193,11 @@ public class KoLmafiaCLI extends KoLmafia
 	private void summarizeFlowerHunterData()
 	{
 		FlowerHunterRequest.processDefenseContests();
-		File resultFolder = new File( ROOT_LOCATION, "attacks" );
 
-		if ( !resultFolder.exists() )
+		if ( !ATTACKS_LOCATION.exists() )
 			return;
 
-		File [] attackLogs = resultFolder.listFiles();
+		File [] attackLogs = ATTACKS_LOCATION.listFiles();
 
 		TreeMap minis = new TreeMap();
 		updateDisplay( "Scanning attack logs..." );
@@ -2209,7 +2208,7 @@ public class KoLmafiaCLI extends KoLmafia
 				this.registerFlowerHunterData( minis, KoLDatabase.getReader( attackLogs[i] ) );
 		}
 
-		LogStream spreadsheet = LogStream.openStream( new File( resultFolder, "__spreadsheet.txt" ), true );
+		LogStream spreadsheet = LogStream.openStream( new File( ATTACKS_LOCATION, "__spreadsheet.txt" ), true );
 
 		spreadsheet.println( "Name\tTattoos\t\tTrophies\t\tFlowers\t\tCanadians" );
 		spreadsheet.println( "\tLow\tHigh\tLow\tHigh\tLow\tHigh\tLow\tHigh" );
