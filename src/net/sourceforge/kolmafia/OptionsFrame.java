@@ -283,6 +283,7 @@ public class OptionsFrame extends KoLFrame
 			{ "", "" },
 
 			{ "cloverProtectActive", "Auto-disassemble hermit, marmot and barrel clovers" },
+			{ "createHackerSummons", "Auto-create 31337 scrolls if no scroll conditions are set" },
 			{ "mementoListActive", "Prevent accidental destruction of 'memento' items" },
 			{ "allowGenericUse", "Enable generic item usage in scripted \"use\"" },
 
