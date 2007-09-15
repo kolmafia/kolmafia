@@ -1004,7 +1004,10 @@ public class LocalRelayRequest extends PasswordHashRequest
 			}
 		}
 
-		if ( this.getPath().equals( "desc_effect.php" ) && KoLSettings.getBooleanProperty( "relayAddsWikiLinks" ) )
+		String path = this.getPath();
+		String urlString = this.getURLString();
+
+		if ( path.equals( "desc_effect.php" ) && KoLSettings.getBooleanProperty( "relayAddsWikiLinks" ) )
 		{
 			String effect = this.getFormField( "whicheffect" );
 			String location = ShowDescriptionList.getWikiLocation( new AdventureResult( StatusEffectDatabase.getEffectName( effect ), 1, true ) );
@@ -1016,16 +1019,16 @@ public class LocalRelayRequest extends PasswordHashRequest
 			}
 		}
 
-		if ( AdventureDatabase.getAdventureByURL( this.getURLString() ) != null )
+		if ( AdventureDatabase.getAdventureByURL( urlString ) != null || KoLAdventure.getUnknownName( urlString ) != null )
 		{
 			TurnCounter expired = StaticEntity.getExpiredCounter(
-				this.getPath().equals( "adventure.php" ) ? this.getFormField( "snarfblat" ) : "" );
+				path.equals( "adventure.php" ) ? this.getFormField( "snarfblat" ) : "" );
 
 			if ( expired != null )
 			{
 				this.sendGeneralWarning( expired.getImage(),
 					"The indicated counter has expired, so may wish to adventure somewhere else at this time.  " +
-					"If you are certain that this is where you'd like to adventure, click <a href=\"" + this.getURLString() + "\">here</a> to proceed." );
+					"If you are certain that this is where you'd like to adventure, click <a href=\"" + urlString + "\">here</a> to proceed." );
 
 				return;
 			}
@@ -1033,7 +1036,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 			// Special handling of adventuring locations before it's
 			// registered internally with KoLmafia.
 
-			if ( this.getPath().equals( "adventure.php" ) )
+			if ( path.equals( "adventure.php" ) )
 			{
 				String location = this.getFormField( "snarfblat" );
 				if ( location == null )
@@ -1053,7 +1056,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 			// More MCD rewards.  This one is for the Knob Goblin King,
 			// who has special items at 3 and 7.
 
-			else if ( this.getPath().equals( "knob.php" ) )
+			else if ( path.equals( "knob.php" ) )
 			{
 				if ( this.getFormField( "king" ) != null && this.getFormField( "override" ) == null )
 				{
@@ -1065,7 +1068,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 			// More MCD rewards.  This one is for the Bonerdagon, who has
 			// special items at 5 and 10.
 
-			else if ( this.getPath().equals( "cyrpt.php" ) )
+			else if ( path.equals( "cyrpt.php" ) )
 			{
 				if ( this.getFormField( "action" ) != null && this.getFormField( "override" ) == null )
 				{
@@ -1078,7 +1081,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// If the person is visiting the sorceress and they forgot
 		// to make the Wand, remind them.
 
-		else if ( this.getPath().equals( "lair6.php" ) )
+		else if ( path.equals( "lair6.php" ) )
 		{
 			// As of NS 13,they need not have it equipped. In fact,
 			// there are far better weapons to equip for the
@@ -1094,7 +1097,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 			}
 		}
 
-		else if ( this.getPath().equals( "ascend.php" ) )
+		else if ( path.equals( "ascend.php" ) )
 		{
 			if ( this.getFormField( "action" ) != null )
 				RequestThread.postRequest( new EquipmentRequest( SpecialOutfit.BIRTHDAY_SUIT ) );
