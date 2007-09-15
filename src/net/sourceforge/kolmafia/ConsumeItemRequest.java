@@ -1453,6 +1453,10 @@ public class ConsumeItemRequest extends KoLRequest
 		return new AdventureResult( itemId, itemCount );
 	}
 
+	public static final void resetItemUsed()
+	{	lastItemUsed = null;
+	}
+
 	public static final boolean registerRequest( String urlString )
 	{
 		lastItemUsed = extractItem( urlString );
