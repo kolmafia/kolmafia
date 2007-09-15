@@ -399,13 +399,9 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 		public void actionCancelled()
 		{
 			ProfileRequest [] selection = this.getSelection();
-			Object [] parameters = new Object[1];
 
 			for ( int i = 0; i < selection.length; ++i )
-			{
-				parameters[0] = selection[i];
-				createDisplay( ProfileFrame.class, parameters );
-			}
+				ProfileFrame.showRequest( selection[i] );
 		}
 
 		private ProfileRequest [] getSelection()
