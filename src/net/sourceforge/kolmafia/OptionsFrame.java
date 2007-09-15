@@ -42,15 +42,21 @@ import java.awt.GridLayout;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
+import javax.swing.UIManager;
 
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
+
+import com.informit.guides.JDnDList;
+
 import tab.CloseTabPaneEnhancedUI;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
@@ -86,6 +92,13 @@ public class OptionsFrame extends KoLFrame
 
 		this.framePanel.setLayout( new CardLayout( 10, 10 ) );
 		this.framePanel.add( this.tabs, "" );
+
+		if ( !KoLSettings.getBooleanProperty( "customizedTabs" ) )
+			this.tabs.setSelectedIndex( 2 );
+		else if ( LocalRelayServer.isRunning() )
+			this.tabs.setSelectedIndex( 1 );
+		else
+			this.tabs.setSelectedIndex( 0 );
 	}
 
 	private class SessionLogOptionsPanel extends OptionsPanel
@@ -712,6 +725,360 @@ public class OptionsFrame extends KoLFrame
 					return;
 
 				bookmarks.remove( index );
+			}
+		}
+	}
+
+	protected class StartupFramesPanel extends KoLPanel implements ListDataListener
+	{
+		private final String [][] FRAME_OPTIONS =
+		{
+			{ "Adventure", "AdventureFrame" },
+			{ "Mini-Browser", "RequestFrame" },
+			{ "Relay Server", "LocalRelayServer" },
+
+			{ "Purchases", "MallSearchFrame" },
+			{ "Graphical CLI", "CommandDisplayFrame" },
+
+			{ "Player Status", "CharsheetFrame" },
+			{ "Item Manager", "ItemManageFrame" },
+			{ "Gear Changer", "GearChangeFrame" },
+
+			{ "Store Manager", "StoreManageFrame" },
+			{ "Museum Display", "MuseumFrame" },
+
+			{ "Hall of Legends", "MeatManageFrame" },
+			{ "Skill Casting", "SkillBuffFrame" },
+
+			{ "Contact List", "ContactListFrame" },
+			{ "Buffbot Manager", "BuffBotFrame" },
+			{ "Purchase Buffs", "BuffRequestFrame" },
+
+			{ "Flower Hunter", "FlowerHunterFrame" },
+			{ "Mushroom Plot", "MushroomFrame" },
+			{ "Familiar Trainer", "FamiliarTrainingFrame" },
+
+			{ "IcePenguin Express", "MailboxFrame" },
+			{ "Loathing Chat", "KoLMessenger" },
+			{ "Recent Events", "EventsFrame" },
+
+			{ "Clan Management", "ClanManageFrame" },
+			{ "Farmer's Almanac", "CalendarFrame" },
+			{ "Internal Database", "ExamineItemsFrame" },
+
+			{ "Coin Toss Game", "MoneyMakingGameFrame" },
+			{ "Preferences", "OptionsFrame" }
+		};
+
+		private boolean isRefreshing = false;
+
+		private LockableListModel completeList = new LockableListModel();
+		private LockableListModel startupList = new LockableListModel();
+		private LockableListModel desktopList = new LockableListModel();
+
+		public StartupFramesPanel()
+		{
+			super( new Dimension( 100, 20 ), new Dimension( 300, 20 ) );
+			this.setContent( null );
+
+			for ( int i = 0; i < this.FRAME_OPTIONS.length; ++i )
+				this.completeList.add( this.FRAME_OPTIONS[i][0] );
+
+			JPanel optionPanel = new JPanel( new GridLayout( 1, 3, 10, 10 ) );
+			optionPanel.add( new LabeledScrollPanel( "Complete List", new JDnDList( this.completeList, false ) ) );
+			optionPanel.add( new LabeledScrollPanel( "Startup as Window", new JDnDList( this.startupList ) ) );
+			optionPanel.add( new LabeledScrollPanel( "Startup in Tabs", new JDnDList( this.desktopList ) ) );
+
+			JTextArea message = new JTextArea(
+				"These are the global settings for what shows up when KoLmafia successfully logs into the Kingdom of Loathing.  You can drag and drop options in the lists below to customize what will show up.\n\n" +
+
+				"When you place the Local Relay Server into the 'startup in tabs' section, KoLmafia will start up the server but not open your browser.  When you place the Contact List into the 'startup in tabs' section, KoLmafia will force a refresh of your contact list on login.\n" );
+
+			message.setColumns( 40 );
+			message.setLineWrap( true );
+			message.setWrapStyleWord( true );
+			message.setEditable( false );
+			message.setOpaque( false );
+			message.setFont( DEFAULT_FONT );
+
+			this.container.add( message, BorderLayout.NORTH );
+			this.container.add( optionPanel, BorderLayout.SOUTH );
+			this.actionCancelled();
+
+			this.completeList.addListDataListener( this );
+			this.startupList.addListDataListener( this );
+			this.desktopList.addListDataListener( this );
+		}
+
+		public void actionConfirmed()
+		{	this.actionCancelled();
+		}
+
+		public void actionCancelled()
+		{
+			this.isRefreshing = true;
+
+			String username = (String) saveStateNames.getSelectedItem();
+			if ( username == null )
+				username = "";
+
+			this.startupList.clear();
+			this.desktopList.clear();
+
+			KoLmafiaGUI.checkFrameSettings();
+
+			String frameString = KoLSettings.getUserProperty( "initialFrames" );
+			String desktopString = KoLSettings.getUserProperty( "initialDesktop" );
+
+			String [] pieces;
+
+			pieces = frameString.split( "," );
+			for ( int i = 0; i < pieces.length; ++i )
+				for ( int j = 0; j < this.FRAME_OPTIONS.length; ++j )
+					if ( !this.startupList.contains( this.FRAME_OPTIONS[j][0] ) && this.FRAME_OPTIONS[j][1].equals( pieces[i] ) )
+						this.startupList.add( this.FRAME_OPTIONS[j][0] );
+
+			pieces = desktopString.split( "," );
+			for ( int i = 0; i < pieces.length; ++i )
+				for ( int j = 0; j < this.FRAME_OPTIONS.length; ++j )
+					if ( !this.desktopList.contains( this.FRAME_OPTIONS[j][0] ) && this.FRAME_OPTIONS[j][1].equals( pieces[i] ) )
+						this.desktopList.add( this.FRAME_OPTIONS[j][0] );
+
+			this.isRefreshing = false;
+			this.saveLayoutSettings();
+		}
+
+		public boolean shouldAddStatusLabel( VerifiableElement [] elements )
+		{	return false;
+		}
+
+		public void setEnabled( boolean isEnabled )
+		{
+		}
+
+		public void intervalAdded( ListDataEvent e )
+		{
+			if ( e.getSource() == this.startupList )
+				this.desktopList.removeAll( this.startupList );
+
+			if ( e.getSource() == this.desktopList )
+				this.startupList.removeAll( this.desktopList );
+
+			this.saveLayoutSettings();
+		}
+
+		public void intervalRemoved( ListDataEvent e )
+		{	this.saveLayoutSettings();
+		}
+
+		public void contentsChanged( ListDataEvent e )
+		{
+		}
+
+		public void saveLayoutSettings()
+		{
+			if ( this.isRefreshing )
+				return;
+
+			StringBuffer frameString = new StringBuffer();
+			StringBuffer desktopString = new StringBuffer();
+
+			for ( int i = 0; i < this.startupList.getSize(); ++i )
+				for ( int j = 0; j < this.FRAME_OPTIONS.length; ++j )
+					if ( this.startupList.getElementAt(i).equals( this.FRAME_OPTIONS[j][0] ) )
+					{
+						if ( frameString.length() != 0 ) frameString.append( "," );
+						frameString.append( this.FRAME_OPTIONS[j][1] );
+					}
+
+			for ( int i = 0; i < this.desktopList.getSize(); ++i )
+				for ( int j = 0; j < this.FRAME_OPTIONS.length; ++j )
+					if ( this.desktopList.getElementAt(i).equals( this.FRAME_OPTIONS[j][0] ) )
+					{
+						if ( desktopString.length() != 0 ) desktopString.append( "," );
+						desktopString.append( this.FRAME_OPTIONS[j][1] );
+					}
+
+			KoLSettings.setUserProperty( "initialFrames", frameString.toString() );
+			KoLSettings.setUserProperty( "initialDesktop", desktopString.toString() );
+		}
+	}
+
+	/**
+	 * Allows the user to select to select the framing mode to use.
+	 */
+
+	protected class UserInterfacePanel extends OptionsPanel
+	{
+		private JCheckBox [] optionBoxes;
+
+		private String [][] options =
+
+			System.getProperty( "os.name" ).startsWith( "Windows" ) ?
+
+			new String [][]
+			{
+				{ "guiUsesOneWindow", "Restrict interface to a single window" },
+				{ "useSystemTrayIcon", "Minimize main interface to system tray" },
+				{ "addCreationQueue", "Add creation queueing interface to item manager" },
+				{ "addStatusBarToFrames", "Add a status line to independent windows" },
+				{},
+				{ "addExitMenuItems", "Add logout and exit options to general menu" },
+				{ "useDecoratedTabs", "Use shiny decorated tabs instead of OS default" },
+				{ "allowCloseableDesktopTabs", "Allow tabs on main window to be closed" },
+			}
+
+			:
+
+			new String [][]
+  			{
+  				{ "guiUsesOneWindow", "Restrict interface to a single window" },
+				{ "addCreationQueue", "Add creation queueing interface to item manager" },
+  				{ "addStatusBarToFrames", "Add a status line to independent windows" },
+  				{},
+				{ "addExitMenuItems", "Add logout and exit options to general menu" },
+  				{ "useDecoratedTabs", "Use shiny decorated tabs instead of OS default" },
+  				{ "allowCloseableDesktopTabs", "Allow tabs on main window to be closed" },
+  			};
+
+		private JComboBox looks, toolbars, scripts;
+
+		public UserInterfacePanel()
+		{
+			super( "", new Dimension( 80, 20 ), new Dimension( 280, 20 ) );
+
+			UIManager.LookAndFeelInfo [] installed = UIManager.getInstalledLookAndFeels();
+			Object [] installedLooks = new Object[ installed.length ];
+
+			for ( int i = 0; i < installedLooks.length; ++i )
+				installedLooks[i] = installed[i].getClassName();
+
+			this.looks = new JComboBox( installedLooks );
+
+			this.toolbars = new JComboBox();
+			this.toolbars.addItem( "Show global menus only" );
+			this.toolbars.addItem( "Put toolbar along top of panel" );
+			this.toolbars.addItem( "Put toolbar along bottom of panel" );
+			this.toolbars.addItem( "Put toolbar along left of panel" );
+
+			this.scripts = new JComboBox();
+			this.scripts.addItem( "Do not show script bar on main interface" );
+			this.scripts.addItem( "Put script bar after normal toolbar" );
+			this.scripts.addItem( "Put script bar along right of panel" );
+
+			VerifiableElement [] elements = new VerifiableElement[3];
+
+			elements[0] = new VerifiableElement( "Java L&F: ", this.looks );
+			elements[1] = new VerifiableElement( "Toolbar: ", this.toolbars );
+			elements[2] = new VerifiableElement( "Scripts: ", this.scripts );
+
+			this.actionCancelled();
+			this.setContent( elements );
+		}
+
+		public boolean shouldAddStatusLabel( VerifiableElement [] elements )
+		{	return false;
+		}
+
+		public void setContent( VerifiableElement [] elements )
+		{
+			super.setContent( elements );
+			this.add( new InterfaceCheckboxPanel(), BorderLayout.CENTER );
+		}
+
+		public void setEnabled( boolean isEnabled )
+		{
+		}
+
+		public void actionConfirmed()
+		{
+			String lookAndFeel = (String) this.looks.getSelectedItem();
+			if ( lookAndFeel != null )
+				KoLSettings.setUserProperty( "swingLookAndFeel", lookAndFeel );
+
+			KoLSettings.setUserProperty( "useToolbars", String.valueOf( this.toolbars.getSelectedIndex() != 0 ) );
+			KoLSettings.setUserProperty( "scriptButtonPosition", String.valueOf( this.scripts.getSelectedIndex() ) );
+			KoLSettings.setUserProperty( "toolbarPosition", String.valueOf( this.toolbars.getSelectedIndex() ) );
+		}
+
+		public void actionCancelled()
+		{
+			this.looks.setSelectedItem( KoLSettings.getUserProperty( "swingLookAndFeel" ) );
+			this.toolbars.setSelectedIndex( KoLSettings.getIntegerProperty( "toolbarPosition" ) );
+			this.scripts.setSelectedIndex( KoLSettings.getIntegerProperty( "scriptButtonPosition" ) );
+		}
+
+		private class InterfaceCheckboxPanel extends OptionsPanel
+		{
+			private JLabel innerGradient, outerGradient;
+
+			public InterfaceCheckboxPanel()
+			{
+				super( new Dimension( 20, 16 ), new Dimension( 370, 16 ) );
+				VerifiableElement [] elements = new VerifiableElement[ UserInterfacePanel.this.options.length + 3 ];
+
+				UserInterfacePanel.this.optionBoxes = new JCheckBox[ UserInterfacePanel.this.options.length ];
+				for ( int i = 0; i < UserInterfacePanel.this.options.length; ++i )
+					UserInterfacePanel.this.optionBoxes[i] = new JCheckBox();
+
+				for ( int i = 0; i < UserInterfacePanel.this.options.length; ++i )
+				{
+					if ( UserInterfacePanel.this.options[i].length == 0 )
+						elements[i] = new VerifiableElement();
+					else
+						elements[i] = new VerifiableElement( UserInterfacePanel.this.options[i][1], JLabel.LEFT, UserInterfacePanel.this.optionBoxes[i] );
+				}
+
+				elements[ UserInterfacePanel.this.options.length ] = new VerifiableElement();
+
+				this.outerGradient = new TabColorChanger( "outerTabColor" );
+				elements[ UserInterfacePanel.this.options.length + 1 ] = new VerifiableElement( "Change the outer portion of the tab gradient (shiny tabs)",
+					JLabel.LEFT, this.outerGradient );
+
+				this.innerGradient = new TabColorChanger( "innerTabColor" );
+				elements[ UserInterfacePanel.this.options.length + 2 ] = new VerifiableElement( "Change the inner portion of the tab gradient (shiny tabs)",
+					JLabel.LEFT, this.innerGradient );
+
+				this.actionCancelled();
+				this.setContent( elements );
+			}
+
+			public void actionConfirmed()
+			{
+				for ( int i = 0; i < UserInterfacePanel.this.options.length; ++i )
+					if ( UserInterfacePanel.this.options[i].length > 0 )
+						KoLSettings.setUserProperty( UserInterfacePanel.this.options[i][0], String.valueOf( UserInterfacePanel.this.optionBoxes[i].isSelected() ) );
+			}
+
+			public void actionCancelled()
+			{
+				for ( int i = 0; i < UserInterfacePanel.this.options.length; ++i )
+					if ( UserInterfacePanel.this.options[i].length > 0 )
+						UserInterfacePanel.this.optionBoxes[i].setSelected( KoLSettings.getBooleanProperty( UserInterfacePanel.this.options[i][0] ) );
+
+				this.innerGradient.setBackground( tab.CloseTabPaneEnhancedUI.selectedA );
+				this.outerGradient.setBackground( tab.CloseTabPaneEnhancedUI.selectedB );
+			}
+
+			public void setEnabled( boolean isEnabled )
+			{
+			}
+
+			private class TabColorChanger extends LabelColorChanger
+			{
+				public TabColorChanger( String property )
+				{	super( property );
+				}
+
+				public void applyChanges()
+				{
+					if ( this.property.equals( "innerTabColor" ) )
+						CloseTabPaneEnhancedUI.selectedA = InterfaceCheckboxPanel.this.innerGradient.getBackground();
+					else
+						CloseTabPaneEnhancedUI.selectedB = InterfaceCheckboxPanel.this.outerGradient.getBackground();
+
+					OptionsFrame.this.tabs.repaint();
+				}
 			}
 		}
 	}
