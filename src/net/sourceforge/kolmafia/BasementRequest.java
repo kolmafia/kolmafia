@@ -44,6 +44,8 @@ import java.util.regex.Matcher;
 
 public class BasementRequest extends AdventureRequest
 {
+	private static final float SAFETY_MARGIN = 1.08f;
+
 	private static int basementLevel = 0;
 	private static float basementTestValue = 0;
 	private static float basementTestCurrent = 0;
@@ -422,7 +424,7 @@ public class BasementRequest extends AdventureRequest
 		// According to http://forums.hardcoreoxygenation.com/viewtopic.php?t=3973,
 		// total elemental damage is roughly 4.48 * x^1.4.  Assume the worst-case.
 
-		float damage1 = (((float) Math.pow( basementLevel, 1.4 )) * 4.48f + 8.0f) * 1.1f;
+		float damage1 = (((float) Math.pow( basementLevel, 1.4 )) * 4.48f + 8.0f) * SAFETY_MARGIN;
 		float damage2 = damage1;
 
 		resistance1 = KoLCharacter.getElementalResistance( element1 );
@@ -554,7 +556,7 @@ public class BasementRequest extends AdventureRequest
 		// According to http://forums.hardcoreoxygenation.com/viewtopic.php?t=3973,
 		// stat requirement is x^1.4 + 2.  Assume the worst-case.
 
-		float statRequirement = ((float) Math.pow( basementLevel, 1.4 ) + 2.0f) * 1.1f;
+		float statRequirement = ((float) Math.pow( basementLevel, 1.4 ) + 2.0f) * SAFETY_MARGIN;
 
 		if ( responseText.indexOf( "Lift 'em" ) != -1 || responseText.indexOf( "Push it Real Good" ) != -1 || responseText.indexOf( "Ring that Bell" ) != -1 )
 		{
@@ -640,7 +642,7 @@ public class BasementRequest extends AdventureRequest
 			// http://forums.hardcoreoxygenation.com/viewtopic.php?t=3973,
 			// drain requirement is 1.67 * x^1.4 Assume worst-case.
 
-			float drainRequirement = (float) Math.pow( basementLevel, 1.4 ) * 1.67f * 1.1f;
+			float drainRequirement = (float) Math.pow( basementLevel, 1.4 ) * 1.67f * SAFETY_MARGIN;
 
 			basementTestString = "Maximum MP";
 			basementTestCurrent = KoLCharacter.getMaximumMP();
@@ -674,9 +676,9 @@ public class BasementRequest extends AdventureRequest
 		{
 			// According to starwed at
 			// http://forums.kingdomofloathing.com/viewtopic.php?t=83342&start=201
-			// drain requirement is 5.0 * x^1.4. Assume worst-case.
+			// drain requirement is 10.0 * x^1.4. Assume worst-case.
 
-			float drainRequirement = (float) Math.pow( basementLevel, 1.4 ) * 10.0f * 1.1f;
+			float drainRequirement = (float) Math.pow( basementLevel, 1.4 ) * 10.0f * SAFETY_MARGIN;
 
 			basementTestString = "Maximum HP";
 			basementTestCurrent = KoLCharacter.getMaximumHP();
