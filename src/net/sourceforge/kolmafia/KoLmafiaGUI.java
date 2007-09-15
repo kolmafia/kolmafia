@@ -54,7 +54,13 @@ public class KoLmafiaGUI extends KoLmafia
 		KoLmafiaGUI session = new KoLmafiaGUI();
 		StaticEntity.setClient( session );
 
-		(new CreateFrameRunnable( LoginFrame.class )).run();
+		constructFrame( LoginFrame.class );
+
+		if ( !KoLSettings.getBooleanProperty( "customizedTabs" ) )
+		{
+			constructFrame( OptionsFrame.class );
+			KoLSettings.setUserProperty( "customizedTabs", "true" );
+		}
 
 		// All that completed, check to see if there is an auto-login
 		// which should occur.
@@ -322,7 +328,7 @@ public class KoLmafiaGUI extends KoLmafia
 
 				if ( KoLCharacter.inBadMoon() )
 					if ( kitchenItems.isEmpty() )
-                                                KitchenRequest.getMenu();
+												KitchenRequest.getMenu();
 
 				// If the person is in a mysticality sign, make
 				// sure you retrieve information from the

@@ -80,9 +80,6 @@ public class LoginFrame extends KoLFrame
 		breakfastPanel.add( new BreakfastPanel( "Ronin-Clear Characters", "Softcore" ) );
 		breakfastPanel.add( new BreakfastPanel( "In-Ronin Characters", "Hardcore" ) );
 
-		this.tabs.addTab( "Main Tabs", new StartupFramesPanel() );
-		this.tabs.addTab( "Look & Feel", new UserInterfacePanel()  );
-
 		JPanel connectPanel = new JPanel();
 		connectPanel.setLayout( new BoxLayout( connectPanel, BoxLayout.Y_AXIS ) );
 		connectPanel.add( new ConnectionOptionsPanel() );

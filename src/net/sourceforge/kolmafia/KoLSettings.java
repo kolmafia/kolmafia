@@ -633,6 +633,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		GLOBAL_MAP.put( "commandLineNamespace", "" );
 		GLOBAL_MAP.put( "completeHealthRestore", "false" );
 		GLOBAL_MAP.put( "createHackerSummons", "true" );
+		GLOBAL_MAP.put( "customizedTabs", "false" );
 		GLOBAL_MAP.put( "defaultBorderColor", "blue" );
 		GLOBAL_MAP.put( "defaultDropdown1", "0" );
 		GLOBAL_MAP.put( "defaultDropdown2", "1" );
