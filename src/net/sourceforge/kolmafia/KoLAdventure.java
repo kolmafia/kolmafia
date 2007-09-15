@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
 import net.sourceforge.foxtrot.Job;
+import net.sourceforge.kolmafia.StaticEntity.TurnCounter;
 
 public class KoLAdventure extends Job implements KoLConstants, Comparable
 {
@@ -825,6 +826,15 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			}
 		}
 
+		TurnCounter expired = StaticEntity.getExpiredCounter(
+			this.formSource.equals( "adventure.php" ) ? this.request.getFormField( "snarfblat" ) : "" );
+
+		if ( expired != null )
+		{
+			KoLmafia.updateDisplay( PENDING_STATE, expired.getLabel() + " counter expired." );
+			return;
+		}
+
 		// If the test is successful, then it is safe to run the
 		// request (without spamming the server).
 
@@ -956,6 +966,54 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			StaticEntity.getClient().registerEncounter( this.getAdventureName(), "Noncombat" );
 	}
 
+	public static final String getUnknownName( String urlString )
+	{
+		if ( urlString.startsWith( "adventure.php" ) && urlString.indexOf( "snarfblat=122" ) != -1 )
+			return "Oasis in the Desert";
+		else if ( urlString.startsWith( "shore.php" ) && urlString.indexOf( "whichtrip=1" ) != -1 )
+			return "Muscle Vacation";
+		else if ( urlString.startsWith( "shore.php" ) && urlString.indexOf( "whichtrip=2" ) != -1 )
+			return "Mysticality Vacation";
+		else if ( urlString.startsWith( "shore.php" ) && urlString.indexOf( "whichtrip=3" ) != -1 )
+			return "Moxie Vacation";
+		else if ( urlString.startsWith( "guild.php?action=chal" ) )
+			return "Guild Challenge";
+		else if ( urlString.startsWith( "basement.php" ) )
+			return "Fernswarthy's Basement (Level " + BasementRequest.getBasementLevel() + ")";
+		else if ( urlString.startsWith( "dungeon.php" ) )
+			return "Daily Dungeon";
+		else if ( urlString.startsWith( "rats.php" ) )
+			return "Typical Tavern Quest";
+		else if ( urlString.startsWith( "barrel.php" ) )
+			return "Barrel Full of Barrels";
+		else if ( urlString.startsWith( "mining.php" ) )
+			return "Mining (In Disguise)";
+		else if ( urlString.startsWith( "arena.php" ) && urlString.indexOf( "action" ) != -1 )
+			return "Cake-Shaped Arena";
+		else if ( urlString.startsWith( "lair4.php?action=level1" ) )
+			return "Sorceress Tower: Level 1";
+		else if ( urlString.startsWith( "lair4.php?action=level2" ) )
+			return "Sorceress Tower: Level 2";
+		else if ( urlString.startsWith( "lair4.php?action=level3" ) )
+			return "Sorceress Tower: Level 3";
+		else if ( urlString.startsWith( "lair5.php?action=level1" ) )
+			return "Sorceress Tower: Level 4";
+		else if ( urlString.startsWith( "lair5.php?action=level2" ) )
+			return "Sorceress Tower: Level 5";
+		else if ( urlString.startsWith( "lair5.php?action=level3" ) )
+			return "Sorceress Tower: Level 6";
+		else if ( urlString.startsWith( "lair6.php?place=0" ) )
+			return "Sorceress Tower: Door Puzzles";
+		else if ( urlString.startsWith( "lair6.php?place=2" ) )
+			return "Sorceress Tower: Shadow Fight";
+		else if ( urlString.startsWith( "lair6.php?place=5" ) )
+			return "Sorceress Tower: Naughty Sorceress";
+		else if ( urlString.startsWith( "hiddencity.php" ) )
+			return "Hidden City: Unexplored Ruins";
+
+		return null;
+	}
+
 	public static final boolean recordToSession( String urlString )
 	{
 		// In the event that this is an adventure, assume "snarfblat"
@@ -1009,120 +1067,16 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		// Not an internal location.  Perhaps it's something related
 		// to another common request?
 
-		String location = null;
-		boolean shouldReset = true;
-
-		if ( urlString.startsWith( "adventure.php" ) && urlString.indexOf( "snarfblat=122" ) != -1 )
-		{
-			shouldReset = false;
-			location = "Oasis in the Desert";
-		}
-		else if ( urlString.startsWith( "shore.php" ) && urlString.indexOf( "whichtrip=1" ) != -1 )
-		{
-			shouldReset = false;
-			location = "Muscle Vacation";
-		}
-		else if ( urlString.startsWith( "shore.php" ) && urlString.indexOf( "whichtrip=2" ) != -1 )
-		{
-			shouldReset = false;
-			location = "Mysticality Vacation";
-		}
-		else if ( urlString.startsWith( "shore.php" ) && urlString.indexOf( "whichtrip=3" ) != -1 )
-		{
-			shouldReset = false;
-			location = "Moxie Vacation";
-		}
-		else if ( urlString.startsWith( "guild.php?action=chal" ) )
-		{
-			shouldReset = false;
-			location = "Guild Challenge";
-		}
-		else if ( urlString.startsWith( "basement.php" ) )
-		{
-			shouldReset = true;
-			location = "Fernswarthy's Basement (Level " + BasementRequest.getBasementLevel() + ")";
-		}
-		else if ( urlString.startsWith( "dungeon.php" ) )
-		{
-			shouldReset = true;
-			location = "Daily Dungeon";
-		}
-		else if ( urlString.startsWith( "rats.php" ) )
-		{
-			shouldReset = true;
-			location = "Typical Tavern Quest";
-		}
-		else if ( urlString.startsWith( "barrel.php" ) )
-		{
-			shouldReset = true;
-			location = "Barrel Full of Barrels";
-		}
-		else if ( urlString.startsWith( "mining.php" ) )
-		{
-			shouldReset = false;
-			location = "Itznotyerzitz Mine (In Disguise)";
-		}
-		else if ( urlString.startsWith( "arena.php" ) && urlString.indexOf( "action" ) != -1 )
-		{
-			shouldReset = false;
-			location = "Cake-Shaped Arena";
-		}
-		else if ( urlString.startsWith( "lair4.php?action=level1" ) )
-		{
-			shouldReset = true;
-			location = "Sorceress Tower: Level 1";
-		}
-		else if ( urlString.startsWith( "lair4.php?action=level2" ) )
-		{
-			shouldReset = true;
-			location = "Sorceress Tower: Level 2";
-		}
-		else if ( urlString.startsWith( "lair4.php?action=level3" ) )
-		{
-			shouldReset = true;
-			location = "Sorceress Tower: Level 3";
-		}
-		else if ( urlString.startsWith( "lair5.php?action=level1" ) )
-		{
-			shouldReset = true;
-			location = "Sorceress Tower: Level 4";
-		}
-		else if ( urlString.startsWith( "lair5.php?action=level2" ) )
-		{
-			shouldReset = true;
-			location = "Sorceress Tower: Level 5";
-		}
-		else if ( urlString.startsWith( "lair5.php?action=level3" ) )
-		{
-			shouldReset = true;
-			location = "Sorceress Tower: Level 6";
-		}
-		else if ( urlString.startsWith( "lair6.php?place=0" ) )
-		{
-			shouldReset = false;
-			location = "Sorceress Tower: Door Puzzles";
-		}
-		else if ( urlString.startsWith( "lair6.php?place=2" ) )
-		{
-			shouldReset = true;
-			location = "Sorceress Tower: Shadow Fight";
-		}
-		else if ( urlString.startsWith( "lair6.php?place=5" ) )
-		{
-			shouldReset = true;
-			location = "Sorceress Tower: Naughty Sorceress";
-		}
-		else if ( urlString.startsWith( "hiddencity.php" ) )
-		{
-			shouldReset = true;
-			location = "Hidden City: Unexplored Ruins";
-		}
-
+		String location = getUnknownName( urlString );
 		if ( location == null )
 			return false;
 
 		if ( urlString.indexOf( "?" ) == -1 )
 			return true;
+
+		boolean shouldReset = urlString.startsWith( "dungeon.php" ) || urlString.startsWith( "basement.php" ) ||
+			urlString.startsWith( "barrel.php" ) || urlString.startsWith( "rats.php" ) || urlString.startsWith( "hiddencity.php" ) ||
+			urlString.startsWith( "lair" );
 
 		if ( shouldReset )
 			resetAutoAttack();
