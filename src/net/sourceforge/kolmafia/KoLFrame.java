@@ -2340,6 +2340,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			if ( this.isOverlap )
 				elementList.setCellRenderer( AdventureResult.getNameOnlyRenderer() );
 
+			elementList.addKeyListener( new OverlapAdapter() );
 			this.addFilters();
 		}
 
