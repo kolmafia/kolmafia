@@ -993,6 +993,7 @@ public class Modifiers extends KoLDatabase
 	}
 
 	private static final double dropFamiliarExponent = 1.0 / Math.sqrt( 2 );
+	private static final double heavyFamiliarFactor = 10.0 / 300.0;
 
 	public void applyFamiliarModifiers( FamiliarData familiar )
 	{
@@ -1008,15 +1009,47 @@ public class Modifiers extends KoLDatabase
 		if ( FamiliarsDatabase.isVolleyType( familiarId ) )
 			add( EXPERIENCE, Math.sqrt( weight ) );
 
-		// http://jick-nerfed.us/forums/viewtopic.php?p=56342
-		// ( .02 * x ) ** ( 1 / sqrt(2) )
-		if ( FamiliarsDatabase.isItemDropType( familiarId ) )
-			add( ITEMDROP, 100.0 * Math.pow( weight * 0.02 , dropFamiliarExponent ) );
+		boolean item = FamiliarsDatabase.isItemDropType( familiarId );
+		boolean meat = FamiliarsDatabase.isMeatDropType( familiarId );
 
-		// http://jick-nerfed.us/forums/viewtopic.php?t=3872
-		// ( .05 * x ) ** ( 1 / sqrt(2) )
-		if ( FamiliarsDatabase.isMeatDropType( familiarId ) )
-			add( MEATDROP, 100.0 * Math.pow( weight * 0.05 , dropFamiliarExponent ) );
+		if ( item || meat )
+		{
+			// A Leprechaun provides 100% at 20 lbs. 
+
+			// Starwed's formula seems to accurately model a 1-20
+			// lb. leprechaun
+
+			// http://jick-nerfed.us/forums/viewtopic.php?t=3872
+			// ( .05 * x ) ** ( 1 / sqrt(2) )
+
+			// A Gravy Fairy provides 50% at 20 lbs.
+
+			// Starwed has formula which is decent for a 1-20
+			// lb. fairy, but which gives 52% at 20 lbs.
+
+			// http://jick-nerfed.us/forums/viewtopic.php?p=56342
+			// ( .02 * x ) ** ( 1 / sqrt(2) )
+
+			// However, spading on the AFH forum indicates that 
+			// a Leprechaun gives about (10/3)% pound above 20.
+			// and a Fairy gives about (5/3)% pound above 20.
+
+			// http://afh.s4.bizhat.com/viewtopic.php?t=712&mforum=afh
+
+			// For mathematical elegance, we're going to assume
+			// that a Fairy is exactly half as effective as a
+			// Leprechaun.
+
+			double mod = ( weight >= 20 ) ? 1.0 : Math.pow( weight * 0.05 , dropFamiliarExponent );
+			if ( weight > 20)
+				mod += (weight - 20) * heavyFamiliarFactor;
+
+			if ( item )
+				add( ITEMDROP, 50.0 * mod );
+
+			if ( meat )
+				add( MEATDROP, 100.0 * mod );
+		}
 
 		switch ( familiarId )
 		{
