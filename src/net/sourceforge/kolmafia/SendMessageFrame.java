@@ -187,11 +187,16 @@ public class SendMessageFrame extends KoLFrame
 
 	public void sendMessage()
 	{
+		Object [] attachmentsArray = new Object[ attachments.size() + 1 ];
+		attachments.toArray( attachmentsArray );
+
+		attachmentsArray[ attachments.size() ] = new AdventureResult( AdventureResult.MEAT, getValue( attachedMeat, 0 ) );
+
 		String [] recipients = StaticEntity.getClient().extractTargets( (String) this.recipientEntry.getSelectedItem() );
 
 		RequestThread.openRequestSequence();
 		for ( int i = 0; i < recipients.length; ++i )
-			KoLmafiaCLI.DEFAULT_SHELL.executeSendRequest( recipients[i], this.messageEntry.getText(), attachments.toArray(), isStorage, false );
+			KoLmafiaCLI.DEFAULT_SHELL.executeSendRequest( recipients[i], this.messageEntry.getText(), attachmentsArray, isStorage, false );
 
 		RequestThread.closeRequestSequence();
 	}
