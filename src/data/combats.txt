@@ -94,7 +94,6 @@ Hippy Camp	100	Crusty Hippy	Crusty Hippy Jewelry Maker	Crusty Hippy Vegan Chef	D
 Hole in the Sky	100	The Astronomer: 6	One-Eyed Willie: 2	The Burrowing Bishop: 2	The Family Jewels: 2	The Hooded Warrior: 2	The Junk: 2	The Pork Sword: 2	The Skinflute: 2	The Trouser Snake: 2	The Twig and Berries: 2	The Axe Wound: 2	The Beaver: 2	The Box: 2	The Bush: 2	The Camel's Toe: 2	The Flange: 2	The Honey Pot: 2	The Man in the Canoe: 2	The Muff: 2
 Icy Peak	85	Knott Yeti: 2	Snow Queen: 1	Upgraded Ram: 2
 Itznotyerzitz Mine	75	7-Foot Dwarf (Moil)	7-Foot Dwarf (Royale)	7-Foot Dwarf Foreman
-Junkyard	100	A.M.C. Gremlin	Batwinged Gremlin	Erudite Gremlin	Spider Gremlin	Vegetable Gremlin
 King's Chamber	100	The Knob Goblin King
 Knob Goblin Harem	60	Knob Goblin Elite Guardsman: 1	Knob Goblin Harem Girl: 2
 Knob Goblin Kitchens	100	Knob Goblin Chef: 3	Knob Goblin Master Chef: 2
@@ -116,13 +115,14 @@ Palindome	50	Bob Racecar	Drab Bard	Evil Olive	Flock of Stab-Bats	Racecar Bob	Tac
 Pirate Cove	60	Sassy Pirate	Shady Pirate	Shifty Pirate	Swarthy Pirate	Smarmy Pirate
 Pond	100	Figure Skating Duck	Frozen Duck
 Post-Cyrpt Cemetary	100	Corpulent Zobmie	Grave Rober Zmobie	Senile Lihc	Slick Lihc	Gluttonous Ghuol	Gaunt Ghuol	Spiny Skelelton	Toothy Sklelton	Skelter Butleton, the Butler Skeleton: 0	Count Bakula: -1
+Post-War Junkyard	100	A.M.C. Gremlin	Batwinged Gremlin	Erudite Gremlin	Spider Gremlin	Vegetable Gremlin
+Post-War Sonofa Beach	-1	Lobsterfrogman
 Pre-Cyrpt Cemetary	100	Ghoul	Grave Rober	Lihc	Skleleton	Smart Skelton	Zmobie	Zobmie
 Queen's Chamber	100	Queen Filthworm
 Rogue Windmill	70	Can-can Dancer	Courtesan	Master of Ceremonies	Sensitive Poet-type	Voyeuristic Artist
 Shady Thicket	100	Drunk Duck	Mean Drunk Duck
 Simple Tool-Making Cave	100	Flint-Scraping Cave Elf	Hunter-Gatherer Cave Elf	Rock-Banging Cave Elf	Sinew-Stretching Cave Elf
 Sleazy Back Alley	50	Big Creepy Spider	Completely Different Spider	Rushing Bum	Drunken Half-Orc Hobo	Crazy Bastard: -1
-Sonofa Beach	-1	Lobsterfrogman
 Sorceress' Hedge Maze	100	Topiary Golem
 South of the Border	50	Angry Pi&ntilde;ata	Handsome Mariachi	Irate Mariachi	Mariachi Calavera	Raging Bull
 Spectral Pickle Factory	75	Carnivorous Dill Plant	Ghostly Pickle Factory Worker	Vine Gar
@@ -139,6 +139,8 @@ Wartime Frat House	0	War Hippy Spy: 0
 Wartime Frat House (Hippy Disguise)	-1	War Pledge	Frat Warrior Drill Sergeant
 Wartime Hippy Camp	-1	Orcish Frat Boy Spy: 0
 Wartime Hippy Camp (Frat Disguise)	-1	War Hippy Drill Sergeant	War Hippy (Space) Cadet
+Wartime Junkyard	100	A.M.C. Gremlin	Batwinged Gremlin	Erudite Gremlin	Spider Gremlin	Vegetable Gremlin
+Wartime Sonofa Beach	-1	Lobsterfrogman
 White Citadel	-1	Angry Raccoon Puppet	Business Hippy	eXtreme Sports Orc
 Whitey's Grove	75	Knight in White Satin	White Chocolate Golem	White Lion	Whitesnake
 
