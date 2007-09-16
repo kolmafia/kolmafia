@@ -1155,7 +1155,6 @@ public class KoLRequest extends Job implements KoLConstants
 		{
 			if ( ConsumeItemRequest.currentItemId() == ConsumeItemRequest.DRUM_MACHINE )
 			{
-				ConsumeItemRequest.resetItemUsed();
 				StaticEntity.getClient().processResult( KoLAdventure.DRUM_MACHINE );
 
 				RequestLogger.printLine();
@@ -1167,7 +1166,6 @@ public class KoLRequest extends Job implements KoLConstants
 
 			if ( ConsumeItemRequest.currentItemId() == ConsumeItemRequest.BLACK_PUDDING )
 			{
-				ConsumeItemRequest.resetItemUsed();
 				StaticEntity.getClient().processResult( new AdventureResult( ConsumeItemRequest.BLACK_PUDDING, -1 ) );
 				KoLSettings.setUserProperty( "currentFullness", String.valueOf( KoLCharacter.getFullness() - 3 ) );
 
