@@ -1459,6 +1459,8 @@ public class FightRequest extends KoLRequest
 		if ( !urlString.startsWith( "fight.php" ) )
 			return false;
 
+		ConsumeItemRequest.resetItemUsed();
+
 		action1 = null;
 		action2 = null;
 
