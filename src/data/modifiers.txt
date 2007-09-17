@@ -1193,11 +1193,6 @@ Temporary Blindness	Moxie Percent: -25, Item Drop: -75
 
 # Status Effects section of modifiers.txt
 
-# Burning Heart	Hot Damage: +10
-# Frostbitten	Cold Damage: +10
-# Freaked Out	Spooky Damage: +10
-# Guanified	Stench Damage: +10
-# Basted	Sleaze Damage: +10
 # Missing Kidney
 # Re-Possessed
 # The Vitus Virus
@@ -1207,6 +1202,7 @@ Temporary Blindness	Moxie Percent: -25, Item Drop: -75
 # Synthesized
 
 "The Disease"	Moxie: -5
+'Roids of the Rhinoceros	Muscle: +100
 A Little Bit Poisoned	Muscle Percent: -30, Mysticality Percent: -30, Moxie Percent: -30, Muscle: -5, Mysticality: -5, Moxie: -5
 Adrenaline Rush	Muscle Percent: +100
 Affronted Decency	Moxie: -20
@@ -1225,6 +1221,7 @@ Axe Wound	Muscle: -5
 Baconstoned	Mysticality Percent: +50
 Bananas!	Muscle: +40, Mysticality: +40, Moxie: +40
 Barking Dogs	Muscle Percent: -50
+Basted	Sleaze Damage: +10
 Batigue	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10, Cold Resistance: +10, Hot Resistance: +10, Sleaze Resistance: +10, Spooky Resistance: +10, Stench Resistance: +10
 Beaten Up	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
 Bells in the Batfry	Moxie Percent: +10
@@ -1241,6 +1238,7 @@ Blue Tongue	Item Drop: +30
 Bubble, Bubble	Muscle: +5, Moxie: -5
 Burning Ears	Cold Resistance: +30
 Burning Hands	Hot Damage: +11
+Burning Heart	Hot Damage: +10
 Butt-Rock Hair	Moxie Percent: +15
 Can't Be a Chooser	Meat Drop: +30
 Can't Smell Nothin'	Stench Resistance: +90
@@ -1303,9 +1301,11 @@ Flaming Weapon	Hot Damage: +3
 Flamingly Floral	Hot Damage: +50
 Florid Cheeks	MP Regen Min: 25, MP Regen Max: 30
 Flower Power	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
+Freaked Out	Spooky Damage: +10
 Fresh Scent	Combat Rate: -5
 Frigid Weapon	Cold Damage: +3
 Frog In Your Throat	Muscle: +25
+Frostbitten	Cold Damage: +10
 Frozen Hands	Cold Damage: +11
 Frozen Shoulders	Hot Resistance: +30
 Fury of the Bells	Muscle Percent: +10
@@ -1321,6 +1321,7 @@ Gr8tness	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Greased	Sleaze Damage: +20
 Green Tongue	Familiar Weight: +5
 Grilled	Muscle: -10
+Guanified	Stench Damage: +10
 Half-Eaten Brain	Mysticality Percent: -20
 Ham-fisted	Muscle Percent: +50
 Happy Trails	Mysticality: +100
@@ -1407,7 +1408,6 @@ Red Tongue	Meat Drop: +30
 Reedy Pipes	Moxie Percent: +5
 Reptilian Fortitude	Maximum HP: +30
 Ringing Ears	Muscle Percent: +20, Mysticality Percent: -20
-'Roids of the Rhinoceros	Muscle: +100
 Rushin' Hands	Melee Damage: +3
 Salamander In Your Stomach	Mysticality: +25
 Saucemastery	Mysticality: +1, Maximum HP: +4
