@@ -1507,7 +1507,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// requests are complicated, so delegate to the
 		// appropriate utility method.
 
-		if ( command.equals( "eat" ) || command.equals( "drink" ) || command.equals( "use" ) || command.equals( "hobo" ) )
+		if ( command.equals( "eat" ) || command.equals( "drink" ) || command.equals( "use" ) || command.equals( "chew" ) || command.equals( "hobo" ) )
 		{
 			SpecialOutfit.createImplicitCheckpoint();
 			this.executeConsumeItemRequest( parameters );

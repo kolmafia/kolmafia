@@ -1051,6 +1051,19 @@ public class BasementRequest extends AdventureRequest
 			changes.append( computeFunction );
 			changes.append( "\" id=\"potion\" style=\"width: 400px\" multiple size=5>" );
 
+			if ( KoLCharacter.getCurrentHP() < KoLCharacter.getMaximumHP() )
+				changes.append( "<option value=0>use 1 scroll of drastic healing (hp restore)</option>" );
+
+			if ( KoLCharacter.getCurrentMP() < KoLCharacter.getMaximumMP() )
+			{
+				changes.append( "<option value=0" );
+
+				if ( KoLCharacter.getFullness() == KoLCharacter.getFullnessLimit() )
+					changes.append( " disabled" );
+
+				changes.append( ">eat 1 Jumbo Dr. Lucifer (mp restore)</option>" );
+			}
+
 			for ( int i = 0; i < listedEffects.size(); ++i )
 				appendBasementEffect( changes, (DesiredEffect) listedEffects.get(i) );
 
@@ -1081,7 +1094,7 @@ public class BasementRequest extends AdventureRequest
 		changes.append( "<option value=" );
 		changes.append( effect.effectiveBoost );
 
-		if ( effect.usesSpleen && KoLCharacter.getSpleenUse() == KoLCharacter.getSpleenLimit() )
+		if ( effect.action.startsWith( "chew" ) && KoLCharacter.getSpleenUse() == KoLCharacter.getSpleenLimit() )
 			changes.append( " disabled" );
 
 		changes.append( ">" );
@@ -1112,9 +1125,6 @@ public class BasementRequest extends AdventureRequest
 			changes.append( "+" );
 			changes.append( COMMA_FORMAT.format( effect.effectiveBoost ) );
 		}
-
-		if ( effect.usesSpleen )
-			changes.append( "*" );
 
 		changes.append( ")</option>" );
 	}
@@ -1147,7 +1157,6 @@ public class BasementRequest extends AdventureRequest
 		private String name, action;
 		private int computedBoost;
 		private int effectiveBoost;
-		private boolean usesSpleen;
 
 		public DesiredEffect( String name )
 		{
@@ -1158,16 +1167,6 @@ public class BasementRequest extends AdventureRequest
 
 			this.action = this.computedBoost < 0 ? "uneffect " + name :
 				MoodSettings.getDefaultAction( "lose_effect", name );
-
-			if ( this.action.startsWith( "use 1 " ) )
-			{
-				String item = this.action.substring(6);
-				this.usesSpleen = TradeableItemDatabase.getSpleenHit( item ) > 0;
-			}
-			else
-			{
-				this.usesSpleen = false;
-			}
 		}
 
 		public boolean equals( Object o )

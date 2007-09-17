@@ -125,7 +125,7 @@
 125	Egg-headedness	eggplain.gif	e6b783e02fa92072ca81c7585912ba37	use 1 yellow paisley oyster egg
 126	Egg-cellent Vocabulary	eggplain.gif	f7347c1d229420acff2226dac4125a0a	use 1 yellow polka-dot oyster egg
 127	Gothy	gothy.gif	06cb86ddd689278c5af31423a8210a72
-128	Flower Power	flower.gif	e91ceabee446030ff33cc79d06a8d551
+128	Flower Power	flower.gif	e91ceabee446030ff33cc79d06a8d551	drink 1 shot of flower schnapps
 129	Eye of the Lihc	eyeball.gif	19a38797f559f112930b8d33f3dd48e3
 130	Springy Fusilli	fusilli.gif	bb44871dd165d4dc9b4d35daa46908ef	cast 1 Springy Fusilli
 131	Rage of the Reindeer	reindeer.gif	5c8d3b5b4a6d403f95f27f5d29528c59	cast 1 Rage of the Reindeer
@@ -191,17 +191,17 @@
 191	Spookyform	skull.gif	9574facc09b31e3b425537360569658f	use 1 phial of spookiness
 192	Stenchform	stench.gif	9a6852a35cf5a2336a0c4cc3112416a0	use 1 phial of stench
 193	Sleazeform	wink.gif	801f28e129c806afbe88215103960c4b	use 1 phial of sleaziness
-194	Hot Breath	breath.gif	7ecbd57bcb86d63be06bb6d4b8e7229f	use 1 hot wad
-195	Cold Breath	breath.gif	d29d87fa48e08fa8a341183db3121e1c	use 1 cold wad
-196	Spooky Breath	breath.gif	da5e91136fd36708b61f6d383376ff78	use 1 spooky wad
-197	Stinky Breath	breath.gif	8be4aecc48d39b0b8b7a0fd671bd4330	use 1 stench wad
-198	Sleazy Breath	breath.gif	572a0d269f2609e685ae3f56327a2998	use 1 sleaze wad
-199	Aspect of the Twinklefairy	scwad.gif	f27e3dcf9fd6b46b30347743c18ccb1b	use 1 twinkly wad
-200	Hot Blooded	scwad.gif	c3dce41845c995ec4c2bd986cbc28364	use 1 hot wad
-201	Cold Blooded	scwad.gif	3d9befb3ebd8553b81c3792efb85a85a	use 1 cold wad
-202	Spooky Demeanor	scwad.gif	89099ac4df5c9d8171b4930a79feaeae	use 1 spooky wad
-203	Stenchtastic	scwad.gif	798bb9ee21a7f86fea8ed2a1c8fc9be1	use 1 stench wad
-204	Supafly	scwad.gif	9251834d917d63e231fac176d8842811	use 1 sleaze wad
+194	Hot Breath	breath.gif	7ecbd57bcb86d63be06bb6d4b8e7229f	chew 1 hot wad
+195	Cold Breath	breath.gif	d29d87fa48e08fa8a341183db3121e1c	chew 1 cold wad
+196	Spooky Breath	breath.gif	da5e91136fd36708b61f6d383376ff78	chew 1 spooky wad
+197	Stinky Breath	breath.gif	8be4aecc48d39b0b8b7a0fd671bd4330	chew 1 stench wad
+198	Sleazy Breath	breath.gif	572a0d269f2609e685ae3f56327a2998	chew 1 sleaze wad
+199	Aspect of the Twinklefairy	scwad.gif	f27e3dcf9fd6b46b30347743c18ccb1b	chew 1 twinkly wad
+200	Hot Blooded	scwad.gif	c3dce41845c995ec4c2bd986cbc28364	chew 1 hot wad
+201	Cold Blooded	scwad.gif	3d9befb3ebd8553b81c3792efb85a85a	chew 1 cold wad
+202	Spooky Demeanor	scwad.gif	89099ac4df5c9d8171b4930a79feaeae	chew 1 spooky wad
+203	Stenchtastic	scwad.gif	798bb9ee21a7f86fea8ed2a1c8fc9be1	chew 1 stench wad
+204	Supafly	scwad.gif	9251834d917d63e231fac176d8842811	chew 1 sleaze wad
 205	Provocative Perkiness	hoppedup.gif	a5416e0b53cb9482aaa8294b3ebf58b5	use 1 libation of liveliness
 206	Ermine Eyes	bigeyes.gif	00fb00c69272d752ee0bab0e83ea729f	use 1 eyedrops of the ermine
 207	Eau D'enmity	stench.gif	e81a1fd67fb48499d12619574610759f	use 1 perfume of prejudice
