@@ -383,12 +383,6 @@
 383	Black Face	blackface.gif	c74fee3997d020f53cc3e077d4897c10	use 1 black facepaint
 384	Erudite	spectacles.gif	bf4f8342a8efe1d4c27054fa73ec1d7a	use 1 black sheepskin diploma
 385	Radiating Black Body&trade;	radiation.gif	3de3c7f145ae87e58ee391127ed697fd	use 1 Black Body&trade; spray
-# Bad Moon effects that give +10 elemental damage
-#	Burning Heart	heartrock.gif	ab7ab0ba8a213f24649b9d0152c57cc3
-#	Frostbitten	snowflake.gif
-#	Freaked Out	hoppeddown.gif	0e5f80059469710470e31e21b2cc36fa
-#	Guanified	guano.gif
-#	Basted	slimed.gif
 # Bad Moon effects with unknown effect
 #	Missing Kidney	kidney.gif	a3271a164706776e733cd78e060cb5e1
 #	Re-Possessed	stogie.gif	27e835ef2ee194eed4e43c64a8cf65ac
@@ -413,11 +407,11 @@
 404	Braaains	realbrain.gif	cef7b7b9bd69838c097f00f584106cf8
 405	Braaaaaains	realbrain.gif	4b54aa2a3caf4bf6dec36da0fc39f757
 406
-407
-408
-409
-410
-411
+407	Burning Heart	heartrock.gif	ab7ab0ba8a213f24649b9d0152c57cc3
+408	Frostbitten	snowflake.gif
+409	Freaked Out	hoppeddown.gif	0e5f80059469710470e31e21b2cc36fa
+410	Guanified	guano.gif
+411	Basted	slimed.gif
 412	Raving Lunatic	hoppedup.gif	5cb64a8593bdf71300d242a39d06cac6
 413	Solar Flair	sun2.gif	f8cdfd0bd04d7c75528b6702756c738d
 414	Hyperbolic Hypothermia	snowflake.gif
