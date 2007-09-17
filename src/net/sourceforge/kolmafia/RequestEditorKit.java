@@ -1252,7 +1252,12 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		reminders.append( "<tr><td><img id = 'current' src=\"http://images.kingdomofloathing.com/" );
 		reminders.append( FamiliarsDatabase.getFamiliarImageLocation( KoLCharacter.getFamiliar().getId() ) );
-		reminders.append( "\"></td><td><select id=\"familiar\" style=\"width: 250px\" onChange=\"var select = document.getElementById('familiar');  var option = select.options[select.selectedIndex]; top.charpane.document.location.href = '/KoLmafia/sideCommand?cmd=familiar+' + option.value; document.getElementById('current').src = 'http://images.kingdomofloathing.com/' + option.id; return true;\"><option value=\"none\">- No Familiar -</option>" );
+		reminders.append( "\"></td><td><select id=\"familiar\" style=\"width: 250px\" onChange=\"var select = document.getElementById('familiar'); " );
+		reminders.append( "var option = select.options[select.selectedIndex]; " );
+		reminders.append( "top.charpane.document.location.href = '/KoLmafia/sideCommand?cmd=familiar+' + option.value + '&" );
+		reminders.append( LocalRelayServer.getAuthentication() );
+		reminders.append( "'; document.getElementById('current').src = 'http://images.kingdomofloathing.com/' + option.id; " );
+		reminders.append( "return true;\"><option value=\"none\">- No Familiar -</option>" );
 
 		Object [] familiars = KoLCharacter.getFamiliarList().toArray();
 

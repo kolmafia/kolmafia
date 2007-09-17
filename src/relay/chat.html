@@ -185,7 +185,7 @@
 			updateDisplay( display, httpObject.responseText );
 		};
 
-		httpObject.open( "POST", "/KoLmafia/messageUpdate", true );
+		httpObject.open( "GET", "/KoLmafia/messageUpdate", true );
 		httpObject.send( "" );
 
 		setTimeout( getCLIUpdate, 4000 )
@@ -227,7 +227,7 @@
 			updateDisplay( display, httpObject.responseText );
 		}
 
-		httpObject.open( "POST", "/KoLmafia/submitCommand?cmd=" + URLEncode( command ), true );
+		httpObject.open( "GET", "/KoLmafia/submitCommand?cmd=" + URLEncode( command ) + "&MAFIAHIT", true );
 		httpObject.send( "" );
 
 		document.inputform.data.focus();
@@ -259,7 +259,7 @@
 
 		}
 
-		httpObject.open( "POST", "/newchatmessages.php?lasttime=" + lastseen, true );
+		httpObject.open( "GET", "/newchatmessages.php?lasttime=" + lastseen, true );
 		httpObject.send( "" );
 		return true;
 	};
@@ -317,7 +317,7 @@
 			updateDisplay( display, httpObject.responseText );
 		}
 
-		httpObject.open( "POST", "/submitnewchat.php?playerid=PID&pwd=PHASH&graf=" + URLEncode( postedgraf ), true );
+		httpObject.open( "GET", "/submitnewchat.php?CHATAUTH&graf=" + URLEncode( postedgraf ), true );
 		httpObject.send( "" );
 
 		document.inputform.data.focus();

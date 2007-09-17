@@ -74,7 +74,7 @@ public class ConsumeItemRequest extends KoLRequest
 
 	public static String lastUpdate = "";
 	private static AdventureResult lastItemUsed = null;
-	private static String askedAboutOde = "";
+	private static int askedAboutOde = 0;
 
 	private static final int DOLPHIN_KING_MAP = 26;
 	private static final int FORTUNE_COOKIE = 61;
@@ -464,12 +464,12 @@ public class ConsumeItemRequest extends KoLRequest
 				ode.setBuffCount( 1 );
 				RequestThread.postRequest( ode );
 			}
-			else if ( knowsOde && !askedAboutOde.equals( KoLCharacter.getUserName() ) )
+			else if ( knowsOde && askedAboutOde != KoLCharacter.getUserId() )
 			{
 				if ( !KoLFrame.confirm( "Are you sure you want to drink without ode?" ) )
 					return false;
 
-				askedAboutOde = KoLCharacter.getUserName();
+				askedAboutOde = KoLCharacter.getUserId();
 			}
 		}
 

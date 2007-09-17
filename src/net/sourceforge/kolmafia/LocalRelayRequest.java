@@ -468,10 +468,9 @@ public class LocalRelayRequest extends PasswordHashRequest
 			this.handleSimulatorIndex( replyBuffer );
 
 		if ( filename.equals( "chat.html" ) )
-		{
-			StaticEntity.singleStringReplace( replyBuffer, "PID", KoLCharacter.getPlayerId() );
-			StaticEntity.singleStringReplace( replyBuffer, "PHASH", passwordHash );
-		}
+			StaticEntity.singleStringReplace( replyBuffer, "CHATAUTH", "playerid=" + KoLCharacter.getPlayerId() + "&pwd=" + passwordHash  );
+
+		StaticEntity.globalStringReplace( replyBuffer, "MAFIAHIT", LocalRelayServer.getAuthentication() );
 
 		// Make sure to print the reply buffer to the
 		// response buffer for the local relay server.
@@ -676,8 +675,9 @@ public class LocalRelayRequest extends PasswordHashRequest
 		warning.append( "} " );
 		warning.append( "getObject('mcd1').style.border = (current == default1) ? '1px dashed blue' : '1px dashed white'; " );
 		warning.append( "getObject('mcd2').style.border = (current == default2) ? '1px dashed blue' : '1px dashed white'; " );
-		warning.append( "top.charpane.location.href = '/KoLmafia/sideCommand?cmd=mcd+' + current; " );
-		warning.append( "} </script>" );
+		warning.append( "top.charpane.location.href = '/KoLmafia/sideCommand?cmd=mcd+' + current + '&" );
+		warning.append( LocalRelayServer.getAuthentication() );
+		warning.append( "'; } </script>" );
 
 		warning.append( "<link rel=\"stylesheet\" type=\"text/css\" href=\"http://images.kingdomofloathing.com/styles.css\"></head>" );
 		warning.append( "<body><center><table width=95%  cellspacing=0 cellpadding=0><tr><td style=\"color: white;\" align=center bgcolor=blue><b>Results:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td><center>" );

@@ -53,7 +53,7 @@ public class FightRequest extends KoLRequest
 	public static final int CRACKED_STONE_SPHERE = 2176;
 	public static final int ROUGH_STONE_SPHERE = 2177;
 
-	private static String lastPlayer = "";
+	private static int lastUserId = 0;
 	private static String lostInitiative = "";
 	private static String wonInitiative = "";
 	private static int preparatoryRounds = 0;
@@ -95,12 +95,6 @@ public class FightRequest extends KoLRequest
 	private static final AdventureResult BROKEN_HELMET = new AdventureResult( 1930, -1 );
 	private static final AdventureResult BROKEN_SPEAR = new AdventureResult( 1931, -1 );
 	private static final AdventureResult BROKEN_SHIELD = new AdventureResult( 1932, -1 );
-
-	private static final String ANTIDOTE_ACTION = "item" + ANTIDOTE.getItemId();
-	private static final String TOOTH_ACTION = "item" + TOOTH.getItemId();
-	private static final String TURTLE_ACTION = "item" + TURTLE.getItemId();
-	private static final String SPICES_ACTION = "item" + SPICES.getItemId();
-	private static final String MERCENARY_ACTION = "item" + MERCENARY.getItemId();
 
 	private static boolean castCleesh = false;
 	private static boolean jiggledChefstaff = false;
@@ -295,14 +289,6 @@ public class FightRequest extends KoLRequest
 			}
 		}
 
-		// Check to see if the player is poisoned, if
-		// they happen to have antidote in their inventory
-
-		if ( inventory.contains( ANTIDOTE ) )
-			for ( int i = 0; i < activeEffects.size(); ++i )
-				if ( ((AdventureResult)activeEffects.get(i)).getName().indexOf( "Poison" ) != -1 )
-					action1 = ANTIDOTE_ACTION;
-
 		// Actually steal if the action says to steal
 
 		if ( action1.indexOf( "steal" ) != -1 )
@@ -417,26 +403,6 @@ public class FightRequest extends KoLRequest
 			{
 				action2 = action1;
 				this.addFormField( "whichitem2", String.valueOf( item1 ) );
-			}
-			else if ( MERCENARY.getCount( inventory ) > (action1.equals( MERCENARY_ACTION ) ? 1 : 0) )
-			{
-				action2 = MERCENARY_ACTION;
-				this.addFormField( "whichitem2", String.valueOf( MERCENARY.getItemId() ) );
-			}
-			else if ( TOOTH.getCount( inventory ) > (action1.equals( TOOTH_ACTION ) ? 1 : 0) )
-			{
-				action2 = TOOTH_ACTION;
-				this.addFormField( "whichitem2", String.valueOf( TOOTH.getItemId() ) );
-			}
-			else if ( TURTLE.getCount( inventory ) > (action1.equals( TURTLE_ACTION ) ? 1 : 0) )
-			{
-				action2 = TURTLE_ACTION;
-				this.addFormField( "whichitem2", String.valueOf( TURTLE.getItemId() ) );
-			}
-			else if ( SPICES.getCount( inventory ) > (action1.equals( SPICES_ACTION ) ? 1 : 0) )
-			{
-				action2 = SPICES_ACTION;
-				this.addFormField( "whichitem2", String.valueOf( SPICES.getItemId() ) );
 			}
 
 			return;
@@ -801,11 +767,11 @@ public class FightRequest extends KoLRequest
 		if ( isAutomatingFight )
 			RequestLogger.printLine( "Strategy: " + KoLSettings.getUserProperty( "battleAction" ) );
 
-		if ( !KoLCharacter.getUserName().equals( lastPlayer ) )
+		if ( lastUserId != KoLCharacter.getUserId() )
 		{
-			lastPlayer = KoLCharacter.getUserName();
-			lostInitiative = "Round 0: " + lastPlayer + " loses initiative!";
-			wonInitiative = "Round 0: " + lastPlayer + " wins initiative!";
+			lastUserId = KoLCharacter.getUserId();
+			lostInitiative = "Round 0: " + KoLCharacter.getUserName() + " loses initiative!";
+			wonInitiative = "Round 0: " + KoLCharacter.getUserName() + " wins initiative!";
 		}
 
 		boolean shouldLogAction = KoLSettings.getBooleanProperty( "logBattleAction" );

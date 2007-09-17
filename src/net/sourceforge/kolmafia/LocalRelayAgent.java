@@ -36,14 +36,16 @@ package net.sourceforge.kolmafia;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
-
 import java.net.Socket;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.ArrayList;
 
 public class LocalRelayAgent extends Thread implements KoLConstants
 {
 	private static final CustomCombatThread CUSTOM_THREAD = new CustomCombatThread();
+
+	private static int lastUserId = 0;
+	private static final ArrayList lastModified = new ArrayList();
+
 	static { CUSTOM_THREAD.start(); }
 
 	private char [] data = new char[ 8096 ];
@@ -152,21 +154,12 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 		this.request.constructURLString( this.path );
 
 		String currentLine;
-		boolean isValid = true;
-		boolean hadReferrer = false;
-
 		int contentLength = 0;
 
 		while ( (currentLine = reader.readLine()) != null && !currentLine.equals( "" ) )
 		{
 			if ( currentLine.startsWith( "If-Modified-Since" ) )
 				this.isCheckingModified = true;
-
-			if ( currentLine.indexOf( "Referer" ) != -1 )
-			{
-				isValid = currentLine.indexOf( "http://127.0.0.1" ) != -1;
-				hadReferrer = isValid;
-			}
 
 			if ( currentLine.startsWith( "Content-Length" ) )
 				contentLength = StaticEntity.parseInt( currentLine.substring( 16 ) );
@@ -182,12 +175,7 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 			}
 		}
 
-
-		if ( requestLine.startsWith( "GET" ) )
-		{
-			isValid = this.path.indexOf( "?" ) == -1 || hadReferrer || !this.path.startsWith( "/KoLmafia" );
-		}
-		else
+		if ( requestLine.startsWith( "POST" ) )
 		{
 			int current;
 			int remaining = contentLength;
@@ -203,7 +191,32 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 			buffer.setLength(0);
 		}
 
-		return isValid;
+		return !this.path.startsWith( "/KoLmafia" ) ||
+			this.path.endsWith( LocalRelayServer.getAuthentication() );
+	}
+
+	private boolean shouldSendNotModified()
+	{
+		if ( this.path.startsWith( "/images" ) )
+			return true;
+
+		if ( this.path.indexOf( "?" ) == -1 )
+			return false;
+
+		if ( !this.path.endsWith( ".js" ) && !this.path.endsWith( ".html" ) )
+			return false;
+
+		if ( lastUserId != KoLCharacter.getUserId() )
+		{
+			lastUserId = KoLCharacter.getUserId();
+			lastModified.clear();
+		}
+
+		if ( lastModified.contains( this.path ) )
+			return true;
+
+		lastModified.add( this.path );
+		return false;
 	}
 
 	private void readServerResponse() throws Exception
@@ -211,10 +224,11 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 		// If not requesting a server-side page, then it is safe
 		// to assume that no changes have been made (save time).
 
-		if ( this.isCheckingModified && request.getPath().startsWith( "images" ) )
+		if ( this.isCheckingModified && shouldSendNotModified() )
 		{
 			this.request.pseudoResponse( "HTTP/1.1 304 Not Modified", "" );
 			this.request.responseCode = 304;
+			this.request.rawByteBuffer = this.request.responseText.getBytes( "UTF-8" );
 		}
 
 		if ( this.path.equals( "/fight.php?action=custom" ) )

@@ -41,7 +41,7 @@ public class UntinkerRequest extends KoLRequest
 	private static final KoLRequest AVAILABLE_CHECKER = new KoLRequest( "town_right.php?place=untinker" );
 
 	private static boolean canUntinker;
-	private static String lastUsername = "";
+	private static int lastUserId = 0;
 
 	private static final AdventureResult SCREWDRIVER = new AdventureResult( 454, -1 );
 
@@ -133,10 +133,10 @@ public class UntinkerRequest extends KoLRequest
 
 	public static final boolean canUntinker()
 	{
-		if ( lastUsername.equals( KoLCharacter.getUserName() ) )
+		if ( lastUserId != KoLCharacter.getUserId() )
 			return canUntinker;
 
-		lastUsername = KoLCharacter.getUserName();
+		lastUserId = KoLCharacter.getUserId();
 
 		// If the person does not have the accomplishment, visit
 		// the untinker to ensure that they get the quest.
