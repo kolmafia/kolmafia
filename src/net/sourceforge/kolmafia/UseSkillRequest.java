@@ -123,7 +123,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		{
 			this.countFieldId = "bufftimes";
 
-			if ( target == null || target.trim().length() == 0 || target.equals( String.valueOf( KoLCharacter.getUserId() ) ) || target.equals( KoLCharacter.getUserName() ) )
+			if ( target == null || target.trim().length() == 0 || target.equals( KoLCharacter.getPlayerId() ) || target.equals( KoLCharacter.getUserName() ) )
 			{
 				this.target = "yourself";
 				this.addFormField( "specificplayer", KoLCharacter.getPlayerId() );

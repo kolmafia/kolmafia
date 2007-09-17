@@ -31,7 +31,7 @@ function basementUpdate( command )
 	for ( var i = 0; i < buttons.length; ++i )
 		buttons[i].disabled = true;
 
-	httpObject1.open( "POST", "/KoLmafia/sideCommand?cmd=" + command, true );
+	httpObject1.open( "GET", "/KoLmafia/sideCommand?cmd=" + command + "&MAFIAHIT" );
 	httpObject1.send( "" );
 }
 

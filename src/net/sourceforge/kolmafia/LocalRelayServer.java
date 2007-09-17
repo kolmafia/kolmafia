@@ -39,6 +39,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import java.util.ArrayList;
+import java.util.Map.Entry;
 
 public class LocalRelayServer implements Runnable
 {
@@ -67,6 +68,22 @@ public class LocalRelayServer implements Runnable
 		StaticEntity.loadLibrary( KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, "sorttable.js" );
 
 		KoLSettings.setUserProperty( "lastRelayUpdate", StaticEntity.getVersion() );
+	}
+
+	private static String authenticationString = null;
+
+	public static final String getAuthentication()
+	{
+		if ( authenticationString == null )
+		{
+			Object [] items = FamiliarsDatabase.entrySet().toArray();
+			Entry selected = (Entry) items[ KoLConstants.RNG.nextInt( items.length ) ];
+
+			authenticationString = StaticEntity.globalStringDelete( StaticEntity.globalStringDelete(
+				selected.getValue().toString(), " " ), "." ).toLowerCase() + "=" + KoLConstants.RNG.nextInt( Integer.MAX_VALUE );
+		}
+
+		return authenticationString;
 	}
 
 	public static final void updateStatus()
