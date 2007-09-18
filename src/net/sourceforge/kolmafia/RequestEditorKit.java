@@ -1081,6 +1081,13 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		}
 		else if ( location.startsWith( "inventory.php" ) )
 		{
+			if ( ConsumeItemRequest.currentItemId() == ConsumeItemRequest.HACK_SCROLL )
+			{
+				StaticEntity.globalStringReplace( buffer, "ten-leaf", "disassembled" );
+				StaticEntity.globalStringReplace( buffer, "clover.gif", "disclover.gif" );
+				StaticEntity.globalStringReplace( buffer, "370834526", "328909735" );
+			}
+
 			if ( KoLCharacter.inMuscleSign() )
 				StaticEntity.globalStringReplace( buffer, "combine.php", "knoll.php?place=paster" );
 
