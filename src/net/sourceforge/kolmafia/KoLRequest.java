@@ -1338,9 +1338,19 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( this.formURLString.equals( "fight.php" ) )
 			FightRequest.updateCombatData( this.encounter, this.responseText );
 
+		int effectCount = activeEffects.size();
+
 		if ( !this.hasNoResult )
 		{
+			int initialHP = KoLCharacter.getCurrentHP();
 			this.parseResults();
+
+			if ( initialHP != 0 && KoLCharacter.getCurrentHP() == 0 )
+			{
+				activeEffects.remove( KoLAdventure.BEATEN_UP );
+				activeEffects.add( KoLAdventure.BEATEN_UP );
+			}
+
 			if ( !LoginRequest.isInstanceRunning() && !(this instanceof LocalRelayRequest) )
 				this.showInBrowser( false );
 		}
@@ -1348,7 +1358,6 @@ public class KoLRequest extends Job implements KoLConstants
 		// Now let the main method of result processing for
 		// each request type happen.
 
-		int effectCount = activeEffects.size();
 		this.processResults();
 
 		// Let the mappers do their work
@@ -1370,7 +1379,7 @@ public class KoLRequest extends Job implements KoLConstants
 		}
 
 		if ( this.containsUpdate )
-			;
+			this.containsUpdate = true;
 		else if ( effectCount != activeEffects.size() || getAdventuresUsed() > 0 )
 			this.containsUpdate = true;
 		else if ( RequestFrame.sidebarFrameExists() )
