@@ -2085,6 +2085,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			// If you find goat cheese, let the trapper link handle it.
 			addCreateLink &= !creations.isEmpty() && itemId != 322;
 
+			// If you find ore, let the trapper link handle it.
+			addCreateLink &= itemId != 363 || itemId != 364 || itemId != 365;
+
 			// Dictionaries and bridges should link to the chasm quest.
 			addCreateLink &= itemId != FightRequest.DICTIONARY1.getItemId() && itemId != AdventureRequest.BRIDGE.getItemId();
 
