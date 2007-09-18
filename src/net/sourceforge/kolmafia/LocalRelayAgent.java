@@ -298,7 +298,7 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 			}
 			else if ( this.path.endsWith( "noobmessage=true" ) )
 			{
-				if ( KoLSettings.getBooleanProperty( "lucreCoreLeaderboard" ) )
+				if ( KoLCharacter.isHardcore() && KoLSettings.getBooleanProperty( "lucreCoreLeaderboard" ) )
 					(new Thread( new GreenMessageRequest( "koldbot", "Started ascension." ) )).start();
 			}
 		}

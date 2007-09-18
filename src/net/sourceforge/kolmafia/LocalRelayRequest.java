@@ -53,6 +53,8 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 
 public class LocalRelayRequest extends PasswordHashRequest
 {
+	private static final AdventureResult LUCRE = new AdventureResult( 2098, 1 );
+
 	private static final TreeMap overrideMap = new TreeMap();
 	private static final Pattern EMAIL_PATTERN = Pattern.compile( "<table style='border: 1px solid black;' cellpadding=10>.*?</table>", Pattern.DOTALL );
 	private static final Pattern WHITESPACE_PATTERN = Pattern.compile( "['\\s-]" );
@@ -736,9 +738,14 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 		if ( image != null && !image.equals( "" ) )
 		{
-			warning.append( "<center><img src=\"http://images.kingdomofloathing.com/itemimages/" );
+			String url = this.getURLString();
+
+			warning.append( "<center><a href=\"" );
+			warning.append( url );
+			warning.append( url.indexOf( "?" ) == -1 ? "?" : "&" );
+			warning.append( "override=on\"><img src=\"http://images.kingdomofloathing.com/itemimages/" );
 			warning.append( image );
-			warning.append( "\" width=30 height=30><br></center>" );
+			warning.append( "\" width=30 height=30></a><br></center>" );
 		}
 
 		warning.append( "<blockquote>" );
@@ -1028,7 +1035,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 			{
 				this.sendGeneralWarning( expired.getImage(),
 					"The indicated counter has expired, so may wish to adventure somewhere else at this time.  " +
-					"If you are certain that this is where you'd like to adventure, click <a href=\"" + urlString + "\">here</a> to proceed." );
+					"If you are certain that this is where you'd like to adventure, click on the image to proceed." );
 
 				return;
 			}
@@ -1088,11 +1095,26 @@ public class LocalRelayRequest extends PasswordHashRequest
 			// battle. But, just in case, check current equipment
 			// as well as inventory.
 
-			if ( this.getFormField( "place" ) != null && this.getFormField( "place" ).equals( "5" ) &&
-				this.getFormField( "override" ) == null && !KoLCharacter.hasEquipped( SorceressLair.NAGAMAR ) &&
-				!AdventureDatabase.retrieveItem( SorceressLair.NAGAMAR ) )
+			String place = this.getFormField( "place" );
+			String override = this.getFormField( "override" );
+
+			if ( place != null && place.equals( "5" ) && override == null &&
+				!KoLCharacter.hasEquipped( SorceressLair.NAGAMAR ) && !AdventureDatabase.retrieveItem( SorceressLair.NAGAMAR ) )
 			{
 				this.sendGeneralWarning( "wand.gif", "It's possible there is something very important you're forgetting to do." );
+				return;
+			}
+
+			if ( place != null && place.equals( "6" ) && override == null &&
+				KoLCharacter.isHardcore() && KoLSettings.getBooleanProperty( "lucreCoreLeaderboard" ) )
+			{
+				if ( inventory.contains( LUCRE ) )
+				{
+					(new MuseumRequest( new Object [] { LUCRE.getInstance( LUCRE.getCount( inventory ) ) }, true )).run();
+					(new GreenMessageRequest( "koldbot", "Completed ascension." )).run();
+				}
+
+				this.sendGeneralWarning( "lucre.gif", "Click on the lucre if you've already received koldbot's confirmation message." );
 				return;
 			}
 		}
