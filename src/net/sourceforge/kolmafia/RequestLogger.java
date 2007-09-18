@@ -35,8 +35,6 @@ package net.sourceforge.kolmafia;
 
 import java.io.PrintStream;
 import java.util.Date;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
 
 public class RequestLogger extends NullStream implements KoLConstants
 {

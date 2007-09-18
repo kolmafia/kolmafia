@@ -143,7 +143,7 @@ public abstract class KoLmafia implements KoLConstants
 		stopEncounters.add( "Mr. Alarm" );
 		stopEncounters.add( "We'll All Be Flat" );
 
-				// Adventures that start the Around the World Quest
+		// Adventures that start the Around the World Quest
 
 		stopEncounters.add( "I Just Wanna Fly" );
 		stopEncounters.add( "Me Just Want Fly" );
@@ -2835,11 +2835,20 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void recognizeEncounter( String encounterName )
 	{
-		if ( conditions.isEmpty() && isAutoStop( encounterName ) )
+		if ( isAutoStop( encounterName ) )
 		{
 			RequestLogger.printLine();
-			KoLmafia.updateDisplay( PENDING_STATE, encounterName );
-			RequestLogger.printLine();
+
+			if ( conditions.isEmpty() )
+			{
+				KoLmafia.updateDisplay( PENDING_STATE, encounterName );
+				RequestLogger.printLine();
+			}
+			else
+			{
+				KoLmafia.updateDisplay( encounterName );
+				KoLmafia.updateDisplay( "There are still unsatisfied conditions." );
+			}
 
 			RequestThread.enableDisplayIfSequenceComplete();
 		}
