@@ -66,6 +66,9 @@ public class ZapRequest extends KoLRequest
 			return;
 		}
 
+		if ( KoLCharacter.hasItem( this.item, true ) )
+			AdventureDatabase.retrieveItem( this.item );
+
 		if ( !inventory.contains( this.item ) )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "You don't have a " + this.item.getName() + "." );
@@ -89,7 +92,7 @@ public class ZapRequest extends KoLRequest
 
 		// If it blew up, remove wand
 		if ( this.responseText.indexOf( "abruptly explodes" ) != -1 )
-		     StaticEntity.getClient().processResult( KoLCharacter.getZapper().getNegation() );
+			 StaticEntity.getClient().processResult( KoLCharacter.getZapper().getNegation() );
 
 		// Remove old item and notify the user of success.
 		StaticEntity.getClient().processResult( this.item.getInstance( -1 ) );
