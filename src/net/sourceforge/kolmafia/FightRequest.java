@@ -45,7 +45,6 @@ public class FightRequest extends KoLRequest
 	private static final AdventureResult LUCRE = new AdventureResult( 2098, 1 );
 	private static final AdventureResult ANTIDOTE = new AdventureResult( 829, 1 );
 	private static final AdventureResult SOLDIER = new AdventureResult( 1397, 1 );
-	private static final AdventureResult MERCENARY = new AdventureResult( 2139, 1 );
 	private static final AdventureResult TEQUILA = new AdventureResult( 1004, -1 );
 
 	public static final int MOSSY_STONE_SPHERE = 2174;
@@ -90,6 +89,12 @@ public class FightRequest extends KoLRequest
 	private static final AdventureResult TOOTH = new AdventureResult( 2, 1 );
 	private static final AdventureResult TURTLE = new AdventureResult( 4, 1 );
 	private static final AdventureResult SPICES = new AdventureResult( 8, 1 );
+	private static final AdventureResult MERCENARY = new AdventureResult( 2139, 1 );
+
+	private static final String TOOTH_ACTION = "item" + TOOTH.getItemId();
+	private static final String TURTLE_ACTION = "item" + TURTLE.getItemId();
+	private static final String SPICES_ACTION = "item" + SPICES.getItemId();
+	private static final String MERCENARY_ACTION = "item" + MERCENARY.getItemId();
 
 	private static final AdventureResult BROKEN_GREAVES = new AdventureResult( 1929, -1 );
 	private static final AdventureResult BROKEN_HELMET = new AdventureResult( 1930, -1 );
@@ -392,14 +397,40 @@ public class FightRequest extends KoLRequest
 				{
 					action2 = String.valueOf( item2 );
 					this.addFormField( "whichitem2", String.valueOf( item2 ) );
-					return;
+				}
+				else
+				{
+					KoLmafia.updateDisplay( ABORT_STATE, "You don't have enough " + TradeableItemDatabase.getItemName( item2 ) );
+					action1 = "abort";
 				}
 
-				KoLmafia.updateDisplay( ABORT_STATE, "You don't have enough " + TradeableItemDatabase.getItemName( item2 ) );
-				action1 = "abort";
+				return;
 			}
 
-			if ( itemCount >= 2 && item1 != ANTIDOTE.getItemId() && item1 != DICTIONARY1.getItemId() && item1 != DICTIONARY2.getItemId() )
+			if ( item1 == ANTIDOTE.getItemId() || item1 == DICTIONARY1.getItemId() || item2 == DICTIONARY2.getItemId() )
+			{
+				if ( inventory.contains( MERCENARY ) )
+				{
+					action2 = MERCENARY_ACTION;
+					this.addFormField( "whichitem2", String.valueOf( MERCENARY.getItemId() ) );
+				}
+				else if ( inventory.contains( TOOTH ) )
+				{
+					action2 = TOOTH_ACTION;
+					this.addFormField( "whichitem2", String.valueOf( TOOTH.getItemId() ) );
+				}
+				else if ( inventory.contains( TURTLE ) )
+				{
+					action2 = TURTLE_ACTION;
+					this.addFormField( "whichitem2", String.valueOf( TURTLE.getItemId() ) );
+				}
+				else if ( inventory.contains( SPICES ) )
+				{
+					action2 = SPICES_ACTION;
+					this.addFormField( "whichitem2", String.valueOf( SPICES.getItemId() ) );
+				}
+			}
+			else if ( itemCount >= 2 )
 			{
 				action2 = action1;
 				this.addFormField( "whichitem2", String.valueOf( item1 ) );
