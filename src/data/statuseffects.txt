@@ -449,4 +449,4 @@
 446	Hella Tough	strboost.gif	1a46f0679200550d66cf30810ab7c47e
 447	Hella Smart	realbrain.gif	4972f34f7622eaa1fc8fd2ab6eb43f40
 448	Hella Smooth	roundglasses.gif	9fc2c05bd8dff7c2b3c5a27b56a0240f
-449	Omphaloskepsis	omphalo.gif	a93557e566d8bf89e63fb3610cdb9569
+449	Omphaloskepsis	omphalo.gif	9c789511c3a5bcd6c13655cb5f4d375b

@@ -935,7 +935,7 @@ makeshift SCUBA gear	Stench Resistance: +20, Melee Damage: -10
 makeshift cape	Item Drop: +5
 monster bait	Single Equip, Combat Rate: +5
 natty blue ascot	Meat Drop: +20
-navel ring of navel gazing	Mysticality Percent: +25, Spell Damage Percent: +100, Mana Cost: -1, Softcore Only, Single Equip
+navel ring of navel gazing	Intrinsic Effect: "Omphaloskepsis", Mysticality Percent: +25, Spell Damage Percent: +100, Mana Cost: -1, Softcore Only, Single Equip
 orange glowstick	Maximum MP: +5, Moxie: -3
 pat-a-cake pendant	Mysticality: +1
 peace-sign necklace	Damage Reduction: 3
