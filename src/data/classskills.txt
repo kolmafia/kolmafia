@@ -45,7 +45,6 @@
 7012	Fire orange bottle-rocket	3	5	0
 7013	Fire purple bottle-rocket	3	5	0
 7014	Fire black bottle-rocket	3	5	0
-7015	Omphaloskepsis	3	10	0
 
 # Skills available to Clubbers
 
