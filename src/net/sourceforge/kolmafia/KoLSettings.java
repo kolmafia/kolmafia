@@ -212,6 +212,19 @@ public class KoLSettings extends Properties implements KoLConstants
 			}
 		}
 
+		File deprecated = new File( DATA_LOCATION, "autosell.txt" );
+		if ( deprecated.exists() )
+			deprecated.delete();
+		deprecated = new File( DATA_LOCATION, "singleton.txt" );
+		if ( deprecated.exists() )
+			deprecated.delete();
+		deprecated = new File( DATA_LOCATION, "mementos.txt" );
+		if ( deprecated.exists() )
+			deprecated.delete();
+		deprecated = new File( DATA_LOCATION, "mallsell.txt" );
+		if ( deprecated.exists() )
+			deprecated.delete();
+
 		initializeMaps();
 	}
 
