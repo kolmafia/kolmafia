@@ -85,7 +85,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 	private static final AdventureResult MUSHROOM = new AdventureResult( 1622, 1 );
 	private static final AdventureResult ASTRAL = new AdventureResult( "Half-Astral", 0 );
-	public static final AdventureResult BEATEN_UP = new AdventureResult( "Beaten Up", 1, true );
+	public static final AdventureResult BEATEN_UP = new AdventureResult( "Beaten Up", 4, true );
 
 	private static KoLAdventure lastVisitedLocation = null;
 

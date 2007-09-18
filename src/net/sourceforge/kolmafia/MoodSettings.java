@@ -625,9 +625,9 @@ public abstract class MoodSettings implements KoLConstants
 			{
 				action = MoodSettings.getDefaultAction( "gain_effect", AUTO_CLEAR[i].getName() );
 
-				if ( action.startsWith( "cast" ) && restoreSetting.indexOf( action.substring(5) ) != -1 )
+				if ( action.startsWith( "cast" ) )
 					KoLmafiaCLI.DEFAULT_SHELL.executeLine( action );
-				else if ( action.startsWith( "use" ) && restoreSetting.indexOf( action.substring(4) ) != -1 )
+				else if ( action.startsWith( "use" ) )
 					KoLmafiaCLI.DEFAULT_SHELL.executeLine( action );
 				else if ( KoLCharacter.canInteract() )
 					KoLmafiaCLI.DEFAULT_SHELL.executeLine( action );
