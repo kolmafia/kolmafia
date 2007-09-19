@@ -75,7 +75,7 @@ public abstract class KoLMessenger extends StaticEntity
 	private static final String DEFAULT_TIMESTAMP_COLOR = "#7695B4";
 	private static final SimpleDateFormat MESSAGE_TIMESTAMP = new SimpleDateFormat( "[HH:mm]", Locale.US );
 
-	private static final int ROLLING_LIMIT = 25;
+	private static final int ROLLING_LIMIT = 32;
 	private static final ArrayList clanMessages = new ArrayList();
 
 	private static int rollingIndex = 0;
@@ -711,7 +711,7 @@ public abstract class KoLMessenger extends StaticEntity
 		// If it's a private message, then it's possible the player wishes
 		// to run some command.
 
-		if ( channel.equals( "/clan" ) )
+		if ( channel.equals( "/clan" ) && !message.startsWith( "<b>from <a" ) && !message.startsWith( "<b>to <a" ) )
 		{
 			if ( rollingIndex == ROLLING_LIMIT )
 				rollingIndex = 0;
