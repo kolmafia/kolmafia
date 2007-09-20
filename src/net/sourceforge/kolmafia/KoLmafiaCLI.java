@@ -997,6 +997,12 @@ public class KoLmafiaCLI extends KoLmafia
 				}
 			}
 
+			if ( name.equals( "customCombatScript" ) )
+			{
+				CombatSettings.setScript( parameters );
+				return;
+			}
+
 			if ( KoLSettings.getUserProperty( name ).equals( value ) )
 				return;
 
@@ -1006,7 +1012,6 @@ public class KoLmafiaCLI extends KoLmafia
 				KoLSettings.setUserProperty( name, String.valueOf( timeout ) );
 				HttpTimeoutClient.setHttpTimeout( timeout );
 			}
-
 
 			RequestLogger.printLine( name + " => " + value );
 			KoLSettings.setUserProperty( name, value );

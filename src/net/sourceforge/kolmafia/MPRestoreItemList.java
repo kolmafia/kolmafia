@@ -42,8 +42,8 @@ public abstract class MPRestoreItemList extends StaticEntity
 
 	public static final MPRestoreItem EXPRESS = new MPRestoreItem( "Platinum Yendorian Express Card", Integer.MAX_VALUE, false );
 	public static final MPRestoreItem SOFA = new MPRestoreItem( "sleep on your clan sofa", Integer.MAX_VALUE, false );
-	public static final MPRestoreItem CAMPGROUND = new MPRestoreItem( "rest at your campground", 40, false );
-	public static final MPRestoreItem BEANBAG = new MPRestoreItem( "relax in your beanbag", 80, false );
+	public static final MPRestoreItem CAMPGROUND = new MPRestoreItem( "rest at your campground", Integer.MAX_VALUE, false );
+	public static final MPRestoreItem BEANBAG = new MPRestoreItem( "relax in your beanbag", Integer.MAX_VALUE, false );
 
 	private static final MPRestoreItem GALAKTIK = new MPRestoreItem( "Galaktik's Fizzy Invigorating Tonic", 1, 17, false );
 	public static final MPRestoreItem MYSTERY_JUICE = new MPRestoreItem( "magical mystery juice", Integer.MAX_VALUE, 100, true );
