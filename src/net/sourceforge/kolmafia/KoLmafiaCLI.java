@@ -3793,55 +3793,55 @@ public class KoLmafiaCLI extends KoLmafia
 		// Also, prefer HP/MP restoratives over all items -- if any
 		// wind up matching, remove non-restorative items.
 
-		if ( isUsageMatch )
+		ArrayList restoreList = new ArrayList();
+
+		for ( int i = 0; i < nameList.size(); ++i )
 		{
-			ArrayList restoreList = new ArrayList();
+			itemName = (String) nameList.get(i);
+			itemId = TradeableItemDatabase.getItemId( itemName );
+			useType = TradeableItemDatabase.getConsumptionType( itemId );
 
-			for ( int i = 0; i < nameList.size(); ++i )
+			switch ( useType )
 			{
-				itemName = (String) nameList.get(i);
-				itemId = TradeableItemDatabase.getItemId( itemName );
-				useType = TradeableItemDatabase.getConsumptionType( itemId );
+			case CONSUME_EAT:
+			case CONSUME_DRINK:
 
-				switch ( useType )
+				if ( isUsageMatch && !KoLSettings.getBooleanProperty( "allowGenericUse" ) )
 				{
-				case CONSUME_EAT:
-				case CONSUME_DRINK:
+					nameList.remove(i--);
+					continue;
+				}
 
-					if ( !KoLSettings.getBooleanProperty( "allowGenericUse" ) )
-					{
-						nameList.remove(i--);
-						continue;
-					}
+				break;
 
-					break;
+			case CONSUME_USE:
+			case MESSAGE_DISPLAY:
+			case INFINITE_USES:
+			case CONSUME_MULTIPLE:
 
-				case CONSUME_USE:
-				case MESSAGE_DISPLAY:
-				case INFINITE_USES:
-				case CONSUME_MULTIPLE:
+				break;
 
-					break;
+			case HP_RESTORE:
+			case MP_RESTORE:
+			case HPMP_RESTORE:
 
-				case HP_RESTORE:
-				case MP_RESTORE:
-				case HPMP_RESTORE:
+				restoreList.add( itemName );
+				break;
 
-					restoreList.add( itemName );
-					break;
+			default:
 
-				default:
-
+				if ( isUsageMatch )
+				{
 					nameList.remove(i--);
 					continue;
 				}
 			}
+		}
 
-			if ( !restoreList.isEmpty() )
-			{
-				nameList.clear();
-				nameList.addAll( restoreList );
-			}
+		if ( !restoreList.isEmpty() )
+		{
+			nameList.clear();
+			nameList.addAll( restoreList );
 		}
 
 		for ( int i = 0; i < nameList.size(); ++i )
