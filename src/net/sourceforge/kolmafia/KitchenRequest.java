@@ -92,7 +92,7 @@ public class KitchenRequest extends KoLRequest
 		}
 
 		if ( this.responseText.indexOf( "You're way too drunk already." ) != -1 ||
-		     this.responseText.indexOf( "You are too full to eat that." ) != -1 )
+		     this.responseText.indexOf( "You're too full to eat that." ) != -1 )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "Consumption limit reached." );
 			return;
@@ -142,10 +142,19 @@ public class KitchenRequest extends KoLRequest
 
 		int itemId = StaticEntity.parseInt( idMatcher.group(1) );
 		String itemName = TradeableItemDatabase.getItemName( itemId );
-		String consume = itemName.equals( "Imp Ale" ) ? "drink" : "eat";
+		boolean booze = itemName.equals( "Imp Ale" );
 
 		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( consume + " 1 " + itemName );
+		RequestLogger.updateSessionLog( ( booze ? "drink" : "eat" ) + " 1 " + itemName );
+
+
+		if ( !booze )
+		{
+			int fullness = TradeableItemDatabase.getFullness( itemName );
+			if ( fullness > 0 && KoLCharacter.getFullness() + fullness <= KoLCharacter.getFullnessLimit() )
+				KoLSettings.setUserProperty( "currentFullness", String.valueOf( KoLCharacter.getFullness() + fullness ) );
+		}
+
 		return true;
 	}
 }
