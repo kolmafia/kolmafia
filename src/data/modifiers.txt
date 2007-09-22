@@ -1268,9 +1268,9 @@ Dirge of Dreadfulness	Spooky Damage: +12, Spooky Spell Damage: +12
 Disco Concentration	Item Drop: +20
 Disco Inferno	Moxie: +5, Hot Damage: +3
 Disco State of Mind	Moxie: +2
-Dreadlocked	Mysticality Percent: +50, Moxie Percent: +50
+Dreadlocked	Mysticality Percent: +50, Moxie Percent: -50
 Dreams and Lights	Mysticality: +10, Mana Cost: -3
-Drummed Out	Mysticality Percent: +50, Muscle Percent: +50
+Drummed Out	Mysticality Percent: +50, Muscle Percent: -50
 Duhhh	Mysticality: -20
 Dwarven Hardiness	Muscle Percent: +5
 Eau D'enmity	Monster Level: +5
@@ -1342,7 +1342,7 @@ Hernia!	Muscle Percent: -70
 Hippy Stench	Combat Rate: +5
 Hombre Muerto Caminando	Maximum MP: +20, Spooky Resistance: +10
 Hopped Up on Goofballs	Muscle Percent: +20, Moxie Percent: +20
-Hornswaggled	Moxie Percent: +50, Muscle Percent: +50
+Hornswaggled	Moxie Percent: +50, Muscle Percent: -50
 Hot Blooded	Hot Damage: +10, Muscle Percent: +30, Mysticality Percent: +10, Moxie Percent: +20, Hot Resistance: +20
 Hyperbolic Hypothermia	Cold Damage: +20
 Hyperoffended	Sleaze Resistance: +90
@@ -1417,7 +1417,7 @@ Scent of a Kitchen Elf	Mysticality: +40, Familiar Weight Percent: -50
 Seal Clubbing Frenzy	Muscle: +2
 Seeing Colors	Mysticality Percent: +50
 Seriously Mutated	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
-Shamed &amp; Manipulated	Muscle Percent: +50, Moxie Percent: +50
+Shamed &amp; Manipulated	Muscle Percent: +50, Moxie Percent: -50
 Shiny Happy Cupcake	Experience: +3
 Shirtless in Seattle	Stench Resistance: +20
 Side Affectation	Spooky Resistance: +20
@@ -1468,10 +1468,10 @@ The Cupcake of Wrath	Monster Level: +10
 The Magical Mojomuscular Melody	Mysticality: +10, Maximum MP: +20
 The Moxious Madrigal	Moxie: +10
 The Q Is Talking To You	Mysticality Percent: +10
-The Rage	Muscle Percent: +50, Mysticality Percent: +50
+The Rage	Muscle Percent: +50, Mysticality Percent: -50
 The Smile of Mr. A	Muscle: +15, Mysticality: +15, Moxie: +15
 The Sonata of Sneakiness	Combat Rate: -5
-Third Eye Blind	Moxie Percent: +50, Mysticality Percent: +50
+Third Eye Blind	Moxie Percent: +50, Mysticality Percent: -50
 Ticking Clock	Initiative: +30
 Tingly Biceps	Muscle: +5
 Tingly Elbows	Moxie: +5
