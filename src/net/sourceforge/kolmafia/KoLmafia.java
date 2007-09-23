@@ -939,13 +939,25 @@ public abstract class KoLmafia implements KoLConstants
 			StaticEntity.saveCounters();
 			AdventureResult.addResultToList( tally, result.getNegation() );
 		}
-		else if ( result.isItem() || resultName.equals( AdventureResult.SUBSTATS ) || resultName.equals( AdventureResult.MEAT ) )
+		else if ( result.isItem() )
 		{
 			// If you gain a sock, you lose all the immateria
 
 			if ( result.equals( KoLAdventure.SOCK ) && result.getCount() == 1 )
 				for ( int i = 0; i < KoLAdventure.IMMATERIA.length; ++i )
 					this.processResult( KoLAdventure.IMMATERIA[i] );
+
+			AdventureResult.addResultToList( tally, result );
+		}
+		else if ( resultName.equals( AdventureResult.SUBSTATS ) )
+		{
+			AdventureResult.addResultToList( tally, result );
+		}
+		else if ( resultName.equals( AdventureResult.MEAT ) )
+		{
+			KoLAdventure location = KoLAdventure.lastVisitedLocation();
+			if ( location != null && location.getAdventureId().equals( "126" ) && FightRequest.getCurrentRound() == 0 )
+				return false;
 
 			AdventureResult.addResultToList( tally, result );
 		}

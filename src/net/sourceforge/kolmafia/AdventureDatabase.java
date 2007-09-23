@@ -1388,7 +1388,8 @@ public class AdventureDatabase extends KoLDatabase
 		int mixingMethod = ConcoctionsDatabase.getMixingMethod( itemId );
 		ItemCreationRequest creator = ItemCreationRequest.getInstance( itemId );
 
-		int purchaseCount = missingCount;
+		if ( mixingMethod == COOK_REAGENT && KoLCharacter.canInteract() && !KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) )
+			creator = null;
 
 		// First, attempt to pull the item from the closet.
 		// If this is successful, return from the method.
