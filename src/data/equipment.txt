@@ -230,7 +230,7 @@ yakskin skirt	140	Mox: 55
 
 &quot;Humorous&quot; T-shirt	100	Mus: 35
 Ascension Souvenir T-Shirt	15	none
-Ascii shirt	90	Mus: 30
+ASCII shirt	90	Mus: 30
 Colonel Mustard's Lonely Spades Club Jacket	130	Mus: 50
 Corporal Fennel's Lonely Clubs Club Jacket	130	Mus: 50
 General Sage's Lonely Diamonds Club Jacket	130	Mus: 50
