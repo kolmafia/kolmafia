@@ -186,6 +186,16 @@ public class FightRequest extends KoLRequest
 			}
 		}
 
+		// Fight automation is still considered automation.
+		// If the player drops below the threshold, then go
+		// ahead and halt the battle.
+
+		if ( !StaticEntity.getClient().runThresholdChecks() )
+		{
+			action1 = "abort";
+			return;
+		}
+
 		action1 = CombatSettings.getShortCombatOptionName( KoLSettings.getUserProperty( "battleAction" ) );
 		action2 = null;
 
