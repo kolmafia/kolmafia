@@ -2118,7 +2118,7 @@
 2118	leaf tube	0	none	0
 2119	lit cigar	3	none	0
 2120	Grateful Undead T-shirt	11	all	75
-2121	Ascii shirt	11	all	80
+2121	ASCII shirt	11	all	80
 2122	safety vest	11	all	75
 2123	eXtreme Bi-Polar Fleece Vest	11	all	95
 2124

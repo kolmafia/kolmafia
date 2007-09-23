@@ -301,7 +301,7 @@ yakskin skirt	Maximum MP: +25
 
 &quot;Humorous&quot; T-shirt	Moxie: +4, Muscle: +4, Mysticality: +4, Fumble: 2
 # Ascension Souvenir T-Shirt
-Ascii shirt	Mysticality: +7
+ASCII shirt	Mysticality: +7
 # Colonel Mustard's Lonely Spades Club Jacket
 # Corporal Fennel's Lonely Clubs Club Jacket
 General Sage's Lonely Diamonds Club Jacket	Adventures: +3
