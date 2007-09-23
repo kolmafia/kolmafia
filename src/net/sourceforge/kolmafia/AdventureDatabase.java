@@ -1388,7 +1388,7 @@ public class AdventureDatabase extends KoLDatabase
 		int mixingMethod = ConcoctionsDatabase.getMixingMethod( itemId );
 		ItemCreationRequest creator = ItemCreationRequest.getInstance( itemId );
 
-		if ( (mixingMethod == COOK_REAGENT || mixingMethod == SUPER_REAGENT) && KoLCharacter.canInteract() && !KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) )
+		if ( creator != null && creator.isReagentPotion() && KoLCharacter.canInteract() && !KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) )
 			creator = null;
 
 		// First, attempt to pull the item from the closet.

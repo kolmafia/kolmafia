@@ -455,7 +455,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				this.addFormField( "item" + (i+1), String.valueOf( ingredients[i].getItemId() ) );
 		}
 
-		if ( (mixingMethod == COOK_REAGENT || mixingMethod == SUPER_REAGENT) && KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) )
+		if ( isReagentPotion() && KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) )
 			this.addFormField( "quantity", String.valueOf( (int) Math.ceil( this.quantityNeeded / 3.0f ) ) );
 		else
 			this.addFormField( "quantity", String.valueOf( this.quantityNeeded ) );
@@ -503,7 +503,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			return;
 
 		int undoAmount = this.quantityNeeded - createdQuantity;
-		if ( (mixingMethod == COOK_REAGENT || mixingMethod == SUPER_REAGENT) && KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) )
+		if ( isReagentPotion() && KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) )
 			undoAmount /= 3;
 
 		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( this.itemId );
@@ -549,6 +549,14 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, 0 - undoAmount ) );
 			break;
 		}
+	}
+
+	public boolean isReagentPotion()
+	{
+		if ( mixingMethod != COOK_REAGENT && mixingMethod != SUPER_REAGENT )
+			return false;
+
+		return TradeableItemDatabase.getConsumptionType( itemId ) == CONSUME_MULTIPLE;
 	}
 
 	private boolean autoRepairBoxServant()
@@ -691,7 +699,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			// Then, make enough of the ingredient in order
 			// to proceed with the concoction.
 
-			if ( (mixingMethod == COOK_REAGENT || mixingMethod == SUPER_REAGENT) && KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) )
+			if ( isReagentPotion() && KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) )
 				foundAllIngredients &= AdventureDatabase.retrieveItem( ingredients[i].getInstance( (int) Math.ceil( this.quantityNeeded * multiplier / 3.0f ) ) );
 			else
 				foundAllIngredients &= AdventureDatabase.retrieveItem( ingredients[i].getInstance( this.quantityNeeded * multiplier ) );
