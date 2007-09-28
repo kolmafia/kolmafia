@@ -1182,7 +1182,7 @@ public class KoLmafiaCLI extends KoLmafia
 			try
 			{
 				StaticEntity.openSystemBrowser( "http://kol.coldfront.net/thekolwiki/index.php/Special:Search?search=" +
-					URLEncoder.encode( parameters ) + "&go=Go" );
+					URLEncoder.encode( parameters, "UTF-8" ) + "&go=Go" );
 			}
 			catch ( Exception e )
 			{
