@@ -152,14 +152,21 @@ public class ChatRequest extends KoLRequest
 			return KoLmafia.getLastMessage();
 		}
 
-		if ( !lgraf.startsWith( "/do" ) && !lgraf.startsWith( "/run" ) && !lgraf.startsWith( "/cli" ) )
+		if ( !lgraf.startsWith( "/do" ) && !lgraf.startsWith( "/run" ) && !lgraf.startsWith( "/cli" ) && !lgraf.startsWith( "/wiki" ) && !lgraf.startsWith( "/lookup" ) )
 			return null;
 
 		int spaceIndex = graf.indexOf( " " );
 		if ( spaceIndex == -1 )
 			return null;
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeLine( graf.substring( spaceIndex + 1 ) );
+		String command = graf.substring( spaceIndex + 1 );
+
+		if ( lgraf.startsWith( "/wiki" ) )
+			command = "wiki " + command;
+		else if ( lgraf.startsWith( "/lookup" ) )
+			command = "lookup " + command;
+
+		KoLmafiaCLI.DEFAULT_SHELL.executeLine( command );
 		return KoLmafia.getLastMessage();
 	}
 
