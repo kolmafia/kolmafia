@@ -91,7 +91,7 @@ Haunted Pantry	80	Possessed Can of Tomatoes	Fiendish Can of Asparagus	Flame-Broi
 Haunted Wine Cellar	100	Possessed Wine Rack	Skeletal Sommelier
 Hidden City	100	Ancient Protector Spirit	Boaraffe	Protector Spectre	Pygmy Blowgunner	Pygmy Assault Squad	Pygmy Headhunter
 Hippy Camp	100	Crusty Hippy	Crusty Hippy Jewelry Maker	Crusty Hippy Vegan Chef	Dirty Hippy	Dirty Hippy Jewelry Maker	Dirty Hippy Vegan Chef	Filthy Hippy	Filthy Hippy Jewelry Maker	Filthy Hippy Vegan Chef
-Hole in the Sky	100	The Astronomer: 6	One-Eyed Willie: 2	The Burrowing Bishop: 2	The Family Jewels: 2	The Hooded Warrior: 2	The Junk: 2	The Pork Sword: 2	The Skinflute: 2	The Trouser Snake: 2	The Twig and Berries: 2	The Axe Wound: 2	The Beaver: 2	The Box: 2	The Bush: 2	The Camel's Toe: 2	The Flange: 2	The Honey Pot: 2	The Man in the Canoe: 2	The Muff: 2
+Hole in the Sky	100	The Astronomer: 6	One-Eyed Willie: 2	The Burrowing Bishop: 2	The Family Jewels: 2	The Hooded Warrior: 2	The Junk: 2	The Pork Sword: 2	The Skinflute: 2	The Trouser Snake: 2	The Twig and Berries: 2	The Axe Wound: 2	The Beaver: 2	The Box: 2	The Bush: 2	The Camel's Toe: 2	The Flange: 2	The Honey Pot: 2	The Little Man in the Canoe: 2	The Muff: 2
 Icy Peak	85	Knott Yeti: 2	Snow Queen: 1	Upgraded Ram: 2
 Itznotyerzitz Mine	75	7-Foot Dwarf (Moil)	7-Foot Dwarf (Royale)	7-Foot Dwarf Foreman
 King's Chamber	100	The Knob Goblin King

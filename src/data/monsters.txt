@@ -439,8 +439,8 @@ The Honey Pot	HP: 150 Def: 152 Atk: 152 E: sleaze	line (30)	star (30)	star (30)
 The Hooded Warrior	HP: 150 Def: 165 Atk: 165 E: sleaze	line (30)	star (30)	star (30)
 The Junk	HP: 150 Def: 160 Atk: 160 E: sleaze	line (30)	line (30)	star (30)
 The Knob Goblin King	HP: 50 Def: 53 Atk: 57
+The Little Man in the Canoe	HP: 150 Def: 165 Atk: 165 E: sleaze	line (30)	star (30)	star (30)
 The Man	HP: 2000
-The Man in the Canoe	HP: 150 Def: 165 Atk: 165 E: sleaze	line (30)	star (30)	star (30)
 The Master of Thieves		Platinum Yendorian Express Card (100)
 The Muff	HP: 150 Def: 153 Atk: 153 E: sleaze	line (30)	line (30)	star (30)
 The Pork Sword	HP: 150 Def: 162 Atk: 162 E: sleaze	line (30)	star (30)	star (30)
