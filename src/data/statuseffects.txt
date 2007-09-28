@@ -383,8 +383,6 @@
 383	Black Face	blackface.gif	c74fee3997d020f53cc3e077d4897c10	use 1 black facepaint
 384	Erudite	spectacles.gif	bf4f8342a8efe1d4c27054fa73ec1d7a	use 1 black sheepskin diploma
 385	Radiating Black Body&trade;	radiation.gif	3de3c7f145ae87e58ee391127ed697fd	use 1 Black Body&trade; spray
-# Bad Moon effects with unknown effect
-#	Missing Kidney	kidney.gif	a3271a164706776e733cd78e060cb5e1
 386
 387	Duhhh	duncecap.gif	1a193e72ad6e010246f9c2174d831fc8
 388	Affronted Decency	angry.gif	5e24e5adb243a87b8511d58fa4af1efe
@@ -399,7 +397,7 @@
 397	Shamed &amp; Manipulated	blush.gif	02e465f136feb826854bd8493a9943e4
 398	Drummed Out	drum.gif	304469441fccda71b602573731342e4e
 399	Dreadlocked	hippywig.gif	e08a647c81c873f82505057ee2f50cc8
-400	Hornswaggled	eyepatch.gif
+400	Hornswaggled	eyepatch.gif	29e6abbdd1fcdeb7b4800827a379da9c
 401	Third Eye Blind	eyepatch.gif	ffce3a7c5e9897b1484a2e8c7ed6dd01
 402	The Vitus Virus	virus.gif	700d9925ed2b90dd1ae23928cbfabef9
 403	Your #1 Problem	footprints.gif	52d44b4d25aef7481e19083450ee0fdb
@@ -410,7 +408,7 @@
 408	Frostbitten	snowflake.gif	f256c039b0ab68d2d48073a075e20563
 409	Freaked Out	hoppeddown.gif	0e5f80059469710470e31e21b2cc36fa
 410	Guanified	guano.gif	501a88560f04ec27628459a502f0cb0a
-411	Basted	slimed.gif
+411	Basted	slimed.gif	d07879d8d258769836c918f8dbd3d75d
 412	Raving Lunatic	hoppedup.gif	5cb64a8593bdf71300d242a39d06cac6
 413	Solar Flair	sun2.gif	f8cdfd0bd04d7c75528b6702756c738d
 414	Hyperbolic Hypothermia	snowflake.gif	ad8e3a50b1a28d810fc50a5b22c7ed9f
@@ -420,7 +418,7 @@
 418	Batigue	batwing.gif	5d68832346f34f355f71840c51fe01cb
 419	Cupshotten	snifter.gif	82541262be85f3bedec59f853d34392e
 420	Deep-Fried	cheesestaf.gif	c90fb985575f40b9a11a82e2089845ed
-421	Paw Swap	hand.gif
+421	Paw swap	hand.gif	dd95f891e82664665e5611eebe58777f
 422	Side Affectation	goofballs.gif	c4128e09aa945f3a0c2a248c44383748
 423	Shirtless in Seattle	wtee.gif	4c978713d382fd0854b873daaceecd93
 424	Scared Stiff	hoppeddown.gif	7e4c1c9a394dae1dbf7d99c44c5e9a89
@@ -430,7 +428,7 @@
 428	Compensatory Cruelness	angry.gif	fcfb0679f0e80509cbff567a600ca998
 429	Mutated	spooklines.gif	a8e35050197871d1fbe5b3afc865af7e	use 1 gremlin mutagen
 430	Seriously Mutated	spooklines.gif	dd78d480e08de5cc8e633202d699844f	use 1 extra-potent gremlin mutagen
-431
+431	Missing Kidney	kidney.gif	a3271a164706776e733cd78e060cb5e1
 432	Flared Nostrils	pupils.gif	a148b9106d6593dbec45dad76cedc163
 433	Easily Embarrassed	blush.gif	4b7988bd236d2b89dc8cbe162b697fa6
 434	All Covered In Whatsit	stench.gif	37acab3aa7b7cc31532cffb27ed5037e

@@ -1185,6 +1185,7 @@ Draggin' Balls	Moxie: +6, Muscle: -3
 Free Bird	Mysticality: +20
 # Get Me Off This Crazy Thing!
 # Head on Fire, Ass Catching
+# Missing Kidney
 Radio Head	Moxie: +20
 Red Neck	Moxie: -5, Muscle: +15
 Shiny Happy Weapon	Muscle: +20
@@ -1193,13 +1194,12 @@ Temporary Blindness	Moxie Percent: -25, Item Drop: -75
 
 # Status Effects section of modifiers.txt
 
-# Missing Kidney
 # Re-Possessed
 # The Vitus Virus
-# Braaains
-# Braaaaaains
+# Braaains	Meat Drop: +100, Initiative: -x
+# Braaaaaains	Meat Drop: +, Item Drop: -x
 # Midgetized
-# Synthesized
+# Synthesized	Damage Reduction: 7, Melee Damage: -7
 
 "The Disease"	Moxie: -5
 'Roids of the Rhinoceros	Muscle: +100
@@ -1384,7 +1384,7 @@ Orange Tongue	Experience: +3
 Oriental Mysticicsm	Mysticality Percent: +5
 Papowerful	Experience: +2, Melee Damage: +10
 Patience of the Tortoise	Muscle: +1, Maximum HP: +4
-Paw Swap	Cold Resistance: +20
+Paw swap	Cold Resistance: +20
 Peeled Eyeballs	Experience: -1, Item Drop: +15, Meat Drop: -16
 Permafrosty	Cold Damage: +50
 Phorcefullness	Muscle Percent: +100
