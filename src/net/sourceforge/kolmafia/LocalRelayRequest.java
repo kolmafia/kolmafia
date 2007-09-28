@@ -1049,35 +1049,36 @@ public class LocalRelayRequest extends PasswordHashRequest
 				if ( location == null )
 					location = this.getFormField( "adv" );
 
-				// Sometimes, people want the MCD rewards from various boss
-				// monsters.  Let's help out.  This one's for the Boss Bat,
-				// who has special items at 4 and 8.
+				// Sometimes, people want the MCD rewards from
+				// various boss monsters.  Let's help out.
+				// This one's for the Boss Bat, who has special
+				// items at 4 and 8.
 
-				if ( location != null && location.equals( "34" ) && this.getFormField( "override" ) == null )
+				if ( location != null && location.equals( "34" ) && this.getFormField( "override" ) == null && !KoLCharacter.inBadMoon() )
 				{
 					this.sendBossWarning( "Boss Bat", "bossbat.gif", 4, "batpants.gif", 8, "batbling.gif" );
 					return;
 				}
 			}
 
-			// More MCD rewards.  This one is for the Knob Goblin King,
-			// who has special items at 3 and 7.
+			// More MCD rewards.  This one is for the Knob Goblin
+			// King, who has special items at 3 and 7.
 
 			else if ( path.equals( "knob.php" ) )
 			{
-				if ( this.getFormField( "king" ) != null && this.getFormField( "override" ) == null )
+				if ( this.getFormField( "king" ) != null && this.getFormField( "override" ) == null && !KoLCharacter.inBadMoon() )
 				{
 					this.sendBossWarning( "Knob Goblin King", "goblinking.gif", 3, "glassballs.gif", 7, "batcape.gif" );
 					return;
 				}
 			}
 
-			// More MCD rewards.  This one is for the Bonerdagon, who has
-			// special items at 5 and 10.
+			// More MCD rewards.  This one is for the Bonerdagon,
+			// who has special items at 5 and 10.
 
 			else if ( path.equals( "cyrpt.php" ) )
 			{
-				if ( this.getFormField( "action" ) != null && this.getFormField( "override" ) == null )
+				if ( this.getFormField( "action" ) != null && this.getFormField( "override" ) == null && !KoLCharacter.inBadMoon() )
 				{
 					this.sendBossWarning( "Bonerdagon", "bonedragon.gif", 5, "rib.gif", 10, "vertebra.gif" );
 					return;
