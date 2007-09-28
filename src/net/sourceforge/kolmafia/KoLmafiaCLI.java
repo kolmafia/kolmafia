@@ -1029,19 +1029,19 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "login" ) )
 		{
-			// Only allow the login command to work if no
-			// login has occurred this session.
-
-			if ( LoginRequest.completedLogin() )
-				System.exit(0);
-
 			attemptLogin( parameters );
+			return;
+		}
+
+		if ( command.equals( "logout" ) )
+		{
+			RequestThread.postRequest( new LogoutRequest() );
 			return;
 		}
 
 		// Now for formal exit commands.
 
-		if ( command.equals( "logout" ) || command.equals( "exit" ) || command.equals( "quit" ) )
+		if ( command.equals( "exit" ) || command.equals( "quit" ) )
 		{
 			RequestThread.postRequest( new LogoutRequest() );
 			System.exit(0);
