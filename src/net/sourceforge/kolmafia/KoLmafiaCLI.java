@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia;
 
+import java.net.URLEncoder;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -1155,6 +1157,37 @@ public class KoLmafiaCLI extends KoLmafia
 					parameters += ".txt";
 
 				RequestLogger.openMirror( parameters );
+			}
+
+			return;
+		}
+
+		if ( command.equals( "wiki" ) )
+		{
+			List names = StatusEffectDatabase.getMatchingNames( parameters );
+			if ( names.size() == 1 )
+			{
+				AdventureResult result = new AdventureResult( names.get(0), 1, true );
+				ShowDescriptionList.showWikiDescription( result );
+				return;
+			}
+
+			AdventureResult result = getFirstMatchingItem( parameters );
+			if ( result != null )
+			{
+				ShowDescriptionList.showWikiDescription( result );
+				return;
+			}
+
+			try
+			{
+				StaticEntity.openSystemBrowser( "http://kol.coldfront.net/thekolwiki/index.php/Special:Search?search=" +
+					URLEncoder.encode( parameters ) + "&go=Go" );
+			}
+			catch ( Exception e )
+			{
+				StaticEntity.openSystemBrowser( "http://kol.coldfront.net/thekolwiki/index.php/Special:Search?search=" +
+					StaticEntity.globalStringReplace( parameters, " ", "+" ) + "&go=Go" );
 			}
 
 			return;
