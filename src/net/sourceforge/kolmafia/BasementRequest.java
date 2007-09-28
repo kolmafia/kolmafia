@@ -777,7 +777,7 @@ public class BasementRequest extends AdventureRequest
 	private static final String monsterLevelString()
 	{
 		float level = 2.0f * (float)Math.pow( basementLevel, 1.4 ) + KoLCharacter.getMonsterLevelAdjustment();
-		return "Monster: Attack/Defense = " + (int)Math.ceil( level / 2 );
+		return "Monster: Attack/Defense = " + (int)level;
 	}
 
 	private static final boolean checkForMonster( String responseText )
