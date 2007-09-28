@@ -1167,7 +1167,7 @@ public class KoLmafiaCLI extends KoLmafia
 			List names = StatusEffectDatabase.getMatchingNames( parameters );
 			if ( names.size() == 1 )
 			{
-				AdventureResult result = new AdventureResult( names.get(0), 1, true );
+				AdventureResult result = new AdventureResult( (String) names.get(0), 1, true );
 				ShowDescriptionList.showWikiDescription( result );
 				return;
 			}
