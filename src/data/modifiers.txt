@@ -1293,6 +1293,7 @@ Extreme Muscle Relaxation	Initiative: -50, Muscle Percent: +25
 Extremely Poor Taste	Monster Level: +10
 Eye of the Lihc	Spooky Resistance: +10
 Fat Leon's Phat Loot Lyric	Item Drop: +20
+Fearless	Monster Level: -10
 Fever From the Flavor	Cold Resistance: +90
 Fireproof Lips	Hot Resistance: +90
 Fit To Be Tide	HP Regen Min: 5, HP Regen Max: 16, MP Regen Min: 5, MP Regen Max: 16
