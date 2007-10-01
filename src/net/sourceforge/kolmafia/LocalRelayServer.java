@@ -70,18 +70,19 @@ public class LocalRelayServer implements Runnable
 		KoLSettings.setUserProperty( "lastRelayUpdate", StaticEntity.getVersion() );
 	}
 
+	private static int lastUserId = 0;
 	private static String authenticationString = null;
 
 	public static final String getAuthentication()
 	{
-		if ( authenticationString == null )
+		if ( lastUserId != KoLCharacter.getUserId() )
 		{
-			Object [] items = FamiliarsDatabase.entrySet().toArray();
-			Entry selected = (Entry) items[ KoLConstants.RNG.nextInt( items.length ) ];
-
-			authenticationString = StaticEntity.globalStringDelete( StaticEntity.globalStringDelete(
-				selected.getValue().toString(), " " ), "." ).toLowerCase() + "=" + KoLConstants.RNG.nextInt( Integer.MAX_VALUE );
+			authenticationString = null;
+			lastUserId = KoLCharacter.getUserId();
 		}
+
+		if ( authenticationString == null )
+			authenticationString = "pwd=" + KoLRequest.passwordHash;
 
 		return authenticationString;
 	}
