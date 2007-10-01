@@ -2846,4 +2846,6 @@
 2841	688312860	antique packet of ketchup	antique packets of ketchup
 2842	227703670	accidental cider	jugs of accidental cider
 2843	317424968	dire fudgesicle	dire fudgesicles
-2844	908656927	navel ring of navel gazing
+2844	908656927	navel ring of navel gazing	navel ring of navel gazings
+2845	840974863	class five ecto-larva	class five ecto-larvae
+2846	654355112	plastic bib	plastic bibs
