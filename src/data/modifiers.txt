@@ -1632,6 +1632,7 @@ eXtreme Cold-Weather Gear	Cold Resistance: +30
 # Makes Familiar Less Sensitive to Light
 # Makes March Hare More Better
 # Makes Origami Towel Crane More Resistant to Wear and Tear
+# Makes your ghost better at eating stuff.
 # More likely to use more powerful attacks
 # Moxie used to determine Maximum MP
 # Prevents Level Teleporting

@@ -257,8 +257,8 @@
 257	Carol of the Bones	skullcookie.gif	886179246e72ce517325f3b57a2df35a
 258	Get Me Off This Crazy Thing!	hernia.gif	68588a080497011bee2f48c1b273d605
 259	Very Clean Teeth	goldfronts.gif	e8b4295bb508c8a821c6acbb9a733d6b
-260	Arse-a'fire	pepper.gif
-261	Lemon Enlightenment	lemon.gif
+260	Arse-a'fire	pepper.gif	b0fae7bd223ab7a952ba74b1e65e3740	use 1 arse-a'fire elixir
+261	Lemon Enlightenment	lemon.gif	e00c13900b87a2f2c9d580ec959f846c	use 1 cosmic lemonade
 262	Squirming Like a Toad	squashfrog.gif	6f748e8117c8d27ae1442f99998a7d5f	use 1 powdered toad horn
 263	Eau de Tortue	stench.gif	f3a452bc7787ab2f5985d28d164a4fb0	use 1 turtle pheromones
 264	Majorly Poisoned	poison.gif	37b23526c38b844f4983a17a72ad992e

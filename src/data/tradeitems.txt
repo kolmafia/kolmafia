@@ -2842,3 +2842,5 @@
 2842	accidental cider	2	all	35
 2843	dire fudgesicle	1	all	30
 2844	navel ring of navel gazing	8	all	0
+2845	class five ecto-larva	5	all	0
+2846	plastic bib	7	all	0
