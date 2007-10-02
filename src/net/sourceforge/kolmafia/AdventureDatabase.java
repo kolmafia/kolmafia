@@ -748,6 +748,11 @@ public class AdventureDatabase extends KoLDatabase
 		new ChoiceAdventure( "Island", "choiceAdventure181", "Post-War Frat House",
 		  new String [] { "around the world", "skip adventure" },
 		  new String [] { "1634", "1633" } ),
+
+		// Random Lack of an Encounter
+		new ChoiceAdventure( "Beanstalk", "choiceAdventure182", "Fantasy Airship",
+		  new String [] { "enter combat", "Penultimate Fantasy chest", "stats" },
+		  new String [] { null, "604", null } ),
 	};
 
 	static
