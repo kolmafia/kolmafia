@@ -1111,9 +1111,11 @@ meatcar model	Familiar Weight: +5
 menorette	Familiar Weight: +5
 metal mandible	Familiar Weight: +5
 miniature carton of clove cigarettes	Familiar Weight: +5
+miniature castagnets	Familiar Weight: +5
 # miniature dormouse
 miniature espresso maker	Familiar Weight: +5
 miniature gravy-covered maypole	Item Drop: +25, Softcore Only
+miniature Jacob's ladder	Familiar Weight: +5
 # mint-condition magic wand
 # moonglasses
 palm-frond toupee	Familiar Weight: +5
@@ -1204,6 +1206,7 @@ Temporary Blindness	Moxie Percent: -25, Item Drop: -75
 "The Disease"	Moxie: -5
 'Roids of the Rhinoceros	Muscle: +100
 A Little Bit Poisoned	Muscle Percent: -30, Mysticality Percent: -30, Moxie Percent: -30, Muscle: -5, Mysticality: -5, Moxie: -5
+A Revolution in Your Mouth	Moxie Percent: -10
 Adrenaline Rush	Muscle Percent: +100
 Affronted Decency	Moxie: -20
 Aloysius' Antiphon of Aptitude	Experience: +3
@@ -1311,6 +1314,7 @@ Frozen Hands	Cold Damage: +11
 Frozen Shoulders	Hot Resistance: +30
 Fury of the Bells	Muscle Percent: +10
 Fustulent	Stench Damage: +15
+Gelded	Monster Level: +5
 Ghostly Shell	Damage Absorption: +80
 Gnawed-Off Arm	Muscle: -5
 Go Get 'Em, Tiger!	Muscle Percent: +15
