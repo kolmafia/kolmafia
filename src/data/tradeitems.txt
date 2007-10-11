@@ -2286,19 +2286,19 @@
 2286	Eye of Ed	0	none	0
 2287	green glowstick	8	display	0
 2288	encoder ring	8	gift	5
-2289
-2290
-2291
-2292
-2293
-2294
-2295
-2296
-2297
-2298
-2299
-2300
-2301
+2289	red paperclip	0	none	0
+2290	really big tiny house	0	none	0
+2291	Non-Essential Amulet	0	none	0
+2292	white wine vinaigrette	0	none	0
+2293	cup of strong herbal tea	0	none	0
+2294	Curiously Shiny Ancient Evil-Bashing Axe	0	none	0
+2295	marinated stakes	0	none	0
+2296	knob butter	0	none	0
+2297	vial of ectoplasm	0	none	0
+2298	boock of darck magicks	0	none	0
+2299	EZ-Play Harmonica Book	0	none	0
+2300	fingerless hobo gloves	0	none	0
+2301	Chomsky's comic books	0	none	0
 2302	worm-riding hooks	12	none	0
 2303	libram of candy heart summoning	3	all	0
 2304	white candy heart	4	all	5
@@ -2845,7 +2845,7 @@
 2845	class five ecto-larva	5	all	0
 2846	plastic bib	7	all	0
 2847	
-2848	
+2848	Gnomitronic Hyperspatial Demodulizer	0	all	999
 2849	
 2850	
 2851	

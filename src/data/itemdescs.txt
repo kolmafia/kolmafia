@@ -2291,19 +2291,19 @@
 2286	818542757	Eye of Ed
 2287	642392529	green glowstick	green glowstyx
 2288	643487866	encoder ring	encoder rings
-2289
-2290
-2291
-2292
-2293
-2294
-2295
-2296
-2297
-2298
-2299
-2300
-2301
+2289	846194970	red paperclip
+2290	564384813	really big tiny house
+2291	204308473	Non-Essential Amulet
+2292	516113225	white wine vinaigrette
+2293	499009138	cup of strong herbal tea
+2294	558796924	Curiously Shiny Ancient Evil-Bashing Axe
+2295	773803388	marinated stakes
+2296	830286018	knob butter
+2297	810241270	vial of ectoplasm
+2298	545127833	boock of darck magicks
+2299	884391755	EZ-Play Harmonica Book
+2300	776320439	fingerless hobo gloves
+2301	419865931	Chomsky's comic books
 2302	724817767	worm-riding hooks
 2303	336455814	libram of candy heart summoning
 2304	175228086	white candy heart	white candy hearts
@@ -2850,7 +2850,7 @@
 2845	840974863	class five ecto-larva	class five ecto-larvae
 2846	654355112	plastic bib	plastic bibs
 2847	
-2848	
+2848	601549776	Gnomitronic Hyperspatial Demodulizer
 2849	
 2850	
 2851	
@@ -2938,7 +2938,7 @@
 2933	
 2934	
 2935	
-2936		miniature castagnets
+2936	754113442	miniature castagnets
 2937	856434974	siesta-ing Casagnova gnome
 2938		miniature Jacob's ladder
 2939	501420751	unemployed hunchbacked minion
