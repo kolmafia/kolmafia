@@ -1248,6 +1248,7 @@ public class FightRequest extends KoLRequest
 		case 2405:	// rock band flyers
 		case 2497:	// molybdenum magnet
 		case 2678:	// spectre scepter
+		case 2848:	// Gnomitronic Hyperspatial Demodulizer
 			return false;
 
 		case 829:  // Anti-Anti-Antidote
