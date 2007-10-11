@@ -452,3 +452,7 @@
 452
 453	A Revolution in Your Mouth	tongue.gif	f980e9f6cb3c094c27332dd99517654f	use 1 Steal This Candy
 454	Gelded	lucre.gif	f04d5879435447fa4717d3fb7cde357d	use 1 chocolate filthy lucre
+455	Super-Charged	frostshock.gif	2a012ff0883470d7af62bc684137613e
+456	Super-Mega-Charged	frostshock.gif	c6632d95825daf6cc8e917bb2fe08c5c
+457	Super-Mega-Ultra-Charged	frostshock.gif	6453a0ef9a908df38afa13ce882b9f48
+458	Super-Mega-Ultra-Hyper-Charged	frostshock.gif	af3d29996b0337fbf12e264d5cac21b4
