@@ -220,8 +220,9 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		helperMenu.add( new JSeparator() );
 
-		helperMenu.add( new DisplayPageMenuItem( "KoLmafia Thread", "http://forums.kingdomofloathing.com/viewtopic.php?t=19779" ) );
+		helperMenu.add( new DisplayPageMenuItem( "KoLmafia Thread", "http://forums.kingdomofloathing.com/vb/showthread.php?t=88408" ) );
 		helperMenu.add( new DisplayPageMenuItem( "End-User Manual", "http://kolmafia.sourceforge.net/manual.html" ) );
+		helperMenu.add( new DisplayPageMenuItem( "Unofficial Guide", "http://forums.kingdomofloathing.com/vb/showthread.php?t=140340" ) );
 		helperMenu.add( new DisplayPageMenuItem( "Script Repository", "http://kolmafia.us/" ) );
 
 		helperMenu.add( new JSeparator() );
