@@ -66,10 +66,10 @@
 
 	<target name="clean">
 
-		<delete dir="${build}"/>
-		<delete dir="${docs}"/>
+		<delete dir="${build}" failonerror="false"/>
+		<delete dir="${docs}" failonerror="false"/>
 
-		<delete>
+		<delete failonerror="false">
 			<fileset dir="${dist}">
 				<include name="${ant.project.name}*"/>
 			</fileset>
@@ -104,7 +104,7 @@
 	<!--  generate the standard JAR  -->
 	<!-- =========================== -->
 
-	<target name="createjar" depends="build">
+	<target name="createjar" depends="init,build">
 
 		<jar destfile="${jarfile}" basedir="${build}" update="true" index="yes">
 			<manifest>
@@ -119,7 +119,7 @@
 	<!--  generate the standard EXE  -->
 	<!-- =========================== -->
 
-	<target name="jsmooth" depends="update,createjar">
+	<target name="jsmooth" depends="init,update,createjar">
 
 		<exec executable="jsmoothcmd" failifexecutionfails="false" os="Windows XP">
 			<arg value="${lib}/build.jsmooth"/>
