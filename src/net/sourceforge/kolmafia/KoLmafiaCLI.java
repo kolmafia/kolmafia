@@ -1967,6 +1967,12 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( command.equals( "friars" ) )
+		{
+			this.executeFriarRequest( parameters );
+			return;
+		}
+
 		if ( command.equals( "mpitems" ) )
 		{
 			int restores = getRestoreCount();
@@ -5070,7 +5076,6 @@ public class KoLmafiaCLI extends KoLmafia
 		RequestThread.postRequest( new StyxPixieRequest( stat ) );
 	}
 
-
 	/**
 	 * Attempts to listen to a concert at the Arena
 	 */
@@ -5088,6 +5093,53 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		RequestThread.postRequest( new ArenaRequest( action ) );
+	}
+
+	/**
+	 * Attempts to get a blessing from the Deep Fat Friars
+	 */
+
+	public void executeFriarRequest( String parameters )
+	{
+		String [] split = parameters.split( " " );
+		String command = split[0];
+
+		if ( command.equals( "blessing" ) )
+		{
+			if ( split.length < 2 )
+			{
+				updateDisplay( ERROR_STATE, "Syntax: friars [blessing] food|familiar|booze" );
+				return;
+			}
+
+			command = split[1];
+		}
+
+		int action = 0;
+
+		if ( Character.isDigit( command.charAt(0) ) )
+		{
+			action = StaticEntity.parseInt( command );
+		}
+		else
+		{
+			for ( int i = 0; i < FriarRequest.BLESSINGS.length; ++i )
+			{
+				if ( command.equalsIgnoreCase( FriarRequest.BLESSINGS[i] ) )
+				{
+					action = i + 1;
+					break;
+				}
+			}
+		}
+
+		if ( action < 1 || action > 3 )
+		{
+			updateDisplay( ERROR_STATE, "Syntax: friars [blessing] food|familiar|booze" );
+			return;
+		}
+
+		RequestThread.postRequest( new FriarRequest( action ) );
 	}
 
 	/**
