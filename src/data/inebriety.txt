@@ -8,7 +8,7 @@
 Acqua Del Piatto Merlot	1	10	6-10	60	60	60
 Acque Luride Grezze Cabernet	1	10	6-10	60	60	60
 Blackfly Chardonnay	3	7	5-6	0	0	25-45
-Bottle of Pinot Renoir	2	4	4-8	30	18	0
+Bottle of Pinot Renoir	2	2	4-8	30	18	0
 Divine	4	6	14-18	16-20	25-27	0
 Ferita Del Petto Zinfandel	1	10	6-10	60	60	60
 Gordon Bennett	4	6	14-18	16-20	25-27	0
@@ -23,10 +23,10 @@ Mon Tiki	4	6	14-18	40-47	0	0
 Mt. Noob Pale Ale	2	1	4-9	0	0	0
 Neuromancer	4	6	14-18	25-27	0	16-20
 Oreille Divis&eacute;e brandy	3	4	12-15	15-25	15-25	15-25
-Pan-Dimensional Gargle Blaster	5	12	31	77	61	70
-Petite Porter	3	1	3-5	0	0	0
+Pan-Dimensional Gargle Blaster	5	12	25-27	77-97	61-69	56-70
+Petite Porter	3	4	3-5	0	0	0
 Ram's Face Lager	1	2	1-4	8-10	0	0
-Scrawny Stout	3	1	3-6	0	0	0
+Scrawny Stout	3	6	3-6	0	0	0
 Spasmi Dolorosi Del Rene Champagne	1	10	6-10	60	60	60
 Supernova Champagne	3	8	7-11	8-12	8-12	8-12
 Uovo Marcio Shiraz	1	10	6-10	60	60	60
@@ -47,7 +47,7 @@ bottle of Jorge Sinsonte	3	2	4-8	0	0	0
 bottle of Lieutenant Freeman	3	2	4-8	0	0	0
 bottle of cooking sherry	2	1	2-3	0	0	0
 bottle of gin	3	1	3	0	0	0
-bottle of popskull	2	1	2-4	0	0	0
+bottle of popskull	2	2	2-4	0	0	0
 bottle of realpagne	2	2	5-8	0	0	12-18
 bottle of rum	3	1	3	0	0	0
 bottle of single-barrel whiskey	3	9	13-20	40-50	40-50	40-50
@@ -81,7 +81,7 @@ ecto-nog	3	1	3-6	5-6	5-6	5-6
 eggnog	3	3	5-10	0	17-30	18-30
 eggnogtini	3	1	3-5	5-7	5-7	5-7
 especially salty dog	4	4	9-15	32-50	32-50	32-50
-extra-spicy bloody mary	3	3	4-10	5-11	5-11	5-11
+extra-spicy bloody mary	3	3	5-10	5-11	5-11	5-11
 fermented honey	3	1	3-6	5-6	5-6	5-6
 fine wine	1	1	1-3	0	0	3-5
 flaming mushroom wine	3	6	10-14	12-15	0	0
@@ -122,7 +122,7 @@ papaya slung	3	2	4-8	11-15	11-15	11-15
 parisian cathouse	3	3	5-10	0	0	16-20
 perpendicular hula	4	4	10-14	0	0	34-36
 pink pony	4	4	10-14	25-27	0	8-10
-plum wine	2	8	4-8	15-20	0	0
+plum wine	2	8	4-8	14-20	0	0
 pointy mushroom wine	3	6	10-14	0	0	8-10
 prussian cathouse	4	6	14-18	0	0	40-47
 rabbit punch	3	3	5-10	0	0	16-20
@@ -140,8 +140,8 @@ shot of flower schnapps	1	1	1-3	0	0	0
 shot of grapefruit schnapps	1	1	1-3	0	3-5	0
 shot of nepenthe schnapps	2	2	5-8	0	12-18	0
 shot of orange schnapps	1	1	1-3	3-5	0	0
-shot of peach schnapps	2	8	4-9	0	0	14-20
-shot of pear schnapps	2	8	4-8	0	15-20	0
+shot of peach schnapps	2	8	4-8	0	0	14-20
+shot of pear schnapps	2	8	4-8	0	14-20	0
 shot of tomato schnapps	1	1	1-3	1-2	1-2	1-2
 slap and tickle	4	4	10-14	0	8-10	25-27
 slip 'n' slide	4	4	10-14	34-36	0	0
