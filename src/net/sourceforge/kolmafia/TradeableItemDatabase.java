@@ -1139,7 +1139,7 @@ public class TradeableItemDatabase extends KoLDatabase
 			// Unidentified
 			setDustyBottle( itemId, 2, "0", "0", "0", "0" );
 			break;
-		case 1:
+		case 1: // "Prince"
 			// "You drink the wine. You've had better, but you've
 			// had worse."
 			setDustyBottle( itemId, 2, "4-5", "6-8", "5-7", "5-9" );
@@ -1149,18 +1149,18 @@ public class TradeableItemDatabase extends KoLDatabase
 			// realize that it has turned into vinegar. Bleeah."
 			setDustyBottle( itemId, 0, "0", "0", "0", "0" );
 			break;
-		case 3:
+		case 3: // "Widget"
 			// "You drink the bottle of wine, then belch up a cloud
 			// of foul-smelling green smoke. Looks like this wine
 			// was infused with wormwood. Spoooooooky."
 			setDustyBottle( itemId, 2, "3-4", "3-6", "15-18", "3-6" );
 			break;
-		case 4:
+		case 4: // "Snake"
 			// "This wine is fantastic! You gulp down the entire
 			// bottle, and feel great!"
-			setDustyBottle( itemId, 2, "7-10", "10-15", "10-15", "10-15" );
+			setDustyBottle( itemId, 2, "5-7", "10-15", "10-15", "10-15" );
 			break;
-		case 5:
+		case 5: // "Pitchfork"
 			// "You drink the wine. It tastes pretty good, but when
 			// you get to the bottom, it's full of sediment, which
 			// turns out to be powdered glass. Ow."
