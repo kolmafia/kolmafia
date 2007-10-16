@@ -384,6 +384,12 @@ public class RequestLogger extends NullStream implements KoLConstants
 			return;
 		}
 
+		if ( (request instanceof FriarRequest || isExternal) && FriarRequest.registerRequest( urlString ) )
+		{
+			wasLastRequestSimple = false;
+			return;
+		}
+
 		if ( (request instanceof GiftMessageRequest || isExternal) && GiftMessageRequest.registerRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;

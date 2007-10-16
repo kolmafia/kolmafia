@@ -1238,6 +1238,9 @@ Blessing of Squirtlcthulli	HP Regen Min: 7, HP Regen Max: 9, MP Regen Min: 7, MP
 Bloody Bloody Bloody!	Spooky Damage: +50
 Bloody Hand	Muscle: -1
 Blue Tongue	Item Drop: +30
+# Brother Corsican's Blessing
+# Brother Flying Burrito's Blessing
+# Brother Smother's Blessing
 Bubble, Bubble	Muscle: +5, Moxie: -5
 Burning Ears	Cold Resistance: +30
 Burning Hands	Hot Damage: +11

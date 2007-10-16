@@ -456,3 +456,6 @@
 456	Super-Mega-Charged	frostshock.gif	c6632d95825daf6cc8e917bb2fe08c5c
 457	Super-Mega-Ultra-Charged	frostshock.gif	6453a0ef9a908df38afa13ce882b9f48
 458	Super-Mega-Ultra-Hyper-Charged	frostshock.gif	af3d29996b0337fbf12e264d5cac21b4
+459	Brother Flying Burrito's Blessing	monkhead.gif	2b0cbdef1a8d80421d3e8a11de7276fd
+460	Brother Corsican's Blessing	monkhead.gif	b7d75d553a9181dff7dc88d0ab556628
+461	Brother Smother's Blessing	monkhead.gif	d75aaa2cc6a8dcfa7cdddef658968e26
