@@ -2938,9 +2938,9 @@
 2938	miniature Jacob's ladder	7	all	75
 2939	unemployed hunchbacked minion	5	all	0
 2940	
-2941	Steal This Candy	4	all	25
-2942	chocolate filthy lucre	4	all	35
-2943	Angry Farmer's Wife Candy	4	all	30
+2941	Steal This Candy	3	all	25
+2942	chocolate filthy lucre	3	all	35
+2943	Angry Farmer's Wife Candy	3	all	30
 2944	
 2945	
 2946	
