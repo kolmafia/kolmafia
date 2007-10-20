@@ -2579,7 +2579,7 @@
 2579	cactus fruit	1	all	35
 2580	scorpion whip	12	all	25
 2581	handful of sand	4	all	25
-2582	brick of sand	3	all	100
+2582	brick of sand	4	all	100
 2583	centipede eggs	1	all	66
 2584	wonderwall shield	13	all	165
 2585	Colonel Mustard's Lonely Spades Club Jacket	11	all	135
