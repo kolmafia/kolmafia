@@ -128,6 +128,7 @@ public class ConsumeItemRequest extends KoLRequest
 	public static final int BLACK_PUDDING = 2338;
 	private static final int COBBS_KNOB_MAP = 2442;
 	private static final int JEWELRY_BOOK = 2502;
+	private static final int SAND_BRICK = 2582;
 	private static final int TELESCOPE = 2599;
 	private static final int ABSINTHE = 2655;
 	private static final int MOJO_FILTER = 2614;
@@ -1273,6 +1274,13 @@ public class ConsumeItemRequest extends KoLRequest
 		case DUCT_TAPE:
 
 			if ( responseText.indexOf( "You acquire" ) == -1 )
+				StaticEntity.getClient().processResult( lastItemUsed );
+
+			return;
+
+		case SAND_BRICK:
+
+			if ( responseText.indexOf( "You can't build anything" ) != -1 )
 				StaticEntity.getClient().processResult( lastItemUsed );
 
 			return;
