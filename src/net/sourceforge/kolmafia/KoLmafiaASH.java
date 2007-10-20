@@ -2654,6 +2654,13 @@ public class KoLmafiaASH extends StaticEntity
 			currentCommand = (ScriptCommand) it.next();
 			printCommand( currentCommand, indent + 2 );
 		}
+
+		if ( indent == 0 && mainMethod != null )
+		{
+			indentLine( indent + 1 );
+			RequestLogger.updateDebugLog( "<MAIN>" );
+			printFunction( mainMethod, indent + 2 );
+		}
 	}
 
 	public void showUserFunctions( String filter )
@@ -4409,7 +4416,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue execute()
 		{
-			ScriptValue result = null;
+			ScriptValue result = VOID_VALUE;
 			traceIndent();
 
 			ScriptCommand current;
@@ -7600,12 +7607,12 @@ public class KoLmafiaASH extends StaticEntity
 			if ( direction > 0 )
 				up = true;
 			else if ( direction < 0 )
-						{
 				up = false;
-				increment = -increment;
-						}
 			else
 				up = ( current <= end );
+
+			if ( ( up && increment < 0 ) || ( !up && increment > 0 ) )
+				increment = -increment;
 
 			// Make sure the loop will eventually terminate
 
@@ -7643,7 +7650,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public String toString()
-		{	return "foreach";
+		{	return "for";
 		}
 	}
 
