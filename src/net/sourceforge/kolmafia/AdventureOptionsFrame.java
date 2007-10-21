@@ -59,7 +59,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
-import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -1285,7 +1284,6 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 	protected class SafetyField extends JPanel implements Runnable, ListSelectionListener
 	{
-		private JEditorPane safetyEditor;
 		private LimitedSizeChatBuffer safetyText;
 		private String savedText = " ";
 		private JList locationSelect;
@@ -1297,11 +1295,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 			this.safetyText = new LimitedSizeChatBuffer( false );
 			this.locationSelect = locationSelect;
 
-			this.safetyEditor = new JEditorPane();
-			this.safetyEditor.setContentType( "text/html" );
-			this.safetyEditor.setEditable( false );
-
-			JScrollPane textScroller = this.safetyText.setChatDisplay( this.safetyEditor );
+			JScrollPane textScroller = this.safetyText.setChatDisplay( new RequestPane() );
 			JComponentUtilities.setComponentSize( textScroller, 100, 100 );
 			this.add( textScroller, BorderLayout.CENTER );
 

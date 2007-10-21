@@ -34,15 +34,76 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.Color;
+import java.io.StringWriter;
 import javax.swing.JEditorPane;
+
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 public class RequestPane extends JEditorPane
 {
+	private static final Pattern WHITESPACE = Pattern.compile( "\n\\s*" );
+	private static final Pattern LINE_BREAK = Pattern.compile( "<br/?>", Pattern.CASE_INSENSITIVE );
+
 	public RequestPane()
 	{
 		// Ensure that the background is off-white so that the
 		// text is always legible.
 
+		this.setContentType( "text/html" );
+		this.setEditable( false );
+
 		this.setBackground( new Color( 252, 252, 252 ) );
+	}
+
+	public String getSelectedText()
+	{
+		// Retrieve the HTML version of the current selection
+		// so that you can override the <BR> handling.
+
+		StringWriter sw = new StringWriter();
+
+		try
+		{
+			getEditorKit().write( sw, getDocument(), getSelectionStart(), getSelectionEnd() - getSelectionStart() );
+		}
+		catch ( Exception e )
+		{
+			// In the event that an exception happens, return
+			// an empty string.
+
+			return "";
+		}
+
+		// The HTML returned by Java is wrapped in body tags,
+		// so remove those to find out the remaining HTML.
+
+		String selectedText = sw.toString();
+		int beginIndex = selectedText.indexOf( "<body>" ) + 6;
+		int endIndex = selectedText.lastIndexOf( "</body>" );
+
+		if ( beginIndex == -1 || endIndex == -1 )
+			return "";
+
+		selectedText = selectedText.substring( beginIndex, endIndex ).trim();
+
+		// Now we begin trimming out some of the whitespace,
+		// because that causes some strange rendering problems.
+
+		selectedText = WHITESPACE.matcher( selectedText ).replaceAll( "\n" );
+
+		selectedText = StaticEntity.globalStringDelete( selectedText, "\r" );
+		selectedText = StaticEntity.globalStringDelete( selectedText, "\n" );
+		selectedText = StaticEntity.globalStringDelete( selectedText, "\t" );
+
+		// Finally, we start replacing the various HTML tags
+		// with emptiness, except for the <br> tag which is
+		// rendered as a new line.
+
+		selectedText = LINE_BREAK.matcher( selectedText ).replaceAll( "\n" ).trim();
+		selectedText = KoLConstants.ANYTAG_PATTERN.matcher( selectedText ).replaceAll( "" );
+		selectedText = RequestEditorKit.getUnicode( selectedText );
+
+		return selectedText;
 	}
 }

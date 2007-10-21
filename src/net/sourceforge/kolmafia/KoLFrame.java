@@ -69,7 +69,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
-import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -154,15 +153,10 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		if ( this.shouldAddStatusBar() )
 		{
-			JEditorPane statusDisplay = new JEditorPane();
-
-			JScrollPane statusBar = commandBuffer.setChatDisplay( statusDisplay );
+			JScrollPane statusBar = commandBuffer.setChatDisplay( new RequestPane() );
 			JComponentUtilities.setComponentSize( statusBar, new Dimension( 200, 50 ) );
 
-			JSplitPane doublePane = new JSplitPane( JSplitPane.VERTICAL_SPLIT,
-				new SimpleScrollPane( this.framePanel, SimpleScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, SimpleScrollPane.HORIZONTAL_SCROLLBAR_NEVER ),
-				statusBar );
-
+			JSplitPane doublePane = new JSplitPane( JSplitPane.VERTICAL_SPLIT, new SimpleScrollPane( this.framePanel ), statusBar );
 			this.getContentPane().add( doublePane, BorderLayout.CENTER );
 
 			doublePane.setOneTouchExpandable( true );
