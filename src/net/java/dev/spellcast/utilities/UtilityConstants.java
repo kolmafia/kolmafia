@@ -49,12 +49,15 @@ public interface UtilityConstants
 	public static final ClassLoader SYSTEM_CLASSLOADER    = ClassLoader.getSystemClassLoader();
 	public static final ClassLoader MAINCLASS_CLASSLOADER = net.java.dev.spellcast.utilities.UtilityConstants.class.getClassLoader();
 
-	public static final boolean USE_OSX_STYLE_DIRECTORIES =
-		System.getProperty( "os.name" ).startsWith( "Mac" ) && System.getProperty( "app.name" ) != null;
+	public static final boolean USE_OSX_STYLE_DIRECTORIES = System.getProperty( "os.name" ).startsWith( "Mac" );
+	public static final boolean USE_LINUX_STYLE_DIRECTORIES = !USE_OSX_STYLE_DIRECTORIES && !System.getProperty( "os.name" ).startsWith( "Win" );
 
-	public static final File ROOT_LOCATION = USE_OSX_STYLE_DIRECTORIES ?
-		new File( new File( System.getProperty( "user.home" ) ).getAbsoluteFile(), "Library/Application Support/KoLmafia" ) :
-		new File( System.getProperty( "user.dir" ) ).getAbsoluteFile();
+	public static final File BASE_LOCATION = new File( System.getProperty( "user.dir" ) ).getAbsoluteFile();
+	public static final File HOME_LOCATION = new File( System.getProperty( "user.home" ) ).getAbsoluteFile();
+
+	public static final File ROOT_LOCATION =
+		USE_OSX_STYLE_DIRECTORIES ? new File( HOME_LOCATION, "Library/Application Support/KoLmafia" ) :
+		USE_LINUX_STYLE_DIRECTORIES ? new File( HOME_LOCATION, ".kolmafia" ) : BASE_LOCATION;
 
 	public static final String ROOT_DIRECTORY = ROOT_LOCATION.getAbsolutePath();
 
@@ -66,4 +69,3 @@ public interface UtilityConstants
 	public static final File IMAGE_LOCATION = new File( ROOT_LOCATION, IMAGE_DIRECTORY );
 	public static final File SETTINGS_LOCATION = new File( ROOT_LOCATION, SETTINGS_DIRECTORY );
 }
-
