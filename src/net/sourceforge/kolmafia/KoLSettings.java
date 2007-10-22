@@ -148,41 +148,39 @@ public class KoLSettings extends Properties implements KoLConstants
 
 		File source;
 
-		if ( System.getProperty( "os.name" ).startsWith( "Mac" ) && System.getProperty( "app.name" ) != null )
+		if ( USE_OSX_STYLE_DIRECTORIES || USE_LINUX_STYLE_DIRECTORIES )
 		{
-			File parent = new File( System.getProperty( "user.dir" ) ).getAbsoluteFile();
-
 			ROOT_LOCATION.mkdirs();
 
-			source = new File( parent, DATA_DIRECTORY );
+			source = new File( BASE_LOCATION, DATA_DIRECTORY );
 			if ( source.exists() )
 				source.renameTo( DATA_LOCATION );
-			source = new File( parent, IMAGE_DIRECTORY );
+			source = new File( BASE_LOCATION, IMAGE_DIRECTORY );
 			if ( source.exists() )
 				source.renameTo( IMAGE_LOCATION );
-			source = new File( parent, SETTINGS_DIRECTORY );
+			source = new File( BASE_LOCATION, SETTINGS_DIRECTORY );
 			if ( source.exists() )
 				source.renameTo( SETTINGS_LOCATION );
 
-			source = new File( parent, ATTACKS_DIRECTORY );
+			source = new File( BASE_LOCATION, ATTACKS_DIRECTORY );
 			if ( source.exists() )
 				source.renameTo( ATTACKS_LOCATION );
-			source = new File( parent, BUFFBOT_DIRECTORY );
+			source = new File( BASE_LOCATION, BUFFBOT_DIRECTORY );
 			if ( source.exists() )
 				source.renameTo( BUFFBOT_LOCATION );
-			source = new File( parent, CHATLOG_DIRECTORY );
+			source = new File( BASE_LOCATION, CHATLOG_DIRECTORY );
 			if ( source.exists() )
 				source.renameTo( CHATLOG_LOCATION );
-			source = new File( parent, PLOTS_DIRECTORY );
+			source = new File( BASE_LOCATION, PLOTS_DIRECTORY );
 			if ( source.exists() )
 				source.renameTo( PLOTS_LOCATION );
-			source = new File( parent, SCRIPT_DIRECTORY );
+			source = new File( BASE_LOCATION, SCRIPT_DIRECTORY );
 			if ( source.exists() )
 				source.renameTo( SCRIPT_LOCATION );
-			source = new File( parent, SESSIONS_DIRECTORY );
+			source = new File( BASE_LOCATION, SESSIONS_DIRECTORY );
 			if ( source.exists() )
 				source.renameTo( SESSIONS_LOCATION );
-			source = new File( parent, RELAY_DIRECTORY );
+			source = new File( BASE_LOCATION, RELAY_DIRECTORY );
 			if ( source.exists() )
 				source.renameTo( RELAY_LOCATION );
 		}
