@@ -923,7 +923,6 @@ public class OptionsFrame extends KoLFrame
 				{ "addCreationQueue", "Add creation queueing interface to item manager" },
 				{ "addStatusBarToFrames", "Add a status line to independent windows" },
 				{},
-				{ "addExitMenuItems", "Add logout and exit options to general menu" },
 				{ "useDecoratedTabs", "Use shiny decorated tabs instead of OS default" },
 				{ "allowCloseableDesktopTabs", "Allow tabs on main window to be closed" },
 			}
@@ -936,7 +935,6 @@ public class OptionsFrame extends KoLFrame
 				{ "addCreationQueue", "Add creation queueing interface to item manager" },
   				{ "addStatusBarToFrames", "Add a status line to independent windows" },
   				{},
-				{ "addExitMenuItems", "Add logout and exit options to general menu" },
   				{ "useDecoratedTabs", "Use shiny decorated tabs instead of OS default" },
   				{ "allowCloseableDesktopTabs", "Allow tabs on main window to be closed" },
   			};

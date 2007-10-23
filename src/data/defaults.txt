@@ -1,0 +1,373 @@
+global	addChatCommandLine	false
+global	addCreationQueue	true
+global	addStatusBarToFrames	false
+global	allowBreakfastBurning	true
+global	allowCloseableDesktopTabs	false
+global	allowEncounterRateBurning	true
+global	allowGenericUse	false
+global	allowNegativeTally	true
+global	allowNonMoodBurning	true
+global	alwaysGetBreakfast	false
+global	autoLogin
+global	autoPlantHardcore	false
+global	autoPlantSoftcore	false
+global	autoSatisfyWithMall	true
+global	autoSatisfyWithNPCs	true
+global	autoSatisfyWithStash	false
+global	avoidInvertingTabs	false
+global	basementBuysItems	false
+global	breakfastHardcore	Summon Snowcone,Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting
+global	breakfastSoftcore	Summon Snowcone,Summon Hilarious Objects,Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting
+global	browserBookmarks
+global	cacheMallSearches	false
+global	charsheetDropdown	1
+global	chatFontSize	medium
+global	chatLinksUseRelay	false
+global	chatStyle	0
+global	cloverProtectActive	true
+global	commandLineNamespace
+global	completeHealthRestore	false
+global	cookies.inventory
+global	createHackerSummons	true
+global	customizedTabs	false
+global	defaultBorderColor	blue
+global	defaultDropdown1	0
+global	defaultDropdown2	1
+global	defaultDropdownSplit	0
+global	defaultLimit	5
+global	defaultLoginServer	1
+global	eSoluScriptType	0
+global	grabCloversHardcore	false
+global	grabCloversSoftcore	true
+global	greenScreenProtection	false
+global	guiUsesOneWindow	false
+global	hideServerDebugText	false
+global	highlightList
+global	http.proxyHost
+global	http.proxyPassword
+global	http.proxyPort
+global	http.proxyUser
+global	http.socketTimeout	8000
+global	ignoreAutoAttack	false
+global	initialDesktop	AdventureFrame,CommandDisplayFrame,GearChangeFrame
+global	initialFrames	EventsFrame
+global	innerChatColor	#ffa98c
+global	innerTabColor	#8ca9ff
+global	itemManagerIndex	0
+global	lastBuffRequestType	0
+global	lastRelayUpdate
+global	lastUsername
+global	logAcquiredItems	true
+global	logBattleAction	true
+global	logChatMessages	true
+global	logFamiliarActions	false
+global	logGainMessages	true
+global	loginRecoveryHardcore	false
+global	loginRecoverySoftcore	true
+global	loginScript
+global	loginServerName
+global	loginWindowLogo	lantern.jpg
+global	logMonsterHealth	false
+global	logoutScript
+global	logReverseOrder	false
+global	logStatGains	true
+global	logStatusEffects	false
+global	logStatusOnLogin	false
+global	lucreCoreLeaderboard	false
+global	mapLoadsMiniBrowser	false
+global	mementoListActive	false
+global	outerChatColor	#b4460f
+global	outerTabColor	#0f46b4
+global	pathedSummonsHardcore	true
+global	pathedSummonsSoftcore	false
+global	preferredWebBrowser
+global	previousNotifyList	<>
+global	previousUpdateVersion
+global	printSocketTimeouts	true
+global	protectAgainstOverdrink	true
+global	proxySet	false
+global	readManualHardcore	true
+global	readManualSoftcore	true
+global	relayAddsGraphicalCLI	false
+global	relayAddsKoLSimulator	false
+global	relayAddsMonsterHealth	false
+global	relayAddsQuickScripts	false
+global	relayAddsRestoreLinks	true
+global	relayAddsRoundNumber	false
+global	relayAddsUpArrowLinks	true
+global	relayAddsUseLinks	true
+global	relayAddsWikiLinks	false
+global	relayAllowsOverrides	false
+global	relayAlwaysBuysGum	true
+global	relayBrowserOnly	false
+global	relayBrowserOnly	false
+global	relayFormatsChatText	true
+global	relayHidesJunkMallItems	true
+global	relayMaintainsEffects	false
+global	relayMaintainsHealth	true
+global	relayMaintainsMana	false
+global	relayTextualizesEffects	false
+global	relayUsesCachedImages	false
+global	relayUsesInlineLinks	false
+global	relayUsesIntegratedChat	false
+global	relayViewsCustomItems	false
+global	saveState
+global	saveStateActive
+global	scriptButtonPosition	0
+global	scriptList	restore hp | restore mp
+global	showAllRequests	false
+global	swingLookAndFeel
+global	switchEquipmentForBuffs	true
+global	testSocketTimeout	true
+global	toolbarPosition	1
+global	useChatMonitor	false
+global	useChatToolbar	true
+global	useContactsFrame	true
+global	useDecoratedTabs
+global	useFastOutfitSwitch	true
+global	useLowBandwidthRadio	false
+global	useSeparateChannels	true
+global	useShinyTabbedChat	true
+global	useSystemTrayIcon	false
+global	useTabbedChatFrame	true
+global	useToolbars	true
+global	useZoneComboBox	false
+global	visitRumpusHardcore	true
+global	visitRumpusSoftcore	true
+
+user	autoAbortThreshold	-0.1
+user	autoRepairBoxServants	true
+user	battleAction	attack with weapon
+user	betweenBattleScript
+user	breakfastCompleted	false
+user	buffBotCasting
+user	buffBotMessageDisposal	0
+user	buffBotPhilanthropyType	1
+user	candyHeartSummons	0
+user	chatbotScript
+user	chatbotScriptExecuted	false
+user	chosenTrip
+user	clanAttacksEnabled	false
+user	cocktailSummons	0
+user	currentBountyItem	0
+user	currentFullness	0
+user	currentHippyStore	none
+user	currentMojoFilters	0
+user	currentMood	default
+user	currentPvpVictories
+user	currentSpleenUse	0
+user	currentWheelPosition	muscle
+user	customCombatScript	default
+user	defaultAutoAttack	0
+user	defaultFlowerLossMessage
+user	defaultFlowerWinMessage
+user	demonName1
+user	demonName2
+user	demonName3
+user	demonName4
+user	demonName5
+user	expressCardUsed	false
+user	grimoireSummons	0
+user	hpAutoRecovery	-0.1
+user	hpAutoRecoveryItems	cannelloni cocoon;scroll of drastic healing;tongue of the walrus;lasagna bandages;doc galaktik's ailment ointment
+user	hpAutoRecoveryTarget	1.0
+user	invalidBuffMessage	You sent an amount which does not correspond to a valid buff amount.
+user	lastAdventure
+user	lastBangPotion819
+user	lastBangPotion820
+user	lastBangPotion821
+user	lastBangPotion822
+user	lastBangPotion823
+user	lastBangPotion824
+user	lastBangPotion825
+user	lastBangPotion826
+user	lastBangPotion827
+user	lastBangPotionReset	-1
+user	lastBreakfast	-1
+user	lastCouncilVisit	0
+user	lastCounterDay	-1
+user	lastDustyBottle2271
+user	lastDustyBottle2272
+user	lastDustyBottle2273
+user	lastDustyBottle2274
+user	lastDustyBottle2275
+user	lastDustyBottle2276
+user	lastDustyBottleReset	-1
+user	lastEmptiedStorage	-1
+user	lastFilthClearance	-1
+user	lastGalleryUnlock	-1
+user	lastLouvreMap	0
+user	lastMessageId
+user	lastQuartetAscension	-1
+user	lastQuartetRequest	0
+user	lastSecondFloorUnlock	-1
+user	lastStoneSphere2174
+user	lastStoneSphere2175
+user	lastStoneSphere2176
+user	lastStoneSphere2177
+user	lastStoneSphereReset	-1
+user	lastTavernAscension	0
+user	lastTavernSquare	0
+user	lastTelescopeReset	-1
+user	lastTowerClimb	-1
+user	louvreDesiredGoal	7
+user	louvreGoal	0
+user	louvreLayout
+user	louvreOverride
+user	luckySewerAdventure	stolen accordion
+user	manaBurningThreshold	-0.1
+user	mpAutoRecovery	0.0
+user	mpAutoRecoveryItems	phonics down;knob goblin superseltzer;mountain stream soda;magical mystery juice;knob goblin seltzer;cherry cloaca cola;soda water
+user	mpAutoRecoveryTarget	0.3
+user	munchiesPillsUsed	0
+user	noodleSummons	0
+user	plantingDate
+user	plantingDay	-1
+user	plantingLength
+user	plantingScript
+user	preBlackbirdFamiliar
+user	reagentSummons	0
+user	relayAddsCustomCombat	true
+user	relayCounters
+user	requireBoxServants	false
+user	retrieveContacts	true
+user	showGainsPerUnit	false
+user	snowconeSummons	0
+user	stationaryButton1
+user	stationaryButton2
+user	stationaryButton3
+user	stationaryButton4
+user	stationaryButton5
+user	tavernLayout	0000000000000000000000000
+user	telescope1
+user	telescope2
+user	telescope3
+user	telescope4
+user	telescope5
+user	telescope6
+user	telescope7
+user	telescopeUpgrades	0
+user	thanksMessage	Thank you for the donation!
+user	trapperOre	chrome ore
+user	violetFogGoal	0
+
+user	choiceAdventure2	2
+user	choiceAdventure3	3
+user	choiceAdventure4	3
+user	choiceAdventure5	2
+user	choiceAdventure6	1
+user	choiceAdventure7	1
+user	choiceAdventure8	3
+user	choiceAdventure9	2
+user	choiceAdventure10	1
+user	choiceAdventure11	3
+user	choiceAdventure12	2
+user	choiceAdventure14	4
+user	choiceAdventure15	4
+user	choiceAdventure16	4
+user	choiceAdventure17	4
+user	choiceAdventure18	4
+user	choiceAdventure19	4
+user	choiceAdventure20	4
+user	choiceAdventure21	2
+user	choiceAdventure22	4
+user	choiceAdventure23	4
+user	choiceAdventure24	4
+user	choiceAdventure25	2
+user	choiceAdventure26	2
+user	choiceAdventure27	2
+user	choiceAdventure28	2
+user	choiceAdventure29	2
+user	choiceAdventure40	3
+user	choiceAdventure41	3
+user	choiceAdventure42	3
+user	choiceAdventure45	1
+user	choiceAdventure46	3
+user	choiceAdventure47	2
+user	choiceAdventure71	1
+user	choiceAdventure72	2
+user	choiceAdventure73	2
+user	choiceAdventure74	2
+user	choiceAdventure75	3
+user	choiceAdventure76	3
+user	choiceAdventure77	2
+user	choiceAdventure78	1
+user	choiceAdventure79	1
+user	choiceAdventure80	99
+user	choiceAdventure81	1
+user	choiceAdventure82	1
+user	choiceAdventure83	1
+user	choiceAdventure84	2
+user	choiceAdventure85	1
+user	choiceAdventure86	2
+user	choiceAdventure87	2
+user	choiceAdventure88	1
+user	choiceAdventure89	3
+user	choiceAdventure90	2
+user	choiceAdventure91	1
+user	choiceAdventure105	3
+user	choiceAdventure106	4
+user	choiceAdventure107	4
+user	choiceAdventure108	4
+user	choiceAdventure109	1
+user	choiceAdventure110	4
+user	choiceAdventure111	3
+user	choiceAdventure112	1
+user	choiceAdventure113	2
+user	choiceAdventure114	2
+user	choiceAdventure115	1
+user	choiceAdventure116	4
+user	choiceAdventure117	1
+user	choiceAdventure118	2
+user	choiceAdventure120	4
+user	choiceAdventure123	2
+user	choiceAdventure125	3
+user	choiceAdventure126	1
+user	choiceAdventure127	3
+user	choiceAdventure129	1
+user	choiceAdventure130	1
+user	choiceAdventure131	1
+user	choiceAdventure132	2
+user	choiceAdventure134	2
+user	choiceAdventure135	2
+user	choiceAdventure136	4
+user	choiceAdventure137	4
+user	choiceAdventure138	4
+user	choiceAdventure139	1
+user	choiceAdventure140	2
+user	choiceAdventure141	1
+user	choiceAdventure142	3
+user	choiceAdventure143	1
+user	choiceAdventure144	1
+user	choiceAdventure145	1
+user	choiceAdventure146	3
+user	choiceAdventure147	3
+user	choiceAdventure148	1
+user	choiceAdventure149	2
+user	choiceAdventure151	2
+user	choiceAdventure152	1
+user	choiceAdventure153	4
+user	choiceAdventure154	1
+user	choiceAdventure155	4
+user	choiceAdventure156	1
+user	choiceAdventure157	4
+user	choiceAdventure158	1
+user	choiceAdventure159	4
+user	choiceAdventure160	1
+user	choiceAdventure161	4
+user	choiceAdventure162	1
+user	choiceAdventure163	1
+user	choiceAdventure164	2
+user	choiceAdventure165	2
+user	choiceAdventure166	3
+user	choiceAdventure167	3
+user	choiceAdventure168	3
+user	choiceAdventure169	3
+user	choiceAdventure170	1
+user	choiceAdventure171	3
+user	choiceAdventure172	1
+user	choiceAdventure177	4
+user	choiceAdventure178	1
+user	choiceAdventure180	1
+user	choiceAdventure181	1
+user	choiceAdventure182	1
