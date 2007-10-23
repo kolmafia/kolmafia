@@ -98,7 +98,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		statusMenu.add( new DisplayFrameMenuItem( "Gear Changer", "GearChangeFrame" ) );
 		statusMenu.add( new DisplayFrameMenuItem( "Skill Casting", "SkillBuffFrame" ) );
 
-		if ( KoLSettings.getBooleanProperty( "addExitMenuItems" ) )
+		if ( !System.getProperty( "os.name" ).startsWith( "Mac" ) )
 		{
 			statusMenu.add( new JSeparator() );
 			statusMenu.add( new LogoutMenuItem() );

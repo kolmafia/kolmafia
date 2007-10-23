@@ -56,6 +56,9 @@ public class KoLmafiaGUI extends KoLmafia
 
 		constructFrame( LoginFrame.class );
 
+		if ( KoLSettings.getUserProperty( "useDecoratedTabs" ).equals( "" ) )
+			KoLSettings.setUserProperty( "useDecoratedTabs", String.valueOf( !System.getProperty( "os.name" ).startsWith( "Mac" ) ) );
+
 		if ( !KoLSettings.getBooleanProperty( "customizedTabs" ) )
 		{
 			constructFrame( OptionsFrame.class );
