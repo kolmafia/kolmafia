@@ -441,7 +441,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		StringBuffer replyBuffer = new StringBuffer();
 
 		if ( !overrideMap.containsKey( filename ) )
-			overrideMap.put( filename, new File( RELAY_DIRECTORY, filename ) );
+			overrideMap.put( filename, new File( RELAY_LOCATION, filename ) );
 
 		File override = (File) overrideMap.get( filename );
 		if ( !override.exists() )
