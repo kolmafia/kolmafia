@@ -333,9 +333,6 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		if ( skillId == 18 || skillId == 6014 )
 			return;
 
-		if ( isBuff && inventory.contains( WIZARD_HAT ) )
-			(new EquipmentRequest( WIZARD_HAT, KoLCharacter.HAT )).run();
-
 		if ( KoLCharacter.canInteract() )
 			return;
 
