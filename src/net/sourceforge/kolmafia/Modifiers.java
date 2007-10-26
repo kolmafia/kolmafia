@@ -804,6 +804,9 @@ public class Modifiers extends KoLDatabase
 	// Items that modify based on character level
 	private static final int PILGRIM_SHIELD = 2090;
 
+	// Items that modify based on holiday
+	private static final int PARTY_HAT = 2945;
+
 	private boolean override( String name )
 	{
 		if ( name.equalsIgnoreCase( "Temporary Lycanthropy" ) )
@@ -926,6 +929,19 @@ public class Modifiers extends KoLDatabase
 
 		case PILGRIM_SHIELD:
 			set( DAMAGE_REDUCTION, KoLCharacter.getLevel() );
+			return true;
+
+		case PARTY_HAT:
+			// Reset to defaults
+			set( MP_REGEN_MIN, 0 );
+			set( MP_REGEN_MAX, 0 );
+
+			// Party hat is special on the Festival of Jarlsberg
+			if ( MoonPhaseDatabase.getHoliday().equals( "Festival of Jarlsberg" ) )
+			{
+				set( MP_REGEN_MIN, 3 );
+				set( MP_REGEN_MAX, 5 );
+			}
 			return true;
 		}
 
