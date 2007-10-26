@@ -2942,7 +2942,7 @@
 2942	chocolate filthy lucre	3	all	35
 2943	Angry Farmer's Wife Candy	3	all	30
 2944	
-2945	
+2945	party hat	9	all	50
 2946	
 2947
 2948	

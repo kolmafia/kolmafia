@@ -105,6 +105,7 @@ orange traffic cone	60	Mox: 15
 oriole-feather headdress	15	none
 outrageous sombrero	100	none
 pail	30	none
+party hat	30	none
 pentacorn hat	40	Mox: 5
 pimpin' meat hat	55	Mox: 12
 pixel hat	50	Mox: 10

@@ -83,6 +83,7 @@ Market Demon	m	magicalness-in-a-can	200
 Market Demon	m	strongness elixir	200
 Market Demon	m	moxie weed	200
 Market Demon	m	oyster basket	300
+Market Demon	m	party hat	300
 Market Demon	m	M-242	300
 Market Demon	m	snake	300
 Market Demon	m	sparkler	300

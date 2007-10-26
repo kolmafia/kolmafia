@@ -131,6 +131,7 @@ public class MoonPhaseDatabase extends StaticEntity
 		// Initialize all the known HOLIDAYS here so that
 		// they can be used in later initializers.
 
+		HOLIDAYS[1][1] = "Festival of Jarlsberg";
 		HOLIDAYS[2][4] = "Valentine's Day";
 		HOLIDAYS[3][3] = "St. Sneaky Pete's Day";
 		HOLIDAYS[4][2] = "Oyster Egg Day";
