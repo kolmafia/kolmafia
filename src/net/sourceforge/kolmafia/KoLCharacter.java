@@ -265,6 +265,7 @@ public abstract class KoLCharacter extends StaticEntity
 	private static int adventuresLeft = 0;
 	private static int currentRun = 0;
 	private static boolean isFullnessIncreased = false;
+	private static int holidayManaCostReduction = 0;
 
 	// Status pane data which is rendered whenever
 	// the user changes equipment, effects, and familiar
@@ -440,7 +441,9 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	public static final void setHoliday( String holiday )
-	{	isFullnessIncreased = holiday.equals( "Feast of Boris" );
+	{
+		isFullnessIncreased = holiday.equals( "Feast of Boris" );
+		holidayManaCostReduction = holiday.equals( "Festival of Jarlsberg" ) ? 3 : 0;
 	}
 
 	public static final int getFullness()
@@ -1066,7 +1069,7 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	public static final int getManaCostAdjustment()
-	{	return (int) currentModifiers.get( Modifiers.MANA_COST );
+	{	return (int) currentModifiers.get( Modifiers.MANA_COST ) - holidayManaCostReduction;
 	}
 
 	/**
