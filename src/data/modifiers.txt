@@ -176,7 +176,7 @@ orange traffic cone	Moxie: +3, Spooky Resistance: +20
 oriole-feather headdress	Maximum HP: +1, Maximum MP: +1
 outrageous sombrero	Moxie: +5, Muscle: +5, Mysticality: +5, Initiative: -20
 pail	Damage Absorption: +10
-party hat	Mysticality: +3, MP Regen Min: 3, MP Regen Max: 5
+party hat	Mysticality: +3
 # pentacorn hat
 pimpin' meat hat	Muscle: +2, Moxie: +2
 pixel hat	Moxie: +2, Muscle: +2, Mysticality: +2

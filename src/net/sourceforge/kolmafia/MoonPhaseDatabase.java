@@ -669,6 +669,10 @@ public class MoonPhaseDatabase extends StaticEntity
 		return predictionsArray;
 	}
 
+	public static final String getHoliday()
+	{	return getHoliday( new Date(), false );
+	}
+
 	public static final String getHoliday( Date time )
 	{	return getHoliday( time, false );
 	}
