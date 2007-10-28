@@ -129,34 +129,39 @@ public abstract class KoLmafia implements KoLConstants
 
 	private static KoLAdventure currentAdventure;
 
-	private static final ArrayList stopEncounters = new ArrayList();
-	static
+        // Types of special encounters
+	public static final int NONE = 0;
+	public static final int STOP = 1;
+	public static final int DEMON = 2;
+	public static final int SEMIRARE = 3;
+
+	public static final String [][] SPECIAL_ENCOUNTERS =
 	{
-		stopEncounters.add( "History is Fun!" );
-		stopEncounters.add( "It's A Sign!" );
-		stopEncounters.add( "The Manor in Which You're Accustomed" );
-		stopEncounters.add( "Under the Knife" );
-		stopEncounters.add( "The Oracle Will See You Now" );
-		stopEncounters.add( "A Grave Situation" );
-		stopEncounters.add( "Take a Dusty Look!" );
-		stopEncounters.add( "Drawn Onward" );
-		stopEncounters.add( "Mr. Alarm" );
-		stopEncounters.add( "We'll All Be Flat" );
+		{ "History is Fun!", "1" },
+		{ "It's A Sign!", "1" },
+		{ "The Manor in Which You're Accustomed", "1" },
+		{ "Under the Knife", "1" },
+		{ "The Oracle Will See You Now", "1" },
+		{ "A Grave Situation", "1" },
+		{ "Take a Dusty Look!", "1" },
+		{ "Drawn Onward", "1" },
+		{ "Mr. Alarm", "1" },
+		{ "We'll All Be Flat", "1" },
 
 		// Adventures that start the Around the World Quest
 
-		stopEncounters.add( "I Just Wanna Fly" );
-		stopEncounters.add( "Me Just Want Fly" );
+		{ "I Just Wanna Fly", "1" },
+		{ "Me Just Want Fly", "1" },
 
 		// Adventure in the Arid, Extra-Dry desert until you find the
 		// Oasis
 
-		stopEncounters.add( "Let's Make a Deal!" );
+		{ "Let's Make a Deal!", "1" },
 
 		// Get Ultra-hydrated and adventure in the Arid, Extra-Dry
 		// desert until you are given the task to find a stone rose.
 
-		stopEncounters.add( "A Sietch in Time" );
+		{ "A Sietch in Time", "1" },
 
 		// Adventure in Oasis until you have a stone rose and a drum
 		// machine. Buy black paint.
@@ -165,7 +170,7 @@ public abstract class KoLmafia implements KoLConstants
 		// you are tasked to find the missing pages from the
 		// worm-riding manual.
 
-		stopEncounters.add( "Walk Without Rhythm" );
+		{ "Walk Without Rhythm", "1" },
 
 		// Adventure in Oasis until you have worm-riding manual pages
 		// 3-15 Adventure in Arid, Extra-Dry Desert until you have
@@ -173,11 +178,41 @@ public abstract class KoLmafia implements KoLConstants
 
 		// Adventures that give demon names
 
-		stopEncounters.add( "Hoom Hah" );
-		stopEncounters.add( "Every Seashell Has a Story to Tell If You're Listening" );
-		stopEncounters.add( "Leavesdropping" );
-		stopEncounters.add( "These Pipes... Aren't Clean!" );
-	}
+		{ "Hoom Hah", "2" },
+		{ "Every Seashell Has a Story to Tell If You're Listening", "2" },
+		{ "Leavesdropping", "2" },
+		{ "These Pipes... Aren't Clean!", "2" },
+
+		// Adventures that give semirares
+		{ "A Menacing Phantom", "3" },
+		{ "All The Rave", "3" },
+		{ "Blaaargh! Blaaargh!", "3" },
+		{ "Filth, Filth, and More Filth", "3" },
+		{ "Hands On", "3" },
+		{ "How Does He Smell?", "3" },
+		{ "In the Still of the Alley", "3" },
+		{ "It's The Only Way To Be Sure", "3" },
+		{ "Knob Goblin Elite Guard Captain", "3" },
+		{ "Knob Goblin Embezzler", "3" },
+		{ "Le Chauve-Souris du Parfum", "3" },
+		{ "Like the Sunglasses, But Less Comfortable", "3" },
+		{ "Lunchboxing", "3" },
+		{ "Monty of County Crisco", "3" },
+		{ "Natural Selection", "3" },
+		{ "Not Quite as Cold as Ice", "3" },
+		{ "Play Misty For Me", "3" },
+		{ "Prior to Always", "3" },
+		{ "Rokay, Raggy!", "3" },
+		{ "Sand in the Vaseline", "3" },
+		{ "Some Bad ASCII Art", "3" },
+		{ "Some Bricks Do, In Fact, Hang in the Air", "3" },
+		{ "The Bleary-Eyed Cyclops", "3" },
+		{ "The Latest Sorcerous Developments", "3" },
+		{ "The Pilsbury Doughjerk", "3" },
+		{ "Two Sizes Too Small", "3" },
+		{ "Yo Ho Ho and a Bottle of Whatever This Is", "3" },
+		{ "You Can Top Our Desserts, But You Can't Beat Our Meats", "3" },
+	};
 
 	private static final boolean acquireFileLock( String suffix )
 	{
@@ -2841,13 +2876,41 @@ public abstract class KoLmafia implements KoLConstants
 		}
 	}
 
+	public static final int encounterType( String encounterName )
+	{
+		for ( int i = 0; i < SPECIAL_ENCOUNTERS.length; ++i)
+			if ( encounterName.equalsIgnoreCase( SPECIAL_ENCOUNTERS[i][0] ) )
+				return StaticEntity.parseInt( SPECIAL_ENCOUNTERS[i][1] );
+		return NONE;
+	}
+
 	public static final boolean isAutoStop( String encounterName )
-	{	return stopEncounters.contains( encounterName );
+	{
+		int encounterType = encounterType( encounterName );
+		return encounterType == STOP || encounterType == DEMON;
 	}
 
 	public void recognizeEncounter( String encounterName )
 	{
-		if ( isAutoStop( encounterName ) )
+		int encounterType = encounterType( encounterName );
+
+		if ( encounterType == NONE )
+			return;
+
+		if ( encounterType == SEMIRARE )
+		{
+			StaticEntity.stopCounting( "Fortune Cookie" );
+			return;
+		}
+
+		if ( encounterType == DEMON )
+		{
+			// For now, always stop, but we needn't bother if we've
+			// already seen this demon.
+			encounterType = STOP;
+		}
+
+		if ( encounterType == STOP )
 		{
 			RequestLogger.printLine();
 
