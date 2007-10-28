@@ -163,6 +163,10 @@ public class KoLRequest extends Job implements KoLConstants
 
 	public static final void applySettings()
 	{
+		// Reset delay statistics at the beginning of each login
+		totalActualDelay = 0;
+		totalConsideredDelay = 0;
+
 		applyProxySettings();
 
 		int defaultLoginServer = KoLSettings.getIntegerProperty( "defaultLoginServer" );
