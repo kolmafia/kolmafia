@@ -771,7 +771,7 @@ Ring of Fire	0	Mys: 60
 Ring of the Sewer Snake	0	Mys: 60
 Scandalously Skimpy Bikini	0	Mys: 10
 Senior LAAAAME merit badge	0	none
-Slow Talkin' Eliot's dogtags	0	Mys: 45
+Slow Talkin' Elliot's dogtags	0	Mys: 45
 Sneaky Pete's breath spray	0	Mys: 25
 Talisman o' Nam	0	Mys: 25
 Talisman of Baio	0	none

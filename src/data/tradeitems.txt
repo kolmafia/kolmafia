@@ -2324,7 +2324,7 @@
 2324	Staff of Ed, almost	0	none	0
 2325	Staff of Ed	0	none	0
 2326	stone rose	0	none	0
-2327	can of black paint	4	all	150
+2327	can of black paint	3	all	150
 2328	drum machine	3	display	160
 2329	handful of confetti	3	display	1000
 2330	chocolate-covered diamond-studded roses	0	gift	10000
@@ -2359,7 +2359,7 @@
 2359	purple clay bead	0	none	0
 2360	green clay bead	0	none	0
 2361	hippy medical kit	8	all	140
-2362	Slow Talkin' Eliot's dogtags	8	all	0
+2362	Slow Talkin' Elliot's dogtags	8	all	0
 2363	longhaired hippy wig	9	all	0
 2364	Zim Merman's guitar	12	all	0
 2365	C.A.R.N.I.V.O.R.E. button	8	all	0
