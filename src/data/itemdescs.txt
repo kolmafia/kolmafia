@@ -2364,7 +2364,7 @@
 2359	198133175	purple clay bead
 2360	791987367	green clay bead
 2361	564212733	hippy medical kit	hippy medical kits
-2362	555561642	Slow Talkin' Eliot's dogtags	Slow Talking Eliot's dogtagseseseses..
+2362	555561642	Slow Talkin' Elliot's dogtags	Slow Talking Eliot's dogtagseseseses..
 2363	113723777	longhaired hippy wig	longhaired hippy wigs
 2364	592756847	Zim Merman's guitar	Zim Merman's guitars
 2365	288571688	C.A.R.N.I.V.O.R.E. button	C.A.R.N.I.V.O.R.E. buttons

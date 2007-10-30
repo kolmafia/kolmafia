@@ -838,7 +838,7 @@ Ring of Fire	Single Equip, Moxie: +3, Muscle: +3, Mysticality: +3, Hot Damage: +
 Ring of the Sewer Snake	Single Equip, Moxie: +3, Muscle: +3, Mysticality: +3, Stench Damage: +40
 Scandalously Skimpy Bikini	Single Equip
 Senior LAAAAME merit badge	Moxie: +3, Muscle: +3, Mysticality: +3
-Slow Talkin' Eliot's dogtags	Muscle: +30, Initiative: -30
+Slow Talkin' Elliot's dogtags	Muscle: +30, Initiative: -30
 Sneaky Pete's breath spray	Moxie: +10
 Talisman o' Nam	Single Equip, Moxie: +3, Muscle: +3, Mysticality: +3
 # Talisman of Baio
