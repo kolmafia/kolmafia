@@ -716,11 +716,11 @@ scrumdiddlyumptious solution	20	delectable catalyst	scrumptious reagent
 
 # The following recipes lead to infinite recursion...
 
-# hot wad	21	scrumdiddlyumptious solution	sleaze wad
-# cold wad	21	scrumdiddlyumptious solution	hot wad
-# spooky wad	21	scrumdiddlyumptious solution	cold wad
-# stench wad	21	scrumdiddlyumptious solution	spooky wad
-# sleaze wad	21	scrumdiddlyumptious solution	stench wad
+# hot wad	21	twinkly wad	sleaze wad
+# cold wad	21	twinkly wad	hot wad
+# spooky wad	21	twinkly wad	cold wad
+# stench wad	21	twinkly wad	spooky wad
+# sleaze wad	21	twinkly wad	stench wad
 
 cologne of contempt	21	scrumdiddlyumptious solution	dill
 concentrated cordial of concentration	21	scrumdiddlyumptious solution	tonic water
