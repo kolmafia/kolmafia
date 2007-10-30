@@ -69,7 +69,7 @@ public class ClassSkillsDatabase extends KoLDatabase
 
 	private static final String [] CATEGORIES = new String []
 	{
-		UNCATEGORIZED, "seal clubber", "turtle tamer", "pastamancer", "sauceror", "accordion thief", "disco bandit",
+		UNCATEGORIZED, "seal clubber", "turtle tamer", "pastamancer", "sauceror", "disco bandit", "accordion thief",
 		GNOME_SKILLS, MR_SKILLS, BAD_MOON
 	};
 

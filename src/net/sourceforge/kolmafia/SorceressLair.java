@@ -111,7 +111,7 @@ public abstract class SorceressLair extends StaticEntity
 
 	private static final AdventureResult RED_POTION = new AdventureResult( "red pixel potion", 1 );
 	private static final AdventureResult HIPPY_HEAL = new AdventureResult( "filthy poultice", 1 );
-	private static final AdventureResult FRATBOY_HEAL = new AdventureResult( "filthy poultice", 1 );
+	private static final AdventureResult FRATBOY_HEAL = new AdventureResult( "gauze garter", 1 );
 
 	// Gates, what they look like through the Telescope, the effects you
 	// need to pass them, and where to get it
