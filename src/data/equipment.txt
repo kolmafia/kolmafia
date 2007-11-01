@@ -933,48 +933,112 @@ stuffed shoulder parrot	0	Mys: 25
 support cummerbund	0	Mys: 35
 tap shoes	0	none
 tin star	0	none
+tiny plastic 7-foot dwarf	0	none
+tiny plastic Axe Wound	0	none
+tiny plastic Baron Von Ratsworth	0	none
+tiny plastic Beelzebozo	0	none
+tiny plastic Black Knight	0	none
+tiny plastic Bonerdagon	0	none
 tiny plastic Boris	0	none
+tiny plastic Boss Bat	0	none
 tiny plastic Cheshire bat	0	none
 tiny plastic Crimbo elf	0	none
 tiny plastic Crimbo reindeer	0	none
 tiny plastic Crimbo wreath	0	none
 tiny plastic Crimboween pentagram	0	none
+tiny plastic Dr. Awkward	0	none
+tiny plastic Ed the Undying	0	none
+tiny plastic Felonia	0	none
+tiny plastic G Imp	0	none
+tiny plastic Gnollish crossdresser	0	none
+tiny plastic Gnomester Blomester	0	none
+tiny plastic Hellion	0	none
+tiny plastic Iiti Kitty	0	none
 tiny plastic Jarlsberg	0	none
+tiny plastic Knob Goblin King	0	none
+tiny plastic Knob Goblin bean counter	0	none
+tiny plastic Knob Goblin harem girl	0	none
+tiny plastic Knob Goblin mad scientist	0	none
+tiny plastic Knott Yeti	0	none
+tiny plastic Lord Spookyraven	0	none
+tiny plastic Naughty Sorceress	0	none
+tiny plastic Orcish Frat Boy	0	none
+tiny plastic Protagonist	0	none
 tiny plastic Scream Queen	0	none
 tiny plastic Sneaky Pete	0	none
+tiny plastic Spam Witch	0	none
+tiny plastic Spunky Princess	0	none
 tiny plastic Susie	0	none
+tiny plastic Trouser Snake	0	none
 tiny plastic Uncle Crimbo	0	none
+tiny plastic XXX pr0n	0	none
 tiny plastic accordion thief	0	none
 tiny plastic ancient yuletide troll	0	none
+tiny plastic angry bugbear	0	none
 tiny plastic angry goat	0	none
+tiny plastic anime smiley	0	none
+tiny plastic apathetic lizardman	0	none
+tiny plastic astronomer	0	none
 tiny plastic baby gravy fairy	0	none
 tiny plastic barrrnacle	0	none
+tiny plastic beanbat	0	none
 tiny plastic bitchin' meatcar	0	none
 tiny plastic blood-faced volleyball	0	none
+tiny plastic blooper	0	none
+tiny plastic brainsweeper	0	none
+tiny plastic briefcase bat	0	none
 tiny plastic cocoabo	0	none
 tiny plastic coffee pixie	0	none
+tiny plastic conservationist hippy	0	none
+tiny plastic cubist bull	0	none
+tiny plastic demoninja	0	none
 tiny plastic disco bandit	0	none
+tiny plastic drunk goat	0	none
+tiny plastic fiendish can of asparagus	0	none
+tiny plastic filthy hippy jewelry maker	0	none
+tiny plastic fluffy bunny	0	none
+tiny plastic fruit golem	0	none
 tiny plastic fuzzy dice	0	none
 tiny plastic ghost pickle on a stick	0	none
 tiny plastic ghuol whelp	0	none
+tiny plastic giant pair of tweezers	0	none
 tiny plastic gift-wrapping vampire	0	none
+tiny plastic goth giant	0	none
 tiny plastic grue	0	none
+tiny plastic handsome mariachi	0	none
 tiny plastic hermit	0	none
 tiny plastic howling balloon monkey	0	none
 tiny plastic killer bee	0	none
+tiny plastic lemon-in-the-box	0	none
 tiny plastic leprechaun	0	none
 tiny plastic levitating potato	0	none
+tiny plastic lobsterfrogman	0	none
 tiny plastic mosquito	0	none
+tiny plastic ninja snowman	0	none
 tiny plastic pastamancer	0	none
+tiny plastic protector spectre	0	none
 tiny plastic sabre-toothed lime	0	none
 tiny plastic sauceror	0	none
+tiny plastic scary clown	0	none
 tiny plastic seal clubber	0	none
+tiny plastic senile lihc	0	none
 tiny plastic skeletal reindeer	0	none
+tiny plastic smarmy pirate	0	none
+tiny plastic spiny skelelton	0	none
 tiny plastic spooky pirate skeleton	0	none
+tiny plastic spooky vampire	0	none
 tiny plastic stab bat	0	none
 tiny plastic star starfish	0	none
 tiny plastic sweet nutcracker	0	none
+tiny plastic taco cat	0	none
+tiny plastic the Big Wisneiwski	0	none
+tiny plastic the Man	0	none
+tiny plastic topiary golem	0	none
 tiny plastic turtle tamer	0	none
+tiny plastic undead elbow macaroni	0	none
+tiny plastic warwelf	0	none
+tiny plastic whitesnake	0	none
+tiny plastic zmobie	0	none
 toy crazy train	0	none
 toy jet pack	0	Mys: 72
 toy train	0	none
