@@ -2869,70 +2869,70 @@
 2869	
 2870	
 2871	burnt flower	0	all	0
-2872	
-2873	
-2874	
-2875	
-2876	
-2877
-2878	
-2879	
-2880	
-2881	
-2882	
-2883	
-2884	
-2885	
-2886	
-2887
-2888	
-2889	
-2890	
-2891	
-2892	
-2893	
-2894	
-2895	
-2896	
-2897
-2898	
-2899	
-2900	
-2901	
-2902	
-2903	
-2904	
-2905	
-2906	
-2907
-2908	
-2909	
-2910	
-2911	
-2912	
-2913	
-2914	
-2915	
-2916	
-2917
-2918	
-2919	
-2920	
-2921	
-2922	
-2923	
-2924	
-2925	
-2926	
-2927
-2928	
-2929	
-2930	
-2931	
-2932	
-2933	
-2934	
-2935	
+2872	tiny plastic Naughty Sorceress	8	all	0
+2873	tiny plastic Ed the Undying	8	all	0
+2874	tiny plastic Lord Spookyraven	8	all	0
+2875	tiny plastic Dr. Awkward	8	all	0
+2876	tiny plastic protector spectre	8	all	0
+2877	tiny plastic Baron Von Ratsworth	8	all	30
+2878	tiny plastic Boss Bat	8	all	30
+2879	tiny plastic Knob Goblin King	8	all	30
+2880	tiny plastic Bonerdagon	8	all	30
+2881	tiny plastic the Man	8	all	30
+2882	tiny plastic the Big Wisneiwski	8	all	30
+2883	tiny plastic Felonia	8	all	30
+2884	tiny plastic Beelzebozo	8	all	30
+2885	tiny plastic conservationist hippy	8	all	30
+2886	tiny plastic 7-foot dwarf	8	all	30
+2887	tiny plastic angry bugbear	8	all	30
+2888	tiny plastic anime smiley	8	all	30
+2889	tiny plastic apathetic lizardman	8	all	30
+2890	tiny plastic astronomer	8	all	30
+2891	tiny plastic beanbat	8	all	30
+2892	tiny plastic blooper	8	all	30
+2893	tiny plastic brainsweeper	8	all	30
+2894	tiny plastic briefcase bat	8	all	30
+2895	tiny plastic demoninja	8	all	30
+2896	tiny plastic filthy hippy jewelry maker	8	all	30
+2897	tiny plastic drunk goat	8	all	30
+2898	tiny plastic fiendish can of asparagus	8	all	30
+2899	tiny plastic Gnollish crossdresser	8	all	30
+2900	tiny plastic handsome mariachi	8	all	30
+2901	tiny plastic Knob Goblin bean counter	8	all	30
+2902	tiny plastic Knob Goblin harem girl	8	all	30
+2903	tiny plastic Knob Goblin mad scientist	8	all	30
+2904	tiny plastic Knott Yeti	8	all	30
+2905	tiny plastic lemon-in-the-box	8	all	30
+2906	tiny plastic lobsterfrogman	8	all	30
+2907	tiny plastic ninja snowman	8	all	30
+2908	tiny plastic Orcish Frat Boy	8	all	30
+2909	tiny plastic G Imp	8	all	30
+2910	tiny plastic goth giant	8	all	30
+2911	tiny plastic cubist bull	8	all	30
+2912	tiny plastic scary clown	8	all	30
+2913	tiny plastic smarmy pirate	8	all	30
+2914	tiny plastic spiny skelelton	8	all	30
+2915	tiny plastic Spam Witch	8	all	30
+2916	tiny plastic spooky vampire	8	all	30
+2917	tiny plastic taco cat	8	all	30
+2918	tiny plastic undead elbow macaroni	8	all	30
+2919	tiny plastic warwelf	8	all	30
+2920	tiny plastic whitesnake	8	all	30
+2921	tiny plastic XXX pr0n	8	all	30
+2922	tiny plastic zmobie	8	all	30
+2923	tiny plastic Protagonist	8	all	30
+2924	tiny plastic Spunky Princess	8	all	30
+2925	tiny plastic topiary golem	8	all	30
+2926	tiny plastic senile lihc	8	all	30
+2927	tiny plastic Iiti Kitty	8	all	30
+2928	tiny plastic Gnomester Blomester	8	all	30
+2929	tiny plastic Trouser Snake	8	all	30
+2930	tiny plastic Axe Wound	8	all	30
+2931	tiny plastic Hellion	8	all	30
+2932	tiny plastic Black Knight	8	all	30
+2933	tiny plastic giant pair of tweezers	8	all	30
+2934	tiny plastic fruit golem	8	all	30
+2935	tiny plastic fluffy bunny	8	all	30
 2936	miniature castagnets	7	all	75
 2937	siesta-ing Casagnova gnome	5	all	0
 2938	miniature Jacob's ladder	7	all	75

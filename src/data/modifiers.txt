@@ -999,48 +999,112 @@ stuffed shoulder parrot	Maximum MP: +5
 support cummerbund	Maximum HP: +20
 tap shoes	Single Equip, Moxie: +11, Initiative: -20
 tin star	Monster Level: +5, Moxie: +3
+tiny plastic 7-foot dwarf	Monster Level: +1
+tiny plastic Axe Wound	Monster Level: +1
+tiny plastic Baron Von Ratsworth	Meat Drop: +3
+tiny plastic Beelzebozo	Sleaze Damage: +5
+tiny plastic Black Knight	Monster Level: +1
+tiny plastic Bonerdagon	Mysticality: +3
 tiny plastic Boris	Muscle: +5, Mysticality: +3, Moxie: +3
+tiny plastic Boss Bat	Maximum HP: +5
 tiny plastic Cheshire bat	Familiar Weight: +1
 tiny plastic Crimbo elf	Familiar Weight: +1
 tiny plastic Crimbo reindeer	Single Equip, Adventures: +1
 tiny plastic Crimbo wreath	Single Equip, MP Regen Min: 1, MP Regen Max: 2
 tiny plastic Crimboween pentagram	Single Equip, MP Regen Min: 1, MP Regen Max: 2
+tiny plastic Dr. Awkward	Never Fumble
+tiny plastic Ed the Undying	Maximum HP: +30, Damage Absorption: +30
+tiny plastic Felonia	Spooky Damage: +5
+tiny plastic G Imp	Monster Level: +1
+tiny plastic Gnollish crossdresser	Monster Level: +1
+tiny plastic Gnomester Blomester	Monster Level: +1
+tiny plastic Hellion	Monster Level: +1
+tiny plastic Iiti Kitty	Monster Level: +1
 tiny plastic Jarlsberg	Mysticality: +5, Muscle: +3, Moxie: +3
+tiny plastic Knob Goblin King	Muscle: +3
+tiny plastic Knob Goblin bean counter	Monster Level: +1
+tiny plastic Knob Goblin harem girl	Monster Level: +1
+tiny plastic Knob Goblin mad scientist	Monster Level: +1
+tiny plastic Knott Yeti	Monster Level: +1
+tiny plastic Lord Spookyraven	Maximum MP: +30, Spell Damage: +10
+tiny plastic Naughty Sorceress	Spell Damage Percent: +100, Maximum MP: +100
+tiny plastic Orcish Frat Boy	Monster Level: +1
+tiny plastic Protagonist	Monster Level: +1
 tiny plastic Scream Queen	Moxie: +1, Muscle: +1, Mysticality: +1
 tiny plastic Sneaky Pete	Moxie: +5, Muscle: +3, Mysticality: +3
+tiny plastic Spam Witch	Monster Level: +1
+tiny plastic Spunky Princess	Monster Level: +1
 tiny plastic Susie	Moxie: +5, Muscle: +5, Mysticality: +5
+tiny plastic Trouser Snake	Monster Level: +1
 tiny plastic Uncle Crimbo	Moxie: +1, Muscle: +1, Mysticality: +1
+tiny plastic XXX pr0n	Monster Level: +1
 tiny plastic accordion thief	Moxie: +2, Mysticality: +1
 tiny plastic ancient yuletide troll	Familiar Weight: +1
+tiny plastic angry bugbear	Monster Level: +1
 tiny plastic angry goat	Familiar Weight: +1
+tiny plastic anime smiley	Monster Level: +1
+tiny plastic apathetic lizardman	Monster Level: +1
+tiny plastic astronomer	Monster Level: +1
 tiny plastic baby gravy fairy	Familiar Weight: +1
 tiny plastic barrrnacle	Familiar Weight: +1
+tiny plastic beanbat	Monster Level: +1
 tiny plastic bitchin' meatcar	Single Equip, Adventures: +1
 tiny plastic blood-faced volleyball	Familiar Weight: +1
+tiny plastic blooper	Monster Level: +1
+tiny plastic brainsweeper	Monster Level: +1
+tiny plastic briefcase bat	Monster Level: +1
 tiny plastic cocoabo	Familiar Weight: +1
 tiny plastic coffee pixie	Familiar Weight: +1
+tiny plastic conservationist hippy	Stench Damage: +5
+tiny plastic cubist bull	Monster Level: +1
+tiny plastic demoninja	Monster Level: +1
 tiny plastic disco bandit	Moxie: +2, Muscle: +1
+tiny plastic drunk goat	Monster Level: +1
+tiny plastic fiendish can of asparagus	Monster Level: +1
+tiny plastic filthy hippy jewelry maker	Monster Level: +1
+tiny plastic fluffy bunny	Monster Level: +1
+tiny plastic fruit golem	Monster Level: +1
 tiny plastic fuzzy dice	Familiar Weight: +1
 tiny plastic ghost pickle on a stick	Familiar Weight: +1
 tiny plastic ghuol whelp	Familiar Weight: +1
+tiny plastic giant pair of tweezers	Monster Level: +1
 tiny plastic gift-wrapping vampire	Familiar Weight: +1
+tiny plastic goth giant	Monster Level: +1
 tiny plastic grue	Familiar Weight: +1
+tiny plastic handsome mariachi	Monster Level: +1
 tiny plastic hermit	Meat Drop: +6
 tiny plastic howling balloon monkey	Familiar Weight: +1
 tiny plastic killer bee	Familiar Weight: +1
+tiny plastic lemon-in-the-box	Monster Level: +1
 tiny plastic leprechaun	Familiar Weight: +1
 tiny plastic levitating potato	Familiar Weight: +1
+tiny plastic lobsterfrogman	Monster Level: +1
 tiny plastic mosquito	Familiar Weight: +1
+tiny plastic ninja snowman	Monster Level: +1
 tiny plastic pastamancer	Mysticality: +2, Muscle: +1
+tiny plastic protector spectre	Spooky Damage: +10
 tiny plastic sabre-toothed lime	Familiar Weight: +1
 tiny plastic sauceror	Mysticality: +2, Moxie: +1
+tiny plastic scary clown	Monster Level: +1
 tiny plastic seal clubber	Muscle: +2, Moxie: +1
+tiny plastic senile lihc	Monster Level: +1
 tiny plastic skeletal reindeer	Single Equip, Adventures: +1
+tiny plastic smarmy pirate	Monster Level: +1
+tiny plastic spiny skelelton	Monster Level: +1
 tiny plastic spooky pirate skeleton	Familiar Weight: +1
+tiny plastic spooky vampire	Monster Level: +1
 tiny plastic stab bat	Familiar Weight: +1
 tiny plastic star starfish	Familiar Weight: +1
 tiny plastic sweet nutcracker	Familiar Weight: +1
+tiny plastic taco cat	Monster Level: +1
+# tiny plastic the Big Wisneiwski	Food Drop: +3
+tiny plastic the Man	Meat Drop: +3
+tiny plastic topiary golem	Monster Level: +1
 tiny plastic turtle tamer	Muscle: +2, Mysticality: +1
+tiny plastic undead elbow macaroni	Monster Level: +1
+tiny plastic warwelf	Monster Level: +1
+tiny plastic whitesnake	Monster Level: +1
+tiny plastic zmobie	Monster Level: +1
 toy crazy train	Single Equip, Meat Drop: +10
 toy jet pack	Single Equip, Intrinsic Effect: "Get Me Off This Crazy Thing!"
 toy train	Single Equip, Meat Drop: +10
@@ -1610,6 +1674,7 @@ eXtreme Cold-Weather Gear	Cold Resistance: +30
 # +20% Food Drops from Monsters
 # +3 PvP fight(s) per day when equipped.
 # +3 damage to Disco Bandit Combat Skills
+# +3% Food Drops from Monsters
 # +30 to All Attributes.  Yeah, +30.  That's the ticket.
 # +30% Combat Initiative
 # +5 Duration to Buffs You Cast
