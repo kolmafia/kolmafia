@@ -124,8 +124,15 @@ public class FightRequest extends KoLRequest
 	// Ultra-rare monsters
 	private static final String [] RARE_MONSTERS =
 	{
-		"baiowulf", "crazy bastard", "hockey elemental", "hypnotist of hey deze",
-		"infinite meat bug", "master of thieves", "temporal bandit"
+		"baiowulf",
+		"count bakula",
+		"crazy bastard",
+		"hockey elemental",
+		"hypnotist of hey deze",
+		"infinite meat bug",
+		"knott slanding",
+		"master of thieves",
+		"temporal bandit"
 	};
 
 	/**

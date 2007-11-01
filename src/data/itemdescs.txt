@@ -2849,7 +2849,7 @@
 2844	908656927	navel ring of navel gazing	navel ring of navel gazings
 2845	840974863	class five ecto-larva	class five ecto-larvae
 2846	654355112	plastic bib	plastic bibs
-2847	
+2847	406198903	Dallas Dynasty Falcon Crest shield
 2848	601549776	Gnomitronic Hyperspatial Demodulizer
 2849	
 2850	
@@ -2942,13 +2942,13 @@
 2937	856434974	siesta-ing Casagnova gnome
 2938	978816458	miniature Jacob's ladder
 2939	501420751	unemployed hunchbacked minion
-2940	
+2940	523108373	Spooky Surprise Egg	Spooky Surprise Eggs
 2941	525080486	Steal This Candy	Steal These Candies
 2942	512578714	chocolate filthy lucre	chocolate filthy lucres
 2943	802063862	Angry Farmer's Wife Candy
 2944	
 2945	340531020	party hat	party hats
-2946	
+2946	798085688	V for Vivala mask
 2947
 2948	
 2949	
