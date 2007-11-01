@@ -199,6 +199,7 @@ spicy bean burrito	2	bean burrito	spices
 spicy enchanted bean burrito	2	enchanted bean burrito	spices
 spicy jumping bean burrito	2	jumping bean burrito	spices
 spectral pickle	2	ghost cucumber	ghostly pickling solution
+Spooky Surprise Egg	2	spooky wad	cocoa egg
 strawberry pie	2	pie crust	strawberry
 
 Boris's key lime	2	Boris's key	lime

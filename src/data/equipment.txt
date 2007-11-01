@@ -576,6 +576,8 @@ Brimstone Bunker	0	Mus: 30
 Cloaca-Cola shield	75	none
 Codex of Capsaicin Conjuration	0	none
 Cookbook of the Damned	0	none
+# *** Dallas Dynasty Falcon Crest shield is a shield of unknown power.
+Dallas Dynasty Falcon Crest shield	0	Mus: 85
 Dyspepsi-Cola shield	75	none
 Gazpacho's Glacial Grimoire	0	none
 Glass Balls of the Goblin King	0	Mys: 20
@@ -779,6 +781,7 @@ Talisman of Bakula	0	none
 The Ring	0	Mys: 60
 Unspeakable Earring	0	Mys: 60
 Uranium Omega of Temperence	0	Mys: 85
+V for Vivala mask	0	none
 Warehouse 23 bling	0	none
 Xlyinia's notebook	0	none
 Yellow Moon of Compassion	0	Mys: 85

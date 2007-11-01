@@ -2844,7 +2844,7 @@
 2844	navel ring of navel gazing	8	all	0
 2845	class five ecto-larva	5	all	0
 2846	plastic bib	7	all	0
-2847	
+2847	Dallas Dynasty Falcon Crest shield	13	all	0
 2848	Gnomitronic Hyperspatial Demodulizer	0	all	999
 2849	
 2850	
@@ -2937,13 +2937,13 @@
 2937	siesta-ing Casagnova gnome	5	all	0
 2938	miniature Jacob's ladder	7	all	75
 2939	unemployed hunchbacked minion	5	all	0
-2940	
+2940	Spooky Surprise Egg	1	all	420
 2941	Steal This Candy	3	all	25
 2942	chocolate filthy lucre	3	all	35
 2943	Angry Farmer's Wife Candy	3	all	30
 2944	
 2945	party hat	9	all	50
-2946	
+2946	V for Vivala mask	8	all	0
 2947
 2948	
 2949	

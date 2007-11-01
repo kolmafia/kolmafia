@@ -280,6 +280,7 @@ Knob Goblin Mad Scientist	HP: 25 Def: 40 Atk: 40 Meat: 32-51	Knob Goblin love po
 Knob Goblin Master Chef	HP: 20 Def: 22 Atk: 22	dry noodles (15)	Knob mushroom (15)	spices (15)
 Knob Goblin Mutant	HP: 43 Def: 53 Atk: 53 Meat: 44-70
 Knob Goblin Very Mad Scientist	HP: 30 Def: 45 Atk: 45 Meat: 36-57	Knob Goblin seltzer (15)	Knob Goblin superseltzer (15)	scrumptious reagent (25)
+Knott Slanding	HP: 0	Dallas Dynasty Falcon Crest shield (100)
 Knott Yeti	HP: 90 Def: 103 Atk: 107 E: cold Meat: 160-262	yeti fur (30)
 Koopa Troopa	HP: 15 Def: 20 Atk: 20	black pixel (50)	green pixel (80)	white pixel (50)
 L Imp	HP: 44 Def: 44 Atk: 44 E: heat Meat: 24-39	Imp Ale (30)	cast (30)	flaming crutch (30)
