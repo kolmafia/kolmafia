@@ -1131,8 +1131,11 @@ public abstract class KoLCharacter extends StaticEntity
 		case ACCESSORY1:
 		case ACCESSORY2:
 		case ACCESSORY3:
-			if ( !accessories.contains( item ) )
+			int index = accessories.indexOf( item );
+			if ( index == -1 )
 				accessories.add( item );
+			else
+				item = (AdventureResult)accessories.get( index );
 			break;
 
 		default:
@@ -1164,9 +1167,6 @@ public abstract class KoLCharacter extends StaticEntity
 
 		switch ( item.getItemId() )
 		{
-		case NAVEL_RING:
-			addAvailableSkill( UseSkillRequest.getInstance( "Omphaloskepsis" ) );
-			break;
 		case BOTTLE_ROCKET:
 			addAvailableSkill( UseSkillRequest.getInstance( "Fire red bottle-rocket" ) );
 			addAvailableSkill( UseSkillRequest.getInstance( "Fire blue bottle-rocket" ) );
