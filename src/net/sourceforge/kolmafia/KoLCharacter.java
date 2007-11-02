@@ -2080,6 +2080,9 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static final void addAvailableSkill( UseSkillRequest skill )
 	{
+		if ( skill == null )
+			return;
+
 		if ( availableSkills.contains( skill ) )
 			return;
 
