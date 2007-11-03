@@ -2788,7 +2788,6 @@ public abstract class KoLmafia implements KoLConstants
 				return;
 
 		RequestThread.openRequestSequence();
-
 		MallPurchaseRequest currentRequest = (MallPurchaseRequest) purchases[0];
 		AdventureResult itemToBuy = new AdventureResult( currentRequest.getItemId(), 0 );
 
@@ -2798,15 +2797,22 @@ public abstract class KoLmafia implements KoLConstants
 
 		int previousLimit = 0;
 
+		int currentPrice = currentRequest.getPrice();
+		int priceLimit = purchases.length < 3 ? Integer.MAX_VALUE : ((MallPurchaseRequest)purchases[2]).getPrice() * 2;
+
 		for ( int i = 0; i < purchases.length && currentCount < desiredCount && permitsContinue(); ++i )
 		{
 			currentRequest = (MallPurchaseRequest) purchases[i];
+			currentPrice = currentRequest.getPrice();
 
 			if ( !KoLCharacter.canInteract() && currentRequest.getQuantity() != MallPurchaseRequest.MAX_QUANTITY )
 				continue;
 
-			if ( isAutomated && currentRequest.getPrice() >= 50000 )
-				KoLmafia.updateDisplay( currentRequest.getItemName() + " is too expensive for automated purchasing." );
+			if ( isAutomated )
+			{
+				if ( currentPrice >= priceLimit )
+					KoLmafia.updateDisplay( "Stopped purchasing " + currentRequest.getItemName() + " @ " + COMMA_FORMAT.format( currentPrice ) + "." );
+			}
 
 			// Keep track of how many of the item you had before
 			// you run the purchase request
