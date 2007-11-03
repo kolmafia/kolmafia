@@ -1187,6 +1187,10 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		{
 			addAscensionReminders( location, buffer );
 		}
+		else if ( location.startsWith( "wand.php" ) )
+		{
+			ZapRequest.decorate( buffer );
+		}
 
 		// Always select the contents of text fields when you click on them
 		// to make for easy editing.

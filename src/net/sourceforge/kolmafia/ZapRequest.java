@@ -33,8 +33,21 @@
 
 package net.sourceforge.kolmafia;
 
+import java.io.BufferedReader;
+
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
+import net.java.dev.spellcast.utilities.SortedListModel;
+import net.sourceforge.kolmafia.KoLDatabase.BooleanArray;
+
 public class ZapRequest extends KoLRequest
 {
+	private static final Pattern OPTION_PATTERN = Pattern.compile( "<option value=(\\d+) descid='.*?'>.*?</option>" );
+
+	private static final BooleanArray isZappable = new BooleanArray();
+	private static final SortedListModel zappableItems = new SortedListModel();
+
 	private AdventureResult item;
 
 	public ZapRequest( AdventureResult item )
@@ -53,7 +66,42 @@ public class ZapRequest extends KoLRequest
 		this.addFormField( "whichitem", String.valueOf( item.getItemId() ) );
 	}
 
+	private static final void initializeList()
+	{
+		if ( !zappableItems.isEmpty() )
+			return;
 
+		try
+		{
+			String line;
+			BufferedReader reader = KoLDatabase.getReader( "zapgroups.txt" );
+
+			while ( (line = KoLDatabase.readLine( reader )) != null )
+			{
+				String [] list = line.split( "\\s*,\\s*" );
+				for ( int i = 0; i < list.length; ++i )
+				{
+					int itemId = TradeableItemDatabase.getItemId( list[i] );
+					zappableItems.add( new AdventureResult( itemId, 1 ) );
+					isZappable.set( itemId, true );
+				}
+			}
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace();
+		}
+	}
+
+	public static final SortedListModel getZappableItems()
+	{
+		initializeList();
+
+		SortedListModel matchingItems = new SortedListModel();
+		matchingItems.addAll( inventory );
+		matchingItems.retainAll( zappableItems );
+		return matchingItems;
+	}
 
 	public void run()
 	{
@@ -97,6 +145,28 @@ public class ZapRequest extends KoLRequest
 		// Remove old item and notify the user of success.
 		StaticEntity.getClient().processResult( this.item.getInstance( -1 ) );
 		KoLmafia.updateDisplay( this.item.getName() + " has been transformed." );
+	}
+
+	public static final void decorate( StringBuffer buffer )
+	{
+		initializeList();
+
+		int selectIndex = buffer.indexOf( ">", buffer.indexOf( "<select" ) ) + 1;
+		int endSelectIndex = buffer.indexOf( "</select>" );
+
+		Matcher optionMatcher = OPTION_PATTERN.matcher( buffer.substring( selectIndex, endSelectIndex ) );
+		buffer.delete( selectIndex, endSelectIndex );
+
+		int itemId;
+		StringBuffer zappableOptions = new StringBuffer();
+		while ( optionMatcher.find() )
+		{
+			itemId = Integer.parseInt( optionMatcher.group(1) );
+			if ( itemId == 0 || isZappable.get( itemId ) )
+				zappableOptions.append( optionMatcher.group() );
+		}
+
+		buffer.insert( selectIndex, zappableOptions.toString() );
 	}
 }
 
