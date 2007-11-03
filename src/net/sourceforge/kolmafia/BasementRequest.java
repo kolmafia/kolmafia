@@ -908,12 +908,11 @@ public class BasementRequest extends AdventureRequest
 	private static final void getDesiredEffects( ArrayList sourceList, ArrayList targetList )
 	{
 		Iterator it = sourceList.iterator();
-		boolean buyItems = KoLSettings.getBooleanProperty( "basementBuysItems" );
 
 		while ( it.hasNext() )
 		{
 			AdventureResult effect = (AdventureResult) it.next();
-			if ( !wantEffect( effect, buyItems ) )
+			if ( !wantEffect( effect ) )
 				continue;
 
 			DesiredEffect addition = new DesiredEffect( effect.getName() );
@@ -926,17 +925,16 @@ public class BasementRequest extends AdventureRequest
 	private static final void addDesirableEffects( ArrayList sourceList )
 	{
 		Iterator it = sourceList.iterator();
-		boolean buyItems = KoLSettings.getBooleanProperty( "basementBuysItems" );
 
 		while ( it.hasNext() )
 		{
 			AdventureResult effect = (AdventureResult) it.next();
-			if ( wantEffect( effect, buyItems ) && !desirableEffects.contains( effect ) )
+			if ( wantEffect( effect ) && !desirableEffects.contains( effect ) )
 				desirableEffects.add( effect );
 		}
 	}
 
-	private static final boolean wantEffect( AdventureResult effect, boolean buyItems )
+	private static final boolean wantEffect( AdventureResult effect )
 	{
 		String action = MoodSettings.getDefaultAction( "lose_effect", effect.getName() );
 		if ( action.equals( "" ) )
@@ -945,13 +943,6 @@ public class BasementRequest extends AdventureRequest
 		if ( action.startsWith( "cast" ) )
 		{
 			if ( !KoLCharacter.hasSkill( UneffectRequest.effectToSkill( effect.getName() ) ) )
-				return false;
-		}
-
-		if ( !buyItems && action.startsWith( "use" ) )
-		{
-			AdventureResult item = KoLmafiaCLI.getFirstMatchingItem( action.substring(4).trim(), false );
-			if ( item == null || !KoLCharacter.hasItem( item ) )
 				return false;
 		}
 
@@ -1110,6 +1101,9 @@ public class BasementRequest extends AdventureRequest
 
 		changes.append( ">" );
 
+		if ( !effect.itemAvailable )
+			changes.append( "acquire and " );
+
 		changes.append( effect.action );
 		changes.append( " (" );
 
@@ -1168,6 +1162,7 @@ public class BasementRequest extends AdventureRequest
 		private String name, action;
 		private int computedBoost;
 		private int effectiveBoost;
+		private boolean itemAvailable;
 
 		public DesiredEffect( String name )
 		{
@@ -1178,6 +1173,15 @@ public class BasementRequest extends AdventureRequest
 
 			this.action = this.computedBoost < 0 ? "uneffect " + name :
 				MoodSettings.getDefaultAction( "lose_effect", name );
+
+			this.itemAvailable = true;
+
+			if ( this.action.startsWith( "use" ) )
+			{
+				AdventureResult item = KoLmafiaCLI.getFirstMatchingItem( action.substring(4).trim(), false );
+				if ( item == null || !KoLCharacter.hasItem( item ) )
+					this.itemAvailable = false;
+			}
 		}
 
 		public boolean equals( Object o )

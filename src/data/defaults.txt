@@ -15,7 +15,6 @@ global	autoSatisfyWithMall	true
 global	autoSatisfyWithNPCs	true
 global	autoSatisfyWithStash	false
 global	avoidInvertingTabs	false
-global	basementBuysItems	false
 global	breakfastHardcore	Summon Snowcone,Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting
 global	breakfastSoftcore	Summon Snowcone,Summon Hilarious Objects,Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting
 global	browserBookmarks
