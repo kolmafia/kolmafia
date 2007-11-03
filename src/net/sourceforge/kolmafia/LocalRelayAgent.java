@@ -260,10 +260,6 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 		{
 			KoLRequest.processChoiceAdventure( this.request );
 		}
-		else if ( this.path.startsWith( "/tiles.php" ) )
-		{
-			AdventureRequest.handleDvoraksRevenge( this.request );
-		}
 		else if ( this.path.startsWith( "/charpane.php" ) )
 		{
 			int initialCount = KoLCharacter.getAdventuresLeft();

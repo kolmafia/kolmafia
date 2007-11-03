@@ -345,10 +345,10 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		// Pirate cove should not be visited before level 9.
 		if ( this.adventureId.equals( "67" ) )
 		{
-			if ( KoLCharacter.getLevel() < 9 )
+			if ( KoLmafia.isAdventuring() && KoLCharacter.getLevel() < 9 )
 			{
-				KoLmafia.updateDisplay( ABORT_STATE, "The dictionary won't drop right now." );
-				return;
+				if ( !KoLFrame.confirm( "The dictionary won't drop right now.  Are you sure you wish to continue?" ) )
+					return;
 			}
 
 			// If it's the pirate quest in disguise, make sure
