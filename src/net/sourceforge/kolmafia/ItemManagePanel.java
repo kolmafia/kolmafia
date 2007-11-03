@@ -297,7 +297,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 		boolean isTally = this.elementList.getOriginalModel() == tally;
 
 		String itemName;
-		int itemCount;
+		int itemCount, quantity;
 
 		for ( int i = 0; i < items.length; ++i )
 		{
@@ -312,67 +312,9 @@ public class ItemManagePanel extends LabeledScrollPanel
 				itemCount = ((Concoction) items[i]).getTotal();
 			}
 
-			int quantity = 0;
-			switch ( quantityType )
-			{
-				case TAKE_ALL:
-					quantity = itemCount;
-					break;
-
-				case TAKE_ALL_BUT_ONE:
-					quantity = itemCount - 1;
-					break;
-
-				case TAKE_MULTIPLE:
-					quantity = KoLFrame.getQuantity( message + " " + itemName + "...", itemCount );
-					if ( itemCount > 0 && quantity == 0 )
-						return new Object[0];
-					break;
-
-				case USE_MULTIPLE:
-
-					int standard = itemCount;
-
-					if ( items[i] instanceof Concoction )
-					{
-						int previous = 0, capacity = itemCount, unit = 1;
-
-						if ( ((Concoction)items[i]).getFullness() > 0 )
-						{
-							previous = KoLCharacter.getFullness() + ConcoctionsDatabase.getQueuedFullness();
-							capacity = KoLCharacter.getFullnessLimit();
-							unit = ((Concoction)items[i]).getFullness();
-
-							standard = previous >= capacity ? itemCount : Math.min( (capacity - previous) / unit, itemCount );
-						}
-						else if ( ((Concoction)items[i]).getInebriety() > 0 )
-						{
-							previous = KoLCharacter.getInebriety() + ConcoctionsDatabase.getQueuedInebriety();
-							capacity = KoLCharacter.getInebrietyLimit();
-							unit = ((Concoction)items[i]).getInebriety();
-
-							standard = previous > capacity ? itemCount : Math.max( 1, Math.min( (capacity - previous) / unit, itemCount ) );
-						}
-					}
-					else
-					{
-						standard = ConsumeItemRequest.maximumUses( TradeableItemDatabase.getItemId( itemName ), false );
-					}
-
-					quantity = standard < 2 ? standard : KoLFrame.getQuantity( message + " " + itemName + "...",
-						itemCount, Math.min( standard, itemCount ) );
-
-					if ( itemCount > 0 && quantity == 0 )
-						return new Object[0];
-
-					break;
-
-				default:
-					quantity = 1;
-					break;
-			}
-
-			quantity = Math.min( quantity, itemCount );
+			quantity = Math.min( getDesiredItemAmount( items[i], itemName, itemCount, message, quantityType ), itemCount );
+			if ( quantity == Integer.MIN_VALUE )
+				return new Object[0];
 
 			// Otherwise, if it was not a manual entry, then reset
 			// the entry to null so that it can be re-processed.
@@ -404,6 +346,72 @@ public class ItemManagePanel extends LabeledScrollPanel
 				desiredItems[ neededSize++ ] = items[i];
 
 		return desiredItems;
+	}
+
+	protected int getDesiredItemAmount( Object item, String itemName, int itemCount, String message, int quantityType )
+	{
+		int quantity = 0;
+		switch ( quantityType )
+		{
+			case TAKE_ALL:
+				quantity = itemCount;
+				break;
+
+			case TAKE_ALL_BUT_ONE:
+				quantity = itemCount - 1;
+				break;
+
+			case TAKE_MULTIPLE:
+				quantity = KoLFrame.getQuantity( message + " " + itemName + "...", itemCount );
+				if ( itemCount > 0 && quantity == 0 )
+					return Integer.MIN_VALUE;
+
+				break;
+
+			case USE_MULTIPLE:
+
+				int standard = itemCount;
+
+				if ( item instanceof Concoction )
+				{
+					int previous = 0, capacity = itemCount, unit = 1;
+
+					if ( ((Concoction)item).getFullness() > 0 )
+					{
+						previous = KoLCharacter.getFullness() + ConcoctionsDatabase.getQueuedFullness();
+						capacity = KoLCharacter.getFullnessLimit();
+						unit = ((Concoction)item).getFullness();
+
+						standard = previous >= capacity ? itemCount : Math.min( (capacity - previous) / unit, itemCount );
+					}
+					else if ( ((Concoction)item).getInebriety() > 0 )
+					{
+						previous = KoLCharacter.getInebriety() + ConcoctionsDatabase.getQueuedInebriety();
+						capacity = KoLCharacter.getInebrietyLimit();
+						unit = ((Concoction)item).getInebriety();
+
+						standard = previous > capacity ? itemCount : Math.max( 1, Math.min( (capacity - previous) / unit, itemCount ) );
+					}
+				}
+				else
+				{
+					standard = ConsumeItemRequest.maximumUses( TradeableItemDatabase.getItemId( itemName ), false );
+				}
+
+				quantity = standard < 2 ? standard : KoLFrame.getQuantity( message + " " + itemName + "...",
+					itemCount, Math.min( standard, itemCount ) );
+
+				if ( itemCount > 0 && quantity == 0 )
+					return Integer.MIN_VALUE;
+
+				break;
+
+			default:
+				quantity = 1;
+				break;
+		}
+
+		return quantity;
 	}
 
 	public abstract class TransferListener extends ThreadedListener
