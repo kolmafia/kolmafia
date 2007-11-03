@@ -1018,7 +1018,16 @@ public class BasementRequest extends AdventureRequest
 			outfit = (SpecialOutfit) KoLCharacter.getCustomOutfits().get(i);
 
 			changes.append( "<option value=\"outfit+" );
-			changes.append( StaticEntity.globalStringReplace( outfit.getName(), " ", "+" ) );
+
+			try
+			{
+				changes.append( URLEncoder.encode( outfit.getName(), "UTF-8" ) );
+			}
+			catch ( Exception e )
+			{
+				changes.append( StaticEntity.globalStringReplace( outfit.getName(), " ", "+" ) );
+			}
+
 			changes.append( "\">outfit " );
 			changes.append( outfit.getName().substring(8) );
 			changes.append( "</option>" );
