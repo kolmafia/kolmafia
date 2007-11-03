@@ -2498,7 +2498,7 @@ public abstract class KoLmafia implements KoLConstants
 			updateDisplay( "Guild store was not unlocked." );
 	}
 
-	public void priceItemsAtLowestPrice()
+	public void priceItemsAtLowestPrice( boolean avoidMinPrice )
 	{
 		RequestThread.openRequestSequence();
 		RequestThread.postRequest( new StoreManageRequest() );
@@ -2520,7 +2520,7 @@ public abstract class KoLmafia implements KoLConstants
 			int minimumPrice = Math.max( 100, TradeableItemDatabase.getPriceById( sold[i].getItemId() ) * 2 );
 			int desiredPrice = Math.max( minimumPrice, sold[i].getLowest() - sold[i].getLowest() % 100 );
 
-			if ( sold[i].getPrice() == 999999999 && desiredPrice > 100 )
+			if ( sold[i].getPrice() == 999999999 && (!avoidMinPrice || desiredPrice > minimumPrice) )
 				prices[i] = desiredPrice;
 			else
 				prices[i] = sold[i].getPrice();
@@ -3269,7 +3269,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * Utilizes the "minimum meat" principle.
 	 */
 
-	public void makeEndOfRunSaleRequest()
+	public void makeEndOfRunSaleRequest( boolean avoidMinPrice )
 	{
 		if ( !KoLCharacter.canInteract() )
 		{
@@ -3325,7 +3325,7 @@ public abstract class KoLmafia implements KoLConstants
 		// to remove from the store due to pricing issues.
 
 		if ( permitsContinue() )
-			this.priceItemsAtLowestPrice();
+			this.priceItemsAtLowestPrice( avoidMinPrice );
 
 		updateDisplay( "Undercutting sale complete." );
 		RequestThread.closeRequestSequence();

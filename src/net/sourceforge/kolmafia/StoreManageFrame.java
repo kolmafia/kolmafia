@@ -46,6 +46,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -168,16 +169,19 @@ public class StoreManageFrame extends KoLPanelFrame
 
 		public void actionCancelled()
 		{
-			if ( !confirm( UNDERCUT_MESSAGE ) )
+			int selected = JOptionPane.showConfirmDialog( StoreManageFrame.this,
+				basicTextWrap( UNDERCUT_MESSAGE ), "", JOptionPane.YES_NO_CANCEL_OPTION );
+
+			if ( selected != JOptionPane.YES_OPTION && selected != JOptionPane.NO_OPTION )
 				return;
 
-			StaticEntity.getClient().priceItemsAtLowestPrice();
+			KoLmafia.updateDisplay( "Gathering data..." );
+			StaticEntity.getClient().priceItemsAtLowestPrice( selected == JOptionPane.YES_OPTION );
 		}
 	}
 
 	public static final String UNDERCUT_MESSAGE =
-		"KoLmafia will take items priced at 999,999,999 meat and attempt to undercut the current lowest price in the mall, as long as that lowest price is greater than 100 meat.\n\n" +
-		"As a warning, however, this feature is not immune to \"anti-raffles\".  Are you sure you wish to continue?";
+		"KoLmafia will take items priced at 999,999,999 meat and undercut the current lowest price in the mall.  Would you like KoLmafia to avoid 'minimum possible prices' (100 meat, or twice the autosell value of the item) when doing so?";
 
 	private class StoreListTable extends TransparentTable
 	{
