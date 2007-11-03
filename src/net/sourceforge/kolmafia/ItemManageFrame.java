@@ -960,6 +960,8 @@ public class ItemManageFrame extends KoLFrame
 
 	private class HagnkStoragePanel extends InventoryManagePanel
 	{
+		private boolean isPullingForUse = false;
+
 		public HagnkStoragePanel( boolean isEquipmentOnly )
 		{
 			super( "pull item", isEquipmentOnly ? "pull & use" : "closet item", storage, isEquipmentOnly );
@@ -981,7 +983,7 @@ public class ItemManageFrame extends KoLFrame
 
 		protected int getDesiredItemAmount( Object item, String itemName, int itemCount, String message, int quantityType )
 		{
-			if ( quantityType != TAKE_MULTIPLE )
+			if ( !isPullingForUse && !this.isEquipmentOnly || quantityType != TAKE_MULTIPLE )
 				return super.getDesiredItemAmount( item, itemName, itemCount, message, quantityType );
 
 			int consumptionType = TradeableItemDatabase.getConsumptionType( ((AdventureResult)item).getItemId() );
@@ -1001,7 +1003,10 @@ public class ItemManageFrame extends KoLFrame
 
 		private Object [] pullItems()
 		{
+			this.isPullingForUse = true;
 			Object [] items = this.getDesiredItems( "Pulling" );
+			this.isPullingForUse = false;
+
 			if ( items == null )
 				return null;
 
