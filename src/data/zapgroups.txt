@@ -1,0 +1,116 @@
+# Wiki zap groups, as described in the KoL Visual Wiki
+# http://kol.coldfront.net/thekolwiki/index.php/Zapping
+
+carob brownies, chorizo brownies, herb brownies
+bean burrito, enchanted bean burrito, jumping bean burrito
+spicy bean burrito, spicy enchanted bean burrito, spicy jumping bean burrito
+insanely spicy bean burrito, insanely spicy enchanted bean burrito, insanely spicy jumping bean burrito
+carob chunk cookies, Trollhouse cookies, white chocolate chip cookies
+Brimstone Chicken Sandwich, Double Bacon Beelzeburger, Lord of the Flies-sized fries
+bat haggis, menudo, rat scrapple
+bat wing kabob, ghuol-ear kabob, Knob shroomkabob, Knoll shroomkabob, rat appendix kabob, skewered cat appendix, spooky shroomkabob
+Boris's key lime pie, Jarlsberg's key lime pie, Sneaky Pete's key lime pie
+bat wing chow mein, Knob sausage chow mein, pr0n chow mein, rat appendix chow mein, tofu chow mein
+asparagus lo mein, Knob lo mein, Knoll lo mein, olive lo mein, spooky lo mein
+cold hi mein, hot hi mein, sleazy hi mein, spooky hi mein, stinky hi mein
+cool mushroom casserole, cream of pointy mushroom soup, spicy mushroom quesadilla
+goat cheese pizza, mushroom pizza, sausage pizza
+fettucini Inconnu, gnocchetti di Nietzsche, Hell ramen, spaghetti with Skullheads
+asparagus stir-fry, Knob stir-fry, Knoll stir-fry, olive stir-fry, spooky stir-fry
+bat wing stir-fry, Knob sausage stir-fry, pr0n stir-fry, rat appendix stir-fry, tofu stir-fry
+long pork, displaced fish, Filet of tangy gnat ("fotelif")
+margarita, martini, monkey wrench, salty dog, screwdriver, strawberry daiquiri, strawberry wine, tequila sunrise, vodka martini, whiskey and soda, whiskey sour, wine spritzer
+a little sump'm sump'm, calle de miel, ducha de oro, fuzzbump, horizontal tango, ocean motion, perpendicular hula, pink pony, rockin' wagon, roll in the hay, slap and tickle, slip 'n' slide
+bottle of gin, bottle of rum, bottle of tequila, bottle of vodka, bottle of whiskey, boxed wine
+fine wine, shot of flower schnapps, shot of grapefruit schnapps, shot of orange schnapps, shot of tomato schnapps
+plum wine, shot of pear schnapps, shot of peach schnapps
+ice-cold fotie, ice-cold Sir Schlitz, ice-cold Willer
+bottle of Calcutta Emerald, bottle of Definit, bottle of Domesticated Turkey, bottle of Jorge Sinsonte, bottle of Lieutenant Freeman, boxed champagne
+Acqua Del Piatto Merlot, Acque Luride Grezze Cabernet, Maiali Sifilitici Pinot Noir, Uovo Marcio Shiraz
+Knob mushroom wine, Knoll mushroom wine, spooky mushroom wine
+cool mushroom wine, flat mushroom wine, pointy mushroom wine
+flaming mushroom wine, icy mushroom wine, stinky mushroom wine
+dusty bottle of Marsala, dusty bottle of Merlot, dusty bottle of Muscat, dusty bottle of Pinot Noir, dusty bottle of Port, dusty bottle of Zinfandel
+caipifruta, gibson, gin and tonic, mimosette, parisian cathouse, rabbit punch, teqiwila, tequila sunset, vodka and tonic, vodka gibson, whiskey bittersweet, zmobie
+Divine, gimlet, Gordon Bennett, Mae West, mandarina colada, Mon Tiki, Neuromancer, prussian cathouse, tangarita, teqiwila slammer, vodka stratocaster, yellow brick road
+dry martini, dry vodka martini, grog, old-fashioned, sangria, tequila with training wheels
+bodyslam, cherry bomb, dirty martini, grogtini, sangria del diablo, vesper
+coconut shell, little paper umbrella, magical ice cubes
+enchanted bean, hill of beans, pile of jumping beans
+batgut, catgut, ratgut
+ancient spice, black pepper, dehydrated caviar
+grapefruit, grapes, lemon, olive, orange, strawberry, tomato
+cherry, jumbo olive, lime
+skewered cherry, skewered jumbo olive, skewered lime
+cocktail onion, kiwi, kumquat, raspberry, tangerine, tonic water, peach, plum, pear
+Knob mushroom, Knoll mushroom, spooky mushroom
+cool mushroom, pointy mushroom, warm mushroom
+flaming mushroom, frozen mushroom, stinky mushroom
+bubbly potion, cloudy potion, dark potion, effervescent potion, fizzy potion, milky potion, murky potion, smoky potion, swirly potion
+blue-frosted astral cupcake, green-frosted astral cupcake, orange-frosted astral cupcake, pink-frosted astral cupcake, purple-frosted astral cupcake
+jabañero-flavored chewing gum, lime-and-chile-flavored chewing gum, pickle-flavored chewing gum, tamarind-flavored chewing gum
+Cloaca-Cola, Dyspepsi-Cola, Mountain Stream soda
+magicalness-in-a-can, moxie weed, strongness elixir
+concentrated magicalness pill, enchanted barbell, giant moxie weed
+extra-strength strongness elixir, jug-o-magicalness, suntan lotion of moxiousness
+ant hoe, ant pick, ant pitchfork, ant rake, ant sickle
+pixel hat, pixel pants, pixel sword
+antique greaves, antique helmet, antique shield, antique spear
+can of fake snow, colored-light "necklace", tree skirt
+black helmet, black sword, black shield, black greaves
+bounty-hunting helmet, bounty-hunting pants, bounty-hunting rifle
+bugbear beanie, bugbear bungguard
+Cloaca-Cola fatigues, Cloaca-Cola helmet, Cloaca-Cola shield
+clockwork hat, clockwork pants, clockwork trench coat
+Crimbo hat, Crimbo pants, Crimbo sword
+Dyspepsi-Cola fatigues, Dyspepsi-Cola helmet, Dyspepsi-Cola shield
+Cerebral Cloche, Cerebral Crossbow, Cerebral Culottes
+eXtreme mittens, eXtreme scarf, snowboarder pants
+filthy corduroys, filthy knitted dread sack
+homoerotic frat-paddle, Orcish baseball cap, Orcish cargo shorts
+beer helmet, bejeweled pledge pin, distressed denim pants
+furry pants, wolf mask
+giant discarded bottlecap, giant discarded plastic fork, giant discarded torn-up glove
+gnauga hide buckler, gnauga hide chaps, gnauga hide whip
+grass blade, grass hat, grass skirt
+cold ninja mask, icy-hot katana, ninja hot pants
+Knob Goblin elite helm, Knob Goblin elite pants, Knob Goblin elite polearm
+Knob Goblin harem pants, Knob Goblin harem veil
+7-Foot Dwarven mattock, miner's helmet, miner's pants
+balaclava, disbelief suspenders, los chinos
+extra-large palm-frond toupee, palm-frond whip, palm-frond capris
+Radio Free Baseball Cap, Radio Free Foil, Radio Free Pants
+star buckler, star hat, star pants
+eyepatch, stuffed shoulder parrot, swashbuckling pants
+duct tape fedora, duct tape sword, duct tape dockers
+makeshift cape, makeshift skirt, makeshift turban
+time helmet, time sword, time trousers
+Tropical Crimbo Hat, Tropical Crimbo Sword, Tropical Crimbo Shorts
+reinforced beaded headband, bullet-proof corduroys, round purple sunglasses
+cornuthaum, ring of aggravate monster, vorpal blade
+Codex of Capsaicin Conjuration, Gazpacho's Glacial Grimoire, kickback cookbook
+ring of adornment, ring of aggravate monster, ring of cold resistance, ring of conflict, ring of fire resistance, ring of gain strength, ring of increase damage
+ice baby, ice pick, ice sickle, ice skates
+lucky Tam O'Shanter, lucky Tam O'Shatner
+string of blue beads, string of green beads, string of red beads
+stuffed snowy owl, stuffed yo-yo
+tiny plastic angry goat, tiny plastic baby gravy fairy, tiny plastic barrrnacle, tiny plastic blood-faced volleyball, tiny plastic Cheshire bat, tiny plastic cocoabo, tiny plastic coffee pixie, tiny plastic fuzzy dice, tiny plastic ghost pickle on a stick, tiny plastic ghuol whelp, tiny plastic grue, tiny plastic howling balloon monkey, tiny plastic killer bee, tiny plastic leprechaun, tiny plastic levitating potato, tiny plastic mosquito, tiny plastic sabre-toothed lime, tiny plastic spooky pirate skeleton, tiny plastic stab bat, tiny plastic star starfish,
+tiny plastic accordion thief, tiny plastic bitchin' meatcar, tiny plastic disco bandit, tiny plastic hermit, tiny plastic pastamancer, tiny plastic sauceror, tiny plastic seal clubber, tiny plastic turtle tamer
+tiny plastic Boris, tiny plastic Jarlsberg, tiny plastic Sneaky Pete, tiny plastic Susie
+sleeping snowy owl, yo-yo
+Boris's key, Boris's ring, Jarlsberg's earring, Jarlsberg's key, Sneaky Pete's breath spray, Sneaky Pete's key
+decorative fountain, Feng Shui for Big Dumb Idiots, windchimes
+Knob Goblin firecracker, razor-sharp can lid, spider web
+hemp string, necklace chain, piercing post, ring setting
+heavy D, lowercase N, metallic A, original G, ruby W
+30669 scroll, 33398 scroll, 334 scroll
+asbestos ore, chrome ore, linoleum ore
+black paisley oyster egg, black polka-dot oyster egg, black striped oyster egg, black plastic oyster egg, blue paisley oyster egg, blue polka-dot oyster egg, blue striped oyster egg, blue plastic oyster egg, lavender paisley oyster egg, lavender polka-dot oyster egg, lavender striped oyster egg, lavender plastic oyster egg, mauve paisley oyster egg, mauve polka-dot oyster egg, mauve striped oyster egg, mauve plastic oyster egg, off-white paisley oyster egg, off-white polka-dot oyster egg, off-white striped oyster egg, off-white plastic oyster egg, puce paisley oyster egg, puce polka-dot oyster egg, puce striped oyster egg, puce plastic oyster egg, red paisley oyster egg, red polka-dot oyster egg, red striped oyster egg, red plastic oyster egg, yellow paisley oyster egg, yellow polka-dot oyster egg, yellow striped oyster egg, yellow plastic oyster egg
+black pixel, blue pixel, green pixel, red pixel, white pixel
+baconstone, hamethyst, porquoise
+barbed-wire fence, tropical orchid, stick of dynamite
+disco ball, disco mask, helmet turtle, mariachi pants, pasta spoon, ravioli hat, saucepan, seal-skull helmet, seal-clubbing club, spices, stolen accordion, turtle totem
+cog, spring, sprocket
+hippopotamus skin, penguin skin, yak skin
+rolling pin, unrolling pin
+worthless gewgaw, worthless knick-knack, worthless trinket

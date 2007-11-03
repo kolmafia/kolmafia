@@ -2027,7 +2027,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( KoLCharacter.getZapper() == null )
 			return;
 
-		AdventureResult selectedValue = (AdventureResult) getSelectedValue( "Let's explodey my wand!", inventory );
+		AdventureResult selectedValue = (AdventureResult) getSelectedValue( "Let's explodey my wand!", ZapRequest.getZappableItems() );
 		if ( selectedValue == null )
 			return;
 
