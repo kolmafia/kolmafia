@@ -978,7 +978,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			JOptionPane.INFORMATION_MESSAGE, null, inputs, initial );
 	}
 
-	private static final String basicTextWrap( String text )
+	public static final String basicTextWrap( String text )
 	{
 		if ( text.length() < 80 || text.startsWith( "<html>" ) )
 			return text;

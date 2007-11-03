@@ -1637,7 +1637,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "reprice" ) || command.equals( "undercut" ) )
 		{
-			StaticEntity.getClient().priceItemsAtLowestPrice();
+			StaticEntity.getClient().priceItemsAtLowestPrice( true );
 			return;
 		}
 

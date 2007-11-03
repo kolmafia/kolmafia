@@ -48,6 +48,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
@@ -1068,11 +1069,14 @@ public class ItemManageFrame extends KoLFrame
 
 		public void actionCancelled()
 		{
-			if ( !confirm( "KoLmafia will place all tradeable, autosellable items into your store at 999,999,999 meat. " + StoreManageFrame.UNDERCUT_MESSAGE ) )
+			int selected = JOptionPane.showConfirmDialog( ItemManageFrame.this,
+				basicTextWrap( "KoLmafia will place all tradeable, autosellable items into your store at 999,999,999 meat. " + StoreManageFrame.UNDERCUT_MESSAGE ), "", JOptionPane.YES_NO_CANCEL_OPTION );
+
+			if ( selected != JOptionPane.YES_OPTION && selected != JOptionPane.NO_OPTION )
 				return;
 
 			KoLmafia.updateDisplay( "Gathering data..." );
-			StaticEntity.getClient().makeEndOfRunSaleRequest();
+			StaticEntity.getClient().makeEndOfRunSaleRequest( selected == JOptionPane.YES_OPTION );
 		}
 	}
 }
