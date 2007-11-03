@@ -3599,6 +3599,10 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 		else if ( desiredData.equals( "status" ) )
 		{
+			desiredStream.println( "Name: " + KoLCharacter.getUserName() );
+			desiredStream.println( "Class: " + KoLCharacter.getClassType() );
+			desiredStream.println();
+
 			desiredStream.println( "Lv: " + KoLCharacter.getLevel() );
 			desiredStream.println( "HP: " + KoLCharacter.getCurrentHP() + " / " + COMMA_FORMAT.format( KoLCharacter.getMaximumHP() ) );
 			desiredStream.println( "MP: " + KoLCharacter.getCurrentMP() + " / " + COMMA_FORMAT.format( KoLCharacter.getMaximumMP() ) );
