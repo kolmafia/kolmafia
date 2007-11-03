@@ -979,6 +979,26 @@ public class ItemManageFrame extends KoLFrame
 				super.addMovers();
 		}
 
+		protected int getDesiredItemAmount( Object item, String itemName, int itemCount, String message, int quantityType )
+		{
+			if ( quantityType != TAKE_MULTIPLE )
+				return super.getDesiredItemAmount( item, itemName, itemCount, message, quantityType );
+
+			int consumptionType = TradeableItemDatabase.getConsumptionType( ((AdventureResult)item).getItemId() );
+			switch ( consumptionType )
+			{
+				case EQUIP_HAT:
+				case EQUIP_PANTS:
+				case EQUIP_SHIRT:
+				case EQUIP_WEAPON:
+				case EQUIP_OFFHAND:
+					return 1;
+
+				default:
+					return super.getDesiredItemAmount( item, itemName, itemCount, message, quantityType );
+			}
+		}
+
 		private Object [] pullItems()
 		{
 			Object [] items = this.getDesiredItems( "Pulling" );
