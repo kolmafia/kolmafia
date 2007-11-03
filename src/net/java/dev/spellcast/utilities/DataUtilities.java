@@ -44,7 +44,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 
 import java.net.URL;
-import java.net.URLConnection;
+import java.net.HttpURLConnection;
 
 import com.velocityreviews.forums.HttpTimeoutHandler;
 
@@ -108,10 +108,14 @@ public class DataUtilities implements UtilityConstants
 		{
 			if ( filename.startsWith( "http://" ) )
 			{
-				URLConnection connection = (new URL( null, filename, HttpTimeoutHandler.getInstance() )).openConnection();
-				return getReader( connection.getInputStream(), connection.getContentEncoding() );
-			}
+				HttpURLConnection connection = (HttpURLConnection) (new URL( null, filename, HttpTimeoutHandler.getInstance() )).openConnection();
+				InputStream istream = connection.getInputStream();
 
+				if ( connection.getResponseCode() != 200 )
+					return null;
+
+				return getReader( istream, connection.getContentEncoding() );
+			}
 		}
 		catch ( Exception e )
 		{
