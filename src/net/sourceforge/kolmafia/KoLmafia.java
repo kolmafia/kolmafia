@@ -2770,7 +2770,7 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	public void makePurchases( List results, int count )
-	{	this.makePurchases( results, results.toArray(), count );
+	{	this.makePurchases( results, results.toArray(), count, true );
 	}
 
 	/**
@@ -2778,7 +2778,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * from the mall using the given purchase requests.
 	 */
 
-	public void makePurchases( List results, Object [] purchases, int maxPurchases )
+	public void makePurchases( List results, Object [] purchases, int maxPurchases, boolean isAutomated )
 	{
 		if ( purchases.length == 0 )
 			return;
@@ -2804,6 +2804,9 @@ public abstract class KoLmafia implements KoLConstants
 
 			if ( !KoLCharacter.canInteract() && currentRequest.getQuantity() != MallPurchaseRequest.MAX_QUANTITY )
 				continue;
+
+			if ( isAutomated && currentRequest.getPrice() >= 50000 )
+				KoLmafia.updateDisplay( currentRequest.getItemName() + " is too expensive for automated purchasing." );
 
 			// Keep track of how many of the item you had before
 			// you run the purchase request
@@ -2852,7 +2855,7 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Utility. The method used to register a given adventure in the
+	 * Utility method used to register a given adventure in the
 	 * running adventure summary.
 	 */
 

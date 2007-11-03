@@ -4658,7 +4658,7 @@ public class KoLmafiaCLI extends KoLmafia
 			ArrayList results = new ArrayList();
 
 			StoreManager.searchMall( '\"' + match.getName() + '\"', results, 10, false );
-			StaticEntity.getClient().makePurchases( results, results.toArray(), match.getCount() );
+			StaticEntity.getClient().makePurchases( results, match.getCount() );
 		}
 	}
 
@@ -4897,6 +4897,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		EquipmentDatabase.retrieveOutfit( intendedOutfit.getOutfitId() );
 		RequestThread.postRequest( new EquipmentRequest( intendedOutfit ) );
 	}
 
