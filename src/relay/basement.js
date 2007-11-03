@@ -57,6 +57,10 @@ function changeBasementEffects()
 		{
 			current = select.options[i].innerHTML;
 			current = current.substring( 0, current.indexOf( " (" ) );
+
+			if ( current.indexOf( "acquire and " ) == 0 )
+				current = current.substring(12);
+
 			command += current + "; ";
 		}
 	}
