@@ -799,7 +799,7 @@ public class BasementRequest extends AdventureRequest
 		if ( responseText.indexOf( "Stone Golem" ) != -1 )
 		{
 			// A n Stone Golem
-			basementTestString = "Monster";
+			basementTestString = monsterLevelString();
 			return true;
 		}
 
@@ -907,6 +907,9 @@ public class BasementRequest extends AdventureRequest
 
 	private static final void getDesiredEffects( ArrayList sourceList, ArrayList targetList )
 	{
+		// Cache skills to avoid lots of string lookups
+		DesiredEffect.checkSkills();
+
 		Iterator it = sourceList.iterator();
 
 		while ( it.hasNext() )
@@ -1164,6 +1167,11 @@ public class BasementRequest extends AdventureRequest
 		private int effectiveBoost;
 		private boolean itemAvailable;
 
+		private static boolean rigatoni = false;
+		private static boolean hardigness = false;
+		private static boolean wisdom = false;
+		private static boolean ugnderstanding = false;
+
 		public DesiredEffect( String name )
 		{
 			this.name = name;
@@ -1182,6 +1190,14 @@ public class BasementRequest extends AdventureRequest
 				if ( item == null || !KoLCharacter.hasItem( item ) )
 					this.itemAvailable = false;
 			}
+		}
+
+		public static void checkSkills()
+		{
+			rigatoni = KoLCharacter.hasSkill( "Spirit of Rigatoni" );
+			hardigness = KoLCharacter.hasSkill( "Gnomish Hardigness" );
+			wisdom = KoLCharacter.hasSkill( "Wisdom of the Elder Tortoises" );
+			ugnderstanding = KoLCharacter.hasSkill( "Cosmic Ugnderstanding" );
 		}
 
 		public boolean equals( Object o )
@@ -1215,16 +1231,16 @@ public class BasementRequest extends AdventureRequest
 			if ( actualBoost == Modifiers.MP )
                                 return boostMaxMP( m );
 
-			float base = getEqualizedStat();
+			float base = getEqualizedStat( primaryBoost );
 			float boost = m.get( secondaryBoost ) + m.get( primaryBoost ) * base / 100.0f;
 
 			return boost;
 		}
 
-		public float getEqualizedStat()
+		public static float getEqualizedStat( int mod )
 		{
 			float currentStat = 0.0f;
-			switch ( primaryBoost )
+			switch ( mod )
 			{
 			case Modifiers.MUS_PCT:
 				currentStat = KoLCharacter.getBaseMuscle();
@@ -1236,15 +1252,17 @@ public class BasementRequest extends AdventureRequest
 				currentStat = KoLCharacter.getBaseMoxie();
 				break;
 			default:
-				return Modifiers.getModifiers( this.name ).get( primaryBoost );
+				return 0.0f;
 			}
 
 			if ( activeEffects.contains( MUS_EQUAL ) )
-				currentStat = Math.max( KoLCharacter.getBaseMuscle(), currentStat );
-			else if ( activeEffects.contains( MYS_EQUAL ) )
-				currentStat = Math.max( KoLCharacter.getBaseMysticality(), currentStat );
-			else if ( activeEffects.contains( MOX_EQUAL ) )
-				currentStat = Math.max( KoLCharacter.getBaseMoxie(), currentStat );
+				return Math.max( KoLCharacter.getBaseMuscle(), currentStat );
+
+			if ( activeEffects.contains( MYS_EQUAL ) )
+				return Math.max( KoLCharacter.getBaseMysticality(), currentStat );
+
+			if ( activeEffects.contains( MOX_EQUAL ) )
+				return Math.max( KoLCharacter.getBaseMoxie(), currentStat );
 
 			return currentStat;
 		}
@@ -1272,18 +1290,18 @@ public class BasementRequest extends AdventureRequest
 		 * G is 1.05 if you have Gnomish Hardigness
 		 */
 
-		public float boostMaxHP( Modifiers m )
+		public static float boostMaxHP( Modifiers m )
 		{
-			float buff = m.get( secondaryBoost );
-			float buffPercent = m.get( primaryBoost );
+			float buff = m.get( Modifiers.MUS );
+			float buffPercent = m.get( Modifiers.MUS_PCT );
 			float bonus = m.get( Modifiers.HP );
 
 			if ( buff == 0.0f && buffPercent == 0.0f && bonus == 0.0f )
 				return 0.0f;
 
-			float base = getEqualizedStat();
-			float buffCurrent = KoLCharacter.currentNumericModifier( secondaryBoost );
-			float buffPercentCurrent = KoLCharacter.currentNumericModifier( primaryBoost );
+			float base = getEqualizedStat( Modifiers.MUS_PCT );
+			float buffCurrent = KoLCharacter.currentNumericModifier( Modifiers.MUS );
+			float buffPercentCurrent = KoLCharacter.currentNumericModifier( Modifiers.MUS_PCT );
 			float buffed = base + ( buffCurrent + buff ) + ( buffPercentCurrent + buffPercent ) * base / 100.0f;
 			buffed = (float)Math.ceil( buffed );
 			float bonusCurrent = KoLCharacter.currentNumericModifier( Modifiers.HP );
@@ -1303,10 +1321,10 @@ public class BasementRequest extends AdventureRequest
 			// Muscle is less than base Muscle
 			boost = Math.max( boost, base );
 
-			if ( KoLCharacter.hasSkill( "Spirit of Rigatoni" ) )
+			if ( rigatoni )
 				boost = (float)Math.ceil( 1.25f * boost );
 
-			if ( KoLCharacter.hasSkill( "Gnomish Hardigness" ) )
+			if ( hardigness )
 				boost = (float)Math.ceil( 1.05f * boost );
 
 			// We have defined a "Maximum HP Percent" modifier
@@ -1338,22 +1356,22 @@ public class BasementRequest extends AdventureRequest
 		 * G is 1.05 if you have Cosmic Ugnderstanding
 		 */
 
-		public float boostMaxMP( Modifiers m )
+		public static float boostMaxMP( Modifiers m )
 		{
-			float buff = m.get( secondaryBoost );
-			float buffPercent = m.get( primaryBoost );
+			// This method ignores the effects of Travoltan
+			// trousers and moxie magnets
+
+			float buff = m.get( Modifiers.MYS );
+			float buffPercent = m.get( Modifiers.MYS_PCT );
 			float bonus = m.get( Modifiers.MP );
 
 			if ( buff == 0.0f && buffPercent == 0.0f && bonus == 0.0f )
 				return 0.0f;
 
-			// The following ignores the effects of Travoltan
-			// trousers and moxie magnets
+			float base = getEqualizedStat( Modifiers.MYS_PCT );
 
-			float base = getEqualizedStat();
-
-			float buffCurrent = KoLCharacter.currentNumericModifier( secondaryBoost );
-			float buffPercentCurrent = KoLCharacter.currentNumericModifier( primaryBoost );
+			float buffCurrent = KoLCharacter.currentNumericModifier( Modifiers.MYS );
+			float buffPercentCurrent = KoLCharacter.currentNumericModifier( Modifiers.MYS_PCT );
 			float buffed = base + ( buffCurrent + buff ) + ( buffPercentCurrent + buffPercent ) * base / 100.0f;
 			buffed = (float)Math.ceil( buffed );
 			float bonusCurrent = KoLCharacter.currentNumericModifier( Modifiers.MP );
@@ -1373,10 +1391,10 @@ public class BasementRequest extends AdventureRequest
 			// Mysticality is less than base Mysticality
 			boost = Math.max( boost, base );
 
-			if ( KoLCharacter.hasSkill( "Wisdom of the Elder Tortoises" ) )
+			if ( wisdom )
 				boost = (float)Math.floor( 1.5 * boost );
 
-			if ( KoLCharacter.hasSkill( "Cosmic Ugnderstanding" ) )
+			if ( ugnderstanding )
 				boost = (float)Math.ceil( 1.05 * boost );
 
 			// We have defined a "Maximum MP Percent" modifier
