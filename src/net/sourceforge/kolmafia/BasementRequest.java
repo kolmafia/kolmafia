@@ -1240,6 +1240,7 @@ public class BasementRequest extends AdventureRequest
 		public static float getEqualizedStat( int mod )
 		{
 			float currentStat = 0.0f;
+
 			switch ( mod )
 			{
 			case Modifiers.MUS_PCT:
@@ -1311,7 +1312,7 @@ public class BasementRequest extends AdventureRequest
 
 			// Muscle classes get 50% more HP
 			if ( KoLCharacter.isMuscleClass() )
-				boost *= 1.5f;
+				boost *= 1.5;
 			boost = (float)Math.floor( boost );
 
 			// Add in direct HP Bonuses
@@ -1322,10 +1323,10 @@ public class BasementRequest extends AdventureRequest
 			boost = Math.max( boost, base );
 
 			if ( rigatoni )
-				boost = (float)Math.ceil( 1.25f * boost );
+				boost = (float)Math.ceil( 1.25 * boost );
 
 			if ( hardigness )
-				boost = (float)Math.ceil( 1.05f * boost );
+				boost = (float)Math.ceil( 1.05 * boost );
 
 			// We have defined a "Maximum HP Percent" modifier
 			// but we don't know exactly where to apply it.
@@ -1369,7 +1370,6 @@ public class BasementRequest extends AdventureRequest
 				return 0.0f;
 
 			float base = getEqualizedStat( Modifiers.MYS_PCT );
-
 			float buffCurrent = KoLCharacter.currentNumericModifier( Modifiers.MYS );
 			float buffPercentCurrent = KoLCharacter.currentNumericModifier( Modifiers.MYS_PCT );
 			float buffed = base + ( buffCurrent + buff ) + ( buffPercentCurrent + buffPercent ) * base / 100.0f;
