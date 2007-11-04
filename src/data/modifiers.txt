@@ -1437,7 +1437,6 @@ Mad at Science	Muscle: +3
 Maid Disservice		Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20
 Majorly Poisoned	Muscle Percent: -90, Mysticality Percent: -90, Moxie Percent: -90, Muscle: -11, Mysticality: -11, Moxie: -11
 Man's Worst Enemy	Familiar Weight: +5
-Manicotti Meditation	Mysticality: +2
 Mariachi Mood	Moxie: +1, Maximum HP: +4
 Material Witness	Meat Drop: +15
 Memento Moir&eacute;	Experience: +3
@@ -1458,6 +1457,7 @@ Optimist Primal	Familiar Weight: +5
 Orange Tongue	Experience: +3
 Oriental Mysticicsm	Mysticality Percent: +5
 Papowerful	Experience: +2, Melee Damage: +10
+Pasta Oneness	Mysticality: +2
 Patience of the Tortoise	Muscle: +1, Maximum HP: +4
 Paw swap	Cold Resistance: +20
 Peeled Eyeballs	Experience: -1, Item Drop: +15, Meat Drop: -16

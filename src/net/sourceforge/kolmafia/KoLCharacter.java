@@ -1042,8 +1042,16 @@ public abstract class KoLCharacter extends StaticEntity
 	{	return currentModifiers.get( name );
 	}
 
+	public static final float currentNumericModifier( int index )
+	{	return currentModifiers.get( index );
+	}
+
 	public static final boolean currentBooleanModifier( String name )
 	{	return currentModifiers.getBoolean( name );
+	}
+
+	public static final boolean currentBooleanModifier( int index )
+	{	return currentModifiers.getBoolean( index );
 	}
 
 	/**

@@ -383,6 +383,10 @@ public class BasementRequest extends AdventureRequest
 			return false;
 		}
 
+		actualBoost = Modifiers.HP;
+		primaryBoost = Modifiers.MUS_PCT;
+		secondaryBoost = Modifiers.MUS;
+
 		// Add the only beneficial elemental form for this test
 
 		if ( !activeEffects.contains( goodeffect ) )
@@ -403,10 +407,6 @@ public class BasementRequest extends AdventureRequest
 
 		if ( !activeEffects.contains( BLACK_PAINT ) )
 			desirableEffects.add( BLACK_PAINT );
-
-		actualBoost = Modifiers.HP;
-		primaryBoost = Modifiers.MUS_PCT;
-		secondaryBoost = Modifiers.MUS;
 
 		if ( canHandleElementTest( autoSwitch, false ) )
 			return true;
@@ -893,11 +893,11 @@ public class BasementRequest extends AdventureRequest
 		basementTestCurrent = 0;
 		basementTestValue = 0;
 
-		addDesiredEqualizer();
-
 		actualBoost = Modifiers.HP;
 		primaryBoost = Modifiers.MUS_PCT;
 		secondaryBoost = Modifiers.MUS;
+
+		addDesiredEqualizer();
 
 		if ( autoSwitch )
 			changeBasementOutfit( "damage" );
@@ -1209,24 +1209,14 @@ public class BasementRequest extends AdventureRequest
 			if ( m == null )
 				return 0.0f;
 
-			float base = getEqualizedStat();
-			float boost = m.get( secondaryBoost ) + m.get( primaryBoost ) * base / 100.0f;
-
 			if ( actualBoost == Modifiers.HP )
-			{
-				if ( KoLCharacter.isMuscleClass() )
-					boost *= 1.5f;
-
-				boost += m.get( Modifiers.HP ) + m.get( Modifiers.HP_PCT ) * base / 100.0f;
-			}
+                                return boostMaxHP( m );
 
 			if ( actualBoost == Modifiers.MP )
-			{
-				if ( KoLCharacter.isMysticalityClass() )
-					boost *= 1.5f;
+                                return boostMaxMP( m );
 
-				boost += m.get( Modifiers.MP ) + m.get( Modifiers.MP_PCT ) * base / 100.0f;
-			}
+			float base = getEqualizedStat();
+			float boost = m.get( secondaryBoost ) + m.get( primaryBoost ) * base / 100.0f;
 
 			return boost;
 		}
@@ -1251,12 +1241,149 @@ public class BasementRequest extends AdventureRequest
 
 			if ( activeEffects.contains( MUS_EQUAL ) )
 				currentStat = Math.max( KoLCharacter.getBaseMuscle(), currentStat );
-			if ( activeEffects.contains( MYS_EQUAL ) )
+			else if ( activeEffects.contains( MYS_EQUAL ) )
 				currentStat = Math.max( KoLCharacter.getBaseMysticality(), currentStat );
-			if ( activeEffects.contains( MOX_EQUAL ) )
+			else if ( activeEffects.contains( MOX_EQUAL ) )
 				currentStat = Math.max( KoLCharacter.getBaseMoxie(), currentStat );
 
 			return currentStat;
+		}
+
+		/**
+		 * According to the Wiki:
+		 *
+		 * Max HP = 
+		 *    CEILING( 
+		 *	G × CEILING( 
+		 *	  R × MAXIMUM( 
+		 *		FLOOR((M + 3) × C) + P, 
+		 *		FLOOR(m) 
+		 *	      ) 
+		 *	    ) 
+		 *   ) 
+		 *
+		 * Where: 
+		 *
+		 * M is your buffed Muscle 
+		 * m is your base Muscle 
+		 * C is 1.5 if you are a Muscle class  
+		 * P is the total of direct HP bonuses you have 
+		 * R is 1.25 if you have Spirit of Ravioli
+		 * G is 1.05 if you have Gnomish Hardigness
+		 */
+
+		public float boostMaxHP( Modifiers m )
+		{
+			float buff = m.get( secondaryBoost );
+			float buffPercent = m.get( primaryBoost );
+			float bonus = m.get( Modifiers.HP );
+
+			if ( buff == 0.0f && buffPercent == 0.0f && bonus == 0.0f )
+				return 0.0f;
+
+			float base = getEqualizedStat();
+			float buffCurrent = KoLCharacter.currentNumericModifier( secondaryBoost );
+			float buffPercentCurrent = KoLCharacter.currentNumericModifier( primaryBoost );
+			float buffed = base + ( buffCurrent + buff ) + ( buffPercentCurrent + buffPercent ) * base / 100.0f;
+			buffed = (float)Math.ceil( buffed );
+			float bonusCurrent = KoLCharacter.currentNumericModifier( Modifiers.HP );
+
+			// Base HP is Muscle + 3
+			float boost = buffed + 3;
+
+			// Muscle classes get 50% more HP
+			if ( KoLCharacter.isMuscleClass() )
+				boost *= 1.5f;
+			boost = (float)Math.floor( boost );
+
+			// Add in direct HP Bonuses
+			boost += bonus + bonusCurrent;
+
+			// The following only comes into effect if buffed
+			// Muscle is less than base Muscle
+			boost = Math.max( boost, base );
+
+			if ( KoLCharacter.hasSkill( "Spirit of Rigatoni" ) )
+				boost = (float)Math.ceil( 1.25f * boost );
+
+			if ( KoLCharacter.hasSkill( "Gnomish Hardigness" ) )
+				boost = (float)Math.ceil( 1.05f * boost );
+
+			// We have defined a "Maximum HP Percent" modifier
+			// but we don't know exactly where to apply it.
+			// Fortunately, it's not currently used
+
+			return boost - KoLCharacter.getMaximumHP();
+		}
+
+		/**
+		 * Max MP = 
+		 *   CEILING( 
+		 *     G × FLOOR( 
+		 *	 W × MAXIMUM( 
+		 *	   FLOOR(M × C) + P, 
+		 *	   FLOOR(m) 
+		 *	 ) 
+		 *   ) 
+		 *
+		 * Where: 
+		 *
+		 * M is your buffed Myst 
+		 * or your buffed Moxie with Travoltan trousers and Moxie > Myst 
+		 * or your buffed Moxie with a moxie magnet 
+		 * m is your base Myst 
+		 * C is 1.5 if you are a Myst class
+		 * P is the total of any direct MP Increasers you have
+		 * W is 1.5 if you have Wisdom of the Elder Tortoises
+		 * G is 1.05 if you have Cosmic Ugnderstanding
+		 */
+
+		public float boostMaxMP( Modifiers m )
+		{
+			float buff = m.get( secondaryBoost );
+			float buffPercent = m.get( primaryBoost );
+			float bonus = m.get( Modifiers.MP );
+
+			if ( buff == 0.0f && buffPercent == 0.0f && bonus == 0.0f )
+				return 0.0f;
+
+			// The following ignores the effects of Travoltan
+			// trousers and moxie magnets
+
+			float base = getEqualizedStat();
+
+			float buffCurrent = KoLCharacter.currentNumericModifier( secondaryBoost );
+			float buffPercentCurrent = KoLCharacter.currentNumericModifier( primaryBoost );
+			float buffed = base + ( buffCurrent + buff ) + ( buffPercentCurrent + buffPercent ) * base / 100.0f;
+			buffed = (float)Math.ceil( buffed );
+			float bonusCurrent = KoLCharacter.currentNumericModifier( Modifiers.MP );
+
+			// Base MP is Mysticality
+			float boost = buffed;
+
+			// Mysticality classes get 50% more MP
+			if ( KoLCharacter.isMysticalityClass() )
+				boost *= 1.5;
+			boost = (float)Math.floor( boost );
+
+			// Add in direct MP Bonuses
+			boost += bonus + bonusCurrent;
+
+			// The following only comes into effect if buffed
+			// Mysticality is less than base Mysticality
+			boost = Math.max( boost, base );
+
+			if ( KoLCharacter.hasSkill( "Wisdom of the Elder Tortoises" ) )
+				boost = (float)Math.floor( 1.5 * boost );
+
+			if ( KoLCharacter.hasSkill( "Cosmic Ugnderstanding" ) )
+				boost = (float)Math.ceil( 1.05 * boost );
+
+			// We have defined a "Maximum MP Percent" modifier
+			// but we don't know exactly where to apply it.
+			// Fortunately, it's not currently used
+
+			return boost - KoLCharacter.getMaximumMP();
 		}
 	}
 }
