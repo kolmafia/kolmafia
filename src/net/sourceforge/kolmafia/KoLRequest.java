@@ -1830,9 +1830,6 @@ public class KoLRequest extends Job implements KoLConstants
 
 	private void checkForNewEvents()
 	{
-		if ( this.responseText.indexOf( "bgcolor=orange><b>New Events:</b>") == -1 )
-			return;
-
 		// Capture the entire new events table in order to display the
 		// appropriate message.
 
