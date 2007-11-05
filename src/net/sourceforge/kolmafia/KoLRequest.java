@@ -1845,7 +1845,7 @@ public class KoLRequest extends Job implements KoLConstants
 				events[i] = null;
 
 		// Remove the events from the response text
-		this.responseText = eventMatcher.replaceFirst( "" );
+		// this.responseText = eventMatcher.replaceFirst( "" );
 		boolean shouldLoadEventFrame = false;
 
 		for ( int i = 0; i < events.length; ++i )
