@@ -196,7 +196,8 @@ public class GearChangeFrame extends KoLFrame
 
 	private void changeItems()
 	{
-		// Find out what changed.
+		// Find out what changed
+
 		AdventureResult [] pieces = new AdventureResult[8];
 
 		for ( int i = 0; i < pieces.length; ++i )
@@ -208,7 +209,20 @@ public class GearChangeFrame extends KoLFrame
 
 		AdventureResult famitem = (AdventureResult) this.equipment[KoLCharacter.FAMILIAR].getSelectedItem();
 
-		for ( int i = 0; i < pieces.length; ++i )
+		// Start with accessories
+
+		for ( int i = KoLCharacter.ACCESSORY1; i <= KoLCharacter.ACCESSORY3; ++i )
+		{
+			if ( pieces[i] != null )
+			{
+				RequestThread.postRequest( new EquipmentRequest( pieces[i], i, true ) );
+				pieces[i] = null;
+			}
+		}
+
+		// Move on to other equipment
+
+		for ( int i = 0; i < KoLCharacter.ACCESSORY1; ++i )
 		{
 			if ( pieces[i] != null )
 			{
