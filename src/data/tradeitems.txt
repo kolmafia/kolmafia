@@ -2657,7 +2657,7 @@
 2657	escargotsicle	1	all	65
 2658	bottle of realpagne	2	all	55
 2659	albatross necklace	8	all	150
-2660	not-a-pipe	3	all	100
+2660	not-a-pipe	4	all	100
 2661	flask of Amontillado	2	all	100
 2662	fancy ball mask	9	all	125
 2663	Can-Can skirt	10	all	100
