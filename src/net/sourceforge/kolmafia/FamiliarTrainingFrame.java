@@ -1407,6 +1407,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 				if ( itemId == this.familiarItem.getItemId() )
 				{
 					this.item = this.specItem = this.familiarItem;
+					this.specWeight = this.familiarItemWeight;
 				}
 
 				if ( itemId == PUMPKIN_BUCKET.getItemId() )
