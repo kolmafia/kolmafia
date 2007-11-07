@@ -64,12 +64,12 @@ Rift	0/0	adventure=86	Battlefield (Cloaca Uniform)
 Rift	0/0	adventure=87	Battlefield (Dyspepsi Uniform)
 
 Plains	0/10	adventure=18	Degrassi Knoll
-Plains	15/0	adventure=20	Fun House
-Plains	11/0	adventure=21	Pre-Cyrpt Cemetary
+Plains	0/15	adventure=20	Fun House
+Plains	0/18	adventure=21	Pre-Cyrpt Cemetary
 Plains	40/0	adventure=58	Post-Cyrpt Cemetary
 Plains	0/65	adventure=119	Palindome
 
-Tower	18/0	adventure=22	Fernswarthy's Ruins
+Tower	0/11	adventure=22	Fernswarthy's Ruins
 Tower	0/0	basement=0	Fernswarthy's Basement
 
 Knob	0/0	adventure=114	Outskirts of The Knob
