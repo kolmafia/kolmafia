@@ -73,20 +73,12 @@ public class LoginFrame extends KoLFrame
 		INSTANCE = this;
 		this.tabs.addTab( "KoL Login", this.constructLoginPanel() );
 
-		JPanel breakfastPanel = new JPanel();
-		breakfastPanel.setLayout( new BoxLayout( breakfastPanel, BoxLayout.Y_AXIS ) );
-
-		breakfastPanel.add( new ScriptPanel() );
-		breakfastPanel.add( new BreakfastPanel( "Ronin-Clear Characters", "Softcore" ) );
-		breakfastPanel.add( new BreakfastPanel( "In-Ronin Characters", "Hardcore" ) );
-
 		JPanel connectPanel = new JPanel();
 		connectPanel.setLayout( new BoxLayout( connectPanel, BoxLayout.Y_AXIS ) );
 		connectPanel.add( new ConnectionOptionsPanel() );
 		connectPanel.add( new ProxyOptionsPanel() );
 
 		this.tabs.addTab( "Connection", connectPanel );
-		this.tabs.addTab( "Breakfast", breakfastPanel );
 
 		this.framePanel.setLayout( new CardLayout( 10, 10 ) );
 		this.framePanel.add( this.tabs, "" );

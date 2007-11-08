@@ -1776,15 +1776,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// Change stone sphere names in item dropdown
 		changeSphereNames( buffer );
 
-		if ( KoLSettings.getBooleanProperty( "relayAddsRoundNumber" ) )
-		{
-			int combatIndex = buffer.indexOf( "!</b>" );
-			if ( combatIndex != -1 )
-				buffer.insert( combatIndex, ": Round " + FightRequest.getCurrentRound() );
-		}
-
-		if ( !KoLSettings.getBooleanProperty( "relayAddsMonsterHealth" ) )
-			return;
+		int combatIndex = buffer.indexOf( "!</b>" );
+		if ( combatIndex != -1 )
+			buffer.insert( combatIndex, ": Round " + FightRequest.getCurrentRound() );
 
 		if ( FightRequest.getLastMonster() == null )
 			return;
@@ -1798,7 +1792,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( nameIndex == -1 )
 			return;
 
-		int combatIndex = buffer.indexOf( "</span>", nameIndex );
+		combatIndex = buffer.indexOf( "</span>", nameIndex );
 		if ( combatIndex == -1 )
 			return;
 

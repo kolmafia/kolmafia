@@ -428,9 +428,11 @@ public abstract class MoodSettings implements KoLConstants
 			if ( skillId == 6014 )
 				continue;
 
-			if ( !KoLSettings.getBooleanProperty( "allowEncounterRateBurning" ) )
-				if ( skillId == 1019 || skillId == 5017 || skillId == 6015 || skillId == 6016 )
-					continue;
+			// Encounter rate modifying buffs probably shouldn't be cast
+			// during conditional recast.
+
+			if ( skillId == 1019 || skillId == 5017 || skillId == 6015 || skillId == 6016 )
+				continue;
 
 			int castCount = (KoLCharacter.getCurrentMP() - minimum) / ClassSkillsDatabase.getMPConsumptionById( skillId );
 			int duration = ClassSkillsDatabase.getEffectDuration( skillId );
@@ -480,9 +482,6 @@ public abstract class MoodSettings implements KoLConstants
 
 	private static final String considerBreakfastBurning( int minimum, boolean shouldExecute )
 	{
-		if ( !KoLSettings.getBooleanProperty( "allowBreakfastBurning" ) )
-			return null;
-
 		for ( int i = 0; i < UseSkillRequest.BREAKFAST_SKILLS.length; ++i )
 		{
 			if ( !KoLCharacter.hasSkill( UseSkillRequest.BREAKFAST_SKILLS[i] ) )

@@ -3864,7 +3864,7 @@ public class KoLmafiaCLI extends KoLmafia
 			case CONSUME_EAT:
 			case CONSUME_DRINK:
 
-				if ( isUsageMatch && !KoLSettings.getBooleanProperty( "allowGenericUse" ) )
+				if ( isUsageMatch )
 				{
 					nameList.remove(i--);
 					continue;
@@ -4800,7 +4800,7 @@ public class KoLmafiaCLI extends KoLmafia
 				}
 			}
 
-			if ( this.currentLine.startsWith( "use" ) && !KoLSettings.getBooleanProperty( "allowGenericUse" ) )
+			if ( this.currentLine.startsWith( "use" ) )
 			{
 				switch ( TradeableItemDatabase.getConsumptionType( currentMatch.getItemId() ) )
 				{

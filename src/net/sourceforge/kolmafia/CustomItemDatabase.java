@@ -154,9 +154,6 @@ public class CustomItemDatabase extends Properties implements KoLConstants
 		// First, some preliminary checks to see if custom data
 		// should be added to this request.
 
-		if ( !KoLSettings.getBooleanProperty( "relayViewsCustomItems" ) )
-			return;
-
 		String urlString = request.getURLString();
 		if ( urlString.indexOf( "showplayer.php" ) == -1 )
 			return;

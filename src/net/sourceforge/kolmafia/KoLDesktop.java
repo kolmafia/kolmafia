@@ -250,7 +250,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 
 	public static final boolean isInversionExempt( KoLFrame content )
 	{
-		return KoLSettings.getBooleanProperty( "avoidInvertingTabs" ) || content instanceof AdventureFrame || content instanceof FlowerHunterFrame ||
+		return content instanceof AdventureFrame || content instanceof FlowerHunterFrame ||
 			content instanceof MailboxFrame || content instanceof SendMessageFrame;
 	}
 
@@ -337,11 +337,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 
 		toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
 		toolbarPanel.add( new DisplayFrameButton( "Council", "council.gif", "CouncilFrame" ) );
-
-		if ( KoLSettings.getBooleanProperty( "mapLoadsMiniBrowser" ) )
-			toolbarPanel.add( new DisplayFrameButton( "Load in Mini Browser", "browser.gif", "RequestFrame" ) );
-		else
-			toolbarPanel.add( new InvocationButton( "Load in Web Browser", "browser.gif", StaticEntity.getClient(), "openRelayBrowser" ) );
+		toolbarPanel.add( new InvocationButton( "Load in Web Browser", "browser.gif", StaticEntity.getClient(), "openRelayBrowser" ) );
 
 		toolbarPanel.add( new DisplayFrameButton( "Graphical CLI", "command.gif", "CommandDisplayFrame" ) );
 

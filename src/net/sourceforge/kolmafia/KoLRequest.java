@@ -607,8 +607,7 @@ public class KoLRequest extends Job implements KoLConstants
 
 		if ( location.startsWith( "sewer.php" ) )
 		{
-			if ( KoLSettings.getBooleanProperty( "relayAlwaysBuysGum" ) )
-				AdventureDatabase.retrieveItem( SewerRequest.GUM.getInstance(1) );
+			AdventureDatabase.retrieveItem( SewerRequest.GUM.getInstance(1) );
 		}
 		else if ( location.startsWith( "hermit.php?autopermit=on" ) )
 		{
