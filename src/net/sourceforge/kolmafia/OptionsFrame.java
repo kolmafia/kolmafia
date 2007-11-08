@@ -39,6 +39,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
@@ -60,6 +63,7 @@ import com.informit.guides.JDnDList;
 import tab.CloseTabPaneEnhancedUI;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
+import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class OptionsFrame extends KoLFrame
@@ -171,13 +175,13 @@ public class OptionsFrame extends KoLFrame
 		private final String [][] options =
 		{
 			{ "relayAllowsOverrides", "Enable user-scripted relay browser overrides" },
-			{ "relayAddsWikiLinks", "Check wiki for item descriptions (fails for unknowns)" },
 			{ "relayUsesCachedImages", "Cache KoL images to conserve bandwidth (dialup)" },
 
 			{ "", "" },
 
-			{ "relayViewsCustomItems", "View items registered with OneTonTomato's Kilt script" },
+			{ "relayAddsWikiLinks", "Check wiki for item descriptions (fails for unknowns)" },
 			{ "lucreCoreLeaderboard", "Participate in Oxbarn's KoLDB Lucre-core leaderboard" },
+			{ "relayAddsQuickScripts", "Add quick script links to menu bar (see Links tab)" },
 
 			{ "", "" },
 
@@ -193,12 +197,8 @@ public class OptionsFrame extends KoLFrame
 
 			{ "", "" },
 
-			{ "relayAddsQuickScripts", "Add quick script links to menu bar (see Links tab)" },
 			{ "relayUsesIntegratedChat", "Integrate chat and relay browser gCLI interfaces" },
 			{ "relayFormatsChatText", "Reformat incoming chat HTML to conform to web standards" },
-
-			{ "", "" },
-
 			{ "relayAddsGraphicalCLI", "Add command-line interface to right side pane" },
 			{ "relayAddsKoLSimulator", "Add Ayvuir's Simulator of Loathing to right side pane" },
 
@@ -210,13 +210,7 @@ public class OptionsFrame extends KoLFrame
 
 			{ "", "" },
 
-			{ "relayAddsRoundNumber", "Add current round number to fight pages" },
-			{ "relayAddsMonsterHealth", "Add known monster data to fight pages" },
-			{ "relayAddsCustomCombat", "Add custom combat button to fight pages" },
-
-			{ "", "" },
-
-			{ "relayAlwaysBuysGum", "Automatically buy gum when visiting the sewer" }
+			{ "relayAddsCustomCombat", "Add custom buttons to the top of fight pages" },
 		};
 
 		/**
@@ -277,34 +271,20 @@ public class OptionsFrame extends KoLFrame
 		private final String [][] options =
 		{
 			{ "showAllRequests", "Show all requests in a mini-browser window" },
-			{ "avoidInvertingTabs", "Do not invert nested tabs in main window" },
-
-			{ "", "" },
-
 			{ "useZoneComboBox", "Use zone selection instead of adventure name filter" },
 			{ "cacheMallSearches", "Cache mall search terms in mall search interface" },
-			{ "mapLoadsMiniBrowser", "Map button loads mini browser instead of relay browser" },
-			{ "useLowBandwidthRadio", "Use lower bandwidth server for KoL Radio" },
 
 			{ "", "" },
 
 			{ "completeHealthRestore", "Remove health-reducing status effects before health restore" },
-			{ "ignoreAutoAttack", "Treat auto-attack as a null combat round for CCS" },
-			{ "useFastOutfitSwitch", "Use fast outfit switching instead of piecewise switching" },
+			{ "switchEquipmentForBuffs", "Allow equipment changing when casting buffs" },
+			{ "allowNonMoodBurning", "Cast buffs not defined in moods during buff balancing" },
 
 			{ "", "" },
 
 			{ "cloverProtectActive", "Auto-disassemble hermit, marmot and barrel clovers" },
 			{ "createHackerSummons", "Auto-create 31337 scrolls if no scroll conditions are set" },
 			{ "mementoListActive", "Prevent accidental destruction of 'memento' items" },
-			{ "allowGenericUse", "Enable generic item usage in scripted \"use\"" },
-
-			{ "", "" },
-
-			{ "switchEquipmentForBuffs", "Allow equipment changing when casting buffs" },
-			{ "allowEncounterRateBurning", "Cast combat rate modifiers during buff balancing" },
-			{ "allowBreakfastBurning", "Summon noodles/reagents/garnishes/hearts during buff balancing" },
-			{ "allowNonMoodBurning", "Cast buffs not defined in moods during buff balancing" },
 
 			{ "", "" },
 
@@ -1077,6 +1057,156 @@ public class OptionsFrame extends KoLFrame
 					OptionsFrame.this.tabs.repaint();
 				}
 			}
+		}
+	}
+
+
+	protected class ScriptPanel extends OptionsPanel
+	{
+		private ScriptSelectPanel loginScript;
+		private ScriptSelectPanel logoutScript;
+
+		public ScriptPanel()
+		{
+			super( "Miscellaneous Scripts" );
+
+			this.loginScript = new ScriptSelectPanel( new AutoHighlightField() );
+			this.logoutScript = new ScriptSelectPanel( new AutoHighlightField() );
+
+			VerifiableElement [] elements = new VerifiableElement[3];
+			elements[0] = new VerifiableElement( "On Login: ", this.loginScript );
+			elements[1] = new VerifiableElement( "On Logout: ", this.logoutScript );
+			elements[2] = new VerifiableElement();
+
+			this.setContent( elements );
+			this.actionCancelled();
+		}
+
+		public void actionConfirmed()
+		{
+			KoLSettings.setUserProperty( "loginScript", this.loginScript.getText() );
+			KoLSettings.setUserProperty( "logoutScript", this.logoutScript.getText() );
+		}
+
+		public void actionCancelled()
+		{
+			String loginScript = KoLSettings.getUserProperty( "loginScript" );
+			this.loginScript.setText( loginScript );
+
+			String logoutScript = KoLSettings.getUserProperty( "logoutScript" );
+			this.logoutScript.setText( logoutScript );
+		}
+
+	}
+
+	protected class BreakfastPanel extends JPanel implements ActionListener
+	{
+		private String breakfastType;
+		private JCheckBox [] skillOptions;
+
+		private JCheckBox grabClovers;
+		private JCheckBox mushroomPlot;
+		private JCheckBox rumpusRoom;
+		private JCheckBox readManual;
+		private JCheckBox loginRecovery;
+		private JCheckBox pathedSummons;
+
+		public BreakfastPanel( String title, String breakfastType )
+		{
+			super( new BorderLayout() );
+
+			this.add( JComponentUtilities.createLabel( title, JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
+
+			JPanel centerPanel = new JPanel( new GridLayout( 4, 3 ) );
+
+			this.loginRecovery = new JCheckBox( "enable auto-recovery" );
+			this.loginRecovery.addActionListener( this );
+			centerPanel.add( this.loginRecovery );
+
+			this.pathedSummons = new JCheckBox( "honor path restrictions" );
+			this.pathedSummons.addActionListener( this );
+			centerPanel.add( this.pathedSummons );
+
+			this.rumpusRoom = new JCheckBox( "visit clan rumpus room" );
+			this.rumpusRoom.addActionListener( this );
+			centerPanel.add( this.rumpusRoom );
+
+			this.breakfastType = breakfastType;
+			this.skillOptions = new JCheckBox[ UseSkillRequest.BREAKFAST_SKILLS.length ];
+			for ( int i = 0; i < UseSkillRequest.BREAKFAST_SKILLS.length; ++i )
+			{
+				this.skillOptions[i] = new JCheckBox( UseSkillRequest.BREAKFAST_SKILLS[i].toLowerCase() );
+				this.skillOptions[i].addActionListener( this );
+				centerPanel.add( this.skillOptions[i] );
+			}
+
+			this.mushroomPlot = new JCheckBox( "plant mushrooms" );
+			this.mushroomPlot.addActionListener( this );
+			centerPanel.add( this.mushroomPlot );
+
+			this.grabClovers = new JCheckBox( "get hermit clovers" );
+			this.grabClovers.addActionListener( this );
+			centerPanel.add( this.grabClovers );
+
+			this.readManual = new JCheckBox( "read guild manual" );
+			this.readManual.addActionListener( this );
+			centerPanel.add( this.readManual );
+
+			JPanel centerHolder = new JPanel( new BorderLayout() );
+			centerHolder.add( centerPanel, BorderLayout.NORTH );
+
+			JPanel centerContainer = new JPanel( new CardLayout( 10, 10 ) );
+			centerContainer.add( centerHolder, "" );
+
+			this.add( centerContainer, BorderLayout.CENTER );
+
+			this.actionCancelled();
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{	this.actionConfirmed();
+		}
+
+		public void actionConfirmed()
+		{
+			StringBuffer skillString = new StringBuffer();
+
+			for ( int i = 0; i < UseSkillRequest.BREAKFAST_SKILLS.length; ++i )
+			{
+				if ( this.skillOptions[i].isSelected() )
+				{
+					if ( skillString.length() != 0 )
+						skillString.append( "," );
+
+					skillString.append( UseSkillRequest.BREAKFAST_SKILLS[i] );
+				}
+			}
+
+			KoLSettings.setUserProperty( "breakfast" + this.breakfastType, skillString.toString() );
+			KoLSettings.setUserProperty( "loginRecovery" + this.breakfastType, String.valueOf( this.loginRecovery.isSelected() ) );
+			KoLSettings.setUserProperty( "pathedSummons" + this.breakfastType, String.valueOf( this.pathedSummons.isSelected() ) );
+			KoLSettings.setUserProperty( "visitRumpus" + this.breakfastType, String.valueOf( this.rumpusRoom.isSelected() ) );
+			KoLSettings.setUserProperty( "autoPlant" + this.breakfastType, String.valueOf( this.mushroomPlot.isSelected() ) );
+			KoLSettings.setUserProperty( "grabClovers" + this.breakfastType, String.valueOf( this.grabClovers.isSelected() ) );
+			KoLSettings.setUserProperty( "readManual" + this.breakfastType, String.valueOf( this.readManual.isSelected() ) );
+		}
+
+		public void actionCancelled()
+		{
+			String skillString = KoLSettings.getUserProperty( "breakfast" + this.breakfastType );
+			for ( int i = 0; i < UseSkillRequest.BREAKFAST_SKILLS.length; ++i )
+				this.skillOptions[i].setSelected( skillString.indexOf( UseSkillRequest.BREAKFAST_SKILLS[i] ) != -1 );
+
+			this.loginRecovery.setSelected( KoLSettings.getBooleanProperty( "loginRecovery" + this.breakfastType ) );
+			this.pathedSummons.setSelected( KoLSettings.getBooleanProperty( "pathedSummons" + this.breakfastType ) );
+			this.rumpusRoom.setSelected( KoLSettings.getBooleanProperty( "visitRumpus" + this.breakfastType ) );
+			this.mushroomPlot.setSelected( KoLSettings.getBooleanProperty( "autoPlant" + this.breakfastType ) );
+			this.grabClovers.setSelected( KoLSettings.getBooleanProperty( "grabClovers" + this.breakfastType ) );
+			this.readManual.setSelected( KoLSettings.getBooleanProperty( "readManual" + this.breakfastType ) );
+		}
+
+		public void setEnabled( boolean isEnabled )
+		{
 		}
 	}
 }

@@ -226,9 +226,7 @@ public class SpecialOutfit implements Comparable, KoLConstants
 				implicit[i] = KoLCharacter.getEquipment(i);
 
 			implicitPoints.push( implicit );
-
-			if ( KoLSettings.getBooleanProperty( "useFastOutfitSwitch" ) )
-				EquipmentRequest.savePreviousOutfit();
+			EquipmentRequest.savePreviousOutfit();
 		}
 	}
 

@@ -857,10 +857,9 @@ public class FightRequest extends KoLRequest
 			return;
 
 		StringBuffer action = new StringBuffer();
-		++currentRound;
 
-		if ( KoLSettings.getBooleanProperty( "ignoreAutoAttack" ) )
-			++preparatoryRounds;
+		++currentRound;
+		++preparatoryRounds;
 
 		if ( shouldLogAction )
 			action.append( "Round 1: " + KoLCharacter.getUserName() + " " );
