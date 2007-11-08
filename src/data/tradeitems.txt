@@ -2879,7 +2879,7 @@
 2879	tiny plastic Knob Goblin King	8	all	30
 2880	tiny plastic Bonerdagon	8	all	30
 2881	tiny plastic the Man	8	all	30
-2882	tiny plastic the Big Wisneiwski	8	all	30
+2882	tiny plastic the Big Wisniewski	8	all	30
 2883	tiny plastic Felonia	8	all	30
 2884	tiny plastic Beelzebozo	8	all	30
 2885	tiny plastic conservationist hippy	8	all	30

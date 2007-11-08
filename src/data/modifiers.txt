@@ -1097,7 +1097,7 @@ tiny plastic stab bat	Familiar Weight: +1
 tiny plastic star starfish	Familiar Weight: +1
 tiny plastic sweet nutcracker	Familiar Weight: +1
 tiny plastic taco cat	Monster Level: +1
-# tiny plastic the Big Wisneiwski	Food Drop: +3
+# tiny plastic the Big Wisniewski	Food Drop: +3
 tiny plastic the Man	Meat Drop: +3
 tiny plastic topiary golem	Monster Level: +1
 tiny plastic turtle tamer	Muscle: +2, Mysticality: +1
