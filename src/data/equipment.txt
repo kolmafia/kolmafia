@@ -1031,7 +1031,7 @@ tiny plastic stab bat	0	none
 tiny plastic star starfish	0	none
 tiny plastic sweet nutcracker	0	none
 tiny plastic taco cat	0	none
-tiny plastic the Big Wisneiwski	0	none
+tiny plastic the Big Wisniewski	0	none
 tiny plastic the Man	0	none
 tiny plastic topiary golem	0	none
 tiny plastic turtle tamer	0	none

@@ -2884,7 +2884,7 @@
 2879	751634526	tiny plastic Knob Goblin King
 2880	397311095	tiny plastic Bonerdagon
 2881	432191891	tiny plastic the Man
-2882	926215010	tiny plastic the Big Wisneiwski
+2882	926215010	tiny plastic the Big Wisniewski
 2883	147843406	tiny plastic Felonia	tiny plastic Feloniae
 2884	463746964	tiny plastic Beelzebozo
 2885	813778155	tiny plastic conservationist hippy
