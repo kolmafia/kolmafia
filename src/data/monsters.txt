@@ -197,7 +197,7 @@ Felonia, Queen of the Spooky Gravy Fairies	HP: 82 Def: 75 Atk: 75 E: spooky
 Fiendish Can of Asparagus	HP: 1 Def: 2 Atk: 1 E: stench Meat: 4-7	asparagus knife (20)	stalk of asparagus (40)	razor-sharp can lid (40)
 Figure-Skating Duck	HP: 180
 Filthworm Drone	HP: 185
-Filthworm Royal Guard	HP: 186-191
+Filthworm Royal Guard	HP: 190
 Filthy Hippy	HP: 30 Def: 39 Atk: 41 E: stench	decorative fountain (30)	filthy corduroys (5)	filthy knitted dread sack (5)	patchouli incense stick (30)	tambourine bells (15)	reodorant (5)
 Filthy Hippy Jewelry Maker	HP: 30 Def: 39 Atk: 39 E: stench	phat turquoise bead (10)	piercing post (30)	reodorant (5)	filthy corduroys (5)	filthy knitted dread sack (5)
 Filthy Hippy Vegan Chef	HP: 30 Def: 39 Atk: 39 E: stench	tambourine bells (10)	wad of tofu (30)	reodorant (5)	filthy corduroys (5)	filthy knitted dread sack (5)
@@ -355,7 +355,7 @@ Pygmy Assault Squad	HP: 148
 Pygmy Blowgunner	HP: 147
 Pygmy Headhunter	HP: 151
 Quantum Mechanic	HP: 51 Def: 37 Atk: 37	large box (40)	vorpal blade (15)
-Queen Filthworm	HP: 199
+Queen Filthworm	HP: 200
 Quiet Healer	HP: 90 Def: 95 Atk: 95 Meat: 66-143	amulet of extreme plot significance (10)	scroll of drastic healing (30)	soft green echo eyedrop antidote (30)
 Racecar Bob	HP: 115 Def: 118 Atk: 124 Meat: 43-67	enormous belt buckle (25)	leather chaps (15)	mesh cap (15)
 Raging Bull	HP: 20 Def: 25 Atk: 25 Meat: 24-42	pile of jumping beans (50)	can of Red Minotaur (30)
