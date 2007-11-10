@@ -211,7 +211,6 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		helperMenu.add( new DisplayFrameMenuItem( "Copyright Notice", "LicenseDisplay" ) );
 		helperMenu.add( this.debugMenuItem );
-		helperMenu.add( new CheckForUpdatesMenuItem() );
 		helperMenu.add( new DisplayPageMenuItem( "Donate to KoLmafia", "http://kolmafia.sourceforge.net/credits.html" ) );
 
 		helperMenu.add( new JSeparator() );
@@ -244,19 +243,6 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		if ( bookmarkMenu != null )
 			bookmarkMenu.dispose();
-	}
-
-	private class CheckForUpdatesMenuItem extends DisplayPageMenuItem
-	{
-		public CheckForUpdatesMenuItem()
-		{	super( "Check for Updates", "https://sourceforge.net/project/showfiles.php?group_id=126572" );
-		}
-
-		public void run()
-		{
-			CommandDisplayFrame.executeCommand( "update" );
-			super.run();
-		}
 	}
 
 	/**

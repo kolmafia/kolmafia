@@ -94,7 +94,8 @@ public abstract class KoLmafia implements KoLConstants
 		"adventures.txt", "buffbots.txt", "classskills.txt", "combats.txt", "concoctions.txt",
 		"defaults.txt", "equipment.txt", "familiars.txt", "fullness.txt", "inebriety.txt",
 		"itemdescs.txt", "modifiers.txt", "monsters.txt", "npcstores.txt", "outfits.txt",
-		"packages.txt", "spleenhit.txt", "statuseffects.txt", "tradeitems.txt", "zonelist.txt"
+		"packages.txt", "spleenhit.txt", "statuseffects.txt", "tradeitems.txt", "zapgroups.txt",
+		"zonelist.txt"
 	};
 
 	protected static String currentIterationString = "";
@@ -291,7 +292,6 @@ public abstract class KoLmafia implements KoLConstants
 		KoLSettings.setUserProperty( "relayBrowserOnly", "false" );
 
 		String actualName;
-
 		String [] pastUsers = StaticEntity.getPastUserList();
 
 		for ( int i = 0; i < pastUsers.length; ++i )
@@ -434,6 +434,11 @@ public abstract class KoLmafia implements KoLConstants
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.attemptLogin( "" );
 		}
+
+		// Check for KoLmafia updates in a separate thread
+		// so as to allow for continued execution.
+
+		(new UpdateCheckThread()).start();
 
 		// Always read input from the command line when you're not
 		// in GUI mode.
@@ -3633,6 +3638,49 @@ public abstract class KoLmafia implements KoLConstants
 		sessionStream.println();
 
 		RequestThread.closeRequestSequence();
+	}
+
+	private static class UpdateCheckThread extends Thread
+	{
+		public void run()
+		{
+			if ( VERSION_NAME.startsWith( "KoLmafia r" ) )
+				return;
+
+			long lastUpdate = Long.parseLong( KoLSettings.getUserProperty( "lastRssUpdate" ) );
+			if ( System.currentTimeMillis() - lastUpdate < 86400000L )
+				return;
+
+			try
+			{
+				String line;  StringBuffer contents = new StringBuffer();
+				BufferedReader reader = KoLDatabase.getReader( "http://sourceforge.net/export/rss2_projfiles.php?group_id=126572" );
+
+				while ( (line = reader.readLine()) != null )
+					contents.append( line );
+
+				Matcher updateMatcher = Pattern.compile( "<title>(KoLmafia [^<]*?) released [^<]*?</title>" ).matcher( contents.toString() );
+				if ( !updateMatcher.find() )
+				{
+					System.out.println( contents );
+					return;
+				}
+
+				String lastVersion = KoLSettings.getUserProperty( "lastRssVersion" );
+				String currentVersion = updateMatcher.group(1);
+
+				KoLSettings.setUserProperty( "lastRssVersion", currentVersion );
+
+				if ( currentVersion.equals( VERSION_NAME ) || currentVersion.equals( lastVersion ) )
+					return;
+
+				if ( KoLFrame.confirm( "A new version of KoLmafia is now available.  Would you like to download it now?" ) )
+					StaticEntity.openSystemBrowser( "https://sourceforge.net/project/showfiles.php?group_id=126572" );
+			}
+			catch ( Exception e )
+			{
+			}
+		}
 	}
 
 	private static class ShutdownThread extends Thread

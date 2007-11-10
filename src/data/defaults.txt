@@ -49,6 +49,8 @@ global	innerTabColor	#8ca9ff
 global	itemManagerIndex	0
 global	lastBuffRequestType	0
 global	lastRelayUpdate
+global	lastRssUpdate	0
+global	lastRssVersion
 global	lastUsername
 global	logAcquiredItems	true
 global	logBattleAction	true
