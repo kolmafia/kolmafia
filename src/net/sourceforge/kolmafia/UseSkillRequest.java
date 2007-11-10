@@ -50,6 +50,8 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 	private static final int OTTER_TONGUE = 1007;
 	private static final int WALRUS_TONGUE = 1010;
+	private static final int BANDAGES = 3009;
+	private static final int COCOON = 3012;
 	private static final int DISCO_NAP = 5007;
 	private static final int POWER_NAP = 5011;
 
@@ -398,6 +400,8 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		if ( KoLmafia.refusesContinue() )
 			return;
 
+		int currentHP = KoLCharacter.getCurrentHP();
+
 		int currentCast = 0;
 		int maximumCast = maximumMP / mpPerCast;
 
@@ -459,6 +463,33 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			{
 				lastUpdate = "Error encountered during cast attempt.";
 				return;
+			}
+
+			// If this happens to be a health-restorative skill,
+			// then there is an effective cap based on how much
+			// the skill is able to restore.
+
+			switch ( skillId )
+			{
+				case OTTER_TONGUE:
+				case WALRUS_TONGUE:
+				case DISCO_NAP:
+				case POWER_NAP:
+				case BANDAGES:
+				case COCOON:
+
+					for ( int i = 0; i < HPRestoreItemList.CONFIGURES.length; ++i )
+					{
+						if ( HPRestoreItemList.CONFIGURES[i].toString().equals( skillName ) )
+						{
+							castsRemaining = (int) Math.ceil(
+								((float)KoLCharacter.getMaximumHP() - (float)KoLCharacter.getCurrentHP()) /
+									(float)HPRestoreItemList.CONFIGURES[i].getHealthPerUse() );
+
+							currentCast = Math.min( currentCast, castsRemaining );
+							break;
+						}
+					}
 			}
 
 			currentCast = Math.min( currentCast, maximumCast );

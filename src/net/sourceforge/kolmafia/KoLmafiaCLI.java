@@ -1758,6 +1758,10 @@ public class KoLmafiaCLI extends KoLmafia
 			// familiars.
 
 			for ( int i = 0; i < familiars.length && newFamiliar == null; ++i )
+				if ( familiars[i].equals( lowerCaseName ) )
+					newFamiliar = (FamiliarData) familiarList.get(i);
+
+			for ( int i = 0; i < familiars.length && newFamiliar == null; ++i )
 				if ( KoLDatabase.substringMatches( familiars[i], lowerCaseName, true ) )
 					newFamiliar = (FamiliarData) familiarList.get(i);
 
