@@ -1017,7 +1017,7 @@ public class AdventureDatabase extends KoLDatabase
 
 		while ( (data = readData( reader )) != null )
 		{
-			if ( data.length > 3 )
+			if ( data.length > 2 )
 			{
 				if ( data[1].indexOf( "send" ) != -1 )
 					continue;
