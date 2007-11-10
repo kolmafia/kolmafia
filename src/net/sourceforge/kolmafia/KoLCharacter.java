@@ -2735,7 +2735,6 @@ public abstract class KoLCharacter extends StaticEntity
 			switch ( slot )
 			{
 			case WEAPON:
-			case OFFHAND:
 			case FAMILIAR:
 				break;
 
@@ -2744,6 +2743,7 @@ public abstract class KoLCharacter extends StaticEntity
 				newModifiers.add( Modifiers.DAMAGE_ABSORPTION, taoFactor * EquipmentDatabase.getPower( item.getItemId() ) );
 				break;
 
+			case OFFHAND:
 			case SHIRT:
 				newModifiers.add( Modifiers.DAMAGE_ABSORPTION, EquipmentDatabase.getPower( item.getItemId() ) );
 				break;
