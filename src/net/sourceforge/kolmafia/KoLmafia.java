@@ -1265,13 +1265,6 @@ public abstract class KoLmafia implements KoLConstants
 		// Consider clearing beaten up if your restoration settings
 		// include the appropriate items.
 
-		if ( settingName.startsWith( "hp" ) && KoLSettings.getBooleanProperty( "completeHealthRestore" ) )
-		{
-			MoodSettings.fixMaximumHealth( restoreSetting );
-			current = KoLCharacter.getCurrentHP();
-			needed = Math.max( needed, Math.min( desired, current + 1 ) );
-		}
-
 		if ( current >= needed )
 			return true;
 
@@ -2358,7 +2351,7 @@ public abstract class KoLmafia implements KoLConstants
 		// If the faucet has not yet been found, then go through
 		// the process of trying to locate it.
 
-		KoLAdventure adventure = new KoLAdventure( "Woods", "0", "0", "rats.php", "", "Typical Tavern (Pre-Rat)" );
+		KoLAdventure adventure = new KoLAdventure( "Woods", "rats.php", "", "Typical Tavern (Pre-Rat)" );
 		boolean foundFaucet = searchList.size() < 2;
 
 		if ( KoLCharacter.getLevel() < 3 )
@@ -2769,10 +2762,6 @@ public abstract class KoLmafia implements KoLConstants
 		commandBuffer.append( buffer.toString() );
 	}
 
-	public void makePurchases( List results, int count )
-	{	this.makePurchases( results, results.toArray(), count, true );
-	}
-
 	/**
 	 * Utility method used to purchase the given number of items
 	 * from the mall using the given purchase requests.
@@ -2805,8 +2794,9 @@ public abstract class KoLmafia implements KoLConstants
 			currentRequest = (MallPurchaseRequest) purchases[i];
 			currentPrice = currentRequest.getPrice();
 
-			if ( !KoLCharacter.canInteract() && currentRequest.getQuantity() != MallPurchaseRequest.MAX_QUANTITY )
-				continue;
+			if ( currentRequest.getQuantity() != MallPurchaseRequest.MAX_QUANTITY )
+				if ( !KoLCharacter.canInteract() || (isAutomated && !KoLSettings.getBooleanProperty( "autoSatisfyWithMall" )) )
+					continue;
 
 			if ( isAutomated )
 			{
@@ -3164,6 +3154,9 @@ public abstract class KoLmafia implements KoLConstants
 
 		// Now, run the built-in behavior to take care of
 		// any loose ends.
+
+		if ( KoLSettings.getBooleanProperty( "removeMalignantEffects" ) )
+			MoodSettings.removeMalignantEffects();
 
 		if ( isMoodCheck )
 			MoodSettings.execute();

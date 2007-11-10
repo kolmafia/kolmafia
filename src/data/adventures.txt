@@ -1,188 +1,148 @@
-Gyms	0/0	clan_gym=1	Pump Up Muscle
-Gyms	0/0	clan_gym=2	Pump Up Mysticality
-Gyms	0/0	clan_gym=3	Pump Up Moxie
-
-Beach	0/0	shore=1	Muscle Vacation
-Beach	0/0	shore=2	Mysticality Vacation
-Beach	0/0	shore=3	Moxie Vacation
-Beach	0/0	adventure=45	South of the Border
-Beach	104/0	adventure=121	Desert (Unhydrated)
-Beach	104/0	adventure=123	Desert (Ultrahydrated)
-Beach	104/0	adventure=122	Oasis in the Desert
-Beach	0/0	adventure=156	Grim Grimacite Site
-
-Pyramid	104/0	adventure=124	The Upper Chamber
-Pyramid	104/0	adventure=125	The Middle Chamber
-Pyramid	104/0	pyramid=lower	The Lower Chambers
-
-Casino	0/0	casino=1	Goat Party
-Casino	0/0	casino=2	Pirate Party
-Casino	0/0	casino=11	Lemon Party
-Casino	0/0	adventure=70	Roulette Tables
-Casino	0/0	adventure=71	Poker Room
-
-Dungeon	0/5	adventure=16	Haiku Dungeon
-Dungeon	19/0	adventure=19	Limerick Dungeon
-Dungeon	44/44	adventure=38	Greater-Than Sign
-Dungeon	44/44	adventure=39	Dungeons of Doom
-Dungeon	0/0	dungeon=0	Daily Dungeon
-
-Town	0/0	sewer=0	Unlucky Sewer
-Town	0/0	luckysewer=0	Sewer With Clovers
-Town	0/0	adventure=112	Sleazy Back Alley
-
-Manor1	0/0	adventure=113	Haunted Pantry
-Manor1	0/0	adventure=102	Haunted Kitchen
-Manor1	0/6	adventure=103	Haunted Conservatory
-Manor1	0/40	adventure=104	Haunted Library
-Manor1	0/10	adventure=105	Haunted Billiards Room
-
-Manor2	0/68	adventure=106	Haunted Gallery
-Manor2	0/68	adventure=107	Haunted Bathroom
-Manor2	0/85	adventure=108	Haunted Bedroom
-Manor2	0/68	adventure=109	Haunted Ballroom
-Manor2	0/104	adventure=120	Haunted Wine Cellar
-
-Woods	5/0	adventure=15	Spooky Forest
-Woods	5/0	adventure=17	Hidden Temple
-Woods	104/0	adventure=118	Hidden City
-Woods	5/0	adventure=25	Typical Tavern
-Woods	29/29	adventure=79	Friar's Gate
-Woods	0/20	adventure=73	8-Bit Realm
-Woods	35/0	adventure=100	Whitey's Grove
-Woods	35/0	adventure=99	White Citadel
-Woods	104/0	adventure=111	Black Forest
-
-BatHole	8/8	adventure=30	Bat Hole Entryway
-BatHole	8/8	adventure=31	Guano Junction
-BatHole	8/8	adventure=32	Batrat and Ratbat Burrow
-BatHole	8/8	adventure=33	Beanbat Chamber
-BatHole	8/8	adventure=34	Boss Bat's Lair
-
-Rift	0/0	adventure=85	Battlefield (No Uniform)
-Rift	0/0	adventure=86	Battlefield (Cloaca Uniform)
-Rift	0/0	adventure=87	Battlefield (Dyspepsi Uniform)
-
-Plains	0/10	adventure=18	Degrassi Knoll
-Plains	0/15	adventure=20	Fun House
-Plains	0/18	adventure=21	Pre-Cyrpt Cemetary
-Plains	40/0	adventure=58	Post-Cyrpt Cemetary
-Plains	0/65	adventure=119	Palindome
-
-Tower	0/11	adventure=22	Fernswarthy's Ruins
-Tower	0/0	basement=0	Fernswarthy's Basement
-
-Knob	0/0	adventure=114	Outskirts of The Knob
-Knob	20/0	adventure=40	Knob Goblin Kitchens
-Knob	20/0	adventure=41	Knob Goblin Treasury
-Knob	20/0	adventure=42	Knob Goblin Harem
-Knob	20/0	knob=0	King's Chamber
-
-Lab	20/30	adventure=50	Knob Goblin Laboratory
-Lab	20/35	adventure=51	Menagerie 1
-Lab	20/40	adventure=52	Menagerie 2
-Lab	20/45	adventure=53	Menagerie 3
-Lab	20/0	adventure=101	Knob Shaft
-
-Friars	29/29	adventure=75	Dark Neck of the Woods
-Friars	29/29	adventure=76	Dark Heart of the Woods
-Friars	29/29	adventure=77	Dark Elbow of the Woods
-Friars	29/29	friars=0	Friar Ceremony Location
-
-Cyrpt	40/40	adventure=54	Defiled Nook
-Cyrpt	40/40	adventure=55	Defiled Cranny
-Cyrpt	40/40	adventure=56	Defiled Alcove
-Cyrpt	40/40	adventure=57	Defiled Niche
-Cyrpt	40/40	cyrpt=Yep.	Haert of the Cyrpt
-
-Island	0/30	adventure=27	Frat House
-Island	0/30	adventure=29	Frat House In Disguise
-Island	125/125	adventure=150	Post-War Frat House
-Island	0/30	adventure=26	Hippy Camp
-Island	0/30	adventure=65	Hippy Camp In Disguise
-Island	125/125	adventure=149	Post-War Hippy Camp
-Island	0/45	adventure=66	Pirate Cove
-Island	0/45	adventure=67	Pirate Cove In Disguise
-Island	125/125	adventure=154	Post-War Junkyard
-Island	125/125	adventure=136	Post-War Sonofa Beach
-Island	125/125	adventure=155	McMillicancuddy's Farm
-
-IsleWar	125/125	adventure=132	Battlefield (Frat Uniform)
-IsleWar	125/125	adventure=140	Battlefield (Hippy Uniform)
-IsleWar	0/30	adventure=135	Wartime Frat House
-IsleWar	0/30	adventure=134	Wartime Frat House (Hippy Disguise)
-IsleWar	0/30	adventure=133	Wartime Hippy Camp
-IsleWar	0/30	adventure=131	Wartime Hippy Camp (Frat Disguise)
-IsleWar	125/125	adventure=139	Wartime Junkyard
-IsleWar	125/125	adventure=136	Wartime Sonofa Beach
-IsleWar	125/124	adventure=126	Themthar Hills
-
-Farm	125/125	adventure=137	Barn
-Farm	125/125	adventure=141	Pond
-Farm	125/125	adventure=142	Back 40
-Farm	125/125	adventure=143	Other Back 40
-Farm	125/125	adventure=144	Granary
-Farm	125/125	adventure=145	Bog
-Farm	125/125	adventure=146	Family Plot
-Farm	125/125	adventure=147	Shady Thicket
-
-Orchard	125/125	adventure=127	Hatching Chamber
-Orchard	125/125	adventure=128	Feeding Chamber
-Orchard	125/125	adventure=129	Guards' Chamber
-Orchard	125/125	adventure=130	Queen's Chamber
-
-Mountain	0/0	adventure=91	Noob Cave
-Mountain	0/0	adventure=92	Dire Warren
-Mountain	68/0	adventure=80	Orc Chasm
-
-McLarge	53/0	adventure=61	Itznotyerzitz Mine
-McLarge	53/0	adventure=60	Goatlet
-McLarge	53/0	adventure=62	Ninja Snowmen
-McLarge	53/0	adventure=63	eXtreme Slope
-McLarge	53/0	adventure=110	Icy Peak
-
-Beanstalk	85/90	adventure=81	Fantasy Airship
-Beanstalk	85/95	adventure=82	Giant's Castle
-Beanstalk	85/100	adventure=83	Hole in the Sky
-
-Sorceress	104/0	lair3=hedge	Sorceress' Hedge Maze
-
-# Zodiac Areas
-
-MusSign	0/13	adventure=47	Bugbear Pens
-MusSign	0/40	adventure=48	Spooky Gravy Barrow
-MusSign	0/40	adventure=49	Post-Quest Bugbear Pens
-MysSign	0/0	adventure=43	Outskirts of Camp
-MysSign	0/30	adventure=44	Camp Logging Camp
-MoxSign	13/25	adventure=46	Thugnderdome
-BadMoon	0/0	adventure=148	Heartbreaker's Hotel
-
-# Astral Plane
-
-Astral	0/0	adventure=96	Astral Mushroom (Bad Trip)
-Astral	0/0	adventure=98	Astral Mushroom (Mediocre Trip)
-Astral	0/0	adventure=97	Astral Mushroom (Great Trip)
-
-# Worm Wood
-
-Wormwood	0/0	adventure=151	Stately Pleasure Dome
-Wormwood	0/0	adventure=152	Mouldering Mansion
-Wormwood	0/0	adventure=153	Rogue Windmill
-
-# Holiday Locations
-
-Holiday	0/0	trickortreat=Yep.	Trick-or-Treating
-Holiday	0/0	adventure=84	St. Sneaky Pete's Day Stupor
-Holiday	0/150	adventure=37	Spectral Pickle Factory
-
-Crimbo06	0/0	adventure=115	Simple Tool-Making Cave
-Crimbo06	0/0	adventure=116	Spooky Fright Factory
-Crimbo06	0/0	adventure=117	Crimborg Collective Factory
-
-# Discontinued Locations
-
-Crimbo05	0/0	adventure=93	Crimbo Town Toy Factory
-WhiteWed	0/0	adventure=88	Future Market Square
-WhiteWed	0/0	adventure=89	Mall of the Future
-WhiteWed	0/0	adventure=90	Future Wrong Side of the Tracks
-WhiteWed	53/0	adventure=59	Icy Peak of the Past
+Gyms	clan_gym=1	Pump Up Muscle
+Gyms	clan_gym=2	Pump Up Mysticality
+Gyms	clan_gym=3	Pump Up Moxie
+Beach	shore=1	Muscle Vacation
+Beach	shore=2	Mysticality Vacation
+Beach	shore=3	Moxie Vacation
+Beach	adventure=45	South of the Border
+Beach	adventure=121	Desert (Unhydrated)
+Beach	adventure=123	Desert (Ultrahydrated)
+Beach	adventure=122	Oasis in the Desert
+Beach	adventure=156	Grim Grimacite Site
+Pyramid	adventure=124	The Upper Chamber
+Pyramid	adventure=125	The Middle Chamber
+Pyramid	pyramid=lower	The Lower Chambers
+Casino	casino=1	Goat Party
+Casino	casino=2	Pirate Party
+Casino	casino=11	Lemon Party
+Casino	adventure=70	Roulette Tables
+Casino	adventure=71	Poker Room
+Dungeon	adventure=16	Haiku Dungeon
+Dungeon	adventure=19	Limerick Dungeon
+Dungeon	adventure=38	Greater-Than Sign
+Dungeon	adventure=39	Dungeons of Doom
+Dungeon	dungeon=0	Daily Dungeon
+Town	sewer=0	Unlucky Sewer
+Town	luckysewer=0	Sewer With Clovers
+Town	adventure=112	Sleazy Back Alley
+Manor1	adventure=113	Haunted Pantry
+Manor1	adventure=102	Haunted Kitchen
+Manor1	adventure=103	Haunted Conservatory
+Manor1	adventure=104	Haunted Library
+Manor1	adventure=105	Haunted Billiards Room
+Manor2	adventure=106	Haunted Gallery
+Manor2	adventure=107	Haunted Bathroom
+Manor2	adventure=108	Haunted Bedroom
+Manor2	adventure=109	Haunted Ballroom
+Manor2	adventure=120	Haunted Wine Cellar
+Woods	adventure=15	Spooky Forest
+Woods	adventure=17	Hidden Temple
+Woods	adventure=118	Hidden City
+Woods	adventure=25	Typical Tavern
+Woods	adventure=79	Friar's Gate
+Woods	adventure=73	8-Bit Realm
+Woods	adventure=100	Whitey's Grove
+Woods	adventure=99	White Citadel
+Woods	adventure=111	Black Forest
+BatHole	adventure=30	Bat Hole Entryway
+BatHole	adventure=31	Guano Junction
+BatHole	adventure=32	Batrat and Ratbat Burrow
+BatHole	adventure=33	Beanbat Chamber
+BatHole	adventure=34	Boss Bat's Lair
+Rift	adventure=85	Battlefield (No Uniform)
+Rift	adventure=86	Battlefield (Cloaca Uniform)
+Rift	adventure=87	Battlefield (Dyspepsi Uniform)
+Plains	adventure=18	Degrassi Knoll
+Plains	adventure=20	Fun House
+Plains	adventure=21	Pre-Cyrpt Cemetary
+Plains	adventure=58	Post-Cyrpt Cemetary
+Plains	adventure=119	Palindome
+Tower	adventure=22	Fernswarthy's Ruins
+Tower	basement=0	Fernswarthy's Basement
+Knob	adventure=114	Outskirts of The Knob
+Knob	adventure=40	Knob Goblin Kitchens
+Knob	adventure=41	Knob Goblin Treasury
+Knob	adventure=42	Knob Goblin Harem
+Knob	knob=0	King's Chamber
+Lab	adventure=50	Knob Goblin Laboratory
+Lab	adventure=51	Menagerie 1
+Lab	adventure=52	Menagerie 2
+Lab	adventure=53	Menagerie 3
+Lab	adventure=101	Knob Shaft
+Friars	adventure=75	Dark Neck of the Woods
+Friars	adventure=76	Dark Heart of the Woods
+Friars	adventure=77	Dark Elbow of the Woods
+Friars	friars=0	Friar Ceremony Location
+Cyrpt	adventure=54	Defiled Nook
+Cyrpt	adventure=55	Defiled Cranny
+Cyrpt	adventure=56	Defiled Alcove
+Cyrpt	adventure=57	Defiled Niche
+Cyrpt	cyrpt=Yep.	Haert of the Cyrpt
+Island	adventure=27	Frat House
+Island	adventure=29	Frat House In Disguise
+Island	adventure=150	Post-War Frat House
+Island	adventure=26	Hippy Camp
+Island	adventure=65	Hippy Camp In Disguise
+Island	adventure=149	Post-War Hippy Camp
+Island	adventure=66	Pirate Cove
+Island	adventure=67	Pirate Cove In Disguise
+Island	adventure=154	Post-War Junkyard
+Island	adventure=136	Post-War Sonofa Beach
+Island	adventure=155	McMillicancuddy's Farm
+IsleWar	adventure=132	Battlefield (Frat Uniform)
+IsleWar	adventure=140	Battlefield (Hippy Uniform)
+IsleWar	adventure=135	Wartime Frat House
+IsleWar	adventure=134	Wartime Frat House (Hippy Disguise)
+IsleWar	adventure=133	Wartime Hippy Camp
+IsleWar	adventure=131	Wartime Hippy Camp (Frat Disguise)
+IsleWar	adventure=139	Wartime Junkyard
+IsleWar	adventure=136	Wartime Sonofa Beach
+IsleWar	adventure=126	Themthar Hills
+Farm	adventure=137	Barn
+Farm	adventure=141	Pond
+Farm	adventure=142	Back 40
+Farm	adventure=143	Other Back 40
+Farm	adventure=144	Granary
+Farm	adventure=145	Bog
+Farm	adventure=146	Family Plot
+Farm	adventure=147	Shady Thicket
+Orchard	adventure=127	Hatching Chamber
+Orchard	adventure=128	Feeding Chamber
+Orchard	adventure=129	Guards' Chamber
+Orchard	adventure=130	Queen's Chamber
+Mountain	adventure=91	Noob Cave
+Mountain	adventure=92	Dire Warren
+Mountain	adventure=80	Orc Chasm
+McLarge	adventure=61	Itznotyerzitz Mine
+McLarge	adventure=60	Goatlet
+McLarge	adventure=62	Ninja Snowmen
+McLarge	adventure=63	eXtreme Slope
+McLarge	adventure=110	Icy Peak
+Beanstalk	adventure=81	Fantasy Airship
+Beanstalk	adventure=82	Giant's Castle
+Beanstalk	adventure=83	Hole in the Sky
+Sorceress	lair3=hedge	Sorceress' Hedge Maze
+MusSign	adventure=47	Bugbear Pens
+MusSign	adventure=48	Spooky Gravy Barrow
+MusSign	adventure=49	Post-Quest Bugbear Pens
+MysSign	adventure=43	Outskirts of Camp
+MysSign	adventure=44	Camp Logging Camp
+MoxSign	adventure=46	Thugnderdome
+BadMoon	adventure=148	Heartbreaker's Hotel
+Astral	adventure=96	Astral Mushroom (Bad Trip)
+Astral	adventure=98	Astral Mushroom (Mediocre Trip)
+Astral	adventure=97	Astral Mushroom (Great Trip)
+Wormwood	adventure=151	Stately Pleasure Dome
+Wormwood	adventure=152	Mouldering Mansion
+Wormwood	adventure=153	Rogue Windmill
+Holiday	trickortreat=Yep.	Trick-or-Treating
+Holiday	adventure=84	St. Sneaky Pete's Day Stupor
+Holiday	adventure=37	Spectral Pickle Factory
+Crimbo06	adventure=115	Simple Tool-Making Cave
+Crimbo06	adventure=116	Spooky Fright Factory
+Crimbo06	adventure=117	Crimborg Collective Factory
+Crimbo05	adventure=93	Crimbo Town Toy Factory
+WhiteWed	adventure=88	Future Market Square
+WhiteWed	adventure=89	Mall of the Future
+WhiteWed	adventure=90	Future Wrong Side of the Tracks
+WhiteWed	adventure=59	Icy Peak of the Past

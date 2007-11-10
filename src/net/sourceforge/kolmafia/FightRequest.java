@@ -41,6 +41,9 @@ public class FightRequest extends KoLRequest
 {
 	public static final FightRequest INSTANCE = new FightRequest();
 
+	private static final AdventureResult AMNESIA = new AdventureResult( "Amnesia", 1, true );
+	private static final AdventureResult CUNCTATITIS = new AdventureResult( "Cunctatitis", 1, true );
+
 	private static final AdventureResult ANTIDOTE = new AdventureResult( 829, 1 );
 	private static final AdventureResult SOLDIER = new AdventureResult( 1397, 1 );
 	private static final AdventureResult TEQUILA = new AdventureResult( 1004, -1 );
@@ -294,7 +297,7 @@ public class FightRequest extends KoLRequest
 			return;
 		}
 
-		if ( activeEffects.contains( KoLAdventure.AMNESIA ) )
+		if ( activeEffects.contains( AMNESIA ) )
 		{
 			if ( monsterData == null || !monsterData.willUsuallyMiss( defenseModifier ) )
 			{
@@ -906,7 +909,7 @@ public class FightRequest extends KoLRequest
 
 		++currentRound;
 
-		if ( !activeEffects.contains( KoLAdventure.CUNCTATITIS ) || responseText.indexOf( "You decide" ) == -1 )
+		if ( !activeEffects.contains( CUNCTATITIS ) || responseText.indexOf( "You decide" ) == -1 )
 			payActionCost();
 
 		if ( currentRound == 1 )

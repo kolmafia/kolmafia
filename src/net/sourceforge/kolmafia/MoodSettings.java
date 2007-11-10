@@ -48,9 +48,10 @@ public abstract class MoodSettings implements KoLConstants
 	private static final AdventureResult [] AUTO_CLEAR =
 	{
 		new AdventureResult( "Beaten Up", 1, true ), new AdventureResult( "Tetanus", 1, true ),
+		new AdventureResult( "Amnesia", 1, true ), new AdventureResult( "Cunctatitis", 1, true ),
 		new AdventureResult( "Hardly Poisoned at All", 1, true ), new AdventureResult( "Majorly Poisoned", 1, true ),
 		new AdventureResult( "A Little Bit Poisoned", 1, true ), new AdventureResult( "Somewhat Poisoned", 1, true ),
-		new AdventureResult( "Really Quite Poisoned", 1, true )
+		new AdventureResult( "Really Quite Poisoned", 1, true ),
 	};
 
 	private static final TreeMap reference = new TreeMap();
@@ -614,7 +615,7 @@ public abstract class MoodSettings implements KoLConstants
 		return missing;
 	}
 
-	public static final void fixMaximumHealth( String restoreSetting )
+	public static final void removeMalignantEffects()
 	{
 		String action;
 
