@@ -37,6 +37,7 @@ import java.io.BufferedReader;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.TreeMap;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -51,7 +52,7 @@ public class AdventureDatabase extends KoLDatabase
 	public static final TreeMap PARENT_ZONES = new TreeMap();
 	public static final TreeMap ZONE_DESCRIPTIONS = new TreeMap();
 
-	private static final StringArray [] adventureTable = new StringArray[6];
+	private static final StringArray [] adventureTable = new StringArray[4];
 	private static final TreeMap areaCombatData = new TreeMap();
 	private static final TreeMap adventureLookup = new TreeMap();
 
@@ -148,7 +149,7 @@ public class AdventureDatabase extends KoLDatabase
 	private static final TreeMap locationByBounty = new TreeMap();
 	static
 	{
-		for ( int i = 0; i < 6; ++i )
+		for ( int i = 0; i < adventureTable.length; ++i )
 			adventureTable[i] = new StringArray();
 
 		AdventureDatabase.refreshZoneTable();
@@ -1009,7 +1010,7 @@ public class AdventureDatabase extends KoLDatabase
 	{
 		BufferedReader reader = getReader( "adventures.txt" );
 
-		for ( int i = 0; i < 4; ++i )
+		for ( int i = 0; i < adventureTable.length; ++i )
 			adventureTable[i].clear();
 
 		String [] data;
@@ -1023,15 +1024,11 @@ public class AdventureDatabase extends KoLDatabase
 
 				adventureTable[0].add( data[0] );
 
-				String [] requirements = data[1].split( "/" );
-				adventureTable[1].add( requirements[0] );
-				adventureTable[2].add( requirements[1] );
+				String [] location = data[1].split( "=" );
+				adventureTable[1].add( location[0] + ".php" );
+				adventureTable[2].add( location[1] );
 
-				String [] location = data[2].split( "=" );
-				adventureTable[3].add( location[0] + ".php" );
-				adventureTable[4].add( location[1] );
-
-				adventureTable[5].add( data[3] );
+				adventureTable[3].add( data[2] );
 			}
 		}
 
@@ -1055,7 +1052,7 @@ public class AdventureDatabase extends KoLDatabase
 		BufferedReader reader = getReader( "combats.txt" );
 		String [] data;
 
-		String [] adventures = adventureTable[5].toArray();
+		String [] adventures = adventureTable[3].toArray();
 
 		while ( (data = readData( reader )) != null )
 		{
@@ -1096,7 +1093,7 @@ public class AdventureDatabase extends KoLDatabase
 		allAdventures.clear();
 		adventureLookup.clear();
 
-		for ( int i = 0; i < adventureTable[3].size(); ++i )
+		for ( int i = 0; i < adventureTable[0].size(); ++i )
 			addAdventure( getAdventure(i) );
 
 		for ( int i = 0; i < bountiesById.size(); ++i )
@@ -1119,7 +1116,7 @@ public class AdventureDatabase extends KoLDatabase
 		KoLAdventure location;
 		adventures.clear();
 
-		for ( int i = 0; i < adventureTable[3].size(); ++i )
+		for ( int i = 0; i < adventureTable[0].size(); ++i )
 		{
 			location = allAdventures.get(i);
 			if ( location.getParentZone().equals( desiredZone ) )
@@ -1197,8 +1194,7 @@ public class AdventureDatabase extends KoLDatabase
 	{
 		return new KoLAdventure(
 			adventureTable[0].get( tableIndex ), adventureTable[1].get( tableIndex ),
-			adventureTable[2].get( tableIndex ), adventureTable[3].get( tableIndex ),
-			adventureTable[4].get( tableIndex ), adventureTable[5].get( tableIndex ) );
+			adventureTable[2].get( tableIndex ), adventureTable[3].get( tableIndex ) );
 	}
 
 	public static final String getDefaultConditions( KoLAdventure adventure )
@@ -1299,23 +1295,14 @@ public class AdventureDatabase extends KoLDatabase
 	}
 
 	public static final boolean retrieveItem( String itemName )
-	{	return retrieveItem( new AdventureResult( itemName, 1, false ), false );
+	{	return retrieveItem( new AdventureResult( itemName, 1, false ), true );
 	}
 
 	public static final boolean retrieveItem( AdventureResult item )
-	{	return retrieveItem( item, false );
+	{	return retrieveItem( item, true );
 	}
 
-	public static final boolean retrieveItem( AdventureResult item, boolean force )
-	{
-		RequestThread.openRequestSequence();
-		boolean result = acquireItem( item, force );
-		RequestThread.closeRequestSequence();
-
-		return result;
-	}
-
-	private static final boolean acquireItem( AdventureResult item, boolean force )
+	public static final boolean retrieveItem( AdventureResult item, boolean isAutomated )
 	{
 		int itemId = item.getItemId();
 
@@ -1384,11 +1371,11 @@ public class AdventureDatabase extends KoLDatabase
 
 		int price = TradeableItemDatabase.getPriceById( itemId );
 
-		boolean shouldUseMall = force || KoLSettings.getBooleanProperty( "autoSatisfyWithMall" ) &&
-			((price > 0 || item.getName().indexOf( "clover" ) != -1) && KoLCharacter.canInteract() && TradeableItemDatabase.isTradeable( itemId ));
+		boolean shouldUseMall = ((price > 0 || item.getName().indexOf( "clover" ) != -1) && KoLCharacter.canInteract() &&
+			TradeableItemDatabase.isTradeable( itemId ));
 
 		boolean shouldUseStash = KoLSettings.getBooleanProperty( "autoSatisfyWithStash" );
-		boolean shouldUseNPCStore = NPCStoreDatabase.contains( item.getName() ) && (force || KoLSettings.getBooleanProperty( "autoSatisfyWithNPCs" ));
+		boolean shouldUseNPCStore = NPCStoreDatabase.contains( item.getName() ) && KoLSettings.getBooleanProperty( "autoSatisfyWithNPCs" );
 
 		int mixingMethod = ConcoctionsDatabase.getMixingMethod( itemId );
 		ItemCreationRequest creator = ItemCreationRequest.getInstance( itemId );
@@ -1500,7 +1487,8 @@ public class AdventureDatabase extends KoLDatabase
 
 		if ( shouldUseNPCStore || (shouldUseMall && !hasAnyIngredient( itemId )) )
 		{
-			StaticEntity.getClient().makePurchases( StoreManager.searchMall( item.getName() ), getPurchaseCount( itemId, missingCount ) );
+			List results = StoreManager.searchMall( item.getName() );
+			StaticEntity.getClient().makePurchases( results, results.toArray(), getPurchaseCount( itemId, missingCount ), isAutomated );
 			missingCount = item.getCount() - item.getCount( inventory );
 
 			if ( missingCount <= 0 )
@@ -1538,9 +1526,10 @@ public class AdventureDatabase extends KoLDatabase
 			}
 		}
 
-		if ( shouldUseMall || isRestorePurchase( itemId ) )
+		if ( shouldUseMall )
 		{
-			StaticEntity.getClient().makePurchases( StoreManager.searchMall( item.getName() ), getPurchaseCount( itemId, missingCount ) );
+			List results = StoreManager.searchMall( item.getName() );
+			StaticEntity.getClient().makePurchases( results, results.toArray(), getPurchaseCount( itemId, missingCount ), isAutomated );
 			missingCount = item.getCount() - item.getCount( inventory );
 
 			if ( missingCount <= 0 )

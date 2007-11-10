@@ -51,9 +51,6 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 	private static final KoLRequest ZONE_UNLOCK = new KoLRequest( "" );
 	private static final AdventureResult HYDRATED = new AdventureResult( "Ultrahydrated", 1, true );
 
-	public static final AdventureResult AMNESIA = new AdventureResult( "Amnesia", 1, true );
-	public static final AdventureResult CUNCTATITIS = new AdventureResult( "Cunctatitis", 1, true );
-
 	private static final AdventureResult PERFUME_ITEM = new AdventureResult( 307, 1 );
 	private static final AdventureResult PERFUME_EFFECT = new AdventureResult( "Knob Goblin Perfume", 1, true );
 
@@ -93,7 +90,6 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 	private static String initialAutoAttack = "";
 
 	private boolean isValidAdventure = false;
-	private int baseRequirement, buffedRequirement;
 	private String zone, parentZone, adventureId, formSource, adventureName;
 
 	private String normalString, lowercaseString, parentZoneDescription;
@@ -111,10 +107,8 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 	 * @param	adventureName	The string form, or name of this adventure
 	 */
 
-	public KoLAdventure( String zone, String baseRequirement, String buffedRequirement, String formSource, String adventureId, String adventureName )
+	public KoLAdventure( String zone, String formSource, String adventureId, String adventureName )
 	{
-		this.baseRequirement = StaticEntity.parseInt( baseRequirement );
-		this.buffedRequirement = StaticEntity.parseInt( buffedRequirement );
 		this.formSource = formSource;
 		this.adventureId = adventureId;
 
@@ -208,83 +202,6 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 	public KoLRequest getRequest()
 	{	return this.request;
-	}
-
-	private boolean meetsGeneralRequirements()
-	{
-		if ( !(this.request instanceof AdventureRequest) )
-		{
-			this.isValidAdventure = true;
-			return true;
-		}
-
-		if ( this.zone.equals( "MusSign" ) && !KoLCharacter.inMuscleSign() )
-		{
-			this.isValidAdventure = false;
-			return false;
-		}
-
-		if ( this.zone.equals( "MysSign" ) && !KoLCharacter.inMysticalitySign() )
-		{
-			this.isValidAdventure = false;
-			return false;
-		}
-
-		if ( this.zone.equals( "MoxSign" ) && !KoLCharacter.inMoxieSign() )
-		{
-			this.isValidAdventure = false;
-			return false;
-		}
-
-		if ( this.zone.equals( "BadMoon" ) && !KoLCharacter.inBadMoon() )
-		{
-			this.isValidAdventure = false;
-			return false;
-		}
-
-		if ( this.baseRequirement != 0 )
-		{
-			int baseValue = 0;
-
-			switch ( KoLCharacter.getPrimeIndex() )
-			{
-			case 0:
-				baseValue = KoLCharacter.getBaseMuscle();
-				break;
-			case 1:
-				baseValue = KoLCharacter.getBaseMysticality();
-				break;
-			case 2:
-				baseValue = KoLCharacter.getBaseMoxie();
-				break;
-			}
-
-			if ( baseValue < this.baseRequirement )
-				return false;
-		}
-
-		if ( this.buffedRequirement != 0 )
-		{
-			int buffedValue = 0;
-
-			switch ( KoLCharacter.getPrimeIndex() )
-			{
-			case 0:
-				buffedValue = KoLCharacter.getAdjustedMuscle();
-				break;
-			case 1:
-				buffedValue = KoLCharacter.getAdjustedMysticality();
-				break;
-			case 2:
-				buffedValue = KoLCharacter.getAdjustedMoxie();
-				break;
-			}
-
-			if ( buffedValue < this.buffedRequirement )
-				return false;
-		}
-
-		return true;
 	}
 
 	/**
@@ -730,15 +647,6 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 				return;
 		}
 
-		// Validate the adventure before running it.
-		// If it's invalid, return and do nothing.
-
-		if ( !this.meetsGeneralRequirements() )
-		{
-			KoLmafia.updateDisplay( ERROR_STATE, "Insufficient stats to adventure at " + this.adventureName + "." );
-			return;
-		}
-
 		this.validate( false );
 		if ( !this.isValidAdventure )
 		{
@@ -794,20 +702,6 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 			// If the person doesn't stand a chance of surviving,
 			// automatically quit and tell them so.
-
-			if ( activeEffects.contains( AMNESIA ) )
-			{
-				RequestThread.postRequest( new UneffectRequest( AMNESIA, KoLCharacter.canInteract() ) );
-				if ( !KoLmafia.permitsContinue() )
-					return;
-			}
-
-			if ( activeEffects.contains( CUNCTATITIS ) )
-			{
-				RequestThread.postRequest( new UneffectRequest( CUNCTATITIS, KoLCharacter.canInteract() ) );
-				if ( !KoLmafia.permitsContinue() )
-					return;
-			}
 
 			if ( action.startsWith( "attack" ) && this.areaSummary != null && !this.areaSummary.willHitSomething() )
 			{

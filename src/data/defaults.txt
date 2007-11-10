@@ -21,7 +21,6 @@ global	chatLinksUseRelay	false
 global	chatStyle	0
 global	cloverProtectActive	true
 global	commandLineNamespace
-global	completeHealthRestore	false
 global	cookies.inventory
 global	createHackerSummons	true
 global	customizedTabs	false
@@ -102,6 +101,7 @@ global	relayTextualizesEffects	false
 global	relayUsesCachedImages	false
 global	relayUsesInlineLinks	false
 global	relayUsesIntegratedChat	false
+global	removeMalignantEffects	true
 global	saveState
 global	saveStateActive
 global	scriptButtonPosition	0

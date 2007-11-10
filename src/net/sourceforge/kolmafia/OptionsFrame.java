@@ -276,7 +276,7 @@ public class OptionsFrame extends KoLFrame
 
 			{ "", "" },
 
-			{ "completeHealthRestore", "Remove health-reducing status effects before health restore" },
+			{ "removeStatusEffects", "Auto-remove malignant status effects" },
 			{ "switchEquipmentForBuffs", "Allow equipment changing when casting buffs" },
 			{ "allowNonMoodBurning", "Cast buffs not defined in moods during buff balancing" },
 

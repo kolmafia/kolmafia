@@ -1446,7 +1446,7 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			AdventureResult item = getFirstMatchingItem( parameters );
 			if ( item != null )
-				AdventureDatabase.retrieveItem( item, true );
+				AdventureDatabase.retrieveItem( item, false );
 
 			return;
  		}
@@ -2201,7 +2201,7 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( spaceIndex == -1 )
 				return;
 
-			KoLAdventure adventure = new KoLAdventure( "Holiday", "0", "0",
+			KoLAdventure adventure = new KoLAdventure( "Holiday",
 				"adventure.php", parameters.substring( 0, spaceIndex ), parameters.substring( spaceIndex ).trim() );
 
 			AdventureDatabase.addAdventure( adventure );
@@ -4677,7 +4677,7 @@ public class KoLmafiaCLI extends KoLmafia
 			ArrayList results = new ArrayList();
 
 			StoreManager.searchMall( '\"' + match.getName() + '\"', results, 10, false );
-			StaticEntity.getClient().makePurchases( results, match.getCount() );
+			StaticEntity.getClient().makePurchases( results, results.toArray(), match.getCount(), false );
 		}
 	}
 
