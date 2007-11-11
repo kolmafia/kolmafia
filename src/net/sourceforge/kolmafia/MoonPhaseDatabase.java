@@ -131,13 +131,18 @@ public class MoonPhaseDatabase extends StaticEntity
 		// Initialize all the known HOLIDAYS here so that
 		// they can be used in later initializers.
 
-		HOLIDAYS[1][1] = "Festival of Jarlsberg";
-		HOLIDAYS[2][4] = "Valentine's Day";
-		HOLIDAYS[3][3] = "St. Sneaky Pete's Day";
-		HOLIDAYS[4][2] = "Oyster Egg Day";
-		HOLIDAYS[7][4] = "Dependence Day";
-		HOLIDAYS[10][8] = "Halloween";
-		HOLIDAYS[11][7] = "Feast of Boris";
+		HOLIDAYS[1][1] = "Festival of Jarlsberg";	// Jarlsuary 1
+		HOLIDAYS[2][4] = "Valentine's Day";		// Frankuary 4
+		HOLIDAYS[3][3] = "St. Sneaky Pete's Day";	// Starch 3
+		HOLIDAYS[4][2] = "Oyster Egg Day";		// April 2
+		HOLIDAYS[5][2] = "El Dia De Los Muertos Borrachos"; // Martinus 2
+		HOLIDAYS[6][3] = "Generic Summer Holiday";	// Bill 3
+		HOLIDAYS[7][4] = "Dependence Day";		// Bor 4
+		HOLIDAYS[8][4] = "Arrrbor Day";			// Petember 4
+		HOLIDAYS[9][6] = "Lab&oacute;r Day";		// Carlvember 6
+		HOLIDAYS[10][8] = "Halloween";			// Porktober 8
+		HOLIDAYS[11][7] = "Feast of Boris";		// Boozember 7
+		HOLIDAYS[12][4] = "Yuletide";			// Dougtember
 	}
 
 	// static final array of when the special events in KoL occur, including
