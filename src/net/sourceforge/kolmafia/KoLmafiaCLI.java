@@ -624,7 +624,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		if ( command.equals( "log" ) )
+		if ( command.equals( "log" ) || command.equals( "logprint" ) )
 		{
 			if ( parameters.equals( "snapshot" ) )
 			{
