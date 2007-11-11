@@ -3214,6 +3214,9 @@ public class KoLmafiaASH extends StaticEntity
 		result.addElement( new ScriptExistingFunction( "user_confirm", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "logprint", VOID_TYPE, params ) );
+
+		params = new ScriptType[] { STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "print", VOID_TYPE, params ) );
 
 		params = new ScriptType[] { STRING_TYPE, STRING_TYPE };
@@ -4748,16 +4751,29 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue print( ScriptVariable string )
 		{
-			RequestLogger.printLine( string.toStringValue().toString() );
+			String parameters = string.toStringValue().toString();
+
+			parameters = StaticEntity.globalStringDelete( StaticEntity.globalStringDelete( parameters, "\n" ), "\r" );
+			parameters = StaticEntity.globalStringReplace( parameters, "<", "&lt;" );
+
+			RequestLogger.printLine( parameters );
+			RequestLogger.getSessionStream().println( " > " + parameters );
+
 			return VOID_VALUE;
 		}
 
 		public ScriptValue print( ScriptVariable string, ScriptVariable color )
 		{
 			String parameters = string.toStringValue().toString();
-			String colorString = color.toStringValue().toString();
 
-			RequestLogger.printLine( "<font color=\"" + colorString + "\">" + StaticEntity.globalStringReplace( parameters, "<", "&lt;" ) + "</font>" );
+			parameters = StaticEntity.globalStringDelete( StaticEntity.globalStringDelete( parameters, "\n" ), "\r" );
+			parameters = StaticEntity.globalStringReplace( parameters, "<", "&lt;" );
+
+			String colorString = color.toStringValue().toString();
+			colorString = StaticEntity.globalStringDelete( StaticEntity.globalStringDelete( colorString, "\"" ), "<" );
+
+			RequestLogger.printLine( "<font color=\"" + colorString + "\">" + parameters + "</font>" );
+			RequestLogger.getSessionStream().println( " > " + parameters );
 
 			return VOID_VALUE;
 		}

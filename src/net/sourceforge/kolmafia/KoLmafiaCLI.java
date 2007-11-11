@@ -624,11 +624,11 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		if ( command.equals( "logprint" ) )
+		if ( command.equals( "log" ) )
 		{
 			if ( parameters.equals( "snapshot" ) )
 			{
-				executeCommand( "logprint", "moon, status, equipment, skills, effects, modifiers" );
+				executeCommand( "log", "moon, status, equipment, skills, effects, modifiers" );
 				return;
 			}
 
@@ -657,7 +657,7 @@ public class KoLmafiaCLI extends KoLmafia
 				RequestLogger.updateSessionLog();
 				RequestLogger.updateSessionLog( " > " + options[i] );
 
-				this.executePrintCommand( options[i], true );
+				this.showData( options[i], true );
 			}
 
 			RequestLogger.updateSessionLog();
@@ -934,13 +934,17 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-
-		if ( command.equals( "echo" ) )
+		if ( command.equals( "echo" ) || command.equals( "print" ) )
 		{
 			if ( parameters.equalsIgnoreCase( "timestamp" ) )
 				parameters = MoonPhaseDatabase.getCalendarDayAsString( new Date() );
 
-			RequestLogger.printLine( StaticEntity.globalStringReplace( parameters, "<", "&lt;" ) );
+			parameters = StaticEntity.globalStringDelete( StaticEntity.globalStringDelete( parameters, "\n" ), "\r" );
+			parameters = StaticEntity.globalStringReplace( parameters, "<", "&lt;" );
+
+			RequestLogger.printLine( parameters );
+			RequestLogger.getSessionStream().println( " > " + parameters );
+
 			return;
 		}
 
@@ -1264,7 +1268,7 @@ public class KoLmafiaCLI extends KoLmafia
 			else if ( parameters.equals( "familiar" ) || parameters.equals( "terrarium" ) )
 				RequestThread.postRequest( new FamiliarRequest() );
 
-			this.executePrintCommand( parameters );
+			this.showData( parameters );
 			return;
 		}
 
@@ -1461,17 +1465,6 @@ public class KoLmafiaCLI extends KoLmafia
 			else if ( parameters.equals( "stashlog" ) )
 				ClanManager.saveStashLog();
 
-			return;
-		}
-
-		// One command available after login is a request
-		// to print the current state of the client.  This
-		// should be handled in a separate method, since
-		// there are many things themay want to print
-
-		if ( command.equals( "print" ) || command.equals( "list" ) || command.equals( "show" ) )
-		{
-			this.executePrintCommand( parameters );
 			return;
 		}
 
@@ -1726,12 +1719,12 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			if ( parameters.equals( "list" ) )
 			{
-				this.executePrintCommand( "familiars " + parameters.substring(4).trim() );
+				this.showData( "familiars " + parameters.substring(4).trim() );
 				return;
 			}
 			else if ( parameters.length() == 0 )
 			{
-				this.executePrintCommand( "familiars" );
+				this.showData( "familiars" );
 				return;
 			}
 			else if ( parameters.equalsIgnoreCase( "none" ) || parameters.equalsIgnoreCase( "unequip" ) )
@@ -1803,12 +1796,12 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			if ( parameters.equals( "list" ) )
 			{
-				this.executePrintCommand( "closet " + parameters.substring(4).trim() );
+				this.showData( "closet " + parameters.substring(4).trim() );
 				return;
 			}
 			else if ( parameters.length() == 0 )
 			{
-				this.executePrintCommand( "closet" );
+				this.showData( "closet" );
 				return;
 			}
 
@@ -1841,12 +1834,12 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			if ( parameters.equals( "list" ) )
 			{
-				this.executePrintCommand( "outfits " + parameters.substring(4).trim() );
+				this.showData( "outfits " + parameters.substring(4).trim() );
 				return;
 			}
 			else if ( parameters.length() == 0 )
 			{
-				this.executePrintCommand( "outfits" );
+				this.showData( "outfits" );
 				return;
 			}
 			else if ( parameters.equalsIgnoreCase( "checkpoint" ) )
@@ -2191,7 +2184,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.startsWith( "inv" ) || command.equals( "closet" ) || command.equals( "storage" ) || command.equals( "session" ) || command.equals( "summary" ) ||
 			command.equals( "effects" ) || command.equals( "status" ) || command.equals( "skills" ) || command.equals( "locations" ) || command.equals( "encounters" ) || command.equals( "counters" ) || command.startsWith( "moon" ) )
 		{
-			this.executePrintCommand( command + " " + parameters );
+			this.showData( command + " " + parameters );
 			return;
 		}
 
@@ -3411,13 +3404,13 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( parameters.length() == 0 )
 		{
-			this.executePrintCommand( "equipment" );
+			this.showData( "equipment" );
 			return;
 		}
 
 		if ( parameters.startsWith( "list" ) )
 		{
-			this.executePrintCommand( "equipment " + parameters.substring(4).trim() );
+			this.showData( "equipment " + parameters.substring(4).trim() );
 			return;
 		}
 
@@ -3509,8 +3502,8 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 	}
 
-	private void executePrintCommand( String parameters )
-	{	this.executePrintCommand( parameters, false );
+	private void showData( String parameters )
+	{	this.showData( parameters, false );
 	}
 
 	/**
@@ -3518,7 +3511,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 * data relevant to the current session.
 	 */
 
-	private void executePrintCommand( String parameters, boolean sessionPrint )
+	private void showData( String parameters, boolean sessionPrint )
 	{
 		if ( parameters.length() == 0 )
 		{
@@ -3540,10 +3533,10 @@ public class KoLmafiaCLI extends KoLmafia
 			desiredOutputStream = LogStream.openStream( new File( ROOT_LOCATION, filter ), false );
 		}
 
-		this.executePrintCommand( list, filter, desiredOutputStream );
+		this.showData( list, filter, desiredOutputStream );
 
 		if ( sessionPrint && RequestLogger.isDebugging() )
-			executePrintCommand( list, filter, RequestLogger.getDebugStream() );
+			showData( list, filter, RequestLogger.getDebugStream() );
 
 		if ( !sessionPrint )
 			desiredOutputStream.close();
@@ -3557,7 +3550,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 * Usually called by its counterpart to handle specific instances.
 	 */
 
-	private void executePrintCommand( String desiredData, String filter, PrintStream desiredStream )
+	private void showData( String desiredData, String filter, PrintStream desiredStream )
 	{
 		desiredStream.println();
 
@@ -4842,7 +4835,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( !parameters.startsWith( "put" ) && !parameters.startsWith( "take" ) )
 		{
-			executePrintCommand( "display " + parameters );
+			showData( "display " + parameters );
 			return;
 		}
 
