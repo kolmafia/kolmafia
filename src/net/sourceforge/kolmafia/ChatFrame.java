@@ -51,7 +51,6 @@ import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 
@@ -143,7 +142,7 @@ public class ChatFrame extends KoLFrame
 		return toolbarPanel;
 	}
 
-	public JTabbedPane getTabbedPane()
+	public UnfocusedTabbedPane getTabbedPane()
 	{	return null;
 	}
 
@@ -229,11 +228,7 @@ public class ChatFrame extends KoLFrame
 		}
 
 		public void requestFocus()
-		{
-			if ( this.entryField != null )
-				this.entryField.requestFocus();
-
-			KoLMessenger.setUpdateChannel( this.getAssociatedContact() );
+		{	KoLMessenger.setUpdateChannel( this.getAssociatedContact() );
 		}
 
 		/**

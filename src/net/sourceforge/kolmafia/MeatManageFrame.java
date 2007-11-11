@@ -39,7 +39,6 @@ import java.awt.GridLayout;
 
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
@@ -59,7 +58,7 @@ public class MeatManageFrame extends KoLFrame
 		this.framePanel.add( container, "" );
 	}
 
-	public JTabbedPane getTabbedPane()
+	public UnfocusedTabbedPane getTabbedPane()
 	{	return null;
 	}
 

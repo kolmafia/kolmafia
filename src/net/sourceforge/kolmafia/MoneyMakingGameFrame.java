@@ -35,7 +35,6 @@ package net.sourceforge.kolmafia;
 
 import java.awt.CardLayout;
 import javax.swing.JList;
-import javax.swing.JTabbedPane;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -53,7 +52,7 @@ public class MoneyMakingGameFrame extends KoLFrame
 		this.framePanel.add( new AnalysisPanel(), "" );
 	}
 
-	public JTabbedPane getTabbedPane()
+	public UnfocusedTabbedPane getTabbedPane()
 	{	return null;
 	}
 

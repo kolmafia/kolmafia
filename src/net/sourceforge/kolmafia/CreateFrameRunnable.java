@@ -166,11 +166,16 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 		// visibility on screen and request focus.
 
 		if ( appearsInTab )
+		{
 			KoLDesktop.addTab( (KoLFrame) this.creation );
+			KoLDesktop.showComponent( (KoLFrame) this.creation );
+		}
 		else
+		{
 			this.creation.setVisible( true );
+			this.creation.requestFocus();
+		}
 
-		this.creation.requestFocus();
 		this.creation = null;
 	}
 

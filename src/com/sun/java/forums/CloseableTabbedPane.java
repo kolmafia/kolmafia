@@ -27,6 +27,7 @@ import javax.swing.event.EventListenerList;
 import javax.swing.plaf.TabbedPaneUI;
 
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
+import net.sourceforge.kolmafia.UnfocusedTabbedPane;
 
 import javax.swing.text.View;
 
@@ -45,7 +46,7 @@ import javax.swing.text.View;
  * </a></p>
  */
 
-public class CloseableTabbedPane extends JTabbedPane implements MouseListener,
+public class CloseableTabbedPane extends UnfocusedTabbedPane implements MouseListener,
   MouseMotionListener {
 
   /**
@@ -90,11 +91,11 @@ public class CloseableTabbedPane extends JTabbedPane implements MouseListener,
     super();
     init(horizontalTextPosition);
   }
-  
+
   public void setSelectedIndex(int index)
   {
 	  int lastIndex = getSelectedIndex();
-	  
+
 	  super.setSelectedIndex(index);
 
 	  if ( lastIndex != -1 && lastIndex < getTabCount() )
@@ -102,7 +103,7 @@ public class CloseableTabbedPane extends JTabbedPane implements MouseListener,
 		  setBackgroundAt( lastIndex, null );
 		  setForegroundAt( lastIndex, null );
 	  }
-	  
+
 	  setBackgroundAt( index, new Color( 205, 205, 255 ) );
 	  setForegroundAt( index, Color.black );
   }
@@ -607,7 +608,7 @@ public class CloseableTabbedPane extends JTabbedPane implements MouseListener,
       textRect.y += yNudge;
     }
   }
-  
+
   public void highlightTab( int tabIndex )
   {
 	  setBackgroundAt(tabIndex, new Color( 255, 205, 205 ) );

@@ -22,6 +22,8 @@ import javax.swing.border.Border;
 import javax.swing.event.EventListenerList;
 import javax.swing.plaf.TabbedPaneUI;
 
+import net.sourceforge.kolmafia.UnfocusedTabbedPane;
+
 /**
  * A JTabbedPane with some added UI functionalities. A close and max/detach
  * icons are added to every tab, typically to let the user close or detach the
@@ -31,7 +33,7 @@ import javax.swing.plaf.TabbedPaneUI;
  * @author David Bismut, davidou@mageos.com
  */
 
-public class CloseTabbedPane extends JTabbedPane {
+public class CloseTabbedPane extends UnfocusedTabbedPane {
 
 	private int overTabIndex = -1;
 
@@ -362,6 +364,5 @@ public class CloseTabbedPane extends JTabbedPane {
 		if ( paneUI.highlightTab( tabIndex ) )
 			this.repaint();
 	}
-
 }
 

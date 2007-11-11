@@ -38,7 +38,6 @@ import java.awt.Color;
 
 import java.awt.event.MouseEvent;
 
-import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -65,10 +64,10 @@ public class TabbedChatFrame extends ChatFrame implements ChangeListener, CloseL
 		setTitle( "Loathing Chat" );
 	}
 
-	public JTabbedPane getTabbedPane()
+	public UnfocusedTabbedPane getTabbedPane()
 	{
 		return KoLSettings.getBooleanProperty( "useShinyTabbedChat" ) ?
-			(JTabbedPane) new CloseTabbedPane() : (JTabbedPane) new CloseableTabbedPane();
+			(UnfocusedTabbedPane) new CloseTabbedPane() : (UnfocusedTabbedPane) new CloseableTabbedPane();
 	}
 
 	/**
@@ -98,7 +97,6 @@ public class TabbedChatFrame extends ChatFrame implements ChangeListener, CloseL
 	public void stateChanged( ChangeEvent e )
 	{
 		int selectedIndex = tabs.getSelectedIndex();
-
 		if ( selectedIndex != -1 && selectedIndex != tabs.getTabCount() - 1 )
 			KoLMessenger.setUpdateChannel( tabs.getTitleAt( selectedIndex ).trim() );
 	}

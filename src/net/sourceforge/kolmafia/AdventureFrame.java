@@ -44,7 +44,6 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JSplitPane;
-import javax.swing.JTabbedPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -142,7 +141,7 @@ public class AdventureFrame extends AdventureOptionsFrame
 	{	return true;
 	}
 
-	public JTabbedPane getSouthernTabs()
+	public UnfocusedTabbedPane getSouthernTabs()
 	{
 		super.getSouthernTabs();
 		this.tabs.insertTab( "Overview", null, this.getAdventureSummary(), null, 0 );

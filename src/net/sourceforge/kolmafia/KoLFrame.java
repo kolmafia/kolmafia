@@ -79,7 +79,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
-import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
@@ -111,7 +110,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	protected HashMap listenerMap;
 	private KoLMenuBar menuBar;
 
-	public JTabbedPane tabs;
+	public UnfocusedTabbedPane tabs;
 	public String lastTitle;
 	public String frameName;
 	public JPanel framePanel;
@@ -240,8 +239,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			KoLSettings.getGlobalProperty( "initialDesktop" ).indexOf( this.frameName ) == -1;
 	}
 
-	public JTabbedPane getTabbedPane()
-	{	return KoLSettings.getBooleanProperty( "useDecoratedTabs" ) ? new CloseTabbedPane() : new JTabbedPane();
+	public UnfocusedTabbedPane getTabbedPane()
+	{	return KoLSettings.getBooleanProperty( "useDecoratedTabs" ) ? new CloseTabbedPane() : new UnfocusedTabbedPane();
 	}
 
 	public void addHotKeys()
@@ -335,8 +334,6 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 	public void requestFocus()
 	{
-		KoLDesktop.requestFocus( this );
-		super.requestFocus();
 	}
 
 	public boolean useSidePane()

@@ -44,7 +44,6 @@ import java.util.ArrayList;
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 
@@ -127,11 +126,11 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 		}
 	}
 
-	public JTabbedPane getTabbedPane()
+	public UnfocusedTabbedPane getTabbedPane()
 	{
 		if ( KoLSettings.getBooleanProperty( "useDecoratedTabs" ) )
 		{
-			JTabbedPane tabs = new CloseTabbedPane();
+			UnfocusedTabbedPane tabs = new CloseTabbedPane();
 
 			if ( KoLSettings.getBooleanProperty( "allowCloseableDesktopTabs" ) )
 			{
@@ -143,14 +142,14 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 		}
 
 		return KoLSettings.getBooleanProperty( "allowCloseableDesktopTabs" ) ?
-			new CloseableTabbedPane() : new JTabbedPane();
+			new CloseableTabbedPane() : new UnfocusedTabbedPane();
 	}
 
 	public void stateChanged( ChangeEvent e )
 	{
-		int selectedIndex = this.tabs.getSelectedIndex();
-		if ( selectedIndex != -1 && selectedIndex < this.tabListing.size() )
-			((KoLFrame) this.tabListing.get( selectedIndex )).requestFocus();
+		int selectedIndex = KoLDesktop.this.tabs.getSelectedIndex();
+		if ( selectedIndex != -1 && selectedIndex < KoLDesktop.this.tabListing.size() )
+			((KoLFrame) KoLDesktop.this.tabListing.get( selectedIndex )).requestFocus();
 	}
 
 	public void closeOperation( MouseEvent e, int overTabIndex )
@@ -299,14 +298,17 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 		}
 	}
 
-	public static final void requestFocus( KoLFrame content )
+	public static final boolean showComponent( KoLFrame content )
 	{
 		if ( INSTANCE == null )
-			return;
+			return false;
 
 		int tabIndex = INSTANCE.tabListing.indexOf( content );
-		if ( tabIndex != -1 )
-			INSTANCE.tabs.setSelectedIndex( tabIndex );
+		if ( tabIndex == -1 )
+			return false;
+
+		INSTANCE.tabs.setSelectedIndex( tabIndex );
+		return true;
 	}
 
 	public static final void setTitle( KoLFrame content, String newTitle )

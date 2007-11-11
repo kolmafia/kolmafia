@@ -43,7 +43,6 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
-import javax.swing.JTabbedPane;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class CharsheetFrame extends AdventureOptionsFrame
@@ -116,7 +115,7 @@ public class CharsheetFrame extends AdventureOptionsFrame
 			INSTANCE.tabs.remove( i );
 	}
 
-	public JTabbedPane getSouthernTabs()
+	public UnfocusedTabbedPane getSouthernTabs()
 	{
 		if ( shouldAddExtraTabs )
 			super.getSouthernTabs();
@@ -226,14 +225,6 @@ public class CharsheetFrame extends AdventureOptionsFrame
 			// Set the current avatar
 			CharsheetFrame.this.avatar.setIcon( JComponentUtilities.getImage( KoLCharacter.getAvatar() ) );
 		}
-	}
-
-	public void requestFocus()
-	{
-		super.requestFocus();
-
-		if ( this.locationSelect != null )
-			this.locationSelect.requestFocus();
 	}
 
 	public static final void updateSelectedAdventure( KoLAdventure location )

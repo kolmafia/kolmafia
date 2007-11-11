@@ -32,40 +32,31 @@
  */
 
 package net.sourceforge.kolmafia;
+import javax.swing.JTabbedPane;
 
-
-public class EventsFrame extends KoLPanelFrame
+public class UnfocusedTabbedPane extends JTabbedPane
 {
-	public EventsFrame()
-	{
-		super( "Recent Events" );
-		this.setContentPane( new EventsPanel() );
+	public UnfocusedTabbedPane()
+	{	super();
 	}
 
-	public UnfocusedTabbedPane getTabbedPane()
-	{	return null;
+	public UnfocusedTabbedPane( int tabPlacement )
+	{	super( tabPlacement );
 	}
 
-	private class EventsPanel extends LabeledScrollPanel
+	public UnfocusedTabbedPane( int tabPlacement, int tabLayoutPolicy )
+	{	super( tabPlacement, tabLayoutPolicy );
+	}
+
+	public final boolean isFocusable()
+	{	return false;
+	}
+
+	public final void setFocusable( boolean isFocusable )
 	{
-		public EventsPanel()
-		{
-			super( "Recent Events", "clear", "check",
-				new ShowDescriptionList( eventHistory ) );
-		}
+	}
 
-		public void actionConfirmed()
-		{
-			// Clear list of events
-			eventHistory.clear();
-		}
-
-		public void actionCancelled()
-		{
-			// Connect to main map to pick up new events
-			KoLmafia.updateDisplay( "Checking for new events..." );
-			RequestThread.postRequest( new KoLRequest( "main.php" ) );
-		}
+	public final void requestFocus()
+	{	transferFocus();
 	}
 }
-

@@ -52,7 +52,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
-import javax.swing.JTabbedPane;
 import javax.swing.ListSelectionModel;
 
 import javax.swing.event.ListSelectionEvent;
@@ -64,8 +63,8 @@ import net.sourceforge.kolmafia.ConcoctionsDatabase.Concoction;
 public class ItemManageFrame extends KoLFrame
 {
 	private static int pullsRemaining = 0;
-	private static JTabbedPane fullnessTabs;
-	private static JTabbedPane inebrietyTabs;
+	private static UnfocusedTabbedPane fullnessTabs;
+	private static UnfocusedTabbedPane inebrietyTabs;
 
 	private static final JLabel pullsRemainingLabel1 = new JLabel( " " );
 	private static final JLabel pullsRemainingLabel2 = new JLabel( " " );
@@ -303,7 +302,7 @@ public class ItemManageFrame extends KoLFrame
 			this.elementList.setVisibleRowCount( 3 );
 			this.elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 
-			JTabbedPane queueTabs = getTabbedPane();
+			UnfocusedTabbedPane queueTabs = getTabbedPane();
 
 			if ( this.food )
 			{
