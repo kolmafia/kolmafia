@@ -624,7 +624,18 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		if ( command.equals( "log" ) || command.equals( "logprint" ) )
+		if ( command.equals( "logecho" ) || command.equals( "logprint" ) )
+		{
+			if ( parameters.equalsIgnoreCase( "timestamp" ) )
+				parameters = MoonPhaseDatabase.getCalendarDayAsString( new Date() );
+
+			parameters = StaticEntity.globalStringDelete( StaticEntity.globalStringDelete( parameters, "\n" ), "\r" );
+			parameters = StaticEntity.globalStringReplace( parameters, "<", "&lt;" );
+
+			RequestLogger.getSessionStream().println( " > " + parameters );
+		}
+
+		if ( command.equals( "log" ) )
 		{
 			if ( parameters.equals( "snapshot" ) )
 			{

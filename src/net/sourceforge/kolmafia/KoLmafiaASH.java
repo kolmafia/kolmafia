@@ -4749,6 +4749,17 @@ public class KoLmafiaASH extends StaticEntity
 		{	return KoLFrame.confirm( message.toStringValue().toString() ) ? TRUE_VALUE : FALSE_VALUE;
 		}
 
+		public ScriptValue logprint( ScriptVariable string )
+		{
+			String parameters = string.toStringValue().toString();
+
+			parameters = StaticEntity.globalStringDelete( StaticEntity.globalStringDelete( parameters, "\n" ), "\r" );
+			parameters = StaticEntity.globalStringReplace( parameters, "<", "&lt;" );
+
+			RequestLogger.getSessionStream().println( " > " + parameters );
+			return VOID_VALUE;
+		}
+
 		public ScriptValue print( ScriptVariable string )
 		{
 			String parameters = string.toStringValue().toString();
