@@ -46,7 +46,6 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.JTabbedPane;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
@@ -95,7 +94,7 @@ public class GearChangeFrame extends KoLFrame
 		this.ensureValidSelections();
 	}
 
-	public JTabbedPane getTabbedPane()
+	public UnfocusedTabbedPane getTabbedPane()
 	{	return null;
 	}
 

@@ -91,8 +91,7 @@ public class LoginFrame extends KoLFrame
 	public void requestFocus()
 	{
 		super.requestFocus();
-		if ( this.usernameField != null )
-			this.usernameField.requestFocus();
+		this.usernameField.requestFocus();
 	}
 
 	public static final boolean instanceExists()

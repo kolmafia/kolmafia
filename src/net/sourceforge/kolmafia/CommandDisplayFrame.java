@@ -42,10 +42,13 @@ import java.awt.event.KeyEvent;
 
 import java.util.ArrayList;
 
+import java.awt.Component;
+import java.awt.Container;
+
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
+import javax.swing.LayoutFocusTraversalPolicy;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
@@ -65,9 +68,22 @@ public class CommandDisplayFrame extends KoLFrame
 		super( "Graphical CLI" );
 		this.setDefaultCloseOperation( HIDE_ON_CLOSE );
 		this.framePanel.add( new CommandDisplayPanel(), BorderLayout.CENTER );
+
+		// Workaround for Swing bug in UnfocusedTabbedPane
+		// http://www.javalobby.org/java/forums/t43667.html
+
+		this.getContentPane().setFocusCycleRoot( true );
+		this.getContentPane().setFocusTraversalPolicy( new EntryFieldFocuser() );
 	}
 
-	public JTabbedPane getTabbedPane()
+	private class EntryFieldFocuser extends LayoutFocusTraversalPolicy
+	{
+		public Component getDefaultComponent( Container c )
+		{	return CommandDisplayFrame.this.entryField;
+		}
+	}
+
+	public UnfocusedTabbedPane getTabbedPane()
 	{	return null;
 	}
 
@@ -80,10 +96,7 @@ public class CommandDisplayFrame extends KoLFrame
 	}
 
 	public void requestFocus()
-	{
-		super.requestFocus();
-		if ( this.entryField != null )
-			this.entryField.requestFocus();
+	{	this.entryField.requestFocus();
 	}
 
 	public void dispose()
@@ -108,6 +121,7 @@ public class CommandDisplayFrame extends KoLFrame
 
 			this.entryButton = new JButton( "exec" );
 			this.entryButton.addActionListener( new CommandEntryListener() );
+
 			entryPanel.add( CommandDisplayFrame.this.entryField, BorderLayout.CENTER );
 			entryPanel.add( this.entryButton, BorderLayout.EAST );
 

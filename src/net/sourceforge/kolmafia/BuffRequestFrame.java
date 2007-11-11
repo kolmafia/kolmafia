@@ -48,7 +48,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
@@ -119,7 +118,7 @@ public class BuffRequestFrame extends KoLFrame
 		this.resetCard();
 	}
 
-	public JTabbedPane getTabbedPane()
+	public UnfocusedTabbedPane getTabbedPane()
 	{	return null;
 	}
 

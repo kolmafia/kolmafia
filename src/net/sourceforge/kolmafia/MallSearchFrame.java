@@ -43,7 +43,6 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
 import javax.swing.ListSelectionModel;
 
 import javax.swing.event.ListSelectionEvent;
@@ -72,7 +71,7 @@ public class MallSearchFrame extends KoLPanelFrame
 		this.setContentPanel( this.mallSearch );
 	}
 
-	public JTabbedPane getTabbedPane()
+	public UnfocusedTabbedPane getTabbedPane()
 	{	return null;
 	}
 

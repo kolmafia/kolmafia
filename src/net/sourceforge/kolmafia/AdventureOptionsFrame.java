@@ -64,7 +64,6 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
-import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
@@ -162,7 +161,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 		return container;
 	}
 
-	public JTabbedPane getSouthernTabs()
+	public UnfocusedTabbedPane getSouthernTabs()
 	{
 		// Components of auto-restoration
 
@@ -861,10 +860,6 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 				this.add( locationPanel, BorderLayout.WEST );
 			}
 		}
-
-		public void requestFocus()
-		{	AdventureOptionsFrame.this.locationSelect.requestFocus();
-		}
 	}
 
 	protected class FilterAdventureField extends FilterTextField
@@ -1154,14 +1149,6 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 			this.fillDefaultConditions();
 		else
 			this.conditionField.setText( conditionString.toString() );
-	}
-
-	public void requestFocus()
-	{
-		super.requestFocus();
-
-		if ( this.locationSelect != null )
-			this.locationSelect.requestFocus();
 	}
 
 	protected JPanel getAdventureSummary( String property, JList locationSelect )
