@@ -806,6 +806,7 @@ blackberry combat boots	0	Mus: 75
 blackberry moccasins	0	Mys: 75
 blackberry slippers	0	Mys: 75
 bling-bling	0	Mys: 7
+blue glowstick	0	none
 blue ribbon	0	none
 bottle opener belt buckle	0	Mys: 65
 bottlecap turtle	0	Mys: 12
