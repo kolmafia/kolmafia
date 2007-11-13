@@ -872,6 +872,7 @@ blackberry combat boots	Single Equip, Muscle: +10, Maximum HP: +45, Melee Damage
 blackberry moccasins	Single Equip, Moxie: +8, Initiative: +25, Damage Reduction: 3
 blackberry slippers	Single Equip, Mysticality: +10, Spell Damage: +10, Spell Damage Percent: +5
 bling-bling	Moxie: +1
+blue glowstick	Maximum MP: +5, Moxie: -3
 blue ribbon	Maximum HP: +5
 bottle opener belt buckle	Single Equip
 bottlecap turtle	Mysticality: +1, Maximum MP: +3
