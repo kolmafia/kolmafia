@@ -100,20 +100,20 @@ public abstract class HPRestoreItemList extends StaticEntity
 	public static class HPRestoreItem implements Comparable
 	{
 		private String restoreName;
-		private int hpPerUse;
+		private int healthPerUse;
 		private int purchaseCost;
 
 		private int skillId;
 		private AdventureResult itemUsed;
 
-		public HPRestoreItem( String restoreName, int hpPerUse )
-		{	this( restoreName, hpPerUse, 0 );
+		public HPRestoreItem( String restoreName, int healthPerUse )
+		{	this( restoreName, healthPerUse, 0 );
 		}
 
-		public HPRestoreItem( String restoreName, int hpPerUse, int purchaseCost )
+		public HPRestoreItem( String restoreName, int healthPerUse, int purchaseCost )
 		{
 			this.restoreName = restoreName;
-			this.hpPerUse = hpPerUse;
+			this.healthPerUse = healthPerUse;
 			this.purchaseCost = purchaseCost;
 
 			if ( TradeableItemDatabase.contains( restoreName ) )
@@ -148,7 +148,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 				// The restore rate on the rumpus room sofa changes
 				// based on your current level.
 
-				this.hpPerUse = KoLCharacter.getLevel() * 5 + 1;
+				this.healthPerUse = KoLCharacter.getLevel() * 5 + 1;
 			}
 			else if ( this == GALAKTIK )
 			{
@@ -160,7 +160,11 @@ public abstract class HPRestoreItemList extends StaticEntity
 		}
 
 		public int getHealthPerUse()
-		{	return Math.min( this.hpPerUse, KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP() );
+		{	return this.healthPerUse;
+		}
+		
+		public int getHealthRestored()
+		{	return Math.min( this.healthPerUse, KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP() );
 		}
 
 		public int compareTo( Object o )
@@ -176,8 +180,8 @@ public abstract class HPRestoreItemList extends StaticEntity
 				return 1;
 
 			float restoreAmount = (KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP());
-			float leftRatio = restoreAmount / (this.getHealthPerUse());
-			float rightRatio = restoreAmount / (hpi.getHealthPerUse());
+			float leftRatio = restoreAmount / (this.getHealthRestored());
+			float rightRatio = restoreAmount / (hpi.getHealthRestored());
 
 			// If you're comparing skills, then you compare MP cost for
 			// casting the skill, with more expensive skills coming later.
@@ -230,7 +234,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 				return;
 
 			int belowMax = KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP();
-			int numberToUse = Math.max( (int) Math.floor( (float) hpShort / (float) this.getHealthPerUse() ), 1 );
+			int numberToUse = Math.max( (int) Math.floor( (float) hpShort / (float) this.getHealthRestored() ), 1 );
 
 			if ( this == SOFA )
 			{

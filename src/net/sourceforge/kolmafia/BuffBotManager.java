@@ -761,6 +761,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 					ClassSkillsDatabase.getSkillId( this.buffs[i] ) );
 			}
 
+			MPRestoreItemList.MYSTERY_JUICE.updateManaPerUse();
 			this.free = this.price <= totalCost * 95 / MPRestoreItemList.MYSTERY_JUICE.getManaPerUse();
 		}
 
