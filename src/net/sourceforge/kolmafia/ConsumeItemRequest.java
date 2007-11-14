@@ -270,7 +270,7 @@ public class ConsumeItemRequest extends KoLRequest
 			{
 				restoresHP = true;
 				HPRestoreItemList.CONFIGURES[i].updateHealthPerUse();
-				hpRestored = (float) HPRestoreItemList.CONFIGURES[i].getHealthPerUse();
+				hpRestored = (float) HPRestoreItemList.CONFIGURES[i].getHealthRestored();
 			}
 		}
 
@@ -280,7 +280,7 @@ public class ConsumeItemRequest extends KoLRequest
 			{
 				restoresMP = true;
 				MPRestoreItemList.CONFIGURES[i].updateManaPerUse();
-				mpRestored = (float) MPRestoreItemList.CONFIGURES[i].getManaPerUse();
+				mpRestored = (float) MPRestoreItemList.CONFIGURES[i].getManaRestored();
 			}
 		}
 

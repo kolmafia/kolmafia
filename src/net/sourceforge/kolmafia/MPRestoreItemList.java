@@ -97,19 +97,19 @@ public abstract class MPRestoreItemList extends StaticEntity
 	public static class MPRestoreItem implements Comparable
 	{
 		private String itemName;
-		private int mpPerUse;
+		private int manaPerUse;
 		private int purchaseCost;
 		private boolean isCombatUsable;
 		private AdventureResult itemUsed;
 
-		public MPRestoreItem( String itemName, int mpPerUse, boolean isCombatUsable )
-		{	this( itemName, mpPerUse, 0, isCombatUsable );
+		public MPRestoreItem( String itemName, int manaPerUse, boolean isCombatUsable )
+		{	this( itemName, manaPerUse, 0, isCombatUsable );
 		}
 
-		public MPRestoreItem( String itemName, int mpPerUse, int purchaseCost, boolean isCombatUsable )
+		public MPRestoreItem( String itemName, int manaPerUse, int purchaseCost, boolean isCombatUsable )
 		{
 			this.itemName = itemName;
-			this.mpPerUse = mpPerUse;
+			this.manaPerUse = manaPerUse;
 			this.purchaseCost = purchaseCost;
 			this.isCombatUsable = isCombatUsable;
 
@@ -137,8 +137,8 @@ public abstract class MPRestoreItemList extends StaticEntity
 
 			float restoreAmount = (KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP());
 
-			float leftRatio = restoreAmount / (this.getManaPerUse());
-			float rightRatio = restoreAmount / (mpi.getManaPerUse());
+			float leftRatio = restoreAmount / (this.getManaRestored());
+			float rightRatio = restoreAmount / (mpi.getManaRestored());
 
 			if ( purchaseBasedSort )
 			{
@@ -160,14 +160,14 @@ public abstract class MPRestoreItemList extends StaticEntity
 				// The restore rate on the rumpus room sofa changes
 				// based on your current level.
 
-				this.mpPerUse = KoLCharacter.getLevel() * 5 + 1;
+				this.manaPerUse = KoLCharacter.getLevel() * 5 + 1;
 			}
 			else if ( this == MYSTERY_JUICE )
 			{
 				// The restore rate on magical mystery juice changes
 				// based on your current level.
 
-				this.mpPerUse = (int) (KoLCharacter.getLevel() * 1.5 + 4.0);
+				this.manaPerUse = (int) (KoLCharacter.getLevel() * 1.5 + 4.0);
 			}
 			else if ( this == GALAKTIK )
 			{
@@ -177,9 +177,13 @@ public abstract class MPRestoreItemList extends StaticEntity
 				this.purchaseCost = QuestLogRequest.galaktikCuresAvailable() ? 12 : 17;
 			}
 		}
-
+		
 		public int getManaPerUse()
-		{	return Math.min( this.mpPerUse, KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP() );
+		{	return this.manaPerUse;
+		}
+		
+		public int getManaRestored()
+		{	return Math.min( this.manaPerUse, KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP() );
 		}
 
 		public void recoverMP( int needed, boolean purchase )
@@ -241,14 +245,14 @@ public abstract class MPRestoreItemList extends StaticEntity
 				// The restore rate on magical mystery juice changes
 				// based on your current level.
 
-				this.mpPerUse = (int) (KoLCharacter.getLevel() * 1.5 + 4.0);
+				this.manaPerUse = (int) (KoLCharacter.getLevel() * 1.5 + 4.0);
 			}
 
 			int mpShort = needed - KoLCharacter.getCurrentMP();
 			if ( mpShort <= 0 )
 				return;
 
-			int numberToUse = Math.max( (int) Math.floor( (float) mpShort / (float) this.getManaPerUse() ), 1 );
+			int numberToUse = Math.max( (int) Math.floor( (float) mpShort / (float) this.getManaRestored() ), 1 );
 
 			if ( this == SOFA )
 			{
@@ -273,7 +277,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 					// the entire check.
 
 					mpShort = Math.max( mpShort, MoodSettings.getMaintenanceCost() - KoLCharacter.getCurrentMP() );
-					numberToBuy = Math.max( (int) Math.floor( (float) mpShort / (float) this.getManaPerUse() ), 1 );
+					numberToBuy = Math.max( (int) Math.floor( (float) mpShort / (float) this.getManaRestored() ), 1 );
 				}
 
 				numberToBuy = Math.min( KoLCharacter.getAvailableMeat() / unitPrice, numberToBuy );

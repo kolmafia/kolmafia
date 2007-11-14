@@ -484,7 +484,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 						{
 							castsRemaining = (int) Math.ceil(
 								((float)KoLCharacter.getMaximumHP() - (float)KoLCharacter.getCurrentHP()) /
-									(float)HPRestoreItemList.CONFIGURES[i].getHealthPerUse() );
+									(float)HPRestoreItemList.CONFIGURES[i].getHealthRestored() );
 
 							currentCast = Math.min( currentCast, castsRemaining );
 							break;
