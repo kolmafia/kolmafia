@@ -1432,6 +1432,9 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		try
 		{
+			if ( KoLSettings.getBooleanProperty( "removeMalignantEffects" ) )
+				MoodSettings.removeMalignantEffects();
+
 			return this.recover( recover, "hpAutoRecovery", "getCurrentHP", "getMaximumHP", HPRestoreItemList.CONFIGURES );
 		}
 		catch ( Exception e )
@@ -3159,9 +3162,6 @@ public abstract class KoLmafia implements KoLConstants
 
 		// Now, run the built-in behavior to take care of
 		// any loose ends.
-
-		if ( KoLSettings.getBooleanProperty( "removeMalignantEffects" ) )
-			MoodSettings.removeMalignantEffects();
 
 		if ( isMoodCheck )
 			MoodSettings.execute();
