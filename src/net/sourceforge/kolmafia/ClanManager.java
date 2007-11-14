@@ -40,9 +40,9 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -67,6 +67,8 @@ public class ClanManager extends StaticEntity
 
 	private static final Map profileMap = ClanSnapshotTable.getProfileMap();
 	private static final Map ascensionMap = AscensionSnapshotTable.getAscensionMap();
+	private static final Map titleMap = new TreeMap();
+
 	private static final List battleList = new ArrayList();
 
 	private static final LockableListModel rankList = new LockableListModel();
@@ -374,18 +376,24 @@ public class ClanManager extends StaticEntity
 			ostream.close();
 		}
 	}
+	
+	public static String getTitle( String name )
+	{	return (String) titleMap.get( name.toLowerCase() );
+	}
 
-	public static final void registerMember( String playerName, String level )
+	public static final void registerMember( String name, String level, String title )
 	{
-		String lowercase = playerName.toLowerCase();
+		String lowercase = name.toLowerCase();
 
 		if ( !currentMembers.contains( lowercase ) )
 			currentMembers.add( lowercase );
 		if ( !whiteListMembers.contains( lowercase ) )
 			whiteListMembers.add( lowercase );
 
-		ClanSnapshotTable.registerMember( playerName, level );
-		AscensionSnapshotTable.registerMember( playerName );
+		ClanSnapshotTable.registerMember( name, level );
+		AscensionSnapshotTable.registerMember( name );
+
+		titleMap.put( lowercase, title );
 	}
 
 	public static final void unregisterMember( String playerId )
@@ -521,7 +529,6 @@ public class ClanManager extends StaticEntity
 		default:
 
 			retrieveMemberData( true, false );
-			break;
 		}
 
 		ClanSnapshotTable.applyFilter( matchType, filterType, filter );

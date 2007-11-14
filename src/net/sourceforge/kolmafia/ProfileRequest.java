@@ -247,6 +247,14 @@ public class ProfileRequest extends KoLRequest implements Comparable
 
 			this.clanName = st.nextToken();
 		}
+		
+		if ( cleanHTML.indexOf( "\nTitle" ) != -1 )
+		{
+			while ( !token.startsWith( "Title" ) )
+				token = st.nextToken();
+		
+			this.title = st.nextToken();
+		}
 	}
 
 	/**
@@ -472,7 +480,7 @@ public class ProfileRequest extends KoLRequest implements Comparable
 	}
 
 	public String getTitle()
-	{	return this.title;
+	{	return this.title != null ? title : ClanManager.getTitle( this.playerName );
 	}
 
 	public String getRank()
