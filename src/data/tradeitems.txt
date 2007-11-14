@@ -408,9 +408,9 @@
 408	spooky pirate skeleton	5	all	130
 409	vial of patchouli oil	0	all	38
 410	sk8board	8	all	80
-411	charrrm	0	all	47
+411	Jolly Roger charrrm	0	all	47
 412	barrrnacle	5	all	48
-413	charrrm bracelet	8	all	80
+413	Jolly Roger charrrm bracelet	8	all	80
 414	crowbarrr	12	all	95
 415	leotarrrd	10	all	100
 416	safarrri hat	9	all	100

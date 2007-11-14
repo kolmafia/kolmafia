@@ -811,7 +811,7 @@ blue ribbon	0	none
 bottle opener belt buckle	0	Mys: 65
 bottlecap turtle	0	Mys: 12
 cement shoes	0	Mys: 35
-charrrm bracelet	0	Mys: 20
+Jolly Roger charrrm bracelet	0	Mys: 20
 chintzy accordion pin	0	none
 chintzy disco ball pendant	0	none
 chintzy noodle ring	0	none
