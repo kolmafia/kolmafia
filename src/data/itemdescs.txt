@@ -413,9 +413,9 @@
 408	530387695	spooky pirate skeleton	spooky pirate skeletons
 409	398925440	vial of patchouli oil	vials of patchouli oil
 410	500804259	sk8board	sk8boards
-411	639174840	charrrm	charrrms
+411	639174840	Jolly Roger charrrm	Jolly Roger charrrms
 412	149590413	barrrnacle	barrrnacles
-413	179192700	charrrm bracelet	charrrm bracelets
+413	179192700	Jolly Roger charrrm bracelet	Jolly Roger charrrm bracelets
 414	359712611	crowbarrr	crowbarrrs
 415	984941146	leotarrrd	leotarrrds
 416	915759234	safarrri hat	safarrri hats
