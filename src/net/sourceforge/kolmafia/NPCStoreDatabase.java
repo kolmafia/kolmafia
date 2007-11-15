@@ -206,6 +206,11 @@ public class NPCStoreDatabase extends KoLDatabase
 		else if ( storeId.equals( "y" ) )
 			return KoLCharacter.inBadMoon();
 
+		// Gift Shop is unavailable in Bad Moon
+
+		else if ( shopName.equals( "Gift Shop" ) )
+			return !KoLCharacter.inBadMoon();
+
 		// If it gets this far, then the item is definitely available
 		// for purchase from the NPC store.
 

@@ -4348,6 +4348,12 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeTelescopeRequest( String parameters )
 	{
+		if ( KoLCharacter.inBadMoon() )
+		{
+			updateDisplay( ERROR_STATE, "Your telescope is unavailable in Bad Moon" );
+			return;
+		}
+
 		// Find out how good our telescope is.
 		KoLCharacter.setTelescope( false );
 
@@ -4355,12 +4361,6 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( upgrades < 1 )
 		{
 			updateDisplay( ERROR_STATE, "You don't have a telescope." );
-			return;
-		}
-
-		if ( KoLCharacter.inBadMoon() )
-		{
-			updateDisplay( ERROR_STATE, "Your telescope is unavailable in Bad Moon" );
 			return;
 		}
 
@@ -5299,7 +5299,10 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public boolean makeRestaurantRequest( String parameters )
 	{
-		if ( restaurantItems.isEmpty() && KoLCharacter.inMysticalitySign() )
+		if ( !KoLCharacter.inMysticalitySign() )
+			return false;
+
+		if ( restaurantItems.isEmpty() )
 			RequestThread.postRequest( new RestaurantRequest() );
 
 		if ( parameters.equals( "" ) )
@@ -5354,7 +5357,10 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public boolean makeMicrobreweryRequest( String parameters )
 	{
-		if ( microbreweryItems.isEmpty() && KoLCharacter.inMoxieSign() )
+		if ( !KoLCharacter.inMoxieSign() )
+			return false;
+
+		if ( microbreweryItems.isEmpty() )
 			RequestThread.postRequest( new MicrobreweryRequest() );
 
 		if ( parameters.equals( "" ) )
