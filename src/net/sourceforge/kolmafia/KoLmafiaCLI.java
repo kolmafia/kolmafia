@@ -2447,8 +2447,8 @@ public class KoLmafiaCLI extends KoLmafia
 				RequestThread.postRequest( search );
 
 				lastSearch = desiredRank;
-				results = new ProfileRequest[ search.getSearchResults().size() ];
-				search.getSearchResults().toArray( results );
+				results = new ProfileRequest[ FlowerHunterRequest.getSearchResults().size() ];
+				FlowerHunterRequest.getSearchResults().toArray( results );
 			}
 
 			executeFlowerHuntRequest( results, request );
@@ -2476,6 +2476,9 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( KoLSettings.getUserProperty( "currentPvpVictories" ).indexOf( targets[i].getPlayerName() ) != -1 )
 				continue;
 
+			if ( targets[i].getPlayerName().toLowerCase().startsWith( "devster" ) )
+				continue;
+
 			if ( ClanManager.getClanName().equals( targets[i].getClanName() ) )
 				continue;
 
@@ -2487,7 +2490,6 @@ public class KoLmafiaCLI extends KoLmafia
 				KoLSettings.setUserProperty( "currentPvpVictories", KoLSettings.getUserProperty( "currentPvpVictories" ) + targets[i].getPlayerName() + "," );
 			else
 				updateDisplay( ERROR_STATE, "You lost to " + targets[i].getPlayerName() + "." );
-
 		}
 	}
 

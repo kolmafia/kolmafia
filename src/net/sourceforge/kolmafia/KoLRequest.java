@@ -352,6 +352,7 @@ public class KoLRequest extends Job implements KoLConstants
 		this.hasNoResult = this.isChatRequest || this.formURLString.startsWith( "http://" ) || this.formURLString.startsWith( "char" ) ||
 			this.formURLString.startsWith( "quest" ) || this.formURLString.endsWith( "menu.php" ) || this.formURLString.startsWith( "desc" ) ||
 			this.formURLString.startsWith( "display" ) || this.formURLString.startsWith( "search" ) || this.formURLString.startsWith( "show" ) ||
+			this.formURLString.startsWith( "valhalla" ) || this.formURLString.startsWith( "account" ) ||
 			this instanceof LoginRequest || this instanceof LogoutRequest || this.formURLString.startsWith( "message" ) || this.formURLString.startsWith( "makeoffer" ) ||
 			(this instanceof LocalRelayRequest && this.formURLString.startsWith( "clan" ) && !this.formURLString.startsWith( "clan_rumpus"));
 
@@ -1370,7 +1371,7 @@ public class KoLRequest extends Job implements KoLConstants
 		// Once everything is complete, decide whether or not
 		// you should refresh your status.
 
-		if ( hasNoResult )
+		if ( this.hasNoResult )
 			return;
 
 		if ( this instanceof LocalRelayRequest )
