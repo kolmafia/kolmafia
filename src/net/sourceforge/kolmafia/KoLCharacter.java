@@ -434,6 +434,11 @@ public abstract class KoLCharacter extends StaticEntity
 		recentEffects.clear();
 		activeEffects.clear();
 
+		// Don't reuse NPC food & drink from a previous login
+		RestaurantRequest.reset();
+		MicrobreweryRequest.reset();
+		KitchenRequest.reset();
+
 		resetInventory();
 
 		int battleIndex = battleSkillNames.indexOf( KoLSettings.getUserProperty( "battleAction" ) );

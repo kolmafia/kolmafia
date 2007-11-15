@@ -35,11 +35,13 @@ package net.sourceforge.kolmafia;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.ConcoctionsDatabase.Concoction;
 
 public class RestaurantRequest extends KoLRequest
 {
 	private static AdventureResult dailySpecial = null;
+	private static final LockableListModel existing = new LockableListModel();
 	private static final Pattern SPECIAL_PATTERN = Pattern.compile( "<input type=radio name=whichitem value=(\\d+)>", Pattern.DOTALL );
 
 	private boolean isPurchase;
@@ -173,9 +175,30 @@ public class RestaurantRequest extends KoLRequest
 	{
 		restaurantItems.add( itemName );
 
-		Concoction chez = new Concoction( itemName, price );
-		ConcoctionsDatabase.getUsables().remove( chez );
-		ConcoctionsDatabase.getUsables().add( chez );
+		LockableListModel usables = ConcoctionsDatabase.getUsables();
+		Concoction item = new Concoction( itemName, price );
+		int index = usables.indexOf( item );
+		if ( index != -1 )
+			existing.add( usables.remove( index ) );
+		else
+			existing.add( null );
+		usables.add( item );
+	}
+
+	public static final void reset()
+	{
+		// Restore usable list with original concoction
+		for ( int i = 0; i < restaurantItems.size(); ++i )
+		{
+			String itemName = (String)restaurantItems.get(i);
+			Concoction chez = new Concoction( itemName, -1 );
+			ConcoctionsDatabase.getUsables().remove( chez );
+			Object old = existing.get(i);
+			if ( old != null )
+				ConcoctionsDatabase.getUsables().add( old );
+		}
+		restaurantItems.clear();
+		existing.clear();
 	}
 
 	public static final boolean registerRequest( String urlString )

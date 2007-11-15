@@ -331,8 +331,8 @@ public class KoLmafiaGUI extends KoLmafia
 
 				if ( KoLCharacter.inBadMoon() )
 					if ( kitchenItems.isEmpty() )
-												KitchenRequest.getMenu();
-
+						KitchenRequest.getMenu();
+                                
 				// If the person is in a mysticality sign, make
 				// sure you retrieve information from the
 				// restaurant.
