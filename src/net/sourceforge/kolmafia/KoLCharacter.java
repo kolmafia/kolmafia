@@ -2516,9 +2516,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 				if ( consumeType == EQUIP_ACCESSORY )
 				{
-					AdventureResult.addResultToList( equipmentLists[ ACCESSORY1 ], result );
-					AdventureResult.addResultToList( equipmentLists[ ACCESSORY2 ], result );
-					AdventureResult.addResultToList( equipmentLists[ ACCESSORY3 ], result );
+					AdventureResult.addResultToList( accessories, result );
 				}
 				else
 				{
