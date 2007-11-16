@@ -190,9 +190,7 @@
 	<!-- ==================================================== -->
 
 	<target name="exec" depends="createjar">
-		<java fork="true" jar="${jarfile}" dir="${dist}">
-			<sysproperty key="app.name" value="KoLmafia" />
-		</java>
+		<java fork="true" jar="${jarfile}" dir="${dist}" />
 	</target>
 
 
