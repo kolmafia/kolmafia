@@ -935,12 +935,12 @@ public class AdventureDatabase extends KoLDatabase
 		// Have a Heart
 		// This trades all vampire hearts for an equal number of
 		// bottles of used blood.
-		{ "47", "1", new AdventureResult( "vampire heart", 0 ) },
+		{ "47", "1", new AdventureResult( "vampire heart", 1 ) },
 
 		// Lording Over The Flies
-		// This trades 5 Spanish flies for around the worlds.
-		// Excess flies are left in inventory.
-		{ "72", "1", new AdventureResult( "Spanish fly", -5 ) },
+		// This trades all Spanish flies for around the worlds,
+		// in multiples of 5.  Excess flies are left in inventory.
+		{ "72", "1", new AdventureResult( "Spanish fly", 5 ) },
 
 		// No sir, away!  A papaya war is on!
 		{ "127", "2", new AdventureResult( "papaya", -3 ) },
@@ -960,9 +960,9 @@ public class AdventureDatabase extends KoLDatabase
 		{ "177", "3", new AdventureResult( "blackberry", -10 ) },
 
 		// Chieftain of the Flies
-		// This trades 5 Spanish flies for around the worlds.
-		// Excess flies are left in inventory.
-		{ "181", "1", new AdventureResult( "Spanish fly", -5 ) },
+		// This trades all Spanish flies for around the worlds,
+		// in multiples of 5.  Excess flies are left in inventory.
+		{ "181", "1", new AdventureResult( "Spanish fly", 5 ) },
 	};
 
 	// Some adventures don't actually cost a turn
