@@ -291,15 +291,22 @@ public class RequestLogger extends NullStream implements KoLConstants
 				return;
 
 			AdventureResult cost = AdventureDatabase.getCost( choice, decision );
+			int costCount = cost.getCount();
 
-			if ( cost == null )
+			if ( cost == null || costCount == 0 )
 				return;
 
-			if ( cost.getCount() == 0 )
-				StaticEntity.getClient().processResult( cost.getInstance( 0 - cost.getCount( inventory ) ) );
-			else if ( !cost.isItem() || cost.getCount( inventory ) > 0 )
-				StaticEntity.getClient().processResult( cost );
+			int inventoryCount = cost.getCount( inventory );
+			if ( cost.isItem() && inventoryCount == 0 )
+				return;
 
+			if ( costCount > 0 )
+			{
+				int multiplier = inventoryCount / costCount;
+				cost = cost.getInstance( multiplier * costCount * -1 );
+			}
+
+			StaticEntity.getClient().processResult( cost );
 			return;
 		}
 
