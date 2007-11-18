@@ -44,7 +44,6 @@ import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.ActionEvent;
@@ -63,16 +62,10 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
-
-import javax.swing.text.MutableAttributeSet;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyledDocument;
 import javax.swing.tree.DefaultTreeModel;
 
 import javax.swing.event.ChangeEvent;
@@ -97,7 +90,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 	private JComboBox activeMood;
 
 	private TreeMap zoneMap;
-	private JSpinner countField;
+	private AutoHighlightField countField;
 	private LockableListModel matchingAdventures;
 
 	protected JTree combatTree;
@@ -836,7 +829,10 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 			if ( enableAdventures )
 			{
-				AdventureOptionsFrame.this.countField = new AdventureCountField();
+				AdventureOptionsFrame.this.countField = new AutoHighlightField();
+				AdventureOptionsFrame.this.countField.setText( "0" );
+				AdventureOptionsFrame.this.countField.setHorizontalAlignment( AutoHighlightField.RIGHT );
+				JComponentUtilities.setComponentSize( AdventureOptionsFrame.this.countField, 30, 20 );
 				zonePanel.add( AdventureOptionsFrame.this.countField, BorderLayout.EAST );
 			}
 
@@ -1053,14 +1049,14 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 			}
 
 			int requestCount = Math.min( getValue( AdventureOptionsFrame.this.countField, 1 ), KoLCharacter.getAdventuresLeft() );
-			AdventureOptionsFrame.this.countField.setValue( new Integer( requestCount ) );
+			AdventureOptionsFrame.this.countField.setText( String.valueOf( requestCount ) );
 
 			boolean resetCount = requestCount == KoLCharacter.getAdventuresLeft();
 
 			StaticEntity.getClient().makeRequest( request, requestCount );
 
 			if ( resetCount )
-				AdventureOptionsFrame.this.countField.setValue( new Integer( KoLCharacter.getAdventuresLeft() ) );
+				AdventureOptionsFrame.this.countField.setText( String.valueOf( KoLCharacter.getAdventuresLeft() ) );
 
 			this.isProcessing = false;
 		}
@@ -1120,8 +1116,8 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 				return false;
 			}
 
-			if ( ((Integer)AdventureOptionsFrame.this.countField.getValue()).intValue() == 0 )
-				AdventureOptionsFrame.this.countField.setValue( new Integer( KoLCharacter.getAdventuresLeft() ) );
+			if ( getValue( AdventureOptionsFrame.this.countField ) == 0 )
+				AdventureOptionsFrame.this.countField.setText( String.valueOf( KoLCharacter.getAdventuresLeft() ) );
 
 			return true;
 		}
@@ -1221,51 +1217,6 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 			this.resultCards.show( this.resultPanel, index );
 			KoLSettings.setUserProperty( this.property, index );
 
-		}
-	}
-
-	private class AdventureCountField extends JSpinner implements ChangeListener, FocusListener, Runnable
-	{
-		private JTextField field;
-
-		public AdventureCountField()
-		{
-			this.addChangeListener( this );
-			JComponentUtilities.setComponentSize( this, 50, 24 );
-
-			this.field = ((JSpinner.DefaultEditor)getEditor()).getTextField();
-			this.field.addFocusListener( this );
-		}
-
-		public void addKeyListener( KeyListener l )
-		{	this.field.addKeyListener( l );
-		}
-
-		public void setValue( Object value )
-		{
-			super.setValue( value );
-			this.field.selectAll();
-		}
-
-		public void focusGained( FocusEvent e )
-		{	SwingUtilities.invokeLater( this );
-		}
-
-		public void focusLost( FocusEvent e )
-		{
-		}
-
-		public void run()
-		{	this.field.selectAll();
-		}
-
-		public void stateChanged( ChangeEvent e )
-		{
-			int desired = KoLFrame.getValue( this, KoLCharacter.getAdventuresLeft() );
-			if ( desired == KoLCharacter.getAdventuresLeft() + 1 )
-				this.setValue( new Integer( 1 ) );
-			else if ( desired <= 0 || desired > KoLCharacter.getAdventuresLeft() )
-				this.setValue( new Integer( KoLCharacter.getAdventuresLeft() ) );
 		}
 	}
 
