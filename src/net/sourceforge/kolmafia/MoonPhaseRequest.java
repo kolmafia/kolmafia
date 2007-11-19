@@ -188,8 +188,8 @@ public class MoonPhaseRequest extends KoLRequest
 			selectBuffer.append( "<input type=\"button\" class=\"button\" value=\"exec\" onClick=\"" );
 
 			selectBuffer.append( "var script = document.getElementById( 'scriptbar' ).value; " );
-			selectBuffer.append( "parent.charpane.location = '/KoLmafia/sideCommand?cmd=' + script + '&" );
-			selectBuffer.append( LocalRelayServer.getAuthentication() );
+			selectBuffer.append( "parent.charpane.location = '/KoLmafia/sideCommand?cmd=' + script + '&pwd=" );
+			selectBuffer.append( KoLRequest.passwordHash );
 			selectBuffer.append( "'; void(0);" );
 			selectBuffer.append( "\">" );
 			selectBuffer.append( "</form></td>" );

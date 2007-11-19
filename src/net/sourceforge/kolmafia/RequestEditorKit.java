@@ -1265,8 +1265,8 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		reminders.append( FamiliarsDatabase.getFamiliarImageLocation( KoLCharacter.getFamiliar().getId() ) );
 		reminders.append( "\"></td><td><select id=\"familiar\" style=\"width: 250px\" onChange=\"var select = document.getElementById('familiar'); " );
 		reminders.append( "var option = select.options[select.selectedIndex]; " );
-		reminders.append( "top.charpane.document.location.href = '/KoLmafia/sideCommand?cmd=familiar+' + option.value + '&" );
-		reminders.append( LocalRelayServer.getAuthentication() );
+		reminders.append( "top.charpane.document.location.href = '/KoLmafia/sideCommand?cmd=familiar+' + option.value + '&pwd=" );
+		reminders.append( KoLRequest.passwordHash );
 		reminders.append( "'; document.getElementById('current').src = 'http://images.kingdomofloathing.com/' + option.id; " );
 		reminders.append( "return true;\"><option value=\"none\">- No Familiar -</option>" );
 

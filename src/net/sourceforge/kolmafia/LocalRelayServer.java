@@ -70,23 +70,6 @@ public class LocalRelayServer implements Runnable
 		KoLSettings.setUserProperty( "lastRelayUpdate", StaticEntity.getVersion() );
 	}
 
-	private static int lastUserId = 0;
-	private static String authenticationString = null;
-
-	public static final String getAuthentication()
-	{
-		if ( lastUserId != KoLCharacter.getUserId() )
-		{
-			authenticationString = null;
-			lastUserId = KoLCharacter.getUserId();
-		}
-
-		if ( authenticationString == null )
-			authenticationString = "pwd=" + KoLRequest.passwordHash;
-
-		return authenticationString;
-	}
-
 	public static final void updateStatus()
 	{	updateStatus = true;
 	}

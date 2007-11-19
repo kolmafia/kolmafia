@@ -404,8 +404,8 @@ public class CharpaneRequest extends KoLRequest
 			if ( !KoLRequest.isCompactMode )
 				buffer.append( fontTag );
 
-			buffer.append( "<a title=\"Restore your HP\" href=\"/KoLmafia/sideCommand?cmd=restore+hp&" );
-			buffer.append( LocalRelayServer.getAuthentication() );
+			buffer.append( "<a title=\"Restore your HP\" href=\"/KoLmafia/sideCommand?cmd=restore+hp&pwd=" );
+			buffer.append( KoLRequest.passwordHash );
 			buffer.append( "\" style=\"color:" );
 
 			Matcher colorMatcher = COLOR_PATTERN.matcher( fontTag );
@@ -450,8 +450,8 @@ public class CharpaneRequest extends KoLRequest
 
 			buffer.append( "<a style=\"color:" );
 			buffer.append( KoLCharacter.getCurrentMP() < dangerous ? "red" : "black" );
-			buffer.append( "\" title=\"Restore your MP\" href=\"/KoLmafia/sideCommand?cmd=restore+mp&" );
-			buffer.append( LocalRelayServer.getAuthentication() );
+			buffer.append( "\" title=\"Restore your MP\" href=\"/KoLmafia/sideCommand?cmd=restore+mp&pwd=" );
+			buffer.append( KoLRequest.passwordHash );
 			buffer.append( "\">" );
 			startingIndex = KoLRequest.isCompactMode ? text.indexOf( "/", startingIndex ) : text.indexOf( "&", startingIndex );
 			buffer.append( text.substring( lastAppendIndex, startingIndex ) );
@@ -553,8 +553,8 @@ public class CharpaneRequest extends KoLRequest
 				StaticEntity.printStackTrace( e );
 			}
 
-			buffer.append( "&" );
-			buffer.append( LocalRelayServer.getAuthentication() );
+			buffer.append( "&pwd=" );
+			buffer.append( KoLRequest.passwordHash );
 			buffer.append( "\" style=\"color:" );
 			buffer.append( fontColor );
 			buffer.append( "\">" );
@@ -599,8 +599,8 @@ public class CharpaneRequest extends KoLRequest
 				StaticEntity.printStackTrace( e );
 			}
 
-			buffer.append( "&" );
-			buffer.append( LocalRelayServer.getAuthentication() );
+			buffer.append( "&pwd=" );
+			buffer.append( KoLRequest.passwordHash );
 			buffer.append( "\" style=\"color:" );
 			buffer.append( fontColor );
 			buffer.append( "\">" );
@@ -670,8 +670,8 @@ public class CharpaneRequest extends KoLRequest
 					buffer.append( "win+game" );
 				}
 
-				buffer.append( "&" );
-				buffer.append( LocalRelayServer.getAuthentication() );
+				buffer.append( "&pwd=" );
+				buffer.append( KoLRequest.passwordHash );
 				buffer.append( "\" title=\"Increase rounds of " );
 				buffer.append( currentEffect.getName() );
 				buffer.append( "\"><img src=\"/images/redup.gif\" border=0></a></td></tr>" );
@@ -770,8 +770,8 @@ public class CharpaneRequest extends KoLRequest
 					buffer.append( "win+game" );
 				}
 
-				buffer.append( "&" );
-				buffer.append( LocalRelayServer.getAuthentication() );
+				buffer.append( "&pwd=" );
+				buffer.append( KoLRequest.passwordHash );
 				buffer.append( "\" title=\"" );
 
 				if ( skillType == ClassSkillsDatabase.BUFF )
@@ -828,8 +828,8 @@ public class CharpaneRequest extends KoLRequest
 					buffer.append( "win+game" );
 				}
 
-				buffer.append( "&" );
-				buffer.append( LocalRelayServer.getAuthentication() );
+				buffer.append( "&pwd=" );
+				buffer.append( KoLRequest.passwordHash );
 				buffer.append( "\" title=\"Increase rounds of " );
 				buffer.append( effectName );
 				buffer.append( "\"><img src=\"/images/" );

@@ -37,14 +37,12 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
-import java.util.ArrayList;
+import java.util.TreeMap;
 
 public class LocalRelayAgent extends Thread implements KoLConstants
 {
 	private static final CustomCombatThread CUSTOM_THREAD = new CustomCombatThread();
-
-	private static int lastUserId = 0;
-	private static final ArrayList lastModified = new ArrayList();
+	private static final TreeMap lastModified = new TreeMap();
 
 	static { CUSTOM_THREAD.start(); }
 
@@ -121,6 +119,8 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 
 			if ( !this.readBrowserRequest() )
 			{
+System.out.println( this.request.getFormField( "pwd" ) );
+System.out.println( KoLRequest.passwordHash );
 				this.closeRelay();
 				return;
 			}
@@ -192,7 +192,11 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 		}
 
 		return !this.path.startsWith( "/KoLmafia" ) ||
-			this.path.endsWith( LocalRelayServer.getAuthentication() );
+			(this.request.getFormField( "pwd" ) != null && this.request.getFormField( "pwd" ).equals( KoLRequest.passwordHash ));
+	}
+
+	public static void reset()
+	{	lastModified.clear();
 	}
 
 	private boolean shouldSendNotModified()
@@ -206,16 +210,10 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 		if ( !this.path.endsWith( ".js" ) && !this.path.endsWith( ".html" ) )
 			return false;
 
-		if ( lastUserId != KoLCharacter.getUserId() )
-		{
-			lastUserId = KoLCharacter.getUserId();
-			lastModified.clear();
-		}
-
-		if ( lastModified.contains( this.path ) )
+		if ( lastModified.containsKey( this.path ) )
 			return true;
 
-		lastModified.add( this.path );
+		lastModified.put( this.path, Boolean.TRUE );
 		return false;
 	}
 

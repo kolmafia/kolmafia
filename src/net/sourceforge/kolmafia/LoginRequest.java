@@ -182,6 +182,7 @@ public class LoginRequest extends KoLRequest
 	public void run()
 	{
 		serverCookie = null;
+		LocalRelayAgent.reset();
 
 		if ( KoLSettings.getBooleanProperty( "saveStateActive" ) )
 			KoLmafia.addSaveState( this.username, this.password );
