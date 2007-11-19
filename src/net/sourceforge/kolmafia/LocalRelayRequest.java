@@ -64,7 +64,6 @@ public class LocalRelayRequest extends PasswordHashRequest
 	private static String mainpane = "";
 	private static KoLAdventure lastSafety = null;
 
-	private boolean refreshHash;
 	private boolean allowOverride;
 	public List headers = new ArrayList();
 	public byte [] rawByteBuffer = null;
@@ -74,12 +73,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 	public LocalRelayRequest( boolean allowOverride )
 	{
 		super( "" );
-		this.refreshHash = !allowOverride;
 		this.allowOverride = allowOverride && KoLSettings.getBooleanProperty( "relayAllowsOverride" );
-	}
-
-	public boolean refreshPasswordHash()
-	{	return refreshHash;
 	}
 
 	public KoLRequest constructURLString( String newURLString )
@@ -472,7 +466,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		if ( filename.equals( "chat.html" ) )
 			StaticEntity.singleStringReplace( replyBuffer, "CHATAUTH", "playerid=" + KoLCharacter.getPlayerId() + "&pwd=" + passwordHash  );
 
-		StaticEntity.globalStringReplace( replyBuffer, "MAFIAHIT", LocalRelayServer.getAuthentication() );
+		StaticEntity.globalStringReplace( replyBuffer, "MAFIAHIT", "pwd=" + KoLRequest.passwordHash );
 
 		// Make sure to print the reply buffer to the
 		// response buffer for the local relay server.
@@ -670,16 +664,16 @@ public class LocalRelayRequest extends PasswordHashRequest
 		warning.append( "var default2 = " + mcd2 + "; " );
 		warning.append( "var current = " + mcd0 + "; " );
 		warning.append( "function switchLinks( id ) { " );
-		warning.append( "if ( id == 'mcd1' ) { " );
+		warning.append( "if ( id == \"mcd1\" ) { " );
 		warning.append( "current = (current == default0) ? default1 : default0; " );
 		warning.append( "} else { " );
 		warning.append( "current = (current == default0) ? default2 : default0; " );
 		warning.append( "} " );
-		warning.append( "getObject('mcd1').style.border = (current == default1) ? '1px dashed blue' : '1px dashed white'; " );
-		warning.append( "getObject('mcd2').style.border = (current == default2) ? '1px dashed blue' : '1px dashed white'; " );
-		warning.append( "top.charpane.location.href = '/KoLmafia/sideCommand?cmd=mcd+' + current + '&" );
-		warning.append( LocalRelayServer.getAuthentication() );
-		warning.append( "'; } </script>" );
+		warning.append( "getObject(\"mcd1\").style.border = (current == default1) ? \"1px dashed blue\" : \"1px dashed white\"; " );
+		warning.append( "getObject(\"mcd2\").style.border = (current == default2) ? \"1px dashed blue\" : \"1px dashed white\"; " );
+		warning.append( "top.charpane.location.href = \"/KoLmafia/sideCommand?cmd=mcd+\" + current + \"&pwd=" );
+		warning.append( KoLRequest.passwordHash );
+		warning.append( "\"; } </script>" );
 
 		warning.append( "<link rel=\"stylesheet\" type=\"text/css\" href=\"http://images.kingdomofloathing.com/styles.css\"></head>" );
 		warning.append( "<body><center><table width=95%  cellspacing=0 cellpadding=0><tr><td style=\"color: white;\" align=center bgcolor=blue><b>Results:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td><center>" );
@@ -833,11 +827,13 @@ public class LocalRelayRequest extends PasswordHashRequest
 		else if ( this.getPath().endsWith( "lookupLocation" ) )
 		{
 			lastSafety = AdventureDatabase.getAdventureByURL( "adventure.php?snarfblat=" + this.getFormField( "snarfblat" ) );
+System.out.println( "Lookup: " + lastSafety );
 			AdventureFrame.updateSelectedAdventure( lastSafety );
 			this.handleSafety();
 		}
 		else if ( this.getPath().endsWith( "updateLocation" ) )
 		{
+System.out.println( "Update: " + lastSafety );
 			this.handleSafety();
 		}
 		else

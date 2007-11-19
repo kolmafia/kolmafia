@@ -214,7 +214,7 @@ function updateSafetyText()
 		safety.innerHTML = httpObject.responseText;
 	}
 
-	httpObject.open( "POST", "/KoLmafia/updateLocation", true );
+	httpObject.open( "POST", "/KoLmafia/updateLocation?MAFIAHIT", true );
 	httpObject.send( "" );
 	return true;
 }
@@ -285,7 +285,7 @@ function showSafetyText( location )
 		safety.innerHTML = httpObject.responseText;
 	}
 
-	httpObject.open( "POST", "/KoLmafia/lookupLocation?" + adventureId, true );
+	httpObject.open( "POST", "/KoLmafia/lookupLocation?" + adventureId + "&MAFIAHIT", true );
 	httpObject.send( "" );
 	return true;
 }

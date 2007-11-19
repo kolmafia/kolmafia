@@ -379,10 +379,6 @@ public class KoLRequest extends Job implements KoLConstants
 	{	this.data.clear();
 	}
 
-	public boolean refreshPasswordHash()
-	{	return true;
-	}
-
 	/**
 	 * Adds the given form field to the KoLRequest.  Descendant classes
 	 * should use this method if they plan on submitting forms to Kingdom
@@ -397,17 +393,6 @@ public class KoLRequest extends Job implements KoLConstants
 	public void addFormField( String name, String value, boolean allowDuplicates )
 	{
 		this.dataChanged = true;
-
-		if ( name.equals( "pwd" ) || name.equals( "phash" ) )
-		{
-			if ( refreshPasswordHash() )
-			{
-				if ( !this.data.contains( name ) )
-					this.data.add( name );
-
-				return;
-			}
-		}
 
 		String encodedName = name == null ? "" : name;
 		String encodedValue = value == null ? "" : value;
@@ -430,9 +415,12 @@ public class KoLRequest extends Job implements KoLConstants
 		// submit duplicate fields.
 
 		if ( !allowDuplicates )
-			for ( int i = 0; i < this.data.size(); ++i )
-				if ( ((String)this.data.get(i)).startsWith( encodedName ) )
-					this.data.remove( i );
+		{
+			Iterator it = this.data.iterator();
+			while ( it.hasNext() )
+				if ( ((String)it.next()).startsWith( encodedName ) )
+					it.remove();
+		}
 
 		// If the data did not already exist, then
 		// add it to the end of the array.
@@ -460,18 +448,7 @@ public class KoLRequest extends Job implements KoLConstants
 
 		String name = element.substring( 0, equalIndex ).trim();
 		String value = element.substring( equalIndex + 1 ).trim();
-
-		if ( name.equals( "pwd" ) || name.equals( "phash" ) )
-		{
-			this.addFormField( name, "", false );
-		}
-		else
-		{
-			// Otherwise, add the name-value pair as was
-			// specified in the original method.
-
-			this.addFormField( name, value, true );
-		}
+		this.addFormField( name, value, true );
 	}
 
 	/**
@@ -483,11 +460,6 @@ public class KoLRequest extends Job implements KoLConstants
 	{
 		if ( element == null )
 			return;
-
-		if ( element.startsWith( "pwd=" ) )
-			element = "pwd";
-		else if ( element.startsWith( "phash=" ) )
-			element = "phash";
 
 		this.data.add( element );
 	}
@@ -515,17 +487,21 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( this.data.isEmpty() )
 			return null;
 
+		String datum;
+
 		for ( int i = 0; i < this.data.size(); ++i )
 		{
-			int splitIndex = ((String)this.data.get(i)).indexOf( "=" );
+			datum = (String) this.data.get(i);
+
+			int splitIndex = datum.indexOf( "=" );
 			if ( splitIndex == -1 )
 				continue;
 
-			String name = ((String)this.data.get(i)).substring( 0, splitIndex );
+			String name = datum.substring( 0, splitIndex );
 			if ( !name.equalsIgnoreCase( key ) )
 				continue;
 
-			String value = ((String)this.data.get(i)).substring( splitIndex + 1 ) ;
+			String value = datum.substring( splitIndex + 1 ) ;
 
 			try
 			{
@@ -562,8 +538,12 @@ public class KoLRequest extends Job implements KoLConstants
 
 			element = (String) data.get(i);
 
-			if ( element.equals( "pwd" ) || element.equals( "phash" ) )
+			if ( element.startsWith( "pwd" ) || element.startsWith( "phash" ) )
 			{
+				int index = element.indexOf( "=" );
+				if ( index != -1 )
+					element = element.substring( 0, index );
+
 				dataBuffer.append( element );
 
 				if ( includeHash )
