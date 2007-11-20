@@ -1,3 +1,4 @@
+1
 # Spleen hit values taken from the KoL Wiki
 # http://kol.coldfront.net/thekolwiki/index.php/Spleen
 

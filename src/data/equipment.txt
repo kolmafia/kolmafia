@@ -1,3 +1,4 @@
+1
 # Hats section of equipment.txt
 
 Ancient Saucehelm	50	Mys: 10

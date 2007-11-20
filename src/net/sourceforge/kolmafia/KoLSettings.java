@@ -613,7 +613,7 @@ public class KoLSettings extends Properties implements KoLConstants
 	{
 		String [] current;
 		TreeMap desiredMap;
-		BufferedReader istream = KoLDatabase.getReader( "defaults.txt" );
+		BufferedReader istream = KoLDatabase.getVersionedReader( "defaults.txt", DEFAULTS_VERSION );
 
 		while ( (current = KoLDatabase.readData( istream )) != null )
 		{

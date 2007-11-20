@@ -97,7 +97,7 @@ public class MonsterDatabase extends KoLDatabase
 		MONSTER_DATA.clear();
 		MONSTER_NAMES.clear();
 
-		BufferedReader reader = getReader( "monsters.txt" );
+		BufferedReader reader = getVersionedReader( "monsters.txt", MONSTERS_VERSION );
 		String [] data;
 
 		while ( (data = readData( reader )) != null )

@@ -103,6 +103,10 @@ public class DataUtilities implements UtilityConstants
 	 */
 
 	public static BufferedReader getReader( String directory, String filename )
+	{	return getReader( directory, filename, true );
+	}
+
+	public static BufferedReader getReader( String directory, String filename, boolean allowOverride )
 	{
 		try
 		{
@@ -125,7 +129,7 @@ public class DataUtilities implements UtilityConstants
 			return null;
 		}
 
-		return getReader( getInputStream( directory, filename ) );
+		return getReader( getInputStream( directory, filename, allowOverride ) );
 	}
 
 	public static BufferedReader getReader( InputStream istream )
@@ -166,6 +170,10 @@ public class DataUtilities implements UtilityConstants
 	 */
 
 	public static InputStream getInputStream( String directory, String filename )
+	{	return getInputStream( directory, filename, true );
+	}
+
+	public static InputStream getInputStream( String directory, String filename, boolean allowOverride )
 	{
 		// Reformat the name of the directory and the
 		// filename to use strictly forward slashes.
@@ -179,16 +187,19 @@ public class DataUtilities implements UtilityConstants
 		InputStream locationAsInputStream;
 		String fullname = directory + filename;
 
-		File override = new File( ROOT_LOCATION, fullname );
-		if ( override.exists() )
+		if ( allowOverride )
 		{
-			try
+			File override = new File( ROOT_LOCATION, fullname );
+			if ( override.exists() )
 			{
-				return new FileInputStream( override );
-			}
-			catch ( Exception e )
-			{
-				e.printStackTrace();
+				try
+				{
+					return new FileInputStream( override );
+				}
+				catch ( Exception e )
+				{
+					e.printStackTrace();
+				}
 			}
 		}
 

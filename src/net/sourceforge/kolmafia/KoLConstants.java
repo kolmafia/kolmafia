@@ -181,6 +181,57 @@ public interface KoLConstants extends UtilityConstants
 	public static final File SCRIPT_LOCATION = new File( ROOT_LOCATION, SCRIPT_DIRECTORY );
 	public static final File SESSIONS_LOCATION = new File( ROOT_LOCATION, SESSIONS_DIRECTORY );
 	public static final File RELAY_LOCATION = new File( ROOT_LOCATION, RELAY_DIRECTORY );
+        
+        // All data files that can be overridden
+
+	public static final String [] OVERRIDE_DATA =
+	{
+		"adventures.txt",
+		"buffbots.txt",
+		"classskills.txt",
+		"combats.txt",
+		"concoctions.txt",
+		"defaults.txt",
+		"equipment.txt",
+		"familiars.txt",
+		"fullness.txt",
+		"inebriety.txt",
+		"itemdescs.txt",
+		"modifiers.txt",
+		"monsters.txt",
+		"npcstores.txt",
+		"outfits.txt",
+		"packages.txt",
+		"spleenhit.txt",
+		"statuseffects.txt",
+		"tradeitems.txt",
+		"zapgroups.txt",
+		"zonelist.txt"
+	};
+
+	// The current version number of each overridable data file
+
+	public static final int ADVENTURES_VERSION = 1;
+	public static final int BUFFBOTS_VERSION = 1;
+	public static final int CLASSSKILLS_VERSION = 1;
+	public static final int COMBATS_VERSION = 1;
+	public static final int CONCOCTIONS_VERSION = 1;
+	public static final int DEFAULTS_VERSION = 1;
+	public static final int EQUIPMENT_VERSION = 1;
+	public static final int FAMILIARS_VERSION = 1;
+	public static final int FULLNESS_VERSION = 1;
+	public static final int INEBRIETY_VERSION = 1;
+	public static final int ITEMDESCS_VERSION = 1;
+	public static final int MODIFIERS_VERSION = 1;
+	public static final int MONSTERS_VERSION = 1;
+	public static final int NPCSTORES_VERSION = 1;
+	public static final int OUTFITS_VERSION = 1;
+	public static final int PACKAGES_VERSION = 1;
+	public static final int SPLEENHIT_VERSION = 1;
+	public static final int STATUSEFFECTS_VERSION = 1;
+	public static final int TRADEITEMS_VERSION = 1;
+	public static final int ZAPGROUPS_VERSION = 1;
+	public static final int ZONELIST_VERSION = 1;
 
 	// Different states of KoLmafia.  Used in order to determine
 	// what is still permitted.

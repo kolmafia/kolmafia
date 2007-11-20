@@ -76,7 +76,7 @@ public class FamiliarsDatabase extends KoLDatabase
 		// examined and float-referenced: once in the name-lookup,
 		// and again in the Id lookup.
 
-		BufferedReader reader = getReader( "familiars.txt" );
+		BufferedReader reader = getVersionedReader( "familiars.txt", FAMILIARS_VERSION );
 
 		String [] data;
 		Integer familiarId, familiarLarva;

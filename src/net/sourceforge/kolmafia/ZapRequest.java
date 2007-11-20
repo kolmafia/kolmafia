@@ -74,7 +74,7 @@ public class ZapRequest extends KoLRequest
 		try
 		{
 			String line;
-			BufferedReader reader = KoLDatabase.getReader( "zapgroups.txt" );
+			BufferedReader reader = KoLDatabase.getVersionedReader( "zapgroups.txt", ZAPGROUPS_VERSION );
 
 			while ( (line = KoLDatabase.readLine( reader )) != null )
 			{

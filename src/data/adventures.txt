@@ -1,3 +1,4 @@
+1
 Gyms	clan_gym=1	Pump Up Muscle
 Gyms	clan_gym=2	Pump Up Mysticality
 Gyms	clan_gym=3	Pump Up Moxie

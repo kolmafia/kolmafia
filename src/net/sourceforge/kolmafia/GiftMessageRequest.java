@@ -51,7 +51,7 @@ public class GiftMessageRequest extends SendMessageRequest
 	private static final LockableListModel PACKAGES = new LockableListModel();
 	static
 	{
-		BufferedReader reader = KoLDatabase.getReader( "packages.txt" );
+		BufferedReader reader = KoLDatabase.getVersionedReader( "packages.txt", PACKAGES_VERSION );
 		String [] data;
 
 		while ( (data = KoLDatabase.readData( reader )) != null )

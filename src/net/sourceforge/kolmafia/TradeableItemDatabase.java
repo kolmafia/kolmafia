@@ -115,7 +115,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		// examined and float-referenced: once in the name-lookup,
 		// and again in the Id lookup.
 
-		BufferedReader reader = getReader( "tradeitems.txt" );
+		BufferedReader reader = getVersionedReader( "tradeitems.txt", TRADEITEMS_VERSION );
 
 		String [] data;
 
@@ -165,7 +165,7 @@ public class TradeableItemDatabase extends KoLDatabase
 			StaticEntity.printStackTrace( e );
 		}
 
-		reader = getReader( "itemdescs.txt" );
+		reader = getVersionedReader( "itemdescs.txt", ITEMDESCS_VERSION );
 
 		while ( (data = readData( reader )) != null )
 		{
@@ -206,7 +206,7 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		// Next, retrieve the table of fullness
 
-		reader = getReader( "fullness.txt" );
+		reader = getVersionedReader( "fullness.txt", FULLNESS_VERSION );
 
 		while ( (data = readData( reader )) != null )
 		{
@@ -240,7 +240,7 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		// Next, retrieve the table of inebriety
 
-		reader = getReader( "inebriety.txt" );
+		reader = getVersionedReader( "inebriety.txt", INEBRIETY_VERSION );
 
 		while ( (data = readData( reader )) != null )
 		{
@@ -274,7 +274,7 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		// Next, retrieve the table of spleen hits
 
-		reader = getReader( "spleenhit.txt" );
+		reader = getVersionedReader( "spleenhit.txt", SPLEENHIT_VERSION );
 
 		while ( (data = readData( reader )) != null )
 		{

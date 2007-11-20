@@ -1,3 +1,4 @@
+1
 # Seed data for description ids provided by the Kingdom of Loathing Item Database,
 # compiled by Max Demian.   http://max.subfighter.com/kol/items.php
 # Seed data for plural names provided by the Kingdom of Loathing Visual Wiki,

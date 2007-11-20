@@ -977,7 +977,10 @@ public class AdventureDatabase extends KoLDatabase
 		if ( !ZONE_DESCRIPTIONS.isEmpty() )
 			return;
 
-		BufferedReader reader = getReader( "zonelist.txt" );
+		BufferedReader reader = getVersionedReader( "zonelist.txt", ZONELIST_VERSION );
+		if ( reader == null )
+			return;
+
 		String [] data;
 
 		while ( (data = readData( reader )) != null )
@@ -1008,7 +1011,9 @@ public class AdventureDatabase extends KoLDatabase
 
 	public static final void refreshAdventureTable()
 	{
-		BufferedReader reader = getReader( "adventures.txt" );
+		BufferedReader reader = getVersionedReader( "adventures.txt", ADVENTURES_VERSION );
+		if ( reader == null )
+			return;
 
 		for ( int i = 0; i < adventureTable.length; ++i )
 			adventureTable[i].clear();
@@ -1049,7 +1054,10 @@ public class AdventureDatabase extends KoLDatabase
 	{
 		areaCombatData.clear();
 
-		BufferedReader reader = getReader( "combats.txt" );
+		BufferedReader reader = getVersionedReader( "combats.txt", COMBATS_VERSION );
+		if ( reader == null )
+			return;
+
 		String [] data;
 
 		String [] adventures = adventureTable[3].toArray();

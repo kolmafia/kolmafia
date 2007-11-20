@@ -77,7 +77,7 @@ public class BuffBotDatabase extends KoLDatabase
 		if ( !hasNameList )
 		{
 			String [] data;
-			BufferedReader reader = getReader( "buffbots.txt" );
+			BufferedReader reader = getVersionedReader( "buffbots.txt", BUFFBOTS_VERSION );
 
 			while ( (data = readData( reader )) != null )
 			{
@@ -228,7 +228,7 @@ public class BuffBotDatabase extends KoLDatabase
 		KoLmafia.updateDisplay( "Configuring dynamic buff prices..." );
 
 		String [] data = null;
-		BufferedReader reader = getReader( "buffbots.txt" );
+		BufferedReader reader = getVersionedReader( "buffbots.txt", BUFFBOTS_VERSION );
 
 		while ( (data = readData( reader )) != null )
 			if ( data.length == 3 )
