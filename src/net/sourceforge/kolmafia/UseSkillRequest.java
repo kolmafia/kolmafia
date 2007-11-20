@@ -400,8 +400,6 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		if ( KoLmafia.refusesContinue() )
 			return;
 
-		int currentHP = KoLCharacter.getCurrentHP();
-
 		int currentCast = 0;
 		int maximumCast = maximumMP / mpPerCast;
 
@@ -482,10 +480,11 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 					{
 						if ( HPRestoreItemList.CONFIGURES[i].toString().equals( skillName ) )
 						{
-							castsRemaining = (int) Math.ceil(
+							int maxPossible = (int) Math.ceil(
 								((float)KoLCharacter.getMaximumHP() - (float)KoLCharacter.getCurrentHP()) /
 									(float)HPRestoreItemList.CONFIGURES[i].getHealthRestored() );
-
+							
+							castsRemaining = Math.min( castsRemaining, maxPossible );
 							currentCast = Math.min( currentCast, castsRemaining );
 							break;
 						}
