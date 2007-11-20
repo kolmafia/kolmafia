@@ -1825,8 +1825,11 @@ public class KoLRequest extends Job implements KoLConstants
 				events[i] = null;
 
 		// Remove the events from the response text
-		// this.responseText = eventMatcher.replaceFirst( "" );
+
+		this.responseText = eventMatcher.replaceFirst( "" );
+
 		boolean shouldLoadEventFrame = false;
+		boolean isChatRunning = KoLMessenger.isRunning();
 
 		for ( int i = 0; i < events.length; ++i )
 		{
@@ -1867,7 +1870,7 @@ public class KoLRequest extends Job implements KoLConstants
 			if ( StaticEntity.usesSystemTray() )
 				SystemTrayFrame.showBalloon( event );
 
-			if ( KoLMessenger.isRunning() )
+			if ( isChatRunning )
 			{
 				int dash = event.indexOf( "-" );
 				KoLMessenger.updateChat( "<font color=green>" + event.substring( dash + 2 ) + "</font>" );
@@ -1885,11 +1888,8 @@ public class KoLRequest extends Job implements KoLConstants
 		// If we are not running chat, pop up an EventsFrame to show
 		// the events.  Use the standard run method so that you wait
 		// for it to finish before calling it again on another event.
-
-		shouldLoadEventFrame |= KoLSettings.getGlobalProperty( "initialDesktop" ).indexOf( "EventsFrame" ) != -1 &&
-			KoLDesktop.getInstance().isVisible();
-
-		if ( shouldLoadEventFrame )
+		
+		if ( !isChatRunning && shouldLoadEventFrame )
 			SwingUtilities.invokeLater( new CreateFrameRunnable( EventsFrame.class ) );
 	}
 

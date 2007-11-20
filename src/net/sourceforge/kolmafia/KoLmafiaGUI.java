@@ -165,7 +165,7 @@ public class KoLmafiaGUI extends KoLmafia
 			initialFrameList.toArray( initialFrames );
 
 			for ( int i = 0; i < initialFrames.length; ++i )
-				if ( !initialFrames[i].equals( "EventsFrame" ) )
+				if ( !initialFrames[i].equals( "EventsFrame" ) || !eventHistory.isEmpty() )
 					constructFrame( initialFrames[i] );
 		}
 
