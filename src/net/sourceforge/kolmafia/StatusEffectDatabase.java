@@ -59,7 +59,7 @@ public class StatusEffectDatabase extends KoLDatabase
 
 	static
 	{
-		BufferedReader reader = getReader( "statuseffects.txt" );
+		BufferedReader reader = getVersionedReader( "statuseffects.txt", STATUSEFFECTS_VERSION );
 		String [] data;
 
 		while ( (data = readData( reader )) != null )

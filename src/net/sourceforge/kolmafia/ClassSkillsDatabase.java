@@ -83,7 +83,7 @@ public class ClassSkillsDatabase extends KoLDatabase
 		for ( int i = 0; i < CATEGORIES.length; ++i )
 			skillsByCategory.put( CATEGORIES[i], new ArrayList() );
 
-		BufferedReader reader = getReader( "classskills.txt" );
+		BufferedReader reader = getVersionedReader( "classskills.txt", CLASSSKILLS_VERSION );
 
 		String [] data;
 

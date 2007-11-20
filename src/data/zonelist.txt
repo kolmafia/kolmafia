@@ -1,3 +1,4 @@
+1
 Town	Town	Seaside Town
 Casino	Town	Seaside Casino
 Dungeon	Town	Seaside Dungeon

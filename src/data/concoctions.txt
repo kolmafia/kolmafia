@@ -1,3 +1,4 @@
+1
 # Christmas-specific items which can be created through combination or
 # smithing.
 

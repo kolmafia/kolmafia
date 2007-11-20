@@ -52,7 +52,7 @@ public class EquipmentDatabase extends KoLDatabase
 
 	static
 	{
-		BufferedReader reader = getReader( "equipment.txt" );
+		BufferedReader reader = getVersionedReader( "equipment.txt", EQUIPMENT_VERSION );
 
 		String [] data;
 		int itemId;
@@ -95,7 +95,7 @@ public class EquipmentDatabase extends KoLDatabase
 			printStackTrace( e );
 		}
 
-		reader = getReader( "outfits.txt" );
+		reader = getVersionedReader( "outfits.txt", OUTFITS_VERSION );
 
 		int outfitId, arrayIndex;
 		SpecialOutfitArray outfitList;

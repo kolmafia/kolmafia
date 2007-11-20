@@ -100,7 +100,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// examined and float-referenced: once in the name-lookup,
 		// and again in the Id lookup.
 
-		BufferedReader reader = getReader( "concoctions.txt" );
+		BufferedReader reader = getVersionedReader( "concoctions.txt", CONCOCTIONS_VERSION );
 		String [] data;
 
 		while ( (data = readData( reader )) != null )

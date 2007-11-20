@@ -62,6 +62,38 @@ public class KoLDatabase extends StaticEntity
 	{	return DataUtilities.getReader( istream );
 	}
 
+	public static final BufferedReader getVersionedReader( String filename, int version )
+	{
+		BufferedReader reader = DataUtilities.getReader( DATA_DIRECTORY, filename, true );
+
+		// If no file, no reader
+		if ( reader == null )
+			return null;
+
+		// Read the version number
+		String line = readLine( reader );
+
+		// Parse the version number and validate
+		int fileVersion = StaticEntity.parseInt( line );
+
+		if ( version == fileVersion )
+			return reader;
+
+		// We don't understand this file format
+		try
+		{
+			reader.close();
+		}
+		catch ( Exception e )
+		{
+			printStackTrace( e );
+		}
+
+		// Override file is wrong version. Get built-in file
+
+		return DataUtilities.getReader( DATA_DIRECTORY, filename, false );
+	}
+
 	public static final String readLine( BufferedReader reader )
 	{
 		if ( reader == null )

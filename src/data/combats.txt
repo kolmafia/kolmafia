@@ -1,3 +1,4 @@
+1
 # Adventure Area Name	Combat %	Monsters
 #
 # Adventure Area Name must match that in adventures.dat

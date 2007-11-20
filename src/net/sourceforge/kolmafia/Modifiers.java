@@ -51,7 +51,7 @@ public class Modifiers extends KoLDatabase
 
 	static
 	{
-		BufferedReader reader = getReader( "modifiers.txt" );
+		BufferedReader reader = getVersionedReader( "modifiers.txt", MODIFIERS_VERSION );
 		String [] data;
 
 		while ( (data = readData( reader )) != null )

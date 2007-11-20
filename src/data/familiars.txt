@@ -1,3 +1,4 @@
+1
 # Original familiar arena stats from Vladjimir's arena data
 # http://www.the-rye.dreamhosters.com/familiars/
 
