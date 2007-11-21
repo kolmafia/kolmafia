@@ -827,13 +827,11 @@ public class LocalRelayRequest extends PasswordHashRequest
 		else if ( this.getPath().endsWith( "lookupLocation" ) )
 		{
 			lastSafety = AdventureDatabase.getAdventureByURL( "adventure.php?snarfblat=" + this.getFormField( "snarfblat" ) );
-System.out.println( "Lookup: " + lastSafety );
 			AdventureFrame.updateSelectedAdventure( lastSafety );
 			this.handleSafety();
 		}
 		else if ( this.getPath().endsWith( "updateLocation" ) )
 		{
-System.out.println( "Update: " + lastSafety );
 			this.handleSafety();
 		}
 		else
