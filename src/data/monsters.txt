@@ -4,7 +4,7 @@
 # Monster data from Kittiwake's Monster Survival Guide:
 #
 # http://forums.kingdomofloathing.com/viewtopic.php?t=39973&start=0
-# http://forums.hardcoreoxygenation.com/viewtopic.php?t=218
+# http://jick-nerfed.us/forums/viewtopic.php?t=218
 #
 # Last edited by Kittiwake on Fri Apr 14, 2006 4:48 am
 #
@@ -372,7 +372,7 @@ Regular Old Bat	HP: 8  Def: 13 Atk: 13 Meat: 18-28	bat guano (15)	batgut (15)	ba
 Remains of a Jilted Mistress	HP: 145 Def: 155 Atk: 173 ED: spooky
 Rock Scorpion	HP: 145	handful of sand (25)	handful of sand (15)	scorpion whip (5)
 Rock-Banging Cave Elf		rock (8)	stick (7)	stick (15)
-Rolling Stone	HP: 135	palm frond (10)	handful of moss (20)	brown sugar cane 20)	mother's little helper (10)	Tuesday's ruby (5)	hot date (5)
+Rolling Stone	HP: 135	palm frond (10)	handful of moss (20)	brown sugar cane (20)	mother's little helper (10)	Tuesday's ruby (5)	hot date (5)
 Rotund Duck	HP: 225	duct tape (0)
 Rudolphus of Crimborg		capacitor relay (8)	carbon nanotube frame (8)	ion grid (8)	Feynman gate (8)	logic synthesizer (8)	high-resistance ultrapolymer plating (4)
 Rushing Bum	HP: 1 Def: 1 Atk: 1	bum cheek (30)	Mad Train wine (30)	moxie weed (15)
