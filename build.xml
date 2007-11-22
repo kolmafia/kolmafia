@@ -15,6 +15,7 @@
 	<property name="tarfile" location="${dist}/${ant.project.name}.tar.gz"/>
 	<property name="main" value="net.sourceforge.kolmafia.KoLmafia"/>
 
+	<property file="build.properties" />
 
 	<!-- ========================================== -->
 	<!--  create directories used by other targets  -->
@@ -84,7 +85,7 @@
 
 	<target name="build" depends="init">
 
-		<javac source="1.4" srcdir="${src}" destdir="${build}" classpath="${lib}/*.jar"
+		<javac source="1.4" srcdir="${src}" destdir="${build}"
 			failonerror="false" debug="on" debuglevel="lines,vars,source" deprecation="on" nowarn="on"/>
 
 		<copy todir="${build}" preservelastmodified="true">
@@ -94,7 +95,9 @@
 		</copy>
 
 		<copy todir="${build}" preservelastmodified="true">
-			<fileset dir="${lib}"/>
+			<fileset dir="${lib}">
+				<exclude name="**/*.java"/>
+			</fileset>
 		</copy>
 
 	</target>

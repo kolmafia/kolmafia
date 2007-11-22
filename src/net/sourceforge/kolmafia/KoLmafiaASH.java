@@ -165,6 +165,7 @@ public class KoLmafiaASH extends StaticEntity
 	private static final ScriptValue ELEMENT_INIT = new ScriptValue( ELEMENT_TYPE, "none", (Object)null );
 
 	// Variables used during parsing
+
 	private static final ScriptFunctionList existingFunctions = getExistingFunctions();
 	private static final ScriptTypeList simpleTypes = getSimpleTypes();
 	private static final ScriptSymbolTable reservedWords = getReservedWords();
@@ -172,9 +173,10 @@ public class KoLmafiaASH extends StaticEntity
 	private static final TreeMap relayScriptMap = new TreeMap();
 	private static final StringBuffer serverReplyBuffer = new StringBuffer();
 	private static final LocalRelayRequest relayRequest = new LocalRelayRequest( false );
-	private static KoLmafiaASH relayScript = null;
 
-	private StringBuffer concatenateBuffer = new StringBuffer();
+	private static KoLmafiaASH relayScript = null;
+	private static KoLmafiaASH currentAnalysis = null;
+	private static StringBuffer concatenateBuffer = new StringBuffer();
 
 	private String fileName;
 	private String fullLine;
@@ -189,8 +191,7 @@ public class KoLmafiaASH extends StaticEntity
 	// Variables used during execution
 
 	private ScriptScope global;
-
-	private int currentState = STATE_NORMAL;
+	private static int currentState = STATE_NORMAL;
 	private static boolean isExecuting = false;
 	private static String lastImportString = "";
 	private String notifyRecipient = null;
@@ -205,7 +206,6 @@ public class KoLmafiaASH extends StaticEntity
 
 	private static final KoLRequest VISITOR = new KoLRequest( "" );
 	private static final LocalRelayRequest RELAYER = new LocalRelayRequest( false );
-
 	public static final KoLmafiaASH NAMESPACE_INTERPRETER = new KoLmafiaASH();
 
 	public KoLmafiaASH()
@@ -736,7 +736,7 @@ public class KoLmafiaASH extends StaticEntity
 		this.commandStream = null;
 
 		if ( this.currentLine != null )
-			throw new AdvancedScriptException( "Script parsing error " + getLineAndFile() );
+			throw new AdvancedScriptException( "Script parsing error " + getCurrentLineAndFile() );
 
 		return true;
 	}
@@ -862,11 +862,13 @@ public class KoLmafiaASH extends StaticEntity
 		AdvancedScriptException error = null;
 
 		ScriptScope result = this.global;
-		KoLmafiaASH script = new KoLmafiaASH( this, scriptFile );
+
+		KoLmafiaASH previousAnalysis = currentAnalysis;
+		KoLmafiaASH.currentAnalysis = new KoLmafiaASH( this, scriptFile );
 
 		try
 		{
-			result = script.parseScope( this.global, null, new ScriptVariableList(), this.global.parentScope, false );
+			result = KoLmafiaASH.currentAnalysis.parseScope( this.global, null, new ScriptVariableList(), this.global.parentScope, false );
 		}
 		catch ( Exception e )
 		{
@@ -875,7 +877,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		try
 		{
-			script.commandStream.close();
+			KoLmafiaASH.currentAnalysis.commandStream.close();
 		}
 		catch ( Exception e )
 		{
@@ -883,11 +885,13 @@ public class KoLmafiaASH extends StaticEntity
 			// got closed anyway.
 		}
 
+		if ( error == null && KoLmafiaASH.currentAnalysis.currentLine != null )
+			error = new AdvancedScriptException( "Script parsing error " + getCurrentLineAndFile() );
+
+		KoLmafiaASH.currentAnalysis = previousAnalysis;
+
 		if ( error != null )
 			throw error;
-
-		if ( script.currentLine != null )
-			throw new AdvancedScriptException( "Script parsing error " + script.getLineAndFile() );
 
 		imports.put( scriptFile, new Long( scriptFile.lastModified() ) );
 		mainMethod = null;
@@ -961,7 +965,7 @@ public class KoLmafiaASH extends StaticEntity
 			}
 
 			//Found a type but no function or variable to tie it to
-			throw new AdvancedScriptException( "Script parse error " + getLineAndFile() );
+			throw new AdvancedScriptException( "Script parse error " + getCurrentLineAndFile() );
 		}
 
 		return result;
@@ -975,7 +979,7 @@ public class KoLmafiaASH extends StaticEntity
 		readToken(); // read record
 
 		if ( currentToken() == null )
-			throw new AdvancedScriptException( "Record name expected " + getLineAndFile() );
+			throw new AdvancedScriptException( "Record name expected " + getCurrentLineAndFile() );
 
 		// Allow anonymous records
 		String recordName = null;
@@ -986,13 +990,13 @@ public class KoLmafiaASH extends StaticEntity
 			recordName = currentToken();
 
 			if ( !parseIdentifier( recordName ) )
-				throw new AdvancedScriptException( "Invalid record name '" + recordName + "' " + getLineAndFile() );
+				throw new AdvancedScriptException( "Invalid record name '" + recordName + "' " + getCurrentLineAndFile() );
 
 			if ( isReservedWord( recordName ) )
-				throw new AdvancedScriptException( "Reserved word '" + recordName + "' cannot be a record name " + getLineAndFile() );
+				throw new AdvancedScriptException( "Reserved word '" + recordName + "' cannot be a record name " + getCurrentLineAndFile() );
 
 			if ( parentScope.findType( recordName ) != null )
-				throw new AdvancedScriptException( "Record name '" + recordName + "' is already defined " + getLineAndFile() );
+				throw new AdvancedScriptException( "Record name '" + recordName + "' is already defined " + getCurrentLineAndFile() );
 
 			readToken(); // read name
 		}
@@ -1011,21 +1015,21 @@ public class KoLmafiaASH extends StaticEntity
 			// Get the field type
 			ScriptType fieldType = parseType( parentScope, true, true );
 			if ( fieldType == null )
-				throw new AdvancedScriptException( "Type name expected " + getLineAndFile() );
+				throw new AdvancedScriptException( "Type name expected " + getCurrentLineAndFile() );
 
 			// Get the field name
 			String fieldName = currentToken();
 			if ( fieldName == null )
-				throw new AdvancedScriptException( "Field name expected " + getLineAndFile() );
+				throw new AdvancedScriptException( "Field name expected " + getCurrentLineAndFile() );
 
 			if ( !parseIdentifier( fieldName ) )
-				throw new AdvancedScriptException( "Invalid field name '" + fieldName + "' " + getLineAndFile() );
+				throw new AdvancedScriptException( "Invalid field name '" + fieldName + "' " + getCurrentLineAndFile() );
 
 			if ( isReservedWord( fieldName ) )
-				throw new AdvancedScriptException( "Reserved word '" + fieldName + "' cannot be used as a field name " + getLineAndFile() );
+				throw new AdvancedScriptException( "Reserved word '" + fieldName + "' cannot be used as a field name " + getCurrentLineAndFile() );
 
 			if ( fieldNames.contains( fieldName ) )
-				throw new AdvancedScriptException( "Field name '" + fieldName + "' is already defined " + getLineAndFile() );
+				throw new AdvancedScriptException( "Field name '" + fieldName + "' is already defined " + getCurrentLineAndFile() );
 
 			readToken(); // read name
 
@@ -1071,7 +1075,7 @@ public class KoLmafiaASH extends StaticEntity
 		String functionName = currentToken();
 
 		if ( isReservedWord( functionName ) )
-			throw new AdvancedScriptException( "Reserved word '" + functionName + "' cannot be used as a function name " + getLineAndFile() );
+			throw new AdvancedScriptException( "Reserved word '" + functionName + "' cannot be used as a function name " + getCurrentLineAndFile() );
 
 		readToken(); //read Function name
 		readToken(); //read (
@@ -1090,7 +1094,7 @@ public class KoLmafiaASH extends StaticEntity
 				parseError( "identifier", currentToken() );
 
 			if ( !paramList.addElement( param ) )
-				throw new AdvancedScriptException( "Variable " + param.getName() + " is already defined " + getLineAndFile() );
+				throw new AdvancedScriptException( "Variable " + param.getName() + " is already defined " + getCurrentLineAndFile() );
 
 			if ( !currentToken().equals( ")" ) )
 			{
@@ -1144,7 +1148,7 @@ public class KoLmafiaASH extends StaticEntity
 			 // returning a boolean. Or something. But without it,
 			 // existing scripts break. Aargh!
 			 && !functionType.equals( TYPE_BOOLEAN ) )
-			throw new AdvancedScriptException( "Missing return value " + getLineAndFile() );
+			throw new AdvancedScriptException( "Missing return value " + getCurrentLineAndFile() );
 
 		return result;
 	}
@@ -1174,18 +1178,18 @@ public class KoLmafiaASH extends StaticEntity
 
 		String variableName = currentToken();
 		if ( isReservedWord( variableName ) )
-			throw new AdvancedScriptException( "Reserved word '" + variableName + "' cannot be a variable name " + getLineAndFile() );
+			throw new AdvancedScriptException( "Reserved word '" + variableName + "' cannot be a variable name " + getCurrentLineAndFile() );
 
 		ScriptVariable result = new ScriptVariable( variableName, t );
 		if ( scope != null && !scope.addVariable( result ) )
-			throw new AdvancedScriptException( "Variable " + result.getName() + " is already defined " + getLineAndFile() );
+			throw new AdvancedScriptException( "Variable " + result.getName() + " is already defined " + getCurrentLineAndFile() );
 
 		readToken(); // If parsing of Identifier succeeded, go to next token.
 		// If we are parsing a parameter declaration, we are done
 		if ( scope == null )
 		{
 			if ( currentToken().equals( "=" ) )
-				throw new AdvancedScriptException( "Cannot initialize parameter " + result.getName() + " " + getLineAndFile() );
+				throw new AdvancedScriptException( "Cannot initialize parameter " + result.getName() + " " + getCurrentLineAndFile() );
 			return result;
 		}
 
@@ -1216,18 +1220,18 @@ public class KoLmafiaASH extends StaticEntity
 
 		ScriptType t = parseType( parentScope, true, true );
 		if ( t == null )
-			throw new AdvancedScriptException( "Missing data type for typedef " + getLineAndFile() );
+			throw new AdvancedScriptException( "Missing data type for typedef " + getCurrentLineAndFile() );
 
 		String typeName = currentToken();
 
 		if ( !parseIdentifier( typeName ) )
-			throw new AdvancedScriptException( "Invalid type name '" + typeName + "' " + getLineAndFile() );
+			throw new AdvancedScriptException( "Invalid type name '" + typeName + "' " + getCurrentLineAndFile() );
 
 		if ( isReservedWord( typeName ) )
-			throw new AdvancedScriptException( "Reserved word '" + typeName + "' cannot be a type name " + getLineAndFile() );
+			throw new AdvancedScriptException( "Reserved word '" + typeName + "' cannot be a type name " + getCurrentLineAndFile() );
 
 		if ( parentScope.findType( typeName ) != null )
-			throw new AdvancedScriptException( "Type name '" + typeName + "' is already defined " + getLineAndFile() );
+			throw new AdvancedScriptException( "Type name '" + typeName + "' is already defined " + getCurrentLineAndFile() );
 
 		readToken(); // read name
 
@@ -1248,7 +1252,7 @@ public class KoLmafiaASH extends StaticEntity
 		if ( currentToken().equalsIgnoreCase( "break" ) )
 		{
 			if ( !whileLoop )
-				throw new AdvancedScriptException( "Encountered 'break' outside of loop " + getLineAndFile() );
+				throw new AdvancedScriptException( "Encountered 'break' outside of loop " + getCurrentLineAndFile() );
 
 			result = new ScriptFlowControl( COMMAND_BREAK );
 			readToken(); //break
@@ -1257,7 +1261,7 @@ public class KoLmafiaASH extends StaticEntity
 		else if ( currentToken().equalsIgnoreCase( "continue" ) )
 		{
 			if ( !whileLoop )
-				throw new AdvancedScriptException( "Encountered 'continue' outside of loop " + getLineAndFile() );
+				throw new AdvancedScriptException( "Encountered 'continue' outside of loop " + getCurrentLineAndFile() );
 
 			result = new ScriptFlowControl( COMMAND_CONTINUE );
 			readToken(); //continue
@@ -1353,7 +1357,7 @@ public class KoLmafiaASH extends StaticEntity
 	{
 		readToken();	// [ or ,
 		if ( currentToken() == null )
-			throw new AdvancedScriptException( "Missing index token " + getLineAndFile() );
+			throw new AdvancedScriptException( "Missing index token " + getCurrentLineAndFile() );
 
 		if ( arrays && readIntegerToken( currentToken() ) )
 		{
@@ -1381,10 +1385,10 @@ public class KoLmafiaASH extends StaticEntity
 
 		ScriptType indexType = scope.findType( currentToken() );
 		if ( indexType == null )
-			throw new AdvancedScriptException( "Invalid type name '" + currentToken() + "' " + getLineAndFile() );
+			throw new AdvancedScriptException( "Invalid type name '" + currentToken() + "' " + getCurrentLineAndFile() );
 
 		if ( !indexType.isPrimitive() )
-			throw new AdvancedScriptException( "Index type '" + currentToken() + "' is not a primitive type " + getLineAndFile() );
+			throw new AdvancedScriptException( "Index type '" + currentToken() + "' is not a primitive type " + getCurrentLineAndFile() );
 
 		readToken();	// type name
 		if ( currentToken() == null )
@@ -1433,12 +1437,12 @@ public class KoLmafiaASH extends StaticEntity
 			if ( expectedType != null && expectedType.equals( TYPE_VOID ) )
 				return new ScriptReturn( null, VOID_TYPE );
 
-			throw new AdvancedScriptException( "Return needs value " + getLineAndFile() );
+			throw new AdvancedScriptException( "Return needs value " + getCurrentLineAndFile() );
 		}
 		else
 		{
 			if ( (expression = parseExpression( parentScope )) == null )
-				throw new AdvancedScriptException( "Expression expected " + getLineAndFile() );
+				throw new AdvancedScriptException( "Expression expected " + getCurrentLineAndFile() );
 
 			return new ScriptReturn( expression, expectedType );
 		}
@@ -1460,7 +1464,7 @@ public class KoLmafiaASH extends StaticEntity
 			parseError( ")", currentToken() );
 
 		if ( expression.getType() != BOOLEAN_TYPE )
-			throw new AdvancedScriptException( "\"if\" requires a boolean conditional expression " + getLineAndFile() );
+			throw new AdvancedScriptException( "\"if\" requires a boolean conditional expression " + getCurrentLineAndFile() );
 
 		readToken(); // )
 
@@ -1498,7 +1502,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( !noElse && currentToken() != null && currentToken().equalsIgnoreCase( "else" ) )
 			{
 				if ( finalElse )
-					throw new AdvancedScriptException( "Else without if " + getLineAndFile() );
+					throw new AdvancedScriptException( "Else without if " + getCurrentLineAndFile() );
 
 				if ( nextToken() != null && nextToken().equalsIgnoreCase( "if" ) )
 				{
@@ -1596,7 +1600,7 @@ public class KoLmafiaASH extends StaticEntity
 			parseError( ")", currentToken() );
 
 		if ( expression.getType() != BOOLEAN_TYPE )
-			throw new AdvancedScriptException( "\"while\" requires a boolean conditional expression " + getLineAndFile() );
+			throw new AdvancedScriptException( "\"while\" requires a boolean conditional expression " + getCurrentLineAndFile() );
 
 		readToken(); // )
 
@@ -1630,7 +1634,7 @@ public class KoLmafiaASH extends StaticEntity
 			parseError( ")", currentToken() );
 
 		if ( expression.getType() != BOOLEAN_TYPE )
-			throw new AdvancedScriptException( "\"repeat\" requires a boolean conditional expression " + getLineAndFile() );
+			throw new AdvancedScriptException( "\"repeat\" requires a boolean conditional expression " + getCurrentLineAndFile() );
 
 		readToken(); // )
 
@@ -1656,10 +1660,10 @@ public class KoLmafiaASH extends StaticEntity
 			String name = currentToken();
 
 			if ( !parseIdentifier( name ) )
-				throw new AdvancedScriptException( "Key variable name expected " + getLineAndFile() );
+				throw new AdvancedScriptException( "Key variable name expected " + getCurrentLineAndFile() );
 
 			if ( parentScope.findVariable( name ) != null )
-				throw new AdvancedScriptException( "Key variable '" + name + "' is already defined " + getLineAndFile() );
+				throw new AdvancedScriptException( "Key variable '" + name + "' is already defined " + getCurrentLineAndFile() );
 
 			names.add( name );
 			readToken();	// name
@@ -1686,7 +1690,7 @@ public class KoLmafiaASH extends StaticEntity
 		ScriptExpression aggregate = parseVariableReference( parentScope );
 
 		if ( aggregate == null || !(aggregate instanceof ScriptVariableReference) || !(aggregate.getType().getBaseType() instanceof ScriptAggregateType) )
-			throw new AdvancedScriptException( "Aggregate reference expected " + getLineAndFile() );
+			throw new AdvancedScriptException( "Aggregate reference expected " + getCurrentLineAndFile() );
 
 		// Define key variables of appropriate type
 		ScriptVariableList varList = new ScriptVariableList();
@@ -1696,7 +1700,7 @@ public class KoLmafiaASH extends StaticEntity
 		for ( int i = 0; i < names.size(); ++i )
 		{
 			if ( !( type instanceof ScriptAggregateType ) )
-				throw new AdvancedScriptException( "Too many key variables specified " + getLineAndFile() );
+				throw new AdvancedScriptException( "Too many key variables specified " + getCurrentLineAndFile() );
 
 			ScriptType itype = ((ScriptAggregateType)type).getIndexType();
 			ScriptVariable keyvar = new ScriptVariable( (String)names.get( i ), itype );
@@ -1728,7 +1732,7 @@ public class KoLmafiaASH extends StaticEntity
 			return null;
 
 		if ( parentScope.findVariable( name ) != null )
-			throw new AdvancedScriptException( "Index variable '" + name + "' is already defined " + getLineAndFile() );
+			throw new AdvancedScriptException( "Index variable '" + name + "' is already defined " + getCurrentLineAndFile() );
 
 		readToken();	// for
 		readToken();	// name
@@ -1875,7 +1879,7 @@ public class KoLmafiaASH extends StaticEntity
 			return lhs;
 
 		if ( lhs == null || !(lhs instanceof ScriptVariableReference) )
-			throw new AdvancedScriptException( "Variable reference expected " + getLineAndFile() );
+			throw new AdvancedScriptException( "Variable reference expected " + getCurrentLineAndFile() );
 
 		if ( !currentToken().equals( "=" ) )
 			return null;
@@ -1885,7 +1889,7 @@ public class KoLmafiaASH extends StaticEntity
 		ScriptExpression rhs = parseExpression( scope );
 
 		if ( rhs == null )
-			throw new AdvancedScriptException( "Internal error " + getLineAndFile() );
+			throw new AdvancedScriptException( "Internal error " + getCurrentLineAndFile() );
 
 		return new ScriptAssignment( (ScriptVariableReference) lhs, rhs );
 	}
@@ -1898,7 +1902,7 @@ public class KoLmafiaASH extends StaticEntity
 		ScriptExpression lhs = parseExpression( scope );
 
 		if ( lhs == null )
-			throw new AdvancedScriptException( "Bad 'remove' statement " + getLineAndFile() );
+			throw new AdvancedScriptException( "Bad 'remove' statement " + getCurrentLineAndFile() );
 
 		return lhs;
 	}
@@ -1922,11 +1926,11 @@ public class KoLmafiaASH extends StaticEntity
 			String operator = currentToken();
 			readToken(); // !
 			if ( (lhs = parseValue( scope )) == null )
-				throw new AdvancedScriptException( "Value expected " + getLineAndFile() );
+				throw new AdvancedScriptException( "Value expected " + getCurrentLineAndFile() );
 
 			lhs = new ScriptExpression( lhs, null, new ScriptOperator( operator ) );
 						if ( lhs.getType() != BOOLEAN_TYPE )
-								throw new AdvancedScriptException( "\"!\" operator requires a boolean value " + getLineAndFile() );
+								throw new AdvancedScriptException( "\"!\" operator requires a boolean value " + getCurrentLineAndFile() );
 		}
 		else if ( currentToken().equals( "-" ) )
 		{
@@ -1938,7 +1942,7 @@ public class KoLmafiaASH extends StaticEntity
 			String operator = currentToken();
 			readToken(); // !
 			if ( (lhs = parseValue( scope )) == null )
-				throw new AdvancedScriptException( "Value expected " + getLineAndFile() );
+				throw new AdvancedScriptException( "Value expected " + getCurrentLineAndFile() );
 
 			lhs = new ScriptExpression( lhs, null, new ScriptOperator( operator ) );
 		}
@@ -1949,7 +1953,7 @@ public class KoLmafiaASH extends StaticEntity
 
 			lhs = parseVariableReference( scope );
 			if ( lhs == null || !(lhs instanceof ScriptCompositeReference) )
-				throw new AdvancedScriptException( "Aggregate reference expected " + getLineAndFile() );
+				throw new AdvancedScriptException( "Aggregate reference expected " + getCurrentLineAndFile() );
 
 			lhs = new ScriptExpression( lhs, null, new ScriptOperator( operator ) );
 		}
@@ -1972,12 +1976,12 @@ public class KoLmafiaASH extends StaticEntity
 			readToken(); //operator
 
 			if ( (rhs = parseExpression( scope, oper )) == null )
-				throw new AdvancedScriptException( "Value expected " + getLineAndFile() );
+				throw new AdvancedScriptException( "Value expected " + getCurrentLineAndFile() );
 
 			if ( !validCoercion( lhs.getType(), rhs.getType(), oper.toString() ) )
 			{
 				throw new AdvancedScriptException( "Cannot apply operator " + oper + " to " +
-					lhs + " (" + lhs.getType() + ") and " + rhs + " (" + rhs.getType() + ") " + getLineAndFile() );
+					lhs + " (" + lhs.getType() + ") and " + rhs + " (" + rhs.getType() + ") " + getCurrentLineAndFile() );
 			}
 
 			lhs = new ScriptExpression( lhs, rhs, oper );
@@ -2129,7 +2133,7 @@ public class KoLmafiaASH extends StaticEntity
 		for ( int i = 1; ; ++i )
 		{
 			if ( i == currentLine.length() )
-				throw new AdvancedScriptException( "No closing \" found " + getLineAndFile() );
+				throw new AdvancedScriptException( "No closing \" found " + getCurrentLineAndFile() );
 
 			if ( currentLine.charAt( i ) == '\\' )
 			{
@@ -2195,7 +2199,7 @@ public class KoLmafiaASH extends StaticEntity
 		String name = currentToken();
 		ScriptType type = parseType( scope, false, false );
 		if ( type == null || !type.isPrimitive() )
-			throw new AdvancedScriptException( "Unknown type " + name + " " + getLineAndFile() );
+			throw new AdvancedScriptException( "Unknown type " + name + " " + getCurrentLineAndFile() );
 
 		if ( !currentToken().equals( "[" ) )
 			parseError( "[", currentToken() );
@@ -2206,7 +2210,7 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			if ( i == currentLine.length() )
 			{
-				throw new AdvancedScriptException( "No closing ] found " + getLineAndFile() );
+				throw new AdvancedScriptException( "No closing ] found " + getCurrentLineAndFile() );
 			}
 			else if ( currentLine.charAt( i ) == '\\' )
 			{
@@ -2252,7 +2256,7 @@ public class KoLmafiaASH extends StaticEntity
 		ScriptVariable var = scope.findVariable( name, true );
 
 		if ( var == null )
-			throw new AdvancedScriptException( "Unknown variable '" + name + "' " + getLineAndFile() );
+			throw new AdvancedScriptException( "Unknown variable '" + name + "' " + getCurrentLineAndFile() );
 
 		readToken(); // read name
 
@@ -2283,20 +2287,20 @@ public class KoLmafiaASH extends StaticEntity
 				if ( !(type instanceof ScriptAggregateType) )
 				{
 					if ( indices.isEmpty() )
-						throw new AdvancedScriptException( "Variable '" + var.getName() + "' cannot be indexed " + getLineAndFile() );
+						throw new AdvancedScriptException( "Variable '" + var.getName() + "' cannot be indexed " + getCurrentLineAndFile() );
 					else
-						throw new AdvancedScriptException( "Too many keys for '" + var.getName() + "' " + getLineAndFile() );
+						throw new AdvancedScriptException( "Too many keys for '" + var.getName() + "' " + getCurrentLineAndFile() );
 				}
 
 				ScriptAggregateType atype = (ScriptAggregateType) type;
 				index = parseExpression( scope );
 				if ( index == null )
-					throw new AdvancedScriptException( "Index for '" + var.getName() + "' expected " + getLineAndFile() );
+					throw new AdvancedScriptException( "Index for '" + var.getName() + "' expected " + getCurrentLineAndFile() );
 
 				if ( !index.getType().equals( atype.getIndexType() ) )
 				{
 					throw new AdvancedScriptException( "Index for '" + var.getName() + "' has wrong data type " +
-						"(expected " + atype.getIndexType() + ", got " + index.getType() + ") " + getLineAndFile() );
+						"(expected " + atype.getIndexType() + ", got " + index.getType() + ") " + getCurrentLineAndFile() );
 				}
 
 				type = atype.getDataType();
@@ -2311,17 +2315,17 @@ public class KoLmafiaASH extends StaticEntity
 					return parseCall( scope, indices.isEmpty() ? new ScriptVariableReference( var ) : new ScriptCompositeReference( var, indices ) );
 
 				if ( !(type instanceof ScriptRecordType) )
-					throw new AdvancedScriptException( "Record expected " + getLineAndFile() );
+					throw new AdvancedScriptException( "Record expected " + getCurrentLineAndFile() );
 
 				ScriptRecordType rtype = (ScriptRecordType)type;
 
 				String field = currentToken();
 				if ( field == null || !parseIdentifier( field ) )
-					throw new AdvancedScriptException( "Field name expected " + getLineAndFile() );
+					throw new AdvancedScriptException( "Field name expected " + getCurrentLineAndFile() );
 
 				index = rtype.getFieldIndex( field );
 				if ( index == null )
-					throw new AdvancedScriptException( "Invalid field name '" + field + "' " + getLineAndFile() );
+					throw new AdvancedScriptException( "Invalid field name '" + field + "' " + getCurrentLineAndFile() );
 				readToken(); // read name
 				type = rtype.getDataType( index );
 			}
@@ -2358,7 +2362,7 @@ public class KoLmafiaASH extends StaticEntity
 		int endIndex = currentLine.indexOf( ">" );
 
 		if ( startIndex != -1 && endIndex == -1 )
-			throw new AdvancedScriptException( "No closing > found " + getLineAndFile() );
+			throw new AdvancedScriptException( "No closing > found " + getCurrentLineAndFile() );
 
 		if ( startIndex == -1 )
 		{
@@ -2366,7 +2370,7 @@ public class KoLmafiaASH extends StaticEntity
 			endIndex = currentLine.indexOf( "\"", startIndex + 1 );
 
 			if ( startIndex != -1 && endIndex == -1 )
-				throw new AdvancedScriptException( "No closing \" found " + getLineAndFile() );
+				throw new AdvancedScriptException( "No closing \" found " + getCurrentLineAndFile() );
 		}
 
 		if ( startIndex == -1 )
@@ -2375,7 +2379,7 @@ public class KoLmafiaASH extends StaticEntity
 			endIndex = currentLine.indexOf( "\'", startIndex + 1 );
 
 			if ( startIndex != -1 && endIndex == -1 )
-				throw new AdvancedScriptException( "No closing \' found " + getLineAndFile() );
+				throw new AdvancedScriptException( "No closing \' found " + getCurrentLineAndFile() );
 		}
 
 		if ( endIndex == -1 )
@@ -2986,7 +2990,7 @@ public class KoLmafiaASH extends StaticEntity
 
 	// **************** Execution *****************
 
-	private void captureValue( ScriptValue value )
+	private static void captureValue( ScriptValue value )
 	{
 		// We've just executed a command in a context that captures the
 		// return value.
@@ -3178,10 +3182,18 @@ public class KoLmafiaASH extends StaticEntity
 	}
 
 	public void parseError( String expected, String actual )
-	{	throw new AdvancedScriptException( "Expected " + expected + ", found " + actual + " " + getLineAndFile() );
+	{	throw new AdvancedScriptException( "Expected " + expected + ", found " + actual + " " + getCurrentLineAndFile() );
 	}
 
-	public String getLineAndFile()
+	public static String getCurrentLineAndFile()
+	{
+		if ( currentAnalysis == null )
+			return "";
+
+		return currentAnalysis.getLineAndFile();
+	}
+
+	private String getLineAndFile()
 	{
 		if ( fileName == null )
 			return "(" + KoLSettings.getUserProperty( "commandLineNamespace" ) + ")";
@@ -4067,7 +4079,7 @@ public class KoLmafiaASH extends StaticEntity
 	{	return reservedWords.findSymbol( name ) != null;
 	}
 
-	private class ScriptScope
+	private static class ScriptScope
 	{
 		ScriptFunctionList	functions;
 		ScriptVariableList	variables;
@@ -4232,7 +4244,7 @@ public class KoLmafiaASH extends StaticEntity
 			// exception.
 
 			if ( avoidExactMatch )
-				throw new AdvancedScriptException( "Function '" + f.getName() + "' already defined " + getLineAndFile() );
+				throw new AdvancedScriptException( "Function '" + f.getName() + "' defined multiple times" );
 
 			return true;
 		}
@@ -4332,13 +4344,13 @@ public class KoLmafiaASH extends StaticEntity
 						if ( currentParam.getType() != currentValue.getType() )
 						{
 							errorMessage = "Illegal parameter #" + paramIndex + " for function " + name +
-								", got " + currentValue.getType() + ", need " + currentParam.getType() + " " + getLineAndFile();
+								", got " + currentValue.getType() + ", need " + currentParam.getType();
 						}
 					}
 					else if ( !validCoercion( currentParam.getType(), currentValue.getType(), "parameter" ) )
 					{
 						errorMessage = "Illegal parameter #" + paramIndex + " for function " + name +
-							", got " + currentValue.getType() + ", need " + currentParam.getType() + " " + getLineAndFile();
+							", got " + currentValue.getType() + ", need " + currentParam.getType();
 					}
 
 					++paramIndex;
@@ -4347,7 +4359,7 @@ public class KoLmafiaASH extends StaticEntity
 				if ( errorMessage == null && (refIterator.hasNext() || valIterator.hasNext()) )
 				{
 					errorMessage = "Illegal amount of parameters for function " + name +
-						", got " + params.size() + ", expected " + functions[i].getVariableReferences().size() + " " + getLineAndFile();
+						", got " + params.size() + ", expected " + functions[i].getVariableReferences().size();
 				}
 
 				if ( errorMessage == null )
@@ -4358,7 +4370,7 @@ public class KoLmafiaASH extends StaticEntity
 				return parentScope.findFunction( name, params );
 
 			if ( !isExactMatch && source == existingFunctions && errorMessage != null )
-				throw new AdvancedScriptException( errorMessage );
+				throw new AdvancedScriptException( errorMessage + " " + getCurrentLineAndFile() );
 
 			return null;
 		}
@@ -4452,13 +4464,6 @@ public class KoLmafiaASH extends StaticEntity
 
 			traceUnindent();
 			return result;
-		}
-	}
-
-	private static class ScriptScopeList extends ScriptList
-	{
-		public boolean addElement( ScriptScope n )
-		{	return super.addElement( n );
 		}
 	}
 
@@ -4590,7 +4595,7 @@ public class KoLmafiaASH extends StaticEntity
 		public abstract ScriptValue execute();
 	}
 
-	private class ScriptUserDefinedFunction extends ScriptFunction
+	private static class ScriptUserDefinedFunction extends ScriptFunction
 	{
 		private ScriptScope scope;
 		private Stack callStack;
@@ -6771,7 +6776,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private class ScriptCompositeReference extends ScriptVariableReference
+	private static class ScriptCompositeReference extends ScriptVariableReference
 	{
 		private ScriptExpressionList indices;
 
@@ -6963,7 +6968,7 @@ public class KoLmafiaASH extends StaticEntity
 			else if ( command.equalsIgnoreCase( "exit" ) )
 				this.command = COMMAND_EXIT;
 			else
-				throw new AdvancedScriptException( "Invalid command '" + command + "' " + getLineAndFile() );
+				throw new AdvancedScriptException( "Invalid command '" + command + "' " + getCurrentLineAndFile() );
 		}
 
 		public ScriptFlowControl( int command )
@@ -7014,7 +7019,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private class ScriptReturn extends ScriptCommand
+	private static class ScriptReturn extends ScriptCommand
 	{
 		private ScriptExpression returnValue;
 		private ScriptType expectedType;
@@ -7026,7 +7031,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( expectedType != null && returnValue != null )
 			{
 				if ( !validCoercion( expectedType, returnValue.getType(), "return" ) )
-					throw new AdvancedScriptException( "Cannot apply " + returnValue.getType() + " to " + expectedType + " " + getLineAndFile() );
+					throw new AdvancedScriptException( "Cannot apply " + returnValue.getType() + " to " + expectedType + " " + getCurrentLineAndFile() );
 			}
 
 			this.expectedType = expectedType;
@@ -7102,7 +7107,7 @@ public class KoLmafiaASH extends StaticEntity
 			this.scope = scope;
 			this.condition = condition;
 			if ( !condition.getType().equals( TYPE_BOOLEAN ) )
-				throw new AdvancedScriptException( "Cannot apply " + condition.getType() + " to boolean " + getLineAndFile() );
+				throw new AdvancedScriptException( "Cannot apply " + condition.getType() + " to boolean " + getCurrentLineAndFile() );
 		}
 
 		public ScriptScope getScope()
@@ -7401,7 +7406,7 @@ public class KoLmafiaASH extends StaticEntity
 			super( scope );
 			this.condition = condition;
 			if ( !condition.getType().equals( TYPE_BOOLEAN ) )
-				throw new AdvancedScriptException( "Cannot apply " + condition.getType() + " to boolean " + getLineAndFile() );
+				throw new AdvancedScriptException( "Cannot apply " + condition.getType() + " to boolean " + getCurrentLineAndFile() );
 
 		}
 
@@ -7472,7 +7477,7 @@ public class KoLmafiaASH extends StaticEntity
 			super( scope );
 			this.condition = condition;
 			if ( !condition.getType().equals( TYPE_BOOLEAN ) )
-				throw new AdvancedScriptException( "Cannot apply " + condition.getType() + " to boolean " + getLineAndFile() );
+				throw new AdvancedScriptException( "Cannot apply " + condition.getType() + " to boolean " + getCurrentLineAndFile() );
 
 		}
 
@@ -7710,7 +7715,7 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			target = findFunction( functionName, scope, params );
 			if ( target == null )
-				throw new AdvancedScriptException( "Undefined reference '" + functionName + "' " + getLineAndFile() );
+				throw new AdvancedScriptException( "Undefined reference '" + functionName + "' " + getCurrentLineAndFile() );
 			this.params = params;
 		}
 
@@ -7829,7 +7834,7 @@ public class KoLmafiaASH extends StaticEntity
 			this.rhs = rhs;
 
 			if ( rhs != null && !validCoercion( lhs.getType(), rhs.getType(), "assign" ) )
-				throw new AdvancedScriptException( "Cannot store " + rhs.getType() + " in " + lhs + " of type " + lhs.getType() + " " + getLineAndFile() );
+				throw new AdvancedScriptException( "Cannot store " + rhs.getType() + " in " + lhs + " of type " + lhs.getType() + " " + getCurrentLineAndFile() );
 		}
 
 		public ScriptVariableReference getLeftHandSide()
@@ -9008,7 +9013,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private class ScriptOperator
+	private static class ScriptOperator
 	{
 		String operator;
 

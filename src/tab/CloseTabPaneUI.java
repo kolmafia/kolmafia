@@ -107,20 +107,20 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 
 	// UI creation
 
-	private static final int INACTIVE = 0;
-	private static final int OVER = 1;
-	private static final int PRESSED = 2;
+	private final int INACTIVE = 0;
+	private final int OVER = 1;
+	private final int PRESSED = 2;
 
 	protected static final int BUTTONSIZE = 16;
 	protected static final int WIDTHDELTA = 8;
 
 	private static BufferedImage closeRedImgB;
 	private static BufferedImage closeRedImgI;
-	private JButton closeRedB;
+	private static JButton closeRedB;
 
 	private static BufferedImage closeGrayImgB;
 	private static BufferedImage closeGrayImgI;
-	private JButton closeGrayB;
+	private static JButton closeGrayB;
 
 	static
 	{
@@ -703,7 +703,7 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 	 * from (tab.y + tab.height) and adding yCropLen[i] to (tab.x).
 	 */
 
-	private static final int CROP_SEGMENT = 12;
+	private final int CROP_SEGMENT = 12;
 
 	private void paintCroppedTabEdge(Graphics g, int tabPlacement,
 			int tabIndex, boolean isSelected, int x, int y) {
@@ -845,7 +845,7 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 		return false;
 	}
 
-	private static class RightAction extends AbstractAction {
+	private class RightAction extends AbstractAction {
 		public void actionPerformed(ActionEvent e) {
 			JTabbedPane pane = (JTabbedPane) e.getSource();
 			CloseTabPaneUI ui = (CloseTabPaneUI) pane.getUI();
@@ -853,7 +853,7 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 		}
 	};
 
-	private static class LeftAction extends AbstractAction {
+	private class LeftAction extends AbstractAction {
 		public void actionPerformed(ActionEvent e) {
 			JTabbedPane pane = (JTabbedPane) e.getSource();
 			CloseTabPaneUI ui = (CloseTabPaneUI) pane.getUI();
@@ -861,7 +861,7 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 		}
 	};
 
-	private static class UpAction extends AbstractAction {
+	private class UpAction extends AbstractAction {
 		public void actionPerformed(ActionEvent e) {
 			JTabbedPane pane = (JTabbedPane) e.getSource();
 			CloseTabPaneUI ui = (CloseTabPaneUI) pane.getUI();
@@ -869,7 +869,7 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 		}
 	};
 
-	private static class DownAction extends AbstractAction {
+	private class DownAction extends AbstractAction {
 		public void actionPerformed(ActionEvent e) {
 			JTabbedPane pane = (JTabbedPane) e.getSource();
 			CloseTabPaneUI ui = (CloseTabPaneUI) pane.getUI();
@@ -877,7 +877,7 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 		}
 	};
 
-	private static class NextAction extends AbstractAction {
+	private class NextAction extends AbstractAction {
 		public void actionPerformed(ActionEvent e) {
 			JTabbedPane pane = (JTabbedPane) e.getSource();
 			CloseTabPaneUI ui = (CloseTabPaneUI) pane.getUI();
@@ -885,7 +885,7 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 		}
 	};
 
-	private static class PreviousAction extends AbstractAction {
+	private class PreviousAction extends AbstractAction {
 		public void actionPerformed(ActionEvent e) {
 			JTabbedPane pane = (JTabbedPane) e.getSource();
 			CloseTabPaneUI ui = (CloseTabPaneUI) pane.getUI();
@@ -893,7 +893,7 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 		}
 	};
 
-	private static class PageUpAction extends AbstractAction {
+	private class PageUpAction extends AbstractAction {
 		public void actionPerformed(ActionEvent e) {
 			JTabbedPane pane = (JTabbedPane) e.getSource();
 			CloseTabPaneUI ui = (CloseTabPaneUI) pane.getUI();
@@ -906,7 +906,7 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 		}
 	};
 
-	private static class PageDownAction extends AbstractAction {
+	private class PageDownAction extends AbstractAction {
 		public void actionPerformed(ActionEvent e) {
 			JTabbedPane pane = (JTabbedPane) e.getSource();
 			CloseTabPaneUI ui = (CloseTabPaneUI) pane.getUI();
@@ -919,14 +919,14 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 		}
 	};
 
-	private static class RequestFocusAction extends AbstractAction {
+	private class RequestFocusAction extends AbstractAction {
 		public void actionPerformed(ActionEvent e) {
 			JTabbedPane pane = (JTabbedPane) e.getSource();
 			pane.requestFocus();
 		}
 	};
 
-	private static class RequestFocusForVisibleAction extends AbstractAction {
+	private class RequestFocusForVisibleAction extends AbstractAction {
 		public void actionPerformed(ActionEvent e) {
 			JTabbedPane pane = (JTabbedPane) e.getSource();
 			CloseTabPaneUI ui = (CloseTabPaneUI) pane.getUI();
@@ -939,7 +939,7 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 	 * command. The tab selected is based on the first tab that has a mnemonic
 	 * matching the first character of the action command.
 	 */
-	private static class SetSelectedIndexAction extends AbstractAction {
+	private class SetSelectedIndexAction extends AbstractAction {
 		public void actionPerformed(ActionEvent e) {
 			JTabbedPane pane = (JTabbedPane) e.getSource();
 
@@ -962,7 +962,7 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 		}
 	};
 
-	private static class ScrollTabsForwardAction extends AbstractAction {
+	private class ScrollTabsForwardAction extends AbstractAction {
 		public void actionPerformed(ActionEvent e) {
 			JTabbedPane pane = null;
 			Object src = e.getSource();
@@ -980,7 +980,7 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 		}
 	}
 
-	private static class ScrollTabsBackwardAction extends AbstractAction {
+	private class ScrollTabsBackwardAction extends AbstractAction {
 		public void actionPerformed(ActionEvent e) {
 			JTabbedPane pane = null;
 			Object src = e.getSource();
