@@ -247,6 +247,7 @@ public class StatusEffectDatabase extends KoLDatabase
 	{
 		File output = new File( DATA_DIRECTORY, "statuseffects.txt" );
 		LogStream writer = LogStream.openStream( output, true );
+		writer.println( STATUSEFFECTS_VERSION );
 
 		int lastInteger = 1;
 		String defaultAction;
