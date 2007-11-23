@@ -1028,6 +1028,7 @@ public class TradeableItemDatabase extends KoLDatabase
 	{
 		File output = new File( DATA_DIRECTORY, "tradeitems.txt" );
 		LogStream writer = LogStream.openStream( output, true );
+		writer.println( TRADEITEMS_VERSION );
 
 		int lastInteger = 1;
 		Iterator it = nameById.keySet().iterator();
@@ -1057,6 +1058,7 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		output = new File( DATA_DIRECTORY, "itemdescs.txt" );
 		writer = LogStream.openStream( output, true );
+		writer.println( ITEMDESCS_VERSION );
 
 		for ( int i = 0; i < descriptionById.size(); ++i )
 		{
