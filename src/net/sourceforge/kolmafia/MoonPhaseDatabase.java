@@ -723,6 +723,7 @@ public class MoonPhaseDatabase extends StaticEntity
 
 	private static String cachedYear = "";
 	private static String easter = "";
+	private static String thanksgiving = "";
 
 	public static final String getRealLifeHoliday( String stringDate )
 	{
@@ -755,6 +756,32 @@ public class MoonPhaseDatabase extends StaticEntity
 			holidayFinder.set( Calendar.DAY_OF_MONTH, d );
 
 			easter = DAILY_FORMAT.format( holidayFinder.getTime() );
+
+			holidayFinder.set( Calendar.MONTH, Calendar.NOVEMBER );
+			switch ( holidayFinder.get( Calendar.DAY_OF_WEEK ) )
+			{
+			case Calendar.FRIDAY:
+				thanksgiving = "1128";
+				break;
+			case Calendar.SATURDAY:
+				thanksgiving = "1127";
+				break;
+			case Calendar.SUNDAY:
+				thanksgiving = "1126";
+				break;
+			case Calendar.MONDAY:
+				thanksgiving = "1125";
+				break;
+			case Calendar.TUESDAY:
+				thanksgiving = "1124";
+				break;
+			case Calendar.WEDNESDAY:
+				thanksgiving = "1123";
+				break;
+			case Calendar.THURSDAY:
+				thanksgiving = "1122";
+				break;
+			}
 		}
 
 		// Real-life holiday list borrowed from JRSiebz's
@@ -769,6 +796,9 @@ public class MoonPhaseDatabase extends StaticEntity
 
 		if ( stringDate.equals( easter ) )
 			return "Oyster Egg Day";
+
+		if ( stringDate.endsWith( thanksgiving ) )
+			return "Feast of Boris";
 
 		if ( stringDate.endsWith( "1031" ) )
 			return "Halloween";
