@@ -2951,3 +2951,22 @@
 2950
 2951
 2952	blue glowstick	8	display	0
+2953	charrrm bracelet	0	all	30
+2954
+2955	yam candy	1	all	50
+2956
+2957
+2958	tube of cranberry Go-Goo	1	all	40
+2959
+2960	single-serving herbal stuffing	1	all	30
+2961	packet of tofurkey gravy	1	all	20
+2962	tofurkey nugget	1	all	50
+2963
+2964
+2965
+2966
+2967
+2968
+2969
+2970
+

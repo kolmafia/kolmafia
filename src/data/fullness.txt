@@ -84,7 +84,7 @@ bowl of unidentifiable goo	5	1	9-16	9-10	9-10	9-10
 brain-meltingly-hot chicken wings	1	10	2-4	15-30	15-30	0
 brains casserole	5	1	6-13	0	8-10	0
 brown sugar cane	2	7	6-8	1-5	1-5	5-20
-bunch of square grapes	2	7	6-8	1-5	5-20	1-5
+<bunch of square grapes	2	7	6-8	1-5	5-20	1-5
 cactus fruit	2	7	6-8	5-20	1-5	1-5
 can-shaped gelatinous cranberry sauce	3	6	9-14	0	0	71-74
 candied yams	3	5	7-14	0	72-75	0
@@ -196,6 +196,7 @@ olive	1	1	1	0	0	0
 olive lo mein	3	6	11-16	10-14	0	10-14
 olive stir-fry	1	3	1-5	3-5	0	2-4
 orange	1	1	1	0	0	0
+packet of tofurkey gravy	2	1	5-8	31-34	0	0
 painful penne pasta	3	3	5-13	17-20	0	0
 papaya	1	1	1-2	0	0	0
 papaya taco	1	1	1-3	8-12	0	8-12
@@ -230,6 +231,7 @@ sausage pizza	3	2	3-10	15-18	0	0
 sausage wonton	3	12	12-17	50-80	20-30	20-30
 savoy truffle	2	9	6-7	15-20	15-20	15-20
 shoots and leaves	4	1	6-10	7-8	7-8	7-8
+single-serving herbal stuffing	4	1	12-13	0	0	32-35
 skewered cat appendix	2	1	2-5	7-17	0	0
 skull-shaped Crimboween cookie	2	7	6-12	0	0	0
 sleazy hi mein	5	7	22-28	25-28	25-29	71-75
@@ -269,9 +271,11 @@ tofu taco	1	1	1-3	0	4-20	0
 tofu wonton	3	12	11-18	20-30	50-80	20-30
 tofurkey gravy	2	5	3-10	72-75	0	0
 tofurkey leg	3	5	7-14	70-74	0	0
+tofurkey nugget	3	1	7-11	30-33	0	0
 tomato	1	1	1	0	0	0
 tombstone-shaped Crimboween cookie	2	7	6-11	0	0	0
 tree-shaped Crimbo cookie	2	7	6-11	0	0	0
+tube of cranberry Go-Goo	3	1	8-14	0	0	31-34
 twigs and gravel	3	1	3-6	5-6	5-6	5-6
 uncooked chorizo	1	1	1-2	-5	0	0
 unidentified jerky	2	9	4-8	10-15	10-15	10-15
@@ -283,3 +287,4 @@ white chocolate and tomato pizza	3	2	3-10	0	0	0
 white chocolate chip cookies	2	1	2-5	0	11-13	0
 white chocolate chips	1	1	1-2	0	0	0
 wreath-shaped Crimbo cookie	2	7	6-11	0	0	0
+yam candy	3	1	7-14	0	30-35	0
