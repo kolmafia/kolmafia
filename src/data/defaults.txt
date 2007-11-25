@@ -7,6 +7,7 @@ global	allowNegativeTally	true
 global	allowNonMoodBurning	true
 global	alwaysGetBreakfast	false
 global	autoLogin
+global	autoHighlightOnFocus	true
 global	autoPlantHardcore	false
 global	autoPlantSoftcore	false
 global	autoSatisfyWithMall	true
@@ -160,6 +161,7 @@ user	demonName4
 user	demonName5
 user	expressCardUsed	false
 user	grimoireSummons	0
+user	guyMadeOfBeesCount	0
 user	hpAutoRecovery	-0.1
 user	hpAutoRecoveryItems	cannelloni cocoon;scroll of drastic healing;tongue of the walrus;lasagna bandages;doc galaktik's ailment ointment
 user	hpAutoRecoveryTarget	1.0

@@ -396,6 +396,16 @@ public class KoLSettings extends Properties implements KoLConstants
 	{	return StaticEntity.parseFloat( getUserProperty( name ) );
 	}
 
+	public static final int incrementIntegerProperty( String name, int increment, int max )
+	{
+		int current = StaticEntity.parseInt( getUserProperty( name ) );
+		current += increment;
+		if ( max > 0)
+			current %= max;
+		setUserProperty( name, String.valueOf(current) );
+		return current;
+	}
+
 	public static final boolean isGlobalProperty( String name )
 	{	return GLOBAL_MAP.containsKey( name ) || name.startsWith( "saveState" ) || name.startsWith( "displayName" ) || name.startsWith( "getBreakfast" );
 	}
