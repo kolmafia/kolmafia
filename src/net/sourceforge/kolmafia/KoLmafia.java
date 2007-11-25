@@ -639,8 +639,14 @@ public abstract class KoLmafia implements KoLConstants
 		KoLSettings.setUserProperty( "currentBountyItem", "0" );
 		KoLSettings.setUserProperty( "currentHippyStore", "none" );
 		KoLSettings.setUserProperty( "currentWheelPosition", "muscle" );
+		KoLSettings.setUserProperty( "fratboysDefeated", "0" );
+		KoLSettings.setUserProperty( "fratboyDelta", "1" );
+		KoLSettings.setUserProperty( "fratboyQuestsCompleted", "0" );
 		KoLSettings.setUserProperty( "guyMadeOfBeesCount", "0" );
 		KoLSettings.setUserProperty( "guyMadeOfBeesCount", "false" );
+		KoLSettings.setUserProperty( "hippiesDefeated", "0" );
+		KoLSettings.setUserProperty( "hippyDelta", "1" );
+		KoLSettings.setUserProperty( "hippyQuestsCompleted", "0" );
 		KoLSettings.setUserProperty( "trapperOre", "chrome" );
 	}
 

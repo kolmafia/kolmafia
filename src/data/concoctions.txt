@@ -566,18 +566,14 @@ grass blade	4	fake plastic grass	sword hilt
 grass hat	4	fake plastic grass	helmet recipe
 grass skirt	4	fake plastic grass	skirt / kilt kit
 
-# The dictionary you get from the an abridged dictionary (item 536) is
-# not a smithing ingredient. The dictionary the Baron rewards you with
-# (item 1316) is.
-
 fez of etymology	4	basic meat fez	facsimile dictionary
 
 # Accessories made of hides of various sorts.
 
-black belt	4	black snake skin	enormous belt buckle
+black belt	14	black snake skin	enormous belt buckle
 clownskin belt	4	clown skin	big red clown nose
 ratskin belt	14	leathery rat skin	enormous belt buckle
-white belt	4	white snake skin	enormous belt buckle
+# white belt	4	white snake skin	enormous belt buckle
 
 # Hats made of hides of various sorts.
 
