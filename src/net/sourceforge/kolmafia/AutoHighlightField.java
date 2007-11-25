@@ -45,16 +45,16 @@ public class AutoHighlightField extends JTextField implements FocusListener
 		this.addFocusListener( this );
 	}
 
-	public void setText( String text )
-	{
-		super.setText( text );
-		this.selectAll();
-	}
-
 	public AutoHighlightField( String text )
 	{
 		super( text );
 		this.addFocusListener( this );
+	}
+
+	public void setText( String text )
+	{
+		super.setText( text );
+		this.selectAll();
 	}
 
 	public void focusGained( FocusEvent e )
@@ -63,5 +63,11 @@ public class AutoHighlightField extends JTextField implements FocusListener
 
 	public void focusLost( FocusEvent e )
 	{
+	}
+
+	public void selectAll()
+	{
+		if ( KoLSettings.getBooleanProperty( "autoHighlightOnFocus" ) )
+			super.selectAll();
 	}
 }
