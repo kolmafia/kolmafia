@@ -271,7 +271,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	}
 
 	private static final boolean canSwitchToItem( AdventureResult item )
-	{	return !KoLCharacter.hasEquipped( item ) && EquipmentDatabase.canEquip( item.getName() ) && KoLCharacter.hasItem( item );
+	{	return !KoLCharacter.hasEquipped( item ) && EquipmentDatabase.canEquip( item.getName() ) && KoLCharacter.hasItem( item, false );
 	}
 
 	public static final void optimizeEquipment( int skillId )
@@ -483,7 +483,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 							int maxPossible = (int) Math.ceil(
 								((float)KoLCharacter.getMaximumHP() - (float)KoLCharacter.getCurrentHP()) /
 									(float)HPRestoreItemList.CONFIGURES[i].getHealthRestored() );
-							
+
 							castsRemaining = Math.min( castsRemaining, maxPossible );
 							currentCast = Math.min( currentCast, castsRemaining );
 							break;
@@ -554,7 +554,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 		for ( int i = 0; i < options.length; ++i )
 		{
-			if ( !KoLCharacter.hasItem( options[i], true ) )
+			if ( !KoLCharacter.hasItem( options[i], false ) )
 				continue;
 
 			if ( KoLCharacter.hasEquipped( options[i] ) )
