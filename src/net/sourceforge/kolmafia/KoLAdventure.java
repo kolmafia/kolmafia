@@ -739,6 +739,14 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 	{	return lastVisitedLocation;
 	}
 
+	public static final int lastAdventureId()
+	{
+		KoLAdventure location = lastVisitedLocation;
+		if ( location == null )
+			return 0;
+		return StaticEntity.parseInt( location.adventureId );
+	}
+
 	public static final void resetAutoAttack()
 	{
 		// In the event that the user made some sort of change
