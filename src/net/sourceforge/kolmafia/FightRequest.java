@@ -1196,6 +1196,9 @@ public class FightRequest extends KoLRequest
 		if ( responseText.indexOf( "WINWINWIN" ) != -1 )
 			return;
 
+		// Initialize settings if necessary
+		ensureUpdatedBattlefield();
+
 		// Figure out how many enemies were defeated
 		String [][] table;
 		String killCounter;
@@ -1235,6 +1238,22 @@ public class FightRequest extends KoLRequest
 		KoLSettings.incrementIntegerProperty( killCounter, delta, 0 );
 		KoLSettings.setUserProperty( killDelta, String.valueOf( delta ) );
 		KoLSettings.setUserProperty( questCounter, String.valueOf( quests ) );
+	}
+
+	public static final void ensureUpdatedBattlefield()
+	{
+		int lastAscension = KoLSettings.getIntegerProperty( "lastBattlefieldReset" );
+		if ( lastAscension == KoLCharacter.getAscensions() )
+			return;
+
+		KoLSettings.setUserProperty( "lastBattlefieldReset", String.valueOf( KoLCharacter.getAscensions() ) );
+		KoLSettings.setUserProperty( "fratboysDefeated", "0" );
+		KoLSettings.setUserProperty( "fratboyDelta", "1" );
+		KoLSettings.setUserProperty( "fratboyQuestsCompleted", "0" );
+		KoLSettings.setUserProperty( "hippiesDefeated", "0" );
+		KoLSettings.setUserProperty( "hippyDelta", "1" );
+		KoLSettings.setUserProperty( "hippyQuestsCompleted", "0" );
+
 	}
 
 	private String getMonsterWeakenAction()

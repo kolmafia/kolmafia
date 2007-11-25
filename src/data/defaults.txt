@@ -184,6 +184,7 @@ user	lastBangPotion825
 user	lastBangPotion826
 user	lastBangPotion827
 user	lastBangPotionReset	-1
+user	lastBattlefieldReset	-1
 user	lastBreakfast	-1
 user	lastCouncilVisit	0
 user	lastCounterDay	-1
