@@ -2543,7 +2543,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			buffer.append( "<br><font size=-1>(" );
 
 			// Say what the choice will give you
-			String item = possibleDecisions[2][i];
+			String item = AdventureDatabase.choiceSpoiler( choice, i, possibleDecisions[2] );
 			buffer.append( item );
 
 			// If this choice helps complete an outfit...

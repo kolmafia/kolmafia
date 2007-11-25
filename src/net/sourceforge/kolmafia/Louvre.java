@@ -411,9 +411,8 @@ public class Louvre
 		return "";
 	}
 
-	public static final boolean mapChoice( String text )
+	public static final boolean mapChoice( int lastChoice, String text )
 	{
-		int lastChoice = KoLRequest.getLastChoice();
 		if ( !louvreChoice( lastChoice ) )
 			return false;
 

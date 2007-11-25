@@ -750,15 +750,36 @@ public class KoLRequest extends Job implements KoLConstants
 		}
 	}
 
-	private void mapCurrentChoice( String text )
+	private void mapCurrentChoice()
 	{
+		String text = this.responseText;
+
 		// Let the Violet Fog handle this
-		if ( VioletFog.mapChoice( text ) )
+		if ( VioletFog.mapChoice( lastChoice, text ) )
 			return;
 
 		// Let the Louvre handle this
-		if ( Louvre.mapChoice( text ) )
+		if ( Louvre.mapChoice( lastChoice, text ) )
 			return;
+
+		// Do choice-specific actions.
+		if ( lastChoice == 105 && lastDecision == 3 )
+		{
+
+			if ( text.indexOf( "that ship is sailed" ) != -1||
+			     text.indexOf( "guy made of bee pollen" ) != -1 )
+			{
+				// If you have already defeated the guy
+				// made of bees, you can't do it again.
+				KoLSettings.setUserProperty( "guyMadeOfBeesDefeated", "true" );
+			}
+			else
+			{
+				// Increment the number of times we've
+				// called the guy made of bees.
+				KoLSettings.incrementIntegerProperty( "guyMadeOfBeesCount", 1, 5 );
+			}
+		}
 	}
 
 	public static final int getLastChoice()
@@ -1346,7 +1367,7 @@ public class KoLRequest extends Job implements KoLConstants
 
 		// Let the mappers do their work
 
-		this.mapCurrentChoice( this.responseText );
+		this.mapCurrentChoice();
 
 		// Once everything is complete, decide whether or not
 		// you should refresh your status.
@@ -1689,7 +1710,7 @@ public class KoLRequest extends Job implements KoLConstants
 			request.run();
 		}
 
-		if ( KoLmafia.isAdventuring() && choice != null )
+		if ( choice != null && KoLmafia.isAdventuring() )
 		{
 			if ( choice.equals( "112" ) && decision.equals( "1" ) )
 				AdventureDatabase.retrieveItem( new AdventureResult( 2184, 1 ) );
