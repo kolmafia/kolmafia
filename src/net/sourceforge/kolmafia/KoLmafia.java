@@ -640,6 +640,7 @@ public abstract class KoLmafia implements KoLConstants
 		KoLSettings.setUserProperty( "currentHippyStore", "none" );
 		KoLSettings.setUserProperty( "currentWheelPosition", "muscle" );
 		KoLSettings.setUserProperty( "guyMadeOfBeesCount", "0" );
+		KoLSettings.setUserProperty( "guyMadeOfBeesCount", "false" );
 		KoLSettings.setUserProperty( "trapperOre", "chrome" );
 	}
 
@@ -2974,8 +2975,6 @@ public abstract class KoLmafia implements KoLConstants
 			this.processResult( CATNIP.getNegation() );
 		if ( encounterName.equalsIgnoreCase( "Summer Holiday" ) && KoLCharacter.hasItem( GLIDER ) )
 			this.processResult( GLIDER.getNegation() );
-		if ( encounterName.equalsIgnoreCase( "The Guy Made Of Bees" ) )
-			KoLSettings.incrementIntegerProperty( "guyMadeOfBeesCount", 1, 5 );
 
 		encounterList.add( new RegisteredEncounter( encounterType, encounterName ) );
 	}

@@ -1266,6 +1266,24 @@ public class AdventureDatabase extends KoLDatabase
 		return null;
 	}
 
+	public static final String choiceSpoiler( int choice, int decision, String [] spoilers )
+	{
+		switch ( choice )
+		{
+		// Having a Medicine Ball
+		case 105:
+			if ( decision == 2 )
+			{
+				boolean defeated = KoLSettings.getBooleanProperty( "guyMadeOfBeesDefeated" );
+				if ( defeated )
+					return "guy made of bees: defeated";
+				return "guy made of bees: called " + KoLSettings.getUserProperty( "guyMadeOfBeesCount" ) + " times";
+			}
+			break;
+		}
+		return spoilers[ decision ];
+	}
+
 	public static final AdventureResult getCost( String choice, String decision )
 	{
 		for ( int i = 0; i < CHOICE_COST.length; ++i )
