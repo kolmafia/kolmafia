@@ -760,7 +760,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 	private void updateAutoAttack()
 	{
-		String attack = KoLSettings.getUserProperty( "battleAction" );
+		String attack = CombatSettings.getShortCombatOptionName( KoLSettings.getUserProperty( "battleAction" ) );
 		String autoAttack = KoLSettings.getUserProperty( "defaultAutoAttack" );
 
 		if ( initialAutoAttack.equals( "" ) || !autoAttack.equals( changedAutoAttack ) )
@@ -769,20 +769,19 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		// If the player is pickpocketing, they probably do not want
 		// their auto-attack reset to an attack.
 
-		if ( autoAttack.equals( "3" ) || (!KoLCharacter.canInteract() && KoLCharacter.isMoxieClass()) )
+		if ( autoAttack.equals( "3" ) || KoLCharacter.isMoxieClass() )
 			return;
 
-		// Areas that have no combats do not need to have auto-attack
-		// reset.  Therefore, skip out.
+		// If you're in the middle of a fight, you can't reset your
+		// auto-attack.
 
-		if ( FightRequest.getCurrentRound() != 0 || isNonCombatsOnly() )
+		if ( FightRequest.getCurrentRound() != 0 )
 			return;
 
 		// If you're searching for special scrolls, do not enable
 		// your auto-attack.
 
-		if ( adventureId.equals( "80" ) && (conditions.contains( FightRequest.SCROLL_668 ) ||
-			conditions.contains( FightRequest.SCROLL_64735 ) || conditions.contains( FightRequest.SCROLL_31337 )) )
+		if ( adventureId.equals( "80" ) )
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=0" );
 			initialAutoAttack = "";
