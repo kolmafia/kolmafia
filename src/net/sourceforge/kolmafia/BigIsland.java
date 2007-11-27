@@ -56,21 +56,24 @@ public class BigIsland
 
 	private static final Pattern MAP_PATTERN = Pattern.compile( "bfleft(\\d*).*bfright(\\d*)", Pattern.DOTALL );
 
-	private static final int NONE = 0;
-	private static final int ARENA = 1;
-	private static final int JUNKYARD = 2;
-	private static final int ORCHARD = 3;
-	private static final int FARM = 4;
-	private static final int NUNS = 5;
-	private static final int BEACH = 6;
+	public static final int NONE = 0;
+	public static final int ARENA = 1;
+	public static final int JUNKYARD = 2;
+	public static final int ORCHARD = 3;
+	public static final int FARM = 4;
+	public static final int NUNS = 5;
+	public static final int LIGHTHOUSE = 6;
 
-        // Decorate the HTML with custom goodies
-	public static final void decorate( StringBuffer buffer )
+	private static int quest = NONE;
+
+	// Decorate the HTML with custom goodies
+	public static final void decorate( String url, StringBuffer buffer )
 	{
-                // Parse the map and deduce everything we can from it
-                int quest = parseIsland( buffer.toString() );
+		// Parse the map and deduce everything we can from it
+		// We assume this has been called already by KoLRequest
+		//  parseIsland( url, buffer.toString() );
 
-                // Here we will add special goodies as appropriate
+		// Here we will add special goodies as appropriate
 	}
 
 	public static final void startFight()
@@ -540,7 +543,7 @@ public class BigIsland
 			return;
 
 		// Initialize settings if necessary
-		ensureUpdatedBattlefield();
+		ensureUpdatedBigIsland();
 
 		// Figure out how many enemies were defeated
 		boolean fratboy = EquipmentDatabase.isWearingOutfit( 33 );
@@ -619,12 +622,68 @@ public class BigIsland
 		1000	// Image 32
 	};
 
-	private static final int parseIsland( String responseText )
+	public static final void parseIsland( String location, String responseText )
 	{
+		if ( !location.startsWith( "bigisland.php" ) )
+			return;
+
 		// Set variables from user settings
-		ensureUpdatedBattlefield();
+		ensureUpdatedBigIsland();
 
 		// Parse the map and deduce how many soldiers remain
+		parseBattlefield( responseText );
+
+		// Deduce things about quests
+		quest = parseQuest( location );
+
+		switch ( quest )
+		{
+		case ARENA:
+			parseArena( responseText );
+			break;
+		case JUNKYARD:
+			parseJunkyard( responseText );
+			break;
+		case ORCHARD:
+			parseOrchard( responseText );
+			break;
+		case FARM:
+			parseFarm( responseText );
+			break;
+		case NUNS:
+			parseNunnery( responseText );
+			break;
+		case LIGHTHOUSE:
+			parseLighthouse( responseText );
+			break;
+		}
+	}
+
+	private static final int parseQuest( String location )
+	{
+		if ( location.indexOf( "place=concert") != -1 )
+			return ARENA;
+
+		if ( location.indexOf( "place=junkyard") != -1 )
+			return JUNKYARD;
+
+		if ( location.indexOf( "action=stand") != -1 )
+			return ORCHARD;
+
+		if ( location.indexOf( "action=farmer") != -1 )
+			return FARM;
+
+		if ( location.indexOf( "action=nuns") != -1 )
+			return NUNS;
+
+		if ( location.indexOf( "action=pyro") != -1 )
+			return LIGHTHOUSE;
+
+		return NONE;
+	}
+
+	private static final void parseBattlefield( String responseText )
+	{
 		Matcher matcher = MAP_PATTERN.matcher( responseText );
 		if ( matcher.find() )
 		{
@@ -672,12 +731,33 @@ public class BigIsland
 			hippiesDefeated = hippyMax;
 			KoLSettings.setUserProperty( "hippiesDefeated", String.valueOf( hippiesDefeated ) );
 		}
-
-		// We don't detect quests yet
-		return NONE;
 	}
 
-	public static final void ensureUpdatedBattlefield()
+	private static final void parseArena( String responseText )
+	{
+	}
+
+	private static final void parseJunkyard( String responseText )
+	{
+	}
+
+	private static final void parseOrchard( String responseText )
+	{
+	}
+
+	private static final void parseFarm( String responseText )
+	{
+	}
+
+	private static final void parseNunnery( String responseText )
+	{
+	}
+
+	private static final void parseLighthouse( String responseText )
+	{
+	}
+
+	public static final void ensureUpdatedBigIsland()
 	{
 		int lastAscension = KoLSettings.getIntegerProperty( "lastBattlefieldReset" );
 		if ( lastAscension < KoLCharacter.getAscensions() )
