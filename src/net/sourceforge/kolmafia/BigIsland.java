@@ -56,6 +56,23 @@ public class BigIsland
 
 	private static final Pattern MAP_PATTERN = Pattern.compile( "bfleft(\\d*).*bfright(\\d*)", Pattern.DOTALL );
 
+	private static final int NONE = 0;
+	private static final int ARENA = 1;
+	private static final int JUNKYARD = 2;
+	private static final int ORCHARD = 3;
+	private static final int FARM = 4;
+	private static final int NUNS = 5;
+	private static final int BEACH = 6;
+
+        // Decorate the HTML with custom goodies
+	public static final void decorate( StringBuffer buffer )
+	{
+                // Parse the map and deduce everything we can from it
+                int quest = parseIsland( buffer.toString() );
+
+                // Here we will add special goodies as appropriate
+	}
+
 	public static final void startFight()
 	{
 		missingGremlinTool = null;
@@ -602,7 +619,7 @@ public class BigIsland
 		1000	// Image 32
 	};
 
-	public static final void handleIsland( String responseText )
+	private static final int parseIsland( String responseText )
 	{
 		// Set variables from user settings
 		ensureUpdatedBattlefield();
@@ -655,6 +672,9 @@ public class BigIsland
 			hippiesDefeated = hippyMax;
 			KoLSettings.setUserProperty( "hippiesDefeated", String.valueOf( hippiesDefeated ) );
 		}
+
+		// We don't detect quests yet
+		return NONE;
 	}
 
 	public static final void ensureUpdatedBattlefield()

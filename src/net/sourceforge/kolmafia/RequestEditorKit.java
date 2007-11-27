@@ -1051,6 +1051,10 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			addBasementButtons( buffer );
 			BasementRequest.decorate( buffer );
 		}
+		else if ( location.startsWith( "bigisland.php" ) )
+		{
+			BigIsland.decorate( buffer );
+		}
 		else if ( location.startsWith( "bathole.php" ) )
 		{
 			StaticEntity.globalStringReplace( buffer, "action=bathole.php", "action=adventure.php" );
