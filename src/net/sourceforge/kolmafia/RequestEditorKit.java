@@ -1822,7 +1822,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			}
 		}
 
-		String gremlinTool = FightRequest.missingGremlinTool();
+		String gremlinTool = BigIsland.missingGremlinTool();
 		if ( gremlinTool != null )
 			monsterData.append( "<br />This gremlin does NOT have a " + gremlinTool );
 
