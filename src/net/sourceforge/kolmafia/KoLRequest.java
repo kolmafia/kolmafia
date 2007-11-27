@@ -777,7 +777,7 @@ public class KoLRequest extends Job implements KoLConstants
 			{
 				// Increment the number of times we've
 				// called the guy made of bees.
-				KoLSettings.incrementIntegerProperty( "guyMadeOfBeesCount", 1, 5 );
+				KoLSettings.incrementIntegerProperty( "guyMadeOfBeesCount", 1, 5, true );
 			}
 		}
 	}

@@ -33,9 +33,28 @@
 
 package net.sourceforge.kolmafia;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class BigIsland
 {
 	private static String missingGremlinTool = null;
+
+	private static int fratboysDefeated = 0;
+	private static int fratboyDelta = 1;
+	private static int fratboyQuestsCompleted = 0;
+	private static int fratboyImage = 0;
+	private static int fratboyMin = 0;
+	private static int fratboyMax = 0;
+
+	private static int hippiesDefeated = 0;
+	private static int hippyDelta = 1;
+	private static int hippyQuestsCompleted = 0;
+	private static int hippyImage = 0;
+	private static int hippyMin = 0;
+	private static int hippyMax = 0;
+
+	private static final Pattern MAP_PATTERN = Pattern.compile( "bfleft(\\d*).*bfright(\\d*)", Pattern.DOTALL );
 
 	public static final void startFight()
 	{
@@ -507,27 +526,10 @@ public class BigIsland
 		ensureUpdatedBattlefield();
 
 		// Figure out how many enemies were defeated
-		String [][] table;
-		String killCounter;
-                String killDelta;
-		String questCounter;
+		boolean fratboy = EquipmentDatabase.isWearingOutfit( 33 );
+		String [][] table = fratboy ? HIPPY_MESSAGES : FRAT_MESSAGES;
 
-		if ( EquipmentDatabase.isWearingOutfit( 33 ) )
-		{
-			table = HIPPY_MESSAGES;
-			killCounter = "hippiesDefeated";
-			killDelta = "hippyDelta";
-			questCounter = "hippyQuestsCompleted";
-		}
-		else
-		{
-			table = FRAT_MESSAGES;
-			killCounter = "fratboysDefeated";
-			killDelta = "fratboyDelta";
-			questCounter = "fratboyQuestsCompleted";
-		}
-
-                int quests = 0;
+		int quests = 0;
 		int delta = 1;
 		int test = 2;
 
@@ -535,31 +537,148 @@ public class BigIsland
 		{
 			if ( findBattlefieldMessage( responseText, table[i] ) )
 			{
-                                quests = i + 1;
+				quests = i + 1;
 				delta = test;
 				break;
 			}
 			test *= 2;
 		}
 
-		KoLSettings.incrementIntegerProperty( killCounter, delta, 0 );
-		KoLSettings.setUserProperty( killDelta, String.valueOf( delta ) );
-		KoLSettings.setUserProperty( questCounter, String.valueOf( quests ) );
+		if ( fratboy )
+		{
+			hippiesDefeated = KoLSettings.incrementIntegerProperty( "hippiesDefeated", delta, 1000, false );
+			KoLSettings.setUserProperty( "hippyDelta", String.valueOf( delta ) );
+			hippyDelta = delta;
+			KoLSettings.setUserProperty( "fratboyQuestsCompleted", String.valueOf( quests ) );
+			fratboyQuestsCompleted = quests;
+		}
+		else
+		{
+			fratboysDefeated = KoLSettings.incrementIntegerProperty( "fratboysDefeated", delta, 1000, false );
+			KoLSettings.setUserProperty( "fratboyDelta", String.valueOf( delta ) );
+			fratboyDelta = delta;
+			KoLSettings.setUserProperty( "fratboyQuestsCompleted", String.valueOf( quests ) );
+			hippyQuestsCompleted = quests;
+		}
+	}
+
+	// Crowther spaded how many kills it takes to display an image in:
+	// http://jick-nerfed.us/forums/viewtopic.php?p=58270#58270
+
+	private static final int [] IMAGES =
+	{
+		0,	// Image 0
+		3,	// Image 1
+		9,	// Image 2
+		17,	// Image 3
+		28,	// Image 4
+		40,	// Image 5
+		52,	// Image 6
+		64,	// Image 7
+		80,	// Image 8
+		96,	// Image 9
+		114,	// Image 10
+		132,	// Image 11
+		152,	// Image 12
+		172,	// Image 13
+		192,	// Image 14
+		224,	// Image 15
+		258,	// Image 16
+		294,	// Image 17
+		332,	// Image 18
+		372,	// Image 19
+		414,	// Image 20
+		458,	// Image 21
+		506,	// Image 22
+		556,	// Image 23
+		606,	// Image 24
+		658,	// Image 25
+		711,	// Image 26
+		766,	// Image 27
+		822,	// Image 28
+		880,	// Image 29
+		939,	// Image 30
+		999,	// Image 31
+		1000	// Image 32
+	};
+
+	public static final void handleIsland( String responseText )
+	{
+		// Set variables from user settings
+		ensureUpdatedBattlefield();
+
+		// Parse the map and deduce how many soldiers remain
+		Matcher matcher = MAP_PATTERN.matcher( responseText );
+		if ( matcher.find() )
+		{
+			fratboyImage = StaticEntity.parseInt( matcher.group(1) );
+			hippyImage = StaticEntity.parseInt( matcher.group(2) );
+		}
+
+		if ( fratboyImage >= 0 && fratboyImage <= 32 )
+		{
+			fratboyMin = IMAGES[ fratboyImage ];
+			if ( fratboyMin == 1000 )
+				fratboyMax = 1000;
+			else
+				fratboyMax = IMAGES[ fratboyImage + 1 ] - 1;
+		}
+
+		if ( hippyImage >= 0 && hippyImage <= 32 )
+		{
+			hippyMin = IMAGES[ hippyImage ];
+			if ( hippyMin == 1000 )
+				hippyMax = 1000;
+			else
+				hippyMax = IMAGES[ hippyImage + 1 ] - 1;
+		}
+
+		// Consistency check settings against map
+		if ( fratboysDefeated < fratboyMin )
+		{
+			fratboysDefeated = fratboyMin;
+			KoLSettings.setUserProperty( "fratboysDefeated", String.valueOf( fratboysDefeated ) );
+		}
+		else if ( fratboysDefeated > fratboyMax )
+		{
+			fratboysDefeated = fratboyMax;
+			KoLSettings.setUserProperty( "fratboysDefeated", String.valueOf( fratboysDefeated ) );
+		}
+
+		if ( hippiesDefeated < hippyMin )
+		{
+			hippiesDefeated = hippyMin;
+			KoLSettings.setUserProperty( "hippiesDefeated", String.valueOf( hippiesDefeated ) );
+		}
+		else if ( hippiesDefeated > hippyMax )
+		{
+			hippiesDefeated = hippyMax;
+			KoLSettings.setUserProperty( "hippiesDefeated", String.valueOf( hippiesDefeated ) );
+		}
 	}
 
 	public static final void ensureUpdatedBattlefield()
 	{
 		int lastAscension = KoLSettings.getIntegerProperty( "lastBattlefieldReset" );
-		if ( lastAscension == KoLCharacter.getAscensions() )
-			return;
+		if ( lastAscension < KoLCharacter.getAscensions() )
+		{
+			KoLSettings.setUserProperty( "lastBattlefieldReset", String.valueOf( KoLCharacter.getAscensions() ) );
 
-		KoLSettings.setUserProperty( "lastBattlefieldReset", String.valueOf( KoLCharacter.getAscensions() ) );
-		KoLSettings.setUserProperty( "fratboysDefeated", "0" );
-		KoLSettings.setUserProperty( "fratboyDelta", "1" );
-		KoLSettings.setUserProperty( "fratboyQuestsCompleted", "0" );
-		KoLSettings.setUserProperty( "hippiesDefeated", "0" );
-		KoLSettings.setUserProperty( "hippyDelta", "1" );
-		KoLSettings.setUserProperty( "hippyQuestsCompleted", "0" );
+			KoLSettings.setUserProperty( "fratboysDefeated", "0" );
+			KoLSettings.setUserProperty( "fratboyDelta", "1" );
+			KoLSettings.setUserProperty( "fratboyQuestsCompleted", "0" );
+			KoLSettings.setUserProperty( "hippiesDefeated", "0" );
+			KoLSettings.setUserProperty( "hippyDelta", "1" );
+			KoLSettings.setUserProperty( "hippyQuestsCompleted", "0" );
+		}
 
+		// Set variables from user settings
+
+		fratboysDefeated = KoLSettings.getIntegerProperty( "fratboysDefeated" );
+		fratboyDelta = KoLSettings.getIntegerProperty( "fratboyDelta" );
+		fratboyQuestsCompleted = KoLSettings.getIntegerProperty( "fratboyQuestsCompleted" );
+		hippiesDefeated = KoLSettings.getIntegerProperty( "hippiesDefeated" );
+		hippyDelta = KoLSettings.getIntegerProperty( "hippyDelta" );
+		hippyQuestsCompleted = KoLSettings.getIntegerProperty( "hippyQuestsCompleted" );
 	}
 }
