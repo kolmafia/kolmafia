@@ -617,13 +617,17 @@ public class KoLRequest extends Job implements KoLConstants
 		// When following redirects, you will get different URL
 		// strings, so make sure you update.
 
-		boolean isQuestLocation = location.startsWith( "council" ) || location.startsWith( "guild" ) ||
-			location.startsWith( "friars" ) || location.startsWith( "trapper" ) || location.startsWith( "bhh" ) ||
-			location.startsWith( "manor3" ) || (location.startsWith( "adventure" ) && location.indexOf( "=84" ) != -1);
+		boolean isQuestLocation = location.startsWith( "council" ) ||
+			location.startsWith( "bigisland" ) ||
+			location.startsWith( "guild" ) ||
+			location.startsWith( "friars" ) ||
+			location.startsWith( "trapper" ) ||
+			location.startsWith( "bhh" ) ||
+			location.startsWith( "manor3" ) ||
+			(location.startsWith( "adventure" ) && location.indexOf( "=84" ) != -1);
 
 		if ( isQuestLocation )
 			CouncilFrame.handleQuestChange( location, responseText );
-
 		if ( this.formURLString.equals( "charpane.php" ) )
 		{
 			KoLCharacter.recalculateAdjustments();
