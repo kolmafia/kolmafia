@@ -685,11 +685,11 @@ public class BigIsland
 	private static final void parseBattlefield( String responseText )
 	{
 		Matcher matcher = MAP_PATTERN.matcher( responseText );
-		if ( matcher.find() )
-		{
-			fratboyImage = StaticEntity.parseInt( matcher.group(1) );
-			hippyImage = StaticEntity.parseInt( matcher.group(2) );
-		}
+		if ( !matcher.find() )
+			return;
+
+		fratboyImage = StaticEntity.parseInt( matcher.group(1) );
+		hippyImage = StaticEntity.parseInt( matcher.group(2) );
 
 		if ( fratboyImage >= 0 && fratboyImage <= 32 )
 		{
