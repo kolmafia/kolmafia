@@ -396,11 +396,13 @@ public class KoLSettings extends Properties implements KoLConstants
 	{	return StaticEntity.parseFloat( getUserProperty( name ) );
 	}
 
-	public static final int incrementIntegerProperty( String name, int increment, int max )
+	public static final int incrementIntegerProperty( String name, int increment, int max, boolean mod )
 	{
 		int current = StaticEntity.parseInt( getUserProperty( name ) );
 		current += increment;
-		if ( max > 0)
+		if ( max > 0 && current > max )
+			current = max;
+		if ( mod )
 			current %= max;
 		setUserProperty( name, String.valueOf(current) );
 		return current;
