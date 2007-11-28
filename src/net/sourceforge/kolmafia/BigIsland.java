@@ -38,6 +38,9 @@ import java.util.regex.Pattern;
 
 public class BigIsland
 {
+        private static AreaCombatData fratboyBattlefield = AdventureDatabase.getAreaCombatData( "Battlefield (Frat Uniform)" );
+        private static AreaCombatData hippyBattlefield = AdventureDatabase.getAreaCombatData( "Battlefield (Hippy Uniform)" );
+
 	private static String missingGremlinTool = null;
 
 	private static int fratboysDefeated = 0;
@@ -542,11 +545,31 @@ public class BigIsland
 		if ( responseText.indexOf( "WINWINWIN" ) != -1 )
 			return;
 
+		// We only count known monsters
+		MonsterDatabase.Monster monster = FightRequest.getLastMonster();
+		if ( monster == null )
+		{
+			// The monster is not in the monster database.
+			// It could be a new Holiday monster.
+			// name == FightRequest.getLastMonsterName();
+			return;
+		}
+
+		// Decide whether we defeated a hippy or a fratboy warrior
+		boolean fratboy;
+
+		if ( fratboyBattlefield.hasMonster( monster ) )
+			fratboy = false;
+		else if ( hippyBattlefield.hasMonster( monster ) )
+			fratboy = true;
+		else
+			// Known but unexpected monster on battlefield
+			return;
+
 		// Initialize settings if necessary
 		ensureUpdatedBigIsland();
 
 		// Figure out how many enemies were defeated
-		boolean fratboy = EquipmentDatabase.isWearingOutfit( 33 );
 		String [][] table = fratboy ? HIPPY_MESSAGES : FRAT_MESSAGES;
 
 		int quests = 0;
