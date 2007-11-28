@@ -118,6 +118,13 @@ public class AreaCombatData implements KoLConstants
 	{	return (Monster) this.monsters.get(i);
 	}
 
+	public boolean hasMonster( Monster m )
+	{
+		if ( m == null )
+			return false;
+		return this.monsters.contains(m);
+	}
+
 	public int getWeighting( int i )
 	{	return ((Integer)this.weightings.get(i)).intValue();
 	}
