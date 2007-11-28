@@ -402,7 +402,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		current += increment;
 		if ( max > 0 && current > max )
 			current = max;
-		if ( mod )
+		if ( mod && current >= max )
 			current %= max;
 		setUserProperty( name, String.valueOf(current) );
 		return current;

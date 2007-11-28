@@ -557,7 +557,7 @@ public class BigIsland
 	public static final void handleBattlefield( String responseText )
 	{
 		// Nothing to do until battle is done
-		if ( responseText.indexOf( "WINWINWIN" ) != -1 )
+		if ( responseText.indexOf( "WINWINWIN" ) == -1 )
 			return;
 
 		// We only count known monsters
@@ -604,19 +604,19 @@ public class BigIsland
 
 		if ( fratboy )
 		{
-			hippiesDefeated = KoLSettings.incrementIntegerProperty( "hippiesDefeated", delta, 1000, false );
-			KoLSettings.setUserProperty( "hippyDelta", String.valueOf( delta ) );
-			hippyDelta = delta;
-			KoLSettings.setUserProperty( "fratboyQuestsCompleted", String.valueOf( quests ) );
-			fratboyQuestsCompleted = quests;
-		}
-		else
-		{
 			fratboysDefeated = KoLSettings.incrementIntegerProperty( "fratboysDefeated", delta, 1000, false );
 			KoLSettings.setUserProperty( "fratboyDelta", String.valueOf( delta ) );
 			fratboyDelta = delta;
 			KoLSettings.setUserProperty( "fratboyQuestsCompleted", String.valueOf( quests ) );
 			hippyQuestsCompleted = quests;
+		}
+		else
+		{
+			hippiesDefeated = KoLSettings.incrementIntegerProperty( "hippiesDefeated", delta, 1000, false );
+			KoLSettings.setUserProperty( "hippyDelta", String.valueOf( delta ) );
+			hippyDelta = delta;
+			KoLSettings.setUserProperty( "fratboyQuestsCompleted", String.valueOf( quests ) );
+			fratboyQuestsCompleted = quests;
 		}
 	}
 
