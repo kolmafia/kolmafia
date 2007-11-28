@@ -114,12 +114,12 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		predictBuffer = new LimitedSizeChatBuffer( false );
 
 		RequestPane dailyDisplay = new RequestPane();
-		JComponentUtilities.setComponentSize( dailyDisplay, 400, 300 );
+		JComponentUtilities.setComponentSize( dailyDisplay, 400, 335 );
 		dailyDisplay.addHyperlinkListener( new KoLHyperlinkAdapter() );
 		dailyBuffer.setChatDisplay( dailyDisplay );
 
 		RequestPane predictDisplay = new RequestPane();
-		JComponentUtilities.setComponentSize( predictDisplay, 400, 300 );
+		JComponentUtilities.setComponentSize( predictDisplay, 400, 335 );
 		predictBuffer.setChatDisplay( predictDisplay );
 
 		this.tabs.addTab( "KoL One-a-Day", dailyDisplay );
