@@ -1015,9 +1015,11 @@ public class EquipmentRequest extends PasswordHashRequest
 		else
 		{
 			int slot = chooseEquipmentSlot( TradeableItemDatabase.getConsumptionType( itemName ) );
-
-			RequestLogger.updateSessionLog();
-			RequestLogger.updateSessionLog( "equip " + slotNames[slot] + " " + itemName );
+			if ( slot >= 0 && slot < slotNames.length )
+			{
+				RequestLogger.updateSessionLog();
+				RequestLogger.updateSessionLog( "equip " + slotNames[slot] + " " + itemName );
+			}
 		}
 
 		return true;
