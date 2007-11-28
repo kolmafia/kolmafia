@@ -72,13 +72,9 @@ public class BigIsland
 	// Decorate the HTML with custom goodies
 	public static final void decorate( String url, StringBuffer buffer )
 	{
-		// Parse the map and deduce everything we can from it
-		// We assume this has been called already by KoLRequest
-		//  parseIsland( url, buffer.toString() );
-
 		// Find the table that contains the map.
-		String fratboyMessage = "KoLmafia fratboy message";
-		String hippyMessage = "KoLmafia hippy message";
+		String fratboyMessage = sideSummary( "frat boys", fratboysDefeated, fratboyImage, fratboyMin, fratboyMax  );
+		String hippyMessage = sideSummary( "hippies", hippiesDefeated, hippyImage, hippyMin, hippyMax  );
 		String tdStyle = "<td style=\"color: red;font-size: 80%\" align=center>";
 		String row = "<tr><td><center><table width=100%><tr>" +
 			tdStyle + fratboyMessage + "</td>" +
@@ -88,6 +84,14 @@ public class BigIsland
 		int tableIndex = buffer.indexOf( "<tr><td style=\"color: white;\" align=center bgcolor=blue><b>The Mysterious Island of Mystery</b></td>" );
 		if ( tableIndex != -1 )
 			buffer.insert( tableIndex, row );
+	}
+
+	private static final String sideSummary( String side, int kills, int image, int min, int max )
+	{
+                int minLeft = 1000 - max;
+                int maxLeft = 1000 - min;
+                String range = ( minLeft == maxLeft ) ? String.valueOf( minLeft ) : ( String.valueOf( minLeft ) + "-" + String.valueOf( maxLeft ) );
+                return kills + " " + side + " defeated; image " + image + ": " + range + " left.";
 	}
 
 	public static final void startFight()
