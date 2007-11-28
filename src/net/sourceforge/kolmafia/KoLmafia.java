@@ -643,7 +643,7 @@ public abstract class KoLmafia implements KoLConstants
 		KoLSettings.setUserProperty( "fratboyDelta", "1" );
 		KoLSettings.setUserProperty( "fratboyQuestsCompleted", "0" );
 		KoLSettings.setUserProperty( "guyMadeOfBeesCount", "0" );
-		KoLSettings.setUserProperty( "guyMadeOfBeesCount", "false" );
+		KoLSettings.setUserProperty( "guyMadeOfBeesDefeated", "false" );
 		KoLSettings.setUserProperty( "hippiesDefeated", "0" );
 		KoLSettings.setUserProperty( "hippyDelta", "1" );
 		KoLSettings.setUserProperty( "hippyQuestsCompleted", "0" );

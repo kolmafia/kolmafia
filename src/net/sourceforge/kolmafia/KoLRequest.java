@@ -770,7 +770,7 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( lastChoice == 105 && lastDecision == 3 )
 		{
 
-			if ( text.indexOf( "that ship is sailed" ) != -1||
+			if ( text.indexOf( "that ship is sailed" ) != -1 ||
 			     text.indexOf( "guy made of bee pollen" ) != -1 )
 			{
 				// If you have already defeated the guy

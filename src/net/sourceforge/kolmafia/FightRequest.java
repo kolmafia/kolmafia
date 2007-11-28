@@ -1343,6 +1343,9 @@ public class FightRequest extends KoLRequest
 		switch ( skillId )
 		{
 		case 2005: // Shieldbutt
+		case 2105: // Head + Shield Combo
+		case 2106: // Knee + Shield Combo
+		case 2107: // Head + Knee + Shield Combo
 			offenseModifier -= 5;
 			defenseModifier -= 5;
 			break;

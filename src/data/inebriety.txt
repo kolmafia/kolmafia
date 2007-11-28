@@ -10,6 +10,7 @@ Acqua Del Piatto Merlot	1	10	6-10	60	60	60
 Acque Luride Grezze Cabernet	1	10	6-10	60	60	60
 Blackfly Chardonnay	3	7	5-6	0	0	25-45
 Bottle of Pinot Renoir	2	2	4-8	30	18	0
+Corpse Island iced tea	6	5	21	25	29	26
 Divine	4	6	14-18	16-20	25-27	0
 Ferita Del Petto Zinfandel	1	10	6-10	60	60	60
 Gordon Bennett	4	6	14-18	16-20	25-27	0
@@ -65,6 +66,10 @@ can of Swiller	1	10	2-4	10-15	0	0
 candycaine	4	1	7-10	8-9	8-9	8-9
 cherry bomb	6	6	22-26	0	16-20	0
 cool mushroom wine	3	6	10-14	0	8-10	0
+corpse on the beach	6	5	20	0	72	0
+corpsebite	3	1	8	10	10	10
+corpsedriver	6	5	20	72	0	0
+corpsetini	6	5	22	0	0	72
 cruelty-free wine	1	10	2-4	0	10-15	0
 cup of primitive beer	1	12	2-5	50-65	0	0
 dirty martini	6	6	22-26	0	0	16-20
@@ -105,6 +110,7 @@ ice-cold Sir Schlitz	1	1	1	0	0	0
 ice-cold Willer	1	1	1	0	0	0
 ice-cold fotie	3	1	3	0	0	0
 icy mushroom wine	3	6	10-14	0	12-15	0
+kamicorpse-ee	3	1	10	0	0	31
 knob mushroom wine	3	6	10-13	0	4-6	0
 knoll mushroom wine	3	6	10-13	4-6	0	0
 lumbering jack	3	1	3-8	0	11-14	0
@@ -126,7 +132,9 @@ pink pony	4	4	10-14	25-27	0	8-10
 plum wine	2	8	4-8	14-20	0	0
 pointy mushroom wine	3	6	10-14	0	0	8-10
 prussian cathouse	4	6	14-18	0	0	40-47
+purple corpsel	3	1	6-10	39-34	0	0
 rabbit punch	3	3	5-10	0	0	16-20
+red-headed corpse	3	1	7	0	35	0
 redrum	3	1	3-6	0	15-30	0
 rockin' wagon	4	4	10-14	0	0	34-36
 roll in the hay	4	4	10-14	0	34-36	0
