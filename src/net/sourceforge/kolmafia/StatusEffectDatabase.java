@@ -245,7 +245,7 @@ public class StatusEffectDatabase extends KoLDatabase
 
 	public static final void saveDataOverride()
 	{
-		File output = new File( DATA_DIRECTORY, "statuseffects.txt" );
+		File output = new File( DATA_LOCATION, "statuseffects.txt" );
 		LogStream writer = LogStream.openStream( output, true );
 		writer.println( STATUSEFFECTS_VERSION );
 

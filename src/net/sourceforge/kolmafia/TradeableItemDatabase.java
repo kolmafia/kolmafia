@@ -1026,7 +1026,7 @@ public class TradeableItemDatabase extends KoLDatabase
 
 	public static final void saveDataOverride()
 	{
-		File output = new File( DATA_DIRECTORY, "tradeitems.txt" );
+		File output = new File( DATA_LOCATION, "tradeitems.txt" );
 		LogStream writer = LogStream.openStream( output, true );
 		writer.println( TRADEITEMS_VERSION );
 
@@ -1056,7 +1056,7 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		writer.close();
 
-		output = new File( DATA_DIRECTORY, "itemdescs.txt" );
+		output = new File( DATA_LOCATION, "itemdescs.txt" );
 		writer = LogStream.openStream( output, true );
 		writer.println( ITEMDESCS_VERSION );
 
@@ -1230,7 +1230,7 @@ public class TradeableItemDatabase extends KoLDatabase
 	{
 		loadScrapeData();
 		RequestLogger.printLine( "Checking internal data..." );
-		LogStream report = LogStream.openStream( new File( DATA_DIRECTORY, "itemdata.txt" ), true );
+		LogStream report = LogStream.openStream( new File( DATA_LOCATION, "itemdata.txt" ), true );
 
 		foods.clear();
 		boozes.clear();
@@ -1251,7 +1251,7 @@ public class TradeableItemDatabase extends KoLDatabase
 				checkItem( i, report );
 
 			String description;
-			LogStream livedata = LogStream.openStream( new File( DATA_DIRECTORY, "itemhtml.txt" ), true );
+			LogStream livedata = LogStream.openStream( new File( DATA_LOCATION, "itemhtml.txt" ), true );
 
 			for ( int i = 1; i < descriptionById.size(); ++i )
 			{
@@ -1405,7 +1405,7 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		try
 		{
-			File saveData = new File( DATA_DIRECTORY, "itemhtml.txt" );
+			File saveData = new File( DATA_LOCATION, "itemhtml.txt" );
 			if ( !saveData.exists() )
 				return;
 
@@ -1842,7 +1842,7 @@ public class TradeableItemDatabase extends KoLDatabase
 	public static final void checkPlurals( int itemId )
 	{
 		RequestLogger.printLine( "Checking plurals..." );
-		LogStream report = LogStream.openStream( new File( DATA_DIRECTORY, "plurals.txt" ), true );
+		LogStream report = LogStream.openStream( new File( DATA_LOCATION, "plurals.txt" ), true );
 
 		if ( itemId == 0 )
 		{

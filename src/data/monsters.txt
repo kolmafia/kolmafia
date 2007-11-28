@@ -40,6 +40,11 @@
 # Possessed Can of Cranberry Sauce
 # Stuffing Golem
 #
+# El Novio Cad&acute;ver
+# El Padre Cad&acute;ver
+# La Novia Cad&acute;ver
+# La Persona Inocente Cad&acute;ver
+#
 # Flint-Scraping Cave Elf
 # Hunter-Gatherer Cave Elf
 # Rock-Banging Cave Elf
