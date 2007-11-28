@@ -76,7 +76,18 @@ public class BigIsland
 		// We assume this has been called already by KoLRequest
 		//  parseIsland( url, buffer.toString() );
 
-		// Here we will add special goodies as appropriate
+		// Find the table that contains the map.
+		String fratboyMessage = "KoLmafia fratboy message";
+		String hippyMessage = "KoLmafia hippy message";
+		String tdStyle = "<td style=\"color: red;font-size: 80%\" align=center>";
+		String row = "<tr><td><center><table width=100%><tr>" +
+			tdStyle + fratboyMessage + "</td>" +
+			tdStyle + hippyMessage + "</td>" +
+			"</tr></table></td></tr>";
+
+		int tableIndex = buffer.indexOf( "<tr><td style=\"color: white;\" align=center bgcolor=blue><b>The Mysterious Island of Mystery</b></td>" );
+		if ( tableIndex != -1 )
+			buffer.insert( tableIndex, row );
 	}
 
 	public static final void startFight()
