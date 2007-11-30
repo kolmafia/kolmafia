@@ -1780,8 +1780,22 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// Change stone sphere names in item dropdown
 		changeSphereNames( buffer );
 
-		// Highlight molybdenum tools
-		changeToolNames( buffer );
+		switch ( KoLAdventure.lastAdventureId() )
+		{
+		case 126:	// The Themthar Hills
+			BigIsland.decorateThemtharFight( buffer );
+			break;
+
+		case 139:	// Wartime Junkyard
+			// Quest gremlins might have a tool.
+			BigIsland.decorateGremlinFight( buffer );
+			break;
+
+		case 132:	// Battlefield (Frat Uniform)
+		case 140:	// Battlefield (Hippy Uniform)
+			BigIsland.decorateBattlefieldFight( buffer );
+			break;
+		}
 
 		int combatIndex = buffer.indexOf( "!</b>" );
 		if ( combatIndex != -1 )
@@ -2034,23 +2048,6 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 			if ( buffer.indexOf( name ) != -1 && !effect.equals( "" ) )
 				StaticEntity.globalStringReplace( buffer, name, name + " of " + effect );
-		}
-	}
-
-	private static final String [] GREMLIN_TOOLS =
-	{
-		"It whips out a hammer",
-		"He whips out a crescent wrench",
-		"It whips out a pair of pliers",
-		"It whips out a screwdriver",
-	};
-
-	private static final void changeToolNames( StringBuffer buffer )
-	{
-		for ( int i = 0; i < GREMLIN_TOOLS.length; ++i)
-		{
-			String tool = GREMLIN_TOOLS[i];
-			StaticEntity.singleStringReplace( buffer, tool, "<font color=#DD00FF>" + tool + "</font>" );
 		}
 	}
 
