@@ -84,7 +84,7 @@ bowl of unidentifiable goo	5	1	9-16	9-10	9-10	9-10
 brain-meltingly-hot chicken wings	1	10	2-4	15-30	15-30	0
 brains casserole	5	1	6-13	0	8-10	0
 brown sugar cane	2	7	6-8	1-5	1-5	5-20
-<bunch of square grapes	2	7	6-8	1-5	5-20	1-5
+bunch of square grapes	2	7	6-8	1-5	5-20	1-5
 cactus fruit	2	7	6-8	5-20	1-5	1-5
 can-shaped gelatinous cranberry sauce	3	6	9-14	0	0	71-74
 candied yams	3	5	7-14	0	72-75	0
