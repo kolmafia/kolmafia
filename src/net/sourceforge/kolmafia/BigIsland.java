@@ -57,6 +57,11 @@ public class BigIsland
 	private static int hippyMin = 0;
 	private static int hippyMax = 0;
 
+	// Data about current fight
+	private static boolean fratboy = false;
+	private static int lastFratboysDefeated = 0;
+	private static int lastHippiesDefeated = 0;
+
 	private static final Pattern MAP_PATTERN = Pattern.compile( "bfleft(\\d*).*bfright(\\d*)", Pattern.DOTALL );
 
 	public static final int NONE = 0;
@@ -68,6 +73,102 @@ public class BigIsland
 	public static final int LIGHTHOUSE = 6;
 
 	private static int quest = NONE;
+
+        /*
+         * Methods to decorate the Fight page
+         */
+
+	public static final void decorateThemtharFight( StringBuffer buffer )
+	{
+	}
+
+	private static final String [] GREMLIN_TOOLS =
+	{
+		"It whips out a hammer",
+		"He whips out a crescent wrench",
+		"It whips out a pair of pliers",
+		"It whips out a screwdriver",
+	};
+
+	public static final void decorateGremlinFight( StringBuffer buffer )
+	{
+		for ( int i = 0; i < GREMLIN_TOOLS.length; ++i)
+		{
+			String tool = GREMLIN_TOOLS[i];
+			StaticEntity.singleStringReplace( buffer, tool, "<font color=#DD00FF>" + tool + "</font>" );
+		}
+	}
+
+	private static final int [] AREA_UNLOCK =
+	{
+		64,
+		192,
+		458
+	};
+
+	private static final String [] HIPPY_AREA_UNLOCK =
+	{
+		"Lighthouse",
+		"Junkyard",
+		"Arena"
+	};
+
+	private static final String [] FRATBOY_AREA_UNLOCK =
+	{
+		"Orchard",
+		"Nunnery",
+		"Farm"
+	};
+
+	private static final String openArea( int last, int current, String [] areas )
+	{
+		for ( int i = 0; i < AREA_UNLOCK.length; ++i)
+		{
+			int threshold = AREA_UNLOCK[i];
+			if ( last < threshold && current >= threshold )
+				return areas[i];
+		}
+		return null;
+	}
+
+	public static final void decorateBattlefieldFight( StringBuffer buffer )
+	{
+		int index = buffer.indexOf( "<!--WINWINWIN-->" );
+		if ( index == -1 )
+			return;
+
+		String side;
+		int delta;
+		int last;
+		int current;
+		String area;
+
+		if ( fratboy )
+		{
+			last = lastFratboysDefeated;
+			current = fratboysDefeated;
+			delta = current - last;
+			side = ( delta == 1 ) ? "frat boy" : "frat boys";
+			area = openArea( last, current, HIPPY_AREA_UNLOCK );
+		}
+		else
+		{
+			last = lastHippiesDefeated;
+			current = hippiesDefeated;
+			delta = current - last;
+			side = ( delta == 1 ) ? "hippy" : "hippies";
+			area = openArea( last, current, FRATBOY_AREA_UNLOCK );
+		}
+
+                area = ( area == null ) ? "" : ( " The " + area + " is now accessible in this uniform!<br>" );
+		String message = "<p><center>" + delta + " " + side + " defeated; " + current + " down, " + ( 1000 - current ) + " left.<br>" + area;
+
+		buffer.insert( index, message );
+	}
+
+        /*
+         * Method to decorate the Big Island map
+         */
 
 	// Decorate the HTML with custom goodies
 	public static final void decorate( String url, StringBuffer buffer )
@@ -91,7 +192,7 @@ public class BigIsland
                 int minLeft = 1000 - max;
                 int maxLeft = 1000 - min;
                 String range = ( minLeft == maxLeft ) ? String.valueOf( minLeft ) : ( String.valueOf( minLeft ) + "-" + String.valueOf( maxLeft ) );
-                return kills + " " + side + " defeated; image " + image + ": " + range + " left.";
+                return kills + " " + side + " defeated; " + range + " left (image " + image + ").";
 	}
 
 	public static final void startFight()
@@ -102,6 +203,10 @@ public class BigIsland
 	public static final String missingGremlinTool()
 	{	return missingGremlinTool;
 	}
+
+        /*
+         * Methods to mine data from request responses
+         */
 
 	public static void handleGremlin( String responseText )
 	{
@@ -571,8 +676,6 @@ public class BigIsland
 		}
 
 		// Decide whether we defeated a hippy or a fratboy warrior
-		boolean fratboy;
-
 		if ( fratboyBattlefield.hasMonster( monster ) )
 			fratboy = false;
 		else if ( hippyBattlefield.hasMonster( monster ) )
@@ -602,20 +705,19 @@ public class BigIsland
 			test *= 2;
 		}
 
+		lastFratboysDefeated = fratboysDefeated;
+		lastHippiesDefeated = hippiesDefeated;
+
 		if ( fratboy )
 		{
 			fratboysDefeated = KoLSettings.incrementIntegerProperty( "fratboysDefeated", delta, 1000, false );
-			KoLSettings.setUserProperty( "fratboyDelta", String.valueOf( delta ) );
 			fratboyDelta = delta;
-			KoLSettings.setUserProperty( "hippyQuestsCompleted", String.valueOf( quests ) );
 			hippyQuestsCompleted = quests;
 		}
 		else
 		{
 			hippiesDefeated = KoLSettings.incrementIntegerProperty( "hippiesDefeated", delta, 1000, false );
-			KoLSettings.setUserProperty( "hippyDelta", String.valueOf( delta ) );
 			hippyDelta = delta;
-			KoLSettings.setUserProperty( "fratboyQuestsCompleted", String.valueOf( quests ) );
 			fratboyQuestsCompleted = quests;
 		}
 	}
@@ -803,20 +905,12 @@ public class BigIsland
 			KoLSettings.setUserProperty( "lastBattlefieldReset", String.valueOf( KoLCharacter.getAscensions() ) );
 
 			KoLSettings.setUserProperty( "fratboysDefeated", "0" );
-			KoLSettings.setUserProperty( "fratboyDelta", "1" );
-			KoLSettings.setUserProperty( "fratboyQuestsCompleted", "0" );
 			KoLSettings.setUserProperty( "hippiesDefeated", "0" );
-			KoLSettings.setUserProperty( "hippyDelta", "1" );
-			KoLSettings.setUserProperty( "hippyQuestsCompleted", "0" );
 		}
 
 		// Set variables from user settings
 
 		fratboysDefeated = KoLSettings.getIntegerProperty( "fratboysDefeated" );
-		fratboyDelta = KoLSettings.getIntegerProperty( "fratboyDelta" );
-		fratboyQuestsCompleted = KoLSettings.getIntegerProperty( "fratboyQuestsCompleted" );
 		hippiesDefeated = KoLSettings.getIntegerProperty( "hippiesDefeated" );
-		hippyDelta = KoLSettings.getIntegerProperty( "hippyDelta" );
-		hippyQuestsCompleted = KoLSettings.getIntegerProperty( "hippyQuestsCompleted" );
 	}
 }

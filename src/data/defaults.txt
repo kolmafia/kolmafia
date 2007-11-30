@@ -161,14 +161,10 @@ user	demonName4
 user	demonName5
 user	expressCardUsed	false
 user	fratboysDefeated	0
-user	fratboyDelta	1
-user	fratboyQuestsCompleted	0
 user	grimoireSummons	0
 user	guyMadeOfBeesCount	0
 user	guyMadeOfBeesDefeated	false
 user	hippiesDefeated	0
-user	hippyDelta	1
-user	hippyQuestsCompleted	0
 user	hpAutoRecovery	-0.1
 user	hpAutoRecoveryItems	cannelloni cocoon;scroll of drastic healing;tongue of the walrus;lasagna bandages;doc galaktik's ailment ointment
 user	hpAutoRecoveryTarget	1.0
