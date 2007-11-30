@@ -585,7 +585,7 @@ public class BigIsland
 		ensureUpdatedBigIsland();
 
 		// Figure out how many enemies were defeated
-		String [][] table = fratboy ? HIPPY_MESSAGES : FRAT_MESSAGES;
+		String [][] table = fratboy ? FRAT_MESSAGES : HIPPY_MESSAGES;
 
 		int quests = 0;
 		int delta = 1;
@@ -607,7 +607,7 @@ public class BigIsland
 			fratboysDefeated = KoLSettings.incrementIntegerProperty( "fratboysDefeated", delta, 1000, false );
 			KoLSettings.setUserProperty( "fratboyDelta", String.valueOf( delta ) );
 			fratboyDelta = delta;
-			KoLSettings.setUserProperty( "fratboyQuestsCompleted", String.valueOf( quests ) );
+			KoLSettings.setUserProperty( "hippyQuestsCompleted", String.valueOf( quests ) );
 			hippyQuestsCompleted = quests;
 		}
 		else
