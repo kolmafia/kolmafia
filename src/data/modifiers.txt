@@ -847,7 +847,7 @@ Talisman o' Nam	Single Equip, Moxie: +3, Muscle: +3, Mysticality: +3
 Talisman of Bakula	Single Equip
 The Ring	Single Equip, Moxie: +3, Muscle: +3, Mysticality: +3, Spooky Damage: +40
 Unspeakable Earring	Single Equip, Cold Resistance: +30, Sleaze Resistance: +30
-Uranium Omega of Temperence	Single Equip, Moxie: +5, Muscle: +5, Mysticality: +5, Item Drop: +11
+Uranium Omega of Temperance	Single Equip, Moxie: +5, Muscle: +5, Mysticality: +5, Item Drop: +11
 V for Vivala mask	Single Equip, Softcore Only, Muscle Percent: +30
 Warehouse 23 bling	Maximum MP: +23
 Xlyinia's notebook	Moxie: +15, Muscle: +15, Mysticality: +15

@@ -409,7 +409,7 @@
 408	spooky pirate skeleton	5	all	130
 409	vial of patchouli oil	0	all	38
 410	sk8board	8	all	80
-411	Jolly Roger charrrm	0	all	47
+411	Jolly Roger charrrm	0	all	50
 412	barrrnacle	5	all	48
 413	Jolly Roger charrrm bracelet	8	all	80
 414	crowbarrr	12	all	95
@@ -2328,10 +2328,10 @@
 2327	can of black paint	3	all	150
 2328	drum machine	3	display	160
 2329	handful of confetti	3	display	1000
-2330	chocolate-covered diamond-studded roses	0	gift	10000
-2331	bouquet of circular saw blades	0	gift	2500
-2332	Better Than Cuddling Cake	1	gift	500
-2333	stuffed ninja snowman	0	gift	250
+2330	chocolate-covered diamond-studded roses	0	gift	1000
+2331	bouquet of circular saw blades	0	gift	250
+2332	Better Than Cuddling Cake	1	gift	50
+2333	stuffed ninja snowman	0	gift	25
 2334	Holy MacGuffin	0	none	0
 2335	rubber WWBBDD? bracelet	8	display	0
 2336	lead pipe	12	all	72
@@ -2748,7 +2748,7 @@
 2747	chunk of depleted Grimacite	0	all	0
 2748	furniture dolly	8	all	180
 2749	Staff of the Grease Trap	12	display	25
-2750	Uranium Omega of Temperence	8	display	5000
+2750	Uranium Omega of Temperance	8	display	5000
 2751	Lead Zeta of Chastity	8	display	5000
 2752	Aluminum Epsilon of Humility	8	display	5000
 2753	Zinc Delta of Tranquility	8	display	5000
@@ -2844,7 +2844,7 @@
 2843	dire fudgesicle	1	all	30
 2844	navel ring of navel gazing	8	all	0
 2845	class five ecto-larva	5	all	0
-2846	plastic bib	7	all	0
+2846	plastic bib	7	all	75
 2847	Dallas Dynasty Falcon Crest shield	13	all	0
 2848	Gnomitronic Hyperspatial Demodulizer	0	all	999
 2849	

@@ -2753,7 +2753,7 @@
 2747	714178698	chunk of depleted Grimacite	chunks of depleted Grimacite
 2748	623524316	furniture dolly	furniture dollies
 2749	578975886	Staff of the Grease Trap	Staves of the Grease Trap
-2750	568822090	Uranium Omega of Temperence
+2750	568822090	Uranium Omega of Temperance
 2751	773565726	Lead Zeta of Chastity
 2752	513161422	Aluminum Epsilon of Humility
 2753	529261022	Zinc Delta of Tranquility
