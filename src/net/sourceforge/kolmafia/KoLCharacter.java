@@ -2720,6 +2720,7 @@ public abstract class KoLCharacter extends StaticEntity
 	public static final boolean recalculateAdjustments()
 	{
 		int taoFactor = hasSkill( "Tao of the Terrapin" ) ? 2 : 1;
+		int brimstoneMonsterLevel = 1;
 		Modifiers newModifiers = new Modifiers();
 
 		// Look at sign-specific adjustments
@@ -2734,6 +2735,12 @@ public abstract class KoLCharacter extends StaticEntity
 				continue;
 
 			newModifiers.add( Modifiers.getModifiers( item.getName() ) );
+
+			// Wearing multiple brimstone items has a secret effect
+			// on Monster Level, according to this thread:
+			// http://forums.kingdomofloathing.com:8080/vb/showthread.php?t=144250
+			if ( item.getItemId() >= 2813 && item.getItemId() <= 2818 )
+				brimstoneMonsterLevel *= 2;
 
 			switch ( slot )
 			{
@@ -2752,6 +2759,10 @@ public abstract class KoLCharacter extends StaticEntity
 				break;
 			}
 		}
+
+		// Brimstone only affects monster level if more than one is worn
+		if ( brimstoneMonsterLevel > 2)
+			newModifiers.add( Modifiers.MONSTER_LEVEL, brimstoneMonsterLevel );
 
 		// Certain outfits give benefits to the character
 		SpecialOutfit outfit = EquipmentDatabase.currentOutfit();
