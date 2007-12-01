@@ -3036,3 +3036,19 @@
 3030	706044279	kamicorpse-ee
 3031	365780933	purple corpsel
 3032	316114182	corpsebite
+3033
+3034
+3035
+3036
+3037
+3038
+3039
+3040
+3041
+3042	622329601	Crimbo P. R. E. S. S. I. E.	
+3043	637200318	metallic foil bow
+3044	501377601	metallic foil radar dish
+3045	967669535	perfectly innocuous gingerbread bugbear
+3046	190558951	unremarkable candy cane	
+3047	203826503	completely typical fruitcake	
+3048	820385035	untainted eggnog

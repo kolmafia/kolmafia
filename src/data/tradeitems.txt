@@ -3031,3 +3031,19 @@
 3030	kamicorpse-ee	2	all	50
 3031	purple corpsel	2	all	50
 3032	corpsebite	2	all	50
+3033
+3034
+3035
+3036
+3037
+3038
+3039
+3040
+3041
+3042	Crimbo P. R. E. S. S. I. E.	5	all	0
+3043	metallic foil bow	7	all	75
+3044	metallic foil radar dish	7	all	75
+3045	perfectly innocuous gingerbread bugbear	1	all	0
+3046	unremarkable candy cane	1	all	0
+3047	completely typical fruitcake	1	all	37
+3048	untainted eggnog	2	all	49
