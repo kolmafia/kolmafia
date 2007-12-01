@@ -365,7 +365,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 	{
 		try
 		{
-			BufferedReader reader = KoLDatabase.getReader( DATA_LOCATION + CombatSettings.settingsFileName() );
+			BufferedReader reader = KoLDatabase.getReader( new File( DATA_LOCATION, CombatSettings.settingsFileName() ) );
 
 			if ( reader == null )
 				return;
