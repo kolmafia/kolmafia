@@ -100,6 +100,16 @@ public class FamiliarData implements KoLConstants, Comparable
 			itemData.indexOf( "antfork.gif" ) != -1 ? new AdventureResult( "ant pitchfork", 1, false ) :
 			itemData.indexOf( "antsickle.gif" ) != -1 ? new AdventureResult( "ant sickle", 1, false ) :
 			itemData.indexOf( "antpick.gif" ) != -1 ? new AdventureResult( "ant pick", 1, false ) :
+
+                        // Crimbo P. R. E. S. S. I. E. items
+			itemData.indexOf( "whitebow.gif" ) != -1 ? new AdventureResult( "metallic foil bow", 1, false ) :
+			itemData.indexOf( "radar.gif" ) != -1 ? new AdventureResult( "metallic foil radar dish", 1, false ) :
+
+                        // Pet Rock items
+			itemData.indexOf( "monocle.gif" ) != -1 ? new AdventureResult( "pet rock &quot;Snooty&quot; disguise", 1, false ) :
+			itemData.indexOf( "groucho.gif" ) != -1 ? new AdventureResult( "pet rock &quot;Groucho&quot; disguise", 1, false ) :
+
+                        // Default familiar equipment
 			new AdventureResult( FamiliarsDatabase.getFamiliarItem( this.id ), 1, false );
 	}
 
@@ -291,6 +301,14 @@ public class FamiliarData implements KoLConstants, Comparable
 		case 2573:  // ant sickle
 		case 2574:  // ant pick
 			return this.id != 54;
+
+		case 1526:  // pet rock "Snooty" disguise
+		case 1678:  // pet rock "Groucho" disguise
+			return this.id == 45 || this.id == 63;
+
+		case 3043:  // metallic foil bow
+		case 3044:  // metallic foil radar dish
+			return this.id == 77;
 
 		default:
 			return item.getName().equals( FamiliarsDatabase.getFamiliarItem( this.id ) );

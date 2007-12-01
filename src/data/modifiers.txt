@@ -1178,6 +1178,8 @@ magnifying glass	Familiar Weight: +5
 many-eyed glasses	Familiar Weight: +5
 meatcar model	Familiar Weight: +5
 menorette	Familiar Weight: +5
+metallic foil bow	Familiar Weight: +5
+metallic foil radar dish	Familiar Weight: +5
 metal mandible	Familiar Weight: +5
 miniature carton of clove cigarettes	Familiar Weight: +5
 miniature castagnets	Familiar Weight: +5
