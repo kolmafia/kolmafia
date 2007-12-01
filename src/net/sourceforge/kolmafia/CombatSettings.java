@@ -123,13 +123,42 @@ public abstract class CombatSettings implements KoLConstants
 			// the appropriate Properties data.
 
 			if ( !settingsFile.exists() )
+				settingsFile.createNewFile();
+
+			readSettings();
+
+			if ( reference.size() == 0 )
 			{
 				LogStream ostream = LogStream.openStream( settingsFile, true );
 				ostream.println( "[ default ]" );
 				ostream.println( "1: attack with weapon" );
 				ostream.close();
+				readSettings();
 			}
+		}
+		catch ( IOException e1 )
+		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
 
+			StaticEntity.printStackTrace( e1 );
+		}
+		catch ( Exception e2 )
+		{
+			// Somehow, the settings were corrupted; this
+			// means that they will have to be created after
+			// the current file is deleted.
+
+			StaticEntity.printStackTrace( e2 );
+			settingsFile.delete();
+			loadSettings( filename );
+		}
+	}
+
+	private static final void readSettings()
+	{
+		try
+		{
 			BufferedReader reader = KoLDatabase.getReader( settingsFile );
 			String line;
 			CombatSettingNode currentList = root;
@@ -195,16 +224,6 @@ public abstract class CombatSettings implements KoLConstants
 			// a stack trace for debug purposes.
 
 			StaticEntity.printStackTrace( e1 );
-		}
-		catch ( Exception e2 )
-		{
-			// Somehow, the settings were corrupted; this
-			// means that they will have to be created after
-			// the current file is deleted.
-
-			StaticEntity.printStackTrace( e2 );
-			settingsFile.delete();
-			loadSettings( filename );
 		}
 	}
 
