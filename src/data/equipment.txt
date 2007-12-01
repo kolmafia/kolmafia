@@ -781,7 +781,7 @@ Talisman of Baio	0	none
 Talisman of Bakula	0	none
 The Ring	0	Mys: 60
 Unspeakable Earring	0	Mys: 60
-Uranium Omega of Temperence	0	Mys: 85
+Uranium Omega of Temperance	0	Mys: 85
 V for Vivala mask	0	none
 Warehouse 23 bling	0	none
 Xlyinia's notebook	0	none
