@@ -484,7 +484,7 @@ public class BigIsland
                         // You glance over your shoulder and see a squadron of
                         // winged ferrets descend on a frat warrior, entranced
                         // by the sun glinting off his keg shield.
-			"winged ferrets",
+			"glinting",
 
                         // You see a hippy shaman casting a Marxist spell over
                         // a member of the "Fortunate 500" division of the frat
@@ -544,7 +544,7 @@ public class BigIsland
                         // imperceptibly. A Kegtank hits a gopher hole and tips
                         // over. A squad of confused frat boys stumble out and
                         // off the battlefield.
-			"squad of",
+			"gopher hole",
 
                         // You leap out of the way of a runaway Mobile Sweat
                         // Lodge, then watch it run over one, two, three, four,
@@ -555,14 +555,14 @@ public class BigIsland
                         // detonates a bomb underneath a Wartender's grill. An
                         // entire squad of frat boys run from the battlefield
                         // under the onslaught of red-hot coals.
-			// "squad of",
+			"red-hot coals",
 
                         // You look over and see one of Jerry's Riggers placing
                         // land mines he made out of paperclips, rubber bands,
                         // and psychedelic mushrooms. A charging squad of frat
                         // boys trips them, and is subsequently dragged off the
                         // field ranting about the giant purple squirrels.
-			// "squad of",
+			"purple squirrels",
 		},
 		// 16 total
 		{ 
