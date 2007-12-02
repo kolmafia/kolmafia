@@ -189,6 +189,8 @@ public class BigIsland
 
 	private static final String sideSummary( String side, int kills, int image, int min, int max )
 	{
+		if ( kills > min )
+			min = kills;
                 int minLeft = 1000 - max;
                 int maxLeft = 1000 - min;
                 String range = ( minLeft == maxLeft ) ? String.valueOf( minLeft ) : ( String.valueOf( minLeft ) + "-" + String.valueOf( maxLeft ) );
