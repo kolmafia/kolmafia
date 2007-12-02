@@ -59,7 +59,7 @@ public abstract class CombatSettings implements KoLConstants
 	{
 		availableScripts.clear();
 
-		String [] list = DATA_LOCATION.list();
+		String [] list = CCS_LOCATION.list();
 		for ( int i = 0; i < list.length; ++i )
 			if ( list[i].endsWith( ".ccs" ) )
 				availableScripts.add( list[i].substring( 0, list[i].length() - 4 ) );
@@ -115,7 +115,7 @@ public abstract class CombatSettings implements KoLConstants
 		root.removeAllChildren();
 		reference.clear();
 
-		settingsFile = new File( DATA_LOCATION, filename );
+		settingsFile = new File( CCS_LOCATION, filename );
 
 		try
 		{

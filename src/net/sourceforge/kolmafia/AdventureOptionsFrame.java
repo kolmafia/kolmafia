@@ -221,7 +221,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 		{
 			String saveText = AdventureOptionsFrame.this.combatEditor.getText();
 
-			File location = new File( DATA_LOCATION, CombatSettings.settingsFileName() );
+			File location = new File( CCS_LOCATION, CombatSettings.settingsFileName() );
 			LogStream writer = LogStream.openStream( location, true );
 
 			writer.print( saveText );
@@ -344,8 +344,8 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 					CombatSettings.setScript( name );
 					String targetName = CombatSettings.settingsFileName();
 
-					FileChannel source = (new FileInputStream( new File( DATA_LOCATION, sourceName ) )).getChannel();
-					FileChannel target = (new FileOutputStream( new File( DATA_LOCATION, targetName ) )).getChannel();
+					FileChannel source = (new FileInputStream( new File( CCS_LOCATION, sourceName ) )).getChannel();
+					FileChannel target = (new FileOutputStream( new File( CCS_LOCATION, targetName ) )).getChannel();
 
 					source.transferTo( 0, source.size(), target );
 					source.close();
@@ -365,7 +365,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 	{
 		try
 		{
-			BufferedReader reader = KoLDatabase.getReader( new File( DATA_LOCATION, CombatSettings.settingsFileName() ) );
+			BufferedReader reader = KoLDatabase.getReader( new File( CCS_LOCATION, CombatSettings.settingsFileName() ) );
 
 			if ( reader == null )
 				return;

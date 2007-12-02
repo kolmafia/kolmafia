@@ -168,6 +168,9 @@ public class KoLSettings extends Properties implements KoLConstants
 			source = new File( BASE_LOCATION, BUFFBOT_DIRECTORY );
 			if ( source.exists() )
 				source.renameTo( BUFFBOT_LOCATION );
+			source = new File( BASE_LOCATION, CCS_DIRECTORY );
+			if ( source.exists() )
+				source.renameTo( CCS_LOCATION );
 			source = new File( BASE_LOCATION, CHATLOG_DIRECTORY );
 			if ( source.exists() )
 				source.renameTo( CHATLOG_LOCATION );
@@ -187,10 +190,24 @@ public class KoLSettings extends Properties implements KoLConstants
 
 		if ( !DATA_LOCATION.exists() )
 			DATA_LOCATION.mkdirs();
+
+		if ( !CCS_LOCATION.exists() )
+			CCS_LOCATION.mkdirs();
+
+		// Move CCS files from data directory to ccs directory
+		File [] listing = DATA_LOCATION.listFiles();
+		for ( int i = 0; i < listing.length; ++i )
+		{
+			source = listing[i];
+			String name = source.getName();
+			if ( name.endsWith( ".ccs" ) )
+				source.renameTo( new File ( CCS_LOCATION, name ) );
+		}
+
 		if ( !SETTINGS_LOCATION.exists() )
 			SETTINGS_LOCATION.mkdirs();
 
-		File [] listing = SETTINGS_LOCATION.listFiles();
+		listing = SETTINGS_LOCATION.listFiles();
 		for ( int i = 0; i < listing.length; ++i )
 		{
 			String path = listing[i].getPath();

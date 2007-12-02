@@ -168,6 +168,7 @@ public interface KoLConstants extends UtilityConstants
 
 	public static final String ATTACKS_DIRECTORY = "attacks/";
 	public static final String BUFFBOT_DIRECTORY = "buffs/";
+	public static final String CCS_DIRECTORY = "ccs/";
 	public static final String CHATLOG_DIRECTORY = "chats/";
 	public static final String PLOTS_DIRECTORY = "planting/";
 	public static final String SCRIPT_DIRECTORY = "scripts/";
@@ -176,6 +177,7 @@ public interface KoLConstants extends UtilityConstants
 
 	public static final File ATTACKS_LOCATION = new File( ROOT_LOCATION, ATTACKS_DIRECTORY );
 	public static final File BUFFBOT_LOCATION = new File( ROOT_LOCATION, BUFFBOT_DIRECTORY );
+	public static final File CCS_LOCATION = new File( ROOT_LOCATION, CCS_DIRECTORY );
 	public static final File CHATLOG_LOCATION = new File( ROOT_LOCATION, CHATLOG_DIRECTORY );
 	public static final File PLOTS_LOCATION = new File( ROOT_LOCATION, PLOTS_DIRECTORY );
 	public static final File SCRIPT_LOCATION = new File( ROOT_LOCATION, SCRIPT_DIRECTORY );
