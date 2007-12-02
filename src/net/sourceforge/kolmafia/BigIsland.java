@@ -285,7 +285,7 @@ public class BigIsland
                         // You see a frat boy hose down a hippy Airborne
                         // Commander with sugar water. You applaud as the
                         // Commander gets attacked by her own ferrets.
-			"her own ferrets",
+			"sugar water",
 
                         // You see one of your frat brothers paddling a hippy
                         // who seems to be enjoying it. You say "uh, keep up
@@ -342,7 +342,7 @@ public class BigIsland
                         // a complicated beer bong to spray cheap, skunky beer
                         // on a whole squad hippies at once. "Way to go, bra!"
                         // you shout.
-			"skunky",
+			"skunky beer",
 
                         // You glance over and see one of the Roaring Drunks
                         // from the 151st Division overturning a mobile sweat
@@ -361,7 +361,7 @@ public class BigIsland
                         // You see a Grillmaster flinging hot kabobs as fast as
                         // he can make them. He skewers one, two, three, four,
                         // five, six... seven! Seven hippies! Ha ha ha!
-			"seven",
+			"seven!",
 		},
 		// 16 total
 		{ 
@@ -549,7 +549,7 @@ public class BigIsland
                         // You leap out of the way of a runaway Mobile Sweat
                         // Lodge, then watch it run over one, two, three, four,
                         // five, six, seven! Seven frat boys! Ha ha ha!
-			"seven",
+			"seven!",
 
                         // A few yards away, one of the Jerry's Riggers hippies
                         // detonates a bomb underneath a Wartender's grill. An
