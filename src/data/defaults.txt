@@ -229,6 +229,12 @@ user	relayCounters
 user	requireBoxServants	false
 user	retrieveContacts	true
 user	showGainsPerUnit	false
+user	sidequestArenaCompleted	none
+user	sidequestFarmCompleted	none
+user	sidequestJunkyardCompleted	none
+user	sidequestLighthouseCompleted	none
+user	sidequestNunsCompleted	none
+user	sidequestOrchardCompleted	none
 user	snowconeSummons	0
 user	stationaryButton1
 user	stationaryButton2

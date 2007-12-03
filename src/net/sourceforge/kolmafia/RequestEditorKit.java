@@ -1053,7 +1053,11 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		}
 		else if ( location.startsWith( "bigisland.php" ) )
 		{
-			BigIsland.decorate( location, buffer );
+			BigIsland.decorateBigIsland( location, buffer );
+		}
+		else if ( location.startsWith( "postwarisland.php" ) )
+		{
+			BigIsland.decoratePostwarIsland( location, buffer );
 		}
 		else if ( location.startsWith( "bathole.php" ) )
 		{

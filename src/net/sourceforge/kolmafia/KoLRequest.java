@@ -619,6 +619,7 @@ public class KoLRequest extends Job implements KoLConstants
 
 		boolean isQuestLocation = location.startsWith( "council" ) ||
 			location.startsWith( "bigisland" ) ||
+			location.startsWith( "postwarisland" ) ||
 			location.startsWith( "guild" ) ||
 			location.startsWith( "friars" ) ||
 			location.startsWith( "trapper" ) ||

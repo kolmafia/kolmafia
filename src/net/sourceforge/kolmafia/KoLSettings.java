@@ -381,6 +381,13 @@ public class KoLSettings extends Properties implements KoLConstants
 	{	userSettings.setProperty( name, value );
 	}
 
+	public static final void resetUserProperty( String name, String value )
+	{
+		String old = userSettings.getProperty( name );
+		if ( !old.equals( value ) )
+			userSettings.setProperty( name, value );
+	}
+
 	public static final String getUserProperty( String name )
 	{	return userSettings.getProperty( name );
 	}

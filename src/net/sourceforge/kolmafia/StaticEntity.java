@@ -541,18 +541,19 @@ public abstract class StaticEntity implements KoLConstants
 		if ( location.startsWith( "store.php" ) && location.indexOf( "whichstore=h" ) != -1 &&
 			KoLSettings.getIntegerProperty( "lastFilthClearance" ) != KoLCharacter.getAscensions() )
 		{
+			String side = "none";
 			if ( responseText.indexOf( "peach" ) != -1 && responseText.indexOf( "pear" ) != -1 && responseText.indexOf( "plum" ) != -1 )
 			{
 				KoLSettings.setUserProperty( "lastFilthClearance", String.valueOf( KoLCharacter.getAscensions() ) );
-				KoLSettings.setUserProperty( "currentHippyStore", "hippy" );
+				side = "hippy";
 			}
 			else if ( responseText.indexOf( "bowl of rye sprouts" ) != -1 && responseText.indexOf( "cob of corn" ) != -1 && responseText.indexOf( "juniper berries" ) != -1 )
 			{
 				KoLSettings.setUserProperty( "lastFilthClearance", String.valueOf( KoLCharacter.getAscensions() ) );
-				KoLSettings.setUserProperty( "currentHippyStore", "fratboy" );
+				side = "fratboy";
 			}
-			else
-				KoLSettings.setUserProperty( "currentHippyStore", "none" );
+			KoLSettings.setUserProperty( "currentHippyStore", side );
+			KoLSettings.setUserProperty( "sidequestOrchardCompleted", side );
 		}
 	}
 

@@ -68,7 +68,9 @@ public class CouncilFrame extends RequestFrame
 		if ( location.startsWith( "council" ) )
 			handleCouncilChange( responseText );
 		else if ( location.startsWith( "bigisland" ) )
-			BigIsland.parseIsland( location, responseText );
+			BigIsland.parseBigIsland( location, responseText );
+		else if ( location.startsWith( "postwarisland" ) )
+			BigIsland.parsePostwarIsland( location, responseText );
 		else if ( location.startsWith( "guild" ) )
 			handleGuildChange( location, responseText );
 		else if ( location.startsWith( "friars" ) )
