@@ -64,6 +64,9 @@ public class BigIsland
 
 	private static final Pattern MAP_PATTERN = Pattern.compile( "bfleft(\\d*).*bfright(\\d*)", Pattern.DOTALL );
 
+	private static final AdventureResult JAM_FLYERS = new AdventureResult( 2404, -1 );
+	private static final AdventureResult ROCK_FLYERS = new AdventureResult( 2405, -1 );
+
 	public static final int NONE = 0;
 	public static final int JUNKYARD = 1;
 	public static final int ORCHARD = 2;
@@ -238,11 +241,11 @@ public class BigIsland
          */
 
 	// Decorate the HTML with custom goodies
-	public static final void decorate( String url, StringBuffer buffer )
+	public static final void decorateBigIsland( String url, StringBuffer buffer )
 	{
 		// Find the table that contains the map.
-		String fratboyMessage = sideSummary( "frat boys", fratboysDefeated, fratboyImage, fratboyMin, fratboyMax  );
-		String hippyMessage = sideSummary( "hippies", hippiesDefeated, hippyImage, hippyMin, hippyMax  );
+		String fratboyMessage = sideSummary( "frat boys", fratboysDefeated, fratboyImage, fratboyMin, fratboyMax );
+		String hippyMessage = sideSummary( "hippies", hippiesDefeated, hippyImage, hippyMin, hippyMax );
 		String tdStyle = "<td style=\"color: red;font-size: 80%\" align=center>";
 		String row = "<tr><td><center><table width=100%><tr>" +
 			tdStyle + fratboyMessage + "</td>" +
@@ -252,6 +255,14 @@ public class BigIsland
 		int tableIndex = buffer.indexOf( "<tr><td style=\"color: white;\" align=center bgcolor=blue><b>The Mysterious Island of Mystery</b></td>" );
 		if ( tableIndex != -1 )
 			buffer.insert( tableIndex, row );
+
+                // Now replace sidequest location images for completed quests
+                sidequestImage( buffer, "sidequestArenaCompleted", ARENA );
+                sidequestImage( buffer, "sidequestFarmCompleted", FARM );
+                sidequestImage( buffer, "sidequestJunkyardCompleted", JUNKYARD );
+                sidequestImage( buffer, "sidequestLighthouseCompleted", LIGHTHOUSE );
+                sidequestImage( buffer, "sidequestNunsCompleted", NUNS );
+                sidequestImage( buffer, "sidequestOrchardCompleted", ORCHARD );
 	}
 
 	private static final String sideSummary( String side, int kills, int image, int min, int max )
@@ -262,6 +273,21 @@ public class BigIsland
                 int maxLeft = 1000 - min;
                 String range = ( minLeft == maxLeft ) ? String.valueOf( minLeft ) : ( String.valueOf( minLeft ) + "-" + String.valueOf( maxLeft ) );
                 return kills + " " + side + " defeated; " + range + " left (image " + image + ").";
+	}
+
+	private static final void sidequestImage( StringBuffer buffer, String setting, int quest )
+	{
+		String status = KoLSettings.getUserProperty( setting );
+		String image;
+		if ( status.equals( "fratboy" ) )
+			image = FRAT_IMAGES[quest];
+		else if ( status.equals( "hippy" ) )
+			image = HIPPY_IMAGES[quest];
+		else
+			return;
+
+		String old = IMAGE_ROOT + SIDEQUEST_IMAGES[quest];
+		StaticEntity.singleStringReplace( buffer, old, image );
 	}
 
 	public static final void startFight()
@@ -831,7 +857,7 @@ public class BigIsland
 		1000	// Image 32
 	};
 
-	public static final void parseIsland( String location, String responseText )
+	public static final void parseBigIsland( String location, String responseText )
 	{
 		if ( !location.startsWith( "bigisland.php" ) )
 			return;
@@ -882,7 +908,7 @@ public class BigIsland
 		if ( location.indexOf( "action=farmer") != -1 )
 			return FARM;
 
-		if ( location.indexOf( "action=nuns") != -1 )
+		if ( location.indexOf( "place=nunnery") != -1 )
 			return NUNS;
 
 		if ( location.indexOf( "action=pyro") != -1 )
@@ -944,26 +970,157 @@ public class BigIsland
 
 	private static final void parseArena( String responseText )
 	{
+		// You roll up to the amphitheater and see that the Goat Cheese
+		// Occurence is well into the first song of their four-hour,
+		// one-song set.
+		if ( responseText.indexOf( "well into the first song" ) != -1 )
+		{
+			KoLSettings.resetUserProperty( "sidequestArenaCompleted", "hippy" );
+			return;
+		}
+
+		// "Hey, man," he says laconically. "You did a, like, totally
+		// awesome job promoting the concert, man. If you have any
+		// flyers left, I'll take 'em; we can use them at the next
+		// show. Speaking of which, they're hitting the stage in just a
+		// couple of minutes -- you should come back in a few and check
+		// 'em out. It's a totally awesome show, man."
+		if ( responseText.indexOf( "I'll take 'em" ) != -1 )
+		{
+			KoLSettings.resetUserProperty( "sidequestArenaCompleted", "hippy" );
+			if ( KoLCharacter.hasItem( JAM_FLYERS ) )
+				StaticEntity.getClient().processResult( JAM_FLYERS );
+			return;
+		}
+		
+		// You roll up to the amphitheater and see that Radioactive
+		// Child has already taken the stage.
+		if ( responseText.indexOf( "has already taken the stage" ) != -1 )
+		{
+			KoLSettings.resetUserProperty( "sidequestArenaCompleted", "fratboy" );
+			return;
+		}
+
+		// "Hey, bra," he says, "you did excellent work promoting the
+		// show. If you have any flyers left, I'll take them; we can
+		// use them at the next show."
+		if ( responseText.indexOf( "I'll take them" ) != -1 )
+		{
+			KoLSettings.resetUserProperty( "sidequestArenaCompleted", "fratboy" );
+			if ( KoLCharacter.hasItem( JAM_FLYERS ) )
+				StaticEntity.getClient().processResult( ROCK_FLYERS );
+			return;
+		}
+
+		// The stage at the Mysterious Island Arena is empty.
+		if ( responseText.indexOf( "The stage at the Mysterious Island Arena is empty" ) != -1 )
+		{
+			// Didn't complete quest or defeated the side you
+			// advertised for.
+			KoLSettings.resetUserProperty( "sidequestArenaCompleted", "none" );
+		}
 	}
 
 	private static final void parseJunkyard( String responseText )
 	{
+		// As you turn to walk away, he taps you on the shoulder. "I
+		// almost forgot. I made this while you were off getting my
+		// tools. It was boring, but I figure the more time I spend
+		// bored, the longer my life will seem. Anyway, I don't really
+		// want it, so you might as well take it."
+		if ( responseText.indexOf( "I made this while you were off getting my tools" ) == -1 )
+			return;
+
+		if ( responseText.indexOf( "spark plug earring" ) != -1 ||
+		     responseText.indexOf( "woven baling wire bracelets" ) != -1 ||
+		     responseText.indexOf( "gearbox necklace" ) != -1 )
+		{
+			KoLSettings.resetUserProperty( "sidequestJunkyardCompleted", "hippy" );
+		}
+		else if ( responseText.indexOf( "rusty chain necklace" ) != -1 ||
+			  responseText.indexOf( "sawblade shield" ) != -1 ||
+			  responseText.indexOf( "wrench bracelet" ) != -1 )
+		{
+			KoLSettings.resetUserProperty( "sidequestJunkyardCompleted", "fratboy" );
+		}
 	}
 
 	private static final void parseOrchard( String responseText )
 	{
+		// "Is that... it is! The heart of the filthworm queen! You've
+		// done it! You've freed our orchard from the tyranny of
+		// nature!"
+		if ( responseText.indexOf( "tyranny of nature" ) == -1 )
+			return;
+
+		String side = EquipmentDatabase.isWearingOutfit( 32 ) ? "hippy" : "fratboy";
+		KoLSettings.resetUserProperty( "sidequestFarmCompleted", side );
 	}
 
 	private static final void parseFarm( String responseText )
 	{
+
+		// "Well... How about dedicating a portion of your farm to
+		// growing soybeans, to help feed the hippy army?"
+		if ( responseText.indexOf( "growing soybeans" ) != -1 )
+		{
+			KoLSettings.resetUserProperty( "sidequestFarmCompleted", "hippy" );
+			return;
+		}
+
+		// "Well... How about dedicating a portion of your farm to
+		// growing hops, to make better beer for the frat army?"
+		if ( responseText.indexOf( "growing hops" ) != -1 )
+		{
+			KoLSettings.resetUserProperty( "sidequestFarmCompleted", "fratboy" );
+			return;
+		}
 	}
 
 	private static final void parseNunnery( String responseText )
 	{
+		// "Well," you say, "it would really help the war effort if
+		// your convent could serve as a hospital for our wounded
+		// troops."
+
+		// "Hello, weary Adventurer! Please, allow us to tend to your
+		// wounds."
+		if ( responseText.indexOf( "could serve as a hospital" ) != -1  ||
+		     responseText.indexOf( "tend to your wounds" ) != -1 )
+		{
+			KoLSettings.resetUserProperty( "sidequestNunsCompleted", "hippy" );
+			return;
+		}
+
+		// "Well," you say, "it would really help the war effort if
+		// your convent could serve as a massage parlor. Y'know... to
+		// help our troops relax."
+
+		// "Adventurer! You look so... so tense! Please, allow us to
+		// use our skilled hands to give you a refreshing massage."
+		if ( responseText.indexOf( "could serve as a massage parlor" ) != -1  ||
+		     responseText.indexOf( "refreshing massage" ) != -1 )
+		{
+			KoLSettings.resetUserProperty( "sidequestNunsCompleted", "fratboy" );
+			return;
+		}
+
+		// "Hello, Adventurer. I'm afraid there's not much here at our
+		// simple convent that would be of interest to a world-weary
+		// traveler like yourself."		   
+		if ( responseText.indexOf( "world-weary traveler" ) != -1 )
+			KoLSettings.resetUserProperty( "sidequestNunsCompleted", "none" );
 	}
 
 	private static final void parseLighthouse( String responseText )
 	{
+		// He gazes at you thoughtfully for a few seconds, then a smile
+		// lights up his face and he says "My life... er... my bombs
+		// for you. My bombs for you, bumpty-bumpty-bump!"
+		if ( responseText.indexOf( "My bombs for you" ) == -1 )
+			return;
+		String side = EquipmentDatabase.isWearingOutfit( 32 ) ? "hippy" : "fratboy";
+		KoLSettings.resetUserProperty( "sidequestLighthouseCompleted", side );
 	}
 
 	public static final void ensureUpdatedBigIsland()
@@ -975,11 +1132,60 @@ public class BigIsland
 
 			KoLSettings.setUserProperty( "fratboysDefeated", "0" );
 			KoLSettings.setUserProperty( "hippiesDefeated", "0" );
+			KoLSettings.setUserProperty( "sidequestArenaCompleted", "none" );
+			KoLSettings.setUserProperty( "sidequestFarmCompleted", "none" );
+			KoLSettings.setUserProperty( "sidequestJunkyardCompleted", "none" );
+			KoLSettings.setUserProperty( "sidequestLighthouseCompleted", "none" );
+			KoLSettings.setUserProperty( "sidequestNunsCompleted", "none" );
+			KoLSettings.setUserProperty( "sidequestOrchardCompleted", "none" );
 		}
 
 		// Set variables from user settings
 
 		fratboysDefeated = KoLSettings.getIntegerProperty( "fratboysDefeated" );
 		hippiesDefeated = KoLSettings.getIntegerProperty( "hippiesDefeated" );
+	}
+
+	public static final void parsePostwarIsland( String location, String responseText )
+	{
+		if ( !location.startsWith( "postwarisland.php" ) )
+			return;
+
+		// Set variables from user settings
+		ensureUpdatedPostwarIsland();
+
+		// Deduce things about quests
+		quest = parseQuest( location );
+
+		switch ( quest )
+		{
+		case ARENA:
+			parseArena( responseText );
+			break;
+		case NUNS:
+			parseNunnery( responseText );
+			break;
+		}
+	}
+
+	public static final void ensureUpdatedPostwarIsland()
+	{
+		int lastAscension = KoLSettings.getIntegerProperty( "lastBattlefieldReset" );
+		if ( lastAscension < KoLCharacter.getAscensions() )
+		{
+			KoLSettings.setUserProperty( "lastBattlefieldReset", String.valueOf( KoLCharacter.getAscensions() ) );
+
+			KoLSettings.setUserProperty( "sidequestArenaCompleted", "none" );
+			KoLSettings.setUserProperty( "sidequestOrchardCompleted", 
+						     KoLSettings.getUserProperty( "currentHippyStore" ) );
+			KoLSettings.setUserProperty( "sidequestNunsCompleted", "none" );
+		}
+	}
+
+	public static final void decoratePostwarIsland( String url, StringBuffer buffer )
+	{
+		// Now replace sidequest location images for completed quests
+		sidequestImage( buffer, "sidequestArenaCompleted", ARENA );
+		sidequestImage( buffer, "sidequestNunsCompleted", NUNS );
 	}
 }
