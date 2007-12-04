@@ -460,3 +460,13 @@
 459	Brother Flying Burrito's Blessing	monkhead.gif	2b0cbdef1a8d80421d3e8a11de7276fd
 460	Brother Corsican's Blessing	monkhead.gif	b7d75d553a9181dff7dc88d0ab556628
 461	Brother Smother's Blessing	monkhead.gif	d75aaa2cc6a8dcfa7cdddef658968e26
+462
+463
+464
+465
+466
+467
+468
+469	Cybernetic Muscles	strboost.gif	4bff7d1f60535beb8220383e6d0d7381
+470	Neuromancy	realbrain.gif	efce075a51174b54c250be1f6cde64fa
+471	Can Has Cyborger	tinykitty.gif	898ea611ee833bd133e04b393203e416

@@ -1317,6 +1317,7 @@ Burning Ears	Cold Resistance: +30
 Burning Hands	Hot Damage: +11
 Burning Heart	Hot Damage: +10
 Butt-Rock Hair	Moxie Percent: +15
+Can Has Cyborger	Moxie Percent: +10
 Can't Be a Chooser	Meat Drop: +30
 Can't Smell Nothin'	Stench Resistance: +90
 Carlweather's Cantata of Confrontation	Combat Rate: +5
@@ -1338,6 +1339,7 @@ Crimbo Epiphany	Mysticality Percent: +10
 Cupcake of Choice	Item Drop: +30
 Cupshotten	Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20
 Cuts Like a Buttered Knife	Sleaze Damage: +50
+Cybernetic Muscles	Muscle Percent: +10
 Dang Near Cut In Half	Muscle Percent: -50
 Deep Fried	Hot Resistance: +20
 Demonic Taint	Stench Damage: +30
@@ -1452,6 +1454,7 @@ Mutated	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25
 Mysteriously Handsome	Moxie Percent: +5, Monster Level: +3
 Mystic Pickleness	Mysticality: +5, Muscle: -5
 Mystically Oiled	Mysticality Percent: +100
+Neuromancy	Mysticality Percent: +10
 Newt Gets In Your Eyes	Moxie: +25
 Object Detection	Item Drop: +5
 Ocelot Eyes	Item Drop: +10
