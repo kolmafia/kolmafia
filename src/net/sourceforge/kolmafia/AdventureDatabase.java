@@ -775,8 +775,8 @@ public class AdventureDatabase extends KoLDatabase
 		// Choice 189 is O Cap'm, My Cap'm
 
                 // Chatterboxing
-		new ChoiceAdventure( "Island", "choiceAdventure186", "F'c'le",
-		  new String [] { "moxie substats", "lose hp", "moxie substats", "mysticality substats" },
+		new ChoiceAdventure( "Island", "choiceAdventure191", "F'c'le",
+		  new String [] { "moxie substats", "lose hp", "muscle substats", "mysticality substats" },
 		  new String [] { null, null, null, null } ),
 	};
 

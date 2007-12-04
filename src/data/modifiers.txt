@@ -151,6 +151,7 @@ goat beard	Mysticality: +3
 # goofily-plumed helmet
 grass hat	Maximum MP: +10
 green traffic cone	Moxie: +3, Stench Resistance: +20
+grungy bandana	Stench Damage: +10, Sleaze Damage: +10
 # helmet turtle
 ice pick	Item Drop: +15, Softcore Only
 indie comic hipster glasses	Moxie: +5, Muscle: +5, Mysticality: +5
@@ -242,6 +243,7 @@ bounty-hunting pants	Item Drop: +15
 bowlegged pants	Moxie: +5
 # bugbear bungguard
 bullet-proof corduroys	Maximum MP: +40, Damage Reduction: 2
+buoybottoms	Moxie: +11, Monster Level: +7, Initiative: -30
 # chain-mail monokini
 clockwork pants	Initiative: +10
 demonskin trousers	Hot Resistance: +20
@@ -334,6 +336,7 @@ frilly shirt	Mysticality: +3
 gingham blouse	Muscle: +5
 gnauga hide vest	Damage Reduction: 6, Cold Resistance: +10, Hot Resistance: +10, Sleaze Resistance: +10, Spooky Resistance: +10, Stench Resistance: +10
 goth kid t-shirt	Monster Level: +5
+grungy flannel shirt	Moxie: +11
 harem girl t-shirt	Moxie: +3
 hipposkin poncho	Monster Level: +10
 loathing eagle baby-doll shirt	Moxie: +3
@@ -880,9 +883,12 @@ blackberry slippers	Single Equip, Mysticality: +10, Spell Damage: +10, Spell Dam
 bling-bling	Moxie: +1
 blue glowstick	Maximum MP: +5, Moxie: -3
 blue ribbon	Maximum HP: +5
+booty chest charrrm bracelet	Single Equip, Meat Drop: +10
 bottle opener belt buckle	Single Equip
 bottlecap turtle	Mysticality: +1, Maximum MP: +3
+# cannonball charrrm bracelet
 cement shoes	Intrinsic Effect: "Sleeping with the Fishes", Mysticality: +20, Moxie: +20
+copper ha'penny charrrrm bracelet	Maximum HP: +20, Maximum MP: +20
 Jolly Roger charrrm bracelet	Moxie: +5
 chintzy accordion pin	Single Equip, Moxie: +12, Mysticality: +6, Class: "Accordion Thief"
 chintzy disco ball pendant	Single Equip, Moxie: +12, Muscle: +6, Class: "Disco Bandit"
@@ -920,6 +926,7 @@ glowing red eye	Spooky Resistance: +20
 gnatwing earring	Initiative: +15, Mysticality: +6
 gnoll-tooth necklace	Muscle: +5
 green glowstick	Maximum MP: +5, Moxie: -3
+grumpy old man charrrm bracelet	Single Equip, Monster Level: +7
 hamethyst bracelet	Single Equip, Muscle: +3, Critical: 3
 hamethyst earring	Muscle: +3, Critical: 3
 hamethyst necklace	Single Equip, Muscle: +4, Melee Damage: +5
@@ -983,11 +990,13 @@ round purple sunglasses	Single Equip, Sleaze Resistance: +10
 # rubber WWJD? bracelet
 # rubber WWSPD? bracelet
 # rubber WWtNSD? bracelet
+# rum barrel charrrm bracelet
 rusty chain necklace	Muscle: +9, Maximum HP: +25
 second-hand knockoff engagement ring	Single Equip, Moxie: +1, Muscle: +1, Mysticality: +1
 severed rocking horse head	Moxie: +3, Muscle: +3, Mysticality: +3
 shiny hood ornament	Moxie: +5, Muscle: +5, Mysticality: +5, Maximum HP: +30, Maximum MP: +30, Initiative: +10
 shiny ring	Moxie: +3, Muscle: +3, Mysticality: +3
+silver tongue charrrm bracelet	Single Equip, Moxie: +5, Spell Damage: +10
 sk8board	Initiative: +15
 solid baconstone earring	Single Equip, Mysticality: +8, Maximum MP: +15, Mana Cost: -1
 solid baconstone necklace	Single Equip, Mysticality: +10, Spell Damage: +15
@@ -1007,6 +1016,7 @@ string of red beads	Muscle: +1
 stuffed shoulder parrot	Maximum MP: +5
 support cummerbund	Maximum HP: +20
 tap shoes	Single Equip, Moxie: +11, Initiative: -20
+tarrrnished charrrm bracelet	Single Equip, Stench Damage: +10, Stench Spell Damage: +10
 tin star	Monster Level: +5, Moxie: +3
 tiny plastic 7-foot dwarf	Monster Level: +1
 tiny plastic Axe Wound	Monster Level: +1
@@ -1694,6 +1704,7 @@ eXtreme Cold-Weather Gear	Cold Resistance: +30
 # +30% Combat Initiative
 # +5 Duration to Buffs You Cast
 # +5 to Familiar Damage
+# +5% Booze Drops from Monsters
 # +50% Weapon Drops from Monsters
 # +7 damage to Disco Bandit Combat Skills
 # 5-Finger Discount
@@ -1719,6 +1730,7 @@ eXtreme Cold-Weather Gear	Cold Resistance: +30
 # Critical Hits are extra-explosive
 # Damages Attacking Opponent
 # Drains MP on Successful Hit
+# Explosively hilarious
 # Familiar Will Attack You Less Often
 # Familiar gains 1-2 extra experience per Adventure
 # Gives Extra Offhand Equipment Slot

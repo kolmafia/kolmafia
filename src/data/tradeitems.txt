@@ -2947,7 +2947,7 @@
 2946	V for Vivala mask	8	all	0
 2947	The Big Book of Pirate Insults	0	all	250
 2948	shot of rotgut	2	all	50
-2949	
+2949	jar of "Creole Lady" marrrmalade	4	all	45
 2950	Cap'm Caronch's Map	0	none	0
 2951	Orcish Frat House blueprints	0	none	0
 2952	blue glowstick	8	display	0
@@ -2971,7 +2971,7 @@
 2970	cream stout	2	all	55
 2971	curmudgel	12	all	130
 2972	grumpy old man charrrm	0	all	90
-2973	grumpy old man charrrm bracelet	8	all	-1
+2973	grumpy old man charrrm bracelet	8	all	120
 2974	tarrrnish charrrm	0	all	90
 2975	tarrrnished charrrm bracelet	8	all	120
 2976	bilge wine	2	all	65
@@ -2979,7 +2979,7 @@
 2978	yohohoyo	12	all	165
 2979	fish-liver oil	4	all	75
 2980	booty chest charrrm	0	all	110
-2981	booty chest charrrm bracelet	8	all	-1
+2981	booty chest charrrm bracelet	8	all	140
 2982	cannonball charrrm	0	all	110
 2983	cannonball charrrm bracelet	8	all	140
 2984	copper ha'penny charrrrm	0	all	110
@@ -2993,9 +2993,9 @@
 2992
 2993	vinegar-soaked lemon slice	1	all	61
 2994	true grit	4	all	70
-2995
-2996
-2997
+2995	buoybottoms	10	all	155
+2996	grungy flannel shirt	11	all	155
+2997	grungy bandana	9	all	155
 2998	grassy cutlass	12	all	155
 2999	Cap'm Caronch's nasty booty	0	none	none
 3000	Cap'm Caronch's dentures	0	none	none
