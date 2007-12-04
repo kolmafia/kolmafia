@@ -2871,7 +2871,7 @@
 2865	
 2866	
 2867
-2868	
+2868	282485397	pirate pamphlet
 2869	
 2870	
 2871	601551923	burnt flower	burnt flowers
@@ -2950,64 +2950,64 @@
 2944	
 2945	340531020	party hat	party hats
 2946	798085688	V for Vivala mask
-2947
-2948	
+2947	501433602	The Big Book of Pirate Insults
+2948	132499327	shot of rotgut
 2949	
-2950
-2951
+2950	496366910	Cap'm Caronch's Map
+2951	265693457	Orcish Frat House blueprints
 2952	741208497	blue glowstick	blue glowstyx
 2953	956601901	charrrm bracelet	charrrm bracelets
 2954
 2955	226064200	yam candy
-2956
-2957
+2956	592935846	cocktail napkin
+2957	465105916	rum barrel charrrm
 2958	907207851	tube of cranberry Go-Goo
 2959
 2960	733781495	single-serving herbal stuffing
 2961	821168796	packet of tofurkey gravy
 2962	890505577	tofurkey nugget
-2963
-2964
-2965
-2966
-2967
-2968
-2969
-2970
+2963	403155627	rigging shampoo
+2964	426626520	ball polish
+2965	350586538	mizzenmast mop
+2966	617968819	Tom's of the Spanish Main Toothpaste
+2967	981906398	Swabbie&trade; swab
+2968	641422046	Oil of Parrrlay
+2969	971196776	creamsicle
+2970	411448208	cream stout
 2971
-2972
+2972	756065687	grumpy old man charrrm
 2973
 2974
 2975
-2976
-2977
-2978
-2979
-2980
+2976	915332790	bilge wine
+2977	891716670	witty rapier
+2978	867657127	yohohoyo
+2979	272528517	fish-liver oil
+2980	926043993	booty chest charrrm
 2981
-2982
+2982	431696985	cannonball charrrm
 2983
-2984
+2984	403269465	copper ha'penny charrrrm
 2985
 2986
 2987
-2988
+2988	531316933	bit of clingfilm
 2989
 2990
 2991
 2992
-2993
+2993	462198783	vinegar-soaked lemon slice
 2994
 2995
 2996
 2997
-2998
-2999
-3000
-3001
-3002
+2998	878931923	grassy cutlass
+2999	912251690	Cap'm Caronch's nasty booty
+3000	626678451	Cap'm Caronch's dentures
+3001	460968634	solid gold pegleg
+3002	467894345	gold lamé pants
 3003
-3004
+3004	820393938	costume sword
 3005
 3006
 3007
@@ -3021,9 +3021,9 @@
 3015
 3016
 3017
-3018
-3019
-3020
+3018	598368925	gilded ancient cursed chest
+3019	523018058	all-purpose cleaner
+3020	668292774	handful of sawdust
 3021
 3022
 3023
@@ -3036,7 +3036,7 @@
 3030	706044279	kamicorpse-ee
 3031	365780933	purple corpsel
 3032	316114182	corpsebite
-3033
+3033	642596336	pirate fledges
 3034
 3035
 3036

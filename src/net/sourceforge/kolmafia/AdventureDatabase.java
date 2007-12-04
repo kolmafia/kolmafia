@@ -754,6 +754,23 @@ public class AdventureDatabase extends KoLDatabase
 		new ChoiceAdventure( "Beanstalk", "choiceAdventure182", "Fantasy Airship",
 		  new String [] { "enter combat", "Penultimate Fantasy chest", "stats" },
 		  new String [] { null, "604", null } ),
+
+		// That Explains All The Eyepatches
+		new ChoiceAdventure( "Island", "choiceAdventure184", "Barrrney's Barrr",
+		  new String [] { "enter combat", "drunkenness and stats", "shot of rotgut" },
+		  new String [] { null, null, "2948" } ),
+
+		// Yes, You're a Rock Starrr
+		new ChoiceAdventure( "Island", "choiceAdventure185", "Barrrney's Barrr",
+		  new String [] { "base booze", "mixed drinks", "stats" } ),
+
+                // A Test of Testarrrsterone
+		new ChoiceAdventure( "Island", "choiceAdventure186", "Barrrney's Barrr",
+		  new String [] { "muscle and moxie", "drunkenness and stats", "moxie" } ),
+
+		// Choice 187 is Arrr You Man Enough?
+		// Choice 188 is The Infiltrationist
+		// Choice 189 is O Cap'm, My Cap'm
 	};
 
 	static

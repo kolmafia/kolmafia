@@ -2866,7 +2866,7 @@
 2865	
 2866	
 2867
-2868	
+2868	pirate pamphlet	0	all	250
 2869	
 2870	
 2871	burnt flower	0	all	0
@@ -2945,64 +2945,64 @@
 2944	
 2945	party hat	9	all	50
 2946	V for Vivala mask	8	all	0
-2947
-2948	
+2947	The Big Book of Pirate Insults	0	all	250
+2948	shot of rotgut	2	all	50
 2949	
-2950
-2951
+2950	Cap'm Caronch's Map	0	none	0
+2951	Orcish Frat House blueprints	0	none	0
 2952	blue glowstick	8	display	0
 2953	charrrm bracelet	0	all	30
 2954
 2955	yam candy	1	all	50
-2956
-2957
+2956	cocktail napkin	0	all	25
+2957	rum barrel charrrm	0	all	60
 2958	tube of cranberry Go-Goo	1	all	40
 2959
 2960	single-serving herbal stuffing	1	all	30
 2961	packet of tofurkey gravy	1	all	20
 2962	tofurkey nugget	1	all	50
-2963
-2964
-2965
-2966
-2967
-2968
-2969
-2970
+2963	rigging shampoo	3	none	0
+2964	ball polish	3	none	0
+2965	mizzenmast mop	3	none	0
+2966	Tom's of the Spanish Main Toothpaste	0	all	55
+2967	Swabbie&trade; swab	3	all	35
+2968	Oil of Parrrlay	3	all	55
+2969	creamsicle	1	all	55
+2970	cream stout	2	all	55
 2971
-2972
+2972	grumpy old man charrrm	0	all	90
 2973
 2974
 2975
-2976
-2977
-2978
-2979
-2980
+2976	bilge wine	2	all	65
+2977	witty rapier	12	all	155
+2978	yohohoyo	12	all	165
+2979	fish-liver oil	4	all	75
+2980	booty chest charrrm	0	all	110
 2981
-2982
+2982	cannonball charrrm	0	all	110
 2983
-2984
+2984	copper ha'penny charrrrm	0	all	110
 2985
 2986
 2987
-2988
+2988	bit of clingfilm	4	display	60
 2989
 2990
 2991
 2992
-2993
+2993	vinegar-soaked lemon slice	1	all	61
 2994
 2995
 2996
 2997
-2998
-2999
-3000
-3001
-3002
+2998	grassy cutlass	12	all	155
+2999	Cap'm Caronch's nasty booty	0	none	none
+3000	Cap'm Caronch's dentures	0	none	none
+3001	solid gold pegleg	8	all	500
+3002	gold lam&eacute; pants	10	all	110
 3003
-3004
+3004	costume sword	12	all	125
 3005
 3006
 3007
@@ -3016,9 +3016,9 @@
 3015
 3016
 3017
-3018
-3019
-3020
+3018	gilded ancient cursed chest	0	all	0
+3019	all-purpose cleaner	3	all	55
+3020	handful of sawdust	0	all	55
 3021
 3022
 3023
@@ -3031,7 +3031,7 @@
 3030	kamicorpse-ee	2	all	50
 3031	purple corpsel	2	all	50
 3032	corpsebite	2	all	50
-3033
+3033	pirate fledges	8	display	0
 3034
 3035
 3036

@@ -245,3 +245,7 @@ Black Market	l	black sheepskin diploma	300
 Black Market	l	can of black paint	1000
 Black Market	l	forged identification documents	5000
 Black Market	l	exotic parrot egg	500000
+
+Barrrtleby's Barrrgain Books	r	pirate pamphlet	300
+Barrrtleby's Barrrgain Books	r	The Big Book of Pirate Insults	500
+Barrrtleby's Barrrgain Books	r	abridged dictionary	1000
