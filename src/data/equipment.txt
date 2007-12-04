@@ -404,6 +404,7 @@ costume sword	10	Mus: 0	1-handed sword
 crazy bastard sword	125	Mus: 25	1-handed sword
 crowbarrr	80	Mus: 25	2-handed staff
 curdflinger	45	Mox: 7	1-handed crossbow
+curmudgel	125	Mus: 47	1-handed lub
 demon whip	10	Mus: 0	1-handed whip
 denim axe	170	Mus: 70	2-handed axe
 dense meat crossbow	60	Mox: 15	2-handed crossbow
@@ -693,6 +694,7 @@ stuffed yeti	0	none
 stuffed yo-yo	0	none
 stuffed zmobie	0	none
 thought balloon	0	none
+tip jar	0	Mys: 52
 tropical paperweight	0	none
 voodoo doll	0	none
 wad of Crovacite	0	none
@@ -839,6 +841,7 @@ eXtreme nose ring	0	Mys: 10
 enchanted toothpick	0	Mys: 25
 encoder ring	0	none
 energy drink IV	0	Mys: 75
+enormous hoop earring	0	Mys: 45
 evil flaming eyeball pendant	0	none
 exclusive ultra-rare item	0	none
 filigreed hamethyst earring	0	Mys: 40
@@ -917,6 +920,7 @@ rubber WWBD? bracelet	0	none
 rubber WWJD? bracelet	0	none
 rubber WWSPD? bracelet	0	none
 rubber WWtNSD? bracelet	0	none
+rum barrel charrrm bracelet	0	Mys: 40
 rusty chain necklace	0	Mys: 75
 second-hand knockoff engagement ring	0	none
 severed rocking horse head	0	Mys: 10

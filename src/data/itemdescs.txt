@@ -2957,12 +2957,12 @@
 2951	265693457	Orcish Frat House blueprints
 2952	741208497	blue glowstick	blue glowstyx
 2953	956601901	charrrm bracelet	charrrm bracelets
-2954
+2954	702310766	tip jar
 2955	226064200	yam candy
 2956	592935846	cocktail napkin
 2957	465105916	rum barrel charrrm
 2958	907207851	tube of cranberry Go-Goo
-2959
+2959	449711949	rum barrel charrrm bracelet
 2960	733781495	single-serving herbal stuffing
 2961	821168796	packet of tofurkey gravy
 2962	890505577	tofurkey nugget
@@ -2974,30 +2974,30 @@
 2968	641422046	Oil of Parrrlay
 2969	971196776	creamsicle
 2970	411448208	cream stout
-2971
+2971	122144074	curmudgel
 2972	756065687	grumpy old man charrrm
-2973
-2974
-2975
+2973		grumpy old man charrrm bracelet
+2974	252043042	tarrrnish charrrm
+2975	167193019	tarrrnished charrrm bracelet
 2976	915332790	bilge wine
 2977	891716670	witty rapier
 2978	867657127	yohohoyo
 2979	272528517	fish-liver oil
 2980	926043993	booty chest charrrm
-2981
+2981		booty chest charrrm bracelet
 2982	431696985	cannonball charrrm
-2983
+2983	555275436	cannonball charrrm bracelet
 2984	403269465	copper ha'penny charrrrm
-2985
-2986
-2987
+2985	523018058	copper ha'penny charrrrm bracelet
+2986	125233552	silver tongue charrrm
+2987	133863244	silver tongue charrrm bracelet
 2988	531316933	bit of clingfilm
 2989
 2990
 2991
 2992
 2993	462198783	vinegar-soaked lemon slice
-2994
+2994	788941481	true grit
 2995
 2996
 2997
@@ -3006,7 +3006,7 @@
 3000	626678451	Cap'm Caronch's dentures
 3001	460968634	solid gold pegleg
 3002	467894345	gold lamé pants
-3003
+3003	289787123	enormous hoop earring
 3004	820393938	costume sword
 3005
 3006
@@ -3020,7 +3020,7 @@
 3014
 3015
 3016
-3017
+3017	387815070	ornate ancient cursed chest
 3018	598368925	gilded ancient cursed chest
 3019	523018058	all-purpose cleaner
 3020	668292774	handful of sawdust

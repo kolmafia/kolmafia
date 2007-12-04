@@ -922,6 +922,16 @@ duct tape fedora	27	duct tape (14)
 duct tape sword	27	duct tape (17)
 duct tape shirt	27	duct tape (23)
 
+# Recipes that involve single-using one of the ingredients
+
+booty chest charrrm bracelet	28	booty chest charrrm	charrrm bracelet
+cannonball charrrm bracelet	28	cannonball charrrm	charrrm bracelet
+copper ha'penny charrrrm bracelet	28	copper ha'penny charrrrm	charrrm bracelet
+grumpy old man charrrm bracelet	28	grumpy old man charrrm	charrrm bracelet
+rum barrel charrrm bracelet	28	rum barrel charrrm	charrrm bracelet
+silver tongue charrrm bracelet	28	silver tongue charrrm	charrrm bracelet
+tarrrnished charrrm bracelet	28	tarrrnish charrrm	charrrm bracelet
+
 # Familiars.  These are familiars which are only available after
 # ascension (not including the ones which are available through
 # post-ascension methods, like supertinkering).

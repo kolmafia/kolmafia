@@ -693,9 +693,6 @@ public class KoLRequest extends Job implements KoLConstants
 				break;
 		}
 		while ( !this.postClientData() && !this.retrieveServerReply() && this.timeoutCount < TIMEOUT_LIMIT );
-
-		if ( this.hasNoResult || this.responseCode != 200 )
-			return;
 	}
 
 	private void saveLastChoice()
@@ -1329,7 +1326,7 @@ public class KoLRequest extends Job implements KoLConstants
 	 * server response.
 	 */
 
-	public final void processResponse()
+	public void processResponse()
 	{
 		if ( this.responseText == null )
 			return;

@@ -36,27 +36,22 @@ package net.sourceforge.kolmafia;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class MultiUseRequest extends ItemCreationRequest
+public class SingleUseRequest extends ItemCreationRequest
 {
-	private static final Pattern USE_PATTERN = Pattern.compile( "multiuse.php.*whichitem=(\\d+).*quantity=(\\d+)" );
+	private static final Pattern USE_PATTERN = Pattern.compile( "inv_use.php.*whichitem=(\\d+)" );
 
-	public MultiUseRequest( int itemId )
+	public SingleUseRequest( int itemId )
 	{
-		super( "multiuse.php", itemId );
+		super( "inv_use.php", itemId );
 
 		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemId );
 
-		// There must be exactly one ingredient
-		if ( ingredients == null || ingredients.length != 1 )
+		if ( ingredients == null )
 			return;
 
-		AdventureResult ingredient = ingredients[0];
-		int use = ingredient.getItemId();
-		int count = ingredient.getCount();
-
-		this.addFormField( "action", "useitem" );
+		int use = ingredients[0].getItemId();
+		this.addFormField( "which", "3" );
 		this.addFormField( "whichitem", String.valueOf( use ) );
-		this.addFormField( "quantity", String.valueOf( count ) );
 	}
 
 	public void reconstructFields()
@@ -93,19 +88,31 @@ public class MultiUseRequest extends ItemCreationRequest
 		int baseId = StaticEntity.parseInt( useMatcher.group(1) );
 
 		// Find result item ID
-		int result = ConcoctionsDatabase.findConcoction( MULTI_USE, baseId );
+		int result = ConcoctionsDatabase.findConcoction( SINGLE_USE, baseId );
 
 		// If this is not a concoction, let somebody else log this.
 		if ( result == -1 )
 			return false;
 
-		int count = StaticEntity.parseInt( useMatcher.group(2) );
-		AdventureResult base = new AdventureResult( baseId, 0 - count );
+		AdventureResult base = new AdventureResult( baseId, -1 );
+
+		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( result );
+		StringBuffer text = new StringBuffer();
+		text.append( "use " );
+
+		for ( int i = 0; i < ingredients.length; ++i )
+                {
+			if ( i > 0 )
+				text.append( " + " );
+
+			text.append( ingredients[i].getCount() );
+			text.append( " " );
+			text.append( ingredients[i].getName() );
+			StaticEntity.getClient().processResult( ingredients[i].getInstance( -1 * ingredients[i].getCount() ) );
+                }
 
 		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( "use " + count + " " + base.getName() );
-
-		StaticEntity.getClient().processResult( base );
+		RequestLogger.updateSessionLog( text.toString() );
 
 		return true;
 	}

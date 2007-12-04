@@ -1234,6 +1234,7 @@ public class FightRequest extends KoLRequest
 		case 2497:	// molybdenum magnet
 		case 2678:	// spectre scepter
 		case 2848:	// Gnomitronic Hyperspatial Demodulizer
+		case 2947:	// The Big Book of Pirate Insults
 			return false;
 
 		case 829:  // Anti-Anti-Antidote

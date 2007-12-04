@@ -280,7 +280,7 @@ public interface KoLConstants extends UtilityConstants
 
 	// Item creation types
 
-	public static final int METHOD_COUNT = 28;
+	public static final int METHOD_COUNT = 29;
 	public static final int SUBCLASS = Integer.MAX_VALUE;
 
 	public static final int MEAT_PASTE = 25;
@@ -323,6 +323,7 @@ public interface KoLConstants extends UtilityConstants
 	public static final int EXPENSIVE_JEWELRY = 25;
 	public static final int STAFF = 26;
 	public static final int MULTI_USE = 27;
+	public static final int SINGLE_USE = 28;
 
 	// Colors which are used to handle the various KoLmafia states.
 	// Used when changing the display.

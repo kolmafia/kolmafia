@@ -39,6 +39,7 @@ import java.util.regex.Pattern;
 
 public class ItemCreationRequest extends KoLRequest implements Comparable
 {
+	private static final KoLRequest REDIRECT_REQUEST = new KoLRequest( "inventory.php?action=message" );
 	private static final CreationRequestArray ALL_CREATIONS = new CreationRequestArray();
 	protected static final Pattern ITEMID_PATTERN = Pattern.compile( "item\\d?=(\\d+)" );
 	protected static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
@@ -292,6 +293,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		case MULTI_USE:
 			return new MultiUseRequest( itemId );
 
+		case SINGLE_USE:
+			return new SingleUseRequest( itemId );
+
 		default:
 			return null;
 		}
@@ -334,6 +338,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			case SUBCLASS:
 
 				super.run();
+				if ( this.responseCode == 302 && this.redirectLocation.startsWith( "inventory" ) )
+					REDIRECT_REQUEST.constructURLString( this.redirectLocation ).run();
 				break;
 
 			case ROLLING_PIN:
@@ -833,8 +839,11 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		if ( urlString.indexOf( "action=makepaste" ) != -1 )
 			return CombineMeatRequest.registerRequest( urlString );
 
-		if ( urlString.startsWith( "multiuse.php" ) )
-			return MultiUseRequest.registerRequest( urlString );
+		if ( urlString.startsWith( "inv_use.php" ) && SingleUseRequest.registerRequest( urlString ) )
+			return true;
+
+		if ( urlString.startsWith( "multiuse.php" ) && MultiUseRequest.registerRequest( urlString ) )
+			return true;
 
 		// Now that we know it's not a special subclass instance,
 		// all we do is parse out the ingredients which were used

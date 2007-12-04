@@ -37,6 +37,7 @@ Astral Mushroom (Great Trip)	100	Angels of Avalon	Bustle in the Hedgerow	Elders 
 Astral Mushroom (Mediocre Trip)	100	Feeling That You're Being Watched	Really Interesting Wallpaper	The Best Carpet Ever	Urge to Stare at Your Hands	Visible Music
 Back 40	100	Fire-Breathing Duck	Scorched Duck
 Barn	100	Generic Duck
+Barrrney's Barrr	100	Tetchy Pirate	Tipsy Pirate	Toothy Pirate
 Bat Hole Entryway	100	Albino Bat	Pine Bat	Regular Old Bat
 Batrat and Ratbat Burrow	100	Batrat	Ratbat
 Battlefield (Cloaca Uniform)	95	Dyspepsi-Cola General	Dyspepsi-Cola Knight	Dyspepsi-Cola Soldier
@@ -45,6 +46,7 @@ Battlefield (Frat Uniform)	100	Bailey's Beetle	Green Ops Soldier	Mobile Armored 
 Battlefield (Hippy Uniform)	100	Beer Bongadier	Sorority Nurse	Sorority Operator	War Frat 110th Infantryman	War Frat 151st Infantryman	War Frat 500th Infantrygentleman	War Frat Wartender	War Frat Grill Sergeant	War Frat Kegrider	Elite Beer Bongadier	Naughty Sorority Nurse	Heavy Kegtank	Panty Raider Frat Boy	War Frat Elite 110th Captain	War Frat 151st Captain	War Frat Elite 500th Captain	War Frat Elite Wartender	War Frat Mobile Grill Unit	War Frat Senior Grill Sergeant	War Frat Streaker	Brutus, the Toga-Clad Lout	Danglin' Chad	Monty Basingstoke-Pratt, IV	Next Generation Frat Boy	The Man: 0
 Battlefield (No Uniform)	0	Time Bandit: -1
 Beanbat Chamber	100	Beanbat
+Belowdecks	100	Wacky Pirate	Warty Pirate	Wealthy Pirate	Whiny Pirate	Witty Pirate
 Black Forest	100	Black Adder	Black Knight	Black Panther	Black Widow	Blackberry Bush
 Bog	100	Rattlin' Duck	Swamp Duck
 Boss Bat's Lair	100	Beefy Bodyguard Bat	The Boss Bat
@@ -65,6 +67,7 @@ Desert (Ultrahydrated)	100	Cactuary	Giant Giant Giant Centipede	Plaque of Locust
 Dire Warren	100	Fluffy Bunny
 Dungeons of Doom	70	Swarm of Killer Bees	Acid Blob	Mind Flayer	Large Kobold	Quantum Mechanic	Mimic: 0	The Master of Thieves: -1
 eXtreme Slope	60	Sk8 Gnome	eXtreme Cross-Country Hippy	eXtreme Orcish Snowboarder
+F'c'le	100	Chatty Pirate	Cleanly Pirate	Clingy Pirate	Creamy Pirate	Crusty Pirate	Curmudgeonly Pirate
 Family Plot	100	Vampire Duck	Zombie Duck
 Fantasy Airship	80	Burly Sidekick: 2	Irritating Series of Random Encounters: 3	MagiMechTech MechaMech: 2	Protagonist: 2	Quiet Healer: 2	Spunky Princess: 2
 Feeding Chamber	100	Filthworm Drone
@@ -115,6 +118,7 @@ Outskirts of The Knob	50	Knob Goblin Assistant Chef	Sleeping Knob Goblin Guard	S
 Palindome	50	Bob Racecar	Drab Bard	Evil Olive	Flock of Stab-Bats	Racecar Bob	Taco Cat	Tan Gnat
 Pirate Cove	60	Sassy Pirate	Shady Pirate	Shifty Pirate	Swarthy Pirate	Smarmy Pirate
 Pond	100	Figure Skating Duck	Frozen Duck
+Poop Deck	100	Gaudy Pirate	Grassy Pirate	Gritty Pirate	Groovy Pirate	Grungy Pirate
 Post-Cyrpt Cemetary	100	Corpulent Zobmie	Grave Rober Zmobie	Senile Lihc	Slick Lihc	Gluttonous Ghuol	Gaunt Ghuol	Spiny Skelelton	Toothy Sklelton	Skelter Butleton, the Butler Skeleton: 0	Count Bakula: -1
 Post-War Junkyard	100	A.M.C. Gremlin	Batwinged Gremlin	Erudite Gremlin	Spider Gremlin	Vegetable Gremlin
 Post-War Sonofa Beach	-1	Lobsterfrogman
