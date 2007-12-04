@@ -762,15 +762,22 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Yes, You're a Rock Starrr
 		new ChoiceAdventure( "Island", "choiceAdventure185", "Barrrney's Barrr",
-		  new String [] { "base booze", "mixed drinks", "stats" } ),
+                                     new String [] { "base booze", "mixed drinks", "stats" },
+		  new String [] { null, null, null } ),
 
                 // A Test of Testarrrsterone
 		new ChoiceAdventure( "Island", "choiceAdventure186", "Barrrney's Barrr",
-		  new String [] { "muscle and moxie", "drunkenness and stats", "moxie" } ),
+		  new String [] { "muscle and moxie", "drunkenness and stats", "moxie" },
+		  new String [] { null, null, null } ),
 
 		// Choice 187 is Arrr You Man Enough?
 		// Choice 188 is The Infiltrationist
 		// Choice 189 is O Cap'm, My Cap'm
+
+                // Chatterboxing
+		new ChoiceAdventure( "Island", "choiceAdventure186", "F'c'le",
+		  new String [] { "moxie substats", "lose hp", "moxie substats", "mysticality substats" },
+		  new String [] { null, null, null, null } ),
 	};
 
 	static
@@ -980,6 +987,9 @@ public class AdventureDatabase extends KoLDatabase
 		// This trades all Spanish flies for around the worlds,
 		// in multiples of 5.  Excess flies are left in inventory.
 		{ "181", "1", new AdventureResult( "Spanish fly", 5 ) },
+
+		//  O Cap'm, My Cap'm
+		{ "189", "1", new AdventureResult( AdventureResult.MEAT, -977 ) },
 	};
 
 	// Some adventures don't actually cost a turn

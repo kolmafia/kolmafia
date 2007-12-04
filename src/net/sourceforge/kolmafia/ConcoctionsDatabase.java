@@ -788,6 +788,9 @@ public class ConcoctionsDatabase extends KoLDatabase
 		PERMIT_METHOD[ MULTI_USE ] = true;
 		ADVENTURE_USAGE[ MULTI_USE ] = 0;
 
+		PERMIT_METHOD[ SINGLE_USE ] = true;
+		ADVENTURE_USAGE[ SINGLE_USE ] = 0;
+
 		// A rolling pin or unrolling pin can be always used in item
 		// creation because we can get the same effect even without the
 		// tool.

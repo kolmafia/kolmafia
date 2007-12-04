@@ -575,6 +575,9 @@ public class ConsumeItemRequest extends KoLRequest
 
 		int consumptionType = TradeableItemDatabase.getConsumptionType( lastItemUsed.getItemId() );
 
+		if ( consumptionType == NO_CONSUME )
+			return;
+
 		if ( consumptionType == INFINITE_USES )
 			return;
 
@@ -1474,6 +1477,9 @@ public class ConsumeItemRequest extends KoLRequest
 			return false;
 
 		int consumptionType = TradeableItemDatabase.getConsumptionType( lastItemUsed.getItemId() );
+		if ( consumptionType == NO_CONSUME )
+			return false;
+
 		String useTypeAsString = (consumptionType == CONSUME_EAT) ? "eat " :
 			(consumptionType == CONSUME_DRINK) ? "drink " : "use ";
 
