@@ -374,3 +374,7 @@ user	choiceAdventure178	1
 user	choiceAdventure180	1
 user	choiceAdventure181	1
 user	choiceAdventure182	1
+user	choiceAdventure184	1
+user	choiceAdventure185	3
+user	choiceAdventure186	1
+user	choiceAdventure191	1

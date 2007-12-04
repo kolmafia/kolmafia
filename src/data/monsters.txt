@@ -158,8 +158,8 @@ Chalkdust Wraith	HP: 10 Def: 20 Atk: 20 ED: spooky	handful of hand chalk (100)
 Chatty Pirate	HP: 0
 Chowder Golem	HP: 9 Def: 18 Atk: 22 Meat: 29-46
 Claw-foot Bathtub	HP: 110 Def: 100 Atk: 80	bottle of Monsieur Bubble (25)
-Cleanly Pirate	HP: 0
-Clingy Pirate	HP: 0
+Cleanly Pirate	HP: 0	Swabbie&trade; swab (0)	Tom's of the Spanish Main Toothpaste (0)
+Clingy Pirate	HP: 0	bit of clingfilm (0)
 Cloaca-Cola Catapult Engineer	HP: 40 Def: 30 Atk: 30	Cloaca-Cola (15)	Cloaca-Cola (15)	Cloaca-Cola c-rations (5)	Cloaca grenade (5)
 Cloaca-Cola Footsoldier	HP: 35 Def: 30 Atk: 30	Cloaca-Cola (15)	Cloaca-Cola (15)	Cloaca grenade (5)
 Cloaca-Cola Soldier	HP: 30 Def: 30 Atk: 30	Cloaca-Cola (15)	Cloaca-Cola (15)	Cloaca grenade (5)
@@ -172,14 +172,14 @@ Cookie-baking Thing from Beyond Time		evil googly eye (10)	spooky felt (10)	spoo
 Corpulent Zobmie	HP: 50 Def: 55 Atk: 53 E: spooky	cranberries (20)	cranberries (20)	loose teeth (10)
 Count Bakula	HP: 70 Def: 80 Atk: 80	Talisman of Bakula (100)
 Crazy Bastard	HP: 25 Def: 20 Atk: 20	crazy bastard sword (100)
-Creamy Pirate	HP: 0
+Creamy Pirate	HP: 0	creamsicle (0)	cream stout (0)	Oil of Parrrlay (0)
 Creepy Clown	HP: 16 Def: 20 Atk: 20 E: sleaze	acid-squirting flower (10)	clown shoes (10)	foolscap fool's cap (10)	empty greasepaint tube (0)
 Crusty Hippy	HP: 30 Def: 41 Atk: 41 E: stench	filthy corduroys (5)	filthy knitted dread sack (5)	windchimes (20)	reodorant (5)
 Crusty Hippy Jewelry Maker	HP: 30 Def: 41 Atk: 41 E: stench	filthy knitted dread sack (5)	reodorant (5)	filthy corduroys (5)
 Crusty Hippy Vegan Chef	HP: 30 Def: 41 Atk: 41 E: stench	filthy corduroys (5)	filthy knitted dread sack (5)	herbs (30)	reodorant (5)
-Crusty Pirate	HP: 0
+Crusty Pirate	HP: 0	barrrnacle (0)	tarrrnish charrrm (0)
 Cubist Bull	HP: 110 Def: 105 Atk: 105	broken sword (5)	non-Euclidean hoof (0)
-Curmudgeonly Pirate	HP: 0
+Curmudgeonly Pirate	HP: 0	all-purpose cleaner (0)	curmudgel (0)	grumpy old man charrrm (0)	handful of sawdust (0)
 Dairy Goat	HP: 50 Def: 68 Atk: 68 Meat: 40-64	glass of goat's milk (20)	goat cheese (40)	billy idol (0)
 Dairy Ooze	HP: 8 Def: 13 Atk: 13
 Danglin' Chad	HP: 0
@@ -448,7 +448,7 @@ Taco Cat	HP: 125 Def: 126 Atk: 119 Meat: 32-49	cat appendix (30)	catgut (30)	tac
 Tan Gnat	HP: 105 Def: 122 Atk: 116	gnatwing (40)	suntan lotion of moxiousness (50)
 Tapdancing Skeleton	HP: 120 Def: 110 Atk: 110 ED: spooky	tap shoes (5)	worn tophat (5)
 Tektite	HP: 15 Def: 20 Atk: 20	black pixel (50)	blue pixel (80)	white pixel (50)
-Tetchy Pirate	
+Tetchy Pirate	HP: 0
 The Astronomer	HP: 150 Def: 168 Atk: 168	star chart (100)	sticky stardust (0)
 The Axe Wound	HP: 150 Def: 163 Atk: 163 E: sleaze	line (30)	line (30)	star (30)
 The Beaver	HP: 150 Def: 162 Atk: 162 E: sleaze	line (30)	star (30)	star (30)
@@ -474,14 +474,14 @@ The Skinflute	HP: 150 Def: 158 Atk: 158 E: sleaze	star (30)	star (30)	line (30)	
 The Trouser Snake	HP: 150 Def: 153 Atk: 153 E: sleaze	line (30)	line (30)	line (30)
 The Twig and Berries	HP: 150 Def: 152 Atk: 152 E: sleaze	line (30)	star (30)	star (30)
 Time Bandit		Counterclockwise Watch (100)
-Tipsy Pirate
+Tipsy Pirate	HP: 0	rum barrel charrrm (0)	tip jar (0)
 Toilet Papergeist	HP: 115 Def: 100 Atk: 76 ED: spooky	cardboard wakizashi (5)	roll of toilet paper (50)
 Tomb Asp	HP: 155	unidentified jerky (10)
 Tomb Bat	HP: 180	leathery bat skin (30)	unidentified jerky (10)	mummy wrapping (20)
 Tomb Rat	HP: 175	tomb ratchet (3)	leathery rat skin (30)	unidentified jerky (10)
 Tomb Servant	HP: 185	canopic jar (30)	ancient protein powder (15)	mummy wrapping (20)	unidentified jerky (10)
 Tonic Water Elemental	HP: 14 Def: 18 Atk: 18
-Toothy Pirate
+Toothy Pirate	HP: 0
 Toothy Sklelton	HP: 50 Def: 58 Atk: 58  E: spooky	loose teeth (20)	loose teeth (20)	skeleton bone (20)
 Topiary Golem	HP: 150 Def: 180 Atk: 180	hedge maze puzzle (65)
 Toy-making creature from the Gray Lagoon		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
@@ -495,7 +495,7 @@ Vegetable Gremlin	HP: 174	gremlin juice (0)	molybdenum screwdriver (0)
 Vicious Gnauga	HP: 40 Def: 45 Atk: 45	gnauga hide (10)
 Vine Gar	HP: 180 Def: 200 Atk: 200	vinegar (30)	vinegar (30)
 W Imp	HP: 40 Def: 40 Atk: 40 E: heat Meat: 24-39	Imp Ale (30)	ruby W (30)	wussiness potion (30)
-Wacky Pirate	HP: 0
+Wacky Pirate	HP: 0	cannonball charrrm (0)	yohohoyo (1)
 War Frat 110th Infantryman	HP: 185
 War Frat 151st Captain	HP: 205
 War Frat 151st Infantryman	HP: 185
@@ -529,12 +529,12 @@ War Hippy Sky Captain	HP: 200
 War Hippy Spy	HP: 180
 War Hippy Windtalker	HP: 200
 War Pledge	HP: 180	distressed denim pants (5)	bejeweled pledge pin (5)	beer helmet (5)
-Warty Pirate	HP: 0
+Warty Pirate	HP: 0	copper ha'penny charrrrm (0)	fish-liver oil (0)	vinegar-soaked lemon slice (0)
 Warwelf	HP: 2 Def: 3 Atk: 1 Meat: 10-16
-Wealthy Pirate	HP: 0
+Wealthy Pirate	HP: 0	booty chest charrrm (0)	solid gold pegleg (0)
 Weremoose	HP: 53 Def: 63 Atk: 63 Meat: 52-79
 Weretaco	HP: 8 Def: 16 Atk: 16 Meat: 26-41	taco shell (30)	uncooked chorizo (30)	wilted lettuce (0)
-Whiny Pirate	HP: 0
+Whiny Pirate	HP: 0	bilge wine (0)
 White Chocolate Golem	HP: 21 Def: 36 Atk: 34	white chocolate chips (50)
 White Lion	HP: 21 Def: 35 Atk: 35 Meat: 24-39
 Whitesnake	HP: 21 Def: 34 Atk: 36 Meat: 8-13	white snake skin (30)

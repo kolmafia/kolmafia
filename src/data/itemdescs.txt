@@ -2952,7 +2952,7 @@
 2946	798085688	V for Vivala mask
 2947	501433602	The Big Book of Pirate Insults
 2948	132499327	shot of rotgut
-2949	
+2949	470298832	jar of "Creole Lady" marrrmalade
 2950	496366910	Cap'm Caronch's Map
 2951	265693457	Orcish Frat House blueprints
 2952	741208497	blue glowstick	blue glowstyx
@@ -2976,7 +2976,7 @@
 2970	411448208	cream stout
 2971	122144074	curmudgel
 2972	756065687	grumpy old man charrrm
-2973		grumpy old man charrrm bracelet
+2973	954806283	grumpy old man charrrm bracelet
 2974	252043042	tarrrnish charrrm
 2975	167193019	tarrrnished charrrm bracelet
 2976	915332790	bilge wine
@@ -2984,11 +2984,11 @@
 2978	867657127	yohohoyo
 2979	272528517	fish-liver oil
 2980	926043993	booty chest charrrm
-2981		booty chest charrrm bracelet
+2981	492913997	booty chest charrrm bracelet
 2982	431696985	cannonball charrrm
 2983	555275436	cannonball charrrm bracelet
 2984	403269465	copper ha'penny charrrrm
-2985	523018058	copper ha'penny charrrrm bracelet
+2985	560989736	copper ha'penny charrrrm bracelet
 2986	125233552	silver tongue charrrm
 2987	133863244	silver tongue charrrm bracelet
 2988	531316933	bit of clingfilm
@@ -2998,9 +2998,9 @@
 2992
 2993	462198783	vinegar-soaked lemon slice
 2994	788941481	true grit
-2995
-2996
-2997
+2995	833226772	buoybottoms
+2996	953916516	grungy flannel shirt
+2997		grungy bandana
 2998	878931923	grassy cutlass
 2999	912251690	Cap'm Caronch's nasty booty
 3000	626678451	Cap'm Caronch's dentures
