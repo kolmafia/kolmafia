@@ -385,6 +385,10 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		{
 			neededOutfit = 5;
 		}
+		else if ( this.npcStoreId.equals( "r" ) )
+		{
+			neededOutfit = 9;
+		}
 		else if ( this.npcStoreId.equals( "h" ) )
 		{
 			if ( this.shopName.equals( "Hippy Store (Pre-War)" ) )

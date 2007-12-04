@@ -448,7 +448,7 @@
 447	Hella Smart	realbrain.gif	4972f34f7622eaa1fc8fd2ab6eb43f40
 448	Hella Smooth	roundglasses.gif	9fc2c05bd8dff7c2b3c5a27b56a0240f
 449	Omphaloskepsis	omphalo.gif	9c789511c3a5bcd6c13655cb5f4d375b
-450
+450	Charrrming	wink.gif	5f1cccc50fd9f7124867b7110b27d717
 451
 452
 453	A Revolution in Your Mouth	tongue.gif	f980e9f6cb3c094c27332dd99517654f	use 1 Steal This Candy
@@ -460,13 +460,13 @@
 459	Brother Flying Burrito's Blessing	monkhead.gif	2b0cbdef1a8d80421d3e8a11de7276fd
 460	Brother Corsican's Blessing	monkhead.gif	b7d75d553a9181dff7dc88d0ab556628
 461	Brother Smother's Blessing	monkhead.gif	d75aaa2cc6a8dcfa7cdddef658968e26
-462
-463
+462	Well-Swabbed Ear	shinyear.gif	80c60457c476244ab31f21377fec1b27
+463	Well-Oiled	balm.gif	60036c9c3bbf193e3f3fc7051ec66aa7
 464
-465
+465	Soul-Crushing Headache	realbrain.gif	c0b5d125cc3e5d611e76146ee18b802a
 466
 467
-468
+468	Fishy Fortification	fish.gif	c5e882290f065b068304245b7d79ceee
 469	Cybernetic Muscles	strboost.gif	4bff7d1f60535beb8220383e6d0d7381
 470	Neuromancy	realbrain.gif	efce075a51174b54c250be1f6cde64fa
 471	Can Has Cyborger	tinykitty.gif	898ea611ee833bd133e04b393203e416

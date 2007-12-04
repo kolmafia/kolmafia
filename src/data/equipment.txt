@@ -188,6 +188,7 @@ giant discarded torn-up glove	155	Mox: 62
 gnauga hide chaps	80	Mox: 25
 gnauga hide kilt	80	Mox: 25
 gnauga hide skirt	80	Mox: 25
+gold lam&eacute; pants	100	Mox: 35
 grass skirt	80	Mox: 25
 hippopotamus kilt	130	Mox: 50
 hippopotamus pants	130	Mox: 50
@@ -399,6 +400,7 @@ clown hammer	10	Mus: 0	1-handed club
 clown whip	10	Mus: 0	1-handed whip
 cool whip	10	Mus: 0	1-handed whip
 corn holder	20	Mys: 0	1-handed utensil
+costume sword	10	Mus: 0	1-handed sword
 crazy bastard sword	125	Mus: 25	1-handed sword
 crowbarrr	80	Mus: 25	2-handed staff
 curdflinger	45	Mox: 7	1-handed crossbow
@@ -443,6 +445,7 @@ gnauga hide whip	20	Mus: 0	1-handed whip
 goatskin umbrella	180	Mus: 75	1-handed umbrella
 goulauncher	100	Mox: 35	2-handed crossbow
 grass blade	80	Mus: 25	1-handed sword
+grassy cutlass	150	Mus: 60	1-handed sword
 grave robbing shovel	30	Mus: 0	2-handed polearm
 grease gun	65	Mox: 17	1-handed pistol
 hairy staff	135	Mus: 45	2-handed staff
@@ -556,10 +559,12 @@ white sword	40	Mus: 5	1-handed sword
 white whip	10	Mus: 0	1-handed whip
 wholeberd	80	Mus: 25	2-handed polearm
 wiffle-flail	75	Mus: 22	2-handed flail
+witty rapier	150	Mus: 60	1-handed sword
 wooden axe	60	Mus: 15	2-handed axe
 wooden stakes	25	Mus: 0	2-handed spear
 worm-riding hooks	50	Mus: 0	2-handed club
 yak whip	20	Mus: 0	1-handed whip
+yohohoyo	160	Mox: 65	1-handed yoyo
 
 # Off-hand section of equipment.txt
 
@@ -880,6 +885,7 @@ pat-a-cake pendant	0	none
 peace-sign necklace	0	Mys: 20
 phat turquoise bracelet	0	Mys: 20
 pink glowstick	0	none
+pirate fledges	0	none
 plexiglass pendant	0	Mys: 75
 plexiglass pinky ring	0	Mys: 75
 plexiglass pocketwatch	0	Mys: 75
@@ -920,6 +926,7 @@ sk8board	0	Mys: 20
 solid baconstone earring	0	Mys: 40
 solid baconstone necklace	0	Mys: 40
 solid baconstone ring	0	Mys: 40
+solid gold pegleg	0	Mys: 60
 spade necklace	0	none
 spark plug earring	0	Mys: 75
 sparkly engagement ring	0	none

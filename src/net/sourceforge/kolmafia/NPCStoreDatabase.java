@@ -125,6 +125,12 @@ public class NPCStoreDatabase extends KoLDatabase
 		else if ( storeId.equals( "b" ) )
 			return EquipmentDatabase.hasOutfit( 1 );
 
+		// Barrrtleby's Barrrgain Books is accessible only if you are
+		// wearing the Swashbuckling Getup
+
+		else if ( storeId.equals( "r" ) )
+			return EquipmentDatabase.hasOutfit( 9 );
+
 		// If the person is not in a muscle sign, then items from the
 		// Degrassi Knoll are not available.
 

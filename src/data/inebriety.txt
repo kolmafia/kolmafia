@@ -70,6 +70,7 @@ corpse on the beach	6	5	20	0	72	0
 corpsebite	3	1	8	10	10	10
 corpsedriver	6	5	20	72	0	0
 corpsetini	6	5	22	0	0	72
+cream stout	1	3	2	8-10	8-10	8-10
 cruelty-free wine	1	10	2-4	0	10-15	0
 cup of primitive beer	1	12	2-5	50-65	0	0
 dirty martini	6	6	22-26	0	0	16-20
@@ -151,6 +152,7 @@ shot of nepenthe schnapps	2	2	5-8	0	12-18	0
 shot of orange schnapps	1	1	1-3	3-5	0	0
 shot of peach schnapps	2	8	4-8	0	0	14-20
 shot of pear schnapps	2	8	4-8	0	14-20	0
+shot of rotgut	1	1	3	11	12	10
 shot of tomato schnapps	1	1	1-3	1-2	1-2	1-2
 slap and tickle	4	4	10-14	0	8-10	25-27
 slip 'n' slide	4	4	10-14	34-36	0	0

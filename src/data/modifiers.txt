@@ -259,6 +259,7 @@ giant discarded torn-up glove	Stench Damage: +5, Moxie: -10
 gnauga hide chaps	Damage Absorption: +30
 gnauga hide kilt	Damage Absorption: +30
 gnauga hide skirt	Damage Absorption: +30
+gold lam&eacute; pants	Moxie: -8
 grass skirt	Moxie: +5
 hippopotamus kilt	Maximum HP: +25
 hippopotamus pants	Maximum HP: +25
@@ -470,6 +471,7 @@ clockwork sword	Melee Damage: +10, Critical: 3
 clown whip	Sleaze Resistance: +20
 # cool whip
 corn holder	Spell Damage: +1
+costume sword	Melee Damage: -10, Initiative: +30
 crazy bastard sword	Muscle: +10, Melee Damage: +15, Critical: 3
 crowbarrr	Initiative: +15
 curdflinger	Moxie: +3, Weakens Monster
@@ -513,6 +515,7 @@ gnauga hide whip	Item Drop: +3
 goatskin umbrella	Stench Damage: +15
 goulauncher	Moxie: +4, Spooky Damage: +5
 grass blade	Melee Damage: +5
+grassy cutlass	Melee Damage: +11
 grave robbing shovel	Spooky Damage: +3, Initiative: -10
 grease gun	Moxie: +3, Melee Damage: +3, Sleaze Damage: +3
 hairy staff	Mysticality: +7, Spell Damage: +7, MP Regen Min: 5, MP Regen Max: 7
@@ -626,10 +629,12 @@ white sword	Muscle: +2
 white whip	Experience: +1
 wholeberd	Melee Damage: +6
 wiffle-flail	Mysticality: +3, Muscle: +2, Initiative: +20
+# witty rapier
 wooden axe	Muscle: +3
 wooden stakes	Melee Damage: +1
 # worm-riding hooks
 yak whip	Weakens Monster
+yohohoyo	Critical: 2, Spooky Damage: +1, Stench Damage: +1, Hot Damage: +1, Cold Damage: +1, Sleaze Damage: +1
 
 # Off-hand section of modifiers.txt
 
@@ -946,6 +951,7 @@ pat-a-cake pendant	Mysticality: +1
 peace-sign necklace	Damage Reduction: 3
 phat turquoise bracelet	Mysticality: +5
 pink glowstick	Maximum MP: +5, Moxie: -3
+pirate fledges	Moxie: +7, Muscle: +7, Mysticality: +7
 plexiglass pendant	Single Equip, Never Fumble, Moxie Percent: +30
 plexiglass pinky ring	Single Equip, Spell Damage: +30, Cold Resistance: +30, Hot Resistance: +30, Sleaze Resistance: +30, Spooky Resistance: +30, Stench Resistance: +30, Mysticality Percent: +30
 plexiglass pocketwatch	Single Equip, Mana Cost: -3, Adventures: +3, Mysticality Percent: +30
@@ -986,6 +992,7 @@ sk8board	Initiative: +15
 solid baconstone earring	Single Equip, Mysticality: +8, Maximum MP: +15, Mana Cost: -1
 solid baconstone necklace	Single Equip, Mysticality: +10, Spell Damage: +15
 solid baconstone ring	Single Equip, Mysticality: +12, Maximum MP: +30, MP Regen Min: 2, MP Regen Max: 4
+solid gold pegleg	Single Equip, Init: -50
 # spade necklace
 spark plug earring	MP Regen Min: 3, MP Regen Max: 4, Spooky Resistance: +20
 sparkly engagement ring	Single Equip, Moxie: +15, Muscle: +15, Mysticality: +15
@@ -1678,6 +1685,7 @@ eXtreme Cold-Weather Gear	Cold Resistance: +30
 # +10% Food Drops from Monsters
 # +15 Moxie
 # +15% Moxie
+# +2 Mysticality Stat(s) per Fight
 # +20% Food Drops from Monsters
 # +3 PvP fight(s) per day when equipped.
 # +3 damage to Disco Bandit Combat Skills
