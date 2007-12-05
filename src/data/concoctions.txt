@@ -923,9 +923,9 @@ duct tape sword	27	duct tape (17)
 duct tape shirt	27	duct tape (23)
 
 clingfilm tangle	27	bit of clingfilm (3)
-# clingfilm trousers	27	bit of clingfilm ()
-# clingfilm cap	27	bit of clingfilm ()
-# clingfilm slippers	27	bit of clingfilm ()
+clingfilm slippers	27	bit of clingfilm (7)
+clingfilm cap	27	bit of clingfilm (9)
+clingfilm trousers	27	bit of clingfilm (11)
 
 # Recipes that involve single-using one of the ingredients
 

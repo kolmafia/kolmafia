@@ -123,7 +123,7 @@ bum cheek	Stench Resistance: +10
 catskin cap	Muscle: +9, Maximum HP: +40
 chef's hat	Mysticality: +2, MP Regen Min: 1, MP Regen Max: 1
 chrome helmet turtle	Moxie: +5, Muscle: +5, Mysticality: +5
-# clingfilm cap
+clingfilm cap	Cold Resistance: +10, Hot Resistance: +10, Sleaze Resistance: +10, Spooky Resistance: +10, Stench Resistance: +10, MP Regen Min: 2, MP Regen Max: 3
 clockwork hat	Spooky Resistance: +10
 clown wig	Mysticality: +3, Spell Damage: +3
 coconut shell	Damage Absorption: +1
