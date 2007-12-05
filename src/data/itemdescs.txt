@@ -3008,14 +3008,14 @@
 3002	467894345	gold lamé pants
 3003	289787123	enormous hoop earring
 3004	820393938	costume sword
-3005
-3006
-3007
-3008
-3009
+3005	350201827	rainbow pearl
+3006	281007103	rainbow pearl earring
+3007	137836419	rainbow pearl necklace
+3008	555630676	rainbow pearl ring
+3009	466991608	strange tiki idol
 3010
-3011
-3012
+3011	761288804	sinister altar fragment
+3012	147003205	shimmering rainbow sand
 3013	555978098	simple ancient cursed key
 3014	232669814	ornate ancient cursed key
 3015	363640532	gilded ancient cursed key
@@ -3052,7 +3052,7 @@
 3046	190558951	unremarkable candy cane	
 3047	203826503	completely typical fruitcake	
 3048	820385035	untainted eggnog
-3049
-3050
-3051
+3049	517851076	strange stone sphere
+3050	331604248	cursed eyepatch
+3051	321086673	cursed cutlass
 3052	797230378	cursed breeches

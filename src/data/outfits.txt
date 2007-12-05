@@ -43,3 +43,4 @@
 
 0	Terrifying Clown Suit	foolscap fool's cap, bloody clown pants, big red clown nose, polka-dot bowtie, clown shoes
 0	Roy Orbison Disguise	clingfilm cap, clingfilm slippers, clingfilm trousers
+0	Cursed Zombie Pirate Costume	cursed eyepatch, cursed breeches, cursed cutlass

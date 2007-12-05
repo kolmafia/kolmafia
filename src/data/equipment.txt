@@ -58,7 +58,7 @@ clown wig	50	Mox: 10
 coconut shell	30	none
 cold ninja mask	80	Mox: 25
 cornuthaum	85	Mox: 27
-# cursed eyepatch		Mys: 
+cursed eyepatch	200	Mus: 85
 demon-horned hat	70	Mox: 20
 disco mask	10	none
 draggin' ball hat	100	Mox: 35
@@ -412,7 +412,7 @@ crazy bastard sword	125	Mus: 25	1-handed sword
 crowbarrr	80	Mus: 25	2-handed staff
 curdflinger	45	Mox: 7	1-handed crossbow
 curmudgel	125	Mus: 47	1-handed lub
-# cursed cutlass	200	Mus: 	1-handed sword
+cursed cutlass	200	Mus: 85	1-handed sword
 demon whip	10	Mus: 0	1-handed whip
 denim axe	170	Mus: 70	2-handed axe
 dense meat crossbow	60	Mox: 15	2-handed crossbow
@@ -677,6 +677,7 @@ snarling wolf shield	117	Mus: 42
 sock monkey	0	Mys: 40
 star buckler	165	Mus: 67
 steaming evil	0	Mys: 75
+strange tiki idol	0	none
 stuffed Cheshire bitten	0	none
 stuffed MagiMechTech MicroMechaMech	0	none
 stuffed Mob Penguin	0	none
@@ -914,6 +915,9 @@ pulled porquoise earring	0	Mys: 40
 pulled porquoise pendant	0	Mys: 40
 pulled porquoise ring	0	Mys: 40
 pygmy nose-bone	0	Mys: 62
+rainbow pearl earring	0	Mys: 200
+rainbow pearl necklace	0	Mys: 200
+rainbow pearl ring	0	Mys: 200
 ratskin belt	0	Mys: 75
 reinforced furry underpants	0	none
 right half of a heart necklace	0	none
