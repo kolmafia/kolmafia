@@ -52,6 +52,7 @@ bum cheek	20	none
 catskin cap	180	Mox: 75
 chef's hat	30	none
 chrome helmet turtle	120	Mox: 45
+clingfilm cap	150	Mox: 60
 clockwork hat	80	Mox: 25
 clown wig	50	Mox: 10
 coconut shell	30	none
@@ -175,6 +176,7 @@ bugbear bungguard	30	none
 bullet-proof corduroys	170	Mox: 70
 buoybottoms	150	Mox: 60
 chain-mail monokini	30	none
+clingfilm pants	150	Mox: 60
 clockwork pants	80	Mox: 25
 cursed breeches	200	Mox: 85
 demonskin trousers	70	Mox: 20

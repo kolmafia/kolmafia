@@ -2987,8 +2987,8 @@
 2986	silver tongue charrrm	0	all	110
 2987	silver tongue charrrm bracelet	8	all	140
 2988	bit of clingfilm	4	display	60
-2989	clingfilm trousers	10	display	0
-2990	clingfilm cap	9	display	0
+2989	clingfilm trousers	10	display	155
+2990	clingfilm cap	9	display	155
 2991	clingfilm slippers	8	display	155
 2992	clingfilm tangle	0	display	150	
 2993	vinegar-soaked lemon slice	1	all	61
