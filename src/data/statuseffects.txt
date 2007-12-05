@@ -448,9 +448,9 @@
 447	Hella Smart	realbrain.gif	4972f34f7622eaa1fc8fd2ab6eb43f40
 448	Hella Smooth	roundglasses.gif	9fc2c05bd8dff7c2b3c5a27b56a0240f
 449	Omphaloskepsis	omphalo.gif	9c789511c3a5bcd6c13655cb5f4d375b
-450	Charrrming	wink.gif	5f1cccc50fd9f7124867b7110b27d717
-451
-452
+450	Charrrming	wink.gif	5f1cccc50fd9f7124867b7110b27d717	use 1 pirate pamphlet
+451	Muscularrr	strboost.gi	3c49e4ccef7d18c1b51cda40413c8e23	use 1 pirate brochure
+452	Carrrsmic	snowflakes.gif	39abf158d5a73480bd08f3d37356bc05	use 1 pirate tract
 453	A Revolution in Your Mouth	tongue.gif	f980e9f6cb3c094c27332dd99517654f	use 1 Steal This Candy
 454	Gelded	lucre.gif	f04d5879435447fa4717d3fb7cde357d	use 1 chocolate filthy lucre
 455	Super-Charged	frostshock.gif	2a012ff0883470d7af62bc684137613e

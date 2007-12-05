@@ -922,6 +922,11 @@ duct tape fedora	27	duct tape (14)
 duct tape sword	27	duct tape (17)
 duct tape shirt	27	duct tape (23)
 
+clingfilm tangle	27	bit of clingfilm (3)
+# clingfilm trousers	27	bit of clingfilm ()
+# clingfilm cap	27	bit of clingfilm ()
+# clingfilm slippers	27	bit of clingfilm ()
+
 # Recipes that involve single-using one of the ingredients
 
 booty chest charrrm bracelet	28	booty chest charrrm	charrrm bracelet
