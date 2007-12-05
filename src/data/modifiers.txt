@@ -129,7 +129,7 @@ clown wig	Mysticality: +3, Spell Damage: +3
 coconut shell	Damage Absorption: +1
 cold ninja mask	Initiative: +15
 cornuthaum	Mysticality: +3, Moxie: +3
-# cursed eyepatch
+cursed eyepatch	Mysticality: +15
 demon-horned hat	Moxie: +4
 # disco mask
 draggin' ball hat	Intrinsic Effect: "Draggin' Balls"
@@ -482,7 +482,7 @@ costume sword	Melee Damage: -10, Initiative: +30
 crazy bastard sword	Muscle: +10, Melee Damage: +15, Critical: 3
 crowbarrr	Initiative: +15
 curdflinger	Moxie: +3, Weakens Monster
-# cursed cutlass
+cursed cutlass	Muscle: +15
 demon whip	Hot Damage: +3, Sleaze Damage: +3, Stench Damage: +3
 denim axe	Muscle: +10, Melee Damage: +10
 dense meat crossbow	Moxie: +3
@@ -743,6 +743,7 @@ snarling wolf shield	Damage Reduction: 7, Maximum HP: +40
 sock monkey	Moxie: +3
 star buckler	Damage Reduction: 10, Moxie: +2, Muscle: +2, Mysticality: +2
 steaming evil	Hot Damage: +6, Sleaze Damage: +6, Spooky Damage: +6
+strange tiki idol	Moxie: +13
 # stuffed Cheshire bitten
 # stuffed MagiMechTech MicroMechaMech
 # stuffed Mob Penguin
@@ -977,6 +978,9 @@ pulled porquoise earring	Moxie: +9, Never Fumble
 pulled porquoise pendant	Single Equip, Moxie: +10, Meat Drop: +15
 pulled porquoise ring	Single Equip, Moxie: +11, Maximum HP: +15, Maximum MP: +15, HP Regen Min: 1, HP Regen Max: 2, MP Regen Min: 1, MP Regen Max: 2
 pygmy nose-bone	Single Equip, Moxie: +7
+rainbow pearl earring	Single Equip, Moxie: +15, Muscle: +15, Mysticality: +15, Cold Resistance: +40, Hot Resistance: +40, Sleaze Resistance: +40, Spooky Resistance: +40, Stench Resistance: +40
+rainbow pearl necklace	Single Equip, Moxie: +15, Muscle: +15, Mysticality: +15, Spell Damage: +200
+rainbow pearl necklace	Single Equip, Moxie: +15, Muscle: +15, Mysticality: +15, Spooky Damage: +40, Stench Damage: +40, Hot Damage: +40, Cold Damage: +40, Sleaze Damage: +40
 ratskin belt	Single Equip, Moxie: +8, Meat Drop: +10
 reinforced furry underpants	Mysticality: +2, Sleaze Damage: +2
 # right half of a heart necklace

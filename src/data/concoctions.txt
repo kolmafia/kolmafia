@@ -856,6 +856,10 @@ porquoise eyebrow ring	8	porquoise	piercing post
 porquoise necklace	8	porquoise	necklace chain
 porquoise ring	8	porquoise	ring setting
 
+rainbow pearl earring	8	rainbow pearl	piercing post
+rainbow pearl necklace	8	rainbow pearl	necklace chain
+rainbow pearl ring	8	rainbow pearl	ring setting
+
 # Expensive Jewelry making recipes.  These require jewelry-making pliers
 # and the Really Expensive Jewelrycrafting skill
 

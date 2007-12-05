@@ -3003,14 +3003,14 @@
 3002	gold lam&eacute; pants	10	all	110
 3003	enormous hoop earring	8	all	130
 3004	costume sword	12	all	125
-3005
-3006
-3007
-3008
-3009
+3005	rainbow pearl	0	all	0
+3006	rainbow pearl earring	8	all	0
+3007	rainbow pearl necklace	8	all	0
+3008	rainbow pearl ring	8	all	0
+3009	strange tiki idol	13	all	0
 3010
-3011
-3012
+3011	sinister altar fragment	0	all	1500
+3012	shimmering rainbow sand	0	all	1500
 3013	simple ancient cursed key	0	all	0
 3014	ornate ancient cursed key	0	all	0
 3015	gilded ancient cursed key	0	all	0
@@ -3047,7 +3047,7 @@
 3046	unremarkable candy cane	1	all	0
 3047	completely typical fruitcake	1	all	37
 3048	untainted eggnog	2	all	49
-3049
+3049	strange stone sphere	0	all	0
 3050	cursed eyepatch	8	display	0
-3015	cursed cutlass	12	display	0
+3051	cursed cutlass	12	display	0
 3052	cursed breeches	10	display	0
