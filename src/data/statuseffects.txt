@@ -460,13 +460,13 @@
 459	Brother Flying Burrito's Blessing	monkhead.gif	2b0cbdef1a8d80421d3e8a11de7276fd
 460	Brother Corsican's Blessing	monkhead.gif	b7d75d553a9181dff7dc88d0ab556628
 461	Brother Smother's Blessing	monkhead.gif	d75aaa2cc6a8dcfa7cdddef658968e26
-462	Well-Swabbed Ear	shinyear.gif	80c60457c476244ab31f21377fec1b27
-463	Well-Oiled	balm.gif	60036c9c3bbf193e3f3fc7051ec66aa7
-464	Truly Gritty	disease.gif	8247e2389bb1ad99d1c5d12db1ed8f8f
-465	Soul-Crushing Headache	realbrain.gif	c0b5d125cc3e5d611e76146ee18b802a
+462	Well-Swabbed Ear	shinyear.gif	80c60457c476244ab31f21377fec1b27	use 1 Swabbie&trade; swab
+463	Well-Oiled	balm.gif	60036c9c3bbf193e3f3fc7051ec66aa7	use 1 Oil of Parrrlay
+464	Truly Gritty	disease.gif	8247e2389bb1ad99d1c5d12db1ed8f8f	use 1 true grit
+465	Soul-Crushing Headache	realbrain.gif	c0b5d125cc3e5d611e76146ee18b802a	use 1 all-purpose cleaner
 466
 467
-468	Fishy Fortification	fish.gif	c5e882290f065b068304245b7d79ceee
+468	Fishy Fortification	fish.gif	c5e882290f065b068304245b7d79ceee	use 1 fish-liver oil
 469	Cybernetic Muscles	strboost.gif	4bff7d1f60535beb8220383e6d0d7381
 470	Neuromancy	realbrain.gif	efce075a51174b54c250be1f6cde64fa
 471	Can Has Cyborger	tinykitty.gif	898ea611ee833bd133e04b393203e416

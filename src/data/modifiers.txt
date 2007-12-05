@@ -1404,6 +1404,7 @@ Fat Leon's Phat Loot Lyric	Item Drop: +20
 Fearless	Monster Level: -10
 Fever From the Flavor	Cold Resistance: +90
 Fireproof Lips	Hot Resistance: +90
+Fishy Fortification	Muscle Percent: +10
 Fit To Be Tide	HP Regen Min: 5, HP Regen Max: 16, MP Regen Min: 5, MP Regen Max: 16
 Flame-Retardent Trousers	Hot Resistance: +20
 Flaming Weapon	Hot Damage: +3
@@ -1546,6 +1547,7 @@ Snarl of the Timberwolf	Spooky Damage: +10
 Sneaky Serpentine Subtlety	Moxie Percent: +100
 Solar Flair	Hot Damage: +20
 Somewhat Poisoned	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50, Muscle: -7, Mysticality: -7, Moxie: -7
+Soul-Crushing Headache	Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20
 Sparkling Consciousness	Mysticality Percent: +100
 Spicy Liminess	Moxie: +5, Muscle: -5
 Spicy Mouth	Mysticality: +5, Moxie: -5
@@ -1593,6 +1595,7 @@ Tingly Biceps	Muscle: +5
 Tingly Elbows	Moxie: +5
 Tingly Wrists	Mysticality: +5
 Tomato Power	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
+Truly Gritty	Muscle: +20
 Turned Into a Skeleton	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
 Twinklebritches	Damage Absorption: +30
 Twinkly Weapon	Melee Damage: +3
