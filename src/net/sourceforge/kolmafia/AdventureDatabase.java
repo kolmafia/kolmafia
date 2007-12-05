@@ -217,7 +217,10 @@ public class AdventureDatabase extends KoLDatabase
 		}
 
 		public String [] getOptions()
-		{	return this.options;
+		{
+			if ( this.options == null )
+				return dynamicChoiceOptions( this.setting );
+			return this.options;
 		}
 
 		public String [][] getSpoilers()
@@ -755,12 +758,10 @@ public class AdventureDatabase extends KoLDatabase
 		  new String [] { null, "604", null } ),
 
 		// That Explains All The Eyepatches
-		// Mus: shot of rotgut (2948), combat, drunkenness
-		// Mys: drunkenness, shot of rotgut (2948), combat
-		// Mox: combat, drunkenness, shot of rotgut (2948)
+                // Dynamically calculate options based on mainstat
 		new ChoiceAdventure( "Island", "choiceAdventure184", "Barrrney's Barrr",
-		  new String [] { "enter combat", "drunkenness and stats", "shot of rotgut" },
-		  new String [] { null, null, "2948" } ),
+		  null ),
+
 
 		// Yes, You're a Rock Starrr
 		new ChoiceAdventure( "Island", "choiceAdventure185", "Barrrney's Barrr",
@@ -1324,9 +1325,51 @@ public class AdventureDatabase extends KoLDatabase
 			result[1][0] = "Barrrney's Barrr";
 
 			// An array of choice spoilers is the third element
+			result[2] = dynamicChoiceOptions( choice );
+
 			// A parallel array of items is the fourth element
-			result[2] = new String[3];
 			result[3] = new String[3];
+
+			for ( int i = 0; i < 3; ++i )
+				if ( result[2][i].equals( "shot of rotgut" ) )
+					result[3][i] = "2948";
+			
+			return result;
+		}
+		return null;
+	}
+
+	private static final String [] dynamicChoiceOptions( int choice )
+	{
+		switch ( choice )
+		{
+		case 184:
+			// That Explains All The Eyepatches
+			String [] result = new String[3];
+
+			// The choices are all stat based.
+			//
+			// The are definitely NOT based on buffed stat.	 It
+			// could be based on base stat or on character class -
+			// which are the same, bar great effort
+			//
+			// For now, assume base stat.
+			int stat;
+
+			// stat = KoLCharacter.isMuscleClass() ? 0 : KoLCharacter.isMysticalityClass() ? 2 : 1;
+
+			int mus = KoLCharacter.getBaseMuscle();
+			int mys = KoLCharacter.getBaseMysticality();
+			int mox = KoLCharacter.getBaseMoxie();
+
+			if ( mus > mys )
+				stat = ( mus > mox ) ? 0 : 1;
+			else
+				stat = ( mys > mox ) ? 2 : 1;
+
+			// Mus: shot of rotgut (2948), combat, drunkenness
+			// Mys: drunkenness, shot of rotgut (2948), combat
+			// Mox: combat, drunkenness, shot of rotgut (2948)
 
 			for ( int i = 0; i < 3; ++i )
 			{
@@ -1334,22 +1377,27 @@ public class AdventureDatabase extends KoLDatabase
 				switch ( index )
 				{
 				case 0:
-					result[2][i] = "shot of rotgut";
-					result[3][i] = "2948";
+					result[i] = "shot of rotgut";
 					break;
 				case 1:
-					result[2][i] = "enter combat";
-					result[3][i] = null;
+					result[i] = "enter combat";
 					break;
 				case 2:
-					result[2][i] = "drunkenness and stats";
-					result[3][i] = null;
+					result[i] = "drunkenness and stats";
 					break;
 				}
 			}
 			return result;
 		}
 		return null;
+	}
+
+	public static final String [] dynamicChoiceOptions( String option )
+	{
+		if ( !option.startsWith( "choiceAdventure" ) )
+			return null;
+		int choice = StaticEntity.parseInt( option.substring(15) );
+		return dynamicChoiceOptions( choice );
 	}
 
 	public static final String choiceSpoiler( int choice, int decision, String [] spoilers )
