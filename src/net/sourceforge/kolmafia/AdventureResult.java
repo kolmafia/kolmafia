@@ -82,9 +82,28 @@ public class AdventureResult implements Comparable, KoLConstants
 
 	static
 	{
-		MUS_SUBSTAT.add( "Beefiness" );  MUS_SUBSTAT.add( "Fortitude" );  MUS_SUBSTAT.add( "Muscleboundness" );  MUS_SUBSTAT.add( "Strengthliness" );  MUS_SUBSTAT.add( "Strongness" );
-		MYS_SUBSTAT.add( "Enchantedness" );  MYS_SUBSTAT.add( "Magicalness" );  MYS_SUBSTAT.add( "Mysteriousness" );  MYS_SUBSTAT.add( "Wizardliness" );
-		MOX_SUBSTAT.add( "Cheek" );  MOX_SUBSTAT.add( "Chutzpah" );  MOX_SUBSTAT.add( "Roguishness" );  MOX_SUBSTAT.add( "Sarcasm" );  MOX_SUBSTAT.add( "Smarm" );
+		MUS_SUBSTAT.add( "Beefiness" );
+		MUS_SUBSTAT.add( "Fortitude" );
+		MUS_SUBSTAT.add( "Muscleboundness" );
+		MUS_SUBSTAT.add( "Strengthliness" );
+		MUS_SUBSTAT.add( "Strongness" );
+		// The following only under Can Has Cyborger
+		MUS_SUBSTAT.add( "muskewlairtees" );
+
+		MYS_SUBSTAT.add( "Enchantedness" );
+		MYS_SUBSTAT.add( "Magicalness" );
+		MYS_SUBSTAT.add( "Mysteriousness" );
+		MYS_SUBSTAT.add( "Wizardliness" );
+		// The following only under Can Has Cyborger
+		MYS_SUBSTAT.add( "mistikkaltees" );
+
+		MOX_SUBSTAT.add( "Cheek" );
+		MOX_SUBSTAT.add( "Chutzpah" );
+		MOX_SUBSTAT.add( "Roguishness" );
+		MOX_SUBSTAT.add( "Sarcasm" );
+		MOX_SUBSTAT.add( "Smarm" );
+		// The following only under Can Has Cyborger
+		MOX_SUBSTAT.add( "mawksees" );
 	}
 
 	public static final AdventureResult SESSION_SUBSTATS_RESULT = new AdventureResult( SUBSTATS, SESSION_SUBSTATS );
@@ -468,26 +487,26 @@ public class AdventureResult implements Comparable, KoLConstants
 
 			if ( statname.startsWith( "Adv" ) )
 				return new AdventureResult( ADV, modifier );
-			else if ( statname.startsWith( "Dru" ) )
+
+			if ( statname.startsWith( "Dru" ) )
 				return new AdventureResult( DRUNK, modifier );
-			else if ( statname.startsWith( "Mea" ) )
+
+			if ( statname.startsWith( "Me" ) )
+				// "Meat" or "Meets", if Can Has Cyborger
 				return new AdventureResult( MEAT, modifier );
 
-			else
+			// In the current implementations, all stats gains are
+			// located inside of a generic adventure which
+			// indicates how much of each substat is gained.
+
+			int [] gained =
 			{
-				// In the current implementations, all stats gains are located
-				// inside of a generic adventure which indicates how much of
-				// each substat is gained.
+				MUS_SUBSTAT.contains( statname ) ? modifier : 0,
+				MYS_SUBSTAT.contains( statname ) ? modifier : 0,
+				MOX_SUBSTAT.contains( statname ) ? modifier : 0
+			};
 
-				int [] gained =
-				{
-					MUS_SUBSTAT.contains( statname ) ? modifier : 0,
-					MYS_SUBSTAT.contains( statname ) ? modifier : 0,
-					MOX_SUBSTAT.contains( statname ) ? modifier : 0
-				};
-
-				return new AdventureResult( AdventureResult.SUBSTATS, gained );
-			}
+			return new AdventureResult( AdventureResult.SUBSTATS, gained );
 		}
 
 		StringTokenizer parsedItem = new StringTokenizer( s, "()" );
