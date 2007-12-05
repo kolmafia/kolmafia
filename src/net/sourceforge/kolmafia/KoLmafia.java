@@ -1620,15 +1620,18 @@ public abstract class KoLmafia implements KoLConstants
 			if ( lastToken.indexOf( "You acquire a skill" ) != -1 || lastToken.indexOf( "You gain a skill" ) != -1 )
 				continue;
 
-			if ( lastToken.startsWith( "You acquire" ) )
-			{
-				String acquisition = lastToken;
+			String acquisition = lastToken.trim();
+			// The following only under Can Has Cyborger. Sigh.
+			if ( acquisition.startsWith( "O hai, I made dis" ) )
+				acquisition = "You acquire an item:";
 
-				if ( lastToken.indexOf( "effect" ) == -1 )
+			if ( acquisition.startsWith( "You acquire" ) )
+			{
+				if ( acquisition.indexOf( "effect" ) == -1 )
 				{
 					String item = parsedResults.nextToken();
 
-					if ( lastToken.indexOf( "an item" ) != -1 )
+					if ( acquisition.indexOf( "an item" ) != -1 )
 					{
 						if ( data == null )
 						{
@@ -1694,8 +1697,16 @@ public abstract class KoLmafia implements KoLConstants
 						requiresRefresh |= this.parseEffect( effectName + " (" + duration + ")" );
 					}
 				}
+				continue;
 			}
-			else if ( (lastToken.startsWith( "You gain" ) || lastToken.startsWith( "You lose " )) )
+
+			// The following only under Can Has Cyborger
+			if ( lastToken.startsWith( "You gets" ) )
+				lastToken = "You gain" + lastToken.substring(8);
+			else if ( lastToken.startsWith( "You can has" ) )
+				lastToken = "You gain" + lastToken.substring(11);
+
+			if ( lastToken.startsWith( "You gain" ) || lastToken.startsWith( "You lose " ) )
 			{
 				int periodIndex = lastToken.indexOf( "." );
 				if ( periodIndex != -1 )
@@ -1744,8 +1755,10 @@ public abstract class KoLmafia implements KoLConstants
 							RequestLogger.updateSessionLog( lastToken );
 					}
 				}
+                                continue;
 			}
-			else if ( lastToken.startsWith( "You discard" ) )
+
+			if ( lastToken.startsWith( "You discard" ) )
 			{
 				Matcher matcher = DISCARD_PATTERN.matcher( lastToken );
 				if ( matcher.find() )
