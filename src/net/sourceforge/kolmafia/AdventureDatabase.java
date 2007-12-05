@@ -756,6 +756,9 @@ public class AdventureDatabase extends KoLDatabase
 		  new String [] { null, "604", null } ),
 
 		// That Explains All The Eyepatches
+		// Mus: shot of rotgut (2948), combat, drunkenness
+		// Mys: drunkenness, shot of rotgut (2948), combat
+		// Mox: combat, drunkenness, shot of rotgut (2948)
 		new ChoiceAdventure( "Island", "choiceAdventure184", "Barrrney's Barrr",
 		  new String [] { "enter combat", "drunkenness and stats", "shot of rotgut" },
 		  new String [] { null, null, "2948" } ),
@@ -767,7 +770,7 @@ public class AdventureDatabase extends KoLDatabase
 
                 // A Test of Testarrrsterone
 		new ChoiceAdventure( "Island", "choiceAdventure186", "Barrrney's Barrr",
-		  new String [] { "muscle and moxie", "drunkenness and stats", "moxie" },
+		  new String [] { "stats", "drunkenness and stats", "moxie" },
 		  new String [] { null, null, null } ),
 
 		// Choice 187 is Arrr You Man Enough?
@@ -1263,6 +1266,23 @@ public class AdventureDatabase extends KoLDatabase
 
 	public static final String [][] choiceSpoilers( int choice )
 	{
+		String [][] spoilers;
+
+		// See if spoilers are dynamically generated
+		spoilers = dynamicChoiceSpoilers( choice );
+		if ( spoilers != null )
+			return spoilers;
+
+		// Nope. See if it's in the Violet Fog
+		spoilers = VioletFog.choiceSpoilers( choice );
+		if ( spoilers != null )
+			return spoilers;
+
+		// Nope. See if it's in the Louvre
+		spoilers = Louvre.choiceSpoilers( choice );
+		if ( spoilers != null )
+			return spoilers;
+
 		String option = "choiceAdventure" + String.valueOf( choice );
 
 		// See if this choice is controlled by user option
@@ -1279,17 +1299,57 @@ public class AdventureDatabase extends KoLDatabase
 				return CHOICE_ADV_SPOILERS[i].getSpoilers();
 		}
 
-		// Nope. See if it's in the Violet Fog
-		String [][] spoilers = VioletFog.choiceSpoilers( choice );
-		if ( spoilers != null )
-			return spoilers;
-
-		// Nope. See if it's in the Louvre
-		spoilers = Louvre.choiceSpoilers( choice );
-		if ( spoilers != null )
-			return spoilers;
-
 		// Unknown choice
+		return null;
+	}
+
+	private static final String [][] dynamicChoiceSpoilers( int choice )
+	{
+		switch ( choice )
+		{
+		case 184:
+			// That Explains All The Eyepatches
+			// Mus: shot of rotgut (2948), combat, drunkenness
+			// Mys: drunkenness, shot of rotgut (2948), combat
+			// Mox: combat, drunkenness, shot of rotgut (2948)
+			int stat = KoLCharacter.isMuscleClass() ? 0 : KoLCharacter.isMysticalityClass() ? 2 : 1;
+
+			String [][] result = new String[4][];
+
+			// The choice option is the first element
+			result[0] = new String[1];
+			result[0][0] = "choiceAdventure184";
+
+			// The name of the choice is second element
+			result[1] = new String[1];
+			result[1][0] = "Barrrney's Barrr";
+
+			// An array of choice spoilers is the third element
+			// A parallel array of items is the fourth element
+			result[2] = new String[3];
+			result[3] = new String[3];
+
+			for ( int i = 0; i < 3; ++i )
+			{
+				int index = ( stat + i ) % 3;
+				switch ( index )
+				{
+				case 0:
+					result[2][i] = "shot of rotgut";
+					result[3][i] = "2948";
+					break;
+				case 1:
+					result[2][i] = "enter combat";
+					result[3][i] = null;
+					break;
+				case 2:
+					result[2][i] = "drunkenness and stats";
+					result[3][i] = null;
+					break;
+				}
+			}
+			return result;
+		}
 		return null;
 	}
 
@@ -1297,8 +1357,8 @@ public class AdventureDatabase extends KoLDatabase
 	{
 		switch ( choice )
 		{
-		// Having a Medicine Ball
 		case 105:
+                        // Having a Medicine Ball
 			if ( decision == 2 )
 			{
 				boolean defeated = KoLSettings.getBooleanProperty( "guyMadeOfBeesDefeated" );
