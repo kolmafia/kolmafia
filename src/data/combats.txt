@@ -172,7 +172,6 @@ Moxie Vacation	0
 Muscle Vacation	0
 Mysticality Vacation	0
 Noob Cave	0
-Pirate Cove In Disguise	0
 Pirate Party	0
 Poker Room	0
 Post-Quest Bugbear Pens	0
