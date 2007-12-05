@@ -2872,8 +2872,8 @@
 2866	
 2867
 2868	282485397	pirate pamphlet
-2869	
-2870	
+2869	751847928	pirate brochure
+2870	240521902	pirate tract
 2871	601551923	burnt flower	burnt flowers
 2872	562567673	tiny plastic Naughty Sorceress
 2873	575689216	tiny plastic Ed the Undying
@@ -2992,15 +2992,15 @@
 2986	125233552	silver tongue charrrm
 2987	133863244	silver tongue charrrm bracelet
 2988	531316933	bit of clingfilm
-2989
-2990
-2991
-2992
+2989		clingfilm trousers
+2990		clingfilm cap
+2991		clingfilm slippers
+2992	317790457	clingfilm tangle
 2993	462198783	vinegar-soaked lemon slice
 2994	788941481	true grit
 2995	833226772	buoybottoms
 2996	953916516	grungy flannel shirt
-2997		grungy bandana
+2997	777587816	grungy bandana
 2998	878931923	grassy cutlass
 2999	912251690	Cap'm Caronch's nasty booty
 3000	626678451	Cap'm Caronch's dentures
@@ -3016,10 +3016,10 @@
 3010
 3011
 3012
-3013
-3014
-3015
-3016
+3013	555978098	simple ancient cursed key
+3014	232669814	ornate ancient cursed key
+3015	363640532	gilded ancient cursed key
+3016	189764091	ancient cursed foot locker
 3017	387815070	ornate ancient cursed chest
 3018	598368925	gilded ancient cursed chest
 3019	523018058	all-purpose cleaner
@@ -3037,14 +3037,14 @@
 3031	365780933	purple corpsel
 3032	316114182	corpsebite
 3033	642596336	pirate fledges
-3034
-3035
-3036
-3037
-3038
-3039
-3040
-3041
+3034	654772088	cursed piece of thirteen
+3035	767383110	cursed black pearl onion
+3036	216312372	cursed sea biscuit
+3037	341449116	cursed bottle of rum
+3038	264275736	cursed bottle of black-label rum
+3039	173317473	cursed cannonball
+3040	642277267	cursed voodoo skull
+3041	149512464	cursed dirty joke scroll
 3042	622329601	Crimbo P. R. E. S. S. I. E.	
 3043	637200318	metallic foil bow
 3044	501377601	metallic foil radar dish
@@ -3052,3 +3052,7 @@
 3046	190558951	unremarkable candy cane	
 3047	203826503	completely typical fruitcake	
 3048	820385035	untainted eggnog
+3049
+3050
+3051
+3052	797230378	cursed breeches

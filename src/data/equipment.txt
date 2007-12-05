@@ -57,6 +57,7 @@ clown wig	50	Mox: 10
 coconut shell	30	none
 cold ninja mask	80	Mox: 25
 cornuthaum	85	Mox: 27
+# cursed eyepatch		Mys: 
 demon-horned hat	70	Mox: 20
 disco mask	10	none
 draggin' ball hat	100	Mox: 35
@@ -175,6 +176,7 @@ bullet-proof corduroys	170	Mox: 70
 buoybottoms	150	Mox: 60
 chain-mail monokini	30	none
 clockwork pants	80	Mox: 25
+cursed breeches	200	Mox: 85
 demonskin trousers	70	Mox: 20
 distressed denim pants	170	Mox: 70
 duct tape dockers	195	Mox: 82
@@ -408,6 +410,7 @@ crazy bastard sword	125	Mus: 25	1-handed sword
 crowbarrr	80	Mus: 25	2-handed staff
 curdflinger	45	Mox: 7	1-handed crossbow
 curmudgel	125	Mus: 47	1-handed lub
+# cursed cutlass	200	Mus: 	1-handed sword
 demon whip	10	Mus: 0	1-handed whip
 denim axe	170	Mus: 70	2-handed axe
 dense meat crossbow	60	Mox: 15	2-handed crossbow
@@ -832,6 +835,7 @@ chintzy noodle ring	0	none
 chintzy saucepan earring	0	none
 chintzy seal pendant	0	none
 chintzy turtle brooch	0	none
+clingfilm slippers	0	Mys: 60
 clown shoes	0	Mys: 10
 clownskin belt	0	Mys: 10
 club necklace	0	none
