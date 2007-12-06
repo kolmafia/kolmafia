@@ -1160,27 +1160,38 @@ public class KoLRequest extends Job implements KoLConstants
 
 		if ( this.redirectLocation.startsWith( "fight.php" ) )
 		{
-			if ( ConsumeItemRequest.currentItemId() == ConsumeItemRequest.DRUM_MACHINE )
+			int itemId = ConsumeItemRequest.currentItemId();
+			String name = null;
+
+			switch ( itemId )
 			{
-				StaticEntity.getClient().processResult( KoLAdventure.DRUM_MACHINE );
+			case ConsumeItemRequest.DRUM_MACHINE:
+				name = "Drum Machine";
+				break;
 
-				RequestLogger.printLine();
-				RequestLogger.printLine( "[" + KoLAdventure.getAdventureCount() + "] Drum Machine" );
+			case ConsumeItemRequest.BLACK_PUDDING:
+				KoLSettings.setUserProperty( "currentFullness", String.valueOf( KoLCharacter.getFullness() - 3 ) );
+				name = "Black Pudding";
+				break;
 
-				RequestLogger.updateSessionLog();
-				RequestLogger.updateSessionLog( "[" + KoLAdventure.getAdventureCount() + "] Drum Machine" );
+			case ConsumeItemRequest.CARONCH_MAP:
+				name = "Cap'm Caronch's Map";
+				break;
+
+			case ConsumeItemRequest.CURSED_PIECE_OF_THIRTEEN:
+				name = "Cursed Piece of Thirteen";
+				break;
 			}
 
-			if ( ConsumeItemRequest.currentItemId() == ConsumeItemRequest.BLACK_PUDDING )
+			if ( name != null )
 			{
-				StaticEntity.getClient().processResult( new AdventureResult( ConsumeItemRequest.BLACK_PUDDING, -1 ) );
-				KoLSettings.setUserProperty( "currentFullness", String.valueOf( KoLCharacter.getFullness() - 3 ) );
+				StaticEntity.getClient().processResult( new AdventureResult( itemId, -1 ) );
 
 				RequestLogger.printLine();
-				RequestLogger.printLine( "[" + KoLAdventure.getAdventureCount() + "] Black Pudding" );
+				RequestLogger.printLine( "[" + KoLAdventure.getAdventureCount() + "] " + name );
 
 				RequestLogger.updateSessionLog();
-				RequestLogger.updateSessionLog( "[" + KoLAdventure.getAdventureCount() + "] Black Pudding" );
+				RequestLogger.updateSessionLog( "[" + KoLAdventure.getAdventureCount() + "] " + name );
 			}
 		}
 
@@ -1211,8 +1222,12 @@ public class KoLRequest extends Job implements KoLConstants
 				return !LoginRequest.isInstanceRunning();
 			}
 
-			if ( ConsumeItemRequest.currentItemId() == ConsumeItemRequest.DRUM_MACHINE || ConsumeItemRequest.currentItemId() == ConsumeItemRequest.BLACK_PUDDING )
+			switch ( ConsumeItemRequest.currentItemId() )
 			{
+			case ConsumeItemRequest.DRUM_MACHINE:
+			case ConsumeItemRequest.BLACK_PUDDING:
+			case ConsumeItemRequest.CARONCH_MAP:
+			case ConsumeItemRequest.CURSED_PIECE_OF_THIRTEEN:
 				FightRequest.INSTANCE.run();
 				CharpaneRequest.getInstance().run();
 				return !LoginRequest.isInstanceRunning();
