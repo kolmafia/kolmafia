@@ -409,7 +409,7 @@
 408	spooky pirate skeleton	5	all	130
 409	vial of patchouli oil	0	all	38
 410	sk8board	8	all	80
-411	Jolly Roger charrrm	0	all	50
+411	Jolly Roger charrrm	3	all	50
 412	barrrnacle	5	all	48
 413	Jolly Roger charrrm bracelet	8	all	80
 414	crowbarrr	12	all	95
@@ -2955,7 +2955,7 @@
 2954	tip jar	13	all	140
 2955	yam candy	1	all	50
 2956	cocktail napkin	0	all	25
-2957	rum barrel charrrm	0	all	60
+2957	rum barrel charrrm	3	all	60
 2958	tube of cranberry Go-Goo	1	all	40
 2959	rum barrel charrrm bracelet	8	all	90
 2960	single-serving herbal stuffing	1	all	30
@@ -2970,21 +2970,21 @@
 2969	creamsicle	1	all	55
 2970	cream stout	2	all	55
 2971	curmudgel	12	all	130
-2972	grumpy old man charrrm	0	all	90
+2972	grumpy old man charrrm	3	all	90
 2973	grumpy old man charrrm bracelet	8	all	120
-2974	tarrrnish charrrm	0	all	90
+2974	tarrrnish charrrm	3	all	90
 2975	tarrrnished charrrm bracelet	8	all	120
 2976	bilge wine	2	all	65
 2977	witty rapier	12	all	155
 2978	yohohoyo	12	all	165
 2979	fish-liver oil	4	all	75
-2980	booty chest charrrm	0	all	110
+2980	booty chest charrrm	3	all	110
 2981	booty chest charrrm bracelet	8	all	140
-2982	cannonball charrrm	0	all	110
+2982	cannonball charrrm	3	all	110
 2983	cannonball charrrm bracelet	8	all	140
-2984	copper ha'penny charrrrm	0	all	110
+2984	copper ha'penny charrrrm	3	all	110
 2985	copper ha'penny charrrm bracelet	8	all	140
-2986	silver tongue charrrm	0	all	110
+2986	silver tongue charrrm	3	all	110
 2987	silver tongue charrrm bracelet	8	all	140
 2988	bit of clingfilm	4	display	60
 2989	clingfilm trousers	10	display	155

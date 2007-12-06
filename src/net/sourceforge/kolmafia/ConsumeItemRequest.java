@@ -176,6 +176,23 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int STEEL_LIVER = 2743;
 	private static final int STEEL_SPLEEN = 2744;
 
+	private static final int JOLLY_CHARRRM = 411;
+	private static final int JOLLY_BRACELET = 413;
+	private static final int RUM_CHARRRM = 2957;
+	private static final int RUM_BRACELET = 2959;
+	private static final int GRUMPY_CHARRRM = 2972;
+	private static final int GRUMPY_BRACELET = 2973;
+	private static final int TARRRNISH_CHARRRM = 2974;
+	private static final int TARRRNISH_BRACELET = 2975;
+	private static final int BOOTY_CHARRRM = 2980;
+	private static final int BOOTY_BRACELET = 2981;
+	private static final int CANNONBALL_CHARRRM = 2982;
+	private static final int CANNONBALL_BRACELET = 2983;
+	private static final int COPPER_CHARRRM = 2984;
+	private static final int COPPER_BRACELET = 2985;
+	private static final int TONGUE_CHARRRM = 2986;
+	private static final int TONGUE_BRACELET = 2987;
+
 	private static final AdventureResult CUMMERBUND = new AdventureResult( 778, 1 );
 
 	private static final AdventureResult ASPARAGUS_KNIFE = new AdventureResult( 19, -1 );
@@ -196,6 +213,7 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final AdventureResult SCRAP_OF_PAPER = new AdventureResult( 1959, -1 );
 	private static final AdventureResult WORM_RIDING_HOOKS = new AdventureResult( 2302, -1 );
 	private static final AdventureResult ENCRYPTION_KEY = new AdventureResult( 2441, -1 );
+	private static final AdventureResult CHARRRM_BRACELET = new AdventureResult( 2953, -1 );
 	private static final AdventureResult SIMPLE_CURSED_KEY = new AdventureResult( 3013, 1 );
 	private static final AdventureResult ORNATE_CURSED_KEY = new AdventureResult( 3014, 1 );
 	private static final AdventureResult GILDED_CURSED_KEY = new AdventureResult( 3015, 1 );
@@ -204,15 +222,55 @@ public class ConsumeItemRequest extends KoLRequest
 	private AdventureResult itemUsed = null;
 
 	public ConsumeItemRequest( AdventureResult item )
-	{	this( TradeableItemDatabase.getConsumptionType( item.getItemId() ), item );
+	{	this( getConsumptionType( item ), item );
+	}
+
+	public static final int getConsumptionType( AdventureResult item )
+	{
+		int itemId = item.getItemId();
+		switch ( itemId )
+		{
+		case JOLLY_BRACELET:
+		case RUM_BRACELET:
+		case GRUMPY_BRACELET:
+		case TARRRNISH_BRACELET:
+		case BOOTY_BRACELET:
+		case CANNONBALL_BRACELET:
+		case COPPER_BRACELET:
+		case TONGUE_BRACELET:
+			return CONSUME_USE;
+		}
+		return TradeableItemDatabase.getConsumptionType( itemId );
 	}
 
 	public ConsumeItemRequest( int consumptionType, AdventureResult item )
+	{	this( getConsumptionLocation( consumptionType, item ), consumptionType, item );
+	}
+
+	private static final String getConsumptionLocation( int consumptionType, AdventureResult item )
 	{
-		this( consumptionType == CONSUME_EAT ? "inv_eat.php" : consumptionType == CONSUME_DRINK ? "inv_booze.php" :
-			consumptionType == GROW_FAMILIAR ? "inv_familiar.php" : consumptionType == HPMP_RESTORE || consumptionType == MP_RESTORE ? "skills.php" :
-			consumptionType == CONSUME_HOBO ? "inventory.php" : consumptionType == CONSUME_MULTIPLE ? "multiuse.php" :
-			consumptionType == HP_RESTORE && item.getCount() > 1 ? "multiuse.php" : "inv_use.php", consumptionType, item );
+		switch ( consumptionType )
+		{
+		case CONSUME_EAT:
+			return "inv_eat.php";
+		case CONSUME_DRINK:
+			return "inv_booze.php";
+		case GROW_FAMILIAR:
+			return "inv_familiar.php";
+		case HPMP_RESTORE:
+		case MP_RESTORE:
+			return "skills.php";
+		case CONSUME_HOBO:
+			return "inventory.php";
+		case CONSUME_MULTIPLE:
+			return "multiuse.php";
+		case HP_RESTORE:
+			if ( item.getCount() > 1 )
+				return "multiuse.php";
+			return "inv_use.php";
+		default:
+			return "inv_use.php";
+		}
 	}
 
 	private ConsumeItemRequest( String location, int consumptionType, AdventureResult item )
@@ -1043,8 +1101,8 @@ public class ConsumeItemRequest extends KoLRequest
 
 		case PIRATE_SKULL:
 
-						// "Unable to find enough parts, the semi-formed
-						// skeleton gives up and falls to pieces."
+			// "Unable to find enough parts, the semi-formed
+			// skeleton gives up and falls to pieces."
 			if ( responseText.indexOf( "gives up and falls to pieces." ) != -1 )
 			{
 				StaticEntity.getClient().processResult( lastItemUsed );
@@ -1391,6 +1449,24 @@ public class ConsumeItemRequest extends KoLRequest
 			if ( effectData != null )
 				KoLSettings.setUserProperty( "lastBangPotion" + lastItemUsed.getItemId(), effectData );
 
+			return;
+
+		case JOLLY_CHARRRM:
+		case RUM_CHARRRM:
+		case GRUMPY_CHARRRM:
+		case TARRRNISH_CHARRRM:
+		case BOOTY_CHARRRM:
+		case CANNONBALL_CHARRRM:
+		case COPPER_CHARRRM:
+		case TONGUE_CHARRRM:
+			if ( responseText.indexOf( "You don't have anything to attach that charrrm to." ) != -1 )
+			{
+				lastUpdate = "You need a charrrm bracelet.";
+				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
+				StaticEntity.getClient().processResult( lastItemUsed );
+				return;
+			}
+			StaticEntity.getClient().processResult( CHARRRM_BRACELET );
 			return;
 
 		case ANCIENT_CURSED_FOOTLOCKER:

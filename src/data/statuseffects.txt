@@ -465,7 +465,7 @@
 464	Truly Gritty	disease.gif	8247e2389bb1ad99d1c5d12db1ed8f8f	use 1 true grit
 465	Soul-Crushing Headache	realbrain.gif	c0b5d125cc3e5d611e76146ee18b802a	use 1 all-purpose cleaner
 466
-467
+467	Curse of the Black Pearl Onion	pearlonion.gif	05bd2e9a51c82b6aae3b5d9fa3cd89cb
 468	Fishy Fortification	fish.gif	c5e882290f065b068304245b7d79ceee	use 1 fish-liver oil
 469	Cybernetic Muscles	strboost.gif	4bff7d1f60535beb8220383e6d0d7381
 470	Neuromancy	realbrain.gif	efce075a51174b54c250be1f6cde64fa
