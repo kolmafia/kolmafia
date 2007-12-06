@@ -934,7 +934,7 @@ clingfilm trousers	27	bit of clingfilm (11)
 
 booty chest charrrm bracelet	28	booty chest charrrm	charrrm bracelet
 cannonball charrrm bracelet	28	cannonball charrrm	charrrm bracelet
-copper ha'penny charrrm bracelet	28	copper ha'penny charrrm	charrrm bracelet
+copper ha'penny charrrm bracelet	28	copper ha'penny charrrrm	charrrm bracelet
 grumpy old man charrrm bracelet	28	grumpy old man charrrm	charrrm bracelet
 Jolly Roger charrrm bracelet	28	Jolly Roger charrrm	charrrm bracelet
 rum barrel charrrm bracelet	28	rum barrel charrrm	charrrm bracelet

@@ -416,7 +416,7 @@ Skullery Maid	HP: 4 Def: 4 Atk: 4	bottle of popskull (30)	dishrag (5)
 Sleeping Knob Goblin Guard	HP: 1 Def: 1 Atk: 1 Meat: 4-8	viking helmet (30)	Knob Goblin pants (5)	Knob Goblin scimitar (30)
 Slick Lihc	HP: 50 Def: 60 Atk: 58 E: spooky	lihc eye (20)	lihc face (10)
 Slow Talkin' Elliot	HP: 200
-Smarmy Pirate	HP: 55 Def: 65 Atk: 65 E: sleaze Meat: 22-34	bottle of rum (50)	Jolly Roger charrrm (20)	eyepatch (10)	vial of pirate sweat (0)
+Smarmy Pirate	HP: 55 Def: 65 Atk: 65 E: sleaze Meat: 22-34	bottle of rum (50)	Jolly Roger charrrm bracelet (20)	eyepatch (10)	vial of pirate sweat (0)
 Smart Skelton	HP: 11 Def: 20 Atk: 20 E: spooky	smart skull (50)
 Snow Queen	HP: 70 Def: 104 Atk: 104 E: cold	crazy little Turkish delight (25)	ga-ga radio (5)	Snow Queen Crown (5)
 Some Zombie Waltzers	HP: 120 Def: 110 Atk: 110 E: spooky	dance card (15)
