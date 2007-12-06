@@ -47,10 +47,14 @@ public abstract class MoodSettings implements KoLConstants
 {
 	private static final AdventureResult [] AUTO_CLEAR =
 	{
-		new AdventureResult( "Beaten Up", 1, true ), new AdventureResult( "Tetanus", 1, true ),
-		new AdventureResult( "Amnesia", 1, true ), new AdventureResult( "Cunctatitis", 1, true ),
-		new AdventureResult( "Hardly Poisoned at All", 1, true ), new AdventureResult( "Majorly Poisoned", 1, true ),
-		new AdventureResult( "A Little Bit Poisoned", 1, true ), new AdventureResult( "Somewhat Poisoned", 1, true ),
+		new AdventureResult( "Beaten Up", 1, true ),
+		new AdventureResult( "Tetanus", 1, true ),
+		new AdventureResult( "Amnesia", 1, true ),
+		new AdventureResult( "Cunctatitis", 1, true ),
+		new AdventureResult( "Hardly Poisoned at All", 1, true ),
+		new AdventureResult( "Majorly Poisoned", 1, true ),
+		new AdventureResult( "A Little Bit Poisoned", 1, true ),
+		new AdventureResult( "Somewhat Poisoned", 1, true ),
 		new AdventureResult( "Really Quite Poisoned", 1, true ),
 	};
 
