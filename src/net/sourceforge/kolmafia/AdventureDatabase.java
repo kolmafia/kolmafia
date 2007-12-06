@@ -362,7 +362,7 @@ public class AdventureDatabase extends KoLDatabase
 		// Choice 45 is Maps and Legends
 
 		// An Interesting Choice
-		new ChoiceAdventure( "choiceAdventure46", "Spooky Forest",
+		new ChoiceAdventure( "Woods", "choiceAdventure46", "Spooky Forest",
 		  new String [] { "moxie substats", "muscle substats", "vampire heart" },
 		  new String [] { null, null, "1518" } ),
 

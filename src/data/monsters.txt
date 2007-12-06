@@ -529,7 +529,7 @@ War Hippy Sky Captain	HP: 200
 War Hippy Spy	HP: 180
 War Hippy Windtalker	HP: 200
 War Pledge	HP: 180	distressed denim pants (5)	bejeweled pledge pin (5)	beer helmet (5)
-Warty Pirate	HP: 0	copper ha'penny charrrrm (0)	fish-liver oil (0)	vinegar-soaked lemon slice (0)
+Warty Pirate	HP: 0	copper ha'penny charrrm (0)	fish-liver oil (0)	vinegar-soaked lemon slice (0)
 Warwelf	HP: 2 Def: 3 Atk: 1 Meat: 10-16
 Wealthy Pirate	HP: 0	booty chest charrrm (0)	solid gold pegleg (0)
 Weremoose	HP: 53 Def: 63 Atk: 63 Meat: 52-79
