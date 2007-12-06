@@ -2987,7 +2987,7 @@
 2981	492913997	booty chest charrrm bracelet
 2982	431696985	cannonball charrrm
 2983	555275436	cannonball charrrm bracelet
-2984	403269465	copper ha'penny charrrm
+2984	403269465	copper ha'penny charrrrm
 2985	560989736	copper ha'penny charrrm bracelet
 2986	125233552	silver tongue charrrm
 2987	133863244	silver tongue charrrm bracelet
