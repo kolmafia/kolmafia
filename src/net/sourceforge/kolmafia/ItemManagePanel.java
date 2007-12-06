@@ -448,7 +448,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 			for ( int i = 0; i < items.length; ++i )
 			{
-				int usageType = TradeableItemDatabase.getConsumptionType( ((AdventureResult)items[i]).getItemId() );
+				int usageType = ConsumeItemRequest.getConsumptionType( (AdventureResult)items[i] );
 
 				switch ( usageType )
 				{
