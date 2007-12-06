@@ -133,10 +133,11 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int ABSINTHE = 2655;
 	private static final int MOJO_FILTER = 2614;
 	private static final int LIBRARY_CARD = 2672;
+	public static final int CARONCH_MAP = 2950;
 	private static final int ANCIENT_CURSED_FOOTLOCKER = 3016;
 	private static final int ORNATE_CURSED_CHEST = 3017;
 	private static final int GILDED_CURSED_CHEST = 3018;
-	private static final int CURSED_PIECE_OF_THIRTEEN = 3034;
+	public static final int CURSED_PIECE_OF_THIRTEEN = 3034;
 
 	private static final int PALM_FROND = 2605;
 	private static final int MUMMY_WRAP = 2634;
