@@ -133,10 +133,15 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int ABSINTHE = 2655;
 	private static final int MOJO_FILTER = 2614;
 	private static final int LIBRARY_CARD = 2672;
+	private static final int ANCIENT_CURSED_FOOTLOCKER = 3016;
+	private static final int ORNATE_CURSED_CHEST = 3017;
+	private static final int GILDED_CURSED_CHEST = 3018;
+	private static final int CURSED_PIECE_OF_THIRTEEN = 3034;
 
 	private static final int PALM_FROND = 2605;
 	private static final int MUMMY_WRAP = 2634;
 	private static final int DUCT_TAPE = 2697;
+	private static final int CLINGFILM = 2988;
 
 	private static final int GIFT1 = 1167;
 	private static final int GIFT2 = 1168;
@@ -191,6 +196,9 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final AdventureResult SCRAP_OF_PAPER = new AdventureResult( 1959, -1 );
 	private static final AdventureResult WORM_RIDING_HOOKS = new AdventureResult( 2302, -1 );
 	private static final AdventureResult ENCRYPTION_KEY = new AdventureResult( 2441, -1 );
+	private static final AdventureResult SIMPLE_CURSED_KEY = new AdventureResult( 3013, 1 );
+	private static final AdventureResult ORNATE_CURSED_KEY = new AdventureResult( 3014, 1 );
+	private static final AdventureResult GILDED_CURSED_KEY = new AdventureResult( 3015, 1 );
 
 	private int consumptionType;
 	private AdventureResult itemUsed = null;
@@ -1275,6 +1283,7 @@ public class ConsumeItemRequest extends KoLRequest
 		case PALM_FROND:
 		case MUMMY_WRAP:
 		case DUCT_TAPE:
+		case CLINGFILM:
 
 			if ( responseText.indexOf( "You acquire" ) == -1 )
 				StaticEntity.getClient().processResult( lastItemUsed );
@@ -1382,6 +1391,39 @@ public class ConsumeItemRequest extends KoLRequest
 			if ( effectData != null )
 				KoLSettings.setUserProperty( "lastBangPotion" + lastItemUsed.getItemId(), effectData );
 
+			return;
+
+		case ANCIENT_CURSED_FOOTLOCKER:
+			if ( KoLCharacter.hasItem( SIMPLE_CURSED_KEY ) )
+				StaticEntity.getClient().processResult( SIMPLE_CURSED_KEY.getNegation() );
+			else
+				StaticEntity.getClient().processResult( lastItemUsed );
+			return;
+
+		case ORNATE_CURSED_CHEST:
+			if ( KoLCharacter.hasItem( ORNATE_CURSED_KEY ) )
+				StaticEntity.getClient().processResult( ORNATE_CURSED_KEY.getNegation() );
+			else
+				StaticEntity.getClient().processResult( lastItemUsed );
+			return;
+
+		case GILDED_CURSED_CHEST:
+			if ( KoLCharacter.hasItem( GILDED_CURSED_KEY ) )
+				StaticEntity.getClient().processResult( GILDED_CURSED_KEY.getNegation() );
+			else
+				StaticEntity.getClient().processResult( lastItemUsed );
+			return;
+
+		case CURSED_PIECE_OF_THIRTEEN:
+                        // You consider taking the piece of thirteen to a rare
+                        // coin dealer to see if it's worth anything, but you
+                        // don't really have time.
+			if ( responseText.indexOf( "don't really have time" ) != -1 )
+			{
+				lastUpdate = "Insufficient adventures left.";
+				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
+				StaticEntity.getClient().processResult( lastItemUsed );
+			}
 			return;
 		}
 	}
