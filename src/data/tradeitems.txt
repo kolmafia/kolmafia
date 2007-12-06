@@ -3014,9 +3014,9 @@
 3013	simple ancient cursed key	0	all	0
 3014	ornate ancient cursed key	0	all	0
 3015	gilded ancient cursed key	0	all	0
-3016	ancient cursed foot locker	0	all	0
-3017	ornate ancient cursed chest	0	all	0
-3018	gilded ancient cursed chest	0	all	0
+3016	ancient cursed foot locker	3	all	0
+3017	ornate ancient cursed chest	3	all	0
+3018	gilded ancient cursed chest	3	all	0
 3019	all-purpose cleaner	3	all	55
 3020	handful of sawdust	0	all	55
 3021
@@ -3032,7 +3032,7 @@
 3031	purple corpsel	2	all	50
 3032	corpsebite	2	all	50
 3033	pirate fledges	8	display	0
-3034	cursed piece of thirteen	0	all	0
+3034	cursed piece of thirteen	3	all	0
 3035	cursed black pearl onion	1	all	0
 3036	cursed sea biscuit	1	all	0
 3037	cursed bottle of rum	2	all	0

@@ -470,3 +470,4 @@
 469	Cybernetic Muscles	strboost.gif	4bff7d1f60535beb8220383e6d0d7381
 470	Neuromancy	realbrain.gif	efce075a51174b54c250be1f6cde64fa
 471	Can Has Cyborger	tinykitty.gif	898ea611ee833bd133e04b393203e416
+472	Curse Magnet	magnet.gif	
