@@ -895,7 +895,7 @@ bottlecap turtle	Mysticality: +1, Maximum MP: +3
 # cannonball charrrm bracelet
 cement shoes	Intrinsic Effect: "Sleeping with the Fishes", Mysticality: +20, Moxie: +20
 clingfilm slippers	Spell Damage: +15
-copper ha'penny charrrrm bracelet	Maximum HP: +20, Maximum MP: +20
+copper ha'penny charrrm bracelet	Maximum HP: +20, Maximum MP: +20
 Jolly Roger charrrm bracelet	Moxie: +5
 chintzy accordion pin	Single Equip, Moxie: +12, Mysticality: +6, Class: "Accordion Thief"
 chintzy disco ball pendant	Single Equip, Moxie: +12, Muscle: +6, Class: "Disco Bandit"

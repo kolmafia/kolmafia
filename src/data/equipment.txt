@@ -830,7 +830,7 @@ bottle opener belt buckle	0	Mys: 65
 bottlecap turtle	0	Mys: 12
 cannonball charrrm bracelet	0	Mys: 80
 cement shoes	0	Mys: 35
-copper ha'penny charrrrm bracelet	0	Mys: 80
+copper ha'penny charrrm bracelet	0	Mys: 80
 Jolly Roger charrrm bracelet	0	Mys: 20
 chintzy accordion pin	0	none
 chintzy disco ball pendant	0	none
@@ -870,7 +870,7 @@ glowing red eye	0	Mys: 60
 gnatwing earring	0	Mys: 30
 gnoll-tooth necklace	0	Mys: 10
 green glowstick	0	none
-grumpy old man charrrrm bracelet	0	Mys: 60
+grumpy old man charrrm bracelet	0	Mys: 60
 hamethyst bracelet	0	Mys: 10
 hamethyst earring	0	Mys: 10
 hamethyst necklace	0	Mys: 10

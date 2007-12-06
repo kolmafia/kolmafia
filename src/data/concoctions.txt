@@ -62,7 +62,6 @@ spooky scarecrow	1	wooden stakes	spooky staff
 
 asshat	1	bum cheek	bum cheek
 beach glass necklace	1	beach glass bead	hemp string
-Jolly Roger charrrm bracelet	1	Jolly Roger charrrm	hemp string
 detective skull	1	gnoll lips	brainy skull
 disembodied smile	1	gnoll lips	gnoll teeth
 enchanted eyepatch	1	eyepatch	lihc eye
@@ -935,8 +934,9 @@ clingfilm trousers	27	bit of clingfilm (11)
 
 booty chest charrrm bracelet	28	booty chest charrrm	charrrm bracelet
 cannonball charrrm bracelet	28	cannonball charrrm	charrrm bracelet
-copper ha'penny charrrrm bracelet	28	copper ha'penny charrrrm	charrrm bracelet
+copper ha'penny charrrm bracelet	28	copper ha'penny charrrm	charrrm bracelet
 grumpy old man charrrm bracelet	28	grumpy old man charrrm	charrrm bracelet
+Jolly Roger charrrm bracelet	28	Jolly Roger charrrm	charrrm bracelet
 rum barrel charrrm bracelet	28	rum barrel charrrm	charrrm bracelet
 silver tongue charrrm bracelet	28	silver tongue charrrm	charrrm bracelet
 tarrrnished charrrm bracelet	28	tarrrnish charrrm	charrrm bracelet
