@@ -1,5 +1,5 @@
 1
-1	Light!	light.gif
+1	Light!	light.gif	29e5ac45852cffc2c37ad392eb87bab7	use 1 birthday candle
 2	Sleepy	sleepy.gif	35b38533640fed03c12460b1dca98e81	use 1 decorative fountain
 3	Confused	confused.gif	d335051a5afb4fa12036998ac13f167b	use 1 Senior Mints
 4	Embarrassed	blush.gif	c489e39537ea426cd1b8fae88ed5032c	use 1 patchouli incense stick
@@ -70,7 +70,7 @@
 69	Jackasses' Symphony of Destruction	notes.gif	fca62260f2f750e32f104f868ed1a3a5	cast 1 Jackasses' Symphony of Destruction
 70	Stevedave's Shanty of Superiority	notes.gif	2e5a803cf1be5b3d2aaa897e60f29138	cast 1 Stevedave's Shanty of Superiority
 71	Ode to Booze	notes.gif	626c8ef76cfc003c6ac2e65e9af5fd7a	cast 1 The Ode to Booze
-72	Sleeping with the Fishes	sleepy.gif
+72	Sleeping with the Fishes	sleepy.gif	5285075ac41f4e239008e57f0b11e193
 73	Ticking Clock	clock.gif	6e54ea1584f2410c94c93032c5a038f0	use 1 cheap wind-up clock
 74	Fresh Scent	happy.gif	a12c86c626c44ecd48540d1e55bf1204	use 1 deodorant
 75	Hippy Stench	stench.gif	70ff46e1347de854172cb7a644f2854e	use 1 reodorant
@@ -80,11 +80,11 @@
 79
 80	Missing Fingers	sad.gif	c6100ac99a847dc3b60d9f8c1a2c223d	use 1 Knob Goblin firecracker
 81	Gnawed-Off Arm	sad.gif	99337ac6df628a7b13162ef7a725f01d
-82	Broken Knees	sad.gif
-83	And Your Family, Too	sad.gif
+82	Broken Knees	sad.gif	c377ac25ce57bab5069f08744b111930
+83	And Your Family, Too	sad.gif	4f336a7c8fb1b5b3355180116e822627
 84
 85
-86	Missing Eyebrows	sad.gif
+86	Missing Eyebrows	sad.gif	71c7813ec6c1d4f79b9a4a44a6654181
 87
 88
 89	Tingly Wrists	feather.gif	5a7834b36760978ce7766b95753fa4f2
@@ -118,7 +118,7 @@
 117	Free Bird	radpants.gif	587b577f3cf49f2d944450aa4751584d
 118	Shiny Happy Weapon	radsword.gif	c182e3297f3732ed05601d63d5980f1d
 119	On the Shoulders of Giants	farout.gif	68ea640257b2b74627e74ce275a555fc	use 1 Hawking's Elixir of Brilliance
-120	Shot in the Arse	shotarse.gif
+120	Shot in the Arse	shotarse.gif	d65d1192f0638f8f72e2f18b99c33a91
 121	Cock of the Walk	cockghost.gif	4bd0338c8030f6aaa95ea5eda777484c	use 1 Connery's Elixir of Audacity
 122	Eggs-tra Sensory Perception	eggplain.gif	5ca8ae9f3177d3f1bfee8ceccde554b7	use 1 off-white paisley oyster egg
 123	Egg-stortionary Tactics	eggplain.gif	3cef8a2a9750292400d4380caacda408	use 1 black paisley oyster egg
@@ -215,7 +215,7 @@
 214	Salamander In Your Stomach	liver.gif	1c2325ff89b6a58b386e5563da098e46	use 1 salamander slurry
 215	Newt Gets In Your Eyes	eyes.gif	46a5628ca44d03f0f26bdf3467f1c0c2	use 1 eyedrops of newt
 216	Blessed by the RNG	fence2.gif	e449f82b68903398fc800a02cf2aa318
-217	Cursed by the RNG	tinycow.gif
+217	Cursed by the RNG	tinycow.gif	619bf55052f4270389dd24d68a029246
 218	Amorous	lips.gif	e8430f88372ba98df5e361f0b091fe65	use 1 roofie
 219	Bubble, Bubble	sphere.gif	6ede1a75e47f82c98a429c9a50d067b4	use 1 alphabet gum
 220	Sticky Fingers	glove.gif	4becdf2ac82c2bf30dd433dd54465918	use 1 bag of Cheat-Os
@@ -293,7 +293,7 @@
 292	Tetanus	disease.gif	79289e27b54236f174122c1a7703242a
 293	Half-Eaten Brain	realbrain.gif	6732cdf4bc1898533e87e667da4460f7
 294	Fearless	disease.gif	ced2750c51d5d10b45f6a169a8661c83
-295	Socialismydia	disease.gif
+295	Socialismydia	disease.gif	15f8114030f2e55d82d7f5e91e72a1cb
 296	Axe Wound	gash.gif	198f28c9fb6022af5663275f0f201d4e
 297	Temporary Amnesia	confused.gif	c699071097b9cbff95fbb3e92d73a547
 298	Grilled	grilled.gif	4308b32a8ded408e0dae1bc504397dec
@@ -464,7 +464,7 @@
 463	Well-Oiled	balm.gif	60036c9c3bbf193e3f3fc7051ec66aa7	use 1 Oil of Parrrlay
 464	Truly Gritty	disease.gif	8247e2389bb1ad99d1c5d12db1ed8f8f	use 1 true grit
 465	Soul-Crushing Headache	realbrain.gif	c0b5d125cc3e5d611e76146ee18b802a	use 1 all-purpose cleaner
-466
+466	Savage Beast Inside	lycan.gif	79e27820ccb7f957271ccae45dabfec3	use 1 jar of "Creole Lady" marrrmalade
 467	Curse of the Black Pearl Onion	pearlonion.gif	05bd2e9a51c82b6aae3b5d9fa3cd89cb
 468	Fishy Fortification	fish.gif	c5e882290f065b068304245b7d79ceee	use 1 fish-liver oil
 469	Cybernetic Muscles	strboost.gif	4bff7d1f60535beb8220383e6d0d7381

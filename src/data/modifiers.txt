@@ -1311,6 +1311,7 @@ Aloysius' Antiphon of Aptitude	Experience: +3
 Also Schmeckt Zarathustra	Mysticality: +30
 Amorous	Moxie: +5, Sleaze Damage: +5
 Ancestral Disapproval	Mysticality Percent: +10
+And Your Family, Too	Familiar Weight: -10
 Animal Exploiter	Muscle: +40, Familiar Weight Percent: -50
 Antsy in your Pantsy	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
 Apathy	Muscle Percent: -30, Mysticality Percent: -30, Moxie Percent: -30
@@ -1336,6 +1337,7 @@ Blessing of Squirtlcthulli	HP Regen Min: 7, HP Regen Max: 9, MP Regen Min: 7, MP
 Bloody Bloody Bloody!	Spooky Damage: +50
 Bloody Hand	Muscle: -1
 Blue Tongue	Item Drop: +30
+Broken Knees	Muscle Percent: -30
 # Brother Corsican's Blessing
 # Brother Flying Burrito's Blessing
 # Brother Smother's Blessing
@@ -1524,6 +1526,7 @@ Ringing Ears	Muscle Percent: +20, Mysticality Percent: -20
 Rushin' Hands	Melee Damage: +3
 Salamander In Your Stomach	Mysticality: +25
 Saucemastery	Mysticality: +1, Maximum HP: +4
+Savage Beast Inside	Muscle: +20
 Scared Stiff	Sleaze Resistance: +20
 Scarysauce	Cold Resistance: +20, Sleaze Resistance: +20
 Scent of a Kitchen Elf	Mysticality: +40, Familiar Weight Percent: -50
@@ -1533,6 +1536,7 @@ Seriously Mutated	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: 
 Shamed &amp; Manipulated	Muscle Percent: +50, Moxie Percent: -50
 Shiny Happy Cupcake	Experience: +3
 Shirtless in Seattle	Stench Resistance: +20
+Shot in the Arse	Moxie: +15, Muscle: +15, Mysticality: +15
 Side Affectation	Spooky Resistance: +20
 Sinuses For Miles	Meat Drop: +200
 Sleaze-Resistant Trousers	Sleaze Resistance: +20
