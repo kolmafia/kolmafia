@@ -775,7 +775,7 @@ public class KoLRequest extends Job implements KoLConstants
 				// made of bees, you can't do it again.
 				KoLSettings.setUserProperty( "guyMadeOfBeesDefeated", "true" );
 			}
-			else
+			else if ( text.indexOf( "Nothing happens." ) != -1 )
 			{
 				// Increment the number of times we've
 				// called the guy made of bees.
