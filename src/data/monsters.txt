@@ -268,7 +268,7 @@ Grave Rober Zmobie	HP: 50 Def: 59 Atk: 59 E: spooky	dead guy's watch (10)	rusty 
 Greasy Duck	HP: 185	flirtatious feather (0)	duct tape (0)
 Green Ops Soldier	HP: 250
 Gritty Pirate	HP: 0	true grit (0)
-Groovy Pirate	HP: 0	buoybottoms
+Groovy Pirate	HP: 0	buoybottoms (0)
 Grungy Pirate	HP: 0	acoustic guitarrr (0)	grungy bandana (0)	grungy flannel shirt (0)
 Guard Bugbear	HP: 6 Def: 12 Atk: 12 Meat: 21-30	bugbear beanie (25)
 Guy Made Of Bees	HP: 0	guy made of bee pollen (100)

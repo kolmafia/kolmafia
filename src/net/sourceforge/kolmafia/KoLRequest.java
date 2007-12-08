@@ -939,7 +939,7 @@ public class KoLRequest extends Job implements KoLConstants
 				this.formConnection.addRequestProperty( "Cookie", serverCookie );
 		}
 
-		this.formConnection.setRequestProperty( "User-Agent", VERSION_NAME );
+		this.formConnection.setRequestProperty( "User-Agent", getUserAgent() );
 
 		if ( this.dataChanged )
 		{
@@ -1958,6 +1958,12 @@ public class KoLRequest extends Job implements KoLConstants
 
 	public String toString()
 	{	return this.getURLString();
+	}
+
+	public static final String getUserAgent()
+	{
+		String userAgent = KoLSettings.getGlobalProperty( null, "userAgent" );
+		return userAgent.equals( "" ) ? VERSION_NAME : userAgent;
 	}
 
 	public void printRequestProperties()

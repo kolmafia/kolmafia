@@ -62,7 +62,13 @@ public class BigIsland
 	private static int lastFratboysDefeated = 0;
 	private static int lastHippiesDefeated = 0;
 
+        // Data about sidequests
+	private static String currentJunkyardTool = "";
+	private static int lastNunneryMeat = 0;
+	private static int currentNunneryMeat = 0;
+
 	private static final Pattern MAP_PATTERN = Pattern.compile( "bfleft(\\d*).*bfright(\\d*)", Pattern.DOTALL );
+	private static final Pattern JUNKYARD_PATTERN = Pattern.compile( "The last time I saw my (.*?), it was (.*?)\\.", Pattern.DOTALL );
 
 	private static final AdventureResult JAM_FLYERS = new AdventureResult( 2404, -1 );
 	private static final AdventureResult ROCK_FLYERS = new AdventureResult( 2405, -1 );
@@ -82,13 +88,13 @@ public class BigIsland
 	private static final String IMAGE_ROOT = "http://images.kingdomofloathing.com/otherimages/bigisland/";
 	private static final String [] SIDEQUEST_IMAGES =
 	{
-		null,		// NONE
-		"2.gif",	// JUNKYARD
-		"3.gif",	// ORCHARD
-		"6.gif",	// ARENA
-		"15.gif",	// FARM
-		"17.gif",	// LIGHTHOUSE
-		"19.gif",	// NUNS
+		null,			// NONE
+		IMAGE_ROOT + "2.gif",	// JUNKYARD
+		IMAGE_ROOT + "3.gif",	// ORCHARD
+		IMAGE_ROOT + "6.gif",	// ARENA
+		IMAGE_ROOT + "15.gif",	// FARM
+		IMAGE_ROOT + "17.gif",	// LIGHTHOUSE
+		IMAGE_ROOT + "19.gif",	// NUNS
 	};
 
 	// Here are JHunz's replacement images for Big Island sidequest areas
@@ -148,8 +154,30 @@ public class BigIsland
          * Methods to decorate the Fight page
          */
 
+	public static final void addNunneryMeat( AdventureResult result )
+	{
+		int delta = result.getCount();
+		lastNunneryMeat = currentNunneryMeat;
+		currentNunneryMeat = KoLSettings.incrementIntegerProperty( "currentNunneryMeat", delta, 100000, false );
+	}
+
 	public static final void decorateThemtharFight( StringBuffer buffer )
 	{
+		int index = buffer.indexOf( "<!--WINWINWIN-->" );
+		if ( index == -1 )
+			return;
+
+		// "Well," you say, "it would really help the war effort if
+		// your convent could serve as a hospital for our wounded
+		// troops."
+		if ( buffer.indexOf( "could serve as a hospital" ) != -1 )
+			KoLSettings.resetUserProperty( "sidequestNunsCompleted", "hippy" );
+
+		// "Well," you say, "it would really help the war effort if
+		// your convent could serve as a massage parlor. Y'know... to
+		// help our troops relax."
+		else if ( buffer.indexOf( "could serve as a massage parlor" ) != -1  )
+			KoLSettings.resetUserProperty( "sidequestNunsCompleted", "fratboy" );
 	}
 
 	private static final String [] GREMLIN_TOOLS =
@@ -286,7 +314,7 @@ public class BigIsland
 		else
 			return;
 
-		String old = IMAGE_ROOT + SIDEQUEST_IMAGES[quest];
+		String old = SIDEQUEST_IMAGES[quest];
 		StaticEntity.singleStringReplace( buffer, old, image );
 	}
 
@@ -1013,6 +1041,7 @@ public class BigIsland
 		}
 
 		// The stage at the Mysterious Island Arena is empty.
+
 		if ( responseText.indexOf( "The stage at the Mysterious Island Arena is empty" ) != -1 )
 		{
 			// Didn't complete quest or defeated the side you
@@ -1023,12 +1052,47 @@ public class BigIsland
 
 	private static final void parseJunkyard( String responseText )
 	{
+		String tool = currentJunkyardTool;
+		String location = "";
+		boolean done = false;
+
+		// The last time I saw my <tool> it was <location>.
+		//
+		//	next to that barrel with something burning in it
+		//	near an abandoned refrigerator
+		//	over where the old tires are
+		//	out by that rusted-out car
+
+		Matcher matcher = JUNKYARD_PATTERN.matcher( responseText );
+		if ( matcher.find() )
+		{
+			tool = matcher.group(1);
+			location = matcher.group(2);
+		}
+
 		// As you turn to walk away, he taps you on the shoulder. "I
 		// almost forgot. I made this while you were off getting my
 		// tools. It was boring, but I figure the more time I spend
 		// bored, the longer my life will seem. Anyway, I don't really
 		// want it, so you might as well take it."
-		if ( responseText.indexOf( "I made this while you were off getting my tools" ) == -1 )
+
+		else if ( responseText.indexOf( "I made this while you were off getting my tools" ) != -1 )
+		{
+			tool = "";
+			done = true;
+		}
+
+		if ( tool != currentJunkyardTool )
+		{
+			if ( !currentJunkyardTool.equals( "" ) )
+				StaticEntity.getClient().processResult( new AdventureResult( currentJunkyardTool, -1, false ) );
+
+			currentJunkyardTool = tool;
+			KoLSettings.setUserProperty( "currentJunkyardTool", tool );
+			KoLSettings.setUserProperty( "currentJunkyardLocation", location );
+		}
+
+		if ( !done )
 			return;
 
 		if ( responseText.indexOf( "spark plug earring" ) != -1 ||
@@ -1059,56 +1123,33 @@ public class BigIsland
 
 	private static final void parseFarm( String responseText )
 	{
-
 		// "Well... How about dedicating a portion of your farm to
 		// growing soybeans, to help feed the hippy army?"
 		if ( responseText.indexOf( "growing soybeans" ) != -1 )
-		{
 			KoLSettings.resetUserProperty( "sidequestFarmCompleted", "hippy" );
-			return;
-		}
 
 		// "Well... How about dedicating a portion of your farm to
 		// growing hops, to make better beer for the frat army?"
-		if ( responseText.indexOf( "growing hops" ) != -1 )
-		{
+		else if ( responseText.indexOf( "growing hops" ) != -1 )
 			KoLSettings.resetUserProperty( "sidequestFarmCompleted", "fratboy" );
-			return;
-		}
 	}
 
 	private static final void parseNunnery( String responseText )
 	{
-		// "Well," you say, "it would really help the war effort if
-		// your convent could serve as a hospital for our wounded
-		// troops."
-
 		// "Hello, weary Adventurer! Please, allow us to tend to your
 		// wounds."
-		if ( responseText.indexOf( "could serve as a hospital" ) != -1  ||
-		     responseText.indexOf( "tend to your wounds" ) != -1 )
-		{
+		if ( responseText.indexOf( "tend to your wounds" ) != -1 )
 			KoLSettings.resetUserProperty( "sidequestNunsCompleted", "hippy" );
-			return;
-		}
-
-		// "Well," you say, "it would really help the war effort if
-		// your convent could serve as a massage parlor. Y'know... to
-		// help our troops relax."
 
 		// "Adventurer! You look so... so tense! Please, allow us to
 		// use our skilled hands to give you a refreshing massage."
-		if ( responseText.indexOf( "could serve as a massage parlor" ) != -1  ||
-		     responseText.indexOf( "refreshing massage" ) != -1 )
-		{
+		else if ( responseText.indexOf( "refreshing massage" ) != -1 )
 			KoLSettings.resetUserProperty( "sidequestNunsCompleted", "fratboy" );
-			return;
-		}
 
 		// "Hello, Adventurer. I'm afraid there's not much here at our
 		// simple convent that would be of interest to a world-weary
 		// traveler like yourself."		   
-		if ( responseText.indexOf( "world-weary traveler" ) != -1 )
+		else if ( responseText.indexOf( "world-weary traveler" ) != -1 )
 			KoLSettings.resetUserProperty( "sidequestNunsCompleted", "none" );
 	}
 
@@ -1119,6 +1160,7 @@ public class BigIsland
 		// for you. My bombs for you, bumpty-bumpty-bump!"
 		if ( responseText.indexOf( "My bombs for you" ) == -1 )
 			return;
+
 		String side = EquipmentDatabase.isWearingOutfit( 32 ) ? "hippy" : "fratboy";
 		KoLSettings.resetUserProperty( "sidequestLighthouseCompleted", side );
 	}
@@ -1138,12 +1180,19 @@ public class BigIsland
 			KoLSettings.setUserProperty( "sidequestLighthouseCompleted", "none" );
 			KoLSettings.setUserProperty( "sidequestNunsCompleted", "none" );
 			KoLSettings.setUserProperty( "sidequestOrchardCompleted", "none" );
+			KoLSettings.setUserProperty( "sidequestOrchardCompleted", "none" );
+			KoLSettings.setUserProperty( "currentJunkyardTool", "" );
+			KoLSettings.setUserProperty( "currentJunkyardLocation", "" );
+			KoLSettings.setUserProperty( "currentNunneryMeat", "0" );
 		}
 
 		// Set variables from user settings
 
 		fratboysDefeated = KoLSettings.getIntegerProperty( "fratboysDefeated" );
 		hippiesDefeated = KoLSettings.getIntegerProperty( "hippiesDefeated" );
+		currentJunkyardTool = KoLSettings.getUserProperty( "currentJ<unkyardTool" );
+		currentNunneryMeat = KoLSettings.getIntegerProperty( "currentNunneryMeat" );
+		lastNunneryMeat = currentNunneryMeat;
 	}
 
 	public static final void parsePostwarIsland( String location, String responseText )
