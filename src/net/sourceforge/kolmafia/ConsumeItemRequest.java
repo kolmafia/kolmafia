@@ -1492,9 +1492,9 @@ public class ConsumeItemRequest extends KoLRequest
 			return;
 
 		case CURSED_PIECE_OF_THIRTEEN:
-                        // You consider taking the piece of thirteen to a rare
-                        // coin dealer to see if it's worth anything, but you
-                        // don't really have time.
+			// You consider taking the piece of thirteen to a rare
+			// coin dealer to see if it's worth anything, but you
+			// don't really have time.
 			if ( responseText.indexOf( "don't really have time" ) != -1 )
 			{
 				lastUpdate = "Insufficient adventures left.";

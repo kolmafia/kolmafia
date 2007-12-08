@@ -1162,6 +1162,7 @@ public class KoLRequest extends Job implements KoLConstants
 		{
 			int itemId = ConsumeItemRequest.currentItemId();
 			String name = null;
+			boolean consumed = true;
 
 			switch ( itemId )
 			{
@@ -1180,12 +1181,14 @@ public class KoLRequest extends Job implements KoLConstants
 
 			case ConsumeItemRequest.CURSED_PIECE_OF_THIRTEEN:
 				name = "Cursed Piece of Thirteen";
+				consumed = false;
 				break;
 			}
 
 			if ( name != null )
 			{
-				StaticEntity.getClient().processResult( new AdventureResult( itemId, -1 ) );
+				if ( consumed )
+					StaticEntity.getClient().processResult( new AdventureResult( itemId, -1 ) );
 
 				RequestLogger.printLine();
 				RequestLogger.printLine( "[" + KoLAdventure.getAdventureCount() + "] " + name );

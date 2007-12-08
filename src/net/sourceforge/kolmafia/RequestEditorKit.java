@@ -1646,13 +1646,19 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		else if ( FightRequest.getCurrentRound() == 0 )
 		{
 			String location = "main.php";
+			String monster = FightRequest.getLastMonsterName();
 
-			if ( FightRequest.getLastMonsterName().equals( "giant sandworm" ) )
+			if ( monster.equals( "giant sandworm" ) )
 			{
 				if ( inventory.contains( KoLAdventure.DRUM_MACHINE ) )
 					location = "inv_use.php?pwd&whichitem=" + ConsumeItemRequest.DRUM_MACHINE;
 				else
 					location = "adventure.php?snarfblat=122";
+			}
+			else if ( monster.equals( "scary pirate" ) )
+			{
+				if ( inventory.contains( KoLAdventure.CURSED_PIECE_OF_THIRTEEN ) )
+					location = "inv_use.php?pwd&whichitem=" + ConsumeItemRequest.CURSED_PIECE_OF_THIRTEEN;
 			}
 			else
 			{
