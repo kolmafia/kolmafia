@@ -839,11 +839,90 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		if ( urlString.indexOf( "action=makepaste" ) != -1 )
 			return CombineMeatRequest.registerRequest( urlString );
 
-		if ( urlString.startsWith( "inv_use.php" ) && SingleUseRequest.registerRequest( urlString ) )
-			return true;
+		if ( urlString.startsWith( "inv_use.php" ) )
+		{
+			if ( SingleUseRequest.registerRequest( urlString ) )
+				return true;
 
-		if ( urlString.startsWith( "multiuse.php" ) && MultiUseRequest.registerRequest( urlString ) )
+			String tool = "";
+			String ingredient = "";
+
+			if ( urlString.indexOf( "whichitem=873" ) != -1 )
+			{
+				// Rolling Pin
+				tool = "rolling pin";
+				ingredient = "wad of dough";
+			}
+			if ( urlString.indexOf( "whichitem=874" ) != -1 )
+			{
+				// Unrolling Pin
+				tool = "unrolling pin";
+				ingredient = "flat dough";
+			}
+			else
+				return false;
+
+			AdventureResult item = new AdventureResult( ingredient, 1 );
+			int quantity = item.getCount( inventory );
+			StaticEntity.getClient().processResult( item.getInstance( 0 - quantity ) );
+
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( "Use " + tool );
+
+			return false;
+		}
+
+		if ( urlString.startsWith( "multiuse.php" ) )
+		{
+			if (MultiUseRequest.registerRequest( urlString ) )
+				return true;
+
+			int quantity = 1;
+			String method = "Use ";
+			String item1 = "", item2 = "";
+
+			if ( urlString.indexOf( "whichitem=24" ) != -1 )
+			{
+				// Ten-leaf clover
+				item1 = "ten-leaf clover";
+			}
+			else if ( urlString.indexOf( "whichitem=196" ) != -1 )
+			{
+				// Disassembled clover
+				item1 = "disassembled clover";
+			}
+			else if ( urlString.indexOf( "whichitem=1605" ) != -1 )
+			{
+				// Delectable Catalyst
+				method = "Mix ";
+				item1 = "delectable catalyst";
+				item2 = "scrumptious reagent";
+			}
+			else
+				return false;
+
+			Matcher quantityMatcher = QUANTITY_PATTERN.matcher( urlString );
+			if ( quantityMatcher.find() )
+				quantity = StaticEntity.parseInt( quantityMatcher.group(1) );
+			StringBuffer command = new StringBuffer();
+
+			command.append( method );
+			command.append( quantity );
+			command.append( " " );
+			command.append( item1 );
+			StaticEntity.getClient().processResult( new AdventureResult( item1, 0 - quantity, false ) );
+			if ( item2 != null )
+			{
+				command.append( " + " );
+				command.append( item2 );
+				StaticEntity.getClient().processResult( new AdventureResult( item2, 0 - quantity, false ) );
+			}
+
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( command.toString() );
+
 			return true;
+		}
 
 		// Now that we know it's not a special subclass instance,
 		// all we do is parse out the ingredients which were used
@@ -968,7 +1047,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 			command.append( " + " );
 			command.append( quantity );
-			command.append( " MSG'" );
+			command.append( " MSG" );
 			StaticEntity.getClient().processResult( new AdventureResult( MSG, 0 - quantity ) );
 		}
 
