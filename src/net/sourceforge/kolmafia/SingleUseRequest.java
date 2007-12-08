@@ -98,7 +98,7 @@ public class SingleUseRequest extends ItemCreationRequest
 
 		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( result );
 		StringBuffer text = new StringBuffer();
-		text.append( "use " );
+		text.append( "Use " );
 
 		for ( int i = 0; i < ingredients.length; ++i )
                 {

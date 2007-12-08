@@ -103,7 +103,7 @@ public class MultiUseRequest extends ItemCreationRequest
 		AdventureResult base = new AdventureResult( baseId, 0 - count );
 
 		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( "use " + count + " " + base.getName() );
+		RequestLogger.updateSessionLog( "Use " + count + " " + base.getName() );
 
 		StaticEntity.getClient().processResult( base );
 
