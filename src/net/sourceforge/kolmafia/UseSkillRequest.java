@@ -89,6 +89,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	};
 
 	public static final AdventureResult PLEXI_PENDANT = new AdventureResult( 1235, 1 );
+	public static final AdventureResult BRIM_BERET = new AdventureResult( 2813, 1 );
 	public static final AdventureResult WIZARD_HAT = new AdventureResult( 1653, 1 );
 
 	public static final AdventureResult PLEXI_WATCH = new AdventureResult( 1232, 1 );
@@ -101,8 +102,10 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	public static final AdventureResult SOLID_EARRING = new AdventureResult( 2780, 1 );
 
 	private static final AdventureResult [] AVOID_REMOVAL = new AdventureResult [] {
-		PLEXI_PENDANT, PLEXI_WATCH, BRIM_BRACELET, SOLITAIRE,
-		WIRE_BRACELET, BACON_BRACELET, BACON_EARRING, SOLID_EARRING
+		PLEXI_WATCH, BRIM_BRACELET, SOLITAIRE,
+		WIRE_BRACELET, BACON_BRACELET, BACON_EARRING, SOLID_EARRING,
+		// Removing the following might drop an AT song
+		PLEXI_PENDANT, BRIM_BERET
 	};
 
 	private UseSkillRequest( String skillName )
@@ -369,6 +372,14 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 				break;
 			}
 		}
+	}
+
+	public static final int songLimit()
+	{
+		if ( KoLCharacter.hasEquipped( PLEXI_PENDANT ) ||
+		     KoLCharacter.hasEquipped( BRIM_BERET ) )
+			return 4;
+		return 3;
 	}
 
 	public void run()
