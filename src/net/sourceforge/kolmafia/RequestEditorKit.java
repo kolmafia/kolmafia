@@ -1657,8 +1657,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			}
 			else if ( monster.equals( "scary pirate" ) )
 			{
-				if ( inventory.contains( KoLAdventure.CURSED_PIECE_OF_THIRTEEN ) )
-					location = "inv_use.php?pwd&whichitem=" + ConsumeItemRequest.CURSED_PIECE_OF_THIRTEEN;
+				location = "inv_use.php?pwd&whichitem=" + ConsumeItemRequest.CURSED_PIECE_OF_THIRTEEN;
 			}
 			else
 			{
