@@ -125,6 +125,7 @@ global	useSystemTrayIcon	false
 global	useTabbedChatFrame	true
 global	useToolbars	true
 global	useZoneComboBox	false
+global	userAgent
 global	visitRumpusHardcore	true
 global	visitRumpusSoftcore	true
 
@@ -145,8 +146,11 @@ user	cocktailSummons	0
 user	currentBountyItem	0
 user	currentFullness	0
 user	currentHippyStore	none
+user	currentJunkyardTool
+user	currentJunkyardLocation
 user	currentMojoFilters	0
 user	currentMood	default
+user	currentNunneryMeat	0
 user	currentPvpVictories
 user	currentSpleenUse	0
 user	currentWheelPosition	muscle

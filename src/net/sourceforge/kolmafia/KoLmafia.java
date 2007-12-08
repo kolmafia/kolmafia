@@ -250,7 +250,7 @@ public abstract class KoLmafia implements KoLConstants
 	public static final void main( String [] args )
 	{
 		boolean useGUI = true;
-		System.setProperty( "http.agent", VERSION_NAME );
+		System.setProperty( "http.agent", KoLRequest.getUserAgent() );
 
 		for ( int i = 0; i < args.length; ++i )
 		{
@@ -1009,7 +1009,10 @@ public abstract class KoLmafia implements KoLConstants
 		{
 			KoLAdventure location = KoLAdventure.lastVisitedLocation();
 			if ( location != null && location.getAdventureId().equals( "126" ) && FightRequest.getCurrentRound() == 0 )
+			{
+				BigIsland.addNunneryMeat( result );
 				return false;
+			}
 
 			AdventureResult.addResultToList( tally, result );
 		}
