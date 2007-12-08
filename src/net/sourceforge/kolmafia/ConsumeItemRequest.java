@@ -215,9 +215,9 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final AdventureResult WORM_RIDING_HOOKS = new AdventureResult( 2302, -1 );
 	private static final AdventureResult ENCRYPTION_KEY = new AdventureResult( 2441, -1 );
 	private static final AdventureResult CHARRRM_BRACELET = new AdventureResult( 2953, -1 );
-	private static final AdventureResult SIMPLE_CURSED_KEY = new AdventureResult( 3013, 1 );
-	private static final AdventureResult ORNATE_CURSED_KEY = new AdventureResult( 3014, 1 );
-	private static final AdventureResult GILDED_CURSED_KEY = new AdventureResult( 3015, 1 );
+	private static final AdventureResult SIMPLE_CURSED_KEY = new AdventureResult( 3013, -1 );
+	private static final AdventureResult ORNATE_CURSED_KEY = new AdventureResult( 3014, -1 );
+	private static final AdventureResult GILDED_CURSED_KEY = new AdventureResult( 3015, -1 );
 
 	private int consumptionType;
 	private AdventureResult itemUsed = null;
@@ -1472,21 +1472,21 @@ public class ConsumeItemRequest extends KoLRequest
 
 		case ANCIENT_CURSED_FOOTLOCKER:
 			if ( KoLCharacter.hasItem( SIMPLE_CURSED_KEY ) )
-				StaticEntity.getClient().processResult( SIMPLE_CURSED_KEY.getNegation() );
+				StaticEntity.getClient().processResult( SIMPLE_CURSED_KEY );
 			else
 				StaticEntity.getClient().processResult( lastItemUsed );
 			return;
 
 		case ORNATE_CURSED_CHEST:
 			if ( KoLCharacter.hasItem( ORNATE_CURSED_KEY ) )
-				StaticEntity.getClient().processResult( ORNATE_CURSED_KEY.getNegation() );
+				StaticEntity.getClient().processResult( ORNATE_CURSED_KEY );
 			else
 				StaticEntity.getClient().processResult( lastItemUsed );
 			return;
 
 		case GILDED_CURSED_CHEST:
 			if ( KoLCharacter.hasItem( GILDED_CURSED_KEY ) )
-				StaticEntity.getClient().processResult( GILDED_CURSED_KEY.getNegation() );
+				StaticEntity.getClient().processResult( GILDED_CURSED_KEY );
 			else
 				StaticEntity.getClient().processResult( lastItemUsed );
 			return;
