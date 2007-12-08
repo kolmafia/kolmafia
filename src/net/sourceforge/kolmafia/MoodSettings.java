@@ -524,7 +524,7 @@ public abstract class MoodSettings implements KoLConstants
 		AdventureResult [] effects = new AdventureResult[ activeEffects.size() ];
 		activeEffects.toArray( effects );
 
-		thiefTriggerLimit = KoLCharacter.hasEquipped( UseSkillRequest.PLEXI_PENDANT ) ? 4 : 3;
+		thiefTriggerLimit = UseSkillRequest.songLimit();
 
 		// If you have too many accordion thief buffs to execute
 		// your displayList, then shrug off your extra buffs, but
