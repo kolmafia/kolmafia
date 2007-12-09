@@ -41,6 +41,8 @@ public class BigIsland
         private static AreaCombatData fratboyBattlefield = AdventureDatabase.getAreaCombatData( "Battlefield (Frat Uniform)" );
         private static AreaCombatData hippyBattlefield = AdventureDatabase.getAreaCombatData( "Battlefield (Hippy Uniform)" );
 
+	private static final String progressLineStyle = "<td style=\"color: red;font-size: 80%\" align=center>";
+
 	private static String missingGremlinTool = null;
 
 	private static int fratboysDefeated = 0;
@@ -64,14 +66,21 @@ public class BigIsland
 
         // Data about sidequests
 	private static String currentJunkyardTool = "";
+	private static String currentJunkyardLocation = "";
 	private static int lastNunneryMeat = 0;
 	private static int currentNunneryMeat = 0;
 
 	private static final Pattern MAP_PATTERN = Pattern.compile( "bfleft(\\d*).*bfright(\\d*)", Pattern.DOTALL );
-	private static final Pattern JUNKYARD_PATTERN = Pattern.compile( "The last time I saw my (.*?), it was (.*?)\\.", Pattern.DOTALL );
+	private static final Pattern JUNKYARD_PATTERN = Pattern.compile( "The last time I saw my (.*?), (it was|they were) (.*?)\\.", Pattern.DOTALL );
 
 	private static final AdventureResult JAM_FLYERS = new AdventureResult( 2404, -1 );
 	private static final AdventureResult ROCK_FLYERS = new AdventureResult( 2405, -1 );
+
+	private static final AdventureResult MAGNET = new AdventureResult( 2497, -1 );
+	private static final AdventureResult HAMMER = new AdventureResult( 2498, -1 );
+	private static final AdventureResult SCREWDRIVER = new AdventureResult( 2499, -1 );
+	private static final AdventureResult PLIERS = new AdventureResult( 2500, -1 );
+	private static final AdventureResult WRENCH = new AdventureResult( 2501, -1 );
 
 	public static final int NONE = 0;
 	public static final int JUNKYARD = 1;
@@ -190,11 +199,21 @@ public class BigIsland
 
 	public static final void decorateGremlinFight( StringBuffer buffer )
 	{
+		// Color the tool in the monster spoiler text
+		if ( missingGremlinTool == null && !currentJunkyardTool.equals( "" ) )
+			StaticEntity.singleStringReplace( buffer, currentJunkyardTool, "<font color=#DD00FF>" + currentJunkyardTool + "</font>" );
+
 		for ( int i = 0; i < GREMLIN_TOOLS.length; ++i)
 		{
 			String tool = GREMLIN_TOOLS[i];
 			StaticEntity.singleStringReplace( buffer, tool, "<font color=#DD00FF>" + tool + "</font>" );
 		}
+	}
+
+	public static final void appendMissingGremlinTool( StringBuffer buffer )
+	{
+		if ( missingGremlinTool != null )
+			buffer.append( "<br />This gremlin does <b>NOT</b> have a " + missingGremlinTool );
 	}
 
 	private static final int [] AREA_UNLOCK =
@@ -271,13 +290,15 @@ public class BigIsland
 	// Decorate the HTML with custom goodies
 	public static final void decorateBigIsland( String url, StringBuffer buffer )
 	{
+		// Quest-specific page decorations
+		decorateJunkyard( buffer );
+
 		// Find the table that contains the map.
 		String fratboyMessage = sideSummary( "frat boys", fratboysDefeated, fratboyImage, fratboyMin, fratboyMax );
 		String hippyMessage = sideSummary( "hippies", hippiesDefeated, hippyImage, hippyMin, hippyMax );
-		String tdStyle = "<td style=\"color: red;font-size: 80%\" align=center>";
 		String row = "<tr><td><center><table width=100%><tr>" +
-			tdStyle + fratboyMessage + "</td>" +
-			tdStyle + hippyMessage + "</td>" +
+			progressLineStyle + fratboyMessage + "</td>" +
+			progressLineStyle + hippyMessage + "</td>" +
 			"</tr></table></td></tr>";
 
 		int tableIndex = buffer.indexOf( "<tr><td style=\"color: white;\" align=center bgcolor=blue><b>The Mysterious Island of Mystery</b></td>" );
@@ -318,13 +339,27 @@ public class BigIsland
 		StaticEntity.singleStringReplace( buffer, old, image );
 	}
 
+	public static final void decorateJunkyard( StringBuffer buffer )
+	{
+		if ( currentJunkyardTool.equals( "" ) )
+			return;
+
+		int tableIndex = buffer.indexOf( "<tr><td style=\"color: white;\" align=center bgcolor=blue><b>The Junkyard</b></td>" );
+		if ( tableIndex == -1 )
+			return;
+
+		String row = "<tr><td><center><table width=100%><tr>" +
+			progressLineStyle + "Look for the " +
+			currentJunkyardTool + " " +
+			currentJunkyardLocation + ".</td>" +
+			"</tr></table></td></tr>";
+
+		buffer.insert( tableIndex, row );
+	}
+
 	public static final void startFight()
 	{
 		missingGremlinTool = null;
-	}
-
-	public static final String missingGremlinTool()
-	{	return missingGremlinTool;
 	}
 
         /*
@@ -927,7 +962,7 @@ public class BigIsland
 		if ( location.indexOf( "place=concert") != -1 )
 			return ARENA;
 
-		if ( location.indexOf( "place=junkyard") != -1 )
+		if ( location.indexOf( "action=junkman") != -1 )
 			return JUNKYARD;
 
 		if ( location.indexOf( "action=stand") != -1 )
@@ -1053,7 +1088,7 @@ public class BigIsland
 	private static final void parseJunkyard( String responseText )
 	{
 		String tool = currentJunkyardTool;
-		String location = "";
+		String location = currentJunkyardLocation;
 		boolean done = false;
 
 		// The last time I saw my <tool> it was <location>.
@@ -1067,7 +1102,8 @@ public class BigIsland
 		if ( matcher.find() )
 		{
 			tool = matcher.group(1);
-			location = matcher.group(2);
+			tool = "molybdenum " + ( tool.equals( "wrench" ) ? "crescent " : "" ) + tool;
+			location = matcher.group(3);
 		}
 
 		// As you turn to walk away, he taps you on the shoulder. "I
@@ -1084,16 +1120,21 @@ public class BigIsland
 
 		if ( tool != currentJunkyardTool )
 		{
-			if ( !currentJunkyardTool.equals( "" ) )
-				StaticEntity.getClient().processResult( new AdventureResult( currentJunkyardTool, -1, false ) );
-
 			currentJunkyardTool = tool;
 			KoLSettings.setUserProperty( "currentJunkyardTool", tool );
+			currentJunkyardLocation = location;
 			KoLSettings.setUserProperty( "currentJunkyardLocation", location );
 		}
 
 		if ( !done )
 			return;
+
+		// Give the magnet and the tools to Yossarian
+		StaticEntity.getClient().processResult( MAGNET );
+		StaticEntity.getClient().processResult( HAMMER );
+		StaticEntity.getClient().processResult( PLIERS );
+		StaticEntity.getClient().processResult( WRENCH );
+		StaticEntity.getClient().processResult( SCREWDRIVER );
 
 		if ( responseText.indexOf( "spark plug earring" ) != -1 ||
 		     responseText.indexOf( "woven baling wire bracelets" ) != -1 ||
@@ -1190,7 +1231,8 @@ public class BigIsland
 
 		fratboysDefeated = KoLSettings.getIntegerProperty( "fratboysDefeated" );
 		hippiesDefeated = KoLSettings.getIntegerProperty( "hippiesDefeated" );
-		currentJunkyardTool = KoLSettings.getUserProperty( "currentJ<unkyardTool" );
+		currentJunkyardTool = KoLSettings.getUserProperty( "currentJunkyardTool" );
+		currentJunkyardLocation = KoLSettings.getUserProperty( "currentJunkyardLocation" );
 		currentNunneryMeat = KoLSettings.getIntegerProperty( "currentNunneryMeat" );
 		lastNunneryMeat = currentNunneryMeat;
 	}
