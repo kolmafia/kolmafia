@@ -1159,7 +1159,7 @@ public class BigIsland
 			return;
 
 		String side = EquipmentDatabase.isWearingOutfit( 32 ) ? "hippy" : "fratboy";
-		KoLSettings.resetUserProperty( "sidequestFarmCompleted", side );
+		KoLSettings.resetUserProperty( "sidequestOrchardCompleted", side );
 	}
 
 	private static final void parseFarm( String responseText )
