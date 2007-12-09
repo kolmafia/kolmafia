@@ -342,7 +342,7 @@ public class BigIsland implements KoLConstants
 	{
 		// Firefox and Safari can handle this. Internet Exploder can't
 		// All the user to opt out of inline image replacement.
-<		if ( !KoLSettings.getBooleanProperty( "relayMarksSidequests" ) )
+		if ( !KoLSettings.getBooleanProperty( "relayMarksSidequests" ) )
 			return;
 
 		String status = KoLSettings.getUserProperty( setting );
