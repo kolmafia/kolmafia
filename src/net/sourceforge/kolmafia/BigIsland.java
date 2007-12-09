@@ -36,7 +36,7 @@ package net.sourceforge.kolmafia;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class BigIsland
+public class BigIsland implements KoLConstants
 {
         private static AreaCombatData fratboyBattlefield = AdventureDatabase.getAreaCombatData( "Battlefield (Frat Uniform)" );
         private static AreaCombatData hippyBattlefield = AdventureDatabase.getAreaCombatData( "Battlefield (Hippy Uniform)" );
@@ -175,6 +175,20 @@ public class BigIsland
 		int index = buffer.indexOf( "<!--WINWINWIN-->" );
 		if ( index == -1 )
 			return;
+
+		int current = currentNunneryMeat;
+		if ( current < 100000 )
+		{
+			int left = 100000 - current;
+			int delta = current - lastNunneryMeat;
+			int turns = (int)Math.ceil( (double)left / (double) delta );
+			String message = "<p><center>" + 
+				COMMA_FORMAT.format( current ) + " Meat recovered, " +
+				COMMA_FORMAT.format( left ) + " left (" +
+				turns + " turns).<br>";
+
+			buffer.insert( index, message );
+		}
 
 		// "Well," you say, "it would really help the war effort if
 		// your convent could serve as a hospital for our wounded
@@ -326,6 +340,11 @@ public class BigIsland
 
 	private static final void sidequestImage( StringBuffer buffer, String setting, int quest )
 	{
+		// Firefox and Safari can handle this. Internet Exploder can't
+		// All the user to opt out of inline image replacement.
+<		if ( !KoLSettings.getBooleanProperty( "relayMarksSidequests" ) )
+			return;
+
 		String status = KoLSettings.getUserProperty( setting );
 		String image;
 		if ( status.equals( "fratboy" ) )
