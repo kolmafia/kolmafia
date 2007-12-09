@@ -3019,7 +3019,7 @@
 3018	gilded ancient cursed chest	3	all	0
 3019	all-purpose cleaner	3	all	55
 3020	handful of sawdust	0	all	55
-3021
+3021	large stone triangle	0	all	0
 3022
 3023
 3024
