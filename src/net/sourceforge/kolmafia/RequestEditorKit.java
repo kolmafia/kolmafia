@@ -1789,6 +1789,13 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// Change stone sphere names in item dropdown
 		changeSphereNames( buffer );
 
+		int combatIndex = buffer.indexOf( "!</b>" );
+		if ( combatIndex != -1 )
+			buffer.insert( combatIndex, ": Round " + FightRequest.getCurrentRound() );
+
+                // Add monster data HP/Atk/Def and item drop data
+                annotateMonster( buffer );
+
 		switch ( KoLAdventure.lastAdventureId() )
 		{
 		case 126:	// The Themthar Hills
@@ -1805,11 +1812,10 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			BigIsland.decorateBattlefieldFight( buffer );
 			break;
 		}
+	}
 
-		int combatIndex = buffer.indexOf( "!</b>" );
-		if ( combatIndex != -1 )
-			buffer.insert( combatIndex, ": Round " + FightRequest.getCurrentRound() );
-
+	private static final void annotateMonster( StringBuffer buffer )
+	{
 		if ( FightRequest.getLastMonster() == null )
 			return;
 
@@ -1822,7 +1828,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( nameIndex == -1 )
 			return;
 
-		combatIndex = buffer.indexOf( "</span>", nameIndex );
+		int combatIndex = buffer.indexOf( "</span>", nameIndex );
 		if ( combatIndex == -1 )
 			return;
 
@@ -1849,9 +1855,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			}
 		}
 
-		String gremlinTool = BigIsland.missingGremlinTool();
-		if ( gremlinTool != null )
-			monsterData.append( "<br />This gremlin does NOT have a " + gremlinTool );
+		BigIsland.appendMissingGremlinTool( monsterData );
 
 		monsterData.append( "</font>" );
 		buffer.insert( combatIndex + 7, monsterData.toString() );
