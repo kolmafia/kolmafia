@@ -1309,11 +1309,6 @@ public class AdventureDatabase extends KoLDatabase
 		{
 		case 184:
 			// That Explains All The Eyepatches
-			// Mus: shot of rotgut (2948), combat, drunkenness
-			// Mys: drunkenness, shot of rotgut (2948), combat
-			// Mox: combat, drunkenness, shot of rotgut (2948)
-			int stat = KoLCharacter.isMuscleClass() ? 0 : KoLCharacter.isMysticalityClass() ? 2 : 1;
-
 			String [][] result = new String[4][];
 
 			// The choice option is the first element
@@ -1354,39 +1349,24 @@ public class AdventureDatabase extends KoLDatabase
 			// which are the same, bar great effort
 			//
 			// For now, assume base stat.
-			int stat;
-
-			// stat = KoLCharacter.isMuscleClass() ? 0 : KoLCharacter.isMysticalityClass() ? 2 : 1;
 
 			int mus = KoLCharacter.getBaseMuscle();
 			int mys = KoLCharacter.getBaseMysticality();
 			int mox = KoLCharacter.getBaseMoxie();
+			int stat;
 
 			if ( mus > mys )
-				stat = ( mus > mox ) ? 0 : 1;
+				stat = ( mus > mox ) ? MUSCLE : MOXIE;
 			else
-				stat = ( mys > mox ) ? 2 : 1;
+				stat = ( mys > mox ) ? MYSTICALITY : MOXIE;
 
-			// Mus: shot of rotgut (2948), combat, drunkenness
-			// Mys: drunkenness, shot of rotgut (2948), combat
+			// Mus: combat, shot of rotgut (2948), drunkenness
+			// Mys: drunkenness, shot of rotgut (2948), shot of rotgut (2948)
 			// Mox: combat, drunkenness, shot of rotgut (2948)
 
-			for ( int i = 0; i < 3; ++i )
-			{
-				int index = ( stat + i ) % 3;
-				switch ( index )
-				{
-				case 0:
-					result[i] = "shot of rotgut";
-					break;
-				case 1:
-					result[i] = "enter combat";
-					break;
-				case 2:
-					result[i] = "drunkenness and stats";
-					break;
-				}
-			}
+			result[0] = ( stat == MYSTICALITY ) ? "drunkenness and stats" : "enter combat";
+			result[1] = ( stat == MOXIE ) ? "drunkenness and stats" : "shot of rotgut";
+			result[2] = ( stat == MUSCLE ) ? "drunkenness and stats" : "shot of rotgut";
 			return result;
 		}
 		return null;
