@@ -340,7 +340,7 @@ Naughty Sorceress
 Naughty Sorceress (second form)
 Naughty Sorority Nurse	HP: 160
 Neil	HP: 355
-Next Generation Frat Boy	HP: 200
+Next-Generation Frat Boy	HP: 200
 Ninja Snowman (Katana)	HP: 70 Def: 85 Atk: 85 E: cold	frigid ninja stars (20)	frozen nunchaku (5)	icy katana hilt (15)	coal button (0)
 Ninja Snowman (Masked)	HP: 70 Def: 85 Atk: 85 E: cold	cold ninja mask (10)	frigid ninja stars (20)	frozen nunchaku (5)	coal button (0)
 Ninja Snowman (Ricebowl)	HP: 70 Def: 85 Atk: 85 ED: cold	frigid ninja stars (20)	rice bowl (5)	chopsticks (5)	coal button (0)
