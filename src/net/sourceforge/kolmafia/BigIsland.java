@@ -270,7 +270,7 @@ public class BigIsland implements KoLConstants
 
 		// Don't bother showing progress of the war if you've just won
 		String monster = FightRequest.getLastMonsterName();
-		if ( monster.equalsIgnoreCase( "Big Wisniewski" ) || monster.equalsIgnoreCase( "The Man" ) )
+		if ( monster.equalsIgnoreCase( "Big Wisniewski" ) || monster.equalsIgnoreCase( "Man" ) )
 			return;
 
 		String side;
