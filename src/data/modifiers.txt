@@ -1337,6 +1337,7 @@ Blessing of Squirtlcthulli	HP Regen Min: 7, HP Regen Max: 9, MP Regen Min: 7, MP
 Bloody Bloody Bloody!	Spooky Damage: +50
 Bloody Hand	Muscle: -1
 Blue Tongue	Item Drop: +30
+Bootyliciousness	Item Drop: +10
 Broken Knees	Muscle Percent: -30
 # Brother Corsican's Blessing
 # Brother Flying Burrito's Blessing
@@ -1472,8 +1473,9 @@ Lemon Enlightenment	Mysticality Percent: +10
 Locks Like the Raven	Moxie: +15
 Macho Profundo	Muscle Percent: +60, Moxie Percent: +60
 Mad at Science	Muscle: +3
-Maid Disservice		Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20
+Maid Disservice	Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20
 Majorly Poisoned	Muscle Percent: -90, Mysticality Percent: -90, Moxie Percent: -90, Muscle: -11, Mysticality: -11, Moxie: -11
+Make Meat FA$T!	Meat Drop: +20
 Man's Worst Enemy	Familiar Weight: +5
 Mariachi Mood	Moxie: +1, Maximum HP: +4
 Material Witness	Meat Drop: +15
