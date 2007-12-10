@@ -119,8 +119,6 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 
 			if ( !this.readBrowserRequest() )
 			{
-System.out.println( this.request.getFormField( "pwd" ) );
-System.out.println( KoLRequest.passwordHash );
 				this.closeRelay();
 				return;
 			}
@@ -232,7 +230,7 @@ System.out.println( KoLRequest.passwordHash );
 		if ( this.path.equals( "/fight.php?action=custom" ) )
 		{
 			if ( !FightRequest.isTrackingFights() )
-				CUSTOM_THREAD.wake();
+				CUSTOM_THREAD.wake( null );
 
 			this.request.pseudoResponse( "HTTP/1.1 302 Found", "/fight.php?action=script" );
 		}
@@ -253,6 +251,13 @@ System.out.println( KoLRequest.passwordHash );
 		{
 			FightRequest.stopTrackingFights();
 			this.request.pseudoResponse( "HTTP/1.1 200 OK", FightRequest.getNextTrackedRound() );
+		}
+		else if ( this.path.startsWith( "/fight.php?hotkey=" ) )
+		{
+			if ( !FightRequest.isTrackingFights() )
+				CUSTOM_THREAD.wake( KoLSettings.getUserProperty( "combatHotkey" + this.request.getFormField( "hotkey" ) ) );
+
+			this.request.pseudoResponse( "HTTP/1.1 302 Found", "/fight.php?action=script" );
 		}
 		else if ( this.path.equals( "/choice.php?action=auto" ) )
 		{
@@ -339,12 +344,15 @@ System.out.println( KoLRequest.passwordHash );
 
 	private static final class CustomCombatThread extends Thread
 	{
+		private String desiredAction;
+
 		public CustomCombatThread()
 		{	this.setDaemon( true );
 		}
 
-		public void wake()
+		public void wake( String desiredAction )
 		{
+			this.desiredAction = desiredAction;
 			FightRequest.beginTrackingFights();
 
 			synchronized ( this )
@@ -371,7 +379,15 @@ System.out.println( KoLRequest.passwordHash );
 				if ( !KoLSettings.getUserProperty( "battleAction" ).startsWith( "custom" ) )
 					KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "battleAction=custom" );
 
-				FightRequest.INSTANCE.run();
+				if ( this.desiredAction == null )
+				{
+					FightRequest.INSTANCE.run();
+				}
+				else
+				{
+					FightRequest.INSTANCE.runOnce( this.desiredAction );
+					FightRequest.stopTrackingFights();
+				}
 			}
 		}
 	}

@@ -183,7 +183,7 @@ public interface KoLConstants extends UtilityConstants
 	public static final File SCRIPT_LOCATION = new File( ROOT_LOCATION, SCRIPT_DIRECTORY );
 	public static final File SESSIONS_LOCATION = new File( ROOT_LOCATION, SESSIONS_DIRECTORY );
 	public static final File RELAY_LOCATION = new File( ROOT_LOCATION, RELAY_DIRECTORY );
-        
+
         // All data files that can be overridden
 
 	public static final String [] OVERRIDE_DATA =
@@ -210,6 +210,8 @@ public interface KoLConstants extends UtilityConstants
 		"zapgroups.txt",
 		"zonelist.txt"
 	};
+
+	public static final int STATIONARY_BUTTON_COUNT = 3;
 
 	// The current version number of each overridable data file
 

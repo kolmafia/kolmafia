@@ -216,19 +216,20 @@ public class LocalRelayRequest extends PasswordHashRequest
 				if ( skillId != null && !skillId.equals( "none" ) && !skillId.equals( "3004" ) )
 				{
 					String testAction;
-					int insertIndex = 6;
+					int maximumIndex = STATIONARY_BUTTON_COUNT + 1;
+					int insertIndex = maximumIndex;
 
-					for ( int i = 1; i <= 5 && insertIndex == 6; ++i )
+					for ( int i = 1; i <= STATIONARY_BUTTON_COUNT && insertIndex == maximumIndex; ++i )
 					{
 						testAction = KoLSettings.getUserProperty( "stationaryButton" + i );
 						if ( testAction.equals( "" ) || testAction.equals( "none" ) || testAction.equals( skillId ) )
 							insertIndex = i;
 					}
 
-					if ( insertIndex == 6 )
+					if ( insertIndex == maximumIndex )
 					{
-						insertIndex = 5;
-						for ( int i = 2; i <= 5; ++i )
+						insertIndex = STATIONARY_BUTTON_COUNT;
+						for ( int i = 2; i <= STATIONARY_BUTTON_COUNT; ++i )
 						{
 							KoLSettings.setUserProperty( "stationaryButton" + (i-1),
 								KoLSettings.getUserProperty( "stationaryButton" + i ) );
