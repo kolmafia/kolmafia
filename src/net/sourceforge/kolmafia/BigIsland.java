@@ -543,7 +543,7 @@ public class BigIsland implements KoLConstants
                         // You see a Grillmaster flinging hot kabobs as fast as
                         // he can make them. He skewers one, two, three, four,
                         // five, six... seven! Seven hippies! Ha ha ha!
-			"seven!",
+			"hot kabobs",
 		},
 		// 16 total
 		{ 
@@ -577,7 +577,7 @@ public class BigIsland implements KoLConstants
                         // their arms (and their weapons) in disgust and walk
                         // off the battlefield. War! What is it good for?
                         // Absolutely nothing!
-			"Absolutely nothing!",
+			"Absolutely nothing",
 
                         // You see a squadron of police cars drive up, and a
                         // squad of policemen arrest a funk of hippies who were
@@ -645,7 +645,7 @@ public class BigIsland implements KoLConstants
                         // You see a Wartender pour too much lighter fluid on
                         // his grill and go up in a great ball of
                         // fire. Goodness gracious!
-			"Goodness gracious!",
+			"Goodness gracious",
 
                         // You see a Fire Spinner blow a gout of flame onto a
                         // Wartender's grill, charring all the Wartender's
@@ -731,7 +731,7 @@ public class BigIsland implements KoLConstants
                         // You leap out of the way of a runaway Mobile Sweat
                         // Lodge, then watch it run over one, two, three, four,
                         // five, six, seven! Seven frat boys! Ha ha ha!
-			"seven!",
+			"runaway",
 
                         // A few yards away, one of the Jerry's Riggers hippies
                         // detonates a bomb underneath a Wartender's grill. An
