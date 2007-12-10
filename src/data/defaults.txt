@@ -22,6 +22,16 @@ global	chatFontSize	medium
 global	chatLinksUseRelay	false
 global	chatStyle	0
 global	cloverProtectActive	true
+global	combatHotkey0
+global	combatHotkey1
+global	combatHotkey2
+global	combatHotkey3
+global	combatHotkey4
+global	combatHotkey5
+global	combatHotkey6
+global	combatHotkey7
+global	combatHotkey8
+global	combatHotkey9
 global	commandLineNamespace
 global	cookies.inventory
 global	createHackerSummons	true

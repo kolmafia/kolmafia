@@ -46,8 +46,10 @@ import java.net.URLDecoder;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import java.util.regex.Matcher;
@@ -1735,7 +1737,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( insertionPoint != -1 )
 		{
 			StringBuffer actionBuffer = new StringBuffer();
-			actionBuffer.append( "<tr><td align=left>" );
+
+			actionBuffer.append( "<tr><td>" );
+			actionBuffer.append( "<table><tr><td align=left>" );
 
 			addFightButton( urlString, buffer, actionBuffer, "attack", true );
 
@@ -1750,7 +1754,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 			addFightButton( urlString, buffer, actionBuffer, "script", FightRequest.getCurrentRound() > 0 );
 
-			for ( int i = 1; i <= 5; ++i )
+			for ( int i = 1; i <= STATIONARY_BUTTON_COUNT; ++i )
 			{
 				String action = KoLSettings.getUserProperty( "stationaryButton" + i );
 				if ( action.equals( "" ) || action.equals( "none" ) )
@@ -1764,6 +1768,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 						KoLSettings.setUserProperty( "stationaryButton" + j,
 							KoLSettings.getUserProperty( "stationaryButton" + (j+1) ) );
 
+
 					KoLSettings.setUserProperty( "stationaryButton5", "" );
 					continue;
 				}
@@ -1771,10 +1776,51 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				addFightButton( urlString, buffer, actionBuffer, action, FightRequest.getCurrentRound() > 0 );
 			}
 
+			if ( combatHotkeys.isEmpty() )
+				reloadCombatHotkeyMap();
+
+			if ( !combatHotkeys.isEmpty() )
+			{
+				actionBuffer.append( "</td><td align=right>" );
+				actionBuffer.append( "<select>" );
+
+				actionBuffer.append( "<option>- update hotkeys -</option>" );
+				Iterator buttonIterator = combatHotkeys.entrySet().iterator();
+				while ( buttonIterator.hasNext() )
+				{
+					Entry currentButton = (Entry) buttonIterator.next();
+					actionBuffer.append( "<option>" );
+					actionBuffer.append( currentButton.getKey() );
+					actionBuffer.append( ": " );
+
+					actionBuffer.append( ClassSkillsDatabase.getSkillName( StaticEntity.parseInt( (String) currentButton.getValue() ) ).toLowerCase() );
+					actionBuffer.append( "</option>" );
+				}
+
+				actionBuffer.append( "</select>" );
+			}
+
+			actionBuffer.append( "</td></tr></table>" );
 			actionBuffer.append( "</td></tr><tr><td><font size=1>" );
+
 			actionBuffer.append( debug );
 			actionBuffer.append( "</font></td></tr>" );
 			buffer.insert( insertionPoint, actionBuffer.toString() );
+
+			StaticEntity.singleStringReplace( buffer, "</head>", "<script src=\"hotkeys.js\"></head>" );
+			StaticEntity.singleStringReplace( buffer, "<body", "<body onKeyUp=\"handleCombatHotkey( event )\"" );
+		}
+	}
+
+	private static final TreeMap combatHotkeys = new TreeMap();
+
+	public static final void reloadCombatHotkeyMap()
+	{
+		for ( char c = '0'; c <= '9'; ++c )
+		{
+			String button = KoLSettings.getUserProperty( "combatHotkey" + c );
+			if ( !button.equals( "" ) )
+				combatHotkeys.put( String.valueOf( c ), button );
 		}
 	}
 
@@ -1856,7 +1902,6 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		}
 
 		BigIsland.appendMissingGremlinTool( monsterData );
-
 		monsterData.append( "</font>" );
 		buffer.insert( combatIndex + 7, monsterData.toString() );
 	}

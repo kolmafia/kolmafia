@@ -205,7 +205,15 @@ public class FightRequest extends KoLRequest
 			return;
 		}
 
-		action1 = CombatSettings.getShortCombatOptionName( KoLSettings.getUserProperty( "battleAction" ) );
+		nextRound( null );
+	}
+
+	public void nextRound( String desiredAction )
+	{
+		if ( desiredAction == null )
+			desiredAction = KoLSettings.getUserProperty( "battleAction" );
+
+		action1 = CombatSettings.getShortCombatOptionName( desiredAction );
 		action2 = null;
 
 		// Adding machine should override custom combat scripts as well,
@@ -527,14 +535,38 @@ public class FightRequest extends KoLRequest
 		return false;
 	}
 
-	/**
-	 * Executes the single round of the fight.  If the user wins or loses,
-	 * thewill be notified; otherwise, the next battle will be run
-	 * automatically.  All fighting terminates if thecancels their
-	 * request; note that battles are not automatically completed.  However,
-	 * the battle's execution will be reported in the statistics for the
-	 * requests, and will count against any outstanding requests.
-	 */
+	public void runOnce( String desiredAction )
+	{
+		this.clearDataFields();
+
+		action1 = null;
+		action2 = null;
+		isUsingConsultScript = false;
+
+		if ( !KoLmafia.refusesContinue() )
+		{
+			if ( desiredAction == null )
+				this.nextRound();
+			else
+				this.nextRound( desiredAction );
+		}
+
+		if ( !isUsingConsultScript )
+		{
+			if ( currentRound == 0 )
+			{
+				super.run();
+			}
+			else if ( action1 != null && !action1.equals( "abort" ) )
+			{
+				delay();
+				super.run();
+			}
+		}
+
+		if ( action1 != null && action1.equals( "abort" ) )
+			KoLmafia.updateDisplay( ABORT_STATE, "You're on your own, partner." );
+	}
 
 	public void run()
 	{
@@ -543,30 +575,7 @@ public class FightRequest extends KoLRequest
 
 		do
 		{
-			this.clearDataFields();
-
-			action1 = null;
-			action2 = null;
-			isUsingConsultScript = false;
-
-			if ( !KoLmafia.refusesContinue() )
-				this.nextRound();
-
-			if ( !isUsingConsultScript )
-			{
-				if ( currentRound == 0 )
-				{
-					super.run();
-				}
-				else if ( action1 != null && !action1.equals( "abort" ) )
-				{
-					delay();
-					super.run();
-				}
-			}
-
-			if ( action1 != null && action1.equals( "abort" ) )
-				KoLmafia.updateDisplay( ABORT_STATE, "You're on your own, partner." );
+			runOnce( null );
 		}
 		while ( responseCode == 200 && currentRound != 0 && !KoLmafia.refusesContinue() );
 
