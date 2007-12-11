@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.io.PrintStream;
 
 public class BigIsland implements KoLConstants
 {
@@ -847,13 +848,15 @@ public class BigIsland implements KoLConstants
 		if ( responseText.indexOf( "WINWINWIN" ) == -1 )
 			return;
 
+                // Just in case
+		PrintStream sessionStream = RequestLogger.getSessionStream();
+
 		// We only count known monsters
 		MonsterDatabase.Monster monster = FightRequest.getLastMonster();
 		if ( monster == null )
 		{
 			// The monster is not in the monster database.
-			// It could be a new Holiday monster.
-			// name == FightRequest.getLastMonsterName();
+			sessionStream.println( "Unknown monster found on battlefield: " + FightRequest.getLastMonsterName());
 			return;
 		}
 
@@ -863,8 +866,11 @@ public class BigIsland implements KoLConstants
 		else if ( hippyBattlefield.hasMonster( monster ) )
 			fratboy = true;
 		else
-			// Known but unexpected monster on battlefield
+		{
+			// Known but unexpected monster on battlefield.
+			sessionStream.println( "Unexpected monster found on battlefield: " + FightRequest.getLastMonsterName());
 			return;
+		}
 
 		// Initialize settings if necessary
 		ensureUpdatedBigIsland();
