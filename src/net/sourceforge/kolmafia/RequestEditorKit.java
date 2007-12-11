@@ -1779,26 +1779,27 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			if ( combatHotkeys.isEmpty() )
 				reloadCombatHotkeyMap();
 
-			if ( !combatHotkeys.isEmpty() )
+			actionBuffer.append( "</td><td align=right>" );
+			actionBuffer.append( "<select>" );
+
+			actionBuffer.append( "<option>- update hotkeys -</option>" );
+
+			String currentHotkeyValue;
+
+			for ( int i = 0; i < combatHotkeys.size(); ++i )
 			{
-				actionBuffer.append( "</td><td align=right>" );
-				actionBuffer.append( "<select>" );
+				actionBuffer.append( "<option>" );
+				actionBuffer.append( i );
+				actionBuffer.append( ": " );
 
-				actionBuffer.append( "<option>- update hotkeys -</option>" );
-				Iterator buttonIterator = combatHotkeys.entrySet().iterator();
-				while ( buttonIterator.hasNext() )
-				{
-					Entry currentButton = (Entry) buttonIterator.next();
-					actionBuffer.append( "<option>" );
-					actionBuffer.append( currentButton.getKey() );
-					actionBuffer.append( ": " );
+				currentHotkeyValue = (String) combatHotkeys.get(i);
+				if ( !currentHotkeyValue.equals( "" ) )
+					actionBuffer.append( CombatSettings.getLongCombatOptionName( currentHotkeyValue ) );
 
-					actionBuffer.append( ClassSkillsDatabase.getSkillName( StaticEntity.parseInt( (String) currentButton.getValue() ) ).toLowerCase() );
-					actionBuffer.append( "</option>" );
-				}
-
-				actionBuffer.append( "</select>" );
+				actionBuffer.append( "</option>" );
 			}
+
+			actionBuffer.append( "</select>" );
 
 			actionBuffer.append( "</td></tr></table>" );
 			actionBuffer.append( "</td></tr><tr><td><font size=1>" );
@@ -1812,16 +1813,12 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		}
 	}
 
-	private static final TreeMap combatHotkeys = new TreeMap();
+	private static final ArrayList combatHotkeys = new ArrayList();
 
 	public static final void reloadCombatHotkeyMap()
 	{
-		for ( char c = '0'; c <= '9'; ++c )
-		{
-			String button = KoLSettings.getUserProperty( "combatHotkey" + c );
-			if ( !button.equals( "" ) )
-				combatHotkeys.put( String.valueOf( c ), button );
-		}
+		for ( int i = 0; i <= 9; ++i )
+			combatHotkeys.add( KoLSettings.getUserProperty( "combatHotkey" + i ) );
 	}
 
 	private static final void addFightModifiers( String location, StringBuffer buffer, boolean addComplexFeatures )
