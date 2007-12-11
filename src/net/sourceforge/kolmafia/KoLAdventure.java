@@ -87,9 +87,6 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 	private static KoLAdventure lastVisitedLocation = null;
 
-	private static String changedAutoAttack = "";
-	private static String initialAutoAttack = "";
-
 	private boolean isValidAdventure = false;
 	private String zone, parentZone, adventureId, formSource, adventureName;
 
@@ -753,19 +750,14 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		// In the event that the user made some sort of change
 		// to their auto-attack settings, do nothing.
 
-		if ( initialAutoAttack.equals( "0" ) )
+		if ( !KoLSettings.getUserProperty( "defaultAutoAttack" ).equals( "3" ) )
 			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=0" );
-
-		initialAutoAttack = "";
 	}
 
 	private void updateAutoAttack()
 	{
 		String attack = CombatSettings.getShortCombatOptionName( KoLSettings.getUserProperty( "battleAction" ) );
 		String autoAttack = KoLSettings.getUserProperty( "defaultAutoAttack" );
-
-		if ( initialAutoAttack.equals( "" ) || !autoAttack.equals( changedAutoAttack ) )
-			initialAutoAttack = autoAttack;
 
 		// If the player is pickpocketing, they probably do not want
 		// their auto-attack reset to an attack.
@@ -785,7 +777,6 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		if ( adventureId.equals( "80" ) )
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=0" );
-			initialAutoAttack = "";
 			return;
 		}
 
@@ -809,7 +800,6 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		if ( attack.startsWith( "attack" ) )
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=" + attack );
-			changedAutoAttack = KoLSettings.getUserProperty( "defaultAutoAttack" );
 			return;
 		}
 
@@ -825,7 +815,6 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		}
 
 		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=" + skillId );
-		changedAutoAttack = KoLSettings.getUserProperty( "defaultAutoAttack" );
 	}
 
 	public void recordToSession()
