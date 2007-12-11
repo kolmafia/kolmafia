@@ -107,8 +107,10 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int ROLLING_PIN = 873;
 	private static final int UNROLLING_PIN = 874;
 	private static final int PLUS_SIGN = 918;
+	private static final int MAID = 1000;
 	private static final int CLOCKWORK_BARTENDER = 1111;
 	private static final int CLOCKWORK_CHEF = 1112;
+	private static final int CLOCKWORK_MAID = 1113;
 	private static final int SNOWCONE_TOME = 1411;
 	private static final int PURPLE = 1412;
 	private static final int GREEN = 1413;
@@ -306,11 +308,24 @@ public class ConsumeItemRequest extends KoLRequest
 		if ( itemId <= 0 )
 			return Integer.MAX_VALUE;
 
-		if ( itemId == MOJO_FILTER )
+		switch ( itemId )
+		{
+		case CHEF:
+		case CLOCKWORK_CHEF:
+		case BARTENDER:
+		case CLOCKWORK_BARTENDER:
+		case MAID:
+		case CLOCKWORK_MAID:
+		case ARCHES:
+		case TOASTER:
+			return 1;
+
+		case MOJO_FILTER:
 			return Math.max( 0, 3 - KoLSettings.getIntegerProperty( "currentMojoFilters" ) );
 
-		if ( itemId == EXPRESS_CARD )
+		case EXPRESS_CARD:
 			return KoLSettings.getBooleanProperty( "expressCardUsed" ) ? 0 : 1;
+		}
 
 		Integer key = new Integer( itemId );
 
