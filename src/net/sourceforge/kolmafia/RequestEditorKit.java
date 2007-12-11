@@ -1635,12 +1635,14 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 	private static final void addFightButton( String urlString, StringBuffer response, StringBuffer buffer, String action, boolean isEnabled )
 	{
+		boolean forceFocus = action.equals( "attack" );
+
 		String name = getActionName( action );
 		buffer.append( "<input type=\"button\" onClick=\"document.location.href='" );
 
 		if ( urlString.startsWith( "choice.php" ) && response.indexOf( "choice.php" ) != -1 )
 		{
-			if ( action.equals( "attack" ) )
+			if ( forceFocus )
 				name = "auto";
 
 			buffer.append( "choice.php?action=auto" );
@@ -1710,10 +1712,15 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		buffer.append( "'; void(0);\" value=\"" );
 		buffer.append( name );
 
+		buffer.append( "\"" );
+
+		if ( forceFocus )
+			buffer.append( " id=\"defaultButton\"" );
+
 		if ( isEnabled )
-			buffer.append( "\">&nbsp;" );
+			buffer.append( ">&nbsp;" );
 		else
-			buffer.append( "\" disabled>&nbsp;" );
+			buffer.append( " disabled>&nbsp;" );
 	}
 
 	private static final void addFightButtons( String urlString, StringBuffer buffer )
@@ -1739,7 +1746,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			StringBuffer actionBuffer = new StringBuffer();
 
 			actionBuffer.append( "<tr><td>" );
-			actionBuffer.append( "<table><tr><td align=left>" );
+			actionBuffer.append( "<table width=\"100%\"><tr><td align=left>" );
 
 			addFightButton( urlString, buffer, actionBuffer, "attack", true );
 
@@ -1780,7 +1787,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				reloadCombatHotkeyMap();
 
 			actionBuffer.append( "</td><td align=right>" );
-			actionBuffer.append( "<select>" );
+			actionBuffer.append( "<select id=\"hotkeyViewer\" onChange=\"updateCombatHotkey();\">" );
 
 			actionBuffer.append( "<option>- update hotkeys -</option>" );
 
@@ -1808,8 +1815,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			actionBuffer.append( "</font></td></tr>" );
 			buffer.insert( insertionPoint, actionBuffer.toString() );
 
-			StaticEntity.singleStringReplace( buffer, "</head>", "<script src=\"hotkeys.js\"></head>" );
-			StaticEntity.singleStringReplace( buffer, "<body", "<body onKeyUp=\"handleCombatHotkey( event )\"" );
+			StaticEntity.singleStringReplace( buffer, "</head>", "<script src=\"/hotkeys.js\"></script></head>" );
+			StaticEntity.singleStringReplace( buffer, "<body",
+				"<body onkeypress=\"handleCombatHotkey(event);\" onload=\"document.getElementById('defaultButton').focus();\"" );
 		}
 	}
 
