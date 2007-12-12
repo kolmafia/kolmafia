@@ -194,6 +194,7 @@ public class AdventureFrame extends AdventureOptionsFrame
 		private JComboBox manualLouvre;
 		private JComboBox billiardRoomSelect;
 		private JComboBox riseSelect, fallSelect;
+		private JComboBox oceanDestSelect, oceanActionSelect;
 
 		/**
 		 * Constructs a new <code>ChoiceOptionsPanel</code>.
@@ -299,6 +300,23 @@ public class AdventureFrame extends AdventureOptionsFrame
 			this.fallSelect.addItem( "reveal key in conservatory" );
 			this.fallSelect.addItem( "unlock second floor stairs" );
 
+			this.oceanDestSelect = new JComboBox();
+			this.oceanDestSelect.addItem( "ignore adventure" );
+			this.oceanDestSelect.addItem( "manual control" );
+			this.oceanDestSelect.addItem( "random choice" );
+			String dest = KoLSettings.getUserProperty( "oceanDestination" );
+			if ( dest.indexOf( "," ) != -1 )
+				this.oceanDestSelect.addItem( "go to " + dest );
+			this.oceanDestSelect.addItem( "choose destination..." );
+
+			this.oceanActionSelect = new JComboBox();
+			this.oceanActionSelect.addItem( "continue" );
+			this.oceanActionSelect.addItem( "show" );
+			this.oceanActionSelect.addItem( "stop" );
+			this.oceanActionSelect.addItem( "save and continue" );
+			this.oceanActionSelect.addItem( "save and show" );
+			this.oceanActionSelect.addItem( "save and stop" );
+
 			this.addChoiceSelect( "Plains", "Castle Wheel", this.castleWheelSelect );
 			this.addChoiceSelect( "Woods", "Forest Corpses", this.spookyForestSelect );
 			this.addChoiceSelect( "Item-Driven", "Violet Fog", this.violetFogSelect );
@@ -308,6 +326,8 @@ public class AdventureFrame extends AdventureOptionsFrame
 			this.addChoiceSelect( "Manor2", "Louvre Goal", this.louvreSelect );
 			this.addChoiceSelect( "Manor2", "Louvre Override", this.manualLouvre );
 			this.addChoiceSelect( "Manor2", "The Maidens", this.maidenSelect );
+			this.addChoiceSelect( "Island", "Ocean Destination", this.oceanDestSelect );
+			this.addChoiceSelect( "Island", "Ocean Action", this.oceanActionSelect );
 
 			this.addChoiceSelect( AdventureDatabase.LUCKY_SEWER.getZone(), AdventureDatabase.LUCKY_SEWER.getName(), this.sewerSelect );
 
@@ -324,7 +344,6 @@ public class AdventureFrame extends AdventureOptionsFrame
 				optionsList = (ArrayList) this.choiceMap.get( keys[i] );
 				this.add( new ChoicePanel( optionsList ), (String) keys[i] );
 			}
-
 			AdventureFrame.this.locationSelect.addListSelectionListener( new UpdateChoicesListener() );
 		}
 
@@ -423,11 +442,8 @@ public class AdventureFrame extends AdventureOptionsFrame
 		public void saveSettings()
 		{
 			Object override = this.manualLouvre.getSelectedItem();
-			if ( override == null )
-				return;
-
 			int overrideIndex = this.manualLouvre.getSelectedIndex();
-			KoLSettings.setUserProperty( "louvreOverride", overrideIndex == 0 ? "" : (String) override );
+			KoLSettings.setUserProperty( "louvreOverride", ( overrideIndex == 0 || override == null ) ? "" : (String) override );
 
 			KoLSettings.setUserProperty( "violetFogGoal", String.valueOf( this.violetFogSelect.getSelectedIndex() ) );
 			KoLSettings.setUserProperty( "luckySewerAdventure", (String) this.sewerSelect.getSelectedItem() );
@@ -626,6 +642,52 @@ public class AdventureFrame extends AdventureOptionsFrame
 				KoLSettings.setUserProperty( "choiceAdventure81", "99" );
 				break;
 			}
+
+			Object item = this.oceanDestSelect.getSelectedItem();
+			String dest = ( item == null ) ? "" : (String)item;
+			if ( dest.equals( "Ignore Adventure" ) )
+			{
+				KoLSettings.setUserProperty( "choiceAdventure189", "2" );
+				KoLSettings.setUserProperty( "oceanDestination", "ignore" );
+			}
+			else
+			{
+				KoLSettings.setUserProperty( "choiceAdventure189", "1" );
+				String value = "";
+				if ( dest.startsWith( "manual" ) )
+					value = "manual";
+				else if ( dest.startsWith( "random" ) )
+					value = "random";
+				else if ( dest.startsWith( "go to " ) )
+					value = dest.substring(6);
+				else
+					// Shouldn't get here
+					value = "manual";
+
+				KoLSettings.setUserProperty( "oceanDestination", value );
+			}
+
+			switch ( this.oceanActionSelect.getSelectedIndex() )
+			{
+			case 0:
+				KoLSettings.setUserProperty( "oceanAction", "continue" );
+				break;
+			case 1:
+				KoLSettings.setUserProperty( "oceanAction", "show" );
+				break;
+			case 2:
+				KoLSettings.setUserProperty( "oceanAction", "stop" );
+				break;
+			case 3:
+				KoLSettings.setUserProperty( "oceanAction", "savecontinue" );
+				break;
+			case 4:
+				KoLSettings.setUserProperty( "oceanAction", "saveshow" );
+				break;
+			case 5:
+				KoLSettings.setUserProperty( "oceanAction", "savestop" );
+				break;
+			}
 		}
 
 		public void loadSettings()
@@ -807,6 +869,33 @@ public class AdventureFrame extends AdventureOptionsFrame
 				this.riseSelect.setSelectedIndex(3);
 			else
 				this.fallSelect.setSelectedIndex(2);
+
+			// Figure out what to do in the ocean
+
+			String dest = KoLSettings.getUserProperty( "oceanDestination" );
+			if ( dest.equals( "ignore" ) )
+				this.oceanDestSelect.setSelectedIndex(0);
+			else if ( dest.equals( "random" ) )
+				this.oceanDestSelect.setSelectedIndex(2);
+			else if ( dest.indexOf( "," ) != -1 )
+				this.oceanDestSelect.setSelectedIndex(3);
+			else
+				// Manual
+				this.oceanDestSelect.setSelectedIndex(1);
+
+			String action = KoLSettings.getUserProperty( "oceanAction" );
+			if ( action.equals( "continue" ) )
+				this.oceanActionSelect.setSelectedIndex(0);
+			else if ( action.equals( "show" ) )
+				this.oceanActionSelect.setSelectedIndex(1);
+			else if ( action.equals( "stop" ) )
+				this.oceanActionSelect.setSelectedIndex(2);
+			else if ( action.equals( "savecontinue" ) )
+				this.oceanActionSelect.setSelectedIndex(3);
+			else if ( action.equals( "saveshow" ) )
+				this.oceanActionSelect.setSelectedIndex(4);
+			else if ( action.equals( "savestop" ) )
+				this.oceanActionSelect.setSelectedIndex(5);
 
 			this.isRefreshing = false;
 		}
