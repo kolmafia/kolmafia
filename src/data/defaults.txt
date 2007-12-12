@@ -234,6 +234,8 @@ user	mpAutoRecoveryItems	phonics down;knob goblin superseltzer;mountain stream s
 user	mpAutoRecoveryTarget	0.3
 user	munchiesPillsUsed	0
 user	noodleSummons	0
+user	oceanAction	savecontinue
+user	oceanDestination	manual
 user	plantingDate
 user	plantingDay	-1
 user	plantingLength
@@ -392,4 +394,5 @@ user	choiceAdventure182	1
 user	choiceAdventure184	1
 user	choiceAdventure185	3
 user	choiceAdventure186	1
+user	choiceAdventure189	1
 user	choiceAdventure191	1

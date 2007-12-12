@@ -95,6 +95,7 @@ public class KoLRequest extends Job implements KoLConstants
 	};
 
 	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
+	private static final Pattern OCEAN_PATTERN = Pattern.compile( "(\\d+),(\\d+)" );
 	private static final Pattern EVENT_PATTERN = Pattern.compile( "bgcolor=orange><b>New Events:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid orange;\"><center><table><tr><td>(.*?)</td></tr></table>.*?<td height=4></td></tr></table>" );
 
 	public static final Pattern REDIRECT_PATTERN = Pattern.compile( "([^\\/]+)\\/login\\.php", Pattern.DOTALL );
@@ -149,6 +150,7 @@ public class KoLRequest extends Job implements KoLConstants
 	public String redirectLocation;
 
 	private static final KoLRequest CHOICE_HANDLER = new KoLRequest( "choice.php" );
+	private static final KoLRequest OCEAN_HANDLER = new KoLRequest( "ocean.php" );
 
 	public static final void setDelayActive( boolean delayActive )
 	{	KoLRequest.delayActive = delayActive;
@@ -1259,6 +1261,12 @@ public class KoLRequest extends Job implements KoLConstants
 			return true;
 		}
 
+		if ( this.redirectLocation.startsWith( "ocean.php" ) )
+		{
+			handleOcean( OCEAN_HANDLER );
+			return true;
+		}
+
 		if ( this instanceof AdventureRequest || this.formURLString.startsWith( "choice.php" ) )
 		{
 			AdventureRequest.handleServerRedirect( this.redirectLocation );
@@ -1521,6 +1529,90 @@ public class KoLRequest extends Job implements KoLConstants
 
 	public void processResults()
 	{
+	}
+
+	public static final void handleOcean( KoLRequest request )
+	{
+		String dest = KoLSettings.getUserProperty( "oceanDestination" );
+		if ( dest.equals( "manual" ) )
+		{
+			KoLmafia.updateDisplay( ABORT_STATE, "Pick a course." );
+			request.showInBrowser( true );
+			return;
+		}
+
+		int lon = 0;
+		int lat = 0;
+
+		if ( dest.indexOf( "," ) != -1 )
+		{
+			Matcher matcher = OCEAN_PATTERN.matcher( dest );
+			if ( matcher.find() )
+			{
+				lon = StaticEntity.parseInt( matcher.group(1) );
+				lat = StaticEntity.parseInt( matcher.group(2) );
+			}
+		}
+
+		String action = KoLSettings.getUserProperty( "oceanAction" );
+		boolean stop = action.equals( "stop" ) || action.equals( "savestop" );
+		boolean show = action.equals( "show" ) || action.equals( "saveshow" );
+		boolean save = action.equals( "savecontinue" ) || action.equals( "saveshow" ) || action.equals( "savestop" );
+
+		while ( true )
+		{
+			if ( lon < 1 || lon > 242 || lat < 1 || lat > 100 )
+			{
+				// Pick a random destination
+				lon = RNG.nextInt( 242 ) + 1;
+				lat = RNG.nextInt( 100 ) + 1;
+			}
+
+			String coords = "Coordinates: " + lon + ", " + lat;
+			RequestLogger.printLine( coords );
+			RequestLogger.updateSessionLog( coords );
+
+			// ocean.php?lon=10&lat=10
+			request.constructURLString( "ocean.php" );
+			request.clearDataFields();
+			request.addFormField( "lon", String.valueOf( lon ) );
+			request.addFormField( "lat", String.valueOf( lat ) );
+
+			request.run();
+
+			if ( save )
+			{
+				// Save the response Text
+			}
+
+			if ( stop )
+			{
+				// Show result in browser and stop automation
+				KoLmafia.updateDisplay( ABORT_STATE, "Stop" );
+				request.showInBrowser( true );
+				return;
+			}
+
+			if ( show )
+			{
+				// Show the response in the browser
+				request.showInBrowser( true );
+			}
+
+			// And continue
+
+			// The navigator says "Sorry, Cap'm, but we can't sail
+			// to those coordinates, because that's where the
+			// mainland is, and we've pretty much plundered the
+			// mainland dry. Perhaps a more exotic locale is in
+			// order?"
+
+			if ( request.responseText.indexOf( "mainland" ) == -1 )
+				return;
+
+			// Pick a different random destination
+			lon = lat = 0;
+		}
 	}
 
 	private static final void processChoiceAdventure()
