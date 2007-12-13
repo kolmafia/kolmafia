@@ -710,8 +710,11 @@ public class TradeableItemDatabase extends KoLDatabase
 		// by checking every single space location.  Do
 		// this recursively for best results.
 
-		int lastSpaceIndex = canonicalName.indexOf( " " );
-		return lastSpaceIndex != -1 ? getItemId( canonicalName.substring( lastSpaceIndex ).trim(), count ) : -1;
+		// int lastSpaceIndex = canonicalName.indexOf( " " );
+		// return lastSpaceIndex != -1 ? getItemId( canonicalName.substring( lastSpaceIndex ).trim(), count ) : -1;
+
+		// Unknown item
+                return -1;
 	}
 
 	public static final boolean meetsLevelRequirement( String name )
