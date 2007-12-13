@@ -11,10 +11,12 @@ Boris's key lime pie	4	6	13-19	28-33	0	0
 Brimstone Chicken Sandwich	3	1	3-5	-15-20	0	15-20
 Children's Meal of the Damned	0	1	0	0	0	0
 Crimbo pie	3	7	8-14	25-45	0	0
+Disc-Shaped Nutrition Unit	4	5	6-9	0	0	0
 Double Bacon Beelzeburger	3	1	3-5	15-20	-15-20	0
 Elfin shortbread	3	2	3-9	4-6	4-6	4-6
 Ent Cider	2	1	2-5	0	0	30-45
 Genalen&trade; Bottle	1	10	2-4	15-30	15-30	0
+Gingerborg Hive	5	5	11-15	0	0	0
 Happy Birthday, Claude! cake	3	1	3	0	0	0
 Hell broth	4	3	8-16	-5-9	0	-5-9
 Hell ramen	6	6	21-30	22-28	22-28	22-28
@@ -40,6 +42,7 @@ Peche a la Frog	3	1	3-4	0	0	0
 Retenez L'Herbe Paté	3	9	13-20	40-50	40-50	40-50
 S.T.L.T.	4	4	10-15	10-30	10-30	10-30
 Sneaky Pete's key lime pie	4	6	13-19	0	0	28-33
+Soylent Red and Green	3	5	4-5	0	0	0
 Spam Witch sammich	2	1	2-3	0	4-6	0
 Spooky Surprise Egg	1	1	1	0	0	0
 Trollhouse cookies	2	1	2-3	4-6	0	0
