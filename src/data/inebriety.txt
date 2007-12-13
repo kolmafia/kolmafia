@@ -16,7 +16,7 @@ Divine	4	6	14-18	16-20	25-27	0
 Ferita Del Petto Zinfandel	1	10	6-10	60	60	60
 Gordon Bennett	4	6	14-18	16-20	25-27	0
 Grimacite Bock	1	8	6-10	65	64	62
-Hi-Octane Pepperment Oil	5	5	10-15	0	0	0
+Hi-Octane Peppermint Oil	5	5	10-15	0	0	0
 Imp Ale	1	1	1-2	7-8	0	-5
 Infinitesimal IPA	3	1	3-9	0	0	0
 Mad Train wine	3	1	3-4	0	0	0
@@ -26,7 +26,7 @@ McMillicancuddy's Special Lager	1	10	2-4	10-15	10-15	10-15
 Mon Tiki	4	6	14-18	40-47	0	0
 Mt. Noob Pale Ale	2	1	4-9	0	0	0
 Neuromancer	4	6	14-18	25-27	0	16-20
-Oil Nog	4	5	8-9	0	0	0
+Oil Nog	4	5	7-9	0	0	0
 Oreille Divis&eacute;e brandy	3	4	12-15	15-25	15-25	15-25
 Pan-Dimensional Gargle Blaster	5	12	25-27	77-97	61-69	56-70
 Petite Porter	3	4	3-5	0	0	0

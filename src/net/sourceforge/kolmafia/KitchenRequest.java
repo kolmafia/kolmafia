@@ -33,29 +33,17 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.LockableListModel;
-import net.sourceforge.kolmafia.ConcoctionsDatabase.Concoction;
 
-public class KitchenRequest extends KoLRequest
+public class KitchenRequest extends CafeRequest
 {
-	private static final LockableListModel existing = new LockableListModel();
-	private int price;
-	private String itemName;
-
 	public KitchenRequest( String name )
 	{
-		super( "cafe.php" );
-		this.addFormField( "cafeid", "3" );
-		this.addFormField( "pwd" );
-		this.addFormField( "action", "CONSUME!" );
+		super( "Hell's Kitchen", "3" );
 
-		this.itemName = name;
 		int itemId = TradeableItemDatabase.getItemId( name );
-		this.price = Math.max( 1, TradeableItemDatabase.getPriceById( itemId ) ) * 3;
-
-		this.addFormField( "whichitem", String.valueOf( itemId ) );
+		int price = Math.max( 1, TradeableItemDatabase.getPriceById( itemId ) ) * 3;
+		setItem( name, itemId, price );
 	}
 
 	public void run()
@@ -63,121 +51,22 @@ public class KitchenRequest extends KoLRequest
 		if ( !KoLCharacter.inBadMoon() )
 			return;
 
-		if ( this.price == 0 )
-		{
-			KoLmafia.updateDisplay( ERROR_STATE, "Hell's Kitchen doesn't sell that." );
-			return;
-		}
-
-		if ( this.price > KoLCharacter.getAvailableMeat() )
-		{
-			KoLmafia.updateDisplay( ERROR_STATE, "Insufficient funds." );
-			return;
-		}
-
-		if ( this.itemName == null )
-			return;
-
-		if ( this.itemName.equals( "Imp Ale" ) && !ConsumeItemRequest.allowBoozeConsumption( TradeableItemDatabase.getInebriety( this.itemName ) ) )
-			return;
-
-		KoLmafia.updateDisplay( "Visiting Hell's Kitchen..." );
 		super.run();
-	}
-
-	public void processResults()
-	{
-		if ( this.responseText.indexOf( "This is not currently available to you.") != -1 )
-		{
-			KoLmafia.updateDisplay( ERROR_STATE, "Couldn't find the kitchen." );
-			return;
-		}
-
-		if ( this.responseText.indexOf( "You're way too drunk already." ) != -1 ||
-		     this.responseText.indexOf( "You're too full to eat that." ) != -1 )
-		{
-			KoLmafia.updateDisplay( ERROR_STATE, "Consumption limit reached." );
-			return;
-		}
-
-		if ( this.responseText.indexOf( "You can't afford that item.") != -1 )
-		{
-			KoLmafia.updateDisplay( ERROR_STATE, "Insufficient funds." );
-			return;
-		}
-
-		StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, 0 - this.price ) );
-		KoLmafia.updateDisplay( "Goodie purchased." );
 	}
 
 	public static final void getMenu()
 	{
 		kitchenItems.clear();
-
-		addKitchenItem( "Jumbo Dr. Lucifer", 150 );
-		addKitchenItem( "Brimstone Chicken Sandwich", 300 );
-		addKitchenItem( "Lord of the Flies-sized fries", 300 );
-		addKitchenItem( "Double Bacon Beelzeburger", 300 );
-		addKitchenItem( "Imp Ale", 75 );
-
+		CafeRequest.addMenuItem( kitchenItems, "Jumbo Dr. Lucifer", 150 );
+		CafeRequest.addMenuItem( kitchenItems, "Brimstone Chicken Sandwich", 300 );
+		CafeRequest.addMenuItem( kitchenItems, "Lord of the Flies-sized fries", 300 );
+		CafeRequest.addMenuItem( kitchenItems, "Double Bacon Beelzeburger", 300 );
+		CafeRequest.addMenuItem( kitchenItems, "Imp Ale", 75 );
 		ConcoctionsDatabase.getUsables().sort();
 		KoLmafia.updateDisplay( "Menu retrieved." );
 	}
 
-	private static final void addKitchenItem( String itemName, int price )
-	{
-		kitchenItems.add( itemName );
-
-		LockableListModel usables = ConcoctionsDatabase.getUsables();
-		Concoction item = new Concoction( itemName, price );
-		int index = usables.indexOf( item );
-		if ( index != -1 )
-			existing.add( usables.remove( index ) );
-		else
-			existing.add( null );
-		usables.add( item );
-	}
-
 	public static final void reset()
-	{
-		// Restore usable list with original concoction
-		for ( int i = 0; i < kitchenItems.size(); ++i )
-		{
-			String itemName = (String)kitchenItems.get(i);
-			Concoction junk = new Concoction( itemName, -1 );
-			ConcoctionsDatabase.getUsables().remove( junk );
-			Object old = existing.get(i);
-			if ( old != null )
-				ConcoctionsDatabase.getUsables().add( old );
-		}
-		kitchenItems.clear();
-		existing.clear();
-	}
-
-	public static final boolean registerRequest( String urlString )
-	{
-		if ( !urlString.startsWith( "cafe.php" ) )
-			return false;
-
-		Matcher idMatcher = SendMessageRequest.ITEMID_PATTERN.matcher( urlString );
-		if ( !idMatcher.find() )
-			return true;
-
-		int itemId = StaticEntity.parseInt( idMatcher.group(1) );
-		String itemName = TradeableItemDatabase.getItemName( itemId );
-		boolean booze = itemName.equals( "Imp Ale" );
-
-		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( ( booze ? "drink" : "eat" ) + " 1 " + itemName );
-
-
-		if ( !booze )
-		{
-			int fullness = TradeableItemDatabase.getFullness( itemName );
-			if ( fullness > 0 && KoLCharacter.getFullness() + fullness <= KoLCharacter.getFullnessLimit() )
-				KoLSettings.setUserProperty( "currentFullness", String.valueOf( KoLCharacter.getFullness() + fullness ) );
-		}
-
-		return true;
+	{	CafeRequest.reset( kitchenItems );
 	}
 }

@@ -399,12 +399,15 @@ public class ConcoctionsDatabase extends KoLDatabase
 				AdventureDatabase.retrieveItem( c.getItem().getInstance( c.getQueued() ) );
 			else if ( c.getPrice() > 0 )
 			{
-				if ( KoLCharacter.inBadMoon() )
-					request = new KitchenRequest( c.getName() );
+                                String name = c.getName();
+				if ( Crimbo07CafeRequest.onMenu( name ) )
+					request = new Crimbo07CafeRequest( name );
+				else if ( KoLCharacter.inBadMoon() )
+					request = new KitchenRequest( name );
 				else if ( c.getFullness() > 0 )
-					request = new RestaurantRequest( c.getName() );
+					request = new RestaurantRequest( name );
 				else if ( c.getInebriety() > 0 )
-					request = new MicrobreweryRequest( c.getName() );
+					request = new MicrobreweryRequest( name );
 			}
 			else
 				request = new ConsumeItemRequest( c.getItem().getInstance( c.getQueued() ) );

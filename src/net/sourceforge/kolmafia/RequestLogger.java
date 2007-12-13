@@ -355,6 +355,12 @@ public class RequestLogger extends NullStream implements KoLConstants
 			return;
 		}
 
+		if ( (request instanceof CafeRequest || isExternal) && CafeRequest.registerRequest( urlString ) )
+		{
+			wasLastRequestSimple = false;
+			return;
+		}
+
 		if ( (request instanceof ClanGymRequest || isExternal) && ClanGymRequest.registerRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;
@@ -416,12 +422,6 @@ public class RequestLogger extends NullStream implements KoLConstants
 		}
 
 		if ( (request instanceof ItemStorageRequest || isExternal) && ItemStorageRequest.registerRequest( urlString ) )
-		{
-			wasLastRequestSimple = false;
-			return;
-		}
-
-		if ( (request instanceof KitchenRequest || isExternal) && KitchenRequest.registerRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;
 			return;
