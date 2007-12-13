@@ -1583,6 +1583,14 @@ public class KoLRequest extends Job implements KoLConstants
 			if ( save )
 			{
 				// Save the response Text
+				File output = new File( DATA_LOCATION, "ocean.html" );
+				LogStream writer = LogStream.openStream( output, false );
+				// Trim to contain only HTML body
+				int start = request.responseText.indexOf( "<body>" );
+				int end = request.responseText.indexOf( "</body>" );
+				String text = request.responseText.substring( start + 6, end );
+				writer.println( text );
+				writer.close();
 			}
 
 			if ( stop )
