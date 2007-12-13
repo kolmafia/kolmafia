@@ -917,7 +917,7 @@ public class ItemManageFrame extends KoLFrame
 					element instanceof ItemCreationRequest ? ((ItemCreationRequest)element).getItemId() : -1;
 
 				if ( itemId == -1 )
-					return false;
+					return true;
 
 				switch ( TradeableItemDatabase.getConsumptionType( itemId ) )
 				{
