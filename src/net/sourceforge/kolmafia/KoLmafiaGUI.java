@@ -326,6 +326,13 @@ public class KoLmafiaGUI extends KoLmafia
 			}
 			else if ( this.frameClass == ItemManageFrame.class )
 			{
+				// Anybody who can eat or drink can access the
+				// Crimbo Cafe
+
+				if ( KoLCharacter.canEat() || KoLCharacter.canDrink() )
+					if ( cafeItems.isEmpty() )
+						Crimbo07CafeRequest.getMenu();
+
 				// If the person is in Bad Moon, retrieve
 				// information from Hell's Kitchen.
 
@@ -357,6 +364,7 @@ public class KoLmafiaGUI extends KoLmafia
 				if ( KoLSettings.getBooleanProperty( "autoSatisfyWithStash" ) && KoLCharacter.canInteract() && KoLCharacter.hasClan() )
 					if ( !ClanManager.isStashRetrieved() )
 						RequestThread.postRequest( new ClanStashRequest() );
+
 			}
 			else if ( this.frameClass == LocalRelayServer.class )
 			{

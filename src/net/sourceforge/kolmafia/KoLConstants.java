@@ -415,6 +415,7 @@ public interface KoLConstants extends UtilityConstants
 	public static final LockableListModel restaurantItems = new LockableListModel();
 	public static final LockableListModel microbreweryItems = new LockableListModel();
 	public static final LockableListModel kitchenItems = new LockableListModel();
+	public static final LockableListModel cafeItems = new LockableListModel();
 
 	public static final SortedListModel tally = new SortedListModel();
 	public static final SortedListModel conditions = new SortedListModel();

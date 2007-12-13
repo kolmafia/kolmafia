@@ -438,6 +438,7 @@ public abstract class KoLCharacter extends StaticEntity
 		RestaurantRequest.reset();
 		MicrobreweryRequest.reset();
 		KitchenRequest.reset();
+		Crimbo07CafeRequest.reset();
 
 		resetInventory();
 

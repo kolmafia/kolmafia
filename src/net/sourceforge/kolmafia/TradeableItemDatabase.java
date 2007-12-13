@@ -150,8 +150,13 @@ public class TradeableItemDatabase extends KoLDatabase
 		itemIdByName.put( "worthless item", new Integer(13) );
 		nameById.put( new Integer(13), "worthless item" );
 
-		// Next, retrieve the description Ids using the data
-		// table present in MaxDemian's database.
+		// Add in dummy information for items available only in cafes
+		nameById.put( new Integer(-49), "Cyder" );
+		nameById.put( new Integer(-50), "Oil Nog" );
+		nameById.put( new Integer(-51), "Hi-Octane Peppermint Oil" );
+		nameById.put( new Integer(-52), "Soylent Red and Green" );
+		nameById.put( new Integer(-53), "Disc-Shaped Nutrition Unit" );
+		nameById.put( new Integer(-54), "Gingerborg Hive" );
 
 		try
 		{
@@ -164,6 +169,8 @@ public class TradeableItemDatabase extends KoLDatabase
 
 			StaticEntity.printStackTrace( e );
 		}
+
+		// Next, retrieve the description Ids.
 
 		reader = getVersionedReader( "itemdescs.txt", ITEMDESCS_VERSION );
 
