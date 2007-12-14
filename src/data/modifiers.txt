@@ -736,6 +736,7 @@ penguin skin buckler	Damage Reduction: 5, Moxie: +5
 pilgrim shield	Maximum HP: +30, Melee Damage: +15, Experience: +3, HP Regen Min: 10, HP Regen Max: 12, Softcore Only
 pirate hook	Melee Damage: +3
 pixel shield	Damage Reduction: 3, Muscle: +5
+polyalloy shield	Damage Reduction: 9, Muscle: +10, Cold Resistance: +10, Hot Resistance: +10, Sleaze Resistance: +10, Spooky Resistance: +10, Stench Resistance: +10
 rag doll	Muscle: +3
 # red balloon
 # rice bowl

@@ -670,6 +670,8 @@ penguin skin buckler	95	Mus: 30
 pilgrim shield	240	none
 pirate hook	0	none
 pixel shield	55	Mus: 10
+polyalloy shield	0	Mus: 55
+# *** polyalloy shield is a shield of unknown power.
 rag doll	0	Mys: 40
 red balloon	0	none
 rice bowl	0	none

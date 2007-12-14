@@ -3068,7 +3068,7 @@
 3067	dollhive	3	all	116
 3068	toy deathbot	0	all	79
 3069	laser cannon	0	display	0
-3070	
+3070	plexifoam chin strap	display	unknown	0
 3071	
 3072	
 3073	
@@ -3089,12 +3089,19 @@
 3088	
 3089	
 3090	
-3091	
+3091	vitachoconutriment capsule	3	all	0
 3092	
 3093	
 3094	
 3095	laser-broiled pear	1	all	0
-3096	
+3096	polyalloy shield	13	all	155
 3097	
 3098	
 3099	
+4000	
+4001	
+4002	
+4003	
+4004	
+4005	
+4006	
