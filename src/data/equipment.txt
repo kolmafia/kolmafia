@@ -510,6 +510,7 @@ repeating crossbow	65	Mox: 17	2-handed crossbow
 rib of the Bonerdagon	80	Mus: 25	2-handed staff
 ridiculously huge sword	140	Mus: 55	3-handed sword
 ridiculously overelaborate ninja weapon	100	Mus: 35	3-handed ...weapon
+roboduck-on-a-string	100	Mus: 35	1-handed flail
 rubber axe	40	Mus: 5	2-handed axe
 rusty grave robbing shovel	80	Mus: 25	2-handed polearm
 sabre teeth	60	Mus: 15	1-handed knife
@@ -614,6 +615,7 @@ basic meat foon	0	Mys: 10
 battered hubcap	220	Mus: 65
 black shield	160	Mus: 65
 bobble-hip hula elf doll	0	none
+borg sock monkey	0	Mys: 40
 box	0	none
 box turtle	50	Mus: 10
 box-in-the-box	0	none
@@ -624,6 +626,7 @@ clockwork detective skull	0	Mox: 25
 clownskin buckler	60	Mus: 15
 coffin lid	55	Mus: 10
 continuum transfunctioner	0	none
+cyborg doll	0	Mys: 40
 deck of tropical cards	0	none
 defective skull	0	none
 demon buckler	77	Mus: 25
@@ -657,6 +660,7 @@ mad scientist's sock monkey	0	Mys: 40
 magic lamp	0	none
 magical ice cubes	0	none
 marionette	0	Mys: 40
+marionette collective	0	Mys: 40
 mini-zeppelin	0	none
 miniature stuffed Goth Giant	0	none
 moxie magnet	0	none
@@ -1073,6 +1077,7 @@ tiny plastic whitesnake	0	none
 tiny plastic zmobie	0	none
 toy crazy train	0	none
 toy jet pack	0	Mys: 72
+toy maglev monorail	0	none
 toy train	0	none
 tube sock	0	Mys: 45
 walrus-tusk earring	0	Mys: 10

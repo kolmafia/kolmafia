@@ -3020,8 +3020,8 @@
 3019	all-purpose cleaner	3	all	55
 3020	handful of sawdust	0	all	55
 3021	large stone triangle	0	all	0
-3022
-3023
+3022	medium stone triangle	0	all	0
+3023	small stone triangle	3	all	0
 3024
 3025	corpse on the beach	2	all	50
 3026	corpsetini	2	all	50
@@ -3051,3 +3051,50 @@
 3050	cursed eyepatch	8	display	0
 3051	cursed cutlass	12	display	0
 3052	cursed breeches	10	display	0
+3053	
+3054	
+3055	
+3056	
+3057	nanofiber cloth	0	all	16
+3058	iGoogly	0	all	14
+3059	theoretical string	0	all	13
+3060	synthetic stuffing	0	all	15
+3061	toy hoverpad	0	all	14
+3062	LED block	0	all	17
+3063	gyroscope	0	all	35
+3064	cyborg doll	13	all	106
+3065	buckyball	0	all	31
+3066	toy maglev monorail	8	all	185
+3067	dollhive	3	all	116
+3068	toy deathbot	0	all	79
+3069	laser cannon	0	display	0
+3070	
+3071	
+3072	
+3073	
+3074	
+3075	
+3076	
+3077	
+3078	
+3079	Bulky Buddy Box	5	all	0
+3080	teddy borg	5	all	120
+3081	marionette collective	13	all	88
+3082	monomolecular yo-yo	0	all	31
+3083	stuffed gray blob	0	all	29
+3084	borg sock monkey	13	all	89
+3085	roboduck-on-a-string	12	all	111
+3086	mylar scout drone	0	all	29
+3087	teddy borg sewing kit	7	all	75
+3088	
+3089	
+3090	
+3091	
+3092	
+3093	
+3094	
+3095	laser-broiled pear	1	all	0
+3096	
+3097	
+3098	
+3099	

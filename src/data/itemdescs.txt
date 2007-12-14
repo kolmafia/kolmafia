@@ -3025,8 +3025,8 @@
 3019	523018058	all-purpose cleaner
 3020	668292774	handful of sawdust
 3021	932212238	large stone triangle
-3022
-3023
+3022		medium stone triangle
+3023	460043851	small stone triangle
 3024
 3025	619225682	corpse on the beach
 3026	915696450	corpsetini	
@@ -3056,3 +3056,50 @@
 3050	331604248	cursed eyepatch
 3051	321086673	cursed cutlass
 3052	797230378	cursed breeches
+3053	
+3054	
+3055	
+3056	
+3057	990761540	nanofiber cloth
+3058	767627450	iGoogly
+3059	358580860	theoretical string
+3060	814080491	synthetic stuffing
+3061	255210360	toy hoverpad
+3062	607447171	LED block
+3063	615213794	gyroscope
+3064	299906373	cyborg doll
+3065	849517459	buckyball
+3066	401867098	toy maglev monorail
+3067	339696597	dollhive
+3068	373536943	toy deathbot
+3069	444489922	laser cannon
+3070	
+3071	
+3072	
+3073	
+3074	
+3075	
+3076	
+3077	
+3078	
+3079	164132105	Bulky Buddy Box
+3080	447370300	teddy borg
+3081	746649355	marionette collective
+3082	205640093	monomolecular yo-yo
+3083	380691724	stuffed gray blob
+3084		borg sock monkey
+3085	153919945	roboduck-on-a-string
+3086	941936499	mylar scout drone
+3087	511433261	teddy borg sewing kit	teddy borg sewing kits
+3088	
+3089	
+3090	
+3091	
+3092	
+3093	
+3094	
+3095	308511017	laser-broiled pear
+3096	
+3097	
+3098	
+3099	

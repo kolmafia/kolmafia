@@ -296,6 +296,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		case SINGLE_USE:
 			return new SingleUseRequest( itemId );
 
+		case CRIMBO:
+			return new UncleCrimboRequest( itemId );
+
 		default:
 			return null;
 		}
@@ -832,6 +835,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		if ( urlString.startsWith( "mystic.php" ) )
 			return PixelRequest.registerRequest( urlString );
+
+		if ( urlString.startsWith( "crimbo07.php" ) )
+			return UncleCrimboRequest.registerRequest( urlString );
 
 		if ( urlString.indexOf( "action=makestaff" ) != -1 )
 			return ChefstaffRequest.registerRequest( urlString );
