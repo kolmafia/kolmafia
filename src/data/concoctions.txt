@@ -1028,66 +1028,87 @@ clockwork bartender-in-the-box	1	clockwork bartender-head-in-the-box	cocktailcra
 # Crimbo toys.  These are items which are created at Uncle Crimbo
 # after collecting enough toy components.
 
-yo-yo	15	length of string	toy wheel
-top	15	wooden block	toy wheel
-ball	15	stuffing	felt
-kite	15	length of string	felt
-pet rock	15	googly eye	wooden block
-stuffed doppelshifter	15	googly eye	stuffing
-teddy bear	15	googly eye (2)	stuffing (4)	felt (2)
-duck-on-a-string	15	length of string	googly eye (2)	wooden block (2)	toy wheel (2)
-toy soldier	15	googly eye (2)	wooden block (3)
-doll house	15	wooden block (4)	felt (3)
-toy train	15	length of string (2)	wooden block (3)	toy wheel (6)
-marionette	15	length of string (2)	googly eye (2)	wooden block (2)
-sock monkey	15	googly eye (2)	stuffing (3)	felt
-rag doll	15	googly eye (2)	stuffing (3)	felt (2)
+ball	29	stuffing	felt
+doll house	29	wooden block (4)	felt (3)
+duck-on-a-string	29	length of string	googly eye (2)	wooden block (2)	toy wheel (2)
+kite	29	length of string	felt
+marionette	29	length of string (2)	googly eye (2)	wooden block (2)
+pet rock	29	googly eye	wooden block
+rag doll	29	googly eye (2)	stuffing (3)	felt (2)
+sock monkey	29	googly eye (2)	stuffing (3)	felt
+stuffed doppelshifter	29	googly eye	stuffing
+teddy bear	29	googly eye (2)	stuffing (4)	felt (2)
+top	29	wooden block	toy wheel
+toy soldier	29	googly eye (2)	wooden block (3)
+toy train	29	length of string (2)	wooden block (3)	toy wheel (6)
+yo-yo	29	length of string	toy wheel
+
+Bulky Buddy Box	29	iGoogly	LED block
+borg sock monkey	29	iGoogly (2)	synthetic stuffing (3)	nanofiber cloth
+buckyball	29	synthetic stuffing	nanofiber cloth
+cyborg doll	29	iGoogly (2)	synthetic stuffing (3)	nanofiber cloth (2)
+dollhive	29	nanofiber cloth (3)	LED block (4)
+gyroscope	29	LED block	toy hoverpad
+marionette collective	29	theoretical string (2)	iGoogly (2)	LED block (2)
+monomolecular yo-yo	29	theoretical string	toy hoverpad
+mylar scout drone	29	theoretical string	nanofiber cloth
+roboduck-on-a-string	29	theoretical string	iGoogly (2)	LED block (2)	toy hoverpad (2)
+stuffed gray blob	29	iGoogly	synthetic stuffing
+teddy borg	29	iGoogly (2)	nanofiber cloth (2)	synthetic stuffing (4)
+toy deathbot	29	iGoogly (2)	LED block (3)
+toy maglev monorail	29	theoretical string (2)	LED block (3)	toy hoverpad (6)
 
 # Crimbo tools.  These are items which are created at Ugh Crimbo
 # after collecting enough components.
 
-wheel	24	stick	rock
-yo	24	stringy sinew	rock
-prehistoric spear	24	stick	tooth
-stick-on-a-string	24	stick	stringy sinew
-toothsome rock	24	tooth	rock
-fire	24	stick	stick
-leaf tube	24	stringy sinew	big leaf
+# Uncle Crimbo can also make them in 2007
 
+fire	29	stick	stick
+prehistoric spear	29	stick	tooth
+stick-on-a-string	29	stick	stringy sinew
+toothsome rock	29	tooth	rock
+wheel	29	stick	rock
+yo	29	stringy sinew	rock
+
+leaf tube	24	stringy sinew	big leaf
 lit cigar	1	fire	leaf tube
 
 # Evil Crimbo toys.  These are items which are created by Lady Linnea
 # after collecting enough toy components.
 
-razor-tipped yo-yo	24	spooky length of string	spooky toy wheel
-possessed top	24	spooky wooden block	spooky toy wheel
-fancy dress ball	24	spooky stuffing	spooky felt
-tree-eating kite	24	spooky length of string	spooky felt
-stuffed alien blob	24	evil googly eye	spooky stuffing
-evil teddy bear	24	evil googly eye (2)	spooky stuffing (4)	spooky felt (2)
-vampire duck-on-a-string	24	spooky length of string	evil googly eye (2)	spooky wooden block (2)	spooky toy wheel (2)
-toy mercenary	24	evil googly eye (2)	spooky wooden block (3)
-toy crazy train	24	spooky length of string (2)	spooky wooden block (3)	spooky toy wheel (6)
-incredibly creepy marionette	24	spooky length of string (2)	evil googly eye (2)	spooky wooden block (2)
-mad scientist's sock monkey	24	evil googly eye (2)	spooky stuffing (3)	spooky felt
-killer rag doll	24	evil googly eye (2)	spooky stuffing (3)	spooky felt (2)
+# Uncle Crimbo can also make them in 2007
+
+evil teddy bear	29	evil googly eye (2)	spooky stuffing (4)	spooky felt (2)
+fancy dress ball	29	spooky stuffing	spooky felt
+incredibly creepy marionette	29	spooky length of string (2)	evil googly eye (2)	spooky wooden block (2)
+killer rag doll	29	evil googly eye (2)	spooky stuffing (3)	spooky felt (2)
+mad scientist's sock monkey	29	evil googly eye (2)	spooky stuffing (3)	spooky felt
+possessed top	29	spooky wooden block	spooky toy wheel
+razor-tipped yo-yo	29	spooky length of string	spooky toy wheel
+stuffed alien blob	29	evil googly eye	spooky stuffing
+toy crazy train	29	spooky length of string (2)	spooky wooden block (3)	spooky toy wheel (6)
+toy mercenary	29	evil googly eye (2)	spooky wooden block (3)
+tree-eating kite	29	spooky length of string	spooky felt
+vampire duck-on-a-string	29	spooky length of string	evil googly eye (2)	spooky wooden block (2)	spooky toy wheel (2)
 
 # Future Crimbo toys.  These are items which are created by Uncle Crimborg
 # after collecting enough toy components.
 
-servomechanical torsion facilitator	24	capacitor relay	carbon nanotube frame
-quantum polarity inducer	24	capacitor relay	ion grid
-bi-lateral logic compressor	24	capacitor relay	Feynman gate
-computronic processing unit	24	capacitor relay	logic synthesizer
-reverse-oscillating klystron	24	carbon nanotube frame	ion grid
-sub-molecular interocitor	24	carbon nanotube frame	Feynman gate
-recursive spline reticulator	24	carbon nanotube frame	logic synthesizer
-atomic vector plotter	24	ion grid	Feynman gate
-ion-pulse modulation stabilizer	24	ion grid	logic synthesizer
-hyperbolic plasma focuser	24	Feynman gate	logic synthesizer
+# Uncle Crimbo can also make them in 2007
 
-toy ray gun	24	high-resistance ultrapolymer plating	servomechanical torsion facilitator	hyperbolic plasma focuser
-toy space helmet	24	high-resistance ultrapolymer plating	bi-lateral logic compressor	atomic vector plotter
-MagiMechTech NanoMechaMech	24	high-resistance ultrapolymer plating	computronic processing unit	sub-molecular interocitor
-astronaut pants	24	high-resistance ultrapolymer plating	quantum polarity inducer	recursive spline reticulator
-toy jet pack	24	high-resistance ultrapolymer plating	reverse-oscillating klystron	ion-pulse modulation stabilizer
+atomic vector plotter	29	ion grid	Feynman gate
+bi-lateral logic compressor	29	capacitor relay	Feynman gate
+computronic processing unit	29	capacitor relay	logic synthesizer
+hyperbolic plasma focuser	29	Feynman gate	logic synthesizer
+ion-pulse modulation stabilizer	29	ion grid	logic synthesizer
+quantum polarity inducer	29	capacitor relay	ion grid
+recursive spline reticulator	29	carbon nanotube frame	logic synthesizer
+reverse-oscillating klystron	29	carbon nanotube frame	ion grid
+servomechanical torsion facilitator	29	capacitor relay	carbon nanotube frame
+sub-molecular interocitor	29	carbon nanotube frame	Feynman gate
+
+MagiMechTech NanoMechaMech	29	high-resistance ultrapolymer plating	computronic processing unit	sub-molecular interocitor
+astronaut pants	29	high-resistance ultrapolymer plating	quantum polarity inducer	recursive spline reticulator
+toy jet pack	29 	high-resistance ultrapolymer plating	reverse-oscillating klystron	ion-pulse modulation stabilizer
+toy ray gun	29	high-resistance ultrapolymer plating	servomechanical torsion facilitator	hyperbolic plasma focuser
+toy space helmet	29	high-resistance ultrapolymer plating	bi-lateral logic compressor	atomic vector plotter

@@ -579,6 +579,7 @@ repeating crossbow	Moxie: +2, Critical: 3
 rib of the Bonerdagon	Muscle: +5, Mysticality: +5, Spell Damage: +15
 ridiculously huge sword	Melee Damage: +12, Muscle: +4
 ridiculously overelaborate ninja weapon	Critical: 3, Fumble: 3
+roboduck-on-a-string	Melee Damage: +5, Item Drop: +5
 rubber axe	Sleaze Damage: +2
 rusty grave robbing shovel	Spooky Damage: +5, Initiative: -10
 sabre teeth	Melee Damage: +4
@@ -681,6 +682,7 @@ basic meat foon	Mysticality: +3, Spell Damage: +3
 battered hubcap	Damage Reduction: 14, Muscle: +15, Maximum HP: +100, Cold Resistance: +20, Hot Resistance: +20, Sleaze Resistance: +20, Spooky Resistance: +20, Stench Resistance: +20
 black shield	Damage Reduction: 10, Muscle: +5, Maximum HP: +20
 bobble-hip hula elf doll	Moxie: +5, Muscle: +5, Mysticality: +5, Meat Drop: +15
+borg sock monkey	Moxie: +3
 box	Meat Drop: +1
 box turtle	Damage Reduction: 3, Muscle: +1
 box-in-the-box	Meat Drop: +2
@@ -691,6 +693,7 @@ catskin buckler	Damage Reduction: 11, Muscle: +10, Damage Absorption: +50
 clownskin buckler	Damage Reduction: 3, Spooky Damage: +3
 coffin lid	Damage Reduction: 3, Spooky Resistance: +10
 # continuum transfunctioner
+cyborg doll	Muscle: +3
 deck of tropical cards	Experience: +1
 # defective skull
 demon buckler	Damage Reduction: 5, Hot Damage: +3
@@ -723,6 +726,7 @@ mad scientist's sock monkey	Moxie: +3
 magic lamp	Mysticality: +5
 magical ice cubes	Cold Damage: +1
 marionette	Mysticality: +3
+marionette collective	Mysticality: +3
 # mini-zeppelin
 # miniature stuffed Goth Giant
 # moxie magnet
@@ -1136,6 +1140,7 @@ tiny plastic whitesnake	Monster Level: +1
 tiny plastic zmobie	Monster Level: +1
 toy crazy train	Single Equip, Meat Drop: +10
 toy jet pack	Single Equip, Intrinsic Effect: "Get Me Off This Crazy Thing!"
+toy maglev monorail	Single Equip, Meat Drop: +10
 toy train	Single Equip, Meat Drop: +10
 tube sock	Single Equip, Moxie: +20
 walrus-tusk earring	Maximum HP: +10
@@ -1234,6 +1239,7 @@ sucky decal	Familiar Weight: +5
 # targeting chip
 tasteful black bowtie	Familiar Weight: +5
 # teddy bear sewing kit
+# teddy borg sewing kit
 tiny Mountie hat	Familiar Weight: +5
 tiny balloon knife	Familiar Weight: +5
 tiny bust of Pallas	Familiar Weight: +5

@@ -807,15 +807,20 @@ public class ConcoctionsDatabase extends KoLDatabase
 		PERMIT_METHOD[ STAFF ] = KoLCharacter.isMysticalityClass();
 		ADVENTURE_USAGE[ STAFF ] = 0;
 
-		// It's not possible to ask Uncle Crimbo to make toys
+		// It's not possible to ask Uncle Crimbo 2005 to make toys
 
 		PERMIT_METHOD[ TOY ] = false;
 		ADVENTURE_USAGE[ TOY ] = 0;
 
-		// It's possible to ask Ugh Crimbo to make toys
+		// It's not possible to ask Ugh Crimbo 2006 to make toys
 
 		PERMIT_METHOD[ UGH ] = false;
 		ADVENTURE_USAGE[ UGH ] = 0;
+
+		// It's possible to ask Uncle Crimbo 2007 to make toys
+
+		PERMIT_METHOD[ CRIMBO ] = true;
+		ADVENTURE_USAGE[ CRIMBO ] = 0;
 
 		// Next, increment through all the box servant creation methods.
 		// This allows future appropriate calculation for cooking/drinking.
