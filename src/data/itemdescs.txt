@@ -3073,7 +3073,7 @@
 3067	339696597	dollhive
 3068	373536943	toy deathbot
 3069	444489922	laser cannon
-3070	
+3070	728473421	plexifoam chin strap
 3071	
 3072	
 3073	
@@ -3087,19 +3087,26 @@
 3081	746649355	marionette collective
 3082	205640093	monomolecular yo-yo
 3083	380691724	stuffed gray blob
-3084		borg sock monkey
+3084	375409737	borg sock monkey
 3085	153919945	roboduck-on-a-string
 3086	941936499	mylar scout drone
 3087	511433261	teddy borg sewing kit	teddy borg sewing kits
 3088	
 3089	
 3090	
-3091	
+3091	746449292	vitachoconutriment capsule
 3092	
 3093	
 3094	
 3095	308511017	laser-broiled pear
-3096	
+3096	627545996	polyalloy shield
 3097	
 3098	
 3099	
+4000	
+4001	
+4002	
+4003	
+4004	
+4005	
+4006	
