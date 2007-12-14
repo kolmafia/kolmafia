@@ -148,6 +148,7 @@ public abstract class KoLmafia implements KoLConstants
 		{ "Drawn Onward", "1" },
 		{ "Mr. Alarm", "1" },
 		{ "We'll All Be Flat", "1" },
+		{ "It's Always Swordfish", "1" },
 
 		// Adventures that start the Around the World Quest
 
