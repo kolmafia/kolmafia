@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class Crimbo07CafeRequest extends CafeRequest
@@ -86,6 +88,7 @@ public class Crimbo07CafeRequest extends CafeRequest
 
 	public static final void getMenu()
 	{
+		KoLmafia.updateDisplay( "Visiting Crimbo Cafe..." );
 		cafeItems.clear();
 		CafeRequest.addMenuItem( cafeItems, "Cyder", 50 );
 		CafeRequest.addMenuItem( cafeItems, "Oil Nog", 75 );
@@ -99,5 +102,49 @@ public class Crimbo07CafeRequest extends CafeRequest
 
 	public static final void reset()
 	{	CafeRequest.reset( cafeItems );
+	}
+
+	public static final boolean registerRequest( String urlString )
+	{
+		Matcher matcher = CafeRequest.CAFE_PATTERN.matcher( urlString );
+		if ( !matcher.find() || !matcher.group(1).equals( "4" ) )
+			return false;
+
+		int itemId = StaticEntity.parseInt( matcher.group(2) );
+		String itemName;
+		int price;
+
+		switch ( itemId )
+		{
+		case -49:
+			itemName = "Cyder";
+			price = 50;
+			break;
+		case -50:
+			itemName = "Oil Nog";
+			price = 75;
+			break;
+		case -51:
+			itemName = "Hi-Octane Peppermint Oil";
+			price = 100;
+			break;
+		case -52:
+			itemName = "Soylent Red and Green";
+			price = 50;
+			break;
+		case -53:
+			itemName = "Disc-Shaped Nutrition Unit";
+			price = 75;
+			break;
+		case -54:
+			itemName = "Gingerborg Hive";
+			price = 100;
+			break;
+		default:
+			return false;
+		}
+
+		CafeRequest.registerItemUsage( itemName, price );
+		return true;
 	}
 }

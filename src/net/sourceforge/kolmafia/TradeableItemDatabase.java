@@ -59,11 +59,11 @@ public class TradeableItemDatabase extends KoLDatabase
 
 	private static final IntegerArray useTypeById = new IntegerArray();
 	private static final IntegerArray priceById = new IntegerArray();
-	private static final StringArray descriptionById = new StringArray();
 	private static final StringArray pluralById = new StringArray();
 
 	private static final Map nameById = new TreeMap();
 	private static final Map dataNameById = new TreeMap();
+	private static final Map descriptionById = new TreeMap();
 	private static final Map itemIdByName = new TreeMap();
 	private static final Map itemIdByPlural = new TreeMap();
 
@@ -118,13 +118,14 @@ public class TradeableItemDatabase extends KoLDatabase
 		BufferedReader reader = getVersionedReader( "tradeitems.txt", TRADEITEMS_VERSION );
 
 		String [] data;
+		Integer id;
 
 		while ( (data = readData( reader )) != null )
 		{
 			if ( data.length == 5 )
 			{
 				int itemId = StaticEntity.parseInt( data[0] );
-				Integer id = new Integer( itemId );
+				id = new Integer( itemId );
 
 				useTypeById.set( itemId, StaticEntity.parseInt( data[2] ) );
 				priceById.set( itemId, StaticEntity.parseInt( data[4] ) );
@@ -146,17 +147,10 @@ public class TradeableItemDatabase extends KoLDatabase
 		// Add in dummy information for tracking worthless
 		// items so they can be added as conditions.
 
-		dataNameById.put( new Integer(13), "worthless item" );
-		itemIdByName.put( "worthless item", new Integer(13) );
-		nameById.put( new Integer(13), "worthless item" );
-
-		// Add in dummy information for items available only in cafes
-		nameById.put( new Integer(-49), "Cyder" );
-		nameById.put( new Integer(-50), "Oil Nog" );
-		nameById.put( new Integer(-51), "Hi-Octane Peppermint Oil" );
-		nameById.put( new Integer(-52), "Soylent Red and Green" );
-		nameById.put( new Integer(-53), "Disc-Shaped Nutrition Unit" );
-		nameById.put( new Integer(-54), "Gingerborg Hive" );
+		id = new Integer(13);
+		dataNameById.put( id, "worthless item" );
+		itemIdByName.put( "worthless item", id );
+		nameById.put( id, "worthless item" );
 
 		try
 		{
@@ -187,13 +181,14 @@ public class TradeableItemDatabase extends KoLDatabase
 				if ( isDescriptionId )
 				{
 					int itemId = StaticEntity.parseInt( data[0].trim() );
-					descriptionById.set( itemId, data[1] );
+					id = new Integer( itemId );
+					descriptionById.put( id, data[1] );
 					itemIdByDescription.put( data[1], new Integer( itemId ) );
 
 					if ( data.length == 4 )
 					{
 						pluralById.set( itemId, data[3] );
-						itemIdByPlural.put( getCanonicalName( data[3] ), new Integer( itemId ) );
+						itemIdByPlural.put( getCanonicalName( data[3] ), id );
 					}
 				}
 			}
@@ -513,10 +508,10 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		useTypeById.set( itemId, 0 );
 		priceById.set( itemId, -1 );
-		descriptionById.set( itemId, descriptionId );
 
 		Integer id = new Integer( itemId );
 
+		descriptionById.put( id, descriptionId );
 		itemIdByName.put( getCanonicalName( itemName ), id );
 		dataNameById.put( id, itemName );
 		nameById.put( id, getDisplayName( itemName ) );
@@ -965,7 +960,7 @@ public class TradeableItemDatabase extends KoLDatabase
 	 */
 
 	public static final String getDescriptionId( int itemId )
-	{	return descriptionById.get( itemId );
+	{	return (String)descriptionById.get( new Integer( itemId ) );
 	}
 
 	/**
@@ -1002,7 +997,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		while ( itemMatcher.find() )
 		{
 			int itemId = parseInt( itemMatcher.group(1) );
-			if ( !descriptionById.get( itemId ).equals( "" ) )
+			if ( !descriptionById.get( new Integer ( itemId ) ).equals( "" ) )
 				continue;
 
 			foundChanges = true;
@@ -1023,7 +1018,7 @@ public class TradeableItemDatabase extends KoLDatabase
 			if ( itemId == -1 )
 				continue;
 
-			if ( !descriptionById.get( itemId ).equals( "" ) )
+			if ( !descriptionById.get( new Integer( itemId ) ).equals( "" ) )
 				continue;
 
 			foundChanges = true;
@@ -1070,12 +1065,18 @@ public class TradeableItemDatabase extends KoLDatabase
 		writer = LogStream.openStream( output, true );
 		writer.println( ITEMDESCS_VERSION );
 
-		for ( int i = 0; i < descriptionById.size(); ++i )
+		it = descriptionById.keySet().iterator();
+		while ( it.hasNext() )
 		{
-			if ( descriptionById.get(i).equals( "" ) )
+			Integer id = (Integer)it.next();
+			int i = id.intValue();
+			if ( i < 0 )
 				continue;
 
-			writer.println( i + "\t" + descriptionById.get(i) + "\t" + nameById.get( new Integer(i) ) + "\t" + pluralById.get(i) );
+			if ( descriptionById.get( id ).equals( "" ) )
+				continue;
+
+			writer.println( i + "\t" + descriptionById.get( id ) + "\t" + nameById.get( id ) + "\t" + pluralById.get(i) );
 		}
 
 		writer.close();
@@ -1257,18 +1258,31 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		if ( itemId == 0 )
 		{
-			for ( int i = 1; i < descriptionById.size(); ++i )
-				checkItem( i, report );
+			Set keys = descriptionById.keySet();
+			Iterator it = keys.iterator();
+			while ( it.hasNext() )
+			{
+				int id = ((Integer)it.next()).intValue();
+				if ( id < 1 )
+					continue;
+
+				checkItem( id, report );
+			}
 
 			String description;
 			LogStream livedata = LogStream.openStream( new File( DATA_LOCATION, "itemhtml.txt" ), true );
 
-			for ( int i = 1; i < descriptionById.size(); ++i )
+			it = keys.iterator();
+			while ( it.hasNext() )
 			{
-				description = rawDescriptions.get(i);
+				int id = ((Integer)it.next()).intValue();
+				if ( id < 1 )
+					continue;
+
+				description = rawDescriptions.get( id );
 				if ( !description.equals( "" ) )
 				{
-					livedata.println( i );
+					livedata.println( id );
 					livedata.println( description );
 				}
 			}
@@ -1393,7 +1407,8 @@ public class TradeableItemDatabase extends KoLDatabase
 
 	private static final String rawDescriptionText( int itemId )
 	{
-		String descId = descriptionById.get( itemId );
+		Integer id = new Integer( itemId );
+		String descId = (String)descriptionById.get( id );
 		if ( descId == null || descId.equals( "" ) )
 			return null;
 
@@ -1856,8 +1871,14 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		if ( itemId == 0 )
 		{
-			for ( int i = 1; i < descriptionById.size(); ++i )
-				checkPlural( i, report );
+			Iterator it = descriptionById.keySet().iterator();
+			while ( it.hasNext() )
+			{
+				int id = ((Integer)it.next()).intValue();
+				if ( id < 0 )
+					continue;
+				checkPlural( id, report );
+			}
 		}
 		else
 			checkPlural( itemId, report );
@@ -1876,7 +1897,7 @@ public class TradeableItemDatabase extends KoLDatabase
 			return;
 		}
 
-		String descId = descriptionById.get( itemId );
+		String descId = (String)descriptionById.get( id );
 		String plural = pluralById.get(itemId);
 
 		// Don't bother checking quest items
