@@ -493,13 +493,13 @@ public class BigIsland implements KoLConstants
                         // As you finish your fight, you see a nearby Wartender
                         // mixing up a cocktail of vodka and pain for a trio of
                         // charging hippies. "Right on, bra!" you shout.
-			"trio",
+			"vodka and pain",
 
                         // You see one of your frat brothers douse a trio of
                         // nearby hippies in cheap aftershave. They scream and
                         // run off the battlefield to find some incense to
                         // burn.
-			// "trio",
+			"cheap aftershave",
 
                         // You see one of your frat brothers line up three
                         // hippies for simultaneous paddling. Don't bathe --
@@ -517,7 +517,7 @@ public class BigIsland implements KoLConstants
                         // As you deliver the finishing blow, you see a frat
                         // boy lob a sake bomb into a trio of nearby
                         // hippies. "Nice work, bra!" you shout.
-			// "trio",
+			"lob a sake bomb",
 		},
 		// 8 total
 		{ 
@@ -611,7 +611,7 @@ public class BigIsland implements KoLConstants
                         // rocks and bottles at the police, but most of them
                         // end up shoved into paddy wagons in chains. Er, the
                         // hippies are the ones in the chains. Not the wagons.
-			"SWAT",
+			"SWAT vans",
 
                         // You see a couple of frat boys stick a fuse into a
                         // huge wooden barrel, light the fuse, and roll it down
@@ -646,7 +646,7 @@ public class BigIsland implements KoLConstants
                         // You see a Wartender pour too much lighter fluid on
                         // his grill and go up in a great ball of
                         // fire. Goodness gracious!
-			"Goodness gracious",
+			"lighter fluid",
 
                         // You see a Fire Spinner blow a gout of flame onto a
                         // Wartender's grill, charring all the Wartender's
@@ -667,7 +667,7 @@ public class BigIsland implements KoLConstants
                         // You glance over your shoulder and see a squadron of
                         // winged ferrets descend on a frat warrior, entranced
                         // by the sun glinting off his keg shield.
-			"glinting",
+			"entranced by the sun",
 
                         // You see a hippy shaman casting a Marxist spell over
                         // a member of the "Fortunate 500" division of the frat
@@ -707,7 +707,7 @@ public class BigIsland implements KoLConstants
                         // call, hear him holler something about a stock market
                         // crash, then watch him and two of his fortunate
                         // buddies run off the battlefield in a panic.
-			"him and two",
+			"stock market crash",
 
                         // Over the next hill, you see three frat boys abruptly
                         // vanish into a cloud of green smoke. Apparently the
