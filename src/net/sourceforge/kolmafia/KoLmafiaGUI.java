@@ -346,7 +346,7 @@ public class KoLmafiaGUI extends KoLmafia
 
 				if ( KoLCharacter.canEat() && KoLCharacter.inMysticalitySign() )
 					if ( restaurantItems.isEmpty() )
-						RequestThread.postRequest( new RestaurantRequest() );
+						RestaurantRequest.getMenu();
 
 				// If the person is in a moxie sign and they
 				// have completed the beach quest, then
@@ -358,7 +358,7 @@ public class KoLmafiaGUI extends KoLmafia
 					RequestThread.postRequest( beachCheck );
 
 					if ( beachCheck.responseText.indexOf( "beach.php" ) != -1 )
-						RequestThread.postRequest( new MicrobreweryRequest() );
+						MicrobreweryRequest.getMenu();
 				}
 
 				if ( KoLSettings.getBooleanProperty( "autoSatisfyWithStash" ) && KoLCharacter.canInteract() && KoLCharacter.hasClan() )

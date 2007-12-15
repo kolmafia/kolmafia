@@ -40,31 +40,56 @@ import net.sourceforge.kolmafia.ConcoctionsDatabase.Concoction;
 
 public class CafeRequest extends KoLRequest
 {
+	protected static final Pattern CAFE_PATTERN = Pattern.compile( "cafe.php.*cafeid=(\\d*).*whichitem=(-?\\d*)", Pattern.DOTALL );
 	private static final LockableListModel existing = new LockableListModel();
 	protected String name = "";
 	protected String itemName = null;
+	protected boolean isPurchase = false;
 	protected int price = 0;
+	protected int fullness = 0;
 	protected int inebriety = 0;
 
 	public CafeRequest( String name, String cafeId )
 	{
 		super( "cafe.php" );
 		this.addFormField( "cafeid", cafeId );
-		this.addFormField( "pwd" );
-		this.addFormField( "action", "CONSUME!" );
 		this.name = name;
 	}
 
 	public void setItem( String itemName, int itemId, int price )
 	{
+		this.isPurchase = true;
 		this.itemName = itemName;
 		this.price = price;
+		this.fullness = TradeableItemDatabase.getFullness( itemName );
 		this.inebriety = TradeableItemDatabase.getInebriety( itemName );
+		this.addFormField( "pwd" );
+		this.addFormField( "action", "CONSUME!" );
 		this.addFormField( "whichitem", String.valueOf( itemId ) );
 	}
 
 	public void run()
 	{
+		if ( !isPurchase )
+		{
+			// Just visiting to peek at the menu
+			KoLmafia.updateDisplay( "Visiting " + name + "..." );
+			super.run();
+			return;
+		}
+
+		if ( fullness > 0 && !KoLCharacter.canEat() )
+		{
+			KoLmafia.updateDisplay( ERROR_STATE, "You can't eat. Why are you here?" );
+			return;
+		}
+
+		if ( inebriety > 0 && !KoLCharacter.canDrink() )
+		{
+			KoLmafia.updateDisplay( ERROR_STATE, "You can't drink. Why are you here?" );
+			return;
+		}
+
 		if ( this.price == 0 )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, name + " doesn't sell that." );
@@ -89,6 +114,9 @@ public class CafeRequest extends KoLRequest
 
 	public void processResults()
 	{
+		if ( !isPurchase )
+			return;
+
 		if ( this.responseText.indexOf( "This is not currently available to you.") != -1 )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "Couldn't find " + name );
@@ -108,7 +136,6 @@ public class CafeRequest extends KoLRequest
 			return;
 		}
 
-		StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, 0 - this.price ) );
 		KoLmafia.updateDisplay( "Goodie purchased." );
 	}
 
@@ -142,30 +169,40 @@ public class CafeRequest extends KoLRequest
 		existing.clear();
 	}
 
-	public static final boolean registerRequest( String urlString )
+	public static boolean registerRequest( String urlString )
 	{
-		if ( !urlString.startsWith( "cafe.php" ) )
+		Matcher matcher = CAFE_PATTERN.matcher( urlString );
+		if ( !matcher.find() )
 			return false;
 
-		Matcher idMatcher = SendMessageRequest.ITEMID_PATTERN.matcher( urlString );
-		if ( !idMatcher.find() )
-			return false;
-
-		int itemId = StaticEntity.parseInt( idMatcher.group(1) );
+		int itemId = StaticEntity.parseInt( matcher.group(2) );
 		String itemName = TradeableItemDatabase.getItemName( itemId );
-		boolean booze = TradeableItemDatabase.getInebriety( itemName ) > 0;
+		int price = Math.max( 1, TradeableItemDatabase.getPriceById( itemId ) ) * 3;
+		registerItemUsage( itemName, price );
+		return true;
+	}
+
+	public static final void registerItemUsage( String itemName, int price )
+	{
+		int inebriety = TradeableItemDatabase.getInebriety( itemName );
+		String consume = ( inebriety > 0 ) ? "drink" : "eat";
 
 		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( ( booze ? "drink" : "eat" ) + " 1 " + itemName );
+		RequestLogger.updateSessionLog( "Buy and " + consume + " 1 " + itemName + " for " + price + " Meat" );
 
+		StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, 0 - price ) );
 
-		if ( !booze )
+		if ( inebriety > 0 )
 		{
-			int fullness = TradeableItemDatabase.getFullness( itemName );
-			if ( fullness > 0 && KoLCharacter.getFullness() + fullness <= KoLCharacter.getFullnessLimit() )
-				KoLSettings.setUserProperty( "currentFullness", String.valueOf( KoLCharacter.getFullness() + fullness ) );
+			return;
 		}
 
-		return true;
+		int fullness = TradeableItemDatabase.getFullness( itemName );
+		if ( fullness > 0 )
+		{
+			if ( KoLCharacter.getFullness() + fullness <= KoLCharacter.getFullnessLimit() )
+				KoLSettings.setUserProperty( "currentFullness", String.valueOf( KoLCharacter.getFullness() + fullness ) );
+			return;
+		}
 	}
 }

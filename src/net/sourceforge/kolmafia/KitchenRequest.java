@@ -56,6 +56,7 @@ public class KitchenRequest extends CafeRequest
 
 	public static final void getMenu()
 	{
+		KoLmafia.updateDisplay( "Visiting Hell's Kitchen..." );
 		kitchenItems.clear();
 		CafeRequest.addMenuItem( kitchenItems, "Jumbo Dr. Lucifer", 150 );
 		CafeRequest.addMenuItem( kitchenItems, "Brimstone Chicken Sandwich", 300 );

@@ -38,95 +38,65 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.ConcoctionsDatabase.Concoction;
 
-public class RestaurantRequest extends KoLRequest
+public class RestaurantRequest extends CafeRequest
 {
 	private static AdventureResult dailySpecial = null;
-	private static final LockableListModel existing = new LockableListModel();
 	private static final Pattern SPECIAL_PATTERN = Pattern.compile( "<input type=radio name=whichitem value=(\\d+)>", Pattern.DOTALL );
-
-	private boolean isPurchase;
-	private int price;
 
 	public static final AdventureResult getDailySpecial()
 	{
-		if ( restaurantItems.isEmpty() && KoLCharacter.inMysticalitySign() )
-			RequestThread.postRequest( new RestaurantRequest() );
+		if ( restaurantItems.isEmpty() )
+			getMenu();
 
 		return dailySpecial;
 	}
 
 	public RestaurantRequest()
-	{
-		super( "restaurant.php" );
-		this.isPurchase = false;
+	{	super( "Chez Snoot&eacute;e", "1" );
 	}
 
 	public RestaurantRequest( String name )
 	{
-		super( "restaurant.php" );
-		this.addFormField( "action", "Yep." );
-
+		super( "Chez Snoot&eacute;e", "1" );
 		this.isPurchase = true;
 
 		int itemId = 0;
-		this.price = 0;
+		int price = 0;
 
 		switch ( restaurantItems.indexOf( name ) )
 		{
 		case 0:
 			itemId = -1;
-			this.price = 50;
+			price = 50;
 			break;
 
 		case 1:
 			itemId = -2;
-			this.price = 75;
+			price = 75;
 			break;
 
 		case 2:
 			itemId = -3;
-			this.price = 100;
+			price = 100;
 			break;
 
 		case 3:
 			itemId = TradeableItemDatabase.getItemId( name );
-			this.price = Math.max( 1, TradeableItemDatabase.getPriceById( itemId ) ) * 3;
+			price = Math.max( 1, TradeableItemDatabase.getPriceById( itemId ) ) * 3;
 			break;
 		}
 
-		this.addFormField( "whichitem", String.valueOf( itemId ) );
+		setItem( name, itemId, price );
 	}
 
 	public void run()
 	{
 		if ( !KoLCharacter.inMysticalitySign() )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You can't find the restaurant." );
+			KoLmafia.updateDisplay( ERROR_STATE, "You can't find " + this.name );
 			return;
 		}
 
-		if ( this.isPurchase )
-		{
-			if ( this.price == 0 )
-			{
-				KoLmafia.updateDisplay( ERROR_STATE, "The restaurant doesn't sell that." );
-				return;
-			}
-
-			if ( this.price > KoLCharacter.getAvailableMeat() )
-			{
-				KoLmafia.updateDisplay( ERROR_STATE, "Insufficient funds." );
-				return;
-			}
-
-			if ( !KoLCharacter.canEat() )
-			{
-				KoLmafia.updateDisplay( ERROR_STATE, "You can't eat. Why are you here?" );
-				return;
-			}
-		}
-
-		KoLmafia.updateDisplay( "Visiting the restaurant..." );
 		super.run();
 	}
 
@@ -134,28 +104,9 @@ public class RestaurantRequest extends KoLRequest
 	{
 		if ( this.isPurchase )
 		{
-			if ( this.responseText.indexOf( "You are too full to eat that." ) != -1 )
-			{
-				KoLmafia.updateDisplay( ERROR_STATE, "Consumption limit reached." );
-				return;
-			}
-
-			if ( this.responseText.indexOf( "You can't afford that item.") != -1 )
-			{
-				KoLmafia.updateDisplay( ERROR_STATE, "Insufficient funds." );
-				return;
-			}
-
-			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, 0 - this.price ) );
-			KoLmafia.updateDisplay( "Food purchased." );
+			super.processResults();
 			return;
 		}
-
-		restaurantItems.clear();
-
-		addRestaurantItem( "Peche a la Frog", 50 );
-		addRestaurantItem( "Au Jus Gezund Heit", 75 );
-		addRestaurantItem( "Bouillabaise Coucher Avec Moi", 100 );
 
 		Matcher specialMatcher = SPECIAL_PATTERN.matcher( this.responseText );
 		if ( specialMatcher.find() )
@@ -163,87 +114,66 @@ public class RestaurantRequest extends KoLRequest
 			int itemId = StaticEntity.parseInt( specialMatcher.group(1) );
 			dailySpecial = new AdventureResult( itemId, 1 );
 
-			addRestaurantItem( TradeableItemDatabase.getItemName( itemId ),
-				Math.max( 1, TradeableItemDatabase.getPriceById( itemId ) ) * 3 );
 		}
+	}
+
+	public static final void getMenu()
+	{
+		if ( !KoLCharacter.inMysticalitySign() )
+			return;
+
+		restaurantItems.clear();
+
+		CafeRequest.addMenuItem( restaurantItems, "Peche a la Frog", 50 );
+		CafeRequest.addMenuItem( restaurantItems, "As Jus Gezund Heit", 75 );
+		CafeRequest.addMenuItem( restaurantItems, "Bouillabaise Coucher Avec Moi", 100 );
+
+		RequestThread.postRequest( new RestaurantRequest() );
+
+		int itemId = dailySpecial.getItemId();
+		String name = dailySpecial.getName();
+		int price = Math.max( 1, TradeableItemDatabase.getPriceById( itemId ) ) * 3;
+		CafeRequest.addMenuItem( restaurantItems, name, price );
 
 		ConcoctionsDatabase.getUsables().sort();
 		KoLmafia.updateDisplay( "Menu retrieved." );
 	}
 
-	private static final void addRestaurantItem( String itemName, int price )
-	{
-		restaurantItems.add( itemName );
-
-		LockableListModel usables = ConcoctionsDatabase.getUsables();
-		Concoction item = new Concoction( itemName, price );
-		int index = usables.indexOf( item );
-		if ( index != -1 )
-			existing.add( usables.remove( index ) );
-		else
-			existing.add( null );
-		usables.add( item );
-	}
-
 	public static final void reset()
-	{
-		// Restore usable list with original concoction
-		for ( int i = 0; i < restaurantItems.size(); ++i )
-		{
-			String itemName = (String)restaurantItems.get(i);
-			Concoction chez = new Concoction( itemName, -1 );
-			ConcoctionsDatabase.getUsables().remove( chez );
-			Object old = existing.get(i);
-			if ( old != null )
-				ConcoctionsDatabase.getUsables().add( old );
-		}
-		restaurantItems.clear();
-		existing.clear();
+	{	CafeRequest.reset( restaurantItems );
 	}
 
 	public static final boolean registerRequest( String urlString )
 	{
-		if ( !urlString.startsWith( "restaurant.php" ) )
+		Matcher matcher = CafeRequest.CAFE_PATTERN.matcher( urlString );
+		if ( !matcher.find() || !matcher.group(1).equals( "1" ) )
 			return false;
 
-		Matcher idMatcher = SendMessageRequest.ITEMID_PATTERN.matcher( urlString );
-		if ( !idMatcher.find() )
-			return true;
-
-		int fullness = 0;
-
-		int itemId = StaticEntity.parseInt( idMatcher.group(1) );
-		String itemName = "";
+		int itemId = StaticEntity.parseInt( matcher.group(2) );
+		String itemName;
+		int price;
 
 		switch ( itemId )
 		{
 		case -1:
 			itemName = "Peche a la Frog";
-			fullness = 3;
+			price = 50;
 			break;
-
 		case -2:
-			itemName = "Au Jus Gezund Heit";
-			fullness = 4;
+			itemName = "As Jus Gezund Heit";
+			price = 75;
 			break;
-
 		case -3:
 			itemName = "Bouillabaise Coucher Avec Moi";
-			fullness = 5;
+			price = 100;
 			break;
-
 		default:
 			itemName = TradeableItemDatabase.getItemName( itemId );
-			fullness = TradeableItemDatabase.getFullness( itemName );
+			price = Math.max( 1, TradeableItemDatabase.getPriceById( itemId ) ) * 3;
 			break;
 		}
 
-		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( "eat 1 " + itemName );
-
-		if ( fullness > 0 && KoLCharacter.getFullness() + fullness <= KoLCharacter.getFullnessLimit() )
-			KoLSettings.setUserProperty( "currentFullness", String.valueOf( KoLCharacter.getFullness() + fullness ) );
-
+		CafeRequest.registerItemUsage( itemName, price );
 		return true;
 	}
 }

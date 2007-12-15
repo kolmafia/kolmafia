@@ -340,6 +340,25 @@ public class RequestLogger extends NullStream implements KoLConstants
 		if ( urlString.startsWith( "inventory.php?which" ) || urlString.equals( "knoll.php?place=paster" ) || urlString.equals( "town_right.php?place=untinker" ) )
 			return;
 
+		// Check individual cafes
+		if ( (request instanceof MicrobreweryRequest || isExternal) && MicrobreweryRequest.registerRequest( urlString ) )
+		{
+			wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( (request instanceof RestaurantRequest || isExternal) && RestaurantRequest.registerRequest( urlString ) )
+		{
+			wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( (request instanceof Crimbo07CafeRequest || isExternal) && Crimbo07CafeRequest.registerRequest( urlString ) )
+		{
+			wasLastRequestSimple = false;
+			return;
+		}
+
 		// The following lists all the remaining requests in
 		// alphabetical order.
 
@@ -433,12 +452,6 @@ public class RequestLogger extends NullStream implements KoLConstants
 			return;
 		}
 
-		if ( (request instanceof MicrobreweryRequest || isExternal) && MicrobreweryRequest.registerRequest( urlString ) )
-		{
-			wasLastRequestSimple = false;
-			return;
-		}
-
 		if ( (request instanceof MindControlRequest || isExternal) && MindControlRequest.registerRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;
@@ -452,12 +465,6 @@ public class RequestLogger extends NullStream implements KoLConstants
 		}
 
 		if ( (request instanceof PulverizeRequest || isExternal) && PulverizeRequest.registerRequest( urlString ) )
-		{
-			wasLastRequestSimple = false;
-			return;
-		}
-
-		if ( (request instanceof RestaurantRequest || isExternal) && RestaurantRequest.registerRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;
 			return;

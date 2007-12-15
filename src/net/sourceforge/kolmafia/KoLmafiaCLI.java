@@ -5305,7 +5305,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return false;
 
 		if ( restaurantItems.isEmpty() )
-			RequestThread.postRequest( new RestaurantRequest() );
+			RestaurantRequest.getMenu();
 
 		if ( parameters.equals( "" ) )
 		{
@@ -5363,7 +5363,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return false;
 
 		if ( microbreweryItems.isEmpty() )
-			RequestThread.postRequest( new MicrobreweryRequest() );
+			MicrobreweryRequest.getMenu();
 
 		if ( parameters.equals( "" ) )
 		{
