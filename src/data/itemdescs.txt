@@ -3082,7 +3082,7 @@
 3076	
 3077	
 3078	
-3079	164132105	Bulky Buddy Box
+3079	164132105	Bulky Buddy Box	Bulky Buddy Boxen
 3080	447370300	teddy borg
 3081	746649355	marionette collective
 3082	205640093	monomolecular yo-yo

@@ -110,7 +110,11 @@ public class Crimbo07CafeRequest extends CafeRequest
 		if ( !matcher.find() || !matcher.group(1).equals( "4" ) )
 			return false;
 
-		int itemId = StaticEntity.parseInt( matcher.group(2) );
+		matcher = CafeRequest.ITEM_PATTERN.matcher( urlString );
+		if ( !matcher.find() )
+			return true;
+
+		int itemId = StaticEntity.parseInt( matcher.group(1) );
 		String itemName;
 		int price;
 

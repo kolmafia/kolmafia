@@ -72,7 +72,7 @@ public class UncleCrimboRequest extends ItemCreationRequest
 	{
 		Matcher createMatcher = CREATE_PATTERN.matcher( urlString );
 		if ( !createMatcher.find() )
-			return true;
+			return false;
 
 		// Item ID of the base item
 		int itemId = StaticEntity.parseInt( createMatcher.group(1) );
@@ -87,7 +87,7 @@ public class UncleCrimboRequest extends ItemCreationRequest
 			if ( i > 0 )
 				text.append( " + " );
 
-			text.append( ingredients[i].getCount() );
+			text.append( ingredients[i].getCount() * quantity );
 			text.append( " " );
 			text.append( ingredients[i].getName() );
 			StaticEntity.getClient().processResult( ingredients[i].getInstance( -1 * ingredients[i].getCount() * quantity ) );
