@@ -1222,6 +1222,7 @@ miniature gravy-covered maypole	Item Drop: +25, Softcore Only
 miniature Jacob's ladder	Familiar Weight: +5
 # mint-condition magic wand
 # moonglasses
+# oversized fish scaler
 palm-frond toupee	Familiar Weight: +5
 # penguin-smacking club
 pet rock &quot;Groucho&quot; disguise	Familiar Weight: +11
@@ -1749,6 +1750,7 @@ eXtreme Cold-Weather Gear	Cold Resistance: +30
 # All Spells Cast Are Spooky
 # All Spells Cast Are Stinky
 # Allows casting of Magic Missile
+# Allows familiar to scale fish
 # Allows use of Creepy Grin (once per day)
 # Allows you to equip Chefstaves
 # Allows you to keep 4 songs in your head instead of 3.
