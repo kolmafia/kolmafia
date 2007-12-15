@@ -320,6 +320,15 @@ public class ConsumeItemRequest extends KoLRequest
 		case TOASTER:
 			return 1;
 
+		case ANCIENT_CURSED_FOOTLOCKER:
+			return SIMPLE_CURSED_KEY.getCount( inventory);
+
+		case ORNATE_CURSED_CHEST:
+			return ORNATE_CURSED_KEY.getCount( inventory);
+
+		case GILDED_CURSED_CHEST:
+			return GILDED_CURSED_KEY.getCount( inventory);
+
 		case MOJO_FILTER:
 			return Math.max( 0, 3 - KoLSettings.getIntegerProperty( "currentMojoFilters" ) );
 
