@@ -87,7 +87,6 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 	private boolean isHandlingConditions = false;
 
 	private JComboBox actionSelect;
-	private JComboBox activeMood;
 
 	private TreeMap zoneMap;
 	private AutoHighlightField countField;
@@ -717,14 +716,18 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 			public MoodComboBox()
 			{
 				super( MoodSettings.getAvailableMoods() );
-				this.setSelectedItem( KoLSettings.getUserProperty( "currentMood" ) );
+				String mood = KoLSettings.getUserProperty( "currentMood" );
+				this.setSelectedItem( mood );
 				this.addActionListener( new MoodComboBoxListener() );
 			}
 
 			public class MoodComboBoxListener implements ActionListener
 			{
 				public void actionPerformed( ActionEvent e )
-				{	MoodSettings.setMood( (String) MoodComboBox.this.getSelectedItem() );
+				{
+					String mood = (String)MoodComboBox.this.getSelectedItem();
+					if ( mood != null )
+						MoodSettings.setMood( mood );
 				}
 			}
 		}
@@ -893,7 +896,6 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 			super( new Dimension( 70, 20 ), new Dimension( 200, 20 ) );
 
 			AdventureOptionsFrame.this.actionSelect = new MutableComboBox( KoLCharacter.getBattleSkillNames(), false );
-			AdventureOptionsFrame.this.activeMood = new JComboBox( MoodSettings.getAvailableMoods() );
 
 			AdventureOptionsFrame.this.locationSelect.addListSelectionListener( new ConditionChangeListener() );
 
@@ -921,9 +923,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{
-			KoLSettings.setUserProperty( "battleAction", (String) AdventureOptionsFrame.this.actionSelect.getSelectedItem() );
-			MoodSettings.setMood( (String) AdventureOptionsFrame.this.activeMood.getSelectedItem() );
+		{	KoLSettings.setUserProperty( "battleAction", (String) AdventureOptionsFrame.this.actionSelect.getSelectedItem() );
 		}
 
 		public void actionCancelled()
