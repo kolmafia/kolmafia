@@ -40,7 +40,8 @@ import net.sourceforge.kolmafia.ConcoctionsDatabase.Concoction;
 
 public class CafeRequest extends KoLRequest
 {
-	protected static final Pattern CAFE_PATTERN = Pattern.compile( "cafe.php.*cafeid=(\\d*).*whichitem=(-?\\d*)", Pattern.DOTALL );
+	protected static final Pattern CAFE_PATTERN = Pattern.compile( "cafe.php.*cafeid=(\\d*)", Pattern.DOTALL );
+	protected static final Pattern ITEM_PATTERN = Pattern.compile( "whichitem=(-?\\d*)", Pattern.DOTALL );
 	private static final LockableListModel existing = new LockableListModel();
 	protected String name = "";
 	protected String itemName = null;
@@ -175,7 +176,11 @@ public class CafeRequest extends KoLRequest
 		if ( !matcher.find() )
 			return false;
 
-		int itemId = StaticEntity.parseInt( matcher.group(2) );
+		matcher = ITEM_PATTERN.matcher( urlString );
+		if ( !matcher.find() )
+			return true;
+
+		int itemId = StaticEntity.parseInt( matcher.group(1) );
 		String itemName = TradeableItemDatabase.getItemName( itemId );
 		int price = Math.max( 1, TradeableItemDatabase.getPriceById( itemId ) ) * 3;
 		registerItemUsage( itemName, price );

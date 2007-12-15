@@ -875,7 +875,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			RequestLogger.updateSessionLog();
 			RequestLogger.updateSessionLog( "Use " + tool );
 
-			return false;
+			return true;
 		}
 
 		if ( urlString.startsWith( "multiuse.php" ) )
