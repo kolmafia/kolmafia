@@ -3074,7 +3074,7 @@
 3068	373536943	toy deathbot
 3069	444489922	laser cannon
 3070	728473421	plexifoam chin strap
-3071	
+3071	921754386	silicon-infused gluteal shield
 3072	
 3073	
 3074	
@@ -3100,7 +3100,7 @@
 3094	
 3095	308511017	laser-broiled pear
 3096	627545996	polyalloy shield
-3097	
+3097	861354964	oversized fish scaler
 3098	
 3099	
 4000	
