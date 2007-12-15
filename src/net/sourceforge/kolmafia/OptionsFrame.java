@@ -211,7 +211,6 @@ public class OptionsFrame extends KoLFrame
 			{ "", "" },
 
 			{ "relayAddsCustomCombat", "Add custom buttons to the top of fight pages" },
-			{ "relayMarksSidequests", "Distinguish completed big island sidequests with special images" },
 		};
 
 		/**
