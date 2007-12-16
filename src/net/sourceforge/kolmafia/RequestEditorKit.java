@@ -1822,7 +1822,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 			StaticEntity.singleStringReplace( buffer, "</head>", "<script src=\"/hotkeys.js\"></script></head>" );
 			StaticEntity.singleStringReplace( buffer, "<body",
-				"<body onkeypress=\"handleCombatHotkey(event);\" onload=\"document.getElementById('defaultButton').focus();\"" );
+				"<body onkeyup=\"handleCombatHotkey(event,false);\" onkeydown=\"handleCombatHotkey(event,true);\" onload=\"document.getElementById('defaultButton').focus();\"" );
 		}
 	}
 
