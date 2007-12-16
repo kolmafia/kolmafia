@@ -1143,6 +1143,11 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				StaticEntity.globalStringReplace( buffer, "<select", "<select style=\"width: 250px\"" );
 			}
 		}
+		else if ( location.startsWith( "lair6.php" ) )
+		{
+			if ( buffer.indexOf( "ascend.php" ) != -1 )
+				KoLCharacter.liberateKing();
+		}
 		else if ( location.indexOf( "lchat.php" ) != -1 )
 		{
 			StaticEntity.globalStringDelete( buffer, "spacing: 0px;" );

@@ -1793,6 +1793,31 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	/**
+	 * Accessor method which indicates whether or not the character has
+	 * freed King Ralph
+	 * @return	<code>true</code> if the character has freed King Ralph
+	 */
+
+	public static final boolean kingLiberated()
+	{
+		int lastAscension = KoLSettings.getIntegerProperty( "lastKingLiberation" );
+		if ( lastAscension < ascensions )
+		{
+			KoLSettings.setUserProperty( "lastKingLiberation", String.valueOf( KoLCharacter.getAscensions() ) );
+			KoLSettings.setUserProperty( "kingLiberated", "false" );
+			return false;
+		}
+		return KoLSettings.getBooleanProperty( "kingLiberated" );
+	}
+
+	public static final void liberateKing()
+	{
+		KoLSettings.setUserProperty( "lastKingLiberation", String.valueOf( KoLCharacter.getAscensions() ) );
+		KoLSettings.setUserProperty( "kingLiberated", "true" );
+		CharpaneRequest.setInteraction( true );
+	}
+
+	/**
 	 * Accessor method which tells you if the character can interact
 	 * with other players (Ronin or Hardcore players cannot).
 	 */

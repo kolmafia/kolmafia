@@ -3070,7 +3070,7 @@
 3069	laser cannon	0	display	0
 3070	plexifoam chin strap	0	display	0
 3071	silicon-infused gluteal shield	0	display	0
-3072	
+3072	carbonite visor	0	display	0
 3073	
 3074	
 3075	
@@ -3096,7 +3096,7 @@
 3095	laser-broiled pear	1	all	0
 3096	polyalloy shield	13	all	155
 3097	oversized fish scaler	7	all	70
-3098	
+3098	killing feather	0	all	0
 3099	
 4000	
 4001	

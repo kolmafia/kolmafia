@@ -183,6 +183,7 @@ user	hpAutoRecovery	-0.1
 user	hpAutoRecoveryItems	cannelloni cocoon;scroll of drastic healing;tongue of the walrus;lasagna bandages;doc galaktik's ailment ointment
 user	hpAutoRecoveryTarget	1.0
 user	invalidBuffMessage	You sent an amount which does not correspond to a valid buff amount.
+user	kingLiberated	false
 user	lastAdventure
 user	lastBangPotion819
 user	lastBangPotion820
@@ -208,6 +209,7 @@ user	lastDustyBottleReset	-1
 user	lastEmptiedStorage	-1
 user	lastFilthClearance	-1
 user	lastGalleryUnlock	-1
+user	lastKingLiberation	-1
 user	lastLouvreMap	0
 user	lastMessageId
 user	lastQuartetAscension	-1
