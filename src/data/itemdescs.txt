@@ -3066,16 +3066,16 @@
 3060	814080491	synthetic stuffing
 3061	255210360	toy hoverpad
 3062	607447171	LED block
-3063	615213794	gyroscope
-3064	299906373	cyborg doll
-3065	849517459	buckyball
-3066	401867098	toy maglev monorail
-3067	339696597	dollhive
-3068	373536943	toy deathbot
+3063	615213794	gyroscope	gyroscopes
+3064	299906373	cyborg doll	cyborg dolls
+3065	849517459	buckyball	buckyballs
+3066	401867098	toy maglev monorail	toy maglev monorails
+3067	339696597	dollhive	dollhives
+3068	373536943	toy deathbot	toy deathbots
 3069	444489922	laser cannon
 3070	728473421	plexifoam chin strap
 3071	921754386	silicon-infused gluteal shield
-3072	
+3072	795772115	carbonite visor
 3073	
 3074	
 3075	
@@ -3083,13 +3083,13 @@
 3077	
 3078	
 3079	164132105	Bulky Buddy Box	Bulky Buddy Boxen
-3080	447370300	teddy borg
-3081	746649355	marionette collective
-3082	205640093	monomolecular yo-yo
-3083	380691724	stuffed gray blob
-3084	375409737	borg sock monkey
-3085	153919945	roboduck-on-a-string
-3086	941936499	mylar scout drone
+3080	447370300	teddy borg	teddy borgs
+3081	746649355	marionette collective	marionette collectives
+3082	205640093	monomolecular yo-yo	monomolecular yo-yo-yo
+3083	380691724	stuffed gray blob	stuffed gray blob
+3084	375409737	borg sock monkey	borg sock monkeys
+3085	153919945	roboduck-on-a-string	roboducks-on-a-string
+3086	941936499	mylar scout drone	mylar scout drones
 3087	511433261	teddy borg sewing kit	teddy borg sewing kits
 3088	
 3089	
@@ -3101,7 +3101,7 @@
 3095	308511017	laser-broiled pear
 3096	627545996	polyalloy shield
 3097	861354964	oversized fish scaler
-3098	
+3098	899776576	killing feather
 3099	
 4000	
 4001	

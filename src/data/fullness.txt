@@ -185,6 +185,7 @@ kiwi	1	2	1-3	0	0	0
 knob ka-bobs	1	10	2	0	20	0
 kumquat	1	2	1-3	0	0	0
 large cocoa eggshell fragment	1	1	1-2	0	0	0
+laser-broiled pear	1	1	3-4	8-10	8-10	8-10
 lemon	1	1	1	0	0	0
 lemon meringue pie	3	2	3-9	8-10	0	0
 lihc eye pie	4	2	5-12	0	11-12	0

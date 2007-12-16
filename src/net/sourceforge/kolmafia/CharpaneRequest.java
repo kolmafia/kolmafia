@@ -71,6 +71,10 @@ public class CharpaneRequest extends KoLRequest
 	{	return canInteract;
 	}
 
+	public static final void setInteraction( boolean interaction )
+	{	canInteract = interaction;
+	}
+
 	public void run()
 	{
 		if ( isRunning )
@@ -130,10 +134,35 @@ public class CharpaneRequest extends KoLRequest
 		refreshEffects( responseText );
 		KoLCharacter.updateStatus();
 
-		canInteract = !KoLCharacter.isHardcore() && !KoLCharacter.inBadMoon() &&
-			(KoLCharacter.getCurrentRun() >= 1000 || responseText.indexOf( "storage.php" ) == -1);
+		setInteraction( checkInteraction( responseText ) );
 
 		isProcessing = false;
+	}
+
+	private static final boolean checkInteraction( String responseText )
+	{
+		// If he's freed the king, that's good enough
+		if ( KoLCharacter.kingLiberated() )
+			return true;
+
+		// If he's in Hardcore, nope
+		if ( KoLCharacter.isHardcore() )
+			return false;
+
+		// If he's in Bad Moon, nope
+		if ( KoLCharacter.inBadMoon() )
+			return false;
+
+		// If he's out of Ronin, sure
+		if (KoLCharacter.getCurrentRun() >= 1000 )
+			return true;
+
+		// If character pane doesn't mention storage, ok.
+		if ( responseText.indexOf( "storage.php" ) == -1)
+			return true;
+
+		// Otherwise, no way.
+		return false;
 	}
 
 	private static final void handleCompactMode( String responseText )
