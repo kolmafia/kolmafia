@@ -229,9 +229,7 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 
 		if ( this.path.equals( "/fight.php?action=custom" ) )
 		{
-			if ( !FightRequest.isTrackingFights() )
-				CUSTOM_THREAD.wake( null );
-
+			CUSTOM_THREAD.wake( null );
 			this.request.pseudoResponse( "HTTP/1.1 302 Found", "/fight.php?action=script" );
 		}
 		else if ( this.path.equals( "/fight.php?action=script" ) )
@@ -254,9 +252,7 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 		}
 		else if ( this.path.startsWith( "/fight.php?hotkey=" ) )
 		{
-			if ( !FightRequest.isTrackingFights() )
-				CUSTOM_THREAD.wake( KoLSettings.getUserProperty( "combatHotkey" + this.request.getFormField( "hotkey" ) ) );
-
+			CUSTOM_THREAD.wake( KoLSettings.getUserProperty( "combatHotkey" + this.request.getFormField( "hotkey" ) ) );
 			this.request.pseudoResponse( "HTTP/1.1 302 Found", "/fight.php?action=script" );
 		}
 		else if ( this.path.equals( "/choice.php?action=auto" ) )
@@ -353,7 +349,9 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 		public void wake( String desiredAction )
 		{
 			this.desiredAction = desiredAction;
-			FightRequest.beginTrackingFights();
+
+			if ( !FightRequest.isTrackingFights() )
+				FightRequest.beginTrackingFights();
 
 			synchronized ( this )
 			{	this.notify();
@@ -380,14 +378,11 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 					KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "battleAction=custom" );
 
 				if ( this.desiredAction == null )
-				{
 					FightRequest.INSTANCE.run();
-				}
 				else
-				{
 					FightRequest.INSTANCE.runOnce( this.desiredAction );
-					FightRequest.stopTrackingFights();
-				}
+
+				FightRequest.stopTrackingFights();
 			}
 		}
 	}
