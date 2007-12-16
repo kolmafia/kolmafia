@@ -3022,7 +3022,7 @@
 3021	large stone triangle	0	all	0
 3022	medium stone triangle	0	all	0
 3023	small stone triangle	3	all	0
-3024
+3024	strange stone pyramid	0	all	0
 3025	corpse on the beach	2	all	50
 3026	corpsetini	2	all	50
 3027	corpsedriver	2	all	50

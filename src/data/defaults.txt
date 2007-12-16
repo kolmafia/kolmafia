@@ -123,7 +123,7 @@ global	scriptList	restore hp | restore mp
 global	showAllRequests	false
 global	swingLookAndFeel
 global	switchEquipmentForBuffs	true
-global	testSocketTimeout	true
+global	testSocketTimeout	false
 global	toolbarPosition	1
 global	useChatMonitor	false
 global	useChatToolbar	true
