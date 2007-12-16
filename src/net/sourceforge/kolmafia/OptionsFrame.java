@@ -77,7 +77,7 @@ public class OptionsFrame extends KoLFrame
 		addonPanel.add( new BookmarkManagePanel() );
 
 		this.addTab( "General", new GeneralOptionsPanel() );
-		this.addTab( "Relay", new RelayOptionsPanel() );
+		this.addTab( "Browser", new RelayOptionsPanel() );
 
 		JPanel breakfastPanel = new JPanel();
 		breakfastPanel.setLayout( new BoxLayout( breakfastPanel, BoxLayout.Y_AXIS ) );
@@ -86,13 +86,13 @@ public class OptionsFrame extends KoLFrame
 		breakfastPanel.add( new BreakfastPanel( "Ronin-Clear Characters", "Softcore" ) );
 		breakfastPanel.add( new BreakfastPanel( "In-Ronin Characters", "Hardcore" ) );
 
-		this.tabs.addTab( "Tabs", new StartupFramesPanel() );
-		this.tabs.addTab( "Look", new UserInterfacePanel()  );
-		this.tabs.addTab( "Tasks", breakfastPanel );
+		this.tabs.addTab( "Main Tabs", new StartupFramesPanel() );
+		this.tabs.addTab( "Look & Feel", new UserInterfacePanel()  );
+		this.tabs.addTab( "Breakfast", breakfastPanel );
 
-		this.addTab( "Links", addonPanel );
-		this.addTab( "Logs", new SessionLogOptionsPanel() );
-		this.addTab( "Chat", new ChatOptionsPanel() );
+		this.addTab( "Shortcuts", addonPanel );
+		this.addTab( "Session Logs", new SessionLogOptionsPanel() );
+		this.addTab( "Chat Options", new ChatOptionsPanel() );
 
 		this.framePanel.setLayout( new CardLayout( 10, 10 ) );
 		this.framePanel.add( this.tabs, "" );
