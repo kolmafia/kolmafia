@@ -1387,7 +1387,7 @@
 1381	775883133	aspirin	aspirins
 1382	862055780	fancy chocolate	fancy chocolates
 1383	131340151	length of string	lengths of string
-1384	350584806	googly eye	googly eyes
+1384	350584806	googly eye	google eyes
 1385	542434584	stuffing	wads of stuffing
 1386	980286026	felt	squares of felt
 1387	356512263	wooden block	wooden blocks
@@ -3060,9 +3060,9 @@
 3054	
 3055	
 3056	
-3057	990761540	nanofiber cloth
-3058	767627450	iGoogly
-3059	358580860	theoretical string
+3057	990761540	nanofiber cloth	squares of nanofiber cloth
+3058	767627450	iGoogly	iGooglies
+3059	358580860	theoretical string	theoretical string
 3060	814080491	synthetic stuffing
 3061	255210360	toy hoverpad
 3062	607447171	LED block
@@ -3088,7 +3088,7 @@
 3082	205640093	monomolecular yo-yo	monomolecular yo-yo-yo
 3083	380691724	stuffed gray blob	stuffed gray blob
 3084	375409737	borg sock monkey	borg sock monkeys
-3085	153919945	roboduck-on-a-string	roboducks-on-a-string
+3085	153919945	roboduck-on-a-string	roboducks-on-strings
 3086	941936499	mylar scout drone	mylar scout drones
 3087	511433261	teddy borg sewing kit	teddy borg sewing kits
 3088	
@@ -3098,10 +3098,10 @@
 3092	
 3093	
 3094	
-3095	308511017	laser-broiled pear
-3096	627545996	polyalloy shield
-3097	861354964	oversized fish scaler
-3098	899776576	killing feather
+3095	308511017	laser-broiled pear	laser-broiled pears
+3096	627545996	polyalloy shield	polyalloy shields
+3097	861354964	oversized fish scaler	oversized fish scalers
+3098	899776576	killing feather	killing feathers
 3099	
 4000	
 4001	
