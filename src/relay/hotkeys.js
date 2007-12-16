@@ -1,10 +1,51 @@
-function handleCombatHotkey( e )
-{
-	var key = window.event ? e.keyCode : e.which;
-	var isValidHotkey = (key >= 48 && key <= 57);
+var shiftKey = false;
+var ctrlKey = false;
+var altKey = false;
+var metaKey = false;
 
-	if ( !isValidHotkey )
+function getNumericKey( keyCode )
+{
+    if ( keyCode >= 48 && keyCode <= 57 )
+    	return keyCode - 48;
+    
+    if ( keyCode >= 96 && keyCode <= 105 )
+    	return keyCode - 96;
+    
+    return -1;
+}
+
+function handleCombatHotkey( e, isDown )
+{
+	var keyCode = window.event ? e.keyCode : e.which;
+
+	if ( e.metaKey )
+		metaKey = isDown;
+
+	if ( isDown && (shiftKey || ctrlKey || altKey || metaKey) )
 		return false;
+
+	// Detect release of the different modifier keys
+	// so we know whether or not the person has pressed
+	// something in addition to the numeric key.
+
+	if ( !isDown )
+	{
+		shiftKey = (keyCode == 16);
+		ctrlKey = (keyCode == 17);
+		altKey = (keyCode == 18);
+		
+		return false;
+	}
+
+	// Otherwise, if the person has pressed the shift
+	// key, update your current state.
+
+	if ( keyCode == 16 )
+		shiftKey = true;
+	if ( keyCode == 17 )
+		ctrlKey = true;
+	if ( keyCode == 18 )
+		altKey = true;
 
 	// Safari processes the key event twice; in order
 	// to make sure this doesn't cause problems, you
@@ -13,7 +54,14 @@ function handleCombatHotkey( e )
 	if ( e.stopPropagation )
 		e.stopPropagation();
 
-	document.location.href = "fight.php?hotkey=" + (key - 48);
+	// Finally, make sure this is a valid hotkey before
+	// attempting to process it as one.
+
+	var numericKey = getNumericKey( keyCode );
+	if ( numericKey == -1 )
+		return false;
+
+	document.location.href = "fight.php?hotkey=" + numericKey;
 	return true;
 }
 
