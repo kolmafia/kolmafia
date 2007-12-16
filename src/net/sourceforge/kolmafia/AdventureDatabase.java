@@ -1703,7 +1703,10 @@ public class AdventureDatabase extends KoLDatabase
 		if ( !KoLCharacter.canInteract() )
 			return missingCount;
 
-		return isRestorePurchase( itemId ) ? Math.max( 20, missingCount ) : missingCount;
+		boolean shouldBulkPurchase = isRestorePurchase( itemId ) ||
+			KoLmafia.isRunningBetweenBattleChecks() || MoodSettings.isExecuting();
+		
+		return shouldBulkPurchase ? Math.max( 20, missingCount ) : missingCount;
 	}
 
 	private static final boolean hasAnyIngredient( int itemId )
