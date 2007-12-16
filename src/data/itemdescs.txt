@@ -3027,7 +3027,7 @@
 3021	932212238	large stone triangle
 3022		medium stone triangle
 3023	460043851	small stone triangle
-3024
+3024	211072893	strange stone pyramid
 3025	619225682	corpse on the beach
 3026	915696450	corpsetini	
 3027	410047686	corpsedriver	
