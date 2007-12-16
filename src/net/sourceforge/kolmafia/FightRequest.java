@@ -1395,10 +1395,7 @@ public class FightRequest extends KoLRequest
 
 	public static final String getNextTrackedRound()
 	{
-		if ( !isTrackingFights )
-			return RequestEditorKit.getFeatureRichHTML( "fight.php", lastResponseText, true );
-
-		while ( !foundNextRound && !KoLmafia.refusesContinue() )
+		while ( isTrackingFights && !foundNextRound && !KoLmafia.refusesContinue() )
 			delay( 200 );
 
 		if ( !foundNextRound || KoLmafia.refusesContinue() )
@@ -1407,7 +1404,8 @@ public class FightRequest extends KoLRequest
 			isTrackingFights = currentRound != 0;
 
 		foundNextRound = false;
-		return RequestEditorKit.getFeatureRichHTML( isTrackingFights ? "fight.php?action=script" : "fight.php", lastResponseText, true );
+		return RequestEditorKit.getFeatureRichHTML( isTrackingFights ? "fight.php?action=script" :
+			"fight.php", lastResponseText, true );
 	}
 
 	public static final int getCurrentRound()
