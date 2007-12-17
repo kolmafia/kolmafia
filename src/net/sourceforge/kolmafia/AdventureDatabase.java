@@ -44,7 +44,9 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class AdventureDatabase extends KoLDatabase
 {
+	private static final int BULK_PURCHASE_AMOUNT = 30;
 	private static final KoLRequest FAMEQUIP_CHANGER = new KoLRequest( "familiar.php?pwd&action=unequip" );
+
 	private static final LockableListModel adventures = new LockableListModel();
 	private static final AdventureArray allAdventures = new AdventureArray();
 
@@ -1700,13 +1702,13 @@ public class AdventureDatabase extends KoLDatabase
 
 	private static int getPurchaseCount( int itemId, int missingCount )
 	{
-		if ( !KoLCharacter.canInteract() )
+		if ( missingCount >= BULK_PURCHASE_AMOUNT || !KoLCharacter.canInteract() )
 			return missingCount;
 
 		boolean shouldBulkPurchase = isRestorePurchase( itemId ) ||
 			KoLmafia.isRunningBetweenBattleChecks() || MoodSettings.isExecuting();
-		
-		return shouldBulkPurchase ? Math.max( 20, missingCount ) : missingCount;
+	
+		return shouldBulkPurchase ? BULK_PURCHASE_AMOUNT : missingCount;
 	}
 
 	private static final boolean hasAnyIngredient( int itemId )
