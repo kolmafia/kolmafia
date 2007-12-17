@@ -1092,26 +1092,29 @@ public class LocalRelayRequest extends PasswordHashRequest
 			// as well as inventory.
 
 			String place = this.getFormField( "place" );
-			String override = this.getFormField( "override" );
-
-			if ( place != null && place.equals( "5" ) && override == null &&
-				!KoLCharacter.hasEquipped( SorceressLair.NAGAMAR ) && !AdventureDatabase.retrieveItem( SorceressLair.NAGAMAR ) )
+			if ( place != null )
 			{
-				this.sendGeneralWarning( "wand.gif", "It's possible there is something very important you're forgetting to do." );
-				return;
-			}
-
-			if ( place != null && place.equals( "6" ) && override == null &&
-				KoLCharacter.isHardcore() && KoLSettings.getBooleanProperty( "lucreCoreLeaderboard" ) )
-			{
-				if ( inventory.contains( LUCRE ) )
+				if ( place.equals( "5" ) &&
+					!KoLCharacter.hasEquipped( SorceressLair.NAGAMAR ) &&
+					!AdventureDatabase.retrieveItem( SorceressLair.NAGAMAR ) )
 				{
-					(new MuseumRequest( new Object [] { LUCRE.getInstance( LUCRE.getCount( inventory ) ) }, true )).run();
-					(new GreenMessageRequest( "koldbot", "Completed ascension." )).run();
+					this.sendGeneralWarning( "wand.gif", "It's possible there is something very important you're forgetting to do." );
+					return;
 				}
-
-				this.sendGeneralWarning( "lucre.gif", "Click on the lucre if you've already received koldbot's confirmation message." );
-				return;
+	
+				if ( place.equals( "6" ) &&
+					KoLCharacter.isHardcore() &&
+					KoLSettings.getBooleanProperty( "lucreCoreLeaderboard" ) )
+				{
+					if ( inventory.contains( LUCRE ) )
+					{
+						(new MuseumRequest( new Object [] { LUCRE.getInstance( LUCRE.getCount( inventory ) ) }, true )).run();
+						(new GreenMessageRequest( "koldbot", "Completed ascension." )).run();
+					}
+	
+					this.sendGeneralWarning( "lucre.gif", "Click on the lucre if you've already received koldbot's confirmation message." );
+					return;
+				}
 			}
 		}
 
