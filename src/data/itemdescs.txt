@@ -3076,7 +3076,7 @@
 3070	728473421	plexifoam chin strap
 3071	921754386	silicon-infused gluteal shield
 3072	795772115	carbonite visor
-3073	
+3073	748591680	set of Unobtainium straps
 3074	
 3075	
 3076	
@@ -3102,7 +3102,7 @@
 3096	627545996	polyalloy shield	polyalloy shields
 3097	861354964	oversized fish scaler	oversized fish scalers
 3098	899776576	killing feather	killing feathers
-3099	
+3099	748174693	golden ring	golden rings
 4000	
 4001	
 4002	
