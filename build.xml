@@ -95,7 +95,7 @@
 	<target name="compile" depends="init,setjikes">
 
 		<javac source="1.4" srcdir="${src}" destdir="${build}"
-			failonerror="false" debug="on" debuglevel="lines,vars,source" deprecation="on" nowarn="on"/>
+			failonerror="false" debug="on" debuglevel="lines,vars,source" deprecation="off" nowarn="on"/>
 
 		<copy todir="${build}" preservelastmodified="true">
 			<fileset dir="${src}">
