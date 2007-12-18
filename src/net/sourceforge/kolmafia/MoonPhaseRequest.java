@@ -200,7 +200,7 @@ public class MoonPhaseRequest
 			}
 
 			selectBuffer.append( "</select></td><td>&nbsp;</td><td>" );
-			selectBuffer.append( "<input type=\"button\" class=\"button\" value=\"exec\" onclick=\"" );
+			selectBuffer.append( "<input type=\"button\" class=\"button\" value=\"exec\" onClick=\"" );
 
 			selectBuffer.append( "var script = document.getElementById( 'scriptbar' ).value; " );
 			selectBuffer.append( "parent.charpane.location = '/KoLmafia/sideCommand?cmd=' + script + '&pwd=" );

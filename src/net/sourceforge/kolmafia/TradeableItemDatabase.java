@@ -1108,7 +1108,7 @@ public class TradeableItemDatabase
 	private static final Pattern CLOSET_ITEM_PATTERN =
 		Pattern.compile( "<option value='(\\d+)' descid='(.*?)'>(.*?) \\(" );
 	private static final Pattern DESCRIPTION_PATTERN =
-		Pattern.compile( "onclick='descitem\\((\\d+)\\);'></td><td valign=top><b>(.*?)</b>" );
+		Pattern.compile( "onClick='descitem\\((\\d+)\\);'></td><td valign=top><b>(.*?)</b>" );
 
 	public static final void findItemDescriptions()
 	{

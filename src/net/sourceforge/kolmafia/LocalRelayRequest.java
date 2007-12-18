@@ -783,7 +783,7 @@ public class LocalRelayRequest
 			warning.append( "; border: 1px dashed blue" );
 		}
 
-		warning.append( "\"><a id=\"link1\" style=\"text-decoration: none\" onclick=\"switchLinks('mcd1'); void(0);\" href=\"#\"><img src=\"http://images.kingdomofloathing.com/itemimages/" );
+		warning.append( "\"><a id=\"link1\" style=\"text-decoration: none\" onClick=\"switchLinks('mcd1'); void(0);\" href=\"#\"><img src=\"http://images.kingdomofloathing.com/itemimages/" );
 		warning.append( item1 );
 		warning.append( "\" width=30 height=30><br /><font size=1>MCD " );
 		warning.append( mcd1 );
@@ -807,7 +807,7 @@ public class LocalRelayRequest
 			warning.append( "; border: 1px dashed blue" );
 		}
 
-		warning.append( "\"><a id=\"link2\" style=\"text-decoration: none\" onclick=\"switchLinks('mcd2'); void(0);\" href=\"#\"><img src=\"http://images.kingdomofloathing.com/itemimages/" );
+		warning.append( "\"><a id=\"link2\" style=\"text-decoration: none\" onClick=\"switchLinks('mcd2'); void(0);\" href=\"#\"><img src=\"http://images.kingdomofloathing.com/itemimages/" );
 		warning.append( item2 );
 		warning.append( "\" width=30 height=30><br /><font size=1>MCD " );
 		warning.append( mcd2 );
