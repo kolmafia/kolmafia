@@ -84,7 +84,7 @@ public class CloseableTabbedPane
 
 	/**
 	 * Creates a new instance of <code>CloseableTabbedPane</code>
-	 * 
+	 *
 	 * @param horizontalTextPosition the horizontal position of the text (e.g. SwingUtilities.TRAILING or
 	 *            SwingUtilities.LEFT)
 	 */
@@ -112,7 +112,7 @@ public class CloseableTabbedPane
 
 	/**
 	 * Initializes the <code>CloseableTabbedPane</code>
-	 * 
+	 *
 	 * @param horizontalTextPosition the horizontal position of the text (e.g. SwingUtilities.TRAILING or
 	 *            SwingUtilities.LEFT)
 	 */
@@ -126,7 +126,7 @@ public class CloseableTabbedPane
 
 	/**
 	 * Allows setting own closeicons.
-	 * 
+	 *
 	 * @param normal the normal closeicon
 	 * @param hoover the closeicon when the mouse is over
 	 * @param pressed the closeicon when the mouse is pressed
@@ -140,7 +140,7 @@ public class CloseableTabbedPane
 
 	/**
 	 * Adds a <code>Component</code> represented by a title and no icon.
-	 * 
+	 *
 	 * @param title the title to be displayed in this tab
 	 * @param component the component to be displayed when this tab is clicked
 	 */
@@ -151,7 +151,7 @@ public class CloseableTabbedPane
 
 	/**
 	 * Adds a <code>Component</code> represented by a title and an icon.
-	 * 
+	 *
 	 * @param title the title to be displayed in this tab
 	 * @param component the component to be displayed when this tab is clicked
 	 * @param extraIcon the icon to be displayed in this tab
@@ -214,7 +214,7 @@ public class CloseableTabbedPane
 
 	/**
 	 * Sets the closeicon at <code>index</code>.
-	 * 
+	 *
 	 * @param index the tab index where the icon should be set
 	 * @param icon the icon to be displayed in the tab
 	 * @throws IndexOutOfBoundsException if index is out of range (index < 0 || index >= tab count)
@@ -227,7 +227,7 @@ public class CloseableTabbedPane
 
 	/**
 	 * Invoked when the mouse button has been clicked (pressed and released) on a component.
-	 * 
+	 *
 	 * @param e the <code>MouseEvent</code>
 	 */
 	public void mouseClicked( final MouseEvent e )
@@ -237,7 +237,7 @@ public class CloseableTabbedPane
 
 	/**
 	 * Invoked when the mouse enters a component.
-	 * 
+	 *
 	 * @param e the <code>MouseEvent</code>
 	 */
 	public void mouseEntered( final MouseEvent e )
@@ -246,7 +246,7 @@ public class CloseableTabbedPane
 
 	/**
 	 * Invoked when the mouse exits a component.
-	 * 
+	 *
 	 * @param e the <code>MouseEvent</code>
 	 */
 	public void mouseExited( final MouseEvent e )
@@ -264,7 +264,7 @@ public class CloseableTabbedPane
 
 	/**
 	 * Invoked when a mouse button has been pressed on a component.
-	 * 
+	 *
 	 * @param e the <code>MouseEvent</code>
 	 */
 	public void mousePressed( final MouseEvent e )
@@ -274,7 +274,7 @@ public class CloseableTabbedPane
 
 	/**
 	 * Invoked when a mouse button has been released on a component.
-	 * 
+	 *
 	 * @param e the <code>MouseEvent</code>
 	 */
 	public void mouseReleased( final MouseEvent e )
@@ -287,7 +287,7 @@ public class CloseableTabbedPane
 	 * (regardless of whether the mouse position is within the bounds of the component).<br/> <br/> Due to
 	 * platform-dependent Drag&Drop implementations, <code>MOUSE_DRAGGED</code> events may not be delivered during a
 	 * native Drag&Drop operation.
-	 * 
+	 *
 	 * @param e the <code>MouseEvent</code>
 	 */
 	public void mouseDragged( final MouseEvent e )
@@ -297,7 +297,7 @@ public class CloseableTabbedPane
 
 	/**
 	 * Invoked when the mouse cursor has been moved onto a component but no buttons have been pushed.
-	 * 
+	 *
 	 * @param e the <code>MouseEvent</code>
 	 */
 	public void mouseMoved( final MouseEvent e )
@@ -307,7 +307,7 @@ public class CloseableTabbedPane
 
 	/**
 	 * Processes all caught <code>MouseEvent</code>s.
-	 * 
+	 *
 	 * @param e the <code>MouseEvent</code>
 	 */
 	private void processMouseEvents( final MouseEvent e )
@@ -404,7 +404,7 @@ public class CloseableTabbedPane
 
 	/**
 	 * Adds an <code>CloseableTabbedPaneListener</code> to the tabbedpane.
-	 * 
+	 *
 	 * @param l the <code>CloseableTabbedPaneListener</code> to be added
 	 */
 	public void addCloseableTabbedPaneListener( final CloseableTabbedPaneListener l )
@@ -414,7 +414,7 @@ public class CloseableTabbedPane
 
 	/**
 	 * Removes an <code>CloseableTabbedPaneListener</code> from the tabbedpane.
-	 * 
+	 *
 	 * @param l the listener to be removed
 	 */
 	public void removeCloseableTabbedPaneListener( final CloseableTabbedPaneListener l )
@@ -425,17 +425,17 @@ public class CloseableTabbedPane
 	/**
 	 * Returns an array of all the <code>SearchListener</code>s added to this <code>SearchPane</code> with
 	 * addSearchListener().
-	 * 
+	 *
 	 * @return all of the <code>SearchListener</code>s added or an empty array if no listeners have been added
 	 */
 	public CloseableTabbedPaneListener[] getCloseableTabbedPaneListener()
 	{
-		return this.listenerList.getListeners( CloseableTabbedPaneListener.class );
+		return (CloseableTabbedPaneListener[]) this.listenerList.getListeners( CloseableTabbedPaneListener.class );
 	}
 
 	/**
 	 * Notifies all listeners that have registered interest for notification on this event type.
-	 * 
+	 *
 	 * @param tabIndexToClose the index of the tab which should be closed
 	 * @return true if the tab can be closed, false otherwise
 	 */
@@ -502,7 +502,7 @@ public class CloseableTabbedPane
 
 		/**
 		 * Creates a new instance of <code>CloseTabIcon</code>
-		 * 
+		 *
 		 * @param fileIcon the additional fileicon, if there is one set
 		 */
 		public CloseTabIcon( final Icon fileIcon )
@@ -515,7 +515,7 @@ public class CloseableTabbedPane
 		/**
 		 * Draw the icon at the specified location. Icon implementations may use the Component argument to get
 		 * properties useful for painting, e.g. the foreground or background color.
-		 * 
+		 *
 		 * @param c the component which the icon belongs to
 		 * @param g the graphic object to draw on
 		 * @param x the upper left point of the icon in the x direction
@@ -596,7 +596,7 @@ public class CloseableTabbedPane
 
 		/**
 		 * Returns the icon's width.
-		 * 
+		 *
 		 * @return an int specifying the fixed width of the icon.
 		 */
 		public int getIconWidth()
@@ -606,7 +606,7 @@ public class CloseableTabbedPane
 
 		/**
 		 * Returns the icon's height.
-		 * 
+		 *
 		 * @return an int specifying the fixed height of the icon.
 		 */
 		public int getIconHeight()
@@ -647,7 +647,7 @@ public class CloseableTabbedPane
 
 		/**
 		 * Creates a new instance of <code>CloseableTabbedPaneUI</code>
-		 * 
+		 *
 		 * @param horizontalTextPosition the horizontal position of the text (e.g. SwingUtilities.TRAILING or
 		 *            SwingUtilities.LEFT)
 		 */
@@ -658,7 +658,7 @@ public class CloseableTabbedPane
 
 		/**
 		 * Layouts the label
-		 * 
+		 *
 		 * @param tabPlacement the placement of the tabs
 		 * @param metrics the font metrics
 		 * @param tabIndex the index of the tab

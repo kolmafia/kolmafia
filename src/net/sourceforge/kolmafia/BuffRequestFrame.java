@@ -247,6 +247,9 @@ public class BuffRequestFrame
 
 			if ( BuffBotDatabase.getStandardOfferings( botName ).isEmpty() )
 			{
+				this.checkboxes = null;
+				this.offerings = null;
+
 				this.addNoRequestMessage( botName );
 				return;
 			}
