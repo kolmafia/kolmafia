@@ -55,7 +55,7 @@ public class CustomItemDatabase
 	private static final File KILT_FILE = new File( UtilityConstants.DATA_LOCATION, "tehkilt.txt" );
 
 	private static final Pattern EQUIP_PATTERN =
-		Pattern.compile( "<tr><td width=30 height=30><img src=\"[^\"]+\" class=hand onclick='descitem\\(\\d+\\)'></td><td valign=center><b>([^<]+)</b></td></tr>" );
+		Pattern.compile( "<tr><td width=30 height=30><img src=\"[^\"]+\" class=hand onClick='descitem\\(\\d+\\)'></td><td valign=center><b>([^<]+)</b></td></tr>" );
 
 	private static final int CUSTOM_FLAG_COUNT = 31;
 
@@ -198,7 +198,7 @@ public class CustomItemDatabase
 		boolean addedItem = false;
 
 		String customItemString =
-			"<tr><td width=30 height=30><img src=\"" + CustomItemDatabase.INSTANCE.getProperty( playerId + ".0" ) + "\" onclick=item('custom" + playerId + "')></td><td valign=center><b>" + CustomItemDatabase.INSTANCE.getProperty( playerId + ".1" ) + "</b></td></tr>";
+			"<tr><td width=30 height=30><img src=\"" + CustomItemDatabase.INSTANCE.getProperty( playerId + ".0" ) + "\" onClick=item('custom" + playerId + "')></td><td valign=center><b>" + CustomItemDatabase.INSTANCE.getProperty( playerId + ".1" ) + "</b></td></tr>";
 
 		String lastDataString = null;
 		Matcher equipMatcher = CustomItemDatabase.EQUIP_PATTERN.matcher( request.responseText );

@@ -500,7 +500,27 @@ public class AdventureRequest
 	}
 
 	private static final Object[][] demons =
-		{ { "Summoning Chamber", Pattern.compile( "Did you say your name was (.*?)\\?" ), "delicious-looking pies" }, { "Hoom Hah", Pattern.compile( "(.*?)! \\1, cooooome to meeeee!" ), "fifty meat" }, { "Every Seashell Has a Story to Tell If You're Listening", Pattern.compile( "Hello\\? Is (.*?) there\\?" ), "fish-guy" }, { "Leavesdropping", Pattern.compile( "(.*?), we call you! \\1, come to us!" ), "bullwhip" }, { "These Pipes... Aren't Clean!", Pattern.compile( "Blurgle. (.*?). Gurgle. By the way," ), "coprodaemon" }, };
+	{
+		{ "Summoning Chamber",
+		  Pattern.compile( "Did you say your name was (.*?)\\?" ),
+		  "delicious-looking pies"
+		},
+		{ "Hoom Hah",
+		  Pattern.compile( "(.*?)! \\1, cooooome to meeeee!" ),
+		  "fifty meat" 
+		},
+		{ "Every Seashell Has a Story to Tell If You're Listening",
+		  Pattern.compile( "Hello\\? Is (.*?) there\\?" ),
+		  "fish-guy"
+		},
+		{ "Leavesdropping",
+		  Pattern.compile( "(.*?), we call you! \\1, come to us!" ),
+		  "bullwhip"
+		},
+		{ "These Pipes... Aren't Clean!",
+		  Pattern.compile( "Blurgle. (.*?). Gurgle. By the way," ),
+		  "coprodaemon" },
+	};
 
 	private static final Pattern NAME_PATTERN = Pattern.compile( "<b>&quot;(.*?)&quot;</b>" );
 

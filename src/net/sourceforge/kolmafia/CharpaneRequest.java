@@ -367,7 +367,7 @@ public class CharpaneRequest
 			durationIndex = responseText.indexOf( "(", startIndex ) + 1;
 		}
 
-		searchIndex = responseText.indexOf( "onclick='eff", searchIndex );
+		searchIndex = responseText.indexOf( "onClick='eff", searchIndex );
 		searchIndex = responseText.indexOf( "(", searchIndex ) + 1;
 
 		String descriptionId = responseText.substring( searchIndex + 1, responseText.indexOf( ")", searchIndex ) - 1 );
@@ -397,21 +397,21 @@ public class CharpaneRequest
 	private static final void refreshEffects( final String responseText )
 	{
 		int searchIndex = 0;
-		int onclickIndex = 0;
+		int onClickIndex = 0;
 
 		KoLConstants.recentEffects.clear();
 		ArrayList visibleEffects = new ArrayList();
 
-		while ( onclickIndex != -1 )
+		while ( onClickIndex != -1 )
 		{
-			onclickIndex = responseText.indexOf( "onclick='eff", onclickIndex + 1 );
+			onClickIndex = responseText.indexOf( "onClick='eff", onClickIndex + 1 );
 
-			if ( onclickIndex == -1 )
+			if ( onClickIndex == -1 )
 			{
 				continue;
 			}
 
-			searchIndex = responseText.lastIndexOf( "<", onclickIndex );
+			searchIndex = responseText.lastIndexOf( "<", onClickIndex );
 
 			AdventureResult effect = CharpaneRequest.extractEffect( responseText, searchIndex );
 			if ( effect == null )
@@ -789,7 +789,7 @@ public class CharpaneRequest
 					buffer.append( currentEffect.getName() );
 					buffer.append( "\" title=\"" );
 					buffer.append( currentEffect.getName() );
-					buffer.append( "\" onclick='eff(\"" + descriptionId + "\");'></td>" );
+					buffer.append( "\" onClick='eff(\"" + descriptionId + "\");'></td>" );
 				}
 
 				if ( !KoLRequest.isCompactMode || KoLSettings.getBooleanProperty( "relayTextualizesEffects" ) )
@@ -830,7 +830,7 @@ public class CharpaneRequest
 
 		while ( startingIndex != -1 )
 		{
-			startingIndex = text.indexOf( "onclick='eff", lastAppendIndex + 1 );
+			startingIndex = text.indexOf( "onClick='eff", lastAppendIndex + 1 );
 
 			if ( startingIndex == -1 )
 			{

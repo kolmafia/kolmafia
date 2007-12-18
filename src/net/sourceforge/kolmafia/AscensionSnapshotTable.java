@@ -220,7 +220,7 @@ public class AscensionSnapshotTable
 		// is used in the KoL leaderboard frame.
 
 		strbuf.append( KoLConstants.LINE_BREAK );
-		strbuf.append( "<br><a class=small href=\"javascript:void(0);\" onclick=\"javascript: var element = document.getElementById('sec" );
+		strbuf.append( "<br><a class=small href=\"javascript:void(0);\" onClick=\"javascript: var element = document.getElementById('sec" );
 		strbuf.append( pathFilter );
 		strbuf.append( "'); element.style.display = element.style.display == 'inline' ? 'none' : 'inline';\">" );
 		strbuf.append( "hide/show records by class</a><div id=\"sec" );

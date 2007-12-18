@@ -469,7 +469,7 @@ public class RequestEditorKit
 		Pattern.compile( "You acquire([^<]*?<b>.*?</b>.*?)</td>", Pattern.DOTALL );
 	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
 	private static final Pattern BOOKSHELF_PATTERN =
-		Pattern.compile( "onclick=\"location.href='(.*?)';\"", Pattern.DOTALL );
+		Pattern.compile( "onClick=\"location.href='(.*?)';\"", Pattern.DOTALL );
 
 	public static final void downloadFile( final String remote, final File local )
 	{
@@ -897,7 +897,7 @@ public class RequestEditorKit
 		displayHTML = displayHTML.replaceAll( "<a[^>]*?\\([\'\"](.*?)[\'\"].*?>", "<a href=\"$1\">" );
 		displayHTML =
 			displayHTML.replaceAll(
-				"<img([^>]*?) onclick=\'window.open\\(\"(.*?)\".*?\'(.*?)>", "<a href=\"$2\"><img$1 $3 border=0></a>" );
+				"<img([^>]*?) onClick=\'window.open\\(\"(.*?)\".*?\'(.*?)>", "<a href=\"$2\"><img$1 $3 border=0></a>" );
 
 		// The search form for viewing players has an </html>
 		// tag appearing right after </style>, which may confuse
@@ -910,7 +910,7 @@ public class RequestEditorKit
 
 		displayHTML =
 			displayHTML.replaceAll(
-				"<img([^>]*?) onclick=\'descitem\\((\\d+)\\);\'>",
+				"<img([^>]*?) onClick=\'descitem\\((\\d+)\\);\'>",
 				"<a href=\"desc_item.php?whichitem=$2\"><img$1 border=0></a>" );
 
 		// The last thing to worry about is the problems in
@@ -929,7 +929,7 @@ public class RequestEditorKit
 				"</td></tr><tr><td align=center>(<input class=button type=submit value='Take Items'>)", "$1" );
 
 		// The second of these is the betting page.  Here, the
-		// problem is an "onclick" in the input field, if the
+		// problem is an "onClick" in the input field, if the
 		// Hagnk option is available.
 
 		if ( displayHTML.indexOf( "whichbet" ) != -1 )
@@ -1725,7 +1725,7 @@ public class RequestEditorKit
 				buffer.append( "<font color=darkgray><s>" );
 			}
 
-			buffer.append( "<a onclick=\"skill('" );
+			buffer.append( "<a onClick=\"skill('" );
 			buffer.append( startingPoint + i );
 			buffer.append( "');\">" );
 			buffer.append( skillName );
@@ -1841,7 +1841,7 @@ public class RequestEditorKit
 		boolean forceFocus = action.equals( "attack" );
 
 		String name = RequestEditorKit.getActionName( action );
-		buffer.append( "<input type=\"button\" onclick=\"document.location.href='" );
+		buffer.append( "<input type=\"button\" onClick=\"document.location.href='" );
 
 		if ( urlString.startsWith( "choice.php" ) && response.indexOf( "choice.php" ) != -1 )
 		{
@@ -2173,7 +2173,7 @@ public class RequestEditorKit
 	private static final void addBasementButton( final String urlString, final StringBuffer response,
 		final StringBuffer buffer, final String action, final boolean isEnabled )
 	{
-		buffer.append( "<input type=\"button\" onclick=\"" );
+		buffer.append( "<input type=\"button\" onClick=\"" );
 
 		if ( urlString.startsWith( "rebuff" ) )
 		{
@@ -2849,7 +2849,7 @@ public class RequestEditorKit
 					buffer.append( itemId );
 					buffer.append( "\" value=" );
 					buffer.append( Math.min( itemCount, ConsumeItemRequest.maximumUses( itemId ) ) );
-					buffer.append( ">&nbsp;<input type=button class=button value=\"Use\" onclick=\"multiUse('" );
+					buffer.append( ">&nbsp;<input type=button class=button value=\"Use\" onClick=\"multiUse('" );
 
 					if ( consumeMethod == KoLConstants.MP_RESTORE )
 					{

@@ -581,7 +581,7 @@ public class ClassSkillsDatabase
 
 			if ( appendHTML )
 			{
-				buffer.append( "<a onclick=\"javascript:skill(" );
+				buffer.append( "<a onClick=\"javascript:skill(" );
 				buffer.append( ClassSkillsDatabase.getSkillId( currentSkill ) );
 				buffer.append( ");\">" );
 			}
