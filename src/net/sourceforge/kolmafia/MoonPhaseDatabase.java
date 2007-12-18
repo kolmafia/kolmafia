@@ -101,13 +101,44 @@ public class MoonPhaseDatabase
 	// within the KoL lunar calendar.
 
 	private static final String[] STAT_EFFECT =
-		{ "Moxie bonus today and yesterday.", "3 days until Mysticism.", "2 days until Mysticism.", "Mysticism bonus tomorrow (not today).", "Mysticism bonus today (not tomorrow).", "3 days until Muscle.", "2 days until Muscle.", "Muscle bonus tomorrow (not today).", "Muscle bonus today and tomorrow.", "Muscle bonus today and yesterday.", "2 days until Mysticism.", "Mysticism bonus tomorrow (not today).", "Mysticism bonus today (not tomorrow).", "2 days until Moxie.", "Moxie bonus tomorrow (not today).", "Moxie bonus today and tomorrow." };
+	{
+		"Moxie bonus today and yesterday.",
+		"3 days until Mysticism.",
+		"2 days until Mysticism.",
+		"Mysticism bonus tomorrow (not today).",
+		"Mysticism bonus today (not tomorrow).",
+		"3 days until Muscle.",
+		"2 days until Muscle.",
+		"Muscle bonus tomorrow (not today).",
+		"Muscle bonus today and tomorrow.",
+		"Muscle bonus today and yesterday.",
+		"2 days until Mysticism.",
+		"Mysticism bonus tomorrow (not today).",
+		"Mysticism bonus today (not tomorrow).",
+		"2 days until Moxie.",
+		"Moxie bonus tomorrow (not today).",
+		"Moxie bonus today and tomorrow."
+	};
 
 	// static final array of month names, as they exist within
 	// the KoL calendar.
 
 	private static final String[] MONTH_NAMES =
-		{ "", "Jarlsuary", "Frankruary", "Starch", "April", "Martinus", "Bill", "Bor", "Petember", "Carlvember", "Porktober", "Boozember", "Dougtember" };
+	{
+		"",
+		"Jarlsuary",
+		"Frankruary",
+		"Starch",
+		"April",
+		"Martinus",
+		"Bill",
+		"Bor",
+		"Petember",
+		"Carlvember",
+		"Porktober",
+		"Boozember",
+		"Dougtember"
+	};
 
 	// static final array of HOLIDAYS.  This holiday is filled with the
 	// name of the holiday which occurs on the given KoL month and
