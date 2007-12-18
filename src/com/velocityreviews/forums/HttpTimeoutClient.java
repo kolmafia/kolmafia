@@ -1,11 +1,10 @@
 package com.velocityreviews.forums;
 
 import java.io.IOException;
-
 import java.net.Socket;
 import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.net.URL;
+import java.net.UnknownHostException;
 
 import sun.net.www.http.HttpClient;
 

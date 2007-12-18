@@ -35,13 +35,7 @@ package net.sourceforge.kolmafia;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyAdapter;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -51,8 +45,8 @@ import javax.swing.JRadioButton;
 import javax.swing.ListSelectionModel;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
-import net.sourceforge.kolmafia.KoLFrame.RequestButton;
 import net.sourceforge.kolmafia.ConcoctionsDatabase.Concoction;
+import net.sourceforge.kolmafia.KoLFrame.RequestButton;
 
 public class ItemManagePanel extends LabeledScrollPanel
 {

@@ -34,13 +34,12 @@
 package net.sourceforge.kolmafia;
 
 import java.io.BufferedReader;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.TreeMap;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.BuffBotManager.Offering;
 

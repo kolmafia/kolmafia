@@ -33,9 +33,8 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.List;
-import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class AdventureRequest extends KoLRequest
 {

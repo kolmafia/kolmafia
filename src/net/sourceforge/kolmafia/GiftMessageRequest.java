@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia;
 
 import java.io.BufferedReader;
 import java.util.ArrayList;
+
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 /**

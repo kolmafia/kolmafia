@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia;
 
 import javax.swing.SwingUtilities;
+
 import net.sourceforge.foxtrot.Job;
 import net.sourceforge.foxtrot.Worker;
 

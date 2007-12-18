@@ -34,10 +34,10 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.CardLayout;
-import javax.swing.JList;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.swing.JList;
 
 public class MoneyMakingGameFrame extends KoLFrame
 {

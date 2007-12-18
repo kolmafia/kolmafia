@@ -6,30 +6,21 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
-
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-
-import java.util.EventListener;
 
 import javax.swing.Icon;
 import javax.swing.JComponent;
 import javax.swing.JTabbedPane;
 import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
-
 import javax.swing.event.EventListenerList;
-
-import javax.swing.plaf.TabbedPaneUI;
-
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
-import net.sourceforge.kolmafia.UnfocusedTabbedPane;
 
-import javax.swing.text.View;
+import net.sourceforge.kolmafia.UnfocusedTabbedPane;
 
 /**
  * <p>A <code>JTabbedPane</code> which has a close ('X') icon on each tab.</p>

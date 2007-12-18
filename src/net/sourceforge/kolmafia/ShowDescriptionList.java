@@ -33,11 +33,10 @@
 
 package net.sourceforge.kolmafia;
 
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.KeyAdapter;
-
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -47,11 +46,11 @@ import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
 import javax.swing.SwingUtilities;
 
-import net.sourceforge.kolmafia.ConcoctionsDatabase.Concoction;
-import net.sourceforge.kolmafia.StoreManager.SoldItem;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
+import net.sourceforge.kolmafia.ConcoctionsDatabase.Concoction;
 import net.sourceforge.kolmafia.MoodSettings.MoodTrigger;
+import net.sourceforge.kolmafia.StoreManager.SoldItem;
 
 public class ShowDescriptionList extends JList implements KoLConstants
 {

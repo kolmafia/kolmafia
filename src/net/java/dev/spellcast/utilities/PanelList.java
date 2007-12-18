@@ -36,15 +36,12 @@ package net.java.dev.spellcast.utilities;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.LayoutManager;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
-
 import javax.swing.event.ListDataEvent;
-import javax.swing.event.ListDataListener;
 
 /**
  * One of the consequences of using a <code>JList</code> is that, in order

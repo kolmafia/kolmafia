@@ -36,7 +36,6 @@ package net.sourceforge.kolmafia;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-
 import java.util.ArrayList;
 import java.util.List;
 

@@ -34,8 +34,6 @@
 
 package net.java.dev.spellcast.utilities;
 
-import com.sun.java.forums.SpringUtilities;
-
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Component;
@@ -53,6 +51,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.SpringLayout;
+
+import com.sun.java.forums.SpringUtilities;
 
 public abstract class ActionVerifyPanel extends ActionPanel
 {

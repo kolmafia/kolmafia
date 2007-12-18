@@ -33,18 +33,17 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Properties;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
-
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CustomItemDatabase extends Properties implements KoLConstants
 {

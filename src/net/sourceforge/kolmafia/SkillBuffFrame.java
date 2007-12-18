@@ -38,6 +38,7 @@ import java.awt.Dimension;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class SkillBuffFrame extends KoLFrame

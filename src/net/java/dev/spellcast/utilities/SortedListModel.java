@@ -35,7 +35,6 @@
 package net.java.dev.spellcast.utilities;
 
 import java.util.Collection;
-import java.util.Comparator;
 
 /**
  * An extension of the {@link net.java.dev.spellcast.utilities.LockableListModel} which maintains

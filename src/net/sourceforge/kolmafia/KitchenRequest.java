@@ -33,7 +33,6 @@
 
 package net.sourceforge.kolmafia;
 
-import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class KitchenRequest extends CafeRequest
 {

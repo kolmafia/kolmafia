@@ -33,9 +33,9 @@
 
 package net.sourceforge.kolmafia;
 
+import java.io.PrintStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.io.PrintStream;
 
 public class BigIsland implements KoLConstants
 {

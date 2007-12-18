@@ -33,14 +33,13 @@
 
 package net.sourceforge.kolmafia;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-
-import java.net.URLEncoder;
-import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class BasementRequest extends AdventureRequest
 {

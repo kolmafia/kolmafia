@@ -38,7 +38,6 @@ import java.util.ArrayList;
 import javax.swing.JComponent;
 import javax.swing.JMenu;
 import javax.swing.JSeparator;
-
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 

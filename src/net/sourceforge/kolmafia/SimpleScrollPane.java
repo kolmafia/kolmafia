@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.Component;
+
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.UIManager;

@@ -36,9 +36,7 @@ package net.sourceforge.kolmafia;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.PrintStream;
-
 import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -46,7 +44,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

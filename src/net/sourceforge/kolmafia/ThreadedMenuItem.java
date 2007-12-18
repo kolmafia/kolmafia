@@ -36,7 +36,6 @@ package net.sourceforge.kolmafia;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JComboBox;
 import javax.swing.JMenuItem;
 
 public abstract class ThreadedMenuItem extends JMenuItem implements Runnable

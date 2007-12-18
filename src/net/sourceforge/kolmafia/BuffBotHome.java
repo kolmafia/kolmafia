@@ -35,12 +35,9 @@ package net.sourceforge.kolmafia;
 
 import java.awt.Color;
 import java.awt.Component;
-
 import java.io.File;
 import java.io.PrintStream;
-
 import java.text.DateFormat;
-
 import java.util.Date;
 import java.util.List;
 import java.util.TreeMap;

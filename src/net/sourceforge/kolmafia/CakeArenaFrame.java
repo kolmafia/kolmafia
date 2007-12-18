@@ -35,7 +35,6 @@ package net.sourceforge.kolmafia;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 

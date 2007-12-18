@@ -34,15 +34,16 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.Component;
-
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import net.sourceforge.kolmafia.ConcoctionsDatabase.Concoction;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JLabel;
 import javax.swing.JList;
+
+import net.sourceforge.kolmafia.ConcoctionsDatabase.Concoction;
 
 public class AdventureResult implements Comparable, KoLConstants
 {

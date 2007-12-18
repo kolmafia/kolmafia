@@ -36,7 +36,6 @@ package net.sourceforge.kolmafia;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.GridLayout;
-
 import java.io.File;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;

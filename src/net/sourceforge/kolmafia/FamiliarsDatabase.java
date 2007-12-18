@@ -35,12 +35,12 @@ package net.sourceforge.kolmafia;
 
 import java.io.BufferedReader;
 import java.io.File;
-
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
 import javax.swing.ImageIcon;
+
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class FamiliarsDatabase extends KoLDatabase

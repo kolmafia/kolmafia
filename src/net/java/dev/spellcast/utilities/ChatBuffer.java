@@ -70,16 +70,13 @@ package net.java.dev.spellcast.utilities;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
-
 import java.lang.ref.WeakReference;
-
 import java.util.ArrayList;
 import java.util.TreeMap;
 
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
-
 import javax.swing.text.Element;
 import javax.swing.text.html.HTMLDocument;
 
