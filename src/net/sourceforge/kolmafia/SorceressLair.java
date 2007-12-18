@@ -118,15 +118,154 @@ public abstract class SorceressLair
 	// need to pass them, and where to get it
 
 	public static final String[][] GATE_DATA =
-		{
+	{
 		// The first gate: Miscellaneous effects
-		{ "gate of hilarity", "a banana peel", "Comic Violence", "gremlin juice" }, { "gate of humility", "a cowardly-looking man", "Wussiness", "wussiness potion" }, { "gate of morose morbidity and moping", "a glum teenager", "Rainy Soul Miasma", "thin black candle", "picture of a dead guy's girlfriend" }, { "gate of slack", "a smiling man smoking a pipe", "Extreme Muscle Relaxation", "Mick's IcyVapoHotness Rub" }, { "gate of spirit", "an armchair", "Woad Warrior", "pygmy pygment" }, { "gate of the porcupine", "a hedgehog", "Spiky Hair", "super-spikey hair gel" }, { "twitching gates of the suc rose", "a rose", "Sugar Rush", "Angry Farmer candy", "Tasty Fun Good rice candy", "marzipan skull" }, { "gate of the viper", "a coiled viper", "Deadly Flashing Blade", "adder bladder" }, { "locked gate", "a raven", "Locks Like the Raven", "Black No. 2" },
+		{
+			"gate of hilarity",
+			"a banana peel",
+			"Comic Violence",
+			"gremlin juice"
+		},
+		{
+			"gate of humility",
+			"a cowardly-looking man",
+			"Wussiness",
+			"wussiness potion"
+		},
+		{
+			"gate of morose morbidity and moping",
+			"a glum teenager",
+			"Rainy Soul Miasma",
+			"thin black candle",
+			"picture of a dead guy's girlfriend"
+		},
+		{
+			"gate of slack",
+			"a smiling man smoking a pipe",
+			"Extreme Muscle Relaxation",
+			"Mick's IcyVapoHotness Rub"
+		},
+		{
+			"gate of spirit",
+			"an armchair",
+			"Woad Warrior",
+			"pygmy pygment"
+		},
+		{
+			"gate of the porcupine",
+			"a hedgehog",
+			"Spiky Hair",
+			"super-spikey hair gel"
+		},
+		{
+			"twitching gates of the suc rose",
+			"a rose",
+			"Sugar Rush",
+			"Angry Farmer candy",
+			"Tasty Fun Good rice candy",
+			"marzipan skull"
+		},
+		{
+			"gate of the viper",
+			"a coiled viper",
+			"Deadly Flashing Blade",
+			"adder bladder"
+		},
+		{
+			"locked gate",
+			"a raven",
+			"Locks Like the Raven",
+			"Black No. 2"
+		},
 
 		// The second gate: South of the Border effects
-		{ "gate of bad taste", "", "Spicy Limeness", "lime-and-chile-flavored chewing gum" }, { "gate of flame", "", "Spicy Mouth", "jaba&ntilde;ero-flavored chewing gum" }, { "gate of intrigue", "", "Mysteriously Handsome", "handsomeness potion" }, { "gate of machismo", "", "Engorged Weapon", "Meleegra&trade; pills" }, { "gate of mystery", "", "Mystic Pickleness", "pickle-flavored chewing gum" }, { "gate of the dead", "", "Hombre Muerto Caminando", "marzipan skull" }, { "gate of torment", "", "Tamarind Torment", "tamarind-flavored chewing gum" }, { "gate of zest", "", "Spicy Limeness", "lime-and-chile-flavored chewing gum" },
+		{
+			"gate of bad taste",
+			"",
+			"Spicy Limeness",
+			"lime-and-chile-flavored chewing gum"
+		},
+		{
+			"gate of flame",
+			"",
+			"Spicy Mouth",
+			"jaba&ntilde;ero-flavored chewing gum"
+		},
+		{
+			"gate of intrigue",
+			"",
+			"Mysteriously Handsome",
+			"handsomeness potion"
+		},
+		{
+			"gate of machismo",
+			"",
+			"Engorged Weapon",
+			"Meleegra&trade; pills"
+		},
+		{
+			"gate of mystery",
+			"",
+			"Mystic Pickleness",
+			"pickle-flavored chewing gum"
+		},
+		{
+			"gate of the dead",
+			"",
+			"Hombre Muerto Caminando",
+			"marzipan skull"
+		},
+		{
+			"gate of torment",
+			"",
+			"Tamarind Torment",
+			"tamarind-flavored chewing gum"
+		},
+		{
+			"gate of zest",
+			"",
+			"Spicy Limeness",
+			"lime-and-chile-flavored chewing gum"
+		},
 
 		// The third gate: Bang potion effects
-		{ "gate of light", "", "Izchak's Blessing", "potion of blessing" }, { "gate of that which is hidden", "", "Object Detection", "potion of detection" }, { "gate of the mind", "", "Strange Mental Acuity", "potion of mental acuity" }, { "gate of the observant", "", "Object Detection", "potion of detection" }, { "gate of the ogre", "", "Strength of Ten Ettins", "potion of ettin strength" }, { "gate that is not a gate", "", "Teleportitis", "potion of teleportitis" }, };
+		{
+			"gate of light",
+			"",
+			"Izchak's Blessing",
+			"potion of blessing"
+		},
+		{
+			"gate of that which is hidden",
+			"",
+			"Object Detection",
+			"potion of detection"
+		},
+		{
+			"gate of the mind",
+			"",
+			"Strange Mental Acuity",
+			"potion of mental acuity"
+		},
+		{
+			"gate of the observant",
+			"",
+			"Object Detection",
+			"potion of detection"
+		},
+		{
+			"gate of the ogre",
+			"",
+			"Strength of Ten Ettins",
+			"potion of ettin strength"
+		},
+		{
+			"gate that is not a gate",
+			"",
+			"Teleportitis",
+			"potion of teleportitis"
+		},
+	};
 
 	public static String gateName( final String[] gateData )
 	{
@@ -176,7 +315,128 @@ public abstract class SorceressLair
 	// that defeat them
 
 	public static final String[][] GUARDIAN_DATA =
-		{ { "beer batter", "tip of a baseball bat", "baseball" }, { "best-selling novelist", "writing desk", "plot hole" }, { "big meat golem", "huge face made of Meat", "meat vortex" }, { "bowling cricket", "fancy-looking tophat", "sonar-in-a-biscuit" }, { "bronze chef", "bronze figure holding a spatula", "leftovers of indeterminate origin" }, { "collapsed mineshaft golem", "wooden beam", "stick of dynamite" }, { "concert pianist", "long coattails", "Knob Goblin firecracker" }, { "darkness", "strange shadow", "inkwell" }, { "el diablo", "neck of a huge bass guitar", "mariachi G-string" }, { "electron submarine", "periscope", "photoprotoneutron torpedo" }, { "endangered inflatable white tiger", "giant white ear", "pygmy blowgun" }, { "enraged cow", "pair of horns", "barbed-wire fence" }, { "fancy bath slug", "slimy eyestalk", "fancy bath salts" }, { "fickle finger of f8", "giant cuticle", "razor-sharp can lid" }, { "flaming samurai", "flaming katana", "frigid ninja stars" }, { "giant bee", "formidable stinger", "tropical orchid" }, { "giant fried egg", "flash of albumen", "black pepper" }, { "giant desktop globe", "the North Pole", "NG" }, { "ice cube", "moonlight reflecting off of what appears to be ice", "can of hair spray" }, { "malevolent crop circle", "amber waves of grain", "bronzed locust" }, { "possessed pipe-organ", "pipes with steam shooting out of them", "powdered organs" }, { "pretty fly", "translucent wing", "spider web" }, { "tyrannosaurus tex", "large cowboy hat", "chaos butterfly" }, { "vicious easel", "tall wooden frame", "disease" }, };
+	{
+		{
+			"beer batter",
+			"tip of a baseball bat",
+			"baseball"
+		},
+		{
+			"best-selling novelist",
+			"writing desk",
+			"plot hole"
+		},
+		{
+			"big meat golem",
+			"huge face made of Meat",
+			"meat vortex"
+		},
+		{
+			"bowling cricket",
+			"fancy-looking tophat",
+			"sonar-in-a-biscuit"
+		},
+		{
+			"bronze chef",
+			"bronze figure holding a spatula",
+			"leftovers of indeterminate origin"
+		},
+		{
+			"collapsed mineshaft golem",
+			"wooden beam",
+			"stick of dynamite"
+		},
+		{
+			"concert pianist",
+			"long coattails",
+			"Knob Goblin firecracker"
+		},
+		{
+			"darkness",
+			"strange shadow",
+			"inkwell"
+		},
+		{
+			"el diablo",
+			"neck of a huge bass guitar",
+			"mariachi G-string"
+		},
+		{
+			"electron submarine",
+			"periscope",
+			"photoprotoneutron torpedo"
+		},
+		{
+			"endangered inflatable white tiger",
+			"giant white ear",
+			"pygmy blowgun"
+		},
+		{
+			"enraged cow",
+			"pair of horns",
+			"barbed-wire fence"
+		},
+		{
+			"fancy bath slug",
+			"slimy eyestalk",
+			"fancy bath salts"
+		},
+		{
+			"fickle finger of f8",
+			"giant cuticle",
+			"razor-sharp can lid"
+		},
+		{
+			"flaming samurai",
+			"flaming katana",
+			"frigid ninja stars"
+		},
+		{
+			"giant bee",
+			"formidable stinger",
+			"tropical orchid"
+		},
+		{
+			"giant fried egg",
+			"flash of albumen",
+			"black pepper"
+		},
+		{
+			"giant desktop globe",
+			"the North Pole",
+			"NG"
+		},
+		{
+			"ice cube",
+			"moonlight reflecting off of what appears to be ice",
+			"can of hair spray"
+		},
+		{
+			"malevolent crop circle",
+			"amber waves of grain",
+			"bronzed locust"
+		},
+		{
+			"possessed pipe-organ",
+			"pipes with steam shooting out of them",
+			"powdered organs"
+		},
+		{
+			"pretty fly",
+			"translucent wing",
+			"spider web"
+		},
+		{
+			"tyrannosaurus tex",
+			"large cowboy hat",
+			"chaos butterfly"
+		},
+		{
+			"vicious easel",
+			"tall wooden frame",
+			"disease"
+		},
+	};
 
 	public static String guardianName( final String[] guardianData )
 	{
@@ -229,7 +489,13 @@ public abstract class SorceressLair
 
 	// Familiars and the familiars that defeat them
 	private static final String[][] FAMILIAR_DATA =
-		{ { "giant sabre-toothed lime", "Levitating Potato" }, { "giant mosquito", "Sabre-Toothed Lime" }, { "giant barrrnacle", "Angry Goat" }, { "giant goat", "Mosquito" }, { "giant potato", "Barrrnacle" } };
+	{
+		{ "giant sabre-toothed lime", "Levitating Potato" },
+		{ "giant mosquito", "Sabre-Toothed Lime" },
+		{ "giant barrrnacle", "Angry Goat" },
+		{ "giant goat", "Mosquito" },
+		{ "giant potato", "Barrrnacle" }
+	};
 
 	private static final boolean checkPrerequisites( final int min, final int max )
 	{
@@ -423,13 +689,26 @@ public abstract class SorceressLair
 		// stage of the entryway.
 
 		AdventureResult stringed =
-			SorceressLair.pickOne( new AdventureResult[] { SorceressLair.ACOUSTIC_GUITAR, SorceressLair.HEAVY_METAL_GUITAR, SorceressLair.SHAGADELIC_BANJO, SorceressLair.DISCO_BANJO, SorceressLair.STONE_BANJO, SorceressLair.UKELELE, SorceressLair.SITAR } );
+			SorceressLair.pickOne( new AdventureResult[] {
+					SorceressLair.ACOUSTIC_GUITAR,
+					SorceressLair.HEAVY_METAL_GUITAR,
+					SorceressLair.SHAGADELIC_BANJO,
+					SorceressLair.DISCO_BANJO,
+					SorceressLair.STONE_BANJO,
+					SorceressLair.UKELELE,
+					SorceressLair.SITAR } );
 		requirements.add( stringed );
 
 		AdventureResult percussion =
-			SorceressLair.pickOne( new AdventureResult[] { SorceressLair.BONE_RATTLE, SorceressLair.TAMBOURINE, SorceressLair.BROKEN_SKULL } );
+			SorceressLair.pickOne( new AdventureResult[] {
+					SorceressLair.BONE_RATTLE,
+					SorceressLair.TAMBOURINE,
+					SorceressLair.BROKEN_SKULL } );
 		requirements.add( percussion );
-		requirements.add( SorceressLair.pickOne( new AdventureResult[] { SorceressLair.ACCORDION, SorceressLair.ROCKNROLL_LEGEND, SorceressLair.SQUEEZEBOX } ) );
+		requirements.add( SorceressLair.pickOne( new AdventureResult[] {
+					SorceressLair.ACCORDION,
+					SorceressLair.ROCKNROLL_LEGEND,
+					SorceressLair.SQUEEZEBOX } ) );
 
 		// If he brought a balloon monkey, get him an easter egg
 
@@ -1067,8 +1346,12 @@ public abstract class SorceressLair
 	private static final int NORTH = 0, EAST = 1, SOUTH = 2, WEST = 3;
 	private static final String[] DIRECTIONS = new String[] { "north", "east", "south", "west" };
 
-	private static final String[][] EXIT_IDS =
-		new String[][] { { "Upper-Left", "Middle-Left", "Lower-Left" }, { "Upper-Middle", "Center", "Lower-Middle" }, { "Upper-Right", "Middle-Right", "Lower-Right" } };
+	private static final String[][] EXIT_IDS = new String[][]
+	{
+		{ "Upper-Left", "Middle-Left", "Lower-Left" },
+		{ "Upper-Middle", "Center", "Lower-Middle" },
+		{ "Upper-Right", "Middle-Right", "Lower-Right" }
+	};
 
 	public static final void completeHedgeMaze()
 	{

@@ -63,7 +63,7 @@ public interface KoLConstants
 	// Version information for the current version of KoLmafia.
 	// Rendered in various locations and therefore made public.
 
-	public static final String REVISION = "5401:5403";
+	public static final String REVISION = null;
 	public static final String VERSION_NAME = "KoLmafia v11.9";
 	public static final String VERSION_DATE = "Released on December 11, 2007";
 
@@ -120,11 +120,43 @@ public interface KoLConstants
 		}
 	};
 
-	public static final String[][] FUNCTION_MENU =
-		new String[][] { { "Inventory", "inventory.php?which=1" }, { "Equipment", "inventory.php?which=2" }, { "Misc Items", "inventory.php?which=3" }, { "Auto Sell", "sellstuff.php" }, { "Character", "charsheet.php" }, { "Quest Log", "questlog.php" }, { "Skills", "skills.php" }, { "Read Messages", "messages.php" }, { "Account Menu", "account.php" }, { "Documentation", "doc.php?topic=home" }, { "KoL Forums", "http://forums.kingdomofloathing.com/" }, { "Store", "http://store.asymmetric.net/" } };
+	public static final String[][] FUNCTION_MENU = new String[][]
+	{
+		{ "Inventory", "inventory.php?which=1" },
+		{ "Equipment", "inventory.php?which=2" },
+		{ "Misc Items", "inventory.php?which=3" },
+		{ "Auto Sell", "sellstuff.php" },
+		{ "Character", "charsheet.php" },
+		{ "Quest Log", "questlog.php" },
+		{ "Skills", "skills.php" },
+		{ "Read Messages", "messages.php" },
+		{ "Account Menu", "account.php" },
+		{ "Documentation", "doc.php?topic=home" },
+		{ "KoL Forums", "http://forums.kingdomofloathing.com/" },
+		{ "Store", "http://store.asymmetric.net/" }
+	};
 
-	public static final String[][] GOTO_MENU =
-		new String[][] { { "Main Map", "main.php" }, { "Seaside Town", "town.php" }, { "Spookyraven", "manor.php" }, { "Council", "council.php" }, { "Guild Hall", "guild.php" }, { "Clan Hall", "clan_hall.php" }, { "The Mall", "mall.php" }, { "Campground", "campground.php" }, { "Big Mountains", "mountains.php" }, { "Mt. McLargeHuge", "mclargehuge.php" }, { "Nearby Plains", "plains.php" }, { "Cobb's Knob", "knob.php" }, { "Defiled Cyrpt", "cyrpt.php" }, { "The Beanstalk", "beanstalk.php" }, { "Sorceress' Lair", "lair.php" }, { "Desert Beach", "beach.php" }, { "Distant Woods", "woods.php" }, { "Mysterious Island", "island.php" } };
+	public static final String[][] GOTO_MENU = new String[][]
+	{
+		{ "Main Map", "main.php" },
+		{ "Seaside Town", "town.php" },
+		{ "Spookyraven", "manor.php" },
+		{ "Council", "council.php" },
+		{ "Guild Hall", "guild.php" },
+		{ "Clan Hall", "clan_hall.php" },
+		{ "The Mall", "mall.php" },
+		{ "Campground", "campground.php" },
+		{ "Big Mountains", "mountains.php" },
+		{ "Mt. McLargeHuge", "mclargehuge.php" },
+		{ "Nearby Plains", "plains.php" },
+		{ "Cobb's Knob", "knob.php" },
+		{ "Defiled Cyrpt", "cyrpt.php" },
+		{ "The Beanstalk", "beanstalk.php" },
+		{ "Sorceress' Lair", "lair.php" },
+		{ "Desert Beach", "beach.php" },
+		{ "Distant Woods", "woods.php" },
+		{ "Mysterious Island", "island.php" }
+	};
 
 	// Scripting-related constants.  Used throughout KoLmafia in
 	// order to ensure proper handling of scripts.
@@ -164,7 +196,29 @@ public interface KoLConstants
 	// All data files that can be overridden
 
 	public static final String[] OVERRIDE_DATA =
-		{ "adventures.txt", "buffbots.txt", "classskills.txt", "combats.txt", "concoctions.txt", "defaults.txt", "equipment.txt", "familiars.txt", "fullness.txt", "inebriety.txt", "itemdescs.txt", "modifiers.txt", "monsters.txt", "npcstores.txt", "outfits.txt", "packages.txt", "spleenhit.txt", "statuseffects.txt", "tradeitems.txt", "zapgroups.txt", "zonelist.txt" };
+	{
+		"adventures.txt",
+		"buffbots.txt",
+		"classskills.txt",
+		"combats.txt",
+		"concoctions.txt",
+		"defaults.txt",
+		"equipment.txt",
+		"familiars.txt",
+		"fullness.txt",
+		"inebriety.txt",
+		"itemdescs.txt",
+		"modifiers.txt",
+		"monsters.txt",
+		"npcstores.txt",
+		"outfits.txt",
+		"packages.txt",
+		"spleenhit.txt",
+		"statuseffects.txt",
+		"tradeitems.txt",
+		"zapgroups.txt",
+		"zonelist.txt"
+	};
 
 	public static final int STATIONARY_BUTTON_COUNT = 3;
 
@@ -296,18 +350,54 @@ public interface KoLConstants
 
 	public static final String DEFAULT_KMAIL = "Keep the contents of this message top-sekrit, ultra hush-hush.";
 
-	public static final String[][] WIN_GAME_TEXT =
-		new String[][] { { "Petitioning the Seaside Town Council for automatic game completion...", "The Seaside Town Council has rejected your petition.  Game incomplete.", "You reject the Seaside Town's decision.  Fighting the council...", "You have been defeated by the Seaside Town Council." },
+	public static final String[][] WIN_GAME_TEXT = new String[][]
+	{
+		{
+			"Petitioning the Seaside Town Council for automatic game completion...",
+			"The Seaside Town Council has rejected your petition.  Game incomplete.",
+			"You reject the Seaside Town's decision.  Fighting the council...",
+			"You have been defeated by the Seaside Town Council."
+		},
 
-		{ "You enter the super-secret code into the Strange Leaflet...", "Your ruby W and heavy D fuse to form the mysterious R!", "Moxie sign backdoor accessed.  Supertinkering The Ultimate Weapon...", "Supertinkering complete.  Executing tower script...", "Your RNG spawns an enraged cow on Floors 1-6." },
+		{
+			"You enter the super-secret code into the Strange Leaflet...",
+			"Your ruby W and heavy D fuse to form the mysterious R!",
+			"Moxie sign backdoor accessed.	Supertinkering The Ultimate Weapon...",
+			"Supertinkering complete.  Executing tower script...",
+			"Your RNG spawns an enraged cow on Floors 1-6."
+		},
 
-		{ "You win the game. What, you were expecting more?", "You are now standing in an open field to the west of the Kingdom.", "You hear a gurgling ocean to the south, and a path leads north into Valhalla.", "What now, Adventurer?" },
+		{
+			"You win the game. What, you were expecting more?",
+			"You are now standing in an open field to the west of the Kingdom.",
+			"You hear a gurgling ocean to the south, and a path leads north into Valhalla.",
+			"What now, Adventurer?"
+		},
 
-		{ "You touch your star starfish!  You surge with power!", "Accessing tower backdoor.  Fighting Naughty Sorceress...", "Connection timed out during post.  Retrying...", "Connection timed out during reply.  Retrying...", "Star power expired.  You slink away, dejected and defeated." },
+		{
+			"You touch your star starfish!	You surge with power!",
+			"Accessing tower backdoor.  Fighting Naughty Sorceress...",
+			"Connection timed out during post.  Retrying...",
+			"Connection timed out during reply.  Retrying...",
+			"Star power expired.  You slink away, dejected and defeated."
+		},
 
-		{ "You raise your metallic A to the sky. Victory is yours!", "Original game concept by Jick (Asymmetric Publications).", "Co-written by Mr. Skullhead, Riff, and the /dev team.", "Special thanks to: the Mods, the Ascension testers, and you.", "We present you a new quest, which is the same thing, only harder.", "Segmentation fault.  Core dumped." },
+		{
+			"You raise your metallic A to the sky. Victory is yours!",
+			"Original game concept by Jick (Asymmetric Publications).",
+			"Co-written by Mr. Skullhead, Riff, and the /dev team.",
+			"Special thanks to: the Mods, the Ascension testers, and you.",
+			"We present you a new quest, which is the same thing, only harder.",
+			"Segmentation fault.  Core dumped."
+		},
 
-		{ "Unlocking secret Arizona trail script...", "Crossing first obstacle, admiring landmarks...", "Path set to oxygenarian, familiar pace set to grue-ing...", "You have died from KoLera." } };
+		{
+			"Unlocking secret Arizona trail script...",
+			"Crossing first obstacle, admiring landmarks...",
+			"Path set to oxygenarian, familiar pace set to grue-ing...",
+			"You have died from KoLera."
+		}
+	};
 
 	// Variables which relate to a given session.  These are made
 	// global in order to ensure that any element of KoLmafia can
