@@ -1147,7 +1147,7 @@ public class BasementRequest
 			changes.append( "</option>" );
 		}
 
-		changes.append( "</select></td><td>&nbsp;</td><td valign=top align=left><input type=\"button\" value=\"exec\" onClick=\"changeBasementGear();\"></td></tr>" );
+		changes.append( "</select></td><td>&nbsp;</td><td valign=top align=left><input type=\"button\" value=\"exec\" onclick=\"changeBasementGear();\"></td></tr>" );
 
 		// Add effects
 
@@ -1161,7 +1161,7 @@ public class BasementRequest
 			String modifierName = Modifiers.getModifierName( BasementRequest.actualBoost );
 			modifierName = StaticEntity.globalStringDelete( modifierName, "Maximum " ).toLowerCase();
 
-			changes.append( "<tr><td><select onChange=\"" );
+			changes.append( "<tr><td><select onchange=\"" );
 			changes.append( computeFunction );
 			changes.append( "\" id=\"potion\" style=\"width: 400px\" multiple size=5>" );
 
@@ -1188,7 +1188,7 @@ public class BasementRequest
 			}
 
 			changes.append( "</select></td><td>&nbsp;</td><td valign=top align=left>" );
-			changes.append( "<input type=\"button\" value=\"exec\" onClick=\"changeBasementEffects();\">" );
+			changes.append( "<input type=\"button\" value=\"exec\" onclick=\"changeBasementEffects();\">" );
 			changes.append( "<br/><br/><font size=-1><nobr id=\"changevalue\">" );
 			changes.append( (int) BasementRequest.basementTestCurrent );
 			changes.append( "</nobr><br/><nobr id=\"changetarget\">" );
