@@ -89,53 +89,53 @@ public abstract class MushroomPlot
 	// Assocations between the mushroom Ids
 	// and the mushroom image.
 
-	public static final Object[][] MUSHROOMS =
-		{
+	public static final Object [][] MUSHROOMS =
+	{
 		// Sprout and emptiness
-		{ new Integer( MushroomPlot.EMPTY ), "dirt1.gif", "__", "__", new Integer( 0 ), "empty" }, { new Integer(
-			MushroomPlot.SPROUT ), "mushsprout.gif", "..", "..", new Integer( 0 ), "unknown" },
+		{ new Integer( EMPTY ), "dirt1.gif", "__", "__", new Integer( 0 ), "empty" },
+		{ new Integer( SPROUT ), "mushsprout.gif", "..", "..", new Integer( 0 ), "unknown" },
 
 		// First generation mushrooms
-		{ new Integer( MushroomPlot.KNOB ), "mushroom.gif", "kb", "KB", new Integer( 1 ), "knob" }, { new Integer(
-			MushroomPlot.KNOLL ), "bmushroom.gif", "kn", "KN", new Integer( 2 ), "knoll" }, { new Integer(
-			MushroomPlot.SPOOKY ), "spooshroom.gif", "sp", "SP", new Integer( 3 ), "spooky" },
+		{ new Integer( KNOB ), "mushroom.gif", "kb", "KB", new Integer( 1 ), "knob" },
+		{ new Integer( KNOLL ), "bmushroom.gif", "kn", "KN", new Integer( 2 ), "knoll" },
+		{ new Integer( SPOOKY ), "spooshroom.gif", "sp", "SP", new Integer( 3 ), "spooky" },
 
 		// Second generation mushrooms
-		{ new Integer( MushroomPlot.WARM ), "flatshroom.gif", "wa", "WA", new Integer( 4 ), "warm" }, { new Integer(
-			MushroomPlot.COOL ), "plaidroom.gif", "co", "CO", new Integer( 5 ), "cool" }, { new Integer(
-			MushroomPlot.POINTY ), "tallshroom.gif", "po", "PO", new Integer( 6 ), "pointy" },
+		{ new Integer( WARM ), "flatshroom.gif", "wa", "WA", new Integer( 4 ), "warm" },
+		{ new Integer( COOL ), "plaidroom.gif", "co", "CO", new Integer( 5 ), "cool" },
+		{ new Integer( POINTY ), "tallshroom.gif", "po", "PO", new Integer( 6 ), "pointy" },
 
 		// Third generation mushrooms
-		{ new Integer( MushroomPlot.FLAMING ), "fireshroom.gif", "fl", "FL", new Integer( 7 ), "flaming" }, { new Integer(
-			MushroomPlot.FROZEN ), "iceshroom.gif", "fr", "FR", new Integer( 8 ), "frozen" }, { new Integer(
-			MushroomPlot.STINKY ), "stinkshroo.gif", "st", "ST", new Integer( 9 ), "stinky" },
+		{ new Integer( FLAMING ), "fireshroom.gif", "fl", "FL", new Integer( 7 ), "flaming" },
+		{ new Integer( FROZEN ), "iceshroom.gif", "fr", "FR", new Integer( 8 ), "frozen" },
+		{ new Integer( STINKY ), "stinkshroo.gif", "st", "ST", new Integer( 9 ), "stinky" },
 
 		// Special mushrooms
-		{ new Integer( MushroomPlot.GLOOMY ), "blackshroo.gif", "gl", "GL", new Integer( 10 ), "gloomy" }, };
+		{ new Integer( GLOOMY ), "blackshroo.gif", "gl", "GL", new Integer( 10 ), "gloomy" },
+	};
 
-	public static final int[][] BREEDING =
-		{
+	public static final int [][] BREEDING =
+	{
 		// EMPTY,   KNOB,    KNOLL,   SPOOKY,  WARM,    COOL,    POINTY   FLAMING  FROZEN   STINKY   GLOOMY
 
-		{ MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY }, // EMPTY
-		{ MushroomPlot.EMPTY, MushroomPlot.KNOB, MushroomPlot.COOL, MushroomPlot.WARM, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY }, // KNOB
-		{ MushroomPlot.EMPTY, MushroomPlot.COOL, MushroomPlot.KNOLL, MushroomPlot.POINTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY }, // KNOLL
-		{ MushroomPlot.EMPTY, MushroomPlot.WARM, MushroomPlot.POINTY, MushroomPlot.SPOOKY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.GLOOMY, MushroomPlot.EMPTY, MushroomPlot.EMPTY }, // SPOOKY
-		{ MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.WARM, MushroomPlot.STINKY, MushroomPlot.FLAMING, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY }, // WARM
-		{ MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.STINKY, MushroomPlot.COOL, MushroomPlot.FROZEN, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY }, // COOL
-		{ MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.FLAMING, MushroomPlot.FROZEN, MushroomPlot.POINTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY }, // POINTY
-		{ MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.FLAMING, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY }, // FLAMING
-		{ MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.GLOOMY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.FROZEN, MushroomPlot.EMPTY, MushroomPlot.EMPTY }, // FROZEN
-		{ MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.STINKY, MushroomPlot.EMPTY }, // STINKY
-		{ MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY }
-		// GLOOMY
-		};
+		{  EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY  },  // EMPTY
+		{  EMPTY,   KNOB,    COOL,    WARM,    EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY  },  // KNOB
+		{  EMPTY,   COOL,    KNOLL,   POINTY,  EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY  },  // KNOLL
+		{  EMPTY,   WARM,    POINTY,  SPOOKY,  EMPTY,   EMPTY,   EMPTY,   EMPTY,   GLOOMY,  EMPTY,   EMPTY  },  // SPOOKY
+		{  EMPTY,   EMPTY,   EMPTY,   EMPTY,   WARM,    STINKY,  FLAMING, EMPTY,   EMPTY,   EMPTY,   EMPTY  },  // WARM
+		{  EMPTY,   EMPTY,   EMPTY,   EMPTY,   STINKY,  COOL,    FROZEN,  EMPTY,   EMPTY,   EMPTY,   EMPTY  },  // COOL
+		{  EMPTY,   EMPTY,   EMPTY,   EMPTY,   FLAMING, FROZEN,  POINTY,  EMPTY,   EMPTY,   EMPTY,   EMPTY  },  // POINTY
+		{  EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   FLAMING, EMPTY,   EMPTY,   EMPTY  },  // FLAMING
+		{  EMPTY,   EMPTY,   EMPTY,   GLOOMY,  EMPTY,   EMPTY,   EMPTY,   EMPTY,   FROZEN,  EMPTY,   EMPTY  },  // FROZEN
+		{  EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   STINKY,  EMPTY  },  // STINKY
+		{  EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY  }   // GLOOMY
+	};
+
 
 	// Spore data - includes price of the spore
 	// and the item Id associated with the spore.
 
-	private static final int[][] SPORE_DATA =
-		{ { MushroomPlot.SPOOKY, 30 }, { MushroomPlot.KNOB, 40 }, { MushroomPlot.KNOLL, 50 } };
+	private static final int[][] SPORE_DATA = { { SPOOKY, 30 }, { KNOB, 40 }, { KNOLL, 50 } };
 
 	/**
 	 * static final method which resets the state of the mushroom plot. This should be used whenever the login process
