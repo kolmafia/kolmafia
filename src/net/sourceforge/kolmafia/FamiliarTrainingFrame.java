@@ -36,16 +36,13 @@ package net.sourceforge.kolmafia;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.GridLayout;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.TreeSet;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

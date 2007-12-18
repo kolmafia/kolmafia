@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
+
 import net.sourceforge.foxtrot.Job;
 import net.sourceforge.kolmafia.StaticEntity.TurnCounter;
 

@@ -36,12 +36,9 @@ package net.java.dev.spellcast.utilities;
 
 import java.awt.Color;
 import java.awt.Dimension;
-
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.net.URL;
-
-import java.awt.event.KeyEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;

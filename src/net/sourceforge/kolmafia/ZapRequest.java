@@ -34,9 +34,8 @@
 package net.sourceforge.kolmafia;
 
 import java.io.BufferedReader;
-
-import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.KoLDatabase.BooleanArray;

@@ -33,12 +33,8 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.Map.Entry;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -46,7 +42,6 @@ import javax.swing.JList;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
-
 import net.sourceforge.kolmafia.ConcoctionsDatabase.Concoction;
 import net.sourceforge.kolmafia.KoLDatabase.LowerCaseEntry;
 import net.sourceforge.kolmafia.StoreManager.SoldItem;

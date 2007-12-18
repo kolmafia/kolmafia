@@ -36,7 +36,6 @@ package net.sourceforge.kolmafia;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Component;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -53,7 +52,6 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
 import javax.swing.ListSelectionModel;
-
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 

@@ -36,16 +36,13 @@ package net.sourceforge.kolmafia;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Toolkit;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FilenameFilter;
-
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Locale;

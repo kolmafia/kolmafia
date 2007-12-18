@@ -35,16 +35,13 @@
 package net.java.dev.spellcast.utilities;
 
 import java.awt.Color;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
-
-import java.net.URL;
 import java.net.HttpURLConnection;
+import java.net.URL;
 
 import com.velocityreviews.forums.HttpTimeoutHandler;
 

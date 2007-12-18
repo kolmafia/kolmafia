@@ -35,9 +35,9 @@ package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 import javax.swing.SwingUtilities;
+
 import net.sourceforge.foxtrot.ConcurrentWorker;
 import net.sourceforge.foxtrot.Job;
 

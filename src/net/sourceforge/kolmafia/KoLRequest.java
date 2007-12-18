@@ -40,17 +40,15 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
-
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -58,6 +56,7 @@ import java.util.regex.Pattern;
 import javax.swing.SwingUtilities;
 
 import net.sourceforge.foxtrot.Job;
+
 import com.velocityreviews.forums.HttpTimeoutHandler;
 
 public class KoLRequest extends Job implements KoLConstants

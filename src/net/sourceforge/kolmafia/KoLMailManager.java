@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia;
 
 import java.util.Map;
 import java.util.TreeMap;
+
 import net.java.dev.spellcast.utilities.SortedListModel;
 
 public abstract class KoLMailManager extends StaticEntity

@@ -33,7 +33,6 @@
 
 package net.sourceforge.kolmafia;
 
-import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

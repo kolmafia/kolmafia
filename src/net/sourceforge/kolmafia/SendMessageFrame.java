@@ -33,28 +33,22 @@
 
 package net.sourceforge.kolmafia;
 
-import com.sun.java.forums.SpringUtilities;
-
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.JToolBar;
-
 import javax.swing.SpringLayout;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
+
+import com.sun.java.forums.SpringUtilities;
 
 public class SendMessageFrame extends KoLFrame
 {

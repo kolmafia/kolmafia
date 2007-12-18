@@ -43,6 +43,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class CharsheetFrame extends AdventureOptionsFrame

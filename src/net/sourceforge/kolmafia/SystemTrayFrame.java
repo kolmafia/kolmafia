@@ -33,19 +33,19 @@
 
 package net.sourceforge.kolmafia;
 
-import javax.swing.ImageIcon;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 
+import javax.swing.ImageIcon;
+
+import net.java.dev.spellcast.utilities.JComponentUtilities;
+
 import com.jeans.trayicon.TrayIconPopup;
 import com.jeans.trayicon.TrayIconPopupSimpleItem;
 import com.jeans.trayicon.WindowsTrayIcon;
-
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public abstract class SystemTrayFrame implements KoLConstants
 {

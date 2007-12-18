@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class CakeArenaManager extends StaticEntity

@@ -34,18 +34,16 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.Color;
-
 import java.io.File;
 import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TreeMap;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import javax.swing.SwingUtilities;
 
 import net.java.dev.spellcast.utilities.DataUtilities;

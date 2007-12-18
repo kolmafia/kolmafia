@@ -39,17 +39,15 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TreeMap;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.sourceforge.kolmafia.StaticEntity.TurnCounter;
 import net.java.dev.spellcast.utilities.DataUtilities;
+import net.sourceforge.kolmafia.StaticEntity.TurnCounter;
 
 public class LocalRelayRequest extends PasswordHashRequest
 {

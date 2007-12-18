@@ -34,13 +34,11 @@
 package net.sourceforge.kolmafia;
 
 import java.io.BufferedReader;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.TreeMap;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

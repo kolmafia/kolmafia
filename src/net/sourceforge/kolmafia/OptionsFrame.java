@@ -38,7 +38,6 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -54,17 +53,15 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
-
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
-
-import com.informit.guides.JDnDList;
-
-import tab.CloseTabPaneEnhancedUI;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
+import tab.CloseTabPaneEnhancedUI;
+
+import com.informit.guides.JDnDList;
 
 public class OptionsFrame extends KoLFrame
 {

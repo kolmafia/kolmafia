@@ -36,16 +36,14 @@ package net.sourceforge.kolmafia;
 import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.RandomAccessFile;
-import java.nio.channels.FileChannel;
-import java.nio.channels.FileLock;
 import java.io.PrintStream;
+import java.io.RandomAccessFile;
 import java.lang.reflect.Method;
 import java.math.BigInteger;
-
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileLock;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -53,7 +51,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.TimeZone;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -67,6 +64,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.HPRestoreItemList.HPRestoreItem;
 import net.sourceforge.kolmafia.MPRestoreItemList.MPRestoreItem;
 import net.sourceforge.kolmafia.StoreManager.SoldItem;
+
 import com.velocityreviews.forums.HttpTimeoutClient;
 
 public abstract class KoLmafia implements KoLConstants

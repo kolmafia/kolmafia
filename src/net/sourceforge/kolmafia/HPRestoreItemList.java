@@ -35,8 +35,6 @@ package net.sourceforge.kolmafia;
 
 import javax.swing.JCheckBox;
 
-import net.sourceforge.kolmafia.MPRestoreItemList.MPRestoreItem;
-
 public abstract class HPRestoreItemList extends StaticEntity
 {
 	private static boolean purchaseBasedSort = false;

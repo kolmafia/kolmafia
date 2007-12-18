@@ -35,10 +35,9 @@ package net.sourceforge.kolmafia;
 
 import java.awt.Color;
 import java.io.StringWriter;
-import javax.swing.JEditorPane;
-
 import java.util.regex.Pattern;
-import java.util.regex.Matcher;
+
+import javax.swing.JEditorPane;
 
 public class RequestPane extends JEditorPane
 {

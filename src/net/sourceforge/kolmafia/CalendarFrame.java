@@ -36,22 +36,20 @@ package net.sourceforge.kolmafia;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.text.SimpleDateFormat;
-
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
 import javax.swing.JTable;
-
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
+
+import net.java.dev.spellcast.utilities.JComponentUtilities;
 import ca.bcit.geekkit.CalendarTableModel;
 import ca.bcit.geekkit.JCalendar;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class CalendarFrame extends KoLFrame implements ListSelectionListener
 {

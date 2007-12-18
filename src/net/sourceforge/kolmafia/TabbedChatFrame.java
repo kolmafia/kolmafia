@@ -34,17 +34,15 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-
 import java.awt.event.MouseEvent;
 
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import tab.CloseTabbedPane;
-import tab.CloseTabPaneUI;
 import tab.CloseListener;
+import tab.CloseTabPaneUI;
+import tab.CloseTabbedPane;
 
 import com.sun.java.forums.CloseableTabbedPane;
 import com.sun.java.forums.CloseableTabbedPaneListener;

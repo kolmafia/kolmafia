@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia;
 
 import java.util.List;
+
 import net.sourceforge.kolmafia.CakeArenaManager.ArenaOpponent;
 
 public class FamiliarTool

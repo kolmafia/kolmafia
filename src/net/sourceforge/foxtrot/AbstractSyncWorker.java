@@ -9,6 +9,7 @@
 package net.sourceforge.foxtrot;
 
 import javax.swing.SwingUtilities;
+
 import net.sourceforge.foxtrot.pumps.ConditionalEventPump;
 
 /**

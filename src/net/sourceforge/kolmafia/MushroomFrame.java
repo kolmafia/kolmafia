@@ -38,12 +38,9 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridLayout;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import java.io.File;
-
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -52,6 +49,7 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class MushroomFrame extends KoLFrame

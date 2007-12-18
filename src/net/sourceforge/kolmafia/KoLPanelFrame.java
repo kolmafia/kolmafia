@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.BorderLayout;
+
 import net.java.dev.spellcast.utilities.ActionPanel;
 
 public class KoLPanelFrame extends KoLFrame

@@ -37,8 +37,8 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.Hashtable;
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;

@@ -36,7 +36,6 @@ package net.sourceforge.kolmafia;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
