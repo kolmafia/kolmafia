@@ -34,7 +34,7 @@
 	<!--  sets the default compiler to Jikes if available  -->
 	<!-- ================================================= -->
 
-	<target name="compiler" if="env.JIKES_HOME">
+	<target name="setjikes" if="env.JIKES_HOME">
 		<property name="build.compiler" value="jikes" />
 	</target>
 
@@ -92,7 +92,7 @@
 	<!--  generate class files  -->
 	<!-- ====================== -->
 
-	<target name="compile" depends="init,compiler">
+	<target name="compile" depends="init,setjikes">
 
 		<javac source="1.4" srcdir="${src}" destdir="${build}"
 			failonerror="false" debug="on" debuglevel="lines,vars,source" deprecation="on" nowarn="on"/>
