@@ -44,25 +44,27 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.SpringLayout;
+import javax.swing.SwingConstants;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 import com.sun.java.forums.SpringUtilities;
 
-public class SendMessageFrame extends KoLFrame
+public class SendMessageFrame
+	extends KoLFrame
 {
 	private boolean isStorage = false;
 
-	private JComboBox sourceSelect;
-	private LockableListModel contacts;
-	private MutableComboBox recipientEntry;
+	private final JComboBox sourceSelect;
+	private final LockableListModel contacts;
+	private final MutableComboBox recipientEntry;
 
-	private LockableListModel attachments;
-	private AutoHighlightField attachedMeat;
-	private JTextArea messageEntry;
+	private final LockableListModel attachments;
+	private final AutoHighlightField attachedMeat;
+	private final JTextArea messageEntry;
 
-	public SendMessageFrame( String recipient )
+	public SendMessageFrame( final String recipient )
 	{
 		this();
 		this.setRecipient( recipient );
@@ -75,29 +77,29 @@ public class SendMessageFrame extends KoLFrame
 
 		// What kind of package you want to send.
 
-		sourceSelect = new JComboBox();
-		sourceSelect.addItem( "Send items/meat from inventory" );
-		sourceSelect.addItem( "Send items/meat from ancestral storage" );
-		sourceSelect.addActionListener( new AttachmentClearListener() );
+		this.sourceSelect = new JComboBox();
+		this.sourceSelect.addItem( "Send items/meat from inventory" );
+		this.sourceSelect.addItem( "Send items/meat from ancestral storage" );
+		this.sourceSelect.addActionListener( new AttachmentClearListener() );
 
 		// Who you want to send it to.
 
-		contacts = (LockableListModel) contactList.clone();
-		recipientEntry = new MutableComboBox( contacts, true );
+		this.contacts = (LockableListModel) KoLConstants.contactList.clone();
+		this.recipientEntry = new MutableComboBox( this.contacts, true );
 
 		// How much you want to attach, in raw terms.
 
-		attachments = new LockableListModel();
-		attachedMeat = new AutoHighlightField( "0" );
+		this.attachments = new LockableListModel();
+		this.attachedMeat = new AutoHighlightField( "0" );
 
 		// Now, layout the center part of the panel.
 
-		mainPanel.add( new JLabel( "Source:  ", JLabel.RIGHT ) );
-		mainPanel.add( sourceSelect );
-		mainPanel.add( new JLabel( "Recipient:  ", JLabel.RIGHT ) );
-		mainPanel.add( recipientEntry );
-		mainPanel.add( new JLabel( "Send Meat:  ", JLabel.RIGHT ) );
-		mainPanel.add( attachedMeat );
+		mainPanel.add( new JLabel( "Source:  ", SwingConstants.RIGHT ) );
+		mainPanel.add( this.sourceSelect );
+		mainPanel.add( new JLabel( "Recipient:  ", SwingConstants.RIGHT ) );
+		mainPanel.add( this.recipientEntry );
+		mainPanel.add( new JLabel( "Send Meat:  ", SwingConstants.RIGHT ) );
+		mainPanel.add( this.attachedMeat );
 		SpringUtilities.makeCompactGrid( mainPanel, 3, 2, 5, 5, 5, 5 );
 
 		// Construct the east container.
@@ -106,11 +108,11 @@ public class SendMessageFrame extends KoLFrame
 		JComponentUtilities.setComponentSize( attach, 15, 15 );
 		JPanel labelPanel = new JPanel( new BorderLayout( 5, 5 ) );
 		labelPanel.add( attach, BorderLayout.WEST );
-		labelPanel.add( new JLabel( "Click to attach an item", JLabel.LEFT ), BorderLayout.CENTER );
+		labelPanel.add( new JLabel( "Click to attach an item", SwingConstants.LEFT ), BorderLayout.CENTER );
 
 		JPanel attachPanel = new JPanel( new BorderLayout( 5, 5 ) );
 		attachPanel.add( labelPanel, BorderLayout.NORTH );
-		attachPanel.add( new SimpleScrollPane( attachments, 3 ), BorderLayout.CENTER );
+		attachPanel.add( new SimpleScrollPane( this.attachments, 3 ), BorderLayout.CENTER );
 
 		JPanel northPanel = new JPanel( new BorderLayout( 20, 20 ) );
 		northPanel.add( mainPanel, BorderLayout.CENTER );
@@ -121,13 +123,13 @@ public class SendMessageFrame extends KoLFrame
 
 		// Add the message entry to the panel.
 
-		messageEntry = new JTextArea();
-		messageEntry.setFont( DEFAULT_FONT );
-		messageEntry.setRows( 7 );
-		messageEntry.setLineWrap( true );
-		messageEntry.setWrapStyleWord( true );
+		this.messageEntry = new JTextArea();
+		this.messageEntry.setFont( KoLConstants.DEFAULT_FONT );
+		this.messageEntry.setRows( 7 );
+		this.messageEntry.setLineWrap( true );
+		this.messageEntry.setWrapStyleWord( true );
 
-		SimpleScrollPane scrollArea = new SimpleScrollPane( messageEntry );
+		SimpleScrollPane scrollArea = new SimpleScrollPane( this.messageEntry );
 		mainHolder.add( scrollArea, BorderLayout.CENTER );
 
 		// Add a button to the bottom panel.
@@ -149,10 +151,10 @@ public class SendMessageFrame extends KoLFrame
 		this.isStorage = false;
 		this.sourceSelect.setSelectedIndex( 0 );
 
-		if ( !contacts.contains( recipient ) )
+		if ( !this.contacts.contains( recipient ) )
 		{
 			recipient = KoLmafia.getPlayerName( recipient );
-			contacts.add( 0, recipient );
+			this.contacts.add( 0, recipient );
 		}
 
 		this.recipientEntry.getEditor().setItem( recipient );
@@ -164,62 +166,80 @@ public class SendMessageFrame extends KoLFrame
 	}
 
 	public boolean shouldAddStatusBar()
-	{	return true;
+	{
+		return true;
 	}
 
-	private class AttachmentClearListener implements ActionListener
+	private class AttachmentClearListener
+		implements ActionListener
 	{
-		public void actionPerformed( ActionEvent e )
+		public void actionPerformed( final ActionEvent e )
 		{
-			boolean wasStorage = isStorage;
-			isStorage = sourceSelect.getSelectedIndex() == 1;
+			boolean wasStorage = SendMessageFrame.this.isStorage;
+			SendMessageFrame.this.isStorage = SendMessageFrame.this.sourceSelect.getSelectedIndex() == 1;
 
-			if ( isStorage != wasStorage )
-				attachments.clear();
+			if ( SendMessageFrame.this.isStorage != wasStorage )
+			{
+				SendMessageFrame.this.attachments.clear();
+			}
 		}
 	}
 
 	public void sendMessage()
 	{
-		Object [] attachmentsArray = new Object[ attachments.size() + 1 ];
-		attachments.toArray( attachmentsArray );
+		Object[] attachmentsArray = new Object[ this.attachments.size() + 1 ];
+		this.attachments.toArray( attachmentsArray );
 
-		attachmentsArray[ attachments.size() ] = new AdventureResult( AdventureResult.MEAT, getValue( attachedMeat, 0 ) );
+		attachmentsArray[ this.attachments.size() ] =
+			new AdventureResult( AdventureResult.MEAT, KoLFrame.getValue( this.attachedMeat, 0 ) );
 
-		String [] recipients = StaticEntity.getClient().extractTargets( (String) this.recipientEntry.getSelectedItem() );
+		String[] recipients = StaticEntity.getClient().extractTargets( (String) this.recipientEntry.getSelectedItem() );
 
 		RequestThread.openRequestSequence();
 		for ( int i = 0; i < recipients.length; ++i )
-			KoLmafiaCLI.DEFAULT_SHELL.executeSendRequest( recipients[i], this.messageEntry.getText(), attachmentsArray, isStorage, false );
+		{
+			KoLmafiaCLI.DEFAULT_SHELL.executeSendRequest(
+				recipients[ i ], this.messageEntry.getText(), attachmentsArray, this.isStorage, false );
+		}
 
 		RequestThread.closeRequestSequence();
 	}
 
 	public void attachItem()
 	{
-		LockableListModel source = isStorage ? storage : inventory;
+		LockableListModel source = this.isStorage ? KoLConstants.storage : KoLConstants.inventory;
 		if ( source.isEmpty() )
+		{
 			return;
+		}
 
 		AdventureResult current;
-		Object [] values = multiple( "What would you like to send?", source );
+		Object[] values = KoLFrame.multiple( "What would you like to send?", source );
 
 		if ( values.length < source.size() )
 		{
 			for ( int i = 0; i < values.length; ++i )
 			{
-				current = (AdventureResult) values[i];
-				int amount = getQuantity( "How many " + current.getName() + " to send?", current.getCount() );
+				current = (AdventureResult) values[ i ];
+				int amount = KoLFrame.getQuantity( "How many " + current.getName() + " to send?", current.getCount() );
 
 				if ( amount <= 0 )
-					values[i] = null;
+				{
+					values[ i ] = null;
+				}
 				else
-					values[i] = current.getInstance( amount );
+				{
+					values[ i ] = current.getInstance( amount );
+				}
 			}
 		}
 
 		for ( int i = 0; i < values.length; ++i )
-			if ( values[i] != null )
-				attachments.add( values[i] );
+		{
+			if ( values[ i ] != null )
+			{
+				this.attachments.add( values[ i ] );
+			}
+		}
 	}
 }

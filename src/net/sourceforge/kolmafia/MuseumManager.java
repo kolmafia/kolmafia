@@ -41,12 +41,14 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
-public class MuseumManager extends StaticEntity
+public class MuseumManager
+	extends StaticEntity
 {
 	private static final KoLRequest SHELF_REORDER = new KoLRequest( "managecollection.php" );
 
 	private static final Pattern SELECTED_PATTERN = Pattern.compile( "(\\d+) selected>" );
-	private static final Pattern OPTION_PATTERN = Pattern.compile( "<td>([^<]*?)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>.*?<select name=whichshelf(\\d+)>(.*?)</select>" );
+	private static final Pattern OPTION_PATTERN =
+		Pattern.compile( "<td>([^<]*?)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>.*?<select name=whichshelf(\\d+)>(.*?)</select>" );
 	private static final Pattern SELECT_PATTERN = Pattern.compile( "<select.*?</select>" );
 	private static final Pattern SHELF_PATTERN = Pattern.compile( "<option value=(\\d+).*?>(.*?)</option>" );
 
@@ -55,24 +57,27 @@ public class MuseumManager extends StaticEntity
 
 	public static final void clearCache()
 	{
-		collection.clear();
-		headers.clear();
-		shelves.clear();
+		KoLConstants.collection.clear();
+		MuseumManager.headers.clear();
+		MuseumManager.shelves.clear();
 	}
 
 	public static final LockableListModel getHeaders()
-	{	return headers;
+	{
+		return MuseumManager.headers;
 	}
 
-	public static final String getHeader( int shelf )
-	{	return (String) headers.get( shelf );
+	public static final String getHeader( final int shelf )
+	{
+		return (String) MuseumManager.headers.get( shelf );
 	}
 
 	public static final LockableListModel getShelves()
-	{	return shelves;
+	{
+		return MuseumManager.shelves;
 	}
 
-	public static final void move( Object [] moving, int sourceShelf, int destinationShelf )
+	public static final void move( final Object[] moving, final int sourceShelf, final int destinationShelf )
 	{
 		// In order to take advantage of the utilities of the
 		// Collections interface, place everything inside of
@@ -80,27 +85,29 @@ public class MuseumManager extends StaticEntity
 
 		List movingList = new ArrayList();
 		for ( int i = 0; i < moving.length; ++i )
-			movingList.add( moving[i] );
+		{
+			movingList.add( moving[ i ] );
+		}
 
 		// Use the removeAll() and addAll() methods inside of
 		// the Collections interface.
 
-		((SortedListModel)shelves.get( sourceShelf )).removeAll( movingList );
-		((SortedListModel)shelves.get( destinationShelf )).addAll( movingList );
+		( (SortedListModel) MuseumManager.shelves.get( sourceShelf ) ).removeAll( movingList );
+		( (SortedListModel) MuseumManager.shelves.get( destinationShelf ) ).addAll( movingList );
 
 		// Save the lists to the server and update the display
 		// on theto reflect the change.
 
 		RequestThread.openRequestSequence();
-		save( MuseumManager.shelves );
+		MuseumManager.save( MuseumManager.shelves );
 
 		KoLmafia.updateDisplay( "Display case updated." );
 		RequestThread.closeRequestSequence();
 	}
 
-	public static final void reorder( String [] headers )
+	public static final void reorder( final String[] headers )
 	{
-		headers[0] = "-none-";
+		headers[ 0 ] = "-none-";
 
 		// Unfortunately, if there are deleted shelves, the
 		// shelves cannot be re-ordered directly.  What has
@@ -109,24 +116,24 @@ public class MuseumManager extends StaticEntity
 		// deleted afterwards.
 
 		boolean containsDeletedShelf = false;
-		boolean [] deleted = new boolean[ headers.length ];
+		boolean[] deleted = new boolean[ headers.length ];
 
 		for ( int i = 0; i < headers.length; ++i )
 		{
-			deleted[i] = headers[i].equals( "(Deleted Shelf)" );
-			containsDeletedShelf |= deleted[i];
+			deleted[ i ] = headers[ i ].equals( "(Deleted Shelf)" );
+			containsDeletedShelf |= deleted[ i ];
 		}
 
 		RequestThread.openRequestSequence();
 
 		for ( int i = 0; i < deleted.length; ++i )
 		{
-			if ( deleted[i] )
+			if ( deleted[ i ] )
 			{
-				SHELF_REORDER.addFormField( "action", "newshelf" );
-				SHELF_REORDER.addFormField( "pwd" );
-				SHELF_REORDER.addFormField( "shelfname", "Deleted Shelf " + i );
-				RequestThread.postRequest( SHELF_REORDER );
+				MuseumManager.SHELF_REORDER.addFormField( "action", "newshelf" );
+				MuseumManager.SHELF_REORDER.addFormField( "pwd" );
+				MuseumManager.SHELF_REORDER.addFormField( "shelfname", "Deleted Shelf " + i );
+				RequestThread.postRequest( MuseumManager.SHELF_REORDER );
 			}
 		}
 
@@ -136,35 +143,39 @@ public class MuseumManager extends StaticEntity
 
 		List shelforder = new ArrayList();
 		for ( int i = 0; i < headers.length; ++i )
-			shelforder.add( shelves.get( MuseumManager.headers.indexOf( headers[i] ) ) );
+		{
+			shelforder.add( MuseumManager.shelves.get( MuseumManager.headers.indexOf( headers[ i ] ) ) );
+		}
 
 		// Save the lists to the server and update the display
 		// on theto reflect the change.
 
-		save( shelforder );
+		MuseumManager.save( shelforder );
 
 		// Redelete the previously deleted shelves so that the
 		// user isn't stuck with shelves they aren't going to use.
 
-		SHELF_REORDER.clearDataFields();
-		SHELF_REORDER.addFormField( "action", "modifyshelves" );
-		SHELF_REORDER.addFormField( "pwd" );
+		MuseumManager.SHELF_REORDER.clearDataFields();
+		MuseumManager.SHELF_REORDER.addFormField( "action", "modifyshelves" );
+		MuseumManager.SHELF_REORDER.addFormField( "pwd" );
 
 		for ( int i = 1; i < headers.length; ++i )
 		{
-			SHELF_REORDER.addFormField( "newname" + i, headers[i] );
-			if ( deleted[i] )
-				SHELF_REORDER.addFormField( "delete" + i, "on" );
+			MuseumManager.SHELF_REORDER.addFormField( "newname" + i, headers[ i ] );
+			if ( deleted[ i ] )
+			{
+				MuseumManager.SHELF_REORDER.addFormField( "delete" + i, "on" );
+			}
 		}
 
-		RequestThread.postRequest( SHELF_REORDER );
+		RequestThread.postRequest( MuseumManager.SHELF_REORDER );
 		RequestThread.postRequest( new MuseumRequest() );
 
 		KoLmafia.updateDisplay( "Display case updated." );
 		RequestThread.closeRequestSequence();
 	}
 
-	private static final void save( List shelfOrder )
+	private static final void save( final List shelfOrder )
 	{
 		int elementCounter = 0;
 		SortedListModel currentShelf;
@@ -173,20 +184,20 @@ public class MuseumManager extends StaticEntity
 		// glitches server side, all items submit their state.
 		// Store the data in two parallel arrays.
 
-		int size = collection.size();
-		int [] newShelves = new int[ size ];
-		AdventureResult [] newItems = new AdventureResult[ size ];
+		int size = KoLConstants.collection.size();
+		int[] newShelves = new int[ size ];
+		AdventureResult[] newItems = new AdventureResult[ size ];
 
 		// Iterate through each shelf and place the item into
 		// the parallel arrays.
 
 		for ( int i = 0; i < shelfOrder.size(); ++i )
 		{
-			currentShelf = (SortedListModel) shelfOrder.get(i);
+			currentShelf = (SortedListModel) shelfOrder.get( i );
 			for ( int j = 0; j < currentShelf.size(); ++j, ++elementCounter )
 			{
 				newShelves[ elementCounter ] = i;
-				newItems[ elementCounter ] = (AdventureResult) currentShelf.get(j);
+				newItems[ elementCounter ] = (AdventureResult) currentShelf.get( j );
 			}
 		}
 
@@ -196,63 +207,72 @@ public class MuseumManager extends StaticEntity
 		RequestThread.postRequest( new MuseumRequest( newItems, newShelves ) );
 	}
 
-	public static final void update( String data )
+	public static final void update( final String data )
 	{
-		updateShelves( data );
+		MuseumManager.updateShelves( data );
 		Matcher selectedMatcher;
 
 		int itemId, itemCount;
-		String [] itemString;
+		String[] itemString;
 
-		Matcher optionMatcher = OPTION_PATTERN.matcher( data );
+		Matcher optionMatcher = MuseumManager.OPTION_PATTERN.matcher( data );
 		while ( optionMatcher.find() )
 		{
-			selectedMatcher = SELECTED_PATTERN.matcher( optionMatcher.group(3) );
+			selectedMatcher = MuseumManager.SELECTED_PATTERN.matcher( optionMatcher.group( 3 ) );
 
-			itemId = parseInt( optionMatcher.group(2) );
+			itemId = StaticEntity.parseInt( optionMatcher.group( 2 ) );
 
-			itemString = optionMatcher.group(1).split( "[\\(\\)]" );
+			itemString = optionMatcher.group( 1 ).split( "[\\(\\)]" );
 			if ( TradeableItemDatabase.getItemName( itemId ) == null )
-				TradeableItemDatabase.registerItem( itemId, itemString[0].trim() );
+			{
+				TradeableItemDatabase.registerItem( itemId, itemString[ 0 ].trim() );
+			}
 
-			itemCount = itemString.length == 1 ? 1 : parseInt( itemString[1] );
+			itemCount = itemString.length == 1 ? 1 : StaticEntity.parseInt( itemString[ 1 ] );
 
-			registerItem( new AdventureResult( itemId, itemCount ),
-				selectedMatcher.find() ? parseInt( selectedMatcher.group(1) ) : 0 );
+			MuseumManager.registerItem(
+				new AdventureResult( itemId, itemCount ),
+				selectedMatcher.find() ? StaticEntity.parseInt( selectedMatcher.group( 1 ) ) : 0 );
 		}
 	}
 
-	private static final void registerItem( AdventureResult item, int shelf )
+	private static final void registerItem( final AdventureResult item, final int shelf )
 	{
-		collection.add( item );
-		((SortedListModel)shelves.get( shelf )).add( item );
+		KoLConstants.collection.add( item );
+		( (SortedListModel) MuseumManager.shelves.get( shelf ) ).add( item );
 	}
 
-	private static final void updateShelves( String data )
+	private static final void updateShelves( final String data )
 	{
-		clearCache();
+		MuseumManager.clearCache();
 
-		Matcher selectMatcher = SELECT_PATTERN.matcher( data );
+		Matcher selectMatcher = MuseumManager.SELECT_PATTERN.matcher( data );
 		if ( selectMatcher.find() )
 		{
 			int currentShelf;
-			Matcher shelfMatcher = SHELF_PATTERN.matcher( selectMatcher.group() );
+			Matcher shelfMatcher = MuseumManager.SHELF_PATTERN.matcher( selectMatcher.group() );
 			while ( shelfMatcher.find() )
 			{
-				currentShelf = parseInt( shelfMatcher.group(1) );
+				currentShelf = StaticEntity.parseInt( shelfMatcher.group( 1 ) );
 
-				for ( int i = headers.size(); i < currentShelf; ++i )
-					headers.add( "(Deleted Shelf)" );
+				for ( int i = MuseumManager.headers.size(); i < currentShelf; ++i )
+				{
+					MuseumManager.headers.add( "(Deleted Shelf)" );
+				}
 
-				headers.add( RequestEditorKit.getUnicode( shelfMatcher.group(2) ) );
+				MuseumManager.headers.add( RequestEditorKit.getUnicode( shelfMatcher.group( 2 ) ) );
 			}
 		}
 
-		if ( headers.size() == 0 )
-			headers.add( "" );
+		if ( MuseumManager.headers.size() == 0 )
+		{
+			MuseumManager.headers.add( "" );
+		}
 
-		headers.set( 0, "-none-" );
-		for ( int i = 0; i < headers.size(); ++i )
-			shelves.add( new SortedListModel() );
+		MuseumManager.headers.set( 0, "-none-" );
+		for ( int i = 0; i < MuseumManager.headers.size(); ++i )
+		{
+			MuseumManager.shelves.add( new SortedListModel() );
+		}
 	}
 }

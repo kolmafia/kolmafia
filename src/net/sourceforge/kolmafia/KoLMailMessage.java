@@ -38,40 +38,48 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.StringTokenizer;
 
-public class KoLMailMessage implements Comparable
+public class KoLMailMessage
+	implements Comparable
 {
-	private static final SimpleDateFormat TIMESTAMP_FORMAT = new SimpleDateFormat( "EEEE, MMMM dd, yyyy, hh:mmaa", Locale.US );
+	private static final SimpleDateFormat TIMESTAMP_FORMAT =
+		new SimpleDateFormat( "EEEE, MMMM dd, yyyy, hh:mmaa", Locale.US );
 
-	private String messageId;
-	private String senderId;
-	private String senderName;
+	private final String messageId;
+	private final String senderId;
+	private final String senderName;
 	private String messageDate;
 	private Date timestamp;
-	private String messageHTML;
+	private final String messageHTML;
 
 	private String completeHTML;
 
-	public KoLMailMessage( String message )
+	public KoLMailMessage( final String message )
 	{
 		// Blank lines are not displayed correctly
 		this.completeHTML = StaticEntity.globalStringReplace( message, "<br><br>", "<br>&nbsp;<br>" );
 
-		this.completeHTML = this.completeHTML.substring( this.completeHTML.indexOf( ">" ) + 1,
-			this.completeHTML.indexOf( "reply</a>]" ) + 10 ) + this.completeHTML.substring( this.completeHTML.indexOf( "<br>" ) );
+		this.completeHTML =
+			this.completeHTML.substring(
+				this.completeHTML.indexOf( ">" ) + 1, this.completeHTML.indexOf( "reply</a>]" ) + 10 ) + this.completeHTML.substring( this.completeHTML.indexOf( "<br>" ) );
 
 		this.messageId = message.substring( message.indexOf( "name=" ) + 6, message.indexOf( "\">" ) );
 		StringTokenizer messageParser = new StringTokenizer( message, "<>" );
 
 		String lastToken = messageParser.nextToken();
 		while ( !lastToken.startsWith( "a " ) )
+		{
 			lastToken = messageParser.nextToken();
+		}
 
 		this.senderId = lastToken.substring( lastToken.indexOf( "who=" ) + 4, lastToken.length() - 1 );
 		this.senderName = messageParser.nextToken();
 
-		KoLmafia.registerPlayer( senderName, senderId );
+		KoLmafia.registerPlayer( this.senderName, this.senderId );
 
-		while ( !messageParser.nextToken().startsWith( "Date" ) );
+		while ( !messageParser.nextToken().startsWith( "Date" ) )
+		{
+			;
+		}
 		messageParser.nextToken();
 
 		this.messageDate = messageParser.nextToken().trim();
@@ -83,7 +91,7 @@ public class KoLMailMessage implements Comparable
 			// the given string; note it may throw
 			// an exception (but probably not)
 
-			this.timestamp = TIMESTAMP_FORMAT.parse( this.messageDate );
+			this.timestamp = KoLMailMessage.TIMESTAMP_FORMAT.parse( this.messageDate );
 		}
 		catch ( Exception e )
 		{
@@ -96,47 +104,57 @@ public class KoLMailMessage implements Comparable
 			// since that's about as close as it gets
 
 			this.timestamp = new Date();
-			this.messageDate = TIMESTAMP_FORMAT.format( this.timestamp );
+			this.messageDate = KoLMailMessage.TIMESTAMP_FORMAT.format( this.timestamp );
 		}
 	}
 
 	public String toString()
-	{	return this.senderName + " @ " + this.messageDate;
+	{
+		return this.senderName + " @ " + this.messageDate;
 	}
 
-	public int compareTo( Object o )
-	{	return o == null || !(o instanceof KoLMailMessage) ? -1 : this.messageId.compareTo( ((KoLMailMessage)o).messageId );
+	public int compareTo( final Object o )
+	{
+		return o == null || !( o instanceof KoLMailMessage ) ? -1 : this.messageId.compareTo( ( (KoLMailMessage) o ).messageId );
 	}
 
-	public boolean equals( Object o )
-	{	return o == null || !(o instanceof KoLMailMessage) ? false : this.messageId.equals( ((KoLMailMessage)o).messageId );
+	public boolean equals( final Object o )
+	{
+		return o == null || !( o instanceof KoLMailMessage ) ? false : this.messageId.equals( ( (KoLMailMessage) o ).messageId );
 	}
 
 	public String getMessageId()
-	{	return this.messageId;
+	{
+		return this.messageId;
 	}
 
 	public Date getTimestamp()
-	{	return this.timestamp;
+	{
+		return this.timestamp;
 	}
 
 	public String getCompleteHTML()
-	{	return this.completeHTML;
+	{
+		return this.completeHTML;
 	}
 
 	public String getMessageHTML()
-	{	return this.messageHTML.toString();
+	{
+		return this.messageHTML.toString();
 	}
 
 	public String getSenderName()
-	{	return this.senderName;
+	{
+		return this.senderName;
 	}
 
 	public String getSenderId()
-	{	return this.senderId;
+	{
+		return this.senderId;
 	}
 
 	public String getDisplayHTML()
-	{	return this.completeHTML;
+	{
+		return this.completeHTML;
 	}
 }

@@ -37,35 +37,39 @@ package net.java.dev.spellcast.utilities;
 import java.io.File;
 
 /**
- * Formed after the same idea as <code>WindowConstants</code>, this contains common
- * constants needed by many of the utility-related classes.  Any methods which
- * are used by multiple instances of a JComponent and have a non-class-specific
- * purpose should be placed into this class in order to simplify the overall design
- * of the system and to facilitate documentation.
+ * Formed after the same idea as <code>WindowConstants</code>, this contains common constants needed by many of the
+ * utility-related classes. Any methods which are used by multiple instances of a JComponent and have a
+ * non-class-specific purpose should be placed into this class in order to simplify the overall design of the system and
+ * to facilitate documentation.
  */
 
 public interface UtilityConstants
 {
-	public static final ClassLoader SYSTEM_CLASSLOADER    = ClassLoader.getSystemClassLoader();
-	public static final ClassLoader MAINCLASS_CLASSLOADER = net.java.dev.spellcast.utilities.UtilityConstants.class.getClassLoader();
+	public static final ClassLoader SYSTEM_CLASSLOADER = ClassLoader.getSystemClassLoader();
+	public static final ClassLoader MAINCLASS_CLASSLOADER =
+		net.java.dev.spellcast.utilities.UtilityConstants.class.getClassLoader();
 
 	public static final boolean USE_OSX_STYLE_DIRECTORIES = System.getProperty( "os.name" ).startsWith( "Mac" );
-	public static final boolean USE_LINUX_STYLE_DIRECTORIES = !USE_OSX_STYLE_DIRECTORIES && !System.getProperty( "os.name" ).startsWith( "Win" );
+	public static final boolean USE_LINUX_STYLE_DIRECTORIES =
+		!UtilityConstants.USE_OSX_STYLE_DIRECTORIES && !System.getProperty( "os.name" ).startsWith( "Win" );
 
 	public static final File BASE_LOCATION = new File( System.getProperty( "user.dir" ) ).getAbsoluteFile();
 	public static final File HOME_LOCATION = new File( System.getProperty( "user.home" ) ).getAbsoluteFile();
 
 	public static final File ROOT_LOCATION =
-		USE_OSX_STYLE_DIRECTORIES ? new File( HOME_LOCATION, "Library/Application Support/KoLmafia" ) :
-		USE_LINUX_STYLE_DIRECTORIES ? new File( HOME_LOCATION, ".kolmafia" ) : BASE_LOCATION;
+		UtilityConstants.USE_OSX_STYLE_DIRECTORIES ? new File(
+			UtilityConstants.HOME_LOCATION, "Library/Application Support/KoLmafia" ) : UtilityConstants.USE_LINUX_STYLE_DIRECTORIES ? new File(
+			UtilityConstants.HOME_LOCATION, ".kolmafia" ) : UtilityConstants.BASE_LOCATION;
 
-	public static final String ROOT_DIRECTORY = ROOT_LOCATION.getAbsolutePath();
+	public static final String ROOT_DIRECTORY = UtilityConstants.ROOT_LOCATION.getAbsolutePath();
 
 	public static final String DATA_DIRECTORY = "data/";
 	public static final String IMAGE_DIRECTORY = "images/";
 	public static final String SETTINGS_DIRECTORY = "settings/";
 
-	public static final File DATA_LOCATION = new File( ROOT_LOCATION, DATA_DIRECTORY );
-	public static final File IMAGE_LOCATION = new File( ROOT_LOCATION, IMAGE_DIRECTORY );
-	public static final File SETTINGS_LOCATION = new File( ROOT_LOCATION, SETTINGS_DIRECTORY );
+	public static final File DATA_LOCATION = new File( UtilityConstants.ROOT_LOCATION, UtilityConstants.DATA_DIRECTORY );
+	public static final File IMAGE_LOCATION =
+		new File( UtilityConstants.ROOT_LOCATION, UtilityConstants.IMAGE_DIRECTORY );
+	public static final File SETTINGS_LOCATION =
+		new File( UtilityConstants.ROOT_LOCATION, UtilityConstants.SETTINGS_DIRECTORY );
 }

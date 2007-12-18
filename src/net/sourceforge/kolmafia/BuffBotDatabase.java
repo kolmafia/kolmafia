@@ -43,7 +43,8 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.BuffBotManager.Offering;
 
-public class BuffBotDatabase extends KoLDatabase
+public class BuffBotDatabase
+	extends KoLDatabase
 {
 	public static final String OPTOUT_URL = "http://forums.kingdomofloathing.com/";
 
@@ -51,7 +52,8 @@ public class BuffBotDatabase extends KoLDatabase
 	private static final Pattern NAME_PATTERN = Pattern.compile( "<name>(.*?)</name>", Pattern.DOTALL );
 	private static final Pattern PRICE_PATTERN = Pattern.compile( "<price>(.*?)</price>", Pattern.DOTALL );
 	private static final Pattern TURN_PATTERN = Pattern.compile( "<turns>(.*?)</turns>", Pattern.DOTALL );
-	private static final Pattern FREE_PATTERN = Pattern.compile( "<philanthropic>(.*?)</philanthropic>", Pattern.DOTALL );
+	private static final Pattern FREE_PATTERN =
+		Pattern.compile( "<philanthropic>(.*?)</philanthropic>", Pattern.DOTALL );
 
 	private static boolean hasNameList = false;
 	private static boolean isInitialized = false;
@@ -68,22 +70,22 @@ public class BuffBotDatabase extends KoLDatabase
 	private static int buffBotsAvailable = 0;
 	private static int buffBotsConfigured = 0;
 
-	public static final int getOffering( String name, int amount )
+	public static final int getOffering( String name, final int amount )
 	{
 		// If you have no idea what the names present in
 		// the database are, go ahead and refresh it.
 
-		if ( !hasNameList )
+		if ( !BuffBotDatabase.hasNameList )
 		{
-			String [] data;
-			BufferedReader reader = getVersionedReader( "buffbots.txt", BUFFBOTS_VERSION );
+			String[] data;
+			BufferedReader reader = KoLDatabase.getVersionedReader( "buffbots.txt", KoLConstants.BUFFBOTS_VERSION );
 
-			while ( (data = readData( reader )) != null )
+			while ( ( data = KoLDatabase.readData( reader ) ) != null )
 			{
-				KoLmafia.registerPlayer( data[0], data[1] );
+				KoLmafia.registerPlayer( data[ 0 ], data[ 1 ] );
 
-				nameList.add( data[0].toLowerCase() );
-				buffDataMap.put( data[0].toLowerCase(), data );
+				BuffBotDatabase.nameList.add( data[ 0 ].toLowerCase() );
+				BuffBotDatabase.buffDataMap.put( data[ 0 ].toLowerCase(), data );
 			}
 
 			try
@@ -100,58 +102,71 @@ public class BuffBotDatabase extends KoLDatabase
 		// and allow the amount.
 
 		name = KoLmafia.getPlayerName( name ).toLowerCase();
-		if ( !nameList.contains( name ) )
+		if ( !BuffBotDatabase.nameList.contains( name ) )
+		{
 			return 0;
+		}
 
 		// Otherwise, retrieve the information for the buffbot
 		// to see if there are non-philanthropic offerings.
 
-		String [] data = (String []) buffDataMap.get( name );
+		String[] data = (String[]) BuffBotDatabase.buffDataMap.get( name );
 
-		if ( data[2].equals( OPTOUT_URL ) )
+		if ( data[ 2 ].equals( BuffBotDatabase.OPTOUT_URL ) )
 		{
-			KoLmafia.updateDisplay( ABORT_STATE, data[0] + " has requested to be excluded from scripted requests." );
+			KoLmafia.updateDisplay(
+				KoLConstants.ABORT_STATE, data[ 0 ] + " has requested to be excluded from scripted requests." );
 			return 0;
 		}
 
-		(new DynamicBotFetcher( data )).run();
+		( new DynamicBotFetcher( data ) ).run();
 
 		// If this is clearly not a philanthropic buff, then
 		// no alternative amount needs to be sent.
 
-		LockableListModel possibles = getPhilanthropicOfferings( data[0] );
+		LockableListModel possibles = BuffBotDatabase.getPhilanthropicOfferings( data[ 0 ] );
 		if ( possibles.isEmpty() )
+		{
 			return amount;
+		}
 
 		Offering current = null;
 		boolean foundMatch = false;
 
 		for ( int i = 0; i < possibles.size() && !foundMatch; ++i )
 		{
-			current = (Offering) possibles.get(i);
+			current = (Offering) possibles.get( i );
 			if ( current.getPrice() == amount )
+			{
 				foundMatch = true;
+			}
 		}
 
 		if ( !foundMatch || current == null )
+		{
 			return amount;
+		}
 
 		// If this offers more than 300 turns, chances are it's not
 		// a philanthropic buff.  Buff packs are also not protected
 		// because the logic is complicated.
 
 		if ( current.buffs.length > 1 )
+		{
 			return amount;
+		}
 
 		// If no alternative exists, go ahead and return the
 		// original amount.
 
-		LockableListModel alternatives = getStandardOfferings( data[0] );
+		LockableListModel alternatives = BuffBotDatabase.getStandardOfferings( data[ 0 ] );
 		if ( alternatives.isEmpty() )
+		{
 			return amount;
+		}
 
-		String matchBuff = current.buffs[0];
-		int matchTurns = current.turns[0];
+		String matchBuff = current.buffs[ 0 ];
+		int matchTurns = current.turns[ 0 ];
 
 		String testBuff = null;
 		int testTurns = 0;
@@ -164,45 +179,55 @@ public class BuffBotDatabase extends KoLDatabase
 
 		for ( int i = 0; i < alternatives.size(); ++i )
 		{
-			current = (Offering) alternatives.get(i);
+			current = (Offering) alternatives.get( i );
 
 			if ( current.buffs.length > 1 )
+			{
 				continue;
+			}
 
-			testBuff = current.buffs[0];
-			testTurns = current.turns[0];
+			testBuff = current.buffs[ 0 ];
+			testTurns = current.turns[ 0 ];
 
 			if ( !matchBuff.equals( testBuff ) )
+			{
 				continue;
+			}
 
-			if ( bestMatch == null || (testTurns >= matchTurns && testTurns < bestTurns) )
+			if ( bestMatch == null || testTurns >= matchTurns && testTurns < bestTurns )
 			{
 				bestMatch = current;
 				bestTurns = testTurns;
 			}
 		}
 
-		return activeEffects.contains( new AdventureResult(
-			UneffectRequest.skillToEffect( bestMatch.buffs[0] ), 1, true ) ) ? 0 : bestMatch.getPrice();
+		return KoLConstants.activeEffects.contains( new AdventureResult(
+			UneffectRequest.skillToEffect( bestMatch.buffs[ 0 ] ), 1, true ) ) ? 0 : bestMatch.getPrice();
 	}
 
 	public static final boolean hasOfferings()
 	{
-		if ( !isInitialized )
-			configureBuffBots();
+		if ( !BuffBotDatabase.isInitialized )
+		{
+			BuffBotDatabase.configureBuffBots();
+		}
 
-		return !normalOfferings.isEmpty() || !freeOfferings.isEmpty();
+		return !BuffBotDatabase.normalOfferings.isEmpty() || !BuffBotDatabase.freeOfferings.isEmpty();
 	}
 
-	public static final Object [] getCompleteBotList()
+	public static final Object[] getCompleteBotList()
 	{
 		ArrayList completeList = new ArrayList();
-		completeList.addAll( normalOfferings.keySet() );
+		completeList.addAll( BuffBotDatabase.normalOfferings.keySet() );
 
-		Object [] philanthropic = freeOfferings.keySet().toArray();
+		Object[] philanthropic = BuffBotDatabase.freeOfferings.keySet().toArray();
 		for ( int i = 0; i < philanthropic.length; ++i )
-			if ( !completeList.contains( philanthropic[i] ) )
-				completeList.add( philanthropic[i] );
+		{
+			if ( !completeList.contains( philanthropic[ i ] ) )
+			{
+				completeList.add( philanthropic[ i ] );
+			}
+		}
 
 		Collections.sort( completeList, new CaseInsensitiveComparator() );
 		completeList.add( 0, "" );
@@ -210,28 +235,35 @@ public class BuffBotDatabase extends KoLDatabase
 		return completeList.toArray();
 	}
 
-	public static final LockableListModel getStandardOfferings( String botName )
-	{	return botName != null && normalOfferings.containsKey( botName ) ? (LockableListModel) normalOfferings.get( botName ) : new LockableListModel();
+	public static final LockableListModel getStandardOfferings( final String botName )
+	{
+		return botName != null && BuffBotDatabase.normalOfferings.containsKey( botName ) ? (LockableListModel) BuffBotDatabase.normalOfferings.get( botName ) : new LockableListModel();
 	}
 
-
-	public static final LockableListModel getPhilanthropicOfferings( String botName )
-	{	return botName != null && freeOfferings.containsKey( botName ) ? (LockableListModel) freeOfferings.get( botName ) : new LockableListModel();
+	public static final LockableListModel getPhilanthropicOfferings( final String botName )
+	{
+		return botName != null && BuffBotDatabase.freeOfferings.containsKey( botName ) ? (LockableListModel) BuffBotDatabase.freeOfferings.get( botName ) : new LockableListModel();
 	}
 
 	private static final void configureBuffBots()
 	{
-		if ( isInitialized )
+		if ( BuffBotDatabase.isInitialized )
+		{
 			return;
+		}
 
 		KoLmafia.updateDisplay( "Configuring dynamic buff prices..." );
 
-		String [] data = null;
-		BufferedReader reader = getVersionedReader( "buffbots.txt", BUFFBOTS_VERSION );
+		String[] data = null;
+		BufferedReader reader = KoLDatabase.getVersionedReader( "buffbots.txt", KoLConstants.BUFFBOTS_VERSION );
 
-		while ( (data = readData( reader )) != null )
+		while ( ( data = KoLDatabase.readData( reader ) ) != null )
+		{
 			if ( data.length == 3 )
-				(new DynamicBotFetcher( data )).start();
+			{
+				( new DynamicBotFetcher( data ) ).start();
+			}
+		}
 
 		try
 		{
@@ -242,37 +274,42 @@ public class BuffBotDatabase extends KoLDatabase
 			StaticEntity.printStackTrace( e );
 		}
 
-		while ( buffBotsAvailable != buffBotsConfigured )
+		while ( BuffBotDatabase.buffBotsAvailable != BuffBotDatabase.buffBotsConfigured )
+		{
 			KoLRequest.delay( 500 );
+		}
 
 		KoLmafia.updateDisplay( "Buff prices fetched." );
-		isInitialized = true;
+		BuffBotDatabase.isInitialized = true;
 	}
 
-	private static class DynamicBotFetcher extends Thread
+	private static class DynamicBotFetcher
+		extends Thread
 	{
-		private String botName, location;
+		private final String botName, location;
 
-		public DynamicBotFetcher( String [] data )
+		public DynamicBotFetcher( final String[] data )
 		{
-			this.botName = data[0];
-			this.location = data[2];
+			this.botName = data[ 0 ];
+			this.location = data[ 2 ];
 
-			++buffBotsAvailable;
-			KoLmafia.registerPlayer( data[0], data[1] );
+			++BuffBotDatabase.buffBotsAvailable;
+			KoLmafia.registerPlayer( data[ 0 ], data[ 1 ] );
 		}
 
 		public void run()
 		{
-			if ( freeOfferings.containsKey( this.botName ) || normalOfferings.containsKey( this.botName ) )
-				return;
-
-			if ( this.location.equals( OPTOUT_URL ) )
+			if ( BuffBotDatabase.freeOfferings.containsKey( this.botName ) || BuffBotDatabase.normalOfferings.containsKey( this.botName ) )
 			{
-				freeOfferings.put( this.botName, new LockableListModel() );
-				normalOfferings.put( this.botName, new LockableListModel() );
+				return;
+			}
 
-				++buffBotsConfigured;
+			if ( this.location.equals( BuffBotDatabase.OPTOUT_URL ) )
+			{
+				BuffBotDatabase.freeOfferings.put( this.botName, new LockableListModel() );
+				BuffBotDatabase.normalOfferings.put( this.botName, new LockableListModel() );
+
+				++BuffBotDatabase.buffBotsConfigured;
 				return;
 			}
 
@@ -281,19 +318,21 @@ public class BuffBotDatabase extends KoLDatabase
 
 			if ( reader == null )
 			{
-				++buffBotsConfigured;
+				++BuffBotDatabase.buffBotsConfigured;
 				return;
 			}
 
 			try
 			{
 				String line;
-				while ( (line = reader.readLine()) != null )
+				while ( ( line = reader.readLine() ) != null )
+				{
 					responseText.append( line );
+				}
 			}
 			catch ( Exception e )
 			{
-				++buffBotsConfigured;
+				++BuffBotDatabase.buffBotsConfigured;
 				return;
 			}
 
@@ -302,7 +341,7 @@ public class BuffBotDatabase extends KoLDatabase
 			// expression matching and assume we have a properly-structured
 			// XML file -- which is assumed because of the XSLT.
 
-			Matcher nodeMatcher = BUFFDATA_PATTERN.matcher( responseText.toString() );
+			Matcher nodeMatcher = BuffBotDatabase.BUFFDATA_PATTERN.matcher( responseText.toString() );
 			LockableListModel freeBuffs = new LockableListModel();
 			LockableListModel normalBuffs = new LockableListModel();
 
@@ -310,25 +349,29 @@ public class BuffBotDatabase extends KoLDatabase
 
 			while ( nodeMatcher.find() )
 			{
-				String buffMatch = nodeMatcher.group(1);
+				String buffMatch = nodeMatcher.group( 1 );
 
-				nameMatcher = NAME_PATTERN.matcher( buffMatch );
-				priceMatcher = PRICE_PATTERN.matcher( buffMatch );
-				turnMatcher = TURN_PATTERN.matcher( buffMatch );
-				freeMatcher = FREE_PATTERN.matcher( buffMatch );
+				nameMatcher = BuffBotDatabase.NAME_PATTERN.matcher( buffMatch );
+				priceMatcher = BuffBotDatabase.PRICE_PATTERN.matcher( buffMatch );
+				turnMatcher = BuffBotDatabase.TURN_PATTERN.matcher( buffMatch );
+				freeMatcher = BuffBotDatabase.FREE_PATTERN.matcher( buffMatch );
 
 				if ( nameMatcher.find() && priceMatcher.find() && turnMatcher.find() )
 				{
-					String name = nameMatcher.group(1).trim();
+					String name = nameMatcher.group( 1 ).trim();
 
 					if ( name.startsWith( "Jaba" ) )
+					{
 						name = ClassSkillsDatabase.getSkillName( 4011 );
+					}
 					else if ( name.startsWith( "Jala" ) )
+					{
 						name = ClassSkillsDatabase.getSkillName( 4008 );
+					}
 
-					int price = parseInt( priceMatcher.group(1).trim() );
-					int turns = parseInt( turnMatcher.group(1).trim() );
-					boolean philanthropic = freeMatcher.find() ? freeMatcher.group(1).trim().equals( "true" ) : false;
+					int price = StaticEntity.parseInt( priceMatcher.group( 1 ).trim() );
+					int turns = StaticEntity.parseInt( turnMatcher.group( 1 ).trim() );
+					boolean philanthropic = freeMatcher.find() ? freeMatcher.group( 1 ).trim().equals( "true" ) : false;
 
 					LockableListModel tester = philanthropic ? freeBuffs : normalBuffs;
 
@@ -337,15 +380,21 @@ public class BuffBotDatabase extends KoLDatabase
 
 					for ( int i = 0; i < tester.size(); ++i )
 					{
-						currentTest = (Offering) tester.get(i);
+						currentTest = (Offering) tester.get( i );
 						if ( currentTest.getPrice() == price )
+						{
 							priceMatch = currentTest;
+						}
 					}
 
 					if ( priceMatch == null )
+					{
 						tester.add( new Offering( name, this.botName, price, turns, philanthropic ) );
+					}
 					else
+					{
 						priceMatch.addBuff( name, turns );
+					}
 				}
 			}
 
@@ -355,20 +404,20 @@ public class BuffBotDatabase extends KoLDatabase
 			if ( !freeBuffs.isEmpty() )
 			{
 				freeBuffs.sort();
-				freeOfferings.put( this.botName, freeBuffs );
+				BuffBotDatabase.freeOfferings.put( this.botName, freeBuffs );
 			}
 
 			if ( !normalBuffs.isEmpty() )
 			{
 				normalBuffs.sort();
-				normalOfferings.put( this.botName, normalBuffs );
+				BuffBotDatabase.normalOfferings.put( this.botName, normalBuffs );
 			}
 
 			// Now that the buffbot is configured, increment
 			// the counter to notify the thread that configuration
 			// has been completed for this bot.
 
-			++buffBotsConfigured;
+			++BuffBotDatabase.buffBotsConfigured;
 		}
 	}
 }

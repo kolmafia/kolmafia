@@ -49,10 +49,12 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
-public class MushroomFrame extends KoLFrame
+public class MushroomFrame
+	extends KoLFrame
 {
 	public static final int MAX_FORECAST = 11;
 
@@ -77,15 +79,16 @@ public class MushroomFrame extends KoLFrame
 		this.framePanel.add( this.tabs, "" );
 	}
 
-	private class ImmediatePlotPanel extends JPanel
+	private class ImmediatePlotPanel
+		extends JPanel
 	{
 		private boolean doingLayout = false;
-		private String [] currentData;
-		private String [] layoutData;
+		private String[] currentData;
+		private String[] layoutData;
 
-		private final MushroomButton [][] currentButtons;
-		private final MushroomButton [][] layoutButtons;
-		private final MushroomButton [][] forecastButtons;
+		private final MushroomButton[][] currentButtons;
+		private final MushroomButton[][] layoutButtons;
+		private final MushroomButton[][] forecastButtons;
 
 		public ImmediatePlotPanel()
 		{
@@ -93,21 +96,21 @@ public class MushroomFrame extends KoLFrame
 			JPanel layoutPlot = new JPanel( new GridLayout( 4, 4, 0, 0 ) );
 			JPanel forecastPlot = new JPanel( new GridLayout( 4, 4, 0, 0 ) );
 
-			this.currentButtons = new MushroomButton[4][4];
-			this.layoutButtons = new MushroomButton[4][4];
-			this.forecastButtons = new MushroomButton[4][4];
+			this.currentButtons = new MushroomButton[ 4 ][ 4 ];
+			this.layoutButtons = new MushroomButton[ 4 ][ 4 ];
+			this.forecastButtons = new MushroomButton[ 4 ][ 4 ];
 
 			for ( int i = 0; i < 4; ++i )
 			{
 				for ( int j = 0; j < 4; ++j )
 				{
-					this.currentButtons[i][j] = new MushroomButton( i * 4 + j, false );
-					this.layoutButtons[i][j] = new MushroomButton( i * 4 + j, true );
-					this.forecastButtons[i][j] = new MushroomButton( i * 4 + j, false );
+					this.currentButtons[ i ][ j ] = new MushroomButton( i * 4 + j, false );
+					this.layoutButtons[ i ][ j ] = new MushroomButton( i * 4 + j, true );
+					this.forecastButtons[ i ][ j ] = new MushroomButton( i * 4 + j, false );
 
-					currentPlot.add( this.currentButtons[i][j] );
-					layoutPlot.add( this.layoutButtons[i][j] );
-					forecastPlot.add( this.forecastButtons[i][j] );
+					currentPlot.add( this.currentButtons[ i ][ j ] );
+					layoutPlot.add( this.layoutButtons[ i ][ j ] );
+					forecastPlot.add( this.forecastButtons[ i ][ j ] );
 				}
 			}
 
@@ -143,11 +146,13 @@ public class MushroomFrame extends KoLFrame
 			this.doingLayout = true;
 			for ( int i = 0; i < 16; ++i )
 			{
-				if ( !this.currentData[i].equals( this.layoutData[i] ) )
+				if ( !this.currentData[ i ].equals( this.layoutData[ i ] ) )
 				{
 					MushroomPlot.pickMushroom( i + 1, false );
-					if ( !this.layoutData[i].endsWith( "/dirt1.gif" ) && !this.layoutData[i].endsWith( "/mushsprout.gif" ) )
-						MushroomPlot.plantMushroom( i + 1, MushroomPlot.getMushroomType( this.layoutData[i] ) );
+					if ( !this.layoutData[ i ].endsWith( "/dirt1.gif" ) && !this.layoutData[ i ].endsWith( "/mushsprout.gif" ) )
+					{
+						MushroomPlot.plantMushroom( i + 1, MushroomPlot.getMushroomType( this.layoutData[ i ] ) );
+					}
 				}
 			}
 
@@ -162,7 +167,9 @@ public class MushroomFrame extends KoLFrame
 			File output = chooser.getSelectedFile();
 
 			if ( output == null )
+			{
 				return;
+			}
 
 			try
 			{
@@ -171,19 +178,19 @@ public class MushroomFrame extends KoLFrame
 
 				for ( int i = 0; i < 16; ++i )
 				{
-					int mushroomType = MushroomPlot.getMushroomType( this.layoutData[i] );
+					int mushroomType = MushroomPlot.getMushroomType( this.layoutData[ i ] );
 					switch ( mushroomType )
 					{
-						case MushroomPlot.SPOOKY:
-						case MushroomPlot.KNOB:
-						case MushroomPlot.KNOLL:
-							ostream.println( "field pick " + (i + 1) );
-							ostream.println( "field plant " + (i + 1) + " " + TradeableItemDatabase.getItemName( mushroomType ) );
-							break;
+					case MushroomPlot.SPOOKY:
+					case MushroomPlot.KNOB:
+					case MushroomPlot.KNOLL:
+						ostream.println( "field pick " + ( i + 1 ) );
+						ostream.println( "field plant " + ( i + 1 ) + " " + TradeableItemDatabase.getItemName( mushroomType ) );
+						break;
 
-						case MushroomPlot.EMPTY:
-							ostream.println( "field pick " + (i + 1) );
-							break;
+					case MushroomPlot.EMPTY:
+						ostream.println( "field pick " + ( i + 1 ) );
+						break;
 					}
 				}
 
@@ -198,11 +205,11 @@ public class MushroomFrame extends KoLFrame
 			}
 		}
 
-		public JPanel constructPanel( String label, Component c )
+		public JPanel constructPanel( final String label, final Component c )
 		{
 			JPanel panel = new JPanel( new BorderLayout() );
 			panel.setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
-			panel.add( new JLabel( label, JLabel.CENTER ), BorderLayout.NORTH );
+			panel.add( new JLabel( label, SwingConstants.CENTER ), BorderLayout.NORTH );
 			panel.add( c, BorderLayout.CENTER );
 
 			return panel;
@@ -213,10 +220,12 @@ public class MushroomFrame extends KoLFrame
 		 */
 
 		public void plotChanged()
-		{	RequestThread.postRequest( new PlotChanger() );
+		{
+			RequestThread.postRequest( new PlotChanger() );
 		}
 
-		private class PlotChanger implements Runnable
+		private class PlotChanger
+			implements Runnable
 		{
 			public void run()
 			{
@@ -228,7 +237,9 @@ public class MushroomFrame extends KoLFrame
 				// not currently doing any layouts.
 
 				if ( !ImmediatePlotPanel.this.doingLayout )
+				{
 					ImmediatePlotPanel.this.layoutData = MushroomPlot.getMushroomPlot( true ).split( ";" );
+				}
 
 				// With everything that you need updated,
 				// feel free to refresh the layout.
@@ -240,18 +251,24 @@ public class MushroomFrame extends KoLFrame
 		public void refresh()
 		{
 			// Do nothing if you don't have a plot
-			if ( this.layoutData[0].equals( "Your plot is unavailable." ) )
+			if ( this.layoutData[ 0 ].equals( "Your plot is unavailable." ) )
+			{
 				return;
+			}
 
 			// Convert each piece of layout data into the appropriate
 			// mushroom plot data.
 
-			String [][] layoutArray = new String[4][4];
+			String[][] layoutArray = new String[ 4 ][ 4 ];
 			for ( int i = 0; i < 4; ++i )
+			{
 				for ( int j = 0; j < 4; ++j )
-					layoutArray[i][j] = this.layoutData[ i * 4 + j ];
+				{
+					layoutArray[ i ][ j ] = this.layoutData[ i * 4 + j ];
+				}
+			}
 
-			String [] forecastData = MushroomPlot.getForecastedPlot( true, layoutArray ).split( ";" );
+			String[] forecastData = MushroomPlot.getForecastedPlot( true, layoutArray ).split( ";" );
 
 			// What you do is you update each mushroom button based on
 			// what is contained in each of the data fields.
@@ -260,19 +277,21 @@ public class MushroomFrame extends KoLFrame
 			{
 				for ( int j = 0; j < 4; ++j )
 				{
-					this.currentButtons[i][j].setIcon( JComponentUtilities.getImage( this.currentData[ i * 4 + j ] ) );
-					this.layoutButtons[i][j].setIcon( JComponentUtilities.getImage( this.layoutData[ i * 4 + j ] ) );
-					this.forecastButtons[i][j].setIcon( JComponentUtilities.getImage( forecastData[ i * 4 + j ] ) );
+					this.currentButtons[ i ][ j ].setIcon( JComponentUtilities.getImage( this.currentData[ i * 4 + j ] ) );
+					this.layoutButtons[ i ][ j ].setIcon( JComponentUtilities.getImage( this.layoutData[ i * 4 + j ] ) );
+					this.forecastButtons[ i ][ j ].setIcon( JComponentUtilities.getImage( forecastData[ i * 4 + j ] ) );
 				}
 			}
 		}
 
-		private class MushroomButton extends JButton implements ActionListener
+		private class MushroomButton
+			extends JButton
+			implements ActionListener
 		{
-			private int index;
+			private final int index;
 			private boolean canModify;
 
-			public MushroomButton( int index, boolean canModify )
+			public MushroomButton( final int index, final boolean canModify )
 			{
 				this.index = index;
 				this.canModify = canModify;
@@ -284,14 +303,18 @@ public class MushroomFrame extends KoLFrame
 				this.addActionListener( this );
 			}
 
-			public void actionPerformed( ActionEvent e )
+			public void actionPerformed( final ActionEvent e )
 			{
 				if ( !this.canModify )
+				{
 					return;
+				}
 
 				// No mushroom plot
 				if ( ImmediatePlotPanel.this.layoutData.length == 1 )
+				{
 					return;
+				}
 
 				// Sprouts transform into dirt because all you can
 				// do is pick them.
@@ -357,34 +380,35 @@ public class MushroomFrame extends KoLFrame
 		}
 	}
 
-	private class ScriptGeneratePanel extends JPanel
+	private class ScriptGeneratePanel
+		extends JPanel
 	{
 		private String currentLayout = "";
 
-		private JPanel centerPanel;
+		private final JPanel centerPanel;
 		private int currentForecast = 2;
-		private JButton addToLayoutButton, deleteFromLayoutButton;
+		private final JButton addToLayoutButton, deleteFromLayoutButton;
 
-		private String [][] planningData;
-		private String [][] originalData;
+		private final String[][] planningData;
+		private final String[][] originalData;
 
-		private JLabel [] headers;
-		private JPanel [] planningPanels;
-		private MushroomButton [][][] planningButtons;
+		private final JLabel[] headers;
+		private final JPanel[] planningPanels;
+		private final MushroomButton[][][] planningButtons;
 
 		public ScriptGeneratePanel()
 		{
-			this.headers = new JLabel[MAX_FORECAST + 1];
+			this.headers = new JLabel[ MushroomFrame.MAX_FORECAST + 1 ];
 
-			this.planningData = new String[MAX_FORECAST + 1][16];
-			this.originalData = new String[MAX_FORECAST + 1][16];
+			this.planningData = new String[ MushroomFrame.MAX_FORECAST + 1 ][ 16 ];
+			this.originalData = new String[ MushroomFrame.MAX_FORECAST + 1 ][ 16 ];
 
-			for ( int i = 0; i < MAX_FORECAST; ++i )
+			for ( int i = 0; i < MushroomFrame.MAX_FORECAST; ++i )
 			{
 				for ( int j = 0; j < 16; ++j )
 				{
-					this.planningData[i][j] = "__";
-					this.originalData[i][j] = "__";
+					this.planningData[ i ][ j ] = "__";
+					this.originalData[ i ][ j ] = "__";
 				}
 			}
 
@@ -393,24 +417,24 @@ public class MushroomFrame extends KoLFrame
 			// Now add the first panel to the layout so that the person
 			// can add more panels as they are needed.
 
-			this.planningPanels = new JPanel[MAX_FORECAST + 1];
-			this.planningButtons = new MushroomButton[MAX_FORECAST + 1][4][4];
+			this.planningPanels = new JPanel[ MushroomFrame.MAX_FORECAST + 1 ];
+			this.planningButtons = new MushroomButton[ MushroomFrame.MAX_FORECAST + 1 ][ 4 ][ 4 ];
 
-			for ( int i = 0; i < MAX_FORECAST; ++i )
+			for ( int i = 0; i < MushroomFrame.MAX_FORECAST; ++i )
 			{
-				this.planningPanels[i] = new JPanel( new GridLayout( 4, 4, 0, 2 ) );
+				this.planningPanels[ i ] = new JPanel( new GridLayout( 4, 4, 0, 2 ) );
 				for ( int j = 0; j < 4; ++j )
 				{
 					for ( int k = 0; k < 4; ++k )
 					{
-						this.planningButtons[i][j][k] = new MushroomButton( i, j * 4 + k );
-						this.planningPanels[i].add( this.planningButtons[i][j][k] );
+						this.planningButtons[ i ][ j ][ k ] = new MushroomButton( i, j * 4 + k );
+						this.planningPanels[ i ].add( this.planningButtons[ i ][ j ][ k ] );
 					}
 				}
 			}
 
-			this.centerPanel.add( this.constructPanel( 0, this.planningPanels[0] ) );
-			this.centerPanel.add( this.constructPanel( 1, this.planningPanels[1] ) );
+			this.centerPanel.add( this.constructPanel( 0, this.planningPanels[ 0 ] ) );
+			this.centerPanel.add( this.constructPanel( 1, this.planningPanels[ 1 ] ) );
 
 			// Dummy buttons for the mushroom plot (just for layout
 			// viewing purposes.  To be replaced with real functionality
@@ -442,14 +466,16 @@ public class MushroomFrame extends KoLFrame
 		private void enableLayout()
 		{
 			for ( int i = 0; i < this.currentForecast; ++i )
-				this.headers[i].setText( "Day " + (i+1) );
+			{
+				this.headers[ i ].setText( "Day " + ( i + 1 ) );
+			}
 
 			this.headers[ this.currentForecast - 1 ].setText( "Final Day" );
 
 			for ( int i = 0; i < 16; ++i )
 			{
-				this.planningData[ this.currentForecast ][i] = "__";
-				this.originalData[ this.currentForecast ][i] = "__";
+				this.planningData[ this.currentForecast ][ i ] = "__";
+				this.originalData[ this.currentForecast ][ i ] = "__";
 			}
 
 			this.updateForecasts( this.currentForecast - 1 );
@@ -458,15 +484,16 @@ public class MushroomFrame extends KoLFrame
 			this.centerPanel.repaint();
 			MushroomFrame.this.pack();
 
-			this.addToLayoutButton.setEnabled( this.currentForecast != MAX_FORECAST );
+			this.addToLayoutButton.setEnabled( this.currentForecast != MushroomFrame.MAX_FORECAST );
 			this.deleteFromLayoutButton.setEnabled( this.currentForecast != 2 );
 		}
 
 		public void addToLayout()
 		{
 			this.centerPanel.invalidate();
-			this.centerPanel.add( this.constructPanel( this.currentForecast, this.planningPanels[this.currentForecast] ),
-				(this.currentForecast < 3) ? this.currentForecast : (this.currentForecast + 1) );
+			this.centerPanel.add(
+				this.constructPanel( this.currentForecast, this.planningPanels[ this.currentForecast ] ),
+				this.currentForecast < 3 ? this.currentForecast : this.currentForecast + 1 );
 
 			++this.currentForecast;
 			this.enableLayout();
@@ -502,7 +529,9 @@ public class MushroomFrame extends KoLFrame
 			{
 				this.centerPanel.invalidate();
 				for ( int i = this.currentForecast; i < plantingLength; ++i )
-					this.centerPanel.add( this.constructPanel( i, this.planningPanels[ i ] ), (i < 3) ? i : (i+1) );
+				{
+					this.centerPanel.add( this.constructPanel( i, this.planningPanels[ i ] ), i < 3 ? i : i + 1 );
+				}
 
 				this.currentForecast = plantingLength;
 				this.enableLayout();
@@ -511,20 +540,25 @@ public class MushroomFrame extends KoLFrame
 			{
 				this.centerPanel.invalidate();
 				for ( int i = this.currentForecast; i > plantingLength; --i )
+				{
 					this.centerPanel.remove( i < 4 ? i - 1 : i );
+				}
 
 				this.currentForecast = plantingLength;
 				this.enableLayout();
 			}
 
-
-			String today = DAILY_FORMAT.format( new Date() );
+			String today = KoLConstants.DAILY_FORMAT.format( new Date() );
 
 			if ( !KoLSettings.getUserProperty( "plantingDate" ).equals( today ) )
+			{
 				++indexToHighlight;
+			}
 
 			for ( int i = 0; i < this.currentForecast; ++i )
-				this.headers[i].setBackground( i == indexToHighlight ? TODAY_COLOR : OTHER_COLOR );
+			{
+				this.headers[ i ].setBackground( i == indexToHighlight ? MushroomFrame.TODAY_COLOR : MushroomFrame.OTHER_COLOR );
+			}
 
 			this.updateImages();
 		}
@@ -532,43 +566,57 @@ public class MushroomFrame extends KoLFrame
 		public void runLayout()
 		{
 			if ( this.currentLayout.equals( "" ) )
+			{
 				this.saveLayout();
+			}
 
 			if ( !this.currentLayout.equals( "" ) )
-				KoLmafiaCLI.DEFAULT_SHELL.executeLine( "call " + PLOTS_DIRECTORY + this.currentLayout + ".ash" );
+			{
+				KoLmafiaCLI.DEFAULT_SHELL.executeLine( "call " + KoLConstants.PLOTS_DIRECTORY + this.currentLayout + ".ash" );
+			}
 		}
 
 		public void loadLayout()
 		{
-			if ( !PLOTS_LOCATION.exists() )
+			if ( !KoLConstants.PLOTS_LOCATION.exists() )
+			{
 				return;
+			}
 
-			File [] layouts = PLOTS_LOCATION.listFiles();
+			File[] layouts = KoLConstants.PLOTS_LOCATION.listFiles();
 			ArrayList names = new ArrayList();
 
 			for ( int i = 0; i < layouts.length; ++i )
 			{
-				String name = layouts[i].getName();
+				String name = layouts[ i ].getName();
 				if ( name.endsWith( ".txt" ) )
 				{
 					name = name.substring( 0, name.length() - 4 );
 					if ( !names.contains( name ) )
+					{
 						names.add( name );
+					}
 				}
 			}
 
 			if ( names.isEmpty() )
+			{
 				return;
+			}
 
-			String layout = (String) input( "Which mushroom plot?", names.toArray() );
+			String layout = (String) KoLFrame.input( "Which mushroom plot?", names.toArray() );
 			if ( layout != null )
+			{
 				this.loadLayout( layout );
+			}
 		}
 
-		public void loadLayout( String layout )
+		public void loadLayout( final String layout )
 		{
 			if ( layout == null || layout.equals( "" ) || this.currentLayout.equals( layout ) )
+			{
 				return;
+			}
 
 			this.currentLayout = layout;
 			this.initializeLayout();
@@ -576,39 +624,47 @@ public class MushroomFrame extends KoLFrame
 
 		public void saveLayout()
 		{
-			String location = input( "Name your mushroom plot!" );
+			String location = KoLFrame.input( "Name your mushroom plot!" );
 			if ( location == null )
+			{
 				return;
+			}
 
 			this.currentLayout = location;
 
-			String [] planned = new String[16];
+			String[] planned = new String[ 16 ];
 
 			for ( int i = 0; i < 16; ++i )
 			{
-				planned[i] = this.planningData[ this.currentForecast - 1 ][i];
-				this.planningData[ this.currentForecast - 1 ][i] = "__";
+				planned[ i ] = this.planningData[ this.currentForecast - 1 ][ i ];
+				this.planningData[ this.currentForecast - 1 ][ i ] = "__";
 			}
 
 			MushroomPlot.saveLayout( location, this.originalData, this.planningData );
 			for ( int i = 0; i < 16; ++i )
-				this.planningData[ this.currentForecast - 1 ][i] = planned[i];
+			{
+				this.planningData[ this.currentForecast - 1 ][ i ] = planned[ i ];
+			}
 		}
 
-		public void updateForecasts( int startDay )
+		public void updateForecasts( final int startDay )
 		{
-			for ( int i = startDay; i < MAX_FORECAST; ++i )
+			for ( int i = startDay; i < MushroomFrame.MAX_FORECAST; ++i )
 			{
-				String [][] holdingData = new String[4][4];
+				String[][] holdingData = new String[ 4 ][ 4 ];
 				for ( int j = 0; j < 4; ++j )
+				{
 					for ( int k = 0; k < 4; ++k )
-						holdingData[j][k] = this.planningData[ i - 1 ][ j * 4 + k ];
+					{
+						holdingData[ j ][ k ] = this.planningData[ i - 1 ][ j * 4 + k ];
+					}
+				}
 
-				String [] forecastData = MushroomPlot.getForecastedPlot( true, holdingData ).split( ";" );
+				String[] forecastData = MushroomPlot.getForecastedPlot( true, holdingData ).split( ";" );
 				for ( int j = 0; j < 16; ++j )
 				{
-					this.planningData[i][j] = forecastData[j];
-					this.originalData[i][j] = forecastData[j];
+					this.planningData[ i ][ j ] = forecastData[ j ];
+					this.originalData[ i ][ j ] = forecastData[ j ];
 				}
 			}
 
@@ -617,32 +673,39 @@ public class MushroomFrame extends KoLFrame
 
 		private void updateImages()
 		{
-			for ( int i = 0; i < MAX_FORECAST; ++i )
+			for ( int i = 0; i < MushroomFrame.MAX_FORECAST; ++i )
+			{
 				for ( int j = 0; j < 4; ++j )
+				{
 					for ( int k = 0; k < 4; ++k )
-						this.planningButtons[i][j][k].updateImage();
+					{
+						this.planningButtons[ i ][ j ][ k ].updateImage();
+					}
+				}
+			}
 		}
 
-		public JPanel constructPanel( int dayIndex, Component c )
+		public JPanel constructPanel( final int dayIndex, final Component c )
 		{
 			JPanel panel = new JPanel( new BorderLayout() );
 			panel.setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
 
-			this.headers[dayIndex] = new JLabel( "Day " + (dayIndex + 1), JLabel.CENTER );
+			this.headers[ dayIndex ] = new JLabel( "Day " + ( dayIndex + 1 ), SwingConstants.CENTER );
 
-			panel.add( this.headers[dayIndex], BorderLayout.NORTH );
+			panel.add( this.headers[ dayIndex ], BorderLayout.NORTH );
 			panel.add( c, BorderLayout.CENTER );
 
 			return panel;
 		}
 
-		private class MushroomButton extends ThreadedButton
+		private class MushroomButton
+			extends ThreadedButton
 		{
-			private int dayIndex;
+			private final int dayIndex;
 			private int loopIndex;
-			private int squareIndex;
+			private final int squareIndex;
 
-			public MushroomButton( int dayIndex, int squareIndex )
+			public MushroomButton( final int dayIndex, final int squareIndex )
 			{
 				super( JComponentUtilities.getImage( "itemimages/dirt1.gif" ) );
 
@@ -656,7 +719,9 @@ public class MushroomFrame extends KoLFrame
 			public void run()
 			{
 				if ( this.dayIndex == ScriptGeneratePanel.this.currentForecast - 1 )
+				{
 					return;
+				}
 
 				ScriptGeneratePanel.this.planningData[ this.dayIndex ][ this.squareIndex ] = this.toggleMushroom();
 				ScriptGeneratePanel.this.updateForecasts( this.dayIndex + 1 );
@@ -667,15 +732,25 @@ public class MushroomFrame extends KoLFrame
 				String currentMushroom = ScriptGeneratePanel.this.planningData[ this.dayIndex ][ this.squareIndex ];
 
 				if ( currentMushroom.equals( "__" ) )
+				{
 					this.setIcon( JComponentUtilities.getImage( "itemimages/dirt1.gif" ) );
+				}
 				else if ( currentMushroom.equals( currentMushroom.toLowerCase() ) )
+				{
 					this.setIcon( JComponentUtilities.getImage( "itemimages/mushsprout.gif" ) );
+				}
 				else
+				{
 					this.setIcon( JComponentUtilities.getImage( MushroomPlot.getMushroomImage( currentMushroom ) ) );
+				}
 
 				for ( int i = 0; i < MushroomPlot.MUSHROOMS.length; ++i )
-					if ( currentMushroom.equals( MushroomPlot.MUSHROOMS[i][2] ) || currentMushroom.equals( MushroomPlot.MUSHROOMS[i][3] ) )
-						this.setToolTipText( (String) MushroomPlot.MUSHROOMS[i][5] );
+				{
+					if ( currentMushroom.equals( MushroomPlot.MUSHROOMS[ i ][ 2 ] ) || currentMushroom.equals( MushroomPlot.MUSHROOMS[ i ][ 3 ] ) )
+					{
+						this.setToolTipText( (String) MushroomPlot.MUSHROOMS[ i ][ 5 ] );
+					}
+				}
 			}
 
 			private String toggleMushroom()
@@ -685,7 +760,7 @@ public class MushroomFrame extends KoLFrame
 				// Everything rotates based on what was there
 				// when you clicked on the image.
 
-				this.loopIndex = (this.loopIndex + 1) % 5;
+				this.loopIndex = ( this.loopIndex + 1 ) % 5;
 
 				switch ( this.loopIndex )
 				{
@@ -698,17 +773,25 @@ public class MushroomFrame extends KoLFrame
 				case 0:
 
 					if ( ScriptGeneratePanel.this.originalData[ this.dayIndex ][ this.squareIndex ].equals( "__" ) )
+					{
 						this.loopIndex = 1;
+					}
 					else
+					{
 						return "__";
+					}
 
-				// In all other cases, return the next element
-				// in the mushroom toggle cycle.
+					// In all other cases, return the next element
+					// in the mushroom toggle cycle.
 
-				case 1:  return "kb";
-				case 2:  return "kn";
-				case 3:  return "sp";
-				case 4:  return ScriptGeneratePanel.this.originalData[ this.dayIndex ][ this.squareIndex ];
+				case 1:
+					return "kb";
+				case 2:
+					return "kn";
+				case 3:
+					return "sp";
+				case 4:
+					return ScriptGeneratePanel.this.originalData[ this.dayIndex ][ this.squareIndex ];
 				}
 
 				return "__";

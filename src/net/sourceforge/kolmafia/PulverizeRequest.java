@@ -36,14 +36,15 @@ package net.sourceforge.kolmafia;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class PulverizeRequest extends KoLRequest
+public class PulverizeRequest
+	extends KoLRequest
 {
 	public static final Pattern ITEMID_PATTERN = Pattern.compile( "smashitem=(\\d+)" );
 	public static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
 
 	private AdventureResult item;
 
-	public PulverizeRequest( AdventureResult item )
+	public PulverizeRequest( final AdventureResult item )
 	{
 		super( "smith.php" );
 		this.addFormField( "action", "pulverize" );
@@ -57,24 +58,32 @@ public class PulverizeRequest extends KoLRequest
 		this.addFormField( "conftrade", "1" );
 	}
 
-	public void useMalus( String itemName )
+	public void useMalus( final String itemName )
 	{
 		if ( itemName == null || !TradeableItemDatabase.contains( itemName ) )
+		{
 			return;
+		}
 
 		int itemId = TradeableItemDatabase.getItemId( itemName );
-		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemId );
+		AdventureResult[] ingredients = ConcoctionsDatabase.getIngredients( itemId );
 
 		if ( ingredients == null || ingredients.length == 0 )
+		{
 			return;
+		}
 
-		int amountNeeded = ingredients[0].getCount( inventory ) / 5;
+		int amountNeeded = ingredients[ 0 ].getCount( KoLConstants.inventory ) / 5;
 		if ( amountNeeded == 0 )
+		{
 			return;
+		}
 
 		ItemCreationRequest icr = ItemCreationRequest.getInstance( itemId );
 		if ( icr == null )
+		{
 			return;
+		}
 
 		icr.setQuantityNeeded( amountNeeded );
 		icr.run();
@@ -82,16 +91,20 @@ public class PulverizeRequest extends KoLRequest
 
 	public void run()
 	{
-		if ( KoLSettings.getBooleanProperty( "mementoListActive" ) && mementoList.contains( this.item ) )
-			return;
-
-		if ( item.getCount( inventory ) == item.getCount() && !junkList.contains( item ) )
-			junkList.add( item );
-
-		if ( singletonList.contains( item ) && !closet.contains( item ) )
+		if ( KoLSettings.getBooleanProperty( "mementoListActive" ) && KoLConstants.mementoList.contains( this.item ) )
 		{
-			this.item = item.getInstance( item.getCount() - 1 );
-			this.addFormField( "quantity", String.valueOf( item.getCount() ) );
+			return;
+		}
+
+		if ( this.item.getCount( KoLConstants.inventory ) == this.item.getCount() && !KoLConstants.junkList.contains( this.item ) )
+		{
+			KoLConstants.junkList.add( this.item );
+		}
+
+		if ( KoLConstants.singletonList.contains( this.item ) && !KoLConstants.closet.contains( this.item ) )
+		{
+			this.item = this.item.getInstance( this.item.getCount() - 1 );
+			this.addFormField( "quantity", String.valueOf( this.item.getCount() ) );
 		}
 
 		switch ( TradeableItemDatabase.getConsumptionType( this.item.getItemId() ) )
@@ -124,16 +137,18 @@ public class PulverizeRequest extends KoLRequest
 
 		if ( !KoLCharacter.hasSkill( "Pulverize" ) )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You don't know how to pulverize objects." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't know how to pulverize objects." );
 			return;
 		}
 
 		if ( !AdventureDatabase.retrieveItem( ConcoctionsDatabase.HAMMER ) )
-			return;
-
-		if ( this.item.getCount( inventory ) < this.item.getCount() )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You don't have a " + this.item.getName() + "." );
+			return;
+		}
+
+		if ( this.item.getCount( KoLConstants.inventory ) < this.item.getCount() )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have a " + this.item.getName() + "." );
 			return;
 		}
 
@@ -148,7 +163,7 @@ public class PulverizeRequest extends KoLRequest
 
 		if ( this.responseText.indexOf( "too important to pulverize" ) != -1 || this.responseText.indexOf( "not something you can pulverize" ) != -1 )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "The " + this.item.getName() + " could not be smashed." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "The " + this.item.getName() + " could not be smashed." );
 			StaticEntity.getClient().processResult( this.item );
 			return;
 		}
@@ -157,23 +172,27 @@ public class PulverizeRequest extends KoLRequest
 		KoLmafia.updateDisplay( this.item + " smashed." );
 	}
 
-	public static final boolean registerRequest( String urlString )
+	public static final boolean registerRequest( final String urlString )
 	{
 		if ( !urlString.startsWith( "smith.php" ) || urlString.indexOf( "action=pulverize" ) == -1 )
+		{
 			return false;
+		}
 
-		Matcher itemMatcher = ITEMID_PATTERN.matcher( urlString );
-		Matcher quantityMatcher = QUANTITY_PATTERN.matcher( urlString );
+		Matcher itemMatcher = PulverizeRequest.ITEMID_PATTERN.matcher( urlString );
+		Matcher quantityMatcher = PulverizeRequest.QUANTITY_PATTERN.matcher( urlString );
 
 		if ( itemMatcher.find() && quantityMatcher.find() )
 		{
-			int itemId = StaticEntity.parseInt( itemMatcher.group(1) );
+			int itemId = StaticEntity.parseInt( itemMatcher.group( 1 ) );
 			String name = TradeableItemDatabase.getItemName( itemId );
 
 			if ( name == null )
+			{
 				return true;
+			}
 
-			int quantity = StaticEntity.parseInt( quantityMatcher.group(1) );
+			int quantity = StaticEntity.parseInt( quantityMatcher.group( 1 ) );
 
 			StaticEntity.getClient().processResult( new AdventureResult( itemId, 0 - quantity ) );
 			RequestLogger.updateSessionLog( "pulverize " + quantity + " " + name );

@@ -42,6 +42,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import javax.swing.JTable;
+import javax.swing.WindowConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -51,23 +52,24 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 import ca.bcit.geekkit.CalendarTableModel;
 import ca.bcit.geekkit.JCalendar;
 
-public class CalendarFrame extends KoLFrame implements ListSelectionListener
+public class CalendarFrame
+	extends KoLFrame
+	implements ListSelectionListener
 {
 	public static final SimpleDateFormat SHORT_FORMAT = new SimpleDateFormat( "yyyyMMdd", Locale.US );
 	public static final SimpleDateFormat LONG_FORMAT = new SimpleDateFormat( "MMMM d, yyyy", Locale.US );
 
 	static
 	{
-		SHORT_FORMAT.setTimeZone( TimeZone.getDefault() );
-		LONG_FORMAT.setTimeZone( TimeZone.getDefault() );
+		CalendarFrame.SHORT_FORMAT.setTimeZone( TimeZone.getDefault() );
+		CalendarFrame.LONG_FORMAT.setTimeZone( TimeZone.getDefault() );
 	}
 
 	// static final array of file names (not including .gif extension)
 	// for the various months in the KoL calendar.
 
-	public static final String [] CALENDARS =
-	{	"", "jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"
-	};
+	public static final String[] CALENDARS =
+		{ "", "jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec" };
 
 	// The following are static final variables used to track the calendar.
 	// They are made static final as a design decision to allow the oracle
@@ -88,15 +90,15 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 	public CalendarFrame()
 	{
 		super( "Farmer's Almanac" );
-		this.setDefaultCloseOperation( HIDE_ON_CLOSE );
+		this.setDefaultCloseOperation( WindowConstants.HIDE_ON_CLOSE );
 		this.framePanel.setLayout( new BorderLayout() );
 
-		selectedRow = -1;
-		selectedColumn = -1;
+		CalendarFrame.selectedRow = -1;
+		CalendarFrame.selectedColumn = -1;
 
 		try
 		{
-			selectedDate = Calendar.getInstance( TimeZone.getDefault(), Locale.US );
+			CalendarFrame.selectedDate = Calendar.getInstance( TimeZone.getDefault(), Locale.US );
 		}
 		catch ( Exception e )
 		{
@@ -106,62 +108,66 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 			StaticEntity.printStackTrace( e );
 		}
 
-		calculatePhases( selectedDate.getTime() );
+		CalendarFrame.calculatePhases( CalendarFrame.selectedDate.getTime() );
 
-		dailyBuffer = new LimitedSizeChatBuffer( false );
-		predictBuffer = new LimitedSizeChatBuffer( false );
+		CalendarFrame.dailyBuffer = new LimitedSizeChatBuffer( false );
+		CalendarFrame.predictBuffer = new LimitedSizeChatBuffer( false );
 
 		RequestPane dailyDisplay = new RequestPane();
 		JComponentUtilities.setComponentSize( dailyDisplay, 400, 335 );
 		dailyDisplay.addHyperlinkListener( new KoLHyperlinkAdapter() );
-		dailyBuffer.setChatDisplay( dailyDisplay );
+		CalendarFrame.dailyBuffer.setChatDisplay( dailyDisplay );
 
 		RequestPane predictDisplay = new RequestPane();
 		JComponentUtilities.setComponentSize( predictDisplay, 400, 335 );
-		predictBuffer.setChatDisplay( predictDisplay );
+		CalendarFrame.predictBuffer.setChatDisplay( predictDisplay );
 
 		this.tabs.addTab( "KoL One-a-Day", dailyDisplay );
 		this.tabs.addTab( "Upcoming Events", predictDisplay );
 
 		this.framePanel.add( this.tabs, BorderLayout.CENTER );
 
-		calendar = new JCalendar( OracleTable.class );
-		oracleTable = (OracleTable) calendar.getTable();
-		oracleTable.getSelectionModel().addListSelectionListener( this );
-		oracleTable.getColumnModel().getSelectionModel().addListSelectionListener( this );
+		CalendarFrame.calendar = new JCalendar( OracleTable.class );
+		CalendarFrame.oracleTable = (OracleTable) CalendarFrame.calendar.getTable();
+		CalendarFrame.oracleTable.getSelectionModel().addListSelectionListener( this );
+		CalendarFrame.oracleTable.getColumnModel().getSelectionModel().addListSelectionListener( this );
 
-		this.framePanel.add( calendar, BorderLayout.EAST );
+		this.framePanel.add( CalendarFrame.calendar, BorderLayout.EAST );
 		this.updateTabs();
 	}
 
 	/**
-	 * Listener method which updates the main HTML panel with
-	 * information, pending on the user's calendar day selection.
+	 * Listener method which updates the main HTML panel with information, pending on the user's calendar day selection.
 	 */
 
-	public void valueChanged( ListSelectionEvent e )
+	public void valueChanged( final ListSelectionEvent e )
 	{
 		// If the person has not yet released the
 		// mouse, then do nothing.
 
 		if ( e.getValueIsAdjusting() )
+		{
 			return;
+		}
 
 		// Compute which date is being selected
 		// in the calendar table and update the
 		// HTML on the center pane as appropriate
 
-		if ( oracleTable.getSelectedRow() != selectedRow || oracleTable.getSelectedColumn() != selectedColumn )
+		if ( CalendarFrame.oracleTable.getSelectedRow() != CalendarFrame.selectedRow || CalendarFrame.oracleTable.getSelectedColumn() != CalendarFrame.selectedColumn )
 		{
 			try
 			{
-				selectedRow = oracleTable.getSelectedRow();
-				selectedColumn = oracleTable.getSelectedColumn();
+				CalendarFrame.selectedRow = CalendarFrame.oracleTable.getSelectedRow();
+				CalendarFrame.selectedColumn = CalendarFrame.oracleTable.getSelectedColumn();
 
-				selectedDate.set( calendar.getModel().getCurrentYear(), calendar.getModel().getCurrentMonth(),
-					StaticEntity.parseInt( (String) calendar.getModel().getValueAt( selectedRow, selectedColumn ) ) );
+				CalendarFrame.selectedDate.set(
+					CalendarFrame.calendar.getModel().getCurrentYear(),
+					CalendarFrame.calendar.getModel().getCurrentMonth(),
+					StaticEntity.parseInt( (String) CalendarFrame.calendar.getModel().getValueAt(
+						CalendarFrame.selectedRow, CalendarFrame.selectedColumn ) ) );
 
-				calculatePhases( selectedDate.getTime() );
+				CalendarFrame.calculatePhases( CalendarFrame.selectedDate.getTime() );
 				this.updateTabs();
 			}
 			catch ( Exception e1 )
@@ -175,38 +181,36 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 	}
 
 	/**
-	 * Recalculates the moon phases given the time noted
-	 * in the constructor.  This calculation assumes that
-	 * the straightforward algorithm has no errors.
+	 * Recalculates the moon phases given the time noted in the constructor. This calculation assumes that the
+	 * straightforward algorithm has no errors.
 	 */
 
-	private static final void calculatePhases( Date time )
+	private static final void calculatePhases( final Date time )
 	{
 		// In order to ensure that everything is computed
 		// based on new-year, wrap the date inside of the
 		// formatter (which strips time information) and
 		// reparse the date.
 
-		calendarDay = MoonPhaseDatabase.getCalendarDay( time );
-		int phaseStep = ((calendarDay % 16) + 16) % 16;
+		CalendarFrame.calendarDay = MoonPhaseDatabase.getCalendarDay( time );
+		int phaseStep = ( CalendarFrame.calendarDay % 16 + 16 ) % 16;
 
-		ronaldPhase = phaseStep % 8;
-		grimacePhase = phaseStep / 2;
-		hamburglarPosition = MoonPhaseDatabase.getHamburglarPosition( time );
+		CalendarFrame.ronaldPhase = phaseStep % 8;
+		CalendarFrame.grimacePhase = phaseStep / 2;
+		CalendarFrame.hamburglarPosition = MoonPhaseDatabase.getHamburglarPosition( time );
 	}
 
 	/**
-	 * Updates the HTML which displays the date and the information
-	 * relating to the given date.  This should be called after all
-	 * recalculation attempts.
+	 * Updates the HTML which displays the date and the information relating to the given date. This should be called
+	 * after all recalculation attempts.
 	 */
 
 	private static final void updateDailyPage()
 	{
-		if ( DAILY_FORMAT.format( selectedDate.getTime() ).equals( "20051027" ) )
+		if ( KoLConstants.DAILY_FORMAT.format( CalendarFrame.selectedDate.getTime() ).equals( "20051027" ) )
 		{
-			dailyBuffer.clearBuffer();
-			dailyBuffer.append( "<center><h1>White Wednesday</h1></center>" );
+			CalendarFrame.dailyBuffer.clearBuffer();
+			CalendarFrame.dailyBuffer.append( "<center><h1>White Wednesday</h1></center>" );
 			return;
 		}
 
@@ -225,7 +229,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		String artistName;
 		String artDirectory;
 
-		if ( RNG.nextInt(2) == 1 )
+		if ( KoLConstants.RNG.nextInt( 2 ) == 1 )
 		{
 			artistURL = "http://elfwood.lysator.liu.se/loth/l/e/leigh/leigh.html";
 			artistName = "SpaceMonkey";
@@ -240,11 +244,11 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 
 		displayHTML.append( "<a href=\"" + artistURL + "\">" + artistName + "</a></b></td></tr>" );
 		displayHTML.append( "<tr><td><img src=\"http://images.kingdomofloathing.com/otherimages/" + artDirectory + "/" );
-		displayHTML.append( CALENDARS[ MoonPhaseDatabase.getCalendarMonth( selectedDate.getTime() ) ] );
+		displayHTML.append( CalendarFrame.CALENDARS[ MoonPhaseDatabase.getCalendarMonth( CalendarFrame.selectedDate.getTime() ) ] );
 		displayHTML.append( ".gif\"></td></tr><tr><td align=center>" );
-		displayHTML.append( LONG_FORMAT.format( selectedDate.getTime() ) );
+		displayHTML.append( CalendarFrame.LONG_FORMAT.format( CalendarFrame.selectedDate.getTime() ) );
 		displayHTML.append( "</td></tr><tr><td align=center><font size=+1><b>" );
-		displayHTML.append( MoonPhaseDatabase.getCalendarDayAsString( selectedDate.getTime() ) );
+		displayHTML.append( MoonPhaseDatabase.getCalendarDayAsString( CalendarFrame.selectedDate.getTime() ) );
 		displayHTML.append( "</b></font></td></tr></table></center>" );
 
 		displayHTML.append( "</td><td valign=top>" );
@@ -254,7 +258,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		// row, just in case.
 
 		displayHTML.append( "<tr><td colspan=2 align=center><b>" );
-		displayHTML.append( MoonPhaseDatabase.getHoliday( selectedDate.getTime() ) );
+		displayHTML.append( MoonPhaseDatabase.getHoliday( CalendarFrame.selectedDate.getTime() ) );
 		displayHTML.append( "</b></td></tr><tr><td colspan=2></td></tr>" );
 
 		// Next display today's moon phases, including
@@ -262,66 +266,82 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		// like in the browser, Ronald then Grimace.
 
 		displayHTML.append( "<tr><td colspan=2 align=\"center\">" );
-		int hamburglarLight = MoonPhaseDatabase.getHamburglarLight( ronaldPhase, grimacePhase, hamburglarPosition );
+		int hamburglarLight =
+			MoonPhaseDatabase.getHamburglarLight(
+				CalendarFrame.ronaldPhase, CalendarFrame.grimacePhase, CalendarFrame.hamburglarPosition );
 
-		if ( hamburglarPosition == 7 )
+		if ( CalendarFrame.hamburglarPosition == 7 )
 		{
 			displayHTML.append( "<img src=\"http://images.kingdomofloathing.com/itemimages/minimoon" );
 			if ( hamburglarLight == 0 )
+			{
 				displayHTML.append( "2" );
+			}
 			displayHTML.append( ".gif\">" );
 		}
 
 		displayHTML.append( "<img src=\"http://images.kingdomofloathing.com/itemimages/smoon" );
-		displayHTML.append( ronaldPhase + 1 );
+		displayHTML.append( CalendarFrame.ronaldPhase + 1 );
 
-		if ( hamburglarPosition == 8 || hamburglarPosition == 9 )
-			displayHTML.append( hamburglarPosition == 8 ? "a" : "b" );
+		if ( CalendarFrame.hamburglarPosition == 8 || CalendarFrame.hamburglarPosition == 9 )
+		{
+			displayHTML.append( CalendarFrame.hamburglarPosition == 8 ? "a" : "b" );
+		}
 
 		displayHTML.append( ".gif\">" );
 
-		if ( hamburglarPosition == 4 || hamburglarPosition == 5 || hamburglarPosition == 10 )
+		if ( CalendarFrame.hamburglarPosition == 4 || CalendarFrame.hamburglarPosition == 5 || CalendarFrame.hamburglarPosition == 10 )
 		{
 			displayHTML.append( "<img src=\"http://images.kingdomofloathing.com/itemimages/minimoon" );
 			if ( hamburglarLight == 0 )
+			{
 				displayHTML.append( "2" );
+			}
 			displayHTML.append( ".gif\">" );
 		}
 
 		displayHTML.append( "<img src=\"http://images.kingdomofloathing.com/itemimages/smoon" );
-		displayHTML.append( grimacePhase + 1 );
+		displayHTML.append( CalendarFrame.grimacePhase + 1 );
 
-		if ( hamburglarPosition == 0 || hamburglarPosition == 1 )
-			displayHTML.append( hamburglarPosition == 0 ? "a" : "b" );
+		if ( CalendarFrame.hamburglarPosition == 0 || CalendarFrame.hamburglarPosition == 1 )
+		{
+			displayHTML.append( CalendarFrame.hamburglarPosition == 0 ? "a" : "b" );
+		}
 
 		displayHTML.append( ".gif\">" );
 
-		if ( hamburglarPosition == 2 )
+		if ( CalendarFrame.hamburglarPosition == 2 )
 		{
 			displayHTML.append( "<img src=\"http://images.kingdomofloathing.com/itemimages/minimoon" );
 			if ( hamburglarLight == 0 )
+			{
 				displayHTML.append( "2" );
+			}
 			displayHTML.append( ".gif\">" );
 		}
 
 		displayHTML.append( "</td></tr><tr><td colspan=2></td></tr>" );
 
 		displayHTML.append( "<tr><td align=right><b>Ronald</b>:&nbsp;</td><td>" );
-		displayHTML.append( MoonPhaseDatabase.getPhaseName( ronaldPhase ) );
+		displayHTML.append( MoonPhaseDatabase.getPhaseName( CalendarFrame.ronaldPhase ) );
 		displayHTML.append( "</td></tr>" );
 		displayHTML.append( "<tr><td align=right><b>Grimace</b>:&nbsp;</td><td>" );
-		displayHTML.append( MoonPhaseDatabase.getPhaseName( grimacePhase ) );
+		displayHTML.append( MoonPhaseDatabase.getPhaseName( CalendarFrame.grimacePhase ) );
 		displayHTML.append( "</td></tr>" );
 		displayHTML.append( "<tr><td align=right><b>Stats</b>:&nbsp;</td><td>" );
-		displayHTML.append( MoonPhaseDatabase.getMoonEffect( ronaldPhase, grimacePhase ) );
+		displayHTML.append( MoonPhaseDatabase.getMoonEffect( CalendarFrame.ronaldPhase, CalendarFrame.grimacePhase ) );
 		displayHTML.append( "</td></tr><td align=right><b>Grue</b>:&nbsp;</td><td>" );
-		displayHTML.append( MoonPhaseDatabase.getGrueEffect( ronaldPhase, grimacePhase, hamburglarPosition ) ? "bloodlusty" : "pacifistic" );
+		displayHTML.append( MoonPhaseDatabase.getGrueEffect(
+			CalendarFrame.ronaldPhase, CalendarFrame.grimacePhase, CalendarFrame.hamburglarPosition ) ? "bloodlusty" : "pacifistic" );
 		displayHTML.append( "</td></tr><td align=right><b>Blood</b>:&nbsp;</td><td>" );
-		appendModifierPercentage( displayHTML, MoonPhaseDatabase.getBloodEffect( ronaldPhase, grimacePhase, hamburglarPosition ) );
+		CalendarFrame.appendModifierPercentage( displayHTML, MoonPhaseDatabase.getBloodEffect(
+			CalendarFrame.ronaldPhase, CalendarFrame.grimacePhase, CalendarFrame.hamburglarPosition ) );
 		displayHTML.append( "</td></tr><td align=right><b>Baio</b>:&nbsp;</td><td>" );
-		appendModifierPercentage( displayHTML, MoonPhaseDatabase.getBaioEffect( ronaldPhase, grimacePhase, hamburglarPosition ) );
+		CalendarFrame.appendModifierPercentage( displayHTML, MoonPhaseDatabase.getBaioEffect(
+			CalendarFrame.ronaldPhase, CalendarFrame.grimacePhase, CalendarFrame.hamburglarPosition ) );
 		displayHTML.append( "</td></tr><td align=right><b>Jekyllin</b>:&nbsp;</td><td>" );
-		displayHTML.append( MoonPhaseDatabase.getJekyllinEffect( ronaldPhase, grimacePhase, hamburglarPosition ) );
+		displayHTML.append( MoonPhaseDatabase.getJekyllinEffect(
+			CalendarFrame.ronaldPhase, CalendarFrame.grimacePhase, CalendarFrame.hamburglarPosition ) );
 		displayHTML.append( "</td></tr></table></center>" );
 
 		// That completes the table display!  More data
@@ -335,45 +355,41 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		// constructed, clear the display dailyBuffer
 		// and append the appropriate text.
 
-		dailyBuffer.clearBuffer();
-		dailyBuffer.append( displayHTML.toString() );
+		CalendarFrame.dailyBuffer.clearBuffer();
+		CalendarFrame.dailyBuffer.append( displayHTML.toString() );
 	}
 
 	/**
-	 * Updates the HTML which displays the predictions for upcoming
-	 * events on the KoL calendar.
+	 * Updates the HTML which displays the predictions for upcoming events on the KoL calendar.
 	 */
 
 	private static final void updatePredictionsPage()
 	{
 		StringBuffer displayHTML = new StringBuffer();
-		int phaseStep = MoonPhaseDatabase.getPhaseStep( ronaldPhase, grimacePhase );
+		int phaseStep = MoonPhaseDatabase.getPhaseStep( CalendarFrame.ronaldPhase, CalendarFrame.grimacePhase );
 
 		// First display today's date along with the
 		// appropriate calendar picture.  Include the
 		// link shown in the clan calendar.
 
 		displayHTML.append( "<b><u>" );
-		displayHTML.append( LONG_FORMAT.format( selectedDate.getTime() ) );
+		displayHTML.append( CalendarFrame.LONG_FORMAT.format( CalendarFrame.selectedDate.getTime() ) );
 		displayHTML.append( "</u></b><br><i>" );
-		displayHTML.append( MoonPhaseDatabase.getCalendarDayAsString( selectedDate.getTime() ) );
+		displayHTML.append( MoonPhaseDatabase.getCalendarDayAsString( CalendarFrame.selectedDate.getTime() ) );
 		displayHTML.append( "</i><br>&nbsp;<br>" );
 
-		MoonPhaseDatabase.addPredictionHTML( displayHTML, selectedDate.getTime(), phaseStep );
+		MoonPhaseDatabase.addPredictionHTML( displayHTML, CalendarFrame.selectedDate.getTime(), phaseStep );
 
-		predictBuffer.clearBuffer();
-		predictBuffer.append( displayHTML.toString() );
+		CalendarFrame.predictBuffer.clearBuffer();
+		CalendarFrame.predictBuffer.append( displayHTML.toString() );
 	}
 
-
 	/**
-	 * Utility method which appends the given percentage to
-	 * the given string dailyBuffer, complete with + and % signs,
-	 * wherever applicable.  Also appends "no effect" if the
-	 * percentage is zero.
+	 * Utility method which appends the given percentage to the given string dailyBuffer, complete with + and % signs,
+	 * wherever applicable. Also appends "no effect" if the percentage is zero.
 	 */
 
-	private static final void appendModifierPercentage( StringBuffer buffer, int percentage )
+	private static final void appendModifierPercentage( final StringBuffer buffer, final int percentage )
 	{
 		if ( percentage > 0 )
 		{
@@ -387,24 +403,25 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 			buffer.append( '%' );
 		}
 		else if ( percentage == 0 )
+		{
 			buffer.append( "no effect" );
+		}
 	}
 
 	/**
-	 * Internal class which functions as a table for the
-	 * JCalendar object.  Unlike the standard implementation
-	 * used by JCalendar, this also highlights stat days and
-	 * holidays on the KoL calendar.
+	 * Internal class which functions as a table for the JCalendar object. Unlike the standard implementation used by
+	 * JCalendar, this also highlights stat days and holidays on the KoL calendar.
 	 */
 
-	public static class OracleTable extends JTable
+	public static class OracleTable
+		extends JTable
 	{
-		private Calendar dateCalculator;
-		private CalendarTableModel model;
-		private DefaultTableCellRenderer normalRenderer, todayRenderer, specialRenderer, holidayRenderer;
-		private DefaultTableCellRenderer muscleRenderer, mysticalityRenderer, moxieRenderer;
+		private final Calendar dateCalculator;
+		private final CalendarTableModel model;
+		private final DefaultTableCellRenderer normalRenderer, todayRenderer, specialRenderer, holidayRenderer;
+		private final DefaultTableCellRenderer muscleRenderer, mysticalityRenderer, moxieRenderer;
 
-		public OracleTable( CalendarTableModel model )
+		public OracleTable( final CalendarTableModel model )
 		{
 			super( model );
 			this.model = model;
@@ -437,7 +454,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 			this.moxieRenderer.setBackground( new Color( 204, 255, 204 ) );
 		}
 
-		public TableCellRenderer getCellRenderer( int row, int column )
+		public TableCellRenderer getCellRenderer( final int row, final int column )
 		{
 			try
 			{
@@ -446,38 +463,56 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 
 				String dayString = (String) this.model.getValueAt( row, column );
 				if ( dayString.equals( "" ) )
+				{
 					return this.normalRenderer;
+				}
 
-				this.dateCalculator.set( this.model.getCurrentYear(), this.model.getCurrentMonth(), StaticEntity.parseInt( dayString ) );
+				this.dateCalculator.set(
+					this.model.getCurrentYear(), this.model.getCurrentMonth(), StaticEntity.parseInt( dayString ) );
 				Date selectedTime = this.dateCalculator.getTime();
 
-				if ( SHORT_FORMAT.format( new Date() ).equals( SHORT_FORMAT.format( this.dateCalculator.getTime() ) ) )
+				if ( CalendarFrame.SHORT_FORMAT.format( new Date() ).equals(
+					CalendarFrame.SHORT_FORMAT.format( this.dateCalculator.getTime() ) ) )
+				{
 					return this.todayRenderer;
+				}
 
 				// White wednesday special highlighting.
 				// But, because white doesn't show up,
 				// make it black instead.
 
-				if ( DAILY_FORMAT.format( this.dateCalculator.getTime() ).equals( "20051027" ) )
+				if ( KoLConstants.DAILY_FORMAT.format( this.dateCalculator.getTime() ).equals( "20051027" ) )
+				{
 					return this.specialRenderer;
+				}
 
 				// Otherwise, if the date selected is equal
 				// to a special day, then highlight it.
 
 				if ( MoonPhaseDatabase.isRealLifeHoliday( selectedTime ) )
+				{
 					return this.holidayRenderer;
+				}
 
 				if ( MoonPhaseDatabase.isHoliday( selectedTime ) )
+				{
 					return this.holidayRenderer;
+				}
 
 				if ( MoonPhaseDatabase.isMuscleDay( selectedTime ) )
+				{
 					return this.muscleRenderer;
+				}
 
 				if ( MoonPhaseDatabase.isMysticalityDay( selectedTime ) )
+				{
 					return this.mysticalityRenderer;
+				}
 
 				if ( MoonPhaseDatabase.isMoxieDay( selectedTime ) )
+				{
 					return this.moxieRenderer;
+				}
 			}
 			catch ( Exception e )
 			{
@@ -493,7 +528,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 
 	public synchronized void updateTabs()
 	{
-		updateDailyPage();
-		updatePredictionsPage();
+		CalendarFrame.updateDailyPage();
+		CalendarFrame.updatePredictionsPage();
 	}
 }

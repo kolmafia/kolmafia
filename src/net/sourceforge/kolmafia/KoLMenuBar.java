@@ -55,7 +55,9 @@ import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LicenseDisplay;
 
-public class KoLMenuBar extends JMenuBar implements KoLConstants
+public class KoLMenuBar
+	extends JMenuBar
+	implements KoLConstants
 {
 	private WindowMenu windowMenu;
 
@@ -63,11 +65,11 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	public BookmarkMenu bookmarkMenu;
 	public JMenuItem debugMenuItem = new ToggleDebugMenuItem();
 
-	private static final String [] LICENSE_FILENAME = {
-		"kolmafia-license.txt", "spellcast-license.txt", "browserlauncher-license.htm", "sungraphics-license.txt", "foxtrot-license.txt", "jsmooth-license.txt", "unlicensed.htm" };
+	private static final String[] LICENSE_FILENAME =
+		{ "kolmafia-license.txt", "spellcast-license.txt", "browserlauncher-license.htm", "sungraphics-license.txt", "foxtrot-license.txt", "jsmooth-license.txt", "unlicensed.htm" };
 
-	private static final String [] LICENSE_NAME = {
-		"KoLmafia", "Spellcast", "BrowserLauncher", "Sun Graphics", "Foxtrot", "JSmooth", "Unlicensed" };
+	private static final String[] LICENSE_NAME =
+		{ "KoLmafia", "Spellcast", "BrowserLauncher", "Sun Graphics", "Foxtrot", "JSmooth", "Unlicensed" };
 
 	public KoLMenuBar()
 	{
@@ -145,7 +147,6 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		peopleMenu.add( new DisplayFrameMenuItem( "Run a Buffbot", "BuffBotFrame" ) );
 		peopleMenu.add( new DisplayFrameMenuItem( "Purchase Buffs", "BuffRequestFrame" ) );
 
-
 		// Add in common tasks menu
 
 		JMenu travelMenu = new JMenu( "Travel" );
@@ -153,7 +154,8 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		travelMenu.add( new RelayBrowserMenuItem( "Doc Galaktik", "galaktik.php" ) );
 		travelMenu.add( new InvocationMenuItem( "Rest in House", StaticEntity.getClient(), "makeCampgroundRestRequest" ) );
-		travelMenu.add( new InvocationMenuItem( "Relax in Beanbag", StaticEntity.getClient(), "makeCampgroundRelaxRequest" ) );
+		travelMenu.add( new InvocationMenuItem(
+			"Relax in Beanbag", StaticEntity.getClient(), "makeCampgroundRelaxRequest" ) );
 		travelMenu.add( new InvocationMenuItem( "Sleep in Sofa", StaticEntity.getClient(), "makeClanSofaRequest" ) );
 
 		travelMenu.add( new JSeparator() );
@@ -191,7 +193,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		// Add script and bookmark menus, which use the
 		// listener-driven static final lists.
 
-		if ( !bookmarks.isEmpty() )
+		if ( !KoLConstants.bookmarks.isEmpty() )
 		{
 			this.bookmarkMenu = new BookmarkMenu();
 			this.add( this.bookmarkMenu );
@@ -219,41 +221,50 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		helperMenu.add( new JSeparator() );
 
-		helperMenu.add( new DisplayPageMenuItem( "KoLmafia Thread", "http://forums.kingdomofloathing.com/vb/showthread.php?t=88408" ) );
+		helperMenu.add( new DisplayPageMenuItem(
+			"KoLmafia Thread", "http://forums.kingdomofloathing.com/vb/showthread.php?t=88408" ) );
 		helperMenu.add( new DisplayPageMenuItem( "End-User Manual", "http://kolmafia.sourceforge.net/manual.html" ) );
-		helperMenu.add( new DisplayPageMenuItem( "Unofficial Guide", "http://forums.kingdomofloathing.com/vb/showthread.php?t=140340" ) );
+		helperMenu.add( new DisplayPageMenuItem(
+			"Unofficial Guide", "http://forums.kingdomofloathing.com/vb/showthread.php?t=140340" ) );
 		helperMenu.add( new DisplayPageMenuItem( "Script Repository", "http://kolmafia.us/" ) );
 
 		helperMenu.add( new JSeparator() );
 
 		helperMenu.add( new DisplayPageMenuItem( "Subjunctive KoL", "http://www.subjunctive.net/kol/FrontPage.html" ) );
-		helperMenu.add( new DisplayPageMenuItem( "KoL Visual Wiki", "http://kol.coldfront.net/thekolwiki/index.php/Main_Page" ) );
+		helperMenu.add( new DisplayPageMenuItem(
+			"KoL Visual Wiki", "http://kol.coldfront.net/thekolwiki/index.php/Main_Page" ) );
 		helperMenu.add( new InvocationMenuItem( "Violet Fog Mapper", VioletFog.class, "showGemelliMap" ) );
 		helperMenu.add( new InvocationMenuItem( "Louvre Mapper", Louvre.class, "showGemelliMap" ) );
 	}
 
 	public void dispose()
 	{
-		if ( windowMenu != null )
-			windowMenu.dispose();
+		if ( this.windowMenu != null )
+		{
+			this.windowMenu.dispose();
+		}
 
-		if ( scriptMenu != null )
-			scriptMenu.dispose();
+		if ( this.scriptMenu != null )
+		{
+			this.scriptMenu.dispose();
+		}
 
-		if ( bookmarkMenu != null )
-			bookmarkMenu.dispose();
+		if ( this.bookmarkMenu != null )
+		{
+			this.bookmarkMenu.dispose();
+		}
 	}
 
 	/**
-	 * Internal class which displays the given request inside
-	 * of the current frame.
+	 * Internal class which displays the given request inside of the current frame.
 	 */
 
-	public class DisplayRequestMenuItem extends ThreadedMenuItem
+	public class DisplayRequestMenuItem
+		extends ThreadedMenuItem
 	{
-		private String location;
+		private final String location;
 
-		public DisplayRequestMenuItem( String label, String location )
+		public DisplayRequestMenuItem( final String label, final String location )
 		{
 			super( label );
 			this.location = location;
@@ -262,38 +273,47 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		public void run()
 		{
 			if ( this.location.startsWith( "http" ) )
+			{
 				StaticEntity.openSystemBrowser( this.location );
+			}
 			else
+			{
 				StaticEntity.openRequestFrame( this.location );
+			}
 		}
 
 		public String toString()
-		{	return this.getText();
+		{
+			return this.getText();
 		}
 	}
 
-	public class WindowMenu extends MenuItemList
+	public class WindowMenu
+		extends MenuItemList
 	{
 		public WindowMenu()
-		{	super( "Window", existingFrames );
-		}
-
-		public JComponent constructMenuItem( Object o )
-		{	return new WindowDisplayMenuItem( (KoLFrame) o );
-		}
-
-		public JComponent [] getHeaders()
 		{
-			JComponent [] headers = new JComponent[1];
-			headers[0] = new WindowDisplayMenuItem( null );
+			super( "Window", KoLConstants.existingFrames );
+		}
+
+		public JComponent constructMenuItem( final Object o )
+		{
+			return new WindowDisplayMenuItem( (KoLFrame) o );
+		}
+
+		public JComponent[] getHeaders()
+		{
+			JComponent[] headers = new JComponent[ 1 ];
+			headers[ 0 ] = new WindowDisplayMenuItem( null );
 			return headers;
 		}
 
-		private class WindowDisplayMenuItem extends ThreadedMenuItem
+		private class WindowDisplayMenuItem
+			extends ThreadedMenuItem
 		{
-			private WeakReference frameReference;
+			private final WeakReference frameReference;
 
-			public WindowDisplayMenuItem( KoLFrame frame )
+			public WindowDisplayMenuItem( final KoLFrame frame )
 			{
 				super( frame == null ? "Show All Displays" : frame.toString() );
 				this.frameReference = frame == null ? null : new WeakReference( frame );
@@ -303,15 +323,21 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			{
 				if ( this.frameReference == null )
 				{
-					KoLFrame [] frames = StaticEntity.getExistingFrames();
+					KoLFrame[] frames = StaticEntity.getExistingFrames();
 					String interfaceSetting = KoLSettings.getGlobalProperty( "initialDesktop" );
 
 					for ( int i = 0; i < frames.length; ++i )
-						if ( interfaceSetting.indexOf( frames[i].getFrameName() ) == -1 )
-							frames[i].setVisible( true );
+					{
+						if ( interfaceSetting.indexOf( frames[ i ].getFrameName() ) == -1 )
+						{
+							frames[ i ].setVisible( true );
+						}
+					}
 
 					if ( KoLDesktop.instanceExists() )
+					{
 						KoLDesktop.getInstance().setVisible( true );
+					}
 
 					return;
 				}
@@ -319,11 +345,14 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 				KoLFrame frame = (KoLFrame) this.frameReference.get();
 				if ( frame != null )
 				{
-					boolean appearsInTab = KoLSettings.getGlobalProperty( "initialDesktop" ).indexOf(
-						frame instanceof ChatFrame ? "KoLMessenger" : frame.getFrameName() ) != -1;
+					boolean appearsInTab =
+						KoLSettings.getGlobalProperty( "initialDesktop" ).indexOf(
+							frame instanceof ChatFrame ? "KoLMessenger" : frame.getFrameName() ) != -1;
 
 					if ( !appearsInTab )
+					{
 						frame.setVisible( true );
+					}
 
 					frame.requestFocus();
 				}
@@ -332,41 +361,47 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	}
 
 	/**
-	 * A special class which renders the menu holding the list of bookmarks.
-	 * This class also synchronizes with the list of available bookmarks.
+	 * A special class which renders the menu holding the list of bookmarks. This class also synchronizes with the list
+	 * of available bookmarks.
 	 */
 
-	public class BookmarkMenu extends MenuItemList
+	public class BookmarkMenu
+		extends MenuItemList
 	{
 		public BookmarkMenu()
-		{	super( "Bookmarks", bookmarks );
+		{
+			super( "Bookmarks", KoLConstants.bookmarks );
 		}
 
-		public JComponent constructMenuItem( Object o )
+		public JComponent constructMenuItem( final Object o )
 		{
-			String [] bookmarkData = ((String)o).split( "\\|" );
+			String[] bookmarkData = ( (String) o ).split( "\\|" );
 
-			String name = bookmarkData[0];
-			String location = bookmarkData[1];
-			String pwdhash = bookmarkData[2];
+			String name = bookmarkData[ 0 ];
+			String location = bookmarkData[ 1 ];
+			String pwdhash = bookmarkData[ 2 ];
 
 			if ( pwdhash.equals( "true" ) )
+			{
 				location += "&pwd";
+			}
 
 			return new DisplayRequestMenuItem( name, location );
 		}
 
-		public JComponent [] getHeaders()
+		public JComponent[] getHeaders()
 		{
-			JComponent [] headers = new JComponent[0];
+			JComponent[] headers = new JComponent[ 0 ];
 			return headers;
 		}
 	}
 
-	private class ToggleDebugMenuItem extends ThreadedMenuItem
+	private class ToggleDebugMenuItem
+		extends ThreadedMenuItem
 	{
 		public ToggleDebugMenuItem()
-		{	super( RequestLogger.isDebugging() ? "Stop Debug Log" : "Start Debug Log" );
+		{
+			super( RequestLogger.isDebugging() ? "Stop Debug Log" : "Start Debug Log" );
 		}
 
 		public void run()
@@ -385,20 +420,21 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	}
 
 	/**
-	 * In order to keep the user interface from freezing (or at least
-	 * appearing to freeze), this internal class is used to process
-	 * the request for loading a script.
+	 * In order to keep the user interface from freezing (or at least appearing to freeze), this internal class is used
+	 * to process the request for loading a script.
 	 */
 
-	private class LoadScriptMenuItem extends ThreadedMenuItem
+	private class LoadScriptMenuItem
+		extends ThreadedMenuItem
 	{
-		private String scriptPath;
+		private final String scriptPath;
 
 		public LoadScriptMenuItem()
-		{	this( "Load script...", null );
+		{
+			this( "Load script...", null );
 		}
 
-		public LoadScriptMenuItem( String scriptName, String scriptPath )
+		public LoadScriptMenuItem( final String scriptName, final String scriptPath )
 		{
 			super( scriptName );
 			this.scriptPath = scriptPath;
@@ -410,18 +446,24 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 			if ( this.scriptPath == null )
 			{
-				JFileChooser chooser = new JFileChooser( SCRIPT_LOCATION.getAbsolutePath() );
+				JFileChooser chooser = new JFileChooser( KoLConstants.SCRIPT_LOCATION.getAbsolutePath() );
 				int returnVal = chooser.showOpenDialog( null );
 
 				if ( chooser.getSelectedFile() == null )
+				{
 					return;
+				}
 
 				if ( returnVal == JFileChooser.APPROVE_OPTION )
+				{
 					executePath = chooser.getSelectedFile().getAbsolutePath();
+				}
 			}
 
 			if ( executePath == null )
+			{
 				return;
+			}
 
 			KoLmafia.forceContinue();
 			CommandDisplayFrame.executeCommand( "call " + executePath );
@@ -429,16 +471,16 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	}
 
 	/**
-	 * In order to keep the user interface from freezing (or at least
-	 * appearing to freeze), this internal class is used to process
-	 * the request for viewing frames.
+	 * In order to keep the user interface from freezing (or at least appearing to freeze), this internal class is used
+	 * to process the request for viewing frames.
 	 */
 
-	public class DisplayFrameMenuItem extends ThreadedMenuItem
+	public class DisplayFrameMenuItem
+		extends ThreadedMenuItem
 	{
-		private String frameClass;
+		private final String frameClass;
 
-		public DisplayFrameMenuItem( String title, String frameClass )
+		public DisplayFrameMenuItem( final String title, final String frameClass )
 		{
 			super( title );
 			this.frameClass = frameClass;
@@ -448,11 +490,11 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		{
 			if ( this.frameClass.equals( "LicenseDisplay" ) )
 			{
-				Object [] parameters = new Object[4];
-				parameters[0] = "KoLmafia: Copyright Notices";
-				parameters[1] = new VersionDataPanel();
-				parameters[2] = LICENSE_FILENAME;
-				parameters[3] = LICENSE_NAME;
+				Object[] parameters = new Object[ 4 ];
+				parameters[ 0 ] = "KoLmafia: Copyright Notices";
+				parameters[ 1 ] = new VersionDataPanel();
+				parameters[ 2 ] = KoLMenuBar.LICENSE_FILENAME;
+				parameters[ 3 ] = KoLMenuBar.LICENSE_NAME;
 
 				SwingUtilities.invokeLater( new CreateFrameRunnable( LicenseDisplay.class, parameters ) );
 			}
@@ -464,34 +506,37 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	}
 
 	/**
-	 * Internal class which opens the operating system's default
-	 * browser to the given location.
+	 * Internal class which opens the operating system's default browser to the given location.
 	 */
 
-	public class DisplayPageMenuItem extends ThreadedMenuItem
+	public class DisplayPageMenuItem
+		extends ThreadedMenuItem
 	{
-		private String location;
+		private final String location;
 
-		public DisplayPageMenuItem( String title, String location )
+		public DisplayPageMenuItem( final String title, final String location )
 		{
 			super( title );
 			this.location = location;
 		}
 
 		public void run()
-		{	StaticEntity.openSystemBrowser( this.location );
+		{
+			StaticEntity.openSystemBrowser( this.location );
 		}
 	}
 
-	public class RelayBrowserMenuItem extends ThreadedMenuItem
+	public class RelayBrowserMenuItem
+		extends ThreadedMenuItem
 	{
-		private String location;
+		private final String location;
 
-		public RelayBrowserMenuItem( String title )
-		{	this( title, null );
+		public RelayBrowserMenuItem( final String title )
+		{
+			this( title, null );
 		}
 
-		public RelayBrowserMenuItem( String title, String location )
+		public RelayBrowserMenuItem( final String title, final String location )
 		{
 			super( title );
 			this.location = location;
@@ -499,44 +544,49 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		public void run()
 		{
-			if ( location == null )
+			if ( this.location == null )
+			{
 				StaticEntity.getClient().openRelayBrowser();
+			}
 			else
+			{
 				StaticEntity.getClient().openRelayBrowser( this.location );
+			}
 		}
 	}
 
 	/**
-	 * Internal class used to invoke the given no-parameter
-	 * method on the given object.  This is used whenever
-	 * there is the need to invoke a method and the creation
-	 * of an additional class is unnecessary.
+	 * Internal class used to invoke the given no-parameter method on the given object. This is used whenever there is
+	 * the need to invoke a method and the creation of an additional class is unnecessary.
 	 */
 
-	public class InvocationMenuItem extends ThreadedMenuItem
+	public class InvocationMenuItem
+		extends ThreadedMenuItem
 	{
 		private Object object;
 		private Method method;
-		private String methodName;
+		private final String methodName;
 
-		public InvocationMenuItem( String title, Object object, String methodName )
+		public InvocationMenuItem( final String title, final Object object, final String methodName )
 		{
 			this( title, object == null ? null : object.getClass(), methodName );
 			this.object = object;
 		}
 
-		public InvocationMenuItem( String title, Class c, String methodName )
+		public InvocationMenuItem( final String title, final Class c, final String methodName )
 		{
 			super( title );
 			this.methodName = methodName;
 
 			if ( c == null )
+			{
 				return;
+			}
 
 			try
 			{
 				this.object = c;
-				this.method = c.getMethod( methodName, NOPARAMS );
+				this.method = c.getMethod( methodName, KoLConstants.NOPARAMS );
 			}
 			catch ( Exception e )
 			{
@@ -554,7 +604,9 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 				RequestThread.openRequestSequence();
 
 				if ( this.method != null )
+				{
 					this.method.invoke( this.object instanceof KoLmafia ? StaticEntity.getClient() : this.object, null );
+				}
 
 				RequestThread.closeRequestSequence();
 			}
@@ -569,57 +621,53 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	}
 
 	/**
-	 * An internal class used to handle requests to open a new frame
-	 * using a local panel inside of the adventure frame.
+	 * An internal class used to handle requests to open a new frame using a local panel inside of the adventure frame.
 	 */
 
-	public class KoLPanelFrameMenuItem extends ThreadedMenuItem
+	public class KoLPanelFrameMenuItem
+		extends ThreadedMenuItem
 	{
-		private CreateFrameRunnable creator;
+		private final CreateFrameRunnable creator;
 
-		public KoLPanelFrameMenuItem( String title, ActionPanel panel )
+		public KoLPanelFrameMenuItem( final String title, final ActionPanel panel )
 		{
 			super( title );
 
-			Object [] parameters = new Object[2];
-			parameters[0] = title;
-			parameters[1] = panel;
+			Object[] parameters = new Object[ 2 ];
+			parameters[ 0 ] = title;
+			parameters[ 1 ] = panel;
 
 			this.creator = new CreateFrameRunnable( KoLPanelFrame.class, parameters );
 		}
 
 		public void run()
-		{	SwingUtilities.invokeLater( this.creator );
+		{
+			SwingUtilities.invokeLater( this.creator );
 		}
 	}
 
 	/**
-	 * An internal class which displays KoLmafia's current version
-	 * information.  This is passed to the constructor for the
-	 * <code>LicenseDisplay</code>.
+	 * An internal class which displays KoLmafia's current version information. This is passed to the constructor for
+	 * the <code>LicenseDisplay</code>.
 	 */
 
-	private class VersionDataPanel extends JPanel
+	private class VersionDataPanel
+		extends JPanel
 	{
-		private final String [] versionData = {
-			StaticEntity.getVersion(), VERSION_DATE, " ",
-			"Copyright © 2005-2007 KoLmafia development team",
-			"Berkeley Software Development (BSD) License",
-			"http://kolmafia.sourceforge.net/",
-			" ",
-			"Current Running on " + System.getProperty( "os.name" ),
-			"Local Directory is " + System.getProperty( "user.dir" ),
-			"Using Java v" + System.getProperty( "java.runtime.version" )
-		};
+		private final String[] versionData =
+			{ StaticEntity.getVersion(), KoLConstants.VERSION_DATE, " ", "Copyright © 2005-2007 KoLmafia development team", "Berkeley Software Development (BSD) License", "http://kolmafia.sourceforge.net/", " ", "Current Running on " + System.getProperty( "os.name" ), "Local Directory is " + System.getProperty( "user.dir" ), "Using Java v" + System.getProperty( "java.runtime.version" ) };
 
 		public VersionDataPanel()
 		{
 			JPanel versionPanel = new JPanel( new BorderLayout( 20, 20 ) );
-			versionPanel.add( new JLabel( JComponentUtilities.getImage( "penguin.gif" ), JLabel.CENTER ), BorderLayout.NORTH );
+			versionPanel.add(
+				new JLabel( JComponentUtilities.getImage( "penguin.gif" ), JLabel.CENTER ), BorderLayout.NORTH );
 
 			JPanel labelPanel = new JPanel( new GridLayout( this.versionData.length, 1 ) );
 			for ( int i = 0; i < this.versionData.length; ++i )
-				labelPanel.add( new JLabel( this.versionData[i], JLabel.CENTER ) );
+			{
+				labelPanel.add( new JLabel( this.versionData[ i ], JLabel.CENTER ) );
+			}
 
 			versionPanel.add( labelPanel, BorderLayout.CENTER );
 
@@ -638,10 +686,12 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			this.add( centerPanel, "" );
 		}
 
-		private class DonateButtonListener extends ThreadedListener
+		private class DonateButtonListener
+			extends ThreadedListener
 		{
 			public void run()
-			{	StaticEntity.openSystemBrowser( "http://sourceforge.net/project/project_donations.php?group_id=126572" );
+			{
+				StaticEntity.openSystemBrowser( "http://sourceforge.net/project/project_donations.php?group_id=126572" );
 			}
 		}
 	}
@@ -650,20 +700,23 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	 * A special class which renders the list of available scripts.
 	 */
 
-	private class ScriptMenu extends MenuItemList
+	private class ScriptMenu
+		extends MenuItemList
 	{
 		public ScriptMenu()
-		{	super( "Scripts", scripts );
+		{
+			super( "Scripts", KoLConstants.scripts );
 		}
 
-		public JComponent constructMenuItem( Object o )
-		{	return o instanceof JSeparator ? new JSeparator() : this.constructMenuItem( (File) o, "scripts" );
+		public JComponent constructMenuItem( final Object o )
+		{
+			return o instanceof JSeparator ? new JSeparator() : this.constructMenuItem( (File) o, "scripts" );
 		}
 
-		private JComponent constructMenuItem( File file, String prefix )
+		private JComponent constructMenuItem( final File file, final String prefix )
 		{
 			// Get path components of this file
-			String [] pieces;
+			String[] pieces;
 
 			try
 			{
@@ -684,7 +737,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			if ( file.isDirectory() )
 			{
 				// Get a list of all the files
-				File [] scriptList = file.listFiles( BACKUP_FILTER );
+				File[] scriptList = file.listFiles( KoLConstants.BACKUP_FILTER );
 
 				//  Convert the list into a menu
 				JMenu menu = new JMenu( name );
@@ -697,16 +750,20 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 				for ( int i = 0; i < scriptList.length; ++i )
 				{
-					if ( scriptList[i].isDirectory() && shouldAddScript( scriptList[i] ) )
+					if ( scriptList[ i ].isDirectory() && KoLMenuBar.shouldAddScript( scriptList[ i ] ) )
 					{
-						menu.add( this.constructMenuItem( scriptList[i], path ) );
+						menu.add( this.constructMenuItem( scriptList[ i ], path ) );
 						hasDirectories = true;
 					}
 				}
 
 				for ( int i = 0; i < scriptList.length; ++i )
-					if ( !scriptList[i].isDirectory() )
-						menu.add( this.constructMenuItem( scriptList[i], path ) );
+				{
+					if ( !scriptList[ i ].isDirectory() )
+					{
+						menu.add( this.constructMenuItem( scriptList[ i ], path ) );
+					}
+				}
 
 				// Return the menu
 				return menu;
@@ -715,93 +772,118 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			return new LoadScriptMenuItem( name, path );
 		}
 
-		public JComponent [] getHeaders()
+		public JComponent[] getHeaders()
 		{
-			JComponent [] headers = new JComponent[2];
+			JComponent[] headers = new JComponent[ 2 ];
 
-			headers[0] = new LoadScriptMenuItem();
-			headers[1] = new InvocationMenuItem( "Refresh menu", KoLFrame.class, "compileScripts" );
+			headers[ 0 ] = new LoadScriptMenuItem();
+			headers[ 1 ] = new InvocationMenuItem( "Refresh menu", KoLFrame.class, "compileScripts" );
 
 			return headers;
 		}
 	}
 
-	public static final boolean shouldAddScript( File script )
+	public static final boolean shouldAddScript( final File script )
 	{
 		if ( !script.isDirectory() )
+		{
 			return true;
+		}
 
-		File [] scriptList = script.listFiles( BACKUP_FILTER );
+		File[] scriptList = script.listFiles( KoLConstants.BACKUP_FILTER );
 		if ( scriptList == null || scriptList.length == 0 )
+		{
 			return false;
+		}
 
 		for ( int i = 0; i < scriptList.length; ++i )
-			if ( !shouldAddScript( scriptList[i] ) )
+		{
+			if ( !KoLMenuBar.shouldAddScript( scriptList[ i ] ) )
+			{
 				return false;
+			}
+		}
 
 		return true;
 	}
 
-	private class RequestMenuItem extends ThreadedMenuItem
+	private class RequestMenuItem
+		extends ThreadedMenuItem
 	{
-		private KoLRequest request;
+		private final KoLRequest request;
 
-		public RequestMenuItem( String title, KoLRequest request )
+		public RequestMenuItem( final String title, final KoLRequest request )
 		{
 			super( title );
 			this.request = request;
 		}
 
 		public void run()
-		{	RequestThread.postRequest( this.request );
+		{
+			RequestThread.postRequest( this.request );
 		}
 	}
 
-	private class StopEverythingItem extends ThreadedMenuItem
+	private class StopEverythingItem
+		extends ThreadedMenuItem
 	{
 		public StopEverythingItem()
-		{	super( "Stop Everything" );
+		{
+			super( "Stop Everything" );
 		}
 
 		public void run()
-		{	RequestThread.declareWorldPeace();
+		{
+			RequestThread.declareWorldPeace();
 		}
 	}
 
-	private class RefreshEverythingItem extends ThreadedMenuItem
+	private class RefreshEverythingItem
+		extends ThreadedMenuItem
 	{
 		public RefreshEverythingItem()
-		{	super( "Refresh Session" );
+		{
+			super( "Refresh Session" );
 		}
 
 		public void run()
 		{
 			if ( KoLSettings.getUserProperty( "loginServerName" ).startsWith( "dev" ) )
+			{
 				LoginRequest.executeTimeInRequest();
+			}
 			else
+			{
 				StaticEntity.getClient().refreshSession();
+			}
 		}
 	}
 
-	private class LogoutMenuItem extends ThreadedMenuItem
+	private class LogoutMenuItem
+		extends ThreadedMenuItem
 	{
 		public LogoutMenuItem()
-		{	super( "Logout of KoL" );
+		{
+			super( "Logout of KoL" );
 		}
 
 		public void run()
-		{	RequestThread.postRequest( new LogoutRequest() );
+		{
+			RequestThread.postRequest( new LogoutRequest() );
 		}
 	}
 
-	private static class EndSessionMenuItem extends ThreadedMenuItem
+	private static class EndSessionMenuItem
+		extends ThreadedMenuItem
 	{
 		public EndSessionMenuItem()
-		{	super( "Exit KoLmafia" );
+		{
+			super( "Exit KoLmafia" );
 		}
 
 		public void run()
-		{	System.exit(0);
+		{
+			System.exit( 0 );
 		}
 	}
 }

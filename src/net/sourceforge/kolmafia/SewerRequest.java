@@ -33,48 +33,60 @@
 
 package net.sourceforge.kolmafia;
 
-public class SewerRequest extends KoLRequest
+public class SewerRequest
+	extends KoLRequest
 {
 	public static final int TEN_LEAF_CLOVER = 24;
 	public static final int DISASSEMBLED_CLOVER = 196;
-	public static final AdventureResult CLOVER = new AdventureResult( TEN_LEAF_CLOVER, -1 );
+	public static final AdventureResult CLOVER = new AdventureResult( SewerRequest.TEN_LEAF_CLOVER, -1 );
 	public static final AdventureResult GUM = new AdventureResult( "chewing gum on a string", -1 );
 
-	private boolean isLuckySewer;
+	private final boolean isLuckySewer;
 
-	public SewerRequest( boolean isLuckySewer )
+	public SewerRequest( final boolean isLuckySewer )
 	{
 		super( "sewer.php" );
 		this.isLuckySewer = isLuckySewer;
 
 		if ( isLuckySewer )
+		{
 			this.addFormField( "doodit", "1" );
+		}
 	}
 
 	/**
-	 * Runs the <code>SewerRequest</code>.  This method determines
-	 * whether or not the lucky sewer adventure will be used and
-	 * attempts to run the appropriate adventure.  Note that the
-	 * display will be updated in the event of failure.
+	 * Runs the <code>SewerRequest</code>. This method determines whether or not the lucky sewer adventure will be
+	 * used and attempts to run the appropriate adventure. Note that the display will be updated in the event of
+	 * failure.
 	 */
 
 	public void run()
 	{
 		if ( !KoLmafia.permitsContinue() )
+		{
 			return;
+		}
 
 		if ( this.isLuckySewer )
 		{
 			if ( KoLSettings.getBooleanProperty( "cloverProtectActive" ) )
-				KoLmafia.updateDisplay( ERROR_STATE, "Turn off clover protection if you want to go here." );
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Turn off clover protection if you want to go here." );
+			}
 			else
+			{
 				this.runLuckySewer();
+			}
 		}
 		else
+		{
 			this.runUnluckySewer();
+		}
 
 		if ( KoLmafia.permitsContinue() )
+		{
 			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
+		}
 	}
 
 	/**
@@ -83,20 +95,22 @@ public class SewerRequest extends KoLRequest
 
 	private void runLuckySewer()
 	{
-		if ( !AdventureDatabase.retrieveItem( CLOVER.getInstance(1) ) )
+		if ( !AdventureDatabase.retrieveItem( SewerRequest.CLOVER.getInstance( 1 ) ) )
+		{
 			return;
+		}
 
 		// The Sewage Gnomes insist on giving precisely three
 		// items, so if you have fewer than three items, report
 		// an error.
 
 		String thirdItemString = KoLSettings.getUserProperty( "luckySewerAdventure" );
-		int thirdItem = thirdItemString.indexOf( "random" ) != -1 ? RNG.nextInt( 11 ) + 1 : Character.isDigit( thirdItemString.charAt(0) ) ?
-			StaticEntity.parseInt( thirdItemString ) : TradeableItemDatabase.getItemId( thirdItemString );
+		int thirdItem =
+			thirdItemString.indexOf( "random" ) != -1 ? KoLConstants.RNG.nextInt( 11 ) + 1 : Character.isDigit( thirdItemString.charAt( 0 ) ) ? StaticEntity.parseInt( thirdItemString ) : TradeableItemDatabase.getItemId( thirdItemString );
 
 		if ( thirdItem < 1 || thirdItem > 12 )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You must select a third item from the gnomes." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You must select a third item from the gnomes." );
 			return;
 		}
 
@@ -120,7 +134,10 @@ public class SewerRequest extends KoLRequest
 	private void runUnluckySewer()
 	{
 		if ( StaticEntity.getClient().isLuckyCharacter() )
-			(new ConsumeItemRequest( CLOVER.getInstance( CLOVER.getCount( inventory ) ) )).run();
+		{
+			( new ConsumeItemRequest(
+				SewerRequest.CLOVER.getInstance( SewerRequest.CLOVER.getCount( KoLConstants.inventory ) ) ) ).run();
+		}
 
 		super.run();
 
@@ -129,7 +146,7 @@ public class SewerRequest extends KoLRequest
 
 		if ( this.responseText.indexOf( "Sewage Gnomes" ) != -1 )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You have an unaccounted for ten-leaf clover." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You have an unaccounted for ten-leaf clover." );
 			return;
 		}
 	}
@@ -139,22 +156,22 @@ public class SewerRequest extends KoLRequest
 		if ( this.responseText.indexOf( "You acquire" ) != -1 )
 		{
 			if ( StaticEntity.getClient().isLuckyCharacter() )
-				StaticEntity.getClient().processResult( CLOVER );
+			{
+				StaticEntity.getClient().processResult( SewerRequest.CLOVER );
+			}
 		}
 	}
 
 	/**
-	 * An alternative method to doing adventure calculation is determining
-	 * how many adventures are used by the given request, and subtract
-	 * them after the request is done.  This number defaults to <code>zero</code>;
-	 * overriding classes should change this value to the appropriate
-	 * amount.
-	 *
-	 * @return	The number of adventures used by this request.
+	 * An alternative method to doing adventure calculation is determining how many adventures are used by the given
+	 * request, and subtract them after the request is done. This number defaults to <code>zero</code>; overriding
+	 * classes should change this value to the appropriate amount.
+	 * 
+	 * @return The number of adventures used by this request.
 	 */
 
 	public int getAdventuresUsed()
-	{	return this.responseCode == 200 && this.responseText.indexOf( "You acquire" ) != -1 ? 1 : 0;
+	{
+		return this.responseCode == 200 && this.responseText.indexOf( "You acquire" ) != -1 ? 1 : 0;
 	}
 }
-

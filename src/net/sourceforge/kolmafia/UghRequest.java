@@ -33,9 +33,10 @@
 
 package net.sourceforge.kolmafia;
 
-public class UghRequest extends ItemCreationRequest
+public class UghRequest
+	extends ItemCreationRequest
 {
-	public UghRequest( int itemId )
+	public UghRequest( final int itemId )
 	{
 		super( "crimbo06.php", itemId );
 
@@ -56,11 +57,12 @@ public class UghRequest extends ItemCreationRequest
 		// pixels if they are not currently available.
 
 		if ( !this.makeIngredients() )
+		{
 			return;
+		}
 
 		KoLmafia.updateDisplay( "Creating " + this.getQuantityNeeded() + " " + this.getName() + "..." );
 		this.addFormField( "quantity", String.valueOf( this.getQuantityNeeded() ) );
 		super.run();
 	}
 }
-

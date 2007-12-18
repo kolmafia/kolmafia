@@ -44,6 +44,9 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.event.ListSelectionEvent;
@@ -51,151 +54,167 @@ import javax.swing.event.ListSelectionListener;
 
 import edu.stanford.ejalbert.BrowserLauncher;
 
-public class LicenseDisplay extends JFrame
+public class LicenseDisplay
+	extends JFrame
 {
-	public static final int DATA_FILE  = 0;
+	public static final int DATA_FILE = 0;
 	public static final int IMAGE_FILE = 1;
 
-	private String [] fileNames;
-	private int [] fileTypes;
-	private String [] tabNames;
+	private final String[] fileNames;
+	private final int[] fileTypes;
+	private final CardLayout cards;
+	private final JPanel content;
+	private final JList listing;
 
-	private CardLayout cards;
-	private JPanel content;
-	private JList listing;
-
-	public LicenseDisplay( String title, String [] fileNames, String [] tabNames )
-	{	this( title, null, fileNames, tabNames );
+	public LicenseDisplay( final String title, final String[] fileNames, final String[] tabNames )
+	{
+		this( title, null, fileNames, tabNames );
 	}
 
-	public LicenseDisplay( String title, JComponent versionData, String [] fileNames, String [] tabNames )
+	public LicenseDisplay( final String title, final JComponent versionData, final String[] fileNames,
+		final String[] tabNames )
 	{
 		super( title );
-		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
+		this.setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
 
 		this.fileNames = fileNames;
 
 		this.fileTypes = new int[ fileNames.length ];
 		for ( int i = 0; i < fileNames.length; ++i )
-			this.fileTypes[i] = fileNames[i].endsWith( ".txt" ) || fileNames[i].endsWith( ".htm" ) || fileNames[i].endsWith( ".html" ) ? DATA_FILE : IMAGE_FILE;
-
-		this.tabNames = tabNames;
+		{
+			this.fileTypes[ i ] =
+				fileNames[ i ].endsWith( ".txt" ) || fileNames[ i ].endsWith( ".htm" ) || fileNames[ i ].endsWith( ".html" ) ? LicenseDisplay.DATA_FILE : LicenseDisplay.IMAGE_FILE;
+		}
 
 		this.cards = new CardLayout( 5, 5 );
-		this.content = new JPanel( cards );
+		this.content = new JPanel( this.cards );
 
 		LockableListModel model = new LockableListModel();
 		this.listing = new JList( model );
 
 		if ( versionData != null )
 		{
-			JScrollPane scroller = new JScrollPane( versionData, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+			JScrollPane scroller =
+				new JScrollPane(
+					versionData, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+					ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER );
 
 			JComponentUtilities.setComponentSize( scroller, 540, 400 );
 
 			model.add( "Version Info" );
-			content.add( scroller, "Version Info" );
+			this.content.add( scroller, "Version Info" );
 		}
 
 		for ( int i = 0; i < fileNames.length; ++i )
 		{
-			JComponent nextLicense = new JScrollPane( getLicenseDisplay(i),
-				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+			JComponent nextLicense =
+				new JScrollPane(
+					this.getLicenseDisplay( i ), ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+					ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER );
 			JComponentUtilities.setComponentSize( nextLicense, 540, 400 );
 
-			model.add( tabNames[i] );
-			content.add( nextLicense, tabNames[i] );
+			model.add( tabNames[ i ] );
+			this.content.add( nextLicense, tabNames[ i ] );
 		}
 
-		listing.addListSelectionListener( new CardSwitchListener() );
+		this.listing.addListSelectionListener( new CardSwitchListener() );
 
 		JPanel listHolder = new JPanel( new CardLayout( 5, 5 ) );
-		listHolder.add( new JScrollPane( listing, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), "" );
+		listHolder.add(
+			new JScrollPane(
+				this.listing, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER ), "" );
 
-		((JPanel) getContentPane()).setLayout( new BorderLayout( 0, 0 ) );
-		((JPanel) getContentPane()).add( listHolder, BorderLayout.WEST );
-		((JPanel) getContentPane()).add( this.content, BorderLayout.CENTER );
+		( (JPanel) this.getContentPane() ).setLayout( new BorderLayout( 0, 0 ) );
+		( (JPanel) this.getContentPane() ).add( listHolder, BorderLayout.WEST );
+		( (JPanel) this.getContentPane() ).add( this.content, BorderLayout.CENTER );
 	}
 
-	private class CardSwitchListener implements ListSelectionListener
+	private class CardSwitchListener
+		implements ListSelectionListener
 	{
-		public void valueChanged( ListSelectionEvent e )
+		public void valueChanged( final ListSelectionEvent e )
 		{
-			String card = (String) listing.getSelectedValue();
+			String card = (String) LicenseDisplay.this.listing.getSelectedValue();
 
 			if ( card != null )
-				cards.show( content, card );
+			{
+				LicenseDisplay.this.cards.show( LicenseDisplay.this.content, card );
+			}
 		}
 	}
 
-	private JComponent getLicenseDisplay( int index )
+	private JComponent getLicenseDisplay( final int index )
 	{
 		JComponent licenseDisplay = null;
 
-		switch ( fileTypes[index] )
+		switch ( this.fileTypes[ index ] )
 		{
-			case DATA_FILE:
+		case DATA_FILE:
+		{
+			licenseDisplay = new JEditorPane();
+			java.io.BufferedReader buf = DataUtilities.getReader( "licenses", this.fileNames[ index ] );
+
+			// in the event that the license display could not be found, return a blank
+			// label indicating that the license could not be found
+			if ( buf == null )
 			{
-				licenseDisplay = new JEditorPane();
-				java.io.BufferedReader buf = DataUtilities.getReader( "licenses", fileNames[index] );
+				return this.getNoLicenseNotice();
+			}
 
-				// in the event that the license display could not be found, return a blank
-				// label indicating that the license could not be found
-				if ( buf == null )
-					return getNoLicenseNotice();
+			StringBuffer licenseText = new StringBuffer();
+			String line;
 
-				StringBuffer licenseText = new StringBuffer();
-				String line;
-
-				try
+			try
+			{
+				while ( ( line = buf.readLine() ) != null )
 				{
-					while ( (line = buf.readLine()) != null )
-					{
-						licenseText.append( line );
-						licenseText.append( System.getProperty( "line.separator" ) );
-					}
+					licenseText.append( line );
+					licenseText.append( System.getProperty( "line.separator" ) );
 				}
-				catch ( java.io.IOException e )
+			}
+			catch ( java.io.IOException e )
+			{
+			}
+
+			if ( this.fileNames[ index ].endsWith( ".txt" ) )
+			{
+				licenseText.insert( 0, "<blockquote><pre style=\"font-family: Verdana; font-size: small\">" );
+				licenseText.append( "</pre></blockquote>" );
+			}
+			else
+			{
+				licenseText.insert( 0, "<blockquote style=\"font-family: Verdana; font-size: small\">" );
+				licenseText.append( "</blockquote>" );
+			}
+
+			( (JEditorPane) licenseDisplay ).setContentType( "text/html" );
+			( (JEditorPane) licenseDisplay ).setText( licenseText.toString() );
+			( (JEditorPane) licenseDisplay ).setCaretPosition( 0 );
+			( (JEditorPane) licenseDisplay ).setEditable( false );
+			( (JEditorPane) licenseDisplay ).addHyperlinkListener( new HyperlinkAdapter() );
+
+			break;
+		}
+		case IMAGE_FILE:
+		{
+			try
+			{
+				javax.swing.ImageIcon licenseImage = JComponentUtilities.getImage( "licenses", this.fileNames[ index ] );
+				if ( licenseImage == null )
 				{
+					return this.getNoLicenseNotice();
 				}
 
-				if ( fileNames[ index ].endsWith( ".txt" ) )
-				{
-					licenseText.insert( 0, "<blockquote><pre style=\"font-family: Verdana; font-size: small\">" );
-					licenseText.append( "</pre></blockquote>" );
-				}
-				else
-				{
-					licenseText.insert( 0, "<blockquote style=\"font-family: Verdana; font-size: small\">" );
-					licenseText.append( "</blockquote>" );
-				}
-
-				((JEditorPane)licenseDisplay).setContentType( "text/html" );
-				((JEditorPane)licenseDisplay).setText( licenseText.toString() );
-				((JEditorPane)licenseDisplay).setCaretPosition( 0 );
-				((JEditorPane)licenseDisplay).setEditable( false );
-				((JEditorPane)licenseDisplay).addHyperlinkListener( new HyperlinkAdapter() );
-
+				licenseDisplay = new JLabel( licenseImage );
 				break;
 			}
-			case IMAGE_FILE:
+			catch ( Exception e )
 			{
-				try
-				{
-					javax.swing.ImageIcon licenseImage = JComponentUtilities.getImage( "licenses", fileNames[index] );
-					if ( licenseImage == null )
-						return getNoLicenseNotice();
-
-					licenseDisplay = new JLabel( licenseImage );
-					break;
-}
-				catch ( Exception e )
-				{
-					System.out.println( e );
-					e.printStackTrace();
-				}
+				System.out.println( e );
+				e.printStackTrace();
 			}
+		}
 		}
 
 		return licenseDisplay;
@@ -203,14 +222,17 @@ public class LicenseDisplay extends JFrame
 
 	private JComponent getNoLicenseNotice()
 	{
-		JLabel noLicenseNotice = JComponentUtilities.createLabel( "No license could be found", JLabel.CENTER,
-			java.awt.SystemColor.activeCaption, java.awt.Color.white );
+		JLabel noLicenseNotice =
+			JComponentUtilities.createLabel(
+				"No license could be found", SwingConstants.CENTER, java.awt.SystemColor.activeCaption,
+				java.awt.Color.white );
 		return noLicenseNotice;
 	}
 
-	private class HyperlinkAdapter implements HyperlinkListener
+	private class HyperlinkAdapter
+		implements HyperlinkListener
 	{
-		public void hyperlinkUpdate( HyperlinkEvent e )
+		public void hyperlinkUpdate( final HyperlinkEvent e )
 		{
 			if ( e.getEventType() == HyperlinkEvent.EventType.ACTIVATED )
 			{

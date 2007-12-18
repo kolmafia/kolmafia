@@ -4,13 +4,13 @@
  * Ecole des Mines de Nantes, France
  */
 
-
 package tab;
 
 import java.awt.event.MouseEvent;
 import java.util.EventListener;
 
-
-public interface CloseListener extends EventListener {
-	public void closeOperation(MouseEvent e, int overTabIndex);
+public interface CloseListener
+	extends EventListener
+{
+	public void closeOperation( MouseEvent e, int overTabIndex );
 }

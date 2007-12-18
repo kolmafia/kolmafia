@@ -51,102 +51,129 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.SpringLayout;
+import javax.swing.SwingConstants;
 
 import com.sun.java.forums.SpringUtilities;
 
-public abstract class ActionVerifyPanel extends ActionPanel
+public abstract class ActionVerifyPanel
+	extends ActionPanel
 {
-	protected VerifiableElement [] elements;
+	protected VerifiableElement[] elements;
 
 	protected JPanel container;
 	protected JPanel eastContainer;
 
-	private VerifyButtonPanel buttonPanel;
-	private boolean isCenterPanel;
-	private Dimension left, right;
+	private final VerifyButtonPanel buttonPanel;
+	private final boolean isCenterPanel;
+	private final Dimension left, right;
 
 	private static final Dimension DEFAULT_LEFT = new Dimension( 100, 20 );
 	private static final Dimension DEFAULT_RIGHT = new Dimension( 165, 20 );
 
 	public ActionVerifyPanel()
-	{	this( null, null, DEFAULT_LEFT, DEFAULT_RIGHT, false );
-	}
-
-	public ActionVerifyPanel( String confirmedText )
-	{	this( confirmedText, null, null, DEFAULT_LEFT, DEFAULT_RIGHT, false );
-	}
-
-	public ActionVerifyPanel( String confirmedText, boolean isCenterPanel )
-	{	this( confirmedText, null, null, DEFAULT_LEFT, DEFAULT_RIGHT, isCenterPanel );
-	}
-
-	public ActionVerifyPanel( Dimension left, Dimension right )
-	{	this( null, null, left, right, false );
-	}
-
-	public ActionVerifyPanel( Dimension left, Dimension right, boolean isCenterPanel )
-	{	this( null, null, left, right, isCenterPanel );
-	}
-
-	public ActionVerifyPanel( String confirmedText, Dimension left, Dimension right, boolean isCenterPanel )
-	{	this( confirmedText, null, null, left, right, isCenterPanel );
-	}
-
-	public ActionVerifyPanel( String confirmedText, String cancelledText )
-	{	this( confirmedText, cancelledText, DEFAULT_LEFT, DEFAULT_RIGHT, false );
-	}
-
-	public ActionVerifyPanel( String confirmedText, String cancelledText, boolean isCenterPanel )
-	{	this( confirmedText, cancelledText, DEFAULT_LEFT, DEFAULT_RIGHT, isCenterPanel );
-	}
-
-	public ActionVerifyPanel( String confirmedText, String cancelledText1, String cancelledText2 )
-	{	this( confirmedText, cancelledText1, cancelledText2, DEFAULT_LEFT, DEFAULT_RIGHT, false );
-	}
-
-	public ActionVerifyPanel( String confirmedText, String cancelledText, Dimension left, Dimension right )
-	{	this( confirmedText, cancelledText, left, right, false );
-	}
-
-	public ActionVerifyPanel( String confirmedText, String cancelledText1, String cancelledText2, Dimension left, Dimension right )
-	{	this( confirmedText, cancelledText1, cancelledText2, left, right, false );
-	}
-
-	public ActionVerifyPanel( String confirmedText, String cancelledText, Dimension left, Dimension right, boolean isCenterPanel )
-	{	this( confirmedText, cancelledText, cancelledText, left, right, isCenterPanel );
-	}
-
-	public ActionVerifyPanel( String confirmedText, String cancelledText1, String cancelledText2, Dimension left, Dimension right, boolean isCenterPanel )
 	{
-		contentSet = false;
+		this( null, null, ActionVerifyPanel.DEFAULT_LEFT, ActionVerifyPanel.DEFAULT_RIGHT, false );
+	}
+
+	public ActionVerifyPanel( final String confirmedText )
+	{
+		this( confirmedText, null, null, ActionVerifyPanel.DEFAULT_LEFT, ActionVerifyPanel.DEFAULT_RIGHT, false );
+	}
+
+	public ActionVerifyPanel( final String confirmedText, final boolean isCenterPanel )
+	{
+		this( confirmedText, null, null, ActionVerifyPanel.DEFAULT_LEFT, ActionVerifyPanel.DEFAULT_RIGHT, isCenterPanel );
+	}
+
+	public ActionVerifyPanel( final Dimension left, final Dimension right )
+	{
+		this( null, null, left, right, false );
+	}
+
+	public ActionVerifyPanel( final Dimension left, final Dimension right, final boolean isCenterPanel )
+	{
+		this( null, null, left, right, isCenterPanel );
+	}
+
+	public ActionVerifyPanel( final String confirmedText, final Dimension left, final Dimension right,
+		final boolean isCenterPanel )
+	{
+		this( confirmedText, null, null, left, right, isCenterPanel );
+	}
+
+	public ActionVerifyPanel( final String confirmedText, final String cancelledText )
+	{
+		this( confirmedText, cancelledText, ActionVerifyPanel.DEFAULT_LEFT, ActionVerifyPanel.DEFAULT_RIGHT, false );
+	}
+
+	public ActionVerifyPanel( final String confirmedText, final String cancelledText, final boolean isCenterPanel )
+	{
+		this(
+			confirmedText, cancelledText, ActionVerifyPanel.DEFAULT_LEFT, ActionVerifyPanel.DEFAULT_RIGHT,
+			isCenterPanel );
+	}
+
+	public ActionVerifyPanel( final String confirmedText, final String cancelledText1, final String cancelledText2 )
+	{
+		this(
+			confirmedText, cancelledText1, cancelledText2, ActionVerifyPanel.DEFAULT_LEFT,
+			ActionVerifyPanel.DEFAULT_RIGHT, false );
+	}
+
+	public ActionVerifyPanel( final String confirmedText, final String cancelledText, final Dimension left,
+		final Dimension right )
+	{
+		this( confirmedText, cancelledText, left, right, false );
+	}
+
+	public ActionVerifyPanel( final String confirmedText, final String cancelledText1, final String cancelledText2,
+		final Dimension left, final Dimension right )
+	{
+		this( confirmedText, cancelledText1, cancelledText2, left, right, false );
+	}
+
+	public ActionVerifyPanel( final String confirmedText, final String cancelledText, final Dimension left,
+		final Dimension right, final boolean isCenterPanel )
+	{
+		this( confirmedText, cancelledText, cancelledText, left, right, isCenterPanel );
+	}
+
+	public ActionVerifyPanel( final String confirmedText, final String cancelledText1, final String cancelledText2,
+		final Dimension left, final Dimension right, final boolean isCenterPanel )
+	{
+		this.contentSet = false;
 
 		this.left = left;
 		this.right = right;
 
 		this.isCenterPanel = isCenterPanel;
 
-		this.buttonPanel = confirmedText == null || confirmedText.equals( "" ) ? null :
-			new VerifyButtonPanel( confirmedText, cancelledText1, cancelledText2 );
+		this.buttonPanel =
+			confirmedText == null || confirmedText.equals( "" ) ? null : new VerifyButtonPanel(
+				confirmedText, cancelledText1, cancelledText2 );
 	}
 
-	protected void setContent( VerifiableElement [] elements )
-	{	setContent( elements, false );
-	}
-
-	protected void setContent( VerifiableElement [] elements, boolean bothDisabledOnClick )
+	protected void setContent( final VerifiableElement[] elements )
 	{
-		if ( contentSet )
+		this.setContent( elements, false );
+	}
+
+	protected void setContent( final VerifiableElement[] elements, final boolean bothDisabledOnClick )
+	{
+		if ( this.contentSet )
+		{
 			return;
+		}
 
 		this.elements = elements;
 
-		container = new JPanel();
+		this.container = new JPanel();
 
-		container.setLayout( new BorderLayout( 10, 10 ) );
-		container.add( Box.createVerticalStrut( 2 ), BorderLayout.NORTH );
+		this.container.setLayout( new BorderLayout( 10, 10 ) );
+		this.container.add( Box.createVerticalStrut( 2 ), BorderLayout.NORTH );
 
 		// add the main container
-		container.add( constructMainContainer( elements ), BorderLayout.CENTER );
+		this.container.add( this.constructMainContainer( elements ), BorderLayout.CENTER );
 
 		// construct the east container, which usually consists of only the
 		// button panel, if an east panel is not specified; if one happens
@@ -156,30 +183,36 @@ public abstract class ActionVerifyPanel extends ActionPanel
 		this.eastContainer.setLayout( new BorderLayout( 10, 10 ) );
 
 		if ( this.buttonPanel != null )
-			eastContainer.add( this.buttonPanel, BorderLayout.NORTH );
+		{
+			this.eastContainer.add( this.buttonPanel, BorderLayout.NORTH );
+		}
 
-		container.add( eastContainer, BorderLayout.EAST );
+		this.container.add( this.eastContainer, BorderLayout.EAST );
 
 		JPanel cardContainer = new JPanel();
 		cardContainer.setLayout( new CardLayout( 10, 10 ) );
-		cardContainer.add( container, "" );
+		cardContainer.add( this.container, "" );
 
-		setLayout( new BorderLayout() );
-		add( cardContainer, isCenterPanel ? BorderLayout.CENTER : BorderLayout.NORTH );
+		this.setLayout( new BorderLayout() );
+		this.add( cardContainer, this.isCenterPanel ? BorderLayout.CENTER : BorderLayout.NORTH );
 
-		contentSet = true;
+		this.contentSet = true;
 
-		if ( buttonPanel != null )
-			buttonPanel.setBothDisabledOnClick( bothDisabledOnClick );
+		if ( this.buttonPanel != null )
+		{
+			this.buttonPanel.setBothDisabledOnClick( bothDisabledOnClick );
+		}
 	}
 
-	private JPanel constructMainContainer( VerifiableElement [] elements )
+	private JPanel constructMainContainer( final VerifiableElement[] elements )
 	{
 		JPanel mainContainer = new JPanel();
 		mainContainer.setLayout( new BoxLayout( mainContainer, BoxLayout.Y_AXIS ) );
 
 		if ( elements == null || elements.length == 0 )
+		{
 			return mainContainer;
+		}
 
 		// Layout the elements using springs
 		// instead of standard panel elements.
@@ -189,7 +222,7 @@ public abstract class ActionVerifyPanel extends ActionPanel
 
 		for ( int i = 0; i < elements.length; ++i )
 		{
-			if ( elements[i].isInputPreceding() && (elements[i].getInputField() instanceof JCheckBox || elements[i].getInputField() instanceof JRadioButton) )
+			if ( elements[ i ].isInputPreceding() && ( elements[ i ].getInputField() instanceof JCheckBox || elements[ i ].getInputField() instanceof JRadioButton ) )
 			{
 				if ( currentContainer == null )
 				{
@@ -208,42 +241,46 @@ public abstract class ActionVerifyPanel extends ActionPanel
 					currentContainer.setAlignmentX( Component.LEFT_ALIGNMENT );
 				}
 
-				if ( elements[i].getInputField() instanceof JCheckBox )
-					((JCheckBox)elements[i].getInputField()).setText( elements[i].getLabel().getText() );
-				else if ( elements[i].getInputField() instanceof JRadioButton )
-					((JRadioButton)elements[i].getInputField()).setText( elements[i].getLabel().getText() );
+				if ( elements[ i ].getInputField() instanceof JCheckBox )
+				{
+					( (JCheckBox) elements[ i ].getInputField() ).setText( elements[ i ].getLabel().getText() );
+				}
+				else if ( elements[ i ].getInputField() instanceof JRadioButton )
+				{
+					( (JRadioButton) elements[ i ].getInputField() ).setText( elements[ i ].getLabel().getText() );
+				}
 
-				currentContainer.add( elements[i].getInputField() );
+				currentContainer.add( elements[ i ].getInputField() );
 				currentContainer.add( Box.createVerticalStrut( 5 ) );
 			}
-			else if ( elements[i].getInputField() instanceof JLabel && elements[i].getLabel().getText().equals( "" ) )
+			else if ( elements[ i ].getInputField() instanceof JLabel && elements[ i ].getLabel().getText().equals( "" ) )
 			{
 				if ( currentContainer == null )
 				{
 					currentContainer = new JPanel( new GridLayout( 0, 1, 5, 5 ) );
 					currentContainer.setAlignmentX( Component.LEFT_ALIGNMENT );
-					currentContainer.add( elements[i].getInputField() );
+					currentContainer.add( elements[ i ].getInputField() );
 				}
 				else if ( springCount == 0 )
 				{
-					currentContainer.add( elements[i].getInputField() );
+					currentContainer.add( elements[ i ].getInputField() );
 				}
-				else if ( elements[i].isInputPreceding() )
+				else if ( elements[ i ].isInputPreceding() )
 				{
-					JComponentUtilities.setComponentSize( elements[i].getLabel(), right );
-					JComponentUtilities.setComponentSize( elements[i].getInputField(), left );
+					JComponentUtilities.setComponentSize( elements[ i ].getLabel(), this.right );
+					JComponentUtilities.setComponentSize( elements[ i ].getInputField(), this.left );
 
-					currentContainer.add( elements[i].getInputField() );
-					currentContainer.add( elements[i].getLabel() );
+					currentContainer.add( elements[ i ].getInputField() );
+					currentContainer.add( elements[ i ].getLabel() );
 					++springCount;
 				}
 				else
 				{
-					JComponentUtilities.setComponentSize( elements[i].getLabel(), left );
-					JComponentUtilities.setComponentSize( elements[i].getInputField(), right );
+					JComponentUtilities.setComponentSize( elements[ i ].getLabel(), this.left );
+					JComponentUtilities.setComponentSize( elements[ i ].getInputField(), this.right );
 
-					currentContainer.add( elements[i].getLabel() );
-					currentContainer.add( elements[i].getInputField() );
+					currentContainer.add( elements[ i ].getLabel() );
+					currentContainer.add( elements[ i ].getInputField() );
 					++springCount;
 				}
 			}
@@ -263,33 +300,37 @@ public abstract class ActionVerifyPanel extends ActionPanel
 
 				++springCount;
 
-				if ( elements[i].shouldResize() )
+				if ( elements[ i ].shouldResize() )
 				{
-					JComponentUtilities.setComponentSize( elements[i].getLabel(),
-						elements[i].isInputPreceding() ? right : left );
+					JComponentUtilities.setComponentSize(
+						elements[ i ].getLabel(), elements[ i ].isInputPreceding() ? this.right : this.left );
 
-					JComponentUtilities.setComponentSize( elements[i].getInputField(),
-						elements[i].isInputPreceding() ? left : right );
+					JComponentUtilities.setComponentSize(
+						elements[ i ].getInputField(), elements[ i ].isInputPreceding() ? this.left : this.right );
 				}
 
-				if ( elements[i].isInputPreceding() )
+				if ( elements[ i ].isInputPreceding() )
 				{
-					currentContainer.add( elements[i].getInputField() );
-					currentContainer.add( elements[i].getLabel() );
+					currentContainer.add( elements[ i ].getInputField() );
+					currentContainer.add( elements[ i ].getLabel() );
 				}
 				else
 				{
-					currentContainer.add( elements[i].getLabel() );
-					currentContainer.add( elements[i].getInputField() );
+					currentContainer.add( elements[ i ].getLabel() );
+					currentContainer.add( elements[ i ].getInputField() );
 				}
 			}
 		}
 
 		if ( springCount > 0 )
+		{
 			SpringUtilities.makeCompactGrid( currentContainer, springCount, 2, 5, 5, 5, 5 );
+		}
 
 		if ( currentContainer != null )
+		{
 			mainContainer.add( currentContainer );
+		}
 
 		JPanel holder = new JPanel( new BorderLayout() );
 		holder.add( mainContainer, BorderLayout.NORTH );
@@ -297,143 +338,176 @@ public abstract class ActionVerifyPanel extends ActionPanel
 		return holder;
 	}
 
-	public void setEnabled( boolean isEnabled )
+	public void setEnabled( final boolean isEnabled )
 	{
-		if ( buttonPanel != null )
-			buttonPanel.setEnabled( isEnabled );
+		if ( this.buttonPanel != null )
+		{
+			this.buttonPanel.setEnabled( isEnabled );
+		}
 	}
 
 	public abstract void actionConfirmed();
+
 	public abstract void actionCancelled();
 
 	public void dispose()
 	{
 		for ( int i = 0; i < this.elements.length; ++i )
 		{
-			this.elements[i].removeListeners( elements[i].getInputField() );
-			this.elements[i] = null;
+			this.elements[ i ].removeListeners( this.elements[ i ].getInputField() );
+			this.elements[ i ] = null;
 		}
 
 		super.dispose();
 	}
 
-	protected final class VerifiableElement implements Comparable
+	protected final class VerifiableElement
+		implements Comparable
 	{
-		private JLabel label;
-		private boolean shouldResize;
-		private JComponent inputField;
-		private boolean isInputPreceding;
+		private final JLabel label;
+		private final boolean shouldResize;
+		private final JComponent inputField;
+		private final boolean isInputPreceding;
 
 		public VerifiableElement()
-		{	this( "", JLabel.RIGHT, new JLabel( " " ), false );
+		{
+			this( "", SwingConstants.RIGHT, new JLabel( " " ), false );
 		}
 
-		public VerifiableElement( JComponent inputField )
-		{	this( "", JLabel.RIGHT, inputField, !(inputField instanceof JScrollPane || inputField instanceof JCheckBox) );
+		public VerifiableElement( final JComponent inputField )
+		{
+			this(
+				"", SwingConstants.RIGHT, inputField,
+				!( inputField instanceof JScrollPane || inputField instanceof JCheckBox ) );
 		}
 
-		public VerifiableElement( String label, JComponent inputField )
-		{	this( label, JLabel.RIGHT, inputField, !(inputField instanceof JScrollPane || inputField instanceof JCheckBox) );
+		public VerifiableElement( final String label, final JComponent inputField )
+		{
+			this(
+				label, SwingConstants.RIGHT, inputField,
+				!( inputField instanceof JScrollPane || inputField instanceof JCheckBox ) );
 		}
 
-		public VerifiableElement( String label, JComponent inputField, boolean shouldResize )
-		{	this( label, JLabel.RIGHT, inputField, shouldResize );
+		public VerifiableElement( final String label, final JComponent inputField, final boolean shouldResize )
+		{
+			this( label, SwingConstants.RIGHT, inputField, shouldResize );
 		}
 
-		public VerifiableElement( String label, int direction, JComponent inputField )
-		{	this( label, direction, inputField, !(inputField instanceof JScrollPane || inputField instanceof JCheckBox) );
+		public VerifiableElement( final String label, final int direction, final JComponent inputField )
+		{
+			this(
+				label, direction, inputField, !( inputField instanceof JScrollPane || inputField instanceof JCheckBox ) );
 		}
 
-		public VerifiableElement( String label, int direction, JComponent inputField, boolean shouldResize )
+		public VerifiableElement( final String label, final int direction, final JComponent inputField,
+			final boolean shouldResize )
 		{
 			this.label = new JLabel( label, direction );
 			this.inputField = inputField;
 			this.shouldResize = shouldResize;
-			this.isInputPreceding = direction == JLabel.LEFT;
+			this.isInputPreceding = direction == SwingConstants.LEFT;
 
 			this.label.setLabelFor( inputField );
-			this.label.setVerticalAlignment( JLabel.TOP );
+			this.label.setVerticalAlignment( SwingConstants.TOP );
 
-			if ( buttonPanel == null )
-				addListeners( inputField );
+			if ( ActionVerifyPanel.this.buttonPanel == null )
+			{
+				this.addListeners( inputField );
+			}
 		}
 
 		public boolean isInputPreceding()
-		{	return isInputPreceding;
+		{
+			return this.isInputPreceding;
 		}
 
-		public void removeListeners( JComponent c )
+		public void removeListeners( final JComponent c )
 		{
-			if ( c ==  null || c instanceof JLabel || c instanceof JButton )
+			if ( c == null || c instanceof JLabel || c instanceof JButton )
+			{
 				return;
+			}
 
 			if ( c instanceof JRadioButton )
 			{
-				((JRadioButton)c).removeActionListener( CONFIRM_LISTENER );
+				( (JRadioButton) c ).removeActionListener( ActionVerifyPanel.this.CONFIRM_LISTENER );
 				return;
 			}
 
 			if ( c instanceof JCheckBox )
 			{
-				((JCheckBox)c).removeActionListener( CONFIRM_LISTENER );
+				( (JCheckBox) c ).removeActionListener( ActionVerifyPanel.this.CONFIRM_LISTENER );
 				return;
 			}
 
 			if ( c instanceof JComboBox )
 			{
-				((JComboBox)c).removeActionListener( CONFIRM_LISTENER );
+				( (JComboBox) c ).removeActionListener( ActionVerifyPanel.this.CONFIRM_LISTENER );
 				return;
 			}
 
 			for ( int i = 0; i < c.getComponentCount(); ++i )
-				if ( c instanceof JComponent && !(c instanceof JLabel || c instanceof JButton) )
-					removeListeners( (JComponent) c.getComponent(i) );
+			{
+				if ( c instanceof JComponent && !( c instanceof JLabel || c instanceof JButton ) )
+				{
+					this.removeListeners( (JComponent) c.getComponent( i ) );
+				}
+			}
 		}
 
-		private void addListeners( JComponent c )
+		private void addListeners( final JComponent c )
 		{
-			if ( c ==  null || c instanceof JLabel || c instanceof JButton )
+			if ( c == null || c instanceof JLabel || c instanceof JButton )
+			{
 				return;
+			}
 
 			if ( c instanceof JRadioButton )
 			{
-				((JRadioButton)c).addActionListener( CONFIRM_LISTENER );
+				( (JRadioButton) c ).addActionListener( ActionVerifyPanel.this.CONFIRM_LISTENER );
 				return;
 			}
 
 			if ( c instanceof JCheckBox )
 			{
-				((JCheckBox)c).addActionListener( CONFIRM_LISTENER );
+				( (JCheckBox) c ).addActionListener( ActionVerifyPanel.this.CONFIRM_LISTENER );
 				return;
 			}
 
 			if ( c instanceof JComboBox )
 			{
-				((JComboBox)c).addActionListener( CONFIRM_LISTENER );
+				( (JComboBox) c ).addActionListener( ActionVerifyPanel.this.CONFIRM_LISTENER );
 				return;
 			}
 
 			for ( int i = 0; i < c.getComponentCount(); ++i )
-				if ( c instanceof JComponent && !(c instanceof JLabel || c instanceof JButton) )
-					addListeners( (JComponent) c.getComponent(i) );
+			{
+				if ( c instanceof JComponent && !( c instanceof JLabel || c instanceof JButton ) )
+				{
+					this.addListeners( (JComponent) c.getComponent( i ) );
+				}
+			}
 		}
 
 		public JLabel getLabel()
-		{	return label;
+		{
+			return this.label;
 		}
 
 		public JComponent getInputField()
-		{	return inputField;
+		{
+			return this.inputField;
 		}
 
 		public boolean shouldResize()
-		{	return shouldResize;
+		{
+			return this.shouldResize;
 		}
 
-		public int compareTo( Object o )
+		public int compareTo( final Object o )
 		{
-			return (o == null || !(o instanceof VerifiableElement)) ? -1 :
-				label.getText().compareTo( ((VerifiableElement)o).label.getText() );
+			return o == null || !( o instanceof VerifiableElement ) ? -1 : this.label.getText().compareTo(
+				( (VerifiableElement) o ).label.getText() );
 		}
 	}
 }

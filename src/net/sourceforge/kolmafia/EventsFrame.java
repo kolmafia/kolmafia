@@ -33,8 +33,8 @@
 
 package net.sourceforge.kolmafia;
 
-
-public class EventsFrame extends KoLPanelFrame
+public class EventsFrame
+	extends KoLPanelFrame
 {
 	public EventsFrame()
 	{
@@ -43,21 +43,22 @@ public class EventsFrame extends KoLPanelFrame
 	}
 
 	public UnfocusedTabbedPane getTabbedPane()
-	{	return null;
+	{
+		return null;
 	}
 
-	private class EventsPanel extends LabeledScrollPanel
+	private class EventsPanel
+		extends LabeledScrollPanel
 	{
 		public EventsPanel()
 		{
-			super( "Recent Events", "clear", "check",
-				new ShowDescriptionList( eventHistory ) );
+			super( "Recent Events", "clear", "check", new ShowDescriptionList( KoLConstants.eventHistory ) );
 		}
 
 		public void actionConfirmed()
 		{
 			// Clear list of events
-			eventHistory.clear();
+			KoLConstants.eventHistory.clear();
 		}
 
 		public void actionCancelled()
@@ -68,4 +69,3 @@ public class EventsFrame extends KoLPanelFrame
 		}
 	}
 }
-

@@ -41,16 +41,17 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
-public class SpecialOutfit implements Comparable, KoLConstants
+public class SpecialOutfit
+	implements Comparable, KoLConstants
 {
 	private static final Pattern OPTION_PATTERN = Pattern.compile( "<option value=(.*?)>(.*?)</option>" );
 
 	private static final Stack implicitPoints = new Stack();
 	private static final Stack explicitPoints = new Stack();
 
-	private int outfitId;
-	private String outfitName;
-	private ArrayList pieces;
+	private final int outfitId;
+	private final String outfitName;
+	private final ArrayList pieces;
 
 	public static final String NO_CHANGE = " - No Change - ";
 	public static final SpecialOutfit BIRTHDAY_SUIT = new SpecialOutfit();
@@ -65,7 +66,7 @@ public class SpecialOutfit implements Comparable, KoLConstants
 		this.pieces = new ArrayList();
 	}
 
-	public SpecialOutfit( int outfitId, String outfitName )
+	public SpecialOutfit( final int outfitId, final String outfitName )
 	{
 		this.outfitId = outfitId;
 		this.outfitName = outfitName;
@@ -76,11 +77,13 @@ public class SpecialOutfit implements Comparable, KoLConstants
 	{
 		for ( int i = 0; i < this.pieces.size(); ++i )
 		{
-			boolean itemAvailable = KoLCharacter.hasItem( (AdventureResult) this.pieces.get(i) ) &&
-				EquipmentDatabase.canEquip( ((AdventureResult) this.pieces.get(i)).getName() );
+			boolean itemAvailable =
+				KoLCharacter.hasItem( (AdventureResult) this.pieces.get( i ) ) && EquipmentDatabase.canEquip( ( (AdventureResult) this.pieces.get( i ) ).getName() );
 
 			if ( !itemAvailable )
+			{
 				return false;
+			}
 		}
 
 		return true;
@@ -89,198 +92,225 @@ public class SpecialOutfit implements Comparable, KoLConstants
 	public boolean isWearing()
 	{
 		for ( int i = 0; i < this.pieces.size(); ++i )
-			if ( !KoLCharacter.hasEquipped( (AdventureResult) this.pieces.get(i) ) )
+		{
+			if ( !KoLCharacter.hasEquipped( (AdventureResult) this.pieces.get( i ) ) )
+			{
 				return false;
+			}
+		}
 
 		return true;
 	}
 
-	public AdventureResult [] getPieces()
+	public AdventureResult[] getPieces()
 	{
-		AdventureResult [] piecesArray = new AdventureResult[ this.pieces.size() ];
+		AdventureResult[] piecesArray = new AdventureResult[ this.pieces.size() ];
 		this.pieces.toArray( piecesArray );
 		return piecesArray;
 	}
 
-	public void addPiece( AdventureResult piece )
-	{	this.pieces.add( piece );
+	public void addPiece( final AdventureResult piece )
+	{
+		this.pieces.add( piece );
 	}
 
 	public String toString()
-	{	return this.outfitName;
+	{
+		return this.outfitName;
 	}
 
 	public int getOutfitId()
-	{	return this.outfitId;
+	{
+		return this.outfitId;
 	}
 
 	public String getName()
-	{	return this.outfitName;
+	{
+		return this.outfitName;
 	}
 
-	public boolean equals( Object o )
+	public boolean equals( final Object o )
 	{
-		if ( o == null || !(o instanceof SpecialOutfit) )
+		if ( o == null || !( o instanceof SpecialOutfit ) )
+		{
 			return false;
+		}
 
-		if ( this.outfitId != ((SpecialOutfit)o).outfitId )
+		if ( this.outfitId != ( (SpecialOutfit) o ).outfitId )
+		{
 			return false;
+		}
 
-		return this.outfitName.equalsIgnoreCase( ((SpecialOutfit)o).outfitName );
+		return this.outfitName.equalsIgnoreCase( ( (SpecialOutfit) o ).outfitName );
 	}
 
-	public int compareTo( Object o )
+	public int compareTo( final Object o )
 	{
-		if ( o == null || !(o instanceof SpecialOutfit) )
+		if ( o == null || !( o instanceof SpecialOutfit ) )
+		{
 			return -1;
+		}
 
-		return this.outfitName.compareToIgnoreCase( ((SpecialOutfit)o).outfitName );
+		return this.outfitName.compareToIgnoreCase( ( (SpecialOutfit) o ).outfitName );
 	}
 
 	/**
-	 * Restores a checkpoint.  This should be called whenever
-	 * the player needs to revert to their checkpointed outfit.
+	 * Restores a checkpoint. This should be called whenever the player needs to revert to their checkpointed outfit.
 	 */
 
-	private static final void restoreCheckpoint( AdventureResult [] checkpoint )
+	private static final void restoreCheckpoint( final AdventureResult[] checkpoint )
 	{
 		RequestThread.openRequestSequence();
 
 		AdventureResult equippedItem;
 		for ( int i = 0; i < checkpoint.length && !KoLmafia.refusesContinue(); ++i )
 		{
-			if ( checkpoint[i] == null )
+			if ( checkpoint[ i ] == null )
+			{
 				continue;
+			}
 
 			equippedItem = KoLCharacter.getEquipment( i );
-			if ( checkpoint[i].equals( EquipmentRequest.UNEQUIP ) || equippedItem.equals( checkpoint[i] ) )
+			if ( checkpoint[ i ].equals( EquipmentRequest.UNEQUIP ) || equippedItem.equals( checkpoint[ i ] ) )
+			{
 				continue;
+			}
 
-			RequestThread.postRequest( new EquipmentRequest( checkpoint[i], i ) );
+			RequestThread.postRequest( new EquipmentRequest( checkpoint[ i ], i ) );
 		}
 
 		RequestThread.closeRequestSequence();
 	}
 
 	/**
-	 * Creates a checkpoint.  This should be called whenever
-	 * the player needs an outfit marked to revert to.
+	 * Creates a checkpoint. This should be called whenever the player needs an outfit marked to revert to.
 	 */
 
 	public static final void createExplicitCheckpoint()
 	{
-		AdventureResult [] explicit = new AdventureResult[ KoLCharacter.FAMILIAR + 1 ];
+		AdventureResult[] explicit = new AdventureResult[ KoLCharacter.FAMILIAR + 1 ];
 
 		for ( int i = 0; i < explicit.length; ++i )
-			explicit[i] = KoLCharacter.getEquipment(i);
+		{
+			explicit[ i ] = KoLCharacter.getEquipment( i );
+		}
 
-		explicitPoints.push( explicit );
+		SpecialOutfit.explicitPoints.push( explicit );
 	}
 
 	public static final boolean markImplicitCheckpoint()
 	{
-		if ( markedCheckpoint != -1 || implicitPoints.isEmpty() )
+		if ( SpecialOutfit.markedCheckpoint != -1 || SpecialOutfit.implicitPoints.isEmpty() )
+		{
 			return false;
+		}
 
 		boolean isIdentical = true;
 		String itemName;
 
 		for ( int i = 0; i <= KoLCharacter.FAMILIAR; ++i )
 		{
-			itemName = KoLCharacter.getEquipment(i).getName();
+			itemName = KoLCharacter.getEquipment( i ).getName();
 			isIdentical &= KoLSettings.getUserProperty( "implicitEquipmentSlot" + i ).equals( itemName );
 		}
 
-		markedCheckpoint = implicitPoints.size();
+		SpecialOutfit.markedCheckpoint = SpecialOutfit.implicitPoints.size();
 		return !isIdentical;
 	}
 
 	/**
-	 * Restores a checkpoint.  This should be called whenever
-	 * the player needs to revert to their checkpointed outfit.
+	 * Restores a checkpoint. This should be called whenever the player needs to revert to their checkpointed outfit.
 	 */
 
 	public static final void restoreExplicitCheckpoint()
 	{
-		if ( explicitPoints.isEmpty() )
+		if ( SpecialOutfit.explicitPoints.isEmpty() )
+		{
 			return;
+		}
 
-		restoreCheckpoint( (AdventureResult []) explicitPoints.pop() );
+		SpecialOutfit.restoreCheckpoint( (AdventureResult[]) SpecialOutfit.explicitPoints.pop() );
 	}
 
 	/**
-	 * Creates a checkpoint.  This should be called whenever
-	 * the player needs an outfit marked to revert to.
+	 * Creates a checkpoint. This should be called whenever the player needs an outfit marked to revert to.
 	 */
 
 	public static final void createImplicitCheckpoint()
 	{
 		if ( KoLmafia.isRunningBetweenBattleChecks() )
+		{
 			return;
+		}
 
 		synchronized ( SpecialOutfit.class )
 		{
-			AdventureResult [] implicit = new AdventureResult[ KoLCharacter.FAMILIAR + 1 ];
+			AdventureResult[] implicit = new AdventureResult[ KoLCharacter.FAMILIAR + 1 ];
 
 			for ( int i = 0; i < implicit.length; ++i )
-				implicit[i] = KoLCharacter.getEquipment(i);
+			{
+				implicit[ i ] = KoLCharacter.getEquipment( i );
+			}
 
-			implicitPoints.push( implicit );
+			SpecialOutfit.implicitPoints.push( implicit );
 			EquipmentRequest.savePreviousOutfit();
 		}
 	}
 
 	/**
-	 * Restores a checkpoint.  This should be called whenever
-	 * the player needs to revert to their checkpointed outfit.
+	 * Restores a checkpoint. This should be called whenever the player needs to revert to their checkpointed outfit.
 	 */
 
 	public static final void restoreImplicitCheckpoint()
 	{
-		if ( implicitPoints.isEmpty() || KoLmafia.isRunningBetweenBattleChecks() )
+		if ( SpecialOutfit.implicitPoints.isEmpty() || KoLmafia.isRunningBetweenBattleChecks() )
+		{
 			return;
-
-		AdventureResult [] implicit = (AdventureResult []) implicitPoints.pop();
-
-		if ( implicitPoints.size() < markedCheckpoint )
-		{
-			RequestThread.postRequest( new EquipmentRequest( implicitOutfit ) );
-			markedCheckpoint = -1;
 		}
-		else if ( markedCheckpoint == -1 )
+
+		AdventureResult[] implicit = (AdventureResult[]) SpecialOutfit.implicitPoints.pop();
+
+		if ( SpecialOutfit.implicitPoints.size() < SpecialOutfit.markedCheckpoint )
 		{
-			restoreCheckpoint( implicit );
+			RequestThread.postRequest( new EquipmentRequest( SpecialOutfit.implicitOutfit ) );
+			SpecialOutfit.markedCheckpoint = -1;
+		}
+		else if ( SpecialOutfit.markedCheckpoint == -1 )
+		{
+			SpecialOutfit.restoreCheckpoint( implicit );
 		}
 	}
 
 	/**
-	 * static final method used to determine all of the custom outfits,
-	 * based on the given HTML enclosed in <code><select></code> tags.
-	 *
-	 * @return	A list of available outfits
+	 * static final method used to determine all of the custom outfits, based on the given HTML enclosed in
+	 * <code><select></code> tags.
+	 * 
+	 * @return A list of available outfits
 	 */
 
-	public static final LockableListModel parseOutfits( String selectHTML )
+	public static final LockableListModel parseOutfits( final String selectHTML )
 	{
-		Matcher singleOutfitMatcher = OPTION_PATTERN.matcher( selectHTML );
+		Matcher singleOutfitMatcher = SpecialOutfit.OPTION_PATTERN.matcher( selectHTML );
 
 		int outfitId;
 		String outfitName;
 		SpecialOutfit outfit;
 
-		implicitOutfit = null;
+		SpecialOutfit.implicitOutfit = null;
 		SortedListModel outfits = new SortedListModel();
 
 		while ( singleOutfitMatcher.find() )
 		{
-			outfitId = StaticEntity.parseInt( singleOutfitMatcher.group(1) );
+			outfitId = StaticEntity.parseInt( singleOutfitMatcher.group( 1 ) );
 			if ( outfitId < 0 )
 			{
-				outfitName = singleOutfitMatcher.group(2);
-				outfit = new SpecialOutfit( outfitId, singleOutfitMatcher.group(2) );
+				outfitName = singleOutfitMatcher.group( 2 );
+				outfit = new SpecialOutfit( outfitId, singleOutfitMatcher.group( 2 ) );
 
 				if ( outfitName.equals( "Custom: Backup" ) )
-					implicitOutfit = outfit;
+				{
+					SpecialOutfit.implicitOutfit = outfit;
+				}
 
 				outfits.add( outfit );
 			}

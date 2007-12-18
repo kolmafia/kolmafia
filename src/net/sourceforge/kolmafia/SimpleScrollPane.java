@@ -37,40 +37,54 @@ import java.awt.Component;
 
 import javax.swing.JList;
 import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
 import javax.swing.text.JTextComponent;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
-public class SimpleScrollPane extends JScrollPane implements KoLConstants
+public class SimpleScrollPane
+	extends JScrollPane
+	implements KoLConstants
 {
-	public SimpleScrollPane( LockableListModel model )
-	{	this( model, 8 );
+	public SimpleScrollPane( final LockableListModel model )
+	{
+		this( model, 8 );
 	}
 
-	public SimpleScrollPane( LockableListModel model, int visibleRows )
-	{	this( new ShowDescriptionList( model, visibleRows ), VERTICAL_SCROLLBAR_ALWAYS, HORIZONTAL_SCROLLBAR_NEVER );
+	public SimpleScrollPane( final LockableListModel model, final int visibleRows )
+	{
+		this(
+			new ShowDescriptionList( model, visibleRows ), ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+			ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER );
 	}
 
-	public SimpleScrollPane( Component view )
-	{	this( view, VERTICAL_SCROLLBAR_ALWAYS, HORIZONTAL_SCROLLBAR_NEVER );
+	public SimpleScrollPane( final Component view )
+	{
+		this( view, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER );
 	}
 
-	public SimpleScrollPane( Component view, int hsbPolicy )
-	{	this( view, VERTICAL_SCROLLBAR_ALWAYS, hsbPolicy );
+	public SimpleScrollPane( final Component view, final int hsbPolicy )
+	{
+		this( view, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, hsbPolicy );
 	}
 
-	public SimpleScrollPane( Component view, int vsbPolicy, int hsbPolicy )
+	public SimpleScrollPane( final Component view, final int vsbPolicy, final int hsbPolicy )
 	{
 		super( view, vsbPolicy, hsbPolicy );
 		this.setOpaque( true );
 
 		if ( view instanceof JList )
 		{
-			if ( KoLSettings.getUserProperty( "swingLookAndFeel" ).equals( UIManager.getCrossPlatformLookAndFeelClassName() ) )
-				((JList)view).setFont( DEFAULT_FONT );
+			if ( KoLSettings.getUserProperty( "swingLookAndFeel" ).equals(
+				UIManager.getCrossPlatformLookAndFeelClassName() ) )
+			{
+				( (JList) view ).setFont( KoLConstants.DEFAULT_FONT );
+			}
 		}
-		else if ( !(view instanceof JTextComponent) )
+		else if ( !( view instanceof JTextComponent ) )
+		{
 			this.getVerticalScrollBar().setUnitIncrement( 30 );
+		}
 	}
 }

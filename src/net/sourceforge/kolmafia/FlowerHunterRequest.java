@@ -43,23 +43,14 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class FlowerHunterRequest extends KoLRequest
+public class FlowerHunterRequest
+	extends KoLRequest
 {
-	public static final String [] WIN_MESSAGES = new String []
-	{
-		"50 CHARACTER LIMIT BREAK!",
-		"HERE'S YOUR CHEETO, MOTHER!*$#ER.",
-		"If you want it back, I'll be in my tent.",
-		"PWNED LIKE CRAPSTORM."
-	};
+	public static final String[] WIN_MESSAGES =
+		new String[] { "50 CHARACTER LIMIT BREAK!", "HERE'S YOUR CHEETO, MOTHER!*$#ER.", "If you want it back, I'll be in my tent.", "PWNED LIKE CRAPSTORM." };
 
-	public static final String [] LOSE_MESSAGES = new String []
-	{
-		"OMG HAX H4X H5X!!",
-		"Please return my pants.",
-		"How do you like my Crotch-To-Your-Foot style?",
-		"PWNED LIKE CRAPSTORM."
-	};
+	public static final String[] LOSE_MESSAGES =
+		new String[] { "OMG HAX H4X H5X!!", "Please return my pants.", "How do you like my Crotch-To-Your-Foot style?", "PWNED LIKE CRAPSTORM." };
 
 	private static final List searchResults = new ArrayList();
 
@@ -68,20 +59,26 @@ public class FlowerHunterRequest extends KoLRequest
 	private static int flowerCount = -1;
 	private static int canadaCount = -1;
 
-	private static final Pattern TATTOO_PATTERN = Pattern.compile( "You have unlocked (\\d+) <a class=nounder href=\"account_tattoos.php\">" );
-	private static final Pattern TROPHY_PATTERN = Pattern.compile( "You have earned (\\d+) <a class=nounder href=\"trophies.php\">" );
+	private static final Pattern TATTOO_PATTERN =
+		Pattern.compile( "You have unlocked (\\d+) <a class=nounder href=\"account_tattoos.php\">" );
+	private static final Pattern TROPHY_PATTERN =
+		Pattern.compile( "You have earned (\\d+) <a class=nounder href=\"trophies.php\">" );
 	private static final Pattern FLOWER_PATTERN = Pattern.compile( "You have picked ([\\d,]+) pretty flower" );
-	private static final Pattern CANADA_PATTERN = Pattern.compile( "white Canadian</a>&nbsp;&nbsp;&nbsp;</td><td>([\\d,]+)</td>" );
+	private static final Pattern CANADA_PATTERN =
+		Pattern.compile( "white Canadian</a>&nbsp;&nbsp;&nbsp;</td><td>([\\d,]+)</td>" );
 
-	public static final Pattern VERSUS_PATTERN = Pattern.compile( "(.+) initiated a PvP attack against (.+)\\.", Pattern.DOTALL );
-	public static final Pattern MINIS_PATTERN = Pattern.compile( "\\((\\d+) tattoos, (\\d+) trophies, (\\d+) flowers, (\\d+) white canadians\\)" );
+	public static final Pattern VERSUS_PATTERN =
+		Pattern.compile( "(.+) initiated a PvP attack against (.+)\\.", Pattern.DOTALL );
+	public static final Pattern MINIS_PATTERN =
+		Pattern.compile( "\\((\\d+) tattoos, (\\d+) trophies, (\\d+) flowers, (\\d+) white canadians\\)" );
 
 	private static final int RANKVIEW = 0;
 	private static final int ATTACK = 1;
 	private static final int PLAYER_SEARCH = 2;
 	private static final int CLAN_PROFILER = 3;
 
-	private static final Pattern ATTACKS_PATTERN = Pattern.compile( "You may participate in (\\d+) more player fights today" );
+	private static final Pattern ATTACKS_PATTERN =
+		Pattern.compile( "You may participate in (\\d+) more player fights today" );
 
 	private static final Pattern TARGET_PATTERN =
 		Pattern.compile( "showplayer\\.php\\?who=(\\d+)\">(.*?)</a></b>  \\(PvP\\)(<br>\\(<a target=mainpane href=\"showclan\\.php\\?whichclan=\\d+\">(.*?)</a>)?.*?<td.*?><td.*?>(\\d+)</td><td.*?>(.*?)</td><td.*?>(\\d+)" );
@@ -91,18 +88,18 @@ public class FlowerHunterRequest extends KoLRequest
 
 	private static final Pattern RANKING_PATTERN = Pattern.compile( "Your current PvP Ranking is (\\d+)" );
 
-	private int hunterType;
+	private final int hunterType;
 
 	public FlowerHunterRequest()
 	{
 		super( "pvp.php" );
-		this.hunterType = RANKVIEW;
+		this.hunterType = FlowerHunterRequest.RANKVIEW;
 	}
 
-	public FlowerHunterRequest( String level, String rank )
+	public FlowerHunterRequest( final String level, final String rank )
 	{
 		super( "searchplayer.php" );
-		this.hunterType = PLAYER_SEARCH;
+		this.hunterType = FlowerHunterRequest.PLAYER_SEARCH;
 
 		this.addFormField( "searching", "Yep." );
 		this.addFormField( "searchstring", "" );
@@ -113,10 +110,10 @@ public class FlowerHunterRequest extends KoLRequest
 		this.addFormField( "hardcoreonly", KoLCharacter.isHardcore() ? "1" : "2" );
 	}
 
-	public FlowerHunterRequest( String opponent, int stance, String mission, String win, String lose )
+	public FlowerHunterRequest( final String opponent, final int stance, final String mission, String win, String lose )
 	{
 		super( "pvp.php" );
-		this.hunterType = ATTACK;
+		this.hunterType = FlowerHunterRequest.ATTACK;
 
 		this.addFormField( "action", "Yep." );
 		this.addFormField( "pwd" );
@@ -125,9 +122,15 @@ public class FlowerHunterRequest extends KoLRequest
 		this.addFormField( "attacktype", mission );
 
 		if ( win.equals( "" ) )
-			win = WIN_MESSAGES[ RNG.nextInt( WIN_MESSAGES.length ) ];
+		{
+			win =
+				FlowerHunterRequest.WIN_MESSAGES[ KoLConstants.RNG.nextInt( FlowerHunterRequest.WIN_MESSAGES.length ) ];
+		}
 		if ( lose.equals( "" ) )
-			lose = LOSE_MESSAGES[ RNG.nextInt( LOSE_MESSAGES.length ) ];
+		{
+			lose =
+				FlowerHunterRequest.LOSE_MESSAGES[ KoLConstants.RNG.nextInt( FlowerHunterRequest.LOSE_MESSAGES.length ) ];
+		}
 
 		this.addFormField( "winmessage", win );
 		this.addFormField( "losemessage", lose );
@@ -136,29 +139,32 @@ public class FlowerHunterRequest extends KoLRequest
 		KoLSettings.setUserProperty( "defaultFlowerLossMessage", lose );
 	}
 
-	public FlowerHunterRequest( String clanId )
+	public FlowerHunterRequest( final String clanId )
 	{
 		super( "showclan.php" );
-		this.hunterType = CLAN_PROFILER;
+		this.hunterType = FlowerHunterRequest.CLAN_PROFILER;
 
 		this.addFormField( "whichclan", clanId );
 	}
 
 	protected boolean retryOnTimeout()
-	{	return true;
+	{
+		return true;
 	}
 
-	public void setTarget( String target )
-	{	this.addFormField( "who", target );
+	public void setTarget( final String target )
+	{
+		this.addFormField( "who", target );
 	}
 
 	public static final List getSearchResults()
-	{	return searchResults;
+	{
+		return FlowerHunterRequest.searchResults;
 	}
 
 	public void processResults()
 	{
-		searchResults.clear();
+		FlowerHunterRequest.searchResults.clear();
 		KoLRequest miniChecker = new KoLRequest( "questlog.php?which=3" );
 
 		switch ( this.hunterType )
@@ -168,32 +174,48 @@ public class FlowerHunterRequest extends KoLRequest
 			this.parseAttack();
 			miniChecker.constructURLString( "questlog.php?which=3" ).run();
 
-			Matcher miniMatcher = TATTOO_PATTERN.matcher( miniChecker.responseText );
+			Matcher miniMatcher = FlowerHunterRequest.TATTOO_PATTERN.matcher( miniChecker.responseText );
 			if ( miniMatcher.find() )
-				tattooCount = StaticEntity.parseInt( miniMatcher.group(1) );
+			{
+				FlowerHunterRequest.tattooCount = StaticEntity.parseInt( miniMatcher.group( 1 ) );
+			}
 			else
-				tattooCount = 0;
+			{
+				FlowerHunterRequest.tattooCount = 0;
+			}
 
-			miniMatcher = TROPHY_PATTERN.matcher( miniChecker.responseText );
+			miniMatcher = FlowerHunterRequest.TROPHY_PATTERN.matcher( miniChecker.responseText );
 			if ( miniMatcher.find() )
-				trophyCount = StaticEntity.parseInt( miniMatcher.group(1) );
+			{
+				FlowerHunterRequest.trophyCount = StaticEntity.parseInt( miniMatcher.group( 1 ) );
+			}
 			else
-				trophyCount = 0;
+			{
+				FlowerHunterRequest.trophyCount = 0;
+			}
 
-			miniMatcher = FLOWER_PATTERN.matcher( miniChecker.responseText );
+			miniMatcher = FlowerHunterRequest.FLOWER_PATTERN.matcher( miniChecker.responseText );
 			if ( miniMatcher.find() )
-				flowerCount = StaticEntity.parseInt( miniMatcher.group(1) );
+			{
+				FlowerHunterRequest.flowerCount = StaticEntity.parseInt( miniMatcher.group( 1 ) );
+			}
 			else
-				flowerCount = 0;
+			{
+				FlowerHunterRequest.flowerCount = 0;
+			}
 
 			miniChecker.constructURLString( "showconsumption.php" );
 			miniChecker.run();
 
-			miniMatcher = CANADA_PATTERN.matcher( miniChecker.responseText );
+			miniMatcher = FlowerHunterRequest.CANADA_PATTERN.matcher( miniChecker.responseText );
 			if ( miniMatcher.find() )
-				canadaCount = StaticEntity.parseInt( miniMatcher.group(1) );
+			{
+				FlowerHunterRequest.canadaCount = StaticEntity.parseInt( miniMatcher.group( 1 ) );
+			}
 			else
-				canadaCount = 0;
+			{
+				FlowerHunterRequest.canadaCount = 0;
+			}
 
 			break;
 
@@ -213,52 +235,60 @@ public class FlowerHunterRequest extends KoLRequest
 
 	private void parseClan()
 	{
-		Matcher playerMatcher = CLAN_PATTERN.matcher( this.responseText );
+		Matcher playerMatcher = FlowerHunterRequest.CLAN_PATTERN.matcher( this.responseText );
 
 		while ( playerMatcher.find() )
 		{
-			KoLmafia.registerPlayer( playerMatcher.group(2), playerMatcher.group(1) );
-			searchResults.add( new ProfileRequest( playerMatcher.group(2) ) );
+			KoLmafia.registerPlayer( playerMatcher.group( 2 ), playerMatcher.group( 1 ) );
+			FlowerHunterRequest.searchResults.add( new ProfileRequest( playerMatcher.group( 2 ) ) );
 		}
 	}
 
 	private void parseSearch()
 	{
 		if ( this.responseText.indexOf( "<br>No players found.</center>" ) != -1 )
+		{
 			return;
+		}
 
 		ProfileRequest currentPlayer;
-		Matcher playerMatcher = TARGET_PATTERN.matcher( this.responseText );
+		Matcher playerMatcher = FlowerHunterRequest.TARGET_PATTERN.matcher( this.responseText );
 
 		while ( playerMatcher.find() )
 		{
-			KoLmafia.registerPlayer( playerMatcher.group(2), playerMatcher.group(1) );
-			currentPlayer = ProfileRequest.getInstance( playerMatcher.group(2), playerMatcher.group(1),
-				playerMatcher.group(4), Integer.valueOf( playerMatcher.group(5) ), playerMatcher.group(6),
-				Integer.valueOf( playerMatcher.group(7) ) );
+			KoLmafia.registerPlayer( playerMatcher.group( 2 ), playerMatcher.group( 1 ) );
+			currentPlayer =
+				ProfileRequest.getInstance(
+					playerMatcher.group( 2 ), playerMatcher.group( 1 ), playerMatcher.group( 4 ),
+					Integer.valueOf( playerMatcher.group( 5 ) ), playerMatcher.group( 6 ),
+					Integer.valueOf( playerMatcher.group( 7 ) ) );
 
-			searchResults.add( currentPlayer );
+			FlowerHunterRequest.searchResults.add( currentPlayer );
 		}
 
-		Collections.sort( searchResults );
+		Collections.sort( FlowerHunterRequest.searchResults );
 	}
 
 	private void parseAttack()
 	{
 		// Reset the player's current PvP ranking
 
-		Matcher attacksMatcher = ATTACKS_PATTERN.matcher( this.responseText );
+		Matcher attacksMatcher = FlowerHunterRequest.ATTACKS_PATTERN.matcher( this.responseText );
 		if ( attacksMatcher.find() )
-			KoLCharacter.setAttacksLeft( StaticEntity.parseInt( attacksMatcher.group(1) ) );
+		{
+			KoLCharacter.setAttacksLeft( StaticEntity.parseInt( attacksMatcher.group( 1 ) ) );
+		}
 		else
+		{
 			KoLCharacter.setAttacksLeft( 0 );
+		}
 
-		Matcher rankMatcher = RANKING_PATTERN.matcher( this.responseText );
+		Matcher rankMatcher = FlowerHunterRequest.RANKING_PATTERN.matcher( this.responseText );
 		if ( !rankMatcher.find() )
 		{
 			if ( !KoLFrame.confirm( "Would you like to break your hippy stone?" ) )
 			{
-				KoLmafia.updateDisplay( ABORT_STATE, "This feature is not available to hippies." );
+				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "This feature is not available to hippies." );
 				return;
 			}
 
@@ -268,7 +298,7 @@ public class FlowerHunterRequest extends KoLRequest
 			return;
 		}
 
-		KoLCharacter.setPvpRank( StaticEntity.parseInt( rankMatcher.group(1) ) );
+		KoLCharacter.setPvpRank( StaticEntity.parseInt( rankMatcher.group( 1 ) ) );
 
 		// Trim down the response text so it only includes
 		// the information related to the fight.
@@ -276,9 +306,9 @@ public class FlowerHunterRequest extends KoLRequest
 		int index = this.responseText.indexOf( "<p>Player to attack" );
 		this.responseText = this.responseText.substring( 0, index == -1 ? this.responseText.length() : index );
 
-		if ( this.hunterType != RANKVIEW )
+		if ( this.hunterType != FlowerHunterRequest.RANKVIEW )
 		{
-			processOffenseContests( this.responseText );
+			FlowerHunterRequest.processOffenseContests( this.responseText );
 			ProfileFrame.showRequest( this );
 		}
 	}
@@ -302,16 +332,22 @@ public class FlowerHunterRequest extends KoLRequest
 
 			int stopIndex = attackText.indexOf( "<br><p>" );
 			if ( stopIndex == -1 )
+			{
 				stopIndex = attackText.indexOf( "<br><P>" );
+			}
 			if ( stopIndex == -1 )
+			{
 				continue;
+			}
 
 			attackText = attackText.substring( 0, stopIndex );
 			attackText = StaticEntity.globalStringReplace( attackText, "<p>", "\n\n" );
 			attackText = StaticEntity.globalStringReplace( attackText, "<br>", "\n" );
-			attackText = StaticEntity.singleStringReplace( attackText, "  Here's a play-by-play report on how it went down:",
-				"\n(" + tattooCount + " tattoos, " + trophyCount + " trophies, " +
-				flowerCount + " flowers, " + canadaCount + " white canadians)" );
+			attackText =
+				StaticEntity.singleStringReplace(
+					attackText,
+					"  Here's a play-by-play report on how it went down:",
+					"\n(" + FlowerHunterRequest.tattooCount + " tattoos, " + FlowerHunterRequest.trophyCount + " trophies, " + FlowerHunterRequest.flowerCount + " flowers, " + FlowerHunterRequest.canadaCount + " white canadians)" );
 
 			attackText = attackText.trim();
 
@@ -322,41 +358,50 @@ public class FlowerHunterRequest extends KoLRequest
 		}
 	}
 
-	public static final void processOffenseContests( String responseText )
+	public static final void processOffenseContests( final String responseText )
 	{
-		String resultText = StaticEntity.globalStringReplace( responseText.substring(
-			responseText.indexOf( "<td>" ) + 4, responseText.indexOf( "Your PvP Ranking" ) ), "<p>", LINE_BREAK );
+		String resultText =
+			StaticEntity.globalStringReplace(
+				responseText.substring( responseText.indexOf( "<td>" ) + 4, responseText.indexOf( "Your PvP Ranking" ) ),
+				"<p>", KoLConstants.LINE_BREAK );
 
-		resultText = ANYTAG_PATTERN.matcher( resultText.substring( 0, resultText.lastIndexOf( "<b>" ) ) ).replaceAll( "" );
+		resultText =
+			KoLConstants.ANYTAG_PATTERN.matcher( resultText.substring( 0, resultText.lastIndexOf( "<b>" ) ) ).replaceAll(
+				"" );
 
-		String [] fightData = resultText.split( "\n" );
+		String[] fightData = resultText.split( "\n" );
 		String target = null;
 
 		for ( int i = 0; i < fightData.length; ++i )
 		{
-			if ( fightData[i].startsWith( "You call" ) )
+			if ( fightData[ i ].startsWith( "You call" ) )
 			{
-				target = fightData[i].substring( 9, fightData[i].indexOf( " out," ) );
-				fightData[i] = null;
+				target = fightData[ i ].substring( 9, fightData[ i ].indexOf( " out," ) );
+				fightData[ i ] = null;
 				break;
 			}
 
-			fightData[i] = null;
+			fightData[ i ] = null;
 		}
 
-		LogStream pvpResults = LogStream.openStream( new File( ATTACKS_LOCATION, KoLCharacter.baseUserName() + "_offense.txt" ), false );
+		LogStream pvpResults =
+			LogStream.openStream(
+				new File( KoLConstants.ATTACKS_LOCATION, KoLCharacter.baseUserName() + "_offense.txt" ), false );
 
 		pvpResults.println();
 		pvpResults.println( new Date() );
 		pvpResults.println( KoLCharacter.getUserName() + " initiated a PvP attack against " + target + "." );
-		pvpResults.println( "(" + tattooCount + " tattoos, " + trophyCount + " trophies, " +
-			flowerCount + " flowers, " + canadaCount + " white canadians)" );
+		pvpResults.println( "(" + FlowerHunterRequest.tattooCount + " tattoos, " + FlowerHunterRequest.trophyCount + " trophies, " + FlowerHunterRequest.flowerCount + " flowers, " + FlowerHunterRequest.canadaCount + " white canadians)" );
 
 		pvpResults.println();
 
 		for ( int i = 0; i < fightData.length; ++i )
-			if ( fightData[i] != null )
-				processOffenseContest( target, fightData[i], pvpResults );
+		{
+			if ( fightData[ i ] != null )
+			{
+				FlowerHunterRequest.processOffenseContest( target, fightData[ i ], pvpResults );
+			}
+		}
 
 		pvpResults.println();
 		pvpResults.println();
@@ -366,10 +411,12 @@ public class FlowerHunterRequest extends KoLRequest
 		// flower count from the battle.
 
 		if ( responseText.indexOf( "flower.gif" ) != -1 )
-			++flowerCount;
+		{
+			++FlowerHunterRequest.flowerCount;
+		}
 	}
 
-	public static final void processOffenseContest( String target, String line, LogStream ostream )
+	public static final void processOffenseContest( final String target, final String line, final LogStream ostream )
 	{
 		String contest = null;
 
@@ -377,86 +424,125 @@ public class FlowerHunterRequest extends KoLRequest
 		// for their attack.
 
 		if ( line.startsWith( "You attempt to Burninate" ) )
+		{
 			contest = "Buffed Mysticality";
+		}
 		else if ( line.startsWith( "You challenge your opponent to a game of Telekinetic Ping-Pong" ) )
+		{
 			contest = "Unbuffed Mysticality";
+		}
 		else if ( line.startsWith( "You try to embarrrass" ) )
+		{
 			contest = "Buffed Moxie";
+		}
 		else if ( line.startsWith( "You challenge your opponent to an insult contest" ) )
+		{
 			contest = "Unbuffed Moxie";
-
-		// Now the messages you get for the remaining five minis
-		// that are randomly selected by KoL.  Start with the three
-		// stat minis that KoL randomly selects.
-
+		}
 		else if ( line.indexOf( "challenges you to an armwrestling match" ) != -1 )
+		{
 			contest = "Buffed Muscle";
+		}
 		else if ( line.indexOf( "challenges you to a game of Wizard's Croquet" ) != -1 )
+		{
 			contest = "Buffed Mysticality";
+		}
 		else if ( line.indexOf( "challenges you to a dancing contest" ) != -1 )
+		{
 			contest = "Buffed Moxie";
-
-		// There's a giant list for the remaining minis.  Go ahead
-		// and list them here.
-
+		}
 		else if ( line.indexOf( "challenges you to a diet balance contest" ) != -1 )
+		{
 			contest = "Balanced Diet";
+		}
 		else if ( line.indexOf( "challenges you to a bleeding contest" ) != -1 )
+		{
 			contest = "Bleeding Contest";
+		}
 		else if ( line.indexOf( "challenges you to a burping contest" ) != -1 )
+		{
 			contest = "Burping Contest";
+		}
 		else if ( line.indexOf( "challenges you to a Canadianity contest" ) != -1 )
+		{
 			contest = "Canadianity Contest";
+		}
 		else if ( line.indexOf( "challenges you to a familiar show" ) != -1 )
+		{
 			contest = "Familiar Weight";
+		}
 		else if ( line.indexOf( "arranges an impromptu fashion show" ) != -1 )
+		{
 			contest = "Fashion Show";
+		}
 		else if ( line.indexOf( "challenges you to a flower-picking contest" ) != -1 )
+		{
 			contest = "Flower Picking Contest";
+		}
 		else if ( line.indexOf( "challenges you to a &quot;How Hung Over are You?&quot; competition" ) != -1 )
+		{
 			contest = "\"How Hung Over are You?\"";
+		}
 		else if ( line.indexOf( "challenges you to a pie-eating competition" ) != -1 )
+		{
 			contest = "Pie-Eating Contest";
+		}
 		else if ( line.indexOf( "challenges you to a popularity contest" ) != -1 )
+		{
 			contest = "Popularity Contest";
+		}
 		else if ( line.indexOf( "challenges you to a purity test" ) != -1 )
+		{
 			contest = "Purity Test";
+		}
 		else if ( line.indexOf( "challenges you to a tattoo contest" ) != -1 )
+		{
 			contest = "Tattoo Contest";
+		}
 		else if ( line.indexOf( "challenges you to a trophy-stacking contest" ) != -1 )
+		{
 			contest = "Trophy Contest";
+		}
 		else if ( line.indexOf( "challenges you to a wine tasting contest" ) != -1 )
+		{
 			contest = "Wine Tasting Contest";
+		}
 		else if ( line.indexOf( "challenges you to a work ethic contest" ) != -1 )
+		{
 			contest = "Work Ethic Contest";
-
-		// If it's not one of the above, then just note it as an
-		// unknown contest for later.
-
+		}
 		else
+		{
 			contest = "Unknown Contest";
+		}
 
 		String lastMessage = line.substring( line.lastIndexOf( " " ) + 1, line.length() - 2 );
 		boolean isWinner = lastMessage.toUpperCase().equals( lastMessage );
 
-		String result = contest + ": You " + (isWinner ? "won." : "lost.");
+		String result = contest + ": You " + ( isWinner ? "won." : "lost." );
 		ostream.println( result );
 	}
 
-	public static final boolean registerRequest( String urlString )
+	public static final boolean registerRequest( final String urlString )
 	{
 		if ( !urlString.startsWith( "pvp.php" ) )
+		{
 			return false;
+		}
 
 		int whoIndex = urlString.indexOf( "who=" );
 		if ( whoIndex == -1 )
+		{
 			return true;
+		}
 
 		String target = urlString.substring( whoIndex + 4 );
 		whoIndex = target.indexOf( "&" );
 
 		if ( whoIndex != -1 )
+		{
 			target = target.substring( 0, whoIndex );
+		}
 
 		try
 		{

@@ -40,7 +40,9 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ProfileRequest extends KoLRequest implements Comparable
+public class ProfileRequest
+	extends KoLRequest
+	implements Comparable
 {
 	private static final Pattern DATA_PATTERN = Pattern.compile( "<td.*?>(.*?)</td>" );
 	private static final SimpleDateFormat INPUT_FORMAT = new SimpleDateFormat( "MMMM d, yyyy", Locale.US );
@@ -65,13 +67,13 @@ public class ProfileRequest extends KoLRequest implements Comparable
 	private String clanName;
 	private int equipmentPower;
 
-	public ProfileRequest( String playerName )
+	public ProfileRequest( final String playerName )
 	{
 		super( "showplayer.php" );
 
 		if ( playerName.startsWith( "#" ) )
 		{
-			this.playerId = playerName.substring(1);
+			this.playerId = playerName.substring( 1 );
 			this.playerName = KoLmafia.getPlayerName( this.playerId );
 		}
 		else
@@ -82,27 +84,29 @@ public class ProfileRequest extends KoLRequest implements Comparable
 
 		this.addFormField( "who", this.playerId );
 
-		this.muscle = new Integer(0);
-		this.mysticism = new Integer(0);
-		this.moxie = new Integer(0);
-		this.karma = new Integer(0);
+		this.muscle = new Integer( 0 );
+		this.mysticism = new Integer( 0 );
+		this.moxie = new Integer( 0 );
+		this.karma = new Integer( 0 );
 	}
 
 	protected boolean retryOnTimeout()
-	{	return true;
+	{
+		return true;
 	}
 
 	/**
-	 * Internal method used to refresh the fields of the profile
-	 * request based on the response text.  This should be called
-	 * after the response text is already retrieved.
+	 * Internal method used to refresh the fields of the profile request based on the response text. This should be
+	 * called after the response text is already retrieved.
 	 */
 
 	private void refreshFields()
 	{
 		// Nothing to refresh if no text
-		if  ( this.responseText.length() == 0 )
+		if ( this.responseText.length() == 0 )
+		{
 			return;
+		}
 
 		this.isHardcore = this.responseText.indexOf( "<b>(Hardcore)</b></td>" ) != -1;
 
@@ -114,7 +118,9 @@ public class ProfileRequest extends KoLRequest implements Comparable
 
 		String token = st.nextToken();
 		while ( !token.startsWith( "Level" ) )
+		{
 			token = st.nextToken();
+		}
 
 		// It's possible that the player recently ascended and therefore
 		// there's no data on the character.  Default the values and
@@ -135,46 +141,70 @@ public class ProfileRequest extends KoLRequest implements Comparable
 			return;
 		}
 
-		this.playerLevel = Integer.valueOf( token.substring(5).trim() );
+		this.playerLevel = Integer.valueOf( token.substring( 5 ).trim() );
 		this.classType = KoLCharacter.getClassType( st.nextToken().trim() );
 
 		if ( cleanHTML.indexOf( "\nAscensions" ) != -1 && cleanHTML.indexOf( "\nPath" ) != -1 )
 		{
-			while ( !st.nextToken().startsWith( "Path" ) );
+			while ( !st.nextToken().startsWith( "Path" ) )
+			{
+				;
+			}
 			this.restriction = st.nextToken().trim();
 		}
 		else
+		{
 			this.restriction = "No-Path";
+		}
 
-		while ( !st.nextToken().startsWith( "Meat" ) );
+		while ( !st.nextToken().startsWith( "Meat" ) )
+		{
+			;
+		}
 		this.currentMeat = new Integer( StaticEntity.parseInt( st.nextToken().trim() ) );
 
 		if ( cleanHTML.indexOf( "\nAscensions" ) != -1 )
 		{
-			while ( !st.nextToken().startsWith( "Ascensions" ) );
+			while ( !st.nextToken().startsWith( "Ascensions" ) )
+			{
+				;
+			}
 			st.nextToken();
 			this.ascensionCount = new Integer( StaticEntity.parseInt( st.nextToken().trim() ) );
 		}
 		else
+		{
 			this.ascensionCount = new Integer( 0 );
+		}
 
-		while ( !st.nextToken().startsWith( "Turns" ) );
+		while ( !st.nextToken().startsWith( "Turns" ) )
+		{
+			;
+		}
 		this.turnsPlayed = new Integer( StaticEntity.parseInt( st.nextToken().trim() ) );
 
 		if ( cleanHTML.indexOf( "\nAscensions" ) != -1 )
 		{
-			while ( !st.nextToken().startsWith( "Turns" ) );
+			while ( !st.nextToken().startsWith( "Turns" ) )
+			{
+				;
+			}
 			this.currentRun = new Integer( StaticEntity.parseInt( st.nextToken().trim() ) );
 		}
 		else
+		{
 			this.currentRun = this.turnsPlayed;
+		}
 
 		String dateString = null;
-		while ( !st.nextToken().startsWith( "Account" ) );
+		while ( !st.nextToken().startsWith( "Account" ) )
+		{
+			;
+		}
 		try
 		{
 			dateString = st.nextToken().trim();
-			this.created = INPUT_FORMAT.parse( dateString );
+			this.created = ProfileRequest.INPUT_FORMAT.parse( dateString );
 		}
 		catch ( Exception e )
 		{
@@ -182,12 +212,15 @@ public class ProfileRequest extends KoLRequest implements Comparable
 			this.created = new Date();
 		}
 
-		while ( !st.nextToken().startsWith( "Last" ) );
+		while ( !st.nextToken().startsWith( "Last" ) )
+		{
+			;
+		}
 
 		try
 		{
 			dateString = st.nextToken().trim();
-			this.lastLogin = INPUT_FORMAT.parse( dateString );
+			this.lastLogin = ProfileRequest.INPUT_FORMAT.parse( dateString );
 		}
 		catch ( Exception e )
 		{
@@ -197,32 +230,50 @@ public class ProfileRequest extends KoLRequest implements Comparable
 
 		if ( cleanHTML.indexOf( "\nFavorite Food" ) != -1 )
 		{
-			while ( !st.nextToken().startsWith( "Favorite" ) );
+			while ( !st.nextToken().startsWith( "Favorite" ) )
+			{
+				;
+			}
 			this.food = st.nextToken().trim();
 		}
 		else
+		{
 			this.food = "none";
+		}
 
 		if ( cleanHTML.indexOf( "\nFavorite Booze" ) != -1 )
 		{
-			while ( !st.nextToken().startsWith( "Favorite" ) );
+			while ( !st.nextToken().startsWith( "Favorite" ) )
+			{
+				;
+			}
 			this.drink = st.nextToken().trim();
 		}
 		else
+		{
 			this.drink = "none";
+		}
 
 		if ( cleanHTML.indexOf( "\nRanking" ) != -1 )
 		{
-			while ( !st.nextToken().startsWith( "Ranking" ) );
+			while ( !st.nextToken().startsWith( "Ranking" ) )
+			{
+				;
+			}
 			this.pvpRank = new Integer( StaticEntity.parseInt( st.nextToken().trim() ) );
 		}
 		else
+		{
 			this.pvpRank = new Integer( 0 );
+		}
 
 		this.equipmentPower = 0;
 		if ( cleanHTML.indexOf( "\nEquipment" ) != -1 )
 		{
-			while ( !st.nextToken().startsWith( "Equipment" ) );
+			while ( !st.nextToken().startsWith( "Equipment" ) )
+			{
+				;
+			}
 
 			while ( EquipmentDatabase.contains( token = st.nextToken() ) )
 			{
@@ -241,27 +292,31 @@ public class ProfileRequest extends KoLRequest implements Comparable
 		if ( cleanHTML.indexOf( "\nClan" ) != -1 )
 		{
 			while ( !token.startsWith( "Clan" ) )
+			{
 				token = st.nextToken();
+			}
 
 			this.clanName = st.nextToken();
 		}
-		
+
 		if ( cleanHTML.indexOf( "\nTitle" ) != -1 )
 		{
 			while ( !token.startsWith( "Title" ) )
+			{
 				token = st.nextToken();
-		
+			}
+
 			this.title = st.nextToken();
 		}
 	}
 
 	/**
-	 * static final method used by the clan manager in order to
-	 * get an instance of a profile request based on the
-	 * data already known.
+	 * static final method used by the clan manager in order to get an instance of a profile request based on the data
+	 * already known.
 	 */
 
-	public static final ProfileRequest getInstance( String playerName, String playerId, String playerLevel, String responseText, String rosterRow )
+	public static final ProfileRequest getInstance( final String playerName, final String playerId,
+		final String playerLevel, final String responseText, final String rosterRow )
 	{
 		ProfileRequest instance = new ProfileRequest( playerName );
 		instance.playerId = playerId;
@@ -281,7 +336,7 @@ public class ProfileRequest extends KoLRequest implements Comparable
 		// Next, parse out all the data in the
 		// row of the detail roster table.
 
-		Matcher dataMatcher = DATA_PATTERN.matcher( rosterRow );
+		Matcher dataMatcher = ProfileRequest.DATA_PATTERN.matcher( rosterRow );
 
 		// The name of the player occurs in the first
 		// field of the table.  Because you already
@@ -294,13 +349,13 @@ public class ProfileRequest extends KoLRequest implements Comparable
 		// the next three fields of the table.
 
 		dataMatcher.find();
-		instance.muscle = new Integer( StaticEntity.parseInt( dataMatcher.group(1) ) );
+		instance.muscle = new Integer( StaticEntity.parseInt( dataMatcher.group( 1 ) ) );
 
 		dataMatcher.find();
-		instance.mysticism = new Integer( StaticEntity.parseInt( dataMatcher.group(1) ) );
+		instance.mysticism = new Integer( StaticEntity.parseInt( dataMatcher.group( 1 ) ) );
 
 		dataMatcher.find();
-		instance.moxie = new Integer( StaticEntity.parseInt( dataMatcher.group(1) ) );
+		instance.moxie = new Integer( StaticEntity.parseInt( dataMatcher.group( 1 ) ) );
 
 		// The next field contains the total power,
 		// and since this is calculated, it can be
@@ -320,24 +375,24 @@ public class ProfileRequest extends KoLRequest implements Comparable
 		// Title was removed, so ... not visible here.
 
 		dataMatcher.find();
-		instance.rank = dataMatcher.group(1);
+		instance.rank = dataMatcher.group( 1 );
 
 		// The last field contains the total karma
 		// accumulated by this player.
 
 		dataMatcher.find();
-		instance.karma = new Integer( StaticEntity.parseInt( dataMatcher.group(1) ) );
+		instance.karma = new Integer( StaticEntity.parseInt( dataMatcher.group( 1 ) ) );
 
 		return instance;
 	}
 
 	/**
-	 * static final method used by the flower hunter in order to
-	 * get an instance of a profile request based on the
-	 * data already known.
+	 * static final method used by the flower hunter in order to get an instance of a profile request based on the data
+	 * already known.
 	 */
 
-	public static final ProfileRequest getInstance( String playerName, String playerId, String clanName, Integer playerLevel, String classType, Integer pvpRank )
+	public static final ProfileRequest getInstance( final String playerName, final String playerId,
+		final String clanName, final Integer playerLevel, final String classType, final Integer pvpRank )
 	{
 		ProfileRequest instance = new ProfileRequest( playerName );
 		instance.playerId = playerId;
@@ -350,21 +405,26 @@ public class ProfileRequest extends KoLRequest implements Comparable
 	}
 
 	public String getPlayerName()
-	{	return this.playerName;
+	{
+		return this.playerName;
 	}
 
 	public String getPlayerId()
-	{	return this.playerId;
+	{
+		return this.playerId;
 	}
 
 	public String getClanName()
-	{	return this.clanName;
+	{
+		return this.clanName;
 	}
 
 	public void initialize()
 	{
 		if ( this.responseText == null )
+		{
 			RequestThread.postRequest( this );
+		}
 	}
 
 	public boolean isHardcore()
@@ -382,7 +442,9 @@ public class ProfileRequest extends KoLRequest implements Comparable
 	public String getClassType()
 	{
 		if ( this.classType == null )
+		{
 			this.initialize();
+		}
 
 		return this.classType;
 	}
@@ -390,7 +452,9 @@ public class ProfileRequest extends KoLRequest implements Comparable
 	public Integer getPlayerLevel()
 	{
 		if ( this.playerLevel == null || this.playerLevel.intValue() == 0 )
+		{
 			this.initialize();
+		}
 
 		return this.playerLevel;
 	}
@@ -428,13 +492,13 @@ public class ProfileRequest extends KoLRequest implements Comparable
 	public String getCreationAsString()
 	{
 		this.initialize();
-		return OUTPUT_FORMAT.format( this.created );
+		return ProfileRequest.OUTPUT_FORMAT.format( this.created );
 	}
 
 	public String getLastLoginAsString()
 	{
 		this.initialize();
-		return OUTPUT_FORMAT.format( this.lastLogin );
+		return ProfileRequest.OUTPUT_FORMAT.format( this.lastLogin );
 	}
 
 	public String getFood()
@@ -452,41 +516,51 @@ public class ProfileRequest extends KoLRequest implements Comparable
 	public Integer getPvpRank()
 	{
 		if ( this.pvpRank == null || this.pvpRank.intValue() == 0 )
+		{
 			this.initialize();
+		}
 
 		return this.pvpRank;
 	}
 
 	public Integer getMuscle()
-	{	return this.muscle;
+	{
+		return this.muscle;
 	}
 
 	public Integer getMysticism()
-	{	return this.mysticism;
+	{
+		return this.mysticism;
 	}
 
 	public Integer getMoxie()
-	{	return this.moxie;
+	{
+		return this.moxie;
 	}
 
 	public Integer getPower()
-	{	return new Integer( this.muscle.intValue() + this.mysticism.intValue() + this.moxie.intValue() );
+	{
+		return new Integer( this.muscle.intValue() + this.mysticism.intValue() + this.moxie.intValue() );
 	}
 
 	public Integer getEquipmentPower()
-	{	return new Integer( this.equipmentPower );
+	{
+		return new Integer( this.equipmentPower );
 	}
 
 	public String getTitle()
-	{	return this.title != null ? title : ClanManager.getTitle( this.playerName );
+	{
+		return this.title != null ? this.title : ClanManager.getTitle( this.playerName );
 	}
 
 	public String getRank()
-	{	return this.rank;
+	{
+		return this.rank;
 	}
 
 	public Integer getKarma()
-	{	return this.karma;
+	{
+		return this.karma;
 	}
 
 	public Integer getAscensionCount()
@@ -495,26 +569,34 @@ public class ProfileRequest extends KoLRequest implements Comparable
 		return this.ascensionCount;
 	}
 
-	private static final Pattern GOBACK_PATTERN = Pattern.compile( "http://www[2345678]?\\.kingdomofloathing\\.com/ascensionhistory\\.php?back=self&who=([\\d]+)" );
+	private static final Pattern GOBACK_PATTERN =
+		Pattern.compile( "http://www[2345678]?\\.kingdomofloathing\\.com/ascensionhistory\\.php?back=self&who=([\\d]+)" );
 
 	public void processResults()
 	{
-		Matcher dataMatcher = GOBACK_PATTERN.matcher( this.responseText );
+		Matcher dataMatcher = ProfileRequest.GOBACK_PATTERN.matcher( this.responseText );
 		if ( dataMatcher.find() )
-			this.responseText = dataMatcher.replaceFirst( "../ascensions/" + ClanManager.getURLName( KoLmafia.getPlayerName( dataMatcher.group(1) ) ) );
+		{
+			this.responseText =
+				dataMatcher.replaceFirst( "../ascensions/" + ClanManager.getURLName( KoLmafia.getPlayerName( dataMatcher.group( 1 ) ) ) );
+		}
 
 		this.refreshFields();
 	}
 
-	public int compareTo( Object o )
+	public int compareTo( final Object o )
 	{
-		if ( o == null || !(o instanceof ProfileRequest) )
+		if ( o == null || !( o instanceof ProfileRequest ) )
+		{
 			return -1;
+		}
 
 		ProfileRequest pr = (ProfileRequest) o;
 
 		if ( this.getPvpRank().intValue() != pr.getPvpRank().intValue() )
+		{
 			return this.getPvpRank().intValue() - pr.getPvpRank().intValue();
+		}
 
 		return this.getPlayerLevel().intValue() - pr.getPlayerLevel().intValue();
 	}

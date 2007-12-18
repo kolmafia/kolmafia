@@ -29,88 +29,103 @@ import javax.swing.JList;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
-public class JDnDList extends JList
+public class JDnDList
+	extends JList
 	implements DragSourceListener, DragGestureListener, DropTargetListener
 {
 	private boolean acceptsDrops;
 	private int overIndex;
-	private DragSource dragSource;
+	private final DragSource dragSource;
 
-	public JDnDList( LockableListModel model )
-	{	this( model, true );
+	public JDnDList( final LockableListModel model )
+	{
+		this( model, true );
 	}
 
-	public JDnDList( LockableListModel model, boolean acceptsDrops )
+	public JDnDList( final LockableListModel model, final boolean acceptsDrops )
 	{
 		super( model );
 
 		this.acceptsDrops = acceptsDrops;
-		setPrototypeCellValue( "1234567890" );
+		this.setPrototypeCellValue( "1234567890" );
 
-		addKeyListener( new DeleteListener() );
+		this.addKeyListener( new DeleteListener() );
 
 		// Configure ourselves to be a drag source
-		dragSource = new DragSource();
-		dragSource.createDefaultDragGestureRecognizer( this, DnDConstants.ACTION_MOVE, this);
+		this.dragSource = new DragSource();
+		this.dragSource.createDefaultDragGestureRecognizer( this, DnDConstants.ACTION_MOVE, this );
 
 		// Configure ourselves to be a drop target
 		new DropTarget( this, this );
 	}
 
-	private class DeleteListener extends KeyAdapter
+	private class DeleteListener
+		extends KeyAdapter
 	{
-		public void keyPressed( KeyEvent e )
+		public void keyPressed( final KeyEvent e )
 		{
 			if ( e.getKeyCode() != KeyEvent.VK_DELETE )
+			{
 				return;
+			}
 
 			LockableListModel model = (LockableListModel) JDnDList.this.getModel();
-			Object[] selectedObjects = getSelectedValues();
+			Object[] selectedObjects = JDnDList.this.getSelectedValues();
 			for ( int i = 0; i < selectedObjects.length; ++i )
-				model.remove( selectedObjects[i] );
+			{
+				model.remove( selectedObjects[ i ] );
+			}
 		}
 	}
 
-	public void dragGestureRecognized(DragGestureEvent dge)
+	public void dragGestureRecognized( final DragGestureEvent dge )
 	{
 		Object[] selectedObjects = this.getSelectedValues();
 		if ( selectedObjects.length == 0 )
+		{
 			return;
+		}
 
 		StringBuffer sb = new StringBuffer();
 
-		for( int i=0; i<selectedObjects.length; i++ )
+		for ( int i = 0; i < selectedObjects.length; i++ )
+		{
 			sb.append( selectedObjects[ i ].toString() + "\n" );
+		}
 
 		// Build a StringSelection object that the Drag Source
 		// can use to transport a string to the Drop Target
 		StringSelection text = new StringSelection( sb.toString() );
 
 		// Start dragging the object
-		dragSource.startDrag( dge, DragSource.DefaultMoveDrop, text, this );
+		this.dragSource.startDrag( dge, DragSource.DefaultMoveDrop, text, this );
 	}
 
-	public void dragDropEnd(DragSourceDropEvent dsde)
+	public void dragDropEnd( final DragSourceDropEvent dsde )
 	{
 	}
 
-	public void dragExit(DragSourceEvent dte)
-	{	this.overIndex = -1;
+	public void dragExit( final DragSourceEvent dte )
+	{
+		this.overIndex = -1;
 	}
 
-	public void dragExit(DropTargetEvent dte)
-	{	this.overIndex = -1;
+	public void dragExit( final DropTargetEvent dte )
+	{
+		this.overIndex = -1;
 	}
 
-	public void dragEnter(DragSourceDragEvent dsde)
-	{	this.overIndex = this.locationToIndex( dsde.getLocation() );
+	public void dragEnter( final DragSourceDragEvent dsde )
+	{
+		this.overIndex = this.locationToIndex( dsde.getLocation() );
 	}
 
-	public void dragEnter(DropTargetDragEvent dtde)
-	{	this.overIndex = this.locationToIndex( dtde.getLocation() );
+	public void dragEnter( final DropTargetDragEvent dtde )
+	{
+		this.overIndex = this.locationToIndex( dtde.getLocation() );
 	}
 
-	public void dragOver(DragSourceDragEvent dsde)
+	public void dragOver( final DragSourceDragEvent dsde )
 	{
 		// See who we are over...
 		int overIndex = this.locationToIndex( dsde.getLocation() );
@@ -123,7 +138,7 @@ public class JDnDList extends JList
 		}
 	}
 
-	public void dragOver(DropTargetDragEvent dtde)
+	public void dragOver( final DropTargetDragEvent dtde )
 	{
 		// See who we are over...
 		int overIndex = this.locationToIndex( dtde.getLocation() );
@@ -136,15 +151,17 @@ public class JDnDList extends JList
 		}
 	}
 
-	public void drop(DropTargetDropEvent dtde)
+	public void drop( final DropTargetDropEvent dtde )
 	{
-		if ( !acceptsDrops )
+		if ( !this.acceptsDrops )
+		{
 			return;
+		}
 
 		try
 		{
 			Transferable transferable = dtde.getTransferable();
-			if( !transferable.isDataFlavorSupported( DataFlavor.stringFlavor ) )
+			if ( !transferable.isDataFlavorSupported( DataFlavor.stringFlavor ) )
 			{
 				dtde.rejectDrop();
 				return;
@@ -159,7 +176,7 @@ public class JDnDList extends JList
 			// array out of them...
 
 			String s = (String) transferable.getTransferData( DataFlavor.stringFlavor );
-			String [] items = s.split( "\n" );
+			String[] items = s.split( "\n" );
 
 			LockableListModel destination = (LockableListModel) this.getModel();
 
@@ -167,34 +184,38 @@ public class JDnDList extends JList
 			// otherwise just add them...
 
 			for ( int i = 0; i < items.length; ++i )
-				destination.remove( items[i] );
+			{
+				destination.remove( items[ i ] );
+			}
 
 			for ( int i = 0; i < items.length; ++i )
-				destination.add( newIndex + i, items[i] );
+			{
+				destination.add( newIndex + i, items[ i ] );
+			}
 
 			// Reset the over index
 			this.overIndex = -1;
 			dtde.getDropTargetContext().dropComplete( true );
 		}
-		catch( IOException exception )
+		catch ( IOException exception )
 		{
 			exception.printStackTrace();
-			System.err.println( "Exception" + exception.getMessage());
+			System.err.println( "Exception" + exception.getMessage() );
 			dtde.rejectDrop();
 		}
-		catch( UnsupportedFlavorException ufException )
+		catch ( UnsupportedFlavorException ufException )
 		{
 			ufException.printStackTrace();
-			System.err.println( "Exception" + ufException.getMessage());
+			System.err.println( "Exception" + ufException.getMessage() );
 			dtde.rejectDrop();
 		}
 	}
 
-	public void dropActionChanged( DragSourceDragEvent e )
+	public void dropActionChanged( final DragSourceDragEvent e )
 	{
 	}
 
-	public void dropActionChanged( DropTargetDragEvent e )
+	public void dropActionChanged( final DropTargetDragEvent e )
 	{
 	}
 }

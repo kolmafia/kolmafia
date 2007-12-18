@@ -43,17 +43,20 @@ import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
-public abstract class StoreManager extends StaticEntity
+public abstract class StoreManager
+	extends StaticEntity
 {
 	private static final Pattern LOGSPAN_PATTERN = Pattern.compile( "<span.*?</span>" );
-	private static final Pattern ADDER_PATTERN = Pattern.compile( "<tr><td><img src.*?></td><td>(.*?)</td><td>([\\d,]+)</td><td>(.*?)</td><td.*?(\\d+)" );
-	private static final Pattern PRICER_PATTERN = Pattern.compile( "<tr><td><b>([^<]*?)\\&nbsp;.*?<td>([\\d,]+)</td>.*?\"(\\d+)\" name=price(\\d+).*?value=\"(\\d+)\".*?<td>([\\d,]+)</td>" );
+	private static final Pattern ADDER_PATTERN =
+		Pattern.compile( "<tr><td><img src.*?></td><td>(.*?)</td><td>([\\d,]+)</td><td>(.*?)</td><td.*?(\\d+)" );
+	private static final Pattern PRICER_PATTERN =
+		Pattern.compile( "<tr><td><b>([^<]*?)\\&nbsp;.*?<td>([\\d,]+)</td>.*?\"(\\d+)\" name=price(\\d+).*?value=\"(\\d+)\".*?<td>([\\d,]+)</td>" );
 
 	private static final int RECENT_FIRST = 1;
 	private static final int OLDEST_FIRST = 2;
 	private static final int GROUP_BY_NAME = 3;
 
-	private static int currentLogSort = RECENT_FIRST;
+	private static int currentLogSort = StoreManager.RECENT_FIRST;
 	private static boolean sortItemsByName = false;
 	private static long potentialEarnings = 0;
 
@@ -63,38 +66,41 @@ public abstract class StoreManager extends StaticEntity
 
 	public static final void clearCache()
 	{
-		potentialEarnings = 0;
+		StoreManager.potentialEarnings = 0;
 
-		storeLog.clear();
-		soldItemList.clear();
-		sortedSoldItemList.clear();
+		StoreManager.storeLog.clear();
+		StoreManager.soldItemList.clear();
+		StoreManager.sortedSoldItemList.clear();
 	}
 
 	public static final long getPotentialEarnings()
-	{	return potentialEarnings;
+	{
+		return StoreManager.potentialEarnings;
 	}
 
 	/**
-	 * Registers an item inside of the store manager.  Note
-	 * that this includes the price of the item and the
-	 * limit which is used to sell the item.
+	 * Registers an item inside of the store manager. Note that this includes the price of the item and the limit which
+	 * is used to sell the item.
 	 */
 
-	public static final SoldItem registerItem( int itemId, int quantity, int price, int limit, int lowest )
+	public static final SoldItem registerItem( final int itemId, final int quantity, final int price, final int limit,
+		final int lowest )
 	{
 		if ( price < 50000000 )
-			potentialEarnings += (long) price * (long) quantity;
+		{
+			StoreManager.potentialEarnings += (long) price * (long) quantity;
+		}
 
 		SoldItem newItem = new SoldItem( itemId, quantity, price, limit, lowest );
-		int itemIndex = soldItemList.indexOf( newItem );
+		int itemIndex = StoreManager.soldItemList.indexOf( newItem );
 
 		// If the item is brand-new, just add it to the
 		// list of sold items.
 
 		if ( itemIndex == -1 )
 		{
-			soldItemList.add( newItem );
-			sortedSoldItemList.add( newItem );
+			StoreManager.soldItemList.add( newItem );
+			StoreManager.sortedSoldItemList.add( newItem );
 		}
 		else
 		{
@@ -102,12 +108,12 @@ public abstract class StoreManager extends StaticEntity
 			// one which already exists in the list.  If there
 			// are any changes, update.
 
-			SoldItem oldItem = (SoldItem) soldItemList.get( itemIndex );
+			SoldItem oldItem = (SoldItem) StoreManager.soldItemList.get( itemIndex );
 
-			if ( oldItem.getQuantity() != quantity || oldItem.getPrice() != price || oldItem.getLimit() != limit || (lowest != 0 && oldItem.getLowest() != lowest) )
+			if ( oldItem.getQuantity() != quantity || oldItem.getPrice() != price || oldItem.getLimit() != limit || lowest != 0 && oldItem.getLowest() != lowest )
 			{
-				soldItemList.set( itemIndex, newItem );
-				sortedSoldItemList.set( sortedSoldItemList.indexOf( newItem ), newItem );
+				StoreManager.soldItemList.set( itemIndex, newItem );
+				StoreManager.sortedSoldItemList.set( StoreManager.sortedSoldItemList.indexOf( newItem ), newItem );
 			}
 		}
 
@@ -115,47 +121,53 @@ public abstract class StoreManager extends StaticEntity
 	}
 
 	/**
-	 * Returns the current price of the item with the given
-	 * item Id.  This is useful for auto-adding at the
-	 * existing price.
+	 * Returns the current price of the item with the given item Id. This is useful for auto-adding at the existing
+	 * price.
 	 */
 
-	public static final int getPrice( int itemId )
+	public static final int getPrice( final int itemId )
 	{
 		int currentPrice = 999999999;
-		for ( int i = 0; i < soldItemList.size(); ++i )
-			if ( ((SoldItem)soldItemList.get(i)).getItemId() == itemId )
-				currentPrice = ((SoldItem)soldItemList.get(i)).getPrice();
+		for ( int i = 0; i < StoreManager.soldItemList.size(); ++i )
+		{
+			if ( ( (SoldItem) StoreManager.soldItemList.get( i ) ).getItemId() == itemId )
+			{
+				currentPrice = ( (SoldItem) StoreManager.soldItemList.get( i ) ).getPrice();
+			}
+		}
 
 		return currentPrice;
 	}
 
 	public static final LockableListModel getSoldItemList()
-	{	return soldItemList;
+	{
+		return StoreManager.soldItemList;
 	}
 
 	public static final LockableListModel getSortedSoldItemList()
-	{	return sortedSoldItemList;
+	{
+		return StoreManager.sortedSoldItemList;
 	}
 
 	public static final LockableListModel getStoreLog()
-	{	return storeLog;
+	{
+		return StoreManager.storeLog;
 	}
 
-	public static final void sortStoreLog( boolean cycleSortType )
+	public static final void sortStoreLog( final boolean cycleSortType )
 	{
 		if ( cycleSortType )
 		{
-			switch ( currentLogSort )
+			switch ( StoreManager.currentLogSort )
 			{
 			case RECENT_FIRST:
-				currentLogSort = OLDEST_FIRST;
+				StoreManager.currentLogSort = StoreManager.OLDEST_FIRST;
 				break;
 			case OLDEST_FIRST:
-				currentLogSort = GROUP_BY_NAME;
+				StoreManager.currentLogSort = StoreManager.GROUP_BY_NAME;
 				break;
 			case GROUP_BY_NAME:
-				currentLogSort = RECENT_FIRST;
+				StoreManager.currentLogSort = StoreManager.RECENT_FIRST;
 				break;
 			}
 		}
@@ -164,12 +176,12 @@ public abstract class StoreManager extends StaticEntity
 		// internal variable to decide how to sort, a simple
 		// function call will suffice.
 
-		storeLog.sort();
+		StoreManager.storeLog.sort();
 	}
 
-	public static final void update( String storeText, boolean isPriceManagement )
+	public static final void update( final String storeText, final boolean isPriceManagement )
 	{
-		potentialEarnings = 0;
+		StoreManager.potentialEarnings = 0;
 		ArrayList newItems = new ArrayList();
 
 		if ( isPriceManagement )
@@ -179,24 +191,26 @@ public abstract class StoreManager extends StaticEntity
 			// The item matcher here examines each row in the table
 			// displayed in the price management page.
 
-			Matcher priceMatcher = PRICER_PATTERN.matcher( storeText );
+			Matcher priceMatcher = StoreManager.PRICER_PATTERN.matcher( storeText );
 
 			while ( priceMatcher.find() )
 			{
-				itemId = parseInt( priceMatcher.group(4) );
+				itemId = StaticEntity.parseInt( priceMatcher.group( 4 ) );
 				if ( TradeableItemDatabase.getItemName( itemId ) == null )
-					TradeableItemDatabase.registerItem( itemId, priceMatcher.group(1) );
+				{
+					TradeableItemDatabase.registerItem( itemId, priceMatcher.group( 1 ) );
+				}
 
-				quantity = parseInt( priceMatcher.group(2) );
+				quantity = StaticEntity.parseInt( priceMatcher.group( 2 ) );
 
-				price = parseInt( priceMatcher.group(3) );
-				limit = parseInt( priceMatcher.group(5) );
-				lowest = parseInt( priceMatcher.group(6) );
+				price = StaticEntity.parseInt( priceMatcher.group( 3 ) );
+				limit = StaticEntity.parseInt( priceMatcher.group( 5 ) );
+				lowest = StaticEntity.parseInt( priceMatcher.group( 6 ) );
 
 				// Now that all the data has been retrieved, register
 				// the item that was discovered.
 
-				newItems.add( registerItem( itemId, quantity, price, limit, lowest ) );
+				newItems.add( StoreManager.registerItem( itemId, quantity, price, limit, lowest ) );
 			}
 		}
 		else
@@ -207,132 +221,147 @@ public abstract class StoreManager extends StaticEntity
 			// The item matcher here examines each row in the table
 			// displayed in the standard item-addition page.
 
-			Matcher itemMatcher = ADDER_PATTERN.matcher( storeText );
+			Matcher itemMatcher = StoreManager.ADDER_PATTERN.matcher( storeText );
 
 			while ( itemMatcher.find() )
 			{
-				itemId = parseInt( itemMatcher.group(4) );
+				itemId = StaticEntity.parseInt( itemMatcher.group( 4 ) );
 				if ( TradeableItemDatabase.getItemName( itemId ) == null )
 				{
-					String itemName = itemMatcher.group(1);
+					String itemName = itemMatcher.group( 1 );
 					if ( itemName.indexOf( "(" ) != -1 )
+					{
 						itemName = itemName.substring( 0, itemName.indexOf( "(" ) ).trim();
+					}
 
 					TradeableItemDatabase.registerItem( itemId, itemName );
 				}
 
 				// Remove parenthesized number and match again.
-				StringTokenizer parsedItem = new StringTokenizer( itemMatcher.group(1), "()" );
+				StringTokenizer parsedItem = new StringTokenizer( itemMatcher.group( 1 ), "()" );
 				String name = parsedItem.nextToken().trim();
 				int count = 1;
 
 				if ( parsedItem.hasMoreTokens() )
-					count = parseInt( parsedItem.nextToken() );
+				{
+					count = StaticEntity.parseInt( parsedItem.nextToken() );
+				}
 
 				item = new AdventureResult( name, count, false );
-				price = parseInt( itemMatcher.group(2) );
+				price = StaticEntity.parseInt( itemMatcher.group( 2 ) );
 
 				// In this case, the limit could appear as "unlimited",
 				// which equates to a limit of 0.
 
-				limit = itemMatcher.group(3).startsWith( "<" ) ? 0 : parseInt( itemMatcher.group(3) );
+				limit = itemMatcher.group( 3 ).startsWith( "<" ) ? 0 : StaticEntity.parseInt( itemMatcher.group( 3 ) );
 
 				// Now that all the data has been retrieved, register
 				// the item that was discovered.
 
-				newItems.add( registerItem( item.getItemId(), item.getCount(), price, limit, 0 ) );
+				newItems.add( StoreManager.registerItem( item.getItemId(), item.getCount(), price, limit, 0 ) );
 			}
 		}
 
-		soldItemList.retainAll( newItems );
-		sortedSoldItemList.retainAll( newItems );
+		StoreManager.soldItemList.retainAll( newItems );
+		StoreManager.sortedSoldItemList.retainAll( newItems );
 
-		sortItemsByName = true;
-		soldItemList.sort();
+		StoreManager.sortItemsByName = true;
+		StoreManager.soldItemList.sort();
 
-		sortItemsByName = false;
-		sortedSoldItemList.sort();
+		StoreManager.sortItemsByName = false;
+		StoreManager.sortedSoldItemList.sort();
 
 		// Now, update the title of the store manage
 		// frame to reflect the new price.
 
-		StoreManageFrame.updateEarnings( potentialEarnings );
+		StoreManageFrame.updateEarnings( StoreManager.potentialEarnings );
 	}
 
-	public static final void parseLog( String logText )
+	public static final void parseLog( final String logText )
 	{
-		storeLog.clear();
+		StoreManager.storeLog.clear();
 
-		Matcher logMatcher = LOGSPAN_PATTERN.matcher( logText );
+		Matcher logMatcher = StoreManager.LOGSPAN_PATTERN.matcher( logText );
 		if ( logMatcher.find() )
 		{
 			if ( logMatcher.group().indexOf( "<br>" ) == -1 )
+			{
 				return;
+			}
 
-			String [] entries = logMatcher.group().split( "<br>" );
+			String[] entries = logMatcher.group().split( "<br>" );
 
 			for ( int i = 0; i < entries.length - 1; ++i )
-				storeLog.add( new StoreLogEntry( entries.length - i - 1, entries[i].replaceAll( "<.*?>", "" ) ) );
+			{
+				StoreManager.storeLog.add( new StoreLogEntry( entries.length - i - 1, entries[ i ].replaceAll(
+					"<.*?>", "" ) ) );
+			}
 
-			sortStoreLog( false );
+			StoreManager.sortStoreLog( false );
 		}
 	}
 
-	private static class StoreLogEntry implements Comparable
+	private static class StoreLogEntry
+		implements Comparable
 	{
-		private int id;
-		private String text;
-		private String stringForm;
+		private final int id;
+		private final String text;
+		private final String stringForm;
 
-		public StoreLogEntry( int id, String text )
+		public StoreLogEntry( final int id, final String text )
 		{
 			this.id = id;
 
-			String [] pieces = text.split( " " );
-			this.text = text.substring( pieces[0].length() + pieces[1].length() + 2 );
+			String[] pieces = text.split( " " );
+			this.text = text.substring( pieces[ 0 ].length() + pieces[ 1 ].length() + 2 );
 			this.stringForm = id + ": " + text;
 		}
 
 		public String toString()
-		{	return this.stringForm;
+		{
+			return this.stringForm;
 		}
 
-		public int compareTo( Object o )
+		public int compareTo( final Object o )
 		{
-			if ( o == null || !(o instanceof StoreLogEntry) )
+			if ( o == null || !( o instanceof StoreLogEntry ) )
+			{
 				return -1;
+			}
 
-			switch ( currentLogSort )
+			switch ( StoreManager.currentLogSort )
 			{
 			case RECENT_FIRST:
-				return ((StoreLogEntry)o).id - this.id;
+				return ( (StoreLogEntry) o ).id - this.id;
 			case OLDEST_FIRST:
-				return this.id - ((StoreLogEntry)o).id;
+				return this.id - ( (StoreLogEntry) o ).id;
 			case GROUP_BY_NAME:
-				return this.text.compareToIgnoreCase( ((StoreLogEntry)o).text );
+				return this.text.compareToIgnoreCase( ( (StoreLogEntry) o ).text );
 			default:
 				return -1;
 			}
 		}
 	}
 
-	public static final ArrayList searchMall( String itemName )
+	public static final ArrayList searchMall( final String itemName )
 	{
 		ArrayList results = new ArrayList();
-		searchMall( itemName, results, 10, false );
+		StoreManager.searchMall( itemName, results, 10, false );
 		return results;
 	}
 
 	/**
-	 * Utility method used to search the mall for the
-	 * given item.
+	 * Utility method used to search the mall for the given item.
 	 */
 
-	public static final void searchMall( String itemName, List resultSummary, int maximumResults, boolean toString )
+	public static final void searchMall( final String itemName, final List resultSummary, final int maximumResults,
+		boolean toString )
 	{
 		resultSummary.clear();
 		if ( itemName == null )
+		{
 			return;
+		}
 
 		ArrayList results = new ArrayList();
 
@@ -347,7 +376,7 @@ public abstract class StoreManager extends StaticEntity
 			return;
 		}
 
-		MallPurchaseRequest [] resultsArray = new MallPurchaseRequest[ results.size() ];
+		MallPurchaseRequest[] resultsArray = new MallPurchaseRequest[ results.size() ];
 		results.toArray( resultsArray );
 
 		TreeMap prices = new TreeMap();
@@ -355,37 +384,44 @@ public abstract class StoreManager extends StaticEntity
 
 		for ( int i = 0; i < resultsArray.length; ++i )
 		{
-			currentPrice = new Integer( resultsArray[i].getPrice() );
+			currentPrice = new Integer( resultsArray[ i ].getPrice() );
 			currentQuantity = (Integer) prices.get( currentPrice );
 
 			if ( currentQuantity == null )
-				prices.put( currentPrice, new Integer( resultsArray[i].getLimit() ) );
+			{
+				prices.put( currentPrice, new Integer( resultsArray[ i ].getLimit() ) );
+			}
 			else
-				prices.put( currentPrice, new Integer( currentQuantity.intValue() + resultsArray[i].getLimit() ) );
+			{
+				prices.put( currentPrice, new Integer( currentQuantity.intValue() + resultsArray[ i ].getLimit() ) );
+			}
 		}
 
-		Integer [] priceArray = new Integer[ prices.size() ];
+		Integer[] priceArray = new Integer[ prices.size() ];
 		prices.keySet().toArray( priceArray );
 
 		for ( int i = 0; i < priceArray.length; ++i )
-			resultSummary.add( "  " + COMMA_FORMAT.format( ((Integer)prices.get( priceArray[i] )).intValue() ) + " @ " + COMMA_FORMAT.format( priceArray[i].intValue() ) + " meat" );
+		{
+			resultSummary.add( "  " + KoLConstants.COMMA_FORMAT.format( ( (Integer) prices.get( priceArray[ i ] ) ).intValue() ) + " @ " + KoLConstants.COMMA_FORMAT.format( priceArray[ i ].intValue() ) + " meat" );
+		}
 	}
 
 	/**
-	 * Internal immutable class used to hold a single instance
-	 * of an item sold in a player's store.
+	 * Internal immutable class used to hold a single instance of an item sold in a player's store.
 	 */
 
-	public static class SoldItem extends Vector implements Comparable
+	public static class SoldItem
+		extends Vector
+		implements Comparable
 	{
-		private int itemId;
-		private String itemName;
-		private int quantity;
-		private int price;
-		private int limit;
-		private int lowest;
+		private final int itemId;
+		private final String itemName;
+		private final int quantity;
+		private final int price;
+		private final int limit;
+		private final int lowest;
 
-		public SoldItem( int itemId, int quantity, int price, int limit, int lowest )
+		public SoldItem( final int itemId, final int quantity, final int price, final int limit, final int lowest )
 		{
 			this.itemId = itemId;
 			this.itemName = TradeableItemDatabase.getItemName( itemId );
@@ -402,48 +438,63 @@ public abstract class StoreManager extends StaticEntity
 		}
 
 		public int getItemId()
-		{	return this.itemId;
+		{
+			return this.itemId;
 		}
 
 		public String getItemName()
-		{	return this.itemName;
+		{
+			return this.itemName;
 		}
 
 		public int getQuantity()
-		{	return this.quantity;
+		{
+			return this.quantity;
 		}
 
 		public int getPrice()
-		{	return this.price;
+		{
+			return this.price;
 		}
 
 		public int getLimit()
-		{	return this.limit;
+		{
+			return this.limit;
 		}
 
 		public int getLowest()
-		{	return this.lowest;
-		}
-
-		public boolean equals( Object o )
-		{	return o != null && o instanceof SoldItem && ((SoldItem)o).itemId == this.itemId;
-		}
-
-		public int compareTo( Object o )
 		{
-			if ( o == null || !(o instanceof SoldItem) )
-				return -1;
+			return this.lowest;
+		}
 
-			if ( this.price != 999999999 && ((SoldItem)o).price == 999999999 )
-				return -1;
+		public boolean equals( final Object o )
+		{
+			return o != null && o instanceof SoldItem && ( (SoldItem) o ).itemId == this.itemId;
+		}
 
-			if ( this.price == 999999999 && ((SoldItem)o).price != 999999999 )
+		public int compareTo( final Object o )
+		{
+			if ( o == null || !( o instanceof SoldItem ) )
+			{
+				return -1;
+			}
+
+			if ( this.price != 999999999 && ( (SoldItem) o ).price == 999999999 )
+			{
+				return -1;
+			}
+
+			if ( this.price == 999999999 && ( (SoldItem) o ).price != 999999999 )
+			{
 				return 1;
+			}
 
-			if ( this.price == 999999999 && ((SoldItem)o).price == 999999999 )
-				return this.itemName.compareToIgnoreCase( ((SoldItem)o).itemName );
+			if ( this.price == 999999999 && ( (SoldItem) o ).price == 999999999 )
+			{
+				return this.itemName.compareToIgnoreCase( ( (SoldItem) o ).itemName );
+			}
 
-			return sortItemsByName ? this.itemName.compareToIgnoreCase( ((SoldItem)o).itemName ) : this.price - ((SoldItem)o).price;
+			return StoreManager.sortItemsByName ? this.itemName.compareToIgnoreCase( ( (SoldItem) o ).itemName ) : this.price - ( (SoldItem) o ).price;
 		}
 
 		public String toString()
@@ -453,16 +504,16 @@ public abstract class StoreManager extends StaticEntity
 			buffer.append( TradeableItemDatabase.getItemName( this.itemId ) );
 			buffer.append( " (" );
 
-			buffer.append( COMMA_FORMAT.format( this.quantity ) );
+			buffer.append( KoLConstants.COMMA_FORMAT.format( this.quantity ) );
 
 			if ( this.limit < this.quantity )
 			{
 				buffer.append( " limit " );
-				buffer.append( COMMA_FORMAT.format( this.limit ) );
+				buffer.append( KoLConstants.COMMA_FORMAT.format( this.limit ) );
 			}
 
 			buffer.append( " @ " );
-			buffer.append( COMMA_FORMAT.format( this.price ) );
+			buffer.append( KoLConstants.COMMA_FORMAT.format( this.price ) );
 			buffer.append( ")" );
 
 			return buffer.toString();

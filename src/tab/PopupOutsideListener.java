@@ -4,12 +4,13 @@
  * Ecole des Mines de Nantes, France
  */
 
-
 package tab;
 
 import java.awt.event.MouseEvent;
 import java.util.EventListener;
 
-public interface PopupOutsideListener extends EventListener {
-	public void popupOutsideOperation(MouseEvent e);
+public interface PopupOutsideListener
+	extends EventListener
+{
+	public void popupOutsideOperation( MouseEvent e );
 }

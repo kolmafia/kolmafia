@@ -57,7 +57,8 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 
-public interface KoLConstants extends UtilityConstants
+public interface KoLConstants
+	extends UtilityConstants
 {
 	// Version information for the current version of KoLmafia.
 	// Rendered in various locations and therefore made public.
@@ -70,7 +71,7 @@ public interface KoLConstants extends UtilityConstants
 	// strings, as well as for string parsing.
 
 	public static final Random RNG = new Random();
-	public static final Font DEFAULT_FONT = (new JTextField()).getFont();
+	public static final Font DEFAULT_FONT = ( new JTextField() ).getFont();
 	public static final String LINE_BREAK = System.getProperty( "line.separator" );
 	public static final Pattern LINE_BREAK_PATTERN = Pattern.compile( "\\s*[\r\n]+\\s*" );
 
@@ -79,11 +80,16 @@ public interface KoLConstants extends UtilityConstants
 	public static final Pattern STYLE_PATTERN = Pattern.compile( "<style.*?</style>", Pattern.DOTALL );
 	public static final Pattern COMMENT_PATTERN = Pattern.compile( "<!--.*?-->", Pattern.DOTALL );
 
-	public static final DecimalFormat COMMA_FORMAT = new DecimalFormat( "#,##0;-#,##0", new DecimalFormatSymbols( Locale.US ) );
-	public static final DecimalFormat MODIFIER_FORMAT = new DecimalFormat( "+#0;-#0", new DecimalFormatSymbols( Locale.US ) );
-	public static final DecimalFormat SINGLE_PRECISION_FORMAT = new DecimalFormat( "+#,##0.0;-#,##0.0", new DecimalFormatSymbols( Locale.US ) );
-	public static final DecimalFormat FLOAT_FORMAT = new DecimalFormat( "#,##0.00;-#,##0.00", new DecimalFormatSymbols( Locale.US ) );
-	public static final DecimalFormat ROUNDED_MODIFIER_FORMAT = new DecimalFormat( "+#0.00;-#0.00", new DecimalFormatSymbols( Locale.US ) );
+	public static final DecimalFormat COMMA_FORMAT =
+		new DecimalFormat( "#,##0;-#,##0", new DecimalFormatSymbols( Locale.US ) );
+	public static final DecimalFormat MODIFIER_FORMAT =
+		new DecimalFormat( "+#0;-#0", new DecimalFormatSymbols( Locale.US ) );
+	public static final DecimalFormat SINGLE_PRECISION_FORMAT =
+		new DecimalFormat( "+#,##0.0;-#,##0.0", new DecimalFormatSymbols( Locale.US ) );
+	public static final DecimalFormat FLOAT_FORMAT =
+		new DecimalFormat( "#,##0.00;-#,##0.00", new DecimalFormatSymbols( Locale.US ) );
+	public static final DecimalFormat ROUNDED_MODIFIER_FORMAT =
+		new DecimalFormat( "+#0.00;-#0.00", new DecimalFormatSymbols( Locale.US ) );
 
 	public static final SimpleDateFormat DAILY_FORMAT = new SimpleDateFormat( "yyyyMMdd", Locale.US );
 	public static final SimpleDateFormat WEEKLY_FORMAT = new SimpleDateFormat( "yyyyMM_'w'W", Locale.US );
@@ -91,7 +97,7 @@ public interface KoLConstants extends UtilityConstants
 	// Generic constants which indicate null values.  Used in
 	// order to preserve memory.
 
-	public static final Class [] NOPARAMS = new Class[0];
+	public static final Class[] NOPARAMS = new Class[ 0 ];
 	public static final JLabel BLANK_LABEL = new JLabel();
 
 	// Constants which are used in order to do things inside of
@@ -109,46 +115,16 @@ public interface KoLConstants extends UtilityConstants
 	{
 		public boolean accept( File dir, String name )
 		{
-			return !name.startsWith( "." ) && !name.endsWith( "~" ) && !name.endsWith( ".bak" ) && !name.endsWith( ".map" ) &&
-				name.indexOf( "datamaps" ) == -1 && dir.getPath().indexOf( "datamaps" ) == -1;
+			return !name.startsWith( "." ) && !name.endsWith( "~" ) && !name.endsWith( ".bak" ) && !name.endsWith( ".map" ) && name.indexOf( "datamaps" ) == -1 && dir.getPath().indexOf(
+				"datamaps" ) == -1;
 		}
 	};
 
-	public static final String [][] FUNCTION_MENU = new String[][] {
-		{ "Inventory", "inventory.php?which=1" },
-		{ "Equipment", "inventory.php?which=2" },
-		{ "Misc Items", "inventory.php?which=3" },
-		{ "Auto Sell", "sellstuff.php" },
-		{ "Character", "charsheet.php" },
-		{ "Quest Log", "questlog.php" },
-		{ "Skills", "skills.php" },
-		{ "Read Messages", "messages.php" },
-		{ "Account Menu", "account.php" },
-		{ "Documentation", "doc.php?topic=home" },
-		{ "KoL Forums", "http://forums.kingdomofloathing.com/" },
-		{ "Store", "http://store.asymmetric.net/" }
-	};
+	public static final String[][] FUNCTION_MENU =
+		new String[][] { { "Inventory", "inventory.php?which=1" }, { "Equipment", "inventory.php?which=2" }, { "Misc Items", "inventory.php?which=3" }, { "Auto Sell", "sellstuff.php" }, { "Character", "charsheet.php" }, { "Quest Log", "questlog.php" }, { "Skills", "skills.php" }, { "Read Messages", "messages.php" }, { "Account Menu", "account.php" }, { "Documentation", "doc.php?topic=home" }, { "KoL Forums", "http://forums.kingdomofloathing.com/" }, { "Store", "http://store.asymmetric.net/" } };
 
-	public static final String [][] GOTO_MENU = new String[][] {
-		{ "Main Map", "main.php" },
-		{ "Seaside Town", "town.php" },
-		{ "Spookyraven", "manor.php" },
-		{ "Council", "council.php" },
-		{ "Guild Hall", "guild.php" },
-		{ "Clan Hall", "clan_hall.php" },
-		{ "The Mall", "mall.php" },
-		{ "Campground", "campground.php" },
-		{ "Big Mountains", "mountains.php" },
-		{ "Mt. McLargeHuge", "mclargehuge.php" },
-		{ "Nearby Plains", "plains.php" },
-		{ "Cobb's Knob", "knob.php" },
-		{ "Defiled Cyrpt", "cyrpt.php" },
-		{ "The Beanstalk", "beanstalk.php" },
-		{ "Sorceress' Lair", "lair.php" },
-		{ "Desert Beach", "beach.php" },
-		{ "Distant Woods", "woods.php" },
-		{ "Mysterious Island", "island.php" }
-	};
+	public static final String[][] GOTO_MENU =
+		new String[][] { { "Main Map", "main.php" }, { "Seaside Town", "town.php" }, { "Spookyraven", "manor.php" }, { "Council", "council.php" }, { "Guild Hall", "guild.php" }, { "Clan Hall", "clan_hall.php" }, { "The Mall", "mall.php" }, { "Campground", "campground.php" }, { "Big Mountains", "mountains.php" }, { "Mt. McLargeHuge", "mclargehuge.php" }, { "Nearby Plains", "plains.php" }, { "Cobb's Knob", "knob.php" }, { "Defiled Cyrpt", "cyrpt.php" }, { "The Beanstalk", "beanstalk.php" }, { "Sorceress' Lair", "lair.php" }, { "Desert Beach", "beach.php" }, { "Distant Woods", "woods.php" }, { "Mysterious Island", "island.php" } };
 
 	// Scripting-related constants.  Used throughout KoLmafia in
 	// order to ensure proper handling of scripts.
@@ -172,41 +148,23 @@ public interface KoLConstants extends UtilityConstants
 	public static final String SESSIONS_DIRECTORY = "sessions/";
 	public static final String RELAY_DIRECTORY = "relay/";
 
-	public static final File ATTACKS_LOCATION = new File( ROOT_LOCATION, ATTACKS_DIRECTORY );
-	public static final File BUFFBOT_LOCATION = new File( ROOT_LOCATION, BUFFBOT_DIRECTORY );
-	public static final File CCS_LOCATION = new File( ROOT_LOCATION, CCS_DIRECTORY );
-	public static final File CHATLOG_LOCATION = new File( ROOT_LOCATION, CHATLOG_DIRECTORY );
-	public static final File PLOTS_LOCATION = new File( ROOT_LOCATION, PLOTS_DIRECTORY );
-	public static final File SCRIPT_LOCATION = new File( ROOT_LOCATION, SCRIPT_DIRECTORY );
-	public static final File SESSIONS_LOCATION = new File( ROOT_LOCATION, SESSIONS_DIRECTORY );
-	public static final File RELAY_LOCATION = new File( ROOT_LOCATION, RELAY_DIRECTORY );
+	public static final File ATTACKS_LOCATION =
+		new File( UtilityConstants.ROOT_LOCATION, KoLConstants.ATTACKS_DIRECTORY );
+	public static final File BUFFBOT_LOCATION =
+		new File( UtilityConstants.ROOT_LOCATION, KoLConstants.BUFFBOT_DIRECTORY );
+	public static final File CCS_LOCATION = new File( UtilityConstants.ROOT_LOCATION, KoLConstants.CCS_DIRECTORY );
+	public static final File CHATLOG_LOCATION =
+		new File( UtilityConstants.ROOT_LOCATION, KoLConstants.CHATLOG_DIRECTORY );
+	public static final File PLOTS_LOCATION = new File( UtilityConstants.ROOT_LOCATION, KoLConstants.PLOTS_DIRECTORY );
+	public static final File SCRIPT_LOCATION = new File( UtilityConstants.ROOT_LOCATION, KoLConstants.SCRIPT_DIRECTORY );
+	public static final File SESSIONS_LOCATION =
+		new File( UtilityConstants.ROOT_LOCATION, KoLConstants.SESSIONS_DIRECTORY );
+	public static final File RELAY_LOCATION = new File( UtilityConstants.ROOT_LOCATION, KoLConstants.RELAY_DIRECTORY );
 
-        // All data files that can be overridden
+	// All data files that can be overridden
 
-	public static final String [] OVERRIDE_DATA =
-	{
-		"adventures.txt",
-		"buffbots.txt",
-		"classskills.txt",
-		"combats.txt",
-		"concoctions.txt",
-		"defaults.txt",
-		"equipment.txt",
-		"familiars.txt",
-		"fullness.txt",
-		"inebriety.txt",
-		"itemdescs.txt",
-		"modifiers.txt",
-		"monsters.txt",
-		"npcstores.txt",
-		"outfits.txt",
-		"packages.txt",
-		"spleenhit.txt",
-		"statuseffects.txt",
-		"tradeitems.txt",
-		"zapgroups.txt",
-		"zonelist.txt"
-	};
+	public static final String[] OVERRIDE_DATA =
+		{ "adventures.txt", "buffbots.txt", "classskills.txt", "combats.txt", "concoctions.txt", "defaults.txt", "equipment.txt", "familiars.txt", "fullness.txt", "inebriety.txt", "itemdescs.txt", "modifiers.txt", "monsters.txt", "npcstores.txt", "outfits.txt", "packages.txt", "spleenhit.txt", "statuseffects.txt", "tradeitems.txt", "zapgroups.txt", "zonelist.txt" };
 
 	public static final int STATIONARY_BUTTON_COUNT = 3;
 
@@ -237,10 +195,10 @@ public interface KoLConstants extends UtilityConstants
 	// Different states of KoLmafia.  Used in order to determine
 	// what is still permitted.
 
-	public static final int ENABLE_STATE   = 1;
-	public static final int ERROR_STATE    = 2;
-	public static final int ABORT_STATE    = 3;
-	public static final int PENDING_STATE  = 4;
+	public static final int ENABLE_STATE = 1;
+	public static final int ERROR_STATE = 2;
+	public static final int ABORT_STATE = 3;
+	public static final int PENDING_STATE = 4;
 	public static final int CONTINUE_STATE = 5;
 
 	// Stats / Zodiac Sign categories
@@ -338,54 +296,18 @@ public interface KoLConstants extends UtilityConstants
 
 	public static final String DEFAULT_KMAIL = "Keep the contents of this message top-sekrit, ultra hush-hush.";
 
-	public static final String [][] WIN_GAME_TEXT = new String [][]
-	{
-		{
-			"Petitioning the Seaside Town Council for automatic game completion...",
-			"The Seaside Town Council has rejected your petition.  Game incomplete.",
-			"You reject the Seaside Town's decision.  Fighting the council...",
-			"You have been defeated by the Seaside Town Council."
-		},
+	public static final String[][] WIN_GAME_TEXT =
+		new String[][] { { "Petitioning the Seaside Town Council for automatic game completion...", "The Seaside Town Council has rejected your petition.  Game incomplete.", "You reject the Seaside Town's decision.  Fighting the council...", "You have been defeated by the Seaside Town Council." },
 
-		{
-			"You enter the super-secret code into the Strange Leaflet...",
-			"Your ruby W and heavy D fuse to form the mysterious R!",
-			"Moxie sign backdoor accessed.  Supertinkering The Ultimate Weapon...",
-			"Supertinkering complete.  Executing tower script...",
-			"Your RNG spawns an enraged cow on Floors 1-6."
-		},
+		{ "You enter the super-secret code into the Strange Leaflet...", "Your ruby W and heavy D fuse to form the mysterious R!", "Moxie sign backdoor accessed.  Supertinkering The Ultimate Weapon...", "Supertinkering complete.  Executing tower script...", "Your RNG spawns an enraged cow on Floors 1-6." },
 
-		{
-			"You win the game. What, you were expecting more?",
-			"You are now standing in an open field to the west of the Kingdom.",
-			"You hear a gurgling ocean to the south, and a path leads north into Valhalla.",
-			"What now, Adventurer?"
-		},
+		{ "You win the game. What, you were expecting more?", "You are now standing in an open field to the west of the Kingdom.", "You hear a gurgling ocean to the south, and a path leads north into Valhalla.", "What now, Adventurer?" },
 
-		{
-			"You touch your star starfish!  You surge with power!",
-			"Accessing tower backdoor.  Fighting Naughty Sorceress...",
-			"Connection timed out during post.  Retrying...",
-			"Connection timed out during reply.  Retrying...",
-			"Star power expired.  You slink away, dejected and defeated."
-		},
+		{ "You touch your star starfish!  You surge with power!", "Accessing tower backdoor.  Fighting Naughty Sorceress...", "Connection timed out during post.  Retrying...", "Connection timed out during reply.  Retrying...", "Star power expired.  You slink away, dejected and defeated." },
 
-		{
-			"You raise your metallic A to the sky. Victory is yours!",
-			"Original game concept by Jick (Asymmetric Publications).",
-			"Co-written by Mr. Skullhead, Riff, and the /dev team.",
-			"Special thanks to: the Mods, the Ascension testers, and you.",
-			"We present you a new quest, which is the same thing, only harder.",
-			"Segmentation fault.  Core dumped."
-		},
+		{ "You raise your metallic A to the sky. Victory is yours!", "Original game concept by Jick (Asymmetric Publications).", "Co-written by Mr. Skullhead, Riff, and the /dev team.", "Special thanks to: the Mods, the Ascension testers, and you.", "We present you a new quest, which is the same thing, only harder.", "Segmentation fault.  Core dumped." },
 
-		{
-			"Unlocking secret Arizona trail script...",
-			"Crossing first obstacle, admiring landmarks...",
-			"Path set to oxygenarian, familiar pace set to grue-ing...",
-			"You have died from KoLera."
-		}
-	};
+		{ "Unlocking secret Arizona trail script...", "Crossing first obstacle, admiring landmarks...", "Path set to oxygenarian, familiar pace set to grue-ing...", "You have died from KoLera." } };
 
 	// Variables which relate to a given session.  These are made
 	// global in order to ensure that any element of KoLmafia can
@@ -426,40 +348,45 @@ public interface KoLConstants extends UtilityConstants
 
 	public static final LockableListModel eventHistory = new LockableListModel();
 
-	public static class CaseInsensitiveComparator implements Comparator
+	public static class CaseInsensitiveComparator
+		implements Comparator
 	{
-		public int compare( Object o1, Object o2 )
-		{	return ((String)o1).compareToIgnoreCase( (String) o2 );
+		public int compare( final Object o1, final Object o2 )
+		{
+			return ( (String) o1 ).compareToIgnoreCase( (String) o2 );
 		}
 
-		public boolean equals( Object o )
-		{	return o instanceof CaseInsensitiveComparator;
+		public boolean equals( final Object o )
+		{
+			return o instanceof CaseInsensitiveComparator;
 		}
 	}
 
-
 	/**
-	 * A special kind of ByteArrayOutputStream which provides access to the
-	 * buffer it uses.  This allows you to instantiate ByteArrayInputStream
-	 * objects without having to allocate too much memory.
+	 * A special kind of ByteArrayOutputStream which provides access to the buffer it uses. This allows you to
+	 * instantiate ByteArrayInputStream objects without having to allocate too much memory.
 	 */
 
-	public static class ByteArrayStream extends ByteArrayOutputStream
+	public static class ByteArrayStream
+		extends ByteArrayOutputStream
 	{
 		public ByteArrayStream()
 		{
 		}
 
-		public ByteArrayStream( int size )
-		{	super( size );
+		public ByteArrayStream( final int size )
+		{
+			super( size );
 		}
 
-		public byte [] getCurrentBuffer()
-		{	return buf;
+		public byte[] getCurrentBuffer()
+		{
+			return this.buf;
 		}
 
 		public ByteArrayInputStream getByteArrayInputStream()
-		{	return new ByteArrayInputStream( buf, 0, count );
+		{
+			return new ByteArrayInputStream( this.buf, 0, this.count );
 		}
 	}
 

@@ -39,7 +39,8 @@ import java.util.regex.Pattern;
 
 import javax.swing.JList;
 
-public class MoneyMakingGameFrame extends KoLFrame
+public class MoneyMakingGameFrame
+	extends KoLFrame
 {
 	private static final Pattern BET_PATTERN = Pattern.compile( "<a href='bet.php'.*?>(.*?)</a>" );
 	private static final AdventureResult CASINO_PASS = new AdventureResult( 40, 1 );
@@ -53,13 +54,16 @@ public class MoneyMakingGameFrame extends KoLFrame
 	}
 
 	public UnfocusedTabbedPane getTabbedPane()
-	{	return null;
+	{
+		return null;
 	}
 
-	private class AnalysisPanel extends LabeledScrollPanel
+	private class AnalysisPanel
+		extends LabeledScrollPanel
 	{
 		public AnalysisPanel()
-		{	super( "Bet History", "refresh", "win game", new JList( MoneyMakingGameRequest.getBetSummary() ) );
+		{
+			super( "Bet History", "refresh", "win game", new JList( MoneyMakingGameRequest.getBetSummary() ) );
 		}
 
 		public void actionConfirmed()
@@ -68,27 +72,32 @@ public class MoneyMakingGameFrame extends KoLFrame
 			RequestThread.postRequest( new MoneyMakingGameRequest() );
 
 			if ( MoneyMakingGameRequest.getBetSummary().isEmpty() )
+			{
 				KoLmafia.updateDisplay( "You have not played the MMG in the last two weeks." );
+			}
 			else
+			{
 				KoLmafia.updateDisplay( "MMG bet history retrieved." );
+			}
 
 			RequestThread.enableDisplayIfSequenceComplete();
 		}
 
 		public void actionCancelled()
-		{	CommandDisplayFrame.executeCommand( "win game" );
+		{
+			CommandDisplayFrame.executeCommand( "win game" );
 		}
 	}
 
 	public static final String handleBetResult( String message )
 	{
 		// <a target=mainpane href='showplayer.php?who=721048'><a href='bet.php' target=mainpane class=nounder><b>Interesting Sam</b></a> took your 1,000 Meat bet, and you won, earning you 1,998 Meat.</a>
-		Matcher matcher = BET_PATTERN.matcher( message );
+		Matcher matcher = MoneyMakingGameFrame.BET_PATTERN.matcher( message );
 
 		if ( matcher.find() )
 		{
 			// Remove the link to bet.php
-			message = matcher.replaceFirst( matcher.group(1) );
+			message = matcher.replaceFirst( matcher.group( 1 ) );
 		}
 
 		return message;

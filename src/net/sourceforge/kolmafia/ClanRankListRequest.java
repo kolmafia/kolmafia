@@ -38,21 +38,23 @@ import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
-public class ClanRankListRequest extends KoLRequest
+public class ClanRankListRequest
+	extends KoLRequest
 {
 	private static final Pattern RANK_PATTERN = Pattern.compile( "<select name=level.*?</select>" );
 	private static final Pattern OPTION_PATTERN = Pattern.compile( "<option.*?>(.*?)</option>" );
 
-	private LockableListModel rankList;
+	private final LockableListModel rankList;
 
-	public ClanRankListRequest( LockableListModel rankList )
+	public ClanRankListRequest( final LockableListModel rankList )
 	{
 		super( "clan_members.php" );
 		this.rankList = rankList;
 	}
 
 	protected boolean retryOnTimeout()
-	{	return true;
+	{
+		return true;
 	}
 
 	public void run()
@@ -61,14 +63,16 @@ public class ClanRankListRequest extends KoLRequest
 		super.run();
 
 		this.rankList.clear();
-		Matcher ranklistMatcher = RANK_PATTERN.matcher( this.responseText );
+		Matcher ranklistMatcher = ClanRankListRequest.RANK_PATTERN.matcher( this.responseText );
 
 		if ( ranklistMatcher.find() )
 		{
-			Matcher rankMatcher = OPTION_PATTERN.matcher( ranklistMatcher.group() );
+			Matcher rankMatcher = ClanRankListRequest.OPTION_PATTERN.matcher( ranklistMatcher.group() );
 
 			while ( rankMatcher.find() )
-				this.rankList.add( rankMatcher.group(1).toLowerCase() );
+			{
+				this.rankList.add( rankMatcher.group( 1 ).toLowerCase() );
+			}
 		}
 
 		KoLmafia.updateDisplay( "List of ranks retrieved." );

@@ -44,217 +44,224 @@ import javax.swing.JPanel;
 import javax.swing.event.ListDataEvent;
 
 /**
- * One of the consequences of using a <code>JList</code> is that, in order
- * to allow selectability, many of the components within a rendered cell
- * have no functionality; buttons cannot be clicked, and sublists cannot
- * really exist.  However, two concepts of a JList are very useful: having
- * ordered components which respond to changes in a <code>ListModel</code>,
- * and having these components be displayed in a list-like fashion.  The
- * point of this class is to implement those two features of a <code>JList</code>
- * and ignore the selectable-index feature available to <code>JList</code>s.
- *
- * <br><br>
- *
- * This panel creates a list of which contains data mirroring a given
- * <code>LockableListModel</code>.  Note, however, that this does not
- * in any way keep track of what is added or removed in of itself, and
- * relies on the <code>Container</code> component to implement that part
- * of its functionality, which has the consequence of allowing all add()
- * and remove() functions to be public.  Thus, if any components are added
- * or removed from this list through other classes, the contents are no
- * longer reliable and unanticipated exceptions may be thrown.
+ * One of the consequences of using a <code>JList</code> is that, in order to allow selectability, many of the
+ * components within a rendered cell have no functionality; buttons cannot be clicked, and sublists cannot really exist.
+ * However, two concepts of a JList are very useful: having ordered components which respond to changes in a
+ * <code>ListModel</code>, and having these components be displayed in a list-like fashion. The point of this class
+ * is to implement those two features of a <code>JList</code> and ignore the selectable-index feature available to
+ * <code>JList</code>s. <br>
+ * <br>
+ * This panel creates a list of which contains data mirroring a given <code>LockableListModel</code>. Note, however,
+ * that this does not in any way keep track of what is added or removed in of itself, and relies on the
+ * <code>Container</code> component to implement that part of its functionality, which has the consequence of allowing
+ * all add() and remove() functions to be public. Thus, if any components are added or removed from this list through
+ * other classes, the contents are no longer reliable and unanticipated exceptions may be thrown.
  */
 
-public abstract class PanelList extends JPanel
+public abstract class PanelList
+	extends JPanel
 {
 	private JPanel listPanel;
-	private int visibleRows;
-	private int cellHeight, cellWidth;
 
 	/**
-	 * Constructs a new <code>PanelList</code> which will respond to changes in
-	 * the given <code>LockableListModel</code> by adding or removing
-	 * components as needed.
-	 *
-	 * @param	visibleRows	if this component is inside a <code>JScrollPane</code>,
-	 *						this reflects the number of rows that should be visible
-	 *						in the viewport; otherwise, this value indicates the
-	 *						minimum size of the panel
-	 * @param	cellHeight	the height of each individual cell in the <code>PanelList</code>
-	 * @param	cellWidth	the width of each individual cell in the <code>PanelList</code>
-	 * @param	associatedListModel	the list model associated with this <code>PanelList</code>
+	 * Constructs a new <code>PanelList</code> which will respond to changes in the given
+	 * <code>LockableListModel</code> by adding or removing components as needed.
+	 * 
+	 * @param visibleRows if this component is inside a <code>JScrollPane</code>, this reflects the number of rows
+	 *            that should be visible in the viewport; otherwise, this value indicates the minimum size of the panel
+	 * @param cellHeight the height of each individual cell in the <code>PanelList</code>
+	 * @param cellWidth the width of each individual cell in the <code>PanelList</code>
+	 * @param associatedListModel the list model associated with this <code>PanelList</code>
 	 */
 
-	public PanelList( int visibleRows, int cellWidth, int cellHeight, LockableListModel associatedListModel )
-	{	this( visibleRows, cellWidth, cellHeight, associatedListModel, true );
+	public PanelList( final int visibleRows, final int cellWidth, final int cellHeight,
+		final LockableListModel associatedListModel )
+	{
+		this( visibleRows, cellWidth, cellHeight, associatedListModel, true );
 	}
 
 	/**
-	 * Constructs a new <code>PanelList</code> which will respond to changes in
-	 * the given <code>LockableListModel</code> by adding or removing
-	 * components as needed.
-	 *
-	 * @param	visibleRows	if this component is inside a <code>JScrollPane</code>,
-	 *						this reflects the number of rows that should be visible
-	 *						in the viewport; otherwise, this value indicates the
-	 *						minimum size of the panel
-	 * @param	cellHeight	the height of each individual cell in the <code>PanelList</code>
-	 * @param	cellWidth	the width of each individual cell in the <code>PanelList</code>
-	 * @param	associatedListModel	the list model associated with this <code>PanelList</code>
+	 * Constructs a new <code>PanelList</code> which will respond to changes in the given
+	 * <code>LockableListModel</code> by adding or removing components as needed.
+	 * 
+	 * @param visibleRows if this component is inside a <code>JScrollPane</code>, this reflects the number of rows
+	 *            that should be visible in the viewport; otherwise, this value indicates the minimum size of the panel
+	 * @param cellHeight the height of each individual cell in the <code>PanelList</code>
+	 * @param cellWidth the width of each individual cell in the <code>PanelList</code>
+	 * @param associatedListModel the list model associated with this <code>PanelList</code>
 	 */
 
-	public PanelList( int visibleRows, int cellWidth, int cellHeight, LockableListModel associatedListModel, boolean useBoxLayout )
+	public PanelList( final int visibleRows, final int cellWidth, final int cellHeight,
+		final LockableListModel associatedListModel, final boolean useBoxLayout )
 	{
 		super( new BorderLayout() );
 
 		JPanel listContainer = new JPanel( new BorderLayout() );
-		listContainer.add( listPanel = new JPanel(), BorderLayout.NORTH );
+		listContainer.add( this.listPanel = new JPanel(), BorderLayout.NORTH );
 
-		this.add( listContainer, isResizeableList() ? BorderLayout.CENTER : BorderLayout.WEST );
-		listPanel.setLayout( useBoxLayout ? (LayoutManager) new BoxLayout( listPanel, BoxLayout.Y_AXIS ) : (LayoutManager) new FlowLayout() );
-
-		this.visibleRows = visibleRows;  this.cellHeight = cellHeight;  this.cellWidth = cellWidth;
-
-		// check to see if there are any components within the associated list
-		// model, and add them to the existing panel list if they do exist;
-		// note that if the associated list model is null, this panel becomes
-		// fairly meaningless, but a null pointer exception will not be thrown
+		this.add( listContainer, this.isResizeableList() ? BorderLayout.CENTER : BorderLayout.WEST );
+		this.listPanel.setLayout( useBoxLayout ? (LayoutManager) new BoxLayout( this.listPanel, BoxLayout.Y_AXIS ) : (LayoutManager) new FlowLayout() );
 
 		if ( associatedListModel != null )
 		{
-			Object [] contents = associatedListModel.toArray();
+			Object[] contents = associatedListModel.toArray();
 
 			for ( int i = 0; i < contents.length; ++i )
-				listPanel.add( (Component) constructPanelListCell( contents[i], i ), i );
+			{
+				this.listPanel.add( (Component) this.constructPanelListCell( contents[ i ], i ), i );
+			}
 
-			validatePanelList();
+			this.validatePanelList();
 			associatedListModel.addListDataListener( new PanelListListener() );
 		}
 	}
 
 	protected boolean isResizeableList()
-	{	return false;
+	{
+		return false;
 	}
 
 	/**
-	 * Overridden so that individual components may be enabled and disabled.
-	 * This is different from the behavior of a normal JPanel, because the
-	 * children of a <code>PanelList</code> should be enabled and disabled
-	 * with the parent list.
-	 *
-	 * @param	isEnabled	<code>true</code> if the list should be enabled
+	 * Overridden so that individual components may be enabled and disabled. This is different from the behavior of a
+	 * normal JPanel, because the children of a <code>PanelList</code> should be enabled and disabled with the parent
+	 * list.
+	 * 
+	 * @param isEnabled <code>true</code> if the list should be enabled
 	 */
 
-	public void setEnabled( boolean isEnabled )
+	public void setEnabled( final boolean isEnabled )
 	{
-		int componentCount = listPanel.getComponentCount();
+		int componentCount = this.listPanel.getComponentCount();
 		for ( int i = 0; i < componentCount; ++i )
-			listPanel.getComponent( i ).setEnabled( isEnabled );
+		{
+			this.listPanel.getComponent( i ).setEnabled( isEnabled );
+		}
 	}
 
 	/**
-	 * Returns a <code>PanelListCell</code> constructed from the given Object, to be
-	 * positioned at the given index in the <code>PanelList</code>.
-	 *
-	 * @param	value	the object which contains the data needed to construct the display
-	 * @param	index	this cell's intended index within the <code>PanelList</code>
-	 * @return	the constructed panel list cell
+	 * Returns a <code>PanelListCell</code> constructed from the given Object, to be positioned at the given index in
+	 * the <code>PanelList</code>.
+	 * 
+	 * @param value the object which contains the data needed to construct the display
+	 * @param index this cell's intended index within the <code>PanelList</code>
+	 * @return the constructed panel list cell
 	 */
 
 	protected abstract PanelListCell constructPanelListCell( Object value, int index );
 
 	/**
-	 * A private function used to validate the panel list.  The function serves
-	 * to resize the display, as appropriate.  This allows any function which
-	 * is controlling the <code>Scrollable</code> elements of the list to
-	 * properly adjust themselves to accomodate the updated panel.
+	 * A private function used to validate the panel list. The function serves to resize the display, as appropriate.
+	 * This allows any function which is controlling the <code>Scrollable</code> elements of the list to properly
+	 * adjust themselves to accomodate the updated panel.
 	 */
 
 	private void validatePanelList()
 	{
-		validate();
-		repaint();
+		this.validate();
+		this.repaint();
 	}
 
-	public Component [] getPanelListCells()
-	{	return listPanel.getComponents();
+	public Component[] getPanelListCells()
+	{
+		return this.listPanel.getComponents();
 	}
 
 	/**
-	 * Rather than having the PanelList implement <code>ListDataListener</code>, it
-	 * instead defers all listening to this listener class, which then listens on
-	 * the <code>LockableListModel</code> for changes in its underlying structure.
+	 * Rather than having the PanelList implement <code>ListDataListener</code>, it instead defers all listening to
+	 * this listener class, which then listens on the <code>LockableListModel</code> for changes in its underlying
+	 * structure.
 	 */
 
-	private class PanelListListener implements javax.swing.event.ListDataListener
+	private class PanelListListener
+		implements javax.swing.event.ListDataListener
 	{
 		/**
-		 * Called whenever contents have been added to the original list; a
-		 * function required by every <code>ListDataListener</code>.
-		 *
-		 * @param	e	the <code>ListDataEvent</code> that triggered this function call
+		 * Called whenever contents have been added to the original list; a function required by every
+		 * <code>ListDataListener</code>.
+		 * 
+		 * @param e the <code>ListDataEvent</code> that triggered this function call
 		 */
 
-		public void intervalAdded( ListDataEvent e )
+		public void intervalAdded( final ListDataEvent e )
 		{
 			LockableListModel source = (LockableListModel) e.getSource();
-			int index0 = e.getIndex0();  int index1 = e.getIndex1();
+			int index0 = e.getIndex0();
+			int index1 = e.getIndex1();
 
-			if ( index1 >= source.size() || source.size() == listPanel.getComponentCount() )
+			if ( index1 >= source.size() || source.size() == PanelList.this.listPanel.getComponentCount() )
+			{
 				return;
+			}
 
 			for ( int i = index0; i <= index1; ++i )
-				listPanel.add( (Component) constructPanelListCell( source.get(i), i ), i );
+			{
+				PanelList.this.listPanel.add(
+					(Component) PanelList.this.constructPanelListCell( source.get( i ), i ), i );
+			}
 
-			validatePanelList();
+			PanelList.this.validatePanelList();
 		}
 
 		/**
-		 * Called whenever contents have been removed from the original list;
-		 * a function required by every <code>ListDataListener</code>.
-		 *
-		 * @param	e	the <code>ListDataEvent</code> that triggered this function call
+		 * Called whenever contents have been removed from the original list; a function required by every
+		 * <code>ListDataListener</code>.
+		 * 
+		 * @param e the <code>ListDataEvent</code> that triggered this function call
 		 */
 
-		public void intervalRemoved( ListDataEvent e )
+		public void intervalRemoved( final ListDataEvent e )
 		{
 			LockableListModel source = (LockableListModel) e.getSource();
-			int index0 = e.getIndex0();  int index1 = e.getIndex1();
+			int index0 = e.getIndex0();
+			int index1 = e.getIndex1();
 
-			if ( index1 >= listPanel.getComponentCount() || source.size() == listPanel.getComponentCount() )
+			if ( index1 >= PanelList.this.listPanel.getComponentCount() || source.size() == PanelList.this.listPanel.getComponentCount() )
+			{
 				return;
+			}
 
 			for ( int i = index1; i >= index0; --i )
-				listPanel.remove(i);
+			{
+				PanelList.this.listPanel.remove( i );
+			}
 
-			validatePanelList();
+			PanelList.this.validatePanelList();
 		}
 
 		/**
-		 * Called whenever contents in the original list have changed; a
-		 * function required by every <code>ListDataListener</code>.
-		 *
-		 * @param	e	the <code>ListDataEvent</code> that triggered this function call
+		 * Called whenever contents in the original list have changed; a function required by every
+		 * <code>ListDataListener</code>.
+		 * 
+		 * @param e the <code>ListDataEvent</code> that triggered this function call
 		 */
 
-		public void contentsChanged( ListDataEvent e )
+		public void contentsChanged( final ListDataEvent e )
 		{
 			LockableListModel source = (LockableListModel) e.getSource();
-			int index0 = e.getIndex0();  int index1 = e.getIndex1();
+			int index0 = e.getIndex0();
+			int index1 = e.getIndex1();
 
-			int originalCount = listPanel.getComponentCount();
+			int originalCount = PanelList.this.listPanel.getComponentCount();
 
 			for ( int i = index1; i >= index0; --i )
 			{
 				if ( i >= originalCount )
-					listPanel.add( (Component) constructPanelListCell( source.get(i), i ), originalCount );
+				{
+					PanelList.this.listPanel.add(
+						(Component) PanelList.this.constructPanelListCell( source.get( i ), i ), originalCount );
+				}
 				else if ( i < source.size() )
-					listPanel.remove(i);
+				{
+					PanelList.this.listPanel.remove( i );
+				}
 				else
-					((PanelListCell)listPanel.getComponent(i)).updateDisplay( PanelList.this, source.get(i), i );
+				{
+					( (PanelListCell) PanelList.this.listPanel.getComponent( i ) ).updateDisplay(
+						PanelList.this, source.get( i ), i );
+				}
 			}
 
-			validatePanelList();
+			PanelList.this.validatePanelList();
 		}
 	}
 }

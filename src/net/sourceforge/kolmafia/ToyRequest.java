@@ -33,9 +33,10 @@
 
 package net.sourceforge.kolmafia;
 
-public class ToyRequest extends ItemCreationRequest
+public class ToyRequest
+	extends ItemCreationRequest
 {
-	public ToyRequest( int itemId )
+	public ToyRequest( final int itemId )
 	{
 		super( "crimbo_uncle.php", itemId );
 
@@ -55,11 +56,12 @@ public class ToyRequest extends ItemCreationRequest
 		// pixels if they are not currently available.
 
 		if ( !this.makeIngredients() )
+		{
 			return;
+		}
 
 		KoLmafia.updateDisplay( "Creating " + this.getQuantityNeeded() + " " + this.getName() + "..." );
 		this.addFormField( "quantity", String.valueOf( this.getQuantityNeeded() ) );
 		super.run();
 	}
 }
-

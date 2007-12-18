@@ -41,11 +41,9 @@
 package com.jeans.trayicon;
 
 // Callback used for WindowsTrayIcon.sendWindowsMessage()
-public interface TrayIconCallback {
+public interface TrayIconCallback
+{
 
-	public int callback(int param);
+	public int callback( int param );
 
 }
-
-
-

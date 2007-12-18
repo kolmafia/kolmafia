@@ -33,11 +33,12 @@
 
 package net.sourceforge.kolmafia;
 
-public class CampgroundRequest extends KoLRequest
+public class CampgroundRequest
+	extends KoLRequest
 {
 	private static boolean relaxAllowed = false;
 
-	private String action;
+	private final String action;
 
 	/**
 	 * Constructs a new <code>CampgroundRequest</code>.
@@ -50,11 +51,10 @@ public class CampgroundRequest extends KoLRequest
 	}
 
 	/**
-	 * Constructs a new <code>CampgroundRequest</code> with the
-	 * specified action in mind.
+	 * Constructs a new <code>CampgroundRequest</code> with the specified action in mind.
 	 */
 
-	public CampgroundRequest( String action )
+	public CampgroundRequest( final String action )
 	{
 		super( "campground.php" );
 		this.addFormField( "action", action );
@@ -68,12 +68,20 @@ public class CampgroundRequest extends KoLRequest
 	public void run()
 	{
 		if ( this.action.equals( "rest" ) )
+		{
 			if ( KoLCharacter.getCurrentHP() == KoLCharacter.getMaximumHP() && KoLCharacter.getCurrentMP() == KoLCharacter.getMaximumMP() )
+			{
 				return;
+			}
+		}
 
 		if ( this.action.equals( "relax" ) )
-			if ( !relaxAllowed || KoLCharacter.getCurrentMP() == KoLCharacter.getMaximumMP() )
+		{
+			if ( !CampgroundRequest.relaxAllowed || KoLCharacter.getCurrentMP() == KoLCharacter.getMaximumMP() )
+			{
 				return;
+			}
+		}
 
 		super.run();
 
@@ -81,7 +89,9 @@ public class CampgroundRequest extends KoLRequest
 		// request, since there's no content to parse
 
 		if ( this.responseCode != 200 )
+		{
 			return;
+		}
 
 		// For now, just set whether or not you have a
 		// bartender and chef.
@@ -89,7 +99,7 @@ public class CampgroundRequest extends KoLRequest
 
 	public void processResults()
 	{
-		relaxAllowed = this.responseText.indexOf( "relax" ) != -1;
+		CampgroundRequest.relaxAllowed = this.responseText.indexOf( "relax" ) != -1;
 
 		KoLCharacter.setChef( this.responseText.indexOf( "cook.php" ) != -1 );
 		KoLCharacter.setBartender( this.responseText.indexOf( "cocktail.php" ) != -1 );
@@ -103,37 +113,45 @@ public class CampgroundRequest extends KoLRequest
 		if ( this.action.equals( "rest" ) )
 		{
 			if ( this.responseText.indexOf( "You sleep" ) == -1 )
-				KoLmafia.updateDisplay( ERROR_STATE, "Could not rest." );
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Could not rest." );
+			}
 			else
+			{
 				StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
+			}
 		}
 		else if ( this.action.equals( "relax" ) )
 		{
 			if ( this.responseText.indexOf( "You relax" ) == -1 )
-				KoLmafia.updateDisplay( ERROR_STATE, "Could not relax." );
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Could not relax." );
+			}
 			else
+			{
 				StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
+			}
 		}
 
 		// Make sure that the character received something if
 		// they were looking for toast
 
 		if ( this.action.equals( "toast" ) && this.responseText.indexOf( "acquire" ) == -1 )
-			KoLmafia.updateDisplay( PENDING_STATE, "No more toast left." );
+		{
+			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "No more toast left." );
+		}
 	}
 
 	/**
-	 * An alternative method to doing adventure calculation is determining
-	 * how many adventures are used by the given request, and subtract
-	 * them after the request is done.  This number defaults to <code>zero</code>;
-	 * overriding classes should change this value to the appropriate
-	 * amount.
-	 *
-	 * @return	The number of adventures used by this request.
+	 * An alternative method to doing adventure calculation is determining how many adventures are used by the given
+	 * request, and subtract them after the request is done. This number defaults to <code>zero</code>; overriding
+	 * classes should change this value to the appropriate amount.
+	 * 
+	 * @return The number of adventures used by this request.
 	 */
 
 	public int getAdventuresUsed()
-	{	return this.responseCode != 200 || (!this.action.equals( "rest" ) && !this.action.equals( "relax" )) ? 0 : 1;
+	{
+		return this.responseCode != 200 || !this.action.equals( "rest" ) && !this.action.equals( "relax" ) ? 0 : 1;
 	}
 }
-

@@ -40,22 +40,23 @@ import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
-public class BuffBotFrame extends KoLFrame
+public class BuffBotFrame
+	extends KoLFrame
 {
 	private JList buffListDisplay;
 
 	/**
-	 * Constructs a new <code>BuffBotFrame</code> and inserts all
-	 * of the necessary panels into a tabular layout for accessibility.
+	 * Constructs a new <code>BuffBotFrame</code> and inserts all of the necessary panels into a tabular layout for
+	 * accessibility.
 	 */
 
 	public BuffBotFrame()
@@ -77,28 +78,31 @@ public class BuffBotFrame extends KoLFrame
 	}
 
 	public boolean useSidePane()
-	{	return true;
+	{
+		return true;
 	}
 
 	/**
-	 * Internal class used to handle everything related to
-	 * operating the buffbot.
+	 * Internal class used to handle everything related to operating the buffbot.
 	 */
 
-	private class MainBuffPanel extends LabeledScrollPanel
+	private class MainBuffPanel
+		extends LabeledScrollPanel
 	{
 		public MainBuffPanel()
 		{
 			super( "BuffBot Activities", "start", "stop", new JList( BuffBotHome.getMessages() ) );
 
 			BuffBotHome.setFrame( BuffBotFrame.this );
-			((JList)this.scrollComponent).setCellRenderer( BuffBotHome.getMessageRenderer() );
+			( (JList) this.scrollComponent ).setCellRenderer( BuffBotHome.getMessageRenderer() );
 		}
 
-		public void setEnabled( boolean isEnabled )
+		public void setEnabled( final boolean isEnabled )
 		{
 			if ( this.confirmedButton == null )
+			{
 				return;
+			}
 
 			this.confirmedButton.setEnabled( isEnabled );
 		}
@@ -106,7 +110,9 @@ public class BuffBotFrame extends KoLFrame
 		public void actionConfirmed()
 		{
 			if ( BuffBotHome.isBuffBotActive() )
+			{
 				return;
+			}
 
 			// Need to make sure everything is up to date.
 			// This includes character status, inventory
@@ -117,62 +123,70 @@ public class BuffBotFrame extends KoLFrame
 		}
 
 		public void actionCancelled()
-		{	BuffBotHome.setBuffBotActive( false );
+		{
+			BuffBotHome.setBuffBotActive( false );
 		}
 	}
 
 	/**
-	 * Internal class used to handle everything related to
-	 * BuffBot options management
+	 * Internal class used to handle everything related to BuffBot options management
 	 */
 
-	private class BuffOptionsPanel extends KoLPanel
+	private class BuffOptionsPanel
+		extends KoLPanel
 	{
-		private JComboBox skillSelect;
-		private AutoHighlightField priceField, countField;
+		private final JComboBox skillSelect;
+		private final AutoHighlightField priceField, countField;
 
 		public BuffOptionsPanel()
 		{
-			super( "add", "remove", new Dimension( 150, 20 ),  new Dimension( 300, 20 ));
+			super( "add", "remove", new Dimension( 150, 20 ), new Dimension( 300, 20 ) );
 			UseSkillRequest skill;
 
-			LockableListModel skillSet = usableSkills;
+			LockableListModel skillSet = KoLConstants.usableSkills;
 			LockableListModel buffSet = new LockableListModel();
-			for (int i = 0; (skill = (UseSkillRequest) skillSet.get(i)) != null; ++i )
-				if (ClassSkillsDatabase.isBuff( ClassSkillsDatabase.getSkillId( skill.getSkillName() ) ))
+			for ( int i = 0; ( skill = (UseSkillRequest) skillSet.get( i ) ) != null; ++i )
+			{
+				if ( ClassSkillsDatabase.isBuff( ClassSkillsDatabase.getSkillId( skill.getSkillName() ) ) )
+				{
 					buffSet.add( skill );
+				}
+			}
 
 			this.skillSelect = new JComboBox( buffSet );
 
 			this.priceField = new AutoHighlightField();
 			this.countField = new AutoHighlightField();
 
-			VerifiableElement [] elements = new VerifiableElement[3];
-			elements[0] = new VerifiableElement( "Buff to cast: ", this.skillSelect );
-			elements[1] = new VerifiableElement( "Price (in meat): ", this.priceField );
-			elements[2] = new VerifiableElement( "# of casts: ", this.countField );
+			VerifiableElement[] elements = new VerifiableElement[ 3 ];
+			elements[ 0 ] = new VerifiableElement( "Buff to cast: ", this.skillSelect );
+			elements[ 1 ] = new VerifiableElement( "Price (in meat): ", this.priceField );
+			elements[ 2 ] = new VerifiableElement( "# of casts: ", this.countField );
 			this.setContent( elements );
 		}
 
 		public void actionConfirmed()
 		{
-			BuffBotManager.addBuff( ((UseSkillRequest) this.skillSelect.getSelectedItem()).getSkillName(),
+			BuffBotManager.addBuff(
+				( (UseSkillRequest) this.skillSelect.getSelectedItem() ).getSkillName(),
 				StaticEntity.parseInt( this.priceField.getText() ), StaticEntity.parseInt( this.countField.getText() ) );
 		}
 
 		public void actionCancelled()
-		{	BuffBotManager.removeBuffs( BuffBotFrame.this.buffListDisplay.getSelectedValues() );
+		{
+			BuffBotManager.removeBuffs( BuffBotFrame.this.buffListDisplay.getSelectedValues() );
 		}
 	}
 
-	private class BuffListPanel extends JPanel
+	private class BuffListPanel
+		extends JPanel
 	{
 		public BuffListPanel()
 		{
 			this.setLayout( new BorderLayout() );
 			this.setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
-			this.add( JComponentUtilities.createLabel( "Active Buffing List", JLabel.CENTER,
-				Color.black, Color.white ), BorderLayout.NORTH );
+			this.add( JComponentUtilities.createLabel(
+				"Active Buffing List", SwingConstants.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
 
 			BuffBotFrame.this.buffListDisplay = new JList( BuffBotManager.getBuffCostTable() );
 			BuffBotFrame.this.buffListDisplay.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
@@ -183,15 +197,15 @@ public class BuffBotFrame extends KoLFrame
 	}
 
 	/**
-	 * Internal class used to handle everything related to
-	 * BuffBot White List management
+	 * Internal class used to handle everything related to BuffBot White List management
 	 */
 
-	private class MainSettingsPanel extends KoLPanel
+	private class MainSettingsPanel
+		extends KoLPanel
 	{
-		private JTextArea invalidPriceMessage, thanksMessage;
-		private JComboBox philanthropyModeSelect;
-		private JComboBox messageDisposalSelect;
+		private final JTextArea invalidPriceMessage, thanksMessage;
+		private final JComboBox philanthropyModeSelect;
+		private final JComboBox messageDisposalSelect;
 
 		public MainSettingsPanel()
 		{
@@ -209,18 +223,18 @@ public class BuffBotFrame extends KoLFrame
 			messageDisposalChoices.add( "Do nothing to non-requests" );
 			this.messageDisposalSelect = new JComboBox( messageDisposalChoices );
 
-			VerifiableElement [] elements = new VerifiableElement[2];
-			elements[0] = new VerifiableElement( "Philanthropy: ", this.philanthropyModeSelect );
-			elements[1] = new VerifiableElement( "Message disposal: ", this.messageDisposalSelect );
+			VerifiableElement[] elements = new VerifiableElement[ 2 ];
+			elements[ 0 ] = new VerifiableElement( "Philanthropy: ", this.philanthropyModeSelect );
+			elements[ 1 ] = new VerifiableElement( "Message disposal: ", this.messageDisposalSelect );
 
 			this.invalidPriceMessage = new JTextArea();
 			this.thanksMessage = new JTextArea();
 
-			this.invalidPriceMessage.setFont( DEFAULT_FONT );
+			this.invalidPriceMessage.setFont( KoLConstants.DEFAULT_FONT );
 			this.invalidPriceMessage.setLineWrap( true );
 			this.invalidPriceMessage.setWrapStyleWord( true );
 
-			this.thanksMessage.setFont( DEFAULT_FONT );
+			this.thanksMessage.setFont( KoLConstants.DEFAULT_FONT );
 			this.thanksMessage.setLineWrap( true );
 			this.thanksMessage.setWrapStyleWord( true );
 
@@ -228,18 +242,18 @@ public class BuffBotFrame extends KoLFrame
 			this.setContent( elements );
 		}
 
-		public void setContent( VerifiableElement [] elements )
+		public void setContent( final VerifiableElement[] elements )
 		{
 			super.setContent( elements );
 
 			JPanel settingsMiddlePanel = new JPanel( new BorderLayout() );
-			settingsMiddlePanel.add( JComponentUtilities.createLabel( "Invalid Buff Price Message", JLabel.CENTER,
-				Color.black, Color.white ), BorderLayout.NORTH );
+			settingsMiddlePanel.add( JComponentUtilities.createLabel(
+				"Invalid Buff Price Message", SwingConstants.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
 			settingsMiddlePanel.add( this.invalidPriceMessage, BorderLayout.CENTER );
 
 			JPanel settingsBottomPanel = new JPanel( new BorderLayout() );
-			settingsBottomPanel.add( JComponentUtilities.createLabel( "Donation Thanks Message", JLabel.CENTER,
-				Color.black, Color.white ), BorderLayout.NORTH );
+			settingsBottomPanel.add( JComponentUtilities.createLabel(
+				"Donation Thanks Message", SwingConstants.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
 			settingsBottomPanel.add( this.thanksMessage, BorderLayout.CENTER );
 
 			JPanel settingsPanel = new JPanel( new GridLayout( 2, 1, 10, 10 ) );
@@ -252,8 +266,10 @@ public class BuffBotFrame extends KoLFrame
 
 		public void actionConfirmed()
 		{
-			KoLSettings.setUserProperty( "buffBotPhilanthropyType", String.valueOf( this.philanthropyModeSelect.getSelectedIndex() ) );
-			KoLSettings.setUserProperty( "buffBotMessageDisposal", String.valueOf( this.messageDisposalSelect.getSelectedIndex() ) );
+			KoLSettings.setUserProperty(
+				"buffBotPhilanthropyType", String.valueOf( this.philanthropyModeSelect.getSelectedIndex() ) );
+			KoLSettings.setUserProperty(
+				"buffBotMessageDisposal", String.valueOf( this.messageDisposalSelect.getSelectedIndex() ) );
 			KoLSettings.setUserProperty( "invalidBuffMessage", this.invalidPriceMessage.getText() );
 			KoLSettings.setUserProperty( "thanksMessage", this.thanksMessage.getText() );
 		}

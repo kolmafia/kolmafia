@@ -33,19 +33,21 @@
 
 package net.sourceforge.kolmafia;
 
-public class PalmFrondRequest extends MultiUseRequest
+public class PalmFrondRequest
+	extends MultiUseRequest
 {
 	public static final AdventureResult MANUAL = new AdventureResult( "Hugo's Weaving Manual", -1 );
 
-	public PalmFrondRequest( int itemId )
-	{	super( itemId );
+	public PalmFrondRequest( final int itemId )
+	{
+		super( itemId );
 	}
 
 	public void run()
 	{
 		// Make sure you have a weaving manual
 
-		if ( !inventory.contains( MANUAL ) )
+		if ( !KoLConstants.inventory.contains( PalmFrondRequest.MANUAL ) )
 		{
 			// You can currently weave even if you don't have the
 			// manual. I've reported a bug, so that may change...
@@ -64,7 +66,7 @@ public class PalmFrondRequest extends MultiUseRequest
 
 		if ( this.responseText.indexOf( "You can't" ) != -1 )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You can't make that item." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't make that item." );
 			return;
 		}
 	}

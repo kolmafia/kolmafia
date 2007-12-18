@@ -1,9 +1,8 @@
+
 package com.jeans.trayicon;
 
-public interface TrayBalloonListener {
+public interface TrayBalloonListener
+{
 
-	public void balloonChanged(TrayBalloonEvent evt);
+	public void balloonChanged( TrayBalloonEvent evt );
 }
-
-
-

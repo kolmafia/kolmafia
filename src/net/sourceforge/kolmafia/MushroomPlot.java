@@ -42,9 +42,13 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public abstract class MushroomPlot extends StaticEntity
+import net.java.dev.spellcast.utilities.UtilityConstants;
+
+public abstract class MushroomPlot
+	extends StaticEntity
 {
-	private static final Pattern PLOT_PATTERN = Pattern.compile( "<b>Your Mushroom Plot:</b><p><table>(<tr>.*?</tr><tr>.*></tr><tr>.*?</tr><tr>.*</tr>)</table>" );
+	private static final Pattern PLOT_PATTERN =
+		Pattern.compile( "<b>Your Mushroom Plot:</b><p><table>(<tr>.*?</tr><tr>.*></tr><tr>.*?</tr><tr>.*</tr>)</table>" );
 	private static final Pattern SQUARE_PATTERN = Pattern.compile( "<td>(.*?)</td>" );
 	private static final Pattern IMAGE_PATTERN = Pattern.compile( ".*/((.*)\\.gif)" );
 
@@ -55,7 +59,7 @@ public abstract class MushroomPlot extends StaticEntity
 	//  9 10 11 12
 	// 13 14 15 16
 
-	private static final String [][] actualPlot = new String[4][4];
+	private static final String[][] actualPlot = new String[ 4 ][ 4 ];
 	private static boolean ownsPlot = false;
 
 	// Empty spot
@@ -85,90 +89,90 @@ public abstract class MushroomPlot extends StaticEntity
 	// Assocations between the mushroom Ids
 	// and the mushroom image.
 
-	public static final Object [][] MUSHROOMS =
-	{
+	public static final Object[][] MUSHROOMS =
+		{
 		// Sprout and emptiness
-		{ new Integer( EMPTY ), "dirt1.gif", "__", "__", new Integer( 0 ), "empty" },
-		{ new Integer( SPROUT ), "mushsprout.gif", "..", "..", new Integer( 0 ), "unknown" },
+		{ new Integer( MushroomPlot.EMPTY ), "dirt1.gif", "__", "__", new Integer( 0 ), "empty" }, { new Integer(
+			MushroomPlot.SPROUT ), "mushsprout.gif", "..", "..", new Integer( 0 ), "unknown" },
 
 		// First generation mushrooms
-		{ new Integer( KNOB ), "mushroom.gif", "kb", "KB", new Integer( 1 ), "knob" },
-		{ new Integer( KNOLL ), "bmushroom.gif", "kn", "KN", new Integer( 2 ), "knoll" },
-		{ new Integer( SPOOKY ), "spooshroom.gif", "sp", "SP", new Integer( 3 ), "spooky" },
+		{ new Integer( MushroomPlot.KNOB ), "mushroom.gif", "kb", "KB", new Integer( 1 ), "knob" }, { new Integer(
+			MushroomPlot.KNOLL ), "bmushroom.gif", "kn", "KN", new Integer( 2 ), "knoll" }, { new Integer(
+			MushroomPlot.SPOOKY ), "spooshroom.gif", "sp", "SP", new Integer( 3 ), "spooky" },
 
 		// Second generation mushrooms
-		{ new Integer( WARM ), "flatshroom.gif", "wa", "WA", new Integer( 4 ), "warm" },
-		{ new Integer( COOL ), "plaidroom.gif", "co", "CO", new Integer( 5 ), "cool" },
-		{ new Integer( POINTY ), "tallshroom.gif", "po", "PO", new Integer( 6 ), "pointy" },
+		{ new Integer( MushroomPlot.WARM ), "flatshroom.gif", "wa", "WA", new Integer( 4 ), "warm" }, { new Integer(
+			MushroomPlot.COOL ), "plaidroom.gif", "co", "CO", new Integer( 5 ), "cool" }, { new Integer(
+			MushroomPlot.POINTY ), "tallshroom.gif", "po", "PO", new Integer( 6 ), "pointy" },
 
 		// Third generation mushrooms
-		{ new Integer( FLAMING ), "fireshroom.gif", "fl", "FL", new Integer( 7 ), "flaming" },
-		{ new Integer( FROZEN ), "iceshroom.gif", "fr", "FR", new Integer( 8 ), "frozen" },
-		{ new Integer( STINKY ), "stinkshroo.gif", "st", "ST", new Integer( 9 ), "stinky" },
+		{ new Integer( MushroomPlot.FLAMING ), "fireshroom.gif", "fl", "FL", new Integer( 7 ), "flaming" }, { new Integer(
+			MushroomPlot.FROZEN ), "iceshroom.gif", "fr", "FR", new Integer( 8 ), "frozen" }, { new Integer(
+			MushroomPlot.STINKY ), "stinkshroo.gif", "st", "ST", new Integer( 9 ), "stinky" },
 
 		// Special mushrooms
-		{ new Integer( GLOOMY ), "blackshroo.gif", "gl", "GL", new Integer( 10 ), "gloomy" },
-	};
+		{ new Integer( MushroomPlot.GLOOMY ), "blackshroo.gif", "gl", "GL", new Integer( 10 ), "gloomy" }, };
 
-	public static final int [][] BREEDING =
-	{
+	public static final int[][] BREEDING =
+		{
 		// EMPTY,   KNOB,    KNOLL,   SPOOKY,  WARM,    COOL,    POINTY   FLAMING  FROZEN   STINKY   GLOOMY
 
-		{  EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY  },  // EMPTY
-		{  EMPTY,   KNOB,    COOL,    WARM,    EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY  },  // KNOB
-		{  EMPTY,   COOL,    KNOLL,   POINTY,  EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY  },  // KNOLL
-		{  EMPTY,   WARM,    POINTY,  SPOOKY,  EMPTY,   EMPTY,   EMPTY,   EMPTY,   GLOOMY,  EMPTY,   EMPTY  },  // SPOOKY
-		{  EMPTY,   EMPTY,   EMPTY,   EMPTY,   WARM,    STINKY,  FLAMING, EMPTY,   EMPTY,   EMPTY,   EMPTY  },  // WARM
-		{  EMPTY,   EMPTY,   EMPTY,   EMPTY,   STINKY,  COOL,    FROZEN,  EMPTY,   EMPTY,   EMPTY,   EMPTY  },  // COOL
-		{  EMPTY,   EMPTY,   EMPTY,   EMPTY,   FLAMING, FROZEN,  POINTY,  EMPTY,   EMPTY,   EMPTY,   EMPTY  },  // POINTY
-		{  EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   FLAMING, EMPTY,   EMPTY,   EMPTY  },  // FLAMING
-		{  EMPTY,   EMPTY,   EMPTY,   GLOOMY,  EMPTY,   EMPTY,   EMPTY,   EMPTY,   FROZEN,  EMPTY,   EMPTY  },  // FROZEN
-		{  EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   STINKY,  EMPTY  },  // STINKY
-		{  EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY  }   // GLOOMY
-	};
+		{ MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY }, // EMPTY
+		{ MushroomPlot.EMPTY, MushroomPlot.KNOB, MushroomPlot.COOL, MushroomPlot.WARM, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY }, // KNOB
+		{ MushroomPlot.EMPTY, MushroomPlot.COOL, MushroomPlot.KNOLL, MushroomPlot.POINTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY }, // KNOLL
+		{ MushroomPlot.EMPTY, MushroomPlot.WARM, MushroomPlot.POINTY, MushroomPlot.SPOOKY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.GLOOMY, MushroomPlot.EMPTY, MushroomPlot.EMPTY }, // SPOOKY
+		{ MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.WARM, MushroomPlot.STINKY, MushroomPlot.FLAMING, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY }, // WARM
+		{ MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.STINKY, MushroomPlot.COOL, MushroomPlot.FROZEN, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY }, // COOL
+		{ MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.FLAMING, MushroomPlot.FROZEN, MushroomPlot.POINTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY }, // POINTY
+		{ MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.FLAMING, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY }, // FLAMING
+		{ MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.GLOOMY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.FROZEN, MushroomPlot.EMPTY, MushroomPlot.EMPTY }, // FROZEN
+		{ MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.STINKY, MushroomPlot.EMPTY }, // STINKY
+		{ MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY, MushroomPlot.EMPTY }
+		// GLOOMY
+		};
 
 	// Spore data - includes price of the spore
 	// and the item Id associated with the spore.
 
-	private static final int [][] SPORE_DATA = { { SPOOKY, 30 }, { KNOB, 40 }, { KNOLL, 50 } };
+	private static final int[][] SPORE_DATA =
+		{ { MushroomPlot.SPOOKY, 30 }, { MushroomPlot.KNOB, 40 }, { MushroomPlot.KNOLL, 50 } };
 
 	/**
-	 * static final method which resets the state of the
-	 * mushroom plot.  This should be used whenever
-	 * the login process is restarted.
+	 * static final method which resets the state of the mushroom plot. This should be used whenever the login process
+	 * is restarted.
 	 */
 
 	public static final void reset()
-	{	ownsPlot = false;
-	}
-
-	/**
-	 * Utility method which returns a two-dimensional
-	 * array showing the arrangement of the plot.
-	 */
-
-	public static final String getMushroomPlot( boolean isDataOnly )
 	{
-		initialize();
-		return getMushroomPlot( isDataOnly, actualPlot );
+		MushroomPlot.ownsPlot = false;
 	}
 
 	/**
-	 * Utility method which returns a two-dimensional
-	 * array showing the arrangement of the forecasted
-	 * plot (ie: what the plot will look like tomorrow).
+	 * Utility method which returns a two-dimensional array showing the arrangement of the plot.
 	 */
 
-	public static final String getForecastedPlot( boolean isDataOnly )
-	{	return getForecastedPlot( isDataOnly, actualPlot );
+	public static final String getMushroomPlot( final boolean isDataOnly )
+	{
+		MushroomPlot.initialize();
+		return MushroomPlot.getMushroomPlot( isDataOnly, MushroomPlot.actualPlot );
 	}
 
-	public static final String getForecastedPlot( boolean isDataOnly, String [][] plot )
+	/**
+	 * Utility method which returns a two-dimensional array showing the arrangement of the forecasted plot (ie: what the
+	 * plot will look like tomorrow).
+	 */
+
+	public static final String getForecastedPlot( final boolean isDataOnly )
+	{
+		return MushroomPlot.getForecastedPlot( isDataOnly, MushroomPlot.actualPlot );
+	}
+
+	public static final String getForecastedPlot( final boolean isDataOnly, final String[][] plot )
 	{
 		// Construct the forecasted plot now.
 
-		boolean [][] changeList = new boolean[4][4];
-		String [][] forecastPlot = new String[4][4];
+		boolean[][] changeList = new boolean[ 4 ][ 4 ];
+		String[][] forecastPlot = new String[ 4 ][ 4 ];
 
 		for ( int row = 0; row < 4; ++row )
 		{
@@ -176,7 +180,7 @@ public abstract class MushroomPlot extends StaticEntity
 			{
 				if ( plot[ row ][ col ].equals( "__" ) )
 				{
-					forecastPlot[ row ][ col ] = getForecastSquare( row, col, plot );
+					forecastPlot[ row ][ col ] = MushroomPlot.getForecastSquare( row, col, plot );
 					changeList[ row ][ col ] = !forecastPlot[ row ][ col ].equals( "__" );
 				}
 				else if ( plot[ row ][ col ].equals( plot[ row ][ col ].toLowerCase() ) )
@@ -203,48 +207,60 @@ public abstract class MushroomPlot extends StaticEntity
 				if ( changeList[ row ][ col ] )
 				{
 					if ( row != 0 && forecastPlot[ row - 1 ][ col ].equals( forecastPlot[ row - 1 ][ col ].toUpperCase() ) )
+					{
 						forecastPlot[ row - 1 ][ col ] = "__";
+					}
 
 					if ( row != 3 && forecastPlot[ row + 1 ][ col ].equals( forecastPlot[ row + 1 ][ col ].toUpperCase() ) )
+					{
 						forecastPlot[ row + 1 ][ col ] = "__";
+					}
 
 					if ( col != 0 && forecastPlot[ row ][ col - 1 ].equals( forecastPlot[ row ][ col - 1 ].toUpperCase() ) )
+					{
 						forecastPlot[ row ][ col - 1 ] = "__";
+					}
 
 					if ( col != 3 && forecastPlot[ row ][ col + 1 ].equals( forecastPlot[ row ][ col + 1 ].toUpperCase() ) )
+					{
 						forecastPlot[ row ][ col + 1 ] = "__";
+					}
 				}
 			}
 		}
 
-		return getMushroomPlot( isDataOnly, forecastPlot );
+		return MushroomPlot.getMushroomPlot( isDataOnly, forecastPlot );
 	}
 
-	private static final String getForecastSquare( int row, int col, String [][] plot )
+	private static final String getForecastSquare( final int row, final int col, final String[][] plot )
 	{
-		String [] touched = new String[4];
+		String[] touched = new String[ 4 ];
 
 		// First, determine what kinds of mushrooms
 		// touch the square.
 
-		touched[0] = row == 0 ? "__" : plot[ row - 1 ][ col ];
-		touched[1] = row == 3 ? "__" : plot[ row + 1 ][ col ];
-		touched[2] = col == 0 ? "__" : plot[ row ][ col - 1 ];
-		touched[3] = col == 3 ? "__" : plot[ row ][ col + 1 ];
+		touched[ 0 ] = row == 0 ? "__" : plot[ row - 1 ][ col ];
+		touched[ 1 ] = row == 3 ? "__" : plot[ row + 1 ][ col ];
+		touched[ 2 ] = col == 0 ? "__" : plot[ row ][ col - 1 ];
+		touched[ 3 ] = col == 3 ? "__" : plot[ row ][ col + 1 ];
 
 		// Determine how many adult mushrooms total touch
 		// the square.
 
-		int [] touchIndex = new int[4];
+		int[] touchIndex = new int[ 4 ];
 		int touchCount = 0;
 
 		for ( int i = 0; i < 4; ++i )
 		{
-			if ( !touched[i].equals( "__" ) && !touched[i].equals( ".." ) )
+			if ( !touched[ i ].equals( "__" ) && !touched[ i ].equals( ".." ) )
 			{
-				for ( int j = 0; j < MUSHROOMS.length; ++j )
-					if ( touched[i].equals( MUSHROOMS[j][3] ) )
-						touchIndex[ touchCount ] = ((Integer)MUSHROOMS[j][4]).intValue();
+				for ( int j = 0; j < MushroomPlot.MUSHROOMS.length; ++j )
+				{
+					if ( touched[ i ].equals( MushroomPlot.MUSHROOMS[ j ][ 3 ] ) )
+					{
+						touchIndex[ touchCount ] = ( (Integer) MushroomPlot.MUSHROOMS[ j ][ 4 ] ).intValue();
+					}
+				}
 
 				++touchCount;
 			}
@@ -253,8 +269,10 @@ public abstract class MushroomPlot extends StaticEntity
 		// If exactly two adult mushrooms are touching the
 		// square, then return the result of the breed.
 
-		if ( touchCount == 2 && BREEDING[ touchIndex[0] ][ touchIndex[1] ] != EMPTY )
-			return getShorthand( BREEDING[ touchIndex[0] ][ touchIndex[1] ], false );
+		if ( touchCount == 2 && MushroomPlot.BREEDING[ touchIndex[ 0 ] ][ touchIndex[ 1 ] ] != MushroomPlot.EMPTY )
+		{
+			return MushroomPlot.getShorthand( MushroomPlot.BREEDING[ touchIndex[ 0 ] ][ touchIndex[ 1 ] ], false );
+		}
 
 		// Otherwise, it'll be the same as whatever is
 		// there right now.
@@ -262,16 +280,20 @@ public abstract class MushroomPlot extends StaticEntity
 		return plot[ row ][ col ];
 	}
 
-	private static final String getShorthand( int mushroomType, boolean isAdult )
+	private static final String getShorthand( final int mushroomType, final boolean isAdult )
 	{
-		for ( int i = 0; i < MUSHROOMS.length; ++i )
-			if ( mushroomType == ((Integer)MUSHROOMS[i][0]).intValue() )
-				return isAdult ? (String) MUSHROOMS[i][3] : (String) MUSHROOMS[i][2];
+		for ( int i = 0; i < MushroomPlot.MUSHROOMS.length; ++i )
+		{
+			if ( mushroomType == ( (Integer) MushroomPlot.MUSHROOMS[ i ][ 0 ] ).intValue() )
+			{
+				return isAdult ? (String) MushroomPlot.MUSHROOMS[ i ][ 3 ] : (String) MushroomPlot.MUSHROOMS[ i ][ 2 ];
+			}
+		}
 
 		return "__";
 	}
 
-	private static final String getMushroomPlot( boolean isDataOnly, String [][] plot )
+	private static final String getMushroomPlot( boolean isDataOnly, final String[][] plot )
 	{
 		// Otherwise, you need to construct the string form
 		// of the mushroom plot.  Shorthand and hypertext are
@@ -280,7 +302,9 @@ public abstract class MushroomPlot extends StaticEntity
 		StringBuffer plotBuffer = new StringBuffer();
 
 		if ( !isDataOnly )
-			plotBuffer.append( LINE_BREAK );
+		{
+			plotBuffer.append( KoLConstants.LINE_BREAK );
+		}
 
 		for ( int row = 0; row < 4; ++row )
 		{
@@ -294,7 +318,9 @@ public abstract class MushroomPlot extends StaticEntity
 				// the cell can be printed.
 
 				if ( !isDataOnly )
+				{
 					plotBuffer.append( "  " );
+				}
 
 				String square = plot[ row ][ col ];
 
@@ -307,11 +333,15 @@ public abstract class MushroomPlot extends StaticEntity
 				// another cell can be printed.
 
 				if ( isDataOnly )
+				{
 					plotBuffer.append( ";" );
+				}
 			}
 
 			if ( !isDataOnly )
-				plotBuffer.append( LINE_BREAK );
+			{
+				plotBuffer.append( KoLConstants.LINE_BREAK );
+			}
 		}
 
 		// Now that the appropriate string has been constructed,
@@ -321,51 +351,56 @@ public abstract class MushroomPlot extends StaticEntity
 	}
 
 	/**
-	 * Utility method which retrieves the image associated
-	 * with the given mushroom type.
+	 * Utility method which retrieves the image associated with the given mushroom type.
 	 */
 
-	public static final String getMushroomImage( String mushroomType )
+	public static final String getMushroomImage( final String mushroomType )
 	{
-		for ( int i = 1; i < MUSHROOMS.length; ++i )
+		for ( int i = 1; i < MushroomPlot.MUSHROOMS.length; ++i )
 		{
-			if ( mushroomType.equals( MUSHROOMS[i][2] ) )
+			if ( mushroomType.equals( MushroomPlot.MUSHROOMS[ i ][ 2 ] ) )
+			{
 				return "itemimages/mushsprout.gif";
-			if ( mushroomType.equals( MUSHROOMS[i][3] ) )
-				return "itemimages/" + MUSHROOMS[i][1];
+			}
+			if ( mushroomType.equals( MushroomPlot.MUSHROOMS[ i ][ 3 ] ) )
+			{
+				return "itemimages/" + MushroomPlot.MUSHROOMS[ i ][ 1 ];
+			}
 		}
 
 		return "itemimages/dirt1.gif";
 	}
 
 	/**
-	 * Utility method which retrieves the mushroom which is
-	 * associated with the given image.
+	 * Utility method which retrieves the mushroom which is associated with the given image.
 	 */
 
-	public static final int getMushroomType( String mushroomImage )
+	public static final int getMushroomType( final String mushroomImage )
 	{
-		for ( int i = 0; i < MUSHROOMS.length; ++i )
-			if ( mushroomImage.endsWith( "/" + MUSHROOMS[i][1] ) )
-				return ((Integer) MUSHROOMS[i][0]).intValue();
+		for ( int i = 0; i < MushroomPlot.MUSHROOMS.length; ++i )
+		{
+			if ( mushroomImage.endsWith( "/" + MushroomPlot.MUSHROOMS[ i ][ 1 ] ) )
+			{
+				return ( (Integer) MushroomPlot.MUSHROOMS[ i ][ 0 ] ).intValue();
+			}
+		}
 
-		return EMPTY;
+		return MushroomPlot.EMPTY;
 	}
 
 	/**
-	 * One of the major functions of the mushroom plot handler,
-	 * this method plants the given spore into the given position
-	 * (or square) of the mushroom plot.
+	 * One of the major functions of the mushroom plot handler, this method plants the given spore into the given
+	 * position (or square) of the mushroom plot.
 	 */
 
-	public static final boolean plantMushroom( int square, int spore )
+	public static final boolean plantMushroom( final int square, final int spore )
 	{
 		// Validate square parameter.  It's possible that
 		// the user input the wrong spore number.
 
 		if ( square < 1 || square > 16 )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "Squares are numbered from 1 to 16." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Squares are numbered from 1 to 16." );
 			return false;
 		}
 
@@ -374,12 +409,14 @@ public abstract class MushroomPlot extends StaticEntity
 		// those into holder variables.
 
 		int sporeIndex = -1, sporePrice = -1;
-		for ( int i = 0; i < SPORE_DATA.length; ++i )
-			if ( SPORE_DATA[i][0] == spore )
+		for ( int i = 0; i < MushroomPlot.SPORE_DATA.length; ++i )
+		{
+			if ( MushroomPlot.SPORE_DATA[ i ][ 0 ] == spore )
 			{
 				sporeIndex = i + 1;
-				sporePrice = SPORE_DATA[i][1];
+				sporePrice = MushroomPlot.SPORE_DATA[ i ][ 1 ];
 			}
+		}
 
 		// If nothing was reset, then return from this
 		// method after notifying the user that the spore
@@ -387,7 +424,7 @@ public abstract class MushroomPlot extends StaticEntity
 
 		if ( sporeIndex == -1 )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You can't plant that." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't plant that." );
 			return false;
 		}
 
@@ -396,21 +433,27 @@ public abstract class MushroomPlot extends StaticEntity
 		// character data.
 
 		if ( KoLCharacter.getAvailableMeat() < sporePrice )
+		{
 			return false;
+		}
 
 		// Make sure we know current state of mushroom plot
 		// before we plant the mushroom.  Bail if it fails.
 
-		if ( !initialize() )
+		if ( !MushroomPlot.initialize() )
+		{
 			return false;
+		}
 
 		// If the square isn't empty, pick what's there
 
-		int row = (square - 1) / 4;
-		int col = (square - 1) % 4;
+		int row = ( square - 1 ) / 4;
+		int col = ( square - 1 ) % 4;
 
-		if ( !actualPlot[ row ][ col ].equals( "__" ) && !pickMushroom( square, true ) )
+		if ( !MushroomPlot.actualPlot[ row ][ col ].equals( "__" ) && !MushroomPlot.pickMushroom( square, true ) )
+		{
 			return false;
+		}
 
 		// Plant the requested spore.
 
@@ -421,12 +464,14 @@ public abstract class MushroomPlot extends StaticEntity
 		// If it failed, bail.
 
 		if ( !KoLmafia.permitsContinue() )
+		{
 			return false;
+		}
 
 		// Pay for the spore.  At this point, it's guaranteed
 		// that theallows you to continue.
 
-		getClient().processResult( new AdventureResult( AdventureResult.MEAT, 0 - sporePrice ) );
+		StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, 0 - sporePrice ) );
 		KoLmafia.updateDisplay( "Spore successfully planted." );
 		return true;
 	}
@@ -435,55 +480,61 @@ public abstract class MushroomPlot extends StaticEntity
 	{
 		RequestThread.openRequestSequence();
 		for ( int i = 1; i <= 16; ++i )
-			pickMushroom( i, true );
+		{
+			MushroomPlot.pickMushroom( i, true );
+		}
 
 		RequestThread.closeRequestSequence();
 	}
 
 	/**
-	 * Picks all the mushrooms in all squares.  This is equivalent
-	 * to harvesting your mushroom crop, hence the name.
+	 * Picks all the mushrooms in all squares. This is equivalent to harvesting your mushroom crop, hence the name.
 	 */
 
 	public static final void harvestMushrooms()
 	{
 		RequestThread.openRequestSequence();
 		for ( int i = 1; i <= 16; ++i )
-			pickMushroom( i, false );
+		{
+			MushroomPlot.pickMushroom( i, false );
+		}
 
 		RequestThread.closeRequestSequence();
 	}
 
 	/**
-	 * One of the major functions of the mushroom plot handler,
-	 * this method picks the mushroom located in the given square.
+	 * One of the major functions of the mushroom plot handler, this method picks the mushroom located in the given
+	 * square.
 	 */
 
-	public static final boolean pickMushroom( int square, boolean pickSpores )
+	public static final boolean pickMushroom( final int square, final boolean pickSpores )
 	{
 		// Validate square parameter.  It's possible that
 		// the user input the wrong spore number.
 
 		if ( square < 1 || square > 16 )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "Squares are numbered from 1 to 16." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Squares are numbered from 1 to 16." );
 			return false;
 		}
 
 		// Make sure we know current state of mushroom plot
 		// before we plant the mushroom.  Bail if it fails.
 
-		if ( !initialize() )
+		if ( !MushroomPlot.initialize() )
+		{
 			return false;
+		}
 
 		// If the square is not empty, run a request to pick
 		// the mushroom in the square.
 
-		int row = (square - 1) / 4;
-		int col = (square - 1) % 4;
+		int row = ( square - 1 ) / 4;
+		int col = ( square - 1 ) % 4;
 
-		boolean shouldPick = !actualPlot[ row ][ col ].equals( "__" );
-		shouldPick &= !actualPlot[ row ][ col ].equals( actualPlot[ row ][ col ].toLowerCase() ) || pickSpores;
+		boolean shouldPick = !MushroomPlot.actualPlot[ row ][ col ].equals( "__" );
+		shouldPick &=
+			!MushroomPlot.actualPlot[ row ][ col ].equals( MushroomPlot.actualPlot[ row ][ col ].toLowerCase() ) || pickSpores;
 
 		if ( shouldPick )
 		{
@@ -497,15 +548,14 @@ public abstract class MushroomPlot extends StaticEntity
 	}
 
 	/**
-	 * Utility method used to initialize the state of
-	 * the plot into the one-dimensional array.
+	 * Utility method used to initialize the state of the plot into the one-dimensional array.
 	 */
 
 	private static final boolean initialize()
 	{
-		if ( !ownsPlot() )
+		if ( !MushroomPlot.ownsPlot() )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You haven't bought a mushroom plot yet." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You haven't bought a mushroom plot yet." );
 			return false;
 		}
 
@@ -518,99 +568,122 @@ public abstract class MushroomPlot extends StaticEntity
 
 		if ( !KoLCharacter.inMuscleSign() )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You can't find the mushroom fields." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't find the mushroom fields." );
 			return false;
 		}
 
-		if ( ownsPlot )
+		if ( MushroomPlot.ownsPlot )
+		{
 			return true;
+		}
 
 		RequestThread.postRequest( new MushroomPlotRequest() );
-		return ownsPlot;
+		return MushroomPlot.ownsPlot;
 	}
 
-	public static final void parsePlot( String text )
+	public static final void parsePlot( final String text )
 	{
 		// Pretend all of the sections on the plot are empty
 		// before you begin parsing the plot.
 
 		for ( int row = 0; row < 4; ++row )
+		{
 			for ( int col = 0; col < 4; ++col )
-				actualPlot[ row ][ col ] = "__";
+			{
+				MushroomPlot.actualPlot[ row ][ col ] = "__";
+			}
+		}
 
-		Matcher plotMatcher = PLOT_PATTERN.matcher( text );
-		ownsPlot = plotMatcher.find();
+		Matcher plotMatcher = MushroomPlot.PLOT_PATTERN.matcher( text );
+		MushroomPlot.ownsPlot = plotMatcher.find();
 
 		// If there is no plot data, then we can assume that
 		// the person does not own a plot.  Return from the
 		// method if this is the case.  Otherwise, try to find
 		// all of the squares.
 
-		if ( !ownsPlot )
+		if ( !MushroomPlot.ownsPlot )
+		{
 			return;
+		}
 
-		Matcher squareMatcher = SQUARE_PATTERN.matcher( plotMatcher.group(1) );
+		Matcher squareMatcher = MushroomPlot.SQUARE_PATTERN.matcher( plotMatcher.group( 1 ) );
 
 		for ( int row = 0; row < 4; ++row )
+		{
 			for ( int col = 0; col < 4 && squareMatcher.find(); ++col )
 			{
-				int result = parseSquare( squareMatcher.group(1) );
-				actualPlot[ row ][ col ] = getShorthand( result, true );
+				int result = MushroomPlot.parseSquare( squareMatcher.group( 1 ) );
+				MushroomPlot.actualPlot[ row ][ col ] = MushroomPlot.getShorthand( result, true );
 			}
+		}
 	}
 
-	private static final int parseSquare( String text )
+	private static final int parseSquare( final String text )
 	{
 		// We figure out what's there based on the image.  This
 		// is done by checking the text in the square against
 		// the table of square values.
 
-		Matcher gifMatcher = IMAGE_PATTERN.matcher( text );
+		Matcher gifMatcher = MushroomPlot.IMAGE_PATTERN.matcher( text );
 		if ( gifMatcher.find() )
 		{
-			String gif = gifMatcher.group(1);
-			for ( int i = 0; i < MUSHROOMS.length; ++i )
-				if ( gif.equals( MUSHROOMS[i][1] ) )
-					return ((Integer) MUSHROOMS[i][0]).intValue();
+			String gif = gifMatcher.group( 1 );
+			for ( int i = 0; i < MushroomPlot.MUSHROOMS.length; ++i )
+			{
+				if ( gif.equals( MushroomPlot.MUSHROOMS[ i ][ 1 ] ) )
+				{
+					return ( (Integer) MushroomPlot.MUSHROOMS[ i ][ 0 ] ).intValue();
+				}
+			}
 		}
 
-		return EMPTY;
+		return MushroomPlot.EMPTY;
 	}
 
-	public static final int loadLayout( String filename, String [][] originalData, String [][] planningData )
+	public static final int loadLayout( final String filename, final String[][] originalData,
+		final String[][] planningData )
 	{
 		// The easiest file to parse that is already provided is
 		// the text file which was generated automatically.
 
 		int dayIndex = 0;
-		BufferedReader reader = KoLDatabase.getReader( new File( PLOTS_LOCATION, filename + ".txt" ) );
+		BufferedReader reader = KoLDatabase.getReader( new File( KoLConstants.PLOTS_LOCATION, filename + ".txt" ) );
 
 		try
 		{
 			String line = "";
-			String [][] arrayData = new String[4][4];
+			String[][] arrayData = new String[ 4 ][ 4 ];
 
 			while ( line != null )
 			{
 				if ( dayIndex == 0 )
 				{
 					for ( int i = 0; i < 16; ++i )
-						originalData[ dayIndex ][i] = "__";
+					{
+						originalData[ dayIndex ][ i ] = "__";
+					}
 				}
 				else if ( dayIndex < originalData.length )
 				{
 					for ( int i = 0; i < 4; ++i )
+					{
 						for ( int j = 0; j < 4; ++j )
-							arrayData[i][j] = planningData[ dayIndex - 1 ][ i * 4 + j ];
+						{
+							arrayData[ i ][ j ] = planningData[ dayIndex - 1 ][ i * 4 + j ];
+						}
+					}
 
-					originalData[ dayIndex ] = getForecastedPlot( true, arrayData ).split( ";" );
+					originalData[ dayIndex ] = MushroomPlot.getForecastedPlot( true, arrayData ).split( ";" );
 				}
 
 				// Skip four lines from the mushroom plot,
 				// which only contain header information.
 
 				for ( int i = 0; i < 4 && line != null; ++i )
+				{
 					line = reader.readLine();
+				}
 
 				// Now, split the line into individual units
 				// based on whitespace.
@@ -623,12 +696,14 @@ public abstract class MushroomPlot extends StaticEntity
 					for ( int i = 0; i < 4; ++i )
 					{
 						line = reader.readLine().trim();
-						String [] pieces = line.split( "\\*?\\s+" );
+						String[] pieces = line.split( "\\*?\\s+" );
 
 						if ( line != null )
 						{
 							for ( int j = 4; j < 8; ++j )
-								planningData[ dayIndex ][ i * 4 + j - 4 ] = pieces[j].substring( 0, 2 );
+							{
+								planningData[ dayIndex ][ i * 4 + j - 4 ] = pieces[ j ].substring( 0, 2 );
+							}
 						}
 					}
 
@@ -642,11 +717,13 @@ public abstract class MushroomPlot extends StaticEntity
 			}
 
 			for ( int i = 0; i < 16; ++i )
-				planningData[ dayIndex - 1 ][i] = originalData[ dayIndex - 1 ][i];
+			{
+				planningData[ dayIndex - 1 ][ i ] = originalData[ dayIndex - 1 ][ i ];
+			}
 		}
 		catch ( Exception e )
 		{
-			printStackTrace( e );
+			StaticEntity.printStackTrace( e );
 			return Math.max( dayIndex, 2 );
 		}
 
@@ -660,23 +737,25 @@ public abstract class MushroomPlot extends StaticEntity
 		}
 		catch ( Exception e )
 		{
-			printStackTrace( e );
+			StaticEntity.printStackTrace( e );
 			return Math.max( dayIndex, 2 );
 		}
 	}
 
-	private static final void copyMushroomImage( String location )
+	private static final void copyMushroomImage( final String location )
 	{
-		File source = new File( IMAGE_LOCATION, location );
-		File destination = new File( PLOTS_LOCATION + "/" + location );
+		File source = new File( UtilityConstants.IMAGE_LOCATION, location );
+		File destination = new File( KoLConstants.PLOTS_LOCATION + "/" + location );
 
 		if ( !destination.getParentFile().exists() )
+		{
 			destination.getParentFile().mkdirs();
+		}
 
 		try
 		{
-			FileChannel sourceChannel = (new FileInputStream( source )).getChannel();
-			FileChannel destinationChannel = (new FileOutputStream( destination )).getChannel();
+			FileChannel sourceChannel = ( new FileInputStream( source ) ).getChannel();
+			FileChannel destinationChannel = ( new FileOutputStream( destination ) ).getChannel();
 
 			sourceChannel.transferTo( 0, sourceChannel.size(), destinationChannel );
 			sourceChannel.close();
@@ -688,13 +767,14 @@ public abstract class MushroomPlot extends StaticEntity
 		}
 	}
 
-	public static final void saveLayout( String filename, String [][] originalData, String [][] planningData )
+	public static final void saveLayout( final String filename, final String[][] originalData,
+		final String[][] planningData )
 	{
-		File preview = new File( PLOTS_LOCATION.getAbsolutePath(), filename + ".htm" );
+		File preview = new File( KoLConstants.PLOTS_LOCATION.getAbsolutePath(), filename + ".htm" );
 
-		LogStream textLayout = LogStream.openStream( new File( PLOTS_LOCATION, filename + ".txt" ), true );
+		LogStream textLayout = LogStream.openStream( new File( KoLConstants.PLOTS_LOCATION, filename + ".txt" ), true );
 		LogStream htmlLayout = LogStream.openStream( preview, true );
-		LogStream plotScript = LogStream.openStream( new File( PLOTS_LOCATION, filename + ".ash" ), true );
+		LogStream plotScript = LogStream.openStream( new File( KoLConstants.PLOTS_LOCATION, filename + ".ash" ), true );
 
 		// The HTML file needs a little bit of header information
 		// to make it proper HTML.
@@ -711,12 +791,12 @@ public abstract class MushroomPlot extends StaticEntity
 		for ( int i = 0; i < MushroomFrame.MAX_FORECAST && !isTodayEmpty; ++i )
 		{
 			textLayout.println();
-			textLayout.println( "Day " + (i+1) + ":" );
+			textLayout.println( "Day " + ( i + 1 ) + ":" );
 			textLayout.println();
 			textLayout.println( "Pick                Plant" );
 
 			htmlLayout.println( "<table border=0 cellpadding=0 cellspacing=0>" );
-			htmlLayout.println( "<tr><td colspan=9><b>Day " + (i+1) + ":" + "</b></td></tr>" );
+			htmlLayout.println( "<tr><td colspan=9><b>Day " + ( i + 1 ) + ":" + "</b></td></tr>" );
 			htmlLayout.println( "<tr><td colspan=4>Pick</td><td width=50>&nbsp;</td><td colspan=4>Plant</td></tr>" );
 
 			// Compile all the commands which are needed for the
@@ -733,7 +813,9 @@ public abstract class MushroomPlot extends StaticEntity
 			for ( int j = 0; j < 16; ++j )
 			{
 				if ( i == 0 )
-					commands.add( "field pick " + (j+1) );
+				{
+					commands.add( "field pick " + ( j + 1 ) );
+				}
 
 				// If you've reached the end of a row, then you
 				// will need to add line breaks.
@@ -748,9 +830,11 @@ public abstract class MushroomPlot extends StaticEntity
 					plantText.setLength( 0 );
 
 					htmlLayout.println( "<tr>" );
-					htmlLayout.print( "\t" );  htmlLayout.println( pickHtml.toString() );
+					htmlLayout.print( "\t" );
+					htmlLayout.println( pickHtml.toString() );
 					htmlLayout.print( "<td>&nbsp;</td>" );
-					htmlLayout.print( "\t" );  htmlLayout.println( plantHtml.toString() );
+					htmlLayout.print( "\t" );
+					htmlLayout.println( plantHtml.toString() );
 					htmlLayout.print( "<td>&nbsp;</td>" );
 					htmlLayout.println( "</tr>" );
 
@@ -763,23 +847,23 @@ public abstract class MushroomPlot extends StaticEntity
 				// Also, the HTML and textual layouts will be a
 				// bit different pending on what happened.
 
-				boolean pickRequired = !originalData[i][j].equals( "__" ) &&
-					!originalData[i][j].equals( planningData[i][j] );
+				boolean pickRequired =
+					!originalData[ i ][ j ].equals( "__" ) && !originalData[ i ][ j ].equals( planningData[ i ][ j ] );
 
 				if ( pickRequired )
 				{
 					pickText.append( " ***" );
 					pickHtml.append( "<td style=\"border: 1px dashed red\"><img src=\"" );
-					commands.add( "field pick " + (j+1) );
+					commands.add( "field pick " + ( j + 1 ) );
 				}
 				else
 				{
-					pickText.append( " " + originalData[i][j] + " " );
+					pickText.append( " " + originalData[ i ][ j ] + " " );
 					pickHtml.append( "<td><img src=\"" );
 				}
 
-				image = getMushroomImage( originalData[i][j] );
-				copyMushroomImage( image );
+				image = MushroomPlot.getMushroomImage( originalData[ i ][ j ] );
+				MushroomPlot.copyMushroomImage( image );
 
 				pickHtml.append( image );
 				pickHtml.append( "\"></td>" );
@@ -788,25 +872,25 @@ public abstract class MushroomPlot extends StaticEntity
 				// just at the difference.  Only certain spores can be
 				// planted, and only certain
 
-				boolean addedSpore = !originalData[i][j].equals( planningData[i][j] );
+				boolean addedSpore = !originalData[ i ][ j ].equals( planningData[ i ][ j ] );
 
 				if ( addedSpore )
 				{
 					addedSpore = false;
 
-					if ( planningData[i][j].startsWith( "kb" ) )
+					if ( planningData[ i ][ j ].startsWith( "kb" ) )
 					{
-						commands.add( "field plant " + (j+1) + " knob" );
+						commands.add( "field plant " + ( j + 1 ) + " knob" );
 						addedSpore = true;
 					}
-					else if ( planningData[i][j].startsWith( "kn" ) )
+					else if ( planningData[ i ][ j ].startsWith( "kn" ) )
 					{
-						commands.add( "field plant " + (j+1) + " knoll" );
+						commands.add( "field plant " + ( j + 1 ) + " knoll" );
 						addedSpore = true;
 					}
-					else if ( planningData[i][j].startsWith( "sp" ) )
+					else if ( planningData[ i ][ j ].startsWith( "sp" ) )
 					{
-						commands.add( "field plant " + (j+1) + " spooky" );
+						commands.add( "field plant " + ( j + 1 ) + " spooky" );
 						addedSpore = true;
 					}
 				}
@@ -814,15 +898,15 @@ public abstract class MushroomPlot extends StaticEntity
 				// Now that you know for sure whether or not a spore
 				// was added or a breeding result, update the text.
 
-				plantText.append( " " + planningData[i][j] );
+				plantText.append( " " + planningData[ i ][ j ] );
 
 				if ( addedSpore )
 				{
 					plantText.append( "*" );
 					plantHtml.append( "<td style=\"border: 1px dashed blue\"><img src=\"" );
 
-					image = getMushroomImage( planningData[i][j].toUpperCase() );
-					copyMushroomImage( image );
+					image = MushroomPlot.getMushroomImage( planningData[ i ][ j ].toUpperCase() );
+					MushroomPlot.copyMushroomImage( image );
 					plantHtml.append( image );
 
 					plantHtml.append( "\"></td>" );
@@ -832,14 +916,14 @@ public abstract class MushroomPlot extends StaticEntity
 					plantText.append( " " );
 					plantHtml.append( "<td><img src=\"" );
 
-					image = getMushroomImage( planningData[i][j] );
-					copyMushroomImage( image );
+					image = MushroomPlot.getMushroomImage( planningData[ i ][ j ] );
+					MushroomPlot.copyMushroomImage( image );
 					plantHtml.append( image );
 
 					plantHtml.append( "\"></td>" );
 				}
 
-				isTodayEmpty &= planningData[i][j].equals( "__" );
+				isTodayEmpty &= planningData[ i ][ j ].equals( "__" );
 			}
 
 			// Print the data for the last row.
@@ -852,9 +936,11 @@ public abstract class MushroomPlot extends StaticEntity
 			plantText.setLength( 0 );
 
 			htmlLayout.println( "<tr>" );
-			htmlLayout.print( "\t" );  htmlLayout.println( pickHtml.toString() );
+			htmlLayout.print( "\t" );
+			htmlLayout.println( pickHtml.toString() );
 			htmlLayout.print( "<td>&nbsp;</td>" );
-			htmlLayout.print( "\t" );  htmlLayout.println( plantHtml.toString() );
+			htmlLayout.print( "\t" );
+			htmlLayout.println( plantHtml.toString() );
 			htmlLayout.print( "<td>&nbsp;</td>" );
 			htmlLayout.println( "</tr>" );
 
@@ -868,7 +954,9 @@ public abstract class MushroomPlot extends StaticEntity
 			htmlLayout.println( "</table><br /><br />" );
 
 			if ( !isTodayEmpty )
+			{
 				days.add( commands );
+			}
 		}
 
 		// All data has been printed.  Add the closing tags to the
@@ -882,7 +970,7 @@ public abstract class MushroomPlot extends StaticEntity
 		}
 		catch ( Exception e )
 		{
-			printStackTrace( e );
+			StaticEntity.printStackTrace( e );
 			return;
 		}
 
@@ -917,7 +1005,7 @@ public abstract class MushroomPlot extends StaticEntity
 
 			for ( int i = 0; i < days.size(); ++i )
 			{
-				ArrayList commands = (ArrayList) days.get(i);
+				ArrayList commands = (ArrayList) days.get( i );
 
 				if ( !commands.isEmpty() )
 				{
@@ -927,8 +1015,11 @@ public abstract class MushroomPlot extends StaticEntity
 
 					for ( int j = 0; j < commands.size(); ++j )
 					{
-						if ( j != 0 )  plotScript.print( ";" );
-						plotScript.print( commands.get(j) );
+						if ( j != 0 )
+						{
+							plotScript.print( ";" );
+						}
+						plotScript.print( commands.get( j ) );
 					}
 
 					plotScript.println( "\" );" );
@@ -941,7 +1032,7 @@ public abstract class MushroomPlot extends StaticEntity
 		}
 		catch ( Exception e )
 		{
-			printStackTrace( e );
+			StaticEntity.printStackTrace( e );
 			return;
 		}
 

@@ -38,7 +38,8 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class CharpaneRequest extends KoLRequest
+public class CharpaneRequest
+	extends KoLRequest
 {
 	private static final Pattern COLOR_PATTERN = Pattern.compile( "(color|class)=\"?\'?([^\"\'>]*)" );
 	private static final AdventureResult ABSINTHE = new AdventureResult( "Absinthe-Minded", 1, true );
@@ -60,46 +61,56 @@ public class CharpaneRequest extends KoLRequest
 	}
 
 	public static final CharpaneRequest getInstance()
-	{	return instance;
+	{
+		return CharpaneRequest.instance;
 	}
 
 	protected boolean retryOnTimeout()
-	{	return true;
+	{
+		return true;
 	}
 
 	public static final boolean canInteract()
-	{	return canInteract;
+	{
+		return CharpaneRequest.canInteract;
 	}
 
-	public static final void setInteraction( boolean interaction )
-	{	canInteract = interaction;
+	public static final void setInteraction( final boolean interaction )
+	{
+		CharpaneRequest.canInteract = interaction;
 	}
 
 	public void run()
 	{
-		if ( isRunning )
+		if ( CharpaneRequest.isRunning )
+		{
 			return;
+		}
 
-		isRunning = true;
+		CharpaneRequest.isRunning = true;
 		super.run();
-		isRunning = false;
+		CharpaneRequest.isRunning = false;
 	}
 
 	public void processResults()
-	{	processCharacterPane( this.responseText );
+	{
+		CharpaneRequest.processCharacterPane( this.responseText );
 	}
 
 	public static final String getLastResponse()
-	{	return lastResponse;
+	{
+		return CharpaneRequest.lastResponse;
 	}
 
-	public static final void processCharacterPane( String responseText )
+	public static final void processCharacterPane( final String responseText )
 	{
-		if ( isProcessing )
+		if ( CharpaneRequest.isProcessing )
+		{
 			return;
+		}
 
-		lastResponse = responseText;
-		isProcessing = true;
+		CharpaneRequest.lastResponse = responseText;
+		CharpaneRequest.isProcessing = true;
 
 		// By refreshing the KoLCharacter pane, you can
 		// determine whether or not you are in compact
@@ -114,10 +125,14 @@ public class CharpaneRequest extends KoLRequest
 
 		if ( responseText.indexOf( "<img src=\"http://images.kingdomofloathing.com/otherimages/inf_small.gif\">" ) == -1 )
 		{
-			if ( isCompactMode )
-				handleCompactMode( responseText );
+			if ( KoLRequest.isCompactMode )
+			{
+				CharpaneRequest.handleCompactMode( responseText );
+			}
 			else
-				handleExpandedMode( responseText );
+			{
+				CharpaneRequest.handleExpandedMode( responseText );
+			}
 		}
 		else
 		{
@@ -131,49 +146,59 @@ public class CharpaneRequest extends KoLRequest
 			KoLCharacter.setAnnoyotronLevel( 0 );
 		}
 
-		refreshEffects( responseText );
+		CharpaneRequest.refreshEffects( responseText );
 		KoLCharacter.updateStatus();
 
-		setInteraction( checkInteraction( responseText ) );
+		CharpaneRequest.setInteraction( CharpaneRequest.checkInteraction( responseText ) );
 
-		isProcessing = false;
+		CharpaneRequest.isProcessing = false;
 	}
 
-	private static final boolean checkInteraction( String responseText )
+	private static final boolean checkInteraction( final String responseText )
 	{
 		// If he's freed the king, that's good enough
 		if ( KoLCharacter.kingLiberated() )
+		{
 			return true;
+		}
 
 		// If he's in Hardcore, nope
 		if ( KoLCharacter.isHardcore() )
+		{
 			return false;
+		}
 
 		// If he's in Bad Moon, nope
 		if ( KoLCharacter.inBadMoon() )
+		{
 			return false;
+		}
 
 		// If he's out of Ronin, sure
-		if (KoLCharacter.getCurrentRun() >= 1000 )
+		if ( KoLCharacter.getCurrentRun() >= 1000 )
+		{
 			return true;
+		}
 
 		// If character pane doesn't mention storage, ok.
-		if ( responseText.indexOf( "storage.php" ) == -1)
+		if ( responseText.indexOf( "storage.php" ) == -1 )
+		{
 			return true;
+		}
 
 		// Otherwise, no way.
 		return false;
 	}
 
-	private static final void handleCompactMode( String responseText )
+	private static final void handleCompactMode( final String responseText )
 	{
 		try
 		{
-			handleStatPoints( responseText, "Mus", "Mys", "Mox" );
-			handleMiscPoints( responseText, "HP", "MP", "Meat", "Adv", "", "<b>", "</b>" );
-			handleMindControl( responseText, "MC" );
-			handleDetunedRadio( responseText, "Radio" );
-			handleAnnoyotron( responseText, "AOT5K" );
+			CharpaneRequest.handleStatPoints( responseText, "Mus", "Mys", "Mox" );
+			CharpaneRequest.handleMiscPoints( responseText, "HP", "MP", "Meat", "Adv", "", "<b>", "</b>" );
+			CharpaneRequest.handleMindControl( responseText, "MC" );
+			CharpaneRequest.handleDetunedRadio( responseText, "Radio" );
+			CharpaneRequest.handleAnnoyotron( responseText, "AOT5K" );
 		}
 		catch ( Exception e )
 		{
@@ -181,15 +206,16 @@ public class CharpaneRequest extends KoLRequest
 		}
 	}
 
-	private static final void handleExpandedMode( String responseText )
+	private static final void handleExpandedMode( final String responseText )
 	{
 		try
 		{
-			handleStatPoints( responseText, "Muscle", "Mysticality", "Moxie" );
-			handleMiscPoints( responseText, "hp\\.gif", "mp\\.gif", "meat\\.gif", "hourglass\\.gif", "&nbsp;", "<span.*?>", "</span>" );
-			handleMindControl( responseText, "Mind Control" );
-			handleDetunedRadio( responseText, "Detuned Radio" );
-			handleAnnoyotron( responseText, "Annoy-o-Tron 5k" );
+			CharpaneRequest.handleStatPoints( responseText, "Muscle", "Mysticality", "Moxie" );
+			CharpaneRequest.handleMiscPoints(
+				responseText, "hp\\.gif", "mp\\.gif", "meat\\.gif", "hourglass\\.gif", "&nbsp;", "<span.*?>", "</span>" );
+			CharpaneRequest.handleMindControl( responseText, "Mind Control" );
+			CharpaneRequest.handleDetunedRadio( responseText, "Detuned Radio" );
+			CharpaneRequest.handleAnnoyotron( responseText, "Annoy-o-Tron 5k" );
 		}
 		catch ( Exception e )
 		{
@@ -197,95 +223,133 @@ public class CharpaneRequest extends KoLRequest
 		}
 	}
 
-	private static final void handleStatPoints( String responseText, String musString, String mysString, String moxString ) throws Exception
+	private static final void handleStatPoints( final String responseText, final String musString,
+		final String mysString, final String moxString )
+		throws Exception
 	{
-		int [] modified = new int[3];
+		int[] modified = new int[ 3 ];
 
-		Matcher statMatcher = Pattern.compile( musString + ".*?<b>(.*?)</b>.*?" + mysString + ".*?<b>(.*?)</b>.*?" + moxString + ".*?<b>(.*?)</b>" ).matcher( responseText );
+		Matcher statMatcher =
+			Pattern.compile(
+				musString + ".*?<b>(.*?)</b>.*?" + mysString + ".*?<b>(.*?)</b>.*?" + moxString + ".*?<b>(.*?)</b>" ).matcher(
+				responseText );
 
 		if ( statMatcher.find() )
 		{
 			for ( int i = 0; i < 3; ++i )
 			{
-				Matcher modifiedMatcher = Pattern.compile( "<font color=blue>(\\d+)</font>&nbsp;\\((\\d+)\\)" ).matcher(
-					statMatcher.group( i + 1 ) );
+				Matcher modifiedMatcher =
+					Pattern.compile( "<font color=blue>(\\d+)</font>&nbsp;\\((\\d+)\\)" ).matcher(
+						statMatcher.group( i + 1 ) );
 
 				if ( modifiedMatcher.find() )
-					modified[i] = StaticEntity.parseInt( modifiedMatcher.group(1) );
+				{
+					modified[ i ] = StaticEntity.parseInt( modifiedMatcher.group( 1 ) );
+				}
 				else
-					modified[i] = StaticEntity.parseInt( statMatcher.group( i + 1 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" ) );
+				{
+					modified[ i ] =
+						StaticEntity.parseInt( statMatcher.group( i + 1 ).replaceAll( "<[^>]*>", "" ).replaceAll(
+							"[^\\d]+", "" ) );
+				}
 			}
 
-			KoLCharacter.setStatPoints( modified[0], KoLCharacter.getTotalMuscle(), modified[1],
-				KoLCharacter.getTotalMysticality(), modified[2], KoLCharacter.getTotalMoxie() );
+			KoLCharacter.setStatPoints(
+				modified[ 0 ], KoLCharacter.getTotalMuscle(), modified[ 1 ], KoLCharacter.getTotalMysticality(),
+				modified[ 2 ], KoLCharacter.getTotalMoxie() );
 		}
 	}
 
-	private static final void handleMiscPoints( String responseText, String hpString, String mpString, String meatString, String advString, String spacer, String openTag, String closeTag ) throws Exception
+	private static final void handleMiscPoints( final String responseText, final String hpString,
+		final String mpString, final String meatString, final String advString, final String spacer,
+		final String openTag, final String closeTag )
+		throws Exception
 	{
 		// On the other hand, health and all that good stuff
 		// is complicated, has nested images, and lots of other
 		// weird stuff.  Handle it in a non-modular fashion.
 
-		Matcher miscMatcher = Pattern.compile(
-			hpString + ".*?" + openTag + "(.*?)" + spacer + "/" + spacer + "(.*?)" + closeTag + ".*?" +
-			mpString + ".*?" + openTag + "(.*?)" + spacer + "/" + spacer + "(.*?)" + closeTag + ".*?" +
-			meatString + ".*?" + openTag + "(.*?)" + closeTag + ".*?" + advString + ".*?" + openTag + "(.*?)" + closeTag ).matcher( responseText );
+		Matcher miscMatcher =
+			Pattern.compile(
+				hpString + ".*?" + openTag + "(.*?)" + spacer + "/" + spacer + "(.*?)" + closeTag + ".*?" + mpString + ".*?" + openTag + "(.*?)" + spacer + "/" + spacer + "(.*?)" + closeTag + ".*?" + meatString + ".*?" + openTag + "(.*?)" + closeTag + ".*?" + advString + ".*?" + openTag + "(.*?)" + closeTag ).matcher(
+				responseText );
 
 		if ( miscMatcher.find() )
 		{
-			String currentHP = miscMatcher.group(1).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
-			String maximumHP = miscMatcher.group(2).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
+			String currentHP = miscMatcher.group( 1 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
+			String maximumHP = miscMatcher.group( 2 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
 
-			String currentMP = miscMatcher.group(3).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
-			String maximumMP = miscMatcher.group(4).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
+			String currentMP = miscMatcher.group( 3 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
+			String maximumMP = miscMatcher.group( 4 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
 
-			KoLCharacter.setHP( StaticEntity.parseInt( currentHP ), StaticEntity.parseInt( maximumHP ), StaticEntity.parseInt( maximumHP ) );
-			KoLCharacter.setMP( StaticEntity.parseInt( currentMP ), StaticEntity.parseInt( maximumMP ), StaticEntity.parseInt( maximumMP ) );
+			KoLCharacter.setHP(
+				StaticEntity.parseInt( currentHP ), StaticEntity.parseInt( maximumHP ),
+				StaticEntity.parseInt( maximumHP ) );
+			KoLCharacter.setMP(
+				StaticEntity.parseInt( currentMP ), StaticEntity.parseInt( maximumMP ),
+				StaticEntity.parseInt( maximumMP ) );
 
-			String availableMeat = miscMatcher.group(5).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
+			String availableMeat = miscMatcher.group( 5 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
 			KoLCharacter.setAvailableMeat( StaticEntity.parseInt( availableMeat ) );
 
-			String adventuresLeft = miscMatcher.group(6).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
+			String adventuresLeft = miscMatcher.group( 6 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
 			int oldAdventures = KoLCharacter.getAdventuresLeft();
 			int newAdventures = StaticEntity.parseInt( adventuresLeft );
 
 			if ( oldAdventures != newAdventures )
-				StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, newAdventures - oldAdventures ) );
+			{
+				StaticEntity.getClient().processResult(
+					new AdventureResult( AdventureResult.ADV, newAdventures - oldAdventures ) );
+			}
 		}
 	}
 
-	private static final void handleMindControl( String responseText, String mcString ) throws Exception
+	private static final void handleMindControl( final String responseText, final String mcString )
+		throws Exception
 	{
 		Matcher matcher = Pattern.compile( mcString + "</a>: ?(</td><td>)?<b>(\\d+)</b>" ).matcher( responseText );
 
 		if ( matcher.find() )
-			KoLCharacter.setMindControlLevel( StaticEntity.parseInt( matcher.group(2) ) );
+		{
+			KoLCharacter.setMindControlLevel( StaticEntity.parseInt( matcher.group( 2 ) ) );
+		}
 		else
+		{
 			KoLCharacter.setMindControlLevel( 0 );
+		}
 	}
 
-	private static final void handleDetunedRadio( String responseText, String mcString ) throws Exception
+	private static final void handleDetunedRadio( final String responseText, final String mcString )
+		throws Exception
 	{
 		Matcher matcher = Pattern.compile( mcString + "</a>: ?(</td><td>)?<b>(\\d+)</b>" ).matcher( responseText );
 
 		if ( matcher.find() )
-			KoLCharacter.setDetunedRadioVolume( StaticEntity.parseInt( matcher.group(2) ) );
+		{
+			KoLCharacter.setDetunedRadioVolume( StaticEntity.parseInt( matcher.group( 2 ) ) );
+		}
 		else
+		{
 			KoLCharacter.setDetunedRadioVolume( 0 );
+		}
 	}
 
-	private static final void handleAnnoyotron( String responseText, String mcString ) throws Exception
+	private static final void handleAnnoyotron( final String responseText, final String mcString )
+		throws Exception
 	{
 		Matcher matcher = Pattern.compile( mcString + "</a>: ?(</td><td>)?<b>(\\d+)</b>" ).matcher( responseText );
 
 		if ( matcher.find() )
-			KoLCharacter.setAnnoyotronLevel( StaticEntity.parseInt( matcher.group(2) ) );
+		{
+			KoLCharacter.setAnnoyotronLevel( StaticEntity.parseInt( matcher.group( 2 ) ) );
+		}
 		else
+		{
 			KoLCharacter.setAnnoyotronLevel( 0 );
+		}
 	}
 
-	public static final AdventureResult extractEffect( String responseText, int searchIndex )
+	public static final AdventureResult extractEffect( final String responseText, int searchIndex )
 	{
 		String effectName = null;
 		int durationIndex = -1;
@@ -309,8 +373,7 @@ public class CharpaneRequest extends KoLRequest
 		String descriptionId = responseText.substring( searchIndex + 1, responseText.indexOf( ")", searchIndex ) - 1 );
 		int effectId = StatusEffectDatabase.getEffect( descriptionId );
 
-		String duration = responseText.substring( durationIndex,
-			responseText.indexOf( ")", durationIndex ) );
+		String duration = responseText.substring( durationIndex, responseText.indexOf( ")", durationIndex ) );
 
 		if ( effectId == -1 )
 		{
@@ -324,17 +387,19 @@ public class CharpaneRequest extends KoLRequest
 		}
 
 		if ( duration.indexOf( "&" ) != -1 || duration.indexOf( "<" ) != -1 )
+		{
 			return null;
+		}
 
 		return new AdventureResult( effectName, StaticEntity.parseInt( duration ), true );
 	}
 
-	private static final void refreshEffects( String responseText )
+	private static final void refreshEffects( final String responseText )
 	{
 		int searchIndex = 0;
 		int onClickIndex = 0;
 
-		recentEffects.clear();
+		KoLConstants.recentEffects.clear();
 		ArrayList visibleEffects = new ArrayList();
 
 		while ( onClickIndex != -1 )
@@ -342,50 +407,68 @@ public class CharpaneRequest extends KoLRequest
 			onClickIndex = responseText.indexOf( "onClick='eff", onClickIndex + 1 );
 
 			if ( onClickIndex == -1 )
+			{
 				continue;
+			}
 
 			searchIndex = responseText.lastIndexOf( "<", onClickIndex );
 
-			AdventureResult effect = extractEffect( responseText, searchIndex );
+			AdventureResult effect = CharpaneRequest.extractEffect( responseText, searchIndex );
 			if ( effect == null )
+			{
 				continue;
+			}
 
-			int activeCount = effect.getCount( activeEffects );
+			int activeCount = effect.getCount( KoLConstants.activeEffects );
 
 			if ( effect.getCount() != activeCount )
+			{
 				StaticEntity.getClient().processResult( effect.getInstance( effect.getCount() - activeCount ) );
+			}
 
 			visibleEffects.add( effect );
 		}
 
 		KoLmafia.applyEffects();
-		activeEffects.retainAll( visibleEffects );
+		KoLConstants.activeEffects.retainAll( visibleEffects );
 
 		if ( StaticEntity.isCounting( "Wormwood" ) )
+		{
 			return;
+		}
 
-		int absintheCount = ABSINTHE.getCount( activeEffects );
+		int absintheCount = CharpaneRequest.ABSINTHE.getCount( KoLConstants.activeEffects );
 
 		if ( absintheCount > 8 )
+		{
 			StaticEntity.startCounting( absintheCount - 9, "Wormwood", "tinybottle.gif" );
+		}
 		else if ( absintheCount > 4 )
+		{
 			StaticEntity.startCounting( absintheCount - 5, "Wormwood", "tinybottle.gif" );
+		}
 		else if ( absintheCount > 0 )
+		{
 			StaticEntity.startCounting( absintheCount - 1, "Wormwood", "tinybottle.gif" );
+		}
 	}
 
-	public static final void decorate( StringBuffer buffer )
+	public static final void decorate( final StringBuffer buffer )
 	{
 		StaticEntity.singleStringReplace( buffer, "<body", "<body onLoad=\"updateSafetyText();\"" );
 
 		if ( KoLSettings.getBooleanProperty( "relayAddsRestoreLinks" ) )
-			addRestoreLinks( buffer );
+		{
+			CharpaneRequest.addRestoreLinks( buffer );
+		}
 
 		if ( KoLSettings.getBooleanProperty( "relayAddsUpArrowLinks" ) )
-			addUpArrowLinks( buffer );
+		{
+			CharpaneRequest.addUpArrowLinks( buffer );
+		}
 	}
 
-	public static final void addRestoreLinks( StringBuffer buffer )
+	public static final void addRestoreLinks( final StringBuffer buffer )
 	{
 		String text = buffer.toString();
 		buffer.setLength( 0 );
@@ -398,8 +481,8 @@ public class CharpaneRequest extends KoLRequest
 		// First, locate your HP information inside of the response
 		// text and replace it with a restore HP link.
 
-		float threshold = KoLSettings.getFloatProperty( "hpAutoRecoveryTarget" ) * ((float) KoLCharacter.getMaximumHP());
-		float dangerous = KoLSettings.getFloatProperty( "hpAutoRecovery" ) * ((float) KoLCharacter.getMaximumHP());
+		float threshold = KoLSettings.getFloatProperty( "hpAutoRecoveryTarget" ) * (float) KoLCharacter.getMaximumHP();
+		float dangerous = KoLSettings.getFloatProperty( "hpAutoRecovery" ) * (float) KoLCharacter.getMaximumHP();
 
 		if ( KoLCharacter.getCurrentHP() < threshold )
 		{
@@ -410,7 +493,9 @@ public class CharpaneRequest extends KoLRequest
 
 				fontTag = text.substring( startingIndex, text.indexOf( ">", startingIndex ) + 1 );
 				if ( KoLCharacter.getCurrentHP() < dangerous )
+				{
 					fontTag = "<font color=red>";
+				}
 			}
 			else
 			{
@@ -419,7 +504,9 @@ public class CharpaneRequest extends KoLRequest
 
 				fontTag = text.substring( startingIndex, text.indexOf( ">", startingIndex ) + 1 );
 				if ( KoLCharacter.getCurrentHP() < dangerous )
+				{
 					fontTag = "<span class=red>";
+				}
 			}
 
 			buffer.append( text.substring( lastAppendIndex, startingIndex ) );
@@ -431,24 +518,32 @@ public class CharpaneRequest extends KoLRequest
 			startingIndex = text.indexOf( KoLRequest.isCompactMode ? "/" : "&", startingIndex );
 
 			if ( !KoLRequest.isCompactMode )
+			{
 				buffer.append( fontTag );
+			}
 
 			buffer.append( "<a title=\"Restore your HP\" href=\"/KoLmafia/sideCommand?cmd=restore+hp&pwd=" );
 			buffer.append( KoLRequest.passwordHash );
 			buffer.append( "\" style=\"color:" );
 
-			Matcher colorMatcher = COLOR_PATTERN.matcher( fontTag );
+			Matcher colorMatcher = CharpaneRequest.COLOR_PATTERN.matcher( fontTag );
 			if ( colorMatcher.find() )
-				buffer.append( colorMatcher.group(2) + "\">" );
+			{
+				buffer.append( colorMatcher.group( 2 ) + "\">" );
+			}
 			else
+			{
 				buffer.append( "black\"><b>" );
+			}
 
 			buffer.append( text.substring( lastAppendIndex, startingIndex ) );
 			lastAppendIndex = startingIndex;
 
 			buffer.append( "</a>" );
 			if ( !KoLRequest.isCompactMode )
+			{
 				buffer.append( "</span>" );
+			}
 
 			buffer.append( fontTag );
 		}
@@ -456,8 +551,8 @@ public class CharpaneRequest extends KoLRequest
 		// Next, locate your MP information inside of the response
 		// text and replace it with a restore MP link.
 
-		threshold = KoLSettings.getFloatProperty( "mpAutoRecoveryTarget" ) * ((float) KoLCharacter.getMaximumMP());
-		dangerous = KoLSettings.getFloatProperty( "mpAutoRecovery" ) * ((float) KoLCharacter.getMaximumMP());
+		threshold = KoLSettings.getFloatProperty( "mpAutoRecoveryTarget" ) * (float) KoLCharacter.getMaximumMP();
+		dangerous = KoLSettings.getFloatProperty( "mpAutoRecovery" ) * (float) KoLCharacter.getMaximumMP();
 
 		if ( KoLCharacter.getCurrentMP() < threshold )
 		{
@@ -482,7 +577,8 @@ public class CharpaneRequest extends KoLRequest
 			buffer.append( "\" title=\"Restore your MP\" href=\"/KoLmafia/sideCommand?cmd=restore+mp&pwd=" );
 			buffer.append( KoLRequest.passwordHash );
 			buffer.append( "\">" );
-			startingIndex = KoLRequest.isCompactMode ? text.indexOf( "/", startingIndex ) : text.indexOf( "&", startingIndex );
+			startingIndex =
+				KoLRequest.isCompactMode ? text.indexOf( "/", startingIndex ) : text.indexOf( "&", startingIndex );
 			buffer.append( text.substring( lastAppendIndex, startingIndex ) );
 			lastAppendIndex = startingIndex;
 
@@ -492,7 +588,7 @@ public class CharpaneRequest extends KoLRequest
 		buffer.append( text.substring( lastAppendIndex ) );
 	}
 
-	public static final void addUpArrowLinks( StringBuffer buffer )
+	public static final void addUpArrowLinks( final StringBuffer buffer )
 	{
 		String text = buffer.toString();
 		buffer.setLength( 0 );
@@ -532,9 +628,9 @@ public class CharpaneRequest extends KoLRequest
 		{
 			AdventureResult currentEffect;
 
-			for ( int i = 0; i < activeEffects.size() && moodText == null; ++i )
+			for ( int i = 0; i < KoLConstants.activeEffects.size() && moodText == null; ++i )
 			{
-				currentEffect = (AdventureResult) activeEffects.get(i);
+				currentEffect = (AdventureResult) KoLConstants.activeEffects.get( i );
 				if ( !MoodSettings.getDefaultAction( "lose_effect", currentEffect.getName() ).equals( "" ) )
 				{
 					fontColor = "black";
@@ -555,15 +651,21 @@ public class CharpaneRequest extends KoLRequest
 			boolean shouldAddDivider = effectIndex == -1;
 
 			if ( shouldAddDivider )
+			{
 				startingIndex = text.lastIndexOf( "</table>" ) + 8;
+			}
 			else
+			{
 				startingIndex = text.lastIndexOf( "<table", effectIndex );
+			}
 
 			buffer.append( text.substring( lastAppendIndex, startingIndex ) );
 			lastAppendIndex = startingIndex;
 
 			if ( shouldAddDivider )
+			{
 				buffer.append( "<hr width=50%>" );
+			}
 
 			buffer.append( "<font size=2 color=" );
 			buffer.append( fontColor );
@@ -573,9 +675,13 @@ public class CharpaneRequest extends KoLRequest
 			try
 			{
 				if ( moodText.startsWith( "mood" ) )
+				{
 					buffer.append( "mood+execute" );
+				}
 				else
+				{
 					buffer.append( URLEncoder.encode( moodText, "UTF-8" ) );
+				}
 			}
 			catch ( Exception e )
 			{
@@ -602,14 +708,18 @@ public class CharpaneRequest extends KoLRequest
 			{
 				startingIndex = text.lastIndexOf( "<table" );
 				if ( startingIndex < text.lastIndexOf( "target=mainpane" ) )
+				{
 					startingIndex = text.lastIndexOf( "</center>" );
+				}
 			}
 
 			buffer.append( text.substring( lastAppendIndex, startingIndex ) );
 			lastAppendIndex = startingIndex;
 
 			if ( effectIndex == -1 )
+			{
 				buffer.append( "<center><p><b><font size=2>Effects:</font></b>" );
+			}
 
 			buffer.append( "<br><font size=2 color=" );
 			buffer.append( fontColor );
@@ -619,9 +729,13 @@ public class CharpaneRequest extends KoLRequest
 			try
 			{
 				if ( moodText.startsWith( "mood" ) )
+				{
 					buffer.append( "mood+execute" );
+				}
 				else
+				{
 					buffer.append( URLEncoder.encode( moodText, "UTF-8" ) );
+				}
 			}
 			catch ( Exception e )
 			{
@@ -638,7 +752,9 @@ public class CharpaneRequest extends KoLRequest
 			buffer.append( "</a>]</font>" );
 
 			if ( effectIndex == -1 )
+			{
 				buffer.append( "</p></center>" );
+			}
 		}
 
 		// Insert any effects which are in your maintenance list which
@@ -649,7 +765,7 @@ public class CharpaneRequest extends KoLRequest
 		// If the player has at least one effect, then go ahead and add
 		// all of their missing effects.
 
-		if ( !activeEffects.isEmpty() && !missingEffects.isEmpty() )
+		if ( !KoLConstants.activeEffects.isEmpty() && !missingEffects.isEmpty() )
 		{
 			startingIndex = text.indexOf( "<tr>", lastAppendIndex );
 			buffer.append( text.substring( lastAppendIndex, startingIndex ) );
@@ -659,7 +775,7 @@ public class CharpaneRequest extends KoLRequest
 
 			for ( int i = 0; i < missingEffects.size(); ++i )
 			{
-				currentEffect = (AdventureResult) missingEffects.get(i);
+				currentEffect = (AdventureResult) missingEffects.get( i );
 				int effectId = StatusEffectDatabase.getEffectId( currentEffect.getName() );
 				String descriptionId = StatusEffectDatabase.getDescriptionId( effectId );
 
@@ -682,14 +798,16 @@ public class CharpaneRequest extends KoLRequest
 					buffer.append( currentEffect.getName() );
 				}
 				else
+				{
 					buffer.append( "<td><font size=2>" );
+				}
 
 				buffer.append( " (0)</font>&nbsp;<a href=\"/KoLmafia/sideCommand?cmd=" );
 
 				try
 				{
-					buffer.append( URLEncoder.encode(
-						MoodSettings.getDefaultAction( "lose_effect", currentEffect.getName() ), "UTF-8" ) );
+					buffer.append( URLEncoder.encode( MoodSettings.getDefaultAction(
+						"lose_effect", currentEffect.getName() ), "UTF-8" ) );
 				}
 				catch ( Exception e )
 				{
@@ -715,7 +833,9 @@ public class CharpaneRequest extends KoLRequest
 			startingIndex = text.indexOf( "onClick='eff", lastAppendIndex + 1 );
 
 			if ( startingIndex == -1 )
+			{
 				continue;
+			}
 
 			startingIndex = text.lastIndexOf( "<", startingIndex );
 			AdventureResult effect = CharpaneRequest.extractEffect( text, startingIndex );
@@ -753,7 +873,9 @@ public class CharpaneRequest extends KoLRequest
 				nextAppendIndex = text.indexOf( "<td>(", startingIndex ) + 5;
 			}
 			else
+			{
 				nextAppendIndex = text.indexOf( "(", text.indexOf( "<font size=2>", startingIndex ) ) + 1;
+			}
 
 			buffer.append( text.substring( lastAppendIndex, nextAppendIndex ) );
 			lastAppendIndex = nextAppendIndex;
@@ -761,7 +883,9 @@ public class CharpaneRequest extends KoLRequest
 			String upkeepAction = MoodSettings.getDefaultAction( "lose_effect", effectName );
 
 			if ( upkeepAction.startsWith( "adventure" ) || upkeepAction.endsWith( "snowcone" ) || upkeepAction.endsWith( "mushroom" ) || upkeepAction.endsWith( "cupcake" ) )
+			{
 				upkeepAction = "";
+			}
 
 			String imageAction = null;
 
@@ -781,7 +905,9 @@ public class CharpaneRequest extends KoLRequest
 			// or the buff has a default removal method.
 
 			if ( skillType == ClassSkillsDatabase.BUFF || KoLCharacter.hasItem( UneffectRequest.REMEDY ) )
+			{
 				removeAction = "uneffect " + effectName;
+			}
 
 			if ( !removeAction.equals( "" ) )
 			{
@@ -804,17 +930,25 @@ public class CharpaneRequest extends KoLRequest
 				buffer.append( "\" title=\"" );
 
 				if ( skillType == ClassSkillsDatabase.BUFF )
+				{
 					buffer.append( "Shrug off the " );
+				}
 				else if ( removeAction.startsWith( "uneffect" ) )
+				{
 					buffer.append( "Use a remedy to remove the " );
+				}
 				else
-					buffer.append( Character.toUpperCase( removeAction.charAt(0) ) + removeAction.substring(1) + " to remove the " );
+				{
+					buffer.append( Character.toUpperCase( removeAction.charAt( 0 ) ) + removeAction.substring( 1 ) + " to remove the " );
+				}
 
 				buffer.append( effectName );
 				buffer.append( " effect\"" );
 
 				if ( effectName.indexOf( "Poisoned" ) != -1 || effectName.equals( "Beaten Up" ) )
+				{
 					buffer.append( " style=\"color:red\"" );
+				}
 
 				buffer.append( ">" );
 			}
@@ -826,7 +960,9 @@ public class CharpaneRequest extends KoLRequest
 			lastAppendIndex = nextAppendIndex;
 
 			if ( skillType == ClassSkillsDatabase.BUFF || !removeAction.equals( "" ) )
+			{
 				buffer.append( "</a>" );
+			}
 
 			buffer.append( ")" );
 
@@ -864,7 +1000,9 @@ public class CharpaneRequest extends KoLRequest
 				buffer.append( "\"><img src=\"/images/" );
 
 				if ( duration <= 5 )
+				{
 					buffer.append( "red" );
+				}
 
 				buffer.append( "up.gif\" border=0></a>" );
 			}

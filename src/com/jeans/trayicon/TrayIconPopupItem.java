@@ -42,36 +42,27 @@ package com.jeans.trayicon;
 
 // Interface for all menu items (TrayIconPopup, TrayIconPopupSimpleItem,
 // TrayIconPopupCheckItem, TrayIconPopupSeparator,..)
-interface TrayIconPopupItem {
+interface TrayIconPopupItem
+{
 
-/****************************************************************************************************************
- *                                                                                                              *
- * Next section is for inter use only -- or for hackers :O)                                                     *
- *                                                                                                              *
- ****************************************************************************************************************/
+	/*******************************************************************************************************************
+	 * * Next section is for inter use only -- or for hackers :O) * *
+	 ******************************************************************************************************************/
 
-/**
- * Return submenu depth - used by WindowsTrayIcon.setPopup()/initPopup()
- */
+	/**
+	 * Return submenu depth - used by WindowsTrayIcon.setPopup()/initPopup()
+	 */
 	public int getNbLevels();
 
-/**
- * Callback when user selects menu item (find it by comparing menu id's)
- *
- * Param menuId = the id of the selected item
- */
-	public boolean onSelected(int menuId);
+	/**
+	 * Callback when user selects menu item (find it by comparing menu id's) Param menuId = the id of the selected item
+	 */
+	public boolean onSelected( int menuId );
 
-/**
- * Create menu in native library - used by WindowsTrayIcon.setPopup()
- *
- * Param trayicon = the owner of this menu
- * Param id = the icon's id
- * Param level = the level (submenu depth)
- */
-	public void setTrayIcon(WindowsTrayIcon trayicon, int id, int level);
+	/**
+	 * Create menu in native library - used by WindowsTrayIcon.setPopup() Param trayicon = the owner of this menu Param
+	 * id = the icon's id Param level = the level (submenu depth)
+	 */
+	public void setTrayIcon( WindowsTrayIcon trayicon, int id, int level );
 
 }
-
-
-

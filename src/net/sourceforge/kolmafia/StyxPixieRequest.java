@@ -36,14 +36,15 @@ package net.sourceforge.kolmafia;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class StyxPixieRequest extends KoLRequest
+public class StyxPixieRequest
+	extends KoLRequest
 {
 	private int effectId = 0;
 	private String desc = "";
 
 	private static final Pattern ID_PATTERN = Pattern.compile( "whichbuff=(\\d+)" );
 
-	public StyxPixieRequest( int stat )
+	public StyxPixieRequest( final int stat )
 	{
 		super( "heydeze.php" );
 
@@ -54,40 +55,43 @@ public class StyxPixieRequest extends KoLRequest
 		{
 		case MUSCLE:
 			// Hella Tough
-			effectId = 446;
-			desc = "tougher";
+			this.effectId = 446;
+			this.desc = "tougher";
 			break;
 		case MYSTICALITY:
 			// Hella Smart
-			effectId = 447;
-			desc = "smarter";
+			this.effectId = 447;
+			this.desc = "smarter";
 			break;
 		case MOXIE:
 			// Hella Smooth
-			effectId = 448;
-			desc = "smoother";
+			this.effectId = 448;
+			this.desc = "smoother";
 			break;
 		}
 
-		if ( effectId != 0 )
+		if ( this.effectId != 0 )
+		{
 			this.addFormField( "whichbuff", String.valueOf( this.effectId ) );
+		}
 	}
 
 	protected boolean retryOnTimeout()
-	{	return true;
+	{
+		return true;
 	}
 
 	public void run()
 	{
 		if ( !KoLCharacter.inBadMoon() )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You can't find the Styx Pixie." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't find the Styx Pixie." );
 			// return;
 		}
 
-		if ( effectId == 0 )
+		if ( this.effectId == 0 )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "Choose a stat to buff." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Choose a stat to buff." );
 			return;
 		}
 
@@ -97,36 +101,40 @@ public class StyxPixieRequest extends KoLRequest
 
 	public void processResults()
 	{
-		if ( this.responseText == null || this.responseText.equals( "") )
+		if ( this.responseText == null || this.responseText.equals( "" ) )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You can't find the Styx Pixie." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't find the Styx Pixie." );
 			return;
 		}
 
 		// "You already got a buff today"
-                if ( this.responseText.indexOf( "already got a buff today" ) != -1 )
+		if ( this.responseText.indexOf( "already got a buff today" ) != -1 )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You can only visit the Styx Pixie once a day." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can only visit the Styx Pixie once a day." );
 			return;
 		}
 
-		KoLmafia.updateDisplay( "You feel " + desc + "." );
+		KoLmafia.updateDisplay( "You feel " + this.desc + "." );
 		RequestFrame.refreshStatus();
 	}
 
-	public static final boolean registerRequest( String location )
+	public static final boolean registerRequest( final String location )
 	{
 		if ( !location.startsWith( "heydeze.php" ) )
+		{
 			return false;
+		}
 
-		Matcher idMatcher = ID_PATTERN.matcher( location );
+		Matcher idMatcher = StyxPixieRequest.ID_PATTERN.matcher( location );
 
 		if ( !idMatcher.find() )
+		{
 			return true;
+		}
 
 		String stat = "";
 
-		switch ( StaticEntity.parseInt( idMatcher.group(1) ) )
+		switch ( StaticEntity.parseInt( idMatcher.group( 1 ) ) )
 		{
 		case 446:
 			stat = "muscle";
@@ -143,4 +151,3 @@ public class StyxPixieRequest extends KoLRequest
 		return true;
 	}
 }
-

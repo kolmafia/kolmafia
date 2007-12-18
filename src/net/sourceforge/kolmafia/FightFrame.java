@@ -33,7 +33,8 @@
 
 package net.sourceforge.kolmafia;
 
-public class FightFrame extends RequestFrame
+public class FightFrame
+	extends RequestFrame
 {
 	private static FightFrame INSTANCE = null;
 
@@ -45,20 +46,22 @@ public class FightFrame extends RequestFrame
 
 	public void dispose()
 	{
-		INSTANCE = null;
+		FightFrame.INSTANCE = null;
 		super.dispose();
 	}
 
-	public static final void showLocation( String location )
-	{	showRequest( RequestEditorKit.extractRequest( location ) );
+	public static final void showLocation( final String location )
+	{
+		FightFrame.showRequest( RequestEditorKit.extractRequest( location ) );
 	}
 
-	public static final void showRequest( KoLRequest request )
+	public static final void showRequest( final KoLRequest request )
 	{
-		if ( INSTANCE == null )
-			createDisplay( FightFrame.class );
+		if ( FightFrame.INSTANCE == null )
+		{
+			KoLFrame.createDisplay( FightFrame.class );
+		}
 
-		INSTANCE.refresh( request );
+		FightFrame.INSTANCE.refresh( request );
 	}
 }
-

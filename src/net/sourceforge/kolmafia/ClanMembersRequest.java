@@ -37,14 +37,16 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ClanMembersRequest extends KoLRequest
+public class ClanMembersRequest
+	extends KoLRequest
 {
 	private static final Pattern CLANID_PATTERN = Pattern.compile( "showclan\\.php\\?whichclan=(\\d+)\">(.*?)</a>" );
-	private static final Pattern MEMBER_PATTERN = Pattern.compile( "<a class=nounder href=\"showplayer\\.php\\?who=(\\d+)\">([^<]+)</a></b>&nbsp;</td><td class=small>([^<]*?)&nbsp;</td><td class=small>(\\d+).*?</td>" );
+	private static final Pattern MEMBER_PATTERN =
+		Pattern.compile( "<a class=nounder href=\"showplayer\\.php\\?who=(\\d+)\">([^<]+)</a></b>&nbsp;</td><td class=small>([^<]*?)&nbsp;</td><td class=small>(\\d+).*?</td>" );
 
 	private String clanId;
 	private String clanName;
-	private boolean isLookup;
+	private final boolean isLookup;
 
 	public ClanMembersRequest()
 	{
@@ -54,7 +56,7 @@ public class ClanMembersRequest extends KoLRequest
 		this.isLookup = true;
 	}
 
-	public ClanMembersRequest( Object [] titleChange, Object [] newTitles, Object [] boots )
+	public ClanMembersRequest( final Object[] titleChange, final Object[] newTitles, final Object[] boots )
 	{
 		super( "clan_members.php" );
 		this.isLookup = false;
@@ -67,32 +69,39 @@ public class ClanMembersRequest extends KoLRequest
 		String currentId;
 		for ( int i = 0; i < titleChange.length; ++i )
 		{
-			currentId = KoLmafia.getPlayerId( (String) titleChange[i] );
-			this.addFormField( "title" + currentId, (String) newTitles[i] );
+			currentId = KoLmafia.getPlayerId( (String) titleChange[ i ] );
+			this.addFormField( "title" + currentId, (String) newTitles[ i ] );
 
 			if ( !fields.contains( currentId ) )
+			{
 				fields.add( currentId );
+			}
 		}
 
 		for ( int i = 0; i < boots.length; ++i )
 		{
-			currentId = KoLmafia.getPlayerId( (String) boots[i] );
+			currentId = KoLmafia.getPlayerId( (String) boots[ i ] );
 			ClanManager.unregisterMember( currentId );
 			this.addFormField( "boot" + currentId, "on" );
 
 			if ( !fields.contains( currentId ) )
+			{
 				fields.add( currentId );
+			}
 		}
 
-		String [] changedIds = new String[ fields.size() ];
+		String[] changedIds = new String[ fields.size() ];
 		fields.toArray( changedIds );
 
 		for ( int i = 0; i < changedIds.length; ++i )
-			this.addFormField( "pids[]", changedIds[i], true );
+		{
+			this.addFormField( "pids[]", changedIds[ i ], true );
+		}
 	}
 
 	protected boolean retryOnTimeout()
-	{	return true;
+	{
+		return true;
 	}
 
 	public void run()
@@ -107,10 +116,10 @@ public class ClanMembersRequest extends KoLRequest
 			ProfileRequest clanIdLookup = new ProfileRequest( KoLCharacter.getUserName() );
 			clanIdLookup.run();
 
-			Matcher clanIdMatcher = CLANID_PATTERN.matcher( clanIdLookup.responseText );
+			Matcher clanIdMatcher = ClanMembersRequest.CLANID_PATTERN.matcher( clanIdLookup.responseText );
 			if ( !clanIdMatcher.find() )
 			{
-				KoLmafia.updateDisplay( ERROR_STATE, "Your character does not belong to a clan." );
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Your character does not belong to a clan." );
 				return;
 			}
 
@@ -118,8 +127,8 @@ public class ClanMembersRequest extends KoLRequest
 			// to, you can do a clan lookup to get a
 			// complete list of clan members in one hit
 
-			this.clanId = clanIdMatcher.group(1);
-			this.clanName = clanIdMatcher.group(2);
+			this.clanId = clanIdMatcher.group( 1 );
+			this.clanName = clanIdMatcher.group( 2 );
 
 			this.addFormField( "whichclan", this.clanId );
 			KoLmafia.updateDisplay( "Retrieving clan member list..." );
@@ -133,16 +142,16 @@ public class ClanMembersRequest extends KoLRequest
 		if ( this.isLookup )
 		{
 			int lastMatchIndex = 0;
-			Matcher memberMatcher = MEMBER_PATTERN.matcher( this.responseText );
+			Matcher memberMatcher = ClanMembersRequest.MEMBER_PATTERN.matcher( this.responseText );
 
 			while ( memberMatcher.find( lastMatchIndex ) )
 			{
 				lastMatchIndex = memberMatcher.end();
 
-				String id = memberMatcher.group(1);
-				String name = memberMatcher.group(2);
-				String level = memberMatcher.group(4);
-				String title = memberMatcher.group(3);
+				String id = memberMatcher.group( 1 );
+				String name = memberMatcher.group( 2 );
+				String level = memberMatcher.group( 4 );
+				String title = memberMatcher.group( 3 );
 
 				KoLmafia.registerPlayer( name, id );
 				ClanManager.registerMember( name, level, title );
@@ -151,10 +160,12 @@ public class ClanMembersRequest extends KoLRequest
 	}
 
 	public String getClanId()
-	{	return this.clanId;
+	{
+		return this.clanId;
 	}
 
 	public String getClanName()
-	{	return this.clanName;
+	{
+		return this.clanName;
 	}
 }

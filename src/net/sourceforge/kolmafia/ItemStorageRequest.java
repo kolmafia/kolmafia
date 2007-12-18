@@ -38,14 +38,17 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ItemStorageRequest extends SendMessageRequest
+public class ItemStorageRequest
+	extends SendMessageRequest
 {
 	private static final Pattern CLOSETMEAT_PATTERN = Pattern.compile( "<b>Your closet contains ([\\d,]+) meat\\.</b>" );
-	private static final Pattern STORAGEMEAT_PATTERN = Pattern.compile( "<b>You have ([\\d,]+) meat in long-term storage.</b>" );
+	private static final Pattern STORAGEMEAT_PATTERN =
+		Pattern.compile( "<b>You have ([\\d,]+) meat in long-term storage.</b>" );
 
 	private static final Pattern PULLS_PATTERN = Pattern.compile( "(\\d+) more" );
 	private static final Pattern STORAGE_PATTERN = Pattern.compile( "name=\"whichitem1\".*?</select>", Pattern.DOTALL );
-	private static final Pattern OPTION_PATTERN = Pattern.compile( "<option[^>]* value='([\\d]+)'>(.*?)\\(([\\d,]+)\\)" );
+	private static final Pattern OPTION_PATTERN =
+		Pattern.compile( "<option[^>]* value='([\\d]+)'>(.*?)\\(([\\d,]+)\\)" );
 
 	private int moveType;
 
@@ -61,21 +64,21 @@ public class ItemStorageRequest extends SendMessageRequest
 	public ItemStorageRequest()
 	{
 		super( "storage.php" );
-		this.moveType = RETRIEVE_STORAGE;
+		this.moveType = ItemStorageRequest.RETRIEVE_STORAGE;
 	}
 
-	public ItemStorageRequest( int moveType )
+	public ItemStorageRequest( final int moveType )
 	{
-		this( moveType, new Object[0] );
+		this( moveType, new Object[ 0 ] );
 		this.moveType = moveType;
 	}
 
-	public ItemStorageRequest( int moveType, int amount )
+	public ItemStorageRequest( final int moveType, final int amount )
 	{
-		this( moveType, new Object [] { new AdventureResult( AdventureResult.MEAT, amount ) } );
+		this( moveType, new Object[] { new AdventureResult( AdventureResult.MEAT, amount ) } );
 	}
 
-	public ItemStorageRequest( int moveType, Object [] attachments )
+	public ItemStorageRequest( final int moveType, final Object[] attachments )
 	{
 		super( "closet.php", attachments );
 		this.moveType = moveType;
@@ -99,26 +102,26 @@ public class ItemStorageRequest extends SendMessageRequest
 
 		case EMPTY_STORAGE:
 			this.constructURLString( "storage.php?action=takeall" );
-			this.source = storage;
-			this.destination = inventory;
+			this.source = KoLConstants.storage;
+			this.destination = KoLConstants.inventory;
 			break;
 
 		case STORAGE_TO_INVENTORY:
 			this.constructURLString( "storage.php?action=take" );
-			this.source = storage;
-			this.destination = inventory;
+			this.source = KoLConstants.storage;
+			this.destination = KoLConstants.inventory;
 			break;
 
 		case INVENTORY_TO_CLOSET:
 			this.constructURLString( "closet.php?action=put" );
-			this.source = inventory;
-			this.destination = closet;
+			this.source = KoLConstants.inventory;
+			this.destination = KoLConstants.closet;
 			break;
 
 		case CLOSET_TO_INVENTORY:
 			this.constructURLString( "closet.php?action=take" );
-			this.source = closet;
-			this.destination = inventory;
+			this.source = KoLConstants.closet;
+			this.destination = KoLConstants.inventory;
 			break;
 		}
 
@@ -129,23 +132,28 @@ public class ItemStorageRequest extends SendMessageRequest
 	}
 
 	protected boolean retryOnTimeout()
-	{	return this.moveType == RETRIEVE_STORAGE;
+	{
+		return this.moveType == ItemStorageRequest.RETRIEVE_STORAGE;
 	}
 
 	public int getMoveType()
-	{	return this.moveType;
+	{
+		return this.moveType;
 	}
 
 	public String getItemField()
-	{	return "whichitem";
+	{
+		return "whichitem";
 	}
 
 	public String getQuantityField()
-	{	return "howmany";
+	{
+		return "howmany";
 	}
 
 	public String getMeatField()
-	{	return "amt";
+	{
+		return "amt";
 	}
 
 	public List getItems()
@@ -153,20 +161,26 @@ public class ItemStorageRequest extends SendMessageRequest
 		List itemList = new ArrayList();
 
 		if ( this.attachments == null )
+		{
 			return itemList;
+		}
 
 		for ( int i = 0; i < this.attachments.length; ++i )
-			itemList.add( this.attachments[i] );
+		{
+			itemList.add( this.attachments[ i ] );
+		}
 
 		return itemList;
 	}
 
 	public int getCapacity()
-	{	return 11;
+	{
+		return 11;
 	}
 
-	public SendMessageRequest getSubInstance( Object [] attachments )
-	{	return new ItemStorageRequest( this.moveType, attachments );
+	public SendMessageRequest getSubInstance( final Object[] attachments )
+	{
+		return new ItemStorageRequest( this.moveType, attachments );
 	}
 
 	public String getSuccessMessage()
@@ -194,7 +208,7 @@ public class ItemStorageRequest extends SendMessageRequest
 			case RETRIEVE_STORAGE:
 			case STORAGE_TO_INVENTORY:
 			case PULL_MEAT_FROM_STORAGE:
-				KoLmafia.updateDisplay( ERROR_STATE, "Hagnk's Storage is not available in Bad Moon" );
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Hagnk's Storage is not available in Bad Moon" );
 				return;
 			}
 		}
@@ -209,11 +223,15 @@ public class ItemStorageRequest extends SendMessageRequest
 		switch ( this.moveType )
 		{
 		case EMPTY_STORAGE:
-			while ( !storage.isEmpty() )
-				StaticEntity.getClient().processResult( (AdventureResult) storage.remove(0) );
+			while ( !KoLConstants.storage.isEmpty() )
+			{
+				StaticEntity.getClient().processResult( (AdventureResult) KoLConstants.storage.remove( 0 ) );
+			}
 
-			if ( !containsUpdate )
+			if ( !this.containsUpdate )
+			{
 				CharpaneRequest.getInstance().run();
+			}
 
 			break;
 
@@ -237,14 +255,18 @@ public class ItemStorageRequest extends SendMessageRequest
 
 	private void handleMeat()
 	{
-		if ( this.moveType == PULL_MEAT_FROM_STORAGE || this.moveType == RETRIEVE_STORAGE || this.moveType == STORAGE_TO_INVENTORY )
+		if ( this.moveType == ItemStorageRequest.PULL_MEAT_FROM_STORAGE || this.moveType == ItemStorageRequest.RETRIEVE_STORAGE || this.moveType == ItemStorageRequest.STORAGE_TO_INVENTORY )
 		{
-			Matcher meatInStorageMatcher = STORAGEMEAT_PATTERN.matcher( this.responseText );
+			Matcher meatInStorageMatcher = ItemStorageRequest.STORAGEMEAT_PATTERN.matcher( this.responseText );
 
 			if ( meatInStorageMatcher.find() )
-				KoLCharacter.setStorageMeat( StaticEntity.parseInt( meatInStorageMatcher.group(1) ) );
+			{
+				KoLCharacter.setStorageMeat( StaticEntity.parseInt( meatInStorageMatcher.group( 1 ) ) );
+			}
 			else
+			{
 				KoLCharacter.setStorageMeat( 0 );
+			}
 
 			return;
 		}
@@ -256,91 +278,120 @@ public class ItemStorageRequest extends SendMessageRequest
 		int beforeMeatInCloset = KoLCharacter.getClosetMeat();
 		int afterMeatInCloset = 0;
 
-		Matcher meatInClosetMatcher = CLOSETMEAT_PATTERN.matcher( this.responseText );
+		Matcher meatInClosetMatcher = ItemStorageRequest.CLOSETMEAT_PATTERN.matcher( this.responseText );
 
 		if ( meatInClosetMatcher.find() )
-			afterMeatInCloset = StaticEntity.parseInt( meatInClosetMatcher.group(1) );
+		{
+			afterMeatInCloset = StaticEntity.parseInt( meatInClosetMatcher.group( 1 ) );
+		}
 
 		KoLCharacter.setClosetMeat( afterMeatInCloset );
-		StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, beforeMeatInCloset - afterMeatInCloset ) );
+		StaticEntity.getClient().processResult(
+			new AdventureResult( AdventureResult.MEAT, beforeMeatInCloset - afterMeatInCloset ) );
 	}
 
 	private void parseStorage()
 	{
-		List storageContents = storage;
+		List storageContents = KoLConstants.storage;
 
 		// Compute the number of pulls remaining based
 		// on the response text.
 
-		Matcher storageMatcher = PULLS_PATTERN.matcher( this.responseText );
+		Matcher storageMatcher = ItemStorageRequest.PULLS_PATTERN.matcher( this.responseText );
 		if ( storageMatcher.find() )
-			ItemManageFrame.setPullsRemaining( StaticEntity.parseInt( storageMatcher.group(1) ) );
+		{
+			ItemManageFrame.setPullsRemaining( StaticEntity.parseInt( storageMatcher.group( 1 ) ) );
+		}
 		else if ( KoLCharacter.isHardcore() || !KoLCharacter.canInteract() )
+		{
 			ItemManageFrame.setPullsRemaining( 0 );
+		}
 		else
+		{
 			ItemManageFrame.setPullsRemaining( -1 );
+		}
 
 		// Start with an empty list
 
 		if ( !storageContents.isEmpty() )
+		{
 			return;
+		}
 
 		// If there's nothing inside storage, return
 		// because there's nothing to parse.
 
-		storageMatcher = STORAGE_PATTERN.matcher( this.responseText );
+		storageMatcher = ItemStorageRequest.STORAGE_PATTERN.matcher( this.responseText );
 		if ( !storageMatcher.find() )
+		{
 			return;
+		}
 
-		Matcher optionMatcher = OPTION_PATTERN.matcher( storageMatcher.group() );
+		Matcher optionMatcher = ItemStorageRequest.OPTION_PATTERN.matcher( storageMatcher.group() );
 		while ( optionMatcher.find() )
 		{
-			int itemId = StaticEntity.parseInt( optionMatcher.group(1) );
+			int itemId = StaticEntity.parseInt( optionMatcher.group( 1 ) );
 
 			if ( TradeableItemDatabase.getItemName( itemId ) == null )
-				TradeableItemDatabase.registerItem( itemId, optionMatcher.group(2).trim() );
+			{
+				TradeableItemDatabase.registerItem( itemId, optionMatcher.group( 2 ).trim() );
+			}
 
-			AdventureResult result = new AdventureResult( itemId, StaticEntity.parseInt( optionMatcher.group(3) ) );
+			AdventureResult result = new AdventureResult( itemId, StaticEntity.parseInt( optionMatcher.group( 3 ) ) );
 			AdventureResult.addResultToList( storageContents, result );
 		}
 	}
 
-	public static final boolean registerRequest( String urlString )
+	public static final boolean registerRequest( final String urlString )
 	{
 		if ( urlString.startsWith( "closet.php" ) && urlString.indexOf( "action=take" ) != -1 )
-			return registerRequest( "take from closet", urlString, closet, inventory, "amt", 0 );
+		{
+			return SendMessageRequest.registerRequest(
+				"take from closet", urlString, KoLConstants.closet, KoLConstants.inventory, "amt", 0 );
+		}
 
 		if ( urlString.startsWith( "closet.php" ) && urlString.indexOf( "action=put" ) != -1 )
-			return registerRequest( "add to closet", urlString, inventory, closet, "amt", 0 );
+		{
+			return SendMessageRequest.registerRequest(
+				"add to closet", urlString, KoLConstants.inventory, KoLConstants.closet, "amt", 0 );
+		}
 
 		// Only other option is storage transfers.  Therefore,
 		// if it's clearly not handling of item transfers in
 		// storage, return.
 
 		if ( !urlString.startsWith( "storage.php" ) || urlString.indexOf( "action=takemeat" ) != -1 )
+		{
 			return false;
+		}
 
 		if ( urlString.indexOf( "action=takeall" ) != -1 )
 		{
-			while ( !storage.isEmpty() )
-				KoLCharacter.processResult( (AdventureResult) storage.remove(0) );
+			while ( !KoLConstants.storage.isEmpty() )
+			{
+				KoLCharacter.processResult( (AdventureResult) KoLConstants.storage.remove( 0 ) );
+			}
 
 			return true;
 		}
 
-		return registerRequest( "pull", urlString, storage, inventory, "amt", 0 );
+		return SendMessageRequest.registerRequest(
+			"pull", urlString, KoLConstants.storage, KoLConstants.inventory, "amt", 0 );
 	}
 
 	public boolean allowMementoTransfer()
-	{	return true;
+	{
+		return true;
 	}
 
 	public boolean allowUntradeableTransfer()
-	{	return true;
+	{
+		return true;
 	}
 
 	public boolean allowUngiftableTransfer()
-	{	return true;
+	{
+		return true;
 	}
 
 	public String getStatusMessage()

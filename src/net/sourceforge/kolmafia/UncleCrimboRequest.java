@@ -36,11 +36,12 @@ package net.sourceforge.kolmafia;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class UncleCrimboRequest extends ItemCreationRequest
+public class UncleCrimboRequest
+	extends ItemCreationRequest
 {
 	private static final Pattern CREATE_PATTERN = Pattern.compile( "crimbo07.php.*whichitem=(\\d+).*quantity=(\\d+)" );
 
-	public UncleCrimboRequest( int itemId )
+	public UncleCrimboRequest( final int itemId )
 	{
 		super( "crimbo07.php", itemId );
 
@@ -61,37 +62,44 @@ public class UncleCrimboRequest extends ItemCreationRequest
 		// pixels if they are not currently available.
 
 		if ( !this.makeIngredients() )
+		{
 			return;
+		}
 
 		KoLmafia.updateDisplay( "Creating " + this.getQuantityNeeded() + " " + this.getName() + "..." );
 		this.addFormField( "quantity", String.valueOf( this.getQuantityNeeded() ) );
 		super.run();
 	}
 
-	public static final boolean registerRequest( String urlString )
+	public static final boolean registerRequest( final String urlString )
 	{
-		Matcher createMatcher = CREATE_PATTERN.matcher( urlString );
+		Matcher createMatcher = UncleCrimboRequest.CREATE_PATTERN.matcher( urlString );
 		if ( !createMatcher.find() )
+		{
 			return false;
+		}
 
 		// Item ID of the base item
-		int itemId = StaticEntity.parseInt( createMatcher.group(1) );
-		int quantity = StaticEntity.parseInt( createMatcher.group(2) );
+		int itemId = StaticEntity.parseInt( createMatcher.group( 1 ) );
+		int quantity = StaticEntity.parseInt( createMatcher.group( 2 ) );
 
-		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemId );
+		AdventureResult[] ingredients = ConcoctionsDatabase.getIngredients( itemId );
 		StringBuffer text = new StringBuffer();
 		text.append( "Combine " );
 
 		for ( int i = 0; i < ingredients.length; ++i )
-                {
+		{
 			if ( i > 0 )
+			{
 				text.append( " + " );
+			}
 
-			text.append( ingredients[i].getCount() * quantity );
+			text.append( ingredients[ i ].getCount() * quantity );
 			text.append( " " );
-			text.append( ingredients[i].getName() );
-			StaticEntity.getClient().processResult( ingredients[i].getInstance( -1 * ingredients[i].getCount() * quantity ) );
-                }
+			text.append( ingredients[ i ].getName() );
+			StaticEntity.getClient().processResult(
+				ingredients[ i ].getInstance( -1 * ingredients[ i ].getCount() * quantity ) );
+		}
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( text.toString() );

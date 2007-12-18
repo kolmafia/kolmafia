@@ -38,16 +38,12 @@ import java.util.ArrayList;
 import net.sourceforge.foxtrot.Job;
 import net.sourceforge.kolmafia.StaticEntity.TurnCounter;
 
-public class KoLAdventure extends Job implements KoLConstants, Comparable
+public class KoLAdventure
+	extends Job
+	implements KoLConstants, Comparable
 {
-	public static final String [][] DEMON_TYPES =
-	{
-		{ "Summoning Chamber", "Pies" },
-		{ "Spooky Forest", "Preternatural Greed" },
-		{ "Sonofa Beach", "Fit To Be Tide" },
-		{ "Deep Fat Friars' Gate", "Big Flaming Whip" },
-		{ "Haunted Bathroom", "Demonic Taint" }
-	};
+	public static final String[][] DEMON_TYPES =
+		{ { "Summoning Chamber", "Pies" }, { "Spooky Forest", "Preternatural Greed" }, { "Sonofa Beach", "Fit To Be Tide" }, { "Deep Fat Friars' Gate", "Big Flaming Whip" }, { "Haunted Bathroom", "Demonic Taint" } };
 
 	private static final KoLRequest ZONE_UNLOCK = new KoLRequest( "" );
 	private static final AdventureResult HYDRATED = new AdventureResult( "Ultrahydrated", 1, true );
@@ -59,7 +55,8 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 	public static final AdventureResult EVIL_SCROLL = new AdventureResult( 1960, 1 );
 
 	public static final AdventureResult DRUM_MACHINE = new AdventureResult( ConsumeItemRequest.DRUM_MACHINE, -1 );
-	public static final AdventureResult CURSED_PIECE_OF_THIRTEEN = new AdventureResult( ConsumeItemRequest.CURSED_PIECE_OF_THIRTEEN, 1 );
+	public static final AdventureResult CURSED_PIECE_OF_THIRTEEN =
+		new AdventureResult( ConsumeItemRequest.CURSED_PIECE_OF_THIRTEEN, 1 );
 	public static final AdventureResult CASINO_PASS = new AdventureResult( 40, 1 );
 
 	public static final AdventureResult DINGHY = new AdventureResult( 141, 1 );
@@ -80,7 +77,9 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 	public static final AdventureResult ROWBOAT = new AdventureResult( 653, 1 );
 
 	public static final AdventureResult SOCK = new AdventureResult( 609, 1 );
-	public static final AdventureResult [] IMMATERIA = { new AdventureResult( 605, -1 ), new AdventureResult( 606, -1 ), new AdventureResult( 607, -1 ), new AdventureResult( 608, -1 ) };
+	public static final AdventureResult[] IMMATERIA =
+		{ new AdventureResult( 605, -1 ), new AdventureResult( 606, -1 ), new AdventureResult( 607, -1 ), new AdventureResult(
+			608, -1 ) };
 
 	private static final AdventureResult MUSHROOM = new AdventureResult( 1622, 1 );
 	private static final AdventureResult ASTRAL = new AdventureResult( "Half-Astral", 0 );
@@ -89,24 +88,24 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 	private static KoLAdventure lastVisitedLocation = null;
 
 	private boolean isValidAdventure = false;
-	private String zone, parentZone, adventureId, formSource, adventureName;
+	private final String zone, parentZone, adventureId, formSource, adventureName;
 
-	private String normalString, lowercaseString, parentZoneDescription;
+	private final String normalString, lowercaseString, parentZoneDescription;
 
 	private KoLRequest request;
-	private AreaCombatData areaSummary;
-	private boolean isNonCombatsOnly;
+	private final AreaCombatData areaSummary;
+	private final boolean isNonCombatsOnly;
 
 	/**
-	 * Constructs a new <code>KoLAdventure</code> with the given
-	 * specifications.
-	 *
-	 * @param	formSource	The form associated with the given adventure
-	 * @param	adventureId	The identifier for this adventure, relative to its form
-	 * @param	adventureName	The string form, or name of this adventure
+	 * Constructs a new <code>KoLAdventure</code> with the given specifications.
+	 * 
+	 * @param formSource The form associated with the given adventure
+	 * @param adventureId The identifier for this adventure, relative to its form
+	 * @param adventureName The string form, or name of this adventure
 	 */
 
-	public KoLAdventure( String zone, String formSource, String adventureId, String adventureName )
+	public KoLAdventure( final String zone, final String formSource, final String adventureId,
+		final String adventureName )
 	{
 		this.formSource = formSource;
 		this.adventureId = adventureId;
@@ -120,29 +119,44 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		this.parentZoneDescription = (String) AdventureDatabase.ZONE_DESCRIPTIONS.get( this.parentZone );
 
 		if ( formSource.equals( "sewer.php" ) )
+		{
 			this.request = new SewerRequest( false );
+		}
 		else if ( formSource.equals( "luckysewer.php" ) )
+		{
 			this.request = new SewerRequest( true );
+		}
 		else if ( formSource.equals( "campground.php" ) )
+		{
 			this.request = new CampgroundRequest( adventureId );
+		}
 		else if ( formSource.equals( "clan_gym.php" ) )
+		{
 			this.request = new ClanGymRequest( StaticEntity.parseInt( adventureId ) );
+		}
 		else if ( formSource.equals( "basement.php" ) )
+		{
 			this.request = new BasementRequest( adventureName );
+		}
 		else
+		{
 			this.request = new AdventureRequest( adventureName, formSource, adventureId );
+		}
 
 		this.areaSummary = AdventureDatabase.getAreaCombatData( adventureName );
 
 		if ( adventureId == null )
+		{
 			return;
+		}
 
-		this.isNonCombatsOnly = !(this.request instanceof AdventureRequest) ||
-			(this.areaSummary != null && this.areaSummary.combats() == 0 && this.areaSummary.getMonsterCount() == 0);
+		this.isNonCombatsOnly =
+			!( this.request instanceof AdventureRequest ) || this.areaSummary != null && this.areaSummary.combats() == 0 && this.areaSummary.getMonsterCount() == 0;
 	}
 
 	public String toLowerCaseString()
-	{	return lowercaseString;
+	{
+		return this.lowercaseString;
 	}
 
 	/**
@@ -150,7 +164,8 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 	 */
 
 	public String getFormSource()
-	{	return this.formSource;
+	{
+		return this.formSource;
 	}
 
 	/**
@@ -158,15 +173,18 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 	 */
 
 	public String getZone()
-	{	return this.zone;
+	{
+		return this.zone;
 	}
 
 	public String getParentZone()
-	{	return this.parentZone;
+	{
+		return this.parentZone;
 	}
 
 	public String getParentZoneDescription()
-	{	return this.parentZoneDescription;
+	{
+		return this.parentZoneDescription;
 	}
 
 	/**
@@ -174,38 +192,45 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 	 */
 
 	public String getAdventureName()
-	{	return this.adventureName;
+	{
+		return this.adventureName;
 	}
 
 	/**
 	 * Returns the adventure Id for this adventure.
-	 * @return	The adventure Id for this adventure
+	 * 
+	 * @return The adventure Id for this adventure
 	 */
 
 	public String getAdventureId()
-	{	return this.adventureId;
+	{
+		return this.adventureId;
 	}
 
 	public AreaCombatData getAreaSummary()
-	{	return this.areaSummary;
+	{
+		return this.areaSummary;
 	}
 
 	public boolean isNonCombatsOnly()
-	{	return this.isNonCombatsOnly;
+	{
+		return this.isNonCombatsOnly;
 	}
 
 	/**
 	 * Returns the request associated with this adventure.
-	 * @return	The request for this adventure
+	 * 
+	 * @return The request for this adventure
 	 */
 
 	public KoLRequest getRequest()
-	{	return this.request;
+	{
+		return this.request;
 	}
 
 	/**
-	 * Checks the map location of the given zone.  This is to ensure that
-	 * KoLmafia arms any needed flags (such as for the beanstalk).
+	 * Checks the map location of the given zone. This is to ensure that KoLmafia arms any needed flags (such as for the
+	 * beanstalk).
 	 */
 
 	private void validate( boolean visitedCouncil )
@@ -215,23 +240,31 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			// Update the choice adventure setting
 
 			if ( this.adventureId.equals( "96" ) )
+			{
 				KoLSettings.setUserProperty( "choiceAdventure71", "1" );
+			}
 			else if ( this.adventureId.equals( "98" ) )
+			{
 				KoLSettings.setUserProperty( "choiceAdventure71", "2" );
+			}
 			else
+			{
 				KoLSettings.setUserProperty( "choiceAdventure71", "3" );
+			}
 
 			// If the player is not half-astral, then
 			// make sure they are before continuing.
 
-			if ( !activeEffects.contains( ASTRAL ) )
+			if ( !KoLConstants.activeEffects.contains( KoLAdventure.ASTRAL ) )
 			{
-				this.isValidAdventure = AdventureDatabase.retrieveItem( MUSHROOM );
+				this.isValidAdventure = AdventureDatabase.retrieveItem( KoLAdventure.MUSHROOM );
 				if ( this.isValidAdventure )
-					RequestThread.postRequest( new ConsumeItemRequest( MUSHROOM ) );
+				{
+					RequestThread.postRequest( new ConsumeItemRequest( KoLAdventure.MUSHROOM ) );
+				}
 			}
 
-			this.isValidAdventure = activeEffects.contains( ASTRAL );
+			this.isValidAdventure = KoLConstants.activeEffects.contains( KoLAdventure.ASTRAL );
 			return;
 		}
 
@@ -241,21 +274,27 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		{
 			int outfitId = EquipmentDatabase.getOutfitId( this );
 
-			if ( !activeEffects.contains( PERFUME_EFFECT ) )
+			if ( !KoLConstants.activeEffects.contains( KoLAdventure.PERFUME_EFFECT ) )
 			{
-				if ( !AdventureDatabase.retrieveItem( PERFUME_ITEM ) )
+				if ( !AdventureDatabase.retrieveItem( KoLAdventure.PERFUME_ITEM ) )
+				{
 					return;
+				}
 			}
 
 			if ( !EquipmentDatabase.isWearingOutfit( outfitId ) )
 			{
 				if ( !EquipmentDatabase.retrieveOutfit( outfitId ) )
+				{
 					return;
+				}
 			}
 
 			RequestThread.postRequest( new EquipmentRequest( EquipmentDatabase.getOutfit( outfitId ) ) );
-			if ( !activeEffects.contains( PERFUME_EFFECT ) )
-				RequestThread.postRequest( new ConsumeItemRequest( PERFUME_ITEM ) );
+			if ( !KoLConstants.activeEffects.contains( KoLAdventure.PERFUME_EFFECT ) )
+			{
+				RequestThread.postRequest( new ConsumeItemRequest( KoLAdventure.PERFUME_ITEM ) );
+			}
 		}
 
 		// Pirate cove should not be visited before level 9.
@@ -264,18 +303,22 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			if ( KoLmafia.isAdventuring() && KoLCharacter.getLevel() < 9 )
 			{
 				if ( !KoLFrame.confirm( "The dictionary won't drop right now.  Are you sure you wish to continue?" ) )
+				{
 					return;
+				}
 			}
 
 			// If it's the pirate quest in disguise, make sure
 			// you visit the council beforehand.
 
 			if ( !this.isValidAdventure )
+			{
 				KoLmafiaCLI.DEFAULT_SHELL.executeLine( "council" );
+			}
 		}
 
 		// Disguise zones require outfits
-		if ( !this.adventureId.equals( "85" ) && (this.adventureName.indexOf( "Disguise" ) != -1 || this.adventureName.indexOf( "Uniform" ) != -1) )
+		if ( !this.adventureId.equals( "85" ) && ( this.adventureName.indexOf( "Disguise" ) != -1 || this.adventureName.indexOf( "Uniform" ) != -1 ) )
 		{
 			int outfitId = EquipmentDatabase.getOutfitId( this );
 
@@ -283,7 +326,9 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			{
 				this.isValidAdventure = false;
 				if ( !EquipmentDatabase.retrieveOutfit( outfitId ) )
+				{
 					return;
+				}
 
 				RequestThread.postRequest( new EquipmentRequest( EquipmentDatabase.getOutfit( outfitId ) ) );
 				this.isValidAdventure = true;
@@ -297,33 +342,35 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 		if ( this.adventureId.equals( "73" ) )
 		{
-			if ( !KoLCharacter.hasItem( TRANSFUNCTIONER ) )
+			if ( !KoLCharacter.hasItem( KoLAdventure.TRANSFUNCTIONER ) )
 			{
-				RequestThread.postRequest( ZONE_UNLOCK.constructURLString( "mystic.php" ) );
-				RequestThread.postRequest( ZONE_UNLOCK.constructURLString( "mystic.php?action=crackyes1" ) );
-				RequestThread.postRequest( ZONE_UNLOCK.constructURLString( "mystic.php?action=crackyes2" ) );
-				RequestThread.postRequest( ZONE_UNLOCK.constructURLString( "mystic.php?action=crackyes3" ) );
+				RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "mystic.php" ) );
+				RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "mystic.php?action=crackyes1" ) );
+				RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "mystic.php?action=crackyes2" ) );
+				RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "mystic.php?action=crackyes3" ) );
 			}
 
 			if ( EquipmentDatabase.getHands( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getName() ) > 1 )
 			{
-				KoLmafia.updateDisplay( ERROR_STATE, "You need to free up a hand." );
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You need to free up a hand." );
 				return;
 			}
 
-			RequestThread.postRequest( new EquipmentRequest( TRANSFUNCTIONER ) );
+			RequestThread.postRequest( new EquipmentRequest( KoLAdventure.TRANSFUNCTIONER ) );
 			this.isValidAdventure = true;
 			return;
 		}
 
 		if ( this.adventureId.equals( "119" ) )
 		{
-			if ( !KoLCharacter.hasEquipped( TALISMAN ) )
+			if ( !KoLCharacter.hasEquipped( KoLAdventure.TALISMAN ) )
 			{
-				if ( !AdventureDatabase.retrieveItem( TALISMAN ) )
+				if ( !AdventureDatabase.retrieveItem( KoLAdventure.TALISMAN ) )
+				{
 					return;
+				}
 
-				RequestThread.postRequest( new EquipmentRequest( TALISMAN ) );
+				RequestThread.postRequest( new EquipmentRequest( KoLAdventure.TALISMAN ) );
 			}
 
 			this.isValidAdventure = true;
@@ -331,19 +378,23 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		}
 
 		if ( this.formSource.indexOf( "adventure.php" ) == -1 )
+		{
 			this.isValidAdventure = true;
+		}
 
 		if ( this.isValidAdventure )
+		{
 			return;
+		}
 
 		// If we're trying to take a trip, make sure it's the right one
 		if ( this.adventureId.equals( "96" ) || this.adventureId.equals( "97" ) || this.adventureId.equals( "98" ) )
 		{
 			// You must be Half-Astral to go on a trip
-			int astral = ASTRAL.getCount( ( activeEffects ) );
+			int astral = KoLAdventure.ASTRAL.getCount( KoLConstants.activeEffects );
 			if ( astral == 0 )
 			{
-				RequestThread.postRequest( new ConsumeItemRequest( MUSHROOM ) );
+				RequestThread.postRequest( new ConsumeItemRequest( KoLAdventure.MUSHROOM ) );
 				if ( !KoLmafia.permitsContinue() )
 				{
 					this.isValidAdventure = false;
@@ -356,11 +407,17 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			{
 				String choice;
 				if ( this.adventureId.equals( "96" ) )
+				{
 					choice = "1";
+				}
 				else if ( this.adventureId.equals( "98" ) )
+				{
 					choice = "2";
+				}
 				else
+				{
 					choice = "3";
+				}
 
 				// Choose the trip
 				KoLSettings.setUserProperty( "choiceAdventure71", choice );
@@ -381,7 +438,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 		if ( this.zone.equals( "Casino" ) )
 		{
-			this.isValidAdventure = AdventureDatabase.retrieveItem( CASINO_PASS );
+			this.isValidAdventure = AdventureDatabase.retrieveItem( KoLAdventure.CASINO_PASS );
 			return;
 		}
 
@@ -390,16 +447,20 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 		else if ( this.zone.equals( "Island" ) )
 		{
-			this.isValidAdventure = KoLCharacter.hasItem( DINGHY );
+			this.isValidAdventure = KoLCharacter.hasItem( KoLAdventure.DINGHY );
 			if ( !this.isValidAdventure )
 			{
-				this.isValidAdventure = KoLCharacter.hasItem( PLANS );
+				this.isValidAdventure = KoLCharacter.hasItem( KoLAdventure.PLANS );
 				if ( !this.isValidAdventure )
+				{
 					return;
+				}
 
-				this.isValidAdventure = AdventureDatabase.retrieveItem( PLANKS );
+				this.isValidAdventure = AdventureDatabase.retrieveItem( KoLAdventure.PLANKS );
 				if ( this.isValidAdventure )
-					RequestThread.postRequest( new ConsumeItemRequest( PLANKS ) );
+				{
+					RequestThread.postRequest( new ConsumeItemRequest( KoLAdventure.PLANKS ) );
+				}
 			}
 
 			return;
@@ -410,7 +471,8 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 		else if ( this.adventureId.equals( "82" ) )
 		{
-			this.isValidAdventure = KoLCharacter.hasItem( SOCK ) || KoLCharacter.hasItem( ROWBOAT );
+			this.isValidAdventure =
+				KoLCharacter.hasItem( KoLAdventure.SOCK ) || KoLCharacter.hasItem( KoLAdventure.ROWBOAT );
 			return;
 		}
 
@@ -419,10 +481,12 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 		else if ( this.adventureId.equals( "83" ) )
 		{
-			if ( !KoLCharacter.hasItem( ROWBOAT ) && KoLCharacter.hasItem( MAP ) )
-				RequestThread.postRequest( new ConsumeItemRequest( MAP ) );
+			if ( !KoLCharacter.hasItem( KoLAdventure.ROWBOAT ) && KoLCharacter.hasItem( KoLAdventure.MAP ) )
+			{
+				RequestThread.postRequest( new ConsumeItemRequest( KoLAdventure.MAP ) );
+			}
 
-			this.isValidAdventure = AdventureDatabase.retrieveItem( ROWBOAT );
+			this.isValidAdventure = AdventureDatabase.retrieveItem( KoLAdventure.ROWBOAT );
 			return;
 		}
 
@@ -435,7 +499,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			// If the character has a S.O.C.K. or an intragalactic
 			// rowboat, they can get to the airship
 
-			if ( KoLCharacter.hasItem( SOCK ) || KoLCharacter.hasItem( ROWBOAT ) )
+			if ( KoLCharacter.hasItem( KoLAdventure.SOCK ) || KoLCharacter.hasItem( KoLAdventure.ROWBOAT ) )
 			{
 				this.isValidAdventure = true;
 				return;
@@ -445,30 +509,33 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			// questlog.php?which=3
 			// "You have planted a Beanstalk in the Nearby Plains."
 
-			ZONE_UNLOCK.constructURLString( "plains.php" );
-			RequestThread.postRequest( ZONE_UNLOCK );
+			KoLAdventure.ZONE_UNLOCK.constructURLString( "plains.php" );
+			RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK );
 
-			if ( ZONE_UNLOCK.responseText.indexOf( "beanstalk.php" ) == -1 )
+			if ( KoLAdventure.ZONE_UNLOCK.responseText.indexOf( "beanstalk.php" ) == -1 )
 			{
 				// If not, check to see if the player has an enchanted
 				// bean which can be used.  If they don't, then try to
 				// find one through adventuring.
 
-				if ( !KoLCharacter.hasItem( BEAN ) )
+				if ( !KoLCharacter.hasItem( KoLAdventure.BEAN ) )
 				{
 					ArrayList temporary = new ArrayList();
-					temporary.addAll( conditions );
-					conditions.clear();
+					temporary.addAll( KoLConstants.conditions );
+					KoLConstants.conditions.clear();
 
-					conditions.add( BEAN );
-					StaticEntity.getClient().makeRequest( AdventureDatabase.getAdventureByURL( "adventure.php?snarfblat=33" ),
+					KoLConstants.conditions.add( KoLAdventure.BEAN );
+					StaticEntity.getClient().makeRequest(
+						AdventureDatabase.getAdventureByURL( "adventure.php?snarfblat=33" ),
 						KoLCharacter.getAdventuresLeft() );
 
-					if ( !conditions.isEmpty() )
-						KoLmafia.updateDisplay( ABORT_STATE, "Unable to complete enchanted bean quest." );
+					if ( !KoLConstants.conditions.isEmpty() )
+					{
+						KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Unable to complete enchanted bean quest." );
+					}
 
-					conditions.clear();
-					conditions.addAll( temporary );
+					KoLConstants.conditions.clear();
+					KoLConstants.conditions.addAll( temporary );
 				}
 
 				// Now that you've retrieved the bean, ensure that
@@ -477,11 +544,11 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 				// what's needed in grabbing the item.
 
 				RequestThread.postRequest( CouncilFrame.COUNCIL_VISIT );
-				RequestThread.postRequest( new ConsumeItemRequest( BEAN ) );
+				RequestThread.postRequest( new ConsumeItemRequest( KoLAdventure.BEAN ) );
 			}
 
-			ZONE_UNLOCK.constructURLString( "beanstalk.php" );
-			RequestThread.postRequest( ZONE_UNLOCK );
+			KoLAdventure.ZONE_UNLOCK.constructURLString( "beanstalk.php" );
+			RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK );
 
 			KoLCharacter.armBeanstalk();
 			this.isValidAdventure = true;
@@ -498,14 +565,14 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			if ( this.adventureId.equals( "104" ) )
 			{
 				// Haunted Library
-				this.isValidAdventure = AdventureDatabase.retrieveItem( LIBRARY_KEY );
+				this.isValidAdventure = AdventureDatabase.retrieveItem( KoLAdventure.LIBRARY_KEY );
 				return;
 			}
 
 			if ( this.adventureId.equals( "106" ) )
 			{
 				// Haunted Gallery
-				this.isValidAdventure = AdventureDatabase.retrieveItem( GALLERY_KEY );
+				this.isValidAdventure = AdventureDatabase.retrieveItem( KoLAdventure.GALLERY_KEY );
 				return;
 			}
 
@@ -515,14 +582,14 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			if ( this.adventureId.equals( "107" ) || this.adventureId.equals( "108" ) )
 			{
 				// Haunted Bathroom & Bedroom
-				this.isValidAdventure = AdventureDatabase.retrieveItem( LIBRARY_KEY );
+				this.isValidAdventure = AdventureDatabase.retrieveItem( KoLAdventure.LIBRARY_KEY );
 				return;
 			}
 
 			if ( this.adventureId.equals( "109" ) )
 			{
 				// Haunted Ballroom
-				this.isValidAdventure = AdventureDatabase.retrieveItem( BALLROOM_KEY );
+				this.isValidAdventure = AdventureDatabase.retrieveItem( KoLAdventure.BALLROOM_KEY );
 				return;
 			}
 		}
@@ -535,52 +602,64 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 		else if ( this.adventureId.equals( "32" ) || this.adventureId.equals( "33" ) || this.adventureId.equals( "34" ) )
 		{
-			RequestThread.postRequest( ZONE_UNLOCK.constructURLString( "bathole.php" ) );
+			RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "bathole.php" ) );
 
-			if ( this.adventureId.equals( "32" ) && ZONE_UNLOCK.responseText.indexOf( "batrockleft.gif" ) == -1 )
+			if ( this.adventureId.equals( "32" ) && KoLAdventure.ZONE_UNLOCK.responseText.indexOf( "batrockleft.gif" ) == -1 )
 			{
 				this.isValidAdventure = true;
 				return;
 			}
-			if ( this.adventureId.equals( "33" ) && ZONE_UNLOCK.responseText.indexOf( "batrockright.gif" ) == -1 )
+			if ( this.adventureId.equals( "33" ) && KoLAdventure.ZONE_UNLOCK.responseText.indexOf( "batrockright.gif" ) == -1 )
 			{
 				this.isValidAdventure = true;
 				return;
 			}
-			if ( this.adventureId.equals( "34" ) && ZONE_UNLOCK.responseText.indexOf( "batrockbottom.gif" ) == -1 )
+			if ( this.adventureId.equals( "34" ) && KoLAdventure.ZONE_UNLOCK.responseText.indexOf( "batrockbottom.gif" ) == -1 )
 			{
 				this.isValidAdventure = true;
 				return;
 			}
 
-			int sonarCount = SONAR.getCount( inventory );
+			int sonarCount = KoLAdventure.SONAR.getCount( KoLConstants.inventory );
 			int sonarToUse = 0;
 
-			if ( ZONE_UNLOCK.responseText.indexOf( "batrockleft.gif" ) != -1 )
+			if ( KoLAdventure.ZONE_UNLOCK.responseText.indexOf( "batrockleft.gif" ) != -1 )
+			{
 				sonarToUse = 3;
-			else if ( ZONE_UNLOCK.responseText.indexOf( "batrockright.gif" ) != -1 )
+			}
+			else if ( KoLAdventure.ZONE_UNLOCK.responseText.indexOf( "batrockright.gif" ) != -1 )
+			{
 				sonarToUse = 2;
-			else if ( ZONE_UNLOCK.responseText.indexOf( "batrockbottom.gif" ) != -1 )
+			}
+			else if ( KoLAdventure.ZONE_UNLOCK.responseText.indexOf( "batrockbottom.gif" ) != -1 )
+			{
 				sonarToUse = 1;
+			}
 
-			RequestThread.postRequest( new ConsumeItemRequest( SONAR.getInstance( Math.min( sonarToUse, sonarCount ) ) ) );
-			RequestThread.postRequest( ZONE_UNLOCK );
+			RequestThread.postRequest( new ConsumeItemRequest( KoLAdventure.SONAR.getInstance( Math.min(
+				sonarToUse, sonarCount ) ) ) );
+			RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK );
 
 			if ( this.adventureId.equals( "32" ) )
-				this.isValidAdventure = ZONE_UNLOCK.responseText.indexOf( "batrockleft.gif" ) == -1;
+			{
+				this.isValidAdventure = KoLAdventure.ZONE_UNLOCK.responseText.indexOf( "batrockleft.gif" ) == -1;
+			}
 			else if ( this.adventureId.equals( "33" ) )
-				this.isValidAdventure = ZONE_UNLOCK.responseText.indexOf( "batrockright.gif" ) == -1;
+			{
+				this.isValidAdventure = KoLAdventure.ZONE_UNLOCK.responseText.indexOf( "batrockright.gif" ) == -1;
+			}
 			else
-				this.isValidAdventure = ZONE_UNLOCK.responseText.indexOf( "batrockbottom.gif" ) == -1;
+			{
+				this.isValidAdventure = KoLAdventure.ZONE_UNLOCK.responseText.indexOf( "batrockbottom.gif" ) == -1;
+			}
 
 			return;
 		}
 
-
 		if ( this.adventureId.equals( "100" ) )
 		{
-			RequestThread.postRequest( ZONE_UNLOCK.constructURLString( "woods.php" ) );
-			this.isValidAdventure = ZONE_UNLOCK.responseText.indexOf( "grove.gif" ) != -1;
+			RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "woods.php" ) );
+			this.isValidAdventure = KoLAdventure.ZONE_UNLOCK.responseText.indexOf( "grove.gif" ) != -1;
 
 			if ( !visitedCouncil && !this.isValidAdventure )
 			{
@@ -593,8 +672,8 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 		if ( this.zone.equals( "McLarge" ) )
 		{
-			RequestThread.postRequest( ZONE_UNLOCK.constructURLString( "mclargehuge.php" ) );
-			if ( ZONE_UNLOCK.responseText.indexOf( this.adventureId ) != -1 )
+			RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "mclargehuge.php" ) );
+			if ( KoLAdventure.ZONE_UNLOCK.responseText.indexOf( this.adventureId ) != -1 )
 			{
 				this.isValidAdventure = true;
 				return;
@@ -607,7 +686,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			}
 
 			RequestThread.postRequest( CouncilFrame.COUNCIL_VISIT );
-			RequestThread.postRequest( ZONE_UNLOCK.constructURLString( "trapper.php" ) );
+			RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "trapper.php" ) );
 
 			this.validate( true );
 			return;
@@ -617,45 +696,50 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 	}
 
 	/**
-	 * Retrieves the string form of the adventure contained within this
-	 * encapsulation, which is generally the name of the adventure.
-	 *
-	 * @return	The string form of the adventure
+	 * Retrieves the string form of the adventure contained within this encapsulation, which is generally the name of
+	 * the adventure.
+	 * 
+	 * @return The string form of the adventure
 	 */
 
 	public String toString()
-	{	return normalString;
+	{
+		return this.normalString;
 	}
 
 	/**
-	 * Executes the appropriate <code>KoLRequest</code> for the adventure
-	 * encapsulated by this <code>KoLAdventure</code>.
+	 * Executes the appropriate <code>KoLRequest</code> for the adventure encapsulated by this
+	 * <code>KoLAdventure</code>.
 	 */
 
 	public void run()
 	{
-		if ( !KoLmafia.isRunningBetweenBattleChecks() && !(this.request instanceof CampgroundRequest) )
+		if ( !KoLmafia.isRunningBetweenBattleChecks() && !( this.request instanceof CampgroundRequest ) )
 		{
 			if ( !StaticEntity.getClient().runThresholdChecks() )
+			{
 				return;
+			}
 
-			lastVisitedLocation = this;
+			KoLAdventure.lastVisitedLocation = this;
 			StaticEntity.getClient().runBetweenBattleChecks( !this.isNonCombatsOnly() );
 
 			if ( !KoLmafia.permitsContinue() )
+			{
 				return;
+			}
 		}
 
 		this.validate( false );
 		if ( !this.isValidAdventure )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "That area is not available." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "That area is not available." );
 			return;
 		}
 
 		if ( this.getFormSource().equals( "shore.php" ) && KoLCharacter.getAvailableMeat() < 500 )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "Insufficient funds for shore vacation." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Insufficient funds for shore vacation." );
 			return;
 		}
 
@@ -663,22 +747,24 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 		if ( this.request instanceof AdventureRequest && !this.adventureId.equals( "80" ) )
 		{
-			if ( !this.isNonCombatsOnly() && action.indexOf( "dictionary" ) != -1 && (FightRequest.DICTIONARY1.getCount( inventory ) < 1 && FightRequest.DICTIONARY2.getCount( inventory ) < 1) )
+			if ( !this.isNonCombatsOnly() && action.indexOf( "dictionary" ) != -1 && FightRequest.DICTIONARY1.getCount( KoLConstants.inventory ) < 1 && FightRequest.DICTIONARY2.getCount( KoLConstants.inventory ) < 1 )
 			{
-				KoLmafia.updateDisplay( ERROR_STATE, "Sorry, you don't have a dictionary." );
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Sorry, you don't have a dictionary." );
 				return;
 			}
 		}
 
 		if ( !KoLmafia.permitsContinue() )
+		{
 			return;
+		}
 
 		// Make sure there are enough adventures to run the request
 		// so that you don't spam the server unnecessarily.
 
 		if ( KoLCharacter.getAdventuresLeft() == 0 || KoLCharacter.getAdventuresLeft() < this.request.getAdventuresUsed() )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "Insufficient adventures to continue." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Insufficient adventures to continue." );
 			return;
 		}
 
@@ -689,12 +775,9 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 			if ( !this.adventureId.equals( "80" ) && this.request.getAdventuresUsed() == 1 && action.indexOf( "dictionary" ) != -1 )
 			{
-				// Only allow damage-dealing familiars when using
-				// stasis techniques.
-
 				if ( !KoLCharacter.getFamiliar().isCombatFamiliar() )
 				{
-					KoLmafia.updateDisplay( ERROR_STATE, "A dictionary would be useless there." );
+					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "A dictionary would be useless there." );
 					return;
 				}
 			}
@@ -706,25 +789,25 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			{
 				if ( !KoLCharacter.getFamiliar().isCombatFamiliar() )
 				{
-					KoLmafia.updateDisplay( ERROR_STATE, "You can't hit anything there." );
+					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't hit anything there." );
 					return;
 				}
 			}
 
-			if ( ( action.equals( "skill thrust-smack" ) || action.equals( "skill lunging thrust-smack" ) ) &&
-				EquipmentDatabase.isRanged( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getItemId() ) )
+			if ( ( action.equals( "skill thrust-smack" ) || action.equals( "skill lunging thrust-smack" ) ) && EquipmentDatabase.isRanged( KoLCharacter.getEquipment(
+				KoLCharacter.WEAPON ).getItemId() ) )
 			{
-				KoLmafia.updateDisplay( ERROR_STATE, "Thrust smacks are useless with ranged weapons." );
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Thrust smacks are useless with ranged weapons." );
 				return;
 			}
 		}
 
-		TurnCounter expired = StaticEntity.getExpiredCounter(
-			this.formSource.equals( "adventure.php" ) ? this.request.getFormField( "snarfblat" ) : "" );
+		TurnCounter expired =
+			StaticEntity.getExpiredCounter( this.formSource.equals( "adventure.php" ) ? this.request.getFormField( "snarfblat" ) : "" );
 
 		if ( expired != null )
 		{
-			KoLmafia.updateDisplay( PENDING_STATE, expired.getLabel() + " counter expired." );
+			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, expired.getLabel() + " counter expired." );
 			return;
 		}
 
@@ -735,14 +818,17 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 	}
 
 	public static final KoLAdventure lastVisitedLocation()
-	{	return lastVisitedLocation;
+	{
+		return KoLAdventure.lastVisitedLocation;
 	}
 
 	public static final int lastAdventureId()
 	{
-		KoLAdventure location = lastVisitedLocation;
+		KoLAdventure location = KoLAdventure.lastVisitedLocation;
 		if ( location == null )
+		{
 			return 0;
+		}
 		return StaticEntity.parseInt( location.adventureId );
 	}
 
@@ -752,7 +838,9 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		// to their auto-attack settings, do nothing.
 
 		if ( !KoLSettings.getUserProperty( "defaultAutoAttack" ).equals( "3" ) )
+		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=0" );
+		}
 	}
 
 	private void updateAutoAttack()
@@ -764,18 +852,22 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		// their auto-attack reset to an attack.
 
 		if ( autoAttack.equals( "3" ) || KoLCharacter.isMoxieClass() )
+		{
 			return;
+		}
 
 		// If you're in the middle of a fight, you can't reset your
 		// auto-attack.
 
 		if ( FightRequest.getCurrentRound() != 0 )
+		{
 			return;
+		}
 
 		// If you're searching for special scrolls, do not enable
 		// your auto-attack.
 
-		if ( adventureId.equals( "80" ) )
+		if ( this.adventureId.equals( "80" ) )
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=0" );
 			return;
@@ -788,13 +880,13 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 		if ( !KoLmafia.isAdventuring() || this.formSource.equals( "dungeon.php" ) )
 		{
-			resetAutoAttack();
+			KoLAdventure.resetAutoAttack();
 			return;
 		}
 
 		if ( attack.startsWith( "custom" ) || attack.startsWith( "delevel" ) || attack.startsWith( "item" ) )
 		{
-			resetAutoAttack();
+			KoLAdventure.resetAutoAttack();
 			return;
 		}
 
@@ -807,11 +899,11 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		// If it's not a generic class skill (it's id is something
 		// non-standard), then don't update auto-attack.
 
-		int skillId = ClassSkillsDatabase.getSkillId( attack.substring(6).trim() );
+		int skillId = ClassSkillsDatabase.getSkillId( attack.substring( 6 ).trim() );
 
 		if ( skillId < 1000 || skillId > 7000 )
 		{
-			resetAutoAttack();
+			KoLAdventure.resetAutoAttack();
 			return;
 		}
 
@@ -820,14 +912,16 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 	public void recordToSession()
 	{
-		lastVisitedLocation = this;
+		KoLAdventure.lastVisitedLocation = this;
 		this.updateAutoAttack();
 
 		// Run between-combat scripts here to avoid potential
 		// sidepane conflict issues.
 
-		if ( adventureId.equals( "123" ) && !activeEffects.contains( HYDRATED ) )
-			(new AdventureRequest( "Oasis in the Desert", "adventure.php", "122" )).run();
+		if ( this.adventureId.equals( "123" ) && !KoLConstants.activeEffects.contains( KoLAdventure.HYDRATED ) )
+		{
+			( new AdventureRequest( "Oasis in the Desert", "adventure.php", "122" ) ).run();
+		}
 
 		// Update selected adventure information in order to
 		// keep the GUI synchronized.
@@ -846,67 +940,111 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		if ( !KoLmafia.isAdventuring() )
 		{
 			RequestLogger.printLine();
-			RequestLogger.printLine( "[" + getAdventureCount() + "] " + this.getAdventureName() );
+			RequestLogger.printLine( "[" + KoLAdventure.getAdventureCount() + "] " + this.getAdventureName() );
 		}
 
 		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( "[" + getAdventureCount() + "] " + this.getAdventureName() );
+		RequestLogger.updateSessionLog( "[" + KoLAdventure.getAdventureCount() + "] " + this.getAdventureName() );
 
 		StaticEntity.getClient().registerAdventure( this );
 
-		if ( !(request instanceof AdventureRequest) )
+		if ( !( this.request instanceof AdventureRequest ) )
+		{
 			StaticEntity.getClient().registerEncounter( this.getAdventureName(), "Noncombat" );
+		}
 	}
 
-	public static final String getUnknownName( String urlString )
+	public static final String getUnknownName( final String urlString )
 	{
 		if ( urlString.startsWith( "adventure.php" ) && urlString.indexOf( "snarfblat=122" ) != -1 )
+		{
 			return "Oasis in the Desert";
+		}
 		else if ( urlString.startsWith( "shore.php" ) && urlString.indexOf( "whichtrip=1" ) != -1 )
+		{
 			return "Muscle Vacation";
+		}
 		else if ( urlString.startsWith( "shore.php" ) && urlString.indexOf( "whichtrip=2" ) != -1 )
+		{
 			return "Mysticality Vacation";
+		}
 		else if ( urlString.startsWith( "shore.php" ) && urlString.indexOf( "whichtrip=3" ) != -1 )
+		{
 			return "Moxie Vacation";
+		}
 		else if ( urlString.startsWith( "guild.php?action=chal" ) )
+		{
 			return "Guild Challenge";
+		}
 		else if ( urlString.startsWith( "basement.php" ) )
+		{
 			return "Fernswarthy's Basement (Level " + BasementRequest.getBasementLevel() + ")";
+		}
 		else if ( urlString.startsWith( "dungeon.php" ) )
+		{
 			return "Daily Dungeon";
+		}
 		else if ( urlString.startsWith( "rats.php" ) )
+		{
 			return "Typical Tavern Quest";
+		}
 		else if ( urlString.startsWith( "barrel.php" ) )
+		{
 			return "Barrel Full of Barrels";
+		}
 		else if ( urlString.startsWith( "mining.php" ) )
+		{
 			return "Mining (In Disguise)";
+		}
 		else if ( urlString.startsWith( "arena.php" ) && urlString.indexOf( "action" ) != -1 )
+		{
 			return "Cake-Shaped Arena";
+		}
 		else if ( urlString.startsWith( "lair4.php?action=level1" ) )
+		{
 			return "Sorceress Tower: Level 1";
+		}
 		else if ( urlString.startsWith( "lair4.php?action=level2" ) )
+		{
 			return "Sorceress Tower: Level 2";
+		}
 		else if ( urlString.startsWith( "lair4.php?action=level3" ) )
+		{
 			return "Sorceress Tower: Level 3";
+		}
 		else if ( urlString.startsWith( "lair5.php?action=level1" ) )
+		{
 			return "Sorceress Tower: Level 4";
+		}
 		else if ( urlString.startsWith( "lair5.php?action=level2" ) )
+		{
 			return "Sorceress Tower: Level 5";
+		}
 		else if ( urlString.startsWith( "lair5.php?action=level3" ) )
+		{
 			return "Sorceress Tower: Level 6";
+		}
 		else if ( urlString.startsWith( "lair6.php?place=0" ) )
+		{
 			return "Sorceress Tower: Door Puzzles";
+		}
 		else if ( urlString.startsWith( "lair6.php?place=2" ) )
+		{
 			return "Sorceress Tower: Shadow Fight";
+		}
 		else if ( urlString.startsWith( "lair6.php?place=5" ) )
+		{
 			return "Sorceress Tower: Naughty Sorceress";
+		}
 		else if ( urlString.startsWith( "hiddencity.php" ) )
+		{
 			return "Hidden City: Unexplored Ruins";
+		}
 
 		return null;
 	}
 
-	public static final boolean recordToSession( String urlString )
+	public static final boolean recordToSession( final String urlString )
 	{
 		// In the event that this is an adventure, assume "snarfblat"
 		// instead of "adv" in order to determine the location.
@@ -922,28 +1060,38 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			// player has a high probability of accidentally using
 			// a ten-leaf clover.
 
-			if ( !(matchingLocation.getRequest() instanceof AdventureRequest) || matchingLocation.isValidAdventure )
+			if ( !( matchingLocation.getRequest() instanceof AdventureRequest ) || matchingLocation.isValidAdventure )
+			{
 				return true;
+			}
 
 			// Do some quick adventure validation, which allows you
 			// to unlock the bat zone.
 
 			if ( locationId.equals( "32" ) || locationId.equals( "33" ) || locationId.equals( "34" ) )
+			{
 				if ( !AdventureDatabase.validateZone( "BatHole", locationId ) )
+				{
 					return true;
+				}
+			}
 
 			// Make sure to visit the untinkerer before adventuring
 			// at Degrassi Knoll.
 
 			if ( locationId.equals( "18" ) )
+			{
 				UntinkerRequest.canUntinker();
+			}
 
 			// Check the council before you adventure at the pirates
 			// in disguise, if your last council visit was a long
 			// time ago.
 
 			if ( locationId.equals( "67" ) && KoLSettings.getIntegerProperty( "lastCouncilVisit" ) < 9 )
+			{
 				RequestThread.postRequest( CouncilFrame.COUNCIL_VISIT );
+			}
 
 			matchingLocation.isValidAdventure = true;
 
@@ -951,7 +1099,9 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			// the King's chamber in Cobb's knob.
 
 			if ( matchingLocation.formSource.equals( "knob.php" ) )
+			{
 				matchingLocation.validate( true );
+			}
 
 			return true;
 		}
@@ -959,28 +1109,33 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		// Not an internal location.  Perhaps it's something related
 		// to another common request?
 
-		String location = getUnknownName( urlString );
+		String location = KoLAdventure.getUnknownName( urlString );
 		if ( location == null )
+		{
 			return false;
+		}
 
 		if ( urlString.indexOf( "?" ) == -1 )
+		{
 			return true;
+		}
 
-		boolean shouldReset = urlString.startsWith( "dungeon.php" ) || urlString.startsWith( "basement.php" ) ||
-			urlString.startsWith( "barrel.php" ) || urlString.startsWith( "rats.php" ) || urlString.startsWith( "hiddencity.php" ) ||
-			urlString.startsWith( "lair" );
+		boolean shouldReset =
+			urlString.startsWith( "dungeon.php" ) || urlString.startsWith( "basement.php" ) || urlString.startsWith( "barrel.php" ) || urlString.startsWith( "rats.php" ) || urlString.startsWith( "hiddencity.php" ) || urlString.startsWith( "lair" );
 
 		if ( shouldReset )
-			resetAutoAttack();
+		{
+			KoLAdventure.resetAutoAttack();
+		}
 
 		if ( !KoLmafia.isAdventuring() )
 		{
 			RequestLogger.printLine();
-			RequestLogger.printLine( "[" + getAdventureCount() + "] " + location );
+			RequestLogger.printLine( "[" + KoLAdventure.getAdventureCount() + "] " + location );
 		}
 
 		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( "[" + getAdventureCount() + "] " + location );
+		RequestLogger.updateSessionLog( "[" + KoLAdventure.getAdventureCount() + "] " + location );
 
 		if ( urlString.startsWith( "basement.php" ) )
 		{
@@ -997,14 +1152,15 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 	public static final int getAdventureCount()
 	{
-		return KoLSettings.getBooleanProperty( "logReverseOrder" ) ? KoLCharacter.getAdventuresLeft() :
-			KoLCharacter.getCurrentRun() + 1;
+		return KoLSettings.getBooleanProperty( "logReverseOrder" ) ? KoLCharacter.getAdventuresLeft() : KoLCharacter.getCurrentRun() + 1;
 	}
 
-	public int compareTo( Object o )
+	public int compareTo( final Object o )
 	{
 		if ( o == null || !( o instanceof KoLAdventure ) )
+		{
 			return 1;
+		}
 
 		KoLAdventure ka = (KoLAdventure) o;
 
@@ -1014,7 +1170,9 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		int evade2 = ka.areaSummary == null ? Integer.MAX_VALUE : ka.areaSummary.minEvade();
 
 		if ( evade1 == evade2 )
+		{
 			return this.adventureName.compareTo( ka.adventureName );
+		}
 
 		return evade1 - evade2;
 	}

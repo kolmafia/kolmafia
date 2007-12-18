@@ -15,9 +15,11 @@ import java.security.PrivilegedExceptionAction;
 
 /**
  * Partial implementation of the WorkerThread interface.
+ * 
  * @version $Revision: 1.9 $
  */
-public abstract class AbstractWorkerThread implements WorkerThread
+public abstract class AbstractWorkerThread
+	implements WorkerThread
 {
 	/**
 	 * Creates a new instance of this AbstractWorkerThread, called by subclasses.
@@ -30,19 +32,23 @@ public abstract class AbstractWorkerThread implements WorkerThread
 	public void runTask( final Task task )
 	{
 		if ( AbstractWorker.debug )
+		{
 			System.out.println( "[AbstractWorkerThread] Executing task " + task );
+		}
 
 		try
 		{
 			Object obj = AccessController.doPrivileged( new AbstractWorkerAction( task ), task.getSecurityContext() );
-			task.setResult(obj);
+			task.setResult( obj );
 		}
 		catch ( PrivilegedActionException x )
 		{
 			Exception xx = x.getException();
-			task.setThrowable(xx);
-			if (xx instanceof InterruptedException || xx instanceof InterruptedIOException)
+			task.setThrowable( xx );
+			if ( xx instanceof InterruptedException || xx instanceof InterruptedIOException )
+			{
 				Thread.currentThread().interrupt();
+			}
 		}
 		catch ( Throwable x )
 		{
@@ -54,23 +60,28 @@ public abstract class AbstractWorkerThread implements WorkerThread
 			task.setCompleted( true );
 
 			if ( AbstractWorker.debug )
-				System.out.println("[AbstractWorkerThread] Completing run for task " + task);
+			{
+				System.out.println( "[AbstractWorkerThread] Completing run for task " + task );
+			}
 
 			task.postRun();
 		}
 	}
 
-	private class AbstractWorkerAction implements PrivilegedExceptionAction
+	private class AbstractWorkerAction
+		implements PrivilegedExceptionAction
 	{
-		private Task task;
+		private final Task task;
 
-		public AbstractWorkerAction( Task task )
-		{	this.task = task;
+		public AbstractWorkerAction( final Task task )
+		{
+			this.task = task;
 		}
 
-		public Object run() throws Exception
+		public Object run()
+			throws Exception
 		{
-			task.run();
+			this.task.run();
 			return null;
 		}
 	}

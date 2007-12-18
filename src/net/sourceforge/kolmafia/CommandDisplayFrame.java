@@ -46,13 +46,18 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.LayoutFocusTraversalPolicy;
+import javax.swing.WindowConstants;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
-public class CommandDisplayFrame extends KoLFrame
+public class CommandDisplayFrame
+	extends KoLFrame
 {
 	private static final CommandQueueHandler handler = new CommandQueueHandler();
-	static { handler.start(); }
+	static
+	{
+		CommandDisplayFrame.handler.start();
+	}
 
 	private static final ArrayList commandQueue = new ArrayList();
 	private static final ArrayList commandHistory = new ArrayList();
@@ -63,7 +68,7 @@ public class CommandDisplayFrame extends KoLFrame
 	public CommandDisplayFrame()
 	{
 		super( "Graphical CLI" );
-		this.setDefaultCloseOperation( HIDE_ON_CLOSE );
+		this.setDefaultCloseOperation( WindowConstants.HIDE_ON_CLOSE );
 		this.framePanel.add( new CommandDisplayPanel(), BorderLayout.CENTER );
 
 		// Workaround for Swing bug in UnfocusedTabbedPane
@@ -73,43 +78,50 @@ public class CommandDisplayFrame extends KoLFrame
 		this.getContentPane().setFocusTraversalPolicy( new EntryFieldFocuser() );
 	}
 
-	private class EntryFieldFocuser extends LayoutFocusTraversalPolicy
+	private class EntryFieldFocuser
+		extends LayoutFocusTraversalPolicy
 	{
-		public Component getDefaultComponent( Container c )
-		{	return CommandDisplayFrame.this.entryField;
+		public Component getDefaultComponent( final Container c )
+		{
+			return CommandDisplayFrame.this.entryField;
 		}
 	}
 
 	public UnfocusedTabbedPane getTabbedPane()
-	{	return null;
+	{
+		return null;
 	}
 
 	public boolean shouldAddStatusBar()
-	{	return false;
+	{
+		return false;
 	}
 
 	public boolean useSidePane()
-	{	return true;
+	{
+		return true;
 	}
 
 	public void requestFocus()
-	{	this.entryField.requestFocus();
+	{
+		this.entryField.requestFocus();
 	}
 
 	public void dispose()
 	{
-		commandBuffer.setChatDisplay( null );
+		KoLConstants.commandBuffer.setChatDisplay( null );
 		super.dispose();
 	}
 
-	private class CommandDisplayPanel extends JPanel
+	private class CommandDisplayPanel
+		extends JPanel
 	{
-		private JButton entryButton;
+		private final JButton entryButton;
 
 		public CommandDisplayPanel()
 		{
 			RequestPane outputDisplay = new RequestPane();
-			JScrollPane scrollPane = commandBuffer.setChatDisplay( outputDisplay );
+			JScrollPane scrollPane = KoLConstants.commandBuffer.setChatDisplay( outputDisplay );
 			JComponentUtilities.setComponentSize( scrollPane, 400, 300 );
 
 			JPanel entryPanel = new JPanel( new BorderLayout() );
@@ -127,31 +139,40 @@ public class CommandDisplayFrame extends KoLFrame
 			this.add( entryPanel, BorderLayout.SOUTH );
 		}
 
-		private class CommandEntryListener extends KeyAdapter implements ActionListener
+		private class CommandEntryListener
+			extends KeyAdapter
+			implements ActionListener
 		{
-			public void actionPerformed( ActionEvent e )
-			{	this.submitCommand();
+			public void actionPerformed( final ActionEvent e )
+			{
+				this.submitCommand();
 			}
 
-			public void keyReleased( KeyEvent e )
+			public void keyReleased( final KeyEvent e )
 			{
 				if ( e.isConsumed() )
+				{
 					return;
+				}
 
 				if ( e.getKeyCode() == KeyEvent.VK_UP )
 				{
-					if ( lastCommandIndex <= 0 )
+					if ( CommandDisplayFrame.lastCommandIndex <= 0 )
+					{
 						return;
+					}
 
-					CommandDisplayFrame.this.entryField.setText( (String) commandHistory.get( --lastCommandIndex ) );
+					CommandDisplayFrame.this.entryField.setText( (String) CommandDisplayFrame.commandHistory.get( --CommandDisplayFrame.lastCommandIndex ) );
 					e.consume();
 				}
 				else if ( e.getKeyCode() == KeyEvent.VK_DOWN )
 				{
-					if ( lastCommandIndex + 1 >= commandHistory.size() )
+					if ( CommandDisplayFrame.lastCommandIndex + 1 >= CommandDisplayFrame.commandHistory.size() )
+					{
 						return;
+					}
 
-					CommandDisplayFrame.this.entryField.setText( (String) commandHistory.get( ++lastCommandIndex ) );
+					CommandDisplayFrame.this.entryField.setText( (String) CommandDisplayFrame.commandHistory.get( ++CommandDisplayFrame.lastCommandIndex ) );
 					e.consume();
 				}
 				else if ( e.getKeyCode() == KeyEvent.VK_ENTER )
@@ -166,29 +187,34 @@ public class CommandDisplayFrame extends KoLFrame
 				String command = CommandDisplayFrame.this.entryField.getText().trim();
 				CommandDisplayFrame.this.entryField.setText( "" );
 
-				commandHistory.add( command );
+				CommandDisplayFrame.commandHistory.add( command );
 
-				if ( commandHistory.size() > 10 )
-					commandHistory.remove(0);
+				if ( CommandDisplayFrame.commandHistory.size() > 10 )
+				{
+					CommandDisplayFrame.commandHistory.remove( 0 );
+				}
 
-				lastCommandIndex = commandHistory.size();
-				executeCommand( command );
+				CommandDisplayFrame.lastCommandIndex = CommandDisplayFrame.commandHistory.size();
+				CommandDisplayFrame.executeCommand( command );
 			}
 		}
 	}
 
 	public static final boolean hasQueuedCommands()
-	{	return !commandQueue.isEmpty();
+	{
+		return !CommandDisplayFrame.commandQueue.isEmpty();
 	}
 
-	public static final void executeCommand( String command )
+	public static final void executeCommand( final String command )
 	{
 		if ( command.length() == 0 )
+		{
 			return;
+		}
 
 		if ( command.equalsIgnoreCase( "clear" ) || command.equalsIgnoreCase( "cls" ) )
 		{
-			KoLmafia.commandBuffer.clearBuffer();
+			KoLConstants.commandBuffer.clearBuffer();
 			return;
 		}
 
@@ -198,23 +224,25 @@ public class CommandDisplayFrame extends KoLFrame
 			return;
 		}
 
-		if ( !commandQueue.isEmpty() )
+		if ( !CommandDisplayFrame.commandQueue.isEmpty() )
 		{
 			RequestLogger.printLine();
 
-			if ( !handler.command.equals( "" ) )
-				RequestLogger.printLine( " > <b>CURRENT</b>: " + StaticEntity.globalStringReplace( handler.command, "<", "&lt;" ) );
-
+			if ( !CommandDisplayFrame.handler.command.equals( "" ) )
+			{
+				RequestLogger.printLine( " > <b>CURRENT</b>: " + StaticEntity.globalStringReplace(
+					CommandDisplayFrame.handler.command, "<", "&lt;" ) );
+			}
 
 			RequestLogger.printLine( " > <b>QUEUED</b>: " + StaticEntity.globalStringReplace( command, "<", "&lt;" ) );
 			RequestLogger.printLine();
 		}
 
-		commandQueue.add( command );
+		CommandDisplayFrame.commandQueue.add( command );
 	}
 
-
-	private static final class CommandQueueHandler extends Thread
+	private static final class CommandQueueHandler
+		extends Thread
 	{
 		private String command = "";
 
@@ -222,8 +250,10 @@ public class CommandDisplayFrame extends KoLFrame
 		{
 			while ( true )
 			{
-				while ( commandQueue.isEmpty() )
+				while ( CommandDisplayFrame.commandQueue.isEmpty() )
+				{
 					KoLRequest.delay( 500 );
+				}
 
 				this.handleQueue();
 			}
@@ -233,18 +263,18 @@ public class CommandDisplayFrame extends KoLFrame
 		{
 			RequestThread.openRequestSequence();
 
-			while ( !commandQueue.isEmpty() )
+			while ( !CommandDisplayFrame.commandQueue.isEmpty() )
 			{
-				command = (String) commandQueue.get(0);
+				this.command = (String) CommandDisplayFrame.commandQueue.get( 0 );
 
 				RequestLogger.printLine();
-				RequestLogger.printLine( " > " + StaticEntity.globalStringReplace( command, "<", "&lt;" ) );
+				RequestLogger.printLine( " > " + StaticEntity.globalStringReplace( this.command, "<", "&lt;" ) );
 				RequestLogger.printLine();
 
 				try
 				{
 					KoLmafia.forceContinue();
-					KoLmafiaCLI.DEFAULT_SHELL.executeLine( command );
+					KoLmafiaCLI.DEFAULT_SHELL.executeLine( this.command );
 				}
 				catch ( Exception e )
 				{
@@ -252,9 +282,13 @@ public class CommandDisplayFrame extends KoLFrame
 				}
 
 				if ( KoLmafia.refusesContinue() )
-					commandQueue.clear();
+				{
+					CommandDisplayFrame.commandQueue.clear();
+				}
 				else
-					commandQueue.remove(0);
+				{
+					CommandDisplayFrame.commandQueue.remove( 0 );
+				}
 			}
 
 			RequestThread.closeRequestSequence();

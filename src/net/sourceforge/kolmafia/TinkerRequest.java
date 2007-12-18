@@ -33,11 +33,12 @@
 
 package net.sourceforge.kolmafia;
 
-public class TinkerRequest extends ItemCreationRequest
+public class TinkerRequest
+	extends ItemCreationRequest
 {
-	private AdventureResult [] ingredients;
+	private final AdventureResult[] ingredients;
 
-	public TinkerRequest( int itemId )
+	public TinkerRequest( final int itemId )
 	{
 		super( "gnomes.php", itemId );
 
@@ -48,9 +49,9 @@ public class TinkerRequest extends ItemCreationRequest
 
 		if ( this.ingredients != null && this.ingredients.length == 3 )
 		{
-			this.addFormField( "item1", String.valueOf( this.ingredients[0].getItemId() ) );
-			this.addFormField( "item2", String.valueOf( this.ingredients[1].getItemId() ) );
-			this.addFormField( "item3", String.valueOf( this.ingredients[2].getItemId() ) );
+			this.addFormField( "item1", String.valueOf( this.ingredients[ 0 ].getItemId() ) );
+			this.addFormField( "item2", String.valueOf( this.ingredients[ 1 ].getItemId() ) );
+			this.addFormField( "item3", String.valueOf( this.ingredients[ 2 ].getItemId() ) );
 		}
 	}
 
@@ -65,17 +66,20 @@ public class TinkerRequest extends ItemCreationRequest
 		// the server as a result of a bad mixture in the database.
 
 		if ( this.ingredients == null || this.ingredients.length != 3 )
+		{
 			return;
+		}
 
 		// Attempting to make the ingredients will pull the
 		// needed items from the closet if they are missing.
 
 		if ( !this.makeIngredients() )
+		{
 			return;
+		}
 
 		KoLmafia.updateDisplay( "Creating " + this.getQuantityNeeded() + " " + this.getName() + "..." );
 		this.addFormField( "qty", String.valueOf( this.getQuantityNeeded() ) );
 		super.run();
 	}
 }
-

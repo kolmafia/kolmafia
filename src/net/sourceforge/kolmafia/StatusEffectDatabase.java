@@ -44,7 +44,10 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class StatusEffectDatabase extends KoLDatabase
+import net.java.dev.spellcast.utilities.UtilityConstants;
+
+public class StatusEffectDatabase
+	extends KoLDatabase
 {
 	private static final Map nameById = new TreeMap();
 	private static final Map dataNameById = new TreeMap();
@@ -57,15 +60,17 @@ public class StatusEffectDatabase extends KoLDatabase
 
 	static
 	{
-		BufferedReader reader = getVersionedReader( "statuseffects.txt", STATUSEFFECTS_VERSION );
-		String [] data;
+		BufferedReader reader =
+			KoLDatabase.getVersionedReader( "statuseffects.txt", KoLConstants.STATUSEFFECTS_VERSION );
+		String[] data;
 
-		while ( (data = readData( reader )) != null )
+		while ( ( data = KoLDatabase.readData( reader ) ) != null )
 		{
 			if ( data.length >= 3 )
 			{
-				addToDatabase( Integer.valueOf( data[0] ), data[1], data[2],
-					data.length > 3 ? data[3] : null, data.length > 4 ? data[4] : null );
+				StatusEffectDatabase.addToDatabase(
+					Integer.valueOf( data[ 0 ] ), data[ 1 ], data[ 2 ], data.length > 3 ? data[ 3 ] : null,
+					data.length > 4 ? data[ 4 ] : null );
 			}
 		}
 
@@ -78,196 +83,227 @@ public class StatusEffectDatabase extends KoLDatabase
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			printStackTrace( e );
+			StaticEntity.printStackTrace( e );
 		}
 	}
 
-	private static final void addToDatabase( Integer effectId, String name, String image, String descriptionId, String defaultAction )
+	private static final void addToDatabase( final Integer effectId, final String name, final String image,
+		final String descriptionId, final String defaultAction )
 	{
-		nameById.put( effectId, getDisplayName( name ) );
-		dataNameById.put( effectId, name );
-		effectByName.put( getCanonicalName( name ), effectId );
-		imageById.put( effectId, image );
+		StatusEffectDatabase.nameById.put( effectId, KoLDatabase.getDisplayName( name ) );
+		StatusEffectDatabase.dataNameById.put( effectId, name );
+		StatusEffectDatabase.effectByName.put( KoLDatabase.getCanonicalName( name ), effectId );
+		StatusEffectDatabase.imageById.put( effectId, image );
 
 		if ( descriptionId == null )
+		{
 			return;
+		}
 
-		descriptionById.put( effectId, descriptionId );
-		effectByDescription.put( descriptionId, effectId );
+		StatusEffectDatabase.descriptionById.put( effectId, descriptionId );
+		StatusEffectDatabase.effectByDescription.put( descriptionId, effectId );
 
 		if ( defaultAction != null )
-			defaultActions.put( getDisplayName( name ), defaultAction );
+		{
+			StatusEffectDatabase.defaultActions.put( KoLDatabase.getDisplayName( name ), defaultAction );
+		}
 	}
 
-	public static final String getDefaultAction( String effectName )
-	{	return getDisplayName( (String) defaultActions.get( effectName ) );
+	public static final String getDefaultAction( final String effectName )
+	{
+		return KoLDatabase.getDisplayName( (String) StatusEffectDatabase.defaultActions.get( effectName ) );
 	}
 
 	/**
 	 * Returns the name for an effect, given its Id.
-	 * @param	effectId	The Id of the effect to lookup
-	 * @return	The name of the corresponding effect
+	 * 
+	 * @param effectId The Id of the effect to lookup
+	 * @return The name of the corresponding effect
 	 */
 
-	public static final String getEffectName( int effectId )
-	{	return effectId == -1 ? "Unknown effect" : getDisplayName( (String) nameById.get( new Integer( effectId ) ) );
-	}
-
-	public static final String getEffectName( String descriptionId )
+	public static final String getEffectName( final int effectId )
 	{
-		Object effectId = effectByDescription.get( descriptionId );
-		return effectId == null ? null : getEffectName( ((Integer)effectId).intValue() );
+		return effectId == -1 ? "Unknown effect" : KoLDatabase.getDisplayName( (String) StatusEffectDatabase.nameById.get( new Integer(
+			effectId ) ) );
 	}
 
-	public static final int getEffect( String descriptionId )
+	public static final String getEffectName( final String descriptionId )
 	{
-		Object effectId = effectByDescription.get( descriptionId );
-		return effectId == null ? -1 : ((Integer)effectId).intValue();
+		Object effectId = StatusEffectDatabase.effectByDescription.get( descriptionId );
+		return effectId == null ? null : StatusEffectDatabase.getEffectName( ( (Integer) effectId ).intValue() );
 	}
 
-	public static final String getDescriptionId( int effectId )
-	{	return (String) descriptionById.get( new Integer( effectId ) );
+	public static final int getEffect( final String descriptionId )
+	{
+		Object effectId = StatusEffectDatabase.effectByDescription.get( descriptionId );
+		return effectId == null ? -1 : ( (Integer) effectId ).intValue();
+	}
+
+	public static final String getDescriptionId( final int effectId )
+	{
+		return (String) StatusEffectDatabase.descriptionById.get( new Integer( effectId ) );
 	}
 
 	/**
 	 * Returns the Id number for an effect, given its name.
-	 * @param	effectName	The name of the effect to lookup
-	 * @return	The Id number of the corresponding effect
+	 * 
+	 * @param effectName The name of the effect to lookup
+	 * @return The Id number of the corresponding effect
 	 */
 
-	public static final int getEffectId( String effectName )
+	public static final int getEffectId( final String effectName )
 	{
-		Object effectId = effectByName.get( getCanonicalName( effectName ) );
+		Object effectId = StatusEffectDatabase.effectByName.get( KoLDatabase.getCanonicalName( effectName ) );
 		if ( effectId != null )
-			return ((Integer)effectId).intValue();
+		{
+			return ( (Integer) effectId ).intValue();
+		}
 
-		List names = getMatchingNames( effectName );
+		List names = StatusEffectDatabase.getMatchingNames( effectName );
 		if ( names.size() == 1 )
-			return getEffectId( (String) names.get(0) );
+		{
+			return StatusEffectDatabase.getEffectId( (String) names.get( 0 ) );
+		}
 
 		return -1;
 	}
 
 	/**
 	 * Returns the Id number for an effect, given its name.
-	 * @param	effectId	The Id of the effect to lookup
-	 * @return	The name of the corresponding effect
+	 * 
+	 * @param effectId The Id of the effect to lookup
+	 * @return The name of the corresponding effect
 	 */
 
-	public static final String getImage( int effectId )
+	public static final String getImage( final int effectId )
 	{
-		Object imageName = effectId == -1 ? null : imageById.get( new Integer( effectId ) );
+		Object imageName = effectId == -1 ? null : StatusEffectDatabase.imageById.get( new Integer( effectId ) );
 		return imageName == null ? "/images/debug.gif" : "http://images.kingdomofloathing.com/itemimages/" + imageName;
 	}
 
 	/**
 	 * Returns the set of status effects keyed by Id
-	 * @return	The set of status effects keyed by Id
+	 * 
+	 * @return The set of status effects keyed by Id
 	 */
 
 	public static final Set entrySet()
-	{	return nameById.entrySet();
+	{
+		return StatusEffectDatabase.nameById.entrySet();
 	}
 
 	public static final Collection values()
-	{	return nameById.values();
+	{
+		return StatusEffectDatabase.nameById.values();
 	}
 
 	/**
-	 * Returns whether or not an item with a given name
-	 * exists in the database; this is useful in the
-	 * event that an item is encountered which is not
-	 * tradeable (and hence, should not be displayed).
-	 *
-	 * @param	effectName	The name of the effect to lookup
-	 * @return	<code>true</code> if the item is in the database
+	 * Returns whether or not an item with a given name exists in the database; this is useful in the event that an item
+	 * is encountered which is not tradeable (and hence, should not be displayed).
+	 * 
+	 * @param effectName The name of the effect to lookup
+	 * @return <code>true</code> if the item is in the database
 	 */
 
-	public static final boolean contains( String effectName )
-	{	return effectByName.containsKey( getCanonicalName( effectName ) );
+	public static final boolean contains( final String effectName )
+	{
+		return StatusEffectDatabase.effectByName.containsKey( KoLDatabase.getCanonicalName( effectName ) );
 	}
 
 	/**
-	 * Returns a list of all items which contain the given
-	 * substring.  This is useful for people who are doing
-	 * lookups on items.
+	 * Returns a list of all items which contain the given substring. This is useful for people who are doing lookups on
+	 * items.
 	 */
 
-	public static final List getMatchingNames( String substring )
-	{	return getMatchingNames( effectByName, substring );
+	public static final List getMatchingNames( final String substring )
+	{
+		return KoLDatabase.getMatchingNames( StatusEffectDatabase.effectByName, substring );
 	}
 
-	public static final void addDescriptionId( int effectId, String descriptionId )
+	public static final void addDescriptionId( final int effectId, final String descriptionId )
 	{
 		if ( effectId == -1 )
+		{
 			return;
+		}
 
 		Integer id = new Integer( effectId );
 
-		effectByDescription.put( descriptionId, id );
-		descriptionById.put( id, descriptionId );
+		StatusEffectDatabase.effectByDescription.put( descriptionId, id );
+		StatusEffectDatabase.descriptionById.put( id, descriptionId );
 
-		saveDataOverride();
+		StatusEffectDatabase.saveDataOverride();
 	}
 
-	private static final Pattern STATUS_EFFECT_PATTERN = Pattern.compile(
-		"<input type=radio name=whicheffect value=(\\d+)></td><td><img src=\"http://images.kingdomofloathing.com/itemimages/(.*?)\" width=30 height=30></td><td>(.*?) \\(" );
+	private static final Pattern STATUS_EFFECT_PATTERN =
+		Pattern.compile( "<input type=radio name=whicheffect value=(\\d+)></td><td><img src=\"http://images.kingdomofloathing.com/itemimages/(.*?)\" width=30 height=30></td><td>(.*?) \\(" );
 
 	public static final void findStatusEffects()
 	{
-		if ( !inventory.contains( UneffectRequest.REMEDY ) )
+		if ( !KoLConstants.inventory.contains( UneffectRequest.REMEDY ) )
+		{
 			return;
+		}
 
 		KoLRequest effectChecker = new KoLRequest( "uneffect.php" );
 		RequestLogger.printLine( "Checking for new status effects..." );
 		RequestThread.postRequest( effectChecker );
 
-		Matcher effectsMatcher = STATUS_EFFECT_PATTERN.matcher( effectChecker.responseText );
+		Matcher effectsMatcher = StatusEffectDatabase.STATUS_EFFECT_PATTERN.matcher( effectChecker.responseText );
 		boolean foundChanges = false;
 
 		while ( effectsMatcher.find() )
 		{
-			Integer effectId = Integer.valueOf( effectsMatcher.group(1) );
-			if ( nameById.containsKey( effectId ) )
+			Integer effectId = Integer.valueOf( effectsMatcher.group( 1 ) );
+			if ( StatusEffectDatabase.nameById.containsKey( effectId ) )
+			{
 				continue;
+			}
 
 			foundChanges = true;
-			addToDatabase( effectId, effectsMatcher.group(3), effectsMatcher.group(2), null, null );
+			StatusEffectDatabase.addToDatabase(
+				effectId, effectsMatcher.group( 3 ), effectsMatcher.group( 2 ), null, null );
 		}
 
 		RequestThread.postRequest( CharpaneRequest.getInstance() );
 
 		if ( foundChanges )
-			saveDataOverride();
+		{
+			StatusEffectDatabase.saveDataOverride();
+		}
 	}
 
 	public static final void saveDataOverride()
 	{
-		File output = new File( DATA_LOCATION, "statuseffects.txt" );
+		File output = new File( UtilityConstants.DATA_LOCATION, "statuseffects.txt" );
 		LogStream writer = LogStream.openStream( output, true );
-		writer.println( STATUSEFFECTS_VERSION );
+		writer.println( KoLConstants.STATUSEFFECTS_VERSION );
 
 		int lastInteger = 1;
 		String defaultAction;
-		Iterator it = dataNameById.keySet().iterator();
+		Iterator it = StatusEffectDatabase.dataNameById.keySet().iterator();
 
 		while ( it.hasNext() )
 		{
 			Integer nextInteger = (Integer) it.next();
 			for ( int i = lastInteger; i < nextInteger.intValue(); ++i )
-					writer.println(i);
+			{
+				writer.println( i );
+			}
 
 			lastInteger = nextInteger.intValue() + 1;
-			writer.print( nextInteger + "\t" + dataNameById.get( nextInteger ) + "\t" +
-				imageById.get( nextInteger ) );
+			writer.print( nextInteger + "\t" + StatusEffectDatabase.dataNameById.get( nextInteger ) + "\t" + StatusEffectDatabase.imageById.get( nextInteger ) );
 
-			if ( descriptionById.containsKey( nextInteger ) )
+			if ( StatusEffectDatabase.descriptionById.containsKey( nextInteger ) )
 			{
-				writer.print( "\t" + descriptionById.get( nextInteger ) );
+				writer.print( "\t" + StatusEffectDatabase.descriptionById.get( nextInteger ) );
 
-				defaultAction = (String) defaultActions.get( dataNameById.get( nextInteger ) );
+				defaultAction =
+					(String) StatusEffectDatabase.defaultActions.get( StatusEffectDatabase.dataNameById.get( nextInteger ) );
 				if ( defaultAction != null && !defaultAction.equals( "" ) )
+				{
 					writer.print( "\t" + defaultAction );
+				}
 			}
 
 			writer.println();

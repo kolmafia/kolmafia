@@ -38,47 +38,52 @@ import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
-public class CakeArenaManager extends StaticEntity
+public class CakeArenaManager
+	extends StaticEntity
 {
 	public static final Pattern WIN_PATTERN = Pattern.compile( "is the winner, and gains (\\d+) experience" );
 	private static final LockableListModel opponentList = new LockableListModel();
 
 	/**
-	 * Registers an opponent inside of the arena manager.
-	 * This should be used to update any information that
-	 * relates to the arena.
+	 * Registers an opponent inside of the arena manager. This should be used to update any information that relates to
+	 * the arena.
 	 */
 
-	public static final void registerOpponent( int opponentId, String name, String race, int weight )
+	public static final void registerOpponent( final int opponentId, final String name, final String race,
+		final int weight )
 	{
 		ArenaOpponent ao = new ArenaOpponent( opponentId, name, race, weight );
 
-		int index = opponentList.indexOf( ao );
+		int index = CakeArenaManager.opponentList.indexOf( ao );
 
 		if ( index != -1 )
-			opponentList.remove( ao );
+		{
+			CakeArenaManager.opponentList.remove( ao );
+		}
 		else
-			index = opponentList.size();
+		{
+			index = CakeArenaManager.opponentList.size();
+		}
 
-		opponentList.add( index, ao );
+		CakeArenaManager.opponentList.add( index, ao );
 	}
 
 	/**
-	 * Retrieves the opponents Id based on the string
-	 * description for the opponent.
+	 * Retrieves the opponents Id based on the string description for the opponent.
 	 */
 
-	public static final void fightOpponent( String opponent, int eventId, int repeatCount )
+	public static final void fightOpponent( final String opponent, final int eventId, final int repeatCount )
 	{
-		for ( int i = 0; i < opponentList.size(); ++i )
+		for ( int i = 0; i < CakeArenaManager.opponentList.size(); ++i )
 		{
-			if ( opponent.equals( opponentList.get(i).toString() ) )
+			if ( opponent.equals( CakeArenaManager.opponentList.get( i ).toString() ) )
 			{
 				FamiliarTrainingFrame.getResults().clearBuffer();
 
 				Matcher victoryMatcher;
-				Pattern victoryPattern = WIN_PATTERN;
-				CakeArenaRequest request = new CakeArenaRequest( ((ArenaOpponent)opponentList.get(i)).getId(), eventId );
+				Pattern victoryPattern = CakeArenaManager.WIN_PATTERN;
+				CakeArenaRequest request =
+					new CakeArenaRequest( ( (ArenaOpponent) CakeArenaManager.opponentList.get( i ) ).getId(), eventId );
 
 				for ( int j = 1; KoLmafia.permitsContinue() && j <= repeatCount; ++j )
 				{
@@ -89,12 +94,16 @@ public class CakeArenaManager extends StaticEntity
 					StringBuffer text = new StringBuffer();
 
 					if ( victoryMatcher.find() )
+					{
 						text.append( "<font color=green><b>Round " + j + " of " + repeatCount + "</b></font>: " );
+					}
 					else
+					{
 						text.append( "<font color=red><b>Round " + j + " of " + repeatCount + "</b></font>: " );
+					}
 
 					text.append( request.responseText.substring( 0, request.responseText.indexOf( "</table>" ) ).replaceAll(
-						"><" , "" ).replaceAll( "<.*?>", " " ) );
+						"><", "" ).replaceAll( "<.*?>", " " ) );
 
 					text.append( "<br><br>" );
 					FamiliarTrainingFrame.getResults().append( text.toString() );
@@ -108,19 +117,20 @@ public class CakeArenaManager extends StaticEntity
 	}
 
 	/**
-	 * Returns a list of opponents are available today at
-	 * the cake-shaped arena.
+	 * Returns a list of opponents are available today at the cake-shaped arena.
 	 */
 
 	public static final LockableListModel getOpponentList()
 	{
-		if ( opponentList.isEmpty() )
+		if ( CakeArenaManager.opponentList.isEmpty() )
+		{
 			RequestThread.postRequest( new CakeArenaRequest() );
+		}
 
-		return opponentList;
+		return CakeArenaManager.opponentList;
 	}
 
-	public static final String getEvent( int eventId )
+	public static final String getEvent( final int eventId )
 	{
 		switch ( eventId )
 		{
@@ -138,19 +148,18 @@ public class CakeArenaManager extends StaticEntity
 	}
 
 	/**
-	 * An internal class which represents a single arena
-	 * opponent.  Used to track the opponent.
+	 * An internal class which represents a single arena opponent. Used to track the opponent.
 	 */
 
 	public static class ArenaOpponent
 	{
-		private int id;
-		private String name;
-		private String race;
-		private int weight;
-		private String description;
+		private final int id;
+		private final String name;
+		private final String race;
+		private final int weight;
+		private final String description;
 
-		public ArenaOpponent( int id, String name, String race, int weight )
+		public ArenaOpponent( final int id, final String name, final String race, final int weight )
 		{
 			this.id = id;
 			this.name = name;
@@ -160,27 +169,33 @@ public class CakeArenaManager extends StaticEntity
 		}
 
 		public int getId()
-		{	return this.id;
+		{
+			return this.id;
 		}
 
 		public String getName()
-		{	return this.name;
+		{
+			return this.name;
 		}
 
 		public String getRace()
-		{	return this.race;
+		{
+			return this.race;
 		}
 
 		public int getWeight()
-		{	return this.weight;
+		{
+			return this.weight;
 		}
 
 		public String toString()
-		{	return this.description;
+		{
+			return this.description;
 		}
 
-		public boolean equals( Object o )
-		{	return o != null && o instanceof ArenaOpponent && this.id == ((ArenaOpponent)o).id;
+		public boolean equals( final Object o )
+		{
+			return o != null && o instanceof ArenaOpponent && this.id == ( (ArenaOpponent) o ).id;
 		}
 	}
 }

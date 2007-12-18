@@ -33,7 +33,8 @@
 
 package net.sourceforge.kolmafia;
 
-public class MuseumRequest extends SendMessageRequest
+public class MuseumRequest
+	extends SendMessageRequest
 {
 	private boolean isDeposit;
 	private boolean isWithdrawal;
@@ -48,7 +49,7 @@ public class MuseumRequest extends SendMessageRequest
 		this.isManagement = false;
 	}
 
-	public MuseumRequest( Object [] attachments, boolean isDeposit )
+	public MuseumRequest( final Object[] attachments, boolean isDeposit )
 	{
 		super( "managecollection.php", attachments );
 		this.addFormField( "action", isDeposit ? "put" : "take" );
@@ -57,17 +58,19 @@ public class MuseumRequest extends SendMessageRequest
 		this.isDeposit = isDeposit;
 		this.isWithdrawal = !isDeposit;
 
-		this.source = isDeposit ? inventory : collection;
-		this.destination = isDeposit ? collection : inventory;
+		this.source = isDeposit ? KoLConstants.inventory : KoLConstants.collection;
+		this.destination = isDeposit ? KoLConstants.collection : KoLConstants.inventory;
 	}
 
-	public MuseumRequest( AdventureResult [] items, int [] shelves )
+	public MuseumRequest( final AdventureResult[] items, final int[] shelves )
 	{
 		this();
 		this.addFormField( "action", "arrange" );
 
 		for ( int i = 0; i < items.length; ++i )
-			this.addFormField( "whichshelf" + items[i].getItemId(), String.valueOf( shelves[i] ) );
+		{
+			this.addFormField( "whichshelf" + items[ i ].getItemId(), String.valueOf( shelves[ i ] ) );
+		}
 
 		this.isDeposit = false;
 		this.isWithdrawal = false;
@@ -75,68 +78,88 @@ public class MuseumRequest extends SendMessageRequest
 	}
 
 	protected boolean retryOnTimeout()
-	{	return !isDeposit && !isWithdrawal;
+	{
+		return !this.isDeposit && !this.isWithdrawal;
 	}
 
 	public int getCapacity()
-	{	return 11;
+	{
+		return 11;
 	}
 
-	public SendMessageRequest getSubInstance( Object [] attachments )
-	{	return new MuseumRequest( attachments, this.isDeposit );
+	public SendMessageRequest getSubInstance( final Object[] attachments )
+	{
+		return new MuseumRequest( attachments, this.isDeposit );
 	}
 
 	public String getSuccessMessage()
-	{	return "";
+	{
+		return "";
 	}
 
 	public String getItemField()
-	{	return "whichitem";
+	{
+		return "whichitem";
 	}
 
 	public String getQuantityField()
-	{	return "howmany";
+	{
+		return "howmany";
 	}
 
 	public String getMeatField()
-	{	return "";
+	{
+		return "";
 	}
 
 	public void processResults()
 	{
 		super.processResults();
 		if ( !this.isManagement )
+		{
 			MuseumManager.update( this.responseText );
+		}
 	}
 
 	public boolean allowMementoTransfer()
-	{	return true;
+	{
+		return true;
 	}
 
 	public boolean allowUntradeableTransfer()
-	{	return true;
+	{
+		return true;
 	}
 
 	public boolean allowUngiftableTransfer()
-	{	return true;
+	{
+		return true;
 	}
 
 	public String getStatusMessage()
-	{	return this.isDeposit ? "Placing items in display case" : this.isWithdrawal ? "Removing items from display case" : "Updating display case";
+	{
+		return this.isDeposit ? "Placing items in display case" : this.isWithdrawal ? "Removing items from display case" : "Updating display case";
 	}
 
-	public static final boolean registerRequest( String urlString )
+	public static final boolean registerRequest( final String urlString )
 	{
 		if ( !urlString.startsWith( "managecollection.php" ) )
+		{
 			return false;
+		}
 
 		if ( urlString.indexOf( "action=take" ) != -1 )
-			return registerRequest( "remove from display case", urlString, collection, inventory, null, 0 );
+		{
+			return SendMessageRequest.registerRequest(
+				"remove from display case", urlString, KoLConstants.collection, KoLConstants.inventory, null, 0 );
+		}
 
 		if ( urlString.indexOf( "action=put" ) != -1 )
-			return registerRequest( "put in display case", urlString, inventory, collection, null, 0 );
+		{
+			return SendMessageRequest.registerRequest(
+				"put in display case", urlString, KoLConstants.inventory, KoLConstants.collection, null, 0 );
+		}
 
 		return true;
 	}
 }
-

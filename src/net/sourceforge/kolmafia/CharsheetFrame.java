@@ -43,29 +43,30 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.SwingConstants;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
-public class CharsheetFrame extends AdventureOptionsFrame
+public class CharsheetFrame
+	extends AdventureOptionsFrame
 {
 	private static CharsheetFrame INSTANCE = null;
 	private static boolean shouldAddExtraTabs = true;
 
-	private JLabel avatar;
-	private JLabel [] statusLabel;
-	private JProgressBar [] tnpDisplay;
-	private KoLCharacterAdapter statusRefresher;
+	private final JLabel avatar;
+	private JLabel[] statusLabel;
+	private JProgressBar[] tnpDisplay;
+	private final KoLCharacterAdapter statusRefresher;
 
 	/**
-	 * Constructs a new character sheet, using the data located
-	 * in the provided session.
+	 * Constructs a new character sheet, using the data located in the provided session.
 	 */
 
 	public CharsheetFrame()
 	{
 		super( "Player Status" );
 
-		INSTANCE = this;
+		CharsheetFrame.INSTANCE = this;
 		this.framePanel.setLayout( new BorderLayout( 20, 20 ) );
 
 		JPanel statusPanel = new JPanel( new BorderLayout( 20, 20 ) );
@@ -93,11 +94,12 @@ public class CharsheetFrame extends AdventureOptionsFrame
 		KoLCharacter.addCharacterListener( this.statusRefresher );
 
 		this.statusRefresher.updateStatus();
-		updateSelectedAdventure( AdventureDatabase.getAdventure( KoLSettings.getUserProperty( "lastAdventure" ) ) );
+		CharsheetFrame.updateSelectedAdventure( AdventureDatabase.getAdventure( KoLSettings.getUserProperty( "lastAdventure" ) ) );
 	}
 
 	public boolean useSidePane()
-	{	return true;
+	{
+		return true;
 	}
 
 	public void dispose()
@@ -109,17 +111,23 @@ public class CharsheetFrame extends AdventureOptionsFrame
 	public static final void removeExtraTabs()
 	{
 		CharsheetFrame.shouldAddExtraTabs = false;
-		if ( INSTANCE == null || INSTANCE.tabs == null )
+		if ( CharsheetFrame.INSTANCE == null || CharsheetFrame.INSTANCE.tabs == null )
+		{
 			return;
+		}
 
-		for ( int i = INSTANCE.tabs.getTabCount() - 1; i > 0; --i )
-			INSTANCE.tabs.remove( i );
+		for ( int i = CharsheetFrame.INSTANCE.tabs.getTabCount() - 1; i > 0; --i )
+		{
+			CharsheetFrame.INSTANCE.tabs.remove( i );
+		}
 	}
 
 	public UnfocusedTabbedPane getSouthernTabs()
 	{
-		if ( shouldAddExtraTabs )
+		if ( CharsheetFrame.shouldAddExtraTabs )
+		{
 			super.getSouthernTabs();
+		}
 
 		JPanel locationDetails = new JPanel( new BorderLayout( 10, 10 ) );
 		locationDetails.add( new AdventureSelectPanel( false ), BorderLayout.WEST );
@@ -133,23 +141,22 @@ public class CharsheetFrame extends AdventureOptionsFrame
 	}
 
 	/**
-	 * Utility method for creating a panel that displays the given label,
-	 * using formatting if the values are different.
+	 * Utility method for creating a panel that displays the given label, using formatting if the values are different.
 	 */
 
-	private JPanel createValuePanel( String title, int displayIndex )
+	private JPanel createValuePanel( final String title, final int displayIndex )
 	{
 		int index1 = 2 * displayIndex;
 		int index2 = index1 + 1;
 
-		this.statusLabel[ index1 ] = new JLabel( " ", JLabel.LEFT );
+		this.statusLabel[ index1 ] = new JLabel( " ", SwingConstants.LEFT );
 		this.statusLabel[ index1 ].setForeground( Color.BLUE );
-		this.statusLabel[ index2 ] = new JLabel( " ", JLabel.LEFT );
+		this.statusLabel[ index2 ] = new JLabel( " ", SwingConstants.LEFT );
 
 		JPanel headerPanel = new JPanel();
 		headerPanel.setLayout( new BoxLayout( headerPanel, BoxLayout.X_AXIS ) );
 
-		headerPanel.add( new JLabel( title + ":  ", JLabel.RIGHT ) );
+		headerPanel.add( new JLabel( title + ":  ", SwingConstants.RIGHT ) );
 		headerPanel.add( this.statusLabel[ index1 ] );
 		headerPanel.add( this.statusLabel[ index2 ] );
 
@@ -161,32 +168,31 @@ public class CharsheetFrame extends AdventureOptionsFrame
 	}
 
 	/**
-	 * Utility method for modifying a panel that displays the given label,
-	 * using formatting if the values are different.
+	 * Utility method for modifying a panel that displays the given label, using formatting if the values are different.
 	 */
 
-	private void refreshValuePanel( int displayIndex, int baseValue, int adjustedValue, int tillNextPoint )
+	private void refreshValuePanel( final int displayIndex, final int baseValue, final int adjustedValue,
+		final int tillNextPoint )
 	{
 		int index1 = 2 * displayIndex;
 		int index2 = index1 + 1;
 
-		JLabel adjustedLabel = this.statusLabel[index1];
-		JLabel baseLabel = this.statusLabel[index2];
+		JLabel adjustedLabel = this.statusLabel[ index1 ];
+		JLabel baseLabel = this.statusLabel[ index2 ];
 
-		adjustedLabel.setText( COMMA_FORMAT.format( adjustedValue ) );
-		baseLabel.setText( " (" + COMMA_FORMAT.format( baseValue ) + ")" );
+		adjustedLabel.setText( KoLConstants.COMMA_FORMAT.format( adjustedValue ) );
+		baseLabel.setText( " (" + KoLConstants.COMMA_FORMAT.format( baseValue ) + ")" );
 
 		this.tnpDisplay[ displayIndex ].setMaximum( 2 * baseValue + 1 );
 		this.tnpDisplay[ displayIndex ].setValue( 2 * baseValue + 1 - tillNextPoint );
-		this.tnpDisplay[ displayIndex ].setString( COMMA_FORMAT.format( this.tnpDisplay[ displayIndex ].getValue() ) + " / " +
-			COMMA_FORMAT.format( this.tnpDisplay[ displayIndex ].getMaximum() ) );
+		this.tnpDisplay[ displayIndex ].setString( KoLConstants.COMMA_FORMAT.format( this.tnpDisplay[ displayIndex ].getValue() ) + " / " + KoLConstants.COMMA_FORMAT.format( this.tnpDisplay[ displayIndex ].getMaximum() ) );
 	}
 
 	/**
-	 * Utility method for creating a panel displaying the character's vital
-	 * statistics, including a basic stat overview and available turns/meat.
-	 *
-	 * @return	a <code>JPanel</code> displaying the character's statistics
+	 * Utility method for creating a panel displaying the character's vital statistics, including a basic stat overview
+	 * and available turns/meat.
+	 * 
+	 * @return a <code>JPanel</code> displaying the character's statistics
 	 */
 
 	private JPanel createStatusPanel()
@@ -194,16 +200,18 @@ public class CharsheetFrame extends AdventureOptionsFrame
 		JPanel statusLabelPanel = new JPanel();
 		statusLabelPanel.setLayout( new BoxLayout( statusLabelPanel, BoxLayout.Y_AXIS ) );
 
-		this.statusLabel = new JLabel[6];
+		this.statusLabel = new JLabel[ 6 ];
 		for ( int i = 0; i < 6; ++i )
-			this.statusLabel[i] = new JLabel( " ", JLabel.CENTER );
+		{
+			this.statusLabel[ i ] = new JLabel( " ", SwingConstants.CENTER );
+		}
 
-		this.tnpDisplay = new JProgressBar[3];
+		this.tnpDisplay = new JProgressBar[ 3 ];
 		for ( int i = 0; i < 3; ++i )
 		{
-			this.tnpDisplay[i] = new JProgressBar();
-			this.tnpDisplay[i].setValue( 0 );
-			this.tnpDisplay[i].setStringPainted( true );
+			this.tnpDisplay[ i ] = new JProgressBar();
+			this.tnpDisplay[ i ].setValue( 0 );
+			this.tnpDisplay[ i ].setStringPainted( true );
 		}
 
 		JPanel primeStatPanel = new JPanel( new GridLayout( 3, 1, 5, 5 ) );
@@ -215,33 +223,46 @@ public class CharsheetFrame extends AdventureOptionsFrame
 		return statusLabelPanel;
 	}
 
-	private class StatusRefreshRunnable implements Runnable
+	private class StatusRefreshRunnable
+		implements Runnable
 	{
 		public void run()
 		{
-			CharsheetFrame.this.refreshValuePanel( 0, KoLCharacter.getBaseMuscle(), KoLCharacter.getAdjustedMuscle(), KoLCharacter.getMuscleTNP() );
-			CharsheetFrame.this.refreshValuePanel( 1, KoLCharacter.getBaseMysticality(), KoLCharacter.getAdjustedMysticality(), KoLCharacter.getMysticalityTNP() );
-			CharsheetFrame.this.refreshValuePanel( 2, KoLCharacter.getBaseMoxie(), KoLCharacter.getAdjustedMoxie(), KoLCharacter.getMoxieTNP() );
+			CharsheetFrame.this.refreshValuePanel(
+				0, KoLCharacter.getBaseMuscle(), KoLCharacter.getAdjustedMuscle(), KoLCharacter.getMuscleTNP() );
+			CharsheetFrame.this.refreshValuePanel(
+				1, KoLCharacter.getBaseMysticality(), KoLCharacter.getAdjustedMysticality(),
+				KoLCharacter.getMysticalityTNP() );
+			CharsheetFrame.this.refreshValuePanel(
+				2, KoLCharacter.getBaseMoxie(), KoLCharacter.getAdjustedMoxie(), KoLCharacter.getMoxieTNP() );
 
 			// Set the current avatar
 			CharsheetFrame.this.avatar.setIcon( JComponentUtilities.getImage( KoLCharacter.getAvatar() ) );
 		}
 	}
 
-	public static final void updateSelectedAdventure( KoLAdventure location )
+	public static final void updateSelectedAdventure( final KoLAdventure location )
 	{
-		if ( INSTANCE == null || location == null || INSTANCE.zoneSelect == null || INSTANCE.locationSelect == null )
+		if ( CharsheetFrame.INSTANCE == null || location == null || CharsheetFrame.INSTANCE.zoneSelect == null || CharsheetFrame.INSTANCE.locationSelect == null )
+		{
 			return;
+		}
 
-		if ( INSTANCE.locationSelect.getSelectedValue() == location || !conditions.isEmpty() )
+		if ( CharsheetFrame.INSTANCE.locationSelect.getSelectedValue() == location || !KoLConstants.conditions.isEmpty() )
+		{
 			return;
+		}
 
-		if ( INSTANCE.zoneSelect instanceof FilterAdventureField )
-			((FilterAdventureField)INSTANCE.zoneSelect).setText( location.getZone() );
+		if ( CharsheetFrame.INSTANCE.zoneSelect instanceof FilterAdventureField )
+		{
+			( (FilterAdventureField) CharsheetFrame.INSTANCE.zoneSelect ).setText( location.getZone() );
+		}
 		else
-			((JComboBox)INSTANCE.zoneSelect).setSelectedItem( location.getParentZoneDescription() );
+		{
+			( (JComboBox) CharsheetFrame.INSTANCE.zoneSelect ).setSelectedItem( location.getParentZoneDescription() );
+		}
 
-		INSTANCE.locationSelect.setSelectedValue( location, true );
-		INSTANCE.locationSelect.ensureIndexIsVisible( INSTANCE.locationSelect.getSelectedIndex() );
+		CharsheetFrame.INSTANCE.locationSelect.setSelectedValue( location, true );
+		CharsheetFrame.INSTANCE.locationSelect.ensureIndexIsVisible( CharsheetFrame.INSTANCE.locationSelect.getSelectedIndex() );
 	}
 }

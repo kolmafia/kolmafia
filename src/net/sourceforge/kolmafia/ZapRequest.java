@@ -40,7 +40,8 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.KoLDatabase.BooleanArray;
 
-public class ZapRequest extends KoLRequest
+public class ZapRequest
+	extends KoLRequest
 {
 	private static final Pattern OPTION_PATTERN = Pattern.compile( "<option value=(\\d+) descid='.*?'>.*?</option>" );
 
@@ -49,14 +50,16 @@ public class ZapRequest extends KoLRequest
 
 	private AdventureResult item;
 
-	public ZapRequest( AdventureResult item )
+	public ZapRequest( final AdventureResult item )
 	{
 		super( "wand.php" );
 
 		this.item = null;
 
 		if ( KoLCharacter.getZapper() == null )
+		{
 			return;
+		}
 
 		this.item = item;
 
@@ -67,22 +70,24 @@ public class ZapRequest extends KoLRequest
 
 	private static final void initializeList()
 	{
-		if ( !zappableItems.isEmpty() )
+		if ( !ZapRequest.zappableItems.isEmpty() )
+		{
 			return;
+		}
 
 		try
 		{
 			String line;
-			BufferedReader reader = KoLDatabase.getVersionedReader( "zapgroups.txt", ZAPGROUPS_VERSION );
+			BufferedReader reader = KoLDatabase.getVersionedReader( "zapgroups.txt", KoLConstants.ZAPGROUPS_VERSION );
 
-			while ( (line = KoLDatabase.readLine( reader )) != null )
+			while ( ( line = KoLDatabase.readLine( reader ) ) != null )
 			{
-				String [] list = line.split( "\\s*,\\s*" );
+				String[] list = line.split( "\\s*,\\s*" );
 				for ( int i = 0; i < list.length; ++i )
 				{
-					int itemId = TradeableItemDatabase.getItemId( list[i] );
-					zappableItems.add( new AdventureResult( itemId, 1 ) );
-					isZappable.set( itemId, true );
+					int itemId = TradeableItemDatabase.getItemId( list[ i ] );
+					ZapRequest.zappableItems.add( new AdventureResult( itemId, 1 ) );
+					ZapRequest.isZappable.set( itemId, true );
 				}
 			}
 		}
@@ -94,31 +99,35 @@ public class ZapRequest extends KoLRequest
 
 	public static final SortedListModel getZappableItems()
 	{
-		initializeList();
+		ZapRequest.initializeList();
 
 		SortedListModel matchingItems = new SortedListModel();
-		matchingItems.addAll( inventory );
-		matchingItems.retainAll( zappableItems );
+		matchingItems.addAll( KoLConstants.inventory );
+		matchingItems.retainAll( ZapRequest.zappableItems );
 		return matchingItems;
 	}
 
 	public void run()
 	{
 		if ( this.item == null )
+		{
 			return;
+		}
 
 		if ( KoLCharacter.getZapper() == null )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You don't have a wand." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have a wand." );
 			return;
 		}
 
 		if ( KoLCharacter.hasItem( this.item, true ) )
-			AdventureDatabase.retrieveItem( this.item );
-
-		if ( !inventory.contains( this.item ) )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You don't have a " + this.item.getName() + "." );
+			AdventureDatabase.retrieveItem( this.item );
+		}
+
+		if ( !KoLConstants.inventory.contains( this.item ) )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have a " + this.item.getName() + "." );
 			return;
 		}
 
@@ -133,39 +142,42 @@ public class ZapRequest extends KoLRequest
 
 		if ( this.responseText.indexOf( "nothing happens" ) != -1 )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "The " + this.item.getName() + " is not zappable." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "The " + this.item.getName() + " is not zappable." );
 			return;
 		}
 
 		// If it blew up, remove wand
 		if ( this.responseText.indexOf( "abruptly explodes" ) != -1 )
-			 StaticEntity.getClient().processResult( KoLCharacter.getZapper().getNegation() );
+		{
+			StaticEntity.getClient().processResult( KoLCharacter.getZapper().getNegation() );
+		}
 
 		// Remove old item and notify the user of success.
 		StaticEntity.getClient().processResult( this.item.getInstance( -1 ) );
 		KoLmafia.updateDisplay( this.item.getName() + " has been transformed." );
 	}
 
-	public static final void decorate( StringBuffer buffer )
+	public static final void decorate( final StringBuffer buffer )
 	{
-		initializeList();
+		ZapRequest.initializeList();
 
 		int selectIndex = buffer.indexOf( ">", buffer.indexOf( "<select" ) ) + 1;
 		int endSelectIndex = buffer.indexOf( "</select>" );
 
-		Matcher optionMatcher = OPTION_PATTERN.matcher( buffer.substring( selectIndex, endSelectIndex ) );
+		Matcher optionMatcher = ZapRequest.OPTION_PATTERN.matcher( buffer.substring( selectIndex, endSelectIndex ) );
 		buffer.delete( selectIndex, endSelectIndex );
 
 		int itemId;
 		StringBuffer zappableOptions = new StringBuffer();
 		while ( optionMatcher.find() )
 		{
-			itemId = Integer.parseInt( optionMatcher.group(1) );
-			if ( itemId == 0 || isZappable.get( itemId ) )
+			itemId = Integer.parseInt( optionMatcher.group( 1 ) );
+			if ( itemId == 0 || ZapRequest.isZappable.get( itemId ) )
+			{
 				zappableOptions.append( optionMatcher.group() );
+			}
 		}
 
 		buffer.insert( selectIndex, zappableOptions.toString() );
 	}
 }
-

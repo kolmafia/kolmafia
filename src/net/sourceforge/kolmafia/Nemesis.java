@@ -36,7 +36,8 @@ package net.sourceforge.kolmafia;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Nemesis extends StaticEntity
+public abstract class Nemesis
+	extends StaticEntity
 {
 	private static final KoLRequest QUEST_HANDLER = new KoLRequest( "" );
 
@@ -53,7 +54,9 @@ public abstract class Nemesis extends StaticEntity
 	private static final boolean checkPrerequisites()
 	{
 		if ( KoLCharacter.isFallingDown() )
+		{
 			return false;
+		}
 
 		// If thehas not yet been set, then there is no cave
 
@@ -61,12 +64,13 @@ public abstract class Nemesis extends StaticEntity
 
 		// Make sure the player has been given the quest
 
-		QUEST_HANDLER.constructURLString( "mountains.php" );
-		RequestThread.postRequest( QUEST_HANDLER );
+		Nemesis.QUEST_HANDLER.constructURLString( "mountains.php" );
+		RequestThread.postRequest( Nemesis.QUEST_HANDLER );
 
-		if ( QUEST_HANDLER.responseText.indexOf( "cave.php" ) == -1 )
+		if ( Nemesis.QUEST_HANDLER.responseText.indexOf( "cave.php" ) == -1 )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You haven't been given the quest to defeat your Nemesis!" );
+			KoLmafia.updateDisplay(
+				KoLConstants.ERROR_STATE, "You haven't been given the quest to defeat your Nemesis!" );
 			return false;
 		}
 
@@ -77,37 +81,51 @@ public abstract class Nemesis extends StaticEntity
 	{
 		// Make sure the player is qualified to use this script
 
-		if ( !checkPrerequisites() )
+		if ( !Nemesis.checkPrerequisites() )
+		{
 			return;
+		}
 
 		// See how far the player has gotten in this quest
 
-		QUEST_HANDLER.clearDataFields();
-		RequestThread.postRequest( QUEST_HANDLER );
+		Nemesis.QUEST_HANDLER.clearDataFields();
+		RequestThread.postRequest( Nemesis.QUEST_HANDLER );
 
-		if ( QUEST_HANDLER.responseText == null )
+		if ( Nemesis.QUEST_HANDLER.responseText == null )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "Unable to find quest." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unable to find quest." );
 			return;
 		}
 
 		int region = 0;
 
-		if ( QUEST_HANDLER.responseText.indexOf( "value='flies'" ) != -1 )
-			region = 4;
-		else if ( QUEST_HANDLER.responseText.indexOf( "value='door1'" ) != -1 )
-			region = 5;
-		else if ( QUEST_HANDLER.responseText.indexOf( "value='troll1'" ) != -1 )
-			region = 6;
-		else if ( QUEST_HANDLER.responseText.indexOf( "value='door2'" ) != -1 )
-			region = 7;
-		else if ( QUEST_HANDLER.responseText.indexOf( "value='troll2'" ) != -1 )
-			region = 8;
-		else if ( QUEST_HANDLER.responseText.indexOf( "value='end'" ) != -1 )
-			region = 9;
-		else if ( QUEST_HANDLER.responseText.indexOf( "cave9done" ) != -1 )
+		if ( Nemesis.QUEST_HANDLER.responseText.indexOf( "value='flies'" ) != -1 )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You've already defeated your nemesis." );
+			region = 4;
+		}
+		else if ( Nemesis.QUEST_HANDLER.responseText.indexOf( "value='door1'" ) != -1 )
+		{
+			region = 5;
+		}
+		else if ( Nemesis.QUEST_HANDLER.responseText.indexOf( "value='troll1'" ) != -1 )
+		{
+			region = 6;
+		}
+		else if ( Nemesis.QUEST_HANDLER.responseText.indexOf( "value='door2'" ) != -1 )
+		{
+			region = 7;
+		}
+		else if ( Nemesis.QUEST_HANDLER.responseText.indexOf( "value='troll2'" ) != -1 )
+		{
+			region = 8;
+		}
+		else if ( Nemesis.QUEST_HANDLER.responseText.indexOf( "value='end'" ) != -1 )
+		{
+			region = 9;
+		}
+		else if ( Nemesis.QUEST_HANDLER.responseText.indexOf( "cave9done" ) != -1 )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You've already defeated your nemesis." );
 			return;
 		}
 
@@ -117,52 +135,65 @@ public abstract class Nemesis extends StaticEntity
 
 		if ( region <= 4 )
 		{
-			if ( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getItemId() != FLY_SWATTER.getItemId() )
-				requirements.add( FLY_SWATTER );
+			if ( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getItemId() != Nemesis.FLY_SWATTER.getItemId() )
+			{
+				requirements.add( Nemesis.FLY_SWATTER );
+			}
 		}
 
 		// Need a cog and a sprocket to get past the Stone Door
 
 		if ( region <= 5 )
 		{
-			requirements.add( COG );
-			requirements.add( SPROCKET );
+			requirements.add( Nemesis.COG );
+			requirements.add( Nemesis.SPROCKET );
 		}
 
 		// Need fairy gravy to get past the first lavatory troll
 
 		if ( region <= 6 )
 		{
-			requirements.add( GRAVY );
+			requirements.add( Nemesis.GRAVY );
 		}
 
 		// Need tongs to get past the salad covered door
 
 		if ( region <= 7 )
 		{
-			if ( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getItemId() != TONGS.getItemId() )
-				requirements.add( TONGS );
+			if ( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getItemId() != Nemesis.TONGS.getItemId() )
+			{
+				requirements.add( Nemesis.TONGS );
+			}
 		}
 
 		// Need some kind of ketchup to get past the second lavatory troll
 
-		AdventureResult ketchup = CATSUP.getCount( inventory ) > 0 ? CATSUP : KETCHUP;
+		AdventureResult ketchup =
+			Nemesis.CATSUP.getCount( KoLConstants.inventory ) > 0 ? Nemesis.CATSUP : Nemesis.KETCHUP;
 
 		if ( region <= 8 )
+		{
 			requirements.add( ketchup );
+		}
 
 		if ( !KoLmafia.checkRequirements( requirements ) )
+		{
 			return;
+		}
 
 		// Get current equipment
 		AdventureResult initialWeapon = KoLCharacter.getEquipment( KoLCharacter.WEAPON );
 		AdventureResult initialOffhand = KoLCharacter.getEquipment( KoLCharacter.OFFHAND );
 
 		if ( initialWeapon == null )
+		{
 			initialWeapon = EquipmentRequest.UNEQUIP;
+		}
 
 		if ( initialOffhand == null )
+		{
 			initialOffhand = EquipmentRequest.UNEQUIP;
+		}
 
 		// Pass the obstacles one at a time.
 
@@ -170,14 +201,14 @@ public abstract class Nemesis extends StaticEntity
 		{
 			String action = "none";
 
-			switch (i)
+			switch ( i )
 			{
 			case 4: // The Fly Bend
 
 				// Equip fly swatter, but only if it's
 				// not currently equipped
 
-				RequestThread.postRequest( new EquipmentRequest( FLY_SWATTER, KoLCharacter.WEAPON ) );
+				RequestThread.postRequest( new EquipmentRequest( Nemesis.FLY_SWATTER, KoLCharacter.WEAPON ) );
 				action = "flies";
 				KoLmafia.updateDisplay( "Swatting flies..." );
 				break;
@@ -194,9 +225,9 @@ public abstract class Nemesis extends StaticEntity
 				KoLmafia.updateDisplay( "Feeding the first troll..." );
 				break;
 
-			case 7:	// Salad-Covered Door
+			case 7: // Salad-Covered Door
 
-				RequestThread.postRequest( new EquipmentRequest( TONGS, KoLCharacter.WEAPON ) );
+				RequestThread.postRequest( new EquipmentRequest( Nemesis.TONGS, KoLCharacter.WEAPON ) );
 				action = "door2";
 				KoLmafia.updateDisplay( "Plucking the salad door..." );
 				break;
@@ -210,10 +241,14 @@ public abstract class Nemesis extends StaticEntity
 			case 9: // Chamber of Epic Conflict
 
 				if ( initialWeapon != null )
+				{
 					RequestThread.postRequest( new EquipmentRequest( initialWeapon, KoLCharacter.WEAPON ) );
+				}
 
 				if ( initialOffhand != null )
+				{
 					RequestThread.postRequest( new EquipmentRequest( initialOffhand, KoLCharacter.OFFHAND ) );
+				}
 
 				action = "end";
 				KoLmafia.updateDisplay( "Fighting your nemesis..." );
@@ -222,36 +257,36 @@ public abstract class Nemesis extends StaticEntity
 
 			// Visit the cave
 
-			QUEST_HANDLER.clearDataFields();
-			QUEST_HANDLER.addFormField( "action", action );
-			RequestThread.postRequest( QUEST_HANDLER );
+			Nemesis.QUEST_HANDLER.clearDataFields();
+			Nemesis.QUEST_HANDLER.addFormField( "action", action );
+			RequestThread.postRequest( Nemesis.QUEST_HANDLER );
 
-			if ( QUEST_HANDLER.responseText != null && QUEST_HANDLER.responseText.indexOf( "You must have at least one Adventure left to fight your nemesis." ) != -1 )
+			if ( Nemesis.QUEST_HANDLER.responseText != null && Nemesis.QUEST_HANDLER.responseText.indexOf( "You must have at least one Adventure left to fight your nemesis." ) != -1 )
 			{
-				KoLmafia.updateDisplay( ERROR_STATE, "You're out of adventures." );
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You're out of adventures." );
 				return;
 			}
 
 			// Consume items
-			switch (i)
+			switch ( i )
 			{
 			case 5: // A Stone Door
 
 				// Use up cog & sprocket
-				getClient().processResult( COG.getNegation() );
-				getClient().processResult( SPROCKET.getNegation() );
+				StaticEntity.getClient().processResult( Nemesis.COG.getNegation() );
+				StaticEntity.getClient().processResult( Nemesis.SPROCKET.getNegation() );
 				break;
 
 			case 6: // Lavatory Troll 1
 
 				// Use up fairy gravy
-				getClient().processResult( GRAVY.getNegation() );
+				StaticEntity.getClient().processResult( Nemesis.GRAVY.getNegation() );
 				break;
 
 			case 8: // Lavatory Troll 2
 
 				// Use up ketchup
-				getClient().processResult( ketchup.getNegation() );
+				StaticEntity.getClient().processResult( ketchup.getNegation() );
 				break;
 			}
 		}

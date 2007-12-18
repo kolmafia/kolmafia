@@ -40,28 +40,29 @@ import java.util.regex.Pattern;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
-public abstract class HyperlinkAdapter implements HyperlinkListener
+public abstract class HyperlinkAdapter
+	implements HyperlinkListener
 {
-	private static final Pattern [] ACTION_PATTERNS = new Pattern[3];
-	private static final Pattern [] NAME_PATTERNS = new Pattern[3];
-	private static final Pattern [] VALUE_PATTERNS = new Pattern[3];
+	private static final Pattern[] ACTION_PATTERNS = new Pattern[ 3 ];
+	private static final Pattern[] NAME_PATTERNS = new Pattern[ 3 ];
+	private static final Pattern[] VALUE_PATTERNS = new Pattern[ 3 ];
 
 	static
 	{
-		ACTION_PATTERNS[0] = Pattern.compile( "action=\"(.*?)\"" );
-		NAME_PATTERNS[0] = Pattern.compile( "name=\"(.*?)\"" );
-		VALUE_PATTERNS[0]  = Pattern.compile( "value=\"(.*?)\"" );
+		HyperlinkAdapter.ACTION_PATTERNS[ 0 ] = Pattern.compile( "action=\"(.*?)\"" );
+		HyperlinkAdapter.NAME_PATTERNS[ 0 ] = Pattern.compile( "name=\"(.*?)\"" );
+		HyperlinkAdapter.VALUE_PATTERNS[ 0 ] = Pattern.compile( "value=\"(.*?)\"" );
 
-		ACTION_PATTERNS[1] = Pattern.compile( "action=\'(.*?)\'" );
-		NAME_PATTERNS[1] = Pattern.compile( "name=\'(.*?)\'" );
-		VALUE_PATTERNS[1]  = Pattern.compile( "value=\'(.*?)\'" );
+		HyperlinkAdapter.ACTION_PATTERNS[ 1 ] = Pattern.compile( "action=\'(.*?)\'" );
+		HyperlinkAdapter.NAME_PATTERNS[ 1 ] = Pattern.compile( "name=\'(.*?)\'" );
+		HyperlinkAdapter.VALUE_PATTERNS[ 1 ] = Pattern.compile( "value=\'(.*?)\'" );
 
-		ACTION_PATTERNS[2] = Pattern.compile( "action=([^\\s]*?)" );
-		NAME_PATTERNS[2] = Pattern.compile( "name=([^\\s]*?)" );
-		VALUE_PATTERNS[2] = Pattern.compile( "value=([^\\s]*?)" );
+		HyperlinkAdapter.ACTION_PATTERNS[ 2 ] = Pattern.compile( "action=([^\\s]*?)" );
+		HyperlinkAdapter.NAME_PATTERNS[ 2 ] = Pattern.compile( "name=([^\\s]*?)" );
+		HyperlinkAdapter.VALUE_PATTERNS[ 2 ] = Pattern.compile( "value=([^\\s]*?)" );
 	}
 
-	public void hyperlinkUpdate( HyperlinkEvent e )
+	public void hyperlinkUpdate( final HyperlinkEvent e )
 	{
 		if ( e.getEventType() == HyperlinkEvent.EventType.ACTIVATED )
 		{
@@ -73,26 +74,14 @@ public abstract class HyperlinkAdapter implements HyperlinkListener
 			}
 			else if ( location.startsWith( "http://" ) || location.startsWith( "https://" ) )
 			{
-				// Attempt to open the URL on the system's default
-				// browser (call StaticEntity wrapper method).
-
 				StaticEntity.openSystemBrowser( location );
 			}
-			else if ( location.startsWith( "javascript:" ) && (location.indexOf( "submit()" ) == -1 || location.indexOf( "messageform" ) != -1) )
+			else if ( location.startsWith( "javascript:" ) && ( location.indexOf( "submit()" ) == -1 || location.indexOf( "messageform" ) != -1 ) )
 			{
-				// The default editor pane does not handle
-				// Javascript links.  Adding support would
-				// be an unnecessary time investment.
-
 				KoLFrame.alert( "Ironically, Java does not support Javascript." );
 			}
 			else if ( location.indexOf( "submit()" ) == -1 )
 			{
-				// If it's a link internal to KoL, handle the
-				// internal link.  Note that by default, this
-				// method does nothing, but descending classes
-				// can change this behavior.
-
 				this.handleInternalLink( location );
 			}
 			else
@@ -101,14 +90,16 @@ public abstract class HyperlinkAdapter implements HyperlinkListener
 				// examine the location string to see which form is
 				// being submitted and submit it manually.
 
-				String [] locationSplit = location.split( "\\." );
+				String[] locationSplit = location.split( "\\." );
 				String formId = "\"" + locationSplit[ locationSplit.length - 2 ] + "\"";
 
-				String editorText = ((RequestPane)e.getSource()).getText();
-				int formIndex =  editorText.indexOf( formId );
+				String editorText = ( (RequestPane) e.getSource() ).getText();
+				int formIndex = editorText.indexOf( formId );
 
-				String locationText = editorText.substring( editorText.lastIndexOf( "<form", formIndex ),
-					editorText.toLowerCase().indexOf( "</form>", formIndex ) );
+				String locationText =
+					editorText.substring(
+						editorText.lastIndexOf( "<form", formIndex ), editorText.toLowerCase().indexOf(
+							"</form>", formIndex ) );
 
 				Matcher inputMatcher = Pattern.compile( "<input.*?>" ).matcher( locationText );
 
@@ -123,7 +114,7 @@ public abstract class HyperlinkAdapter implements HyperlinkListener
 				patternIndex = 0;
 				do
 				{
-					actionMatcher = ACTION_PATTERNS[patternIndex].matcher( locationText );
+					actionMatcher = HyperlinkAdapter.ACTION_PATTERNS[ patternIndex ].matcher( locationText );
 				}
 				while ( !actionMatcher.find() && ++patternIndex < 3 );
 
@@ -141,7 +132,7 @@ public abstract class HyperlinkAdapter implements HyperlinkListener
 					patternIndex = 0;
 					do
 					{
-						nameMatcher = NAME_PATTERNS[patternIndex].matcher( lastInput );
+						nameMatcher = HyperlinkAdapter.NAME_PATTERNS[ patternIndex ].matcher( lastInput );
 					}
 					while ( !nameMatcher.find() && ++patternIndex < 3 );
 
@@ -151,7 +142,7 @@ public abstract class HyperlinkAdapter implements HyperlinkListener
 					patternIndex = 0;
 					do
 					{
-						valueMatcher = VALUE_PATTERNS[patternIndex].matcher( lastInput );
+						valueMatcher = HyperlinkAdapter.VALUE_PATTERNS[ patternIndex ].matcher( lastInput );
 					}
 					while ( !valueMatcher.find() && ++patternIndex < 3 );
 
@@ -162,9 +153,9 @@ public abstract class HyperlinkAdapter implements HyperlinkListener
 
 					try
 					{
-						inputString.append( URLEncoder.encode( nameMatcher.group(1), "UTF-8" ) );
+						inputString.append( URLEncoder.encode( nameMatcher.group( 1 ), "UTF-8" ) );
 						inputString.append( '=' );
-						inputString.append( URLEncoder.encode( valueMatcher.group(1), "UTF-8" ) );
+						inputString.append( URLEncoder.encode( valueMatcher.group( 1 ), "UTF-8" ) );
 					}
 					catch ( Exception e1 )
 					{
@@ -178,7 +169,7 @@ public abstract class HyperlinkAdapter implements HyperlinkListener
 				// Now that the entire form string is known, handle
 				// the appropriate internal link.
 
-				this.handleInternalLink( actionMatcher.group(1) + inputString.toString() );
+				this.handleInternalLink( actionMatcher.group( 1 ) + inputString.toString() );
 			}
 		}
 	}

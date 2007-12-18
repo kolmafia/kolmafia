@@ -41,13 +41,13 @@
 package com.jeans.trayicon;
 
 // Simple exception class for Tray Icon errors
-public class TrayIconException extends Exception {
+public class TrayIconException
+	extends Exception
+{
 
-	public TrayIconException(String message) {
-		super(message);
+	public TrayIconException( final String message )
+	{
+		super( message );
 	}
 
 }
-
-
-

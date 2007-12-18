@@ -42,23 +42,26 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Modifiers extends KoLDatabase
+public class Modifiers
+	extends KoLDatabase
 {
 	private static final Map modifiersByName = new TreeMap();
 	private static final ArrayList passiveSkills = new ArrayList();
 
 	static
 	{
-		BufferedReader reader = getVersionedReader( "modifiers.txt", MODIFIERS_VERSION );
-		String [] data;
+		BufferedReader reader = KoLDatabase.getVersionedReader( "modifiers.txt", KoLConstants.MODIFIERS_VERSION );
+		String[] data;
 
-		while ( (data = readData( reader )) != null )
+		while ( ( data = KoLDatabase.readData( reader ) ) != null )
 		{
 			if ( data.length != 2 )
+			{
 				continue;
+			}
 
-			String name = getCanonicalName( data[0] );
-			modifiersByName.put( name, data[1] );
+			String name = KoLDatabase.getCanonicalName( data[ 0 ] );
+			Modifiers.modifiersByName.put( name, data[ 1 ] );
 		}
 
 		try
@@ -70,7 +73,7 @@ public class Modifiers extends KoLDatabase
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			printStackTrace( e );
+			StaticEntity.printStackTrace( e );
 		}
 	}
 
@@ -122,535 +125,392 @@ public class Modifiers extends KoLDatabase
 	public static final int ADVENTURES = 45;
 	public static final int FAMILIAR_WEIGHT_PCT = 46;
 
-	private static final Object [][] floatModifiers = {
-		{ "Familiar Weight",
-		  Pattern.compile( "(.*) to Familiar Weight" ),
-		  Pattern.compile( "Familiar Weight: ([+-]\\d+)" )
-		},
-		{ "Monster Level",
-		  Pattern.compile( "(.*) to Monster Level" ),
-		  Pattern.compile( "Monster Level: ([+-]\\d+)" )
-		},
-		{ "Combat Rate",
-		  null,
-		  Pattern.compile( "Combat Rate: ([+-][\\d.]+)" )
-		},
-		{ "Initiative",
-		  Pattern.compile( "Combat Initiative (.*)%" ),
-		  Pattern.compile( "Initiative: ([+-][\\d.]+)" )
-		},
-		{ "Experience",
-		  Pattern.compile( "(.*) Stat.*Per Fight" ),
-		  Pattern.compile( "Experience: ([+-][\\d.]+)" )
-		},
-		{ "Item Drop",
-		  Pattern.compile( "(.*)% Item Drops? from Monsters" ),
-		  Pattern.compile( "Item Drop: ([+-][\\d.]+)" )
-		},
-		{ "Meat Drop",
-		  Pattern.compile( "(.*)% Meat from Monsters" ),
-		  Pattern.compile( "Meat Drop: ([+-][\\d.]+)" )
-		},
-		{ "Damage Absorption",
-		  Pattern.compile( "Damage Absorption (.*)" ),
-		  Pattern.compile( "Damage Absorption: ([+-]\\d+)" )
-		},
-		{ "Damage Reduction",
-		  Pattern.compile( "Damage Reduction: (\\d+)" ),
-		  Pattern.compile( "Damage Reduction: ([+-]?\\d+)" )
-		},
-		{ "Cold Resistance",
-		  null,
-		  Pattern.compile( "Cold Resistance: ([+-]\\d+)" )
-		},
-		{ "Hot Resistance",
-		  null,
-		  Pattern.compile( "Hot Resistance: ([+-]\\d+)" )
-		},
-		{ "Sleaze Resistance",
-		  null,
-		  Pattern.compile( "Sleaze Resistance: ([+-]\\d+)" )
-		},
-		{ "Spooky Resistance",
-		  null,
-		  Pattern.compile( "Spooky Resistance: ([+-]\\d+)" )
-		},
-		{ "Stench Resistance",
-		  null,
-		  Pattern.compile( "Stench Resistance: ([+-]\\d+)" )
-		},
-		{ "Mana Cost",
-		  Pattern.compile( "(.*) MP to use Skills" ),
-		  Pattern.compile( "Mana Cost: ([+-]\\d+)" )
-		},
-		{ "Moxie",
-		  Pattern.compile( "Moxie ([+-]\\d+)$" ),
-		  Pattern.compile( "Moxie: ([+-]\\d+)" )
-		},
-		{ "Moxie Percent",
-		  Pattern.compile( "Moxie ([+-]\\d+)%" ),
-		  Pattern.compile( "Moxie Percent: ([+-]\\d+)" )
-		},
-		{ "Muscle",
-		  Pattern.compile( "Muscle ([+-]\\d+)$" ),
-		  Pattern.compile( "Muscle: ([+-]\\d+)" )
-		},
-		{ "Muscle Percent",
-		  Pattern.compile( "Muscle ([+-]\\d+)%" ),
-		  Pattern.compile( "Muscle Percent: ([+-]\\d+)" )
-		},
-		{ "Mysticality",
-		  Pattern.compile( "Mysticality ([+-]\\d+)$" ),
-		  Pattern.compile( "Mysticality: ([+-]\\d+)" )
-		},
-		{ "Mysticality Percent",
-		  Pattern.compile( "Mysticality ([+-]\\d+)%" ),
-		  Pattern.compile( "Mysticality Percent: ([+-]\\d+)" )
-		},
-		{ "Maximum HP",
-		  Pattern.compile( "Maximum HP ([+-]\\d+)$" ),
-		  Pattern.compile( "Maximum HP: ([+-]\\d+)" )
-		},
-		{ "Maximum HP Percent",
-		  null,
-		  Pattern.compile( "Maximum HP Percent: ([+-]\\d+)" )
-		},
-		{ "Maximum MP",
-		  Pattern.compile( "Maximum MP ([+-]\\d+)$" ),
-		  Pattern.compile( "Maximum MP: ([+-]\\d+)" )
-		},
-		{ "Maximum MP Percent",
-		  null,
-		  Pattern.compile( "Maximum MP Percent: ([+-]\\d+)" )
-		},
-		{ "Melee Damage",
-		  Pattern.compile( "Melee Damage ([+-]\\d+)" ),
-		  Pattern.compile( "Melee Damage: ([+-]\\d+)" )
-		},
-		{ "Ranged Damage",
-		  Pattern.compile( "Ranged Damage ([+-]\\d+)" ),
-		  Pattern.compile( "Ranged Damage: ([+-]\\d+)" )
-		},
-		{ "Spell Damage",
-		  Pattern.compile( "Spell Damage ([+-]\\d+)$" ),
-		  Pattern.compile( "Spell Damage: ([+-]\\d+)" )
-		},
-		{ "Spell Damage Percent",
-		  Pattern.compile( "Spell Damage ([+-]\\d+)%" ),
-		  Pattern.compile( "Spell Damage Percent: ([+-]\\d+)" )
-		},
-		{ "Cold Damage",
-		  Pattern.compile( "([+-]\\d+) <font color=blue>Cold Damage</font>" ),
-		  Pattern.compile( "Cold Damage: ([+-]\\d+)" )
-		},
-		{ "Hot Damage",
-		  Pattern.compile( "([+-]\\d+) <font color=red>Hot Damage</font>" ),
-		  Pattern.compile( "Hot Damage: ([+-]\\d+)" )
-		},
-		{ "Sleaze Damage",
-		  Pattern.compile( "([+-]\\d+) <font color=blueviolet>Sleaze Damage</font>" ),
-		  Pattern.compile( "Sleaze Damage: ([+-]\\d+)" )
-		},
-		{ "Spooky Damage",
-		  Pattern.compile( "([+-]\\d+) <font color=gray>Spooky Damage</font>" ),
-		  Pattern.compile( "Spooky Damage: ([+-]\\d+)" )
-		},
-		{ "Stench Damage",
-		  Pattern.compile( "([+-]\\d+) <font color=green>Stench Damage</font>" ),
-		  Pattern.compile( "Stench Damage: ([+-]\\d+)" )
-		},
-		{ "Cold Spell Damage",
-		  Pattern.compile( "([+-]\\d+) Damage to <font color=blue>Cold Spells</font>" ),
-		  Pattern.compile( "Cold Spell Damage: ([+-]\\d+)" )
-		},
-		{ "Hot Spell Damage",
-		  Pattern.compile( "([+-]\\d+) Damage to <font color=red>Hot Spells</font>" ),
-		  Pattern.compile( "Hot Spell Damage: ([+-]\\d+)" )
-		},
-		{ "Sleaze Spell Damage",
-		  Pattern.compile( "([+-]\\d+) Damage to <font color=blueviolet>Sleaze Spells</font>" ),
-		  Pattern.compile( "Sleaze Spell Damage: ([+-]\\d+)" )
-		},
-		{ "Spooky Spell Damage",
-		  Pattern.compile( "([+-]\\d+) Damage to <font color=gray>Spooky Spells</font>" ),
-		  Pattern.compile( "Spooky Spell Damage: ([+-]\\d+)" )
-		},
-		{ "Stench Spell Damage",
-		  Pattern.compile( "([+-]\\d+) Damage to <font color=green>Stench Spells</font>" ),
-		  Pattern.compile( "Stench Spell Damage: ([+-]\\d+)" )
-		},
-		{ "Critical",
-		  Pattern.compile( "(\\d+)x chance of Critical Hit" ),
-		  Pattern.compile( "Critical: (\\d+)" )
-		},
-		{ "Fumble",
-		  Pattern.compile( "(\\d+)x chance of Fumble" ),
-		  Pattern.compile( "Fumble: (\\d+)" )
-		},
-		{ "HP Regen Min",
-		  null,
-		  Pattern.compile( "HP Regen Min: (\\d+)" )
-		},
-		{ "HP Regen Max",
-		  null,
-		  Pattern.compile( "HP Regen Max: (\\d+)" )
-		},
-		{ "MP Regen Min",
-		  null,
-		  Pattern.compile( "MP Regen Min: (\\d+)" )
-		},
-		{ "MP Regen Max",
-		  null,
-		  Pattern.compile( "MP Regen Max: (\\d+)" )
-		},
-		{ "Adventures",
-		  Pattern.compile( "([+-]\\d+) Adventure\\(s\\) per day when equipped" ),
-		  Pattern.compile( "Adventures: ([+]\\d+)" )
-		},
-		{ "Familiar Weight Percent",
-		  null,
-		  Pattern.compile( "Familiar Weight Percent: ([+-]\\d+)" )
-		},
-	};
+	private static final Object[][] floatModifiers =
+		{ { "Familiar Weight", Pattern.compile( "(.*) to Familiar Weight" ), Pattern.compile( "Familiar Weight: ([+-]\\d+)" ) }, { "Monster Level", Pattern.compile( "(.*) to Monster Level" ), Pattern.compile( "Monster Level: ([+-]\\d+)" ) }, { "Combat Rate", null, Pattern.compile( "Combat Rate: ([+-][\\d.]+)" ) }, { "Initiative", Pattern.compile( "Combat Initiative (.*)%" ), Pattern.compile( "Initiative: ([+-][\\d.]+)" ) }, { "Experience", Pattern.compile( "(.*) Stat.*Per Fight" ), Pattern.compile( "Experience: ([+-][\\d.]+)" ) }, { "Item Drop", Pattern.compile( "(.*)% Item Drops? from Monsters" ), Pattern.compile( "Item Drop: ([+-][\\d.]+)" ) }, { "Meat Drop", Pattern.compile( "(.*)% Meat from Monsters" ), Pattern.compile( "Meat Drop: ([+-][\\d.]+)" ) }, { "Damage Absorption", Pattern.compile( "Damage Absorption (.*)" ), Pattern.compile( "Damage Absorption: ([+-]\\d+)" ) }, { "Damage Reduction", Pattern.compile( "Damage Reduction: (\\d+)" ), Pattern.compile( "Damage Reduction: ([+-]?\\d+)" ) }, { "Cold Resistance", null, Pattern.compile( "Cold Resistance: ([+-]\\d+)" ) }, { "Hot Resistance", null, Pattern.compile( "Hot Resistance: ([+-]\\d+)" ) }, { "Sleaze Resistance", null, Pattern.compile( "Sleaze Resistance: ([+-]\\d+)" ) }, { "Spooky Resistance", null, Pattern.compile( "Spooky Resistance: ([+-]\\d+)" ) }, { "Stench Resistance", null, Pattern.compile( "Stench Resistance: ([+-]\\d+)" ) }, { "Mana Cost", Pattern.compile( "(.*) MP to use Skills" ), Pattern.compile( "Mana Cost: ([+-]\\d+)" ) }, { "Moxie", Pattern.compile( "Moxie ([+-]\\d+)$" ), Pattern.compile( "Moxie: ([+-]\\d+)" ) }, { "Moxie Percent", Pattern.compile( "Moxie ([+-]\\d+)%" ), Pattern.compile( "Moxie Percent: ([+-]\\d+)" ) }, { "Muscle", Pattern.compile( "Muscle ([+-]\\d+)$" ), Pattern.compile( "Muscle: ([+-]\\d+)" ) }, { "Muscle Percent", Pattern.compile( "Muscle ([+-]\\d+)%" ), Pattern.compile( "Muscle Percent: ([+-]\\d+)" ) }, { "Mysticality", Pattern.compile( "Mysticality ([+-]\\d+)$" ), Pattern.compile( "Mysticality: ([+-]\\d+)" ) }, { "Mysticality Percent", Pattern.compile( "Mysticality ([+-]\\d+)%" ), Pattern.compile( "Mysticality Percent: ([+-]\\d+)" ) }, { "Maximum HP", Pattern.compile( "Maximum HP ([+-]\\d+)$" ), Pattern.compile( "Maximum HP: ([+-]\\d+)" ) }, { "Maximum HP Percent", null, Pattern.compile( "Maximum HP Percent: ([+-]\\d+)" ) }, { "Maximum MP", Pattern.compile( "Maximum MP ([+-]\\d+)$" ), Pattern.compile( "Maximum MP: ([+-]\\d+)" ) }, { "Maximum MP Percent", null, Pattern.compile( "Maximum MP Percent: ([+-]\\d+)" ) }, { "Melee Damage", Pattern.compile( "Melee Damage ([+-]\\d+)" ), Pattern.compile( "Melee Damage: ([+-]\\d+)" ) }, { "Ranged Damage", Pattern.compile( "Ranged Damage ([+-]\\d+)" ), Pattern.compile( "Ranged Damage: ([+-]\\d+)" ) }, { "Spell Damage", Pattern.compile( "Spell Damage ([+-]\\d+)$" ), Pattern.compile( "Spell Damage: ([+-]\\d+)" ) }, { "Spell Damage Percent", Pattern.compile( "Spell Damage ([+-]\\d+)%" ), Pattern.compile( "Spell Damage Percent: ([+-]\\d+)" ) }, { "Cold Damage", Pattern.compile( "([+-]\\d+) <font color=blue>Cold Damage</font>" ), Pattern.compile( "Cold Damage: ([+-]\\d+)" ) }, { "Hot Damage", Pattern.compile( "([+-]\\d+) <font color=red>Hot Damage</font>" ), Pattern.compile( "Hot Damage: ([+-]\\d+)" ) }, { "Sleaze Damage", Pattern.compile( "([+-]\\d+) <font color=blueviolet>Sleaze Damage</font>" ), Pattern.compile( "Sleaze Damage: ([+-]\\d+)" ) }, { "Spooky Damage", Pattern.compile( "([+-]\\d+) <font color=gray>Spooky Damage</font>" ), Pattern.compile( "Spooky Damage: ([+-]\\d+)" ) }, { "Stench Damage", Pattern.compile( "([+-]\\d+) <font color=green>Stench Damage</font>" ), Pattern.compile( "Stench Damage: ([+-]\\d+)" ) }, { "Cold Spell Damage", Pattern.compile( "([+-]\\d+) Damage to <font color=blue>Cold Spells</font>" ), Pattern.compile( "Cold Spell Damage: ([+-]\\d+)" ) }, { "Hot Spell Damage", Pattern.compile( "([+-]\\d+) Damage to <font color=red>Hot Spells</font>" ), Pattern.compile( "Hot Spell Damage: ([+-]\\d+)" ) }, { "Sleaze Spell Damage", Pattern.compile( "([+-]\\d+) Damage to <font color=blueviolet>Sleaze Spells</font>" ), Pattern.compile( "Sleaze Spell Damage: ([+-]\\d+)" ) }, { "Spooky Spell Damage", Pattern.compile( "([+-]\\d+) Damage to <font color=gray>Spooky Spells</font>" ), Pattern.compile( "Spooky Spell Damage: ([+-]\\d+)" ) }, { "Stench Spell Damage", Pattern.compile( "([+-]\\d+) Damage to <font color=green>Stench Spells</font>" ), Pattern.compile( "Stench Spell Damage: ([+-]\\d+)" ) }, { "Critical", Pattern.compile( "(\\d+)x chance of Critical Hit" ), Pattern.compile( "Critical: (\\d+)" ) }, { "Fumble", Pattern.compile( "(\\d+)x chance of Fumble" ), Pattern.compile( "Fumble: (\\d+)" ) }, { "HP Regen Min", null, Pattern.compile( "HP Regen Min: (\\d+)" ) }, { "HP Regen Max", null, Pattern.compile( "HP Regen Max: (\\d+)" ) }, { "MP Regen Min", null, Pattern.compile( "MP Regen Min: (\\d+)" ) }, { "MP Regen Max", null, Pattern.compile( "MP Regen Max: (\\d+)" ) }, { "Adventures", Pattern.compile( "([+-]\\d+) Adventure\\(s\\) per day when equipped" ), Pattern.compile( "Adventures: ([+]\\d+)" ) }, { "Familiar Weight Percent", null, Pattern.compile( "Familiar Weight Percent: ([+-]\\d+)" ) }, };
 
-	public static final int FLOAT_MODIFIERS = floatModifiers.length;
+	public static final int FLOAT_MODIFIERS = Modifiers.floatModifiers.length;
 
 	public static final int SOFTCORE = 0;
 	public static final int SINGLE = 1;
 	public static final int NEVER_FUMBLE = 2;
 	public static final int WEAKENS = 3;
 
-	private static final Object [][] booleanModifiers = {
-		{ "Softcore Only",
-		  Pattern.compile( "This item cannot be equipped while in Hardcore" ),
-		  Pattern.compile( "Softcore Only" )
-		},
-		{ "Single Equip",
-		  null,
-		  Pattern.compile( "Single Equip" )
-		},
-		{ "Never Fumble",
-		  Pattern.compile( "Never Fumble" ),
-		  Pattern.compile( "Never Fumble" )
-		},
-		{ "Weakens Monster",
-		  Pattern.compile( "Successful hit weakens opponent" ),
-		  Pattern.compile( "Weakens Monster" )
-		},
-	};
+	private static final Object[][] booleanModifiers =
+		{ { "Softcore Only", Pattern.compile( "This item cannot be equipped while in Hardcore" ), Pattern.compile( "Softcore Only" ) }, { "Single Equip", null, Pattern.compile( "Single Equip" ) }, { "Never Fumble", Pattern.compile( "Never Fumble" ), Pattern.compile( "Never Fumble" ) }, { "Weakens Monster", Pattern.compile( "Successful hit weakens opponent" ), Pattern.compile( "Weakens Monster" ) }, };
 
-	public static final int BOOLEAN_MODIFIERS = booleanModifiers.length;
+	public static final int BOOLEAN_MODIFIERS = Modifiers.booleanModifiers.length;
 
 	public static final int CLASS = 0;
 	public static final int INTRINSIC_EFFECT = 1;
 	public static final int EQUALIZE = 2;
 
-	private static final Object [][] stringModifiers = {
-		{ "Class",
-		  null,
-		  Pattern.compile( "Class: \"(.*?)\"" )
-		},
-		{ "Intrinsic Effect",
-		  Pattern.compile( "Intrinsic effect: (.*)" ),
-		  Pattern.compile( "Intrinsic Effect: \"(.*?)\"" )
-		},
-		{ "Equalize",
-		  null,
-		  Pattern.compile( "Equalize: \"(.*?)\"" )
-		},
-	};
+	private static final Object[][] stringModifiers =
+		{ { "Class", null, Pattern.compile( "Class: \"(.*?)\"" ) }, { "Intrinsic Effect", Pattern.compile( "Intrinsic effect: (.*)" ), Pattern.compile( "Intrinsic Effect: \"(.*?)\"" ) }, { "Equalize", null, Pattern.compile( "Equalize: \"(.*?)\"" ) }, };
 
-	public static final int STRING_MODIFIERS = stringModifiers.length;
+	public static final int STRING_MODIFIERS = Modifiers.stringModifiers.length;
 
-	public static final String getModifierName( int index )
-	{	return modifierName( floatModifiers, index );
+	public static final String getModifierName( final int index )
+	{
+		return Modifiers.modifierName( Modifiers.floatModifiers, index );
 	}
 
-	private static final String modifierName( Object [][] table, int index )
+	private static final String modifierName( final Object[][] table, final int index )
 	{
 		if ( index < 0 || index >= table.length )
+		{
 			return null;
-		return (String)table[index][0];
+		}
+		return (String) table[ index ][ 0 ];
 	};
 
-	private static final Pattern modifierDescPattern( Object [][] table, int index )
+	private static final Pattern modifierDescPattern( final Object[][] table, final int index )
 	{
 		if ( index < 0 || index >= table.length )
+		{
 			return null;
-		return (Pattern)table[index][1];
+		}
+		return (Pattern) table[ index ][ 1 ];
 	};
 
-	private static final Pattern modifierTagPattern( Object [][] table, int index )
+	private static final Pattern modifierTagPattern( final Object[][] table, final int index )
 	{
 		if ( index < 0 || index >= table.length )
+		{
 			return null;
-		return (Pattern)table[index][2];
+		}
+		return (Pattern) table[ index ][ 2 ];
 	};
 
-	private static final String COLD = modifierName( floatModifiers, COLD_RESISTANCE ) + ": ";
-	private static final String HOT = modifierName( floatModifiers, HOT_RESISTANCE ) + ": ";
-	private static final String SLEAZE = modifierName( floatModifiers, SLEAZE_RESISTANCE ) + ": ";
-	private static final String SPOOKY = modifierName( floatModifiers, SPOOKY_RESISTANCE ) + ": ";
-	private static final String STENCH = modifierName( floatModifiers, STENCH_RESISTANCE ) + ": ";
+	private static final String COLD =
+		Modifiers.modifierName( Modifiers.floatModifiers, Modifiers.COLD_RESISTANCE ) + ": ";
+	private static final String HOT =
+		Modifiers.modifierName( Modifiers.floatModifiers, Modifiers.HOT_RESISTANCE ) + ": ";
+	private static final String SLEAZE =
+		Modifiers.modifierName( Modifiers.floatModifiers, Modifiers.SLEAZE_RESISTANCE ) + ": ";
+	private static final String SPOOKY =
+		Modifiers.modifierName( Modifiers.floatModifiers, Modifiers.SPOOKY_RESISTANCE ) + ": ";
+	private static final String STENCH =
+		Modifiers.modifierName( Modifiers.floatModifiers, Modifiers.STENCH_RESISTANCE ) + ": ";
 
-	private static final String MOXIE = modifierName( floatModifiers, MOX ) + ": ";
-	private static final String MUSCLE = modifierName( floatModifiers, MUS ) + ": ";
-	private static final String MYSTICALITY = modifierName( floatModifiers, MYS ) + ": ";
+	private static final String MOXIE = Modifiers.modifierName( Modifiers.floatModifiers, Modifiers.MOX ) + ": ";
+	private static final String MUSCLE = Modifiers.modifierName( Modifiers.floatModifiers, Modifiers.MUS ) + ": ";
+	private static final String MYSTICALITY = Modifiers.modifierName( Modifiers.floatModifiers, Modifiers.MYS ) + ": ";
 
-	private static final String MOXIE_PCT = modifierName( floatModifiers, MOX_PCT ) + ": ";
-	private static final String MUSCLE_PCT = modifierName( floatModifiers, MUS_PCT ) + ": ";
-	private static final String MYSTICALITY_PCT = modifierName( floatModifiers, MYS_PCT ) + ": ";
+	private static final String MOXIE_PCT =
+		Modifiers.modifierName( Modifiers.floatModifiers, Modifiers.MOX_PCT ) + ": ";
+	private static final String MUSCLE_PCT =
+		Modifiers.modifierName( Modifiers.floatModifiers, Modifiers.MUS_PCT ) + ": ";
+	private static final String MYSTICALITY_PCT =
+		Modifiers.modifierName( Modifiers.floatModifiers, Modifiers.MYS_PCT ) + ": ";
 
-	private static final String HP_TAG = modifierName( floatModifiers, HP ) + ": ";
-	private static final String MP_TAG = modifierName( floatModifiers, MP ) + ": ";
+	private static final String HP_TAG = Modifiers.modifierName( Modifiers.floatModifiers, Modifiers.HP ) + ": ";
+	private static final String MP_TAG = Modifiers.modifierName( Modifiers.floatModifiers, Modifiers.MP ) + ": ";
 
-	private static final String HP_REGEN_MIN_TAG = modifierName( floatModifiers, HP_REGEN_MIN ) + ": ";
-	private static final String HP_REGEN_MAX_TAG = modifierName( floatModifiers, HP_REGEN_MAX ) + ": ";
-	private static final String MP_REGEN_MIN_TAG = modifierName( floatModifiers, MP_REGEN_MIN ) + ": ";
-	private static final String MP_REGEN_MAX_TAG = modifierName( floatModifiers, MP_REGEN_MAX ) + ": ";
+	private static final String HP_REGEN_MIN_TAG =
+		Modifiers.modifierName( Modifiers.floatModifiers, Modifiers.HP_REGEN_MIN ) + ": ";
+	private static final String HP_REGEN_MAX_TAG =
+		Modifiers.modifierName( Modifiers.floatModifiers, Modifiers.HP_REGEN_MAX ) + ": ";
+	private static final String MP_REGEN_MIN_TAG =
+		Modifiers.modifierName( Modifiers.floatModifiers, Modifiers.MP_REGEN_MIN ) + ": ";
+	private static final String MP_REGEN_MAX_TAG =
+		Modifiers.modifierName( Modifiers.floatModifiers, Modifiers.MP_REGEN_MAX ) + ": ";
 
-	public static int elementalResistance( int element )
+	public static int elementalResistance( final int element )
 	{
 		switch ( element )
 		{
 		case MonsterDatabase.COLD:
-			return COLD_RESISTANCE;
+			return Modifiers.COLD_RESISTANCE;
 		case MonsterDatabase.HEAT:
-			return HOT_RESISTANCE;
+			return Modifiers.HOT_RESISTANCE;
 		case MonsterDatabase.SLEAZE:
-			return SLEAZE_RESISTANCE;
+			return Modifiers.SLEAZE_RESISTANCE;
 		case MonsterDatabase.SPOOKY:
-			return SPOOKY_RESISTANCE;
+			return Modifiers.SPOOKY_RESISTANCE;
 		case MonsterDatabase.STENCH:
-			return STENCH_RESISTANCE;
+			return Modifiers.STENCH_RESISTANCE;
 		}
 		return -1;
 	}
 
-	public static ArrayList getPotentialChanges( int index )
+	public static ArrayList getPotentialChanges( final int index )
 	{
 		ArrayList available = new ArrayList();
 
 		Modifiers currentTest;
-		Object [] check = modifiersByName.keySet().toArray();
+		Object[] check = Modifiers.modifiersByName.keySet().toArray();
 
 		boolean hasEffect;
 		AdventureResult currentEffect;
 
 		for ( int i = 0; i < check.length; ++i )
 		{
-			if ( !StatusEffectDatabase.contains( (String) check[i] ) )
+			if ( !StatusEffectDatabase.contains( (String) check[ i ] ) )
+			{
 				continue;
+			}
 
-			currentTest = getModifiers( (String) check[i] );
-			float value = ((Modifiers)currentTest).get( index );
+			currentTest = Modifiers.getModifiers( (String) check[ i ] );
+			float value = ( (Modifiers) currentTest ).get( index );
 
 			if ( value == 0.0f )
+			{
 				continue;
+			}
 
-			currentEffect = new AdventureResult( (String) check[i], 1, true );
-			hasEffect = activeEffects.contains( currentEffect );
+			currentEffect = new AdventureResult( (String) check[ i ], 1, true );
+			hasEffect = KoLConstants.activeEffects.contains( currentEffect );
 
 			if ( value > 0.0f && !hasEffect )
+			{
 				available.add( currentEffect );
+			}
 			else if ( value < 0.0f && hasEffect )
+			{
 				available.add( currentEffect );
+			}
 		}
 
 		return available;
 	}
 
-	private static final int findName( Object [][] table, String name )
+	private static final int findName( final Object[][] table, final String name )
 	{
 		for ( int i = 0; i < table.length; ++i )
-			if ( name.equals( (String)table[i][0] ) )
+		{
+			if ( name.equals( (String) table[ i ][ 0 ] ) )
+			{
 				return i;
+			}
+		}
 		return -1;
 	};
 
 	private boolean variable;
-	private float[] floats;
-	private boolean[] booleans;
-	private String[] strings;
+	private final float[] floats;
+	private final boolean[] booleans;
+	private final String[] strings;
 
 	public Modifiers()
 	{
 		this.variable = false;
-		this.floats = new float[ FLOAT_MODIFIERS ];
-		this.booleans = new boolean[ BOOLEAN_MODIFIERS ];
-		this.strings = new String[ STRING_MODIFIERS ];
-		reset();
+		this.floats = new float[ Modifiers.FLOAT_MODIFIERS ];
+		this.booleans = new boolean[ Modifiers.BOOLEAN_MODIFIERS ];
+		this.strings = new String[ Modifiers.STRING_MODIFIERS ];
+		this.reset();
 	};
 
 	public void reset()
 	{
 		for ( int i = 0; i < this.floats.length; ++i )
-			this.floats[i] = 0.0f;
+		{
+			this.floats[ i ] = 0.0f;
+		}
 		for ( int i = 0; i < this.booleans.length; ++i )
-			this.booleans[i] = false;
+		{
+			this.booleans[ i ] = false;
+		}
 		for ( int i = 0; i < this.strings.length; ++i )
-			this.strings[i] = "";
-	};
-
-	public float get( int index )
-	{
-		if ( index < 0 || index >= this.floats.length )
-			return 0.0f;
-
-		return this.floats[index];
-	};
-
-	public float get( String name )
-	{
-		int index = findName( floatModifiers, name );
-		if ( index < 0 || index >= this.floats.length )
-			return 0.0f;
-
-		return this.floats[index];
-	};
-
-	public boolean getBoolean( int index )
-	{
-		if ( index < 0 || index >= this.booleans.length )
-			return false;
-
-		return this.booleans[index];
-	};
-
-	public boolean getBoolean( String name )
-	{
-		int index = findName( booleanModifiers, name );
-		if ( index < 0 || index >= this.booleans.length )
-			return false;
-
-		return this.booleans[index];
-	};
-
-	public String getString( int index )
-	{
-		if ( index < 0 || index >= this.strings.length )
-			return "";
-
-		return this.strings[index];
-	};
-
-	public String getString( String name )
-	{
-		int index = findName( stringModifiers, name );
-		if ( index < 0 || index >= this.strings.length )
-			return "";
-
-		return this.strings[index];
-	};
-
-	public boolean set( int index, double mod )
-	{
-		if ( index < 0 || index >= this.floats.length )
-			return false;
-
-		if ( this.floats[index] != mod )
 		{
-			this.floats[index] = (float)mod;
+			this.strings[ i ] = "";
+		}
+	};
+
+	public float get( final int index )
+	{
+		if ( index < 0 || index >= this.floats.length )
+		{
+			return 0.0f;
+		}
+
+		return this.floats[ index ];
+	};
+
+	public float get( final String name )
+	{
+		int index = Modifiers.findName( Modifiers.floatModifiers, name );
+		if ( index < 0 || index >= this.floats.length )
+		{
+			return 0.0f;
+		}
+
+		return this.floats[ index ];
+	};
+
+	public boolean getBoolean( final int index )
+	{
+		if ( index < 0 || index >= this.booleans.length )
+		{
+			return false;
+		}
+
+		return this.booleans[ index ];
+	};
+
+	public boolean getBoolean( final String name )
+	{
+		int index = Modifiers.findName( Modifiers.booleanModifiers, name );
+		if ( index < 0 || index >= this.booleans.length )
+		{
+			return false;
+		}
+
+		return this.booleans[ index ];
+	};
+
+	public String getString( final int index )
+	{
+		if ( index < 0 || index >= this.strings.length )
+		{
+			return "";
+		}
+
+		return this.strings[ index ];
+	};
+
+	public String getString( final String name )
+	{
+		int index = Modifiers.findName( Modifiers.stringModifiers, name );
+		if ( index < 0 || index >= this.strings.length )
+		{
+			return "";
+		}
+
+		return this.strings[ index ];
+	};
+
+	public boolean set( final int index, final double mod )
+	{
+		if ( index < 0 || index >= this.floats.length )
+		{
+			return false;
+		}
+
+		if ( this.floats[ index ] != mod )
+		{
+			this.floats[ index ] = (float) mod;
 			return true;
 		}
 		return false;
 	};
 
-	public boolean set( int index, boolean mod )
+	public boolean set( final int index, final boolean mod )
 	{
 		if ( index < 0 || index >= this.booleans.length )
-			return false;
-
-		if ( this.booleans[index] != mod )
 		{
-			this.booleans[index] = mod;
+			return false;
+		}
+
+		if ( this.booleans[ index ] != mod )
+		{
+			this.booleans[ index ] = mod;
 			return true;
 		}
 		return false;
 	};
 
-	public boolean set( int index, String mod )
+	public boolean set( final int index, String mod )
 	{
 		if ( index < 0 || index >= this.strings.length )
+		{
 			return false;
+		}
 
 		if ( mod == null )
-			mod = "";
-
-		if ( !mod.equals( this.strings[index] ) )
 		{
-			this.strings[index] = mod;
+			mod = "";
+		}
+
+		if ( !mod.equals( this.strings[ index ] ) )
+		{
+			this.strings[ index ] = mod;
 			return true;
 		}
 		return false;
 	};
 
-	public boolean set( Modifiers mods )
+	public boolean set( final Modifiers mods )
 	{
 		if ( mods == null )
+		{
 			return false;
+		}
 
 		boolean changed = false;
 
-		float [] copyFloats = mods.floats;
+		float[] copyFloats = mods.floats;
 		for ( int index = 0; index < this.floats.length; ++index )
-			if ( this.floats[index] != copyFloats[index] )
+		{
+			if ( this.floats[ index ] != copyFloats[ index ] )
 			{
-				this.floats[index] = copyFloats[index];
+				this.floats[ index ] = copyFloats[ index ];
 				changed = true;
 			}
+		}
 
-		boolean [] copyBooleans = mods.booleans;
+		boolean[] copyBooleans = mods.booleans;
 		for ( int index = 0; index < this.booleans.length; ++index )
-			if ( this.booleans[index] != copyBooleans[index] )
+		{
+			if ( this.booleans[ index ] != copyBooleans[ index ] )
 			{
-				this.booleans[index] = copyBooleans[index];
+				this.booleans[ index ] = copyBooleans[ index ];
 				changed = true;
 			}
+		}
 
-		String [] copyStrings = mods.strings;
+		String[] copyStrings = mods.strings;
 		for ( int index = 0; index < this.strings.length; ++index )
-			if ( !this.strings[index].equals( copyStrings[index] ) )
+		{
+			if ( !this.strings[ index ].equals( copyStrings[ index ] ) )
 			{
-				this.strings[index] = copyStrings[index];
+				this.strings[ index ] = copyStrings[ index ];
 				changed = true;
 			}
+		}
 
 		return changed;
 	}
 
-	public void add( int index, double mod )
+	public void add( final int index, final double mod )
 	{
 		if ( index < 0 || index >= this.floats.length )
+		{
 			return;
+		}
 
 		switch ( index )
 		{
 		case CRITICAL:
 			// Critical hit modifier is maximum, not additive
-			if ( mod > this.floats[index] )
-				this.floats[index] = (float)mod;
+			if ( mod > this.floats[ index ] )
+			{
+				this.floats[ index ] = (float) mod;
+			}
 			break;
 		case MANA_COST:
 			// Total Mana Cost reduction cannot exceed 3
-			this.floats[index] += mod;
-			if ( this.floats[index] < -3 )
-				this.floats[index] = -3;
+			this.floats[ index ] += mod;
+			if ( this.floats[ index ] < -3 )
+			{
+				this.floats[ index ] = -3;
+			}
 			break;
-		case  MOX_PCT:
-		case  MUS_PCT:
-		case  MYS_PCT:
-		case  HP_PCT:
-		case  MP_PCT:
-		case  SPELL_DAMAGE_PCT:
-		case  FAMILIAR_WEIGHT_PCT:
-			double a = this.floats[index];
+		case MOX_PCT:
+		case MUS_PCT:
+		case MYS_PCT:
+		case HP_PCT:
+		case MP_PCT:
+		case SPELL_DAMAGE_PCT:
+		case FAMILIAR_WEIGHT_PCT:
+			double a = this.floats[ index ];
 			double b = mod;
 			double sum = a + b;
 			// Negative percents are multiplicative
 			if ( b < 0 )
-				sum = ( ( a + 100.0 ) * ( b + 100.0 ) / 100.0 ) - 100.0;
-			this.floats[index] = (float)sum;
+			{
+				sum = ( a + 100.0 ) * ( b + 100.0 ) / 100.0 - 100.0;
+			}
+			this.floats[ index ] = (float) sum;
 			break;
 		case COLD_RESISTANCE:
 		case HOT_RESISTANCE:
@@ -658,85 +518,104 @@ public class Modifiers extends KoLDatabase
 		case SPOOKY_RESISTANCE:
 		case STENCH_RESISTANCE:
 			// If already at maximal resistance, keep it
-			if ( this.floats[index] == 90 )
+			if ( this.floats[ index ] == 90 )
+			{
 				break;
+			}
 			// If new mod is maximal, set maximal
 			if ( mod == 90 )
 			{
-				this.floats[index] = 90;
+				this.floats[ index ] = 90;
 				break;
 			}
 			// Otherwise, cap at 60 or 80
-			this.floats[index] = Math.min( this.floats[index] + (float)mod, KoLCharacter.isMysticalityClass() ? 80 : 60 );
+			this.floats[ index ] =
+				Math.min( this.floats[ index ] + (float) mod, KoLCharacter.isMysticalityClass() ? 80 : 60 );
 			break;
 		default:
-			this.floats[index] += mod;
+			this.floats[ index ] += mod;
 			break;
 		}
 	};
 
-	public void add( Modifiers mods )
+	public void add( final Modifiers mods )
 	{
 		if ( mods == null )
+		{
 			return;
+		}
 
 		// Make sure the modifiers apply to current class
-		String type = mods.getString( CLASS );
+		String type = mods.getString( Modifiers.CLASS );
 		if ( !type.equals( "" ) && !type.equals( KoLCharacter.getClassType() ) )
+		{
 			return;
+		}
 
 		// Add in the float modifiers
 
-		float [] addition = mods.floats;
+		float[] addition = mods.floats;
 
 		for ( int i = 0; i < this.floats.length; ++i )
-			if ( addition[i] != 0.0f )
-				add( i, addition[i] );
+		{
+			if ( addition[ i ] != 0.0f )
+			{
+				this.add( i, addition[ i ] );
+			}
+		}
 
 		// OR in certain boolean modifiers
 
-		booleans[ NEVER_FUMBLE ] |= mods.booleans[ NEVER_FUMBLE ];
-		booleans[ WEAKENS ] |= mods.booleans[ WEAKENS ];
+		this.booleans[ Modifiers.NEVER_FUMBLE ] |= mods.booleans[ Modifiers.NEVER_FUMBLE ];
+		this.booleans[ Modifiers.WEAKENS ] |= mods.booleans[ Modifiers.WEAKENS ];
 	}
 
 	public static final Modifiers getModifiers( String name )
 	{
 		if ( name == null || name.equals( "" ) )
+		{
 			return null;
+		}
 
-		name = getCanonicalName( name );
-		Object modifier = modifiersByName.get( name );
+		name = KoLDatabase.getCanonicalName( name );
+		Object modifier = Modifiers.modifiersByName.get( name );
 
 		if ( modifier == null )
+		{
 			return null;
+		}
 
 		if ( modifier instanceof Modifiers )
 		{
-			Modifiers mods = (Modifiers)modifier;
+			Modifiers mods = (Modifiers) modifier;
 			if ( mods.variable )
+			{
 				mods.override( name );
+			}
 			return mods;
 		}
 
 		if ( !( modifier instanceof String ) )
+		{
 			return null;
+		}
 
 		String string = (String) modifier;
 
 		Modifiers newMods = new Modifiers();
-		float [] newFloats = newMods.floats;
-		boolean [] newBooleans = newMods.booleans;
-		String [] newStrings = newMods.strings;
+		float[] newFloats = newMods.floats;
+		boolean[] newBooleans = newMods.booleans;
+		String[] newStrings = newMods.strings;
 
 		for ( int i = 0; i < newFloats.length; ++i )
 		{
-			Pattern pattern = modifierTagPattern( floatModifiers, i );
+			Pattern pattern = Modifiers.modifierTagPattern( Modifiers.floatModifiers, i );
 			if ( pattern != null )
 			{
 				Matcher matcher = pattern.matcher( string );
 				if ( matcher.find() )
 				{
-					newFloats[i] = Float.parseFloat ( matcher.group(1) );
+					newFloats[ i ] = Float.parseFloat( matcher.group( 1 ) );
 					continue;
 				}
 			}
@@ -744,13 +623,13 @@ public class Modifiers extends KoLDatabase
 
 		for ( int i = 0; i < newBooleans.length; ++i )
 		{
-			Pattern pattern = modifierTagPattern( booleanModifiers, i );
+			Pattern pattern = Modifiers.modifierTagPattern( Modifiers.booleanModifiers, i );
 			if ( pattern != null )
 			{
 				Matcher matcher = pattern.matcher( string );
 				if ( matcher.find() )
 				{
-					newBooleans[i] = true;
+					newBooleans[ i ] = true;
 					continue;
 				}
 			}
@@ -758,20 +637,20 @@ public class Modifiers extends KoLDatabase
 
 		for ( int i = 0; i < newStrings.length; ++i )
 		{
-			Pattern pattern = modifierTagPattern( stringModifiers, i );
+			Pattern pattern = Modifiers.modifierTagPattern( Modifiers.stringModifiers, i );
 			if ( pattern != null )
 			{
 				Matcher matcher = pattern.matcher( string );
 				if ( matcher.find() )
 				{
-					newStrings[i] =	 matcher.group(1);
+					newStrings[ i ] = matcher.group( 1 );
 					continue;
 				}
 			}
 		}
 
 		newMods.variable = newMods.override( name );
-		modifiersByName.put( name, newMods );
+		Modifiers.modifiersByName.put( name, newMods );
 
 		return newMods;
 	};
@@ -805,26 +684,26 @@ public class Modifiers extends KoLDatabase
 	// Items that modify based on holiday
 	private static final int PARTY_HAT = 2945;
 
-	private boolean override( String name )
+	private boolean override( final String name )
 	{
 		if ( name.equalsIgnoreCase( "Temporary Lycanthropy" ) )
 		{
-			set( MUS_PCT, MoonPhaseDatabase.getBloodEffect() );
+			this.set( Modifiers.MUS_PCT, MoonPhaseDatabase.getBloodEffect() );
 			return true;
 		}
 
 		if ( name.equalsIgnoreCase( "Ur-Kel's Aria of Annoyance" ) )
 		{
-			set( MONSTER_LEVEL, 2 * KoLCharacter.getLevel() );
+			this.set( Modifiers.MONSTER_LEVEL, 2 * KoLCharacter.getLevel() );
 			return true;
 		}
 
 		if ( name.equalsIgnoreCase( "Starry-Eyed" ) )
 		{
 			int mod = 5 * KoLCharacter.getTelescopeUpgrades();
-			set( MUS_PCT, mod );
-			set( MYS_PCT, mod );
-			set( MOX_PCT, mod );
+			this.set( Modifiers.MUS_PCT, mod );
+			this.set( Modifiers.MYS_PCT, mod );
+			this.set( Modifiers.MOX_PCT, mod );
 			return true;
 		}
 
@@ -836,55 +715,55 @@ public class Modifiers extends KoLDatabase
 		case GAT:
 		case GO_GO_BOOTS:
 		case GREAVES:
-			set( MOX_PCT, MoonPhaseDatabase.getGrimaciteEffect() );
+			this.set( Modifiers.MOX_PCT, MoonPhaseDatabase.getGrimaciteEffect() );
 			return true;
 
 		case GAITERS:
 		case GARTER:
 		case GIRDLE:
 		case GOGGLES:
-			set( MYS_PCT, MoonPhaseDatabase.getGrimaciteEffect() );
+			this.set( Modifiers.MYS_PCT, MoonPhaseDatabase.getGrimaciteEffect() );
 			return true;
 
 		case GASMASK:
 		case GAUNTLETS:
 		case GLAIVE:
 		case GORGET:
-			set( MUS_PCT, MoonPhaseDatabase.getGrimaciteEffect() );
+			this.set( Modifiers.MUS_PCT, MoonPhaseDatabase.getGrimaciteEffect() );
 			return true;
 
 		case GUAYABERA:
 		case GOWN:
-			set( MONSTER_LEVEL, MoonPhaseDatabase.getGrimaciteEffect() );
+			this.set( Modifiers.MONSTER_LEVEL, MoonPhaseDatabase.getGrimaciteEffect() );
 			return true;
 
 		case BAIO:
 			int mod = MoonPhaseDatabase.getBaioEffect();
-			set( MOX_PCT, mod );
-			set( MUS_PCT, mod );
-			set( MYS_PCT, mod );
+			this.set( Modifiers.MOX_PCT, mod );
+			this.set( Modifiers.MUS_PCT, mod );
+			this.set( Modifiers.MYS_PCT, mod );
 			return true;
 
 		case JEKYLLIN:
 			int moonlight = MoonPhaseDatabase.getMoonlight();
-			set( MOX, 9 - moonlight );
-			set( MUS, 9 - moonlight );
-			set( MYS, 9 - moonlight );
-			set( ITEMDROP, 15 + moonlight * 5 );
+			this.set( Modifiers.MOX, 9 - moonlight );
+			this.set( Modifiers.MUS, 9 - moonlight );
+			this.set( Modifiers.MYS, 9 - moonlight );
+			this.set( Modifiers.ITEMDROP, 15 + moonlight * 5 );
 			return true;
 
 		case TUESDAYS_RUBY:
 			// Reset to defaults
 
-			set( MEATDROP, 0 );
-			set( ITEMDROP, 0 );
-			set( MOX_PCT, 0 );
-			set( MUS_PCT, 0 );
-			set( MYS_PCT, 0 );
-			set( HP_REGEN_MIN, 0 );
-			set( HP_REGEN_MAX, 0 );
-			set( MP_REGEN_MIN, 0 );
-			set( MP_REGEN_MAX, 0 );
+			this.set( Modifiers.MEATDROP, 0 );
+			this.set( Modifiers.ITEMDROP, 0 );
+			this.set( Modifiers.MOX_PCT, 0 );
+			this.set( Modifiers.MUS_PCT, 0 );
+			this.set( Modifiers.MYS_PCT, 0 );
+			this.set( Modifiers.HP_REGEN_MIN, 0 );
+			this.set( Modifiers.HP_REGEN_MAX, 0 );
+			this.set( Modifiers.MP_REGEN_MIN, 0 );
+			this.set( Modifiers.MP_REGEN_MAX, 0 );
 
 			// Set modifiers depending on what day of the week it
 			// is at the KoL servers
@@ -894,51 +773,51 @@ public class Modifiers extends KoLDatabase
 			{
 			case Calendar.SUNDAY:
 				// +5% Meat from Monsters
-				set( MEATDROP, 5 );
+				this.set( Modifiers.MEATDROP, 5 );
 				break;
 			case Calendar.MONDAY:
 				// Muscle +5%
-				set( MUS_PCT, 5 );
+				this.set( Modifiers.MUS_PCT, 5 );
 				break;
 			case Calendar.TUESDAY:
 				// Regenerate 3-7 MP per adventure
-				set( MP_REGEN_MIN, 3 );
-				set( MP_REGEN_MAX, 7 );
+				this.set( Modifiers.MP_REGEN_MIN, 3 );
+				this.set( Modifiers.MP_REGEN_MAX, 7 );
 				break;
 			case Calendar.WEDNESDAY:
 				// +5% Mysticality
-				set( MYS_PCT, 5 );
+				this.set( Modifiers.MYS_PCT, 5 );
 				break;
 			case Calendar.THURSDAY:
 				// +5% Item Drops from Monsters
-				set( ITEMDROP, 5 );
+				this.set( Modifiers.ITEMDROP, 5 );
 				break;
 			case Calendar.FRIDAY:
 				// +5% Moxie
-				set( MOX_PCT, 5 );
+				this.set( Modifiers.MOX_PCT, 5 );
 				break;
 			case Calendar.SATURDAY:
 				// Regenerate 3-7 HP per adventure
-				set( HP_REGEN_MIN, 3 );
-				set( HP_REGEN_MAX, 7 );
+				this.set( Modifiers.HP_REGEN_MIN, 3 );
+				this.set( Modifiers.HP_REGEN_MAX, 7 );
 				break;
 			}
 			return true;
 
 		case PILGRIM_SHIELD:
-			set( DAMAGE_REDUCTION, KoLCharacter.getLevel() );
+			this.set( Modifiers.DAMAGE_REDUCTION, KoLCharacter.getLevel() );
 			return true;
 
 		case PARTY_HAT:
 			// Reset to defaults
-			set( MP_REGEN_MIN, 0 );
-			set( MP_REGEN_MAX, 0 );
+			this.set( Modifiers.MP_REGEN_MIN, 0 );
+			this.set( Modifiers.MP_REGEN_MAX, 0 );
 
 			// Party hat is special on the Festival of Jarlsberg
 			if ( MoonPhaseDatabase.getHoliday().equals( "Festival of Jarlsberg" ) )
 			{
-				set( MP_REGEN_MIN, 3 );
-				set( MP_REGEN_MAX, 5 );
+				this.set( Modifiers.MP_REGEN_MIN, 3 );
+				this.set( Modifiers.MP_REGEN_MAX, 5 );
 			}
 			return true;
 		}
@@ -946,27 +825,33 @@ public class Modifiers extends KoLDatabase
 		return false;
 	};
 
-	public static final float getNumericModifier( String name, String mod )
+	public static final float getNumericModifier( final String name, final String mod )
 	{
-		Modifiers mods = getModifiers( name );
+		Modifiers mods = Modifiers.getModifiers( name );
 		if ( mods == null )
+		{
 			return 0.0f;
+		}
 		return mods.get( mod );
 	}
 
-	public static final boolean getBooleanModifier( String name, String mod )
+	public static final boolean getBooleanModifier( final String name, final String mod )
 	{
-		Modifiers mods = getModifiers( name );
+		Modifiers mods = Modifiers.getModifiers( name );
 		if ( mods == null )
+		{
 			return false;
+		}
 		return mods.getBoolean( mod );
 	}
 
-	public static final String getStringModifier( String name, String mod )
+	public static final String getStringModifier( final String name, final String mod )
 	{
-		Modifiers mods = getModifiers( name );
+		Modifiers mods = Modifiers.getModifiers( name );
 		if ( mods == null )
+		{
 			return "";
+		}
 		return mods.getString( mod );
 	}
 
@@ -976,59 +861,73 @@ public class Modifiers extends KoLDatabase
 		// but no: the ClassSkillsDatabase depends on the Mana Cost
 		// modifier being set.
 
-		if ( passiveSkills.isEmpty() )
+		if ( Modifiers.passiveSkills.isEmpty() )
 		{
-			Object [] keys = modifiersByName.keySet().toArray();
+			Object[] keys = Modifiers.modifiersByName.keySet().toArray();
 			for ( int i = 0; i < keys.length; ++i )
 			{
-				String skill = (String)keys[i];
+				String skill = (String) keys[ i ];
 				if ( !ClassSkillsDatabase.contains( skill ) )
+				{
 					continue;
+				}
 
 				if ( ClassSkillsDatabase.getSkillType( ClassSkillsDatabase.getSkillId( skill ) ) == ClassSkillsDatabase.PASSIVE )
-					passiveSkills.add( skill );
+				{
+					Modifiers.passiveSkills.add( skill );
+				}
 			}
 		}
 
-		for ( int i = 0; i < passiveSkills.size(); ++i )
+		for ( int i = 0; i < Modifiers.passiveSkills.size(); ++i )
 		{
-			String skill = (String) passiveSkills.get(i);
+			String skill = (String) Modifiers.passiveSkills.get( i );
 			if ( KoLCharacter.hasSkill( skill ) )
-				add( getModifiers( skill ) );
+			{
+				this.add( Modifiers.getModifiers( skill ) );
+			}
 		}
 
 		// Varies according to level, somehow
 
 		if ( KoLCharacter.hasSkill( "Skin of the Leatherback" ) )
-			add( DAMAGE_REDUCTION, Math.max( (KoLCharacter.getLevel() >> 1) - 1, 1 ) );
+		{
+			this.add( Modifiers.DAMAGE_REDUCTION, Math.max( ( KoLCharacter.getLevel() >> 1 ) - 1, 1 ) );
+		}
 
 		if ( KoLCharacter.getFamiliar().getId() == 38 && KoLCharacter.hasAmphibianSympathy() )
-			add( FAMILIAR_WEIGHT, -10 );
+		{
+			this.add( Modifiers.FAMILIAR_WEIGHT, -10 );
+		}
 	}
 
 	private static final double dropFamiliarExponent = 1.0 / Math.sqrt( 2 );
 	private static final double heavyFamiliarFactor = 10.0 / 300.0;
 
-	public void applyFamiliarModifiers( FamiliarData familiar )
+	public void applyFamiliarModifiers( final FamiliarData familiar )
 	{
 		int familiarId = familiar.getId();
-		int weight = familiar.getWeight() + (int)get( FAMILIAR_WEIGHT );
-		float percent = get( FAMILIAR_WEIGHT_PCT ) / 100.0f;
+		int weight = familiar.getWeight() + (int) this.get( Modifiers.FAMILIAR_WEIGHT );
+		float percent = this.get( Modifiers.FAMILIAR_WEIGHT_PCT ) / 100.0f;
 
 		if ( percent != 0.0f )
-			weight = (int)Math.floor( weight + weight * percent );
+		{
+			weight = (int) Math.floor( weight + weight * percent );
+		}
 
 		weight = Math.max( 1, weight );
 
 		if ( FamiliarsDatabase.isVolleyType( familiarId ) )
-			add( EXPERIENCE, Math.sqrt( weight ) );
+		{
+			this.add( Modifiers.EXPERIENCE, Math.sqrt( weight ) );
+		}
 
 		boolean item = FamiliarsDatabase.isItemDropType( familiarId );
 		boolean meat = FamiliarsDatabase.isMeatDropType( familiarId );
 
 		if ( item || meat )
 		{
-			// A Leprechaun provides 100% at 20 lbs. 
+			// A Leprechaun provides 100% at 20 lbs.
 
 			// Starwed's formula seems to accurately model a 1-20
 			// lb. leprechaun
@@ -1044,7 +943,7 @@ public class Modifiers extends KoLDatabase
 			// http://jick-nerfed.us/forums/viewtopic.php?p=56342
 			// ( .02 * x ) ** ( 1 / sqrt(2) )
 
-			// However, spading on the AFH forum indicates that 
+			// However, spading on the AFH forum indicates that
 			// a Leprechaun gives about (10/3)% pound above 20.
 			// and a Fairy gives about (5/3)% pound above 20.
 
@@ -1054,15 +953,21 @@ public class Modifiers extends KoLDatabase
 			// that a Fairy is exactly half as effective as a
 			// Leprechaun.
 
-			double mod = ( weight >= 20 ) ? 1.0 : Math.pow( weight * 0.05 , dropFamiliarExponent );
-			if ( weight > 20)
-				mod += (weight - 20) * heavyFamiliarFactor;
+			double mod = weight >= 20 ? 1.0 : Math.pow( weight * 0.05, Modifiers.dropFamiliarExponent );
+			if ( weight > 20 )
+			{
+				mod += ( weight - 20 ) * Modifiers.heavyFamiliarFactor;
+			}
 
 			if ( item )
-				add( ITEMDROP, 50.0 * mod );
+			{
+				this.add( Modifiers.ITEMDROP, 50.0 * mod );
+			}
 
 			if ( meat )
-				add( MEATDROP, 100.0 * mod );
+			{
+				this.add( Modifiers.MEATDROP, 100.0 * mod );
+			}
 		}
 
 		switch ( familiarId )
@@ -1074,11 +979,11 @@ public class Modifiers extends KoLDatabase
 			// 1 level for every 4 lbs, applied in the order
 			// Hot, Cold, Spooky, Stench, Sleaze.
 
-			add( HOT_RESISTANCE, ( ( weight + 16 ) / 20 ) * 10 );
-			add( COLD_RESISTANCE, ( ( weight + 12 ) / 20 ) * 10 );
-			add( SPOOKY_RESISTANCE, ( ( weight + 8 ) / 20 ) * 10 );
-			add( STENCH_RESISTANCE, ( ( weight + 4 ) / 20 ) * 10 );
-			add( SLEAZE_RESISTANCE, ( ( weight + 0 ) / 20 ) * 10 );
+			this.add( Modifiers.HOT_RESISTANCE, ( weight + 16 ) / 20 * 10 );
+			this.add( Modifiers.COLD_RESISTANCE, ( weight + 12 ) / 20 * 10 );
+			this.add( Modifiers.SPOOKY_RESISTANCE, ( weight + 8 ) / 20 * 10 );
+			this.add( Modifiers.STENCH_RESISTANCE, ( weight + 4 ) / 20 * 10 );
+			this.add( Modifiers.SLEAZE_RESISTANCE, ( weight + 0 ) / 20 * 10 );
 
 			break;
 		}
@@ -1088,22 +993,27 @@ public class Modifiers extends KoLDatabase
 
 	private static final Pattern DR_PATTERN = Pattern.compile( "Damage Reduction: <b>(\\d+)</b>" );
 
-	public static final String parseDamageReduction( String text )
+	public static final String parseDamageReduction( final String text )
 	{
-		Matcher matcher = DR_PATTERN.matcher( text );
-		if (matcher.find() )
-			return modifierName( floatModifiers, DAMAGE_REDUCTION ) + ": " + matcher.group(1);
+		Matcher matcher = Modifiers.DR_PATTERN.matcher( text );
+		if ( matcher.find() )
+		{
+			return Modifiers.modifierName( Modifiers.floatModifiers, Modifiers.DAMAGE_REDUCTION ) + ": " + matcher.group( 1 );
+		}
 
 		return null;
 	}
 
-	private static final Pattern SINGLE_PATTERN = Pattern.compile( "You may not equip more than one of this item at a time" );
+	private static final Pattern SINGLE_PATTERN =
+		Pattern.compile( "You may not equip more than one of this item at a time" );
 
-	public static final String parseSingleEquip( String text )
+	public static final String parseSingleEquip( final String text )
 	{
-		Matcher matcher = SINGLE_PATTERN.matcher( text );
-		if (matcher.find() )
-			return modifierName( booleanModifiers, SINGLE );
+		Matcher matcher = Modifiers.SINGLE_PATTERN.matcher( text );
+		if ( matcher.find() )
+		{
+			return Modifiers.modifierName( Modifiers.booleanModifiers, Modifiers.SINGLE );
+		}
 
 		return null;
 	}
@@ -1114,193 +1024,250 @@ public class Modifiers extends KoLDatabase
 	private static final Pattern COMBAT_PATTERN = Pattern.compile( "Monsters will be (.*) attracted to you." );
 	private static final Pattern HP_MP_PATTERN = Pattern.compile( "^Maximum HP/MP ([+-]\\d+)$" );
 
-	public static final String parseModifier( String enchantment )
+	public static final String parseModifier( final String enchantment )
 	{
 		String result;
 
 		// Search the float modifiers first
 
-		result = parseModifier( floatModifiers, enchantment, false );
-		if (result != null )
+		result = Modifiers.parseModifier( Modifiers.floatModifiers, enchantment, false );
+		if ( result != null )
+		{
 			return result;
+		}
 
 		// Then the boolean modifiers
 
-		result = parseModifier( booleanModifiers, enchantment, false );
-		if (result != null )
+		result = Modifiers.parseModifier( Modifiers.booleanModifiers, enchantment, false );
+		if ( result != null )
+		{
 			return result;
+		}
 
 		// Then the string modifiers
 
-		result = parseModifier( stringModifiers, enchantment, true );
-		if (result != null )
+		result = Modifiers.parseModifier( Modifiers.stringModifiers, enchantment, true );
+		if ( result != null )
+		{
 			return result;
+		}
 
 		// Special handling needed
 
 		Matcher matcher;
 
-		matcher = ALL_ATTR_PATTERN.matcher( enchantment );
+		matcher = Modifiers.ALL_ATTR_PATTERN.matcher( enchantment );
 		if ( matcher.find() )
 		{
-			String mod = matcher.group(1);
-			return MOXIE + mod + ", " + MUSCLE + mod + ", " + MYSTICALITY + mod;
+			String mod = matcher.group( 1 );
+			return Modifiers.MOXIE + mod + ", " + Modifiers.MUSCLE + mod + ", " + Modifiers.MYSTICALITY + mod;
 		}
 
-		matcher = ALL_ATTR_PCT_PATTERN.matcher( enchantment );
+		matcher = Modifiers.ALL_ATTR_PCT_PATTERN.matcher( enchantment );
 		if ( matcher.find() )
 		{
-			String mod = matcher.group(1);
-			return MOXIE_PCT + mod + ", " + MUSCLE_PCT + mod + ", " + MYSTICALITY_PCT + mod;
+			String mod = matcher.group( 1 );
+			return Modifiers.MOXIE_PCT + mod + ", " + Modifiers.MUSCLE_PCT + mod + ", " + Modifiers.MYSTICALITY_PCT + mod;
 		}
 
-		matcher = CLASS_PATTERN.matcher( enchantment );
+		matcher = Modifiers.CLASS_PATTERN.matcher( enchantment );
 		if ( matcher.find() )
 		{
-			String plural = matcher.group(1);
+			String plural = matcher.group( 1 );
 			String cls = "none";
 			if ( plural.equals( "Accordion Thieves" ) )
+			{
 				cls = KoLCharacter.ACCORDION_THIEF;
+			}
 			else if ( plural.equals( "Disco Bandits" ) )
+			{
 				cls = KoLCharacter.DISCO_BANDIT;
+			}
 			else if ( plural.equals( "Pastamancers" ) )
+			{
 				cls = KoLCharacter.PASTAMANCER;
+			}
 			else if ( plural.equals( "Saucerors" ) )
+			{
 				cls = KoLCharacter.SAUCEROR;
+			}
 			else if ( plural.equals( "Seal Clubbers" ) )
+			{
 				cls = KoLCharacter.SEAL_CLUBBER;
+			}
 			else if ( plural.equals( "Turtle Tamers" ) )
+			{
 				cls = KoLCharacter.TURTLE_TAMER;
-			return modifierName( stringModifiers, CLASS ) + ": \"" + cls + "\"";
+			}
+			return Modifiers.modifierName( Modifiers.stringModifiers, Modifiers.CLASS ) + ": \"" + cls + "\"";
 		}
 
-		matcher = COMBAT_PATTERN.matcher( enchantment );
-		if ( matcher.find() )
-			return modifierName( floatModifiers, COMBAT_RATE ) + ": " + ( matcher.group(1).equals( "more" ) ? "+5" : "-5" );
-
-		matcher = HP_MP_PATTERN.matcher( enchantment );
+		matcher = Modifiers.COMBAT_PATTERN.matcher( enchantment );
 		if ( matcher.find() )
 		{
-			String mod = matcher.group(1);
-			return HP_TAG + mod + ", " + MP_TAG + mod;
+			return Modifiers.modifierName( Modifiers.floatModifiers, Modifiers.COMBAT_RATE ) + ": " + ( matcher.group(
+				1 ).equals( "more" ) ? "+5" : "-5" );
+		}
+
+		matcher = Modifiers.HP_MP_PATTERN.matcher( enchantment );
+		if ( matcher.find() )
+		{
+			String mod = matcher.group( 1 );
+			return Modifiers.HP_TAG + mod + ", " + Modifiers.MP_TAG + mod;
 		}
 
 		if ( enchantment.indexOf( "Regenerate" ) != -1 )
-			return parseRegeneration( enchantment );
+		{
+			return Modifiers.parseRegeneration( enchantment );
+		}
 
 		if ( enchantment.indexOf( "Resistance" ) != -1 )
-			return parseResistance( enchantment );
+		{
+			return Modifiers.parseResistance( enchantment );
+		}
 
 		return null;
 	}
 
-	private static final String parseModifier( Object [][] table, String enchantment, boolean quoted )
+	private static final String parseModifier( final Object[][] table, final String enchantment, final boolean quoted )
 	{
-		String quote = quoted ? "\"" : "" ;
+		String quote = quoted ? "\"" : "";
 		for ( int i = 0; i < table.length; ++i )
 		{
-			Pattern pattern = modifierDescPattern( table, i );
+			Pattern pattern = Modifiers.modifierDescPattern( table, i );
 			if ( pattern == null )
+			{
 				continue;
+			}
 
 			Matcher matcher = pattern.matcher( enchantment );
 			if ( matcher.find() )
 			{
-				if ( matcher.groupCount() == 0)
-					return modifierName( table, i );
-				return modifierName( table, i ) + ": " + quote + matcher.group(1) + quote;
+				if ( matcher.groupCount() == 0 )
+				{
+					return Modifiers.modifierName( table, i );
+				}
+				return Modifiers.modifierName( table, i ) + ": " + quote + matcher.group( 1 ) + quote;
 			}
 		}
 
 		return null;
 	}
 
-	private static final Pattern REGEN_PATTERN = Pattern.compile( "Regenerate (\\d*)-?(\\d*)? ([HM]P)( and .*)? per [aA]dventure$" );
+	private static final Pattern REGEN_PATTERN =
+		Pattern.compile( "Regenerate (\\d*)-?(\\d*)? ([HM]P)( and .*)? per [aA]dventure$" );
 
-	private static final String parseRegeneration( String enchantment )
+	private static final String parseRegeneration( final String enchantment )
 	{
-		Matcher matcher = REGEN_PATTERN.matcher( enchantment );
+		Matcher matcher = Modifiers.REGEN_PATTERN.matcher( enchantment );
 		if ( !matcher.find() )
+		{
 			return null;
+		}
 
-		String min = matcher.group(1);
-		String max = matcher.group(2) == null ? min : matcher.group(2);
-		boolean hp = matcher.group(3).equals( "HP" );
-		boolean both = matcher.group(4) != null;
+		String min = matcher.group( 1 );
+		String max = matcher.group( 2 ) == null ? min : matcher.group( 2 );
+		boolean hp = matcher.group( 3 ).equals( "HP" );
+		boolean both = matcher.group( 4 ) != null;
 
 		if ( max.equals( "" ) )
+		{
 			max = min;
+		}
 
 		if ( both )
-			return	HP_REGEN_MIN_TAG + min + ", " +
-				HP_REGEN_MAX_TAG + max + ", " +
-				MP_REGEN_MIN_TAG + min + ", " +
-				MP_REGEN_MAX_TAG + max;
+		{
+			return Modifiers.HP_REGEN_MIN_TAG + min + ", " + Modifiers.HP_REGEN_MAX_TAG + max + ", " + Modifiers.MP_REGEN_MIN_TAG + min + ", " + Modifiers.MP_REGEN_MAX_TAG + max;
+		}
 
 		if ( hp )
-			return	HP_REGEN_MIN_TAG + min + ", " +
-				HP_REGEN_MAX_TAG + max;
+		{
+			return Modifiers.HP_REGEN_MIN_TAG + min + ", " + Modifiers.HP_REGEN_MAX_TAG + max;
+		}
 
-		return	MP_REGEN_MIN_TAG + min + ", " +
-			MP_REGEN_MAX_TAG + max;
+		return Modifiers.MP_REGEN_MIN_TAG + min + ", " + Modifiers.MP_REGEN_MAX_TAG + max;
 	}
 
-	private static final String parseResistance( String enchantment )
+	private static final String parseResistance( final String enchantment )
 	{
 		String level = "";
 
 		if ( enchantment.indexOf( "Slight" ) != -1 )
+		{
 			level = "+10";
+		}
 		else if ( enchantment.indexOf( "So-So" ) != -1 )
+		{
 			level = "+20";
+		}
 		else if ( enchantment.indexOf( "Serious" ) != -1 )
+		{
 			level = "+30";
+		}
 		else if ( enchantment.indexOf( "Superhuman" ) != -1 )
+		{
 			level = "+40";
+		}
 
 		if ( enchantment.indexOf( "All Elements" ) != -1 )
-			return COLD + level + ", " + HOT + level + ", " + SLEAZE + level + ", " + SPOOKY + level + ", " + STENCH + level;
+		{
+			return Modifiers.COLD + level + ", " + Modifiers.HOT + level + ", " + Modifiers.SLEAZE + level + ", " + Modifiers.SPOOKY + level + ", " + Modifiers.STENCH + level;
+		}
 
 		if ( enchantment.indexOf( "Cold" ) != -1 )
-			return COLD + level;
+		{
+			return Modifiers.COLD + level;
+		}
 
 		if ( enchantment.indexOf( "Hot" ) != -1 )
-			return HOT + level;
+		{
+			return Modifiers.HOT + level;
+		}
 
 		if ( enchantment.indexOf( "Sleaze" ) != -1 )
-			return SLEAZE + level;
+		{
+			return Modifiers.SLEAZE + level;
+		}
 
 		if ( enchantment.indexOf( "Spooky" ) != -1 )
-			return SPOOKY + level;
+		{
+			return Modifiers.SPOOKY + level;
+		}
 
 		if ( enchantment.indexOf( "Stench" ) != -1 )
-			return STENCH + level;
+		{
+			return Modifiers.STENCH + level;
+		}
 
 		return null;
 	}
 
-	private static final boolean findModifier( Object [][] table, String tag )
+	private static final boolean findModifier( final Object[][] table, final String tag )
 	{
 		for ( int i = 0; i < table.length; ++i )
 		{
-			Pattern pattern = modifierTagPattern( table, i );
+			Pattern pattern = Modifiers.modifierTagPattern( table, i );
 			if ( pattern == null )
+			{
 				continue;
+			}
 
 			Matcher matcher = pattern.matcher( tag );
 			if ( matcher.find() )
+			{
 				return true;
+			}
 		}
 		return false;
 	}
 
 	public static final void checkModifiers()
 	{
-		Object [] keys = modifiersByName.keySet().toArray();
+		Object[] keys = Modifiers.modifiersByName.keySet().toArray();
 		for ( int i = 0; i < keys.length; ++i )
 		{
-			String name = (String)keys[i];
-			Object modifier = modifiersByName.get( name );
+			String name = (String) keys[ i ];
+			Object modifier = Modifiers.modifiersByName.get( name );
 
 			if ( modifier == null )
 			{
@@ -1321,16 +1288,22 @@ public class Modifiers extends KoLDatabase
 			}
 
 			// It's a string. Check all modifiers.
-			String [] strings = ((String)modifier).split( ", " );
+			String[] strings = ( (String) modifier ).split( ", " );
 			for ( int j = 0; j < strings.length; ++j )
 			{
-				String mod = strings[j].trim();
-				if ( findModifier( floatModifiers, mod ) )
+				String mod = strings[ j ].trim();
+				if ( Modifiers.findModifier( Modifiers.floatModifiers, mod ) )
+				{
 					continue;
-				if ( findModifier( booleanModifiers, mod ) )
+				}
+				if ( Modifiers.findModifier( Modifiers.booleanModifiers, mod ) )
+				{
 					continue;
-				if ( findModifier( stringModifiers, mod ) )
+				}
+				if ( Modifiers.findModifier( Modifiers.stringModifiers, mod ) )
+				{
 					continue;
+				}
 				RequestLogger.printLine( "Key \"" + name + "\" has unknown modifier: \"" + mod + "\"" );
 			}
 		}

@@ -42,7 +42,8 @@ import javax.swing.JPanel;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
-public class MeatManageFrame extends KoLFrame
+public class MeatManageFrame
+	extends KoLFrame
 {
 	public MeatManageFrame()
 	{
@@ -59,26 +60,29 @@ public class MeatManageFrame extends KoLFrame
 	}
 
 	public UnfocusedTabbedPane getTabbedPane()
-	{	return null;
+	{
+		return null;
 	}
 
 	public boolean useSidePane()
-	{	return true;
+	{
+		return true;
 	}
 
 	/**
-	 * An internal class which represents the panel used for donations to
-	 * the statues in the shrine.
+	 * An internal class which represents the panel used for donations to the statues in the shrine.
 	 */
 
-	private class HeroDonationPanel extends LabeledKoLPanel
+	private class HeroDonationPanel
+		extends LabeledKoLPanel
 	{
-		private JComboBox heroField;
-		private AutoHighlightField amountField;
+		private final JComboBox heroField;
+		private final AutoHighlightField amountField;
 
 		public HeroDonationPanel()
 		{
-			super( "Donations to the Greater Good", "donate", "explode", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
+			super( "Donations to the Greater Good", "donate", "explode", new Dimension( 80, 20 ), new Dimension(
+				240, 20 ) );
 
 			LockableListModel heroes = new LockableListModel();
 			heroes.add( "Statue of Boris" );
@@ -88,9 +92,9 @@ public class MeatManageFrame extends KoLFrame
 			this.heroField = new JComboBox( heroes );
 			this.amountField = new AutoHighlightField();
 
-			VerifiableElement [] elements = new VerifiableElement[2];
-			elements[0] = new VerifiableElement( "Donate To: ", this.heroField );
-			elements[1] = new VerifiableElement( "Amount: ", this.amountField );
+			VerifiableElement[] elements = new VerifiableElement[ 2 ];
+			elements[ 0 ] = new VerifiableElement( "Donate To: ", this.heroField );
+			elements[ 1 ] = new VerifiableElement( "Amount: ", this.amountField );
 
 			this.setContent( elements );
 		}
@@ -98,11 +102,15 @@ public class MeatManageFrame extends KoLFrame
 		public void actionConfirmed()
 		{
 			if ( this.heroField.getSelectedIndex() != -1 )
-				RequestThread.postRequest( new HeroDonationRequest( this.heroField.getSelectedIndex() + 1, getValue( this.amountField ) ) );
+			{
+				RequestThread.postRequest( new HeroDonationRequest(
+					this.heroField.getSelectedIndex() + 1, KoLFrame.getValue( this.amountField ) ) );
+			}
 		}
 
 		public void actionCancelled()
-		{	this.setStatusMessage( "The Frost poem you dialed is unavailable at this time." );
+		{
+			this.setStatusMessage( "The Frost poem you dialed is unavailable at this time." );
 		}
 	}
 }

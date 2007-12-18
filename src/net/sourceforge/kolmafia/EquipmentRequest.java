@@ -39,7 +39,8 @@ import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
-public class EquipmentRequest extends PasswordHashRequest
+public class EquipmentRequest
+	extends PasswordHashRequest
 {
 	private static final KoLRequest COMBINE_PAGE = new KoLRequest( "" );
 	private static final EquipmentRequest REFRESH1 = new EquipmentRequest( EquipmentRequest.CONSUMABLES );
@@ -51,17 +52,20 @@ public class EquipmentRequest extends PasswordHashRequest
 	private static final Pattern MEAT_PATTERN = Pattern.compile( "[\\d,]+ meat\\.</b>" );
 	private static final Pattern OUTSIDECLOSET_PATTERN = Pattern.compile( "<b>Put:.*?</select>", Pattern.DOTALL );
 	private static final Pattern INSIDECLOSET_PATTERN = Pattern.compile( "<b>Take:.*?</select>", Pattern.DOTALL );
-	private static final Pattern INVENTORYITEM_PATTERN = Pattern.compile( "<option value='?([\\d]+)'?[^>]*>([^>]*?) \\(([\\d,]+)\\)</option>" );
+	private static final Pattern INVENTORYITEM_PATTERN =
+		Pattern.compile( "<option value='?([\\d]+)'?[^>]*>([^>]*?) \\(([\\d,]+)\\)</option>" );
 	private static final Pattern QUESTITEM_PATTERN = Pattern.compile( "<b>([^<]+)</b>([^<]*?)<font size=1>" );
 	private static final Pattern HAT_PATTERN = Pattern.compile( "Hat:</td>.*?<b>(.*?)</b>.*unequip&type=hat" );
 	private static final Pattern WEAPON_PATTERN = Pattern.compile( "Weapon:</td>.*?<b>(.*?)</b>.*unequip&type=weapon" );
-	private static final Pattern OFFHAND_PATTERN = Pattern.compile( "Off-Hand:</td>.*?<b>([^<]*)</b> *(<font.*?/font>)?[^>]*unequip&type=offhand" );
+	private static final Pattern OFFHAND_PATTERN =
+		Pattern.compile( "Off-Hand:</td>.*?<b>([^<]*)</b> *(<font.*?/font>)?[^>]*unequip&type=offhand" );
 	private static final Pattern SHIRT_PATTERN = Pattern.compile( "Shirt:</td>.*?<b>(.*?)</b>.*unequip&type=shirt" );
 	private static final Pattern PANTS_PATTERN = Pattern.compile( "Pants:</td>.*?<b>(.*?)</b>.*unequip&type=pants" );
 	private static final Pattern ACC1_PATTERN = Pattern.compile( "<b>([^<]*?)</b>\\s*<[^<]+unequip&type=acc1\">" );
 	private static final Pattern ACC2_PATTERN = Pattern.compile( "<b>([^<]*?)</b>\\s*<[^<]+unequip&type=acc2\">" );
 	private static final Pattern ACC3_PATTERN = Pattern.compile( "<b>([^<]*?)</b>\\s*<[^<]+unequip&type=acc3\">" );
-	private static final Pattern FAMILIARITEM_PATTERN = Pattern.compile( "<b>([^<]*?)</b>\\s*<[^<]+unequip&type=familiarequip\">" );
+	private static final Pattern FAMILIARITEM_PATTERN =
+		Pattern.compile( "<b>([^<]*?)</b>\\s*<[^<]+unequip&type=familiarequip\">" );
 	private static final Pattern OUTFITLIST_PATTERN = Pattern.compile( "<select name=whichoutfit>.*?</select>" );
 
 	private static final Pattern OUTFIT_PATTERN = Pattern.compile( "whichoutfit=(\\d+)" );
@@ -69,7 +73,7 @@ public class EquipmentRequest extends PasswordHashRequest
 	private static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 
 	public static final AdventureResult UNEQUIP = new AdventureResult( "(none)", 1, false );
-	private static final AdventureResult PASTE = new AdventureResult( MEAT_PASTE, 1 );
+	private static final AdventureResult PASTE = new AdventureResult( KoLConstants.MEAT_PASTE, 1 );
 	private static final AdventureResult SPECTACLES = new AdventureResult( 1916, 1 );
 
 	private static final int FAKE_HAND = 1511;
@@ -92,18 +96,12 @@ public class EquipmentRequest extends PasswordHashRequest
 	// to the PHP files that are manipulated by THIS module.
 
 	// These are the public names
-	public static final String [] slotNames =
-	{
-		"hat", "weapon", "off-hand", "shirt", "pants",
-		"acc1", "acc2", "acc3", "familiar", "fakehand"
-	};
+	public static final String[] slotNames =
+		{ "hat", "weapon", "off-hand", "shirt", "pants", "acc1", "acc2", "acc3", "familiar", "fakehand" };
 
 	// These are the names used in the PHP file
-	public static final String [] phpSlotNames =
-	{
-		"hat", "weapon", "offhand", "shirt", "pants",
-		"acc1", "acc2", "acc3", "familiarequip", "fakehand"
-	};
+	public static final String[] phpSlotNames =
+		{ "hat", "weapon", "offhand", "shirt", "pants", "acc1", "acc2", "acc3", "familiarequip", "fakehand" };
 
 	private int requestType;
 	private int equipmentSlot;
@@ -115,9 +113,10 @@ public class EquipmentRequest extends PasswordHashRequest
 
 	private static boolean shouldSavePreviousOutfit = false;
 
-	public EquipmentRequest( int requestType )
+	public EquipmentRequest( final int requestType )
 	{
-		super( requestType == CLOSET ? "closet.php" : requestType == UNEQUIP_ALL ? "inv_equip.php" : "inventory.php" );
+		super(
+			requestType == EquipmentRequest.CLOSET ? "closet.php" : requestType == EquipmentRequest.UNEQUIP_ALL ? "inv_equip.php" : "inventory.php" );
 
 		this.requestType = requestType;
 		this.outfit = null;
@@ -126,67 +125,81 @@ public class EquipmentRequest extends PasswordHashRequest
 		// Otherwise, add the form field indicating which page
 		// of the inventory you want to request
 
-		if ( requestType == MISCELLANEOUS )
+		if ( requestType == EquipmentRequest.MISCELLANEOUS )
+		{
 			this.addFormField( "which", "3" );
-		else if ( requestType == CONSUMABLES )
+		}
+		else if ( requestType == EquipmentRequest.CONSUMABLES )
+		{
 			this.addFormField( "which", "1" );
-		else if ( requestType != CLOSET )
+		}
+		else if ( requestType != EquipmentRequest.CLOSET )
+		{
 			this.addFormField( "which", "2" );
+		}
 
-		if ( requestType == UNEQUIP_ALL )
+		if ( requestType == EquipmentRequest.UNEQUIP_ALL )
 		{
 			this.addFormField( "action", "unequipall" );
 			this.addFormField( "pwd" );
 		}
 	}
 
-	public EquipmentRequest( String changeName )
+	public EquipmentRequest( final String changeName )
 	{
 		super( "inv_equip.php" );
 
 		this.addFormField( "which", "2" );
 		this.addFormField( "action", "customoutfit" );
 		this.addFormField( "outfitname", changeName );
-		this.requestType = SAVE_OUTFIT;
+		this.requestType = EquipmentRequest.SAVE_OUTFIT;
 	}
 
-	public EquipmentRequest( AdventureResult changeItem )
-	{	this( changeItem, chooseEquipmentSlot( TradeableItemDatabase.getConsumptionType( changeItem.getItemId() ) ), false );
+	public EquipmentRequest( final AdventureResult changeItem )
+	{
+		this(
+			changeItem,
+			EquipmentRequest.chooseEquipmentSlot( TradeableItemDatabase.getConsumptionType( changeItem.getItemId() ) ),
+			false );
 	}
 
-	public EquipmentRequest( AdventureResult changeItem, int equipmentSlot )
-	{	this( changeItem, equipmentSlot, false );
+	public EquipmentRequest( final AdventureResult changeItem, final int equipmentSlot )
+	{
+		this( changeItem, equipmentSlot, false );
 	}
 
-	public EquipmentRequest( AdventureResult changeItem, int equipmentSlot, boolean force )
+	public EquipmentRequest( final AdventureResult changeItem, final int equipmentSlot, final boolean force )
 	{
 		super( "inv_equip.php" );
 		this.initializeChangeData( changeItem, equipmentSlot, force );
 	}
 
 	protected boolean shouldFollowRedirect()
-	{	return true;
+	{
+		return true;
 	}
 
 	protected boolean retryOnTimeout()
-	{	return true;
+	{
+		return true;
 	}
 
 	public static final void savePreviousOutfit()
-	{	shouldSavePreviousOutfit = true;
+	{
+		EquipmentRequest.shouldSavePreviousOutfit = true;
 	}
 
-	private void initializeChangeData( AdventureResult changeItem, int equipmentSlot, boolean force )
+	private void initializeChangeData( final AdventureResult changeItem, final int equipmentSlot, final boolean force )
 	{
 		this.addFormField( "which", "2" );
 		this.equipmentSlot = equipmentSlot;
 
-		if ( changeItem.equals( UNEQUIP ) )
+		if ( changeItem.equals( EquipmentRequest.UNEQUIP ) )
 		{
-			this.requestType = REMOVE_ITEM;
+			this.requestType = EquipmentRequest.REMOVE_ITEM;
 			this.error = null;
 			this.addFormField( "action", "unequip" );
-			this.addFormField( "type", phpSlotNames[ equipmentSlot ] );
+			this.addFormField( "type", EquipmentRequest.phpSlotNames[ equipmentSlot ] );
 			this.addFormField( "pwd" );
 			return;
 		}
@@ -199,22 +212,26 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		// If unspecified slot, pick based on type of item
 		if ( this.equipmentSlot == -1 )
-			this.equipmentSlot = chooseEquipmentSlot( this.equipmentType );
+		{
+			this.equipmentSlot = EquipmentRequest.chooseEquipmentSlot( this.equipmentType );
+		}
 
 		// Make sure you can equip it in the requested slot
 		String action = this.getAction( force );
 		if ( action == null )
+		{
 			return;
+		}
 
-		this.requestType = CHANGE_ITEM;
-		this.changeItem = changeItem.getCount() == 1 ? changeItem : changeItem.getInstance(1);
+		this.requestType = EquipmentRequest.CHANGE_ITEM;
+		this.changeItem = changeItem.getCount() == 1 ? changeItem : changeItem.getInstance( 1 );
 
 		this.addFormField( "action", action );
 		this.addFormField( "whichitem", String.valueOf( this.itemId ) );
 		this.addFormField( "pwd" );
 	}
 
-	public EquipmentRequest( SpecialOutfit change )
+	public EquipmentRequest( final SpecialOutfit change )
 	{
 		super( "inv_equip.php" );
 
@@ -222,45 +239,57 @@ public class EquipmentRequest extends PasswordHashRequest
 		this.addFormField( "which", "2" );
 		this.addFormField( "whichoutfit", String.valueOf( change.getOutfitId() ) );
 
-		this.requestType = CHANGE_OUTFIT;
+		this.requestType = EquipmentRequest.CHANGE_OUTFIT;
 		this.outfit = change;
 		this.error = null;
 	}
 
-	private String getAction( boolean force )
+	private String getAction( final boolean force )
 	{
 		switch ( this.equipmentSlot )
 		{
 		case KoLCharacter.HAT:
-			if ( this.equipmentType == EQUIP_HAT )
+			if ( this.equipmentType == KoLConstants.EQUIP_HAT )
+			{
 				return "equip";
+			}
 			break;
 
 		case KoLCharacter.WEAPON:
-			if ( this.equipmentType == EQUIP_WEAPON )
+			if ( this.equipmentType == KoLConstants.EQUIP_WEAPON )
+			{
 				return "equip";
+			}
 			break;
 
 		case KoLCharacter.OFFHAND:
-			if ( this.equipmentType == EQUIP_OFFHAND )
+			if ( this.equipmentType == KoLConstants.EQUIP_OFFHAND )
+			{
 				return "equip";
+			}
 
-			if ( this.equipmentType == EQUIP_WEAPON )
+			if ( this.equipmentType == KoLConstants.EQUIP_WEAPON )
+			{
 				return "dualwield";
+			}
 			break;
 
 		case KoLCharacter.SHIRT:
-			if ( this.equipmentType == EQUIP_SHIRT )
+			if ( this.equipmentType == KoLConstants.EQUIP_SHIRT )
+			{
 				return "equip";
+			}
 			break;
 
 		case KoLCharacter.PANTS:
-			if ( this.equipmentType == EQUIP_PANTS )
+			if ( this.equipmentType == KoLConstants.EQUIP_PANTS )
+			{
 				return "equip";
+			}
 			break;
 
 		case KoLCharacter.ACCESSORY1:
-			if ( this.equipmentType == EQUIP_ACCESSORY )
+			if ( this.equipmentType == KoLConstants.EQUIP_ACCESSORY )
 			{
 				this.addFormField( "slot", "1" );
 				return "equip";
@@ -268,7 +297,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			break;
 
 		case KoLCharacter.ACCESSORY2:
-			if ( this.equipmentType == EQUIP_ACCESSORY )
+			if ( this.equipmentType == KoLConstants.EQUIP_ACCESSORY )
 			{
 				this.addFormField( "slot", "2" );
 				return "equip";
@@ -276,7 +305,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			break;
 
 		case KoLCharacter.ACCESSORY3:
-			if ( this.equipmentType == EQUIP_ACCESSORY )
+			if ( this.equipmentType == KoLConstants.EQUIP_ACCESSORY )
 			{
 				this.addFormField( "slot", "3" );
 				return "equip";
@@ -284,21 +313,23 @@ public class EquipmentRequest extends PasswordHashRequest
 			break;
 
 		case KoLCharacter.FAMILIAR:
-			if ( this.equipmentType == EQUIP_FAMILIAR )
+			if ( this.equipmentType == KoLConstants.EQUIP_FAMILIAR )
+			{
 				return "equip";
+			}
 			break;
 
 		default:
 			return "equip";
 		}
 
-		this.error = "You can't equip a " + TradeableItemDatabase.getItemName( this.itemId ) + " in the " +
-			slotNames[this.equipmentSlot] + " slot.";
+		this.error =
+			"You can't equip a " + TradeableItemDatabase.getItemName( this.itemId ) + " in the " + EquipmentRequest.slotNames[ this.equipmentSlot ] + " slot.";
 
 		return null;
 	}
 
-	public static final int chooseEquipmentSlot( int equipmentType )
+	public static final int chooseEquipmentSlot( final int equipmentType )
 	{
 		switch ( equipmentType )
 		{
@@ -323,16 +354,22 @@ public class EquipmentRequest extends PasswordHashRequest
 		case EQUIP_ACCESSORY:
 		{
 			AdventureResult test = KoLCharacter.getEquipment( KoLCharacter.ACCESSORY1 );
-			if ( test == null || test.equals( UNEQUIP ) )
+			if ( test == null || test.equals( EquipmentRequest.UNEQUIP ) )
+			{
 				return KoLCharacter.ACCESSORY1;
+			}
 
 			test = KoLCharacter.getEquipment( KoLCharacter.ACCESSORY2 );
-			if ( test == null || test.equals( UNEQUIP ) )
+			if ( test == null || test.equals( EquipmentRequest.UNEQUIP ) )
+			{
 				return KoLCharacter.ACCESSORY2;
+			}
 
 			test = KoLCharacter.getEquipment( KoLCharacter.ACCESSORY3 );
-			if ( test == null || test.equals( UNEQUIP ) )
+			if ( test == null || test.equals( EquipmentRequest.UNEQUIP ) )
+			{
 				return KoLCharacter.ACCESSORY3;
+			}
 
 			// All accessory slots are in use. Pick #1
 			return KoLCharacter.ACCESSORY1;
@@ -344,13 +381,13 @@ public class EquipmentRequest extends PasswordHashRequest
 	}
 
 	public String getOutfitName()
-	{	return this.outfit == null ? null : this.outfit.toString();
+	{
+		return this.outfit == null ? null : this.outfit.toString();
 	}
 
 	/**
-	 * Executes the <code>EquipmentRequest</code>.  Note that at the current
-	 * time, only the character's currently equipped items and familiar item
-	 * will be stored.
+	 * Executes the <code>EquipmentRequest</code>. Note that at the current time, only the character's currently
+	 * equipped items and familiar item will be stored.
 	 */
 
 	public void run()
@@ -358,35 +395,41 @@ public class EquipmentRequest extends PasswordHashRequest
 		// If we were given bogus parameters, report the error now
 		if ( this.error != null )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, this.error );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, this.error );
 			return;
 		}
 
 		// Outfit changes are a bit quirky, so they're handled
 		// first for easy visibility.
 
-		if ( this.requestType == CHANGE_OUTFIT )
+		if ( this.requestType == EquipmentRequest.CHANGE_OUTFIT )
 		{
 			// If this is a birthday suit outfit, then remove everything.
 			if ( this.outfit == SpecialOutfit.BIRTHDAY_SUIT )
 			{
-				if ( shouldSavePreviousOutfit )
+				if ( EquipmentRequest.shouldSavePreviousOutfit )
 				{
 					if ( SpecialOutfit.markImplicitCheckpoint() )
-						(new EquipmentRequest( "Backup" )).run();
+					{
+						( new EquipmentRequest( "Backup" ) ).run();
+					}
 
-					shouldSavePreviousOutfit = false;
+					EquipmentRequest.shouldSavePreviousOutfit = false;
 				}
 
 				boolean unequipAllNeeded = false;
 
 				for ( int i = 0; i < KoLCharacter.FAMILIAR; ++i )
-					unequipAllNeeded |= !KoLCharacter.getEquipment(i).equals( UNEQUIP );
+				{
+					unequipAllNeeded |= !KoLCharacter.getEquipment( i ).equals( EquipmentRequest.UNEQUIP );
+				}
 
 				if ( unequipAllNeeded )
-					(new EquipmentRequest( UNEQUIP_ALL )).run();
+				{
+					( new EquipmentRequest( EquipmentRequest.UNEQUIP_ALL ) ).run();
+				}
 
-				(new EquipmentRequest( UNEQUIP, KoLCharacter.FAMILIAR )).run();
+				( new EquipmentRequest( EquipmentRequest.UNEQUIP, KoLCharacter.FAMILIAR ) ).run();
 				return;
 			}
 
@@ -397,7 +440,9 @@ public class EquipmentRequest extends PasswordHashRequest
 			{
 				// Return immediately if the character is already wearing the outfit
 				if ( EquipmentDatabase.isWearingOutfit( id ) )
+				{
 					return;
+				}
 
 				// Next, ensure that you have all the pieces for the
 				// given outfit.
@@ -406,23 +451,29 @@ public class EquipmentRequest extends PasswordHashRequest
 
 				// Bail now if the conditions were not met
 				if ( !KoLmafia.permitsContinue() )
+				{
 					return;
+				}
 
-				if ( shouldSavePreviousOutfit )
+				if ( EquipmentRequest.shouldSavePreviousOutfit )
 				{
 					if ( SpecialOutfit.markImplicitCheckpoint() )
-						(new EquipmentRequest( "Backup" )).run();
+					{
+						( new EquipmentRequest( "Backup" ) ).run();
+					}
 
-					shouldSavePreviousOutfit = false;
+					EquipmentRequest.shouldSavePreviousOutfit = false;
 				}
 			}
 			else if ( id == 0 )
 			{
 				// Return immediately if the character is already wearing the outfit
 				if ( EquipmentDatabase.isWearingOutfit( this.outfit ) )
+				{
 					return;
+				}
 
-				AdventureResult [] pieces = this.outfit.getPieces();
+				AdventureResult[] pieces = this.outfit.getPieces();
 
 				int equipmentType;
 
@@ -431,31 +482,35 @@ public class EquipmentRequest extends PasswordHashRequest
 
 				for ( int i = 0; i < pieces.length; ++i )
 				{
-					equipmentType = TradeableItemDatabase.getConsumptionType( pieces[i].getItemId() );
+					equipmentType = TradeableItemDatabase.getConsumptionType( pieces[ i ].getItemId() );
 
 					// If the item is an accessory, you will have to remove all
 					// other accessories to be consistent.
 
-					if ( equipmentType == EQUIP_ACCESSORY )
+					if ( equipmentType == KoLConstants.EQUIP_ACCESSORY )
 					{
 						if ( !usesAccessories )
 						{
 							for ( int j = KoLCharacter.ACCESSORY1; j <= KoLCharacter.ACCESSORY3; ++j )
-								(new EquipmentRequest( UNEQUIP, j )).run();
+							{
+								( new EquipmentRequest( EquipmentRequest.UNEQUIP, j ) ).run();
+							}
 						}
 
 						usesAccessories = true;
 					}
 
-					int desiredSlot = chooseEquipmentSlot( equipmentType );
+					int desiredSlot = EquipmentRequest.chooseEquipmentSlot( equipmentType );
 
 					// If it's a weapon, sometimes it needs to go to the offhand
 					// slot when there's already a weapon equipped from the outfit.
 
-					if ( equipmentType == EQUIP_WEAPON )
+					if ( equipmentType == KoLConstants.EQUIP_WEAPON )
 					{
 						if ( usesWeapon )
+						{
 							desiredSlot = KoLCharacter.OFFHAND;
+						}
 
 						usesWeapon = true;
 					}
@@ -463,20 +518,22 @@ public class EquipmentRequest extends PasswordHashRequest
 					// Now, execute the equipment change.  It will auto-detect
 					// if you already have the item equipped.
 
-					(new EquipmentRequest( pieces[i], desiredSlot )).run();
+					( new EquipmentRequest( pieces[ i ], desiredSlot ) ).run();
 				}
 
 				return;
 			}
 		}
 
-		if ( this.requestType == CHANGE_ITEM )
+		if ( this.requestType == EquipmentRequest.CHANGE_ITEM )
 		{
 			// Do not submit a request if the item matches what you
 			// want to equip on the character.
 
 			if ( KoLCharacter.getEquipment( this.equipmentSlot ).equals( this.changeItem ) )
+			{
 				return;
+			}
 
 			// If we are equipping a new weapon, a two-handed weapon will unequip any pair of
 			// weapons. But a one-handed weapon much match the type of the off-hand weapon. If it
@@ -486,22 +543,29 @@ public class EquipmentRequest extends PasswordHashRequest
 			{
 				AdventureResult offhand = KoLCharacter.getEquipment( KoLCharacter.OFFHAND );
 
-				if ( TradeableItemDatabase.getConsumptionType( offhand.getItemId() ) == EQUIP_WEAPON )
+				if ( TradeableItemDatabase.getConsumptionType( offhand.getItemId() ) == KoLConstants.EQUIP_WEAPON )
 				{
 					int desiredType = EquipmentDatabase.equipStat( this.changeItem.getItemId() );
 					int currentType = EquipmentDatabase.equipStat( offhand.getName() );
 
 					if ( EquipmentDatabase.getHands( this.changeItem.getItemId() ) == 1 && desiredType != currentType )
-						(new EquipmentRequest( EquipmentRequest.UNEQUIP, KoLCharacter.OFFHAND )).run();
+					{
+						( new EquipmentRequest( EquipmentRequest.UNEQUIP, KoLCharacter.OFFHAND ) ).run();
+					}
 				}
 			}
 
 			if ( !AdventureDatabase.retrieveItem( this.changeItem ) )
+			{
 				return;
+			}
 		}
 
-		if ( this.requestType == REMOVE_ITEM && KoLCharacter.getEquipment( this.equipmentSlot ).equals( UNEQUIP ) )
+		if ( this.requestType == EquipmentRequest.REMOVE_ITEM && KoLCharacter.getEquipment( this.equipmentSlot ).equals(
+			EquipmentRequest.UNEQUIP ) )
+		{
 			return;
+		}
 
 		switch ( this.requestType )
 		{
@@ -526,8 +590,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			break;
 
 		case CHANGE_ITEM:
-			KoLmafia.updateDisplay( ( this.equipmentSlot == KoLCharacter.WEAPON ? "Wielding " :
-				this.equipmentSlot == KoLCharacter.OFFHAND ? "Holding " : "Putting on " ) + TradeableItemDatabase.getItemName( this.itemId ) + "..." );
+			KoLmafia.updateDisplay( ( this.equipmentSlot == KoLCharacter.WEAPON ? "Wielding " : this.equipmentSlot == KoLCharacter.OFFHAND ? "Holding " : "Putting on " ) + TradeableItemDatabase.getItemName( this.itemId ) + "..." );
 			break;
 
 		case REMOVE_ITEM:
@@ -550,39 +613,47 @@ public class EquipmentRequest extends PasswordHashRequest
 		case CHANGE_ITEM:
 		case CHANGE_OUTFIT:
 
-			Matcher resultMatcher = CELL_PATTERN.matcher( this.responseText );
+			Matcher resultMatcher = EquipmentRequest.CELL_PATTERN.matcher( this.responseText );
 			if ( resultMatcher.find() )
 			{
-				String result = resultMatcher.group(1).replaceAll( "</?b>", "" );
+				String result = resultMatcher.group( 1 ).replaceAll( "</?b>", "" );
 				if ( result.indexOf( "You put" ) == -1 && result.indexOf( "You equip" ) == -1 && result.indexOf( "Item equipped" ) == -1 )
 				{
-					KoLmafia.updateDisplay( ERROR_STATE, result );
+					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, result );
 					return;
 				}
 			}
 
-			if ( KoLCharacter.hasEquipped( SPECTACLES ) )
+			if ( KoLCharacter.hasEquipped( EquipmentRequest.SPECTACLES ) )
+			{
 				TradeableItemDatabase.identifyDustyBottles();
+			}
 
 			KoLmafia.updateDisplay( "Equipment changed." );
-			if ( !containsUpdate )
+			if ( !this.containsUpdate )
+			{
 				CharpaneRequest.getInstance().run();
+			}
 
 			break;
 
 		case REMOVE_ITEM:
 
 			KoLmafia.updateDisplay( "Equipment changed." );
-			if ( !containsUpdate )
+			if ( !this.containsUpdate )
+			{
 				CharpaneRequest.getInstance().run();
+			}
 
 			break;
 
 		case UNEQUIP_ALL:
 
 			KoLmafia.updateDisplay( "Everything removed." );
-			if ( !containsUpdate )
+			if ( !this.containsUpdate )
+			{
 				CharpaneRequest.getInstance().run();
+			}
 
 			break;
 		}
@@ -593,73 +664,90 @@ public class EquipmentRequest extends PasswordHashRequest
 		super.processResults();
 
 		// Fetch updated equipment
-		if ( this.requestType == CLOSET )
+		if ( this.requestType == EquipmentRequest.CLOSET )
 		{
 			this.parseCloset();
 
-			if ( !inventory.contains( PASTE ) && KoLCharacter.getAvailableMeat() >= 10 )
-				AdventureDatabase.retrieveItem( PASTE );
+			if ( !KoLConstants.inventory.contains( EquipmentRequest.PASTE ) && KoLCharacter.getAvailableMeat() >= 10 )
+			{
+				AdventureDatabase.retrieveItem( EquipmentRequest.PASTE );
+			}
 
 			// If the person has meat paste, or is able to create
 			// meat paste, then do so and then parse the combines
 			// page.  Otherwise, go to the equipment pages.
 
-			if ( KoLCharacter.inMuscleSign() || inventory.contains( PASTE ) )
+			if ( KoLCharacter.inMuscleSign() || KoLConstants.inventory.contains( EquipmentRequest.PASTE ) )
 			{
 				KoLCharacter.resetInventory();
-				COMBINE_PAGE.constructURLString( KoLCharacter.inMuscleSign() ? "knoll.php?place=paster" : "combine.php" ).run();
+				EquipmentRequest.COMBINE_PAGE.constructURLString(
+					KoLCharacter.inMuscleSign() ? "knoll.php?place=paster" : "combine.php" ).run();
 
-				Matcher selectMatcher = SELECT_PATTERN.matcher( COMBINE_PAGE.responseText );
+				Matcher selectMatcher =
+					EquipmentRequest.SELECT_PATTERN.matcher( EquipmentRequest.COMBINE_PAGE.responseText );
 				if ( selectMatcher.find() )
-					this.parseCloset( selectMatcher.group(), inventory );
+				{
+					this.parseCloset( selectMatcher.group(), KoLConstants.inventory );
+				}
 			}
 			else
 			{
 				KoLCharacter.resetInventory();
-				REFRESH1.run();
-				REFRESH3.run();
+				EquipmentRequest.REFRESH1.run();
+				EquipmentRequest.REFRESH3.run();
 			}
 
-			REFRESH2.run();
+			EquipmentRequest.REFRESH2.run();
 			return;
 		}
 
 		int outfitDivider = this.responseText.indexOf( "Save as Custom Outfit" );
 
-		if ( this.requestType != MISCELLANEOUS && this.requestType != CONSUMABLES )
+		if ( this.requestType != EquipmentRequest.MISCELLANEOUS && this.requestType != EquipmentRequest.CONSUMABLES )
 		{
 			// In valhalla, you can't make outfits and have no inventory.
 			if ( outfitDivider == -1 )
+			{
 				return;
+			}
 
-			parseEquipment( this.responseText );
+			EquipmentRequest.parseEquipment( this.responseText );
 		}
 
 		if ( outfitDivider != -1 )
-			parseQuestItems( this.responseText.substring( outfitDivider ) );
+		{
+			EquipmentRequest.parseQuestItems( this.responseText.substring( outfitDivider ) );
+		}
 		else
-			parseQuestItems( this.responseText );
+		{
+			EquipmentRequest.parseQuestItems( this.responseText );
+		}
 	}
 
-	private static final boolean switchItem( AdventureResult oldItem, AdventureResult newItem )
+	private static final boolean switchItem( final AdventureResult oldItem, final AdventureResult newItem )
 	{
 		// If the items are not equivalent, make sure
 		// the items should get switched out.
 
 		if ( newItem.getItemId() == oldItem.getItemId() )
+		{
 			return false;
+		}
 
 		// Manually subtract item from inventory to avoid
 		// excessive list updating.
 
 		if ( newItem != EquipmentRequest.UNEQUIP )
-			AdventureResult.addResultToList( inventory, newItem.getInstance(-1) );
+		{
+			AdventureResult.addResultToList( KoLConstants.inventory, newItem.getInstance( -1 ) );
+		}
 
 		if ( oldItem != EquipmentRequest.UNEQUIP )
-			AdventureResult.addResultToList( inventory, oldItem.getInstance(1) );
+		{
+			AdventureResult.addResultToList( KoLConstants.inventory, oldItem.getInstance( 1 ) );
+		}
 
-		return !ConcoctionsDatabase.getKnownUses( oldItem ).isEmpty() ||
-			!ConcoctionsDatabase.getKnownUses( newItem ).isEmpty();
+		return !ConcoctionsDatabase.getKnownUses( oldItem ).isEmpty() || !ConcoctionsDatabase.getKnownUses( newItem ).isEmpty();
 	}
 
 	private void parseCloset()
@@ -667,7 +755,7 @@ public class EquipmentRequest extends PasswordHashRequest
 		// Try to find how much meat is in your character's closet -
 		// this way, the program's meat manager frame auto-updates
 
-		Matcher meatInClosetMatcher = MEAT_PATTERN.matcher( this.responseText );
+		Matcher meatInClosetMatcher = EquipmentRequest.MEAT_PATTERN.matcher( this.responseText );
 
 		if ( meatInClosetMatcher.find() )
 		{
@@ -675,66 +763,79 @@ public class EquipmentRequest extends PasswordHashRequest
 			KoLCharacter.setClosetMeat( StaticEntity.parseInt( meatInCloset ) );
 		}
 
-		Matcher inventoryMatcher = OUTSIDECLOSET_PATTERN.matcher( this.responseText );
+		Matcher inventoryMatcher = EquipmentRequest.OUTSIDECLOSET_PATTERN.matcher( this.responseText );
 		if ( inventoryMatcher.find() )
-			this.parseCloset( inventoryMatcher.group(), inventory );
+		{
+			this.parseCloset( inventoryMatcher.group(), KoLConstants.inventory );
+		}
 
-		Matcher closetMatcher = INSIDECLOSET_PATTERN.matcher( this.responseText );
+		Matcher closetMatcher = EquipmentRequest.INSIDECLOSET_PATTERN.matcher( this.responseText );
 		if ( closetMatcher.find() )
-			this.parseCloset( closetMatcher.group(), closet );
+		{
+			this.parseCloset( closetMatcher.group(), KoLConstants.closet );
+		}
 	}
 
-	private void parseCloset( String content, List resultList )
+	private void parseCloset( final String content, final List resultList )
 	{
 		int lastFindIndex = 0;
-		Matcher optionMatcher = INVENTORYITEM_PATTERN.matcher( content );
+		Matcher optionMatcher = EquipmentRequest.INVENTORYITEM_PATTERN.matcher( content );
 
 		resultList.clear();
 
 		while ( optionMatcher.find( lastFindIndex ) )
 		{
 			lastFindIndex = optionMatcher.end();
-			int itemId = StaticEntity.parseInt( optionMatcher.group(1) );
+			int itemId = StaticEntity.parseInt( optionMatcher.group( 1 ) );
 			String itemName = TradeableItemDatabase.getCanonicalName( TradeableItemDatabase.getItemName( itemId ) );
-			String realName = TradeableItemDatabase.getCanonicalName( optionMatcher.group(2).toLowerCase() );
+			String realName = TradeableItemDatabase.getCanonicalName( optionMatcher.group( 2 ).toLowerCase() );
 
 			if ( itemName == null || !realName.equals( itemName ) )
+			{
 				TradeableItemDatabase.registerItem( itemId, realName );
+			}
 
-			AdventureResult result = new AdventureResult( itemId, StaticEntity.parseInt( optionMatcher.group(3) ) );
-			if ( resultList == inventory )
+			AdventureResult result = new AdventureResult( itemId, StaticEntity.parseInt( optionMatcher.group( 3 ) ) );
+			if ( resultList == KoLConstants.inventory )
+			{
 				KoLCharacter.processResult( result, false );
+			}
 			else
+			{
 				AdventureResult.addResultToList( resultList, result );
+			}
 		}
 
-		if ( resultList == inventory )
+		if ( resultList == KoLConstants.inventory )
 		{
 			KoLCharacter.updateEquipmentLists();
 			ConcoctionsDatabase.refreshConcoctions();
 		}
 	}
 
-	private static final void parseQuestItems( String text )
+	private static final void parseQuestItems( final String text )
 	{
-		Matcher itemMatcher = QUESTITEM_PATTERN.matcher( text );
+		Matcher itemMatcher = EquipmentRequest.QUESTITEM_PATTERN.matcher( text );
 		while ( itemMatcher.find() )
 		{
-			String quantity = itemMatcher.group(2).trim();
-			String realName = itemMatcher.group(1).trim();
+			String quantity = itemMatcher.group( 2 ).trim();
+			String realName = itemMatcher.group( 1 ).trim();
 
 			// We have encountered a brand new item, the person
 			// has no meat paste, and we're in trouble.  Do not
 			// continue if this is the case.
 
 			if ( !TradeableItemDatabase.contains( realName ) )
+			{
 				continue;
+			}
 
-			int quantityValue = quantity.length() == 0 ? 1 : StaticEntity.parseInt( quantity.substring( 1, quantity.length() - 1 ) );
+			int quantityValue =
+				quantity.length() == 0 ? 1 : StaticEntity.parseInt( quantity.substring( 1, quantity.length() - 1 ) );
 			int itemId = TradeableItemDatabase.getItemId( realName );
 
 			AdventureResult item = new AdventureResult( itemId, quantityValue );
-			int inventoryCount = item.getCount( inventory );
+			int inventoryCount = item.getCount( KoLConstants.inventory );
 
 			// Add the difference between your existing count
 			// and the original count.
@@ -747,85 +848,103 @@ public class EquipmentRequest extends PasswordHashRequest
 		}
 	}
 
-	public static final void parseEquipment( String responseText )
+	public static final void parseEquipment( final String responseText )
 	{
-		AdventureResult [] oldEquipment = new AdventureResult[9];
+		AdventureResult[] oldEquipment = new AdventureResult[ 9 ];
 		int oldFakeHands = KoLCharacter.getFakeHands();
 
 		// Ensure that the inventory stays up-to-date by switching
 		// items around, as needed.
 
 		for ( int i = 0; i < 9; ++i )
-			oldEquipment[i] = KoLCharacter.getEquipment( i );
+		{
+			oldEquipment[ i ] = KoLCharacter.getEquipment( i );
+		}
 
-		AdventureResult [] equipment = new AdventureResult[9];
+		AdventureResult[] equipment = new AdventureResult[ 9 ];
 		for ( int i = 0; i < equipment.length; ++i )
-			equipment[i] = UNEQUIP;
+		{
+			equipment[ i ] = EquipmentRequest.UNEQUIP;
+		}
 		int fakeHands = 0;
 
 		String name;
 		Matcher equipmentMatcher;
 
-		if ( responseText.indexOf( "unequip&type=hat") != -1 )
+		if ( responseText.indexOf( "unequip&type=hat" ) != -1 )
 		{
-			 equipmentMatcher = HAT_PATTERN.matcher( responseText );
+			equipmentMatcher = EquipmentRequest.HAT_PATTERN.matcher( responseText );
 			if ( equipmentMatcher.find() )
 			{
-				name = equipmentMatcher.group(1).trim();
+				name = equipmentMatcher.group( 1 ).trim();
 				if ( EquipmentDatabase.contains( name ) )
+				{
 					equipment[ KoLCharacter.HAT ] = new AdventureResult( name, 1, false );
+				}
 
 				RequestLogger.updateDebugLog( "Hat: " + equipment[ KoLCharacter.HAT ] );
 			}
 		}
 
-		if ( responseText.indexOf( "unequip&type=weapon") != -1 )
+		if ( responseText.indexOf( "unequip&type=weapon" ) != -1 )
 		{
-			equipmentMatcher = WEAPON_PATTERN.matcher( responseText );
+			equipmentMatcher = EquipmentRequest.WEAPON_PATTERN.matcher( responseText );
 			if ( equipmentMatcher.find() )
 			{
-				name = equipmentMatcher.group(1).trim();
+				name = equipmentMatcher.group( 1 ).trim();
 				if ( EquipmentDatabase.contains( name ) )
-					equipment[ KoLCharacter.WEAPON ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
+				{
+					equipment[ KoLCharacter.WEAPON ] =
+						new AdventureResult( equipmentMatcher.group( 1 ).trim(), 1, false );
+				}
 
 				RequestLogger.updateDebugLog( "Weapon: " + equipment[ KoLCharacter.WEAPON ] );
 			}
 		}
 
-		if ( responseText.indexOf( "unequip&type=offhand") != -1 )
+		if ( responseText.indexOf( "unequip&type=offhand" ) != -1 )
 		{
-			equipmentMatcher = OFFHAND_PATTERN.matcher( responseText );
+			equipmentMatcher = EquipmentRequest.OFFHAND_PATTERN.matcher( responseText );
 			if ( equipmentMatcher.find() )
 			{
-				name = equipmentMatcher.group(1).trim();
+				name = equipmentMatcher.group( 1 ).trim();
 				if ( EquipmentDatabase.contains( name ) )
-					equipment[ KoLCharacter.OFFHAND ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
+				{
+					equipment[ KoLCharacter.OFFHAND ] =
+						new AdventureResult( equipmentMatcher.group( 1 ).trim(), 1, false );
+				}
 
 				RequestLogger.updateDebugLog( "Off-hand: " + equipment[ KoLCharacter.OFFHAND ] );
 			}
 		}
 
-		if ( responseText.indexOf( "unequip&type=shirt") != -1 )
+		if ( responseText.indexOf( "unequip&type=shirt" ) != -1 )
 		{
-			equipmentMatcher = SHIRT_PATTERN.matcher( responseText );
+			equipmentMatcher = EquipmentRequest.SHIRT_PATTERN.matcher( responseText );
 			if ( equipmentMatcher.find() )
 			{
-				name = equipmentMatcher.group(1).trim();
+				name = equipmentMatcher.group( 1 ).trim();
 				if ( EquipmentDatabase.contains( name ) )
-					equipment[ KoLCharacter.SHIRT ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
+				{
+					equipment[ KoLCharacter.SHIRT ] =
+						new AdventureResult( equipmentMatcher.group( 1 ).trim(), 1, false );
+				}
 
 				RequestLogger.updateDebugLog( "Shirt: " + equipment[ KoLCharacter.SHIRT ] );
 			}
 		}
 
-		if ( responseText.indexOf( "unequip&type=pants") != -1 )
+		if ( responseText.indexOf( "unequip&type=pants" ) != -1 )
 		{
-			equipmentMatcher = PANTS_PATTERN.matcher( responseText );
+			equipmentMatcher = EquipmentRequest.PANTS_PATTERN.matcher( responseText );
 			if ( equipmentMatcher.find() )
 			{
-				name = equipmentMatcher.group(1).trim();
+				name = equipmentMatcher.group( 1 ).trim();
 				if ( EquipmentDatabase.contains( name ) )
-					equipment[ KoLCharacter.PANTS ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
+				{
+					equipment[ KoLCharacter.PANTS ] =
+						new AdventureResult( equipmentMatcher.group( 1 ).trim(), 1, false );
+				}
 
 				RequestLogger.updateDebugLog( "Pants: " + equipment[ KoLCharacter.PANTS ] );
 			}
@@ -833,12 +952,15 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		if ( responseText.indexOf( "unequip&type=acc1" ) != -1 )
 		{
-			equipmentMatcher = ACC1_PATTERN.matcher( responseText );
+			equipmentMatcher = EquipmentRequest.ACC1_PATTERN.matcher( responseText );
 			if ( equipmentMatcher.find() )
 			{
-				name = equipmentMatcher.group(1).trim();
+				name = equipmentMatcher.group( 1 ).trim();
 				if ( EquipmentDatabase.contains( name ) )
-					equipment[ KoLCharacter.ACCESSORY1 ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
+				{
+					equipment[ KoLCharacter.ACCESSORY1 ] =
+						new AdventureResult( equipmentMatcher.group( 1 ).trim(), 1, false );
+				}
 
 				RequestLogger.updateDebugLog( "Accessory 1: " + equipment[ KoLCharacter.ACCESSORY1 ] );
 			}
@@ -846,12 +968,15 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		if ( responseText.indexOf( "unequip&type=acc2" ) != -1 )
 		{
-			equipmentMatcher = ACC2_PATTERN.matcher( responseText );
+			equipmentMatcher = EquipmentRequest.ACC2_PATTERN.matcher( responseText );
 			if ( equipmentMatcher.find() )
 			{
-				name = equipmentMatcher.group(1).trim();
+				name = equipmentMatcher.group( 1 ).trim();
 				if ( EquipmentDatabase.contains( name ) )
-					equipment[ KoLCharacter.ACCESSORY2 ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
+				{
+					equipment[ KoLCharacter.ACCESSORY2 ] =
+						new AdventureResult( equipmentMatcher.group( 1 ).trim(), 1, false );
+				}
 
 				RequestLogger.updateDebugLog( "Accessory 2: " + equipment[ KoLCharacter.ACCESSORY2 ] );
 			}
@@ -859,12 +984,15 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		if ( responseText.indexOf( "unequip&type=acc3" ) != -1 )
 		{
-			equipmentMatcher = ACC3_PATTERN.matcher( responseText );
+			equipmentMatcher = EquipmentRequest.ACC3_PATTERN.matcher( responseText );
 			if ( equipmentMatcher.find() )
 			{
-				name = equipmentMatcher.group(1).trim();
+				name = equipmentMatcher.group( 1 ).trim();
 				if ( EquipmentDatabase.contains( name ) )
-					equipment[ KoLCharacter.ACCESSORY3 ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
+				{
+					equipment[ KoLCharacter.ACCESSORY3 ] =
+						new AdventureResult( equipmentMatcher.group( 1 ).trim(), 1, false );
+				}
 
 				RequestLogger.updateDebugLog( "Accessory 3: " + equipment[ KoLCharacter.ACCESSORY3 ] );
 			}
@@ -873,12 +1001,15 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		if ( responseText.indexOf( "unequip&type=familiarequip" ) != -1 )
 		{
-			equipmentMatcher = FAMILIARITEM_PATTERN.matcher( responseText );
+			equipmentMatcher = EquipmentRequest.FAMILIARITEM_PATTERN.matcher( responseText );
 			if ( equipmentMatcher.find() )
 			{
-				name = equipmentMatcher.group(1).trim();
+				name = equipmentMatcher.group( 1 ).trim();
 				if ( TradeableItemDatabase.contains( name ) )
-					equipment[ KoLCharacter.FAMILIAR ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
+				{
+					equipment[ KoLCharacter.FAMILIAR ] =
+						new AdventureResult( equipmentMatcher.group( 1 ).trim(), 1, false );
+				}
 
 				RequestLogger.updateDebugLog( "Familiar: " + equipment[ KoLCharacter.FAMILIAR ] );
 			}
@@ -897,25 +1028,29 @@ public class EquipmentRequest extends PasswordHashRequest
 		boolean refreshCreations = false;
 
 		if ( !KoLmafia.isRefreshing() )
+		{
 			for ( int i = 0; i <= KoLCharacter.FAMILIAR; ++i )
-				refreshCreations |= switchItem( oldEquipment[i], equipment[i] );
+			{
+				refreshCreations |= EquipmentRequest.switchItem( oldEquipment[ i ], equipment[ i ] );
+			}
+		}
 
 		// Adjust inventory of fake hands
 
 		int newFakeHands = KoLCharacter.getFakeHands();
 		if ( oldFakeHands != newFakeHands )
 		{
-			AdventureResult.addResultToList( inventory, new AdventureResult( FAKE_HAND, newFakeHands - oldFakeHands ) );
+			AdventureResult.addResultToList( KoLConstants.inventory, new AdventureResult(
+				EquipmentRequest.FAKE_HAND, newFakeHands - oldFakeHands ) );
 			KoLCharacter.setFakeHands( fakeHands );
 		}
 
 		// Now update your equipment to make sure that selected
 		// items are properly selected in the dropdowns.
 
-		Matcher outfitsMatcher = OUTFITLIST_PATTERN.matcher( responseText );
+		Matcher outfitsMatcher = EquipmentRequest.OUTFITLIST_PATTERN.matcher( responseText );
 
-		LockableListModel outfits = outfitsMatcher.find() ?
-			SpecialOutfit.parseOutfits( outfitsMatcher.group() ) : null;
+		LockableListModel outfits = outfitsMatcher.find() ? SpecialOutfit.parseOutfits( outfitsMatcher.group() ) : null;
 
 		KoLCharacter.setEquipment( equipment );
 		KoLCharacter.setOutfits( outfits );
@@ -927,18 +1062,28 @@ public class EquipmentRequest extends PasswordHashRequest
 		// the end of the processing.
 
 		if ( refreshCreations )
+		{
 			ConcoctionsDatabase.refreshConcoctions();
+		}
 	}
 
-	public static final int slotNumber( String name )
+	public static final int slotNumber( final String name )
 	{
-		for ( int i = 0; i < slotNames.length; ++i )
-			if ( name.equalsIgnoreCase( slotNames[i] ) )
+		for ( int i = 0; i < EquipmentRequest.slotNames.length; ++i )
+		{
+			if ( name.equalsIgnoreCase( EquipmentRequest.slotNames[ i ] ) )
+			{
 				return i;
+			}
+		}
 
-		for ( int i = 0; i < phpSlotNames.length; ++i )
-			if ( name.equalsIgnoreCase( phpSlotNames[i] ) )
+		for ( int i = 0; i < EquipmentRequest.phpSlotNames.length; ++i )
+		{
+			if ( name.equalsIgnoreCase( EquipmentRequest.phpSlotNames[ i ] ) )
+			{
 				return i;
+			}
+		}
 
 		return -1;
 	}
@@ -946,21 +1091,24 @@ public class EquipmentRequest extends PasswordHashRequest
 	public boolean isChangeRequest()
 	{
 		if ( this.getURLString().indexOf( "action=message" ) != -1 )
+		{
 			return false;
+		}
 
-		return this.requestType == CHANGE_OUTFIT || this.requestType == CHANGE_ITEM ||
-			this.requestType == REMOVE_ITEM || this.requestType == UNEQUIP_ALL;
+		return this.requestType == EquipmentRequest.CHANGE_OUTFIT || this.requestType == EquipmentRequest.CHANGE_ITEM || this.requestType == EquipmentRequest.REMOVE_ITEM || this.requestType == EquipmentRequest.UNEQUIP_ALL;
 	}
 
-	public static final boolean registerRequest( String urlString )
+	public static final boolean registerRequest( final String urlString )
 	{
 		if ( !urlString.startsWith( "inv_equip.php" ) )
+		{
 			return false;
+		}
 
-		Matcher outfitMatcher = OUTFIT_PATTERN.matcher( urlString );
+		Matcher outfitMatcher = EquipmentRequest.OUTFIT_PATTERN.matcher( urlString );
 		if ( outfitMatcher.find() )
 		{
-			int outfitId = StaticEntity.parseInt( outfitMatcher.group(1) );
+			int outfitId = StaticEntity.parseInt( outfitMatcher.group( 1 ) );
 			if ( outfitId > 0 )
 			{
 				RequestLogger.updateSessionLog( "outfit " + EquipmentDatabase.getOutfit( outfitId ) );
@@ -975,23 +1123,27 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		if ( urlString.indexOf( "action=unequip" ) != -1 )
 		{
-			Matcher slotMatcher = SLOT_PATTERN.matcher( urlString );
+			Matcher slotMatcher = EquipmentRequest.SLOT_PATTERN.matcher( urlString );
 			if ( slotMatcher.find() )
 			{
-				RequestLogger.updateSessionLog( "unequip " + slotMatcher.group(1) );
+				RequestLogger.updateSessionLog( "unequip " + slotMatcher.group( 1 ) );
 				return true;
 			}
 
 			return false;
 		}
 
-		Matcher itemMatcher = ITEMID_PATTERN.matcher( urlString );
+		Matcher itemMatcher = EquipmentRequest.ITEMID_PATTERN.matcher( urlString );
 		if ( !itemMatcher.find() )
+		{
 			return true;
+		}
 
-		String itemName = TradeableItemDatabase.getItemName( StaticEntity.parseInt( itemMatcher.group(1) ) );
+		String itemName = TradeableItemDatabase.getItemName( StaticEntity.parseInt( itemMatcher.group( 1 ) ) );
 		if ( itemName == null )
+		{
 			return true;
+		}
 
 		if ( urlString.indexOf( "dualwield" ) != -1 )
 		{
@@ -1015,11 +1167,11 @@ public class EquipmentRequest extends PasswordHashRequest
 		}
 		else
 		{
-			int slot = chooseEquipmentSlot( TradeableItemDatabase.getConsumptionType( itemName ) );
-			if ( slot >= 0 && slot < slotNames.length )
+			int slot = EquipmentRequest.chooseEquipmentSlot( TradeableItemDatabase.getConsumptionType( itemName ) );
+			if ( slot >= 0 && slot < EquipmentRequest.slotNames.length )
 			{
 				RequestLogger.updateSessionLog();
-				RequestLogger.updateSessionLog( "equip " + slotNames[slot] + " " + itemName );
+				RequestLogger.updateSessionLog( "equip " + EquipmentRequest.slotNames[ slot ] + " " + itemName );
 			}
 		}
 

@@ -44,13 +44,15 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
-public class MallSearchFrame extends KoLPanelFrame
+public class MallSearchFrame
+	extends KoLPanelFrame
 {
 	private static MallSearchFrame INSTANCE = null;
 	private static final SortedListModel pastSearches = new SortedListModel();
@@ -58,47 +60,49 @@ public class MallSearchFrame extends KoLPanelFrame
 	private boolean currentlyBuying;
 	private SortedListModel results;
 	private JList resultsList;
-	private MallSearchPanel mallSearch;
+	private final MallSearchPanel mallSearch;
 
 	public MallSearchFrame()
 	{
 		super( "Purchases" );
 
-		INSTANCE = this;
+		MallSearchFrame.INSTANCE = this;
 		this.mallSearch = new MallSearchPanel();
 
 		this.setContentPanel( this.mallSearch );
 	}
 
 	public UnfocusedTabbedPane getTabbedPane()
-	{	return null;
+	{
+		return null;
 	}
 
 	public void dispose()
 	{
-		INSTANCE = null;
+		MallSearchFrame.INSTANCE = null;
 		super.dispose();
 	}
 
 	/**
-	 * An internal class which represents the panel used for mall
-	 * searches in the <code>AdventureFrame</code>.
+	 * An internal class which represents the panel used for mall searches in the <code>AdventureFrame</code>.
 	 */
 
-	private class MallSearchPanel extends KoLPanel
+	private class MallSearchPanel
+		extends KoLPanel
 	{
-		private JComponent searchField;
-		private AutoHighlightField countField;
+		private final JComponent searchField;
+		private final AutoHighlightField countField;
 
-		private JCheckBox forceSortingCheckBox;
-		private JCheckBox limitPurchasesCheckBox;
+		private final JCheckBox forceSortingCheckBox;
+		private final JCheckBox limitPurchasesCheckBox;
 
 		public MallSearchPanel()
 		{
 			super( "search", "purchase", "cancel", new Dimension( 100, 20 ), new Dimension( 250, 20 ) );
 
-			this.searchField = KoLSettings.getBooleanProperty( "cacheMallSearches" ) ?
-				(JComponent) new MutableComboBox( pastSearches, true ) : (JComponent) new AutoHighlightField();
+			this.searchField =
+				KoLSettings.getBooleanProperty( "cacheMallSearches" ) ? (JComponent) new MutableComboBox(
+					MallSearchFrame.pastSearches, true ) : (JComponent) new AutoHighlightField();
 
 			this.countField = new AutoHighlightField();
 
@@ -116,10 +120,10 @@ public class MallSearchFrame extends KoLPanelFrame
 			checkBoxPanels.add( Box.createHorizontalStrut( 20 ) );
 			this.limitPurchasesCheckBox.setSelected( true );
 
-			VerifiableElement [] elements = new VerifiableElement[3];
-			elements[0] = new VerifiableElement( "Item to Find: ", this.searchField );
-			elements[1] = new VerifiableElement( "Search Limit: ", this.countField );
-			elements[2] = new VerifiableElement( " ", checkBoxPanels, false );
+			VerifiableElement[] elements = new VerifiableElement[ 3 ];
+			elements[ 0 ] = new VerifiableElement( "Item to Find: ", this.searchField );
+			elements[ 1 ] = new VerifiableElement( "Search Limit: ", this.countField );
+			elements[ 2 ] = new VerifiableElement( " ", checkBoxPanels, false );
 
 			int searchCount = KoLSettings.getIntegerProperty( "defaultLimit" );
 			this.countField.setText( searchCount <= 0 ? "5" : String.valueOf( searchCount ) );
@@ -132,9 +136,11 @@ public class MallSearchFrame extends KoLPanelFrame
 
 		public void actionConfirmed()
 		{
-			int searchCount = getValue( this.countField, 0 );
+			int searchCount = KoLFrame.getValue( this.countField, 0 );
 			if ( searchCount > 0 )
+			{
 				KoLSettings.setUserProperty( "defaultLimit", String.valueOf( searchCount ) );
+			}
 
 			MallPurchaseRequest.setUsePriceComparison( this.forceSortingCheckBox.isSelected() );
 
@@ -142,26 +148,27 @@ public class MallSearchFrame extends KoLPanelFrame
 
 			if ( this.searchField instanceof AutoHighlightField )
 			{
-				searchText = ((AutoHighlightField)this.searchField).getText();
+				searchText = ( (AutoHighlightField) this.searchField ).getText();
 			}
 			else
 			{
-				((MutableComboBox)this.searchField).forceAddition();
-				searchText = (String) ((MutableComboBox)this.searchField).getSelectedItem();
+				( (MutableComboBox) this.searchField ).forceAddition();
+				searchText = (String) ( (MutableComboBox) this.searchField ).getSelectedItem();
 			}
 
-			searchMall( new SearchMallRequest( searchText, searchCount, MallSearchFrame.this.results, false ) );
+			MallSearchFrame.searchMall( new SearchMallRequest(
+				searchText, searchCount, MallSearchFrame.this.results, false ) );
 		}
 
 		public void actionCancelled()
 		{
 			if ( MallSearchFrame.this.currentlyBuying )
 			{
-				KoLmafia.updateDisplay( ERROR_STATE, "Purchases stopped." );
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Purchases stopped." );
 				return;
 			}
 
-			Object [] purchases = MallSearchFrame.this.resultsList.getSelectedValues();
+			Object[] purchases = MallSearchFrame.this.resultsList.getSelectedValues();
 			if ( purchases == null || purchases.length == 0 )
 			{
 				this.setStatusMessage( "Please select a store from which to purchase." );
@@ -170,14 +177,19 @@ public class MallSearchFrame extends KoLPanelFrame
 
 			int defaultPurchases = 0;
 			for ( int i = 0; i < purchases.length; ++i )
-				defaultPurchases += ((MallPurchaseRequest) purchases[i]).getQuantity() == MallPurchaseRequest.MAX_QUANTITY ?
-					MallPurchaseRequest.MAX_QUANTITY : ((MallPurchaseRequest) purchases[i]).getLimit();
+			{
+				defaultPurchases +=
+					( (MallPurchaseRequest) purchases[ i ] ).getQuantity() == MallPurchaseRequest.MAX_QUANTITY ? MallPurchaseRequest.MAX_QUANTITY : ( (MallPurchaseRequest) purchases[ i ] ).getLimit();
+			}
 
-			int count = this.limitPurchasesCheckBox.isSelected() || defaultPurchases >= 1000 ?
-				getQuantity( "Maximum number of items to purchase?", defaultPurchases, 1 ) : defaultPurchases;
+			int count =
+				this.limitPurchasesCheckBox.isSelected() || defaultPurchases >= 1000 ? KoLFrame.getQuantity(
+					"Maximum number of items to purchase?", defaultPurchases, 1 ) : defaultPurchases;
 
 			if ( count == 0 )
+			{
 				return;
+			}
 
 			MallSearchFrame.this.currentlyBuying = true;
 
@@ -190,25 +202,30 @@ public class MallSearchFrame extends KoLPanelFrame
 		}
 
 		public void requestFocus()
-		{	this.searchField.requestFocus();
+		{
+			this.searchField.requestFocus();
 		}
 	}
 
-	public static final void searchMall( SearchMallRequest request )
+	public static final void searchMall( final SearchMallRequest request )
 	{
-		if ( INSTANCE == null )
+		if ( MallSearchFrame.INSTANCE == null )
+		{
 			KoLmafiaGUI.constructFrame( "MallSearchFrame" );
+		}
 
-		INSTANCE.results.clear();
-		request.setResults( INSTANCE.results );
+		MallSearchFrame.INSTANCE.results.clear();
+		request.setResults( MallSearchFrame.INSTANCE.results );
 
 		RequestThread.postRequest( request );
 	}
 
-	private String getPurchaseSummary( Object [] purchases )
+	private String getPurchaseSummary( final Object[] purchases )
 	{
 		if ( purchases == null || purchases.length == 0 )
+		{
 			return "";
+		}
 
 		long totalPrice = 0;
 		int totalPurchases = 0;
@@ -216,30 +233,30 @@ public class MallSearchFrame extends KoLPanelFrame
 
 		for ( int i = 0; i < purchases.length; ++i )
 		{
-			currentPurchase = (MallPurchaseRequest) purchases[i];
+			currentPurchase = (MallPurchaseRequest) purchases[ i ];
 			totalPurchases += currentPurchase.getLimit();
-			totalPrice += ((long)currentPurchase.getLimit()) * ((long)currentPurchase.getPrice());
+			totalPrice += (long) currentPurchase.getLimit() * (long) currentPurchase.getPrice();
 		}
 
-		return COMMA_FORMAT.format( totalPurchases ) + " " + currentPurchase.getItemName() + " for " + COMMA_FORMAT.format( totalPrice ) + " meat";
+		return KoLConstants.COMMA_FORMAT.format( totalPurchases ) + " " + currentPurchase.getItemName() + " for " + KoLConstants.COMMA_FORMAT.format( totalPrice ) + " meat";
 	}
 
 	/**
-	 * An internal class which represents the panel used for tallying the
-	 * results of the mall search request.  Note that all of the tallying
-	 * functionality is handled by the <code>LockableListModel</code>
-	 * provided, so this functions as a container for that list model.
+	 * An internal class which represents the panel used for tallying the results of the mall search request. Note that
+	 * all of the tallying functionality is handled by the <code>LockableListModel</code> provided, so this functions
+	 * as a container for that list model.
 	 */
 
-	private class SearchResultsPanel extends JPanel
+	private class SearchResultsPanel
+		extends JPanel
 	{
 		public SearchResultsPanel()
 		{
 			super( new BorderLayout() );
 
 			JPanel resultsPanel = new JPanel( new BorderLayout() );
-			resultsPanel.add( JComponentUtilities.createLabel( "Search Results", JLabel.CENTER,
-				Color.black, Color.white ), BorderLayout.NORTH );
+			resultsPanel.add( JComponentUtilities.createLabel(
+				"Search Results", SwingConstants.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
 
 			MallSearchFrame.this.resultsList = new JList( MallSearchFrame.this.results );
 			MallSearchFrame.this.resultsList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
@@ -251,23 +268,27 @@ public class MallSearchFrame extends KoLPanelFrame
 		}
 
 		/**
-		 * An internal listener class which detects which values are selected
-		 * in the search results panel.
+		 * An internal listener class which detects which values are selected in the search results panel.
 		 */
 
-		private class PurchaseSelectListener implements ListSelectionListener
+		private class PurchaseSelectListener
+			implements ListSelectionListener
 		{
-			public void valueChanged( ListSelectionEvent e )
+			public void valueChanged( final ListSelectionEvent e )
 			{
 				if ( e.getValueIsAdjusting() )
+				{
 					return;
+				}
 
 				// Reset the status message on this panel to
 				// show what the current state of the selections
 				// is at this time.
 
 				if ( !MallSearchFrame.this.currentlyBuying )
+				{
 					MallSearchFrame.this.mallSearch.setStatusMessage( MallSearchFrame.this.getPurchaseSummary( MallSearchFrame.this.resultsList.getSelectedValues() ) );
+				}
 			}
 		}
 	}

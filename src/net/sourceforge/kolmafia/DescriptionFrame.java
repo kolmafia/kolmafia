@@ -33,7 +33,8 @@
 
 package net.sourceforge.kolmafia;
 
-public class DescriptionFrame extends RequestFrame
+public class DescriptionFrame
+	extends RequestFrame
 {
 	private static DescriptionFrame INSTANCE = null;
 
@@ -45,24 +46,27 @@ public class DescriptionFrame extends RequestFrame
 
 	public void dispose()
 	{
-		INSTANCE = null;
+		DescriptionFrame.INSTANCE = null;
 		super.dispose();
 	}
 
 	public boolean hasSideBar()
-	{	return false;
-	}
-
-	public static final void showLocation( String location )
-	{	showRequest( RequestEditorKit.extractRequest( location ) );
-	}
-
-	public static final void showRequest( KoLRequest request )
 	{
-		if ( INSTANCE == null )
-			createDisplay( DescriptionFrame.class );
+		return false;
+	}
 
-		INSTANCE.refresh( request );
+	public static final void showLocation( final String location )
+	{
+		DescriptionFrame.showRequest( RequestEditorKit.extractRequest( location ) );
+	}
+
+	public static final void showRequest( final KoLRequest request )
+	{
+		if ( DescriptionFrame.INSTANCE == null )
+		{
+			KoLFrame.createDisplay( DescriptionFrame.class );
+		}
+
+		DescriptionFrame.INSTANCE.refresh( request );
 	}
 }
-

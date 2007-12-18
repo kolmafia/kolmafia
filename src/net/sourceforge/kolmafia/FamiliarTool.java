@@ -40,7 +40,7 @@ import net.sourceforge.kolmafia.CakeArenaManager.ArenaOpponent;
 public class FamiliarTool
 {
 	// Array of current opponents
-	private Opponent [] opponents;
+	private final Opponent[] opponents;
 
 	// Index of best opponent to fight
 	private int bestOpponent;
@@ -56,38 +56,41 @@ public class FamiliarTool
 
 	/**
 	 * Initializes Familiar Tool with all Arena Data
-	 * @param	opponents	Array with Ids of all opponents. The index of each opponent will be re-used as a return value
+	 * 
+	 * @param opponents Array with Ids of all opponents. The index of each opponent will be re-used as a return value
 	 */
-	public FamiliarTool( List opponents )
+	public FamiliarTool( final List opponents )
 	{
 		int opponentCount = opponents.size();
 		this.opponents = new Opponent[ opponentCount ];
 		for ( int i = 0; i < opponentCount; ++i )
 		{
-			ArenaOpponent opponent = (ArenaOpponent)opponents.get( i );
-			this.opponents[i] = new Opponent( opponent );
+			ArenaOpponent opponent = (ArenaOpponent) opponents.get( i );
+			this.opponents[ i ] = new Opponent( opponent );
 		}
 	}
 
 	/**
 	 * Runs all the calculation to determine the best matchup for a familiar
-	 * @param	ownFamiliar		Id of the familiar to calculate a matchup for
-	 * @param	possibleOwnWeights	Array with all possibilities for familiar weight
-	 * @return	The Id number of the best opponent. Further information can be collected through other functions
+	 * 
+	 * @param ownFamiliar Id of the familiar to calculate a matchup for
+	 * @param possibleOwnWeights Array with all possibilities for familiar weight
+	 * @return The Id number of the best opponent. Further information can be collected through other functions
 	 */
-	public ArenaOpponent bestOpponent( int ownFamiliar, int [] possibleOwnWeights )
+	public ArenaOpponent bestOpponent( final int ownFamiliar, final int[] possibleOwnWeights )
 	{
-		int [] ownSkills = FamiliarsDatabase.getFamiliarSkills( ownFamiliar );
+		int[] ownSkills = FamiliarsDatabase.getFamiliarSkills( ownFamiliar );
 		return this.bestOpponent( ownSkills, possibleOwnWeights );
 	}
 
 	/**
 	 * Runs all the calculation to determine the best matchup for a familiar
-	 * @param	ownSkills		our familiar's skills
-	 * @param	possibleOwnWeights	Array with all possibilities for familiar weight
-	 * @return	The Id number of the best opponent. Further information can be collected through other functions
+	 * 
+	 * @param ownSkills our familiar's skills
+	 * @param possibleOwnWeights Array with all possibilities for familiar weight
+	 * @return The Id number of the best opponent. Further information can be collected through other functions
 	 */
-	public ArenaOpponent bestOpponent( int [] ownSkills, int [] possibleOwnWeights )
+	public ArenaOpponent bestOpponent( final int[] ownSkills, final int[] possibleOwnWeights )
 	{
 		int opponentCount = this.opponents.length;
 		int possibleWeights = possibleOwnWeights.length;
@@ -97,34 +100,39 @@ public class FamiliarTool
 
 		for ( int match = 0; match < 4; match++ )
 		{
-			int ownSkill = ownSkills[match];
+			int ownSkill = ownSkills[ match ];
 
 			// Skip hopeless contests
 			if ( ownSkill == 0 )
+			{
 				continue;
+			}
 
 			for ( int opponent = 0; opponent < opponentCount; ++opponent )
 			{
-				Opponent opp = this.opponents[opponent];
+				Opponent opp = this.opponents[ opponent ];
 				int opponentWeight = opp.getWeight();
 
 				for ( int weightIndex = 0; weightIndex < possibleWeights; ++weightIndex )
 				{
-					int ownWeight = possibleOwnWeights[weightIndex];
+					int ownWeight = possibleOwnWeights[ weightIndex ];
 					int ownPower = ownWeight + ownSkill * 3;
-
 
 					int opponentSkill = opp.getSkill( match );
 					int opponentPower;
 					if ( opponentSkill == 0 )
+					{
 						opponentPower = 5;
+					}
 					else
+					{
 						opponentPower = opponentWeight + opponentSkill * 3;
+					}
 
 					// optimal weight for equal skill is +3
-					if ( this.betterWeightDifference(ownPower - (opponentPower + 3), this.difference) )
+					if ( this.betterWeightDifference( ownPower - ( opponentPower + 3 ), this.difference ) )
 					{
-						this.difference = ownPower - (opponentPower + 3);
+						this.difference = ownPower - ( opponentPower + 3 );
 						this.bestOpponent = opponent;
 						this.bestMatch = match;
 						this.bestWeight = ownWeight;
@@ -134,36 +142,46 @@ public class FamiliarTool
 		}
 
 		if ( this.bestOpponent >= 0 )
-			return this.opponents[this.bestOpponent].getOpponent();
+		{
+			return this.opponents[ this.bestOpponent ].getOpponent();
+		}
 
 		return null;
 	}
 
 	/**
 	 * Retrieves match data. Will only supply relevant data for last call to bestOpponent
-	 * @return	The Id number of the best match. 1 = 'Ultimate Cage Match', 2 = 'Scavenger Hunt', 3 = 'Obstacle Course', 4 = 'Hide and Seek'
+	 * 
+	 * @return The Id number of the best match. 1 = 'Ultimate Cage Match', 2 = 'Scavenger Hunt', 3 = 'Obstacle Course',
+	 *         4 = 'Hide and Seek'
 	 */
 	public int bestMatch()
-	{	return this.bestMatch + 1;
+	{
+		return this.bestMatch + 1;
 	}
 
 	/**
 	 * Retrieves weight for matchup. This weight will be a value from the possibleOwnWeights parameter in bestOpponent()
-	 * @return	Weight value for chosen matchup
+	 * 
+	 * @return Weight value for chosen matchup
 	 */
 	public int bestWeight()
-	{	return this.bestWeight;
+	{
+		return this.bestWeight;
 	}
 
 	/**
-	 * Retrieves difference from perfect weight for matchup. Will only supply relevant data for last call to bestOpponent()
-	 * @return	Difference from the perfect weight. 0 = perfect, +X = X pounds too heavy, -X is X pounds too light.
+	 * Retrieves difference from perfect weight for matchup. Will only supply relevant data for last call to
+	 * bestOpponent()
+	 * 
+	 * @return Difference from the perfect weight. 0 = perfect, +X = X pounds too heavy, -X is X pounds too light.
 	 */
 	public int difference()
-	{	return this.difference;
+	{
+		return this.difference;
 	}
 
-	private boolean betterWeightDifference( int newVal, int oldVal )
+	private boolean betterWeightDifference( final int newVal, final int oldVal )
 	{
 		// In order to reduce the probability for accidental loss,
 		// do not consider priority values less than -2, but make
@@ -190,25 +208,25 @@ public class FamiliarTool
 			return newVal == 0 || newVal == 1 || newVal == -1 || newVal == 2 || newVal == 3;
 
 		default:
-			return newVal == 0 || (newVal < oldVal && newVal >= -2);
+			return newVal == 0 || newVal < oldVal && newVal >= -2;
 		}
 	}
 
 	private class Opponent
 	{
 		// Cake Arena data structure
-		private ArenaOpponent opponent;
+		private final ArenaOpponent opponent;
 
 		// Familiar type
-		private int type;
+		private final int type;
 
 		// Weight
-		private int weight;
+		private final int weight;
 
 		// Arena parameters
-		private int [] arena = new int[4];
+		private int[] arena = new int[ 4 ];
 
-		public Opponent( ArenaOpponent opponent )
+		public Opponent( final ArenaOpponent opponent )
 		{
 			this.opponent = opponent;
 			this.type = FamiliarsDatabase.getFamiliarId( opponent.getRace() );
@@ -217,15 +235,18 @@ public class FamiliarTool
 		}
 
 		public ArenaOpponent getOpponent()
-		{	return this.opponent;
+		{
+			return this.opponent;
 		}
 
 		public int getWeight()
-		{	return this.weight;
+		{
+			return this.weight;
 		}
 
-		public int getSkill( int match )
-		{	return this.arena[match];
+		public int getSkill( final int match )
+		{
+			return this.arena[ match ];
 		}
 	}
 }

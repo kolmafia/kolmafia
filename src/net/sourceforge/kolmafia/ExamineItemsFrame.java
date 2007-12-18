@@ -40,10 +40,12 @@ import java.util.Comparator;
 import java.util.Map.Entry;
 
 import javax.swing.ListSelectionModel;
+import javax.swing.WindowConstants;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
-public class ExamineItemsFrame extends KoLFrame
+public class ExamineItemsFrame
+	extends KoLFrame
 {
 	private static final LockableListModel allItems = KoLDatabase.createListModel( TradeableItemDatabase.entrySet() );
 	private static final LockableListModel allEffects = KoLDatabase.createListModel( StatusEffectDatabase.entrySet() );
@@ -53,23 +55,24 @@ public class ExamineItemsFrame extends KoLFrame
 	public ExamineItemsFrame()
 	{
 		super( "Internal Database" );
-		this.setDefaultCloseOperation( HIDE_ON_CLOSE );
+		this.setDefaultCloseOperation( WindowConstants.HIDE_ON_CLOSE );
 
 		this.tabs.addTab( "Items", new ExamineItemsPanel() );
-		this.tabs.addTab( "Familiars", new ItemLookupPanel( allFamiliars, "familiar", "which" ) );
-		this.tabs.addTab( "Skills", new ItemLookupPanel( allSkills, "skill", "whichskill" ) );
+		this.tabs.addTab( "Familiars", new ItemLookupPanel( ExamineItemsFrame.allFamiliars, "familiar", "which" ) );
+		this.tabs.addTab( "Skills", new ItemLookupPanel( ExamineItemsFrame.allSkills, "skill", "whichskill" ) );
 		this.tabs.addTab( "Effects", new ExamineEffectsPanel() );
 
 		this.framePanel.setLayout( new CardLayout( 10, 10 ) );
 		this.framePanel.add( this.tabs, "" );
 	}
 
-	private class ItemLookupPanel extends ItemManagePanel
+	private class ItemLookupPanel
+		extends ItemManagePanel
 	{
 		public String type;
 		public String which;
 
-		public ItemLookupPanel( LockableListModel list, String type, String which )
+		public ItemLookupPanel( final LockableListModel list, final String type, final String which )
 		{
 			super( "Sort by name", "Sort by " + type + " #", list );
 
@@ -84,7 +87,8 @@ public class ExamineItemsFrame extends KoLFrame
 		}
 
 		public FilterTextField getWordFilter()
-		{	return new FilterTextField( this.elementList );
+		{
+			return new FilterTextField( this.elementList );
 		}
 
 		public void actionConfirmed()
@@ -100,95 +104,113 @@ public class ExamineItemsFrame extends KoLFrame
 		}
 
 		/**
-		 * Utility class which shows the description of the item
-		 * which is currently selected.
+		 * Utility class which shows the description of the item which is currently selected.
 		 */
 
-		private class DescriptionMenuItem extends ThreadedMenuItem
+		private class DescriptionMenuItem
+			extends ThreadedMenuItem
 		{
 			public DescriptionMenuItem()
-			{	super( "Game description" );
+			{
+				super( "Game description" );
 			}
 
 			public void run()
-			{	ItemLookupPanel.this.showDescription( (Entry) ItemLookupPanel.this.elementModel.getElementAt( ItemLookupPanel.this.elementList.lastSelectIndex ) );
+			{
+				ItemLookupPanel.this.showDescription( (Entry) ItemLookupPanel.this.elementModel.getElementAt( ItemLookupPanel.this.elementList.lastSelectIndex ) );
 			}
 		}
 
-		private class ShowEntryAdapter extends MouseAdapter
+		private class ShowEntryAdapter
+			extends MouseAdapter
 		{
-			public void mouseClicked( MouseEvent e )
+			public void mouseClicked( final MouseEvent e )
 			{
 				if ( e.getClickCount() != 2 )
+				{
 					return;
+				}
 
 				int index = ItemLookupPanel.this.elementList.locationToIndex( e.getPoint() );
 				Object entry = ItemLookupPanel.this.elementList.getModel().getElementAt( index );
 
-				if ( !(entry instanceof Entry ) )
+				if ( !( entry instanceof Entry ) )
+				{
 					return;
+				}
 
 				ItemLookupPanel.this.elementList.ensureIndexIsVisible( index );
 				ItemLookupPanel.this.showDescription( (Entry) entry );
 			}
 		}
 
-		public void showDescription( Entry entry )
+		public void showDescription( final Entry entry )
 		{
-			StaticEntity.openRequestFrame( "desc_" + this.type + ".php?" + this.which + "=" + getId( entry ) );
+			StaticEntity.openRequestFrame( "desc_" + this.type + ".php?" + this.which + "=" + this.getId( entry ) );
 		}
 
-		public String getId( Entry e )
-		{	return String.valueOf( ((Integer)e.getKey()).intValue() );
+		public String getId( final Entry e )
+		{
+			return String.valueOf( ( (Integer) e.getKey() ).intValue() );
 		}
 	}
 
-	private class ExamineItemsPanel extends ItemLookupPanel
+	private class ExamineItemsPanel
+		extends ItemLookupPanel
 	{
 		public ExamineItemsPanel()
-		{	super( allItems, "item", "whichitem" );
+		{
+			super( ExamineItemsFrame.allItems, "item", "whichitem" );
 		}
 
-		public String getId( Entry e )
-		{	return TradeableItemDatabase.getDescriptionId( ((Integer)e.getKey()).intValue() );
+		public String getId( final Entry e )
+		{
+			return TradeableItemDatabase.getDescriptionId( ( (Integer) e.getKey() ).intValue() );
 		}
 	}
 
-	private class ExamineEffectsPanel extends ItemLookupPanel
+	private class ExamineEffectsPanel
+		extends ItemLookupPanel
 	{
 		public ExamineEffectsPanel()
-		{	super( allEffects, "effect", "whicheffect" );
+		{
+			super( ExamineItemsFrame.allEffects, "effect", "whicheffect" );
 		}
 
-		public String getId( Entry e )
-		{	return StatusEffectDatabase.getDescriptionId( ((Integer)e.getKey()).intValue() );
+		public String getId( final Entry e )
+		{
+			return StatusEffectDatabase.getDescriptionId( ( (Integer) e.getKey() ).intValue() );
 		}
 	}
 
-	private class EntryIdComparator implements Comparator
+	private class EntryIdComparator
+		implements Comparator
 	{
-		public int compare( Object o1, Object o2 )
+		public int compare( final Object o1, final Object o2 )
 		{
-			if ( !(o1 instanceof Entry ) ||
-				 !(o2 instanceof Entry ) )
+			if ( !( o1 instanceof Entry ) || !( o2 instanceof Entry ) )
+			{
 				throw new ClassCastException();
+			}
 
-			int i1 = ((Integer)((Entry)o1).getKey()).intValue();
-			int i2 = ((Integer)((Entry)o2).getKey()).intValue();
+			int i1 = ( (Integer) ( (Entry) o1 ).getKey() ).intValue();
+			int i2 = ( (Integer) ( (Entry) o2 ).getKey() ).intValue();
 			return i1 - i2;
 		}
 	}
 
-	private class EntryNameComparator implements Comparator
+	private class EntryNameComparator
+		implements Comparator
 	{
-		public int compare( Object o1, Object o2 )
+		public int compare( final Object o1, final Object o2 )
 		{
-			if ( !(o1 instanceof Entry ) ||
-				 !(o2 instanceof Entry ) )
+			if ( !( o1 instanceof Entry ) || !( o2 instanceof Entry ) )
+			{
 				throw new ClassCastException();
+			}
 
-			String s1 = (String)((Entry)o1).getValue();
-			String s2 = (String)((Entry)o2).getValue();
+			String s1 = (String) ( (Entry) o1 ).getValue();
+			String s2 = (String) ( (Entry) o2 ).getValue();
 			return s1.compareToIgnoreCase( s2 );
 		}
 	}

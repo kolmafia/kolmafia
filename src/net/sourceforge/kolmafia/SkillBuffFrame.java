@@ -36,32 +36,35 @@ package net.sourceforge.kolmafia;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
+import javax.swing.WindowConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
-public class SkillBuffFrame extends KoLFrame
+public class SkillBuffFrame
+	extends KoLFrame
 {
 	private LockableListModel contacts;
 
 	private MutableComboBox skillSelect;
 	private AutoHighlightField amountField;
 	private MutableComboBox targetSelect;
-	private ShowDescriptionList effectList;
+	private final ShowDescriptionList effectList;
 
 	public SkillBuffFrame()
-	{	this( "" );
+	{
+		this( "" );
 	}
 
-	public SkillBuffFrame( String recipient )
+	public SkillBuffFrame( final String recipient )
 	{
 		super( "Skill Casting" );
-		this.setDefaultCloseOperation( HIDE_ON_CLOSE );
+		this.setDefaultCloseOperation( WindowConstants.HIDE_ON_CLOSE );
 
 		this.framePanel.add( new SkillBuffPanel(), BorderLayout.NORTH );
 
-		this.effectList = new ShowDescriptionList( activeEffects, 12 );
+		this.effectList = new ShowDescriptionList( KoLConstants.activeEffects, 12 );
 		this.effectList.addListSelectionListener( new SkillReselector() );
 
 		this.tabs.addTab( "Active Effects", new StatusEffectPanel() );
@@ -73,52 +76,58 @@ public class SkillBuffFrame extends KoLFrame
 
 	public void setRecipient( String recipient )
 	{
-		if ( !contacts.contains( recipient ) )
+		if ( !this.contacts.contains( recipient ) )
 		{
 			recipient = KoLmafia.getPlayerName( recipient );
-			contacts.add( 0, recipient );
+			this.contacts.add( 0, recipient );
 		}
 
 		this.targetSelect.getEditor().setItem( recipient );
 		this.targetSelect.setSelectedItem( recipient );
 	}
 
-	private class SkillReselector implements ListSelectionListener
+	private class SkillReselector
+		implements ListSelectionListener
 	{
-		public void valueChanged( ListSelectionEvent e )
+		public void valueChanged( final ListSelectionEvent e )
 		{
 			AdventureResult effect = (AdventureResult) SkillBuffFrame.this.effectList.getSelectedValue();
 			if ( effect == null )
+			{
 				return;
+			}
 
 			SkillBuffFrame.this.skillSelect.setSelectedItem( UseSkillRequest.getInstance( UneffectRequest.effectToSkill( effect.getName() ) ) );
 		}
 	}
 
-	private class SkillBuffPanel extends KoLPanel
+	private class SkillBuffPanel
+		extends KoLPanel
 	{
 		public SkillBuffPanel()
 		{
 			super( "cast", "maxcast", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
-			SkillBuffFrame.this.skillSelect = new MutableComboBox( usableSkills, false );
+			SkillBuffFrame.this.skillSelect = new MutableComboBox( KoLConstants.usableSkills, false );
 			SkillBuffFrame.this.amountField = new AutoHighlightField();
 
-			SkillBuffFrame.this.contacts = (LockableListModel) contactList.clone();
-			SkillBuffFrame.this.targetSelect = new MutableComboBox( contacts, true );
+			SkillBuffFrame.this.contacts = (LockableListModel) KoLConstants.contactList.clone();
+			SkillBuffFrame.this.targetSelect = new MutableComboBox( SkillBuffFrame.this.contacts, true );
 
-			VerifiableElement [] elements = new VerifiableElement[3];
-			elements[0] = new VerifiableElement( "Skill Name: ", SkillBuffFrame.this.skillSelect );
-			elements[1] = new VerifiableElement( "# of Casts: ", SkillBuffFrame.this.amountField );
-			elements[2] = new VerifiableElement( "The Victim: ", SkillBuffFrame.this.targetSelect );
+			VerifiableElement[] elements = new VerifiableElement[ 3 ];
+			elements[ 0 ] = new VerifiableElement( "Skill Name: ", SkillBuffFrame.this.skillSelect );
+			elements[ 1 ] = new VerifiableElement( "# of Casts: ", SkillBuffFrame.this.amountField );
+			elements[ 2 ] = new VerifiableElement( "The Victim: ", SkillBuffFrame.this.targetSelect );
 
 			this.setContent( elements );
 		}
 
-		public void setEnabled( boolean isEnabled )
+		public void setEnabled( final boolean isEnabled )
 		{
 			if ( SkillBuffFrame.this.skillSelect == null || SkillBuffFrame.this.targetSelect == null )
+			{
 				return;
+			}
 
 			super.setEnabled( isEnabled );
 
@@ -127,24 +136,31 @@ public class SkillBuffFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{	this.buff( false );
+		{
+			this.buff( false );
 		}
 
 		public void actionCancelled()
-		{	this.buff( true );
+		{
+			this.buff( true );
 		}
 
 		private void buff( boolean maxBuff )
 		{
-			String buffName = ((UseSkillRequest) SkillBuffFrame.this.skillSelect.getSelectedItem()).getSkillName();
+			String buffName = ( (UseSkillRequest) SkillBuffFrame.this.skillSelect.getSelectedItem() ).getSkillName();
 			if ( buffName == null )
+			{
 				return;
+			}
 
-			String [] targets = StaticEntity.getClient().extractTargets( (String) SkillBuffFrame.this.targetSelect.getSelectedItem() );
+			String[] targets =
+				StaticEntity.getClient().extractTargets( (String) SkillBuffFrame.this.targetSelect.getSelectedItem() );
 
-			int buffCount = !maxBuff ? getValue( SkillBuffFrame.this.amountField, 1 ) : Integer.MAX_VALUE;
+			int buffCount = !maxBuff ? KoLFrame.getValue( SkillBuffFrame.this.amountField, 1 ) : Integer.MAX_VALUE;
 			if ( buffCount == 0 )
+			{
 				return;
+			}
 
 			RequestThread.openRequestSequence();
 			SpecialOutfit.createImplicitCheckpoint();
@@ -156,8 +172,12 @@ public class SkillBuffFrame extends KoLFrame
 			else
 			{
 				for ( int i = 0; i < targets.length && KoLmafia.permitsContinue(); ++i )
-					if ( targets[i] != null )
-						RequestThread.postRequest( UseSkillRequest.getInstance( buffName, targets[i], buffCount ) );
+				{
+					if ( targets[ i ] != null )
+					{
+						RequestThread.postRequest( UseSkillRequest.getInstance( buffName, targets[ i ], buffCount ) );
+					}
+				}
 			}
 
 			SpecialOutfit.restoreImplicitCheckpoint();

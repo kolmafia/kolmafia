@@ -36,18 +36,22 @@ package net.sourceforge.kolmafia;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public abstract class PasswordHashRequest extends KoLRequest
+public abstract class PasswordHashRequest
+	extends KoLRequest
 {
 	private static final Pattern HASH_PATTERN = Pattern.compile( "name=[\"\']?pwd[\"\']? value=[\"\'](.*?)[\"\']" );
 
-	public PasswordHashRequest( String location )
-	{	super( location );
+	public PasswordHashRequest( final String location )
+	{
+		super( location );
 	}
 
 	public void processResults()
 	{
-		Matcher pwdmatch = HASH_PATTERN.matcher( this.responseText );
-		if ( pwdmatch.find() && pwdmatch.group(1).length() > 0 )
-			passwordHash = pwdmatch.group(1);
+		Matcher pwdmatch = PasswordHashRequest.HASH_PATTERN.matcher( this.responseText );
+		if ( pwdmatch.find() && pwdmatch.group( 1 ).length() > 0 )
+		{
+			KoLRequest.passwordHash = pwdmatch.group( 1 );
+		}
 	}
 }

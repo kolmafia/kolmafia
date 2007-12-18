@@ -33,22 +33,24 @@
 
 package net.sourceforge.kolmafia;
 
-
-public class KitchenRequest extends CafeRequest
+public class KitchenRequest
+	extends CafeRequest
 {
-	public KitchenRequest( String name )
+	public KitchenRequest( final String name )
 	{
 		super( "Hell's Kitchen", "3" );
 
 		int itemId = TradeableItemDatabase.getItemId( name );
 		int price = Math.max( 1, TradeableItemDatabase.getPriceById( itemId ) ) * 3;
-		setItem( name, itemId, price );
+		this.setItem( name, itemId, price );
 	}
 
 	public void run()
 	{
 		if ( !KoLCharacter.inBadMoon() )
+		{
 			return;
+		}
 
 		super.run();
 	}
@@ -56,17 +58,18 @@ public class KitchenRequest extends CafeRequest
 	public static final void getMenu()
 	{
 		KoLmafia.updateDisplay( "Visiting Hell's Kitchen..." );
-		kitchenItems.clear();
-		CafeRequest.addMenuItem( kitchenItems, "Jumbo Dr. Lucifer", 150 );
-		CafeRequest.addMenuItem( kitchenItems, "Brimstone Chicken Sandwich", 300 );
-		CafeRequest.addMenuItem( kitchenItems, "Lord of the Flies-sized fries", 300 );
-		CafeRequest.addMenuItem( kitchenItems, "Double Bacon Beelzeburger", 300 );
-		CafeRequest.addMenuItem( kitchenItems, "Imp Ale", 75 );
+		KoLConstants.kitchenItems.clear();
+		CafeRequest.addMenuItem( KoLConstants.kitchenItems, "Jumbo Dr. Lucifer", 150 );
+		CafeRequest.addMenuItem( KoLConstants.kitchenItems, "Brimstone Chicken Sandwich", 300 );
+		CafeRequest.addMenuItem( KoLConstants.kitchenItems, "Lord of the Flies-sized fries", 300 );
+		CafeRequest.addMenuItem( KoLConstants.kitchenItems, "Double Bacon Beelzeburger", 300 );
+		CafeRequest.addMenuItem( KoLConstants.kitchenItems, "Imp Ale", 75 );
 		ConcoctionsDatabase.getUsables().sort();
 		KoLmafia.updateDisplay( "Menu retrieved." );
 	}
 
 	public static final void reset()
-	{	CafeRequest.reset( kitchenItems );
+	{
+		CafeRequest.reset( KoLConstants.kitchenItems );
 	}
 }

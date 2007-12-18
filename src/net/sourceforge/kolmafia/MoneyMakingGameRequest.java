@@ -43,7 +43,8 @@ import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.SortedListModel;
 
-public class MoneyMakingGameRequest extends KoLRequest
+public class MoneyMakingGameRequest
+	extends KoLRequest
 {
 	private static final Pattern ROW_PATTERN = Pattern.compile( "<tr.*?</b></td>" );
 	private static final Pattern CELL_PATTERN = Pattern.compile( "<td.*?</td>" );
@@ -57,11 +58,13 @@ public class MoneyMakingGameRequest extends KoLRequest
 	private static final SimpleDateFormat RESULT_FORMAT = new SimpleDateFormat( "MM/dd/yy hh:mma", Locale.US );
 
 	public MoneyMakingGameRequest()
-	{	super( "betarchive.php" );
+	{
+		super( "betarchive.php" );
 	}
 
 	protected boolean retryOnTimeout()
-	{	return true;
+	{
+		return true;
 	}
 
 	public void run()
@@ -75,28 +78,36 @@ public class MoneyMakingGameRequest extends KoLRequest
 		ArrayList madeBets = new ArrayList();
 		ArrayList takenBets = new ArrayList();
 
-		Pattern singleBet = ROW_PATTERN;
+		Pattern singleBet = MoneyMakingGameRequest.ROW_PATTERN;
 
-		Matcher madeMatcher = MADE_PATTERN.matcher( this.responseText );
+		Matcher madeMatcher = MoneyMakingGameRequest.MADE_PATTERN.matcher( this.responseText );
 		if ( madeMatcher.find() )
 		{
 			madeMatcher = singleBet.matcher( madeMatcher.group() );
 			madeMatcher.find();
 
 			while ( madeMatcher.find() )
+			{
 				if ( madeMatcher.group().indexOf( ">&nbsp;<" ) == -1 )
+				{
 					madeBets.add( new MoneyMakingGameResult( madeMatcher.group(), true ) );
+				}
+			}
 		}
 
-		Matcher takenMatcher = TAKEN_PATTERN.matcher( this.responseText );
+		Matcher takenMatcher = MoneyMakingGameRequest.TAKEN_PATTERN.matcher( this.responseText );
 		if ( takenMatcher.find() )
 		{
 			takenMatcher = singleBet.matcher( takenMatcher.group() );
 			takenMatcher.find();
 
 			while ( takenMatcher.find() )
+			{
 				if ( takenMatcher.group().indexOf( ">&nbsp;<" ) == -1 )
+				{
 					takenBets.add( new MoneyMakingGameResult( takenMatcher.group(), false ) );
+				}
+			}
 		}
 
 		TreeMap playerMap = new TreeMap();
@@ -104,49 +115,56 @@ public class MoneyMakingGameRequest extends KoLRequest
 		betHistory.addAll( madeBets );
 		betHistory.addAll( takenBets );
 
-		MoneyMakingGameResult [] betHistoryArray = new MoneyMakingGameResult[ betHistory.size() ];
+		MoneyMakingGameResult[] betHistoryArray = new MoneyMakingGameResult[ betHistory.size() ];
 		betHistory.toArray( betHistoryArray );
 
 		for ( int i = 0; i < betHistoryArray.length; ++i )
 		{
-			if ( !playerMap.containsKey( betHistoryArray[i].playerId ) )
-				playerMap.put( betHistoryArray[i].playerId, new Integer(0) );
+			if ( !playerMap.containsKey( betHistoryArray[ i ].playerId ) )
+			{
+				playerMap.put( betHistoryArray[ i ].playerId, new Integer( 0 ) );
+			}
 
-			Integer currentTally = (Integer) playerMap.get( betHistoryArray[i].playerId );
-			playerMap.put( betHistoryArray[i].playerId, new Integer( currentTally.intValue() + betHistoryArray[i].betAmount ) );
+			Integer currentTally = (Integer) playerMap.get( betHistoryArray[ i ].playerId );
+			playerMap.put( betHistoryArray[ i ].playerId, new Integer(
+				currentTally.intValue() + betHistoryArray[ i ].betAmount ) );
 		}
 
-		Object [] keys = playerMap.keySet().toArray();
-		betSummary.clear();
+		Object[] keys = playerMap.keySet().toArray();
+		MoneyMakingGameRequest.betSummary.clear();
 
 		for ( int i = 0; i < keys.length; ++i )
-			betSummary.add( new MoneyMakingGameSummary( (String) keys[i], (Integer) playerMap.get( keys[i] ) ) );
+		{
+			MoneyMakingGameRequest.betSummary.add( new MoneyMakingGameSummary(
+				(String) keys[ i ], (Integer) playerMap.get( keys[ i ] ) ) );
+		}
 	}
 
 	public static final SortedListModel getBetSummary()
-	{	return betSummary;
+	{
+		return MoneyMakingGameRequest.betSummary;
 	}
 
-	private class MoneyMakingGameSummary implements Comparable
+	private class MoneyMakingGameSummary
+		implements Comparable
 	{
-		private String playerId;
-		private Integer winAmount;
+		private final String playerId;
+		private final Integer winAmount;
 
-		public MoneyMakingGameSummary( String playerId, Integer winAmount )
+		public MoneyMakingGameSummary( final String playerId, final Integer winAmount )
 		{
 			this.playerId = playerId;
 			this.winAmount = winAmount;
 		}
 
-		public int compareTo( Object o )
-		{	return this.winAmount.compareTo( ((MoneyMakingGameSummary)o).winAmount );
+		public int compareTo( final Object o )
+		{
+			return this.winAmount.compareTo( ( (MoneyMakingGameSummary) o ).winAmount );
 		}
 
 		public String toString()
 		{
-			return "<html><font color=" + (this.winAmount.intValue() > 0 ? "green" : "red") +
-				">" + KoLmafia.getPlayerName( this.playerId ) + ": " + (this.winAmount.intValue() > 0 ? "+" : "") +
-				COMMA_FORMAT.format( this.winAmount.intValue() ) + "</font></html>";
+			return "<html><font color=" + ( this.winAmount.intValue() > 0 ? "green" : "red" ) + ">" + KoLmafia.getPlayerName( this.playerId ) + ": " + ( this.winAmount.intValue() > 0 ? "+" : "" ) + KoLConstants.COMMA_FORMAT.format( this.winAmount.intValue() ) + "</font></html>";
 		}
 	}
 
@@ -156,13 +174,13 @@ public class MoneyMakingGameRequest extends KoLRequest
 		private int betAmount;
 		private String playerId;
 
-		private boolean isPositive;
+		private final boolean isPositive;
 
-		public MoneyMakingGameResult( String resultText, boolean isPlacedBet )
+		public MoneyMakingGameResult( final String resultText, final boolean isPlacedBet )
 		{
 			this.isPositive = resultText.indexOf( "color='green'>+" ) != -1;
 
-			Matcher results = CELL_PATTERN.matcher( resultText );
+			Matcher results = MoneyMakingGameRequest.CELL_PATTERN.matcher( resultText );
 
 			// The first cell in the row is the timestamp
 			// for the result.
@@ -170,7 +188,11 @@ public class MoneyMakingGameRequest extends KoLRequest
 			try
 			{
 				if ( results.find() )
-					this.timestamp = RESULT_FORMAT.parse( results.group().replaceAll( "&nbsp;", " " ).replaceAll( "<.*?>", "" ) );
+				{
+					this.timestamp =
+						MoneyMakingGameRequest.RESULT_FORMAT.parse( results.group().replaceAll( "&nbsp;", " " ).replaceAll(
+							"<.*?>", "" ) );
+				}
 			}
 			catch ( Exception e )
 			{
@@ -185,11 +207,11 @@ public class MoneyMakingGameRequest extends KoLRequest
 
 			if ( results.find() )
 			{
-				Matcher amountMatcher = AMOUNT_PATTERN.matcher( results.group() );
+				Matcher amountMatcher = MoneyMakingGameRequest.AMOUNT_PATTERN.matcher( results.group() );
 				if ( amountMatcher.find() )
 				{
-					this.betAmount = StaticEntity.parseInt( amountMatcher.group(1) );
-					this.betAmount = (int) ((this.betAmount) * (this.isPositive ? 0.998f : -1.0f));
+					this.betAmount = StaticEntity.parseInt( amountMatcher.group( 1 ) );
+					this.betAmount = (int) ( this.betAmount * ( this.isPositive ? 0.998f : -1.0f ) );
 				}
 			}
 
@@ -198,11 +220,11 @@ public class MoneyMakingGameRequest extends KoLRequest
 
 			if ( results.find() )
 			{
-				Matcher playerMatcher = PLAYER_PATTERN.matcher( results.group() );
+				Matcher playerMatcher = MoneyMakingGameRequest.PLAYER_PATTERN.matcher( results.group() );
 				if ( playerMatcher.find() )
 				{
-					this.playerId = playerMatcher.group(1);
-					KoLmafia.registerPlayer( playerMatcher.group(2), this.playerId );
+					this.playerId = playerMatcher.group( 1 );
+					KoLmafia.registerPlayer( playerMatcher.group( 2 ), this.playerId );
 				}
 			}
 		}

@@ -49,20 +49,23 @@ import javax.swing.ListModel;
 import javax.swing.MutableComboBoxModel;
 
 /**
- * <p>Lockable aspects of this class have been removed due to incompatibilities with Swing;
- * synchronization between two threads when one is the Swing thread turns out to have a lot
- * of problems.  It retains its original name for convenience purposes only.  The original
- * methods only retain their lock properties if you synchronize upon the object lock, which
- * may be more trouble than they're worth.</p>
- *
- * <p>In addition to this assertion, the <code>LockableListModel</code> also provides the
- * ability to create a <i>mirror image</i>: namely, another <code>LockableListModel</code>
- * that changes whenever the data in <tt>this</tt> <code>LockableListModel</code> changes
- * but does not respond to object-selection changes.  This makes it so that multiple copies
- * of data can be maintained - synchronization of data, in a sense.</p>
+ * <p>
+ * Lockable aspects of this class have been removed due to incompatibilities with Swing; synchronization between two
+ * threads when one is the Swing thread turns out to have a lot of problems. It retains its original name for
+ * convenience purposes only. The original methods only retain their lock properties if you synchronize upon the object
+ * lock, which may be more trouble than they're worth.
+ * </p>
+ * <p>
+ * In addition to this assertion, the <code>LockableListModel</code> also provides the ability to create a <i>mirror
+ * image</i>: namely, another <code>LockableListModel</code> that changes whenever the data in
+ * <tt>this</tt> <code>LockableListModel</code> changes but does not respond to object-selection changes. This makes
+ * it so that multiple copies of data can be maintained - synchronization of data, in a sense.
+ * </p>
  */
 
-public class LockableListModel extends AbstractListModel implements Cloneable, List, ListModel, ComboBoxModel, MutableComboBoxModel
+public class LockableListModel
+	extends AbstractListModel
+	implements Cloneable, List, ListModel, ComboBoxModel, MutableComboBoxModel
 {
 	private static final ListElementFilter NO_FILTER = new ShowEverythingFilter();
 
@@ -79,31 +82,32 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 
 	public LockableListModel()
 	{
-		actualElements = new ArrayList();
-		visibleElements = new ArrayList();
+		this.actualElements = new ArrayList();
+		this.visibleElements = new ArrayList();
 
-		selectedValue = null;
-		currentFilter = NO_FILTER;
-		mirrorList = new ArrayList();
+		this.selectedValue = null;
+		this.currentFilter = LockableListModel.NO_FILTER;
+		this.mirrorList = new ArrayList();
 	}
 
-	public LockableListModel( Collection c )
+	public LockableListModel( final Collection c )
 	{
 		this();
-		addAll( c );
+		this.addAll( c );
 	}
 
-	private LockableListModel( LockableListModel l )
-	{	this( l, NO_FILTER );
+	private LockableListModel( final LockableListModel l )
+	{
+		this( l, LockableListModel.NO_FILTER );
 	}
 
-	private LockableListModel( LockableListModel l, ListElementFilter f )
+	private LockableListModel( final LockableListModel l, final ListElementFilter f )
 	{
 		this.actualElements = l.actualElements;
 		this.visibleElements = new ArrayList();
 
 		this.selectedValue = null;
-		this.currentFilter = f == null ? NO_FILTER : f;
+		this.currentFilter = f == null ? LockableListModel.NO_FILTER : f;
 
 		synchronized ( l.mirrorList )
 		{
@@ -111,15 +115,21 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 			l.mirrorList.add( new WeakReference( this ) );
 		}
 
-		if ( f == NO_FILTER )
-			visibleElements.addAll( actualElements );
+		if ( f == LockableListModel.NO_FILTER )
+		{
+			this.visibleElements.addAll( this.actualElements );
+		}
 		else if ( f == l.currentFilter )
-			visibleElements.addAll( l.visibleElements );
+		{
+			this.visibleElements.addAll( l.visibleElements );
+		}
 		else
-			updateFilter( false );
+		{
+			this.updateFilter( false );
+		}
 	}
 
-	private LockableListModel getNextMirror( Iterator it )
+	private LockableListModel getNextMirror( final Iterator it )
 	{
 		WeakReference ref;
 
@@ -127,7 +137,9 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 		{
 			ref = (WeakReference) it.next();
 			if ( ref.get() != null )
+			{
 				return (LockableListModel) ref.get();
+			}
 
 			it.remove();
 		}
@@ -137,20 +149,22 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 
 	public void sort()
 	{
-		Collections.sort( actualElements );
-		Collections.sort( visibleElements );
-		fireContentsChanged( this, 0, visibleElements.size() - 1 );
+		Collections.sort( this.actualElements );
+		Collections.sort( this.visibleElements );
+		this.fireContentsChanged( this, 0, this.visibleElements.size() - 1 );
 
-		synchronized ( mirrorList )
+		synchronized ( this.mirrorList )
 		{
 			LockableListModel mirror;
-			Iterator it = mirrorList.iterator();
+			Iterator it = this.mirrorList.iterator();
 
 			while ( it.hasNext() )
 			{
-				mirror = getNextMirror( it );
+				mirror = this.getNextMirror( it );
 				if ( mirror == null )
+				{
 					return;
+				}
 
 				Collections.sort( mirror.visibleElements );
 				mirror.fireContentsChanged( this, 0, mirror.visibleElements.size() - 1 );
@@ -158,22 +172,24 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 		}
 	}
 
-	public void sort( Comparator c )
+	public void sort( final Comparator c )
 	{
-		Collections.sort( actualElements, c );
-		Collections.sort( visibleElements, c );
-		fireContentsChanged( this, 0, visibleElements.size() - 1 );
+		Collections.sort( this.actualElements, c );
+		Collections.sort( this.visibleElements, c );
+		this.fireContentsChanged( this, 0, this.visibleElements.size() - 1 );
 
-		synchronized ( mirrorList )
+		synchronized ( this.mirrorList )
 		{
 			LockableListModel mirror;
-			Iterator it = mirrorList.iterator();
+			Iterator it = this.mirrorList.iterator();
 
 			while ( it.hasNext() )
 			{
-				mirror = getNextMirror( it );
+				mirror = this.getNextMirror( it );
 				if ( mirror == null )
+				{
 					return;
+				}
 
 				Collections.sort( mirror.visibleElements, c );
 				mirror.fireContentsChanged( this, 0, mirror.visibleElements.size() - 1 );
@@ -181,71 +197,84 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 		}
 	}
 
-	public void fireContentsChanged( Object source, int index0, int index1 )
+	public void fireContentsChanged( final Object source, final int index0, final int index1 )
 	{
-		if ( listenerList.getListenerCount() == 0 )
+		if ( this.listenerList.getListenerCount() == 0 )
+		{
 			return;
+		}
 
 		super.fireContentsChanged( source, index0, index1 );
 	}
 
-	public void fireIntervalAdded( Object source, int index0, int index1 )
+	public void fireIntervalAdded( final Object source, final int index0, final int index1 )
 	{
-		if ( listenerList.getListenerCount() == 0 )
+		if ( this.listenerList.getListenerCount() == 0 )
+		{
 			return;
+		}
 
 		super.fireIntervalAdded( source, index0, index1 );
 	}
 
-	public void fireIntervalRemoved( Object source, int index0, int index1 )
+	public void fireIntervalRemoved( final Object source, final int index0, final int index1 )
 	{
-		if ( listenerList.getListenerCount() == 0 )
+		if ( this.listenerList.getListenerCount() == 0 )
+		{
 			return;
+		}
 
 		super.fireIntervalRemoved( source, index0, index1 );
 	}
 
 	/**
-	 * Please refer to {@link java.util.List#add(int,Object)} for more
-	 * information regarding this function.
+	 * Please refer to {@link java.util.List#add(int,Object)} for more information regarding this function.
 	 */
 
-	public void add( int index, Object element )
+	public void add( final int index, final Object element )
 	{
 		if ( element == null )
+		{
 			return;
+		}
 
-		if ( currentFilter != NO_FILTER || !mirrorList.isEmpty() )
+		if ( this.currentFilter != LockableListModel.NO_FILTER || !this.mirrorList.isEmpty() )
+		{
 			this.updateFilter( false );
+		}
 
-		actualElements.add( index, element );
-		addVisibleElement( index, element );
+		this.actualElements.add( index, element );
+		this.addVisibleElement( index, element );
 	}
 
-	private void addVisibleElement( int index, Object element )
+	private void addVisibleElement( final int index, final Object element )
 	{
-		addVisibleElement( this, index, element );
+		this.addVisibleElement( this, index, element );
 
-		synchronized ( mirrorList )
+		synchronized ( this.mirrorList )
 		{
 			LockableListModel mirror;
-			Iterator it = mirrorList.iterator();
+			Iterator it = this.mirrorList.iterator();
 
 			while ( it.hasNext() )
 			{
-				mirror = getNextMirror( it );
+				mirror = this.getNextMirror( it );
 				if ( mirror == null )
+				{
 					return;
+				}
 
-				addVisibleElement( mirror, index, element );
+				this.addVisibleElement( mirror, index, element );
 			}
 		}
 	}
 
-	private void addVisibleElement( LockableListModel model, int index, Object element )
+	private void addVisibleElement( final LockableListModel model, final int index, final Object element )
 	{
 		if ( !model.currentFilter.isVisible( element ) )
+		{
 			return;
+		}
 
 		int visibleIndex = model.computeVisibleIndex( index );
 		model.visibleElements.add( visibleIndex, element );
@@ -253,329 +282,352 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	}
 
 	/**
-	 * Please refer to {@link java.util.List#add(Object)} for more
-	 * information regarding this function.
+	 * Please refer to {@link java.util.List#add(Object)} for more information regarding this function.
 	 */
 
-	public boolean add( Object o )
+	public boolean add( final Object o )
 	{
 		if ( o == null )
+		{
 			return false;
+		}
 
-		int originalSize = actualElements.size();
-		add( originalSize, o );
-		return originalSize != actualElements.size();
+		int originalSize = this.actualElements.size();
+		this.add( originalSize, o );
+		return originalSize != this.actualElements.size();
 	}
 
 	/**
-	 * Please refer to {@link java.util.List#addAll(Collection)} for more
-	 * information regarding this function.
+	 * Please refer to {@link java.util.List#addAll(Collection)} for more information regarding this function.
 	 */
 
-	public boolean addAll( Collection c )
-	{	return addAll( actualElements.size(), c );
+	public boolean addAll( final Collection c )
+	{
+		return this.addAll( this.actualElements.size(), c );
 	}
 
 	/**
-	 * Please refer to {@link java.util.List#addAll(int,Collection)} for more
-	 * information regarding this function.
+	 * Please refer to {@link java.util.List#addAll(int,Collection)} for more information regarding this function.
 	 */
 
-	public boolean addAll( int index, Collection c )
+	public boolean addAll( final int index, final Collection c )
 	{
 		Object currentItem;
 		int currentIndex = index;
 		Iterator myIterator = c.iterator();
-		int originalSize = actualElements.size();
+		int originalSize = this.actualElements.size();
 
 		while ( myIterator.hasNext() )
 		{
 			currentItem = myIterator.next();
 			if ( currentItem != null )
-				add( currentIndex++, currentItem );
+			{
+				this.add( currentIndex++ , currentItem );
+			}
 		}
 
-		return originalSize != actualElements.size();
+		return originalSize != this.actualElements.size();
 	}
 
 	/**
-	 * Please refer to {@link java.util.List#clear()} for more
-	 * information regarding this function.
+	 * Please refer to {@link java.util.List#clear()} for more information regarding this function.
 	 */
 
 	public void clear()
 	{
-		actualElements.clear();
-		clearVisibleElements();
+		this.actualElements.clear();
+		this.clearVisibleElements();
 	}
 
 	private void clearVisibleElements()
 	{
-		clearVisibleElements( this );
+		this.clearVisibleElements( this );
 
-		synchronized ( mirrorList )
+		synchronized ( this.mirrorList )
 		{
 			LockableListModel mirror;
-			Iterator it = mirrorList.iterator();
+			Iterator it = this.mirrorList.iterator();
 
 			while ( it.hasNext() )
 			{
-				mirror = getNextMirror( it );
+				mirror = this.getNextMirror( it );
 				if ( mirror == null )
+				{
 					return;
+				}
 
-				clearVisibleElements( mirror );
+				this.clearVisibleElements( mirror );
 			}
 		}
 	}
 
-	private void clearVisibleElements( LockableListModel model )
+	private void clearVisibleElements( final LockableListModel model )
 	{
 		int originalSize = model.visibleElements.size();
 
 		if ( originalSize == 0 )
+		{
 			return;
+		}
 
 		model.visibleElements.clear();
 		model.fireIntervalRemoved( model, 0, originalSize - 1 );
 	}
 
 	/**
-	 * Please refer to {@link java.util.List#contains(Object)} for more
-	 * information regarding this function.
+	 * Please refer to {@link java.util.List#contains(Object)} for more information regarding this function.
 	 */
 
-	public boolean contains( Object o )
-	{	return o == null ? false : actualElements.contains( o );
-	}
-
-	/**
-	 * Please refer to {@link java.util.List#containsAll(Collection)} for more
-	 * information regarding this function.
-	 */
-
-	public boolean containsAll( Collection c )
-	{	return actualElements.containsAll( c );
-	}
-
-	/**
-	 * Please refer to {@link java.util.List#equals(Object)} for more
-	 * information regarding this function.
-	 */
-
-	public boolean equals( Object o )
-	{	return o instanceof LockableListModel ? this == o : actualElements.equals( o );
-	}
-
-	/**
-	 * Please refer to {@link java.util.List#get(int)} for more
-	 * information regarding this function.
-	 */
-
-	public Object get( int index )
+	public boolean contains( final Object o )
 	{
-		if ( index < 0 || index >= actualElements.size() )
-			return null;
-
-		return actualElements.get( index );
+		return o == null ? false : this.actualElements.contains( o );
 	}
 
 	/**
-	 * Please refer to {@link java.util.List#hashCode()} for more
-	 * information regarding this function.
+	 * Please refer to {@link java.util.List#containsAll(Collection)} for more information regarding this function.
+	 */
+
+	public boolean containsAll( final Collection c )
+	{
+		return this.actualElements.containsAll( c );
+	}
+
+	/**
+	 * Please refer to {@link java.util.List#equals(Object)} for more information regarding this function.
+	 */
+
+	public boolean equals( final Object o )
+	{
+		return o instanceof LockableListModel ? this == o : this.actualElements.equals( o );
+	}
+
+	/**
+	 * Please refer to {@link java.util.List#get(int)} for more information regarding this function.
+	 */
+
+	public Object get( final int index )
+	{
+		if ( index < 0 || index >= this.actualElements.size() )
+		{
+			return null;
+		}
+
+		return this.actualElements.get( index );
+	}
+
+	/**
+	 * Please refer to {@link java.util.List#hashCode()} for more information regarding this function.
 	 */
 
 	public int hashCode()
-	{	return actualElements.hashCode();
+	{
+		return this.actualElements.hashCode();
 	}
 
 	/**
-	 * Please refer to {@link java.util.List#indexOf(Object)} for more
-	 * information regarding this function.
+	 * Please refer to {@link java.util.List#indexOf(Object)} for more information regarding this function.
 	 */
 
-	public int indexOf( Object o )
-	{	return o == null ? -1 : actualElements.indexOf( o );
+	public int indexOf( final Object o )
+	{
+		return o == null ? -1 : this.actualElements.indexOf( o );
 	}
 
 	/**
-	 * Please refer to {@link java.util.List#isEmpty()} for more
-	 * information regarding this function.
+	 * Please refer to {@link java.util.List#isEmpty()} for more information regarding this function.
 	 */
 
 	public boolean isEmpty()
-	{	return actualElements.isEmpty();
+	{
+		return this.actualElements.isEmpty();
 	}
 
 	/**
-	 * Internal class used to handle iterators.  This is done to
-	 * ensure that all applicable interface structures are notified
-	 * whenever changes are made to the list elements.
+	 * Internal class used to handle iterators. This is done to ensure that all applicable interface structures are
+	 * notified whenever changes are made to the list elements.
 	 */
 
-	private class ListModelIterator implements ListIterator
+	private class ListModelIterator
+		implements ListIterator
 	{
 		private int nextIndex, previousIndex;
 		private boolean isIncrementing;
 
 		public ListModelIterator()
-		{	this( 0 );
+		{
+			this( 0 );
 		}
 
-		public ListModelIterator( int initialIndex )
+		public ListModelIterator( final int initialIndex )
 		{
-			nextIndex = 0;
-			previousIndex = -1;
-			isIncrementing = true;
+			this.nextIndex = 0;
+			this.previousIndex = -1;
+			this.isIncrementing = true;
 		}
 
 		public boolean hasPrevious()
-		{	return previousIndex > 0;
+		{
+			return this.previousIndex > 0;
 		}
 
 		public boolean hasNext()
-		{	return nextIndex < LockableListModel.this.actualElements.size();
+		{
+			return this.nextIndex < LockableListModel.this.actualElements.size();
 		}
 
 		public Object next()
 		{
-			isIncrementing = true;
-			Object nextObject = LockableListModel.this.get( nextIndex );
-			++nextIndex;  ++previousIndex;
+			this.isIncrementing = true;
+			Object nextObject = LockableListModel.this.get( this.nextIndex );
+			++this.nextIndex;
+			++this.previousIndex;
 			return nextObject;
 		}
 
 		public Object previous()
 		{
-			isIncrementing = false;
-			Object previousObject = LockableListModel.this.get( previousIndex );
-			--nextIndex;  --previousIndex;
+			this.isIncrementing = false;
+			Object previousObject = LockableListModel.this.get( this.previousIndex );
+			--this.nextIndex;
+			--this.previousIndex;
 			return previousObject;
 		}
 
 		public int nextIndex()
-		{	return nextIndex;
+		{
+			return this.nextIndex;
 		}
 
 		public int previousIndex()
-		{	return previousIndex;
+		{
+			return this.previousIndex;
 		}
 
-		public void add( Object o )
+		public void add( final Object o )
 		{
-			LockableListModel.this.add( nextIndex, o );
-			++nextIndex;  ++previousIndex;
+			LockableListModel.this.add( this.nextIndex, o );
+			++this.nextIndex;
+			++this.previousIndex;
 		}
 
 		public void remove()
 		{
-			if ( isIncrementing )
+			if ( this.isIncrementing )
 			{
-				--nextIndex;  --previousIndex;
-				LockableListModel.this.remove( nextIndex );
+				--this.nextIndex;
+				--this.previousIndex;
+				LockableListModel.this.remove( this.nextIndex );
 			}
 			else
 			{
-				++nextIndex;  ++previousIndex;
-				LockableListModel.this.remove( previousIndex );
+				++this.nextIndex;
+				++this.previousIndex;
+				LockableListModel.this.remove( this.previousIndex );
 			}
 		}
 
-		public void set( Object o )
-		{	LockableListModel.this.set( isIncrementing ? nextIndex - 1 : previousIndex + 1, o );
+		public void set( final Object o )
+		{
+			LockableListModel.this.set( this.isIncrementing ? this.nextIndex - 1 : this.previousIndex + 1, o );
 		}
 	}
 
 	/**
-	 * Please refer to {@link java.util.List#iterator()} for more
-	 * information regarding this function.
+	 * Please refer to {@link java.util.List#iterator()} for more information regarding this function.
 	 */
 
 	public Iterator iterator()
-	{	return new ListModelIterator();
+	{
+		return new ListModelIterator();
 	}
 
 	/**
-	 * Please refer to {@link java.util.Vector#lastElement()} for more
-	 * information regarding this function.
+	 * Please refer to {@link java.util.Vector#lastElement()} for more information regarding this function.
 	 */
 
 	public Object lastElement()
-	{	return actualElements.isEmpty() ? null : actualElements.get( actualElements.size() - 1 );
+	{
+		return this.actualElements.isEmpty() ? null : this.actualElements.get( this.actualElements.size() - 1 );
 	}
 
 	/**
-	 * Please refer to {@link java.util.List#lastIndexOf(Object)} for more
-	 * information regarding this function.
+	 * Please refer to {@link java.util.List#lastIndexOf(Object)} for more information regarding this function.
 	 */
 
-	public int lastIndexOf( Object o )
-	{	return o == null ? -1 : indexOf( o );
+	public int lastIndexOf( final Object o )
+	{
+		return o == null ? -1 : this.indexOf( o );
 	}
 
 	/**
-	 * Please refer to {@link java.util.List#listIterator()} for more
-	 * information regarding this function.
+	 * Please refer to {@link java.util.List#listIterator()} for more information regarding this function.
 	 */
 
 	public ListIterator listIterator()
-	{	return new ListModelIterator();
-	}
-
-	/**
-	 * Please refer to {@link java.util.List#listIterator(int)} for more
-	 * information regarding this function.
-	 */
-
-	public ListIterator listIterator( int index )
-	{	return new ListModelIterator( index );
-	}
-
-
-	/**
-	 * Please refer to {@link java.util.List#remove(int)} for more
-	 * information regarding this function.
-	 */
-
-	public Object remove( int index )
 	{
-		if ( index < 0 || index >= actualElements.size() )
+		return new ListModelIterator();
+	}
+
+	/**
+	 * Please refer to {@link java.util.List#listIterator(int)} for more information regarding this function.
+	 */
+
+	public ListIterator listIterator( final int index )
+	{
+		return new ListModelIterator( index );
+	}
+
+	/**
+	 * Please refer to {@link java.util.List#remove(int)} for more information regarding this function.
+	 */
+
+	public Object remove( final int index )
+	{
+		if ( index < 0 || index >= this.actualElements.size() )
+		{
 			return null;
+		}
 
-		if ( currentFilter != NO_FILTER || !mirrorList.isEmpty() )
+		if ( this.currentFilter != LockableListModel.NO_FILTER || !this.mirrorList.isEmpty() )
+		{
 			this.updateFilter( false );
+		}
 
-		Object returnValue = actualElements.get( index );
-		removeVisibleElement( index, returnValue );
-		actualElements.remove( index );
+		Object returnValue = this.actualElements.get( index );
+		this.removeVisibleElement( index, returnValue );
+		this.actualElements.remove( index );
 
 		return returnValue;
 	}
 
-	private void removeVisibleElement( int index, Object element )
+	private void removeVisibleElement( final int index, final Object element )
 	{
-		removeVisibleElement( this, index, element );
+		this.removeVisibleElement( this, index, element );
 		LockableListModel mirror;
 
-		synchronized ( mirrorList )
+		synchronized ( this.mirrorList )
 		{
-			Iterator it = mirrorList.iterator();
+			Iterator it = this.mirrorList.iterator();
 
 			while ( it.hasNext() )
 			{
-				mirror = getNextMirror( it );
+				mirror = this.getNextMirror( it );
 				if ( mirror == null )
+				{
 					return;
+				}
 
-				removeVisibleElement( mirror, index, element );
+				this.removeVisibleElement( mirror, index, element );
 			}
 		}
 	}
 
-	private void removeVisibleElement( LockableListModel model, int index, Object element )
+	private void removeVisibleElement( final LockableListModel model, final int index, final Object element )
 	{
 		if ( !model.currentFilter.isVisible( element ) )
+		{
 			return;
+		}
 
 		int visibleIndex = model.computeVisibleIndex( index );
 		model.visibleElements.remove( visibleIndex );
@@ -583,22 +635,21 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	}
 
 	/**
-	 * Please refer to {@link java.util.List#remove(Object)} for more
-	 * information regarding this function.
+	 * Please refer to {@link java.util.List#remove(Object)} for more information regarding this function.
 	 */
 
-	public boolean remove( Object o )
-	{	return o == null ? false : remove( indexOf( o ) ) != null;
+	public boolean remove( final Object o )
+	{
+		return o == null ? false : this.remove( this.indexOf( o ) ) != null;
 	}
 
 	/**
-	 * Please refer to {@link java.util.List#removeAll(Collection)} for more
-	 * information regarding this function.
+	 * Please refer to {@link java.util.List#removeAll(Collection)} for more information regarding this function.
 	 */
 
-	public boolean removeAll( Collection c )
+	public boolean removeAll( final Collection c )
 	{
-		int originalSize = actualElements.size();
+		int originalSize = this.actualElements.size();
 
 		Object current;
 		Iterator it = c.iterator();
@@ -607,68 +658,79 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 		{
 			current = it.next();
 			if ( current != null )
-				remove( current );
+			{
+				this.remove( current );
+			}
 		}
 
-		return originalSize != actualElements.size();
+		return originalSize != this.actualElements.size();
 	}
 
 	/**
-	 * Please refer to {@link java.util.List#retainAll(Collection)} for more
-	 * information regarding this function.
+	 * Please refer to {@link java.util.List#retainAll(Collection)} for more information regarding this function.
 	 */
 
-	public boolean retainAll( Collection c )
+	public boolean retainAll( final Collection c )
 	{
-		int originalSize = actualElements.size();
+		int originalSize = this.actualElements.size();
 
-		Iterator it = iterator();
+		Iterator it = this.iterator();
 		while ( it.hasNext() )
+		{
 			if ( !c.contains( it.next() ) )
+			{
 				it.remove();
+			}
+		}
 
-		return originalSize != actualElements.size();
+		return originalSize != this.actualElements.size();
 	}
 
 	/**
-	 * Please refer to {@link java.util.List#set(int,Object)} for more
-	 * information regarding this function.
+	 * Please refer to {@link java.util.List#set(int,Object)} for more information regarding this function.
 	 */
 
-	public Object set( int index, Object element )
+	public Object set( final int index, final Object element )
 	{
 		if ( element == null )
+		{
 			return null;
+		}
 
-		if ( currentFilter != NO_FILTER || !mirrorList.isEmpty() )
+		if ( this.currentFilter != LockableListModel.NO_FILTER || !this.mirrorList.isEmpty() )
+		{
 			this.updateFilter( false );
+		}
 
-		Object returnValue = actualElements.set( index, element );
-		setVisibleElement( index, element, returnValue );
+		Object returnValue = this.actualElements.set( index, element );
+		this.setVisibleElement( index, element, returnValue );
 		return returnValue;
 	}
 
-	private void setVisibleElement( int index, Object element, Object originalValue )
+	private void setVisibleElement( final int index, final Object element, final Object originalValue )
 	{
-		setVisibleElement( this, index, element, originalValue );
+		this.setVisibleElement( this, index, element, originalValue );
 
-		synchronized ( mirrorList )
+		synchronized ( this.mirrorList )
 		{
 			LockableListModel mirror;
-			Iterator it = mirrorList.iterator();
+			Iterator it = this.mirrorList.iterator();
 
 			while ( it.hasNext() )
 			{
-				mirror = getNextMirror( it );
+				mirror = this.getNextMirror( it );
 				if ( mirror == null )
+				{
 					return;
+				}
 
-				setVisibleElement( mirror, index, element, originalValue );
+				this.setVisibleElement( mirror, index, element, originalValue );
 			}
 		}
 	}
 
-	private void setVisibleElement( LockableListModel model, int index, Object element, Object originalValue )
+	private void setVisibleElement( final LockableListModel model, final int index, final Object element,
+		final Object originalValue )
 	{
 		int visibleIndex = model.computeVisibleIndex( index );
 
@@ -698,101 +760,106 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	}
 
 	/**
-	 * Please refer to {@link java.util.List#size()} for more
-	 * information regarding this function.
+	 * Please refer to {@link java.util.List#size()} for more information regarding this function.
 	 */
 
 	public int size()
-	{	return actualElements.size();
+	{
+		return this.actualElements.size();
 	}
 
 	/**
-	 * Please refer to {@link java.util.List#subList(int,int)} for more
-	 * information regarding this function.
+	 * Please refer to {@link java.util.List#subList(int,int)} for more information regarding this function.
 	 */
 
-	public List subList( int fromIndex, int toIndex )
-	{	return actualElements.subList( fromIndex, toIndex );
+	public List subList( final int fromIndex, final int toIndex )
+	{
+		return this.actualElements.subList( fromIndex, toIndex );
 	}
 
 	/**
-	 * Please refer to {@link java.util.List#toArray()} for more
-	 * information regarding this function.
+	 * Please refer to {@link java.util.List#toArray()} for more information regarding this function.
 	 */
 
-	public Object [] toArray()
-	{	return actualElements.toArray();
+	public Object[] toArray()
+	{
+		return this.actualElements.toArray();
 	}
 
 	/**
-	 * Please refer to {@link java.util.List#toArray(Object[])} for more
-	 * information regarding this function.
+	 * Please refer to {@link java.util.List#toArray(Object[])} for more information regarding this function.
 	 */
 
-	public Object [] toArray( Object[] a )
-	{	return actualElements.toArray(a);
+	public Object[] toArray( final Object[] a )
+	{
+		return this.actualElements.toArray( a );
 	}
 
-	public void updateFilter( boolean refresh )
+	public void updateFilter( final boolean refresh )
 	{
 		this.updateSingleFilter( refresh );
 
-		synchronized ( mirrorList )
+		synchronized ( this.mirrorList )
 		{
 			LockableListModel mirror;
-			Iterator it = mirrorList.iterator();
+			Iterator it = this.mirrorList.iterator();
 
 			while ( it.hasNext() )
 			{
-				mirror = getNextMirror( it );
+				mirror = this.getNextMirror( it );
 				if ( mirror == null )
+				{
 					return;
+				}
 
 				mirror.updateSingleFilter( refresh );
 			}
 		}
 	}
 
-	private void updateSingleFilter( boolean refresh )
+	private void updateSingleFilter( final boolean refresh )
 	{
 		Object element;
 		int visibleIndex = 0;
 
-		for ( int i = 0; i < actualElements.size(); ++i )
+		for ( int i = 0; i < this.actualElements.size(); ++i )
 		{
-			element = actualElements.get(i);
+			element = this.actualElements.get( i );
 
-			if ( currentFilter.isVisible( element ) )
+			if ( this.currentFilter.isVisible( element ) )
 			{
-				if ( visibleIndex == visibleElements.size() || visibleElements.get( visibleIndex ) != element )
+				if ( visibleIndex == this.visibleElements.size() || this.visibleElements.get( visibleIndex ) != element )
 				{
-					visibleElements.add( visibleIndex, element );
-					fireIntervalAdded( this, visibleIndex, visibleIndex );
+					this.visibleElements.add( visibleIndex, element );
+					this.fireIntervalAdded( this, visibleIndex, visibleIndex );
 				}
 
 				++visibleIndex;
 			}
-			else
+			else if ( visibleIndex < this.visibleElements.size() && this.visibleElements.get( visibleIndex ) == element )
 			{
-				if ( visibleIndex < visibleElements.size() && visibleElements.get( visibleIndex ) == element )
-				{
-					visibleElements.remove( visibleIndex );
-					fireIntervalRemoved( this, visibleIndex, visibleIndex );
-				}
+				this.visibleElements.remove( visibleIndex );
+				this.fireIntervalRemoved( this, visibleIndex, visibleIndex );
 			}
 		}
 
 		if ( refresh )
-			fireContentsChanged( this, 0, visibleElements.size() - 1 );
+		{
+			this.fireContentsChanged( this, 0, this.visibleElements.size() - 1 );
+		}
 	}
 
-	private int computeVisibleIndex( int actualIndex )
+	private int computeVisibleIndex( final int actualIndex )
 	{
 		int visibleIndex = 0;
 
-		for ( int i = 0; i < actualIndex && visibleIndex < visibleElements.size(); ++i )
-			if ( actualElements.get(i) == visibleElements.get(visibleIndex) )
+		for ( int i = 0; i < actualIndex && visibleIndex < this.visibleElements.size(); ++i )
+		{
+			if ( this.actualElements.get( i ) == this.visibleElements.get( visibleIndex ) )
+			{
 				++visibleIndex;
+			}
+		}
 
 		return visibleIndex;
 	}
@@ -801,125 +868,129 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	 * Filters the current list using the provided filter.
 	 */
 
-	public void setFilter( ListElementFilter newFilter )
-	{	currentFilter = newFilter == null ? NO_FILTER : newFilter;
+	public void setFilter( final ListElementFilter newFilter )
+	{
+		this.currentFilter = newFilter == null ? LockableListModel.NO_FILTER : newFilter;
 	}
 
-	public int getIndexOf( Object o )
-	{	return visibleElements.indexOf( o );
+	public int getIndexOf( final Object o )
+	{
+		return this.visibleElements.indexOf( o );
 	}
 
 	/**
-	 * Please refer to {@link javax.swing.ListModel#getElementAt(int)} for more
-	 * information regarding this function.
+	 * Please refer to {@link javax.swing.ListModel#getElementAt(int)} for more information regarding this function.
 	 */
 
-	public Object getElementAt( int index )
-	{	return index < 0 || index >= visibleElements.size() ? null : visibleElements.get( index );
+	public Object getElementAt( final int index )
+	{
+		return index < 0 || index >= this.visibleElements.size() ? null : this.visibleElements.get( index );
 	}
 
 	/**
-	 * Please refer to {@link javax.swing.ListModel#getSize()} for more
-	 * information regarding this function.
+	 * Please refer to {@link javax.swing.ListModel#getSize()} for more information regarding this function.
 	 */
 
 	public int getSize()
-	{	return visibleElements.size();
+	{
+		return this.visibleElements.size();
 	}
 
 	/**
-	 * Please refer to {@link javax.swing.ComboBoxModel#getSelectedItem()} for more
-	 * information regarding this function.
+	 * Please refer to {@link javax.swing.ComboBoxModel#getSelectedItem()} for more information regarding this function.
 	 */
 
 	public Object getSelectedItem()
-	{	return contains( selectedValue ) ? selectedValue : null;
+	{
+		return this.contains( this.selectedValue ) ? this.selectedValue : null;
 	}
 
 	/**
-	 * Returns the index of the currently selected item in this <code>LockableListModel</code>.
-	 * This is used primarily in cloning, to ensure that the same indices are being selected;
-	 * however it may also be used to report the index of the currently selected item in testing
-	 * a new object which uses a list model.
-	 *
-	 * @return	the index of the currently selected item
+	 * Returns the index of the currently selected item in this <code>LockableListModel</code>. This is used
+	 * primarily in cloning, to ensure that the same indices are being selected; however it may also be used to report
+	 * the index of the currently selected item in testing a new object which uses a list model.
+	 * 
+	 * @return the index of the currently selected item
 	 */
 
 	public int getSelectedIndex()
-	{	return visibleElements.indexOf( selectedValue );
-	}
-
-	/**
-	 * Please refer to {@link javax.swing.ComboBoxModel#setSelectedItem(Object)} for more
-	 * information regarding this function.
-	 */
-
-	public void setSelectedItem( Object o )
 	{
-		selectedValue = o;
-		fireContentsChanged( this, -1, -1 );
+		return this.visibleElements.indexOf( this.selectedValue );
 	}
 
 	/**
-	 * Sets the given index in this <code>LockableListModel</code> as the currently
-	 * selected item.  This is meant to be a complement to setSelectedItem(), and also
-	 * functions to help in the cloning process.
+	 * Please refer to {@link javax.swing.ComboBoxModel#setSelectedItem(Object)} for more information regarding this
+	 * function.
 	 */
 
-	public void setSelectedIndex( int index )
-	{	setSelectedItem( getElementAt( index ) );
+	public void setSelectedItem( final Object o )
+	{
+		this.selectedValue = o;
+		this.fireContentsChanged( this, -1, -1 );
 	}
 
 	/**
-	 * Please refer to {@link javax.swing.MutableComboBoxModel#addElement(Object)} for more
-	 * information regarding this function.
+	 * Sets the given index in this <code>LockableListModel</code> as the currently selected item. This is meant to be
+	 * a complement to setSelectedItem(), and also functions to help in the cloning process.
 	 */
 
-	public void addElement( Object element )
-	{	add( element );
+	public void setSelectedIndex( final int index )
+	{
+		this.setSelectedItem( this.getElementAt( index ) );
 	}
 
 	/**
-	 * Please refer to {@link javax.swing.MutableComboBoxModel#insertElementAt(Object,int)} for more
-	 * information regarding this function.
+	 * Please refer to {@link javax.swing.MutableComboBoxModel#addElement(Object)} for more information regarding this
+	 * function.
 	 */
 
-	public void insertElementAt( Object element, int index )
-	{	add( element );
+	public void addElement( final Object element )
+	{
+		this.add( element );
 	}
 
 	/**
-	 * Please refer to {@link javax.swing.MutableComboBoxModel#removeElement(Object)} for more
-	 * information regarding this function.
+	 * Please refer to {@link javax.swing.MutableComboBoxModel#insertElementAt(Object,int)} for more information
+	 * regarding this function.
 	 */
 
-	public void removeElement( Object element )
-	{	remove( element );
+	public void insertElementAt( final Object element, final int index )
+	{
+		this.add( element );
 	}
 
 	/**
-	 * Please refer to {@link javax.swing.MutableComboBoxModel#removeElementAt(int)} for more
-	 * information regarding this function.
+	 * Please refer to {@link javax.swing.MutableComboBoxModel#removeElement(Object)} for more information regarding
+	 * this function.
 	 */
 
-	public void removeElementAt( int index )
-	{	remove( visibleElements.get( index ) );
+	public void removeElement( final Object element )
+	{
+		this.remove( element );
 	}
 
 	/**
-	 * Returns a deep copy of the data associated with this <code>LockableListModel</code>.
-	 * Note that any subclasses must override this method in order to ensure that the object can
-	 * be cast appropriately; note also that the listeners are not inherited by the clone copy,
-	 * since this violates the principle of independence.  If they are required, then the
-	 * class using this model should add them using the functions provided in the <code>ListModel</code>
-	 * interface.  Note also that if an element added to the list does not implement the
-	 * <code>Cloneable</code> interface, or implements it by causing it to fail by default, this
-	 * method will not fail; it will add a reference to the object, in effect creating a shallow
-	 * copy of it.  Thus, retrieving an object using get() and modifying a field will result
-	 * in both <code>LockableListModel</code> objects changing, in the same way retrieving
-	 * an element from a cloned <code>ArrayList</code> will.
-	 *
-	 * @return	a deep copy (exempting listeners) of this <code>LockableListModel</code>.
+	 * Please refer to {@link javax.swing.MutableComboBoxModel#removeElementAt(int)} for more information regarding this
+	 * function.
+	 */
+
+	public void removeElementAt( final int index )
+	{
+		this.remove( this.visibleElements.get( index ) );
+	}
+
+	/**
+	 * Returns a deep copy of the data associated with this <code>LockableListModel</code>. Note that any subclasses
+	 * must override this method in order to ensure that the object can be cast appropriately; note also that the
+	 * listeners are not inherited by the clone copy, since this violates the principle of independence. If they are
+	 * required, then the class using this model should add them using the functions provided in the
+	 * <code>ListModel</code> interface. Note also that if an element added to the list does not implement the
+	 * <code>Cloneable</code> interface, or implements it by causing it to fail by default, this method will not fail;
+	 * it will add a reference to the object, in effect creating a shallow copy of it. Thus, retrieving an object using
+	 * get() and modifying a field will result in both <code>LockableListModel</code> objects changing, in the same
+	 * way retrieving an element from a cloned <code>ArrayList</code> will.
+	 * 
+	 * @return a deep copy (exempting listeners) of this <code>LockableListModel</code>.
 	 */
 
 	public Object clone()
@@ -929,11 +1000,11 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 			LockableListModel cloneCopy = (LockableListModel) super.clone();
 			cloneCopy.listenerList = new javax.swing.event.EventListenerList();
 
-			cloneCopy.actualElements = cloneList( actualElements );
-			cloneCopy.visibleElements = cloneList( visibleElements );
+			cloneCopy.actualElements = this.cloneList( this.actualElements );
+			cloneCopy.visibleElements = this.cloneList( this.visibleElements );
 			cloneCopy.mirrorList = new ArrayList();
 
-			cloneCopy.currentFilter = currentFilter;
+			cloneCopy.currentFilter = this.currentFilter;
 			cloneCopy.selectedValue = null;
 
 			return cloneCopy;
@@ -944,50 +1015,50 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 			// that this method is overriding the one found in Object.  Thus,
 			// this exception should never be thrown, unless one of the super
 			// classes is re-written to throw the exception by default.
-			throw new RuntimeException( "AbstractListModel or one of its superclasses was rewritten to throw CloneNotSupportedException by default, call to clone() was unsuccessful" );
+			throw new RuntimeException(
+				"AbstractListModel or one of its superclasses was rewritten to throw CloneNotSupportedException by default, call to clone() was unsuccessful" );
 		}
 	}
 
 	/**
-	 * Because <code>ArrayList</code> only creates a shallow copy of the objects,
-	 * the one used as a data structure here must be cloned manually in order
-	 * to satifsy the contract established by <code>clone()</code>.  However,
-	 * the individual elements are known to be of class <code>Object</code>,
-	 * and objects only force the clone() method to be protected.  Thus, in
-	 * order to invoke clone() on each individual element, it must be done
+	 * Because <code>ArrayList</code> only creates a shallow copy of the objects, the one used as a data structure
+	 * here must be cloned manually in order to satifsy the contract established by <code>clone()</code>. However,
+	 * the individual elements are known to be of class <code>Object</code>, and objects only force the clone()
+	 * method to be protected. Thus, in order to invoke clone() on each individual element, it must be done
 	 * reflectively, which is the purpose of this private method.
-	 *
-	 * @return	as deep a copy of the object as can be obtained
+	 * 
+	 * @return as deep a copy of the object as can be obtained
 	 */
 
-	private ArrayList cloneList( ArrayList listToClone )
+	private ArrayList cloneList( final ArrayList listToClone )
 	{
 		ArrayList clonedList = new ArrayList();
 
 		for ( int i = 0; i < listToClone.size(); ++i )
-			clonedList.add( attemptClone( listToClone.get(i) ) );
+		{
+			clonedList.add( LockableListModel.attemptClone( listToClone.get( i ) ) );
+		}
 
 		return clonedList;
 	}
 
 	/**
-	 * A private function which attempts to clone the object, if
-	 * and only if the object implements the <code>Cloneable</code>
-	 * interface.  If the object provided does not implement the
-	 * <code>Cloneable</code> interface, or the clone() method is
-	 * protected (as it is in class <code>Object</code>), then the
-	 * original object is returned.
-	 *
-	 * @param	o	the object to be cloned
-	 * @return	a copy of the object, either shallow or deep, pending
-	 *			whether the original object was intended to be able to
-	 *			be deep-copied
+	 * A private function which attempts to clone the object, if and only if the object implements the
+	 * <code>Cloneable</code> interface. If the object provided does not implement the <code>Cloneable</code>
+	 * interface, or the clone() method is protected (as it is in class <code>Object</code>), then the original
+	 * object is returned.
+	 * 
+	 * @param o the object to be cloned
+	 * @return a copy of the object, either shallow or deep, pending whether the original object was intended to be able
+	 *         to be deep-copied
 	 */
 
-	private static Object attemptClone( Object o )
+	private static Object attemptClone( final Object o )
 	{
 		if ( !( o instanceof Cloneable ) )
+		{
 			return o;
+		}
 
 		java.lang.reflect.Method cloneMethod;
 
@@ -1031,7 +1102,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 			// would have been thrown in the cases where this would have occurred.
 			// But, if it does happen to occur *after* the SecurityException
 			// caught all the instances, then something is wrong.
-			throw new InternalError("accessible clone() method exists, but IllegalAccessException thrown");
+			throw new InternalError( "accessible clone() method exists, but IllegalAccessException thrown" );
 		}
 		catch ( IllegalArgumentException e )
 		{
@@ -1039,7 +1110,8 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 			// would have been thrown in the cases where this would have occurred.
 			// But, if it does happen to occur *after* the NoSuchMethodException
 			// caught all the instances, then something is wrong.
-			throw new InternalError("accessible clone() method exists, but IllegalArgumentException thrown when no arguments are provided");
+			throw new InternalError(
+				"accessible clone() method exists, but IllegalArgumentException thrown when no arguments are provided" );
 		}
 		catch ( java.lang.reflect.InvocationTargetException e )
 		{
@@ -1052,8 +1124,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	}
 
 	/**
-	 * Special class which allows you to filter elements inside of
-	 * this list model.
+	 * Special class which allows you to filter elements inside of this list model.
 	 */
 
 	public static interface ListElementFilter
@@ -1061,40 +1132,42 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 		public boolean isVisible( Object element );
 	}
 
-	private static class ShowEverythingFilter implements ListElementFilter
+	private static class ShowEverythingFilter
+		implements ListElementFilter
 	{
-		public boolean isVisible( Object element )
-		{	return true;
+		public boolean isVisible( final Object element )
+		{
+			return true;
 		}
 	}
 
 	/**
-	 * Returns a mirror image of this <code>LockableListModel</code>.  In essence,
-	 * the object returned will be a clone of the original object.  However, it has
-	 * the additional feature of listening for changes to the <em>underlying data</em> of this
-	 * <code>LockableListModel</code>.  Note that this means any changes in selected
-	 * indices will not be mirrored in the mirror image.  Note that because this function
-	 * modifies the listeners for this class, an asynchronous version is not available.
-	 *
-	 * @return	a mirror image of this <code>LockableListModel</code>
+	 * Returns a mirror image of this <code>LockableListModel</code>. In essence, the object returned will be a clone
+	 * of the original object. However, it has the additional feature of listening for changes to the
+	 * <em>underlying data</em> of this <code>LockableListModel</code>. Note that this means any changes in
+	 * selected indices will not be mirrored in the mirror image. Note that because this function modifies the listeners
+	 * for this class, an asynchronous version is not available.
+	 * 
+	 * @return a mirror image of this <code>LockableListModel</code>
 	 */
 
 	public LockableListModel getMirrorImage()
-	{	return new LockableListModel( this );
+	{
+		return new LockableListModel( this );
 	}
 
 	/**
-	 * Returns a mirror image of this <code>LockableListModel</code>.  In essence,
-	 * the object returned will be a clone of the original object.  However, it has
-	 * the additional feature of listening for changes to the <em>underlying data</em> of this
-	 * <code>LockableListModel</code>.  Note that this means any changes in selected
-	 * indices will not be mirrored in the mirror image.  Note that because this function
-	 * modifies the listeners for this class, an asynchronous version is not available.
-	 *
-	 * @return	a mirror image of this <code>LockableListModel</code>
+	 * Returns a mirror image of this <code>LockableListModel</code>. In essence, the object returned will be a clone
+	 * of the original object. However, it has the additional feature of listening for changes to the
+	 * <em>underlying data</em> of this <code>LockableListModel</code>. Note that this means any changes in
+	 * selected indices will not be mirrored in the mirror image. Note that because this function modifies the listeners
+	 * for this class, an asynchronous version is not available.
+	 * 
+	 * @return a mirror image of this <code>LockableListModel</code>
 	 */
 
-	public LockableListModel getMirrorImage( ListElementFilter filter )
-	{	return new LockableListModel( this, filter );
+	public LockableListModel getMirrorImage( final ListElementFilter filter )
+	{
+		return new LockableListModel( this, filter );
 	}
 }

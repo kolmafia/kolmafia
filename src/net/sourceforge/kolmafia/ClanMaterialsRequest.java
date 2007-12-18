@@ -33,9 +33,11 @@
 
 package net.sourceforge.kolmafia;
 
-public class ClanMaterialsRequest extends KoLRequest
+public class ClanMaterialsRequest
+	extends KoLRequest
 {
-	public ClanMaterialsRequest( int goodies, int oatmeal, int recliners, int grunts, int flyers, int archers )
+	public ClanMaterialsRequest( final int goodies, final int oatmeal, final int recliners, final int grunts,
+		final int flyers, final int archers )
 	{
 		super( "clan_war.php" );
 		this.addFormField( "action", "Yep." );

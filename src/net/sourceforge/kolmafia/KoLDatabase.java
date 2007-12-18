@@ -46,37 +46,46 @@ import java.util.Map.Entry;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.UtilityConstants;
 
-public class KoLDatabase extends StaticEntity
+public class KoLDatabase
+	extends StaticEntity
 {
-	public static final BufferedReader getReader( String filename )
-	{	return DataUtilities.getReader( filename );
-	}
-
-	public static final BufferedReader getReader( File file )
-	{	return DataUtilities.getReader( file );
-	}
-
-	public static final BufferedReader getReader( InputStream istream )
-	{	return DataUtilities.getReader( istream );
-	}
-
-	public static final BufferedReader getVersionedReader( String filename, int version )
+	public static final BufferedReader getReader( final String filename )
 	{
-		BufferedReader reader = DataUtilities.getReader( DATA_DIRECTORY, filename, true );
+		return DataUtilities.getReader( filename );
+	}
+
+	public static final BufferedReader getReader( final File file )
+	{
+		return DataUtilities.getReader( file );
+	}
+
+	public static final BufferedReader getReader( final InputStream istream )
+	{
+		return DataUtilities.getReader( istream );
+	}
+
+	public static final BufferedReader getVersionedReader( final String filename, final int version )
+	{
+		BufferedReader reader = DataUtilities.getReader( UtilityConstants.DATA_DIRECTORY, filename, true );
 
 		// If no file, no reader
 		if ( reader == null )
+		{
 			return null;
+		}
 
 		// Read the version number
-		String line = readLine( reader );
+		String line = KoLDatabase.readLine( reader );
 
 		// Parse the version number and validate
 		int fileVersion = StaticEntity.parseInt( line );
 
 		if ( version == fileVersion )
+		{
 			return reader;
+		}
 
 		// We don't understand this file format
 		try
@@ -85,18 +94,20 @@ public class KoLDatabase extends StaticEntity
 		}
 		catch ( Exception e )
 		{
-			printStackTrace( e );
+			StaticEntity.printStackTrace( e );
 		}
 
 		// Override file is wrong version. Get built-in file
 
-		return DataUtilities.getReader( DATA_DIRECTORY, filename, false );
+		return DataUtilities.getReader( UtilityConstants.DATA_DIRECTORY, filename, false );
 	}
 
-	public static final String readLine( BufferedReader reader )
+	public static final String readLine( final BufferedReader reader )
 	{
 		if ( reader == null )
+		{
 			return null;
+		}
 
 		try
 		{
@@ -105,7 +116,10 @@ public class KoLDatabase extends StaticEntity
 			// Read in all of the comment lines, or until
 			// the end of file, whichever comes first.
 
-			while ( (line = reader.readLine()) != null && (line.startsWith( "#" ) || line.length() == 0) );
+			while ( ( line = reader.readLine() ) != null && ( line.startsWith( "#" ) || line.length() == 0 ) )
+			{
+				;
+			}
 
 			// If you've reached the end of file, then
 			// return null.  Otherwise, return the line
@@ -118,66 +132,73 @@ public class KoLDatabase extends StaticEntity
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			printStackTrace( e );
+			StaticEntity.printStackTrace( e );
 			return null;
 		}
 	}
 
-	public static final String [] readData( BufferedReader reader )
+	public static final String[] readData( final BufferedReader reader )
 	{
 		if ( reader == null )
+		{
 			return null;
+		}
 
-		String line = readLine( reader );
+		String line = KoLDatabase.readLine( reader );
 		return line == null ? null : line.split( "\t" );
 	}
 
 	/**
-	 * Returns the canonicalized name, where all symbols are
-	 * replaced with their HTML representations.
-	 *
-	 * @param	name	The name to be canonicalized
-	 * @return	The canonicalized name
+	 * Returns the canonicalized name, where all symbols are replaced with their HTML representations.
+	 * 
+	 * @param name The name to be canonicalized
+	 * @return The canonicalized name
 	 */
 
-	public static final String getCanonicalName( String name )
+	public static final String getCanonicalName( final String name )
 	{
-		return name == null ? null : globalStringReplace(
-			RequestEditorKit.getEntities( RequestEditorKit.getUnicode( name ) ).toLowerCase(), "  ", " " );
+		return name == null ? null : StaticEntity.globalStringReplace( RequestEditorKit.getEntities(
+			RequestEditorKit.getUnicode( name ) ).toLowerCase(), "  ", " " );
 	}
 
 	/**
-	 * Returns the display name name, where all HTML representations
-	 * are replaced with their appropriate display symbols.
-	 *
-	 * @param	name	The name to be transformed to display form
-	 * @return	The display form of the given name
+	 * Returns the display name name, where all HTML representations are replaced with their appropriate display
+	 * symbols.
+	 * 
+	 * @param name The name to be transformed to display form
+	 * @return The display form of the given name
 	 */
 
-	public static final String getDisplayName( String name )
-	{	return name == null ? null : RequestEditorKit.getUnicode( name );
+	public static final String getDisplayName( final String name )
+	{
+		return name == null ? null : RequestEditorKit.getUnicode( name );
 	}
 
 	/**
-	 * Returns a list of all elements which contain the given
-	 * substring in their name.
-	 *
-	 * @param	nameMap	The map in which to search for the string
-	 * @param	substring	The substring for which to search
+	 * Returns a list of all elements which contain the given substring in their name.
+	 * 
+	 * @param nameMap The map in which to search for the string
+	 * @param substring The substring for which to search
 	 */
 
-	public static final List getMatchingNames( Map nameMap, String substring )
+	public static final List getMatchingNames( final Map nameMap, final String substring )
 	{
 		List substringList = new ArrayList();
-		String searchString = getCanonicalName( substring.startsWith( "\"" ) ? substring.substring( 1, substring.length() - 1 ) : substring ).trim();
+		String searchString =
+			KoLDatabase.getCanonicalName(
+				substring.startsWith( "\"" ) ? substring.substring( 1, substring.length() - 1 ) : substring ).trim();
 
 		if ( substring.length() == 0 )
+		{
 			return substringList;
+		}
 
 		if ( substring.startsWith( "\"" ) )
 		{
 			if ( nameMap.containsKey( searchString ) )
+			{
 				substringList.add( searchString );
+			}
 
 			return substringList;
 		}
@@ -188,15 +209,21 @@ public class KoLDatabase extends StaticEntity
 			return substringList;
 		}
 
-		String [] names = new String[ nameMap.size() ];
+		String[] names = new String[ nameMap.size() ];
 		nameMap.keySet().toArray( names );
 
 		for ( int i = 0; i < names.length; ++i )
-			if ( substringMatches( names[i], searchString ) )
-				substringList.add( names[i] );
+		{
+			if ( KoLDatabase.substringMatches( names[ i ], searchString ) )
+			{
+				substringList.add( names[ i ] );
+			}
+		}
 
 		if ( !substringList.isEmpty() )
+		{
 			return substringList;
+		}
 
 		int spaceIndex = searchString.indexOf( " " );
 		if ( spaceIndex != -1 )
@@ -204,71 +231,96 @@ public class KoLDatabase extends StaticEntity
 			String tempSearchString = StaticEntity.globalStringDelete( searchString, " " );
 
 			for ( int i = 0; i < names.length; ++i )
-				if ( substringMatches( names[i], tempSearchString ) )
-					substringList.add( names[i] );
+			{
+				if ( KoLDatabase.substringMatches( names[ i ], tempSearchString ) )
+				{
+					substringList.add( names[ i ] );
+				}
+			}
 
 			if ( !substringList.isEmpty() )
+			{
 				return substringList;
+			}
 		}
 
-		getMatchingAbbreviations( substringList, names, searchString );
+		KoLDatabase.getMatchingAbbreviations( substringList, names, searchString );
 		if ( !substringList.isEmpty() || spaceIndex == -1 )
+		{
 			return substringList;
+		}
 
-		getMatchingAbbreviations( substringList, names, StaticEntity.globalStringDelete( searchString, " " ) );
+		KoLDatabase.getMatchingAbbreviations( substringList, names, StaticEntity.globalStringDelete( searchString, " " ) );
 		return substringList;
 	}
 
 	/**
-	 * Returns a list of all elements which contain the given
-	 * abbreviation in their name.
-	 *
-	 * @param	nameMap	The map in which to search for the string
-	 * @param	substring	The substring for which to search
+	 * Returns a list of all elements which contain the given abbreviation in their name.
+	 * 
+	 * @param nameMap The map in which to search for the string
+	 * @param substring The substring for which to search
 	 */
 
-	private static final void getMatchingAbbreviations( List substringList, String [] names, String searchString )
+	private static final void getMatchingAbbreviations( final List substringList, final String[] names,
+		final String searchString )
 	{
 		if ( searchString.length() == 0 )
+		{
 			return;
+		}
 
 		for ( int i = 0; i < names.length; ++i )
-			if ( fuzzyMatches( names[i], searchString ) )
-				substringList.add( names[i] );
+		{
+			if ( KoLDatabase.fuzzyMatches( names[ i ], searchString ) )
+			{
+				substringList.add( names[ i ] );
+			}
+		}
 	}
 
-	public static final boolean substringMatches( String source, String substring )
-	{	return substringMatches( source, substring, false );
+	public static final boolean substringMatches( final String source, final String substring )
+	{
+		return KoLDatabase.substringMatches( source, substring, false );
 	}
 
-	public static final boolean substringMatches( String source, String substring, boolean checkBoundaries )
+	public static final boolean substringMatches( final String source, final String substring, boolean checkBoundaries )
 	{
 		int index = source.indexOf( substring );
 		if ( index == -1 )
+		{
 			return false;
+		}
 
 		if ( !checkBoundaries || index == 0 )
+		{
 			return true;
+		}
 
 		return !Character.isLetterOrDigit( source.charAt( index - 1 ) );
 	}
 
-	public static final boolean fuzzyMatches( String source, String substring )
+	public static final boolean fuzzyMatches( final String source, final String substring )
 	{
 		if ( substring == null || substring.length() == 0 )
+		{
 			return true;
+		}
 
 		int searchIndex = 0;
 		int lowerIndex, upperIndex;
 
 		for ( int j = 0; j < substring.length(); ++j )
 		{
-			lowerIndex = source.indexOf( Character.toLowerCase( substring.charAt(j) ), searchIndex );
-			upperIndex = source.indexOf( Character.toUpperCase( substring.charAt(j) ), searchIndex );
-			searchIndex = lowerIndex != -1 && upperIndex != -1 ? Math.min( lowerIndex, upperIndex ) : Math.max( lowerIndex, upperIndex );
+			lowerIndex = source.indexOf( Character.toLowerCase( substring.charAt( j ) ), searchIndex );
+			upperIndex = source.indexOf( Character.toUpperCase( substring.charAt( j ) ), searchIndex );
+			searchIndex =
+				lowerIndex != -1 && upperIndex != -1 ? Math.min( lowerIndex, upperIndex ) : Math.max(
+					lowerIndex, upperIndex );
 
 			if ( searchIndex == -1 )
+			{
 				return false;
+			}
 
 			++searchIndex;
 		}
@@ -276,38 +328,42 @@ public class KoLDatabase extends StaticEntity
 		return true;
 	}
 
-	private static class ItemCounter implements Comparable
+	private static class ItemCounter
+		implements Comparable
 	{
-		private int count;
-		private String name;
+		private final int count;
+		private final String name;
 
-		public ItemCounter( String name, int count )
+		public ItemCounter( final String name, final int count )
 		{
 			this.name = name;
 			this.count = count;
 		}
 
-		public int compareTo( Object o )
+		public int compareTo( final Object o )
 		{
 			ItemCounter ic = (ItemCounter) o;
 
 			if ( this.count != ic.count )
+			{
 				return ic.count - this.count;
+			}
 
 			return this.name.compareToIgnoreCase( ic.name );
 		}
 
 		public String toString()
-		{	return this.name + ": " + this.count;
+		{
+			return this.name + ": " + this.count;
 		}
 	}
 
-	public static final String getBreakdown( List items )
+	public static final String getBreakdown( final List items )
 	{
 		StringBuffer strbuf = new StringBuffer();
-		strbuf.append( LINE_BREAK );
+		strbuf.append( KoLConstants.LINE_BREAK );
 
-		Object [] itemArray = new Object[ items.size() ];
+		Object[] itemArray = new Object[ items.size() ];
 		items.toArray( itemArray );
 
 		int currentCount = 1;
@@ -317,9 +373,11 @@ public class KoLDatabase extends StaticEntity
 		for ( int i = 1; i < itemArray.length; ++i )
 		{
 			if ( itemArray[ i - 1 ] == null )
+			{
 				continue;
+			}
 
-			if ( itemArray[i] != null && !itemArray[ i - 1 ].equals( itemArray[i] ) )
+			if ( itemArray[ i ] != null && !itemArray[ i - 1 ].equals( itemArray[ i ] ) )
 			{
 				itemList.add( new ItemCounter( itemArray[ i - 1 ].toString(), currentCount ) );
 				currentCount = 0;
@@ -329,193 +387,214 @@ public class KoLDatabase extends StaticEntity
 		}
 
 		if ( itemArray[ itemArray.length - 1 ] != null )
+		{
 			itemList.add( new ItemCounter( itemArray[ itemArray.length - 1 ].toString(), currentCount ) );
+		}
 
 		strbuf.append( "<ul>" );
 		Collections.sort( itemList );
 
 		for ( int i = 0; i < itemList.size(); ++i )
 		{
-			strbuf.append( "<li><nobr>" + itemList.get(i) + "</nobr></li>" );
-			strbuf.append( LINE_BREAK );
+			strbuf.append( "<li><nobr>" + itemList.get( i ) + "</nobr></li>" );
+			strbuf.append( KoLConstants.LINE_BREAK );
 		}
 
 		strbuf.append( "</ul>" );
-		strbuf.append( LINE_BREAK );
+		strbuf.append( KoLConstants.LINE_BREAK );
 
 		return strbuf.toString();
 	}
 
 	/**
-	 * Calculates the sum of all the integers in the given list.
-	 * Note that the list must consist entirely of Integer objects.
+	 * Calculates the sum of all the integers in the given list. Note that the list must consist entirely of Integer
+	 * objects.
 	 */
 
-	public static final long calculateTotal( List values )
+	public static final long calculateTotal( final List values )
 	{
 		long total = 0;
 		for ( int i = 0; i < values.size(); ++i )
 		{
-			if ( values.get(i) != null )
-				total += ((Integer)values.get(i)).intValue();
+			if ( values.get( i ) != null )
+			{
+				total += ( (Integer) values.get( i ) ).intValue();
+			}
 		}
 
 		return total;
 	}
 
 	/**
-	 * Calculates the average of all the integers in the given list.
-	 * Note that the list must consist entirely of Integer objects.
+	 * Calculates the average of all the integers in the given list. Note that the list must consist entirely of Integer
+	 * objects.
 	 */
 
-	public static final float calculateAverage( List values )
-	{	return (float)calculateTotal( values ) / (float)values.size();
+	public static final float calculateAverage( final List values )
+	{
+		return (float) KoLDatabase.calculateTotal( values ) / (float) values.size();
 	}
 
 	/**
-	 * Internal class which functions exactly an array of boolean,
-	 * except it uses "sets" and "gets" like a list.  This could be
-	 * done with generics (Java 1.5) but is done like this so that
-	 * we get backwards compatibility.
+	 * Internal class which functions exactly an array of boolean, except it uses "sets" and "gets" like a list. This
+	 * could be done with generics (Java 1.5) but is done like this so that we get backwards compatibility.
 	 */
 
 	public static class BooleanArray
 	{
-		private ArrayList internalList = new ArrayList();
+		private final ArrayList internalList = new ArrayList();
 
-		public boolean get( int index )
-		{	return index < 0 || index >= this.internalList.size() ? false : ((Boolean)this.internalList.get( index )).booleanValue();
+		public boolean get( final int index )
+		{
+			return index < 0 || index >= this.internalList.size() ? false : ( (Boolean) this.internalList.get( index ) ).booleanValue();
 		}
 
-		public void set( int index, boolean value )
+		public void set( final int index, final boolean value )
 		{
 			while ( index >= this.internalList.size() )
+			{
 				this.internalList.add( Boolean.FALSE );
+			}
 
 			this.internalList.set( index, value ? Boolean.TRUE : Boolean.FALSE );
 		}
 	}
 
 	/**
-	 * Internal class which functions exactly an array of integers,
-	 * except it uses "sets" and "gets" like a list.  This could be
-	 * done with generics (Java 1.5) but is done like this so that
-	 * we get backwards compatibility.
+	 * Internal class which functions exactly an array of integers, except it uses "sets" and "gets" like a list. This
+	 * could be done with generics (Java 1.5) but is done like this so that we get backwards compatibility.
 	 */
 
 	public static class IntegerArray
 	{
-		private ArrayList internalList = new ArrayList();
+		private final ArrayList internalList = new ArrayList();
 
-		public int get( int index )
-		{	return index < 0 || index >= this.internalList.size() ? 0 : ((Integer)this.internalList.get( index )).intValue();
+		public int get( final int index )
+		{
+			return index < 0 || index >= this.internalList.size() ? 0 : ( (Integer) this.internalList.get( index ) ).intValue();
 		}
 
-		public void set( int index, int value )
+		public void set( final int index, final int value )
 		{
 			while ( index >= this.internalList.size() )
-				this.internalList.add( new Integer(0) );
+			{
+				this.internalList.add( new Integer( 0 ) );
+			}
 
 			this.internalList.set( index, new Integer( value ) );
 		}
 	}
 
 	/**
-	 * Internal class which functions exactly an array of strings,
-	 * except it uses "sets" and "gets" like a list.  This could be
-	 * done with generics (Java 1.5) but is done like this so that
-	 * we get backwards compatibility.
+	 * Internal class which functions exactly an array of strings, except it uses "sets" and "gets" like a list. This
+	 * could be done with generics (Java 1.5) but is done like this so that we get backwards compatibility.
 	 */
 
 	public static class StringArray
 	{
-		private ArrayList internalList = new ArrayList();
+		private final ArrayList internalList = new ArrayList();
 
-		public String get( int index )
-		{	return index < 0 || index >= this.internalList.size() ? "" : (String) this.internalList.get( index );
+		public String get( final int index )
+		{
+			return index < 0 || index >= this.internalList.size() ? "" : (String) this.internalList.get( index );
 		}
 
-		public void set( int index, String value )
+		public void set( final int index, final String value )
 		{
 			while ( index >= this.internalList.size() )
+			{
 				this.internalList.add( "" );
+			}
 
 			this.internalList.set( index, value );
 		}
 
-		public void add( String s )
-		{	this.internalList.add( s );
+		public void add( final String s )
+		{
+			this.internalList.add( s );
 		}
 
 		public void clear()
-		{	this.internalList.clear();
+		{
+			this.internalList.clear();
 		}
 
-		public String [] toArray()
+		public String[] toArray()
 		{
-			String [] array = new String[ this.internalList.size() ];
+			String[] array = new String[ this.internalList.size() ];
 			this.internalList.toArray( array );
 			return array;
 		}
 
 		public int size()
-		{	return this.internalList.size();
+		{
+			return this.internalList.size();
 		}
 	}
 
-	public static final LockableListModel createListModel( Set entries )
+	public static final LockableListModel createListModel( final Set entries )
 	{
 		LockableListModel model = new LockableListModel();
 
 		Iterator it = entries.iterator();
 		while ( it.hasNext() )
+		{
 			model.add( new LowerCaseEntry( (Entry) it.next() ) );
+		}
 
 		return model;
 	}
 
-	public static class LowerCaseEntry implements Entry
+	public static class LowerCaseEntry
+		implements Entry
 	{
-		private Entry original;
-		private Object key, value;
+		private final Entry original;
+		private final Object key;
+		private Object value;
 		private String pairString, lowercase;
 
-		public LowerCaseEntry( Entry original )
+		public LowerCaseEntry( final Entry original )
 		{
 			this.original = original;
 			this.key = original.getKey();
 			this.value = original.getValue();
-			this.pairString = value + " (" + key + ")";
-			this.lowercase = value.toString().toLowerCase();
+			this.pairString = this.value + " (" + this.key + ")";
+			this.lowercase = this.value.toString().toLowerCase();
 		}
 
-		public boolean equals( Object o )
+		public boolean equals( final Object o )
 		{
 			if ( o instanceof LowerCaseEntry )
-				return original.equals( ((LowerCaseEntry)o).original );
+			{
+				return this.original.equals( ( (LowerCaseEntry) o ).original );
+			}
 
-			return original.equals( o );
+			return this.original.equals( o );
 		}
 
 		public Object getKey()
-		{	return key;
+		{
+			return this.key;
 		}
 
 		public Object getValue()
-		{	return value;
+		{
+			return this.value;
 		}
 
 		public String toString()
-		{	return pairString;
+		{
+			return this.pairString;
 		}
 
 		public int hashCode()
-		{	return original.hashCode();
+		{
+			return this.original.hashCode();
 		}
 
-		public Object setValue( Object newValue )
+		public Object setValue( final Object newValue )
 		{
-			Object returnValue = original.setValue( newValue );
+			Object returnValue = this.original.setValue( newValue );
 
 			this.value = newValue;
 			this.pairString = this.value + " (" + this.key + ")";
@@ -525,7 +604,8 @@ public class KoLDatabase extends StaticEntity
 		}
 
 		public String getLowerCase()
-		{	return this.lowercase;
+		{
+			return this.lowercase;
 		}
 	}
 }

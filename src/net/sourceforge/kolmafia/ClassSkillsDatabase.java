@@ -41,7 +41,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-public class ClassSkillsDatabase extends KoLDatabase
+public class ClassSkillsDatabase
+	extends KoLDatabase
 {
 	private static final Map skillById = new TreeMap();
 	private static final Map skillByName = new TreeMap();
@@ -63,11 +64,8 @@ public class ClassSkillsDatabase extends KoLDatabase
 	private static final String BAD_MOON = "bad moon";
 	private static final String MR_SKILLS = "mr. skills";
 
-	private static final String [] CATEGORIES = new String []
-	{
-		UNCATEGORIZED, "seal clubber", "turtle tamer", "pastamancer", "sauceror", "disco bandit", "accordion thief",
-		GNOME_SKILLS, MR_SKILLS, BAD_MOON
-	};
+	private static final String[] CATEGORIES =
+		new String[] { ClassSkillsDatabase.UNCATEGORIZED, "seal clubber", "turtle tamer", "pastamancer", "sauceror", "disco bandit", "accordion thief", ClassSkillsDatabase.GNOME_SKILLS, ClassSkillsDatabase.MR_SKILLS, ClassSkillsDatabase.BAD_MOON };
 
 	static
 	{
@@ -76,17 +74,23 @@ public class ClassSkillsDatabase extends KoLDatabase
 		// examined and float-referenced: once in the name-lookup,
 		// and again in the Id lookup.
 
-		for ( int i = 0; i < CATEGORIES.length; ++i )
-			skillsByCategory.put( CATEGORIES[i], new ArrayList() );
+		for ( int i = 0; i < ClassSkillsDatabase.CATEGORIES.length; ++i )
+		{
+			ClassSkillsDatabase.skillsByCategory.put( ClassSkillsDatabase.CATEGORIES[ i ], new ArrayList() );
+		}
 
-		BufferedReader reader = getVersionedReader( "classskills.txt", CLASSSKILLS_VERSION );
+		BufferedReader reader = KoLDatabase.getVersionedReader( "classskills.txt", KoLConstants.CLASSSKILLS_VERSION );
 
-		String [] data;
+		String[] data;
 
-		while ( (data = readData( reader )) != null )
+		while ( ( data = KoLDatabase.readData( reader ) ) != null )
 		{
 			if ( data.length == 5 )
-				addSkill( Integer.valueOf( data[0] ), getDisplayName( data[1] ), Integer.valueOf( data[2] ), Integer.valueOf( data[3] ), Integer.valueOf( data[4] ) );
+			{
+				ClassSkillsDatabase.addSkill(
+					Integer.valueOf( data[ 0 ] ), KoLDatabase.getDisplayName( data[ 1 ] ),
+					Integer.valueOf( data[ 2 ] ), Integer.valueOf( data[ 3 ] ), Integer.valueOf( data[ 4 ] ) );
+			}
 		}
 
 		try
@@ -98,31 +102,32 @@ public class ClassSkillsDatabase extends KoLDatabase
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			printStackTrace( e );
+			StaticEntity.printStackTrace( e );
 		}
 	}
 
-	private static final void addSkill( Integer skillId, String skillName, Integer skillType, Integer mpConsumption, Integer duration )
+	private static final void addSkill( final Integer skillId, final String skillName, final Integer skillType,
+		final Integer mpConsumption, final Integer duration )
 	{
-		skillById.put( skillId, skillName );
-		skillByName.put( getCanonicalName( skillName ), skillId );
+		ClassSkillsDatabase.skillById.put( skillId, skillName );
+		ClassSkillsDatabase.skillByName.put( KoLDatabase.getCanonicalName( skillName ), skillId );
 
-		skillTypeById.put( skillId, skillType );
+		ClassSkillsDatabase.skillTypeById.put( skillId, skillType );
 
-		mpConsumptionById.put( skillId, mpConsumption );
-		durationById.put( skillId, duration );
+		ClassSkillsDatabase.mpConsumptionById.put( skillId, mpConsumption );
+		ClassSkillsDatabase.durationById.put( skillId, duration );
 
 		String category;
 		int categoryId = skillId.intValue() / 1000;
 
 		switch ( skillId.intValue() )
 		{
-		case 3:  // Smile of Mr. A
+		case 3: // Smile of Mr. A
 		case 16: // Summon Snowcone
 		case 17: // Summon Hilarious Objects
 		case 18: // Summon Candy Hearts
 
-			category = MR_SKILLS;
+			category = ClassSkillsDatabase.MR_SKILLS;
 			break;
 
 		case 10: // Powers of Observatiogn
@@ -131,9 +136,8 @@ public class ClassSkillsDatabase extends KoLDatabase
 		case 13: // Gnomish Hardigness
 		case 14: // Cosmic Ugnderstanding
 
-			category = GNOME_SKILLS;
+			category = ClassSkillsDatabase.GNOME_SKILLS;
 			break;
-
 
 		case 21: // Lust
 		case 22: // Gluttony
@@ -143,7 +147,7 @@ public class ClassSkillsDatabase extends KoLDatabase
 		case 26: // Envy
 		case 27: // Pride
 
-			category = BAD_MOON;
+			category = ClassSkillsDatabase.BAD_MOON;
 			break;
 
 		default:
@@ -152,262 +156,312 @@ public class ClassSkillsDatabase extends KoLDatabase
 			// it's not gained by equipment.
 
 			if ( categoryId == 7 )
-				category = UNCATEGORIZED;
-
-			// All other skills fall under categories
-			// already specified.
-
+			{
+				category = ClassSkillsDatabase.UNCATEGORIZED;
+			}
 			else
-				category = CATEGORIES[ categoryId ];
+			{
+				category = ClassSkillsDatabase.CATEGORIES[ categoryId ];
+			}
 		}
 
-		skillCategoryById.put( skillId, category );
-		((ArrayList)skillsByCategory.get( category )).add( skillName );
+		ClassSkillsDatabase.skillCategoryById.put( skillId, category );
+		( (ArrayList) ClassSkillsDatabase.skillsByCategory.get( category ) ).add( skillName );
 	}
 
 	public static final List getSkillsByCategory( String category )
 	{
 		if ( category == null )
+		{
 			return new ArrayList();
+		}
 
 		category = category.trim().toLowerCase();
-		for ( int i = 0; i < CATEGORIES.length; ++i )
-			if ( substringMatches( CATEGORIES[i], category ) )
-				category = CATEGORIES[i];
+		for ( int i = 0; i < ClassSkillsDatabase.CATEGORIES.length; ++i )
+		{
+			if ( KoLDatabase.substringMatches( ClassSkillsDatabase.CATEGORIES[ i ], category ) )
+			{
+				category = ClassSkillsDatabase.CATEGORIES[ i ];
+			}
+		}
 
-		List skills = (List) skillsByCategory.get( category );
+		List skills = (List) ClassSkillsDatabase.skillsByCategory.get( category );
 		return skills == null ? new ArrayList() : skills;
 	}
 
 	/**
-	 * Returns a list of all skills which contain the given
-	 * substring.  This is useful for people who are doing
-	 * lookups on skills.
+	 * Returns a list of all skills which contain the given substring. This is useful for people who are doing lookups
+	 * on skills.
 	 */
 
-	public static final List getMatchingNames( String substring )
-	{	return getMatchingNames( skillByName, substring );
+	public static final List getMatchingNames( final String substring )
+	{
+		return KoLDatabase.getMatchingNames( ClassSkillsDatabase.skillByName, substring );
 	}
 
 	/**
 	 * Returns the name for an skill, given its Id.
-	 * @param	skillId	The Id of the skill to lookup
-	 * @return	The name of the corresponding skill
+	 * 
+	 * @param skillId The Id of the skill to lookup
+	 * @return The name of the corresponding skill
 	 */
 
-	public static final String getSkillName( int skillId )
-	{	return (String) skillById.get( new Integer( skillId ) );
+	public static final String getSkillName( final int skillId )
+	{
+		return (String) ClassSkillsDatabase.skillById.get( new Integer( skillId ) );
 	}
 
 	/**
 	 * Returns the type for an skill, given its Id.
-	 * @param	skillId	The Id of the skill to lookup
-	 * @return	The type of the corresponding skill
+	 * 
+	 * @param skillId The Id of the skill to lookup
+	 * @return The type of the corresponding skill
 	 */
 
-	public static final int getSkillType( int skillId )
+	public static final int getSkillType( final int skillId )
 	{
-		Object skillType = skillTypeById.get( new Integer( skillId ) );
-		return skillType == null ? -1 : ((Integer)skillType).intValue();
+		Object skillType = ClassSkillsDatabase.skillTypeById.get( new Integer( skillId ) );
+		return skillType == null ? -1 : ( (Integer) skillType ).intValue();
 	}
 
 	/**
 	 * Returns the Id number for an skill, given its name.
-	 * @param	skillName	The name of the skill to lookup
-	 * @return	The Id number of the corresponding skill
+	 * 
+	 * @param skillName The name of the skill to lookup
+	 * @return The Id number of the corresponding skill
 	 */
 
-	public static final int getSkillId( String skillName )
+	public static final int getSkillId( final String skillName )
 	{
-		Object skillId = skillByName.get( getCanonicalName( skillName ) );
-		return skillId == null ? -1 : ((Integer)skillId).intValue();
+		Object skillId = ClassSkillsDatabase.skillByName.get( KoLDatabase.getCanonicalName( skillName ) );
+		return skillId == null ? -1 : ( (Integer) skillId ).intValue();
 	}
 
 	/**
-	 * Returns how much MP is consumed by using the skill
-	 * with the given Id.
-	 *
-	 * @param	skillId	The id of the skill to lookup
-	 * @return	The MP consumed by the skill, or 0 if unknown
+	 * Returns how much MP is consumed by using the skill with the given Id.
+	 * 
+	 * @param skillId The id of the skill to lookup
+	 * @return The MP consumed by the skill, or 0 if unknown
 	 */
 
-	public static final int getMPConsumptionById( int skillId )
-	{	return getMPConsumptionById( skillId, false );
+	public static final int getMPConsumptionById( final int skillId )
+	{
+		return ClassSkillsDatabase.getMPConsumptionById( skillId, false );
 	}
 
-	public static final int getMPConsumptionById( int skillId, boolean justCast )
+	public static final int getMPConsumptionById( final int skillId, final boolean justCast )
 	{
 		// Summon Candy Hearts has a special mana cost.
 		if ( skillId == 18 )
 		{
-			int count = KoLSettings.getIntegerProperty( "candyHeartSummons" ) - (justCast ? 1 : 0);
-			return Math.max( ((count + 1) * (count + 2)) / 2 + KoLCharacter.getManaCostAdjustment(), 1 );
+			int count = KoLSettings.getIntegerProperty( "candyHeartSummons" ) - ( justCast ? 1 : 0 );
+			return Math.max( ( count + 1 ) * ( count + 2 ) / 2 + KoLCharacter.getManaCostAdjustment(), 1 );
 		}
 
 		// Moxious Maneuver has a special mana cost.
 		if ( skillId == 7008 )
+		{
 			return Math.max( KoLCharacter.getLevel() + KoLCharacter.getManaCostAdjustment(), 1 );
+		}
 
 		// Magic Missile has a special mana cost.
 		if ( skillId == 7009 )
-			return Math.max( Math.min( ( KoLCharacter.getLevel() + 3 ) / 2, 6 ) + KoLCharacter.getManaCostAdjustment(), 1 );
+		{
+			return Math.max(
+				Math.min( ( KoLCharacter.getLevel() + 3 ) / 2, 6 ) + KoLCharacter.getManaCostAdjustment(), 1 );
+		}
 
-		if ( getSkillType( skillId ) == PASSIVE )
+		if ( ClassSkillsDatabase.getSkillType( skillId ) == ClassSkillsDatabase.PASSIVE )
+		{
 			return 0;
+		}
 
-		Object mpConsumption = mpConsumptionById.get( new Integer( skillId ) );
-		return mpConsumption == null ? 0 : Math.max( ((Integer)mpConsumption).intValue() + KoLCharacter.getManaCostAdjustment(), 1 );
+		Object mpConsumption = ClassSkillsDatabase.mpConsumptionById.get( new Integer( skillId ) );
+		return mpConsumption == null ? 0 : Math.max(
+			( (Integer) mpConsumption ).intValue() + KoLCharacter.getManaCostAdjustment(), 1 );
 	}
 
 	/**
-	 * Returns how many rounds of buff are gained by using
-	 * the skill with the given Id.
-	 *
-	 * @param	skillId	The id of the skill to lookup
-	 * @return	The duration of effect the cast gives
+	 * Returns how many rounds of buff are gained by using the skill with the given Id.
+	 * 
+	 * @param skillId The id of the skill to lookup
+	 * @return The duration of effect the cast gives
 	 */
 
-	public static final int getEffectDuration( int skillId )
+	public static final int getEffectDuration( final int skillId )
 	{
-		Object duration = durationById.get( new Integer( skillId ) );
+		Object duration = ClassSkillsDatabase.durationById.get( new Integer( skillId ) );
 		if ( duration == null )
+		{
 			return 0;
+		}
 
-		int actualDuration = ((Integer)duration).intValue();
-		if ( actualDuration == 0 || getSkillType( skillId ) != BUFF )
+		int actualDuration = ( (Integer) duration ).intValue();
+		if ( actualDuration == 0 || ClassSkillsDatabase.getSkillType( skillId ) != ClassSkillsDatabase.BUFF )
+		{
 			return actualDuration;
+		}
 
-		AdventureResult [] weapons = null;
+		AdventureResult[] weapons = null;
 
 		if ( skillId > 2000 && skillId < 3000 )
+		{
 			weapons = UseSkillRequest.TAMER_WEAPONS;
+		}
 
 		if ( skillId > 4000 && skillId < 5000 )
+		{
 			weapons = UseSkillRequest.SAUCE_WEAPONS;
+		}
 
 		if ( skillId > 6000 && skillId < 7000 )
+		{
 			weapons = UseSkillRequest.THIEF_WEAPONS;
+		}
 
 		if ( weapons != null )
 		{
-			if ( inventory.contains( weapons[0] ) || KoLCharacter.hasEquipped( weapons[0] ) )
+			if ( KoLConstants.inventory.contains( weapons[ 0 ] ) || KoLCharacter.hasEquipped( weapons[ 0 ] ) )
+			{
 				actualDuration += 10;
-			else if ( inventory.contains( weapons[1] ) || KoLCharacter.hasEquipped( weapons[1] ) )
+			}
+			else if ( KoLConstants.inventory.contains( weapons[ 1 ] ) || KoLCharacter.hasEquipped( weapons[ 1 ] ) )
+			{
 				actualDuration += 5;
+			}
 			else if ( weapons == UseSkillRequest.THIEF_WEAPONS )
 			{
-				if ( inventory.contains( weapons[2] ) || KoLCharacter.hasEquipped( weapons[2] ) )
+				if ( KoLConstants.inventory.contains( weapons[ 2 ] ) || KoLCharacter.hasEquipped( weapons[ 2 ] ) )
+				{
 					actualDuration += 2;
-				else if ( !inventory.contains( weapons[3] ) && !KoLCharacter.hasEquipped( weapons[3] ) )
+				}
+				else if ( !KoLConstants.inventory.contains( weapons[ 3 ] ) && !KoLCharacter.hasEquipped( weapons[ 3 ] ) )
+				{
 					return 0;
+				}
 			}
-			else if ( !inventory.contains( weapons[2] ) && !KoLCharacter.hasEquipped( weapons[2] ) )
+			else if ( !KoLConstants.inventory.contains( weapons[ 2 ] ) && !KoLCharacter.hasEquipped( weapons[ 2 ] ) )
+			{
 				return 0;
+			}
 		}
 
 		if ( KoLCharacter.hasItem( UseSkillRequest.WIZARD_HAT ) )
+		{
 			actualDuration += 5;
+		}
 
 		return actualDuration;
 	}
 
 	/**
-	 * Returns whether or not this is a normal skill that can only be
-	 * used on the player.
-	 *
+	 * Returns whether or not this is a normal skill that can only be used on the player.
+	 * 
 	 * @return <code>true</code> if the skill is a normal skill
 	 */
 
-	public static final boolean isNormal( int skillId )
-	{	return isType( skillId, SELF_ONLY );
+	public static final boolean isNormal( final int skillId )
+	{
+		return ClassSkillsDatabase.isType( skillId, ClassSkillsDatabase.SELF_ONLY );
 	}
 
 	/**
 	 * Returns whether or not the skill is a passive.
-	 * @return	<code>true</code> if the skill is passive
+	 * 
+	 * @return <code>true</code> if the skill is passive
 	 */
 
-	public static final boolean isPassive( int skillId )
-	{	return isType( skillId, PASSIVE );
-	}
-
-	/**
-	 * Returns whether or not the skill is a buff (ie: can be
-	 * used on others).
-	 *
-	 * @return	<code>true</code> if the skill can target other players
-	 */
-
-	public static final boolean isBuff( int skillId )
-	{	return isType( skillId, BUFF );
-	}
-
-	/**
-	 * Returns whether or not the skill is a combat skill (ie: can
-	 * be used while fighting).
-	 *
-	 * @return	<code>true</code> if the skill can be used in combat
-	 */
-
-	public static final boolean isCombat( int skillId )
-	{	return isType( skillId, COMBAT );
-	}
-
-	/**
-	 * Utility method used to determine if the given skill is of the
-	 * appropriate type.
-	 */
-
-	private static final boolean isType( int skillId, int type )
+	public static final boolean isPassive( final int skillId )
 	{
-		Object skillType = skillTypeById.get( new Integer( skillId ) );
-		return skillType == null ? false : ((Integer)skillType).intValue() == type;
+		return ClassSkillsDatabase.isType( skillId, ClassSkillsDatabase.PASSIVE );
+	}
+
+	/**
+	 * Returns whether or not the skill is a buff (ie: can be used on others).
+	 * 
+	 * @return <code>true</code> if the skill can target other players
+	 */
+
+	public static final boolean isBuff( final int skillId )
+	{
+		return ClassSkillsDatabase.isType( skillId, ClassSkillsDatabase.BUFF );
+	}
+
+	/**
+	 * Returns whether or not the skill is a combat skill (ie: can be used while fighting).
+	 * 
+	 * @return <code>true</code> if the skill can be used in combat
+	 */
+
+	public static final boolean isCombat( final int skillId )
+	{
+		return ClassSkillsDatabase.isType( skillId, ClassSkillsDatabase.COMBAT );
+	}
+
+	/**
+	 * Utility method used to determine if the given skill is of the appropriate type.
+	 */
+
+	private static final boolean isType( final int skillId, final int type )
+	{
+		Object skillType = ClassSkillsDatabase.skillTypeById.get( new Integer( skillId ) );
+		return skillType == null ? false : ( (Integer) skillType ).intValue() == type;
 	}
 
 	/**
 	 * Returns all skills in the database of the given type.
 	 */
 
-	public static final List getSkillsByType( int type )
+	public static final List getSkillsByType( final int type )
 	{
 		ArrayList list = new ArrayList();
 
 		int skillId;
 		boolean shouldAdd = false;
-		Object [] keys = skillTypeById.keySet().toArray();
+		Object[] keys = ClassSkillsDatabase.skillTypeById.keySet().toArray();
 
 		for ( int i = 0; i < keys.length; ++i )
 		{
 			shouldAdd = false;
-			skillId = ((Integer)keys[i]).intValue();
+			skillId = ( (Integer) keys[ i ] ).intValue();
 
-			if ( type == CASTABLE )
-				shouldAdd = isType( skillId, SELF_ONLY ) || isType( skillId, BUFF );
+			if ( type == ClassSkillsDatabase.CASTABLE )
+			{
+				shouldAdd =
+					ClassSkillsDatabase.isType( skillId, ClassSkillsDatabase.SELF_ONLY ) || ClassSkillsDatabase.isType(
+						skillId, ClassSkillsDatabase.BUFF );
+			}
 			else if ( skillId == 3009 )
-				shouldAdd = type == SELF_ONLY || type == COMBAT;
+			{
+				shouldAdd = type == ClassSkillsDatabase.SELF_ONLY || type == ClassSkillsDatabase.COMBAT;
+			}
 			else
-				shouldAdd = isType( skillId, type );
+			{
+				shouldAdd = ClassSkillsDatabase.isType( skillId, type );
+			}
 
 			if ( shouldAdd )
-				list.add( UseSkillRequest.getInstance( ((Integer)keys[i]).intValue() ) );
+			{
+				list.add( UseSkillRequest.getInstance( ( (Integer) keys[ i ] ).intValue() ) );
+			}
 		}
 
 		return list;
 	}
 
-	private static final String toTitleCase( String s )
+	private static final String toTitleCase( final String s )
 	{
 		boolean found = false;
-		char [] chars = s.toLowerCase().toCharArray();
+		char[] chars = s.toLowerCase().toCharArray();
 
 		for ( int i = 0; i < chars.length; ++i )
 		{
-			if ( !found && Character.isLetter( chars[i] ) )
+			if ( !found && Character.isLetter( chars[ i ] ) )
 			{
-				chars[i] = Character.toUpperCase( chars[i] );
+				chars[ i ] = Character.toUpperCase( chars[ i ] );
 				found = true;
 			}
-			else if ( Character.isWhitespace( chars[i] ) )
+			else if ( Character.isWhitespace( chars[ i ] ) )
 			{
 				found = false;
 			}
@@ -417,94 +471,118 @@ public class ClassSkillsDatabase extends KoLDatabase
 	}
 
 	/**
-	 * Returns whether or not an item with a given name
-	 * exists in the database; this is useful in the
-	 * event that an item is encountered which is not
-	 * tradeable (and hence, should not be displayed).
-	 *
-	 * @return	<code>true</code> if the item is in the database
+	 * Returns whether or not an item with a given name exists in the database; this is useful in the event that an item
+	 * is encountered which is not tradeable (and hence, should not be displayed).
+	 * 
+	 * @return <code>true</code> if the item is in the database
 	 */
 
-	public static final boolean contains( String skillName )
-	{	return skillByName.containsKey( getCanonicalName( skillName ) );
+	public static final boolean contains( final String skillName )
+	{
+		return ClassSkillsDatabase.skillByName.containsKey( KoLDatabase.getCanonicalName( skillName ) );
 	}
 
 	/**
 	 * Returns the set of skills keyed by name
-	 * @return	The set of skills keyed by name
+	 * 
+	 * @return The set of skills keyed by name
 	 */
 
 	public static final Set entrySet()
-	{	return skillById.entrySet();
+	{
+		return ClassSkillsDatabase.skillById.entrySet();
 	}
 
 	private static final ArrayList skillNames = new ArrayList();
 
-	public static final void generateSkillList( StringBuffer buffer, boolean appendHTML )
+	public static final void generateSkillList( final StringBuffer buffer, final boolean appendHTML )
 	{
 		ArrayList uncategorized = new ArrayList();
-		ArrayList [] categories = new ArrayList[ CATEGORIES.length ];
+		ArrayList[] categories = new ArrayList[ ClassSkillsDatabase.CATEGORIES.length ];
 
-		if ( skillNames.isEmpty() )
-			skillNames.addAll( skillByName.keySet() );
+		if ( ClassSkillsDatabase.skillNames.isEmpty() )
+		{
+			ClassSkillsDatabase.skillNames.addAll( ClassSkillsDatabase.skillByName.keySet() );
+		}
 
 		for ( int i = 0; i < categories.length; ++i )
 		{
-			categories[i] = new ArrayList();
-			categories[i].addAll( (ArrayList) skillsByCategory.get( CATEGORIES[i] ) );
+			categories[ i ] = new ArrayList();
+			categories[ i ].addAll( (ArrayList) ClassSkillsDatabase.skillsByCategory.get( ClassSkillsDatabase.CATEGORIES[ i ] ) );
 
-			for ( int j = 0; j < categories[i].size(); ++j )
-				if ( !availableSkills.contains( UseSkillRequest.getInstance( (String) categories[i].get(j) ) ) )
-					categories[i].remove(j--);
+			for ( int j = 0; j < categories[ i ].size(); ++j )
+			{
+				if ( !KoLConstants.availableSkills.contains( UseSkillRequest.getInstance( (String) categories[ i ].get( j ) ) ) )
+				{
+					categories[ i ].remove( j-- );
+				}
+			}
 		}
 
 		boolean printedList = false;
 
 		for ( int i = 0; i < categories.length; ++i )
 		{
-			if ( categories[i].isEmpty() )
+			if ( categories[ i ].isEmpty() )
+			{
 				continue;
+			}
 
 			if ( printedList )
 			{
 				if ( appendHTML )
+				{
 					buffer.append( "<br>" );
+				}
 				else
-					buffer.append( LINE_BREAK );
+				{
+					buffer.append( KoLConstants.LINE_BREAK );
+				}
 			}
 
-			appendSkillList( buffer, appendHTML, toTitleCase( (String) CATEGORIES[i] ), categories[i] );
+			ClassSkillsDatabase.appendSkillList(
+				buffer, appendHTML, ClassSkillsDatabase.toTitleCase( ClassSkillsDatabase.CATEGORIES[ i ] ),
+				categories[ i ] );
 			printedList = true;
 		}
 	}
 
-	private static final void appendSkillList( StringBuffer buffer, boolean appendHTML, String listName, ArrayList list )
+	private static final void appendSkillList( final StringBuffer buffer, final boolean appendHTML,
+		final String listName, final ArrayList list )
 	{
 		if ( list.isEmpty() )
+		{
 			return;
+		}
 
 		Collections.sort( list );
 
 		if ( appendHTML )
+		{
 			buffer.append( "<u><b>" );
+		}
 
-		buffer.append( toTitleCase( listName ) );
+		buffer.append( ClassSkillsDatabase.toTitleCase( listName ) );
 
 		if ( appendHTML )
+		{
 			buffer.append( "</b></u><br>" );
+		}
 		else
-			buffer.append( LINE_BREAK );
+		{
+			buffer.append( KoLConstants.LINE_BREAK );
+		}
 
 		String currentSkill;
 
 		for ( int j = 0; j < list.size(); ++j )
 		{
-			currentSkill = (String) list.get(j);
+			currentSkill = (String) list.get( j );
 
 			if ( appendHTML )
 			{
 				buffer.append( "<a onClick=\"javascript:skill(" );
-				buffer.append( getSkillId( currentSkill ) );
+				buffer.append( ClassSkillsDatabase.getSkillId( currentSkill ) );
 				buffer.append( ");\">" );
 			}
 			else
@@ -515,9 +593,13 @@ public class ClassSkillsDatabase extends KoLDatabase
 			buffer.append( currentSkill );
 
 			if ( appendHTML )
+			{
 				buffer.append( "</a><br>" );
+			}
 			else
-				buffer.append( LINE_BREAK );
+			{
+				buffer.append( KoLConstants.LINE_BREAK );
+			}
 		}
 	}
 }

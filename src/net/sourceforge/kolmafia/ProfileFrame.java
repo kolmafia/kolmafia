@@ -33,7 +33,8 @@
 
 package net.sourceforge.kolmafia;
 
-public class ProfileFrame extends RequestFrame
+public class ProfileFrame
+	extends RequestFrame
 {
 	private static ProfileFrame INSTANCE = null;
 
@@ -45,20 +46,22 @@ public class ProfileFrame extends RequestFrame
 
 	public void dispose()
 	{
-		INSTANCE = null;
+		ProfileFrame.INSTANCE = null;
 		super.dispose();
 	}
 
-	public static final void showRequest( KoLRequest request )
+	public static final void showRequest( final KoLRequest request )
 	{
-		if ( INSTANCE == null )
-			createDisplay( ProfileFrame.class );
+		if ( ProfileFrame.INSTANCE == null )
+		{
+			KoLFrame.createDisplay( ProfileFrame.class );
+		}
 
-		INSTANCE.refresh( request );
+		ProfileFrame.INSTANCE.refresh( request );
 	}
 
 	public boolean hasSideBar()
-	{	return false;
+	{
+		return false;
 	}
 }
-

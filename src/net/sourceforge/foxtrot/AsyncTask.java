@@ -12,16 +12,14 @@ import javax.swing.SwingUtilities;
 
 /**
  * A time-consuming task to be executed asynchronously by {@link AsyncWorker}. <br />
- * Users must implement the {@link #run} method as they would do with Task.
- * Exceptions and Errors thrown by the <code>run()</code> method will <strong>not</strong>
- * be rethrown automatically by {@link AsyncWorker#post(AsyncTask)}.
- * Instead, {@link #getResultOrThrow} should be called, normally from inside
+ * Users must implement the {@link #run} method as they would do with Task. Exceptions and Errors thrown by the
+ * <code>run()</code> method will <strong>not</strong> be rethrown automatically by
+ * {@link AsyncWorker#post(AsyncTask)}. Instead, {@link #getResultOrThrow} should be called, normally from inside
  * {@link #finish()}. <br />
- * The {@link #finish()} method is called in the Event Dispatch Thread when the
- * Task is finished.
- * AsyncTasks cannot be reused, that is, it is not safe to pass the same instance to
- * two consecutive calls to {@link AsyncWorker#post(AsyncTask)}.
- * Example:
+ * The {@link #finish()} method is called in the Event Dispatch Thread when the Task is finished. AsyncTasks cannot be
+ * reused, that is, it is not safe to pass the same instance to two consecutive calls to
+ * {@link AsyncWorker#post(AsyncTask)}. Example:
+ * 
  * <pre>
  * AsyncTask task = new AsyncTask()
  * {
@@ -47,27 +45,29 @@ import javax.swing.SwingUtilities;
  *    }
  * });
  * </pre>
+ * 
  * @see AsyncWorker
  * @version $Revision: 1.2 $
  */
-public abstract class AsyncTask extends Task
+public abstract class AsyncTask
+	extends Task
 {
-   /**
-    * Called in the Event Dispatch Thread after this AsyncTask is finished, to
-    * allow the coder to update Swing components safely, for example with the results
-    * of the execution of this AsyncTask.
-    * @see #getResultOrThrow()
-    */
-   public abstract void finish();
+	/**
+	 * Called in the Event Dispatch Thread after this AsyncTask is finished, to allow the coder to update Swing
+	 * components safely, for example with the results of the execution of this AsyncTask.
+	 * 
+	 * @see #getResultOrThrow()
+	 */
+	public abstract void finish();
 
-   void postRun()
-   {
-      SwingUtilities.invokeLater(new Runnable()
-      {
-         public void run()
-         {
-            finish();
-         }
-      });
-   }
+	void postRun()
+	{
+		SwingUtilities.invokeLater( new Runnable()
+		{
+			public void run()
+			{
+				AsyncTask.this.finish();
+			}
+		} );
+	}
 }

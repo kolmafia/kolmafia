@@ -33,43 +33,56 @@
 
 package net.sourceforge.kolmafia;
 
-public class LogoutRequest extends KoLRequest
+public class LogoutRequest
+	extends KoLRequest
 {
 	private static boolean isRunning = false;
 
 	public LogoutRequest()
-	{	super( "logout.php" );
+	{
+		super( "logout.php" );
 	}
 
 	protected boolean retryOnTimeout()
-	{	return false;
+	{
+		return false;
 	}
 
 	public void run()
 	{
-		if ( isRunning )
+		if ( LogoutRequest.isRunning )
+		{
 			return;
+		}
 
-		isRunning = true;
+		LogoutRequest.isRunning = true;
 		KoLmafia.updateDisplay( "Preparing for logout..." );
 
 		if ( KoLDesktop.instanceExists() )
+		{
 			KoLDesktop.getInstance().dispose();
+		}
 
-		KoLFrame [] frames = StaticEntity.getExistingFrames();
+		KoLFrame[] frames = StaticEntity.getExistingFrames();
 		for ( int i = 0; i < frames.length; ++i )
-			frames[i].dispose();
+		{
+			frames[ i ].dispose();
+		}
 
 		KoLAdventure.resetAutoAttack();
 		if ( KoLDesktop.instanceExists() )
+		{
 			KoLDesktop.getInstance().dispose();
+		}
 
 		KoLMessenger.dispose();
 		BuffBotHome.setBuffBotActive( false );
 
 		String scriptSetting = KoLSettings.getUserProperty( "logoutScript" );
 		if ( !scriptSetting.equals( "" ) )
+		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( scriptSetting );
+		}
 
 		super.run();
 		KoLCharacter.reset( "" );
@@ -78,9 +91,8 @@ public class LogoutRequest extends KoLRequest
 		RequestLogger.closeDebugLog();
 		RequestLogger.closeMirror();
 
-		KoLmafia.updateDisplay( ABORT_STATE, "Logout request submitted." );
-		serverCookie = null;
-		isRunning = false;
+		KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Logout request submitted." );
+		KoLRequest.serverCookie = null;
+		LogoutRequest.isRunning = false;
 	}
 }
-

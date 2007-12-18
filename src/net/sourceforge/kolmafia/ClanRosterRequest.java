@@ -36,17 +36,20 @@ package net.sourceforge.kolmafia;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ClanRosterRequest extends KoLRequest
+public class ClanRosterRequest
+	extends KoLRequest
 {
 	private static final Pattern ROW_PATTERN = Pattern.compile( "<tr>(.*?)</tr>", Pattern.DOTALL );
 	private static final Pattern CELL_PATTERN = Pattern.compile( "<td.*?>(.*?)</td>", Pattern.DOTALL );
 
 	public ClanRosterRequest()
-	{	super( "clan_detailedroster.php" );
+	{
+		super( "clan_detailedroster.php" );
 	}
 
 	protected boolean retryOnTimeout()
-	{	return true;
+	{
+		return true;
 	}
 
 	public void run()
@@ -54,7 +57,8 @@ public class ClanRosterRequest extends KoLRequest
 		KoLmafia.updateDisplay( "Retrieving detailed roster..." );
 		super.run();
 
-		Matcher rowMatcher = ROW_PATTERN.matcher( this.responseText.substring( this.responseText.lastIndexOf( "clan_detailedroster.php" ) ) );
+		Matcher rowMatcher =
+			ClanRosterRequest.ROW_PATTERN.matcher( this.responseText.substring( this.responseText.lastIndexOf( "clan_detailedroster.php" ) ) );
 
 		String currentRow;
 		String currentName;
@@ -62,18 +66,21 @@ public class ClanRosterRequest extends KoLRequest
 
 		while ( rowMatcher.find() )
 		{
-			currentRow = rowMatcher.group(1);
+			currentRow = rowMatcher.group( 1 );
 
 			if ( !currentRow.equals( "<td height=4></td>" ) )
 			{
-				dataMatcher = CELL_PATTERN.matcher( currentRow );
+				dataMatcher = ClanRosterRequest.CELL_PATTERN.matcher( currentRow );
 
 				// The name of the player occurs in the first
 				// field of the table.  Use this to index the
 				// roster map.
 
 				dataMatcher.find();
-				currentName = StaticEntity.globalStringReplace( ANYTAG_PATTERN.matcher( dataMatcher.group(1) ).replaceAll( "" ).trim(), "&nbsp;", "" ).toLowerCase();
+				currentName =
+					StaticEntity.globalStringReplace(
+						KoLConstants.ANYTAG_PATTERN.matcher( dataMatcher.group( 1 ) ).replaceAll( "" ).trim(),
+						"&nbsp;", "" ).toLowerCase();
 				ClanSnapshotTable.addToRoster( currentName, currentRow );
 			}
 		}

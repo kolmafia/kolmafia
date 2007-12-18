@@ -40,22 +40,29 @@
 
 package com.jeans.trayicon;
 
-public class TrayIconKeeper extends Thread {
+public class TrayIconKeeper
+	extends Thread
+{
 
-    public synchronized void doNotify() {
-        notifyAll();
-    }
+	public synchronized void doNotify()
+	{
+		this.notifyAll();
+	}
 
-    public synchronized void doWait() throws InterruptedException {
-        wait();
-    }
+	public synchronized void doWait()
+		throws InterruptedException
+	{
+		this.wait();
+	}
 
-    public void run() {
-	    try {
-	        doWait();
-        } catch (InterruptedException e) {}
-    }
+	public void run()
+	{
+		try
+		{
+			this.doWait();
+		}
+		catch ( InterruptedException e )
+		{
+		}
+	}
 }
-
-
-

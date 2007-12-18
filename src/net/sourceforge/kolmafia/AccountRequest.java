@@ -36,52 +36,65 @@ package net.sourceforge.kolmafia;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class AccountRequest extends PasswordHashRequest
+public class AccountRequest
+	extends PasswordHashRequest
 {
-	private static final Pattern AUTOSELL_PATTERN = Pattern.compile( "action=sellstuff\">Switch to (\\S*?) Autosale Mode</a>" );
-	private static final Pattern TIMEZONE_PATTERN = Pattern.compile( "<select name=timezone>.*?</select>", Pattern.DOTALL );
-	private static final Pattern SELECTED1_PATTERN = Pattern.compile( "selected>(-?\\d*?)</option>" );
+	private static final Pattern AUTOSELL_PATTERN =
+		Pattern.compile( "action=sellstuff\">Switch to (\\S*?) Autosale Mode</a>" );
+	private static final Pattern AUTOATTACK_PATTERN =
+		Pattern.compile( "<select class=small name=whichattack>.*?</select>", Pattern.DOTALL );
 
-	private static final Pattern AUTOATTACK_PATTERN = Pattern.compile( "<select class=small name=whichattack>.*?</select>", Pattern.DOTALL );
-
-	private static final Pattern SELECTED2_PATTERN = Pattern.compile( "value=(\\d+) selected>" );
-	private static final Pattern SELECTED3_PATTERN = Pattern.compile( "selected value=(\\d+)>" );
+	private static final Pattern SELECTED1_PATTERN = Pattern.compile( "value=(\\d+) selected>" );
+	private static final Pattern SELECTED2_PATTERN = Pattern.compile( "selected value=(\\d+)>" );
 
 	public AccountRequest()
-	{	super( "account.php" );
+	{
+		super( "account.php" );
 	}
 
 	protected boolean retryOnTimeout()
-	{	return true;
+	{
+		return true;
 	}
 
 	public void processResults()
 	{
 		super.processResults();
-		parseAccountData( this.responseText );
+		AccountRequest.parseAccountData( this.responseText );
 	}
 
-	public static final void parseAccountData( String responseText )
+	public static final void parseAccountData( final String responseText )
 	{
 		// Parse response text -- make sure you
 		// aren't accidentally parsing profiles.
 
-		Matcher matcher = AUTOSELL_PATTERN.matcher( responseText );
+		Matcher matcher = AccountRequest.AUTOSELL_PATTERN.matcher( responseText );
 
 		if ( matcher.find() )
 		{
-			String autosellMode = matcher.group(1).equals( "Compact" ) ? "detailed" : "compact";
+			String autosellMode = matcher.group( 1 ).equals( "Compact" ) ? "detailed" : "compact";
 			KoLCharacter.setAutosellMode( autosellMode );
 		}
 
 		// Consumption restrictions are also found
 		// here through the presence of buttons.
 
-		KoLCharacter.setConsumptionRestriction(
-			responseText.indexOf( "<input class=button type=submit value=\"Drop Oxygenarian\">" ) != -1 ? AscensionSnapshotTable.OXYGENARIAN :
-			responseText.indexOf( "<input class=button type=submit value=\"Drop Boozetafarian\">" ) != -1 ? AscensionSnapshotTable.BOOZETAFARIAN :
-			responseText.indexOf( "<input class=button type=submit value=\"Drop Teetotaler\">" ) != -1 ? AscensionSnapshotTable.TEETOTALER :
-			AscensionSnapshotTable.NOPATH );
+		if ( responseText.indexOf( "<input class=button type=submit value=\"Drop Oxygenarian\">" ) != -1 )
+		{
+			KoLCharacter.setConsumptionRestriction( AscensionSnapshotTable.OXYGENARIAN );
+		}
+		else if ( responseText.indexOf( "<input class=button type=submit value=\"Drop Boozetafarian\">" ) != -1 )
+		{
+			KoLCharacter.setConsumptionRestriction( AscensionSnapshotTable.BOOZETAFARIAN );
+		}
+		else if ( responseText.indexOf( "<input class=button type=submit value=\"Drop Teetotaler\">" ) != -1 )
+		{
+			KoLCharacter.setConsumptionRestriction( AscensionSnapshotTable.TEETOTALER );
+		}
+		else
+		{
+			KoLCharacter.setConsumptionRestriction( AscensionSnapshotTable.NOPATH );
+		}
 
 		// Whether or not a player is currently in Bad Moon or hardcore
 		// is also found here through the presence of buttons.
@@ -93,46 +106,32 @@ public class AccountRequest extends PasswordHashRequest
 		}
 		else
 		{
-			if ( KoLCharacter.getSignStat() == BAD_MOON )
+			if ( KoLCharacter.getSignStat() == KoLConstants.BAD_MOON )
+			{
 				KoLCharacter.setSign( "None" );
+			}
 			KoLCharacter.setHardcore( responseText.indexOf( "<input class=button type=submit value=\"Drop Hardcore\">" ) != -1 );
 		}
 
-		// Also parse out the player's current time
-		// zone in the process.
-
-		matcher = TIMEZONE_PATTERN.matcher( responseText );
-
-		if ( matcher.find() )
-		{
-			matcher = SELECTED1_PATTERN.matcher( matcher.group() );
-			if ( matcher.find() )
-			{
-				// You now have the current integer offset
-				// for the player's time.  Now, the question
-				// is, what should be done with it to actually
-				// synchronize timestamps with the server so
-				// that all kmail can be processed?
-
-				int timeOffset = StaticEntity.parseInt( matcher.group(1) );
-			}
-		}
-
-		Matcher selectMatcher = AUTOATTACK_PATTERN.matcher( responseText );
+		Matcher selectMatcher = AccountRequest.AUTOATTACK_PATTERN.matcher( responseText );
 		if ( selectMatcher.find() )
 		{
-			Matcher optionMatcher = SELECTED2_PATTERN.matcher( selectMatcher.group() );
+			Matcher optionMatcher = AccountRequest.SELECTED1_PATTERN.matcher( selectMatcher.group() );
 			if ( optionMatcher.find() )
 			{
-				KoLSettings.setUserProperty( "defaultAutoAttack", optionMatcher.group(1) );
+				KoLSettings.setUserProperty( "defaultAutoAttack", optionMatcher.group( 1 ) );
 			}
 			else
 			{
-				optionMatcher = SELECTED3_PATTERN.matcher( selectMatcher.group() );
+				optionMatcher = AccountRequest.SELECTED2_PATTERN.matcher( selectMatcher.group() );
 				if ( optionMatcher.find() )
-					KoLSettings.setUserProperty( "defaultAutoAttack", optionMatcher.group(1) );
+				{
+					KoLSettings.setUserProperty( "defaultAutoAttack", optionMatcher.group( 1 ) );
+				}
 				else
+				{
 					KoLSettings.setUserProperty( "defaultAutoAttack", "0" );
+				}
 			}
 		}
 		else

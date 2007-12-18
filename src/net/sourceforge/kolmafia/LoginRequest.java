@@ -38,19 +38,21 @@ import java.security.MessageDigest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class LoginRequest extends KoLRequest
+public class LoginRequest
+	extends KoLRequest
 {
 	private static boolean completedLogin = false;
-	private static final Pattern CHALLENGE_PATTERN = Pattern.compile( "<input type=hidden name=challenge value=\"([^\"]*?)\">" );
+	private static final Pattern CHALLENGE_PATTERN =
+		Pattern.compile( "<input type=hidden name=challenge value=\"([^\"]*?)\">" );
 
 	private static boolean ignoreLoadBalancer = false;
 	private static LoginRequest lastRequest = null;
 	private static boolean isLoggingIn;
 
-	private String username;
-	private String password;
+	private final String username;
+	private final String password;
 
-	public LoginRequest( String username, String password )
+	public LoginRequest( final String username, final String password )
 	{
 		super( "login.php" );
 
@@ -59,24 +61,28 @@ public class LoginRequest extends KoLRequest
 
 		this.password = password;
 		if ( StaticEntity.getClient() instanceof KoLmafiaCLI )
+		{
 			KoLSettings.setUserProperty( "saveStateActive", "true" );
+		}
 	}
 
-	public static final void setIgnoreLoadBalancer( boolean ignoreLoadBalancer )
-	{	LoginRequest.ignoreLoadBalancer = ignoreLoadBalancer;
+	public static final void setIgnoreLoadBalancer( final boolean ignoreLoadBalancer )
+	{
+		LoginRequest.ignoreLoadBalancer = ignoreLoadBalancer;
 	}
 
 	protected boolean retryOnTimeout()
-	{	return true;
+	{
+		return true;
 	}
 
 	public String getURLString()
-	{	return "login.php";
+	{
+		return "login.php";
 	}
 
 	/**
-	 * Handles the challenge in order to send the password securely
-	 * via KoL.
+	 * Handles the challenge in order to send the password securely via KoL.
 	 */
 
 	private boolean detectChallenge()
@@ -91,24 +97,32 @@ public class LoginRequest extends KoLRequest
 
 		String lowercase = this.username.toLowerCase();
 		if ( lowercase.startsWith( "devster" ) || lowercase.equals( "holatuwol" ) || lowercase.equals( "hogulus" ) )
-			setLoginServer( "dev.kingdomofloathing.com" );
+		{
+			KoLRequest.setLoginServer( "dev.kingdomofloathing.com" );
+		}
 
 		this.clearDataFields();
 
-		if ( ignoreLoadBalancer )
+		if ( LoginRequest.ignoreLoadBalancer )
+		{
 			this.constructURLString( "main.php" );
+		}
 
 		super.run();
 
 		if ( KoLmafia.refusesContinue() )
+		{
 			return false;
+		}
 
 		// If the pattern is not found, then do not submit
 		// the challenge version.
 
-		Matcher challengeMatcher = CHALLENGE_PATTERN.matcher( this.responseText );
+		Matcher challengeMatcher = LoginRequest.CHALLENGE_PATTERN.matcher( this.responseText );
 		if ( !challengeMatcher.find() )
+		{
 			return false;
+		}
 
 		// We got this far, so that means we now have a
 		// challenge pattern.
@@ -116,12 +130,12 @@ public class LoginRequest extends KoLRequest
 		try
 		{
 			this.constructURLString( "login.php" );
-			String challenge = challengeMatcher.group(1);
+			String challenge = challengeMatcher.group( 1 );
 
 			this.addFormField( "secure", "1" );
 			this.addFormField( "password", "" );
 			this.addFormField( "challenge", challenge );
-			this.addFormField( "response", digestPassword( this.password, challenge ) );
+			this.addFormField( "response", LoginRequest.digestPassword( this.password, challenge ) );
 
 			return true;
 		}
@@ -134,7 +148,8 @@ public class LoginRequest extends KoLRequest
 		}
 	}
 
-	private static final String digestPassword( String password, String challenge ) throws Exception
+	private static final String digestPassword( final String password, final String challenge )
+		throws Exception
 	{
 		// KoL now makes use of a HMAC-MD5 in order to preprocess the
 		// password so that we aren't submitting plaintext passwords
@@ -142,52 +157,60 @@ public class LoginRequest extends KoLRequest
 		// password is processed two times.
 
 		MessageDigest digester = MessageDigest.getInstance( "MD5" );
-		String hash1 = getHexString( digester.digest( password.getBytes() ) );
+		String hash1 = LoginRequest.getHexString( digester.digest( password.getBytes() ) );
 		digester.reset();
 
-		String hash2 = getHexString( digester.digest( (hash1 + ":" + challenge).getBytes() ) );
+		String hash2 = LoginRequest.getHexString( digester.digest( ( hash1 + ":" + challenge ).getBytes() ) );
 		digester.reset();
 
 		return hash2;
 	}
 
-	private static final String getHexString( byte [] bytes )
+	private static final String getHexString( final byte[] bytes )
 	{
-		byte [] output = new byte[ bytes.length + 1 ];
+		byte[] output = new byte[ bytes.length + 1 ];
 		for ( int i = 0; i < bytes.length; ++i )
-			output[i+1] = bytes[i];
+		{
+			output[ i + 1 ] = bytes[ i ];
+		}
 
-		StringBuffer result = new StringBuffer( (new BigInteger( output )).toString( 16 ) );
+		StringBuffer result = new StringBuffer( ( new BigInteger( output ) ).toString( 16 ) );
 		int desiredLength = bytes.length * 2;
 
 		while ( result.length() < desiredLength )
+		{
 			result.insert( 0, '0' );
+		}
 
 		if ( result.length() > desiredLength )
+		{
 			result.delete( 0, result.length() - desiredLength );
+		}
 
 		return result.toString();
 	}
 
 	public boolean shouldFollowRedirect()
-	{	return true;
+	{
+		return true;
 	}
 
 	/**
-	 * Runs the <code>LoginRequest</code>.  This method determines
-	 * whether or not the login was successful, and updates the
-	 * display or notifies the as appropriate.
+	 * Runs the <code>LoginRequest</code>. This method determines whether or not the login was successful, and
+	 * updates the display or notifies the as appropriate.
 	 */
 
 	public void run()
 	{
-		serverCookie = null;
+		KoLRequest.serverCookie = null;
 		LocalRelayAgent.reset();
 
 		if ( KoLSettings.getBooleanProperty( "saveStateActive" ) )
+		{
 			KoLmafia.addSaveState( this.username, this.password );
+		}
 
-		lastRequest = this;
+		LoginRequest.lastRequest = this;
 		KoLmafia.forceContinue();
 
 		if ( this.detectChallenge() )
@@ -207,7 +230,9 @@ public class LoginRequest extends KoLRequest
 		super.run();
 
 		if ( this.responseCode != 200 )
+		{
 			return;
+		}
 
 		if ( this.responseText.indexOf( "wait fifteen minutes" ) != -1 )
 		{
@@ -226,61 +251,74 @@ public class LoginRequest extends KoLRequest
 		if ( this.responseText.indexOf( "Too many" ) != -1 )
 		{
 			// Too many bad logins in too short a time span.
-			KoLmafia.updateDisplay( ABORT_STATE, "Too many failed login attempts." );
+			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Too many failed login attempts." );
 			return;
 		}
 
-		KoLmafia.updateDisplay( ABORT_STATE, "Encountered error in login." );
+		KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Encountered error in login." );
 	}
 
 	public static final void executeTimeInRequest()
-	{	executeTimeInRequest( "main.php", "login.php" );
+	{
+		LoginRequest.executeTimeInRequest( "main.php", "login.php" );
 	}
 
-	public static final void executeTimeInRequest( String requestLocation, String redirectLocation )
+	public static final void executeTimeInRequest( final String requestLocation, final String redirectLocation )
 	{
-		if ( lastRequest == null )
+		if ( LoginRequest.lastRequest == null )
+		{
 			return;
+		}
 
 		if ( LoginRequest.isInstanceRunning() )
 		{
 			StaticEntity.printStackTrace( requestLocation + " => " + redirectLocation );
-			System.exit(-1);
+			System.exit( -1 );
 		}
 
-		RequestThread.postRequest( lastRequest );
+		RequestThread.postRequest( LoginRequest.lastRequest );
 	}
 
 	public static final boolean isInstanceRunning()
-	{	return isLoggingIn;
+	{
+		return LoginRequest.isLoggingIn;
 	}
 
 	public static final boolean completedLogin()
-	{	return completedLogin;
+	{
+		return LoginRequest.completedLogin;
 	}
 
-	public static final void processLoginRequest( KoLRequest request )
+	public static final void processLoginRequest( final KoLRequest request )
 	{
 		if ( request.redirectLocation == null )
+		{
 			return;
+		}
 
 		String serverCookie = request.formConnection.getHeaderField( "Set-Cookie" );
 		if ( serverCookie != null )
 		{
 			int semiIndex = serverCookie.indexOf( ";" );
 			if ( semiIndex != -1 )
+			{
 				KoLRequest.serverCookie = serverCookie.substring( 0, semiIndex );
+			}
 			else
+			{
 				KoLRequest.serverCookie = serverCookie;
+			}
 		}
 
 		// It's possible that KoL will eventually make the redirect
 		// the way it used to be, but enforce the redirect.  If this
 		// happens, then validate here.
 
-		completedLogin = true;
+		LoginRequest.completedLogin = true;
 		if ( request.redirectLocation.equals( "main_c.html" ) )
+		{
 			KoLRequest.isCompactMode = true;
+		}
 
 		// If the login is successful, you notify the client
 		// of success.  But first, if there was a desire to
@@ -288,15 +326,17 @@ public class LoginRequest extends KoLRequest
 
 		String name = request.getFormField( "loginname" );
 		if ( name.endsWith( "/q" ) )
+		{
 			name = name.substring( 0, name.length() - 2 ).trim();
+		}
 
 		RequestThread.openRequestSequence();
-		isLoggingIn = true;
+		LoginRequest.isLoggingIn = true;
 
 		RequestThread.postRequest( new KoLRequest( "chatlaunch.php" ) );
 		StaticEntity.getClient().initialize( name );
 
-		isLoggingIn = false;
+		LoginRequest.isLoggingIn = false;
 		RequestThread.closeRequestSequence();
 	}
 }

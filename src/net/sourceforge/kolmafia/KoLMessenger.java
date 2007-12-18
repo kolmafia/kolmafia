@@ -49,7 +49,8 @@ import javax.swing.SwingUtilities;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
-public abstract class KoLMessenger extends StaticEntity
+public abstract class KoLMessenger
+	extends StaticEntity
 {
 	private static final Pattern CHANNEL_PATTERN = Pattern.compile( "&nbsp;&nbsp;(.*?)<br>" );
 	private static final Pattern COMMENT_PATTERN = Pattern.compile( "<!--.*?-->", Pattern.DOTALL );
@@ -59,17 +60,21 @@ public abstract class KoLMessenger extends StaticEntity
 	private static final Pattern LINEBREAK_PATTERN = Pattern.compile( "</?br>", Pattern.CASE_INSENSITIVE );
 	private static final Pattern TABLE_PATTERN = Pattern.compile( "<table>.*?</table>" );
 	private static final Pattern TABLECELL_PATTERN = Pattern.compile( "</?[tc].*?>" );
-	private static final Pattern PLAYERID_PATTERN = Pattern.compile( "showplayer\\.php\\?who\\=(\\d+)[\'\"][^>]*?>(.*?)</a>" );
+	private static final Pattern PLAYERID_PATTERN =
+		Pattern.compile( "showplayer\\.php\\?who\\=(\\d+)[\'\"][^>]*?>(.*?)</a>" );
 	private static final Pattern PARENTHESIS_PATTERN = Pattern.compile( " \\(.*?\\)" );
 	private static final Pattern MULTILINE_PATTERN = Pattern.compile( "\n+" );
 
-	private static final Pattern GREEN_PATTERN = Pattern.compile( "<font color=green><b>(.*?)</font></a></b> (.*?)</font>" );
-	private static final Pattern NESTED_LINKS_PATTERN = Pattern.compile( "<a target=mainpane href=\"([^<]*?)\"><font color=green>(.*?) <a[^>]+><font color=green>([^<]*?)</font></a>.</font></a>" );
-	private static final Pattern WHOIS_PATTERN = Pattern.compile( "(<a [^>]*?>)<b><font color=green>([^>]*? \\(#\\d+\\))</b></a>([^<]*?)<br>" );
+	private static final Pattern GREEN_PATTERN =
+		Pattern.compile( "<font color=green><b>(.*?)</font></a></b> (.*?)</font>" );
+	private static final Pattern NESTED_LINKS_PATTERN =
+		Pattern.compile( "<a target=mainpane href=\"([^<]*?)\"><font color=green>(.*?) <a[^>]+><font color=green>([^<]*?)</font></a>.</font></a>" );
+	private static final Pattern WHOIS_PATTERN =
+		Pattern.compile( "(<a [^>]*?>)<b><font color=green>([^>]*? \\(#\\d+\\))</b></a>([^<]*?)<br>" );
 
 	private static final SimpleDateFormat EVENT_TIMESTAMP = new SimpleDateFormat( "MM/dd/yy hh:mm a", Locale.US );
 
-	private static final String VERSION_ID = ">" + VERSION_NAME + " (private)<";
+	private static final String VERSION_ID = ">" + KoLConstants.VERSION_NAME + " (private)<";
 	private static final String DEFAULT_TIMESTAMP_COLOR = "#7695B4";
 	private static final SimpleDateFormat MESSAGE_TIMESTAMP = new SimpleDateFormat( "[HH:mm]", Locale.US );
 
@@ -81,35 +86,35 @@ public abstract class KoLMessenger extends StaticEntity
 
 	static
 	{
-		for ( int i = 0; i < ROLLING_LIMIT; ++i )
-			clanMessages.add( "" );
+		for ( int i = 0; i < KoLMessenger.ROLLING_LIMIT; ++i )
+		{
+			KoLMessenger.clanMessages.add( "" );
+		}
 	}
 
 	private static final TreeMap colors = new TreeMap();
 
-	private static final String [] AVAILABLE_COLORS =
-	{
-		"#000000", // default (0)
-		"#CC9900", // brown (1)
-		"#FFCC00", // gold (2)
-		"#CC3300", // dark red (3)
-		"#FF0033", // red (4)
-		"#FF33CC", // hot pink (5)
-		"#FF99FF", // soft pink (6)
-		"#663399", // dark purple (7)
-		"#9933CC", // purple (8)
-		"#CC99FF", // light purple (9)
-		"#000066", // dark blue (10)
-		"#0000CC", // blue (11)
-		"#9999FF", // light blue (12)
-		"#336600", // dark green (13)
-		"#339966", // green (14)
-		"#66CC99", // light green (15)
-		"#EAEA9A", // mustard (16)
-		"#FF9900", // orange (17)
-		"#000000", // black (18)
-		"#666666", // dark grey (19)
-		"#CCCCCC"  // light grey (20)
+	private static final String[] AVAILABLE_COLORS = { "#000000", // default (0)
+	"#CC9900", // brown (1)
+	"#FFCC00", // gold (2)
+	"#CC3300", // dark red (3)
+	"#FF0033", // red (4)
+	"#FF33CC", // hot pink (5)
+	"#FF99FF", // soft pink (6)
+	"#663399", // dark purple (7)
+	"#9933CC", // purple (8)
+	"#CC99FF", // light purple (9)
+	"#000066", // dark blue (10)
+	"#0000CC", // blue (11)
+	"#9999FF", // light blue (12)
+	"#336600", // dark green (13)
+	"#339966", // green (14)
+	"#66CC99", // light green (15)
+	"#EAEA9A", // mustard (16)
+	"#FF9900", // orange (17)
+	"#000000", // black (18)
+	"#666666", // dark grey (19)
+	"#CCCCCC" // light grey (20)
 	};
 
 	private static boolean isRunning = false;
@@ -131,141 +136,161 @@ public abstract class KoLMessenger extends StaticEntity
 
 	public static final void updateFontSize()
 	{
-		Object [] buffers = instantMessageBuffers.values().toArray();
+		Object[] buffers = KoLMessenger.instantMessageBuffers.values().toArray();
 		for ( int i = 0; i < buffers.length; ++i )
-			((LimitedSizeChatBuffer)buffers[i]).fireBufferChanged();
+		{
+			( (LimitedSizeChatBuffer) buffers[ i ] ).fireBufferChanged();
+		}
 	}
 
 	public static final void reset()
 	{
-		isRunning = false;
-		onlineContacts.clear();
-		instantMessageBuffers.clear();
+		KoLMessenger.isRunning = false;
+		KoLMessenger.onlineContacts.clear();
+		KoLMessenger.instantMessageBuffers.clear();
 
-		contactsFrame = new ContactListFrame( onlineContacts );
-		useTabbedChat = KoLSettings.getBooleanProperty( "useTabbedChatFrame" );
+		KoLMessenger.contactsFrame = new ContactListFrame( KoLMessenger.onlineContacts );
+		KoLMessenger.useTabbedChat = KoLSettings.getBooleanProperty( "useTabbedChatFrame" );
 
-		if ( useTabbedChat )
-			(new CreateFrameRunnable( TabbedChatFrame.class )).run();
+		if ( KoLMessenger.useTabbedChat )
+		{
+			( new CreateFrameRunnable( TabbedChatFrame.class ) ).run();
+		}
 	}
 
-	public static final void setTabbedFrame( TabbedChatFrame tabbedFrame )
-	{	KoLMessenger.tabbedFrame = tabbedFrame;
+	public static final void setTabbedFrame( final TabbedChatFrame tabbedFrame )
+	{
+		KoLMessenger.tabbedFrame = tabbedFrame;
 	}
 
 	private static final void updateSettings()
 	{
-		enableMonitor = KoLSettings.getBooleanProperty( "useChatMonitor" );
-		channelsSeparate = KoLSettings.getBooleanProperty( "useSeparateChannels" );
-		eventsIgnored = KoLSettings.getBooleanProperty( "greenScreenProtection" );
+		KoLMessenger.enableMonitor = KoLSettings.getBooleanProperty( "useChatMonitor" );
+		KoLMessenger.channelsSeparate = KoLSettings.getBooleanProperty( "useSeparateChannels" );
+		KoLMessenger.eventsIgnored = KoLSettings.getBooleanProperty( "greenScreenProtection" );
 	}
 
 	public static final String getChatLogName( String key )
 	{
 		if ( key.startsWith( "/" ) )
-			key = "[" + key.substring(1) + "]";
+		{
+			key = "[" + key.substring( 1 ) + "]";
+		}
 
-		String filename = DAILY_FORMAT.format( new Date() ) + "_" + KoLCharacter.baseUserName();
+		String filename = KoLConstants.DAILY_FORMAT.format( new Date() ) + "_" + KoLCharacter.baseUserName();
 		return key.equals( "[main]" ) ? filename + ".html" : filename + "_" + key + ".html";
 	}
 
 	public static final boolean usingTabbedChat()
-	{	return useTabbedChat;
+	{
+		return KoLMessenger.useTabbedChat;
 	}
 
-	public static final void setColor( String channel, int colorIndex )
+	public static final void setColor( final String channel, final int colorIndex )
 	{
 		if ( colorIndex == 0 )
-			colors.put( channel, channel.startsWith( "chat" ) ? "black" : "green" );
+		{
+			KoLMessenger.colors.put( channel, channel.startsWith( "chat" ) ? "black" : "green" );
+		}
 		else
-			colors.put( channel, AVAILABLE_COLORS[ colorIndex ] );
+		{
+			KoLMessenger.colors.put( channel, KoLMessenger.AVAILABLE_COLORS[ colorIndex ] );
+		}
 	}
 
-	public static final void setUpdateChannel( String channel )
+	public static final void setUpdateChannel( final String channel )
 	{
 		if ( channel != null && channel.startsWith( "/" ) )
-			updateChannel = channel;
+		{
+			KoLMessenger.updateChannel = channel;
+		}
 	}
 
 	public static final String getUpdateChannel()
-	{	return updateChannel;
+	{
+		return KoLMessenger.updateChannel;
 	}
 
 	/**
-	 * Initializes the chat buffer with the provided chat pane.
-	 * Note that the chat refresher will also be initialized
-	 * by calling this method; to stop the chat refresher, call
-	 * the <code>dispose()</code> method.
+	 * Initializes the chat buffer with the provided chat pane. Note that the chat refresher will also be initialized by
+	 * calling this method; to stop the chat refresher, call the <code>dispose()</code> method.
 	 */
 
 	public static final void initialize()
 	{
-		if ( isRunning )
+		if ( KoLMessenger.isRunning )
+		{
 			return;
+		}
 
-		reset();
-		openInstantMessage( "[main]", enableMonitor );
+		KoLMessenger.reset();
+		KoLMessenger.openInstantMessage( "[main]", KoLMessenger.enableMonitor );
 
 		// Clear the highlights and add all the ones which
 		// were saved from the last session.
 
 		LimitedSizeChatBuffer.clearHighlights();
 
-		String [] highlights = KoLSettings.getUserProperty( "highlightList" ).trim().split( "\n+" );
+		String[] highlights = KoLSettings.getUserProperty( "highlightList" ).trim().split( "\n+" );
 
 		if ( highlights.length > 1 )
 		{
-			LimitedSizeChatBuffer.highlightBuffer = getChatBuffer( "[high]" );
+			LimitedSizeChatBuffer.highlightBuffer = KoLMessenger.getChatBuffer( "[high]" );
 			LimitedSizeChatBuffer.highlightBuffer.clearBuffer();
 
 			for ( int i = 0; i < highlights.length; ++i )
-				LimitedSizeChatBuffer.addHighlight( highlights[i], DataUtilities.toColor( highlights[++i] ) );
+			{
+				LimitedSizeChatBuffer.addHighlight( highlights[ i ], DataUtilities.toColor( highlights[ ++i ] ) );
+			}
 		}
 
-		isRunning = true;
+		KoLMessenger.isRunning = true;
 
 		RequestThread.postRequest( new ChatRequest( null, "/listen" ) );
 		RequestThread.postRequest( new ChannelColorsRequest() );
 	}
 
 	/**
-	 * Clears the contents of the chat buffer.  This is called
-	 * whenever the user wishes for there to be less text.
+	 * Clears the contents of the chat buffer. This is called whenever the user wishes for there to be less text.
 	 */
 
-	public static final void clearChatBuffer( String contact )
+	public static final void clearChatBuffer( final String contact )
 	{
-		LimitedSizeChatBuffer bufferToClear = getChatBuffer( contact );
+		LimitedSizeChatBuffer bufferToClear = KoLMessenger.getChatBuffer( contact );
 		if ( bufferToClear != null )
+		{
 			bufferToClear.clearBuffer();
+		}
 	}
 
 	public static final void checkFriends()
-	{	RequestThread.postRequest( new ChatRequest( currentChannel, "/friends" ) );
+	{
+		RequestThread.postRequest( new ChatRequest( KoLMessenger.currentChannel, "/friends" ) );
 	}
 
 	public static final void checkChannel()
-	{	RequestThread.postRequest( new ChatRequest( updateChannel, "/who" ) );
+	{
+		RequestThread.postRequest( new ChatRequest( KoLMessenger.updateChannel, "/who" ) );
 	}
 
 	/**
-	 * Retrieves the chat buffer currently used for storing and
-	 * saving the currently running chat associated with the
-	 * given contact.  If the contact is <code>null</code>, this
-	 * method returns the main chat.
-	 *
-	 * @param	contact	Name of the contact
-	 * @return	The chat buffer for the given contact
+	 * Retrieves the chat buffer currently used for storing and saving the currently running chat associated with the
+	 * given contact. If the contact is <code>null</code>, this method returns the main chat.
+	 * 
+	 * @param contact Name of the contact
+	 * @return The chat buffer for the given contact
 	 */
 
-	public static final LimitedSizeChatBuffer getChatBuffer( String contact )
-	{	return getChatBuffer( contact, true );
+	public static final LimitedSizeChatBuffer getChatBuffer( final String contact )
+	{
+		return KoLMessenger.getChatBuffer( contact, true );
 	}
 
-	public static final LimitedSizeChatBuffer getChatBuffer( String contact, boolean shouldOpenWindow )
+	public static final LimitedSizeChatBuffer getChatBuffer( final String contact, final boolean shouldOpenWindow )
 	{
-		String neededBufferName = getBufferKey( contact );
-		LimitedSizeChatBuffer neededBuffer = (LimitedSizeChatBuffer) instantMessageBuffers.get( neededBufferName );
+		String neededBufferName = KoLMessenger.getBufferKey( contact );
+		LimitedSizeChatBuffer neededBuffer =
+			(LimitedSizeChatBuffer) KoLMessenger.instantMessageBuffers.get( neededBufferName );
 
 		// This error should not happen, but it's better to be safe than
 		// sorry, so there's a check to make sure that the chat buffer
@@ -273,90 +298,98 @@ public abstract class KoLMessenger extends StaticEntity
 
 		if ( neededBuffer == null )
 		{
-			openInstantMessage( neededBufferName, shouldOpenWindow );
-			neededBuffer = (LimitedSizeChatBuffer) instantMessageBuffers.get( neededBufferName );
+			KoLMessenger.openInstantMessage( neededBufferName, shouldOpenWindow );
+			neededBuffer = (LimitedSizeChatBuffer) KoLMessenger.instantMessageBuffers.get( neededBufferName );
 		}
 
 		return neededBuffer;
 	}
 
 	/**
-	 * Retrieves the key which will be needed, given the contact
-	 * name.  In other words, it translates the contact name to
+	 * Retrieves the key which will be needed, given the contact name. In other words, it translates the contact name to
 	 * a key value used by the buffers and frames.
 	 */
 
-	private static final String getBufferKey( String contact )
+	private static final String getBufferKey( final String contact )
 	{
-		return contact == null ? currentChannel : contact.startsWith( "[" ) ? contact :
-			!channelsSeparate && contact.startsWith( "/" ) ? "[main]" : contact;
+		return contact == null ? KoLMessenger.currentChannel : contact.startsWith( "[" ) ? contact : !KoLMessenger.channelsSeparate && contact.startsWith( "/" ) ? "[main]" : contact;
 	}
 
 	/**
-	 * Removes the chat associated with the given contact.  This
-	 * method is called whenever a window is closed.
+	 * Removes the chat associated with the given contact. This method is called whenever a window is closed.
 	 */
 
 	public static final void removeChat( String contact )
 	{
 		if ( contact == null || contact.equals( "" ) )
+		{
 			return;
+		}
 
 		// What you're removing is not the channel, but the
 		// key associated with that channel.
 
-		contact = getBufferKey( contact );
+		contact = KoLMessenger.getBufferKey( contact );
 
 		// If this key does not exist, then go ahead and try
 		// to remove the key.
 
-		LimitedSizeChatBuffer removedBuffer = (LimitedSizeChatBuffer) instantMessageBuffers.remove( contact );
+		LimitedSizeChatBuffer removedBuffer =
+			(LimitedSizeChatBuffer) KoLMessenger.instantMessageBuffers.remove( contact );
 
 		// Make sure you close any active logging on the channel
 		// as well as dispose of the frame so that KoLmafia can
 		// return to the login screen properly.
 
 		if ( removedBuffer != null )
+		{
 			removedBuffer.closeActiveLogFile();
+		}
 
 		// If chat is no longer running, you don't have to do
 		// anything more.
 
-		if ( !isRunning )
+		if ( !KoLMessenger.isRunning )
+		{
 			return;
+		}
 
 		// If you're leaving the channel that you are currently
 		// talking in, then this is equivalent to exiting chat.
 
-		if ( contact.equals( currentChannel ) )
+		if ( contact.equals( KoLMessenger.currentChannel ) )
 		{
 			// When you exit chat, you go ahead and remove all
 			// of the chat pannels from the listener lists.
 
-			String [] channels = new String[ instantMessageBuffers.size() ];
-			instantMessageBuffers.keySet().toArray( channels );
+			String[] channels = new String[ KoLMessenger.instantMessageBuffers.size() ];
+			KoLMessenger.instantMessageBuffers.keySet().toArray( channels );
 
 			for ( int i = 0; i < channels.length; ++i )
-				removeChat( channels[i] );
+			{
+				KoLMessenger.removeChat( channels[ i ] );
+			}
 
 			KoLMessenger.dispose();
 			return;
 		}
 
-		else if ( contact.startsWith( "/" ) && currentlyActive.contains( contact ) )
+		else if ( contact.startsWith( "/" ) && KoLMessenger.currentlyActive.contains( contact ) )
 		{
-			currentlyActive.remove( contact );
-			RequestThread.postRequest( new ChatRequest( contact, "/listen " + contact.substring(1) ) );
+			KoLMessenger.currentlyActive.remove( contact );
+			RequestThread.postRequest( new ChatRequest( contact, "/listen " + contact.substring( 1 ) ) );
 		}
 	}
 
 	/**
 	 * Returns whether or not the messenger is showing on screen.
-	 * @return	<code>true</code> if the messenger is showing.
+	 * 
+	 * @return <code>true</code> if the messenger is showing.
 	 */
 
 	public static final boolean isShowing()
-	{	return instantMessageBuffers.size() == 0;
+	{
+		return KoLMessenger.instantMessageBuffers.size() == 0;
 	}
 
 	/**
@@ -365,27 +398,29 @@ public abstract class KoLMessenger extends StaticEntity
 
 	public static final void dispose()
 	{
-		if ( !isRunning )
-			return;
-
-		isRunning = false;
-
-		removeChat( currentChannel );
-		RequestThread.postRequest( new ChatRequest( currentChannel, "/exit" ) );
-
-		currentChannel = "/clan";
-		updateChannel = "/clan";
-
-		if ( contactsFrame != null )
+		if ( !KoLMessenger.isRunning )
 		{
-			contactsFrame.setVisible( false );
-			contactsFrame.dispose();
+			return;
 		}
 
-		if ( tabbedFrame != null )
+		KoLMessenger.isRunning = false;
+
+		KoLMessenger.removeChat( KoLMessenger.currentChannel );
+		RequestThread.postRequest( new ChatRequest( KoLMessenger.currentChannel, "/exit" ) );
+
+		KoLMessenger.currentChannel = "/clan";
+		KoLMessenger.updateChannel = "/clan";
+
+		if ( KoLMessenger.contactsFrame != null )
 		{
-			tabbedFrame.setVisible( false );
-			tabbedFrame.dispose();
+			KoLMessenger.contactsFrame.setVisible( false );
+			KoLMessenger.contactsFrame.dispose();
+		}
+
+		if ( KoLMessenger.tabbedFrame != null )
+		{
+			KoLMessenger.tabbedFrame.setVisible( false );
+			KoLMessenger.tabbedFrame.dispose();
 		}
 	}
 
@@ -394,40 +429,45 @@ public abstract class KoLMessenger extends StaticEntity
 	 */
 
 	public static final boolean isRunning()
-	{	return isRunning;
+	{
+		return KoLMessenger.isRunning;
 	}
 
 	/**
-	 * Replaces the current contact list with the given contact
-	 * list.  This is used after every call to /friends or /who.
+	 * Replaces the current contact list with the given contact list. This is used after every call to /friends or /who.
 	 */
 
-	public static final void updateContactList( String [] contactList )
+	public static final void updateContactList( final String[] contactList )
 	{
-		if ( contactsFrame == null || !isRunning )
+		if ( KoLMessenger.contactsFrame == null || !KoLMessenger.isRunning )
+		{
 			return;
+		}
 
-		onlineContacts.clear();
+		KoLMessenger.onlineContacts.clear();
 
 		for ( int i = 1; i < contactList.length; ++i )
-			onlineContacts.add( contactList[i] );
+		{
+			KoLMessenger.onlineContacts.add( contactList[ i ] );
+		}
 
 		if ( KoLSettings.getBooleanProperty( "useContactsFrame" ) )
 		{
-			contactsFrame.setTitle( contactList[0] );
-			contactsFrame.setVisible( true );
+			KoLMessenger.contactsFrame.setTitle( contactList[ 0 ] );
+			KoLMessenger.contactsFrame.setVisible( true );
 		}
 	}
 
-	public static final String getNormalizedContent( String originalContent )
-	{	return getNormalizedContent( originalContent, true );
+	public static final String getNormalizedContent( final String originalContent )
+	{
+		return KoLMessenger.getNormalizedContent( originalContent, true );
 	}
 
-	public static final String getNormalizedContent( String originalContent, boolean isInternal )
+	public static final String getNormalizedContent( final String originalContent, boolean isInternal )
 	{
-		String noImageContent = IMAGE_PATTERN.matcher( originalContent ).replaceAll( "" );
-		String normalBreaksContent = LINEBREAK_PATTERN.matcher( noImageContent ).replaceAll( "<br>" );
-		String condensedContent = EXPAND_PATTERN.matcher( normalBreaksContent ).replaceAll( "<br>" );
+		String noImageContent = KoLMessenger.IMAGE_PATTERN.matcher( originalContent ).replaceAll( "" );
+		String normalBreaksContent = KoLMessenger.LINEBREAK_PATTERN.matcher( noImageContent ).replaceAll( "<br>" );
+		String condensedContent = KoLMessenger.EXPAND_PATTERN.matcher( normalBreaksContent ).replaceAll( "<br>" );
 
 		String normalBoldsContent = StaticEntity.globalStringReplace( condensedContent, "<br></b>", "</b><br>" );
 		String colonOrderedContent = StaticEntity.globalStringReplace( normalBoldsContent, ":</b></a>", "</a></b>:" );
@@ -435,74 +475,92 @@ public abstract class KoLMessenger extends StaticEntity
 		colonOrderedContent = StaticEntity.globalStringReplace( colonOrderedContent, "</b></a>:", "</a></b>:" );
 
 		String italicOrderedContent = StaticEntity.globalStringReplace( colonOrderedContent, "<b><i>", "<i><b>" );
-		italicOrderedContent = StaticEntity.globalStringReplace( italicOrderedContent, "</b></font></a>", "</font></a></b>" );
+		italicOrderedContent =
+			StaticEntity.globalStringReplace( italicOrderedContent, "</b></font></a>", "</font></a></b>" );
 
-		String fixedGreenContent = GREEN_PATTERN.matcher( italicOrderedContent ).replaceAll( "<font color=green><b>$1</b></font></a> $2</font>" );
-		fixedGreenContent = NESTED_LINKS_PATTERN.matcher( fixedGreenContent ).replaceAll( "<a target=mainpane href=\"$1\"><font color=green>$2 $3</font></a>" );
-		fixedGreenContent = WHOIS_PATTERN.matcher( fixedGreenContent ).replaceAll( "$1<b><font color=green>$2</font></b></a><font color=green>$3</font><br>" );
+		String fixedGreenContent =
+			KoLMessenger.GREEN_PATTERN.matcher( italicOrderedContent ).replaceAll(
+				"<font color=green><b>$1</b></font></a> $2</font>" );
+		fixedGreenContent =
+			KoLMessenger.NESTED_LINKS_PATTERN.matcher( fixedGreenContent ).replaceAll(
+				"<a target=mainpane href=\"$1\"><font color=green>$2 $3</font></a>" );
+		fixedGreenContent =
+			KoLMessenger.WHOIS_PATTERN.matcher( fixedGreenContent ).replaceAll(
+				"$1<b><font color=green>$2</font></b></a><font color=green>$3</font><br>" );
 
 		String leftAlignContent = StaticEntity.globalStringDelete( fixedGreenContent, "<center>" );
 		leftAlignContent = StaticEntity.globalStringReplace( leftAlignContent, "</center>", "<br>" );
 
 		if ( !isInternal )
 		{
-			String normalPrivateContent = StaticEntity.globalStringReplace( leftAlignContent, "<font color=blue>private to ", "<font color=blue>private to</font></b> <b>" );
-			normalPrivateContent = StaticEntity.globalStringReplace( normalPrivateContent, "(private)</a></b>", "(private)</b></font></a><font color=blue>" );
+			String normalPrivateContent =
+				StaticEntity.globalStringReplace(
+					leftAlignContent, "<font color=blue>private to ", "<font color=blue>private to</font></b> <b>" );
+			normalPrivateContent =
+				StaticEntity.globalStringReplace(
+					normalPrivateContent, "(private)</a></b>", "(private)</b></font></a><font color=blue>" );
 			return normalPrivateContent;
 		}
 
-		String noColorContent = COLOR_PATTERN.matcher( leftAlignContent ).replaceAll( "" );
-		String noCommentsContent = COMMENT_PATTERN.matcher( noColorContent ).replaceAll( "" );
-		return TABLE_PATTERN.matcher( noCommentsContent ).replaceAll( "" );
+		String noColorContent = KoLMessenger.COLOR_PATTERN.matcher( leftAlignContent ).replaceAll( "" );
+		String noCommentsContent = KoLMessenger.COMMENT_PATTERN.matcher( noColorContent ).replaceAll( "" );
+		return KoLMessenger.TABLE_PATTERN.matcher( noCommentsContent ).replaceAll( "" );
 	}
 
-	private static final void handleTableContent( String content )
+	private static final void handleTableContent( final String content )
 	{
-		Matcher tableMatcher = TABLE_PATTERN.matcher( content );
+		Matcher tableMatcher = KoLMessenger.TABLE_PATTERN.matcher( content );
 
 		while ( tableMatcher.find() )
 		{
 			String result = tableMatcher.group();
-			String [] contactList = ANYTAG_PATTERN.matcher( result ).replaceAll( "" ).split( "(\\s*,\\s*|\\:)" );
+			String[] contactList =
+				KoLConstants.ANYTAG_PATTERN.matcher( result ).replaceAll( "" ).split( "(\\s*,\\s*|\\:)" );
 
 			for ( int i = 0; i < contactList.length; ++i )
 			{
-				if ( contactList[i].indexOf( "(" ) != -1 )
-					contactList[i] = contactList[i].substring( 0, contactList[i].indexOf( "(" ) ).trim();
+				if ( contactList[ i ].indexOf( "(" ) != -1 )
+				{
+					contactList[ i ] = contactList[ i ].substring( 0, contactList[ i ].indexOf( "(" ) ).trim();
+				}
 
-				contactList[i] = contactList[i].toLowerCase();
+				contactList[ i ] = contactList[ i ].toLowerCase();
 			}
 
-			updateContactList( contactList );
+			KoLMessenger.updateContactList( contactList );
 
 			if ( !KoLSettings.getBooleanProperty( "useContactsFrame" ) )
 			{
-				LimitedSizeChatBuffer currentChatBuffer = getChatBuffer( updateChannel );
-				currentChatBuffer.append( StaticEntity.singleStringReplace(
-					TABLECELL_PATTERN.matcher( content ).replaceAll( "" ), "</b>", "</b>&nbsp;" ) );
+				LimitedSizeChatBuffer currentChatBuffer = KoLMessenger.getChatBuffer( KoLMessenger.updateChannel );
+				currentChatBuffer.append( StaticEntity.singleStringReplace( KoLMessenger.TABLECELL_PATTERN.matcher(
+					content ).replaceAll( "" ), "</b>", "</b>&nbsp;" ) );
 			}
 		}
 	}
 
-	private static final void handlePlayerData( String content )
+	private static final void handlePlayerData( final String content )
 	{
-		Matcher playerMatcher = PLAYERID_PATTERN.matcher( content );
+		Matcher playerMatcher = KoLMessenger.PLAYERID_PATTERN.matcher( content );
 
 		String playerName, playerId;
 		while ( playerMatcher.find() )
 		{
-			playerName = PARENTHESIS_PATTERN.matcher( ANYTAG_PATTERN.matcher( playerMatcher.group(2) ).replaceAll( "" ) ).replaceAll( "" );
-			playerId = playerMatcher.group(1);
+			playerName =
+				KoLMessenger.PARENTHESIS_PATTERN.matcher(
+					KoLConstants.ANYTAG_PATTERN.matcher( playerMatcher.group( 2 ) ).replaceAll( "" ) ).replaceAll( "" );
+			playerId = playerMatcher.group( 1 );
 
 			// Handle the new player profile links -- in
 			// this case, ignore the registration.
 
 			if ( !playerName.startsWith( "&" ) )
+			{
 				KoLmafia.registerPlayer( playerName, playerId );
+			}
 		}
 	}
 
-	private static final void handleChatData( String content )
+	private static final void handleChatData( final String content )
 	{
 		// First, if it's the initial content that lets you
 		// know which channels you're listening to, handle it.
@@ -510,27 +568,32 @@ public abstract class KoLMessenger extends StaticEntity
 		if ( content.startsWith( "<font color=green>Currently listening to channels:" ) )
 		{
 			String channel, channelKey;
-			Matcher channelMatcher = CHANNEL_PATTERN.matcher( content );
+			Matcher channelMatcher = KoLMessenger.CHANNEL_PATTERN.matcher( content );
 
 			ArrayList channelList = new ArrayList();
 			while ( channelMatcher.find() )
 			{
-				channel = channelMatcher.group(1);
+				channel = channelMatcher.group( 1 );
 				if ( channel.indexOf( "<b" ) != -1 )
-					currentChannel = "/" + ANYTAG_PATTERN.matcher( channel ).replaceAll( "" ).trim();
+				{
+					KoLMessenger.currentChannel =
+						"/" + KoLConstants.ANYTAG_PATTERN.matcher( channel ).replaceAll( "" ).trim();
+				}
 				else
+				{
 					channelList.add( channel );
+				}
 			}
 
-			String [] channels = new String[ channelList.size() ];
+			String[] channels = new String[ channelList.size() ];
 			channelList.toArray( channels );
 
-			openInstantMessage( getBufferKey( currentChannel ), true );
+			KoLMessenger.openInstantMessage( KoLMessenger.getBufferKey( KoLMessenger.currentChannel ), true );
 
 			for ( int i = 0; i < channels.length; ++i )
 			{
-				channelKey = "/" + ANYTAG_PATTERN.matcher( channels[i] ).replaceAll( "" ).trim();
-				openInstantMessage( getBufferKey( channelKey ), true );
+				channelKey = "/" + KoLConstants.ANYTAG_PATTERN.matcher( channels[ i ] ).replaceAll( "" ).trim();
+				KoLMessenger.openInstantMessage( KoLMessenger.getBufferKey( channelKey ), true );
 			}
 
 			return;
@@ -539,7 +602,7 @@ public abstract class KoLMessenger extends StaticEntity
 		// Now that you know that there was no intent to exit
 		// chat, go ahead and split up the lines in chat.
 
-		String [] lines = getNormalizedContent( content ).split( "\\s*<br>\\s*" );
+		String[] lines = KoLMessenger.getNormalizedContent( content ).split( "\\s*<br>\\s*" );
 
 		// First, trim all the lines that were received so
 		// that you don't get anything funny-looking, and
@@ -550,7 +613,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 		for ( int i = 0; i < lines.length; i = nextLine )
 		{
-			if ( lines[i] == null || lines[i].length() == 0 )
+			if ( lines[ i ] == null || lines[ i ].length() == 0 )
 			{
 				++nextLine;
 				continue;
@@ -558,56 +621,59 @@ public abstract class KoLMessenger extends StaticEntity
 			else
 			{
 				while ( ++nextLine < lines.length && lines[ nextLine ].indexOf( "<a" ) == -1 )
+				{
 					if ( lines[ nextLine ] != null && lines[ nextLine ].length() > 0 )
-						lines[i] += "<br>" + lines[ nextLine ];
+					{
+						lines[ i ] += "<br>" + lines[ nextLine ];
+					}
+				}
 			}
 
-			processChatMessage( lines[i].trim() );
+			KoLMessenger.processChatMessage( lines[ i ].trim() );
 		}
 	}
 
 	/**
-	 * Updates the chat with the given information.  This method will
-	 * also handle instant message data.
-	 *
-	 * @param	content	The content with which to update the chat
+	 * Updates the chat with the given information. This method will also handle instant message data.
+	 * 
+	 * @param content The content with which to update the chat
 	 */
 
-	public static final void updateChat( String content )
+	public static final void updateChat( final String content )
 	{
-		updateSettings();
+		KoLMessenger.updateSettings();
 
 		// Now, extract the contact list and update KoLMessenger to indicate
 		// the contact list found in the last /friends update
 
-		handleTableContent( content );
+		KoLMessenger.handleTableContent( content );
 
 		// Extract player Ids from the most recent chat content, since it
 		// can prove useful at a later time.
 
-		handlePlayerData( content );
+		KoLMessenger.handlePlayerData( content );
 
 		// Now, that all the pre-processing is done, go ahead and handle
 		// all of the individual chat data.
 
-		handleChatData( content );
+		KoLMessenger.handleChatData( content );
 	}
 
 	/**
-	 * Notifies the chat that the user has stopped talking and
-	 * listening to the current channel - this only happens after
-	 * the /channel command is used to switch to a different channel.
+	 * Notifies the chat that the user has stopped talking and listening to the current channel - this only happens
+	 * after the /channel command is used to switch to a different channel.
 	 */
 
 	public static final void stopConversation()
 	{
-		if ( !currentChannel.equals( "" ) )
-			currentlyActive.remove( currentChannel );
+		if ( !KoLMessenger.currentChannel.equals( "" ) )
+		{
+			KoLMessenger.currentlyActive.remove( KoLMessenger.currentChannel );
+		}
 	}
 
 	/**
-	 * Utility method to update the appropriate chat window with the
-	 * given message.
+	 * Utility method to update the appropriate chat window with the given message.
 	 */
 
 	public static final void processChatMessage( String message )
@@ -616,13 +682,17 @@ public abstract class KoLMessenger extends StaticEntity
 		// return if one was retrieved.
 
 		if ( message == null || message.length() == 0 )
+		{
 			return;
+		}
 
 		if ( message.startsWith( "Invalid password submitted." ) )
 		{
 			message = StaticEntity.globalStringDelete( message, "Invalid password submitted." ).trim();
 			if ( message.length() == 0 )
+			{
 				return;
+			}
 		}
 
 		if ( message.startsWith( "[" ) )
@@ -634,15 +704,15 @@ public abstract class KoLMessenger extends StaticEntity
 			int startIndex = message.indexOf( "]" ) + 2;
 			String channel = "/" + message.substring( 1, startIndex - 2 );
 
-			processChatMessage( channel, message.substring( startIndex ) );
+			KoLMessenger.processChatMessage( channel, message.substring( startIndex ) );
 		}
 		else if ( message.startsWith( "No longer listening to channel: " ) )
 		{
 			int startIndex = message.indexOf( ":" ) + 2;
 			String channel = "/" + message.substring( startIndex );
 
-			processChatMessage( channel, message );
-			currentlyActive.remove( channel );
+			KoLMessenger.processChatMessage( channel, message );
+			KoLMessenger.currentlyActive.remove( channel );
 		}
 		else if ( message.startsWith( "Now listening to channel: " ) )
 		{
@@ -650,7 +720,7 @@ public abstract class KoLMessenger extends StaticEntity
 			int dotIndex = message.indexOf( "." );
 			String channel = "/" + message.substring( startIndex, dotIndex == -1 ? message.length() : dotIndex );
 
-			processChatMessage( channel, message );
+			KoLMessenger.processChatMessage( channel, message );
 		}
 		else if ( message.startsWith( "You are now talking in channel: " ) )
 		{
@@ -658,68 +728,85 @@ public abstract class KoLMessenger extends StaticEntity
 			int dotIndex = message.indexOf( "." );
 			String channel = "/" + message.substring( startIndex, dotIndex == -1 ? message.length() : dotIndex );
 
-			processChatMessage( channel, message );
+			KoLMessenger.processChatMessage( channel, message );
 		}
 		else if ( message.indexOf( "(private)<" ) != -1 )
 		{
-			String sender = ANYTAG_PATTERN.matcher( message.substring( 0, message.indexOf( " (" ) ) ).replaceAll( "" );
+			String sender =
+				KoLConstants.ANYTAG_PATTERN.matcher( message.substring( 0, message.indexOf( " (" ) ) ).replaceAll( "" );
 			String text = message.substring( message.indexOf( ":" ) + 1 ).trim();
 
-			if ( handleSpecialRequest( sender, text ) )
+			if ( KoLMessenger.handleSpecialRequest( sender, text ) )
+			{
 				return;
+			}
 
-			processChatMessage( sender, "<a target=mainpane href=\"showplayer.php?who=" + KoLmafia.getPlayerId( sender ) + "\"><b><font color=blue>" +
-				sender + "</font></b></a>: " + text );
+			KoLMessenger.processChatMessage(
+				sender,
+				"<a target=mainpane href=\"showplayer.php?who=" + KoLmafia.getPlayerId( sender ) + "\"><b><font color=blue>" + sender + "</font></b></a>: " + text );
 		}
 		else if ( message.startsWith( "<b>private to" ) )
 		{
 			String sender = KoLCharacter.getUserName();
-			String recipient = ANYTAG_PATTERN.matcher( message.substring( 0, message.indexOf( ":" ) ) ).replaceAll( "" ).substring( 11 );
+			String recipient =
+				KoLConstants.ANYTAG_PATTERN.matcher( message.substring( 0, message.indexOf( ":" ) ) ).replaceAll( "" ).substring(
+					11 );
 
-			String cleanHTML = "<a target=mainpane href=\"showplayer.php?who=" + KoLmafia.getPlayerId( sender ) + "\"><b><font color=red>" +
-				sender + "</font></b></a>" + message.substring( message.indexOf( ":" ) );
+			String cleanHTML =
+				"<a target=mainpane href=\"showplayer.php?who=" + KoLmafia.getPlayerId( sender ) + "\"><b><font color=red>" + sender + "</font></b></a>" + message.substring( message.indexOf( ":" ) );
 
-			processChatMessage( recipient, cleanHTML );
+			KoLMessenger.processChatMessage( recipient, cleanHTML );
 		}
 		else
 		{
-			processChatMessage( currentChannel, message );
+			KoLMessenger.processChatMessage( KoLMessenger.currentChannel, message );
 		}
 	}
 
 	/**
 	 * static final method for handling individual channel methods.
-	 * @param	channel	The name of the channel
-	 * @param	message	The message that was sent to the channel
+	 * 
+	 * @param channel The name of the channel
+	 * @param message The message that was sent to the channel
 	 */
 
-	public static final void processChatMessage( String channel, String message )
+	public static final void processChatMessage( final String channel, final String message )
 	{
 		if ( channel == null || message == null || channel.length() == 0 || message.length() == 0 )
+		{
 			return;
+		}
 
-		String bufferKey = getBufferKey( channel );
-		if ( message.startsWith( "No longer" ) && !instantMessageBuffers.containsKey( bufferKey ) )
+		String bufferKey = KoLMessenger.getBufferKey( channel );
+		if ( message.startsWith( "No longer" ) && !KoLMessenger.instantMessageBuffers.containsKey( bufferKey ) )
+		{
 			return;
+		}
 
-		processChatMessage( channel, message, bufferKey, eventsIgnored );
+		KoLMessenger.processChatMessage( channel, message, bufferKey, KoLMessenger.eventsIgnored );
 		if ( !bufferKey.equals( "[main]" ) )
-			processChatMessage( channel, message, "[main]", true );
+		{
+			KoLMessenger.processChatMessage( channel, message, "[main]", true );
+		}
 
 		// If it's a private message, then it's possible the player wishes
 		// to run some command.
 
 		if ( channel.equals( "/clan" ) && !message.startsWith( "<b>from <a" ) && !message.startsWith( "<b>to <a" ) )
 		{
-			if ( rollingIndex == ROLLING_LIMIT )
-				rollingIndex = 0;
+			if ( KoLMessenger.rollingIndex == KoLMessenger.ROLLING_LIMIT )
+			{
+				KoLMessenger.rollingIndex = 0;
+			}
 
-			if ( !isGreenMessage( message ) )
-				clanMessages.set( rollingIndex++, message );
+			if ( !KoLMessenger.isGreenMessage( message ) )
+			{
+				KoLMessenger.clanMessages.set( KoLMessenger.rollingIndex++ , message );
+			}
 		}
 	}
 
-	private static final boolean handleSpecialRequest( String channel, String message )
+	private static final boolean handleSpecialRequest( final String channel, final String message )
 	{
 		// If a buffbot is running, certain commands become active, such
 		// as help, restores, and logoff.
@@ -734,7 +821,8 @@ public abstract class KoLMessenger extends StaticEntity
 
 			if ( message.equalsIgnoreCase( "restores" ) )
 			{
-				RequestThread.postRequest( new ChatRequest( channel, "I currently have " + KoLmafia.getRestoreCount() + " mana restores at my disposal.", false ) );
+				RequestThread.postRequest( new ChatRequest(
+					channel, "I currently have " + KoLmafia.getRestoreCount() + " mana restores at my disposal.", false ) );
 				return true;
 			}
 
@@ -743,7 +831,9 @@ public abstract class KoLMessenger extends StaticEntity
 				BuffBotHome.update( BuffBotHome.ERRORCOLOR, "Logoff requested by " + channel );
 
 				if ( ClanManager.isMember( channel ) )
-					System.exit(0);
+				{
+					System.exit( 0 );
+				}
 
 				BuffBotHome.update( BuffBotHome.ERRORCOLOR, channel + " added to ignore list" );
 				RequestThread.postRequest( new ChatRequest( channel, "/baleet", false ) );
@@ -757,12 +847,16 @@ public abstract class KoLMessenger extends StaticEntity
 		if ( message.equalsIgnoreCase( "update" ) )
 		{
 			if ( !ClanManager.isMember( channel ) )
+			{
 				return true;
+			}
 
 			StringBuffer data = new StringBuffer();
-			for ( int i = 0; i < ROLLING_LIMIT; ++i )
+			for ( int i = 0; i < KoLMessenger.ROLLING_LIMIT; ++i )
 			{
-				data.append( ANYTAG_PATTERN.matcher( (String) clanMessages.get( (rollingIndex + i) % ROLLING_LIMIT ) ).replaceAll( "" ) );
+				data.append( KoLConstants.ANYTAG_PATTERN.matcher(
+					(String) KoLMessenger.clanMessages.get( ( KoLMessenger.rollingIndex + i ) % KoLMessenger.ROLLING_LIMIT ) ).replaceAll(
+					"" ) );
 				data.append( "\n" );
 			}
 
@@ -773,75 +867,88 @@ public abstract class KoLMessenger extends StaticEntity
 
 		String scriptName = KoLSettings.getUserProperty( "chatbotScript" );
 		if ( scriptName.equals( "" ) )
+		{
 			return false;
+		}
 
 		KoLmafiaASH interpreter = KoLmafiaASH.getInterpreter( KoLmafiaCLI.findScriptFile( scriptName ) );
 		if ( interpreter == null )
+		{
 			return false;
+		}
 
-		lastBlueMessage = channel;
+		KoLMessenger.lastBlueMessage = channel;
 		KoLSettings.setUserProperty( "chatbotScriptExecuted", "false" );
-		interpreter.execute( "main", new String [] { channel, message } );
+		interpreter.execute( "main", new String[] { channel, message } );
 		return KoLSettings.getBooleanProperty( "chatbotScriptExecuted" );
 	}
 
 	public static final String lastBlueMessage()
-	{	return lastBlueMessage;
+	{
+		return KoLMessenger.lastBlueMessage;
 	}
 
-	private static final void processChatMessage( String channel, String message, String bufferKey, boolean ignoreEvents )
+	private static final void processChatMessage( final String channel, final String message, String bufferKey,
+		final boolean ignoreEvents )
 	{
 		try
 		{
-			boolean isGreenMessage = isGreenMessage( message );
-			String displayHTML = formatChatMessage( channel, message, bufferKey, isGreenMessage );
+			boolean isGreenMessage = KoLMessenger.isGreenMessage( message );
+			String displayHTML = KoLMessenger.formatChatMessage( channel, message, bufferKey, isGreenMessage );
 
 			if ( isGreenMessage )
 			{
 				if ( ignoreEvents || BuffBotHome.isBuffBotActive() )
+				{
 					return;
+				}
 
 				if ( displayHTML.indexOf( " has " ) != -1 )
+				{
 					RequestThread.postRequest( CharpaneRequest.getInstance() );
+				}
 
-				eventHistory.add( EVENT_TIMESTAMP.format( new Date() ) + " - " + ANYTAG_PATTERN.matcher( displayHTML ).replaceAll( "" ) );
-				bufferKey = updateChannel;
+				KoLConstants.eventHistory.add( KoLMessenger.EVENT_TIMESTAMP.format( new Date() ) + " - " + KoLConstants.ANYTAG_PATTERN.matcher(
+					displayHTML ).replaceAll( "" ) );
+				bufferKey = KoLMessenger.updateChannel;
 			}
 
-			LimitedSizeChatBuffer buffer = getChatBuffer( bufferKey );
+			LimitedSizeChatBuffer buffer = KoLMessenger.getChatBuffer( bufferKey );
 
 			if ( KoLSettings.getBooleanProperty( "logChatMessages" ) )
-				buffer.setActiveLogFile( new File( CHATLOG_LOCATION, getChatLogName( bufferKey ) ) );
+			{
+				buffer.setActiveLogFile( new File(
+					KoLConstants.CHATLOG_LOCATION, KoLMessenger.getChatLogName( bufferKey ) ) );
+			}
 
 			buffer.append( displayHTML );
 
-			if ( isRunning && useTabbedChat )
-				tabbedFrame.highlightTab( bufferKey );
+			if ( KoLMessenger.isRunning && KoLMessenger.useTabbedChat )
+			{
+				KoLMessenger.tabbedFrame.highlightTab( bufferKey );
+			}
 		}
 		catch ( Exception e )
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			printStackTrace( e, message );
+			StaticEntity.printStackTrace( e, message );
 		}
 	}
 
-	private static final boolean isGreenMessage( String message )
+	private static final boolean isGreenMessage( final String message )
 	{
 		if ( message.indexOf( ":" ) != -1 )
+		{
 			return false;
+		}
 
-		return message.indexOf( "logged on" ) != -1 || message.indexOf( "logged off" ) != -1 ||
-			message.startsWith( "<a target=mainpane href=\"messages.php\">" ) || message.indexOf( "have been attacked" ) != -1 ||
-			message.indexOf( "has proposed a trade" ) != -1 || message.indexOf( "has cancelled a trade" ) != -1 ||
-			message.indexOf( "has responded to a trade" ) != -1 || message.indexOf( "has declined a trade" ) != -1 ||
-			message.indexOf( "has accepted a trade" ) != -1 || message.indexOf( "has given you" ) != -1 ||
-			message.indexOf( "has played" ) != -1 || message.indexOf( "has littered toilet paper" ) != -1 ||
-			message.indexOf( "with a brick" ) != -1 || message.indexOf( "has hit you in the face" ) != -1;
+		return message.indexOf( "logged on" ) != -1 || message.indexOf( "logged off" ) != -1 || message.startsWith( "<a target=mainpane href=\"messages.php\">" ) || message.indexOf( "have been attacked" ) != -1 || message.indexOf( "has proposed a trade" ) != -1 || message.indexOf( "has cancelled a trade" ) != -1 || message.indexOf( "has responded to a trade" ) != -1 || message.indexOf( "has declined a trade" ) != -1 || message.indexOf( "has accepted a trade" ) != -1 || message.indexOf( "has given you" ) != -1 || message.indexOf( "has played" ) != -1 || message.indexOf( "has littered toilet paper" ) != -1 || message.indexOf( "with a brick" ) != -1 || message.indexOf( "has hit you in the face" ) != -1;
 	}
 
-	public static final String formatChatMessage( String channel, String message, String bufferKey, boolean isGreenMessage )
+	public static final String formatChatMessage( final String channel, final String message, final String bufferKey,
+		final boolean isGreenMessage )
 	{
 		StringBuffer displayHTML = new StringBuffer( message );
 		StaticEntity.singleStringDelete( displayHTML, "target=mainpane " );
@@ -849,8 +956,8 @@ public abstract class KoLMessenger extends StaticEntity
 		// There are a bunch of messages that are supposed to be
 		// formatted in green.  These are all handled first.
 
-		boolean isWhoMessage = message.indexOf( "<a" ) == -1 || message.indexOf( "</a>," ) != -1 ||
-			message.startsWith( "<a class=nounder" ) || message.startsWith( "<a target=mainpane href=\'" );
+		boolean isWhoMessage =
+			message.indexOf( "<a" ) == -1 || message.indexOf( "</a>," ) != -1 || message.startsWith( "<a class=nounder" ) || message.startsWith( "<a target=mainpane href=\'" );
 
 		if ( isWhoMessage || isGreenMessage )
 		{
@@ -878,7 +985,7 @@ public abstract class KoLMessenger extends StaticEntity
 			displayHTML.insert( 0, "<font color=red>" );
 			displayHTML.append( "</font>" );
 		}
-		else if ( message.indexOf( VERSION_ID ) != -1 )
+		else if ( message.indexOf( KoLMessenger.VERSION_ID ) != -1 )
 		{
 			displayHTML.insert( 0, "<font color=blue>" );
 			displayHTML.append( "</font>" );
@@ -889,10 +996,15 @@ public abstract class KoLMessenger extends StaticEntity
 			// no special formatting needed.
 
 			Matcher nameMatcher = Pattern.compile( "<a.*?>(.*?)</a>" ).matcher( message );
-			String contactName = nameMatcher.find() ? ANYTAG_PATTERN.matcher( nameMatcher.group(1) ).replaceAll( "" ) : message;
+			String contactName =
+				nameMatcher.find() ? KoLConstants.ANYTAG_PATTERN.matcher( nameMatcher.group( 1 ) ).replaceAll( "" ) : message;
 
 			if ( contactName.indexOf( "*" ) == -1 )
-				StaticEntity.singleStringReplace( displayHTML, contactName, "<font color=\"" + getColor( contactName ) + "\">" + contactName + "</font>" );
+			{
+				StaticEntity.singleStringReplace(
+					displayHTML, contactName,
+					"<font color=\"" + KoLMessenger.getColor( contactName ) + "\">" + contactName + "</font>" );
+			}
 
 			// All messages which don't have a colon following the name
 			// are italicized messages from actions.
@@ -937,7 +1049,9 @@ public abstract class KoLMessenger extends StaticEntity
 
 				int boldIndex = displayHTML.indexOf( "</b>" );
 				if ( boldIndex != -1 )
+				{
 					displayHTML.insert( boldIndex + 4, linkBuffer.toString() );
+				}
 			}
 		}
 
@@ -946,18 +1060,21 @@ public abstract class KoLMessenger extends StaticEntity
 		// channel with the appropriate color.
 
 		if ( bufferKey.startsWith( "[" ) && channel.startsWith( "/" ) )
-			displayHTML.insert( 0, "<font color=\"" + getColor( channel ) + "\">[" + channel.substring(1) + "]</font> " );
+		{
+			displayHTML.insert(
+				0, "<font color=\"" + KoLMessenger.getColor( channel ) + "\">[" + channel.substring( 1 ) + "]</font> " );
+		}
 
 		// Now that everything has been properly formatted,
 		// show the display HTML.
 
-		if ( !enableMonitor || !bufferKey.equals( "[main]" ) )
+		if ( !KoLMessenger.enableMonitor || !bufferKey.equals( "[main]" ) )
 		{
 			StringBuffer timestamp = new StringBuffer();
 			timestamp.append( "<font color=\"" );
-			timestamp.append( DEFAULT_TIMESTAMP_COLOR );
+			timestamp.append( KoLMessenger.DEFAULT_TIMESTAMP_COLOR );
 			timestamp.append( "\">" );
-			timestamp.append( MESSAGE_TIMESTAMP.format( new Date() ) );
+			timestamp.append( KoLMessenger.MESSAGE_TIMESTAMP.format( new Date() ) );
 			timestamp.append( "</font>" );
 
 			displayHTML.insert( 0, timestamp.toString() + "&nbsp;" );
@@ -969,74 +1086,98 @@ public abstract class KoLMessenger extends StaticEntity
 	}
 
 	/**
-	 * Utility method which retrieves the color for the given
-	 * channel.  Should only be called if the user opted to
-	 * use customized colors.
+	 * Utility method which retrieves the color for the given channel. Should only be called if the user opted to use
+	 * customized colors.
 	 */
 
-	private static final String getColor( String channel )
+	private static final String getColor( final String channel )
 	{
-		if ( colors.containsKey( channel ) )
-			return (String) colors.get( channel );
+		if ( KoLMessenger.colors.containsKey( channel ) )
+		{
+			return (String) KoLMessenger.colors.get( channel );
+		}
 
 		if ( channel.startsWith( "/" ) )
+		{
 			return "green";
+		}
 
-		if ( channel.equalsIgnoreCase( KoLCharacter.getUserName() ) && colors.containsKey( "chatcolorself" ) )
-			return (String) colors.get( "chatcolorself" );
+		if ( channel.equalsIgnoreCase( KoLCharacter.getUserName() ) && KoLMessenger.colors.containsKey( "chatcolorself" ) )
+		{
+			return (String) KoLMessenger.colors.get( "chatcolorself" );
+		}
 
-		if ( contactList.contains( channel.toLowerCase() ) && colors.containsKey( "chatcolorcontacts" ) )
-			return (String) colors.get( "chatcolorcontacts" );
+		if ( KoLConstants.contactList.contains( channel.toLowerCase() ) && KoLMessenger.colors.containsKey( "chatcolorcontacts" ) )
+		{
+			return (String) KoLMessenger.colors.get( "chatcolorcontacts" );
+		}
 
-		if ( colors.containsKey( "chatcolorothers" ) )
-			return (String) colors.get( "chatcolorothers" );
+		if ( KoLMessenger.colors.containsKey( "chatcolorothers" ) )
+		{
+			return (String) KoLMessenger.colors.get( "chatcolorothers" );
+		}
 
 		return "black";
 	}
 
 	/**
-	 * Opens an instant message window to the character with the
-	 * given name so that a private conversation can be started.
-	 *
-	 * @param	channel	The channel to be opened
+	 * Opens an instant message window to the character with the given name so that a private conversation can be
+	 * started.
+	 * 
+	 * @param channel The channel to be opened
 	 */
 
-	public static final void openInstantMessage( String channel, boolean shouldOpenWindow )
+	public static final void openInstantMessage( final String channel, boolean shouldOpenWindow )
 	{
 		if ( channel == null )
+		{
 			return;
+		}
 
-		shouldOpenWindow &= isRunning;
+		shouldOpenWindow &= KoLMessenger.isRunning;
 
 		// If the window exists, don't open another one as it
 		// just confuses the disposal issue
 
-		if ( instantMessageBuffers.containsKey( channel ) )
+		if ( KoLMessenger.instantMessageBuffers.containsKey( channel ) )
+		{
 			return;
+		}
 
 		try
 		{
-			LimitedSizeChatBuffer buffer = new LimitedSizeChatBuffer( KoLCharacter.getUserName() + ": " +
-				channel + " - Started " + Calendar.getInstance().getTime().toString(), true,
-				isRunning && (!channel.equals( "[main]" ) || KoLSettings.getBooleanProperty( "useSeparateChannels" )) );
+			LimitedSizeChatBuffer buffer =
+				new LimitedSizeChatBuffer(
+					KoLCharacter.getUserName() + ": " + channel + " - Started " + Calendar.getInstance().getTime().toString(),
+					true,
+					KoLMessenger.isRunning && ( !channel.equals( "[main]" ) || KoLSettings.getBooleanProperty( "useSeparateChannels" ) ) );
 
-			instantMessageBuffers.put( channel, buffer );
+			KoLMessenger.instantMessageBuffers.put( channel, buffer );
 			if ( channel.startsWith( "/" ) )
-				currentlyActive.add( channel );
+			{
+				KoLMessenger.currentlyActive.add( channel );
+			}
 
 			if ( shouldOpenWindow )
 			{
 				try
 				{
-					if ( useTabbedChat )
-						tabbedFrame.addTab( channel );
+					if ( KoLMessenger.useTabbedChat )
+					{
+						KoLMessenger.tabbedFrame.addTab( channel );
+					}
 					else
 					{
-						CreateFrameRunnable creator = new CreateFrameRunnable( ChatFrame.class, new String [] { channel } );
+						CreateFrameRunnable creator =
+							new CreateFrameRunnable( ChatFrame.class, new String[] { channel } );
 						if ( SwingUtilities.isEventDispatchThread() )
+						{
 							creator.run();
+						}
 						else
+						{
 							SwingUtilities.invokeAndWait( creator );
+						}
 					}
 				}
 				catch ( Exception e )
@@ -1047,65 +1188,73 @@ public abstract class KoLMessenger extends StaticEntity
 			}
 
 			if ( KoLSettings.getBooleanProperty( "logChatMessages" ) )
-				buffer.setActiveLogFile( new File( CHATLOG_LOCATION, getChatLogName( channel ) ) );
+			{
+				buffer.setActiveLogFile( new File( KoLConstants.CHATLOG_LOCATION, KoLMessenger.getChatLogName( channel ) ) );
+			}
 
-			if ( highlighting && !channel.equals( "[high]" ) )
+			if ( KoLMessenger.highlighting && !channel.equals( "[high]" ) )
+			{
 				buffer.applyHighlights();
+			}
 		}
 		catch ( Exception e )
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			printStackTrace( e );
+			StaticEntity.printStackTrace( e );
 		}
 	}
 
 	/**
-	 * Utility method to clear all the chat buffers.  This is used whenever
-	 * the user wishes to clear the chat buffer manually due to overflow or
-	 * the desire not to log a specific part of a conversation.
+	 * Utility method to clear all the chat buffers. This is used whenever the user wishes to clear the chat buffer
+	 * manually due to overflow or the desire not to log a specific part of a conversation.
 	 */
 
 	public static final void clearChatBuffers()
 	{
-		Object [] keys = instantMessageBuffers.keySet().toArray();
+		Object[] keys = KoLMessenger.instantMessageBuffers.keySet().toArray();
 		for ( int i = 0; i < keys.length; ++i )
-			clearChatBuffer( (String) keys[i] );
+		{
+			KoLMessenger.clearChatBuffer( (String) keys[ i ] );
+		}
 	}
 
 	private static final Color getRandomColor()
 	{
-		int [] colors = new int[3];
+		int[] colors = new int[ 3 ];
 
 		do
 		{
 			for ( int i = 0; i < 3; ++i )
-				colors[i] = 40 + RNG.nextInt( 160 );
+			{
+				colors[ i ] = 40 + KoLConstants.RNG.nextInt( 160 );
+			}
 		}
-		while ( colors[0] > 128 && colors[1] > 128 && colors[2] > 128 );
+		while ( colors[ 0 ] > 128 && colors[ 1 ] > 128 && colors[ 2 ] > 128 );
 
-		return new Color( colors[0], colors[1], colors[2] );
+		return new Color( colors[ 0 ], colors[ 1 ], colors[ 2 ] );
 	}
 
 	/**
-	 * Utility method to add a highlight word to the list of words currently
-	 * being handled by the highlighter.  This method will prompt the user
-	 * for the word or phrase which is to be highlighted, followed by a prompt
-	 * for the color which they would like to use.  Cancellation during any
-	 * point of this process results in no chat highlighting being added.
+	 * Utility method to add a highlight word to the list of words currently being handled by the highlighter. This
+	 * method will prompt the user for the word or phrase which is to be highlighted, followed by a prompt for the color
+	 * which they would like to use. Cancellation during any point of this process results in no chat highlighting being
+	 * added.
 	 */
 
 	public static final void addHighlighting()
 	{
 		String highlight = KoLFrame.input( "What word/phrase would you like to highlight?", KoLCharacter.getUserName() );
 		if ( highlight == null )
+		{
 			return;
+		}
 
-		highlighting = true;
-		Color color = getRandomColor();
+		KoLMessenger.highlighting = true;
+		Color color = KoLMessenger.getRandomColor();
 
-		LimitedSizeChatBuffer.highlightBuffer = getChatBuffer( "[high]" );
+		LimitedSizeChatBuffer.highlightBuffer = KoLMessenger.getChatBuffer( "[high]" );
 		LimitedSizeChatBuffer.highlightBuffer.clearBuffer();
 
 		StringBuffer newSetting = new StringBuffer();
@@ -1116,45 +1265,52 @@ public abstract class KoLMessenger extends StaticEntity
 
 		KoLSettings.setUserProperty( "highlightList", newSetting.toString().trim() );
 
-		Object [] keys = instantMessageBuffers.keySet().toArray();
+		Object[] keys = KoLMessenger.instantMessageBuffers.keySet().toArray();
 		for ( int i = 0; i < keys.length; ++i )
-			if ( !keys[i].equals( "[high]" ) )
-				getChatBuffer( (String) keys[i] ).applyHighlights();
+		{
+			if ( !keys[ i ].equals( "[high]" ) )
+			{
+				KoLMessenger.getChatBuffer( (String) keys[ i ] ).applyHighlights();
+			}
+		}
 	}
 
 	/**
-	 * Utility method to remove a word or phrase from being highlighted.  The
-	 * user will be prompted with the highlights which are currently active,
-	 * and the user can select which one they would like to remove.  Note
-	 * that only one highlight at a time can be removed with this method.
+	 * Utility method to remove a word or phrase from being highlighted. The user will be prompted with the highlights
+	 * which are currently active, and the user can select which one they would like to remove. Note that only one
+	 * highlight at a time can be removed with this method.
 	 */
 
 	public static final void removeHighlighting()
 	{
-		Object [] patterns = LimitedSizeChatBuffer.highlights.toArray();
+		Object[] patterns = LimitedSizeChatBuffer.highlights.toArray();
 		if ( patterns.length == 0 )
 		{
 			KoLFrame.alert( "No active highlights." );
-			highlighting = false;
+			KoLMessenger.highlighting = false;
 			return;
 		}
 
 		for ( int i = 0; i < patterns.length; ++i )
-			patterns[i] = ((Pattern)patterns[i]).pattern();
+		{
+			patterns[ i ] = ( (Pattern) patterns[ i ] ).pattern();
+		}
 
 		String selectedValue = (String) KoLFrame.input( "Currently highlighting the following terms:", patterns );
 
 		if ( selectedValue == null )
+		{
 			return;
+		}
 
-		LimitedSizeChatBuffer.highlightBuffer = getChatBuffer( "[high]" );
+		LimitedSizeChatBuffer.highlightBuffer = KoLMessenger.getChatBuffer( "[high]" );
 		LimitedSizeChatBuffer.highlightBuffer.clearBuffer();
 
 		for ( int i = 0; i < patterns.length; ++i )
 		{
-			if ( patterns[i].equals( selectedValue ) )
+			if ( patterns[ i ].equals( selectedValue ) )
 			{
-				String settingString = LimitedSizeChatBuffer.removeHighlight(i);
+				String settingString = LimitedSizeChatBuffer.removeHighlight( i );
 				LimitedSizeChatBuffer.highlightBuffer.clearBuffer();
 
 				String oldSetting = KoLSettings.getUserProperty( "highlightList" );
@@ -1165,27 +1321,40 @@ public abstract class KoLMessenger extends StaticEntity
 				newSetting.append( oldSetting.substring( 0, startIndex ) );
 
 				if ( endIndex < oldSetting.length() )
+				{
 					newSetting.append( oldSetting.substring( endIndex ) );
+				}
 
-				KoLSettings.setUserProperty( "highlightList", MULTILINE_PATTERN.matcher( newSetting.toString() ).replaceAll( "\n" ).trim() );
+				KoLSettings.setUserProperty( "highlightList", KoLMessenger.MULTILINE_PATTERN.matcher(
+					newSetting.toString() ).replaceAll( "\n" ).trim() );
 			}
 		}
 
-		Object [] keys = instantMessageBuffers.keySet().toArray();
+		Object[] keys = KoLMessenger.instantMessageBuffers.keySet().toArray();
 		for ( int i = 0; i < keys.length; ++i )
-			if ( !keys[i].equals( "[high]" ) )
-				getChatBuffer( (String) keys[i] ).applyHighlights();
+		{
+			if ( !keys[ i ].equals( "[high]" ) )
+			{
+				KoLMessenger.getChatBuffer( (String) keys[ i ] ).applyHighlights();
+			}
+		}
 	}
 
-	private static final Pattern GENERAL_PATTERN = Pattern.compile( "<td>([^<]*?)&nbsp;&nbsp;&nbsp;&nbsp;</td>.*?<option value=(\\d+) selected>" );
-	private static final Pattern SELF_PATTERN = Pattern.compile( "<select name=chatcolorself>.*?<option value=(\\d+) selected>" );
-	private static final Pattern CONTACTS_PATTERN = Pattern.compile( "<select name=chatcolorcontacts>.*?<option value=(\\d+) selected>" );
-	private static final Pattern OTHER_PATTERN = Pattern.compile( "<select name=chatcolorothers>.*?<option value=(\\d+) selected>" );
+	private static final Pattern GENERAL_PATTERN =
+		Pattern.compile( "<td>([^<]*?)&nbsp;&nbsp;&nbsp;&nbsp;</td>.*?<option value=(\\d+) selected>" );
+	private static final Pattern SELF_PATTERN =
+		Pattern.compile( "<select name=chatcolorself>.*?<option value=(\\d+) selected>" );
+	private static final Pattern CONTACTS_PATTERN =
+		Pattern.compile( "<select name=chatcolorcontacts>.*?<option value=(\\d+) selected>" );
+	private static final Pattern OTHER_PATTERN =
+		Pattern.compile( "<select name=chatcolorothers>.*?<option value=(\\d+) selected>" );
 
-	private static class ChannelColorsRequest extends KoLRequest
+	private static class ChannelColorsRequest
+		extends KoLRequest
 	{
 		public ChannelColorsRequest()
-		{	super( "account_chatcolors.php" );
+		{
+			super( "account_chatcolors.php" );
 		}
 
 		public void run()
@@ -1196,24 +1365,33 @@ public abstract class KoLMessenger extends StaticEntity
 			// channel tags (for people using standard KoL
 			// chatting mode).
 
-			Matcher colorMatcher = GENERAL_PATTERN.matcher( this.responseText );
+			Matcher colorMatcher = KoLMessenger.GENERAL_PATTERN.matcher( this.responseText );
 			while ( colorMatcher.find() )
-				KoLMessenger.setColor( "/" + colorMatcher.group(1).toLowerCase(), StaticEntity.parseInt( colorMatcher.group(2) ) );
+			{
+				KoLMessenger.setColor(
+					"/" + colorMatcher.group( 1 ).toLowerCase(), StaticEntity.parseInt( colorMatcher.group( 2 ) ) );
+			}
 
 			// Add in other custom colors which are available
 			// in the chat options.
 
-			colorMatcher = SELF_PATTERN.matcher( this.responseText );
+			colorMatcher = KoLMessenger.SELF_PATTERN.matcher( this.responseText );
 			if ( colorMatcher.find() )
-				KoLMessenger.setColor( "chatcolorself", StaticEntity.parseInt( colorMatcher.group(1) ) );
+			{
+				KoLMessenger.setColor( "chatcolorself", StaticEntity.parseInt( colorMatcher.group( 1 ) ) );
+			}
 
-			colorMatcher = CONTACTS_PATTERN.matcher( this.responseText );
+			colorMatcher = KoLMessenger.CONTACTS_PATTERN.matcher( this.responseText );
 			if ( colorMatcher.find() )
-				KoLMessenger.setColor( "chatcolorcontacts", StaticEntity.parseInt( colorMatcher.group(1) ) );
+			{
+				KoLMessenger.setColor( "chatcolorcontacts", StaticEntity.parseInt( colorMatcher.group( 1 ) ) );
+			}
 
-			colorMatcher = OTHER_PATTERN.matcher( this.responseText );
+			colorMatcher = KoLMessenger.OTHER_PATTERN.matcher( this.responseText );
 			if ( colorMatcher.find() )
-				KoLMessenger.setColor( "chatcolorothers", StaticEntity.parseInt( colorMatcher.group(1) ) );
+			{
+				KoLMessenger.setColor( "chatcolorothers", StaticEntity.parseInt( colorMatcher.group( 1 ) ) );
+			}
 		}
 	}
 }

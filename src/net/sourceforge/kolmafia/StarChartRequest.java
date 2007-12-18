@@ -36,7 +36,8 @@ package net.sourceforge.kolmafia;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class StarChartRequest extends ItemCreationRequest
+public class StarChartRequest
+	extends ItemCreationRequest
 {
 	public static final int STAR = 654;
 	public static final int LINE = 655;
@@ -50,19 +51,25 @@ public class StarChartRequest extends ItemCreationRequest
 
 	private int stars, lines;
 
-	public StarChartRequest( int itemId )
+	public StarChartRequest( final int itemId )
 	{
 		super( "starchart.php", itemId );
 
-		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemId );
+		AdventureResult[] ingredients = ConcoctionsDatabase.getIngredients( itemId );
 		if ( ingredients != null )
+		{
 			for ( int i = 0; i < ingredients.length; ++i )
 			{
-				if ( ingredients[i].getItemId() == STAR )
-					this.stars = ingredients[i].getCount();
-				else if ( ingredients[i].getItemId() == LINE)
-					this.lines = ingredients[i].getCount();
+				if ( ingredients[ i ].getItemId() == StarChartRequest.STAR )
+				{
+					this.stars = ingredients[ i ].getCount();
+				}
+				else if ( ingredients[ i ].getItemId() == StarChartRequest.LINE )
+				{
+					this.lines = ingredients[ i ].getCount();
+				}
 			}
+		}
 
 		this.addFormField( "action", "makesomething" );
 		this.addFormField( "numstars", String.valueOf( this.stars ) );
@@ -79,7 +86,9 @@ public class StarChartRequest extends ItemCreationRequest
 		// needed items from the closet if they are missing.
 
 		if ( !this.makeIngredients() )
+		{
 			return;
+		}
 
 		for ( int i = 1; i <= this.getQuantityNeeded(); ++i )
 		{
@@ -98,30 +107,31 @@ public class StarChartRequest extends ItemCreationRequest
 
 		if ( this.responseText.indexOf( "reasonable picture" ) != -1 )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You can't make that item." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't make that item." );
 			return;
 		}
 	}
 
-	public static final boolean registerRequest( String urlString )
+	public static final boolean registerRequest( final String urlString )
 	{
-		Matcher starMatcher = STAR_PATTERN.matcher( urlString );
-		Matcher lineMatcher = LINE_PATTERN.matcher( urlString );
+		Matcher starMatcher = StarChartRequest.STAR_PATTERN.matcher( urlString );
+		Matcher lineMatcher = StarChartRequest.LINE_PATTERN.matcher( urlString );
 
 		if ( !starMatcher.find() || !lineMatcher.find() )
+		{
 			return true;
+		}
 
-		int stars = StaticEntity.parseInt( starMatcher.group(1) );
-		int lines = StaticEntity.parseInt( lineMatcher.group(1) );
+		int stars = StaticEntity.parseInt( starMatcher.group( 1 ) );
+		int lines = StaticEntity.parseInt( lineMatcher.group( 1 ) );
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "Draw " + stars + " stars with " + lines + " lines" );
 
-		StaticEntity.getClient().processResult( new AdventureResult( STAR, 0 - stars ) );
-		StaticEntity.getClient().processResult( new AdventureResult( LINE, 0 - lines ) );
-		StaticEntity.getClient().processResult( CHART );
+		StaticEntity.getClient().processResult( new AdventureResult( StarChartRequest.STAR, 0 - stars ) );
+		StaticEntity.getClient().processResult( new AdventureResult( StarChartRequest.LINE, 0 - lines ) );
+		StaticEntity.getClient().processResult( StarChartRequest.CHART );
 
 		return true;
 	}
 }
-

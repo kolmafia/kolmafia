@@ -37,7 +37,8 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ConsumeItemRequest extends KoLRequest
+public class ConsumeItemRequest
+	extends KoLRequest
 {
 	private static final KoLRequest REDIRECT_REQUEST = new KoLRequest( "inventory.php?action=message" );
 
@@ -45,30 +46,33 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final Pattern INVENTORY_PATTERN = Pattern.compile( "</table><table.*?</body>" );
 	private static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 	private static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
-	private static final Pattern FORTUNE_PATTERN = Pattern.compile( "<font size=1>Lucky numbers: (\\d+), (\\d+), (\\d+)</td>" );
+	private static final Pattern FORTUNE_PATTERN =
+		Pattern.compile( "<font size=1>Lucky numbers: (\\d+), (\\d+), (\\d+)</td>" );
 
 	private static final TreeMap LIMITED_USES = new TreeMap();
 
 	static
 	{
-		LIMITED_USES.put( new Integer( 1412 ), new AdventureResult( "Purple Tongue", 1, true ) );
-		LIMITED_USES.put( new Integer( 1413 ), new AdventureResult( "Green Tongue", 1, true ) );
-		LIMITED_USES.put( new Integer( 1414 ), new AdventureResult( "Orange Tongue", 1, true ) );
-		LIMITED_USES.put( new Integer( 1415 ), new AdventureResult( "Red Tongue", 1, true ) );
-		LIMITED_USES.put( new Integer( 1416 ), new AdventureResult( "Blue Tongue", 1, true ) );
-		LIMITED_USES.put( new Integer( 1417 ), new AdventureResult( "Black Tongue", 1, true ) );
+		ConsumeItemRequest.LIMITED_USES.put( new Integer( 1412 ), new AdventureResult( "Purple Tongue", 1, true ) );
+		ConsumeItemRequest.LIMITED_USES.put( new Integer( 1413 ), new AdventureResult( "Green Tongue", 1, true ) );
+		ConsumeItemRequest.LIMITED_USES.put( new Integer( 1414 ), new AdventureResult( "Orange Tongue", 1, true ) );
+		ConsumeItemRequest.LIMITED_USES.put( new Integer( 1415 ), new AdventureResult( "Red Tongue", 1, true ) );
+		ConsumeItemRequest.LIMITED_USES.put( new Integer( 1416 ), new AdventureResult( "Blue Tongue", 1, true ) );
+		ConsumeItemRequest.LIMITED_USES.put( new Integer( 1417 ), new AdventureResult( "Black Tongue", 1, true ) );
 
-		LIMITED_USES.put( new Integer( 1622 ), new AdventureResult( "Half-Astral", 1, true ) );
+		ConsumeItemRequest.LIMITED_USES.put( new Integer( 1622 ), new AdventureResult( "Half-Astral", 1, true ) );
 
-		LIMITED_USES.put( new Integer( 1624 ), new AdventureResult( "Cupcake of Choice", 1, true ) );
-		LIMITED_USES.put( new Integer( 1625 ), new AdventureResult( "The Cupcake of Wrath", 1, true ) );
-		LIMITED_USES.put( new Integer( 1626 ), new AdventureResult( "Shiny Happy Cupcake", 1, true ) );
-		LIMITED_USES.put( new Integer( 1627 ), new AdventureResult( "Tiny Bubbles in the Cupcake", 1, true ) );
-		LIMITED_USES.put( new Integer( 1628 ), new AdventureResult( "Your Cupcake Senses Are Tingling", 1, true ) );
+		ConsumeItemRequest.LIMITED_USES.put( new Integer( 1624 ), new AdventureResult( "Cupcake of Choice", 1, true ) );
+		ConsumeItemRequest.LIMITED_USES.put( new Integer( 1625 ), new AdventureResult( "The Cupcake of Wrath", 1, true ) );
+		ConsumeItemRequest.LIMITED_USES.put( new Integer( 1626 ), new AdventureResult( "Shiny Happy Cupcake", 1, true ) );
+		ConsumeItemRequest.LIMITED_USES.put( new Integer( 1627 ), new AdventureResult(
+			"Tiny Bubbles in the Cupcake", 1, true ) );
+		ConsumeItemRequest.LIMITED_USES.put( new Integer( 1628 ), new AdventureResult(
+			"Your Cupcake Senses Are Tingling", 1, true ) );
 
-		LIMITED_USES.put( new Integer( 1650 ), TradeableItemDatabase.GOT_MILK );
+		ConsumeItemRequest.LIMITED_USES.put( new Integer( 1650 ), TradeableItemDatabase.GOT_MILK );
 
-		LIMITED_USES.put( new Integer( 2655 ), new AdventureResult( "Absinthe-Minded", 1, true ) );
+		ConsumeItemRequest.LIMITED_USES.put( new Integer( 2655 ), new AdventureResult( "Absinthe-Minded", 1, true ) );
 	}
 
 	public static String lastUpdate = "";
@@ -220,14 +224,15 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final AdventureResult ORNATE_CURSED_KEY = new AdventureResult( 3014, -1 );
 	private static final AdventureResult GILDED_CURSED_KEY = new AdventureResult( 3015, -1 );
 
-	private int consumptionType;
+	private final int consumptionType;
 	private AdventureResult itemUsed = null;
 
-	public ConsumeItemRequest( AdventureResult item )
-	{	this( getConsumptionType( item ), item );
+	public ConsumeItemRequest( final AdventureResult item )
+	{
+		this( ConsumeItemRequest.getConsumptionType( item ), item );
 	}
 
-	public static final int getConsumptionType( AdventureResult item )
+	public static final int getConsumptionType( final AdventureResult item )
 	{
 		int itemId = item.getItemId();
 		switch ( itemId )
@@ -240,16 +245,17 @@ public class ConsumeItemRequest extends KoLRequest
 		case CANNONBALL_BRACELET:
 		case COPPER_BRACELET:
 		case TONGUE_BRACELET:
-			return CONSUME_USE;
+			return KoLConstants.CONSUME_USE;
 		}
 		return TradeableItemDatabase.getConsumptionType( itemId );
 	}
 
-	public ConsumeItemRequest( int consumptionType, AdventureResult item )
-	{	this( getConsumptionLocation( consumptionType, item ), consumptionType, item );
+	public ConsumeItemRequest( final int consumptionType, final AdventureResult item )
+	{
+		this( ConsumeItemRequest.getConsumptionLocation( consumptionType, item ), consumptionType, item );
 	}
 
-	private static final String getConsumptionLocation( int consumptionType, AdventureResult item )
+	private static final String getConsumptionLocation( final int consumptionType, final AdventureResult item )
 	{
 		switch ( consumptionType )
 		{
@@ -268,14 +274,16 @@ public class ConsumeItemRequest extends KoLRequest
 			return "multiuse.php";
 		case HP_RESTORE:
 			if ( item.getCount() > 1 )
+			{
 				return "multiuse.php";
+			}
 			return "inv_use.php";
 		default:
 			return "inv_use.php";
 		}
 	}
 
-	private ConsumeItemRequest( String location, int consumptionType, AdventureResult item )
+	private ConsumeItemRequest( final String location, final int consumptionType, final AdventureResult item )
 	{
 		super( location );
 
@@ -287,25 +295,31 @@ public class ConsumeItemRequest extends KoLRequest
 	}
 
 	public static final int currentItemId()
-	{	return lastItemUsed == null ? -1 : lastItemUsed.getItemId();
+	{
+		return ConsumeItemRequest.lastItemUsed == null ? -1 : ConsumeItemRequest.lastItemUsed.getItemId();
 	}
 
 	public int getConsumptionType()
-	{	return this.consumptionType;
+	{
+		return this.consumptionType;
 	}
 
 	public AdventureResult getItemUsed()
-	{	return this.itemUsed;
+	{
+		return this.itemUsed;
 	}
 
-	public static final int maximumUses( int itemId )
-	{	return maximumUses( itemId, true );
+	public static final int maximumUses( final int itemId )
+	{
+		return ConsumeItemRequest.maximumUses( itemId, true );
 	}
 
-	public static final int maximumUses( int itemId, boolean allowOverDrink )
+	public static final int maximumUses( final int itemId, final boolean allowOverDrink )
 	{
 		if ( itemId <= 0 )
+		{
 			return Integer.MAX_VALUE;
+		}
 
 		switch ( itemId )
 		{
@@ -320,13 +334,13 @@ public class ConsumeItemRequest extends KoLRequest
 			return 1;
 
 		case ANCIENT_CURSED_FOOTLOCKER:
-			return SIMPLE_CURSED_KEY.getCount( inventory);
+			return ConsumeItemRequest.SIMPLE_CURSED_KEY.getCount( KoLConstants.inventory );
 
 		case ORNATE_CURSED_CHEST:
-			return ORNATE_CURSED_KEY.getCount( inventory);
+			return ConsumeItemRequest.ORNATE_CURSED_KEY.getCount( KoLConstants.inventory );
 
 		case GILDED_CURSED_CHEST:
-			return GILDED_CURSED_KEY.getCount( inventory);
+			return ConsumeItemRequest.GILDED_CURSED_KEY.getCount( KoLConstants.inventory );
 
 		case MOJO_FILTER:
 			return Math.max( 0, 3 - KoLSettings.getIntegerProperty( "currentMojoFilters" ) );
@@ -337,14 +351,18 @@ public class ConsumeItemRequest extends KoLRequest
 
 		Integer key = new Integer( itemId );
 
-		if ( LIMITED_USES.containsKey( key ) )
-			return activeEffects.contains( LIMITED_USES.get( key ) ) ? 0 : 1;
+		if ( ConsumeItemRequest.LIMITED_USES.containsKey( key ) )
+		{
+			return KoLConstants.activeEffects.contains( ConsumeItemRequest.LIMITED_USES.get( key ) ) ? 0 : 1;
+		}
 
 		String itemName = TradeableItemDatabase.getItemName( itemId );
 
 		int fullness = TradeableItemDatabase.getFullness( itemName );
 		if ( fullness > 0 )
-			return (KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness()) / fullness;
+		{
+			return ( KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness() ) / fullness;
+		}
 
 		int spleenHit = TradeableItemDatabase.getSpleenHit( itemName );
 
@@ -356,21 +374,21 @@ public class ConsumeItemRequest extends KoLRequest
 
 		for ( int i = 0; i < HPRestoreItemList.CONFIGURES.length; ++i )
 		{
-			if ( HPRestoreItemList.CONFIGURES[i].getItem() != null && HPRestoreItemList.CONFIGURES[i].getItem().getItemId() == itemId )
+			if ( HPRestoreItemList.CONFIGURES[ i ].getItem() != null && HPRestoreItemList.CONFIGURES[ i ].getItem().getItemId() == itemId )
 			{
 				restoresHP = true;
-				HPRestoreItemList.CONFIGURES[i].updateHealthPerUse();
-				hpRestored = (float) HPRestoreItemList.CONFIGURES[i].getHealthRestored();
+				HPRestoreItemList.CONFIGURES[ i ].updateHealthPerUse();
+				hpRestored = (float) HPRestoreItemList.CONFIGURES[ i ].getHealthRestored();
 			}
 		}
 
 		for ( int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i )
 		{
-			if ( MPRestoreItemList.CONFIGURES[i].getItem() != null && MPRestoreItemList.CONFIGURES[i].getItem().getItemId() == itemId )
+			if ( MPRestoreItemList.CONFIGURES[ i ].getItem() != null && MPRestoreItemList.CONFIGURES[ i ].getItem().getItemId() == itemId )
 			{
 				restoresMP = true;
-				MPRestoreItemList.CONFIGURES[i].updateManaPerUse();
-				mpRestored = (float) MPRestoreItemList.CONFIGURES[i].getManaRestored();
+				MPRestoreItemList.CONFIGURES[ i ].updateManaPerUse();
+				mpRestored = (float) MPRestoreItemList.CONFIGURES[ i ].getManaRestored();
 			}
 		}
 
@@ -380,31 +398,36 @@ public class ConsumeItemRequest extends KoLRequest
 
 			if ( hpRestored != 0.0f )
 			{
-				float belowMax = (float) (KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP());
+				float belowMax = (float) ( KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP() );
 				maximumSuggested = Math.max( maximumSuggested, (int) Math.ceil( belowMax / hpRestored ) );
 			}
 
 			if ( mpRestored != 0.0f )
 			{
-				float belowMax = (float) (KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP());
+				float belowMax = (float) ( KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP() );
 				maximumSuggested = Math.max( maximumSuggested, (int) Math.ceil( belowMax / mpRestored ) );
 			}
 
 			if ( spleenHit > 0 )
-				maximumSuggested = Math.min( maximumSuggested, (KoLCharacter.getSpleenLimit() - KoLCharacter.getSpleenUse()) / spleenHit );
+			{
+				maximumSuggested =
+					Math.min(
+						maximumSuggested, ( KoLCharacter.getSpleenLimit() - KoLCharacter.getSpleenUse() ) / spleenHit );
+			}
 
 			return maximumSuggested;
 		}
 
 		if ( spleenHit > 0 )
-			return (KoLCharacter.getSpleenLimit() - KoLCharacter.getSpleenUse()) / spleenHit;
+		{
+			return ( KoLCharacter.getSpleenLimit() - KoLCharacter.getSpleenUse() ) / spleenHit;
+		}
 
 		int inebrietyHit = TradeableItemDatabase.getInebriety( itemName );
 		if ( inebrietyHit > 0 )
 		{
 			int inebrietyLeft = KoLCharacter.getInebrietyLimit() - KoLCharacter.getInebriety();
-			return inebrietyLeft < 0 ? 0 : inebrietyLeft < inebrietyHit ? 1 :
-				allowOverDrink ? inebrietyLeft / inebrietyHit + 1 : inebrietyLeft / inebrietyHit;
+			return inebrietyLeft < 0 ? 0 : inebrietyLeft < inebrietyHit ? 1 : allowOverDrink ? inebrietyLeft / inebrietyHit + 1 : inebrietyLeft / inebrietyHit;
 		}
 
 		return Integer.MAX_VALUE;
@@ -425,11 +448,11 @@ public class ConsumeItemRequest extends KoLRequest
 		case EQUIP_ACCESSORY:
 		case EQUIP_FAMILIAR:
 
-			(new EquipmentRequest( this.itemUsed )).run();
+			( new EquipmentRequest( this.itemUsed ) ).run();
 			return;
 		}
 
-		lastUpdate = "";
+		ConsumeItemRequest.lastUpdate = "";
 		int itemId = this.itemUsed.getItemId();
 
 		if ( itemId == SorceressLair.PUZZLE_PIECE.getItemId() )
@@ -438,46 +461,66 @@ public class ConsumeItemRequest extends KoLRequest
 			return;
 		}
 
-		int maximumUses = maximumUses( itemId );
+		int maximumUses = ConsumeItemRequest.maximumUses( itemId );
 		if ( maximumUses < this.itemUsed.getCount() )
+		{
 			this.itemUsed = this.itemUsed.getInstance( maximumUses );
+		}
 
 		if ( this.itemUsed.getCount() < 1 )
+		{
 			return;
+		}
 
 		// If it's an elemental phial, then remove the
 		// other elemental effects first.
 
 		int phialIndex = -1;
 		for ( int i = 0; i < BasementRequest.ELEMENT_PHIALS.length; ++i )
-			if ( itemId == BasementRequest.ELEMENT_PHIALS[i].getItemId() )
+		{
+			if ( itemId == BasementRequest.ELEMENT_PHIALS[ i ].getItemId() )
+			{
 				phialIndex = i;
+			}
+		}
 
 		if ( phialIndex != -1 )
 		{
 			for ( int i = 0; i < BasementRequest.ELEMENT_FORMS.length && KoLmafia.permitsContinue(); ++i )
-				if ( i != phialIndex && activeEffects.contains( BasementRequest.ELEMENT_FORMS[i] ) )
-					(new UneffectRequest( BasementRequest.ELEMENT_FORMS[i] )).run();
+			{
+				if ( i != phialIndex && KoLConstants.activeEffects.contains( BasementRequest.ELEMENT_FORMS[ i ] ) )
+				{
+					( new UneffectRequest( BasementRequest.ELEMENT_FORMS[ i ] ) ).run();
+				}
+			}
 
 			if ( !KoLmafia.permitsContinue() )
+			{
 				return;
+			}
 		}
 
 		int price = TradeableItemDatabase.getPriceById( itemId );
 
-		if ( itemId == SELTZER || itemId == MAFIA_ARIA )
-			SpecialOutfit.createImplicitCheckpoint();
-
-		if ( price != 0 && this.consumptionType != INFINITE_USES && !AdventureDatabase.retrieveItem( this.itemUsed ) )
+		if ( itemId == ConsumeItemRequest.SELTZER || itemId == ConsumeItemRequest.MAFIA_ARIA )
 		{
-			if ( itemId == SELTZER || itemId == MAFIA_ARIA )
+			SpecialOutfit.createImplicitCheckpoint();
+		}
+
+		if ( price != 0 && this.consumptionType != KoLConstants.INFINITE_USES && !AdventureDatabase.retrieveItem( this.itemUsed ) )
+		{
+			if ( itemId == ConsumeItemRequest.SELTZER || itemId == ConsumeItemRequest.MAFIA_ARIA )
+			{
 				SpecialOutfit.restoreImplicitCheckpoint();
+			}
 
 			return;
 		}
 
-		if ( itemId == SELTZER )
+		if ( itemId == ConsumeItemRequest.SELTZER )
+		{
 			SpecialOutfit.restoreImplicitCheckpoint();
+		}
 
 		int iterations = 1;
 
@@ -496,21 +539,23 @@ public class ConsumeItemRequest extends KoLRequest
 			}
 		}
 
-		if ( itemId == MACGUFFIN_DIARY )
+		if ( itemId == ConsumeItemRequest.MACGUFFIN_DIARY )
 		{
-			(new KoLRequest( "diary.php?textversion=1" )).run();
+			( new KoLRequest( "diary.php?textversion=1" ) ).run();
 			KoLmafia.updateDisplay( "Your father's diary has been read." );
 			return;
 		}
 
-		if ( itemId == MAFIA_ARIA )
+		if ( itemId == ConsumeItemRequest.MAFIA_ARIA )
 		{
-			if ( !KoLCharacter.hasEquipped( CUMMERBUND ) )
-				RequestThread.postRequest( new EquipmentRequest( CUMMERBUND ) );
+			if ( !KoLCharacter.hasEquipped( ConsumeItemRequest.CUMMERBUND ) )
+			{
+				RequestThread.postRequest( new EquipmentRequest( ConsumeItemRequest.CUMMERBUND ) );
+			}
 		}
 
-		String useTypeAsString = (this.consumptionType == CONSUME_EAT) ? "Eating" :
-			(this.consumptionType == CONSUME_DRINK) ? "Drinking" : "Using";
+		String useTypeAsString =
+			this.consumptionType == KoLConstants.CONSUME_EAT ? "Eating" : this.consumptionType == KoLConstants.CONSUME_DRINK ? "Drinking" : "Using";
 
 		String originalURLString = this.getURLString();
 
@@ -518,49 +563,59 @@ public class ConsumeItemRequest extends KoLRequest
 		{
 			this.constructURLString( originalURLString );
 
-			if ( this.consumptionType == CONSUME_DRINK && !allowBoozeConsumption( TradeableItemDatabase.getInebriety( this.itemUsed.getName() ) ) )
+			if ( this.consumptionType == KoLConstants.CONSUME_DRINK && !ConsumeItemRequest.allowBoozeConsumption( TradeableItemDatabase.getInebriety( this.itemUsed.getName() ) ) )
+			{
 				return;
+			}
 
 			this.useOnce( i, iterations, useTypeAsString );
 		}
 
-		if ( itemId == MAFIA_ARIA )
+		if ( itemId == ConsumeItemRequest.MAFIA_ARIA )
+		{
 			SpecialOutfit.restoreImplicitCheckpoint();
+		}
 
 		if ( KoLmafia.permitsContinue() )
 		{
-			KoLmafia.updateDisplay( "Finished " + useTypeAsString.toLowerCase() + " " + Math.max( iterations, this.itemUsed.getCount() ) +
-				" " + this.itemUsed.getName() + "." );
+			KoLmafia.updateDisplay( "Finished " + useTypeAsString.toLowerCase() + " " + Math.max(
+				iterations, this.itemUsed.getCount() ) + " " + this.itemUsed.getName() + "." );
 		}
 	}
 
-	public static final boolean allowBoozeConsumption( int inebrietyBonus )
+	public static final boolean allowBoozeConsumption( final int inebrietyBonus )
 	{
 		if ( KoLCharacter.isFallingDown() || inebrietyBonus < 1 )
+		{
 			return true;
+		}
 
-		if ( existingFrames.isEmpty() )
+		if ( KoLConstants.existingFrames.isEmpty() )
+		{
 			return true;
+		}
 
 		// Make sure the player does not drink something without
 		// having ode, if they can cast ode.
 
-		if ( !activeEffects.contains( TradeableItemDatabase.ODE ) )
+		if ( !KoLConstants.activeEffects.contains( TradeableItemDatabase.ODE ) )
 		{
 			UseSkillRequest ode = UseSkillRequest.getInstance( "The Ode to Booze" );
-			boolean knowsOde = availableSkills.contains( ode );
+			boolean knowsOde = KoLConstants.availableSkills.contains( ode );
 
 			if ( knowsOde && UseSkillRequest.hasAccordion() && KoLCharacter.getCurrentMP() >= ClassSkillsDatabase.getMPConsumptionById( 6014 ) )
 			{
 				ode.setBuffCount( 1 );
 				RequestThread.postRequest( ode );
 			}
-			else if ( knowsOde && askedAboutOde != KoLCharacter.getUserId() )
+			else if ( knowsOde && ConsumeItemRequest.askedAboutOde != KoLCharacter.getUserId() )
 			{
 				if ( !KoLFrame.confirm( "Are you sure you want to drink without ode?" ) )
+				{
 					return false;
+				}
 
-				askedAboutOde = KoLCharacter.getUserId();
+				ConsumeItemRequest.askedAboutOde = KoLCharacter.getUserId();
 			}
 		}
 
@@ -570,19 +625,23 @@ public class ConsumeItemRequest extends KoLRequest
 		if ( KoLCharacter.getInebriety() + inebrietyBonus > KoLCharacter.getInebrietyLimit() )
 		{
 			if ( KoLCharacter.getAttacksLeft() > 0 && !KoLFrame.confirm( "Are you sure you want to overdrink without PvPing?" ) )
+			{
 				return false;
+			}
 			else if ( KoLCharacter.getAdventuresLeft() > 40 && !KoLFrame.confirm( "Are you sure you want to overdrink?" ) )
+			{
 				return false;
+			}
 		}
 
 		return true;
 	}
 
-	public void useOnce( int currentIteration, int totalIterations, String useTypeAsString )
+	public void useOnce( final int currentIteration, final int totalIterations, final String useTypeAsString )
 	{
-		lastUpdate = "";
+		ConsumeItemRequest.lastUpdate = "";
 
-		if ( this.consumptionType == CONSUME_ZAP )
+		if ( this.consumptionType == KoLConstants.CONSUME_ZAP )
 		{
 			StaticEntity.getClient().makeZapRequest();
 			return;
@@ -594,7 +653,7 @@ public class ConsumeItemRequest extends KoLRequest
 
 		if ( !AdventureDatabase.retrieveItem( this.itemUsed ) )
 		{
-			lastUpdate = "Insufficient items to use.";
+			ConsumeItemRequest.lastUpdate = "Insufficient items to use.";
 			return;
 		}
 
@@ -638,43 +697,55 @@ public class ConsumeItemRequest extends KoLRequest
 		}
 
 		if ( totalIterations == 1 )
+		{
 			KoLmafia.updateDisplay( useTypeAsString + " " + this.itemUsed.getCount() + " " + this.itemUsed.getName() + "..." );
+		}
 		else
+		{
 			KoLmafia.updateDisplay( useTypeAsString + " " + this.itemUsed.getName() + " (" + currentIteration + " of " + totalIterations + ")..." );
+		}
 
 		super.run();
 
 		if ( this.responseCode == 302 && this.redirectLocation.startsWith( "inventory" ) )
 		{
-			REDIRECT_REQUEST.constructURLString( this.redirectLocation ).run();
-			lastItemUsed = this.itemUsed;
-			parseConsumption( REDIRECT_REQUEST.responseText, true );
+			ConsumeItemRequest.REDIRECT_REQUEST.constructURLString( this.redirectLocation ).run();
+			ConsumeItemRequest.lastItemUsed = this.itemUsed;
+			ConsumeItemRequest.parseConsumption( ConsumeItemRequest.REDIRECT_REQUEST.responseText, true );
 		}
 	}
 
 	public void processResults()
 	{
-		lastItemUsed = this.itemUsed;
-		parseConsumption( this.responseText, true );
+		ConsumeItemRequest.lastItemUsed = this.itemUsed;
+		ConsumeItemRequest.parseConsumption( this.responseText, true );
 	}
 
-	public static final void parseConsumption( String responseText, boolean showHTML )
+	public static final void parseConsumption( final String responseText, final boolean showHTML )
 	{
-		if ( lastItemUsed == null )
+		if ( ConsumeItemRequest.lastItemUsed == null )
+		{
 			return;
+		}
 
-		int consumptionType = TradeableItemDatabase.getConsumptionType( lastItemUsed.getItemId() );
+		int consumptionType = TradeableItemDatabase.getConsumptionType( ConsumeItemRequest.lastItemUsed.getItemId() );
 
-		if ( consumptionType == NO_CONSUME )
+		if ( consumptionType == KoLConstants.NO_CONSUME )
+		{
 			return;
+		}
 
-		if ( consumptionType == INFINITE_USES )
+		if ( consumptionType == KoLConstants.INFINITE_USES )
+		{
 			return;
+		}
 
-		if ( consumptionType == MESSAGE_DISPLAY )
+		if ( consumptionType == KoLConstants.MESSAGE_DISPLAY )
 		{
 			if ( !LoginRequest.isInstanceRunning() )
-				showItemUsage( showHTML, responseText, true );
+			{
+				ConsumeItemRequest.showItemUsage( showHTML, responseText, true );
+			}
 
 			return;
 		}
@@ -683,40 +754,40 @@ public class ConsumeItemRequest extends KoLRequest
 		// In the event that the item is not used, then proceed to
 		// undo the consumption.
 
-		StaticEntity.getClient().processResult( lastItemUsed.getNegation() );
+		StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed.getNegation() );
 
 		// Check for familiar growth - if a familiar is added,
 		// make sure to update the StaticEntity.getClient().
 
-		if ( consumptionType == GROW_FAMILIAR )
+		if ( consumptionType == KoLConstants.GROW_FAMILIAR )
 		{
 			if ( responseText.indexOf( "You've already got a familiar of that type." ) != -1 )
 			{
-				lastUpdate = "You already have that familiar.";
-				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
-				StaticEntity.getClient().processResult( lastItemUsed );
+				ConsumeItemRequest.lastUpdate = "You already have that familiar.";
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, ConsumeItemRequest.lastUpdate );
+				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
 				return;
 			}
 
 			// Pop up a window showing the result
 
-			KoLCharacter.addFamiliar( FamiliarsDatabase.growFamiliarLarva( lastItemUsed.getItemId() ) );
-			showItemUsage( showHTML, responseText, true );
+			KoLCharacter.addFamiliar( FamiliarsDatabase.growFamiliarLarva( ConsumeItemRequest.lastItemUsed.getItemId() ) );
+			ConsumeItemRequest.showItemUsage( showHTML, responseText, true );
 			return;
 		}
 
 		if ( responseText.indexOf( "You may not" ) != -1 )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "Pathed ascension." );
-			StaticEntity.getClient().processResult( lastItemUsed );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Pathed ascension." );
+			StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
 			return;
 		}
 
 		if ( responseText.indexOf( "rupture" ) != -1 )
 		{
-			lastUpdate = "Your spleen might go kabooie.";
-			KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
-			StaticEntity.getClient().processResult( lastItemUsed );
+			ConsumeItemRequest.lastUpdate = "Your spleen might go kabooie.";
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, ConsumeItemRequest.lastUpdate );
+			StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
 			return;
 		}
 
@@ -726,23 +797,23 @@ public class ConsumeItemRequest extends KoLRequest
 
 		if ( responseText.indexOf( "too full" ) != -1 )
 		{
-			lastUpdate = "Consumption limit reached.";
-			KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
-			StaticEntity.getClient().processResult( lastItemUsed );
+			ConsumeItemRequest.lastUpdate = "Consumption limit reached.";
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, ConsumeItemRequest.lastUpdate );
+			StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
 			return;
 		}
 
 		if ( responseText.indexOf( "too drunk" ) != -1 )
 		{
-			lastUpdate = "Inebriety limit reached.";
-			KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
-			StaticEntity.getClient().processResult( lastItemUsed );
+			ConsumeItemRequest.lastUpdate = "Inebriety limit reached.";
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, ConsumeItemRequest.lastUpdate );
+			StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
 			return;
 		}
 
 		// Perform item-specific processing
 
-		switch ( lastItemUsed.getItemId() )
+		switch ( ConsumeItemRequest.lastItemUsed.getItemId() )
 		{
 
 		// If it's a gift package, get the inner message
@@ -767,36 +838,39 @@ public class ConsumeItemRequest extends KoLRequest
 
 			if ( responseText.indexOf( "You can't receive things" ) != -1 )
 			{
-				lastUpdate = "You can't open that package yet.";
-				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
-				StaticEntity.getClient().processResult( lastItemUsed );
+				ConsumeItemRequest.lastUpdate = "You can't open that package yet.";
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, ConsumeItemRequest.lastUpdate );
+				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
 			}
 			else if ( showHTML )
 			{
-				// Find out who sent it and popup a window showing
-				// what was in the gift.
-
-				showItemUsage( true, responseText, true );
+				ConsumeItemRequest.showItemUsage( true, responseText, true );
 			}
 
 			return;
 
-		// If it's a fortune cookie, get the fortune
+			// If it's a fortune cookie, get the fortune
 
 		case FORTUNE_COOKIE:
 
-			showItemUsage( showHTML, responseText, true );
+			ConsumeItemRequest.showItemUsage( showHTML, responseText, true );
 
-			Matcher fortuneMatcher = FORTUNE_PATTERN.matcher( responseText );
+			Matcher fortuneMatcher = ConsumeItemRequest.FORTUNE_PATTERN.matcher( responseText );
 			if ( !fortuneMatcher.find() )
+			{
 				return;
+			}
 
 			if ( StaticEntity.isCounting( "Fortune Cookie" ) )
 			{
 				int desiredCount = 0;
 				for ( int i = 1; i <= 3; ++i )
-					if ( StaticEntity.isCounting( "Fortune Cookie", StaticEntity.parseInt( fortuneMatcher.group(i) ) ) )
-						desiredCount = StaticEntity.parseInt( fortuneMatcher.group(i) );
+				{
+					if ( StaticEntity.isCounting( "Fortune Cookie", StaticEntity.parseInt( fortuneMatcher.group( i ) ) ) )
+					{
+						desiredCount = StaticEntity.parseInt( fortuneMatcher.group( i ) );
+					}
+				}
 
 				if ( desiredCount != 0 )
 				{
@@ -807,7 +881,10 @@ public class ConsumeItemRequest extends KoLRequest
 			}
 
 			for ( int i = 1; i <= 3; ++i )
-				StaticEntity.startCounting( StaticEntity.parseInt( fortuneMatcher.group(i) ), "Fortune Cookie", "fortune.gif" );
+			{
+				StaticEntity.startCounting(
+					StaticEntity.parseInt( fortuneMatcher.group( i ) ), "Fortune Cookie", "fortune.gif" );
+			}
 
 			return;
 
@@ -820,9 +897,13 @@ public class ConsumeItemRequest extends KoLRequest
 			// and hand over your dictionary."
 
 			if ( responseText.indexOf( "you're flattered" ) == -1 )
-				StaticEntity.getClient().processResult( lastItemUsed );
+			{
+				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
+			}
 			else
+			{
 				StaticEntity.getClient().processResult( FightRequest.DICTIONARY1.getNegation() );
+			}
 
 			return;
 
@@ -831,9 +912,14 @@ public class ConsumeItemRequest extends KoLRequest
 			// "The UB3r 31337 HaX0R stands before you."
 
 			if ( responseText.indexOf( "The UB3r 31337 HaX0R stands before you." ) != -1 )
-				StaticEntity.getClient().processResult( lastItemUsed.getInstance( lastItemUsed.getCount() - 1 ) );
+			{
+				StaticEntity.getClient().processResult(
+					ConsumeItemRequest.lastItemUsed.getInstance( ConsumeItemRequest.lastItemUsed.getCount() - 1 ) );
+			}
 			else
+			{
 				KoLmafiaCLI.DEFAULT_SHELL.executeLine( "use * ten-leaf clover" );
+			}
 
 			return;
 
@@ -850,7 +936,9 @@ public class ConsumeItemRequest extends KoLRequest
 			// obey it, no matter what."
 
 			if ( responseText.indexOf( "back to work" ) != -1 || responseText.indexOf( "fireworks are illegal" ) != -1 )
-				StaticEntity.getClient().processResult( lastItemUsed );
+			{
+				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
+			}
 
 			return;
 
@@ -870,7 +958,9 @@ public class ConsumeItemRequest extends KoLRequest
 			// beanstalk".
 
 			if ( responseText.indexOf( "grows into an enormous beanstalk" ) == -1 )
-				StaticEntity.getClient().processResult( lastItemUsed );
+			{
+				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
+			}
 
 			return;
 
@@ -885,7 +975,9 @@ public class ConsumeItemRequest extends KoLRequest
 			// of dirty."
 
 			if ( responseText.indexOf( "feeling kind of dirty" ) == -1 )
-				StaticEntity.getClient().processResult( lastItemUsed );
+			{
+				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
+			}
 
 			return;
 
@@ -896,9 +988,9 @@ public class ConsumeItemRequest extends KoLRequest
 
 			if ( responseText.indexOf( "pleased me greatly" ) == -1 )
 			{
-				lastUpdate = "You music was inadequate.";
-				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
-				StaticEntity.getClient().processResult( lastItemUsed );
+				ConsumeItemRequest.lastUpdate = "You music was inadequate.";
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, ConsumeItemRequest.lastUpdate );
+				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
 			}
 
 			return;
@@ -910,9 +1002,9 @@ public class ConsumeItemRequest extends KoLRequest
 
 			if ( responseText.indexOf( "Sorceress is in another castle" ) == -1 )
 			{
-				lastUpdate = "You couldn't make it all the way to the back door.";
-				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
-				StaticEntity.getClient().processResult( lastItemUsed );
+				ConsumeItemRequest.lastUpdate = "You couldn't make it all the way to the back door.";
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, ConsumeItemRequest.lastUpdate );
+				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
 			}
 
 			return;
@@ -922,11 +1014,12 @@ public class ConsumeItemRequest extends KoLRequest
 			// If a scroll of drastic healing was used and didn't
 			// crumble, it is not consumed
 
-			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.HP, KoLCharacter.getMaximumHP() ) );
+			StaticEntity.getClient().processResult(
+				new AdventureResult( AdventureResult.HP, KoLCharacter.getMaximumHP() ) );
 
 			if ( responseText.indexOf( "crumble" ) == -1 )
 			{
-				StaticEntity.getClient().processResult( lastItemUsed );
+				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
 				KoLCharacter.updateStatus();
 			}
 
@@ -934,22 +1027,25 @@ public class ConsumeItemRequest extends KoLRequest
 
 		case TEARS:
 
-			activeEffects.remove( KoLAdventure.BEATEN_UP );
+			KoLConstants.activeEffects.remove( KoLAdventure.BEATEN_UP );
 			return;
 
 		case ANTIDOTE:
 		case TINY_HOUSE:
 
-			activeEffects.clear();
+			KoLConstants.activeEffects.clear();
 			return;
 
 		case TBONE_KEY:
 
-			if ( KoLCharacter.hasItem( LOCKED_LOCKER ) )
-				StaticEntity.getClient().processResult( LOCKED_LOCKER.getNegation() );
+			if ( KoLCharacter.hasItem( ConsumeItemRequest.LOCKED_LOCKER ) )
+			{
+				StaticEntity.getClient().processResult( ConsumeItemRequest.LOCKED_LOCKER.getNegation() );
+			}
 			else
-				StaticEntity.getClient().processResult( lastItemUsed );
-
+			{
+				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
+			}
 
 		case RAFFLE_TICKET:
 
@@ -961,7 +1057,9 @@ public class ConsumeItemRequest extends KoLRequest
 			// Subsequent raffle tickets don't consume clovers.
 
 			if ( responseText.indexOf( "puff of smoke" ) != -1 )
+			{
 				StaticEntity.getClient().processResult( SewerRequest.CLOVER );
+			}
 
 			return;
 
@@ -972,20 +1070,21 @@ public class ConsumeItemRequest extends KoLRequest
 
 			if ( responseText.indexOf( "pagoda" ) != -1 )
 			{
-				StaticEntity.getClient().processResult( NUTS );
-				StaticEntity.getClient().processResult( PLAN );
+				StaticEntity.getClient().processResult( ConsumeItemRequest.NUTS );
+				StaticEntity.getClient().processResult( ConsumeItemRequest.PLAN );
 			}
 
 			// The ketchup hound does not go away...
 
-			StaticEntity.getClient().processResult( lastItemUsed );
+			StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
 			return;
 
 		case LUCIFER:
 
 			// Jumbo Dr. Lucifer reduces your hit points to 1.
 
-			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.HP, 1 - KoLCharacter.getCurrentHP() ) );
+			StaticEntity.getClient().processResult(
+				new AdventureResult( AdventureResult.HP, 1 - KoLCharacter.getCurrentHP() ) );
 			return;
 
 		case DOLPHIN_KING_MAP:
@@ -995,9 +1094,9 @@ public class ConsumeItemRequest extends KoLRequest
 
 			if ( responseText.indexOf( "find his glorious treasure" ) == -1 )
 			{
-				lastUpdate = "You don't have everything you need.";
-				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
-				StaticEntity.getClient().processResult( lastItemUsed );
+				ConsumeItemRequest.lastUpdate = "You don't have everything you need.";
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, ConsumeItemRequest.lastUpdate );
+				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
 			}
 
 			return;
@@ -1009,9 +1108,9 @@ public class ConsumeItemRequest extends KoLRequest
 
 			if ( responseText.indexOf( "deepest part of the tank" ) == -1 )
 			{
-				lastUpdate = "You don't have everything you need.";
-				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
-				StaticEntity.getClient().processResult( lastItemUsed );
+				ConsumeItemRequest.lastUpdate = "You don't have everything you need.";
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, ConsumeItemRequest.lastUpdate );
+				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
 			}
 
 			return;
@@ -1023,15 +1122,15 @@ public class ConsumeItemRequest extends KoLRequest
 
 			if ( responseText.indexOf( "exact same moment" ) == -1 )
 			{
-				lastUpdate = "You don't have everything you need.";
-				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
-				StaticEntity.getClient().processResult( lastItemUsed );
+				ConsumeItemRequest.lastUpdate = "You don't have everything you need.";
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, ConsumeItemRequest.lastUpdate );
+				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
 				return;
 			}
 
 			// Using the map consumes an asparagus knife
 
-			StaticEntity.getClient().processResult( ASPARAGUS_KNIFE );
+			StaticEntity.getClient().processResult( ConsumeItemRequest.ASPARAGUS_KNIFE );
 			return;
 
 		case COBBS_KNOB_MAP:
@@ -1041,15 +1140,15 @@ public class ConsumeItemRequest extends KoLRequest
 
 			if ( responseText.indexOf( "memorize the location" ) == -1 )
 			{
-				lastUpdate = "You don't have everything you need.";
-				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
-				StaticEntity.getClient().processResult( lastItemUsed );
+				ConsumeItemRequest.lastUpdate = "You don't have everything you need.";
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, ConsumeItemRequest.lastUpdate );
+				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
 				return;
 			}
 
 			// Using the map consumes the encryption key
 
-			StaticEntity.getClient().processResult( ENCRYPTION_KEY );
+			StaticEntity.getClient().processResult( ConsumeItemRequest.ENCRYPTION_KEY );
 			return;
 
 		case BLACK_MARKET_MAP:
@@ -1062,9 +1161,9 @@ public class ConsumeItemRequest extends KoLRequest
 
 			if ( responseText.indexOf( "can't make head or tail of it" ) != -1 )
 			{
-				lastUpdate = "You need a guide.";
-				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
-				StaticEntity.getClient().processResult( lastItemUsed );
+				ConsumeItemRequest.lastUpdate = "You need a guide.";
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, ConsumeItemRequest.lastUpdate );
+				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
 				return;
 			}
 
@@ -1076,13 +1175,19 @@ public class ConsumeItemRequest extends KoLRequest
 
 			AdventureResult item = blackbird.getItem();
 			if ( item != null && !item.equals( EquipmentRequest.UNEQUIP ) )
-				AdventureResult.addResultToList( inventory, item );
+			{
+				AdventureResult.addResultToList( KoLConstants.inventory, item );
+			}
 
 			if ( !KoLSettings.getUserProperty( "preBlackbirdFamiliar" ).equals( "" ) )
 			{
-				KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "familiar", KoLSettings.getUserProperty( "preBlackbirdFamiliar" ) );
-				if ( item != null && !item.equals( EquipmentRequest.UNEQUIP ) && KoLCharacter.getFamiliar().canEquip( item ) )
-					(new EquipmentRequest( item )).run();
+				KoLmafiaCLI.DEFAULT_SHELL.executeCommand(
+					"familiar", KoLSettings.getUserProperty( "preBlackbirdFamiliar" ) );
+				if ( item != null && !item.equals( EquipmentRequest.UNEQUIP ) && KoLCharacter.getFamiliar().canEquip(
+					item ) )
+				{
+					( new EquipmentRequest( item ) ).run();
+				}
 
 				KoLSettings.setUserProperty( "preBlackbirdFamiliar", "" );
 			}
@@ -1092,16 +1197,16 @@ public class ConsumeItemRequest extends KoLRequest
 
 		case SPOOKY_TEMPLE_MAP:
 
-			if ( KoLCharacter.hasItem( SAPLING ) && KoLCharacter.hasItem( FERTILIZER ) )
+			if ( KoLCharacter.hasItem( ConsumeItemRequest.SAPLING ) && KoLCharacter.hasItem( ConsumeItemRequest.FERTILIZER ) )
 			{
-				StaticEntity.getClient().processResult( SAPLING.getNegation() );
-				StaticEntity.getClient().processResult( FERTILIZER.getNegation() );
+				StaticEntity.getClient().processResult( ConsumeItemRequest.SAPLING.getNegation() );
+				StaticEntity.getClient().processResult( ConsumeItemRequest.FERTILIZER.getNegation() );
 			}
 			else
 			{
-				lastUpdate = "You don't have everything you need.";
-				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
-				StaticEntity.getClient().processResult( lastItemUsed );
+				ConsumeItemRequest.lastUpdate = "You don't have everything you need.";
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, ConsumeItemRequest.lastUpdate );
+				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
 			}
 
 			return;
@@ -1110,15 +1215,15 @@ public class ConsumeItemRequest extends KoLRequest
 
 			// "You need some planks to build the dinghy."
 
-			if ( KoLCharacter.hasItem( PLANKS ) )
+			if ( KoLCharacter.hasItem( ConsumeItemRequest.PLANKS ) )
 			{
-				StaticEntity.getClient().processResult( PLANKS );
+				StaticEntity.getClient().processResult( ConsumeItemRequest.PLANKS );
 			}
 			else
 			{
-				lastUpdate = "You need some dingy planks.";
-				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
-				StaticEntity.getClient().processResult( lastItemUsed );
+				ConsumeItemRequest.lastUpdate = "You need some dingy planks.";
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, ConsumeItemRequest.lastUpdate );
+				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
 			}
 
 			return;
@@ -1129,27 +1234,27 @@ public class ConsumeItemRequest extends KoLRequest
 			// skeleton gives up and falls to pieces."
 			if ( responseText.indexOf( "gives up and falls to pieces." ) != -1 )
 			{
-				StaticEntity.getClient().processResult( lastItemUsed );
+				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
 			}
 			else
 			{
-				StaticEntity.getClient().processResult( SUNKEN_CHEST );
-				StaticEntity.getClient().processResult( PIRATE_PELVIS );
-				StaticEntity.getClient().processResult( SKELETON_BONE );
+				StaticEntity.getClient().processResult( ConsumeItemRequest.SUNKEN_CHEST );
+				StaticEntity.getClient().processResult( ConsumeItemRequest.PIRATE_PELVIS );
+				StaticEntity.getClient().processResult( ConsumeItemRequest.SKELETON_BONE );
 			}
-			showItemUsage( showHTML, responseText, true );
+			ConsumeItemRequest.showItemUsage( showHTML, responseText, true );
 			break;
 
 		case FENG_SHUI:
 
-			if ( KoLCharacter.hasItem( FOUNTAIN ) && KoLCharacter.hasItem( WINDCHIMES ) )
+			if ( KoLCharacter.hasItem( ConsumeItemRequest.FOUNTAIN ) && KoLCharacter.hasItem( ConsumeItemRequest.WINDCHIMES ) )
 			{
-				StaticEntity.getClient().processResult( FOUNTAIN.getNegation() );
-				StaticEntity.getClient().processResult( WINDCHIMES.getNegation() );
+				StaticEntity.getClient().processResult( ConsumeItemRequest.FOUNTAIN.getNegation() );
+				StaticEntity.getClient().processResult( ConsumeItemRequest.WINDCHIMES.getNegation() );
 			}
 			else
 			{
-				StaticEntity.getClient().processResult( lastItemUsed );
+				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
 			}
 
 			return;
@@ -1167,7 +1272,10 @@ public class ConsumeItemRequest extends KoLRequest
 			// though."
 
 			if ( responseText.indexOf( "ironically" ) != -1 )
-				StaticEntity.getClient().processResult( lastItemUsed.getInstance( lastItemUsed.getCount() - 1 ) );
+			{
+				StaticEntity.getClient().processResult(
+					ConsumeItemRequest.lastItemUsed.getInstance( ConsumeItemRequest.lastItemUsed.getCount() - 1 ) );
+			}
 
 			return;
 
@@ -1183,9 +1291,9 @@ public class ConsumeItemRequest extends KoLRequest
 
 			if ( responseText.indexOf( "still cold" ) != -1 )
 			{
-				lastUpdate = "Your mouth is too cold.";
-				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
-				StaticEntity.getClient().processResult( lastItemUsed );
+				ConsumeItemRequest.lastUpdate = "Your mouth is too cold.";
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, ConsumeItemRequest.lastUpdate );
+				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
 			}
 
 			return;
@@ -1195,8 +1303,9 @@ public class ConsumeItemRequest extends KoLRequest
 			// Rolling pins remove dough from your inventory
 			// They are not consumed by being used
 
-			StaticEntity.getClient().processResult( DOUGH.getInstance( DOUGH.getCount( inventory ) ).getNegation() );
-			StaticEntity.getClient().processResult( lastItemUsed );
+			StaticEntity.getClient().processResult(
+				ConsumeItemRequest.DOUGH.getInstance( ConsumeItemRequest.DOUGH.getCount( KoLConstants.inventory ) ).getNegation() );
+			StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
 
 			return;
 
@@ -1205,8 +1314,10 @@ public class ConsumeItemRequest extends KoLRequest
 			// Unrolling pins remove flat dough from your inventory
 			// They are not consumed by being used
 
-			StaticEntity.getClient().processResult( FLAT_DOUGH.getInstance( FLAT_DOUGH.getCount( inventory ) ).getNegation() );
-			StaticEntity.getClient().processResult( lastItemUsed );
+			StaticEntity.getClient().processResult(
+				ConsumeItemRequest.FLAT_DOUGH.getInstance(
+					ConsumeItemRequest.FLAT_DOUGH.getCount( KoLConstants.inventory ) ).getNegation() );
+			StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
 			return;
 
 		case PLUS_SIGN:
@@ -1216,9 +1327,9 @@ public class ConsumeItemRequest extends KoLRequest
 
 			if ( responseText.indexOf( "you treat the plus sign as a book" ) == -1 )
 			{
-				lastUpdate = "You don't know how to use it.";
-				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
-				StaticEntity.getClient().processResult( lastItemUsed );
+				ConsumeItemRequest.lastUpdate = "You don't know how to use it.";
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, ConsumeItemRequest.lastUpdate );
+				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
 			}
 
 			return;
@@ -1249,14 +1360,13 @@ public class ConsumeItemRequest extends KoLRequest
 
 			if ( responseText.indexOf( "You read the incantation" ) == -1 )
 			{
-				StaticEntity.getClient().processResult( lastItemUsed );
+				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
 				return;
 			}
 
 			KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "Summon Snowcone" ) );
-			usableSkills.sort();
+			KoLConstants.usableSkills.sort();
 			return;
-
 
 		case HILARIOUS_TOME:
 
@@ -1266,12 +1376,12 @@ public class ConsumeItemRequest extends KoLRequest
 
 			if ( responseText.indexOf( "You pore over the tome" ) == -1 )
 			{
-				StaticEntity.getClient().processResult( lastItemUsed );
+				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
 				return;
 			}
 
 			KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "Summon Hilarious Objects" ) );
-			usableSkills.sort();
+			KoLConstants.usableSkills.sort();
 			return;
 
 		case JEWELRY_BOOK:
@@ -1280,9 +1390,13 @@ public class ConsumeItemRequest extends KoLRequest
 			// jewelry-making techniques."
 
 			if ( responseText.indexOf( "You read the book" ) == -1 )
-				StaticEntity.getClient().processResult( lastItemUsed );
+			{
+				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
+			}
 			else
+			{
 				KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "Really Expensive Jewelrycrafting" ) );
+			}
 
 			return;
 
@@ -1308,7 +1422,9 @@ public class ConsumeItemRequest extends KoLRequest
 			// eating another one of those just now, okay?"
 
 			if ( responseText.indexOf( "whirling maelstrom" ) == -1 )
-				StaticEntity.getClient().processResult( lastItemUsed );
+			{
+				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
+			}
 
 			return;
 
@@ -1323,7 +1439,9 @@ public class ConsumeItemRequest extends KoLRequest
 			// until the last one wears off."
 
 			if ( responseText.indexOf( "licorice" ) == -1 )
-				StaticEntity.getClient().processResult( lastItemUsed );
+			{
+				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
+			}
 
 			return;
 
@@ -1334,16 +1452,18 @@ public class ConsumeItemRequest extends KoLRequest
 
 			if ( responseText.indexOf( "Graaangh?" ) == -1 )
 			{
-				lastUpdate = "You're missing some parts.";
-				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
-				StaticEntity.getClient().processResult( lastItemUsed );
+				ConsumeItemRequest.lastUpdate = "You're missing some parts.";
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, ConsumeItemRequest.lastUpdate );
+				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
 				return;
 			}
 
 			// Remove the other 98 bones
 
 			for ( int i = 1802; i < 1900; ++i )
+			{
 				StaticEntity.getClient().processResult( new AdventureResult( i, -1 ) );
+			}
 
 			return;
 
@@ -1351,15 +1471,17 @@ public class ConsumeItemRequest extends KoLRequest
 
 			if ( responseText.indexOf( "You acquire" ) == -1 )
 			{
-				lastUpdate = "You're missing some parts.";
-				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
-				StaticEntity.getClient().processResult( lastItemUsed );
+				ConsumeItemRequest.lastUpdate = "You're missing some parts.";
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, ConsumeItemRequest.lastUpdate );
+				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
 				return;
 			}
 
 			// It worked. Also remove the ink and paper.
-			StaticEntity.getClient().processResult( INKWELL.getInstance( 0 - lastItemUsed.getCount() ) );
-			StaticEntity.getClient().processResult( SCRAP_OF_PAPER.getInstance( 0 - lastItemUsed.getCount() ) );
+			StaticEntity.getClient().processResult(
+				ConsumeItemRequest.INKWELL.getInstance( 0 - ConsumeItemRequest.lastItemUsed.getCount() ) );
+			StaticEntity.getClient().processResult(
+				ConsumeItemRequest.SCRAP_OF_PAPER.getInstance( 0 - ConsumeItemRequest.lastItemUsed.getCount() ) );
 			return;
 
 		case PALM_FROND:
@@ -1368,14 +1490,18 @@ public class ConsumeItemRequest extends KoLRequest
 		case CLINGFILM:
 
 			if ( responseText.indexOf( "You acquire" ) == -1 )
-				StaticEntity.getClient().processResult( lastItemUsed );
+			{
+				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
+			}
 
 			return;
 
 		case SAND_BRICK:
 
 			if ( responseText.indexOf( "You can't build anything" ) != -1 )
-				StaticEntity.getClient().processResult( lastItemUsed );
+			{
+				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
+			}
 
 			return;
 
@@ -1388,14 +1514,15 @@ public class ConsumeItemRequest extends KoLRequest
 			{
 				// You lose your weapon
 				KoLCharacter.setEquipment( KoLCharacter.WEAPON, EquipmentRequest.UNEQUIP );
-				AdventureResult.addResultToList( inventory, WORM_RIDING_HOOKS.getInstance(1) );
-				StaticEntity.getClient().processResult( WORM_RIDING_HOOKS );
+				AdventureResult.addResultToList(
+					KoLConstants.inventory, ConsumeItemRequest.WORM_RIDING_HOOKS.getInstance( 1 ) );
+				StaticEntity.getClient().processResult( ConsumeItemRequest.WORM_RIDING_HOOKS );
 			}
 			else
 			{
-				lastUpdate = "Insufficient adventures left.";
-				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
-				StaticEntity.getClient().processResult( lastItemUsed );
+				ConsumeItemRequest.lastUpdate = "Insufficient adventures left.";
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, ConsumeItemRequest.lastUpdate );
+				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
 			}
 
 			return;
@@ -1403,19 +1530,25 @@ public class ConsumeItemRequest extends KoLRequest
 		case STEEL_STOMACH:
 
 			if ( responseText.indexOf( "You acquire a skill" ) != -1 )
+			{
 				KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "Stomach of Steel" ) );
+			}
 			return;
 
 		case STEEL_LIVER:
 
 			if ( responseText.indexOf( "You acquire a skill" ) != -1 )
+			{
 				KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "Liver of Steel" ) );
+			}
 			return;
 
 		case STEEL_SPLEEN:
 
 			if ( responseText.indexOf( "You acquire a skill" ) != -1 )
+			{
 				KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "Spleen of Steel" ) );
+			}
 			return;
 
 		case MOJO_FILTER:
@@ -1425,15 +1558,16 @@ public class ConsumeItemRequest extends KoLRequest
 
 			if ( responseText.indexOf( "now-grodulated" ) == -1 )
 			{
-				StaticEntity.getClient().processResult( lastItemUsed );
+				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
 				return;
 			}
 
-			KoLSettings.setUserProperty( "currentMojoFilters",
-				String.valueOf( KoLSettings.getIntegerProperty( "currentMojoFilters" ) + lastItemUsed.getCount() ) );
+			KoLSettings.setUserProperty(
+				"currentMojoFilters",
+				String.valueOf( KoLSettings.getIntegerProperty( "currentMojoFilters" ) + ConsumeItemRequest.lastItemUsed.getCount() ) );
 
-			KoLSettings.setUserProperty( "currentSpleenUse", String.valueOf( Math.max( 0,
-				KoLSettings.getIntegerProperty( "currentSpleenUse" ) - lastItemUsed.getCount() ) ) );
+			KoLSettings.setUserProperty( "currentSpleenUse", String.valueOf( Math.max(
+				0, KoLSettings.getIntegerProperty( "currentSpleenUse" ) - ConsumeItemRequest.lastItemUsed.getCount() ) ) );
 
 			return;
 
@@ -1450,28 +1584,48 @@ public class ConsumeItemRequest extends KoLRequest
 			String effectData = null;
 
 			if ( responseText.indexOf( "liquid fire" ) != -1 )
+			{
 				effectData = "inebriety";
+			}
 			else if ( responseText.indexOf( "You gain" ) != -1 )
+			{
 				effectData = "healing";
+			}
 			else if ( responseText.indexOf( "Confused" ) != -1 )
+			{
 				effectData = "confusion";
+			}
 			else if ( responseText.indexOf( "Izchak's Blessing" ) != -1 )
+			{
 				effectData = "blessing";
+			}
 			else if ( responseText.indexOf( "Object Detection" ) != -1 )
+			{
 				effectData = "detection";
+			}
 			else if ( responseText.indexOf( "Sleepy" ) != -1 )
+			{
 				effectData = "sleepiness";
+			}
 			else if ( responseText.indexOf( "Strange Mental Acuity" ) != -1 )
+			{
 				effectData = "mental acuity";
+			}
 			else if ( responseText.indexOf( "Strength of Ten Ettins" ) != -1 )
+			{
 				effectData = "ettin strength";
+			}
 			else if ( responseText.indexOf( "Teleportitis" ) != -1 )
+			{
 				effectData = "teleportitis";
+			}
 
-			ensureUpdatedPotionEffects();
+			ConsumeItemRequest.ensureUpdatedPotionEffects();
 
 			if ( effectData != null )
-				KoLSettings.setUserProperty( "lastBangPotion" + lastItemUsed.getItemId(), effectData );
+			{
+				KoLSettings.setUserProperty( "lastBangPotion" + ConsumeItemRequest.lastItemUsed.getItemId(), effectData );
+			}
 
 			return;
 
@@ -1485,33 +1639,45 @@ public class ConsumeItemRequest extends KoLRequest
 		case TONGUE_CHARRRM:
 			if ( responseText.indexOf( "You don't have anything to attach that charrrm to." ) != -1 )
 			{
-				lastUpdate = "You need a charrrm bracelet.";
-				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
-				StaticEntity.getClient().processResult( lastItemUsed );
+				ConsumeItemRequest.lastUpdate = "You need a charrrm bracelet.";
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, ConsumeItemRequest.lastUpdate );
+				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
 				return;
 			}
-			StaticEntity.getClient().processResult( CHARRRM_BRACELET );
+			StaticEntity.getClient().processResult( ConsumeItemRequest.CHARRRM_BRACELET );
 			return;
 
 		case ANCIENT_CURSED_FOOTLOCKER:
-			if ( KoLCharacter.hasItem( SIMPLE_CURSED_KEY ) )
-				StaticEntity.getClient().processResult( SIMPLE_CURSED_KEY );
+			if ( KoLCharacter.hasItem( ConsumeItemRequest.SIMPLE_CURSED_KEY ) )
+			{
+				StaticEntity.getClient().processResult( ConsumeItemRequest.SIMPLE_CURSED_KEY );
+			}
 			else
-				StaticEntity.getClient().processResult( lastItemUsed );
+			{
+				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
+			}
 			return;
 
 		case ORNATE_CURSED_CHEST:
-			if ( KoLCharacter.hasItem( ORNATE_CURSED_KEY ) )
-				StaticEntity.getClient().processResult( ORNATE_CURSED_KEY );
+			if ( KoLCharacter.hasItem( ConsumeItemRequest.ORNATE_CURSED_KEY ) )
+			{
+				StaticEntity.getClient().processResult( ConsumeItemRequest.ORNATE_CURSED_KEY );
+			}
 			else
-				StaticEntity.getClient().processResult( lastItemUsed );
+			{
+				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
+			}
 			return;
 
 		case GILDED_CURSED_CHEST:
-			if ( KoLCharacter.hasItem( GILDED_CURSED_KEY ) )
-				StaticEntity.getClient().processResult( GILDED_CURSED_KEY );
+			if ( KoLCharacter.hasItem( ConsumeItemRequest.GILDED_CURSED_KEY ) )
+			{
+				StaticEntity.getClient().processResult( ConsumeItemRequest.GILDED_CURSED_KEY );
+			}
 			else
-				StaticEntity.getClient().processResult( lastItemUsed );
+			{
+				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
+			}
 			return;
 
 		case CURSED_PIECE_OF_THIRTEEN:
@@ -1520,9 +1686,9 @@ public class ConsumeItemRequest extends KoLRequest
 			// don't really have time.
 			if ( responseText.indexOf( "don't really have time" ) != -1 )
 			{
-				lastUpdate = "Insufficient adventures left.";
-				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
-				StaticEntity.getClient().processResult( lastItemUsed );
+				ConsumeItemRequest.lastUpdate = "Insufficient adventures left.";
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, ConsumeItemRequest.lastUpdate );
+				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
 			}
 			return;
 		}
@@ -1535,141 +1701,195 @@ public class ConsumeItemRequest extends KoLRequest
 		{
 			KoLSettings.setUserProperty( "lastBangPotionReset", String.valueOf( KoLCharacter.getAscensions() ) );
 			for ( int i = 819; i <= 827; ++i )
+			{
 				KoLSettings.setUserProperty( "lastBangPotion" + i, "" );
+			}
 		}
 	}
 
-	public static final String bangPotionName( int itemId )
-	{	return bangPotionName( itemId, TradeableItemDatabase.getItemName( itemId ) );
+	public static final String bangPotionName( final int itemId )
+	{
+		return ConsumeItemRequest.bangPotionName( itemId, TradeableItemDatabase.getItemName( itemId ) );
 	}
 
-	public static final String bangPotionName( int itemId, String name )
+	public static final String bangPotionName( final int itemId, final String name )
 	{
-		ensureUpdatedPotionEffects();
+		ConsumeItemRequest.ensureUpdatedPotionEffects();
 		String effect = KoLSettings.getUserProperty( "lastBangPotion" + itemId );
 		if ( effect.equals( "" ) )
+		{
 			return name;
+		}
 
 		return name + " of " + effect;
 	}
 
-	private static final void showItemUsage( boolean showHTML, String text, boolean consumed )
+	private static final void showItemUsage( final boolean showHTML, final String text, boolean consumed )
 	{
 		if ( showHTML )
-			StaticEntity.getClient().showHTML( "inventory.php?action=message", trimInventoryText( text ) );
+		{
+			StaticEntity.getClient().showHTML(
+				"inventory.php?action=message", ConsumeItemRequest.trimInventoryText( text ) );
+		}
 
 		if ( !consumed )
-			StaticEntity.getClient().processResult( lastItemUsed );
+		{
+			StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
+		}
 	}
 
 	private static final String trimInventoryText( String text )
 	{
 		// Get rid of first row of first table: the "Results" line
-		Matcher matcher = ROW_PATTERN.matcher( text );
+		Matcher matcher = ConsumeItemRequest.ROW_PATTERN.matcher( text );
 		if ( matcher.find() )
+		{
 			text = matcher.replaceFirst( "" );
+		}
 
 		// Get rid of inventory listing
-		matcher = INVENTORY_PATTERN.matcher( text );
+		matcher = ConsumeItemRequest.INVENTORY_PATTERN.matcher( text );
 		if ( matcher.find() )
+		{
 			text = matcher.replaceFirst( "</table></body>" );
+		}
 
 		return text;
 	}
 
-	private static final AdventureResult extractItem( String urlString )
+	private static final AdventureResult extractItem( final String urlString )
 	{
-		if ( urlString.startsWith( "inv_eat.php" ) );
-		else if ( urlString.startsWith( "inv_booze.php" ) );
-		else if ( urlString.startsWith( "multiuse.php" ) );
-		else if ( urlString.startsWith( "skills.php" ) );
-		else if ( urlString.startsWith( "inv_familiar.php" ) );
-		else if ( urlString.startsWith( "inv_use.php" ) );
+		if ( urlString.startsWith( "inv_eat.php" ) )
+		{
+			;
+		}
+		else if ( urlString.startsWith( "inv_booze.php" ) )
+		{
+			;
+		}
+		else if ( urlString.startsWith( "multiuse.php" ) )
+		{
+			;
+		}
+		else if ( urlString.startsWith( "skills.php" ) )
+		{
+			;
+		}
+		else if ( urlString.startsWith( "inv_familiar.php" ) )
+		{
+			;
+		}
+		else if ( urlString.startsWith( "inv_use.php" ) )
+		{
+			;
+		}
 		else
+		{
 			return null;
+		}
 
-		Matcher itemMatcher = ITEMID_PATTERN.matcher( urlString );
+		Matcher itemMatcher = ConsumeItemRequest.ITEMID_PATTERN.matcher( urlString );
 		if ( !itemMatcher.find() )
+		{
 			return null;
+		}
 
-		int itemId = StaticEntity.parseInt( itemMatcher.group(1) );
+		int itemId = StaticEntity.parseInt( itemMatcher.group( 1 ) );
 		if ( TradeableItemDatabase.getItemName( itemId ) == null )
+		{
 			return null;
+		}
 
 		int itemCount = 1;
 
 		if ( urlString.indexOf( "multiuse.php" ) != -1 || urlString.indexOf( "skills.php" ) != -1 )
 		{
-			Matcher quantityMatcher = QUANTITY_PATTERN.matcher( urlString );
+			Matcher quantityMatcher = ConsumeItemRequest.QUANTITY_PATTERN.matcher( urlString );
 			if ( quantityMatcher.find() )
-				itemCount = StaticEntity.parseInt( quantityMatcher.group(1) );
+			{
+				itemCount = StaticEntity.parseInt( quantityMatcher.group( 1 ) );
+			}
 		}
 
 		return new AdventureResult( itemId, itemCount );
 	}
 
 	public static final void resetItemUsed()
-	{	lastItemUsed = null;
+	{
+		ConsumeItemRequest.lastItemUsed = null;
 	}
 
-	public static final boolean registerRequest( String urlString )
+	public static final boolean registerRequest( final String urlString )
 	{
-		lastItemUsed = extractItem( urlString );
-		if ( lastItemUsed == null )
-			return false;
-
-		int consumptionType = TradeableItemDatabase.getConsumptionType( lastItemUsed.getItemId() );
-		if ( consumptionType == NO_CONSUME )
-			return false;
-
-		String useTypeAsString = (consumptionType == CONSUME_EAT) ? "eat " :
-			(consumptionType == CONSUME_DRINK) ? "drink " : "use ";
-
-		if ( consumptionType == CONSUME_EAT )
+		ConsumeItemRequest.lastItemUsed = ConsumeItemRequest.extractItem( urlString );
+		if ( ConsumeItemRequest.lastItemUsed == null )
 		{
-			int fullness = TradeableItemDatabase.getFullness( lastItemUsed.getName() );
+			return false;
+		}
+
+		int consumptionType = TradeableItemDatabase.getConsumptionType( ConsumeItemRequest.lastItemUsed.getItemId() );
+		if ( consumptionType == KoLConstants.NO_CONSUME )
+		{
+			return false;
+		}
+
+		String useTypeAsString =
+			consumptionType == KoLConstants.CONSUME_EAT ? "eat " : consumptionType == KoLConstants.CONSUME_DRINK ? "drink " : "use ";
+
+		if ( consumptionType == KoLConstants.CONSUME_EAT )
+		{
+			int fullness = TradeableItemDatabase.getFullness( ConsumeItemRequest.lastItemUsed.getName() );
 			if ( fullness > 0 && KoLCharacter.getFullness() + fullness <= KoLCharacter.getFullnessLimit() )
 			{
 				KoLSettings.setUserProperty( "currentFullness", String.valueOf( KoLCharacter.getFullness() + fullness ) );
-				KoLSettings.setUserProperty( "munchiesPillsUsed",
-					String.valueOf( Math.max( KoLSettings.getIntegerProperty( "munchiesPillsUsed" ) - 1, 0 ) ) );
+				KoLSettings.setUserProperty( "munchiesPillsUsed", String.valueOf( Math.max(
+					KoLSettings.getIntegerProperty( "munchiesPillsUsed" ) - 1, 0 ) ) );
 			}
 		}
 		else
 		{
-			if ( lastItemUsed.getItemId() == EXPRESS_CARD )
-				KoLSettings.setUserProperty( "expressCardUsed", "true" );
-
-			if ( lastItemUsed.getItemId() == MUNCHIES_PILL )
+			if ( ConsumeItemRequest.lastItemUsed.getItemId() == ConsumeItemRequest.EXPRESS_CARD )
 			{
-				KoLSettings.setUserProperty( "munchiesPillsUsed",
-					String.valueOf( KoLSettings.getIntegerProperty( "munchiesPillsUsed" ) + lastItemUsed.getCount() ) );
+				KoLSettings.setUserProperty( "expressCardUsed", "true" );
 			}
 
-			int spleenHit = TradeableItemDatabase.getSpleenHit( lastItemUsed.getName() ) * lastItemUsed.getCount();
+			if ( ConsumeItemRequest.lastItemUsed.getItemId() == ConsumeItemRequest.MUNCHIES_PILL )
+			{
+				KoLSettings.setUserProperty(
+					"munchiesPillsUsed",
+					String.valueOf( KoLSettings.getIntegerProperty( "munchiesPillsUsed" ) + ConsumeItemRequest.lastItemUsed.getCount() ) );
+			}
+
+			int spleenHit =
+				TradeableItemDatabase.getSpleenHit( ConsumeItemRequest.lastItemUsed.getName() ) * ConsumeItemRequest.lastItemUsed.getCount();
 			if ( spleenHit > 0 && KoLCharacter.getSpleenUse() + spleenHit <= KoLCharacter.getSpleenLimit() )
-				KoLSettings.setUserProperty( "currentSpleenUse", String.valueOf( KoLCharacter.getSpleenUse() + spleenHit ) );
+			{
+				KoLSettings.setUserProperty(
+					"currentSpleenUse", String.valueOf( KoLCharacter.getSpleenUse() + spleenHit ) );
+			}
 		}
 
-		if ( lastItemUsed.getItemId() == BLACK_MARKET_MAP && KoLCharacter.getFamiliar().getId() != 59 )
+		if ( ConsumeItemRequest.lastItemUsed.getItemId() == ConsumeItemRequest.BLACK_MARKET_MAP && KoLCharacter.getFamiliar().getId() != 59 )
 		{
-			AdventureResult map = lastItemUsed;
+			AdventureResult map = ConsumeItemRequest.lastItemUsed;
 			FamiliarData blackbird = new FamiliarData( 59 );
 			if ( !KoLCharacter.getFamiliarList().contains( blackbird ) )
-				(new ConsumeItemRequest( new AdventureResult( 2052, 1 ) )).run();
+			{
+				( new ConsumeItemRequest( new AdventureResult( 2052, 1 ) ) ).run();
+			}
 
 			if ( !KoLmafia.permitsContinue() )
 			{
-				lastItemUsed = map;
+				ConsumeItemRequest.lastItemUsed = map;
 				return true;
 			}
 
-			(new FamiliarRequest( blackbird )).run();
-			lastItemUsed = map;
+			( new FamiliarRequest( blackbird ) ).run();
+			ConsumeItemRequest.lastItemUsed = map;
 		}
 
 		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( useTypeAsString + lastItemUsed.getCount() + " " + lastItemUsed.getName() );
+		RequestLogger.updateSessionLog( useTypeAsString + ConsumeItemRequest.lastItemUsed.getCount() + " " + ConsumeItemRequest.lastItemUsed.getName() );
 		return true;
 	}
 }

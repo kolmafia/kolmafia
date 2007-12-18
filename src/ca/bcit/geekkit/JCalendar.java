@@ -27,14 +27,18 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
 /**
- * <p><code>JCalendar</code> is a complex widget that keeps track of a calendar. It uses its own
- * customized <code>TableModel</code> for keeping track of specific dates that may require custom
- * rendrering other than the usual number being in each cell.</p>
- *
- * @version	0.1 28/06/2002
- * @author 	Arron Ferguson
+ * <p>
+ * <code>JCalendar</code> is a complex widget that keeps track of a calendar. It uses its own customized
+ * <code>TableModel</code> for keeping track of specific dates that may require custom rendrering other than the usual
+ * number being in each cell.
+ * </p>
+ * 
+ * @version 0.1 28/06/2002
+ * @author Arron Ferguson
  */
-public class JCalendar extends JPanel implements ActionListener
+public class JCalendar
+	extends JPanel
+	implements ActionListener
 {
 	/**
 	 * For clicking on to take the calendar to the next month
@@ -57,8 +61,8 @@ public class JCalendar extends JPanel implements ActionListener
 	protected JTable table;
 
 	/**
-	 * Layout that allows for a grid like layout pattern. Components do not have to
-	 * take up exactly one cell, instead they can take up more than one row or column.
+	 * Layout that allows for a grid like layout pattern. Components do not have to take up exactly one cell, instead
+	 * they can take up more than one row or column.
 	 */
 	private GraphPaperLayout gp;
 
@@ -67,26 +71,27 @@ public class JCalendar extends JPanel implements ActionListener
 	 */
 	private CalendarTableModel model;
 
-	private Class tableClass;
+	private final Class tableClass;
 
 	/**
 	 * Default constructor
 	 */
 
 	public JCalendar()
-	{	this( JCalendarTable.class );
+	{
+		this( JCalendarTable.class );
 	}
 
-	public JCalendar( Class tableClass )
+	public JCalendar( final Class tableClass )
 	{
 		super();
 
 		this.tableClass = tableClass;
 
-		configUI();
+		this.configUI();
 
-		nextButton.addActionListener(this);
-		previousButton.addActionListener(this);
+		this.nextButton.addActionListener( this );
+		this.previousButton.addActionListener( this );
 	}
 
 	/**
@@ -95,177 +100,184 @@ public class JCalendar extends JPanel implements ActionListener
 
 	private void configUI()
 	{
-		gp = new GraphPaperLayout(new Dimension(8, 10));
-		setLayout(gp);
-		nextButton = new JButton("Next");
-		previousButton = new JButton("Back");
-		label = new JLabel("", JLabel.CENTER);
+		this.gp = new GraphPaperLayout( new Dimension( 8, 10 ) );
+		this.setLayout( this.gp );
+		this.nextButton = new JButton( "Next" );
+		this.previousButton = new JButton( "Back" );
+		this.label = new JLabel( "", SwingConstants.CENTER );
 
-		model = new CalendarTableModel(this);
-		initializeTable();
+		this.model = new CalendarTableModel( this );
+		this.initializeTable();
 
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		this.table.setAutoResizeMode( JTable.AUTO_RESIZE_OFF );
 
 		// don't allow rows or columns to be selected
-		table.setCellSelectionEnabled(true);
-		table.setColumnSelectionAllowed(false);
-		table.setRowSelectionAllowed(false);
+		this.table.setCellSelectionEnabled( true );
+		this.table.setColumnSelectionAllowed( false );
+		this.table.setRowSelectionAllowed( false );
 
 		// don't allow cells to be selected
-		table.setFocusable(true);
+		this.table.setFocusable( true );
 
 		// little bit of customization of cell renderers
-		JLabel cell = (JLabel)table.getDefaultRenderer(JLabel.class);
-		cell.setHorizontalAlignment(SwingConstants.LEFT);
-		cell.setVerticalAlignment(SwingConstants.TOP);
+		JLabel cell = (JLabel) this.table.getDefaultRenderer( JLabel.class );
+		cell.setHorizontalAlignment( SwingConstants.LEFT );
+		cell.setVerticalAlignment( SwingConstants.TOP );
 
-		table.getTableHeader().setReorderingAllowed(false);
+		this.table.getTableHeader().setReorderingAllowed( false );
 		// add buttons
-		add(previousButton, new Rectangle(0, 0, 2, 1));
-		add(nextButton, new Rectangle(6, 0, 2, 1));
+		this.add( this.previousButton, new Rectangle( 0, 0, 2, 1 ) );
+		this.add( this.nextButton, new Rectangle( 6, 0, 2, 1 ) );
 		// add label
-		add(label, new Rectangle(2, 0, 4, 1));
-		add(table.getTableHeader(), new Rectangle(0, 2, 8, 1));
-		add(table, new Rectangle(0, 3, 8, 7));
+		this.add( this.label, new Rectangle( 2, 0, 4, 1 ) );
+		this.add( this.table.getTableHeader(), new Rectangle( 0, 2, 8, 1 ) );
+		this.add( this.table, new Rectangle( 0, 3, 8, 7 ) );
 
 		// now call it for a populate
-		model.generateCalendarMonth(0);
+		this.model.generateCalendarMonth( 0 );
 	}
 
 	/**
-	 * Handles the two <code>JButton</code>s events for going forward and backward
-	 * in the years
-	 *
+	 * Handles the two <code>JButton</code>s events for going forward and backward in the years
+	 * 
 	 * @param e the <code>ActionEvent</code> given.
 	 */
-	public void actionPerformed(ActionEvent e)
+	public void actionPerformed( final ActionEvent e )
 	{
-		if(e.getSource() == nextButton)
+		if ( e.getSource() == this.nextButton )
 		{
-			model.generateCalendarMonth(1);
-		} else if(e.getSource() == previousButton)
+			this.model.generateCalendarMonth( 1 );
+		}
+		else if ( e.getSource() == this.previousButton )
 		{
-			model.generateCalendarMonth(-1);
+			this.model.generateCalendarMonth( -1 );
 		}
 	}
 
 	/**
-	 * Custom paint to allow cells to change height based on the size of the <code>Container</code>
-	 * that the table is in
-	 *
+	 * Custom paint to allow cells to change height based on the size of the <code>Container</code> that the table is
+	 * in
+	 * 
 	 * @param g the <code>Graphics</code> context used to paint the table.
 	 */
-	public void paint(Graphics g)
+	public void paint( final Graphics g )
 	{
-		super.paint(g);
+		super.paint( g );
 
 		// make row height resize as the component is resized so that rows fill up the space
-		float componentHeight = (float)table.getHeight();
-		float numberofRows = (float)table.getRowCount();
-		float tableCellHeight = (componentHeight / numberofRows);
-		int height = (int)tableCellHeight;
-		table.setRowHeight(height);
+		float componentHeight = this.table.getHeight();
+		float numberofRows = this.table.getRowCount();
+		float tableCellHeight = componentHeight / numberofRows;
+		int height = (int) tableCellHeight;
+		this.table.setRowHeight( height );
 	}
 
 	/**
 	 * Returns the preferred size of this composite component
-	 *
-	 * @return the width and height of this component as a <code>Dimension</code> object and as
-	 * its preferred size to be rendered.
+	 * 
+	 * @return the width and height of this component as a <code>Dimension</code> object and as its preferred size to
+	 *         be rendered.
 	 */
 	public Dimension getPreferredSize()
 	{
-		return new Dimension(310, 220);
+		return new Dimension( 310, 220 );
 	}
 
 	/**
 	 * Returns the minimum size that this composite component should be drawn at
+	 * 
 	 * @return the minimum width and height that this component should be rendered at
 	 */
 	public Dimension getMinimumSize()
 	{
-		return new Dimension(260, 170);
+		return new Dimension( 260, 170 );
 	}
 
 	public JTable getTable()
-	{	return table;
+	{
+		return this.table;
 	}
 
 	public CalendarTableModel getModel()
-	{	return model;
+	{
+		return this.model;
 	}
 
 	private void initializeTable()
 	{
 		try
 		{
-			if ( JTable.class.isAssignableFrom( tableClass ) )
+			if ( JTable.class.isAssignableFrom( this.tableClass ) )
 			{
-				Object [] parameters = new Object[1];
-				parameters[0] = model;
+				Object[] parameters = new Object[ 1 ];
+				parameters[ 0 ] = this.model;
 
-				Class [] parameterTypes = new Class[1];
-				parameterTypes[0] = CalendarTableModel.class;
+				Class[] parameterTypes = new Class[ 1 ];
+				parameterTypes[ 0 ] = CalendarTableModel.class;
 
-				table = (JTable) tableClass.getConstructor( parameterTypes ).newInstance( parameters );
+				this.table = (JTable) this.tableClass.getConstructor( parameterTypes ).newInstance( parameters );
 			}
 		}
 		catch ( Exception e )
 		{
 		}
 
-		if ( table == null )
-			table = new JCalendarTable( model );
+		if ( this.table == null )
+		{
+			this.table = new JCalendarTable( this.model );
+		}
 	}
 
-	public class JCalendarTable extends JTable
+	public class JCalendarTable
+		extends JTable
 	{
-		private DefaultTableCellRenderer highlighter;
+		private final DefaultTableCellRenderer highlighter;
 
-		public JCalendarTable( CalendarTableModel model )
+		public JCalendarTable( final CalendarTableModel model )
 		{
 			super( model );
 
-			highlighter = new DefaultTableCellRenderer();
-			highlighter.setForeground( new Color( 255, 255, 255 ) );
-			highlighter.setBackground( new Color( 0, 0, 128 ) );
+			this.highlighter = new DefaultTableCellRenderer();
+			this.highlighter.setForeground( new Color( 255, 255, 255 ) );
+			this.highlighter.setBackground( new Color( 0, 0, 128 ) );
 		}
 
-		public TableCellRenderer getCellRenderer( int row, int column )
+		public TableCellRenderer getCellRenderer( final int row, final int column )
 		{
-			if ( String.valueOf(model.getCurrentDate()).equals(model.getValueAt(row, column)) &&
-				model.getCurrentMonth() == model.getMonth() && model.getCurrentYear() == model.getYear() )
+			if ( String.valueOf( JCalendar.this.model.getCurrentDate() ).equals(
+				JCalendar.this.model.getValueAt( row, column ) ) && JCalendar.this.model.getCurrentMonth() == JCalendar.this.model.getMonth() && JCalendar.this.model.getCurrentYear() == JCalendar.this.model.getYear() )
 			{
-				return highlighter;
+				return this.highlighter;
 			}
 
-			return super.getCellRenderer(row, column);
+			return super.getCellRenderer( row, column );
 		}
 	}
 
 	/**
 	 * For running this program
 	 */
-	public static void main(String[] args)
+	public static void main( final String[] args )
 	{
 		JCalendar jc = new JCalendar();
-		JFrame frame = new JFrame("calendar");
-		frame.getContentPane().add(jc);
-		Dimension frameD = new Dimension(310, 220);
+		JFrame frame = new JFrame( "calendar" );
+		frame.getContentPane().add( jc );
+		Dimension frameD = new Dimension( 310, 220 );
 		Dimension screenD = new Dimension();
 		screenD = Toolkit.getDefaultToolkit().getScreenSize();
-		if(frameD.width >= screenD.width)
-			frame.setLocation(1, 1);
-		frame.setLocation(((screenD.width - frameD.width)/2), ((screenD.height - frameD.height)/2));
-		frame.setSize(frameD.width, frameD.height);
-		frame.addWindowListener(new WindowAdapter()
+		if ( frameD.width >= screenD.width )
+		{
+			frame.setLocation( 1, 1 );
+		}
+		frame.setLocation( ( ( screenD.width - frameD.width ) / 2 ), ( ( screenD.height - frameD.height ) / 2 ) );
+		frame.setSize( frameD.width, frameD.height );
+		frame.addWindowListener( new WindowAdapter()
+		{
+			public void windowClosing( final WindowEvent e )
 			{
-				public void windowClosing(WindowEvent e)
-				{
-				System.exit(0);
-					}
+				System.exit( 0 );
 			}
-		);
-		frame.setVisible(true);
+		} );
+		frame.setVisible( true );
 	}
 }

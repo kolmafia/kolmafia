@@ -36,24 +36,29 @@ package net.sourceforge.kolmafia;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class MicrobreweryRequest extends CafeRequest
+public class MicrobreweryRequest
+	extends CafeRequest
 {
 	private static AdventureResult dailySpecial = null;
-	private static final Pattern SPECIAL_PATTERN = Pattern.compile( "<input type=radio name=whichitem value=(\\d+)>", Pattern.DOTALL );
+	private static final Pattern SPECIAL_PATTERN =
+		Pattern.compile( "<input type=radio name=whichitem value=(\\d+)>", Pattern.DOTALL );
 
 	public static final AdventureResult getDailySpecial()
 	{
-		if ( microbreweryItems.isEmpty()  )
-			getMenu();
+		if ( KoLConstants.microbreweryItems.isEmpty() )
+		{
+			MicrobreweryRequest.getMenu();
+		}
 
-		return dailySpecial;
+		return MicrobreweryRequest.dailySpecial;
 	}
 
 	public MicrobreweryRequest()
-	{	super( "The Gnomish Micromicrobrewery", "2" );
+	{
+		super( "The Gnomish Micromicrobrewery", "2" );
 	}
 
-	public MicrobreweryRequest( String name )
+	public MicrobreweryRequest( final String name )
 	{
 		super( "The Gnomish Micromicrobrewery", "2" );
 		this.isPurchase = true;
@@ -61,7 +66,7 @@ public class MicrobreweryRequest extends CafeRequest
 		int itemId = 0;
 		int price = 0;
 
-		switch ( microbreweryItems.indexOf( name ) )
+		switch ( KoLConstants.microbreweryItems.indexOf( name ) )
 		{
 		case 0:
 			itemId = -1;
@@ -91,7 +96,7 @@ public class MicrobreweryRequest extends CafeRequest
 	{
 		if ( !KoLCharacter.inMoxieSign() )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You can't find " + this.name );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't find " + this.name );
 			return;
 		}
 
@@ -106,11 +111,11 @@ public class MicrobreweryRequest extends CafeRequest
 			return;
 		}
 
-		Matcher specialMatcher = SPECIAL_PATTERN.matcher( this.responseText );
+		Matcher specialMatcher = MicrobreweryRequest.SPECIAL_PATTERN.matcher( this.responseText );
 		if ( specialMatcher.find() )
 		{
-			int itemId = StaticEntity.parseInt( specialMatcher.group(1) );
-			dailySpecial = new AdventureResult( itemId, 1 );
+			int itemId = StaticEntity.parseInt( specialMatcher.group( 1 ) );
+			MicrobreweryRequest.dailySpecial = new AdventureResult( itemId, 1 );
 
 		}
 	}
@@ -118,40 +123,47 @@ public class MicrobreweryRequest extends CafeRequest
 	public static final void getMenu()
 	{
 		if ( !KoLCharacter.inMoxieSign() )
+		{
 			return;
+		}
 
-		microbreweryItems.clear();
+		KoLConstants.microbreweryItems.clear();
 
-		CafeRequest.addMenuItem( microbreweryItems, "Petite Porter", 50 );
-		CafeRequest.addMenuItem( microbreweryItems, "Scrawny Stout", 75 );
-		CafeRequest.addMenuItem( microbreweryItems, "Infinitesimal IPA", 100 );
+		CafeRequest.addMenuItem( KoLConstants.microbreweryItems, "Petite Porter", 50 );
+		CafeRequest.addMenuItem( KoLConstants.microbreweryItems, "Scrawny Stout", 75 );
+		CafeRequest.addMenuItem( KoLConstants.microbreweryItems, "Infinitesimal IPA", 100 );
 
 		RequestThread.postRequest( new MicrobreweryRequest() );
 
-		int itemId = dailySpecial.getItemId();
-		String name = dailySpecial.getName();
+		int itemId = MicrobreweryRequest.dailySpecial.getItemId();
+		String name = MicrobreweryRequest.dailySpecial.getName();
 		int price = Math.max( 1, TradeableItemDatabase.getPriceById( itemId ) ) * 3;
-		CafeRequest.addMenuItem( microbreweryItems, name, price );
+		CafeRequest.addMenuItem( KoLConstants.microbreweryItems, name, price );
 
 		ConcoctionsDatabase.getUsables().sort();
 		KoLmafia.updateDisplay( "Menu retrieved." );
-        }
-
-	public static final void reset()
-	{	CafeRequest.reset( microbreweryItems );
 	}
 
-	public static final boolean registerRequest( String urlString )
+	public static final void reset()
+	{
+		CafeRequest.reset( KoLConstants.microbreweryItems );
+	}
+
+	public static final boolean registerRequest( final String urlString )
 	{
 		Matcher matcher = CafeRequest.CAFE_PATTERN.matcher( urlString );
-		if ( !matcher.find() || !matcher.group(1).equals( "2" ) )
+		if ( !matcher.find() || !matcher.group( 1 ).equals( "2" ) )
+		{
 			return false;
+		}
 
 		matcher = CafeRequest.ITEM_PATTERN.matcher( urlString );
 		if ( !matcher.find() )
+		{
 			return true;
+		}
 
-		int itemId = StaticEntity.parseInt( matcher.group(1) );
+		int itemId = StaticEntity.parseInt( matcher.group( 1 ) );
 		String itemName;
 		int price;
 

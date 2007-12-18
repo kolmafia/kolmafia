@@ -36,13 +36,14 @@ package net.sourceforge.kolmafia;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class AdventureRequest extends KoLRequest
+public class AdventureRequest
+	extends KoLRequest
 {
 	private static final KoLRequest ZONE_UNLOCK = new KoLRequest( "" );
 
-	private String adventureName;
-	private String formSource;
-	private String adventureId;
+	private final String adventureName;
+	private final String formSource;
+	private final String adventureId;
 
 	private static final AdventureResult SKELETON_KEY = new AdventureResult( 642, 1 );
 
@@ -52,18 +53,16 @@ public class AdventureRequest extends KoLRequest
 	public static final AdventureResult CANDLES = new AdventureResult( 480, -1 );
 	public static final AdventureResult BUTTERKNIFE = new AdventureResult( 481, -1 );
 
-
 	/**
-	 * Constructs a new <code>AdventureRequest</code> which executes the
-	 * adventure designated by the given Id by posting to the provided form,
-	 * notifying the givenof results (or errors).
-	 *
-	 * @param	adventureName	The name of the adventure location
-	 * @param	formSource	The form to which the data will be posted
-	 * @param	adventureId	The identifier for the adventure to be executed
+	 * Constructs a new <code>AdventureRequest</code> which executes the adventure designated by the given Id by
+	 * posting to the provided form, notifying the givenof results (or errors).
+	 * 
+	 * @param adventureName The name of the adventure location
+	 * @param formSource The form to which the data will be posted
+	 * @param adventureId The identifier for the adventure to be executed
 	 */
 
-	public AdventureRequest( String adventureName, String formSource, String adventureId )
+	public AdventureRequest( final String adventureName, final String formSource, final String adventureId )
 	{
 		super( formSource );
 		this.adventureName = adventureName;
@@ -114,7 +113,8 @@ public class AdventureRequest extends KoLRequest
 	}
 
 	protected boolean retryOnTimeout()
-	{	return true;
+	{
+		return true;
 	}
 
 	public void run()
@@ -123,14 +123,16 @@ public class AdventureRequest extends KoLRequest
 		// to cancel in the delay period.
 
 		if ( !KoLmafia.permitsContinue() )
+		{
 			return;
+		}
 
 		if ( this.formSource.equals( "mountains.php" ) )
 		{
-			ZONE_UNLOCK.constructURLString( "mountains.php" ).run();
-			if ( ZONE_UNLOCK.responseText.indexOf( "value=80" ) != -1 )
+			AdventureRequest.ZONE_UNLOCK.constructURLString( "mountains.php" ).run();
+			if ( AdventureRequest.ZONE_UNLOCK.responseText.indexOf( "value=80" ) != -1 )
 			{
-				KoLmafia.updateDisplay( PENDING_STATE, "The Orc Chasm has already been bridged." );
+				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "The Orc Chasm has already been bridged." );
 				return;
 			}
 		}
@@ -139,55 +141,67 @@ public class AdventureRequest extends KoLRequest
 		{
 			if ( KoLCharacter.getAdventuresLeft() < 3 )
 			{
-				KoLmafia.updateDisplay( ERROR_STATE, "Ran out of adventures." );
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Ran out of adventures." );
 				return;
 			}
 		}
 
 		if ( this.formSource.equals( "mountains.php" ) )
 		{
-			if ( inventory.contains( ABRIDGED ) )
-				(new UntinkerRequest( ABRIDGED.getItemId() )).run();
-
-			if ( !inventory.contains( BRIDGE ) )
+			if ( KoLConstants.inventory.contains( AdventureRequest.ABRIDGED ) )
 			{
-				KoLmafia.updateDisplay( ERROR_STATE, "You can't cross the Orc Chasm." );
+				( new UntinkerRequest( AdventureRequest.ABRIDGED.getItemId() ) ).run();
+			}
+
+			if ( !KoLConstants.inventory.contains( AdventureRequest.BRIDGE ) )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't cross the Orc Chasm." );
 				return;
 			}
 		}
 
-		delay();
+		KoLRequest.delay();
 
 		if ( this.formSource.equals( "dungeon.php" ) )
+		{
 			this.data.clear();
+		}
 		else if ( this.formSource.equals( "adventure.php" ) && this.adventureId.equals( "120" ) )
-			addFormField( "subsnarfblat", String.valueOf( RNG.nextInt( 4 ) + 1 ) );
+		{
+			this.addFormField( "subsnarfblat", String.valueOf( KoLConstants.RNG.nextInt( 4 ) + 1 ) );
+		}
 
 		super.run();
 
 		if ( this.responseCode != 200 )
+		{
 			return;
+		}
 
 		if ( this.formSource.equals( "dungeon.php" ) )
 		{
 			this.addFormField( "pwd" );
 			this.addFormField( "action", "Yep." );
 
-			if ( this.responseText.indexOf( "Locked Door" ) != -1 && SKELETON_KEY.getCount( inventory ) + SKELETON_KEY.getCount( closet ) > 1 )
+			if ( this.responseText.indexOf( "Locked Door" ) != -1 && AdventureRequest.SKELETON_KEY.getCount( KoLConstants.inventory ) + AdventureRequest.SKELETON_KEY.getCount( KoLConstants.closet ) > 1 )
 			{
-				StaticEntity.getClient().processResult( SKELETON_KEY.getInstance( -1 ) );
+				StaticEntity.getClient().processResult( AdventureRequest.SKELETON_KEY.getInstance( -1 ) );
 				this.addFormField( "option", "2" );
 			}
 			else if ( this.responseText.indexOf( "\"Move on\"" ) != -1 )
+			{
 				this.addFormField( "option", "2" );
+			}
 			else
+			{
 				this.addFormField( "option", "1" );
+			}
 
 			super.run();
 		}
 		else if ( !this.formSource.equals( "basement.php" ) )
 		{
-			useMarmotClover( this.formSource, this.responseText );
+			AdventureRequest.useMarmotClover( this.formSource, this.responseText );
 		}
 	}
 
@@ -198,7 +212,7 @@ public class AdventureRequest extends KoLRequest
 
 		if ( this.responseText == null || this.responseText.trim().length() == 0 )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You can't get to that area yet." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't get to that area yet." );
 			return;
 		}
 
@@ -210,14 +224,16 @@ public class AdventureRequest extends KoLRequest
 		if ( this.formSource.equals( "lair3.php" ) )
 		{
 			if ( KoLCharacter.hasItem( SorceressLair.HEDGE_KEY ) && KoLCharacter.hasItem( SorceressLair.PUZZLE_PIECE ) )
-				KoLmafia.updateDisplay( PENDING_STATE, "Unexpected hedge maze puzzle state." );
+			{
+				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Unexpected hedge maze puzzle state." );
+			}
 
 			return;
 		}
 
 		if ( this.formSource.equals( "dungeon.php" ) && this.responseText.indexOf( "You have reached the bottom of today's Dungeon" ) != -1 )
 		{
-			KoLmafia.updateDisplay( PENDING_STATE, "Daily dungeon completed." );
+			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Daily dungeon completed." );
 			return;
 		}
 
@@ -226,13 +242,13 @@ public class AdventureRequest extends KoLRequest
 
 		if ( this.formSource.equals( "lair6.php" ) )
 		{
-			KoLmafia.updateDisplay( PENDING_STATE, "The sorceress has already been defeated." );
+			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "The sorceress has already been defeated." );
 			return;
 		}
 
 		if ( this.formSource.equals( "cyrpt.php" ) )
 		{
-			KoLmafia.updateDisplay( PENDING_STATE, "You shouldn't be here." );
+			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "You shouldn't be here." );
 			return;
 		}
 
@@ -245,7 +261,9 @@ public class AdventureRequest extends KoLRequest
 			bridge.run();
 
 			if ( KoLmafia.permitsContinue() )
+			{
 				this.run();
+			}
 
 			return;
 		}
@@ -255,7 +273,7 @@ public class AdventureRequest extends KoLRequest
 
 		if ( this.responseText.indexOf( "You shouldn't be here" ) != -1 || this.responseText.indexOf( "not yet be accessible" ) != -1 || this.responseText.indexOf( "You can't get there" ) != -1 || this.responseText.indexOf( "Seriously.  It's locked." ) != -1 )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You can't get to that area yet." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't get to that area yet." );
 			return;
 		}
 
@@ -263,19 +281,19 @@ public class AdventureRequest extends KoLRequest
 		{
 			// "You're in the regular dimension now, and don't
 			// remember how to get back there."
-			KoLmafia.updateDisplay( PENDING_STATE, "You are no longer Half-Astral." );
+			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "You are no longer Half-Astral." );
 			return;
 		}
 
 		if ( this.responseText.indexOf( "into the spectral mists" ) != -1 )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "No one may know of its coming or going." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "No one may know of its coming or going." );
 			return;
 		}
 
 		if ( this.responseText.indexOf( "temporal rift in the plains has closed" ) != -1 )
 		{
-			KoLmafia.updateDisplay( PENDING_STATE, "The temporal rift has closed." );
+			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "The temporal rift has closed." );
 			return;
 		}
 
@@ -284,7 +302,7 @@ public class AdventureRequest extends KoLRequest
 
 		if ( this.responseText.indexOf( "need some sort of protection" ) != -1 )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You need cold protection." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You need cold protection." );
 			return;
 		}
 
@@ -293,7 +311,7 @@ public class AdventureRequest extends KoLRequest
 
 		if ( this.responseText.indexOf( "need stench protection to adventure here" ) != -1 )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You need stench protection." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You need stench protection." );
 			return;
 		}
 
@@ -302,13 +320,13 @@ public class AdventureRequest extends KoLRequest
 
 		if ( this.responseText.indexOf( "No adventure data exists for this location" ) != -1 )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "Server error.  Please wait and try again." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Server error.  Please wait and try again." );
 			return;
 		}
 
 		if ( this.responseText.indexOf( "You must have at least" ) != -1 )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "Your stats are too low for this location." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Your stats are too low for this location." );
 			return;
 		}
 
@@ -317,7 +335,7 @@ public class AdventureRequest extends KoLRequest
 
 		if ( this.formSource.equals( "knob.php" ) && this.responseText.indexOf( "You've already slain the Goblin King" ) != -1 )
 		{
-			KoLmafia.updateDisplay( PENDING_STATE, "You already defeated the Goblin King." );
+			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "You already defeated the Goblin King." );
 			return;
 		}
 
@@ -326,13 +344,13 @@ public class AdventureRequest extends KoLRequest
 
 		if ( this.formSource.equals( "cyrpt.php" ) && this.responseText.indexOf( "Bonerdagon has been defeated" ) != -1 )
 		{
-			KoLmafia.updateDisplay( PENDING_STATE, "You already defeated the Bonerdagon." );
+			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "You already defeated the Bonerdagon." );
 			return;
 		}
 
 		if ( this.responseText.indexOf( "already undefiled" ) != -1 )
 		{
-			KoLmafia.updateDisplay( PENDING_STATE, "Cyrpt area cleared." );
+			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Cyrpt area cleared." );
 			return;
 		}
 
@@ -341,7 +359,9 @@ public class AdventureRequest extends KoLRequest
 		if ( this.formSource.equals( "adventure.php" ) && this.responseText.indexOf( "adventure.php" ) == -1 && this.responseText.indexOf( "You acquire" ) == -1 )
 		{
 			if ( !KoLmafia.isAutoStop( this.encounter ) )
-				KoLmafia.updateDisplay( PENDING_STATE, "Nothing more to do here." );
+			{
+				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Nothing more to do here." );
+			}
 
 			return;
 		}
@@ -351,7 +371,7 @@ public class AdventureRequest extends KoLRequest
 		if ( this.formSource.equals( "mountains.php" ) )
 		{
 			KoLmafia.updateDisplay( "You have bridged the Orc Chasm." );
-			StaticEntity.getClient().processResult( BRIDGE );
+			StaticEntity.getClient().processResult( AdventureRequest.BRIDGE );
 			return;
 		}
 
@@ -361,39 +381,54 @@ public class AdventureRequest extends KoLRequest
 		if ( this.formSource.equals( "casino.php" ) )
 		{
 			if ( this.adventureId.equals( "1" ) )
+			{
 				StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, -5 ) );
+			}
 			else if ( this.adventureId.equals( "2" ) )
+			{
 				StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, -10 ) );
+			}
 			else if ( this.adventureId.equals( "11" ) )
+			{
 				StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, -10 ) );
+			}
 		}
 
 		if ( this.adventureId.equals( "70" ) )
+		{
 			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, -10 ) );
+		}
 		else if ( this.adventureId.equals( "71" ) )
+		{
 			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, -30 ) );
+		}
 
 		// Shore Trips cost 500 meat each; handle
 		// the processing here.
 
 		if ( this.formSource.equals( "shore.php" ) )
+		{
 			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, -500 ) );
+		}
 
 		// Trick-or-treating requires a costume;
 		// notify the user of this error.
 
 		if ( this.formSource.equals( "trickortreat.php" ) && this.responseText.indexOf( "without a costume" ) != -1 )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You must wear a costume." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You must wear a costume." );
 			return;
 		}
 	}
 
-	public static final String registerEncounter( KoLRequest request )
+	public static final String registerEncounter( final KoLRequest request )
 	{
 		String urlString = request.getURLString();
-		if ( !(request instanceof AdventureRequest) && !containsEncounter( urlString, request.responseText ) )
+		if ( !( request instanceof AdventureRequest ) && !AdventureRequest.containsEncounter(
+			urlString, request.responseText ) )
+		{
 			return "";
+		}
 
 		if ( urlString.indexOf( "fight.php" ) != -1 )
 		{
@@ -401,11 +436,15 @@ public class AdventureRequest extends KoLRequest
 			spanIndex = request.responseText.indexOf( ">", spanIndex ) + 1;
 
 			if ( spanIndex == 0 )
+			{
 				return "";
+			}
 
 			int endSpanIndex = request.responseText.indexOf( "</span>", spanIndex );
 			if ( endSpanIndex == -1 )
+			{
 				return "";
+			}
 
 			String encounter = request.responseText.substring( spanIndex, endSpanIndex );
 			encounter = CombatSettings.encounterKey( encounter, false );
@@ -426,64 +465,56 @@ public class AdventureRequest extends KoLRequest
 		boldIndex = request.responseText.indexOf( "<b>", boldIndex ) + 3;
 
 		if ( boldIndex == 2 )
+		{
 			return "";
+		}
 
 		int endBoldIndex = request.responseText.indexOf( "</b>", boldIndex );
 
 		if ( endBoldIndex == -1 )
+		{
 			return "";
+		}
 
 		String encounter = request.responseText.substring( boldIndex, endBoldIndex );
 		if ( encounter.equals( "" ) )
+		{
 			return "";
+		}
 
 		RequestLogger.printLine( "Encounter: " + encounter );
 		RequestLogger.updateSessionLog( "Encounter: " + encounter );
 
-		registerDemonName( encounter, request.responseText );
+		AdventureRequest.registerDemonName( encounter, request.responseText );
 
 		if ( !urlString.startsWith( "choice.php" ) || urlString.indexOf( "option" ) == -1 )
+		{
 			StaticEntity.getClient().registerEncounter( encounter, "Noncombat" );
+		}
 		else
+		{
 			StaticEntity.getClient().recognizeEncounter( encounter );
+		}
 
 		return encounter;
 	}
 
-	private static final Object [][] demons = {
-		{ "Summoning Chamber",
-		  Pattern.compile( "Did you say your name was (.*?)\\?" ),
-		  "delicious-looking pies"
-		},
-		{ "Hoom Hah",
-		  Pattern.compile( "(.*?)! \\1, cooooome to meeeee!" ),
-		  "fifty meat"
-		},
-		{ "Every Seashell Has a Story to Tell If You're Listening",
-		  Pattern.compile( "Hello\\? Is (.*?) there\\?" ),
-		  "fish-guy"
-		},
-		{ "Leavesdropping",
-		  Pattern.compile( "(.*?), we call you! \\1, come to us!" ),
-		  "bullwhip"
-		},
-		{ "These Pipes... Aren't Clean!",
-		  Pattern.compile( "Blurgle. (.*?). Gurgle. By the way," ),
-		  "coprodaemon"
-		},
-	};
+	private static final Object[][] demons =
+		{ { "Summoning Chamber", Pattern.compile( "Did you say your name was (.*?)\\?" ), "delicious-looking pies" }, { "Hoom Hah", Pattern.compile( "(.*?)! \\1, cooooome to meeeee!" ), "fifty meat" }, { "Every Seashell Has a Story to Tell If You're Listening", Pattern.compile( "Hello\\? Is (.*?) there\\?" ), "fish-guy" }, { "Leavesdropping", Pattern.compile( "(.*?), we call you! \\1, come to us!" ), "bullwhip" }, { "These Pipes... Aren't Clean!", Pattern.compile( "Blurgle. (.*?). Gurgle. By the way," ), "coprodaemon" }, };
 
-		private static final Pattern NAME_PATTERN = Pattern.compile( "<b>&quot;(.*?)&quot;</b>" );
+	private static final Pattern NAME_PATTERN = Pattern.compile( "<b>&quot;(.*?)&quot;</b>" );
 
-	public static final void registerDemonName( String encounter, String responseText )
+	public static final void registerDemonName( final String encounter, final String responseText )
 	{
-		for ( int i = 0; i < demons.length; ++i )
+		for ( int i = 0; i < AdventureRequest.demons.length; ++i )
 		{
-			String name = (String)demons[i][0];
+			String name = (String) AdventureRequest.demons[ i ][ 0 ];
 			if ( name == null || !name.equals( encounter ) )
+			{
 				continue;
+			}
 
-			Pattern pattern = (Pattern)demons[i][1];
+			Pattern pattern = (Pattern) AdventureRequest.demons[ i ][ 1 ];
 			Matcher matcher = pattern.matcher( responseText );
 
 			String demon = null;
@@ -492,8 +523,8 @@ public class AdventureRequest extends KoLRequest
 			if ( matcher.find() )
 			{
 				// We found the name
-				demon = matcher.group(1);
-				index = (i + 1);
+				demon = matcher.group( 1 );
+				index = i + 1;
 			}
 			else if ( i != 0 )
 			{
@@ -506,17 +537,19 @@ public class AdventureRequest extends KoLRequest
 				// valid demon name, we can deduce which one it
 				// is from the result text
 
-				matcher = NAME_PATTERN.matcher( responseText );
+				matcher = AdventureRequest.NAME_PATTERN.matcher( responseText );
 				if ( !matcher.find() )
+				{
 					return;
+				}
 
 				// Save the name he used.
-				demon = matcher.group(1);
+				demon = matcher.group( 1 );
 
 				// Look for tell-tale string
-				for ( int j = 0; j < demons.length; ++j )
+				for ( int j = 0; j < AdventureRequest.demons.length; ++j )
 				{
-					String text = (String)demons[j][2];
+					String text = (String) AdventureRequest.demons[ j ][ 2 ];
 					if ( responseText.indexOf( text ) != -1 )
 					{
 						index = j + 1;
@@ -526,7 +559,9 @@ public class AdventureRequest extends KoLRequest
 
 				// Couldn't figure out which demon he called.
 				if ( index == -1 )
+				{
 					return;
+				}
 			}
 
 			RequestLogger.printLine( "Demon name: " + demon );
@@ -536,34 +571,48 @@ public class AdventureRequest extends KoLRequest
 		}
 	}
 
-	private static final boolean containsEncounter( String formSource, String responseText )
+	private static final boolean containsEncounter( final String formSource, final String responseText )
 	{
 		// The first round is unique in that there is no
 		// data fields.  Therefore, it will equal fight.php
 		// exactly every single time.
 
 		if ( formSource.startsWith( "fight.php" ) )
+		{
 			return FightRequest.getCurrentRound() == 0;
-
-		// All other adventures can be identified via their
-		// form data and the place they point to.
-
+		}
 		else if ( formSource.startsWith( "adventure.php" ) )
+		{
 			return true;
+		}
 		else if ( formSource.startsWith( "cave.php" ) )
+		{
 			return formSource.indexOf( "end" ) != -1;
+		}
 		else if ( formSource.startsWith( "shore.php" ) )
+		{
 			return formSource.indexOf( "whichtrip" ) != -1;
+		}
 		else if ( formSource.startsWith( "knob.php" ) )
+		{
 			return formSource.indexOf( "king" ) != -1;
+		}
 		else if ( formSource.startsWith( "cyrpt.php" ) )
+		{
 			return formSource.indexOf( "action" ) != -1;
+		}
 		else if ( formSource.startsWith( "rats.php" ) )
+		{
 			return true;
+		}
 		else if ( formSource.startsWith( "choice.php" ) )
+		{
 			return responseText.indexOf( "choice.php" ) != -1;
+		}
 		else if ( formSource.startsWith( "palinshelves.php" ) )
+		{
 			return responseText.indexOf( "palinshelves.php" ) != -1;
+		}
 
 		// It is not a known adventure.  Therefore,
 		// do not log the encounter yet.
@@ -572,38 +621,43 @@ public class AdventureRequest extends KoLRequest
 	}
 
 	public int getAdventuresUsed()
-	{	return formSource.startsWith( "shore" ) ? 3 : 1;
+	{
+		return this.formSource.startsWith( "shore" ) ? 3 : 1;
 	}
 
 	public String toString()
-	{	return this.adventureName;
+	{
+		return this.adventureName;
 	}
 
-	public static final void handleServerRedirect( String redirectLocation )
+	public static final void handleServerRedirect( final String redirectLocation )
 	{
 		if ( redirectLocation.indexOf( "main.php" ) != -1 )
+		{
 			return;
+		}
 
-		ZONE_UNLOCK.constructURLString( redirectLocation );
+		AdventureRequest.ZONE_UNLOCK.constructURLString( redirectLocation );
 
 		if ( redirectLocation.indexOf( "palinshelves.php" ) != -1 )
 		{
-			ZONE_UNLOCK.run();
-			ZONE_UNLOCK.constructURLString( "palinshelves.php?action=placeitems&whichitem1=2259&whichitem2=2260&whichitem3=493&whichitem4=2261" ).run();
+			AdventureRequest.ZONE_UNLOCK.run();
+			AdventureRequest.ZONE_UNLOCK.constructURLString(
+				"palinshelves.php?action=placeitems&whichitem1=2259&whichitem2=2260&whichitem3=493&whichitem4=2261" ).run();
 			return;
 		}
 
 		if ( redirectLocation.indexOf( "tiles.php" ) != -1 )
 		{
-			handleDvoraksRevenge( ZONE_UNLOCK );
+			AdventureRequest.handleDvoraksRevenge( AdventureRequest.ZONE_UNLOCK );
 			return;
 		}
 
-		FightFrame.showRequest( ZONE_UNLOCK );
-		KoLmafia.updateDisplay( ABORT_STATE, "Unknown adventure type encountered." );
+		FightFrame.showRequest( AdventureRequest.ZONE_UNLOCK );
+		KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Unknown adventure type encountered." );
 	}
 
-	public static final void handleDvoraksRevenge( KoLRequest request )
+	public static final void handleDvoraksRevenge( final KoLRequest request )
 	{
 		StaticEntity.getClient().registerEncounter( "Dvorak's Revenge", "Noncombat" );
 		RequestLogger.printLine( "Encounter: Dvorak's Revenge" );
@@ -619,28 +673,38 @@ public class AdventureRequest extends KoLRequest
 		request.constructURLString( "tiles.php?action=jump&whichtile=3" ).run();
 	}
 
-	public static final boolean useMarmotClover( String location, String responseText )
+	public static final boolean useMarmotClover( final String location, final String responseText )
 	{
 		if ( location.startsWith( "barrel.php" ) || location.startsWith( "shore.php" ) )
 		{
 			if ( !KoLSettings.getBooleanProperty( "cloverProtectActive" ) )
+			{
 				return false;
+			}
 
 			if ( responseText.indexOf( "ten-leaf clover" ) == -1 )
+			{
 				return false;
+			}
 
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "use * ten-leaf clover" );
 			return true;
 		}
 
 		if ( !location.startsWith( "adventure.php" ) )
+		{
 			return false;
+		}
 
 		if ( !KoLSettings.getBooleanProperty( "cloverProtectActive" ) )
+		{
 			return false;
+		}
 
 		if ( responseText.indexOf( "notice a ten-leaf clover" ) == -1 || responseText.indexOf( "puff of smoke" ) != -1 )
+		{
 			return false;
+		}
 
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( "use * ten-leaf clover" );
 		return true;
