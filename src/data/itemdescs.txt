@@ -3062,10 +3062,10 @@
 3056	
 3057	990761540	nanofiber cloth	squares of nanofiber cloth
 3058	767627450	iGoogly	iGooglies
-3059	358580860	theoretical string	theoretical string
-3060	814080491	synthetic stuffing
-3061	255210360	toy hoverpad
-3062	607447171	LED block
+3059	358580860	theoretical string	pieces of theoretical string
+3060	814080491	synthetic stuffing	synthetic stuffings
+3061	255210360	toy hoverpad	toy hoverpads
+3062	607447171	LED block	LED blocks
 3063	615213794	gyroscope	gyroscopes
 3064	299906373	cyborg doll	cyborg dolls
 3065	849517459	buckyball	buckyballs
