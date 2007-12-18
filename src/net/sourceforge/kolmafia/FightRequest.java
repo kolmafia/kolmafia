@@ -134,7 +134,17 @@ public class FightRequest
 
 	// Ultra-rare monsters
 	private static final String[] RARE_MONSTERS =
-		{ "baiowulf", "count bakula", "crazy bastard", "hockey elemental", "hypnotist of hey deze", "infinite meat bug", "knott slanding", "master of thieves", "temporal bandit" };
+	{
+		"baiowulf",
+		"count bakula",
+		"crazy bastard",
+		"hockey elemental",
+		"hypnotist of hey deze",
+		"infinite meat bug",
+		"knott slanding",
+		"master of thieves",
+		"temporal bandit"
+	};
 
 	/**
 	 * Constructs a new <code>FightRequest</code>. Theprovided will be used to determine whether or not the fight

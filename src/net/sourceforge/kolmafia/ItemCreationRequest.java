@@ -68,8 +68,20 @@ public class ItemCreationRequest
 	private static final AdventureResult ROLLING = new AdventureResult( 873, 1 );
 	private static final AdventureResult UNROLLING = new AdventureResult( 874, 1 );
 
-	private static final AdventureResult[][] DOUGH_DATA = { // input, tool, output
-		{ ItemCreationRequest.DOUGH, ItemCreationRequest.ROLLING, ItemCreationRequest.FLAT_DOUGH }, { ItemCreationRequest.FLAT_DOUGH, ItemCreationRequest.UNROLLING, ItemCreationRequest.DOUGH } };
+	private static final AdventureResult[][] DOUGH_DATA =
+	{
+		// input, tool, output
+		{
+			ItemCreationRequest.DOUGH,
+			ItemCreationRequest.ROLLING,
+			ItemCreationRequest.FLAT_DOUGH
+		},
+		{
+			ItemCreationRequest.FLAT_DOUGH,
+			ItemCreationRequest.UNROLLING,
+			ItemCreationRequest.DOUGH
+		}
+	};
 
 	/**
 	 * Constructs a new <code>ItemCreationRequest</code> with nothing known other than the form to use. This is used

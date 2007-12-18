@@ -117,9 +117,36 @@ public class FamiliarTrainingFrame
 	private static final AdventureResult HALF_ORCHID = new AdventureResult( 2546, 1 );
 
 	private static final AdventureResult BAR_WHIP = new AdventureResult( 2455, 1 );
-	private static final int[] tinyPlasticNormal =
-		new int[] { 969, 970, 971, 972, 973, 974, 975, 976, 977, 978, 979, 980, 981, 982, 983, 984, 985, 986, 987, 988 };
-	private static final int[] tinyPlasticCrimbo = new int[] { 1377, 1378, 2201, 2202 };
+	private static final int[] tinyPlasticNormal = new int[]
+	{
+		969,
+		970,
+		971,
+		972,
+		973,
+		974,
+		975,
+		976,
+		977,
+		978,
+		979,
+		980,
+		981,
+		982,
+		983,
+		984,
+		985,
+		986,
+		987,
+		988
+	};
+	private static final int[] tinyPlasticCrimbo = new int[]
+	{
+		1377,
+		1378,
+		2201,
+		2202
+	};
 
 	// Available skills which affect weight
 	private static boolean sympathyAvailable;
