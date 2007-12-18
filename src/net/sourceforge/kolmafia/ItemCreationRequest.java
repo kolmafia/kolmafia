@@ -159,6 +159,10 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		case STILL_BOOZE:
 			formSource = "guild.php";
 			break;
+
+		case CRIMBO:
+			formSource = "crimbo07.php";
+			break;
 		}
 
 		this.constructURLString( formSource );
@@ -181,6 +185,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		else if ( this.mixingMethod == MALUS )
 			this.addFormField( "action", "malussmash" );
+
+		else if ( this.mixingMethod == CRIMBO )
+			this.addFormField( "action", "toys" );
 
 		else if ( this.mixingMethod != SUBCLASS )
 			this.addFormField( "action", "combine" );
@@ -557,6 +564,13 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			if ( !KoLCharacter.hasBartender() )
 				StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, 0 - undoAmount ) );
 			break;
+
+                default:
+                        // If we created none, set error state so iteration
+                        // stops.
+                        if ( createdQuantity == 0 )
+                                KoLmafia.updateDisplay( ERROR_STATE, "Unexpected error: nothing created" );
+                        break;
 		}
 	}
 
@@ -708,10 +722,10 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			// Then, make enough of the ingredient in order
 			// to proceed with the concoction.
 
+			int quantity = this.quantityNeeded * multiplier;
 			if ( isReagentPotion() && KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) )
-				foundAllIngredients &= AdventureDatabase.retrieveItem( ingredients[i].getInstance( (int) Math.ceil( this.quantityNeeded * multiplier / 3.0f ) ) );
-			else
-				foundAllIngredients &= AdventureDatabase.retrieveItem( ingredients[i].getInstance( this.quantityNeeded * multiplier ) );
+				quantity = (int) Math.ceil( quantity / 3.0f );
+			foundAllIngredients &= AdventureDatabase.retrieveItem( ingredients[i].getInstance( quantity ) );
 		}
 
 		return foundAllIngredients;
