@@ -3072,7 +3072,7 @@
 3071	silicon-infused gluteal shield	0	display	0
 3072	carbonite visor	0	display	0
 3073	set of Unobtainium straps	0	display	0
-3074	
+3074	polymorphic fastening apparatus	0	display	0
 3075	
 3076	
 3077	
@@ -3098,10 +3098,12 @@
 3097	oversized fish scaler	7	all	70
 3098	killing feather	0	all	0
 3099	golden ring	0	all	100
-4000	
-4001	
-4002	
-4003	
-4004	
-4005	
-4006	
+3100	robotronic egg	0	all	100
+3101	
+3102	
+3103	
+3104	
+3105	
+3106	
+3107	deactivated RoboGoose	5	display	0
+3108	overclocked avian microprocessor	7	all	75
