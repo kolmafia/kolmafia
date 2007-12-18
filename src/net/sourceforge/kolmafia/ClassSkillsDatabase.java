@@ -201,7 +201,7 @@ public class ClassSkillsDatabase
 
 	/**
 	 * Returns the name for an skill, given its Id.
-	 * 
+	 *
 	 * @param skillId The Id of the skill to lookup
 	 * @return The name of the corresponding skill
 	 */
@@ -213,7 +213,7 @@ public class ClassSkillsDatabase
 
 	/**
 	 * Returns the type for an skill, given its Id.
-	 * 
+	 *
 	 * @param skillId The Id of the skill to lookup
 	 * @return The type of the corresponding skill
 	 */
@@ -226,7 +226,7 @@ public class ClassSkillsDatabase
 
 	/**
 	 * Returns the Id number for an skill, given its name.
-	 * 
+	 *
 	 * @param skillName The name of the skill to lookup
 	 * @return The Id number of the corresponding skill
 	 */
@@ -239,7 +239,7 @@ public class ClassSkillsDatabase
 
 	/**
 	 * Returns how much MP is consumed by using the skill with the given Id.
-	 * 
+	 *
 	 * @param skillId The id of the skill to lookup
 	 * @return The MP consumed by the skill, or 0 if unknown
 	 */
@@ -283,7 +283,7 @@ public class ClassSkillsDatabase
 
 	/**
 	 * Returns how many rounds of buff are gained by using the skill with the given Id.
-	 * 
+	 *
 	 * @param skillId The id of the skill to lookup
 	 * @return The duration of effect the cast gives
 	 */
@@ -356,7 +356,7 @@ public class ClassSkillsDatabase
 
 	/**
 	 * Returns whether or not this is a normal skill that can only be used on the player.
-	 * 
+	 *
 	 * @return <code>true</code> if the skill is a normal skill
 	 */
 
@@ -367,7 +367,7 @@ public class ClassSkillsDatabase
 
 	/**
 	 * Returns whether or not the skill is a passive.
-	 * 
+	 *
 	 * @return <code>true</code> if the skill is passive
 	 */
 
@@ -378,7 +378,7 @@ public class ClassSkillsDatabase
 
 	/**
 	 * Returns whether or not the skill is a buff (ie: can be used on others).
-	 * 
+	 *
 	 * @return <code>true</code> if the skill can target other players
 	 */
 
@@ -389,7 +389,7 @@ public class ClassSkillsDatabase
 
 	/**
 	 * Returns whether or not the skill is a combat skill (ie: can be used while fighting).
-	 * 
+	 *
 	 * @return <code>true</code> if the skill can be used in combat
 	 */
 
@@ -473,7 +473,7 @@ public class ClassSkillsDatabase
 	/**
 	 * Returns whether or not an item with a given name exists in the database; this is useful in the event that an item
 	 * is encountered which is not tradeable (and hence, should not be displayed).
-	 * 
+	 *
 	 * @return <code>true</code> if the item is in the database
 	 */
 
@@ -484,7 +484,7 @@ public class ClassSkillsDatabase
 
 	/**
 	 * Returns the set of skills keyed by name
-	 * 
+	 *
 	 * @return The set of skills keyed by name
 	 */
 
@@ -581,7 +581,7 @@ public class ClassSkillsDatabase
 
 			if ( appendHTML )
 			{
-				buffer.append( "<a onClick=\"javascript:skill(" );
+				buffer.append( "<a onclick=\"javascript:skill(" );
 				buffer.append( ClassSkillsDatabase.getSkillId( currentSkill ) );
 				buffer.append( ");\">" );
 			}

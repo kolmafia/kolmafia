@@ -103,7 +103,7 @@ public class MoonPhaseRequest
 		// Mafiatize the function menu
 
 		StringBuffer functionMenu = new StringBuffer();
-		functionMenu.append( "<select name=\"loc\" onChange=\"goloc();\">" );
+		functionMenu.append( "<select name=\"loc\" onchange=\"goloc();\">" );
 		functionMenu.append( "<option value=\"nothing\">- Select -</option>" );
 
 		for ( int i = 0; i < KoLConstants.FUNCTION_MENU.length; ++i )
@@ -129,7 +129,7 @@ public class MoonPhaseRequest
 		// Mafiatize the goto menu
 
 		StringBuffer gotoMenu = new StringBuffer();
-		gotoMenu.append( "<select name=location onChange='move();'>" );
+		gotoMenu.append( "<select name=location onchange='move();'>" );
 
 		gotoMenu.append( "<option value=\"nothing\">- Select -</option>" );
 		for ( int i = 0; i < KoLConstants.GOTO_MENU.length; ++i )
@@ -200,7 +200,7 @@ public class MoonPhaseRequest
 			}
 
 			selectBuffer.append( "</select></td><td>&nbsp;</td><td>" );
-			selectBuffer.append( "<input type=\"button\" class=\"button\" value=\"exec\" onClick=\"" );
+			selectBuffer.append( "<input type=\"button\" class=\"button\" value=\"exec\" onclick=\"" );
 
 			selectBuffer.append( "var script = document.getElementById( 'scriptbar' ).value; " );
 			selectBuffer.append( "parent.charpane.location = '/KoLmafia/sideCommand?cmd=' + script + '&pwd=" );

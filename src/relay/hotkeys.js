@@ -7,10 +7,10 @@ function getNumericKey( keyCode )
 {
     if ( keyCode >= 48 && keyCode <= 57 )
     	return keyCode - 48;
-    
+
     if ( keyCode >= 96 && keyCode <= 105 )
     	return keyCode - 96;
-    
+
     return -1;
 }
 
@@ -33,7 +33,7 @@ function handleCombatHotkey( e, isDown )
 		shiftKey = (keyCode == 16);
 		ctrlKey = (keyCode == 17);
 		altKey = (keyCode == 18);
-		
+
 		return false;
 	}
 
@@ -56,6 +56,12 @@ function handleCombatHotkey( e, isDown )
 
 	// Finally, make sure this is a valid hotkey before
 	// attempting to process it as one.
+
+	if ( keyCode == 13 )
+	{
+		document.getElementById( "defaultButton" ).onclick();
+		return true;
+	}
 
 	var numericKey = getNumericKey( keyCode );
 	if ( numericKey == -1 )

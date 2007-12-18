@@ -897,7 +897,7 @@ public class RequestEditorKit
 		displayHTML = displayHTML.replaceAll( "<a[^>]*?\\([\'\"](.*?)[\'\"].*?>", "<a href=\"$1\">" );
 		displayHTML =
 			displayHTML.replaceAll(
-				"<img([^>]*?) onClick=\'window.open\\(\"(.*?)\".*?\'(.*?)>", "<a href=\"$2\"><img$1 $3 border=0></a>" );
+				"<img([^>]*?) onclick=\'window.open\\(\"(.*?)\".*?\'(.*?)>", "<a href=\"$2\"><img$1 $3 border=0></a>" );
 
 		// The search form for viewing players has an </html>
 		// tag appearing right after </style>, which may confuse
@@ -910,7 +910,7 @@ public class RequestEditorKit
 
 		displayHTML =
 			displayHTML.replaceAll(
-				"<img([^>]*?) onClick=\'descitem\\((\\d+)\\);\'>",
+				"<img([^>]*?) onclick=\'descitem\\((\\d+)\\);\'>",
 				"<a href=\"desc_item.php?whichitem=$2\"><img$1 border=0></a>" );
 
 		// The last thing to worry about is the problems in
@@ -929,7 +929,7 @@ public class RequestEditorKit
 				"</td></tr><tr><td align=center>(<input class=button type=submit value='Take Items'>)", "$1" );
 
 		// The second of these is the betting page.  Here, the
-		// problem is an "onClick" in the input field, if the
+		// problem is an "onclick" in the input field, if the
 		// Hagnk option is available.
 
 		if ( displayHTML.indexOf( "whichbet" ) != -1 )
@@ -1431,7 +1431,7 @@ public class RequestEditorKit
 
 		reminders.append( "<tr><td><img id = 'current' src=\"http://images.kingdomofloathing.com/" );
 		reminders.append( FamiliarsDatabase.getFamiliarImageLocation( KoLCharacter.getFamiliar().getId() ) );
-		reminders.append( "\"></td><td><select id=\"familiar\" style=\"width: 250px\" onChange=\"var select = document.getElementById('familiar'); " );
+		reminders.append( "\"></td><td><select id=\"familiar\" style=\"width: 250px\" onchange=\"var select = document.getElementById('familiar'); " );
 		reminders.append( "var option = select.options[select.selectedIndex]; " );
 		reminders.append( "top.charpane.document.location.href = '/KoLmafia/sideCommand?cmd=familiar+' + option.value + '&pwd=" );
 		reminders.append( KoLRequest.passwordHash );
@@ -1669,7 +1669,7 @@ public class RequestEditorKit
 		// go ahead and add in all the missing data that players might want to
 		// look at to see which class to go for next.
 
-		buffer.append( "<center><br><br><select id=\"skillsview\" onChange=\"" + skillListScript + "\"><option>Unpermed Softcore Skills</option><option selected>Unpermed Hardcore Skills</option></select>" );
+		buffer.append( "<center><br><br><select id=\"skillsview\" onchange=\"" + skillListScript + "\"><option>Unpermed Softcore Skills</option><option selected>Unpermed Hardcore Skills</option></select>" );
 		buffer.append( KoLConstants.LINE_BREAK );
 
 		buffer.append( "<br><br><div id=\"softskills\" style=\"display:none\">" );
@@ -1725,7 +1725,7 @@ public class RequestEditorKit
 				buffer.append( "<font color=darkgray><s>" );
 			}
 
-			buffer.append( "<a onClick=\"skill('" );
+			buffer.append( "<a onclick=\"skill('" );
 			buffer.append( startingPoint + i );
 			buffer.append( "');\">" );
 			buffer.append( skillName );
@@ -1841,7 +1841,7 @@ public class RequestEditorKit
 		boolean forceFocus = action.equals( "attack" );
 
 		String name = RequestEditorKit.getActionName( action );
-		buffer.append( "<input type=\"button\" onClick=\"document.location.href='" );
+		buffer.append( "<input type=\"button\" onclick=\"document.location.href='" );
 
 		if ( urlString.startsWith( "choice.php" ) && response.indexOf( "choice.php" ) != -1 )
 		{
@@ -2025,7 +2025,7 @@ public class RequestEditorKit
 			}
 
 			actionBuffer.append( "</td><td align=right>" );
-			actionBuffer.append( "<select id=\"hotkeyViewer\" onChange=\"updateCombatHotkey();\">" );
+			actionBuffer.append( "<select id=\"hotkeyViewer\" onchange=\"updateCombatHotkey();\">" );
 
 			actionBuffer.append( "<option>- update hotkeys -</option>" );
 
@@ -2059,7 +2059,7 @@ public class RequestEditorKit
 			StaticEntity.singleStringReplace(
 				buffer,
 				"<body",
-				"<body onkeyup=\"handleCombatHotkey(event,false);\" onkeydown=\"handleCombatHotkey(event,true);\" onload=\"document.getElementById('defaultButton').focus();\"" );
+				"<body onkeyup=\"handleCombatHotkey(event,false);\" onkeydown=\"handleCombatHotkey(event,true);\" " );
 		}
 	}
 
@@ -2173,7 +2173,7 @@ public class RequestEditorKit
 	private static final void addBasementButton( final String urlString, final StringBuffer response,
 		final StringBuffer buffer, final String action, final boolean isEnabled )
 	{
-		buffer.append( "<input type=\"button\" onClick=\"" );
+		buffer.append( "<input type=\"button\" onclick=\"" );
 
 		if ( urlString.startsWith( "rebuff" ) )
 		{
@@ -2849,7 +2849,7 @@ public class RequestEditorKit
 					buffer.append( itemId );
 					buffer.append( "\" value=" );
 					buffer.append( Math.min( itemCount, ConsumeItemRequest.maximumUses( itemId ) ) );
-					buffer.append( ">&nbsp;<input type=button class=button value=\"Use\" onClick=\"multiUse('" );
+					buffer.append( ">&nbsp;<input type=button class=button value=\"Use\" onclick=\"multiUse('" );
 
 					if ( consumeMethod == KoLConstants.MP_RESTORE )
 					{

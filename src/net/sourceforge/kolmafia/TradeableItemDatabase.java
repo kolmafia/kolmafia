@@ -547,7 +547,7 @@ public class TradeableItemDatabase
 
 	/**
 	 * Returns the Id number for an item, given its name.
-	 * 
+	 *
 	 * @param itemName The name of the item to lookup
 	 * @return The Id number of the corresponding item
 	 */
@@ -559,7 +559,7 @@ public class TradeableItemDatabase
 
 	/**
 	 * Returns the Id number for an item, given its name.
-	 * 
+	 *
 	 * @param itemName The name of the item to lookup
 	 * @param count How many there are
 	 * @return The Id number of the corresponding item
@@ -925,7 +925,7 @@ public class TradeableItemDatabase
 
 	/**
 	 * Returns the price for the item with the given Id.
-	 * 
+	 *
 	 * @return The price associated with the item
 	 */
 
@@ -936,7 +936,7 @@ public class TradeableItemDatabase
 
 	/**
 	 * Returns true if the item is tradeable, otherwise false
-	 * 
+	 *
 	 * @return true if item is tradeable
 	 */
 
@@ -947,7 +947,7 @@ public class TradeableItemDatabase
 
 	/**
 	 * Returns true if the item is giftable, otherwise false
-	 * 
+	 *
 	 * @return true if item is tradeable
 	 */
 
@@ -958,7 +958,7 @@ public class TradeableItemDatabase
 
 	/**
 	 * Returns true if the item is giftable, otherwise false
-	 * 
+	 *
 	 * @return true if item is tradeable
 	 */
 
@@ -969,7 +969,7 @@ public class TradeableItemDatabase
 
 	/**
 	 * Returns true if the item is a bounty, otherwise false
-	 * 
+	 *
 	 * @return true if item is a bounty
 	 */
 
@@ -980,7 +980,7 @@ public class TradeableItemDatabase
 
 	/**
 	 * Returns the name for an item, given its Id number.
-	 * 
+	 *
 	 * @param itemId The Id number of the item to lookup
 	 * @return The name of the corresponding item
 	 */
@@ -992,7 +992,7 @@ public class TradeableItemDatabase
 
 	/**
 	 * Returns the name for an item, given its Id number.
-	 * 
+	 *
 	 * @param itemId The Id number of the item to lookup
 	 * @return The name of the corresponding item
 	 */
@@ -1016,7 +1016,7 @@ public class TradeableItemDatabase
 	/**
 	 * Returns whether or not an item with a given name exists in the database; this is useful in the event that an item
 	 * is encountered which is not tradeable (and hence, should not be displayed).
-	 * 
+	 *
 	 * @return <code>true</code> if the item is in the database
 	 */
 
@@ -1027,7 +1027,7 @@ public class TradeableItemDatabase
 
 	/**
 	 * Returns whether or not the item with the given name is usable (this includes edibility).
-	 * 
+	 *
 	 * @return <code>true</code> if the item is usable
 	 */
 
@@ -1058,7 +1058,7 @@ public class TradeableItemDatabase
 
 	/**
 	 * Returns the kind of consumption associated with an item
-	 * 
+	 *
 	 * @return The consumption associated with the item
 	 */
 
@@ -1074,7 +1074,7 @@ public class TradeableItemDatabase
 
 	/**
 	 * Returns the item description Id used by the given item, given its item Id.
-	 * 
+	 *
 	 * @return The description Id associated with the item
 	 */
 
@@ -1085,7 +1085,7 @@ public class TradeableItemDatabase
 
 	/**
 	 * Returns the set of item names keyed by id
-	 * 
+	 *
 	 * @return The set of item names keyed by id
 	 */
 
@@ -1096,7 +1096,7 @@ public class TradeableItemDatabase
 
 	/**
 	 * Returns the largest item ID
-	 * 
+	 *
 	 * @return The largest item ID
 	 */
 
@@ -1108,7 +1108,7 @@ public class TradeableItemDatabase
 	private static final Pattern CLOSET_ITEM_PATTERN =
 		Pattern.compile( "<option value='(\\d+)' descid='(.*?)'>(.*?) \\(" );
 	private static final Pattern DESCRIPTION_PATTERN =
-		Pattern.compile( "onClick='descitem\\((\\d+)\\);'></td><td valign=top><b>(.*?)</b>" );
+		Pattern.compile( "onclick='descitem\\((\\d+)\\);'></td><td valign=top><b>(.*?)</b>" );
 
 	public static final void findItemDescriptions()
 	{

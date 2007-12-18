@@ -1011,7 +1011,7 @@ public abstract class AdventureOptionsFrame
 
 			AdventureOptionsFrame.this.actionSelect = new MutableComboBox( KoLCharacter.getBattleSkillNames(), false );
 
-			AdventureOptionsFrame.this.locationSelect.addListSelectionListener( new ConditionChangeListener() );
+			AdventureOptionsFrame.this.locationSelect.addListSelectionListener( new ConditionchangeListener() );
 
 			JPanel conditionPanel = new JPanel( new BorderLayout( 5, 5 ) );
 			conditionPanel.add( AdventureOptionsFrame.this.conditionField, BorderLayout.CENTER );
@@ -1069,10 +1069,10 @@ public abstract class AdventureOptionsFrame
 		}
 	}
 
-	private class ConditionChangeListener
+	private class ConditionchangeListener
 		implements ListSelectionListener, ListDataListener
 	{
-		public ConditionChangeListener()
+		public ConditionchangeListener()
 		{
 			KoLConstants.conditions.addListDataListener( this );
 		}
