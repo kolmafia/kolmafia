@@ -97,11 +97,33 @@ public class EquipmentRequest
 
 	// These are the public names
 	public static final String[] slotNames =
-		{ "hat", "weapon", "off-hand", "shirt", "pants", "acc1", "acc2", "acc3", "familiar", "fakehand" };
+	{
+		"hat",
+		"weapon",
+		"off-hand",
+		"shirt",
+		"pants",
+		"acc1",
+		"acc2",
+		"acc3",
+		"familiar",
+		"fakehand"
+	};
 
 	// These are the names used in the PHP file
 	public static final String[] phpSlotNames =
-		{ "hat", "weapon", "offhand", "shirt", "pants", "acc1", "acc2", "acc3", "familiarequip", "fakehand" };
+	{
+		"hat",
+		"weapon",
+		"offhand",
+		"shirt",
+		"pants",
+		"acc1",
+		"acc2",
+		"acc3",
+		"familiarequip",
+		"fakehand"
+	};
 
 	private int requestType;
 	private int equipmentSlot;

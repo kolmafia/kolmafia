@@ -41,8 +41,12 @@ public class HeroDonationRequest
 	public static final int PETE = 3;
 
 	private static final AdventureResult[] STATUE_KEYS =
-		{ null, new AdventureResult( "Boris's key", 0 ), new AdventureResult( "Jarlsberg's key", 0 ), new AdventureResult(
-			"Sneaky Pete's key", 0 ) };
+	{
+		null,
+		new AdventureResult( "Boris's key", 0 ),
+		new AdventureResult( "Jarlsberg's key", 0 ),
+		new AdventureResult( "Sneaky Pete's key", 0 )
+	};
 
 	private final int amount;
 	public String statue;

@@ -2921,13 +2921,14 @@ public abstract class KoLCharacter
 	}
 
 	private static final AdventureResult DEAD_MIMIC = new AdventureResult( 1267, 1 );
-	private static final AdventureResult[] WANDS = new AdventureResult[] { new AdventureResult( 1268, 1 ), // pine wand
-	new AdventureResult( 1269, 1 ), // ebony wand
-	new AdventureResult( 1270, 1 ), // hexagonal wand
-	new AdventureResult( 1271, 1 ), // aluminum wand
-	new AdventureResult( 1272, 1 )
-	// marble wand
-		};
+	private static final AdventureResult[] WANDS = new AdventureResult[]
+	{
+		new AdventureResult( 1268, 1 ),	// pine wand
+		new AdventureResult( 1269, 1 ),	// ebony wand
+		new AdventureResult( 1270, 1 ),	// hexagonal wand
+		new AdventureResult( 1271, 1 ),	// aluminum wand
+		new AdventureResult( 1272, 1 )	// marble wand
+	};
 
 	/**
 	 * Returns the character's zapping wand, if any

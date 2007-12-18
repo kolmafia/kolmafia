@@ -48,54 +48,58 @@ public class VioletFog
 
 	// The various locations within the violet fog
 
-	private static final String FogLocationNames[] = { "Violet Fog (Start)", // 48
-	"Man on Bicycle", // 49
-	"Pleasant-faced Man", // 50
-	"Man on Cornflake", // 51
-	"Giant Chessboard", // 52
-	"Mustache", // 53
-	"Birds", // 54
-	"Machine Elves", // 55
-	"Boat on a River", // 56
-	"Man in Sunglasses", // 57
-	"Caterpiller", // 58
-	"This is not a Pipe", // 59
-	"Chorus Girls", // 60
-	"Huge Mountain", // 61
-	"Eye with Hat", // 62
-	"Eye with Weapon", // 63
-	"Eye with Garment", // 64
-	"Muscle Training", // 65
-	"Myst Training", // 66
-	"Moxie Training", // 67
-	"Alcohol Fish", // 68
-	"Food Fish", // 69
-	"Medicine Fish", // 70
+	private static final String FogLocationNames [] =
+	{
+		"Violet Fog (Start)",		// 48
+		"Man on Bicycle",		// 49
+		"Pleasant-faced Man",		// 50
+		"Man on Cornflake",		// 51
+		"Giant Chessboard",		// 52
+		"Mustache",			// 53
+		"Birds",			// 54
+		"Machine Elves",		// 55
+		"Boat on a River",		// 56
+		"Man in Sunglasses",		// 57
+		"Caterpiller",			// 58
+		"This is not a Pipe",		// 59
+		"Chorus Girls",			// 60
+		"Huge Mountain",		// 61
+		"Eye with Hat",			// 62
+		"Eye with Weapon",		// 63
+		"Eye with Garment",		// 64
+		"Muscle Training",		// 65
+		"Myst Training",		// 66
+		"Moxie Training",		// 67
+		"Alcohol Fish",			// 68
+		"Food Fish",			// 69
+		"Medicine Fish",		// 70
 	};
 
-	private static final int FogLocationExits[][] = { { 49, 50, 51 }, // 48
-	{ 52, 53, 56 }, // 49
-	{ 53, 54, 57 }, // 50
-	{ 52, 54, 55 }, // 51
-	{ 61, 65, 68 }, // 52
-	{ 61, 66, 69 }, // 53
-	{ 61, 67, 70 }, // 54
-	{ 58, 65, 70 }, // 55
-	{ 59, 66, 68 }, // 56
-	{ 60, 67, 69 }, // 57
-	{ 51, 52, 63 }, // 58
-	{ 49, 53, 62 }, // 59
-	{ 50, 54, 64 }, // 60
-	{ 49, 50, 51 }, // 61
-	{ 50, 52, 61 }, // 62
-	{ 51, 53, 61 }, // 63
-	{ 49, 54, 61 }, // 64
-	{ 50, 51, 54 }, // 65
-	{ 49, 51, 52 }, // 66
-	{ 49, 50, 53 }, // 67
-	{ 49, 50, 53 }, // 68
-	{ 50, 51, 54 }, // 69
-	{ 49, 51, 52 }, // 70
+	private static final int FogLocationExits [][] =
+	{
+		{ 49, 50, 51 },			// 48
+		{ 52, 53, 56 },			// 49
+		{ 53, 54, 57 },			// 50
+		{ 52, 54, 55 },			// 51
+		{ 61, 65, 68 },			// 52
+		{ 61, 66, 69 },			// 53
+		{ 61, 67, 70 },			// 54
+		{ 58, 65, 70 },			// 55
+		{ 59, 66, 68 },			// 56
+		{ 60, 67, 69 },			// 57
+		{ 51, 52, 63 },			// 58
+		{ 49, 53, 62 },			// 59
+		{ 50, 54, 64 },			// 60
+		{ 49, 50, 51 },			// 61
+		{ 50, 52, 61 },			// 62
+		{ 51, 53, 61 },			// 63
+		{ 49, 54, 61 },			// 64
+		{ 50, 51, 54 },			// 65
+		{ 49, 51, 52 },			// 66
+		{ 49, 50, 53 },			// 67
+		{ 49, 50, 53 },			// 68
+		{ 50, 51, 54 },			// 69
+		{ 49, 51, 52 },			// 70
 	};
 
 	// The routing table.
@@ -212,16 +216,18 @@ public class VioletFog
 
 	// Range of choice numbers with a goal
 	private static final int FIRST_GOAL_LOCATION = 62;
-	public static final String FogGoals[] = { "Escape from the Fog", // 48-61
-	"Cerebral Cloche", // 62
-	"Cerebral Crossbow", // 63
-	"Cerebral Culottes", // 64
-	"Muscle Training", // 65
-	"Mysticality Training", // 66
-	"Moxie Training", // 67
-	"ice stein", // 68
-	"munchies pill", // 69
-	"homeopathic healing powder", // 70
+	public static final String FogGoals [] =
+	{
+		"Escape from the Fog",		// 48-61
+		"Cerebral Cloche",		// 62
+		"Cerebral Crossbow",		// 63
+		"Cerebral Culottes",		// 64
+		"Muscle Training",		// 65
+		"Mysticality Training",		// 66
+		"Moxie Training",		// 67
+		"ice stein",			// 68
+		"munchies pill",		// 69
+		"homeopathic healing powder",	// 70
 	};
 
 	// The choice table.
@@ -516,28 +522,30 @@ public class VioletFog
 	// 21 = 62 (Eye with Hat)
 	// 22 = 63 (Eye with Weapon)
 
-	private static final int WikiToMafia[] = { 61, // 1
-	49, // 2
-	52, // 3
-	68, // 4
-	56, // 5
-	50, // 6
-	53, // 7
-	51, // 8
-	55, // 9
-	70, // 10
-	54, // 11
-	67, // 12
-	57, // 13
-	60, // 14
-	64, // 15
-	66, // 16
-	65, // 17
-	69, // 18
-	58, // 19
-	59, // 20
-	62, // 21
-	63, // 22
+	private static final int WikiToMafia [] =
+	{
+		61,		// 1
+		49,		// 2
+		52,		// 3
+		68,		// 4
+		56,		// 5
+		50,		// 6
+		53,		// 7
+		51,		// 8
+		55,		// 9
+		70,		// 10
+		54,		// 11
+		67,		// 12
+		57,		// 13
+		60,		// 14
+		64,		// 15
+		66,		// 16
+		65,		// 17
+		69,		// 18
+		58,		// 19
+		59,		// 20
+		62,		// 21
+		63,		// 22
 	};
 
 	private static final int mafiaCode( final int wikiCode )
@@ -545,28 +553,30 @@ public class VioletFog
 		return VioletFog.WikiToMafia[ wikiCode - 1 ];
 	}
 
-	private static final int MafiaToWiki[] = { 2, // 49
-	6, // 50
-	8, // 51
-	3, // 52
-	7, // 53
-	11, // 54
-	9, // 55
-	5, // 56
-	13, // 57
-	19, // 58
-	20, // 59
-	14, // 60
-	1, // 61
-	21, // 62
-	22, // 63
-	15, // 64
-	17, // 65
-	16, // 66
-	12, // 67
-	4, // 68
-	18, // 69
-	10, // 70
+	private static final int MafiaToWiki [] =
+	{
+		2,		// 49
+		6,		// 50
+		8,		// 51
+		3,		// 52
+		7,		// 53
+		11,		// 54
+		9,		// 55
+		5,		// 56
+		13,		// 57
+		19,		// 58
+		20,		// 59
+		14,		// 60
+		1,		// 61
+		21,		// 62
+		22,		// 63
+		15,		// 64
+		17,		// 65
+		16,		// 66
+		12,		// 67
+		4,		// 68
+		18,		// 69
+		10,		// 70
 	};
 
 	private static final int wikiCode( final int mafiaCode )

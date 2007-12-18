@@ -288,7 +288,7 @@ public class AdventureDatabase
 			new String[] { "seal-clubbing club", "seal tooth", "helmet turtle", "turtle totem", "pasta spoon", "ravioli hat", "saucepan", "disco mask", "disco ball", "stolen accordion", "mariachi pants" } );
 
 	public static final ChoiceAdventure[] CHOICE_ADVS =
-		{
+	{
 		// Choice 1 is unknown
 		// Choice 2 is Denim Axes Examined
 		// Choice 3 is The Oracle Will See You Now
@@ -892,7 +892,8 @@ public class AdventureDatabase
 		new ChoiceAdventure(
 			"Island", "choiceAdventure191", "F'c'le",
 			new String[] { "moxie substats", "lose hp", "muscle substats", "mysticality substats" },
-			new String[] { null, null, null, null } ), };
+			new String[] { null, null, null, null } ),
+	};
 
 	static
 	{
@@ -903,7 +904,7 @@ public class AdventureDatabase
 	// want to provide spoilers in the browser for them.
 
 	public static final ChoiceAdventure[] CHOICE_ADV_SPOILERS =
-		{
+	{
 		// Denim Axes Examined
 		new ChoiceAdventure(
 			"choiceAdventure2", "Palindome", new String[] { "denim axe", "skip adventure" },
@@ -1065,12 +1066,12 @@ public class AdventureDatabase
 		// Between a Rock and Some Other Rocks
 		new ChoiceAdventure( "choiceAdventure162", "Goatlet", new String[] { "Open Goatlet", "skip adventure" } ),
 
-		};
+	};
 
 	// Some choice adventures have options that cost meat or items
 
 	public static final Object[][] CHOICE_COST =
-		{
+	{
 		// Denim Axes Examined
 		{ "2", "1", new AdventureResult( "rubber axe", -1 ) },
 
@@ -1117,10 +1118,15 @@ public class AdventureDatabase
 		{ "181", "1", new AdventureResult( "Spanish fly", 5 ) },
 
 		//  O Cap'm, My Cap'm
-		{ "189", "1", new AdventureResult( AdventureResult.MEAT, -977 ) }, };
+		{ "189", "1", new AdventureResult( AdventureResult.MEAT, -977 ) },
+	};
 
 	// Some adventures don't actually cost a turn
-	public static final String[] FREE_ADVENTURES = { "Rock-a-bye larva", "Cobb's Knob lab key" };
+	public static final String[] FREE_ADVENTURES =
+	{
+		"Rock-a-bye larva",
+		"Cobb's Knob lab key"
+	};
 
 	public static final void refreshZoneTable()
 	{
@@ -2032,7 +2038,7 @@ public class AdventureDatabase
 			adventureName = KoLDatabase.getCanonicalName( CombatSettings.encounterKey( adventureName ) );
 
 			// First, prefer adventures which start with the
-			// provided substring.  That failing, report all
+			// provided substring. That failing, report all
 			// matches.
 
 			for ( int i = 0; i < this.size(); ++i )
@@ -2069,7 +2075,7 @@ public class AdventureDatabase
 			}
 
 			// Next, try substring matches when attempting to
-			// find the adventure location.  That failing,
+			// find the adventure location. That failing,
 			// report all matches.
 
 			matchCount = 0;

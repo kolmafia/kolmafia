@@ -98,13 +98,15 @@ public class BigIsland
 	private static final String IMAGE_ROOT = "http://images.kingdomofloathing.com/otherimages/bigisland/";
 	private static final String LOCAL_ROOT = "images/otherimages/bigisland/";
 
-	private static final String[] SIDEQUEST_IMAGES = { null, // NONE
-	BigIsland.IMAGE_ROOT + "2.gif", // JUNKYARD
-	BigIsland.IMAGE_ROOT + "3.gif", // ORCHARD
-	BigIsland.IMAGE_ROOT + "6.gif", // ARENA
-	BigIsland.IMAGE_ROOT + "15.gif", // FARM
-	BigIsland.IMAGE_ROOT + "17.gif", // LIGHTHOUSE
-	BigIsland.IMAGE_ROOT + "19.gif", // NUNS
+	private static final String[] SIDEQUEST_IMAGES =
+	{
+		null, // NONE
+		BigIsland.IMAGE_ROOT + "2.gif", // JUNKYARD
+		BigIsland.IMAGE_ROOT + "3.gif", // ORCHARD
+		BigIsland.IMAGE_ROOT + "6.gif", // ARENA
+		BigIsland.IMAGE_ROOT + "15.gif", // FARM
+		BigIsland.IMAGE_ROOT + "17.gif", // LIGHTHOUSE
+		BigIsland.IMAGE_ROOT + "19.gif", // NUNS
 	};
 
 	// Here are JHunz's replacement images for Big Island sidequest areas
@@ -112,49 +114,53 @@ public class BigIsland
 	//
 	//	http://userscripts.org/scripts/show/11720
 
-	private static final String[] FRAT_IMAGES = {
-	// NONE = 0
-	null,
+	private static final String[] FRAT_IMAGES =
+	{
+		// NONE = 0
+		null,
 
-	// JUNKYARD = 1
-	BigIsland.LOCAL_ROOT + "2F.gif",
+		// JUNKYARD = 1
+		BigIsland.LOCAL_ROOT + "2F.gif",
 
-	// ORCHARD = 2
-	BigIsland.LOCAL_ROOT + "3F.gif",
+		// ORCHARD = 2
+		BigIsland.LOCAL_ROOT + "3F.gif",
 
-	// ARENA = 3
-	BigIsland.LOCAL_ROOT + "6F.gif",
+		// ARENA = 3
+		BigIsland.LOCAL_ROOT + "6F.gif",
 
-	// FARM = 4
-	BigIsland.LOCAL_ROOT + "15F.gif",
+		// FARM = 4
+		BigIsland.LOCAL_ROOT + "15F.gif",
 
-	// LIGHTHOUSE = 5
-	BigIsland.LOCAL_ROOT + "17F.gif",
+		// LIGHTHOUSE = 5
+		BigIsland.LOCAL_ROOT + "17F.gif",
 
-	// NUNS = 6
-	BigIsland.LOCAL_ROOT + "19F.gif", };
+		// NUNS = 6
+		BigIsland.LOCAL_ROOT + "19F.gif",
+	};
 
-	private static final String[] HIPPY_IMAGES = {
-	// NONE = 0
-	null,
+	private static final String[] HIPPY_IMAGES =
+	{
+		// NONE = 0
+		null,
 
-	// JUNKYARD = 1
-	BigIsland.LOCAL_ROOT + "2H.gif",
+		// JUNKYARD = 1
+		BigIsland.LOCAL_ROOT + "2H.gif",
 
-	// ORCHARD = 2
-	BigIsland.LOCAL_ROOT + "3H.gif",
+		// ORCHARD = 2
+		BigIsland.LOCAL_ROOT + "3H.gif",
 
-	// ARENA = 3
-	BigIsland.LOCAL_ROOT + "6H.gif",
+		// ARENA = 3
+		BigIsland.LOCAL_ROOT + "6H.gif",
 
-	// FARM = 4
-	BigIsland.LOCAL_ROOT + "15H.gif",
+		// FARM = 4
+		BigIsland.LOCAL_ROOT + "15H.gif",
 
-	// LIGHTHOUSE = 5
-	BigIsland.LOCAL_ROOT + "17H.gif",
+		// LIGHTHOUSE = 5
+		BigIsland.LOCAL_ROOT + "17H.gif",
 
-	// NUNS = 6
-	BigIsland.LOCAL_ROOT + "19H.gif", };
+		// NUNS = 6
+		BigIsland.LOCAL_ROOT + "19H.gif",
+	};
 
 	/*
 	 * Methods to decorate the Fight page
@@ -202,7 +208,12 @@ public class BigIsland
 	}
 
 	private static final String[] GREMLIN_TOOLS =
-		{ "It whips out a hammer", "He whips out a crescent wrench", "It whips out a pair of pliers", "It whips out a screwdriver", };
+	{
+		"It whips out a hammer",
+		"He whips out a crescent wrench",
+		"It whips out a pair of pliers",
+		"It whips out a screwdriver",
+	};
 
 	public static final void decorateGremlinFight( final StringBuffer buffer )
 	{
@@ -229,11 +240,26 @@ public class BigIsland
 		}
 	}
 
-	private static final int[] AREA_UNLOCK = { 64, 192, 458 };
+	private static final int[] AREA_UNLOCK =
+	{
+		64,
+		192,
+		458
+	};
 
-	private static final String[] HIPPY_AREA_UNLOCK = { "Lighthouse", "Junkyard", "Arena" };
+	private static final String[] HIPPY_AREA_UNLOCK =
+	{
+		"Lighthouse",
+		"Junkyard",
+		"Arena"
+	};
 
-	private static final String[] FRATBOY_AREA_UNLOCK = { "Orchard", "Nunnery", "Farm" };
+	private static final String[] FRATBOY_AREA_UNLOCK =
+	{
+		"Orchard",
+		"Nunnery",
+		"Farm"
+	};
 
 	private static final String openArea( final int last, final int current, final String[] areas )
 	{
@@ -427,409 +453,413 @@ public class BigIsland
 		}
 	}
 
-	private static final String[][] HIPPY_MESSAGES = {
-	// 2 total
+	private static final String[][] HIPPY_MESSAGES =
 	{
-	// You see one of your frat brothers take out an
-	// M.C. Escher drawing and show it to a War Hippy
-	// (space) Cadet. The hippy looks at it and runs away
-	// screaming about how he doesn't know which way is
-	// down.
-	"M.C. Escher",
+		// 2 total
+		{
+			// You see one of your frat brothers take out an
+			// M.C. Escher drawing and show it to a War Hippy
+			// (space) Cadet. The hippy looks at it and runs away
+			// screaming about how he doesn't know which way is
+			// down.
+			"M.C. Escher",
 
-	// You see a hippy loading his didgeridooka, but before
-	// he can fire it, he's dragged off the battlefield by
-	// another hippy protesting the war.
-	"protesting the war",
+			// You see a hippy loading his didgeridooka, but before
+			// he can fire it, he's dragged off the battlefield by
+			// another hippy protesting the war.
+			"protesting the war",
 
-	// You see a "Baker Company" hippy take one bite too
-	// many from a big plate of brownies, then curl up to
-	// take a nap. Looks like he's out of commission for a
-	// while.
-	"Baker Company",
+			// You see a "Baker Company" hippy take one bite too
+			// many from a big plate of brownies, then curl up to
+			// take a nap. Looks like he's out of commission for a
+			// while.
+			"Baker Company",
 
-	// You see a hippy a few paces away suddenly realize
-	// that he's violating his deeply held pacifist
-	// beliefs, scream in horror, and run off the
-	// battlefield.
-	"pacifist beliefs",
+			// You see a hippy a few paces away suddenly realize
+			// that he's violating his deeply held pacifist
+			// beliefs, scream in horror, and run off the
+			// battlefield.
+			"pacifist beliefs",
 
-	// You look over and see a fellow frat brother
-	// garotting a hippy shaman with the hippy's own
-	// dreadlocks. "Right on, bra!" you shout.
-	"garotting",
+			// You look over and see a fellow frat brother
+			// garotting a hippy shaman with the hippy's own
+			// dreadlocks. "Right on, bra!" you shout.
+			"garotting",
 
-	// You glance over and see one of your frat brothers
-	// hosing down a hippy with soapy water. You laugh and
-	// run over for a high-five.
-	"soapy water",
+			// You glance over and see one of your frat brothers
+			// hosing down a hippy with soapy water. You laugh and
+			// run over for a high-five.
+			"soapy water",
 
-	// You glance out over the battlefield and see a hippy
-	// from the F.R.O.G. division get the hiccups and knock
-	// himself out on his own nasty breath.
-	"nasty breath",
+			// You glance out over the battlefield and see a hippy
+			// from the F.R.O.G. division get the hiccups and knock
+			// himself out on his own nasty breath.
+			"nasty breath",
 
-	// You see one of the War Hippy's "Jerry's Riggers"
-	// sneeze midway through making a bomb, inadvertently
-	// turning himself into smoke and dust. In the wind.
-	"smoke and dust",
+			// You see one of the War Hippy's "Jerry's Riggers"
+			// sneeze midway through making a bomb, inadvertently
+			// turning himself into smoke and dust. In the wind.
+			"smoke and dust",
 
-	// You see a frat boy hose down a hippy Airborne
-	// Commander with sugar water. You applaud as the
-	// Commander gets attacked by her own ferrets.
-	"sugar water",
+			// You see a frat boy hose down a hippy Airborne
+			// Commander with sugar water. You applaud as the
+			// Commander gets attacked by her own ferrets.
+			"sugar water",
 
-	// You see one of your frat brothers paddling a hippy
-	// who seems to be enjoying it. You say "uh, keep up
-	// the good work... bra... yeah."
-	"enjoying it",
+			// You see one of your frat brothers paddling a hippy
+			// who seems to be enjoying it. You say "uh, keep up
+			// the good work... bra... yeah."
+			"enjoying it",
 
-	// As the hippy falls, you see a hippy a few yards away
-	// clutch his chest and fall over, too. Apparently the
-	// hippy you were fighting was just the astral
-	// projection of another hippy several yards
-	// away. Freaky.
-	"astral projection", },
-	// 4 total
+			// As the hippy falls, you see a hippy a few yards away
+			// clutch his chest and fall over, too. Apparently the
+			// hippy you were fighting was just the astral
+			// projection of another hippy several yards
+			// away. Freaky.
+			"astral projection", },
+		// 4 total
+		{
+			// You see a War Frat Grill Sergeant hose down three
+			// hippies with white-hot chicken wing sauce. You love
+			// the smell of jabañero in the morning. It smells like
+			// victory.
+			"three hippies",
+
+			// As you finish your fight, you see a nearby Wartender
+			// mixing up a cocktail of vodka and pain for a trio of
+			// charging hippies. "Right on, bra!" you shout.
+			"vodka and pain",
+
+			// You see one of your frat brothers douse a trio of
+			// nearby hippies in cheap aftershave. They scream and
+			// run off the battlefield to find some incense to
+			// burn.
+			"cheap aftershave",
+
+			// You see one of your frat brothers line up three
+			// hippies for simultaneous paddling. Don't bathe --
+			// that's a paddlin'. Light incense -- that's a
+			// paddlin'. Paddlin' a homemade canoe -- oh, you
+			// better believe that's a paddlin'.
+			// "three hippies",
+
+			// You see one of the "Fortunate 500" make a quick call
+			// on his cell phone. Some mercenaries drive up, shove
+			// three hippies into their bitchin' meat car, and
+			// drive away.
+			// "three hippies",
+
+			// As you deliver the finishing blow, you see a frat
+			// boy lob a sake bomb into a trio of nearby
+			// hippies. "Nice work, bra!" you shout.
+			"lob a sake bomb", },
+		// 8 total
+		{
+			// You see one of your Beer Bongadier frat brothers use
+			// a complicated beer bong to spray cheap, skunky beer
+			// on a whole squad hippies at once. "Way to go, bra!"
+			// you shout.
+			"skunky beer",
+
+			// You glance over and see one of the Roaring Drunks
+			// from the 151st Division overturning a mobile sweat
+			// lodge in a berserker rage. Several sweaty, naked
+			// hippies run out and off the battlefield, brushing
+			// burning coals out of their dreadlocks.
+			"burning coals",
+
+			// You see one of your frat brothers punch an
+			// F.R.O.G. in the solar plexus, then aim the
+			// subsequent exhale at a squad of hippies standing
+			// nearby. You watch all of them fall to the ground,
+			// gasping for air.
+			"solar plexus",
+
+			// You see a Grillmaster flinging hot kabobs as fast as
+			// he can make them. He skewers one, two, three, four,
+			// five, six... seven! Seven hippies! Ha ha ha!
+			"hot kabobs", },
+		// 16 total
+		{
+			// A streaking frat boy runs past a nearby funk of
+			// hippies. One look at him makes the hippies have to
+			// go ponder their previous belief that the naked human
+			// body is a beautiful, wholesome thing.
+			"naked human body",
+
+			// You see one of the Fortunate 500 call in an air
+			// strike. His daddy's personal airship flies over and
+			// dumps cheap beer all over a nearby funk of hippies.
+			"personal airship",
+
+			// You look over and see a platoon of frat boys round
+			// up a funk of hippies and take them prisoner. Since
+			// being a POW of the frat boys involves a lot of beer
+			// drinking, you're slightly envious. Since it also
+			// involves a lot of paddling, you're somewhat less so.
+			"slightly envious",
+
+			// You see a kegtank and a mobile sweat lodge facing
+			// off in the distance. Since the kegtank's made of
+			// steel and the sweat lodge is made of wood, you can
+			// guess the outcome.
+			"guess the outcome", },
+		// 32 total
+		{
+			// You see an entire regiment of hippies throw down
+			// their arms (and their weapons) in disgust and walk
+			// off the battlefield. War! What is it good for?
+			// Absolutely nothing!
+			"Absolutely nothing",
+
+			// You see a squadron of police cars drive up, and a
+			// squad of policemen arrest a funk of hippies who were
+			// sitting around inhaling smoke from some sort of
+			// glass sculpture.
+			"glass sculpture",
+
+			// You see a kegtank rumble through the battlefield,
+			// firing beer cans out of its top turret. It mows
+			// down, like, 30 hippies in a row, but then runs out
+			// of ammo. They really should have stocked one more
+			// six-pack.
+			"one more six-pack", },
+		// 64 total
+		{
+			// You see the a couple of frat boys attaching big,
+			// long planks of wood to either side of a
+			// kegtank. Then they drive through the rank hippy
+			// ranks, mass-paddling as they go. Dozens of hippies
+			// flee the battlefield, tears in their filthy, filthy
+			// eyes.
+			"planks of wood",
+
+			// You see one of the "Fortunate 500" hang up his PADL
+			// phone, looking smug. Several SWAT vans of police in
+			// full riot gear pull up, and one of them informs the
+			// hippies through a megaphone that this is not a
+			// "designated free speech zone." The hippies throw
+			// rocks and bottles at the police, but most of them
+			// end up shoved into paddy wagons in chains. Er, the
+			// hippies are the ones in the chains. Not the wagons.
+			"SWAT vans",
+
+			// You see a couple of frat boys stick a fuse into a
+			// huge wooden barrel, light the fuse, and roll it down
+			// the hill to where the hippy forces are
+			// fighting. Judging by the big bada boom that follows,
+			// that barrel was either full of scotch or gunpowder,
+			// and possibly both.
+			"wooden barrel", },
+	};
+
+	private static final String[][] FRAT_MESSAGES =
 	{
-	// You see a War Frat Grill Sergeant hose down three
-	// hippies with white-hot chicken wing sauce. You love
-	// the smell of jabañero in the morning. It smells like
-	// victory.
-	"three hippies",
+		// 2 total
+		{
+			// You look over and see a fellow hippy warrior using
+			// his dreadlocks to garotte a frat warrior. "Way to
+			// enforce karmic retribution!" you shout.
+			"garotte",
 
-	// As you finish your fight, you see a nearby Wartender
-	// mixing up a cocktail of vodka and pain for a trio of
-	// charging hippies. "Right on, bra!" you shout.
-	"vodka and pain",
+			// You see a Green Gourmet give a frat boy a plate of
+			// herbal brownies. The frat boy scarfs them all, then
+			// wanders off staring at his hands.
+			"herbal brownies",
 
-	// You see one of your frat brothers douse a trio of
-	// nearby hippies in cheap aftershave. They scream and
-	// run off the battlefield to find some incense to
-	// burn.
-	"cheap aftershave",
+			// Elsewhere on the battlefield, you see a fellow hippy
+			// grab a frat warrior's paddle and give the frat boy a
+			// taste of his own medicine. I guess that could count
+			// as homeopathic healing...
+			"homeopathic healing",
 
-	// You see one of your frat brothers line up three
-	// hippies for simultaneous paddling. Don't bathe --
-	// that's a paddlin'. Light incense -- that's a
-	// paddlin'. Paddlin' a homemade canoe -- oh, you
-	// better believe that's a paddlin'.
-	// "three hippies",
+			// You see a Wartender pour too much lighter fluid on
+			// his grill and go up in a great ball of
+			// fire. Goodness gracious!
+			"lighter fluid",
 
-	// You see one of the "Fortunate 500" make a quick call
-	// on his cell phone. Some mercenaries drive up, shove
-	// three hippies into their bitchin' meat car, and
-	// drive away.
-	// "three hippies",
+			// You see a Fire Spinner blow a gout of flame onto a
+			// Wartender's grill, charring all the Wartender's
+			// meaty goodness. The Wartender wanders off crying.
+			"meaty goodness",
 
-	// As you deliver the finishing blow, you see a frat
-	// boy lob a sake bomb into a trio of nearby
-	// hippies. "Nice work, bra!" you shout.
-	"lob a sake bomb", },
-	// 8 total
-	{
-	// You see one of your Beer Bongadier frat brothers use
-	// a complicated beer bong to spray cheap, skunky beer
-	// on a whole squad hippies at once. "Way to go, bra!"
-	// you shout.
-	"skunky beer",
+			// Nearby, you see one of your sister hippies
+			// explaining the rules of Ultimate Frisbee to a member
+			// of the frat boys' "armchair infantry." His eyes
+			// glaze and he passes out.
+			"Ultimate Frisbee",
 
-	// You glance over and see one of the Roaring Drunks
-	// from the 151st Division overturning a mobile sweat
-	// lodge in a berserker rage. Several sweaty, naked
-	// hippies run out and off the battlefield, brushing
-	// burning coals out of their dreadlocks.
-	"burning coals",
+			// You see a member of the frat boy's 151st division
+			// pour himself a stiff drink, knock it back, and
+			// finally pass out from alcohol poisoning.
+			"alcohol poisoning",
 
-	// You see one of your frat brothers punch an
-	// F.R.O.G. in the solar plexus, then aim the
-	// subsequent exhale at a squad of hippies standing
-	// nearby. You watch all of them fall to the ground,
-	// gasping for air.
-	"solar plexus",
+			// You glance over your shoulder and see a squadron of
+			// winged ferrets descend on a frat warrior, entranced
+			// by the sun glinting off his keg shield.
+			"entranced by the sun",
 
-	// You see a Grillmaster flinging hot kabobs as fast as
-	// he can make them. He skewers one, two, three, four,
-	// five, six... seven! Seven hippies! Ha ha ha!
-	"hot kabobs", },
-	// 16 total
-	{
-	// A streaking frat boy runs past a nearby funk of
-	// hippies. One look at him makes the hippies have to
-	// go ponder their previous belief that the naked human
-	// body is a beautiful, wholesome thing.
-	"naked human body",
+			// You see a hippy shaman casting a Marxist spell over
+			// a member of the "Fortunate 500" division of the frat
+			// boy army. The frat boy gets on his cell phone and
+			// starts redistributing his wealth.
+			"Marxist spell",
 
-	// You see one of the Fortunate 500 call in an air
-	// strike. His daddy's personal airship flies over and
-	// dumps cheap beer all over a nearby funk of hippies.
-	"personal airship",
+			// You see a frat boy warrior pound a beer, smash the
+			// can against his forehead, and pass out. You chuckle
+			// to yourself.
+			"smash the can",
 
-	// You look over and see a platoon of frat boys round
-	// up a funk of hippies and take them prisoner. Since
-	// being a POW of the frat boys involves a lot of beer
-	// drinking, you're slightly envious. Since it also
-	// involves a lot of paddling, you're somewhat less so.
-	"slightly envious",
+			// You see an F.R.O.G. crunch a bulb of garlic in his
+			// teeth and breathe all over a nearby frat boy, who
+			// turns green and falls over.
+			"bulb of garlic", },
+		// 4 total
+		{
+			// You hear chanting behind you, and turn to see thick,
+			// ropy (almost anime-esque) vines sprout from a War
+			// Hippy Shaman's dreads and entangle three attacking
+			// frat boy warriors.
+			"three attacking",
 
-	// You see a kegtank and a mobile sweat lodge facing
-	// off in the distance. Since the kegtank's made of
-	// steel and the sweat lodge is made of wood, you can
-	// guess the outcome.
-	"guess the outcome", },
-	// 32 total
-	{
-	// You see an entire regiment of hippies throw down
-	// their arms (and their weapons) in disgust and walk
-	// off the battlefield. War! What is it good for?
-	// Absolutely nothing!
-	"Absolutely nothing",
+			// Nearby, you see an Elite Fire Spinner take down
+			// three frat boys in a whirl of flame and pain.
+			"three frat boys",
 
-	// You see a squadron of police cars drive up, and a
-	// squad of policemen arrest a funk of hippies who were
-	// sitting around inhaling smoke from some sort of
-	// glass sculpture.
-	"glass sculpture",
+			// You look over and see three ridiculously drunk
+			// members of the 151st Division run together for a
+			// three-way congratulatory headbutt, which turns into
+			// a three-way concussion.
+			"three-way",
 
-	// You see a kegtank rumble through the battlefield,
-	// firing beer cans out of its top turret. It mows
-	// down, like, 30 hippies in a row, but then runs out
-	// of ammo. They really should have stocked one more
-	// six-pack.
-	"one more six-pack", },
-	// 64 total
-	{
-	// You see the a couple of frat boys attaching big,
-	// long planks of wood to either side of a
-	// kegtank. Then they drive through the rank hippy
-	// ranks, mass-paddling as they go. Dozens of hippies
-	// flee the battlefield, tears in their filthy, filthy
-	// eyes.
-	"planks of wood",
+			// You see a member of the Fortunate 500 take a phone
+			// call, hear him holler something about a stock market
+			// crash, then watch him and two of his fortunate
+			// buddies run off the battlefield in a panic.
+			"stock market crash",
 
-	// You see one of the "Fortunate 500" hang up his PADL
-	// phone, looking smug. Several SWAT vans of police in
-	// full riot gear pull up, and one of them informs the
-	// hippies through a megaphone that this is not a
-	// "designated free speech zone." The hippies throw
-	// rocks and bottles at the police, but most of them
-	// end up shoved into paddy wagons in chains. Er, the
-	// hippies are the ones in the chains. Not the wagons.
-	"SWAT vans",
+			// Over the next hill, you see three frat boys abruptly
+			// vanish into a cloud of green smoke. Apparently the
+			// Green Ops Soldiers are on the prowl.
+			// "three frat boys",
 
-	// You see a couple of frat boys stick a fuse into a
-	// huge wooden barrel, light the fuse, and roll it down
-	// the hill to where the hippy forces are
-	// fighting. Judging by the big bada boom that follows,
-	// that barrel was either full of scotch or gunpowder,
-	// and possibly both.
-	"wooden barrel", }, };
+			// You hear excited chittering overhead, and look up to
+			// see a squadron of winged ferrets making a
+			// urine-based bombing run over three frat boys. The
+			// frat boys quickly run off the field to find some
+			// cheap aftershave to cover up the smell.
+			// "three frat boys",
+		},
+		// 8 total
+		{
+			// Nearby, a War Hippy Elder Shaman nods almost
+			// imperceptibly. A Kegtank hits a gopher hole and tips
+			// over. A squad of confused frat boys stumble out and
+			// off the battlefield.
+			"gopher hole",
 
-	private static final String[][] FRAT_MESSAGES = {
-	// 2 total
-	{
-	// You look over and see a fellow hippy warrior using
-	// his dreadlocks to garotte a frat warrior. "Way to
-	// enforce karmic retribution!" you shout.
-	"garotte",
+			// You leap out of the way of a runaway Mobile Sweat
+			// Lodge, then watch it run over one, two, three, four,
+			// five, six, seven! Seven frat boys! Ha ha ha!
+			"runaway",
 
-	// You see a Green Gourmet give a frat boy a plate of
-	// herbal brownies. The frat boy scarfs them all, then
-	// wanders off staring at his hands.
-	"herbal brownies",
+			// A few yards away, one of the Jerry's Riggers hippies
+			// detonates a bomb underneath a Wartender's grill. An
+			// entire squad of frat boys run from the battlefield
+			// under the onslaught of red-hot coals.
+			"red-hot coals",
 
-	// Elsewhere on the battlefield, you see a fellow hippy
-	// grab a frat warrior's paddle and give the frat boy a
-	// taste of his own medicine. I guess that could count
-	// as homeopathic healing...
-	"homeopathic healing",
+			// You look over and see one of Jerry's Riggers placing
+			// land mines he made out of paperclips, rubber bands,
+			// and psychedelic mushrooms. A charging squad of frat
+			// boys trips them, and is subsequently dragged off the
+			// field ranting about the giant purple squirrels.
+			"purple squirrels", },
+		// 16 total
+		{
+			// You turn to see a nearby War Hippy Elder Shaman
+			// making a series of complex hand gestures. A flock of
+			// pigeons swoops down out of the sky and pecks the
+			// living daylights out of a whole platoon of frat
+			// boys.
+			"platoon of",
 
-	// You see a Wartender pour too much lighter fluid on
-	// his grill and go up in a great ball of
-	// fire. Goodness gracious!
-	"lighter fluid",
+			// You see a platoon of charging frat boys get mowed
+			// down by a hippy. Remember, kids, a short-range
+			// weapon (like a paddle) usually does poorly against a
+			// long-range weapon (like a didgeridooka).
+			// "platoon of",
 
-	// You see a Fire Spinner blow a gout of flame onto a
-	// Wartender's grill, charring all the Wartender's
-	// meaty goodness. The Wartender wanders off crying.
-	"meaty goodness",
+			// You look over and see a funk of hippies round up a
+			// bunch of frat boys to take as prisoners of
+			// war. Since being a hippy prisoner involves lounging
+			// around inhaling clouds of smoke and eating brownies,
+			// you're somewhat jealous. Since it also involves
+			// non-stop olfactory assault, you're somewhat less so.
+			"funk of hippies",
 
-	// Nearby, you see one of your sister hippies
-	// explaining the rules of Ultimate Frisbee to a member
-	// of the frat boys' "armchair infantry." His eyes
-	// glaze and he passes out.
-	"Ultimate Frisbee",
+			// Nearby, a platoon of frat boys is rocking a mobile
+			// sweat lodge back and forth, trying to tip it
+			// over. When they succeed, they seem surprised by the
+			// hot coals and naked hippies that pour forth, and the
+			// frat boys run away screaming.
+			// "platoon of",
+		},
+		// 32 total
+		{
+			// A mobile sweat lodge rumbles into a regiment of frat
+			// boys and the hippies inside open all of its vents
+			// simultaneously. Steam that smells like a dozen
+			// baking (and baked) hippies pours out, enveloping the
+			// platoon and sending the frat boys into fits of
+			// nauseated coughing.
+			"regiment",
 
-	// You see a member of the frat boy's 151st division
-	// pour himself a stiff drink, knock it back, and
-	// finally pass out from alcohol poisoning.
-	"alcohol poisoning",
+			// You see a squadron of police cars drive up, and a
+			// squad of policemen arrest an entire regiment of frat
+			// boys. You hear cries of "She told me she was 18,
+			// bra!" and "I told you, I didn't hit her with a
+			// roofing shingle!" as they're dragged off the
+			// battlefield.
+			// "regiment",
 
-	// You glance over your shoulder and see a squadron of
-	// winged ferrets descend on a frat warrior, entranced
-	// by the sun glinting off his keg shield.
-	"entranced by the sun",
+			// You see a regiment of frat boys decide they're tired
+			// of drinking non-alcoholic beer and tired of not
+			// hitting on chicks, so they throw down their arms,
+			// and then their weapons, and head back to the frat
+			// house.
+			// "regiment",
+		},
+		// 64 total
+		{
+			// You see an airborne commander trying out a new
+			// strategy: she mixes a tiny bottle of rum she found
+			// on one of the frat boy casualties with a little of
+			// the frat boy's blood, then adds that to the ferret
+			// bait. A fleet of ferrets swoops down, eats the bait,
+			// and goes berserk with alcohol/bloodlust. The frat
+			// boys scream like schoolgirls as the ferrets decimate
+			// their ranks.
+			"scream like schoolgirls",
 
-	// You see a hippy shaman casting a Marxist spell over
-	// a member of the "Fortunate 500" division of the frat
-	// boy army. The frat boy gets on his cell phone and
-	// starts redistributing his wealth.
-	"Marxist spell",
+			// You see a couple of hippies rigging a mobile sweat
+			// lodge with a public address system. They drive it
+			// through the battlefield, blaring some concept album
+			// about the dark side of Ronald. Frat boys fall asleep
+			// en masse, helpless before music that's horribly
+			// boring if you're not under the influence of
+			// mind-altering drugs.
+			"en masse",
 
-	// You see a frat boy warrior pound a beer, smash the
-	// can against his forehead, and pass out. You chuckle
-	// to yourself.
-	"smash the can",
-
-	// You see an F.R.O.G. crunch a bulb of garlic in his
-	// teeth and breathe all over a nearby frat boy, who
-	// turns green and falls over.
-	"bulb of garlic", },
-	// 4 total
-	{
-	// You hear chanting behind you, and turn to see thick,
-	// ropy (almost anime-esque) vines sprout from a War
-	// Hippy Shaman's dreads and entangle three attacking
-	// frat boy warriors.
-	"three attacking",
-
-	// Nearby, you see an Elite Fire Spinner take down
-	// three frat boys in a whirl of flame and pain.
-	"three frat boys",
-
-	// You look over and see three ridiculously drunk
-	// members of the 151st Division run together for a
-	// three-way congratulatory headbutt, which turns into
-	// a three-way concussion.
-	"three-way",
-
-	// You see a member of the Fortunate 500 take a phone
-	// call, hear him holler something about a stock market
-	// crash, then watch him and two of his fortunate
-	// buddies run off the battlefield in a panic.
-	"stock market crash",
-
-	// Over the next hill, you see three frat boys abruptly
-	// vanish into a cloud of green smoke. Apparently the
-	// Green Ops Soldiers are on the prowl.
-	// "three frat boys",
-
-	// You hear excited chittering overhead, and look up to
-	// see a squadron of winged ferrets making a
-	// urine-based bombing run over three frat boys. The
-	// frat boys quickly run off the field to find some
-	// cheap aftershave to cover up the smell.
-	// "three frat boys",
-	},
-	// 8 total
-	{
-	// Nearby, a War Hippy Elder Shaman nods almost
-	// imperceptibly. A Kegtank hits a gopher hole and tips
-	// over. A squad of confused frat boys stumble out and
-	// off the battlefield.
-	"gopher hole",
-
-	// You leap out of the way of a runaway Mobile Sweat
-	// Lodge, then watch it run over one, two, three, four,
-	// five, six, seven! Seven frat boys! Ha ha ha!
-	"runaway",
-
-	// A few yards away, one of the Jerry's Riggers hippies
-	// detonates a bomb underneath a Wartender's grill. An
-	// entire squad of frat boys run from the battlefield
-	// under the onslaught of red-hot coals.
-	"red-hot coals",
-
-	// You look over and see one of Jerry's Riggers placing
-	// land mines he made out of paperclips, rubber bands,
-	// and psychedelic mushrooms. A charging squad of frat
-	// boys trips them, and is subsequently dragged off the
-	// field ranting about the giant purple squirrels.
-	"purple squirrels", },
-	// 16 total
-	{
-	// You turn to see a nearby War Hippy Elder Shaman
-	// making a series of complex hand gestures. A flock of
-	// pigeons swoops down out of the sky and pecks the
-	// living daylights out of a whole platoon of frat
-	// boys.
-	"platoon of",
-
-	// You see a platoon of charging frat boys get mowed
-	// down by a hippy. Remember, kids, a short-range
-	// weapon (like a paddle) usually does poorly against a
-	// long-range weapon (like a didgeridooka).
-	// "platoon of",
-
-	// You look over and see a funk of hippies round up a
-	// bunch of frat boys to take as prisoners of
-	// war. Since being a hippy prisoner involves lounging
-	// around inhaling clouds of smoke and eating brownies,
-	// you're somewhat jealous. Since it also involves
-	// non-stop olfactory assault, you're somewhat less so.
-	"funk of hippies",
-
-	// Nearby, a platoon of frat boys is rocking a mobile
-	// sweat lodge back and forth, trying to tip it
-	// over. When they succeed, they seem surprised by the
-	// hot coals and naked hippies that pour forth, and the
-	// frat boys run away screaming.
-	// "platoon of",
-	},
-	// 32 total
-	{
-	// A mobile sweat lodge rumbles into a regiment of frat
-	// boys and the hippies inside open all of its vents
-	// simultaneously. Steam that smells like a dozen
-	// baking (and baked) hippies pours out, enveloping the
-	// platoon and sending the frat boys into fits of
-	// nauseated coughing.
-	"regiment",
-
-	// You see a squadron of police cars drive up, and a
-	// squad of policemen arrest an entire regiment of frat
-	// boys. You hear cries of "She told me she was 18,
-	// bra!" and "I told you, I didn't hit her with a
-	// roofing shingle!" as they're dragged off the
-	// battlefield.
-	// "regiment",
-
-	// You see a regiment of frat boys decide they're tired
-	// of drinking non-alcoholic beer and tired of not
-	// hitting on chicks, so they throw down their arms,
-	// and then their weapons, and head back to the frat
-	// house.
-	// "regiment",
-	},
-	// 64 total
-	{
-	// You see an airborne commander trying out a new
-	// strategy: she mixes a tiny bottle of rum she found
-	// on one of the frat boy casualties with a little of
-	// the frat boy's blood, then adds that to the ferret
-	// bait. A fleet of ferrets swoops down, eats the bait,
-	// and goes berserk with alcohol/bloodlust. The frat
-	// boys scream like schoolgirls as the ferrets decimate
-	// their ranks.
-	"scream like schoolgirls",
-
-	// You see a couple of hippies rigging a mobile sweat
-	// lodge with a public address system. They drive it
-	// through the battlefield, blaring some concept album
-	// about the dark side of Ronald. Frat boys fall asleep
-	// en masse, helpless before music that's horribly
-	// boring if you're not under the influence of
-	// mind-altering drugs.
-	"en masse",
-
-	// You see an elder hippy shaman close her eyes, clench
-	// her fists, and start to chant. She glows with an
-	// eerie green light as storm clouds bubble and roil
-	// overhead. A funnel cloud descends from the
-	// thunderheads and dances through the frat boy ranks,
-	// whisking them up and away like so many miniature
-	// mobile homes.
-	"mobile homes", }, };
+			// You see an elder hippy shaman close her eyes, clench
+			// her fists, and start to chant. She glows with an
+			// eerie green light as storm clouds bubble and roil
+			// overhead. A funnel cloud descends from the
+			// thunderheads and dances through the frat boy ranks,
+			// whisking them up and away like so many miniature
+			// mobile homes.
+			"mobile homes", },
+	};
 
 	private static final boolean findBattlefieldMessage( final String responseText, final String[] table )
 	{
@@ -916,41 +946,42 @@ public class BigIsland
 	// Crowther spaded how many kills it takes to display an image in:
 	// http://jick-nerfed.us/forums/viewtopic.php?p=58270#58270
 
-	private static final int[] IMAGES = { 0, // Image 0
-	3, // Image 1
-	9, // Image 2
-	17, // Image 3
-	28, // Image 4
-	40, // Image 5
-	52, // Image 6
-	64, // Image 7
-	80, // Image 8
-	96, // Image 9
-	114, // Image 10
-	132, // Image 11
-	152, // Image 12
-	172, // Image 13
-	192, // Image 14
-	224, // Image 15
-	258, // Image 16
-	294, // Image 17
-	332, // Image 18
-	372, // Image 19
-	414, // Image 20
-	458, // Image 21
-	506, // Image 22
-	556, // Image 23
-	606, // Image 24
-	658, // Image 25
-	711, // Image 26
-	766, // Image 27
-	822, // Image 28
-	880, // Image 29
-	939, // Image 30
-	999, // Image 31
-	1000
-	// Image 32
-		};
+	private static final int[] IMAGES =
+	{
+		0,	// Image 0
+		3,	// Image 1
+		9,	// Image 2
+		17,	// Image 3
+		28,	// Image 4
+		40,	// Image 5
+		52,	// Image 6
+		64,	// Image 7
+		80,	// Image 8
+		96,	// Image 9
+		114,	// Image 10
+		132,	// Image 11
+		152,	// Image 12
+		172,	// Image 13
+		192,	// Image 14
+		224,	// Image 15
+		258,	// Image 16
+		294,	// Image 17
+		332,	// Image 18
+		372,	// Image 19
+		414,	// Image 20
+		458,	// Image 21
+		506,	// Image 22
+		556,	// Image 23
+		606,	// Image 24
+		658,	// Image 25
+		711,	// Image 26
+		766,	// Image 27
+		822,	// Image 28
+		880,	// Image 29
+		939,	// Image 30
+		999,	// Image 31
+		1000	// Image 32
+	};
 
 	public static final void parseBigIsland( final String location, final String responseText )
 	{

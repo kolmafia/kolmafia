@@ -92,10 +92,16 @@ public class KoLRequest
 	private static final AdventureResult MAIDEN_EFFECT = new AdventureResult( "Dreams and Lights", 1, true );
 	private static final AdventureResult BALLROOM_KEY = new AdventureResult( 1766, 1 );
 
-	private static final AdventureResult[] MISTRESS_ITEMS =
-		new AdventureResult[] { new AdventureResult( 1941, 1 ), new AdventureResult( 1942, 1 ), new AdventureResult(
-			1943, 1 ), new AdventureResult( 1944, 1 ), new AdventureResult( 1945, 1 ), new AdventureResult( 1946, 1 ), new AdventureResult(
-			2092, 1 ) };
+	private static final AdventureResult[] MISTRESS_ITEMS = new AdventureResult[]
+	{
+		new AdventureResult( 1941, 1 ),
+		new AdventureResult( 1942, 1 ),
+		new AdventureResult( 1943, 1 ),
+		new AdventureResult( 1944, 1 ),
+		new AdventureResult( 1945, 1 ),
+		new AdventureResult( 1946, 1 ),
+		new AdventureResult( 2092, 1 )
+	};
 
 	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
 	private static final Pattern OCEAN_PATTERN = Pattern.compile( "(\\d+),(\\d+)" );
@@ -118,7 +124,17 @@ public class KoLRequest
 	public static boolean isCompactMode = false;
 
 	public static final String[][] SERVERS =
-		{ { "dev.kingdomofloathing.com", "69.16.150.202" }, { "www.kingdomofloathing.com", "69.16.150.196" }, { "www2.kingdomofloathing.com", "69.16.150.197" }, { "www3.kingdomofloathing.com", "69.16.150.198" }, { "www4.kingdomofloathing.com", "69.16.150.199" }, { "www5.kingdomofloathing.com", "69.16.150.200" }, { "www6.kingdomofloathing.com", "69.16.150.205" }, { "www7.kingdomofloathing.com", "69.16.150.206" }, { "www8.kingdomofloathing.com", "69.16.150.207" } };
+	{
+		{ "dev.kingdomofloathing.com", "69.16.150.202" },
+		{ "www.kingdomofloathing.com", "69.16.150.196" },
+		{ "www2.kingdomofloathing.com", "69.16.150.197" },
+		{ "www3.kingdomofloathing.com", "69.16.150.198" },
+		{ "www4.kingdomofloathing.com", "69.16.150.199" },
+		{ "www5.kingdomofloathing.com", "69.16.150.200" },
+		{ "www6.kingdomofloathing.com", "69.16.150.205" },
+		{ "www7.kingdomofloathing.com", "69.16.150.206" },
+		{ "www8.kingdomofloathing.com", "69.16.150.207" }
+	};
 
 	public static final int SERVER_COUNT = 8;
 

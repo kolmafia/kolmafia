@@ -46,51 +46,57 @@ public class Louvre
 	private static final int LAST_CHOICE = 104;
 
 	// The various locations within the Louvre
-	private static final String LouvreLocationNames[] = { "Escher: Relativity", // 92
-	"Escher: House of Stairs", // 93
-	"Escher: Labyrinth", // 94
-	"Escher: Ascending and Descending", // 95
-	"Mondrian: Moxie, Manetwich, Pinot Renoir", // 96
-	"Munch: The Scream: Muscle, Manetwich, Vangoghbitussin", // 97
-	"Botticelli: The Birth of Venus: Mysticality, Vangoghbitussin, Pinot Renoir", // 98
-	"Michelangelo: The Creation of Adam: Moxie, Pinot Renoir", // 99
-	"David: The Death of Socrates: Moxie, Manetwich", // 100
-	"Hopper: Nighthawks: Muscle, Manetwich", // 101
-	"Seurat: Sunday Afternoon on the Island of La Grande Jatte: Muscle, Vangoghbitussin", // 102
-	"Leonardo da Vinci: The Last Supper: Mysticality, Vangoghbitussin", // 103
-	"Dali: The Persistence of Memory: Mysticality, Pinot Renoir", // 104
+	private static final String LouvreLocationNames [] =
+	{
+		"Escher: Relativity",			// 92
+		"Escher: House of Stairs",		// 93
+		"Escher: Labyrinth",			// 94
+		"Escher: Ascending and Descending",	// 95
+		"Mondrian: Moxie, Manetwich, Pinot Renoir",				// 96
+		"Munch: The Scream: Muscle, Manetwich, Vangoghbitussin",			// 97
+		"Botticelli: The Birth of Venus: Mysticality, Vangoghbitussin, Pinot Renoir",	// 98
+		"Michelangelo: The Creation of Adam: Moxie, Pinot Renoir",	// 99
+		"David: The Death of Socrates: Moxie, Manetwich",		// 100
+		"Hopper: Nighthawks: Muscle, Manetwich",			// 101
+		"Seurat: Sunday Afternoon on the Island of La Grande Jatte: Muscle, Vangoghbitussin",	// 102
+		"Leonardo da Vinci: The Last Supper: Mysticality, Vangoghbitussin",	// 103
+		"Dali: The Persistence of Memory: Mysticality, Pinot Renoir",	// 104
 	};
 
 	// 0 = 92, 93, 94, or 95
 
-	private static final int LouvreLocationExits[][] = { { 96, 97, 98 }, // 92
-	{ 96, 97, 98 }, // 93
-	{ 96, 97, 98 }, // 94
-	{ 96, 97, 98 }, // 95
-	{ 0, 99, 100 }, // 96
-	{ 0, 101, 102 }, // 97
-	{ 0, 103, 104 }, // 98
-	{ 0, 3, 6 }, // 99
-	{ 0, 1, 6 }, // 100
-	{ 0, 1, 4 }, // 101
-	{ 0, 2, 4 }, // 102
-	{ 0, 2, 5 }, // 103
-	{ 0, 3, 5 }, // 104
+	private static final int LouvreLocationExits [][] =
+	{
+		{ 96, 97, 98 },			// 92
+		{ 96, 97, 98 },			// 93
+		{ 96, 97, 98 },			// 94
+		{ 96, 97, 98 },			// 95
+		{ 0, 99, 100 },			// 96
+		{ 0, 101, 102 },		// 97
+		{ 0, 103, 104 },		// 98
+		{ 0, 3, 6 },			// 99
+		{ 0, 1, 6 },			// 100
+		{ 0, 1, 4 },			// 101
+		{ 0, 2, 4 },			// 102
+		{ 0, 2, 5 },			// 103
+		{ 0, 3, 5 },			// 104
 	};
 
-	private static final int LouvreGoalHops[][] = { { 3, 3, 3, 3, 3, 3 }, // 92
-	{ 3, 3, 3, 3, 3, 3 }, // 93
-	{ 3, 3, 3, 3, 3, 3 }, // 94
-	{ 3, 3, 3, 3, 3, 3 }, // 95
-	{ 2, 4, 2, 4, 4, 2 }, // 96
-	{ 2, 2, 4, 2, 4, 4 }, // 97
-	{ 4, 2, 2, 4, 2, 4 }, // 98
-	{ 4, 4, 1, 4, 4, 1 }, // 99
-	{ 1, 4, 4, 4, 4, 1 }, // 100
-	{ 1, 4, 4, 1, 4, 4 }, // 101
-	{ 4, 1, 4, 1, 4, 4 }, // 102
-	{ 4, 1, 4, 4, 1, 4 }, // 103
-	{ 4, 4, 1, 4, 1, 4 }, // 104
+	private static final int LouvreGoalHops [][] =
+	{
+		{ 3, 3, 3, 3, 3, 3 },		// 92
+		{ 3, 3, 3, 3, 3, 3 },		// 93
+		{ 3, 3, 3, 3, 3, 3 },		// 94
+		{ 3, 3, 3, 3, 3, 3 },		// 95
+		{ 2, 4, 2, 4, 4, 2 },		// 96
+		{ 2, 2, 4, 2, 4, 4 },		// 97
+		{ 4, 2, 2, 4, 2, 4 },		// 98
+		{ 4, 4, 1, 4, 4, 1 },		// 99
+		{ 1, 4, 4, 4, 4, 1 },		// 100
+		{ 1, 4, 4, 1, 4, 4 },		// 101
+		{ 4, 1, 4, 1, 4, 4 },		// 102
+		{ 4, 1, 4, 4, 1, 4 },		// 103
+		{ 4, 4, 1, 4, 1, 4 },		// 104
 	};
 
 	private static final int goalHops( final int source, final int goal )
@@ -103,12 +109,26 @@ public class Louvre
 		return Louvre.LouvreGoalHops[ source - Louvre.FIRST_CHOICE ][ goal - 1 ];
 	}
 
-	public static final String LouvreGoals[] =
-		{ "Manetwich", "bottle of Vangoghbitussin", "bottle of Pinot Renoir", "Muscle", "Mysticality", "Moxie" };
+	public static final String LouvreGoals [] =
+	{
+		"Manetwich",
+		"bottle of Vangoghbitussin",
+		"bottle of Pinot Renoir",
+		"Muscle",
+		"Mysticality",
+		"Moxie"
+	};
 
 	// Identifying strings from the response text
-	public static final String LouvreGoalStrings[] =
-		{ "Manetwich", "bottle of Vangoghbitussin", "bottle of Pinot Renoir", "a pretty good workout.", "new insight as to the nature of the universe.", "Moxious!" };
+	public static final String LouvreGoalStrings [] =
+	{
+		"Manetwich",
+		"bottle of Vangoghbitussin",
+		"bottle of Pinot Renoir",
+		"a pretty good workout.",
+		"new insight as to the nature of the universe.",
+		"Moxious!"
+	};
 
 	// The routing table.
 	//
@@ -121,20 +141,35 @@ public class Louvre
 	// 1 - 6	A goal
 	// X		A destination
 
-	private static final int LouvreRoutingTable[][][] = { { { 96, 97 }, { 97, 98 }, { 96, 98 }, // 92
-	{ 97 }, { 98 }, { 96 } }, { { 96, 97 }, { 97, 98 }, { 96, 98 }, // 93
-	{ 97 }, { 98 }, { 96 } }, { { 96, 97 }, { 97, 98 }, { 96, 98 }, // 94
-	{ 97 }, { 98 }, { 96 } }, { { 96, 97 }, { 97, 98 }, { 96, 98 }, // 95
-	{ 97 }, { 98 }, { 96 } }, { { 100 }, { 0 }, { 99 }, // 96
-	{ 0 }, { 0 }, { 99, 100 } }, { { 101 }, { 102 }, { 0 }, // 97
-	{ 101, 102 }, { 0 }, { 0 } }, { { 0 }, { 103 }, { 104 }, // 98
-	{ 0 }, { 103, 104 }, { 0 } }, { { 0 }, { 0 }, { 3 }, // 99
-	{ 0 }, { 0 }, { 6 } }, { { 1 }, { 0 }, { 0 }, // 100
-	{ 0 }, { 0 }, { 6 } }, { { 1 }, { 0 }, { 0 }, // 101
-	{ 4 }, { 0 }, { 0 } }, { { 0 }, { 2 }, { 0 }, // 102
-	{ 4 }, { 0 }, { 0 } }, { { 0 }, { 2 }, { 0 }, // 103
-	{ 0 }, { 5 }, { 0 } }, { { 0 }, { 0 }, { 3 }, // 104
-	{ 0 }, { 5 }, { 0 } }, };
+	private static final int LouvreRoutingTable [][][] =
+	{
+		{ { 96, 97 }, { 97, 98 }, { 96, 98 },	// 92
+		  { 97 }, { 98 }, { 96 } },
+		{ { 96, 97 }, { 97, 98 }, { 96, 98 },	// 93
+		  { 97 }, { 98 }, { 96 } },
+		{ { 96, 97 }, { 97, 98 }, { 96, 98 },	// 94
+		  { 97 }, { 98 }, { 96 } },
+		{ { 96, 97 }, { 97, 98 }, { 96, 98 },	// 95
+		  { 97 }, { 98 }, { 96 } },
+		{ { 100 }, { 0 }, { 99 },		// 96
+		  { 0 }, { 0 }, { 99, 100 } },
+		{ { 101 }, { 102 }, { 0 },		// 97
+		  { 101, 102 }, { 0 }, { 0 } },
+		{ { 0 }, { 103 }, { 104 },		// 98
+		  { 0 }, { 103, 104 }, { 0 } },
+		{ { 0 }, { 0 }, { 3 },			// 99
+		  { 0 }, { 0 }, { 6 } },
+		{ { 1 }, { 0 }, { 0 },			// 100
+		  { 0 }, { 0 }, { 6 } },
+		{ { 1 }, { 0 }, { 0 },			// 101
+		  { 4 }, { 0 }, { 0 } },
+		{ { 0 }, { 2 }, { 0 },			// 102
+		  { 4 }, { 0 }, { 0 } },
+		{ { 0 }, { 2 }, { 0 },			// 103
+		  { 0 }, { 5 }, { 0 } },
+		{ { 0 }, { 0 }, { 3 },			// 104
+		  { 0 }, { 5 }, { 0 } },
+	};
 
 	private static final int[] routingTuple( final int source, final int goal )
 	{
@@ -639,25 +674,27 @@ public class Louvre
 	// The "random" exit - value chosen so it sorts at the end
 	static final int RANDOM = Integer.MAX_VALUE;
 
-	private static final int WikiToMafia[] = { 92, // 0
-	93, // 1
-	94, // 2
-	95, // 3
-	97, // 4
-	98, // 5
-	96, // 6
-	101, // 7
-	102, // 8
-	103, // 9
-	104, // 10
-	99, // 11
-	100, // 12
-	5, // 13
-	6, // 14
-	7, // 15
-	1, // 16
-	2, // 17
-	3, // 18
+	private static final int WikiToMafia [] =
+	{
+		92,		// 0
+		93,		// 1
+		94,		// 2
+		95,		// 3
+		97,		// 4
+		98,		// 5
+		96,		// 6
+		101,		// 7
+		102,		// 8
+		103,		// 9
+		104,		// 10
+		99,		// 11
+		100,		// 12
+		5,		// 13
+		6,		// 14
+		7,		// 15
+		1,		// 16
+		2,		// 17
+		3,		// 18
 	};
 
 	private static final int mafiaCode( final int wikiCode )
@@ -669,27 +706,31 @@ public class Louvre
 		return Louvre.WikiToMafia[ wikiCode ];
 	}
 
-	private static final int MafiaLocationToWiki[] = { 0, // 92
-	1, // 93
-	2, // 94
-	3, // 95
-	6, // 96
-	4, // 97
-	5, // 98
-	11, // 99
-	12, // 100
-	7, // 101
-	8, // 102
-	9, // 103
-	10, // 104
+	private static final int MafiaLocationToWiki [] =
+	{
+		0,		// 92
+		1,		// 93
+		2,		// 94
+		3,		// 95
+		6,		// 96
+		4,		// 97
+		5,		// 98
+		11,		// 99
+		12,		// 100
+		7,		// 101
+		8,		// 102
+		9,		// 103
+		10,		// 104
 	};
 
-	private static final int MafiaGoalToWiki[] = { 16, // 1
-	17, // 2
-	18, // 3
-	13, // 4
-	14, // 5
-	15, // 6
+	private static final int MafiaGoalToWiki [] =
+	{
+		16,		// 1
+		17,		// 2
+		18,		// 3
+		13,		// 4
+		14,		// 5
+		15,		// 6
 	};
 
 	private static final int wikiCode( final int mafiaCode )

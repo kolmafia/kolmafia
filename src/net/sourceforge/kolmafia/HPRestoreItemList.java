@@ -54,19 +54,40 @@ public abstract class HPRestoreItemList
 	private static final HPRestoreItem MASSAGE_OIL = new HPRestoreItem( "scented, massage oil", Integer.MAX_VALUE );
 	private static final HPRestoreItem COCOON = new HPRestoreItem( "Cannelloni Cocoon", Integer.MAX_VALUE );
 
-	public static final HPRestoreItem[] CONFIGURES =
-		new HPRestoreItem[] { HPRestoreItemList.SOFA, HPRestoreItemList.CAMPGROUND, HPRestoreItemList.GALAKTIK, HPRestoreItemList.HERBS, HPRestoreItemList.SCROLL, HPRestoreItemList.MASSAGE_OIL, HPRestoreItemList.COCOON, new HPRestoreItem(
-			"red pixel potion", 110 ), new HPRestoreItem( "really thick bandage", 109 ), new HPRestoreItem(
-			"filthy poultice", 100 ), new HPRestoreItem( "gauze garter", 100 ), new HPRestoreItem(
-			"bottle of Vangoghbitussin", 100 ), new HPRestoreItem( "ancient Magi-Wipes", 55 ), new HPRestoreItem(
-			"phonics down", 48 ), new HPRestoreItem( "Disco Power Nap", 40 ), HPRestoreItemList.WALRUS, new HPRestoreItem(
-			"honey-dipped locust", 36 ), new HPRestoreItem( "red paisley oyster egg", 33 ), new HPRestoreItem(
-			"red polka-dot oyster egg", 33 ), new HPRestoreItem( "red striped oyster egg", 33 ), new HPRestoreItem(
-			"tiny house", 22 ), new HPRestoreItem( "Disco Nap", 20 ), new HPRestoreItem( "Lasagna Bandages", 20 ), new HPRestoreItem(
-			"green pixel potion", 19 ), new HPRestoreItem( "Doc Galaktik's Homeopathic Elixir", 19, 240 ), new HPRestoreItem(
-			"cast", 17 ), new HPRestoreItem( "Tongue of the Otter", 15 ), new HPRestoreItem(
-			"Doc Galaktik's Restorative Balm", 14, 120 ), HPRestoreItemList.OINTMENT, new HPRestoreItem(
-			"forest tears", 7 ), new HPRestoreItem( "Doc Galaktik's Pungent Unguent", 3, 30 ) };
+	public static final HPRestoreItem[] CONFIGURES = new HPRestoreItem[]
+	{
+		HPRestoreItemList.SOFA,
+		HPRestoreItemList.CAMPGROUND,
+		HPRestoreItemList.GALAKTIK,
+		HPRestoreItemList.HERBS,
+		HPRestoreItemList.SCROLL,
+		HPRestoreItemList.MASSAGE_OIL,
+		HPRestoreItemList.COCOON,
+		new HPRestoreItem( "red pixel potion", 110 ),
+		new HPRestoreItem( "really thick bandage", 109 ),
+		new HPRestoreItem( "filthy poultice", 100 ),
+		new HPRestoreItem( "gauze garter", 100 ),
+		new HPRestoreItem( "bottle of Vangoghbitussin", 100 ),
+		new HPRestoreItem( "ancient Magi-Wipes", 55 ),
+		new HPRestoreItem( "phonics down", 48 ),
+		new HPRestoreItem( "Disco Power Nap", 40 ),
+		HPRestoreItemList.WALRUS,
+		new HPRestoreItem( "honey-dipped locust", 36 ),
+		new HPRestoreItem( "red paisley oyster egg", 33 ),
+		new HPRestoreItem( "red polka-dot oyster egg", 33 ),
+		new HPRestoreItem( "red striped oyster egg", 33 ),
+		new HPRestoreItem( "tiny house", 22 ),
+		new HPRestoreItem( "Disco Nap", 20 ),
+		new HPRestoreItem( "Lasagna Bandages", 20 ),
+		new HPRestoreItem( "green pixel potion", 19 ),
+		new HPRestoreItem( "Doc Galaktik's Homeopathic Elixir", 19, 240 ),
+		new HPRestoreItem( "cast", 17 ),
+		new HPRestoreItem( "Tongue of the Otter", 15 ),
+		new HPRestoreItem( "Doc Galaktik's Restorative Balm", 14, 120 ),
+		HPRestoreItemList.OINTMENT,
+		new HPRestoreItem( "forest tears", 7 ),
+		new HPRestoreItem( "Doc Galaktik's Pungent Unguent", 3, 30 )
+	};
 
 	public static final void setPurchaseBasedSort( final boolean purchaseBasedSort )
 	{

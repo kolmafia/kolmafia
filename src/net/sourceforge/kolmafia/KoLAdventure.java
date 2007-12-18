@@ -43,7 +43,13 @@ public class KoLAdventure
 	implements KoLConstants, Comparable
 {
 	public static final String[][] DEMON_TYPES =
-		{ { "Summoning Chamber", "Pies" }, { "Spooky Forest", "Preternatural Greed" }, { "Sonofa Beach", "Fit To Be Tide" }, { "Deep Fat Friars' Gate", "Big Flaming Whip" }, { "Haunted Bathroom", "Demonic Taint" } };
+	{
+		{ "Summoning Chamber", "Pies" },
+		{ "Spooky Forest", "Preternatural Greed" },
+		{ "Sonofa Beach", "Fit To Be Tide" },
+		{ "Deep Fat Friars' Gate", "Big Flaming Whip" },
+		{ "Haunted Bathroom", "Demonic Taint" }
+	};
 
 	private static final KoLRequest ZONE_UNLOCK = new KoLRequest( "" );
 	private static final AdventureResult HYDRATED = new AdventureResult( "Ultrahydrated", 1, true );
@@ -78,8 +84,12 @@ public class KoLAdventure
 
 	public static final AdventureResult SOCK = new AdventureResult( 609, 1 );
 	public static final AdventureResult[] IMMATERIA =
-		{ new AdventureResult( 605, -1 ), new AdventureResult( 606, -1 ), new AdventureResult( 607, -1 ), new AdventureResult(
-			608, -1 ) };
+	{
+		new AdventureResult( 605, -1 ),
+		new AdventureResult( 606, -1 ),
+		new AdventureResult( 607, -1 ),
+		new AdventureResult( 608, -1 )
+	};
 
 	private static final AdventureResult MUSHROOM = new AdventureResult( 1622, 1 );
 	private static final AdventureResult ASTRAL = new AdventureResult( "Half-Astral", 0 );

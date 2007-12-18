@@ -59,7 +59,14 @@ public class ClanSnapshotTable
 	public static final int LOGIN_FILTER = 5;
 
 	public static final String[] FILTER_NAMES =
-		{ "Player name", "Current level", "Antihippy rank", "Character class", "Accumulated karma", "Number of days idle" };
+	{
+		"Player name",
+		"Current level",
+		"Antihippy rank",
+		"Character class",
+		"Accumulated karma",
+		"Number of days idle"
+	};
 
 	private static final Map levelMap = new TreeMap();
 	private static final Map profileMap = new TreeMap();

@@ -66,10 +66,26 @@ public class KoLMenuBar
 	public JMenuItem debugMenuItem = new ToggleDebugMenuItem();
 
 	private static final String[] LICENSE_FILENAME =
-		{ "kolmafia-license.txt", "spellcast-license.txt", "browserlauncher-license.htm", "sungraphics-license.txt", "foxtrot-license.txt", "jsmooth-license.txt", "unlicensed.htm" };
+	{
+		"kolmafia-license.txt",
+		"spellcast-license.txt",
+		"browserlauncher-license.htm",
+		"sungraphics-license.txt",
+		"foxtrot-license.txt",
+		"jsmooth-license.txt",
+		"unlicensed.htm"
+	};
 
 	private static final String[] LICENSE_NAME =
-		{ "KoLmafia", "Spellcast", "BrowserLauncher", "Sun Graphics", "Foxtrot", "JSmooth", "Unlicensed" };
+	{
+		"KoLmafia",
+		"Spellcast",
+		"BrowserLauncher",
+		"Sun Graphics",
+		"Foxtrot",
+		"JSmooth",
+		"Unlicensed"
+	};
 
 	public KoLMenuBar()
 	{
