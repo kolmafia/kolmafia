@@ -1660,7 +1660,7 @@ public class AdventureDatabase
 		}
 		else
 		{
-			item.getCount( KoLConstants.inventory );
+			availableCount = item.getCount( KoLConstants.inventory );
 		}
 
 		int missingCount = item.getCount() - availableCount;
