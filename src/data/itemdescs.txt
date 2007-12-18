@@ -3077,7 +3077,7 @@
 3071	921754386	silicon-infused gluteal shield
 3072	795772115	carbonite visor
 3073	748591680	set of Unobtainium straps
-3074	
+3074	644106227	polymorphic fastening apparatus
 3075	
 3076	
 3077	
@@ -3103,10 +3103,12 @@
 3097	861354964	oversized fish scaler	oversized fish scalers
 3098	899776576	killing feather	killing feathers
 3099	748174693	golden ring	golden rings
-4000	
-4001	
-4002	
-4003	
-4004	
-4005	
-4006	
+3100	412530596	robotronic egg	robotronic eggs
+3101	
+3102	
+3103	
+3104	
+3105	
+3106	
+3107	674971550	deactivated RoboGoose
+3108	212941273	overclocked avian microprocessor

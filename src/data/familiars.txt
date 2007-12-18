@@ -79,3 +79,4 @@
 77	Crimbo P. R. E. S. S. I. E.	stat0, stat1	3042	metallic foil bow	0	0	0	0
 78	Bulky Buddy Box	none	3079		0	0	0	0
 79	Teddy Borg	none	3080	teddy borg sewing kit	0	0	0	0
+80	RoboGoose	none	3107	overclocked avian microprocessor	0	0	0	0
