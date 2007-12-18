@@ -15,7 +15,7 @@
 	<property name="tarfile" location="${dist}/${ant.project.name}.tar.gz"/>
 	<property name="main" value="net.sourceforge.kolmafia.KoLmafia"/>
 
-	<property file="build.properties" />
+	<property environment="env"/>
 
 	<!-- ========================================== -->
 	<!--  create directories used by other targets  -->
@@ -27,6 +27,15 @@
 		<mkdir dir="${build}"/>
 		<mkdir dir="${dist}"/>
 
+	</target>
+
+
+	<!-- ================================================= -->
+	<!--  sets the default compiler to Jikes if available  -->
+	<!-- ================================================= -->
+
+	<target name="compiler" if="env.JIKES_HOME">
+		<property name="build.compiler" value="jikes" />
 	</target>
 
 
@@ -83,7 +92,7 @@
 	<!--  generate class files  -->
 	<!-- ====================== -->
 
-	<target name="build" depends="init">
+	<target name="compile" depends="init,compiler">
 
 		<javac source="1.4" srcdir="${src}" destdir="${build}"
 			failonerror="false" debug="on" debuglevel="lines,vars,source" deprecation="on" nowarn="on"/>
@@ -107,7 +116,7 @@
 	<!--  generate the standard JAR  -->
 	<!-- =========================== -->
 
-	<target name="createjar" depends="init,build">
+	<target name="createjar" depends="init,compile">
 
 		<jar destfile="${jarfile}" basedir="${build}" update="true" index="yes">
 			<manifest>
@@ -157,7 +166,7 @@
 		<replace file="${src}/net/sourceforge/kolmafia/KoLConstants.java"
 			token="REVISION = null" value='REVISION = "${revision}"'/>
 
-		<antcall target="build"/>
+		<antcall target="compile"/>
 
 		<jar destfile="${dist}/${ant.project.name}-${revision}.jar" basedir="${build}" update="true" index="yes">
 			<manifest>
