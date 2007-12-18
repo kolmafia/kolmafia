@@ -38,17 +38,20 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JMenuItem;
 
-public abstract class ThreadedMenuItem extends JMenuItem implements Runnable
+public abstract class ThreadedMenuItem
+	extends JMenuItem
+	implements Runnable
 {
-	public ThreadedMenuItem( String label )
+	public ThreadedMenuItem( final String label )
 	{
 		super( label );
 		this.addActionListener( new ThreadedMenuItemListener() );
 	}
 
-	private class ThreadedMenuItemListener implements ActionListener
+	private class ThreadedMenuItemListener
+		implements ActionListener
 	{
-		public void actionPerformed( ActionEvent e )
+		public void actionPerformed( final ActionEvent e )
 		{
 			ThreadedMenuItem.this.run();
 			RequestThread.enableDisplayIfSequenceComplete();

@@ -47,98 +47,113 @@ import tab.CloseTabbedPane;
 import com.sun.java.forums.CloseableTabbedPane;
 import com.sun.java.forums.CloseableTabbedPaneListener;
 
-public class TabbedChatFrame extends ChatFrame implements ChangeListener, CloseListener, CloseableTabbedPaneListener
+public class TabbedChatFrame
+	extends ChatFrame
+	implements ChangeListener, CloseListener, CloseableTabbedPaneListener
 {
-	private ChatPanel commandLineDisplay;
+	private final ChatPanel commandLineDisplay;
 	private static boolean addGCLI = false;
 	private static boolean instanceExists = false;
 
 	public TabbedChatFrame()
 	{
-		commandLineDisplay = new ChatPanel( GCLI_TAB );
-		addGCLI = KoLSettings.getBooleanProperty( "addChatCommandLine" );
+		this.commandLineDisplay = new ChatPanel( ChatFrame.GCLI_TAB );
+		TabbedChatFrame.addGCLI = KoLSettings.getBooleanProperty( "addChatCommandLine" );
 		KoLMessenger.setTabbedFrame( this );
 
-		setTitle( "Loathing Chat" );
+		this.setTitle( "Loathing Chat" );
 	}
 
 	public UnfocusedTabbedPane getTabbedPane()
 	{
-		return KoLSettings.getBooleanProperty( "useShinyTabbedChat" ) ?
-			(UnfocusedTabbedPane) new CloseTabbedPane() : (UnfocusedTabbedPane) new CloseableTabbedPane();
+		return KoLSettings.getBooleanProperty( "useShinyTabbedChat" ) ? (UnfocusedTabbedPane) new CloseTabbedPane() : (UnfocusedTabbedPane) new CloseableTabbedPane();
 	}
 
 	/**
-	 * Utility method called to initialize the frame.  This
-	 * method should be overridden, should a different means
-	 * of initializing the content of the frame be needed.
+	 * Utility method called to initialize the frame. This method should be overridden, should a different means of
+	 * initializing the content of the frame be needed.
 	 */
 
-	public void initialize( String associatedContact )
+	public void initialize( final String associatedContact )
 	{
-		instanceExists = true;
+		TabbedChatFrame.instanceExists = true;
 
-		if ( tabs instanceof CloseTabbedPane )
+		if ( this.tabs instanceof CloseTabbedPane )
 		{
-			((CloseTabbedPane)tabs).setCloseIconStyle( CloseTabPaneUI.GRAY_CLOSE_ICON );
-			((CloseTabbedPane)tabs).addCloseListener( this );
+			( (CloseTabbedPane) this.tabs ).setCloseIconStyle( CloseTabPaneUI.GRAY_CLOSE_ICON );
+			( (CloseTabbedPane) this.tabs ).addCloseListener( this );
 		}
 		else
 		{
-			((CloseableTabbedPane)tabs).addCloseableTabbedPaneListener( this );
+			( (CloseableTabbedPane) this.tabs ).addCloseableTabbedPaneListener( this );
 		}
 
-		tabs.addChangeListener( this );
-		framePanel.add( tabs, BorderLayout.CENTER );
+		this.tabs.addChangeListener( this );
+		this.framePanel.add( this.tabs, BorderLayout.CENTER );
 	}
 
-	public void stateChanged( ChangeEvent e )
+	public void stateChanged( final ChangeEvent e )
 	{
-		int selectedIndex = tabs.getSelectedIndex();
-		if ( selectedIndex != -1 && selectedIndex != tabs.getTabCount() - 1 )
-			KoLMessenger.setUpdateChannel( tabs.getTitleAt( selectedIndex ).trim() );
+		int selectedIndex = this.tabs.getSelectedIndex();
+		if ( selectedIndex != -1 && selectedIndex != this.tabs.getTabCount() - 1 )
+		{
+			KoLMessenger.setUpdateChannel( this.tabs.getTitleAt( selectedIndex ).trim() );
+		}
 	}
 
-	public boolean closeTab( int tabIndexToClose )
+	public boolean closeTab( final int tabIndexToClose )
 	{
-		if ( tabIndexToClose == -1 || !instanceExists )
+		if ( tabIndexToClose == -1 || !TabbedChatFrame.instanceExists )
+		{
 			return false;
+		}
 
-		String toRemove = tabs.getTitleAt( tabIndexToClose );
+		String toRemove = this.tabs.getTitleAt( tabIndexToClose );
 
-		if ( toRemove.equals( GCLI_TAB ) )
+		if ( toRemove.equals( ChatFrame.GCLI_TAB ) )
+		{
 			return false;
+		}
 
 		KoLMessenger.removeChat( toRemove );
 		return true;
 	}
 
-	public void closeOperation( MouseEvent e, int overTabIndex )
+	public void closeOperation( final MouseEvent e, final int overTabIndex )
 	{
-		if ( closeTab( overTabIndex ) )
-			tabs.removeTabAt( overTabIndex );
+		if ( this.closeTab( overTabIndex ) )
+		{
+			this.tabs.removeTabAt( overTabIndex );
+		}
 	}
 
 	/**
-	 * Adds a new tab to represent the given name.  Note that
-	 * this will not shift tab focus; however, if it is the
-	 * first tab added, the name of the contact will be reset.
+	 * Adds a new tab to represent the given name. Note that this will not shift tab focus; however, if it is the first
+	 * tab added, the name of the contact will be reset.
 	 */
 
-	public void addTab( String tabName )
+	public void addTab( final String tabName )
 	{
-		for ( int i = 0; i < tabs.getTabCount(); ++i )
-			if ( tabs.getTitleAt(i).trim().equals( tabName ) )
+		for ( int i = 0; i < this.tabs.getTabCount(); ++i )
+		{
+			if ( this.tabs.getTitleAt( i ).trim().equals( tabName ) )
+			{
 				return;
+			}
+		}
 
 		try
 		{
 			TabAdder add = new TabAdder( tabName );
 
 			if ( SwingUtilities.isEventDispatchThread() )
+			{
 				add.run();
+			}
 			else
+			{
 				SwingUtilities.invokeAndWait( add );
+			}
 		}
 		catch ( Exception e )
 		{
@@ -147,14 +162,16 @@ public class TabbedChatFrame extends ChatFrame implements ChangeListener, CloseL
 		}
 	}
 
-	public void highlightTab( String tabName )
+	public void highlightTab( final String tabName )
 	{
 		if ( tabName == null )
-			return;
-
-		for ( int i = 0; i < tabs.getTabCount(); ++i )
 		{
-			if ( tabName.equals( tabs.getTitleAt(i).trim() ) )
+			return;
+		}
+
+		for ( int i = 0; i < this.tabs.getTabCount(); ++i )
+		{
+			if ( tabName.equals( this.tabs.getTitleAt( i ).trim() ) )
 			{
 				SwingUtilities.invokeLater( new TabHighlighter( i ) );
 				return;
@@ -167,62 +184,81 @@ public class TabbedChatFrame extends ChatFrame implements ChangeListener, CloseL
 		super.dispose();
 		KoLMessenger.dispose();
 
-		if ( tabs != null )
+		if ( this.tabs != null )
 		{
-			if ( tabs instanceof CloseTabbedPane )
-				((CloseTabbedPane)tabs).removeCloseListener( this );
+			if ( this.tabs instanceof CloseTabbedPane )
+			{
+				( (CloseTabbedPane) this.tabs ).removeCloseListener( this );
+			}
 			else
-				((CloseableTabbedPane)tabs).addCloseableTabbedPaneListener( this );
+			{
+				( (CloseableTabbedPane) this.tabs ).addCloseableTabbedPaneListener( this );
+			}
 		}
 
-		instanceExists = false;
+		TabbedChatFrame.instanceExists = false;
 	}
 
-	private class TabAdder implements Runnable
+	private class TabAdder
+		implements Runnable
 	{
-		private String tabName;
+		private final String tabName;
 		private ChatPanel createdPanel;
 
-		private TabAdder( String tabName )
-		{	this.tabName = tabName;
+		private TabAdder( final String tabName )
+		{
+			this.tabName = tabName;
 		}
 
 		public void run()
 		{
-			createdPanel = new ChatPanel( tabName );
+			this.createdPanel = new ChatPanel( this.tabName );
 
 			// Add a little bit of whitespace to make the
 			// chat tab larger and easier to click.
 
-			if ( addGCLI && tabs.getTabCount() > 0 && tabs.getTitleAt( tabs.getTabCount() - 1 ).equals( GCLI_TAB ) )
-				tabs.removeTabAt( tabs.getTabCount() - 1 );
+			if ( TabbedChatFrame.addGCLI && TabbedChatFrame.this.tabs.getTabCount() > 0 && TabbedChatFrame.this.tabs.getTitleAt(
+				TabbedChatFrame.this.tabs.getTabCount() - 1 ).equals( ChatFrame.GCLI_TAB ) )
+			{
+				TabbedChatFrame.this.tabs.removeTabAt( TabbedChatFrame.this.tabs.getTabCount() - 1 );
+			}
 
-			tabs.addTab( tabName, createdPanel );
+			TabbedChatFrame.this.tabs.addTab( this.tabName, this.createdPanel );
 
-			if ( addGCLI )
-				tabs.addTab( GCLI_TAB, commandLineDisplay );
+			if ( TabbedChatFrame.addGCLI )
+			{
+				TabbedChatFrame.this.tabs.addTab( ChatFrame.GCLI_TAB, TabbedChatFrame.this.commandLineDisplay );
+			}
 
-			createdPanel.requestFocus();
+			this.createdPanel.requestFocus();
 		}
 	}
 
-	private class TabHighlighter implements Runnable
+	private class TabHighlighter
+		implements Runnable
 	{
-		private int tabIndex;
+		private final int tabIndex;
 
-		public TabHighlighter( int tabIndex )
-		{	this.tabIndex = tabIndex;
+		public TabHighlighter( final int tabIndex )
+		{
+			this.tabIndex = tabIndex;
 		}
 
 		public void run()
 		{
-			if ( tabs.getSelectedIndex() == tabIndex )
+			if ( TabbedChatFrame.this.tabs.getSelectedIndex() == this.tabIndex )
+			{
 				return;
+			}
 
-			if ( tabs instanceof CloseTabbedPane )
-				((CloseTabbedPane)tabs).highlightTab( tabIndex );
+			if ( TabbedChatFrame.this.tabs instanceof CloseTabbedPane )
+			{
+				( (CloseTabbedPane) TabbedChatFrame.this.tabs ).highlightTab( this.tabIndex );
+			}
 			else
-				((CloseableTabbedPane)tabs).highlightTab( tabIndex );
+			{
+				( (CloseableTabbedPane) TabbedChatFrame.this.tabs ).highlightTab( this.tabIndex );
+			}
 		}
 	}
 }

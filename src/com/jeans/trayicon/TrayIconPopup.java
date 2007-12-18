@@ -45,82 +45,86 @@ import java.util.Vector;
 
 // Class for Tray Icon popup menu (shown when user right clicks Tray Icon)
 // Used for main popup menu and it's submenus
-public class TrayIconPopup implements TrayIconPopupItem {
+public class TrayIconPopup
+	implements TrayIconPopupItem
+{
 
-/**
- * Create main popup menu (use for WindowsTrayIcon.setPopup())
- */
-	public TrayIconPopup() {
+	/**
+	 * Create main popup menu (use for WindowsTrayIcon.setPopup())
+	 */
+	public TrayIconPopup()
+	{
 	}
 
-/**
- * Create sub menu (use for TrayIconPopup.addMenuItem())
- *
- * Param item = the name of the new submenu
- */
-	public TrayIconPopup(String item) {
-		mItem = item;
+	/**
+	 * Create sub menu (use for TrayIconPopup.addMenuItem()) Param item = the name of the new submenu
+	 */
+	public TrayIconPopup( final String item )
+	{
+		this.mItem = item;
 	}
 
-/**
- * Add menu item to popup (sub)menu
- *
- * Param item = the item to add (instance of TrayIconPopup/TrayIconPopupSimpleItem/TrayIconPopupCh..)
- */
-	public void addMenuItem(TrayIconPopupItem item) {
-		mVector.addElement(item);
+	/**
+	 * Add menu item to popup (sub)menu Param item = the item to add (instance of
+	 * TrayIconPopup/TrayIconPopupSimpleItem/TrayIconPopupCh..)
+	 */
+	public void addMenuItem( final TrayIconPopupItem item )
+	{
+		this.mVector.addElement( item );
 	}
 
-/****************************************************************************************************************
- *                                                                                                              *
- * Next section is for inter use only -- or for hackers :O)                                                     *
- *                                                                                                              *
- ****************************************************************************************************************/
+	/*******************************************************************************************************************
+	 * * Next section is for inter use only -- or for hackers :O) * *
+	 ******************************************************************************************************************/
 
 	// Vector containing menu items
 	protected Vector mVector = new Vector();
 	// Name of popup menu (only needed for submenus)
 	protected String mItem;
 
-/**
- * Return submenu depth - used by WindowsTrayIcon.setPopup()/initPopup()
- */
-	public int getNbLevels() {
+	/**
+	 * Return submenu depth - used by WindowsTrayIcon.setPopup()/initPopup()
+	 */
+	public int getNbLevels()
+	{
 		int nb = 0;
-		for (Enumeration elements = mVector.elements(); elements.hasMoreElements(); ) {
-			TrayIconPopupItem item = (TrayIconPopupItem)elements.nextElement();
-			nb = Math.max(nb, item.getNbLevels());
+		for ( Enumeration elements = this.mVector.elements(); elements.hasMoreElements(); )
+		{
+			TrayIconPopupItem item = (TrayIconPopupItem) elements.nextElement();
+			nb = Math.max( nb, item.getNbLevels() );
 		}
 		return nb + 1;
 	}
 
-/**
- * Callback when user selects menu item (find it by comparing menu id's)
- *
- * Param menuId = the id of the selected item
- */
-	public boolean onSelected(int menuId) {
-		for (Enumeration elements = mVector.elements(); elements.hasMoreElements(); ) {
-			TrayIconPopupItem item = (TrayIconPopupItem)elements.nextElement();
-			if (item.onSelected(menuId)) return true;
+	/**
+	 * Callback when user selects menu item (find it by comparing menu id's) Param menuId = the id of the selected item
+	 */
+	public boolean onSelected( final int menuId )
+	{
+		for ( Enumeration elements = this.mVector.elements(); elements.hasMoreElements(); )
+		{
+			TrayIconPopupItem item = (TrayIconPopupItem) elements.nextElement();
+			if ( item.onSelected( menuId ) )
+			{
+				return true;
+			}
 		}
 		return false;
 	}
 
-/**
- * Create menu in native library - used by WindowsTrayIcon.setPopup()
- *
- * Param trayicon = the owner of this menu
- * Param id = the icon's id
- * Param level = the level (submenu depth)
- */
-	public void setTrayIcon(WindowsTrayIcon trayicon, int id, int level) {
+	/**
+	 * Create menu in native library - used by WindowsTrayIcon.setPopup() Param trayicon = the owner of this menu Param
+	 * id = the icon's id Param level = the level (submenu depth)
+	 */
+	public void setTrayIcon( final WindowsTrayIcon trayicon, final int id, final int level )
+	{
 		int mLevel = level + 1;
-		WindowsTrayIcon.subPopup(id, mLevel, mItem, WindowsTrayIcon.POPUP_TYPE_INIT_LEVEL, 0);
-		for (Enumeration elements = mVector.elements(); elements.hasMoreElements(); ) {
-			TrayIconPopupItem item = (TrayIconPopupItem)elements.nextElement();
-			item.setTrayIcon(trayicon, id, mLevel);
+		WindowsTrayIcon.subPopup( id, mLevel, this.mItem, WindowsTrayIcon.POPUP_TYPE_INIT_LEVEL, 0 );
+		for ( Enumeration elements = this.mVector.elements(); elements.hasMoreElements(); )
+		{
+			TrayIconPopupItem item = (TrayIconPopupItem) elements.nextElement();
+			item.setTrayIcon( trayicon, id, mLevel );
 		}
-		WindowsTrayIcon.subPopup(id, mLevel, mItem, WindowsTrayIcon.POPUP_TYPE_DONE_LEVEL, 0);
+		WindowsTrayIcon.subPopup( id, mLevel, this.mItem, WindowsTrayIcon.POPUP_TYPE_DONE_LEVEL, 0 );
 	}
 }

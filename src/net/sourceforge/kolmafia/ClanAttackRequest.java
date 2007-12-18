@@ -38,15 +38,18 @@ import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.SortedListModel;
 
-public class ClanAttackRequest extends KoLRequest implements Comparable
+public class ClanAttackRequest
+	extends KoLRequest
+	implements Comparable
 {
-	private static final Pattern CLANID_PATTERN = Pattern.compile( "name=whichclan value=(\\d+)></td><td><b>([^<]+)</td><td>([\\d]+)</td>" );
+	private static final Pattern CLANID_PATTERN =
+		Pattern.compile( "name=whichclan value=(\\d+)></td><td><b>([^<]+)</td><td>([\\d]+)</td>" );
 	private static final Pattern WAIT_PATTERN = Pattern.compile( "<br>Your clan can attack again in (.*?)<p>" );
 
 	private static final SortedListModel enemyClans = new SortedListModel();
 	private static String nextAttack = null;
 
-	private String name;
+	private final String name;
 
 	public ClanAttackRequest()
 	{
@@ -54,7 +57,7 @@ public class ClanAttackRequest extends KoLRequest implements Comparable
 		this.name = null;
 	}
 
-	private ClanAttackRequest( String id, String name )
+	private ClanAttackRequest( final String id, final String name )
 	{
 		super( "clan_attack.php" );
 		this.addFormField( "whichclan", id );
@@ -67,44 +70,55 @@ public class ClanAttackRequest extends KoLRequest implements Comparable
 		if ( this.getPath().equals( "clan_attack.php" ) )
 		{
 			if ( this.name == null )
+			{
 				KoLmafia.updateDisplay( "Retrieving clan attack state..." );
+			}
 			else
+			{
 				KoLmafia.updateDisplay( "Attacking " + this.name + "..." );
+			}
 		}
 
 		super.run();
 	}
 
 	public static final String getNextAttack()
-	{	return nextAttack == null ? "You may attack right now." : nextAttack;
+	{
+		return ClanAttackRequest.nextAttack == null ? "You may attack right now." : ClanAttackRequest.nextAttack;
 	}
 
 	public static final SortedListModel getEnemyClans()
-	{	return enemyClans;
+	{
+		return ClanAttackRequest.enemyClans;
 	}
 
 	public void processResults()
 	{
 		if ( this.name != null )
+		{
 			return;
+		}
 
-		nextAttack = null;
+		ClanAttackRequest.nextAttack = null;
 
 		if ( this.getPath().equals( "clan_attack.php" ) )
 		{
-			enemyClans.clear();
+			ClanAttackRequest.enemyClans.clear();
 
 			int bagCount = 0;
-			Matcher clanMatcher = CLANID_PATTERN.matcher( this.responseText );
+			Matcher clanMatcher = ClanAttackRequest.CLANID_PATTERN.matcher( this.responseText );
 
 			while ( clanMatcher.find() )
 			{
-				bagCount = Integer.parseInt( clanMatcher.group(3) );
+				bagCount = Integer.parseInt( clanMatcher.group( 3 ) );
 				if ( bagCount == 1 )
-					enemyClans.add( new ClanAttackRequest( clanMatcher.group(1), clanMatcher.group(2) ) );
+				{
+					ClanAttackRequest.enemyClans.add( new ClanAttackRequest(
+						clanMatcher.group( 1 ), clanMatcher.group( 2 ) ) );
+				}
 			}
 
-			if ( enemyClans.isEmpty() )
+			if ( ClanAttackRequest.enemyClans.isEmpty() )
 			{
 				this.constructURLString( "clan_war.php" ).run();
 				return;
@@ -112,37 +126,41 @@ public class ClanAttackRequest extends KoLRequest implements Comparable
 
 			KoLSettings.setUserProperty( "clanAttacksEnabled", "true" );
 
-			if ( enemyClans.getSize() > 0 )
-				enemyClans.setSelectedIndex( RNG.nextInt( enemyClans.getSize() ) );
+			if ( ClanAttackRequest.enemyClans.getSize() > 0 )
+			{
+				ClanAttackRequest.enemyClans.setSelectedIndex( KoLConstants.RNG.nextInt( ClanAttackRequest.enemyClans.getSize() ) );
+			}
 		}
 		else
 		{
-			Matcher nextMatcher = WAIT_PATTERN.matcher( this.responseText );
+			Matcher nextMatcher = ClanAttackRequest.WAIT_PATTERN.matcher( this.responseText );
 			if ( nextMatcher.find() )
 			{
-				nextAttack = "You may attack again in " + nextMatcher.group(1);
+				ClanAttackRequest.nextAttack = "You may attack again in " + nextMatcher.group( 1 );
 				KoLSettings.setUserProperty( "clanAttacksEnabled", "true" );
 			}
 			else
 			{
 				KoLSettings.setUserProperty( "clanAttacksEnabled", "false" );
-				nextAttack = "You do not have the ability to attack.";
+				ClanAttackRequest.nextAttack = "You do not have the ability to attack.";
 			}
 
-			KoLmafia.updateDisplay( nextAttack );
+			KoLmafia.updateDisplay( ClanAttackRequest.nextAttack );
 		}
 	}
 
 	public String toString()
-	{	return this.name;
+	{
+		return this.name;
 	}
 
-	public int compareTo( Object o )
-	{	return o == null || !(o instanceof ClanAttackRequest) ? -1 : this.compareTo( (ClanAttackRequest) o );
+	public int compareTo( final Object o )
+	{
+		return o == null || !( o instanceof ClanAttackRequest ) ? -1 : this.compareTo( (ClanAttackRequest) o );
 	}
 
-	public int compareTo( ClanAttackRequest car )
-	{	return this.name.compareToIgnoreCase( car.name );
+	public int compareTo( final ClanAttackRequest car )
+	{
+		return this.name.compareToIgnoreCase( car.name );
 	}
 }
-

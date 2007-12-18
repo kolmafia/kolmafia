@@ -54,23 +54,23 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 import com.sun.java.forums.TableSorter;
 
 /**
- * An extension of <code>KoLFrame</code> which handles all the clan
- * management functionality of Kingdom of Loathing.
+ * An extension of <code>KoLFrame</code> which handles all the clan management functionality of Kingdom of Loathing.
  */
 
-public class ClanManageFrame extends KoLFrame
+public class ClanManageFrame
+	extends KoLFrame
 {
 	private static final int MOVE_ALL = 2;
 	private static final int MOVE_ALL_BUT = 3;
-	private JTable members;
-	private SnapshotPanel snapshot;
-	private ClanBuffPanel clanBuff;
-	private StoragePanel storing;
-	private WithdrawPanel withdrawal;
-	private DonationPanel donation;
-	private AttackPanel attacks;
-	private WarfarePanel warfare;
-	private MemberSearchPanel search;
+	private final JTable members;
+	private final SnapshotPanel snapshot;
+	private final ClanBuffPanel clanBuff;
+	private final StoragePanel storing;
+	private final WithdrawPanel withdrawal;
+	private final DonationPanel donation;
+	private final AttackPanel attacks;
+	private final WarfarePanel warfare;
+	private final MemberSearchPanel search;
 
 	public ClanManageFrame()
 	{
@@ -116,17 +116,17 @@ public class ClanManageFrame extends KoLFrame
 		this.members.setIntercellSpacing( new Dimension( 5, 5 ) );
 		this.members.setRowHeight( 25 );
 
-		this.members.getColumnModel().getColumn(0).setMinWidth( 30 );
-		this.members.getColumnModel().getColumn(0).setMaxWidth( 30 );
+		this.members.getColumnModel().getColumn( 0 ).setMinWidth( 30 );
+		this.members.getColumnModel().getColumn( 0 ).setMaxWidth( 30 );
 
-		this.members.getColumnModel().getColumn(1).setMinWidth( 120 );
-		this.members.getColumnModel().getColumn(1).setMaxWidth( 120 );
+		this.members.getColumnModel().getColumn( 1 ).setMinWidth( 120 );
+		this.members.getColumnModel().getColumn( 1 ).setMaxWidth( 120 );
 
-		this.members.getColumnModel().getColumn(3).setMinWidth( 120 );
-		this.members.getColumnModel().getColumn(3).setMaxWidth( 120 );
+		this.members.getColumnModel().getColumn( 3 ).setMinWidth( 120 );
+		this.members.getColumnModel().getColumn( 3 ).setMaxWidth( 120 );
 
-		this.members.getColumnModel().getColumn(4).setMinWidth( 45 );
-		this.members.getColumnModel().getColumn(4).setMaxWidth( 45 );
+		this.members.getColumnModel().getColumn( 4 ).setMinWidth( 45 );
+		this.members.getColumnModel().getColumn( 4 ).setMaxWidth( 45 );
 
 		SimpleScrollPane results = new SimpleScrollPane( this.members );
 		JComponentUtilities.setComponentSize( results, 400, 300 );
@@ -146,15 +146,15 @@ public class ClanManageFrame extends KoLFrame
 	}
 
 	/**
-	 * An internal class which represents the panel used for clan
-	 * buffs in the <code>ClanManageFrame</code>.
+	 * An internal class which represents the panel used for clan buffs in the <code>ClanManageFrame</code>.
 	 */
 
-	private class ClanBuffPanel extends LabeledKoLPanel
+	private class ClanBuffPanel
+		extends LabeledKoLPanel
 	{
-		private boolean isBuffing;
-		private JComboBox buffField;
-		private AutoHighlightField countField;
+		private final boolean isBuffing;
+		private final JComboBox buffField;
+		private final AutoHighlightField countField;
 
 		public ClanBuffPanel()
 		{
@@ -164,33 +164,37 @@ public class ClanManageFrame extends KoLFrame
 			this.buffField = new JComboBox( ClanBuffRequest.getRequestList() );
 			this.countField = new AutoHighlightField();
 
-			VerifiableElement [] elements = new VerifiableElement[2];
-			elements[0] = new VerifiableElement( "Clan Buff: ", this.buffField );
-			elements[1] = new VerifiableElement( "# of times: ", this.countField );
+			VerifiableElement[] elements = new VerifiableElement[ 2 ];
+			elements[ 0 ] = new VerifiableElement( "Clan Buff: ", this.buffField );
+			elements[ 1 ] = new VerifiableElement( "# of times: ", this.countField );
 
 			this.setContent( elements );
 		}
 
 		public void actionConfirmed()
-		{	StaticEntity.getClient().makeRequest( (Runnable) this.buffField.getSelectedItem(), getValue( this.countField ) );
+		{
+			StaticEntity.getClient().makeRequest(
+				(Runnable) this.buffField.getSelectedItem(), KoLFrame.getValue( this.countField ) );
 		}
 
 		public void actionCancelled()
 		{
 			if ( this.isBuffing )
-				KoLmafia.updateDisplay( ERROR_STATE, "Purchase attempts cancelled." );
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Purchase attempts cancelled." );
+			}
 		}
 	}
 
 	/**
-	 * An internal class which represents the panel used for clan
-	 * buffs in the <code>ClanManageFrame</code>.
+	 * An internal class which represents the panel used for clan buffs in the <code>ClanManageFrame</code>.
 	 */
 
-	private class AttackPanel extends LabeledKoLPanel
+	private class AttackPanel
+		extends LabeledKoLPanel
 	{
-		private JLabel nextAttack;
-		private MutableComboBox enemyList;
+		private final JLabel nextAttack;
+		private final MutableComboBox enemyList;
 
 		public AttackPanel()
 		{
@@ -199,14 +203,15 @@ public class ClanManageFrame extends KoLFrame
 			this.nextAttack = new JLabel( ClanAttackRequest.getNextAttack() );
 			this.enemyList = new MutableComboBox( ClanAttackRequest.getEnemyClans(), false );
 
-			VerifiableElement [] elements = new VerifiableElement[2];
-			elements[0] = new VerifiableElement( "Victim: ", this.enemyList );
-			elements[1] = new VerifiableElement( " ", this.nextAttack );
+			VerifiableElement[] elements = new VerifiableElement[ 2 ];
+			elements[ 0 ] = new VerifiableElement( "Victim: ", this.enemyList );
+			elements[ 1 ] = new VerifiableElement( " ", this.nextAttack );
 			this.setContent( elements );
 		}
 
 		public void actionConfirmed()
-		{	RequestThread.postRequest( (ClanAttackRequest) this.enemyList.getSelectedItem() );
+		{
+			RequestThread.postRequest( (ClanAttackRequest) this.enemyList.getSelectedItem() );
 		}
 
 		public void actionCancelled()
@@ -216,11 +221,12 @@ public class ClanManageFrame extends KoLFrame
 		}
 	}
 
-	private class WarfarePanel extends LabeledKoLPanel
+	private class WarfarePanel
+		extends LabeledKoLPanel
 	{
-		private AutoHighlightField goodies;
-		private AutoHighlightField oatmeal, recliners;
-		private AutoHighlightField grunts, flyers, archers;
+		private final AutoHighlightField goodies;
+		private final AutoHighlightField oatmeal, recliners;
+		private final AutoHighlightField grunts, flyers, archers;
 
 		public WarfarePanel()
 		{
@@ -233,13 +239,13 @@ public class ClanManageFrame extends KoLFrame
 			this.flyers = new AutoHighlightField();
 			this.archers = new AutoHighlightField();
 
-			VerifiableElement [] elements = new VerifiableElement[6];
-			elements[0] = new VerifiableElement( "Goodies: ", this.goodies );
-			elements[1] = new VerifiableElement( "Oatmeal: ", this.oatmeal );
-			elements[2] = new VerifiableElement( "Recliners: ", this.recliners );
-			elements[3] = new VerifiableElement( "Ground Troops: ", this.grunts );
-			elements[4] = new VerifiableElement( "Airborne Troops: ", this.flyers );
-			elements[5] = new VerifiableElement( "La-Z-Archers: ", this.archers );
+			VerifiableElement[] elements = new VerifiableElement[ 6 ];
+			elements[ 0 ] = new VerifiableElement( "Goodies: ", this.goodies );
+			elements[ 1 ] = new VerifiableElement( "Oatmeal: ", this.oatmeal );
+			elements[ 2 ] = new VerifiableElement( "Recliners: ", this.recliners );
+			elements[ 3 ] = new VerifiableElement( "Ground Troops: ", this.grunts );
+			elements[ 4 ] = new VerifiableElement( "Airborne Troops: ", this.flyers );
+			elements[ 5 ] = new VerifiableElement( "La-Z-Archers: ", this.archers );
 
 			this.setContent( elements );
 		}
@@ -247,121 +253,143 @@ public class ClanManageFrame extends KoLFrame
 		public void actionConfirmed()
 		{
 			RequestThread.postRequest( new ClanMaterialsRequest(
-				getValue( this.goodies ), getValue( this.oatmeal ), getValue( this.recliners ),
-				getValue( this.grunts ), getValue( this.flyers ), getValue( this.archers ) ) );
+				KoLFrame.getValue( this.goodies ), KoLFrame.getValue( this.oatmeal ),
+				KoLFrame.getValue( this.recliners ), KoLFrame.getValue( this.grunts ),
+				KoLFrame.getValue( this.flyers ), KoLFrame.getValue( this.archers ) ) );
 		}
 
 		public void actionCancelled()
 		{
-			int totalValue = getValue( this.goodies ) * 1000 + getValue( this.oatmeal ) * 3 + getValue( this.recliners ) * 1500 +
-				getValue( this.grunts ) * 300 + getValue( this.flyers ) * 500 + getValue( this.archers ) * 500;
+			int totalValue =
+				KoLFrame.getValue( this.goodies ) * 1000 + KoLFrame.getValue( this.oatmeal ) * 3 + KoLFrame.getValue( this.recliners ) * 1500 + KoLFrame.getValue( this.grunts ) * 300 + KoLFrame.getValue( this.flyers ) * 500 + KoLFrame.getValue( this.archers ) * 500;
 
-			alert( "This purchase will cost " + totalValue + " meat" );
+			KoLFrame.alert( "This purchase will cost " + totalValue + " meat" );
 		}
 	}
 
 	/**
-	 * An internal class which represents the panel used for donations to
-	 * the clan coffer.
+	 * An internal class which represents the panel used for donations to the clan coffer.
 	 */
 
-	private class DonationPanel extends LabeledKoLPanel
+	private class DonationPanel
+		extends LabeledKoLPanel
 	{
-		private AutoHighlightField amountField;
+		private final AutoHighlightField amountField;
 
 		public DonationPanel()
 		{
 			super( "Fund Your Clan", "donate meat", "loot clan", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
 			this.amountField = new AutoHighlightField();
-			VerifiableElement [] elements = new VerifiableElement[1];
-			elements[0] = new VerifiableElement( "Amount: ", this.amountField );
+			VerifiableElement[] elements = new VerifiableElement[ 1 ];
+			elements[ 0 ] = new VerifiableElement( "Amount: ", this.amountField );
 			this.setContent( elements );
 		}
 
 		public void actionConfirmed()
-		{	RequestThread.postRequest( new ClanStashRequest( getValue( this.amountField ) ) );
+		{
+			RequestThread.postRequest( new ClanStashRequest( KoLFrame.getValue( this.amountField ) ) );
 		}
 
 		public void actionCancelled()
-		{	alert( "The Hermit beat you to it.  ARGH!" );
+		{
+			KoLFrame.alert( "The Hermit beat you to it.  ARGH!" );
 		}
 	}
 
-	private class StoragePanel extends ItemManagePanel
+	private class StoragePanel
+		extends ItemManagePanel
 	{
 		public StoragePanel()
 		{
-			super( inventory );
-			this.setButtons( new ActionListener [] { new StorageListener(), new RequestButton( "refresh", new EquipmentRequest( EquipmentRequest.CLOSET ) ) } );
+			super( KoLConstants.inventory );
+			this.setButtons( new ActionListener[] { new StorageListener(), new RequestButton(
+				"refresh", new EquipmentRequest( EquipmentRequest.CLOSET ) ) } );
 		}
 
-		private class StorageListener extends ThreadedListener
+		private class StorageListener
+			extends ThreadedListener
 		{
 			public void run()
 			{
-				Object [] items = StoragePanel.this.getDesiredItems( "Deposit" );
+				Object[] items = StoragePanel.this.getDesiredItems( "Deposit" );
 				if ( items.length == 0 )
+				{
 					return;
+				}
 
 				RequestThread.postRequest( new ClanStashRequest( items, ClanStashRequest.ITEMS_TO_STASH ) );
 			}
 
 			public String toString()
-			{	return "add items";
+			{
+				return "add items";
 			}
 		}
 	}
 
 	/**
-	 * Internal class used to handle everything related to
-	 * placing items into the stash.
+	 * Internal class used to handle everything related to placing items into the stash.
 	 */
 
-	private class WithdrawPanel extends ItemManagePanel
+	private class WithdrawPanel
+		extends ItemManagePanel
 	{
 		public WithdrawPanel()
 		{
 			super( ClanManager.getStash() );
 
-			this.setButtons( new ActionListener [] { new WithdrawListener( MOVE_ALL ), new WithdrawListener( MOVE_ALL_BUT ), new RequestButton( "refresh", new ClanStashRequest() ) } );
+			this.setButtons( new ActionListener[] { new WithdrawListener( ClanManageFrame.MOVE_ALL ), new WithdrawListener(
+				ClanManageFrame.MOVE_ALL_BUT ), new RequestButton( "refresh", new ClanStashRequest() ) } );
 			this.elementList.setCellRenderer( AdventureResult.getDefaultRenderer() );
 		}
 
-		private class WithdrawListener extends ThreadedListener
+		private class WithdrawListener
+			extends ThreadedListener
 		{
-			private int moveType;
+			private final int moveType;
 
-			public WithdrawListener( int moveType )
-			{	this.moveType = moveType;
+			public WithdrawListener( final int moveType )
+			{
+				this.moveType = moveType;
 			}
 
 			public void run()
 			{
 				if ( !KoLCharacter.canInteract() )
+				{
 					return;
+				}
 
-				Object [] items;
+				Object[] items;
 
-				if ( this.moveType == MOVE_ALL_BUT )
+				if ( this.moveType == ClanManageFrame.MOVE_ALL_BUT )
 				{
 					items = WithdrawPanel.this.elementList.getSelectedValues();
 					if ( items.length == 0 )
+					{
 						items = WithdrawPanel.this.elementModel.toArray();
+					}
 
 					if ( items.length == 0 )
+					{
 						return;
+					}
 
 					AdventureResult currentItem;
-					int quantity = getQuantity( "Maximum number of each item allowed in the stash?", Integer.MAX_VALUE, 100 );
+					int quantity =
+						KoLFrame.getQuantity(
+							"Maximum number of each item allowed in the stash?", Integer.MAX_VALUE, 100 );
 
 					if ( quantity == 0 )
+					{
 						return;
+					}
 
 					for ( int i = 0; i < items.length; ++i )
 					{
-						currentItem = (AdventureResult) items[i];
-						items[i] = currentItem.getInstance( Math.max( 0, currentItem.getCount() - quantity ) );
+						currentItem = (AdventureResult) items[ i ];
+						items[ i ] = currentItem.getInstance( Math.max( 0, currentItem.getCount() - quantity ) );
 					}
 				}
 				else
@@ -370,22 +398,26 @@ public class ClanManageFrame extends KoLFrame
 				}
 
 				if ( items == null || items.length == 0 )
+				{
 					return;
+				}
 
 				RequestThread.postRequest( new ClanStashRequest( items, ClanStashRequest.STASH_TO_ITEMS ) );
 			}
 
 			public String toString()
-			{	return this.moveType == MOVE_ALL_BUT ? "cap stash" : "take items";
+			{
+				return this.moveType == ClanManageFrame.MOVE_ALL_BUT ? "cap stash" : "take items";
 			}
 		}
 	}
 
-	private class MemberSearchPanel extends KoLPanel
+	private class MemberSearchPanel
+		extends KoLPanel
 	{
-		private JComboBox parameterSelect;
-		private JComboBox matchSelect;
-		private AutoHighlightField valueField;
+		private final JComboBox parameterSelect;
+		private final JComboBox matchSelect;
+		private final AutoHighlightField valueField;
 
 		public MemberSearchPanel()
 		{
@@ -393,7 +425,9 @@ public class ClanManageFrame extends KoLFrame
 
 			this.parameterSelect = new JComboBox();
 			for ( int i = 0; i < ClanSnapshotTable.FILTER_NAMES.length; ++i )
-				this.parameterSelect.addItem( ClanSnapshotTable.FILTER_NAMES[i] );
+			{
+				this.parameterSelect.addItem( ClanSnapshotTable.FILTER_NAMES[ i ] );
+			}
 
 			this.matchSelect = new JComboBox();
 			this.matchSelect.addItem( "Less than..." );
@@ -402,17 +436,19 @@ public class ClanManageFrame extends KoLFrame
 
 			this.valueField = new AutoHighlightField();
 
-			VerifiableElement [] elements = new VerifiableElement[3];
-			elements[0] = new VerifiableElement( "Parameter: ", this.parameterSelect );
-			elements[1] = new VerifiableElement( "Constraint: ", this.matchSelect );
-			elements[2] = new VerifiableElement( "Value:", this.valueField );
+			VerifiableElement[] elements = new VerifiableElement[ 3 ];
+			elements[ 0 ] = new VerifiableElement( "Parameter: ", this.parameterSelect );
+			elements[ 1 ] = new VerifiableElement( "Constraint: ", this.matchSelect );
+			elements[ 2 ] = new VerifiableElement( "Value:", this.valueField );
 
 			this.setContent( elements, true );
 		}
 
 		public void actionConfirmed()
 		{
-			ClanManager.applyFilter( this.matchSelect.getSelectedIndex() - 1, this.parameterSelect.getSelectedIndex(), this.valueField.getText() );
+			ClanManager.applyFilter(
+				this.matchSelect.getSelectedIndex() - 1, this.parameterSelect.getSelectedIndex(),
+				this.valueField.getText() );
 			KoLmafia.updateDisplay( "Search results retrieved." );
 
 			RequestThread.enableDisplayIfSequenceComplete();
@@ -421,7 +457,9 @@ public class ClanManageFrame extends KoLFrame
 		public void actionCancelled()
 		{
 			if ( !ClanManageFrame.this.finalizeTable( ClanManageFrame.this.members ) )
+			{
 				return;
+			}
 
 			KoLmafia.updateDisplay( "Determining changes..." );
 
@@ -431,31 +469,36 @@ public class ClanManageFrame extends KoLFrame
 
 			for ( int i = 0; i < ClanManageFrame.this.members.getRowCount(); ++i )
 			{
-				if ( ((Boolean)ClanManageFrame.this.members.getValueAt( i, 4 )).booleanValue() )
+				if ( ( (Boolean) ClanManageFrame.this.members.getValueAt( i, 4 ) ).booleanValue() )
+				{
 					boots.add( ClanManageFrame.this.members.getValueAt( i, 1 ) );
+				}
 
 				titleChange.add( ClanManageFrame.this.members.getValueAt( i, 1 ) );
 				newTitles.add( ClanManageFrame.this.members.getValueAt( i, 2 ) );
 			}
 
 			KoLmafia.updateDisplay( "Applying changes..." );
-			RequestThread.postRequest( new ClanMembersRequest( titleChange.toArray(), newTitles.toArray(), boots.toArray() ) );
+			RequestThread.postRequest( new ClanMembersRequest(
+				titleChange.toArray(), newTitles.toArray(), boots.toArray() ) );
 			KoLmafia.updateDisplay( "Changes have been applied." );
 
 			RequestThread.enableDisplayIfSequenceComplete();
 		}
 	}
 
-	private class MemberTableModel extends ListWrapperTableModel
+	private class MemberTableModel
+		extends ListWrapperTableModel
 	{
 		public MemberTableModel()
 		{
-			super( new String [] { " ", "Name", "Clan Title", "Total Karma", "Boot" },
-				new Class [] { JButton.class, String.class, String.class, Integer.class, Boolean.class },
-				new boolean [] { false, false, true, false, true }, ClanSnapshotTable.getFilteredList() );
+			super(
+				new String[] { " ", "Name", "Clan Title", "Total Karma", "Boot" },
+				new Class[] { JButton.class, String.class, String.class, Integer.class, Boolean.class },
+				new boolean[] { false, false, true, false, true }, ClanSnapshotTable.getFilteredList() );
 		}
 
-		public Vector constructVector( Object o )
+		public Vector constructVector( final Object o )
 		{
 			ProfileRequest p = (ProfileRequest) o;
 
@@ -474,39 +517,41 @@ public class ClanManageFrame extends KoLFrame
 		}
 	}
 
-	private class ShowProfileButton extends NestedInsideTableButton
+	private class ShowProfileButton
+		extends NestedInsideTableButton
 	{
-		private ProfileRequest profile;
+		private final ProfileRequest profile;
 
-		public ShowProfileButton( ProfileRequest profile )
+		public ShowProfileButton( final ProfileRequest profile )
 		{
 			super( JComponentUtilities.getImage( "icon_warning_sml.gif" ) );
 			this.profile = profile;
 		}
 
-		public void mouseReleased( MouseEvent e )
+		public void mouseReleased( final MouseEvent e )
 		{
-			Object [] parameters = new Object[1];
-			parameters[0] = this.profile;
-			createDisplay( ProfileFrame.class, parameters );
+			Object[] parameters = new Object[ 1 ];
+			parameters[ 0 ] = this.profile;
+			KoLFrame.createDisplay( ProfileFrame.class, parameters );
 		}
 	}
 
-	private class SnapshotPanel extends LabeledKoLPanel
+	private class SnapshotPanel
+		extends LabeledKoLPanel
 	{
-		private AutoHighlightField mostAscensionsBoardSizeField;
-		private AutoHighlightField mainBoardSizeField;
-		private AutoHighlightField classBoardSizeField;
-		private AutoHighlightField maxAgeField;
+		private final AutoHighlightField mostAscensionsBoardSizeField;
+		private final AutoHighlightField mainBoardSizeField;
+		private final AutoHighlightField classBoardSizeField;
+		private final AutoHighlightField maxAgeField;
 
-		private JCheckBox playerMoreThanOnceOption;
-		private JCheckBox localProfileOption;
+		private final JCheckBox playerMoreThanOnceOption;
+		private final JCheckBox localProfileOption;
 
 		public SnapshotPanel()
 		{
 			super( "Clan Snapshot", "snapshot", "activity log", new Dimension( 250, 20 ), new Dimension( 50, 20 ) );
 
-			VerifiableElement [] elements = new VerifiableElement[ 7 ];
+			VerifiableElement[] elements = new VerifiableElement[ 7 ];
 
 			this.mostAscensionsBoardSizeField = new AutoHighlightField( "20" );
 			this.mainBoardSizeField = new AutoHighlightField( "10" );
@@ -516,13 +561,13 @@ public class ClanManageFrame extends KoLFrame
 			this.playerMoreThanOnceOption = new JCheckBox();
 			this.localProfileOption = new JCheckBox();
 
-			elements[0] = new VerifiableElement( "Most Ascensions Board Size:  ", this.mostAscensionsBoardSizeField );
-			elements[1] = new VerifiableElement( "Fastest Ascensions Board Size:  ", this.mainBoardSizeField );
-			elements[2] = new VerifiableElement( "Class Breakdown Board Size:  ", this.classBoardSizeField );
-			elements[3] = new VerifiableElement( "Maximum Ascension Age (in days):  ", this.maxAgeField );
-			elements[4] = new VerifiableElement();
-			elements[5] = new VerifiableElement( "Add Internal Profile Links:  ", this.localProfileOption );
-			elements[6] = new VerifiableElement( "Allow Multiple Appearances:  ", this.playerMoreThanOnceOption );
+			elements[ 0 ] = new VerifiableElement( "Most Ascensions Board Size:  ", this.mostAscensionsBoardSizeField );
+			elements[ 1 ] = new VerifiableElement( "Fastest Ascensions Board Size:  ", this.mainBoardSizeField );
+			elements[ 2 ] = new VerifiableElement( "Class Breakdown Board Size:  ", this.classBoardSizeField );
+			elements[ 3 ] = new VerifiableElement( "Maximum Ascension Age (in days):  ", this.maxAgeField );
+			elements[ 4 ] = new VerifiableElement();
+			elements[ 5 ] = new VerifiableElement( "Add Internal Profile Links:  ", this.localProfileOption );
+			elements[ 6 ] = new VerifiableElement( "Allow Multiple Appearances:  ", this.playerMoreThanOnceOption );
 
 			this.setContent( elements, true );
 		}
@@ -532,10 +577,10 @@ public class ClanManageFrame extends KoLFrame
 			// Now that you've got everything, go ahead and
 			// generate the snapshot.
 
-			int mostAscensionsBoardSize = getValue( this.mostAscensionsBoardSizeField, Integer.MAX_VALUE );
-			int mainBoardSize = getValue( this.mainBoardSizeField, Integer.MAX_VALUE );
-			int classBoardSize = getValue( this.classBoardSizeField, Integer.MAX_VALUE );
-			int maxAge = getValue( this.maxAgeField, Integer.MAX_VALUE );
+			int mostAscensionsBoardSize = KoLFrame.getValue( this.mostAscensionsBoardSizeField, Integer.MAX_VALUE );
+			int mainBoardSize = KoLFrame.getValue( this.mainBoardSizeField, Integer.MAX_VALUE );
+			int classBoardSize = KoLFrame.getValue( this.classBoardSizeField, Integer.MAX_VALUE );
+			int maxAge = KoLFrame.getValue( this.maxAgeField, Integer.MAX_VALUE );
 
 			boolean playerMoreThanOnce = this.playerMoreThanOnceOption.isSelected();
 			boolean localProfileLink = this.localProfileOption.isSelected();
@@ -543,11 +588,13 @@ public class ClanManageFrame extends KoLFrame
 			// Now that you've got everything, go ahead and
 			// generate the snapshot.
 
-			ClanManager.takeSnapshot( mostAscensionsBoardSize, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce, localProfileLink );
+			ClanManager.takeSnapshot(
+				mostAscensionsBoardSize, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce, localProfileLink );
 		}
 
 		public void actionCancelled()
-		{	ClanManager.saveStashLog();
+		{
+			ClanManager.saveStashLog();
 		}
 	}
 }

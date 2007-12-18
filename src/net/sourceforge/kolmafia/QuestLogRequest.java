@@ -33,16 +33,19 @@
 
 package net.sourceforge.kolmafia;
 
-public class QuestLogRequest extends KoLRequest
+public class QuestLogRequest
+	extends KoLRequest
 {
 	private static final String GALAKTIK = "What's Up, Doc?";
 	private static final String CITADEL = "White Citadel";
 
-	private static final String BLACK_MARKET_STRING = "You've picked up your father's diary, and things just got a whole lot more complicated. Oh dear.";
+	private static final String BLACK_MARKET_STRING =
+		"You've picked up your father's diary, and things just got a whole lot more complicated. Oh dear.";
 	private static final String MACGUFFIN = "Quest for the Holy MacGuffin";
 
 	private static final String ISLAND_WAR = "Make War, Not...";
-	private static final String ISLAND_WAR_STRING = "You've managed to get the war between the hippies and frat boys started, and now the Council wants you to finish it.";
+	private static final String ISLAND_WAR_STRING =
+		"You've managed to get the war between the hippies and frat boys started, and now the Council wants you to finish it.";
 
 	private static String started = "";
 	private static String finished = "";
@@ -53,83 +56,98 @@ public class QuestLogRequest extends KoLRequest
 	private static boolean hippyStoreAvailable = false;
 
 	public QuestLogRequest()
-	{	super( "questlog.php" );
+	{
+		super( "questlog.php" );
 	}
 
-	private static final boolean startedQuest( String quest )
-	{	return started.indexOf( quest ) != -1;
+	private static final boolean startedQuest( final String quest )
+	{
+		return QuestLogRequest.started.indexOf( quest ) != -1;
 	}
 
-	private static final boolean finishedQuest( String quest )
-	{	return finished.indexOf( quest ) != -1;
+	private static final boolean finishedQuest( final String quest )
+	{
+		return QuestLogRequest.finished.indexOf( quest ) != -1;
 	}
 
 	public static final boolean galaktikCuresAvailable()
-	{	return galaktikCuresAvailable;
+	{
+		return QuestLogRequest.galaktikCuresAvailable;
 	}
 
 	public static final boolean isWhiteCitadelAvailable()
-	{	return whiteCitadelAvailable;
+	{
+		return QuestLogRequest.whiteCitadelAvailable;
 	}
 
 	public static final boolean isBlackMarketAvailable()
-	{	return blackMarketAvailable;
+	{
+		return QuestLogRequest.blackMarketAvailable;
 	}
 
 	public static final void setBlackMarketAvailable()
-	{	blackMarketAvailable = true;
+	{
+		QuestLogRequest.blackMarketAvailable = true;
 	}
 
 	public static final boolean isHippyStoreAvailable()
-	{	return hippyStoreAvailable;
+	{
+		return QuestLogRequest.hippyStoreAvailable;
 	}
 
 	public static final void setHippyStoreUnavailable()
-	{	hippyStoreAvailable = false;
+	{
+		QuestLogRequest.hippyStoreAvailable = false;
 	}
 
 	public void run()
 	{
-		addFormField( "which", "1" );
+		this.addFormField( "which", "1" );
 		super.run();
-		registerQuests( false, this.getURLString(), this.responseText );
+		QuestLogRequest.registerQuests( false, this.getURLString(), this.responseText );
 
-		addFormField( "which", "2" );
+		this.addFormField( "which", "2" );
 		super.run();
-		registerQuests( false, this.getURLString(), this.responseText );
+		QuestLogRequest.registerQuests( false, this.getURLString(), this.responseText );
 
-		blackMarketAvailable = startedQuest( BLACK_MARKET_STRING ) || finishedQuest( MACGUFFIN );
-		hippyStoreAvailable = !startedQuest( ISLAND_WAR_STRING ) || finishedQuest( ISLAND_WAR );
+		QuestLogRequest.blackMarketAvailable =
+			QuestLogRequest.startedQuest( QuestLogRequest.BLACK_MARKET_STRING ) || QuestLogRequest.finishedQuest( QuestLogRequest.MACGUFFIN );
+		QuestLogRequest.hippyStoreAvailable =
+			!QuestLogRequest.startedQuest( QuestLogRequest.ISLAND_WAR_STRING ) || QuestLogRequest.finishedQuest( QuestLogRequest.ISLAND_WAR );
 	}
 
 	protected boolean retryOnTimeout()
-	{	return true;
+	{
+		return true;
 	}
 
-	public static final void registerQuests( boolean isExternal, String urlString, String responseText )
+	public static final void registerQuests( final boolean isExternal, final String urlString, final String responseText )
 	{
 		if ( urlString.indexOf( "which=1" ) != -1 )
 		{
-			started = responseText;
+			QuestLogRequest.started = responseText;
 
 			if ( isExternal )
 			{
-				blackMarketAvailable |= startedQuest( BLACK_MARKET_STRING );
-				hippyStoreAvailable &= !startedQuest( ISLAND_WAR_STRING );
+				QuestLogRequest.blackMarketAvailable |=
+					QuestLogRequest.startedQuest( QuestLogRequest.BLACK_MARKET_STRING );
+				QuestLogRequest.hippyStoreAvailable &=
+					!QuestLogRequest.startedQuest( QuestLogRequest.ISLAND_WAR_STRING );
 			}
 		}
 
 		if ( urlString.indexOf( "which=2" ) != -1 )
 		{
-			finished = responseText;
+			QuestLogRequest.finished = responseText;
 
-			galaktikCuresAvailable = finishedQuest( GALAKTIK );
-			whiteCitadelAvailable = finishedQuest( CITADEL );
+			QuestLogRequest.galaktikCuresAvailable = QuestLogRequest.finishedQuest( QuestLogRequest.GALAKTIK );
+			QuestLogRequest.whiteCitadelAvailable = QuestLogRequest.finishedQuest( QuestLogRequest.CITADEL );
 
 			if ( isExternal )
 			{
-				blackMarketAvailable |= finishedQuest( BLACK_MARKET_STRING );
-				hippyStoreAvailable |= finishedQuest( ISLAND_WAR );
+				QuestLogRequest.blackMarketAvailable |=
+					QuestLogRequest.finishedQuest( QuestLogRequest.BLACK_MARKET_STRING );
+				QuestLogRequest.hippyStoreAvailable |= QuestLogRequest.finishedQuest( QuestLogRequest.ISLAND_WAR );
 			}
 		}
 	}

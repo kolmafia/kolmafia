@@ -38,24 +38,26 @@ import javax.swing.SwingUtilities;
 import net.sourceforge.foxtrot.Job;
 import net.sourceforge.foxtrot.Worker;
 
-public abstract class RequestThread implements KoLConstants
+public abstract class RequestThread
+	implements KoLConstants
 {
 	private static int sequenceCount = 0;
 	private static final OneSecondDelay ONE_SECOND_DELAY = new OneSecondDelay();
 
 	/**
-	 * Posts a single request one time without forcing concurrency.
-	 * The display will be enabled if there is no sequence.
+	 * Posts a single request one time without forcing concurrency. The display will be enabled if there is no sequence.
 	 */
 
-	public static final void postRequest( KoLRequest request )
+	public static final void postRequest( final KoLRequest request )
 	{
 		if ( request == null )
+		{
 			return;
+		}
 
 		try
 		{
-			executeRequest( request );
+			RequestThread.executeRequest( request );
 		}
 		catch ( Exception e )
 		{
@@ -63,46 +65,58 @@ public abstract class RequestThread implements KoLConstants
 		}
 	}
 
-	public static final void postRequest( KoLAdventure request )
+	public static final void postRequest( final KoLAdventure request )
 	{
 		if ( request == null )
+		{
 			return;
+		}
 
 		KoLmafia.forceContinue();
-		++sequenceCount;
+		++RequestThread.sequenceCount;
 
 		try
 		{
 			if ( !SwingUtilities.isEventDispatchThread() )
+			{
 				request.run();
+			}
 			else
+			{
 				Worker.post( request );
+			}
 		}
 		catch ( Exception e )
 		{
 			StaticEntity.printStackTrace( e );
 		}
 
-		--sequenceCount;
+		--RequestThread.sequenceCount;
 
-		if ( enableDisplayIfSequenceComplete() )
+		if ( RequestThread.enableDisplayIfSequenceComplete() )
+		{
 			SystemTrayFrame.showBalloon( "Requests complete." );
+		}
 	}
 
 	/**
-	 * Posts a single request one time possibly forcing concurrency.
-	 * The display will be enabled if there is no sequence.
+	 * Posts a single request one time possibly forcing concurrency. The display will be enabled if there is no
+	 * sequence.
 	 */
 
-	public static final void executeRequest( KoLRequest request )
+	public static final void executeRequest( final KoLRequest request )
 	{
 		if ( request == null )
+		{
 			return;
+		}
 
-		if ( sequenceCount == 0 && !request.hasNoResult() )
+		if ( RequestThread.sequenceCount == 0 && !request.hasNoResult() )
+		{
 			KoLmafia.forceContinue();
+		}
 
-		++sequenceCount;
+		++RequestThread.sequenceCount;
 
 		// If you're not in the event dispatch thread, you can run
 		// without posting to a separate thread.
@@ -110,25 +124,31 @@ public abstract class RequestThread implements KoLConstants
 		try
 		{
 			if ( !SwingUtilities.isEventDispatchThread() )
+			{
 				request.run();
+			}
 			else
+			{
 				Worker.post( request );
+			}
 		}
 		catch ( Exception e )
 		{
 			StaticEntity.printStackTrace( e );
 		}
 
-		--sequenceCount;
-		enableDisplayIfSequenceComplete();
+		--RequestThread.sequenceCount;
+		RequestThread.enableDisplayIfSequenceComplete();
 	}
 
-	public static final void postRequest( Runnable request )
+	public static final void postRequest( final Runnable request )
 	{
-		if ( sequenceCount == 0 )
+		if ( RequestThread.sequenceCount == 0 )
+		{
 			KoLmafia.forceContinue();
+		}
 
-		++sequenceCount;
+		++RequestThread.sequenceCount;
 
 		// If you're not in the event dispatch thread, you can run
 		// without posting to a separate thread.
@@ -136,40 +156,50 @@ public abstract class RequestThread implements KoLConstants
 		try
 		{
 			if ( !SwingUtilities.isEventDispatchThread() )
+			{
 				request.run();
+			}
 			else
+			{
 				Worker.post( new RunnableWrapper( request ) );
+			}
 		}
 		catch ( Exception e )
 		{
 			StaticEntity.printStackTrace( e );
 		}
 
-		--sequenceCount;
-		enableDisplayIfSequenceComplete();
+		--RequestThread.sequenceCount;
+		RequestThread.enableDisplayIfSequenceComplete();
 	}
 
 	public static final void openRequestSequence()
 	{
-		if ( sequenceCount == 0 )
+		if ( RequestThread.sequenceCount == 0 )
+		{
 			KoLmafia.forceContinue();
+		}
 
-		++sequenceCount;
+		++RequestThread.sequenceCount;
 	}
 
 	public static final void closeRequestSequence()
 	{
-		if ( sequenceCount <= 0 )
+		if ( RequestThread.sequenceCount <= 0 )
+		{
 			return;
+		}
 
-		--sequenceCount;
-		enableDisplayIfSequenceComplete();
+		--RequestThread.sequenceCount;
+		RequestThread.enableDisplayIfSequenceComplete();
 	}
 
 	public static final boolean enableDisplayIfSequenceComplete()
 	{
-		if ( sequenceCount != 0 )
+		if ( RequestThread.sequenceCount != 0 )
+		{
 			return false;
+		}
 
 		if ( KoLmafia.getLastMessage().endsWith( "..." ) )
 		{
@@ -178,20 +208,21 @@ public abstract class RequestThread implements KoLConstants
 		}
 
 		if ( KoLmafia.permitsContinue() || KoLmafia.refusesContinue() )
+		{
 			KoLmafia.enableDisplay();
+		}
 
 		return true;
 	}
 
 	/**
-	 * Declare world peace.  This causes all pending requests and queued
-	 * commands to be cleared, along with all currently running requests
-	 * to be notified that they should stop as soon as possible.
+	 * Declare world peace. This causes all pending requests and queued commands to be cleared, along with all currently
+	 * running requests to be notified that they should stop as soon as possible.
 	 */
 
 	public static final void declareWorldPeace()
 	{
-		KoLmafia.updateDisplay( ABORT_STATE, "KoLmafia declares world peace." );
+		KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "KoLmafia declares world peace." );
 	}
 
 	public static final void waitOneSecond()
@@ -199,9 +230,13 @@ public abstract class RequestThread implements KoLConstants
 		try
 		{
 			if ( SwingUtilities.isEventDispatchThread() )
-				Worker.post( ONE_SECOND_DELAY );
+			{
+				Worker.post( RequestThread.ONE_SECOND_DELAY );
+			}
 			else
-				ONE_SECOND_DELAY.run();
+			{
+				RequestThread.ONE_SECOND_DELAY.run();
+			}
 		}
 		catch ( Exception e )
 		{
@@ -209,25 +244,31 @@ public abstract class RequestThread implements KoLConstants
 		}
 	}
 
-	private static class RunnableWrapper extends Job
+	private static class RunnableWrapper
+		extends Job
 	{
-		private Runnable wrapped;
+		private final Runnable wrapped;
 
-		public RunnableWrapper( Runnable wrapped )
-		{	this.wrapped = wrapped;
+		public RunnableWrapper( final Runnable wrapped )
+		{
+			this.wrapped = wrapped;
 		}
 
 		public void run()
-		{	this.wrapped.run();
+		{
+			this.wrapped.run();
 		}
 	}
 
-	private static class OneSecondDelay extends Job
+	private static class OneSecondDelay
+		extends Job
 	{
 		public void run()
 		{
 			if ( KoLmafia.refusesContinue() )
+			{
 				return;
+			}
 
 			KoLRequest.delay( 1000 );
 		}

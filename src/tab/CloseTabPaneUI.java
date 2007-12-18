@@ -74,14 +74,16 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
  * UI for <code>CloseAndMaxTabbedPane</code>.
  * <p>
  * Credits to:
- *
+ * 
  * @author Amy Fowler
  * @author Philip Milne
  * @author Steve Wilson
  * @author Tom Santos
  * @author Dave Moore
  */
-public class CloseTabPaneUI extends BasicTabbedPaneUI {
+public class CloseTabPaneUI
+	extends BasicTabbedPaneUI
+{
 
 	// Instance variables initialized at installation
 
@@ -93,8 +95,8 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 	private Hashtable mnemonicToIndexMap;
 
 	/**
-	 * InputMap used for mnemonics. Only non-null if the JTabbedPane has
-	 * mnemonics associated with it. Lazily created in initMnemonics.
+	 * InputMap used for mnemonics. Only non-null if the JTabbedPane has mnemonics associated with it. Lazily created in
+	 * initMnemonics.
 	 */
 	private InputMap mnemonicInputMap;
 
@@ -124,402 +126,467 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 
 	static
 	{
-		try {
-            closeRedImgI = ImageIO.read( JComponentUtilities.getResource("xred.gif") );
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
+		try
+		{
+			CloseTabPaneUI.closeRedImgI = ImageIO.read( JComponentUtilities.getResource( "xred.gif" ) );
+		}
+		catch ( IOException e1 )
+		{
+			e1.printStackTrace();
+		}
 
-		closeRedImgB = new BufferedImage(BUTTONSIZE, BUTTONSIZE, BufferedImage.TYPE_INT_ARGB);
+		CloseTabPaneUI.closeRedImgB =
+			new BufferedImage( CloseTabPaneUI.BUTTONSIZE, CloseTabPaneUI.BUTTONSIZE, BufferedImage.TYPE_INT_ARGB );
 
-		try {
-            closeGrayImgI = ImageIO.read( JComponentUtilities.getResource("xgray.gif") );
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
+		try
+		{
+			CloseTabPaneUI.closeGrayImgI = ImageIO.read( JComponentUtilities.getResource( "xgray.gif" ) );
+		}
+		catch ( IOException e1 )
+		{
+			e1.printStackTrace();
+		}
 
-		closeGrayImgB = new BufferedImage(BUTTONSIZE, BUTTONSIZE, BufferedImage.TYPE_INT_ARGB);
+		CloseTabPaneUI.closeGrayImgB =
+			new BufferedImage( CloseTabPaneUI.BUTTONSIZE, CloseTabPaneUI.BUTTONSIZE, BufferedImage.TYPE_INT_ARGB );
 	}
 
 	private int overTabIndex = -1;
 
-	private int closeIndexStatus = INACTIVE;
-	private int maxIndexStatus = INACTIVE;
+	private int closeIndexStatus = this.INACTIVE;
+	private int maxIndexStatus = this.INACTIVE;
 
 	private boolean mousePressed = false;
 
 	protected JPopupMenu actionPopupMenu;
 	protected JMenuItem closeItem;
 
-	public CloseTabPaneUI() {
+	public CloseTabPaneUI()
+	{
 
 		super();
 
 		// Paint the red close icon
 
+		CloseTabPaneUI.closeRedB = new JButton();
+		CloseTabPaneUI.closeRedB.setSize( CloseTabPaneUI.BUTTONSIZE, CloseTabPaneUI.BUTTONSIZE );
 
-		closeRedB = new JButton();
-		closeRedB.setSize(BUTTONSIZE, BUTTONSIZE);
-
-		closeRedB.setMargin(new Insets(0,0,0,0));
-		closeRedB.setBorder(BorderFactory.createEmptyBorder());
-		closeRedB.setContentAreaFilled(false);
+		CloseTabPaneUI.closeRedB.setMargin( new Insets( 0, 0, 0, 0 ) );
+		CloseTabPaneUI.closeRedB.setBorder( BorderFactory.createEmptyBorder() );
+		CloseTabPaneUI.closeRedB.setContentAreaFilled( false );
 
 		// Paint the gray close icon
 
-		closeGrayB = new JButton();
-		closeGrayB.setSize(BUTTONSIZE, BUTTONSIZE);
+		CloseTabPaneUI.closeGrayB = new JButton();
+		CloseTabPaneUI.closeGrayB.setSize( CloseTabPaneUI.BUTTONSIZE, CloseTabPaneUI.BUTTONSIZE );
 
-		closeGrayB.setMargin(new Insets(0,0,0,0));
-		closeGrayB.setBorder(BorderFactory.createEmptyBorder());
-		closeGrayB.setContentAreaFilled(false);
+		CloseTabPaneUI.closeGrayB.setMargin( new Insets( 0, 0, 0, 0 ) );
+		CloseTabPaneUI.closeGrayB.setBorder( BorderFactory.createEmptyBorder() );
+		CloseTabPaneUI.closeGrayB.setContentAreaFilled( false );
 
 		// Create a popup menu
 
-		actionPopupMenu = new JPopupMenu();
-		closeItem = new JMenuItem("Close");
+		this.actionPopupMenu = new JPopupMenu();
+		this.closeItem = new JMenuItem( "Close" );
 
-		closeItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				((CloseTabbedPane) tabPane).fireCloseTabEvent(null, tabPane.getSelectedIndex());
+		this.closeItem.addActionListener( new ActionListener()
+		{
+			public void actionPerformed( final ActionEvent e )
+			{
+				( (CloseTabbedPane) CloseTabPaneUI.this.tabPane ).fireCloseTabEvent(
+					null, CloseTabPaneUI.this.tabPane.getSelectedIndex() );
 
 			}
-		});
+		} );
 
-		setPopupMenu();
+		this.setPopupMenu();
 	}
 
-	public boolean highlightTab( int tabIndex )
+	public boolean highlightTab( final int tabIndex )
 	{
-		for ( int i = tabStates.size(); i <= tabIndex; ++i )
-			tabStates.add( Boolean.FALSE );
+		for ( int i = this.tabStates.size(); i <= tabIndex; ++i )
+		{
+			this.tabStates.add( Boolean.FALSE );
+		}
 
-		if ( tabStates.get( tabIndex ) == Boolean.TRUE )
+		if ( this.tabStates.get( tabIndex ) == Boolean.TRUE )
+		{
 			return false;
+		}
 
-		tabStates.set( tabIndex, Boolean.TRUE );
+		this.tabStates.set( tabIndex, Boolean.TRUE );
 		return true;
 	}
 
-	protected boolean isOneActionButtonEnabled() {
-		return closeIconStyle != NO_CLOSE_ICON ;
+	protected boolean isOneActionButtonEnabled()
+	{
+		return this.closeIconStyle != CloseTabPaneUI.NO_CLOSE_ICON;
 	}
 
-	public boolean isCloseEnabled() {
-		return closeIconStyle != NO_CLOSE_ICON;
+	public boolean isCloseEnabled()
+	{
+		return this.closeIconStyle != CloseTabPaneUI.NO_CLOSE_ICON;
 	}
 
 	public static final int NO_CLOSE_ICON = 0;
 	public static final int RED_CLOSE_ICON = 1;
 	public static final int GRAY_CLOSE_ICON = 2;
 
-	private int closeIconStyle = NO_CLOSE_ICON;
+	private int closeIconStyle = CloseTabPaneUI.NO_CLOSE_ICON;
 
-	public void setCloseIconStyle( int style ) {
-		closeIconStyle = style;
-		setPopupMenu();
+	public void setCloseIconStyle( final int style )
+	{
+		this.closeIconStyle = style;
+		this.setPopupMenu();
 	}
 
 	public int getCloseIconStyle()
-	{	return closeIconStyle;
+	{
+		return this.closeIconStyle;
 	}
 
-	private void setPopupMenu() {
-		actionPopupMenu.removeAll();
-		if (closeIconStyle != NO_CLOSE_ICON)
-			actionPopupMenu.add(closeItem);
+	private void setPopupMenu()
+	{
+		this.actionPopupMenu.removeAll();
+		if ( this.closeIconStyle != CloseTabPaneUI.NO_CLOSE_ICON )
+		{
+			this.actionPopupMenu.add( this.closeItem );
+		}
 	}
 
-	protected int calculateTabWidth(int tabPlacement, int tabIndex,
-			FontMetrics metrics) {
+	protected int calculateTabWidth( final int tabPlacement, final int tabIndex, final FontMetrics metrics )
+	{
 		int delta = 2;
-		if (!isOneActionButtonEnabled())
+		if ( !this.isOneActionButtonEnabled() )
+		{
 			delta += 6;
-		else {
-			if (closeIconStyle != NO_CLOSE_ICON)
-				delta += BUTTONSIZE + WIDTHDELTA;
+		}
+		else if ( this.closeIconStyle != CloseTabPaneUI.NO_CLOSE_ICON )
+		{
+			delta += CloseTabPaneUI.BUTTONSIZE + CloseTabPaneUI.WIDTHDELTA;
 		}
 
-		return super.calculateTabWidth(tabPlacement, tabIndex, metrics) + delta + (closeIconStyle != NO_CLOSE_ICON ? 20 : 5);
+		return super.calculateTabWidth( tabPlacement, tabIndex, metrics ) + delta + ( this.closeIconStyle != CloseTabPaneUI.NO_CLOSE_ICON ? 20 : 5 );
 	}
 
-	protected int calculateTabHeight(int tabPlacement, int tabIndex,
-			int fontHeight) {
+	protected int calculateTabHeight( final int tabPlacement, final int tabIndex, final int fontHeight )
+	{
 
-		return super.calculateTabHeight(tabPlacement, tabIndex, fontHeight) + 2;
+		return super.calculateTabHeight( tabPlacement, tabIndex, fontHeight ) + 2;
 	}
 
-	protected void layoutLabel(int tabPlacement, FontMetrics metrics,
-			int tabIndex, String title, Icon icon, Rectangle tabRect,
-			Rectangle iconRect, Rectangle textRect, boolean isSelected) {
+	protected void layoutLabel( final int tabPlacement, final FontMetrics metrics, final int tabIndex,
+		final String title, final Icon icon, final Rectangle tabRect, final Rectangle iconRect,
+		final Rectangle textRect, final boolean isSelected )
+	{
 		textRect.x = textRect.y = iconRect.x = iconRect.y = 0;
 
-		View v = getTextViewForTab(tabIndex);
-		if (v != null) {
-			tabPane.putClientProperty("html", v);
+		View v = this.getTextViewForTab( tabIndex );
+		if ( v != null )
+		{
+			this.tabPane.putClientProperty( "html", v );
 		}
 
-		SwingUtilities.layoutCompoundLabel((JComponent) tabPane, metrics,
-				title, icon, SwingUtilities.CENTER, SwingUtilities.LEFT,
-				SwingUtilities.CENTER, SwingUtilities.CENTER, tabRect,
-				iconRect, textRect, textIconGap);
+		SwingUtilities.layoutCompoundLabel(
+			this.tabPane, metrics, title, icon, SwingConstants.CENTER, SwingConstants.LEFT, SwingConstants.CENTER,
+			SwingConstants.CENTER, tabRect, iconRect, textRect, this.textIconGap );
 
-		tabPane.putClientProperty("html", null);
+		this.tabPane.putClientProperty( "html", null );
 
 		iconRect.x = tabRect.x + 8;
-		textRect.x = iconRect.x + iconRect.width + textIconGap;
+		textRect.x = iconRect.x + iconRect.width + this.textIconGap;
 	}
 
-	protected MouseListener createMouseListener() {
+	protected MouseListener createMouseListener()
+	{
 		return new MyMouseHandler();
 	}
 
-	protected ScrollableTabButton createScrollableTabButton(int direction) {
-		return new ScrollableTabButton(direction);
+	protected ScrollableTabButton createScrollableTabButton( final int direction )
+	{
+		return new ScrollableTabButton( direction );
 	}
 
-	protected Rectangle newCloseRect(Rectangle rect) {
+	protected Rectangle newCloseRect( final Rectangle rect )
+	{
 		int dx = rect.x + rect.width;
-		int dy = (rect.y + rect.height) / 2 - 6;
-		return new Rectangle(dx - BUTTONSIZE - WIDTHDELTA, dy, BUTTONSIZE,
-				BUTTONSIZE);
+		int dy = ( rect.y + rect.height ) / 2 - 6;
+		return new Rectangle(
+			dx - CloseTabPaneUI.BUTTONSIZE - CloseTabPaneUI.WIDTHDELTA, dy, CloseTabPaneUI.BUTTONSIZE,
+			CloseTabPaneUI.BUTTONSIZE );
 	}
 
-
-	protected void updateOverTab(int x, int y) {
-		if (overTabIndex != (overTabIndex = getTabAtLocation(x, y)))
-			tabScroller.tabPanel.repaint();
+	protected void updateOverTab( final int x, final int y )
+	{
+		if ( this.overTabIndex != ( this.overTabIndex = this.getTabAtLocation( x, y ) ) )
+		{
+			this.tabScroller.tabPanel.repaint();
+		}
 
 	}
 
-	protected void updateCloseIcon(int x, int y) {
+	protected void updateCloseIcon( final int x, final int y )
+	{
 
-		if (overTabIndex != -1) {
-			int newCloseIndexStatus = INACTIVE;
+		if ( this.overTabIndex != -1 )
+		{
+			int newCloseIndexStatus = this.INACTIVE;
 
-			Rectangle closeRect = newCloseRect(rects[overTabIndex]);
-			if (closeRect.contains(x, y))
-				newCloseIndexStatus = mousePressed ? PRESSED : OVER;
+			Rectangle closeRect = this.newCloseRect( this.rects[ this.overTabIndex ] );
+			if ( closeRect.contains( x, y ) )
+			{
+				newCloseIndexStatus = this.mousePressed ? this.PRESSED : this.OVER;
+			}
 
-			if (closeIndexStatus != (closeIndexStatus = newCloseIndexStatus))
-				tabScroller.tabPanel.repaint();
+			if ( this.closeIndexStatus != ( this.closeIndexStatus = newCloseIndexStatus ) )
+			{
+				this.tabScroller.tabPanel.repaint();
+			}
 		}
 	}
 
-
-	private void setTabIcons(int x, int y) {
+	private void setTabIcons( final int x, final int y )
+	{
 		//if the mouse isPressed
-		if (! mousePressed) {
-			updateOverTab(x, y);
+		if ( !this.mousePressed )
+		{
+			this.updateOverTab( x, y );
 		}
 
-		if (closeIconStyle != NO_CLOSE_ICON)
-			updateCloseIcon(x, y);
+		if ( this.closeIconStyle != CloseTabPaneUI.NO_CLOSE_ICON )
+		{
+			this.updateCloseIcon( x, y );
+		}
 	}
 
-	public static ComponentUI createUI(JComponent c) {
+	public static ComponentUI createUI( final JComponent c )
+	{
 		return new CloseTabPaneUI();
 	}
 
 	/**
-	 * Invoked by <code>installUI</code> to create a layout manager object to
-	 * manage the <code>JTabbedPane</code>.
-	 *
+	 * Invoked by <code>installUI</code> to create a layout manager object to manage the <code>JTabbedPane</code>.
+	 * 
 	 * @return a layout manager object
-	 *
 	 * @see TabbedPaneLayout
 	 * @see javax.swing.JTabbedPane#getTabLayoutPolicy
 	 */
-	protected LayoutManager createLayoutManager() {
+	protected LayoutManager createLayoutManager()
+	{
 
 		return new TabbedPaneScrollLayout();
 
 	}
 
 	/*
-	 * In an attempt to preserve backward compatibility for programs which have
-	 * extended BasicTabbedPaneUI to do their own layout, the UI uses the
-	 * installed layoutManager (and not tabLayoutPolicy) to determine if
-	 * scrollTabLayout is enabled.
+	 * In an attempt to preserve backward compatibility for programs which have extended BasicTabbedPaneUI to do their
+	 * own layout, the UI uses the installed layoutManager (and not tabLayoutPolicy) to determine if scrollTabLayout is
+	 * enabled.
 	 */
 
 	/**
-	 * Creates and installs any required subcomponents for the JTabbedPane.
-	 * Invoked by installUI.
-	 *
+	 * Creates and installs any required subcomponents for the JTabbedPane. Invoked by installUI.
+	 * 
 	 * @since 1.4
 	 */
-	protected void installComponents() {
+	protected void installComponents()
+	{
 
-		if (tabScroller == null) {
-			tabScroller = new ScrollableTabSupport(tabPane.getTabPlacement());
-			tabPane.add(tabScroller.viewport);
-			tabPane.add(tabScroller.scrollForwardButton);
-			tabPane.add(tabScroller.scrollBackwardButton);
+		if ( this.tabScroller == null )
+		{
+			this.tabScroller = new ScrollableTabSupport( this.tabPane.getTabPlacement() );
+			this.tabPane.add( this.tabScroller.viewport );
+			this.tabPane.add( this.tabScroller.scrollForwardButton );
+			this.tabPane.add( this.tabScroller.scrollBackwardButton );
 		}
 
 	}
 
 	/**
-	 * Removes any installed subcomponents from the JTabbedPane. Invoked by
-	 * uninstallUI.
-	 *
+	 * Removes any installed subcomponents from the JTabbedPane. Invoked by uninstallUI.
+	 * 
 	 * @since 1.4
 	 */
-	protected void uninstallComponents() {
+	protected void uninstallComponents()
+	{
 
-		tabPane.remove(tabScroller.viewport);
-		tabPane.remove(tabScroller.scrollForwardButton);
-		tabPane.remove(tabScroller.scrollBackwardButton);
+		this.tabPane.remove( this.tabScroller.viewport );
+		this.tabPane.remove( this.tabScroller.scrollForwardButton );
+		this.tabPane.remove( this.tabScroller.scrollBackwardButton );
 
-		if ( htmlViews != null )
-			htmlViews.clear();
+		if ( this.htmlViews != null )
+		{
+			this.htmlViews.clear();
+		}
 
-		if ( tabStates != null )
-			tabStates.clear();
+		if ( this.tabStates != null )
+		{
+			this.tabStates.clear();
+		}
 
-		resetMnemonics();
+		this.resetMnemonics();
 
-		htmlViews = null;
-		tabStates = null;
-		tabScroller = null;
+		this.htmlViews = null;
+		this.tabStates = null;
+		this.tabScroller = null;
 	}
 
-	protected void installListeners() {
-		if ((propertyChangeListener = createPropertyChangeListener()) != null) {
-			tabPane.addPropertyChangeListener(propertyChangeListener);
+	protected void installListeners()
+	{
+		if ( ( this.propertyChangeListener = this.createPropertyChangeListener() ) != null )
+		{
+			this.tabPane.addPropertyChangeListener( this.propertyChangeListener );
 		}
-		if ((tabChangeListener = createChangeListener()) != null) {
-			tabPane.addChangeListener(tabChangeListener);
+		if ( ( this.tabChangeListener = this.createChangeListener() ) != null )
+		{
+			this.tabPane.addChangeListener( this.tabChangeListener );
 		}
-		if ((mouseListener = createMouseListener()) != null) {
-			tabScroller.tabPanel.addMouseListener(mouseListener);
+		if ( ( this.mouseListener = this.createMouseListener() ) != null )
+		{
+			this.tabScroller.tabPanel.addMouseListener( this.mouseListener );
 		}
 
-		if ((focusListener = createFocusListener()) != null) {
-			tabPane.addFocusListener(focusListener);
+		if ( ( this.focusListener = this.createFocusListener() ) != null )
+		{
+			this.tabPane.addFocusListener( this.focusListener );
 		}
 
 		// PENDING(api) : See comment for ContainerHandler
-		if ((containerListener = new ContainerHandler()) != null) {
-			tabPane.addContainerListener(containerListener);
-			if (tabPane.getTabCount() > 0) {
-				htmlViews = createHTMLArrayList();
+		if ( ( this.containerListener = new ContainerHandler() ) != null )
+		{
+			this.tabPane.addContainerListener( this.containerListener );
+			if ( this.tabPane.getTabCount() > 0 )
+			{
+				this.htmlViews = this.createHTMLArrayList();
 			}
 		}
 
-		if ((motionListener = new MyMouseMotionListener()) != null) {
-			tabScroller.tabPanel.addMouseMotionListener(motionListener);
+		if ( ( this.motionListener = new MyMouseMotionListener() ) != null )
+		{
+			this.tabScroller.tabPanel.addMouseMotionListener( this.motionListener );
 		}
 
 	}
 
-	protected void uninstallListeners() {
-		if (mouseListener != null) {
-			tabScroller.tabPanel.removeMouseListener(mouseListener);
-			mouseListener = null;
+	protected void uninstallListeners()
+	{
+		if ( this.mouseListener != null )
+		{
+			this.tabScroller.tabPanel.removeMouseListener( this.mouseListener );
+			this.mouseListener = null;
 		}
 
-		if (motionListener != null) {
-			tabScroller.tabPanel.removeMouseMotionListener(motionListener);
-			motionListener = null;
+		if ( this.motionListener != null )
+		{
+			this.tabScroller.tabPanel.removeMouseMotionListener( this.motionListener );
+			this.motionListener = null;
 		}
 
-		if (focusListener != null) {
-			tabPane.removeFocusListener(focusListener);
-			focusListener = null;
+		if ( this.focusListener != null )
+		{
+			this.tabPane.removeFocusListener( this.focusListener );
+			this.focusListener = null;
 		}
 
 		// PENDING(api): See comment for ContainerHandler
-		if (containerListener != null) {
-			tabPane.removeContainerListener(containerListener);
-			containerListener = null;
-			if (htmlViews != null) {
-				htmlViews.clear();
-				htmlViews = null;
+		if ( this.containerListener != null )
+		{
+			this.tabPane.removeContainerListener( this.containerListener );
+			this.containerListener = null;
+			if ( this.htmlViews != null )
+			{
+				this.htmlViews.clear();
+				this.htmlViews = null;
 			}
 		}
-		if (tabChangeListener != null) {
-			tabPane.removeChangeListener(tabChangeListener);
-			tabChangeListener = null;
+		if ( this.tabChangeListener != null )
+		{
+			this.tabPane.removeChangeListener( this.tabChangeListener );
+			this.tabChangeListener = null;
 		}
-		if (propertyChangeListener != null) {
-			tabPane.removePropertyChangeListener(propertyChangeListener);
-			propertyChangeListener = null;
+		if ( this.propertyChangeListener != null )
+		{
+			this.tabPane.removePropertyChangeListener( this.propertyChangeListener );
+			this.propertyChangeListener = null;
 		}
 
 	}
 
-	protected ChangeListener createChangeListener() {
+	protected ChangeListener createChangeListener()
+	{
 		return new TabSelectionHandler();
 	}
 
-	protected void installKeyboardActions() {
-		InputMap km = getMyInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+	protected void installKeyboardActions()
+	{
+		InputMap km = this.getMyInputMap( JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT );
 
-		SwingUtilities.replaceUIInputMap(tabPane,
-				JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT, km);
-		km = getMyInputMap(JComponent.WHEN_FOCUSED);
-		SwingUtilities.replaceUIInputMap(tabPane, JComponent.WHEN_FOCUSED, km);
+		SwingUtilities.replaceUIInputMap( this.tabPane, JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT, km );
+		km = this.getMyInputMap( JComponent.WHEN_FOCUSED );
+		SwingUtilities.replaceUIInputMap( this.tabPane, JComponent.WHEN_FOCUSED, km );
 
-		ActionMap am = createMyActionMap();
+		ActionMap am = this.createMyActionMap();
 
-		SwingUtilities.replaceUIActionMap(tabPane, am);
+		SwingUtilities.replaceUIActionMap( this.tabPane, am );
 
-		tabScroller.scrollForwardButton.setAction(am
-				.get("scrollTabsForwardAction"));
-		tabScroller.scrollBackwardButton.setAction(am
-				.get("scrollTabsBackwardAction"));
+		this.tabScroller.scrollForwardButton.setAction( am.get( "scrollTabsForwardAction" ) );
+		this.tabScroller.scrollBackwardButton.setAction( am.get( "scrollTabsBackwardAction" ) );
 
 	}
 
-	InputMap getMyInputMap(int condition) {
-		if (condition == JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT) {
-			return (InputMap) UIManager.get("TabbedPane.ancestorInputMap");
-		} else if (condition == JComponent.WHEN_FOCUSED) {
-			return (InputMap) UIManager.get("TabbedPane.focusInputMap");
+	InputMap getMyInputMap( final int condition )
+	{
+		if ( condition == JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT )
+		{
+			return (InputMap) UIManager.get( "TabbedPane.ancestorInputMap" );
+		}
+		else if ( condition == JComponent.WHEN_FOCUSED )
+		{
+			return (InputMap) UIManager.get( "TabbedPane.focusInputMap" );
 		}
 		return null;
 	}
 
-	ActionMap createMyActionMap() {
+	ActionMap createMyActionMap()
+	{
 		ActionMap map = new ActionMapUIResource();
-		map.put("navigateNext", new NextAction());
-		map.put("navigatePrevious", new PreviousAction());
-		map.put("navigateRight", new RightAction());
-		map.put("navigateLeft", new LeftAction());
-		map.put("navigateUp", new UpAction());
-		map.put("navigateDown", new DownAction());
-		map.put("navigatePageUp", new PageUpAction());
-		map.put("navigatePageDown", new PageDownAction());
-		map.put("requestFocus", new RequestFocusAction());
-		map.put("requestFocusForVisibleComponent",
-				new RequestFocusForVisibleAction());
-		map.put("setSelectedIndex", new SetSelectedIndexAction());
-		map.put("scrollTabsForwardAction", new ScrollTabsForwardAction());
-		map.put("scrollTabsBackwardAction", new ScrollTabsBackwardAction());
+		map.put( "navigateNext", new NextAction() );
+		map.put( "navigatePrevious", new PreviousAction() );
+		map.put( "navigateRight", new RightAction() );
+		map.put( "navigateLeft", new LeftAction() );
+		map.put( "navigateUp", new UpAction() );
+		map.put( "navigateDown", new DownAction() );
+		map.put( "navigatePageUp", new PageUpAction() );
+		map.put( "navigatePageDown", new PageDownAction() );
+		map.put( "requestFocus", new RequestFocusAction() );
+		map.put( "requestFocusForVisibleComponent", new RequestFocusForVisibleAction() );
+		map.put( "setSelectedIndex", new SetSelectedIndexAction() );
+		map.put( "scrollTabsForwardAction", new ScrollTabsForwardAction() );
+		map.put( "scrollTabsBackwardAction", new ScrollTabsBackwardAction() );
 		return map;
 	}
 
-	protected void uninstallKeyboardActions() {
-		SwingUtilities.replaceUIActionMap(tabPane, null);
-		SwingUtilities.replaceUIInputMap(tabPane,
-				JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT, null);
-		SwingUtilities
-				.replaceUIInputMap(tabPane, JComponent.WHEN_FOCUSED, null);
+	protected void uninstallKeyboardActions()
+	{
+		SwingUtilities.replaceUIActionMap( this.tabPane, null );
+		SwingUtilities.replaceUIInputMap( this.tabPane, JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT, null );
+		SwingUtilities.replaceUIInputMap( this.tabPane, JComponent.WHEN_FOCUSED, null );
 	}
 
 	/**
-	 * Reloads the mnemonics. This should be invoked when a memonic changes,
-	 * when the title of a mnemonic changes, or when tabs are added/removed.
+	 * Reloads the mnemonics. This should be invoked when a memonic changes, when the title of a mnemonic changes, or
+	 * when tabs are added/removed.
 	 */
-	private void updateMnemonics() {
-		resetMnemonics();
-		for (int counter = tabPane.getTabCount() - 1; counter >= 0; counter--) {
-			int mnemonic = tabPane.getMnemonicAt(counter);
+	private void updateMnemonics()
+	{
+		this.resetMnemonics();
+		for ( int counter = this.tabPane.getTabCount() - 1; counter >= 0; counter-- )
+		{
+			int mnemonic = this.tabPane.getMnemonicAt( counter );
 
-			if (mnemonic > 0) {
-				addMnemonic(counter, mnemonic);
+			if ( mnemonic > 0 )
+			{
+				this.addMnemonic( counter, mnemonic );
 			}
 		}
 	}
@@ -527,70 +594,77 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 	/**
 	 * Resets the mnemonics bindings to an empty state.
 	 */
-	private void resetMnemonics() {
-		if (mnemonicToIndexMap != null) {
-			mnemonicToIndexMap.clear();
-			mnemonicInputMap.clear();
+	private void resetMnemonics()
+	{
+		if ( this.mnemonicToIndexMap != null )
+		{
+			this.mnemonicToIndexMap.clear();
+			this.mnemonicInputMap.clear();
 		}
 	}
 
 	/**
 	 * Adds the specified mnemonic at the specified index.
 	 */
-	private void addMnemonic(int index, int mnemonic) {
-		if (mnemonicToIndexMap == null) {
-			initMnemonics();
+	private void addMnemonic( final int index, final int mnemonic )
+	{
+		if ( this.mnemonicToIndexMap == null )
+		{
+			this.initMnemonics();
 		}
-		mnemonicInputMap.put(KeyStroke.getKeyStroke(mnemonic, Event.ALT_MASK),
-				"setSelectedIndex");
-		mnemonicToIndexMap.put(new Integer(mnemonic), new Integer(index));
+		this.mnemonicInputMap.put( KeyStroke.getKeyStroke( mnemonic, Event.ALT_MASK ), "setSelectedIndex" );
+		this.mnemonicToIndexMap.put( new Integer( mnemonic ), new Integer( index ) );
 	}
 
 	/**
 	 * Installs the state needed for mnemonics.
 	 */
-	private void initMnemonics() {
-		mnemonicToIndexMap = new Hashtable();
-		mnemonicInputMap = new InputMapUIResource();
-		mnemonicInputMap.setParent(SwingUtilities.getUIInputMap(tabPane,
-				JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT));
-		SwingUtilities
-				.replaceUIInputMap(tabPane,
-						JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT,
-						mnemonicInputMap);
+	private void initMnemonics()
+	{
+		this.mnemonicToIndexMap = new Hashtable();
+		this.mnemonicInputMap = new InputMapUIResource();
+		this.mnemonicInputMap.setParent( SwingUtilities.getUIInputMap(
+			this.tabPane, JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT ) );
+		SwingUtilities.replaceUIInputMap(
+			this.tabPane, JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT, this.mnemonicInputMap );
 	}
 
 	// UI Rendering
 
-	public void paint(Graphics g, JComponent c) {
-		int tc = tabPane.getTabCount();
+	public void paint( final Graphics g, final JComponent c )
+	{
+		int tc = this.tabPane.getTabCount();
 
-		if (tabCount != tc) {
-			tabCount = tc;
-			updateMnemonics();
+		if ( this.tabCount != tc )
+		{
+			this.tabCount = tc;
+			this.updateMnemonics();
 		}
 
-		int selectedIndex = tabPane.getSelectedIndex();
-		int tabPlacement = tabPane.getTabPlacement();
+		int selectedIndex = this.tabPane.getSelectedIndex();
+		int tabPlacement = this.tabPane.getTabPlacement();
 
-		ensureCurrentLayout();
+		this.ensureCurrentLayout();
 
 		// Paint content border
-		paintContentBorder(g, tabPlacement, selectedIndex);
+		this.paintContentBorder( g, tabPlacement, selectedIndex );
 
 	}
 
-	protected void paintTab(Graphics g, int tabPlacement, Rectangle[] rects,
-			int tabIndex, Rectangle iconRect, Rectangle textRect) {
+	protected void paintTab( final Graphics g, final int tabPlacement, final Rectangle[] rects, final int tabIndex,
+		final Rectangle iconRect, final Rectangle textRect )
+	{
 
-		Rectangle tabRect = rects[tabIndex];
+		Rectangle tabRect = rects[ tabIndex ];
 
-		int selectedIndex = tabPane.getSelectedIndex();
+		int selectedIndex = this.tabPane.getSelectedIndex();
 		boolean isSelected = selectedIndex == tabIndex;
-		boolean isOver = overTabIndex == tabIndex;
+		boolean isOver = this.overTabIndex == tabIndex;
 
-		if ( isSelected && tabIndex < tabStates.size() )
-			tabStates.set( tabIndex, Boolean.FALSE );
+		if ( isSelected && tabIndex < this.tabStates.size() )
+		{
+			this.tabStates.set( tabIndex, Boolean.FALSE );
+		}
 
 		Graphics2D g2 = null;
 		Shape save = null;
@@ -598,336 +672,368 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 		int cropx = 0;
 		int cropy = 0;
 
-		if (g instanceof Graphics2D) {
+		if ( g instanceof Graphics2D )
+		{
 			g2 = (Graphics2D) g;
 
 			// Render visual for cropped tab edge...
-			Rectangle viewRect = tabScroller.viewport.getViewRect();
+			Rectangle viewRect = this.tabScroller.viewport.getViewRect();
 			int cropline;
 
 			cropline = viewRect.x + viewRect.width;
-			if ((tabRect.x < cropline)
-					&& (tabRect.x + tabRect.width > cropline)) {
+			if ( tabRect.x < cropline && tabRect.x + tabRect.width > cropline )
+			{
 
 				cropx = cropline - 1;
 				cropy = tabRect.y;
 				cropShape = true;
 			}
 
-			if (cropShape) {
+			if ( cropShape )
+			{
 				save = g2.getClip();
-				g2
-						.clipRect(tabRect.x, tabRect.y, tabRect.width,
-								tabRect.height);
+				g2.clipRect( tabRect.x, tabRect.y, tabRect.width, tabRect.height );
 
 			}
 		}
 
-		paintTabBackground(g, tabPlacement, tabIndex, tabRect.x, tabRect.y,
-				tabRect.width, tabRect.height, isSelected);
+		this.paintTabBackground(
+			g, tabPlacement, tabIndex, tabRect.x, tabRect.y, tabRect.width, tabRect.height, isSelected );
 
-		paintTabBorder(g, tabPlacement, tabIndex, tabRect.x, tabRect.y,
-				tabRect.width, tabRect.height, isSelected);
+		this.paintTabBorder( g, tabPlacement, tabIndex, tabRect.x, tabRect.y, tabRect.width, tabRect.height, isSelected );
 
-		String title = tabPane.getTitleAt(tabIndex);
-		Font font = tabPane.getFont();
-		FontMetrics metrics = g.getFontMetrics(font);
-		Icon icon = getIconForTab(tabIndex);
+		String title = this.tabPane.getTitleAt( tabIndex );
+		Font font = this.tabPane.getFont();
+		FontMetrics metrics = g.getFontMetrics( font );
+		Icon icon = this.getIconForTab( tabIndex );
 
-		layoutLabel(tabPlacement, metrics, tabIndex, title, icon, tabRect,
-				iconRect, textRect, isSelected);
+		this.layoutLabel( tabPlacement, metrics, tabIndex, title, icon, tabRect, iconRect, textRect, isSelected );
 
-		paintText(g, tabPlacement, font, metrics, tabIndex, title, textRect,
-				isSelected);
+		this.paintText( g, tabPlacement, font, metrics, tabIndex, title, textRect, isSelected );
 
-		paintIcon(g, tabPlacement, tabIndex, icon, iconRect, isSelected);
+		this.paintIcon( g, tabPlacement, tabIndex, icon, iconRect, isSelected );
 
-		paintFocusIndicator(g, tabPlacement, rects, tabIndex, iconRect,
-				textRect, isSelected);
+		this.paintFocusIndicator( g, tabPlacement, rects, tabIndex, iconRect, textRect, isSelected );
 
-		if (cropShape) {
-			paintCroppedTabEdge(g, tabPlacement, tabIndex, isSelected, cropx,
-					cropy);
-			g2.setClip(save);
+		if ( cropShape )
+		{
+			this.paintCroppedTabEdge( g, tabPlacement, tabIndex, isSelected, cropx, cropy );
+			g2.setClip( save );
 
-		} else if ( closeIconStyle != NO_CLOSE_ICON && isOver ) {
+		}
+		else if ( this.closeIconStyle != CloseTabPaneUI.NO_CLOSE_ICON && isOver )
+		{
 
-			int dx = tabRect.x + tabRect.width - BUTTONSIZE - WIDTHDELTA;
-			int dy = (tabRect.y + tabRect.height) / 2 - 6;
+			int dx = tabRect.x + tabRect.width - CloseTabPaneUI.BUTTONSIZE - CloseTabPaneUI.WIDTHDELTA;
+			int dy = ( tabRect.y + tabRect.height ) / 2 - 6;
 
-			if ( isSelected && closeIconStyle == GRAY_CLOSE_ICON )
-				paintCloseIcon(g2, dx, dy, true);
-			else if ( !isSelected && closeIconStyle == RED_CLOSE_ICON )
-				paintCloseIcon(g2, dx, dy, false);
+			if ( isSelected && this.closeIconStyle == CloseTabPaneUI.GRAY_CLOSE_ICON )
+			{
+				this.paintCloseIcon( g2, dx, dy, true );
+			}
+			else if ( !isSelected && this.closeIconStyle == CloseTabPaneUI.RED_CLOSE_ICON )
+			{
+				this.paintCloseIcon( g2, dx, dy, false );
+			}
 		}
 
 	}
 
-	protected void paintCloseIcon(Graphics g, int dx, int dy, boolean isSelected) {
+	protected void paintCloseIcon( final Graphics g, final int dx, final int dy, final boolean isSelected )
+	{
 
 		if ( isSelected )
 		{
-			paintActionButton(g, dx, dy, closeIndexStatus, false, closeGrayB, closeGrayImgB);
-			g.drawImage(closeGrayImgI, dx, dy + 1, null);
+			this.paintActionButton(
+				g, dx, dy, this.closeIndexStatus, false, CloseTabPaneUI.closeGrayB, CloseTabPaneUI.closeGrayImgB );
+			g.drawImage( CloseTabPaneUI.closeGrayImgI, dx, dy + 1, null );
 		}
 		else
 		{
-			paintActionButton(g, dx, dy, closeIndexStatus, false, closeRedB, closeRedImgB);
-			g.drawImage(closeRedImgI, dx, dy + 1, null);
+			this.paintActionButton(
+				g, dx, dy, this.closeIndexStatus, false, CloseTabPaneUI.closeRedB, CloseTabPaneUI.closeRedImgB );
+			g.drawImage( CloseTabPaneUI.closeRedImgI, dx, dy + 1, null );
 		}
 	}
 
-	protected void paintActionButton(Graphics g, int dx, int dy, int status,
-			boolean isOver, JButton button, BufferedImage image) {
+	protected void paintActionButton( final Graphics g, final int dx, final int dy, final int status,
+		final boolean isOver, final JButton button, final BufferedImage image )
+	{
 
-		button.setBorder(null);
+		button.setBorder( null );
 
-//		button.setBackground(tabScroller.tabPanel.getBackground());
-		button.paint(image.getGraphics());
-		g.drawImage(image, dx, dy, null);
+		//		button.setBackground(tabScroller.tabPanel.getBackground());
+		button.paint( image.getGraphics() );
+		g.drawImage( image, dx, dy, null );
 	}
 
 	/*
-	 * This method will create and return a polygon shape for the given tab
-	 * rectangle which has been cropped at the specified cropline with a torn
-	 * edge visual. e.g. A "File" tab which has cropped been cropped just after
-	 * the "i": ------------- | ..... | | . | | ... . | | . . | | . . | | . . |
-	 * --------------
-	 *
-	 * The x, y arrays below define the pattern used to create a "torn" edge
-	 * segment which is repeated to fill the edge of the tab. For tabs placed on
-	 * TOP and BOTTOM, this righthand torn edge is created by line segments
-	 * which are defined by coordinates obtained by subtracting xCropLen[i] from
-	 * (tab.x + tab.width) and adding yCroplen[i] to (tab.y). For tabs placed on
-	 * LEFT or RIGHT, the bottom torn edge is created by subtracting xCropLen[i]
-	 * from (tab.y + tab.height) and adding yCropLen[i] to (tab.x).
+	 * This method will create and return a polygon shape for the given tab rectangle which has been cropped at the
+	 * specified cropline with a torn edge visual. e.g. A "File" tab which has cropped been cropped just after the "i":
+	 * ------------- | ..... | | . | | ... . | | . . | | . . | | . . | -------------- The x, y arrays below define the
+	 * pattern used to create a "torn" edge segment which is repeated to fill the edge of the tab. For tabs placed on
+	 * TOP and BOTTOM, this righthand torn edge is created by line segments which are defined by coordinates obtained by
+	 * subtracting xCropLen[i] from (tab.x + tab.width) and adding yCroplen[i] to (tab.y). For tabs placed on LEFT or
+	 * RIGHT, the bottom torn edge is created by subtracting xCropLen[i] from (tab.y + tab.height) and adding
+	 * yCropLen[i] to (tab.x).
 	 */
 
-	private final int CROP_SEGMENT = 12;
+	private void paintCroppedTabEdge( final Graphics g, final int tabPlacement, final int tabIndex,
+		final boolean isSelected, final int x, final int y )
+	{
 
-	private void paintCroppedTabEdge(Graphics g, int tabPlacement,
-			int tabIndex, boolean isSelected, int x, int y) {
-
-		g.setColor(shadow);
-		g.drawLine(x, y, x, y + rects[tabIndex].height);
+		g.setColor( this.shadow );
+		g.drawLine( x, y, x, y + this.rects[ tabIndex ].height );
 
 	}
 
-	private void ensureCurrentLayout() {
-		if (!tabPane.isValid()) {
-			tabPane.validate();
+	private void ensureCurrentLayout()
+	{
+		if ( !this.tabPane.isValid() )
+		{
+			this.tabPane.validate();
 		}
 		/*
-		 * If tabPane doesn't have a peer yet, the validate() call will silently
-		 * fail. We handle that by forcing a layout if tabPane is still invalid.
-		 * See bug 4237677.
+		 * If tabPane doesn't have a peer yet, the validate() call will silently fail. We handle that by forcing a
+		 * layout if tabPane is still invalid. See bug 4237677.
 		 */
-		if (!tabPane.isValid()) {
-			TabbedPaneLayout layout = (TabbedPaneLayout) tabPane.getLayout();
+		if ( !this.tabPane.isValid() )
+		{
+			TabbedPaneLayout layout = (TabbedPaneLayout) this.tabPane.getLayout();
 			layout.calculateLayoutInfo();
 		}
 	}
 
 	/**
-	 * Returns the bounds of the specified tab in the coordinate space of the
-	 * JTabbedPane component. This is required because the tab rects are by
-	 * default defined in the coordinate space of the component where they are
-	 * rendered, which could be the JTabbedPane (for WRAP_TAB_LAYOUT) or a
-	 * ScrollableTabPanel (SCROLL_TAB_LAYOUT). This method should be used
-	 * whenever the tab rectangle must be relative to the JTabbedPane itself and
-	 * the result should be placed in a designated Rectangle object (rather than
-	 * instantiating and returning a new Rectangle each time). The tab index
-	 * parameter must be a valid tabbed pane tab index (0 to tab count - 1,
-	 * inclusive). The destination rectangle parameter must be a valid
-	 * <code>Rectangle</code> instance. The handling of invalid parameters is
+	 * Returns the bounds of the specified tab in the coordinate space of the JTabbedPane component. This is required
+	 * because the tab rects are by default defined in the coordinate space of the component where they are rendered,
+	 * which could be the JTabbedPane (for WRAP_TAB_LAYOUT) or a ScrollableTabPanel (SCROLL_TAB_LAYOUT). This method
+	 * should be used whenever the tab rectangle must be relative to the JTabbedPane itself and the result should be
+	 * placed in a designated Rectangle object (rather than instantiating and returning a new Rectangle each time). The
+	 * tab index parameter must be a valid tabbed pane tab index (0 to tab count - 1, inclusive). The destination
+	 * rectangle parameter must be a valid <code>Rectangle</code> instance. The handling of invalid parameters is
 	 * unspecified.
-	 *
-	 * @param tabIndex
-	 *            the index of the tab
-	 * @param dest
-	 *            the rectangle where the result should be placed
+	 * 
+	 * @param tabIndex the index of the tab
+	 * @param dest the rectangle where the result should be placed
 	 * @return the resulting rectangle
-	 *
 	 * @since 1.4
 	 */
 
-	protected Rectangle getTabBounds(int tabIndex, Rectangle dest) {
-		dest.width = rects[tabIndex].width;
-		dest.height = rects[tabIndex].height;
+	protected Rectangle getTabBounds( final int tabIndex, final Rectangle dest )
+	{
+		dest.width = this.rects[ tabIndex ].width;
+		dest.height = this.rects[ tabIndex ].height;
 
-		Point vpp = tabScroller.viewport.getLocation();
-		Point viewp = tabScroller.viewport.getViewPosition();
-		dest.x = rects[tabIndex].x + vpp.x - viewp.x;
-		dest.y = rects[tabIndex].y + vpp.y - viewp.y;
+		Point vpp = this.tabScroller.viewport.getLocation();
+		Point viewp = this.tabScroller.viewport.getViewPosition();
+		dest.x = this.rects[ tabIndex ].x + vpp.x - viewp.x;
+		dest.y = this.rects[ tabIndex ].y + vpp.y - viewp.y;
 
 		return dest;
 	}
 
-	private int getTabAtLocation(int x, int y) {
-		ensureCurrentLayout();
+	private int getTabAtLocation( final int x, final int y )
+	{
+		this.ensureCurrentLayout();
 
-		int tabCount = tabPane.getTabCount();
-		for (int i = 0; i < tabCount; i++) {
-			if (rects[i].contains(x, y)) {
+		int tabCount = this.tabPane.getTabCount();
+		for ( int i = 0; i < tabCount; i++ )
+		{
+			if ( this.rects[ i ].contains( x, y ) )
+			{
 				return i;
 			}
 		}
 		return -1;
 	}
 
-	public int getOverTabIndex(){
-		return overTabIndex;
+	public int getOverTabIndex()
+	{
+		return this.overTabIndex;
 	}
 
 	/**
-	 * Returns the index of the tab closest to the passed in location, note that
-	 * the returned tab may not contain the location x,y.
+	 * Returns the index of the tab closest to the passed in location, note that the returned tab may not contain the
+	 * location x,y.
 	 */
-	private int getClosestTab(int x, int y) {
+	private int getClosestTab( final int x, final int y )
+	{
 		int min = 0;
-		int tabCount = Math.min(rects.length, tabPane.getTabCount());
+		int tabCount = Math.min( this.rects.length, this.tabPane.getTabCount() );
 		int max = tabCount;
-		int tabPlacement = tabPane.getTabPlacement();
-		boolean useX = (tabPlacement == TOP || tabPlacement == BOTTOM);
-		int want = (useX) ? x : y;
+		int tabPlacement = this.tabPane.getTabPlacement();
+		boolean useX = tabPlacement == SwingConstants.TOP || tabPlacement == SwingConstants.BOTTOM;
+		int want = useX ? x : y;
 
-		while (min != max) {
-			int current = (max + min) / 2;
+		while ( min != max )
+		{
+			int current = ( max + min ) / 2;
 			int minLoc;
 			int maxLoc;
 
-			if (useX) {
-				minLoc = rects[current].x;
-				maxLoc = minLoc + rects[current].width;
-			} else {
-				minLoc = rects[current].y;
-				maxLoc = minLoc + rects[current].height;
+			if ( useX )
+			{
+				minLoc = this.rects[ current ].x;
+				maxLoc = minLoc + this.rects[ current ].width;
 			}
-			if (want < minLoc) {
+			else
+			{
+				minLoc = this.rects[ current ].y;
+				maxLoc = minLoc + this.rects[ current ].height;
+			}
+			if ( want < minLoc )
+			{
 				max = current;
-				if (min == max) {
-					return Math.max(0, current - 1);
+				if ( min == max )
+				{
+					return Math.max( 0, current - 1 );
 				}
-			} else if (want >= maxLoc) {
+			}
+			else if ( want >= maxLoc )
+			{
 				min = current;
-				if (max - min <= 1) {
-					return Math.max(current + 1, tabCount - 1);
+				if ( max - min <= 1 )
+				{
+					return Math.max( current + 1, tabCount - 1 );
 				}
-			} else {
+			}
+			else
+			{
 				return current;
 			}
 		}
 		return min;
 	}
 
-	/**
-	 * Returns a point which is translated from the specified point in the
-	 * JTabbedPane's coordinate space to the coordinate space of the
-	 * ScrollableTabPanel. This is used for SCROLL_TAB_LAYOUT ONLY.
-	 */
-	private Point translatePointToTabPanel(int srcx, int srcy, Point dest) {
-		Point vpp = tabScroller.viewport.getLocation();
-		Point viewp = tabScroller.viewport.getViewPosition();
-		dest.x = srcx + vpp.x + viewp.x;
-		dest.y = srcy + vpp.y + viewp.y;
-		return dest;
-	}
-
-	// BasicTabbedPaneUI methods
-
-	// Tab Navigation methods
-
 	// REMIND(aim,7/29/98): This method should be made
 	// protected in the next release where
 	// API changes are allowed
 	//
-	boolean requestMyFocusForVisibleComponent() {
+	boolean requestMyFocusForVisibleComponent()
+	{
 		return false;
 	}
 
-	private class RightAction extends AbstractAction {
-		public void actionPerformed(ActionEvent e) {
+	private class RightAction
+		extends AbstractAction
+	{
+		public void actionPerformed( final ActionEvent e )
+		{
 			JTabbedPane pane = (JTabbedPane) e.getSource();
 			CloseTabPaneUI ui = (CloseTabPaneUI) pane.getUI();
-			ui.navigateSelectedTab(EAST);
+			ui.navigateSelectedTab( SwingConstants.EAST );
 		}
 	};
 
-	private class LeftAction extends AbstractAction {
-		public void actionPerformed(ActionEvent e) {
+	private class LeftAction
+		extends AbstractAction
+	{
+		public void actionPerformed( final ActionEvent e )
+		{
 			JTabbedPane pane = (JTabbedPane) e.getSource();
 			CloseTabPaneUI ui = (CloseTabPaneUI) pane.getUI();
-			ui.navigateSelectedTab(WEST);
+			ui.navigateSelectedTab( SwingConstants.WEST );
 		}
 	};
 
-	private class UpAction extends AbstractAction {
-		public void actionPerformed(ActionEvent e) {
+	private class UpAction
+		extends AbstractAction
+	{
+		public void actionPerformed( final ActionEvent e )
+		{
 			JTabbedPane pane = (JTabbedPane) e.getSource();
 			CloseTabPaneUI ui = (CloseTabPaneUI) pane.getUI();
-			ui.navigateSelectedTab(NORTH);
+			ui.navigateSelectedTab( SwingConstants.NORTH );
 		}
 	};
 
-	private class DownAction extends AbstractAction {
-		public void actionPerformed(ActionEvent e) {
+	private class DownAction
+		extends AbstractAction
+	{
+		public void actionPerformed( final ActionEvent e )
+		{
 			JTabbedPane pane = (JTabbedPane) e.getSource();
 			CloseTabPaneUI ui = (CloseTabPaneUI) pane.getUI();
-			ui.navigateSelectedTab(SOUTH);
+			ui.navigateSelectedTab( SwingConstants.SOUTH );
 		}
 	};
 
-	private class NextAction extends AbstractAction {
-		public void actionPerformed(ActionEvent e) {
+	private class NextAction
+		extends AbstractAction
+	{
+		public void actionPerformed( final ActionEvent e )
+		{
 			JTabbedPane pane = (JTabbedPane) e.getSource();
 			CloseTabPaneUI ui = (CloseTabPaneUI) pane.getUI();
-			ui.navigateSelectedTab(NEXT);
+			ui.navigateSelectedTab( SwingConstants.NEXT );
 		}
 	};
 
-	private class PreviousAction extends AbstractAction {
-		public void actionPerformed(ActionEvent e) {
+	private class PreviousAction
+		extends AbstractAction
+	{
+		public void actionPerformed( final ActionEvent e )
+		{
 			JTabbedPane pane = (JTabbedPane) e.getSource();
 			CloseTabPaneUI ui = (CloseTabPaneUI) pane.getUI();
-			ui.navigateSelectedTab(PREVIOUS);
+			ui.navigateSelectedTab( SwingConstants.PREVIOUS );
 		}
 	};
 
-	private class PageUpAction extends AbstractAction {
-		public void actionPerformed(ActionEvent e) {
+	private class PageUpAction
+		extends AbstractAction
+	{
+		public void actionPerformed( final ActionEvent e )
+		{
 			JTabbedPane pane = (JTabbedPane) e.getSource();
 			CloseTabPaneUI ui = (CloseTabPaneUI) pane.getUI();
 			int tabPlacement = pane.getTabPlacement();
-			if (tabPlacement == TOP || tabPlacement == BOTTOM) {
-				ui.navigateSelectedTab(WEST);
-			} else {
-				ui.navigateSelectedTab(NORTH);
+			if ( tabPlacement == SwingConstants.TOP || tabPlacement == SwingConstants.BOTTOM )
+			{
+				ui.navigateSelectedTab( SwingConstants.WEST );
+			}
+			else
+			{
+				ui.navigateSelectedTab( SwingConstants.NORTH );
 			}
 		}
 	};
 
-	private class PageDownAction extends AbstractAction {
-		public void actionPerformed(ActionEvent e) {
+	private class PageDownAction
+		extends AbstractAction
+	{
+		public void actionPerformed( final ActionEvent e )
+		{
 			JTabbedPane pane = (JTabbedPane) e.getSource();
 			CloseTabPaneUI ui = (CloseTabPaneUI) pane.getUI();
 			int tabPlacement = pane.getTabPlacement();
-			if (tabPlacement == TOP || tabPlacement == BOTTOM) {
-				ui.navigateSelectedTab(EAST);
-			} else {
-				ui.navigateSelectedTab(SOUTH);
+			if ( tabPlacement == SwingConstants.TOP || tabPlacement == SwingConstants.BOTTOM )
+			{
+				ui.navigateSelectedTab( SwingConstants.EAST );
+			}
+			else
+			{
+				ui.navigateSelectedTab( SwingConstants.SOUTH );
 			}
 		}
 	};
 
-	private class RequestFocusAction extends AbstractAction {
-		public void actionPerformed(ActionEvent e) {
+	private class RequestFocusAction
+		extends AbstractAction
+	{
+		public void actionPerformed( final ActionEvent e )
+		{
 			JTabbedPane pane = (JTabbedPane) e.getSource();
 			pane.requestFocus();
 		}
 	};
 
-	private class RequestFocusForVisibleAction extends AbstractAction {
-		public void actionPerformed(ActionEvent e) {
+	private class RequestFocusForVisibleAction
+		extends AbstractAction
+	{
+		public void actionPerformed( final ActionEvent e )
+		{
 			JTabbedPane pane = (JTabbedPane) e.getSource();
 			CloseTabPaneUI ui = (CloseTabPaneUI) pane.getUI();
 			ui.requestMyFocusForVisibleComponent();
@@ -935,102 +1041,130 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 	};
 
 	/**
-	 * Selects a tab in the JTabbedPane based on the String of the action
-	 * command. The tab selected is based on the first tab that has a mnemonic
-	 * matching the first character of the action command.
+	 * Selects a tab in the JTabbedPane based on the String of the action command. The tab selected is based on the
+	 * first tab that has a mnemonic matching the first character of the action command.
 	 */
-	private class SetSelectedIndexAction extends AbstractAction {
-		public void actionPerformed(ActionEvent e) {
+	private class SetSelectedIndexAction
+		extends AbstractAction
+	{
+		public void actionPerformed( final ActionEvent e )
+		{
 			JTabbedPane pane = (JTabbedPane) e.getSource();
 
-			if (pane != null && (pane.getUI() instanceof CloseTabPaneUI)) {
+			if ( pane != null && pane.getUI() instanceof CloseTabPaneUI )
+			{
 				CloseTabPaneUI ui = (CloseTabPaneUI) pane.getUI();
 				String command = e.getActionCommand();
 
-				if (command != null && command.length() > 0) {
-					int mnemonic = (int) e.getActionCommand().charAt(0);
-					if (mnemonic >= 'a' && mnemonic <= 'z') {
-						mnemonic -= ('a' - 'A');
+				if ( command != null && command.length() > 0 )
+				{
+					int mnemonic = e.getActionCommand().charAt( 0 );
+					if ( mnemonic >= 'a' && mnemonic <= 'z' )
+					{
+						mnemonic -= 'a' - 'A';
 					}
-					Integer index = (Integer) ui.mnemonicToIndexMap
-							.get(new Integer(mnemonic));
-					if (index != null && pane.isEnabledAt(index.intValue())) {
-						pane.setSelectedIndex(index.intValue());
+					Integer index = (Integer) ui.mnemonicToIndexMap.get( new Integer( mnemonic ) );
+					if ( index != null && pane.isEnabledAt( index.intValue() ) )
+					{
+						pane.setSelectedIndex( index.intValue() );
 					}
 				}
 			}
 		}
 	};
 
-	private class ScrollTabsForwardAction extends AbstractAction {
-		public void actionPerformed(ActionEvent e) {
+	private class ScrollTabsForwardAction
+		extends AbstractAction
+	{
+		public void actionPerformed( final ActionEvent e )
+		{
 			JTabbedPane pane = null;
 			Object src = e.getSource();
-			if (src instanceof JTabbedPane) {
+			if ( src instanceof JTabbedPane )
+			{
 				pane = (JTabbedPane) src;
-			} else if (src instanceof ScrollableTabButton) {
-				pane = (JTabbedPane) ((ScrollableTabButton) src).getParent();
-			} else {
+			}
+			else if ( src instanceof ScrollableTabButton )
+			{
+				pane = (JTabbedPane) ( (ScrollableTabButton) src ).getParent();
+			}
+			else
+			{
 				return; // shouldn't happen
 			}
 			CloseTabPaneUI ui = (CloseTabPaneUI) pane.getUI();
 
-			ui.tabScroller.scrollForward(pane.getTabPlacement());
+			ui.tabScroller.scrollForward( pane.getTabPlacement() );
 
 		}
 	}
 
-	private class ScrollTabsBackwardAction extends AbstractAction {
-		public void actionPerformed(ActionEvent e) {
+	private class ScrollTabsBackwardAction
+		extends AbstractAction
+	{
+		public void actionPerformed( final ActionEvent e )
+		{
 			JTabbedPane pane = null;
 			Object src = e.getSource();
-			if (src instanceof JTabbedPane) {
+			if ( src instanceof JTabbedPane )
+			{
 				pane = (JTabbedPane) src;
-			} else if (src instanceof ScrollableTabButton) {
-				pane = (JTabbedPane) ((ScrollableTabButton) src).getParent();
-			} else {
+			}
+			else if ( src instanceof ScrollableTabButton )
+			{
+				pane = (JTabbedPane) ( (ScrollableTabButton) src ).getParent();
+			}
+			else
+			{
 				return; // shouldn't happen
 			}
 			CloseTabPaneUI ui = (CloseTabPaneUI) pane.getUI();
 
-			ui.tabScroller.scrollBackward(pane.getTabPlacement());
+			ui.tabScroller.scrollBackward( pane.getTabPlacement() );
 
 		}
 	}
 
 	/**
-	 * This inner class is marked &quot;public&quot; due to a compiler bug. This
-	 * class should be treated as a &quot;protected&quot; inner class.
-	 * Instantiate it only within subclasses of BasicTabbedPaneUI.
+	 * This inner class is marked &quot;public&quot; due to a compiler bug. This class should be treated as a
+	 * &quot;protected&quot; inner class. Instantiate it only within subclasses of BasicTabbedPaneUI.
 	 */
 
-	private class TabbedPaneScrollLayout extends TabbedPaneLayout {
+	private class TabbedPaneScrollLayout
+		extends TabbedPaneLayout
+	{
 
-		protected int preferredTabAreaHeight(int tabPlacement, int width) {
-			return calculateMaxTabHeight(tabPlacement);
+		protected int preferredTabAreaHeight( final int tabPlacement, final int width )
+		{
+			return CloseTabPaneUI.this.calculateMaxTabHeight( tabPlacement );
 		}
 
-		protected int preferredTabAreaWidth(int tabPlacement, int height) {
-			return calculateMaxTabWidth(tabPlacement);
+		protected int preferredTabAreaWidth( final int tabPlacement, final int height )
+		{
+			return CloseTabPaneUI.this.calculateMaxTabWidth( tabPlacement );
 		}
 
-		public void layoutContainer(Container parent) {
-			int tabPlacement = tabPane.getTabPlacement();
-			int tabCount = tabPane.getTabCount();
-			Insets insets = tabPane.getInsets();
-			int selectedIndex = tabPane.getSelectedIndex();
-			Component visibleComponent = getVisibleComponent();
+		public void layoutContainer( final Container parent )
+		{
+			int tabPlacement = CloseTabPaneUI.this.tabPane.getTabPlacement();
+			int tabCount = CloseTabPaneUI.this.tabPane.getTabCount();
+			Insets insets = CloseTabPaneUI.this.tabPane.getInsets();
+			int selectedIndex = CloseTabPaneUI.this.tabPane.getSelectedIndex();
+			Component visibleComponent = CloseTabPaneUI.this.getVisibleComponent();
 
-			calculateLayoutInfo();
+			this.calculateLayoutInfo();
 
-			if (selectedIndex < 0) {
-				if (visibleComponent != null) {
+			if ( selectedIndex < 0 )
+			{
+				if ( visibleComponent != null )
+				{
 					// The last tab was removed, so remove the component
-					setVisibleComponent(null);
+					CloseTabPaneUI.this.setVisibleComponent( null );
 				}
-			} else {
-				Component selectedComponent = tabPane
-						.getComponentAt(selectedIndex);
+			}
+			else
+			{
+				Component selectedComponent = CloseTabPaneUI.this.tabPane.getComponentAt( selectedIndex );
 				boolean shouldChangeFocus = false;
 
 				// In order to allow programs to use a single component
@@ -1040,48 +1174,52 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 				// explicitly state we support this in the spec, but since
 				// programs are now depending on this, we're making it work.
 				//
-				if (selectedComponent != null) {
-					setVisibleComponent(selectedComponent);
+				if ( selectedComponent != null )
+				{
+					CloseTabPaneUI.this.setVisibleComponent( selectedComponent );
 				}
 				int tx, ty, tw, th; // tab area bounds
 				int cx, cy, cw, ch; // content area bounds
-				Insets contentInsets = getContentBorderInsets(tabPlacement);
-				Rectangle bounds = tabPane.getBounds();
-				int numChildren = tabPane.getComponentCount();
+				Insets contentInsets = CloseTabPaneUI.this.getContentBorderInsets( tabPlacement );
+				Rectangle bounds = CloseTabPaneUI.this.tabPane.getBounds();
+				int numChildren = CloseTabPaneUI.this.tabPane.getComponentCount();
 
-				if (numChildren > 0) {
+				if ( numChildren > 0 )
+				{
 
 					// calculate tab area bounds
 					tw = bounds.width - insets.left - insets.right;
-					th = calculateTabAreaHeight(tabPlacement, runCount,
-							maxTabHeight);
+					th =
+						CloseTabPaneUI.this.calculateTabAreaHeight(
+							tabPlacement, CloseTabPaneUI.this.runCount, CloseTabPaneUI.this.maxTabHeight );
 					tx = insets.left;
 					ty = insets.top;
 
 					// calculate content area bounds
 					cx = tx + contentInsets.left;
 					cy = ty + th + contentInsets.top;
-					cw = bounds.width - insets.left - insets.right
-							- contentInsets.left - contentInsets.right;
-					ch = bounds.height - insets.top - insets.bottom - th
-							- contentInsets.top - contentInsets.bottom;
+					cw = bounds.width - insets.left - insets.right - contentInsets.left - contentInsets.right;
+					ch = bounds.height - insets.top - insets.bottom - th - contentInsets.top - contentInsets.bottom;
 
-					for (int i = 0; i < numChildren; i++) {
-						Component child = tabPane.getComponent(i);
+					for ( int i = 0; i < numChildren; i++ )
+					{
+						Component child = CloseTabPaneUI.this.tabPane.getComponent( i );
 
-						if (child instanceof ScrollableTabViewport) {
+						if ( child instanceof ScrollableTabViewport )
+						{
 							JViewport viewport = (JViewport) child;
 							Rectangle viewRect = viewport.getViewRect();
 							int vw = tw;
 							int vh = th;
 
-							int totalTabWidth = rects[tabCount - 1].x
-									+ rects[tabCount - 1].width;
-							if (totalTabWidth > tw) {
+							int totalTabWidth =
+								CloseTabPaneUI.this.rects[ tabCount - 1 ].x + CloseTabPaneUI.this.rects[ tabCount - 1 ].width;
+							if ( totalTabWidth > tw )
+							{
 								// Need to allow space for scrollbuttons
-								vw = Math.max(tw - 36, 36);
-								;
-								if (totalTabWidth - viewRect.x <= vw) {
+								vw = Math.max( tw - 36, 36 );;
+								if ( totalTabWidth - viewRect.x <= vw )
+								{
 									// Scrolled to the end, so ensure the
 									// viewport size is
 									// such that the scroll offset aligns with a
@@ -1090,9 +1228,11 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 								}
 							}
 
-							child.setBounds(tx, ty, vw, vh);
+							child.setBounds( tx, ty, vw, vh );
 
-						} else if (child instanceof ScrollableTabButton) {
+						}
+						else if ( child instanceof ScrollableTabButton )
+						{
 							ScrollableTabButton scrollbutton = (ScrollableTabButton) child;
 							Dimension bsize = scrollbutton.getPreferredSize();
 							int bx = 0;
@@ -1101,43 +1241,47 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 							int bh = bsize.height;
 							boolean visible = false;
 
-							int totalTabWidth = rects[tabCount - 1].x
-									+ rects[tabCount - 1].width;
+							int totalTabWidth =
+								CloseTabPaneUI.this.rects[ tabCount - 1 ].x + CloseTabPaneUI.this.rects[ tabCount - 1 ].width;
 
-							if (totalTabWidth > tw) {
-								int dir = scrollbutton.scrollsForward() ? EAST
-										: WEST;
-								scrollbutton.setDirection(dir);
+							if ( totalTabWidth > tw )
+							{
+								int dir = scrollbutton.scrollsForward() ? SwingConstants.EAST : SwingConstants.WEST;
+								scrollbutton.setDirection( dir );
 								visible = true;
-								bx = dir == EAST ? bounds.width - insets.left
-										- bsize.width : bounds.width
-										- insets.left - 2 * bsize.width;
-								by = (tabPlacement == TOP ? ty + th
-										- bsize.height : ty);
+								bx =
+									dir == SwingConstants.EAST ? bounds.width - insets.left - bsize.width : bounds.width - insets.left - 2 * bsize.width;
+								by = tabPlacement == SwingConstants.TOP ? ty + th - bsize.height : ty;
 							}
 
-							child.setVisible(visible);
-							if (visible) {
-								child.setBounds(bx, by, bw, bh);
+							child.setVisible( visible );
+							if ( visible )
+							{
+								child.setBounds( bx, by, bw, bh );
 							}
 
-						} else {
+						}
+						else
+						{
 							// All content children...
-							child.setBounds(cx, cy, cw, ch);
+							child.setBounds( cx, cy, cw, ch );
 						}
 					}
-					if (shouldChangeFocus) {
-						if (!requestMyFocusForVisibleComponent()) {
-							tabPane.requestFocus();
+					if ( shouldChangeFocus )
+					{
+						if ( !CloseTabPaneUI.this.requestMyFocusForVisibleComponent() )
+						{
+							CloseTabPaneUI.this.tabPane.requestFocus();
 						}
 					}
 				}
 			}
 		}
 
-		protected void calculateTabRects(int tabPlacement, int tabCount) {
-			FontMetrics metrics = getFontMetrics();
-			Insets tabAreaInsets = getTabAreaInsets(tabPlacement);
+		protected void calculateTabRects( final int tabPlacement, final int tabCount )
+		{
+			FontMetrics metrics = CloseTabPaneUI.this.getFontMetrics();
+			Insets tabAreaInsets = CloseTabPaneUI.this.getTabAreaInsets( tabPlacement );
 			int i;
 
 			int x = tabAreaInsets.left - 2;
@@ -1149,47 +1293,53 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 			// Calculate bounds within which a tab run must fit
 			//
 
-			maxTabHeight = calculateMaxTabHeight(tabPlacement);
+			CloseTabPaneUI.this.maxTabHeight = CloseTabPaneUI.this.calculateMaxTabHeight( tabPlacement );
 
-			runCount = 0;
-			selectedRun = -1;
+			CloseTabPaneUI.this.runCount = 0;
+			CloseTabPaneUI.this.selectedRun = -1;
 
-			if (tabCount == 0) {
+			if ( tabCount == 0 )
+			{
 				return;
 			}
 
-			selectedRun = 0;
-			runCount = 1;
+			CloseTabPaneUI.this.selectedRun = 0;
+			CloseTabPaneUI.this.runCount = 1;
 
 			// Run through tabs and lay them out in a single run
 			Rectangle rect;
-			for (i = 0; i < tabCount; i++) {
-				rect = rects[i];
+			for ( i = 0; i < tabCount; i++ )
+			{
+				rect = CloseTabPaneUI.this.rects[ i ];
 
-				if (i > 0) {
-					rect.x = rects[i - 1].x + rects[i - 1].width - 1;
-				} else {
-					tabRuns[0] = 0;
-					maxTabWidth = 0;
-					totalHeight += maxTabHeight;
+				if ( i > 0 )
+				{
+					rect.x = CloseTabPaneUI.this.rects[ i - 1 ].x + CloseTabPaneUI.this.rects[ i - 1 ].width - 1;
+				}
+				else
+				{
+					CloseTabPaneUI.this.tabRuns[ 0 ] = 0;
+					CloseTabPaneUI.this.maxTabWidth = 0;
+					totalHeight += CloseTabPaneUI.this.maxTabHeight;
 					rect.x = x;
 				}
-				rect.width = calculateTabWidth(tabPlacement, i, metrics);
+				rect.width = CloseTabPaneUI.this.calculateTabWidth( tabPlacement, i, metrics );
 				totalWidth = rect.x + rect.width;
-				maxTabWidth = Math.max(maxTabWidth, rect.width);
+				CloseTabPaneUI.this.maxTabWidth = Math.max( CloseTabPaneUI.this.maxTabWidth, rect.width );
 
 				rect.y = y;
-				rect.height = maxTabHeight /* - 2 */;
+				rect.height = CloseTabPaneUI.this.maxTabHeight;
 
 			}
 
 			//tabPanel.setSize(totalWidth, totalHeight);
-			tabScroller.tabPanel.setPreferredSize(new Dimension(totalWidth,
-					totalHeight));
+			CloseTabPaneUI.this.tabScroller.tabPanel.setPreferredSize( new Dimension( totalWidth, totalHeight ) );
 		}
 	}
 
-	private class ScrollableTabSupport implements ChangeListener {
+	private class ScrollableTabSupport
+		implements ChangeListener
+	{
 		public ScrollableTabViewport viewport;
 
 		public ScrollableTabPanel tabPanel;
@@ -1200,221 +1350,238 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 
 		public int leadingTabIndex;
 
-		private Point tabViewPosition = new Point(0, 0);
+		private final Point tabViewPosition = new Point( 0, 0 );
 
-		ScrollableTabSupport(int tabPlacement) {
-			viewport = new ScrollableTabViewport();
-			tabPanel = new ScrollableTabPanel();
-			viewport.setView(tabPanel);
-			viewport.addChangeListener(this);
+		ScrollableTabSupport( final int tabPlacement )
+		{
+			this.viewport = new ScrollableTabViewport();
+			this.tabPanel = new ScrollableTabPanel();
+			this.viewport.setView( this.tabPanel );
+			this.viewport.addChangeListener( this );
 
-			scrollForwardButton = createScrollableTabButton(EAST);
-			scrollBackwardButton = createScrollableTabButton(WEST);
+			this.scrollForwardButton = CloseTabPaneUI.this.createScrollableTabButton( SwingConstants.EAST );
+			this.scrollBackwardButton = CloseTabPaneUI.this.createScrollableTabButton( SwingConstants.WEST );
 			//			scrollForwardButton = new ScrollableTabButton(EAST);
 			//			scrollBackwardButton = new ScrollableTabButton(WEST);
 		}
 
-		public void scrollForward(int tabPlacement) {
-			Dimension viewSize = viewport.getViewSize();
-			Rectangle viewRect = viewport.getViewRect();
+		public void scrollForward( final int tabPlacement )
+		{
+			Dimension viewSize = this.viewport.getViewSize();
+			Rectangle viewRect = this.viewport.getViewRect();
 
-			if (tabPlacement == TOP || tabPlacement == BOTTOM) {
-				if (viewRect.width >= viewSize.width - viewRect.x) {
+			if ( tabPlacement == SwingConstants.TOP || tabPlacement == SwingConstants.BOTTOM )
+			{
+				if ( viewRect.width >= viewSize.width - viewRect.x )
+				{
 					return; // no room left to scroll
 				}
-			} else { // tabPlacement == LEFT || tabPlacement == RIGHT
-				if (viewRect.height >= viewSize.height - viewRect.y) {
-					return;
-				}
 			}
-			setLeadingTabIndex(tabPlacement, leadingTabIndex + 1);
+			else if ( viewRect.height >= viewSize.height - viewRect.y )
+			{
+				return;
+			}
+			this.setLeadingTabIndex( tabPlacement, this.leadingTabIndex + 1 );
 		}
 
-		public void scrollBackward(int tabPlacement) {
-			if (leadingTabIndex == 0) {
+		public void scrollBackward( final int tabPlacement )
+		{
+			if ( this.leadingTabIndex == 0 )
+			{
 				return; // no room left to scroll
 			}
-			setLeadingTabIndex(tabPlacement, leadingTabIndex - 1);
+			this.setLeadingTabIndex( tabPlacement, this.leadingTabIndex - 1 );
 		}
 
-		public void setLeadingTabIndex(int tabPlacement, int index) {
-			leadingTabIndex = index;
-			Dimension viewSize = viewport.getViewSize();
-			Rectangle viewRect = viewport.getViewRect();
+		public void setLeadingTabIndex( final int tabPlacement, final int index )
+		{
+			this.leadingTabIndex = index;
+			Dimension viewSize = this.viewport.getViewSize();
+			Rectangle viewRect = this.viewport.getViewRect();
 
-			tabViewPosition.x = leadingTabIndex == 0 ? 0
-					: rects[leadingTabIndex].x;
+			this.tabViewPosition.x =
+				this.leadingTabIndex == 0 ? 0 : CloseTabPaneUI.this.rects[ this.leadingTabIndex ].x;
 
-			if ((viewSize.width - tabViewPosition.x) < viewRect.width) {
+			if ( viewSize.width - this.tabViewPosition.x < viewRect.width )
+			{
 				// We've scrolled to the end, so adjust the viewport size
 				// to ensure the view position remains aligned on a tab boundary
-				Dimension extentSize = new Dimension(viewSize.width
-						- tabViewPosition.x, viewRect.height);
-				viewport.setExtentSize(extentSize);
+				Dimension extentSize = new Dimension( viewSize.width - this.tabViewPosition.x, viewRect.height );
+				this.viewport.setExtentSize( extentSize );
 			}
 
-			viewport.setViewPosition(tabViewPosition);
+			this.viewport.setViewPosition( this.tabViewPosition );
 		}
 
-		public void stateChanged(ChangeEvent e) {
+		public void stateChanged( final ChangeEvent e )
+		{
 			JViewport viewport = (JViewport) e.getSource();
-			int tabPlacement = tabPane.getTabPlacement();
-			int tabCount = tabPane.getTabCount();
+			int tabPlacement = CloseTabPaneUI.this.tabPane.getTabPlacement();
+			int tabCount = CloseTabPaneUI.this.tabPane.getTabCount();
 			Rectangle vpRect = viewport.getBounds();
 			Dimension viewSize = viewport.getViewSize();
 			Rectangle viewRect = viewport.getViewRect();
 
-			leadingTabIndex = getClosestTab(viewRect.x, viewRect.y);
+			this.leadingTabIndex = CloseTabPaneUI.this.getClosestTab( viewRect.x, viewRect.y );
 
-			if ( rects.length <= leadingTabIndex )
+			if ( CloseTabPaneUI.this.rects.length <= this.leadingTabIndex )
+			{
 				return;
+			}
 
 			// If the tab isn't right aligned, adjust it.
-			if (leadingTabIndex + 1 < tabCount) {
-
-				if (rects[leadingTabIndex].x < viewRect.x) {
-					leadingTabIndex++;
+			if ( this.leadingTabIndex + 1 < tabCount )
+			{
+				if ( CloseTabPaneUI.this.rects[ this.leadingTabIndex ].x < viewRect.x )
+				{
+					this.leadingTabIndex++ ;
 				}
-
 			}
-			Insets contentInsets = getContentBorderInsets(tabPlacement);
+			Insets contentInsets = CloseTabPaneUI.this.getContentBorderInsets( tabPlacement );
 
-			tabPane.repaint(vpRect.x, vpRect.y + vpRect.height, vpRect.width,
-					contentInsets.top);
-			scrollBackwardButton.setEnabled(viewRect.x > 0);
-			scrollForwardButton.setEnabled(leadingTabIndex < tabCount - 1
-					&& viewSize.width - viewRect.x > viewRect.width);
+			CloseTabPaneUI.this.tabPane.repaint( vpRect.x, vpRect.y + vpRect.height, vpRect.width, contentInsets.top );
+			this.scrollBackwardButton.setEnabled( viewRect.x > 0 );
+			this.scrollForwardButton.setEnabled( this.leadingTabIndex < tabCount - 1 && viewSize.width - viewRect.x > viewRect.width );
 
 		}
 
-		public String toString() {
-			return new String("viewport.viewSize=" + viewport.getViewSize()
-					+ "\n" + "viewport.viewRectangle=" + viewport.getViewRect()
-					+ "\n" + "leadingTabIndex=" + leadingTabIndex + "\n"
-					+ "tabViewPosition=" + tabViewPosition);
+		public String toString()
+		{
+			return new String(
+				"viewport.viewSize=" + this.viewport.getViewSize() + "\n" + "viewport.viewRectangle=" + this.viewport.getViewRect() + "\n" + "leadingTabIndex=" + this.leadingTabIndex + "\n" + "tabViewPosition=" + this.tabViewPosition );
 		}
 
 	}
 
-	private class ScrollableTabViewport extends JViewport implements UIResource {
-		public ScrollableTabViewport() {
+	private class ScrollableTabViewport
+		extends JViewport
+		implements UIResource
+	{
+		public ScrollableTabViewport()
+		{
 			super();
-			setScrollMode(SIMPLE_SCROLL_MODE);
+			this.setScrollMode( JViewport.SIMPLE_SCROLL_MODE );
 		}
 	}
 
-	private class ScrollableTabPanel extends JPanel implements UIResource {
-		public ScrollableTabPanel() {
-			setLayout(null);
+	private class ScrollableTabPanel
+		extends JPanel
+		implements UIResource
+	{
+		public ScrollableTabPanel()
+		{
+			this.setLayout( null );
 		}
 
-		public void paintComponent(Graphics g) {
-			super.paintComponent(g);
-			CloseTabPaneUI.this.paintTabArea(g, tabPane.getTabPlacement(),
-					tabPane.getSelectedIndex());
+		public void paintComponent( final Graphics g )
+		{
+			super.paintComponent( g );
+			CloseTabPaneUI.this.paintTabArea(
+				g, CloseTabPaneUI.this.tabPane.getTabPlacement(), CloseTabPaneUI.this.tabPane.getSelectedIndex() );
 
 		}
 	}
 
-	protected class ScrollableTabButton extends BasicArrowButton implements
-			UIResource, SwingConstants {
-		public ScrollableTabButton(int direction) {
-			super(direction, UIManager.getColor("TabbedPane.selected"),
-					UIManager.getColor("TabbedPane.shadow"), UIManager
-							.getColor("TabbedPane.darkShadow"), UIManager
-							.getColor("TabbedPane.highlight"));
+	protected class ScrollableTabButton
+		extends BasicArrowButton
+		implements UIResource, SwingConstants
+	{
+		public ScrollableTabButton( final int direction )
+		{
+			super(
+				direction, UIManager.getColor( "TabbedPane.selected" ), UIManager.getColor( "TabbedPane.shadow" ),
+				UIManager.getColor( "TabbedPane.darkShadow" ), UIManager.getColor( "TabbedPane.highlight" ) );
 
 		}
 
-		public boolean scrollsForward() {
-			return direction == EAST || direction == SOUTH;
+		public boolean scrollsForward()
+		{
+			return this.direction == SwingConstants.EAST || this.direction == SwingConstants.SOUTH;
 		}
 
 	}
 
 	/**
-	 * This inner class is marked &quot;public&quot; due to a compiler bug. This
-	 * class should be treated as a &quot;protected&quot; inner class.
-	 * Instantiate it only within subclasses of BasicTabbedPaneUI.
+	 * This inner class is marked &quot;public&quot; due to a compiler bug. This class should be treated as a
+	 * &quot;protected&quot; inner class. Instantiate it only within subclasses of BasicTabbedPaneUI.
 	 */
-	public class TabSelectionHandler implements ChangeListener {
-		public void stateChanged(ChangeEvent e) {
+	public class TabSelectionHandler
+		implements ChangeListener
+	{
+		public void stateChanged( final ChangeEvent e )
+		{
 			JTabbedPane tabPane = (JTabbedPane) e.getSource();
 			tabPane.revalidate();
 			tabPane.repaint();
 
-			if (tabPane.getTabLayoutPolicy() == JTabbedPane.SCROLL_TAB_LAYOUT) {
+			if ( tabPane.getTabLayoutPolicy() == JTabbedPane.SCROLL_TAB_LAYOUT )
+			{
 				int index = tabPane.getSelectedIndex();
-				if (index < rects.length && index != -1) {
-					tabScroller.tabPanel.scrollRectToVisible(rects[index]);
+				if ( index < CloseTabPaneUI.this.rects.length && index != -1 )
+				{
+					CloseTabPaneUI.this.tabScroller.tabPanel.scrollRectToVisible( CloseTabPaneUI.this.rects[ index ] );
 				}
 			}
 		}
 	}
 
 	/**
-	 * This inner class is marked &quot;public&quot; due to a compiler bug. This
-	 * class should be treated as a &quot;protected&quot; inner class.
-	 * Instantiate it only within subclasses of BasicTabbedPaneUI.
+	 * This inner class is marked &quot;public&quot; due to a compiler bug. This class should be treated as a
+	 * &quot;protected&quot; inner class. Instantiate it only within subclasses of BasicTabbedPaneUI.
 	 */
 
 	/*
-	 * GES 2/3/99: The container listener code was added to support HTML
-	 * rendering of tab titles.
-	 *
-	 * Ideally, we would be able to listen for property changes when a tab is
-	 * added or its text modified. At the moment there are no such events
-	 * because the Beans spec doesn't allow 'indexed' property changes (i.e. tab
-	 * 2's text changed from A to B).
-	 *
-	 * In order to get around this, we listen for tabs to be added or removed by
-	 * listening for the container events. we then queue up a runnable (so the
-	 * component has a chance to complete the add) which checks the tab title of
-	 * the new component to see if it requires HTML rendering.
-	 *
-	 * The Views (one per tab title requiring HTML rendering) are stored in the
-	 * htmlViews ArrayList, which is only allocated after the first time we run
-	 * into an HTML tab. Note that this vector is kept in step with the number
-	 * of pages, and nulls are added for those pages whose tab title do not
-	 * require HTML rendering.
-	 *
-	 * This makes it easy for the paint and layout code to tell whether to
-	 * invoke the HTML engine without having to check the string during
-	 * time-sensitive operations.
-	 *
-	 * When we have added a way to listen for tab additions and changes to tab
-	 * text, this code should be removed and replaced by something which uses
-	 * that.
+	 * GES 2/3/99: The container listener code was added to support HTML rendering of tab titles. Ideally, we would be
+	 * able to listen for property changes when a tab is added or its text modified. At the moment there are no such
+	 * events because the Beans spec doesn't allow 'indexed' property changes (i.e. tab 2's text changed from A to B).
+	 * In order to get around this, we listen for tabs to be added or removed by listening for the container events. we
+	 * then queue up a runnable (so the component has a chance to complete the add) which checks the tab title of the
+	 * new component to see if it requires HTML rendering. The Views (one per tab title requiring HTML rendering) are
+	 * stored in the htmlViews ArrayList, which is only allocated after the first time we run into an HTML tab. Note
+	 * that this vector is kept in step with the number of pages, and nulls are added for those pages whose tab title do
+	 * not require HTML rendering. This makes it easy for the paint and layout code to tell whether to invoke the HTML
+	 * engine without having to check the string during time-sensitive operations. When we have added a way to listen
+	 * for tab additions and changes to tab text, this code should be removed and replaced by something which uses that.
 	 */
 
-	private class ContainerHandler implements ContainerListener {
-		public void componentAdded(ContainerEvent e) {
+	private class ContainerHandler
+		implements ContainerListener
+	{
+		public void componentAdded( final ContainerEvent e )
+		{
 			JTabbedPane tp = (JTabbedPane) e.getContainer();
 			Component child = e.getChild();
-			if (child instanceof UIResource) {
+			if ( child instanceof UIResource )
+			{
 				return;
 			}
-			int index = tp.indexOfComponent(child);
-			String title = tp.getTitleAt(index);
-			boolean isHTML = BasicHTML.isHTMLString(title);
-			if (isHTML) {
-				if (htmlViews == null) { // Initialize vector
-					htmlViews = createHTMLArrayList();
-				} else { // ArrayList already exists
-					View v = BasicHTML.createHTMLView(tp, title);
-					htmlViews.add( index, v );
+			int index = tp.indexOfComponent( child );
+			String title = tp.getTitleAt( index );
+			boolean isHTML = BasicHTML.isHTMLString( title );
+			if ( isHTML )
+			{
+				if ( CloseTabPaneUI.this.htmlViews == null )
+				{
+					CloseTabPaneUI.this.htmlViews = CloseTabPaneUI.this.createHTMLArrayList();
 				}
-			} else { // Not HTML
-				if (htmlViews != null) { // Add placeholder
-					htmlViews.add( index, null );
-				} // else nada!
+				else
+				{ // ArrayList already exists
+					View v = BasicHTML.createHTMLView( tp, title );
+					CloseTabPaneUI.this.htmlViews.add( index, v );
+				}
+			}
+			else if ( CloseTabPaneUI.this.htmlViews != null )
+			{
+				CloseTabPaneUI.this.htmlViews.add( index, null );
 			}
 		}
 
-		public void componentRemoved(ContainerEvent e) {
+		public void componentRemoved( final ContainerEvent e )
+		{
 			JTabbedPane tp = (JTabbedPane) e.getContainer();
 			Component child = e.getChild();
-			if (child instanceof UIResource) {
+			if ( child instanceof UIResource )
+			{
 				return;
 			}
 
@@ -1423,139 +1590,177 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 			// currently no IndexPropertyChangeEvent. Once
 			// IndexPropertyChangeEvents have been added this code should be
 			// modified to use it.
-			Integer indexObj = (Integer) tp
-					.getClientProperty("__index_to_remove__");
-			if (indexObj != null) {
+			Integer indexObj = (Integer) tp.getClientProperty( "__index_to_remove__" );
+			if ( indexObj != null )
+			{
 				int index = indexObj.intValue();
-				if (htmlViews != null && htmlViews.size() >= index) {
-					htmlViews.remove(index);
+				if ( CloseTabPaneUI.this.htmlViews != null && CloseTabPaneUI.this.htmlViews.size() >= index )
+				{
+					CloseTabPaneUI.this.htmlViews.remove( index );
 				}
 			}
 		}
 	}
 
-	private ArrayList createHTMLArrayList() {
+	private ArrayList createHTMLArrayList()
+	{
 		ArrayList htmlViews = new ArrayList();
-		int count = tabPane.getTabCount();
-		if (count > 0) {
-			for (int i = 0; i < count; i++) {
-				String title = tabPane.getTitleAt(i);
-				if (BasicHTML.isHTMLString(title)) {
-					htmlViews.add(BasicHTML.createHTMLView(tabPane,
-							title));
-				} else {
-					htmlViews.add(null);
+		int count = this.tabPane.getTabCount();
+		if ( count > 0 )
+		{
+			for ( int i = 0; i < count; i++ )
+			{
+				String title = this.tabPane.getTitleAt( i );
+				if ( BasicHTML.isHTMLString( title ) )
+				{
+					htmlViews.add( BasicHTML.createHTMLView( this.tabPane, title ) );
+				}
+				else
+				{
+					htmlViews.add( null );
 				}
 			}
 		}
 		return htmlViews;
 	}
 
-	class MyMouseHandler extends MouseHandler {
-		public MyMouseHandler() {
+	class MyMouseHandler
+		extends MouseHandler
+	{
+		public MyMouseHandler()
+		{
 			super();
 		}
 
-		public void mousePressed(MouseEvent e) {
+		public void mousePressed( final MouseEvent e )
+		{
 
-			if (closeIndexStatus == OVER) {
-				closeIndexStatus = PRESSED;
-				tabScroller.tabPanel.repaint();
+			if ( CloseTabPaneUI.this.closeIndexStatus == CloseTabPaneUI.this.OVER )
+			{
+				CloseTabPaneUI.this.closeIndexStatus = CloseTabPaneUI.this.PRESSED;
+				CloseTabPaneUI.this.tabScroller.tabPanel.repaint();
 				return;
 			}
 
-			if (maxIndexStatus == OVER) {
-				maxIndexStatus = PRESSED;
-				tabScroller.tabPanel.repaint();
+			if ( CloseTabPaneUI.this.maxIndexStatus == CloseTabPaneUI.this.OVER )
+			{
+				CloseTabPaneUI.this.maxIndexStatus = CloseTabPaneUI.this.PRESSED;
+				CloseTabPaneUI.this.tabScroller.tabPanel.repaint();
 				return;
 			}
 
-			if (closeIndexStatus == PRESSED || maxIndexStatus == PRESSED)
+			if ( CloseTabPaneUI.this.closeIndexStatus == CloseTabPaneUI.this.PRESSED || CloseTabPaneUI.this.maxIndexStatus == CloseTabPaneUI.this.PRESSED )
+			{
 				return;
+			}
 
-			super.mousePressed(e);
+			super.mousePressed( e );
 		}
 
-		public void mouseClicked(MouseEvent e) {
+		public void mouseClicked( final MouseEvent e )
+		{
 
-			super.mousePressed(e);
+			super.mousePressed( e );
 
-			if (e.getClickCount() > 1 && overTabIndex != -1) {
-				((CloseTabbedPane) tabPane).fireDoubleClickTabEvent(e, overTabIndex);
+			if ( e.getClickCount() > 1 && CloseTabPaneUI.this.overTabIndex != -1 )
+			{
+				( (CloseTabbedPane) CloseTabPaneUI.this.tabPane ).fireDoubleClickTabEvent(
+					e, CloseTabPaneUI.this.overTabIndex );
 			}
 		}
 
-		public void mouseReleased(MouseEvent e) {
+		public void mouseReleased( final MouseEvent e )
+		{
 
-			if (overTabIndex == -1) {
-				if (e.isPopupTrigger())
-					((CloseTabbedPane) tabPane)
-							.firePopupOutsideTabEvent(e);
+			if ( CloseTabPaneUI.this.overTabIndex == -1 )
+			{
+				if ( e.isPopupTrigger() )
+				{
+					( (CloseTabbedPane) CloseTabPaneUI.this.tabPane ).firePopupOutsideTabEvent( e );
+				}
 				return;
 			}
 
-			if (isOneActionButtonEnabled() && e.isPopupTrigger()) {
-				super.mousePressed(e);
+			if ( CloseTabPaneUI.this.isOneActionButtonEnabled() && e.isPopupTrigger() )
+			{
+				super.mousePressed( e );
 
-				closeIndexStatus = INACTIVE; //Prevent undesired action when
-				maxIndexStatus = INACTIVE; //right-clicking on icons
+				CloseTabPaneUI.this.closeIndexStatus = CloseTabPaneUI.this.INACTIVE; //Prevent undesired action when
+				CloseTabPaneUI.this.maxIndexStatus = CloseTabPaneUI.this.INACTIVE; //right-clicking on icons
 
-				actionPopupMenu.show(tabScroller.tabPanel, e.getX(), e.getY());
+				CloseTabPaneUI.this.actionPopupMenu.show( CloseTabPaneUI.this.tabScroller.tabPanel, e.getX(), e.getY() );
 				return;
 			}
 
-			if (closeIndexStatus == PRESSED ) {
+			if ( CloseTabPaneUI.this.closeIndexStatus == CloseTabPaneUI.this.PRESSED )
+			{
 
-				boolean shouldClose = overTabIndex >= tabStates.size() ||
-					tabStates.get( overTabIndex ) == Boolean.FALSE;
+				boolean shouldClose =
+					CloseTabPaneUI.this.overTabIndex >= CloseTabPaneUI.this.tabStates.size() || CloseTabPaneUI.this.tabStates.get( CloseTabPaneUI.this.overTabIndex ) == Boolean.FALSE;
 
-				if ( closeIconStyle == GRAY_CLOSE_ICON )
-					shouldClose &= tabPane.getSelectedIndex() == overTabIndex;
+				if ( CloseTabPaneUI.this.closeIconStyle == CloseTabPaneUI.GRAY_CLOSE_ICON )
+				{
+					shouldClose &= CloseTabPaneUI.this.tabPane.getSelectedIndex() == CloseTabPaneUI.this.overTabIndex;
+				}
 				else
-					shouldClose &= tabPane.getSelectedIndex() != overTabIndex;
+				{
+					shouldClose &= CloseTabPaneUI.this.tabPane.getSelectedIndex() != CloseTabPaneUI.this.overTabIndex;
+				}
 
 				if ( shouldClose )
 				{
-					closeIndexStatus = OVER;
-					tabScroller.tabPanel.repaint();
+					CloseTabPaneUI.this.closeIndexStatus = CloseTabPaneUI.this.OVER;
+					CloseTabPaneUI.this.tabScroller.tabPanel.repaint();
 
-					((CloseTabbedPane) tabPane).fireCloseTabEvent(e, overTabIndex);
+					( (CloseTabbedPane) CloseTabPaneUI.this.tabPane ).fireCloseTabEvent(
+						e, CloseTabPaneUI.this.overTabIndex );
 					return;
 				}
 			}
 
-			if (maxIndexStatus == PRESSED) {
-				maxIndexStatus = OVER;
-				tabScroller.tabPanel.repaint();
+			if ( CloseTabPaneUI.this.maxIndexStatus == CloseTabPaneUI.this.PRESSED )
+			{
+				CloseTabPaneUI.this.maxIndexStatus = CloseTabPaneUI.this.OVER;
+				CloseTabPaneUI.this.tabScroller.tabPanel.repaint();
 
-				((CloseTabbedPane) tabPane).fireMaxTabEvent(e, overTabIndex);
+				( (CloseTabbedPane) CloseTabPaneUI.this.tabPane ).fireMaxTabEvent( e, CloseTabPaneUI.this.overTabIndex );
 				return;
 			}
 		}
 
-		public void mouseExited(MouseEvent e) {
-			if (!mousePressed) {
-				overTabIndex = -1;
-				tabScroller.tabPanel.repaint();
+		public void mouseExited( final MouseEvent e )
+		{
+			if ( !CloseTabPaneUI.this.mousePressed )
+			{
+				CloseTabPaneUI.this.overTabIndex = -1;
+				CloseTabPaneUI.this.tabScroller.tabPanel.repaint();
 			}
 		}
 
 	}
 
-	class MyMouseMotionListener implements MouseMotionListener {
+	class MyMouseMotionListener
+		implements MouseMotionListener
+	{
 
-		public void mouseMoved(MouseEvent e) {
-			if (actionPopupMenu.isVisible())
+		public void mouseMoved( final MouseEvent e )
+		{
+			if ( CloseTabPaneUI.this.actionPopupMenu.isVisible() )
+			{
 				return; //No updates when popup is visible
-			mousePressed = false;
-			setTabIcons(e.getX(), e.getY());
+			}
+			CloseTabPaneUI.this.mousePressed = false;
+			CloseTabPaneUI.this.setTabIcons( e.getX(), e.getY() );
 		}
 
-		public void mouseDragged(MouseEvent e) {
-			if (actionPopupMenu.isVisible())
+		public void mouseDragged( final MouseEvent e )
+		{
+			if ( CloseTabPaneUI.this.actionPopupMenu.isVisible() )
+			{
 				return; //No updates when popup is visible
-			mousePressed = true;
-			setTabIcons(e.getX(), e.getY());
+			}
+			CloseTabPaneUI.this.mousePressed = true;
+			CloseTabPaneUI.this.setTabIcons( e.getX(), e.getY() );
 		}
 	}
 

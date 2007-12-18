@@ -49,32 +49,35 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.StaticEntity.TurnCounter;
 
-public class LocalRelayRequest extends PasswordHashRequest
+public class LocalRelayRequest
+	extends PasswordHashRequest
 {
 	private static final AdventureResult LUCRE = new AdventureResult( 2098, 1 );
 
 	private static final TreeMap overrideMap = new TreeMap();
-	private static final Pattern EMAIL_PATTERN = Pattern.compile( "<table style='border: 1px solid black;' cellpadding=10>.*?</table>", Pattern.DOTALL );
+	private static final Pattern EMAIL_PATTERN =
+		Pattern.compile( "<table style='border: 1px solid black;' cellpadding=10>.*?</table>", Pattern.DOTALL );
 	private static final Pattern WHITESPACE_PATTERN = Pattern.compile( "['\\s-]" );
 
-	private static final Pattern STORE_PATTERN = Pattern.compile( "<tr><td><input name=whichitem type=radio value=(\\d+).*?</tr>", Pattern.DOTALL );
+	private static final Pattern STORE_PATTERN =
+		Pattern.compile( "<tr><td><input name=whichitem type=radio value=(\\d+).*?</tr>", Pattern.DOTALL );
 
 	private static String mainpane = "";
 	private static KoLAdventure lastSafety = null;
 
-	private boolean allowOverride;
+	private final boolean allowOverride;
 	public List headers = new ArrayList();
-	public byte [] rawByteBuffer = null;
+	public byte[] rawByteBuffer = null;
 	public String contentType = null;
 	public String statusLine = "HTTP/1.1 302 Found";
 
-	public LocalRelayRequest( boolean allowOverride )
+	public LocalRelayRequest( final boolean allowOverride )
 	{
 		super( "" );
 		this.allowOverride = allowOverride && KoLSettings.getBooleanProperty( "relayAllowsOverride" );
 	}
 
-	public KoLRequest constructURLString( String newURLString )
+	public KoLRequest constructURLString( final String newURLString )
 	{
 		super.constructURLString( newURLString );
 
@@ -82,50 +85,79 @@ public class LocalRelayRequest extends PasswordHashRequest
 		this.headers.clear();
 
 		if ( this.getPath().endsWith( ".css" ) )
+		{
 			this.contentType = "text/css";
+		}
 		else if ( this.getPath().endsWith( ".js" ) )
+		{
 			this.contentType = "text/javascript";
+		}
 		else if ( this.getPath().endsWith( ".gif" ) )
+		{
 			this.contentType = "image/gif";
+		}
 		else if ( this.getPath().endsWith( ".png" ) )
+		{
 			this.contentType = "image/png";
+		}
 		else if ( this.getPath().endsWith( ".jpg" ) || this.getPath().endsWith( ".jpeg" ) )
+		{
 			this.contentType = "image/jpeg";
+		}
 		else if ( this.getPath().endsWith( ".ico" ) )
+		{
 			this.contentType = "image/x-icon";
+		}
 		else
+		{
 			this.contentType = "text/html";
+		}
 
 		return this;
 	}
 
-	private static final boolean isJunkItem( int itemId, int price )
+	private static final boolean isJunkItem( final int itemId, final int price )
 	{
 		if ( !KoLSettings.getBooleanProperty( "relayHidesJunkMallItems" ) )
+		{
 			return false;
+		}
 
 		if ( price > KoLCharacter.getAvailableMeat() )
+		{
 			return true;
+		}
 
 		if ( NPCStoreDatabase.contains( TradeableItemDatabase.getItemName( itemId ) ) )
+		{
 			if ( price == 100 || price > TradeableItemDatabase.getPriceById( itemId ) * 2 )
+			{
 				return true;
+			}
+		}
 
-		for ( int i = 0; i < junkList.size(); ++i )
-			if ( ((AdventureResult)junkList.get(i)).getItemId() == itemId )
+		for ( int i = 0; i < KoLConstants.junkList.size(); ++i )
+		{
+			if ( ( (AdventureResult) KoLConstants.junkList.get( i ) ).getItemId() == itemId )
+			{
 				return true;
+			}
+		}
 
 		return false;
 	}
 
 	protected boolean retryOnTimeout()
-	{	return true;
+	{
+		return true;
 	}
 
 	public void processResults()
 	{
-		if ( !hasNoResult() && !this.getPath().equals( "fight.php" ) )
+		if ( !this.hasNoResult() && !this.getPath().equals( "fight.php" ) )
+		{
 			StaticEntity.externalUpdate( this.getURLString(), this.responseText );
+		}
 	}
 
 	public void formatResponse()
@@ -142,24 +174,28 @@ public class LocalRelayRequest extends PasswordHashRequest
 		{
 			CharpaneRequest.processCharacterPane( this.responseText );
 		}
-
-		// Allow a way to get from KoL back to the gCLI
-		// using the chat launcher.
-
 		else if ( path.equals( "chatlaunch.php" ) )
 		{
 			if ( KoLSettings.getBooleanProperty( "relayAddsGraphicalCLI" ) )
 			{
 				int linkIndex = responseBuffer.indexOf( "<a href" );
 				if ( linkIndex != -1 )
-					responseBuffer.insert( linkIndex, "<a href=\"cli.html\"><b>KoLmafia gCLI</b></a></center><p>Type KoLmafia scripting commands in your browser!</p><center>" );
+				{
+					responseBuffer.insert(
+						linkIndex,
+						"<a href=\"cli.html\"><b>KoLmafia gCLI</b></a></center><p>Type KoLmafia scripting commands in your browser!</p><center>" );
+				}
 			}
 
 			if ( KoLSettings.getBooleanProperty( "relayAddsKoLSimulator" ) )
 			{
 				int linkIndex = responseBuffer.indexOf( "<a href" );
 				if ( linkIndex != -1 )
-					responseBuffer.insert( linkIndex, "<a href=\"simulator/index.html\" target=\"_blank\"><b>KoL Simulator</b></a></center><p>See what might happen before it happens!</p><center>" );
+				{
+					responseBuffer.insert(
+						linkIndex,
+						"<a href=\"simulator/index.html\" target=\"_blank\"><b>KoL Simulator</b></a></center><p>See what might happen before it happens!</p><center>" );
+				}
 			}
 		}
 
@@ -168,9 +204,11 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 		else if ( path.equals( "main.php" ) )
 		{
-			Matcher emailMatcher = EMAIL_PATTERN.matcher( this.responseText );
+			Matcher emailMatcher = LocalRelayRequest.EMAIL_PATTERN.matcher( this.responseText );
 			if ( emailMatcher.find() )
+			{
 				responseBuffer = new StringBuffer( emailMatcher.replaceAll( "" ) );
+			}
 		}
 		// If this is a store, you can opt to remove all the min-priced items from view
 		// along with all the items which are priced above affordable levels.
@@ -180,20 +218,22 @@ public class LocalRelayRequest extends PasswordHashRequest
 			int searchItemId = -1;
 			int searchPrice = -1;
 
-			searchItemId = StaticEntity.parseInt( getFormField( "searchitem" ) );
-			searchPrice = StaticEntity.parseInt( getFormField( "searchprice" ) );
+			searchItemId = StaticEntity.parseInt( this.getFormField( "searchitem" ) );
+			searchPrice = StaticEntity.parseInt( this.getFormField( "searchprice" ) );
 
-			Matcher itemMatcher = STORE_PATTERN.matcher( this.responseText );
+			Matcher itemMatcher = LocalRelayRequest.STORE_PATTERN.matcher( this.responseText );
 
 			while ( itemMatcher.find() )
 			{
-				String itemData = itemMatcher.group(1);
+				String itemData = itemMatcher.group( 1 );
 
 				int itemId = StaticEntity.parseInt( itemData.substring( 0, itemData.length() - 9 ) );
 				int price = StaticEntity.parseInt( itemData.substring( itemData.length() - 9 ) );
 
-				if ( itemId != searchItemId && isJunkItem( itemId, price ) )
+				if ( itemId != searchItemId && LocalRelayRequest.isJunkItem( itemId, price ) )
+				{
 					StaticEntity.singleStringDelete( responseBuffer, itemMatcher.group() );
+				}
 			}
 
 			// Also make sure the item that the person selected when coming into the
@@ -202,7 +242,8 @@ public class LocalRelayRequest extends PasswordHashRequest
 			if ( searchItemId != -1 )
 			{
 				String searchString = MallPurchaseRequest.getStoreString( searchItemId, searchPrice );
-				StaticEntity.singleStringReplace( responseBuffer, "value=" + searchString, "checked value=" + searchString );
+				StaticEntity.singleStringReplace(
+					responseBuffer, "value=" + searchString, "checked value=" + searchString );
 			}
 		}
 		else if ( path.equals( "fight.php" ) )
@@ -214,23 +255,25 @@ public class LocalRelayRequest extends PasswordHashRequest
 				if ( skillId != null && !skillId.equals( "none" ) && !skillId.equals( "3004" ) )
 				{
 					String testAction;
-					int maximumIndex = STATIONARY_BUTTON_COUNT + 1;
+					int maximumIndex = KoLConstants.STATIONARY_BUTTON_COUNT + 1;
 					int insertIndex = maximumIndex;
 
-					for ( int i = 1; i <= STATIONARY_BUTTON_COUNT && insertIndex == maximumIndex; ++i )
+					for ( int i = 1; i <= KoLConstants.STATIONARY_BUTTON_COUNT && insertIndex == maximumIndex; ++i )
 					{
 						testAction = KoLSettings.getUserProperty( "stationaryButton" + i );
 						if ( testAction.equals( "" ) || testAction.equals( "none" ) || testAction.equals( skillId ) )
+						{
 							insertIndex = i;
+						}
 					}
 
 					if ( insertIndex == maximumIndex )
 					{
-						insertIndex = STATIONARY_BUTTON_COUNT;
-						for ( int i = 2; i <= STATIONARY_BUTTON_COUNT; ++i )
+						insertIndex = KoLConstants.STATIONARY_BUTTON_COUNT;
+						for ( int i = 2; i <= KoLConstants.STATIONARY_BUTTON_COUNT; ++i )
 						{
-							KoLSettings.setUserProperty( "stationaryButton" + (i-1),
-								KoLSettings.getUserProperty( "stationaryButton" + i ) );
+							KoLSettings.setUserProperty(
+								"stationaryButton" + ( i - 1 ), KoLSettings.getUserProperty( "stationaryButton" + i ) );
 						}
 					}
 
@@ -252,9 +295,14 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// and improve mini-browser performance.
 
 		if ( KoLSettings.getBooleanProperty( "relayUsesCachedImages" ) )
+		{
 			StaticEntity.globalStringReplace( responseBuffer, "http://images.kingdomofloathing.com", "/images" );
+		}
 		else
-			StaticEntity.globalStringReplace( responseBuffer, "http://images.kingdomofloathing.com/scripts", "/images/scripts" );
+		{
+			StaticEntity.globalStringReplace(
+				responseBuffer, "http://images.kingdomofloathing.com/scripts", "/images/scripts" );
+		}
 
 		// Download and link to any Players of Loathing
 		// picture pages locally.
@@ -269,21 +317,25 @@ public class LocalRelayRequest extends PasswordHashRequest
 		CustomItemDatabase.linkCustomItem( this );
 	}
 
-	public void printHeaders( PrintStream ostream )
+	public void printHeaders( final PrintStream ostream )
 	{
 		if ( !this.headers.isEmpty() )
 		{
-			for ( int i = 0; i < headers.size(); ++i )
-				ostream.println( headers.get(i) );
+			for ( int i = 0; i < this.headers.size(); ++i )
+			{
+				ostream.println( this.headers.get( i ) );
+			}
 		}
 		else
 		{
 			String header;
 
-			for ( int i = 0; (header = this.formConnection.getHeaderFieldKey( i )) != null; ++i )
+			for ( int i = 0; ( header = this.formConnection.getHeaderFieldKey( i ) ) != null; ++i )
 			{
 				if ( header.startsWith( "Content" ) || header.startsWith( "Cache" ) || header.equals( "Pragma" ) || header.equals( "Set-Cookie" ) )
+				{
 					continue;
+				}
 
 				ostream.print( header );
 				ostream.print( ": " );
@@ -296,7 +348,9 @@ public class LocalRelayRequest extends PasswordHashRequest
 				ostream.print( this.contentType );
 
 				if ( this.contentType.startsWith( "text" ) )
+				{
 					ostream.print( "; charset=UTF-8" );
+				}
 
 				ostream.println();
 
@@ -310,12 +364,12 @@ public class LocalRelayRequest extends PasswordHashRequest
 		}
 	}
 
-	public void pseudoResponse( String status, String responseText )
+	public void pseudoResponse( final String status, final String responseText )
 	{
 		this.statusLine = status;
 
-		this.headers.add( "Date: " + ( new Date() ) );
-		this.headers.add( "Server: " + VERSION_NAME );
+		this.headers.add( "Date: " + new Date() );
+		this.headers.add( "Server: " + KoLConstants.VERSION_NAME );
 
 		if ( status.indexOf( "302" ) != -1 )
 		{
@@ -345,7 +399,9 @@ public class LocalRelayRequest extends PasswordHashRequest
 				this.headers.add( "Pragma: no-cache" );
 			}
 			else
+			{
 				this.headers.add( "Content-Type: " + this.contentType );
+			}
 		}
 		else
 		{
@@ -355,7 +411,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		this.headers.add( "Connection: close" );
 	}
 
-	private StringBuffer readContents( BufferedReader reader )
+	private StringBuffer readContents( final BufferedReader reader )
 	{
 		String line = null;
 		StringBuffer contentBuffer = new StringBuffer();
@@ -363,12 +419,14 @@ public class LocalRelayRequest extends PasswordHashRequest
 		try
 		{
 			if ( reader == null )
+			{
 				return contentBuffer;
+			}
 
-			while ( (line = reader.readLine()) != null )
+			while ( ( line = reader.readLine() ) != null )
 			{
 				contentBuffer.append( line );
-				contentBuffer.append( LINE_BREAK );
+				contentBuffer.append( KoLConstants.LINE_BREAK );
 			}
 
 			reader.close();
@@ -380,19 +438,22 @@ public class LocalRelayRequest extends PasswordHashRequest
 		return contentBuffer;
 	}
 
-	private void sendLocalImage( String filename )
+	private void sendLocalImage( final String filename )
 	{
 		try
 		{
-			BufferedInputStream in = new BufferedInputStream( RequestEditorKit.downloadImage(
-				"http://images.kingdomofloathing.com" + filename.substring(6) ).openConnection().getInputStream() );
+			BufferedInputStream in =
+				new BufferedInputStream( RequestEditorKit.downloadImage(
+					"http://images.kingdomofloathing.com" + filename.substring( 6 ) ).openConnection().getInputStream() );
 
 			ByteArrayOutputStream outbytes = new ByteArrayOutputStream( 4096 );
-			byte [] buffer = new byte[4096];
+			byte[] buffer = new byte[ 4096 ];
 
 			int offset;
-			while ((offset = in.read(buffer)) > 0)
-				outbytes.write(buffer, 0, offset);
+			while ( ( offset = in.read( buffer ) ) > 0 )
+			{
+				outbytes.write( buffer, 0, offset );
+			}
 
 			in.close();
 			outbytes.flush();
@@ -406,37 +467,45 @@ public class LocalRelayRequest extends PasswordHashRequest
 		}
 	}
 
-	public static final void setNextMain( String mainpane )
-	{	LocalRelayRequest.mainpane = mainpane;
+	public static final void setNextMain( final String mainpane )
+	{
+		LocalRelayRequest.mainpane = mainpane;
 	}
 
 	private void handleMain()
 	{
 		if ( this.responseText == null )
+		{
 			super.run();
+		}
 
-		if ( mainpane.equals( "" ) )
+		if ( LocalRelayRequest.mainpane.equals( "" ) )
+		{
 			return;
+		}
 
 		// If it's a relay browser request based on a
 		// menu item, then change the middle panel.
 
-		this.responseText = MAINPANE_PATTERN.matcher( this.responseText ).replaceFirst(
-			"name=mainpane src=\"" + mainpane + "\"" );
+		this.responseText =
+			LocalRelayRequest.MAINPANE_PATTERN.matcher( this.responseText ).replaceFirst(
+				"name=mainpane src=\"" + LocalRelayRequest.mainpane + "\"" );
 
-		mainpane = "";
+		LocalRelayRequest.mainpane = "";
 	}
 
 	private static final Pattern MAINPANE_PATTERN = Pattern.compile( "name=mainpane src=\"(.*?)\"", Pattern.DOTALL );
 
-	private void sendLocalFile( String filename )
+	private void sendLocalFile( final String filename )
 	{
 		StringBuffer replyBuffer = new StringBuffer();
 
-		if ( !overrideMap.containsKey( filename ) )
-			overrideMap.put( filename, new File( RELAY_LOCATION, filename ) );
+		if ( !LocalRelayRequest.overrideMap.containsKey( filename ) )
+		{
+			LocalRelayRequest.overrideMap.put( filename, new File( KoLConstants.RELAY_LOCATION, filename ) );
+		}
 
-		File override = (File) overrideMap.get( filename );
+		File override = (File) LocalRelayRequest.overrideMap.get( filename );
 		if ( !override.exists() )
 		{
 			if ( filename.equals( "main.html" ) || filename.equals( "main_c.html" ) )
@@ -460,10 +529,15 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// everything loads correctly the first time.
 
 		if ( filename.endsWith( "simulator/index.html" ) )
+		{
 			this.handleSimulatorIndex( replyBuffer );
+		}
 
 		if ( filename.equals( "chat.html" ) )
-			StaticEntity.singleStringReplace( replyBuffer, "CHATAUTH", "playerid=" + KoLCharacter.getPlayerId() + "&pwd=" + passwordHash  );
+		{
+			StaticEntity.singleStringReplace(
+				replyBuffer, "CHATAUTH", "playerid=" + KoLCharacter.getPlayerId() + "&pwd=" + KoLRequest.passwordHash );
+		}
 
 		StaticEntity.globalStringReplace( replyBuffer, "MAFIAHIT", "pwd=" + KoLRequest.passwordHash );
 
@@ -471,10 +545,14 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// response buffer for the local relay server.
 
 		if ( this.isChatRequest )
+		{
 			StaticEntity.globalStringReplace( replyBuffer, "<br>", "</font><br>" );
+		}
 
 		if ( filename.endsWith( "chat.html" ) )
+		{
 			RequestEditorKit.addChatFeatures( replyBuffer );
+		}
 
 		this.pseudoResponse( "HTTP/1.1 200 OK", replyBuffer.toString() );
 
@@ -485,33 +563,38 @@ public class LocalRelayRequest extends PasswordHashRequest
 		}
 	}
 
-	private static final String getSimulatorEffectName( String effectName )
-	{	return WHITESPACE_PATTERN.matcher( effectName ).replaceAll( "" ).toLowerCase();
+	private static final String getSimulatorEffectName( final String effectName )
+	{
+		return LocalRelayRequest.WHITESPACE_PATTERN.matcher( effectName ).replaceAll( "" ).toLowerCase();
 	}
 
-	private static final String getSimulatorEquipName( int equipmentSlot )
+	private static final String getSimulatorEquipName( final int equipmentSlot )
 	{
 		AdventureResult item = KoLCharacter.getEquipment( equipmentSlot );
 
-		if ( equipmentSlot == KoLCharacter.FAMILIAR && item.getName().equals( FamiliarsDatabase.getFamiliarItem( KoLCharacter.getFamiliar().getId() ) ) )
+		if ( equipmentSlot == KoLCharacter.FAMILIAR && item.getName().equals(
+			FamiliarsDatabase.getFamiliarItem( KoLCharacter.getFamiliar().getId() ) ) )
+		{
 			return "familiar-specific +5 lbs.";
+		}
 
 		if ( item == EquipmentRequest.UNEQUIP )
+		{
 			return "(None)";
+		}
 
 		return item.getName();
 	}
 
-	private void handleSimulatorIndex( StringBuffer replyBuffer )
+	private void handleSimulatorIndex( final StringBuffer replyBuffer )
 	{
 		StringBuffer scriptBuffer = new StringBuffer();
-		scriptBuffer.append( LINE_BREAK );
+		scriptBuffer.append( KoLConstants.LINE_BREAK );
 
 		scriptBuffer.append( "<script language=\"Javascript\">" );
-		scriptBuffer.append( LINE_BREAK );
-		scriptBuffer.append( LINE_BREAK );
+		scriptBuffer.append( KoLConstants.LINE_BREAK );
+		scriptBuffer.append( KoLConstants.LINE_BREAK );
 		scriptBuffer.append( "LoadKingdomStateLong( { " );
-
 
 		// This is the simple Javascript which can be added
 		// arbitrarily to the end without having to modify
@@ -519,8 +602,12 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 		int classIndex = -1;
 		for ( int i = 0; i < KoLmafiaASH.CLASSES.length; ++i )
-			if ( KoLmafiaASH.CLASSES[i].equalsIgnoreCase( KoLCharacter.getClassType() ) )
+		{
+			if ( KoLmafiaASH.CLASSES[ i ].equalsIgnoreCase( KoLCharacter.getClassType() ) )
+			{
 				classIndex = i;
+			}
+		}
 
 		// Player state
 
@@ -537,21 +624,21 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// Current equipment
 
 		scriptBuffer.append( "hat: \"" );
-		scriptBuffer.append( getSimulatorEquipName( KoLCharacter.HAT ) );
+		scriptBuffer.append( LocalRelayRequest.getSimulatorEquipName( KoLCharacter.HAT ) );
 		scriptBuffer.append( "\", weapon: \"" );
-		scriptBuffer.append( getSimulatorEquipName( KoLCharacter.WEAPON ) );
+		scriptBuffer.append( LocalRelayRequest.getSimulatorEquipName( KoLCharacter.WEAPON ) );
 		scriptBuffer.append( "\", offhand: \"" );
-		scriptBuffer.append( getSimulatorEquipName( KoLCharacter.OFFHAND ) );
+		scriptBuffer.append( LocalRelayRequest.getSimulatorEquipName( KoLCharacter.OFFHAND ) );
 		scriptBuffer.append( "\", shirt: \"" );
-		scriptBuffer.append( getSimulatorEquipName( KoLCharacter.SHIRT ) );
+		scriptBuffer.append( LocalRelayRequest.getSimulatorEquipName( KoLCharacter.SHIRT ) );
 		scriptBuffer.append( "\", pants: \"" );
-		scriptBuffer.append( getSimulatorEquipName( KoLCharacter.PANTS ) );
+		scriptBuffer.append( LocalRelayRequest.getSimulatorEquipName( KoLCharacter.PANTS ) );
 		scriptBuffer.append( "\", acc1: \"" );
-		scriptBuffer.append( getSimulatorEquipName( KoLCharacter.ACCESSORY1 ) );
+		scriptBuffer.append( LocalRelayRequest.getSimulatorEquipName( KoLCharacter.ACCESSORY1 ) );
 		scriptBuffer.append( "\", acc2: \"" );
-		scriptBuffer.append( getSimulatorEquipName( KoLCharacter.ACCESSORY2 ) );
+		scriptBuffer.append( LocalRelayRequest.getSimulatorEquipName( KoLCharacter.ACCESSORY2 ) );
 		scriptBuffer.append( "\", acc3: \"" );
-		scriptBuffer.append( getSimulatorEquipName( KoLCharacter.ACCESSORY3 ) );
+		scriptBuffer.append( LocalRelayRequest.getSimulatorEquipName( KoLCharacter.ACCESSORY3 ) );
 		scriptBuffer.append( "\", " );
 
 		// Current familiar
@@ -562,43 +649,53 @@ public class LocalRelayRequest extends PasswordHashRequest
 		scriptBuffer.append( KoLCharacter.getFamiliar().getWeight() );
 		scriptBuffer.append( ", fameq: \"" );
 
-		String familiarEquipment = getSimulatorEquipName( KoLCharacter.FAMILIAR );
+		String familiarEquipment = LocalRelayRequest.getSimulatorEquipName( KoLCharacter.FAMILIAR );
 		if ( FamiliarData.itemWeightModifier( TradeableItemDatabase.getItemId( familiarEquipment ) ) == 5 )
+		{
 			scriptBuffer.append( "familiar-specific +5 lbs." );
+		}
 		else
+		{
 			scriptBuffer.append( familiarEquipment );
+		}
 
 		// Status effects
 
 		scriptBuffer.append( "\", rockandroll: false, effects: [ " );
 		int effectCount = 0;
 
-		for ( int i = 0; i < availableSkills.size(); ++i )
+		for ( int i = 0; i < KoLConstants.availableSkills.size(); ++i )
 		{
-			UseSkillRequest current = (UseSkillRequest) availableSkills.get(i);
+			UseSkillRequest current = (UseSkillRequest) KoLConstants.availableSkills.get( i );
 			int skillId = current.getSkillId();
 
 			if ( ClassSkillsDatabase.getSkillType( skillId ) != ClassSkillsDatabase.PASSIVE )
+			{
 				continue;
+			}
 
 			if ( effectCount > 0 )
+			{
 				scriptBuffer.append( ',' );
+			}
 
 			++effectCount;
 			scriptBuffer.append( '\"' );
-			scriptBuffer.append( getSimulatorEffectName( current.getSkillName() ) );
+			scriptBuffer.append( LocalRelayRequest.getSimulatorEffectName( current.getSkillName() ) );
 			scriptBuffer.append( '\"' );
 		}
 
-		for ( int i = 0; i < activeEffects.size(); ++i )
+		for ( int i = 0; i < KoLConstants.activeEffects.size(); ++i )
 		{
-			AdventureResult current = (AdventureResult) activeEffects.get(i);
+			AdventureResult current = (AdventureResult) KoLConstants.activeEffects.get( i );
 			if ( effectCount > 0 )
+			{
 				scriptBuffer.append( ',' );
+			}
 
 			++effectCount;
 			scriptBuffer.append( '\"' );
-			scriptBuffer.append( getSimulatorEffectName( current.getName() ) );
+			scriptBuffer.append( LocalRelayRequest.getSimulatorEffectName( current.getName() ) );
 			scriptBuffer.append( '\"' );
 		}
 
@@ -615,21 +712,20 @@ public class LocalRelayRequest extends PasswordHashRequest
 		scriptBuffer.append( ", " );
 
 		scriptBuffer.append( "moonphase: " );
-		scriptBuffer.append( (int) ((MoonPhaseDatabase.getGrimacePhase()-1) * 2
-			+ Math.round( (MoonPhaseDatabase.getRonaldPhase()-1) / 2.0f - Math.floor( (MoonPhaseDatabase.getRonaldPhase()-1) / 2.0f ) )) );
+		scriptBuffer.append( (int) ( ( MoonPhaseDatabase.getGrimacePhase() - 1 ) * 2 + Math.round( ( MoonPhaseDatabase.getRonaldPhase() - 1 ) / 2.0f - Math.floor( ( MoonPhaseDatabase.getRonaldPhase() - 1 ) / 2.0f ) ) ) );
 
 		scriptBuffer.append( ", moonminiphase: " );
 		scriptBuffer.append( MoonPhaseDatabase.getHamburglarPosition( new Date() ) );
 		scriptBuffer.append( " } );" );
 
-		scriptBuffer.append( LINE_BREAK );
-		scriptBuffer.append( LINE_BREAK );
+		scriptBuffer.append( KoLConstants.LINE_BREAK );
+		scriptBuffer.append( KoLConstants.LINE_BREAK );
 		scriptBuffer.append( "</script>" );
 
 		this.insertAfterEnd( replyBuffer, scriptBuffer.toString() );
 	}
 
-	public void insertAfterEnd( StringBuffer replyBuffer, String contents )
+	public void insertAfterEnd( final StringBuffer replyBuffer, final String contents )
 	{
 		int terminalIndex = replyBuffer.lastIndexOf( "</html>" );
 		if ( terminalIndex == -1 )
@@ -649,7 +745,8 @@ public class LocalRelayRequest extends PasswordHashRequest
 		this.responseCode = 404;
 	}
 
-	public void sendBossWarning( String name, String image, int mcd1, String item1, int mcd2, String item2 )
+	public void sendBossWarning( final String name, final String image, final int mcd1, final String item1,
+		final int mcd2, final String item2 )
 	{
 		int mcd0 = KoLCharacter.getMindControlLevel();
 
@@ -682,7 +779,9 @@ public class LocalRelayRequest extends PasswordHashRequest
 		warning.append( "<td align=center valign=center><div id=\"mcd1\" style=\"padding: 4px 4px 4px 4px" );
 
 		if ( mcd0 == mcd1 )
+		{
 			warning.append( "; border: 1px dashed blue" );
+		}
 
 		warning.append( "\"><a id=\"link1\" style=\"text-decoration: none\" onClick=\"switchLinks('mcd1'); void(0);\" href=\"#\"><img src=\"http://images.kingdomofloathing.com/itemimages/" );
 		warning.append( item1 );
@@ -704,7 +803,9 @@ public class LocalRelayRequest extends PasswordHashRequest
 		warning.append( "<td align=center valign=center><div id=\"mcd2\" style=\"padding: 4px 4px 4px 4px" );
 
 		if ( KoLCharacter.getMindControlLevel() == mcd2 )
+		{
 			warning.append( "; border: 1px dashed blue" );
+		}
 
 		warning.append( "\"><a id=\"link2\" style=\"text-decoration: none\" onClick=\"switchLinks('mcd2'); void(0);\" href=\"#\"><img src=\"http://images.kingdomofloathing.com/itemimages/" );
 		warning.append( item2 );
@@ -723,7 +824,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		this.pseudoResponse( "HTTP/1.1 200 OK", warning.toString() );
 	}
 
-	public void sendGeneralWarning( String image, String message )
+	public void sendGeneralWarning( final String image, final String message )
 	{
 		StringBuffer warning = new StringBuffer();
 
@@ -750,13 +851,13 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 	private void handleSafety()
 	{
-		if ( lastSafety == null )
+		if ( LocalRelayRequest.lastSafety == null )
 		{
 			this.pseudoResponse( "HTTP/1.1 200 OK", "" );
 			return;
 		}
 
-		AreaCombatData combat = lastSafety.getAreaSummary();
+		AreaCombatData combat = LocalRelayRequest.lastSafety.getAreaSummary();
 
 		if ( combat == null )
 		{
@@ -766,23 +867,23 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 		StringBuffer buffer = new StringBuffer();
 		buffer.append( "<table width=\"100%\"><tr><td align=left valign=top><font size=3>" );
-		buffer.append( lastSafety.getAdventureName() );
+		buffer.append( LocalRelayRequest.lastSafety.getAdventureName() );
 		buffer.append( "</font></td><td align=right valign=top><font size=2>" );
 
 		buffer.append( "<a style=\"text-decoration: none\" href=\"javascript: " );
 
 		buffer.append( "var safety; if ( document.getElementById ) " );
-			buffer.append( "safety = top.chatpane.document.getElementById( 'safety' ); " );
+		buffer.append( "safety = top.chatpane.document.getElementById( 'safety' ); " );
 		buffer.append( "else if ( document.all ) " );
-			buffer.append( "safety = top.chatpane.document.all[ 'safety' ]; " );
+		buffer.append( "safety = top.chatpane.document.all[ 'safety' ]; " );
 
 		buffer.append( "safety.closed = true;" );
 		buffer.append( "safety.active = false;" );
 		buffer.append( "safety.style.display = 'none'; " );
 		buffer.append( "var nodes = top.chatpane.document.body.childNodes; " );
 		buffer.append( "for ( var i = 0; i < nodes.length; ++i ) " );
-			buffer.append( "if ( nodes[i].style && nodes[i].id != 'safety' ) " );
-				buffer.append( "nodes[i].style.display = nodes[i].unsafety; " );
+		buffer.append( "if ( nodes[i].style && nodes[i].id != 'safety' ) " );
+		buffer.append( "nodes[i].style.display = nodes[i].unsafety; " );
 
 		buffer.append( "void(0);\">x</a></font></td></tr></table>" );
 		buffer.append( "<br/><font size=2>" );
@@ -815,7 +916,9 @@ public class LocalRelayRequest extends PasswordHashRequest
 		{
 			CommandDisplayFrame.executeCommand( this.getFormField( "cmd" ) );
 			while ( CommandDisplayFrame.hasQueuedCommands() )
-				delay( 500 );
+			{
+				KoLRequest.delay( 500 );
+			}
 
 			this.pseudoResponse( "HTTP/1.1 302 Found", "/charpane.php" );
 		}
@@ -825,8 +928,9 @@ public class LocalRelayRequest extends PasswordHashRequest
 		}
 		else if ( this.getPath().endsWith( "lookupLocation" ) )
 		{
-			lastSafety = AdventureDatabase.getAdventureByURL( "adventure.php?snarfblat=" + this.getFormField( "snarfblat" ) );
-			AdventureFrame.updateSelectedAdventure( lastSafety );
+			LocalRelayRequest.lastSafety =
+				AdventureDatabase.getAdventureByURL( "adventure.php?snarfblat=" + this.getFormField( "snarfblat" ) );
+			AdventureFrame.updateSelectedAdventure( LocalRelayRequest.lastSafety );
 			this.handleSafety();
 		}
 		else if ( this.getPath().endsWith( "updateLocation" ) )
@@ -848,9 +952,9 @@ public class LocalRelayRequest extends PasswordHashRequest
 		String chatResponse = ChatRequest.executeChatCommand( this.getFormField( "graf" ) );
 		if ( chatResponse != null )
 		{
-			this.pseudoResponse( "HTTP/1.1 200 OK",
-				"<font color=\"blue\"><b><a target=\"mainpane\" href=\"showplayer.php?who=458968\" style=\"color:blue\">" +
-				VERSION_NAME + "</a> (private)</b>: " + chatResponse + "</font><br>" );
+			this.pseudoResponse(
+				"HTTP/1.1 200 OK",
+				"<font color=\"blue\"><b><a target=\"mainpane\" href=\"showplayer.php?who=458968\" style=\"color:blue\">" + KoLConstants.VERSION_NAME + "</a> (private)</b>: " + chatResponse + "</font><br>" );
 
 			return;
 		}
@@ -858,10 +962,14 @@ public class LocalRelayRequest extends PasswordHashRequest
 		super.run();
 
 		if ( !KoLMessenger.isRunning() || this.getPath().indexOf( "submitnewchat.php" ) != -1 )
+		{
 			KoLMessenger.updateChat( this.responseText );
+		}
 
 		if ( KoLSettings.getBooleanProperty( "relayFormatsChatText" ) )
+		{
 			this.responseText = KoLMessenger.getNormalizedContent( this.responseText, false );
+		}
 
 	}
 
@@ -871,7 +979,8 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// there is an attempt to view the robots file, neither
 		// are available on KoL, so return.
 
-		if ( this.getPath().equals( "missingimage.gif" ) || this.getPath().endsWith( "robots.txt" ) || this.getPath().endsWith( "favicon.ico" ) )
+		if ( this.getPath().equals( "missingimage.gif" ) || this.getPath().endsWith( "robots.txt" ) || this.getPath().endsWith(
+			"favicon.ico" ) )
 		{
 			this.sendNotFound();
 			return;
@@ -891,8 +1000,8 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 		if ( this.getPath().startsWith( "images/playerpics/" ) )
 		{
-			RequestEditorKit.downloadImage( "http://pics.communityofloathing.com/albums/" +
-				this.getPath().substring( this.getPath().indexOf( "playerpics" ) ) );
+			RequestEditorKit.downloadImage( "http://pics.communityofloathing.com/albums/" + this.getPath().substring(
+				this.getPath().indexOf( "playerpics" ) ) );
 
 			this.sendLocalImage( this.getPath() );
 			return;
@@ -916,7 +1025,9 @@ public class LocalRelayRequest extends PasswordHashRequest
 		if ( this.getPath().endsWith( ".ash" ) )
 		{
 			if ( !KoLmafiaASH.getClientHTML( this ) )
+			{
 				this.sendNotFound();
+			}
 
 			return;
 		}
@@ -961,8 +1072,10 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// If it gets this far, consider firing a relay browser
 		// override for it.
 
-		if ( allowOverride && KoLmafiaASH.getClientHTML( this ) )
+		if ( this.allowOverride && KoLmafiaASH.getClientHTML( this ) )
+		{
 			return;
+		}
 
 		if ( this.getPath().equals( "lchat.php" ) )
 		{
@@ -989,7 +1102,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 			String item = this.getFormField( "whichitem" );
 			if ( item != null && item.startsWith( "custom" ) )
 			{
-				this.pseudoResponse( "HTTP/1.1 200 OK", CustomItemDatabase.retrieveCustomItem( item.substring(6) ) );
+				this.pseudoResponse( "HTTP/1.1 200 OK", CustomItemDatabase.retrieveCustomItem( item.substring( 6 ) ) );
 				return;
 			}
 
@@ -1010,7 +1123,9 @@ public class LocalRelayRequest extends PasswordHashRequest
 		if ( path.equals( "desc_effect.php" ) && KoLSettings.getBooleanProperty( "relayAddsWikiLinks" ) )
 		{
 			String effect = this.getFormField( "whicheffect" );
-			String location = ShowDescriptionList.getWikiLocation( new AdventureResult( StatusEffectDatabase.getEffectName( effect ), 1, true ) );
+			String location =
+				ShowDescriptionList.getWikiLocation( new AdventureResult(
+					StatusEffectDatabase.getEffectName( effect ), 1, true ) );
 
 			if ( location != null )
 			{
@@ -1021,14 +1136,14 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 		if ( AdventureDatabase.getAdventureByURL( urlString ) != null || KoLAdventure.getUnknownName( urlString ) != null )
 		{
-			TurnCounter expired = StaticEntity.getExpiredCounter(
-				path.equals( "adventure.php" ) ? this.getFormField( "snarfblat" ) : "" );
+			TurnCounter expired =
+				StaticEntity.getExpiredCounter( path.equals( "adventure.php" ) ? this.getFormField( "snarfblat" ) : "" );
 
 			if ( expired != null )
 			{
-				this.sendGeneralWarning( expired.getImage(),
-					"The indicated counter has expired, so may wish to adventure somewhere else at this time.  " +
-					"If you are certain that this is where you'd like to adventure, click on the image to proceed." );
+				this.sendGeneralWarning(
+					expired.getImage(),
+					"The indicated counter has expired, so may wish to adventure somewhere else at this time.  " + "If you are certain that this is where you'd like to adventure, click on the image to proceed." );
 
 				return;
 			}
@@ -1040,7 +1155,9 @@ public class LocalRelayRequest extends PasswordHashRequest
 			{
 				String location = this.getFormField( "snarfblat" );
 				if ( location == null )
+				{
 					location = this.getFormField( "adv" );
+				}
 
 				// Sometimes, people want the MCD rewards from
 				// various boss monsters.  Let's help out.
@@ -1092,25 +1209,25 @@ public class LocalRelayRequest extends PasswordHashRequest
 			String place = this.getFormField( "place" );
 			if ( place != null )
 			{
-				if ( place.equals( "5" ) &&
-					!KoLCharacter.hasEquipped( SorceressLair.NAGAMAR ) &&
-					!AdventureDatabase.retrieveItem( SorceressLair.NAGAMAR ) )
+				if ( place.equals( "5" ) && !KoLCharacter.hasEquipped( SorceressLair.NAGAMAR ) && !AdventureDatabase.retrieveItem( SorceressLair.NAGAMAR ) )
 				{
-					this.sendGeneralWarning( "wand.gif", "It's possible there is something very important you're forgetting to do." );
+					this.sendGeneralWarning(
+						"wand.gif", "It's possible there is something very important you're forgetting to do." );
 					return;
 				}
-	
-				if ( place.equals( "6" ) &&
-					KoLCharacter.isHardcore() &&
-					KoLSettings.getBooleanProperty( "lucreCoreLeaderboard" ) )
+
+				if ( place.equals( "6" ) && KoLCharacter.isHardcore() && KoLSettings.getBooleanProperty( "lucreCoreLeaderboard" ) )
 				{
-					if ( inventory.contains( LUCRE ) )
+					if ( KoLConstants.inventory.contains( LocalRelayRequest.LUCRE ) )
 					{
-						(new MuseumRequest( new Object [] { LUCRE.getInstance( LUCRE.getCount( inventory ) ) }, true )).run();
-						(new GreenMessageRequest( "koldbot", "Completed ascension." )).run();
+						( new MuseumRequest(
+							new Object[] { LocalRelayRequest.LUCRE.getInstance( LocalRelayRequest.LUCRE.getCount( KoLConstants.inventory ) ) },
+							true ) ).run();
+						( new GreenMessageRequest( "koldbot", "Completed ascension." ) ).run();
 					}
-	
-					this.sendGeneralWarning( "lucre.gif", "Click on the lucre if you've already received koldbot's confirmation message." );
+
+					this.sendGeneralWarning(
+						"lucre.gif", "Click on the lucre if you've already received koldbot's confirmation message." );
 					return;
 				}
 			}
@@ -1119,7 +1236,9 @@ public class LocalRelayRequest extends PasswordHashRequest
 		else if ( path.equals( "ascend.php" ) )
 		{
 			if ( this.getFormField( "action" ) != null )
+			{
 				RequestThread.postRequest( new EquipmentRequest( SpecialOutfit.BIRTHDAY_SUIT ) );
+			}
 		}
 
 		// If it gets this far, it's a normal file.  Go ahead and
@@ -1128,14 +1247,18 @@ public class LocalRelayRequest extends PasswordHashRequest
 		super.run();
 
 		if ( this.responseCode == 302 )
+		{
 			this.pseudoResponse( "HTTP/1.1 302 Found", this.redirectLocation );
+		}
 		else if ( this.responseCode != 200 )
+		{
 			this.sendNotFound();
+		}
 
 		return;
 	}
 
-	private void downloadSimulatorFile( String filename )
+	private void downloadSimulatorFile( final String filename )
 	{
 		try
 		{
@@ -1144,13 +1267,13 @@ public class LocalRelayRequest extends PasswordHashRequest
 			String line;
 			StringBuffer contents = new StringBuffer();
 
-			while ( (line = reader.readLine()) != null )
+			while ( ( line = reader.readLine() ) != null )
 			{
 				contents.append( line );
-				contents.append( LINE_BREAK );
+				contents.append( KoLConstants.LINE_BREAK );
 			}
 
-			File directory = new File( RELAY_LOCATION, "simulator" );
+			File directory = new File( KoLConstants.RELAY_LOCATION, "simulator" );
 			directory.mkdirs();
 
 			StaticEntity.globalStringReplace( contents, "images/", "http://sol.kolmafia.us/images/" );
@@ -1161,7 +1284,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		}
 		catch ( Exception e )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "Failed to create simulator file <" + filename + ">" );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Failed to create simulator file <" + filename + ">" );
 		}
 	}
 }

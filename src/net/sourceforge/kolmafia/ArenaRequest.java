@@ -36,13 +36,14 @@ package net.sourceforge.kolmafia;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ArenaRequest extends KoLRequest
+public class ArenaRequest
+	extends KoLRequest
 {
 	private int option = 0;
 
 	private static final Pattern ID_PATTERN = Pattern.compile( "action=concert.*?option=(\\d+)" );
 
-	public ArenaRequest( int option )
+	public ArenaRequest( final int option )
 	{
 		super( "postwarisland.php" );
 
@@ -56,14 +57,15 @@ public class ArenaRequest extends KoLRequest
 	}
 
 	protected boolean retryOnTimeout()
-	{	return true;
+	{
+		return true;
 	}
 
 	public void run()
 	{
-		if ( option == 0 )
+		if ( this.option == 0 )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "Decide what to do at the concert." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Decide what to do at the concert." );
 			return;
 		}
 
@@ -73,15 +75,16 @@ public class ArenaRequest extends KoLRequest
 
 	public void processResults()
 	{
-		if ( this.responseText == null || this.responseText.equals( "")	)
+		if ( this.responseText == null || this.responseText.equals( "" ) )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You can't find the Mysterious Island Arena." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't find the Mysterious Island Arena." );
 			return;
 		}
 
 		if ( this.responseText.indexOf( "You're all rocked out." ) != -1 )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You can only visit the Mysterious Island Arena once a day." );
+			KoLmafia.updateDisplay(
+				KoLConstants.ERROR_STATE, "You can only visit the Mysterious Island Arena once a day." );
 			return;
 		}
 
@@ -89,17 +92,21 @@ public class ArenaRequest extends KoLRequest
 		RequestFrame.refreshStatus();
 	}
 
-	public static final boolean registerRequest( String location )
+	public static final boolean registerRequest( final String location )
 	{
 		if ( !location.startsWith( "postwarisland.php" ) )
+		{
 			return false;
+		}
 
-		Matcher matcher = ID_PATTERN.matcher( location );
+		Matcher matcher = ArenaRequest.ID_PATTERN.matcher( location );
 
 		if ( !matcher.find() )
+		{
 			return true;
+		}
 
-		RequestLogger.updateSessionLog( "concert " + matcher.group(1) );
+		RequestLogger.updateSessionLog( "concert " + matcher.group( 1 ) );
 		return true;
 	}
 }

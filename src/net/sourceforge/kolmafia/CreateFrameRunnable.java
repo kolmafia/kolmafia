@@ -38,44 +38,56 @@ import java.lang.reflect.Constructor;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-public class CreateFrameRunnable implements Runnable, KoLConstants
+public class CreateFrameRunnable
+	implements Runnable, KoLConstants
 {
-	private Class creationType;
+	private final Class creationType;
 	private JFrame creation;
 	private Constructor creator;
-	private Object [] parameters;
+	private final Object[] parameters;
 
-	public CreateFrameRunnable( Class creationType )
-	{	this( creationType, new Object[0] );
+	public CreateFrameRunnable( final Class creationType )
+	{
+		this( creationType, new Object[ 0 ] );
 	}
 
-	public CreateFrameRunnable( Class creationType, Object [] parameters )
+	public CreateFrameRunnable( final Class creationType, final Object[] parameters )
 	{
 		this.creationType = creationType;
 		this.parameters = parameters;
-		Class [] parameterTypes = new Class[ parameters.length ];
+		Class[] parameterTypes = new Class[ parameters.length ];
 		for ( int i = 0; i < parameters.length; ++i )
-			parameterTypes[i] = parameters[i] == null ? null : parameters[i].getClass();
+		{
+			parameterTypes[ i ] = parameters[ i ] == null ? null : parameters[ i ].getClass();
+		}
 
 		this.creator = null;
 		boolean isValidConstructor;
 
-		Class [] constructorParameterTypes;
-		Constructor [] constructors = creationType.getConstructors();
+		Class[] constructorParameterTypes;
+		Constructor[] constructors = creationType.getConstructors();
 
 		for ( int i = 0; i < constructors.length; ++i )
 		{
-			constructorParameterTypes = constructors[i].getParameterTypes();
+			constructorParameterTypes = constructors[ i ].getParameterTypes();
 			if ( constructorParameterTypes.length != parameters.length )
+			{
 				continue;
+			}
 
 			isValidConstructor = true;
 			for ( int j = 0; j < constructorParameterTypes.length && isValidConstructor; ++j )
-				if ( parameterTypes[j] != null && !constructorParameterTypes[j].isAssignableFrom( parameterTypes[j] ) )
+			{
+				if ( parameterTypes[ j ] != null && !constructorParameterTypes[ j ].isAssignableFrom( parameterTypes[ j ] ) )
+				{
 					isValidConstructor = false;
+				}
+			}
 
 			if ( isValidConstructor )
-				this.creator = constructors[i];
+			{
+				this.creator = constructors[ i ];
+			}
 		}
 	}
 
@@ -83,7 +95,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 	{
 		if ( this.creator == null )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, this.creationType.getName() + " could not be loaded" );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, this.creationType.getName() + " could not be loaded" );
 			return;
 		}
 
@@ -99,21 +111,21 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
 
-				StaticEntity.printStackTrace( e,  this.creationType.getName() + " could not be loaded" );
+				StaticEntity.printStackTrace( e, this.creationType.getName() + " could not be loaded" );
 				return;
 			}
 		}
 
 		try
 		{
-			createFrame();
+			this.createFrame();
 		}
 		catch ( Exception e )
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e,  this.creationType.getName() + " could not be loaded" );
+			StaticEntity.printStackTrace( e, this.creationType.getName() + " could not be loaded" );
 			return;
 		}
 	}
@@ -127,8 +139,8 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 		String searchString = this.creationType.toString();
 		searchString = searchString.substring( searchString.lastIndexOf( "." ) + 1 );
 
-		boolean appearsInTab = searchString.endsWith( "ChatFrame" ) ?
-			tabSetting.indexOf( "KoLMessenger" ) != -1 : tabSetting.indexOf( searchString ) != -1;
+		boolean appearsInTab =
+			searchString.endsWith( "ChatFrame" ) ? tabSetting.indexOf( "KoLMessenger" ) != -1 : tabSetting.indexOf( searchString ) != -1;
 
 		if ( !this.loadPreviousFrame() )
 		{
@@ -145,19 +157,27 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 		}
 
 		if ( this.creation == null )
+		{
 			return;
+		}
 
 		// Some frames have a recipient parameter that
 		// should be passed around.
 
 		if ( this.creationType == SkillBuffFrame.class && this.parameters.length == 1 )
-			((SkillBuffFrame)this.creation).setRecipient( this.parameters.length == 0 ? "" : (String) this.parameters[0] );
+		{
+			( (SkillBuffFrame) this.creation ).setRecipient( this.parameters.length == 0 ? "" : (String) this.parameters[ 0 ] );
+		}
 		if ( this.creationType == SendMessageFrame.class )
-			((SendMessageFrame)this.creation).setRecipient( this.parameters.length == 0 ? "" : (String) this.parameters[0] );
+		{
+			( (SendMessageFrame) this.creation ).setRecipient( this.parameters.length == 0 ? "" : (String) this.parameters[ 0 ] );
+		}
 
 		this.creation.pack();
-		if ( !(this.creation instanceof KoLFrame) )
+		if ( !( this.creation instanceof KoLFrame ) )
+		{
 			this.creation.setLocationRelativeTo( null );
+		}
 
 		this.creation.setEnabled( true );
 
@@ -187,12 +207,13 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 		KoLFrame currentFrame;
 		Class currentType;
 
-		String creationTypeName = (this.creationType == KoLPanelFrame.class ? this.parameters[1].getClass() : this.creationType).getName();
+		String creationTypeName =
+			( this.creationType == KoLPanelFrame.class ? this.parameters[ 1 ].getClass() : this.creationType ).getName();
 		creationTypeName = creationTypeName.substring( creationTypeName.lastIndexOf( "." ) + 1 );
 
-		for ( int i = 0; i < existingFrames.size() && this.creation == null; ++i )
+		for ( int i = 0; i < KoLConstants.existingFrames.size() && this.creation == null; ++i )
 		{
-			currentFrame = (KoLFrame) existingFrames.get(i);
+			currentFrame = (KoLFrame) KoLConstants.existingFrames.get( i );
 			currentType = currentFrame.getClass();
 
 			if ( currentType == this.creationType && currentType != ChatFrame.class )
@@ -202,9 +223,9 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			}
 		}
 
-		for ( int i = 0; i < removedFrames.size() && this.creation == null; ++i )
+		for ( int i = 0; i < KoLConstants.removedFrames.size() && this.creation == null; ++i )
 		{
-			currentFrame = (KoLFrame) removedFrames.get(i);
+			currentFrame = (KoLFrame) KoLConstants.removedFrames.get( i );
 			currentType = currentFrame.getClass();
 
 			if ( currentType == this.creationType && currentType != ChatFrame.class )
@@ -242,7 +263,9 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 		}
 
 		if ( appearsInTab )
+		{
 			return;
+		}
 
 		// Load the KoL frame to the appropriate location
 		// on the screen now that the frame has been packed
@@ -252,8 +275,10 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 		{
 			if ( this.creation instanceof KoLFrame )
 			{
-				if ( ((KoLFrame)this.creation).useSidePane() )
-					((KoLFrame)this.creation).addCompactPane();
+				if ( ( (KoLFrame) this.creation ).useSidePane() )
+				{
+					( (KoLFrame) this.creation ).addCompactPane();
+				}
 			}
 
 			this.creation.setJMenuBar( new KoLMenuBar() );
@@ -263,7 +288,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e,  this.creationType.getName() + " could not be loaded" );
+			StaticEntity.printStackTrace( e, this.creationType.getName() + " could not be loaded" );
 		}
 	}
 }

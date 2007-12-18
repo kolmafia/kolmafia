@@ -35,7 +35,8 @@ package net.sourceforge.kolmafia;
 
 import javax.swing.JCheckBox;
 
-public abstract class HPRestoreItemList extends StaticEntity
+public abstract class HPRestoreItemList
+	extends StaticEntity
 {
 	private static boolean purchaseBasedSort = false;
 
@@ -45,70 +46,76 @@ public abstract class HPRestoreItemList extends StaticEntity
 	private static final HPRestoreItem CAMPGROUND = new HPRestoreItem( "rest at your campground", 40 );
 
 	private static final HPRestoreItem GALAKTIK = new HPRestoreItem( "Galaktik's Curative Nostrum", 1, 10 );
-	private static final HPRestoreItem HERBS = new HPRestoreItem( "Medicinal Herb's medicinal herbs", Integer.MAX_VALUE, 100 );
+	private static final HPRestoreItem HERBS =
+		new HPRestoreItem( "Medicinal Herb's medicinal herbs", Integer.MAX_VALUE, 100 );
 	private static final HPRestoreItem OINTMENT = new HPRestoreItem( "Doc Galaktik's Ailment Ointment", 9, 60 );
 
 	public static final HPRestoreItem SCROLL = new HPRestoreItem( "scroll of drastic healing", Integer.MAX_VALUE );
 	private static final HPRestoreItem MASSAGE_OIL = new HPRestoreItem( "scented, massage oil", Integer.MAX_VALUE );
 	private static final HPRestoreItem COCOON = new HPRestoreItem( "Cannelloni Cocoon", Integer.MAX_VALUE );
 
-	public static final HPRestoreItem [] CONFIGURES = new HPRestoreItem []
-	{
-		SOFA, CAMPGROUND, GALAKTIK, HERBS, SCROLL, MASSAGE_OIL, COCOON,
-		new HPRestoreItem( "red pixel potion", 110 ), new HPRestoreItem( "really thick bandage", 109 ),
-		new HPRestoreItem( "filthy poultice", 100 ), new HPRestoreItem( "gauze garter", 100 ),
-		new HPRestoreItem( "bottle of Vangoghbitussin", 100 ), new HPRestoreItem( "ancient Magi-Wipes", 55 ),
-		new HPRestoreItem( "phonics down", 48 ), new HPRestoreItem( "Disco Power Nap", 40 ), WALRUS,
-		new HPRestoreItem( "honey-dipped locust", 36 ), new HPRestoreItem( "red paisley oyster egg", 33 ),
-		new HPRestoreItem( "red polka-dot oyster egg", 33 ), new HPRestoreItem( "red striped oyster egg", 33 ),
-		new HPRestoreItem( "tiny house", 22 ), new HPRestoreItem( "Disco Nap", 20 ),
-		new HPRestoreItem( "Lasagna Bandages", 20 ), new HPRestoreItem( "green pixel potion", 19 ),
-		new HPRestoreItem( "Doc Galaktik's Homeopathic Elixir", 19, 240 ), new HPRestoreItem( "cast", 17 ),
-		new HPRestoreItem( "Tongue of the Otter", 15 ), new HPRestoreItem( "Doc Galaktik's Restorative Balm", 14, 120 ),
-		OINTMENT, new HPRestoreItem( "forest tears", 7 ), new HPRestoreItem( "Doc Galaktik's Pungent Unguent", 3, 30 )
-	};
+	public static final HPRestoreItem[] CONFIGURES =
+		new HPRestoreItem[] { HPRestoreItemList.SOFA, HPRestoreItemList.CAMPGROUND, HPRestoreItemList.GALAKTIK, HPRestoreItemList.HERBS, HPRestoreItemList.SCROLL, HPRestoreItemList.MASSAGE_OIL, HPRestoreItemList.COCOON, new HPRestoreItem(
+			"red pixel potion", 110 ), new HPRestoreItem( "really thick bandage", 109 ), new HPRestoreItem(
+			"filthy poultice", 100 ), new HPRestoreItem( "gauze garter", 100 ), new HPRestoreItem(
+			"bottle of Vangoghbitussin", 100 ), new HPRestoreItem( "ancient Magi-Wipes", 55 ), new HPRestoreItem(
+			"phonics down", 48 ), new HPRestoreItem( "Disco Power Nap", 40 ), HPRestoreItemList.WALRUS, new HPRestoreItem(
+			"honey-dipped locust", 36 ), new HPRestoreItem( "red paisley oyster egg", 33 ), new HPRestoreItem(
+			"red polka-dot oyster egg", 33 ), new HPRestoreItem( "red striped oyster egg", 33 ), new HPRestoreItem(
+			"tiny house", 22 ), new HPRestoreItem( "Disco Nap", 20 ), new HPRestoreItem( "Lasagna Bandages", 20 ), new HPRestoreItem(
+			"green pixel potion", 19 ), new HPRestoreItem( "Doc Galaktik's Homeopathic Elixir", 19, 240 ), new HPRestoreItem(
+			"cast", 17 ), new HPRestoreItem( "Tongue of the Otter", 15 ), new HPRestoreItem(
+			"Doc Galaktik's Restorative Balm", 14, 120 ), HPRestoreItemList.OINTMENT, new HPRestoreItem(
+			"forest tears", 7 ), new HPRestoreItem( "Doc Galaktik's Pungent Unguent", 3, 30 ) };
 
-	public static final void setPurchaseBasedSort( boolean purchaseBasedSort )
-	{	HPRestoreItemList.purchaseBasedSort = purchaseBasedSort;
+	public static final void setPurchaseBasedSort( final boolean purchaseBasedSort )
+	{
+		HPRestoreItemList.purchaseBasedSort = purchaseBasedSort;
 	}
 
-	public static final boolean contains( AdventureResult item )
+	public static final boolean contains( final AdventureResult item )
 	{
-		for ( int i = 0; i < CONFIGURES.length; ++i )
-			if ( CONFIGURES[i].itemUsed != null && CONFIGURES[i].itemUsed.equals( item ) )
+		for ( int i = 0; i < HPRestoreItemList.CONFIGURES.length; ++i )
+		{
+			if ( HPRestoreItemList.CONFIGURES[ i ].itemUsed != null && HPRestoreItemList.CONFIGURES[ i ].itemUsed.equals( item ) )
+			{
 				return true;
+			}
+		}
 
 		return false;
 	}
 
-	public static final JCheckBox [] getCheckboxes()
+	public static final JCheckBox[] getCheckboxes()
 	{
 		String hpRestoreSetting = KoLSettings.getUserProperty( "hpAutoRecoveryItems" );
-		JCheckBox [] restoreCheckbox = new JCheckBox[ CONFIGURES.length ];
+		JCheckBox[] restoreCheckbox = new JCheckBox[ HPRestoreItemList.CONFIGURES.length ];
 
-		for ( int i = 0; i < CONFIGURES.length; ++i )
+		for ( int i = 0; i < HPRestoreItemList.CONFIGURES.length; ++i )
 		{
-			restoreCheckbox[i] = new JCheckBox( CONFIGURES[i].toString() );
-			restoreCheckbox[i].setSelected( hpRestoreSetting.indexOf( CONFIGURES[i].toString().toLowerCase() ) != -1 );
+			restoreCheckbox[ i ] = new JCheckBox( HPRestoreItemList.CONFIGURES[ i ].toString() );
+			restoreCheckbox[ i ].setSelected( hpRestoreSetting.indexOf( HPRestoreItemList.CONFIGURES[ i ].toString().toLowerCase() ) != -1 );
 		}
 
 		return restoreCheckbox;
 	}
 
-	public static class HPRestoreItem implements Comparable
+	public static class HPRestoreItem
+		implements Comparable
 	{
-		private String restoreName;
+		private final String restoreName;
 		private int healthPerUse;
 		private int purchaseCost;
 
 		private int skillId;
 		private AdventureResult itemUsed;
 
-		public HPRestoreItem( String restoreName, int healthPerUse )
-		{	this( restoreName, healthPerUse, 0 );
+		public HPRestoreItem( final String restoreName, final int healthPerUse )
+		{
+			this( restoreName, healthPerUse, 0 );
 		}
 
-		public HPRestoreItem( String restoreName, int healthPerUse, int purchaseCost )
+		public HPRestoreItem( final String restoreName, final int healthPerUse, final int purchaseCost )
 		{
 			this.restoreName = restoreName;
 			this.healthPerUse = healthPerUse;
@@ -132,40 +139,38 @@ public abstract class HPRestoreItemList extends StaticEntity
 		}
 
 		public boolean isSkill()
-		{	return this.skillId != -1;
+		{
+			return this.skillId != -1;
 		}
 
 		public AdventureResult getItem()
-		{	return this.itemUsed;
+		{
+			return this.itemUsed;
 		}
 
 		public void updateHealthPerUse()
 		{
-			if ( this == SOFA )
+			if ( this == HPRestoreItemList.SOFA )
 			{
-				// The restore rate on the rumpus room sofa changes
-				// based on your current level.
-
 				this.healthPerUse = KoLCharacter.getLevel() * 5 + 1;
 			}
-			else if ( this == GALAKTIK )
+			else if ( this == HPRestoreItemList.GALAKTIK )
 			{
-				// The restore rate on magical mystery juice changes
-				// based on your current level.
-
 				this.purchaseCost = QuestLogRequest.galaktikCuresAvailable() ? 6 : 10;
 			}
 		}
 
 		public int getHealthPerUse()
-		{	return this.healthPerUse;
-		}
-		
-		public int getHealthRestored()
-		{	return Math.min( this.healthPerUse, KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP() );
+		{
+			return this.healthPerUse;
 		}
 
-		public int compareTo( Object o )
+		public int getHealthRestored()
+		{
+			return Math.min( this.healthPerUse, KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP() );
+		}
+
+		public int compareTo( final Object o )
 		{
 			// Health restores are special because skills are preferred
 			// over items, so test for that first.
@@ -173,28 +178,34 @@ public abstract class HPRestoreItemList extends StaticEntity
 			HPRestoreItem hpi = (HPRestoreItem) o;
 
 			if ( this.itemUsed == null && hpi.itemUsed != null )
+			{
 				return -1;
+			}
 			if ( this.itemUsed != null && hpi.itemUsed == null )
+			{
 				return 1;
+			}
 
-			float restoreAmount = (KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP());
-			float leftRatio = restoreAmount / (this.getHealthRestored());
-			float rightRatio = restoreAmount / (hpi.getHealthRestored());
+			float restoreAmount = KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP();
+			float leftRatio = restoreAmount / this.getHealthRestored();
+			float rightRatio = restoreAmount / hpi.getHealthRestored();
 
 			// If you're comparing skills, then you compare MP cost for
 			// casting the skill, with more expensive skills coming later.
 
 			if ( this.itemUsed == null && this.skillId > 0 )
 			{
-				leftRatio = (float) (Math.ceil( leftRatio ) * ClassSkillsDatabase.getMPConsumptionById( this.skillId ));
-				rightRatio = (float) (Math.ceil( rightRatio ) * ClassSkillsDatabase.getMPConsumptionById( hpi.skillId ));
+				leftRatio =
+					(float) ( Math.ceil( leftRatio ) * ClassSkillsDatabase.getMPConsumptionById( this.skillId ) );
+				rightRatio =
+					(float) ( Math.ceil( rightRatio ) * ClassSkillsDatabase.getMPConsumptionById( hpi.skillId ) );
 			}
-			else if ( purchaseBasedSort )
+			else if ( HPRestoreItemList.purchaseBasedSort )
 			{
 				if ( this.purchaseCost != 0 || hpi.purchaseCost != 0 )
 				{
-					leftRatio = ((float) Math.ceil( leftRatio )) * this.purchaseCost;
-					rightRatio = ((float) Math.ceil( rightRatio )) * hpi.purchaseCost;
+					leftRatio = (float) Math.ceil( leftRatio ) * this.purchaseCost;
+					rightRatio = (float) Math.ceil( rightRatio ) * hpi.purchaseCost;
 				}
 			}
 
@@ -202,23 +213,25 @@ public abstract class HPRestoreItemList extends StaticEntity
 			return ratioDifference > 0.0f ? 1 : ratioDifference < 0.0f ? -1 : 0;
 		}
 
-		public void recoverHP( int needed, boolean purchase )
+		public void recoverHP( final int needed, final boolean purchase )
 		{
 			if ( !KoLmafia.permitsContinue() )
+			{
 				return;
+			}
 
-			if ( this == CAMPGROUND )
+			if ( this == HPRestoreItemList.CAMPGROUND )
 			{
 				RequestThread.postRequest( new CampgroundRequest( "rest" ) );
 				return;
 			}
 
-			if ( this == GALAKTIK )
+			if ( this == HPRestoreItemList.GALAKTIK )
 			{
 				if ( purchase && needed > KoLCharacter.getCurrentHP() )
 				{
-					RequestThread.postRequest( new GalaktikRequest( GalaktikRequest.HP,
-						Math.min( needed - KoLCharacter.getCurrentHP(), KoLCharacter.getAvailableMeat() / this.purchaseCost ) ) );
+					RequestThread.postRequest( new GalaktikRequest( GalaktikRequest.HP, Math.min(
+						needed - KoLCharacter.getCurrentHP(), KoLCharacter.getAvailableMeat() / this.purchaseCost ) ) );
 				}
 
 				return;
@@ -229,43 +242,53 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 			int hpShort = needed - KoLCharacter.getCurrentHP();
 			if ( hpShort <= 0 )
+			{
 				return;
+			}
 
 			int belowMax = KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP();
 			int numberToUse = Math.max( (int) Math.floor( (float) hpShort / (float) this.getHealthRestored() ), 1 );
 
-			if ( this == SOFA )
+			if ( this == HPRestoreItemList.SOFA )
 			{
-				RequestThread.postRequest( (new ClanGymRequest( ClanGymRequest.SOFA )).setTurnCount( numberToUse ) );
+				RequestThread.postRequest( ( new ClanGymRequest( ClanGymRequest.SOFA ) ).setTurnCount( numberToUse ) );
 				return;
 			}
 
 			else if ( ClassSkillsDatabase.contains( this.restoreName ) )
 			{
 				if ( !KoLCharacter.hasSkill( this.restoreName ) )
+				{
 					numberToUse = 0;
+				}
 			}
 			else if ( TradeableItemDatabase.contains( this.restoreName ) )
 			{
 				// In certain instances, you are able to buy more of
 				// the given item from NPC stores, or from the mall.
 
-				int numberAvailable = this.itemUsed.getCount( inventory );
+				int numberAvailable = this.itemUsed.getCount( KoLConstants.inventory );
 
 				if ( purchase && numberAvailable < numberToUse )
 				{
 					int numberToBuy = numberAvailable;
 					int unitPrice = TradeableItemDatabase.getPriceById( this.itemUsed.getItemId() ) * 2;
 
-					if ( this == HERBS && NPCStoreDatabase.contains( this.itemUsed.getName() ) )
+					if ( this == HPRestoreItemList.HERBS && NPCStoreDatabase.contains( this.itemUsed.getName() ) )
+					{
 						numberToBuy = Math.min( KoLCharacter.getAvailableMeat() / unitPrice, 3 );
+					}
 					else if ( NPCStoreDatabase.contains( this.itemUsed.getName() ) )
+					{
 						numberToBuy = Math.min( KoLCharacter.getAvailableMeat() / unitPrice, numberToUse );
+					}
 
 					if ( !AdventureDatabase.retrieveItem( this.itemUsed.getInstance( numberToBuy ) ) )
+					{
 						return;
+					}
 
-					numberAvailable = this.itemUsed.getCount( inventory );
+					numberAvailable = this.itemUsed.getCount( KoLConstants.inventory );
 				}
 
 				numberToUse = Math.min( numberToUse, numberAvailable );
@@ -275,16 +298,23 @@ public abstract class HPRestoreItemList extends StaticEntity
 			// without doing anything.
 
 			if ( numberToUse <= 0 || !KoLmafia.permitsContinue() )
+			{
 				return;
+			}
 
 			if ( ClassSkillsDatabase.contains( this.restoreName ) )
+			{
 				RequestThread.postRequest( UseSkillRequest.getInstance( this.restoreName, "", numberToUse ) );
+			}
 			else
+			{
 				RequestThread.postRequest( new ConsumeItemRequest( this.itemUsed.getInstance( numberToUse ) ) );
+			}
 		}
 
 		public String toString()
-		{	return this.restoreName;
+		{
+			return this.restoreName;
 		}
 	}
 }

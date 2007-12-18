@@ -32,22 +32,24 @@
  */
 
 package net.sourceforge.kolmafia;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ChefstaffRequest extends ItemCreationRequest
+public class ChefstaffRequest
+	extends ItemCreationRequest
 {
 	private static final Pattern WHICH_PATTERN = Pattern.compile( "whichstaff=(\\d+)" );
 
-	public ChefstaffRequest( int itemId )
+	public ChefstaffRequest( final int itemId )
 	{
 		super( "guild.php", itemId );
 
 		this.addFormField( "action", "makestaff" );
 
-                // The first ingredient is the staff we will upgrade
-		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemId );
-                AdventureResult staff = ingredients[0];
+		// The first ingredient is the staff we will upgrade
+		AdventureResult[] ingredients = ConcoctionsDatabase.getIngredients( itemId );
+		AdventureResult staff = ingredients[ 0 ];
 
 		this.addFormField( "whichstaff", String.valueOf( staff.getItemId() ) );
 	}
@@ -62,7 +64,9 @@ public class ChefstaffRequest extends ItemCreationRequest
 		// needed items from the closet if they are missing.
 
 		if ( !this.makeIngredients() )
+		{
 			return;
+		}
 
 		for ( int i = 1; i <= this.getQuantityNeeded(); ++i )
 		{
@@ -71,32 +75,36 @@ public class ChefstaffRequest extends ItemCreationRequest
 		}
 	}
 
-	public static final boolean registerRequest( String urlString )
+	public static final boolean registerRequest( final String urlString )
 	{
-		Matcher itemMatcher = WHICH_PATTERN.matcher( urlString );
+		Matcher itemMatcher = ChefstaffRequest.WHICH_PATTERN.matcher( urlString );
 		if ( !itemMatcher.find() )
+		{
 			return true;
+		}
 
 		// Item ID of the base staff
-		int baseId = StaticEntity.parseInt( itemMatcher.group(1) );
+		int baseId = StaticEntity.parseInt( itemMatcher.group( 1 ) );
 
 		// Find chefstaff item ID
-		int itemId = ConcoctionsDatabase.findConcoction( STAFF, baseId );
+		int itemId = ConcoctionsDatabase.findConcoction( KoLConstants.STAFF, baseId );
 
 		StringBuffer chefstaffString = new StringBuffer();
 		chefstaffString.append( "Chefstaff " );
 
-		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemId );
+		AdventureResult[] ingredients = ConcoctionsDatabase.getIngredients( itemId );
 		for ( int i = 0; i < ingredients.length; ++i )
 		{
 			if ( i > 0 )
+			{
 				chefstaffString.append( ", " );
+			}
 
-			chefstaffString.append( ingredients[i].getCount() );
+			chefstaffString.append( ingredients[ i ].getCount() );
 			chefstaffString.append( " " );
-			chefstaffString.append( ingredients[i].getName() );
+			chefstaffString.append( ingredients[ i ].getName() );
 
-			StaticEntity.getClient().processResult( ingredients[i].getInstance( -1 * ingredients[i].getCount() ) );
+			StaticEntity.getClient().processResult( ingredients[ i ].getInstance( -1 * ingredients[ i ].getCount() ) );
 		}
 
 		RequestLogger.updateSessionLog();
@@ -105,4 +113,3 @@ public class ChefstaffRequest extends ItemCreationRequest
 		return true;
 	}
 }
-

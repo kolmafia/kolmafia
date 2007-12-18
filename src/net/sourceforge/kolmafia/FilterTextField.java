@@ -46,14 +46,16 @@ import net.sourceforge.kolmafia.ConcoctionsDatabase.Concoction;
 import net.sourceforge.kolmafia.KoLDatabase.LowerCaseEntry;
 import net.sourceforge.kolmafia.StoreManager.SoldItem;
 
-public class FilterTextField extends AutoHighlightField implements ActionListener, ListElementFilter
+public class FilterTextField
+	extends AutoHighlightField
+	implements ActionListener, ListElementFilter
 {
 	protected JList list;
 	protected String text;
 	protected LockableListModel model;
 	protected boolean strict;
 
-	public FilterTextField( JList list )
+	public FilterTextField( final JList list )
 	{
 		this.list = list;
 		this.model = (LockableListModel) list.getModel();
@@ -62,11 +64,12 @@ public class FilterTextField extends AutoHighlightField implements ActionListene
 		this.addKeyListener( new FilterListener() );
 	}
 
-	public void actionPerformed( ActionEvent e )
-	{	update();
+	public void actionPerformed( final ActionEvent e )
+	{
+		this.update();
 	}
 
-	public void setText( String text )
+	public void setText( final String text )
 	{
 		super.setText( text );
 		this.update();
@@ -80,63 +83,91 @@ public class FilterTextField extends AutoHighlightField implements ActionListene
 		FilterTextField.this.model.updateFilter( false );
 
 		if ( this.model.getSize() == 1 )
-			this.list.setSelectedIndex(0);
+		{
+			this.list.setSelectedIndex( 0 );
+		}
 		else
+		{
 			this.list.clearSelection();
+		}
 
 		if ( FilterTextField.this.model.getSize() > 0 )
+		{
 			return;
+		}
 
 		FilterTextField.this.strict = false;
 		FilterTextField.this.model.updateFilter( false );
 
 		if ( this.model.getSize() == 1 )
-			this.list.setSelectedIndex(0);
+		{
+			this.list.setSelectedIndex( 0 );
+		}
 		else
+		{
 			this.list.clearSelection();
+		}
 	}
 
-	public boolean isVisible( Object element )
+	public boolean isVisible( final Object element )
 	{
 		if ( this.text == null || this.text.length() == 0 )
+		{
 			return true;
+		}
 
 		// If it's not a result, then check to see if you need to
 		// filter based on its string form.
 
-		String elementName = getResultName( element );
+		String elementName = FilterTextField.getResultName( element );
 
 		if ( this.text == null || this.text.length() == 0 )
+		{
 			return true;
+		}
 
-		return this.strict ? elementName.toLowerCase().indexOf( this.text ) != -1 :
-			KoLDatabase.fuzzyMatches( elementName, this.text );
+		return this.strict ? elementName.toLowerCase().indexOf( this.text ) != -1 : KoLDatabase.fuzzyMatches(
+			elementName, this.text );
 	}
 
-	public static final String getResultName( Object element )
+	public static final String getResultName( final Object element )
 	{
 		if ( element == null )
+		{
 			return "";
+		}
 
 		if ( element instanceof AdventureResult )
-			return ((AdventureResult)element).getName();
+		{
+			return ( (AdventureResult) element ).getName();
+		}
 		if ( element instanceof ItemCreationRequest )
-			return ((ItemCreationRequest)element).getName();
+		{
+			return ( (ItemCreationRequest) element ).getName();
+		}
 		if ( element instanceof Concoction )
-			return ((Concoction)element).getName();
+		{
+			return ( (Concoction) element ).getName();
+		}
 		if ( element instanceof SoldItem )
-			return ((SoldItem)element).getItemName();
+		{
+			return ( (SoldItem) element ).getItemName();
+		}
 
 		if ( element instanceof LowerCaseEntry )
-			return ((LowerCaseEntry)element).getLowerCase();
+		{
+			return ( (LowerCaseEntry) element ).getLowerCase();
+		}
 
 		return element.toString();
 	}
 
-	private class FilterListener extends KeyAdapter
+	private class FilterListener
+		extends KeyAdapter
 	{
-		public void keyReleased( KeyEvent e )
-		{	update();
+		public void keyReleased( final KeyEvent e )
+		{
+			FilterTextField.this.update();
 		}
 	}
 }

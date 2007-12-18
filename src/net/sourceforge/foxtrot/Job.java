@@ -11,6 +11,7 @@ package net.sourceforge.foxtrot;
 /**
  * A time-consuming task to be executed in the Worker Thread that does not throw checked exceptions. <br />
  * Users must implement the {@link #run} method with the time-consuming code:
+ * 
  * <pre>
  * Job task = new Job()
  * {
@@ -25,23 +26,21 @@ package net.sourceforge.foxtrot;
  *     }
  * };
  * </pre>
+ * 
  * RuntimeExceptions or Errors thrown by the <code>run()</code> method will be rethrown automatically by
  * {@link Worker#post(Job)} or {@link ConcurrentWorker#post(Job)}.
+ * 
  * @see Worker
  * @see ConcurrentWorker
  * @version $Revision: 1.6 $
  */
-public abstract class Job extends Task
+public abstract class Job
+	extends Task
 {
-   /**
-    * The method to implement with time-consuming code.
-    * It should NOT be synchronized or synchronize on this Job instance, otherwise the AWT Event Dispatch Thread
-    * cannot efficiently test when this Job is completed.
-    * Overridden to remove the throws clause, so that users does not
-    * have to catch unthrown exceptions.
-    */
-   public abstract void run();
+	/**
+	 * The method to implement with time-consuming code. It should NOT be synchronized or synchronize on this Job
+	 * instance, otherwise the AWT Event Dispatch Thread cannot efficiently test when this Job is completed. Overridden
+	 * to remove the throws clause, so that users does not have to catch unthrown exceptions.
+	 */
+	public abstract void run();
 }
-
-
-

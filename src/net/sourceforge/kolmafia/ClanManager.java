@@ -48,9 +48,11 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
+import net.java.dev.spellcast.utilities.UtilityConstants;
 import edu.stanford.ejalbert.BrowserLauncher;
 
-public class ClanManager extends StaticEntity
+public class ClanManager
+	extends StaticEntity
 {
 	private static final Pattern WHITELIST_PATTERN = Pattern.compile( "<b>([^<]+)</b> \\(#(\\d+)\\)" );
 
@@ -77,104 +79,117 @@ public class ClanManager extends StaticEntity
 		ClanSnapshotTable.clearCache();
 		AscensionSnapshotTable.clearCache();
 
-		stashRetrieved = false;
-		ranksRetrieved = false;
+		ClanManager.stashRetrieved = false;
+		ClanManager.ranksRetrieved = false;
 
-		profileMap.clear();
-		ascensionMap.clear();
-		battleList.clear();
-		rankList.clear();
-		stashContents.clear();
+		ClanManager.profileMap.clear();
+		ClanManager.ascensionMap.clear();
+		ClanManager.battleList.clear();
+		ClanManager.rankList.clear();
+		ClanManager.stashContents.clear();
 
-		clanId = null;
-		clanName = null;
+		ClanManager.clanId = null;
+		ClanManager.clanName = null;
 	}
 
 	public static final void setStashRetrieved()
-	{	stashRetrieved = true;
+	{
+		ClanManager.stashRetrieved = true;
 	}
 
 	public static final boolean isStashRetrieved()
-	{	return stashRetrieved;
+	{
+		return ClanManager.stashRetrieved;
 	}
 
 	public static final String getClanId()
 	{
-		retrieveClanId();
-		return clanId;
+		ClanManager.retrieveClanId();
+		return ClanManager.clanId;
 	}
 
 	public static final String getClanName()
 	{
-		retrieveClanId();
-		return clanName;
+		ClanManager.retrieveClanId();
+		return ClanManager.clanName;
 	}
 
 	public static final SortedListModel getStash()
-	{	return stashContents;
+	{
+		return ClanManager.stashContents;
 	}
 
 	public static final LockableListModel getRankList()
 	{
-		if ( !ranksRetrieved )
+		if ( !ClanManager.ranksRetrieved )
 		{
-			RequestThread.postRequest( new ClanRankListRequest( rankList ) );
-			ranksRetrieved = true;
+			RequestThread.postRequest( new ClanRankListRequest( ClanManager.rankList ) );
+			ClanManager.ranksRetrieved = true;
 		}
 
-		return rankList;
+		return ClanManager.rankList;
 	}
 
 	private static final void retrieveClanData()
 	{
 		if ( KoLmafia.isAdventuring() )
+		{
 			return;
+		}
 
-		if ( !profileMap.isEmpty() )
+		if ( !ClanManager.profileMap.isEmpty() )
+		{
 			return;
+		}
 
-		retrieveClanId();
-		snapshotFolder = "clan/" + clanId + "/" + WEEKLY_FORMAT.format( new Date() ) + "/";
+		ClanManager.retrieveClanId();
+		ClanManager.snapshotFolder =
+			"clan/" + ClanManager.clanId + "/" + KoLConstants.WEEKLY_FORMAT.format( new Date() ) + "/";
 		KoLmafia.updateDisplay( "Clan data retrieved." );
 
 		KoLRequest whiteListFinder = new KoLRequest( "clan_whitelist.php" );
 		whiteListFinder.run();
 
 		String currentName;
-		Matcher whiteListMatcher = WHITELIST_PATTERN.matcher( whiteListFinder.responseText );
+		Matcher whiteListMatcher = ClanManager.WHITELIST_PATTERN.matcher( whiteListFinder.responseText );
 		while ( whiteListMatcher.find() )
 		{
-			currentName = whiteListMatcher.group(1);
-			KoLmafia.registerPlayer( currentName, whiteListMatcher.group(2) );
+			currentName = whiteListMatcher.group( 1 );
+			KoLmafia.registerPlayer( currentName, whiteListMatcher.group( 2 ) );
 
 			currentName = currentName.toLowerCase();
-			if ( !currentMembers.contains( currentName ) )
-				whiteListMembers.add( currentName );
+			if ( !ClanManager.currentMembers.contains( currentName ) )
+			{
+				ClanManager.whiteListMembers.add( currentName );
+			}
 		}
 
-		Collections.sort( currentMembers );
-		Collections.sort( whiteListMembers );
+		Collections.sort( ClanManager.currentMembers );
+		Collections.sort( ClanManager.whiteListMembers );
 	}
 
 	public static final void resetClanId()
 	{
-		clanId = null;
-		clanName = null;
+		ClanManager.clanId = null;
+		ClanManager.clanName = null;
 	}
 
 	private static final void retrieveClanId()
 	{
-		if ( clanId != null )
+		if ( ClanManager.clanId != null )
+		{
 			return;
+		}
 
 		ClanMembersRequest cmr = new ClanMembersRequest();
 		RequestThread.postRequest( cmr );
 
-		clanId = cmr.getClanId();
-		clanName = cmr.getClanName();
+		ClanManager.clanId = cmr.getClanId();
+		ClanManager.clanName = cmr.getClanName();
 	}
 
-	private static final boolean retrieveMemberData( boolean retrieveProfileData, boolean retrieveAscensionData )
+	private static final boolean retrieveMemberData( final boolean retrieveProfileData,
+		final boolean retrieveAscensionData )
 	{
 		// First, determine how many member profiles need to be retrieved
 		// before this happens.
@@ -185,38 +200,47 @@ public class ClanManager extends StaticEntity
 		File profile, ascensionData;
 		String currentProfile, currentAscensionData;
 
-		String [] names = new String[ profileMap.size() ];
-		profileMap.keySet().toArray( names );
+		String[] names = new String[ ClanManager.profileMap.size() ];
+		ClanManager.profileMap.keySet().toArray( names );
 
 		RequestThread.openRequestSequence();
 
 		for ( int i = 0; i < names.length; ++i )
 		{
-			KoLmafia.updateDisplay( "Cache data lookup for member " + (i+1) + " of " + names.length + "..." );
+			KoLmafia.updateDisplay( "Cache data lookup for member " + ( i + 1 ) + " of " + names.length + "..." );
 
-			currentProfile = (String) profileMap.get( names[i] );
-			currentAscensionData = (String) ascensionMap.get( names[i] );
+			currentProfile = (String) ClanManager.profileMap.get( names[ i ] );
+			currentAscensionData = (String) ClanManager.ascensionMap.get( names[ i ] );
 
-			filename = getFileName( names[i] );
-			profile = new File( ROOT_LOCATION, snapshotFolder + "profiles/" + filename );
-			ascensionData = new File( ROOT_LOCATION, snapshotFolder + "ascensions/" + filename );
+			filename = ClanManager.getFileName( names[ i ] );
+			profile = new File( UtilityConstants.ROOT_LOCATION, ClanManager.snapshotFolder + "profiles/" + filename );
+			ascensionData =
+				new File( UtilityConstants.ROOT_LOCATION, ClanManager.snapshotFolder + "ascensions/" + filename );
 
 			if ( retrieveProfileData )
 			{
 				if ( currentProfile.equals( "" ) && !profile.exists() )
+				{
 					++requestsNeeded;
+				}
 
 				if ( currentProfile.equals( "" ) && profile.exists() )
-					initializeProfile( names[i] );
+				{
+					ClanManager.initializeProfile( names[ i ] );
+				}
 			}
 
 			if ( retrieveAscensionData )
 			{
 				if ( currentAscensionData.equals( "" ) && !ascensionData.exists() )
+				{
 					++requestsNeeded;
+				}
 
 				if ( currentAscensionData.equals( "" ) && ascensionData.exists() )
-					initializeAscensionData( names[i] );
+				{
+					ClanManager.initializeAscensionData( names[ i ] );
+				}
 			}
 		}
 
@@ -227,7 +251,9 @@ public class ClanManager extends StaticEntity
 		// No need to confirm with the user.  Therefore, return.
 
 		if ( requestsNeeded == 0 )
+		{
 			return true;
+		}
 
 		// Now that it's known what the user wishes to continue,
 		// you begin initializing all the data.
@@ -240,52 +266,58 @@ public class ClanManager extends StaticEntity
 
 		for ( int i = 0; i < names.length && KoLmafia.permitsContinue(); ++i )
 		{
-			KoLmafia.updateDisplay( "Loading profile for member " + (i+1) + " of " + names.length + "..." );
+			KoLmafia.updateDisplay( "Loading profile for member " + ( i + 1 ) + " of " + names.length + "..." );
 
-			currentProfile = (String) profileMap.get( names[i] );
-			currentAscensionData = (String) ascensionMap.get( names[i] );
+			currentProfile = (String) ClanManager.profileMap.get( names[ i ] );
+			currentAscensionData = (String) ClanManager.ascensionMap.get( names[ i ] );
 
 			if ( retrieveProfileData && currentProfile.equals( "" ) )
-				initializeProfile( names[i] );
+			{
+				ClanManager.initializeProfile( names[ i ] );
+			}
 
 			if ( retrieveAscensionData && currentAscensionData.equals( "" ) )
-				initializeAscensionData( names[i] );
+			{
+				ClanManager.initializeAscensionData( names[ i ] );
+			}
 		}
 
 		RequestThread.closeRequestSequence();
 		return true;
 	}
 
-	public static final String getURLName( String name )
-	{	return KoLSettings.baseUserName( name ) + "_(%23" + KoLmafia.getPlayerId( name ) + ")" + ".htm";
-	}
-
-	public static final String getFileName( String name )
-	{	return KoLSettings.baseUserName( name ) + "_(#" + KoLmafia.getPlayerId( name ) + ")" + ".htm";
-	}
-
-	private static final void initializeProfile( String name )
+	public static final String getURLName( final String name )
 	{
-		File profile = new File( ROOT_LOCATION, snapshotFolder + "profiles/" + getFileName( name ) );
+		return KoLSettings.baseUserName( name ) + "_(%23" + KoLmafia.getPlayerId( name ) + ")" + ".htm";
+	}
+
+	public static final String getFileName( final String name )
+	{
+		return KoLSettings.baseUserName( name ) + "_(#" + KoLmafia.getPlayerId( name ) + ")" + ".htm";
+	}
+
+	private static final void initializeProfile( final String name )
+	{
+		File profile =
+			new File(
+				UtilityConstants.ROOT_LOCATION,
+				ClanManager.snapshotFolder + "profiles/" + ClanManager.getFileName( name ) );
 
 		if ( profile.exists() )
 		{
-			// In the event that the profile has already been retrieved,
-			// then load the data from disk.
-
 			try
 			{
 				BufferedReader istream = KoLDatabase.getReader( profile );
 				StringBuffer profileString = new StringBuffer();
 				String currentLine;
 
-				while ( (currentLine = istream.readLine()) != null )
+				while ( ( currentLine = istream.readLine() ) != null )
 				{
 					profileString.append( currentLine );
-					profileString.append( LINE_BREAK );
+					profileString.append( KoLConstants.LINE_BREAK );
 				}
 
-				profileMap.put( name.toLowerCase(), profileString.toString() );
+				ClanManager.profileMap.put( name.toLowerCase(), profileString.toString() );
 				istream.close();
 			}
 			catch ( Exception e )
@@ -293,7 +325,7 @@ public class ClanManager extends StaticEntity
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
 
-				printStackTrace( e, "Failed to load cached profile" );
+				StaticEntity.printStackTrace( e, "Failed to load cached profile" );
 				return;
 			}
 		}
@@ -305,11 +337,16 @@ public class ClanManager extends StaticEntity
 			ProfileRequest request = new ProfileRequest( name );
 			request.initialize();
 
-			String data = LINE_BREAK_PATTERN.matcher( COMMENT_PATTERN.matcher( STYLE_PATTERN.matcher( SCRIPT_PATTERN.matcher(
-				request.responseText ).replaceAll( "" ) ).replaceAll( "" ) ).replaceAll( "" ) ).replaceAll( "" ).replaceAll(
-					"ascensionhistory.php\\?back=other&who=" + KoLmafia.getPlayerId( name ), "../ascensions/" + getURLName( name ) );
+			String data =
+				KoLConstants.LINE_BREAK_PATTERN.matcher(
+					KoLConstants.COMMENT_PATTERN.matcher(
+						KoLConstants.STYLE_PATTERN.matcher(
+							KoLConstants.SCRIPT_PATTERN.matcher( request.responseText ).replaceAll( "" ) ).replaceAll(
+							"" ) ).replaceAll( "" ) ).replaceAll( "" ).replaceAll(
+					"ascensionhistory.php\\?back=other&who=" + KoLmafia.getPlayerId( name ),
+					"../ascensions/" + ClanManager.getURLName( name ) );
 
-			profileMap.put( name, data );
+			ClanManager.profileMap.put( name, data );
 
 			// To avoid retrieving the file again, store the intermediate
 			// result in a local file.
@@ -320,35 +357,35 @@ public class ClanManager extends StaticEntity
 		}
 	}
 
-	private static final void initializeAscensionData( String name )
+	private static final void initializeAscensionData( final String name )
 	{
-		File ascension = new File( ROOT_LOCATION, snapshotFolder + "ascensions/" + getFileName( name ) );
+		File ascension =
+			new File(
+				UtilityConstants.ROOT_LOCATION,
+				ClanManager.snapshotFolder + "ascensions/" + ClanManager.getFileName( name ) );
 
 		if ( ascension.exists() )
 		{
-			// In the event that the ascension has already been retrieved,
-			// then load the data from disk.
-
 			try
 			{
 				BufferedReader istream = KoLDatabase.getReader( ascension );
 				StringBuffer ascensionString = new StringBuffer();
 				String currentLine;
 
-				while ( (currentLine = istream.readLine()) != null )
+				while ( ( currentLine = istream.readLine() ) != null )
 				{
 					ascensionString.append( currentLine );
-					ascensionString.append( LINE_BREAK );
+					ascensionString.append( KoLConstants.LINE_BREAK );
 				}
 
-				ascensionMap.put( name, ascensionString.toString() );
+				ClanManager.ascensionMap.put( name, ascensionString.toString() );
 			}
 			catch ( Exception e )
 			{
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
 
-				printStackTrace( e, "Failed to load cached ascension history" );
+				StaticEntity.printStackTrace( e, "Failed to load cached ascension history" );
 				return;
 			}
 		}
@@ -360,11 +397,15 @@ public class ClanManager extends StaticEntity
 			AscensionDataRequest request = new AscensionDataRequest( name, KoLmafia.getPlayerId( name ) );
 			request.initialize();
 
-			String data = LINE_BREAK_PATTERN.matcher( COMMENT_PATTERN.matcher( STYLE_PATTERN.matcher( SCRIPT_PATTERN.matcher(
-				request.responseText ).replaceAll( "" ) ).replaceAll( "" ) ).replaceAll( "" ) ).replaceAll( "" ).replaceAll(
-				"<a href=\"charsheet.php\">", "<a href=../profiles/" + getURLName( name ) );
+			String data =
+				KoLConstants.LINE_BREAK_PATTERN.matcher(
+					KoLConstants.COMMENT_PATTERN.matcher(
+						KoLConstants.STYLE_PATTERN.matcher(
+							KoLConstants.SCRIPT_PATTERN.matcher( request.responseText ).replaceAll( "" ) ).replaceAll(
+							"" ) ).replaceAll( "" ) ).replaceAll( "" ).replaceAll(
+					"<a href=\"charsheet.php\">", "<a href=../profiles/" + ClanManager.getURLName( name ) );
 
-			ascensionMap.put( name, data );
+			ClanManager.ascensionMap.put( name, data );
 
 			// To avoid retrieving the file again, store the intermediate
 			// result in a local file.
@@ -374,60 +415,65 @@ public class ClanManager extends StaticEntity
 			ostream.close();
 		}
 	}
-	
-	public static String getTitle( String name )
-	{	return (String) titleMap.get( name.toLowerCase() );
+
+	public static String getTitle( final String name )
+	{
+		return (String) ClanManager.titleMap.get( name.toLowerCase() );
 	}
 
-	public static final void registerMember( String name, String level, String title )
+	public static final void registerMember( final String name, final String level, final String title )
 	{
 		String lowercase = name.toLowerCase();
 
-		if ( !currentMembers.contains( lowercase ) )
-			currentMembers.add( lowercase );
-		if ( !whiteListMembers.contains( lowercase ) )
-			whiteListMembers.add( lowercase );
+		if ( !ClanManager.currentMembers.contains( lowercase ) )
+		{
+			ClanManager.currentMembers.add( lowercase );
+		}
+		if ( !ClanManager.whiteListMembers.contains( lowercase ) )
+		{
+			ClanManager.whiteListMembers.add( lowercase );
+		}
 
 		ClanSnapshotTable.registerMember( name, level );
 		AscensionSnapshotTable.registerMember( name );
 
-		titleMap.put( lowercase, title );
+		ClanManager.titleMap.put( lowercase, title );
 	}
 
-	public static final void unregisterMember( String playerId )
+	public static final void unregisterMember( final String playerId )
 	{
 		String lowercase = KoLmafia.getPlayerName( playerId ).toLowerCase();
 
-		currentMembers.remove( lowercase );
-		whiteListMembers.remove( lowercase );
+		ClanManager.currentMembers.remove( lowercase );
+		ClanManager.whiteListMembers.remove( lowercase );
 
 		ClanSnapshotTable.unregisterMember( playerId );
 		AscensionSnapshotTable.unregisterMember( playerId );
 	}
 
 	/**
-	 * Takes a ClanSnapshotTable of clan member data for this clan.  The user will
-	 * be prompted for the data they would like to include in this ClanSnapshotTable,
-	 * including complete player profiles, favorite food, and any other
-	 * data gathered by KoLmafia.  If the clan member list was not previously
-	 * initialized, this method will also initialize that list.
+	 * Takes a ClanSnapshotTable of clan member data for this clan. The user will be prompted for the data they would
+	 * like to include in this ClanSnapshotTable, including complete player profiles, favorite food, and any other data
+	 * gathered by KoLmafia. If the clan member list was not previously initialized, this method will also initialize
+	 * that list.
 	 */
 
-	public static final void takeSnapshot( int mostAscensionsBoardSize, int mainBoardSize, int classBoardSize, int maxAge, boolean playerMoreThanOnce, boolean localProfileLink )
+	public static final void takeSnapshot( final int mostAscensionsBoardSize, final int mainBoardSize,
+		final int classBoardSize, final int maxAge, final boolean playerMoreThanOnce, final boolean localProfileLink )
 	{
-		retrieveClanData();
+		ClanManager.retrieveClanData();
 
-		File standardFile = new File( ROOT_LOCATION, snapshotFolder + "standard.htm" );
-		File softcoreFile = new File( ROOT_LOCATION, snapshotFolder + "softcore.htm" );
-		File hardcoreFile = new File( ROOT_LOCATION, snapshotFolder + "hardcore.htm" );
-		File sortingScript = new File( ROOT_LOCATION, snapshotFolder + "sorttable.js" );
+		File standardFile = new File( UtilityConstants.ROOT_LOCATION, ClanManager.snapshotFolder + "standard.htm" );
+		File softcoreFile = new File( UtilityConstants.ROOT_LOCATION, ClanManager.snapshotFolder + "softcore.htm" );
+		File hardcoreFile = new File( UtilityConstants.ROOT_LOCATION, ClanManager.snapshotFolder + "hardcore.htm" );
+		File sortingScript = new File( UtilityConstants.ROOT_LOCATION, ClanManager.snapshotFolder + "sorttable.js" );
 
 		// If initialization was unsuccessful, then there isn't
 		// enough data to create a clan ClanSnapshotTable.
 
-		if ( !retrieveMemberData( true, true ) )
+		if ( !ClanManager.retrieveMemberData( true, true ) )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "Initialization failed." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Initialization failed." );
 			return;
 		}
 
@@ -447,19 +493,25 @@ public class ClanManager extends StaticEntity
 			BufferedReader script = DataUtilities.getReader( "relay", "sorttable.js" );
 
 			ostream = LogStream.openStream( sortingScript, true );
-			while ( (line = script.readLine()) != null )
+			while ( ( line = script.readLine() ) != null )
+			{
 				ostream.println( line );
+			}
 
 			ostream.close();
 
 			KoLmafia.updateDisplay( "Storing ascension snapshot..." );
 
 			ostream = LogStream.openStream( softcoreFile, true );
-			ostream.println( AscensionSnapshotTable.getAscensionData( true, mostAscensionsBoardSize, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce, localProfileLink ) );
+			ostream.println( AscensionSnapshotTable.getAscensionData(
+				true, mostAscensionsBoardSize, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce,
+				localProfileLink ) );
 			ostream.close();
 
 			ostream = LogStream.openStream( hardcoreFile, true );
-			ostream.println( AscensionSnapshotTable.getAscensionData( false, mostAscensionsBoardSize, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce, localProfileLink ) );
+			ostream.println( AscensionSnapshotTable.getAscensionData(
+				false, mostAscensionsBoardSize, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce,
+				localProfileLink ) );
 			ostream.close();
 		}
 		catch ( Exception e )
@@ -479,38 +531,36 @@ public class ClanManager extends StaticEntity
 	}
 
 	/**
-	 * Stores all of the transactions made in the clan stash.  This loads the existing
-	 * clan stash log and updates it with all transactions made by every clan member.
-	 * this format allows people to see WHO is using the stash, rather than just what
-	 * is being done with the stash.
+	 * Stores all of the transactions made in the clan stash. This loads the existing clan stash log and updates it with
+	 * all transactions made by every clan member. this format allows people to see WHO is using the stash, rather than
+	 * just what is being done with the stash.
 	 */
 
 	public static final void saveStashLog()
 	{
-		retrieveClanData();
+		ClanManager.retrieveClanData();
 		RequestThread.postRequest( new ClanStashLogRequest() );
 	}
 
 	/**
-	 * Retrieves the clan membership in the form of a
-	 * list object.
+	 * Retrieves the clan membership in the form of a list object.
 	 */
 
 	public static final List getWhiteList()
 	{
-		retrieveClanData();
-		return whiteListMembers;
+		ClanManager.retrieveClanData();
+		return ClanManager.whiteListMembers;
 	}
 
-	public static final boolean isMember( String memberName )
+	public static final boolean isMember( final String memberName )
 	{
-		retrieveClanData();
-		return Collections.binarySearch( whiteListMembers, memberName.toLowerCase() ) != -1;
+		ClanManager.retrieveClanData();
+		return Collections.binarySearch( ClanManager.whiteListMembers, memberName.toLowerCase() ) != -1;
 	}
 
-	public static final void applyFilter( int matchType, int filterType, String filter )
+	public static final void applyFilter( final int matchType, final int filterType, final String filter )
 	{
-		retrieveClanData();
+		ClanManager.retrieveClanData();
 
 		// Certain filter types do not require the player profiles
 		// to be looked up.  These can be processed immediately,
@@ -526,7 +576,7 @@ public class ClanManager extends StaticEntity
 
 		default:
 
-			retrieveMemberData( true, false );
+			ClanManager.retrieveMemberData( true, false );
 		}
 
 		ClanSnapshotTable.applyFilter( matchType, filterType, filter );

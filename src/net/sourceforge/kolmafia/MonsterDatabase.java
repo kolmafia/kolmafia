@@ -40,12 +40,13 @@ import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
 
-public class MonsterDatabase extends KoLDatabase
+public class MonsterDatabase
+	extends KoLDatabase
 {
 	private static final Map MONSTER_NAMES = new TreeMap();
 	private static final Map MONSTER_DATA = new TreeMap();
 
-	private static String [] MONSTER_STRINGS = null;
+	private static String[] MONSTER_STRINGS = null;
 
 	// Elements
 	public static final int NONE = 0;
@@ -55,77 +56,80 @@ public class MonsterDatabase extends KoLDatabase
 	public static final int SPOOKY = 4;
 	public static final int STENCH = 5;
 
-	public static final String [] elementNames =
-	{
-		"none", "cold", "hot", "sleaze", "spooky", "stench"
-	};
+	public static final String[] elementNames = { "none", "cold", "hot", "sleaze", "spooky", "stench" };
 
-	public static final int elementNumber( String name )
+	public static final int elementNumber( final String name )
 	{
-		for ( int i = 0; i < elementNames.length; ++i )
-			if ( name.equals( elementNames[i] ) )
+		for ( int i = 0; i < MonsterDatabase.elementNames.length; ++i )
+		{
+			if ( name.equals( MonsterDatabase.elementNames[ i ] ) )
+			{
 				return i;
+			}
+		}
 		return -1;
 	}
 
-	public static final boolean elementalVulnerability( int element1, int element2 )
+	public static final boolean elementalVulnerability( final int element1, final int element2 )
 	{
 		switch ( element1 )
 		{
 		case COLD:
-			return ( element2 == HEAT || element2 == SPOOKY );
+			return element2 == MonsterDatabase.HEAT || element2 == MonsterDatabase.SPOOKY;
 		case HEAT:
-			return ( element2 == SLEAZE || element2 == STENCH );
+			return element2 == MonsterDatabase.SLEAZE || element2 == MonsterDatabase.STENCH;
 		case SLEAZE:
-			return ( element2 == COLD || element2 == SPOOKY );
+			return element2 == MonsterDatabase.COLD || element2 == MonsterDatabase.SPOOKY;
 		case SPOOKY:
-			return ( element2 == HEAT || element2 == STENCH );
+			return element2 == MonsterDatabase.HEAT || element2 == MonsterDatabase.STENCH;
 		case STENCH:
-			return ( element2 == SLEAZE || element2 == COLD );
+			return element2 == MonsterDatabase.SLEAZE || element2 == MonsterDatabase.COLD;
 		}
 		return false;
 	}
 
 	static
 	{
-		refreshMonsterTable();
+		MonsterDatabase.refreshMonsterTable();
 	}
 
 	public static final void refreshMonsterTable()
 	{
-		MONSTER_DATA.clear();
-		MONSTER_NAMES.clear();
+		MonsterDatabase.MONSTER_DATA.clear();
+		MonsterDatabase.MONSTER_NAMES.clear();
 
-		BufferedReader reader = getVersionedReader( "monsters.txt", MONSTERS_VERSION );
-		String [] data;
+		BufferedReader reader = KoLDatabase.getVersionedReader( "monsters.txt", KoLConstants.MONSTERS_VERSION );
+		String[] data;
 
-		while ( (data = readData( reader )) != null )
+		while ( ( data = KoLDatabase.readData( reader ) ) != null )
 		{
 			if ( data.length >= 2 )
 			{
-				Monster monster = registerMonster( data[0], data[1] );
+				Monster monster = MonsterDatabase.registerMonster( data[ 0 ], data[ 1 ] );
 				if ( monster == null )
+				{
 					continue;
+				}
 
 				boolean bad = false;
 				for ( int i = 2; i < data.length; ++i )
 				{
-					AdventureResult item = AdventureResult.parseResult( data[i] );
+					AdventureResult item = AdventureResult.parseResult( data[ i ] );
 					if ( item != null )
 					{
 						monster.addItem( item );
 						continue;
 					}
 
-					RequestLogger.printLine( "Bad item for monster \"" + data[0] + "\": " + data[i] );
+					RequestLogger.printLine( "Bad item for monster \"" + data[ 0 ] + "\": " + data[ i ] );
 					bad = true;
 				}
 
 				if ( !bad )
 				{
 					monster.doneWithItems();
-					MONSTER_DATA.put( data[0], monster );
-					MONSTER_NAMES.put( CombatSettings.encounterKey( data[0], true ), data[0] );
+					MonsterDatabase.MONSTER_DATA.put( data[ 0 ], monster );
+					MonsterDatabase.MONSTER_NAMES.put( CombatSettings.encounterKey( data[ 0 ], true ), data[ 0 ] );
 				}
 			}
 		}
@@ -139,53 +143,70 @@ public class MonsterDatabase extends KoLDatabase
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			printStackTrace( e );
+			StaticEntity.printStackTrace( e );
 		}
 	}
 
-	public static final Monster findMonster( String name )
-	{	return findMonster( name, true );
+	public static final Monster findMonster( final String name )
+	{
+		return MonsterDatabase.findMonster( name, true );
 	}
 
-	public static final Monster findMonster( String name, boolean trySubstrings )
+	public static final Monster findMonster( final String name, boolean trySubstrings )
 	{
 		String keyName = CombatSettings.encounterKey( name, true );
-		String realName = (String) MONSTER_NAMES.get( keyName );
+		String realName = (String) MonsterDatabase.MONSTER_NAMES.get( keyName );
 
 		// If no monster with that name exists, maybe it's
 		// one of those monsters with an alternate name.
 
 		if ( realName != null )
-			return (Monster) MONSTER_DATA.get( realName );
-
-		if ( !trySubstrings )
-			return null;
-
-		if ( MONSTER_STRINGS == null )
 		{
-			MONSTER_STRINGS = new String[ MONSTER_NAMES.size() ];
-			MONSTER_NAMES.keySet().toArray( MONSTER_STRINGS );
-
-			for ( int i = 0; i < MONSTER_STRINGS.length; ++i )
-				MONSTER_STRINGS[i] = MONSTER_STRINGS[i].toLowerCase();
+			return (Monster) MonsterDatabase.MONSTER_DATA.get( realName );
 		}
 
-		for ( int i = 0; i < MONSTER_STRINGS.length; ++i )
-			if ( MONSTER_STRINGS[i].startsWith( keyName ) )
-				return (Monster) MONSTER_DATA.get( MONSTER_NAMES.get( MONSTER_STRINGS[i] ) );
+		if ( !trySubstrings )
+		{
+			return null;
+		}
 
-		for ( int i = 0; i < MONSTER_STRINGS.length; ++i )
-			if ( substringMatches( MONSTER_STRINGS[i], keyName ) )
-				return (Monster) MONSTER_DATA.get( MONSTER_NAMES.get( MONSTER_STRINGS[i] ) );
+		if ( MonsterDatabase.MONSTER_STRINGS == null )
+		{
+			MonsterDatabase.MONSTER_STRINGS = new String[ MonsterDatabase.MONSTER_NAMES.size() ];
+			MonsterDatabase.MONSTER_NAMES.keySet().toArray( MonsterDatabase.MONSTER_STRINGS );
+
+			for ( int i = 0; i < MonsterDatabase.MONSTER_STRINGS.length; ++i )
+			{
+				MonsterDatabase.MONSTER_STRINGS[ i ] = MonsterDatabase.MONSTER_STRINGS[ i ].toLowerCase();
+			}
+		}
+
+		for ( int i = 0; i < MonsterDatabase.MONSTER_STRINGS.length; ++i )
+		{
+			if ( MonsterDatabase.MONSTER_STRINGS[ i ].startsWith( keyName ) )
+			{
+				return (Monster) MonsterDatabase.MONSTER_DATA.get( MonsterDatabase.MONSTER_NAMES.get( MonsterDatabase.MONSTER_STRINGS[ i ] ) );
+			}
+		}
+
+		for ( int i = 0; i < MonsterDatabase.MONSTER_STRINGS.length; ++i )
+		{
+			if ( KoLDatabase.substringMatches( MonsterDatabase.MONSTER_STRINGS[ i ], keyName ) )
+			{
+				return (Monster) MonsterDatabase.MONSTER_DATA.get( MonsterDatabase.MONSTER_NAMES.get( MonsterDatabase.MONSTER_STRINGS[ i ] ) );
+			}
+		}
 
 		return null;
 	}
 
-	public static final Monster registerMonster( String name, String s )
+	public static final Monster registerMonster( final String name, final String s )
 	{
-		Monster monster = findMonster( name, false );
+		Monster monster = MonsterDatabase.findMonster( name, false );
 		if ( monster != null )
+		{
 			return monster;
+		}
 
 		// parse parameters and make a new monster
 		int health = 0;
@@ -194,8 +215,8 @@ public class MonsterDatabase extends KoLDatabase
 		int initiative = 0;
 		int minMeat = 0;
 		int maxMeat = 0;
-		int attackElement = NONE;
-		int defenseElement = NONE;
+		int attackElement = MonsterDatabase.NONE;
+		int defenseElement = MonsterDatabase.NONE;
 
 		StringTokenizer tokens = new StringTokenizer( s, " " );
 		while ( tokens.hasMoreTokens() )
@@ -209,7 +230,7 @@ public class MonsterDatabase extends KoLDatabase
 					if ( tokens.hasMoreTokens() )
 					{
 						value = tokens.nextToken();
-						health = parseInt( value );
+						health = StaticEntity.parseInt( value );
 						continue;
 					}
 				}
@@ -219,7 +240,7 @@ public class MonsterDatabase extends KoLDatabase
 					if ( tokens.hasMoreTokens() )
 					{
 						value = tokens.nextToken();
-						attack = parseInt( value );
+						attack = StaticEntity.parseInt( value );
 						continue;
 					}
 				}
@@ -229,7 +250,7 @@ public class MonsterDatabase extends KoLDatabase
 					if ( tokens.hasMoreTokens() )
 					{
 						value = tokens.nextToken();
-						defense = parseInt( value );
+						defense = StaticEntity.parseInt( value );
 						continue;
 					}
 				}
@@ -239,7 +260,7 @@ public class MonsterDatabase extends KoLDatabase
 					if ( tokens.hasMoreTokens() )
 					{
 						value = tokens.nextToken();
-						initiative = parseInt( value );
+						initiative = StaticEntity.parseInt( value );
 						continue;
 					}
 				}
@@ -249,8 +270,8 @@ public class MonsterDatabase extends KoLDatabase
 					if ( tokens.hasMoreTokens() )
 					{
 						value = tokens.nextToken();
-						int element = parseElement( value );
-						if ( element != NONE )
+						int element = MonsterDatabase.parseElement( value );
+						if ( element != MonsterDatabase.NONE )
 						{
 							attackElement = element;
 							defenseElement = element;
@@ -264,8 +285,8 @@ public class MonsterDatabase extends KoLDatabase
 					if ( tokens.hasMoreTokens() )
 					{
 						value = tokens.nextToken();
-						int element = parseElement( value );
-						if ( element != NONE )
+						int element = MonsterDatabase.parseElement( value );
+						if ( element != MonsterDatabase.NONE )
 						{
 							defenseElement = element;
 							continue;
@@ -278,8 +299,8 @@ public class MonsterDatabase extends KoLDatabase
 					if ( tokens.hasMoreTokens() )
 					{
 						value = tokens.nextToken();
-						int element = parseElement( value );
-						if ( element != NONE )
+						int element = MonsterDatabase.parseElement( value );
+						if ( element != MonsterDatabase.NONE )
 						{
 							attackElement = element;
 							continue;
@@ -295,12 +316,12 @@ public class MonsterDatabase extends KoLDatabase
 						int dash = value.indexOf( "-" );
 						if ( dash >= 0 )
 						{
-							minMeat = parseInt( value.substring( 0, dash ) );
-							maxMeat = parseInt( value.substring( dash + 1 ) );
+							minMeat = StaticEntity.parseInt( value.substring( 0, dash ) );
+							maxMeat = StaticEntity.parseInt( value.substring( dash + 1 ) );
 						}
 						else
 						{
-							minMeat = parseInt( value );
+							minMeat = StaticEntity.parseInt( value );
 							maxMeat = minMeat;
 						}
 						continue;
@@ -314,7 +335,7 @@ public class MonsterDatabase extends KoLDatabase
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
 
-				printStackTrace( e, s );
+				StaticEntity.printStackTrace( e, s );
 			}
 
 			return null;
@@ -323,45 +344,57 @@ public class MonsterDatabase extends KoLDatabase
 		return new Monster( name, health, attack, defense, initiative, attackElement, defenseElement, minMeat, maxMeat );
 	}
 
-	private static final int parseElement( String s )
+	private static final int parseElement( final String s )
 	{
 		if ( s.equals( "heat" ) )
-			return HEAT;
+		{
+			return MonsterDatabase.HEAT;
+		}
 		if ( s.equals( "cold" ) )
-			return COLD;
+		{
+			return MonsterDatabase.COLD;
+		}
 		if ( s.equals( "stench" ) )
-			return STENCH;
+		{
+			return MonsterDatabase.STENCH;
+		}
 		if ( s.equals( "spooky" ) )
-			return SPOOKY;
+		{
+			return MonsterDatabase.SPOOKY;
+		}
 		if ( s.equals( "sleaze" ) )
-			return SLEAZE;
-		return NONE;
+		{
+			return MonsterDatabase.SLEAZE;
+		}
+		return MonsterDatabase.NONE;
 	}
 
-	public static class Monster extends AdventureResult
+	public static class Monster
+		extends AdventureResult
 	{
-		private int health;
-		private int attack;
-		private int defense;
-		private int initiative;
+		private final int health;
+		private final int attack;
+		private final int defense;
+		private final int initiative;
 		private float statGain;
-		private int attackElement;
-		private int defenseElement;
-		private int minMeat;
-		private int maxMeat;
+		private final int attackElement;
+		private final int defenseElement;
+		private final int minMeat;
+		private final int maxMeat;
 
-		private List items;
-		private List pocketRates;
+		private final List items;
+		private final List pocketRates;
 
-		public Monster( String name, int health, int attack, int defense, int initiative, int attackElement, int defenseElement, int minMeat, int maxMeat )
+		public Monster( final String name, final int health, final int attack, final int defense, final int initiative,
+			final int attackElement, final int defenseElement, final int minMeat, final int maxMeat )
 		{
-			super( MONSTER_PRIORITY, name );
+			super( AdventureResult.MONSTER_PRIORITY, name );
 
 			this.health = health;
 			this.attack = attack;
 			this.defense = defense;
 			this.initiative = initiative;
-			this.statGain = ((attack + defense)) / 10.0f ;
+			this.statGain = ( attack + defense ) / 10.0f;
 			this.attackElement = attackElement;
 			this.defenseElement = defenseElement;
 			this.minMeat = minMeat;
@@ -372,81 +405,102 @@ public class MonsterDatabase extends KoLDatabase
 		}
 
 		public int getHP()
-		{	return this.health;
+		{
+			return this.health;
 		}
 
-		public int getAdjustedHP( int ml )
-		{	return this.health + ml;
+		public int getAdjustedHP( final int ml )
+		{
+			return this.health + ml;
 		}
 
 		public int getAttack()
-		{	return this.attack;
+		{
+			return this.attack;
 		}
 
 		public int getDefense()
-		{	return this.defense;
+		{
+			return this.defense;
 		}
 
 		public int getInitiative()
-		{	return this.initiative;
+		{
+			return this.initiative;
 		}
 
 		public int getAttackElement()
-		{	return this.attackElement;
+		{
+			return this.attackElement;
 		}
 
 		public int getDefenseElement()
-		{	return this.defenseElement;
+		{
+			return this.defenseElement;
 		}
 
 		public int getMinMeat()
-		{	return this.minMeat;
+		{
+			return this.minMeat;
 		}
 
 		public int getMaxMeat()
-		{	return this.maxMeat;
+		{
+			return this.maxMeat;
 		}
 
 		public List getItems()
-		{	return this.items;
+		{
+			return this.items;
 		}
 
 		public List getPocketRates()
-		{	return this.pocketRates;
+		{
+			return this.pocketRates;
 		}
 
 		public boolean shouldSteal()
 		{
 			if ( !KoLCharacter.isMoxieClass() )
+			{
 				return false;
+			}
 
 			// If the player has an acceptable dodge rate or
 			// then steal anything.
 
 			if ( this.willUsuallyDodge( 0 ) )
+			{
 				return this.shouldSteal( this.items );
+			}
 
 			// Otherwise, only steal from monsters that drop
 			// something on your conditions list.
 
-			return this.shouldSteal( conditions );
+			return this.shouldSteal( KoLConstants.conditions );
 		}
 
-		private boolean shouldSteal( List checklist )
+		private boolean shouldSteal( final List checklist )
 		{
 			float dropModifier = AreaCombatData.getDropRateModifier();
 
 			for ( int i = 0; i < checklist.size(); ++i )
-				if ( this.shouldStealItem( (AdventureResult) checklist.get(i), dropModifier ) )
+			{
+				if ( this.shouldStealItem( (AdventureResult) checklist.get( i ), dropModifier ) )
+				{
 					return true;
+				}
+			}
 
 			return false;
 		}
 
-		private boolean shouldStealItem( AdventureResult item, float dropModifier )
+		private boolean shouldStealItem( AdventureResult item, final float dropModifier )
 		{
 			if ( !item.isItem() )
+			{
 				return false;
+			}
 
 			int itemIndex = this.items.indexOf( item );
 
@@ -456,19 +510,25 @@ public class MonsterDatabase extends KoLDatabase
 			if ( itemIndex != -1 )
 			{
 				item = (AdventureResult) this.items.get( itemIndex );
-				return (item.getCount()) * dropModifier < 100.0f;
+				return item.getCount() * dropModifier < 100.0f;
 			}
 
 			// If the item does not drop, check to see if maybe
 			// the monster drops one of its ingredients.
 
-			AdventureResult [] subitems = ConcoctionsDatabase.getStandardIngredients( item.getItemId() );
+			AdventureResult[] subitems = ConcoctionsDatabase.getStandardIngredients( item.getItemId() );
 			if ( subitems.length < 2 )
+			{
 				return false;
+			}
 
 			for ( int i = 0; i < subitems.length; ++i )
-				if ( this.shouldStealItem( subitems[i], dropModifier ) )
+			{
+				if ( this.shouldStealItem( subitems[ i ], dropModifier ) )
+				{
 					return true;
+				}
+			}
 
 			// The item doesn't drop the item or any of its
 			// ingredients.
@@ -476,8 +536,9 @@ public class MonsterDatabase extends KoLDatabase
 			return false;
 		}
 
-		public void addItem( AdventureResult item )
-		{	this.items.add( item );
+		public void addItem( final AdventureResult item )
+		{
+			this.items.add( item );
 		}
 
 		public void doneWithItems()
@@ -487,73 +548,88 @@ public class MonsterDatabase extends KoLDatabase
 			// http://forums.hardcoreoxygenation.com/viewtopic.php?t=3396
 
 			float probability = 0.0f;
-			float [] coefficients = new float[ this.items.size() ];
+			float[] coefficients = new float[ this.items.size() ];
 
 			for ( int i = 0; i < this.items.size(); ++i )
 			{
-				coefficients[0] = 1.0f;
+				coefficients[ 0 ] = 1.0f;
 				for ( int j = 1; j < coefficients.length; ++j )
-					coefficients[j] = 0.0f;
+				{
+					coefficients[ j ] = 0.0f;
+				}
 
 				for ( int j = 0; j < this.items.size(); ++j )
 				{
-					probability = ((AdventureResult)this.items.get(j)).getCount() / 100.0f;
+					probability = ( (AdventureResult) this.items.get( j ) ).getCount() / 100.0f;
 
 					if ( i == j )
 					{
 						for ( int k = 0; k < coefficients.length; ++k )
-							coefficients[k] = coefficients[k] * probability;
+						{
+							coefficients[ k ] = coefficients[ k ] * probability;
+						}
 					}
 					else
 					{
 						for ( int k = coefficients.length - 1; k >= 1; --k )
-							coefficients[k] = coefficients[k] - (probability * coefficients[k - 1]);
+						{
+							coefficients[ k ] = coefficients[ k ] - probability * coefficients[ k - 1 ];
+						}
 					}
 				}
 
 				probability = 0.0f;
 
 				for ( int j = 0; j < coefficients.length; ++j )
-					probability += coefficients[j] / ((j+1));
+				{
+					probability += coefficients[ j ] / ( j + 1 );
+				}
 
 				this.pocketRates.add( new Float( probability ) );
 			}
 		}
 
 		public float getExperience()
-		{	return Math.max( 1.0f, this.statGain );
+		{
+			return Math.max( 1.0f, this.statGain );
 		}
 
-		public float getAdjustedExperience( float modifier, int ml, FamiliarData familiar )
+		public float getAdjustedExperience( final float modifier, final int ml, final FamiliarData familiar )
 		{
 			// Base stat gain = attack / 5 (not average of attack and defense)
 			// Add constant stat gain from items, effects, and familiars
 			// Add variable stat gain from familiars
 
 			if ( FamiliarsDatabase.isSombreroType( familiar.getId() ) )
-				this.statGain = this.attack / 4.0f + modifier + sombreroAdjustment( this.attack + ml, familiar );
+			{
+				this.statGain = this.attack / 4.0f + modifier + Monster.sombreroAdjustment( this.attack + ml, familiar );
+			}
 			else
+			{
 				this.statGain = this.attack / 4.0f + modifier;
+			}
 
 			return Math.max( 1.0f, this.statGain );
 		}
 
-		private static final float sombreroAdjustment( float ml, FamiliarData familiar )
-		{	return (float) Math.round( Math.sqrt( ml - 4.0f ) * familiar.getModifiedWeight() / 100.0f );
+		private static final float sombreroAdjustment( final float ml, final FamiliarData familiar )
+		{
+			return Math.round( Math.sqrt( ml - 4.0f ) * familiar.getModifiedWeight() / 100.0f );
 		}
 
 		public boolean willUsuallyMiss()
-		{	return this.willUsuallyMiss( 0 );
+		{
+			return this.willUsuallyMiss( 0 );
 		}
 
-		public boolean willUsuallyDodge( int offenseModifier )
+		public boolean willUsuallyDodge( final int offenseModifier )
 		{
 			int ml = KoLCharacter.getMonsterLevelAdjustment() + offenseModifier;
-			int dodgeRate = KoLCharacter.getAdjustedMoxie() - (this.attack + ml) - 6;
+			int dodgeRate = KoLCharacter.getAdjustedMoxie() - ( this.attack + ml ) - 6;
 			return dodgeRate > 0;
 		}
 
-		public boolean willUsuallyMiss( int defenseModifier )
+		public boolean willUsuallyMiss( final int defenseModifier )
 		{
 			int ml = KoLCharacter.getMonsterLevelAdjustment() + defenseModifier;
 			int hitStat = KoLCharacter.getAdjustedHitStat();

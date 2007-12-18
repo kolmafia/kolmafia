@@ -45,12 +45,17 @@ import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class CustomItemDatabase extends Properties implements KoLConstants
+import net.java.dev.spellcast.utilities.UtilityConstants;
+
+public class CustomItemDatabase
+	extends Properties
+	implements KoLConstants
 {
 	private static final CustomItemDatabase INSTANCE = new CustomItemDatabase();
-	private static final File KILT_FILE = new File( DATA_LOCATION, "tehkilt.txt" );
+	private static final File KILT_FILE = new File( UtilityConstants.DATA_LOCATION, "tehkilt.txt" );
 
-	private static final Pattern EQUIP_PATTERN = Pattern.compile( "<tr><td width=30 height=30><img src=\"[^\"]+\" class=hand onClick='descitem\\(\\d+\\)'></td><td valign=center><b>([^<]+)</b></td></tr>" );
+	private static final Pattern EQUIP_PATTERN =
+		Pattern.compile( "<tr><td width=30 height=30><img src=\"[^\"]+\" class=hand onClick='descitem\\(\\d+\\)'></td><td valign=center><b>([^<]+)</b></td></tr>" );
 
 	private static final int CUSTOM_FLAG_COUNT = 31;
 
@@ -58,21 +63,21 @@ public class CustomItemDatabase extends Properties implements KoLConstants
 	// can create custom familiar accessories and/or custom containers,
 	// but KoLmafia doesn't have to support viewing them.
 
-	private static final int [] CUSTOM_TYPES = new int [] { -1, KoLCharacter.HAT, -1,
-		KoLCharacter.SHIRT, KoLCharacter.WEAPON, KoLCharacter.OFFHAND, KoLCharacter.PANTS,
-		KoLCharacter.ACCESSORY1, KoLCharacter.ACCESSORY2, KoLCharacter.ACCESSORY3, -1 };
+	private static final int[] CUSTOM_TYPES =
+		new int[] { -1, KoLCharacter.HAT, -1, KoLCharacter.SHIRT, KoLCharacter.WEAPON, KoLCharacter.OFFHAND, KoLCharacter.PANTS, KoLCharacter.ACCESSORY1, KoLCharacter.ACCESSORY2, KoLCharacter.ACCESSORY3, -1 };
 
 	private static final void initialize()
 	{
 		// Initialize the data if the file does not yet exist or
 		// the file hasn't been updated for a week.
 
-		String thisWeek = WEEKLY_FORMAT.format( new Date() );
-		if ( KILT_FILE.exists() && KoLSettings.getUserProperty( "lastCustomItemUpdate" ).equals( thisWeek ) )
+		String thisWeek = KoLConstants.WEEKLY_FORMAT.format( new Date() );
+		if ( CustomItemDatabase.KILT_FILE.exists() && KoLSettings.getUserProperty( "lastCustomItemUpdate" ).equals(
+			thisWeek ) )
 		{
 			try
 			{
-				INSTANCE.load( new FileInputStream( KILT_FILE ) );
+				CustomItemDatabase.INSTANCE.load( new FileInputStream( CustomItemDatabase.KILT_FILE ) );
 			}
 			catch ( Exception e )
 			{
@@ -82,7 +87,7 @@ public class CustomItemDatabase extends Properties implements KoLConstants
 			return;
 		}
 
-		updateParticipantList();
+		CustomItemDatabase.updateParticipantList();
 		KoLSettings.setUserProperty( "lastCustomItemUpdate", thisWeek );
 	}
 
@@ -93,12 +98,14 @@ public class CustomItemDatabase extends Properties implements KoLConstants
 
 		try
 		{
-			INSTANCE.clear();
+			CustomItemDatabase.INSTANCE.clear();
 			BufferedReader reader = KoLDatabase.getReader( "http://kol.upup.us/scripts/cust/fetch.php?who" );
 
 			String line;
-			while ( (line = reader.readLine()) != null )
-				INSTANCE.setProperty( line + ".0", "" );
+			while ( ( line = reader.readLine() ) != null )
+			{
+				CustomItemDatabase.INSTANCE.setProperty( line + ".0", "" );
+			}
 
 			reader.close();
 		}
@@ -108,13 +115,15 @@ public class CustomItemDatabase extends Properties implements KoLConstants
 		}
 	}
 
-	private static final void updateItem( String playerId )
+	private static final void updateItem( final String playerId )
 	{
 		// Clear out all existing data when downloading an update.
 		// It will get refreshed the next time the profile is seen.
 
-		if ( !INSTANCE.getProperty( playerId + ".0" ).equals( "" ) )
+		if ( !CustomItemDatabase.INSTANCE.getProperty( playerId + ".0" ).equals( "" ) )
+		{
 			return;
+		}
 
 		try
 		{
@@ -123,22 +132,24 @@ public class CustomItemDatabase extends Properties implements KoLConstants
 			String line;
 			StringBuffer data = new StringBuffer();
 
-			while ( (line = reader.readLine()) != null )
+			while ( ( line = reader.readLine() ) != null )
 			{
 				data.append( line );
-				data.append( LINE_BREAK );
+				data.append( KoLConstants.LINE_BREAK );
 			}
 
-			String [] pieces = data.toString().trim().split( "\t" );
+			String[] pieces = data.toString().trim().split( "\t" );
 
-			if ( pieces.length < CUSTOM_FLAG_COUNT )
+			if ( pieces.length < CustomItemDatabase.CUSTOM_FLAG_COUNT )
 			{
-				INSTANCE.remove( playerId );
-				INSTANCE.remove( playerId + ".0" );
+				CustomItemDatabase.INSTANCE.remove( playerId );
+				CustomItemDatabase.INSTANCE.remove( playerId + ".0" );
 			}
 
-			for ( int i = 0; i < CUSTOM_FLAG_COUNT; ++i )
-				INSTANCE.setProperty( playerId + "." + i, pieces[i] );
+			for ( int i = 0; i < CustomItemDatabase.CUSTOM_FLAG_COUNT; ++i )
+			{
+				CustomItemDatabase.INSTANCE.setProperty( playerId + "." + i, pieces[ i ] );
+			}
 
 			reader.close();
 		}
@@ -148,110 +159,138 @@ public class CustomItemDatabase extends Properties implements KoLConstants
 		}
 	}
 
-	public static final void linkCustomItem( LocalRelayRequest request )
+	public static final void linkCustomItem( final LocalRelayRequest request )
 	{
 		// First, some preliminary checks to see if custom data
 		// should be added to this request.
 
 		String urlString = request.getURLString();
 		if ( urlString.indexOf( "showplayer.php" ) == -1 )
+		{
 			return;
+		}
 
-		initialize();
+		CustomItemDatabase.initialize();
 
 		String playerId = urlString.substring( urlString.indexOf( "=" ) + 1 );
-		if ( !INSTANCE.containsKey( playerId + ".0" ) )
+		if ( !CustomItemDatabase.INSTANCE.containsKey( playerId + ".0" ) )
+		{
 			return;
+		}
 
 		// If it gets this far, that means there's some custom data
 		// which should be added.  Make sure it gets loaded.
 
-		updateItem( playerId );
+		CustomItemDatabase.updateItem( playerId );
 
-		int customType = StaticEntity.parseInt( INSTANCE.getProperty( playerId + ".3" ) );
-		if ( customType < 0 || customType >= CUSTOM_TYPES.length )
+		int customType = StaticEntity.parseInt( CustomItemDatabase.INSTANCE.getProperty( playerId + ".3" ) );
+		if ( customType < 0 || customType >= CustomItemDatabase.CUSTOM_TYPES.length )
+		{
 			return;
+		}
 
-		customType = CUSTOM_TYPES[ customType ];
+		customType = CustomItemDatabase.CUSTOM_TYPES[ customType ];
 		if ( customType == -1 )
+		{
 			return;
+		}
 
 		boolean addedItem = false;
 
-		String customItemString = "<tr><td width=30 height=30><img src=\"" + INSTANCE.getProperty( playerId + ".0" ) +
-			"\" onClick=item('custom" + playerId + "')></td><td valign=center><b>" + INSTANCE.getProperty( playerId + ".1" ) + "</b></td></tr>";
+		String customItemString =
+			"<tr><td width=30 height=30><img src=\"" + CustomItemDatabase.INSTANCE.getProperty( playerId + ".0" ) + "\" onClick=item('custom" + playerId + "')></td><td valign=center><b>" + CustomItemDatabase.INSTANCE.getProperty( playerId + ".1" ) + "</b></td></tr>";
 
 		String lastDataString = null;
-		Matcher equipMatcher = EQUIP_PATTERN.matcher( request.responseText );
+		Matcher equipMatcher = CustomItemDatabase.EQUIP_PATTERN.matcher( request.responseText );
 
 		while ( equipMatcher.find() && !addedItem )
 		{
 			lastDataString = equipMatcher.group();
-			int itemType = EquipmentRequest.chooseEquipmentSlot( TradeableItemDatabase.getConsumptionType( equipMatcher.group(1) ) );
+			int itemType =
+				EquipmentRequest.chooseEquipmentSlot( TradeableItemDatabase.getConsumptionType( equipMatcher.group( 1 ) ) );
 
 			if ( itemType < customType )
+			{
 				continue;
+			}
 
 			if ( itemType == customType )
-				request.responseText = StaticEntity.singleStringReplace( request.responseText, lastDataString, customItemString );
+			{
+				request.responseText =
+					StaticEntity.singleStringReplace( request.responseText, lastDataString, customItemString );
+			}
 			else if ( itemType > customType )
-				request.responseText = StaticEntity.singleStringReplace( request.responseText, lastDataString, lastDataString + customItemString );
+			{
+				request.responseText =
+					StaticEntity.singleStringReplace(
+						request.responseText, lastDataString, lastDataString + customItemString );
+			}
 
 			addedItem = true;
 		}
 
 		if ( !addedItem && lastDataString != null )
-			request.responseText = StaticEntity.singleStringReplace( request.responseText, lastDataString, lastDataString + customItemString );
+		{
+			request.responseText =
+				StaticEntity.singleStringReplace(
+					request.responseText, lastDataString, lastDataString + customItemString );
+		}
 	}
 
-	public static final String retrieveCustomItem( String playerId )
+	public static final String retrieveCustomItem( final String playerId )
 	{
-		if ( playerId == null || !INSTANCE.containsKey( playerId + ".0" ) || INSTANCE.get( playerId + ".0" ).equals( "" ) )
+		if ( playerId == null || !CustomItemDatabase.INSTANCE.containsKey( playerId + ".0" ) || CustomItemDatabase.INSTANCE.get(
+			playerId + ".0" ).equals( "" ) )
+		{
 			return null;
+		}
 
 		StringBuffer content = new StringBuffer();
 
 		content.append( "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">" );
-		content.append( LINE_BREAK );
+		content.append( KoLConstants.LINE_BREAK );
 		content.append( "<html><head><title>Item Description</title>" );
-		content.append( LINE_BREAK );
+		content.append( KoLConstants.LINE_BREAK );
 		content.append( "<link rel=\"stylesheet\" type=\"text/css\" href=\"/images/styles.css\">" );
-		content.append( LINE_BREAK );
+		content.append( KoLConstants.LINE_BREAK );
 		content.append( "</head><body>" );
 
-		content.append( LINE_BREAK );
-		content.append( LINE_BREAK );
+		content.append( KoLConstants.LINE_BREAK );
+		content.append( KoLConstants.LINE_BREAK );
 
 		// [00]  image location
 		// [01]  item name
 		// [02]  item description
 
 		content.append( "<div id=\"description\" class=small><center><img src=\"" );
-		content.append( INSTANCE.getProperty( playerId + ".0" ) );
+		content.append( CustomItemDatabase.INSTANCE.getProperty( playerId + ".0" ) );
 		content.append( "\" height=30 width=30><br><b>" );
-		content.append( INSTANCE.getProperty( playerId + ".1" ) );
+		content.append( CustomItemDatabase.INSTANCE.getProperty( playerId + ".1" ) );
 		content.append( "</b><p></center><blockquote>" );
-		content.append( INSTANCE.getProperty( playerId + ".2" ) );
+		content.append( CustomItemDatabase.INSTANCE.getProperty( playerId + ".2" ) );
 		content.append( "<br><br>" );
-
 
 		// [25]  Cocktailcrafting ingredient
 		// [26]  Meatsmithing component
 
-		appendItemFlag( content, playerId, "(Meatsmithing component)", "26" );
-		appendItemFlag( content, playerId, "(Cocktailcrafting ingredient)", "25" );
+		CustomItemDatabase.appendItemFlag( content, playerId, "(Meatsmithing component)", "26" );
+		CustomItemDatabase.appendItemFlag( content, playerId, "(Cocktailcrafting ingredient)", "25" );
 
 		// [03]  basic type name
 
 		content.append( "Type: <b>" );
 
-		int customType = StaticEntity.parseInt( INSTANCE.getProperty( playerId + ".3" ) );
-		if ( customType < 0 || customType >= CUSTOM_TYPES.length )
+		int customType = StaticEntity.parseInt( CustomItemDatabase.INSTANCE.getProperty( playerId + ".3" ) );
+		if ( customType < 0 || customType >= CustomItemDatabase.CUSTOM_TYPES.length )
+		{
 			return null;
+		}
 
-		customType = CUSTOM_TYPES[ customType ];
+		customType = CustomItemDatabase.CUSTOM_TYPES[ customType ];
 		if ( customType == -1 )
+		{
 			return null;
+		}
 
 		switch ( customType )
 		{
@@ -276,18 +315,23 @@ public class CustomItemDatabase extends Properties implements KoLConstants
 		// [06]  ranged weapon flag
 		// [08]  number of hands required
 
-		if ( customType == KoLCharacter.OFFHAND && !INSTANCE.getProperty( playerId + ".5" ).equals( "" ) )
+		if ( customType == KoLCharacter.OFFHAND && !CustomItemDatabase.INSTANCE.getProperty( playerId + ".5" ).equals(
+			"" ) )
+		{
 			content.append( " (shield)" );
+		}
 
 		if ( customType == KoLCharacter.WEAPON )
 		{
-			if ( !INSTANCE.getProperty( playerId + ".5" ).equals( "" ) )
+			if ( !CustomItemDatabase.INSTANCE.getProperty( playerId + ".5" ).equals( "" ) )
+			{
 				content.append( "ranged " );
+			}
 
 			content.append( "weapon (" );
-			content.append( INSTANCE.getProperty( playerId + ".8" ) );
+			content.append( CustomItemDatabase.INSTANCE.getProperty( playerId + ".8" ) );
 			content.append( "-handed " );
-			content.append( INSTANCE.getProperty( playerId + ".4" ) );
+			content.append( CustomItemDatabase.INSTANCE.getProperty( playerId + ".4" ) );
 			content.append( ")" );
 		}
 
@@ -297,33 +341,33 @@ public class CustomItemDatabase extends Properties implements KoLConstants
 		// [09]  item power
 		// [10]  container capacity
 
-		appendItemData( content, playerId, "Power", "9" );
-		appendItemData( content, playerId, "Damage Reduction", "7" );
-		appendItemData( content, playerId, "Capacity", "10" );
+		CustomItemDatabase.appendItemData( content, playerId, "Power", "9" );
+		CustomItemDatabase.appendItemData( content, playerId, "Damage Reduction", "7" );
+		CustomItemDatabase.appendItemData( content, playerId, "Capacity", "10" );
 
 		// [12]  elemental attack type
 		// [13]  stat requirement
 
-		int statType = StaticEntity.parseInt( INSTANCE.getProperty( playerId + ".12" ) ) - 2;
+		int statType = StaticEntity.parseInt( CustomItemDatabase.INSTANCE.getProperty( playerId + ".12" ) ) - 2;
 
 		switch ( statType )
 		{
 		case 0:
-			appendItemData( content, playerId, "Muscle Required", "13" );
+			CustomItemDatabase.appendItemData( content, playerId, "Muscle Required", "13" );
 			break;
 		case 1:
-			appendItemData( content, playerId, "Mysticality Required", "13" );
+			CustomItemDatabase.appendItemData( content, playerId, "Mysticality Required", "13" );
 			break;
 		case 2:
-			appendItemData( content, playerId, "Moxie Required", "13" );
+			CustomItemDatabase.appendItemData( content, playerId, "Moxie Required", "13" );
 			break;
 		}
 
 		// [14]  autosell value
 		// [15]  part of which outfit
 
-		appendItemData( content, playerId, "Outfit", "15" );
-		appendItemData( content, playerId, "Selling Price", "Meat.", "14" );
+		CustomItemDatabase.appendItemData( content, playerId, "Outfit", "15" );
+		CustomItemDatabase.appendItemData( content, playerId, "Selling Price", "Meat.", "14" );
 
 		// In general, the following flags would be displayed for an item,
 		// but people tend to get carried away with them.  Thus, do not
@@ -350,10 +394,14 @@ public class CustomItemDatabase extends Properties implements KoLConstants
 		int insertionPoint = content.length();
 
 		for ( int i = 16; i <= 19; ++i )
-			appendIntrinsicEffect( content, playerId, String.valueOf(i) );
+		{
+			CustomItemDatabase.appendIntrinsicEffect( content, playerId, String.valueOf( i ) );
+		}
 
 		if ( content.length() > insertionPoint )
+		{
 			content.insert( insertionPoint, "Enchantment:<br>" );
+		}
 
 		// In general, the following flags would be displayed for an item,
 		// but people tend to get carried away with them.  Thus, do not
@@ -376,67 +424,89 @@ public class CustomItemDatabase extends Properties implements KoLConstants
 		content.append( "Neither Asymmetric Publications nor the creator of this script is responsible for the content of this item.</font>" );
 
 		content.append( "</blockquote>" );
-		content.append( LINE_BREAK );
+		content.append( KoLConstants.LINE_BREAK );
 
 		content.append( "<script type=\"text/javascript\"><!-- var description=document.getElementById(\"description\"); if (document.all) self.resizeTo(300,description.offsetHeight+95); else window.innerHeight=(description.offsetHeight+50); //--></script>" );
-		content.append( LINE_BREAK );
+		content.append( KoLConstants.LINE_BREAK );
 
 		content.append( "</div></body></html>" );
 		return content.toString();
 	}
 
-	private static final void appendIntrinsicEffect( StringBuffer content, String playerId, String id )
+	private static final void appendIntrinsicEffect( final StringBuffer content, final String playerId, final String id )
 	{
-		if ( INSTANCE.getProperty( playerId + "." + id ).equals( "" ) )
+		if ( CustomItemDatabase.INSTANCE.getProperty( playerId + "." + id ).equals( "" ) )
+		{
 			return;
+		}
 
 		content.append( "<b><font color=blue>" );
-		content.append( INSTANCE.getProperty( playerId + "." + id ) );
+		content.append( CustomItemDatabase.INSTANCE.getProperty( playerId + "." + id ) );
 		content.append( "</font></b><br>" );
 	}
 
-	private static final void appendItemFlag( StringBuffer content, String playerId, String name, String id )
-	{	appendItemFlag( content, playerId, name, id, false );
-	}
-
-	private static final void appendItemFlag( StringBuffer content, String playerId, String name, String id, boolean isBold )
-	{	appendItemFlag( content, playerId, name, id, isBold, false );
-	}
-
-	private static final void appendItemFlag( StringBuffer content, String playerId, String name, String id, boolean isBold, boolean isBlue )
+	private static final void appendItemFlag( final StringBuffer content, final String playerId, final String name,
+		final String id )
 	{
-		if ( StaticEntity.parseInt( INSTANCE.getProperty( playerId + "." + id ) ) == 0 )
+		CustomItemDatabase.appendItemFlag( content, playerId, name, id, false );
+	}
+
+	private static final void appendItemFlag( final StringBuffer content, final String playerId, final String name,
+		final String id, final boolean isBold )
+	{
+		CustomItemDatabase.appendItemFlag( content, playerId, name, id, isBold, false );
+	}
+
+	private static final void appendItemFlag( final StringBuffer content, final String playerId, final String name,
+		final String id, final boolean isBold, final boolean isBlue )
+	{
+		if ( StaticEntity.parseInt( CustomItemDatabase.INSTANCE.getProperty( playerId + "." + id ) ) == 0 )
+		{
 			return;
+		}
 
 		if ( isBold )
+		{
 			content.append( "<b>" );
+		}
 
 		if ( isBlue )
+		{
 			content.append( "<font color=blue>" );
+		}
 
 		content.append( name );
 
 		if ( isBlue )
+		{
 			content.append( "</font>" );
+		}
 
 		if ( isBold )
+		{
 			content.append( "</b>" );
+		}
 
 		content.append( "<br>" );
 	}
 
-	private static final void appendItemData( StringBuffer content, String playerId, String prefix, String id )
-	{	appendItemData( content, playerId, prefix, "", id );
+	private static final void appendItemData( final StringBuffer content, final String playerId, final String prefix,
+		final String id )
+	{
+		CustomItemDatabase.appendItemData( content, playerId, prefix, "", id );
 	}
 
-	private static final void appendItemData( StringBuffer content, String playerId, String prefix, String suffix, String id )
+	private static final void appendItemData( final StringBuffer content, final String playerId, final String prefix,
+		final String suffix, final String id )
 	{
-		if ( StaticEntity.parseInt( INSTANCE.getProperty( playerId + "." + id ) ) == 0 )
+		if ( StaticEntity.parseInt( CustomItemDatabase.INSTANCE.getProperty( playerId + "." + id ) ) == 0 )
+		{
 			return;
+		}
 
 		content.append( prefix );
 		content.append( ": <b>" );
-		content.append( INSTANCE.getProperty( playerId + "." + id ) );
+		content.append( CustomItemDatabase.INSTANCE.getProperty( playerId + "." + id ) );
 
 		content.append( " " );
 		content.append( suffix );
@@ -445,38 +515,44 @@ public class CustomItemDatabase extends Properties implements KoLConstants
 
 	public static final void saveItemData()
 	{
-		if ( INSTANCE.isEmpty() )
+		if ( CustomItemDatabase.INSTANCE.isEmpty() )
+		{
 			return;
+		}
 
-		DATA_LOCATION.mkdirs();
+		UtilityConstants.DATA_LOCATION.mkdirs();
 
 		try
 		{
-			if ( KILT_FILE.exists() )
-				KILT_FILE.delete();
+			if ( CustomItemDatabase.KILT_FILE.exists() )
+			{
+				CustomItemDatabase.KILT_FILE.delete();
+			}
 
 			// Determine the contents of the file by
 			// actually printing them.
 
 			ByteArrayOutputStream ostream = new ByteArrayOutputStream();
-			INSTANCE.store( ostream, VERSION_NAME );
+			CustomItemDatabase.INSTANCE.store( ostream, KoLConstants.VERSION_NAME );
 
-			String [] lines = ostream.toString().split( LINE_BREAK );
+			String[] lines = ostream.toString().split( KoLConstants.LINE_BREAK );
 			Arrays.sort( lines );
 
 			ostream.reset();
 
 			for ( int i = 0; i < lines.length; ++i )
 			{
-				if ( lines[i].startsWith( "#" ) )
+				if ( lines[ i ].startsWith( "#" ) )
+				{
 					continue;
+				}
 
-				ostream.write( lines[i].getBytes() );
-				ostream.write( LINE_BREAK.getBytes() );
+				ostream.write( lines[ i ].getBytes() );
+				ostream.write( KoLConstants.LINE_BREAK.getBytes() );
 			}
 
-			KILT_FILE.createNewFile();
-			ostream.writeTo( new FileOutputStream( KILT_FILE ) );
+			CustomItemDatabase.KILT_FILE.createNewFile();
+			ostream.writeTo( new FileOutputStream( CustomItemDatabase.KILT_FILE ) );
 		}
 		catch ( IOException e )
 		{

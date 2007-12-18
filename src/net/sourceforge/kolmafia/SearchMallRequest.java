@@ -38,23 +38,26 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class SearchMallRequest extends KoLRequest
+public class SearchMallRequest
+	extends KoLRequest
 {
 	private static final Pattern FAVORITES_PATTERN = Pattern.compile( "&action=unfave&whichstore=(\\d+)\">" );
 	private static final Pattern STOREID_PATTERN = Pattern.compile( "<b>(.*?) \\(<a.*?who=(\\d+)\"" );
 	private static final Pattern STORELIMIT_PATTERN = Pattern.compile( "Limit ([\\d,]+) /" );
-	private static final Pattern STOREPRICE_PATTERN = Pattern.compile( "radio value=(\\d+).*?<b>(.*?)</b> \\(([\\d,]+)\\)(.*?)</td>" );
+	private static final Pattern STOREPRICE_PATTERN =
+		Pattern.compile( "radio value=(\\d+).*?<b>(.*?)</b> \\(([\\d,]+)\\)(.*?)</td>" );
 	private static final Pattern STOREDETAIL_PATTERN = Pattern.compile( "<tr>.*?</a>" );
 
 	private static final Pattern LISTQUANTITY_PATTERN = Pattern.compile( "\\([\\d,]+\\)" );
 	private static final Pattern LISTLIMIT_PATTERN = Pattern.compile( "([\\d,]+)\\&nbsp;\\/\\&nbsp;day" );
-	private static final Pattern LISTDETAIL_PATTERN = Pattern.compile( "whichstore=(\\d+)\\&searchitem=(\\d+)\\&searchprice=(\\d+)\">(.*?)</a>" );
+	private static final Pattern LISTDETAIL_PATTERN =
+		Pattern.compile( "whichstore=(\\d+)\\&searchitem=(\\d+)\\&searchprice=(\\d+)\">(.*?)</a>" );
 
 	private List results;
-	private boolean retainAll;
+	private final boolean retainAll;
 	private String searchString;
 
-	public SearchMallRequest( int storeId )
+	public SearchMallRequest( final int storeId )
 	{
 		super( "mallstore.php" );
 		this.addFormField( "whichstore", String.valueOf( storeId ) );
@@ -64,33 +67,33 @@ public class SearchMallRequest extends KoLRequest
 	}
 
 	/**
-	 * Constructs a new <code>SearchMallRequest</code> which searches for
-	 * the given item, storing the results in the given <code>ListModel</code>.
-	 * Note that the search string is exactly the same as the way KoL does
-	 * it at the current time.
-	 *
-	 * @param	searchString	The string (including wildcards) for the item to be found
-	 * @param	cheapestCount	The number of stores to show; use a non-positive number to show all
-	 * @param	results	The sorted list in which to store the results
+	 * Constructs a new <code>SearchMallRequest</code> which searches for the given item, storing the results in the
+	 * given <code>ListModel</code>. Note that the search string is exactly the same as the way KoL does it at the
+	 * current time.
+	 * 
+	 * @param searchString The string (including wildcards) for the item to be found
+	 * @param cheapestCount The number of stores to show; use a non-positive number to show all
+	 * @param results The sorted list in which to store the results
 	 */
 
-	public SearchMallRequest( String searchString, int cheapestCount, List results )
-	{	this( searchString, cheapestCount, results, false );
+	public SearchMallRequest( final String searchString, final int cheapestCount, final List results )
+	{
+		this( searchString, cheapestCount, results, false );
 	}
 
 	/**
-	 * Constructs a new <code>SearchMallRequest</code> which searches for
-	 * the given item, storing the results in the given <code>ListModel</code>.
-	 * Note that the search string is exactly the same as the way KoL does
-	 * it at the current time.
-	 *
-	 * @param	searchString	The string (including wildcards) for the item to be found
-	 * @param	cheapestCount	The number of stores to show; use a non-positive number to show all
-	 * @param	results	The sorted list in which to store the results
-	 * @param	retainAll	Whether the result list should be cleared before searching
+	 * Constructs a new <code>SearchMallRequest</code> which searches for the given item, storing the results in the
+	 * given <code>ListModel</code>. Note that the search string is exactly the same as the way KoL does it at the
+	 * current time.
+	 * 
+	 * @param searchString The string (including wildcards) for the item to be found
+	 * @param cheapestCount The number of stores to show; use a non-positive number to show all
+	 * @param results The sorted list in which to store the results
+	 * @param retainAll Whether the result list should be cleared before searching
 	 */
 
-	public SearchMallRequest( String searchString, int cheapestCount, List results, boolean retainAll )
+	public SearchMallRequest( final String searchString, final int cheapestCount, final List results,
+		final boolean retainAll )
 	{
 		super( searchString == null || searchString.trim().length() == 0 ? "mall.php" : "searchmall.php" );
 
@@ -108,19 +111,24 @@ public class SearchMallRequest extends KoLRequest
 	}
 
 	protected boolean retryOnTimeout()
-	{	return true;
+	{
+		return true;
 	}
 
 	public static final String getItemName( String searchString )
 	{
 		if ( searchString.startsWith( "\"" ) || searchString.startsWith( "\'" ) )
+		{
 			return searchString;
+		}
 
 		if ( !searchString.startsWith( "potion" ) )
 		{
 			int spoilerIndex = searchString.indexOf( "potion of" );
 			if ( spoilerIndex != -1 )
+			{
 				searchString = searchString.substring( 0, spoilerIndex + 6 );
+			}
 		}
 
 		boolean isItemName = TradeableItemDatabase.contains( searchString );
@@ -128,23 +136,24 @@ public class SearchMallRequest extends KoLRequest
 		String canonical = KoLDatabase.getCanonicalName( searchString );
 		int entityIndex = canonical.indexOf( "&" );
 
-		return entityIndex == -1 && isItemName ? "\"" + canonical + "\"" :
-			entityIndex == -1 ? canonical : canonical.substring( 0, entityIndex );
+		return entityIndex == -1 && isItemName ? "\"" + canonical + "\"" : entityIndex == -1 ? canonical : canonical.substring(
+			0, entityIndex );
 	}
 
 	public List getResults()
-	{	return this.results;
+	{
+		return this.results;
 	}
 
-	public void setResults( List results )
-	{	this.results = results;
+	public void setResults( final List results )
+	{
+		this.results = results;
 	}
 
 	/**
-	 * Executes the search request.  In the event that no item is found, the
-	 * currently active frame will be notified.  Otherwise, all items
-	 * are stored inside of the results list.  Note also that the results
-	 * will be cleared before being stored.
+	 * Executes the search request. In the event that no item is found, the currently active frame will be notified.
+	 * Otherwise, all items are stored inside of the results list. Note also that the results will be cleared before
+	 * being stored.
 	 */
 
 	public void run()
@@ -170,9 +179,9 @@ public class SearchMallRequest extends KoLRequest
 			boolean canAvoidSearch = true;
 			for ( int i = 0; canAvoidSearch && i < itemNames.size(); ++i )
 			{
-				int itemId = TradeableItemDatabase.getItemId( (String) itemNames.get(i) );
-				canAvoidSearch &= !TradeableItemDatabase.isTradeable( itemId ) ||
-					NPCStoreDatabase.contains( (String) itemNames.get(i) );
+				int itemId = TradeableItemDatabase.getItemId( (String) itemNames.get( i ) );
+				canAvoidSearch &=
+					!TradeableItemDatabase.isTradeable( itemId ) || NPCStoreDatabase.contains( (String) itemNames.get( i ) );
 			}
 
 			if ( canAvoidSearch )
@@ -183,7 +192,7 @@ public class SearchMallRequest extends KoLRequest
 
 			if ( itemNames.size() == 1 )
 			{
-				this.searchString = getItemName( (String) itemNames.get(0) );
+				this.searchString = SearchMallRequest.getItemName( (String) itemNames.get( 0 ) );
 				this.addFormField( "whichitem", this.searchString );
 			}
 
@@ -200,49 +209,52 @@ public class SearchMallRequest extends KoLRequest
 	{
 		if ( this.retainAll )
 		{
-			Matcher shopMatcher = STOREID_PATTERN.matcher( this.responseText );
+			Matcher shopMatcher = SearchMallRequest.STOREID_PATTERN.matcher( this.responseText );
 			shopMatcher.find();
 
-			int shopId = StaticEntity.parseInt( shopMatcher.group(2) );
+			int shopId = StaticEntity.parseInt( shopMatcher.group( 2 ) );
 
 			// Translate the shop name to its unicode form so
 			// it can be properly rendered.  In the process,
 			// also handle character entities mangled by KoL.
 
-			String shopName = RequestEditorKit.getUnicode( shopMatcher.group(1).replaceAll( "[ ]+;", ";" ) );
+			String shopName = RequestEditorKit.getUnicode( shopMatcher.group( 1 ).replaceAll( "[ ]+;", ";" ) );
 
 			int lastFindIndex = 0;
-			Matcher priceMatcher = STOREPRICE_PATTERN.matcher( this.responseText );
+			Matcher priceMatcher = SearchMallRequest.STOREPRICE_PATTERN.matcher( this.responseText );
 
 			while ( priceMatcher.find( lastFindIndex ) )
 			{
 				lastFindIndex = priceMatcher.end();
-				String priceId = priceMatcher.group(1);
+				String priceId = priceMatcher.group( 1 );
 
-				String itemName = priceMatcher.group(2);
+				String itemName = priceMatcher.group( 2 );
 
 				int itemId = StaticEntity.parseInt( priceId.substring( 0, priceId.length() - 9 ) );
-				int quantity = StaticEntity.parseInt( priceMatcher.group(3) );
+				int quantity = StaticEntity.parseInt( priceMatcher.group( 3 ) );
 				int limit = quantity;
 
-				Matcher limitMatcher = STORELIMIT_PATTERN.matcher( priceMatcher.group(4) );
+				Matcher limitMatcher = SearchMallRequest.STORELIMIT_PATTERN.matcher( priceMatcher.group( 4 ) );
 				if ( limitMatcher.find() )
-					limit = StaticEntity.parseInt( limitMatcher.group(1) );
+				{
+					limit = StaticEntity.parseInt( limitMatcher.group( 1 ) );
+				}
 
 				int price = StaticEntity.parseInt( priceId.substring( priceId.length() - 9 ) );
-				this.results.add( new MallPurchaseRequest( itemName, itemId, quantity, shopId, shopName, price, limit, true ) );
+				this.results.add( new MallPurchaseRequest(
+					itemName, itemId, quantity, shopId, shopName, price, limit, true ) );
 			}
 		}
 		else
 		{
 			SearchMallRequest individualStore;
-			Matcher storeMatcher = FAVORITES_PATTERN.matcher( this.responseText );
+			Matcher storeMatcher = SearchMallRequest.FAVORITES_PATTERN.matcher( this.responseText );
 
 			int lastFindIndex = 0;
 			while ( storeMatcher.find( lastFindIndex ) )
 			{
 				lastFindIndex = storeMatcher.end();
-				individualStore = new SearchMallRequest( StaticEntity.parseInt( storeMatcher.group(1) ) );
+				individualStore = new SearchMallRequest( StaticEntity.parseInt( storeMatcher.group( 1 ) ) );
 				individualStore.run();
 
 				this.results.addAll( individualStore.results );
@@ -264,7 +276,7 @@ public class SearchMallRequest extends KoLRequest
 		int startIndex = this.responseText.indexOf( "Search Results:" );
 		String storeListResult = this.responseText.substring( startIndex < 0 ? 0 : startIndex );
 
-		Matcher linkMatcher = STOREDETAIL_PATTERN.matcher( storeListResult );
+		Matcher linkMatcher = SearchMallRequest.STOREDETAIL_PATTERN.matcher( storeListResult );
 		String linkText = null;
 
 		int previousItemId = -1;
@@ -272,31 +284,37 @@ public class SearchMallRequest extends KoLRequest
 		while ( linkMatcher.find() )
 		{
 			linkText = linkMatcher.group();
-			Matcher quantityMatcher = LISTQUANTITY_PATTERN.matcher( linkText );
+			Matcher quantityMatcher = SearchMallRequest.LISTQUANTITY_PATTERN.matcher( linkText );
 			int quantity = 0;
 
 			if ( quantityMatcher.find() )
-				quantity =	StaticEntity.parseInt( quantityMatcher.group() );
+			{
+				quantity = StaticEntity.parseInt( quantityMatcher.group() );
+			}
 
 			int limit = quantity;
 
-			Matcher limitMatcher = LISTLIMIT_PATTERN.matcher( linkText );
+			Matcher limitMatcher = SearchMallRequest.LISTLIMIT_PATTERN.matcher( linkText );
 			if ( limitMatcher.find() )
-				limit = StaticEntity.parseInt( limitMatcher.group(1) );
+			{
+				limit = StaticEntity.parseInt( limitMatcher.group( 1 ) );
+			}
 
 			// The next token contains data which identifies the shop
 			// and the item (which will be used later), and the price!
 			// which means you don't need to consult thenext token.
 
-			Matcher detailsMatcher = LISTDETAIL_PATTERN.matcher( linkText );
+			Matcher detailsMatcher = SearchMallRequest.LISTDETAIL_PATTERN.matcher( linkText );
 			if ( !detailsMatcher.find() )
+			{
 				continue;
+			}
 
-			int shopId = StaticEntity.parseInt( detailsMatcher.group(1) );
-			int itemId = StaticEntity.parseInt( detailsMatcher.group(2) );
-			int price = StaticEntity.parseInt( detailsMatcher.group(3) );
+			int shopId = StaticEntity.parseInt( detailsMatcher.group( 1 ) );
+			int itemId = StaticEntity.parseInt( detailsMatcher.group( 2 ) );
+			int price = StaticEntity.parseInt( detailsMatcher.group( 3 ) );
 
-			String shopName = detailsMatcher.group(4).replaceAll( "<br>", " " );
+			String shopName = detailsMatcher.group( 4 ).replaceAll( "<br>", " " );
 			String itemName = TradeableItemDatabase.getItemName( itemId );
 			boolean canPurchase = linkText.indexOf( "<td style=" ) == -1;
 
@@ -310,7 +328,8 @@ public class SearchMallRequest extends KoLRequest
 			// Only add mall store results if the NPC store option
 			// is not available.
 
-			this.results.add( new MallPurchaseRequest( itemName, itemId, quantity, shopId, shopName, price, limit, canPurchase ) );
+			this.results.add( new MallPurchaseRequest(
+				itemName, itemId, quantity, shopId, shopName, price, limit, canPurchase ) );
 		}
 
 		// Once the search is complete, add in any remaining NPC
@@ -319,17 +338,19 @@ public class SearchMallRequest extends KoLRequest
 		this.finalizeList( itemNames );
 	}
 
-	private void addNPCStoreItem( String itemName )
+	private void addNPCStoreItem( final String itemName )
 	{
 		if ( NPCStoreDatabase.contains( itemName, false ) )
 		{
 			MallPurchaseRequest npcitem = NPCStoreDatabase.getPurchaseRequest( itemName );
 			if ( !this.results.contains( npcitem ) )
+			{
 				this.results.add( npcitem );
+			}
 		}
 	}
 
-	private void finalizeList( List itemNames )
+	private void finalizeList( final List itemNames )
 	{
 		// Now, for the items which matched, check to see if there are
 		// any entries inside of the NPC store database for them and
@@ -337,14 +358,20 @@ public class SearchMallRequest extends KoLRequest
 		// so items can still be bought from the NPC stores.
 
 		for ( int i = 0; i < itemNames.size(); ++i )
-			this.addNPCStoreItem( (String) itemNames.get(i) );
+		{
+			this.addNPCStoreItem( (String) itemNames.get( i ) );
+		}
 	}
 
 	public void processResults()
 	{
 		if ( this.searchString == null || this.searchString.trim().length() == 0 )
+		{
 			this.searchStore();
+		}
 		else
+		{
 			this.searchMall();
+		}
 	}
 }

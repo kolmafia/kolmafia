@@ -55,11 +55,14 @@ import java.util.regex.Pattern;
 
 import javax.swing.SwingUtilities;
 
+import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.foxtrot.Job;
 
 import com.velocityreviews.forums.HttpTimeoutHandler;
 
-public class KoLRequest extends Job implements KoLConstants
+public class KoLRequest
+	extends Job
+	implements KoLConstants
 {
 	private int timeoutCount = 0;
 	private static final int TIMEOUT_LIMIT = 3;
@@ -80,22 +83,24 @@ public class KoLRequest extends Job implements KoLConstants
 
 	static
 	{
-		for ( int i = 0; i < INITIAL_CACHE_COUNT; ++i )
-			addAdditionalCache();
+		for ( int i = 0; i < KoLRequest.INITIAL_CACHE_COUNT; ++i )
+		{
+			KoLRequest.addAdditionalCache();
+		}
 	}
 
 	private static final AdventureResult MAIDEN_EFFECT = new AdventureResult( "Dreams and Lights", 1, true );
 	private static final AdventureResult BALLROOM_KEY = new AdventureResult( 1766, 1 );
 
-	private static final AdventureResult [] MISTRESS_ITEMS = new AdventureResult [] {
-		new AdventureResult( 1941, 1 ), new AdventureResult( 1942, 1 ), new AdventureResult( 1943, 1 ),
-		new AdventureResult( 1944, 1 ), new AdventureResult( 1945, 1 ), new AdventureResult( 1946, 1 ),
-		new AdventureResult( 2092, 1 )
-	};
+	private static final AdventureResult[] MISTRESS_ITEMS =
+		new AdventureResult[] { new AdventureResult( 1941, 1 ), new AdventureResult( 1942, 1 ), new AdventureResult(
+			1943, 1 ), new AdventureResult( 1944, 1 ), new AdventureResult( 1945, 1 ), new AdventureResult( 1946, 1 ), new AdventureResult(
+			2092, 1 ) };
 
 	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
 	private static final Pattern OCEAN_PATTERN = Pattern.compile( "(\\d+),(\\d+)" );
-	private static final Pattern EVENT_PATTERN = Pattern.compile( "bgcolor=orange><b>New Events:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid orange;\"><center><table><tr><td>(.*?)</td></tr></table>.*?<td height=4></td></tr></table>" );
+	private static final Pattern EVENT_PATTERN =
+		Pattern.compile( "bgcolor=orange><b>New Events:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid orange;\"><center><table><tr><td>(.*?)</td></tr></table>.*?<td height=4></td></tr></table>" );
 
 	public static final Pattern REDIRECT_PATTERN = Pattern.compile( "([^\\/]+)\\/login\\.php", Pattern.DOTALL );
 
@@ -112,22 +117,12 @@ public class KoLRequest extends Job implements KoLConstants
 	protected String encounter = "";
 	public static boolean isCompactMode = false;
 
-	public static final String [][] SERVERS =
-	{
-		{ "dev.kingdomofloathing.com", "69.16.150.202" },
-		{ "www.kingdomofloathing.com", "69.16.150.196" },
-		{ "www2.kingdomofloathing.com", "69.16.150.197" },
-		{ "www3.kingdomofloathing.com", "69.16.150.198" },
-		{ "www4.kingdomofloathing.com", "69.16.150.199" },
-		{ "www5.kingdomofloathing.com", "69.16.150.200" },
-		{ "www6.kingdomofloathing.com", "69.16.150.205" },
-		{ "www7.kingdomofloathing.com", "69.16.150.206" },
-		{ "www8.kingdomofloathing.com", "69.16.150.207" }
-	};
+	public static final String[][] SERVERS =
+		{ { "dev.kingdomofloathing.com", "69.16.150.202" }, { "www.kingdomofloathing.com", "69.16.150.196" }, { "www2.kingdomofloathing.com", "69.16.150.197" }, { "www3.kingdomofloathing.com", "69.16.150.198" }, { "www4.kingdomofloathing.com", "69.16.150.199" }, { "www5.kingdomofloathing.com", "69.16.150.200" }, { "www6.kingdomofloathing.com", "69.16.150.205" }, { "www7.kingdomofloathing.com", "69.16.150.206" }, { "www8.kingdomofloathing.com", "69.16.150.207" } };
 
 	public static final int SERVER_COUNT = 8;
 
-	public static String KOL_HOST = SERVERS[1][0];
+	public static String KOL_HOST = KoLRequest.SERVERS[ 1 ][ 0 ];
 	public static URL KOL_ROOT = null;
 
 	private URL formURL;
@@ -138,7 +133,7 @@ public class KoLRequest extends Job implements KoLConstants
 
 	protected List data;
 	private boolean dataChanged = true;
-	private byte [] dataString = null;
+	private byte[] dataString = null;
 
 	private boolean hasNoResult;
 	public boolean containsUpdate;
@@ -151,35 +146,39 @@ public class KoLRequest extends Job implements KoLConstants
 	private static final KoLRequest CHOICE_HANDLER = new KoLRequest( "choice.php" );
 	private static final KoLRequest OCEAN_HANDLER = new KoLRequest( "ocean.php" );
 
-	public static final void setDelayActive( boolean delayActive )
-	{	KoLRequest.delayActive = delayActive;
+	public static final void setDelayActive( final boolean delayActive )
+	{
+		KoLRequest.delayActive = delayActive;
 	}
 
 	/**
-	 * static final method called when <code>KoLRequest</code> is first
-	 * instantiated or whenever the settings have changed.  This
-	 * initializes the login server to the one stored in the user's
-	 * settings, as well as initializes the user's proxy settings.
+	 * static final method called when <code>KoLRequest</code> is first instantiated or whenever the settings have
+	 * changed. This initializes the login server to the one stored in the user's settings, as well as initializes the
+	 * user's proxy settings.
 	 */
 
 	public static final void applySettings()
 	{
 		// Reset delay statistics at the beginning of each login
-		totalActualDelay = 0;
-		totalConsideredDelay = 0;
+		KoLRequest.totalActualDelay = 0;
+		KoLRequest.totalConsideredDelay = 0;
 
-		applyProxySettings();
+		KoLRequest.applyProxySettings();
 
 		int defaultLoginServer = KoLSettings.getIntegerProperty( "defaultLoginServer" );
-		if ( defaultLoginServer >= SERVERS.length )
+		if ( defaultLoginServer >= KoLRequest.SERVERS.length )
+		{
 			defaultLoginServer = 0;
-		setLoginServer( SERVERS[ defaultLoginServer ][0] );
+		}
+		KoLRequest.setLoginServer( KoLRequest.SERVERS[ defaultLoginServer ][ 0 ] );
 	}
 
 	private static final void applyProxySettings()
 	{
 		if ( System.getProperty( "os.name" ).startsWith( "Mac" ) )
+		{
 			return;
+		}
 
 		try
 		{
@@ -238,93 +237,105 @@ public class KoLRequest extends Job implements KoLConstants
 		}
 	}
 
-	private static final boolean substringMatches( String a, String b )
-	{	return a.indexOf( b ) != -1 || b.indexOf( a ) != -1;
+	private static final boolean substringMatches( final String a, final String b )
+	{
+		return a.indexOf( b ) != -1 || b.indexOf( a ) != -1;
 	}
 
 	/**
-	 * static final method used to manually set the server to be used as
-	 * the root for all requests by all KoLmafia clients running
-	 * on the current JVM instance.
-	 *
-	 * @param	server	The hostname of the server to be used.
+	 * static final method used to manually set the server to be used as the root for all requests by all KoLmafia
+	 * clients running on the current JVM instance.
+	 * 
+	 * @param server The hostname of the server to be used.
 	 */
 
-	public static final void setLoginServer( String server )
+	public static final void setLoginServer( final String server )
 	{
 		if ( server == null )
+		{
 			return;
+		}
 
-		for ( int i = 0; i < SERVERS.length; ++i )
-			if ( substringMatches( server, SERVERS[i][0] ) || substringMatches( server, SERVERS[i][1] ) )
-				setLoginServer( i );
+		for ( int i = 0; i < KoLRequest.SERVERS.length; ++i )
+		{
+			if ( KoLRequest.substringMatches( server, KoLRequest.SERVERS[ i ][ 0 ] ) || KoLRequest.substringMatches(
+				server, KoLRequest.SERVERS[ i ][ 1 ] ) )
+			{
+				KoLRequest.setLoginServer( i );
+			}
+		}
 	}
 
-	private static final void setLoginServer( int serverIndex )
+	private static final void setLoginServer( final int serverIndex )
 	{
-		KOL_HOST = SERVERS[ serverIndex ][0];
+		KoLRequest.KOL_HOST = KoLRequest.SERVERS[ serverIndex ][ 0 ];
 
 		try
 		{
-			KOL_ROOT = new URL( "http", SERVERS[ serverIndex ][1], 80, "/" );
+			KoLRequest.KOL_ROOT = new URL( "http", KoLRequest.SERVERS[ serverIndex ][ 1 ], 80, "/" );
 		}
 		catch ( Exception e )
 		{
 			StaticEntity.printStackTrace( e );
 		}
 
-		KoLSettings.setUserProperty( "loginServerName", KOL_HOST );
-		System.setProperty( "http.referer", "http://" + KOL_HOST + "/main.php" );
+		KoLSettings.setUserProperty( "loginServerName", KoLRequest.KOL_HOST );
+		System.setProperty( "http.referer", "http://" + KoLRequest.KOL_HOST + "/main.php" );
 	}
 
 	private static int retryServer = 0;
+
 	private static final void chooseNewLoginServer()
 	{
 		KoLmafia.updateDisplay( "Choosing new login server..." );
 		LoginRequest.setIgnoreLoadBalancer( true );
 
-		retryServer = Math.max( 1, (retryServer + 1) % SERVERS.length );
-		setLoginServer( retryServer );
+		KoLRequest.retryServer = Math.max( 1, ( KoLRequest.retryServer + 1 ) % KoLRequest.SERVERS.length );
+		KoLRequest.setLoginServer( KoLRequest.retryServer );
 	}
 
 	/**
-	 * static final method used to return the server currently used by
-	 * this KoLmafia session.
-	 *
-	 * @return	The host name for the current server
+	 * static final method used to return the server currently used by this KoLmafia session.
+	 * 
+	 * @return The host name for the current server
 	 */
 
 	public static final String getRootHostName()
-	{	return KOL_HOST;
+	{
+		return KoLRequest.KOL_HOST;
 	}
 
 	/**
-	 * Constructs a new KoLRequest which will notify the given client
-	 * of any changes and will use the given URL for data submission.
-	 *
-	 * @param	formURLString	The form to be used in posting data
+	 * Constructs a new KoLRequest which will notify the given client of any changes and will use the given URL for data
+	 * submission.
+	 * 
+	 * @param formURLString The form to be used in posting data
 	 */
 
-	public KoLRequest( String newURLString )
+	public KoLRequest( final String newURLString )
 	{
 		this.data = new ArrayList();
 		if ( !newURLString.equals( "" ) )
+		{
 			this.constructURLString( newURLString );
+		}
 	}
 
 	public boolean hasNoResult()
-	{	return this.hasNoResult;
+	{
+		return this.hasNoResult;
 	}
 
-	public KoLRequest constructURLString( String newURLString )
-	{	return this.constructURLString( newURLString, true );
+	public KoLRequest constructURLString( final String newURLString )
+	{
+		return this.constructURLString( newURLString, true );
 	}
 
 	public KoLRequest constructURLString( String newURLString, boolean usePostMethod )
 	{
 		if ( this.formURLString == null || !newURLString.startsWith( this.formURLString ) )
 		{
-			this.currentHost = KOL_HOST;
+			this.currentHost = KoLRequest.KOL_HOST;
 			this.formURL = null;
 		}
 
@@ -334,7 +345,9 @@ public class KoLRequest extends Job implements KoLConstants
 		this.data.clear();
 
 		if ( newURLString.startsWith( "/" ) )
-			newURLString = newURLString.substring(1);
+		{
+			newURLString = newURLString.substring( 1 );
+		}
 
 		int formSplitIndex = newURLString.indexOf( "?" );
 
@@ -348,50 +361,45 @@ public class KoLRequest extends Job implements KoLConstants
 			this.addEncodedFormFields( newURLString.substring( formSplitIndex + 1 ) );
 		}
 
-		this.isChatRequest = this.formURLString.equals( "newchatmessages.php" ) || this.formURLString.equals( "submitnewchat.php" );
+		this.isChatRequest =
+			this.formURLString.equals( "newchatmessages.php" ) || this.formURLString.equals( "submitnewchat.php" );
 
-		this.hasNoResult = this.isChatRequest || this.formURLString.startsWith( "http://" ) || this.formURLString.startsWith( "char" ) ||
-			this.formURLString.startsWith( "quest" ) || this.formURLString.endsWith( "menu.php" ) || this.formURLString.startsWith( "desc" ) ||
-			this.formURLString.startsWith( "display" ) || this.formURLString.startsWith( "search" ) || this.formURLString.startsWith( "show" ) ||
-			this.formURLString.startsWith( "valhalla" ) || this.formURLString.startsWith( "account" ) ||
-			this instanceof LoginRequest || this instanceof LogoutRequest || this.formURLString.startsWith( "message" ) || this.formURLString.startsWith( "makeoffer" ) ||
-			(this instanceof LocalRelayRequest && this.formURLString.startsWith( "clan" ) && !this.formURLString.startsWith( "clan_rumpus"));
+		this.hasNoResult =
+			this.isChatRequest || this.formURLString.startsWith( "http://" ) || this.formURLString.startsWith( "char" ) || this.formURLString.startsWith( "quest" ) || this.formURLString.endsWith( "menu.php" ) || this.formURLString.startsWith( "desc" ) || this.formURLString.startsWith( "display" ) || this.formURLString.startsWith( "search" ) || this.formURLString.startsWith( "show" ) || this.formURLString.startsWith( "valhalla" ) || this.formURLString.startsWith( "account" ) || this instanceof LoginRequest || this instanceof LogoutRequest || this.formURLString.startsWith( "message" ) || this.formURLString.startsWith( "makeoffer" ) || this instanceof LocalRelayRequest && this.formURLString.startsWith( "clan" ) && !this.formURLString.startsWith( "clan_rumpus" );
 
 		return this;
 	}
 
 	/**
-	 * Returns the location of the form being used for this URL, in case
-	 * it's ever needed/forgotten.
+	 * Returns the location of the form being used for this URL, in case it's ever needed/forgotten.
 	 */
 
 	public String getURLString()
-	{	return this.data.isEmpty() ? this.formURLString : this.formURLString + "?" + this.getDataString( false );
+	{
+		return this.data.isEmpty() ? this.formURLString : this.formURLString + "?" + this.getDataString( false );
 	}
 
 	/**
-	 * Clears the data fields so that the descending class
-	 * can have a fresh set of data fields.  This allows
-	 * requests with variable numbers of parameters to be
-	 * reused.
+	 * Clears the data fields so that the descending class can have a fresh set of data fields. This allows requests
+	 * with variable numbers of parameters to be reused.
 	 */
 
 	public void clearDataFields()
-	{	this.data.clear();
+	{
+		this.data.clear();
 	}
 
 	/**
-	 * Adds the given form field to the KoLRequest.  Descendant classes
-	 * should use this method if they plan on submitting forms to Kingdom
-	 * of Loathing before a call to the <code>super.run()</code> method.
-	 * Ideally, these fields can be added at construction time.
-	 *
-	 * @param	name	The name of the field to be added
-	 * @param	value	The value of the field to be added
-	 * @param	allowDuplicates	true if duplicate names are OK
+	 * Adds the given form field to the KoLRequest. Descendant classes should use this method if they plan on submitting
+	 * forms to Kingdom of Loathing before a call to the <code>super.run()</code> method. Ideally, these fields can be
+	 * added at construction time.
+	 * 
+	 * @param name The name of the field to be added
+	 * @param value The value of the field to be added
+	 * @param allowDuplicates true if duplicate names are OK
 	 */
 
-	public void addFormField( String name, String value, boolean allowDuplicates )
+	public void addFormField( final String name, final String value, boolean allowDuplicates )
 	{
 		this.dataChanged = true;
 
@@ -400,8 +408,8 @@ public class KoLRequest extends Job implements KoLConstants
 
 		try
 		{
-			encodedName = URLEncoder.encode( encodedName, isChatRequest ? "ISO-8859-1" : "UTF-8" ) + "=";
-			encodedValue = URLEncoder.encode( encodedValue, isChatRequest ? "ISO-8859-1" : "UTF-8" );
+			encodedName = URLEncoder.encode( encodedName, this.isChatRequest ? "ISO-8859-1" : "UTF-8" ) + "=";
+			encodedValue = URLEncoder.encode( encodedValue, this.isChatRequest ? "ISO-8859-1" : "UTF-8" );
 		}
 		catch ( Exception e )
 		{
@@ -419,8 +427,12 @@ public class KoLRequest extends Job implements KoLConstants
 		{
 			Iterator it = this.data.iterator();
 			while ( it.hasNext() )
-				if ( ((String)it.next()).startsWith( encodedName ) )
+			{
+				if ( ( (String) it.next() ).startsWith( encodedName ) )
+				{
 					it.remove();
+				}
+			}
 		}
 
 		// If the data did not already exist, then
@@ -429,16 +441,18 @@ public class KoLRequest extends Job implements KoLConstants
 		this.data.add( encodedName + encodedValue );
 	}
 
-	public void addFormField( String name, String value )
-	{	this.addFormField( name, value, false );
+	public void addFormField( final String name, final String value )
+	{
+		this.addFormField( name, value, false );
 	}
 
 	/**
 	 * Adds the given form field to the KoLRequest.
-	 * @param	element	The field to be added
+	 * 
+	 * @param element The field to be added
 	 */
 
-	public void addFormField( String element )
+	public void addFormField( final String element )
 	{
 		int equalIndex = element.indexOf( "=" );
 		if ( equalIndex == -1 )
@@ -454,18 +468,21 @@ public class KoLRequest extends Job implements KoLConstants
 
 	/**
 	 * Adds an already encoded form field to the KoLRequest.
-	 * @param	element	The field to be added
+	 * 
+	 * @param element The field to be added
 	 */
 
-	public void addEncodedFormField( String element )
+	public void addEncodedFormField( final String element )
 	{
 		if ( element == null )
+		{
 			return;
+		}
 
 		this.data.add( element );
 	}
 
-	public void addEncodedFormFields( String fields )
+	public void addEncodedFormFields( final String fields )
 	{
 		if ( fields.indexOf( "&" ) == -1 )
 		{
@@ -473,43 +490,53 @@ public class KoLRequest extends Job implements KoLConstants
 			return;
 		}
 
-		String [] tokens = fields.split( "&" );
+		String[] tokens = fields.split( "&" );
 		for ( int i = 0; i < tokens.length; ++i )
 		{
-			if ( tokens[i].indexOf( " " ) != -1 )
-				this.addFormField( tokens[i] );
+			if ( tokens[ i ].indexOf( " " ) != -1 )
+			{
+				this.addFormField( tokens[ i ] );
+			}
 			else
-				this.addEncodedFormField( tokens[i] );
+			{
+				this.addEncodedFormField( tokens[ i ] );
+			}
 		}
 	}
 
-	public String getFormField( String key )
+	public String getFormField( final String key )
 	{
 		if ( this.data.isEmpty() )
+		{
 			return null;
+		}
 
 		String datum;
 
 		for ( int i = 0; i < this.data.size(); ++i )
 		{
-			datum = (String) this.data.get(i);
+			datum = (String) this.data.get( i );
 
 			int splitIndex = datum.indexOf( "=" );
 			if ( splitIndex == -1 )
+			{
 				continue;
+			}
 
 			String name = datum.substring( 0, splitIndex );
 			if ( !name.equalsIgnoreCase( key ) )
+			{
 				continue;
+			}
 
-			String value = datum.substring( splitIndex + 1 ) ;
+			String value = datum.substring( splitIndex + 1 );
 
 			try
 			{
 				// Everything was encoded as ISO-8859-1, so go
 				// ahead and decode it that way.
 
-				return URLDecoder.decode( value, isChatRequest ? "ISO-8859-1" : "UTF-8" );
+				return URLDecoder.decode( value, this.isChatRequest ? "ISO-8859-1" : "UTF-8" );
 			}
 			catch ( Exception e )
 			{
@@ -524,78 +551,92 @@ public class KoLRequest extends Job implements KoLConstants
 	}
 
 	public String getPath()
-	{	return this.formURLString;
+	{
+		return this.formURLString;
 	}
 
-	public String getDataString( boolean includeHash )
+	public String getDataString( final boolean includeHash )
 	{
 		StringBuffer dataBuffer = new StringBuffer();
 
 		String element;
-		for ( int i = 0; i < data.size(); ++i )
+		for ( int i = 0; i < this.data.size(); ++i )
 		{
 			if ( i > 0 )
+			{
 				dataBuffer.append( '&' );
+			}
 
-			element = (String) data.get(i);
+			element = (String) this.data.get( i );
 
 			if ( element.startsWith( "pwd" ) || element.startsWith( "phash" ) )
 			{
 				int index = element.indexOf( "=" );
 				if ( index != -1 )
+				{
 					element = element.substring( 0, index );
+				}
 
 				dataBuffer.append( element );
 
 				if ( includeHash )
 				{
 					dataBuffer.append( "=" );
-					dataBuffer.append( passwordHash );
+					dataBuffer.append( KoLRequest.passwordHash );
 				}
 			}
 			else
+			{
 				dataBuffer.append( element );
+			}
 		}
 
 		return dataBuffer.toString();
 	}
 
 	private boolean shouldUpdateDebugLog()
-	{	return RequestLogger.isDebugging() && !this.isChatRequest;
+	{
+		return RequestLogger.isDebugging() && !this.isChatRequest;
 	}
 
 	/**
-	 * Runs the thread, which prepares the connection for output, posts the data
-	 * to the Kingdom of Loathing, and prepares the input for reading.  Because
-	 * the Kingdom of Loathing has identical page layouts, all page reading and
+	 * Runs the thread, which prepares the connection for output, posts the data to the Kingdom of Loathing, and
+	 * prepares the input for reading. Because the Kingdom of Loathing has identical page layouts, all page reading and
 	 * handling will occur through these method calls.
 	 */
 
 	public void run()
 	{
-		if ( serverCookie == null && !(this instanceof LoginRequest) )
+		if ( KoLRequest.serverCookie == null && !( this instanceof LoginRequest ) )
+		{
 			return;
+		}
 
-		timeoutCount = 0;
-		containsUpdate = false;
+		this.timeoutCount = 0;
+		this.containsUpdate = false;
 		String location = this.getURLString();
 
 		if ( location.indexOf( "clan" ) != -1 )
+		{
 			if ( location.indexOf( "action=leaveclan" ) != -1 || location.indexOf( "action=joinclan" ) != -1 )
+			{
 				ClanManager.resetClanId();
+			}
+		}
 
 		if ( this.shouldUpdateDebugLog() )
+		{
 			RequestLogger.updateDebugLog( this.getClass() );
+		}
 
 		if ( location.startsWith( "sewer.php" ) )
 		{
-			AdventureDatabase.retrieveItem( SewerRequest.GUM.getInstance(1) );
+			AdventureDatabase.retrieveItem( SewerRequest.GUM.getInstance( 1 ) );
 		}
 		else if ( location.startsWith( "hermit.php?autopermit=on" ) )
 		{
-			AdventureDatabase.retrieveItem( HermitRequest.PERMIT.getInstance(1) );
+			AdventureDatabase.retrieveItem( HermitRequest.PERMIT.getInstance( 1 ) );
 		}
-
 		else if ( location.startsWith( "casino.php" ) )
 		{
 			AdventureDatabase.retrieveItem( KoLAdventure.CASINO_PASS );
@@ -608,28 +649,27 @@ public class KoLRequest extends Job implements KoLConstants
 		// been constructed, pull them out.
 
 		if ( location.startsWith( "lair4.php" ) || location.startsWith( "lair5.php" ) )
+		{
 			SorceressLair.makeGuardianItems();
+		}
 
 		this.execute();
 
 		if ( this.responseCode != 200 )
+		{
 			return;
+		}
 
 		// When following redirects, you will get different URL
 		// strings, so make sure you update.
 
-		boolean isQuestLocation = location.startsWith( "council" ) ||
-			location.startsWith( "bigisland" ) ||
-			location.startsWith( "postwarisland" ) ||
-			location.startsWith( "guild" ) ||
-			location.startsWith( "friars" ) ||
-			location.startsWith( "trapper" ) ||
-			location.startsWith( "bhh" ) ||
-			location.startsWith( "manor3" ) ||
-			(location.startsWith( "adventure" ) && location.indexOf( "=84" ) != -1);
+		boolean isQuestLocation =
+			location.startsWith( "council" ) || location.startsWith( "bigisland" ) || location.startsWith( "postwarisland" ) || location.startsWith( "guild" ) || location.startsWith( "friars" ) || location.startsWith( "trapper" ) || location.startsWith( "bhh" ) || location.startsWith( "manor3" ) || location.startsWith( "adventure" ) && location.indexOf( "=84" ) != -1;
 
 		if ( isQuestLocation )
-			CouncilFrame.handleQuestChange( location, responseText );
+		{
+			CouncilFrame.handleQuestChange( location, this.responseText );
+		}
 		if ( this.formURLString.equals( "charpane.php" ) )
 		{
 			KoLCharacter.recalculateAdjustments();
@@ -648,25 +688,33 @@ public class KoLRequest extends Job implements KoLConstants
 		// If this is the rat quest, then go ahead and pre-set the data
 		// to reflect a fight sequence (mini-browser compatibility).
 
-		isRatQuest |= urlString.startsWith( "rats.php" );
-		if ( !hasNoResult && !urlString.startsWith( "rats.php" ) )
-			isRatQuest &= urlString.startsWith( "fight.php" );
+		KoLRequest.isRatQuest |= urlString.startsWith( "rats.php" );
+		if ( !this.hasNoResult && !urlString.startsWith( "rats.php" ) )
+		{
+			KoLRequest.isRatQuest &= urlString.startsWith( "fight.php" );
+		}
 
-		if ( isRatQuest )
+		if ( KoLRequest.isRatQuest )
+		{
 			KoLmafia.addTavernLocation( this );
+		}
 
 		if ( !this.hasNoResult )
+		{
 			RequestLogger.registerRequest( this, urlString );
+		}
 
 		if ( urlString.startsWith( "choice.php" ) )
+		{
 			this.saveLastChoice();
+		}
 
 		// If you're about to fight the Naughty Sorceress,
 		// clear your list of effects.
 
 		if ( urlString.startsWith( "lair6.php" ) && urlString.indexOf( "place=5" ) != -1 )
 		{
-			activeEffects.clear();
+			KoLConstants.activeEffects.clear();
 		}
 
 		if ( urlString.startsWith( "lair6.php" ) && urlString.indexOf( "place=6" ) != -1 )
@@ -678,7 +726,9 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( urlString.startsWith( "ascend.php" ) )
 		{
 			if ( KoLCharacter.hasItem( KoLAdventure.MEATCAR ) )
-				(new UntinkerRequest( KoLAdventure.MEATCAR.getItemId() )).run();
+			{
+				( new UntinkerRequest( KoLAdventure.MEATCAR.getItemId() ) ).run();
+			}
 
 			ItemCreationRequest belt = ItemCreationRequest.getInstance( 677 );
 			if ( belt != null && belt.getQuantityPossible() > 0 )
@@ -691,64 +741,76 @@ public class KoLRequest extends Job implements KoLConstants
 		do
 		{
 			if ( !this.prepareConnection() )
+			{
 				break;
+			}
 		}
-		while ( !this.postClientData() && !this.retrieveServerReply() && this.timeoutCount < TIMEOUT_LIMIT );
+		while ( !this.postClientData() && !this.retrieveServerReply() && this.timeoutCount < KoLRequest.TIMEOUT_LIMIT );
 	}
 
 	private void saveLastChoice()
 	{
-		if ( data.isEmpty() )
+		if ( this.data.isEmpty() )
+		{
 			return;
+		}
 
-		lastChoice = StaticEntity.parseInt( getFormField( "whichchoice" ) );
-		lastDecision = StaticEntity.parseInt( getFormField( "option" ) );
+		KoLRequest.lastChoice = StaticEntity.parseInt( this.getFormField( "whichchoice" ) );
+		KoLRequest.lastDecision = StaticEntity.parseInt( this.getFormField( "option" ) );
 
-		switch ( lastChoice )
+		switch ( KoLRequest.lastChoice )
 		{
 		// Strung-Up Quartet
 		case 106:
 
-			if ( lastDecision != 4 )
+			if ( KoLRequest.lastDecision != 4 )
 			{
 				KoLSettings.setUserProperty( "lastQuartetAscension", String.valueOf( KoLCharacter.getAscensions() ) );
-				KoLSettings.setUserProperty( "lastQuartetRequest", String.valueOf( lastDecision ) );
+				KoLSettings.setUserProperty( "lastQuartetRequest", String.valueOf( KoLRequest.lastDecision ) );
 
 				if ( KoLCharacter.recalculateAdjustments() )
+				{
 					KoLCharacter.updateStatus();
+				}
 			}
 
 			break;
 
 		// Wheel In the Sky Keep on Turning: Muscle Position
 		case 9:
-			KoLSettings.setUserProperty( "currentWheelPosition",
-				String.valueOf( lastDecision == 1 ? "mysticality" : lastDecision == 2 ? "moxie" : "muscle" ) );
+			KoLSettings.setUserProperty(
+				"currentWheelPosition",
+				String.valueOf( KoLRequest.lastDecision == 1 ? "mysticality" : KoLRequest.lastDecision == 2 ? "moxie" : "muscle" ) );
 			break;
 
 		// Wheel In the Sky Keep on Turning: Mysticality Position
 		case 10:
-			KoLSettings.setUserProperty( "currentWheelPosition",
-				String.valueOf( lastDecision == 1 ? "map quest" : lastDecision == 2 ? "muscle" : "mysticality" ) );
+			KoLSettings.setUserProperty(
+				"currentWheelPosition",
+				String.valueOf( KoLRequest.lastDecision == 1 ? "map quest" : KoLRequest.lastDecision == 2 ? "muscle" : "mysticality" ) );
 			break;
 
 		// Wheel In the Sky Keep on Turning: Map Quest Position
 		case 11:
-			KoLSettings.setUserProperty( "currentWheelPosition",
-				String.valueOf( lastDecision == 1 ? "moxie" : lastDecision == 2 ? "mysticality" : "map quest" ) );
+			KoLSettings.setUserProperty(
+				"currentWheelPosition",
+				String.valueOf( KoLRequest.lastDecision == 1 ? "moxie" : KoLRequest.lastDecision == 2 ? "mysticality" : "map quest" ) );
 			break;
 
 		// Wheel In the Sky Keep on Turning: Moxie Position
 		case 12:
-			KoLSettings.setUserProperty( "currentWheelPosition",
-				String.valueOf( lastDecision == 1 ? "muscle" : lastDecision == 2 ? "map quest" : "moxie" ) );
+			KoLSettings.setUserProperty(
+				"currentWheelPosition",
+				String.valueOf( KoLRequest.lastDecision == 1 ? "muscle" : KoLRequest.lastDecision == 2 ? "map quest" : "moxie" ) );
 			break;
 
 		// Start the Island War Quest
 		case 142:
 		case 146:
-			if ( lastDecision == 3 )
+			if ( KoLRequest.lastDecision == 3 )
+			{
 				QuestLogRequest.setHippyStoreUnavailable();
+			}
 			break;
 		}
 	}
@@ -758,19 +820,21 @@ public class KoLRequest extends Job implements KoLConstants
 		String text = this.responseText;
 
 		// Let the Violet Fog handle this
-		if ( VioletFog.mapChoice( lastChoice, text ) )
+		if ( VioletFog.mapChoice( KoLRequest.lastChoice, text ) )
+		{
 			return;
+		}
 
 		// Let the Louvre handle this
-		if ( Louvre.mapChoice( lastChoice, text ) )
+		if ( Louvre.mapChoice( KoLRequest.lastChoice, text ) )
+		{
 			return;
+		}
 
 		// Do choice-specific actions.
-		if ( lastChoice == 105 && lastDecision == 3 )
+		if ( KoLRequest.lastChoice == 105 && KoLRequest.lastDecision == 3 )
 		{
-
-			if ( text.indexOf( "that ship is sailed" ) != -1 ||
-			     text.indexOf( "guy made of bee pollen" ) != -1 )
+			if ( text.indexOf( "that ship is sailed" ) != -1 || text.indexOf( "guy made of bee pollen" ) != -1 )
 			{
 				// If you have already defeated the guy
 				// made of bees, you can't do it again.
@@ -786,48 +850,53 @@ public class KoLRequest extends Job implements KoLConstants
 	}
 
 	public static final int getLastChoice()
-	{	return lastChoice;
+	{
+		return KoLRequest.lastChoice;
 	}
 
 	public static final int getLastDecision()
-	{	return lastDecision;
+	{
+		return KoLRequest.lastDecision;
 	}
 
-	public static final boolean shouldIgnore( KoLRequest request )
-	{	return request.formURLString.indexOf( "mall" ) != -1 || request.formURLString.indexOf( "chat" ) != -1;
+	public static final boolean shouldIgnore( final KoLRequest request )
+	{
+		return request.formURLString.indexOf( "mall" ) != -1 || request.formURLString.indexOf( "chat" ) != -1;
 	}
 
 	public static final boolean delay()
 	{
-		++totalConsideredDelay;
+		++KoLRequest.totalConsideredDelay;
 
-		if ( !delayActive )
+		if ( !KoLRequest.delayActive )
+		{
 			return true;
+		}
 
-		++totalActualDelay;
-		return delay( currentDelay );
+		++KoLRequest.totalActualDelay;
+		return KoLRequest.delay( KoLRequest.currentDelay );
 	}
 
 	public static final void printTotalDelay()
 	{
 		int seconds, minutes;
 
-		seconds = totalActualDelay * currentDelay / 1000;
+		seconds = KoLRequest.totalActualDelay * KoLRequest.currentDelay / 1000;
 		minutes = seconds / 60;
 		seconds = seconds % 60;
 
 		RequestLogger.printLine();
 
-		if ( delayActive )
+		if ( KoLRequest.delayActive )
 		{
-			RequestLogger.printLine( "Delay between requests: " + (currentDelay / 1000.0f) + " seconds" );
+			RequestLogger.printLine( "Delay between requests: " + KoLRequest.currentDelay / 1000.0f + " seconds" );
 			RequestLogger.printLine( "Delay added this session: " + minutes + " minutes, " + seconds + " seconds" );
 		}
 		else
 		{
 			RequestLogger.printLine( "Delay added this session: " + minutes + " minutes, " + seconds + " seconds" );
 
-			seconds = totalConsideredDelay * currentDelay / 1000;
+			seconds = KoLRequest.totalConsideredDelay * KoLRequest.currentDelay / 1000;
 			minutes = seconds / 60;
 			seconds = seconds % 60;
 
@@ -838,22 +907,23 @@ public class KoLRequest extends Job implements KoLConstants
 	}
 
 	/**
-	 * Utility method which waits for the given duration without
-	 * using Thread.sleep() - this means CPU usage can be greatly
-	 * reduced.
+	 * Utility method which waits for the given duration without using Thread.sleep() - this means CPU usage can be
+	 * greatly reduced.
 	 */
 
-	public static final boolean delay( long milliseconds )
+	public static final boolean delay( final long milliseconds )
 	{
 		if ( milliseconds <= 0 )
+		{
 			return true;
+		}
 
 		try
 		{
-			synchronized ( WAIT_OBJECT )
+			synchronized ( KoLRequest.WAIT_OBJECT )
 			{
-				WAIT_OBJECT.wait( milliseconds );
-				WAIT_OBJECT.notifyAll();
+				KoLRequest.WAIT_OBJECT.wait( milliseconds );
+				KoLRequest.WAIT_OBJECT.notifyAll();
 			}
 		}
 		catch ( InterruptedException e )
@@ -868,17 +938,18 @@ public class KoLRequest extends Job implements KoLConstants
 	}
 
 	/**
-	 * Utility method used to prepare the connection for input and output
-	 * (if output is necessary).  The method attempts to open the connection,
-	 * and then apply the needed settings.
-	 *
-	 * @return	<code>true</code> if the connection was successfully prepared
+	 * Utility method used to prepare the connection for input and output (if output is necessary). The method attempts
+	 * to open the connection, and then apply the needed settings.
+	 * 
+	 * @return <code>true</code> if the connection was successfully prepared
 	 */
 
 	private boolean prepareConnection()
 	{
 		if ( this.shouldUpdateDebugLog() )
+		{
 			RequestLogger.updateDebugLog( "Connecting to " + this.formURLString + "..." );
+		}
 
 		// Make sure that all variables are reset before you reopen
 		// the connection.
@@ -893,21 +964,27 @@ public class KoLRequest extends Job implements KoLConstants
 			// For now, because there isn't HTTPS support, just open the
 			// connection and directly cast it into an HttpURLConnection
 
-			if ( this.formURL == null || !this.currentHost.equals( KOL_HOST ) )
+			if ( this.formURL == null || !this.currentHost.equals( KoLRequest.KOL_HOST ) )
 			{
 				if ( KoLSettings.getBooleanProperty( "testSocketTimeout" ) )
 				{
 					if ( this.formURLString.startsWith( "http:" ) )
+					{
 						this.formURL = new URL( null, this.formURLString, HttpTimeoutHandler.getInstance() );
+					}
 					else
-						this.formURL = new URL( KOL_ROOT, this.formURLString, HttpTimeoutHandler.getInstance() );
+					{
+						this.formURL =
+							new URL( KoLRequest.KOL_ROOT, this.formURLString, HttpTimeoutHandler.getInstance() );
+					}
+				}
+				else if ( this.formURLString.startsWith( "http:" ) )
+				{
+					this.formURL = new URL( this.formURLString );
 				}
 				else
 				{
-					if ( this.formURLString.startsWith( "http:" ) )
-						this.formURL = new URL( this.formURLString );
-					else
-						this.formURL = new URL( KOL_ROOT, this.formURLString );
+					this.formURL = new URL( KoLRequest.KOL_ROOT, this.formURLString );
 				}
 			}
 
@@ -916,13 +993,19 @@ public class KoLRequest extends Job implements KoLConstants
 		catch ( Exception e )
 		{
 			if ( KoLSettings.getBooleanProperty( "printSocketTimeouts" ) )
+			{
 				RequestLogger.updateDebugLog( "Error opening connection (" + this.getURLString() + ").  Retrying..." );
+			}
 
 			if ( this.shouldUpdateDebugLog() )
+			{
 				RequestLogger.updateDebugLog( "Error opening connection (" + this.getURLString() + ").  Retrying..." );
+			}
 
 			if ( this instanceof LoginRequest )
-				chooseNewLoginServer();
+			{
+				KoLRequest.chooseNewLoginServer();
+			}
 
 			return false;
 		}
@@ -932,15 +1015,20 @@ public class KoLRequest extends Job implements KoLConstants
 		this.formConnection.setUseCaches( false );
 		this.formConnection.setInstanceFollowRedirects( false );
 
-		if ( serverCookie != null )
+		if ( KoLRequest.serverCookie != null )
 		{
-			if ( this.formURLString.startsWith( "inventory" ) && inventoryCookie != null )
-				this.formConnection.addRequestProperty( "Cookie", inventoryCookie + "; " + serverCookie );
+			if ( this.formURLString.startsWith( "inventory" ) && KoLRequest.inventoryCookie != null )
+			{
+				this.formConnection.addRequestProperty(
+					"Cookie", KoLRequest.inventoryCookie + "; " + KoLRequest.serverCookie );
+			}
 			else
-				this.formConnection.addRequestProperty( "Cookie", serverCookie );
+			{
+				this.formConnection.addRequestProperty( "Cookie", KoLRequest.serverCookie );
+			}
 		}
 
-		this.formConnection.setRequestProperty( "User-Agent", getUserAgent() );
+		this.formConnection.setRequestProperty( "User-Agent", KoLRequest.getUserAgent() );
 
 		if ( this.dataChanged )
 		{
@@ -958,25 +1046,27 @@ public class KoLRequest extends Job implements KoLConstants
 	}
 
 	/**
-	 * Utility method used to post the client's data to the Kingdom of
-	 * Loathing server.  The method grabs all form fields added so far
-	 * and posts them using the traditional ampersand style of HTTP
-	 * requests.
-	 *
-	 * @return	<code>true</code> if all data was successfully posted
+	 * Utility method used to post the client's data to the Kingdom of Loathing server. The method grabs all form fields
+	 * added so far and posts them using the traditional ampersand style of HTTP requests.
+	 * 
+	 * @return <code>true</code> if all data was successfully posted
 	 */
 
 	private boolean postClientData()
 	{
 		if ( this.shouldUpdateDebugLog() )
+		{
 			this.printRequestProperties();
+		}
 
 		// Only attempt to post something if there's actually
 		// data to post - otherwise, opening an input stream
 		// should be enough
 
 		if ( this.data.isEmpty() )
+		{
 			return false;
+		}
 
 		try
 		{
@@ -996,28 +1086,32 @@ public class KoLRequest extends Job implements KoLConstants
 			++this.timeoutCount;
 
 			if ( KoLSettings.getBooleanProperty( "printSocketTimeouts" ) )
+			{
 				RequestLogger.printLine( "Time out during data post (" + this.formURLString + ").  This could be bad..." );
+			}
 
 			if ( this.shouldUpdateDebugLog() )
+			{
 				RequestLogger.printLine( "Time out during data post (" + this.formURLString + ").  This could be bad..." );
+			}
 
-			delay( TIMEOUT_DELAY );
+			KoLRequest.delay( KoLRequest.TIMEOUT_DELAY );
 
 			if ( this instanceof LoginRequest )
-				chooseNewLoginServer();
+			{
+				KoLRequest.chooseNewLoginServer();
+			}
 
 			return KoLmafia.refusesContinue();
 		}
 	}
 
 	/**
-	 * Utility method used to retrieve the server's reply.  This method
-	 * detects the nature of the reply via the response code provided
-	 * by the server, and also detects the unusual states of server
-	 * maintenance and session timeout.  All data retrieved by this
-	 * method is stored in the instance variables for this class.
-	 *
-	 * @return	<code>true</code> if the data was successfully retrieved
+	 * Utility method used to retrieve the server's reply. This method detects the nature of the reply via the response
+	 * code provided by the server, and also detects the unusual states of server maintenance and session timeout. All
+	 * data retrieved by this method is stored in the instance variables for this class.
+	 * 
+	 * @return <code>true</code> if the data was successfully retrieved
 	 */
 
 	private boolean retrieveServerReply()
@@ -1030,7 +1124,9 @@ public class KoLRequest extends Job implements KoLConstants
 		// (ie: maintenance).
 
 		if ( this.shouldUpdateDebugLog() )
+		{
 			RequestLogger.updateDebugLog( "Retrieving server reply..." );
+		}
 
 		this.responseText = "";
 		this.redirectLocation = "";
@@ -1039,26 +1135,34 @@ public class KoLRequest extends Job implements KoLConstants
 		{
 			istream = this.formConnection.getInputStream();
 			this.responseCode = this.formConnection.getResponseCode();
-			this.redirectLocation = responseCode != 302 ? null : this.formConnection.getHeaderField( "Location" );
+			this.redirectLocation = this.responseCode != 302 ? null : this.formConnection.getHeaderField( "Location" );
 		}
 		catch ( Exception e1 )
 		{
 			++this.timeoutCount;
-			boolean shouldRetry = retryOnTimeout();
+			boolean shouldRetry = this.retryOnTimeout();
 
 			if ( KoLSettings.getBooleanProperty( "printSocketTimeouts" ) )
+			{
 				RequestLogger.printLine( "Time out during response (" + this.formURLString + ")." );
+			}
 
-			if ( !shouldRetry && processOnFailure() )
-				processResults();
+			if ( !shouldRetry && this.processOnFailure() )
+			{
+				this.processResults();
+			}
 
 			if ( this.shouldUpdateDebugLog() )
+			{
 				RequestLogger.printLine( "Time out during response (" + this.formURLString + ")." );
+			}
 
 			try
 			{
 				if ( istream != null )
+				{
 					istream.close();
+				}
 			}
 			catch ( Exception e2 )
 			{
@@ -1066,20 +1170,26 @@ public class KoLRequest extends Job implements KoLConstants
 				// error and continue.
 			}
 
-			delay( TIMEOUT_DELAY );
+			KoLRequest.delay( KoLRequest.TIMEOUT_DELAY );
 
 			if ( this instanceof LoginRequest )
-				chooseNewLoginServer();
+			{
+				KoLRequest.chooseNewLoginServer();
+			}
 
 			if ( shouldRetry )
+			{
 				return KoLmafia.refusesContinue();
+			}
 
 			this.responseCode = 302;
 			this.redirectLocation = "main.php";
 		}
 
 		if ( this.shouldUpdateDebugLog() )
+		{
 			this.printHeaderFields();
+		}
 
 		boolean shouldStop = false;
 
@@ -1112,26 +1222,29 @@ public class KoLRequest extends Job implements KoLConstants
 	}
 
 	protected boolean retryOnTimeout()
-	{	return this.formURLString.endsWith( ".php" ) && (data.isEmpty() || this.getClass() == KoLRequest.class);
+	{
+		return this.formURLString.endsWith( ".php" ) && ( this.data.isEmpty() || this.getClass() == KoLRequest.class );
 	}
 
 	protected boolean processOnFailure()
-	{	return false;
+	{
+		return false;
 	}
 
 	private boolean handleServerRedirect()
 	{
 		if ( this.redirectLocation == null )
+		{
 			return true;
-
+		}
 
 		if ( this.redirectLocation.startsWith( "maint.php" ) )
 		{
 			// If the system is down for maintenance, the user must be
 			// notified that they should try again later.
 
-			KoLmafia.updateDisplay( ABORT_STATE, "Nightly maintenance.  Please restart KoLmafia." );
-			serverCookie = null;
+			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Nightly maintenance.  Please restart KoLmafia." );
+			KoLRequest.serverCookie = null;
 			return true;
 		}
 
@@ -1143,15 +1256,15 @@ public class KoLRequest extends Job implements KoLConstants
 		{
 			if ( this.redirectLocation.startsWith( "login.php" ) )
 			{
-				constructURLString( this.redirectLocation, false );
+				this.constructURLString( this.redirectLocation, false );
 				return false;
 			}
 
-			Matcher matcher = REDIRECT_PATTERN.matcher( this.redirectLocation );
+			Matcher matcher = KoLRequest.REDIRECT_PATTERN.matcher( this.redirectLocation );
 			if ( matcher.find() )
 			{
-				setLoginServer( matcher.group(1) );
-				RequestLogger.printLine( "Redirected to " + KOL_HOST + "..." );
+				KoLRequest.setLoginServer( matcher.group( 1 ) );
+				RequestLogger.printLine( "Redirected to " + KoLRequest.KOL_HOST + "..." );
 				return false;
 			}
 
@@ -1189,7 +1302,9 @@ public class KoLRequest extends Job implements KoLConstants
 			if ( name != null )
 			{
 				if ( consumed )
+				{
 					StaticEntity.getClient().processResult( new AdventureResult( itemId, -1 ) );
+				}
 
 				RequestLogger.printLine();
 				RequestLogger.printLine( "[" + KoLAdventure.getAdventureCount() + "] " + name );
@@ -1200,10 +1315,14 @@ public class KoLRequest extends Job implements KoLConstants
 		}
 
 		if ( this instanceof LocalRelayRequest )
+		{
 			return true;
+		}
 
 		if ( this.formURLString.startsWith( "fight.php" ) )
+		{
 			return true;
+		}
 
 		if ( this.shouldFollowRedirect() )
 		{
@@ -1219,7 +1338,7 @@ public class KoLRequest extends Job implements KoLConstants
 			// You have been redirected to a fight!  Here, you need
 			// to complete the fight before you can continue.
 
-			if ( LoginRequest.isInstanceRunning() || this == CHOICE_HANDLER || this instanceof AdventureRequest || this instanceof BasementRequest )
+			if ( LoginRequest.isInstanceRunning() || this == KoLRequest.CHOICE_HANDLER || this instanceof AdventureRequest || this instanceof BasementRequest )
 			{
 				FightRequest.INSTANCE.run();
 				CharpaneRequest.getInstance().run();
@@ -1240,7 +1359,7 @@ public class KoLRequest extends Job implements KoLConstants
 			// This is a request which should not have lead to a
 			// fight, but it did.  Notify the user.
 
-			KoLmafia.updateDisplay( ABORT_STATE, "Redirected to a fight page." );
+			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Redirected to a fight page." );
 			return true;
 		}
 
@@ -1252,9 +1371,9 @@ public class KoLRequest extends Job implements KoLConstants
 
 		if ( this.redirectLocation.startsWith( "choice.php" ) )
 		{
-			handlingChoices = true;
-			processChoiceAdventure();
-			handlingChoices = false;
+			KoLRequest.handlingChoices = true;
+			KoLRequest.processChoiceAdventure();
+			KoLRequest.handlingChoices = false;
 
 			CharpaneRequest.getInstance().run();
 			return true;
@@ -1262,7 +1381,7 @@ public class KoLRequest extends Job implements KoLConstants
 
 		if ( this.redirectLocation.startsWith( "ocean.php" ) )
 		{
-			handleOcean( OCEAN_HANDLER );
+			KoLRequest.handleOcean( KoLRequest.OCEAN_HANDLER );
 			return true;
 		}
 
@@ -1275,31 +1394,35 @@ public class KoLRequest extends Job implements KoLConstants
 
 		if ( this.redirectLocation.startsWith( "valhalla.php" ) )
 		{
-			passwordHash = "";
+			KoLRequest.passwordHash = "";
 			return true;
 		}
 
 		if ( this.shouldUpdateDebugLog() )
+		{
 			RequestLogger.updateDebugLog( "Redirected: " + this.redirectLocation );
+		}
 
 		return true;
 	}
 
 	protected boolean shouldFollowRedirect()
-	{	return this != CHOICE_HANDLER && this.getClass() == KoLRequest.class;
+	{
+		return this != KoLRequest.CHOICE_HANDLER && this.getClass() == KoLRequest.class;
 	}
 
 	private static final void addAdditionalCache()
 	{
-		synchronized ( BYTEFLAGS )
+		synchronized ( KoLRequest.BYTEFLAGS )
 		{
-			BYTEFLAGS.add( Boolean.TRUE );
-			BYTEARRAYS.add( new byte[ 8096 ] );
-			BYTESTREAMS.add( new ByteArrayOutputStream( 8096 ) );
+			KoLRequest.BYTEFLAGS.add( Boolean.TRUE );
+			KoLRequest.BYTEARRAYS.add( new byte[ 8096 ] );
+			KoLRequest.BYTESTREAMS.add( new ByteArrayOutputStream( 8096 ) );
 		}
 	}
 
-	private boolean retrieveServerReply( InputStream istream ) throws Exception
+	private boolean retrieveServerReply( final InputStream istream )
+		throws Exception
 	{
 		// Find an available byte array in order to buffer the data.  Allow
 		// this to scale based on the number of incoming requests in order
@@ -1307,32 +1430,38 @@ public class KoLRequest extends Job implements KoLConstants
 
 		int desiredIndex = -1;
 
-		synchronized ( BYTEFLAGS )
+		synchronized ( KoLRequest.BYTEFLAGS )
 		{
-			for ( int i = 0; desiredIndex == -1 && i < BYTEFLAGS.size(); ++i )
-				if ( BYTEFLAGS.get(i) == Boolean.FALSE )
+			for ( int i = 0; desiredIndex == -1 && i < KoLRequest.BYTEFLAGS.size(); ++i )
+			{
+				if ( KoLRequest.BYTEFLAGS.get( i ) == Boolean.FALSE )
+				{
 					desiredIndex = i;
+				}
+			}
 		}
 
 		if ( desiredIndex == -1 )
 		{
-			desiredIndex = BYTEFLAGS.size();
-			addAdditionalCache();
+			desiredIndex = KoLRequest.BYTEFLAGS.size();
+			KoLRequest.addAdditionalCache();
 		}
 		else
 		{
-			BYTEFLAGS.set( desiredIndex, Boolean.TRUE );
+			KoLRequest.BYTEFLAGS.set( desiredIndex, Boolean.TRUE );
 		}
 
 		// Read all the data into the static byte array output stream
 		// and then convert that string to UTF-8.
 
-		byte [] array = (byte []) BYTEARRAYS.get( desiredIndex );
-		ByteArrayOutputStream stream = (ByteArrayOutputStream) BYTESTREAMS.get( desiredIndex );
+		byte[] array = (byte[]) KoLRequest.BYTEARRAYS.get( desiredIndex );
+		ByteArrayOutputStream stream = (ByteArrayOutputStream) KoLRequest.BYTESTREAMS.get( desiredIndex );
 
 		int availableBytes = 0;
-		while ( (availableBytes = istream.read( array )) != -1 )
+		while ( ( availableBytes = istream.read( array ) ) != -1 )
+		{
 			stream.write( array, 0, availableBytes );
+		}
 
 		this.responseText = stream.toString( "UTF-8" );
 		stream.reset();
@@ -1341,36 +1470,45 @@ public class KoLRequest extends Job implements KoLConstants
 		// to false to let the program know the objects are available to
 		// be reused.
 
-		BYTEFLAGS.set( desiredIndex, Boolean.FALSE );
+		KoLRequest.BYTEFLAGS.set( desiredIndex, Boolean.FALSE );
 		this.processResponse();
 		return true;
 	}
 
 	/**
-	 * This method allows classes to process a raw, unfiltered
-	 * server response.
+	 * This method allows classes to process a raw, unfiltered server response.
 	 */
 
 	public void processResponse()
 	{
 		if ( this.responseText == null )
+		{
 			return;
+		}
 
 		if ( this.shouldUpdateDebugLog() )
-			RequestLogger.updateDebugLog( LINE_BREAK_PATTERN.matcher( this.responseText ).replaceAll( "" ) );
+		{
+			RequestLogger.updateDebugLog( KoLConstants.LINE_BREAK_PATTERN.matcher( this.responseText ).replaceAll( "" ) );
+		}
 
-		if ( !isChatRequest && !this.formURLString.startsWith( "fight.php" ) )
+		if ( !this.isChatRequest && !this.formURLString.startsWith( "fight.php" ) )
+		{
 			this.checkForNewEvents();
+		}
 
-		if ( isRatQuest )
+		if ( KoLRequest.isRatQuest )
+		{
 			KoLmafia.addTavernLocation( this );
+		}
 
 		this.encounter = AdventureRequest.registerEncounter( this );
 
 		if ( this.formURLString.equals( "fight.php" ) )
+		{
 			FightRequest.updateCombatData( this.encounter, this.responseText );
+		}
 
-		int effectCount = activeEffects.size();
+		int effectCount = KoLConstants.activeEffects.size();
 
 		if ( !this.hasNoResult )
 		{
@@ -1379,12 +1517,14 @@ public class KoLRequest extends Job implements KoLConstants
 
 			if ( initialHP != 0 && KoLCharacter.getCurrentHP() == 0 )
 			{
-				activeEffects.remove( KoLAdventure.BEATEN_UP );
-				activeEffects.add( KoLAdventure.BEATEN_UP );
+				KoLConstants.activeEffects.remove( KoLAdventure.BEATEN_UP );
+				KoLConstants.activeEffects.add( KoLAdventure.BEATEN_UP );
 			}
 
-			if ( !LoginRequest.isInstanceRunning() && !(this instanceof LocalRelayRequest) )
+			if ( !LoginRequest.isInstanceRunning() && !( this instanceof LocalRelayRequest ) )
+			{
 				this.showInBrowser( false );
+			}
 		}
 
 		// Now let the main method of result processing for
@@ -1400,25 +1540,37 @@ public class KoLRequest extends Job implements KoLConstants
 		// you should refresh your status.
 
 		if ( this.hasNoResult )
+		{
 			return;
+		}
 
 		if ( this instanceof LocalRelayRequest )
 		{
 			if ( !this.formURLString.equals( "basement.php" ) )
+			{
 				return;
+			}
 
 			this.containsUpdate = true;
 		}
 
 		if ( this.containsUpdate )
+		{
 			this.containsUpdate = true;
-		else if ( effectCount != activeEffects.size() || getAdventuresUsed() > 0 )
+		}
+		else if ( effectCount != KoLConstants.activeEffects.size() || this.getAdventuresUsed() > 0 )
+		{
 			this.containsUpdate = true;
+		}
 		else if ( RequestFrame.sidebarFrameExists() )
+		{
 			this.containsUpdate = this.responseText.indexOf( "charpane" ) != -1;
+		}
 
 		if ( this.containsUpdate )
+		{
 			CharpaneRequest.getInstance().run();
+		}
 	}
 
 	public void formatResponse()
@@ -1426,69 +1578,66 @@ public class KoLRequest extends Job implements KoLConstants
 	}
 
 	/**
-	 * Utility method used to skip the given number of tokens within
-	 * the provided <code>StringTokenizer</code>.  This method is used
-	 * in order to clarify what's being done, rather than calling
-	 * <code>st.nextToken()</code> repeatedly.
-	 *
-	 * @param	st	The <code>StringTokenizer</code> whose tokens are to be skipped
-	 * @param	tokenCount	The number of tokens to skip
+	 * Utility method used to skip the given number of tokens within the provided <code>StringTokenizer</code>. This
+	 * method is used in order to clarify what's being done, rather than calling <code>st.nextToken()</code>
+	 * repeatedly.
+	 * 
+	 * @param st The <code>StringTokenizer</code> whose tokens are to be skipped
+	 * @param tokenCount The number of tokens to skip
 	 */
 
-	public static final void skipTokens( StringTokenizer st, int tokenCount )
+	public static final void skipTokens( final StringTokenizer st, final int tokenCount )
 	{
 		for ( int i = 0; i < tokenCount; ++i )
+		{
 			st.nextToken();
+		}
 	}
 
 	/**
-	 * Utility method used to transform the next token on the given
-	 * <code>StringTokenizer</code> into an integer.  Because this
-	 * is used repeatedly in parsing, its functionality is provided
-	 * globally to all instances of <code>KoLRequest</code>.
-	 *
-	 * @param	st	The <code>StringTokenizer</code> whose next token is to be retrieved
-	 * @return	The integer token, if it exists, or 0, if the token was not a number
+	 * Utility method used to transform the next token on the given <code>StringTokenizer</code> into an integer.
+	 * Because this is used repeatedly in parsing, its functionality is provided globally to all instances of
+	 * <code>KoLRequest</code>.
+	 * 
+	 * @param st The <code>StringTokenizer</code> whose next token is to be retrieved
+	 * @return The integer token, if it exists, or 0, if the token was not a number
 	 */
 
-	public static final int intToken( StringTokenizer st )
-	{	return intToken( st, 0 );
+	public static final int intToken( final StringTokenizer st )
+	{
+		return KoLRequest.intToken( st, 0 );
 	}
 
 	/**
-	 * Utility method used to transform the next token on the given
-	 * <code>StringTokenizer</code> into an integer; however, this
-	 * differs in the single-argument version in that only a part
-	 * of the next token is needed.  Because this is also used
-	 * repeatedly in parsing, its functionality is provided globally
-	 * to all instances of <code>KoLRequest</code>.
-	 *
-	 * @param	st	The <code>StringTokenizer</code> whose next token is to be retrieved
-	 * @param	fromStart	The index at which the integer to parse begins
-	 * @return	The integer token, if it exists, or 0, if the token was not a number
+	 * Utility method used to transform the next token on the given <code>StringTokenizer</code> into an integer;
+	 * however, this differs in the single-argument version in that only a part of the next token is needed. Because
+	 * this is also used repeatedly in parsing, its functionality is provided globally to all instances of
+	 * <code>KoLRequest</code>.
+	 * 
+	 * @param st The <code>StringTokenizer</code> whose next token is to be retrieved
+	 * @param fromStart The index at which the integer to parse begins
+	 * @return The integer token, if it exists, or 0, if the token was not a number
 	 */
 
-	public static final int intToken( StringTokenizer st, int fromStart )
+	public static final int intToken( final StringTokenizer st, final int fromStart )
 	{
 		String token = st.nextToken().substring( fromStart );
 		return StaticEntity.parseInt( token );
 	}
 
 	/**
-	 * Utility method used to transform part of the next token on the
-	 * given <code>StringTokenizer</code> into an integer.  This differs
-	 * from the two-argument in that part of the end of the string is
-	 * expected to contain non-numeric values as well.  Because this is
-	 * also repeatedly in parsing, its functionality is provided globally
-	 * to all instances of <code>KoLRequest</code>.
-	 *
-	 * @param	st	The <code>StringTokenizer</code> whose next token is to be retrieved
-	 * @param	fromStart	The index at which the integer to parse begins
-	 * @param	fromEnd	The distance from the end at which the first non-numeric character is found
-	 * @return	The integer token, if it exists, or 0, if the token was not a number
+	 * Utility method used to transform part of the next token on the given <code>StringTokenizer</code> into an
+	 * integer. This differs from the two-argument in that part of the end of the string is expected to contain
+	 * non-numeric values as well. Because this is also repeatedly in parsing, its functionality is provided globally to
+	 * all instances of <code>KoLRequest</code>.
+	 * 
+	 * @param st The <code>StringTokenizer</code> whose next token is to be retrieved
+	 * @param fromStart The index at which the integer to parse begins
+	 * @param fromEnd The distance from the end at which the first non-numeric character is found
+	 * @return The integer token, if it exists, or 0, if the token was not a number
 	 */
 
-	public static final int intToken( StringTokenizer st, int fromStart, int fromEnd )
+	public static final int intToken( final StringTokenizer st, final int fromStart, final int fromEnd )
 	{
 		String token = st.nextToken();
 		token = token.substring( fromStart, token.length() - fromEnd );
@@ -1496,17 +1645,16 @@ public class KoLRequest extends Job implements KoLConstants
 	}
 
 	/**
-	 * An alternative method to doing adventure calculation is determining
-	 * how many adventures are used by the given request, and subtract
-	 * them after the request is done.  This number defaults to <code>zero</code>;
-	 * overriding classes should change this value to the appropriate
-	 * amount.
-	 *
-	 * @return	The number of adventures used by this request.
+	 * An alternative method to doing adventure calculation is determining how many adventures are used by the given
+	 * request, and subtract them after the request is done. This number defaults to <code>zero</code>; overriding
+	 * classes should change this value to the appropriate amount.
+	 * 
+	 * @return The number of adventures used by this request.
 	 */
 
 	public int getAdventuresUsed()
-	{	return 0;
+	{
+		return 0;
 	}
 
 	private final void parseResults()
@@ -1518,10 +1666,14 @@ public class KoLRequest extends Job implements KoLConstants
 		// for substring matching)
 
 		if ( this.responseText.indexOf( "our ten-leaf clover" ) != -1 && this.responseText.indexOf( "puff of smoke" ) != -1 )
+		{
 			StaticEntity.getClient().processResult( SewerRequest.CLOVER );
+		}
 
 		if ( this.formURLString.startsWith( "sewer.php" ) && this.responseText.indexOf( "You acquire" ) != -1 )
+		{
 			StaticEntity.getClient().processResult( SewerRequest.GUM );
+		}
 
 		this.containsUpdate = StaticEntity.getClient().processResults( this.responseText );
 	}
@@ -1530,12 +1682,12 @@ public class KoLRequest extends Job implements KoLConstants
 	{
 	}
 
-	public static final void handleOcean( KoLRequest request )
+	public static final void handleOcean( final KoLRequest request )
 	{
 		String dest = KoLSettings.getUserProperty( "oceanDestination" );
 		if ( dest.equals( "manual" ) )
 		{
-			KoLmafia.updateDisplay( ABORT_STATE, "Pick a course." );
+			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Pick a course." );
 			request.showInBrowser( true );
 			return;
 		}
@@ -1545,11 +1697,11 @@ public class KoLRequest extends Job implements KoLConstants
 
 		if ( dest.indexOf( "," ) != -1 )
 		{
-			Matcher matcher = OCEAN_PATTERN.matcher( dest );
+			Matcher matcher = KoLRequest.OCEAN_PATTERN.matcher( dest );
 			if ( matcher.find() )
 			{
-				lon = StaticEntity.parseInt( matcher.group(1) );
-				lat = StaticEntity.parseInt( matcher.group(2) );
+				lon = StaticEntity.parseInt( matcher.group( 1 ) );
+				lat = StaticEntity.parseInt( matcher.group( 2 ) );
 			}
 		}
 
@@ -1563,8 +1715,8 @@ public class KoLRequest extends Job implements KoLConstants
 			if ( lon < 1 || lon > 242 || lat < 1 || lat > 100 )
 			{
 				// Pick a random destination
-				lon = RNG.nextInt( 242 ) + 1;
-				lat = RNG.nextInt( 100 ) + 1;
+				lon = KoLConstants.RNG.nextInt( 242 ) + 1;
+				lat = KoLConstants.RNG.nextInt( 100 ) + 1;
 			}
 
 			String coords = "Coordinates: " + lon + ", " + lat;
@@ -1582,7 +1734,7 @@ public class KoLRequest extends Job implements KoLConstants
 			if ( save )
 			{
 				// Save the response Text
-				File output = new File( DATA_LOCATION, "ocean.html" );
+				File output = new File( UtilityConstants.DATA_LOCATION, "ocean.html" );
 				LogStream writer = LogStream.openStream( output, false );
 				// Trim to contain only HTML body
 				int start = request.responseText.indexOf( "<body>" );
@@ -1595,7 +1747,7 @@ public class KoLRequest extends Job implements KoLConstants
 			if ( stop )
 			{
 				// Show result in browser and stop automation
-				KoLmafia.updateDisplay( ABORT_STATE, "Stop" );
+				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Stop" );
 				request.showInBrowser( true );
 				return;
 			}
@@ -1615,7 +1767,9 @@ public class KoLRequest extends Job implements KoLConstants
 			// order?"
 
 			if ( request.responseText.indexOf( "mainland" ) == -1 )
+			{
 				return;
+			}
 
 			// Pick a different random destination
 			lon = lat = 0;
@@ -1623,18 +1777,20 @@ public class KoLRequest extends Job implements KoLConstants
 	}
 
 	private static final void processChoiceAdventure()
-	{	processChoiceAdventure( CHOICE_HANDLER );
+	{
+		KoLRequest.processChoiceAdventure( KoLRequest.CHOICE_HANDLER );
 	}
 
 	/**
-	 * Utility method which notifies thethat it needs to process
-	 * the given choice adventure.
+	 * Utility method which notifies thethat it needs to process the given choice adventure.
 	 */
 
-	public static final void processChoiceAdventure( KoLRequest request )
+	public static final void processChoiceAdventure( final KoLRequest request )
 	{
-		if ( passwordHash == null )
+		if ( KoLRequest.passwordHash == null )
+		{
 			return;
+		}
 
 		// You can no longer simply ignore a choice adventure.	One of
 		// the options may have that effect, but we must at least run
@@ -1645,7 +1801,9 @@ public class KoLRequest extends Job implements KoLConstants
 		request.run();
 
 		if ( request.responseCode == 302 )
+		{
 			return;
+		}
 
 		String choice = null;
 		String option = null;
@@ -1656,7 +1814,7 @@ public class KoLRequest extends Job implements KoLConstants
 			// Slight delay before each choice is made
 
 			KoLRequest.delay();
-			Matcher choiceMatcher = CHOICE_PATTERN.matcher( request.responseText );
+			Matcher choiceMatcher = KoLRequest.CHOICE_PATTERN.matcher( request.responseText );
 
 			if ( !choiceMatcher.find() )
 			{
@@ -1664,12 +1822,12 @@ public class KoLRequest extends Job implements KoLConstants
 				// be a bug in KoL itself. Bail now and let the user
 				// finish by hand.
 
-				KoLmafia.updateDisplay( ABORT_STATE, "Encountered choice adventure with no choices." );
+				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Encountered choice adventure with no choices." );
 				request.showInBrowser( true );
 				return;
 			}
 
-			choice = choiceMatcher.group(1);
+			choice = choiceMatcher.group( 1 );
 			option = "choiceAdventure" + choice;
 			decision = KoLSettings.getUserProperty( option );
 
@@ -1684,11 +1842,15 @@ public class KoLRequest extends Job implements KoLConstants
 			// If this happens to be adventure 26 or 27,
 			// check against the player's conditions.
 
-			if ( (choice.equals( "26" ) || choice.equals( "27" )) && !conditions.isEmpty() )
+			if ( ( choice.equals( "26" ) || choice.equals( "27" ) ) && !KoLConstants.conditions.isEmpty() )
 			{
 				for ( int i = 0; i < 12; ++i )
-					if ( AdventureDatabase.WOODS_ITEMS[i].getCount( conditions ) > 0 )
-						decision = choice.equals( "26" ) ? String.valueOf( (i / 4) + 1 ) : String.valueOf( ((i % 4) / 2) + 1 );
+				{
+					if ( AdventureDatabase.WOODS_ITEMS[ i ].getCount( KoLConstants.conditions ) > 0 )
+					{
+						decision = choice.equals( "26" ) ? String.valueOf( i / 4 + 1 ) : String.valueOf( i % 4 / 2 + 1 );
+					}
+				}
 			}
 
 			// If the player is looking for the ballroom key,
@@ -1697,15 +1859,19 @@ public class KoLRequest extends Job implements KoLConstants
 
 			if ( choice.equals( "85" ) )
 			{
-				if ( !inventory.contains( BALLROOM_KEY ) )
+				if ( !KoLConstants.inventory.contains( KoLRequest.BALLROOM_KEY ) )
 				{
 					KoLSettings.setUserProperty( option, decision.equals( "1" ) ? "2" : "1" );
 				}
 				else
 				{
-					for ( int i = 0; i < MISTRESS_ITEMS.length; ++i )
-						if ( conditions.contains( MISTRESS_ITEMS[i] ) )
+					for ( int i = 0; i < KoLRequest.MISTRESS_ITEMS.length; ++i )
+					{
+						if ( KoLConstants.conditions.contains( KoLRequest.MISTRESS_ITEMS[ i ] ) )
+						{
 							decision = "3";
+						}
+					}
 				}
 			}
 
@@ -1729,20 +1895,24 @@ public class KoLRequest extends Job implements KoLConstants
 			// decision, see if it's in the violet fog
 
 			if ( decision.equals( "" ) )
+			{
 				decision = VioletFog.handleChoice( choice );
+			}
 
 			// If there is no setting which determines the
 			// decision, see if it's in the Louvre
 
 			if ( decision.equals( "" ) )
+			{
 				decision = Louvre.handleChoice( choice, stepCount );
+			}
 
 			// If there is currently no setting which determines the
 			// decision, give an error and bail.
 
 			if ( decision.equals( "" ) )
 			{
-				KoLmafia.updateDisplay( ABORT_STATE, "Unsupported choice adventure #" + choice );
+				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Unsupported choice adventure #" + choice );
 				request.showInBrowser( true );
 				StaticEntity.printRequestData( request );
 				return;
@@ -1758,7 +1928,9 @@ public class KoLRequest extends Job implements KoLConstants
 				willIgnore = true;
 
 				if ( decision.equals( "99" ) && KoLSettings.getIntegerProperty( "lastSecondFloorUnlock" ) == KoLCharacter.getAscensions() )
+				{
 					decision = "4";
+				}
 			}
 			else if ( choice.equals( "81" ) )
 			{
@@ -1767,12 +1939,16 @@ public class KoLRequest extends Job implements KoLConstants
 				// If we've already unlocked the gallery, try
 				// to unlock the second floor.
 				if ( decision.equals( "1" ) && KoLSettings.getIntegerProperty( "lastGalleryUnlock" ) == KoLCharacter.getAscensions() )
+				{
 					decision = "99";
+				}
 
 				// If we've already unlocked the second floor,
 				// ignore this choice adventure.
 				if ( decision.equals( "99" ) && KoLSettings.getIntegerProperty( "lastSecondFloorUnlock" ) == KoLCharacter.getAscensions() )
+				{
 					decision = "4";
+				}
 			}
 
 			// But first, handle the maidens adventure in a less random
@@ -1785,19 +1961,20 @@ public class KoLRequest extends Job implements KoLConstants
 				switch ( StaticEntity.parseInt( decision ) )
 				{
 				case 0:
-					decision = String.valueOf( RNG.nextInt(2) + 1 );
+					decision = String.valueOf( KoLConstants.RNG.nextInt( 2 ) + 1 );
 					break;
 				case 1:
 				case 2:
 					break;
 				case 3:
-					decision = activeEffects.contains( MAIDEN_EFFECT ) ? String.valueOf( RNG.nextInt(2) + 1 ) : "3";
+					decision =
+						KoLConstants.activeEffects.contains( KoLRequest.MAIDEN_EFFECT ) ? String.valueOf( KoLConstants.RNG.nextInt( 2 ) + 1 ) : "3";
 					break;
 				case 4:
-					decision = activeEffects.contains( MAIDEN_EFFECT ) ? "1" : "3";
+					decision = KoLConstants.activeEffects.contains( KoLRequest.MAIDEN_EFFECT ) ? "1" : "3";
 					break;
 				case 5:
-					decision = activeEffects.contains( MAIDEN_EFFECT ) ? "2" : "3";
+					decision = KoLConstants.activeEffects.contains( KoLRequest.MAIDEN_EFFECT ) ? "2" : "3";
 					break;
 				}
 			}
@@ -1809,8 +1986,10 @@ public class KoLRequest extends Job implements KoLConstants
 				for ( int i = 2566; i <= 2568; ++i )
 				{
 					AdventureResult item = new AdventureResult( i, 1 );
-					if ( !inventory.contains( item ) )
+					if ( !KoLConstants.inventory.contains( item ) )
+					{
 						decision = "4";
+					}
 				}
 			}
 
@@ -1818,11 +1997,13 @@ public class KoLRequest extends Job implements KoLConstants
 			// and remember to store the result.
 
 			if ( !willIgnore )
-				decision = pickOutfitChoice( option, decision );
+			{
+				decision = KoLRequest.pickOutfitChoice( option, decision );
+			}
 
 			request.clearDataFields();
 
-			request.addFormField( "pwd", passwordHash );
+			request.addFormField( "pwd", KoLRequest.passwordHash );
 			request.addFormField( "whichchoice", choice );
 			request.addFormField( "option", decision );
 
@@ -1832,38 +2013,42 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( choice != null && KoLmafia.isAdventuring() )
 		{
 			if ( choice.equals( "112" ) && decision.equals( "1" ) )
+			{
 				AdventureDatabase.retrieveItem( new AdventureResult( 2184, 1 ) );
+			}
 
 			if ( choice.equals( "162" ) && !EquipmentDatabase.isWearingOutfit( 8 ) )
+			{
 				CouncilFrame.unlockGoatlet();
+			}
 		}
 	}
 
-	private static final String pickOutfitChoice( String option, String decision )
+	private static final String pickOutfitChoice( final String option, final String decision )
 	{
 		// Find the options for the choice we've encountered
 
 		boolean matchFound = false;
-		String [] possibleDecisions = null;
-		String [] possibleDecisionSpoilers = null;
+		String[] possibleDecisions = null;
+		String[] possibleDecisionSpoilers = null;
 
 		for ( int i = 0; i < AdventureDatabase.CHOICE_ADVS.length && !matchFound; ++i )
 		{
-			if ( AdventureDatabase.CHOICE_ADVS[i].getSetting().equals( option ) )
+			if ( AdventureDatabase.CHOICE_ADVS[ i ].getSetting().equals( option ) )
 			{
 				matchFound = true;
-				possibleDecisions = AdventureDatabase.CHOICE_ADVS[i].getItems();
-				possibleDecisionSpoilers = AdventureDatabase.CHOICE_ADVS[i].getOptions();
+				possibleDecisions = AdventureDatabase.CHOICE_ADVS[ i ].getItems();
+				possibleDecisionSpoilers = AdventureDatabase.CHOICE_ADVS[ i ].getOptions();
 			}
 		}
 
 		for ( int i = 0; i < AdventureDatabase.CHOICE_ADV_SPOILERS.length && !matchFound; ++i )
 		{
-			if ( AdventureDatabase.CHOICE_ADV_SPOILERS[i].getSetting().equals( option ) )
+			if ( AdventureDatabase.CHOICE_ADV_SPOILERS[ i ].getSetting().equals( option ) )
 			{
 				matchFound = true;
-				possibleDecisions = AdventureDatabase.CHOICE_ADV_SPOILERS[i].getItems();
-				possibleDecisionSpoilers = AdventureDatabase.CHOICE_ADV_SPOILERS[i].getOptions();
+				possibleDecisions = AdventureDatabase.CHOICE_ADV_SPOILERS[ i ].getItems();
+				possibleDecisionSpoilers = AdventureDatabase.CHOICE_ADV_SPOILERS[ i ].getOptions();
 			}
 		}
 
@@ -1872,7 +2057,9 @@ public class KoLRequest extends Job implements KoLConstants
 		// chosen decision.
 
 		if ( possibleDecisionSpoilers == null )
+		{
 			return decision.equals( "0" ) ? "1" : decision;
+		}
 
 		// Choose an item in the conditions first, if it's available.
 		// This allows conditions to override existing choices.
@@ -1881,40 +2068,56 @@ public class KoLRequest extends Job implements KoLConstants
 		{
 			for ( int i = 0; i < possibleDecisions.length; ++i )
 			{
-				if ( possibleDecisions[i] == null )
+				if ( possibleDecisions[ i ] == null )
+				{
 					continue;
+				}
 
-				AdventureResult item = new AdventureResult( StaticEntity.parseInt( possibleDecisions[i] ), 1 );
-				if ( conditions.contains( item ) )
+				AdventureResult item = new AdventureResult( StaticEntity.parseInt( possibleDecisions[ i ] ), 1 );
+				if ( KoLConstants.conditions.contains( item ) )
+				{
 					return String.valueOf( i + 1 );
+				}
 
 				if ( possibleDecisions.length < StaticEntity.parseInt( decision ) && !KoLCharacter.hasItem( item ) )
+				{
 					return String.valueOf( i + 1 );
+				}
 			}
 		}
 
 		if ( possibleDecisions == null )
+		{
 			return decision.equals( "0" ) ? "1" : decision;
+		}
 
 		// If this is an ignore decision, then go ahead and ignore
 		// the choice adventure
 
 		int decisionIndex = StaticEntity.parseInt( decision ) - 1;
-		if ( possibleDecisions.length < possibleDecisionSpoilers.length && possibleDecisionSpoilers[decisionIndex].equals( "skip adventure" ) )
+		if ( possibleDecisions.length < possibleDecisionSpoilers.length && possibleDecisionSpoilers[ decisionIndex ].equals( "skip adventure" ) )
+		{
 			return decision;
+		}
 
 		// If no item is found in the conditions list, and the player
 		// has a non-ignore decision, go ahead and use it.
 
 		if ( !decision.equals( "0" ) && decisionIndex < possibleDecisions.length )
+		{
 			return decision;
+		}
 
 		// Choose a null choice if no conditions match what you're
 		// trying to look for.
 
 		for ( int i = 0; i < possibleDecisions.length; ++i )
-			if ( possibleDecisions[i] == null )
+		{
+			if ( possibleDecisions[ i ] == null )
+			{
 				return String.valueOf( i + 1 );
+			}
+		}
 
 		// If they have everything and it's an ignore choice, then use
 		// the first choice no matter what.
@@ -1923,10 +2126,8 @@ public class KoLRequest extends Job implements KoLConstants
 	}
 
 	/*
-	 * Method to display the current request in the Fight Frame.
-	 *
-	 * If we are synchronizing, show all requests
-	 * If we are finishing, show only exceptional requests
+	 * Method to display the current request in the Fight Frame. If we are synchronizing, show all requests If we are
+	 * finishing, show only exceptional requests
 	 */
 
 	public void showInBrowser( boolean exceptional )
@@ -1935,15 +2136,18 @@ public class KoLRequest extends Job implements KoLConstants
 		// in a browser.  If you're using a command-line
 		// interface, then you should not display the request.
 
-		if ( existingFrames.isEmpty() )
+		if ( KoLConstants.existingFrames.isEmpty() )
+		{
 			return;
+		}
 
 		if ( !exceptional && !KoLSettings.getBooleanProperty( "showAllRequests" ) )
+		{
 			return;
+		}
 
 		// Only show the request if the response code is
 		// 200 (not a redirect or error).
-
 
 		FightFrame.showRequest( this );
 	}
@@ -1953,16 +2157,22 @@ public class KoLRequest extends Job implements KoLConstants
 		// Capture the entire new events table in order to display the
 		// appropriate message.
 
-		Matcher eventMatcher = EVENT_PATTERN.matcher( this.responseText );
+		Matcher eventMatcher = KoLRequest.EVENT_PATTERN.matcher( this.responseText );
 		if ( !eventMatcher.find() )
+		{
 			return;
+		}
 
 		// Make an array of events
-		String [] events = eventMatcher.group(1).replaceAll( "<br>", "\n" ).split( "\n" );
+		String[] events = eventMatcher.group( 1 ).replaceAll( "<br>", "\n" ).split( "\n" );
 
 		for ( int i = 0; i < events.length; ++i )
-			if ( events[i].indexOf( "/" ) == -1 )
-				events[i] = null;
+		{
+			if ( events[ i ].indexOf( "/" ) == -1 )
+			{
+				events[ i ] = null;
+			}
+		}
 
 		// Remove the events from the response text
 
@@ -1973,13 +2183,17 @@ public class KoLRequest extends Job implements KoLConstants
 
 		for ( int i = 0; i < events.length; ++i )
 		{
-			if ( events[i] == null )
+			if ( events[ i ] == null )
+			{
 				continue;
+			}
 
-			if ( events[i].indexOf( "logged" ) != -1 )
+			if ( events[ i ].indexOf( "logged" ) != -1 )
+			{
 				continue;
+			}
 
-			String event = events[i];
+			String event = events[ i ];
 
 			// The event may be marked up with color and links to
 			// user profiles. For example:
@@ -1994,10 +2208,12 @@ public class KoLRequest extends Job implements KoLConstants
 			event = event.replaceAll( "<a[^>]*showplayer\\.php\\?who=(\\d+)[^>]*>(.*?)<a>", "$2 (#$1)" );
 
 			if ( event.indexOf( "/" ) == -1 )
+			{
 				continue;
+			}
 
 			shouldLoadEventFrame = true;
-			eventHistory.add( event );
+			KoLConstants.eventHistory.add( event );
 
 			// Print everything to the default shell; this way, the
 			// graphical CLI is also notified of events.
@@ -2008,7 +2224,9 @@ public class KoLRequest extends Job implements KoLConstants
 			// focus on KoLmafia.
 
 			if ( StaticEntity.usesSystemTray() )
+			{
 				SystemTrayFrame.showBalloon( event );
+			}
 
 			if ( isChatRunning )
 			{
@@ -2022,30 +2240,38 @@ public class KoLRequest extends Job implements KoLConstants
 		// If we're not a GUI and there are no GUI windows open
 		// (ie: the GUI loader command wasn't used), quit now.
 
-		if ( existingFrames.isEmpty() )
+		if ( KoLConstants.existingFrames.isEmpty() )
+		{
 			return;
+		}
 
 		// If we are not running chat, pop up an EventsFrame to show
 		// the events.  Use the standard run method so that you wait
 		// for it to finish before calling it again on another event.
-		
+
 		if ( !isChatRunning && shouldLoadEventFrame )
+		{
 			SwingUtilities.invokeLater( new CreateFrameRunnable( EventsFrame.class ) );
+		}
 	}
 
-	public final void loadResponseFromFile( String filename )
-	{	loadResponseFromFile( new File( filename ) );
+	public final void loadResponseFromFile( final String filename )
+	{
+		this.loadResponseFromFile( new File( filename ) );
 	}
 
-	public final void loadResponseFromFile( File f )
+	public final void loadResponseFromFile( final File f )
 	{
 		try
 		{
 			BufferedReader buf = KoLDatabase.getReader( f );
-			String line;  StringBuffer response = new StringBuffer();
+			String line;
+			StringBuffer response = new StringBuffer();
 
-			while ( (line = buf.readLine()) != null )
+			while ( ( line = buf.readLine() ) != null )
+			{
 				response.append( line );
+			}
 
 			this.responseCode = 200;
 			this.responseText = response.toString();
@@ -2059,19 +2285,20 @@ public class KoLRequest extends Job implements KoLConstants
 	}
 
 	public String toString()
-	{	return this.getURLString();
+	{
+		return this.getURLString();
 	}
 
 	public static final String getUserAgent()
 	{
 		String userAgent = KoLSettings.getGlobalProperty( null, "userAgent" );
-		return userAgent.equals( "" ) ? VERSION_NAME : userAgent;
+		return userAgent.equals( "" ) ? KoLConstants.VERSION_NAME : userAgent;
 	}
 
 	public void printRequestProperties()
 	{
 		RequestLogger.updateDebugLog();
-		RequestLogger.updateDebugLog( "Requesting: http://" + KOL_HOST + "/" + this.getURLString() );
+		RequestLogger.updateDebugLog( "Requesting: http://" + KoLRequest.KOL_HOST + "/" + this.getURLString() );
 
 		Map requestProperties = this.formConnection.getRequestProperties();
 		RequestLogger.updateDebugLog( requestProperties.size() + " request properties" );
@@ -2080,7 +2307,7 @@ public class KoLRequest extends Job implements KoLConstants
 		Iterator iterator = requestProperties.entrySet().iterator();
 		while ( iterator.hasNext() )
 		{
-			Entry entry = (Entry)iterator.next();
+			Entry entry = (Entry) iterator.next();
 			RequestLogger.updateDebugLog( "Field: " + entry.getKey() + " = " + entry.getValue() );
 		}
 
@@ -2090,7 +2317,7 @@ public class KoLRequest extends Job implements KoLConstants
 	public void printHeaderFields()
 	{
 		RequestLogger.updateDebugLog();
-		RequestLogger.updateDebugLog( "Retrieved: http://" + KOL_HOST + "/" + this.getURLString() );
+		RequestLogger.updateDebugLog( "Retrieved: http://" + KoLRequest.KOL_HOST + "/" + this.getURLString() );
 		RequestLogger.updateDebugLog();
 
 		Map headerFields = this.formConnection.getHeaderFields();
@@ -2099,7 +2326,7 @@ public class KoLRequest extends Job implements KoLConstants
 		Iterator iterator = headerFields.entrySet().iterator();
 		while ( iterator.hasNext() )
 		{
-			Entry entry = (Entry)iterator.next();
+			Entry entry = (Entry) iterator.next();
 			RequestLogger.updateDebugLog( "Field: " + entry.getKey() + " = " + entry.getValue() );
 		}
 

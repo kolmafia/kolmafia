@@ -36,16 +36,14 @@ package net.sourceforge.kolmafia;
 import java.io.PrintStream;
 
 /**
- * A <code>NullStream</code> is the rough equivalent of redirecting
- * all output to <code>/dev/null</code> on some variants of *NIX.
- * The effect is that nothing gets put onto any output stream.
- * This can be used by debugging mechanisms to eliminate all output,
- * should the overhead of function calls not be severe.  Note that
- * checking state variables is probably still the best way to handle
- * debug functionality; this is merely a sub-optimal alternative.
+ * A <code>NullStream</code> is the rough equivalent of redirecting all output to <code>/dev/null</code> on some
+ * variants of *NIX. The effect is that nothing gets put onto any output stream. This can be used by debugging
+ * mechanisms to eliminate all output, should the overhead of function calls not be severe. Note that checking state
+ * variables is probably still the best way to handle debug functionality; this is merely a sub-optimal alternative.
  */
 
-public class NullStream extends PrintStream
+public class NullStream
+	extends PrintStream
 {
 	private boolean errorState;
 
@@ -58,7 +56,8 @@ public class NullStream extends PrintStream
 	}
 
 	public boolean checkError()
-	{	return this.errorState;
+	{
+		return this.errorState;
 	}
 
 	public void close()
@@ -69,35 +68,35 @@ public class NullStream extends PrintStream
 	{
 	}
 
-	public void print( boolean b )
+	public void print( final boolean b )
 	{
 	}
 
-	public void print( char c )
+	public void print( final char c )
 	{
 	}
 
-	public void print( char [] s )
+	public void print( final char[] s )
 	{
 	}
 
-	public void print( float d )
+	public void print( final float d )
 	{
 	}
 
-	public void print( double f )
+	public void print( final double f )
 	{
 	}
 
-	public void print( int i )
+	public void print( final int i )
 	{
 	}
 
-	public void print( long l )
+	public void print( final long l )
 	{
 	}
 
-	public void print( String s )
+	public void print( final String s )
 	{
 	}
 
@@ -105,56 +104,56 @@ public class NullStream extends PrintStream
 	{
 	}
 
-	public void println( boolean x )
+	public void println( final boolean x )
 	{
 	}
 
-	public void println( char x )
+	public void println( final char x )
 	{
 	}
 
-	public void println( char [] x )
+	public void println( final char[] x )
 	{
 	}
 
-	public void println( float x )
+	public void println( final float x )
 	{
 	}
 
-	public void println( double x )
+	public void println( final double x )
 	{
 	}
 
-	public void println( int x )
+	public void println( final int x )
 	{
 	}
 
-	public void println( long x )
+	public void println( final long x )
 	{
 	}
 
-	public void println( Object x )
+	public void println( final Object x )
 	{
 	}
 
-	public void println( String x )
+	public void println( final String x )
 	{
 	}
 
 	public void setError()
-	{	this.errorState = true;
+	{
+		this.errorState = true;
 	}
 
-	public void write( byte [] b )
+	public void write( final byte[] b )
 	{
 	}
 
-	public void write( byte [] buf, int off, int len )
+	public void write( final byte[] buf, final int off, final int len )
 	{
 	}
 
-	public void write( int b )
+	public void write( final int b )
 	{
 	}
 }
-

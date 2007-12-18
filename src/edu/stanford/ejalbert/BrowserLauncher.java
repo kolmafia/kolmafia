@@ -1,3 +1,4 @@
+
 package edu.stanford.ejalbert;
 
 import java.io.BufferedReader;
@@ -10,54 +11,51 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
- * BrowserLauncher is a class that provides one static method, openURL, which opens the default
- * web browser for the current user of the system to the given URL.  It may support other
- * protocols depending on the system -- mailto, ftp, etc. -- but that has not been rigorously
- * tested and is not guaranteed to work.
+ * BrowserLauncher is a class that provides one static method, openURL, which opens the default web browser for the
+ * current user of the system to the given URL. It may support other protocols depending on the system -- mailto, ftp,
+ * etc. -- but that has not been rigorously tested and is not guaranteed to work.
  * <p>
- * Yes, this is platform-specific code, and yes, it may rely on classes on certain platforms
- * that are not part of the standard JDK.  What we're trying to do, though, is to take something
- * that's frequently desirable but inherently platform-specific -- opening a default browser --
- * and allow programmers (you, for example) to do so without worrying about dropping into native
- * code or doing anything else similarly evil.
+ * Yes, this is platform-specific code, and yes, it may rely on classes on certain platforms that are not part of the
+ * standard JDK. What we're trying to do, though, is to take something that's frequently desirable but inherently
+ * platform-specific -- opening a default browser -- and allow programmers (you, for example) to do so without worrying
+ * about dropping into native code or doing anything else similarly evil.
  * <p>
- * Anyway, this code is completely in Java and will run on all JDK 1.1-compliant systems without
- * modification or a need for additional libraries.  All classes that are required on certain
- * platforms to allow this to run are dynamically loaded at runtime via reflection and, if not
- * found, will not cause this to do anything other than returning an error when opening the
- * browser.
+ * Anyway, this code is completely in Java and will run on all JDK 1.1-compliant systems without modification or a need
+ * for additional libraries. All classes that are required on certain platforms to allow this to run are dynamically
+ * loaded at runtime via reflection and, if not found, will not cause this to do anything other than returning an error
+ * when opening the browser.
  * <p>
- * There are certain system requirements for this class, as it's running through Runtime.exec(),
- * which is Java's way of making a native system call.  Currently, this requires that a Macintosh
- * have a Finder which supports the GURL event, which is true for Mac OS 8.0 and 8.1 systems that
- * have the Internet Scripting AppleScript dictionary installed in the Scripting Additions folder
- * in the Extensions folder (which is installed by default as far as I know under Mac OS 8.0 and
- * 8.1), and for all Mac OS 8.5 and later systems.  On Windows, it only runs under Win32 systems
- * (Windows 95, 98, and NT 4.0, as well as later versions of all).  On other systems, this drops
- * back from the inherently platform-sensitive concept of a default browser and simply attempts
- * to launch Netscape via a shell command.
+ * There are certain system requirements for this class, as it's running through Runtime.exec(), which is Java's way of
+ * making a native system call. Currently, this requires that a Macintosh have a Finder which supports the GURL event,
+ * which is true for Mac OS 8.0 and 8.1 systems that have the Internet Scripting AppleScript dictionary installed in the
+ * Scripting Additions folder in the Extensions folder (which is installed by default as far as I know under Mac OS 8.0
+ * and 8.1), and for all Mac OS 8.5 and later systems. On Windows, it only runs under Win32 systems (Windows 95, 98, and
+ * NT 4.0, as well as later versions of all). On other systems, this drops back from the inherently platform-sensitive
+ * concept of a default browser and simply attempts to launch Netscape via a shell command.
  * <p>
- * This code is Copyright 1999-2001 by Eric Albert (ejalbert@cs.stanford.edu) and may be
- * redistributed or modified in any form without restrictions as long as the portion of this
- * comment from this paragraph through the end of the comment is not removed.  The author
- * requests that he be notified of any application, applet, or other binary that makes use of
- * this code, but that's more out of curiosity than anything and is not required.  This software
- * includes no warranty.  The author is not repsonsible for any loss of data or functionality
- * or any adverse or unexpected effects of using this software.
+ * This code is Copyright 1999-2001 by Eric Albert (ejalbert@cs.stanford.edu) and may be redistributed or modified in
+ * any form without restrictions as long as the portion of this comment from this paragraph through the end of the
+ * comment is not removed. The author requests that he be notified of any application, applet, or other binary that
+ * makes use of this code, but that's more out of curiosity than anything and is not required. This software includes no
+ * warranty. The author is not repsonsible for any loss of data or functionality or any adverse or unexpected effects of
+ * using this software.
  * <p>
- * Credits:
- * <br>Steven Spencer, JavaWorld magazine (<a href="http://www.javaworld.com/javaworld/javatips/jw-javatip66.html">Java Tip 66</a>)
- * <br>Thanks also to Ron B. Yeh, Eric Shapiro, Ben Engber, Paul Teitlebaum, Andrea Cantatore,
- * Larry Barowski, Trevor Bedzek, Frank Miedrich, and Ron Rabakukk
- *
+ * Credits: <br>
+ * Steven Spencer, JavaWorld magazine (<a href="http://www.javaworld.com/javaworld/javatips/jw-javatip66.html">Java Tip
+ * 66</a>) <br>
+ * Thanks also to Ron B. Yeh, Eric Shapiro, Ben Engber, Paul Teitlebaum, Andrea Cantatore, Larry Barowski, Trevor
+ * Bedzek, Frank Miedrich, and Ron Rabakukk
+ * 
  * @author Eric Albert (<a href="mailto:ejalbert@cs.stanford.edu">ejalbert@cs.stanford.edu</a>)
  * @version 1.4b1 (Released June 20, 2001)
  */
-public class BrowserLauncher {
+public class BrowserLauncher
+{
 
 	/**
-	 * The Java virtual machine that we are running on.  Actually, in most cases we only care
-	 * about the operating system, but some operating systems require us to switch on the VM. */
+	 * The Java virtual machine that we are running on. Actually, in most cases we only care about the operating system,
+	 * but some operating systems require us to switch on the VM.
+	 */
 	private static int jvm;
 
 	/** The browser for the system */
@@ -65,11 +63,10 @@ public class BrowserLauncher {
 	private static String executable;
 
 	/**
-	 * Caches whether any classes, methods, and fields that are not part of the JDK and need to
-	 * be dynamically loaded at runtime loaded successfully.
+	 * Caches whether any classes, methods, and fields that are not part of the JDK and need to be dynamically loaded at
+	 * runtime loaded successfully.
 	 * <p>
-	 * Note that if this is <code>false</code>, <code>openURL()</code> will always return an
-	 * IOException.
+	 * Note that if this is <code>false</code>, <code>openURL()</code> will always return an IOException.
 	 */
 	private static boolean loadedWithoutErrors;
 
@@ -127,9 +124,6 @@ public class BrowserLauncher {
 	/** The linkage object required for JDirect 3 on Mac OS X. */
 	private static Object linkage;
 
-	/** The framework to reference on Mac OS X */
-	private static final String JDirect_MacOSX = "/System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/HIToolbox";
-
 	/** JVM constant for MRJ 2.0 */
 	private static final int MRJ_2_0 = 0;
 
@@ -152,14 +146,13 @@ public class BrowserLauncher {
 	private static final int OTHER = -1;
 
 	/**
-	 * The file type of the Finder on a Macintosh.  Hardcoding "Finder" would keep non-U.S. English
-	 * systems from working properly.
+	 * The file type of the Finder on a Macintosh. Hardcoding "Finder" would keep non-U.S. English systems from working
+	 * properly.
 	 */
 	private static final String FINDER_TYPE = "FNDR";
 
 	/**
-	 * The creator code of the Finder on a Macintosh, which is needed to send AppleEvents to the
-	 * application.
+	 * The creator code of the Finder on a Macintosh, which is needed to send AppleEvents to the application.
 	 */
 	private static final String FINDER_CREATOR = "MACS";
 
@@ -172,283 +165,391 @@ public class BrowserLauncher {
 	private static String errorMessage;
 
 	/**
-	 * An initialization block that determines the operating system and loads the necessary
-	 * runtime data.
+	 * An initialization block that determines the operating system and loads the necessary runtime data.
 	 */
-	static {
-		loadedWithoutErrors = true;
-		String osName = System.getProperty("os.name");
-		if (osName.startsWith("Mac OS")) {
-			String mrjVersion = System.getProperty("mrj.version");
-			String majorMRJVersion = mrjVersion.substring(0, 3);
-			try {
-				double version = Double.valueOf(majorMRJVersion).doubleValue();
-				if (version == 2) {
-					jvm = MRJ_2_0;
-				} else if (version >= 2.1 && version < 3) {
+	static
+	{
+		BrowserLauncher.loadedWithoutErrors = true;
+		String osName = System.getProperty( "os.name" );
+		if ( osName.startsWith( "Mac OS" ) )
+		{
+			String mrjVersion = System.getProperty( "mrj.version" );
+			String majorMRJVersion = mrjVersion.substring( 0, 3 );
+			try
+			{
+				double version = Double.valueOf( majorMRJVersion ).doubleValue();
+				if ( version == 2 )
+				{
+					BrowserLauncher.jvm = BrowserLauncher.MRJ_2_0;
+				}
+				else if ( version >= 2.1 && version < 3 )
+				{
 					// Assume that all 2.x versions of MRJ work the same.  MRJ 2.1 actually
 					// works via Runtime.exec() and 2.2 supports that but has an openURL() method
 					// as well that we currently ignore.
-					jvm = MRJ_2_1;
-				} else if (version == 3.0) {
-					jvm = MRJ_3_0;
-				} else if (version >= 3.1) {
-					// Assume that all 3.1 and later versions of MRJ work the same.
-					jvm = MRJ_3_1;
-				} else {
-					loadedWithoutErrors = false;
-					errorMessage = "Unsupported MRJ version: " + version;
+					BrowserLauncher.jvm = BrowserLauncher.MRJ_2_1;
 				}
-			} catch (NumberFormatException nfe) {
-				loadedWithoutErrors = false;
-				errorMessage = "Invalid MRJ version: " + mrjVersion;
+				else if ( version == 3.0 )
+				{
+					BrowserLauncher.jvm = BrowserLauncher.MRJ_3_0;
+				}
+				else if ( version >= 3.1 )
+				{
+					// Assume that all 3.1 and later versions of MRJ work the same.
+					BrowserLauncher.jvm = BrowserLauncher.MRJ_3_1;
+				}
+				else
+				{
+					BrowserLauncher.loadedWithoutErrors = false;
+					BrowserLauncher.errorMessage = "Unsupported MRJ version: " + version;
+				}
 			}
-		} else if (osName.startsWith("Windows")) {
-			if (osName.indexOf("9") != -1) {
-				jvm = WINDOWS_9x;
-			} else {
-				jvm = WINDOWS_NT;
+			catch ( NumberFormatException nfe )
+			{
+				BrowserLauncher.loadedWithoutErrors = false;
+				BrowserLauncher.errorMessage = "Invalid MRJ version: " + mrjVersion;
 			}
-		} else {
-			jvm = OTHER;
+		}
+		else if ( osName.startsWith( "Windows" ) )
+		{
+			if ( osName.indexOf( "9" ) != -1 )
+			{
+				BrowserLauncher.jvm = BrowserLauncher.WINDOWS_9x;
+			}
+			else
+			{
+				BrowserLauncher.jvm = BrowserLauncher.WINDOWS_NT;
+			}
+		}
+		else
+		{
+			BrowserLauncher.jvm = BrowserLauncher.OTHER;
 		}
 
-		if (loadedWithoutErrors) {	// if we haven't hit any errors yet
-			loadedWithoutErrors = loadClasses();
+		if ( BrowserLauncher.loadedWithoutErrors )
+		{
+			BrowserLauncher.loadedWithoutErrors = BrowserLauncher.loadClasses();
 		}
 	}
 
 	/**
 	 * This class should be never be instantiated; this just ensures so.
 	 */
-	private BrowserLauncher() { }
+	private BrowserLauncher()
+	{
+	}
 
 	/**
-	 * Called by a static initializer to load any classes, fields, and methods required at runtime
-	 * to locate the user's web browser.
-	 * @return <code>true</code> if all intialization succeeded
-	 *			<code>false</code> if any portion of the initialization failed
+	 * Called by a static initializer to load any classes, fields, and methods required at runtime to locate the user's
+	 * web browser.
+	 * 
+	 * @return <code>true</code> if all intialization succeeded <code>false</code> if any portion of the
+	 *         initialization failed
 	 */
 
-	private static boolean loadClasses() {
-		switch (jvm) {
-			case MRJ_2_0:
-				try {
-					Class aeTargetClass = Class.forName("com.apple.MacOS.AETarget");
-					Class osUtilsClass = Class.forName("com.apple.MacOS.OSUtils");
-					Class appleEventClass = Class.forName("com.apple.MacOS.AppleEvent");
-					Class aeClass = Class.forName("com.apple.MacOS.ae");
-					aeDescClass = Class.forName("com.apple.MacOS.AEDesc");
+	private static boolean loadClasses()
+	{
+		switch ( BrowserLauncher.jvm )
+		{
+		case MRJ_2_0:
+			try
+			{
+				Class aeTargetClass = Class.forName( "com.apple.MacOS.AETarget" );
+				Class osUtilsClass = Class.forName( "com.apple.MacOS.OSUtils" );
+				Class appleEventClass = Class.forName( "com.apple.MacOS.AppleEvent" );
+				Class aeClass = Class.forName( "com.apple.MacOS.ae" );
+				BrowserLauncher.aeDescClass = Class.forName( "com.apple.MacOS.AEDesc" );
 
-					aeTargetConstructor = aeTargetClass.getDeclaredConstructor(new Class [] { int.class });
-					appleEventConstructor = appleEventClass.getDeclaredConstructor(new Class[] { int.class, int.class, aeTargetClass, int.class, int.class });
-					aeDescConstructor = aeDescClass.getDeclaredConstructor(new Class[] { String.class });
+				BrowserLauncher.aeTargetConstructor = aeTargetClass.getDeclaredConstructor( new Class[] { int.class } );
+				BrowserLauncher.appleEventConstructor =
+					appleEventClass.getDeclaredConstructor( new Class[] { int.class, int.class, aeTargetClass, int.class, int.class } );
+				BrowserLauncher.aeDescConstructor =
+					BrowserLauncher.aeDescClass.getDeclaredConstructor( new Class[] { String.class } );
 
-					makeOSType = osUtilsClass.getDeclaredMethod("makeOSType", new Class [] { String.class });
-					putParameter = appleEventClass.getDeclaredMethod("putParameter", new Class[] { int.class, aeDescClass });
-					sendNoReply = appleEventClass.getDeclaredMethod("sendNoReply", new Class[] { });
+				BrowserLauncher.makeOSType =
+					osUtilsClass.getDeclaredMethod( "makeOSType", new Class[] { String.class } );
+				BrowserLauncher.putParameter =
+					appleEventClass.getDeclaredMethod(
+						"putParameter", new Class[] { int.class, BrowserLauncher.aeDescClass } );
+				BrowserLauncher.sendNoReply = appleEventClass.getDeclaredMethod( "sendNoReply", new Class[] {} );
 
-					Field keyDirectObjectField = aeClass.getDeclaredField("keyDirectObject");
-					keyDirectObject = (Integer) keyDirectObjectField.get(null);
-					Field autoGenerateReturnIDField = appleEventClass.getDeclaredField("kAutoGenerateReturnID");
-					kAutoGenerateReturnID = (Integer) autoGenerateReturnIDField.get(null);
-					Field anyTransactionIDField = appleEventClass.getDeclaredField("kAnyTransactionID");
-					kAnyTransactionID = (Integer) anyTransactionIDField.get(null);
-				} catch (ClassNotFoundException cnfe) {
-					errorMessage = cnfe.getMessage();
-					return false;
-				} catch (NoSuchMethodException nsme) {
-					errorMessage = nsme.getMessage();
-					return false;
-				} catch (NoSuchFieldException nsfe) {
-					errorMessage = nsfe.getMessage();
-					return false;
-				} catch (IllegalAccessException iae) {
-					errorMessage = iae.getMessage();
-					return false;
-				}
-				break;
-			case MRJ_2_1:
-				try {
-					mrjFileUtilsClass = Class.forName("com.apple.mrj.MRJFileUtils");
-					mrjOSTypeClass = Class.forName("com.apple.mrj.MRJOSType");
-					Field systemFolderField = mrjFileUtilsClass.getDeclaredField("kSystemFolderType");
-					kSystemFolderType = systemFolderField.get(null);
-					findFolder = mrjFileUtilsClass.getDeclaredMethod("findFolder", new Class[] { mrjOSTypeClass });
-					getFileCreator = mrjFileUtilsClass.getDeclaredMethod("getFileCreator", new Class[] { File.class });
-					getFileType = mrjFileUtilsClass.getDeclaredMethod("getFileType", new Class[] { File.class });
-				} catch (ClassNotFoundException cnfe) {
-					errorMessage = cnfe.getMessage();
-					return false;
-				} catch (NoSuchFieldException nsfe) {
-					errorMessage = nsfe.getMessage();
-					return false;
-				} catch (NoSuchMethodException nsme) {
-					errorMessage = nsme.getMessage();
-					return false;
-				} catch (SecurityException se) {
-					errorMessage = se.getMessage();
-					return false;
-				} catch (IllegalAccessException iae) {
-					errorMessage = iae.getMessage();
-					return false;
-				}
-				break;
-			case MRJ_3_0:
-				try {
-					Class linker = Class.forName("com.apple.mrj.jdirect.Linker");
-					Constructor constructor = linker.getConstructor(new Class[]{ Class.class });
-					linkage = constructor.newInstance(new Object[] { BrowserLauncher.class });
-				} catch (ClassNotFoundException cnfe) {
-					errorMessage = cnfe.getMessage();
-					return false;
-				} catch (NoSuchMethodException nsme) {
-					errorMessage = nsme.getMessage();
-					return false;
-				} catch (InvocationTargetException ite) {
-					errorMessage = ite.getMessage();
-					return false;
-				} catch (InstantiationException ie) {
-					errorMessage = ie.getMessage();
-					return false;
-				} catch (IllegalAccessException iae) {
-					errorMessage = iae.getMessage();
-					return false;
-				}
-				break;
-			case MRJ_3_1:
-				try {
-					mrjFileUtilsClass = Class.forName("com.apple.mrj.MRJFileUtils");
-					openURL = mrjFileUtilsClass.getDeclaredMethod("openURL", new Class[] { String.class });
-				} catch (ClassNotFoundException cnfe) {
-					errorMessage = cnfe.getMessage();
-					return false;
-				} catch (NoSuchMethodException nsme) {
-					errorMessage = nsme.getMessage();
-					return false;
-				}
-				break;
-			default:
-				break;
+				Field keyDirectObjectField = aeClass.getDeclaredField( "keyDirectObject" );
+				BrowserLauncher.keyDirectObject = (Integer) keyDirectObjectField.get( null );
+				Field autoGenerateReturnIDField = appleEventClass.getDeclaredField( "kAutoGenerateReturnID" );
+				BrowserLauncher.kAutoGenerateReturnID = (Integer) autoGenerateReturnIDField.get( null );
+				Field anyTransactionIDField = appleEventClass.getDeclaredField( "kAnyTransactionID" );
+				BrowserLauncher.kAnyTransactionID = (Integer) anyTransactionIDField.get( null );
+			}
+			catch ( ClassNotFoundException cnfe )
+			{
+				BrowserLauncher.errorMessage = cnfe.getMessage();
+				return false;
+			}
+			catch ( NoSuchMethodException nsme )
+			{
+				BrowserLauncher.errorMessage = nsme.getMessage();
+				return false;
+			}
+			catch ( NoSuchFieldException nsfe )
+			{
+				BrowserLauncher.errorMessage = nsfe.getMessage();
+				return false;
+			}
+			catch ( IllegalAccessException iae )
+			{
+				BrowserLauncher.errorMessage = iae.getMessage();
+				return false;
+			}
+			break;
+		case MRJ_2_1:
+			try
+			{
+				BrowserLauncher.mrjFileUtilsClass = Class.forName( "com.apple.mrj.MRJFileUtils" );
+				BrowserLauncher.mrjOSTypeClass = Class.forName( "com.apple.mrj.MRJOSType" );
+				Field systemFolderField = BrowserLauncher.mrjFileUtilsClass.getDeclaredField( "kSystemFolderType" );
+				BrowserLauncher.kSystemFolderType = systemFolderField.get( null );
+				BrowserLauncher.findFolder =
+					BrowserLauncher.mrjFileUtilsClass.getDeclaredMethod(
+						"findFolder", new Class[] { BrowserLauncher.mrjOSTypeClass } );
+				BrowserLauncher.getFileCreator =
+					BrowserLauncher.mrjFileUtilsClass.getDeclaredMethod( "getFileCreator", new Class[] { File.class } );
+				BrowserLauncher.getFileType =
+					BrowserLauncher.mrjFileUtilsClass.getDeclaredMethod( "getFileType", new Class[] { File.class } );
+			}
+			catch ( ClassNotFoundException cnfe )
+			{
+				BrowserLauncher.errorMessage = cnfe.getMessage();
+				return false;
+			}
+			catch ( NoSuchFieldException nsfe )
+			{
+				BrowserLauncher.errorMessage = nsfe.getMessage();
+				return false;
+			}
+			catch ( NoSuchMethodException nsme )
+			{
+				BrowserLauncher.errorMessage = nsme.getMessage();
+				return false;
+			}
+			catch ( SecurityException se )
+			{
+				BrowserLauncher.errorMessage = se.getMessage();
+				return false;
+			}
+			catch ( IllegalAccessException iae )
+			{
+				BrowserLauncher.errorMessage = iae.getMessage();
+				return false;
+			}
+			break;
+		case MRJ_3_0:
+			try
+			{
+				Class linker = Class.forName( "com.apple.mrj.jdirect.Linker" );
+				Constructor constructor = linker.getConstructor( new Class[] { Class.class } );
+				BrowserLauncher.linkage = constructor.newInstance( new Object[] { BrowserLauncher.class } );
+			}
+			catch ( ClassNotFoundException cnfe )
+			{
+				BrowserLauncher.errorMessage = cnfe.getMessage();
+				return false;
+			}
+			catch ( NoSuchMethodException nsme )
+			{
+				BrowserLauncher.errorMessage = nsme.getMessage();
+				return false;
+			}
+			catch ( InvocationTargetException ite )
+			{
+				BrowserLauncher.errorMessage = ite.getMessage();
+				return false;
+			}
+			catch ( InstantiationException ie )
+			{
+				BrowserLauncher.errorMessage = ie.getMessage();
+				return false;
+			}
+			catch ( IllegalAccessException iae )
+			{
+				BrowserLauncher.errorMessage = iae.getMessage();
+				return false;
+			}
+			break;
+		case MRJ_3_1:
+			try
+			{
+				BrowserLauncher.mrjFileUtilsClass = Class.forName( "com.apple.mrj.MRJFileUtils" );
+				BrowserLauncher.openURL =
+					BrowserLauncher.mrjFileUtilsClass.getDeclaredMethod( "openURL", new Class[] { String.class } );
+			}
+			catch ( ClassNotFoundException cnfe )
+			{
+				BrowserLauncher.errorMessage = cnfe.getMessage();
+				return false;
+			}
+			catch ( NoSuchMethodException nsme )
+			{
+				BrowserLauncher.errorMessage = nsme.getMessage();
+				return false;
+			}
+			break;
+		default:
+			break;
 		}
 		return true;
 	}
 
 	/**
-	 * Attempts to locate the default web browser on the local system.  Caches results so it
-	 * only locates the browser once for each use of this class per JVM instance.
-	 * @return The browser for the system.  Note that this may not be what you would consider
-	 *			to be a standard web browser; instead, it's the application that gets called to
-	 *			open the default web browser.  In some cases, this will be a non-String object
-	 *			that provides the means of calling the default browser.
+	 * Attempts to locate the default web browser on the local system. Caches results so it only locates the browser
+	 * once for each use of this class per JVM instance.
+	 * 
+	 * @return The browser for the system. Note that this may not be what you would consider to be a standard web
+	 *         browser; instead, it's the application that gets called to open the default web browser. In some cases,
+	 *         this will be a non-String object that provides the means of calling the default browser.
 	 */
-	private static Object locateBrowser() {
+	private static Object locateBrowser()
+	{
 
-		if (browser != null) {
-			return browser;
+		if ( BrowserLauncher.browser != null )
+		{
+			return BrowserLauncher.browser;
 		}
 
-		switch (jvm) {
-			case MRJ_2_0:
-				try {
-					Integer finderCreatorCode = (Integer) makeOSType.invoke(null, new Object[] { FINDER_CREATOR });
-					Object aeTarget = aeTargetConstructor.newInstance(new Object[] { finderCreatorCode });
-					Integer gurlType = (Integer) makeOSType.invoke(null, new Object[] { GURL_EVENT });
-					Object appleEvent = appleEventConstructor.newInstance(new Object[] { gurlType, gurlType, aeTarget, kAutoGenerateReturnID, kAnyTransactionID });
-					// Don't set browser = appleEvent because then the next time we call
-					// locateBrowser(), we'll get the same AppleEvent, to which we'll already have
-					// added the relevant parameter. Instead, regenerate the AppleEvent every time.
-					// There's probably a way to do this better; if any has any ideas, please let
-					// me know.
-					return appleEvent;
-				} catch (IllegalAccessException iae) {
-					browser = null;
-					errorMessage = iae.getMessage();
-					return browser;
-				} catch (InstantiationException ie) {
-					browser = null;
-					errorMessage = ie.getMessage();
-					return browser;
-				} catch (InvocationTargetException ite) {
-					browser = null;
-					errorMessage = ite.getMessage();
-					return browser;
-				}
-			case MRJ_2_1:
-				File systemFolder;
-				try {
-					systemFolder = (File) findFolder.invoke(null, new Object[] { kSystemFolderType });
-				} catch (IllegalArgumentException iare) {
-					browser = null;
-					errorMessage = iare.getMessage();
-					return browser;
-				} catch (IllegalAccessException iae) {
-					browser = null;
-					errorMessage = iae.getMessage();
-					return browser;
-				} catch (InvocationTargetException ite) {
-					browser = null;
-					errorMessage = ite.getTargetException().getClass() + ": " + ite.getTargetException().getMessage();
-					return browser;
-				}
-				String[] systemFolderFiles = systemFolder.list();
-				// Avoid a FilenameFilter because that can't be stopped mid-list
-				for(int i = 0; i < systemFolderFiles.length; i++) {
-					try {
-						File file = new File(systemFolder, systemFolderFiles[i]);
-						if (!file.isFile()) {
-							continue;
+		switch ( BrowserLauncher.jvm )
+		{
+		case MRJ_2_0:
+			try
+			{
+				Integer finderCreatorCode =
+					(Integer) BrowserLauncher.makeOSType.invoke( null, new Object[] { BrowserLauncher.FINDER_CREATOR } );
+				Object aeTarget = BrowserLauncher.aeTargetConstructor.newInstance( new Object[] { finderCreatorCode } );
+				Integer gurlType =
+					(Integer) BrowserLauncher.makeOSType.invoke( null, new Object[] { BrowserLauncher.GURL_EVENT } );
+				Object appleEvent =
+					BrowserLauncher.appleEventConstructor.newInstance( new Object[] { gurlType, gurlType, aeTarget, BrowserLauncher.kAutoGenerateReturnID, BrowserLauncher.kAnyTransactionID } );
+				// Don't set browser = appleEvent because then the next time we call
+				// locateBrowser(), we'll get the same AppleEvent, to which we'll already have
+				// added the relevant parameter. Instead, regenerate the AppleEvent every time.
+				// There's probably a way to do this better; if any has any ideas, please let
+				// me know.
+				return appleEvent;
+			}
+			catch ( IllegalAccessException iae )
+			{
+				BrowserLauncher.browser = null;
+				BrowserLauncher.errorMessage = iae.getMessage();
+				return BrowserLauncher.browser;
+			}
+			catch ( InstantiationException ie )
+			{
+				BrowserLauncher.browser = null;
+				BrowserLauncher.errorMessage = ie.getMessage();
+				return BrowserLauncher.browser;
+			}
+			catch ( InvocationTargetException ite )
+			{
+				BrowserLauncher.browser = null;
+				BrowserLauncher.errorMessage = ite.getMessage();
+				return BrowserLauncher.browser;
+			}
+		case MRJ_2_1:
+			File systemFolder;
+			try
+			{
+				systemFolder =
+					(File) BrowserLauncher.findFolder.invoke( null, new Object[] { BrowserLauncher.kSystemFolderType } );
+			}
+			catch ( IllegalArgumentException iare )
+			{
+				BrowserLauncher.browser = null;
+				BrowserLauncher.errorMessage = iare.getMessage();
+				return BrowserLauncher.browser;
+			}
+			catch ( IllegalAccessException iae )
+			{
+				BrowserLauncher.browser = null;
+				BrowserLauncher.errorMessage = iae.getMessage();
+				return BrowserLauncher.browser;
+			}
+			catch ( InvocationTargetException ite )
+			{
+				BrowserLauncher.browser = null;
+				BrowserLauncher.errorMessage =
+					ite.getTargetException().getClass() + ": " + ite.getTargetException().getMessage();
+				return BrowserLauncher.browser;
+			}
+			String[] systemFolderFiles = systemFolder.list();
+			// Avoid a FilenameFilter because that can't be stopped mid-list
+			for ( int i = 0; i < systemFolderFiles.length; i++ )
+			{
+				try
+				{
+					File file = new File( systemFolder, systemFolderFiles[ i ] );
+					if ( !file.isFile() )
+					{
+						continue;
+					}
+					// We're looking for a file with a creator code of 'MACS' and
+					// a type of 'FNDR'.  Only requiring the type results in non-Finder
+					// applications being picked up on certain Mac OS 9 systems,
+					// especially German ones, and sending a GURL event to those
+					// applications results in a logout under Multiple Users.
+					Object fileType = BrowserLauncher.getFileType.invoke( null, new Object[] { file } );
+					if ( BrowserLauncher.FINDER_TYPE.equals( fileType.toString() ) )
+					{
+						Object fileCreator = BrowserLauncher.getFileCreator.invoke( null, new Object[] { file } );
+						if ( BrowserLauncher.FINDER_CREATOR.equals( fileCreator.toString() ) )
+						{
+							BrowserLauncher.browser = file.toString(); // Actually the Finder, but that's OK
+							return BrowserLauncher.browser;
 						}
-						// We're looking for a file with a creator code of 'MACS' and
-						// a type of 'FNDR'.  Only requiring the type results in non-Finder
-						// applications being picked up on certain Mac OS 9 systems,
-						// especially German ones, and sending a GURL event to those
-						// applications results in a logout under Multiple Users.
-						Object fileType = getFileType.invoke(null, new Object[] { file });
-						if (FINDER_TYPE.equals(fileType.toString())) {
-							Object fileCreator = getFileCreator.invoke(null, new Object[] { file });
-							if (FINDER_CREATOR.equals(fileCreator.toString())) {
-								browser = file.toString();	// Actually the Finder, but that's OK
-								return browser;
-							}
-						}
-					} catch (IllegalArgumentException iare) {
-						errorMessage = iare.getMessage();
-						return null;
-					} catch (IllegalAccessException iae) {
-						browser = null;
-						errorMessage = iae.getMessage();
-						return browser;
-					} catch (InvocationTargetException ite) {
-						browser = null;
-						errorMessage = ite.getTargetException().getClass() + ": " + ite.getTargetException().getMessage();
-						return browser;
 					}
 				}
-				browser = null;
-				break;
-			case MRJ_3_0:
-			case MRJ_3_1:
-				browser = "";	// Return something non-null
-				break;
-			case WINDOWS_NT:
-				browser = "cmd.exe";
-				break;
-			case WINDOWS_9x:
-				browser = "command.com";
-				break;
-			case OTHER:
-			default:
-				browser = "netscape";
-				break;
+				catch ( IllegalArgumentException iare )
+				{
+					BrowserLauncher.errorMessage = iare.getMessage();
+					return null;
+				}
+				catch ( IllegalAccessException iae )
+				{
+					BrowserLauncher.browser = null;
+					BrowserLauncher.errorMessage = iae.getMessage();
+					return BrowserLauncher.browser;
+				}
+				catch ( InvocationTargetException ite )
+				{
+					BrowserLauncher.browser = null;
+					BrowserLauncher.errorMessage =
+						ite.getTargetException().getClass() + ": " + ite.getTargetException().getMessage();
+					return BrowserLauncher.browser;
+				}
+			}
+			BrowserLauncher.browser = null;
+			break;
+		case MRJ_3_0:
+		case MRJ_3_1:
+			BrowserLauncher.browser = ""; // Return something non-null
+			break;
+		case WINDOWS_NT:
+			BrowserLauncher.browser = "cmd.exe";
+			break;
+		case WINDOWS_9x:
+			BrowserLauncher.browser = "command.com";
+			break;
+		case OTHER:
+		default:
+			BrowserLauncher.browser = "netscape";
+			break;
 		}
-		return browser;
+		return BrowserLauncher.browser;
 	}
 
-	private static boolean openOverrideBrowser( String url )
+	private static boolean openOverrideBrowser( final String url )
 	{
 		if ( System.getProperty( "os.browser" ) == null )
+		{
 			return false;
+		}
 
 		Process process;
 
@@ -456,21 +557,29 @@ public class BrowserLauncher {
 		{
 			if ( System.getProperty( "os.name" ).startsWith( "Mac" ) )
 			{
-				String browser = getMacintoshExecutable( System.getProperty( "os.browser" ) );
+				String browser = BrowserLauncher.getMacintoshExecutable( System.getProperty( "os.browser" ) );
 				if ( browser == null )
+				{
 					return false;
+				}
 
 				process = Runtime.getRuntime().exec( browser + " " + url );
 			}
 			else if ( System.getProperty( "os.name" ).startsWith( "Win" ) )
 			{
-				if ( locateBrowser() == null )
+				if ( BrowserLauncher.locateBrowser() == null )
+				{
 					return false;
+				}
 
-				if ( getWindowsExecutable( System.getProperty( "os.browser" ), url ) == null )
+				if ( BrowserLauncher.getWindowsExecutable( System.getProperty( "os.browser" ), url ) == null )
+				{
 					return false;
+				}
 
-				process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c", executable, url } );
+				process =
+					Runtime.getRuntime().exec(
+						new String[] { (String) BrowserLauncher.browser, "/c", BrowserLauncher.executable, url } );
 			}
 			else
 			{
@@ -483,12 +592,12 @@ public class BrowserLauncher {
 		}
 		catch ( Exception e )
 		{
-			System.err.println("Error loading browser: " + e.getMessage());
+			System.err.println( "Error loading browser: " + e.getMessage() );
 			return false;
 		}
 	}
 
-	private static final String getMacintoshExecutable( String browser )
+	private static final String getMacintoshExecutable( final String browser )
 	{
 		boolean shouldRelaunch = true;
 		String application = "/Applications/" + browser + ".app/Contents/MacOS/" + browser.toLowerCase();
@@ -502,8 +611,10 @@ public class BrowserLauncher {
 			String psResult;
 			BufferedReader stream = new BufferedReader( new InputStreamReader( process.getInputStream() ) );
 
-			while ( (psResult = stream.readLine()) != null )
+			while ( ( psResult = stream.readLine() ) != null )
+			{
 				shouldRelaunch = psResult.startsWith( application );
+			}
 
 			process.waitFor();
 			process.exitValue();
@@ -517,27 +628,35 @@ public class BrowserLauncher {
 		return shouldRelaunch ? application : "open -a " + browser;
 	}
 
-	private static final String getWindowsExecutable( String browser, String url )
+	private static final String getWindowsExecutable( String browser, final String url )
 	{
-		if ( System.getProperty( "os.browser" ) != null && executable != null )
-			return executable;
+		if ( System.getProperty( "os.browser" ) != null && BrowserLauncher.executable != null )
+		{
+			return BrowserLauncher.executable;
+		}
 
 		if ( browser.indexOf( ":" ) != -1 )
 		{
 			File alternative = new File( browser );
 			if ( alternative.exists() )
 			{
-				executable = "\"" + browser + "\"";
-				return executable;
+				BrowserLauncher.executable = "\"" + browser + "\"";
+				return BrowserLauncher.executable;
 			}
 		}
 
 		if ( browser.equalsIgnoreCase( "Opera" ) )
+		{
 			browser = ":\\Program Files\\Opera\\Opera.exe";
+		}
 		else if ( browser.equalsIgnoreCase( "Firefox" ) )
+		{
 			browser = ":\\Program Files\\Mozilla Firefox\\firefox.exe";
+		}
 		else
+		{
 			browser = ":\\Program Files\\Internet Explorer\\iexplore.exe";
+		}
 
 		String test;
 		for ( char drive = 'C'; drive <= 'Z'; ++drive )
@@ -547,33 +666,43 @@ public class BrowserLauncher {
 
 			if ( alternative.exists() )
 			{
-				executable = "\"" + test + "\"";
-				return executable;
+				BrowserLauncher.executable = "\"" + test + "\"";
+				return BrowserLauncher.executable;
 			}
 		}
 
 		return null;
 	}
 
-	private static final String getWindowsExecutable( String url )
+	private static final String getWindowsExecutable( final String url )
 	{
-		if ( executable != null )
-			return executable;
+		if ( BrowserLauncher.executable != null )
+		{
+			return BrowserLauncher.executable;
+		}
 
 		if ( !url.startsWith( "http" ) )
+		{
 			return "rundll32.exe";
+		}
 
-		executable = getWindowsExecutable( "Opera", url );
-		if ( executable != null )
-			return executable;
+		BrowserLauncher.executable = BrowserLauncher.getWindowsExecutable( "Opera", url );
+		if ( BrowserLauncher.executable != null )
+		{
+			return BrowserLauncher.executable;
+		}
 
-		executable = getWindowsExecutable( "Firefox", url );
-		if ( executable != null )
-			return executable;
+		BrowserLauncher.executable = BrowserLauncher.getWindowsExecutable( "Firefox", url );
+		if ( BrowserLauncher.executable != null )
+		{
+			return BrowserLauncher.executable;
+		}
 
-		executable = getWindowsExecutable( "", url );
-		if ( executable != null )
-			return executable;
+		BrowserLauncher.executable = BrowserLauncher.getWindowsExecutable( "", url );
+		if ( BrowserLauncher.executable != null )
+		{
+			return BrowserLauncher.executable;
+		}
 
 		// If you still can't find your browser, let the operating
 		// system try to figure it out.
@@ -583,272 +712,293 @@ public class BrowserLauncher {
 
 	/**
 	 * Attempts to open the default web browser to the given URL.
+	 * 
 	 * @param url The URL to open
 	 */
 
 	public static void openURL( String url )
 	{
-		if ( openOverrideBrowser( url ) )
-			return;
-
-		if (!loadedWithoutErrors)
+		if ( BrowserLauncher.openOverrideBrowser( url ) )
 		{
-			System.err.println("Exception in finding browser: " + errorMessage);
-			return;
-		}
-		Object browser = locateBrowser();
-		if (browser == null)
-		{
-			System.err.println("Unable to locate browser: " + errorMessage);
 			return;
 		}
 
-		switch (jvm)
+		if ( !BrowserLauncher.loadedWithoutErrors )
 		{
-			case MRJ_2_0:
-			{
-				Object aeDesc = null;
-				try
-				{
-					aeDesc = aeDescConstructor.newInstance(new Object[] { url });
-					putParameter.invoke(browser, new Object[] { keyDirectObject, aeDesc });
-					sendNoReply.invoke(browser, new Object[] { });
-				}
-				catch (InvocationTargetException ite)
-				{
-					System.err.println("InvocationTargetException while creating AEDesc: " + ite.getMessage());
-				}
-				catch (IllegalAccessException iae)
-				{
-					System.err.println("IllegalAccessException while building AppleEvent: " + iae.getMessage());
-				}
-				catch (InstantiationException ie)
-				{
-					System.err.println("InstantiationException while creating AEDesc: " + ie.getMessage());
-				}
-				finally
-				{
-					aeDesc = null;	// Encourage it to get disposed if it was created
-					browser = null;	// Ditto
-				}
+			System.err.println( "Exception in finding browser: " + BrowserLauncher.errorMessage );
+			return;
+		}
+		Object browser = BrowserLauncher.locateBrowser();
+		if ( browser == null )
+		{
+			System.err.println( "Unable to locate browser: " + BrowserLauncher.errorMessage );
+			return;
+		}
 
-				break;
-			}
-			case MRJ_2_1:
+		switch ( BrowserLauncher.jvm )
+		{
+		case MRJ_2_0:
+		{
+			Object aeDesc = null;
+			try
 			{
-				try
-				{
-					Runtime.getRuntime().exec(new String[] { (String) browser, url } );
-				}
-				catch (IOException e)
-				{
-					System.err.println("Error loading browser: " + e.getMessage());
-				}
+				aeDesc = BrowserLauncher.aeDescConstructor.newInstance( new Object[] { url } );
+				BrowserLauncher.putParameter.invoke( browser, new Object[] { BrowserLauncher.keyDirectObject, aeDesc } );
+				BrowserLauncher.sendNoReply.invoke( browser, new Object[] {} );
+			}
+			catch ( InvocationTargetException ite )
+			{
+				System.err.println( "InvocationTargetException while creating AEDesc: " + ite.getMessage() );
+			}
+			catch ( IllegalAccessException iae )
+			{
+				System.err.println( "IllegalAccessException while building AppleEvent: " + iae.getMessage() );
+			}
+			catch ( InstantiationException ie )
+			{
+				System.err.println( "InstantiationException while creating AEDesc: " + ie.getMessage() );
+			}
+			finally
+			{
+				aeDesc = null; // Encourage it to get disposed if it was created
+				browser = null; // Ditto
+			}
 
-				break;
-			}
-			case MRJ_3_0:
+			break;
+		}
+		case MRJ_2_1:
+		{
+			try
 			{
-				int[] instance = new int[1];
-				int result = ICStart(instance, 0);
-				if (result == 0)
+				Runtime.getRuntime().exec( new String[] { (String) browser, url } );
+			}
+			catch ( IOException e )
+			{
+				System.err.println( "Error loading browser: " + e.getMessage() );
+			}
+
+			break;
+		}
+		case MRJ_3_0:
+		{
+			int[] instance = new int[ 1 ];
+			int result = BrowserLauncher.ICStart( instance, 0 );
+			if ( result == 0 )
+			{
+				int[] selectionStart = new int[] { 0 };
+				byte[] urlBytes = url.getBytes();
+				int[] selectionEnd = new int[] { urlBytes.length };
+				result =
+					BrowserLauncher.ICLaunchURL(
+						instance[ 0 ], new byte[] { 0 }, urlBytes, urlBytes.length, selectionStart, selectionEnd );
+				if ( result == 0 )
 				{
-					int[] selectionStart = new int[] { 0 };
-					byte[] urlBytes = url.getBytes();
-					int[] selectionEnd = new int[] { urlBytes.length };
-					result = ICLaunchURL(instance[0], new byte[] { 0 }, urlBytes,
-											urlBytes.length, selectionStart,
-											selectionEnd);
-					if (result == 0)
-					{
-						// Ignore the return value; the URL was launched successfully
-						// regardless of what happens here.
-						ICStop(instance);
-					}
-					else
-					{
-						System.err.println("Unable to launch URL: " + result);
-					}
+					// Ignore the return value; the URL was launched successfully
+					// regardless of what happens here.
+					BrowserLauncher.ICStop( instance );
 				}
 				else
 				{
-					System.err.println("Unable to create an Internet Config instance: " + result);
+					System.err.println( "Unable to launch URL: " + result );
 				}
-
-				break;
 			}
-			case MRJ_3_1:
+			else
 			{
-				try
-				{
-					openURL.invoke(null, new Object[] { url });
-				}
-				catch (InvocationTargetException ite)
-				{
-					System.err.println("InvocationTargetException while calling openURL: " + ite.getMessage());
-				}
-				catch (IllegalAccessException iae)
-				{
-					System.err.println("IllegalAccessException while calling openURL: " + iae.getMessage());
-				}
-
-				break;
+				System.err.println( "Unable to create an Internet Config instance: " + result );
 			}
-			case WINDOWS_9x:
+
+			break;
+		}
+		case MRJ_3_1:
+		{
+			try
 			{
-				// By default, if it's a file on the local system, Explorer should
-				// be able to figure out what to do.  But, maybe explorer doesn't
-				// like being invoked indirectly.  So, what we do is search for the
-				// most common browsers and invoke them.
+				BrowserLauncher.openURL.invoke( null, new Object[] { url } );
+			}
+			catch ( InvocationTargetException ite )
+			{
+				System.err.println( "InvocationTargetException while calling openURL: " + ite.getMessage() );
+			}
+			catch ( IllegalAccessException iae )
+			{
+				System.err.println( "IllegalAccessException while calling openURL: " + iae.getMessage() );
+			}
 
-				Process process = null;
+			break;
+		}
+		case WINDOWS_9x:
+		{
+			// By default, if it's a file on the local system, Explorer should
+			// be able to figure out what to do.  But, maybe explorer doesn't
+			// like being invoked indirectly.  So, what we do is search for the
+			// most common browsers and invoke them.
 
-				if ( getWindowsExecutable( url ) == null )
-					return;
+			Process process = null;
 
+			if ( BrowserLauncher.getWindowsExecutable( url ) == null )
+			{
+				return;
+			}
+
+			// Add quotes around the URL to allow ampersands and other special
+			// characters to work.
+
+			url = '"' + url + '"';
+
+			try
+			{
+				if ( BrowserLauncher.executable.equals( "rundll32.exe" ) )
+				{
+					process =
+						Runtime.getRuntime().exec(
+							new String[] { (String) browser, "/c", BrowserLauncher.executable, "url.dll,FileProtocolHandler", url } );
+				}
+				else
+				{
+					process =
+						Runtime.getRuntime().exec(
+							new String[] { (String) browser, "/c", BrowserLauncher.executable, url } );
+				}
+
+				// This avoids a memory leak on some versions of Java on Windows.
+				// That's hinted at in <http://developer.java.sun.com/developer/qow/archive/68/>.
+
+				process.waitFor();
+				process.exitValue();
+			}
+			catch ( InterruptedException ie )
+			{
+				System.err.println( "InterruptedException while launching browser: " + ie.getMessage() );
+			}
+			catch ( IOException e )
+			{
+				System.err.println( "Error loading browser: " + e.getMessage() );
+			}
+
+			break;
+		}
+		case WINDOWS_NT:
+		{
+			// Determine whether or not Internet Explorer is flagged as the
+			// default browser -- if it is, invoke it manually in order to
+			// get a new window to open.
+
+			Process process = null;
+			boolean usingIE = true;
+
+			// Determine the file type for .html files.  On Windows, every other
+			// browser changes the association to something other than "htmlfile",
+			// so if it's htmlfile, you load IE in a new window.
+
+			try
+			{
+				process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c", "assoc", ".html" } );
+
+				// This avoids a memory leak on some versions of Java on Windows.
+				// That's hinted at in <http://developer.java.sun.com/developer/qow/archive/68/>.
+
+				BufferedReader stream = new BufferedReader( new InputStreamReader( process.getInputStream() ) );
+				usingIE = stream.readLine().indexOf( "htmlfile" ) != -1;
+
+				process.waitFor();
+				process.exitValue();
+			}
+			catch ( InterruptedException ie )
+			{
+				System.err.println( "InterruptedException while launching browser: " + ie.getMessage() );
+			}
+			catch ( IOException e )
+			{
+				System.err.println( "Error while determining default browser: " + e.getMessage() );
+			}
+
+			try
+			{
 				// Add quotes around the URL to allow ampersands and other special
 				// characters to work.
 
 				url = '"' + url + '"';
 
-				try
+				if ( usingIE )
 				{
-					if ( executable.equals( "rundll32.exe" ) )
-						process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c", executable, "url.dll,FileProtocolHandler", url } );
-					else
-						process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c", executable, url } );
-
-					// This avoids a memory leak on some versions of Java on Windows.
-					// That's hinted at in <http://developer.java.sun.com/developer/qow/archive/68/>.
-
-					process.waitFor();
-					process.exitValue();
+					process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c", "explorer", url } );
 				}
-				catch (InterruptedException ie)
+				else
 				{
-					System.err.println("InterruptedException while launching browser: " + ie.getMessage());
-				}
-				catch (IOException e)
-				{
-					System.err.println("Error loading browser: " + e.getMessage());
+					process =
+						Runtime.getRuntime().exec(
+							new String[] { (String) browser, "/c", "start", "Open Relay Browser", url } );
 				}
 
-				break;
+				// This avoids a memory leak on some versions of Java on Windows.
+				// That's hinted at in <http://developer.java.sun.com/developer/qow/archive/68/>.
+
+				process.waitFor();
+				process.exitValue();
 			}
-			case WINDOWS_NT:
+			catch ( InterruptedException ie )
 			{
-				// Determine whether or not Internet Explorer is flagged as the
-				// default browser -- if it is, invoke it manually in order to
-				// get a new window to open.
+				System.err.println( "InterruptedException while launching browser: " + ie.getMessage() );
+			}
+			catch ( IOException e )
+			{
+				System.err.println( "Error loading browser: " + e.getMessage() );
+			}
 
-				Process process = null;
-				boolean usingIE = true;
+			break;
+		}
+		default:
+		{
+			// Determine whether or not Netscape exists on this system.
+			// If it does, use it.
 
-				// Determine the file type for .html files.  On Windows, every other
-				// browser changes the association to something other than "htmlfile",
-				// so if it's htmlfile, you load IE in a new window.
+			browser = null;
 
+			String[] browsers = { "seamonkey", "firefox", "mozilla", "opera", "konqueror", "netscape" };
+
+			for ( int i = 0; i < browsers.length && browser == null; ++i )
+			{
 				try
 				{
-					process = Runtime.getRuntime().exec(
-						new String [] { (String) browser, "/c", "assoc", ".html" } );
-
-					// This avoids a memory leak on some versions of Java on Windows.
-					// That's hinted at in <http://developer.java.sun.com/developer/qow/archive/68/>.
+					Process process = Runtime.getRuntime().exec( "which " + browsers[ i ] );
 
 					BufferedReader stream = new BufferedReader( new InputStreamReader( process.getInputStream() ) );
-					usingIE = stream.readLine().indexOf( "htmlfile" ) != -1;
+					String whichResult = stream.readLine();
 
-					process.waitFor();
-					process.exitValue();
-				}
-				catch (InterruptedException ie)
-				{
-					System.err.println("InterruptedException while launching browser: " + ie.getMessage());
-				}
-				catch (IOException e)
-				{
-					System.err.println("Error while determining default browser: " + e.getMessage());
-				}
-
-				try
-				{
-					// Add quotes around the URL to allow ampersands and other special
-					// characters to work.
-
-					url = '"' + url + '"';
-
-					if ( usingIE )
-						process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c", "explorer", url } );
-					else
-						process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c", "start", "Open Relay Browser", url } );
-
-					// This avoids a memory leak on some versions of Java on Windows.
-					// That's hinted at in <http://developer.java.sun.com/developer/qow/archive/68/>.
-
-					process.waitFor();
-					process.exitValue();
-				}
-				catch (InterruptedException ie)
-				{
-					System.err.println("InterruptedException while launching browser: " + ie.getMessage());
-				}
-				catch (IOException e)
-				{
-					System.err.println("Error loading browser: " + e.getMessage());
-				}
-
-				break;
-			}
-			default:
-			{
-				// Determine whether or not Netscape exists on this system.
-				// If it does, use it.
-
-				browser = null;
-
-				String [] browsers = { "seamonkey", "firefox", "mozilla", "opera", "konqueror", "netscape" };
-
-				for ( int i = 0; i < browsers.length && browser == null; ++i )
-				{
-					try
+					if ( whichResult.indexOf( " " ) == -1 )
 					{
-						Process process = Runtime.getRuntime().exec( "which " + browsers[i] );
+						browser = browsers[ i ];
+					}
 
-						BufferedReader stream = new BufferedReader( new InputStreamReader( process.getInputStream() ) );
-						String whichResult = stream.readLine();
+					process.waitFor();
+					process.exitValue();
 
-						if ( whichResult.indexOf( " " ) == -1 )
-							browser = browsers[i];
-
+					if ( browser != null )
+					{
+						process = Runtime.getRuntime().exec( browser + " " + url );
 						process.waitFor();
 						process.exitValue();
-
-						if ( browser != null )
-						{
-							process = Runtime.getRuntime().exec( browser + " " + url );
-							process.waitFor();
-							process.exitValue();
-						}
-					}
-					catch (Exception e)
-					{
-						// If we can't determine the default browser, then just
-						// move onto the next iteration of the loop.
 					}
 				}
-
-				break;
+				catch ( Exception e )
+				{
+					// If we can't determine the default browser, then just
+					// move onto the next iteration of the loop.
+				}
 			}
+
+			break;
+		}
 		}
 	}
 
 	/**
-	 * Methods required for Mac OS X.  The presence of native methods does not cause
-	 * any problems on other platforms.
+	 * Methods required for Mac OS X. The presence of native methods does not cause any problems on other platforms.
 	 */
-	private native static int ICStart(int[] instance, int signature);
-	private native static int ICStop(int[] instance);
-	private native static int ICLaunchURL(int instance, byte[] hint, byte[] data, int len,
-											int[] selectionStart, int[] selectionEnd);
+	private native static int ICStart( int[] instance, int signature );
+
+	private native static int ICStop( int[] instance );
+
+	private native static int ICLaunchURL( int instance, byte[] hint, byte[] data, int len, int[] selectionStart,
+		int[] selectionEnd );
 }

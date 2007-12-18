@@ -35,28 +35,23 @@
 package net.java.dev.spellcast.utilities;
 
 /**
- * This is an interface which should only be applied to things which extend a
- * <code>Component</code> of some sort because each individual cell will be
- * ultimately added to a <code>PanelList</code>.  However, in order to avoid
- * problems with multiple class extensions, it does implement or extend any
- * component explicitly.  Note that any component which implements this
- * interface without extending a <code>Component</code> will function fine
- * until placed inside of <code>PanelList</code> at which point all updates
- * will throw <code>ClassCastException</code>s.
+ * This is an interface which should only be applied to things which extend a <code>Component</code> of some sort
+ * because each individual cell will be ultimately added to a <code>PanelList</code>. However, in order to avoid
+ * problems with multiple class extensions, it does implement or extend any component explicitly. Note that any
+ * component which implements this interface without extending a <code>Component</code> will function fine until
+ * placed inside of <code>PanelList</code> at which point all updates will throw <code>ClassCastException</code>s.
  */
 
 public interface PanelListCell
 {
 	/**
-	 * This function allows a cell to be repainted without needing to
-	 * discard the original cell by retrieving the data from the given
-	 * panel list, object, and using the current index of the cell.
-	 *
-	 * @param	list	the list associated with this cell
-	 * @param	value	the object which contains the data needed to update the display
-	 * @param	index	this cell's index within the <code>PanelList</code>
+	 * This function allows a cell to be repainted without needing to discard the original cell by retrieving the data
+	 * from the given panel list, object, and using the current index of the cell.
+	 * 
+	 * @param list the list associated with this cell
+	 * @param value the object which contains the data needed to update the display
+	 * @param index this cell's index within the <code>PanelList</code>
 	 */
 
 	public void updateDisplay( PanelList list, Object value, int index );
 }
-

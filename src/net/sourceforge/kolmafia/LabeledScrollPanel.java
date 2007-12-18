@@ -38,13 +38,15 @@ import java.awt.CardLayout;
 import java.awt.Color;
 
 import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
-public class LabeledScrollPanel extends ActionPanel implements KoLConstants
+public class LabeledScrollPanel
+	extends ActionPanel
+	implements KoLConstants
 {
 	public JPanel actualPanel;
 	public JPanel centerPanel;
@@ -53,22 +55,29 @@ public class LabeledScrollPanel extends ActionPanel implements KoLConstants
 	public VerifyButtonPanel buttonPanel;
 	public JComponent scrollComponent;
 
-	public LabeledScrollPanel( String title, JComponent scrollComponent )
-	{	this( title, null, null, scrollComponent );
+	public LabeledScrollPanel( final String title, final JComponent scrollComponent )
+	{
+		this( title, null, null, scrollComponent );
 	}
 
-	public LabeledScrollPanel( String title, String confirmedText, String cancelledText, JComponent scrollComponent )
-	{	this( title, confirmedText, cancelledText, scrollComponent, true );
+	public LabeledScrollPanel( final String title, final String confirmedText, final String cancelledText,
+		final JComponent scrollComponent )
+	{
+		this( title, confirmedText, cancelledText, scrollComponent, true );
 	}
 
-	public LabeledScrollPanel( String title, String confirmedText, String cancelledText, JComponent scrollComponent, boolean isRootPane )
+	public LabeledScrollPanel( final String title, final String confirmedText, final String cancelledText,
+		final JComponent scrollComponent, final boolean isRootPane )
 	{
 		this.scrollComponent = scrollComponent;
 
 		this.centerPanel = new JPanel( new BorderLayout() );
 
 		if ( !title.equals( "" ) )
-			this.centerPanel.add( JComponentUtilities.createLabel( title, JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
+		{
+			this.centerPanel.add( JComponentUtilities.createLabel(
+				title, SwingConstants.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
+		}
 
 		this.centerPanel.add( new SimpleScrollPane( scrollComponent ), BorderLayout.CENTER );
 		this.actualPanel = new JPanel( new BorderLayout( 20, 10 ) );
@@ -99,16 +108,18 @@ public class LabeledScrollPanel extends ActionPanel implements KoLConstants
 			this.add( containerPanel, BorderLayout.CENTER );
 		}
 
-		((JPanel)this.getContentPane()).setOpaque( true );
+		( (JPanel) this.getContentPane() ).setOpaque( true );
 		StaticEntity.registerPanel( this );
 
-		contentSet = true;
+		this.contentSet = true;
 	}
 
-	public void setEnabled( boolean isEnabled )
+	public void setEnabled( final boolean isEnabled )
 	{
 		if ( this.scrollComponent == null || this.buttonPanel == null )
+		{
 			return;
+		}
 
 		this.scrollComponent.setEnabled( isEnabled );
 		this.buttonPanel.setEnabled( isEnabled );

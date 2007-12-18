@@ -33,54 +33,54 @@
 
 package net.sourceforge.kolmafia;
 
-public class HeroDonationRequest extends KoLRequest
+public class HeroDonationRequest
+	extends KoLRequest
 {
 	public static final int BORIS = 1;
 	public static final int JARLSBERG = 2;
 	public static final int PETE = 3;
 
-	private static final AdventureResult [] STATUE_KEYS =
-	{
-		null,
-		new AdventureResult( "Boris's key", 0 ),
-		new AdventureResult( "Jarlsberg's key", 0 ),
-		new AdventureResult( "Sneaky Pete's key", 0 )
-	};
+	private static final AdventureResult[] STATUE_KEYS =
+		{ null, new AdventureResult( "Boris's key", 0 ), new AdventureResult( "Jarlsberg's key", 0 ), new AdventureResult(
+			"Sneaky Pete's key", 0 ) };
 
-	private int amount;
+	private final int amount;
 	public String statue;
 	private boolean hasStatueKey;
 
 	/**
 	 * Constructs a new <code>HeroDonationRequest</code>.
-	 *
-	 * @param	heroId	The identifier for the hero to whom you are donating
-	 * @param	amount	The amount you're donating to the given hero
+	 * 
+	 * @param heroId The identifier for the hero to whom you are donating
+	 * @param amount The amount you're donating to the given hero
 	 */
 
-	public HeroDonationRequest( int heroId, int amount )
+	public HeroDonationRequest( final int heroId, final int amount )
 	{
 		super( "shrines.php" );
 
 		this.addFormField( "pwd" );
-		this.addFormField( "action", heroId == BORIS ? "boris" : heroId == JARLSBERG ? "jarlsberg" : "sneakypete" );
+		this.addFormField(
+			"action",
+			heroId == HeroDonationRequest.BORIS ? "boris" : heroId == HeroDonationRequest.JARLSBERG ? "jarlsberg" : "sneakypete" );
 		this.addFormField( "howmuch", String.valueOf( amount ) );
 
 		this.amount = amount;
-		this.statue = heroId == BORIS ? "boris" : heroId == JARLSBERG ? "jarlsberg" : "pete";
-		this.hasStatueKey = inventory.contains( STATUE_KEYS[ heroId ] );
+		this.statue =
+			heroId == HeroDonationRequest.BORIS ? "boris" : heroId == HeroDonationRequest.JARLSBERG ? "jarlsberg" : "pete";
+		this.hasStatueKey = KoLConstants.inventory.contains( HeroDonationRequest.STATUE_KEYS[ heroId ] );
 	}
 
 	/**
-	 * Runs the request.  Note that this does not report an error if it fails;
-	 * it merely parses the results to see if any gains were made.
+	 * Runs the request. Note that this does not report an error if it fails; it merely parses the results to see if any
+	 * gains were made.
 	 */
 
 	public void run()
 	{
 		if ( !this.hasStatueKey )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You don't have the appropriate key." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have the appropriate key." );
 			return;
 		}
 
@@ -93,8 +93,9 @@ public class HeroDonationRequest extends KoLRequest
 	{
 		if ( this.responseText.indexOf( "You gain" ) == -1 )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, this.responseText.indexOf( "That's not enough" ) == -1 ?
-				"Donation limit exceeded." : "Donation must be larger." );
+			KoLmafia.updateDisplay(
+				KoLConstants.ERROR_STATE,
+				this.responseText.indexOf( "That's not enough" ) == -1 ? "Donation limit exceeded." : "Donation must be larger." );
 			return;
 		}
 
@@ -102,4 +103,3 @@ public class HeroDonationRequest extends KoLRequest
 		KoLmafia.updateDisplay( "Donation complete." );
 	}
 }
-

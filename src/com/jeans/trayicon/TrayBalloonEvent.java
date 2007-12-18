@@ -1,6 +1,8 @@
+
 package com.jeans.trayicon;
 
-public class TrayBalloonEvent {
+public class TrayBalloonEvent
+{
 
 	public final static int SHOW = 1;
 	public final static int HIDE = 2;
@@ -9,14 +11,13 @@ public class TrayBalloonEvent {
 
 	protected int m_Mask;
 
-	public TrayBalloonEvent(int mask) {
-		m_Mask = mask;
+	public TrayBalloonEvent( final int mask )
+	{
+		this.m_Mask = mask;
 	}
-	
-	public int getMask() {
-		return m_Mask;
+
+	public int getMask()
+	{
+		return this.m_Mask;
 	}
 }
-
-
-

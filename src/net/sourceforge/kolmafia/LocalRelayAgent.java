@@ -39,15 +39,20 @@ import java.io.PrintStream;
 import java.net.Socket;
 import java.util.TreeMap;
 
-public class LocalRelayAgent extends Thread implements KoLConstants
+public class LocalRelayAgent
+	extends Thread
+	implements KoLConstants
 {
 	private static final CustomCombatThread CUSTOM_THREAD = new CustomCombatThread();
 	private static final TreeMap lastModified = new TreeMap();
 
-	static { CUSTOM_THREAD.start(); }
+	static
+	{
+		LocalRelayAgent.CUSTOM_THREAD.start();
+	}
 
-	private char [] data = new char[ 8096 ];
-	private StringBuffer buffer = new StringBuffer();
+	private final char[] data = new char[ 8096 ];
+	private final StringBuffer buffer = new StringBuffer();
 
 	private Socket socket = null;
 	private BufferedReader reader;
@@ -55,22 +60,25 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 
 	private String path;
 	private boolean isCheckingModified;
-	private LocalRelayRequest request;
+	private final LocalRelayRequest request;
 
-	public LocalRelayAgent( int id )
-	{	this.request = new LocalRelayRequest( true );
+	public LocalRelayAgent( final int id )
+	{
+		this.request = new LocalRelayRequest( true );
 	}
 
 	boolean isWaiting()
-	{	return this.socket == null;
+	{
+		return this.socket == null;
 	}
 
-	void setSocket( Socket socket )
+	void setSocket( final Socket socket )
 	{
 		this.socket = socket;
 
 		synchronized ( this )
-		{	this.notify();
+		{
+			this.notify();
 		}
 	}
 
@@ -80,14 +88,11 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 		{
 			if ( this.socket == null )
 			{
-				// Wait indefinitely for a client.  Exception
-				// handling is probably not the best way to
-				// handle this, but for now, it will do.
-
 				try
 				{
 					synchronized ( this )
-					{	this.wait();
+					{
+						this.wait();
 					}
 				}
 				catch ( InterruptedException e )
@@ -98,7 +103,9 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 			}
 
 			if ( this.socket != null )
+			{
 				this.performRelay();
+			}
 
 			this.socket = null;
 		}
@@ -107,7 +114,9 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 	public void performRelay()
 	{
 		if ( this.socket == null )
+		{
 			return;
+		}
 
 		this.path = null;
 		this.reader = null;
@@ -143,9 +152,10 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 		this.closeRelay();
 	}
 
-	public boolean readBrowserRequest() throws Exception
+	public boolean readBrowserRequest()
+		throws Exception
 	{
-		String requestLine = reader.readLine();
+		String requestLine = this.reader.readLine();
 		int spaceIndex = requestLine.indexOf( " " );
 
 		this.path = requestLine.substring( spaceIndex, requestLine.lastIndexOf( " " ) ).trim();
@@ -154,21 +164,27 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 		String currentLine;
 		int contentLength = 0;
 
-		while ( (currentLine = reader.readLine()) != null && !currentLine.equals( "" ) )
+		while ( ( currentLine = this.reader.readLine() ) != null && !currentLine.equals( "" ) )
 		{
 			if ( currentLine.startsWith( "If-Modified-Since" ) )
+			{
 				this.isCheckingModified = true;
+			}
 
 			if ( currentLine.startsWith( "Content-Length" ) )
+			{
 				contentLength = StaticEntity.parseInt( currentLine.substring( 16 ) );
+			}
 
 			if ( currentLine.startsWith( "Cookie" ) && this.path.startsWith( "/inventory" ) )
 			{
-				String [] cookieList = currentLine.substring(8).split( "\\s*;\\s*" );
+				String[] cookieList = currentLine.substring( 8 ).split( "\\s*;\\s*" );
 				for ( int i = 0; i < cookieList.length; ++i )
 				{
-					if ( cookieList[i].startsWith( "inventory" ) )
-						KoLRequest.inventoryCookie = cookieList[i];
+					if ( cookieList[ i ].startsWith( "inventory" ) )
+					{
+						KoLRequest.inventoryCookie = cookieList[ i ];
+					}
 				}
 			}
 		}
@@ -180,47 +196,57 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 
 			while ( remaining > 0 )
 			{
-				current = reader.read( data );
-				buffer.append( data, 0, current );
+				current = this.reader.read( this.data );
+				this.buffer.append( this.data, 0, current );
 				remaining -= current;
 			}
 
-			this.request.addEncodedFormFields( buffer.toString() );
-			buffer.setLength(0);
+			this.request.addEncodedFormFields( this.buffer.toString() );
+			this.buffer.setLength( 0 );
 		}
 
-		return !this.path.startsWith( "/KoLmafia" ) ||
-			(this.request.getFormField( "pwd" ) != null && this.request.getFormField( "pwd" ).equals( KoLRequest.passwordHash ));
+		return !this.path.startsWith( "/KoLmafia" ) || this.request.getFormField( "pwd" ) != null && this.request.getFormField(
+			"pwd" ).equals( KoLRequest.passwordHash );
 	}
 
 	public static void reset()
-	{	lastModified.clear();
+	{
+		LocalRelayAgent.lastModified.clear();
 	}
 
 	private boolean shouldSendNotModified()
 	{
 		if ( this.path.startsWith( "/images" ) )
+		{
 			return true;
+		}
 
 		if ( this.path.indexOf( "?" ) == -1 )
+		{
 			return false;
+		}
 
 		if ( !this.path.endsWith( ".js" ) && !this.path.endsWith( ".html" ) )
+		{
 			return false;
+		}
 
-		if ( lastModified.containsKey( this.path ) )
+		if ( LocalRelayAgent.lastModified.containsKey( this.path ) )
+		{
 			return true;
+		}
 
-		lastModified.put( this.path, Boolean.TRUE );
+		LocalRelayAgent.lastModified.put( this.path, Boolean.TRUE );
 		return false;
 	}
 
-	private void readServerResponse() throws Exception
+	private void readServerResponse()
+		throws Exception
 	{
 		// If not requesting a server-side page, then it is safe
 		// to assume that no changes have been made (save time).
 
-		if ( this.isCheckingModified && shouldSendNotModified() )
+		if ( this.isCheckingModified && this.shouldSendNotModified() )
 		{
 			this.request.pseudoResponse( "HTTP/1.1 304 Not Modified", "" );
 			this.request.responseCode = 304;
@@ -229,7 +255,7 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 
 		if ( this.path.equals( "/fight.php?action=custom" ) )
 		{
-			CUSTOM_THREAD.wake( null );
+			LocalRelayAgent.CUSTOM_THREAD.wake( null );
 			this.request.pseudoResponse( "HTTP/1.1 302 Found", "/fight.php?action=script" );
 		}
 		else if ( this.path.equals( "/fight.php?action=script" ) )
@@ -238,12 +264,14 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 
 			if ( FightRequest.isTrackingFights() )
 			{
-				fightResponse = SCRIPT_PATTERN.matcher( fightResponse ).replaceAll( "" );
+				fightResponse = KoLConstants.SCRIPT_PATTERN.matcher( fightResponse ).replaceAll( "" );
 				this.request.pseudoResponse( "HTTP/1.1 200 OK", fightResponse );
 				this.request.headers.add( "Refresh: 1" );
 			}
 			else
+			{
 				this.request.pseudoResponse( "HTTP/1.1 200 OK", fightResponse );
+			}
 		}
 		else if ( this.path.equals( "/fight.php?action=abort" ) )
 		{
@@ -252,7 +280,7 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 		}
 		else if ( this.path.startsWith( "/fight.php?hotkey=" ) )
 		{
-			CUSTOM_THREAD.wake( KoLSettings.getUserProperty( "combatHotkey" + this.request.getFormField( "hotkey" ) ) );
+			LocalRelayAgent.CUSTOM_THREAD.wake( KoLSettings.getUserProperty( "combatHotkey" + this.request.getFormField( "hotkey" ) ) );
 			this.request.pseudoResponse( "HTTP/1.1 302 Found", "/fight.php?action=script" );
 		}
 		else if ( this.path.equals( "/choice.php?action=auto" ) )
@@ -266,48 +294,65 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 
 			if ( initialCount != KoLCharacter.getAdventuresLeft() && !KoLmafia.isRunningBetweenBattleChecks() && FightRequest.getCurrentRound() == 0 )
 			{
-				StaticEntity.getClient().runBetweenBattleChecks( false, KoLSettings.getBooleanProperty( "relayMaintainsEffects" ),
-					KoLSettings.getBooleanProperty( "relayMaintainsHealth" ), KoLSettings.getBooleanProperty( "relayMaintainsMana" ) );
+				StaticEntity.getClient().runBetweenBattleChecks(
+					false, KoLSettings.getBooleanProperty( "relayMaintainsEffects" ),
+					KoLSettings.getBooleanProperty( "relayMaintainsHealth" ),
+					KoLSettings.getBooleanProperty( "relayMaintainsMana" ) );
 
 				this.request.run();
 			}
 		}
 		else if ( this.path.startsWith( "/sidepane.php" ) )
 		{
-			this.request.pseudoResponse( "HTTP/1.1 200 OK", RequestEditorKit.getFeatureRichHTML( "charpane.php", CharpaneRequest.getLastResponse(), true ) );
+			this.request.pseudoResponse( "HTTP/1.1 200 OK", RequestEditorKit.getFeatureRichHTML(
+				"charpane.php", CharpaneRequest.getLastResponse(), true ) );
 		}
 		else
 		{
 			if ( !this.request.hasNoResult() )
+			{
 				while ( KoLmafia.isRunningBetweenBattleChecks() )
+				{
 					KoLRequest.delay( 200 );
+				}
+			}
 
 			this.request.run();
 
 			if ( this.path.startsWith( "/valhalla.php" ) && this.request.responseCode == 302 )
 			{
 				if ( this.path.indexOf( "asctype=1" ) != -1 )
+				{
 					KoLmafia.resetCounters();
+				}
 				else
+				{
 					StaticEntity.getClient().handleAscension();
+				}
 			}
 			else if ( this.path.endsWith( "noobmessage=true" ) )
 			{
 				if ( KoLCharacter.isHardcore() && KoLSettings.getBooleanProperty( "lucreCoreLeaderboard" ) )
-					(new Thread( new GreenMessageRequest( "koldbot", "Started ascension." ) )).start();
+				{
+					( new Thread( new GreenMessageRequest( "koldbot", "Started ascension." ) ) ).start();
+				}
 			}
 		}
 
 		if ( this.request.rawByteBuffer == null && this.request.responseText != null )
+		{
 			this.request.rawByteBuffer = this.request.responseText.getBytes( "UTF-8" );
+		}
 	}
 
 	private void closeRelay()
 	{
 		try
 		{
-			if ( reader != null )
-				reader.close();
+			if ( this.reader != null )
+			{
+				this.reader.close();
+			}
 		}
 		catch ( Exception e )
 		{
@@ -317,8 +362,10 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 
 		try
 		{
-			if ( writer != null )
-				writer.close();
+			if ( this.writer != null )
+			{
+				this.writer.close();
+			}
 		}
 		catch ( Exception e )
 		{
@@ -328,8 +375,10 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 
 		try
 		{
-			if ( socket != null )
-				socket.close();
+			if ( this.socket != null )
+			{
+				this.socket.close();
+			}
 		}
 		catch ( Exception e )
 		{
@@ -338,23 +387,28 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 		}
 	}
 
-	private static final class CustomCombatThread extends Thread
+	private static final class CustomCombatThread
+		extends Thread
 	{
 		private String desiredAction;
 
 		public CustomCombatThread()
-		{	this.setDaemon( true );
+		{
+			this.setDaemon( true );
 		}
 
-		public void wake( String desiredAction )
+		public void wake( final String desiredAction )
 		{
 			this.desiredAction = desiredAction;
 
 			if ( !FightRequest.isTrackingFights() )
+			{
 				FightRequest.beginTrackingFights();
+			}
 
 			synchronized ( this )
-			{	this.notify();
+			{
+				this.notify();
 			}
 		}
 
@@ -365,7 +419,8 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 				try
 				{
 					synchronized ( this )
-					{	this.wait();
+					{
+						this.wait();
 					}
 				}
 				catch ( InterruptedException e )
@@ -375,12 +430,18 @@ public class LocalRelayAgent extends Thread implements KoLConstants
 				}
 
 				if ( !KoLSettings.getUserProperty( "battleAction" ).startsWith( "custom" ) )
+				{
 					KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "battleAction=custom" );
+				}
 
 				if ( this.desiredAction == null )
+				{
 					FightRequest.INSTANCE.run();
+				}
 				else
+				{
 					FightRequest.INSTANCE.runOnce( this.desiredAction );
+				}
 
 				FightRequest.stopTrackingFights();
 			}

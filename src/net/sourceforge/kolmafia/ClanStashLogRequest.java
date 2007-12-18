@@ -47,7 +47,10 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ClanStashLogRequest extends KoLRequest
+import net.java.dev.spellcast.utilities.UtilityConstants;
+
+public class ClanStashLogRequest
+	extends KoLRequest
 {
 	private static final SimpleDateFormat STASH_FORMAT = new SimpleDateFormat( "MM/dd/yy, hh:mma", Locale.US );
 
@@ -61,26 +64,30 @@ public class ClanStashLogRequest extends KoLRequest
 	private static final String CLAN_BOOT = "boot";
 
 	private static final String TIME_REGEX = "(\\d\\d/\\d\\d/\\d\\d, \\d\\d:\\d\\d[AP]M)";
-	private static final String PLAYER_REGEX = "<a class=nounder href='showplayer.php\\?who=\\d+'>([^<]*?) \\(#\\d+\\)</a>";
+	private static final String PLAYER_REGEX =
+		"<a class=nounder href='showplayer.php\\?who=\\d+'>([^<]*?) \\(#\\d+\\)</a>";
 
-	private static final Pattern WAR_PATTERN = Pattern.compile( TIME_REGEX + ": ([^<]*?) launched an attack against (.*?)\\.<br>" );
+	private static final Pattern WAR_PATTERN =
+		Pattern.compile( ClanStashLogRequest.TIME_REGEX + ": ([^<]*?) launched an attack against (.*?)\\.<br>" );
 	private static final Pattern LOGENTRY_PATTERN = Pattern.compile( "\t<li class=\"(.*?)\">(.*?): (.*?)</li>" );
 
-	private Map stashMap = new TreeMap();
+	private final Map stashMap = new TreeMap();
 
 	public ClanStashLogRequest()
-	{	super( "clan_log.php" );
+	{
+		super( "clan_log.php" );
 	}
 
 	protected boolean retryOnTimeout()
-	{	return true;
+	{
+		return true;
 	}
 
 	public void run()
 	{
 		KoLmafia.updateDisplay( "Retrieving clan stash log..." );
 
-		File file = new File( ROOT_LOCATION, "clan/" + ClanManager.getClanId() + "/stashlog.htm" );
+		File file = new File( UtilityConstants.ROOT_LOCATION, "clan/" + ClanManager.getClanId() + "/stashlog.htm" );
 
 		this.loadPreviousData( file );
 		super.run();
@@ -107,15 +114,17 @@ public class ClanStashLogRequest extends KoLRequest
 		// Now, handle all of the administrative-related
 		// things in the clan.
 
-		this.handleAdmin( CLAN_WHITELIST, "was accepted into the clan \\(whitelist\\)", "", "auto-accepted through whitelist" );
-		this.handleAdmin( CLAN_ACCEPT, "accepted", " into the clan", "accepted by " );
-		this.handleAdmin( CLAN_LEAVE, "left the clan", "", "left clan" );
-		this.handleAdmin( CLAN_BOOT, "booted", "", "booted by " );
+		this.handleAdmin(
+			ClanStashLogRequest.CLAN_WHITELIST, "was accepted into the clan \\(whitelist\\)", "",
+			"auto-accepted through whitelist" );
+		this.handleAdmin( ClanStashLogRequest.CLAN_ACCEPT, "accepted", " into the clan", "accepted by " );
+		this.handleAdmin( ClanStashLogRequest.CLAN_LEAVE, "left the clan", "", "left clan" );
+		this.handleAdmin( ClanStashLogRequest.CLAN_BOOT, "booted", "", "booted by " );
 
 		this.saveCurrentData( file );
 	}
 
-	private void loadPreviousData( File file )
+	private void loadPreviousData( final File file )
 	{
 		this.stashMap.clear();
 
@@ -132,7 +141,7 @@ public class ClanStashLogRequest extends KoLRequest
 
 				boolean startReading = false;
 
-				while ( (line = istream.readLine()) != null )
+				while ( ( line = istream.readLine() ) != null )
 				{
 					if ( startReading )
 					{
@@ -150,11 +159,15 @@ public class ClanStashLogRequest extends KoLRequest
 						{
 							entry = new StashLogEntry( line );
 							if ( !entryList.contains( entry ) )
+							{
 								entryList.add( entry );
+							}
 						}
 					}
 					else if ( line.equals( "<!-- Begin Stash Log: Do Not Modify Beyond This Point -->" ) )
+					{
 						startReading = true;
+					}
 				}
 
 				istream.close();
@@ -169,28 +182,28 @@ public class ClanStashLogRequest extends KoLRequest
 		}
 	}
 
-	private void saveCurrentData( File file )
+	private void saveCurrentData( final File file )
 	{
-		String [] members = new String[ this.stashMap.size() ];
+		String[] members = new String[ this.stashMap.size() ];
 		this.stashMap.keySet().toArray( members );
 
 		PrintStream ostream = LogStream.openStream( file, true );
-		Object [] entries;
+		Object[] entries;
 
 		List entryList = null;
 		ostream.println( "<html><head>" );
-		ostream.println( "<title>Clan Stash Log @ " + (new Date()).toString() + "</title>" );
+		ostream.println( "<title>Clan Stash Log @ " + ( new Date() ).toString() + "</title>" );
 		ostream.println( "<style><!--" );
 		ostream.println();
 		ostream.println( "\tbody { font-family: Verdana; font-size: 9pt }" );
 		ostream.println();
-		ostream.println( "\t." + STASH_ADD + " { color: green }" );
-		ostream.println( "\t." + STASH_TAKE + " { color: olive }" );
-		ostream.println( "\t." + WAR_BATTLE + " { color: orange }" );
-		ostream.println( "\t." + CLAN_WHITELIST + " { color: blue }" );
-		ostream.println( "\t." + CLAN_ACCEPT + " { color: blue }" );
-		ostream.println( "\t." + CLAN_LEAVE + " { color: red }" );
-		ostream.println( "\t." + CLAN_BOOT + " { color: red }" );
+		ostream.println( "\t." + ClanStashLogRequest.STASH_ADD + " { color: green }" );
+		ostream.println( "\t." + ClanStashLogRequest.STASH_TAKE + " { color: olive }" );
+		ostream.println( "\t." + ClanStashLogRequest.WAR_BATTLE + " { color: orange }" );
+		ostream.println( "\t." + ClanStashLogRequest.CLAN_WHITELIST + " { color: blue }" );
+		ostream.println( "\t." + ClanStashLogRequest.CLAN_ACCEPT + " { color: blue }" );
+		ostream.println( "\t." + ClanStashLogRequest.CLAN_LEAVE + " { color: red }" );
+		ostream.println( "\t." + ClanStashLogRequest.CLAN_BOOT + " { color: red }" );
 		ostream.println();
 		ostream.println( "--></style></head>" );
 
@@ -201,15 +214,17 @@ public class ClanStashLogRequest extends KoLRequest
 
 		for ( int i = 0; i < members.length; ++i )
 		{
-			ostream.println( " " + members[i] + ":" );
+			ostream.println( " " + members[ i ] + ":" );
 
-			entryList = (List) this.stashMap.get( members[i] );
+			entryList = (List) this.stashMap.get( members[ i ] );
 			Collections.sort( entryList );
 			entries = entryList.toArray();
 
 			ostream.println( "<ul>" );
 			for ( int j = 0; j < entries.length; ++j )
-				ostream.println( entries[j].toString() );
+			{
+				ostream.println( entries[ j ].toString() );
+			}
 			ostream.println( "</ul>" );
 
 			ostream.println();
@@ -219,13 +234,15 @@ public class ClanStashLogRequest extends KoLRequest
 		ostream.close();
 	}
 
-	private static final String ADD_REGEX = TIME_REGEX + ": " + PLAYER_REGEX + " added ([\\d,]+) (.*?)\\.<br>";
-	private static final String TAKE_REGEX = TIME_REGEX + ": " + PLAYER_REGEX + " took ([\\d,]+) (.*?)\\.<br>";
+	private static final String ADD_REGEX =
+		ClanStashLogRequest.TIME_REGEX + ": " + ClanStashLogRequest.PLAYER_REGEX + " added ([\\d,]+) (.*?)\\.<br>";
+	private static final String TAKE_REGEX =
+		ClanStashLogRequest.TIME_REGEX + ": " + ClanStashLogRequest.PLAYER_REGEX + " took ([\\d,]+) (.*?)\\.<br>";
 
-	private void handleItems( boolean parseAdditions )
+	private void handleItems( final boolean parseAdditions )
 	{
-		String handleType = parseAdditions ? STASH_ADD : STASH_TAKE;
-		String regex = parseAdditions ? ADD_REGEX : TAKE_REGEX;
+		String handleType = parseAdditions ? ClanStashLogRequest.STASH_ADD : ClanStashLogRequest.STASH_TAKE;
+		String regex = parseAdditions ? ClanStashLogRequest.ADD_REGEX : ClanStashLogRequest.TAKE_REGEX;
 		String suffixDescription = parseAdditions ? "added to stash" : "taken from stash";
 
 		int lastItemId;
@@ -242,24 +259,31 @@ public class ClanStashLogRequest extends KoLRequest
 		{
 			try
 			{
-				entryBuffer.setLength(0);
-				currentMember = entryMatcher.group(2).trim();
+				entryBuffer.setLength( 0 );
+				currentMember = entryMatcher.group( 2 ).trim();
 
 				if ( !this.stashMap.containsKey( currentMember ) )
+				{
 					this.stashMap.put( currentMember, new ArrayList() );
+				}
 
 				entryList = (List) this.stashMap.get( currentMember );
-				entryCount = StaticEntity.parseInt( entryMatcher.group(3) );
+				entryCount = StaticEntity.parseInt( entryMatcher.group( 3 ) );
 
-				lastItemId = TradeableItemDatabase.getItemId( entryMatcher.group(4), entryCount );
-				entryBuffer.append( (new AdventureResult( lastItemId, entryCount )).toString() );
+				lastItemId = TradeableItemDatabase.getItemId( entryMatcher.group( 4 ), entryCount );
+				entryBuffer.append( ( new AdventureResult( lastItemId, entryCount ) ).toString() );
 
 				entryBuffer.append( " " );
 				entryBuffer.append( suffixDescription );
 
-				entry = new StashLogEntry( handleType, STASH_FORMAT.parse( entryMatcher.group(1) ), entryBuffer.toString() );
+				entry =
+					new StashLogEntry(
+						handleType, ClanStashLogRequest.STASH_FORMAT.parse( entryMatcher.group( 1 ) ),
+						entryBuffer.toString() );
 				if ( !entryList.contains( entry ) )
+				{
 					entryList.add( entry );
+				}
 			}
 			catch ( Exception e )
 			{
@@ -279,22 +303,29 @@ public class ClanStashLogRequest extends KoLRequest
 		String currentMember;
 
 		StashLogEntry entry;
-		Matcher entryMatcher = WAR_PATTERN.matcher( this.responseText );
+		Matcher entryMatcher = ClanStashLogRequest.WAR_PATTERN.matcher( this.responseText );
 
 		while ( entryMatcher.find() )
 		{
 			try
 			{
-				currentMember = entryMatcher.group(2).trim();
+				currentMember = entryMatcher.group( 2 ).trim();
 				if ( !this.stashMap.containsKey( currentMember ) )
+				{
 					this.stashMap.put( currentMember, new ArrayList() );
+				}
 
 				entryList = (List) this.stashMap.get( currentMember );
-				entry = new StashLogEntry( WAR_BATTLE, STASH_FORMAT.parse( entryMatcher.group(1) ),
-					"<i>" + entryMatcher.group(3) + "</i> attacked" );
+				entry =
+					new StashLogEntry(
+						ClanStashLogRequest.WAR_BATTLE,
+						ClanStashLogRequest.STASH_FORMAT.parse( entryMatcher.group( 1 ) ),
+						"<i>" + entryMatcher.group( 3 ) + "</i> attacked" );
 
 				if ( !entryList.contains( entry ) )
+				{
 					entryList.add( entry );
+				}
 			}
 			catch ( Exception e )
 			{
@@ -308,9 +339,11 @@ public class ClanStashLogRequest extends KoLRequest
 		this.responseText = entryMatcher.replaceAll( "" );
 	}
 
-	private void handleAdmin( String entryType, String searchString, String suffixString, String descriptionString )
+	private void handleAdmin( final String entryType, final String searchString, final String suffixString,
+		final String descriptionString )
 	{
-		String regex = TIME_REGEX + ": ([^<]*?) \\(#\\d+\\) " + searchString + "(.*?)" + suffixString + "\\.?<br>";
+		String regex =
+			ClanStashLogRequest.TIME_REGEX + ": ([^<]*?) \\(#\\d+\\) " + searchString + "(.*?)" + suffixString + "\\.?<br>";
 
 		List entryList;
 		String currentMember;
@@ -325,14 +358,21 @@ public class ClanStashLogRequest extends KoLRequest
 			{
 				currentMember = entryMatcher.group( descriptionString.endsWith( " " ) ? 3 : 2 ).trim();
 				if ( !this.stashMap.containsKey( currentMember ) )
+				{
 					this.stashMap.put( currentMember, new ArrayList() );
+				}
 
 				entryList = (List) this.stashMap.get( currentMember );
-				entryString = descriptionString.endsWith( " " ) ? descriptionString + entryMatcher.group(2) : descriptionString;
-				entry = new StashLogEntry( entryType, STASH_FORMAT.parse( entryMatcher.group(1) ), entryString );
+				entryString =
+					descriptionString.endsWith( " " ) ? descriptionString + entryMatcher.group( 2 ) : descriptionString;
+				entry =
+					new StashLogEntry(
+						entryType, ClanStashLogRequest.STASH_FORMAT.parse( entryMatcher.group( 1 ) ), entryString );
 
 				if ( !entryList.contains( entry ) )
+				{
 					entryList.add( entry );
+				}
 			}
 			catch ( Exception e )
 			{
@@ -346,31 +386,33 @@ public class ClanStashLogRequest extends KoLRequest
 		this.responseText = entryMatcher.replaceAll( "" );
 	}
 
-	public static class StashLogEntry implements Comparable
+	public static class StashLogEntry
+		implements Comparable
 	{
-		private String entryType;
+		private final String entryType;
 		private Date timestamp;
-		private String entry, stringform;
+		private final String entry, stringform;
 
-		public StashLogEntry( String entryType, Date timestamp, String entry )
+		public StashLogEntry( final String entryType, final Date timestamp, final String entry )
 		{
 			this.entryType = entryType;
 			this.timestamp = timestamp;
 			this.entry = entry;
 
-			this.stringform = "\t<li class=\"" + entryType + "\">" + STASH_FORMAT.format( timestamp ) + ": " + entry + "</li>";
+			this.stringform =
+				"\t<li class=\"" + entryType + "\">" + ClanStashLogRequest.STASH_FORMAT.format( timestamp ) + ": " + entry + "</li>";
 		}
 
-		public StashLogEntry( String stringform )
+		public StashLogEntry( final String stringform )
 		{
-			Matcher entryMatcher = LOGENTRY_PATTERN.matcher( stringform );
+			Matcher entryMatcher = ClanStashLogRequest.LOGENTRY_PATTERN.matcher( stringform );
 			entryMatcher.find();
 
-			this.entryType = entryMatcher.group(1);
+			this.entryType = entryMatcher.group( 1 );
 
 			try
 			{
-				this.timestamp = STASH_FORMAT.parse( entryMatcher.group(2) );
+				this.timestamp = ClanStashLogRequest.STASH_FORMAT.parse( entryMatcher.group( 2 ) );
 			}
 			catch ( Exception e )
 			{
@@ -381,23 +423,23 @@ public class ClanStashLogRequest extends KoLRequest
 				this.timestamp = new Date();
 			}
 
-			this.entry = entryMatcher.group(3);
+			this.entry = entryMatcher.group( 3 );
 			this.stringform = stringform;
 		}
 
-		public int compareTo( Object o )
+		public int compareTo( final Object o )
 		{
-			return o == null || !(o instanceof StashLogEntry) ? -1 : this.timestamp.before( ((StashLogEntry)o).timestamp ) ? 1 :
-				this.timestamp.after( ((StashLogEntry)o).timestamp ) ? -1 : 0;
+			return o == null || !( o instanceof StashLogEntry ) ? -1 : this.timestamp.before( ( (StashLogEntry) o ).timestamp ) ? 1 : this.timestamp.after( ( (StashLogEntry) o ).timestamp ) ? -1 : 0;
 		}
 
-		public boolean equals( Object o )
+		public boolean equals( final Object o )
 		{
-			return o == null || !(o instanceof StashLogEntry) ? false : this.stringform.equals( o.toString() );
+			return o == null || !( o instanceof StashLogEntry ) ? false : this.stringform.equals( o.toString() );
 		}
 
 		public String toString()
-		{	return this.stringform;
+		{
+			return this.stringform;
 		}
 	}
 }

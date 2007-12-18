@@ -42,27 +42,31 @@ import java.io.File;
 import javax.swing.ImageIcon;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
+import net.java.dev.spellcast.utilities.UtilityConstants;
 
 import com.jeans.trayicon.TrayIconPopup;
 import com.jeans.trayicon.TrayIconPopupSimpleItem;
 import com.jeans.trayicon.WindowsTrayIcon;
 
-public abstract class SystemTrayFrame implements KoLConstants
+public abstract class SystemTrayFrame
+	implements KoLConstants
 {
 	private static WindowsTrayIcon icon = null;
 
 	public static final void addTrayIcon()
 	{
-		if ( icon != null )
+		if ( SystemTrayFrame.icon != null )
+		{
 			return;
+		}
 
 		// Now, make calls to SystemTrayIconManager in order
 		// to make use of the system tray.
 
-		StaticEntity.loadLibrary( IMAGE_LOCATION, "", "TrayIcon12.gif" );
-		StaticEntity.loadLibrary( IMAGE_LOCATION, "", "TrayIcon12.dll" );
+		StaticEntity.loadLibrary( UtilityConstants.IMAGE_LOCATION, "", "TrayIcon12.gif" );
+		StaticEntity.loadLibrary( UtilityConstants.IMAGE_LOCATION, "", "TrayIcon12.dll" );
 
-		File iconfile = new File( IMAGE_LOCATION, "TrayIcon12.dll" );
+		File iconfile = new File( UtilityConstants.IMAGE_LOCATION, "TrayIcon12.dll" );
 		System.load( iconfile.getAbsolutePath() );
 		WindowsTrayIcon.initTrayIcon( "KoLmafia" );
 
@@ -70,8 +74,8 @@ public abstract class SystemTrayFrame implements KoLConstants
 		{
 			ImageIcon image = JComponentUtilities.getImage( "", "TrayIcon12.gif" );
 
-			icon = new WindowsTrayIcon( image.getImage(), 16, 16 );
-			icon.addMouseListener( new SetVisibleListener() );
+			SystemTrayFrame.icon = new WindowsTrayIcon( image.getImage(), 16, 16 );
+			SystemTrayFrame.icon.addMouseListener( new SetVisibleListener() );
 
 			TrayIconPopup popup = new TrayIconPopup();
 			popup.addMenuItem( new ShowMainWindowPopupItem() );
@@ -82,8 +86,8 @@ public abstract class SystemTrayFrame implements KoLConstants
 			popup.addMenuItem( new LogoutPopupItem() );
 			popup.addMenuItem( new EndSessionPopupItem() );
 
-			icon.setPopup( popup );
-			updateToolTip();
+			SystemTrayFrame.icon.setPopup( popup );
+			SystemTrayFrame.updateToolTip();
 		}
 		catch ( Exception e )
 		{
@@ -94,45 +98,59 @@ public abstract class SystemTrayFrame implements KoLConstants
 
 	public static final void removeTrayIcon()
 	{
-		if ( icon != null )
+		if ( SystemTrayFrame.icon != null )
+		{
 			WindowsTrayIcon.cleanUp();
+		}
 	}
 
 	public static final void updateToolTip()
 	{
 		if ( KoLCharacter.getUserName().equals( "" ) )
-			updateToolTip( StaticEntity.getVersion() );
+		{
+			SystemTrayFrame.updateToolTip( StaticEntity.getVersion() );
+		}
 		else
-			updateToolTip( StaticEntity.getVersion() + ": " + KoLCharacter.getUserName() );
+		{
+			SystemTrayFrame.updateToolTip( StaticEntity.getVersion() + ": " + KoLCharacter.getUserName() );
+		}
 	}
 
-	public static final void updateToolTip( String message )
+	public static final void updateToolTip( final String message )
 	{
-		if ( icon == null )
+		if ( SystemTrayFrame.icon == null )
+		{
 			return;
+		}
 
-		icon.setVisible( true );
-		icon.setToolTipText( message );
+		SystemTrayFrame.icon.setVisible( true );
+		SystemTrayFrame.icon.setToolTipText( message );
 	}
 
-	public static final void showBalloon( String message )
+	public static final void showBalloon( final String message )
 	{
-		if ( icon == null )
+		if ( SystemTrayFrame.icon == null )
+		{
 			return;
+		}
 
-		KoLFrame [] frames = StaticEntity.getExistingFrames();
+		KoLFrame[] frames = StaticEntity.getExistingFrames();
 		boolean anyFrameVisible = false;
 		for ( int i = 0; i < frames.length; ++i )
-			anyFrameVisible |= frames[i].isVisible();
+		{
+			anyFrameVisible |= frames[ i ].isVisible();
+		}
 
 		anyFrameVisible |= KoLDesktop.instanceExists() && KoLDesktop.getInstance().isVisible();
 
 		if ( anyFrameVisible )
+		{
 			return;
+		}
 
 		try
 		{
-			icon.showBalloon( message, StaticEntity.getVersion(), 0, WindowsTrayIcon.BALLOON_INFO );
+			SystemTrayFrame.icon.showBalloon( message, StaticEntity.getVersion(), 0, WindowsTrayIcon.BALLOON_INFO );
 		}
 		catch ( Exception e )
 		{
@@ -141,20 +159,23 @@ public abstract class SystemTrayFrame implements KoLConstants
 		}
 	}
 
-	private static class SetVisibleListener extends MouseAdapter
+	private static class SetVisibleListener
+		extends MouseAdapter
 	{
-		public void mousePressed( MouseEvent e )
+		public void mousePressed( final MouseEvent e )
 		{
 			if ( e.isPopupTrigger() )
+			{
 				return;
+			}
 
-			showDisplay();
+			SystemTrayFrame.showDisplay();
 		}
 	}
 
 	public static final void showDisplay()
 	{
-		if ( existingFrames.isEmpty() )
+		if ( KoLConstants.existingFrames.isEmpty() )
 		{
 			KoLmafiaGUI.constructFrame( "LocalRelayServer" );
 			return;
@@ -169,64 +190,78 @@ public abstract class SystemTrayFrame implements KoLConstants
 		KoLDesktop.displayDesktop();
 	}
 
-	private static abstract class ThreadedTrayIconPopupSimpleItem extends TrayIconPopupSimpleItem implements ActionListener, Runnable
+	private static abstract class ThreadedTrayIconPopupSimpleItem
+		extends TrayIconPopupSimpleItem
+		implements ActionListener, Runnable
 	{
-		public ThreadedTrayIconPopupSimpleItem( String title )
+		public ThreadedTrayIconPopupSimpleItem( final String title )
 		{
 			super( title );
 			this.addActionListener( this );
 		}
 
-		public final void actionPerformed( ActionEvent e )
-		{	(new Thread( this )).start();
+		public final void actionPerformed( final ActionEvent e )
+		{
+			( new Thread( this ) ).start();
 		}
 	}
 
-	private static class ShowMainWindowPopupItem extends ThreadedTrayIconPopupSimpleItem
+	private static class ShowMainWindowPopupItem
+		extends ThreadedTrayIconPopupSimpleItem
 	{
 		public ShowMainWindowPopupItem()
-		{	super( "Main Interface" );
+		{
+			super( "Main Interface" );
 		}
 
 		public void run()
-		{	showDisplay();
+		{
+			SystemTrayFrame.showDisplay();
 		}
 	}
 
-	private static class ConstructFramePopupItem extends ThreadedTrayIconPopupSimpleItem
+	private static class ConstructFramePopupItem
+		extends ThreadedTrayIconPopupSimpleItem
 	{
-		private String frame;
+		private final String frame;
 
-		public ConstructFramePopupItem( String title, String frame )
+		public ConstructFramePopupItem( final String title, final String frame )
 		{
 			super( title );
 			this.frame = frame;
 		}
 
 		public void run()
-		{	KoLmafiaGUI.constructFrame( this.frame );
+		{
+			KoLmafiaGUI.constructFrame( this.frame );
 		}
 	}
 
-	private static class LogoutPopupItem extends ThreadedTrayIconPopupSimpleItem
+	private static class LogoutPopupItem
+		extends ThreadedTrayIconPopupSimpleItem
 	{
 		public LogoutPopupItem()
-		{	super( "Logout of KoL" );
+		{
+			super( "Logout of KoL" );
 		}
 
 		public void run()
-		{	RequestThread.postRequest( new LogoutRequest() );
+		{
+			RequestThread.postRequest( new LogoutRequest() );
 		}
 	}
 
-	private static class EndSessionPopupItem extends ThreadedTrayIconPopupSimpleItem
+	private static class EndSessionPopupItem
+		extends ThreadedTrayIconPopupSimpleItem
 	{
 		public EndSessionPopupItem()
-		{	super( "Exit KoLmafia" );
+		{
+			super( "Exit KoLmafia" );
 		}
 
 		public void run()
-		{	KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "exit", "" );
+		{
+			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "exit", "" );
 		}
 	}
 }

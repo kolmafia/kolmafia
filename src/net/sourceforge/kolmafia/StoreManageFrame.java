@@ -49,6 +49,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -57,11 +58,12 @@ import net.sourceforge.kolmafia.StoreManager.SoldItem;
 
 import com.sun.java.forums.TableSorter;
 
-public class StoreManageFrame extends KoLPanelFrame
+public class StoreManageFrame
+	extends KoLPanelFrame
 {
 	private static StoreManageFrame INSTANCE = null;
-	private static final JLabel searchLabel = JComponentUtilities.createLabel(
-		"Mall Prices", JLabel.CENTER, Color.black, Color.white );
+	private static final JLabel searchLabel =
+		JComponentUtilities.createLabel( "Mall Prices", SwingConstants.CENTER, Color.black, Color.white );
 	private static final LockableListModel priceSummary = new LockableListModel();
 
 	private JComboBox sellingList;
@@ -71,7 +73,7 @@ public class StoreManageFrame extends KoLPanelFrame
 	public StoreManageFrame()
 	{
 		super( "Store Manager" );
-		INSTANCE = this;
+		StoreManageFrame.INSTANCE = this;
 
 		this.tabs.add( "Price Setup", new StoreManagePanel() );
 		this.tabs.add( "Additions", new StoreAddPanel() );
@@ -79,24 +81,28 @@ public class StoreManageFrame extends KoLPanelFrame
 		this.tabs.add( "Store Log", new StoreLogPanel() );
 
 		this.framePanel.add( this.tabs, BorderLayout.CENTER );
-		updateEarnings( StoreManager.getPotentialEarnings() );
+		StoreManageFrame.updateEarnings( StoreManager.getPotentialEarnings() );
 	}
 
-	public static final void updateEarnings( long potentialEarnings )
+	public static final void updateEarnings( final long potentialEarnings )
 	{
-		if ( INSTANCE == null || KoLSettings.getGlobalProperty( "initialDesktop" ).indexOf( "StoreManageFrame" ) != -1 )
+		if ( StoreManageFrame.INSTANCE == null || KoLSettings.getGlobalProperty( "initialDesktop" ).indexOf(
+			"StoreManageFrame" ) != -1 )
+		{
 			return;
+		}
 
-		INSTANCE.setTitle( "Store Manager (potential earnings: " + COMMA_FORMAT.format( potentialEarnings ) + " meat)" );
+		StoreManageFrame.INSTANCE.setTitle( "Store Manager (potential earnings: " + KoLConstants.COMMA_FORMAT.format( potentialEarnings ) + " meat)" );
 	}
 
 	public void dispose()
 	{
-		INSTANCE = null;
+		StoreManageFrame.INSTANCE = null;
 		super.dispose();
 	}
 
-	private class StoreManagePanel extends KoLPanel
+	private class StoreManagePanel
+		extends KoLPanel
 	{
 		public StoreManagePanel()
 		{
@@ -124,7 +130,7 @@ public class StoreManageFrame extends KoLPanelFrame
 
 			JPanel searchResults = new SearchResultsPanel();
 
-			this.setContent( elements, true );
+			this.setContent( this.elements, true );
 			this.eastContainer.add( searchResults, BorderLayout.CENTER );
 			this.container.add( storePanel, BorderLayout.CENTER );
 		}
@@ -132,35 +138,40 @@ public class StoreManageFrame extends KoLPanelFrame
 		public void actionConfirmed()
 		{
 			if ( !StoreManageFrame.this.finalizeTable( StoreManageFrame.this.manageTable ) )
+			{
 				return;
+			}
 
 			KoLmafia.updateDisplay( "Compiling reprice data..." );
 			int rowCount = StoreManageFrame.this.manageTable.getRowCount();
 
-			int [] itemId = new int[ rowCount ];
-			int [] prices = new int[ rowCount ];
-			int [] limits = new int[ rowCount ];
+			int[] itemId = new int[ rowCount ];
+			int[] prices = new int[ rowCount ];
+			int[] limits = new int[ rowCount ];
 
-			SoldItem [] sold = new SoldItem[ StoreManager.getSoldItemList().size() ];
+			SoldItem[] sold = new SoldItem[ StoreManager.getSoldItemList().size() ];
 			StoreManager.getSoldItemList().toArray( sold );
 
 			for ( int i = 0; i < rowCount; ++i )
 			{
-				itemId[i] = TradeableItemDatabase.getItemId( (String) StoreManageFrame.this.manageTable.getValueAt( i, 0 ) );
-				prices[i] = ((Integer) StoreManageFrame.this.manageTable.getValueAt( i, 1 )).intValue();
+				itemId[ i ] =
+					TradeableItemDatabase.getItemId( (String) StoreManageFrame.this.manageTable.getValueAt( i, 0 ) );
+				prices[ i ] = ( (Integer) StoreManageFrame.this.manageTable.getValueAt( i, 1 ) ).intValue();
 
 				int oldLimit = 0;
 
 				for ( int j = 0; j < sold.length; ++j )
 				{
-					if ( sold[j].getItemId() == itemId[i] )
+					if ( sold[ j ].getItemId() == itemId[ i ] )
 					{
-						oldLimit = sold[j].getLimit();
+						oldLimit = sold[ j ].getLimit();
 						break;
 					}
 				}
 
-				limits[i] = ((Boolean) StoreManageFrame.this.manageTable.getValueAt( i, 4 )).booleanValue() ? Math.max( 1, oldLimit ) : 0;
+				limits[ i ] =
+					( (Boolean) StoreManageFrame.this.manageTable.getValueAt( i, 4 ) ).booleanValue() ? Math.max(
+						1, oldLimit ) : 0;
 			}
 
 			RequestThread.postRequest( new StoreManageRequest( itemId, prices, limits ) );
@@ -168,11 +179,15 @@ public class StoreManageFrame extends KoLPanelFrame
 
 		public void actionCancelled()
 		{
-			int selected = JOptionPane.showConfirmDialog( StoreManageFrame.this,
-				basicTextWrap( UNDERCUT_MESSAGE ), "", JOptionPane.YES_NO_CANCEL_OPTION );
+			int selected =
+				JOptionPane.showConfirmDialog(
+					StoreManageFrame.this, KoLFrame.basicTextWrap( StoreManageFrame.UNDERCUT_MESSAGE ), "",
+					JOptionPane.YES_NO_CANCEL_OPTION );
 
 			if ( selected != JOptionPane.YES_OPTION && selected != JOptionPane.NO_OPTION )
+			{
 				return;
+			}
 
 			KoLmafia.updateDisplay( "Gathering data..." );
 			StaticEntity.getClient().priceItemsAtLowestPrice( selected == JOptionPane.YES_OPTION );
@@ -182,16 +197,22 @@ public class StoreManageFrame extends KoLPanelFrame
 	public static final String UNDERCUT_MESSAGE =
 		"KoLmafia will take items priced at 999,999,999 meat and undercut the current lowest price in the mall.  Would you like KoLmafia to avoid 'minimum possible prices' (100 meat, or twice the autosell value of the item) when doing so?";
 
-	private class StoreListTable extends TransparentTable
+	private class StoreListTable
+		extends TransparentTable
 	{
-		public StoreListTable( LockableListModel model )
+		public StoreListTable( final LockableListModel model )
 		{
 			super( model == null ? (ListWrapperTableModel) new StoreAddTableModel() : new StoreManageTableModel() );
 
 			if ( model == null )
-				this.getColumnModel().getColumn(0).setCellEditor( new DefaultCellEditor( StoreManageFrame.this.sellingList ) );
+			{
+				this.getColumnModel().getColumn( 0 ).setCellEditor(
+					new DefaultCellEditor( StoreManageFrame.this.sellingList ) );
+			}
 			else
+			{
 				this.setModel( new TableSorter( this.getModel(), this.getTableHeader() ) );
+			}
 
 			this.getTableHeader().setReorderingAllowed( false );
 
@@ -206,41 +227,43 @@ public class StoreManageFrame extends KoLPanelFrame
 
 			this.setRowHeight( 28 );
 
-			this.getColumnModel().getColumn(0).setMinWidth( 200 );
+			this.getColumnModel().getColumn( 0 ).setMinWidth( 200 );
 
-			this.getColumnModel().getColumn(4).setMinWidth( 35 );
-			this.getColumnModel().getColumn(4).setMaxWidth( 35 );
+			this.getColumnModel().getColumn( 4 ).setMinWidth( 35 );
+			this.getColumnModel().getColumn( 4 ).setMaxWidth( 35 );
 
-			this.getColumnModel().getColumn(5).setMinWidth( 40 );
-			this.getColumnModel().getColumn(5).setMaxWidth( 40 );
+			this.getColumnModel().getColumn( 5 ).setMinWidth( 40 );
+			this.getColumnModel().getColumn( 5 ).setMaxWidth( 40 );
 
-			this.getColumnModel().getColumn(6).setMinWidth( 40 );
-			this.getColumnModel().getColumn(6).setMaxWidth( 40 );
+			this.getColumnModel().getColumn( 6 ).setMinWidth( 40 );
+			this.getColumnModel().getColumn( 6 ).setMaxWidth( 40 );
 		}
 	}
 
-	private class StoreAddTableModel extends ListWrapperTableModel
+	private class StoreAddTableModel
+		extends ListWrapperTableModel
 	{
 		public StoreAddTableModel()
 		{
-			super( new String [] { "Item Name", "Price", " ", "Qty", "Lim", " ", " " },
-					new Class [] { String.class, Integer.class, Integer.class, Integer.class, Boolean.class, JButton.class, JButton.class },
-					new boolean [] { true, true, false, true, true, false, false }, new LockableListModel() );
+			super(
+				new String[] { "Item Name", "Price", " ", "Qty", "Lim", " ", " " },
+				new Class[] { String.class, Integer.class, Integer.class, Integer.class, Boolean.class, JButton.class, JButton.class },
+				new boolean[] { true, true, false, true, true, false, false }, new LockableListModel() );
 
-			LockableListModel dataModel = inventory.getMirrorImage( new TradeableItemFilter() );
+			LockableListModel dataModel = KoLConstants.inventory.getMirrorImage( new TradeableItemFilter() );
 			StoreManageFrame.this.sellingList = new JComboBox( dataModel );
 
 			Vector value = new Vector();
 			value.add( "- select an item -" );
-			value.add( new Integer(0) );
-			value.add( new Integer(0) );
-			value.add( new Integer(0) );
+			value.add( new Integer( 0 ) );
+			value.add( new Integer( 0 ) );
+			value.add( new Integer( 0 ) );
 			value.add( Boolean.FALSE );
 
 			this.listModel.add( value );
 		}
 
-		public Vector constructVector( Object o )
+		public Vector constructVector( final Object o )
 		{
 			Vector value = (Vector) o;
 			if ( value.size() < 7 )
@@ -253,29 +276,32 @@ public class StoreManageFrame extends KoLPanelFrame
 		}
 	}
 
-	private class StoreManageTableModel extends ListWrapperTableModel
+	private class StoreManageTableModel
+		extends ListWrapperTableModel
 	{
 		public StoreManageTableModel()
 		{
-			super( new String [] { "Item Name", "Price", "Lowest", "Qty", "Lim", " ", " " },
-					new Class [] { String.class, Integer.class, Integer.class, Integer.class, Boolean.class, JButton.class, JButton.class },
-					new boolean [] { false, true, false, false, true, false, false }, StoreManager.getSoldItemList() );
+			super(
+				new String[] { "Item Name", "Price", "Lowest", "Qty", "Lim", " ", " " },
+				new Class[] { String.class, Integer.class, Integer.class, Integer.class, Boolean.class, JButton.class, JButton.class },
+				new boolean[] { false, true, false, false, true, false, false }, StoreManager.getSoldItemList() );
 		}
 
-		public Vector constructVector( Object o )
+		public Vector constructVector( final Object o )
 		{
 			Vector value = (Vector) o;
 			if ( value.size() < 7 )
 			{
-				value.add( new RemoveItemButton( (String) value.get(0) ) );
-				value.add( new SearchItemButton( (String) value.get(0) ) );
+				value.add( new RemoveItemButton( (String) value.get( 0 ) ) );
+				value.add( new SearchItemButton( (String) value.get( 0 ) ) );
 			}
 
 			return value;
 		}
 	}
 
-	private class AddItemButton extends NestedInsideTableButton
+	private class AddItemButton
+		extends NestedInsideTableButton
 	{
 		public AddItemButton()
 		{
@@ -283,61 +309,71 @@ public class StoreManageFrame extends KoLPanelFrame
 			this.setToolTipText( "add selected item" );
 		}
 
-		public void mouseReleased( MouseEvent e )
+		public void mouseReleased( final MouseEvent e )
 		{
 			if ( !StoreManageFrame.this.finalizeTable( StoreManageFrame.this.addTable ) )
+			{
 				return;
+			}
 
 			AdventureResult soldItem = (AdventureResult) StoreManageFrame.this.sellingList.getSelectedItem();
 			if ( soldItem == null )
+			{
 				return;
+			}
 
-			int price = ((Integer) StoreManageFrame.this.addTable.getValueAt( 0, 1 )).intValue();
-			int quantity = ((Integer) StoreManageFrame.this.addTable.getValueAt( 0, 3 )).intValue();
+			int price = ( (Integer) StoreManageFrame.this.addTable.getValueAt( 0, 1 ) ).intValue();
+			int quantity = ( (Integer) StoreManageFrame.this.addTable.getValueAt( 0, 3 ) ).intValue();
 
 			if ( quantity <= 0 )
+			{
 				quantity = soldItem.getCount() - quantity;
+			}
 
-			int limit = ((Boolean) StoreManageFrame.this.addTable.getValueAt( 0, 4 )).booleanValue() ? 1 : 0;
+			int limit = ( (Boolean) StoreManageFrame.this.addTable.getValueAt( 0, 4 ) ).booleanValue() ? 1 : 0;
 			soldItem = new AdventureResult( soldItem.getItemId(), quantity );
 
 			StoreManageFrame.this.addTable.setValueAt( new AdventureResult( "-select an item-", 1, false ), 0, 0 );
-			StoreManageFrame.this.addTable.setValueAt( new Integer(0), 0, 1 );
-			StoreManageFrame.this.addTable.setValueAt( new Integer(0), 0, 3 );
+			StoreManageFrame.this.addTable.setValueAt( new Integer( 0 ), 0, 1 );
+			StoreManageFrame.this.addTable.setValueAt( new Integer( 0 ), 0, 3 );
 
 			RequestThread.postRequest( new AutoSellRequest( soldItem, price, limit ) );
 		}
 	}
 
-	private class SearchItemButton extends NestedInsideTableButton
+	private class SearchItemButton
+		extends NestedInsideTableButton
 	{
-		private String itemName;
+		private final String itemName;
 
 		public SearchItemButton()
-		{	this( null );
+		{
+			this( null );
 		}
 
-		public SearchItemButton( String itemName )
+		public SearchItemButton( final String itemName )
 		{
 			super( JComponentUtilities.getImage( "icon_warning_sml.gif" ) );
 			this.itemName = itemName;
 			this.setToolTipText( "price analysis" );
 		}
 
-		public void mouseReleased( MouseEvent e )
+		public void mouseReleased( final MouseEvent e )
 		{
 			String searchName = this.itemName;
 			if ( searchName == null )
 			{
 				AdventureResult item = (AdventureResult) StoreManageFrame.this.sellingList.getSelectedItem();
 				if ( item == null )
+				{
 					return;
+				}
 
 				searchName = item.getName();
 			}
 
-			searchLabel.setText( searchName );
-			StoreManager.searchMall( searchName, priceSummary, 10, true );
+			StoreManageFrame.searchLabel.setText( searchName );
+			StoreManager.searchMall( searchName, StoreManageFrame.priceSummary, 10, true );
 
 			StoreManageFrame.this.resultsDisplay.updateUI();
 
@@ -346,39 +382,44 @@ public class StoreManageFrame extends KoLPanelFrame
 		}
 	}
 
-	private class RemoveItemButton extends NestedInsideTableButton
+	private class RemoveItemButton
+		extends NestedInsideTableButton
 	{
-		private int itemId;
+		private final int itemId;
 
-		public RemoveItemButton( String itemName )
+		public RemoveItemButton( final String itemName )
 		{
 			super( JComponentUtilities.getImage( "icon_error_sml.gif" ) );
 			this.itemId = TradeableItemDatabase.getItemId( itemName );
 			this.setToolTipText( "remove item from store" );
 		}
 
-		public void mouseReleased( MouseEvent e )
-		{	RequestThread.postRequest( new StoreManageRequest( this.itemId ) );
+		public void mouseReleased( final MouseEvent e )
+		{
+			RequestThread.postRequest( new StoreManageRequest( this.itemId ) );
 		}
 	}
 
-	private class StoreAddPanel extends ItemManagePanel
+	private class StoreAddPanel
+		extends ItemManagePanel
 	{
 		public StoreAddPanel()
 		{
-			super( "mallsell", "autosell", inventory );
+			super( "mallsell", "autosell", KoLConstants.inventory );
 			this.addFilters();
 
-			this.filters[4].setSelected( false );
-			this.filters[4].setEnabled( false );
+			this.filters[ 4 ].setSelected( false );
+			this.filters[ 4 ].setEnabled( false );
 			this.filterItems();
 		}
 
 		public void actionConfirmed()
 		{
-			Object [] items = this.getDesiredItems( "Mallsell" );
+			Object[] items = this.getDesiredItems( "Mallsell" );
 			if ( items == null || items.length == 0 )
+			{
 				return;
+			}
 
 			RequestThread.openRequestSequence();
 			RequestThread.postRequest( new AutoSellRequest( items, AutoSellRequest.AUTOMALL ) );
@@ -388,48 +429,58 @@ public class StoreManageFrame extends KoLPanelFrame
 
 		public void actionCancelled()
 		{
-			Object [] items = this.getDesiredItems( "Autosell" );
+			Object[] items = this.getDesiredItems( "Autosell" );
 			RequestThread.postRequest( new AutoSellRequest( items, AutoSellRequest.AUTOSELL ) );
 		}
 	}
 
-	private class StoreRemovePanel extends ItemManagePanel
+	private class StoreRemovePanel
+		extends ItemManagePanel
 	{
 		public StoreRemovePanel()
 		{
 			super( "take out", "autosell", StoreManager.getSortedSoldItemList() );
 			this.addFilters();
 
-			this.filters[4].setSelected( false );
-			this.filters[4].setEnabled( false );
+			this.filters[ 4 ].setSelected( false );
+			this.filters[ 4 ].setEnabled( false );
 		}
 
 		public void actionConfirmed()
-		{	this.removeItems( false );
+		{
+			this.removeItems( false );
 		}
 
 		public void actionCancelled()
 		{
-			if ( !confirm( "Are you sure you'd like to autosell the selected items?" ) )
-					return;
+			if ( !KoLFrame.confirm( "Are you sure you'd like to autosell the selected items?" ) )
+			{
+				return;
+			}
 
 			this.removeItems( true );
 		}
 
-		public void removeItems( boolean autoSellAfter )
+		public void removeItems( final boolean autoSellAfter )
 		{
-			Object [] items = this.elementList.getSelectedValues();
+			Object[] items = this.elementList.getSelectedValues();
 
 			for ( int i = 0; i < items.length; ++i )
-			 	RequestThread.postRequest( new StoreManageRequest( ((SoldItem)items[i]).getItemId() ) );
+			{
+				RequestThread.postRequest( new StoreManageRequest( ( (SoldItem) items[ i ] ).getItemId() ) );
+			}
 
 			RequestThread.postRequest( new StoreManageRequest() );
 
 			if ( autoSellAfter )
 			{
-				AdventureResult [] itemsToSell = new AdventureResult[ items.length ];
+				AdventureResult[] itemsToSell = new AdventureResult[ items.length ];
 				for ( int i = 0; i < items.length; ++i )
-					itemsToSell[i] = new AdventureResult( ((SoldItem)items[i]).getItemId(), ((SoldItem)items[i]).getQuantity() );
+				{
+					itemsToSell[ i ] =
+						new AdventureResult(
+							( (SoldItem) items[ i ] ).getItemId(), ( (SoldItem) items[ i ] ).getQuantity() );
+				}
 
 				RequestThread.postRequest( new AutoSellRequest( itemsToSell, AutoSellRequest.AUTOSELL ) );
 			}
@@ -437,13 +488,13 @@ public class StoreManageFrame extends KoLPanelFrame
 	}
 
 	/**
-	 * An internal class which represents the panel used for tallying the
-	 * results of the mall search request.  Note that all of the tallying
-	 * functionality is handled by the <code>LockableListModel</code>
-	 * provided, so this functions as a container for that list model.
+	 * An internal class which represents the panel used for tallying the results of the mall search request. Note that
+	 * all of the tallying functionality is handled by the <code>LockableListModel</code> provided, so this functions
+	 * as a container for that list model.
 	 */
 
-	private class SearchResultsPanel extends JPanel
+	private class SearchResultsPanel
+		extends JPanel
 	{
 		public SearchResultsPanel()
 		{
@@ -452,10 +503,10 @@ public class StoreManageFrame extends KoLPanelFrame
 			JPanel container = new JPanel( new BorderLayout() );
 			container.setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
 
-			container.add( searchLabel, BorderLayout.NORTH );
-			JComponentUtilities.setComponentSize( searchLabel, 150, 16 );
+			container.add( StoreManageFrame.searchLabel, BorderLayout.NORTH );
+			JComponentUtilities.setComponentSize( StoreManageFrame.searchLabel, 150, 16 );
 
-			StoreManageFrame.this.resultsDisplay = new JList( priceSummary );
+			StoreManageFrame.this.resultsDisplay = new JList( StoreManageFrame.priceSummary );
 			StoreManageFrame.this.resultsDisplay.setPrototypeCellValue( "1234567890ABCDEF" );
 			StoreManageFrame.this.resultsDisplay.setVisibleRowCount( 11 );
 			StoreManageFrame.this.resultsDisplay.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
@@ -467,10 +518,12 @@ public class StoreManageFrame extends KoLPanelFrame
 		}
 	}
 
-	private class StoreLogPanel extends ItemManagePanel
+	private class StoreLogPanel
+		extends ItemManagePanel
 	{
 		public StoreLogPanel()
-		{	super( "refresh", "resort", StoreManager.getStoreLog() );
+		{
+			super( "refresh", "resort", StoreManager.getStoreLog() );
 		}
 
 		public void actionConfirmed()
@@ -480,18 +533,22 @@ public class StoreManageFrame extends KoLPanelFrame
 		}
 
 		public void actionCancelled()
-		{	StoreManager.sortStoreLog( true );
+		{
+			StoreManager.sortStoreLog( true );
 		}
 	}
 
-	private class TradeableItemFilter implements ListElementFilter
+	private class TradeableItemFilter
+		implements ListElementFilter
 	{
-		public boolean isVisible( Object element )
+		public boolean isVisible( final Object element )
 		{
-			if ( !(element instanceof AdventureResult) )
+			if ( !( element instanceof AdventureResult ) )
+			{
 				return false;
+			}
 
-			int itemId = ((AdventureResult)element).getItemId();
+			int itemId = ( (AdventureResult) element ).getItemId();
 			return itemId < 1 || TradeableItemDatabase.isTradeable( itemId );
 		}
 	}

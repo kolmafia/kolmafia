@@ -37,37 +37,45 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 
-import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
-public abstract class LabeledKoLPanel extends KoLPanel
+public abstract class LabeledKoLPanel
+	extends KoLPanel
 {
-	private String panelTitle;
-	public LabeledKoLPanel( String panelTitle, Dimension left, Dimension right )
+	private final String panelTitle;
+
+	public LabeledKoLPanel( final String panelTitle, final Dimension left, final Dimension right )
 	{
 		super( left, right, panelTitle != null && !panelTitle.equals( "" ) );
 		this.panelTitle = panelTitle;
 	}
 
-	public LabeledKoLPanel( String panelTitle, String confirmButton, Dimension left, Dimension right )
+	public LabeledKoLPanel( final String panelTitle, final String confirmButton, final Dimension left,
+		final Dimension right )
 	{
 		super( confirmButton, left, right, panelTitle != null && !panelTitle.equals( "" ) );
 		this.panelTitle = panelTitle;
 	}
 
-	public LabeledKoLPanel( String panelTitle, String confirmButton, String cancelButton, Dimension left, Dimension right )
+	public LabeledKoLPanel( final String panelTitle, final String confirmButton, final String cancelButton,
+		final Dimension left, final Dimension right )
 	{
 		super( confirmButton, cancelButton, left, right, panelTitle != null && !panelTitle.equals( "" ) );
 		this.panelTitle = panelTitle;
 	}
 
-	public void setContent( VerifiableElement [] elements, boolean bothDisabledOnClick )
+	public void setContent( final VerifiableElement[] elements, final boolean bothDisabledOnClick )
 	{
 		super.setContent( elements, bothDisabledOnClick );
 
 		if ( this.panelTitle != null && !this.panelTitle.equals( "" ) )
-			this.add( JComponentUtilities.createLabel( this.panelTitle, JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
+		{
+			this.add(
+				JComponentUtilities.createLabel( this.panelTitle, SwingConstants.CENTER, Color.black, Color.white ),
+				BorderLayout.NORTH );
+		}
 	}
 
 	public void actionCancelled()
@@ -79,6 +87,7 @@ public abstract class LabeledKoLPanel extends KoLPanel
 	}
 
 	public boolean shouldAddStatusLabel()
-	{	return false;
+	{
+		return false;
 	}
 }

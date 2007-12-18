@@ -36,20 +36,16 @@ package net.sourceforge.kolmafia;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class FriarRequest extends KoLRequest
+public class FriarRequest
+	extends KoLRequest
 {
 	private int option = 0;
 
 	private static final Pattern ID_PATTERN = Pattern.compile( "action=buffs.*?bro=(\\d+)" );
 
-	public static final String [] BLESSINGS =
-	{
-		"food",
-		"familiar",
-		"booze",
-	};
+	public static final String[] BLESSINGS = { "food", "familiar", "booze", };
 
-	public FriarRequest( int option )
+	public FriarRequest( final int option )
 	{
 		super( "friars.php" );
 
@@ -63,14 +59,15 @@ public class FriarRequest extends KoLRequest
 	}
 
 	protected boolean retryOnTimeout()
-	{	return true;
+	{
+		return true;
 	}
 
 	public void run()
 	{
-		if ( option == 0 )
+		if ( this.option == 0 )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "Decide which friar to visit." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Decide which friar to visit." );
 			return;
 		}
 
@@ -80,16 +77,17 @@ public class FriarRequest extends KoLRequest
 
 	public void processResults()
 	{
-		if ( this.responseText == null || this.responseText.equals( "")	)
+		if ( this.responseText == null || this.responseText.equals( "" ) )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You can't find the Deep Fat Friars." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't find the Deep Fat Friars." );
 			return;
 		}
 
-                // No, seriously, you can only get one of those per day.
+		// No, seriously, you can only get one of those per day.
 		if ( this.responseText.indexOf( "one of those per day." ) != -1 )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You can only get one blessing a day from the Deep Fat Friars." );
+			KoLmafia.updateDisplay(
+				KoLConstants.ERROR_STATE, "You can only get one blessing a day from the Deep Fat Friars." );
 			return;
 		}
 
@@ -97,17 +95,21 @@ public class FriarRequest extends KoLRequest
 		RequestFrame.refreshStatus();
 	}
 
-	public static final boolean registerRequest( String location )
+	public static final boolean registerRequest( final String location )
 	{
 		if ( !location.startsWith( "friars.php" ) )
+		{
 			return false;
+		}
 
-		Matcher matcher = ID_PATTERN.matcher( location );
+		Matcher matcher = FriarRequest.ID_PATTERN.matcher( location );
 
 		if ( !matcher.find() )
+		{
 			return true;
+		}
 
-		RequestLogger.updateSessionLog( "friars blessing " + matcher.group(1) );
+		RequestLogger.updateSessionLog( "friars blessing " + matcher.group( 1 ) );
 		return true;
 	}
 }

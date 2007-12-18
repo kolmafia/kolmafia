@@ -33,12 +33,13 @@
 
 package net.sourceforge.kolmafia;
 
-public class GreenMessageRequest extends SendMessageRequest
+public class GreenMessageRequest
+	extends SendMessageRequest
 {
-	private boolean isInternal;
-	private String recipient, message;
+	private final boolean isInternal;
+	private final String recipient, message;
 
-	public GreenMessageRequest( String recipient, String message )
+	public GreenMessageRequest( final String recipient, final String message )
 	{
 		super( "sendmessage.php" );
 
@@ -52,12 +53,13 @@ public class GreenMessageRequest extends SendMessageRequest
 		this.isInternal = true;
 	}
 
-	public GreenMessageRequest( String recipient, KoLmafiaASH script )
+	public GreenMessageRequest( final String recipient, final KoLmafiaASH script )
 	{
 		super( "sendmessage.php" );
 
 		this.recipient = recipient;
-		this.message = "I have opted to let you know that I have chosen to run <" + script.getFileName() + ">.  Thanks for writing this script!";
+		this.message =
+			"I have opted to let you know that I have chosen to run <" + script.getFileName() + ">.  Thanks for writing this script!";
 
 		this.addFormField( "action", "send" );
 		this.addFormField( "towho", KoLmafia.getPlayerId( this.recipient ) );
@@ -66,7 +68,7 @@ public class GreenMessageRequest extends SendMessageRequest
 		this.isInternal = true;
 	}
 
-	public GreenMessageRequest( String recipient, String message, AdventureResult attachment )
+	public GreenMessageRequest( final String recipient, final String message, final AdventureResult attachment )
 	{
 		super( "sendmessage.php", attachment );
 
@@ -80,7 +82,8 @@ public class GreenMessageRequest extends SendMessageRequest
 		this.isInternal = true;
 	}
 
-	public GreenMessageRequest( String recipient, String message, Object [] attachments, boolean isInternal )
+	public GreenMessageRequest( final String recipient, final String message, final Object[] attachments,
+		boolean isInternal )
 	{
 		super( "sendmessage.php", attachments );
 
@@ -92,57 +95,71 @@ public class GreenMessageRequest extends SendMessageRequest
 		this.addFormField( "message", this.message );
 
 		if ( !isInternal )
+		{
 			this.addFormField( "savecopy", "on" );
+		}
 
 		this.isInternal = isInternal;
 	}
 
 	public String getRecipient()
-	{	return this.recipient;
+	{
+		return this.recipient;
 	}
 
 	public int getCapacity()
-	{	return 11;
+	{
+		return 11;
 	}
 
-	public SendMessageRequest getSubInstance( Object [] attachments )
-	{	return new GreenMessageRequest( this.recipient, this.message, attachments, this.isInternal );
+	public SendMessageRequest getSubInstance( final Object[] attachments )
+	{
+		return new GreenMessageRequest( this.recipient, this.message, attachments, this.isInternal );
 	}
 
 	public String getSuccessMessage()
-	{	return "<center>Message ";
+	{
+		return "<center>Message ";
 	}
 
 	public String getStatusMessage()
-	{	return "Sending kmail to " + KoLmafia.getPlayerName( this.recipient );
+	{
+		return "Sending kmail to " + KoLmafia.getPlayerName( this.recipient );
 	}
 
 	public String getItemField()
-	{	return "whichitem";
+	{
+		return "whichitem";
 	}
 
 	public String getQuantityField()
-	{	return "howmany";
+	{
+		return "howmany";
 	}
 
 	public String getMeatField()
-	{	return "sendmeat";
+	{
+		return "sendmeat";
 	}
 
 	public boolean allowMementoTransfer()
-	{	return true;
+	{
+		return true;
 	}
 
 	public boolean allowUntradeableTransfer()
-	{	return true;
+	{
+		return true;
 	}
 
-	public static final boolean registerRequest( String urlString )
+	public static final boolean registerRequest( final String urlString )
 	{
 		if ( !urlString.startsWith( "sendmessage.php" ) )
+		{
 			return false;
+		}
 
-		return registerRequest( "send a kmail", urlString, inventory, null, "sendmeat", 0 );
+		return SendMessageRequest.registerRequest(
+			"send a kmail", urlString, KoLConstants.inventory, null, "sendmeat", 0 );
 	}
 }
-

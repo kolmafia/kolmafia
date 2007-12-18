@@ -32,31 +32,38 @@
  */
 
 package net.sourceforge.kolmafia;
+
 import javax.swing.JTabbedPane;
 
-public class UnfocusedTabbedPane extends JTabbedPane
+public class UnfocusedTabbedPane
+	extends JTabbedPane
 {
 	public UnfocusedTabbedPane()
-	{	super();
+	{
+		super();
 	}
 
-	public UnfocusedTabbedPane( int tabPlacement )
-	{	super( tabPlacement );
+	public UnfocusedTabbedPane( final int tabPlacement )
+	{
+		super( tabPlacement );
 	}
 
-	public UnfocusedTabbedPane( int tabPlacement, int tabLayoutPolicy )
-	{	super( tabPlacement, tabLayoutPolicy );
+	public UnfocusedTabbedPane( final int tabPlacement, final int tabLayoutPolicy )
+	{
+		super( tabPlacement, tabLayoutPolicy );
 	}
 
 	public final boolean isFocusable()
-	{	return false;
+	{
+		return false;
 	}
 
-	public final void setFocusable( boolean isFocusable )
+	public final void setFocusable( final boolean isFocusable )
 	{
 	}
 
 	public final void requestFocus()
-	{	transferFocus();
+	{
+		this.transferFocus();
 	}
 }

@@ -36,21 +36,24 @@ package net.sourceforge.kolmafia;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class MultiUseRequest extends ItemCreationRequest
+public class MultiUseRequest
+	extends ItemCreationRequest
 {
 	private static final Pattern USE_PATTERN = Pattern.compile( "multiuse.php.*whichitem=(\\d+).*quantity=(\\d+)" );
 
-	public MultiUseRequest( int itemId )
+	public MultiUseRequest( final int itemId )
 	{
 		super( "multiuse.php", itemId );
 
-		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemId );
+		AdventureResult[] ingredients = ConcoctionsDatabase.getIngredients( itemId );
 
 		// There must be exactly one ingredient
 		if ( ingredients == null || ingredients.length != 1 )
+		{
 			return;
+		}
 
-		AdventureResult ingredient = ingredients[0];
+		AdventureResult ingredient = ingredients[ 0 ];
 		int use = ingredient.getItemId();
 		int count = ingredient.getCount();
 
@@ -69,7 +72,9 @@ public class MultiUseRequest extends ItemCreationRequest
 		// needed items from the closet if they are missing.
 
 		if ( !this.makeIngredients() )
+		{
 			return;
+		}
 
 		for ( int i = 1; i <= this.getQuantityNeeded(); ++i )
 		{
@@ -83,23 +88,27 @@ public class MultiUseRequest extends ItemCreationRequest
 		// Is there a general way to detect a failure?
 	}
 
-	public static final boolean registerRequest( String urlString )
+	public static final boolean registerRequest( final String urlString )
 	{
-		Matcher useMatcher = USE_PATTERN.matcher( urlString );
+		Matcher useMatcher = MultiUseRequest.USE_PATTERN.matcher( urlString );
 		if ( !useMatcher.find() )
+		{
 			return true;
+		}
 
 		// Item ID of the base item
-		int baseId = StaticEntity.parseInt( useMatcher.group(1) );
+		int baseId = StaticEntity.parseInt( useMatcher.group( 1 ) );
 
 		// Find result item ID
-		int result = ConcoctionsDatabase.findConcoction( MULTI_USE, baseId );
+		int result = ConcoctionsDatabase.findConcoction( KoLConstants.MULTI_USE, baseId );
 
 		// If this is not a concoction, let somebody else log this.
 		if ( result == -1 )
+		{
 			return false;
+		}
 
-		int count = StaticEntity.parseInt( useMatcher.group(2) );
+		int count = StaticEntity.parseInt( useMatcher.group( 2 ) );
 		AdventureResult base = new AdventureResult( baseId, 0 - count );
 
 		RequestLogger.updateSessionLog();

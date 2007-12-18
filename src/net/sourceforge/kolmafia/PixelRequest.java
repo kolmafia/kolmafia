@@ -36,11 +36,12 @@ package net.sourceforge.kolmafia;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class PixelRequest extends ItemCreationRequest
+public class PixelRequest
+	extends ItemCreationRequest
 {
 	private static final Pattern WHICH_PATTERN = Pattern.compile( "makewhich=(\\d+)" );
 
-	public PixelRequest( int itemId )
+	public PixelRequest( final int itemId )
 	{
 		super( "mystic.php", itemId );
 
@@ -60,47 +61,56 @@ public class PixelRequest extends ItemCreationRequest
 		// pixels if they are not currently available.
 
 		if ( !this.makeIngredients() )
+		{
 			return;
+		}
 
 		KoLmafia.updateDisplay( "Creating " + this.getQuantityNeeded() + " " + this.getName() + "..." );
 		this.addFormField( "quantity", String.valueOf( this.getQuantityNeeded() ) );
 		super.run();
 	}
 
-	public static final boolean registerRequest( String urlString )
+	public static final boolean registerRequest( final String urlString )
 	{
-		Matcher itemMatcher = WHICH_PATTERN.matcher( urlString );
+		Matcher itemMatcher = PixelRequest.WHICH_PATTERN.matcher( urlString );
 		if ( !itemMatcher.find() )
+		{
 			return true;
+		}
 
-		int itemId = StaticEntity.parseInt( itemMatcher.group(1) );
+		int itemId = StaticEntity.parseInt( itemMatcher.group( 1 ) );
 		int quantity = 1;
 
 		if ( urlString.indexOf( "makemax=on" ) != -1 )
 		{
-			quantity = getInstance( itemId ).getQuantityPossible();
+			quantity = ItemCreationRequest.getInstance( itemId ).getQuantityPossible();
 		}
 		else
 		{
-			Matcher quantityMatcher = QUANTITY_PATTERN.matcher( urlString );
+			Matcher quantityMatcher = ItemCreationRequest.QUANTITY_PATTERN.matcher( urlString );
 			if ( quantityMatcher.find() )
-				quantity = StaticEntity.parseInt( quantityMatcher.group(1) );
+			{
+				quantity = StaticEntity.parseInt( quantityMatcher.group( 1 ) );
+			}
 		}
 
 		StringBuffer pixelString = new StringBuffer();
 		pixelString.append( "Trade " );
 
-		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemId );
+		AdventureResult[] ingredients = ConcoctionsDatabase.getIngredients( itemId );
 		for ( int i = 0; i < ingredients.length; ++i )
 		{
 			if ( i > 0 )
+			{
 				pixelString.append( ", " );
+			}
 
-			pixelString.append( ingredients[i].getCount() * quantity );
+			pixelString.append( ingredients[ i ].getCount() * quantity );
 			pixelString.append( " " );
-			pixelString.append( ingredients[i].getName() );
+			pixelString.append( ingredients[ i ].getName() );
 
-			StaticEntity.getClient().processResult( ingredients[i].getInstance( -1 * ingredients[i].getCount() * quantity ) );
+			StaticEntity.getClient().processResult(
+				ingredients[ i ].getInstance( -1 * ingredients[ i ].getCount() * quantity ) );
 		}
 
 		RequestLogger.updateSessionLog();
@@ -109,4 +119,3 @@ public class PixelRequest extends ItemCreationRequest
 		return true;
 	}
 }
-

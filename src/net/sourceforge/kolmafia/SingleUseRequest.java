@@ -36,20 +36,23 @@ package net.sourceforge.kolmafia;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class SingleUseRequest extends ItemCreationRequest
+public class SingleUseRequest
+	extends ItemCreationRequest
 {
 	private static final Pattern USE_PATTERN = Pattern.compile( "inv_use.php.*whichitem=(\\d+)" );
 
-	public SingleUseRequest( int itemId )
+	public SingleUseRequest( final int itemId )
 	{
 		super( "inv_use.php", itemId );
 
-		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemId );
+		AdventureResult[] ingredients = ConcoctionsDatabase.getIngredients( itemId );
 
 		if ( ingredients == null )
+		{
 			return;
+		}
 
-		int use = ingredients[0].getItemId();
+		int use = ingredients[ 0 ].getItemId();
 		this.addFormField( "which", "3" );
 		this.addFormField( "whichitem", String.valueOf( use ) );
 	}
@@ -64,7 +67,9 @@ public class SingleUseRequest extends ItemCreationRequest
 		// needed items from the closet if they are missing.
 
 		if ( !this.makeIngredients() )
+		{
 			return;
+		}
 
 		for ( int i = 1; i <= this.getQuantityNeeded(); ++i )
 		{
@@ -78,38 +83,44 @@ public class SingleUseRequest extends ItemCreationRequest
 		// Is there a general way to detect a failure?
 	}
 
-	public static final boolean registerRequest( String urlString )
+	public static final boolean registerRequest( final String urlString )
 	{
-		Matcher useMatcher = USE_PATTERN.matcher( urlString );
+		Matcher useMatcher = SingleUseRequest.USE_PATTERN.matcher( urlString );
 		if ( !useMatcher.find() )
+		{
 			return true;
+		}
 
 		// Item ID of the base item
-		int baseId = StaticEntity.parseInt( useMatcher.group(1) );
+		int baseId = StaticEntity.parseInt( useMatcher.group( 1 ) );
 
 		// Find result item ID
-		int result = ConcoctionsDatabase.findConcoction( SINGLE_USE, baseId );
+		int result = ConcoctionsDatabase.findConcoction( KoLConstants.SINGLE_USE, baseId );
 
 		// If this is not a concoction, let somebody else log this.
 		if ( result == -1 )
+		{
 			return false;
+		}
 
 		AdventureResult base = new AdventureResult( baseId, -1 );
 
-		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( result );
+		AdventureResult[] ingredients = ConcoctionsDatabase.getIngredients( result );
 		StringBuffer text = new StringBuffer();
 		text.append( "Use " );
 
 		for ( int i = 0; i < ingredients.length; ++i )
-                {
+		{
 			if ( i > 0 )
+			{
 				text.append( " + " );
+			}
 
-			text.append( ingredients[i].getCount() );
+			text.append( ingredients[ i ].getCount() );
 			text.append( " " );
-			text.append( ingredients[i].getName() );
-			StaticEntity.getClient().processResult( ingredients[i].getInstance( -1 * ingredients[i].getCount() ) );
-                }
+			text.append( ingredients[ i ].getName() );
+			StaticEntity.getClient().processResult( ingredients[ i ].getInstance( -1 * ingredients[ i ].getCount() ) );
+		}
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( text.toString() );

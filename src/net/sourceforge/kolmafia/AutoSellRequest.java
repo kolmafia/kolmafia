@@ -36,87 +36,108 @@ package net.sourceforge.kolmafia;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class AutoSellRequest extends SendMessageRequest
+public class AutoSellRequest
+	extends SendMessageRequest
 {
 	public static final Pattern AUTOSELL_PATTERN = Pattern.compile( "for ([\\d,]+) [Mm]eat" );
 	private static final Pattern EMBEDDED_ID_PATTERN = Pattern.compile( "item(\\d+)" );
 
-	private int sellType;
+	private final int sellType;
 
-	private int [] prices;
-	private int [] limits;
+	private final int[] prices;
+	private final int[] limits;
 
 	public static final int AUTOSELL = 1;
 	public static final int AUTOMALL = 2;
 
-	public AutoSellRequest( AdventureResult item )
-	{	this( new AdventureResult [] { item }, AUTOSELL );
-	}
-
-	public AutoSellRequest( AdventureResult item, int price, int limit )
-	{	this( new AdventureResult [] { item }, new int [] { price }, new int [] { limit }, AUTOMALL );
-	}
-
-	public AutoSellRequest( Object [] items, int sellType )
-	{	this( items, new int[0], new int[0], sellType );
-	}
-
-	public AutoSellRequest( Object [] items, int [] prices, int [] limits, int sellType )
+	public AutoSellRequest( final AdventureResult item )
 	{
-		super( getSellPage( sellType ), items );
+		this( new AdventureResult[] { item }, AutoSellRequest.AUTOSELL );
+	}
+
+	public AutoSellRequest( final AdventureResult item, final int price, final int limit )
+	{
+		this( new AdventureResult[] { item }, new int[] { price }, new int[] { limit }, AutoSellRequest.AUTOMALL );
+	}
+
+	public AutoSellRequest( final Object[] items, final int sellType )
+	{
+		this( items, new int[ 0 ], new int[ 0 ], sellType );
+	}
+
+	public AutoSellRequest( final Object[] items, final int[] prices, final int[] limits, final int sellType )
+	{
+		super( AutoSellRequest.getSellPage( sellType ), items );
 
 		this.sellType = sellType;
 		this.prices = new int[ prices.length ];
 		this.limits = new int[ limits.length ];
 
-		if ( sellType == AUTOMALL )
+		if ( sellType == AutoSellRequest.AUTOMALL )
 		{
 			this.addFormField( "action", "additem" );
 
 			for ( int i = 0; i < prices.length; ++i )
-				this.prices[i] = prices[i];
+			{
+				this.prices[ i ] = prices[ i ];
+			}
 
 			for ( int i = 0; i < limits.length; ++i )
-				this.limits[i] = limits[i];
+			{
+				this.limits[ i ] = limits[ i ];
+			}
 		}
 	}
 
 	public String getItemField()
-	{	return "whichitem";
+	{
+		return "whichitem";
 	}
 
 	public String getQuantityField()
-	{	return "qty";
+	{
+		return "qty";
 	}
 
 	public String getMeatField()
-	{	return "sendmeat";
+	{
+		return "sendmeat";
 	}
 
-	private static final String getSellPage( int sellType )
+	private static final String getSellPage( final int sellType )
 	{
-		if ( sellType == AUTOMALL )
+		if ( sellType == AutoSellRequest.AUTOMALL )
+		{
 			return "managestore.php";
+		}
 
 		// Get the autosell mode the first time we need it
 		if ( KoLCharacter.getAutosellMode().equals( "" ) )
-			(new AccountRequest()).run();
+		{
+			( new AccountRequest() ).run();
+		}
 
 		if ( KoLCharacter.getAutosellMode().equals( "detailed" ) )
+		{
 			return "sellstuff_ugly.php";
+		}
 
 		return "sellstuff.php";
 	}
 
-	public void attachItem( AdventureResult item, int index )
+	public void attachItem( final AdventureResult item, final int index )
 	{
-		if ( this.sellType == AUTOMALL )
+		if ( this.sellType == AutoSellRequest.AUTOMALL )
 		{
 			this.addFormField( "item" + index, String.valueOf( item.getItemId() ) );
 			this.addFormField( this.getQuantityField() + index, String.valueOf( item.getCount() ) );
 
-			this.addFormField( "price" + index, index - 1 >= this.prices.length || this.prices[ index - 1 ] == 0 ? "" : String.valueOf( this.prices[ index - 1 ] ) );
-			this.addFormField( "limit" + index, index - 1 >= this.limits.length || this.limits[ index - 1 ] == 0 ? "" : String.valueOf( this.limits[ index - 1 ] ) );
+			this.addFormField(
+				"price" + index,
+				index - 1 >= this.prices.length || this.prices[ index - 1 ] == 0 ? "" : String.valueOf( this.prices[ index - 1 ] ) );
+			this.addFormField(
+				"limit" + index,
+				index - 1 >= this.limits.length || this.limits[ index - 1 ] == 0 ? "" : String.valueOf( this.limits[ index - 1 ] ) );
 
 			return;
 		}
@@ -129,9 +150,6 @@ public class AutoSellRequest extends SendMessageRequest
 		{
 			if ( this.getCapacity() == 1 )
 			{
-				// If we are doing the requests one at a time,
-				// specify the item quantity
-
 				this.addFormField( "quantity", String.valueOf( item.getCount() ) );
 			}
 
@@ -170,8 +188,10 @@ public class AutoSellRequest extends SendMessageRequest
 		// If you are attempting to send things to the mall,
 		// the capacity is one.
 
-		if ( this.sellType == AUTOMALL )
+		if ( this.sellType == AutoSellRequest.AUTOMALL )
+		{
 			return 11;
+		}
 
 		// Otherwise, if you are autoselling multiple items,
 		// then it depends on which mode you are using.
@@ -183,11 +203,13 @@ public class AutoSellRequest extends SendMessageRequest
 
 		for ( int i = 0; i < this.attachments.length; ++i )
 		{
-			currentAttachment = (AdventureResult) this.attachments[i];
+			currentAttachment = (AdventureResult) this.attachments[ i ];
 
-			inventoryCount = currentAttachment.getCount( inventory );
+			inventoryCount = currentAttachment.getCount( KoLConstants.inventory );
 			if ( inventoryCount == 0 )
+			{
 				continue;
+			}
 
 			attachmentCount = currentAttachment.getCount();
 
@@ -197,7 +219,9 @@ public class AutoSellRequest extends SendMessageRequest
 				// selling everything, we must do it one item
 				// at a time
 				if ( attachmentCount < inventoryCount )
+				{
 					return 1;
+				}
 
 				// Otherwise, look at remaining items
 				continue;
@@ -207,7 +231,9 @@ public class AutoSellRequest extends SendMessageRequest
 			{
 				// We are in detailed "sell all" mode.
 				if ( attachmentCount >= inventoryCount )
+				{
 					continue;
+				}
 
 				// ...but no longer
 				if ( i == 0 && attachmentCount == inventoryCount - 1 )
@@ -248,19 +274,21 @@ public class AutoSellRequest extends SendMessageRequest
 		return Integer.MAX_VALUE;
 	}
 
-	public SendMessageRequest getSubInstance( Object [] attachments )
+	public SendMessageRequest getSubInstance( final Object[] attachments )
 	{
-		int [] prices = new int[ this.prices.length == 0 ? 0 : attachments.length ];
-		int [] limits = new int[ this.prices.length == 0 ? 0 : attachments.length ];
+		int[] prices = new int[ this.prices.length == 0 ? 0 : attachments.length ];
+		int[] limits = new int[ this.prices.length == 0 ? 0 : attachments.length ];
 
 		for ( int i = 0; i < prices.length; ++i )
 		{
 			for ( int j = 0; j < this.attachments.length; ++j )
-				if ( attachments[i].equals( this.attachments[j] ) )
+			{
+				if ( attachments[ i ].equals( this.attachments[ j ] ) )
 				{
-					prices[i] = this.prices[i];
-					limits[i] = this.limits[i];
+					prices[ i ] = this.prices[ i ];
+					limits[ i ] = this.limits[ i ];
 				}
+			}
 		}
 
 		return new AutoSellRequest( attachments, prices, limits, this.sellType );
@@ -270,14 +298,14 @@ public class AutoSellRequest extends SendMessageRequest
 	{
 		super.processResults();
 
-		if ( this.sellType == AUTOMALL )
+		if ( this.sellType == AutoSellRequest.AUTOMALL )
 		{
 			// We placed stuff in the mall.
 			StoreManager.update( this.responseText, false );
 
 			if ( this.responseText.indexOf( "You don't have a store." ) != -1 )
 			{
-				KoLmafia.updateDisplay( ERROR_STATE, "You don't have a store." );
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have a store." );
 				return;
 			}
 
@@ -286,7 +314,9 @@ public class AutoSellRequest extends SendMessageRequest
 		}
 
 		if ( KoLCharacter.getAutosellMode().equals( "detailed" ) )
+		{
 			StaticEntity.externalUpdate( "sellstuff_ugly.php", this.responseText );
+		}
 
 		// Move out of inventory. Process meat gains, if old autosell
 		// interface.
@@ -295,7 +325,7 @@ public class AutoSellRequest extends SendMessageRequest
 		KoLCharacter.updateStatus();
 	}
 
-	public static final boolean registerRequest( String urlString )
+	public static final boolean registerRequest( final String urlString )
 	{
 		Pattern itemPattern = null;
 		Pattern quantityPattern = null;
@@ -306,66 +336,87 @@ public class AutoSellRequest extends SendMessageRequest
 
 		if ( urlString.startsWith( "sellstuff.php" ) )
 		{
-			Matcher quantityMatcher = HOWMANY_PATTERN.matcher( urlString );
+			Matcher quantityMatcher = SendMessageRequest.HOWMANY_PATTERN.matcher( urlString );
 			if ( quantityMatcher.find() )
-				quantity = StaticEntity.parseInt( quantityMatcher.group(1) );
+			{
+				quantity = StaticEntity.parseInt( quantityMatcher.group( 1 ) );
+			}
 
 			if ( urlString.indexOf( "type=allbutone" ) != -1 )
+			{
 				quantity = -1;
+			}
 			else if ( urlString.indexOf( "type=all" ) != -1 )
+			{
 				quantity = 0;
+			}
 
-			itemPattern = ITEMID_PATTERN;
+			itemPattern = SendMessageRequest.ITEMID_PATTERN;
 			sellType = "autosell";
 		}
 		else if ( urlString.startsWith( "sellstuff_ugly.php" ) )
 		{
-			Matcher quantityMatcher = HOWMANY_PATTERN.matcher( urlString );
+			Matcher quantityMatcher = SendMessageRequest.HOWMANY_PATTERN.matcher( urlString );
 			if ( quantityMatcher.find() )
-				quantity = StaticEntity.parseInt( quantityMatcher.group(1) );
+			{
+				quantity = StaticEntity.parseInt( quantityMatcher.group( 1 ) );
+			}
 
 			if ( urlString.indexOf( "mode=1" ) != -1 )
+			{
 				quantity = 0;
+			}
 			else if ( urlString.indexOf( "mode=2" ) != -1 )
+			{
 				quantity = -1;
+			}
 
-			itemPattern = EMBEDDED_ID_PATTERN;
+			itemPattern = AutoSellRequest.EMBEDDED_ID_PATTERN;
 			sellType = "autosell";
 		}
 		else if ( urlString.startsWith( "managestore.php" ) && urlString.indexOf( "action=additem" ) != -1 )
 		{
-			itemPattern = ITEMID_PATTERN;
-			quantityPattern = QTY_PATTERN;
+			itemPattern = SendMessageRequest.ITEMID_PATTERN;
+			quantityPattern = SendMessageRequest.QTY_PATTERN;
 			sellType = "mallsell";
 		}
 
 		if ( itemPattern == null )
+		{
 			return false;
+		}
 
-		return registerRequest( sellType, urlString, itemPattern, quantityPattern, inventory, null, null, quantity );
+		return SendMessageRequest.registerRequest(
+			sellType, urlString, itemPattern, quantityPattern, KoLConstants.inventory, null, null, quantity );
 	}
 
 	public String getSuccessMessage()
-	{	return "";
+	{
+		return "";
 	}
 
 	public boolean allowMementoTransfer()
-	{	return false;
+	{
+		return false;
 	}
 
 	public boolean allowSingletonTransfer()
-	{	return KoLCharacter.canInteract();
+	{
+		return KoLCharacter.canInteract();
 	}
 
 	public boolean allowUntradeableTransfer()
-	{	return this.sellType == AUTOSELL;
+	{
+		return this.sellType == AutoSellRequest.AUTOSELL;
 	}
 
 	public boolean allowUngiftableTransfer()
-	{	return this.sellType == AUTOSELL;
+	{
+		return this.sellType == AutoSellRequest.AUTOSELL;
 	}
 
 	public String getStatusMessage()
-	{	return this.sellType == AUTOMALL ? "Transferring items to store" : "Autoselling items to NPCs";
+	{
+		return this.sellType == AutoSellRequest.AUTOMALL ? "Transferring items to store" : "Autoselling items to NPCs";
 	}
 }

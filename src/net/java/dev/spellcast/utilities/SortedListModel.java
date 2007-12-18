@@ -37,154 +37,165 @@ package net.java.dev.spellcast.utilities;
 import java.util.Collection;
 
 /**
- * An extension of the {@link net.java.dev.spellcast.utilities.LockableListModel} which maintains
- * elements in ascending order, where elements can only be added and replaced if they do not
- * disturb the sorted property of the <code>List</code>.
+ * An extension of the {@link net.java.dev.spellcast.utilities.LockableListModel} which maintains elements in ascending
+ * order, where elements can only be added and replaced if they do not disturb the sorted property of the
+ * <code>List</code>.
  */
 
-public class SortedListModel extends LockableListModel
+public class SortedListModel
+	extends LockableListModel
 {
 	private static final int NORMAL = 0;
 	private static final int INSERTION = 1;
 
 	/**
-	 * Constructs a new <code>SortedListModel</code>.  In essence, all this
-	 * class does is call the constructor for the <code>LockableListModel</code>
-	 * with the class object associated with <code>java.lang.Comparable</code>.
+	 * Constructs a new <code>SortedListModel</code>. In essence, all this class does is call the constructor for the
+	 * <code>LockableListModel</code> with the class object associated with <code>java.lang.Comparable</code>.
 	 */
 
 	public SortedListModel()
 	{
 	}
 
-    /**
-     * Please refer to {@link java.util.List#add(int,Object)} for more
-     * information regarding this function.  Note that if the position
-     * is invalid (ie: it does not result in a sorted property), the
-     * element will be successfully added, but to a different position.
-     */
+	/**
+	 * Please refer to {@link java.util.List#add(int,Object)} for more information regarding this function. Note that if
+	 * the position is invalid (ie: it does not result in a sorted property), the element will be successfully added,
+	 * but to a different position.
+	 */
 
-	public void add( int index, Object element )
+	public void add( final int index, final Object element )
 	{
 		if ( element == null )
+		{
 			return;
+		}
 
 		this.add( element );
 	}
 
-    /**
-     * Please refer to {@link java.util.List#add(Object)} for more
-     * information regarding this function.
-     */
+	/**
+	 * Please refer to {@link java.util.List#add(Object)} for more information regarding this function.
+	 */
 
-	public boolean add( Object o )
+	public boolean add( final Object o )
 	{
 		if ( o == null )
+		{
 			return false;
+		}
 
 		try
 		{
-			super.add( indexOf( 0, size() - 1, (Comparable)o, INSERTION ), o );
+			super.add( this.indexOf( 0, this.size() - 1, (Comparable) o, SortedListModel.INSERTION ), o );
 			return true;
 		}
 		catch ( IllegalArgumentException e1 )
-		{	return false;
+		{
+			return false;
 		}
 		catch ( ClassCastException e2 )
-		{	return false;
+		{
+			return false;
 		}
 	}
 
 	/**
-	 * Please refer to {@link java.util.List#addAll(int,Collection)} for more
-	 * information regarding this function.
+	 * Please refer to {@link java.util.List#addAll(int,Collection)} for more information regarding this function.
 	 */
 
-	public boolean addAll( int index, Collection c )
+	public boolean addAll( final int index, final Collection c )
 	{
-		boolean wasEmpty = isEmpty();
+		boolean wasEmpty = this.isEmpty();
 		boolean result = super.addAll( index, c );
 
-		if ( wasEmpty && result && !(c instanceof SortedListModel) )
+		if ( wasEmpty && result && !( c instanceof SortedListModel ) )
+		{
 			super.sort();
+		}
 
 		return result;
 	}
 
-    /**
-     * Please refer to {@link java.util.List#indexOf(Object)} for more
-     * information regarding this function.
-     */
-
-	public int indexOf( Object o )
-	{	return o == null ? -1 : indexOf( 0, size() - 1, (Comparable)o, NORMAL );
-	}
-
-    /**
-     * Please refer to {@link java.util.List#contains(Object)} for more
-     * information regarding this function.
-     */
-
-	public boolean contains( Object o )
-	{	return indexOf( o ) != -1;
-	}
-
- 	/**
-	 * A helper function which calculates the index of an element using
-	 * binary search.  In most cases, the difference is minimal, since
-	 * most <code>ListModel</code> objects are fairly small.  However,
-	 * in the event that there are multiple <code>SortedListModel</code>
-	 * objects of respectable size, having good performance is ideal.
+	/**
+	 * Please refer to {@link java.util.List#indexOf(Object)} for more information regarding this function.
 	 */
 
-	private int indexOf( int beginIndex, int endIndex, Comparable element, int whichIndexOf )
+	public int indexOf( final Object o )
+	{
+		return o == null ? -1 : this.indexOf( 0, this.size() - 1, (Comparable) o, SortedListModel.NORMAL );
+	}
+
+	/**
+	 * Please refer to {@link java.util.List#contains(Object)} for more information regarding this function.
+	 */
+
+	public boolean contains( final Object o )
+	{
+		return this.indexOf( o ) != -1;
+	}
+
+	/**
+	 * A helper function which calculates the index of an element using binary search. In most cases, the difference is
+	 * minimal, since most <code>ListModel</code> objects are fairly small. However, in the event that there are
+	 * multiple <code>SortedListModel</code> objects of respectable size, having good performance is ideal.
+	 */
+
+	private int indexOf( final int beginIndex, final int endIndex, final Comparable element, final int whichIndexOf )
 	{
 		int compareResult = 0;
 
 		if ( beginIndex == endIndex )
 		{
-			compareResult = compare( element, (Comparable) get( beginIndex ) );
-			if ( whichIndexOf == INSERTION )
+			compareResult = this.compare( element, (Comparable) this.get( beginIndex ) );
+			if ( whichIndexOf == SortedListModel.INSERTION )
+			{
 				return compareResult < 0 ? beginIndex : beginIndex + 1;
+			}
 
 			return compareResult == 0 ? beginIndex : -1;
 		}
 
 		if ( beginIndex > endIndex )
-			return whichIndexOf == INSERTION ? beginIndex : -1;
+		{
+			return whichIndexOf == SortedListModel.INSERTION ? beginIndex : -1;
+		}
 
 		// calculate the halfway point and compare the element with the
 		// element located at the halfway point - note that in locating
 		// the last index of, the value is rounded up to avoid an infinite
 		// recursive loop
 
-		int halfwayIndex = (beginIndex + endIndex) >> 1;
-		compareResult = compare( (Comparable) get( halfwayIndex ), element );
+		int halfwayIndex = beginIndex + endIndex >> 1;
+		compareResult = this.compare( (Comparable) this.get( halfwayIndex ), element );
 
 		// if the element in the middle is larger than the element being checked,
 		// then it is known that the element is smaller than the middle element,
 		// so it must preceed the middle element
 
 		if ( compareResult > 0 )
-			return indexOf( beginIndex, halfwayIndex, element, whichIndexOf );
+		{
+			return this.indexOf( beginIndex, halfwayIndex, element, whichIndexOf );
+		}
 
 		// if the element in the middle is smaller than the element being checked,
 		// then it is known that the element is larger than the middle element, so
 		// it must succeed the middle element
 
 		if ( compareResult < 0 )
-			return indexOf( halfwayIndex + 1, endIndex, element, whichIndexOf );
+		{
+			return this.indexOf( halfwayIndex + 1, endIndex, element, whichIndexOf );
+		}
 
 		// if the element in the middle is equal to the element being checked,
 		// then it is known that you have located at least one occurrence of the
 		// object; because duplicates are not allowed, return the halfway point
 
-		return whichIndexOf == NORMAL ? halfwayIndex : halfwayIndex + 1;
+		return whichIndexOf == SortedListModel.NORMAL ? halfwayIndex : halfwayIndex + 1;
 	}
 
-	private int compare( Comparable left, Comparable right )
+	private int compare( final Comparable left, final Comparable right )
 	{
-		return left == null ? -1 : right == null ? 1 : left instanceof String && right instanceof String ? ((String)left).compareToIgnoreCase( (String) right ) :
-			left instanceof String || right instanceof String ? left.toString().compareToIgnoreCase( right.toString() ) : left.compareTo( right );
+		return left == null ? -1 : right == null ? 1 : left instanceof String && right instanceof String ? ( (String) left ).compareToIgnoreCase( (String) right ) : left instanceof String || right instanceof String ? left.toString().compareToIgnoreCase(
+			right.toString() ) : left.compareTo( right );
 	}
 }

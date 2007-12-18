@@ -43,23 +43,26 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JToolBar;
+import javax.swing.WindowConstants;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
-public class ContactListFrame extends KoLFrame
+public class ContactListFrame
+	extends KoLFrame
 {
-	private SortedListModel contacts;
+	private final SortedListModel contacts;
 	private JList contactsDisplay;
 
 	public ContactListFrame()
-	{	this( contactList );
+	{
+		this( KoLConstants.contactList );
 	}
 
-	public ContactListFrame( SortedListModel contacts )
+	public ContactListFrame( final SortedListModel contacts )
 	{
 		super( "Contact List" );
-		this.setDefaultCloseOperation( HIDE_ON_CLOSE );
+		this.setDefaultCloseOperation( WindowConstants.HIDE_ON_CLOSE );
 		this.contacts = contacts;
 
 		this.framePanel.setLayout( new CardLayout( 10, 10 ) );
@@ -73,23 +76,26 @@ public class ContactListFrame extends KoLFrame
 			toolbarPanel.add( new InvocationButton( "Mass-mail", "mail.gif", this, "mailSelected" ) );
 		}
 
-		this.setDefaultCloseOperation( HIDE_ON_CLOSE );
+		this.setDefaultCloseOperation( WindowConstants.HIDE_ON_CLOSE );
 		this.pack();
 	}
 
 	public UnfocusedTabbedPane getTabbedPane()
-	{	return null;
+	{
+		return null;
 	}
 
-	public Object [] getSelectedPlayers()
+	public Object[] getSelectedPlayers()
 	{
-		Object [] selectedPlayers = this.contactsDisplay.getSelectedValues();
+		Object[] selectedPlayers = this.contactsDisplay.getSelectedValues();
 
 		// If no players are selected, and the player uses the
 		// option, assume they want everyone.
 
 		if ( selectedPlayers.length == 0 )
+		{
 			selectedPlayers = this.contacts.toArray();
+		}
 
 		return selectedPlayers;
 	}
@@ -97,12 +103,15 @@ public class ContactListFrame extends KoLFrame
 	public String convertToCDL()
 	{
 		StringBuffer listCDL = new StringBuffer();
-		Object [] selectedPlayers = this.getSelectedPlayers();
+		Object[] selectedPlayers = this.getSelectedPlayers();
 
 		for ( int i = 0; i < selectedPlayers.length; ++i )
 		{
-			if ( i != 0 )  listCDL.append( ", " );
-			listCDL.append( (String) selectedPlayers[i] );
+			if ( i != 0 )
+			{
+				listCDL.append( ", " );
+			}
+			listCDL.append( (String) selectedPlayers[ i ] );
 		}
 
 		return listCDL.toString();
@@ -113,7 +122,7 @@ public class ContactListFrame extends KoLFrame
 		JDialog dialogCDL = new JDialog( (java.awt.Frame) null, "Here's your CDL!" );
 		JTextArea entryCDL = new JTextArea();
 
-		entryCDL.setFont( DEFAULT_FONT );
+		entryCDL.setFont( KoLConstants.DEFAULT_FONT );
 		entryCDL.setLineWrap( true );
 		entryCDL.setWrapStyleWord( true );
 
@@ -122,15 +131,16 @@ public class ContactListFrame extends KoLFrame
 		dialogCDL.getContentPane().add( scrollCDL );
 
 		entryCDL.setText( this.convertToCDL() );
-		dialogCDL.pack();  dialogCDL.setVisible( true );
+		dialogCDL.pack();
+		dialogCDL.setVisible( true );
 	}
 
 	public void buffSelected()
 	{
-		Object [] parameters = new Object[1];
-		parameters[0] = this.convertToCDL();
+		Object[] parameters = new Object[ 1 ];
+		parameters[ 0 ] = this.convertToCDL();
 
-		createDisplay( SkillBuffFrame.class, parameters );
+		KoLFrame.createDisplay( SkillBuffFrame.class, parameters );
 	}
 
 	public void mailSelected()
@@ -138,13 +148,14 @@ public class ContactListFrame extends KoLFrame
 		// Make sure there's only eleven players
 		// selected, since that's the kmail limit.
 
-		Object [] parameters = new Object[1];
-		parameters[0] = this.convertToCDL();
+		Object[] parameters = new Object[ 1 ];
+		parameters[ 0 ] = this.convertToCDL();
 
-		createDisplay( SendMessageFrame.class, parameters );
+		KoLFrame.createDisplay( SendMessageFrame.class, parameters );
 	}
 
-	private class ContactListPanel extends JPanel
+	private class ContactListPanel
+		extends JPanel
 	{
 		public ContactListPanel()
 		{
@@ -159,9 +170,10 @@ public class ContactListFrame extends KoLFrame
 		}
 	}
 
-	private class SendInstantMessageAdapter extends MouseAdapter
+	private class SendInstantMessageAdapter
+		extends MouseAdapter
 	{
-		public void mouseClicked( MouseEvent e )
+		public void mouseClicked( final MouseEvent e )
 		{
 			JList list = (JList) e.getSource();
 
@@ -174,7 +186,9 @@ public class ContactListFrame extends KoLFrame
 				int index = list.locationToIndex( e.getPoint() );
 
 				if ( index >= 0 && index < ContactListFrame.this.contacts.size() )
+				{
 					KoLMessenger.openInstantMessage( (String) ContactListFrame.this.contacts.get( index ), true );
+				}
 			}
 		}
 	}

@@ -38,34 +38,37 @@ import java.util.TreeMap;
 
 import net.java.dev.spellcast.utilities.SortedListModel;
 
-public abstract class KoLMailManager extends StaticEntity
+public abstract class KoLMailManager
+	extends StaticEntity
 {
 	public static final Map mailboxes = new TreeMap();
 	static
 	{
-		mailboxes.put( "Inbox", new SortedListModel() );
-		mailboxes.put( "PvP", new SortedListModel() );
-		mailboxes.put( "Outbox", new SortedListModel() );
-		mailboxes.put( "Saved", new SortedListModel() );
+		KoLMailManager.mailboxes.put( "Inbox", new SortedListModel() );
+		KoLMailManager.mailboxes.put( "PvP", new SortedListModel() );
+		KoLMailManager.mailboxes.put( "Outbox", new SortedListModel() );
+		KoLMailManager.mailboxes.put( "Saved", new SortedListModel() );
 	}
 
 	public static final void clearMailboxes()
 	{
-		getMessages( "Inbox" ).clear();
-		getMessages( "PvP" ).clear();
-		getMessages( "Outbox" ).clear();
-		getMessages( "Saved" ).clear();
+		KoLMailManager.getMessages( "Inbox" ).clear();
+		KoLMailManager.getMessages( "PvP" ).clear();
+		KoLMailManager.getMessages( "Outbox" ).clear();
+		KoLMailManager.getMessages( "Saved" ).clear();
 	}
 
 	public static final boolean hasNewMessages()
 	{
 		String oldMessageId = KoLSettings.getUserProperty( "lastMessageId" );
 
-		SortedListModel inbox = getMessages( "Inbox" );
+		SortedListModel inbox = KoLMailManager.getMessages( "Inbox" );
 		if ( inbox.isEmpty() )
+		{
 			return false;
+		}
 
-		KoLMailMessage latest = (KoLMailMessage) inbox.get(0);
+		KoLMailMessage latest = (KoLMailMessage) inbox.get( 0 );
 		String newMessageId = latest.getMessageId();
 
 		KoLSettings.setUserProperty( "lastMessageId", newMessageId );
@@ -73,96 +76,108 @@ public abstract class KoLMailManager extends StaticEntity
 	}
 
 	/**
-	 * Returns a list containing the messages within the
-	 * specified mailbox.
+	 * Returns a list containing the messages within the specified mailbox.
 	 */
 
-	public static final SortedListModel getMessages( String mailbox )
-	{	return (SortedListModel) mailboxes.get( mailbox );
+	public static final SortedListModel getMessages( final String mailbox )
+	{
+		return (SortedListModel) KoLMailManager.mailboxes.get( mailbox );
 	}
 
 	/**
-	 * Adds the given message to the given mailbox.  This should be
-	 * called whenever a new message is found, and should only
-	 * be called again if the message indicates that the message
-	 * was successfully added (it was a new message).
-	 *
-	 * @param	boxname	The name of the mailbox being updated
-	 * @param	message	The message to add to the given mailbox
+	 * Adds the given message to the given mailbox. This should be called whenever a new message is found, and should
+	 * only be called again if the message indicates that the message was successfully added (it was a new message).
+	 * 
+	 * @param boxname The name of the mailbox being updated
+	 * @param message The message to add to the given mailbox
 	 */
 
-	public static KoLMailMessage addMessage( String boxname, String message )
+	public static KoLMailMessage addMessage( final String boxname, final String message )
 	{
-		SortedListModel mailbox = (SortedListModel) mailboxes.get( boxname );
+		SortedListModel mailbox = (SortedListModel) KoLMailManager.mailboxes.get( boxname );
 
 		KoLMailMessage toadd = new KoLMailMessage( message );
 
 		if ( mailbox.contains( toadd ) )
+		{
 			return null;
+		}
 
 		mailbox.add( toadd );
 		return toadd;
 	}
 
-	public static final void deleteMessage( String boxname, KoLMailMessage message )
+	public static final void deleteMessage( final String boxname, final KoLMailMessage message )
 	{
 		RequestThread.postRequest( new MailboxRequest( boxname, message, "delete" ) );
 
-		SortedListModel mailbox = (SortedListModel) mailboxes.get( boxname );
+		SortedListModel mailbox = (SortedListModel) KoLMailManager.mailboxes.get( boxname );
 		int messageIndex = mailbox.indexOf( message );
 		if ( messageIndex != -1 )
+		{
 			mailbox.remove( messageIndex );
+		}
 
-		KoLSettings.setUserProperty( "lastMessageCount", String.valueOf( getMessages( "Inbox" ).size() ) );
+		KoLSettings.setUserProperty( "lastMessageCount", String.valueOf( KoLMailManager.getMessages( "Inbox" ).size() ) );
 	}
 
-	public static final void deleteMessages( String boxname, Object [] messages )
+	public static final void deleteMessages( final String boxname, final Object[] messages )
 	{
 		if ( messages.length == 0 )
+		{
 			return;
+		}
 
 		RequestThread.postRequest( new MailboxRequest( boxname, messages, "delete" ) );
 
 		int messageIndex;
-		SortedListModel mailbox = (SortedListModel) mailboxes.get( boxname );
+		SortedListModel mailbox = (SortedListModel) KoLMailManager.mailboxes.get( boxname );
 		for ( int i = 0; i < messages.length; ++i )
 		{
-			messageIndex = mailbox.indexOf( messages[i] );
+			messageIndex = mailbox.indexOf( messages[ i ] );
 			if ( messageIndex != -1 )
+			{
 				mailbox.remove( messageIndex );
+			}
 		}
 
-		KoLSettings.setUserProperty( "lastMessageCount", String.valueOf( getMessages( "Inbox" ).size() ) );
+		KoLSettings.setUserProperty( "lastMessageCount", String.valueOf( KoLMailManager.getMessages( "Inbox" ).size() ) );
 	}
 
-	public static final void saveMessage( KoLMailMessage message )
+	public static final void saveMessage( final KoLMailMessage message )
 	{
 		RequestThread.postRequest( new MailboxRequest( "Inbox", message, "save" ) );
 
-		SortedListModel mailbox = (SortedListModel) mailboxes.get( "Inbox" );
+		SortedListModel mailbox = (SortedListModel) KoLMailManager.mailboxes.get( "Inbox" );
 		int messageIndex = mailbox.indexOf( message );
 		if ( messageIndex != -1 )
+		{
 			mailbox.remove( messageIndex );
+		}
 
-		KoLSettings.setUserProperty( "lastMessageCount", String.valueOf( getMessages( "Inbox" ).size() ) );
+		KoLSettings.setUserProperty( "lastMessageCount", String.valueOf( KoLMailManager.getMessages( "Inbox" ).size() ) );
 	}
 
-	public static final void saveMessages( Object [] messages )
+	public static final void saveMessages( final Object[] messages )
 	{
 		if ( messages.length == 0 )
+		{
 			return;
+		}
 
 		RequestThread.postRequest( new MailboxRequest( "Inbox", messages, "save" ) );
 
 		int messageIndex;
-		SortedListModel mailbox = (SortedListModel) mailboxes.get( "Inbox" );
+		SortedListModel mailbox = (SortedListModel) KoLMailManager.mailboxes.get( "Inbox" );
 		for ( int i = 0; i < messages.length; ++i )
 		{
-			messageIndex = mailbox.indexOf( messages[i] );
+			messageIndex = mailbox.indexOf( messages[ i ] );
 			if ( messageIndex != -1 )
+			{
 				mailbox.remove( messageIndex );
+			}
 		}
 
-		KoLSettings.setUserProperty( "lastMessageCount", String.valueOf( getMessages( "Inbox" ).size() ) );
+		KoLSettings.setUserProperty( "lastMessageCount", String.valueOf( KoLMailManager.getMessages( "Inbox" ).size() ) );
 	}
 }

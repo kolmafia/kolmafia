@@ -41,21 +41,17 @@ import java.util.ArrayList;
 import java.util.TreeMap;
 
 import net.java.dev.spellcast.utilities.SortedListModel;
+import net.java.dev.spellcast.utilities.UtilityConstants;
 
-public abstract class MoodSettings implements KoLConstants
+public abstract class MoodSettings
+	implements KoLConstants
 {
-	private static final AdventureResult [] AUTO_CLEAR =
-	{
-		new AdventureResult( "Beaten Up", 1, true ),
-		new AdventureResult( "Tetanus", 1, true ),
-		new AdventureResult( "Amnesia", 1, true ),
-		new AdventureResult( "Cunctatitis", 1, true ),
-		new AdventureResult( "Hardly Poisoned at All", 1, true ),
-		new AdventureResult( "Majorly Poisoned", 1, true ),
-		new AdventureResult( "A Little Bit Poisoned", 1, true ),
-		new AdventureResult( "Somewhat Poisoned", 1, true ),
-		new AdventureResult( "Really Quite Poisoned", 1, true ),
-	};
+	private static final AdventureResult[] AUTO_CLEAR =
+		{ new AdventureResult( "Beaten Up", 1, true ), new AdventureResult( "Tetanus", 1, true ), new AdventureResult(
+			"Amnesia", 1, true ), new AdventureResult( "Cunctatitis", 1, true ), new AdventureResult(
+			"Hardly Poisoned at All", 1, true ), new AdventureResult( "Majorly Poisoned", 1, true ), new AdventureResult(
+			"A Little Bit Poisoned", 1, true ), new AdventureResult( "Somewhat Poisoned", 1, true ), new AdventureResult(
+			"Really Quite Poisoned", 1, true ), };
 
 	private static final TreeMap reference = new TreeMap();
 	private static final SortedListModel displayList = new SortedListModel();
@@ -68,54 +64,59 @@ public abstract class MoodSettings implements KoLConstants
 	private static SortedListModel mappedList = null;
 
 	public static final String settingsFileName()
-	{	return KoLCharacter.baseUserName() + "_moods.txt";
+	{
+		return KoLCharacter.baseUserName() + "_moods.txt";
 	}
 
 	public static final boolean isExecuting()
-	{	return isExecuting;
+	{
+		return MoodSettings.isExecuting;
 	}
 
 	public static final void restoreDefaults()
 	{
-		reference.clear();
-		availableMoods.clear();
-		displayList.clear();
+		MoodSettings.reference.clear();
+		MoodSettings.availableMoods.clear();
+		MoodSettings.displayList.clear();
 
 		String currentMood = KoLSettings.getUserProperty( "currentMood" );
-		settingsFile = new File( SETTINGS_LOCATION, settingsFileName() );
-		loadSettings();
+		MoodSettings.settingsFile = new File( UtilityConstants.SETTINGS_LOCATION, MoodSettings.settingsFileName() );
+		MoodSettings.loadSettings();
 
-		setMood( currentMood );
-		saveSettings();
+		MoodSettings.setMood( currentMood );
+		MoodSettings.saveSettings();
 	}
 
 	public static final SortedListModel getAvailableMoods()
-	{	return availableMoods;
+	{
+		return MoodSettings.availableMoods;
 	}
 
 	/**
-	 * Sets the current mood to be executed to the given
-	 * mood.  Also ensures that all defaults are loaded
-	 * for the given mood if no data exists.
+	 * Sets the current mood to be executed to the given mood. Also ensures that all defaults are loaded for the given
+	 * mood if no data exists.
 	 */
 
 	public static final void setMood( String mood )
 	{
-		mood = (mood == null || mood.trim().equals( "" )) ? "default" :
-			StaticEntity.globalStringDelete( mood.toLowerCase().trim(), " " );
+		mood =
+			mood == null || mood.trim().equals( "" ) ? "default" : StaticEntity.globalStringDelete(
+				mood.toLowerCase().trim(), " " );
 
 		if ( mood.equals( "clear" ) || mood.equals( "autofill" ) || mood.startsWith( "exec" ) || mood.startsWith( "repeat" ) )
+		{
 			return;
+		}
 
 		KoLSettings.setUserProperty( "currentMood", mood );
 
-		ensureProperty( mood );
-		availableMoods.setSelectedItem( mood );
+		MoodSettings.ensureProperty( mood );
+		MoodSettings.availableMoods.setSelectedItem( mood );
 
-		mappedList = (SortedListModel) reference.get( mood );
+		MoodSettings.mappedList = (SortedListModel) MoodSettings.reference.get( mood );
 
-		displayList.clear();
-		displayList.addAll( mappedList );
+		MoodSettings.displayList.clear();
+		MoodSettings.displayList.addAll( MoodSettings.mappedList );
 	}
 
 	/**
@@ -123,35 +124,38 @@ public abstract class MoodSettings implements KoLConstants
 	 */
 
 	public static final SortedListModel getTriggers()
-	{	return displayList;
+	{
+		return MoodSettings.displayList;
 	}
 
-	public static final void addTriggers( Object [] nodes, int duration )
+	public static final void addTriggers( final Object[] nodes, final int duration )
 	{
-		removeTriggers( nodes );
+		MoodSettings.removeTriggers( nodes );
 		StringBuffer newAction = new StringBuffer();
 
 		for ( int i = 0; i < nodes.length; ++i )
 		{
-			MoodTrigger mt = (MoodTrigger) nodes[i];
-			String [] action = mt.getAction().split( " " );
+			MoodTrigger mt = (MoodTrigger) nodes[ i ];
+			String[] action = mt.getAction().split( " " );
 
-			newAction.setLength(0);
-			newAction.append( action[0] );
+			newAction.setLength( 0 );
+			newAction.append( action[ 0 ] );
 
 			if ( action.length > 1 )
 			{
 				newAction.append( ' ' );
 				int startIndex = 2;
 
-				if ( action[1].charAt(0) == '*' )
+				if ( action[ 1 ].charAt( 0 ) == '*' )
 				{
 					newAction.append( '*' );
 				}
 				else
 				{
-					if ( !Character.isDigit( action[1].charAt(0) ) )
+					if ( !Character.isDigit( action[ 1 ].charAt( 0 ) ) )
+					{
 						startIndex = 1;
+					}
 
 					newAction.append( duration );
 				}
@@ -159,11 +163,11 @@ public abstract class MoodSettings implements KoLConstants
 				for ( int j = startIndex; j < action.length; ++j )
 				{
 					newAction.append( ' ' );
-					newAction.append( action[j] );
+					newAction.append( action[ j ] );
 				}
 			}
 
-			addTrigger( mt.getType(), mt.getName(), newAction.toString() );
+			MoodSettings.addTrigger( mt.getType(), mt.getName(), newAction.toString() );
 		}
 	}
 
@@ -171,36 +175,43 @@ public abstract class MoodSettings implements KoLConstants
 	 * Adds a trigger to the temporary mood settings.
 	 */
 
-	public static final void addTrigger( String type, String name, String action )
-	{	addTrigger( MoodTrigger.constructNode( type + " " + name + " => " + action ) );
+	public static final void addTrigger( final String type, final String name, final String action )
+	{
+		MoodSettings.addTrigger( MoodTrigger.constructNode( type + " " + name + " => " + action ) );
 	}
 
-	private static final void addTrigger( MoodTrigger node )
+	private static final void addTrigger( final MoodTrigger node )
 	{
 		if ( node == null )
+		{
 			return;
+		}
 
-		if ( displayList.contains( node ) )
-			removeTrigger( node );
+		if ( MoodSettings.displayList.contains( node ) )
+		{
+			MoodSettings.removeTrigger( node );
+		}
 
-		mappedList.add( node );
-		displayList.add( node );
+		MoodSettings.mappedList.add( node );
+		MoodSettings.displayList.add( node );
 	}
 
 	/**
 	 * Removes all the current displayList.
 	 */
 
-	public static final void removeTriggers( Object [] toRemove )
+	public static final void removeTriggers( final Object[] toRemove )
 	{
 		for ( int i = 0; i < toRemove.length; ++i )
-			removeTrigger( (MoodTrigger) toRemove[i] );
+		{
+			MoodSettings.removeTrigger( (MoodTrigger) toRemove[ i ] );
+		}
 	}
 
-	private static final void removeTrigger( MoodTrigger toRemove )
+	private static final void removeTrigger( final MoodTrigger toRemove )
 	{
-		mappedList.remove( toRemove );
-		displayList.remove( toRemove );
+		MoodSettings.mappedList.remove( toRemove );
+		MoodSettings.displayList.remove( toRemove );
 	}
 
 	public static final void minimalSet()
@@ -209,14 +220,16 @@ public abstract class MoodSettings implements KoLConstants
 		// is a known way to re-acquire it (internally known, anyway),
 		// make sure to add those as well.
 
-		AdventureResult [] effects = new AdventureResult[ activeEffects.size() ];
-		activeEffects.toArray( effects );
+		AdventureResult[] effects = new AdventureResult[ KoLConstants.activeEffects.size() ];
+		KoLConstants.activeEffects.toArray( effects );
 
 		for ( int i = 0; i < effects.length; ++i )
 		{
-			String action = getDefaultAction( "lose_effect", effects[i].getName() );
+			String action = MoodSettings.getDefaultAction( "lose_effect", effects[ i ].getName() );
 			if ( action != null && !action.equals( "" ) )
-				addTrigger( "lose_effect", effects[i].getName(), action );
+			{
+				MoodSettings.addTrigger( "lose_effect", effects[ i ].getName(), action );
+			}
 		}
 	}
 
@@ -226,45 +239,52 @@ public abstract class MoodSettings implements KoLConstants
 
 	public static final void maximalSet()
 	{
-		UseSkillRequest [] skills = new UseSkillRequest[ availableSkills.size() ];
-		availableSkills.toArray( skills );
+		UseSkillRequest[] skills = new UseSkillRequest[ KoLConstants.availableSkills.size() ];
+		KoLConstants.availableSkills.toArray( skills );
 
-		thiefTriggerLimit = KoLCharacter.hasEquipped( UseSkillRequest.PLEXI_PENDANT ) ? 4 : 3;
+		MoodSettings.thiefTriggerLimit = KoLCharacter.hasEquipped( UseSkillRequest.PLEXI_PENDANT ) ? 4 : 3;
 		ArrayList thiefSkills = new ArrayList();
 
 		for ( int i = 0; i < skills.length; ++i )
 		{
-			if ( skills[i].getSkillId() < 1000 )
+			if ( skills[ i ].getSkillId() < 1000 )
+			{
 				continue;
+			}
 
 			// Combat rate increasers are not handled by mood
 			// autofill, since KoLmafia has a preference for
 			// non-combats in the area below.
 
-			if ( skills[i].getSkillId() == 1019 || skills[i].getSkillId() == 6016 )
-				continue;
-
-			if ( skills[i].getSkillId() > 6000 && skills[i].getSkillId() < 7000 )
+			if ( skills[ i ].getSkillId() == 1019 || skills[ i ].getSkillId() == 6016 )
 			{
-				thiefSkills.add( skills[i].getSkillName() );
 				continue;
 			}
 
-			String effectName = UneffectRequest.skillToEffect( skills[i].getSkillName() );
+			if ( skills[ i ].getSkillId() > 6000 && skills[ i ].getSkillId() < 7000 )
+			{
+				thiefSkills.add( skills[ i ].getSkillName() );
+				continue;
+			}
+
+			String effectName = UneffectRequest.skillToEffect( skills[ i ].getSkillName() );
 			if ( StatusEffectDatabase.contains( effectName ) )
-				addTrigger( "lose_effect", effectName, getDefaultAction( "lose_effect", effectName ) );
+			{
+				MoodSettings.addTrigger( "lose_effect", effectName, MoodSettings.getDefaultAction(
+					"lose_effect", effectName ) );
+			}
 		}
 
-
-		if ( !thiefSkills.isEmpty() && thiefSkills.size() <= thiefTriggerLimit )
+		if ( !thiefSkills.isEmpty() && thiefSkills.size() <= MoodSettings.thiefTriggerLimit )
 		{
-			String [] skillNames = new String[ thiefSkills.size() ];
+			String[] skillNames = new String[ thiefSkills.size() ];
 			thiefSkills.toArray( skillNames );
 
 			for ( int i = 0; i < skillNames.length; ++i )
 			{
-				String effectName = UneffectRequest.skillToEffect( skillNames[i] );
-				addTrigger( "lose_effect", effectName, getDefaultAction( "lose_effect", effectName ) );
+				String effectName = UneffectRequest.skillToEffect( skillNames[ i ] );
+				MoodSettings.addTrigger( "lose_effect", effectName, MoodSettings.getDefaultAction(
+					"lose_effect", effectName ) );
 			}
 		}
 		else if ( !thiefSkills.isEmpty() )
@@ -273,32 +293,27 @@ public abstract class MoodSettings implements KoLConstants
 			// add some of the common accordion thief buffs if they are
 			// available skills.
 
-			String [] rankedBuffs = null;
+			String[] rankedBuffs = null;
 
 			if ( KoLCharacter.isHardcore() )
 			{
-				rankedBuffs = new String [] {
-					"Fat Leon's Phat Loot Lyric", "The Moxious Madrigal",
-					"Aloysius' Antiphon of Aptitude", "The Sonata of Sneakiness",
-					"The Psalm of Pointiness", "Ur-Kel's Aria of Annoyance"
-				};
+				rankedBuffs =
+					new String[] { "Fat Leon's Phat Loot Lyric", "The Moxious Madrigal", "Aloysius' Antiphon of Aptitude", "The Sonata of Sneakiness", "The Psalm of Pointiness", "Ur-Kel's Aria of Annoyance" };
 			}
 			else
 			{
-				rankedBuffs = new String [] {
-					"Fat Leon's Phat Loot Lyric", "Aloysius' Antiphon of Aptitude",
-					"Ur-Kel's Aria of Annoyance", "The Sonata of Sneakiness",
-					"Jackasses' Symphony of Destruction", "Cletus's Canticle of Celerity"
-				};
+				rankedBuffs =
+					new String[] { "Fat Leon's Phat Loot Lyric", "Aloysius' Antiphon of Aptitude", "Ur-Kel's Aria of Annoyance", "The Sonata of Sneakiness", "Jackasses' Symphony of Destruction", "Cletus's Canticle of Celerity" };
 			}
 
 			int foundSkillCount = 0;
-			for ( int i = 0; i < rankedBuffs.length && foundSkillCount < thiefTriggerLimit; ++i )
+			for ( int i = 0; i < rankedBuffs.length && foundSkillCount < MoodSettings.thiefTriggerLimit; ++i )
 			{
-				if ( KoLCharacter.hasSkill( rankedBuffs[i] ) )
+				if ( KoLCharacter.hasSkill( rankedBuffs[ i ] ) )
 				{
 					++foundSkillCount;
-					addTrigger( "lose_effect", UneffectRequest.skillToEffect( rankedBuffs[i] ), "cast " + rankedBuffs[i] );
+					MoodSettings.addTrigger(
+						"lose_effect", UneffectRequest.skillToEffect( rankedBuffs[ i ] ), "cast " + rankedBuffs[ i ] );
 				}
 			}
 		}
@@ -306,12 +321,11 @@ public abstract class MoodSettings implements KoLConstants
 		// Now add in all the buffs from the minimal buff set, as those
 		// are included here.
 
-		minimalSet();
+		MoodSettings.minimalSet();
 	}
 
 	/**
-	 * Deletes the current mood and sets the current mood
-	 * to apathetic.
+	 * Deletes the current mood and sets the current mood to apathetic.
 	 */
 
 	public static final void deleteCurrentMood()
@@ -320,43 +334,47 @@ public abstract class MoodSettings implements KoLConstants
 
 		if ( currentMood.equals( "default" ) )
 		{
-			mappedList.clear();
-			displayList.clear();
+			MoodSettings.mappedList.clear();
+			MoodSettings.displayList.clear();
 
-			setMood( "default" );
+			MoodSettings.setMood( "default" );
 			return;
 		}
 
-		reference.remove( currentMood );
-		availableMoods.remove( currentMood );
+		MoodSettings.reference.remove( currentMood );
+		MoodSettings.availableMoods.remove( currentMood );
 
-		availableMoods.setSelectedItem( "apathetic" );
-		setMood( "apathetic" );
+		MoodSettings.availableMoods.setSelectedItem( "apathetic" );
+		MoodSettings.setMood( "apathetic" );
 	}
 
 	/**
 	 * Duplicates the current trigger list into a new list
 	 */
 
-	public static final void copyTriggers( String newListName )
+	public static final void copyTriggers( final String newListName )
 	{
 		String currentMood = KoLSettings.getUserProperty( "currentMood" );
 
 		if ( newListName == "" )
+		{
 			return;
+		}
 
 		// Can't copy into apathetic list
 		if ( currentMood.equals( "apathetic" ) || newListName.equals( "apathetic" ) )
+		{
 			return;
+		}
 
 		// Copy displayList from current list, then
 		// create and switch to new list
 
-		SortedListModel oldList = mappedList;
-		setMood( newListName );
+		SortedListModel oldList = MoodSettings.mappedList;
+		MoodSettings.setMood( newListName );
 
-		mappedList.addAll( oldList );
-		displayList.addAll( oldList );
+		MoodSettings.mappedList.addAll( oldList );
+		MoodSettings.displayList.addAll( oldList );
 	}
 
 	/**
@@ -364,38 +382,50 @@ public abstract class MoodSettings implements KoLConstants
 	 */
 
 	public static final void execute()
-	{	execute( -1 );
+	{
+		MoodSettings.execute( -1 );
 	}
 
 	public static final void burnExtraMana( boolean isManualInvocation )
 	{
 		if ( !isManualInvocation && KoLCharacter.canInteract() && KoLCharacter.getCurrentMP() < KoLCharacter.getMaximumMP() )
+		{
 			return;
+		}
 
 		String nextBurnCast;
 
-		isExecuting = true;
+		MoodSettings.isExecuting = true;
 
-		while ( (nextBurnCast = getNextBurnCast( true )) != null )
+		while ( ( nextBurnCast = MoodSettings.getNextBurnCast( true ) ) != null )
+		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( nextBurnCast );
+		}
 
-		isExecuting = false;
+		MoodSettings.isExecuting = false;
 	}
 
-	public static final String getNextBurnCast( boolean shouldExecute )
+	public static final String getNextBurnCast( final boolean shouldExecute )
 	{
 		// Rather than keeping a safety for the player, let the player
 		// make the mistake of burning below their auto-restore threshold.
 
-		int starting = (int) (KoLSettings.getFloatProperty( "manaBurningThreshold" ) * (float) KoLCharacter.getMaximumMP());
-		if ( shouldExecute && (starting < 0 || KoLCharacter.getCurrentMP() <= starting) )
+		int starting =
+			(int) ( KoLSettings.getFloatProperty( "manaBurningThreshold" ) * (float) KoLCharacter.getMaximumMP() );
+		if ( shouldExecute && ( starting < 0 || KoLCharacter.getCurrentMP() <= starting ) )
+		{
 			return null;
+		}
 
-		int minimum = Math.max( 0, (int) (KoLSettings.getFloatProperty( "mpAutoRecovery" ) * (float) KoLCharacter.getMaximumMP()) ) + 1;
+		int minimum =
+			Math.max(
+				0, (int) ( KoLSettings.getFloatProperty( "mpAutoRecovery" ) * (float) KoLCharacter.getMaximumMP() ) ) + 1;
 		minimum = Math.max( minimum, starting );
 
 		if ( shouldExecute && KoLCharacter.getCurrentMP() <= minimum )
+		{
 			return null;
+		}
 
 		String skillName = null;
 		int desiredDuration = 0;
@@ -408,21 +438,26 @@ public abstract class MoodSettings implements KoLConstants
 		AdventureResult currentEffect;
 		AdventureResult nextEffect;
 
-		for ( int i = 0; i < activeEffects.size() && KoLmafia.permitsContinue(); ++i )
+		for ( int i = 0; i < KoLConstants.activeEffects.size() && KoLmafia.permitsContinue(); ++i )
 		{
-			currentEffect = (AdventureResult) activeEffects.get(i);
-			nextEffect = i + 1 >= activeEffects.size() ? null : (AdventureResult) activeEffects.get( i + 1 );
+			currentEffect = (AdventureResult) KoLConstants.activeEffects.get( i );
+			nextEffect =
+				i + 1 >= KoLConstants.activeEffects.size() ? null : (AdventureResult) KoLConstants.activeEffects.get( i + 1 );
 
 			skillName = UneffectRequest.effectToSkill( currentEffect.getName() );
 			if ( !ClassSkillsDatabase.contains( skillName ) || !KoLCharacter.hasSkill( skillName ) )
+			{
 				continue;
+			}
 
 			// Only cast if a matching skill was found.  Limit cast count
 			// to two in order to ensure that KoLmafia doesn't make the
 			// buff counts too far out of balance.
 
 			if ( nextEffect != null )
+			{
 				desiredDuration = nextEffect.getCount() - currentEffect.getCount();
+			}
 
 			int skillId = ClassSkillsDatabase.getSkillId( skillName );
 
@@ -430,15 +465,20 @@ public abstract class MoodSettings implements KoLConstants
 			// need for it to have a long duration.
 
 			if ( skillId == 6014 )
+			{
 				continue;
+			}
 
 			// Encounter rate modifying buffs probably shouldn't be cast
 			// during conditional recast.
 
 			if ( skillId == 1019 || skillId == 5017 || skillId == 6015 || skillId == 6016 )
+			{
 				continue;
+			}
 
-			int castCount = (KoLCharacter.getCurrentMP() - minimum) / ClassSkillsDatabase.getMPConsumptionById( skillId );
+			int castCount =
+				( KoLCharacter.getCurrentMP() - minimum ) / ClassSkillsDatabase.getMPConsumptionById( skillId );
 			int duration = ClassSkillsDatabase.getEffectDuration( skillId );
 
 			// If the player opts in to allowing breakfast casting to burn
@@ -446,15 +486,20 @@ public abstract class MoodSettings implements KoLConstants
 
 			if ( currentEffect.getCount() >= 10 )
 			{
-				String breakfast = considerBreakfastBurning( minimum, shouldExecute );
+				String breakfast = MoodSettings.considerBreakfastBurning( minimum, shouldExecute );
 				if ( breakfast != null )
+				{
 					return breakfast;
+				}
 
-				castCount = (KoLCharacter.getCurrentMP() - minimum) / ClassSkillsDatabase.getMPConsumptionById( skillId );
+				castCount =
+					( KoLCharacter.getCurrentMP() - minimum ) / ClassSkillsDatabase.getMPConsumptionById( skillId );
 			}
 
 			if ( currentEffect.getCount() >= KoLCharacter.getAdventuresLeft() + 1000 )
+			{
 				return null;
+			}
 
 			// If the player only wishes to cast buffs related to their
 			// mood, then skip the buff if it's not in the player's moods.
@@ -463,67 +508,95 @@ public abstract class MoodSettings implements KoLConstants
 			{
 				boolean shouldIgnore = true;
 
-				for ( int j = 0; j < displayList.size(); ++j )
-					shouldIgnore &= !currentEffect.equals( ((MoodTrigger)displayList.get(j)).effect );
+				for ( int j = 0; j < MoodSettings.displayList.size(); ++j )
+				{
+					shouldIgnore &= !currentEffect.equals( ( (MoodTrigger) MoodSettings.displayList.get( j ) ).effect );
+				}
 
 				if ( shouldIgnore )
+				{
 					continue;
+				}
 			}
 
 			if ( castCount > 2 && duration > desiredDuration )
+			{
 				castCount = 2;
+			}
 			else if ( duration * castCount > desiredDuration )
+			{
 				castCount = Math.min( 3, castCount );
+			}
 
 			if ( castCount > 0 )
+			{
 				return "cast " + castCount + " " + skillName;
+			}
 			else
-				return considerBreakfastBurning( minimum, shouldExecute );
+			{
+				return MoodSettings.considerBreakfastBurning( minimum, shouldExecute );
+			}
 		}
 
-		return considerBreakfastBurning( minimum, shouldExecute );
+		return MoodSettings.considerBreakfastBurning( minimum, shouldExecute );
 	}
 
-	private static final String considerBreakfastBurning( int minimum, boolean shouldExecute )
+	private static final String considerBreakfastBurning( final int minimum, final boolean shouldExecute )
 	{
 		for ( int i = 0; i < UseSkillRequest.BREAKFAST_SKILLS.length; ++i )
 		{
-			if ( !KoLCharacter.hasSkill( UseSkillRequest.BREAKFAST_SKILLS[i] ) )
+			if ( !KoLCharacter.hasSkill( UseSkillRequest.BREAKFAST_SKILLS[ i ] ) )
+			{
 				continue;
-			if ( UseSkillRequest.BREAKFAST_SKILLS[i].equals( "Pastamastery" ) && !KoLCharacter.canEat() )
+			}
+			if ( UseSkillRequest.BREAKFAST_SKILLS[ i ].equals( "Pastamastery" ) && !KoLCharacter.canEat() )
+			{
 				continue;
-			if ( UseSkillRequest.BREAKFAST_SKILLS[i].equals( "Advanced Cocktailcrafting" ) && !KoLCharacter.canDrink() )
+			}
+			if ( UseSkillRequest.BREAKFAST_SKILLS[ i ].equals( "Advanced Cocktailcrafting" ) && !KoLCharacter.canDrink() )
+			{
 				continue;
+			}
 
-			UseSkillRequest skill = UseSkillRequest.getInstance( UseSkillRequest.BREAKFAST_SKILLS[i] );
+			UseSkillRequest skill = UseSkillRequest.getInstance( UseSkillRequest.BREAKFAST_SKILLS[ i ] );
 			if ( skill.getMaximumCast() == 0 )
+			{
 				continue;
+			}
 
 			if ( shouldExecute )
-				StaticEntity.getClient().getBreakfast( UseSkillRequest.BREAKFAST_SKILLS[i], false, minimum );
+			{
+				StaticEntity.getClient().getBreakfast( UseSkillRequest.BREAKFAST_SKILLS[ i ], false, minimum );
+			}
 			else if ( ClassSkillsDatabase.getMPConsumptionById( skill.getSkillId() ) <= KoLCharacter.getCurrentMP() - minimum )
-				return "cast 1 " + UseSkillRequest.BREAKFAST_SKILLS[i];
+			{
+				return "cast 1 " + UseSkillRequest.BREAKFAST_SKILLS[ i ];
+			}
 		}
 
 		return null;
 	}
 
-	public static final void execute( int multiplicity )
+	public static final void execute( final int multiplicity )
 	{
 		if ( KoLmafia.refusesContinue() )
+		{
 			return;
+		}
 
-		if ( !willExecute( multiplicity ) )
+		if ( !MoodSettings.willExecute( multiplicity ) )
+		{
 			return;
+		}
 
-		isExecuting = true;
+		MoodSettings.isExecuting = true;
 
 		MoodTrigger current = null;
 
-		AdventureResult [] effects = new AdventureResult[ activeEffects.size() ];
-		activeEffects.toArray( effects );
+		AdventureResult[] effects = new AdventureResult[ KoLConstants.activeEffects.size() ];
+		KoLConstants.activeEffects.toArray( effects );
 
-		thiefTriggerLimit = UseSkillRequest.songLimit();
+		MoodSettings.thiefTriggerLimit = UseSkillRequest.songLimit();
 
 		// If you have too many accordion thief buffs to execute
 		// your displayList, then shrug off your extra buffs, but
@@ -535,12 +608,14 @@ public abstract class MoodSettings implements KoLConstants
 		ArrayList thiefBuffs = new ArrayList();
 		for ( int i = 0; i < effects.length; ++i )
 		{
-			String skillName = UneffectRequest.effectToSkill( effects[i].getName() );
+			String skillName = UneffectRequest.effectToSkill( effects[ i ].getName() );
 			if ( ClassSkillsDatabase.contains( skillName ) )
 			{
 				int skillId = ClassSkillsDatabase.getSkillId( skillName );
 				if ( skillId > 6000 && skillId < 7000 )
-					thiefBuffs.add( effects[i] );
+				{
+					thiefBuffs.add( effects[ i ] );
+				}
 			}
 		}
 
@@ -548,11 +623,13 @@ public abstract class MoodSettings implements KoLConstants
 		// thereby would be cast at this time.
 
 		ArrayList thiefSkills = new ArrayList();
-		for ( int i = 0; i < displayList.size(); ++i )
+		for ( int i = 0; i < MoodSettings.displayList.size(); ++i )
 		{
-			current = (MoodTrigger) displayList.get(i);
+			current = (MoodTrigger) MoodSettings.displayList.get( i );
 			if ( current.isThiefTrigger() )
+			{
 				thiefSkills.add( current.effect );
+			}
 		}
 
 		// We then remove the displayList which will be used from the pool of
@@ -561,41 +638,49 @@ public abstract class MoodSettings implements KoLConstants
 
 		thiefBuffs.removeAll( thiefSkills );
 
-		int buffsToRemove = thiefBuffs.size() + thiefSkills.size() - thiefTriggerLimit;
+		int buffsToRemove = thiefBuffs.size() + thiefSkills.size() - MoodSettings.thiefTriggerLimit;
 		for ( int i = 0; i < buffsToRemove && i < thiefBuffs.size(); ++i )
-			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "uneffect " + ((AdventureResult)thiefBuffs.get(i)).getName() );
+		{
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "uneffect " + ( (AdventureResult) thiefBuffs.get( i ) ).getName() );
+		}
 
 		// Now that everything is prepared, go ahead and execute
 		// the displayList which have been set.  First, start out
 		// with any skill casting.
 
-		for ( int i = 0; !KoLmafia.refusesContinue() && i < displayList.size(); ++i )
+		for ( int i = 0; !KoLmafia.refusesContinue() && i < MoodSettings.displayList.size(); ++i )
 		{
-			current = (MoodTrigger) displayList.get(i);
+			current = (MoodTrigger) MoodSettings.displayList.get( i );
 			if ( current.skillId != -1 )
+			{
 				current.execute( multiplicity );
+			}
 		}
 
-		for ( int i = 0; i < displayList.size(); ++i )
+		for ( int i = 0; i < MoodSettings.displayList.size(); ++i )
 		{
-			current = (MoodTrigger) displayList.get(i);
+			current = (MoodTrigger) MoodSettings.displayList.get( i );
 			if ( current.skillId == -1 )
+			{
 				current.execute( multiplicity );
+			}
 		}
 
-		isExecuting = false;
+		MoodSettings.isExecuting = false;
 	}
 
-	public static final boolean willExecute( int multiplicity )
+	public static final boolean willExecute( final int multiplicity )
 	{
-		if ( displayList.isEmpty() || KoLSettings.getUserProperty( "currentMood" ).equals( "apathetic" ) )
+		if ( MoodSettings.displayList.isEmpty() || KoLSettings.getUserProperty( "currentMood" ).equals( "apathetic" ) )
+		{
 			return false;
+		}
 
 		boolean willExecute = false;
 
-		for ( int i = 0; i < displayList.size(); ++i )
+		for ( int i = 0; i < MoodSettings.displayList.size(); ++i )
 		{
-			MoodTrigger current = (MoodTrigger) displayList.get(i);
+			MoodTrigger current = (MoodTrigger) MoodSettings.displayList.get( i );
 			willExecute |= current.shouldExecute( multiplicity );
 		}
 
@@ -605,14 +690,18 @@ public abstract class MoodSettings implements KoLConstants
 	public static final ArrayList getMissingEffects()
 	{
 		ArrayList missing = new ArrayList();
-		if ( displayList.isEmpty() )
-			return missing;
-
-		for ( int i = 0; i < displayList.size(); ++i )
+		if ( MoodSettings.displayList.isEmpty() )
 		{
-			MoodTrigger current = (MoodTrigger) displayList.get(i);
-			if ( current.getType().equals( "lose_effect" ) && !activeEffects.contains( current.effect ) )
+			return missing;
+		}
+
+		for ( int i = 0; i < MoodSettings.displayList.size(); ++i )
+		{
+			MoodTrigger current = (MoodTrigger) MoodSettings.displayList.get( i );
+			if ( current.getType().equals( "lose_effect" ) && !KoLConstants.activeEffects.contains( current.effect ) )
+			{
 				missing.add( current.effect );
+			}
 		}
 
 		return missing;
@@ -622,26 +711,34 @@ public abstract class MoodSettings implements KoLConstants
 	{
 		String action;
 
-		for ( int i = 0; i < AUTO_CLEAR.length; ++i )
+		for ( int i = 0; i < MoodSettings.AUTO_CLEAR.length; ++i )
 		{
-			if ( activeEffects.contains( AUTO_CLEAR[i] ) )
+			if ( KoLConstants.activeEffects.contains( MoodSettings.AUTO_CLEAR[ i ] ) )
 			{
-				action = MoodSettings.getDefaultAction( "gain_effect", AUTO_CLEAR[i].getName() );
+				action = MoodSettings.getDefaultAction( "gain_effect", MoodSettings.AUTO_CLEAR[ i ].getName() );
 
 				if ( action.startsWith( "cast" ) )
+				{
 					KoLmafiaCLI.DEFAULT_SHELL.executeLine( action );
+				}
 				else if ( action.startsWith( "use" ) )
+				{
 					KoLmafiaCLI.DEFAULT_SHELL.executeLine( action );
+				}
 				else if ( KoLCharacter.canInteract() )
+				{
 					KoLmafiaCLI.DEFAULT_SHELL.executeLine( action );
+				}
 			}
 		}
 	}
 
 	public static final int getMaintenanceCost()
 	{
-		if ( displayList.isEmpty() )
+		if ( MoodSettings.displayList.isEmpty() )
+		{
 			return 0;
+		}
 
 		int runningTally = 0;
 
@@ -649,25 +746,31 @@ public abstract class MoodSettings implements KoLConstants
 		// locate the ones which involve spellcasting, and add
 		// the MP cost for maintenance to the running tally.
 
-		for ( int i = 0; i < displayList.size(); ++i )
+		for ( int i = 0; i < MoodSettings.displayList.size(); ++i )
 		{
-			MoodTrigger current = (MoodTrigger) displayList.get(i);
+			MoodTrigger current = (MoodTrigger) MoodSettings.displayList.get( i );
 			if ( !current.getType().equals( "lose_effect" ) || !current.shouldExecute( 1 ) )
+			{
 				continue;
+			}
 
 			String action = current.getAction();
 			if ( !action.startsWith( "cast" ) && !action.startsWith( "buff" ) )
+			{
 				continue;
+			}
 
 			int spaceIndex = action.indexOf( " " );
 			if ( spaceIndex == -1 )
+			{
 				continue;
+			}
 
 			action = action.substring( spaceIndex + 1 );
 
 			int multiplier = 1;
 
-			if ( Character.isDigit( action.charAt(0) ) )
+			if ( Character.isDigit( action.charAt( 0 ) ) )
 			{
 				spaceIndex = action.indexOf( " " );
 				multiplier = StaticEntity.parseInt( action.substring( 0, spaceIndex ) );
@@ -676,7 +779,10 @@ public abstract class MoodSettings implements KoLConstants
 
 			String skillName = KoLmafiaCLI.getSkillName( action );
 			if ( skillName != null )
-				runningTally += ClassSkillsDatabase.getMPConsumptionById( ClassSkillsDatabase.getSkillId( skillName ) ) * multiplier;
+			{
+				runningTally +=
+					ClassSkillsDatabase.getMPConsumptionById( ClassSkillsDatabase.getSkillId( skillName ) ) * multiplier;
+			}
 		}
 
 		// Running tally calculated, return the amount of
@@ -686,22 +792,23 @@ public abstract class MoodSettings implements KoLConstants
 	}
 
 	/**
-	 * Stores the settings maintained in this <code>MoodSettings</code>
-	 * object to disk for later retrieval.
+	 * Stores the settings maintained in this <code>MoodSettings</code> object to disk for later retrieval.
 	 */
 
 	public static final void saveSettings()
 	{
-		PrintStream writer = LogStream.openStream( settingsFile, true );
+		PrintStream writer = LogStream.openStream( MoodSettings.settingsFile, true );
 
 		SortedListModel triggerList;
-		for ( int i = 0; i < availableMoods.size(); ++i )
+		for ( int i = 0; i < MoodSettings.availableMoods.size(); ++i )
 		{
-			triggerList = (SortedListModel) reference.get( availableMoods.get(i) );
-			writer.println( "[ " + availableMoods.get(i) + " ]" );
+			triggerList = (SortedListModel) MoodSettings.reference.get( MoodSettings.availableMoods.get( i ) );
+			writer.println( "[ " + MoodSettings.availableMoods.get( i ) + " ]" );
 
 			for ( int j = 0; j < triggerList.size(); ++j )
-				writer.println( ((MoodTrigger)triggerList.get(j)).toSetting() );
+			{
+				writer.println( ( (MoodTrigger) triggerList.get( j ) ).toSetting() );
+			}
 
 			writer.println();
 		}
@@ -710,71 +817,73 @@ public abstract class MoodSettings implements KoLConstants
 	}
 
 	/**
-	 * Loads the settings located in the given file into this object.
-	 * Note that all settings are overridden; if the given file does
-	 * not exist, the current global settings will also be rewritten
-	 * into the appropriate file.
+	 * Loads the settings located in the given file into this object. Note that all settings are overridden; if the
+	 * given file does not exist, the current global settings will also be rewritten into the appropriate file.
 	 */
 
 	public static final void loadSettings()
 	{
-		reference.clear();
-		availableMoods.clear();
+		MoodSettings.reference.clear();
+		MoodSettings.availableMoods.clear();
 
-		ensureProperty( "default" );
-		ensureProperty( "apathetic" );
+		MoodSettings.ensureProperty( "default" );
+		MoodSettings.ensureProperty( "apathetic" );
 
 		try
 		{
 			// First guarantee that a settings file exists with
 			// the appropriate Properties data.
 
-			if ( !settingsFile.exists() )
+			if ( !MoodSettings.settingsFile.exists() )
 			{
-				settingsFile.createNewFile();
+				MoodSettings.settingsFile.createNewFile();
 				return;
 			}
 
-			BufferedReader reader = KoLDatabase.getReader( settingsFile );
+			BufferedReader reader = KoLDatabase.getReader( MoodSettings.settingsFile );
 
 			String line;
 			String currentKey = "";
 
-			while ( (line = reader.readLine()) != null )
+			while ( ( line = reader.readLine() ) != null )
 			{
 				line = line.trim();
 				if ( line.startsWith( "[" ) )
 				{
-					currentKey = StaticEntity.globalStringDelete( line.substring( 1, line.length() - 1 ).trim().toLowerCase(), " " );
+					currentKey =
+						StaticEntity.globalStringDelete(
+							line.substring( 1, line.length() - 1 ).trim().toLowerCase(), " " );
 
 					if ( currentKey.equals( "clear" ) || currentKey.equals( "autofill" ) || currentKey.startsWith( "exec" ) || currentKey.startsWith( "repeat" ) )
-						currentKey = "default";
-
-					displayList.clear();
-
-					if ( reference.containsKey( currentKey ) )
 					{
-						mappedList = (SortedListModel) reference.get( currentKey );
+						currentKey = "default";
+					}
+
+					MoodSettings.displayList.clear();
+
+					if ( MoodSettings.reference.containsKey( currentKey ) )
+					{
+						MoodSettings.mappedList = (SortedListModel) MoodSettings.reference.get( currentKey );
 					}
 					else
 					{
-						mappedList = new SortedListModel();
-						reference.put( currentKey, mappedList );
-						availableMoods.add( currentKey );
+						MoodSettings.mappedList = new SortedListModel();
+						MoodSettings.reference.put( currentKey, MoodSettings.mappedList );
+						MoodSettings.availableMoods.add( currentKey );
 					}
 				}
 				else if ( line.length() != 0 )
 				{
-					addTrigger( MoodTrigger.constructNode( line ) );
+					MoodSettings.addTrigger( MoodTrigger.constructNode( line ) );
 				}
 			}
 
-			displayList.clear();
+			MoodSettings.displayList.clear();
 
 			reader.close();
 			reader = null;
 
-			setMood( KoLSettings.getUserProperty( "currentMood" ) );
+			MoodSettings.setMood( KoLSettings.getUserProperty( "currentMood" ) );
 		}
 		catch ( IOException e1 )
 		{
@@ -790,15 +899,17 @@ public abstract class MoodSettings implements KoLConstants
 			// the current file is deleted.
 
 			StaticEntity.printStackTrace( e2 );
-			settingsFile.delete();
-			loadSettings();
+			MoodSettings.settingsFile.delete();
+			MoodSettings.loadSettings();
 		}
 	}
 
-	public static final String getDefaultAction( String type, String name )
+	public static final String getDefaultAction( final String type, final String name )
 	{
 		if ( type == null || name == null )
+		{
 			return "";
+		}
 
 		// We can look at the displayList list to see if it matches
 		// your current mood.  That way, the "default action" is
@@ -806,114 +917,137 @@ public abstract class MoodSettings implements KoLConstants
 
 		String strictAction = "";
 
-		for ( int i = 0; i < displayList.size(); ++i )
+		for ( int i = 0; i < MoodSettings.displayList.size(); ++i )
 		{
-			MoodTrigger current = (MoodTrigger) displayList.get(i);
+			MoodTrigger current = (MoodTrigger) MoodSettings.displayList.get( i );
 			if ( current.getType().equals( type ) && current.name.equals( name ) )
+			{
 				strictAction = current.action;
+			}
 		}
 
 		if ( type.equals( "unconditional" ) )
+		{
 			return strictAction;
+		}
 
 		if ( type.equals( "lose_effect" ) )
 		{
 			if ( !strictAction.equals( "" ) )
+			{
 				return strictAction;
+			}
 
 			String action = StatusEffectDatabase.getDefaultAction( name );
 			if ( action != null )
+			{
 				return action;
+			}
 
 			return strictAction;
 		}
 
 		if ( UneffectRequest.isShruggable( name ) )
+		{
 			return "uneffect " + name;
+		}
 
 		if ( name.indexOf( "Poisoned" ) != -1 )
+		{
 			return "use anti-anti-antidote";
+		}
 
 		if ( name.equals( "Beaten Up" ) )
 		{
 			if ( KoLCharacter.hasSkill( "Tongue of the Walrus" ) )
+			{
 				return "cast Tongue of the Walrus";
+			}
 			if ( KoLCharacter.hasSkill( "Tongue of the Otter" ) )
+			{
 				return "cast Tongue of the Otter";
+			}
 			if ( KoLCharacter.hasItem( UneffectRequest.FOREST_TEARS ) )
+			{
 				return "use 1 forest tears";
+			}
 		}
 
-		boolean powerNapClearable = name.equals( "Confused" ) || name.equals( "Cunctatitis" ) ||
-			name.equals( "Embarrassed" ) || name.equals( "Easily Embarrassed" ) ||
-			name.equals( "Prestidigysfunction" ) || name.equals( "Sleepy" ) ||
-			name.equals( "Socialismydia" ) || name.equals( "Sunburned" ) ||
-			name.equals( "Tenuous Grip on Reality" ) || name.equals( "Tetanus" ) ||
-			name.equals( "Wussiness" );
+		boolean powerNapClearable =
+			name.equals( "Confused" ) || name.equals( "Cunctatitis" ) || name.equals( "Embarrassed" ) || name.equals( "Easily Embarrassed" ) || name.equals( "Prestidigysfunction" ) || name.equals( "Sleepy" ) || name.equals( "Socialismydia" ) || name.equals( "Sunburned" ) || name.equals( "Tenuous Grip on Reality" ) || name.equals( "Tetanus" ) || name.equals( "Wussiness" );
 
 		if ( powerNapClearable && KoLCharacter.hasSkill( "Disco Power Nap" ) )
+		{
 			return "cast Disco Power Nap";
+		}
 
-		boolean discoNapClearable = name.equals( "Wussiness" ) || name.equals( "Sleepy" ) ||
-			name.equals( "Embarrassed" ) || name.equals( "Confused" );
+		boolean discoNapClearable =
+			name.equals( "Wussiness" ) || name.equals( "Sleepy" ) || name.equals( "Embarrassed" ) || name.equals( "Confused" );
 
 		if ( discoNapClearable && KoLCharacter.hasSkill( "Disco Nap" ) )
+		{
 			return "cast Disco Nap";
+		}
 
 		if ( KoLCharacter.hasItem( UneffectRequest.REMEDY ) )
+		{
 			return "uneffect " + name;
+		}
 
-		boolean tinyHouseClearable = name.equals( "Beaten Up" ) || name.equals( "Confused" ) ||
-			name.equals( "Sunburned" ) || name.equals( "Wussiness" );
+		boolean tinyHouseClearable =
+			name.equals( "Beaten Up" ) || name.equals( "Confused" ) || name.equals( "Sunburned" ) || name.equals( "Wussiness" );
 
-		if ( tinyHouseClearable && (KoLCharacter.canInteract() || KoLCharacter.hasItem( UneffectRequest.TINY_HOUSE )) )
+		if ( tinyHouseClearable && ( KoLCharacter.canInteract() || KoLCharacter.hasItem( UneffectRequest.TINY_HOUSE ) ) )
+		{
 			return "use 1 tiny house";
+		}
 
 		if ( KoLCharacter.canInteract() )
+		{
 			return "uneffect " + name;
+		}
 
 		return strictAction;
 	}
 
 	/**
-	 * Ensures that the given property exists, and if it does not exist,
-	 * initializes it to the given value.
+	 * Ensures that the given property exists, and if it does not exist, initializes it to the given value.
 	 */
 
-	private static final void ensureProperty( String key )
+	private static final void ensureProperty( final String key )
 	{
-		if ( !reference.containsKey( key ) )
+		if ( !MoodSettings.reference.containsKey( key ) )
 		{
 			SortedListModel defaultList = new SortedListModel();
-			reference.put( key, defaultList );
-			availableMoods.add( key );
+			MoodSettings.reference.put( key, defaultList );
+			MoodSettings.availableMoods.add( key );
 		}
 	}
 
 	/**
-	 * Stores the settings maintained in this <code>KoLSettings</code>
-	 * to the noted file.  Note that this method ALWAYS overwrites
-	 * the given file.
-	 *
-	 * @param	settingsFile	The file to which the settings will be stored.
+	 * Stores the settings maintained in this <code>KoLSettings</code> to the noted file. Note that this method ALWAYS
+	 * overwrites the given file.
+	 * 
+	 * @param settingsFile The file to which the settings will be stored.
 	 */
 
-	public static class MoodTrigger implements Comparable
+	public static class MoodTrigger
+		implements Comparable
 	{
 		private int skillId = -1;
-		private AdventureResult effect;
+		private final AdventureResult effect;
 		private boolean isThiefTrigger = false;
 
-		private StringBuffer stringForm;
+		private final StringBuffer stringForm;
 
 		private String action;
-		private String type, name;
+		private final String type, name;
 
 		private int count;
 		private AdventureResult item;
 		private UseSkillRequest skill;
 
-		public MoodTrigger( String type, AdventureResult effect, String action )
+		public MoodTrigger( final String type, final AdventureResult effect, final String action )
 		{
 			this.type = type;
 			this.effect = effect;
@@ -946,7 +1080,7 @@ public abstract class MoodSettings implements KoLConstants
 				{
 					this.count = 1;
 
-					if ( Character.isDigit( parameters.charAt(0) ) )
+					if ( Character.isDigit( parameters.charAt( 0 ) ) )
 					{
 						spaceIndex = parameters.indexOf( " " );
 						this.count = StaticEntity.parseInt( parameters.substring( 0, spaceIndex ) );
@@ -954,7 +1088,9 @@ public abstract class MoodSettings implements KoLConstants
 					}
 
 					if ( !ClassSkillsDatabase.contains( parameters ) )
+					{
 						parameters = KoLmafiaCLI.getSkillName( parameters );
+					}
 
 					this.skill = UseSkillRequest.getInstance( parameters );
 					this.action = "cast " + this.count + " " + this.skill.getSkillName();
@@ -980,137 +1116,176 @@ public abstract class MoodSettings implements KoLConstants
 		}
 
 		public String getType()
-		{	return this.type;
+		{
+			return this.type;
 		}
 
 		public String getName()
-		{	return this.name;
+		{
+			return this.name;
 		}
 
 		public String getAction()
-		{	return this.action;
+		{
+			return this.action;
 		}
 
 		public String toString()
-		{	return this.stringForm.toString();
+		{
+			return this.stringForm.toString();
 		}
 
 		public String toSetting()
 		{
 			if ( this.effect == null )
+			{
 				return this.type + " => " + this.action;
+			}
 
 			if ( this.item != null )
 			{
-				return this.type + " " + KoLDatabase.getCanonicalName( this.name ) +
-					" => use " + this.count + " " + KoLDatabase.getCanonicalName( this.item.getName() );
+				return this.type + " " + KoLDatabase.getCanonicalName( this.name ) + " => use " + this.count + " " + KoLDatabase.getCanonicalName( this.item.getName() );
 			}
 
 			if ( this.skill != null )
 			{
-				return this.type + " " + KoLDatabase.getCanonicalName( this.name ) +
-					" => cast " + this.count + " " + KoLDatabase.getCanonicalName( this.skill.getSkillName() );
+				return this.type + " " + KoLDatabase.getCanonicalName( this.name ) + " => cast " + this.count + " " + KoLDatabase.getCanonicalName( this.skill.getSkillName() );
 			}
 
 			return this.type + " " + KoLDatabase.getCanonicalName( this.name ) + " => " + this.action;
 		}
 
-		public boolean equals( Object o )
+		public boolean equals( final Object o )
 		{
-			if ( o == null || !(o instanceof MoodTrigger) )
+			if ( o == null || !( o instanceof MoodTrigger ) )
+			{
 				return false;
+			}
 
 			MoodTrigger mt = (MoodTrigger) o;
 			if ( !this.type.equals( mt.getType() ) )
+			{
 				return false;
+			}
 
 			if ( this.name == null )
+			{
 				return mt.name == null;
+			}
 
 			if ( mt.getType() == null )
+			{
 				return false;
+			}
 
 			return this.name.equals( mt.name );
 		}
 
-		public void execute( int multiplicity )
+		public void execute( final int multiplicity )
 		{
 			if ( !this.shouldExecute( multiplicity ) )
-				return;
-
-			if ( item != null )
 			{
-				RequestThread.postRequest( new ConsumeItemRequest( item.getInstance( Math.max( this.count, this.count * multiplicity ) ) ) );
 				return;
 			}
-			else if ( skill != null )
+
+			if ( this.item != null )
 			{
-				skill.setBuffCount( Math.max( this.count, this.count * multiplicity ) );
-				RequestThread.postRequest( skill );
+				RequestThread.postRequest( new ConsumeItemRequest( this.item.getInstance( Math.max(
+					this.count, this.count * multiplicity ) ) ) );
+				return;
+			}
+			else if ( this.skill != null )
+			{
+				this.skill.setBuffCount( Math.max( this.count, this.count * multiplicity ) );
+				RequestThread.postRequest( this.skill );
 				return;
 			}
 
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( this.action );
 		}
 
-		public boolean shouldExecute( int multiplicity )
+		public boolean shouldExecute( final int multiplicity )
 		{
 			if ( KoLmafia.refusesContinue() )
+			{
 				return false;
+			}
 
 			if ( this.type.equals( "unconditional" ) || this.effect == null )
+			{
 				return true;
+			}
 
 			if ( this.type.equals( "lose_effect" ) && multiplicity > 0 )
+			{
 				return true;
+			}
 
 			if ( this.type.equals( "gain_effect" ) )
-				return activeEffects.contains( this.effect );
+			{
+				return KoLConstants.activeEffects.contains( this.effect );
+			}
 
-			boolean unstackable = this.action.indexOf( "cupcake" ) != -1 || this.action.indexOf( "snowcone" ) != -1 ||
-				this.action.indexOf( "absinthe" ) != -1 || this.action.indexOf( "astral mushroom" ) != -1 || this.action.indexOf( "oasis" ) != -1;
+			boolean unstackable =
+				this.action.indexOf( "cupcake" ) != -1 || this.action.indexOf( "snowcone" ) != -1 || this.action.indexOf( "absinthe" ) != -1 || this.action.indexOf( "astral mushroom" ) != -1 || this.action.indexOf( "oasis" ) != -1;
 
-			return unstackable ? !activeEffects.contains( this.effect ) :
-				this.effect.getCount( activeEffects ) <= (multiplicity == -1 ? 1 : 5);
+			return unstackable ? !KoLConstants.activeEffects.contains( this.effect ) : this.effect.getCount( KoLConstants.activeEffects ) <= ( multiplicity == -1 ? 1 : 5 );
 		}
 
 		public boolean isThiefTrigger()
-		{	return this.isThiefTrigger;
+		{
+			return this.isThiefTrigger;
 		}
 
-		public int compareTo( Object o )
+		public int compareTo( final Object o )
 		{
-			if ( o == null || !(o instanceof MoodTrigger) )
+			if ( o == null || !( o instanceof MoodTrigger ) )
+			{
 				return -1;
+			}
 
-			String othertype = ((MoodTrigger)o).getType();
-			String othername = ((MoodTrigger)o).name;
-			String otherTriggerAction = ((MoodTrigger)o).action;
+			String othertype = ( (MoodTrigger) o ).getType();
+			String othername = ( (MoodTrigger) o ).name;
+			String otherTriggerAction = ( (MoodTrigger) o ).action;
 
 			int compareResult = 0;
 
 			if ( this.type.equals( "unconditional" ) )
 			{
 				if ( othertype.equals( "unconditional" ) )
+				{
 					compareResult = this.action.compareToIgnoreCase( otherTriggerAction );
+				}
 				else
+				{
 					compareResult = -1;
+				}
 			}
 			else if ( this.type.equals( "gain_effect" ) )
 			{
 				if ( othertype.equals( "unconditional" ) )
+				{
 					compareResult = 1;
+				}
 				else if ( othertype.equals( "gain_effect" ) )
+				{
 					compareResult = this.name.compareToIgnoreCase( othername );
+				}
 				else
+				{
 					compareResult = -1;
+				}
 			}
 			else if ( this.type.equals( "lose_effect" ) )
 			{
 				if ( othertype.equals( "lose_effect" ) )
+				{
 					compareResult = this.name.compareToIgnoreCase( othername );
+				}
 				else
+				{
 					compareResult = 1;
+				}
 			}
 
 			return compareResult;
@@ -1118,14 +1293,20 @@ public abstract class MoodSettings implements KoLConstants
 
 		public void updateStringForm()
 		{
-			this.stringForm.setLength(0);
+			this.stringForm.setLength( 0 );
 
 			if ( this.type.equals( "gain_effect" ) )
+			{
 				this.stringForm.append( "When I get" );
+			}
 			else if ( this.type.equals( "lose_effect" ) )
+			{
 				this.stringForm.append( "When I run low on" );
+			}
 			else
+			{
 				this.stringForm.append( "Always" );
+			}
 
 			if ( this.name != null )
 			{
@@ -1137,36 +1318,48 @@ public abstract class MoodSettings implements KoLConstants
 			this.stringForm.append( this.action );
 		}
 
-		public static final MoodTrigger constructNode( String line )
+		public static final MoodTrigger constructNode( final String line )
 		{
-			String [] pieces = line.split( " => " );
+			String[] pieces = line.split( " => " );
 			if ( pieces.length != 2 )
+			{
 				return null;
+			}
 
 			String type = null;
 
-			if ( pieces[0].startsWith( "gain_effect" ) )
+			if ( pieces[ 0 ].startsWith( "gain_effect" ) )
+			{
 				type = "gain_effect";
-			else if ( pieces[0].startsWith( "lose_effect" ) )
+			}
+			else if ( pieces[ 0 ].startsWith( "lose_effect" ) )
+			{
 				type = "lose_effect";
-			else if ( pieces[0].startsWith( "unconditional" ) )
+			}
+			else if ( pieces[ 0 ].startsWith( "unconditional" ) )
+			{
 				type = "unconditional";
+			}
 
 			if ( type == null )
+			{
 				return null;
+			}
 
-			String name = type.equals( "unconditional" ) ? null :
-				pieces[0].substring( pieces[0].indexOf( " " ) ).trim();
+			String name =
+				type.equals( "unconditional" ) ? null : pieces[ 0 ].substring( pieces[ 0 ].indexOf( " " ) ).trim();
 
 			AdventureResult effect = null;
 			if ( !type.equals( "unconditional" ) )
 			{
 				effect = KoLmafiaCLI.getFirstMatchingEffect( name );
 				if ( effect == null )
+				{
 					return null;
+				}
 			}
 
-			return new MoodTrigger( type, effect, pieces[1].trim() );
+			return new MoodTrigger( type, effect, pieces[ 1 ].trim() );
 		}
 	}
 }

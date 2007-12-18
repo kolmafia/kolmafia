@@ -50,64 +50,67 @@ import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 
 /**
- * Formed after the same idea as <code>SwingUtilities</code>, this contains common
- * functions needed by many of the JComponent-related classes.  Any methods which
- * are used by multiple instances of a JComponent and have a non-class-specific
- * purpose should be placed into this class in order to simplify the overall design
- * of the system and to facilitate documentation.
+ * Formed after the same idea as <code>SwingUtilities</code>, this contains common functions needed by many of the
+ * JComponent-related classes. Any methods which are used by multiple instances of a JComponent and have a
+ * non-class-specific purpose should be placed into this class in order to simplify the overall design of the system and
+ * to facilitate documentation.
  */
 
-public class JComponentUtilities implements UtilityConstants
+public class JComponentUtilities
+	implements UtilityConstants
 {
 	/**
-	 * Sets the minimum, maximum, and preferred size of the component to the
-	 * given width and height, effectively forcing the component to the given
-	 * width and height, unless restrictions to the component's size exist due
-	 * to external reasons.
-	 *
-	 * @param	component	the component whose size is to be set
-	 * @param	width	the new forced width of the component
-	 * @param	height	the new forced height of the component
+	 * Sets the minimum, maximum, and preferred size of the component to the given width and height, effectively forcing
+	 * the component to the given width and height, unless restrictions to the component's size exist due to external
+	 * reasons.
+	 * 
+	 * @param component the component whose size is to be set
+	 * @param width the new forced width of the component
+	 * @param height the new forced height of the component
 	 */
 
-	public static void setComponentSize( JComponent component, int width, int height )
-	{	setComponentSize( component, new Dimension( width, height ) );
+	public static void setComponentSize( final JComponent component, final int width, final int height )
+	{
+		JComponentUtilities.setComponentSize( component, new Dimension( width, height ) );
 	}
 
 	/**
-	 * Sets the minimum, maximum, and preferred size of the component to the
-	 * given dimension, effectively forcing the component to the given width
-	 * and height, unless restrictions to the component's size exist due to
-	 * external reasons.
-	 *
-	 * @param	component	the component whose size is to be set
-	 * @param	d	the new forced size of the component, as a <code>Dimension</code>
+	 * Sets the minimum, maximum, and preferred size of the component to the given dimension, effectively forcing the
+	 * component to the given width and height, unless restrictions to the component's size exist due to external
+	 * reasons.
+	 * 
+	 * @param component the component whose size is to be set
+	 * @param d the new forced size of the component, as a <code>Dimension</code>
 	 */
 
-	public static void setComponentSize( JComponent component, Dimension d )
+	public static void setComponentSize( final JComponent component, final Dimension d )
 	{
 		component.setPreferredSize( d );
 		component.setMinimumSize( d );
 		component.setSize( d );
 
 		if ( component instanceof JTextField || component instanceof JPasswordField || component instanceof JList || component instanceof JComboBox )
+		{
 			component.setMaximumSize( new Dimension( Integer.MAX_VALUE, (int) d.getHeight() ) );
+		}
 		else
+		{
 			component.setMaximumSize( d );
+		}
 	}
 
 	/**
-	 * Creates a label with the given properties already preset.  The label will
-	 * also, by default, be opaque, so that the background color specified will
-	 * be able to show through.
-	 *
-	 * @param	label	the string to be displayed by the <code>JLabel</code>
-	 * @param	alignment	the horizontal alignment of the <code>JLabel</code>
-	 * @param	background	the background color to be used for the <code>JLabel</code>
-	 * @param	foreground	the foreground color to be used for the <code>JLabel</code>
+	 * Creates a label with the given properties already preset. The label will also, by default, be opaque, so that the
+	 * background color specified will be able to show through.
+	 * 
+	 * @param label the string to be displayed by the <code>JLabel</code>
+	 * @param alignment the horizontal alignment of the <code>JLabel</code>
+	 * @param background the background color to be used for the <code>JLabel</code>
+	 * @param foreground the foreground color to be used for the <code>JLabel</code>
 	 */
 
-	public static JLabel createLabel( String label, int alignment, Color background, Color foreground )
+	public static JLabel createLabel( final String label, final int alignment, final Color background,
+		final Color foreground )
 	{
 		JLabel presetLabel = new JLabel( label, alignment );
 		presetLabel.setForeground( foreground );
@@ -117,62 +120,70 @@ public class JComponentUtilities implements UtilityConstants
 	}
 
 	/**
-	 * A public function used to retrieve an image.  Allows referencing images
-	 * within a JAR, inside of a class tree, and from the local directory from
-	 * which the Java command line is called.  The priority is as listed, in
-	 * reverse order.  Note that rather than throwing an exception should the
-	 * file not be successfully found, this function will instead print out an
-	 * error message and simply return null.
-	 *
-	 * @param	filename	the filename of the image
+	 * A public function used to retrieve an image. Allows referencing images within a JAR, inside of a class tree, and
+	 * from the local directory from which the Java command line is called. The priority is as listed, in reverse order.
+	 * Note that rather than throwing an exception should the file not be successfully found, this function will instead
+	 * print out an error message and simply return null.
+	 * 
+	 * @param filename the filename of the image
 	 */
 
-	public static ImageIcon getImage( String filename )
-	{	return getImage( IMAGE_DIRECTORY, filename );
+	public static ImageIcon getImage( final String filename )
+	{
+		return JComponentUtilities.getImage( UtilityConstants.IMAGE_DIRECTORY, filename );
 	}
 
 	/**
-	 * A public function used to retrieve an image.  Allows referencing images
-	 * within a JAR, inside of a class tree, and from the local directory from
-	 * which the Java command line is called.  The priority is as listed, in
-	 * reverse order.
-	 *
-	 * @param	directory	the subtree in which the image can be found
-	 * @param	filename	the filename of the image
+	 * A public function used to retrieve an image. Allows referencing images within a JAR, inside of a class tree, and
+	 * from the local directory from which the Java command line is called. The priority is as listed, in reverse order.
+	 * 
+	 * @param directory the subtree in which the image can be found
+	 * @param filename the filename of the image
 	 */
 
 	public static ImageIcon getImage( String directory, String filename )
 	{
 		if ( filename.startsWith( "http://" ) )
+		{
 			return new ImageIcon( filename );
+		}
 
 		directory = directory.replaceAll( File.separator.replaceAll( "\\\\", "\\\\\\\\" ), "/" );
 		filename = filename.replaceAll( File.separator.replaceAll( "\\\\", "\\\\\\\\" ), "/" );
 
 		if ( directory.length() > 0 && !directory.endsWith( "/" ) )
+		{
 			directory += "/";
+		}
 
-		ImageIcon result =  null;
+		ImageIcon result = null;
 		String fullname = directory + filename;
 
-		File override = new File( ROOT_LOCATION, fullname );
+		File override = new File( UtilityConstants.ROOT_LOCATION, fullname );
 		if ( override.exists() )
+		{
 			return new ImageIcon( override.getAbsolutePath() );
+		}
 
-		result = getImage( SYSTEM_CLASSLOADER, fullname );
+		result = JComponentUtilities.getImage( UtilityConstants.SYSTEM_CLASSLOADER, fullname );
 		if ( result != null )
+		{
 			return result;
+		}
 
-		result = getImage( MAINCLASS_CLASSLOADER, fullname );
+		result = JComponentUtilities.getImage( UtilityConstants.MAINCLASS_CLASSLOADER, fullname );
 		if ( result != null )
+		{
 			return result;
+		}
 
 		// if it's gotten this far, the image icon does not exist
 		return null;
 	}
 
-	public static URL getResource( String filename )
-	{	return getResource( IMAGE_DIRECTORY, filename );
+	public static URL getResource( final String filename )
+	{
+		return JComponentUtilities.getResource( UtilityConstants.IMAGE_DIRECTORY, filename );
 	}
 
 	public static URL getResource( String directory, String filename )
@@ -181,15 +192,19 @@ public class JComponentUtilities implements UtilityConstants
 		filename = filename.replaceAll( File.separator.replaceAll( "\\\\", "\\\\\\\\" ), "/" );
 
 		if ( directory.length() > 0 && !directory.endsWith( "/" ) )
+		{
 			directory += "/";
+		}
 
 		String fullname = directory + filename;
 
 		try
 		{
-			File override = new File( ROOT_LOCATION, fullname );
+			File override = new File( UtilityConstants.ROOT_LOCATION, fullname );
 			if ( override.exists() )
+			{
 				return override.toURL();
+			}
 		}
 		catch ( Exception e )
 		{
@@ -197,45 +212,54 @@ public class JComponentUtilities implements UtilityConstants
 			// with the next possibility.
 		}
 
-		URL result = getResource( SYSTEM_CLASSLOADER, fullname );
+		URL result = JComponentUtilities.getResource( UtilityConstants.SYSTEM_CLASSLOADER, fullname );
 		if ( result != null )
+		{
 			return result;
+		}
 
-		result = getResource( MAINCLASS_CLASSLOADER, fullname );
+		result = JComponentUtilities.getResource( UtilityConstants.MAINCLASS_CLASSLOADER, fullname );
 		if ( result != null )
+		{
 			return result;
+		}
 
 		// if it's gotten this far, the image icon does not exist
 		return null;
 	}
 
-	private static URL getResource( ClassLoader loader, String filename )
-	{	return loader.getResource( filename );
+	private static URL getResource( final ClassLoader loader, final String filename )
+	{
+		return loader.getResource( filename );
 	}
 
-	private static ImageIcon getImage( ClassLoader loader, String filename )
+	private static ImageIcon getImage( final ClassLoader loader, final String filename )
 	{
 		URL filenameAsURL = loader.getResource( filename );
 		return filenameAsURL == null ? null : new ImageIcon( filenameAsURL );
 	}
 
-	public static void addHotKey( JComponent component, int event, ActionListener listener )
-	{	addHotKey( component, event, 0, listener );
-	}
-
-	public static void addHotKey( JComponent component, int event, int modifier, ActionListener listener )
+	public static void addHotKey( final JComponent component, final int event, final ActionListener listener )
 	{
-		component.registerKeyboardAction( listener,
-			KeyStroke.getKeyStroke( event, modifier ), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT );
+		JComponentUtilities.addHotKey( component, event, 0, listener );
 	}
 
-	public static void addGlobalHotKey( JComponent component, int event, ActionListener listener )
-	{	addGlobalHotKey( component, event, 0, listener );
-	}
-
-	public static void addGlobalHotKey( JComponent component, int event, int modifier, ActionListener listener )
+	public static void addHotKey( final JComponent component, final int event, final int modifier,
+		final ActionListener listener )
 	{
-		component.registerKeyboardAction( listener,
-			KeyStroke.getKeyStroke( event, modifier ), JComponent.WHEN_IN_FOCUSED_WINDOW );
+		component.registerKeyboardAction(
+			listener, KeyStroke.getKeyStroke( event, modifier ), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT );
+	}
+
+	public static void addGlobalHotKey( final JComponent component, final int event, final ActionListener listener )
+	{
+		JComponentUtilities.addGlobalHotKey( component, event, 0, listener );
+	}
+
+	public static void addGlobalHotKey( final JComponent component, final int event, final int modifier,
+		final ActionListener listener )
+	{
+		component.registerKeyboardAction(
+			listener, KeyStroke.getKeyStroke( event, modifier ), JComponent.WHEN_IN_FOCUSED_WINDOW );
 	}
 }

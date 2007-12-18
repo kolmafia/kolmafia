@@ -35,12 +35,13 @@ package net.sourceforge.kolmafia;
 
 import java.util.regex.Matcher;
 
-public class CombineMeatRequest extends ItemCreationRequest
+public class CombineMeatRequest
+	extends ItemCreationRequest
 {
-	private int meatType;
-	private int costToMake;
+	private final int meatType;
+	private final int costToMake;
 
-	public CombineMeatRequest( int meatType )
+	public CombineMeatRequest( final int meatType )
 	{
 		super( "inventory.php", meatType );
 
@@ -48,16 +49,20 @@ public class CombineMeatRequest extends ItemCreationRequest
 		this.addFormField( "whichitem", String.valueOf( meatType ) );
 
 		this.meatType = meatType;
-		this.costToMake = meatType == MEAT_PASTE ? -10 : meatType == MEAT_STACK ? -100 : -1000;
+		this.costToMake =
+			meatType == KoLConstants.MEAT_PASTE ? -10 : meatType == KoLConstants.MEAT_STACK ? -100 : -1000;
 	}
 
 	public int getQuantityPossible()
 	{
 		switch ( this.meatType )
 		{
-		case MEAT_PASTE:	return KoLCharacter.getAvailableMeat() / 10;
-		case MEAT_STACK:	return KoLCharacter.getAvailableMeat() / 100;
-		default:	return KoLCharacter.getAvailableMeat() / 1000;
+		case MEAT_PASTE:
+			return KoLCharacter.getAvailableMeat() / 10;
+		case MEAT_STACK:
+			return KoLCharacter.getAvailableMeat() / 100;
+		default:
+			return KoLCharacter.getAvailableMeat() / 1000;
 		}
 	}
 
@@ -69,7 +74,7 @@ public class CombineMeatRequest extends ItemCreationRequest
 	{
 		if ( this.costToMake * this.getQuantityNeeded() > KoLCharacter.getAvailableMeat() )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "Insufficient funds to make meat paste." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Insufficient funds to make meat paste." );
 			return;
 		}
 
@@ -79,20 +84,23 @@ public class CombineMeatRequest extends ItemCreationRequest
 	}
 
 	public void processResults()
-	{	StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, this.costToMake * this.getQuantityNeeded() ) );
+	{
+		StaticEntity.getClient().processResult(
+			new AdventureResult( AdventureResult.MEAT, this.costToMake * this.getQuantityNeeded() ) );
 	}
 
-	public static final boolean registerRequest( String urlString )
+	public static final boolean registerRequest( final String urlString )
 	{
-		Matcher itemMatcher = ITEMID_PATTERN.matcher( urlString );
+		Matcher itemMatcher = ItemCreationRequest.ITEMID_PATTERN.matcher( urlString );
 		if ( !itemMatcher.find() )
+		{
 			return true;
+		}
 
-		Matcher quantityMatcher = QUANTITY_PATTERN.matcher( urlString );
-		int quantity = quantityMatcher.find() ? StaticEntity.parseInt( quantityMatcher.group(1) ) : 1;
+		Matcher quantityMatcher = ItemCreationRequest.QUANTITY_PATTERN.matcher( urlString );
+		int quantity = quantityMatcher.find() ? StaticEntity.parseInt( quantityMatcher.group( 1 ) ) : 1;
 
-		RequestLogger.updateSessionLog( "Create " + quantity + " " +
-			TradeableItemDatabase.getItemName( StaticEntity.parseInt( itemMatcher.group(1) ) ) );
+		RequestLogger.updateSessionLog( "Create " + quantity + " " + TradeableItemDatabase.getItemName( StaticEntity.parseInt( itemMatcher.group( 1 ) ) ) );
 
 		return true;
 	}

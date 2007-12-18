@@ -40,45 +40,56 @@ import java.awt.event.KeyListener;
 
 import javax.swing.JComboBox;
 
-public abstract class ThreadedListener implements ActionListener, KeyListener, Runnable
+public abstract class ThreadedListener
+	implements ActionListener, KeyListener, Runnable
 {
-	public void actionPerformed( ActionEvent e )
+	public void actionPerformed( final ActionEvent e )
 	{
 		if ( !this.isValidEvent( e ) )
+		{
 			return;
+		}
 
 		this.run();
 		RequestThread.enableDisplayIfSequenceComplete();
 	}
 
-	protected boolean isValidEvent( ActionEvent e )
+	protected boolean isValidEvent( final ActionEvent e )
 	{
 		if ( e == null || e.getSource() == null )
+		{
 			return true;
+		}
 
 		if ( e.getSource() instanceof JComboBox )
-			return ((JComboBox)e.getSource()).isPopupVisible();
+		{
+			return ( (JComboBox) e.getSource() ).isPopupVisible();
+		}
 
 		return true;
 	}
 
-	public void keyPressed( KeyEvent e )
+	public void keyPressed( final KeyEvent e )
 	{
 	}
 
-	public void keyReleased( KeyEvent e )
+	public void keyReleased( final KeyEvent e )
 	{
 		if ( e.isConsumed() )
+		{
 			return;
+		}
 
 		if ( e.getKeyCode() != KeyEvent.VK_ENTER )
+		{
 			return;
+		}
 
 		this.run();
 		e.consume();
 	}
 
-	public void keyTyped( KeyEvent e )
+	public void keyTyped( final KeyEvent e )
 	{
 	}
 }

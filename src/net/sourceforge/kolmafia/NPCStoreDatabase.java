@@ -36,23 +36,25 @@ package net.sourceforge.kolmafia;
 import java.io.BufferedReader;
 import java.util.ArrayList;
 
-public class NPCStoreDatabase extends KoLDatabase
+public class NPCStoreDatabase
+	extends KoLDatabase
 {
 	private static final ArrayList NPC_ITEMS = new ArrayList();
 	private static final AdventureResult LAB_KEY = new AdventureResult( 339, 1 );
 
 	static
 	{
-		BufferedReader reader = getVersionedReader( "npcstores.txt", NPCSTORES_VERSION );
+		BufferedReader reader = KoLDatabase.getVersionedReader( "npcstores.txt", KoLConstants.NPCSTORES_VERSION );
 
-		String [] data;
+		String[] data;
 
-		while ( (data = readData( reader )) != null )
+		while ( ( data = KoLDatabase.readData( reader ) ) != null )
 		{
 			if ( data.length == 4 )
 			{
-				NPC_ITEMS.add( new MallPurchaseRequest( data[0], data[1],
-					TradeableItemDatabase.getItemId( data[2] ), parseInt( data[3] ) ) );
+				NPCStoreDatabase.NPC_ITEMS.add( new MallPurchaseRequest(
+					data[ 0 ], data[ 1 ], TradeableItemDatabase.getItemId( data[ 2 ] ),
+					StaticEntity.parseInt( data[ 3 ] ) ) );
 			}
 		}
 
@@ -65,42 +67,50 @@ public class NPCStoreDatabase extends KoLDatabase
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			printStackTrace( e );
+			StaticEntity.printStackTrace( e );
 		}
 	}
 
-	public static final MallPurchaseRequest getPurchaseRequest( String itemName )
+	public static final MallPurchaseRequest getPurchaseRequest( final String itemName )
 	{
 		int itemId = TradeableItemDatabase.getItemId( itemName );
 
 		MallPurchaseRequest foundItem = null;
 		MallPurchaseRequest currentItem = null;
 
-		for ( int i = 0; i < NPC_ITEMS.size(); ++i )
+		for ( int i = 0; i < NPCStoreDatabase.NPC_ITEMS.size(); ++i )
 		{
-			currentItem = (MallPurchaseRequest) NPC_ITEMS.get(i);
+			currentItem = (MallPurchaseRequest) NPCStoreDatabase.NPC_ITEMS.get( i );
 			if ( currentItem.getItemId() != itemId )
+			{
 				continue;
+			}
 
 			foundItem = currentItem;
-			if ( !canPurchase( foundItem.getStoreId(), foundItem.getShopName() ) )
+			if ( !NPCStoreDatabase.canPurchase( foundItem.getStoreId(), foundItem.getShopName() ) )
+			{
 				continue;
+			}
 
 			foundItem.setCanPurchase( true );
 			return foundItem;
 		}
 
 		if ( foundItem == null )
+		{
 			return null;
+		}
 
 		foundItem.setCanPurchase( false );
 		return foundItem;
 	}
 
-	private static final boolean canPurchase( String storeId, String shopName )
+	private static final boolean canPurchase( final String storeId, final String shopName )
 	{
 		if ( storeId == null )
+		{
 			return false;
+		}
 
 		// Check for whether or not the purchase can be made from a
 		// guild store.  Store #1 is moxie classes, store #2 is for
@@ -109,65 +119,57 @@ public class NPCStoreDatabase extends KoLDatabase
 		String classType = KoLCharacter.getClassType();
 
 		if ( storeId.equals( "1" ) )
+		{
 			return KoLCharacter.isMoxieClass();
-
+		}
 		else if ( storeId.equals( "2" ) )
-			return KoLCharacter.isMysticalityClass() || (classType.equals( KoLCharacter.ACCORDION_THIEF ) && KoLCharacter.getLevel() >= 9);
-
+		{
+			return KoLCharacter.isMysticalityClass() || classType.equals( KoLCharacter.ACCORDION_THIEF ) && KoLCharacter.getLevel() >= 9;
+		}
 		else if ( storeId.equals( "3" ) )
-			return KoLCharacter.isMuscleClass() || (classType.equals( KoLCharacter.ACCORDION_THIEF ) && KoLCharacter.getLevel() >= 9);
-
-		// If the person is trying to get one of the items from the bugbear
-		// store, then the item is not available if they don't have the
-		// bugbear outfit.  Of course, some items are available from the
-		// Degrassi knoll bakery, so fallback on that when possible.
-
+		{
+			return KoLCharacter.isMuscleClass() || classType.equals( KoLCharacter.ACCORDION_THIEF ) && KoLCharacter.getLevel() >= 9;
+		}
 		else if ( storeId.equals( "b" ) )
+		{
 			return EquipmentDatabase.hasOutfit( 1 );
-
-		// Barrrtleby's Barrrgain Books is accessible only if you are
-		// wearing the Swashbuckling Getup
-
+		}
 		else if ( storeId.equals( "r" ) )
+		{
 			return EquipmentDatabase.hasOutfit( 9 );
-
-		// If the person is not in a muscle sign, then items from the
-		// Degrassi Knoll are not available.
-
-		else if ( (storeId.equals( "4" ) || storeId.equals( "5" )) )
+		}
+		else if ( storeId.equals( "4" ) || storeId.equals( "5" ) )
+		{
 			return KoLCharacter.inMuscleSign();
-
-		// If the person is not in a mysticality sign, then items from the
-		// Canadia Jewelers are not available.
-
+		}
 		else if ( storeId.equals( "j" ) )
+		{
 			return KoLCharacter.inMysticalitySign();
-
-		// If the person is trying to get the items from the laboratory,
-		// then the item is not available if they don't have the elite
-		// guard uniform, and not available if out of Ronin.
-
+		}
 		else if ( storeId.equals( "g" ) )
-			return KoLCharacter.hasItem( LAB_KEY ) && EquipmentDatabase.hasOutfit( 5 );
-
-		// If the person is trying to get one of the items from the hippy
-		// store, then the item is not available if they don't have the
-		// hippy outfit.
-
+		{
+			return KoLCharacter.hasItem( NPCStoreDatabase.LAB_KEY ) && EquipmentDatabase.hasOutfit( 5 );
+		}
 		else if ( storeId.equals( "h" ) )
 		{
 			int level = KoLCharacter.getLevel();
 
 			if ( shopName.equals( "Hippy Store (Pre-War)" ) )
 			{
-				if ( !inventory.contains( KoLAdventure.DINGHY ) || !EquipmentDatabase.hasOutfit( 2 ) )
+				if ( !KoLConstants.inventory.contains( KoLAdventure.DINGHY ) || !EquipmentDatabase.hasOutfit( 2 ) )
+				{
 					return false;
+				}
 
 				if ( level < 12 )
+				{
 					return true;
+				}
 
 				if ( KoLSettings.getIntegerProperty( "lastFilthClearance" ) == KoLCharacter.getAscensions() )
+				{
 					return false;
+				}
 
 				return QuestLogRequest.isHippyStoreAvailable();
 			}
@@ -177,15 +179,25 @@ public class NPCStoreDatabase extends KoLDatabase
 			// was used to complete it.
 
 			if ( level < 12 || KoLSettings.getIntegerProperty( "lastFilthClearance" ) != KoLCharacter.getAscensions() )
+			{
 				return false;
+			}
 
 			if ( shopName.equals( "Hippy Store (Hippy)" ) )
+			{
 				if ( !KoLSettings.getUserProperty( "currentHippyStore" ).equals( "hippy" ) )
+				{
 					return false;
+				}
+			}
 
 			if ( shopName.equals( "Hippy Store (Fratboy)" ) )
+			{
 				if ( !KoLSettings.getUserProperty( "currentHippyStore" ).equals( "fratboy" ) )
+				{
 					return false;
+				}
+			}
 
 			return QuestLogRequest.isHippyStoreAvailable() || EquipmentDatabase.hasOutfit( 32 );
 		}
@@ -194,28 +206,25 @@ public class NPCStoreDatabase extends KoLDatabase
 		// black market map.
 
 		else if ( storeId.equals( "l" ) )
+		{
 			return QuestLogRequest.isBlackMarketAvailable();
-
-		// Gno-Mart in the Gnomish camp
-
+		}
 		else if ( storeId.equals( "n" ) )
+		{
 			return KoLCharacter.inMoxieSign();
-
-		// Check the quest log when determining whether the person has
-		// access to the Citadel.
-
+		}
 		else if ( storeId.equals( "w" ) )
+		{
 			return QuestLogRequest.isWhiteCitadelAvailable();
-
-		// Nervewrecker's Store in Hey-Deze
-
+		}
 		else if ( storeId.equals( "y" ) )
+		{
 			return KoLCharacter.inBadMoon();
-
-		// Gift Shop is unavailable in Bad Moon
-
+		}
 		else if ( shopName.equals( "Gift Shop" ) )
+		{
 			return !KoLCharacter.inBadMoon();
+		}
 
 		// If it gets this far, then the item is definitely available
 		// for purchase from the NPC store.
@@ -223,19 +232,20 @@ public class NPCStoreDatabase extends KoLDatabase
 		return true;
 	}
 
-	public static final boolean contains( String itemName )
-	{	return contains( itemName, true );
+	public static final boolean contains( final String itemName )
+	{
+		return NPCStoreDatabase.contains( itemName, true );
 	}
 
-	public static final int price( String itemName )
+	public static final int price( final String itemName )
 	{
-		MallPurchaseRequest request =  getPurchaseRequest( itemName );
-		return ( request == null ) ? 0 : request.getPrice();
+		MallPurchaseRequest request = NPCStoreDatabase.getPurchaseRequest( itemName );
+		return request == null ? 0 : request.getPrice();
 	}
 
-	public static final boolean contains( String itemName, boolean validate )
+	public static final boolean contains( final String itemName, boolean validate )
 	{
-		MallPurchaseRequest item = getPurchaseRequest( itemName );
-		return item != null && (!validate || item.canPurchase());
+		MallPurchaseRequest item = NPCStoreDatabase.getPurchaseRequest( itemName );
+		return item != null && ( !validate || item.canPurchase() );
 	}
 }

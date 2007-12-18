@@ -36,7 +36,8 @@ package net.sourceforge.kolmafia;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ClanGymRequest extends KoLRequest
+public class ClanGymRequest
+	extends KoLRequest
 {
 	private static final int BREAKFAST = -1;
 	public static final int SEARCH = 0;
@@ -48,19 +49,19 @@ public class ClanGymRequest extends KoLRequest
 
 	private static final Pattern TURN_PATTERN = Pattern.compile( "numturns=(\\d+)" );
 
-	public static final int [][] MAXIMUM_USAGE = new int[10][];
+	public static final int[][] MAXIMUM_USAGE = new int[ 10 ][];
 	static
 	{
-		MAXIMUM_USAGE[0] = new int[0];
-		MAXIMUM_USAGE[1] = new int [] { 0, 0, 0, 0, 1 };
-		MAXIMUM_USAGE[2] = new int [] { 0, 0, 0, 0 };
-		MAXIMUM_USAGE[3] = new int [] { 0, 3, 0, 3 };
-		MAXIMUM_USAGE[4] = new int [] { 0, 1, 1, 0 };
-		MAXIMUM_USAGE[5] = new int [] { 0, 0, 0, 0 };
-		MAXIMUM_USAGE[6] = new int[0];
-		MAXIMUM_USAGE[7] = new int[0];
-		MAXIMUM_USAGE[8] = new int[0];
-		MAXIMUM_USAGE[9] = new int [] { 0, 0, 3, 1 };
+		ClanGymRequest.MAXIMUM_USAGE[ 0 ] = new int[ 0 ];
+		ClanGymRequest.MAXIMUM_USAGE[ 1 ] = new int[] { 0, 0, 0, 0, 1 };
+		ClanGymRequest.MAXIMUM_USAGE[ 2 ] = new int[] { 0, 0, 0, 0 };
+		ClanGymRequest.MAXIMUM_USAGE[ 3 ] = new int[] { 0, 3, 0, 3 };
+		ClanGymRequest.MAXIMUM_USAGE[ 4 ] = new int[] { 0, 1, 1, 0 };
+		ClanGymRequest.MAXIMUM_USAGE[ 5 ] = new int[] { 0, 0, 0, 0 };
+		ClanGymRequest.MAXIMUM_USAGE[ 6 ] = new int[ 0 ];
+		ClanGymRequest.MAXIMUM_USAGE[ 7 ] = new int[ 0 ];
+		ClanGymRequest.MAXIMUM_USAGE[ 8 ] = new int[ 0 ];
+		ClanGymRequest.MAXIMUM_USAGE[ 9 ] = new int[] { 0, 0, 3, 1 };
 	}
 
 	private int turnCount;
@@ -68,23 +69,26 @@ public class ClanGymRequest extends KoLRequest
 
 	/**
 	 * Constructs a new <code>ClanGymRequest</code>.
-	 * @param	equipmentId	The identifier for the equipment you're using
+	 * 
+	 * @param equipmentId The identifier for the equipment you're using
 	 */
 
-	public ClanGymRequest( int equipmentId )
+	public ClanGymRequest( final int equipmentId )
 	{
 		super( "clan_rumpus.php" );
 		this.equipmentId = equipmentId;
 	}
 
-	private static final String chooseGym( int equipmentId )
+	private static final String chooseGym( final int equipmentId )
 	{
 		switch ( equipmentId )
 		{
 		case MUSCLE:
 			// If we are in a Muscle sign, Degrassi Knoll has a gym.
 			if ( KoLCharacter.inMuscleSign() )
+			{
 				return "knoll.php";
+			}
 
 			// Otherwise, use the one in our clan - if we're in one.
 			return "clan_rumpus.php";
@@ -92,7 +96,9 @@ public class ClanGymRequest extends KoLRequest
 		case MYSTICALITY:
 			// If we are in a Mysticality sign, Canadia has a gym.
 			if ( KoLCharacter.inMysticalitySign() )
+			{
 				return "canadia.php";
+			}
 
 			// Otherwise, use the one in our clan - if we're in one.
 			return "clan_rumpus.php";
@@ -100,7 +106,9 @@ public class ClanGymRequest extends KoLRequest
 		case MOXIE:
 			// If we are in a Moxie sign, the Gnomish Gnomads has a gym.
 			if ( KoLCharacter.inMoxieSign() )
+			{
 				return "gnomes.php";
+			}
 
 			// Otherwise, use the one in our clan - if we're in one.
 			return "clan_rumpus.php";
@@ -110,7 +118,7 @@ public class ClanGymRequest extends KoLRequest
 		}
 	}
 
-	private static final String chooseAction( int equipmentId )
+	private static final String chooseAction( final int equipmentId )
 	{
 		switch ( equipmentId )
 		{
@@ -134,11 +142,11 @@ public class ClanGymRequest extends KoLRequest
 	}
 
 	/**
-	 * Runs the request.  Note that this does not report an error if it fails;
-	 * it merely parses the results to see if any gains were made.
+	 * Runs the request. Note that this does not report an error if it fails; it merely parses the results to see if any
+	 * gains were made.
 	 */
 
-	public ClanGymRequest setTurnCount( int turnCount )
+	public ClanGymRequest setTurnCount( final int turnCount )
 	{
 		this.turnCount = turnCount;
 		return this;
@@ -146,7 +154,7 @@ public class ClanGymRequest extends KoLRequest
 
 	public void run()
 	{
-		this.constructURLString( chooseGym( this.equipmentId ) );
+		this.constructURLString( ClanGymRequest.chooseGym( this.equipmentId ) );
 
 		switch ( this.equipmentId )
 		{
@@ -159,9 +167,11 @@ public class ClanGymRequest extends KoLRequest
 			break;
 
 		default:
-			String equipment = chooseAction( this.equipmentId );
+			String equipment = ClanGymRequest.chooseAction( this.equipmentId );
 			if ( equipment == null )
+			{
 				return;
+			}
 
 			if ( equipment.length() > 1 )
 			{
@@ -182,28 +192,32 @@ public class ClanGymRequest extends KoLRequest
 
 			if ( KoLCharacter.getAdventuresLeft() < this.turnCount )
 			{
-				KoLmafia.updateDisplay( ERROR_STATE, "Insufficient adventures." );
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Insufficient adventures." );
 				return;
 			}
 		}
 
-		if ( this.equipmentId != SEARCH )
+		if ( this.equipmentId != ClanGymRequest.SEARCH )
+		{
 			KoLmafia.updateDisplay( "Executing request..." );
+		}
 
 		super.run();
 	}
 
 	public void processResults()
 	{
-		if ( this.equipmentId != SEARCH )
+		if ( this.equipmentId != ClanGymRequest.SEARCH )
 		{
-			if ( this.equipmentId != BREAKFAST )
+			if ( this.equipmentId != ClanGymRequest.BREAKFAST )
+			{
 				KoLmafia.updateDisplay( "Workout completed." );
+			}
 
 			return;
 		}
 
-		this.equipmentId = BREAKFAST;
+		this.equipmentId = ClanGymRequest.BREAKFAST;
 
 		// The Klaw can be accessed regardless of whether or not
 		// you are in hardcore, so handle it first.
@@ -217,97 +231,123 @@ public class ClanGymRequest extends KoLRequest
 
 			for ( int i = 0; i < 3; ++i )
 			{
-				KoLmafia.updateDisplay( "Attempting to win a prize (" + (i+1) + " of 3)..." );
+				KoLmafia.updateDisplay( "Attempting to win a prize (" + ( i + 1 ) + " of 3)..." );
 				if ( this.responseText.indexOf( "wisp of smoke" ) == -1 && this.responseText.indexOf( "broken down" ) == -1 )
+				{
 					super.run();
+				}
 			}
 		}
 
 		if ( !KoLCharacter.canInteract() )
-			return;
-
-		for ( int i = 0; i < MAXIMUM_USAGE.length; ++i )
 		{
-			for ( int j = 0; j < MAXIMUM_USAGE[i].length; ++j )
+			return;
+		}
+
+		for ( int i = 0; i < ClanGymRequest.MAXIMUM_USAGE.length; ++i )
+		{
+			for ( int j = 0; j < ClanGymRequest.MAXIMUM_USAGE[ i ].length; ++j )
 			{
 				if ( i == 3 && j == 3 )
+				{
 					continue;
+				}
 
 				// If the equipment is not present, then go ahead and
 				// skip this check.
 
-				if ( MAXIMUM_USAGE[i][j] == 0 || this.responseText.indexOf( "rump" + i + "_" + j + ".gif" ) == -1 )
+				if ( ClanGymRequest.MAXIMUM_USAGE[ i ][ j ] == 0 || this.responseText.indexOf( "rump" + i + "_" + j + ".gif" ) == -1 )
+				{
 					continue;
+				}
 
 				this.clearDataFields();
 
 				if ( i == 9 && j == 2 )
 				{
 					this.addFormField( "preaction", "buychips" );
-					this.addFormField( "whichbag", String.valueOf( RNG.nextInt(3) + 1 ) );
+					this.addFormField( "whichbag", String.valueOf( KoLConstants.RNG.nextInt( 3 ) + 1 ) );
 				}
 				else
 				{
 					this.addFormField( "action", "click" );
-					this.addFormField( "spot", String.valueOf(i) );
-					this.addFormField( "furni", String.valueOf(j) );
+					this.addFormField( "spot", String.valueOf( i ) );
+					this.addFormField( "furni", String.valueOf( j ) );
 				}
 
-				for ( int k = 0; k < MAXIMUM_USAGE[i][j]; ++k )
+				for ( int k = 0; k < ClanGymRequest.MAXIMUM_USAGE[ i ][ j ]; ++k )
+				{
 					super.run();
+				}
 			}
 		}
 	}
 
 	/**
-	 * An alternative method to doing adventure calculation is determining
-	 * how many adventures are used by the given request, and subtract
-	 * them after the request is done.  This number defaults to <code>zero</code>;
-	 * overriding classes should change this value to the appropriate
-	 * amount.
-	 *
-	 * @return	The number of adventures used by this request.
+	 * An alternative method to doing adventure calculation is determining how many adventures are used by the given
+	 * request, and subtract them after the request is done. This number defaults to <code>zero</code>; overriding
+	 * classes should change this value to the appropriate amount.
+	 * 
+	 * @return The number of adventures used by this request.
 	 */
 
 	public int getAdventuresUsed()
-	{	return this.turnCount;
+	{
+		return this.turnCount;
 	}
 
-	public static boolean registerRequest( String urlString )
+	public static boolean registerRequest( final String urlString )
 	{
 		String gymType = null;
 
 		if ( urlString.startsWith( "knoll.php" ) && urlString.indexOf( "action=gym" ) != -1 )
+		{
 			gymType = "Pump Up Muscle";
+		}
 
 		if ( urlString.startsWith( "canadia.php" ) && urlString.indexOf( "action=institute" ) != -1 )
+		{
 			gymType = "Pump Up Mysticality";
+		}
 
 		if ( urlString.startsWith( "gnomes.php" ) && urlString.indexOf( "action=train" ) != -1 )
+		{
 			gymType = "Pump Up Moxie";
+		}
 
 		if ( urlString.startsWith( "clan_rumpus.php" ) && urlString.indexOf( "action=3" ) != -1 )
+		{
 			gymType = "Pump Up Muscle";
+		}
 
 		if ( urlString.startsWith( "clan_rumpus.php" ) && urlString.indexOf( "action=1" ) != -1 )
+		{
 			gymType = "Pump Up Mysticality";
+		}
 
 		if ( urlString.startsWith( "clan_rumpus.php" ) && urlString.indexOf( "action=2" ) != -1 )
+		{
 			gymType = "Pump Up Moxie";
+		}
 
 		if ( urlString.startsWith( "clan_rumpus.php" ) && urlString.indexOf( "action=5" ) != -1 )
+		{
 			gymType = "Rest in Clan Sofa";
+		}
 
 		if ( gymType == null )
+		{
 			return false;
+		}
 
-		Matcher turnMatcher = TURN_PATTERN.matcher( urlString );
+		Matcher turnMatcher = ClanGymRequest.TURN_PATTERN.matcher( urlString );
 		if ( !turnMatcher.find() )
+		{
 			return false;
+		}
 
-		RequestLogger.printLine( "[" + KoLAdventure.getAdventureCount() + "] " + gymType + " (" + turnMatcher.group(1) + " turns)" );
-		RequestLogger.updateSessionLog( "[" + KoLAdventure.getAdventureCount() + "] " + gymType + " (" + turnMatcher.group(1) + " turns)" );
+		RequestLogger.printLine( "[" + KoLAdventure.getAdventureCount() + "] " + gymType + " (" + turnMatcher.group( 1 ) + " turns)" );
+		RequestLogger.updateSessionLog( "[" + KoLAdventure.getAdventureCount() + "] " + gymType + " (" + turnMatcher.group( 1 ) + " turns)" );
 		return true;
 	}
 }
-

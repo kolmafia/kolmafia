@@ -36,7 +36,9 @@ package net.sourceforge.kolmafia;
 import java.io.PrintStream;
 import java.util.Date;
 
-public class RequestLogger extends NullStream implements KoLConstants
+public class RequestLogger
+	extends NullStream
+	implements KoLConstants
 {
 	public static final RequestLogger INSTANCE = new RequestLogger();
 
@@ -54,47 +56,59 @@ public class RequestLogger extends NullStream implements KoLConstants
 	}
 
 	public void println()
-	{	printLine();
+	{
+		RequestLogger.printLine();
 	}
 
-	public void println( String line )
-	{	printLine( line );
+	public void println( final String line )
+	{
+		RequestLogger.printLine( line );
 	}
 
 	public static final void printLine()
-	{	printLine( CONTINUE_STATE, "", true );
+	{
+		RequestLogger.printLine( KoLConstants.CONTINUE_STATE, "", true );
 	}
 
-	public static final void printLine( String message )
-	{	printLine( CONTINUE_STATE, message, true );
+	public static final void printLine( final String message )
+	{
+		RequestLogger.printLine( KoLConstants.CONTINUE_STATE, message, true );
 	}
 
-	public static final void printLine( String message, boolean addToBuffer )
-	{	printLine( CONTINUE_STATE, message, addToBuffer );
+	public static final void printLine( final String message, final boolean addToBuffer )
+	{
+		RequestLogger.printLine( KoLConstants.CONTINUE_STATE, message, addToBuffer );
 	}
 
-	public static final void printLine( int state, String message )
-	{	printLine( state, message, true );
+	public static final void printLine( final int state, final String message )
+	{
+		RequestLogger.printLine( state, message, true );
 	}
 
-	public static final void printLine( int state, String message, boolean addToBuffer )
+	public static final void printLine( final int state, String message, boolean addToBuffer )
 	{
 		if ( message == null )
+		{
 			return;
+		}
 
 		message = message.trim();
 
-		if ( message.length() == 0 && previousUpdateString.length() == 0 )
+		if ( message.length() == 0 && RequestLogger.previousUpdateString.length() == 0 )
+		{
 			return;
+		}
 
-		previousUpdateString = message;
+		RequestLogger.previousUpdateString = message;
 
-		outputStream.println( message );
-		mirrorStream.println( message );
-		debugStream.println( message );
+		RequestLogger.outputStream.println( message );
+		RequestLogger.mirrorStream.println( message );
+		RequestLogger.debugStream.println( message );
 
 		if ( !addToBuffer )
+		{
 			return;
+		}
 
 		StringBuffer colorBuffer = new StringBuffer();
 
@@ -106,7 +120,7 @@ public class RequestLogger extends NullStream implements KoLConstants
 		{
 			boolean addedColor = false;
 
-			if ( state == ERROR_STATE || state == ABORT_STATE )
+			if ( state == KoLConstants.ERROR_STATE || state == KoLConstants.ABORT_STATE )
 			{
 				addedColor = true;
 				colorBuffer.append( "<font color=red>" );
@@ -125,37 +139,50 @@ public class RequestLogger extends NullStream implements KoLConstants
 			colorBuffer.append( StaticEntity.globalStringReplace( message, "\n", "<br>" ) );
 
 			if ( message.startsWith( "> QUEUED" ) )
+			{
 				colorBuffer.append( "</b>" );
+			}
 
 			if ( addedColor )
+			{
 				colorBuffer.append( "</font><br>" );
+			}
 			else
+			{
 				colorBuffer.append( "<br>" );
+			}
 
-			if ( message.indexOf( "<" ) == -1 && message.indexOf( LINE_BREAK ) != -1 )
+			if ( message.indexOf( "<" ) == -1 && message.indexOf( KoLConstants.LINE_BREAK ) != -1 )
+			{
 				colorBuffer.append( "</pre>" );
+			}
 
 			StaticEntity.globalStringDelete( colorBuffer, "<html>" );
 			StaticEntity.globalStringDelete( colorBuffer, "</html>" );
 		}
 
-		colorBuffer.append( LINE_BREAK );
-		commandBuffer.append( colorBuffer.toString() );
+		colorBuffer.append( KoLConstants.LINE_BREAK );
+		KoLConstants.commandBuffer.append( colorBuffer.toString() );
 		LocalRelayServer.addStatusMessage( colorBuffer.toString() );
 	}
 
-	public static final PrintStream openStream( String filename, PrintStream originalStream, boolean hasLocation )
+	public static final PrintStream openStream( final String filename, final PrintStream originalStream,
+		boolean hasLocation )
 	{
 		if ( !hasLocation && KoLCharacter.getUserName().equals( "" ) )
+		{
 			return NullStream.INSTANCE;
+		}
 
 		// Before doing anything, be sure to close the
 		// original stream.
 
-		if ( !(originalStream instanceof NullStream) )
+		if ( !( originalStream instanceof NullStream ) )
 		{
 			if ( hasLocation )
+			{
 				return originalStream;
+			}
 
 			originalStream.close();
 		}
@@ -164,85 +191,104 @@ public class RequestLogger extends NullStream implements KoLConstants
 	}
 
 	public static final void openStandard()
-	{	outputStream = System.out;
+	{
+		RequestLogger.outputStream = System.out;
 	}
 
-	public static final void openMirror( String location )
-	{	mirrorStream = openStream( location, mirrorStream, true );
+	public static final void openMirror( final String location )
+	{
+		RequestLogger.mirrorStream = RequestLogger.openStream( location, RequestLogger.mirrorStream, true );
 	}
 
 	public static final void closeMirror()
 	{
-		mirrorStream.close();
-		mirrorStream = NullStream.INSTANCE;
+		RequestLogger.mirrorStream.close();
+		RequestLogger.mirrorStream = NullStream.INSTANCE;
 	}
 
 	public static final PrintStream getSessionStream()
-	{	return sessionStream;
+	{
+		return RequestLogger.sessionStream;
 	}
 
 	public static final void openSessionLog()
 	{
-		sessionStream = openStream( SESSIONS_DIRECTORY + StaticEntity.globalStringReplace( KoLCharacter.getUserName(), " ", "_" ) + "_" +
-			DAILY_FORMAT.format( new Date() ) + ".txt", sessionStream, false );
+		RequestLogger.sessionStream =
+			RequestLogger.openStream(
+				KoLConstants.SESSIONS_DIRECTORY + StaticEntity.globalStringReplace(
+					KoLCharacter.getUserName(), " ", "_" ) + "_" + KoLConstants.DAILY_FORMAT.format( new Date() ) + ".txt",
+				RequestLogger.sessionStream, false );
 	}
 
 	public static final void closeSessionLog()
 	{
-		sessionStream.close();
-		sessionStream = NullStream.INSTANCE;
+		RequestLogger.sessionStream.close();
+		RequestLogger.sessionStream = NullStream.INSTANCE;
 	}
 
 	public static final void updateSessionLog()
-	{	sessionStream.println();
+	{
+		RequestLogger.sessionStream.println();
 	}
 
-	public static final void updateSessionLog( String line )
-	{	sessionStream.println( line );
+	public static final void updateSessionLog( final String line )
+	{
+		RequestLogger.sessionStream.println( line );
 	}
 
 	public static final boolean isDebugging()
-	{	return debugStream != NullStream.INSTANCE;
+	{
+		return RequestLogger.debugStream != NullStream.INSTANCE;
 	}
 
 	public static final PrintStream getDebugStream()
-	{	return debugStream;
+	{
+		return RequestLogger.debugStream;
 	}
 
 	public static final void openDebugLog()
-	{	debugStream = openStream( "DEBUG_" + DAILY_FORMAT.format( new Date() ) + ".txt", debugStream, true );
+	{
+		RequestLogger.debugStream =
+			RequestLogger.openStream(
+				"DEBUG_" + KoLConstants.DAILY_FORMAT.format( new Date() ) + ".txt", RequestLogger.debugStream, true );
 	}
 
 	public static final void closeDebugLog()
 	{
-		debugStream.close();
-		debugStream = NullStream.INSTANCE;
+		RequestLogger.debugStream.close();
+		RequestLogger.debugStream = NullStream.INSTANCE;
 	}
 
 	public static final void updateDebugLog()
-	{	debugStream.println();
+	{
+		RequestLogger.debugStream.println();
 	}
 
-	public static final void updateDebugLog( String line )
-	{	debugStream.println( line );
+	public static final void updateDebugLog( final String line )
+	{
+		RequestLogger.debugStream.println( line );
 	}
 
-	public static final void updateDebugLog( Throwable t )
-	{	t.printStackTrace( debugStream );
+	public static final void updateDebugLog( final Throwable t )
+	{
+		t.printStackTrace( RequestLogger.debugStream );
 	}
 
-	public static final void updateDebugLog( Object o )
-	{	debugStream.println( o.toString() );
+	public static final void updateDebugLog( final Object o )
+	{
+		RequestLogger.debugStream.println( o.toString() );
 	}
 
-	public static final void registerRequest( KoLRequest request, String urlString )
+	public static final void registerRequest( final KoLRequest request, final String urlString )
 	{
 		try
 		{
 			if ( BuffBotHome.isBuffBotActive() )
+			{
 				return;
+			}
 
-			doRegister( request, urlString );
+			RequestLogger.doRegister( request, urlString );
 		}
 		catch ( Exception e )
 		{
@@ -250,7 +296,7 @@ public class RequestLogger extends NullStream implements KoLConstants
 		}
 	}
 
-	private static final void doRegister( KoLRequest request, String urlString )
+	private static final void doRegister( final KoLRequest request, final String urlString )
 	{
 		boolean isExternal = request.getClass() == KoLRequest.class || request instanceof LocalRelayRequest;
 
@@ -259,13 +305,13 @@ public class RequestLogger extends NullStream implements KoLConstants
 
 		if ( KoLAdventure.recordToSession( urlString ) )
 		{
-			wasLastRequestSimple = false;
+			RequestLogger.wasLastRequestSimple = false;
 			return;
 		}
 
-		if ( (request instanceof FightRequest || isExternal) && FightRequest.registerRequest( isExternal, urlString ) )
+		if ( ( request instanceof FightRequest || isExternal ) && FightRequest.registerRequest( isExternal, urlString ) )
 		{
-			wasLastRequestSimple = false;
+			RequestLogger.wasLastRequestSimple = false;
 			return;
 		}
 
@@ -273,14 +319,16 @@ public class RequestLogger extends NullStream implements KoLConstants
 		// should not be registered.
 
 		if ( urlString.indexOf( "?" ) == -1 )
+		{
 			return;
+		}
 
 		// Some general URLs which never need to be registered
 		// because they don't do anything.
 
 		if ( urlString.startsWith( "choice" ) )
 		{
-			updateSessionLog( urlString );
+			RequestLogger.updateSessionLog( urlString );
 
 			// Certain choices cost meat when selected
 
@@ -288,17 +336,23 @@ public class RequestLogger extends NullStream implements KoLConstants
 			String decision = request.getFormField( "option" );
 
 			if ( choice == null || decision == null )
+			{
 				return;
+			}
 
 			AdventureResult cost = AdventureDatabase.getCost( choice, decision );
-			int costCount = ( cost == null ) ? 0 : cost.getCount();
+			int costCount = cost == null ? 0 : cost.getCount();
 
 			if ( costCount == 0 )
+			{
 				return;
+			}
 
-			int inventoryCount = cost.getCount( inventory );
+			int inventoryCount = cost.getCount( KoLConstants.inventory );
 			if ( cost.isItem() && inventoryCount == 0 )
+			{
 				return;
+			}
 
 			if ( costCount > 0 )
 			{
@@ -315,7 +369,7 @@ public class RequestLogger extends NullStream implements KoLConstants
 			String demon = request.getFormField( "demonname" );
 			if ( demon != null && !demon.equals( "" ) && AdventureDatabase.retrieveItem( KoLAdventure.BLACK_CANDLE ) && AdventureDatabase.retrieveItem( KoLAdventure.EVIL_SCROLL ) )
 			{
-				updateSessionLog( "summon " + demon );
+				RequestLogger.updateSessionLog( "summon " + demon );
 
 				StaticEntity.getClient().processResult( KoLAdventure.BLACK_CANDLE.getNegation() );
 				StaticEntity.getClient().processResult( KoLAdventure.EVIL_SCROLL.getNegation() );
@@ -325,188 +379,196 @@ public class RequestLogger extends NullStream implements KoLConstants
 		}
 
 		if ( urlString.startsWith( "login" ) || urlString.startsWith( "logout" ) || urlString.startsWith( "charpane" ) )
+		{
 			return;
+		}
 
 		// This is a campground request and so must go here.
-		if ( (request instanceof TelescopeRequest || isExternal) && TelescopeRequest.registerRequest( urlString ) )
+		if ( ( request instanceof TelescopeRequest || isExternal ) && TelescopeRequest.registerRequest( urlString ) )
 		{
-			wasLastRequestSimple = false;
+			RequestLogger.wasLastRequestSimple = false;
 			return;
 		}
 
 		if ( urlString.startsWith( "leaflet" ) || urlString.startsWith( "cave" ) || urlString.startsWith( "lair" ) || urlString.startsWith( "campground" ) )
+		{
 			return;
+		}
 
 		if ( urlString.startsWith( "inventory.php?which" ) || urlString.equals( "knoll.php?place=paster" ) || urlString.equals( "town_right.php?place=untinker" ) )
+		{
 			return;
+		}
 
 		// Check individual cafes
-		if ( (request instanceof MicrobreweryRequest || isExternal) && MicrobreweryRequest.registerRequest( urlString ) )
+		if ( ( request instanceof MicrobreweryRequest || isExternal ) && MicrobreweryRequest.registerRequest( urlString ) )
 		{
-			wasLastRequestSimple = false;
+			RequestLogger.wasLastRequestSimple = false;
 			return;
 		}
 
-		if ( (request instanceof RestaurantRequest || isExternal) && RestaurantRequest.registerRequest( urlString ) )
+		if ( ( request instanceof RestaurantRequest || isExternal ) && RestaurantRequest.registerRequest( urlString ) )
 		{
-			wasLastRequestSimple = false;
+			RequestLogger.wasLastRequestSimple = false;
 			return;
 		}
 
-		if ( (request instanceof Crimbo07CafeRequest || isExternal) && Crimbo07CafeRequest.registerRequest( urlString ) )
+		if ( ( request instanceof Crimbo07CafeRequest || isExternal ) && Crimbo07CafeRequest.registerRequest( urlString ) )
 		{
-			wasLastRequestSimple = false;
+			RequestLogger.wasLastRequestSimple = false;
 			return;
 		}
 
 		// The following lists all the remaining requests in
 		// alphabetical order.
 
-		if ( (request instanceof ArenaRequest || isExternal) && ArenaRequest.registerRequest( urlString ) )
+		if ( ( request instanceof ArenaRequest || isExternal ) && ArenaRequest.registerRequest( urlString ) )
 		{
-			wasLastRequestSimple = false;
+			RequestLogger.wasLastRequestSimple = false;
 			return;
 		}
 
-		if ( (request instanceof AutoSellRequest || isExternal) && AutoSellRequest.registerRequest( urlString ) )
+		if ( ( request instanceof AutoSellRequest || isExternal ) && AutoSellRequest.registerRequest( urlString ) )
 		{
-			wasLastRequestSimple = false;
+			RequestLogger.wasLastRequestSimple = false;
 			return;
 		}
 
-		if ( (request instanceof CafeRequest || isExternal) && CafeRequest.registerRequest( urlString ) )
+		if ( ( request instanceof CafeRequest || isExternal ) && CafeRequest.registerRequest( urlString ) )
 		{
-			wasLastRequestSimple = false;
+			RequestLogger.wasLastRequestSimple = false;
 			return;
 		}
 
-		if ( (request instanceof ClanGymRequest || isExternal) && ClanGymRequest.registerRequest( urlString ) )
+		if ( ( request instanceof ClanGymRequest || isExternal ) && ClanGymRequest.registerRequest( urlString ) )
 		{
-			wasLastRequestSimple = false;
+			RequestLogger.wasLastRequestSimple = false;
 			return;
 		}
 
-		if ( (request instanceof ClanStashRequest || isExternal) && ClanStashRequest.registerRequest( urlString ) )
+		if ( ( request instanceof ClanStashRequest || isExternal ) && ClanStashRequest.registerRequest( urlString ) )
 		{
-			wasLastRequestSimple = false;
+			RequestLogger.wasLastRequestSimple = false;
 			return;
 		}
 
-		if ( (request instanceof ConsumeItemRequest || isExternal) && ConsumeItemRequest.registerRequest( urlString ) )
+		if ( ( request instanceof ConsumeItemRequest || isExternal ) && ConsumeItemRequest.registerRequest( urlString ) )
 		{
-			wasLastRequestSimple = false;
+			RequestLogger.wasLastRequestSimple = false;
 			return;
 		}
 
-		if ( (request instanceof EquipmentRequest || isExternal) && EquipmentRequest.registerRequest( urlString ) )
+		if ( ( request instanceof EquipmentRequest || isExternal ) && EquipmentRequest.registerRequest( urlString ) )
 		{
-			wasLastRequestSimple = false;
+			RequestLogger.wasLastRequestSimple = false;
 			return;
 		}
 
-		if ( (request instanceof FamiliarRequest || isExternal) && FamiliarRequest.registerRequest( urlString ) )
+		if ( ( request instanceof FamiliarRequest || isExternal ) && FamiliarRequest.registerRequest( urlString ) )
 		{
-			wasLastRequestSimple = false;
+			RequestLogger.wasLastRequestSimple = false;
 			return;
 		}
 
-		if ( (request instanceof FlowerHunterRequest || isExternal) && FlowerHunterRequest.registerRequest( urlString ) )
+		if ( ( request instanceof FlowerHunterRequest || isExternal ) && FlowerHunterRequest.registerRequest( urlString ) )
 		{
-			wasLastRequestSimple = false;
+			RequestLogger.wasLastRequestSimple = false;
 			return;
 		}
 
-		if ( (request instanceof FriarRequest || isExternal) && FriarRequest.registerRequest( urlString ) )
+		if ( ( request instanceof FriarRequest || isExternal ) && FriarRequest.registerRequest( urlString ) )
 		{
-			wasLastRequestSimple = false;
+			RequestLogger.wasLastRequestSimple = false;
 			return;
 		}
 
-		if ( (request instanceof GiftMessageRequest || isExternal) && GiftMessageRequest.registerRequest( urlString ) )
+		if ( ( request instanceof GiftMessageRequest || isExternal ) && GiftMessageRequest.registerRequest( urlString ) )
 		{
-			wasLastRequestSimple = false;
+			RequestLogger.wasLastRequestSimple = false;
 			return;
 		}
 
-		if ( (request instanceof GreenMessageRequest || isExternal) && GreenMessageRequest.registerRequest( urlString ) )
+		if ( ( request instanceof GreenMessageRequest || isExternal ) && GreenMessageRequest.registerRequest( urlString ) )
 		{
-			wasLastRequestSimple = false;
+			RequestLogger.wasLastRequestSimple = false;
 			return;
 		}
 
 		if ( ItemCreationRequest.registerRequest( isExternal, urlString ) )
 		{
-			wasLastRequestSimple = false;
+			RequestLogger.wasLastRequestSimple = false;
 			return;
 		}
 
-		if ( (request instanceof ItemStorageRequest || isExternal) && ItemStorageRequest.registerRequest( urlString ) )
+		if ( ( request instanceof ItemStorageRequest || isExternal ) && ItemStorageRequest.registerRequest( urlString ) )
 		{
-			wasLastRequestSimple = false;
+			RequestLogger.wasLastRequestSimple = false;
 			return;
 		}
 
-		if ( (request instanceof MallPurchaseRequest || isExternal) && MallPurchaseRequest.registerRequest( urlString ) )
+		if ( ( request instanceof MallPurchaseRequest || isExternal ) && MallPurchaseRequest.registerRequest( urlString ) )
 		{
-			wasLastRequestSimple = false;
+			RequestLogger.wasLastRequestSimple = false;
 			return;
 		}
 
-		if ( (request instanceof MindControlRequest || isExternal) && MindControlRequest.registerRequest( urlString ) )
+		if ( ( request instanceof MindControlRequest || isExternal ) && MindControlRequest.registerRequest( urlString ) )
 		{
-			wasLastRequestSimple = false;
+			RequestLogger.wasLastRequestSimple = false;
 			return;
 		}
 
-		if ( (request instanceof MuseumRequest || isExternal) && MuseumRequest.registerRequest( urlString ) )
+		if ( ( request instanceof MuseumRequest || isExternal ) && MuseumRequest.registerRequest( urlString ) )
 		{
-			wasLastRequestSimple = false;
+			RequestLogger.wasLastRequestSimple = false;
 			return;
 		}
 
-		if ( (request instanceof PulverizeRequest || isExternal) && PulverizeRequest.registerRequest( urlString ) )
+		if ( ( request instanceof PulverizeRequest || isExternal ) && PulverizeRequest.registerRequest( urlString ) )
 		{
-			wasLastRequestSimple = false;
+			RequestLogger.wasLastRequestSimple = false;
 			return;
 		}
 
-		if ( (request instanceof StyxPixieRequest || isExternal) && StyxPixieRequest.registerRequest( urlString ) )
+		if ( ( request instanceof StyxPixieRequest || isExternal ) && StyxPixieRequest.registerRequest( urlString ) )
 		{
-			wasLastRequestSimple = false;
+			RequestLogger.wasLastRequestSimple = false;
 			return;
 		}
 
-		if ( (request instanceof UncleCrimboRequest || isExternal) && UncleCrimboRequest.registerRequest( urlString ) )
+		if ( ( request instanceof UncleCrimboRequest || isExternal ) && UncleCrimboRequest.registerRequest( urlString ) )
 		{
-			wasLastRequestSimple = false;
+			RequestLogger.wasLastRequestSimple = false;
 			return;
 		}
 
-		if ( (request instanceof UneffectRequest || isExternal) && UneffectRequest.registerRequest( urlString ) )
+		if ( ( request instanceof UneffectRequest || isExternal ) && UneffectRequest.registerRequest( urlString ) )
 		{
-			wasLastRequestSimple = false;
+			RequestLogger.wasLastRequestSimple = false;
 			return;
 		}
 
-		if ( (request instanceof UntinkerRequest || isExternal) && UntinkerRequest.registerRequest( urlString ) )
+		if ( ( request instanceof UntinkerRequest || isExternal ) && UntinkerRequest.registerRequest( urlString ) )
 		{
-			wasLastRequestSimple = false;
+			RequestLogger.wasLastRequestSimple = false;
 			return;
 		}
 
-		if ( (request instanceof UseSkillRequest || isExternal) && UseSkillRequest.registerRequest( urlString ) )
+		if ( ( request instanceof UseSkillRequest || isExternal ) && UseSkillRequest.registerRequest( urlString ) )
 		{
-			wasLastRequestSimple = false;
+			RequestLogger.wasLastRequestSimple = false;
 			return;
 		}
 
 		// Otherwise, make sure to print the raw URL so that it's
 		// at least mentioned in the session log.
 
-		if ( !wasLastRequestSimple )
-			updateSessionLog();
+		if ( !RequestLogger.wasLastRequestSimple )
+		{
+			RequestLogger.updateSessionLog();
+		}
 
-		wasLastRequestSimple = true;
-		updateSessionLog( urlString );
+		RequestLogger.wasLastRequestSimple = true;
+		RequestLogger.updateSessionLog( urlString );
 	}
 }

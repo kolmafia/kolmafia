@@ -36,11 +36,12 @@ package net.sourceforge.kolmafia;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class FamiliarRequest extends KoLRequest
+public class FamiliarRequest
+	extends KoLRequest
 {
 	private static final Pattern UNEQUIP_PATTERN = Pattern.compile( "famid=(\\d+)" );
 	private static final Pattern EQUIP_PATTERN = Pattern.compile( "newfam=(\\d+)" );
-	private FamiliarData changeTo;
+	private final FamiliarData changeTo;
 
 	public FamiliarRequest()
 	{
@@ -48,7 +49,7 @@ public class FamiliarRequest extends KoLRequest
 		this.changeTo = null;
 	}
 
-	public FamiliarRequest( FamiliarData changeTo )
+	public FamiliarRequest( final FamiliarData changeTo )
 	{
 		super( "familiar.php" );
 
@@ -66,11 +67,13 @@ public class FamiliarRequest extends KoLRequest
 	}
 
 	public String getFamiliarChange()
-	{	return this.changeTo == null ? null : this.changeTo.toString();
+	{
+		return this.changeTo == null ? null : this.changeTo.toString();
 	}
 
 	protected boolean retryOnTimeout()
-	{	return true;
+	{
+		return true;
 	}
 
 	public void run()
@@ -85,13 +88,19 @@ public class FamiliarRequest extends KoLRequest
 		else
 		{
 			if ( familiar.getId() == this.changeTo.getId() )
+			{
 				return;
+			}
 
 			if ( familiar != FamiliarData.NO_FAMILIAR )
+			{
 				KoLmafia.updateDisplay( "Putting " + familiar.getName() + " the " + familiar.getRace() + " back into terrarium..." );
+			}
 
 			if ( this.changeTo != FamiliarData.NO_FAMILIAR )
+			{
 				KoLmafia.updateDisplay( "Taking " + this.changeTo.getName() + " the " + this.changeTo.getRace() + " out of terrarium..." );
+			}
 		}
 
 		super.run();
@@ -101,35 +110,47 @@ public class FamiliarRequest extends KoLRequest
 		// then do nothing further.
 
 		if ( familiar == null || familiar == FamiliarData.NO_FAMILIAR )
+		{
 			return;
+		}
 
 		if ( this.changeTo == null || this.changeTo == FamiliarData.NO_FAMILIAR || this.changeTo.getId() == 59 )
+		{
 			return;
+		}
 
 		if ( item == EquipmentRequest.UNEQUIP || !this.changeTo.getItem().equals( EquipmentRequest.UNEQUIP ) || !this.changeTo.canEquip( item ) )
+		{
 			return;
+		}
 
 		// In all other cases, a switch is probably in order.  Go ahead and make
 		// the item switch.
 
 		KoLmafia.updateDisplay( familiar.getItem().getName() + " is better than " + this.changeTo.getItem().getName() + ".  Switching items..." );
-		(new EquipmentRequest( item, KoLCharacter.FAMILIAR )).run();
+		( new EquipmentRequest( item, KoLCharacter.FAMILIAR ) ).run();
 	}
 
 	public void processResults()
 	{
 		FamiliarData.registerFamiliarData( this.responseText );
 		if ( this.changeTo == null )
+		{
 			KoLmafia.updateDisplay( "Familiar data retrieved." );
+		}
 
 		if ( KoLCharacter.getFamiliar() == null || KoLCharacter.getFamiliar() == FamiliarData.NO_FAMILIAR )
+		{
 			KoLCharacter.setEquipment( KoLCharacter.FAMILIAR, EquipmentRequest.UNEQUIP );
+		}
 	}
 
-	public static final boolean registerRequest( String urlString )
+	public static final boolean registerRequest( final String urlString )
 	{
 		if ( !urlString.startsWith( "familiar.php?" ) )
+		{
 			return false;
+		}
 
 		if ( urlString.indexOf( "action=putback" ) != -1 )
 		{
@@ -140,23 +161,25 @@ public class FamiliarRequest extends KoLRequest
 
 		if ( urlString.indexOf( "action=unequip" ) != -1 )
 		{
-			Matcher familiarMatcher = UNEQUIP_PATTERN.matcher( urlString );
+			Matcher familiarMatcher = FamiliarRequest.UNEQUIP_PATTERN.matcher( urlString );
 			if ( !familiarMatcher.find() )
+			{
 				return true;
+			}
 
-			FamiliarData [] familiars = new FamiliarData[ KoLCharacter.getFamiliarList().size() ];
+			FamiliarData[] familiars = new FamiliarData[ KoLCharacter.getFamiliarList().size() ];
 			KoLCharacter.getFamiliarList().toArray( familiars );
 
-			int id = StaticEntity.parseInt( familiarMatcher.group(1) );
+			int id = StaticEntity.parseInt( familiarMatcher.group( 1 ) );
 			for ( int i = 0; i < familiars.length; ++i )
 			{
-				if ( familiars[i].getId() == id )
+				if ( familiars[ i ].getId() == id )
 				{
-					AdventureResult item = familiars[i].getItem();
+					AdventureResult item = familiars[ i ].getItem();
 					if ( item != null )
 					{
-						familiars[i].setItem( EquipmentRequest.UNEQUIP );
-						AdventureResult.addResultToList( inventory, item );
+						familiars[ i ].setItem( EquipmentRequest.UNEQUIP );
+						AdventureResult.addResultToList( KoLConstants.inventory, item );
 					}
 
 					return true;
@@ -166,10 +189,10 @@ public class FamiliarRequest extends KoLRequest
 			return true;
 		}
 
-		Matcher familiarMatcher = EQUIP_PATTERN.matcher( urlString );
+		Matcher familiarMatcher = FamiliarRequest.EQUIP_PATTERN.matcher( urlString );
 		if ( familiarMatcher.find() )
 		{
-			FamiliarData changeTo = new FamiliarData( StaticEntity.parseInt( familiarMatcher.group(1) ) );
+			FamiliarData changeTo = new FamiliarData( StaticEntity.parseInt( familiarMatcher.group( 1 ) ) );
 
 			// Special handling for the blackbird.  If
 			// the blackbird is equipped, then cache your
@@ -177,14 +200,16 @@ public class FamiliarRequest extends KoLRequest
 			// the map, KoLmafia knows to change it back.
 
 			if ( changeTo.getId() == 59 )
+			{
 				KoLSettings.setUserProperty( "preBlackbirdFamiliar", KoLCharacter.getFamiliar().getRace() );
+			}
 
 			int index = KoLCharacter.getFamiliarList().indexOf( changeTo );
 
 			if ( index != -1 )
 			{
 				RequestLogger.updateSessionLog();
-				RequestLogger.updateSessionLog( "familiar " + KoLCharacter.getFamiliarList().get(index).toString() );
+				RequestLogger.updateSessionLog( "familiar " + KoLCharacter.getFamiliarList().get( index ).toString() );
 				return true;
 			}
 		}

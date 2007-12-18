@@ -39,32 +39,37 @@ import java.util.ArrayList;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 /**
- * An extension of a <code>KoLRequest</code> which specifically handles
- * donating to the Hall of the Legends of the Times of Old.
+ * An extension of a <code>KoLRequest</code> which specifically handles donating to the Hall of the Legends of the
+ * Times of Old.
  */
 
-public class GiftMessageRequest extends SendMessageRequest
+public class GiftMessageRequest
+	extends SendMessageRequest
 {
-	private int desiredCapacity;
-	private String recipient, message;
-	private GiftWrapper wrappingType;
-	private int maxCapacity, materialCost;
+	private final int desiredCapacity;
+	private final String recipient, message;
+	private final GiftWrapper wrappingType;
+	private final int maxCapacity, materialCost;
 	private static final LockableListModel PACKAGES = new LockableListModel();
 	static
 	{
-		BufferedReader reader = KoLDatabase.getVersionedReader( "packages.txt", PACKAGES_VERSION );
-		String [] data;
+		BufferedReader reader = KoLDatabase.getVersionedReader( "packages.txt", KoLConstants.PACKAGES_VERSION );
+		String[] data;
 
-		while ( (data = KoLDatabase.readData( reader )) != null )
-			PACKAGES.add( new GiftWrapper( data[0], StaticEntity.parseInt( data[1] ), StaticEntity.parseInt( data[2] ), StaticEntity.parseInt( data[3] ) ) );
+		while ( ( data = KoLDatabase.readData( reader ) ) != null )
+		{
+			GiftMessageRequest.PACKAGES.add( new GiftWrapper(
+				data[ 0 ], StaticEntity.parseInt( data[ 1 ] ), StaticEntity.parseInt( data[ 2 ] ),
+				StaticEntity.parseInt( data[ 3 ] ) ) );
+		}
 	}
 
 	private static class GiftWrapper
 	{
-		private StringBuffer name;
-		private int radio, maxCapacity, materialCost;
+		private final StringBuffer name;
+		private final int radio, maxCapacity, materialCost;
 
-		public GiftWrapper( String name, int radio, int maxCapacity, int materialCost )
+		public GiftWrapper( final String name, final int radio, final int maxCapacity, final int materialCost )
 		{
 			this.radio = radio;
 			this.maxCapacity = maxCapacity;
@@ -79,15 +84,19 @@ public class GiftMessageRequest extends SendMessageRequest
 		}
 
 		public String toString()
-		{	return this.name.toString();
+		{
+			return this.name.toString();
 		}
 	}
 
-	public GiftMessageRequest( String recipient, String message, int desiredCapacity, Object [] attachments )
-	{	this( recipient, message, desiredCapacity, attachments, false );
+	public GiftMessageRequest( final String recipient, final String message, final int desiredCapacity,
+		final Object[] attachments )
+	{
+		this( recipient, message, desiredCapacity, attachments, false );
 	}
 
-	public GiftMessageRequest( String recipient, String message, int desiredCapacity, Object [] attachments, boolean isFromStorage )
+	public GiftMessageRequest( final String recipient, final String message, final int desiredCapacity,
+		final Object[] attachments, final boolean isFromStorage )
 	{
 		super( "town_sendgift.php", attachments );
 
@@ -95,7 +104,7 @@ public class GiftMessageRequest extends SendMessageRequest
 		this.message = RequestEditorKit.getUnicode( message );
 		this.desiredCapacity = desiredCapacity;
 
-		this.wrappingType = (GiftWrapper) PACKAGES.get( desiredCapacity );
+		this.wrappingType = (GiftWrapper) GiftMessageRequest.PACKAGES.get( desiredCapacity );
 		this.maxCapacity = this.wrappingType.maxCapacity;
 		this.materialCost = this.wrappingType.materialCost;
 
@@ -110,39 +119,46 @@ public class GiftMessageRequest extends SendMessageRequest
 
 		if ( isFromStorage )
 		{
-			this.source = storage;
+			this.source = KoLConstants.storage;
 			this.destination = new ArrayList();
 		}
 	}
 
 	public int getCapacity()
-	{	return this.maxCapacity;
+	{
+		return this.maxCapacity;
 	}
 
 	public boolean alwaysIndex()
-	{	return true;
+	{
+		return true;
 	}
 
-	public SendMessageRequest getSubInstance( Object [] attachments )
-	{	return new GiftMessageRequest( this.recipient, this.message, this.desiredCapacity, attachments, this.source == storage );
+	public SendMessageRequest getSubInstance( final Object[] attachments )
+	{
+		return new GiftMessageRequest(
+			this.recipient, this.message, this.desiredCapacity, attachments, this.source == KoLConstants.storage );
 	}
 
 	public String getSuccessMessage()
-	{	return "<td>Package sent.</td>";
+	{
+		return "<td>Package sent.</td>";
 	}
 
 	public String getItemField()
-	{	return this.source == storage ? "hagnks_whichitem" : "whichitem";
+	{
+		return this.source == KoLConstants.storage ? "hagnks_whichitem" : "whichitem";
 	}
 
 	public String getQuantityField()
-	{	return this.source == storage ? "hagnks_howmany" : "howmany";
+	{
+		return this.source == KoLConstants.storage ? "hagnks_howmany" : "howmany";
 	}
 
 	public String getMeatField()
-	{	return this.source == storage ? "hagnks_sendmeat" : "sendmeat";
+	{
+		return this.source == KoLConstants.storage ? "hagnks_sendmeat" : "sendmeat";
 	}
-
 
 	public static final LockableListModel getPackages()
 	{
@@ -153,7 +169,7 @@ public class GiftMessageRequest extends SendMessageRequest
 		LockableListModel packages = new LockableListModel();
 		int packageCount = Math.min( KoLCharacter.getAscensions() / 3 + 2, 11 );
 
-		packages.addAll( PACKAGES.subList( 0, packageCount + 1 ) );
+		packages.addAll( GiftMessageRequest.PACKAGES.subList( 0, packageCount + 1 ) );
 		return packages;
 	}
 
@@ -161,26 +177,36 @@ public class GiftMessageRequest extends SendMessageRequest
 	{
 		super.processResults();
 		if ( this.responseText.indexOf( this.getSuccessMessage() ) != -1 && this.materialCost > 0 )
+		{
 			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, 0 - this.materialCost ) );
+		}
 	}
 
-	public static final boolean registerRequest( String urlString )
+	public static final boolean registerRequest( final String urlString )
 	{
 		if ( !urlString.startsWith( "town_sendgift.php" ) )
+		{
 			return false;
+		}
 
-		return registerRequest( "send a gift", urlString, urlString.indexOf( "fromwhere=1" ) != -1 ? storage : inventory, null, "sendmeat", 0 );
+		return SendMessageRequest.registerRequest(
+			"send a gift", urlString,
+			urlString.indexOf( "fromwhere=1" ) != -1 ? KoLConstants.storage : KoLConstants.inventory, null, "sendmeat",
+			0 );
 	}
 
 	public boolean allowMementoTransfer()
-	{	return true;
+	{
+		return true;
 	}
 
 	public boolean allowUntradeableTransfer()
-	{	return true;
+	{
+		return true;
 	}
 
 	public String getStatusMessage()
-	{	return "Sending package to " + KoLmafia.getPlayerName( this.recipient );
+	{
+		return "Sending package to " + KoLmafia.getPlayerName( this.recipient );
 	}
 }

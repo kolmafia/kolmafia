@@ -33,20 +33,22 @@
 
 package net.sourceforge.kolmafia;
 
-public class MushroomPlotRequest extends KoLRequest
+public class MushroomPlotRequest
+	extends KoLRequest
 {
 	public MushroomPlotRequest()
-	{	super( "knoll_mushrooms.php" );
+	{
+		super( "knoll_mushrooms.php" );
 	}
 
-	public MushroomPlotRequest( int square )
+	public MushroomPlotRequest( final int square )
 	{
 		this();
 		this.addFormField( "action", "click" );
 		this.addFormField( "pos", String.valueOf( square - 1 ) );
 	}
 
-	public MushroomPlotRequest( int square, int spore )
+	public MushroomPlotRequest( final int square, final int spore )
 	{
 		this();
 		this.addFormField( "action", "plant" );

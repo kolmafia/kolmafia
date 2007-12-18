@@ -41,7 +41,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class BasementRequest extends AdventureRequest
+public class BasementRequest
+	extends AdventureRequest
 {
 	private static final float SAFETY_MARGIN = 1.08f;
 
@@ -101,16 +102,17 @@ public class BasementRequest extends AdventureRequest
 
 	private static final Pattern BASEMENT_PATTERN = Pattern.compile( "Level ([\\d,]+)" );
 
-	public static final AdventureResult [] ELEMENT_FORMS = new AdventureResult [] { HOT_FORM, COLD_FORM, SPOOKY_FORM, STENCH_FORM, SLEAZE_FORM };
-	public static final AdventureResult [] ELEMENT_PHIALS = new AdventureResult [] { HOT_PHIAL, COLD_PHIAL, SPOOKY_PHIAL, STENCH_PHIAL, SLEAZE_PHIAL };
+	public static final AdventureResult[] ELEMENT_FORMS =
+		new AdventureResult[] { BasementRequest.HOT_FORM, BasementRequest.COLD_FORM, BasementRequest.SPOOKY_FORM, BasementRequest.STENCH_FORM, BasementRequest.SLEAZE_FORM };
+	public static final AdventureResult[] ELEMENT_PHIALS =
+		new AdventureResult[] { BasementRequest.HOT_PHIAL, BasementRequest.COLD_PHIAL, BasementRequest.SPOOKY_PHIAL, BasementRequest.STENCH_PHIAL, BasementRequest.SLEAZE_PHIAL };
 
-	public static final FamiliarData [] POSSIBLE_FAMILIARS = new FamiliarData [] {
-		new FamiliarData( 18 ), // Hovering Sombrero
-		new FamiliarData( 72 ), // Exotic Parrot
-		new FamiliarData( 43 ), // Temporal Riftlet
-		new FamiliarData( 50 ), // Wild Hare
-		new FamiliarData( 53 ), // Astral Badger
-		new FamiliarData( 70 ), // Green Pixie
+	public static final FamiliarData[] POSSIBLE_FAMILIARS = new FamiliarData[] { new FamiliarData( 18 ), // Hovering Sombrero
+	new FamiliarData( 72 ), // Exotic Parrot
+	new FamiliarData( 43 ), // Temporal Riftlet
+	new FamiliarData( 50 ), // Wild Hare
+	new FamiliarData( 53 ), // Astral Badger
+	new FamiliarData( 70 ), // Green Pixie
 	};
 
 	/**
@@ -123,7 +125,7 @@ public class BasementRequest extends AdventureRequest
 	 * @param	adventureId	The identifier for the adventure to be executed
 	 */
 
-	public BasementRequest( String adventureName )
+	public BasementRequest( final String adventureName )
 	{
 		super( adventureName, "basement.php", "0" );
 	}
@@ -132,25 +134,25 @@ public class BasementRequest extends AdventureRequest
 	{
 		// Clear the data flags and probe the basement to see what we have.
 
-		data.clear();
+		this.data.clear();
 		super.run();
 
 		// Load up the data variables and switch outfits if it's a fight.
 
-		lastResponseText = responseText;
-		checkBasement();
+		BasementRequest.lastResponseText = this.responseText;
+		BasementRequest.checkBasement();
 
 		// If we know we can't pass the test, give an error and bail out now.
 
-		if ( basementErrorMessage != null )
+		if ( BasementRequest.basementErrorMessage != null )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, basementErrorMessage );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, BasementRequest.basementErrorMessage );
 			return;
 		}
 
 		// Decide which action to set. If it's a stat reward, always
 		// boost prime stat.
-		this.addFormField( "action", getBasementAction( this.responseText ) );
+		this.addFormField( "action", BasementRequest.getBasementAction( this.responseText ) );
 
 		// Attempt to pass the test.
 
@@ -163,7 +165,9 @@ public class BasementRequest extends AdventureRequest
 			// If it was a fight and we won, good.
 
 			if ( FightRequest.INSTANCE.responseCode == 200 && FightRequest.lastResponseText.indexOf( "<!--WINWINWIN-->" ) != -1 )
+			{
 				return;
+			}
 
 			// Otherwise ... what is this? Refetch the page and see if we passed test.
 
@@ -173,84 +177,87 @@ public class BasementRequest extends AdventureRequest
 
 		// See what basement level we are on now and fail if we've not advanced.
 
-		Matcher levelMatcher = BASEMENT_PATTERN.matcher( responseText );
-		if ( !levelMatcher.find() || basementLevel == StaticEntity.parseInt( levelMatcher.group(1) ) )
-			KoLmafia.updateDisplay( ERROR_STATE, "Failed to pass basement test." );
+		Matcher levelMatcher = BasementRequest.BASEMENT_PATTERN.matcher( this.responseText );
+		if ( !levelMatcher.find() || BasementRequest.basementLevel == StaticEntity.parseInt( levelMatcher.group( 1 ) ) )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Failed to pass basement test." );
+		}
 	}
 
-	public static final String getBasementAction( String text )
+	public static final String getBasementAction( final String text )
 	{
 		if ( text.indexOf( "Got Silk?" ) != -1 )
+		{
 			return KoLCharacter.isMoxieClass() ? "1" : "2";
+		}
 		if ( text.indexOf( "Save the Dolls" ) != -1 )
+		{
 			return KoLCharacter.isMysticalityClass() ? "1" : "2";
+		}
 		if ( text.indexOf( "Take the Red Pill" ) != -1 )
+		{
 			return KoLCharacter.isMuscleClass() ? "1" : "2";
+		}
 		return "1";
 	}
 
 	public static final int getBasementLevel()
-	{	return basementLevel;
+	{
+		return BasementRequest.basementLevel;
 	}
 
 	public static final String getBasementLevelSummary()
 	{
-		if ( basementTestString.equals( "None" ) || basementTestString.startsWith( "Monster" ) )
-			return "";
-
-		if ( basementTestString.equals( "Elemental Resist" ) )
+		if ( BasementRequest.basementTestString.equals( "None" ) || BasementRequest.basementTestString.startsWith( "Monster" ) )
 		{
-			return basementTestString + " Test: " +
-				COMMA_FORMAT.format( resistance1 ) + "% " + ( vulnerability == 1 ? "(vulnerable) " : "" ) + MonsterDatabase.elementNames[ element1 ] + " (" +
-				COMMA_FORMAT.format( expected1 ) + " hp), " +
-				COMMA_FORMAT.format( resistance2 ) + "% " + ( vulnerability == 2 ? "(vulnerable) " : "" ) + MonsterDatabase.elementNames[ element2 ] + " (" +
-				COMMA_FORMAT.format( expected2 ) + " hp)";
+			return "";
 		}
 
-		if ( basementTestString.startsWith( "Encounter" ) )
-			return basementTestString;
+		if ( BasementRequest.basementTestString.equals( "Elemental Resist" ) )
+		{
+			return BasementRequest.basementTestString + " Test: " + KoLConstants.COMMA_FORMAT.format( BasementRequest.resistance1 ) + "% " + ( BasementRequest.vulnerability == 1 ? "(vulnerable) " : "" ) + MonsterDatabase.elementNames[ BasementRequest.element1 ] + " (" + KoLConstants.COMMA_FORMAT.format( BasementRequest.expected1 ) + " hp), " + KoLConstants.COMMA_FORMAT.format( BasementRequest.resistance2 ) + "% " + ( BasementRequest.vulnerability == 2 ? "(vulnerable) " : "" ) + MonsterDatabase.elementNames[ BasementRequest.element2 ] + " (" + KoLConstants.COMMA_FORMAT.format( BasementRequest.expected2 ) + " hp)";
+		}
 
-		if ( basementTestString.equals( "Maximum HP" ) )
-			return basementTestString + " Test: " + COMMA_FORMAT.format( basementTestCurrent ) + " current, " + gauntletString + " needed";
+		if ( BasementRequest.basementTestString.startsWith( "Encounter" ) )
+		{
+			return BasementRequest.basementTestString;
+		}
 
-		return basementTestString + " Test: " + COMMA_FORMAT.format( basementTestCurrent ) + " current, " +
-			COMMA_FORMAT.format( basementTestValue ) + " needed";
+		if ( BasementRequest.basementTestString.equals( "Maximum HP" ) )
+		{
+			return BasementRequest.basementTestString + " Test: " + KoLConstants.COMMA_FORMAT.format( BasementRequest.basementTestCurrent ) + " current, " + BasementRequest.gauntletString + " needed";
+		}
+
+		return BasementRequest.basementTestString + " Test: " + KoLConstants.COMMA_FORMAT.format( BasementRequest.basementTestCurrent ) + " current, " + KoLConstants.COMMA_FORMAT.format( BasementRequest.basementTestValue ) + " needed";
 	}
 
 	public static final String getRequirement()
 	{
-		if ( basementTestString.equals( "Elemental Resist" ) )
+		if ( BasementRequest.basementTestString.equals( "Elemental Resist" ) )
 		{
-			return "<u>" + basementTestString + "</u><br/>Current: " +
-				COMMA_FORMAT.format( resistance1 ) + "% " + ( vulnerability == 1 ? "(vulnerable) " : "" ) + MonsterDatabase.elementNames[ element1 ] + " (" +
-				COMMA_FORMAT.format( expected1 ) + " hp), " +
-				COMMA_FORMAT.format( resistance2 ) + "% " + ( vulnerability == 2 ? "(vulnerable) " : "" ) + MonsterDatabase.elementNames[ element2 ] + " (" +
-				COMMA_FORMAT.format( expected2 ) + " hp)</br>" +
-				"Needed: " + COMMA_FORMAT.format( averageResistanceNeeded ) + "% average resistance or " + goodeffect.getName();
+			return "<u>" + BasementRequest.basementTestString + "</u><br/>Current: " + KoLConstants.COMMA_FORMAT.format( BasementRequest.resistance1 ) + "% " + ( BasementRequest.vulnerability == 1 ? "(vulnerable) " : "" ) + MonsterDatabase.elementNames[ BasementRequest.element1 ] + " (" + KoLConstants.COMMA_FORMAT.format( BasementRequest.expected1 ) + " hp), " + KoLConstants.COMMA_FORMAT.format( BasementRequest.resistance2 ) + "% " + ( BasementRequest.vulnerability == 2 ? "(vulnerable) " : "" ) + MonsterDatabase.elementNames[ BasementRequest.element2 ] + " (" + KoLConstants.COMMA_FORMAT.format( BasementRequest.expected2 ) + " hp)</br>" + "Needed: " + KoLConstants.COMMA_FORMAT.format( BasementRequest.averageResistanceNeeded ) + "% average resistance or " + BasementRequest.goodeffect.getName();
 		}
 
-		if ( basementTestString.startsWith( "Monster" ) )
+		if ( BasementRequest.basementTestString.startsWith( "Monster" ) )
 		{
-			int index = basementTestString.indexOf( ": " );
+			int index = BasementRequest.basementTestString.indexOf( ": " );
 			if ( index == -1 )
+			{
 				return "";
+			}
 
-			return "<u>Monster</u><br/>" + basementTestString.substring( index + 2 );
+			return "<u>Monster</u><br/>" + BasementRequest.basementTestString.substring( index + 2 );
 		}
 
-		if ( basementTestString.equals( "Maximum HP" ) )
+		if ( BasementRequest.basementTestString.equals( "Maximum HP" ) )
 		{
-			return "<u>" + basementTestString + "</u><br/>" +
-				"Current: " + COMMA_FORMAT.format( basementTestCurrent ) + "<br/>" +
-				"Needed: " + gauntletString;
+			return "<u>" + BasementRequest.basementTestString + "</u><br/>" + "Current: " + KoLConstants.COMMA_FORMAT.format( BasementRequest.basementTestCurrent ) + "<br/>" + "Needed: " + BasementRequest.gauntletString;
 		}
 
-		return "<u>" + basementTestString + "</u><br/>" +
-			"Current: " + COMMA_FORMAT.format( basementTestCurrent ) + "<br/>" +
-			"Needed: " + COMMA_FORMAT.format( basementTestValue );
+		return "<u>" + BasementRequest.basementTestString + "</u><br/>" + "Current: " + KoLConstants.COMMA_FORMAT.format( BasementRequest.basementTestCurrent ) + "<br/>" + "Needed: " + KoLConstants.COMMA_FORMAT.format( BasementRequest.basementTestValue );
 	}
 
-	private static final void changeBasementOutfit( String name )
+	private static final void changeBasementOutfit( final String name )
 	{
 		Object currentTest;
 		String currentTestString;
@@ -258,7 +265,7 @@ public class BasementRequest extends AdventureRequest
 		List available = KoLCharacter.getCustomOutfits();
 		for ( int i = 0; i < available.size(); ++i )
 		{
-			currentTest = available.get(i);
+			currentTest = available.get( i );
 			currentTestString = currentTest.toString().toLowerCase();
 
 			if ( currentTestString.indexOf( name ) != -1 )
@@ -269,112 +276,112 @@ public class BasementRequest extends AdventureRequest
 		}
 	}
 
-	private static final boolean checkForElementalTest( boolean autoSwitch, String responseText )
+	private static final boolean checkForElementalTest( boolean autoSwitch, final String responseText )
 	{
 		if ( responseText.indexOf( "<b>Peace, Bra!</b>" ) != -1 )
 		{
-			element1 = MonsterDatabase.STENCH;
-			element2 = MonsterDatabase.SLEAZE;
+			BasementRequest.element1 = MonsterDatabase.STENCH;
+			BasementRequest.element2 = MonsterDatabase.SLEAZE;
 
-			goodelement = element2;
-			goodphial = SLEAZE_PHIAL;
-			goodeffect = SLEAZE_FORM;
+			BasementRequest.goodelement = BasementRequest.element2;
+			BasementRequest.goodphial = BasementRequest.SLEAZE_PHIAL;
+			BasementRequest.goodeffect = BasementRequest.SLEAZE_FORM;
 
 			// Stench is vulnerable to Sleaze
-			badelement1 = MonsterDatabase.STENCH;
-			badeffect1 = STENCH_FORM;
+			BasementRequest.badelement1 = MonsterDatabase.STENCH;
+			BasementRequest.badeffect1 = BasementRequest.STENCH_FORM;
 
 			// Spooky is vulnerable to Stench
-			badelement2 = MonsterDatabase.SPOOKY;
-			badeffect2 = SPOOKY_FORM;
+			BasementRequest.badelement2 = MonsterDatabase.SPOOKY;
+			BasementRequest.badeffect2 = BasementRequest.SPOOKY_FORM;
 
 			// Hot is vulnerable to Sleaze and Stench
-			badelement3 = MonsterDatabase.HEAT;
-			badeffect3 = HOT_FORM;
+			BasementRequest.badelement3 = MonsterDatabase.HEAT;
+			BasementRequest.badeffect3 = BasementRequest.HOT_FORM;
 		}
 		else if ( responseText.indexOf( "<b>Singled Out</b>" ) != -1 )
 		{
-			element1 = MonsterDatabase.COLD;
-			element2 = MonsterDatabase.SLEAZE;
+			BasementRequest.element1 = MonsterDatabase.COLD;
+			BasementRequest.element2 = MonsterDatabase.SLEAZE;
 
-			goodelement = element1;
-			goodphial = COLD_PHIAL;
-			goodeffect = COLD_FORM;
+			BasementRequest.goodelement = BasementRequest.element1;
+			BasementRequest.goodphial = BasementRequest.COLD_PHIAL;
+			BasementRequest.goodeffect = BasementRequest.COLD_FORM;
 
 			// Sleaze is vulnerable to Cold
-			badelement1 = MonsterDatabase.SLEAZE;
-			badeffect1 = SLEAZE_FORM;
+			BasementRequest.badelement1 = MonsterDatabase.SLEAZE;
+			BasementRequest.badeffect1 = BasementRequest.SLEAZE_FORM;
 
 			// Stench is vulnerable to Cold
-			badelement2 = MonsterDatabase.STENCH;
-			badeffect2 = STENCH_FORM;
+			BasementRequest.badelement2 = MonsterDatabase.STENCH;
+			BasementRequest.badeffect2 = BasementRequest.STENCH_FORM;
 
 			// Hot is vulnerable to Sleaze
-			badelement3 = MonsterDatabase.HEAT;
-			badeffect3 = HOT_FORM;
+			BasementRequest.badelement3 = MonsterDatabase.HEAT;
+			BasementRequest.badeffect3 = BasementRequest.HOT_FORM;
 		}
 		else if ( responseText.indexOf( "<b>Still Better than Pistachio</b>" ) != -1 )
 		{
-			element1 = MonsterDatabase.STENCH;
-			element2 = MonsterDatabase.HEAT;
+			BasementRequest.element1 = MonsterDatabase.STENCH;
+			BasementRequest.element2 = MonsterDatabase.HEAT;
 
-			goodelement = element1;
-			goodphial = STENCH_PHIAL;
-			goodeffect = STENCH_FORM;
+			BasementRequest.goodelement = BasementRequest.element1;
+			BasementRequest.goodphial = BasementRequest.STENCH_PHIAL;
+			BasementRequest.goodeffect = BasementRequest.STENCH_FORM;
 
 			// Cold is vulnerable to Hot
-			badelement1 = MonsterDatabase.COLD;
-			badeffect1 = COLD_FORM;
+			BasementRequest.badelement1 = MonsterDatabase.COLD;
+			BasementRequest.badeffect1 = BasementRequest.COLD_FORM;
 
 			// Spooky is vulnerable to Hot
-			badelement2 = MonsterDatabase.SPOOKY;
-			badeffect2 = SPOOKY_FORM;
+			BasementRequest.badelement2 = MonsterDatabase.SPOOKY;
+			BasementRequest.badeffect2 = BasementRequest.SPOOKY_FORM;
 
 			// Hot is vulnerable to Stench
-			badelement3 = MonsterDatabase.HEAT;
-			badeffect3 = HOT_FORM;
+			BasementRequest.badelement3 = MonsterDatabase.HEAT;
+			BasementRequest.badeffect3 = BasementRequest.HOT_FORM;
 		}
 		else if ( responseText.indexOf( "<b>Unholy Writes</b>" ) != -1 )
 		{
-			element1 = MonsterDatabase.HEAT;
-			element2 = MonsterDatabase.SPOOKY;
+			BasementRequest.element1 = MonsterDatabase.HEAT;
+			BasementRequest.element2 = MonsterDatabase.SPOOKY;
 
-			goodelement = element1;
-			goodphial = HOT_PHIAL;
-			goodeffect = HOT_FORM;
+			BasementRequest.goodelement = BasementRequest.element1;
+			BasementRequest.goodphial = BasementRequest.HOT_PHIAL;
+			BasementRequest.goodeffect = BasementRequest.HOT_FORM;
 
 			// Cold is vulnerable to Spooky
-			badelement1 = MonsterDatabase.COLD;
-			badeffect1 = COLD_FORM;
+			BasementRequest.badelement1 = MonsterDatabase.COLD;
+			BasementRequest.badeffect1 = BasementRequest.COLD_FORM;
 
 			// Spooky is vulnerable to Hot
-			badelement2 = MonsterDatabase.SPOOKY;
-			badeffect2 = SPOOKY_FORM;
+			BasementRequest.badelement2 = MonsterDatabase.SPOOKY;
+			BasementRequest.badeffect2 = BasementRequest.SPOOKY_FORM;
 
 			// Sleaze is vulnerable to Spooky
-			badelement3 = MonsterDatabase.SLEAZE;
-			badeffect3 = SLEAZE_FORM;
+			BasementRequest.badelement3 = MonsterDatabase.SLEAZE;
+			BasementRequest.badeffect3 = BasementRequest.SLEAZE_FORM;
 		}
 		else if ( responseText.indexOf( "<b>The Unthawed</b>" ) != -1 )
 		{
-			element1 = MonsterDatabase.COLD;
-			element2 = MonsterDatabase.SPOOKY;
+			BasementRequest.element1 = MonsterDatabase.COLD;
+			BasementRequest.element2 = MonsterDatabase.SPOOKY;
 
-			goodelement = element2;
-			goodphial = SPOOKY_PHIAL;
-			goodeffect = SPOOKY_FORM;
+			BasementRequest.goodelement = BasementRequest.element2;
+			BasementRequest.goodphial = BasementRequest.SPOOKY_PHIAL;
+			BasementRequest.goodeffect = BasementRequest.SPOOKY_FORM;
 
 			// Cold is vulnerable to Spooky
-			badelement1 = MonsterDatabase.COLD;
-			badeffect1 = COLD_FORM;
+			BasementRequest.badelement1 = MonsterDatabase.COLD;
+			BasementRequest.badeffect1 = BasementRequest.COLD_FORM;
 
 			// Stench is vulnerable to Cold
-			badelement2 = MonsterDatabase.STENCH;
-			badeffect2 = STENCH_FORM;
+			BasementRequest.badelement2 = MonsterDatabase.STENCH;
+			BasementRequest.badeffect2 = BasementRequest.STENCH_FORM;
 
 			// Sleaze is vulnerable to Cold
-			badelement3 = MonsterDatabase.SLEAZE;
-			badeffect3 = SLEAZE_FORM;
+			BasementRequest.badelement3 = MonsterDatabase.SLEAZE;
+			BasementRequest.badeffect3 = BasementRequest.SLEAZE_FORM;
 		}
 		else
 		{
@@ -382,39 +389,51 @@ public class BasementRequest extends AdventureRequest
 			return false;
 		}
 
-		actualBoost = Modifiers.HP;
-		primaryBoost = Modifiers.MUS_PCT;
-		secondaryBoost = Modifiers.MUS;
+		BasementRequest.actualBoost = Modifiers.HP;
+		BasementRequest.primaryBoost = Modifiers.MUS_PCT;
+		BasementRequest.secondaryBoost = Modifiers.MUS;
 
 		// Add the only beneficial elemental form for this test
 
-		if ( !activeEffects.contains( goodeffect ) )
-			desirableEffects.add( goodeffect );
+		if ( !KoLConstants.activeEffects.contains( BasementRequest.goodeffect ) )
+		{
+			BasementRequest.desirableEffects.add( BasementRequest.goodeffect );
+		}
 
-		addDesiredEqualizer();
+		BasementRequest.addDesiredEqualizer();
 
 		// Add effects that resist the specific elements being tested
-		addDesirableEffects( Modifiers.getPotentialChanges( Modifiers.elementalResistance( element1 ) ) );
-		addDesirableEffects( Modifiers.getPotentialChanges( Modifiers.elementalResistance( element2 ) ) );
+		BasementRequest.addDesirableEffects( Modifiers.getPotentialChanges( Modifiers.elementalResistance( BasementRequest.element1 ) ) );
+		BasementRequest.addDesirableEffects( Modifiers.getPotentialChanges( Modifiers.elementalResistance( BasementRequest.element2 ) ) );
 
 		// Add some effects that resist all elements
-		if ( !activeEffects.contains( ASTRAL_SHELL ) )
-			desirableEffects.add( ASTRAL_SHELL );
+		if ( !KoLConstants.activeEffects.contains( BasementRequest.ASTRAL_SHELL ) )
+		{
+			BasementRequest.desirableEffects.add( BasementRequest.ASTRAL_SHELL );
+		}
 
-		if ( !activeEffects.contains( ELEMENTAL_SPHERE ) )
-			desirableEffects.add( ELEMENTAL_SPHERE );
+		if ( !KoLConstants.activeEffects.contains( BasementRequest.ELEMENTAL_SPHERE ) )
+		{
+			BasementRequest.desirableEffects.add( BasementRequest.ELEMENTAL_SPHERE );
+		}
 
-		if ( !activeEffects.contains( BLACK_PAINT ) )
-			desirableEffects.add( BLACK_PAINT );
+		if ( !KoLConstants.activeEffects.contains( BasementRequest.BLACK_PAINT ) )
+		{
+			BasementRequest.desirableEffects.add( BasementRequest.BLACK_PAINT );
+		}
 
-		if ( canHandleElementTest( autoSwitch, false ) )
+		if ( BasementRequest.canHandleElementTest( autoSwitch, false ) )
+		{
 			return true;
+		}
 
 		if ( !autoSwitch )
+		{
 			return true;
+		}
 
-		changeBasementOutfit( "element" );
-		canHandleElementTest( autoSwitch, true );
+		BasementRequest.changeBasementOutfit( "element" );
+		BasementRequest.canHandleElementTest( autoSwitch, true );
 		return true;
 	}
 
@@ -423,59 +442,69 @@ public class BasementRequest extends AdventureRequest
 		// According to http://forums.hardcoreoxygenation.com/viewtopic.php?t=3973,
 		// total elemental damage is roughly 4.48 * x^1.4.  Assume the worst-case.
 
-		float damage1 = (((float) Math.pow( basementLevel, 1.4 )) * 4.48f + 8.0f) * SAFETY_MARGIN;
+		float damage1 =
+			( (float) Math.pow( BasementRequest.basementLevel, 1.4 ) * 4.48f + 8.0f ) * BasementRequest.SAFETY_MARGIN;
 		float damage2 = damage1;
 
-		resistance1 = KoLCharacter.getElementalResistance( element1 );
-		resistance2 = KoLCharacter.getElementalResistance( element2 );
+		BasementRequest.resistance1 = KoLCharacter.getElementalResistance( BasementRequest.element1 );
+		BasementRequest.resistance2 = KoLCharacter.getElementalResistance( BasementRequest.element2 );
 
-		if ( activeEffects.contains( goodeffect ) )
+		if ( KoLConstants.activeEffects.contains( BasementRequest.goodeffect ) )
 		{
-			if ( element1 == goodelement )
-				resistance1 = 100.0f;
+			if ( BasementRequest.element1 == BasementRequest.goodelement )
+			{
+				BasementRequest.resistance1 = 100.0f;
+			}
 			else
-				resistance2 = 100.0f;
+			{
+				BasementRequest.resistance2 = 100.0f;
+			}
 		}
 
-		vulnerability = 0;
+		BasementRequest.vulnerability = 0;
 
 		// If you have an elemental form which gives you vulnerability
 		// to an element, you retain your elemental resistance (as
 		// shown on the Character Sheet), but damage taken seems to be
 		// quadrupled.
-		if ( activeEffects.contains( badeffect1 ) || activeEffects.contains( badeffect2 ) || activeEffects.contains( badeffect3 ) )
+		if ( KoLConstants.activeEffects.contains( BasementRequest.badeffect1 ) || KoLConstants.activeEffects.contains( BasementRequest.badeffect2 ) || KoLConstants.activeEffects.contains( BasementRequest.badeffect3 ) )
 		{
-			if ( element1 == badelement1 || element1 == badelement2 || element1 == badelement3 )
+			if ( BasementRequest.element1 == BasementRequest.badelement1 || BasementRequest.element1 == BasementRequest.badelement2 || BasementRequest.element1 == BasementRequest.badelement3 )
 			{
-				vulnerability = 1;
+				BasementRequest.vulnerability = 1;
 				damage1 *= 4;
 			}
 			else
 			{
-				vulnerability = 2;
+				BasementRequest.vulnerability = 2;
 				damage2 *= 4;
 			}
 		}
 
-		expected1 = Math.max( 1.0f, damage1 * ( (100.0f - resistance1) / 100.0f ) );
-		expected2 = Math.max( 1.0f, damage2 * ( (100.0f - resistance2) / 100.0f ) );
+		BasementRequest.expected1 = Math.max( 1.0f, damage1 * ( 100.0f - BasementRequest.resistance1 ) / 100.0f );
+		BasementRequest.expected2 = Math.max( 1.0f, damage2 * ( 100.0f - BasementRequest.resistance2 ) / 100.0f );
 
 		// If you can survive the current elemental test even without a phial,
 		// then don't bother with any extra buffing.
 
-		basementTestString = "Elemental Resist";
-		averageResistanceNeeded = Math.max( 0, (int) Math.ceil( 100.0f * (1.0f - KoLCharacter.getMaximumHP() / (damage1 + damage2) )) );
+		BasementRequest.basementTestString = "Elemental Resist";
+		BasementRequest.averageResistanceNeeded =
+			Math.max( 0, (int) Math.ceil( 100.0f * ( 1.0f - KoLCharacter.getMaximumHP() / ( damage1 + damage2 ) ) ) );
 
-		basementTestCurrent = KoLCharacter.getMaximumHP();
-		basementTestValue = expected1 + expected2;
+		BasementRequest.basementTestCurrent = KoLCharacter.getMaximumHP();
+		BasementRequest.basementTestValue = BasementRequest.expected1 + BasementRequest.expected2;
 
-		if ( expected1 + expected2 < KoLCharacter.getCurrentHP() )
+		if ( BasementRequest.expected1 + BasementRequest.expected2 < KoLCharacter.getCurrentHP() )
+		{
 			return true;
+		}
 
-		if ( expected1 + expected2 < KoLCharacter.getMaximumHP() )
+		if ( BasementRequest.expected1 + BasementRequest.expected2 < KoLCharacter.getMaximumHP() )
 		{
 			if ( autoSwitch )
-				StaticEntity.getClient().recoverHP( (int) (expected1 + expected2) );
+			{
+				StaticEntity.getClient().recoverHP( (int) ( BasementRequest.expected1 + BasementRequest.expected2 ) );
+			}
 
 			return KoLmafia.permitsContinue();
 		}
@@ -483,51 +512,60 @@ public class BasementRequest extends AdventureRequest
 		// If you already have the right phial effect, check to see if
 		// it's sufficient.
 
-		if ( activeEffects.contains( goodeffect ) )
+		if ( KoLConstants.activeEffects.contains( BasementRequest.goodeffect ) )
+		{
 			return false;
+		}
 
 		// If you haven't switched outfits yet, it's possible that a simple
 		// outfit switch will be sufficient to buff up.
 
 		if ( !switchedOutfits )
+		{
 			return false;
+		}
 
 		// If you can't survive the test, even after an outfit switch, then
 		// automatically fail.
 
-		if ( expected1 >= expected2 )
+		if ( BasementRequest.expected1 >= BasementRequest.expected2 )
 		{
-			if ( 1.0f + expected2 >= KoLCharacter.getMaximumHP() )
+			if ( 1.0f + BasementRequest.expected2 >= KoLCharacter.getMaximumHP() )
 			{
-				basementErrorMessage = "You must have at least " + basementTestValue + "% elemental resistance.";
+				BasementRequest.basementErrorMessage =
+					"You must have at least " + BasementRequest.basementTestValue + "% elemental resistance.";
 				return false;
 			}
 		}
-		else
+		else if ( 1.0f + BasementRequest.expected1 >= KoLCharacter.getMaximumHP() )
 		{
-			if ( 1.0f + expected1 >= KoLCharacter.getMaximumHP() )
-			{
-				basementErrorMessage = "You must have at least " + basementTestValue + "% elemental resistance.";
-				return false;
-			}
+			BasementRequest.basementErrorMessage =
+				"You must have at least " + BasementRequest.basementTestValue + "% elemental resistance.";
+			return false;
 		}
 
 		if ( !autoSwitch )
 		{
-			basementErrorMessage = "You must have at least " + basementTestValue + "% elemental resistance.";
+			BasementRequest.basementErrorMessage =
+				"You must have at least " + BasementRequest.basementTestValue + "% elemental resistance.";
 			return false;
 		}
 
 		// You can survive, but you need an elemental phial in order to do
 		// so.  Go ahead and save it.
 
-		for ( int i = 0; i < ELEMENT_FORMS.length; ++i )
-			if ( activeEffects.contains( ELEMENT_FORMS[i] ) )
-				(new UneffectRequest( ELEMENT_FORMS[i] )).run();
+		for ( int i = 0; i < BasementRequest.ELEMENT_FORMS.length; ++i )
+		{
+			if ( KoLConstants.activeEffects.contains( BasementRequest.ELEMENT_FORMS[ i ] ) )
+			{
+				( new UneffectRequest( BasementRequest.ELEMENT_FORMS[ i ] ) ).run();
+			}
+		}
 
-		(new ConsumeItemRequest( goodphial )).run();
-		float damage = ( expected1 >= expected2 ) ? expected2 : expected1;
-		StaticEntity.getClient().recoverHP( (int) (1.0f + damage) );
+		( new ConsumeItemRequest( BasementRequest.goodphial ) ).run();
+		float damage =
+			BasementRequest.expected1 >= BasementRequest.expected2 ? BasementRequest.expected2 : BasementRequest.expected1;
+		StaticEntity.getClient().recoverHP( (int) ( 1.0f + damage ) );
 
 		return KoLmafia.permitsContinue();
 	}
@@ -535,47 +573,59 @@ public class BasementRequest extends AdventureRequest
 	private static final AdventureResult getDesiredEqualizer()
 	{
 		if ( KoLCharacter.getBaseMuscle() >= KoLCharacter.getBaseMysticality() && KoLCharacter.getBaseMuscle() >= KoLCharacter.getBaseMoxie() )
-			return MUS_EQUAL;
+		{
+			return BasementRequest.MUS_EQUAL;
+		}
 
 		if ( KoLCharacter.getBaseMysticality() >= KoLCharacter.getBaseMuscle() && KoLCharacter.getBaseMysticality() >= KoLCharacter.getBaseMoxie() )
-			return MYS_EQUAL;
+		{
+			return BasementRequest.MYS_EQUAL;
+		}
 
-		return MOX_EQUAL;
+		return BasementRequest.MOX_EQUAL;
 	}
 
 	private static final void addDesiredEqualizer()
 	{
-		AdventureResult equalizer = getDesiredEqualizer();
-		if ( !activeEffects.contains( equalizer ) )
-			desirableEffects.add( equalizer );
+		AdventureResult equalizer = BasementRequest.getDesiredEqualizer();
+		if ( !KoLConstants.activeEffects.contains( equalizer ) )
+		{
+			BasementRequest.desirableEffects.add( equalizer );
+		}
 	}
 
-	private static final boolean checkForStatTest( boolean autoSwitch, String responseText )
+	private static final boolean checkForStatTest( final boolean autoSwitch, final String responseText )
 	{
 		// According to http://forums.hardcoreoxygenation.com/viewtopic.php?t=3973,
 		// stat requirement is x^1.4 + 2.  Assume the worst-case.
 
-		float statRequirement = ((float) Math.pow( basementLevel, 1.4 ) + 2.0f) * SAFETY_MARGIN;
+		float statRequirement =
+			( (float) Math.pow( BasementRequest.basementLevel, 1.4 ) + 2.0f ) * BasementRequest.SAFETY_MARGIN;
 
 		if ( responseText.indexOf( "Lift 'em" ) != -1 || responseText.indexOf( "Push it Real Good" ) != -1 || responseText.indexOf( "Ring that Bell" ) != -1 )
 		{
-			basementTestString = "Buffed Muscle";
-			basementTestCurrent = KoLCharacter.getAdjustedMuscle();
-			basementTestValue = (int) statRequirement;
+			BasementRequest.basementTestString = "Buffed Muscle";
+			BasementRequest.basementTestCurrent = KoLCharacter.getAdjustedMuscle();
+			BasementRequest.basementTestValue = (int) statRequirement;
 
-			actualBoost = Modifiers.MUS;
-			primaryBoost = Modifiers.MUS_PCT;
-			secondaryBoost = Modifiers.MUS;
+			BasementRequest.actualBoost = Modifiers.MUS;
+			BasementRequest.primaryBoost = Modifiers.MUS_PCT;
+			BasementRequest.secondaryBoost = Modifiers.MUS;
 
-			addDesiredEqualizer();
+			BasementRequest.addDesiredEqualizer();
 
 			if ( KoLCharacter.getAdjustedMuscle() < statRequirement )
 			{
 				if ( autoSwitch )
-					changeBasementOutfit( "muscle" );
+				{
+					BasementRequest.changeBasementOutfit( "muscle" );
+				}
 
 				if ( KoLCharacter.getAdjustedMuscle() < statRequirement )
-					basementErrorMessage = "You must have at least " + basementTestValue + " muscle.";
+				{
+					BasementRequest.basementErrorMessage =
+						"You must have at least " + BasementRequest.basementTestValue + " muscle.";
+				}
 			}
 
 			return true;
@@ -583,23 +633,28 @@ public class BasementRequest extends AdventureRequest
 
 		if ( responseText.indexOf( "Gathering:  The Magic" ) != -1 || responseText.indexOf( "Mop the Floor" ) != -1 || responseText.indexOf( "'doo" ) != -1 )
 		{
-			basementTestString = "Buffed Mysticality";
-			basementTestCurrent = KoLCharacter.getAdjustedMysticality();
-			basementTestValue = (int) statRequirement;
+			BasementRequest.basementTestString = "Buffed Mysticality";
+			BasementRequest.basementTestCurrent = KoLCharacter.getAdjustedMysticality();
+			BasementRequest.basementTestValue = (int) statRequirement;
 
-			actualBoost = Modifiers.MYS;
-			primaryBoost = Modifiers.MYS_PCT;
-			secondaryBoost = Modifiers.MYS;
+			BasementRequest.actualBoost = Modifiers.MYS;
+			BasementRequest.primaryBoost = Modifiers.MYS_PCT;
+			BasementRequest.secondaryBoost = Modifiers.MYS;
 
-			addDesiredEqualizer();
+			BasementRequest.addDesiredEqualizer();
 
 			if ( KoLCharacter.getAdjustedMysticality() < statRequirement )
 			{
 				if ( autoSwitch )
-					changeBasementOutfit( "mysticality" );
+				{
+					BasementRequest.changeBasementOutfit( "mysticality" );
+				}
 
 				if ( KoLCharacter.getAdjustedMysticality() < statRequirement )
-					basementErrorMessage = "You must have at least " + basementTestValue + " mysticality.";
+				{
+					BasementRequest.basementErrorMessage =
+						"You must have at least " + BasementRequest.basementTestValue + " mysticality.";
+				}
 			}
 
 			return true;
@@ -607,23 +662,28 @@ public class BasementRequest extends AdventureRequest
 
 		if ( responseText.indexOf( "Don't Wake the Baby" ) != -1 || responseText.indexOf( "Grab a cue" ) != -1 || responseText.indexOf( "Smooth Moves" ) != -1 )
 		{
-			basementTestString = "Buffed Moxie";
-			basementTestCurrent = KoLCharacter.getAdjustedMoxie();
-			basementTestValue = (int) statRequirement;
+			BasementRequest.basementTestString = "Buffed Moxie";
+			BasementRequest.basementTestCurrent = KoLCharacter.getAdjustedMoxie();
+			BasementRequest.basementTestValue = (int) statRequirement;
 
-			actualBoost = Modifiers.MOX;
-			primaryBoost = Modifiers.MOX_PCT;
-			secondaryBoost = Modifiers.MOX;
+			BasementRequest.actualBoost = Modifiers.MOX;
+			BasementRequest.primaryBoost = Modifiers.MOX_PCT;
+			BasementRequest.secondaryBoost = Modifiers.MOX;
 
-			addDesiredEqualizer();
+			BasementRequest.addDesiredEqualizer();
 
 			if ( KoLCharacter.getAdjustedMoxie() < statRequirement )
 			{
 				if ( autoSwitch )
-					changeBasementOutfit( "moxie" );
+				{
+					BasementRequest.changeBasementOutfit( "moxie" );
+				}
 
 				if ( KoLCharacter.getAdjustedMoxie() < statRequirement )
-					basementErrorMessage = "You must have at least " + basementTestValue + " moxie.";
+				{
+					BasementRequest.basementErrorMessage =
+						"You must have at least " + BasementRequest.basementTestValue + " moxie.";
+				}
 			}
 
 			return true;
@@ -632,7 +692,7 @@ public class BasementRequest extends AdventureRequest
 		return false;
 	}
 
-	private static final boolean checkForDrainTest( boolean autoSwitch, String responseText )
+	private static final boolean checkForDrainTest( final boolean autoSwitch, final String responseText )
 	{
 
 		if ( responseText.indexOf( "Grab the Handles" ) != -1 )
@@ -641,32 +701,37 @@ public class BasementRequest extends AdventureRequest
 			// http://forums.hardcoreoxygenation.com/viewtopic.php?t=3973,
 			// drain requirement is 1.67 * x^1.4 Assume worst-case.
 
-			float drainRequirement = (float) Math.pow( basementLevel, 1.4 ) * 1.67f * SAFETY_MARGIN;
+			float drainRequirement =
+				(float) Math.pow( BasementRequest.basementLevel, 1.4 ) * 1.67f * BasementRequest.SAFETY_MARGIN;
 
-			basementTestString = "Maximum MP";
-			basementTestCurrent = KoLCharacter.getMaximumMP();
-			basementTestValue = (int) drainRequirement;
+			BasementRequest.basementTestString = "Maximum MP";
+			BasementRequest.basementTestCurrent = KoLCharacter.getMaximumMP();
+			BasementRequest.basementTestValue = (int) drainRequirement;
 
-			actualBoost = Modifiers.MP;
-			primaryBoost = Modifiers.MYS_PCT;
-			secondaryBoost = Modifiers.MYS;
+			BasementRequest.actualBoost = Modifiers.MP;
+			BasementRequest.primaryBoost = Modifiers.MYS_PCT;
+			BasementRequest.secondaryBoost = Modifiers.MYS;
 
-			addDesiredEqualizer();
+			BasementRequest.addDesiredEqualizer();
 
 			if ( KoLCharacter.getMaximumMP() < drainRequirement )
 			{
 				if ( autoSwitch )
-					changeBasementOutfit( "mpdrain" );
+				{
+					BasementRequest.changeBasementOutfit( "mpdrain" );
+				}
 
 				if ( KoLCharacter.getMaximumMP() < drainRequirement )
 				{
-					basementErrorMessage = "Insufficient mana to continue.";
+					BasementRequest.basementErrorMessage = "Insufficient mana to continue.";
 					return true;
 				}
 			}
 
 			if ( autoSwitch )
+			{
 				StaticEntity.getClient().recoverMP( (int) drainRequirement );
+			}
 
 			return true;
 		}
@@ -677,42 +742,49 @@ public class BasementRequest extends AdventureRequest
 			// http://forums.kingdomofloathing.com/viewtopic.php?t=83342&start=201
 			// drain requirement is 10.0 * x^1.4. Assume worst-case.
 
-			float drainRequirement = (float) Math.pow( basementLevel, 1.4 ) * 10.0f * SAFETY_MARGIN;
+			float drainRequirement =
+				(float) Math.pow( BasementRequest.basementLevel, 1.4 ) * 10.0f * BasementRequest.SAFETY_MARGIN;
 
-			basementTestString = "Maximum HP";
-			basementTestCurrent = KoLCharacter.getMaximumHP();
+			BasementRequest.basementTestString = "Maximum HP";
+			BasementRequest.basementTestCurrent = KoLCharacter.getMaximumHP();
 
-			actualBoost = Modifiers.HP;
-			primaryBoost = Modifiers.MUS_PCT;
-			secondaryBoost = Modifiers.MUS;
+			BasementRequest.actualBoost = Modifiers.HP;
+			BasementRequest.primaryBoost = Modifiers.MUS_PCT;
+			BasementRequest.secondaryBoost = Modifiers.MUS;
 
-			addDesiredEqualizer();
+			BasementRequest.addDesiredEqualizer();
 
-			float damageAbsorb = 1.0f - ((((float) Math.sqrt( Math.min( 1000, KoLCharacter.getDamageAbsorption() ) / 10.0f )) - 1.0f) / 10.0f);
+			float damageAbsorb =
+				1.0f - ( (float) Math.sqrt( Math.min( 1000, KoLCharacter.getDamageAbsorption() ) / 10.0f ) - 1.0f ) / 10.0f;
 			float healthRequirement = drainRequirement * damageAbsorb;
 
-			basementTestValue = (int) healthRequirement;
-			gauntletString =((int)drainRequirement) + " * " + FLOAT_FORMAT.format( damageAbsorb ) + " (" +
-				KoLCharacter.getDamageAbsorption() + " DA) = " + COMMA_FORMAT.format( healthRequirement );
+			BasementRequest.basementTestValue = (int) healthRequirement;
+			BasementRequest.gauntletString =
+				(int) drainRequirement + " * " + KoLConstants.FLOAT_FORMAT.format( damageAbsorb ) + " (" + KoLCharacter.getDamageAbsorption() + " DA) = " + KoLConstants.COMMA_FORMAT.format( healthRequirement );
 
 			if ( KoLCharacter.getMaximumHP() < healthRequirement )
 			{
 				if ( autoSwitch )
-					changeBasementOutfit( "gauntlet" );
+				{
+					BasementRequest.changeBasementOutfit( "gauntlet" );
+				}
 
-				damageAbsorb = 1.0f - (( ((float) Math.sqrt( KoLCharacter.getDamageAbsorption() / 10.0f )) - 1.0f ) / 10.0f);
+				damageAbsorb =
+					1.0f - ( (float) Math.sqrt( KoLCharacter.getDamageAbsorption() / 10.0f ) - 1.0f ) / 10.0f;
 				healthRequirement = drainRequirement * damageAbsorb;
-				basementTestValue = (int) healthRequirement;
+				BasementRequest.basementTestValue = (int) healthRequirement;
 
 				if ( KoLCharacter.getMaximumHP() < healthRequirement )
 				{
-					basementErrorMessage = "Insufficient health to continue.";
+					BasementRequest.basementErrorMessage = "Insufficient health to continue.";
 					return true;
 				}
 			}
 
 			if ( autoSwitch )
+			{
 				StaticEntity.getClient().recoverHP( (int) healthRequirement );
+			}
 
 			return true;
 		}
@@ -720,53 +792,53 @@ public class BasementRequest extends AdventureRequest
 		return false;
 	}
 
-	private static final boolean checkForReward( String responseText )
+	private static final boolean checkForReward( final String responseText )
 	{
 		if ( responseText.indexOf( "De Los Dioses" ) != -1 )
 		{
-			basementTestString = "Encounter: De Los Dioses";
+			BasementRequest.basementTestString = "Encounter: De Los Dioses";
 			return true;
 		}
 
 		if ( responseText.indexOf( "The Dusk Zone" ) != -1 )
 		{
-			basementTestString = "Encounter: The Dusk Zone";
+			BasementRequest.basementTestString = "Encounter: The Dusk Zone";
 			return true;
 		}
 
 		if ( responseText.indexOf( "Giggity Bobbity Boo!" ) != -1 )
 		{
-			basementTestString = "Encounter: Giggity Bobbity Boo!";
+			BasementRequest.basementTestString = "Encounter: Giggity Bobbity Boo!";
 			return true;
 		}
 
 		if ( responseText.indexOf( "No Good Deed" ) != -1 )
 		{
-			basementTestString = "Encounter: No Good Deed";
+			BasementRequest.basementTestString = "Encounter: No Good Deed";
 			return true;
 		}
 
 		if ( responseText.indexOf( "Fernswarthy's Basement, Level 500" ) != -1 )
 		{
-			basementTestString = "Encounter: Fernswarthy's Basement, Level 500";
+			BasementRequest.basementTestString = "Encounter: Fernswarthy's Basement, Level 500";
 			return true;
 		}
 
 		if ( responseText.indexOf( "Got Silk?" ) != -1 )
 		{
-			basementTestString = "Encounter: Got Silk?/Leather is Betther";
+			BasementRequest.basementTestString = "Encounter: Got Silk?/Leather is Betther";
 			return true;
 		}
 
 		if ( responseText.indexOf( "Save the Dolls" ) != -1 )
 		{
-			basementTestString = "Encounter: Save the Dolls/Save the Cardboard";
+			BasementRequest.basementTestString = "Encounter: Save the Dolls/Save the Cardboard";
 			return true;
 		}
 
 		if ( responseText.indexOf( "Take the Red Pill" ) != -1 )
 		{
-			basementTestString = "Encounter: Take the Red Pill/Take the Blue Pill";
+			BasementRequest.basementTestString = "Encounter: Take the Red Pill/Take the Blue Pill";
 			return true;
 		}
 
@@ -775,136 +847,159 @@ public class BasementRequest extends AdventureRequest
 
 	private static final String monsterLevelString()
 	{
-		float level = 2.0f * (float)Math.pow( basementLevel, 1.4 ) + KoLCharacter.getMonsterLevelAdjustment();
-		return "Monster: Attack/Defense = " + (int)level;
+		float level =
+			2.0f * (float) Math.pow( BasementRequest.basementLevel, 1.4 ) + KoLCharacter.getMonsterLevelAdjustment();
+		return "Monster: Attack/Defense = " + (int) level;
 	}
 
-	private static final boolean checkForMonster( String responseText )
+	private static final boolean checkForMonster( final String responseText )
 	{
 		if ( responseText.indexOf( "Don't Fear the Ear" ) != -1 )
 		{
 			// The Beast with n Ears
-			basementTestString = monsterLevelString();
+			BasementRequest.basementTestString = BasementRequest.monsterLevelString();
 			return true;
 		}
 
 		if ( responseText.indexOf( "Commence to Pokin" ) != -1 )
 		{
 			// The Beast with n Eyes
-			basementTestString = monsterLevelString();
+			BasementRequest.basementTestString = BasementRequest.monsterLevelString();
 			return true;
 		}
 
 		if ( responseText.indexOf( "Stone Golem" ) != -1 )
 		{
 			// A n Stone Golem
-			basementTestString = monsterLevelString();
+			BasementRequest.basementTestString = BasementRequest.monsterLevelString();
 			return true;
 		}
 
 		if ( responseText.indexOf( "Hydra" ) != -1 )
 		{
 			// A n-Headed Hydra
-			basementTestString = monsterLevelString();
+			BasementRequest.basementTestString = BasementRequest.monsterLevelString();
 			return true;
 		}
 
 		if ( responseText.indexOf( "Toast the Ghost" ) != -1 )
 		{
 			// The Ghost of Fernswarthy's n great-grandfather
-			basementTestString = monsterLevelString() + "<br>Physically resistant";
+			BasementRequest.basementTestString = BasementRequest.monsterLevelString() + "<br>Physically resistant";
 			return true;
 		}
 
 		if ( responseText.indexOf( "Bottles of Beer on a Golem" ) != -1 )
 		{
 			// N Bottles of Beer on a Golem
-			basementTestString = monsterLevelString() + "<br>Blocks most spells";
+			BasementRequest.basementTestString = BasementRequest.monsterLevelString() + "<br>Blocks most spells";
 			return true;
 		}
 
 		if ( responseText.indexOf( "Collapse That Waveform" ) != -1 )
 		{
 			// A n-Dimensional Horror
-			basementTestString = monsterLevelString() + "<br>Blocks physical attacks";
+			BasementRequest.basementTestString = BasementRequest.monsterLevelString() + "<br>Blocks physical attacks";
 			return true;
 		}
 
 		return false;
 	}
 
-	private static final void newBasementLevel( String responseText )
+	private static final void newBasementLevel( final String responseText )
 	{
-		basementErrorMessage = null;
-		basementTestString = "None";
-		basementTestValue = 0;
+		BasementRequest.basementErrorMessage = null;
+		BasementRequest.basementTestString = "None";
+		BasementRequest.basementTestValue = 0;
 
-		element1 = -1; element2 = -1;
-		vulnerability = 0;
+		BasementRequest.element1 = -1;
+		BasementRequest.element2 = -1;
+		BasementRequest.vulnerability = 0;
 
-		goodelement = -1;
-		goodphial = null;
-		goodeffect = null;
+		BasementRequest.goodelement = -1;
+		BasementRequest.goodphial = null;
+		BasementRequest.goodeffect = null;
 
-		badeffect1 = null; badeffect2 = null; badeffect3 = null;
-		badelement1 = -1; badelement2 = -1; badelement3 = -1;
+		BasementRequest.badeffect1 = null;
+		BasementRequest.badeffect2 = null;
+		BasementRequest.badeffect3 = null;
+		BasementRequest.badelement1 = -1;
+		BasementRequest.badelement2 = -1;
+		BasementRequest.badelement3 = -1;
 
-		Matcher levelMatcher = BASEMENT_PATTERN.matcher( responseText );
+		Matcher levelMatcher = BasementRequest.BASEMENT_PATTERN.matcher( responseText );
 		if ( !levelMatcher.find() )
+		{
 			return;
+		}
 
-		basementLevel = StaticEntity.parseInt( levelMatcher.group(1) );
+		BasementRequest.basementLevel = StaticEntity.parseInt( levelMatcher.group( 1 ) );
 	}
 
 	public static final void checkBasement()
 	{
 		KoLmafiaASH interpreter = KoLmafiaASH.getInterpreter( KoLmafiaCLI.findScriptFile( "basement.ash" ) );
 		if ( interpreter != null )
-			interpreter.execute( "main", new String[] { String.valueOf( basementLevel ), lastResponseText,
-				String.valueOf( basementTestCurrent >= basementTestValue ) } );
+		{
+			interpreter.execute(
+				"main",
+				new String[] { String.valueOf( BasementRequest.basementLevel ), BasementRequest.lastResponseText, String.valueOf( BasementRequest.basementTestCurrent >= BasementRequest.basementTestValue ) } );
+		}
 
-		checkBasement( true, lastResponseText );
+		BasementRequest.checkBasement( true, BasementRequest.lastResponseText );
 	}
 
-	private static final boolean checkBasement( boolean autoSwitch, String responseText )
+	private static final boolean checkBasement( final boolean autoSwitch, final String responseText )
 	{
-		lastResponseText = responseText;
+		BasementRequest.lastResponseText = responseText;
 
-		desirableEffects.clear();
-		newBasementLevel( responseText );
+		BasementRequest.desirableEffects.clear();
+		BasementRequest.newBasementLevel( responseText );
 
-		if ( checkForReward( responseText ) )
+		if ( BasementRequest.checkForReward( responseText ) )
+		{
 			return false;
+		}
 
-		if ( checkForElementalTest( autoSwitch, responseText ) )
+		if ( BasementRequest.checkForElementalTest( autoSwitch, responseText ) )
+		{
 			return true;
+		}
 
-		if ( checkForStatTest( autoSwitch, responseText ) )
+		if ( BasementRequest.checkForStatTest( autoSwitch, responseText ) )
+		{
 			return true;
+		}
 
-		if ( checkForDrainTest( autoSwitch, responseText ) )
+		if ( BasementRequest.checkForDrainTest( autoSwitch, responseText ) )
+		{
 			return true;
+		}
 
-		if ( !checkForMonster( responseText ) )
+		if ( !BasementRequest.checkForMonster( responseText ) )
+		{
 			// Presumably, it's a reward room
 			return false;
+		}
 
-		basementTestCurrent = 0;
-		basementTestValue = 0;
+		BasementRequest.basementTestCurrent = 0;
+		BasementRequest.basementTestValue = 0;
 
-		actualBoost = Modifiers.HP;
-		primaryBoost = Modifiers.MUS_PCT;
-		secondaryBoost = Modifiers.MUS;
+		BasementRequest.actualBoost = Modifiers.HP;
+		BasementRequest.primaryBoost = Modifiers.MUS_PCT;
+		BasementRequest.secondaryBoost = Modifiers.MUS;
 
-		addDesiredEqualizer();
+		BasementRequest.addDesiredEqualizer();
 
 		if ( autoSwitch )
-			changeBasementOutfit( "damage" );
+		{
+			BasementRequest.changeBasementOutfit( "damage" );
+		}
 
 		return true;
 	}
 
-	private static final void getDesiredEffects( ArrayList sourceList, ArrayList targetList )
+	private static final void getDesiredEffects( final ArrayList sourceList, final ArrayList targetList )
 	{
 		// Cache skills to avoid lots of string lookups
 		DesiredEffect.checkSkills();
@@ -914,38 +1009,48 @@ public class BasementRequest extends AdventureRequest
 		while ( it.hasNext() )
 		{
 			AdventureResult effect = (AdventureResult) it.next();
-			if ( !wantEffect( effect ) )
+			if ( !BasementRequest.wantEffect( effect ) )
+			{
 				continue;
+			}
 
 			DesiredEffect addition = new DesiredEffect( effect.getName() );
 
 			if ( !targetList.contains( addition ) )
+			{
 				targetList.add( addition );
+			}
 		}
 	}
 
-	private static final void addDesirableEffects( ArrayList sourceList )
+	private static final void addDesirableEffects( final ArrayList sourceList )
 	{
 		Iterator it = sourceList.iterator();
 
 		while ( it.hasNext() )
 		{
 			AdventureResult effect = (AdventureResult) it.next();
-			if ( wantEffect( effect ) && !desirableEffects.contains( effect ) )
-				desirableEffects.add( effect );
+			if ( BasementRequest.wantEffect( effect ) && !BasementRequest.desirableEffects.contains( effect ) )
+			{
+				BasementRequest.desirableEffects.add( effect );
+			}
 		}
 	}
 
-	private static final boolean wantEffect( AdventureResult effect )
+	private static final boolean wantEffect( final AdventureResult effect )
 	{
 		String action = MoodSettings.getDefaultAction( "lose_effect", effect.getName() );
 		if ( action.equals( "" ) )
+		{
 			return false;
+		}
 
 		if ( action.startsWith( "cast" ) )
 		{
 			if ( !KoLCharacter.hasSkill( UneffectRequest.effectToSkill( effect.getName() ) ) )
+			{
 				return false;
+			}
 		}
 
 		return true;
@@ -955,49 +1060,50 @@ public class BasementRequest extends AdventureRequest
 	{
 		ArrayList targetList = new ArrayList();
 
-		getDesiredEffects( desirableEffects, targetList );
+		BasementRequest.getDesiredEffects( BasementRequest.desirableEffects, targetList );
 
-		getDesiredEffects( Modifiers.getPotentialChanges( primaryBoost ), targetList );
-		getDesiredEffects( Modifiers.getPotentialChanges( secondaryBoost ), targetList );
+		BasementRequest.getDesiredEffects( Modifiers.getPotentialChanges( BasementRequest.primaryBoost ), targetList );
+		BasementRequest.getDesiredEffects( Modifiers.getPotentialChanges( BasementRequest.secondaryBoost ), targetList );
 
-		if ( actualBoost == Modifiers.HP )
+		if ( BasementRequest.actualBoost == Modifiers.HP )
 		{
-			getDesiredEffects( Modifiers.getPotentialChanges( Modifiers.HP_PCT ), targetList );
-			getDesiredEffects( Modifiers.getPotentialChanges( Modifiers.HP ), targetList );
+			BasementRequest.getDesiredEffects( Modifiers.getPotentialChanges( Modifiers.HP_PCT ), targetList );
+			BasementRequest.getDesiredEffects( Modifiers.getPotentialChanges( Modifiers.HP ), targetList );
 		}
-		else if ( actualBoost == Modifiers.MP )
+		else if ( BasementRequest.actualBoost == Modifiers.MP )
 		{
-			getDesiredEffects( Modifiers.getPotentialChanges( Modifiers.MP_PCT ), targetList );
-			getDesiredEffects( Modifiers.getPotentialChanges( Modifiers.MP ), targetList );
+			BasementRequest.getDesiredEffects( Modifiers.getPotentialChanges( Modifiers.MP_PCT ), targetList );
+			BasementRequest.getDesiredEffects( Modifiers.getPotentialChanges( Modifiers.MP ), targetList );
 		}
 
 		Collections.sort( targetList );
 		return targetList;
 	}
 
-	public static final void decorate( StringBuffer buffer )
+	public static final void decorate( final StringBuffer buffer )
 	{
-		boolean hasCheck = checkBasement( false, buffer.toString() );
+		boolean hasCheck = BasementRequest.checkBasement( false, buffer.toString() );
 
 		if ( buffer.indexOf( "Got Silk?" ) != -1 )
 		{
-			addBasementChoiceSpoilers( buffer, "Moxie", "Muscle" );
+			BasementRequest.addBasementChoiceSpoilers( buffer, "Moxie", "Muscle" );
 			return;
 		}
 
 		if ( buffer.indexOf( "Save the Dolls" ) != -1 )
 		{
-			addBasementChoiceSpoilers( buffer, "Mysticality", "Moxie" );
+			BasementRequest.addBasementChoiceSpoilers( buffer, "Mysticality", "Moxie" );
 			return;
 		}
 
 		if ( buffer.indexOf( "Take the Red Pill" ) != -1 )
 		{
-			addBasementChoiceSpoilers( buffer, "Muscle", "Mysticality" );
+			BasementRequest.addBasementChoiceSpoilers( buffer, "Muscle", "Mysticality" );
 			return;
 		}
 
-		buffer.insert( buffer.indexOf( "</head>" ), "<script language=\"Javascript\" src=\"/basement.js\"></script></head>" );
+		buffer.insert(
+			buffer.indexOf( "</head>" ), "<script language=\"Javascript\" src=\"/basement.js\"></script></head>" );
 
 		StringBuffer changes = new StringBuffer();
 		changes.append( "<table>" );
@@ -1008,7 +1114,7 @@ public class BasementRequest extends AdventureRequest
 		SpecialOutfit outfit;
 		for ( int i = 0; i < KoLCharacter.getCustomOutfits().size(); ++i )
 		{
-			outfit = (SpecialOutfit) KoLCharacter.getCustomOutfits().get(i);
+			outfit = (SpecialOutfit) KoLCharacter.getCustomOutfits().get( i );
 
 			changes.append( "<option value=\"outfit+" );
 
@@ -1022,19 +1128,22 @@ public class BasementRequest extends AdventureRequest
 			}
 
 			changes.append( "\">outfit " );
-			changes.append( outfit.getName().substring(8) );
+			changes.append( outfit.getName().substring( 8 ) );
 			changes.append( "</option>" );
 		}
 
-		for ( int i = 0; i < POSSIBLE_FAMILIARS.length; ++i )
+		for ( int i = 0; i < BasementRequest.POSSIBLE_FAMILIARS.length; ++i )
 		{
-			if ( !KoLCharacter.getFamiliarList().contains( POSSIBLE_FAMILIARS[i] ) )
+			if ( !KoLCharacter.getFamiliarList().contains( BasementRequest.POSSIBLE_FAMILIARS[ i ] ) )
+			{
 				continue;
+			}
 
 			changes.append( "<option value=\"familiar+" );
-			changes.append( StaticEntity.globalStringReplace( POSSIBLE_FAMILIARS[i].getRace(), " ", "+" ) );
+			changes.append( StaticEntity.globalStringReplace(
+				BasementRequest.POSSIBLE_FAMILIARS[ i ].getRace(), " ", "+" ) );
 			changes.append( "\">familiar " );
-			changes.append( POSSIBLE_FAMILIARS[i].getRace() );
+			changes.append( BasementRequest.POSSIBLE_FAMILIARS[ i ].getRace() );
 			changes.append( "</option>" );
 		}
 
@@ -1042,13 +1151,14 @@ public class BasementRequest extends AdventureRequest
 
 		// Add effects
 
-		ArrayList listedEffects = getDesiredEffects();
+		ArrayList listedEffects = BasementRequest.getDesiredEffects();
 
 		if ( !listedEffects.isEmpty() )
 		{
-			String computeFunction = "computeNetBoost(" + ((int) basementTestCurrent) + "," + ((int) basementTestValue) + ");";
+			String computeFunction =
+				"computeNetBoost(" + (int) BasementRequest.basementTestCurrent + "," + (int) BasementRequest.basementTestValue + ");";
 
-			String modifierName = Modifiers.getModifierName( actualBoost );
+			String modifierName = Modifiers.getModifierName( BasementRequest.actualBoost );
 			modifierName = StaticEntity.globalStringDelete( modifierName, "Maximum " ).toLowerCase();
 
 			changes.append( "<tr><td><select onChange=\"" );
@@ -1056,27 +1166,33 @@ public class BasementRequest extends AdventureRequest
 			changes.append( "\" id=\"potion\" style=\"width: 400px\" multiple size=5>" );
 
 			if ( KoLCharacter.getCurrentHP() < KoLCharacter.getMaximumHP() )
+			{
 				changes.append( "<option value=0>use 1 scroll of drastic healing (hp restore)</option>" );
+			}
 
 			if ( KoLCharacter.getCurrentMP() < KoLCharacter.getMaximumMP() )
 			{
 				changes.append( "<option value=0" );
 
 				if ( KoLCharacter.getFullness() == KoLCharacter.getFullnessLimit() )
+				{
 					changes.append( " disabled" );
+				}
 
 				changes.append( ">eat 1 Jumbo Dr. Lucifer (mp restore)</option>" );
 			}
 
 			for ( int i = 0; i < listedEffects.size(); ++i )
-				appendBasementEffect( changes, (DesiredEffect) listedEffects.get(i) );
+			{
+				BasementRequest.appendBasementEffect( changes, (DesiredEffect) listedEffects.get( i ) );
+			}
 
 			changes.append( "</select></td><td>&nbsp;</td><td valign=top align=left>" );
 			changes.append( "<input type=\"button\" value=\"exec\" onClick=\"changeBasementEffects();\">" );
 			changes.append( "<br/><br/><font size=-1><nobr id=\"changevalue\">" );
-			changes.append( (int) basementTestCurrent );
+			changes.append( (int) BasementRequest.basementTestCurrent );
 			changes.append( "</nobr><br/><nobr id=\"changetarget\">" );
-			changes.append( (int) basementTestValue );
+			changes.append( (int) BasementRequest.basementTestValue );
 			changes.append( "</nobr></td></tr>" );
 		}
 
@@ -1085,61 +1201,73 @@ public class BasementRequest extends AdventureRequest
 
 		if ( hasCheck )
 		{
-			String checkString = getRequirement();
+			String checkString = BasementRequest.getRequirement();
 			buffer.insert( buffer.lastIndexOf( "</b>" ) + 4, "<br/>" );
 			buffer.insert( buffer.lastIndexOf( "<img" ), "<table><tr><td>" );
-			buffer.insert( buffer.indexOf( ">", buffer.lastIndexOf( "<img" ) ) + 1, "</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><font id=\"spoiler\" size=2>" +
-				checkString + "</font></td></tr></table>" );
+			buffer.insert(
+				buffer.indexOf( ">", buffer.lastIndexOf( "<img" ) ) + 1,
+				"</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><font id=\"spoiler\" size=2>" + checkString + "</font></td></tr></table>" );
 		}
 	}
 
-	private static final void appendBasementEffect( StringBuffer changes, DesiredEffect effect )
+	private static final void appendBasementEffect( final StringBuffer changes, final DesiredEffect effect )
 	{
 		changes.append( "<option value=" );
 		changes.append( effect.effectiveBoost );
 
 		if ( effect.action.startsWith( "chew" ) && KoLCharacter.getSpleenUse() == KoLCharacter.getSpleenLimit() )
+		{
 			changes.append( " disabled" );
+		}
 
 		changes.append( ">" );
 
 		if ( !effect.itemAvailable )
+		{
 			changes.append( "acquire and " );
+		}
 
 		changes.append( effect.action );
 		changes.append( " (" );
 
 		if ( effect.computedBoost == 0.0f )
 		{
-			if ( effect.name.equals( MUS_EQUAL.getName() ) || effect.name.equals( MYS_EQUAL.getName() ) || effect.name.equals( MOX_EQUAL.getName() ))
+			if ( effect.name.equals( BasementRequest.MUS_EQUAL.getName() ) || effect.name.equals( BasementRequest.MYS_EQUAL.getName() ) || effect.name.equals( BasementRequest.MOX_EQUAL.getName() ) )
 			{
 				changes.append( "stat equalizer" );
 			}
 			else
 			{
 				boolean isImmunity = false;
-				for ( int j = 0; j < ELEMENT_FORMS.length; ++j )
-					isImmunity |= effect.name.equals( ELEMENT_FORMS[j].getName() );
+				for ( int j = 0; j < BasementRequest.ELEMENT_FORMS.length; ++j )
+				{
+					isImmunity |= effect.name.equals( BasementRequest.ELEMENT_FORMS[ j ].getName() );
+				}
 
 				if ( isImmunity )
+				{
 					changes.append( "element immunity" );
+				}
 				else
+				{
 					changes.append( "element resist" );
+				}
 			}
 		}
 		else
 		{
 			changes.append( "+" );
-			changes.append( COMMA_FORMAT.format( effect.effectiveBoost ) );
+			changes.append( KoLConstants.COMMA_FORMAT.format( effect.effectiveBoost ) );
 		}
 
 		changes.append( ")</option>" );
 	}
 
-	private static final void addBasementChoiceSpoilers( StringBuffer buffer, String choice1, String choice2 )
+	private static final void addBasementChoiceSpoilers( final StringBuffer buffer, final String choice1,
+		final String choice2 )
 	{
 		String text = buffer.toString();
-		buffer.setLength(0);
+		buffer.setLength( 0 );
 
 		int index1 = 0, index2;
 
@@ -1159,11 +1287,12 @@ public class BasementRequest extends AdventureRequest
 		buffer.append( text.substring( index1 ) );
 	}
 
-	private static class DesiredEffect implements Comparable
+	private static class DesiredEffect
+		implements Comparable
 	{
-		private String name, action;
-		private int computedBoost;
-		private int effectiveBoost;
+		private final String name, action;
+		private final int computedBoost;
+		private final int effectiveBoost;
 		private boolean itemAvailable;
 
 		private static boolean rigatoni = false;
@@ -1171,72 +1300,87 @@ public class BasementRequest extends AdventureRequest
 		private static boolean wisdom = false;
 		private static boolean ugnderstanding = false;
 
-		public DesiredEffect( String name )
+		public DesiredEffect( final String name )
 		{
 			this.name = name;
 
-			this.computedBoost = (int) Math.ceil( computeBoost() );
+			this.computedBoost = (int) Math.ceil( this.computeBoost() );
 			this.effectiveBoost = this.computedBoost > 0.0f ? this.computedBoost : 0 - this.computedBoost;
 
-			this.action = this.computedBoost < 0 ? "uneffect " + name :
-				MoodSettings.getDefaultAction( "lose_effect", name );
+			this.action =
+				this.computedBoost < 0 ? "uneffect " + name : MoodSettings.getDefaultAction( "lose_effect", name );
 
 			this.itemAvailable = true;
 
 			if ( this.action.startsWith( "use" ) )
 			{
-				AdventureResult item = KoLmafiaCLI.getFirstMatchingItem( action.substring(4).trim(), false );
+				AdventureResult item = KoLmafiaCLI.getFirstMatchingItem( this.action.substring( 4 ).trim(), false );
 				if ( item == null || !KoLCharacter.hasItem( item ) )
+				{
 					this.itemAvailable = false;
+				}
 			}
 		}
 
 		public static void checkSkills()
 		{
-			rigatoni = KoLCharacter.hasSkill( "Spirit of Rigatoni" );
-			hardigness = KoLCharacter.hasSkill( "Gnomish Hardigness" );
-			wisdom = KoLCharacter.hasSkill( "Wisdom of the Elder Tortoises" );
-			ugnderstanding = KoLCharacter.hasSkill( "Cosmic Ugnderstanding" );
+			DesiredEffect.rigatoni = KoLCharacter.hasSkill( "Spirit of Rigatoni" );
+			DesiredEffect.hardigness = KoLCharacter.hasSkill( "Gnomish Hardigness" );
+			DesiredEffect.wisdom = KoLCharacter.hasSkill( "Wisdom of the Elder Tortoises" );
+			DesiredEffect.ugnderstanding = KoLCharacter.hasSkill( "Cosmic Ugnderstanding" );
 		}
 
-		public boolean equals( Object o )
+		public boolean equals( final Object o )
 		{
-			return o instanceof DesiredEffect && this.name.equals( ((DesiredEffect)o).name );
+			return o instanceof DesiredEffect && this.name.equals( ( (DesiredEffect) o ).name );
 		}
 
-		public int compareTo( Object o )
+		public int compareTo( final Object o )
 		{
 			if ( this.effectiveBoost == 0.0f )
-				return ((DesiredEffect)o).effectiveBoost != 0.0f ? -1 : this.name.compareToIgnoreCase( ((DesiredEffect)o).name );
+			{
+				return ( (DesiredEffect) o ).effectiveBoost != 0.0f ? -1 : this.name.compareToIgnoreCase( ( (DesiredEffect) o ).name );
+			}
 
-			if ( ((DesiredEffect)o).effectiveBoost == 0.0f )
+			if ( ( (DesiredEffect) o ).effectiveBoost == 0.0f )
+			{
 				return 1;
+			}
 
-			if ( this.effectiveBoost != ((DesiredEffect)o).effectiveBoost )
-				return this.effectiveBoost > ((DesiredEffect)o).effectiveBoost ? -1 : 1;
+			if ( this.effectiveBoost != ( (DesiredEffect) o ).effectiveBoost )
+			{
+				return this.effectiveBoost > ( (DesiredEffect) o ).effectiveBoost ? -1 : 1;
+			}
 
-			return this.name.compareToIgnoreCase( ((DesiredEffect)o).name );
+			return this.name.compareToIgnoreCase( ( (DesiredEffect) o ).name );
 		}
 
 		public float computeBoost()
 		{
 			Modifiers m = Modifiers.getModifiers( this.name );
 			if ( m == null )
+			{
 				return 0.0f;
+			}
 
-			if ( actualBoost == Modifiers.HP )
-                                return boostMaxHP( m );
+			if ( BasementRequest.actualBoost == Modifiers.HP )
+			{
+				return DesiredEffect.boostMaxHP( m );
+			}
 
-			if ( actualBoost == Modifiers.MP )
-                                return boostMaxMP( m );
+			if ( BasementRequest.actualBoost == Modifiers.MP )
+			{
+				return DesiredEffect.boostMaxMP( m );
+			}
 
-			float base = getEqualizedStat( primaryBoost );
-			float boost = m.get( secondaryBoost ) + m.get( primaryBoost ) * base / 100.0f;
+			float base = DesiredEffect.getEqualizedStat( BasementRequest.primaryBoost );
+			float boost =
+				m.get( BasementRequest.secondaryBoost ) + m.get( BasementRequest.primaryBoost ) * base / 100.0f;
 
 			return boost;
 		}
 
-		public static float getEqualizedStat( int mod )
+		public static float getEqualizedStat( final int mod )
 		{
 			float currentStat = 0.0f;
 
@@ -1255,55 +1399,46 @@ public class BasementRequest extends AdventureRequest
 				return 0.0f;
 			}
 
-			if ( activeEffects.contains( MUS_EQUAL ) )
+			if ( KoLConstants.activeEffects.contains( BasementRequest.MUS_EQUAL ) )
+			{
 				return Math.max( KoLCharacter.getBaseMuscle(), currentStat );
+			}
 
-			if ( activeEffects.contains( MYS_EQUAL ) )
+			if ( KoLConstants.activeEffects.contains( BasementRequest.MYS_EQUAL ) )
+			{
 				return Math.max( KoLCharacter.getBaseMysticality(), currentStat );
+			}
 
-			if ( activeEffects.contains( MOX_EQUAL ) )
+			if ( KoLConstants.activeEffects.contains( BasementRequest.MOX_EQUAL ) )
+			{
 				return Math.max( KoLCharacter.getBaseMoxie(), currentStat );
+			}
 
 			return currentStat;
 		}
 
 		/**
-		 * According to the Wiki:
-		 *
-		 * Max HP = 
-		 *    CEILING( 
-		 *	G × CEILING( 
-		 *	  R × MAXIMUM( 
-		 *		FLOOR((M + 3) × C) + P, 
-		 *		FLOOR(m) 
-		 *	      ) 
-		 *	    ) 
-		 *   ) 
-		 *
-		 * Where: 
-		 *
-		 * M is your buffed Muscle 
-		 * m is your base Muscle 
-		 * C is 1.5 if you are a Muscle class  
-		 * P is the total of direct HP bonuses you have 
-		 * R is 1.25 if you have Spirit of Ravioli
-		 * G is 1.05 if you have Gnomish Hardigness
+		 * According to the Wiki: Max HP = CEILING( G × CEILING( R × MAXIMUM( FLOOR((M + 3) × C) + P, FLOOR(m) ) ) )
+		 * Where: M is your buffed Muscle m is your base Muscle C is 1.5 if you are a Muscle class P is the total of
+		 * direct HP bonuses you have R is 1.25 if you have Spirit of Ravioli G is 1.05 if you have Gnomish Hardigness
 		 */
 
-		public static float boostMaxHP( Modifiers m )
+		public static float boostMaxHP( final Modifiers m )
 		{
 			float buff = m.get( Modifiers.MUS );
 			float buffPercent = m.get( Modifiers.MUS_PCT );
 			float bonus = m.get( Modifiers.HP );
 
 			if ( buff == 0.0f && buffPercent == 0.0f && bonus == 0.0f )
+			{
 				return 0.0f;
+			}
 
-			float base = getEqualizedStat( Modifiers.MUS_PCT );
+			float base = DesiredEffect.getEqualizedStat( Modifiers.MUS_PCT );
 			float buffCurrent = KoLCharacter.currentNumericModifier( Modifiers.MUS );
 			float buffPercentCurrent = KoLCharacter.currentNumericModifier( Modifiers.MUS_PCT );
-			float buffed = base + ( buffCurrent + buff ) + ( buffPercentCurrent + buffPercent ) * base / 100.0f;
-			buffed = (float)Math.ceil( buffed );
+			float buffed = base + buffCurrent + buff + ( buffPercentCurrent + buffPercent ) * base / 100.0f;
+			buffed = (float) Math.ceil( buffed );
 			float bonusCurrent = KoLCharacter.currentNumericModifier( Modifiers.HP );
 
 			// Base HP is Muscle + 3
@@ -1311,8 +1446,10 @@ public class BasementRequest extends AdventureRequest
 
 			// Muscle classes get 50% more HP
 			if ( KoLCharacter.isMuscleClass() )
+			{
 				boost *= 1.5;
-			boost = (float)Math.floor( boost );
+			}
+			boost = (float) Math.floor( boost );
 
 			// Add in direct HP Bonuses
 			boost += bonus + bonusCurrent;
@@ -1321,11 +1458,15 @@ public class BasementRequest extends AdventureRequest
 			// Muscle is less than base Muscle
 			boost = Math.max( boost, base );
 
-			if ( rigatoni )
-				boost = (float)Math.ceil( 1.25 * boost );
+			if ( DesiredEffect.rigatoni )
+			{
+				boost = (float) Math.ceil( 1.25 * boost );
+			}
 
-			if ( hardigness )
-				boost = (float)Math.ceil( 1.05 * boost );
+			if ( DesiredEffect.hardigness )
+			{
+				boost = (float) Math.ceil( 1.05 * boost );
+			}
 
 			// We have defined a "Maximum HP Percent" modifier
 			// but we don't know exactly where to apply it.
@@ -1335,28 +1476,13 @@ public class BasementRequest extends AdventureRequest
 		}
 
 		/**
-		 * Max MP = 
-		 *   CEILING( 
-		 *     G × FLOOR( 
-		 *	 W × MAXIMUM( 
-		 *	   FLOOR(M × C) + P, 
-		 *	   FLOOR(m) 
-		 *	 ) 
-		 *   ) 
-		 *
-		 * Where: 
-		 *
-		 * M is your buffed Myst 
-		 * or your buffed Moxie with Travoltan trousers and Moxie > Myst 
-		 * or your buffed Moxie with a moxie magnet 
-		 * m is your base Myst 
-		 * C is 1.5 if you are a Myst class
-		 * P is the total of any direct MP Increasers you have
-		 * W is 1.5 if you have Wisdom of the Elder Tortoises
-		 * G is 1.05 if you have Cosmic Ugnderstanding
+		 * Max MP = CEILING( G × FLOOR( W × MAXIMUM( FLOOR(M × C) + P, FLOOR(m) ) ) Where: M is your buffed Myst or your
+		 * buffed Moxie with Travoltan trousers and Moxie > Myst or your buffed Moxie with a moxie magnet m is your base
+		 * Myst C is 1.5 if you are a Myst class P is the total of any direct MP Increasers you have W is 1.5 if you
+		 * have Wisdom of the Elder Tortoises G is 1.05 if you have Cosmic Ugnderstanding
 		 */
 
-		public static float boostMaxMP( Modifiers m )
+		public static float boostMaxMP( final Modifiers m )
 		{
 			// This method ignores the effects of Travoltan
 			// trousers and moxie magnets
@@ -1366,13 +1492,15 @@ public class BasementRequest extends AdventureRequest
 			float bonus = m.get( Modifiers.MP );
 
 			if ( buff == 0.0f && buffPercent == 0.0f && bonus == 0.0f )
+			{
 				return 0.0f;
+			}
 
-			float base = getEqualizedStat( Modifiers.MYS_PCT );
+			float base = DesiredEffect.getEqualizedStat( Modifiers.MYS_PCT );
 			float buffCurrent = KoLCharacter.currentNumericModifier( Modifiers.MYS );
 			float buffPercentCurrent = KoLCharacter.currentNumericModifier( Modifiers.MYS_PCT );
-			float buffed = base + ( buffCurrent + buff ) + ( buffPercentCurrent + buffPercent ) * base / 100.0f;
-			buffed = (float)Math.ceil( buffed );
+			float buffed = base + buffCurrent + buff + ( buffPercentCurrent + buffPercent ) * base / 100.0f;
+			buffed = (float) Math.ceil( buffed );
 			float bonusCurrent = KoLCharacter.currentNumericModifier( Modifiers.MP );
 
 			// Base MP is Mysticality
@@ -1380,8 +1508,10 @@ public class BasementRequest extends AdventureRequest
 
 			// Mysticality classes get 50% more MP
 			if ( KoLCharacter.isMysticalityClass() )
+			{
 				boost *= 1.5;
-			boost = (float)Math.floor( boost );
+			}
+			boost = (float) Math.floor( boost );
 
 			// Add in direct MP Bonuses
 			boost += bonus + bonusCurrent;
@@ -1390,11 +1520,15 @@ public class BasementRequest extends AdventureRequest
 			// Mysticality is less than base Mysticality
 			boost = Math.max( boost, base );
 
-			if ( wisdom )
-				boost = (float)Math.floor( 1.5 * boost );
+			if ( DesiredEffect.wisdom )
+			{
+				boost = (float) Math.floor( 1.5 * boost );
+			}
 
-			if ( ugnderstanding )
-				boost = (float)Math.ceil( 1.05 * boost );
+			if ( DesiredEffect.ugnderstanding )
+			{
+				boost = (float) Math.ceil( 1.05 * boost );
+			}
 
 			// We have defined a "Maximum MP Percent" modifier
 			// but we don't know exactly where to apply it.

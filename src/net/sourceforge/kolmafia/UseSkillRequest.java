@@ -37,7 +37,9 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class UseSkillRequest extends KoLRequest implements Comparable
+public class UseSkillRequest
+	extends KoLRequest
+	implements Comparable
 {
 	private static final TreeMap ALL_SKILLS = new TreeMap();
 	private static final Pattern SKILLID_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
@@ -45,7 +47,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	private static final Pattern COUNT1_PATTERN = Pattern.compile( "bufftimes=([\\d,]+)" );
 	private static final Pattern COUNT2_PATTERN = Pattern.compile( "quantity=([\\d,]+)" );
 
-	public static final String [] BREAKFAST_SKILLS =
+	public static final String[] BREAKFAST_SKILLS =
 		{ "Advanced Cocktailcrafting", "Pastamastery", "Advanced Saucecrafting", "Summon Snowcone", "Summon Hilarious Objects", "Summon Candy Hearts" };
 
 	private static final int OTTER_TONGUE = 1007;
@@ -57,8 +59,8 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 	public static String lastUpdate = "";
 
-	private int skillId;
-	private String skillName;
+	private final int skillId;
+	private final String skillName;
 	private String target;
 	private int buffCount;
 	private String countFieldId;
@@ -66,27 +68,24 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	private int lastReduction = Integer.MAX_VALUE;
 	private String lastStringForm = "";
 
-	public static final AdventureResult [] TAMER_WEAPONS = new AdventureResult []
-	{
-		new AdventureResult( 2558, 1 ),	 // Chelonian Morningstar
-		new AdventureResult( 60, 1 ),    // Mace of the Tortoise
-		new AdventureResult( 4, 1 )      // turtle totem
-	};
+	public static final AdventureResult[] TAMER_WEAPONS = new AdventureResult[] { new AdventureResult( 2558, 1 ), // Chelonian Morningstar
+	new AdventureResult( 60, 1 ), // Mace of the Tortoise
+	new AdventureResult( 4, 1 )
+	// turtle totem
+		};
 
-	public static final AdventureResult [] SAUCE_WEAPONS = new AdventureResult []
-	{
-		new AdventureResult( 2560, 1 ),  // 17-Alarm Saucepan
-		new AdventureResult( 57, 1 ),    // 5-Alarm saucepan
-		new AdventureResult( 7, 1 )      // saucepan
-	};
+	public static final AdventureResult[] SAUCE_WEAPONS = new AdventureResult[] { new AdventureResult( 2560, 1 ), // 17-Alarm Saucepan
+	new AdventureResult( 57, 1 ), // 5-Alarm saucepan
+	new AdventureResult( 7, 1 )
+	// saucepan
+		};
 
-	public static final AdventureResult [] THIEF_WEAPONS = new AdventureResult []
-	{
-		new AdventureResult( 2557, 1 ),  // Squeezebox of the Ages
-		new AdventureResult( 50, 1 ),    // Rock 'n Roll Legend
-		new AdventureResult( 2234, 1 ),  // calavera concertina
-		new AdventureResult( 11, 1 )     // stolen accordion
-	};
+	public static final AdventureResult[] THIEF_WEAPONS = new AdventureResult[] { new AdventureResult( 2557, 1 ), // Squeezebox of the Ages
+	new AdventureResult( 50, 1 ), // Rock 'n Roll Legend
+	new AdventureResult( 2234, 1 ), // calavera concertina
+	new AdventureResult( 11, 1 )
+	// stolen accordion
+		};
 
 	public static final AdventureResult PLEXI_PENDANT = new AdventureResult( 1235, 1 );
 	public static final AdventureResult BRIM_BERET = new AdventureResult( 2813, 1 );
@@ -102,14 +101,11 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	public static final AdventureResult SOLID_EARRING = new AdventureResult( 2780, 1 );
 
 	// The following list must contain only accessories!
-	private static final AdventureResult [] AVOID_REMOVAL = new AdventureResult [] {
-		PLEXI_WATCH, BRIM_BRACELET, SOLITAIRE,
-		WIRE_BRACELET, BACON_BRACELET, BACON_EARRING, SOLID_EARRING,
-		// Removing the following might drop an AT song
-		PLEXI_PENDANT
-	};
+	private static final AdventureResult[] AVOID_REMOVAL =
+		new AdventureResult[] { UseSkillRequest.PLEXI_WATCH, UseSkillRequest.BRIM_BRACELET, UseSkillRequest.SOLITAIRE, UseSkillRequest.WIRE_BRACELET, UseSkillRequest.BACON_BRACELET, UseSkillRequest.BACON_EARRING, UseSkillRequest.SOLID_EARRING, UseSkillRequest.// Removing the following might drop an AT song
+		PLEXI_PENDANT };
 
-	private UseSkillRequest( String skillName )
+	private UseSkillRequest( final String skillName )
 	{
 		super( "skills.php" );
 
@@ -123,7 +119,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		this.target = "yourself";
 	}
 
-	public void setTarget( String target )
+	public void setTarget( final String target )
 	{
 		if ( ClassSkillsDatabase.isBuff( this.skillId ) )
 		{
@@ -156,7 +152,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			return;
 		}
 
-		int maxPossible = Math.min( getMaximumCast(), KoLCharacter.getCurrentMP() / mpCost );
+		int maxPossible = Math.min( this.getMaximumCast(), KoLCharacter.getCurrentMP() / mpCost );
 
 		// Candy hearts need to be calculated in
 		// a slightly different manner.
@@ -170,37 +166,45 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			{
 				++count;
 				mpRemaining -= mpCost;
-				mpCost = Math.max( ((count + 1) * (count + 2)) / 2 + KoLCharacter.getManaCostAdjustment(), 1 );
+				mpCost = Math.max( ( count + 1 ) * ( count + 2 ) / 2 + KoLCharacter.getManaCostAdjustment(), 1 );
 			}
 
 			maxPossible = count - KoLSettings.getIntegerProperty( "candyHeartSummons" );
 		}
 
 		if ( buffCount < 1 )
+		{
 			buffCount += maxPossible;
+		}
 		else if ( buffCount == Integer.MAX_VALUE )
+		{
 			buffCount = maxPossible;
+		}
 
 		this.buffCount = buffCount;
 	}
 
-	public int compareTo( Object o )
+	public int compareTo( final Object o )
 	{
-		if ( o == null || !(o instanceof UseSkillRequest) )
+		if ( o == null || !( o instanceof UseSkillRequest ) )
+		{
 			return -1;
+		}
 
-		int mpDifference = ClassSkillsDatabase.getMPConsumptionById( this.skillId ) -
-			ClassSkillsDatabase.getMPConsumptionById( ((UseSkillRequest)o).skillId );
+		int mpDifference =
+			ClassSkillsDatabase.getMPConsumptionById( this.skillId ) - ClassSkillsDatabase.getMPConsumptionById( ( (UseSkillRequest) o ).skillId );
 
-		return mpDifference != 0 ? mpDifference : this.skillName.compareToIgnoreCase( ((UseSkillRequest)o).skillName );
+		return mpDifference != 0 ? mpDifference : this.skillName.compareToIgnoreCase( ( (UseSkillRequest) o ).skillName );
 	}
 
 	public int getSkillId()
-	{	return this.skillId;
+	{
+		return this.skillId;
 	}
 
 	public String getSkillName()
-	{	return this.skillName;
+	{
+		return this.skillName;
 	}
 
 	public int getMaximumCast()
@@ -230,7 +234,9 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 			maximumCast = 3;
 			if ( KoLCharacter.hasSkill( "Transcendental Noodlecraft" ) )
+			{
 				maximumCast = 5;
+			}
 
 			maximumCast = Math.max( maximumCast - KoLSettings.getIntegerProperty( "noodleSummons" ), 0 );
 			break;
@@ -242,7 +248,9 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 			maximumCast = 3;
 			if ( KoLCharacter.hasSkill( "The Way of Sauce" ) )
+			{
 				maximumCast = 5;
+			}
 
 			maximumCast = Math.max( maximumCast - KoLSettings.getIntegerProperty( "reagentSummons" ), 0 );
 			break;
@@ -254,7 +262,9 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 			maximumCast = 3;
 			if ( KoLCharacter.hasSkill( "Superhuman Cocktailcrafting" ) )
+			{
 				maximumCast = 5;
+			}
 
 			maximumCast = Math.max( maximumCast - KoLSettings.getIntegerProperty( "cocktailSummons" ), 0 );
 			break;
@@ -267,100 +277,126 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	public String toString()
 	{
 		if ( this.lastReduction == KoLCharacter.getManaCostAdjustment() && this.skillId != 18 )
+		{
 			return this.lastStringForm;
+		}
 
 		this.lastReduction = KoLCharacter.getManaCostAdjustment();
 		this.lastStringForm = this.skillName + " (" + ClassSkillsDatabase.getMPConsumptionById( this.skillId ) + " mp)";
 		return this.lastStringForm;
 	}
 
-	private static final boolean canSwitchToItem( AdventureResult item )
-	{	return !KoLCharacter.hasEquipped( item ) && EquipmentDatabase.canEquip( item.getName() ) && KoLCharacter.hasItem( item, false );
+	private static final boolean canSwitchToItem( final AdventureResult item )
+	{
+		return !KoLCharacter.hasEquipped( item ) && EquipmentDatabase.canEquip( item.getName() ) && KoLCharacter.hasItem(
+			item, false );
 	}
 
-	public static final void optimizeEquipment( int skillId )
+	public static final void optimizeEquipment( final int skillId )
 	{
 		boolean isBuff = ClassSkillsDatabase.isBuff( skillId );
 
 		if ( isBuff )
 		{
 			if ( skillId > 2000 && skillId < 3000 )
-				prepareWeapon( TAMER_WEAPONS );
+			{
+				UseSkillRequest.prepareWeapon( UseSkillRequest.TAMER_WEAPONS );
+			}
 
 			if ( skillId > 4000 && skillId < 5000 )
-				prepareWeapon( SAUCE_WEAPONS );
+			{
+				UseSkillRequest.prepareWeapon( UseSkillRequest.SAUCE_WEAPONS );
+			}
 
 			if ( skillId > 6000 && skillId < 7000 )
-				prepareWeapon( THIEF_WEAPONS );
+			{
+				UseSkillRequest.prepareWeapon( UseSkillRequest.THIEF_WEAPONS );
+			}
 		}
 
 		if ( KoLSettings.getBooleanProperty( "switchEquipmentForBuffs" ) )
-			reduceManaConsumption( skillId, isBuff );
+		{
+			UseSkillRequest.reduceManaConsumption( skillId, isBuff );
+		}
 	}
 
-	private static final boolean isValidSwitch( int slotId )
+	private static final boolean isValidSwitch( final int slotId )
 	{
 		AdventureResult item = KoLCharacter.getEquipment( slotId );
-		for ( int i = 0; i < AVOID_REMOVAL.length; ++i )
-			if ( item.equals( AVOID_REMOVAL[i] ) )
+		for ( int i = 0; i < UseSkillRequest.AVOID_REMOVAL.length; ++i )
+		{
+			if ( item.equals( UseSkillRequest.AVOID_REMOVAL[ i ] ) )
+			{
 				return false;
+			}
+		}
 
 		return true;
 	}
 
-	private static final int attemptSwitch( int skillId, AdventureResult item, boolean slot1Allowed, boolean slot2Allowed, boolean slot3Allowed )
+	private static final int attemptSwitch( final int skillId, final AdventureResult item, final boolean slot1Allowed,
+		final boolean slot2Allowed, final boolean slot3Allowed )
 	{
 		if ( slot3Allowed )
 		{
-			(new EquipmentRequest( item, KoLCharacter.ACCESSORY3 )).run();
+			( new EquipmentRequest( item, KoLCharacter.ACCESSORY3 ) ).run();
 			return KoLCharacter.ACCESSORY3;
 		}
 
 		if ( slot2Allowed )
 		{
-			(new EquipmentRequest( item, KoLCharacter.ACCESSORY2 )).run();
+			( new EquipmentRequest( item, KoLCharacter.ACCESSORY2 ) ).run();
 			return KoLCharacter.ACCESSORY2;
 		}
 
 		if ( slot1Allowed )
 		{
-			(new EquipmentRequest( item, KoLCharacter.ACCESSORY1 )).run();
+			( new EquipmentRequest( item, KoLCharacter.ACCESSORY1 ) ).run();
 			return KoLCharacter.ACCESSORY1;
 		}
 
 		return -1;
 	}
 
-	private static final void reduceManaConsumption( int skillId, boolean isBuff )
+	private static final void reduceManaConsumption( final int skillId, final boolean isBuff )
 	{
 		// Never bother trying to reduce mana consumption when casting
 		// ode to booze or summon candy hearts.
 
 		if ( skillId == 18 || skillId == 6014 )
+		{
 			return;
+		}
 
 		if ( KoLCharacter.canInteract() )
+		{
 			return;
+		}
 
 		// First determine which slots are available for switching in
 		// MP reduction items.
 
-		boolean slot1Allowed = isValidSwitch( KoLCharacter.ACCESSORY1 );
-		boolean slot2Allowed = isValidSwitch( KoLCharacter.ACCESSORY2 );
-		boolean slot3Allowed = isValidSwitch( KoLCharacter.ACCESSORY3 );
+		boolean slot1Allowed = UseSkillRequest.isValidSwitch( KoLCharacter.ACCESSORY1 );
+		boolean slot2Allowed = UseSkillRequest.isValidSwitch( KoLCharacter.ACCESSORY2 );
+		boolean slot3Allowed = UseSkillRequest.isValidSwitch( KoLCharacter.ACCESSORY3 );
 
 		// Best switch is a PLEXI_WATCH, since it's a guaranteed -3 to
 		// spell cost.
 
-		for ( int i = 0; i < AVOID_REMOVAL.length; ++i )
+		for ( int i = 0; i < UseSkillRequest.AVOID_REMOVAL.length; ++i )
 		{
 			if ( ClassSkillsDatabase.getMPConsumptionById( skillId ) == 1 || KoLCharacter.getManaCostAdjustment() == -3 )
+			{
 				return;
+			}
 
-			if ( !canSwitchToItem( AVOID_REMOVAL[i] ) )
+			if ( !UseSkillRequest.canSwitchToItem( UseSkillRequest.AVOID_REMOVAL[ i ] ) )
+			{
 				continue;
+			}
 
-			switch ( attemptSwitch( skillId, AVOID_REMOVAL[i], slot1Allowed, slot2Allowed, slot3Allowed ) )
+			switch ( UseSkillRequest.attemptSwitch(
+				skillId, UseSkillRequest.AVOID_REMOVAL[ i ], slot1Allowed, slot2Allowed, slot3Allowed ) )
 			{
 			case KoLCharacter.ACCESSORY1:
 				slot1Allowed = false;
@@ -377,22 +413,27 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 	public static final int songLimit()
 	{
-		if ( KoLCharacter.hasEquipped( PLEXI_PENDANT ) ||
-		     KoLCharacter.hasEquipped( BRIM_BERET ) )
+		if ( KoLCharacter.hasEquipped( UseSkillRequest.PLEXI_PENDANT ) || KoLCharacter.hasEquipped( UseSkillRequest.BRIM_BERET ) )
+		{
 			return 4;
+		}
 		return 3;
 	}
 
 	public void run()
 	{
 		if ( !KoLCharacter.hasSkill( this.skillName ) || this.buffCount == 0 )
+		{
 			return;
+		}
 
-		lastUpdate = "";
-		optimizeEquipment( this.skillId );
+		UseSkillRequest.lastUpdate = "";
+		UseSkillRequest.optimizeEquipment( this.skillId );
 
 		if ( !KoLmafia.permitsContinue() )
+		{
 			return;
+		}
 
 		this.setBuffCount( Math.min( this.buffCount, this.getMaximumCast() ) );
 		this.useSkillLoop();
@@ -410,7 +451,9 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		int maximumMP = KoLCharacter.getMaximumMP();
 
 		if ( KoLmafia.refusesContinue() )
+		{
 			return;
+		}
 
 		int currentCast = 0;
 		int maximumCast = maximumMP / mpPerCast;
@@ -418,12 +461,14 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		while ( !KoLmafia.refusesContinue() && castsRemaining > 0 )
 		{
 			if ( this.skillId == 18 )
+			{
 				mpPerCast = ClassSkillsDatabase.getMPConsumptionById( this.skillId );
+			}
 
 			if ( maximumMP < mpPerCast )
 			{
-				lastUpdate = "Your maximum mana is too low to cast " + this.skillName + ".";
-				KoLmafia.updateDisplay( lastUpdate );
+				UseSkillRequest.lastUpdate = "Your maximum mana is too low to cast " + this.skillName + ".";
+				KoLmafia.updateDisplay( UseSkillRequest.lastUpdate );
 				return;
 			}
 
@@ -432,7 +477,9 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			currentCast = Math.min( castsRemaining, KoLCharacter.getCurrentMP() / mpPerCast );
 
 			if ( this.skillId == 18 )
+			{
 				currentCast = Math.min( currentCast, 1 );
+			}
 
 			// If none, attempt to recover MP in order to cast;
 			// take auto-recovery into account.
@@ -461,17 +508,18 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 				if ( currentMP == KoLCharacter.getCurrentMP() )
 				{
-					lastUpdate = "Could not restore enough mana to cast " + this.skillName + ".";
-					KoLmafia.updateDisplay( lastUpdate );
+					UseSkillRequest.lastUpdate = "Could not restore enough mana to cast " + this.skillName + ".";
+					KoLmafia.updateDisplay( UseSkillRequest.lastUpdate );
 					return;
 				}
 
-				currentCast = Math.min( getMaximumCast(), Math.min( castsRemaining, KoLCharacter.getCurrentMP() / mpPerCast ) );
+				currentCast =
+					Math.min( this.getMaximumCast(), Math.min( castsRemaining, KoLCharacter.getCurrentMP() / mpPerCast ) );
 			}
 
 			if ( KoLmafia.refusesContinue() )
 			{
-				lastUpdate = "Error encountered during cast attempt.";
+				UseSkillRequest.lastUpdate = "Error encountered during cast attempt.";
 				return;
 			}
 
@@ -479,28 +527,27 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			// then there is an effective cap based on how much
 			// the skill is able to restore.
 
-			switch ( skillId )
+			switch ( this.skillId )
 			{
-				case OTTER_TONGUE:
-				case WALRUS_TONGUE:
-				case DISCO_NAP:
-				case POWER_NAP:
-				case BANDAGES:
-				case COCOON:
+			case OTTER_TONGUE:
+			case WALRUS_TONGUE:
+			case DISCO_NAP:
+			case POWER_NAP:
+			case BANDAGES:
+			case COCOON:
 
-					for ( int i = 0; i < HPRestoreItemList.CONFIGURES.length; ++i )
+				for ( int i = 0; i < HPRestoreItemList.CONFIGURES.length; ++i )
+				{
+					if ( HPRestoreItemList.CONFIGURES[ i ].toString().equals( this.skillName ) )
 					{
-						if ( HPRestoreItemList.CONFIGURES[i].toString().equals( skillName ) )
-						{
-							int maxPossible = (int) Math.ceil(
-								((float)KoLCharacter.getMaximumHP() - (float)KoLCharacter.getCurrentHP()) /
-									(float)HPRestoreItemList.CONFIGURES[i].getHealthRestored() );
+						int maxPossible =
+							(int) Math.ceil( ( (float) KoLCharacter.getMaximumHP() - (float) KoLCharacter.getCurrentHP() ) / HPRestoreItemList.CONFIGURES[ i ].getHealthRestored() );
 
-							castsRemaining = Math.min( castsRemaining, maxPossible );
-							currentCast = Math.min( currentCast, castsRemaining );
-							break;
-						}
+						castsRemaining = Math.min( castsRemaining, maxPossible );
+						currentCast = Math.min( currentCast, castsRemaining );
+						break;
 					}
+				}
 			}
 
 			currentCast = Math.min( currentCast, maximumCast );
@@ -512,20 +559,24 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 				// or not at least one cast was completed.
 
 				this.buffCount = currentCast;
-				optimizeEquipment( this.skillId );
+				UseSkillRequest.optimizeEquipment( this.skillId );
 
 				if ( KoLmafia.refusesContinue() )
 				{
-					lastUpdate = "Error encountered during cast attempt.";
+					UseSkillRequest.lastUpdate = "Error encountered during cast attempt.";
 					return;
 				}
 
 				this.addFormField( this.countFieldId, String.valueOf( currentCast ), false );
 
 				if ( this.target == null || this.target.trim().length() == 0 )
+				{
 					KoLmafia.updateDisplay( "Casting " + this.skillName + " " + currentCast + " times..." );
+				}
 				else
+				{
 					KoLmafia.updateDisplay( "Casting " + this.skillName + " on " + this.target + " " + currentCast + " times..." );
+				}
 
 				super.run();
 
@@ -538,41 +589,55 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		}
 
 		if ( KoLmafia.refusesContinue() )
-			lastUpdate = "Error encountered during cast attempt.";
+		{
+			UseSkillRequest.lastUpdate = "Error encountered during cast attempt.";
+		}
 	}
 
 	public static final boolean hasAccordion()
 	{
 		if ( KoLCharacter.canInteract() )
+		{
 			return true;
+		}
 
-		for ( int i = 0; i < THIEF_WEAPONS.length; ++i )
-			if ( KoLCharacter.hasItem( THIEF_WEAPONS[i], true ) )
+		for ( int i = 0; i < UseSkillRequest.THIEF_WEAPONS.length; ++i )
+		{
+			if ( KoLCharacter.hasItem( UseSkillRequest.THIEF_WEAPONS[ i ], true ) )
+			{
 				return true;
+			}
+		}
 
 		return false;
 	}
 
-	public static final void prepareWeapon( AdventureResult [] options )
+	public static final void prepareWeapon( final AdventureResult[] options )
 	{
 		if ( KoLCharacter.canInteract() )
 		{
-			if ( KoLCharacter.hasItem( options[0], false ) || KoLCharacter.hasItem( options[1], false ) )
+			if ( KoLCharacter.hasItem( options[ 0 ], false ) || KoLCharacter.hasItem( options[ 1 ], false ) )
+			{
 				return;
+			}
 
-			AdventureDatabase.retrieveItem( options[1] );
+			AdventureDatabase.retrieveItem( options[ 1 ] );
 			return;
 		}
 
 		for ( int i = 0; i < options.length; ++i )
 		{
-			if ( !KoLCharacter.hasItem( options[i], false ) )
+			if ( !KoLCharacter.hasItem( options[ i ], false ) )
+			{
 				continue;
+			}
 
-			if ( KoLCharacter.hasEquipped( options[i] ) )
+			if ( KoLCharacter.hasEquipped( options[ i ] ) )
+			{
 				return;
+			}
 
-			AdventureDatabase.retrieveItem( options[i] );
+			AdventureDatabase.retrieveItem( options[ i ] );
 			return;
 		}
 
@@ -580,17 +645,19 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	}
 
 	protected boolean retryOnTimeout()
-	{	return false;
+	{
+		return false;
 	}
 
 	protected boolean processOnFailure()
-	{	return true;
+	{
+		return true;
 	}
 
 	public void processResults()
 	{
 		boolean shouldStop = false;
-		lastUpdate = "";
+		UseSkillRequest.lastUpdate = "";
 
 		// If a reply was obtained, check to see if it was a success message
 		// Otherwise, try to figure out why it was unsuccessful.
@@ -603,103 +670,121 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			if ( initialMP == KoLCharacter.getCurrentMP() )
 			{
 				shouldStop = false;
-				lastUpdate = "Encountered lag problems.";
+				UseSkillRequest.lastUpdate = "Encountered lag problems.";
 			}
 		}
 		else if ( this.responseText.indexOf( "You don't have that skill" ) != -1 )
 		{
 			shouldStop = true;
-			lastUpdate = "That skill is unavailable.";
+			UseSkillRequest.lastUpdate = "That skill is unavailable.";
 		}
 		else if ( this.responseText.indexOf( "You don't have enough" ) != -1 )
 		{
 			shouldStop = false;
-			lastUpdate = "Not enough mana to cast " + this.skillName + ".";
+			UseSkillRequest.lastUpdate = "Not enough mana to cast " + this.skillName + ".";
 		}
 		else if ( this.responseText.indexOf( "You can only conjure" ) != -1 || this.responseText.indexOf( "You can only scrounge up" ) != -1 || this.responseText.indexOf( "You can only summon" ) != -1 )
 		{
 			shouldStop = false;
-			lastUpdate = "Summon limit exceeded.";
+			UseSkillRequest.lastUpdate = "Summon limit exceeded.";
 		}
 		else if ( this.responseText.indexOf( "too many songs" ) != -1 )
 		{
 			shouldStop = false;
-			lastUpdate = "Selected target has 3 AT buffs already.";
+			UseSkillRequest.lastUpdate = "Selected target has 3 AT buffs already.";
 		}
 		else if ( this.responseText.indexOf( "casts left of the Smile of Mr. A" ) != -1 )
 		{
 			shouldStop = false;
-			lastUpdate = "You cannot cast that many smiles.";
+			UseSkillRequest.lastUpdate = "You cannot cast that many smiles.";
 		}
 		else if ( this.responseText.indexOf( "Invalid target player" ) != -1 )
 		{
 			shouldStop = true;
-			lastUpdate = "Selected target is not a valid target.";
+			UseSkillRequest.lastUpdate = "Selected target is not a valid target.";
 		}
 		else if ( this.responseText.indexOf( "busy fighting" ) != -1 )
 		{
 			shouldStop = false;
-			lastUpdate = "Selected target is busy fighting.";
+			UseSkillRequest.lastUpdate = "Selected target is busy fighting.";
 		}
 		else if ( this.responseText.indexOf( "receive buffs" ) != -1 )
 		{
 			shouldStop = false;
-			lastUpdate = "Selected target cannot receive buffs.";
+			UseSkillRequest.lastUpdate = "Selected target cannot receive buffs.";
 		}
 		else if ( this.responseText.indexOf( "You need" ) != -1 )
 		{
 			shouldStop = true;
-			lastUpdate = "You need special equipment to cast that buff.";
+			UseSkillRequest.lastUpdate = "You need special equipment to cast that buff.";
 		}
 
 		// Now that all the checks are complete, proceed
 		// to determine how to update the user display.
 
-		if ( !lastUpdate.equals( "" ) )
+		if ( !UseSkillRequest.lastUpdate.equals( "" ) )
 		{
-			KoLmafia.updateDisplay( shouldStop ? ABORT_STATE : CONTINUE_STATE, lastUpdate );
+			KoLmafia.updateDisplay(
+				shouldStop ? KoLConstants.ABORT_STATE : KoLConstants.CONTINUE_STATE, UseSkillRequest.lastUpdate );
 
 			if ( BuffBotHome.isBuffBotActive() )
-				BuffBotHome.timeStampedLogEntry( BuffBotHome.ERRORCOLOR, lastUpdate );
+			{
+				BuffBotHome.timeStampedLogEntry( BuffBotHome.ERRORCOLOR, UseSkillRequest.lastUpdate );
+			}
 		}
 		else
 		{
 			if ( this.target == null )
+			{
 				KoLmafia.updateDisplay( this.skillName + " was successfully cast." );
+			}
 			else
+			{
 				KoLmafia.updateDisplay( this.skillName + " was successfully cast on " + this.target + "." );
+			}
 
 			// Tongue of the Walrus (1010) automatically
 			// removes any beaten up.
 
-			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MP, 0 -
-				(ClassSkillsDatabase.getMPConsumptionById( this.skillId, true ) * this.buffCount) ) );
+			StaticEntity.getClient().processResult(
+				new AdventureResult( AdventureResult.MP, 0 - ClassSkillsDatabase.getMPConsumptionById(
+					this.skillId, true ) * this.buffCount ) );
 
-			if ( this.skillId == OTTER_TONGUE || this.skillId == WALRUS_TONGUE )
-				activeEffects.remove( KoLAdventure.BEATEN_UP );
+			if ( this.skillId == UseSkillRequest.OTTER_TONGUE || this.skillId == UseSkillRequest.WALRUS_TONGUE )
+			{
+				KoLConstants.activeEffects.remove( KoLAdventure.BEATEN_UP );
+			}
 
-			if ( this.skillId == DISCO_NAP || this.skillId == POWER_NAP )
-				activeEffects.clear();
+			if ( this.skillId == UseSkillRequest.DISCO_NAP || this.skillId == UseSkillRequest.POWER_NAP )
+			{
+				KoLConstants.activeEffects.clear();
+			}
 		}
 	}
 
-	public boolean equals( Object o )
-	{	return o != null && o instanceof UseSkillRequest && this.getSkillName().equals( ((UseSkillRequest)o).getSkillName() );
-	}
-
-	public static final UseSkillRequest getInstance( int skillId )
-	{	return getInstance( ClassSkillsDatabase.getSkillName( skillId ) );
-	}
-
-	public static final UseSkillRequest getInstance( String skillName, int buffCount )
-	{	return getInstance( skillName, KoLCharacter.getUserName(), buffCount );
-	}
-
-	public static final UseSkillRequest getInstance( String skillName, String target, int buffCount )
+	public boolean equals( final Object o )
 	{
-		UseSkillRequest instance = getInstance( skillName );
+		return o != null && o instanceof UseSkillRequest && this.getSkillName().equals(
+			( (UseSkillRequest) o ).getSkillName() );
+	}
+
+	public static final UseSkillRequest getInstance( final int skillId )
+	{
+		return UseSkillRequest.getInstance( ClassSkillsDatabase.getSkillName( skillId ) );
+	}
+
+	public static final UseSkillRequest getInstance( final String skillName, final int buffCount )
+	{
+		return UseSkillRequest.getInstance( skillName, KoLCharacter.getUserName(), buffCount );
+	}
+
+	public static final UseSkillRequest getInstance( final String skillName, final String target, final int buffCount )
+	{
+		UseSkillRequest instance = UseSkillRequest.getInstance( skillName );
 		if ( instance == null )
+		{
 			return null;
+		}
 
 		instance.setTarget( target == null || target.equals( "" ) ? KoLCharacter.getUserName() : target );
 		instance.setBuffCount( buffCount );
@@ -709,42 +794,52 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	public static final UseSkillRequest getInstance( String skillName )
 	{
 		if ( skillName == null || !ClassSkillsDatabase.contains( skillName ) )
+		{
 			return null;
+		}
 
 		skillName = KoLDatabase.getCanonicalName( skillName );
-		if ( !ALL_SKILLS.containsKey( skillName ) )
-			ALL_SKILLS.put( skillName, new UseSkillRequest( skillName ) );
+		if ( !UseSkillRequest.ALL_SKILLS.containsKey( skillName ) )
+		{
+			UseSkillRequest.ALL_SKILLS.put( skillName, new UseSkillRequest( skillName ) );
+		}
 
-		UseSkillRequest request = (UseSkillRequest) ALL_SKILLS.get( skillName );
+		UseSkillRequest request = (UseSkillRequest) UseSkillRequest.ALL_SKILLS.get( skillName );
 		request.setTarget( KoLCharacter.getUserName() );
 		request.setBuffCount( 0 );
 		return request;
 	}
 
-	public static final boolean registerRequest( String urlString )
+	public static final boolean registerRequest( final String urlString )
 	{
 		if ( !urlString.startsWith( "skills.php" ) )
+		{
 			return false;
+		}
 
-		Matcher skillMatcher = SKILLID_PATTERN.matcher( urlString );
+		Matcher skillMatcher = UseSkillRequest.SKILLID_PATTERN.matcher( urlString );
 		if ( !skillMatcher.find() )
+		{
 			return true;
+		}
 
-		int skillId = StaticEntity.parseInt( skillMatcher.group(1) );
+		int skillId = StaticEntity.parseInt( skillMatcher.group( 1 ) );
 		String skillName = ClassSkillsDatabase.getSkillName( skillId );
 
 		int count = 1;
-		Matcher countMatcher = COUNT1_PATTERN.matcher( urlString );
+		Matcher countMatcher = UseSkillRequest.COUNT1_PATTERN.matcher( urlString );
 
 		if ( countMatcher.find() )
 		{
-			count = StaticEntity.parseInt( countMatcher.group(1) );
+			count = StaticEntity.parseInt( countMatcher.group( 1 ) );
 		}
 		else
 		{
-			countMatcher = COUNT2_PATTERN.matcher( urlString );
+			countMatcher = UseSkillRequest.COUNT2_PATTERN.matcher( urlString );
 			if ( countMatcher.find() )
-				count = StaticEntity.parseInt( countMatcher.group(1) );
+			{
+				count = StaticEntity.parseInt( countMatcher.group( 1 ) );
+			}
 		}
 
 		RequestLogger.updateSessionLog();
@@ -753,30 +848,38 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		switch ( skillId )
 		{
 		case 16:
-			KoLSettings.setUserProperty( "snowconeSummons", String.valueOf( KoLSettings.getIntegerProperty( "snowconeSummons" ) + 1 ) );
+			KoLSettings.setUserProperty(
+				"snowconeSummons", String.valueOf( KoLSettings.getIntegerProperty( "snowconeSummons" ) + 1 ) );
 			break;
 
 		case 17:
-			KoLSettings.setUserProperty( "grimoireSummons", String.valueOf( KoLSettings.getIntegerProperty( "grimoireSummons" ) + 1 ) );
+			KoLSettings.setUserProperty(
+				"grimoireSummons", String.valueOf( KoLSettings.getIntegerProperty( "grimoireSummons" ) + 1 ) );
 			break;
 
 		case 18:
 			if ( ClassSkillsDatabase.getMPConsumptionById( 18 ) <= KoLCharacter.getCurrentMP() )
-				KoLSettings.setUserProperty( "candyHeartSummons", String.valueOf( KoLSettings.getIntegerProperty( "candyHeartSummons" ) + 1 ) );
+			{
+				KoLSettings.setUserProperty(
+					"candyHeartSummons", String.valueOf( KoLSettings.getIntegerProperty( "candyHeartSummons" ) + 1 ) );
+			}
 
-			usableSkills.sort();
+			KoLConstants.usableSkills.sort();
 			break;
 
 		case 3006:
-			KoLSettings.setUserProperty( "noodleSummons", String.valueOf( KoLSettings.getIntegerProperty( "noodleSummons" ) + count ) );
+			KoLSettings.setUserProperty(
+				"noodleSummons", String.valueOf( KoLSettings.getIntegerProperty( "noodleSummons" ) + count ) );
 			break;
 
 		case 4006:
-			KoLSettings.setUserProperty( "reagentSummons", String.valueOf( KoLSettings.getIntegerProperty( "reagentSummons" ) + count ) );
+			KoLSettings.setUserProperty(
+				"reagentSummons", String.valueOf( KoLSettings.getIntegerProperty( "reagentSummons" ) + count ) );
 			break;
 
 		case 5014:
-			KoLSettings.setUserProperty( "cocktailSummons", String.valueOf( KoLSettings.getIntegerProperty( "cocktailSummons" ) + count ) );
+			KoLSettings.setUserProperty(
+				"cocktailSummons", String.valueOf( KoLSettings.getIntegerProperty( "cocktailSummons" ) + count ) );
 			break;
 		}
 

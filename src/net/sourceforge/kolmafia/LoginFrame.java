@@ -48,10 +48,12 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.SwingConstants;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
-public class LoginFrame extends KoLFrame
+public class LoginFrame
+	extends KoLFrame
 {
 	private static LoginFrame INSTANCE = null;
 
@@ -68,7 +70,7 @@ public class LoginFrame extends KoLFrame
 	{
 		super( StaticEntity.getVersion() + ": Login" );
 
-		INSTANCE = this;
+		LoginFrame.INSTANCE = this;
 		this.tabs.addTab( "KoL Login", this.constructLoginPanel() );
 
 		JPanel connectPanel = new JPanel();
@@ -83,7 +85,8 @@ public class LoginFrame extends KoLFrame
 	}
 
 	public boolean shouldAddStatusBar()
-	{	return false;
+	{
+		return false;
 	}
 
 	public void requestFocus()
@@ -93,19 +96,24 @@ public class LoginFrame extends KoLFrame
 	}
 
 	public static final boolean instanceExists()
-	{	return INSTANCE != null;
+	{
+		return LoginFrame.INSTANCE != null;
 	}
 
 	public static final void hideInstance()
 	{
-		if ( INSTANCE != null )
-			INSTANCE.setVisible( false );
+		if ( LoginFrame.INSTANCE != null )
+		{
+			LoginFrame.INSTANCE.setVisible( false );
+		}
 	}
 
 	public static final void disposeInstance()
 	{
-		if ( INSTANCE != null )
-			INSTANCE.dispose();
+		if ( LoginFrame.INSTANCE != null )
+		{
+			LoginFrame.INSTANCE.dispose();
+		}
 	}
 
 	public void dispose()
@@ -113,17 +121,22 @@ public class LoginFrame extends KoLFrame
 		this.honorProxySettings();
 
 		if ( !KoLDesktop.instanceExists() )
-			System.exit(0);
+		{
+			System.exit( 0 );
+		}
 
 		super.dispose();
-		INSTANCE = null;
+		LoginFrame.INSTANCE = null;
 	}
 
 	public JPanel constructLoginPanel()
 	{
 		JPanel imagePanel = new JPanel( new BorderLayout( 0, 0 ) );
 		imagePanel.add( new JLabel( " " ), BorderLayout.NORTH );
-		imagePanel.add( new JLabel( JComponentUtilities.getImage( KoLSettings.getUserProperty( "loginWindowLogo" ) ), JLabel.CENTER ), BorderLayout.SOUTH );
+		imagePanel.add(
+			new JLabel(
+				JComponentUtilities.getImage( KoLSettings.getUserProperty( "loginWindowLogo" ) ), SwingConstants.CENTER ),
+			BorderLayout.SOUTH );
 
 		JPanel containerPanel = new JPanel( new BorderLayout() );
 		containerPanel.add( imagePanel, BorderLayout.NORTH );
@@ -132,31 +145,31 @@ public class LoginFrame extends KoLFrame
 	}
 
 	/**
-	 * An internal class which represents the panel which is nested
-	 * inside of the <code>LoginFrame</code>.
+	 * An internal class which represents the panel which is nested inside of the <code>LoginFrame</code>.
 	 */
 
-	private class LoginPanel extends KoLPanel
+	private class LoginPanel
+		extends KoLPanel
 	{
-		private JPasswordField passwordField;
+		private final JPasswordField passwordField;
 
-		private JCheckBox savePasswordCheckBox;
-		private JCheckBox autoLoginCheckBox;
-		private JCheckBox getBreakfastCheckBox;
+		private final JCheckBox savePasswordCheckBox;
+		private final JCheckBox autoLoginCheckBox;
+		private final JCheckBox getBreakfastCheckBox;
 
 		/**
-		 * Constructs a new <code>LoginPanel</code>, containing a place
-		 * for the users to input their login name and password.  This
-		 * panel, because it is intended to be the content panel for
-		 * status message updates, also has a status label.
+		 * Constructs a new <code>LoginPanel</code>, containing a place for the users to input their login name and
+		 * password. This panel, because it is intended to be the content panel for status message updates, also has a
+		 * status label.
 		 */
 
 		public LoginPanel()
 		{
 			super( "login", "relay" );
 
-			boolean useTextField = saveStateNames.isEmpty();
-			LoginFrame.this.usernameField = useTextField ? (JComponent) new AutoHighlightField() : (JComponent) new LoginNameComboBox();
+			boolean useTextField = KoLConstants.saveStateNames.isEmpty();
+			LoginFrame.this.usernameField =
+				useTextField ? (JComponent) new AutoHighlightField() : (JComponent) new LoginNameComboBox();
 			this.passwordField = new JPasswordField();
 
 			this.savePasswordCheckBox = new JCheckBox();
@@ -175,23 +188,29 @@ public class LoginFrame extends KoLFrame
 			checkBoxPanels.add( this.getBreakfastCheckBox );
 			checkBoxPanels.add( Box.createHorizontalStrut( 16 ) );
 
-			VerifiableElement [] elements = new VerifiableElement[2];
-			elements[0] = new VerifiableElement( "Login: ", LoginFrame.this.usernameField );
-			elements[1] = new VerifiableElement( "Password: ", this.passwordField );
+			VerifiableElement[] elements = new VerifiableElement[ 2 ];
+			elements[ 0 ] = new VerifiableElement( "Login: ", LoginFrame.this.usernameField );
+			elements[ 1 ] = new VerifiableElement( "Password: ", this.passwordField );
 
 			this.setContent( elements );
 
-			this.actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ), BorderLayout.CENTER );
+			this.actionStatusPanel.add( new JLabel( " ", SwingConstants.CENTER ), BorderLayout.CENTER );
 			this.actionStatusPanel.add( checkBoxPanels, BorderLayout.NORTH );
 
 			String autoLoginSetting = KoLSettings.getUserProperty( "autoLogin" );
 			if ( autoLoginSetting.equals( "" ) )
+			{
 				autoLoginSetting = KoLSettings.getUserProperty( "lastUsername" );
+			}
 			else
+			{
 				this.autoLoginCheckBox.setSelected( true );
+			}
 
 			if ( LoginFrame.this.usernameField instanceof LoginNameComboBox )
-				((LoginNameComboBox)LoginFrame.this.usernameField).setSelectedItem( autoLoginSetting );
+			{
+				( (LoginNameComboBox) LoginFrame.this.usernameField ).setSelectedItem( autoLoginSetting );
+			}
 
 			String passwordSetting = KoLmafia.getSaveState( autoLoginSetting );
 
@@ -208,7 +227,9 @@ public class LoginFrame extends KoLFrame
 
 			try
 			{
-				String holiday = MoonPhaseDatabase.getHoliday( DAILY_FORMAT.parse( DAILY_FORMAT.format( new Date() ) ), true );
+				String holiday =
+					MoonPhaseDatabase.getHoliday(
+						KoLConstants.DAILY_FORMAT.parse( KoLConstants.DAILY_FORMAT.format( new Date() ) ), true );
 				this.setStatusMessage( holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
 			}
 			catch ( Exception e )
@@ -220,13 +241,17 @@ public class LoginFrame extends KoLFrame
 			}
 		}
 
-		public void setEnabled( boolean isEnabled )
+		public void setEnabled( final boolean isEnabled )
 		{
 			if ( LoginFrame.this.usernameField == null || this.passwordField == null )
+			{
 				return;
+			}
 
 			if ( this.savePasswordCheckBox == null || this.autoLoginCheckBox == null || this.getBreakfastCheckBox == null )
+			{
 				return;
+			}
 
 			super.setEnabled( isEnabled );
 
@@ -242,27 +267,38 @@ public class LoginFrame extends KoLFrame
 			LoginFrame.this.username = null;
 
 			if ( LoginFrame.this.usernameField instanceof AutoHighlightField )
-				LoginFrame.this.username = ((AutoHighlightField)LoginFrame.this.usernameField).getText();
-			else if ( ((LoginNameComboBox)LoginFrame.this.usernameField).getSelectedItem() != null )
-				LoginFrame.this.username = (String) ((LoginNameComboBox)LoginFrame.this.usernameField).getSelectedItem();
+			{
+				LoginFrame.this.username = ( (AutoHighlightField) LoginFrame.this.usernameField ).getText();
+			}
+			else if ( ( (LoginNameComboBox) LoginFrame.this.usernameField ).getSelectedItem() != null )
+			{
+				LoginFrame.this.username =
+					(String) ( (LoginNameComboBox) LoginFrame.this.usernameField ).getSelectedItem();
+			}
 			else
-				LoginFrame.this.username = (String) ((LoginNameComboBox)LoginFrame.this.usernameField).currentMatch;
-
+			{
+				LoginFrame.this.username = (String) ( (LoginNameComboBox) LoginFrame.this.usernameField ).currentMatch;
+			}
 
 			String password = new String( this.passwordField.getPassword() );
 
-			if ( LoginFrame.this.username == null || password == null || LoginFrame.this.username.equals("") || password.equals("") )
+			if ( LoginFrame.this.username == null || password == null || LoginFrame.this.username.equals( "" ) || password.equals( "" ) )
 			{
 				this.setStatusMessage( "Invalid login." );
 				return;
 			}
 
 			if ( this.autoLoginCheckBox.isSelected() )
+			{
 				KoLSettings.setUserProperty( "autoLogin", LoginFrame.this.username );
+			}
 			else
+			{
 				KoLSettings.setUserProperty( "autoLogin", "" );
+			}
 
-			KoLSettings.setGlobalProperty( LoginFrame.this.username, "getBreakfast", String.valueOf( this.getBreakfastCheckBox.isSelected() ) );
+			KoLSettings.setGlobalProperty(
+				LoginFrame.this.username, "getBreakfast", String.valueOf( this.getBreakfastCheckBox.isSelected() ) );
 
 			LoginFrame.this.honorProxySettings();
 			RequestThread.postRequest( new LoginRequest( LoginFrame.this.username, password ) );
@@ -273,65 +309,80 @@ public class LoginFrame extends KoLFrame
 			if ( !LoginRequest.isInstanceRunning() )
 			{
 				KoLSettings.setUserProperty( "relayBrowserOnly", "true" );
-				actionConfirmed();
+				this.actionConfirmed();
 			}
 		}
 
-		private class AutoLoginListener implements ActionListener
+		private class AutoLoginListener
+			implements ActionListener
 		{
-			public void actionPerformed( ActionEvent e )
+			public void actionPerformed( final ActionEvent e )
 			{
 				if ( LoginPanel.this.autoLoginCheckBox.isSelected() )
+				{
 					LoginPanel.this.actionConfirmed();
+				}
 				else
+				{
 					KoLSettings.setUserProperty( "autoLogin", "" );
+				}
 			}
 		}
 
-		private class GetBreakfastListener implements ActionListener
+		private class GetBreakfastListener
+			implements ActionListener
 		{
-			public void actionPerformed( ActionEvent e )
-			{	KoLSettings.setGlobalProperty( LoginFrame.this.username, "getBreakfast", String.valueOf( LoginPanel.this.getBreakfastCheckBox.isSelected() ) );
+			public void actionPerformed( final ActionEvent e )
+			{
+				KoLSettings.setGlobalProperty(
+					LoginFrame.this.username, "getBreakfast",
+					String.valueOf( LoginPanel.this.getBreakfastCheckBox.isSelected() ) );
 			}
 		}
 
-		private class RemovePasswordListener implements ActionListener
+		private class RemovePasswordListener
+			implements ActionListener
 		{
-			public void actionPerformed( ActionEvent e )
+			public void actionPerformed( final ActionEvent e )
 			{
 				if ( !LoginPanel.this.savePasswordCheckBox.isSelected() && LoginFrame.this.usernameField instanceof JComboBox )
 				{
-					String value = (String) saveStateNames.getSelectedItem();
+					String value = (String) KoLConstants.saveStateNames.getSelectedItem();
 					if ( value == null )
+					{
 						return;
+					}
 
-					saveStateNames.remove( value );
+					KoLConstants.saveStateNames.remove( value );
 					KoLmafia.removeSaveState( value );
 					LoginPanel.this.passwordField.setText( "" );
 				}
 
-				KoLSettings.setUserProperty( "saveStateActive", String.valueOf( LoginPanel.this.savePasswordCheckBox.isSelected() ) );
+				KoLSettings.setUserProperty(
+					"saveStateActive", String.valueOf( LoginPanel.this.savePasswordCheckBox.isSelected() ) );
 			}
 		}
 
 		/**
-		 * Special instance of a JComboBox which overrides the default
-		 * key events of a JComboBox to allow you to catch key events.
+		 * Special instance of a JComboBox which overrides the default key events of a JComboBox to allow you to catch
+		 * key events.
 		 */
 
-		private class LoginNameComboBox extends MutableComboBox
+		private class LoginNameComboBox
+			extends MutableComboBox
 		{
 			public LoginNameComboBox()
-			{	super( saveStateNames, true );
+			{
+				super( KoLConstants.saveStateNames, true );
 			}
 
-			public void setSelectedItem( Object anObject )
+			public void setSelectedItem( final Object anObject )
 			{
 				super.setSelectedItem( anObject );
 				this.setPassword();
 			}
 
-			public void findMatch( int keyCode )
+			public void findMatch( final int keyCode )
 			{
 				super.findMatch( keyCode );
 				this.setPassword();
@@ -361,25 +412,22 @@ public class LoginFrame extends KoLFrame
 				LoginPanel.this.passwordField.setText( password );
 				LoginPanel.this.savePasswordCheckBox.setSelected( true );
 
-				boolean breakfastSetting = KoLSettings.getGlobalProperty( (String) this.currentMatch, "getBreakfast" ).equals( "true" );
+				boolean breakfastSetting =
+					KoLSettings.getGlobalProperty( (String) this.currentMatch, "getBreakfast" ).equals( "true" );
 				LoginPanel.this.getBreakfastCheckBox.setSelected( breakfastSetting );
 				LoginPanel.this.setEnabled( true );
 			}
 		}
 	}
 
-
-	private class ConnectionOptionsPanel extends OptionsPanel
+	private class ConnectionOptionsPanel
+		extends OptionsPanel
 	{
 		private JCheckBox loadBalancer, loadDistributer;
-		private JCheckBox [] optionBoxes;
+		private final JCheckBox[] optionBoxes;
 
-		private final String [][] options =
-		{
-			{ "proxySet", "Use a proxy to connect to the Kingdom of Loathing" },
-			{ "testSocketTimeout", "Allow socket timeouts for unstable connections" },
-			{ "printSocketTimeouts", "Show error message when a socket timeout occurs" }
-		};
+		private final String[][] options =
+			{ { "proxySet", "Use a proxy to connect to the Kingdom of Loathing" }, { "testSocketTimeout", "Allow socket timeouts for unstable connections" }, { "printSocketTimeouts", "Show error message when a socket timeout occurs" } };
 
 		public ConnectionOptionsPanel()
 		{
@@ -390,28 +438,41 @@ public class LoginFrame extends KoLFrame
 			LoginFrame.this.servers.addItem( "Attempt to use www.kingdomofloathing.com" );
 
 			for ( int i = 2; i <= KoLRequest.SERVER_COUNT; ++i )
+			{
 				LoginFrame.this.servers.addItem( "Attempt to use www" + i + ".kingdomofloathing.com" );
+			}
 
 			this.optionBoxes = new JCheckBox[ this.options.length ];
 			for ( int i = 0; i < this.options.length; ++i )
-				this.optionBoxes[i] = new JCheckBox();
+			{
+				this.optionBoxes[ i ] = new JCheckBox();
+			}
 
-			VerifiableElement [] elements = new VerifiableElement[ 5 + this.options.length ];
+			VerifiableElement[] elements = new VerifiableElement[ 5 + this.options.length ];
 
-			elements[0] = new VerifiableElement( LoginFrame.this.servers );
-			elements[1] = new VerifiableElement();
-			elements[2] = new VerifiableElement( "Attempt to ignore login page load balancer", JLabel.LEFT, loadBalancer = new JCheckBox() );
-			elements[3] = new VerifiableElement( "Enable server-friendlier auto-adventuring", JLabel.LEFT, loadDistributer = new JCheckBox() );
-			elements[4] = new VerifiableElement();
+			elements[ 0 ] = new VerifiableElement( LoginFrame.this.servers );
+			elements[ 1 ] = new VerifiableElement();
+			elements[ 2 ] =
+				new VerifiableElement(
+					"Attempt to ignore login page load balancer", SwingConstants.LEFT, this.loadBalancer =
+						new JCheckBox() );
+			elements[ 3 ] =
+				new VerifiableElement(
+					"Enable server-friendlier auto-adventuring", SwingConstants.LEFT, this.loadDistributer =
+						new JCheckBox() );
+			elements[ 4 ] = new VerifiableElement();
 
 			for ( int i = 0; i < this.options.length; ++i )
-				elements[i+5] = new VerifiableElement( this.options[i][1], JLabel.LEFT, this.optionBoxes[i] );
+			{
+				elements[ i + 5 ] =
+					new VerifiableElement( this.options[ i ][ 1 ], SwingConstants.LEFT, this.optionBoxes[ i ] );
+			}
 
 			if ( System.getProperty( "os.name" ).startsWith( "Mac" ) )
 			{
 				String proxySet = System.getProperty( "proxySet" );
-				optionBoxes[0].setSelected( proxySet != null && proxySet.equals( "true" ) );
-				optionBoxes[0].setEnabled( false );
+				this.optionBoxes[ 0 ].setSelected( proxySet != null && proxySet.equals( "true" ) );
+				this.optionBoxes[ 0 ].setEnabled( false );
 			}
 
 			this.actionCancelled();
@@ -420,28 +481,34 @@ public class LoginFrame extends KoLFrame
 
 		public void actionConfirmed()
 		{
-			KoLSettings.setUserProperty( "defaultLoginServer", String.valueOf( LoginFrame.this.servers.getSelectedIndex() ) );
+			KoLSettings.setUserProperty(
+				"defaultLoginServer", String.valueOf( LoginFrame.this.servers.getSelectedIndex() ) );
 			for ( int i = 0; i < this.options.length; ++i )
-				KoLSettings.setUserProperty( this.options[i][0], String.valueOf( this.optionBoxes[i].isSelected() ) );
+			{
+				KoLSettings.setUserProperty(
+					this.options[ i ][ 0 ], String.valueOf( this.optionBoxes[ i ].isSelected() ) );
+			}
 
-			LoginRequest.setIgnoreLoadBalancer( loadBalancer.isSelected() );
-			KoLRequest.setDelayActive( loadDistributer.isSelected() );
+			LoginRequest.setIgnoreLoadBalancer( this.loadBalancer.isSelected() );
+			KoLRequest.setDelayActive( this.loadDistributer.isSelected() );
 		}
 
 		public void actionCancelled()
 		{
 			LoginFrame.this.servers.setSelectedIndex( KoLSettings.getIntegerProperty( "defaultLoginServer" ) );
 			for ( int i = 0; i < this.options.length; ++i )
-				this.optionBoxes[i].setSelected( KoLSettings.getBooleanProperty( this.options[i][0] ) );
+			{
+				this.optionBoxes[ i ].setSelected( KoLSettings.getBooleanProperty( this.options[ i ][ 0 ] ) );
+			}
 
-			loadBalancer.setSelected( false );
-			loadDistributer.setSelected( true );
+			this.loadBalancer.setSelected( false );
+			this.loadDistributer.setSelected( true );
 
 			LoginRequest.setIgnoreLoadBalancer( false );
 			KoLRequest.setDelayActive( true );
 		}
 
-		public void setEnabled( boolean isEnabled )
+		public void setEnabled( final boolean isEnabled )
 		{
 		}
 	}
@@ -455,16 +522,15 @@ public class LoginFrame extends KoLFrame
 	}
 
 	/**
-	 * This panel handles all of the things related to proxy
-	 * options (if applicable).
+	 * This panel handles all of the things related to proxy options (if applicable).
 	 */
 
-	private class ProxyOptionsPanel extends LabeledKoLPanel
+	private class ProxyOptionsPanel
+		extends LabeledKoLPanel
 	{
 		/**
-		 * Constructs a new <code>ProxyOptionsPanel</code>, containing a
-		 * place for the users to select their desired server and for them
-		 * to modify any applicable proxy settings.
+		 * Constructs a new <code>ProxyOptionsPanel</code>, containing a place for the users to select their desired
+		 * server and for them to modify any applicable proxy settings.
 		 */
 
 		public ProxyOptionsPanel()
@@ -476,11 +542,11 @@ public class LoginFrame extends KoLFrame
 			LoginFrame.this.proxyLogin = new AutoHighlightField();
 			LoginFrame.this.proxyPassword = new AutoHighlightField();
 
-			VerifiableElement [] elements = new VerifiableElement[4];
-			elements[0] = new VerifiableElement( "Host: ", LoginFrame.this.proxyHost );
-			elements[1] = new VerifiableElement( "Port: ", LoginFrame.this.proxyPort );
-			elements[2] = new VerifiableElement( "Login: ", LoginFrame.this.proxyLogin );
-			elements[3] = new VerifiableElement( "Password: ", LoginFrame.this.proxyPassword );
+			VerifiableElement[] elements = new VerifiableElement[ 4 ];
+			elements[ 0 ] = new VerifiableElement( "Host: ", LoginFrame.this.proxyHost );
+			elements[ 1 ] = new VerifiableElement( "Port: ", LoginFrame.this.proxyPort );
+			elements[ 2 ] = new VerifiableElement( "Login: ", LoginFrame.this.proxyLogin );
+			elements[ 3 ] = new VerifiableElement( "Password: ", LoginFrame.this.proxyPassword );
 
 			this.actionCancelled();
 			this.setContent( elements );
@@ -513,7 +579,7 @@ public class LoginFrame extends KoLFrame
 			}
 		}
 
-		public void setEnabled( boolean isEnabled )
+		public void setEnabled( final boolean isEnabled )
 		{
 		}
 	}

@@ -36,19 +36,20 @@ package net.sourceforge.kolmafia;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class TelescopeRequest extends KoLRequest
+public class TelescopeRequest
+	extends KoLRequest
 {
 	public static final int HIGH = 1;
 	public static final int LOW = 2;
 	private static final Pattern WHERE_PATTERN = Pattern.compile( "action=telescope([^?]*)" );
 
-	private int where;
+	private final int where;
 
 	/**
 	 * Constructs a new <code>TelescopeRequest</code>
 	 */
 
-	public TelescopeRequest( int where )
+	public TelescopeRequest( final int where )
 	{
 		super( "campground.php" );
 
@@ -68,19 +69,19 @@ public class TelescopeRequest extends KoLRequest
 	{
 		if ( KoLCharacter.getTelescopeUpgrades() < 1 )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You don't have a telescope" );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have a telescope" );
 			return;
 		}
 
 		if ( KoLCharacter.inBadMoon() )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "Your telescope is unavailable in Bad Moon" );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Your telescope is unavailable in Bad Moon" );
 			return;
 		}
 
-		if ( this.where != HIGH && this.where != LOW )
+		if ( this.where != TelescopeRequest.HIGH && this.where != TelescopeRequest.LOW )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You can't look there." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't look there." );
 			return;
 		}
 
@@ -89,49 +90,47 @@ public class TelescopeRequest extends KoLRequest
 		super.run();
 	}
 
-	private static final Pattern[] PATTERNS =
-	{
-		// "You focus the telescope on the entrance of the cave, and
-		// see a wooden gate with an elaborate carving of <description>
-		// on it."
-		Pattern.compile( "carving of (.*?) on it." ),
+	private static final Pattern[] PATTERNS = {
+	// "You focus the telescope on the entrance of the cave, and
+	// see a wooden gate with an elaborate carving of <description>
+	// on it."
+	Pattern.compile( "carving of (.*?) on it." ),
 
-		// "You raise the telescope a little higher, and see a window
-		// at the base of a tall brick tower. Through the window, you
-		// <description>."
-		Pattern.compile( "Through the window, you (.*?)\\." ),
+	// "You raise the telescope a little higher, and see a window
+	// at the base of a tall brick tower. Through the window, you
+	// <description>."
+	Pattern.compile( "Through the window, you (.*?)\\." ),
 
-		// "Further up, you see a second window. Through this one, you
-		// <description>."
-		Pattern.compile( "Through this one, you (.*?)\\." ),
+	// "Further up, you see a second window. Through this one, you
+	// <description>."
+	Pattern.compile( "Through this one, you (.*?)\\." ),
 
-		// "Even further up, you see a third window. Through it you
-		// <description>."
-		Pattern.compile( "Through it you (.*?)\\." ),
+	// "Even further up, you see a third window. Through it you
+	// <description>."
+	Pattern.compile( "Through it you (.*?)\\." ),
 
-		// "Looking still higher, you see another window. Through the
-		// fourth window you <description>."
-		Pattern.compile( "Through the fourth window you (.*?)\\." ),
+	// "Looking still higher, you see another window. Through the
+	// fourth window you <description>."
+	Pattern.compile( "Through the fourth window you (.*?)\\." ),
 
-		// "Even further up, you see a fifth window. Through that one
-		// you <description>."
-		Pattern.compile( "Through that one you (.*?)\\." ),
+	// "Even further up, you see a fifth window. Through that one
+	// you <description>."
+	Pattern.compile( "Through that one you (.*?)\\." ),
 
-		// "Near the top of the tower, you see a sixth and final
-		// window. Through it you <description>."
-		Pattern.compile( "final window. *Through it you (.*?)\\." ),
-	};
+	// "Near the top of the tower, you see a sixth and final
+	// window. Through it you <description>."
+	Pattern.compile( "final window. *Through it you (.*?)\\." ), };
 
 	public void processResults()
 	{
-		if ( this.where == HIGH )
+		if ( this.where == TelescopeRequest.HIGH )
 		{
 			// "You've already peered into the Heavens
 			// today. You're already feeling as inspired as you can
 			// be for one day."
-			if ( responseText.indexOf( "already peered" ) != -1 )
+			if ( this.responseText.indexOf( "already peered" ) != -1 )
 			{
-				KoLmafia.updateDisplay( ERROR_STATE, "You've already done that today." );
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You've already done that today." );
 				return;
 			}
 
@@ -147,28 +146,32 @@ public class TelescopeRequest extends KoLRequest
 
 		int upgrades = 0;
 
-		for ( int i = 0; i < PATTERNS.length; ++i )
+		for ( int i = 0; i < TelescopeRequest.PATTERNS.length; ++i )
 		{
-			Matcher matcher = PATTERNS[i].matcher( responseText );
+			Matcher matcher = TelescopeRequest.PATTERNS[ i ].matcher( this.responseText );
 			if ( !matcher.find() )
+			{
 				break;
+			}
 
-			upgrades++;
-			KoLSettings.setUserProperty( "telescope" + upgrades, matcher.group(1) );
+			upgrades++ ;
+			KoLSettings.setUserProperty( "telescope" + upgrades, matcher.group( 1 ) );
 		}
 
 		KoLCharacter.setTelescopeUpgrades( upgrades );
 		KoLSettings.setUserProperty( "telescopeUpgrades", String.valueOf( upgrades ) );
 	}
 
-	public static final boolean registerRequest( String urlString )
+	public static final boolean registerRequest( final String urlString )
 	{
-		Matcher matcher = WHERE_PATTERN.matcher( urlString );
+		Matcher matcher = TelescopeRequest.WHERE_PATTERN.matcher( urlString );
 		if ( !matcher.find() )
+		{
 			return false;
+		}
 
 		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( "telescope look " + matcher.group(1) );
+		RequestLogger.updateSessionLog( "telescope look " + matcher.group( 1 ) );
 
 		return true;
 	}

@@ -36,12 +36,13 @@ package net.sourceforge.kolmafia;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class UneffectRequest extends KoLRequest
+public class UneffectRequest
+	extends KoLRequest
 {
-	private int effectId;
+	private final int effectId;
 	private boolean force;
 	private boolean isShruggable;
-	private AdventureResult effect;
+	private final AdventureResult effect;
 
 	public static final AdventureResult REMEDY = new AdventureResult( "soft green echo eyedrop antidote", 1 );
 	public static final AdventureResult TINY_HOUSE = new AdventureResult( "tiny house", 1 );
@@ -50,19 +51,20 @@ public class UneffectRequest extends KoLRequest
 	private static final Pattern ID1_PATTERN = Pattern.compile( "whicheffect=(\\d+)" );
 	private static final Pattern ID2_PATTERN = Pattern.compile( "whichbuff=(\\d+)" );
 
-	public UneffectRequest( AdventureResult effect )
-	{	this( effect, true );
+	public UneffectRequest( final AdventureResult effect )
+	{
+		this( effect, true );
 	}
 
-	public UneffectRequest( AdventureResult effect, boolean force )
+	public UneffectRequest( final AdventureResult effect, final boolean force )
 	{
-		super( isShruggable( effect.getName() ) ? "charsheet.php" : "uneffect.php" );
+		super( UneffectRequest.isShruggable( effect.getName() ) ? "charsheet.php" : "uneffect.php" );
 
 		this.force = force;
 
 		this.effect = effect;
 		this.effectId = StatusEffectDatabase.getEffectId( effect.getName() );
-		this.isShruggable = isShruggable( effect.getName() );
+		this.isShruggable = UneffectRequest.isShruggable( effect.getName() );
 
 		if ( this.isShruggable )
 		{
@@ -79,82 +81,109 @@ public class UneffectRequest extends KoLRequest
 	}
 
 	protected boolean retryOnTimeout()
-	{	return true;
+	{
+		return true;
 	}
 
-	public static final boolean isShruggable( String effectName )
+	public static final boolean isShruggable( final String effectName )
 	{
-		int id = ClassSkillsDatabase.getSkillId( effectToSkill( effectName ) );
+		int id = ClassSkillsDatabase.getSkillId( UneffectRequest.effectToSkill( effectName ) );
 		return id != -1 && ClassSkillsDatabase.isBuff( id );
 	}
 
 	/**
-	 * Given the name of an effect, return the name of the skill that
-	 * created that effect
-	 *
-	 * @param	effectName	The name of the effect
-	 * @return	skill	The name of the skill
+	 * Given the name of an effect, return the name of the skill that created that effect
+	 * 
+	 * @param effectName The name of the effect
+	 * @return skill The name of the skill
 	 */
 
-	public static final String effectToSkill( String effectName )
+	public static final String effectToSkill( final String effectName )
 	{
 		if ( effectName.equalsIgnoreCase( "Polka of Plenty" ) || effectName.equalsIgnoreCase( "Power Ballad of the Arrowsmith" ) || effectName.equalsIgnoreCase( "Psalm of Pointiness" ) || effectName.equalsIgnoreCase( "Ode to Booze" ) )
+		{
 			return "The " + effectName;
+		}
 
 		if ( effectName.equalsIgnoreCase( "Empathy" ) )
+		{
 			return "Empathy of the Newt";
+		}
 
 		if ( effectName.equalsIgnoreCase( "Smooth Movements" ) )
+		{
 			return "Smooth Movement";
+		}
 
 		if ( effectName.equalsIgnoreCase( "Pasta Oneness" ) )
+		{
 			return "Manicotti Meditation";
+		}
 
 		if ( effectName.equalsIgnoreCase( "Saucemastery" ) )
+		{
 			return "Sauce Contemplation";
+		}
 
 		if ( effectName.equalsIgnoreCase( "Disco State of Mind" ) )
+		{
 			return "Disco Aerobics";
+		}
 
 		if ( effectName.equalsIgnoreCase( "Mariachi Mood" ) )
+		{
 			return "Moxie of the Mariachi";
+		}
 
 		return effectName;
 	}
 
-	public static final String skillToEffect( String skillName )
+	public static final String skillToEffect( final String skillName )
 	{
-		if ( skillName.equals( "The Polka of Plenty" ) ||
-			skillName.equals( "The Power Ballad of the Arrowsmith" ) ||
-			skillName.equals( "The Psalm of Pointiness" ) ||
-			skillName.equals( "The Ode to Booze" ) )
-				return skillName.substring(4);
+		if ( skillName.equals( "The Polka of Plenty" ) || skillName.equals( "The Power Ballad of the Arrowsmith" ) || skillName.equals( "The Psalm of Pointiness" ) || skillName.equals( "The Ode to Booze" ) )
+		{
+			return skillName.substring( 4 );
+		}
 
 		if ( skillName.equals( "Empathy of the Newt" ) )
+		{
 			return "Empathy";
+		}
 
 		if ( skillName.equals( "Smooth Movement" ) )
+		{
 			return "Smooth Movements";
+		}
 
 		if ( skillName.equals( "Manicotti Meditation" ) )
+		{
 			return "Pasta Oneness";
+		}
 
 		if ( skillName.equals( "Sauce Contemplation" ) )
+		{
 			return "Saucemastery";
+		}
 
 		if ( skillName.equals( "Disco Aerobics" ) )
+		{
 			return "Disco State of Mind";
+		}
 
 		if ( skillName.equals( "Moxie of the Mariachi" ) )
+		{
 			return "Mariachi Mood";
+		}
 
 		return skillName;
 	}
 
 	public void run()
 	{
-		if ( !activeEffects.contains( this.effect ) )
+		if ( !KoLConstants.activeEffects.contains( this.effect ) )
+		{
 			return;
+		}
 
 		String action = MoodSettings.getDefaultAction( "gain_effect", this.effect.getName() );
 
@@ -165,15 +194,21 @@ public class UneffectRequest extends KoLRequest
 		}
 
 		if ( !this.force )
+		{
 			return;
+		}
 
 		if ( !this.isShruggable )
 		{
 			if ( KoLCharacter.canInteract() )
-				AdventureDatabase.retrieveItem( REMEDY.getName() );
+			{
+				AdventureDatabase.retrieveItem( UneffectRequest.REMEDY.getName() );
+			}
 
-			if ( !inventory.contains( REMEDY ) )
+			if ( !KoLConstants.inventory.contains( UneffectRequest.REMEDY ) )
+			{
 				return;
+			}
 		}
 
 		KoLmafia.updateDisplay( this.isShruggable ? "Shrugging off your buff..." : "Using soft green whatever..." );
@@ -185,38 +220,49 @@ public class UneffectRequest extends KoLRequest
 		// If it notifies you that the effect was removed, delete it
 		// from the list of effects.
 
-		if ( this.responseText != null && (this.isShruggable || this.responseText.indexOf( "Effect removed." ) != -1) )
+		if ( this.responseText != null && ( this.isShruggable || this.responseText.indexOf( "Effect removed." ) != -1 ) )
 		{
-			activeEffects.remove( this.effect );
+			KoLConstants.activeEffects.remove( this.effect );
 
 			if ( this.isShruggable )
+			{
 				CharsheetRequest.parseStatus( this.responseText );
+			}
 			else
-				StaticEntity.getClient().processResult( REMEDY.getNegation() );
+			{
+				StaticEntity.getClient().processResult( UneffectRequest.REMEDY.getNegation() );
+			}
 
 			KoLmafia.updateDisplay( this.effect.getName() + " removed." );
 			RequestFrame.refreshStatus();
 		}
 		else if ( !this.isShruggable )
-			KoLmafia.updateDisplay( ERROR_STATE, "Failed to remove " + this.effect.getName() + "." );
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Failed to remove " + this.effect.getName() + "." );
+		}
 	}
 
-	public static final boolean registerRequest( String location )
+	public static final boolean registerRequest( final String location )
 	{
 		if ( !location.startsWith( "uneffect.php" ) && !location.startsWith( "charsheet.php" ) )
+		{
 			return false;
+		}
 
 		if ( location.indexOf( "?" ) == -1 )
+		{
 			return true;
+		}
 
-		Matcher idMatcher = location.startsWith( "uneffect.php" ) ? ID1_PATTERN.matcher( location ) :
-			ID2_PATTERN.matcher( location );
+		Matcher idMatcher =
+			location.startsWith( "uneffect.php" ) ? UneffectRequest.ID1_PATTERN.matcher( location ) : UneffectRequest.ID2_PATTERN.matcher( location );
 
 		if ( !idMatcher.find() )
+		{
 			return true;
+		}
 
-		RequestLogger.updateSessionLog( "uneffect " + StatusEffectDatabase.getEffectName( StaticEntity.parseInt( idMatcher.group(1) ) ) );
+		RequestLogger.updateSessionLog( "uneffect " + StatusEffectDatabase.getEffectName( StaticEntity.parseInt( idMatcher.group( 1 ) ) ) );
 		return true;
 	}
 }
-

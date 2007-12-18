@@ -39,7 +39,8 @@ import java.util.regex.Pattern;
 
 import javax.swing.JEditorPane;
 
-public class RequestPane extends JEditorPane
+public class RequestPane
+	extends JEditorPane
 {
 	private static final Pattern WHITESPACE = Pattern.compile( "\n\\s*" );
 	private static final Pattern LINE_BREAK = Pattern.compile( "<br/?>", Pattern.CASE_INSENSITIVE );
@@ -64,7 +65,8 @@ public class RequestPane extends JEditorPane
 
 		try
 		{
-			getEditorKit().write( sw, getDocument(), getSelectionStart(), getSelectionEnd() - getSelectionStart() );
+			this.getEditorKit().write(
+				sw, this.getDocument(), this.getSelectionStart(), this.getSelectionEnd() - this.getSelectionStart() );
 		}
 		catch ( Exception e )
 		{
@@ -82,14 +84,16 @@ public class RequestPane extends JEditorPane
 		int endIndex = selectedText.lastIndexOf( "</body>" );
 
 		if ( beginIndex == -1 || endIndex == -1 )
+		{
 			return "";
+		}
 
 		selectedText = selectedText.substring( beginIndex, endIndex ).trim();
 
 		// Now we begin trimming out some of the whitespace,
 		// because that causes some strange rendering problems.
 
-		selectedText = WHITESPACE.matcher( selectedText ).replaceAll( "\n" );
+		selectedText = RequestPane.WHITESPACE.matcher( selectedText ).replaceAll( "\n" );
 
 		selectedText = StaticEntity.globalStringDelete( selectedText, "\r" );
 		selectedText = StaticEntity.globalStringDelete( selectedText, "\n" );
@@ -99,7 +103,7 @@ public class RequestPane extends JEditorPane
 		// with emptiness, except for the <br> tag which is
 		// rendered as a new line.
 
-		selectedText = LINE_BREAK.matcher( selectedText ).replaceAll( "\n" ).trim();
+		selectedText = RequestPane.LINE_BREAK.matcher( selectedText ).replaceAll( "\n" ).trim();
 		selectedText = KoLConstants.ANYTAG_PATTERN.matcher( selectedText ).replaceAll( "" );
 		selectedText = RequestEditorKit.getUnicode( selectedText );
 

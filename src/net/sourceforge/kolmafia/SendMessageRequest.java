@@ -38,7 +38,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public abstract class SendMessageRequest extends KoLRequest
+public abstract class SendMessageRequest
+	extends KoLRequest
 {
 	public static final Pattern ITEMID_PATTERN = Pattern.compile( "item[^=]*\\d*=([-\\d]+)" );
 
@@ -51,33 +52,33 @@ public abstract class SendMessageRequest extends KoLRequest
 	private static boolean hadSendMessageFailure = false;
 	private static boolean updateDisplayOnFailure = true;
 
-	public Object [] attachments;
-	public List source = inventory;
+	public Object[] attachments;
+	public List source = KoLConstants.inventory;
 	public List destination = new ArrayList();
 	public boolean isSubInstance = false;
 
-	public SendMessageRequest( String formSource )
+	public SendMessageRequest( final String formSource )
 	{
 		super( formSource );
 		this.addFormField( "pwd" );
-		this.attachments = new Object[0];
+		this.attachments = new Object[ 0 ];
 	}
 
-	public SendMessageRequest( String formSource, AdventureResult attachment )
+	public SendMessageRequest( final String formSource, final AdventureResult attachment )
 	{
 		this( formSource );
 
-		this.attachments = new Object[1];
-		this.attachments[0] = attachment;
+		this.attachments = new Object[ 1 ];
+		this.attachments[ 0 ] = attachment;
 	}
 
-	public SendMessageRequest( String formSource, Object [] attachments )
+	public SendMessageRequest( final String formSource, final Object[] attachments )
 	{
 		this( formSource );
 		this.attachments = attachments;
 	}
 
-	public void attachItem( AdventureResult item, int index )
+	public void attachItem( final AdventureResult item, final int index )
 	{
 		String which, quantity;
 
@@ -102,16 +103,22 @@ public abstract class SendMessageRequest extends KoLRequest
 	}
 
 	public boolean alwaysIndex()
-	{	return false;
+	{
+		return false;
 	}
 
 	public abstract String getItemField();
+
 	public abstract String getQuantityField();
+
 	public abstract String getMeatField();
 
 	public abstract int getCapacity();
-	public abstract SendMessageRequest getSubInstance( Object [] attachments );
+
+	public abstract SendMessageRequest getSubInstance( Object[] attachments );
+
 	public abstract String getSuccessMessage();
+
 	public abstract String getStatusMessage();
 
 	private void runSubInstances()
@@ -139,7 +146,7 @@ public abstract class SendMessageRequest extends KoLRequest
 
 			do
 			{
-				item = (AdventureResult) this.attachments[index1++];
+				item = (AdventureResult) this.attachments[ index1++ ];
 
 				if ( item.getName().equals( AdventureResult.MEAT ) )
 				{
@@ -148,23 +155,35 @@ public abstract class SendMessageRequest extends KoLRequest
 				}
 
 				if ( !TradeableItemDatabase.isDisplayable( item.getItemId() ) )
+				{
 					continue;
+				}
 
 				if ( !allowNoGift && !TradeableItemDatabase.isGiftable( item.getItemId() ) )
+				{
 					continue;
+				}
 
 				if ( !allowNoTrade && !TradeableItemDatabase.isTradeable( item.getItemId() ) )
+				{
 					continue;
+				}
 
-				if ( !allowMemento && mementoList.contains( item ) )
+				if ( !allowMemento && KoLConstants.mementoList.contains( item ) )
+				{
 					continue;
+				}
 
-				if ( !allowSingleton && singletonList.contains( item ) && !closet.contains( item ) )
+				if ( !allowSingleton && KoLConstants.singletonList.contains( item ) && !KoLConstants.closet.contains( item ) )
+				{
 					continue;
+				}
 
 				availableCount = item.getCount( this.source );
 				if ( availableCount > 0 )
+				{
 					nextAttachments.add( item.getInstance( Math.min( item.getCount(), availableCount ) ) );
+				}
 			}
 			while ( index1 < this.attachments.length && nextAttachments.size() < capacity );
 
@@ -182,7 +201,7 @@ public abstract class SendMessageRequest extends KoLRequest
 		// Now that you've determined all the sub instances, run
 		// all of them.
 
-		SendMessageRequest [] requests = new SendMessageRequest[ subinstances.size() ];
+		SendMessageRequest[] requests = new SendMessageRequest[ subinstances.size() ];
 		subinstances.toArray( requests );
 
 		if ( requests.length > 1 )
@@ -190,12 +209,14 @@ public abstract class SendMessageRequest extends KoLRequest
 			RequestThread.openRequestSequence();
 
 			if ( meatAttachment > 0 )
-				requests[0].addFormField( this.getMeatField(), String.valueOf( meatAttachment ) );
+			{
+				requests[ 0 ].addFormField( this.getMeatField(), String.valueOf( meatAttachment ) );
+			}
 
 			for ( int i = 0; i < requests.length; ++i )
 			{
-				KoLmafia.updateDisplay( this.getStatusMessage() + " (request " + (i+1) + " of " + requests.length + ")..." );
-				requests[i].run();
+				KoLmafia.updateDisplay( this.getStatusMessage() + " (request " + ( i + 1 ) + " of " + requests.length + ")..." );
+				requests[ i ].run();
 			}
 
 			RequestThread.closeRequestSequence();
@@ -203,22 +224,24 @@ public abstract class SendMessageRequest extends KoLRequest
 		else if ( requests.length == 1 )
 		{
 			KoLmafia.updateDisplay( this.getStatusMessage() + "..." );
-			requests[0].run();
+			requests[ 0 ].run();
 		}
 		else if ( meatAttachment > 0 || this.attachments.length == 0 )
 		{
 			KoLmafia.updateDisplay( this.getStatusMessage() + "..." );
 
 			if ( meatAttachment > 0 )
+			{
 				this.addFormField( this.getMeatField(), String.valueOf( meatAttachment ) );
+			}
 
 			super.run();
 		}
 	}
 
 	/**
-	 * Runs the request.  Note that this does not report an error if it fails;
-	 * it merely parses the results to see if any gains were made.
+	 * Runs the request. Note that this does not report an error if it fails; it merely parses the results to see if any
+	 * gains were made.
 	 */
 
 	public void run()
@@ -238,20 +261,26 @@ public abstract class SendMessageRequest extends KoLRequest
 		if ( capacity > 1 )
 		{
 			for ( int i = 1; i <= this.attachments.length; ++i )
-				if ( this.attachments[i-1] != null )
-					this.attachItem( (AdventureResult) this.attachments[i-1], i );
+			{
+				if ( this.attachments[ i - 1 ] != null )
+				{
+					this.attachItem( (AdventureResult) this.attachments[ i - 1 ], i );
+				}
+			}
 		}
 		else if ( capacity == 1 )
 		{
-			if ( this.attachments[0] != null )
-				this.attachItem( (AdventureResult) this.attachments[0], 0 );
+			if ( this.attachments[ 0 ] != null )
+			{
+				this.attachItem( (AdventureResult) this.attachments[ 0 ], 0 );
+			}
 		}
 
 		// Once all the form fields are broken up, this
 		// just calls the normal run method from KoLRequest
 		// to execute the request.
 
-		hadSendMessageFailure = false;
+		SendMessageRequest.hadSendMessageFailure = false;
 		super.run();
 	}
 
@@ -262,57 +291,77 @@ public abstract class SendMessageRequest extends KoLRequest
 
 		if ( !this.getSuccessMessage().equals( "" ) && this.responseText.indexOf( this.getSuccessMessage() ) == -1 )
 		{
-			hadSendMessageFailure = true;
-			boolean shouldUpdateDisplay = willUpdateDisplayOnFailure();
+			SendMessageRequest.hadSendMessageFailure = true;
+			boolean shouldUpdateDisplay = SendMessageRequest.willUpdateDisplayOnFailure();
 
 			for ( int i = 0; i < this.attachments.length; ++i )
 			{
 				if ( shouldUpdateDisplay )
-					KoLmafia.updateDisplay( ERROR_STATE, "Transfer failed for " + this.attachments[i].toString() );
-				if ( this.source == inventory )
-					StaticEntity.getClient().processResult( (AdventureResult) this.attachments[i] );
+				{
+					KoLmafia.updateDisplay(
+						KoLConstants.ERROR_STATE, "Transfer failed for " + this.attachments[ i ].toString() );
+				}
+				if ( this.source == KoLConstants.inventory )
+				{
+					StaticEntity.getClient().processResult( (AdventureResult) this.attachments[ i ] );
+				}
 			}
 
 			int totalMeat = StaticEntity.parseInt( this.getFormField( this.getMeatField() ) );
 			if ( totalMeat != 0 )
 			{
 				if ( shouldUpdateDisplay )
-					KoLmafia.updateDisplay( ERROR_STATE, "Transfer failed for " + totalMeat + " meat" );
-				if ( this.source == inventory )
+				{
+					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Transfer failed for " + totalMeat + " meat" );
+				}
+				if ( this.source == KoLConstants.inventory )
+				{
 					StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, totalMeat ) );
+				}
 			}
 		}
 	}
 
 	public static final boolean hadSendMessageFailure()
-	{	return hadSendMessageFailure;
+	{
+		return SendMessageRequest.hadSendMessageFailure;
 	}
 
 	public static final boolean willUpdateDisplayOnFailure()
-	{	return updateDisplayOnFailure;
+	{
+		return SendMessageRequest.updateDisplayOnFailure;
 	}
 
-	public static final void setUpdateDisplayOnFailure( boolean shouldUpdate )
-	{	updateDisplayOnFailure = shouldUpdate;
+	public static final void setUpdateDisplayOnFailure( final boolean shouldUpdate )
+	{
+		SendMessageRequest.updateDisplayOnFailure = shouldUpdate;
 	}
 
 	public abstract boolean allowMementoTransfer();
 
 	public boolean allowSingletonTransfer()
-	{	return true;
+	{
+		return true;
 	}
 
 	public abstract boolean allowUntradeableTransfer();
 
 	public boolean allowUngiftableTransfer()
-	{	return false;
+	{
+		return false;
 	}
 
-	public static final boolean registerRequest( String command, String urlString, List source, List destination, String meatField, int defaultQuantity )
-	{	return registerRequest( command, urlString, ITEMID_PATTERN, HOWMANY_PATTERN, source, destination, meatField, defaultQuantity );
+	public static final boolean registerRequest( final String command, final String urlString, final List source,
+		final List destination, final String meatField, final int defaultQuantity )
+	{
+		return SendMessageRequest.registerRequest(
+			command, urlString, SendMessageRequest.ITEMID_PATTERN, SendMessageRequest.HOWMANY_PATTERN, source,
+			destination, meatField, defaultQuantity );
 	}
 
-	public static final boolean registerRequest( String command, String urlString, Pattern itemPattern, Pattern quantityPattern, List source, List destination, String meatField, int defaultQuantity )
+	public static final boolean registerRequest( final String command, final String urlString,
+		final Pattern itemPattern, final Pattern quantityPattern, final List source, final List destination,
+		final String meatField, final int defaultQuantity )
 	{
 		ArrayList itemList = new ArrayList();
 		StringBuffer itemListBuffer = new StringBuffer();
@@ -322,35 +371,42 @@ public abstract class SendMessageRequest extends KoLRequest
 
 		itemListBuffer.append( command );
 
-		Matcher recipientMatcher = RECIPIENT_PATTERN.matcher( urlString );
+		Matcher recipientMatcher = SendMessageRequest.RECIPIENT_PATTERN.matcher( urlString );
 		if ( recipientMatcher.find() )
 		{
 			itemListBuffer.append( " to " );
-			itemListBuffer.append( KoLmafia.getPlayerName( recipientMatcher.group(1) ) );
+			itemListBuffer.append( KoLmafia.getPlayerName( recipientMatcher.group( 1 ) ) );
 		}
 
 		itemListBuffer.append( ": " );
 		boolean addedItem = false;
 
-		while ( itemMatcher.find() && (quantityMatcher == null || quantityMatcher.find()) )
+		while ( itemMatcher.find() && ( quantityMatcher == null || quantityMatcher.find() ) )
 		{
-			int itemId = StaticEntity.parseInt( itemMatcher.group(1) );
+			int itemId = StaticEntity.parseInt( itemMatcher.group( 1 ) );
 			String name = TradeableItemDatabase.getItemName( itemId );
 
 			// One of the "select" options is a zero value for the item id field.
 			// Trying to parse it generates an exception, so skip it for now.
 
 			if ( name == null )
+			{
 				continue;
+			}
 
-			int quantity = quantityPattern == null ? defaultQuantity : StaticEntity.parseInt( quantityMatcher.group(1) );
+			int quantity =
+				quantityPattern == null ? defaultQuantity : StaticEntity.parseInt( quantityMatcher.group( 1 ) );
 			AdventureResult item = new AdventureResult( itemId, quantity );
 
 			if ( quantity < 1 )
+			{
 				quantity = quantity + item.getCount( source );
+			}
 
 			if ( addedItem )
+			{
 				itemListBuffer.append( ", " );
+			}
 
 			itemList.add( item.getInstance( quantity ) );
 			addedItem = true;
@@ -361,31 +417,39 @@ public abstract class SendMessageRequest extends KoLRequest
 		}
 
 		if ( itemList.isEmpty() )
+		{
 			return true;
+		}
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( itemListBuffer.toString() );
 
-		if ( source == inventory )
+		if ( source == KoLConstants.inventory )
 		{
 			AdventureResult item;
 			for ( int i = 0; i < itemList.size(); ++i )
 			{
-				item = (AdventureResult) itemList.get(i);
+				item = (AdventureResult) itemList.get( i );
 				StaticEntity.getClient().processResult( item.getNegation() );
 
 				if ( !command.endsWith( "sell" ) )
+				{
 					continue;
+				}
 
 				if ( command.equals( "autosell" ) && !NPCStoreDatabase.contains( item.getName(), false ) && defaultQuantity == 0 )
 				{
-					if ( !junkList.contains( item ) )
-						junkList.add( item );
+					if ( !KoLConstants.junkList.contains( item ) )
+					{
+						KoLConstants.junkList.add( item );
+					}
 				}
 				else if ( command.equals( "mallsell" ) )
 				{
-					if ( !profitableList.contains( item ) )
-						profitableList.add( item );
+					if ( !KoLConstants.profitableList.contains( item ) )
+					{
+						KoLConstants.profitableList.add( item );
+					}
 				}
 
 			}
@@ -393,33 +457,41 @@ public abstract class SendMessageRequest extends KoLRequest
 		else if ( source != null )
 		{
 			for ( int i = 0; i < itemList.size(); ++i )
-				AdventureResult.addResultToList( source, ((AdventureResult) itemList.get(i)).getNegation() );
+			{
+				AdventureResult.addResultToList( source, ( (AdventureResult) itemList.get( i ) ).getNegation() );
+			}
 		}
 
-		if ( destination == inventory )
+		if ( destination == KoLConstants.inventory )
 		{
 			for ( int i = 0; i < itemList.size(); ++i )
-				StaticEntity.getClient().processResult( (AdventureResult) itemList.get(i) );
+			{
+				StaticEntity.getClient().processResult( (AdventureResult) itemList.get( i ) );
+			}
 		}
-		else if ( destination == collection )
+		else if ( destination == KoLConstants.collection )
 		{
-			if ( !collection.isEmpty() )
+			if ( !KoLConstants.collection.isEmpty() )
 			{
 				AdventureResult current;
 				for ( int i = 0; i < itemList.size(); ++i )
 				{
-					current = (AdventureResult) itemList.get(i);
-					if ( !collection.contains( current ) )
-						((List)MuseumManager.getShelves().get(0)).add( current );
+					current = (AdventureResult) itemList.get( i );
+					if ( !KoLConstants.collection.contains( current ) )
+					{
+						( (List) MuseumManager.getShelves().get( 0 ) ).add( current );
+					}
 
-					AdventureResult.addResultToList( collection, current );
+					AdventureResult.addResultToList( KoLConstants.collection, current );
 				}
 			}
 		}
 		else if ( destination != null )
 		{
 			for ( int i = 0; i < itemList.size(); ++i )
-				AdventureResult.addResultToList( destination, (AdventureResult) itemList.get(i) );
+			{
+				AdventureResult.addResultToList( destination, (AdventureResult) itemList.get( i ) );
+			}
 		}
 
 		return true;

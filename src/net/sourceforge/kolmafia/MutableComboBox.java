@@ -46,7 +46,9 @@ import javax.swing.text.JTextComponent;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 
-public class MutableComboBox extends JComboBox implements ListElementFilter
+public class MutableComboBox
+	extends JComboBox
+	implements ListElementFilter
 {
 	private int currentIndex = -1;
 	private boolean isRecentFocus = false;
@@ -54,13 +56,13 @@ public class MutableComboBox extends JComboBox implements ListElementFilter
 	private String currentName;
 	private String matchString;
 	public Object currentMatch;
-	private LockableListModel model;
+	private final LockableListModel model;
 	private boolean allowAdditions;
 
 	private boolean active, strict;
-	private JTextComponent editor;
+	private final JTextComponent editor;
 
-	public MutableComboBox( LockableListModel model, boolean allowAdditions )
+	public MutableComboBox( final LockableListModel model, final boolean allowAdditions )
 	{
 		this.model = model;
 		this.setModel( this.model );
@@ -81,10 +83,14 @@ public class MutableComboBox extends JComboBox implements ListElementFilter
 	public void forceAddition()
 	{
 		if ( this.currentName == null || this.currentName.length() == 0 )
+		{
 			return;
+		}
 
 		if ( this.currentMatch == null && this.allowAdditions && !this.model.contains( this.currentName ) )
+		{
 			this.model.add( this.currentName );
+		}
 
 		this.setSelectedItem( this.currentName );
 	}
@@ -92,7 +98,9 @@ public class MutableComboBox extends JComboBox implements ListElementFilter
 	private void update()
 	{
 		if ( this.currentName == null )
+		{
 			return;
+		}
 
 		this.isRecentFocus = false;
 		this.currentIndex = -1;
@@ -105,17 +113,19 @@ public class MutableComboBox extends JComboBox implements ListElementFilter
 		this.model.updateFilter( false );
 
 		if ( this.model.getSize() > 0 )
+		{
 			return;
+		}
 
 		this.strict = false;
 		this.model.updateFilter( false );
 	}
 
-	public synchronized void findMatch( int keyCode )
+	public synchronized void findMatch( final int keyCode )
 	{
 		this.currentName = this.getEditor().getItem().toString();
 
-		if ( !allowAdditions && this.model.contains( this.currentName ) )
+		if ( !this.allowAdditions && this.model.contains( this.currentName ) )
 		{
 			this.setSelectedItem( this.currentName );
 			return;
@@ -124,7 +134,7 @@ public class MutableComboBox extends JComboBox implements ListElementFilter
 		this.currentMatch = null;
 		this.update();
 
-		if ( allowAdditions )
+		if ( this.allowAdditions )
 		{
 			if ( this.model.getSize() != 1 || keyCode == KeyEvent.VK_BACK_SPACE || keyCode == KeyEvent.VK_DELETE )
 			{
@@ -132,7 +142,7 @@ public class MutableComboBox extends JComboBox implements ListElementFilter
 				return;
 			}
 
-			this.currentMatch = this.model.getElementAt(0);
+			this.currentMatch = this.model.getElementAt( 0 );
 			this.matchString = this.currentMatch.toString().toLowerCase();
 
 			this.editor.setText( this.currentMatch.toString() );
@@ -144,80 +154,103 @@ public class MutableComboBox extends JComboBox implements ListElementFilter
 
 		this.editor.setText( this.currentName );
 		if ( !this.isPopupVisible() )
+		{
 			this.showPopup();
+		}
 	}
 
-	public boolean isVisible( Object element )
+	public boolean isVisible( final Object element )
 	{
 		if ( !this.active )
+		{
 			return true;
+		}
 
 		// If it's not a result, then check to see if you need to
 		// filter based on its string form.
 
 		if ( this.matchString == null || this.matchString.length() == 0 )
+		{
 			return true;
+		}
 
 		String elementName = element.toString().toLowerCase();
-		return this.allowAdditions ? elementName.startsWith( this.matchString ) :
-			this.strict ? elementName.indexOf( this.matchString ) != -1 :
-			KoLDatabase.fuzzyMatches( elementName, this.matchString );
+		return this.allowAdditions ? elementName.startsWith( this.matchString ) : this.strict ? elementName.indexOf( this.matchString ) != -1 : KoLDatabase.fuzzyMatches(
+			elementName, this.matchString );
 	}
 
-	private class NameInputListener extends KeyAdapter implements FocusListener, ItemListener
+	private class NameInputListener
+		extends KeyAdapter
+		implements FocusListener, ItemListener
 	{
-		public void keyReleased( KeyEvent e )
+		public void keyReleased( final KeyEvent e )
 		{
 			if ( e.getKeyCode() == KeyEvent.VK_DOWN )
 			{
-				if ( !isRecentFocus && currentIndex + 1 < model.getSize() )
-					currentMatch = model.getElementAt( ++currentIndex );
+				if ( !MutableComboBox.this.isRecentFocus && MutableComboBox.this.currentIndex + 1 < MutableComboBox.this.model.getSize() )
+				{
+					MutableComboBox.this.currentMatch =
+						MutableComboBox.this.model.getElementAt( ++MutableComboBox.this.currentIndex );
+				}
 
-				isRecentFocus = false;
+				MutableComboBox.this.isRecentFocus = false;
 			}
 			else if ( e.getKeyCode() == KeyEvent.VK_UP )
 			{
-				if ( !isRecentFocus && model.getSize() > 0 && currentIndex > 0 )
-					currentMatch = model.getElementAt( --currentIndex );
+				if ( !MutableComboBox.this.isRecentFocus && MutableComboBox.this.model.getSize() > 0 && MutableComboBox.this.currentIndex > 0 )
+				{
+					MutableComboBox.this.currentMatch =
+						MutableComboBox.this.model.getElementAt( --MutableComboBox.this.currentIndex );
+				}
 
-				isRecentFocus = false;
+				MutableComboBox.this.isRecentFocus = false;
 			}
 			else if ( e.getKeyCode() == KeyEvent.VK_ENTER || e.getKeyCode() == KeyEvent.VK_TAB )
-				this.focusLost( null );
-			else if ( e.getKeyChar() != KeyEvent.CHAR_UNDEFINED )
-				findMatch( e.getKeyCode() );
-		}
-
-		public final void itemStateChanged( ItemEvent e )
-		{
-			currentMatch = getSelectedItem();
-
-			if ( currentMatch == null )
-				return;
-
-			currentName = currentMatch.toString();
-
-			if ( !isPopupVisible() )
 			{
-				active = false;
-				model.updateFilter( false );
+				this.focusLost( null );
+			}
+			else if ( e.getKeyChar() != KeyEvent.CHAR_UNDEFINED )
+			{
+				MutableComboBox.this.findMatch( e.getKeyCode() );
 			}
 		}
 
-		public final void focusGained( FocusEvent e )
+		public final void itemStateChanged( final ItemEvent e )
 		{
-			getEditor().selectAll();
+			MutableComboBox.this.currentMatch = MutableComboBox.this.getSelectedItem();
 
-			isRecentFocus = true;
-			currentIndex = MutableComboBox.this.model.getSelectedIndex();
+			if ( MutableComboBox.this.currentMatch == null )
+			{
+				return;
+			}
+
+			MutableComboBox.this.currentName = MutableComboBox.this.currentMatch.toString();
+
+			if ( !MutableComboBox.this.isPopupVisible() )
+			{
+				MutableComboBox.this.active = false;
+				MutableComboBox.this.model.updateFilter( false );
+			}
 		}
 
-		public final void focusLost( FocusEvent e )
+		public final void focusGained( final FocusEvent e )
 		{
-			if ( currentMatch != null )
-				setSelectedItem( currentMatch );
-			else if ( currentName != null && currentName.trim().length() != 0 )
-				forceAddition();
+			MutableComboBox.this.getEditor().selectAll();
+
+			MutableComboBox.this.isRecentFocus = true;
+			MutableComboBox.this.currentIndex = MutableComboBox.this.model.getSelectedIndex();
+		}
+
+		public final void focusLost( final FocusEvent e )
+		{
+			if ( MutableComboBox.this.currentMatch != null )
+			{
+				MutableComboBox.this.setSelectedItem( MutableComboBox.this.currentMatch );
+			}
+			else if ( MutableComboBox.this.currentName != null && MutableComboBox.this.currentName.trim().length() != 0 )
+			{
+				MutableComboBox.this.forceAddition();
+			}
 		}
 	}
 }

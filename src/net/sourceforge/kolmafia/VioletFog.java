@@ -48,58 +48,54 @@ public class VioletFog
 
 	// The various locations within the violet fog
 
-	private static final String FogLocationNames [] =
-	{
-		"Violet Fog (Start)",		// 48
-		"Man on Bicycle",		// 49
-		"Pleasant-faced Man",		// 50
-		"Man on Cornflake",		// 51
-		"Giant Chessboard",		// 52
-		"Mustache",			// 53
-		"Birds",			// 54
-		"Machine Elves",		// 55
-		"Boat on a River",		// 56
-		"Man in Sunglasses",		// 57
-		"Caterpiller",			// 58
-		"This is not a Pipe",		// 59
-		"Chorus Girls",			// 60
-		"Huge Mountain",		// 61
-		"Eye with Hat",			// 62
-		"Eye with Weapon",		// 63
-		"Eye with Garment",		// 64
-		"Muscle Training",		// 65
-		"Myst Training",		// 66
-		"Moxie Training",		// 67
-		"Alcohol Fish",			// 68
-		"Food Fish",			// 69
-		"Medicine Fish",		// 70
+	private static final String FogLocationNames[] = { "Violet Fog (Start)", // 48
+	"Man on Bicycle", // 49
+	"Pleasant-faced Man", // 50
+	"Man on Cornflake", // 51
+	"Giant Chessboard", // 52
+	"Mustache", // 53
+	"Birds", // 54
+	"Machine Elves", // 55
+	"Boat on a River", // 56
+	"Man in Sunglasses", // 57
+	"Caterpiller", // 58
+	"This is not a Pipe", // 59
+	"Chorus Girls", // 60
+	"Huge Mountain", // 61
+	"Eye with Hat", // 62
+	"Eye with Weapon", // 63
+	"Eye with Garment", // 64
+	"Muscle Training", // 65
+	"Myst Training", // 66
+	"Moxie Training", // 67
+	"Alcohol Fish", // 68
+	"Food Fish", // 69
+	"Medicine Fish", // 70
 	};
 
-	private static final int FogLocationExits [][] =
-	{
-		{ 49, 50, 51 },			// 48
-		{ 52, 53, 56 },			// 49
-		{ 53, 54, 57 },			// 50
-		{ 52, 54, 55 },			// 51
-		{ 61, 65, 68 },			// 52
-		{ 61, 66, 69 },			// 53
-		{ 61, 67, 70 },			// 54
-		{ 58, 65, 70 },			// 55
-		{ 59, 66, 68 },			// 56
-		{ 60, 67, 69 },			// 57
-		{ 51, 52, 63 },			// 58
-		{ 49, 53, 62 },			// 59
-		{ 50, 54, 64 },			// 60
-		{ 49, 50, 51 },			// 61
-		{ 50, 52, 61 },			// 62
-		{ 51, 53, 61 },			// 63
-		{ 49, 54, 61 },			// 64
-		{ 50, 51, 54 },			// 65
-		{ 49, 51, 52 },			// 66
-		{ 49, 50, 53 },			// 67
-		{ 49, 50, 53 },			// 68
-		{ 50, 51, 54 },			// 69
-		{ 49, 51, 52 },			// 70
+	private static final int FogLocationExits[][] = { { 49, 50, 51 }, // 48
+	{ 52, 53, 56 }, // 49
+	{ 53, 54, 57 }, // 50
+	{ 52, 54, 55 }, // 51
+	{ 61, 65, 68 }, // 52
+	{ 61, 66, 69 }, // 53
+	{ 61, 67, 70 }, // 54
+	{ 58, 65, 70 }, // 55
+	{ 59, 66, 68 }, // 56
+	{ 60, 67, 69 }, // 57
+	{ 51, 52, 63 }, // 58
+	{ 49, 53, 62 }, // 59
+	{ 50, 54, 64 }, // 60
+	{ 49, 50, 51 }, // 61
+	{ 50, 52, 61 }, // 62
+	{ 51, 53, 61 }, // 63
+	{ 49, 54, 61 }, // 64
+	{ 50, 51, 54 }, // 65
+	{ 49, 51, 52 }, // 66
+	{ 49, 50, 53 }, // 67
+	{ 49, 50, 53 }, // 68
+	{ 50, 51, 54 }, // 69
+	{ 49, 51, 52 }, // 70
 	};
 
 	// The routing table.
@@ -108,53 +104,56 @@ public class VioletFog
 	// Each row contains one tuple for each possible fog destination (49 - 70)
 	// Each tuple contains the Next Hop and the Hop Count to get there
 
-	private static int FogRoutingTable [][][];
+	private static int FogRoutingTable[][][];
 
-	private static final int [] routingTuple( int source, int destination )
+	private static final int[] routingTuple( final int source, final int destination )
 	{
-		if ( source < FIRST_CHOICE || source > LAST_CHOICE ||
-		     destination < FIRST_CHOICE + 1 || destination > LAST_CHOICE )
+		if ( source < VioletFog.FIRST_CHOICE || source > VioletFog.LAST_CHOICE || destination < VioletFog.FIRST_CHOICE + 1 || destination > VioletFog.LAST_CHOICE )
+		{
 			return null;
-		return FogRoutingTable[ source - FIRST_CHOICE ][ destination - FIRST_CHOICE - 1];
+		}
+		return VioletFog.FogRoutingTable[ source - VioletFog.FIRST_CHOICE ][ destination - VioletFog.FIRST_CHOICE - 1 ];
 	}
 
-	private static final int nextHop( int source, int destination )
+	private static final int nextHop( final int source, final int destination )
 	{
-		int [] tuple = routingTuple( source, destination );
-		return tuple == null ? -1 : tuple[0];
+		int[] tuple = VioletFog.routingTuple( source, destination );
+		return tuple == null ? -1 : tuple[ 0 ];
 	}
 
 	static
 	{
-		buildRoutingTable();
+		VioletFog.buildRoutingTable();
 		// printRoutingTable();
 	}
 
 	private static final void buildRoutingTable()
 	{
 		// Get a zeroed array to start things off.
-		FogRoutingTable = new int [ LAST_CHOICE - FIRST_CHOICE + 1][ LAST_CHOICE - FIRST_CHOICE ][ 2 ];
-		int unfilled = ( LAST_CHOICE - FIRST_CHOICE + 1 ) * ( LAST_CHOICE - FIRST_CHOICE );
+		VioletFog.FogRoutingTable =
+			new int[ VioletFog.LAST_CHOICE - VioletFog.FIRST_CHOICE + 1 ][ VioletFog.LAST_CHOICE - VioletFog.FIRST_CHOICE ][ 2 ];
+		int unfilled =
+			( VioletFog.LAST_CHOICE - VioletFog.FIRST_CHOICE + 1 ) * ( VioletFog.LAST_CHOICE - VioletFog.FIRST_CHOICE );
 
 		// Seed it with final destinations: next hop = -1 and hopcount = 0
-		for ( int source = FIRST_CHOICE + 1; source <= LAST_CHOICE; ++source )
+		for ( int source = VioletFog.FIRST_CHOICE + 1; source <= VioletFog.LAST_CHOICE; ++source )
 		{
-			int tuple[] = routingTuple( source, source );
-			tuple[0] = -1;
-			tuple[1] = 0;
+			int tuple[] = VioletFog.routingTuple( source, source );
+			tuple[ 0 ] = -1;
+			tuple[ 1 ] = 0;
 			--unfilled;
 		}
 
 		// Seed it with exit destinations: next hop = destination and hopcount = 1
-		for ( int source = FIRST_CHOICE; source <= LAST_CHOICE; ++source )
+		for ( int source = VioletFog.FIRST_CHOICE; source <= VioletFog.LAST_CHOICE; ++source )
 		{
-			int exits[] = FogLocationExits[ source - FIRST_CHOICE ];
+			int exits[] = VioletFog.FogLocationExits[ source - VioletFog.FIRST_CHOICE ];
 			for ( int i = 0; i < exits.length; ++i )
 			{
-				int destination = exits[i];
-				int tuple[] = routingTuple( source, destination );
-				tuple[0] = destination;
-				tuple[1] = 1;
+				int destination = exits[ i ];
+				int tuple[] = VioletFog.routingTuple( source, destination );
+				tuple[ 0 ] = destination;
+				tuple[ 1 ] = 1;
 				--unfilled;
 			}
 		}
@@ -164,36 +163,38 @@ public class VioletFog
 		{
 			int filled = 0;
 
-			for ( int source = FIRST_CHOICE; source <= LAST_CHOICE; ++source )
+			for ( int source = VioletFog.FIRST_CHOICE; source <= VioletFog.LAST_CHOICE; ++source )
 			{
-				for ( int destination = FIRST_CHOICE + 1; destination <= LAST_CHOICE; ++destination )
+				for ( int destination = VioletFog.FIRST_CHOICE + 1; destination <= VioletFog.LAST_CHOICE; ++destination )
 				{
-					int tuple[] = routingTuple( source, destination );
+					int tuple[] = VioletFog.routingTuple( source, destination );
 
 					// If we've calculated this tuple, skip it
-					if ( tuple[0] != 0 )
+					if ( tuple[ 0 ] != 0 )
+					{
 						continue;
+					}
 
 					// See which of our direct exits can get there fastest
 					int nextHop = 0;
 					int hopCount = Integer.MAX_VALUE;
 
-					int exits[] = FogLocationExits[ source - FIRST_CHOICE ];
+					int exits[] = VioletFog.FogLocationExits[ source - VioletFog.FIRST_CHOICE ];
 					for ( int i = 0; i < exits.length; ++i )
 					{
-						int destTuple[] = routingTuple( exits[i], destination );
-						if ( destTuple[0] != 0 && destTuple[1] < hopCount )
+						int destTuple[] = VioletFog.routingTuple( exits[ i ], destination );
+						if ( destTuple[ 0 ] != 0 && destTuple[ 1 ] < hopCount )
 						{
-							nextHop = exits[i];
-							hopCount = destTuple[1];
+							nextHop = exits[ i ];
+							hopCount = destTuple[ 1 ];
 						}
 					}
 
 					// If we found a route, enter it into table
 					if ( nextHop != 0 )
 					{
-						tuple[0] = nextHop;
-						tuple[1] = hopCount + 1;
+						tuple[ 0 ] = nextHop;
+						tuple[ 1 ] = hopCount + 1;
 						++filled;
 					}
 				}
@@ -211,18 +212,16 @@ public class VioletFog
 
 	// Range of choice numbers with a goal
 	private static final int FIRST_GOAL_LOCATION = 62;
-	public static final String FogGoals [] =
-	{
-		"Escape from the Fog",		// 48-61
-		"Cerebral Cloche",		// 62
-		"Cerebral Crossbow",		// 63
-		"Cerebral Culottes",		// 64
-		"Muscle Training",		// 65
-		"Mysticality Training",		// 66
-		"Moxie Training",		// 67
-		"ice stein",			// 68
-		"munchies pill",		// 69
-		"homeopathic healing powder",	// 70
+	public static final String FogGoals[] = { "Escape from the Fog", // 48-61
+	"Cerebral Cloche", // 62
+	"Cerebral Crossbow", // 63
+	"Cerebral Culottes", // 64
+	"Muscle Training", // 65
+	"Mysticality Training", // 66
+	"Moxie Training", // 67
+	"ice stein", // 68
+	"munchies pill", // 69
+	"homeopathic healing powder", // 70
 	};
 
 	// The choice table.
@@ -234,32 +233,35 @@ public class VioletFog
 	//  0	Unknown
 	// xx	A destination
 
-	private static final int FogChoiceTable [][] = new int [ LAST_CHOICE - FIRST_CHOICE + 1][ 4 ];
+	private static final int FogChoiceTable[][] = new int[ VioletFog.LAST_CHOICE - VioletFog.FIRST_CHOICE + 1 ][ 4 ];
 
 	public static final void reset()
 	{
 		// Reset what we've "learned" about the fog choices
-		for ( int i = FIRST_CHOICE; i <= LAST_CHOICE; ++i )
+		for ( int i = VioletFog.FIRST_CHOICE; i <= VioletFog.LAST_CHOICE; ++i )
 		{
-			int choice[] = FogChoiceTable[ i - FIRST_CHOICE ];
-			choice[0] = ( i < FIRST_GOAL_LOCATION ) ? 0 : -1;
-			choice[1] = 0;
-			choice[2] = 0;
-			choice[3] = ( i < FIRST_GOAL_LOCATION ) ? -1 : 0;
+			int choice[] = VioletFog.FogChoiceTable[ i - VioletFog.FIRST_CHOICE ];
+			choice[ 0 ] = i < VioletFog.FIRST_GOAL_LOCATION ? 0 : -1;
+			choice[ 1 ] = 0;
+			choice[ 2 ] = 0;
+			choice[ 3 ] = i < VioletFog.FIRST_GOAL_LOCATION ? -1 : 0;
 		}
 	}
 
-	public static final boolean fogChoice( int choice )
-	{	return ( choice >= FIRST_CHOICE && choice <= LAST_CHOICE );
+	public static final boolean fogChoice( final int choice )
+	{
+		return choice >= VioletFog.FIRST_CHOICE && choice <= VioletFog.LAST_CHOICE;
 	}
 
-	public static final String handleChoice( String choice )
+	public static final String handleChoice( final String choice )
 	{
 		int source = StaticEntity.parseInt( choice );
 
 		// We only handle Violet Fog choices
-		if ( !fogChoice( source ) )
+		if ( !VioletFog.fogChoice( source ) )
+		{
 			return "";
+		}
 
 		// Get the user specified goal
 		int goal = KoLSettings.getIntegerProperty( "violetFogGoal" );
@@ -268,93 +270,119 @@ public class VioletFog
 		// - If we are not at a "goal" location, this will exit the fog
 		// - If we are at a "goal" location, this will send us to a non-"goal" location
 		if ( goal == 0 )
+		{
 			return "4";
+		}
 
 		// Find the location we must get to to achieve the goal
-		int destination = FIRST_GOAL_LOCATION + goal - 1;
-		if ( !fogChoice( destination ) )
+		int destination = VioletFog.FIRST_GOAL_LOCATION + goal - 1;
+		if ( !VioletFog.fogChoice( destination ) )
+		{
 			return "";
+		}
 
 		// Are we there yet?
 		if ( source == destination )
+		{
 			// The first decision will get us the goal we seek
 			return "1";
+		}
 
 		// We haven't reached the goal yet. Find the next hop.
-		int nextHop = nextHop( source, destination );
+		int nextHop = VioletFog.nextHop( source, destination );
 
 		// Choose the path that will take us there
-		int path[] = FogChoiceTable[ source - FIRST_CHOICE ];
+		int path[] = VioletFog.FogChoiceTable[ source - VioletFog.FIRST_CHOICE ];
 		for ( int i = 0; i < path.length; ++i )
 		{
-			if ( path[i] == nextHop )
+			if ( path[ i ] == nextHop )
+			{
 				return String.valueOf( i + 1 );
+			}
 		}
 
 		// We don't know how to get there. Pick an unexplored path.
 		for ( int i = 0; i < path.length; ++i )
 		{
-			if ( path[i] == 0 )
+			if ( path[ i ] == 0 )
+			{
 				// We don't know how to get to the Next Hop
 				return String.valueOf( i + 1 );
+			}
 		}
 
 		// This shouldn't happen
 		return "";
 	}
 
-	public static final boolean mapChoice( int lastChoice, String text )
+	public static final boolean mapChoice( final int lastChoice, final String text )
 	{
-		if ( !fogChoice( lastChoice ) )
+		if ( !VioletFog.fogChoice( lastChoice ) )
+		{
 			return false;
+		}
 
 		int lastDecision = KoLRequest.getLastDecision() - 1;
 		// Punt if bogus decision
 		if ( lastDecision < 0 || lastDecision > 3 )
+		{
 			return true;
+		}
 
 		// Return if we've already mapped this decision
-		if ( FogChoiceTable[ lastChoice - FIRST_CHOICE ][ lastDecision] != 0 )
+		if ( VioletFog.FogChoiceTable[ lastChoice - VioletFog.FIRST_CHOICE ][ lastDecision ] != 0 )
+		{
 			return true;
+		}
 
-		Matcher choiceMatcher = CHOICE_PATTERN.matcher( text );
+		Matcher choiceMatcher = VioletFog.CHOICE_PATTERN.matcher( text );
 		if ( !choiceMatcher.find() )
+		{
 			return false;
+		}
 
-		int source = StaticEntity.parseInt( choiceMatcher.group(1) );
+		int source = StaticEntity.parseInt( choiceMatcher.group( 1 ) );
 
 		// We only handle Violet Fog choices
-		if ( !fogChoice( source ) )
+		if ( !VioletFog.fogChoice( source ) )
+		{
 			return false;
+		}
 
 		// Update the path table
-		int choices[] = FogChoiceTable[ lastChoice - FIRST_CHOICE ];
+		int choices[] = VioletFog.FogChoiceTable[ lastChoice - VioletFog.FIRST_CHOICE ];
 		choices[ lastDecision ] = source;
 
 		// See if exactly one exit is unknown
 		int unknownIndex = -1;
 		for ( int i = 0; i < choices.length; ++i )
 		{
-			if ( choices[i] != 0 )
+			if ( choices[ i ] != 0 )
+			{
 				continue;
+			}
 			if ( unknownIndex != -1 )
+			{
 				return true;
+			}
 			unknownIndex = i;
 		}
 
 		// Done if all three destinations are known.
 		if ( unknownIndex == -1 )
+		{
 			return true;
+		}
 
 		// Yes. Figure out which one it is
-		int exits[] = FogLocationExits[ lastChoice - FIRST_CHOICE ];
+		int exits[] = VioletFog.FogLocationExits[ lastChoice - VioletFog.FIRST_CHOICE ];
 		for ( int i = 0; i < exits.length; ++i )
 		{
-			int exit = exits[i];
+			int exit = exits[ i ];
 			boolean found = false;
 			for ( int j = 0; j < choices.length; ++j )
 			{
-				if ( exit == choices[j] )
+				if ( exit == choices[ j ] )
 				{
 					found = true;
 					break;
@@ -371,50 +399,56 @@ public class VioletFog
 		return true;
 	}
 
-	public static final String [][] choiceSpoilers( int choice )
+	public static final String[][] choiceSpoilers( final int choice )
 	{
 		// We only handle Violet Fog choices
-		if ( !fogChoice( choice ) )
+		if ( !VioletFog.fogChoice( choice ) )
+		{
 			return null;
+		}
 
 		// Return an array with the same structure as used by built-in
 		// choice adventures.
-		String [][] result = new String[3][];
+		String[][] result = new String[ 3 ][];
 
 		// The choice option is the first element
-		result[0] = new String[1];
-		result[0][0] = "choiceAdventure" + String.valueOf( choice );
+		result[ 0 ] = new String[ 1 ];
+		result[ 0 ][ 0 ] = "choiceAdventure" + String.valueOf( choice );
 
 		// The name of the choice is second element
-		result[1] = new String[1];
-		result[1][0] = FogLocationNames[ choice - FIRST_CHOICE ];
+		result[ 1 ] = new String[ 1 ];
+		result[ 1 ][ 0 ] = VioletFog.FogLocationNames[ choice - VioletFog.FIRST_CHOICE ];
 
 		// An array of choice spoilers is the third element
-		int choices[] = FogChoiceTable[ choice - FIRST_CHOICE ];
-		result[2] = new String[4];
-		result[2][0] = choiceName( choice, choices[0] );
-		result[2][1] = choiceName( choice, choices[1] );
-		result[2][2] = choiceName( choice, choices[2] );
-		result[2][3] = choiceName( choice, choices[3] );
+		int choices[] = VioletFog.FogChoiceTable[ choice - VioletFog.FIRST_CHOICE ];
+		result[ 2 ] = new String[ 4 ];
+		result[ 2 ][ 0 ] = VioletFog.choiceName( choice, choices[ 0 ] );
+		result[ 2 ][ 1 ] = VioletFog.choiceName( choice, choices[ 1 ] );
+		result[ 2 ][ 2 ] = VioletFog.choiceName( choice, choices[ 2 ] );
+		result[ 2 ][ 3 ] = VioletFog.choiceName( choice, choices[ 3 ] );
 
 		return result;
 	}
 
-	private static final String choiceName( int choice, int destination )
+	private static final String choiceName( final int choice, final int destination )
 	{
 		// If it's unknown, no name
 		if ( destination == 0 )
+		{
 			return "";
+		}
 
 		// If it's the Goal, pick the goal
 		if ( destination == -1 )
-			return ( choice < FIRST_GOAL_LOCATION ) ? FogGoals[0] : FogGoals[ choice - FIRST_GOAL_LOCATION + 1 ];
+		{
+			return choice < VioletFog.FIRST_GOAL_LOCATION ? VioletFog.FogGoals[ 0 ] : VioletFog.FogGoals[ choice - VioletFog.FIRST_GOAL_LOCATION + 1 ];
+		}
 
 		// Otherwise, return the name of the destination
-		return FogLocationNames[ destination - FIRST_CHOICE ];
+		return VioletFog.FogLocationNames[ destination - VioletFog.FIRST_CHOICE ];
 	}
 
-	public static final boolean freeAdventure( String choice, String decision )
+	public static final boolean freeAdventure( final String choice, final String decision )
 	{
 		// "choiceAdventureX"
 		int source = StaticEntity.parseInt( choice.substring( 15 ) );
@@ -427,22 +461,30 @@ public class VioletFog
 			// Switch location to the trip of choice.
 			String name = "";
 			if ( decision.equals( "1" ) )
-			     name = "An Incredibly Strange Place (Bad Trip)";
+			{
+				name = "An Incredibly Strange Place (Bad Trip)";
+			}
 			else if ( decision.equals( "2" ) )
-			     name = "An Incredibly Strange Place (Mediocre Trip)";
+			{
+				name = "An Incredibly Strange Place (Mediocre Trip)";
+			}
 			else if ( decision.equals( "3" ) )
-			     name = "An Incredibly Strange Place (Great Trip)";
+			{
+				name = "An Incredibly Strange Place (Great Trip)";
+			}
 
 			KoLSettings.setUserProperty( "chosenTrip", name );
 			return true;
 		}
 
 		// Make sure it's a fog adventure
-		if ( !fogChoice( source ) )
+		if ( !VioletFog.fogChoice( source ) )
+		{
 			return false;
+		}
 
 		// It is. If it's a "goal" location, decision "1" takes an adventure.
-		return source < FIRST_GOAL_LOCATION ? true : !decision.equals( "1" );
+		return source < VioletFog.FIRST_GOAL_LOCATION ? true : !decision.equals( "1" );
 	}
 
 	// The Wiki has a Violet Fog Map:
@@ -474,88 +516,88 @@ public class VioletFog
 	// 21 = 62 (Eye with Hat)
 	// 22 = 63 (Eye with Weapon)
 
-	private static final int WikiToMafia [] =
-	{
-		61,		// 1
-		49,		// 2
-		52,		// 3
-		68,		// 4
-		56,		// 5
-		50,		// 6
-		53,		// 7
-		51,		// 8
-		55,		// 9
-		70,		// 10
-		54,		// 11
-		67,		// 12
-		57,		// 13
-		60,		// 14
-		64,		// 15
-		66,		// 16
-		65,		// 17
-		69,		// 18
-		58,		// 19
-		59,		// 20
-		62,		// 21
-		63,		// 22
+	private static final int WikiToMafia[] = { 61, // 1
+	49, // 2
+	52, // 3
+	68, // 4
+	56, // 5
+	50, // 6
+	53, // 7
+	51, // 8
+	55, // 9
+	70, // 10
+	54, // 11
+	67, // 12
+	57, // 13
+	60, // 14
+	64, // 15
+	66, // 16
+	65, // 17
+	69, // 18
+	58, // 19
+	59, // 20
+	62, // 21
+	63, // 22
 	};
 
-	private static final int mafiaCode( int wikiCode )
-	{	return WikiToMafia[ wikiCode - 1 ];
+	private static final int mafiaCode( final int wikiCode )
+	{
+		return VioletFog.WikiToMafia[ wikiCode - 1 ];
 	}
 
-	private static final int MafiaToWiki [] =
-	{
-		2,		// 49
-		6,		// 50
-		8,		// 51
-		3,		// 52
-		7,		// 53
-		11,		// 54
-		9,		// 55
-		5,		// 56
-		13,		// 57
-		19,		// 58
-		20,		// 59
-		14,		// 60
-		1,		// 61
-		21,		// 62
-		22,		// 63
-		15,		// 64
-		17,		// 65
-		16,		// 66
-		12,		// 67
-		4,		// 68
-		18,		// 69
-		10,		// 70
+	private static final int MafiaToWiki[] = { 2, // 49
+	6, // 50
+	8, // 51
+	3, // 52
+	7, // 53
+	11, // 54
+	9, // 55
+	5, // 56
+	13, // 57
+	19, // 58
+	20, // 59
+	14, // 60
+	1, // 61
+	21, // 62
+	22, // 63
+	15, // 64
+	17, // 65
+	16, // 66
+	12, // 67
+	4, // 68
+	18, // 69
+	10, // 70
 	};
 
-	private static final int wikiCode( int mafiaCode )
-	{	return MafiaToWiki[ mafiaCode - FIRST_CHOICE - 1 ];
+	private static final int wikiCode( final int mafiaCode )
+	{
+		return VioletFog.MafiaToWiki[ mafiaCode - VioletFog.FIRST_CHOICE - 1 ];
 	}
 
-	private static int WikiFogLocationExits [][];
+	private static int WikiFogLocationExits[][];
 
 	static
 	{
-		buildWikiExits();
+		VioletFog.buildWikiExits();
 	}
 
 	private static final void buildWikiExits()
 	{
 		// Get a zeroed array to start things off.
-		WikiFogLocationExits = new int [ LAST_CHOICE - FIRST_CHOICE][ 3 ];
+		VioletFog.WikiFogLocationExits = new int[ VioletFog.LAST_CHOICE - VioletFog.FIRST_CHOICE ][ 3 ];
 
 		// Examine each node in Mafia order
-		for ( int source = FIRST_CHOICE + 1; source <= LAST_CHOICE; ++source )
+		for ( int source = VioletFog.FIRST_CHOICE + 1; source <= VioletFog.LAST_CHOICE; ++source )
 		{
 			// Get the array of exit paths
-			int mafiaExits[] = FogLocationExits[ source - FIRST_CHOICE ];
-			int wikiExits[] = WikiFogLocationExits[ wikiCode( source) - 1 ];
+			int mafiaExits[] = VioletFog.FogLocationExits[ source - VioletFog.FIRST_CHOICE ];
+			int wikiExits[] = VioletFog.WikiFogLocationExits[ VioletFog.wikiCode( source ) - 1 ];
 
 			// Copy translated exit from Mafia exit table to Wiki exit table
 			for ( int i = 0; i < mafiaExits.length; ++i )
-				wikiExits[i] = wikiCode( mafiaExits[i] );
+			{
+				wikiExits[ i ] = VioletFog.wikiCode( mafiaExits[ i ] );
+			}
 
 			// Sort the exits in Wiki order
 			Arrays.sort( wikiExits );
@@ -567,60 +609,63 @@ public class VioletFog
 	//
 	//     http://www.feesher.com/fog_mapper.php
 	//
-        // To get the code, examine the 22 nodes in Wiki order
-        // Examine each of the three destinations from each node, again in Wiki order.
+	// To get the code, examine the 22 nodes in Wiki order
+	// Examine each of the three destinations from each node, again in Wiki order.
 	// Generate a digit from 0-3:
 	//     0 = unmapped
 	//     1 = this way
 	//     2 = that way
 	//     3 = the other way
-        //
-        // Take the resulting 66 digit string and convert two digits at a time
-        // from base 4 to base 16, resulting in a 33 digit hex string
+	//
+	// Take the resulting 66 digit string and convert two digits at a time
+	// from base 4 to base 16, resulting in a 33 digit hex string
 
 	public static final String gemelliCode()
 	{
-		int code[] = new int[66];
+		int code[] = new int[ 66 ];
 		int codeIndex = 0;
 
 		// Examine each node in Wiki order
-		for ( int i = 1; i < FogChoiceTable.length; ++i )
+		for ( int i = 1; i < VioletFog.FogChoiceTable.length; ++i )
 		{
 			// Get the choice adventure # corresponding to the Wiki code
-			int source = mafiaCode( i );
+			int source = VioletFog.mafiaCode( i );
 
 			// Get the array of exit paths
-			int paths[] = FogChoiceTable[ source - FIRST_CHOICE ];
+			int paths[] = VioletFog.FogChoiceTable[ source - VioletFog.FIRST_CHOICE ];
 
 			// For each choice in Wiki order
-			int exits[] = WikiFogLocationExits[ i - 1];
+			int exits[] = VioletFog.WikiFogLocationExits[ i - 1 ];
 
 			for ( int j = 0; j < exits.length; ++j )
 			{
 				// Find the exit in the paths
 				for ( int index = 0; index < paths.length; ++index )
-					if ( paths[index] == mafiaCode( exits[j] ) )
+				{
+					if ( paths[ index ] == VioletFog.mafiaCode( exits[ j ] ) )
 					{
-						int choice = ( source < FIRST_GOAL_LOCATION ) ? index + 1 : index;
+						int choice = source < VioletFog.FIRST_GOAL_LOCATION ? index + 1 : index;
 						code[ codeIndex ] = choice;
 						break;
 					}
+				}
 				++codeIndex;
 			}
 		}
 
 		// Convert the 66 element int array into a 33 character character array
-		char data[] = new char[33];
+		char data[] = new char[ 33 ];
 		for ( int i = 0; i < code.length; i += 2 )
 		{
-			int hexDigit = code[i] * 4 + code[i+1];
-			data[i/2] = Character.forDigit( hexDigit, 16 );
+			int hexDigit = code[ i ] * 4 + code[ i + 1 ];
+			data[ i / 2 ] = Character.forDigit( hexDigit, 16 );
 		}
 
 		return String.valueOf( data );
 	}
 
 	public static final void showGemelliMap()
-	{	StaticEntity.openSystemBrowser( "http://www.feesher.com/fog_mapper.php?mapstring=" + gemelliCode() );
+	{
+		StaticEntity.openSystemBrowser( "http://www.feesher.com/fog_mapper.php?mapstring=" + VioletFog.gemelliCode() );
 	}
 }

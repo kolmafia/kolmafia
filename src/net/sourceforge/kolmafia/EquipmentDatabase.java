@@ -38,7 +38,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.TreeMap;
 
-public class EquipmentDatabase extends KoLDatabase
+public class EquipmentDatabase
+	extends KoLDatabase
 {
 	private static final IntegerArray power = new IntegerArray();
 	private static final IntegerArray hands = new IntegerArray();
@@ -51,33 +52,33 @@ public class EquipmentDatabase extends KoLDatabase
 
 	static
 	{
-		BufferedReader reader = getVersionedReader( "equipment.txt", EQUIPMENT_VERSION );
+		BufferedReader reader = KoLDatabase.getVersionedReader( "equipment.txt", KoLConstants.EQUIPMENT_VERSION );
 
-		String [] data;
+		String[] data;
 		int itemId;
 
-		while ( (data = readData( reader )) != null )
+		while ( ( data = KoLDatabase.readData( reader ) ) != null )
 		{
 			if ( data.length >= 3 )
 			{
-				itemId = TradeableItemDatabase.getItemId( data[0] );
+				itemId = TradeableItemDatabase.getItemId( data[ 0 ] );
 
 				if ( itemId > 0 )
 				{
-					power.set( itemId, parseInt( data[1] ) );
-					requirement.set( itemId, data[2] );
+					EquipmentDatabase.power.set( itemId, StaticEntity.parseInt( data[ 1 ] ) );
+					EquipmentDatabase.requirement.set( itemId, data[ 2 ] );
 
 					int hval = 0;
 					String tval = null;
 					if ( data.length >= 4 )
 					{
-						String str = data[3];
-						hval = parseInt( str.substring(0,1) );
+						String str = data[ 3 ];
+						hval = StaticEntity.parseInt( str.substring( 0, 1 ) );
 						tval = str.substring( str.indexOf( " " ) + 1 );
 					}
 
-					hands.set( itemId, hval );
-					type.set( itemId, tval );
+					EquipmentDatabase.hands.set( itemId, hval );
+					EquipmentDatabase.type.set( itemId, tval );
 				}
 			}
 		}
@@ -91,213 +92,270 @@ public class EquipmentDatabase extends KoLDatabase
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			printStackTrace( e );
+			StaticEntity.printStackTrace( e );
 		}
 
-		reader = getVersionedReader( "outfits.txt", OUTFITS_VERSION );
+		reader = KoLDatabase.getVersionedReader( "outfits.txt", KoLConstants.OUTFITS_VERSION );
 
 		int outfitId, arrayIndex;
 		SpecialOutfitArray outfitList;
 
-		while ( (data = readData( reader )) != null )
+		while ( ( data = KoLDatabase.readData( reader ) ) != null )
 		{
 			if ( data.length == 3 )
 			{
-				outfitId = parseInt( data[0] );
+				outfitId = StaticEntity.parseInt( data[ 0 ] );
 
 				if ( outfitId == 0 )
 				{
-					arrayIndex = weirdOutfits.size();
-					outfitList = weirdOutfits;
+					arrayIndex = EquipmentDatabase.weirdOutfits.size();
+					outfitList = EquipmentDatabase.weirdOutfits;
 				}
 				else
 				{
 					arrayIndex = outfitId;
-					outfitList = normalOutfits;
+					outfitList = EquipmentDatabase.normalOutfits;
 				}
 
-				outfitList.set( arrayIndex, new SpecialOutfit( outfitId, data[1] ) );
+				outfitList.set( arrayIndex, new SpecialOutfit( outfitId, data[ 1 ] ) );
 
-				String [] pieces = data[2].split( "\\s*,\\s*" );
+				String[] pieces = data[ 2 ].split( "\\s*,\\s*" );
 				for ( int i = 0; i < pieces.length; ++i )
 				{
-					outfitPieces.put( getCanonicalName( pieces[i] ), new Integer( outfitId ) );
-					outfitList.get( arrayIndex ).addPiece( new AdventureResult( pieces[i], 1, false ) );
+					EquipmentDatabase.outfitPieces.put( KoLDatabase.getCanonicalName( pieces[ i ] ), new Integer(
+						outfitId ) );
+					outfitList.get( arrayIndex ).addPiece( new AdventureResult( pieces[ i ], 1, false ) );
 				}
 			}
 		}
 	}
 
-	public static final int getOutfitWithItem( int itemId )
+	public static final int getOutfitWithItem( final int itemId )
 	{
 		if ( itemId < 0 )
+		{
 			return -1;
+		}
 
 		String itemName = TradeableItemDatabase.getItemName( itemId );
 		if ( itemName == null )
+		{
 			return -1;
+		}
 
-		Integer result = (Integer) outfitPieces.get( getCanonicalName( itemName ) );
+		Integer result = (Integer) EquipmentDatabase.outfitPieces.get( KoLDatabase.getCanonicalName( itemName ) );
 		return result == null ? -1 : result.intValue();
 	}
 
 	public static final int getOutfitCount()
-	{	return normalOutfits.size();
+	{
+		return EquipmentDatabase.normalOutfits.size();
 	}
 
-	public static final boolean contains( String itemName )
+	public static final boolean contains( final String itemName )
 	{
 		int itemId = TradeableItemDatabase.getItemId( itemName );
-		return itemId > 0 && requirement.get( itemId ) != null;
+		return itemId > 0 && EquipmentDatabase.requirement.get( itemId ) != null;
 	}
 
-	public static final boolean canEquip( String itemName )
+	public static final boolean canEquip( final String itemName )
 	{
 		int itemId = TradeableItemDatabase.getItemId( itemName );
 
-		if ( itemId == -1 || requirement.get( itemId ) == null )
+		if ( itemId == -1 || EquipmentDatabase.requirement.get( itemId ) == null )
+		{
 			return false;
+		}
 
-		if ( requirement.get( itemId ).startsWith( "Mus:" ) )
-			return KoLCharacter.getBaseMuscle() >= parseInt( requirement.get( itemId ).substring(5) );
+		if ( EquipmentDatabase.requirement.get( itemId ).startsWith( "Mus:" ) )
+		{
+			return KoLCharacter.getBaseMuscle() >= StaticEntity.parseInt( EquipmentDatabase.requirement.get( itemId ).substring(
+				5 ) );
+		}
 
-		if ( requirement.get( itemId ).startsWith( "Mys:" ) )
-			return KoLCharacter.getBaseMysticality() >= parseInt( requirement.get( itemId ).substring(5) );
+		if ( EquipmentDatabase.requirement.get( itemId ).startsWith( "Mys:" ) )
+		{
+			return KoLCharacter.getBaseMysticality() >= StaticEntity.parseInt( EquipmentDatabase.requirement.get(
+				itemId ).substring( 5 ) );
+		}
 
-		if ( requirement.get( itemId ).startsWith( "Mox:" ) )
-			return KoLCharacter.getBaseMoxie() >= parseInt( requirement.get( itemId ).substring(5) );
+		if ( EquipmentDatabase.requirement.get( itemId ).startsWith( "Mox:" ) )
+		{
+			return KoLCharacter.getBaseMoxie() >= StaticEntity.parseInt( EquipmentDatabase.requirement.get( itemId ).substring(
+				5 ) );
+		}
 
 		return true;
 	}
 
-	public static final int getPower( int itemId )
-	{	return power.get( itemId );
+	public static final int getPower( final int itemId )
+	{
+		return EquipmentDatabase.power.get( itemId );
 	}
 
-	public static final int getPower( String itemName )
+	public static final int getPower( final String itemName )
 	{
 		if ( itemName == null )
+		{
 			return 0;
+		}
 
 		int itemId = TradeableItemDatabase.getItemId( itemName );
 
 		if ( itemId == -1 )
+		{
 			return 0;
+		}
 
-		return getPower( itemId );
+		return EquipmentDatabase.getPower( itemId );
 	}
 
-	public static final int getHands( int itemId )
-	{	return hands.get( itemId );
+	public static final int getHands( final int itemId )
+	{
+		return EquipmentDatabase.hands.get( itemId );
 	}
 
-	public static final int getHands( String itemName )
+	public static final int getHands( final String itemName )
 	{
 		if ( itemName == null )
+		{
 			return 0;
+		}
 
 		int itemId = TradeableItemDatabase.getItemId( itemName );
 
 		if ( itemId == -1 )
+		{
 			return 0;
+		}
 
-		return getHands( itemId );
+		return EquipmentDatabase.getHands( itemId );
 	}
 
-	public static final String getType( int itemId )
+	public static final String getType( final int itemId )
 	{
-		String res = type.get( itemId );
+		String res = EquipmentDatabase.type.get( itemId );
 		return res == null ? "" : res;
 	}
 
-	public static final String getType( String itemName )
+	public static final String getType( final String itemName )
 	{
 		if ( itemName == null )
+		{
 			return "";
+		}
 
 		int itemId = TradeableItemDatabase.getItemId( itemName );
 
 		if ( itemId == -1 )
+		{
 			return "";
+		}
 
-		return getType( itemId );
+		return EquipmentDatabase.getType( itemId );
 	}
 
-	public static final String getReq( int itemId )
+	public static final String getReq( final int itemId )
 	{
-		String req = requirement.get( itemId );
+		String req = EquipmentDatabase.requirement.get( itemId );
 		if ( req != null )
+		{
 			return req;
+		}
 		return "none";
 	}
 
-	public static final String getReq( String itemName )
+	public static final String getReq( final String itemName )
 	{
 		if ( itemName == null )
+		{
 			return "none";
+		}
 
 		int itemId = TradeableItemDatabase.getItemId( itemName );
 
 		if ( itemId == -1 )
+		{
 			return "none";
+		}
 
-		return getReq( itemId );
+		return EquipmentDatabase.getReq( itemId );
 	}
 
-	public static final int equipStat( int itemId )
+	public static final int equipStat( final int itemId )
 	{
-		String req = requirement.get( itemId );
+		String req = EquipmentDatabase.requirement.get( itemId );
 
 		if ( req != null )
 		{
 			if ( req.startsWith( "Mox:" ) )
-				return MOXIE;
+			{
+				return KoLConstants.MOXIE;
+			}
 			if ( req.startsWith( "Mys:" ) )
-				return MYSTICALITY;
+			{
+				return KoLConstants.MYSTICALITY;
+			}
 		}
-		return MUSCLE;
+		return KoLConstants.MUSCLE;
 	}
 
-	public static final int equipStat( String itemName )
+	public static final int equipStat( final String itemName )
 	{
 		if ( itemName == null )
-			return MUSCLE;
+		{
+			return KoLConstants.MUSCLE;
+		}
 
 		int itemId = TradeableItemDatabase.getItemId( itemName );
 
 		if ( itemId == -1 )
-			return MUSCLE;
+		{
+			return KoLConstants.MUSCLE;
+		}
 
-		return equipStat( itemId );
+		return EquipmentDatabase.equipStat( itemId );
 	}
 
-	public static final boolean isRanged( int itemId )
-	{	return equipStat( itemId ) == MOXIE;
+	public static final boolean isRanged( final int itemId )
+	{
+		return EquipmentDatabase.equipStat( itemId ) == KoLConstants.MOXIE;
 	}
 
-	public static final boolean isRanged( String itemName )
-	{	return equipStat( itemName ) == MOXIE;
+	public static final boolean isRanged( final String itemName )
+	{
+		return EquipmentDatabase.equipStat( itemName ) == KoLConstants.MOXIE;
 	}
 
-	public static final boolean hasOutfit( int id )
-	{	return KoLCharacter.getOutfits().contains( normalOutfits.get( id ) );
+	public static final boolean hasOutfit( final int id )
+	{
+		return KoLCharacter.getOutfits().contains( EquipmentDatabase.normalOutfits.get( id ) );
 	}
 
-	public static final SpecialOutfit getOutfit( int id )
-	{	return normalOutfits.get( id );
+	public static final SpecialOutfit getOutfit( final int id )
+	{
+		return EquipmentDatabase.normalOutfits.get( id );
 	}
 
 	public static final void updateOutfits()
 	{
 		ArrayList available = new ArrayList();
 
-		for ( int i = 0; i < normalOutfits.size(); ++i )
-			if ( normalOutfits.get(i) != null && normalOutfits.get(i).hasAllPieces() )
-				available.add( normalOutfits.get(i) );
+		for ( int i = 0; i < EquipmentDatabase.normalOutfits.size(); ++i )
+		{
+			if ( EquipmentDatabase.normalOutfits.get( i ) != null && EquipmentDatabase.normalOutfits.get( i ).hasAllPieces() )
+			{
+				available.add( EquipmentDatabase.normalOutfits.get( i ) );
+			}
+		}
 
-		for ( int i = 0; i < weirdOutfits.size(); ++i )
-			if ( weirdOutfits.get(i) != null && weirdOutfits.get(i).hasAllPieces() )
-				available.add( weirdOutfits.get(i) );
+		for ( int i = 0; i < EquipmentDatabase.weirdOutfits.size(); ++i )
+		{
+			if ( EquipmentDatabase.weirdOutfits.get( i ) != null && EquipmentDatabase.weirdOutfits.get( i ).hasAllPieces() )
+			{
+				available.add( EquipmentDatabase.weirdOutfits.get( i ) );
+			}
+		}
 
 		Collections.sort( available );
 		KoLCharacter.getOutfits().clear();
@@ -311,160 +369,204 @@ public class EquipmentDatabase extends KoLDatabase
 	}
 
 	/**
-	 * Utility method which determines whether or not the equipment
-	 * corresponding to the given outfit is already equipped.
+	 * Utility method which determines whether or not the equipment corresponding to the given outfit is already
+	 * equipped.
 	 */
 
-	public static final boolean isWearingOutfit( int outfitId )
+	public static final boolean isWearingOutfit( final int outfitId )
 	{
 		if ( outfitId < 0 )
+		{
 			return true;
+		}
 
 		if ( outfitId == 0 )
+		{
 			return false;
+		}
 
-		return isWearingOutfit( normalOutfits.get( outfitId ) );
+		return EquipmentDatabase.isWearingOutfit( EquipmentDatabase.normalOutfits.get( outfitId ) );
 	}
 
 	/**
-	 * Utility method which determines whether or not the equipment
-	 * corresponding to the given outfit is already equipped.
+	 * Utility method which determines whether or not the equipment corresponding to the given outfit is already
+	 * equipped.
 	 */
 
-	public static final boolean isWearingOutfit( SpecialOutfit outfit )
-	{	return outfit != null && outfit.isWearing();
+	public static final boolean isWearingOutfit( final SpecialOutfit outfit )
+	{
+		return outfit != null && outfit.isWearing();
 	}
 
 	/**
-	 * Utility method which determines the outfit ID the character is
-	 * currently wearing
+	 * Utility method which determines the outfit ID the character is currently wearing
 	 */
 
 	public static final SpecialOutfit currentOutfit()
 	{
-		for ( int id = 1; id <= normalOutfits.size(); ++id )
+		for ( int id = 1; id <= EquipmentDatabase.normalOutfits.size(); ++id )
 		{
-			SpecialOutfit outfit = normalOutfits.get( id );
+			SpecialOutfit outfit = EquipmentDatabase.normalOutfits.get( id );
 			if ( outfit == null )
+			{
 				continue;
+			}
 			if ( outfit.isWearing() )
+			{
 				return outfit;
+			}
 		}
 
 		return null;
 	}
 
-	public static final int getOutfitId( KoLAdventure adventure )
+	public static final int getOutfitId( final KoLAdventure adventure )
 	{
 		String adventureId = adventure.getAdventureId();
 
 		// Knob goblin treasury has the elite guard outfit
 		if ( adventureId.equals( "41" ) )
+		{
 			return 5;
+		}
 
 		// Knob goblin harem has the harem girl disguise
 		if ( adventureId.equals( "42" ) || adventure.getFormSource().equals( "knob.php" ) )
+		{
 			return 4;
+		}
 
 		// The mine has mining gear
 		if ( adventureId.equals( "61" ) )
+		{
 			return 8;
+		}
 
 		// The slope has eXtreme cold weather gear
 		if ( adventureId.equals( "63" ) )
+		{
 			return 7;
+		}
 
 		// Hippies have a filthy hippy disguise
 		if ( adventureId.equals( "26" ) || adventureId.equals( "65" ) )
+		{
 			return 2;
+		}
 
 		// Frat house has a frat house ensemble
 		if ( adventureId.equals( "27" ) || adventureId.equals( "29" ) )
+		{
 			return 3;
+		}
 
 		// Pirates have a swashbuckling getup
 		if ( adventureId.equals( "66" ) || adventureId.equals( "67" ) )
+		{
 			return 9;
+		}
 
 		// Choose the uniform randomly
 		if ( adventureId.equals( "85" ) )
-			return RNG.nextInt(2) == 0 ? 23 : 24;
+		{
+			return KoLConstants.RNG.nextInt( 2 ) == 0 ? 23 : 24;
+		}
 
 		// Cloaca area requires cloaca uniforms
 		if ( adventureId.equals( "86" ) )
+		{
 			return 23;
+		}
 
 		// Dyspepsi area requires dyspepsi uniforms
 		if ( adventureId.equals( "87" ) )
+		{
 			return 24;
+		}
 
 		// No outfit existed for this area
 		return -1;
 	}
 
-	public static final boolean addOutfitConditions( KoLAdventure adventure )
+	public static final boolean addOutfitConditions( final KoLAdventure adventure )
 	{
-		int outfitId = getOutfitId( adventure );
+		int outfitId = EquipmentDatabase.getOutfitId( adventure );
 		if ( outfitId <= 0 )
+		{
 			return false;
+		}
 
-		addOutfitConditions( outfitId );
+		EquipmentDatabase.addOutfitConditions( outfitId );
 		return true;
 	}
 
-	public static final boolean retrieveOutfit( int outfitId )
+	public static final boolean retrieveOutfit( final int outfitId )
 	{
 		if ( outfitId < 0 )
+		{
 			return true;
+		}
 
-		AdventureResult [] pieces = normalOutfits.get( outfitId ).getPieces();
+		AdventureResult[] pieces = EquipmentDatabase.normalOutfits.get( outfitId ).getPieces();
 
 		for ( int i = 0; i < pieces.length; ++i )
-			if ( !KoLCharacter.hasEquipped( pieces[i] ) && !AdventureDatabase.retrieveItem( pieces[i] ) )
+		{
+			if ( !KoLCharacter.hasEquipped( pieces[ i ] ) && !AdventureDatabase.retrieveItem( pieces[ i ] ) )
+			{
 				return false;
+			}
+		}
 
 		return true;
 	}
 
-	public static final void addOutfitConditions( int outfitId )
+	public static final void addOutfitConditions( final int outfitId )
 	{
 		// Ignore custom outfits, since there's
 		// no way to know what they are (yet).
 
 		if ( outfitId < 0 )
+		{
 			return;
+		}
 
-		AdventureResult [] pieces = normalOutfits.get( outfitId ).getPieces();
+		AdventureResult[] pieces = EquipmentDatabase.normalOutfits.get( outfitId ).getPieces();
 		for ( int i = 0; i < pieces.length; ++i )
-			if ( !KoLCharacter.hasEquipped( pieces[i] ) )
-				KoLmafiaCLI.DEFAULT_SHELL.executeConditionsCommand( "set " + pieces[i].getName() );
+		{
+			if ( !KoLCharacter.hasEquipped( pieces[ i ] ) )
+			{
+				KoLmafiaCLI.DEFAULT_SHELL.executeConditionsCommand( "set " + pieces[ i ].getName() );
+			}
+		}
 	}
 
 	/**
-	 * Internal class which functions exactly an array of concoctions,
-	 * except it uses "sets" and "gets" like a list.  This could be
-	 * done with generics (Java 1.5) but is done like this so that
-	 * we get backwards compatibility.
+	 * Internal class which functions exactly an array of concoctions, except it uses "sets" and "gets" like a list.
+	 * This could be done with generics (Java 1.5) but is done like this so that we get backwards compatibility.
 	 */
 
 	private static class SpecialOutfitArray
 	{
-		private ArrayList internalList = new ArrayList();
+		private final ArrayList internalList = new ArrayList();
 
-		public SpecialOutfit get( int index )
-		{	return index < 0 || index >= this.internalList.size() ? null : (SpecialOutfit) this.internalList.get( index );
+		public SpecialOutfit get( final int index )
+		{
+			return index < 0 || index >= this.internalList.size() ? null : (SpecialOutfit) this.internalList.get( index );
 		}
 
-		public void set( int index, SpecialOutfit value )
+		public void set( final int index, final SpecialOutfit value )
 		{
 			for ( int i = this.internalList.size(); i <= index; ++i )
+			{
 				this.internalList.add( null );
+			}
 
 			this.internalList.set( index, value );
 		}
 
 		public int size()
-		{	return this.internalList.size();
+		{
+			return this.internalList.size();
 		}
 	}
 }

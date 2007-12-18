@@ -43,6 +43,7 @@ import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -53,14 +54,16 @@ import tab.CloseTabbedPane;
 
 import com.sun.java.forums.CloseableTabbedPane;
 
-public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListener
+public class KoLDesktop
+	extends KoLFrame
+	implements ChangeListener, CloseListener
 {
 	private static final DisplayDesktopRunnable DISPLAYER = new DisplayDesktopRunnable();
 
 	private static KoLDesktop INSTANCE = null;
 	private static boolean isInitializing = false;
 
-	private ArrayList tabListing = new ArrayList();
+	private final ArrayList tabListing = new ArrayList();
 
 	public JPanel compactPane;
 	public JLabel levelLabel, roninLabel, mcdLabel;
@@ -74,20 +77,22 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 	{
 	}
 
-	public KoLDesktop( String title )
+	public KoLDesktop( final String title )
 	{
 		super( "Main Interface" );
 
 		if ( StaticEntity.usesSystemTray() )
+		{
 			this.addWindowListener( new MinimizeListener() );
+		}
 
 		this.getContentPane().setLayout( new BorderLayout() );
 
-		this.tabs.setTabPlacement( CloseTabbedPane.TOP );
+		this.tabs.setTabPlacement( SwingConstants.TOP );
 		this.getContentPane().add( this.tabs, BorderLayout.CENTER );
 		this.addCompactPane();
 
-		JToolBar toolbarPanel = getToolbar();
+		JToolBar toolbarPanel = this.getToolbar();
 		this.setJMenuBar( new KoLMenuBar() );
 		this.tabs.addChangeListener( this );
 
@@ -95,7 +100,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 
 		if ( scriptButtons != 0 )
 		{
-			String [] scriptList = KoLSettings.getUserProperty( "scriptList" ).split( " \\| " );
+			String[] scriptList = KoLSettings.getUserProperty( "scriptList" ).split( " \\| " );
 
 			JToolBar scriptBar = null;
 
@@ -106,12 +111,14 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 			}
 			else
 			{
-				scriptBar =  new JToolBar( JToolBar.VERTICAL );
+				scriptBar = new JToolBar( SwingConstants.VERTICAL );
 				scriptBar.setFloatable( false );
 			}
 
 			for ( int i = 0; i < scriptList.length; ++i )
-				scriptBar.add( new LoadScriptButton( i + 1, scriptList[i] ) );
+			{
+				scriptBar.add( new LoadScriptButton( i + 1, scriptList[ i ] ) );
+			}
 
 			if ( scriptButtons == 2 )
 			{
@@ -131,28 +138,31 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 
 			if ( KoLSettings.getBooleanProperty( "allowCloseableDesktopTabs" ) )
 			{
-				((CloseTabbedPane)tabs).setCloseIconStyle( CloseTabPaneUI.RED_CLOSE_ICON );
-				((CloseTabbedPane)tabs).addCloseListener( this );
+				( (CloseTabbedPane) tabs ).setCloseIconStyle( CloseTabPaneUI.RED_CLOSE_ICON );
+				( (CloseTabbedPane) tabs ).addCloseListener( this );
 			}
 
 			return tabs;
 		}
 
-		return KoLSettings.getBooleanProperty( "allowCloseableDesktopTabs" ) ?
-			new CloseableTabbedPane() : new UnfocusedTabbedPane();
+		return KoLSettings.getBooleanProperty( "allowCloseableDesktopTabs" ) ? new CloseableTabbedPane() : new UnfocusedTabbedPane();
 	}
 
-	public void stateChanged( ChangeEvent e )
+	public void stateChanged( final ChangeEvent e )
 	{
 		int selectedIndex = KoLDesktop.this.tabs.getSelectedIndex();
 		if ( selectedIndex != -1 && selectedIndex < KoLDesktop.this.tabListing.size() )
-			((KoLFrame) KoLDesktop.this.tabListing.get( selectedIndex )).requestFocus();
+		{
+			( (KoLFrame) KoLDesktop.this.tabListing.get( selectedIndex ) ).requestFocus();
+		}
 	}
 
-	public void closeOperation( MouseEvent e, int overTabIndex )
+	public void closeOperation( final MouseEvent e, final int overTabIndex )
 	{
 		if ( overTabIndex == -1 )
+		{
 			return;
+		}
 
 		this.tabListing.remove( overTabIndex );
 		this.tabs.removeTabAt( overTabIndex );
@@ -160,94 +170,105 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 
 	public void initializeTabs()
 	{
-		if ( isInitializing )
+		if ( KoLDesktop.isInitializing )
+		{
 			return;
+		}
 
-		isInitializing = true;
+		KoLDesktop.isInitializing = true;
 		KoLmafiaGUI.checkFrameSettings();
 
 		String interfaceSetting = KoLSettings.getUserProperty( "initialDesktop" );
 		if ( !interfaceSetting.equals( "" ) )
 		{
-			String [] interfaceArray = interfaceSetting.split( "," );
+			String[] interfaceArray = interfaceSetting.split( "," );
 
 			if ( !interfaceSetting.equals( "" ) )
 			{
 				for ( int i = 0; i < interfaceArray.length; ++i )
 				{
-					if ( interfaceArray[i].equals( "LocalRelayServer" ) )
+					if ( interfaceArray[ i ].equals( "LocalRelayServer" ) )
 					{
 						StaticEntity.getClient().startRelayServer();
 						continue;
 					}
 
-					KoLmafiaGUI.constructFrame( interfaceArray[i] );
+					KoLmafiaGUI.constructFrame( interfaceArray[ i ] );
 				}
 			}
 		}
 
-		isInitializing = false;
+		KoLDesktop.isInitializing = false;
 	}
 
 	public static final boolean isInitializing()
-	{	return isInitializing;
+	{
+		return KoLDesktop.isInitializing;
 	}
 
 	public void dispose()
 	{
-		setVisible( false );
+		this.setVisible( false );
 
-		if ( tabs != null && tabs instanceof CloseTabbedPane )
-			((CloseTabbedPane)tabs).removeCloseListener( this );
-
-		while ( !tabListing.isEmpty() )
+		if ( this.tabs != null && this.tabs instanceof CloseTabbedPane )
 		{
-			tabs.removeTabAt(0);
-			((KoLFrame)tabListing.remove(0)).dispose();
+			( (CloseTabbedPane) this.tabs ).removeCloseListener( this );
+		}
+
+		while ( !this.tabListing.isEmpty() )
+		{
+			this.tabs.removeTabAt( 0 );
+			( (KoLFrame) this.tabListing.remove( 0 ) ).dispose();
 		}
 
 		super.dispose();
-		INSTANCE = null;
+		KoLDesktop.INSTANCE = null;
 	}
 
 	public static final boolean instanceExists()
-	{	return INSTANCE != null;
+	{
+		return KoLDesktop.INSTANCE != null;
 	}
 
 	public static final KoLDesktop getInstance()
 	{
-		if ( INSTANCE == null )
-			INSTANCE = new KoLDesktop( VERSION_NAME );
+		if ( KoLDesktop.INSTANCE == null )
+		{
+			KoLDesktop.INSTANCE = new KoLDesktop( KoLConstants.VERSION_NAME );
+		}
 
-		return INSTANCE;
+		return KoLDesktop.INSTANCE;
 	}
 
-	public static final void addTab( KoLFrame content )
+	public static final void addTab( final KoLFrame content )
 	{
-		if ( INSTANCE == null )
+		if ( KoLDesktop.INSTANCE == null )
+		{
 			return;
+		}
 
-		int tabIndex = INSTANCE.tabListing.indexOf( content );
+		int tabIndex = KoLDesktop.INSTANCE.tabListing.indexOf( content );
 		if ( tabIndex == -1 )
 		{
-			INSTANCE.tabListing.add( content );
-			INSTANCE.tabs.addTab( content.lastTitle, content.getContentPane() );
+			KoLDesktop.INSTANCE.tabListing.add( content );
+			KoLDesktop.INSTANCE.tabs.addTab( content.lastTitle, content.getContentPane() );
 
-			if ( content.tabs != null && !isInversionExempt( content ) )
-				content.tabs.setTabPlacement( CloseTabbedPane.BOTTOM );
+			if ( content.tabs != null && !KoLDesktop.isInversionExempt( content ) )
+			{
+				content.tabs.setTabPlacement( SwingConstants.BOTTOM );
+			}
 
-			INSTANCE.tabs.setSelectedIndex( 0 );
+			KoLDesktop.INSTANCE.tabs.setSelectedIndex( 0 );
 		}
 		else
 		{
-			INSTANCE.tabs.setSelectedIndex( tabIndex );
+			KoLDesktop.INSTANCE.tabs.setSelectedIndex( tabIndex );
 		}
 	}
 
-	public static final boolean isInversionExempt( KoLFrame content )
+	public static final boolean isInversionExempt( final KoLFrame content )
 	{
-		return content instanceof AdventureFrame || content instanceof FlowerHunterFrame ||
-			content instanceof MailboxFrame || content instanceof SendMessageFrame;
+		return content instanceof AdventureFrame || content instanceof FlowerHunterFrame || content instanceof MailboxFrame || content instanceof SendMessageFrame;
 	}
 
 	public static final void displayDesktop()
@@ -255,9 +276,13 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 		try
 		{
 			if ( SwingUtilities.isEventDispatchThread() )
-				DISPLAYER.run();
+			{
+				KoLDesktop.DISPLAYER.run();
+			}
 			else
-				SwingUtilities.invokeAndWait( DISPLAYER );
+			{
+				SwingUtilities.invokeAndWait( KoLDesktop.DISPLAYER );
+			}
 		}
 		catch ( Exception e )
 		{
@@ -265,7 +290,8 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 		}
 	}
 
-	private static class DisplayDesktopRunnable implements Runnable
+	private static class DisplayDesktopRunnable
+		implements Runnable
 	{
 		public void run()
 		{
@@ -279,64 +305,83 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 	{
 		super.pack();
 		if ( this.tabs.getTabCount() > 0 )
-			this.tabs.setSelectedIndex( 0 );
-	}
-
-	public static final void removeTab( KoLFrame content )
-	{
-		if ( INSTANCE == null )
-			return;
-
-		int tabIndex = INSTANCE.tabListing.indexOf( content );
-		if ( tabIndex != -1 )
 		{
-			INSTANCE.tabListing.remove( tabIndex );
-			INSTANCE.tabs.removeTabAt( tabIndex );
+			this.tabs.setSelectedIndex( 0 );
 		}
 	}
 
-	public static final boolean showComponent( KoLFrame content )
+	public static final void removeTab( final KoLFrame content )
 	{
-		if ( INSTANCE == null )
-			return false;
+		if ( KoLDesktop.INSTANCE == null )
+		{
+			return;
+		}
 
-		int tabIndex = INSTANCE.tabListing.indexOf( content );
+		int tabIndex = KoLDesktop.INSTANCE.tabListing.indexOf( content );
+		if ( tabIndex != -1 )
+		{
+			KoLDesktop.INSTANCE.tabListing.remove( tabIndex );
+			KoLDesktop.INSTANCE.tabs.removeTabAt( tabIndex );
+		}
+	}
+
+	public static final boolean showComponent( final KoLFrame content )
+	{
+		if ( KoLDesktop.INSTANCE == null )
+		{
+			return false;
+		}
+
+		int tabIndex = KoLDesktop.INSTANCE.tabListing.indexOf( content );
 		if ( tabIndex == -1 )
+		{
 			return false;
+		}
 
-		INSTANCE.tabs.setSelectedIndex( tabIndex );
+		KoLDesktop.INSTANCE.tabs.setSelectedIndex( tabIndex );
 		return true;
 	}
 
-	public static final void setTitle( KoLFrame content, String newTitle )
+	public static final void setTitle( final KoLFrame content, final String newTitle )
 	{
-		if ( INSTANCE == null )
+		if ( KoLDesktop.INSTANCE == null )
+		{
 			return;
+		}
 
-		int tabIndex = INSTANCE.tabListing.indexOf( content );
+		int tabIndex = KoLDesktop.INSTANCE.tabListing.indexOf( content );
 		if ( tabIndex != -1 )
-			INSTANCE.tabs.setTitleAt( tabIndex, newTitle );
+		{
+			KoLDesktop.INSTANCE.tabs.setTitleAt( tabIndex, newTitle );
+		}
 	}
 
 	public static final void updateTitle()
 	{
-		if ( INSTANCE != null )
-			INSTANCE.setTitle( INSTANCE.lastTitle );
+		if ( KoLDesktop.INSTANCE != null )
+		{
+			KoLDesktop.INSTANCE.setTitle( KoLDesktop.INSTANCE.lastTitle );
+		}
 
-		KoLFrame [] frames = StaticEntity.getExistingFrames();
+		KoLFrame[] frames = StaticEntity.getExistingFrames();
 		for ( int i = 0; i < frames.length; ++i )
-			frames[i].setTitle( frames[i].lastTitle );
+		{
+			frames[ i ].setTitle( frames[ i ].lastTitle );
+		}
 	}
 
 	public JToolBar getToolbar()
 	{
-		 JToolBar toolbarPanel = super.getToolbar();
-		 if ( toolbarPanel == null )
-		 	return null;
+		JToolBar toolbarPanel = super.getToolbar();
+		if ( toolbarPanel == null )
+		{
+			return null;
+		}
 
 		toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
 		toolbarPanel.add( new DisplayFrameButton( "Council", "council.gif", "CouncilFrame" ) );
-		toolbarPanel.add( new InvocationButton( "Load in Web Browser", "browser.gif", StaticEntity.getClient(), "openRelayBrowser" ) );
+		toolbarPanel.add( new InvocationButton(
+			"Load in Web Browser", "browser.gif", StaticEntity.getClient(), "openRelayBrowser" ) );
 
 		toolbarPanel.add( new DisplayFrameButton( "Graphical CLI", "command.gif", "CommandDisplayFrame" ) );
 
@@ -351,7 +396,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 		toolbarPanel.add( new DisplayFrameButton( "Player Status", "hp.gif", "CharsheetFrame" ) );
 		toolbarPanel.add( new DisplayFrameButton( "Item Manager", "inventory.gif", "ItemManageFrame" ) );
 		toolbarPanel.add( new DisplayFrameButton( "Equipment Manager", "equipment.gif", "GearChangeFrame" ) );
-		toolbarPanel.add( new DisplayFrameButton( "Store Manager", "mall.gif", "StoreManageFrame") );
+		toolbarPanel.add( new DisplayFrameButton( "Store Manager", "mall.gif", "StoreManageFrame" ) );
 
 		toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
 
@@ -372,22 +417,28 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 
 	public static final void removeExtraTabs()
 	{
-		if ( INSTANCE == null )
+		if ( KoLDesktop.INSTANCE == null )
+		{
 			return;
+		}
 
 		String setting = KoLSettings.getUserProperty( "initialDesktop" );
-		for ( int i = 0; i < INSTANCE.tabListing.size(); ++i )
+		for ( int i = 0; i < KoLDesktop.INSTANCE.tabListing.size(); ++i )
 		{
-			KoLFrame frame = (KoLFrame) INSTANCE.tabListing.get( i );
-			if ( !(frame instanceof ChatFrame) && setting.indexOf( frame.getFrameName() ) == -1 )
+			KoLFrame frame = (KoLFrame) KoLDesktop.INSTANCE.tabListing.get( i );
+			if ( !( frame instanceof ChatFrame ) && setting.indexOf( frame.getFrameName() ) == -1 )
+			{
 				frame.dispose();
+			}
 		}
 	}
 
-	private class MinimizeListener extends WindowAdapter
+	private class MinimizeListener
+		extends WindowAdapter
 	{
-		public void windowIconified( WindowEvent e )
-		{	KoLDesktop.this.setVisible( false );
+		public void windowIconified( final WindowEvent e )
+		{
+			KoLDesktop.this.setVisible( false );
 		}
 	}
 }

@@ -47,13 +47,14 @@ import net.java.dev.spellcast.utilities.PanelList;
 import net.java.dev.spellcast.utilities.PanelListCell;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
-public class MuseumFrame extends KoLFrame
+public class MuseumFrame
+	extends KoLFrame
 {
-	private JComponent general, restock, shelves, ordering;
+	private final JComponent general, restock, shelves, ordering;
 
 	/**
-	 * Constructs a new <code>MuseumFrame</code> and inserts all
-	 * of the necessary panels into a tabular layout for accessibility.
+	 * Constructs a new <code>MuseumFrame</code> and inserts all of the necessary panels into a tabular layout for
+	 * accessibility.
 	 */
 
 	public MuseumFrame()
@@ -73,28 +74,31 @@ public class MuseumFrame extends KoLFrame
 		this.framePanel.add( this.tabs, BorderLayout.CENTER );
 	}
 
-
-	private class DisplayCaseMatchPanel extends OverlapPanel
+	private class DisplayCaseMatchPanel
+		extends OverlapPanel
 	{
 		public DisplayCaseMatchPanel()
-		{	super( "display", "help", collection, true );
+		{
+			super( "display", "help", KoLConstants.collection, true );
 		}
 
 		public void actionConfirmed()
 		{
 			KoLmafia.updateDisplay( "Gathering data..." );
 
-			AdventureResult [] display = new AdventureResult[ collection.size() ];
-			collection.toArray( display );
+			AdventureResult[] display = new AdventureResult[ KoLConstants.collection.size() ];
+			KoLConstants.collection.toArray( display );
 
 			int itemCount;
 			ArrayList items = new ArrayList();
 
 			for ( int i = 0; i < display.length; ++i )
 			{
-				itemCount = display[i].getCount( inventory );
-				if ( itemCount > 0 && display[i].getCount() > 1 )
-					items.add( display[i].getInstance( itemCount ) );
+				itemCount = display[ i ].getCount( KoLConstants.inventory );
+				if ( itemCount > 0 && display[ i ].getCount() > 1 )
+				{
+					items.add( display[ i ].getInstance( itemCount ) );
+				}
 			}
 
 			if ( items.isEmpty() )
@@ -107,19 +111,20 @@ public class MuseumFrame extends KoLFrame
 		}
 
 		public void actionCancelled()
-		{	alert( "This feature scans your inventory and if it finds any items which are in your display case, it puts those items on display." );
+		{
+			KoLFrame.alert( "This feature scans your inventory and if it finds any items which are in your display case, it puts those items on display." );
 		}
 	}
 
 	/**
-	 * Internal class used to handle everything related to
-	 * placing items into the display and taking items from
-	 * the display.
+	 * Internal class used to handle everything related to placing items into the display and taking items from the
+	 * display.
 	 */
 
-	private class AddRemovePanel extends JPanel
+	private class AddRemovePanel
+		extends JPanel
 	{
-		private LabeledScrollPanel inventoryPanel, displayPanel;
+		private final LabeledScrollPanel inventoryPanel, displayPanel;
 
 		public AddRemovePanel()
 		{
@@ -132,104 +137,125 @@ public class MuseumFrame extends KoLFrame
 			this.add( this.displayPanel );
 		}
 
-		public void setEnabled( boolean isEnabled )
+		public void setEnabled( final boolean isEnabled )
 		{
 			if ( this.inventoryPanel == null || this.displayPanel == null )
+			{
 				return;
+			}
 
 			super.setEnabled( isEnabled );
 			this.inventoryPanel.setEnabled( isEnabled );
 			this.displayPanel.setEnabled( isEnabled );
 		}
 
-		private Object [] getSelectedValues( Object [] selection, boolean moveAll )
+		private Object[] getSelectedValues( final Object[] selection, boolean moveAll )
 		{
 			if ( !moveAll )
+			{
 				for ( int i = 0; i < selection.length; ++i )
-					selection[i] = ((AdventureResult)selection[i]).getInstance(
-						getQuantity( "Moving " + ((AdventureResult)selection[i]).getName() + "...", ((AdventureResult)selection[i]).getCount(), 1 ) );
+				{
+					selection[ i ] =
+						( (AdventureResult) selection[ i ] ).getInstance( KoLFrame.getQuantity(
+							"Moving " + ( (AdventureResult) selection[ i ] ).getName() + "...",
+							( (AdventureResult) selection[ i ] ).getCount(), 1 ) );
+				}
+			}
 
 			return selection;
 		}
 
-		private class OutsideDisplayPanel extends LabeledScrollPanel
+		private class OutsideDisplayPanel
+			extends LabeledScrollPanel
 		{
-			private ShowDescriptionList elementList;
+			private final ShowDescriptionList elementList;
 
 			public OutsideDisplayPanel()
 			{
-				super( "Inventory", "add all", "add some", new ShowDescriptionList( inventory ) );
+				super( "Inventory", "add all", "add some", new ShowDescriptionList( KoLConstants.inventory ) );
 				this.elementList = (ShowDescriptionList) this.scrollComponent;
 			}
 
-			private void move( boolean moveAll )
+			private void move( final boolean moveAll )
 			{
 				RequestThread.openRequestSequence();
-				RequestThread.postRequest( new MuseumRequest( AddRemovePanel.this.getSelectedValues( this.elementList.getSelectedValues(), moveAll ), true ) );
+				RequestThread.postRequest( new MuseumRequest( AddRemovePanel.this.getSelectedValues(
+					this.elementList.getSelectedValues(), moveAll ), true ) );
 				RequestThread.postRequest( new MuseumRequest() );
 				RequestThread.closeRequestSequence();
 			}
 
 			public void actionConfirmed()
-			{	this.move( true );
+			{
+				this.move( true );
 			}
 
 			public void actionCancelled()
-			{	this.move( false );
+			{
+				this.move( false );
 			}
 		}
 
-		private class InsideDisplayPanel extends LabeledScrollPanel
+		private class InsideDisplayPanel
+			extends LabeledScrollPanel
 		{
-			private ShowDescriptionList elementList;
+			private final ShowDescriptionList elementList;
 
 			public InsideDisplayPanel()
 			{
-				super( "Display Case", "take all", "take some", new ShowDescriptionList( collection ) );
+				super( "Display Case", "take all", "take some", new ShowDescriptionList( KoLConstants.collection ) );
 				this.elementList = (ShowDescriptionList) this.scrollComponent;
 			}
 
-			private void move( boolean moveAll )
+			private void move( final boolean moveAll )
 			{
 				RequestThread.openRequestSequence();
-				RequestThread.postRequest( new MuseumRequest( AddRemovePanel.this.getSelectedValues( this.elementList.getSelectedValues(), moveAll ), false ) );
+				RequestThread.postRequest( new MuseumRequest( AddRemovePanel.this.getSelectedValues(
+					this.elementList.getSelectedValues(), moveAll ), false ) );
 				RequestThread.postRequest( new MuseumRequest() );
 				RequestThread.closeRequestSequence();
 			}
 
 			public void actionConfirmed()
-			{	this.move( true );
+			{
+				this.move( true );
 			}
 
 			public void actionCancelled()
-			{	this.move( false );
+			{
+				this.move( false );
 			}
 		}
 	}
 
-	public class MuseumShelfList extends PanelList
+	public class MuseumShelfList
+		extends PanelList
 	{
 		public MuseumShelfList()
-		{	super( 1, 480, 200, MuseumManager.getShelves(), true );
+		{
+			super( 1, 480, 200, MuseumManager.getShelves(), true );
 		}
 
-		public PanelListCell constructPanelListCell( Object value, int index )
+		public PanelListCell constructPanelListCell( final Object value, final int index )
 		{
 			MuseumShelfPanel toConstruct = new MuseumShelfPanel( index, (SortedListModel) value );
 			return toConstruct;
 		}
 
 		public boolean isResizeableList()
-		{	return true;
+		{
+			return true;
 		}
 	}
 
-	public class MuseumShelfPanel extends LabeledScrollPanel implements PanelListCell
+	public class MuseumShelfPanel
+		extends LabeledScrollPanel
+		implements PanelListCell
 	{
-		private int index;
-		private ShowDescriptionList elementList;
+		private final int index;
+		private final ShowDescriptionList elementList;
 
-		public MuseumShelfPanel( int index, SortedListModel value )
+		public MuseumShelfPanel( final int index, final SortedListModel value )
 		{
 			super( MuseumManager.getHeader( index ), "move", "remove", new ShowDescriptionList( value ), false );
 
@@ -239,16 +265,22 @@ public class MuseumFrame extends KoLFrame
 
 		public void actionConfirmed()
 		{
-			Object [] headerArray = MuseumManager.getHeaders().toArray();
+			Object[] headerArray = MuseumManager.getHeaders().toArray();
 
-			String selectedValue = (String) input( "Moving to this shelf...", headerArray );
+			String selectedValue = (String) KoLFrame.input( "Moving to this shelf...", headerArray );
 
 			if ( selectedValue == null )
+			{
 				return;
+			}
 
 			for ( int i = 0; i < headerArray.length; ++i )
-				if ( selectedValue.equals( headerArray[i] ) )
+			{
+				if ( selectedValue.equals( headerArray[ i ] ) )
+				{
 					MuseumManager.move( this.elementList.getSelectedValues(), this.index, i );
+				}
+			}
 		}
 
 		public void actionCancelled()
@@ -259,68 +291,80 @@ public class MuseumFrame extends KoLFrame
 			RequestThread.closeRequestSequence();
 		}
 
-		public void updateDisplay( PanelList list, Object value, int index )
+		public void updateDisplay( final PanelList list, final Object value, final int index )
 		{
 		}
 	}
 
-
-	private class OrderingPanel extends ItemManagePanel
+	private class OrderingPanel
+		extends ItemManagePanel
 	{
 		public OrderingPanel()
 		{
 			super( (LockableListModel) MuseumManager.getHeaders().clone() );
 
-			this.setButtons( false, new ActionListener [] { new MoveUpListener(), new MoveDownListener(), new ApplyChangesListener() } );
+			this.setButtons(
+				false,
+				new ActionListener[] { new MoveUpListener(), new MoveDownListener(), new ApplyChangesListener() } );
 		}
 
-		private class MoveUpListener implements ActionListener
+		private class MoveUpListener
+			implements ActionListener
 		{
-			public void actionPerformed( ActionEvent e )
+			public void actionPerformed( final ActionEvent e )
 			{
-				int selectedIndex = elementList.getSelectedIndex();
+				int selectedIndex = OrderingPanel.this.elementList.getSelectedIndex();
 				if ( selectedIndex < 1 )
+				{
 					return;
+				}
 
-				Object removed = elementModel.remove( selectedIndex );
-				elementModel.add( selectedIndex - 1, removed );
-				elementList.setSelectedIndex( selectedIndex - 1 );
+				Object removed = OrderingPanel.this.elementModel.remove( selectedIndex );
+				OrderingPanel.this.elementModel.add( selectedIndex - 1, removed );
+				OrderingPanel.this.elementList.setSelectedIndex( selectedIndex - 1 );
 			}
 
 			public String toString()
-			{	return "move up";
+			{
+				return "move up";
 			}
 		}
 
-		private class MoveDownListener implements ActionListener
+		private class MoveDownListener
+			implements ActionListener
 		{
-			public void actionPerformed( ActionEvent e )
+			public void actionPerformed( final ActionEvent e )
 			{
-				int selectedIndex = elementList.getSelectedIndex();
-				if ( selectedIndex < 0 || selectedIndex == elementModel.size() - 1 )
+				int selectedIndex = OrderingPanel.this.elementList.getSelectedIndex();
+				if ( selectedIndex < 0 || selectedIndex == OrderingPanel.this.elementModel.size() - 1 )
+				{
 					return;
+				}
 
-				Object removed = elementModel.remove( selectedIndex );
-				elementModel.add( selectedIndex + 1, removed );
-				elementList.setSelectedIndex( selectedIndex + 1 );
+				Object removed = OrderingPanel.this.elementModel.remove( selectedIndex );
+				OrderingPanel.this.elementModel.add( selectedIndex + 1, removed );
+				OrderingPanel.this.elementList.setSelectedIndex( selectedIndex + 1 );
 			}
 
 			public String toString()
-			{	return "move down";
+			{
+				return "move down";
 			}
 		}
 
-		private class ApplyChangesListener implements ActionListener
+		private class ApplyChangesListener
+			implements ActionListener
 		{
-			public void actionPerformed( ActionEvent e )
+			public void actionPerformed( final ActionEvent e )
 			{
-				String [] headerArray = new String[ elementModel.size() ];
-				elementModel.toArray( headerArray );
+				String[] headerArray = new String[ OrderingPanel.this.elementModel.size() ];
+				OrderingPanel.this.elementModel.toArray( headerArray );
 				MuseumManager.reorder( headerArray );
 			}
 
 			public String toString()
-			{	return "apply";
+			{
+				return "apply";
 			}
 		}
 	}

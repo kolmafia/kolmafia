@@ -35,20 +35,19 @@ package net.sourceforge.kolmafia;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
-public class ClanBuffRequest extends KoLRequest
+public class ClanBuffRequest
+	extends KoLRequest
 {
-	private int buffId;
+	private final int buffId;
 
 	/**
-	 * Constructs a new <code>ClanBuffRequest</code> with the
-	 * specified buff identifier.  This constructor is only
-	 * available internally.  Note that no descendents are
-	 * possible because of the nature of the constructor.
-	 *
-	 * @param	buffId	The unique numeric identifier of the buff
+	 * Constructs a new <code>ClanBuffRequest</code> with the specified buff identifier. This constructor is only
+	 * available internally. Note that no descendents are possible because of the nature of the constructor.
+	 * 
+	 * @param buffId The unique numeric identifier of the buff
 	 */
 
-	private ClanBuffRequest( int buffId )
+	private ClanBuffRequest( final int buffId )
 	{
 		super( "clan_stash.php" );
 
@@ -59,27 +58,30 @@ public class ClanBuffRequest extends KoLRequest
 	}
 
 	/**
-	 * Returns a list of all the possible requests available through
-	 * the current implementation of <code>ClanBuffRequest</code>.
-	 *
-	 * @return	A complete <code>ListModel</code>
+	 * Returns a list of all the possible requests available through the current implementation of
+	 * <code>ClanBuffRequest</code>.
+	 * 
+	 * @return A complete <code>ListModel</code>
 	 */
 
 	public static final LockableListModel getRequestList()
 	{
 		LockableListModel requestList = new LockableListModel();
 		for ( int i = 1; i <= 6; ++i )
+		{
 			for ( int j = 1; j <= 3; ++j )
-				requestList.add( new ClanBuffRequest( 10*i + j ) );
+			{
+				requestList.add( new ClanBuffRequest( 10 * i + j ) );
+			}
+		}
 
 		return requestList;
 	}
 
 	/**
-	 * Returns the string form of this request, which is the formal name
-	 * of the buff that this buff request represents.
-	 *
-	 * @return	The formal name of the clan buff requested
+	 * Returns the string form of this request, which is the formal name of the buff that this buff request represents.
+	 * 
+	 * @return The formal name of the clan buff requested
 	 */
 
 	public String toString()
@@ -99,7 +101,7 @@ public class ClanBuffRequest extends KoLRequest
 			break;
 		}
 
-		switch ( (( this.buffId / 10 )) % 3 )
+		switch ( this.buffId / 10 % 3 )
 		{
 		case 1:
 			stringForm.append( "Muscle " );

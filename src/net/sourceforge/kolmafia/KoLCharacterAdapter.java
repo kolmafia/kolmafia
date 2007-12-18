@@ -33,30 +33,36 @@
 
 package net.sourceforge.kolmafia;
 
-public class KoLCharacterAdapter implements KoLCharacterListener
+public class KoLCharacterAdapter
+	implements KoLCharacterListener
 {
-	private Runnable statusUpdater;
+	private final Runnable statusUpdater;
 
 	public KoLCharacterAdapter()
-	{	this( null );
+	{
+		this( null );
 	}
 
-	public KoLCharacterAdapter( Runnable statusUpdater )
-	{	this( statusUpdater, null );
+	public KoLCharacterAdapter( final Runnable statusUpdater )
+	{
+		this( statusUpdater, null );
 	}
 
-	public KoLCharacterAdapter( Runnable statusUpdater, Runnable listUpdater )
-	{	this.statusUpdater = statusUpdater;
+	public KoLCharacterAdapter( final Runnable statusUpdater, final Runnable listUpdater )
+	{
+		this.statusUpdater = statusUpdater;
 	}
 
 	public void updateStatus()
 	{
 		if ( this.statusUpdater != null )
+		{
 			this.statusUpdater.run();
+		}
 	}
 
 	public boolean isStatusListener()
-	{	return this.statusUpdater != null;
+	{
+		return this.statusUpdater != null;
 	}
 }
-

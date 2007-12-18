@@ -60,15 +60,18 @@ import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.MonsterDatabase.Monster;
 import net.sourceforge.kolmafia.StoreManager.SoldItem;
 
-public class KoLmafiaASH extends StaticEntity
+public class KoLmafiaASH
+	extends StaticEntity
 {
 	/* Variables for Advanced Scripting */
 
-	public static final char [] tokenList = { ' ', '.', ',', '{', '}', '(', ')', '$', '!', '+', '-', '=', '"', '\'', '*', '^', '/', '%', '[', ']', '!', ';', '<', '>' };
-	public static final String [] multiCharTokenList = { "==", "!=", "<=", ">=", "||", "&&", "/*", "*/" };
+	public static final char[] tokenList =
+		{ ' ', '.', ',', '{', '}', '(', ')', '$', '!', '+', '-', '=', '"', '\'', '*', '^', '/', '%', '[', ']', '!', ';', '<', '>' };
+	public static final String[] multiCharTokenList = { "==", "!=", "<=", ">=", "||", "&&", "/*", "*/" };
 
 	public static final int TYPE_ANY = 0;
 	public static final int TYPE_VOID = 1;
@@ -94,9 +97,10 @@ public class KoLmafiaASH extends StaticEntity
 	public static final int TYPE_RECORD = 1001;
 	public static final int TYPE_TYPEDEF = 1002;
 
-	public static final String [] CLASSES = { KoLCharacter.SEAL_CLUBBER, KoLCharacter.TURTLE_TAMER, KoLCharacter.PASTAMANCER, KoLCharacter.SAUCEROR, KoLCharacter.DISCO_BANDIT, KoLCharacter.ACCORDION_THIEF };
-	public static final String [] STATS = { "Muscle", "Mysticality", "Moxie" };
-	public static final String [] BOOLEANS = { "true", "false" };
+	public static final String[] CLASSES =
+		{ KoLCharacter.SEAL_CLUBBER, KoLCharacter.TURTLE_TAMER, KoLCharacter.PASTAMANCER, KoLCharacter.SAUCEROR, KoLCharacter.DISCO_BANDIT, KoLCharacter.ACCORDION_THIEF };
+	public static final String[] STATS = { "Muscle", "Mysticality", "Moxie" };
+	public static final String[] BOOLEANS = { "true", "false" };
 
 	public static final int COMMAND_BREAK = 1;
 	public static final int COMMAND_CONTINUE = 2;
@@ -108,29 +112,32 @@ public class KoLmafiaASH extends StaticEntity
 	public static final int STATE_CONTINUE = 4;
 	public static final int STATE_EXIT = 5;
 
-	private static final ScriptType ANY_TYPE = new ScriptType( "any", TYPE_ANY );
-	private static final ScriptType VOID_TYPE = new ScriptType( "void", TYPE_VOID );
-	private static final ScriptType BOOLEAN_TYPE = new ScriptType( "boolean", TYPE_BOOLEAN );
-	private static final ScriptType INT_TYPE = new ScriptType( "int", TYPE_INT );
-	private static final ScriptType FLOAT_TYPE = new ScriptType( "float", TYPE_FLOAT );
-	private static final ScriptType STRING_TYPE = new ScriptType( "string", TYPE_STRING );
-	private static final ScriptType BUFFER_TYPE = new ScriptType( "buffer", TYPE_BUFFER );
-	private static final ScriptType MATCHER_TYPE = new ScriptType( "matcher", TYPE_MATCHER );
+	private static final ScriptType ANY_TYPE = new ScriptType( "any", KoLmafiaASH.TYPE_ANY );
+	private static final ScriptType VOID_TYPE = new ScriptType( "void", KoLmafiaASH.TYPE_VOID );
+	private static final ScriptType BOOLEAN_TYPE = new ScriptType( "boolean", KoLmafiaASH.TYPE_BOOLEAN );
+	private static final ScriptType INT_TYPE = new ScriptType( "int", KoLmafiaASH.TYPE_INT );
+	private static final ScriptType FLOAT_TYPE = new ScriptType( "float", KoLmafiaASH.TYPE_FLOAT );
+	private static final ScriptType STRING_TYPE = new ScriptType( "string", KoLmafiaASH.TYPE_STRING );
+	private static final ScriptType BUFFER_TYPE = new ScriptType( "buffer", KoLmafiaASH.TYPE_BUFFER );
+	private static final ScriptType MATCHER_TYPE = new ScriptType( "matcher", KoLmafiaASH.TYPE_MATCHER );
 
-	private static final ScriptType ITEM_TYPE = new ScriptType( "item", TYPE_ITEM );
-	private static final ScriptType LOCATION_TYPE = new ScriptType( "location", TYPE_LOCATION );
-	private static final ScriptType CLASS_TYPE = new ScriptType( "class", TYPE_CLASS );
-	private static final ScriptType STAT_TYPE = new ScriptType( "stat", TYPE_STAT );
-	private static final ScriptType SKILL_TYPE = new ScriptType( "skill", TYPE_SKILL );
-	private static final ScriptType EFFECT_TYPE = new ScriptType( "effect", TYPE_EFFECT );
-	private static final ScriptType FAMILIAR_TYPE = new ScriptType( "familiar", TYPE_FAMILIAR );
-	private static final ScriptType SLOT_TYPE = new ScriptType( "slot", TYPE_SLOT );
-	private static final ScriptType MONSTER_TYPE = new ScriptType( "monster", TYPE_MONSTER );
-	private static final ScriptType ELEMENT_TYPE = new ScriptType( "element", TYPE_ELEMENT );
+	private static final ScriptType ITEM_TYPE = new ScriptType( "item", KoLmafiaASH.TYPE_ITEM );
+	private static final ScriptType LOCATION_TYPE = new ScriptType( "location", KoLmafiaASH.TYPE_LOCATION );
+	private static final ScriptType CLASS_TYPE = new ScriptType( "class", KoLmafiaASH.TYPE_CLASS );
+	private static final ScriptType STAT_TYPE = new ScriptType( "stat", KoLmafiaASH.TYPE_STAT );
+	private static final ScriptType SKILL_TYPE = new ScriptType( "skill", KoLmafiaASH.TYPE_SKILL );
+	private static final ScriptType EFFECT_TYPE = new ScriptType( "effect", KoLmafiaASH.TYPE_EFFECT );
+	private static final ScriptType FAMILIAR_TYPE = new ScriptType( "familiar", KoLmafiaASH.TYPE_FAMILIAR );
+	private static final ScriptType SLOT_TYPE = new ScriptType( "slot", KoLmafiaASH.TYPE_SLOT );
+	private static final ScriptType MONSTER_TYPE = new ScriptType( "monster", KoLmafiaASH.TYPE_MONSTER );
+	private static final ScriptType ELEMENT_TYPE = new ScriptType( "element", KoLmafiaASH.TYPE_ELEMENT );
 
-	private static final ScriptType AGGREGATE_TYPE = new ScriptType( "aggregate", TYPE_AGGREGATE );
-	private static final ScriptAggregateType RESULT_TYPE = new ScriptAggregateType( INT_TYPE, ITEM_TYPE );
-	private static final ScriptAggregateType REGEX_GROUP_TYPE = new ScriptAggregateType( new ScriptAggregateType( STRING_TYPE, INT_TYPE ), INT_TYPE );
+	private static final ScriptType AGGREGATE_TYPE = new ScriptType( "aggregate", KoLmafiaASH.TYPE_AGGREGATE );
+	private static final ScriptAggregateType RESULT_TYPE =
+		new ScriptAggregateType( KoLmafiaASH.INT_TYPE, KoLmafiaASH.ITEM_TYPE );
+	private static final ScriptAggregateType REGEX_GROUP_TYPE =
+		new ScriptAggregateType(
+			new ScriptAggregateType( KoLmafiaASH.STRING_TYPE, KoLmafiaASH.INT_TYPE ), KoLmafiaASH.INT_TYPE );
 
 	// Common values
 
@@ -144,27 +151,27 @@ public class KoLmafiaASH extends StaticEntity
 	// Initial values for uninitialized variables
 
 	// VOID_TYPE omitted since no variable can have that type
-	private static final ScriptValue BOOLEAN_INIT = FALSE_VALUE;
-	private static final ScriptValue INT_INIT = ZERO_VALUE;
-	private static final ScriptValue FLOAT_INIT = ZERO_FLOAT_VALUE;
+	private static final ScriptValue BOOLEAN_INIT = KoLmafiaASH.FALSE_VALUE;
+	private static final ScriptValue INT_INIT = KoLmafiaASH.ZERO_VALUE;
+	private static final ScriptValue FLOAT_INIT = KoLmafiaASH.ZERO_FLOAT_VALUE;
 	private static final ScriptValue STRING_INIT = new ScriptValue( "" );
 
-	private static final ScriptValue ITEM_INIT = new ScriptValue( ITEM_TYPE, -1, "none" );
-	private static final ScriptValue LOCATION_INIT = new ScriptValue( LOCATION_TYPE, "none", (Object)null );
-	private static final ScriptValue CLASS_INIT = new ScriptValue( CLASS_TYPE, -1, "none" );
-	private static final ScriptValue STAT_INIT = new ScriptValue( STAT_TYPE, -1, "none" );
-	private static final ScriptValue SKILL_INIT = new ScriptValue( SKILL_TYPE, -1, "none" );
-	private static final ScriptValue EFFECT_INIT = new ScriptValue( EFFECT_TYPE, -1, "none" );
-	private static final ScriptValue FAMILIAR_INIT = new ScriptValue( FAMILIAR_TYPE, -1, "none" );
-	private static final ScriptValue SLOT_INIT = new ScriptValue( SLOT_TYPE, -1, "none" );
-	private static final ScriptValue MONSTER_INIT = new ScriptValue( MONSTER_TYPE, "none", (Object)null );
-	private static final ScriptValue ELEMENT_INIT = new ScriptValue( ELEMENT_TYPE, "none", (Object)null );
+	private static final ScriptValue ITEM_INIT = new ScriptValue( KoLmafiaASH.ITEM_TYPE, -1, "none" );
+	private static final ScriptValue LOCATION_INIT = new ScriptValue( KoLmafiaASH.LOCATION_TYPE, "none", (Object) null );
+	private static final ScriptValue CLASS_INIT = new ScriptValue( KoLmafiaASH.CLASS_TYPE, -1, "none" );
+	private static final ScriptValue STAT_INIT = new ScriptValue( KoLmafiaASH.STAT_TYPE, -1, "none" );
+	private static final ScriptValue SKILL_INIT = new ScriptValue( KoLmafiaASH.SKILL_TYPE, -1, "none" );
+	private static final ScriptValue EFFECT_INIT = new ScriptValue( KoLmafiaASH.EFFECT_TYPE, -1, "none" );
+	private static final ScriptValue FAMILIAR_INIT = new ScriptValue( KoLmafiaASH.FAMILIAR_TYPE, -1, "none" );
+	private static final ScriptValue SLOT_INIT = new ScriptValue( KoLmafiaASH.SLOT_TYPE, -1, "none" );
+	private static final ScriptValue MONSTER_INIT = new ScriptValue( KoLmafiaASH.MONSTER_TYPE, "none", (Object) null );
+	private static final ScriptValue ELEMENT_INIT = new ScriptValue( KoLmafiaASH.ELEMENT_TYPE, "none", (Object) null );
 
 	// Variables used during parsing
 
-	private static final ScriptFunctionList existingFunctions = getExistingFunctions();
-	private static final ScriptTypeList simpleTypes = getSimpleTypes();
-	private static final ScriptSymbolTable reservedWords = getReservedWords();
+	private static final ScriptFunctionList existingFunctions = KoLmafiaASH.getExistingFunctions();
+	private static final ScriptTypeList simpleTypes = KoLmafiaASH.getSimpleTypes();
+	private static final ScriptSymbolTable reservedWords = KoLmafiaASH.getReservedWords();
 
 	private static final TreeMap relayScriptMap = new TreeMap();
 	private static final StringBuffer serverReplyBuffer = new StringBuffer();
@@ -187,7 +194,7 @@ public class KoLmafiaASH extends StaticEntity
 	// Variables used during execution
 
 	private ScriptScope global;
-	private static int currentState = STATE_NORMAL;
+	private static int currentState = KoLmafiaASH.STATE_NORMAL;
 	private static boolean isExecuting = false;
 	private static String lastImportString = "";
 	private String notifyRecipient = null;
@@ -205,14 +212,16 @@ public class KoLmafiaASH extends StaticEntity
 	public static final KoLmafiaASH NAMESPACE_INTERPRETER = new KoLmafiaASH();
 
 	public KoLmafiaASH()
-	{	this.global = new ScriptScope( new ScriptVariableList(), getExistingFunctionScope() );
+	{
+		this.global = new ScriptScope( new ScriptVariableList(), this.getExistingFunctionScope() );
 	}
 
 	public String getFileName()
-	{	return fileName;
+	{
+		return this.fileName;
 	}
 
-	private KoLmafiaASH( KoLmafiaASH source, File scriptFile )
+	private KoLmafiaASH( final KoLmafiaASH source, final File scriptFile )
 	{
 		this.global = source.global;
 		this.imports = source.imports;
@@ -222,145 +231,174 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			this.commandStream = new LineNumberReader( new InputStreamReader( new FileInputStream( scriptFile ) ) );
 
-			this.currentLine = getNextLine();
-			this.lineNumber = commandStream.getLineNumber();
-			this.nextLine = getNextLine();
+			this.currentLine = this.getNextLine();
+			this.lineNumber = this.commandStream.getLineNumber();
+			this.nextLine = this.getNextLine();
 		}
 		catch ( Exception e )
 		{
 			// If any part of the initialization fails,
 			// then throw an exception.
 
-			throw new AdvancedScriptException( fileName + " could not be accessed" );
+			throw new AdvancedScriptException( this.fileName + " could not be accessed" );
 		}
 	}
 
-	public static final boolean getClientHTML( LocalRelayRequest request )
+	public static final boolean getClientHTML( final LocalRelayRequest request )
 	{
 		if ( KoLRequest.shouldIgnore( request ) )
+		{
 			return false;
+		}
 
 		String script = request.getPath();
 
-		if ( relayScriptMap.containsKey( script ) )
+		if ( KoLmafiaASH.relayScriptMap.containsKey( script ) )
 		{
-			File toExecute = (File) relayScriptMap.get( script );
-			return toExecute.exists() && getClientHTML( request, toExecute );
+			File toExecute = (File) KoLmafiaASH.relayScriptMap.get( script );
+			return toExecute.exists() && KoLmafiaASH.getClientHTML( request, toExecute );
 		}
 
 		if ( !script.endsWith( ".ash" ) )
 		{
 			if ( !script.endsWith( ".php" ) )
+			{
 				return false;
+			}
 
 			script = script.substring( 0, script.length() - 4 ) + ".ash";
 		}
 
-		File toExecute = new File( RELAY_LOCATION, script );
-		relayScriptMap.put( request.getPath(), toExecute );
-		return toExecute.exists() && getClientHTML( request, toExecute );
+		File toExecute = new File( KoLConstants.RELAY_LOCATION, script );
+		KoLmafiaASH.relayScriptMap.put( request.getPath(), toExecute );
+		return toExecute.exists() && KoLmafiaASH.getClientHTML( request, toExecute );
 	}
 
-	private static final boolean getClientHTML( LocalRelayRequest request, File toExecute )
+	private static final boolean getClientHTML( final LocalRelayRequest request, final File toExecute )
 	{
-		synchronized ( serverReplyBuffer )
+		synchronized ( KoLmafiaASH.serverReplyBuffer )
 		{
-			relayScript = KoLmafiaASH.getInterpreter( (File) toExecute );
-			if ( relayScript == null )
-				return false;
-
-			serverReplyBuffer.setLength(0);
-			relayRequest.constructURLString( request.getURLString() );
-
-			relayScript.execute( "main", null );
-
-			if ( serverReplyBuffer.length() == 0 )
+			KoLmafiaASH.relayScript = KoLmafiaASH.getInterpreter( (File) toExecute );
+			if ( KoLmafiaASH.relayScript == null )
 			{
-				if ( relayRequest.responseText != null && relayRequest.responseText.length() != 0 )
-					serverReplyBuffer.append( relayRequest.responseText );
+				return false;
 			}
 
-			if ( serverReplyBuffer.length() != 0 )
-				request.pseudoResponse( "HTTP/1.1 200 OK", serverReplyBuffer.toString() );
+			KoLmafiaASH.serverReplyBuffer.setLength( 0 );
+			KoLmafiaASH.relayRequest.constructURLString( request.getURLString() );
 
-			relayScript = null;
-			return serverReplyBuffer.length() != 0;
+			KoLmafiaASH.relayScript.execute( "main", null );
+
+			if ( KoLmafiaASH.serverReplyBuffer.length() == 0 )
+			{
+				if ( KoLmafiaASH.relayRequest.responseText != null && KoLmafiaASH.relayRequest.responseText.length() != 0 )
+				{
+					KoLmafiaASH.serverReplyBuffer.append( KoLmafiaASH.relayRequest.responseText );
+				}
+			}
+
+			if ( KoLmafiaASH.serverReplyBuffer.length() != 0 )
+			{
+				request.pseudoResponse( "HTTP/1.1 200 OK", KoLmafiaASH.serverReplyBuffer.toString() );
+			}
+
+			KoLmafiaASH.relayScript = null;
+			return KoLmafiaASH.serverReplyBuffer.length() != 0;
 		}
 	}
 
-	public static final KoLmafiaASH getInterpreter( File toExecute )
+	public static final KoLmafiaASH getInterpreter( final File toExecute )
 	{
 		if ( toExecute == null )
+		{
 			return null;
+		}
 
 		KoLmafiaASH interpreter;
-		boolean createInterpreter = !TIMESTAMPS.containsKey( toExecute );
-
-		if ( !createInterpreter )
-			createInterpreter = ((Long)TIMESTAMPS.get( toExecute )).longValue() != toExecute.lastModified();
+		boolean createInterpreter = !KoLmafiaASH.TIMESTAMPS.containsKey( toExecute );
 
 		if ( !createInterpreter )
 		{
-			interpreter = (KoLmafiaASH) INTERPRETERS.get( toExecute );
+			createInterpreter =
+				( (Long) KoLmafiaASH.TIMESTAMPS.get( toExecute ) ).longValue() != toExecute.lastModified();
+		}
+
+		if ( !createInterpreter )
+		{
+			interpreter = (KoLmafiaASH) KoLmafiaASH.INTERPRETERS.get( toExecute );
 			Iterator it = interpreter.imports.keySet().iterator();
 
 			while ( it.hasNext() && !createInterpreter )
 			{
 				File file = (File) it.next();
-				createInterpreter = ((Long) interpreter.imports.get( file )).longValue() != file.lastModified();
+				createInterpreter = ( (Long) interpreter.imports.get( file ) ).longValue() != file.lastModified();
 			}
 		}
 
 		if ( createInterpreter )
 		{
-			TIMESTAMPS.clear();
+			KoLmafiaASH.TIMESTAMPS.clear();
 			interpreter = new KoLmafiaASH();
 
 			if ( !interpreter.validate( toExecute ) )
+			{
 				return null;
+			}
 
-			TIMESTAMPS.put( toExecute, new Long( toExecute.lastModified() ) );
-			INTERPRETERS.put( toExecute, interpreter );
+			KoLmafiaASH.TIMESTAMPS.put( toExecute, new Long( toExecute.lastModified() ) );
+			KoLmafiaASH.INTERPRETERS.put( toExecute, interpreter );
 		}
 
-		return (KoLmafiaASH) INTERPRETERS.get( toExecute );
+		return (KoLmafiaASH) KoLmafiaASH.INTERPRETERS.get( toExecute );
 	}
-
 
 	// **************** Data Types *****************
 
 	// For each simple data type X, we supply:
 	// private static final ScriptValue parseXValue( String name );
 
-	private static final ScriptValue parseBooleanValue( String name )
+	private static final ScriptValue parseBooleanValue( final String name )
 	{
 		if ( name.equalsIgnoreCase( "true" ) )
-			return TRUE_VALUE;
+		{
+			return KoLmafiaASH.TRUE_VALUE;
+		}
 		if ( name.equalsIgnoreCase( "false" ) )
-			return FALSE_VALUE;
+		{
+			return KoLmafiaASH.FALSE_VALUE;
+		}
 
-		if ( isExecuting )
-			return parseInt( name ) == 0 ? FALSE_VALUE : TRUE_VALUE;
+		if ( KoLmafiaASH.isExecuting )
+		{
+			return StaticEntity.parseInt( name ) == 0 ? KoLmafiaASH.FALSE_VALUE : KoLmafiaASH.TRUE_VALUE;
+		}
 
 		throw new AdvancedScriptException( "Can't interpret '" + name + "' as a boolean" );
 	}
 
-	private static final ScriptValue parseIntValue( String name ) throws NumberFormatException
-	{	return new ScriptValue( parseInt( name ) );
+	private static final ScriptValue parseIntValue( final String name )
+		throws NumberFormatException
+	{
+		return new ScriptValue( StaticEntity.parseInt( name ) );
 	}
 
-	private static final ScriptValue parseFloatValue( String name ) throws NumberFormatException
-	{	return new ScriptValue( parseFloat( name ) );
+	private static final ScriptValue parseFloatValue( final String name )
+		throws NumberFormatException
+	{
+		return new ScriptValue( StaticEntity.parseFloat( name ) );
 	}
 
-	private static final ScriptValue parseStringValue( String name )
-	{	return new ScriptValue( name );
+	private static final ScriptValue parseStringValue( final String name )
+	{
+		return new ScriptValue( name );
 	}
 
 	private static final ScriptValue parseItemValue( String name )
 	{
 		if ( name == null || name.equalsIgnoreCase( "none" ) )
-			return ITEM_INIT;
+		{
+			return KoLmafiaASH.ITEM_INIT;
+		}
 
 		// Allow for an item number to be specified
 		// inside of the "item" construct.
@@ -368,217 +406,258 @@ public class KoLmafiaASH extends StaticEntity
 		int itemId;
 		for ( int i = 0; i < name.length(); ++i )
 		{
-			// If you get an actual item number, then store it
-			// inside of contentInt and return from the method.
-			// But, in this case, we're testing if it's not an item
-			// number -- use substring matching to make it
-			// user-friendlier.
-
-			if ( !Character.isDigit( name.charAt(i) ) )
+			if ( !Character.isDigit( name.charAt( i ) ) )
 			{
 				AdventureResult item = KoLmafiaCLI.getFirstMatchingItem( name, false );
 
 				if ( item == null )
 				{
-					if ( isExecuting )
-						return ITEM_INIT;
+					if ( KoLmafiaASH.isExecuting )
+					{
+						return KoLmafiaASH.ITEM_INIT;
+					}
 
 					throw new AdvancedScriptException( "Item " + name + " not found in database" );
 				}
 
 				itemId = item.getItemId();
 				name = TradeableItemDatabase.getItemName( itemId );
-				return new ScriptValue( ITEM_TYPE, itemId, name );
+				return new ScriptValue( KoLmafiaASH.ITEM_TYPE, itemId, name );
 			}
 		}
 
 		// Since it is numeric, parse the integer value
 		// and store it inside of the contentInt.
 
-		itemId = parseInt( name );
+		itemId = StaticEntity.parseInt( name );
 		name = TradeableItemDatabase.getItemName( itemId );
-		return new ScriptValue( ITEM_TYPE, itemId, name );
+		return new ScriptValue( KoLmafiaASH.ITEM_TYPE, itemId, name );
 	}
 
-	private static final ScriptValue parseLocationValue( String name )
+	private static final ScriptValue parseLocationValue( final String name )
 	{
 		if ( name.equalsIgnoreCase( "none" ) )
-			return LOCATION_INIT;
+		{
+			return KoLmafiaASH.LOCATION_INIT;
+		}
 
 		KoLAdventure content = AdventureDatabase.getAdventure( name );
 		if ( content == null )
 		{
-			if ( isExecuting )
-				return LOCATION_INIT;
+			if ( KoLmafiaASH.isExecuting )
+			{
+				return KoLmafiaASH.LOCATION_INIT;
+			}
 
 			throw new AdvancedScriptException( "Location " + name + " not found in database" );
 		}
 
-		return new ScriptValue( LOCATION_TYPE, name, (Object) content );
+		return new ScriptValue( KoLmafiaASH.LOCATION_TYPE, name, (Object) content );
 	}
 
-	private static final int classToInt( String name )
+	private static final int classToInt( final String name )
 	{
-		for ( int i = 0; i < CLASSES.length; ++i )
-			if ( name.equalsIgnoreCase( CLASSES[i] ) )
+		for ( int i = 0; i < KoLmafiaASH.CLASSES.length; ++i )
+		{
+			if ( name.equalsIgnoreCase( KoLmafiaASH.CLASSES[ i ] ) )
+			{
 				return i;
+			}
+		}
 		return -1;
 	}
 
-	private static final ScriptValue parseClassValue( String name )
+	private static final ScriptValue parseClassValue( final String name )
 	{
-		if ( name.equalsIgnoreCase( "none" ) || name.equals( "") )
-			return CLASS_INIT;
+		if ( name.equalsIgnoreCase( "none" ) || name.equals( "" ) )
+		{
+			return KoLmafiaASH.CLASS_INIT;
+		}
 
-		int num = classToInt( name );
+		int num = KoLmafiaASH.classToInt( name );
 		if ( num < 0 )
 		{
-			if ( isExecuting )
-				return CLASS_INIT;
+			if ( KoLmafiaASH.isExecuting )
+			{
+				return KoLmafiaASH.CLASS_INIT;
+			}
 
 			throw new AdvancedScriptException( "Unknown class " + name );
 		}
 
-		return new ScriptValue( CLASS_TYPE, num, CLASSES[num] );
+		return new ScriptValue( KoLmafiaASH.CLASS_TYPE, num, KoLmafiaASH.CLASSES[ num ] );
 	}
 
-	private static final int statToInt( String name )
+	private static final int statToInt( final String name )
 	{
-		for ( int i = 0; i < STATS.length; ++i )
-			if ( name.equalsIgnoreCase( STATS[i] ) )
+		for ( int i = 0; i < KoLmafiaASH.STATS.length; ++i )
+		{
+			if ( name.equalsIgnoreCase( KoLmafiaASH.STATS[ i ] ) )
+			{
 				return i;
+			}
+		}
 		return -1;
 	}
 
-	private static final ScriptValue parseStatValue( String name )
+	private static final ScriptValue parseStatValue( final String name )
 	{
 		if ( name.equalsIgnoreCase( "none" ) )
-			return STAT_INIT;
+		{
+			return KoLmafiaASH.STAT_INIT;
+		}
 
-		int num = statToInt( name );
+		int num = KoLmafiaASH.statToInt( name );
 		if ( num < 0 )
 		{
-			if ( isExecuting )
-				return STAT_INIT;
+			if ( KoLmafiaASH.isExecuting )
+			{
+				return KoLmafiaASH.STAT_INIT;
+			}
 
 			throw new AdvancedScriptException( "Unknown stat " + name );
 		}
 
-		return new ScriptValue( STAT_TYPE, num, STATS[num] );
+		return new ScriptValue( KoLmafiaASH.STAT_TYPE, num, KoLmafiaASH.STATS[ num ] );
 	}
 
 	private static final ScriptValue parseSkillValue( String name )
 	{
 		if ( name.equalsIgnoreCase( "none" ) )
-			return SKILL_INIT;
+		{
+			return KoLmafiaASH.SKILL_INIT;
+		}
 
 		List skills = ClassSkillsDatabase.getMatchingNames( name );
 
 		if ( skills.isEmpty() )
 		{
-			if ( isExecuting )
-				return SKILL_INIT;
+			if ( KoLmafiaASH.isExecuting )
+			{
+				return KoLmafiaASH.SKILL_INIT;
+			}
 
 			throw new AdvancedScriptException( "Skill " + name + " not found in database" );
 		}
 
-		int num = ClassSkillsDatabase.getSkillId( (String)skills.get(0) );
+		int num = ClassSkillsDatabase.getSkillId( (String) skills.get( 0 ) );
 		name = ClassSkillsDatabase.getSkillName( num );
-		return new ScriptValue( SKILL_TYPE, num, name );
+		return new ScriptValue( KoLmafiaASH.SKILL_TYPE, num, name );
 	}
 
 	private static final ScriptValue parseEffectValue( String name )
 	{
 		if ( name.equalsIgnoreCase( "none" ) || name.equals( "" ) )
-			return EFFECT_INIT;
+		{
+			return KoLmafiaASH.EFFECT_INIT;
+		}
 
 		AdventureResult effect = KoLmafiaCLI.getFirstMatchingEffect( name );
 		if ( effect == null )
 		{
-			if ( isExecuting )
-				return EFFECT_INIT;
+			if ( KoLmafiaASH.isExecuting )
+			{
+				return KoLmafiaASH.EFFECT_INIT;
+			}
 
 			throw new AdvancedScriptException( "Effect " + name + " not found in database" );
 		}
 
 		int num = StatusEffectDatabase.getEffectId( effect.getName() );
 		name = StatusEffectDatabase.getEffectName( num );
-		return new ScriptValue( EFFECT_TYPE, num, name );
+		return new ScriptValue( KoLmafiaASH.EFFECT_TYPE, num, name );
 	}
 
 	private static final ScriptValue parseFamiliarValue( String name )
 	{
 		if ( name.equalsIgnoreCase( "none" ) )
-			return FAMILIAR_INIT;
+		{
+			return KoLmafiaASH.FAMILIAR_INIT;
+		}
 
 		int num = FamiliarsDatabase.getFamiliarId( name );
 		if ( num == -1 )
 		{
-			if ( isExecuting )
-				return FAMILIAR_INIT;
+			if ( KoLmafiaASH.isExecuting )
+			{
+				return KoLmafiaASH.FAMILIAR_INIT;
+			}
 
 			throw new AdvancedScriptException( "Familiar " + name + " not found in database" );
 		}
 
 		name = FamiliarsDatabase.getFamiliarName( num );
-		return new ScriptValue( FAMILIAR_TYPE, num, name );
+		return new ScriptValue( KoLmafiaASH.FAMILIAR_TYPE, num, name );
 	}
 
 	private static final ScriptValue parseSlotValue( String name )
 	{
 		if ( name.equalsIgnoreCase( "none" ) )
-			return SLOT_INIT;
+		{
+			return KoLmafiaASH.SLOT_INIT;
+		}
 
 		int num = EquipmentRequest.slotNumber( name );
 		if ( num == -1 )
 		{
-			if ( isExecuting )
-				return SLOT_INIT;
+			if ( KoLmafiaASH.isExecuting )
+			{
+				return KoLmafiaASH.SLOT_INIT;
+			}
 
 			throw new AdvancedScriptException( "Bad slot name " + name );
 		}
 
 		name = EquipmentRequest.slotNames[ num ];
-		return new ScriptValue( SLOT_TYPE, num, name );
+		return new ScriptValue( KoLmafiaASH.SLOT_TYPE, num, name );
 	}
 
-	private static final ScriptValue parseMonsterValue( String name )
+	private static final ScriptValue parseMonsterValue( final String name )
 	{
 		if ( name.equalsIgnoreCase( "none" ) )
-			return MONSTER_INIT;
+		{
+			return KoLmafiaASH.MONSTER_INIT;
+		}
 
 		Monster monster = MonsterDatabase.findMonster( name );
 		if ( monster == null )
 		{
-			if ( isExecuting )
-				return MONSTER_INIT;
+			if ( KoLmafiaASH.isExecuting )
+			{
+				return KoLmafiaASH.MONSTER_INIT;
+			}
 
 			throw new AdvancedScriptException( "Bad monster name " + name );
 		}
 
-		return new ScriptValue( MONSTER_TYPE, monster.getName(), (Object)monster );
+		return new ScriptValue( KoLmafiaASH.MONSTER_TYPE, monster.getName(), (Object) monster );
 	}
 
 	private static final ScriptValue parseElementValue( String name )
 	{
 		if ( name.equalsIgnoreCase( "none" ) )
-			return ELEMENT_INIT;
+		{
+			return KoLmafiaASH.ELEMENT_INIT;
+		}
 
 		int num = MonsterDatabase.elementNumber( name );
 		if ( num == -1 )
 		{
-			if ( isExecuting )
-				return ELEMENT_INIT;
+			if ( KoLmafiaASH.isExecuting )
+			{
+				return KoLmafiaASH.ELEMENT_INIT;
+			}
 
 			throw new AdvancedScriptException( "Bad element name " + name );
 		}
 
 		name = MonsterDatabase.elementNames[ num ];
-		return new ScriptValue( ELEMENT_TYPE, num, name );
+		return new ScriptValue( KoLmafiaASH.ELEMENT_TYPE, num, name );
 	}
 
-	private static final ScriptValue parseValue( ScriptType type, String name )
-	{	return type.parseValue( name );
+	private static final ScriptValue parseValue( final ScriptType type, final String name )
+	{
+		return type.parseValue( name );
 	}
 
 	// For data types which map to integers, also supply:
@@ -586,54 +665,64 @@ public class KoLmafiaASH extends StaticEntity
 	// private static final ScriptValue makeXValue( int num )
 	//     throws nothing.
 
-	private static final ScriptValue makeItemValue( int num )
+	private static final ScriptValue makeItemValue( final int num )
 	{
 		String name = TradeableItemDatabase.getItemName( num );
 
 		if ( name == null )
-			return ITEM_INIT;
+		{
+			return KoLmafiaASH.ITEM_INIT;
+		}
 
-		return new ScriptValue( ITEM_TYPE, num, name );
+		return new ScriptValue( KoLmafiaASH.ITEM_TYPE, num, name );
 	}
 
-	private static final ScriptValue makeItemValue( String name )
+	private static final ScriptValue makeItemValue( final String name )
 	{
 		int num = TradeableItemDatabase.getItemId( name );
 
 		if ( num == -1 )
-			return ITEM_INIT;
+		{
+			return KoLmafiaASH.ITEM_INIT;
+		}
 
-		return new ScriptValue( ITEM_TYPE, num, name );
+		return new ScriptValue( KoLmafiaASH.ITEM_TYPE, num, name );
 	}
 
-	private static final ScriptValue makeClassValue( String name )
+	private static final ScriptValue makeClassValue( final String name )
 	{
-		return new ScriptValue( CLASS_TYPE, classToInt( name ), name );
+		return new ScriptValue( KoLmafiaASH.CLASS_TYPE, KoLmafiaASH.classToInt( name ), name );
 	}
 
-	private static final ScriptValue makeSkillValue( int num )
+	private static final ScriptValue makeSkillValue( final int num )
 	{
 		String name = ClassSkillsDatabase.getSkillName( num );
 		if ( name == null )
-			return SKILL_INIT;
+		{
+			return KoLmafiaASH.SKILL_INIT;
+		}
 
-		return new ScriptValue( SKILL_TYPE, num, name );
+		return new ScriptValue( KoLmafiaASH.SKILL_TYPE, num, name );
 	}
 
-	private static final ScriptValue makeEffectValue( int num )
+	private static final ScriptValue makeEffectValue( final int num )
 	{
 		String name = StatusEffectDatabase.getEffectName( num );
 		if ( name == null )
-			return EFFECT_INIT;
-		return new ScriptValue( EFFECT_TYPE, num, name );
+		{
+			return KoLmafiaASH.EFFECT_INIT;
+		}
+		return new ScriptValue( KoLmafiaASH.EFFECT_TYPE, num, name );
 	}
 
-	private static final ScriptValue makeFamiliarValue( int num )
+	private static final ScriptValue makeFamiliarValue( final int num )
 	{
 		String name = FamiliarsDatabase.getFamiliarName( num );
 		if ( name == null )
-			return FAMILIAR_INIT;
-		return new ScriptValue( FAMILIAR_TYPE, num, name );
+		{
+			return KoLmafiaASH.FAMILIAR_INIT;
+		}
+		return new ScriptValue( KoLmafiaASH.FAMILIAR_TYPE, num, name );
 	}
 
 	// **************** Tracing *****************
@@ -642,24 +731,26 @@ public class KoLmafiaASH extends StaticEntity
 
 	private static final void resetTracing()
 	{
-		traceIndentation = 0;
+		KoLmafiaASH.traceIndentation = 0;
 	}
 
 	private static final void traceIndent()
-	{	traceIndentation++;
+	{
+		KoLmafiaASH.traceIndentation++ ;
 	}
 
 	private static final void traceUnindent()
-	{	traceIndentation--;
+	{
+		KoLmafiaASH.traceIndentation-- ;
 	}
 
-	private static final void trace( String string )
+	private static final void trace( final String string )
 	{
-		indentLine( traceIndentation );
+		KoLmafiaASH.indentLine( KoLmafiaASH.traceIndentation );
 		RequestLogger.updateDebugLog( string );
 	}
 
-	private static final String executionStateString( int state )
+	private static final String executionStateString( final int state )
 	{
 		switch ( state )
 		{
@@ -675,32 +766,32 @@ public class KoLmafiaASH extends StaticEntity
 			return "EXIT";
 		}
 
-		return String.valueOf(state);
+		return String.valueOf( state );
 	}
 
 	// **************** Parsing *****************
 
-	public boolean validate( File scriptFile )
+	public boolean validate( final File scriptFile )
 	{
 		this.fileName = scriptFile.getPath();
 
 		try
 		{
-			return validate( new FileInputStream( scriptFile ) );
+			return this.validate( new FileInputStream( scriptFile ) );
 		}
 		catch ( AdvancedScriptException e )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, e.getMessage() );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, e.getMessage() );
 			return false;
 		}
 		catch ( Exception e )
 		{
-			printStackTrace( e );
+			StaticEntity.printStackTrace( e );
 			return false;
 		}
 	}
 
-	public boolean validate( InputStream istream )
+	public boolean validate( final InputStream istream )
 	{
 		KoLmafiaASH previousAnalysis = KoLmafiaASH.currentAnalysis;
 		KoLmafiaASH.currentAnalysis = this;
@@ -716,12 +807,12 @@ public class KoLmafiaASH extends StaticEntity
 			return false;
 		}
 
-		this.currentLine = getNextLine();
-		this.lineNumber = commandStream.getLineNumber();
-		this.nextLine = getNextLine();
+		this.currentLine = this.getNextLine();
+		this.lineNumber = this.commandStream.getLineNumber();
+		this.nextLine = this.getNextLine();
 
-		this.global = parseScope( null, null, new ScriptVariableList(), getExistingFunctionScope(), false );
-		printScope( global, 0 );
+		this.global = this.parseScope( null, null, new ScriptVariableList(), this.getExistingFunctionScope(), false );
+		this.printScope( this.global, 0 );
 
 		try
 		{
@@ -747,69 +838,72 @@ public class KoLmafiaASH extends StaticEntity
 		return true;
 	}
 
-	public void execute( String functionName, String [] parameters )
+	public void execute( final String functionName, final String[] parameters )
 	{
 		// Before you do anything, validate the script, if one
 		// is provided.  One will not be provided in the event
 		// that we are using a global namespace.
 
-		if ( this == NAMESPACE_INTERPRETER )
+		if ( this == KoLmafiaASH.NAMESPACE_INTERPRETER )
 		{
 			String importString = KoLSettings.getUserProperty( "commandLineNamespace" );
 			if ( importString.equals( "" ) )
 			{
-				KoLmafia.updateDisplay( ERROR_STATE, "No available namespace with function: " + functionName );
+				KoLmafia.updateDisplay(
+					KoLConstants.ERROR_STATE, "No available namespace with function: " + functionName );
 				return;
 			}
 
-			boolean shouldRefresh = !lastImportString.equals( importString );
+			boolean shouldRefresh = !KoLmafiaASH.lastImportString.equals( importString );
 
 			if ( !shouldRefresh )
 			{
-				Iterator it = imports.keySet().iterator();
+				Iterator it = this.imports.keySet().iterator();
 
 				while ( it.hasNext() && !shouldRefresh )
 				{
 					File file = (File) it.next();
-					shouldRefresh = ((Long) imports.get( file )).longValue() != file.lastModified();
+					shouldRefresh = ( (Long) this.imports.get( file ) ).longValue() != file.lastModified();
 				}
 			}
 
 			if ( shouldRefresh )
 			{
-				imports.clear();
-				lastImportString = "";
+				this.imports.clear();
+				KoLmafiaASH.lastImportString = "";
 
-				this.global = new ScriptScope( new ScriptVariableList(), getExistingFunctionScope() );
-				String [] importList = importString.split( "," );
+				this.global = new ScriptScope( new ScriptVariableList(), this.getExistingFunctionScope() );
+				String[] importList = importString.split( "," );
 
 				for ( int i = 0; i < importList.length; ++i )
-					parseFile( importList[i] );
+				{
+					this.parseFile( importList[ i ] );
+				}
 			}
 		}
 
-		String currentScript = (fileName == null) ? "<>" : "<" + fileName + ">";
+		String currentScript = this.fileName == null ? "<>" : "<" + this.fileName + ">";
 		String notifyList = KoLSettings.getUserProperty( "previousNotifyList" );
 
-		if ( notifyRecipient != null && notifyList.indexOf( currentScript ) == -1 )
+		if ( this.notifyRecipient != null && notifyList.indexOf( currentScript ) == -1 )
 		{
 			KoLSettings.setUserProperty( "previousNotifyList", notifyList + currentScript );
 
-			GreenMessageRequest notifier = new GreenMessageRequest( notifyRecipient, this );
+			GreenMessageRequest notifier = new GreenMessageRequest( this.notifyRecipient, this );
 			RequestThread.postRequest( notifier );
 		}
 
 		try
 		{
-			boolean wasExecuting = isExecuting;
+			boolean wasExecuting = KoLmafiaASH.isExecuting;
 
-			isExecuting = true;
-			executeScope( global, functionName, parameters );
-			isExecuting = wasExecuting;
+			KoLmafiaASH.isExecuting = true;
+			this.executeScope( this.global, functionName, parameters );
+			KoLmafiaASH.isExecuting = wasExecuting;
 		}
 		catch ( AdvancedScriptException e )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, e.getMessage() );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, e.getMessage() );
 			return;
 		}
 		catch ( RuntimeException e )
@@ -818,7 +912,7 @@ public class KoLmafiaASH extends StaticEntity
 			// a premature abort, which causes void
 			// values to be returned, ignore.
 
-			printStackTrace( e );
+			StaticEntity.printStackTrace( e );
 		}
 	}
 
@@ -831,11 +925,13 @@ public class KoLmafiaASH extends StaticEntity
 				// Read a line from input, and break out of the
 				// do-while loop when you've read a valid line
 
-				this.fullLine = commandStream.readLine();
+				this.fullLine = this.commandStream.readLine();
 
 				// Return null at end of file
 				if ( this.fullLine == null )
+				{
 					return null;
+				}
 
 				// Remove whitespace at front and end
 				this.fullLine = this.fullLine.trim();
@@ -851,30 +947,36 @@ public class KoLmafiaASH extends StaticEntity
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			printStackTrace( e );
+			StaticEntity.printStackTrace( e );
 			return null;
 		}
 	}
 
-	private ScriptScope parseFile( String fileName )
+	private ScriptScope parseFile( final String fileName )
 	{
 		File scriptFile = KoLmafiaCLI.findScriptFile( fileName );
 		if ( scriptFile == null )
+		{
 			throw new AdvancedScriptException( fileName + " could not be found" );
+		}
 
-		if ( imports.containsKey( scriptFile ) )
+		if ( this.imports.containsKey( scriptFile ) )
+		{
 			return this.global;
+		}
 
 		AdvancedScriptException error = null;
 
 		ScriptScope result = this.global;
 
-		KoLmafiaASH previousAnalysis = currentAnalysis;
+		KoLmafiaASH previousAnalysis = KoLmafiaASH.currentAnalysis;
 		KoLmafiaASH.currentAnalysis = new KoLmafiaASH( this, scriptFile );
 
 		try
 		{
-			result = KoLmafiaASH.currentAnalysis.parseScope( this.global, null, new ScriptVariableList(), this.global.parentScope, false );
+			result =
+				KoLmafiaASH.currentAnalysis.parseScope(
+					this.global, null, new ScriptVariableList(), this.global.parentScope, false );
 		}
 		catch ( Exception e )
 		{
@@ -892,48 +994,57 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		if ( error == null && KoLmafiaASH.currentAnalysis.currentLine != null )
+		{
 			error = new AdvancedScriptException( "Script parsing error" );
+		}
 
 		KoLmafiaASH.currentAnalysis = previousAnalysis;
 
 		if ( error != null )
+		{
 			throw error;
+		}
 
-		imports.put( scriptFile, new Long( scriptFile.lastModified() ) );
-		mainMethod = null;
+		this.imports.put( scriptFile, new Long( scriptFile.lastModified() ) );
+		this.mainMethod = null;
 
 		return result;
 	}
 
-	private ScriptScope parseScope( ScriptScope startScope, ScriptType expectedType, ScriptVariableList variables, ScriptScope parentScope, boolean whileLoop )
+	private ScriptScope parseScope( final ScriptScope startScope, final ScriptType expectedType,
+		final ScriptVariableList variables, final ScriptScope parentScope, final boolean whileLoop )
 	{
 		ScriptScope result;
 		String importString;
 
 		result = startScope == null ? new ScriptScope( variables, parentScope ) : startScope;
-		parseNotify();
+		this.parseNotify();
 
-		while ( (importString = parseImport()) != null )
-			result = parseFile( importString );
+		while ( ( importString = this.parseImport() ) != null )
+		{
+			result = this.parseFile( importString );
+		}
 
 		while ( true )
 		{
-			if ( parseTypedef( result ) )
+			if ( this.parseTypedef( result ) )
 			{
-				if ( !currentToken().equals( ";" ) )
-					parseError( ";", currentToken() );
+				if ( !this.currentToken().equals( ";" ) )
+				{
+					this.parseError( ";", this.currentToken() );
+				}
 
-				readToken(); //read ;
+				this.readToken(); //read ;
 				continue;
 			}
 
-			ScriptType t = parseType( result, true, true );
+			ScriptType t = this.parseType( result, true, true );
 
 			// If there is no data type, it's a command of some sort
 			if ( t == null )
 			{
 				// See if it's a regular command
-				ScriptCommand c = parseCommand( expectedType, result, false, whileLoop );
+				ScriptCommand c = this.parseCommand( expectedType, result, false, whileLoop );
 				if ( c != null )
 				{
 					result.addCommand( c );
@@ -946,27 +1057,32 @@ public class KoLmafiaASH extends StaticEntity
 			}
 
 			// If this is a new record definition, enter it
-			if ( t.getType() == TYPE_RECORD && currentToken() != null && currentToken().equals( ";" ) )
+			if ( t.getType() == KoLmafiaASH.TYPE_RECORD && this.currentToken() != null && this.currentToken().equals(
+				";" ) )
 			{
-				readToken();	// read ;
+				this.readToken(); // read ;
 				continue;
 			}
 
-			ScriptFunction f = parseFunction( t, result );
+			ScriptFunction f = this.parseFunction( t, result );
 			if ( f != null )
 			{
 				if ( f.getName().equalsIgnoreCase( "main" ) )
-					mainMethod = f;
+				{
+					this.mainMethod = f;
+				}
 
 				continue;
 			}
 
-			if ( parseVariables( t, result ) )
+			if ( this.parseVariables( t, result ) )
 			{
-				if ( !currentToken().equals( ";" ) )
-					parseError( ";", currentToken() );
+				if ( !this.currentToken().equals( ";" ) )
+				{
+					this.parseError( ";", this.currentToken() );
+				}
 
-				readToken(); //read ;
+				this.readToken(); //read ;
 				continue;
 			}
 
@@ -977,40 +1093,52 @@ public class KoLmafiaASH extends StaticEntity
 		return result;
 	}
 
-	private ScriptType parseRecord( ScriptScope parentScope )
+	private ScriptType parseRecord( final ScriptScope parentScope )
 	{
-		if ( currentToken() == null || !currentToken().equalsIgnoreCase( "record" ) )
+		if ( this.currentToken() == null || !this.currentToken().equalsIgnoreCase( "record" ) )
+		{
 			return null;
+		}
 
-		readToken(); // read record
+		this.readToken(); // read record
 
-		if ( currentToken() == null )
+		if ( this.currentToken() == null )
+		{
 			throw new AdvancedScriptException( "Record name expected" );
+		}
 
 		// Allow anonymous records
 		String recordName = null;
 
-		if ( !currentToken().equals( "{" ) )
+		if ( !this.currentToken().equals( "{" ) )
 		{
 			// Named record
-			recordName = currentToken();
+			recordName = this.currentToken();
 
-			if ( !parseIdentifier( recordName ) )
+			if ( !this.parseIdentifier( recordName ) )
+			{
 				throw new AdvancedScriptException( "Invalid record name '" + recordName + "'" );
+			}
 
-			if ( isReservedWord( recordName ) )
+			if ( KoLmafiaASH.isReservedWord( recordName ) )
+			{
 				throw new AdvancedScriptException( "Reserved word '" + recordName + "' cannot be a record name" );
+			}
 
 			if ( parentScope.findType( recordName ) != null )
+			{
 				throw new AdvancedScriptException( "Record name '" + recordName + "' is already defined" );
+			}
 
-			readToken(); // read name
+			this.readToken(); // read name
 		}
 
-		if ( currentToken() == null || !currentToken().equals( "{" ) )
-			parseError( "{", currentToken() );
+		if ( this.currentToken() == null || !this.currentToken().equals( "{" ) )
+		{
+			this.parseError( "{", this.currentToken() );
+		}
 
-		readToken(); // read {
+		this.readToken(); // read {
 
 		// Loop collecting fields
 		ArrayList fieldTypes = new ArrayList();
@@ -1019,157 +1147,198 @@ public class KoLmafiaASH extends StaticEntity
 		while ( true )
 		{
 			// Get the field type
-			ScriptType fieldType = parseType( parentScope, true, true );
+			ScriptType fieldType = this.parseType( parentScope, true, true );
 			if ( fieldType == null )
+			{
 				throw new AdvancedScriptException( "Type name expected" );
+			}
 
 			// Get the field name
-			String fieldName = currentToken();
+			String fieldName = this.currentToken();
 			if ( fieldName == null )
+			{
 				throw new AdvancedScriptException( "Field name expected" );
+			}
 
-			if ( !parseIdentifier( fieldName ) )
+			if ( !this.parseIdentifier( fieldName ) )
+			{
 				throw new AdvancedScriptException( "Invalid field name '" + fieldName + "'" );
+			}
 
-			if ( isReservedWord( fieldName ) )
+			if ( KoLmafiaASH.isReservedWord( fieldName ) )
+			{
 				throw new AdvancedScriptException( "Reserved word '" + fieldName + "' cannot be used as a field name" );
+			}
 
 			if ( fieldNames.contains( fieldName ) )
+			{
 				throw new AdvancedScriptException( "Field name '" + fieldName + "' is already defined" );
+			}
 
-			readToken(); // read name
+			this.readToken(); // read name
 
-			if ( currentToken() == null || !currentToken().equals( ";" ) )
-				parseError( ";", currentToken() );
+			if ( this.currentToken() == null || !this.currentToken().equals( ";" ) )
+			{
+				this.parseError( ";", this.currentToken() );
+			}
 
-			readToken(); // read ;
+			this.readToken(); // read ;
 
 			fieldTypes.add( fieldType );
 			fieldNames.add( fieldName.toLowerCase() );
 
-			if ( currentToken() == null )
-				parseError( "}", "EOF" );
+			if ( this.currentToken() == null )
+			{
+				this.parseError( "}", "EOF" );
+			}
 
-			if ( currentToken().equals( "}" ) )
-				 break;
+			if ( this.currentToken().equals( "}" ) )
+			{
+				break;
+			}
 		}
 
-		readToken(); // read }
+		this.readToken(); // read }
 
-		String [] fieldNameArray = new String[ fieldNames.size() ];
-		ScriptType [] fieldTypeArray = new ScriptType[ fieldTypes.size() ];
+		String[] fieldNameArray = new String[ fieldNames.size() ];
+		ScriptType[] fieldTypeArray = new ScriptType[ fieldTypes.size() ];
 		fieldNames.toArray( fieldNameArray );
 		fieldTypes.toArray( fieldTypeArray );
 
-		ScriptRecordType rec = new ScriptRecordType( recordName == null ? "(anonymous record)" : recordName , fieldNameArray, fieldTypeArray );
+		ScriptRecordType rec =
+			new ScriptRecordType(
+				recordName == null ? "(anonymous record)" : recordName, fieldNameArray, fieldTypeArray );
 
 		if ( recordName != null )
+		{
 			// Enter into type table
 			parentScope.addType( rec );
+		}
 
 		return rec;
 	}
 
-	private ScriptFunction parseFunction( ScriptType functionType, ScriptScope parentScope )
+	private ScriptFunction parseFunction( final ScriptType functionType, final ScriptScope parentScope )
 	{
-		if ( !parseIdentifier( currentToken() ) )
+		if ( !this.parseIdentifier( this.currentToken() ) )
+		{
 			return null;
+		}
 
-		if ( nextToken() == null || !nextToken().equals( "(" ) )
+		if ( this.nextToken() == null || !this.nextToken().equals( "(" ) )
+		{
 			return null;
+		}
 
-		String functionName = currentToken();
+		String functionName = this.currentToken();
 
-		if ( isReservedWord( functionName ) )
+		if ( KoLmafiaASH.isReservedWord( functionName ) )
+		{
 			throw new AdvancedScriptException( "Reserved word '" + functionName + "' cannot be used as a function name" );
+		}
 
-		readToken(); //read Function name
-		readToken(); //read (
+		this.readToken(); //read Function name
+		this.readToken(); //read (
 
 		ScriptVariableList paramList = new ScriptVariableList();
 		ScriptVariableReferenceList variableReferences = new ScriptVariableReferenceList();
 
-		while ( !currentToken().equals( ")" ) )
+		while ( !this.currentToken().equals( ")" ) )
 		{
-			ScriptType paramType = parseType( parentScope, true, false );
+			ScriptType paramType = this.parseType( parentScope, true, false );
 			if ( paramType == null )
-				parseError( ")", currentToken() );
+			{
+				this.parseError( ")", this.currentToken() );
+			}
 
-			ScriptVariable param = parseVariable( paramType, null );
+			ScriptVariable param = this.parseVariable( paramType, null );
 			if ( param == null )
-				parseError( "identifier", currentToken() );
+			{
+				this.parseError( "identifier", this.currentToken() );
+			}
 
 			if ( !paramList.addElement( param ) )
-				throw new AdvancedScriptException( "Variable " + param.getName() + " is already defined" );
-
-			if ( !currentToken().equals( ")" ) )
 			{
-				if ( !currentToken().equals( "," ) )
-					parseError( ")", currentToken() );
+				throw new AdvancedScriptException( "Variable " + param.getName() + " is already defined" );
+			}
 
-				readToken(); //read comma
+			if ( !this.currentToken().equals( ")" ) )
+			{
+				if ( !this.currentToken().equals( "," ) )
+				{
+					this.parseError( ")", this.currentToken() );
+				}
+
+				this.readToken(); //read comma
 			}
 
 			variableReferences.addElement( new ScriptVariableReference( param ) );
 		}
 
-		readToken(); //read )
+		this.readToken(); //read )
 
 		// Add the function to the parent scope before we parse the
 		// function scope to allow recursion. Replace an existing
 		// forward reference.
 
-		ScriptUserDefinedFunction result = parentScope.replaceFunction( new ScriptUserDefinedFunction( functionName, functionType, variableReferences ) );
-		if ( currentToken() != null && currentToken().equals( ";" ) )
+		ScriptUserDefinedFunction result =
+			parentScope.replaceFunction( new ScriptUserDefinedFunction( functionName, functionType, variableReferences ) );
+		if ( this.currentToken() != null && this.currentToken().equals( ";" ) )
 		{
 			// Yes. Return forward reference
-			readToken(); // ;
+			this.readToken(); // ;
 			return result;
 		}
 
 		ScriptScope scope;
-		if ( currentToken() != null && currentToken().equals( "{" ) )
+		if ( this.currentToken() != null && this.currentToken().equals( "{" ) )
 		{
 			// Scope is a block
 
-			readToken(); // {
+			this.readToken(); // {
 
-			scope = parseScope( null, functionType, paramList, parentScope, false );
-			if ( currentToken() == null || !currentToken().equals( "}" ) )
-				parseError( "}", currentToken() );
+			scope = this.parseScope( null, functionType, paramList, parentScope, false );
+			if ( this.currentToken() == null || !this.currentToken().equals( "}" ) )
+			{
+				this.parseError( "}", this.currentToken() );
+			}
 
-			readToken(); // }
+			this.readToken(); // }
 		}
 		else
 		{
 			// Scope is a single command
 			scope = new ScriptScope( paramList, parentScope );
-			scope.addCommand( parseCommand( functionType, parentScope, false, false ) );
+			scope.addCommand( this.parseCommand( functionType, parentScope, false, false ) );
 		}
 
 		result.setScope( scope );
-		if ( !result.assertReturn() && !functionType.equals( TYPE_VOID )
-			 // The following clause can't be correct. I think it
-			 // depends on the various conditional & loop constructs
-			 // returning a boolean. Or something. But without it,
-			 // existing scripts break. Aargh!
-			 && !functionType.equals( TYPE_BOOLEAN ) )
+		if ( !result.assertReturn() && !functionType.equals( KoLmafiaASH.TYPE_VOID )
+		// The following clause can't be correct. I think it
+		// depends on the various conditional & loop constructs
+		// returning a boolean. Or something. But without it,
+		// existing scripts break. Aargh!
+		&& !functionType.equals( KoLmafiaASH.TYPE_BOOLEAN ) )
+		{
 			throw new AdvancedScriptException( "Missing return value" );
+		}
 
 		return result;
 	}
 
-	private boolean parseVariables( ScriptType t, ScriptScope parentScope )
+	private boolean parseVariables( final ScriptType t, final ScriptScope parentScope )
 	{
 		while ( true )
 		{
-			ScriptVariable v = parseVariable( t, parentScope );
+			ScriptVariable v = this.parseVariable( t, parentScope );
 			if ( v == null )
-				return false;
-
-			if ( currentToken().equals( "," ) )
 			{
-				readToken(); //read ,
+				return false;
+			}
+
+			if ( this.currentToken().equals( "," ) )
+			{
+				this.readToken(); //read ,
 				continue;
 			}
 
@@ -1177,25 +1346,33 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private ScriptVariable parseVariable( ScriptType t, ScriptScope scope )
+	private ScriptVariable parseVariable( final ScriptType t, final ScriptScope scope )
 	{
-		if ( !parseIdentifier( currentToken() ) )
+		if ( !this.parseIdentifier( this.currentToken() ) )
+		{
 			return null;
+		}
 
-		String variableName = currentToken();
-		if ( isReservedWord( variableName ) )
+		String variableName = this.currentToken();
+		if ( KoLmafiaASH.isReservedWord( variableName ) )
+		{
 			throw new AdvancedScriptException( "Reserved word '" + variableName + "' cannot be a variable name" );
+		}
 
 		ScriptVariable result = new ScriptVariable( variableName, t );
 		if ( scope != null && !scope.addVariable( result ) )
+		{
 			throw new AdvancedScriptException( "Variable " + result.getName() + " is already defined" );
+		}
 
-		readToken(); // If parsing of Identifier succeeded, go to next token.
+		this.readToken(); // If parsing of Identifier succeeded, go to next token.
 		// If we are parsing a parameter declaration, we are done
 		if ( scope == null )
 		{
-			if ( currentToken().equals( "=" ) )
+			if ( this.currentToken().equals( "=" ) )
+			{
 				throw new AdvancedScriptException( "Cannot initialize parameter " + result.getName() );
+			}
 			return result;
 		}
 
@@ -1204,10 +1381,10 @@ public class KoLmafiaASH extends StaticEntity
 		ScriptVariableReference lhs = new ScriptVariableReference( result.getName(), scope );
 		ScriptExpression rhs;
 
-		if ( currentToken().equals( "=" ) )
+		if ( this.currentToken().equals( "=" ) )
 		{
-			readToken(); // Eat the equals sign
-			rhs = parseExpression( scope );
+			this.readToken(); // Eat the equals sign
+			rhs = this.parseExpression( scope );
 		}
 		else
 		{
@@ -1218,28 +1395,38 @@ public class KoLmafiaASH extends StaticEntity
 		return result;
 	}
 
-	private boolean parseTypedef( ScriptScope parentScope )
+	private boolean parseTypedef( final ScriptScope parentScope )
 	{
-		if ( currentToken() == null || !currentToken().equalsIgnoreCase( "typedef" ) )
+		if ( this.currentToken() == null || !this.currentToken().equalsIgnoreCase( "typedef" ) )
+		{
 			return false;
-		readToken();	// read typedef
+		}
+		this.readToken(); // read typedef
 
-		ScriptType t = parseType( parentScope, true, true );
+		ScriptType t = this.parseType( parentScope, true, true );
 		if ( t == null )
+		{
 			throw new AdvancedScriptException( "Missing data type for typedef" );
+		}
 
-		String typeName = currentToken();
+		String typeName = this.currentToken();
 
-		if ( !parseIdentifier( typeName ) )
+		if ( !this.parseIdentifier( typeName ) )
+		{
 			throw new AdvancedScriptException( "Invalid type name '" + typeName + "'" );
+		}
 
-		if ( isReservedWord( typeName ) )
+		if ( KoLmafiaASH.isReservedWord( typeName ) )
+		{
 			throw new AdvancedScriptException( "Reserved word '" + typeName + "' cannot be a type name" );
+		}
 
 		if ( parentScope.findType( typeName ) != null )
+		{
 			throw new AdvancedScriptException( "Type name '" + typeName + "' is already defined" );
+		}
 
-		readToken(); // read name
+		this.readToken(); // read name
 
 		// Add the type to the type table
 		ScriptNamedType type = new ScriptNamedType( typeName, t );
@@ -1248,102 +1435,130 @@ public class KoLmafiaASH extends StaticEntity
 		return true;
 	}
 
-	private ScriptCommand parseCommand( ScriptType functionType, ScriptScope scope, boolean noElse, boolean whileLoop )
+	private ScriptCommand parseCommand( final ScriptType functionType, final ScriptScope scope, final boolean noElse,
+		boolean whileLoop )
 	{
 		ScriptCommand result;
 
-		if ( currentToken() == null )
+		if ( this.currentToken() == null )
+		{
 			return null;
+		}
 
-		if ( currentToken().equalsIgnoreCase( "break" ) )
+		if ( this.currentToken().equalsIgnoreCase( "break" ) )
 		{
 			if ( !whileLoop )
+			{
 				throw new AdvancedScriptException( "Encountered 'break' outside of loop" );
+			}
 
-			result = new ScriptFlowControl( COMMAND_BREAK );
-			readToken(); //break
+			result = new ScriptFlowControl( KoLmafiaASH.COMMAND_BREAK );
+			this.readToken(); //break
 		}
 
-		else if ( currentToken().equalsIgnoreCase( "continue" ) )
+		else if ( this.currentToken().equalsIgnoreCase( "continue" ) )
 		{
 			if ( !whileLoop )
+			{
 				throw new AdvancedScriptException( "Encountered 'continue' outside of loop" );
+			}
 
-			result = new ScriptFlowControl( COMMAND_CONTINUE );
-			readToken(); //continue
+			result = new ScriptFlowControl( KoLmafiaASH.COMMAND_CONTINUE );
+			this.readToken(); //continue
 		}
 
-		else if ( currentToken().equalsIgnoreCase( "exit" ) )
+		else if ( this.currentToken().equalsIgnoreCase( "exit" ) )
 		{
-			result = new ScriptFlowControl( COMMAND_EXIT );
-			readToken(); //exit
+			result = new ScriptFlowControl( KoLmafiaASH.COMMAND_EXIT );
+			this.readToken(); //exit
 		}
 
-
-		else if ( (result = parseReturn( functionType, scope )) != null )
+		else if ( ( result = this.parseReturn( functionType, scope ) ) != null )
+		{
 			;
-
-		else if ( (result = parseBasicScript()) != null )
+		}
+		else if ( ( result = this.parseBasicScript() ) != null )
+		{
 			// basic_script doesn't have a ; token
 			return result;
-
-		else if ( (result = parseWhile( functionType, scope )) != null )
+		}
+		else if ( ( result = this.parseWhile( functionType, scope ) ) != null )
+		{
 			// while doesn't have a ; token
 			return result;
-
-		else if ( (result = parseForeach( functionType, scope )) != null )
+		}
+		else if ( ( result = this.parseForeach( functionType, scope ) ) != null )
+		{
 			// foreach doesn't have a ; token
 			return result;
-
-		else if ( (result = parseFor( functionType, scope )) != null )
+		}
+		else if ( ( result = this.parseFor( functionType, scope ) ) != null )
+		{
 			// for doesn't have a ; token
 			return result;
-
-		else if ( (result = parseRepeat( functionType, scope )) != null )
+		}
+		else if ( ( result = this.parseRepeat( functionType, scope ) ) != null )
+		{
 			;
-
-		else if ( (result = parseConditional( functionType, scope, noElse, whileLoop )) != null )
+		}
+		else if ( ( result = this.parseConditional( functionType, scope, noElse, whileLoop ) ) != null )
+		{
 			// loop doesn't have a ; token
 			return result;
-
-		else if ( (result = parseCall( scope )) != null )
+		}
+		else if ( ( result = this.parseCall( scope ) ) != null )
+		{
 			;
-
-		else if ( (result = parseAssignment( scope )) != null )
+		}
+		else if ( ( result = this.parseAssignment( scope ) ) != null )
+		{
 			;
-
-		else if ( (result = parseRemove( scope )) != null )
+		}
+		else if ( ( result = this.parseRemove( scope ) ) != null )
+		{
 			;
-
-		else if ( (result = parseValue( scope )) != null )
+		}
+		else if ( ( result = this.parseValue( scope ) ) != null )
+		{
 			;
+		}
 		else
+		{
 			return null;
+		}
 
-		if ( currentToken() == null || !currentToken().equals( ";" ) )
-			parseError( ";", currentToken() );
+		if ( this.currentToken() == null || !this.currentToken().equals( ";" ) )
+		{
+			this.parseError( ";", this.currentToken() );
+		}
 
-		readToken(); // ;
+		this.readToken(); // ;
 		return result;
 	}
 
-	private ScriptType parseType( ScriptScope scope, boolean aggregates, boolean records )
+	private ScriptType parseType( final ScriptScope scope, final boolean aggregates, final boolean records )
 	{
-		if ( currentToken() == null )
+		if ( this.currentToken() == null )
+		{
 			return null;
+		}
 
-		ScriptType valType = scope.findType( currentToken() );
+		ScriptType valType = scope.findType( this.currentToken() );
 		if ( valType == null )
 		{
-			if ( records && currentToken().equalsIgnoreCase( "record" ) )
+			if ( records && this.currentToken().equalsIgnoreCase( "record" ) )
 			{
-				valType = parseRecord( scope );
+				valType = this.parseRecord( scope );
 
 				if ( valType == null )
+				{
 					return null;
+				}
 
-				if ( aggregates && currentToken().equals( "[" ) )
-					return parseAggregateType( valType, scope );
+				if ( aggregates && this.currentToken().equals( "[" ) )
+				{
+					return this.parseAggregateType( valType, scope );
+				}
 
 				return valType;
 			}
@@ -1351,128 +1566,169 @@ public class KoLmafiaASH extends StaticEntity
 			return null;
 		}
 
-		readToken();
+		this.readToken();
 
-		if ( aggregates && currentToken().equals( "[" ) )
-			return parseAggregateType( valType, scope );
+		if ( aggregates && this.currentToken().equals( "[" ) )
+		{
+			return this.parseAggregateType( valType, scope );
+		}
 
 		return valType;
 	}
 
-	private ScriptType parseAggregateType( ScriptType dataType, ScriptScope scope )
+	private ScriptType parseAggregateType( final ScriptType dataType, final ScriptScope scope )
 	{
-		readToken();	// [ or ,
-		if ( currentToken() == null )
-			throw new AdvancedScriptException( "Missing index token" );
-
-		if ( arrays && readIntegerToken( currentToken() ) )
+		this.readToken(); // [ or ,
+		if ( this.currentToken() == null )
 		{
-			int size = parseInt( currentToken() );
-			readToken(); // integer
+			throw new AdvancedScriptException( "Missing index token" );
+		}
 
-			if ( currentToken() == null )
-				parseError( "]", currentToken() );
+		if ( KoLmafiaASH.arrays && this.readIntegerToken( this.currentToken() ) )
+		{
+			int size = StaticEntity.parseInt( this.currentToken() );
+			this.readToken(); // integer
 
-			if ( currentToken().equals( "]" ) )
+			if ( this.currentToken() == null )
 			{
-				readToken();	// ]
+				this.parseError( "]", this.currentToken() );
+			}
 
-				if ( currentToken().equals( "[" ) )
-					return new ScriptAggregateType( parseAggregateType( dataType, scope ) , size );
+			if ( this.currentToken().equals( "]" ) )
+			{
+				this.readToken(); // ]
+
+				if ( this.currentToken().equals( "[" ) )
+				{
+					return new ScriptAggregateType( this.parseAggregateType( dataType, scope ), size );
+				}
 
 				return new ScriptAggregateType( dataType, size );
 			}
 
-			if ( currentToken().equals( "," ) )
-				return new ScriptAggregateType( parseAggregateType( dataType, scope ) , size );
+			if ( this.currentToken().equals( "," ) )
+			{
+				return new ScriptAggregateType( this.parseAggregateType( dataType, scope ), size );
+			}
 
-			parseError( "]", currentToken() );
+			this.parseError( "]", this.currentToken() );
 		}
 
-		ScriptType indexType = scope.findType( currentToken() );
+		ScriptType indexType = scope.findType( this.currentToken() );
 		if ( indexType == null )
-			throw new AdvancedScriptException( "Invalid type name '" + currentToken() + "'" );
+		{
+			throw new AdvancedScriptException( "Invalid type name '" + this.currentToken() + "'" );
+		}
 
 		if ( !indexType.isPrimitive() )
-			throw new AdvancedScriptException( "Index type '" + currentToken() + "' is not a primitive type" );
-
-		readToken();	// type name
-		if ( currentToken() == null )
-			parseError( "]", currentToken() );
-
-		if ( currentToken().equals( "]" ) )
 		{
-			readToken();	// ]
+			throw new AdvancedScriptException( "Index type '" + this.currentToken() + "' is not a primitive type" );
+		}
 
-			if ( currentToken().equals( "[" ) )
-				return new ScriptAggregateType( parseAggregateType( dataType, scope ) , indexType );
+		this.readToken(); // type name
+		if ( this.currentToken() == null )
+		{
+			this.parseError( "]", this.currentToken() );
+		}
+
+		if ( this.currentToken().equals( "]" ) )
+		{
+			this.readToken(); // ]
+
+			if ( this.currentToken().equals( "[" ) )
+			{
+				return new ScriptAggregateType( this.parseAggregateType( dataType, scope ), indexType );
+			}
 
 			return new ScriptAggregateType( dataType, indexType );
 		}
 
-		if ( currentToken().equals( "," ) )
-			return new ScriptAggregateType( parseAggregateType( dataType, scope ) , indexType );
+		if ( this.currentToken().equals( "," ) )
+		{
+			return new ScriptAggregateType( this.parseAggregateType( dataType, scope ), indexType );
+		}
 
-		parseError( ", or ]", currentToken() );
+		this.parseError( ", or ]", this.currentToken() );
 		return null;
 	}
 
-	private boolean parseIdentifier( String identifier )
+	private boolean parseIdentifier( final String identifier )
 	{
-		if ( !Character.isLetter( identifier.charAt( 0 ) ) && (identifier.charAt( 0 ) != '_' ) )
+		if ( !Character.isLetter( identifier.charAt( 0 ) ) && identifier.charAt( 0 ) != '_' )
+		{
 			return false;
+		}
 
 		for ( int i = 1; i < identifier.length(); ++i )
-			if ( !Character.isLetterOrDigit( identifier.charAt( i ) ) && (identifier.charAt( i ) != '_' ) )
+		{
+			if ( !Character.isLetterOrDigit( identifier.charAt( i ) ) && identifier.charAt( i ) != '_' )
+			{
 				return false;
+			}
+		}
 
 		return true;
 	}
 
-	private ScriptReturn parseReturn( ScriptType expectedType, ScriptScope parentScope )
+	private ScriptReturn parseReturn( final ScriptType expectedType, final ScriptScope parentScope )
 	{
 		ScriptExpression expression = null;
 
-		if ( currentToken() == null || !currentToken().equalsIgnoreCase( "return" ) )
-			return null;
-
-		readToken(); //return
-
-		if ( currentToken() != null && currentToken().equals( ";" ) )
+		if ( this.currentToken() == null || !this.currentToken().equalsIgnoreCase( "return" ) )
 		{
-			if ( expectedType != null && expectedType.equals( TYPE_VOID ) )
-				return new ScriptReturn( null, VOID_TYPE );
+			return null;
+		}
+
+		this.readToken(); //return
+
+		if ( this.currentToken() != null && this.currentToken().equals( ";" ) )
+		{
+			if ( expectedType != null && expectedType.equals( KoLmafiaASH.TYPE_VOID ) )
+			{
+				return new ScriptReturn( null, KoLmafiaASH.VOID_TYPE );
+			}
 
 			throw new AdvancedScriptException( "Return needs value" );
 		}
 		else
 		{
-			if ( (expression = parseExpression( parentScope )) == null )
+			if ( ( expression = this.parseExpression( parentScope ) ) == null )
+			{
 				throw new AdvancedScriptException( "Expression expected" );
+			}
 
 			return new ScriptReturn( expression, expectedType );
 		}
 	}
 
-	private ScriptConditional parseConditional( ScriptType functionType, ScriptScope parentScope, boolean noElse, boolean loop )
+	private ScriptConditional parseConditional( final ScriptType functionType, final ScriptScope parentScope,
+		boolean noElse, final boolean loop )
 	{
-		if ( currentToken() == null || !currentToken().equalsIgnoreCase( "if" ) )
+		if ( this.currentToken() == null || !this.currentToken().equalsIgnoreCase( "if" ) )
+		{
 			return null;
+		}
 
-		if ( nextToken() == null || !nextToken().equals( "(" ) )
-			parseError( "(", nextToken() );
+		if ( this.nextToken() == null || !this.nextToken().equals( "(" ) )
+		{
+			this.parseError( "(", this.nextToken() );
+		}
 
-		readToken(); // if
-		readToken(); // (
+		this.readToken(); // if
+		this.readToken(); // (
 
-		ScriptExpression expression = parseExpression( parentScope );
-		if ( currentToken() == null || !currentToken().equals( ")" ) )
-			parseError( ")", currentToken() );
+		ScriptExpression expression = this.parseExpression( parentScope );
+		if ( this.currentToken() == null || !this.currentToken().equals( ")" ) )
+		{
+			this.parseError( ")", this.currentToken() );
+		}
 
-		if ( expression.getType() != BOOLEAN_TYPE )
+		if ( expression.getType() != KoLmafiaASH.BOOLEAN_TYPE )
+		{
 			throw new AdvancedScriptException( "\"if\" requires a boolean conditional expression" );
+		}
 
-		readToken(); // )
+		this.readToken(); // )
 
 		ScriptIf result = null;
 		boolean elseFound = false;
@@ -1482,54 +1738,69 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			ScriptScope scope;
 
-			if ( currentToken() == null || !currentToken().equals( "{" ) ) //Scope is a single call
+			if ( this.currentToken() == null || !this.currentToken().equals( "{" ) ) //Scope is a single call
 			{
-				ScriptCommand command = parseCommand( functionType, parentScope, !elseFound, loop );
+				ScriptCommand command = this.parseCommand( functionType, parentScope, !elseFound, loop );
 				scope = new ScriptScope( command, parentScope );
 			}
 			else
 			{
-				readToken(); //read {
-				scope = parseScope( null, functionType, null, parentScope, loop );
+				this.readToken(); //read {
+				scope = this.parseScope( null, functionType, null, parentScope, loop );
 
-				if ( currentToken() == null || !currentToken().equals( "}" ) )
-					parseError( "}", currentToken() );
+				if ( this.currentToken() == null || !this.currentToken().equals( "}" ) )
+				{
+					this.parseError( "}", this.currentToken() );
+				}
 
-				readToken(); //read }
+				this.readToken(); //read }
 			}
 
 			if ( result == null )
+			{
 				result = new ScriptIf( scope, expression );
+			}
 			else if ( finalElse )
+			{
 				result.addElseLoop( new ScriptElse( scope, expression ) );
+			}
 			else
+			{
 				result.addElseLoop( new ScriptElseIf( scope, expression ) );
+			}
 
-			if ( !noElse && currentToken() != null && currentToken().equalsIgnoreCase( "else" ) )
+			if ( !noElse && this.currentToken() != null && this.currentToken().equalsIgnoreCase( "else" ) )
 			{
 				if ( finalElse )
+				{
 					throw new AdvancedScriptException( "Else without if" );
-
-				if ( nextToken() != null && nextToken().equalsIgnoreCase( "if" ) )
-				{
-					readToken(); //else
-					readToken(); //if
-
-					if ( currentToken() == null || !currentToken().equals( "(" ) )
-						parseError( "(", currentToken() );
-
-					readToken(); //(
-					expression = parseExpression( parentScope );
-
-					if ( currentToken() == null || !currentToken().equals( ")" ) )
-						parseError( ")", currentToken() );
-
-					readToken(); // )
 				}
-				else //else without condition
+
+				if ( this.nextToken() != null && this.nextToken().equalsIgnoreCase( "if" ) )
 				{
-					readToken(); //else
-					expression = TRUE_VALUE;
+					this.readToken(); //else
+					this.readToken(); //if
+
+					if ( this.currentToken() == null || !this.currentToken().equals( "(" ) )
+					{
+						this.parseError( "(", this.currentToken() );
+					}
+
+					this.readToken(); //(
+					expression = this.parseExpression( parentScope );
+
+					if ( this.currentToken() == null || !this.currentToken().equals( ")" ) )
+					{
+						this.parseError( ")", this.currentToken() );
+					}
+
+					this.readToken(); // )
+				}
+				else
+				//else without condition
+				{
+					this.readToken(); //else
+					expression = KoLmafiaASH.TRUE_VALUE;
 					finalElse = true;
 				}
 
@@ -1546,157 +1817,197 @@ public class KoLmafiaASH extends StaticEntity
 
 	private ScriptBasicScript parseBasicScript()
 	{
-		if ( currentToken() == null )
+		if ( this.currentToken() == null )
+		{
 			return null;
+		}
 
-		if ( !currentToken().equalsIgnoreCase( "cli_execute" ) )
+		if ( !this.currentToken().equalsIgnoreCase( "cli_execute" ) )
+		{
 			return null;
+		}
 
-		if ( nextToken() == null || !nextToken().equals( "{" ) )
+		if ( this.nextToken() == null || !this.nextToken().equals( "{" ) )
+		{
 			return null;
+		}
 
-		readToken(); // while
-		readToken(); // {
+		this.readToken(); // while
+		this.readToken(); // {
 
 		ByteArrayStream ostream = new ByteArrayStream();
 
-		while ( currentToken() != null && !currentToken().equals( "}" ) )
+		while ( this.currentToken() != null && !this.currentToken().equals( "}" ) )
 		{
 			try
 			{
-				ostream.write( currentLine.getBytes() );
-				ostream.write( LINE_BREAK.getBytes() );
+				ostream.write( this.currentLine.getBytes() );
+				ostream.write( KoLConstants.LINE_BREAK.getBytes() );
 			}
 			catch ( Exception e )
 			{
 				// Byte array output streams do not throw errors,
 				// other than out of memory errors.
 
-				printStackTrace( e );
+				StaticEntity.printStackTrace( e );
 			}
 
-			currentLine = "";
-			fixLines();
+			this.currentLine = "";
+			this.fixLines();
 		}
 
-		if ( currentToken() == null )
-			parseError( "}", currentToken() );
+		if ( this.currentToken() == null )
+		{
+			this.parseError( "}", this.currentToken() );
+		}
 
-		readToken(); // }
+		this.readToken(); // }
 
 		return new ScriptBasicScript( ostream );
 	}
 
-	private ScriptWhile parseWhile( ScriptType functionType, ScriptScope parentScope )
+	private ScriptWhile parseWhile( final ScriptType functionType, final ScriptScope parentScope )
 	{
-		if ( currentToken() == null )
+		if ( this.currentToken() == null )
+		{
 			return null;
+		}
 
-		if ( !currentToken().equalsIgnoreCase( "while" ) )
+		if ( !this.currentToken().equalsIgnoreCase( "while" ) )
+		{
 			return null;
+		}
 
-		if ( nextToken() == null || !nextToken().equals( "(" ) )
-			parseError( "(", nextToken() );
+		if ( this.nextToken() == null || !this.nextToken().equals( "(" ) )
+		{
+			this.parseError( "(", this.nextToken() );
+		}
 
-		readToken(); // while
-		readToken(); // (
+		this.readToken(); // while
+		this.readToken(); // (
 
-		ScriptExpression expression = parseExpression( parentScope );
-		if ( currentToken() == null || !currentToken().equals( ")" ) )
-			parseError( ")", currentToken() );
+		ScriptExpression expression = this.parseExpression( parentScope );
+		if ( this.currentToken() == null || !this.currentToken().equals( ")" ) )
+		{
+			this.parseError( ")", this.currentToken() );
+		}
 
-		if ( expression.getType() != BOOLEAN_TYPE )
+		if ( expression.getType() != KoLmafiaASH.BOOLEAN_TYPE )
+		{
 			throw new AdvancedScriptException( "\"while\" requires a boolean conditional expression" );
+		}
 
-		readToken(); // )
+		this.readToken(); // )
 
-		ScriptScope scope = parseLoopScope( functionType, null, parentScope );
+		ScriptScope scope = this.parseLoopScope( functionType, null, parentScope );
 
 		return new ScriptWhile( scope, expression );
 	}
 
-	private ScriptRepeat parseRepeat( ScriptType functionType, ScriptScope parentScope )
+	private ScriptRepeat parseRepeat( final ScriptType functionType, final ScriptScope parentScope )
 	{
-		if ( currentToken() == null )
+		if ( this.currentToken() == null )
+		{
 			return null;
+		}
 
-		if ( !currentToken().equalsIgnoreCase( "repeat" ) )
+		if ( !this.currentToken().equalsIgnoreCase( "repeat" ) )
+		{
 			return null;
+		}
 
-		readToken(); // repeat
+		this.readToken(); // repeat
 
-		ScriptScope scope = parseLoopScope( functionType, null, parentScope );
-		if ( currentToken() == null || !currentToken().equals( "until" ) )
-			parseError( "until", currentToken() );
+		ScriptScope scope = this.parseLoopScope( functionType, null, parentScope );
+		if ( this.currentToken() == null || !this.currentToken().equals( "until" ) )
+		{
+			this.parseError( "until", this.currentToken() );
+		}
 
-		if ( nextToken() == null || !nextToken().equals( "(" ) )
-			parseError( "(", nextToken() );
+		if ( this.nextToken() == null || !this.nextToken().equals( "(" ) )
+		{
+			this.parseError( "(", this.nextToken() );
+		}
 
-		readToken(); // until
-		readToken(); // (
+		this.readToken(); // until
+		this.readToken(); // (
 
-		ScriptExpression expression = parseExpression( parentScope );
-		if ( currentToken() == null || !currentToken().equals( ")" ) )
-			parseError( ")", currentToken() );
+		ScriptExpression expression = this.parseExpression( parentScope );
+		if ( this.currentToken() == null || !this.currentToken().equals( ")" ) )
+		{
+			this.parseError( ")", this.currentToken() );
+		}
 
-		if ( expression.getType() != BOOLEAN_TYPE )
+		if ( expression.getType() != KoLmafiaASH.BOOLEAN_TYPE )
+		{
 			throw new AdvancedScriptException( "\"repeat\" requires a boolean conditional expression" );
+		}
 
-		readToken(); // )
+		this.readToken(); // )
 
 		return new ScriptRepeat( scope, expression );
 	}
 
-	private ScriptForeach parseForeach( ScriptType functionType, ScriptScope parentScope )
+	private ScriptForeach parseForeach( final ScriptType functionType, final ScriptScope parentScope )
 	{
 		// foreach key [, key ... ] in aggregate { scope }
 
-		if ( currentToken() == null )
+		if ( this.currentToken() == null )
+		{
 			return null;
+		}
 
-		if ( !(currentToken().equalsIgnoreCase( "foreach" ) ) )
+		if ( !this.currentToken().equalsIgnoreCase( "foreach" ) )
+		{
 			return null;
+		}
 
-		readToken();	// foreach
+		this.readToken(); // foreach
 
 		ArrayList names = new ArrayList();
 
 		while ( true )
 		{
-			String name = currentToken();
+			String name = this.currentToken();
 
-			if ( !parseIdentifier( name ) )
+			if ( !this.parseIdentifier( name ) )
+			{
 				throw new AdvancedScriptException( "Key variable name expected" );
+			}
 
 			if ( parentScope.findVariable( name ) != null )
+			{
 				throw new AdvancedScriptException( "Key variable '" + name + "' is already defined" );
+			}
 
 			names.add( name );
-			readToken();	// name
+			this.readToken(); // name
 
-			if ( currentToken() != null )
+			if ( this.currentToken() != null )
 			{
-				if ( currentToken().equals( "," ) )
+				if ( this.currentToken().equals( "," ) )
 				{
-					readToken();	// ,
+					this.readToken(); // ,
 					continue;
 				}
 
-				if ( currentToken().equalsIgnoreCase( "in" ) )
+				if ( this.currentToken().equalsIgnoreCase( "in" ) )
 				{
-					readToken();	// in
+					this.readToken(); // in
 					break;
 				}
 			}
 
-			parseError( "in", currentToken() );
+			this.parseError( "in", this.currentToken() );
 		}
 
 		// Get an aggregate reference
-		ScriptExpression aggregate = parseVariableReference( parentScope );
+		ScriptExpression aggregate = this.parseVariableReference( parentScope );
 
-		if ( aggregate == null || !(aggregate instanceof ScriptVariableReference) || !(aggregate.getType().getBaseType() instanceof ScriptAggregateType) )
+		if ( aggregate == null || !( aggregate instanceof ScriptVariableReference ) || !( aggregate.getType().getBaseType() instanceof ScriptAggregateType ) )
+		{
 			throw new AdvancedScriptException( "Aggregate reference expected" );
+		}
 
 		// Define key variables of appropriate type
 		ScriptVariableList varList = new ScriptVariableList();
@@ -1706,288 +2017,361 @@ public class KoLmafiaASH extends StaticEntity
 		for ( int i = 0; i < names.size(); ++i )
 		{
 			if ( !( type instanceof ScriptAggregateType ) )
+			{
 				throw new AdvancedScriptException( "Too many key variables specified" );
+			}
 
-			ScriptType itype = ((ScriptAggregateType)type).getIndexType();
-			ScriptVariable keyvar = new ScriptVariable( (String)names.get( i ), itype );
+			ScriptType itype = ( (ScriptAggregateType) type ).getIndexType();
+			ScriptVariable keyvar = new ScriptVariable( (String) names.get( i ), itype );
 			varList.addElement( keyvar );
 			variableReferences.addElement( new ScriptVariableReference( keyvar ) );
-			type = ((ScriptAggregateType)type).getDataType();
+			type = ( (ScriptAggregateType) type ).getDataType();
 		}
 
 		// Parse the scope with the list of keyVars
-		ScriptScope scope = parseLoopScope( functionType, varList, parentScope );
+		ScriptScope scope = this.parseLoopScope( functionType, varList, parentScope );
 
 		// Add the foreach node with the list of varRefs
 		return new ScriptForeach( scope, variableReferences, (ScriptVariableReference) aggregate );
 	}
 
-	private ScriptFor parseFor( ScriptType functionType, ScriptScope parentScope )
+	private ScriptFor parseFor( final ScriptType functionType, final ScriptScope parentScope )
 	{
 		// foreach key in aggregate {scope }
 
-		if ( currentToken() == null )
+		if ( this.currentToken() == null )
+		{
 			return null;
+		}
 
-		if ( !(currentToken().equalsIgnoreCase( "for" ) ) )
+		if ( !this.currentToken().equalsIgnoreCase( "for" ) )
+		{
 			return null;
+		}
 
-		String name = nextToken();
+		String name = this.nextToken();
 
-		if ( !parseIdentifier( name ) )
+		if ( !this.parseIdentifier( name ) )
+		{
 			return null;
+		}
 
 		if ( parentScope.findVariable( name ) != null )
+		{
 			throw new AdvancedScriptException( "Index variable '" + name + "' is already defined" );
+		}
 
-		readToken();	// for
-		readToken();	// name
+		this.readToken(); // for
+		this.readToken(); // name
 
-		if ( !(currentToken().equalsIgnoreCase( "from" ) ) )
-			parseError( "from", currentToken() );
+		if ( !this.currentToken().equalsIgnoreCase( "from" ) )
+		{
+			this.parseError( "from", this.currentToken() );
+		}
 
-		readToken();	// from
+		this.readToken(); // from
 
-		ScriptExpression initial = parseExpression( parentScope );
+		ScriptExpression initial = this.parseExpression( parentScope );
 
 		int direction = 0;
 
-		if ( currentToken().equalsIgnoreCase( "upto" ) )
-			direction = 1;
-		else if ( currentToken().equalsIgnoreCase( "downto" ) )
-			direction = -1;
-		else if ( currentToken().equalsIgnoreCase( "to" ) )
-			direction = 0;
-		else
-			parseError( "to, upto, or downto", currentToken() );
-
-		readToken();	// upto/downto
-
-		ScriptExpression last = parseExpression( parentScope );
-
-		ScriptExpression increment = ONE_VALUE;
-		if ( currentToken().equalsIgnoreCase( "by" ) )
+		if ( this.currentToken().equalsIgnoreCase( "upto" ) )
 		{
-			readToken();	// by
-			increment = parseExpression( parentScope );
+			direction = 1;
+		}
+		else if ( this.currentToken().equalsIgnoreCase( "downto" ) )
+		{
+			direction = -1;
+		}
+		else if ( this.currentToken().equalsIgnoreCase( "to" ) )
+		{
+			direction = 0;
+		}
+		else
+		{
+			this.parseError( "to, upto, or downto", this.currentToken() );
+		}
+
+		this.readToken(); // upto/downto
+
+		ScriptExpression last = this.parseExpression( parentScope );
+
+		ScriptExpression increment = KoLmafiaASH.ONE_VALUE;
+		if ( this.currentToken().equalsIgnoreCase( "by" ) )
+		{
+			this.readToken(); // by
+			increment = this.parseExpression( parentScope );
 		}
 
 		// Create integer index variable
-		ScriptVariable indexvar = new ScriptVariable( name, INT_TYPE );
+		ScriptVariable indexvar = new ScriptVariable( name, KoLmafiaASH.INT_TYPE );
 
 		// Put index variable onto a list
 		ScriptVariableList varList = new ScriptVariableList();
 		varList.addElement( indexvar );
 
-		ScriptScope scope = parseLoopScope( functionType, varList, parentScope );
+		ScriptScope scope = this.parseLoopScope( functionType, varList, parentScope );
 
 		return new ScriptFor( scope, new ScriptVariableReference( indexvar ), initial, last, increment, direction );
 	}
 
-	private ScriptScope parseLoopScope( ScriptType functionType, ScriptVariableList varList, ScriptScope parentScope )
+	private ScriptScope parseLoopScope( final ScriptType functionType, final ScriptVariableList varList,
+		final ScriptScope parentScope )
 	{
 		ScriptScope scope;
 
-		if ( currentToken() != null && currentToken().equals( "{" ) )
+		if ( this.currentToken() != null && this.currentToken().equals( "{" ) )
 		{
 			// Scope is a block
 
-			readToken(); // {
+			this.readToken(); // {
 
-			scope = parseScope( null, functionType, varList, parentScope, true );
-			if ( currentToken() == null || !currentToken().equals( "}" ) )
-				parseError( "}", currentToken() );
+			scope = this.parseScope( null, functionType, varList, parentScope, true );
+			if ( this.currentToken() == null || !this.currentToken().equals( "}" ) )
+			{
+				this.parseError( "}", this.currentToken() );
+			}
 
-			readToken(); // }
+			this.readToken(); // }
 		}
 		else
 		{
 			// Scope is a single command
 			scope = new ScriptScope( varList, parentScope );
-			scope.addCommand( parseCommand( functionType, scope, false, true ) );
+			scope.addCommand( this.parseCommand( functionType, scope, false, true ) );
 		}
 
 		return scope;
 	}
 
-	private ScriptExpression parseCall( ScriptScope scope )
-	{	return parseCall( scope, null );
+	private ScriptExpression parseCall( final ScriptScope scope )
+	{
+		return this.parseCall( scope, null );
 	}
 
-	private ScriptExpression parseCall( ScriptScope scope, ScriptExpression firstParam )
+	private ScriptExpression parseCall( final ScriptScope scope, final ScriptExpression firstParam )
 	{
-		if ( nextToken() == null || !nextToken().equals( "(" ) )
+		if ( this.nextToken() == null || !this.nextToken().equals( "(" ) )
+		{
 			return null;
+		}
 
-		if ( !parseIdentifier( currentToken() ) )
+		if ( !this.parseIdentifier( this.currentToken() ) )
+		{
 			return null;
+		}
 
-		String name = currentToken();
+		String name = this.currentToken();
 
-		readToken(); //name
-		readToken(); //(
+		this.readToken(); //name
+		this.readToken(); //(
 
 		ScriptExpressionList params = new ScriptExpressionList();
 		if ( firstParam != null )
-			params.addElement( firstParam );
-
-		while ( currentToken() != null && !currentToken().equals( ")" ) )
 		{
-			ScriptExpression val = parseExpression( scope );
-			if ( val != null )
-				params.addElement( val );
+			params.addElement( firstParam );
+		}
 
-			if ( !currentToken().equals( "," ) )
+		while ( this.currentToken() != null && !this.currentToken().equals( ")" ) )
+		{
+			ScriptExpression val = this.parseExpression( scope );
+			if ( val != null )
 			{
-				if ( !currentToken().equals( ")" ) )
-					parseError( ")", currentToken() );
+				params.addElement( val );
+			}
+
+			if ( !this.currentToken().equals( "," ) )
+			{
+				if ( !this.currentToken().equals( ")" ) )
+				{
+					this.parseError( ")", this.currentToken() );
+				}
 			}
 			else
 			{
-				readToken();
-				if ( currentToken().equals( ")" ) )
-					parseError( "parameter", currentToken() );
+				this.readToken();
+				if ( this.currentToken().equals( ")" ) )
+				{
+					this.parseError( "parameter", this.currentToken() );
+				}
 			}
 		}
 
-		if ( !currentToken().equals( ")" ) )
-			parseError( ")", currentToken() );
+		if ( !this.currentToken().equals( ")" ) )
+		{
+			this.parseError( ")", this.currentToken() );
+		}
 
-		readToken(); // )
+		this.readToken(); // )
 
 		ScriptExpression result = new ScriptCall( name, scope, params );
 
 		ScriptVariable current;
-		while ( result != null && currentToken() != null && currentToken().equals( "." ) )
+		while ( result != null && this.currentToken() != null && this.currentToken().equals( "." ) )
 		{
 			current = new ScriptVariable( result.getType() );
 			current.setExpression( result );
 
-			result = parseVariableReference( scope, current );
+			result = this.parseVariableReference( scope, current );
 		}
 
 		return result;
 	}
 
-	private ScriptCommand parseAssignment( ScriptScope scope )
+	private ScriptCommand parseAssignment( final ScriptScope scope )
 	{
-		if ( nextToken() == null )
+		if ( this.nextToken() == null )
+		{
 			return null;
+		}
 
-		if ( !nextToken().equals( "=" ) && !nextToken().equals( "[" ) && !nextToken().equals( "." ) )
+		if ( !this.nextToken().equals( "=" ) && !this.nextToken().equals( "[" ) && !this.nextToken().equals( "." ) )
+		{
 			return null;
+		}
 
-		if ( !parseIdentifier( currentToken() ) )
+		if ( !this.parseIdentifier( this.currentToken() ) )
+		{
 			return null;
+		}
 
-		ScriptExpression lhs = parseVariableReference( scope );
+		ScriptExpression lhs = this.parseVariableReference( scope );
 		if ( lhs instanceof ScriptCall )
+		{
 			return lhs;
+		}
 
-		if ( lhs == null || !(lhs instanceof ScriptVariableReference) )
+		if ( lhs == null || !( lhs instanceof ScriptVariableReference ) )
+		{
 			throw new AdvancedScriptException( "Variable reference expected" );
+		}
 
-		if ( !currentToken().equals( "=" ) )
+		if ( !this.currentToken().equals( "=" ) )
+		{
 			return null;
+		}
 
-		readToken(); //=
+		this.readToken(); //=
 
-		ScriptExpression rhs = parseExpression( scope );
+		ScriptExpression rhs = this.parseExpression( scope );
 
 		if ( rhs == null )
+		{
 			throw new AdvancedScriptException( "Internal error" );
+		}
 
 		return new ScriptAssignment( (ScriptVariableReference) lhs, rhs );
 	}
 
-	private ScriptExpression parseRemove( ScriptScope scope )
+	private ScriptExpression parseRemove( final ScriptScope scope )
 	{
-		if ( currentToken() == null || !currentToken().equals( "remove" ) )
+		if ( this.currentToken() == null || !this.currentToken().equals( "remove" ) )
+		{
 			return null;
+		}
 
-		ScriptExpression lhs = parseExpression( scope );
+		ScriptExpression lhs = this.parseExpression( scope );
 
 		if ( lhs == null )
+		{
 			throw new AdvancedScriptException( "Bad 'remove' statement" );
+		}
 
 		return lhs;
 	}
 
-	private ScriptExpression parseExpression( ScriptScope scope )
+	private ScriptExpression parseExpression( final ScriptScope scope )
 	{
-		return parseExpression( scope, null );
+		return this.parseExpression( scope, null );
 	}
 
-	private ScriptExpression parseExpression( ScriptScope scope, ScriptOperator previousOper )
+	private ScriptExpression parseExpression( final ScriptScope scope, final ScriptOperator previousOper )
 	{
-		if ( currentToken() == null )
+		if ( this.currentToken() == null )
+		{
 			return null;
+		}
 
 		ScriptExpression lhs = null;
 		ScriptExpression rhs = null;
 		ScriptOperator oper = null;
 
-		if ( currentToken().equals( "!" ) )
+		if ( this.currentToken().equals( "!" ) )
 		{
-			String operator = currentToken();
-			readToken(); // !
-			if ( (lhs = parseValue( scope )) == null )
+			String operator = this.currentToken();
+			this.readToken(); // !
+			if ( ( lhs = this.parseValue( scope ) ) == null )
+			{
 				throw new AdvancedScriptException( "Value expected" );
+			}
 
 			lhs = new ScriptExpression( lhs, null, new ScriptOperator( operator ) );
-						if ( lhs.getType() != BOOLEAN_TYPE )
-								throw new AdvancedScriptException( "\"!\" operator requires a boolean value" );
+			if ( lhs.getType() != KoLmafiaASH.BOOLEAN_TYPE )
+			{
+				throw new AdvancedScriptException( "\"!\" operator requires a boolean value" );
+			}
 		}
-		else if ( currentToken().equals( "-" ) )
+		else if ( this.currentToken().equals( "-" ) )
 		{
 			// See if it's a negative numeric constant
-			if ( (lhs = parseValue( scope )) != null )
+			if ( ( lhs = this.parseValue( scope ) ) != null )
+			{
 				return lhs;
+			}
 
 			// Nope. Must be unary minus.
-			String operator = currentToken();
-			readToken(); // !
-			if ( (lhs = parseValue( scope )) == null )
+			String operator = this.currentToken();
+			this.readToken(); // !
+			if ( ( lhs = this.parseValue( scope ) ) == null )
+			{
 				throw new AdvancedScriptException( "Value expected" );
+			}
 
 			lhs = new ScriptExpression( lhs, null, new ScriptOperator( operator ) );
 		}
-		else if ( currentToken().equals( "remove" ) )
+		else if ( this.currentToken().equals( "remove" ) )
 		{
-			String operator = currentToken();
-			readToken(); // remove
+			String operator = this.currentToken();
+			this.readToken(); // remove
 
-			lhs = parseVariableReference( scope );
-			if ( lhs == null || !(lhs instanceof ScriptCompositeReference) )
+			lhs = this.parseVariableReference( scope );
+			if ( lhs == null || !( lhs instanceof ScriptCompositeReference ) )
+			{
 				throw new AdvancedScriptException( "Aggregate reference expected" );
+			}
 
 			lhs = new ScriptExpression( lhs, null, new ScriptOperator( operator ) );
 		}
-		else
+		else if ( ( lhs = this.parseValue( scope ) ) == null )
 		{
-			if ( (lhs = parseValue( scope )) == null )
-				return null;
+			return null;
 		}
 
 		do
 		{
-			oper = parseOperator( currentToken() );
+			oper = this.parseOperator( this.currentToken() );
 
 			if ( oper == null )
+			{
 				return lhs;
+			}
 
 			if ( previousOper != null && !oper.precedes( previousOper ) )
-				return lhs;
-
-			readToken(); //operator
-
-			if ( (rhs = parseExpression( scope, oper )) == null )
-				throw new AdvancedScriptException( "Value expected" );
-
-			if ( !validCoercion( lhs.getType(), rhs.getType(), oper.toString() ) )
 			{
-				throw new AdvancedScriptException( "Cannot apply operator " + oper + " to " +
-					lhs + " (" + lhs.getType() + ") and " + rhs + " (" + rhs.getType() + ")" );
+				return lhs;
+			}
+
+			this.readToken(); //operator
+
+			if ( ( rhs = this.parseExpression( scope, oper ) ) == null )
+			{
+				throw new AdvancedScriptException( "Value expected" );
+			}
+
+			if ( !KoLmafiaASH.validCoercion( lhs.getType(), rhs.getType(), oper.toString() ) )
+			{
+				throw new AdvancedScriptException(
+					"Cannot apply operator " + oper + " to " + lhs + " (" + lhs.getType() + ") and " + rhs + " (" + rhs.getType() + ")" );
 			}
 
 			lhs = new ScriptExpression( lhs, rhs, oper );
@@ -1995,67 +2379,73 @@ public class KoLmafiaASH extends StaticEntity
 		while ( true );
 	}
 
-	private ScriptExpression parseValue( ScriptScope scope )
+	private ScriptExpression parseValue( final ScriptScope scope )
 	{
-		if ( currentToken() == null )
+		if ( this.currentToken() == null )
+		{
 			return null;
+		}
 
 		ScriptExpression result = null;
 
 		// Parse parenthesized expressions
-		if ( currentToken().equals( "(" ) )
+		if ( this.currentToken().equals( "(" ) )
 		{
-			readToken();	// (
+			this.readToken(); // (
 
-			result = parseExpression( scope );
-			if ( currentToken() == null || !currentToken().equals( ")" ) )
-				parseError( ")", currentToken() );
+			result = this.parseExpression( scope );
+			if ( this.currentToken() == null || !this.currentToken().equals( ")" ) )
+			{
+				this.parseError( ")", this.currentToken() );
+			}
 
-			readToken();    // )
+			this.readToken(); // )
 		}
 
 		// Parse constant values
 		// true and false are reserved words
 
-		else if ( currentToken().equalsIgnoreCase( "true" ) )
+		else if ( this.currentToken().equalsIgnoreCase( "true" ) )
 		{
-			readToken();
-			result = TRUE_VALUE;
+			this.readToken();
+			result = KoLmafiaASH.TRUE_VALUE;
 		}
 
-		else if ( currentToken().equalsIgnoreCase( "false" ) )
+		else if ( this.currentToken().equalsIgnoreCase( "false" ) )
 		{
-			readToken();
-			result = FALSE_VALUE;
+			this.readToken();
+			result = KoLmafiaASH.FALSE_VALUE;
 		}
 
 		// numbers
-		else if ( (result = parseNumber()) != null )
+		else if ( ( result = this.parseNumber() ) != null )
+		{
 			;
-
-		// strings
-		else if ( currentToken().equals( "\"" ) || currentToken().equals( "\'" ) )
-			result = parseString();
-
-		// typed constants
-		else if ( currentToken().equals( "$" ) )
-			result = parseTypedConstant( scope );
-
-		// Function calls
-		else if ( (result = parseCall( scope, result )) != null )
+		}
+		else if ( this.currentToken().equals( "\"" ) || this.currentToken().equals( "\'" ) )
+		{
+			result = this.parseString();
+		}
+		else if ( this.currentToken().equals( "$" ) )
+		{
+			result = this.parseTypedConstant( scope );
+		}
+		else if ( ( result = this.parseCall( scope, result ) ) != null )
+		{
 			;
-
-		// Variable and aggregate references
-		else if ( (result = parseVariableReference( scope )) != null )
+		}
+		else if ( ( result = this.parseVariableReference( scope ) ) != null )
+		{
 			;
+		}
 
 		ScriptVariable current;
-		while ( result != null && currentToken() != null && currentToken().equals( "." ) )
+		while ( result != null && this.currentToken() != null && this.currentToken().equals( "." ) )
 		{
 			current = new ScriptVariable( result.getType() );
 			current.setExpression( result );
 
-			result = parseVariableReference( scope, current );
+			result = this.parseVariableReference( scope, current );
 		}
 
 		return result;
@@ -2063,67 +2453,85 @@ public class KoLmafiaASH extends StaticEntity
 
 	private ScriptValue parseNumber()
 	{
-		if ( currentToken() == null )
+		if ( this.currentToken() == null )
+		{
 			return null;
+		}
 
 		int sign = 1;
 
-		if ( currentToken().equals( "-" ) )
+		if ( this.currentToken().equals( "-" ) )
 		{
-			String next = nextToken();
+			String next = this.nextToken();
 
 			if ( next == null )
+			{
 				return null;
+			}
 
-			if ( !next.equals( "." ) && !readIntegerToken( next ) )
+			if ( !next.equals( "." ) && !this.readIntegerToken( next ) )
+			{
 				// Unary minus
 				return null;
+			}
 
 			sign = -1;
-			readToken();	// Read -
+			this.readToken(); // Read -
 		}
 
-		if ( currentToken().equals( "." ) )
+		if ( this.currentToken().equals( "." ) )
 		{
-			readToken();
-			String fraction = currentToken();
+			this.readToken();
+			String fraction = this.currentToken();
 
-			if ( !readIntegerToken( fraction ) )
-				parseError( "numeric value", fraction );
+			if ( !this.readIntegerToken( fraction ) )
+			{
+				this.parseError( "numeric value", fraction );
+			}
 
-			readToken();	// integer
-			return new ScriptValue( sign * parseFloat( "0." + fraction ) );
+			this.readToken(); // integer
+			return new ScriptValue( sign * StaticEntity.parseFloat( "0." + fraction ) );
 		}
 
-		String integer = currentToken();
-		if ( !readIntegerToken( integer ) )
+		String integer = this.currentToken();
+		if ( !this.readIntegerToken( integer ) )
+		{
 			return null;
-
-		readToken();	// integer
-
-		if ( currentToken().equals( "." ) )
-		{
-			String fraction = nextToken();
-			if ( !readIntegerToken( fraction ) )
-				return new ScriptValue( sign * parseInt( integer ) );
-
-			readToken();	// .
-			readToken();	// fraction
-
-			return new ScriptValue( sign * parseFloat( integer + "." + fraction ) );
 		}
 
-		return new ScriptValue( sign * parseInt( integer ) );
+		this.readToken(); // integer
+
+		if ( this.currentToken().equals( "." ) )
+		{
+			String fraction = this.nextToken();
+			if ( !this.readIntegerToken( fraction ) )
+			{
+				return new ScriptValue( sign * StaticEntity.parseInt( integer ) );
+			}
+
+			this.readToken(); // .
+			this.readToken(); // fraction
+
+			return new ScriptValue( sign * StaticEntity.parseFloat( integer + "." + fraction ) );
+		}
+
+		return new ScriptValue( sign * StaticEntity.parseInt( integer ) );
 	}
 
-	private boolean readIntegerToken( String token )
+	private boolean readIntegerToken( final String token )
 	{
 		if ( token == null )
+		{
 			return false;
+		}
 
 		for ( int i = 0; i < token.length(); ++i )
+		{
 			if ( !Character.isDigit( token.charAt( i ) ) )
+			{
 				return false;
+			}
+		}
 
 		return true;
 	}
@@ -2134,16 +2542,18 @@ public class KoLmafiaASH extends StaticEntity
 		// the string is closed
 
 		StringBuffer resultString = new StringBuffer();
-		char startCharacter = currentLine.charAt(0);
+		char startCharacter = this.currentLine.charAt( 0 );
 
-		for ( int i = 1; ; ++i )
+		for ( int i = 1;; ++i )
 		{
-			if ( i == currentLine.length() )
-				throw new AdvancedScriptException( "No closing \" found" );
-
-			if ( currentLine.charAt( i ) == '\\' )
+			if ( i == this.currentLine.length() )
 			{
-				char ch = currentLine.charAt( ++i );
+				throw new AdvancedScriptException( "No closing \" found" );
+			}
+
+			if ( this.currentLine.charAt( i ) == '\\' )
+			{
+				char ch = this.currentLine.charAt( ++i );
 
 				switch ( ch )
 				{
@@ -2166,13 +2576,13 @@ public class KoLmafiaASH extends StaticEntity
 					break;
 
 				case 'x':
-					BigInteger hex08 = new BigInteger( currentLine.substring( i + 1, i + 3 ), 16 );
+					BigInteger hex08 = new BigInteger( this.currentLine.substring( i + 1, i + 3 ), 16 );
 					resultString.append( (char) hex08.intValue() );
 					i += 2;
 					break;
 
 				case 'u':
-					BigInteger hex16 = new BigInteger( currentLine.substring( i + 1, i + 5 ), 16 );
+					BigInteger hex16 = new BigInteger( this.currentLine.substring( i + 1, i + 5 ), 16 );
 					resultString.append( (char) hex16.intValue() );
 					i += 4;
 					break;
@@ -2180,245 +2590,290 @@ public class KoLmafiaASH extends StaticEntity
 				default:
 					if ( Character.isDigit( ch ) )
 					{
-						BigInteger octal = new BigInteger( currentLine.substring( i, i + 3 ), 8 );
+						BigInteger octal = new BigInteger( this.currentLine.substring( i, i + 3 ), 8 );
 						resultString.append( (char) octal.intValue() );
 						i += 2;
 					}
 				}
 			}
-			else if ( currentLine.charAt( i ) == startCharacter )
+			else if ( this.currentLine.charAt( i ) == startCharacter )
 			{
-				currentLine = currentLine.substring( i + 1 ); //+ 1 to get rid of '"' token
+				this.currentLine = this.currentLine.substring( i + 1 ); //+ 1 to get rid of '"' token
 				return new ScriptValue( resultString.toString() );
 			}
 			else
 			{
-				resultString.append( currentLine.charAt( i ) );
+				resultString.append( this.currentLine.charAt( i ) );
 			}
 		}
 	}
 
-	private ScriptValue parseTypedConstant( ScriptScope scope )
+	private ScriptValue parseTypedConstant( final ScriptScope scope )
 	{
-		readToken();    // read $
+		this.readToken(); // read $
 
-		String name = currentToken();
-		ScriptType type = parseType( scope, false, false );
+		String name = this.currentToken();
+		ScriptType type = this.parseType( scope, false, false );
 		if ( type == null || !type.isPrimitive() )
+		{
 			throw new AdvancedScriptException( "Unknown type " + name );
+		}
 
-		if ( !currentToken().equals( "[" ) )
-			parseError( "[", currentToken() );
+		if ( !this.currentToken().equals( "[" ) )
+		{
+			this.parseError( "[", this.currentToken() );
+		}
 
 		StringBuffer resultString = new StringBuffer();
 
-		for ( int i = 1; ; ++i )
+		for ( int i = 1;; ++i )
 		{
-			if ( i == currentLine.length() )
+			if ( i == this.currentLine.length() )
 			{
 				throw new AdvancedScriptException( "No closing ] found" );
 			}
-			else if ( currentLine.charAt( i ) == '\\' )
+			else if ( this.currentLine.charAt( i ) == '\\' )
 			{
-				resultString.append( currentLine.charAt( ++i ) );
+				resultString.append( this.currentLine.charAt( ++i ) );
 			}
-			else if ( currentLine.charAt( i ) == ']' )
+			else if ( this.currentLine.charAt( i ) == ']' )
 			{
-				currentLine = currentLine.substring( i + 1 ); //+1 to get rid of ']' token
-				return parseValue( type, resultString.toString().trim());
+				this.currentLine = this.currentLine.substring( i + 1 ); //+1 to get rid of ']' token
+				return KoLmafiaASH.parseValue( type, resultString.toString().trim() );
 			}
 			else
 			{
-				resultString.append( currentLine.charAt( i ) );
+				resultString.append( this.currentLine.charAt( i ) );
 			}
 		}
 	}
 
-	private ScriptOperator parseOperator( String oper )
+	private ScriptOperator parseOperator( final String oper )
 	{
-		if ( oper == null || !isOperator( oper ) )
+		if ( oper == null || !this.isOperator( oper ) )
+		{
 			return null;
+		}
 
 		return new ScriptOperator( oper );
 	}
 
-	private boolean isOperator( String oper )
+	private boolean isOperator( final String oper )
 	{
-		return oper.equals( "!" ) ||
-			oper.equals( "*" ) || oper.equals( "^" ) || oper.equals( "/" ) || oper.equals( "%" ) ||
-			oper.equals( "+" ) || oper.equals( "-" ) ||
-			oper.equals( "<" ) || oper.equals( ">" ) || oper.equals( "<=" ) || oper.equals( ">=" ) ||
-			oper.equals( "=" ) || oper.equals( "==" ) || oper.equals( "!=" ) ||
-			oper.equals( "||" ) || oper.equals( "&&" ) ||
-			oper.equals( "contains" ) || oper.equals( "remove" );
+		return oper.equals( "!" ) || oper.equals( "*" ) || oper.equals( "^" ) || oper.equals( "/" ) || oper.equals( "%" ) || oper.equals( "+" ) || oper.equals( "-" ) || oper.equals( "<" ) || oper.equals( ">" ) || oper.equals( "<=" ) || oper.equals( ">=" ) || oper.equals( "=" ) || oper.equals( "==" ) || oper.equals( "!=" ) || oper.equals( "||" ) || oper.equals( "&&" ) || oper.equals( "contains" ) || oper.equals( "remove" );
 	}
 
-	private ScriptExpression parseVariableReference( ScriptScope scope )
+	private ScriptExpression parseVariableReference( final ScriptScope scope )
 	{
-		if ( currentToken() == null || !parseIdentifier( currentToken() ) )
+		if ( this.currentToken() == null || !this.parseIdentifier( this.currentToken() ) )
+		{
 			return null;
+		}
 
-		String name = currentToken();
+		String name = this.currentToken();
 		ScriptVariable var = scope.findVariable( name, true );
 
 		if ( var == null )
+		{
 			throw new AdvancedScriptException( "Unknown variable '" + name + "'" );
+		}
 
-		readToken(); // read name
+		this.readToken(); // read name
 
-		if ( currentToken() == null || (!currentToken().equals( "[" ) && !currentToken().equals( "." ) ) )
+		if ( this.currentToken() == null || !this.currentToken().equals( "[" ) && !this.currentToken().equals( "." ) )
+		{
 			return new ScriptVariableReference( var );
+		}
 
-		return parseVariableReference( scope, var );
+		return this.parseVariableReference( scope, var );
 	}
 
-	private ScriptExpression parseVariableReference( ScriptScope scope, ScriptVariable var )
+	private ScriptExpression parseVariableReference( final ScriptScope scope, final ScriptVariable var )
 	{
 		ScriptType type = var.getType();
 		ScriptExpressionList indices = new ScriptExpressionList();
 
-		boolean parseAggregate = currentToken().equals( "[" );
+		boolean parseAggregate = this.currentToken().equals( "[" );
 
-		while ( currentToken() != null && (currentToken().equals( "[" ) || currentToken().equals( "." ) || (parseAggregate && currentToken().equals( "," ))) )
+		while ( this.currentToken() != null && ( this.currentToken().equals( "[" ) || this.currentToken().equals( "." ) || parseAggregate && this.currentToken().equals(
+			"," ) ) )
 		{
 			ScriptExpression index;
 
 			type = type.getBaseType();
 
-			if ( currentToken().equals( "[" ) || currentToken().equals( "," ) )
+			if ( this.currentToken().equals( "[" ) || this.currentToken().equals( "," ) )
 			{
-				readToken(); // read [ or . or ,
+				this.readToken(); // read [ or . or ,
 				parseAggregate = true;
 
-				if ( !(type instanceof ScriptAggregateType) )
+				if ( !( type instanceof ScriptAggregateType ) )
 				{
 					if ( indices.isEmpty() )
+					{
 						throw new AdvancedScriptException( "Variable '" + var.getName() + "' cannot be indexed" );
+					}
 					else
+					{
 						throw new AdvancedScriptException( "Too many keys for '" + var.getName() + "'" );
+					}
 				}
 
 				ScriptAggregateType atype = (ScriptAggregateType) type;
-				index = parseExpression( scope );
+				index = this.parseExpression( scope );
 				if ( index == null )
+				{
 					throw new AdvancedScriptException( "Index for '" + var.getName() + "' expected" );
+				}
 
 				if ( !index.getType().equals( atype.getIndexType() ) )
 				{
-					throw new AdvancedScriptException( "Index for '" + var.getName() + "' has wrong data type " +
-						"(expected " + atype.getIndexType() + ", got " + index.getType() + ")" );
+					throw new AdvancedScriptException(
+						"Index for '" + var.getName() + "' has wrong data type " + "(expected " + atype.getIndexType() + ", got " + index.getType() + ")" );
 				}
 
 				type = atype.getDataType();
 			}
 			else
 			{
-				readToken(); // read [ or . or ,
+				this.readToken(); // read [ or . or ,
 
 				// Maybe it's a function call with an implied "this" parameter.
 
-				if ( nextToken().equals( "(" ) )
-					return parseCall( scope, indices.isEmpty() ? new ScriptVariableReference( var ) : new ScriptCompositeReference( var, indices ) );
+				if ( this.nextToken().equals( "(" ) )
+				{
+					return this.parseCall(
+						scope, indices.isEmpty() ? new ScriptVariableReference( var ) : new ScriptCompositeReference(
+							var, indices ) );
+				}
 
-				if ( !(type instanceof ScriptRecordType) )
+				if ( !( type instanceof ScriptRecordType ) )
+				{
 					throw new AdvancedScriptException( "Record expected" );
+				}
 
-				ScriptRecordType rtype = (ScriptRecordType)type;
+				ScriptRecordType rtype = (ScriptRecordType) type;
 
-				String field = currentToken();
-				if ( field == null || !parseIdentifier( field ) )
+				String field = this.currentToken();
+				if ( field == null || !this.parseIdentifier( field ) )
+				{
 					throw new AdvancedScriptException( "Field name expected" );
+				}
 
 				index = rtype.getFieldIndex( field );
 				if ( index == null )
+				{
 					throw new AdvancedScriptException( "Invalid field name '" + field + "'" );
-				readToken(); // read name
+				}
+				this.readToken(); // read name
 				type = rtype.getDataType( index );
 			}
 
 			indices.addElement( index );
 
-			if ( parseAggregate && currentToken() != null )
+			if ( parseAggregate && this.currentToken() != null )
 			{
-				if ( currentToken().equals( "]" ) )
+				if ( this.currentToken().equals( "]" ) )
 				{
-					readToken(); // read ]
+					this.readToken(); // read ]
 					parseAggregate = false;
 				}
 			}
 		}
 
 		if ( parseAggregate )
-			parseError( currentToken(), "]" );
+		{
+			this.parseError( this.currentToken(), "]" );
+		}
 
 		return new ScriptCompositeReference( var, indices );
 	}
 
-	private String parseDirective( String directive )
+	private String parseDirective( final String directive )
 	{
-		if ( currentToken() == null || !currentToken().equalsIgnoreCase( directive ) )
+		if ( this.currentToken() == null || !this.currentToken().equalsIgnoreCase( directive ) )
+		{
 			return null;
+		}
 
-		readToken(); //directive
+		this.readToken(); //directive
 
-		if ( currentToken() == null )
-			parseError( "<", currentToken() );
+		if ( this.currentToken() == null )
+		{
+			this.parseError( "<", this.currentToken() );
+		}
 
-		int startIndex = currentLine.indexOf( "<" );
-		int endIndex = currentLine.indexOf( ">" );
+		int startIndex = this.currentLine.indexOf( "<" );
+		int endIndex = this.currentLine.indexOf( ">" );
 
 		if ( startIndex != -1 && endIndex == -1 )
-			throw new AdvancedScriptException( "No closing > found" );
-
-		if ( startIndex == -1 )
 		{
-			startIndex = currentLine.indexOf( "\"" );
-			endIndex = currentLine.indexOf( "\"", startIndex + 1 );
-
-			if ( startIndex != -1 && endIndex == -1 )
-				throw new AdvancedScriptException( "No closing \" found" );
+			throw new AdvancedScriptException( "No closing > found" );
 		}
 
 		if ( startIndex == -1 )
 		{
-			startIndex = currentLine.indexOf( "\'" );
-			endIndex = currentLine.indexOf( "\'", startIndex + 1 );
+			startIndex = this.currentLine.indexOf( "\"" );
+			endIndex = this.currentLine.indexOf( "\"", startIndex + 1 );
 
 			if ( startIndex != -1 && endIndex == -1 )
+			{
+				throw new AdvancedScriptException( "No closing \" found" );
+			}
+		}
+
+		if ( startIndex == -1 )
+		{
+			startIndex = this.currentLine.indexOf( "\'" );
+			endIndex = this.currentLine.indexOf( "\'", startIndex + 1 );
+
+			if ( startIndex != -1 && endIndex == -1 )
+			{
 				throw new AdvancedScriptException( "No closing \' found" );
+			}
 		}
 
 		if ( endIndex == -1 )
 		{
-			endIndex = currentLine.indexOf( ";" );
+			endIndex = this.currentLine.indexOf( ";" );
 			if ( endIndex == -1 )
-				endIndex = currentLine.length();
+			{
+				endIndex = this.currentLine.length();
+			}
 		}
 
-		String resultString = currentLine.substring( startIndex + 1, endIndex );
-		currentLine = currentLine.substring( endIndex );
+		String resultString = this.currentLine.substring( startIndex + 1, endIndex );
+		this.currentLine = this.currentLine.substring( endIndex );
 
-		if ( currentToken().equals( ">" ) || currentToken().equals( "\"" ) || currentToken().equals( "\'" ) )
-			readToken(); //get rid of '>' or '"' token
+		if ( this.currentToken().equals( ">" ) || this.currentToken().equals( "\"" ) || this.currentToken().equals(
+			"\'" ) )
+		{
+			this.readToken(); //get rid of '>' or '"' token
+		}
 
-		if ( currentToken().equals( ";" ) )
-			readToken(); //read ;
+		if ( this.currentToken().equals( ";" ) )
+		{
+			this.readToken(); //read ;
+		}
 
 		return resultString;
 	}
 
 	private void parseNotify()
 	{
-		String resultString = parseDirective( "notify" );
-		if ( notifyRecipient == null )
-			notifyRecipient = resultString;
+		String resultString = this.parseDirective( "notify" );
+		if ( this.notifyRecipient == null )
+		{
+			this.notifyRecipient = resultString;
+		}
 	}
 
 	private String parseImport()
-	{	return parseDirective( "import" );
+	{
+		return this.parseDirective( "import" );
 	}
 
-	private static final boolean validCoercion( ScriptType lhs, ScriptType rhs, String oper )
+	private static final boolean validCoercion( ScriptType lhs, ScriptType rhs, final String oper )
 	{
 		// Resolve aliases
 
@@ -2441,117 +2896,151 @@ public class KoLmafiaASH extends StaticEntity
 
 		if ( oper.equals( "contains" ) )
 		{
-			return lhs.getType() == TYPE_AGGREGATE &&
-				((ScriptAggregateType)lhs).getIndexType().equals( rhs );
+			return lhs.getType() == KoLmafiaASH.TYPE_AGGREGATE && ( (ScriptAggregateType) lhs ).getIndexType().equals(
+				rhs );
 		}
 
 		// If the types are equal, no coercion is necessary
 		if ( lhs.equals( rhs ) )
+		{
 			return true;
+		}
 
-		if ( lhs.equals( TYPE_ANY ) && rhs.getType() != TYPE_AGGREGATE )
+		if ( lhs.equals( KoLmafiaASH.TYPE_ANY ) && rhs.getType() != KoLmafiaASH.TYPE_AGGREGATE )
+		{
 			return true;
+		}
 
 		// Anything coerces to a string
-		if  ( lhs.equals( TYPE_STRING ) )
+		if ( lhs.equals( KoLmafiaASH.TYPE_STRING ) )
+		{
 			return true;
+		}
 
 		// Anything coerces to a string for concatenation
-		if ( oper.equals( "+" ) && rhs.equals( TYPE_STRING ) )
+		if ( oper.equals( "+" ) && rhs.equals( KoLmafiaASH.TYPE_STRING ) )
+		{
 			return true;
+		}
 
 		// Int coerces to float
-		if ( lhs.equals( TYPE_INT ) && rhs.equals( TYPE_FLOAT ) )
-			 return true;
+		if ( lhs.equals( KoLmafiaASH.TYPE_INT ) && rhs.equals( KoLmafiaASH.TYPE_FLOAT ) )
+		{
+			return true;
+		}
 
-		if ( lhs.equals( TYPE_FLOAT ) && rhs.equals( TYPE_INT ) )
-			 return true;
+		if ( lhs.equals( KoLmafiaASH.TYPE_FLOAT ) && rhs.equals( KoLmafiaASH.TYPE_INT ) )
+		{
+			return true;
+		}
 
 		return false;
 	}
 
 	private String currentToken()
 	{
-		fixLines();
-		if ( currentLine == null )
-			return null;
-
-		while ( currentLine.startsWith( "#" ) || currentLine.startsWith( "//" ) )
+		this.fixLines();
+		if ( this.currentLine == null )
 		{
-			currentLine = "";
+			return null;
+		}
 
-			fixLines();
-			if ( currentLine == null )
+		while ( this.currentLine.startsWith( "#" ) || this.currentLine.startsWith( "//" ) )
+		{
+			this.currentLine = "";
+
+			this.fixLines();
+			if ( this.currentLine == null )
+			{
 				return null;
+			}
 		}
 
-		if ( !currentLine.trim().equals( "/*" ) )
-			return currentLine.substring( 0, tokenLength( currentLine ) );
-
-		while ( currentLine != null && !currentLine.trim().equals( "*/" ) )
+		if ( !this.currentLine.trim().equals( "/*" ) )
 		{
-			currentLine = "";
-			fixLines();
+			return this.currentLine.substring( 0, this.tokenLength( this.currentLine ) );
 		}
 
-		if ( currentLine == null )
-			return null;
+		while ( this.currentLine != null && !this.currentLine.trim().equals( "*/" ) )
+		{
+			this.currentLine = "";
+			this.fixLines();
+		}
 
-		currentLine = "";
-		return currentToken();
+		if ( this.currentLine == null )
+		{
+			return null;
+		}
+
+		this.currentLine = "";
+		return this.currentToken();
 	}
 
 	private String nextToken()
 	{
-		fixLines();
+		this.fixLines();
 
-		if ( currentLine == null )
-			return null;
-
-		if ( tokenLength( currentLine ) >= currentLine.length() )
+		if ( this.currentLine == null )
 		{
-			if ( nextLine == null )
-				return null;
-
-			return nextLine.substring( 0, tokenLength( nextLine ) ).trim();
+			return null;
 		}
 
-		String result = currentLine.substring( tokenLength( currentLine ) ).trim();
+		if ( this.tokenLength( this.currentLine ) >= this.currentLine.length() )
+		{
+			if ( this.nextLine == null )
+			{
+				return null;
+			}
+
+			return this.nextLine.substring( 0, this.tokenLength( this.nextLine ) ).trim();
+		}
+
+		String result = this.currentLine.substring( this.tokenLength( this.currentLine ) ).trim();
 
 		if ( result.equals( "" ) )
 		{
-			if ( nextLine == null )
+			if ( this.nextLine == null )
+			{
 				return null;
+			}
 
-			return nextLine.substring( 0, tokenLength( nextLine ) );
+			return this.nextLine.substring( 0, this.tokenLength( this.nextLine ) );
 		}
 
-		return result.substring( 0, tokenLength( result ) );
+		return result.substring( 0, this.tokenLength( result ) );
 	}
 
 	private void readToken()
 	{
-		fixLines();
+		this.fixLines();
 
-		if ( currentLine == null )
+		if ( this.currentLine == null )
+		{
 			return;
+		}
 
-		currentLine = currentLine.substring( tokenLength( currentLine ) );
+		this.currentLine = this.currentLine.substring( this.tokenLength( this.currentLine ) );
 	}
 
-	private int tokenLength( String s )
+	private int tokenLength( final String s )
 	{
 		int result;
 		if ( s == null )
+		{
 			return 0;
+		}
 
 		for ( result = 0; result < s.length(); result++ )
 		{
-			if ( result + 1 < s.length() && tokenString( s.substring( result, result + 2 ) ) )
+			if ( result + 1 < s.length() && this.tokenString( s.substring( result, result + 2 ) ) )
+			{
 				return result == 0 ? 2 : result;
+			}
 
-			if ( result < s.length() && tokenString( s.substring( result, result + 1 ) ) )
+			if ( result < s.length() && this.tokenString( s.substring( result, result + 1 ) ) )
+			{
 				return result == 0 ? 1 : result;
+			}
 		}
 
 		return result; //== s.length()
@@ -2559,48 +3048,64 @@ public class KoLmafiaASH extends StaticEntity
 
 	private void fixLines()
 	{
-		if ( currentLine == null )
-			return;
-
-		while ( currentLine.equals( "" ) )
+		if ( this.currentLine == null )
 		{
-			currentLine = nextLine;
-			lineNumber = commandStream.getLineNumber();
-			nextLine = getNextLine();
-
-			if ( currentLine == null )
-				return;
+			return;
 		}
 
-		currentLine = currentLine.trim();
-
-		if ( nextLine == null )
-			return;
-
-		while ( nextLine.equals( "" ) )
+		while ( this.currentLine.equals( "" ) )
 		{
-			nextLine = getNextLine();
-			if ( nextLine == null )
+			this.currentLine = this.nextLine;
+			this.lineNumber = this.commandStream.getLineNumber();
+			this.nextLine = this.getNextLine();
+
+			if ( this.currentLine == null )
+			{
 				return;
+			}
 		}
 
-		nextLine = nextLine.trim();
+		this.currentLine = this.currentLine.trim();
+
+		if ( this.nextLine == null )
+		{
+			return;
+		}
+
+		while ( this.nextLine.equals( "" ) )
+		{
+			this.nextLine = this.getNextLine();
+			if ( this.nextLine == null )
+			{
+				return;
+			}
+		}
+
+		this.nextLine = this.nextLine.trim();
 	}
 
-	private boolean tokenString( String s )
+	private boolean tokenString( final String s )
 	{
 		if ( s.length() == 1 )
 		{
-			for ( int i = 0; i < tokenList.length; ++i )
-				if ( s.charAt( 0 ) == tokenList[i] )
+			for ( int i = 0; i < KoLmafiaASH.tokenList.length; ++i )
+			{
+				if ( s.charAt( 0 ) == KoLmafiaASH.tokenList[ i ] )
+				{
 					return true;
+				}
+			}
 			return false;
 		}
 		else
 		{
-			for ( int i = 0; i < multiCharTokenList.length; ++i )
-				if ( s.equalsIgnoreCase( multiCharTokenList[i] ) )
+			for ( int i = 0; i < KoLmafiaASH.multiCharTokenList.length; ++i )
+			{
+				if ( s.equalsIgnoreCase( KoLmafiaASH.multiCharTokenList[ i ] ) )
+				{
 					return true;
+				}
+			}
 
 			return false;
 		}
@@ -2608,17 +3113,19 @@ public class KoLmafiaASH extends StaticEntity
 
 	// **************** Debug printing *****************
 
-	private void printScope( ScriptScope scope, int indent )
+	private void printScope( final ScriptScope scope, final int indent )
 	{
 		if ( scope == null )
+		{
 			return;
+		}
 
 		Iterator it;
 
-		indentLine( indent );
+		KoLmafiaASH.indentLine( indent );
 		RequestLogger.updateDebugLog( "<SCOPE>" );
 
-		indentLine( indent + 1 );
+		KoLmafiaASH.indentLine( indent + 1 );
 		RequestLogger.updateDebugLog( "<TYPES>" );
 
 		it = scope.getTypes();
@@ -2627,10 +3134,10 @@ public class KoLmafiaASH extends StaticEntity
 		while ( it.hasNext() )
 		{
 			currentType = (ScriptType) it.next();
-			printType( currentType, indent + 2 );
+			this.printType( currentType, indent + 2 );
 		}
 
-		indentLine( indent + 1 );
+		KoLmafiaASH.indentLine( indent + 1 );
 		RequestLogger.updateDebugLog( "<VARIABLES>" );
 
 		it = scope.getVariables();
@@ -2639,10 +3146,10 @@ public class KoLmafiaASH extends StaticEntity
 		while ( it.hasNext() )
 		{
 			currentVar = (ScriptVariable) it.next();
-			printVariable( currentVar, indent + 2 );
+			this.printVariable( currentVar, indent + 2 );
 		}
 
-		indentLine( indent + 1 );
+		KoLmafiaASH.indentLine( indent + 1 );
 		RequestLogger.updateDebugLog( "<FUNCTIONS>" );
 
 		it = scope.getFunctions();
@@ -2651,10 +3158,10 @@ public class KoLmafiaASH extends StaticEntity
 		while ( it.hasNext() )
 		{
 			currentFunc = (ScriptFunction) it.next();
-			printFunction( currentFunc, indent + 2 );
+			this.printFunction( currentFunc, indent + 2 );
 		}
 
-		indentLine( indent + 1 );
+		KoLmafiaASH.indentLine( indent + 1 );
 		RequestLogger.updateDebugLog( "<COMMANDS>" );
 
 		it = scope.getCommands();
@@ -2662,26 +3169,28 @@ public class KoLmafiaASH extends StaticEntity
 		while ( it.hasNext() )
 		{
 			currentCommand = (ScriptCommand) it.next();
-			printCommand( currentCommand, indent + 2 );
+			this.printCommand( currentCommand, indent + 2 );
 		}
 
-		if ( indent == 0 && mainMethod != null )
+		if ( indent == 0 && this.mainMethod != null )
 		{
-			indentLine( indent + 1 );
+			KoLmafiaASH.indentLine( indent + 1 );
 			RequestLogger.updateDebugLog( "<MAIN>" );
-			printFunction( mainMethod, indent + 2 );
+			this.printFunction( this.mainMethod, indent + 2 );
 		}
 	}
 
-	public void showUserFunctions( String filter )
-	{	showFunctions( global.getFunctions(), filter.toLowerCase() );
+	public void showUserFunctions( final String filter )
+	{
+		this.showFunctions( this.global.getFunctions(), filter.toLowerCase() );
 	}
 
-	public void showExistingFunctions( String filter )
-	{	showFunctions( existingFunctions.iterator(), filter.toLowerCase() );
+	public void showExistingFunctions( final String filter )
+	{
+		this.showFunctions( KoLmafiaASH.existingFunctions.iterator(), filter.toLowerCase() );
 	}
 
-	private void showFunctions( Iterator it, String filter )
+	private void showFunctions( final Iterator it, final String filter )
 	{
 		ScriptFunction func;
 
@@ -2696,21 +3205,27 @@ public class KoLmafiaASH extends StaticEntity
 		while ( it.hasNext() )
 		{
 			func = (ScriptFunction) it.next();
-			hasDescription = func instanceof ScriptExistingFunction && ((ScriptExistingFunction)func).getDescription() != null;
+			hasDescription =
+				func instanceof ScriptExistingFunction && ( (ScriptExistingFunction) func ).getDescription() != null;
 
 			boolean matches = filter.equals( "" );
 			matches |= func.getName().toLowerCase().indexOf( filter ) != -1;
 
 			Iterator it2 = func.getReferences();
-			matches |= it2.hasNext() && ((ScriptVariableReference) it2.next()).getType().toString().indexOf( filter ) != -1;
+			matches |=
+				it2.hasNext() && ( (ScriptVariableReference) it2.next() ).getType().toString().indexOf( filter ) != -1;
 
 			if ( !matches )
+			{
 				continue;
+			}
 
 			StringBuffer description = new StringBuffer();
 
 			if ( hasDescription )
+			{
 				description.append( "<b>" );
+			}
 
 			description.append( func.getType() );
 			description.append( " " );
@@ -2732,7 +3247,9 @@ public class KoLmafiaASH extends StaticEntity
 				}
 
 				if ( it2.hasNext() )
+				{
 					description.append( ", " );
+				}
 			}
 
 			description.append( " )" );
@@ -2740,31 +3257,30 @@ public class KoLmafiaASH extends StaticEntity
 			if ( hasDescription )
 			{
 				description.append( "</b><br>" );
-				description.append( ((ScriptExistingFunction)func).getDescription() );
+				description.append( ( (ScriptExistingFunction) func ).getDescription() );
 				description.append( "<br>" );
 			}
-
 
 			RequestLogger.printLine( description.toString() );
 
 		}
 	}
 
-	private void printType( ScriptType type, int indent )
+	private void printType( final ScriptType type, final int indent )
 	{
-		indentLine( indent );
+		KoLmafiaASH.indentLine( indent );
 		RequestLogger.updateDebugLog( "<TYPE " + type + ">" );
 	}
 
-	private void printVariable( ScriptVariable var, int indent )
+	private void printVariable( final ScriptVariable var, final int indent )
 	{
-		indentLine( indent );
+		KoLmafiaASH.indentLine( indent );
 		RequestLogger.updateDebugLog( "<VAR " + var.getType() + " " + var.getName() + ">" );
 	}
 
-	private void printFunction( ScriptFunction func, int indent )
+	private void printFunction( final ScriptFunction func, final int indent )
 	{
-		indentLine( indent );
+		KoLmafiaASH.indentLine( indent );
 		RequestLogger.updateDebugLog( "<FUNC " + func.getType() + " " + func.getName() + ">" );
 
 		Iterator it = func.getReferences();
@@ -2773,56 +3289,76 @@ public class KoLmafiaASH extends StaticEntity
 		while ( it.hasNext() )
 		{
 			current = (ScriptVariableReference) it.next();
-			printVariableReference( current, indent + 1 );
+			this.printVariableReference( current, indent + 1 );
 		}
 
 		if ( func instanceof ScriptUserDefinedFunction )
-			printScope( ((ScriptUserDefinedFunction)func).getScope(), indent + 1 );
+		{
+			this.printScope( ( (ScriptUserDefinedFunction) func ).getScope(), indent + 1 );
+		}
 	}
 
-	private void printCommand( ScriptCommand command, int indent )
+	private void printCommand( final ScriptCommand command, final int indent )
 	{
 		if ( command instanceof ScriptReturn )
-			printReturn( ( ScriptReturn ) command, indent );
+		{
+			this.printReturn( (ScriptReturn) command, indent );
+		}
 		else if ( command instanceof ScriptConditional )
-			printConditional( ( ScriptConditional ) command, indent );
+		{
+			this.printConditional( (ScriptConditional) command, indent );
+		}
 		else if ( command instanceof ScriptWhile )
-			printWhile( ( ScriptWhile ) command, indent );
+		{
+			this.printWhile( (ScriptWhile) command, indent );
+		}
 		else if ( command instanceof ScriptRepeat )
-			printRepeat( ( ScriptRepeat ) command, indent );
+		{
+			this.printRepeat( (ScriptRepeat) command, indent );
+		}
 		else if ( command instanceof ScriptForeach )
-			printForeach( ( ScriptForeach ) command, indent );
+		{
+			this.printForeach( (ScriptForeach) command, indent );
+		}
 		else if ( command instanceof ScriptFor )
-			printFor( ( ScriptFor ) command, indent );
+		{
+			this.printFor( (ScriptFor) command, indent );
+		}
 		else if ( command instanceof ScriptCall )
-			printCall( ( ScriptCall ) command, indent );
+		{
+			this.printCall( (ScriptCall) command, indent );
+		}
 		else if ( command instanceof ScriptAssignment )
-			printAssignment( ( ScriptAssignment ) command, indent );
+		{
+			this.printAssignment( (ScriptAssignment) command, indent );
+		}
 		else
 		{
-			indentLine( indent );
+			KoLmafiaASH.indentLine( indent );
 			RequestLogger.updateDebugLog( "<COMMAND " + command + ">" );
 		}
 	}
 
-	private void printReturn( ScriptReturn ret, int indent )
+	private void printReturn( final ScriptReturn ret, final int indent )
 	{
-		indentLine( indent );
+		KoLmafiaASH.indentLine( indent );
 		RequestLogger.updateDebugLog( "<RETURN " + ret.getType() + ">" );
-		if ( !ret.getType().equals( TYPE_VOID ) )
-			printExpression( ret.getExpression(), indent + 1 );
+		if ( !ret.getType().equals( KoLmafiaASH.TYPE_VOID ) )
+		{
+			this.printExpression( ret.getExpression(), indent + 1 );
+		}
 	}
 
-	private void printConditional( ScriptConditional command, int indent )
+	private void printConditional( final ScriptConditional command, final int indent )
 	{
-		indentLine( indent );
+		KoLmafiaASH.indentLine( indent );
 		if ( command instanceof ScriptIf )
 		{
-			ScriptIf loop = (ScriptIf)command;
+			ScriptIf loop = (ScriptIf) command;
 			RequestLogger.updateDebugLog( "<IF>" );
 
-			printExpression( loop.getCondition(), indent + 1 );
-			printScope( loop.getScope(), indent + 1 );
+			this.printExpression( loop.getCondition(), indent + 1 );
+			this.printScope( loop.getScope(), indent + 1 );
 
 			Iterator it = loop.getElseLoops();
 			ScriptConditional currentElse;
@@ -2830,43 +3366,43 @@ public class KoLmafiaASH extends StaticEntity
 			while ( it.hasNext() )
 			{
 				currentElse = (ScriptConditional) it.next();
-				printConditional( currentElse, indent );
+				this.printConditional( currentElse, indent );
 			}
 		}
 		else if ( command instanceof ScriptElseIf )
 		{
-			ScriptElseIf loop = (ScriptElseIf)command;
+			ScriptElseIf loop = (ScriptElseIf) command;
 			RequestLogger.updateDebugLog( "<ELSE IF>" );
-			printExpression( loop.getCondition(), indent + 1 );
-			printScope( loop.getScope(), indent + 1 );
+			this.printExpression( loop.getCondition(), indent + 1 );
+			this.printScope( loop.getScope(), indent + 1 );
 		}
-		else if (command instanceof ScriptElse )
+		else if ( command instanceof ScriptElse )
 		{
-			ScriptElse loop = (ScriptElse)command;
+			ScriptElse loop = (ScriptElse) command;
 			RequestLogger.updateDebugLog( "<ELSE>" );
-			printScope( loop.getScope(), indent + 1 );
+			this.printScope( loop.getScope(), indent + 1 );
 		}
 	}
 
-	private void printWhile( ScriptWhile loop, int indent )
+	private void printWhile( final ScriptWhile loop, final int indent )
 	{
-		indentLine( indent );
+		KoLmafiaASH.indentLine( indent );
 		RequestLogger.updateDebugLog( "<WHILE>" );
-		printExpression( loop.getCondition(), indent + 1 );
-		printScope( loop.getScope(), indent + 1 );
+		this.printExpression( loop.getCondition(), indent + 1 );
+		this.printScope( loop.getScope(), indent + 1 );
 	}
 
-	private void printRepeat( ScriptRepeat loop, int indent )
+	private void printRepeat( final ScriptRepeat loop, final int indent )
 	{
-		indentLine( indent );
+		KoLmafiaASH.indentLine( indent );
 		RequestLogger.updateDebugLog( "<REPEAT>" );
-		printScope( loop.getScope(), indent + 1 );
-		printExpression( loop.getCondition(), indent + 1 );
+		this.printScope( loop.getScope(), indent + 1 );
+		this.printExpression( loop.getCondition(), indent + 1 );
 	}
 
-	private void printForeach( ScriptForeach loop, int indent )
+	private void printForeach( final ScriptForeach loop, final int indent )
 	{
-		indentLine( indent );
+		KoLmafiaASH.indentLine( indent );
 		RequestLogger.updateDebugLog( "<FOREACH>" );
 
 		Iterator it = loop.getReferences();
@@ -2875,28 +3411,28 @@ public class KoLmafiaASH extends StaticEntity
 		while ( it.hasNext() )
 		{
 			current = (ScriptVariableReference) it.next();
-			printVariableReference( current, indent + 1 );
+			this.printVariableReference( current, indent + 1 );
 		}
 
-		printVariableReference( loop.getAggregate(), indent + 1 );
-		printScope( loop.getScope(), indent + 1 );
+		this.printVariableReference( loop.getAggregate(), indent + 1 );
+		this.printScope( loop.getScope(), indent + 1 );
 	}
 
-	private void printFor( ScriptFor loop, int indent )
+	private void printFor( final ScriptFor loop, final int indent )
 	{
-		indentLine( indent );
+		KoLmafiaASH.indentLine( indent );
 		int direction = loop.getDirection();
 		RequestLogger.updateDebugLog( "<FOR " + ( direction < 0 ? "downto" : direction > 0 ? "upto" : "to" ) + " >" );
-		printVariableReference( loop.getVariable(), indent + 1 );
-		printExpression( loop.getInitial(), indent + 1 );
-		printExpression( loop.getLast(), indent + 1 );
-		printExpression( loop.getIncrement(), indent + 1 );
-		printScope( loop.getScope(), indent + 1 );
+		this.printVariableReference( loop.getVariable(), indent + 1 );
+		this.printExpression( loop.getInitial(), indent + 1 );
+		this.printExpression( loop.getLast(), indent + 1 );
+		this.printExpression( loop.getIncrement(), indent + 1 );
+		this.printScope( loop.getScope(), indent + 1 );
 	}
 
-	private void printCall( ScriptCall call, int indent )
+	private void printCall( final ScriptCall call, final int indent )
 	{
-		indentLine( indent );
+		KoLmafiaASH.indentLine( indent );
 		RequestLogger.updateDebugLog( "<CALL " + call.getTarget().getName() + ">" );
 
 		Iterator it = call.getExpressions();
@@ -2905,20 +3441,20 @@ public class KoLmafiaASH extends StaticEntity
 		while ( it.hasNext() )
 		{
 			current = (ScriptExpression) it.next();
-			printExpression( current, indent + 1 );
+			this.printExpression( current, indent + 1 );
 		}
 	}
 
-	private void printAssignment( ScriptAssignment assignment, int indent )
+	private void printAssignment( final ScriptAssignment assignment, final int indent )
 	{
-		indentLine( indent );
+		KoLmafiaASH.indentLine( indent );
 		ScriptVariableReference lhs = assignment.getLeftHandSide();
 		RequestLogger.updateDebugLog( "<ASSIGN " + lhs.getName() + ">" );
-		printIndices( lhs.getIndices(), indent + 1 );
-		printExpression( assignment.getRightHandSide(), indent + 1 );
+		this.printIndices( lhs.getIndices(), indent + 1 );
+		this.printExpression( assignment.getRightHandSide(), indent + 1 );
 	}
 
-	private void printIndices( ScriptExpressionList indices, int indent )
+	private void printIndices( final ScriptExpressionList indices, final int indent )
 	{
 		if ( indices != null )
 		{
@@ -2929,74 +3465,84 @@ public class KoLmafiaASH extends StaticEntity
 			{
 				current = (ScriptExpression) it.next();
 
-				indentLine( indent );
+				KoLmafiaASH.indentLine( indent );
 				RequestLogger.updateDebugLog( "<KEY>" );
-				printExpression( current, indent + 1 );
+				this.printExpression( current, indent + 1 );
 			}
 		}
 	}
 
-	private void printExpression( ScriptExpression expression, int indent )
+	private void printExpression( final ScriptExpression expression, final int indent )
 	{
 		if ( expression instanceof ScriptValue )
-			printValue( (ScriptValue) expression, indent );
+		{
+			this.printValue( (ScriptValue) expression, indent );
+		}
 		else
 		{
-			printOperator( expression.getOperator(), indent );
-			printExpression( expression.getLeftHandSide(), indent + 1 );
-			if ( expression.getRightHandSide() != null ) // ! operator
-				printExpression( expression.getRightHandSide(), indent + 1 );
+			this.printOperator( expression.getOperator(), indent );
+			this.printExpression( expression.getLeftHandSide(), indent + 1 );
+			if ( expression.getRightHandSide() != null )
+			{
+				this.printExpression( expression.getRightHandSide(), indent + 1 );
+			}
 		}
 	}
 
-	public void printValue( ScriptValue value, int indent )
+	public void printValue( final ScriptValue value, final int indent )
 	{
 		if ( value instanceof ScriptVariableReference )
-			printVariableReference( (ScriptVariableReference) value, indent );
+		{
+			this.printVariableReference( (ScriptVariableReference) value, indent );
+		}
 		else if ( value instanceof ScriptCall )
-			printCall( (ScriptCall) value, indent );
+		{
+			this.printCall( (ScriptCall) value, indent );
+		}
 		else
 		{
-			indentLine( indent );
+			KoLmafiaASH.indentLine( indent );
 			RequestLogger.updateDebugLog( "<VALUE " + value.getType() + " [" + value + "]>" );
 		}
 	}
 
-	public void printOperator( ScriptOperator oper, int indent )
+	public void printOperator( final ScriptOperator oper, final int indent )
 	{
-		indentLine( indent );
+		KoLmafiaASH.indentLine( indent );
 		RequestLogger.updateDebugLog( "<OPER " + oper + ">" );
 	}
 
-	public void printCompositeReference( ScriptCompositeReference varRef, int indent )
+	public void printCompositeReference( final ScriptCompositeReference varRef, final int indent )
 	{
-		indentLine( indent );
+		KoLmafiaASH.indentLine( indent );
 		RequestLogger.updateDebugLog( "<AGGREF " + varRef.getName() + ">" );
 
-		printIndices( varRef.getIndices(), indent + 1 );
+		this.printIndices( varRef.getIndices(), indent + 1 );
 	}
 
-	public void printVariableReference( ScriptVariableReference varRef, int indent )
+	public void printVariableReference( final ScriptVariableReference varRef, final int indent )
 	{
 		if ( varRef instanceof ScriptCompositeReference )
 		{
-			printCompositeReference( (ScriptCompositeReference)varRef, indent );
+			this.printCompositeReference( (ScriptCompositeReference) varRef, indent );
 			return;
 		}
 
-		indentLine( indent );
+		KoLmafiaASH.indentLine( indent );
 		RequestLogger.updateDebugLog( "<VARREF> " + varRef.getName() );
 	}
 
-	private static final void indentLine( int indent )
+	private static final void indentLine( final int indent )
 	{
 		for ( int i = 0; i < indent; ++i )
+		{
 			RequestLogger.getDebugStream().print( "   " );
+		}
 	}
 
 	// **************** Execution *****************
 
-	private static void captureValue( ScriptValue value )
+	private static void captureValue( final ScriptValue value )
 	{
 		// We've just executed a command in a context that captures the
 		// return value.
@@ -3004,61 +3550,65 @@ public class KoLmafiaASH extends StaticEntity
 		if ( KoLmafia.refusesContinue() || value == null )
 		{
 			// User aborted
-			currentState = STATE_EXIT;
+			KoLmafiaASH.currentState = KoLmafiaASH.STATE_EXIT;
 			return;
 		}
 
 		// Even if an error occurred, since we captured the result,
 		// permit further execution.
 
-		currentState = STATE_NORMAL;
+		KoLmafiaASH.currentState = KoLmafiaASH.STATE_NORMAL;
 		KoLmafia.forceContinue();
 	}
 
-	private ScriptValue executeScope( ScriptScope topScope, String functionName, String [] parameters )
+	private ScriptValue executeScope( final ScriptScope topScope, final String functionName, final String[] parameters )
 	{
 		ScriptFunction main;
 		ScriptValue result = null;
 
-		currentState = STATE_NORMAL;
-		resetTracing();
+		KoLmafiaASH.currentState = KoLmafiaASH.STATE_NORMAL;
+		KoLmafiaASH.resetTracing();
 
-		main = functionName.equals( "main" ) ? mainMethod :
-			topScope.findFunction( functionName, parameters != null );
+		main =
+			functionName.equals( "main" ) ? this.mainMethod : topScope.findFunction( functionName, parameters != null );
 
 		if ( main == null && !topScope.getCommands().hasNext() )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "Unable to invoke " + functionName );
-			return VOID_VALUE;
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unable to invoke " + functionName );
+			return KoLmafiaASH.VOID_VALUE;
 		}
 
 		// First execute top-level commands;
 
-		boolean executeTopLevel = this != NAMESPACE_INTERPRETER;
+		boolean executeTopLevel = this != KoLmafiaASH.NAMESPACE_INTERPRETER;
 
 		if ( !executeTopLevel )
 		{
 			String importString = KoLSettings.getUserProperty( "commandLineNamespace" );
-			executeTopLevel = !importString.equals( lastImportString );
-			lastImportString = importString;
+			executeTopLevel = !importString.equals( KoLmafiaASH.lastImportString );
+			KoLmafiaASH.lastImportString = importString;
 		}
 
 		if ( executeTopLevel )
 		{
-			trace( "Executing top-level commands" );
+			KoLmafiaASH.trace( "Executing top-level commands" );
 			result = topScope.execute();
 		}
 
-		if ( currentState == STATE_EXIT )
+		if ( KoLmafiaASH.currentState == KoLmafiaASH.STATE_EXIT )
+		{
 			return result;
+		}
 
 		// Now execute main function, if any
 		if ( main != null )
 		{
-			trace( "Executing main function" );
+			KoLmafiaASH.trace( "Executing main function" );
 
-			if ( !requestUserParams( main, parameters ) )
+			if ( !this.requestUserParams( main, parameters ) )
+			{
 				return null;
+			}
 
 			result = main.execute();
 		}
@@ -3066,9 +3616,9 @@ public class KoLmafiaASH extends StaticEntity
 		return result;
 	}
 
-	private boolean requestUserParams( ScriptFunction targetFunction, String [] parameters )
+	private boolean requestUserParams( final ScriptFunction targetFunction, final String[] parameters )
 	{
-		int args = ( parameters == null ) ? 0 : parameters.length;
+		int args = parameters == null ? 0 : parameters.length;
 
 		ScriptType lastType = null;
 		ScriptVariableReference lastParam = null;
@@ -3076,7 +3626,7 @@ public class KoLmafiaASH extends StaticEntity
 		int index = 0;
 
 		Iterator it = targetFunction.getReferences();
-		ScriptVariableReference	param;
+		ScriptVariableReference param;
 
 		while ( it.hasNext() )
 		{
@@ -3088,26 +3638,32 @@ public class KoLmafiaASH extends StaticEntity
 
 			while ( value == null )
 			{
-				if ( type == VOID_TYPE )
+				if ( type == KoLmafiaASH.VOID_TYPE )
 				{
-					value = VOID_VALUE;
+					value = KoLmafiaASH.VOID_VALUE;
 					break;
 				}
 
 				String input = null;
 
 				if ( index >= args )
-					input = promptForValue( type, name );
+				{
+					input = this.promptForValue( type, name );
+				}
 				else
+				{
 					input = parameters[ index ];
+				}
 
 				// User declined to supply a parameter
 				if ( input == null )
+				{
 					return false;
+				}
 
 				try
 				{
-					value = parseValue( type, input );
+					value = KoLmafiaASH.parseValue( type, input );
 				}
 				catch ( AdvancedScriptException e )
 				{
@@ -3115,7 +3671,9 @@ public class KoLmafiaASH extends StaticEntity
 
 					// Punt if parameter came from the CLI
 					if ( index < args )
+					{
 						return false;
+					}
 				}
 			}
 
@@ -3124,43 +3682,48 @@ public class KoLmafiaASH extends StaticEntity
 			lastType = type;
 			lastParam = param;
 
-			index++;
+			index++ ;
 		}
 
 		if ( index < args )
 		{
 			StringBuffer inputs = new StringBuffer();
 			for ( int i = index - 1; i < args; ++i )
-				inputs.append( parameters[i] + " " );
+			{
+				inputs.append( parameters[ i ] + " " );
+			}
 
-			ScriptValue value = parseValue( lastType, inputs.toString().trim() );
+			ScriptValue value = KoLmafiaASH.parseValue( lastType, inputs.toString().trim() );
 			lastParam.setValue( value );
 		}
 
 		return true;
 	}
 
-	private String promptForValue( ScriptType type, String name )
-	{	return promptForValue( type, "Please input a value for " + type + " " + name, name );
+	private String promptForValue( final ScriptType type, final String name )
+	{
+		return this.promptForValue( type, "Please input a value for " + type + " " + name, name );
 	}
 
-	private String promptForValue( ScriptType type, String message, String name )
+	private String promptForValue( final ScriptType type, final String message, final String name )
 	{
 		switch ( type.getType() )
 		{
 		case TYPE_BOOLEAN:
-			return (String) KoLFrame.input( message, BOOLEANS );
+			return (String) KoLFrame.input( message, KoLmafiaASH.BOOLEANS );
 
 		case TYPE_LOCATION:
-			return (String) ((KoLAdventure) KoLFrame.input( message, AdventureDatabase.getAsLockableListModel().toArray(),
-				AdventureDatabase.getAdventure( KoLSettings.getUserProperty( "lastAdventure" ) ) )).getAdventureName();
+			return (String) ( (KoLAdventure) KoLFrame.input(
+				message, AdventureDatabase.getAsLockableListModel().toArray(),
+				AdventureDatabase.getAdventure( KoLSettings.getUserProperty( "lastAdventure" ) ) ) ).getAdventureName();
 
 		case TYPE_SKILL:
-			return (String) ((UseSkillRequest) KoLFrame.input( message,
-				ClassSkillsDatabase.getSkillsByType( ClassSkillsDatabase.CASTABLE ).toArray() )).getSkillName();
+			return (String) ( (UseSkillRequest) KoLFrame.input( message, ClassSkillsDatabase.getSkillsByType(
+				ClassSkillsDatabase.CASTABLE ).toArray() ) ).getSkillName();
 
 		case TYPE_FAMILIAR:
-			return ((FamiliarData) KoLFrame.input( message, KoLCharacter.getFamiliarList().toArray(), KoLCharacter.getFamiliar() )).getRace();
+			return ( (FamiliarData) KoLFrame.input(
+				message, KoLCharacter.getFamiliarList().toArray(), KoLCharacter.getFamiliar() ) ).getRace();
 
 		case TYPE_SLOT:
 			return (String) KoLFrame.input( message, EquipmentRequest.slotNames );
@@ -3169,10 +3732,10 @@ public class KoLmafiaASH extends StaticEntity
 			return (String) KoLFrame.input( message, MonsterDatabase.elementNames );
 
 		case TYPE_CLASS:
-			return (String) KoLFrame.input( message, CLASSES );
+			return (String) KoLFrame.input( message, KoLmafiaASH.CLASSES );
 
 		case TYPE_STAT:
-			return (String) KoLFrame.input( message, STATS );
+			return (String) KoLFrame.input( message, KoLmafiaASH.STATS );
 
 		case TYPE_INT:
 		case TYPE_FLOAT:
@@ -3187,816 +3750,797 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	public void parseError( String expected, String actual )
-	{	throw new AdvancedScriptException( "Expected " + expected + ", found " + actual );
+	public void parseError( final String expected, final String actual )
+	{
+		throw new AdvancedScriptException( "Expected " + expected + ", found " + actual );
 	}
 
 	public static String getCurrentLineAndFile()
 	{
-		if ( currentAnalysis == null )
+		if ( KoLmafiaASH.currentAnalysis == null )
+		{
 			return "";
+		}
 
-		return currentAnalysis.getLineAndFile();
+		return KoLmafiaASH.currentAnalysis.getLineAndFile();
 	}
 
 	private String getLineAndFile()
 	{
-		if ( fileName == null )
+		if ( this.fileName == null )
+		{
 			return "(" + KoLSettings.getUserProperty( "commandLineNamespace" ) + ")";
+		}
 
-		String partialName = fileName.substring( fileName.lastIndexOf( File.separator ) + 1 );
-		return "(" + partialName + ", line " + lineNumber + ")";
+		String partialName = this.fileName.substring( this.fileName.lastIndexOf( File.separator ) + 1 );
+		return "(" + partialName + ", line " + this.lineNumber + ")";
 	}
 
 	public ScriptScope getExistingFunctionScope()
-	{	return new ScriptScope( existingFunctions, null, simpleTypes );
+	{
+		return new ScriptScope( KoLmafiaASH.existingFunctions, null, KoLmafiaASH.simpleTypes );
 	}
 
 	public static final ScriptFunctionList getExistingFunctions()
 	{
 		ScriptFunctionList result = new ScriptFunctionList();
-		ScriptType [] params;
-
+		ScriptType[] params;
 
 		// Basic utility functions which print information
 		// or allow for easy testing.
 
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "enable", KoLmafiaASH.VOID_TYPE, params ) );
 
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "enable", VOID_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "disable", KoLmafiaASH.VOID_TYPE, params ) );
 
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "disable", VOID_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "user_confirm", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "user_confirm", BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "logprint", KoLmafiaASH.VOID_TYPE, params ) );
 
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "logprint", VOID_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "print", KoLmafiaASH.VOID_TYPE, params ) );
 
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "print", VOID_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE, KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "print", KoLmafiaASH.VOID_TYPE, params ) );
 
-		params = new ScriptType[] { STRING_TYPE, STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "print", VOID_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "print_html", KoLmafiaASH.VOID_TYPE, params ) );
 
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "print_html", VOID_TYPE, params ) );
-
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "abort", VOID_TYPE, params ) );
-
-		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "abort", VOID_TYPE, params ) );
-
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "cli_execute", BOOLEAN_TYPE, params ) );
-
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "load_html", BUFFER_TYPE, params ) );
-
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "write", VOID_TYPE, params ) );
-
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "writeln", VOID_TYPE, params ) );
-
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "form_field", STRING_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "abort", KoLmafiaASH.VOID_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "visit_url", BUFFER_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "abort", KoLmafiaASH.VOID_TYPE, params ) );
 
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "visit_url", BUFFER_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "cli_execute", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { INT_TYPE };
-		result.addElement( new ScriptExistingFunction( "wait", VOID_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "load_html", KoLmafiaASH.BUFFER_TYPE, params ) );
+
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "write", KoLmafiaASH.VOID_TYPE, params ) );
+
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "writeln", KoLmafiaASH.VOID_TYPE, params ) );
+
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "form_field", KoLmafiaASH.STRING_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "visit_url", KoLmafiaASH.BUFFER_TYPE, params ) );
+
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "visit_url", KoLmafiaASH.BUFFER_TYPE, params ) );
+
+		params = new ScriptType[] { KoLmafiaASH.INT_TYPE };
+		result.addElement( new ScriptExistingFunction( "wait", KoLmafiaASH.VOID_TYPE, params ) );
 
 		// Type conversion functions which allow conversion
 		// of one data format to another.
 
-		params = new ScriptType[] { ANY_TYPE };
-		result.addElement( new ScriptExistingFunction( "to_string", STRING_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.ANY_TYPE };
+		result.addElement( new ScriptExistingFunction( "to_string", KoLmafiaASH.STRING_TYPE, params ) );
 
-		params = new ScriptType[] { ANY_TYPE };
-		result.addElement( new ScriptExistingFunction( "to_boolean", BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.ANY_TYPE };
+		result.addElement( new ScriptExistingFunction( "to_boolean", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { ANY_TYPE };
-		result.addElement( new ScriptExistingFunction( "to_int", INT_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.ANY_TYPE };
+		result.addElement( new ScriptExistingFunction( "to_int", KoLmafiaASH.INT_TYPE, params ) );
 
-		params = new ScriptType[] { ANY_TYPE };
-		result.addElement( new ScriptExistingFunction( "to_float", FLOAT_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.ANY_TYPE };
+		result.addElement( new ScriptExistingFunction( "to_float", KoLmafiaASH.FLOAT_TYPE, params ) );
 
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "to_item", ITEM_TYPE, params ) );
-		params = new ScriptType[] { INT_TYPE };
-		result.addElement( new ScriptExistingFunction( "to_item", ITEM_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "to_item", KoLmafiaASH.ITEM_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.INT_TYPE };
+		result.addElement( new ScriptExistingFunction( "to_item", KoLmafiaASH.ITEM_TYPE, params ) );
 
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "to_class", CLASS_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "to_class", KoLmafiaASH.CLASS_TYPE, params ) );
 
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "to_stat", STAT_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "to_stat", KoLmafiaASH.STAT_TYPE, params ) );
 
-		params = new ScriptType[] { INT_TYPE };
-		result.addElement( new ScriptExistingFunction( "to_skill", SKILL_TYPE, params ) );
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "to_skill", SKILL_TYPE, params ) );
-		params = new ScriptType[] { EFFECT_TYPE };
-		result.addElement( new ScriptExistingFunction( "to_skill", SKILL_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.INT_TYPE };
+		result.addElement( new ScriptExistingFunction( "to_skill", KoLmafiaASH.SKILL_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "to_skill", KoLmafiaASH.SKILL_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.EFFECT_TYPE };
+		result.addElement( new ScriptExistingFunction( "to_skill", KoLmafiaASH.SKILL_TYPE, params ) );
 
-		params = new ScriptType[] { INT_TYPE };
-		result.addElement( new ScriptExistingFunction( "to_effect", EFFECT_TYPE, params ) );
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "to_effect", EFFECT_TYPE, params ) );
-		params = new ScriptType[] { SKILL_TYPE };
-		result.addElement( new ScriptExistingFunction( "to_effect", EFFECT_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.INT_TYPE };
+		result.addElement( new ScriptExistingFunction( "to_effect", KoLmafiaASH.EFFECT_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "to_effect", KoLmafiaASH.EFFECT_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.SKILL_TYPE };
+		result.addElement( new ScriptExistingFunction( "to_effect", KoLmafiaASH.EFFECT_TYPE, params ) );
 
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "to_location", LOCATION_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "to_location", KoLmafiaASH.LOCATION_TYPE, params ) );
 
-		params = new ScriptType[] { INT_TYPE };
-		result.addElement( new ScriptExistingFunction( "to_familiar", FAMILIAR_TYPE, params ) );
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "to_familiar", FAMILIAR_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.INT_TYPE };
+		result.addElement( new ScriptExistingFunction( "to_familiar", KoLmafiaASH.FAMILIAR_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "to_familiar", KoLmafiaASH.FAMILIAR_TYPE, params ) );
 
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "to_monster", MONSTER_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "to_monster", KoLmafiaASH.MONSTER_TYPE, params ) );
 
-		params = new ScriptType[] { ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "to_slot", SLOT_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "to_slot", KoLmafiaASH.SLOT_TYPE, params ) );
 
-		params = new ScriptType[] { LOCATION_TYPE };
-		result.addElement( new ScriptExistingFunction( "to_url", STRING_TYPE, params ) );
-
+		params = new ScriptType[] { KoLmafiaASH.LOCATION_TYPE };
+		result.addElement( new ScriptExistingFunction( "to_url", KoLmafiaASH.STRING_TYPE, params ) );
 
 		// Functions related to daily information which get
 		// updated usually once per day.
 
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "today_to_string", KoLmafiaASH.STRING_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "today_to_string", STRING_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "moon_phase", KoLmafiaASH.INT_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "moon_phase", INT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "moon_light", KoLmafiaASH.INT_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "moon_light", INT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "stat_bonus_today", KoLmafiaASH.STAT_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "stat_bonus_today", STAT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "stat_bonus_tomorrow", KoLmafiaASH.STAT_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "stat_bonus_tomorrow", STAT_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.INT_TYPE };
+		result.addElement( new ScriptExistingFunction( "session_logs", new ScriptAggregateType(
+			KoLmafiaASH.STRING_TYPE, 0 ), params ) );
 
-		params = new ScriptType[] { INT_TYPE };
-		result.addElement( new ScriptExistingFunction( "session_logs", new ScriptAggregateType( STRING_TYPE, 0 ), params ) );
-
-		params = new ScriptType[] { STRING_TYPE, INT_TYPE };
-		result.addElement( new ScriptExistingFunction( "session_logs", new ScriptAggregateType( STRING_TYPE, 0 ), params ) );
-
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE, KoLmafiaASH.INT_TYPE };
+		result.addElement( new ScriptExistingFunction( "session_logs", new ScriptAggregateType(
+			KoLmafiaASH.STRING_TYPE, 0 ), params ) );
 
 		// Major functions related to adventuring and
 		// item management.
 
+		params = new ScriptType[] { KoLmafiaASH.INT_TYPE, KoLmafiaASH.LOCATION_TYPE };
+		result.addElement( new ScriptExistingFunction( "adventure", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { INT_TYPE, LOCATION_TYPE };
-		result.addElement( new ScriptExistingFunction( "adventure", BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.INT_TYPE, KoLmafiaASH.ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "add_item_condition", KoLmafiaASH.VOID_TYPE, params ) );
 
-		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "add_item_condition", VOID_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.INT_TYPE, KoLmafiaASH.ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "buy", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "buy", BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.INT_TYPE, KoLmafiaASH.ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "create", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "create", BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.INT_TYPE, KoLmafiaASH.ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "use", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "use", BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.INT_TYPE, KoLmafiaASH.ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "eat", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "eat", BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.INT_TYPE, KoLmafiaASH.ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "drink", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "drink", BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.INT_TYPE, KoLmafiaASH.ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "put_closet", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "put_closet", BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.INT_TYPE, KoLmafiaASH.INT_TYPE, KoLmafiaASH.ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "put_shop", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { INT_TYPE, INT_TYPE, ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "put_shop", BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.INT_TYPE, KoLmafiaASH.ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "put_stash", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "put_stash", BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.INT_TYPE, KoLmafiaASH.ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "put_display", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "put_display", BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.INT_TYPE, KoLmafiaASH.ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "take_closet", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "take_closet", BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.INT_TYPE, KoLmafiaASH.ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "take_storage", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "take_storage", BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.INT_TYPE, KoLmafiaASH.ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "take_display", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "take_display", BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.INT_TYPE, KoLmafiaASH.ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "take_stash", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "take_stash", BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.INT_TYPE, KoLmafiaASH.ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "autosell", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "autosell", BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.INT_TYPE, KoLmafiaASH.ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "hermit", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "hermit", BOOLEAN_TYPE, params ) );
-
-		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "retrieve_item", BOOLEAN_TYPE, params ) );
-
+		params = new ScriptType[] { KoLmafiaASH.INT_TYPE, KoLmafiaASH.ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "retrieve_item", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
 		// Major functions which provide item-related
 		// information.
 
-
-		params = new ScriptType[] { ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "is_npc_item", BOOLEAN_TYPE, params ) );
-
-		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "daily_special", ITEM_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "is_npc_item", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "refresh_stash", BOOLEAN_TYPE, params ) );
-
-		params = new ScriptType[] { ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "available_amount", INT_TYPE, params ) );
-
-		params = new ScriptType[] { ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "item_amount", INT_TYPE, params ) );
-
-		params = new ScriptType[] { ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "closet_amount", INT_TYPE, params ) );
-
-		params = new ScriptType[] { ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "creatable_amount", INT_TYPE, params ) );
-
-		params = new ScriptType[] { ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "get_ingredients", RESULT_TYPE, params ) );
-
-		params = new ScriptType[] { ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "storage_amount", INT_TYPE, params ) );
-
-		params = new ScriptType[] { ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "display_amount", INT_TYPE, params ) );
-
-		params = new ScriptType[] { ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "shop_amount", INT_TYPE, params ) );
-
-		params = new ScriptType[] { ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "stash_amount", INT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "daily_special", KoLmafiaASH.ITEM_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "pulls_remaining", INT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "refresh_stash", KoLmafiaASH.BOOLEAN_TYPE, params ) );
+
+		params = new ScriptType[] { KoLmafiaASH.ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "available_amount", KoLmafiaASH.INT_TYPE, params ) );
+
+		params = new ScriptType[] { KoLmafiaASH.ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "item_amount", KoLmafiaASH.INT_TYPE, params ) );
+
+		params = new ScriptType[] { KoLmafiaASH.ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "closet_amount", KoLmafiaASH.INT_TYPE, params ) );
+
+		params = new ScriptType[] { KoLmafiaASH.ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "creatable_amount", KoLmafiaASH.INT_TYPE, params ) );
+
+		params = new ScriptType[] { KoLmafiaASH.ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "get_ingredients", KoLmafiaASH.RESULT_TYPE, params ) );
+
+		params = new ScriptType[] { KoLmafiaASH.ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "storage_amount", KoLmafiaASH.INT_TYPE, params ) );
+
+		params = new ScriptType[] { KoLmafiaASH.ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "display_amount", KoLmafiaASH.INT_TYPE, params ) );
+
+		params = new ScriptType[] { KoLmafiaASH.ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "shop_amount", KoLmafiaASH.INT_TYPE, params ) );
+
+		params = new ScriptType[] { KoLmafiaASH.ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "stash_amount", KoLmafiaASH.INT_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "stills_available", INT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "pulls_remaining", KoLmafiaASH.INT_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "have_mushroom_plot", BOOLEAN_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "stills_available", KoLmafiaASH.INT_TYPE, params ) );
 
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "have_mushroom_plot", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
 		// The following functions pertain to providing updated
 		// information relating to the player.
 
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "refresh_status", KoLmafiaASH.BOOLEAN_TYPE, params ) );
+
+		params = new ScriptType[] { KoLmafiaASH.INT_TYPE };
+		result.addElement( new ScriptExistingFunction( "restore_hp", KoLmafiaASH.BOOLEAN_TYPE, params ) );
+
+		params = new ScriptType[] { KoLmafiaASH.INT_TYPE };
+		result.addElement( new ScriptExistingFunction( "restore_mp", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "refresh_status", BOOLEAN_TYPE, params ) );
-
-		params = new ScriptType[] { INT_TYPE };
-		result.addElement( new ScriptExistingFunction( "restore_hp", BOOLEAN_TYPE, params ) );
-
-		params = new ScriptType[] { INT_TYPE };
-		result.addElement( new ScriptExistingFunction( "restore_mp", BOOLEAN_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "my_name", KoLmafiaASH.STRING_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "my_name", STRING_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "my_id", KoLmafiaASH.STRING_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "my_id", STRING_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "my_hash", KoLmafiaASH.STRING_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "my_hash", STRING_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "in_muscle_sign", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "in_muscle_sign", BOOLEAN_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "in_mysticality_sign", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "in_mysticality_sign", BOOLEAN_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "in_moxie_sign", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "in_moxie_sign", BOOLEAN_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "in_bad_moon", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "in_bad_moon", BOOLEAN_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "my_class", KoLmafiaASH.CLASS_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "my_class", CLASS_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "my_level", KoLmafiaASH.INT_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "my_level", INT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "my_hp", KoLmafiaASH.INT_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "my_hp", INT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "my_maxhp", KoLmafiaASH.INT_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "my_maxhp", INT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "my_mp", KoLmafiaASH.INT_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "my_mp", INT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "my_maxmp", KoLmafiaASH.INT_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "my_maxmp", INT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "my_primestat", KoLmafiaASH.STAT_TYPE, params ) );
+
+		params = new ScriptType[] { KoLmafiaASH.STAT_TYPE };
+		result.addElement( new ScriptExistingFunction( "my_basestat", KoLmafiaASH.INT_TYPE, params ) );
+
+		params = new ScriptType[] { KoLmafiaASH.STAT_TYPE };
+		result.addElement( new ScriptExistingFunction( "my_buffedstat", KoLmafiaASH.INT_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "my_primestat", STAT_TYPE, params ) );
-
-		params = new ScriptType[] { STAT_TYPE };
-		result.addElement( new ScriptExistingFunction( "my_basestat", INT_TYPE, params ) );
-
-		params = new ScriptType[] { STAT_TYPE };
-		result.addElement( new ScriptExistingFunction( "my_buffedstat", INT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "my_meat", KoLmafiaASH.INT_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "my_meat", INT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "my_adventures", KoLmafiaASH.INT_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "my_adventures", INT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "my_turncount", KoLmafiaASH.INT_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "my_turncount", INT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "my_fullness", KoLmafiaASH.INT_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "my_fullness", INT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "fullness_limit", KoLmafiaASH.INT_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "fullness_limit", INT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "my_inebriety", KoLmafiaASH.INT_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "my_inebriety", INT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "inebriety_limit", KoLmafiaASH.INT_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "inebriety_limit", INT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "my_spleen_use", KoLmafiaASH.INT_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "my_spleen_use", INT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "spleen_limit", KoLmafiaASH.INT_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "spleen_limit", INT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "can_eat", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "can_eat", BOOLEAN_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "can_drink", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "can_drink", BOOLEAN_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "turns_played", KoLmafiaASH.INT_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "turns_played", INT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "can_interact", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "can_interact", BOOLEAN_TYPE, params ) );
-
-		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "in_hardcore", BOOLEAN_TYPE, params ) );
-
+		result.addElement( new ScriptExistingFunction( "in_hardcore", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
 		// Basic skill and effect functions, including those used
 		// in custom combat consult scripts.
 
+		params = new ScriptType[] { KoLmafiaASH.SKILL_TYPE };
+		result.addElement( new ScriptExistingFunction( "have_skill", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { SKILL_TYPE };
-		result.addElement( new ScriptExistingFunction( "have_skill", BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.SKILL_TYPE };
+		result.addElement( new ScriptExistingFunction( "mp_cost", KoLmafiaASH.INT_TYPE, params ) );
 
-		params = new ScriptType[] { SKILL_TYPE };
-		result.addElement( new ScriptExistingFunction( "mp_cost", INT_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.SKILL_TYPE };
+		result.addElement( new ScriptExistingFunction( "turns_per_cast", KoLmafiaASH.INT_TYPE, params ) );
 
-		params = new ScriptType[] { SKILL_TYPE };
-		result.addElement( new ScriptExistingFunction( "turns_per_cast", INT_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.EFFECT_TYPE };
+		result.addElement( new ScriptExistingFunction( "have_effect", KoLmafiaASH.INT_TYPE, params ) );
 
-		params = new ScriptType[] { EFFECT_TYPE };
-		result.addElement( new ScriptExistingFunction( "have_effect", INT_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.INT_TYPE, KoLmafiaASH.SKILL_TYPE };
+		result.addElement( new ScriptExistingFunction( "use_skill", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { INT_TYPE, SKILL_TYPE };
-		result.addElement( new ScriptExistingFunction( "use_skill", BOOLEAN_TYPE, params ) );
-
-		params = new ScriptType[] { INT_TYPE, SKILL_TYPE, STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "use_skill", BOOLEAN_TYPE, params ) );
-
-		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "attack", BUFFER_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.INT_TYPE, KoLmafiaASH.SKILL_TYPE, KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "use_skill", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "steal", BUFFER_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "attack", KoLmafiaASH.BUFFER_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "runaway", BUFFER_TYPE, params ) );
-
-		params = new ScriptType[] { SKILL_TYPE };
-		result.addElement( new ScriptExistingFunction( "use_skill", BUFFER_TYPE, params ) );
-
-		params = new ScriptType[] { ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "throw_item", BUFFER_TYPE, params ) );
-
-		params = new ScriptType[] { ITEM_TYPE, ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "throw_items", BUFFER_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "steal", KoLmafiaASH.BUFFER_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "run_combat", BUFFER_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "runaway", KoLmafiaASH.BUFFER_TYPE, params ) );
 
+		params = new ScriptType[] { KoLmafiaASH.SKILL_TYPE };
+		result.addElement( new ScriptExistingFunction( "use_skill", KoLmafiaASH.BUFFER_TYPE, params ) );
+
+		params = new ScriptType[] { KoLmafiaASH.ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "throw_item", KoLmafiaASH.BUFFER_TYPE, params ) );
+
+		params = new ScriptType[] { KoLmafiaASH.ITEM_TYPE, KoLmafiaASH.ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "throw_items", KoLmafiaASH.BUFFER_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "run_combat", KoLmafiaASH.BUFFER_TYPE, params ) );
 
 		// Equipment functions.
 
+		params = new ScriptType[] { KoLmafiaASH.ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "can_equip", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "can_equip", BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "equip", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "equip", BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.SLOT_TYPE, KoLmafiaASH.ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "equip", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { SLOT_TYPE, ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "equip", BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.SLOT_TYPE };
+		result.addElement( new ScriptExistingFunction( "equipped_item", KoLmafiaASH.ITEM_TYPE, params ) );
 
-		params = new ScriptType[] { SLOT_TYPE };
-		result.addElement( new ScriptExistingFunction( "equipped_item", ITEM_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "have_equipped", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "have_equipped", BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "outfit", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "outfit", BOOLEAN_TYPE, params ) );
-
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "have_outfit", BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "have_outfit", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "my_familiar", FAMILIAR_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "my_familiar", KoLmafiaASH.FAMILIAR_TYPE, params ) );
 
-		params = new ScriptType[] { FAMILIAR_TYPE };
-		result.addElement( new ScriptExistingFunction( "have_familiar", BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.FAMILIAR_TYPE };
+		result.addElement( new ScriptExistingFunction( "have_familiar", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { FAMILIAR_TYPE };
-		result.addElement( new ScriptExistingFunction( "use_familiar", BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.FAMILIAR_TYPE };
+		result.addElement( new ScriptExistingFunction( "use_familiar", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { FAMILIAR_TYPE };
-		result.addElement( new ScriptExistingFunction( "familiar_equipment", ITEM_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.FAMILIAR_TYPE };
+		result.addElement( new ScriptExistingFunction( "familiar_equipment", KoLmafiaASH.ITEM_TYPE, params ) );
 
-		params = new ScriptType[] { FAMILIAR_TYPE };
-		result.addElement( new ScriptExistingFunction( "familiar_weight", INT_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.FAMILIAR_TYPE };
+		result.addElement( new ScriptExistingFunction( "familiar_weight", KoLmafiaASH.INT_TYPE, params ) );
 
-		params = new ScriptType[] { ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "weapon_hands", INT_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "weapon_hands", KoLmafiaASH.INT_TYPE, params ) );
 
-		params = new ScriptType[] { ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "weapon_type", STRING_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "weapon_type", KoLmafiaASH.STRING_TYPE, params ) );
 
-		params = new ScriptType[] { ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "ranged_weapon", BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "ranged_weapon", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "get_power", INT_TYPE, params ) );
-
+		params = new ScriptType[] { KoLmafiaASH.ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "get_power", KoLmafiaASH.INT_TYPE, params ) );
 
 		// Random other functions related to current in-game
 		// state, not directly tied to the character.
 
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "council", KoLmafiaASH.VOID_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "council", VOID_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "current_mcd", KoLmafiaASH.INT_TYPE, params ) );
+
+		params = new ScriptType[] { KoLmafiaASH.INT_TYPE };
+		result.addElement( new ScriptExistingFunction( "change_mcd", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "current_mcd", INT_TYPE, params ) );
-
-		params = new ScriptType[] { INT_TYPE };
-		result.addElement( new ScriptExistingFunction( "change_mcd", BOOLEAN_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "have_chef", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "have_chef", BOOLEAN_TYPE, params ) );
-
-		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "have_bartender", BOOLEAN_TYPE, params ) );
-
+		result.addElement( new ScriptExistingFunction( "have_bartender", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
 		// String parsing functions.
 
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE, KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "contains_text", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { STRING_TYPE, STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "contains_text", BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "extract_meat", KoLmafiaASH.INT_TYPE, params ) );
 
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "extract_meat", INT_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "extract_items", KoLmafiaASH.RESULT_TYPE, params ) );
 
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "extract_items", RESULT_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "length", KoLmafiaASH.INT_TYPE, params ) );
 
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "length", INT_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE, KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "index_of", KoLmafiaASH.INT_TYPE, params ) );
 
-		params = new ScriptType[] { STRING_TYPE, STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "index_of", INT_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE, KoLmafiaASH.STRING_TYPE, KoLmafiaASH.INT_TYPE };
+		result.addElement( new ScriptExistingFunction( "index_of", KoLmafiaASH.INT_TYPE, params ) );
 
-		params = new ScriptType[] { STRING_TYPE, STRING_TYPE, INT_TYPE };
-		result.addElement( new ScriptExistingFunction( "index_of", INT_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE, KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "last_index_of", KoLmafiaASH.INT_TYPE, params ) );
 
-		params = new ScriptType[] { STRING_TYPE, STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "last_index_of", INT_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE, KoLmafiaASH.STRING_TYPE, KoLmafiaASH.INT_TYPE };
+		result.addElement( new ScriptExistingFunction( "last_index_of", KoLmafiaASH.INT_TYPE, params ) );
 
-		params = new ScriptType[] { STRING_TYPE, STRING_TYPE, INT_TYPE };
-		result.addElement( new ScriptExistingFunction( "last_index_of", INT_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE, KoLmafiaASH.INT_TYPE };
+		result.addElement( new ScriptExistingFunction( "substring", KoLmafiaASH.STRING_TYPE, params ) );
 
-		params = new ScriptType[] { STRING_TYPE, INT_TYPE };
-		result.addElement( new ScriptExistingFunction( "substring", STRING_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE, KoLmafiaASH.INT_TYPE, KoLmafiaASH.INT_TYPE };
+		result.addElement( new ScriptExistingFunction( "substring", KoLmafiaASH.STRING_TYPE, params ) );
 
-		params = new ScriptType[] { STRING_TYPE, INT_TYPE, INT_TYPE };
-		result.addElement( new ScriptExistingFunction( "substring", STRING_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "to_lower_case", KoLmafiaASH.STRING_TYPE, params ) );
 
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "to_lower_case", STRING_TYPE, params ) );
-
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "to_upper_case", STRING_TYPE, params ) );
-
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "to_upper_case", KoLmafiaASH.STRING_TYPE, params ) );
 
 		// String buffer functions
 
-		params = new ScriptType[] { BUFFER_TYPE, STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "append", BUFFER_TYPE, params ) );
-		params = new ScriptType[] { BUFFER_TYPE, INT_TYPE, STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "insert", BUFFER_TYPE, params ) );
-		params = new ScriptType[] { BUFFER_TYPE, INT_TYPE, INT_TYPE, STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "replace", BOOLEAN_TYPE, params ) );
-		params = new ScriptType[] { BUFFER_TYPE, INT_TYPE, INT_TYPE };
-		result.addElement( new ScriptExistingFunction( "delete", BUFFER_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.BUFFER_TYPE, KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "append", KoLmafiaASH.BUFFER_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.BUFFER_TYPE, KoLmafiaASH.INT_TYPE, KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "insert", KoLmafiaASH.BUFFER_TYPE, params ) );
+		params =
+			new ScriptType[] { KoLmafiaASH.BUFFER_TYPE, KoLmafiaASH.INT_TYPE, KoLmafiaASH.INT_TYPE, KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "replace", KoLmafiaASH.BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.BUFFER_TYPE, KoLmafiaASH.INT_TYPE, KoLmafiaASH.INT_TYPE };
+		result.addElement( new ScriptExistingFunction( "delete", KoLmafiaASH.BUFFER_TYPE, params ) );
 
-		params = new ScriptType[] { MATCHER_TYPE, BUFFER_TYPE };
-		result.addElement( new ScriptExistingFunction( "append_tail", BUFFER_TYPE, params ) );
-		params = new ScriptType[] { MATCHER_TYPE, BUFFER_TYPE, STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "append_replacement", BUFFER_TYPE, params ) );
-
+		params = new ScriptType[] { KoLmafiaASH.MATCHER_TYPE, KoLmafiaASH.BUFFER_TYPE };
+		result.addElement( new ScriptExistingFunction( "append_tail", KoLmafiaASH.BUFFER_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.MATCHER_TYPE, KoLmafiaASH.BUFFER_TYPE, KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "append_replacement", KoLmafiaASH.BUFFER_TYPE, params ) );
 
 		// Regular expression functions
 
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE, KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "create_matcher", KoLmafiaASH.MATCHER_TYPE, params ) );
 
-		params = new ScriptType[] { STRING_TYPE, STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "create_matcher", MATCHER_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.MATCHER_TYPE };
+		result.addElement( new ScriptExistingFunction( "find", KoLmafiaASH.BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.MATCHER_TYPE };
+		result.addElement( new ScriptExistingFunction( "start", KoLmafiaASH.BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.MATCHER_TYPE };
+		result.addElement( new ScriptExistingFunction( "end", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { MATCHER_TYPE };
-		result.addElement( new ScriptExistingFunction( "find", BOOLEAN_TYPE, params ) );
-		params = new ScriptType[] { MATCHER_TYPE };
-		result.addElement( new ScriptExistingFunction( "start", BOOLEAN_TYPE, params ) );
-		params = new ScriptType[] { MATCHER_TYPE };
-		result.addElement( new ScriptExistingFunction( "end", BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.MATCHER_TYPE };
+		result.addElement( new ScriptExistingFunction( "group", KoLmafiaASH.BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.MATCHER_TYPE, KoLmafiaASH.INT_TYPE };
+		result.addElement( new ScriptExistingFunction( "group", KoLmafiaASH.BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.MATCHER_TYPE };
+		result.addElement( new ScriptExistingFunction( "group_count", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { MATCHER_TYPE };
-		result.addElement( new ScriptExistingFunction( "group", BOOLEAN_TYPE, params ) );
-		params = new ScriptType[] { MATCHER_TYPE, INT_TYPE };
-		result.addElement( new ScriptExistingFunction( "group", BOOLEAN_TYPE, params ) );
-		params = new ScriptType[] { MATCHER_TYPE };
-		result.addElement( new ScriptExistingFunction( "group_count", BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.MATCHER_TYPE, KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "replace_first", KoLmafiaASH.STRING_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.MATCHER_TYPE, KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "replace_all", KoLmafiaASH.STRING_TYPE, params ) );
 
-		params = new ScriptType[] { MATCHER_TYPE, STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "replace_first", STRING_TYPE, params ) );
-		params = new ScriptType[] { MATCHER_TYPE, STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "replace_all", STRING_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.MATCHER_TYPE };
+		result.addElement( new ScriptExistingFunction( "reset", KoLmafiaASH.MATCHER_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.MATCHER_TYPE, KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "reset", KoLmafiaASH.MATCHER_TYPE, params ) );
 
-		params = new ScriptType[] { MATCHER_TYPE };
-		result.addElement( new ScriptExistingFunction( "reset", MATCHER_TYPE, params ) );
-		params = new ScriptType[] { MATCHER_TYPE, STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "reset", MATCHER_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.BUFFER_TYPE, KoLmafiaASH.STRING_TYPE, KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "replace_string", KoLmafiaASH.STRING_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE, KoLmafiaASH.STRING_TYPE, KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "replace_string", KoLmafiaASH.BUFFER_TYPE, params ) );
 
-		params = new ScriptType[] { BUFFER_TYPE, STRING_TYPE, STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "replace_string", STRING_TYPE, params ) );
-		params = new ScriptType[] { STRING_TYPE, STRING_TYPE, STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "replace_string", BUFFER_TYPE, params ) );
-
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "split_string", new ScriptAggregateType( STRING_TYPE, 0 ), params ) );
-		params = new ScriptType[] { STRING_TYPE, STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "split_string", new ScriptAggregateType( STRING_TYPE, 0 ), params ) );
-		params = new ScriptType[] { STRING_TYPE, STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "group_string", REGEX_GROUP_TYPE, params ) );
-
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "split_string", new ScriptAggregateType(
+			KoLmafiaASH.STRING_TYPE, 0 ), params ) );
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE, KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "split_string", new ScriptAggregateType(
+			KoLmafiaASH.STRING_TYPE, 0 ), params ) );
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE, KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "group_string", KoLmafiaASH.REGEX_GROUP_TYPE, params ) );
 
 		// Assorted functions
 
-
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "chat_reply", VOID_TYPE, params ) );
-
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "chat_reply", KoLmafiaASH.VOID_TYPE, params ) );
 
 		// Quest handling functions.
 
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "entryway", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "entryway", BOOLEAN_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "hedgemaze", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "hedgemaze", BOOLEAN_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "guardians", KoLmafiaASH.ITEM_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "guardians", ITEM_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "chamber", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "chamber", BOOLEAN_TYPE, params ) );
-
-		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "tavern", INT_TYPE, params ) );
-
+		result.addElement( new ScriptExistingFunction( "tavern", KoLmafiaASH.INT_TYPE, params ) );
 
 		// Arithmetic utility functions.
 
+		params = new ScriptType[] { KoLmafiaASH.INT_TYPE };
+		result.addElement( new ScriptExistingFunction( "random", KoLmafiaASH.INT_TYPE, params ) );
 
-		params = new ScriptType[] { INT_TYPE };
-		result.addElement( new ScriptExistingFunction( "random", INT_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.FLOAT_TYPE };
+		result.addElement( new ScriptExistingFunction( "round", KoLmafiaASH.INT_TYPE, params ) );
 
-		params = new ScriptType[] { FLOAT_TYPE };
-		result.addElement( new ScriptExistingFunction( "round", INT_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.FLOAT_TYPE };
+		result.addElement( new ScriptExistingFunction( "truncate", KoLmafiaASH.INT_TYPE, params ) );
 
-		params = new ScriptType[] { FLOAT_TYPE };
-		result.addElement( new ScriptExistingFunction( "truncate", INT_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.FLOAT_TYPE };
+		result.addElement( new ScriptExistingFunction( "floor", KoLmafiaASH.INT_TYPE, params ) );
 
-		params = new ScriptType[] { FLOAT_TYPE };
-		result.addElement( new ScriptExistingFunction( "floor", INT_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.FLOAT_TYPE };
+		result.addElement( new ScriptExistingFunction( "ceil", KoLmafiaASH.INT_TYPE, params ) );
 
-		params = new ScriptType[] { FLOAT_TYPE };
-		result.addElement( new ScriptExistingFunction( "ceil", INT_TYPE, params ) );
-
-		params = new ScriptType[] { FLOAT_TYPE };
-		result.addElement( new ScriptExistingFunction( "square_root", FLOAT_TYPE, params ) );
-
+		params = new ScriptType[] { KoLmafiaASH.FLOAT_TYPE };
+		result.addElement( new ScriptExistingFunction( "square_root", KoLmafiaASH.FLOAT_TYPE, params ) );
 
 		// Settings-type functions.
 
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "url_encode", KoLmafiaASH.STRING_TYPE, params ) );
 
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "url_encode", STRING_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "url_decode", KoLmafiaASH.STRING_TYPE, params ) );
 
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "url_decode", STRING_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "get_property", KoLmafiaASH.STRING_TYPE, params ) );
 
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "get_property", STRING_TYPE, params ) );
-
-		params = new ScriptType[] { STRING_TYPE, STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "set_property", VOID_TYPE, params ) );
-
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE, KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "set_property", KoLmafiaASH.VOID_TYPE, params ) );
 
 		// Functions for aggregates.
 
+		params = new ScriptType[] { KoLmafiaASH.AGGREGATE_TYPE };
+		result.addElement( new ScriptExistingFunction( "count", KoLmafiaASH.INT_TYPE, params ) );
 
-		params = new ScriptType[] { AGGREGATE_TYPE };
-		result.addElement( new ScriptExistingFunction( "count", INT_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.AGGREGATE_TYPE };
+		result.addElement( new ScriptExistingFunction( "clear", KoLmafiaASH.VOID_TYPE, params ) );
 
-		params = new ScriptType[] { AGGREGATE_TYPE };
-		result.addElement( new ScriptExistingFunction( "clear", VOID_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE, KoLmafiaASH.AGGREGATE_TYPE };
+		result.addElement( new ScriptExistingFunction( "file_to_map", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { STRING_TYPE, AGGREGATE_TYPE };
-		result.addElement( new ScriptExistingFunction( "file_to_map", BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE, KoLmafiaASH.AGGREGATE_TYPE, KoLmafiaASH.BOOLEAN_TYPE };
+		result.addElement( new ScriptExistingFunction( "file_to_map", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { STRING_TYPE, AGGREGATE_TYPE, BOOLEAN_TYPE };
-		result.addElement( new ScriptExistingFunction( "file_to_map", BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.AGGREGATE_TYPE, KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "map_to_file", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { AGGREGATE_TYPE, STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "map_to_file", BOOLEAN_TYPE, params ) );
-
-		params = new ScriptType[] { AGGREGATE_TYPE, STRING_TYPE, BOOLEAN_TYPE };
-		result.addElement( new ScriptExistingFunction( "map_to_file", BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.AGGREGATE_TYPE, KoLmafiaASH.STRING_TYPE, KoLmafiaASH.BOOLEAN_TYPE };
+		result.addElement( new ScriptExistingFunction( "map_to_file", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
 		// Custom combat helper functions.
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "my_location", LOCATION_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "my_location", KoLmafiaASH.LOCATION_TYPE, params ) );
 
-		params = new ScriptType[] { LOCATION_TYPE };
-		result.addElement( new ScriptExistingFunction( "get_monsters", new ScriptAggregateType( MONSTER_TYPE, 0 ), params ) );
-
-		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "expected_damage", INT_TYPE, params ) );
-
-		params = new ScriptType[] { MONSTER_TYPE };
-		result.addElement( new ScriptExistingFunction( "expected_damage", INT_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.LOCATION_TYPE };
+		result.addElement( new ScriptExistingFunction( "get_monsters", new ScriptAggregateType(
+			KoLmafiaASH.MONSTER_TYPE, 0 ), params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "monster_level_adjustment", INT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "expected_damage", KoLmafiaASH.INT_TYPE, params ) );
+
+		params = new ScriptType[] { KoLmafiaASH.MONSTER_TYPE };
+		result.addElement( new ScriptExistingFunction( "expected_damage", KoLmafiaASH.INT_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "weight_adjustment", INT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "monster_level_adjustment", KoLmafiaASH.INT_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "mana_cost_modifier", INT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "weight_adjustment", KoLmafiaASH.INT_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "raw_damage_absorption", INT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "mana_cost_modifier", KoLmafiaASH.INT_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "damage_absorption_percent", FLOAT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "raw_damage_absorption", KoLmafiaASH.INT_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "damage_reduction", INT_TYPE, params ) );
-
-		params = new ScriptType[] { ELEMENT_TYPE };
-		result.addElement( new ScriptExistingFunction( "elemental_resistance", FLOAT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "damage_absorption_percent", KoLmafiaASH.FLOAT_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "elemental_resistance", FLOAT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "damage_reduction", KoLmafiaASH.INT_TYPE, params ) );
 
-		params = new ScriptType[] { MONSTER_TYPE };
-		result.addElement( new ScriptExistingFunction( "elemental_resistance", FLOAT_TYPE, params ) );
-
-		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "combat_rate_modifier", FLOAT_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.ELEMENT_TYPE };
+		result.addElement( new ScriptExistingFunction( "elemental_resistance", KoLmafiaASH.FLOAT_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "initiative_modifier", FLOAT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "elemental_resistance", KoLmafiaASH.FLOAT_TYPE, params ) );
+
+		params = new ScriptType[] { KoLmafiaASH.MONSTER_TYPE };
+		result.addElement( new ScriptExistingFunction( "elemental_resistance", KoLmafiaASH.FLOAT_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "experience_bonus", FLOAT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "combat_rate_modifier", KoLmafiaASH.FLOAT_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "meat_drop_modifier", FLOAT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "initiative_modifier", KoLmafiaASH.FLOAT_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "item_drop_modifier", FLOAT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "experience_bonus", KoLmafiaASH.FLOAT_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "buffed_hit_stat", INT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "meat_drop_modifier", KoLmafiaASH.FLOAT_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "current_hit_stat", STAT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "item_drop_modifier", KoLmafiaASH.FLOAT_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "monster_element", ELEMENT_TYPE, params ) );
-
-		params = new ScriptType[] { MONSTER_TYPE };
-		result.addElement( new ScriptExistingFunction( "monster_element", ELEMENT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "buffed_hit_stat", KoLmafiaASH.INT_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "monster_attack", INT_TYPE, params ) );
-
-		params = new ScriptType[] { MONSTER_TYPE };
-		result.addElement( new ScriptExistingFunction( "monster_attack", INT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "current_hit_stat", KoLmafiaASH.STAT_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "monster_defense", INT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "monster_element", KoLmafiaASH.ELEMENT_TYPE, params ) );
 
-		params = new ScriptType[] { MONSTER_TYPE };
-		result.addElement( new ScriptExistingFunction( "monster_defense", INT_TYPE, params ) );
-
-		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "monster_hp", INT_TYPE, params ) );
-
-		params = new ScriptType[] { MONSTER_TYPE };
-		result.addElement( new ScriptExistingFunction( "monster_hp", INT_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.MONSTER_TYPE };
+		result.addElement( new ScriptExistingFunction( "monster_element", KoLmafiaASH.ELEMENT_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "item_drops", INT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "monster_attack", KoLmafiaASH.INT_TYPE, params ) );
 
-		params = new ScriptType[] { MONSTER_TYPE };
-		result.addElement( new ScriptExistingFunction( "item_drops", INT_TYPE, params ) );
-
-		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "will_usually_miss", BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.MONSTER_TYPE };
+		result.addElement( new ScriptExistingFunction( "monster_attack", KoLmafiaASH.INT_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "will_usually_dodge", BOOLEAN_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "monster_defense", KoLmafiaASH.INT_TYPE, params ) );
+
+		params = new ScriptType[] { KoLmafiaASH.MONSTER_TYPE };
+		result.addElement( new ScriptExistingFunction( "monster_defense", KoLmafiaASH.INT_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "monster_hp", KoLmafiaASH.INT_TYPE, params ) );
+
+		params = new ScriptType[] { KoLmafiaASH.MONSTER_TYPE };
+		result.addElement( new ScriptExistingFunction( "monster_hp", KoLmafiaASH.INT_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "item_drops", KoLmafiaASH.INT_TYPE, params ) );
+
+		params = new ScriptType[] { KoLmafiaASH.MONSTER_TYPE };
+		result.addElement( new ScriptExistingFunction( "item_drops", KoLmafiaASH.INT_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "will_usually_miss", KoLmafiaASH.BOOLEAN_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "will_usually_dodge", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
 		// Modifier introspection
 
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "numeric_modifier", FLOAT_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "numeric_modifier", KoLmafiaASH.FLOAT_TYPE, params ) );
 
-		params = new ScriptType[] { ITEM_TYPE, STRING_TYPE  };
-		result.addElement( new ScriptExistingFunction( "numeric_modifier", FLOAT_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.ITEM_TYPE, KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "numeric_modifier", KoLmafiaASH.FLOAT_TYPE, params ) );
 
-		params = new ScriptType[] { EFFECT_TYPE, STRING_TYPE  };
-		result.addElement( new ScriptExistingFunction( "numeric_modifier", FLOAT_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.EFFECT_TYPE, KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "numeric_modifier", KoLmafiaASH.FLOAT_TYPE, params ) );
 
-		params = new ScriptType[] { SKILL_TYPE, STRING_TYPE  };
-		result.addElement( new ScriptExistingFunction( "numeric_modifier", FLOAT_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.SKILL_TYPE, KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "numeric_modifier", KoLmafiaASH.FLOAT_TYPE, params ) );
 
-		params = new ScriptType[] { STRING_TYPE  };
-		result.addElement( new ScriptExistingFunction( "boolean_modifier", BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "boolean_modifier", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { ITEM_TYPE, STRING_TYPE  };
-		result.addElement( new ScriptExistingFunction( "boolean_modifier", BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.ITEM_TYPE, KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "boolean_modifier", KoLmafiaASH.BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { ITEM_TYPE, STRING_TYPE  };
-		result.addElement( new ScriptExistingFunction( "effect_modifier", EFFECT_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.ITEM_TYPE, KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "effect_modifier", KoLmafiaASH.EFFECT_TYPE, params ) );
 
-		params = new ScriptType[] { ITEM_TYPE, STRING_TYPE  };
-		result.addElement( new ScriptExistingFunction( "class_modifier", CLASS_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.ITEM_TYPE, KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "class_modifier", KoLmafiaASH.CLASS_TYPE, params ) );
 
-		params = new ScriptType[] { EFFECT_TYPE, STRING_TYPE  };
-		result.addElement( new ScriptExistingFunction( "stat_modifier", STAT_TYPE, params ) );
+		params = new ScriptType[] { KoLmafiaASH.EFFECT_TYPE, KoLmafiaASH.STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "stat_modifier", KoLmafiaASH.STAT_TYPE, params ) );
 
 		return result;
 	}
@@ -4004,24 +4548,24 @@ public class KoLmafiaASH extends StaticEntity
 	public static final ScriptTypeList getSimpleTypes()
 	{
 		ScriptTypeList result = new ScriptTypeList();
-		result.addElement( VOID_TYPE );
-		result.addElement( BOOLEAN_TYPE );
-		result.addElement( INT_TYPE );
-		result.addElement( FLOAT_TYPE );
-		result.addElement( STRING_TYPE );
-		result.addElement( BUFFER_TYPE );
-		result.addElement( MATCHER_TYPE );
+		result.addElement( KoLmafiaASH.VOID_TYPE );
+		result.addElement( KoLmafiaASH.BOOLEAN_TYPE );
+		result.addElement( KoLmafiaASH.INT_TYPE );
+		result.addElement( KoLmafiaASH.FLOAT_TYPE );
+		result.addElement( KoLmafiaASH.STRING_TYPE );
+		result.addElement( KoLmafiaASH.BUFFER_TYPE );
+		result.addElement( KoLmafiaASH.MATCHER_TYPE );
 
-		result.addElement( ITEM_TYPE );
-		result.addElement( LOCATION_TYPE );
-		result.addElement( CLASS_TYPE );
-		result.addElement( STAT_TYPE );
-		result.addElement( SKILL_TYPE );
-		result.addElement( EFFECT_TYPE );
-		result.addElement( FAMILIAR_TYPE );
-		result.addElement( SLOT_TYPE );
-		result.addElement( MONSTER_TYPE );
-		result.addElement( ELEMENT_TYPE );
+		result.addElement( KoLmafiaASH.ITEM_TYPE );
+		result.addElement( KoLmafiaASH.LOCATION_TYPE );
+		result.addElement( KoLmafiaASH.CLASS_TYPE );
+		result.addElement( KoLmafiaASH.STAT_TYPE );
+		result.addElement( KoLmafiaASH.SKILL_TYPE );
+		result.addElement( KoLmafiaASH.EFFECT_TYPE );
+		result.addElement( KoLmafiaASH.FAMILIAR_TYPE );
+		result.addElement( KoLmafiaASH.SLOT_TYPE );
+		result.addElement( KoLmafiaASH.MONSTER_TYPE );
+		result.addElement( KoLmafiaASH.ELEMENT_TYPE );
 		return result;
 	}
 
@@ -4081,19 +4625,20 @@ public class KoLmafiaASH extends StaticEntity
 		return result;
 	}
 
-	public static final boolean isReservedWord( String name )
-	{	return reservedWords.findSymbol( name ) != null;
+	public static final boolean isReservedWord( final String name )
+	{
+		return KoLmafiaASH.reservedWords.findSymbol( name ) != null;
 	}
 
 	private static class ScriptScope
 	{
-		ScriptFunctionList	functions;
-		ScriptVariableList	variables;
-		ScriptTypeList		types;
-		ScriptCommandList	commands;
-		ScriptScope		parentScope;
+		ScriptFunctionList functions;
+		ScriptVariableList variables;
+		ScriptTypeList types;
+		ScriptCommandList commands;
+		ScriptScope parentScope;
 
-		public ScriptScope( ScriptScope parentScope )
+		public ScriptScope( final ScriptScope parentScope )
 		{
 			this.functions = new ScriptFunctionList();
 			this.variables = new ScriptVariableList();
@@ -4102,7 +4647,7 @@ public class KoLmafiaASH extends StaticEntity
 			this.parentScope = parentScope;
 		}
 
-		public ScriptScope( ScriptCommand command, ScriptScope parentScope )
+		public ScriptScope( final ScriptCommand command, final ScriptScope parentScope )
 		{
 			this.functions = new ScriptFunctionList();
 			this.variables = new ScriptVariableList();
@@ -4112,103 +4657,133 @@ public class KoLmafiaASH extends StaticEntity
 			this.parentScope = parentScope;
 		}
 
-		public ScriptScope( ScriptVariableList variables, ScriptScope parentScope )
+		public ScriptScope( ScriptVariableList variables, final ScriptScope parentScope )
 		{
 			this.functions = new ScriptFunctionList();
 			if ( variables == null )
+			{
 				variables = new ScriptVariableList();
+			}
 			this.variables = variables;
 			this.types = new ScriptTypeList();
 			this.commands = new ScriptCommandList();
 			this.parentScope = parentScope;
 		}
 
-		public ScriptScope( ScriptFunctionList functions, ScriptVariableList variables, ScriptTypeList types  )
+		public ScriptScope( ScriptFunctionList functions, ScriptVariableList variables, ScriptTypeList types )
 		{
 			if ( functions == null )
+			{
 				functions = new ScriptFunctionList();
+			}
 			this.functions = functions;
 			if ( variables == null )
+			{
 				variables = new ScriptVariableList();
+			}
 			this.variables = variables;
 			if ( types == null )
+			{
 				types = new ScriptTypeList();
+			}
 			this.types = types;
 			this.commands = new ScriptCommandList();
 			this.parentScope = null;
 		}
 
 		public ScriptScope getParentScope()
-		{	return parentScope;
+		{
+			return this.parentScope;
 		}
 
-		public boolean addFunction( ScriptFunction f )
-		{	return functions.addElement( f );
+		public boolean addFunction( final ScriptFunction f )
+		{
+			return this.functions.addElement( f );
 		}
 
-		public boolean removeFunction( ScriptFunction f )
-		{	return functions.removeElement( f );
+		public boolean removeFunction( final ScriptFunction f )
+		{
+			return this.functions.removeElement( f );
 		}
 
 		public Iterator getFunctions()
-		{	return functions.iterator();
+		{
+			return this.functions.iterator();
 		}
 
-		public boolean addVariable( ScriptVariable v )
-		{	return variables.addElement( v );
+		public boolean addVariable( final ScriptVariable v )
+		{
+			return this.variables.addElement( v );
 		}
 
 		public Iterator getVariables()
-		{	return variables.iterator();
-		}
-
-		public ScriptVariable findVariable( String name )
-		{	return findVariable( name, false );
-		}
-
-		public ScriptVariable findVariable( String name, boolean recurse )
 		{
-			ScriptVariable current = variables.findVariable( name );
+			return this.variables.iterator();
+		}
+
+		public ScriptVariable findVariable( final String name )
+		{
+			return this.findVariable( name, false );
+		}
+
+		public ScriptVariable findVariable( final String name, final boolean recurse )
+		{
+			ScriptVariable current = this.variables.findVariable( name );
 			if ( current != null )
+			{
 				return current;
-			if ( recurse && parentScope != null )
-				return parentScope.findVariable( name, true );
+			}
+			if ( recurse && this.parentScope != null )
+			{
+				return this.parentScope.findVariable( name, true );
+			}
 			return null;
 		}
 
-		public boolean addType( ScriptType t )
-		{	return types.addElement( t );
+		public boolean addType( final ScriptType t )
+		{
+			return this.types.addElement( t );
 		}
 
 		public Iterator getTypes()
-		{	return types.iterator();
+		{
+			return this.types.iterator();
 		}
 
-		public ScriptType findType( String name )
+		public ScriptType findType( final String name )
 		{
-			ScriptType current = types.findType( name );
+			ScriptType current = this.types.findType( name );
 			if ( current != null )
+			{
 				return current;
-			if ( parentScope != null )
-				return parentScope.findType( name );
+			}
+			if ( this.parentScope != null )
+			{
+				return this.parentScope.findType( name );
+			}
 			return null;
 		}
 
-		public void addCommand( ScriptCommand c )
-		{	commands.addElement( c );
+		public void addCommand( final ScriptCommand c )
+		{
+			this.commands.addElement( c );
 		}
 
 		public boolean assertReturn()
 		{
-			int size = commands.size();
+			int size = this.commands.size();
 			if ( size == 0 )
+			{
 				return false;
-			if ( commands.get( size - 1 ) instanceof ScriptReturn )
+			}
+			if ( this.commands.get( size - 1 ) instanceof ScriptReturn )
+			{
 				return true;
+			}
 			return false;
 		}
 
-		private boolean isMatchingFunction( ScriptUserDefinedFunction current, ScriptUserDefinedFunction f )
+		private boolean isMatchingFunction( final ScriptUserDefinedFunction current, final ScriptUserDefinedFunction f )
 		{
 			// The existing function must be a forward
 			// reference.  Thus, already-defined functions
@@ -4232,7 +4807,9 @@ public class KoLmafiaASH extends StaticEntity
 				p2 = (ScriptVariableReference) it2.next();
 
 				if ( !p1.getType().equals( p2.getType() ) )
+				{
 					return false;
+				}
 
 				++paramCount;
 			}
@@ -4240,47 +4817,59 @@ public class KoLmafiaASH extends StaticEntity
 			// There must be the same number of parameters
 
 			if ( it1.hasNext() )
+			{
 				return false;
+			}
 
 			if ( it2.hasNext() )
+			{
 				return false;
+			}
 
 			// Unfortunately, if it's an exact match and you're
 			// avoiding exact matches, you need to throw an
 			// exception.
 
 			if ( avoidExactMatch )
+			{
 				throw new AdvancedScriptException( "Function '" + f.getName() + "' defined multiple times" );
+			}
 
 			return true;
 		}
 
-		public ScriptUserDefinedFunction replaceFunction( ScriptUserDefinedFunction f )
+		public ScriptUserDefinedFunction replaceFunction( final ScriptUserDefinedFunction f )
 		{
 			if ( f.getName().equals( "main" ) )
+			{
 				return f;
+			}
 
-			ScriptFunction [] options = functions.findFunctions( f.getName() );
+			ScriptFunction[] options = this.functions.findFunctions( f.getName() );
 
 			for ( int i = 0; i < options.length; ++i )
-				if ( options[i] instanceof ScriptUserDefinedFunction )
+			{
+				if ( options[ i ] instanceof ScriptUserDefinedFunction )
 				{
-					ScriptUserDefinedFunction existing = (ScriptUserDefinedFunction)options[i];
-					if ( !isMatchingFunction( existing, f ) )
+					ScriptUserDefinedFunction existing = (ScriptUserDefinedFunction) options[ i ];
+					if ( !this.isMatchingFunction( existing, f ) )
+					{
 						continue;
+					}
 
 					// Must use new definition's variables
 					existing.setVariableReferences( f.getVariableReferences() );
 					return existing;
 				}
+			}
 
-			addFunction( f );
+			this.addFunction( f );
 			return f;
 		}
 
-		private ScriptFunction findFunction( String name, boolean hasParameters )
+		private ScriptFunction findFunction( final String name, boolean hasParameters )
 		{
-			ScriptFunction [] functions = this.functions.findFunctions( name );
+			ScriptFunction[] functions = this.functions.findFunctions( name );
 
 			int paramCount, stringCount;
 			ScriptFunction bestMatch = null;
@@ -4290,38 +4879,47 @@ public class KoLmafiaASH extends StaticEntity
 				paramCount = 0;
 				stringCount = 0;
 
-				Iterator refIterator = functions[i].getReferences();
+				Iterator refIterator = functions[ i ].getReferences();
 
 				while ( refIterator.hasNext() )
 				{
 					++paramCount;
-					if ( ((ScriptVariableReference)refIterator.next()).getType().equals( STRING_TYPE ) )
+					if ( ( (ScriptVariableReference) refIterator.next() ).getType().equals( KoLmafiaASH.STRING_TYPE ) )
+					{
 						++stringCount;
+					}
 				}
 
 				if ( !hasParameters && paramCount == 0 )
 				{
-					return functions[i];
+					return functions[ i ];
 				}
 				if ( hasParameters && paramCount == 1 )
 				{
 					if ( stringCount == 1 )
-						return functions[i];
+					{
+						return functions[ i ];
+					}
 					else if ( bestMatch != null )
+					{
 						return null;
+					}
 					else
-						bestMatch = functions[i];
+					{
+						bestMatch = functions[ i ];
+					}
 				}
 			}
 
 			return bestMatch;
 		}
 
-		private ScriptFunction findFunction( ScriptFunctionList source, String name, ScriptExpressionList params, boolean isExactMatch )
+		private ScriptFunction findFunction( final ScriptFunctionList source, final String name,
+			final ScriptExpressionList params, boolean isExactMatch )
 		{
 			String errorMessage = null;
 
-			ScriptFunction [] functions = source.findFunctions( name );
+			ScriptFunction[] functions = source.findFunctions( name );
 
 			// First, try to find an exact match on parameter types.
 			// This allows strict matches to take precedence.
@@ -4331,9 +4929,11 @@ public class KoLmafiaASH extends StaticEntity
 				errorMessage = null;
 
 				if ( params == null )
-					return functions[i];
+				{
+					return functions[ i ];
+				}
 
-				Iterator refIterator = functions[i].getReferences();
+				Iterator refIterator = functions[ i ].getReferences();
 				Iterator valIterator = params.getExpressions();
 
 				ScriptVariableReference currentParam;
@@ -4349,48 +4949,60 @@ public class KoLmafiaASH extends StaticEntity
 					{
 						if ( currentParam.getType() != currentValue.getType() )
 						{
-							errorMessage = "Illegal parameter #" + paramIndex + " for function " + name +
-								", got " + currentValue.getType() + ", need " + currentParam.getType();
+							errorMessage =
+								"Illegal parameter #" + paramIndex + " for function " + name + ", got " + currentValue.getType() + ", need " + currentParam.getType();
 						}
 					}
-					else if ( !validCoercion( currentParam.getType(), currentValue.getType(), "parameter" ) )
+					else if ( !KoLmafiaASH.validCoercion( currentParam.getType(), currentValue.getType(), "parameter" ) )
 					{
-						errorMessage = "Illegal parameter #" + paramIndex + " for function " + name +
-							", got " + currentValue.getType() + ", need " + currentParam.getType();
+						errorMessage =
+							"Illegal parameter #" + paramIndex + " for function " + name + ", got " + currentValue.getType() + ", need " + currentParam.getType();
 					}
 
 					++paramIndex;
 				}
 
-				if ( errorMessage == null && (refIterator.hasNext() || valIterator.hasNext()) )
+				if ( errorMessage == null && ( refIterator.hasNext() || valIterator.hasNext() ) )
 				{
-					errorMessage = "Illegal amount of parameters for function " + name +
-						", got " + params.size() + ", expected " + functions[i].getVariableReferences().size();
+					errorMessage =
+						"Illegal amount of parameters for function " + name + ", got " + params.size() + ", expected " + functions[ i ].getVariableReferences().size();
 				}
 
 				if ( errorMessage == null )
-					return functions[i];
+				{
+					return functions[ i ];
+				}
 			}
 
-			if ( !isExactMatch && parentScope != null )
-				return parentScope.findFunction( name, params );
+			if ( !isExactMatch && this.parentScope != null )
+			{
+				return this.parentScope.findFunction( name, params );
+			}
 
-			if ( !isExactMatch && source == existingFunctions && errorMessage != null )
+			if ( !isExactMatch && source == KoLmafiaASH.existingFunctions && errorMessage != null )
+			{
 				throw new AdvancedScriptException( errorMessage );
+			}
 
 			return null;
 		}
 
-		public ScriptFunction findFunction( String name, ScriptExpressionList params )
+		public ScriptFunction findFunction( final String name, final ScriptExpressionList params )
 		{
-			ScriptFunction result = findFunction( functions, name, params, true );
+			ScriptFunction result = this.findFunction( this.functions, name, params, true );
 
 			if ( result == null )
-				result = findFunction( existingFunctions, name, params, true );
+			{
+				result = this.findFunction( KoLmafiaASH.existingFunctions, name, params, true );
+			}
 			if ( result == null )
-				result = findFunction( functions, name, params, false );
+			{
+				result = this.findFunction( this.functions, name, params, false );
+			}
 			if ( result == null )
-				result = findFunction( existingFunctions, name, params, false );
+			{
+				result = this.findFunction( KoLmafiaASH.existingFunctions, name, params, false );
+			}
 
 			// Just in case there's some people who don't want to edit
 			// their scripts to use the new function format, check for
@@ -4399,49 +5011,78 @@ public class KoLmafiaASH extends StaticEntity
 			if ( result == null )
 			{
 				if ( name.endsWith( "to_string" ) )
-					return findFunction( "to_string", params );
+				{
+					return this.findFunction( "to_string", params );
+				}
 				if ( name.endsWith( "to_boolean" ) )
-					return findFunction( "to_boolean", params );
+				{
+					return this.findFunction( "to_boolean", params );
+				}
 				if ( name.endsWith( "to_int" ) )
-					return findFunction( "to_int", params );
+				{
+					return this.findFunction( "to_int", params );
+				}
 				if ( name.endsWith( "to_float" ) )
-					return findFunction( "to_float", params );
+				{
+					return this.findFunction( "to_float", params );
+				}
 				if ( name.endsWith( "to_item" ) )
-					return findFunction( "to_item", params );
+				{
+					return this.findFunction( "to_item", params );
+				}
 				if ( name.endsWith( "to_class" ) )
-					return findFunction( "to_class", params );
+				{
+					return this.findFunction( "to_class", params );
+				}
 				if ( name.endsWith( "to_stat" ) )
-					return findFunction( "to_stat", params );
+				{
+					return this.findFunction( "to_stat", params );
+				}
 				if ( name.endsWith( "to_skill" ) )
-					return findFunction( "to_skill", params );
+				{
+					return this.findFunction( "to_skill", params );
+				}
 				if ( name.endsWith( "to_effect" ) )
-					return findFunction( "to_effect", params );
+				{
+					return this.findFunction( "to_effect", params );
+				}
 				if ( name.endsWith( "to_location" ) )
-					return findFunction( "to_location", params );
+				{
+					return this.findFunction( "to_location", params );
+				}
 				if ( name.endsWith( "to_familiar" ) )
-					return findFunction( "to_familiar", params );
+				{
+					return this.findFunction( "to_familiar", params );
+				}
 				if ( name.endsWith( "to_monster" ) )
-					return findFunction( "to_monster", params );
+				{
+					return this.findFunction( "to_monster", params );
+				}
 				if ( name.endsWith( "to_slot" ) )
-					return findFunction( "to_slot", params );
+				{
+					return this.findFunction( "to_slot", params );
+				}
 				if ( name.endsWith( "to_url" ) )
-					return findFunction( "to_url", params );
+				{
+					return this.findFunction( "to_url", params );
+				}
 			}
 
 			return result;
 		}
 
 		public Iterator getCommands()
-		{	return commands.iterator();
+		{
+			return this.commands.iterator();
 		}
 
 		public ScriptValue execute()
 		{
-			ScriptValue result = VOID_VALUE;
-			traceIndent();
+			ScriptValue result = KoLmafiaASH.VOID_VALUE;
+			KoLmafiaASH.traceIndent();
 
 			ScriptCommand current;
-			Iterator it = commands.iterator();
+			Iterator it = this.commands.iterator();
 
 			while ( it.hasNext() )
 			{
@@ -4450,30 +5091,35 @@ public class KoLmafiaASH extends StaticEntity
 
 				// Abort processing now if command failed
 				if ( !KoLmafia.permitsContinue() )
-					currentState = STATE_EXIT;
+				{
+					KoLmafiaASH.currentState = KoLmafiaASH.STATE_EXIT;
+				}
 
 				if ( result == null )
-					result = VOID_VALUE;
+				{
+					result = KoLmafiaASH.VOID_VALUE;
+				}
 
-				trace( "[" + executionStateString( currentState ) + "] <- " + result.toQuotedString() );
-				switch ( currentState )
+				KoLmafiaASH.trace( "[" + KoLmafiaASH.executionStateString( KoLmafiaASH.currentState ) + "] <- " + result.toQuotedString() );
+				switch ( KoLmafiaASH.currentState )
 				{
 				case STATE_RETURN:
 				case STATE_BREAK:
 				case STATE_CONTINUE:
 				case STATE_EXIT:
 
-					traceUnindent();
+					KoLmafiaASH.traceUnindent();
 					return result;
 				}
 			}
 
-			traceUnindent();
+			KoLmafiaASH.traceUnindent();
 			return result;
 		}
 	}
 
-	private static class ScriptSymbol implements Comparable
+	private static class ScriptSymbol
+		implements Comparable
 	{
 		public String name;
 
@@ -4481,79 +5127,97 @@ public class KoLmafiaASH extends StaticEntity
 		{
 		}
 
-		public ScriptSymbol( String name )
-		{	this.name = name;
+		public ScriptSymbol( final String name )
+		{
+			this.name = name;
 		}
 
 		public String getName()
-		{	return name;
+		{
+			return this.name;
 		}
 
-		public int compareTo( Object o )
+		public int compareTo( final Object o )
 		{
 			if ( !( o instanceof ScriptSymbol ) )
+			{
 				throw new ClassCastException();
-			if ( name == null)
+			}
+			if ( this.name == null )
+			{
 				return 1;
-			return name.compareToIgnoreCase( ((ScriptSymbol)o).name );
+			}
+			return this.name.compareToIgnoreCase( ( (ScriptSymbol) o ).name );
 		}
 	}
 
-	private static class ScriptSymbolTable extends Vector
+	private static class ScriptSymbolTable
+		extends Vector
 	{
-		public boolean addElement( ScriptSymbol n )
+		public boolean addElement( final ScriptSymbol n )
 		{
-			if ( findSymbol( n.getName() ) != null )
-				 return false;
+			if ( this.findSymbol( n.getName() ) != null )
+			{
+				return false;
+			}
 
 			super.addElement( n );
 			return true;
 		}
 
-		public ScriptSymbol findSymbol( String name )
+		public ScriptSymbol findSymbol( final String name )
 		{
 			ScriptSymbol currentSymbol = null;
-			for ( int i = 0; i < size(); ++i )
+			for ( int i = 0; i < this.size(); ++i )
 			{
-				currentSymbol = (ScriptSymbol) get(i);
+				currentSymbol = (ScriptSymbol) this.get( i );
 				if ( currentSymbol.getName().equalsIgnoreCase( name ) )
+				{
 					return currentSymbol;
+				}
 			}
 
 			return null;
 		}
 	}
 
-	private static abstract class ScriptFunction extends ScriptSymbol
+	private static abstract class ScriptFunction
+		extends ScriptSymbol
 	{
 		public ScriptType type;
 		public ScriptVariableReferenceList variableReferences;
 
-		public ScriptFunction( String name, ScriptType type, ScriptVariableReferenceList variableReferences )
+		public ScriptFunction( final String name, final ScriptType type,
+			final ScriptVariableReferenceList variableReferences )
 		{
 			super( name );
 			this.type = type;
 			this.variableReferences = variableReferences;
 		}
 
-		public ScriptFunction( String name, ScriptType type )
-		{	this( name, type, new ScriptVariableReferenceList() );
+		public ScriptFunction( final String name, final ScriptType type )
+		{
+			this( name, type, new ScriptVariableReferenceList() );
 		}
 
 		public ScriptType getType()
-		{	return type;
+		{
+			return this.type;
 		}
 
 		public ScriptVariableReferenceList getVariableReferences()
-		{	return variableReferences;
+		{
+			return this.variableReferences;
 		}
 
-		public void setVariableReferences( ScriptVariableReferenceList variableReferences )
-		{	this.variableReferences = variableReferences;
+		public void setVariableReferences( final ScriptVariableReferenceList variableReferences )
+		{
+			this.variableReferences = variableReferences;
 		}
 
 		public Iterator getReferences()
-		{	return variableReferences.iterator();
+		{
+			return this.variableReferences.iterator();
 		}
 
 		public void saveBindings()
@@ -4569,12 +5233,11 @@ public class KoLmafiaASH extends StaticEntity
 			try
 			{
 				StringBuffer message = new StringBuffer( "Called disabled function: " );
-				message.append( getName() );
+				message.append( this.getName() );
 
 				message.append( "(" );
 
-
-				Iterator it = variableReferences.iterator();
+				Iterator it = this.variableReferences.iterator();
 				ScriptVariableReference current;
 
 				for ( int i = 0; it.hasNext(); ++i )
@@ -4582,7 +5245,9 @@ public class KoLmafiaASH extends StaticEntity
 					current = (ScriptVariableReference) it.next();
 
 					if ( i != 0 )
+					{
 						message.append( ',' );
+					}
 
 					message.append( ' ' );
 					message.append( current.getValue().toStringValue().toString() );
@@ -4601,12 +5266,14 @@ public class KoLmafiaASH extends StaticEntity
 		public abstract ScriptValue execute();
 	}
 
-	private static class ScriptUserDefinedFunction extends ScriptFunction
+	private static class ScriptUserDefinedFunction
+		extends ScriptFunction
 	{
 		private ScriptScope scope;
-		private Stack callStack;
+		private final Stack callStack;
 
-		public ScriptUserDefinedFunction( String name, ScriptType type, ScriptVariableReferenceList variableReferences )
+		public ScriptUserDefinedFunction( final String name, final ScriptType type,
+			final ScriptVariableReferenceList variableReferences )
 		{
 			super( name, type, variableReferences );
 
@@ -4614,84 +5281,104 @@ public class KoLmafiaASH extends StaticEntity
 			this.callStack = new Stack();
 		}
 
-		public void setScope( ScriptScope s )
-		{	scope = s;
+		public void setScope( final ScriptScope s )
+		{
+			this.scope = s;
 		}
 
 		public ScriptScope getScope()
-		{	return scope;
+		{
+			return this.scope;
 		}
 
 		public void saveBindings()
 		{
-			if ( scope == null )
+			if ( this.scope == null )
+			{
 				return;
+			}
 
 			ArrayList values = new ArrayList();
-			for ( int i = 0; i < scope.variables.size(); ++i )
-				values.add( ((ScriptVariable)scope.variables.get(i)).getValue() );
+			for ( int i = 0; i < this.scope.variables.size(); ++i )
+			{
+				values.add( ( (ScriptVariable) this.scope.variables.get( i ) ).getValue() );
+			}
 
-			callStack.push( values );
+			this.callStack.push( values );
 		}
 
 		public void restoreBindings()
 		{
-			if ( scope == null )
+			if ( this.scope == null )
+			{
 				return;
+			}
 
-			ArrayList values = (ArrayList) callStack.pop();
-			for ( int i = 0; i < scope.variables.size(); ++i )
-				if ( !(((ScriptVariable)scope.variables.get(i)).getType() instanceof ScriptAggregateType) )
-					((ScriptVariable)scope.variables.get(i)).forceValue( (ScriptValue) values.get(i) );
+			ArrayList values = (ArrayList) this.callStack.pop();
+			for ( int i = 0; i < this.scope.variables.size(); ++i )
+			{
+				if ( !( ( (ScriptVariable) this.scope.variables.get( i ) ).getType() instanceof ScriptAggregateType ) )
+				{
+					( (ScriptVariable) this.scope.variables.get( i ) ).forceValue( (ScriptValue) values.get( i ) );
+				}
+			}
 		}
 
 		public ScriptValue execute()
 		{
-			if ( StaticEntity.isDisabled( getName() ) )
+			if ( StaticEntity.isDisabled( this.getName() ) )
 			{
-				printDisabledMessage();
-				return getType().initialValue();
+				this.printDisabledMessage();
+				return this.getType().initialValue();
 			}
 
-			if ( scope == null )
-				throw new RuntimeException( "Calling undefined user function: " + getName() );
+			if ( this.scope == null )
+			{
+				throw new RuntimeException( "Calling undefined user function: " + this.getName() );
+			}
 
-			ScriptValue result = scope.execute();
+			ScriptValue result = this.scope.execute();
 
-			if ( result.getType().equals( type ) )
+			if ( result.getType().equals( this.type ) )
+			{
 				return result;
+			}
 
-			return getType().initialValue();
+			return this.getType().initialValue();
 		}
 
 		public boolean assertReturn()
-		{	return scope.assertReturn();
+		{
+			return this.scope.assertReturn();
 		}
 	}
 
-	private static class ScriptExistingFunction extends ScriptFunction
+	private static class ScriptExistingFunction
+		extends ScriptFunction
 	{
 		private Method method;
-		private String description;
-		private ScriptVariable [] variables;
+		private final String description;
+		private final ScriptVariable[] variables;
 
-		public ScriptExistingFunction( String name, ScriptType type, ScriptType [] params )
-		{	this( name, type, params, null );
+		public ScriptExistingFunction( final String name, final ScriptType type, final ScriptType[] params )
+		{
+			this( name, type, params, null );
 		}
 
-		public ScriptExistingFunction( String name, ScriptType type, ScriptType [] params, String description )
+		public ScriptExistingFunction( final String name, final ScriptType type, final ScriptType[] params,
+			final String description )
 		{
 			super( name.toLowerCase(), type );
 			this.description = description;
 
-			variables = new ScriptVariable[ params.length ];
-			Class [] args = new Class[ params.length ];
+			this.variables = new ScriptVariable[ params.length ];
+			Class[] args = new Class[ params.length ];
 
 			for ( int i = 0; i < params.length; ++i )
 			{
-				variables[i] = new ScriptVariable( params[i] );
-				variableReferences.addElement( new ScriptVariableReference( variables[i] ) );
-				args[i] = ScriptVariable.class;
+				this.variables[ i ] = new ScriptVariable( params[ i ] );
+				this.variableReferences.addElement( new ScriptVariableReference( this.variables[ i ] ) );
+				args[ i ] = ScriptVariable.class;
 			}
 
 			try
@@ -4703,30 +5390,33 @@ public class KoLmafiaASH extends StaticEntity
 				// This should not happen; it denotes a coding
 				// error that must be fixed before release.
 
-				printStackTrace( e, "No method found for built-in function: " + name );
+				StaticEntity.printStackTrace( e, "No method found for built-in function: " + name );
 			}
 		}
 
 		public String getDescription()
-		{	return description;
+		{
+			return this.description;
 		}
 
 		public ScriptValue execute()
 		{
-			if ( StaticEntity.isDisabled( getName() ) )
+			if ( StaticEntity.isDisabled( this.getName() ) )
 			{
-				printDisabledMessage();
-				return getType().initialValue();
+				this.printDisabledMessage();
+				return this.getType().initialValue();
 			}
 
-			if ( method == null )
-				throw new RuntimeException( "Internal error: no method for " + getName() );
+			if ( this.method == null )
+			{
+				throw new RuntimeException( "Internal error: no method for " + this.getName() );
+			}
 
 			try
 			{
 				// Invoke the method
 
-				return (ScriptValue) method.invoke(this, variables);
+				return (ScriptValue) this.method.invoke( this, this.variables );
 			}
 			catch ( Exception e )
 			{
@@ -4738,29 +5428,31 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		private ScriptValue continueValue()
-		{	return ( KoLmafia.permitsContinue() && !KoLmafia.hadPendingState() ) ? TRUE_VALUE : FALSE_VALUE;
+		{
+			return KoLmafia.permitsContinue() && !KoLmafia.hadPendingState() ? KoLmafiaASH.TRUE_VALUE : KoLmafiaASH.FALSE_VALUE;
 		}
 
 		// Basic utility functions which print information
 		// or allow for easy testing.
 
-		public ScriptValue enable( ScriptVariable name )
+		public ScriptValue enable( final ScriptVariable name )
 		{
 			StaticEntity.enable( name.toStringValue().toString().toLowerCase() );
-			return VOID_VALUE;
+			return KoLmafiaASH.VOID_VALUE;
 		}
 
-		public ScriptValue disable( ScriptVariable name )
+		public ScriptValue disable( final ScriptVariable name )
 		{
 			StaticEntity.disable( name.toStringValue().toString().toLowerCase() );
-			return VOID_VALUE;
+			return KoLmafiaASH.VOID_VALUE;
 		}
 
-		public ScriptValue user_confirm( ScriptVariable message )
-		{	return KoLFrame.confirm( message.toStringValue().toString() ) ? TRUE_VALUE : FALSE_VALUE;
+		public ScriptValue user_confirm( final ScriptVariable message )
+		{
+			return KoLFrame.confirm( message.toStringValue().toString() ) ? KoLmafiaASH.TRUE_VALUE : KoLmafiaASH.FALSE_VALUE;
 		}
 
-		public ScriptValue logprint( ScriptVariable string )
+		public ScriptValue logprint( final ScriptVariable string )
 		{
 			String parameters = string.toStringValue().toString();
 
@@ -4768,10 +5460,10 @@ public class KoLmafiaASH extends StaticEntity
 			parameters = StaticEntity.globalStringReplace( parameters, "<", "&lt;" );
 
 			RequestLogger.getSessionStream().println( " > " + parameters );
-			return VOID_VALUE;
+			return KoLmafiaASH.VOID_VALUE;
 		}
 
-		public ScriptValue print( ScriptVariable string )
+		public ScriptValue print( final ScriptVariable string )
 		{
 			String parameters = string.toStringValue().toString();
 
@@ -4781,10 +5473,10 @@ public class KoLmafiaASH extends StaticEntity
 			RequestLogger.printLine( parameters );
 			RequestLogger.getSessionStream().println( " > " + parameters );
 
-			return VOID_VALUE;
+			return KoLmafiaASH.VOID_VALUE;
 		}
 
-		public ScriptValue print( ScriptVariable string, ScriptVariable color )
+		public ScriptValue print( final ScriptVariable string, final ScriptVariable color )
 		{
 			String parameters = string.toStringValue().toString();
 
@@ -4797,264 +5489,301 @@ public class KoLmafiaASH extends StaticEntity
 			RequestLogger.printLine( "<font color=\"" + colorString + "\">" + parameters + "</font>" );
 			RequestLogger.getSessionStream().println( " > " + parameters );
 
-			return VOID_VALUE;
+			return KoLmafiaASH.VOID_VALUE;
 		}
 
-		public ScriptValue print_html( ScriptVariable string )
+		public ScriptValue print_html( final ScriptVariable string )
 		{
 			RequestLogger.printLine( string.toStringValue().toString() );
-			return VOID_VALUE;
+			return KoLmafiaASH.VOID_VALUE;
 		}
 
 		public ScriptValue abort()
 		{
 			RequestThread.declareWorldPeace();
-			return VOID_VALUE;
+			return KoLmafiaASH.VOID_VALUE;
 		}
 
-		public ScriptValue abort( ScriptVariable string )
+		public ScriptValue abort( final ScriptVariable string )
 		{
-			KoLmafia.updateDisplay( ABORT_STATE, string.toStringValue().toString() );
-			return VOID_VALUE;
+			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, string.toStringValue().toString() );
+			return KoLmafiaASH.VOID_VALUE;
 		}
 
-		public ScriptValue cli_execute( ScriptVariable string )
+		public ScriptValue cli_execute( final ScriptVariable string )
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( string.toStringValue().toString() );
-			return continueValue();
+			return this.continueValue();
 		}
 
 		private File getFile( String filename )
 		{
 			if ( filename.startsWith( "http" ) )
+			{
 				return null;
+			}
 
 			filename = filename.substring( filename.lastIndexOf( "/" ) + 1 );
 
-			File f = new File( SCRIPT_LOCATION, filename );
+			File f = new File( KoLConstants.SCRIPT_LOCATION, filename );
 			if ( f.exists() )
+			{
 				return f;
+			}
 
-			f = new File( DATA_LOCATION, filename );
+			f = new File( UtilityConstants.DATA_LOCATION, filename );
 			if ( f.exists() )
+			{
 				return f;
+			}
 
-			f = new File( ROOT_LOCATION, filename );
+			f = new File( UtilityConstants.ROOT_LOCATION, filename );
 			if ( f.exists() )
+			{
 				return f;
+			}
 
 			if ( filename.endsWith( ".dat" ) )
-				return getFile( filename.substring( 0, filename.length() - 4 ) + ".txt" );
+			{
+				return this.getFile( filename.substring( 0, filename.length() - 4 ) + ".txt" );
+			}
 
-			return new File( SCRIPT_LOCATION, filename );
+			return new File( KoLConstants.SCRIPT_LOCATION, filename );
 		}
 
-		private BufferedReader getReader( String filename )
+		private BufferedReader getReader( final String filename )
 		{
 			if ( filename.startsWith( "http" ) )
+			{
 				return DataUtilities.getReader( filename );
+			}
 
-			File input = getFile( filename );
+			File input = this.getFile( filename );
 			if ( input.exists() )
+			{
 				return DataUtilities.getReader( input );
+			}
 
 			BufferedReader reader = DataUtilities.getReader( "data", filename );
 			return reader != null ? reader : DataUtilities.getReader( filename );
 		}
 
-		public ScriptValue load_html( ScriptVariable string )
+		public ScriptValue load_html( final ScriptVariable string )
 		{
 			StringBuffer buffer = new StringBuffer();
-			ScriptValue returnValue = new ScriptValue( BUFFER_TYPE, "", buffer );
+			ScriptValue returnValue = new ScriptValue( KoLmafiaASH.BUFFER_TYPE, "", buffer );
 
 			String location = string.toStringValue().toString();
 			if ( !location.endsWith( ".htm" ) && !location.endsWith( ".html" ) )
+			{
 				return returnValue;
+			}
 
-			File input = getFile( location );
+			File input = this.getFile( location );
 			if ( input == null || !input.exists() )
+			{
 				return returnValue;
+			}
 
-			VISITOR.loadResponseFromFile( input );
-			if ( VISITOR.responseText != null )
-				buffer.append( VISITOR.responseText );
+			KoLmafiaASH.VISITOR.loadResponseFromFile( input );
+			if ( KoLmafiaASH.VISITOR.responseText != null )
+			{
+				buffer.append( KoLmafiaASH.VISITOR.responseText );
+			}
 
 			return returnValue;
 		}
 
-		public ScriptValue write( ScriptVariable string )
+		public ScriptValue write( final ScriptVariable string )
 		{
-			if ( relayScript == null )
-				return VOID_VALUE;
+			if ( KoLmafiaASH.relayScript == null )
+			{
+				return KoLmafiaASH.VOID_VALUE;
+			}
 
-			serverReplyBuffer.append( string.toStringValue().toString() );
-			return VOID_VALUE;
+			KoLmafiaASH.serverReplyBuffer.append( string.toStringValue().toString() );
+			return KoLmafiaASH.VOID_VALUE;
 		}
 
-		public ScriptValue writeln( ScriptVariable string )
+		public ScriptValue writeln( final ScriptVariable string )
 		{
-			if ( relayScript == null )
-				return VOID_VALUE;
+			if ( KoLmafiaASH.relayScript == null )
+			{
+				return KoLmafiaASH.VOID_VALUE;
+			}
 
-			write( string );
-			serverReplyBuffer.append( LINE_BREAK );
-			return VOID_VALUE;
+			this.write( string );
+			KoLmafiaASH.serverReplyBuffer.append( KoLConstants.LINE_BREAK );
+			return KoLmafiaASH.VOID_VALUE;
 		}
 
-		public ScriptValue form_field( ScriptVariable key )
+		public ScriptValue form_field( final ScriptVariable key )
 		{
-			if ( relayRequest == null )
-				return STRING_INIT;
+			if ( KoLmafiaASH.relayRequest == null )
+			{
+				return KoLmafiaASH.STRING_INIT;
+			}
 
-			String value = relayRequest.getFormField( key.toStringValue().toString() );
-			return value == null ? STRING_INIT : new ScriptValue( value );
+			String value = KoLmafiaASH.relayRequest.getFormField( key.toStringValue().toString() );
+			return value == null ? KoLmafiaASH.STRING_INIT : new ScriptValue( value );
 		}
 
 		public ScriptValue visit_url()
 		{
 			StringBuffer buffer = new StringBuffer();
-			ScriptValue returnValue = new ScriptValue( BUFFER_TYPE, "", buffer );
+			ScriptValue returnValue = new ScriptValue( KoLmafiaASH.BUFFER_TYPE, "", buffer );
 
-			RequestThread.postRequest( relayRequest );
-			if ( relayRequest.responseText != null )
-				buffer.append( relayRequest.responseText );
+			RequestThread.postRequest( KoLmafiaASH.relayRequest );
+			if ( KoLmafiaASH.relayRequest.responseText != null )
+			{
+				buffer.append( KoLmafiaASH.relayRequest.responseText );
+			}
 
 			return returnValue;
 		}
 
-		public ScriptValue visit_url( ScriptVariable string )
-		{	return visit_url( string.toStringValue().toString() );
+		public ScriptValue visit_url( final ScriptVariable string )
+		{
+			return this.visit_url( string.toStringValue().toString() );
 		}
 
-		private ScriptValue visit_url( String location )
+		private ScriptValue visit_url( final String location )
 		{
 			StringBuffer buffer = new StringBuffer();
-			ScriptValue returnValue = new ScriptValue( BUFFER_TYPE, "", buffer );
+			ScriptValue returnValue = new ScriptValue( KoLmafiaASH.BUFFER_TYPE, "", buffer );
 
-			VISITOR.constructURLString( location );
-			if ( KoLRequest.shouldIgnore( VISITOR ) )
-				return returnValue;
-
-			if ( relayScript == null )
+			KoLmafiaASH.VISITOR.constructURLString( location );
+			if ( KoLRequest.shouldIgnore( KoLmafiaASH.VISITOR ) )
 			{
-				if ( VISITOR.getPath().equals( "fight.php" ) )
-					if ( FightRequest.getCurrentRound() == 0 )
-						return returnValue;
+				return returnValue;
+			}
 
-				RequestThread.postRequest( VISITOR );
-				if ( VISITOR.responseText != null )
+			if ( KoLmafiaASH.relayScript == null )
+			{
+				if ( KoLmafiaASH.VISITOR.getPath().equals( "fight.php" ) )
 				{
-					buffer.append( VISITOR.responseText );
-					StaticEntity.externalUpdate( location, VISITOR.responseText );
+					if ( FightRequest.getCurrentRound() == 0 )
+					{
+						return returnValue;
+					}
+				}
+
+				RequestThread.postRequest( KoLmafiaASH.VISITOR );
+				if ( KoLmafiaASH.VISITOR.responseText != null )
+				{
+					buffer.append( KoLmafiaASH.VISITOR.responseText );
+					StaticEntity.externalUpdate( location, KoLmafiaASH.VISITOR.responseText );
 				}
 			}
 			else
 			{
-				RequestThread.postRequest( RELAYER.constructURLString( location ) );
-				if ( RELAYER.responseText != null )
-					buffer.append( RELAYER.responseText );
+				RequestThread.postRequest( KoLmafiaASH.RELAYER.constructURLString( location ) );
+				if ( KoLmafiaASH.RELAYER.responseText != null )
+				{
+					buffer.append( KoLmafiaASH.RELAYER.responseText );
+				}
 			}
 
 			return returnValue;
 		}
 
-		public ScriptValue wait( ScriptVariable delay )
+		public ScriptValue wait( final ScriptVariable delay )
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "wait " + delay.intValue() );
-			return VOID_VALUE;
+			return KoLmafiaASH.VOID_VALUE;
 		}
 
 		// Type conversion functions which allow conversion
 		// of one data format to another.
 
-		public ScriptValue to_string( ScriptVariable val )
-		{	return val.toStringValue();
-		}
-
-		public ScriptValue to_boolean( ScriptVariable val )
-		{	return val.toStringValue().toString().equals( "true" ) || val.intValue() != 0 ? TRUE_VALUE : FALSE_VALUE;
-		}
-
-		public ScriptValue to_int( ScriptVariable val )
+		public ScriptValue to_string( final ScriptVariable val )
 		{
-			return val.getValueType().equals( TYPE_STRING ) ? parseIntValue( val.toStringValue().toString() ) :
-				new ScriptValue( val.intValue() );
+			return val.toStringValue();
 		}
 
-		public ScriptValue to_float( ScriptVariable val )
+		public ScriptValue to_boolean( final ScriptVariable val )
 		{
-			return val.getValueType().equals( TYPE_STRING ) ? parseFloatValue( val.toStringValue().toString() ) :
-				val.intValue() != 0 ? new ScriptValue( (float) val.intValue() ) : new ScriptValue( val.floatValue() );
+			return val.toStringValue().toString().equals( "true" ) || val.intValue() != 0 ? KoLmafiaASH.TRUE_VALUE : KoLmafiaASH.FALSE_VALUE;
 		}
 
-		public ScriptValue to_item( ScriptVariable val )
+		public ScriptValue to_int( final ScriptVariable val )
 		{
-			return val.getValueType().equals( TYPE_INT ) ? makeItemValue( val.intValue() ) :
-				parseItemValue( val.toStringValue().toString() );
+			return val.getValueType().equals( KoLmafiaASH.TYPE_STRING ) ? KoLmafiaASH.parseIntValue( val.toStringValue().toString() ) : new ScriptValue(
+				val.intValue() );
 		}
 
-		public ScriptValue to_class( ScriptVariable val )
+		public ScriptValue to_float( final ScriptVariable val )
 		{
-			return parseClassValue( val.toStringValue().toString() );
+			return val.getValueType().equals( KoLmafiaASH.TYPE_STRING ) ? KoLmafiaASH.parseFloatValue( val.toStringValue().toString() ) : val.intValue() != 0 ? new ScriptValue(
+				(float) val.intValue() ) : new ScriptValue( val.floatValue() );
 		}
 
-		public ScriptValue to_stat( ScriptVariable val )
+		public ScriptValue to_item( final ScriptVariable val )
 		{
-			return parseStatValue( val.toStringValue().toString() );
+			return val.getValueType().equals( KoLmafiaASH.TYPE_INT ) ? KoLmafiaASH.makeItemValue( val.intValue() ) : KoLmafiaASH.parseItemValue( val.toStringValue().toString() );
 		}
 
-		public ScriptValue to_skill( ScriptVariable val )
+		public ScriptValue to_class( final ScriptVariable val )
 		{
-			return val.getValueType().equals( TYPE_INT ) ? makeSkillValue( val.intValue() ) : val.getValueType().equals( TYPE_EFFECT ) ?
-				parseSkillValue( UneffectRequest.effectToSkill( val.toStringValue().toString() ) ) :
-				parseSkillValue( val.toStringValue().toString() );
+			return KoLmafiaASH.parseClassValue( val.toStringValue().toString() );
 		}
 
-		public ScriptValue to_effect( ScriptVariable val )
+		public ScriptValue to_stat( final ScriptVariable val )
 		{
-			return val.getValueType().equals( TYPE_INT ) ? makeEffectValue( val.intValue() ) : val.getValueType().equals( TYPE_SKILL ) ?
-				parseEffectValue( UneffectRequest.skillToEffect( val.toStringValue().toString() ) ) :
-				parseEffectValue( val.toStringValue().toString() );
+			return KoLmafiaASH.parseStatValue( val.toStringValue().toString() );
 		}
 
-		public ScriptValue to_location( ScriptVariable val )
-		{	return parseLocationValue( val.toStringValue().toString() );
-		}
-
-		public ScriptValue to_familiar( ScriptVariable val )
+		public ScriptValue to_skill( final ScriptVariable val )
 		{
-			return val.getValueType().equals( TYPE_INT ) ? makeFamiliarValue( val.intValue() ) :
-				parseFamiliarValue( val.toStringValue().toString() );
+			return val.getValueType().equals( KoLmafiaASH.TYPE_INT ) ? KoLmafiaASH.makeSkillValue( val.intValue() ) : val.getValueType().equals(
+				KoLmafiaASH.TYPE_EFFECT ) ? KoLmafiaASH.parseSkillValue( UneffectRequest.effectToSkill( val.toStringValue().toString() ) ) : KoLmafiaASH.parseSkillValue( val.toStringValue().toString() );
 		}
 
-		public ScriptValue to_monster( ScriptVariable val )
-		{	return parseMonsterValue( val.toStringValue().toString() );
+		public ScriptValue to_effect( final ScriptVariable val )
+		{
+			return val.getValueType().equals( KoLmafiaASH.TYPE_INT ) ? KoLmafiaASH.makeEffectValue( val.intValue() ) : val.getValueType().equals(
+				KoLmafiaASH.TYPE_SKILL ) ? KoLmafiaASH.parseEffectValue( UneffectRequest.skillToEffect( val.toStringValue().toString() ) ) : KoLmafiaASH.parseEffectValue( val.toStringValue().toString() );
 		}
 
-		public ScriptValue to_slot( ScriptVariable item )
+		public ScriptValue to_location( final ScriptVariable val )
+		{
+			return KoLmafiaASH.parseLocationValue( val.toStringValue().toString() );
+		}
+
+		public ScriptValue to_familiar( final ScriptVariable val )
+		{
+			return val.getValueType().equals( KoLmafiaASH.TYPE_INT ) ? KoLmafiaASH.makeFamiliarValue( val.intValue() ) : KoLmafiaASH.parseFamiliarValue( val.toStringValue().toString() );
+		}
+
+		public ScriptValue to_monster( final ScriptVariable val )
+		{
+			return KoLmafiaASH.parseMonsterValue( val.toStringValue().toString() );
+		}
+
+		public ScriptValue to_slot( final ScriptVariable item )
 		{
 			switch ( TradeableItemDatabase.getConsumptionType( item.intValue() ) )
 			{
 			case EQUIP_HAT:
-				return parseSlotValue( "hat" );
+				return KoLmafiaASH.parseSlotValue( "hat" );
 			case EQUIP_WEAPON:
-				return parseSlotValue( "weapon" );
+				return KoLmafiaASH.parseSlotValue( "weapon" );
 			case EQUIP_OFFHAND:
-				return parseSlotValue( "off-hand" );
+				return KoLmafiaASH.parseSlotValue( "off-hand" );
 			case EQUIP_SHIRT:
-				return parseSlotValue( "shirt" );
+				return KoLmafiaASH.parseSlotValue( "shirt" );
 			case EQUIP_PANTS:
-				return parseSlotValue( "pants" );
+				return KoLmafiaASH.parseSlotValue( "pants" );
 			case EQUIP_FAMILIAR:
-				return parseSlotValue( "familiar" );
+				return KoLmafiaASH.parseSlotValue( "familiar" );
 			case EQUIP_ACCESSORY:
-				return parseSlotValue( "acc1" );
+				return KoLmafiaASH.parseSlotValue( "acc1" );
 			default:
-				return parseSlotValue( "none" );
+				return KoLmafiaASH.parseSlotValue( "none" );
 			}
 		}
 
-		public ScriptValue to_url( ScriptVariable val )
+		public ScriptValue to_url( final ScriptVariable val )
 		{
 			KoLAdventure adventure = (KoLAdventure) val.rawValue();
 			return new ScriptValue( adventure.getRequest().getURLString() );
@@ -5064,46 +5793,47 @@ public class KoLmafiaASH extends StaticEntity
 		// updated usually once per day.
 
 		public ScriptValue today_to_string()
-		{	return parseStringValue( DAILY_FORMAT.format( new Date() ) );
+		{
+			return KoLmafiaASH.parseStringValue( KoLConstants.DAILY_FORMAT.format( new Date() ) );
 		}
 
 		public ScriptValue moon_phase()
-		{	return new ScriptValue( MoonPhaseDatabase.getPhaseStep() );
+		{
+			return new ScriptValue( MoonPhaseDatabase.getPhaseStep() );
 		}
 
 		public ScriptValue moon_light()
-		{	return new ScriptValue( MoonPhaseDatabase.getMoonlight() );
+		{
+			return new ScriptValue( MoonPhaseDatabase.getMoonlight() );
 		}
 
 		public ScriptValue stat_bonus_today()
 		{
-			return KoLmafiaCLI.testConditional( "today is muscle day" ) ? parseStatValue( "muscle" ) :
-				KoLmafiaCLI.testConditional( "today is myst day" ) ? parseStatValue( "mysticality" ) :
-				KoLmafiaCLI.testConditional( "today is moxie day" ) ? parseStatValue( "moxie" ) : STAT_INIT;
+			return KoLmafiaCLI.testConditional( "today is muscle day" ) ? KoLmafiaASH.parseStatValue( "muscle" ) : KoLmafiaCLI.testConditional( "today is myst day" ) ? KoLmafiaASH.parseStatValue( "mysticality" ) : KoLmafiaCLI.testConditional( "today is moxie day" ) ? KoLmafiaASH.parseStatValue( "moxie" ) : KoLmafiaASH.STAT_INIT;
 		}
 
 		public ScriptValue stat_bonus_tomorrow()
 		{
-			return KoLmafiaCLI.testConditional( "tomorrow is muscle day" ) ? parseStatValue( "muscle" ) :
-				KoLmafiaCLI.testConditional( "tomorrow is myst day" ) ? parseStatValue( "mysticality" ) :
-				KoLmafiaCLI.testConditional( "tomorrow is moxie day" ) ? parseStatValue( "moxie" ) : STAT_INIT;
+			return KoLmafiaCLI.testConditional( "tomorrow is muscle day" ) ? KoLmafiaASH.parseStatValue( "muscle" ) : KoLmafiaCLI.testConditional( "tomorrow is myst day" ) ? KoLmafiaASH.parseStatValue( "mysticality" ) : KoLmafiaCLI.testConditional( "tomorrow is moxie day" ) ? KoLmafiaASH.parseStatValue( "moxie" ) : KoLmafiaASH.STAT_INIT;
 		}
 
-		public ScriptValue session_logs( ScriptVariable dayCount )
-		{	return getSessionLogs( KoLCharacter.getUserName(), dayCount.intValue() );
-		}
-
-		public ScriptValue session_logs( ScriptVariable player, ScriptVariable dayCount )
-		{	return getSessionLogs( player.toStringValue().toString(), dayCount.intValue() );
-		}
-
-		private ScriptValue getSessionLogs( String name, int dayCount )
+		public ScriptValue session_logs( final ScriptVariable dayCount )
 		{
-			String [] files = new String[ dayCount ];
+			return this.getSessionLogs( KoLCharacter.getUserName(), dayCount.intValue() );
+		}
+
+		public ScriptValue session_logs( final ScriptVariable player, final ScriptVariable dayCount )
+		{
+			return this.getSessionLogs( player.toStringValue().toString(), dayCount.intValue() );
+		}
+
+		private ScriptValue getSessionLogs( final String name, final int dayCount )
+		{
+			String[] files = new String[ dayCount ];
 
 			Calendar timestamp = Calendar.getInstance();
 
-			ScriptAggregateType type = new ScriptAggregateType( STRING_TYPE, files.length );
+			ScriptAggregateType type = new ScriptAggregateType( KoLmafiaASH.STRING_TYPE, files.length );
 			ScriptArray value = new ScriptArray( type );
 
 			String filename;
@@ -5112,32 +5842,34 @@ public class KoLmafiaASH extends StaticEntity
 
 			for ( int i = 0; i < files.length; ++i )
 			{
-				contents.setLength(0);
-				filename = StaticEntity.globalStringReplace( name, " ", "_" ) + "_" +
-					DAILY_FORMAT.format( timestamp.getTime() ) + ".txt";
+				contents.setLength( 0 );
+				filename =
+					StaticEntity.globalStringReplace( name, " ", "_" ) + "_" + KoLConstants.DAILY_FORMAT.format( timestamp.getTime() ) + ".txt";
 
-				reader = KoLDatabase.getReader( new File( SESSIONS_DIRECTORY, filename ) );
+				reader = KoLDatabase.getReader( new File( KoLConstants.SESSIONS_DIRECTORY, filename ) );
 				timestamp.add( Calendar.DATE, -1 );
 
 				if ( reader == null )
+				{
 					continue;
+				}
 
 				try
 				{
 					String line;
 
-					while ( (line = reader.readLine()) != null )
+					while ( ( line = reader.readLine() ) != null )
 					{
 						contents.append( line );
-						contents.append( LINE_BREAK );
+						contents.append( KoLConstants.LINE_BREAK );
 					}
 				}
 				catch ( Exception e )
 				{
-					printStackTrace( e );
+					StaticEntity.printStackTrace( e );
 				}
 
-				value.aset( new ScriptValue( i ), parseStringValue( contents.toString() ) );
+				value.aset( new ScriptValue( i ), KoLmafiaASH.parseStringValue( contents.toString() ) );
 			}
 
 			return value;
@@ -5146,284 +5878,340 @@ public class KoLmafiaASH extends StaticEntity
 		// Major functions related to adventuring and
 		// item management.
 
-		public ScriptValue adventure( ScriptVariable count, ScriptVariable loc )
+		public ScriptValue adventure( final ScriptVariable count, final ScriptVariable loc )
 		{
 			if ( count.intValue() <= 0 )
-				return continueValue();
+			{
+				return this.continueValue();
+			}
 
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "adventure " + count.intValue() + " " + loc.toStringValue() );
-			return continueValue();
+			return this.continueValue();
 		}
 
-		public ScriptValue add_item_condition( ScriptVariable count, ScriptVariable item )
+		public ScriptValue add_item_condition( final ScriptVariable count, final ScriptVariable item )
 		{
 			if ( count.intValue() <= 0 )
-				return VOID_VALUE;
+			{
+				return KoLmafiaASH.VOID_VALUE;
+			}
 
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "conditions add " + count.intValue() + " " + item.toStringValue() );
-			return VOID_VALUE;
+			return KoLmafiaASH.VOID_VALUE;
 		}
 
-		public ScriptValue buy( ScriptVariable count, ScriptVariable item )
+		public ScriptValue buy( final ScriptVariable count, final ScriptVariable item )
 		{
 			if ( count.intValue() <= 0 )
-				return continueValue();
+			{
+				return this.continueValue();
+			}
 
 			AdventureResult itemToBuy = new AdventureResult( item.intValue(), 1 );
-			int initialAmount = itemToBuy.getCount( inventory );
+			int initialAmount = itemToBuy.getCount( KoLConstants.inventory );
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "buy " + count.intValue() + " " + item.toStringValue() );
-			return initialAmount + count.intValue() == itemToBuy.getCount( inventory ) ? TRUE_VALUE : FALSE_VALUE;
+			return initialAmount + count.intValue() == itemToBuy.getCount( KoLConstants.inventory ) ? KoLmafiaASH.TRUE_VALUE : KoLmafiaASH.FALSE_VALUE;
 		}
 
-		public ScriptValue create( ScriptVariable count, ScriptVariable item )
+		public ScriptValue create( final ScriptVariable count, final ScriptVariable item )
 		{
 			if ( count.intValue() <= 0 )
-				return continueValue();
+			{
+				return this.continueValue();
+			}
 
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "create " + count.intValue() + " " + item.toStringValue() );
-			return continueValue();
+			return this.continueValue();
 		}
 
-		public ScriptValue use( ScriptVariable count, ScriptVariable item )
+		public ScriptValue use( final ScriptVariable count, final ScriptVariable item )
 		{
 			if ( count.intValue() <= 0 )
-				return continueValue();
+			{
+				return this.continueValue();
+			}
 
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "use " + count.intValue() + " " + item.toStringValue() );
-			return ConsumeItemRequest.lastUpdate.equals( "" ) ? continueValue() : FALSE_VALUE;
+			return ConsumeItemRequest.lastUpdate.equals( "" ) ? this.continueValue() : KoLmafiaASH.FALSE_VALUE;
 		}
 
-		public ScriptValue eat( ScriptVariable count, ScriptVariable item )
+		public ScriptValue eat( final ScriptVariable count, final ScriptVariable item )
 		{
 			if ( count.intValue() <= 0 )
-				return continueValue();
+			{
+				return this.continueValue();
+			}
 
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "eat " + count.intValue() + " " + item.toStringValue() );
-			return ConsumeItemRequest.lastUpdate.equals( "" ) ? continueValue() : FALSE_VALUE;
+			return ConsumeItemRequest.lastUpdate.equals( "" ) ? this.continueValue() : KoLmafiaASH.FALSE_VALUE;
 		}
 
-		public ScriptValue drink( ScriptVariable count, ScriptVariable item )
+		public ScriptValue drink( final ScriptVariable count, final ScriptVariable item )
 		{
 			if ( count.intValue() <= 0 )
-				return continueValue();
+			{
+				return this.continueValue();
+			}
 
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "drink " + count.intValue() + " " + item.toStringValue() );
-			return ConsumeItemRequest.lastUpdate.equals( "" ) ? continueValue() : FALSE_VALUE;
+			return ConsumeItemRequest.lastUpdate.equals( "" ) ? this.continueValue() : KoLmafiaASH.FALSE_VALUE;
 		}
 
-		public ScriptValue put_closet( ScriptVariable count, ScriptVariable item )
+		public ScriptValue put_closet( final ScriptVariable count, final ScriptVariable item )
 		{
 			if ( count.intValue() <= 0 )
-				return continueValue();
+			{
+				return this.continueValue();
+			}
 
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "closet put " + count.intValue() + " " + item.toStringValue() );
-			return continueValue();
+			return this.continueValue();
 		}
 
-		public ScriptValue put_shop( ScriptVariable price, ScriptVariable limit, ScriptVariable item )
+		public ScriptValue put_shop( final ScriptVariable price, final ScriptVariable limit, final ScriptVariable item )
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "mallsell " + item.toStringValue() + " @ " + price.intValue() + " limit " + limit.intValue() );
-			return continueValue();
+			return this.continueValue();
 		}
 
-		public ScriptValue put_stash( ScriptVariable count, ScriptVariable item )
+		public ScriptValue put_stash( final ScriptVariable count, final ScriptVariable item )
 		{
 			if ( count.intValue() <= 0 )
-				return continueValue();
+			{
+				return this.continueValue();
+			}
 
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "stash put " + count.intValue() + " " + item.toStringValue() );
-			return continueValue();
+			return this.continueValue();
 		}
 
-		public ScriptValue put_display( ScriptVariable count, ScriptVariable item )
+		public ScriptValue put_display( final ScriptVariable count, final ScriptVariable item )
 		{
 			if ( count.intValue() <= 0 )
-				return continueValue();
+			{
+				return this.continueValue();
+			}
 
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "display put " + count.intValue() + " " + item.toStringValue() );
-			return continueValue();
+			return this.continueValue();
 		}
 
-		public ScriptValue take_closet( ScriptVariable count, ScriptVariable item )
+		public ScriptValue take_closet( final ScriptVariable count, final ScriptVariable item )
 		{
 			if ( count.intValue() <= 0 )
-				return continueValue();
+			{
+				return this.continueValue();
+			}
 
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "closet take " + count.intValue() + " " + item.toStringValue() );
-			return continueValue();
+			return this.continueValue();
 		}
 
-		public ScriptValue take_storage( ScriptVariable count, ScriptVariable item )
+		public ScriptValue take_storage( final ScriptVariable count, final ScriptVariable item )
 		{
 			if ( count.intValue() <= 0 )
-				return continueValue();
+			{
+				return this.continueValue();
+			}
 
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "hagnk " + count.intValue() + " " + item.toStringValue() );
-			return continueValue();
+			return this.continueValue();
 		}
 
-		public ScriptValue take_display( ScriptVariable count, ScriptVariable item )
+		public ScriptValue take_display( final ScriptVariable count, final ScriptVariable item )
 		{
 			if ( count.intValue() <= 0 )
-				return continueValue();
+			{
+				return this.continueValue();
+			}
 
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "display take " + count.intValue() + " " + item.toStringValue() );
-			return continueValue();
+			return this.continueValue();
 		}
 
-		public ScriptValue take_stash( ScriptVariable count, ScriptVariable item )
+		public ScriptValue take_stash( final ScriptVariable count, final ScriptVariable item )
 		{
 			if ( count.intValue() <= 0 )
-				return continueValue();
+			{
+				return this.continueValue();
+			}
 
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "stash take " + count.intValue() + " " + item.toStringValue() );
-			return continueValue();
+			return this.continueValue();
 		}
 
-		public ScriptValue autosell( ScriptVariable count, ScriptVariable item )
+		public ScriptValue autosell( final ScriptVariable count, final ScriptVariable item )
 		{
 			if ( count.intValue() <= 0 )
-				return continueValue();
+			{
+				return this.continueValue();
+			}
 
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "sell " + count.intValue() + " " + item.toStringValue() );
-			return continueValue();
+			return this.continueValue();
 		}
 
-		public ScriptValue hermit( ScriptVariable count, ScriptVariable item )
+		public ScriptValue hermit( final ScriptVariable count, final ScriptVariable item )
 		{
 			if ( count.intValue() <= 0 )
-				return continueValue();
+			{
+				return this.continueValue();
+			}
 
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "hermit " + count.intValue() + " " + item.toStringValue() );
-			return continueValue();
+			return this.continueValue();
 		}
 
-		public ScriptValue retrieve_item( ScriptVariable count, ScriptVariable item )
+		public ScriptValue retrieve_item( final ScriptVariable count, final ScriptVariable item )
 		{
 			if ( count.intValue() <= 0 )
-				return continueValue();
+			{
+				return this.continueValue();
+			}
 
 			AdventureDatabase.retrieveItem( new AdventureResult( item.intValue(), count.intValue() ) );
-			return continueValue();
+			return this.continueValue();
 		}
 
 		// Major functions which provide item-related
 		// information.
 
-		public ScriptValue is_npc_item( ScriptVariable item )
-		{	return NPCStoreDatabase.contains( TradeableItemDatabase.getItemName( item.intValue() ), false ) ? TRUE_VALUE : FALSE_VALUE;
+		public ScriptValue is_npc_item( final ScriptVariable item )
+		{
+			return NPCStoreDatabase.contains( TradeableItemDatabase.getItemName( item.intValue() ), false ) ? KoLmafiaASH.TRUE_VALUE : KoLmafiaASH.FALSE_VALUE;
 		}
 
 		public ScriptValue daily_special()
 		{
-			AdventureResult special = KoLCharacter.inMoxieSign() ? MicrobreweryRequest.getDailySpecial() :
-				KoLCharacter.inMysticalitySign() ? RestaurantRequest.getDailySpecial() : null;
+			AdventureResult special =
+				KoLCharacter.inMoxieSign() ? MicrobreweryRequest.getDailySpecial() : KoLCharacter.inMysticalitySign() ? RestaurantRequest.getDailySpecial() : null;
 
-			return special == null ? ITEM_INIT : parseItemValue( special.getName() );
+			return special == null ? KoLmafiaASH.ITEM_INIT : KoLmafiaASH.parseItemValue( special.getName() );
 		}
 
 		public ScriptValue refresh_stash()
 		{
 			RequestThread.postRequest( new ClanStashRequest() );
-			return continueValue();
+			return this.continueValue();
 		}
 
-		public ScriptValue available_amount( ScriptVariable arg )
+		public ScriptValue available_amount( final ScriptVariable arg )
 		{
 			AdventureResult item = new AdventureResult( arg.intValue(), 0 );
 
-			int runningTotal = item.getCount( inventory ) + item.getCount( closet );
+			int runningTotal = item.getCount( KoLConstants.inventory ) + item.getCount( KoLConstants.closet );
 
 			for ( int i = 0; i <= KoLCharacter.FAMILIAR; ++i )
-				if ( KoLCharacter.getEquipment(i).equals( item ) )
+			{
+				if ( KoLCharacter.getEquipment( i ).equals( item ) )
+				{
 					++runningTotal;
+				}
+			}
 
 			if ( KoLCharacter.canInteract() )
-				runningTotal += item.getCount( storage );
+			{
+				runningTotal += item.getCount( KoLConstants.storage );
+			}
 
 			return new ScriptValue( runningTotal );
 		}
 
-		public ScriptValue item_amount( ScriptVariable arg )
+		public ScriptValue item_amount( final ScriptVariable arg )
 		{
 			AdventureResult item = new AdventureResult( arg.intValue(), 0 );
-			return new ScriptValue( item.getCount( inventory ) );
+			return new ScriptValue( item.getCount( KoLConstants.inventory ) );
 		}
 
-		public ScriptValue closet_amount( ScriptVariable arg )
+		public ScriptValue closet_amount( final ScriptVariable arg )
 		{
 			AdventureResult item = new AdventureResult( arg.intValue(), 0 );
-			return new ScriptValue( item.getCount( closet ) );
+			return new ScriptValue( item.getCount( KoLConstants.closet ) );
 		}
 
-		public ScriptValue creatable_amount( ScriptVariable arg )
+		public ScriptValue creatable_amount( final ScriptVariable arg )
 		{
 			ItemCreationRequest item = ItemCreationRequest.getInstance( arg.intValue() );
 			return new ScriptValue( item == null ? 0 : item.getQuantityPossible() );
 		}
 
-		public ScriptValue get_ingredients( ScriptVariable item )
+		public ScriptValue get_ingredients( final ScriptVariable item )
 		{
-			AdventureResult [] data = ConcoctionsDatabase.getIngredients( item.intValue() );
-			ScriptMap value = new ScriptMap( RESULT_TYPE );
+			AdventureResult[] data = ConcoctionsDatabase.getIngredients( item.intValue() );
+			ScriptMap value = new ScriptMap( KoLmafiaASH.RESULT_TYPE );
 
 			for ( int i = 0; i < data.length; ++i )
-				value.aset( parseItemValue( data[i].getName() ), parseIntValue( String.valueOf( data[i].getCount() ) ) );
+			{
+				value.aset(
+					KoLmafiaASH.parseItemValue( data[ i ].getName() ),
+					KoLmafiaASH.parseIntValue( String.valueOf( data[ i ].getCount() ) ) );
+			}
 
 			return value;
 		}
 
-		public ScriptValue storage_amount( ScriptVariable arg )
+		public ScriptValue storage_amount( final ScriptVariable arg )
 		{
 			AdventureResult item = new AdventureResult( arg.intValue(), 0 );
-			return new ScriptValue( item.getCount( storage ) );
+			return new ScriptValue( item.getCount( KoLConstants.storage ) );
 		}
 
-		public ScriptValue display_amount( ScriptVariable arg )
+		public ScriptValue display_amount( final ScriptVariable arg )
 		{
-			if ( collection.isEmpty() )
+			if ( KoLConstants.collection.isEmpty() )
+			{
 				RequestThread.postRequest( new MuseumRequest() );
+			}
 
 			AdventureResult item = new AdventureResult( arg.intValue(), 0 );
-			return new ScriptValue( item.getCount( collection ) );
+			return new ScriptValue( item.getCount( KoLConstants.collection ) );
 		}
 
-		public ScriptValue shop_amount( ScriptVariable arg )
+		public ScriptValue shop_amount( final ScriptVariable arg )
 		{
 			LockableListModel list = StoreManager.getSoldItemList();
 			if ( list.isEmpty() )
+			{
 				RequestThread.postRequest( new StoreManageRequest() );
+			}
 
 			SoldItem item = new SoldItem( arg.intValue(), 0, 0, 0, 0 );
 			int index = list.indexOf( item );
 
 			if ( index < 0 )
+			{
 				return new ScriptValue( 0 );
+			}
 
 			item = (SoldItem) list.get( index );
 			return new ScriptValue( item.getQuantity() );
 		}
 
-		public ScriptValue stash_amount( ScriptVariable arg )
+		public ScriptValue stash_amount( final ScriptVariable arg )
 		{
 			List stash = ClanManager.getStash();
 			if ( stash.isEmpty() )
+			{
 				RequestThread.postRequest( new ClanStashRequest() );
+			}
 
 			AdventureResult item = new AdventureResult( arg.intValue(), 0 );
 			return new ScriptValue( item.getCount( stash ) );
 		}
 
 		public ScriptValue pulls_remaining()
-		{	return new ScriptValue( ItemManageFrame.getPullsRemaining() );
+		{
+			return new ScriptValue( ItemManageFrame.getPullsRemaining() );
 		}
 
 		public ScriptValue stills_available()
-		{	return new ScriptValue( KoLCharacter.getStillsAvailable() );
+		{
+			return new ScriptValue( KoLCharacter.getStillsAvailable() );
 		}
 
 		public ScriptValue have_mushroom_plot()
-		{	return new ScriptValue( MushroomPlot.ownsPlot() );
+		{
+			return new ScriptValue( MushroomPlot.ownsPlot() );
 		}
 
 		// The following functions pertain to providing updated
@@ -5432,190 +6220,237 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue refresh_status()
 		{
 			RequestThread.postRequest( CharpaneRequest.getInstance() );
-			return continueValue();
+			return this.continueValue();
 		}
 
-		public ScriptValue restore_hp( ScriptVariable amount )
-		{	return new ScriptValue( getClient().recoverHP( amount.intValue() ) );
+		public ScriptValue restore_hp( final ScriptVariable amount )
+		{
+			return new ScriptValue( StaticEntity.getClient().recoverHP( amount.intValue() ) );
 		}
 
-		public ScriptValue restore_mp( ScriptVariable amount )
+		public ScriptValue restore_mp( final ScriptVariable amount )
 		{
 			int desiredMP = amount.intValue();
 			while ( !KoLmafia.refusesContinue() && desiredMP > KoLCharacter.getCurrentMP() )
-				getClient().recoverMP( desiredMP );
-			return continueValue();
+			{
+				StaticEntity.getClient().recoverMP( desiredMP );
+			}
+			return this.continueValue();
 		}
 
 		public ScriptValue my_name()
-		{	return new ScriptValue( KoLCharacter.getUserName() );
+		{
+			return new ScriptValue( KoLCharacter.getUserName() );
 		}
 
 		public ScriptValue my_id()
-		{	return new ScriptValue( KoLCharacter.getPlayerId() );
+		{
+			return new ScriptValue( KoLCharacter.getPlayerId() );
 		}
 
 		public ScriptValue my_hash()
-		{	return new ScriptValue( KoLRequest.passwordHash );
+		{
+			return new ScriptValue( KoLRequest.passwordHash );
 		}
 
 		public ScriptValue in_muscle_sign()
-		{	return new ScriptValue( KoLCharacter.inMuscleSign() );
+		{
+			return new ScriptValue( KoLCharacter.inMuscleSign() );
 		}
 
 		public ScriptValue in_mysticality_sign()
-		{	return new ScriptValue( KoLCharacter.inMysticalitySign() );
+		{
+			return new ScriptValue( KoLCharacter.inMysticalitySign() );
 		}
 
 		public ScriptValue in_moxie_sign()
-		{	return new ScriptValue( KoLCharacter.inMoxieSign() );
+		{
+			return new ScriptValue( KoLCharacter.inMoxieSign() );
 		}
 
 		public ScriptValue in_bad_moon()
-		{	return new ScriptValue( KoLCharacter.inBadMoon() );
+		{
+			return new ScriptValue( KoLCharacter.inBadMoon() );
 		}
 
 		public ScriptValue my_class()
-		{	return makeClassValue( KoLCharacter.getClassType() );
+		{
+			return KoLmafiaASH.makeClassValue( KoLCharacter.getClassType() );
 		}
 
 		public ScriptValue my_level()
-		{	return new ScriptValue( KoLCharacter.getLevel() );
+		{
+			return new ScriptValue( KoLCharacter.getLevel() );
 		}
 
 		public ScriptValue my_hp()
-		{	return new ScriptValue( KoLCharacter.getCurrentHP() );
+		{
+			return new ScriptValue( KoLCharacter.getCurrentHP() );
 		}
 
 		public ScriptValue my_maxhp()
-		{	return new ScriptValue( KoLCharacter.getMaximumHP() );
+		{
+			return new ScriptValue( KoLCharacter.getMaximumHP() );
 		}
 
 		public ScriptValue my_mp()
-		{	return new ScriptValue( KoLCharacter.getCurrentMP() );
+		{
+			return new ScriptValue( KoLCharacter.getCurrentMP() );
 		}
 
 		public ScriptValue my_maxmp()
-		{	return new ScriptValue( KoLCharacter.getMaximumMP() );
+		{
+			return new ScriptValue( KoLCharacter.getMaximumMP() );
 		}
 
 		public ScriptValue my_primestat()
 		{
 			int primeIndex = KoLCharacter.getPrimeIndex();
-			return primeIndex == 0 ? parseStatValue( "muscle" ) : primeIndex == 1 ? parseStatValue( "mysticality" ) :
-				parseStatValue( "moxie" );
+			return primeIndex == 0 ? KoLmafiaASH.parseStatValue( "muscle" ) : primeIndex == 1 ? KoLmafiaASH.parseStatValue( "mysticality" ) : KoLmafiaASH.parseStatValue( "moxie" );
 		}
 
-		public ScriptValue my_basestat( ScriptVariable arg )
+		public ScriptValue my_basestat( final ScriptVariable arg )
 		{
 			int stat = arg.intValue();
 
-			if ( STATS[ stat ].equalsIgnoreCase( "muscle" ) )
+			if ( KoLmafiaASH.STATS[ stat ].equalsIgnoreCase( "muscle" ) )
+			{
 				return new ScriptValue( KoLCharacter.getBaseMuscle() );
-			if ( STATS[ stat ].equalsIgnoreCase( "mysticality" ) )
+			}
+			if ( KoLmafiaASH.STATS[ stat ].equalsIgnoreCase( "mysticality" ) )
+			{
 				return new ScriptValue( KoLCharacter.getBaseMysticality() );
-			if ( STATS[ stat ].equalsIgnoreCase( "moxie" ) )
+			}
+			if ( KoLmafiaASH.STATS[ stat ].equalsIgnoreCase( "moxie" ) )
+			{
 				return new ScriptValue( KoLCharacter.getBaseMoxie() );
+			}
 
 			throw new RuntimeException( "Internal error: unknown stat" );
 		}
 
-		public ScriptValue my_buffedstat( ScriptVariable arg )
+		public ScriptValue my_buffedstat( final ScriptVariable arg )
 		{
 			int stat = arg.intValue();
 
-			if ( STATS[ stat ].equalsIgnoreCase( "muscle" ) )
+			if ( KoLmafiaASH.STATS[ stat ].equalsIgnoreCase( "muscle" ) )
+			{
 				return new ScriptValue( KoLCharacter.getAdjustedMuscle() );
-			if ( STATS[ stat ].equalsIgnoreCase( "mysticality" ) )
+			}
+			if ( KoLmafiaASH.STATS[ stat ].equalsIgnoreCase( "mysticality" ) )
+			{
 				return new ScriptValue( KoLCharacter.getAdjustedMysticality() );
-			if ( STATS[ stat ].equalsIgnoreCase( "moxie" ) )
+			}
+			if ( KoLmafiaASH.STATS[ stat ].equalsIgnoreCase( "moxie" ) )
+			{
 				return new ScriptValue( KoLCharacter.getAdjustedMoxie() );
+			}
 
 			throw new RuntimeException( "Internal error: unknown stat" );
 		}
 
 		public ScriptValue my_meat()
-		{	return new ScriptValue( KoLCharacter.getAvailableMeat() );
+		{
+			return new ScriptValue( KoLCharacter.getAvailableMeat() );
 		}
 
 		public ScriptValue my_adventures()
-		{	return new ScriptValue( KoLCharacter.getAdventuresLeft() );
+		{
+			return new ScriptValue( KoLCharacter.getAdventuresLeft() );
 		}
 
 		public ScriptValue my_turncount()
-		{	return new ScriptValue( KoLCharacter.getCurrentRun() );
+		{
+			return new ScriptValue( KoLCharacter.getCurrentRun() );
 		}
 
 		public ScriptValue my_fullness()
-		{	return new ScriptValue( KoLCharacter.getFullness() );
+		{
+			return new ScriptValue( KoLCharacter.getFullness() );
 		}
 
 		public ScriptValue fullness_limit()
-		{	return new ScriptValue( KoLCharacter.getFullnessLimit() );
+		{
+			return new ScriptValue( KoLCharacter.getFullnessLimit() );
 		}
 
 		public ScriptValue my_inebriety()
-		{	return new ScriptValue( KoLCharacter.getInebriety() );
+		{
+			return new ScriptValue( KoLCharacter.getInebriety() );
 		}
 
 		public ScriptValue inebriety_limit()
-		{	return new ScriptValue( KoLCharacter.getInebrietyLimit() );
+		{
+			return new ScriptValue( KoLCharacter.getInebrietyLimit() );
 		}
 
 		public ScriptValue my_spleen_use()
-		{	return new ScriptValue( KoLCharacter.getSpleenUse() );
+		{
+			return new ScriptValue( KoLCharacter.getSpleenUse() );
 		}
 
 		public ScriptValue spleen_limit()
-		{	return new ScriptValue( KoLCharacter.getSpleenLimit() );
+		{
+			return new ScriptValue( KoLCharacter.getSpleenLimit() );
 		}
 
 		public ScriptValue can_eat()
-		{	return new ScriptValue( KoLCharacter.canEat() );
+		{
+			return new ScriptValue( KoLCharacter.canEat() );
 		}
 
 		public ScriptValue can_drink()
-		{	return new ScriptValue( KoLCharacter.canDrink() );
+		{
+			return new ScriptValue( KoLCharacter.canDrink() );
 		}
 
 		public ScriptValue turns_played()
-		{	return new ScriptValue( KoLCharacter.getCurrentRun() );
+		{
+			return new ScriptValue( KoLCharacter.getCurrentRun() );
 		}
 
 		public ScriptValue can_interact()
-		{	return new ScriptValue( KoLCharacter.canInteract() );
+		{
+			return new ScriptValue( KoLCharacter.canInteract() );
 		}
 
 		public ScriptValue in_hardcore()
-		{	return new ScriptValue( KoLCharacter.isHardcore() );
+		{
+			return new ScriptValue( KoLCharacter.isHardcore() );
 		}
 
 		// Basic skill and effect functions, including those used
 		// in custom combat consult scripts.
 
-		public ScriptValue have_skill( ScriptVariable arg )
-		{	return new ScriptValue( KoLCharacter.hasSkill( arg.intValue() ) );
+		public ScriptValue have_skill( final ScriptVariable arg )
+		{
+			return new ScriptValue( KoLCharacter.hasSkill( arg.intValue() ) );
 		}
 
-		public ScriptValue mp_cost( ScriptVariable skill )
-		{	return new ScriptValue( ClassSkillsDatabase.getMPConsumptionById( skill.intValue() ) );
+		public ScriptValue mp_cost( final ScriptVariable skill )
+		{
+			return new ScriptValue( ClassSkillsDatabase.getMPConsumptionById( skill.intValue() ) );
 		}
 
-		public ScriptValue turns_per_cast( ScriptVariable skill )
-		{	return new ScriptValue( ClassSkillsDatabase.getEffectDuration( skill.intValue() ) );
+		public ScriptValue turns_per_cast( final ScriptVariable skill )
+		{
+			return new ScriptValue( ClassSkillsDatabase.getEffectDuration( skill.intValue() ) );
 		}
 
-		public ScriptValue have_effect( ScriptVariable arg )
+		public ScriptValue have_effect( final ScriptVariable arg )
 		{
 			List potentialEffects = StatusEffectDatabase.getMatchingNames( arg.toStringValue().toString() );
-			AdventureResult effect = potentialEffects.isEmpty() ? null : new AdventureResult( (String) potentialEffects.get(0), 0, true );
-			return new ScriptValue( effect == null ? 0 : effect.getCount( activeEffects ) );
+			AdventureResult effect =
+				potentialEffects.isEmpty() ? null : new AdventureResult( (String) potentialEffects.get( 0 ), 0, true );
+			return new ScriptValue( effect == null ? 0 : effect.getCount( KoLConstants.activeEffects ) );
 		}
 
-		public ScriptValue use_skill( ScriptVariable count, ScriptVariable skill )
+		public ScriptValue use_skill( final ScriptVariable count, final ScriptVariable skill )
 		{
 			if ( count.intValue() <= 0 )
-				return continueValue();
+			{
+				return this.continueValue();
+			}
 
 			// Just in case someone assumed that use_skill would also work
 			// in combat, go ahead and allow it here.
@@ -5623,31 +6458,38 @@ public class KoLmafiaASH extends StaticEntity
 			if ( ClassSkillsDatabase.isCombat( skill.intValue() ) )
 			{
 				for ( int i = 0; i < count.intValue() && FightRequest.INSTANCE.getAdventuresUsed() == 0; ++i )
-					use_skill( skill );
+				{
+					this.use_skill( skill );
+				}
 
-				return TRUE_VALUE;
+				return KoLmafiaASH.TRUE_VALUE;
 			}
 
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "cast " + count.intValue() + " " + skill.toStringValue() );
 			return new ScriptValue( UseSkillRequest.lastUpdate.equals( "" ) );
 		}
 
-		public ScriptValue use_skill( ScriptVariable skill )
+		public ScriptValue use_skill( final ScriptVariable skill )
 		{
 			// Just in case someone assumed that use_skill would also work
 			// in combat, go ahead and allow it here.
 
 			if ( ClassSkillsDatabase.isCombat( skill.intValue() ) )
-				return visit_url( "fight.php?action=skill&whichskill=" + skill.intValue() );
+			{
+				return this.visit_url( "fight.php?action=skill&whichskill=" + skill.intValue() );
+			}
 
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "cast 1 " + skill.toStringValue() );
 			return new ScriptValue( UseSkillRequest.lastUpdate );
 		}
 
-		public ScriptValue use_skill( ScriptVariable count, ScriptVariable skill, ScriptVariable target )
+		public ScriptValue use_skill( final ScriptVariable count, final ScriptVariable skill,
+			final ScriptVariable target )
 		{
 			if ( count.intValue() <= 0 )
-				return continueValue();
+			{
+				return this.continueValue();
+			}
 
 			// Just in case someone assumed that use_skill would also work
 			// in combat, go ahead and allow it here.
@@ -5655,9 +6497,11 @@ public class KoLmafiaASH extends StaticEntity
 			if ( ClassSkillsDatabase.isCombat( skill.intValue() ) )
 			{
 				for ( int i = 0; i < count.intValue() && FightRequest.INSTANCE.getAdventuresUsed() == 0; ++i )
-					use_skill( skill );
+				{
+					this.use_skill( skill );
+				}
 
-				return TRUE_VALUE;
+				return KoLmafiaASH.TRUE_VALUE;
 			}
 
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "cast " + count.intValue() + " " + skill.toStringValue() + " on " + target.toStringValue() );
@@ -5665,126 +6509,146 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptValue attack()
-		{	return visit_url( "fight.php?action=attack" );
+		{
+			return this.visit_url( "fight.php?action=attack" );
 		}
 
 		public ScriptValue steal()
 		{
 			if ( !FightRequest.wonInitiative() )
-				return attack();
+			{
+				return this.attack();
+			}
 
-			return visit_url( "fight.php?action=steal" );
+			return this.visit_url( "fight.php?action=steal" );
 		}
 
 		public ScriptValue runaway()
-		{	return visit_url( "fight.php?action=runaway" );
+		{
+			return this.visit_url( "fight.php?action=runaway" );
 		}
 
-		public ScriptValue throw_item( ScriptVariable item )
-		{	return visit_url( "fight.php?action=useitem&whichitem=" + item.intValue() );
+		public ScriptValue throw_item( final ScriptVariable item )
+		{
+			return this.visit_url( "fight.php?action=useitem&whichitem=" + item.intValue() );
 		}
 
-		public ScriptValue throw_items( ScriptVariable item1, ScriptVariable item2 )
-		{	return visit_url( "fight.php?action=useitem&whichitem=" + item1.intValue() + "&whichitem2=" + item2.intValue() );
+		public ScriptValue throw_items( final ScriptVariable item1, final ScriptVariable item2 )
+		{
+			return this.visit_url( "fight.php?action=useitem&whichitem=" + item1.intValue() + "&whichitem2=" + item2.intValue() );
 		}
 
 		public ScriptValue run_combat()
 		{
 			RequestThread.postRequest( FightRequest.INSTANCE );
-			String response = relayScript == null ? FightRequest.lastResponseText :
-				FightRequest.getNextTrackedRound();
+			String response =
+				KoLmafiaASH.relayScript == null ? FightRequest.lastResponseText : FightRequest.getNextTrackedRound();
 
-			return new ScriptValue( BUFFER_TYPE, "", new StringBuffer( response == null ? "" : response ) );
+			return new ScriptValue( KoLmafiaASH.BUFFER_TYPE, "", new StringBuffer( response == null ? "" : response ) );
 		}
 
 		// Equipment functions.
 
-		public ScriptValue can_equip( ScriptVariable item )
-		{	return new ScriptValue( EquipmentDatabase.canEquip( TradeableItemDatabase.getItemName( item.intValue() ) ) );
+		public ScriptValue can_equip( final ScriptVariable item )
+		{
+			return new ScriptValue( EquipmentDatabase.canEquip( TradeableItemDatabase.getItemName( item.intValue() ) ) );
 		}
 
-		public ScriptValue equip( ScriptVariable item )
+		public ScriptValue equip( final ScriptVariable item )
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "equip " + item.toStringValue() );
-			return continueValue();
+			return this.continueValue();
 		}
 
-		public ScriptValue equip( ScriptVariable slot, ScriptVariable item )
+		public ScriptValue equip( final ScriptVariable slot, final ScriptVariable item )
 		{
-			if ( item.getValue().equals( ITEM_INIT ) )
+			if ( item.getValue().equals( KoLmafiaASH.ITEM_INIT ) )
+			{
 				KoLmafiaCLI.DEFAULT_SHELL.executeLine( "unequip " + slot.toStringValue() );
+			}
 			else
+			{
 				KoLmafiaCLI.DEFAULT_SHELL.executeLine( "equip " + slot.toStringValue() + " " + item.toStringValue() );
+			}
 
-			return continueValue();
+			return this.continueValue();
 		}
 
-		public ScriptValue equipped_item( ScriptVariable slot )
-		{	return makeItemValue( KoLCharacter.getEquipment( slot.intValue() ).getName() );
+		public ScriptValue equipped_item( final ScriptVariable slot )
+		{
+			return KoLmafiaASH.makeItemValue( KoLCharacter.getEquipment( slot.intValue() ).getName() );
 		}
 
-		public ScriptValue have_equipped( ScriptVariable item )
-		{	return KoLCharacter.hasEquipped( new AdventureResult( item.intValue(), 1 ) ) ? TRUE_VALUE : FALSE_VALUE;
+		public ScriptValue have_equipped( final ScriptVariable item )
+		{
+			return KoLCharacter.hasEquipped( new AdventureResult( item.intValue(), 1 ) ) ? KoLmafiaASH.TRUE_VALUE : KoLmafiaASH.FALSE_VALUE;
 		}
 
-		public ScriptValue outfit( ScriptVariable outfit )
+		public ScriptValue outfit( final ScriptVariable outfit )
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "outfit " + outfit.toStringValue().toString() );
-			return continueValue();
+			return this.continueValue();
 		}
 
-		public ScriptValue have_outfit( ScriptVariable outfit )
+		public ScriptValue have_outfit( final ScriptVariable outfit )
 		{
 			SpecialOutfit so = KoLmafiaCLI.getMatchingOutfit( outfit.toStringValue().toString() );
 
 			if ( so == null )
-				return FALSE_VALUE;
+			{
+				return KoLmafiaASH.FALSE_VALUE;
+			}
 
-			return EquipmentDatabase.hasOutfit( so.getOutfitId() ) ? TRUE_VALUE : FALSE_VALUE;
+			return EquipmentDatabase.hasOutfit( so.getOutfitId() ) ? KoLmafiaASH.TRUE_VALUE : KoLmafiaASH.FALSE_VALUE;
 		}
 
-		public ScriptValue weapon_hands( ScriptVariable item )
-		{	return new ScriptValue( EquipmentDatabase.getHands( item.intValue() ) );
+		public ScriptValue weapon_hands( final ScriptVariable item )
+		{
+			return new ScriptValue( EquipmentDatabase.getHands( item.intValue() ) );
 		}
 
-		public ScriptValue weapon_type( ScriptVariable item )
+		public ScriptValue weapon_type( final ScriptVariable item )
 		{
 			String type = EquipmentDatabase.getType( item.intValue() );
 			return new ScriptValue( type == null ? "unknown" : type );
 		}
 
-		public ScriptValue ranged_weapon( ScriptVariable item )
-		{	return new ScriptValue( EquipmentDatabase.isRanged( item.intValue() ) );
+		public ScriptValue ranged_weapon( final ScriptVariable item )
+		{
+			return new ScriptValue( EquipmentDatabase.isRanged( item.intValue() ) );
 		}
 
-		public ScriptValue get_power( ScriptVariable item )
-		{	return new ScriptValue( EquipmentDatabase.getPower( item.intValue() ) );
+		public ScriptValue get_power( final ScriptVariable item )
+		{
+			return new ScriptValue( EquipmentDatabase.getPower( item.intValue() ) );
 		}
 
 		public ScriptValue my_familiar()
-		{	return makeFamiliarValue( KoLCharacter.getFamiliar().getId() );
+		{
+			return KoLmafiaASH.makeFamiliarValue( KoLCharacter.getFamiliar().getId() );
 		}
 
-		public ScriptValue have_familiar( ScriptVariable familiar )
-		{	return new ScriptValue( KoLCharacter.findFamiliar( familiar.toStringValue().toString() ) != null );
+		public ScriptValue have_familiar( final ScriptVariable familiar )
+		{
+			return new ScriptValue( KoLCharacter.findFamiliar( familiar.toStringValue().toString() ) != null );
 		}
 
-		public ScriptValue use_familiar( ScriptVariable familiar )
+		public ScriptValue use_familiar( final ScriptVariable familiar )
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "familiar " + familiar.toStringValue() );
-			return continueValue();
+			return this.continueValue();
 		}
 
-		public ScriptValue familiar_equipment( ScriptVariable familiar )
-		{	return parseItemValue( FamiliarsDatabase.getFamiliarItem( familiar.intValue() ) );
+		public ScriptValue familiar_equipment( final ScriptVariable familiar )
+		{
+			return KoLmafiaASH.parseItemValue( FamiliarsDatabase.getFamiliarItem( familiar.intValue() ) );
 		}
 
-		public ScriptValue familiar_weight( ScriptVariable familiar )
+		public ScriptValue familiar_weight( final ScriptVariable familiar )
 		{
 			FamiliarData fam = KoLCharacter.findFamiliar( familiar.toStringValue().toString() );
-			return new ScriptValue( (fam == null ) ? 0 : fam.getWeight() );
+			return new ScriptValue( fam == null ? 0 : fam.getWeight() );
 		}
-
 
 		// Random other functions related to current in-game
 		// state, not directly tied to the character.
@@ -5792,34 +6656,39 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue council()
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "council" );
-			return VOID_VALUE;
+			return KoLmafiaASH.VOID_VALUE;
 		}
 
 		public ScriptValue current_mcd()
-		{	return new ScriptValue( KoLCharacter.getSignedMLAdjustment() );
+		{
+			return new ScriptValue( KoLCharacter.getSignedMLAdjustment() );
 		}
 
-		public ScriptValue change_mcd( ScriptVariable level )
+		public ScriptValue change_mcd( final ScriptVariable level )
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "mind-control " + level.intValue() );
-			return continueValue();
+			return this.continueValue();
 		}
 
 		public ScriptValue have_chef()
-		{	return new ScriptValue( KoLCharacter.hasChef() );
+		{
+			return new ScriptValue( KoLCharacter.hasChef() );
 		}
 
 		public ScriptValue have_bartender()
-		{	return new ScriptValue( KoLCharacter.hasBartender() );
+		{
+			return new ScriptValue( KoLCharacter.hasBartender() );
 		}
 
 		// String parsing functions.
 
-		public ScriptValue contains_text( ScriptVariable source, ScriptVariable search )
-		{	return new ScriptValue( source.toStringValue().toString().indexOf( search.toStringValue().toString() ) != -1 );
+		public ScriptValue contains_text( final ScriptVariable source, final ScriptVariable search )
+		{
+			return new ScriptValue(
+				source.toStringValue().toString().indexOf( search.toStringValue().toString() ) != -1 );
 		}
 
-		public ScriptValue extract_meat( ScriptVariable string )
+		public ScriptValue extract_meat( final ScriptVariable string )
 		{
 			ArrayList data = new ArrayList();
 			StaticEntity.getClient().processResults( string.toStringValue().toString(), data );
@@ -5828,44 +6697,52 @@ public class KoLmafiaASH extends StaticEntity
 
 			for ( int i = 0; i < data.size(); ++i )
 			{
-				result = (AdventureResult) data.get(i);
+				result = (AdventureResult) data.get( i );
 				if ( result.getName().equals( AdventureResult.MEAT ) )
+				{
 					return new ScriptValue( result.getCount() );
+				}
 			}
 
 			return new ScriptValue( 0 );
 		}
 
-		public ScriptValue extract_items( ScriptVariable string )
+		public ScriptValue extract_items( final ScriptVariable string )
 		{
 			ArrayList data = new ArrayList();
 			StaticEntity.getClient().processResults( string.toStringValue().toString(), data );
-			ScriptMap value = new ScriptMap( RESULT_TYPE );
+			ScriptMap value = new ScriptMap( KoLmafiaASH.RESULT_TYPE );
 
 			AdventureResult result;
 
 			for ( int i = 0; i < data.size(); ++i )
 			{
-				result = (AdventureResult) data.get(i);
+				result = (AdventureResult) data.get( i );
 				if ( result.isItem() )
-					value.aset( parseItemValue( result.getName() ), parseIntValue( String.valueOf( result.getCount() ) ) );
+				{
+					value.aset(
+						KoLmafiaASH.parseItemValue( result.getName() ),
+						KoLmafiaASH.parseIntValue( String.valueOf( result.getCount() ) ) );
+				}
 			}
 
 			return value;
 		}
 
-		public ScriptValue length( ScriptVariable string )
-		{	return new ScriptValue( string.toStringValue().toString().length() );
+		public ScriptValue length( final ScriptVariable string )
+		{
+			return new ScriptValue( string.toStringValue().toString().length() );
 		}
 
-		public ScriptValue index_of( ScriptVariable source, ScriptVariable search )
+		public ScriptValue index_of( final ScriptVariable source, final ScriptVariable search )
 		{
 			String string = source.toStringValue().toString();
 			String substring = search.toStringValue().toString();
 			return new ScriptValue( string.indexOf( substring ) );
 		}
 
-		public ScriptValue index_of( ScriptVariable source, ScriptVariable search, ScriptVariable start )
+		public ScriptValue index_of( final ScriptVariable source, final ScriptVariable search,
+			final ScriptVariable start )
 		{
 			String string = source.toStringValue().toString();
 			String substring = search.toStringValue().toString();
@@ -5873,14 +6750,15 @@ public class KoLmafiaASH extends StaticEntity
 			return new ScriptValue( string.indexOf( substring, begin ) );
 		}
 
-		public ScriptValue last_index_of( ScriptVariable source, ScriptVariable search )
+		public ScriptValue last_index_of( final ScriptVariable source, final ScriptVariable search )
 		{
 			String string = source.toStringValue().toString();
 			String substring = search.toStringValue().toString();
 			return new ScriptValue( string.lastIndexOf( substring ) );
 		}
 
-		public ScriptValue last_index_of( ScriptVariable source, ScriptVariable search, ScriptVariable start )
+		public ScriptValue last_index_of( final ScriptVariable source, final ScriptVariable search,
+			final ScriptVariable start )
 		{
 			String string = source.toStringValue().toString();
 			String substring = search.toStringValue().toString();
@@ -5888,14 +6766,15 @@ public class KoLmafiaASH extends StaticEntity
 			return new ScriptValue( string.lastIndexOf( substring, begin ) );
 		}
 
-		public ScriptValue substring( ScriptVariable source, ScriptVariable start )
+		public ScriptValue substring( final ScriptVariable source, final ScriptVariable start )
 		{
 			String string = source.toStringValue().toString();
 			int begin = start.intValue();
 			return new ScriptValue( string.substring( begin ) );
 		}
 
-		public ScriptValue substring( ScriptVariable source, ScriptVariable start, ScriptVariable finish )
+		public ScriptValue substring( final ScriptVariable source, final ScriptVariable start,
+			final ScriptVariable finish )
 		{
 			String string = source.toStringValue().toString();
 			int begin = start.intValue();
@@ -5903,43 +6782,46 @@ public class KoLmafiaASH extends StaticEntity
 			return new ScriptValue( string.substring( begin, end ) );
 		}
 
-		public ScriptValue to_upper_case( ScriptVariable string )
-		{	return parseStringValue( string.toStringValue().toString().toUpperCase() );
+		public ScriptValue to_upper_case( final ScriptVariable string )
+		{
+			return KoLmafiaASH.parseStringValue( string.toStringValue().toString().toUpperCase() );
 		}
 
-		public ScriptValue to_lower_case( ScriptVariable string )
-		{	return parseStringValue( string.toStringValue().toString().toLowerCase() );
+		public ScriptValue to_lower_case( final ScriptVariable string )
+		{
+			return KoLmafiaASH.parseStringValue( string.toStringValue().toString().toLowerCase() );
 		}
 
-		public ScriptValue append( ScriptVariable buffer, ScriptVariable s )
+		public ScriptValue append( final ScriptVariable buffer, final ScriptVariable s )
 		{
 			StringBuffer current = (StringBuffer) buffer.getValue().rawValue();
 			current.append( s.toStringValue().toString() );
 			return buffer.getValue();
 		}
 
-		public ScriptValue insert( ScriptVariable buffer, ScriptVariable index, ScriptVariable s )
+		public ScriptValue insert( final ScriptVariable buffer, final ScriptVariable index, final ScriptVariable s )
 		{
 			StringBuffer current = (StringBuffer) buffer.getValue().rawValue();
 			current.insert( index.intValue(), s.toStringValue().toString() );
 			return buffer.getValue();
 		}
 
-		public ScriptValue replace( ScriptVariable buffer, ScriptVariable start, ScriptVariable end, ScriptVariable s )
+		public ScriptValue replace( final ScriptVariable buffer, final ScriptVariable start, final ScriptVariable end,
+			final ScriptVariable s )
 		{
 			StringBuffer current = (StringBuffer) buffer.getValue().rawValue();
 			current.replace( start.intValue(), end.intValue(), s.toStringValue().toString() );
 			return buffer.getValue();
 		}
 
-		public ScriptValue delete( ScriptVariable buffer, ScriptVariable start, ScriptVariable end )
+		public ScriptValue delete( final ScriptVariable buffer, final ScriptVariable start, final ScriptVariable end )
 		{
 			StringBuffer current = (StringBuffer) buffer.getValue().rawValue();
 			current.delete( start.intValue(), end.intValue() );
 			return buffer.getValue();
 		}
 
-		public ScriptValue append_tail( ScriptVariable matcher, ScriptVariable current )
+		public ScriptValue append_tail( final ScriptVariable matcher, final ScriptVariable current )
 		{
 			Matcher m = (Matcher) matcher.getValue().rawValue();
 			StringBuffer buffer = (StringBuffer) current.getValue().rawValue();
@@ -5947,7 +6829,8 @@ public class KoLmafiaASH extends StaticEntity
 			return current.getValue();
 		}
 
-		public ScriptValue append_replacement( ScriptVariable matcher, ScriptVariable current, ScriptVariable replacement )
+		public ScriptValue append_replacement( final ScriptVariable matcher, final ScriptVariable current,
+			final ScriptVariable replacement )
 		{
 			Matcher m = (Matcher) matcher.getValue().rawValue();
 			StringBuffer buffer = (StringBuffer) current.getValue().rawValue();
@@ -5955,75 +6838,76 @@ public class KoLmafiaASH extends StaticEntity
 			return matcher.getValue();
 		}
 
-		public ScriptValue create_matcher( ScriptVariable pattern, ScriptVariable string )
+		public ScriptValue create_matcher( final ScriptVariable pattern, final ScriptVariable string )
 		{
-			return new ScriptValue( MATCHER_TYPE, pattern.toStringValue().toString(),
-				Pattern.compile( pattern.toStringValue().toString(), Pattern.DOTALL ).matcher( string.toStringValue().toString() ) );
+			return new ScriptValue( KoLmafiaASH.MATCHER_TYPE, pattern.toStringValue().toString(), Pattern.compile(
+				pattern.toStringValue().toString(), Pattern.DOTALL ).matcher( string.toStringValue().toString() ) );
 		}
 
-		public ScriptValue find( ScriptVariable matcher )
+		public ScriptValue find( final ScriptVariable matcher )
 		{
 			Matcher m = (Matcher) matcher.getValue().rawValue();
-			return m.find() ? TRUE_VALUE : FALSE_VALUE;
+			return m.find() ? KoLmafiaASH.TRUE_VALUE : KoLmafiaASH.FALSE_VALUE;
 		}
 
-		public ScriptValue start( ScriptVariable matcher )
+		public ScriptValue start( final ScriptVariable matcher )
 		{
 			Matcher m = (Matcher) matcher.getValue().rawValue();
 			return new ScriptValue( m.start() );
 		}
 
-		public ScriptValue end( ScriptVariable matcher )
+		public ScriptValue end( final ScriptVariable matcher )
 		{
 			Matcher m = (Matcher) matcher.getValue().rawValue();
 			return new ScriptValue( m.end() );
 		}
 
-		public ScriptValue group( ScriptVariable matcher )
+		public ScriptValue group( final ScriptVariable matcher )
 		{
 			Matcher m = (Matcher) matcher.getValue().rawValue();
 			return new ScriptValue( m.group() );
 		}
 
-		public ScriptValue group( ScriptVariable matcher, ScriptVariable group )
+		public ScriptValue group( final ScriptVariable matcher, final ScriptVariable group )
 		{
 			Matcher m = (Matcher) matcher.getValue().rawValue();
 			return new ScriptValue( m.group( group.intValue() ) );
 		}
 
-		public ScriptValue group_count( ScriptVariable matcher )
+		public ScriptValue group_count( final ScriptVariable matcher )
 		{
 			Matcher m = (Matcher) matcher.getValue().rawValue();
 			return new ScriptValue( m.groupCount() );
 		}
 
-		public ScriptValue replace_first( ScriptVariable matcher, ScriptVariable replacement )
+		public ScriptValue replace_first( final ScriptVariable matcher, final ScriptVariable replacement )
 		{
 			Matcher m = (Matcher) matcher.getValue().rawValue();
 			return new ScriptValue( m.replaceFirst( replacement.toStringValue().toString() ) );
 		}
 
-		public ScriptValue replace_all( ScriptVariable matcher, ScriptVariable replacement )
+		public ScriptValue replace_all( final ScriptVariable matcher, final ScriptVariable replacement )
 		{
 			Matcher m = (Matcher) matcher.getValue().rawValue();
 			return new ScriptValue( m.replaceAll( replacement.toStringValue().toString() ) );
 		}
 
-		public ScriptValue reset( ScriptVariable matcher )
+		public ScriptValue reset( final ScriptVariable matcher )
 		{
 			Matcher m = (Matcher) matcher.getValue().rawValue();
 			m.reset();
 			return matcher.getValue();
 		}
 
-		public ScriptValue reset( ScriptVariable matcher, ScriptVariable input )
+		public ScriptValue reset( final ScriptVariable matcher, final ScriptVariable input )
 		{
 			Matcher m = (Matcher) matcher.getValue().rawValue();
 			m.reset( input.toStringValue().toString() );
 			return matcher.getValue();
 		}
 
-		public ScriptValue replace_string( ScriptVariable source, ScriptVariable search, ScriptVariable replace )
+		public ScriptValue replace_string( final ScriptVariable source, final ScriptVariable search,
+			final ScriptVariable replace )
 		{
 			StringBuffer buffer;
 			ScriptValue returnValue;
@@ -6036,50 +6920,58 @@ public class KoLmafiaASH extends StaticEntity
 			else
 			{
 				buffer = new StringBuffer( source.toStringValue().toString() );
-				returnValue = new ScriptValue( BUFFER_TYPE, "", buffer );
+				returnValue = new ScriptValue( KoLmafiaASH.BUFFER_TYPE, "", buffer );
 			}
 
-			StaticEntity.globalStringReplace( buffer, search.toStringValue().toString(), replace.toStringValue().toString() );
+			StaticEntity.globalStringReplace(
+				buffer, search.toStringValue().toString(), replace.toStringValue().toString() );
 			return returnValue;
 		}
 
-		public ScriptValue split_string( ScriptVariable string )
+		public ScriptValue split_string( final ScriptVariable string )
 		{
-			String [] pieces = string.toStringValue().toString().split( LINE_BREAK );
+			String[] pieces = string.toStringValue().toString().split( KoLConstants.LINE_BREAK );
 
-			ScriptAggregateType type = new ScriptAggregateType( STRING_TYPE, pieces.length );
+			ScriptAggregateType type = new ScriptAggregateType( KoLmafiaASH.STRING_TYPE, pieces.length );
 			ScriptArray value = new ScriptArray( type );
 
 			for ( int i = 0; i < pieces.length; ++i )
-				value.aset( new ScriptValue( i ), parseStringValue( pieces[i] ) );
+			{
+				value.aset( new ScriptValue( i ), KoLmafiaASH.parseStringValue( pieces[ i ] ) );
+			}
 
 			return value;
 		}
 
-		public ScriptValue split_string( ScriptVariable string, ScriptVariable regex )
+		public ScriptValue split_string( final ScriptVariable string, final ScriptVariable regex )
 		{
-			String [] pieces = string.toStringValue().toString().split( regex.toStringValue().toString() );
+			String[] pieces = string.toStringValue().toString().split( regex.toStringValue().toString() );
 
-			ScriptAggregateType type = new ScriptAggregateType( STRING_TYPE, pieces.length );
+			ScriptAggregateType type = new ScriptAggregateType( KoLmafiaASH.STRING_TYPE, pieces.length );
 			ScriptArray value = new ScriptArray( type );
 
 			for ( int i = 0; i < pieces.length; ++i )
-				value.aset( new ScriptValue( i ), parseStringValue( pieces[i] ) );
+			{
+				value.aset( new ScriptValue( i ), KoLmafiaASH.parseStringValue( pieces[ i ] ) );
+			}
 
 			return value;
 		}
 
-		public ScriptValue group_string( ScriptVariable string, ScriptVariable regex )
+		public ScriptValue group_string( final ScriptVariable string, final ScriptVariable regex )
 		{
-			Matcher userPatternMatcher = Pattern.compile( regex.toStringValue().toString() ).matcher( string.toStringValue().toString() );
-			ScriptMap value = new ScriptMap( REGEX_GROUP_TYPE );
+			Matcher userPatternMatcher =
+				Pattern.compile( regex.toStringValue().toString() ).matcher( string.toStringValue().toString() );
+			ScriptMap value = new ScriptMap( KoLmafiaASH.REGEX_GROUP_TYPE );
 
 			int matchCount = 0;
 			int groupCount = userPatternMatcher.groupCount();
 
-			ScriptValue [] groupIndexes = new ScriptValue[ groupCount + 1 ];
+			ScriptValue[] groupIndexes = new ScriptValue[ groupCount + 1 ];
 			for ( int i = 0; i <= groupCount; ++i )
-				groupIndexes[i] = new ScriptValue( i );
+			{
+				groupIndexes[ i ] = new ScriptValue( i );
+			}
 
 			ScriptValue matchIndex;
 			ScriptCompositeValue slice;
@@ -6093,7 +6985,9 @@ public class KoLmafiaASH extends StaticEntity
 
 					value.aset( matchIndex, slice );
 					for ( int i = 0; i <= groupCount; ++i )
-						slice.aset( groupIndexes[i], parseStringValue( userPatternMatcher.group(i) ) );
+					{
+						slice.aset( groupIndexes[ i ], KoLmafiaASH.parseStringValue( userPatternMatcher.group( i ) ) );
+					}
 
 					++matchCount;
 				}
@@ -6104,19 +6998,21 @@ public class KoLmafiaASH extends StaticEntity
 				// error shouldn't get generated.  Print a stack
 				// trace, just in case.
 
-				printStackTrace( e );
+				StaticEntity.printStackTrace( e );
 			}
 
 			return value;
 		}
 
-		public ScriptValue chat_reply( ScriptVariable string )
+		public ScriptValue chat_reply( final ScriptVariable string )
 		{
 			String recipient = KoLMessenger.lastBlueMessage();
 			if ( !recipient.equals( "" ) )
+			{
 				RequestThread.postRequest( new ChatRequest( recipient, string.toStringValue().toString(), false ) );
+			}
 
-			return VOID_VALUE;
+			return KoLmafiaASH.VOID_VALUE;
 		}
 
 		// Quest completion functions.
@@ -6124,128 +7020,146 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue entryway()
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "entryway" );
-			return continueValue();
+			return this.continueValue();
 		}
 
 		public ScriptValue hedgemaze()
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "hedgemaze" );
-			return continueValue();
+			return this.continueValue();
 		}
 
 		public ScriptValue guardians()
 		{
 			int itemId = SorceressLair.fightTowerGuardians( true );
-			return makeItemValue( itemId );
+			return KoLmafiaASH.makeItemValue( itemId );
 		}
 
 		public ScriptValue chamber()
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "chamber" );
-			return continueValue();
+			return this.continueValue();
 		}
 
 		public ScriptValue tavern()
 		{
-			int result = getClient().locateTavernFaucet();
+			int result = StaticEntity.getClient().locateTavernFaucet();
 			return new ScriptValue( KoLmafia.permitsContinue() ? result : -1 );
 		}
 
 		// Arithmetic utility functions.
 
-		public ScriptValue random( ScriptVariable arg )
+		public ScriptValue random( final ScriptVariable arg )
 		{
 			int range = arg.intValue();
 			if ( range < 2 )
+			{
 				throw new RuntimeException( "Random range must be at least 2" );
-			return new ScriptValue( RNG.nextInt( range ) );
+			}
+			return new ScriptValue( KoLConstants.RNG.nextInt( range ) );
 		}
 
-		public ScriptValue round( ScriptVariable arg )
-		{	return new ScriptValue( (int)Math.round( arg.floatValue() ) );
+		public ScriptValue round( final ScriptVariable arg )
+		{
+			return new ScriptValue( (int) Math.round( arg.floatValue() ) );
 		}
 
-		public ScriptValue truncate( ScriptVariable arg )
-		{	return new ScriptValue( (int)arg.floatValue() );
+		public ScriptValue truncate( final ScriptVariable arg )
+		{
+			return new ScriptValue( (int) arg.floatValue() );
 		}
 
-		public ScriptValue floor( ScriptVariable arg )
-		{	return new ScriptValue( (int)Math.floor( arg.floatValue() ) );
+		public ScriptValue floor( final ScriptVariable arg )
+		{
+			return new ScriptValue( (int) Math.floor( arg.floatValue() ) );
 		}
 
-		public ScriptValue ceil( ScriptVariable arg )
-		{	return new ScriptValue( (int)Math.ceil( arg.floatValue() ) );
+		public ScriptValue ceil( final ScriptVariable arg )
+		{
+			return new ScriptValue( (int) Math.ceil( arg.floatValue() ) );
 		}
 
-		public ScriptValue square_root( ScriptVariable val )
-		{	return new ScriptValue( (float) Math.sqrt( val.floatValue() ) );
+		public ScriptValue square_root( final ScriptVariable val )
+		{
+			return new ScriptValue( (float) Math.sqrt( val.floatValue() ) );
 		}
 
 		// Settings-type functions.
 
-		public ScriptValue url_encode( ScriptVariable arg ) throws UnsupportedEncodingException
-		{	return new ScriptValue( URLEncoder.encode( arg.toStringValue().toString(), "UTF-8" ) );
+		public ScriptValue url_encode( final ScriptVariable arg )
+			throws UnsupportedEncodingException
+		{
+			return new ScriptValue( URLEncoder.encode( arg.toStringValue().toString(), "UTF-8" ) );
 		}
 
-		public ScriptValue url_decode( ScriptVariable arg ) throws UnsupportedEncodingException
-		{	return new ScriptValue( URLDecoder.decode( arg.toStringValue().toString(), "UTF-8" ) );
+		public ScriptValue url_decode( final ScriptVariable arg )
+			throws UnsupportedEncodingException
+		{
+			return new ScriptValue( URLDecoder.decode( arg.toStringValue().toString(), "UTF-8" ) );
 		}
 
-		public ScriptValue get_property( ScriptVariable name )
+		public ScriptValue get_property( final ScriptVariable name )
 		{
 			String property = name.toStringValue().toString();
-			return !KoLSettings.isUserEditable( property ) ? STRING_INIT : new ScriptValue( KoLSettings.getUserProperty( property ) );
+			return !KoLSettings.isUserEditable( property ) ? KoLmafiaASH.STRING_INIT : new ScriptValue(
+				KoLSettings.getUserProperty( property ) );
 		}
 
-		public ScriptValue set_property( ScriptVariable name, ScriptVariable value )
+		public ScriptValue set_property( final ScriptVariable name, final ScriptVariable value )
 		{
 			// In order to avoid code duplication for combat
 			// related settings, use the shell.
 
-			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", name.toStringValue().toString() + "=" + value.toStringValue().toString() );
-			return VOID_VALUE;
+			KoLmafiaCLI.DEFAULT_SHELL.executeCommand(
+				"set", name.toStringValue().toString() + "=" + value.toStringValue().toString() );
+			return KoLmafiaASH.VOID_VALUE;
 		}
 
 		// Functions for aggregates.
 
-		public ScriptValue count( ScriptVariable arg )
-		{	return new ScriptValue( arg.getValue().count() );
+		public ScriptValue count( final ScriptVariable arg )
+		{
+			return new ScriptValue( arg.getValue().count() );
 		}
 
-		public ScriptValue clear( ScriptVariable arg )
+		public ScriptValue clear( final ScriptVariable arg )
 		{
 			arg.getValue().clear();
-			return VOID_VALUE;
+			return KoLmafiaASH.VOID_VALUE;
 		}
 
-		public ScriptValue file_to_map( ScriptVariable var1, ScriptVariable var2 )
+		public ScriptValue file_to_map( final ScriptVariable var1, final ScriptVariable var2 )
 		{
 			String filename = var1.toStringValue().toString();
 			ScriptCompositeValue map_variable = (ScriptCompositeValue) var2.getValue();
-			return readMap( filename, map_variable, true );
+			return this.readMap( filename, map_variable, true );
 		}
 
-		public ScriptValue file_to_map( ScriptVariable var1, ScriptVariable var2, ScriptVariable var3 )
+		public ScriptValue file_to_map( final ScriptVariable var1, final ScriptVariable var2, final ScriptVariable var3 )
 		{
 			String filename = var1.toStringValue().toString();
 			ScriptCompositeValue map_variable = (ScriptCompositeValue) var2.getValue();
 			boolean compact = var3.intValue() == 1;
-			return readMap( filename, map_variable, compact );
+			return this.readMap( filename, map_variable, compact );
 		}
 
-		private ScriptValue readMap( String filename, ScriptCompositeValue result, boolean compact )
+		private ScriptValue readMap( final String filename, final ScriptCompositeValue result, final boolean compact )
 		{
-			BufferedReader reader = getReader( filename );
+			BufferedReader reader = this.getReader( filename );
 			if ( reader == null )
-				return FALSE_VALUE;
+			{
+				return KoLmafiaASH.FALSE_VALUE;
+			}
 
-			String [] data = null;
+			String[] data = null;
 			result.clear();
 
 			try
 			{
-				while ( (data = KoLDatabase.readData( reader )) != null )
+				while ( ( data = KoLDatabase.readData( reader ) ) != null )
+				{
 					result.read( data, 0, compact );
+				}
 			}
 			catch ( Exception e )
 			{
@@ -6256,17 +7170,17 @@ public class KoLmafiaASH extends StaticEntity
 				StringBuffer buffer = new StringBuffer( "Invalid line in data file:" );
 				if ( data != null )
 				{
-					buffer.append( LINE_BREAK );
+					buffer.append( KoLConstants.LINE_BREAK );
 
 					for ( int i = 0; i < data.length; ++i )
 					{
 						buffer.append( '\t' );
-						buffer.append( data[i] );
+						buffer.append( data[ i ] );
 					}
 				}
 
-				printStackTrace( e, buffer.toString() );
-				return FALSE_VALUE;
+				StaticEntity.printStackTrace( e, buffer.toString() );
+				return KoLmafiaASH.FALSE_VALUE;
 			}
 
 			try
@@ -6277,40 +7191,45 @@ public class KoLmafiaASH extends StaticEntity
 			{
 			}
 
-			return TRUE_VALUE;
+			return KoLmafiaASH.TRUE_VALUE;
 		}
 
-		public ScriptValue map_to_file( ScriptVariable var1, ScriptVariable var2 )
+		public ScriptValue map_to_file( final ScriptVariable var1, final ScriptVariable var2 )
 		{
 			ScriptCompositeValue map_variable = (ScriptCompositeValue) var1.getValue();
 			String filename = var2.toStringValue().toString();
-			return printMap( map_variable, filename, true );
+			return this.printMap( map_variable, filename, true );
 		}
 
-		public ScriptValue map_to_file( ScriptVariable var1, ScriptVariable var2, ScriptVariable var3 )
+		public ScriptValue map_to_file( final ScriptVariable var1, final ScriptVariable var2, final ScriptVariable var3 )
 		{
 			ScriptCompositeValue map_variable = (ScriptCompositeValue) var1.getValue();
 			String filename = var2.toStringValue().toString();
 			boolean compact = var3.intValue() == 1;
-			return printMap( map_variable, filename, compact );
+			return this.printMap( map_variable, filename, compact );
 		}
 
-		private ScriptValue printMap( ScriptCompositeValue map_variable, String filename, boolean compact )
+		private ScriptValue printMap( final ScriptCompositeValue map_variable, final String filename,
+			final boolean compact )
 		{
 			if ( filename.startsWith( "http" ) )
-				return FALSE_VALUE;
+			{
+				return KoLmafiaASH.FALSE_VALUE;
+			}
 
 			PrintStream writer = null;
-			File output = getFile( filename );
+			File output = this.getFile( filename );
 
 			if ( output == null )
-				return FALSE_VALUE;
+			{
+				return KoLmafiaASH.FALSE_VALUE;
+			}
 
 			writer = LogStream.openStream( output, true );
 			map_variable.dump( writer, "", compact );
 			writer.close();
 
-			return TRUE_VALUE;
+			return KoLmafiaASH.TRUE_VALUE;
 		}
 
 		// Custom combat helper functions.
@@ -6318,21 +7237,23 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue my_location()
 		{
 			String location = KoLSettings.getUserProperty( "lastAdventure" );
-			return location.equals( "" ) ? parseLocationValue( "Rest" ) : parseLocationValue( location );
+			return location.equals( "" ) ? KoLmafiaASH.parseLocationValue( "Rest" ) : KoLmafiaASH.parseLocationValue( location );
 		}
 
-		public ScriptValue get_monsters( ScriptVariable location )
+		public ScriptValue get_monsters( final ScriptVariable location )
 		{
 			KoLAdventure adventure = (KoLAdventure) location.rawValue();
 			AreaCombatData data = adventure.getAreaSummary();
 
 			int monsterCount = data == null ? 0 : data.getMonsterCount();
 
-			ScriptAggregateType type = new ScriptAggregateType( MONSTER_TYPE, monsterCount );
+			ScriptAggregateType type = new ScriptAggregateType( KoLmafiaASH.MONSTER_TYPE, monsterCount );
 			ScriptArray value = new ScriptArray( type );
 
 			for ( int i = 0; i < monsterCount; ++i )
-				value.aset( new ScriptValue( i ), parseMonsterValue( data.getMonster(i).getName() ) );
+			{
+				value.aset( new ScriptValue( i ), KoLmafiaASH.parseMonsterValue( data.getMonster( i ).getName() ) );
+			}
 
 			return value;
 
@@ -6342,97 +7263,118 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			// http://kol.coldfront.net/thekolwiki/index.php/Damage
 
-			int baseValue = Math.max( 0, FightRequest.getMonsterAttack() - KoLCharacter.getAdjustedMoxie() ) +
-				(FightRequest.getMonsterAttack() / 4) - KoLCharacter.getDamageReduction();
+			int baseValue =
+				Math.max( 0, FightRequest.getMonsterAttack() - KoLCharacter.getAdjustedMoxie() ) + FightRequest.getMonsterAttack() / 4 - KoLCharacter.getDamageReduction();
 
-			float damageAbsorb = 1.0f - (( ((float) Math.sqrt( Math.min( 1000, KoLCharacter.getDamageAbsorption() ) / 10.0f )) - 1.0f ) / 10.0f);
+			float damageAbsorb =
+				1.0f - ( (float) Math.sqrt( Math.min( 1000, KoLCharacter.getDamageAbsorption() ) / 10.0f ) - 1.0f ) / 10.0f;
 			float elementAbsorb = 1.0f - KoLCharacter.getElementalResistance( FightRequest.getMonsterAttackElement() );
 			return new ScriptValue( (int) Math.ceil( baseValue * damageAbsorb * elementAbsorb ) );
 		}
 
-		public ScriptValue expected_damage( ScriptVariable arg )
+		public ScriptValue expected_damage( final ScriptVariable arg )
 		{
 			Monster monster = (Monster) arg.rawValue();
 			if ( monster == null )
-				return ZERO_VALUE;
+			{
+				return KoLmafiaASH.ZERO_VALUE;
+			}
 
 			// http://kol.coldfront.net/thekolwiki/index.php/Damage
 
-			int baseValue = Math.max( 0, monster.getAttack() - KoLCharacter.getAdjustedMoxie() ) +
-				(FightRequest.getMonsterAttack() / 4) - KoLCharacter.getDamageReduction();
+			int baseValue =
+				Math.max( 0, monster.getAttack() - KoLCharacter.getAdjustedMoxie() ) + FightRequest.getMonsterAttack() / 4 - KoLCharacter.getDamageReduction();
 
-			float damageAbsorb = 1.0f - (( ((float) Math.sqrt( Math.min( 1000, KoLCharacter.getDamageAbsorption() ) / 10.0f )) - 1.0f ) / 10.0f);
+			float damageAbsorb =
+				1.0f - ( (float) Math.sqrt( Math.min( 1000, KoLCharacter.getDamageAbsorption() ) / 10.0f ) - 1.0f ) / 10.0f;
 			float elementAbsorb = 1.0f - KoLCharacter.getElementalResistance( monster.getAttackElement() );
 			return new ScriptValue( (int) Math.ceil( baseValue * damageAbsorb * elementAbsorb ) );
 		}
 
 		public ScriptValue monster_level_adjustment()
-		{	return new ScriptValue( KoLCharacter.getMonsterLevelAdjustment() );
+		{
+			return new ScriptValue( KoLCharacter.getMonsterLevelAdjustment() );
 		}
 
 		public ScriptValue weight_adjustment()
-		{	return new ScriptValue( KoLCharacter.getFamiliarWeightAdjustment() );
+		{
+			return new ScriptValue( KoLCharacter.getFamiliarWeightAdjustment() );
 		}
 
 		public ScriptValue mana_cost_modifier()
-		{	return new ScriptValue( KoLCharacter.getManaCostAdjustment() );
+		{
+			return new ScriptValue( KoLCharacter.getManaCostAdjustment() );
 		}
 
 		public ScriptValue raw_damage_absorption()
-		{	return new ScriptValue( KoLCharacter.getDamageAbsorption() );
+		{
+			return new ScriptValue( KoLCharacter.getDamageAbsorption() );
 		}
 
 		public ScriptValue damage_absorption_percent()
 		{
 			int raw = Math.min( 1000, KoLCharacter.getDamageAbsorption() );
 			if ( raw == 0 )
-				return ZERO_FLOAT_VALUE;
+			{
+				return KoLmafiaASH.ZERO_FLOAT_VALUE;
+			}
 
 			// http://forums.kingdomofloathing.com/viewtopic.php?p=2016073
 			// ( sqrt( raw / 10 ) - 1 ) / 10
 
 			double percent = ( Math.sqrt( raw / 10.0 ) - 1.0 ) * 10.0;
-			return new ScriptValue( (float)percent );
+			return new ScriptValue( (float) percent );
 		}
 
 		public ScriptValue damage_reduction()
-		{	return new ScriptValue( KoLCharacter.getDamageReduction() );
+		{
+			return new ScriptValue( KoLCharacter.getDamageReduction() );
 		}
 
 		public ScriptValue elemental_resistance()
-		{	return new ScriptValue( KoLCharacter.getElementalResistance( FightRequest.getMonsterAttackElement() ) );
+		{
+			return new ScriptValue( KoLCharacter.getElementalResistance( FightRequest.getMonsterAttackElement() ) );
 		}
 
-		public ScriptValue elemental_resistance( ScriptVariable arg )
+		public ScriptValue elemental_resistance( final ScriptVariable arg )
 		{
-			if ( arg.getType().equals( TYPE_ELEMENT ) )
+			if ( arg.getType().equals( KoLmafiaASH.TYPE_ELEMENT ) )
+			{
 				return new ScriptValue( KoLCharacter.getElementalResistance( arg.intValue() ) );
+			}
 
 			Monster monster = (Monster) arg.rawValue();
 			if ( monster == null )
-				return ZERO_VALUE;
+			{
+				return KoLmafiaASH.ZERO_VALUE;
+			}
 
 			return new ScriptValue( KoLCharacter.getElementalResistance( monster.getAttackElement() ) );
 		}
 
 		public ScriptValue combat_rate_modifier()
-		{	return new ScriptValue( KoLCharacter.getCombatRateAdjustment() );
+		{
+			return new ScriptValue( KoLCharacter.getCombatRateAdjustment() );
 		}
 
 		public ScriptValue initiative_modifier()
-		{	return new ScriptValue( KoLCharacter.getInitiativeAdjustment() );
+		{
+			return new ScriptValue( KoLCharacter.getInitiativeAdjustment() );
 		}
 
 		public ScriptValue experience_bonus()
-		{	return new ScriptValue( KoLCharacter.getExperienceAdjustment() );
+		{
+			return new ScriptValue( KoLCharacter.getExperienceAdjustment() );
 		}
 
 		public ScriptValue meat_drop_modifier()
-		{	return new ScriptValue( KoLCharacter.getMeatDropPercentAdjustment() );
+		{
+			return new ScriptValue( KoLCharacter.getMeatDropPercentAdjustment() );
 		}
 
 		public ScriptValue item_drop_modifier()
-		{	return new ScriptValue( KoLCharacter.getItemDropPercentAdjustment() );
+		{
+			return new ScriptValue( KoLCharacter.getItemDropPercentAdjustment() );
 		}
 
 		public ScriptValue buffed_hit_stat()
@@ -6442,60 +7384,72 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptValue current_hit_stat()
-		{	return KoLCharacter.hitStat() == MOXIE ? parseStatValue( "moxie" ) : parseStatValue( "muscle" );
+		{
+			return KoLCharacter.hitStat() == KoLConstants.MOXIE ? KoLmafiaASH.parseStatValue( "moxie" ) : KoLmafiaASH.parseStatValue( "muscle" );
 		}
 
 		public ScriptValue monster_element()
 		{
 			int element = FightRequest.getMonsterDefenseElement();
-			return new ScriptValue( ELEMENT_TYPE, element, MonsterDatabase.elementNames[element] );
+			return new ScriptValue( KoLmafiaASH.ELEMENT_TYPE, element, MonsterDatabase.elementNames[ element ] );
 		}
 
-		public ScriptValue monster_element( ScriptVariable arg )
+		public ScriptValue monster_element( final ScriptVariable arg )
 		{
 			Monster monster = (Monster) arg.rawValue();
 			if ( monster == null )
-				return ELEMENT_INIT;
+			{
+				return KoLmafiaASH.ELEMENT_INIT;
+			}
 
 			int element = monster.getDefenseElement();
-			return new ScriptValue( ELEMENT_TYPE, element, MonsterDatabase.elementNames[element] );
+			return new ScriptValue( KoLmafiaASH.ELEMENT_TYPE, element, MonsterDatabase.elementNames[ element ] );
 		}
 
 		public ScriptValue monster_attack()
-		{	return new ScriptValue( FightRequest.getMonsterAttack() );
+		{
+			return new ScriptValue( FightRequest.getMonsterAttack() );
 		}
 
-		public ScriptValue monster_attack( ScriptVariable arg )
+		public ScriptValue monster_attack( final ScriptVariable arg )
 		{
 			Monster monster = (Monster) arg.rawValue();
 			if ( monster == null )
-				return ZERO_VALUE;
+			{
+				return KoLmafiaASH.ZERO_VALUE;
+			}
 
 			return new ScriptValue( monster.getAttack() + KoLCharacter.getMonsterLevelAdjustment() );
 		}
 
 		public ScriptValue monster_defense()
-		{	return new ScriptValue( FightRequest.getMonsterDefense() );
+		{
+			return new ScriptValue( FightRequest.getMonsterDefense() );
 		}
 
-		public ScriptValue monster_defense( ScriptVariable arg )
+		public ScriptValue monster_defense( final ScriptVariable arg )
 		{
 			Monster monster = (Monster) arg.rawValue();
 			if ( monster == null )
-				return ZERO_VALUE;
+			{
+				return KoLmafiaASH.ZERO_VALUE;
+			}
 
 			return new ScriptValue( monster.getDefense() + KoLCharacter.getMonsterLevelAdjustment() );
 		}
 
 		public ScriptValue monster_hp()
-		{	return new ScriptValue( FightRequest.getMonsterHealth() );
+		{
+			return new ScriptValue( FightRequest.getMonsterHealth() );
 		}
 
-		public ScriptValue monster_hp( ScriptVariable arg )
+		public ScriptValue monster_hp( final ScriptVariable arg )
 		{
 			Monster monster = (Monster) arg.rawValue();
 			if ( monster == null )
-				return ZERO_VALUE;
+			{
+				return KoLmafiaASH.ZERO_VALUE;
+			}
 
 			return new ScriptValue( monster.getAdjustedHP( KoLCharacter.getMonsterLevelAdjustment() ) );
 		}
@@ -6505,128 +7459,139 @@ public class KoLmafiaASH extends StaticEntity
 			Monster monster = FightRequest.getLastMonster();
 			List data = monster == null ? new ArrayList() : monster.getItems();
 
-			ScriptMap value = new ScriptMap( RESULT_TYPE );
+			ScriptMap value = new ScriptMap( KoLmafiaASH.RESULT_TYPE );
 			AdventureResult result;
 
 			for ( int i = 0; i < data.size(); ++i )
 			{
-				result = (AdventureResult) data.get(i);
-				value.aset( parseItemValue( result.getName() ), parseIntValue( String.valueOf( result.getCount() ) ) );
+				result = (AdventureResult) data.get( i );
+				value.aset(
+					KoLmafiaASH.parseItemValue( result.getName() ),
+					KoLmafiaASH.parseIntValue( String.valueOf( result.getCount() ) ) );
 			}
 
 			return value;
 		}
 
-		public ScriptValue item_drops( ScriptVariable arg )
+		public ScriptValue item_drops( final ScriptVariable arg )
 		{
 			Monster monster = (Monster) arg.rawValue();
 			List data = monster == null ? new ArrayList() : monster.getItems();
 
-			ScriptMap value = new ScriptMap( RESULT_TYPE );
+			ScriptMap value = new ScriptMap( KoLmafiaASH.RESULT_TYPE );
 			AdventureResult result;
 
 			for ( int i = 0; i < data.size(); ++i )
 			{
-				result = (AdventureResult) data.get(i);
-				value.aset( parseItemValue( result.getName() ), parseIntValue( String.valueOf( result.getCount() ) ) );
+				result = (AdventureResult) data.get( i );
+				value.aset(
+					KoLmafiaASH.parseItemValue( result.getName() ),
+					KoLmafiaASH.parseIntValue( String.valueOf( result.getCount() ) ) );
 			}
 
 			return value;
 		}
 
 		public ScriptValue will_usually_dodge()
-		{	return FightRequest.willUsuallyDodge() ? TRUE_VALUE : FALSE_VALUE;
+		{
+			return FightRequest.willUsuallyDodge() ? KoLmafiaASH.TRUE_VALUE : KoLmafiaASH.FALSE_VALUE;
 		}
 
 		public ScriptValue will_usually_miss()
-		{	return FightRequest.willUsuallyMiss() ? TRUE_VALUE : FALSE_VALUE;
+		{
+			return FightRequest.willUsuallyMiss() ? KoLmafiaASH.TRUE_VALUE : KoLmafiaASH.FALSE_VALUE;
 		}
 
-
-		public ScriptValue numeric_modifier( ScriptVariable modifier )
+		public ScriptValue numeric_modifier( final ScriptVariable modifier )
 		{
 			String mod = modifier.toStringValue().toString();
 			return new ScriptValue( KoLCharacter.currentNumericModifier( mod ) );
 		}
 
-		public ScriptValue numeric_modifier( ScriptVariable arg, ScriptVariable modifier )
+		public ScriptValue numeric_modifier( final ScriptVariable arg, final ScriptVariable modifier )
 		{
 			String name = arg.toStringValue().toString();
 			String mod = modifier.toStringValue().toString();
 			return new ScriptValue( Modifiers.getNumericModifier( name, mod ) );
 		}
 
-		public ScriptValue boolean_modifier( ScriptVariable modifier )
+		public ScriptValue boolean_modifier( final ScriptVariable modifier )
 		{
 			String mod = modifier.toStringValue().toString();
 			return new ScriptValue( KoLCharacter.currentBooleanModifier( mod ) );
 		}
 
-		public ScriptValue boolean_modifier( ScriptVariable arg, ScriptVariable modifier )
+		public ScriptValue boolean_modifier( final ScriptVariable arg, final ScriptVariable modifier )
 		{
 			String name = arg.toStringValue().toString();
 			String mod = modifier.toStringValue().toString();
 			return new ScriptValue( Modifiers.getBooleanModifier( name, mod ) );
 		}
 
-		public ScriptValue effect_modifier( ScriptVariable arg, ScriptVariable modifier )
+		public ScriptValue effect_modifier( final ScriptVariable arg, final ScriptVariable modifier )
 		{
 			String name = arg.toStringValue().toString();
 			String mod = modifier.toStringValue().toString();
-			return new ScriptValue( parseEffectValue( Modifiers.getStringModifier( name, mod ) ) );
+			return new ScriptValue( KoLmafiaASH.parseEffectValue( Modifiers.getStringModifier( name, mod ) ) );
 		}
 
-		public ScriptValue class_modifier( ScriptVariable arg, ScriptVariable modifier )
+		public ScriptValue class_modifier( final ScriptVariable arg, final ScriptVariable modifier )
 		{
 			String name = arg.toStringValue().toString();
 			String mod = modifier.toStringValue().toString();
-			return new ScriptValue( parseClassValue( Modifiers.getStringModifier( name, mod ) ) );
+			return new ScriptValue( KoLmafiaASH.parseClassValue( Modifiers.getStringModifier( name, mod ) ) );
 		}
 
-		public ScriptValue stat_modifier( ScriptVariable arg, ScriptVariable modifier )
+		public ScriptValue stat_modifier( final ScriptVariable arg, final ScriptVariable modifier )
 		{
 			String name = arg.toStringValue().toString();
 			String mod = modifier.toStringValue().toString();
-			return new ScriptValue( parseStatValue( Modifiers.getStringModifier( name, mod ) ) );
+			return new ScriptValue( KoLmafiaASH.parseStatValue( Modifiers.getStringModifier( name, mod ) ) );
 		}
 	}
 
-	private static class ScriptFunctionList extends ScriptSymbolTable
+	private static class ScriptFunctionList
+		extends ScriptSymbolTable
 	{
-		public boolean addElement( ScriptFunction n )
+		public boolean addElement( final ScriptFunction n )
 		{
 			super.add( n );
 			return true;
 		}
 
-		public ScriptFunction [] findFunctions( String name )
+		public ScriptFunction[] findFunctions( final String name )
 		{
 			ArrayList matches = new ArrayList();
 
-			for ( int i = 0; i < size(); ++i )
-				if ( ((ScriptFunction) get(i)).getName().equalsIgnoreCase( name ) )
-					matches.add( get(i) );
+			for ( int i = 0; i < this.size(); ++i )
+			{
+				if ( ( (ScriptFunction) this.get( i ) ).getName().equalsIgnoreCase( name ) )
+				{
+					matches.add( this.get( i ) );
+				}
+			}
 
-			ScriptFunction [] matchArray = new ScriptFunction[ matches.size() ];
+			ScriptFunction[] matchArray = new ScriptFunction[ matches.size() ];
 			matches.toArray( matchArray );
 			return matchArray;
 		}
 	}
 
-	private static class ScriptVariable extends ScriptSymbol
+	private static class ScriptVariable
+		extends ScriptSymbol
 	{
 		ScriptType type;
-		ScriptValue	content;
+		ScriptValue content;
 		ScriptExpression expression = null;
 
-		public ScriptVariable( ScriptType type )
+		public ScriptVariable( final ScriptType type )
 		{
 			super( null );
 			this.type = type;
 			this.content = new ScriptValue( type );
 		}
 
-		public ScriptVariable( String name, ScriptType type )
+		public ScriptVariable( final String name, final ScriptType type )
 		{
 			super( name );
 			this.type = type;
@@ -6634,163 +7599,194 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptType getType()
-		{	return type;
+		{
+			return this.type;
 		}
 
 		public ScriptValue getValue()
 		{
-			if ( expression != null )
-				content = expression.execute();
+			if ( this.expression != null )
+			{
+				this.content = this.expression.execute();
+			}
 
-			return content;
+			return this.content;
 		}
 
 		public ScriptType getValueType()
-		{	return getValue().getType();
+		{
+			return this.getValue().getType();
 		}
 
 		public Object rawValue()
-		{	return getValue().rawValue();
+		{
+			return this.getValue().rawValue();
 		}
 
 		public int intValue()
-		{	return getValue().intValue();
+		{
+			return this.getValue().intValue();
 		}
 
 		public ScriptValue toStringValue()
-		{	return getValue().toStringValue();
+		{
+			return this.getValue().toStringValue();
 		}
 
 		public float floatValue()
-		{	return getValue().floatValue();
-		}
-
-		public void setExpression( ScriptExpression targetExpression )
-		{	expression = targetExpression;
-		}
-
-		public void forceValue( ScriptValue targetValue )
 		{
-			content = targetValue;
-			expression = null;
+			return this.getValue().floatValue();
 		}
 
-		public void setValue( ScriptValue targetValue )
+		public void setExpression( final ScriptExpression targetExpression )
 		{
-			if ( getType().equals( targetValue.getType() ) )
+			this.expression = targetExpression;
+		}
+
+		public void forceValue( final ScriptValue targetValue )
+		{
+			this.content = targetValue;
+			this.expression = null;
+		}
+
+		public void setValue( final ScriptValue targetValue )
+		{
+			if ( this.getType().equals( targetValue.getType() ) )
 			{
-				content = targetValue;
-				expression = null;
+				this.content = targetValue;
+				this.expression = null;
 			}
-			else if ( getType().equals( TYPE_STRING ) )
+			else if ( this.getType().equals( KoLmafiaASH.TYPE_STRING ) )
 			{
-				content = targetValue.toStringValue();
-				expression = null;
+				this.content = targetValue.toStringValue();
+				this.expression = null;
 			}
-			else if ( getType().equals( TYPE_INT ) && targetValue.getType().equals( TYPE_FLOAT ) )
+			else if ( this.getType().equals( KoLmafiaASH.TYPE_INT ) && targetValue.getType().equals(
+				KoLmafiaASH.TYPE_FLOAT ) )
 			{
-				content = targetValue.toIntValue();
-				expression = null;
+				this.content = targetValue.toIntValue();
+				this.expression = null;
 			}
-			else if ( getType().equals( TYPE_FLOAT ) && targetValue.getType().equals( TYPE_INT ) )
+			else if ( this.getType().equals( KoLmafiaASH.TYPE_FLOAT ) && targetValue.getType().equals(
+				KoLmafiaASH.TYPE_INT ) )
 			{
-				content = targetValue.toFloatValue();
-				expression = null;
+				this.content = targetValue.toFloatValue();
+				this.expression = null;
 			}
-			else if ( getType().equals( TYPE_ANY ) )
+			else if ( this.getType().equals( KoLmafiaASH.TYPE_ANY ) )
 			{
-				content = targetValue;
-				expression = null;
+				this.content = targetValue;
+				this.expression = null;
 			}
-			else if ( getType().getBaseType().equals( TYPE_AGGREGATE ) && targetValue.getType().getBaseType().equals( TYPE_AGGREGATE ) )
+			else if ( this.getType().getBaseType().equals( KoLmafiaASH.TYPE_AGGREGATE ) && targetValue.getType().getBaseType().equals(
+				KoLmafiaASH.TYPE_AGGREGATE ) )
 			{
-				content = targetValue;
-				expression = null;
+				this.content = targetValue;
+				this.expression = null;
 			}
 			else
 			{
-				throw new RuntimeException( "Internal error: Cannot assign " + targetValue.getType() + " to " + getType() );
+				throw new RuntimeException(
+					"Internal error: Cannot assign " + targetValue.getType() + " to " + this.getType() );
 			}
 		}
 	}
 
-	private static class ScriptVariableList extends ScriptSymbolTable
+	private static class ScriptVariableList
+		extends ScriptSymbolTable
 	{
-		public boolean addElement( ScriptVariable n )
-		{	return super.addElement( n );
+		public boolean addElement( final ScriptVariable n )
+		{
+			return super.addElement( n );
 		}
 
-		public ScriptVariable findVariable( String name )
-		{	return (ScriptVariable) super.findSymbol( name );
+		public ScriptVariable findVariable( final String name )
+		{
+			return (ScriptVariable) super.findSymbol( name );
 		}
 
 		public Iterator getVariables()
-		{	return iterator();
+		{
+			return this.iterator();
 		}
 	}
 
-	private static class ScriptVariableReference extends ScriptValue
+	private static class ScriptVariableReference
+		extends ScriptValue
 	{
 		public ScriptVariable target;
 
-		public ScriptVariableReference( ScriptVariable target )
-		{	this.target = target;
+		public ScriptVariableReference( final ScriptVariable target )
+		{
+			this.target = target;
 		}
 
-		public ScriptVariableReference( String varName, ScriptScope scope )
-		{	target = scope.findVariable( varName, true );
+		public ScriptVariableReference( final String varName, final ScriptScope scope )
+		{
+			this.target = scope.findVariable( varName, true );
 		}
 
 		public boolean valid()
-		{	return target != null;
+		{
+			return this.target != null;
 		}
 
 		public ScriptType getType()
-		{	return target.getType();
+		{
+			return this.target.getType();
 		}
 
 		public String getName()
-		{	return target.getName();
+		{
+			return this.target.getName();
 		}
 
 		public ScriptExpressionList getIndices()
-		{	return null;
+		{
+			return null;
 		}
 
-		public int compareTo( Object o )
-		{	return target.getName().compareTo( ((ScriptVariableReference)o).target.getName() );
+		public int compareTo( final Object o )
+		{
+			return this.target.getName().compareTo( ( (ScriptVariableReference) o ).target.getName() );
 		}
 
 		public ScriptValue execute()
-		{	return target.getValue();
+		{
+			return this.target.getValue();
 		}
 
 		public ScriptValue getValue()
-		{	return target.getValue();
+		{
+			return this.target.getValue();
 		}
 
-		public void forceValue( ScriptValue targetValue )
-		{	target.forceValue( targetValue );
+		public void forceValue( final ScriptValue targetValue )
+		{
+			this.target.forceValue( targetValue );
 		}
 
-		public void setValue( ScriptValue targetValue )
-		{	target.setValue( targetValue );
+		public void setValue( final ScriptValue targetValue )
+		{
+			this.target.setValue( targetValue );
 		}
 
 		public String toString()
-		{	return target.getName();
+		{
+			return this.target.getName();
 		}
 	}
 
-	private static class ScriptCompositeReference extends ScriptVariableReference
+	private static class ScriptCompositeReference
+		extends ScriptVariableReference
 	{
-		private ScriptExpressionList indices;
+		private final ScriptExpressionList indices;
 
 		// Derived from indices: Final slice and index into it
 		private ScriptCompositeValue slice;
 		private ScriptValue index;
 
-		public ScriptCompositeReference( ScriptVariable target, ScriptExpressionList indices )
+		public ScriptCompositeReference( final ScriptVariable target, final ScriptExpressionList indices )
 		{
 			super( target );
 			this.indices = indices;
@@ -6798,22 +7794,27 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptType getType()
 		{
-			ScriptType type = target.getType().getBaseType();
-			for ( int i = 0; i < indices.size(); ++i )
-				type = ((ScriptCompositeType)type).getDataType( indices.get(i) ).getBaseType();
+			ScriptType type = this.target.getType().getBaseType();
+			for ( int i = 0; i < this.indices.size(); ++i )
+			{
+				type = ( (ScriptCompositeType) type ).getDataType( this.indices.get( i ) ).getBaseType();
+			}
 			return type;
 		}
 
 		public String getName()
-		{	return target.getName() + "[]";
+		{
+			return this.target.getName() + "[]";
 		}
 
 		public ScriptExpressionList getIndices()
-		{	return indices;
+		{
+			return this.indices;
 		}
 
 		public ScriptValue execute()
-		{	return getValue();
+		{
+			return this.getValue();
 		}
 
 		// Evaluate all the indices and step through the slices.
@@ -6825,55 +7826,57 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			if ( !KoLmafia.permitsContinue() )
 			{
-				currentState = STATE_EXIT;
+				KoLmafiaASH.currentState = KoLmafiaASH.STATE_EXIT;
 				return false;
 			}
 
-			slice = (ScriptCompositeValue)target.getValue();
-			index = null;
+			this.slice = (ScriptCompositeValue) this.target.getValue();
+			this.index = null;
 
-			traceIndent();
-			trace( "AREF: " + slice.toString() );
+			KoLmafiaASH.traceIndent();
+			KoLmafiaASH.trace( "AREF: " + this.slice.toString() );
 
-			int count = indices.size();
+			int count = this.indices.size();
 			for ( int i = 0; i < count; ++i )
 			{
-				ScriptExpression exp = (ScriptExpression)indices.get(i);
+				ScriptExpression exp = (ScriptExpression) this.indices.get( i );
 
-				traceIndent();
-				trace( "Key #" + ( i + 1 ) + ": " + exp.toQuotedString() );
+				KoLmafiaASH.traceIndent();
+				KoLmafiaASH.trace( "Key #" + ( i + 1 ) + ": " + exp.toQuotedString() );
 
-				index = exp.execute();
-				captureValue( index );
+				this.index = exp.execute();
+				KoLmafiaASH.captureValue( this.index );
 
-				trace( "[" + executionStateString( currentState ) + "] <- " + index.toQuotedString() );
-				traceUnindent();
+				KoLmafiaASH.trace( "[" + KoLmafiaASH.executionStateString( KoLmafiaASH.currentState ) + "] <- " + this.index.toQuotedString() );
+				KoLmafiaASH.traceUnindent();
 
-				if ( currentState == STATE_EXIT )
+				if ( KoLmafiaASH.currentState == KoLmafiaASH.STATE_EXIT )
 				{
-					traceUnindent();
+					KoLmafiaASH.traceUnindent();
 					return false;
 				}
 
 				// If this is the last index, stop now
 				if ( i == count - 1 )
+				{
 					break;
+				}
 
-				ScriptCompositeValue result = (ScriptCompositeValue)slice.aref( index );
+				ScriptCompositeValue result = (ScriptCompositeValue) this.slice.aref( this.index );
 
 				// Create missing intermediate slices
 				if ( result == null )
 				{
-					result = (ScriptCompositeValue)slice.initialValue( index );
-					slice.aset( index, result );
+					result = (ScriptCompositeValue) this.slice.initialValue( this.index );
+					this.slice.aset( this.index, result );
 				}
 
-				slice = result;
+				this.slice = result;
 
-				trace( "AREF <- " + slice.toString() );
+				KoLmafiaASH.trace( "AREF <- " + this.slice.toString() );
 			}
 
-			traceUnindent();
+			KoLmafiaASH.traceUnindent();
 
 			return true;
 		}
@@ -6881,19 +7884,19 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue getValue()
 		{
 			// Iterate through indices to final slice
-			if ( getSlice() )
+			if ( this.getSlice() )
 			{
-				ScriptValue result = slice.aref( index );
+				ScriptValue result = this.slice.aref( this.index );
 
 				if ( result == null )
 				{
-					result = slice.initialValue( index );
-					slice.aset( index, result );
+					result = this.slice.initialValue( this.index );
+					this.slice.aset( this.index, result );
 				}
 
-				traceIndent();
-				trace( "AREF <- " + result.toQuotedString() );
-				traceUnindent();
+				KoLmafiaASH.traceIndent();
+				KoLmafiaASH.trace( "AREF <- " + result.toQuotedString() );
+				KoLmafiaASH.traceUnindent();
 
 				return result;
 			}
@@ -6901,55 +7904,62 @@ public class KoLmafiaASH extends StaticEntity
 			return null;
 		}
 
-		public void setValue( ScriptValue targetValue )
+		public void setValue( final ScriptValue targetValue )
 		{
 			// Iterate through indices to final slice
-			if ( getSlice() )
+			if ( this.getSlice() )
 			{
-				slice.aset( index, targetValue );
-				traceIndent();
-				trace( "ASET: " + targetValue.toQuotedString() );
-				traceUnindent();
+				this.slice.aset( this.index, targetValue );
+				KoLmafiaASH.traceIndent();
+				KoLmafiaASH.trace( "ASET: " + targetValue.toQuotedString() );
+				KoLmafiaASH.traceUnindent();
 			}
 		}
 
 		public ScriptValue removeKey()
 		{
 			// Iterate through indices to final slice
-			if ( getSlice() )
+			if ( this.getSlice() )
 			{
-				ScriptValue result = slice.remove( index );
+				ScriptValue result = this.slice.remove( this.index );
 				if ( result == null )
-					result = slice.initialValue( index );
-				traceIndent();
-				trace( "remove <- " + result.toQuotedString() );
-				traceUnindent();
+				{
+					result = this.slice.initialValue( this.index );
+				}
+				KoLmafiaASH.traceIndent();
+				KoLmafiaASH.trace( "remove <- " + result.toQuotedString() );
+				KoLmafiaASH.traceUnindent();
 				return result;
 			}
 			return null;
 		}
 
-		public boolean contains( ScriptValue index )
+		public boolean contains( final ScriptValue index )
 		{
 			boolean result = false;
 			// Iterate through indices to final slice
-			if ( getSlice() )
-				result = slice.aref( index ) != null;
-			traceIndent();
-			trace( "contains <- " + result );
-			traceUnindent();
+			if ( this.getSlice() )
+			{
+				result = this.slice.aref( index ) != null;
+			}
+			KoLmafiaASH.traceIndent();
+			KoLmafiaASH.trace( "contains <- " + result );
+			KoLmafiaASH.traceUnindent();
 			return result;
 		}
 
 		public String toString()
-		{	return target.getName() + "[]";
+		{
+			return this.target.getName() + "[]";
 		}
-		}
+	}
 
-	private static class ScriptVariableReferenceList extends ScriptList
+	private static class ScriptVariableReferenceList
+		extends ScriptList
 	{
-		public boolean addElement( ScriptVariableReference n )
-		{	return super.addElement( n );
+		public boolean addElement( final ScriptVariableReference n )
+		{
+			return super.addElement( n );
 		}
 	}
 
@@ -6961,24 +7971,34 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private class ScriptFlowControl extends ScriptCommand
+	private class ScriptFlowControl
+		extends ScriptCommand
 	{
 		int command;
 
-		public ScriptFlowControl( String command )
+		public ScriptFlowControl( final String command )
 		{
 			if ( command.equalsIgnoreCase( "break" ) )
-				this.command = COMMAND_BREAK;
+			{
+				this.command = KoLmafiaASH.COMMAND_BREAK;
+			}
 			else if ( command.equalsIgnoreCase( "continue" ) )
-				this.command = COMMAND_CONTINUE;
+			{
+				this.command = KoLmafiaASH.COMMAND_CONTINUE;
+			}
 			else if ( command.equalsIgnoreCase( "exit" ) )
-				this.command = COMMAND_EXIT;
+			{
+				this.command = KoLmafiaASH.COMMAND_EXIT;
+			}
 			else
+			{
 				throw new AdvancedScriptException( "Invalid command '" + command + "'" );
+			}
 		}
 
-		public ScriptFlowControl( int command )
-		{	this.command = command;
+		public ScriptFlowControl( final int command )
+		{
+			this.command = command;
 		}
 
 		public String toString()
@@ -6997,20 +8017,20 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue execute()
 		{
-			traceIndent();
-			trace( toString() );
-			traceUnindent();
+			KoLmafiaASH.traceIndent();
+			KoLmafiaASH.trace( this.toString() );
+			KoLmafiaASH.traceUnindent();
 
 			switch ( this.command )
 			{
 			case COMMAND_BREAK:
-				currentState = STATE_BREAK;
-				return VOID_VALUE;
+				KoLmafiaASH.currentState = KoLmafiaASH.STATE_BREAK;
+				return KoLmafiaASH.VOID_VALUE;
 			case COMMAND_CONTINUE:
-				currentState = STATE_CONTINUE;
-				return VOID_VALUE;
+				KoLmafiaASH.currentState = KoLmafiaASH.STATE_CONTINUE;
+				return KoLmafiaASH.VOID_VALUE;
 			case COMMAND_EXIT:
-				currentState = STATE_EXIT;
+				KoLmafiaASH.currentState = KoLmafiaASH.STATE_EXIT;
 				return null;
 			}
 
@@ -7018,26 +8038,31 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private static class ScriptCommandList extends ScriptList
+	private static class ScriptCommandList
+		extends ScriptList
 	{
-		public boolean addElement( ScriptCommand n )
-		{	return super.addElement( n );
+		public boolean addElement( final ScriptCommand n )
+		{
+			return super.addElement( n );
 		}
 	}
 
-	private static class ScriptReturn extends ScriptCommand
+	private static class ScriptReturn
+		extends ScriptCommand
 	{
-		private ScriptExpression returnValue;
-		private ScriptType expectedType;
+		private final ScriptExpression returnValue;
+		private final ScriptType expectedType;
 
-		public ScriptReturn( ScriptExpression returnValue, ScriptType expectedType )
+		public ScriptReturn( final ScriptExpression returnValue, final ScriptType expectedType )
 		{
 			this.returnValue = returnValue;
 
 			if ( expectedType != null && returnValue != null )
 			{
-				if ( !validCoercion( expectedType, returnValue.getType(), "return" ) )
+				if ( !KoLmafiaASH.validCoercion( expectedType, returnValue.getType(), "return" ) )
+				{
 					throw new AdvancedScriptException( "Cannot apply " + returnValue.getType() + " to " + expectedType );
+				}
 			}
 
 			this.expectedType = expectedType;
@@ -7045,153 +8070,187 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptType getType()
 		{
-			if ( expectedType != null )
-				return expectedType;
+			if ( this.expectedType != null )
+			{
+				return this.expectedType;
+			}
 
-			if ( returnValue == null )
-				return VOID_TYPE;
+			if ( this.returnValue == null )
+			{
+				return KoLmafiaASH.VOID_TYPE;
+			}
 
-			return returnValue.getType();
+			return this.returnValue.getType();
 		}
 
 		public ScriptExpression getExpression()
-		{	return returnValue;
+		{
+			return this.returnValue;
 		}
 
 		public ScriptValue execute()
 		{
 			if ( !KoLmafia.permitsContinue() )
-				currentState = STATE_EXIT;
+			{
+				KoLmafiaASH.currentState = KoLmafiaASH.STATE_EXIT;
+			}
 
-			if ( currentState == STATE_EXIT )
+			if ( KoLmafiaASH.currentState == KoLmafiaASH.STATE_EXIT )
+			{
 				return null;
+			}
 
-			currentState = STATE_RETURN;
+			KoLmafiaASH.currentState = KoLmafiaASH.STATE_RETURN;
 
-			if ( returnValue == null )
+			if ( this.returnValue == null )
+			{
 				return null;
+			}
 
-			traceIndent();
-			trace( "Eval: " + returnValue );
+			KoLmafiaASH.traceIndent();
+			KoLmafiaASH.trace( "Eval: " + this.returnValue );
 
-			ScriptValue result = returnValue.execute();
-			captureValue( result );
+			ScriptValue result = this.returnValue.execute();
+			KoLmafiaASH.captureValue( result );
 
-			trace( "Returning: " + result );
-			traceUnindent();
+			KoLmafiaASH.trace( "Returning: " + result );
+			KoLmafiaASH.traceUnindent();
 
-			if ( currentState != STATE_EXIT )
-				currentState = STATE_RETURN;
+			if ( KoLmafiaASH.currentState != KoLmafiaASH.STATE_EXIT )
+			{
+				KoLmafiaASH.currentState = KoLmafiaASH.STATE_RETURN;
+			}
 
 			if ( result == null )
+			{
 				return null;
+			}
 
-			if ( expectedType.equals( TYPE_STRING ) )
+			if ( this.expectedType.equals( KoLmafiaASH.TYPE_STRING ) )
+			{
 				return result.toStringValue();
+			}
 
-			if ( expectedType.equals( TYPE_FLOAT ) )
+			if ( this.expectedType.equals( KoLmafiaASH.TYPE_FLOAT ) )
+			{
 				return result.toFloatValue();
+			}
 
-			if ( expectedType.equals( TYPE_INT ) )
+			if ( this.expectedType.equals( KoLmafiaASH.TYPE_INT ) )
+			{
 				return result.toIntValue();
+			}
 
 			return result;
 		}
 
 		public String toString()
-		{	return "return " + returnValue;
+		{
+			return "return " + this.returnValue;
 		}
 	}
 
-	private class ScriptConditional extends ScriptCommand
+	private class ScriptConditional
+		extends ScriptCommand
 	{
 		public ScriptScope scope;
-		private ScriptExpression condition;
+		private final ScriptExpression condition;
 
-		public ScriptConditional( ScriptScope scope, ScriptExpression condition )
+		public ScriptConditional( final ScriptScope scope, final ScriptExpression condition )
 		{
 			this.scope = scope;
 			this.condition = condition;
-			if ( !condition.getType().equals( TYPE_BOOLEAN ) )
+			if ( !condition.getType().equals( KoLmafiaASH.TYPE_BOOLEAN ) )
+			{
 				throw new AdvancedScriptException( "Cannot apply " + condition.getType() + " to boolean" );
+			}
 		}
 
 		public ScriptScope getScope()
-		{	return scope;
+		{
+			return this.scope;
 		}
 
 		public ScriptExpression getCondition()
-		{	return condition;
+		{
+			return this.condition;
 		}
 
 		public ScriptValue execute()
 		{
 			if ( !KoLmafia.permitsContinue() )
 			{
-				currentState = STATE_EXIT;
+				KoLmafiaASH.currentState = KoLmafiaASH.STATE_EXIT;
 				return null;
 			}
 
-			traceIndent();
-			trace( this.toString() );
+			KoLmafiaASH.traceIndent();
+			KoLmafiaASH.trace( this.toString() );
 
-			trace( "Test: " + condition );
+			KoLmafiaASH.trace( "Test: " + this.condition );
 
-			ScriptValue conditionResult = condition.execute();
-			captureValue( conditionResult );
+			ScriptValue conditionResult = this.condition.execute();
+			KoLmafiaASH.captureValue( conditionResult );
 
-			trace( "[" + executionStateString( currentState ) + "] <- " + conditionResult );
+			KoLmafiaASH.trace( "[" + KoLmafiaASH.executionStateString( KoLmafiaASH.currentState ) + "] <- " + conditionResult );
 
 			if ( conditionResult == null )
 			{
-				traceUnindent();
+				KoLmafiaASH.traceUnindent();
 				return null;
 			}
 
 			if ( conditionResult.intValue() == 1 )
 			{
-				ScriptValue result = scope.execute();
+				ScriptValue result = this.scope.execute();
 
-				traceUnindent();
+				KoLmafiaASH.traceUnindent();
 
-				if ( currentState != STATE_NORMAL )
+				if ( KoLmafiaASH.currentState != KoLmafiaASH.STATE_NORMAL )
+				{
 					return result;
+				}
 
-				return TRUE_VALUE;
+				return KoLmafiaASH.TRUE_VALUE;
 			}
 
-			traceUnindent();
-			return FALSE_VALUE;
+			KoLmafiaASH.traceUnindent();
+			return KoLmafiaASH.FALSE_VALUE;
 		}
 	}
 
-	private class ScriptIf extends ScriptConditional
+	private class ScriptIf
+		extends ScriptConditional
 	{
-		private ArrayList elseLoops;
+		private final ArrayList elseLoops;
 
-		public ScriptIf( ScriptScope scope, ScriptExpression condition )
+		public ScriptIf( final ScriptScope scope, final ScriptExpression condition )
 		{
 			super( scope, condition );
-			elseLoops = new ArrayList();
+			this.elseLoops = new ArrayList();
 		}
 
 		public Iterator getElseLoops()
-		{	return elseLoops.iterator();
+		{
+			return this.elseLoops.iterator();
 		}
 
-		public void addElseLoop( ScriptConditional elseLoop )
-		{	elseLoops.add( elseLoop );
+		public void addElseLoop( final ScriptConditional elseLoop )
+		{
+			this.elseLoops.add( elseLoop );
 		}
 
 		public ScriptValue execute()
 		{
 			ScriptValue result = super.execute();
-			if ( currentState != STATE_NORMAL || result == TRUE_VALUE )
+			if ( KoLmafiaASH.currentState != KoLmafiaASH.STATE_NORMAL || result == KoLmafiaASH.TRUE_VALUE )
+			{
 				return result;
+			}
 
 			// Conditional failed. Move to else clauses
 
-			Iterator it = elseLoops.iterator();
+			Iterator it = this.elseLoops.iterator();
 			ScriptConditional elseLoop;
 
 			while ( it.hasNext() )
@@ -7199,87 +8258,102 @@ public class KoLmafiaASH extends StaticEntity
 				elseLoop = (ScriptConditional) it.next();
 				result = elseLoop.execute();
 
-				if ( currentState != STATE_NORMAL || result == TRUE_VALUE )
+				if ( KoLmafiaASH.currentState != KoLmafiaASH.STATE_NORMAL || result == KoLmafiaASH.TRUE_VALUE )
+				{
 					return result;
+				}
 			}
 
-			return FALSE_VALUE;
+			return KoLmafiaASH.FALSE_VALUE;
 		}
 
 		public String toString()
-		{	return "if";
+		{
+			return "if";
 		}
 	}
 
-	private class ScriptElseIf extends ScriptConditional
+	private class ScriptElseIf
+		extends ScriptConditional
 	{
-		public ScriptElseIf( ScriptScope scope, ScriptExpression condition )
-		{	super( scope, condition );
+		public ScriptElseIf( final ScriptScope scope, final ScriptExpression condition )
+		{
+			super( scope, condition );
 		}
 
 		public String toString()
-		{	return "else if";
+		{
+			return "else if";
 		}
 	}
 
-	private class ScriptElse extends ScriptConditional
+	private class ScriptElse
+		extends ScriptConditional
 	{
-		public ScriptElse( ScriptScope scope, ScriptExpression condition )
-		{	super( scope, condition );
+		public ScriptElse( final ScriptScope scope, final ScriptExpression condition )
+		{
+			super( scope, condition );
 		}
 
 		public ScriptValue execute()
 		{
 			if ( !KoLmafia.permitsContinue() )
 			{
-				currentState = STATE_EXIT;
+				KoLmafiaASH.currentState = KoLmafiaASH.STATE_EXIT;
 				return null;
 			}
 
-			traceIndent();
-			trace( "else" );
-			ScriptValue result = scope.execute();
-			traceUnindent();
+			KoLmafiaASH.traceIndent();
+			KoLmafiaASH.trace( "else" );
+			ScriptValue result = this.scope.execute();
+			KoLmafiaASH.traceUnindent();
 
-			if ( currentState != STATE_NORMAL )
+			if ( KoLmafiaASH.currentState != KoLmafiaASH.STATE_NORMAL )
+			{
 				return result;
+			}
 
-			return TRUE_VALUE;
+			return KoLmafiaASH.TRUE_VALUE;
 		}
 
 		public String toString()
-		{	return "else";
+		{
+			return "else";
 		}
 	}
 
-	private class ScriptLoop extends ScriptCommand
+	private class ScriptLoop
+		extends ScriptCommand
 	{
 		public ScriptScope scope;
 
-		public ScriptLoop( ScriptScope scope )
+		public ScriptLoop( final ScriptScope scope )
 		{
 			this.scope = scope;
 		}
 
 		public ScriptScope getScope()
-		{	return scope;
+		{
+			return this.scope;
 		}
 
 		public ScriptValue execute()
 		{
-			ScriptValue result = scope.execute();
+			ScriptValue result = this.scope.execute();
 
 			if ( !KoLmafia.permitsContinue() )
-				currentState = STATE_EXIT;
+			{
+				KoLmafiaASH.currentState = KoLmafiaASH.STATE_EXIT;
+			}
 
-			switch ( currentState )
+			switch ( KoLmafiaASH.currentState )
 			{
 			case STATE_EXIT:
 				return null;
 
 			case STATE_BREAK:
 				// Stay in state; subclass exits loop
-				return VOID_VALUE;
+				return KoLmafiaASH.VOID_VALUE;
 
 			case STATE_RETURN:
 				// Stay in state; subclass exits loop
@@ -7287,7 +8361,7 @@ public class KoLmafiaASH extends StaticEntity
 
 			case STATE_CONTINUE:
 				// Done with this iteration
-				currentState = STATE_NORMAL;
+				KoLmafiaASH.currentState = KoLmafiaASH.STATE_NORMAL;
 				return result;
 
 			case STATE_NORMAL:
@@ -7298,12 +8372,14 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private class ScriptForeach extends ScriptLoop
+	private class ScriptForeach
+		extends ScriptLoop
 	{
-		private ScriptVariableReferenceList variableReferences;
-		private ScriptVariableReference aggregate;
+		private final ScriptVariableReferenceList variableReferences;
+		private final ScriptVariableReference aggregate;
 
-		public ScriptForeach( ScriptScope scope, ScriptVariableReferenceList variableReferences, ScriptVariableReference aggregate )
+		public ScriptForeach( final ScriptScope scope, final ScriptVariableReferenceList variableReferences,
+			final ScriptVariableReference aggregate )
 		{
 			super( scope );
 			this.variableReferences = variableReferences;
@@ -7311,48 +8387,52 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptVariableReferenceList getVariableReferences()
-		{	return variableReferences;
+		{
+			return this.variableReferences;
 		}
 
 		public Iterator getReferences()
-		{	return variableReferences.iterator();
+		{
+			return this.variableReferences.iterator();
 		}
 
 		public ScriptVariableReference getAggregate()
-		{	return aggregate;
+		{
+			return this.aggregate;
 		}
 
 		public ScriptValue execute()
 		{
 			if ( !KoLmafia.permitsContinue() )
 			{
-				currentState = STATE_EXIT;
+				KoLmafiaASH.currentState = KoLmafiaASH.STATE_EXIT;
 				return null;
 			}
 
-			traceIndent();
-			trace( this.toString() );
+			KoLmafiaASH.traceIndent();
+			KoLmafiaASH.trace( this.toString() );
 
 			// Evaluate the aggref to get the slice
-			ScriptAggregateValue slice = (ScriptAggregateValue) aggregate.execute();
-			captureValue( slice );
-			if ( currentState == STATE_EXIT )
+			ScriptAggregateValue slice = (ScriptAggregateValue) this.aggregate.execute();
+			KoLmafiaASH.captureValue( slice );
+			if ( KoLmafiaASH.currentState == KoLmafiaASH.STATE_EXIT )
 			{
-				traceUnindent();
+				KoLmafiaASH.traceUnindent();
 				return null;
 			}
 
 			// Iterate over the slice with bound keyvar
 
-			Iterator it = getReferences();
-			return executeSlice( slice, it, (ScriptVariableReference) it.next() );
+			Iterator it = this.getReferences();
+			return this.executeSlice( slice, it, (ScriptVariableReference) it.next() );
 
 		}
 
-		private ScriptValue executeSlice( ScriptAggregateValue slice, Iterator it, ScriptVariableReference variable )
+		private ScriptValue executeSlice( final ScriptAggregateValue slice, final Iterator it,
+			final ScriptVariableReference variable )
 		{
 			// Get an array of keys for the slice
-			ScriptValue [] keys = slice.keys();
+			ScriptValue[] keys = slice.keys();
 
 			// Get the next key variable
 			ScriptVariableReference nextVariable = it.hasNext() ? (ScriptVariableReference) it.next() : null;
@@ -7361,199 +8441,217 @@ public class KoLmafiaASH extends StaticEntity
 			for ( int i = 0; i < keys.length; ++i )
 			{
 				// Get current key
-				ScriptValue key = keys[i];
+				ScriptValue key = keys[ i ];
 
 				// Bind variable to key
 				variable.setValue( key );
 
-				trace( "Key #" + i + ": " + key );
+				KoLmafiaASH.trace( "Key #" + i + ": " + key );
 
 				// If there are more indices to bind, recurse
 				ScriptValue result;
 				if ( nextVariable != null )
 				{
-					ScriptAggregateValue nextSlice = (ScriptAggregateValue)slice.aref( key );
-					traceIndent();
-					result = executeSlice( nextSlice, it, nextVariable );
+					ScriptAggregateValue nextSlice = (ScriptAggregateValue) slice.aref( key );
+					KoLmafiaASH.traceIndent();
+					result = this.executeSlice( nextSlice, it, nextVariable );
 				}
 				else
 				{
 					// Otherwise, execute scope
 					result = super.execute();
 				}
-				switch ( currentState )
+				switch ( KoLmafiaASH.currentState )
 				{
 				case STATE_NORMAL:
 					break;
 				case STATE_BREAK:
-					currentState = STATE_NORMAL;
+					KoLmafiaASH.currentState = KoLmafiaASH.STATE_NORMAL;
 					// Fall through
 				default:
-					traceUnindent();
+					KoLmafiaASH.traceUnindent();
 					return result;
 				}
 			}
 
-			traceUnindent();
-			return VOID_VALUE;
+			KoLmafiaASH.traceUnindent();
+			return KoLmafiaASH.VOID_VALUE;
 		}
 
 		public String toString()
-		{	return "foreach";
+		{
+			return "foreach";
 		}
 	}
 
-	private class ScriptWhile extends ScriptLoop
+	private class ScriptWhile
+		extends ScriptLoop
 	{
-		private ScriptExpression condition;
+		private final ScriptExpression condition;
 
-		public ScriptWhile( ScriptScope scope, ScriptExpression condition )
+		public ScriptWhile( final ScriptScope scope, final ScriptExpression condition )
 		{
 			super( scope );
 			this.condition = condition;
-			if ( !condition.getType().equals( TYPE_BOOLEAN ) )
+			if ( !condition.getType().equals( KoLmafiaASH.TYPE_BOOLEAN ) )
+			{
 				throw new AdvancedScriptException( "Cannot apply " + condition.getType() + " to boolean" );
+			}
 
 		}
 
 		public ScriptExpression getCondition()
-		{	return condition;
+		{
+			return this.condition;
 		}
 
 		public ScriptValue execute()
 		{
 			if ( !KoLmafia.permitsContinue() )
 			{
-				currentState = STATE_EXIT;
+				KoLmafiaASH.currentState = KoLmafiaASH.STATE_EXIT;
 				return null;
 			}
 
-			traceIndent();
-			trace( this.toString() );
+			KoLmafiaASH.traceIndent();
+			KoLmafiaASH.trace( this.toString() );
 
 			while ( true )
 			{
-				trace( "Test: " + condition );
+				KoLmafiaASH.trace( "Test: " + this.condition );
 
-				ScriptValue conditionResult = condition.execute();
-				captureValue( conditionResult );
+				ScriptValue conditionResult = this.condition.execute();
+				KoLmafiaASH.captureValue( conditionResult );
 
-				trace( "[" + executionStateString( currentState ) + "] <- " + conditionResult );
+				KoLmafiaASH.trace( "[" + KoLmafiaASH.executionStateString( KoLmafiaASH.currentState ) + "] <- " + conditionResult );
 
-				if (  conditionResult == null )
+				if ( conditionResult == null )
 				{
-					traceUnindent();
+					KoLmafiaASH.traceUnindent();
 					return null;
 				}
 
 				if ( conditionResult.intValue() != 1 )
+				{
 					break;
+				}
 
 				ScriptValue result = super.execute();
 
-				if ( currentState == STATE_BREAK )
+				if ( KoLmafiaASH.currentState == KoLmafiaASH.STATE_BREAK )
 				{
-					currentState = STATE_NORMAL;
-					traceUnindent();
-					return VOID_VALUE;
+					KoLmafiaASH.currentState = KoLmafiaASH.STATE_NORMAL;
+					KoLmafiaASH.traceUnindent();
+					return KoLmafiaASH.VOID_VALUE;
 				}
 
-				if ( currentState != STATE_NORMAL )
+				if ( KoLmafiaASH.currentState != KoLmafiaASH.STATE_NORMAL )
 				{
-					traceUnindent();
+					KoLmafiaASH.traceUnindent();
 					return result;
 				}
 			}
 
-			traceUnindent();
-			return VOID_VALUE;
+			KoLmafiaASH.traceUnindent();
+			return KoLmafiaASH.VOID_VALUE;
 		}
 
 		public String toString()
-		{	return "while";
+		{
+			return "while";
 		}
 	}
 
-	private class ScriptRepeat extends ScriptLoop
+	private class ScriptRepeat
+		extends ScriptLoop
 	{
-		private ScriptExpression condition;
+		private final ScriptExpression condition;
 
-		public ScriptRepeat( ScriptScope scope, ScriptExpression condition )
+		public ScriptRepeat( final ScriptScope scope, final ScriptExpression condition )
 		{
 			super( scope );
 			this.condition = condition;
-			if ( !condition.getType().equals( TYPE_BOOLEAN ) )
+			if ( !condition.getType().equals( KoLmafiaASH.TYPE_BOOLEAN ) )
+			{
 				throw new AdvancedScriptException( "Cannot apply " + condition.getType() + " to boolean" );
+			}
 
 		}
 
 		public ScriptExpression getCondition()
-		{	return condition;
+		{
+			return this.condition;
 		}
 
 		public ScriptValue execute()
 		{
 			if ( !KoLmafia.permitsContinue() )
 			{
-				currentState = STATE_EXIT;
+				KoLmafiaASH.currentState = KoLmafiaASH.STATE_EXIT;
 				return null;
 			}
 
-			traceIndent();
-			trace( this.toString() );
+			KoLmafiaASH.traceIndent();
+			KoLmafiaASH.trace( this.toString() );
 
 			while ( true )
 			{
 				ScriptValue result = super.execute();
 
-				if ( currentState == STATE_BREAK )
+				if ( KoLmafiaASH.currentState == KoLmafiaASH.STATE_BREAK )
 				{
-					currentState = STATE_NORMAL;
-					traceUnindent();
-					return VOID_VALUE;
+					KoLmafiaASH.currentState = KoLmafiaASH.STATE_NORMAL;
+					KoLmafiaASH.traceUnindent();
+					return KoLmafiaASH.VOID_VALUE;
 				}
 
-				if ( currentState != STATE_NORMAL )
+				if ( KoLmafiaASH.currentState != KoLmafiaASH.STATE_NORMAL )
 				{
-					traceUnindent();
+					KoLmafiaASH.traceUnindent();
 					return result;
 				}
 
-				trace( "Test: " + condition );
+				KoLmafiaASH.trace( "Test: " + this.condition );
 
-				ScriptValue conditionResult = condition.execute();
-				captureValue( conditionResult );
+				ScriptValue conditionResult = this.condition.execute();
+				KoLmafiaASH.captureValue( conditionResult );
 
-				trace( "[" + executionStateString( currentState ) + "] <- " + conditionResult );
+				KoLmafiaASH.trace( "[" + KoLmafiaASH.executionStateString( KoLmafiaASH.currentState ) + "] <- " + conditionResult );
 
-				if (  conditionResult == null )
+				if ( conditionResult == null )
 				{
-					traceUnindent();
+					KoLmafiaASH.traceUnindent();
 					return null;
 				}
 
 				if ( conditionResult.intValue() == 1 )
+				{
 					break;
+				}
 			}
 
-			traceUnindent();
-			return VOID_VALUE;
+			KoLmafiaASH.traceUnindent();
+			return KoLmafiaASH.VOID_VALUE;
 		}
 
 		public String toString()
-		{	return "repeat";
+		{
+			return "repeat";
 		}
 	}
 
-	private class ScriptFor extends ScriptLoop
+	private class ScriptFor
+		extends ScriptLoop
 	{
-		private ScriptVariableReference variable;
-		private ScriptExpression initial;
-		private ScriptExpression last;
-		private ScriptExpression increment;
-		private int direction;
+		private final ScriptVariableReference variable;
+		private final ScriptExpression initial;
+		private final ScriptExpression last;
+		private final ScriptExpression increment;
+		private final int direction;
 
-		public ScriptFor( ScriptScope scope, ScriptVariableReference variable, ScriptExpression initial, ScriptExpression last, ScriptExpression increment, int direction )
+		public ScriptFor( final ScriptScope scope, final ScriptVariableReference variable,
+			final ScriptExpression initial, final ScriptExpression last, final ScriptExpression increment,
+			final int direction )
 		{
 			super( scope );
 			this.variable = variable;
@@ -7564,75 +8662,80 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptVariableReference getVariable()
-		{	return variable;
+		{
+			return this.variable;
 		}
 
 		public ScriptExpression getInitial()
-		{	return initial;
+		{
+			return this.initial;
 		}
 
 		public ScriptExpression getLast()
-		{	return last;
+		{
+			return this.last;
 		}
 
 		public ScriptExpression getIncrement()
-		{	return increment;
+		{
+			return this.increment;
 		}
 
 		public int getDirection()
-		{	return direction;
+		{
+			return this.direction;
 		}
 
 		public ScriptValue execute()
 		{
 			if ( !KoLmafia.permitsContinue() )
 			{
-				currentState = STATE_EXIT;
+				KoLmafiaASH.currentState = KoLmafiaASH.STATE_EXIT;
 				return null;
 			}
 
-			traceIndent();
-			trace( this.toString() );
+			KoLmafiaASH.traceIndent();
+			KoLmafiaASH.trace( this.toString() );
 
 			// Get the initial value
-			trace( "Initial: " + initial );
+			KoLmafiaASH.trace( "Initial: " + this.initial );
 
-			ScriptValue initialValue = initial.execute();
-			captureValue( initialValue );
+			ScriptValue initialValue = this.initial.execute();
+			KoLmafiaASH.captureValue( initialValue );
 
-			trace( "[" + executionStateString( currentState ) + "] <- " + initialValue );
+			KoLmafiaASH.trace( "[" + KoLmafiaASH.executionStateString( KoLmafiaASH.currentState ) + "] <- " + initialValue );
 
-			if (  initialValue == null )
+			if ( initialValue == null )
 			{
-				traceUnindent();
+				KoLmafiaASH.traceUnindent();
 				return null;
 			}
 
 			// Get the final value
-			trace( "Last: " + last );
+			KoLmafiaASH.trace( "Last: " + this.last );
 
-			ScriptValue lastValue = last.execute();
-			captureValue( lastValue );
+			ScriptValue lastValue = this.last.execute();
+			KoLmafiaASH.captureValue( lastValue );
 
-			trace( "[" + executionStateString( currentState ) + "] <- " + lastValue );
+			KoLmafiaASH.trace( "[" + KoLmafiaASH.executionStateString( KoLmafiaASH.currentState ) + "] <- " + lastValue );
 
-			if (  lastValue == null )
+			if ( lastValue == null )
 			{
-				traceUnindent();
+				KoLmafiaASH.traceUnindent();
 				return null;
 			}
 
 			// Get the increment
-			trace( "Increment: " + increment );
+			KoLmafiaASH.trace( "Increment: " + this.increment );
 
-			ScriptValue incrementValue = increment.execute();
-			captureValue( incrementValue );
+			ScriptValue incrementValue = this.increment.execute();
+			KoLmafiaASH.captureValue( incrementValue );
 
-			trace( "[" + executionStateString( currentState ) + "] <- " + incrementValue );
+			KoLmafiaASH.trace( "[" + KoLmafiaASH.executionStateString( KoLmafiaASH.currentState ) + "] <- " + incrementValue );
 
-			if (  incrementValue == null )
+			if ( incrementValue == null )
 			{
-				traceUnindent();
+				KoLmafiaASH.traceUnindent();
 				return null;
 			}
 
@@ -7642,40 +8745,49 @@ public class KoLmafiaASH extends StaticEntity
 
 			boolean up = false;
 
-			if ( direction > 0 )
+			if ( this.direction > 0 )
+			{
 				up = true;
-			else if ( direction < 0 )
+			}
+			else if ( this.direction < 0 )
+			{
 				up = false;
+			}
 			else
-				up = ( current <= end );
+			{
+				up = current <= end;
+			}
 
-			if ( ( up && increment < 0 ) || ( !up && increment > 0 ) )
+			if ( up && increment < 0 || !up && increment > 0 )
+			{
 				increment = -increment;
+			}
 
 			// Make sure the loop will eventually terminate
 
 			if ( current != end && increment == 0 )
+			{
 				throw new AdvancedScriptException( "Start not equal to end and increment equals 0" );
+			}
 
-			while ( ( up && current <= end ) ||
-				( !up && current >= end ) )
+			while ( up && current <= end || !up && current >= end )
 			{
 				// Bind variable to current value
-				variable.setValue( new ScriptValue( current ) );
+				this.variable.setValue( new ScriptValue( current ) );
 
 				// Execute the scope
 				ScriptValue result = super.execute();
 
-				if ( currentState == STATE_BREAK )
+				if ( KoLmafiaASH.currentState == KoLmafiaASH.STATE_BREAK )
 				{
-					currentState = STATE_NORMAL;
-					traceUnindent();
-					return VOID_VALUE;
+					KoLmafiaASH.currentState = KoLmafiaASH.STATE_NORMAL;
+					KoLmafiaASH.traceUnindent();
+					return KoLmafiaASH.VOID_VALUE;
 				}
 
-				if ( currentState != STATE_NORMAL )
+				if ( KoLmafiaASH.currentState != KoLmafiaASH.STATE_NORMAL )
 				{
-					traceUnindent();
+					KoLmafiaASH.traceUnindent();
 					return result;
 				}
 
@@ -7683,82 +8795,95 @@ public class KoLmafiaASH extends StaticEntity
 				current += increment;
 			}
 
-			traceUnindent();
-			return VOID_VALUE;
+			KoLmafiaASH.traceUnindent();
+			return KoLmafiaASH.VOID_VALUE;
 		}
 
 		public String toString()
-		{	return "for";
+		{
+			return "for";
 		}
 	}
 
-	private class ScriptBasicScript extends ScriptValue
+	private class ScriptBasicScript
+		extends ScriptValue
 	{
-		private ByteArrayStream data;
+		private final ByteArrayStream data;
 
-		public ScriptBasicScript( ByteArrayStream data )
-		{	this.data = data;
+		public ScriptBasicScript( final ByteArrayStream data )
+		{
+			this.data = data;
 		}
 
 		public ScriptType getType()
-		{	return VOID_TYPE;
+		{
+			return KoLmafiaASH.VOID_TYPE;
 		}
 
 		public ScriptValue execute()
 		{
-			KoLmafiaCLI script = new KoLmafiaCLI( data.getByteArrayInputStream() );
+			KoLmafiaCLI script = new KoLmafiaCLI( this.data.getByteArrayInputStream() );
 			script.listenForCommands();
-			return VOID_VALUE;
+			return KoLmafiaASH.VOID_VALUE;
 		}
 	}
 
-	private class ScriptCall extends ScriptValue
+	private class ScriptCall
+		extends ScriptValue
 	{
-		private ScriptFunction target;
-		private ScriptExpressionList params;
+		private final ScriptFunction target;
+		private final ScriptExpressionList params;
 
-		public ScriptCall( String functionName, ScriptScope scope, ScriptExpressionList params )
+		public ScriptCall( final String functionName, final ScriptScope scope, final ScriptExpressionList params )
 		{
-			target = findFunction( functionName, scope, params );
-			if ( target == null )
+			this.target = this.findFunction( functionName, scope, params );
+			if ( this.target == null )
+			{
 				throw new AdvancedScriptException( "Undefined reference '" + functionName + "'" );
+			}
 			this.params = params;
 		}
 
-		private ScriptFunction findFunction( String name, ScriptScope scope, ScriptExpressionList params )
+		private ScriptFunction findFunction( final String name, final ScriptScope scope,
+			final ScriptExpressionList params )
 		{
 			if ( scope == null )
+			{
 				return null;
+			}
 
 			return scope.findFunction( name, params );
 		}
 
 		public ScriptFunction getTarget()
-		{	return target;
+		{
+			return this.target;
 		}
 
 		public Iterator getExpressions()
-		{	return params.iterator();
+		{
+			return this.params.iterator();
 		}
 
 		public ScriptType getType()
-		{	return target.getType();
+		{
+			return this.target.getType();
 		}
 
 		public ScriptValue execute()
 		{
 			if ( !KoLmafia.permitsContinue() )
 			{
-				currentState = STATE_EXIT;
+				KoLmafiaASH.currentState = KoLmafiaASH.STATE_EXIT;
 				return null;
 			}
 
 			// Save current variable bindings
-			target.saveBindings();
-			traceIndent();
+			this.target.saveBindings();
+			KoLmafiaASH.traceIndent();
 
-			Iterator refIterator = target.getReferences();
-			Iterator valIterator = params.getExpressions();
+			Iterator refIterator = this.target.getReferences();
+			Iterator valIterator = this.params.getExpressions();
 
 			ScriptVariableReference paramVarRef;
 			ScriptExpression paramValue;
@@ -7773,143 +8898,172 @@ public class KoLmafiaASH extends StaticEntity
 
 				if ( !valIterator.hasNext() )
 				{
-					target.restoreBindings();
+					this.target.restoreBindings();
 					throw new RuntimeException( "Internal error: illegal arguments" );
 				}
 
 				paramValue = (ScriptExpression) valIterator.next();
 
-				trace( "Param #" + paramCount + ": " + paramValue.toQuotedString() );
+				KoLmafiaASH.trace( "Param #" + paramCount + ": " + paramValue.toQuotedString() );
 
 				ScriptValue value = paramValue.execute();
-				captureValue( value );
+				KoLmafiaASH.captureValue( value );
 
-				trace( "[" + executionStateString( currentState ) + "] <- " + value.toQuotedString() );
+				KoLmafiaASH.trace( "[" + KoLmafiaASH.executionStateString( KoLmafiaASH.currentState ) + "] <- " + value.toQuotedString() );
 
-				if ( currentState == STATE_EXIT )
+				if ( KoLmafiaASH.currentState == KoLmafiaASH.STATE_EXIT )
 				{
-					target.restoreBindings();
-					traceUnindent();
+					this.target.restoreBindings();
+					KoLmafiaASH.traceUnindent();
 					return null;
 				}
 
 				// Bind parameter to new value
-				if ( paramVarRef.getType().equals( TYPE_STRING ) )
+				if ( paramVarRef.getType().equals( KoLmafiaASH.TYPE_STRING ) )
+				{
 					paramVarRef.setValue( value.toStringValue() );
-				else if ( paramVarRef.getType().equals( TYPE_INT ) && paramValue.getType().equals( TYPE_FLOAT ) )
+				}
+				else if ( paramVarRef.getType().equals( KoLmafiaASH.TYPE_INT ) && paramValue.getType().equals(
+					KoLmafiaASH.TYPE_FLOAT ) )
+				{
 					paramVarRef.setValue( value.toIntValue() );
-				else if ( paramVarRef.getType().equals( TYPE_FLOAT ) && paramValue.getType().equals( TYPE_INT ) )
+				}
+				else if ( paramVarRef.getType().equals( KoLmafiaASH.TYPE_FLOAT ) && paramValue.getType().equals(
+					KoLmafiaASH.TYPE_INT ) )
+				{
 					paramVarRef.setValue( value.toFloatValue() );
+				}
 				else
+				{
 					paramVarRef.setValue( value );
+				}
 			}
 
 			if ( valIterator.hasNext() )
 			{
-				target.restoreBindings();
+				this.target.restoreBindings();
 				throw new RuntimeException( "Internal error: illegal arguments" );
 			}
 
-			trace( "Entering function " + target.getName() );
-			ScriptValue result = target.execute();
-			trace( "Function " + target.getName() + " returned: " + result );
+			KoLmafiaASH.trace( "Entering function " + this.target.getName() );
+			ScriptValue result = this.target.execute();
+			KoLmafiaASH.trace( "Function " + this.target.getName() + " returned: " + result );
 
-			if ( currentState != STATE_EXIT )
-				currentState = STATE_NORMAL;
+			if ( KoLmafiaASH.currentState != KoLmafiaASH.STATE_EXIT )
+			{
+				KoLmafiaASH.currentState = KoLmafiaASH.STATE_NORMAL;
+			}
 
 			// Restore initial variable bindings
-			target.restoreBindings();
-			traceUnindent();
+			this.target.restoreBindings();
+			KoLmafiaASH.traceUnindent();
 
 			return result;
 		}
 
 		public String toString()
-		{	return target.getName() + "()";
+		{
+			return this.target.getName() + "()";
 		}
 	}
 
-	private class ScriptAssignment extends ScriptCommand
+	private class ScriptAssignment
+		extends ScriptCommand
 	{
-		private ScriptVariableReference lhs;
-		private ScriptExpression rhs;
+		private final ScriptVariableReference lhs;
+		private final ScriptExpression rhs;
 
-		public ScriptAssignment( ScriptVariableReference lhs, ScriptExpression rhs )
+		public ScriptAssignment( final ScriptVariableReference lhs, final ScriptExpression rhs )
 		{
 			this.lhs = lhs;
 			this.rhs = rhs;
 
-			if ( rhs != null && !validCoercion( lhs.getType(), rhs.getType(), "assign" ) )
-				throw new AdvancedScriptException( "Cannot store " + rhs.getType() + " in " + lhs + " of type " + lhs.getType() );
+			if ( rhs != null && !KoLmafiaASH.validCoercion( lhs.getType(), rhs.getType(), "assign" ) )
+			{
+				throw new AdvancedScriptException(
+					"Cannot store " + rhs.getType() + " in " + lhs + " of type " + lhs.getType() );
+			}
 		}
 
 		public ScriptVariableReference getLeftHandSide()
 		{
-			return lhs;
+			return this.lhs;
 		}
 
 		public ScriptExpression getRightHandSide()
 		{
-			return rhs == null ? lhs.getType().initialValueExpression() : rhs;
+			return this.rhs == null ? this.lhs.getType().initialValueExpression() : this.rhs;
 		}
 
 		public ScriptType getType()
 		{
-			return lhs.getType();
+			return this.lhs.getType();
 		}
 
 		public ScriptValue execute()
 		{
 			if ( !KoLmafia.permitsContinue() )
 			{
-				currentState = STATE_EXIT;
+				KoLmafiaASH.currentState = KoLmafiaASH.STATE_EXIT;
 				return null;
 			}
 
 			ScriptValue value;
 
-			if ( rhs == null )
+			if ( this.rhs == null )
 			{
-				value = lhs.getType().initialValue();
+				value = this.lhs.getType().initialValue();
 			}
 			else
 			{
-				traceIndent();
-				trace( "Eval: " + rhs );
+				KoLmafiaASH.traceIndent();
+				KoLmafiaASH.trace( "Eval: " + this.rhs );
 
-				value = rhs.execute();
-				captureValue( value );
+				value = this.rhs.execute();
+				KoLmafiaASH.captureValue( value );
 
-				trace( "Set: " + value );
-				traceUnindent();
+				KoLmafiaASH.trace( "Set: " + value );
+				KoLmafiaASH.traceUnindent();
 			}
 
-			if ( currentState == STATE_EXIT )
+			if ( KoLmafiaASH.currentState == KoLmafiaASH.STATE_EXIT )
+			{
 				return null;
+			}
 
-			if ( lhs.getType().equals( TYPE_STRING ) )
-				lhs.setValue( value.toStringValue() );
-			else if ( lhs.getType().equals( TYPE_INT ) )
-				lhs.setValue( value.toIntValue() );
-			else if ( lhs.getType().equals( TYPE_FLOAT ) )
-				lhs.setValue( value.toFloatValue() );
+			if ( this.lhs.getType().equals( KoLmafiaASH.TYPE_STRING ) )
+			{
+				this.lhs.setValue( value.toStringValue() );
+			}
+			else if ( this.lhs.getType().equals( KoLmafiaASH.TYPE_INT ) )
+			{
+				this.lhs.setValue( value.toIntValue() );
+			}
+			else if ( this.lhs.getType().equals( KoLmafiaASH.TYPE_FLOAT ) )
+			{
+				this.lhs.setValue( value.toFloatValue() );
+			}
 			else
-				lhs.setValue( value );
+			{
+				this.lhs.setValue( value );
+			}
 
-			return VOID_VALUE;
+			return KoLmafiaASH.VOID_VALUE;
 		}
 
 		public String toString()
-		{	return rhs == null ? lhs.getName() : lhs.getName() + " = " + rhs;
+		{
+			return this.rhs == null ? this.lhs.getName() : this.lhs.getName() + " = " + this.rhs;
 		}
 	}
 
-	private static class ScriptType extends ScriptSymbol
+	private static class ScriptType
+		extends ScriptSymbol
 	{
 		public boolean primitive;
-		private int type;
+		private final int type;
 
-		public ScriptType( String name, int type )
+		public ScriptType( final String name, final int type )
 		{
 			super( name );
 			this.primitive = true;
@@ -7917,267 +9071,300 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public int getType()
-		{	return type;
+		{
+			return this.type;
 		}
 
 		public ScriptType getBaseType()
-		{	return this;
+		{
+			return this;
 		}
 
 		public boolean isPrimitive()
-		{	return primitive;
+		{
+			return this.primitive;
 		}
 
-		public boolean equals( ScriptType type )
-		{	return this.type == type.type;
+		public boolean equals( final ScriptType type )
+		{
+			return this.type == type.type;
 		}
 
-		public boolean equals( int type )
-		{	return this.type == type;
+		public boolean equals( final int type )
+		{
+			return this.type == type;
 		}
 
 		public String toString()
-		{	return name;
+		{
+			return this.name;
 		}
 
 		public ScriptType simpleType()
-		{	return this;
+		{
+			return this;
 		}
 
 		public ScriptValue initialValue()
 		{
-			switch ( type )
+			switch ( this.type )
 			{
 			case TYPE_VOID:
-				return VOID_VALUE;
+				return KoLmafiaASH.VOID_VALUE;
 			case TYPE_BOOLEAN:
-				return BOOLEAN_INIT;
+				return KoLmafiaASH.BOOLEAN_INIT;
 			case TYPE_INT:
-				return INT_INIT;
+				return KoLmafiaASH.INT_INIT;
 			case TYPE_FLOAT:
-				return FLOAT_INIT;
+				return KoLmafiaASH.FLOAT_INIT;
 			case TYPE_STRING:
-				return STRING_INIT;
+				return KoLmafiaASH.STRING_INIT;
 			case TYPE_BUFFER:
-				return new ScriptValue( BUFFER_TYPE, "", new StringBuffer() );
+				return new ScriptValue( KoLmafiaASH.BUFFER_TYPE, "", new StringBuffer() );
 			case TYPE_MATCHER:
-				return new ScriptValue( MATCHER_TYPE, "", Pattern.compile( "" ).matcher( "" ) );
+				return new ScriptValue( KoLmafiaASH.MATCHER_TYPE, "", Pattern.compile( "" ).matcher( "" ) );
 
 			case TYPE_ITEM:
-				return ITEM_INIT;
+				return KoLmafiaASH.ITEM_INIT;
 			case TYPE_LOCATION:
-				return LOCATION_INIT;
+				return KoLmafiaASH.LOCATION_INIT;
 			case TYPE_CLASS:
-				return CLASS_INIT;
+				return KoLmafiaASH.CLASS_INIT;
 			case TYPE_STAT:
-				return STAT_INIT;
+				return KoLmafiaASH.STAT_INIT;
 			case TYPE_SKILL:
-				return SKILL_INIT;
+				return KoLmafiaASH.SKILL_INIT;
 			case TYPE_EFFECT:
-				return EFFECT_INIT;
+				return KoLmafiaASH.EFFECT_INIT;
 			case TYPE_FAMILIAR:
-				return FAMILIAR_INIT;
+				return KoLmafiaASH.FAMILIAR_INIT;
 			case TYPE_SLOT:
-				return SLOT_INIT;
+				return KoLmafiaASH.SLOT_INIT;
 			case TYPE_MONSTER:
-				return MONSTER_INIT;
+				return KoLmafiaASH.MONSTER_INIT;
 			case TYPE_ELEMENT:
-				return ELEMENT_INIT;
+				return KoLmafiaASH.ELEMENT_INIT;
 			}
 			return null;
 		}
 
-		public ScriptValue parseValue( String name )
+		public ScriptValue parseValue( final String name )
 		{
-			switch ( type )
+			switch ( this.type )
 			{
 			case TYPE_BOOLEAN:
-				return parseBooleanValue( name );
+				return KoLmafiaASH.parseBooleanValue( name );
 			case TYPE_INT:
-				return parseIntValue( name );
+				return KoLmafiaASH.parseIntValue( name );
 			case TYPE_FLOAT:
-				return parseFloatValue( name );
+				return KoLmafiaASH.parseFloatValue( name );
 			case TYPE_STRING:
-				return parseStringValue( name );
+				return KoLmafiaASH.parseStringValue( name );
 			case TYPE_ITEM:
-				return parseItemValue( name );
+				return KoLmafiaASH.parseItemValue( name );
 			case TYPE_LOCATION:
-				return parseLocationValue( name );
+				return KoLmafiaASH.parseLocationValue( name );
 			case TYPE_CLASS:
-				return parseClassValue( name );
+				return KoLmafiaASH.parseClassValue( name );
 			case TYPE_STAT:
-				return parseStatValue( name );
+				return KoLmafiaASH.parseStatValue( name );
 			case TYPE_SKILL:
-				return parseSkillValue( name );
+				return KoLmafiaASH.parseSkillValue( name );
 			case TYPE_EFFECT:
-				return parseEffectValue( name );
+				return KoLmafiaASH.parseEffectValue( name );
 			case TYPE_FAMILIAR:
-				return parseFamiliarValue( name );
+				return KoLmafiaASH.parseFamiliarValue( name );
 			case TYPE_SLOT:
-				return parseSlotValue( name );
+				return KoLmafiaASH.parseSlotValue( name );
 			case TYPE_MONSTER:
-				return parseMonsterValue( name );
+				return KoLmafiaASH.parseMonsterValue( name );
 			case TYPE_ELEMENT:
-				return parseElementValue( name );
+				return KoLmafiaASH.parseElementValue( name );
 			}
 			return null;
 		}
 
 		public ScriptExpression initialValueExpression()
-		{	return initialValue();
+		{
+			return this.initialValue();
 		}
 
 		public boolean containsAggregate()
-		{	return false;
+		{
+			return false;
 		}
 	}
 
-	private static class ScriptNamedType extends ScriptType
+	private static class ScriptNamedType
+		extends ScriptType
 	{
-				ScriptType base;
+		ScriptType base;
 
-		public ScriptNamedType( String name, ScriptType base )
+		public ScriptNamedType( final String name, final ScriptType base )
 		{
-			super( name, TYPE_TYPEDEF );
+			super( name, KoLmafiaASH.TYPE_TYPEDEF );
 			this.base = base;
 		}
 
 		public ScriptType getBaseType()
-		{	return base.getBaseType();
+		{
+			return this.base.getBaseType();
 		}
 
 		public ScriptExpression initialValueExpression()
-		{	return new ScriptTypeInitializer( base.getBaseType() );
+		{
+			return new ScriptTypeInitializer( this.base.getBaseType() );
 		}
 	}
 
-	private static class ScriptCompositeType extends ScriptType
+	private static class ScriptCompositeType
+		extends ScriptType
 	{
-		public ScriptCompositeType( String name, int type )
+		public ScriptCompositeType( final String name, final int type )
 		{
 			super( name, type );
 			this.primitive = false;
 		}
 
 		public ScriptType getIndexType()
-		{	return null;
+		{
+			return null;
 		}
 
 		public ScriptType getDataType()
-		{	return null;
+		{
+			return null;
 		}
 
-		public ScriptType getDataType( Object key )
-		{	return null;
+		public ScriptType getDataType( final Object key )
+		{
+			return null;
 		}
 
-		public ScriptValue getKey( ScriptValue key )
-		{	return key;
+		public ScriptValue getKey( final ScriptValue key )
+		{
+			return key;
 		}
 
 		public ScriptExpression initialValueExpression()
-		{	return new ScriptTypeInitializer( this );
+		{
+			return new ScriptTypeInitializer( this );
 		}
-		}
+	}
 
-	private static class ScriptAggregateType extends ScriptCompositeType
+	private static class ScriptAggregateType
+		extends ScriptCompositeType
 	{
-		private ScriptType dataType;
-		private ScriptType indexType;
-		private int size;
+		private final ScriptType dataType;
+		private final ScriptType indexType;
+		private final int size;
 
 		// Map
-		public ScriptAggregateType( ScriptType dataType, ScriptType indexType )
+		public ScriptAggregateType( final ScriptType dataType, final ScriptType indexType )
 		{
-			super( "aggregate", TYPE_AGGREGATE );
+			super( "aggregate", KoLmafiaASH.TYPE_AGGREGATE );
 			this.dataType = dataType;
 			this.indexType = indexType;
 			this.size = 0;
 		}
 
 		// Array
-		public ScriptAggregateType( ScriptType dataType, int size )
+		public ScriptAggregateType( final ScriptType dataType, final int size )
 		{
-			super( "aggregate", TYPE_AGGREGATE );
+			super( "aggregate", KoLmafiaASH.TYPE_AGGREGATE );
 			this.primitive = false;
 			this.dataType = dataType;
-			this.indexType = INT_TYPE;
+			this.indexType = KoLmafiaASH.INT_TYPE;
 			this.size = size;
 		}
 
 		public ScriptType getDataType()
-		{	return dataType;
+		{
+			return this.dataType;
 		}
 
-		public ScriptType getDataType( Object key )
-		{	return dataType;
+		public ScriptType getDataType( final Object key )
+		{
+			return this.dataType;
 		}
 
 		public ScriptType getIndexType()
-		{	return indexType;
+		{
+			return this.indexType;
 		}
 
 		public int getSize()
-		{	return size;
+		{
+			return this.size;
 		}
 
-		public boolean equals( ScriptType o )
+		public boolean equals( final ScriptType o )
 		{
-			return ( o instanceof ScriptAggregateType &&
-				 dataType.equals( ((ScriptAggregateType)o).dataType ) &&
-				 indexType.equals( ((ScriptAggregateType)o).indexType ) );
+			return o instanceof ScriptAggregateType && this.dataType.equals( ( (ScriptAggregateType) o ).dataType ) && this.indexType.equals( ( (ScriptAggregateType) o ).indexType );
 		}
 
 		public ScriptType simpleType()
 		{
-			if ( dataType instanceof ScriptAggregateType )
-				return dataType.simpleType();
-			return dataType;
+			if ( this.dataType instanceof ScriptAggregateType )
+			{
+				return this.dataType.simpleType();
+			}
+			return this.dataType;
 		}
 
 		public String toString()
 		{
-			return simpleType().toString() + " [" + indexString() + "]";
+			return this.simpleType().toString() + " [" + this.indexString() + "]";
 		}
 
 		public String indexString()
 		{
-			if ( dataType instanceof ScriptAggregateType )
+			if ( this.dataType instanceof ScriptAggregateType )
 			{
-				String suffix = ", " + ((ScriptAggregateType)dataType).indexString();
-				if ( size != 0 )
-					return size + suffix;
-				return indexType.toString() + suffix;
+				String suffix = ", " + ( (ScriptAggregateType) this.dataType ).indexString();
+				if ( this.size != 0 )
+				{
+					return this.size + suffix;
+				}
+				return this.indexType.toString() + suffix;
 			}
 
-			if ( size != 0 )
-				return String.valueOf( size );
-			return indexType.toString();
+			if ( this.size != 0 )
+			{
+				return String.valueOf( this.size );
+			}
+			return this.indexType.toString();
 		}
 
 		public ScriptValue initialValue()
 		{
-			if ( size != 0 )
+			if ( this.size != 0 )
+			{
 				return new ScriptArray( this );
+			}
 			return new ScriptMap( this );
 		}
 
 		public boolean containsAggregate()
-		{	return true;
+		{
+			return true;
 		}
 	}
 
-	private static class ScriptRecordType extends ScriptCompositeType
+	private static class ScriptRecordType
+		extends ScriptCompositeType
 	{
-		private String [] fieldNames;
-		private ScriptType [] fieldTypes;
-		private ScriptValue[] fieldIndices;
+		private final String[] fieldNames;
+		private final ScriptType[] fieldTypes;
+		private final ScriptValue[] fieldIndices;
 
-		public ScriptRecordType( String name, String [] fieldNames,ScriptType [] fieldTypes )
+		public ScriptRecordType( final String name, final String[] fieldNames, final ScriptType[] fieldTypes )
 		{
-			super( name, TYPE_RECORD );
+			super( name, KoLmafiaASH.TYPE_RECORD );
 			if ( fieldNames.length != fieldTypes.length )
+			{
 				throw new AdvancedScriptException( "Internal error: wrong number of field types" );
+			}
 
 			this.fieldNames = fieldNames;
 			this.fieldTypes = fieldTypes;
@@ -8189,155 +9376,198 @@ public class KoLmafiaASH extends StaticEntity
 
 			this.fieldIndices = new ScriptValue[ fieldNames.length ];
 			for ( int i = 0; i < fieldNames.length; ++i )
-				fieldIndices[i] = new ScriptValue( fieldNames[i] );
+			{
+				this.fieldIndices[ i ] = new ScriptValue( fieldNames[ i ] );
+			}
 		}
 
-		public String [] getFieldNames()
-		{	return fieldNames;
-				}
+		public String[] getFieldNames()
+		{
+			return this.fieldNames;
+		}
 
-		public ScriptType [] getFieldTypes()
-		{	return fieldTypes;
-				}
+		public ScriptType[] getFieldTypes()
+		{
+			return this.fieldTypes;
+		}
 
-		public ScriptValue [] getFieldIndices()
-		{	return fieldIndices;
-				}
+		public ScriptValue[] getFieldIndices()
+		{
+			return this.fieldIndices;
+		}
 
 		public int fieldCount()
-		{	return fieldTypes.length;
-				}
+		{
+			return this.fieldTypes.length;
+		}
 
 		public ScriptType getIndexType()
-		{	return STRING_TYPE;
-		}
-
-		public ScriptType getDataType( Object key )
 		{
-						if ( !( key instanceof ScriptValue ) )
-				throw new RuntimeException( "Internal error: key is not a ScriptValue" );
-			int index = indexOf( (ScriptValue)key );
-			if ( index < 0 || index >= fieldTypes.length )
-				return null;
-			return fieldTypes[index];
+			return KoLmafiaASH.STRING_TYPE;
 		}
 
-		public ScriptValue getFieldIndex( String field )
+		public ScriptType getDataType( final Object key )
+		{
+			if ( !( key instanceof ScriptValue ) )
+			{
+				throw new RuntimeException( "Internal error: key is not a ScriptValue" );
+			}
+			int index = this.indexOf( (ScriptValue) key );
+			if ( index < 0 || index >= this.fieldTypes.length )
+			{
+				return null;
+			}
+			return this.fieldTypes[ index ];
+		}
+
+		public ScriptValue getFieldIndex( final String field )
 		{
 			String val = field.toLowerCase();
-			for ( int index = 0; index < fieldNames.length; ++ index )
-				if ( val.equals( fieldNames[index] ) )
-					return fieldIndices[index];
+			for ( int index = 0; index < this.fieldNames.length; ++index )
+			{
+				if ( val.equals( this.fieldNames[ index ] ) )
+				{
+					return this.fieldIndices[ index ];
+				}
+			}
 			return null;
 		}
 
-		public ScriptValue getKey( ScriptValue key )
+		public ScriptValue getKey( final ScriptValue key )
 		{
 			ScriptType type = key.getType();
 
-			if ( type.equals( TYPE_INT ) )
+			if ( type.equals( KoLmafiaASH.TYPE_INT ) )
 			{
 				int index = key.intValue();
-				if ( index < 0 || index >= fieldNames.length )
+				if ( index < 0 || index >= this.fieldNames.length )
+				{
 					return null;
-				return fieldIndices[ index ];
+				}
+				return this.fieldIndices[ index ];
 			}
 
-			if ( type.equals( TYPE_STRING ) )
+			if ( type.equals( KoLmafiaASH.TYPE_STRING ) )
 			{
 				String str = key.toString();
-				for ( int index = 0; index < fieldNames.length; ++ index )
-					if ( fieldNames[index].equals( str ) )
-						return fieldIndices[ index ];
+				for ( int index = 0; index < this.fieldNames.length; ++index )
+				{
+					if ( this.fieldNames[ index ].equals( str ) )
+					{
+						return this.fieldIndices[ index ];
+					}
+				}
 				return null;
 			}
 
 			return null;
 		}
 
-		public int indexOf( ScriptValue key )
+		public int indexOf( final ScriptValue key )
 		{
 			ScriptType type = key.getType();
 
-			if ( type.equals( TYPE_INT ) )
+			if ( type.equals( KoLmafiaASH.TYPE_INT ) )
 			{
 				int index = key.intValue();
-				if ( index < 0 || index >= fieldNames.length )
+				if ( index < 0 || index >= this.fieldNames.length )
+				{
 					return -1;
+				}
 				return index;
 			}
 
-			if ( type.equals( TYPE_STRING ) )
+			if ( type.equals( KoLmafiaASH.TYPE_STRING ) )
 			{
-				for ( int index = 0; index < fieldNames.length; ++ index )
-					if ( key == fieldIndices[index] )
+				for ( int index = 0; index < this.fieldNames.length; ++index )
+				{
+					if ( key == this.fieldIndices[ index ] )
+					{
 						return index;
+					}
+				}
 				return -1;
 			}
 
 			return -1;
 		}
 
-		public boolean equals( ScriptType o )
+		public boolean equals( final ScriptType o )
 		{
-			return ( o instanceof ScriptRecordType &&
-				 name == ((ScriptRecordType)o).name );
+			return o instanceof ScriptRecordType && this.name == ( (ScriptRecordType) o ).name;
 		}
 
 		public ScriptType simpleType()
-		{	return this;
+		{
+			return this;
 		}
 
 		public String toString()
-		{	return name;
+		{
+			return this.name;
 		}
 
 		public ScriptValue initialValue()
-		{	return new ScriptRecord( this );
+		{
+			return new ScriptRecord( this );
 		}
 
 		public boolean containsAggregate()
 		{
-			for ( int i = 0; i < fieldTypes.length; ++i )
-				if ( fieldTypes[i].containsAggregate() )
+			for ( int i = 0; i < this.fieldTypes.length; ++i )
+			{
+				if ( this.fieldTypes[ i ].containsAggregate() )
+				{
 					return true;
+				}
+			}
 			return false;
 		}
 	}
 
-	private static class ScriptTypeInitializer extends ScriptValue
+	private static class ScriptTypeInitializer
+		extends ScriptValue
 	{
 		public ScriptType type;
 
-		public ScriptTypeInitializer( ScriptType type )
-		{	this.type = type;
+		public ScriptTypeInitializer( final ScriptType type )
+		{
+			this.type = type;
 		}
 
 		public ScriptType getType()
-		{	return type;
+		{
+			return this.type;
 		}
 
 		public ScriptValue execute()
-		{	return type.initialValue();
+		{
+			return this.type.initialValue();
 		}
 
 		public String toString()
-		{	return "<initial value>";
+		{
+			return "<initial value>";
 		}
 	}
 
-	private static class ScriptTypeList extends ScriptSymbolTable
+	private static class ScriptTypeList
+		extends ScriptSymbolTable
 	{
-		public boolean addElement( ScriptType n )
-		{	return super.addElement( n );
+		public boolean addElement( final ScriptType n )
+		{
+			return super.addElement( n );
 		}
 
-		public ScriptType findType( String name )
-		{	return (ScriptType)super.findSymbol( name );
+		public ScriptType findType( final String name )
+		{
+			return (ScriptType) super.findSymbol( name );
 		}
 	}
 
-	private static class ScriptValue extends ScriptExpression implements Comparable
+	private static class ScriptValue
+		extends ScriptExpression
+		implements Comparable
 	{
 		public ScriptType type;
 
@@ -8347,54 +9577,55 @@ public class KoLmafiaASH extends StaticEntity
 		public Object content = null;
 
 		public ScriptValue()
-		{	this.type = VOID_TYPE;
+		{
+			this.type = KoLmafiaASH.VOID_TYPE;
 		}
 
-		public ScriptValue( int value )
+		public ScriptValue( final int value )
 		{
-			this.type = INT_TYPE;
+			this.type = KoLmafiaASH.INT_TYPE;
 			this.contentInt = value;
 		}
 
-		public ScriptValue( boolean value )
+		public ScriptValue( final boolean value )
 		{
-			this.type = BOOLEAN_TYPE;
+			this.type = KoLmafiaASH.BOOLEAN_TYPE;
 			this.contentInt = value ? 1 : 0;
 		}
 
-		public ScriptValue( String value )
+		public ScriptValue( final String value )
 		{
-			this.type = STRING_TYPE;
+			this.type = KoLmafiaASH.STRING_TYPE;
 			this.contentString = value;
 		}
 
-		public ScriptValue( float value )
+		public ScriptValue( final float value )
 		{
-			this.type = FLOAT_TYPE;
+			this.type = KoLmafiaASH.FLOAT_TYPE;
 			this.contentInt = (int) value;
 			this.contentFloat = value;
 		}
 
-		public ScriptValue( ScriptType type )
+		public ScriptValue( final ScriptType type )
 		{
 			this.type = type;
 		}
 
-		public ScriptValue( ScriptType type, int contentInt, String contentString )
+		public ScriptValue( final ScriptType type, final int contentInt, final String contentString )
 		{
 			this.type = type;
 			this.contentInt = contentInt;
 			this.contentString = contentString;
 		}
 
-		public ScriptValue( ScriptType type, String contentString, Object content )
+		public ScriptValue( final ScriptType type, final String contentString, final Object content )
 		{
 			this.type = type;
 			this.contentString = contentString;
 			this.content = content;
 		}
 
-		public ScriptValue( ScriptValue original )
+		public ScriptValue( final ScriptValue original )
 		{
 			this.type = original.type;
 			this.contentInt = original.contentInt;
@@ -8404,70 +9635,90 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue toFloatValue()
 		{
-			if ( type.equals( TYPE_FLOAT ) )
+			if ( this.type.equals( KoLmafiaASH.TYPE_FLOAT ) )
+			{
 				return this;
+			}
 			else
-				return new ScriptValue( (float) contentInt );
+			{
+				return new ScriptValue( (float) this.contentInt );
+			}
 		}
 
 		public ScriptValue toIntValue()
 		{
-			if ( type.equals( TYPE_INT ) )
+			if ( this.type.equals( KoLmafiaASH.TYPE_INT ) )
+			{
 				return this;
+			}
 			else
-				return new ScriptValue( (int) contentFloat );
+			{
+				return new ScriptValue( (int) this.contentFloat );
+			}
 		}
 
 		public ScriptType getType()
 		{
-			return type.getBaseType();
+			return this.type.getBaseType();
 		}
 
 		public String toString()
 		{
-			if ( content instanceof StringBuffer )
-				return ((StringBuffer)content).toString();
+			if ( this.content instanceof StringBuffer )
+			{
+				return ( (StringBuffer) this.content ).toString();
+			}
 
-			if ( type.equals( TYPE_VOID ) )
+			if ( this.type.equals( KoLmafiaASH.TYPE_VOID ) )
+			{
 				return "void";
+			}
 
-			if ( contentString != null )
-				return contentString;
+			if ( this.contentString != null )
+			{
+				return this.contentString;
+			}
 
-			if ( type.equals( TYPE_BOOLEAN ) )
-				return String.valueOf( contentInt != 0 );
+			if ( this.type.equals( KoLmafiaASH.TYPE_BOOLEAN ) )
+			{
+				return String.valueOf( this.contentInt != 0 );
+			}
 
-			if ( type.equals( TYPE_FLOAT ) )
-				return String.valueOf( contentFloat );
+			if ( this.type.equals( KoLmafiaASH.TYPE_FLOAT ) )
+			{
+				return String.valueOf( this.contentFloat );
+			}
 
-			return String.valueOf( contentInt );
+			return String.valueOf( this.contentInt );
 		}
 
 		public String toQuotedString()
 		{
-			if ( contentString != null )
-				return "\"" + contentString + "\"";
-			return toString();
+			if ( this.contentString != null )
+			{
+				return "\"" + this.contentString + "\"";
+			}
+			return this.toString();
 		}
 
 		public ScriptValue toStringValue()
 		{
-			return new ScriptValue( toString() );
+			return new ScriptValue( this.toString() );
 		}
 
 		public Object rawValue()
 		{
-			return content;
+			return this.content;
 		}
 
 		public int intValue()
 		{
-			return contentInt;
+			return this.contentInt;
 		}
 
 		public float floatValue()
 		{
-			return contentFloat;
+			return this.contentFloat;
 		}
 
 		public ScriptValue execute()
@@ -8475,437 +9726,540 @@ public class KoLmafiaASH extends StaticEntity
 			return this;
 		}
 
-		public int compareTo( Object o )
+		public int compareTo( final Object o )
 		{
 			if ( !( o instanceof ScriptValue ) )
+			{
 				throw new ClassCastException();
+			}
 
 			ScriptValue it = (ScriptValue) o;
 
-			if ( type == BOOLEAN_TYPE || type == INT_TYPE )
-				return contentInt < it.contentInt ? -1 : contentInt == it.contentInt ? 0 : 1;
+			if ( this.type == KoLmafiaASH.BOOLEAN_TYPE || this.type == KoLmafiaASH.INT_TYPE )
+			{
+				return this.contentInt < it.contentInt ? -1 : this.contentInt == it.contentInt ? 0 : 1;
+			}
 
-			if ( type == FLOAT_TYPE )
-				return contentFloat < it.contentFloat ? -1 : contentFloat == it.contentFloat ? 0 : 1;
+			if ( this.type == KoLmafiaASH.FLOAT_TYPE )
+			{
+				return this.contentFloat < it.contentFloat ? -1 : this.contentFloat == it.contentFloat ? 0 : 1;
+			}
 
-			if ( contentString != null )
-				return contentString.compareTo( it.contentString );
+			if ( this.contentString != null )
+			{
+				return this.contentString.compareTo( it.contentString );
+			}
 
 			return -1;
 		}
 
 		public int count()
-		{	return 1;
+		{
+			return 1;
 		}
 
 		public void clear()
 		{
 		}
 
-		public boolean contains( ScriptValue index )
-		{	return false;
+		public boolean contains( final ScriptValue index )
+		{
+			return false;
 		}
 
-		public boolean equals( Object o )
-		{	return o == null || !(o instanceof ScriptValue) ? false : this.compareTo( (Comparable) o ) == 0;
+		public boolean equals( final Object o )
+		{
+			return o == null || !( o instanceof ScriptValue ) ? false : this.compareTo( (Comparable) o ) == 0;
 		}
 
-		public void dumpValue( PrintStream writer )
-		{	writer.print( toStringValue().toString() );
+		public void dumpValue( final PrintStream writer )
+		{
+			writer.print( this.toStringValue().toString() );
 		}
 
-		public void dump( PrintStream writer, String prefix, boolean compact )
-		{	writer.println( prefix + toStringValue().toString() );
+		public void dump( final PrintStream writer, final String prefix, final boolean compact )
+		{
+			writer.println( prefix + this.toStringValue().toString() );
 		}
 	}
 
-	private static class ScriptCompositeValue extends ScriptValue
+	private static class ScriptCompositeValue
+		extends ScriptValue
 	{
-		public ScriptCompositeValue( ScriptCompositeType type )
-		{	super( type );
+		public ScriptCompositeValue( final ScriptCompositeType type )
+		{
+			super( type );
 		}
 
 		public ScriptCompositeType getCompositeType()
-		{	return (ScriptCompositeType)type;
+		{
+			return (ScriptCompositeType) this.type;
 		}
 
-		public ScriptValue aref( ScriptValue key )
-		{	return null;
+		public ScriptValue aref( final ScriptValue key )
+		{
+			return null;
 		}
 
-		public void aset( ScriptValue key, ScriptValue val )
+		public void aset( final ScriptValue key, final ScriptValue val )
 		{
 		}
 
-		public ScriptValue remove( ScriptValue key )
-		{	return null;
+		public ScriptValue remove( final ScriptValue key )
+		{
+			return null;
 		}
 
 		public void clear()
 		{
 		}
 
-		public ScriptValue [] keys()
-		{	return new ScriptValue[0];
-		}
-
-		public ScriptValue initialValue( Object key )
-		{	return ((ScriptCompositeType)type).getDataType( key ).initialValue();
-		}
-
-		public void dump( PrintStream writer, String prefix, boolean compact )
+		public ScriptValue[] keys()
 		{
-			ScriptValue [] keys = keys();
+			return new ScriptValue[ 0 ];
+		}
+
+		public ScriptValue initialValue( final Object key )
+		{
+			return ( (ScriptCompositeType) this.type ).getDataType( key ).initialValue();
+		}
+
+		public void dump( final PrintStream writer, final String prefix, final boolean compact )
+		{
+			ScriptValue[] keys = this.keys();
 			if ( keys.length == 0 )
+			{
 				return;
+			}
 
 			for ( int i = 0; i < keys.length; ++i )
 			{
-				ScriptValue key = keys[i];
-				ScriptValue value = aref( key );
+				ScriptValue key = keys[ i ];
+				ScriptValue value = this.aref( key );
 				String first = prefix + key + "\t";
 				value.dump( writer, first, compact );
 			}
 		}
 
-		public void dumpValue( PrintStream writer )
+		public void dumpValue( final PrintStream writer )
 		{
 		}
 
 		// Returns number of fields consumed
-		public int read( String [] data, int index, boolean compact )
+		public int read( final String[] data, final int index, final boolean compact )
 		{
 			ScriptCompositeType type = (ScriptCompositeType) this.type;
 			ScriptValue key = null;
 
 			if ( index < data.length )
-				key = type.getKey( parseValue( type.getIndexType(), data[ index ] ) );
+			{
+				key = type.getKey( KoLmafiaASH.parseValue( type.getIndexType(), data[ index ] ) );
+			}
 			else
-				key = type.getKey( parseValue( type.getIndexType(), "none" ) );
+			{
+				key = type.getKey( KoLmafiaASH.parseValue( type.getIndexType(), "none" ) );
+			}
 
 			// If there's only a key and a value, parse the value
 			// and store it in the composite
 
-			if ( !(type.getDataType( key ) instanceof ScriptCompositeType) )
+			if ( !( type.getDataType( key ) instanceof ScriptCompositeType ) )
 			{
-				aset( key, parseValue( type.getDataType( key ), data[ index + 1 ] ) );
+				this.aset( key, KoLmafiaASH.parseValue( type.getDataType( key ), data[ index + 1 ] ) );
 				return 2;
 			}
 
 			// Otherwise, recurse until we get the final slice
-			ScriptCompositeValue slice = (ScriptCompositeValue) aref( key );
+			ScriptCompositeValue slice = (ScriptCompositeValue) this.aref( key );
 
 			// Create missing intermediate slice
 			if ( slice == null )
 			{
-				slice = (ScriptCompositeValue) initialValue( key );
-				aset( key, slice );
+				slice = (ScriptCompositeValue) this.initialValue( key );
+				this.aset( key, slice );
 			}
 
 			return slice.read( data, index + 1, compact ) + 1;
 		}
 
 		public String toString()
-		{	return "composite " + type.toString();
+		{
+			return "composite " + this.type.toString();
 		}
 	}
 
-	private static class ScriptAggregateValue extends ScriptCompositeValue
+	private static class ScriptAggregateValue
+		extends ScriptCompositeValue
 	{
-		public ScriptAggregateValue( ScriptAggregateType type )
-		{	super( type );
+		public ScriptAggregateValue( final ScriptAggregateType type )
+		{
+			super( type );
 		}
 
 		public ScriptType getDataType()
-		{	return ((ScriptAggregateType)type).getDataType();
+		{
+			return ( (ScriptAggregateType) this.type ).getDataType();
 		}
 
 		public int count()
-		{	return 0;
+		{
+			return 0;
 		}
 
-		public boolean contains( ScriptValue index )
-		{	return false;
+		public boolean contains( final ScriptValue index )
+		{
+			return false;
 		}
 
 		public String toString()
-		{	return "aggregate " + type.toString();
+		{
+			return "aggregate " + this.type.toString();
 		}
 	}
 
-	private static class ScriptArray extends ScriptAggregateValue
+	private static class ScriptArray
+		extends ScriptAggregateValue
 	{
-		public ScriptArray( ScriptAggregateType type )
+		public ScriptArray( final ScriptAggregateType type )
 		{
 			super( type );
 
 			int size = type.getSize();
 			ScriptType dataType = type.getDataType();
-			ScriptValue [] content = new ScriptValue[ size ];
+			ScriptValue[] content = new ScriptValue[ size ];
 			for ( int i = 0; i < size; ++i )
-				content[i] = dataType.initialValue();
+			{
+				content[ i ] = dataType.initialValue();
+			}
 			this.content = content;
 		}
 
-		public ScriptValue aref( ScriptValue index )
+		public ScriptValue aref( final ScriptValue index )
 		{
-			ScriptValue [] array = (ScriptValue [])content;
+			ScriptValue[] array = (ScriptValue[]) this.content;
 			int i = index.intValue();
 			if ( i < 0 || i > array.length )
+			{
 				throw new AdvancedScriptException( "Array index out of bounds" );
+			}
 			return array[ i ];
 		}
 
-		public void aset( ScriptValue key,  ScriptValue val )
+		public void aset( final ScriptValue key, final ScriptValue val )
 		{
-			ScriptValue [] array = (ScriptValue [])content;
+			ScriptValue[] array = (ScriptValue[]) this.content;
 			int index = key.intValue();
 			if ( index < 0 || index > array.length )
+			{
 				throw new AdvancedScriptException( "Array index out of bounds" );
+			}
 
 			if ( array[ index ].getType().equals( val.getType() ) )
+			{
 				array[ index ] = val;
-			else if ( array[ index ].getType().equals( TYPE_STRING ) )
+			}
+			else if ( array[ index ].getType().equals( KoLmafiaASH.TYPE_STRING ) )
+			{
 				array[ index ] = val.toStringValue();
-			else if ( array[ index ].getType().equals( TYPE_INT ) && val.getType().equals( TYPE_FLOAT ) )
+			}
+			else if ( array[ index ].getType().equals( KoLmafiaASH.TYPE_INT ) && val.getType().equals(
+				KoLmafiaASH.TYPE_FLOAT ) )
+			{
 				array[ index ] = val.toIntValue();
-			else if ( array[ index ].getType().equals( TYPE_FLOAT ) && val.getType().equals( TYPE_INT ) )
+			}
+			else if ( array[ index ].getType().equals( KoLmafiaASH.TYPE_FLOAT ) && val.getType().equals(
+				KoLmafiaASH.TYPE_INT ) )
+			{
 				array[ index ] = val.toFloatValue();
+			}
 			else
-				throw new RuntimeException( "Internal error: Cannot assign " + val.getType() + " to " + array[ index ].getType() );
+			{
+				throw new RuntimeException(
+					"Internal error: Cannot assign " + val.getType() + " to " + array[ index ].getType() );
+			}
 		}
 
-		public ScriptValue remove( ScriptValue key )
+		public ScriptValue remove( final ScriptValue key )
 		{
-			ScriptValue [] array = (ScriptValue [])content;
+			ScriptValue[] array = (ScriptValue[]) this.content;
 			int index = key.intValue();
 			if ( index < 0 || index > array.length )
+			{
 				throw new AdvancedScriptException( "Array index out of bounds" );
+			}
 			ScriptValue result = array[ index ];
-			array[ index ] = getDataType().initialValue();
+			array[ index ] = this.getDataType().initialValue();
 			return result;
 		}
 
 		public void clear()
 		{
-			ScriptValue [] array = (ScriptValue [])content;
+			ScriptValue[] array = (ScriptValue[]) this.content;
 			for ( int index = 0; index < array.length; ++index )
-				array[ index ] = getDataType().initialValue();
+			{
+				array[ index ] = this.getDataType().initialValue();
+			}
 		}
 
 		public int count()
 		{
-			ScriptValue [] array = (ScriptValue [])content;
+			ScriptValue[] array = (ScriptValue[]) this.content;
 			return array.length;
 		}
 
-		public boolean contains( ScriptValue key )
+		public boolean contains( final ScriptValue key )
 		{
-			ScriptValue [] array = (ScriptValue [])content;
+			ScriptValue[] array = (ScriptValue[]) this.content;
 			int index = key.intValue();
-			return ( index >= 0 && index < array.length );
+			return index >= 0 && index < array.length;
 		}
 
-		public ScriptValue [] keys()
+		public ScriptValue[] keys()
 		{
-			int size = ((ScriptValue [])content).length;
-			ScriptValue [] result = new ScriptValue[ size ];
+			int size = ( (ScriptValue[]) this.content ).length;
+			ScriptValue[] result = new ScriptValue[ size ];
 			for ( int i = 0; i < size; ++i )
-				result[i] = new ScriptValue(i);
+			{
+				result[ i ] = new ScriptValue( i );
+			}
 			return result;
 		}
 	}
 
-	private static class ScriptMap extends ScriptAggregateValue
+	private static class ScriptMap
+		extends ScriptAggregateValue
 	{
-		public ScriptMap( ScriptAggregateType type )
+		public ScriptMap( final ScriptAggregateType type )
 		{
 			super( type );
 			this.content = new TreeMap();
 		}
 
-		public ScriptValue aref( ScriptValue key )
+		public ScriptValue aref( final ScriptValue key )
 		{
-			TreeMap map = (TreeMap)content;
-			return (ScriptValue)map.get( key );
+			TreeMap map = (TreeMap) this.content;
+			return (ScriptValue) map.get( key );
 		}
 
-		public void aset( ScriptValue key, ScriptValue val )
+		public void aset( final ScriptValue key, ScriptValue val )
 		{
-			TreeMap map = (TreeMap)content;
+			TreeMap map = (TreeMap) this.content;
 
-			if ( !getDataType().equals( val.getType() ) )
+			if ( !this.getDataType().equals( val.getType() ) )
 			{
-				if ( getDataType().equals( TYPE_STRING ) )
+				if ( this.getDataType().equals( KoLmafiaASH.TYPE_STRING ) )
+				{
 					val = val.toStringValue();
-				else if ( getDataType().equals( TYPE_INT ) && val.getType().equals( TYPE_FLOAT ) )
+				}
+				else if ( this.getDataType().equals( KoLmafiaASH.TYPE_INT ) && val.getType().equals(
+					KoLmafiaASH.TYPE_FLOAT ) )
+				{
 					val = val.toIntValue();
-				else if ( getDataType().equals( TYPE_FLOAT ) && val.getType().equals( TYPE_INT ) )
+				}
+				else if ( this.getDataType().equals( KoLmafiaASH.TYPE_FLOAT ) && val.getType().equals(
+					KoLmafiaASH.TYPE_INT ) )
+				{
 					val = val.toFloatValue();
+				}
 			}
 
 			map.put( key, val );
 		}
 
-		public ScriptValue remove( ScriptValue key )
+		public ScriptValue remove( final ScriptValue key )
 		{
-			TreeMap map = (TreeMap)content;
-			return (ScriptValue)map.remove( key );
+			TreeMap map = (TreeMap) this.content;
+			return (ScriptValue) map.remove( key );
 		}
 
 		public void clear()
 		{
-			TreeMap map = (TreeMap)content;
+			TreeMap map = (TreeMap) this.content;
 			map.clear();
 		}
 
 		public int count()
 		{
-			TreeMap map = (TreeMap)content;
+			TreeMap map = (TreeMap) this.content;
 			return map.size();
 		}
 
-		public boolean contains( ScriptValue key )
+		public boolean contains( final ScriptValue key )
 		{
-			TreeMap map = (TreeMap)content;
+			TreeMap map = (TreeMap) this.content;
 			return map.containsKey( key );
 		}
 
-		public ScriptValue [] keys()
+		public ScriptValue[] keys()
 		{
-			Set set = ((TreeMap)content).keySet();
-			ScriptValue [] keys = new ScriptValue[ set.size() ];
+			Set set = ( (TreeMap) this.content ).keySet();
+			ScriptValue[] keys = new ScriptValue[ set.size() ];
 			set.toArray( keys );
 			return keys;
 		}
 	}
 
-	private static class ScriptRecord extends ScriptCompositeValue
+	private static class ScriptRecord
+		extends ScriptCompositeValue
 	{
-		public ScriptRecord( ScriptRecordType type )
+		public ScriptRecord( final ScriptRecordType type )
 		{
 			super( type );
 
-			ScriptType [] dataTypes = type.getFieldTypes();
-						int size = dataTypes.length;
-			ScriptValue [] content = new ScriptValue[ size ];
+			ScriptType[] dataTypes = type.getFieldTypes();
+			int size = dataTypes.length;
+			ScriptValue[] content = new ScriptValue[ size ];
 			for ( int i = 0; i < size; ++i )
-				content[i] = dataTypes[i].initialValue();
+			{
+				content[ i ] = dataTypes[ i ].initialValue();
+			}
 			this.content = content;
 		}
 
 		public ScriptRecordType getRecordType()
-		{	return (ScriptRecordType)type;
-		}
-
-		public ScriptType getDataType( ScriptValue key )
-		{	return ((ScriptRecordType)type).getDataType( key );
-		}
-
-		public ScriptValue aref( ScriptValue key )
 		{
-			int index = ((ScriptRecordType)type).indexOf( key );
+			return (ScriptRecordType) this.type;
+		}
+
+		public ScriptType getDataType( final ScriptValue key )
+		{
+			return ( (ScriptRecordType) this.type ).getDataType( key );
+		}
+
+		public ScriptValue aref( final ScriptValue key )
+		{
+			int index = ( (ScriptRecordType) this.type ).indexOf( key );
 			if ( index < 0 )
+			{
 				throw new RuntimeException( "Internal error: field index out of bounds" );
-			ScriptValue [] array = (ScriptValue [])content;
+			}
+			ScriptValue[] array = (ScriptValue[]) this.content;
 			return array[ index ];
 		}
 
-		public ScriptValue aref( int index )
+		public ScriptValue aref( final int index )
 		{
-			ScriptRecordType type = (ScriptRecordType)this.type;
+			ScriptRecordType type = (ScriptRecordType) this.type;
 			int size = type.fieldCount();
 			if ( index < 0 || index >= size )
+			{
 				throw new RuntimeException( "Internal error: field index out of bounds" );
-			ScriptValue [] array = (ScriptValue [])content;
+			}
+			ScriptValue[] array = (ScriptValue[]) this.content;
 			return array[ index ];
 		}
 
-		public void aset( ScriptValue key, ScriptValue val )
+		public void aset( final ScriptValue key, final ScriptValue val )
 		{
-			int index = ((ScriptRecordType)type).indexOf( key );
+			int index = ( (ScriptRecordType) this.type ).indexOf( key );
 			if ( index < 0 )
+			{
 				throw new RuntimeException( "Internal error: field index out of bounds" );
+			}
 
-			aset( index, val );
+			this.aset( index, val );
 		}
 
-		public void aset( int index, ScriptValue val )
+		public void aset( final int index, final ScriptValue val )
 		{
-			ScriptRecordType type = (ScriptRecordType)this.type;
+			ScriptRecordType type = (ScriptRecordType) this.type;
 			int size = type.fieldCount();
 			if ( index < 0 || index >= size )
+			{
 				throw new RuntimeException( "Internal error: field index out of bounds" );
+			}
 
-			ScriptValue [] array = (ScriptValue []) content;
+			ScriptValue[] array = (ScriptValue[]) this.content;
 
 			if ( array[ index ].getType().equals( val.getType() ) )
+			{
 				array[ index ] = val;
-			else if ( array[ index ].getType().equals( TYPE_STRING ) )
+			}
+			else if ( array[ index ].getType().equals( KoLmafiaASH.TYPE_STRING ) )
+			{
 				array[ index ] = val.toStringValue();
-			else if ( array[ index ].getType().equals( TYPE_INT ) && val.getType().equals( TYPE_FLOAT ) )
+			}
+			else if ( array[ index ].getType().equals( KoLmafiaASH.TYPE_INT ) && val.getType().equals(
+				KoLmafiaASH.TYPE_FLOAT ) )
+			{
 				array[ index ] = val.toIntValue();
-			else if ( array[ index ].getType().equals( TYPE_FLOAT ) && val.getType().equals( TYPE_INT ) )
+			}
+			else if ( array[ index ].getType().equals( KoLmafiaASH.TYPE_FLOAT ) && val.getType().equals(
+				KoLmafiaASH.TYPE_INT ) )
+			{
 				array[ index ] = val.toFloatValue();
+			}
 			else
-				throw new RuntimeException( "Internal error: Cannot assign " + val.getType() + " to " + array[ index ].getType() );
+			{
+				throw new RuntimeException(
+					"Internal error: Cannot assign " + val.getType() + " to " + array[ index ].getType() );
+			}
 		}
 
-		public ScriptValue remove( ScriptValue key )
+		public ScriptValue remove( final ScriptValue key )
 		{
-			int index = ((ScriptRecordType)type).indexOf( key );
+			int index = ( (ScriptRecordType) this.type ).indexOf( key );
 			if ( index < 0 )
+			{
 				throw new RuntimeException( "Internal error: field index out of bounds" );
-			ScriptValue [] array = (ScriptValue [])content;
+			}
+			ScriptValue[] array = (ScriptValue[]) this.content;
 			ScriptValue result = array[ index ];
-			array[ index ] = getDataType( key ).initialValue();
+			array[ index ] = this.getDataType( key ).initialValue();
 			return result;
 		}
 
 		public void clear()
 		{
-			ScriptType [] dataTypes = ((ScriptRecordType)type).getFieldTypes();
-			ScriptValue [] array = (ScriptValue [])content;
+			ScriptType[] dataTypes = ( (ScriptRecordType) this.type ).getFieldTypes();
+			ScriptValue[] array = (ScriptValue[]) this.content;
 			for ( int index = 0; index < array.length; ++index )
-				array[ index ] = dataTypes[index].initialValue();
+			{
+				array[ index ] = dataTypes[ index ].initialValue();
+			}
 		}
 
-		public ScriptValue [] keys()
-		{	return ((ScriptRecordType)type).getFieldIndices();
-		}
-
-		public void dump( PrintStream writer, String prefix, boolean compact )
+		public ScriptValue[] keys()
 		{
-			if ( !compact || type.containsAggregate() )
+			return ( (ScriptRecordType) this.type ).getFieldIndices();
+		}
+
+		public void dump( final PrintStream writer, final String prefix, boolean compact )
+		{
+			if ( !compact || this.type.containsAggregate() )
 			{
 				super.dump( writer, prefix, compact );
 				return;
 			}
 
 			writer.print( prefix );
-			dumpValue( writer );
+			this.dumpValue( writer );
 			writer.println();
 		}
 
-		public void dumpValue( PrintStream writer )
+		public void dumpValue( final PrintStream writer )
 		{
-			int size = ((ScriptRecordType)type).getFieldTypes().length;
+			int size = ( (ScriptRecordType) this.type ).getFieldTypes().length;
 			for ( int i = 0; i < size; ++i )
 			{
-				ScriptValue value = aref( i );
-				if ( i > 0  )
+				ScriptValue value = this.aref( i );
+				if ( i > 0 )
+				{
 					writer.print( "\t" );
+				}
 				value.dumpValue( writer );
 			}
 		}
 
-		public int read( String [] data, int index, boolean compact )
+		public int read( final String[] data, int index, boolean compact )
 		{
-			if ( !compact || type.containsAggregate() )
+			if ( !compact || this.type.containsAggregate() )
+			{
 				return super.read( data, index, compact );
+			}
 
-			ScriptType [] dataTypes = ((ScriptRecordType)this.type).getFieldTypes();
-			ScriptValue [] array = (ScriptValue []) content;
+			ScriptType[] dataTypes = ( (ScriptRecordType) this.type ).getFieldTypes();
+			ScriptValue[] array = (ScriptValue[]) this.content;
 
 			int size = Math.min( dataTypes.length, data.length - index );
 			int first = index;
@@ -8913,32 +10267,36 @@ public class KoLmafiaASH extends StaticEntity
 			// Consume remaining data values and store them
 			for ( int offset = 0; offset < size; ++offset )
 			{
-				ScriptType valType = dataTypes[offset];
+				ScriptType valType = dataTypes[ offset ];
 				if ( valType instanceof ScriptRecordType )
 				{
-					ScriptRecord rec = (ScriptRecord)array[offset];
+					ScriptRecord rec = (ScriptRecord) array[ offset ];
 					index += rec.read( data, index, true );
 				}
 				else
 				{
-					array[offset] = parseValue( valType, data[ index ] );
+					array[ offset ] = KoLmafiaASH.parseValue( valType, data[ index ] );
 					index += 1;
 				}
 			}
 
 			for ( int offset = size; offset < dataTypes.length; ++offset )
-				array[offset] = parseValue( dataTypes[offset], "none" );
+			{
+				array[ offset ] = KoLmafiaASH.parseValue( dataTypes[ offset ], "none" );
+			}
 
 			// assert index == data.length
 			return index - first;
 		}
 
 		public String toString()
-		{	return "record " + type.toString();
+		{
+			return "record " + this.type.toString();
 		}
 	}
 
-	private static class ScriptExpression extends ScriptCommand
+	private static class ScriptExpression
+		extends ScriptCommand
 	{
 		ScriptExpression lhs;
 		ScriptExpression rhs;
@@ -8948,7 +10306,7 @@ public class KoLmafiaASH extends StaticEntity
 		{
 		}
 
-		public ScriptExpression( ScriptExpression lhs, ScriptExpression rhs, ScriptOperator oper )
+		public ScriptExpression( final ScriptExpression lhs, final ScriptExpression rhs, final ScriptOperator oper )
 		{
 			this.lhs = lhs;
 			this.rhs = rhs;
@@ -8957,25 +10315,33 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptType getType()
 		{
-			ScriptType leftType = lhs.getType();
+			ScriptType leftType = this.lhs.getType();
 
 			// Unary operators have no right hand side
-			if ( rhs == null )
+			if ( this.rhs == null )
+			{
 				return leftType;
+			}
 
-			ScriptType rightType = rhs.getType();
+			ScriptType rightType = this.rhs.getType();
 
 			// String concatenation always yields a string
-			if ( oper.equals( "+" ) && ( leftType.equals( TYPE_STRING ) || rightType.equals( TYPE_STRING ) ) )
-				return STRING_TYPE;
+			if ( this.oper.equals( "+" ) && ( leftType.equals( KoLmafiaASH.TYPE_STRING ) || rightType.equals( KoLmafiaASH.TYPE_STRING ) ) )
+			{
+				return KoLmafiaASH.STRING_TYPE;
+			}
 
 			// If it's not arithmetic, it's boolean
-			if ( !oper.isArithmetic() )
-				return BOOLEAN_TYPE;
+			if ( !this.oper.isArithmetic() )
+			{
+				return KoLmafiaASH.BOOLEAN_TYPE;
+			}
 
 			// Coerce int to float
-			if ( leftType.equals( TYPE_FLOAT ) ) // int ( oper ) float evaluates to float.
-				return FLOAT_TYPE;
+			if ( leftType.equals( KoLmafiaASH.TYPE_FLOAT ) )
+			{
+				return KoLmafiaASH.FLOAT_TYPE;
+			}
 
 			// Otherwise result is whatever is on right
 			return rightType;
@@ -8983,39 +10349,45 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptExpression getLeftHandSide()
 		{
-			return lhs;
+			return this.lhs;
 		}
 
 		public ScriptExpression getRightHandSide()
 		{
-			return rhs;
+			return this.rhs;
 		}
 
 		public ScriptOperator getOperator()
 		{
-			return oper;
+			return this.oper;
 		}
 
 		public ScriptValue execute()
-		{	return oper.applyTo( lhs, rhs );
+		{
+			return this.oper.applyTo( this.lhs, this.rhs );
 		}
 
 		public String toString()
 		{
-			if ( rhs == null )
-				return oper.toString() + " " + lhs.toQuotedString();
-			return "( " + lhs.toQuotedString() + " " + oper.toString() + " " + rhs.toQuotedString() + " )";
+			if ( this.rhs == null )
+			{
+				return this.oper.toString() + " " + this.lhs.toQuotedString();
+			}
+			return "( " + this.lhs.toQuotedString() + " " + this.oper.toString() + " " + this.rhs.toQuotedString() + " )";
 		}
 
 		public String toQuotedString()
-		{	return toString();
+		{
+			return this.toString();
 		}
 	}
 
-	private static class ScriptExpressionList extends ScriptList
+	private static class ScriptExpressionList
+		extends ScriptList
 	{
 		public Iterator getExpressions()
-		{	return iterator();
+		{
+			return this.iterator();
 		}
 	}
 
@@ -9023,242 +10395,266 @@ public class KoLmafiaASH extends StaticEntity
 	{
 		String operator;
 
-		public ScriptOperator( String operator )
+		public ScriptOperator( final String operator )
 		{
 			if ( operator == null )
+			{
 				throw new RuntimeException( "Internal error in ScriptOperator()" );
+			}
 
 			this.operator = operator;
 		}
 
-		public boolean equals( String op )
-		{	return operator.equals( op );
+		public boolean equals( final String op )
+		{
+			return this.operator.equals( op );
 		}
 
-		public boolean precedes( ScriptOperator oper )
+		public boolean precedes( final ScriptOperator oper )
 		{
-			return operStrength() > oper.operStrength();
+			return this.operStrength() > oper.operStrength();
 		}
 
 		private int operStrength()
 		{
-			if ( operator.equals( "!" ) || operator.equals( "contains" ) || operator.equals( "remove" ) )
+			if ( this.operator.equals( "!" ) || this.operator.equals( "contains" ) || this.operator.equals( "remove" ) )
+			{
 				return 7;
+			}
 
-			if ( operator.equals( "^" ) )
+			if ( this.operator.equals( "^" ) )
+			{
 				return 6;
+			}
 
-			if ( operator.equals( "*" ) || operator.equals( "/" ) || operator.equals( "%" ) )
+			if ( this.operator.equals( "*" ) || this.operator.equals( "/" ) || this.operator.equals( "%" ) )
+			{
 				return 5;
+			}
 
-			if ( operator.equals( "+" ) || operator.equals( "-" ) )
+			if ( this.operator.equals( "+" ) || this.operator.equals( "-" ) )
+			{
 				return 4;
+			}
 
-			if ( operator.equals( "<" ) || operator.equals( ">" ) || operator.equals( "<=" ) || operator.equals( ">=" ) )
+			if ( this.operator.equals( "<" ) || this.operator.equals( ">" ) || this.operator.equals( "<=" ) || this.operator.equals( ">=" ) )
+			{
 				return 3;
+			}
 
-			if ( operator.equals( "=" ) || operator.equals( "==" ) || operator.equals( "!=" ) )
+			if ( this.operator.equals( "=" ) || this.operator.equals( "==" ) || this.operator.equals( "!=" ) )
+			{
 				return 2;
+			}
 
-			if ( operator.equals( "||" ) || operator.equals( "&&" ) )
+			if ( this.operator.equals( "||" ) || this.operator.equals( "&&" ) )
+			{
 				return 1;
+			}
 
 			return -1;
 		}
 
 		public boolean isArithmetic()
-		{	return	operator.equals( "+" ) ||
-				operator.equals( "-" ) ||
-				operator.equals( "*" ) ||
-				operator.equals( "^" ) ||
-				operator.equals( "/" ) ||
-				operator.equals( "%" );
+		{
+			return this.operator.equals( "+" ) || this.operator.equals( "-" ) || this.operator.equals( "*" ) || this.operator.equals( "^" ) || this.operator.equals( "/" ) || this.operator.equals( "%" );
 		}
 
 		public String toString()
-		{	return operator;
+		{
+			return this.operator;
 		}
 
-		public ScriptValue applyTo( ScriptExpression lhs, ScriptExpression rhs )
+		public ScriptValue applyTo( final ScriptExpression lhs, final ScriptExpression rhs )
 		{
-			traceIndent();
-			trace( "Operator: " + operator );
+			KoLmafiaASH.traceIndent();
+			KoLmafiaASH.trace( "Operator: " + this.operator );
 
 			// Unary operator with special evaluation of argument
-			if ( operator.equals( "remove" ) )
+			if ( this.operator.equals( "remove" ) )
 			{
-				ScriptCompositeReference operand = (ScriptCompositeReference)lhs;
-				traceIndent();
-				trace( "Operand: " + operand );
-				traceUnindent();
-								ScriptValue result = operand.removeKey();
-				trace( "<- " + result );
-				traceUnindent();
+				ScriptCompositeReference operand = (ScriptCompositeReference) lhs;
+				KoLmafiaASH.traceIndent();
+				KoLmafiaASH.trace( "Operand: " + operand );
+				KoLmafiaASH.traceUnindent();
+				ScriptValue result = operand.removeKey();
+				KoLmafiaASH.trace( "<- " + result );
+				KoLmafiaASH.traceUnindent();
 				return result;
 			}
 
-			traceIndent();
-			trace( "Operand 1: " + lhs );
+			KoLmafiaASH.traceIndent();
+			KoLmafiaASH.trace( "Operand 1: " + lhs );
 			ScriptValue leftValue = lhs.execute();
-			captureValue( leftValue );
-			trace( "[" + executionStateString( currentState ) + "] <- " + leftValue.toQuotedString() );
-			traceUnindent();
-			if ( currentState == STATE_EXIT )
+			KoLmafiaASH.captureValue( leftValue );
+			KoLmafiaASH.trace( "[" + KoLmafiaASH.executionStateString( KoLmafiaASH.currentState ) + "] <- " + leftValue.toQuotedString() );
+			KoLmafiaASH.traceUnindent();
+			if ( KoLmafiaASH.currentState == KoLmafiaASH.STATE_EXIT )
 			{
-				traceUnindent();
+				KoLmafiaASH.traceUnindent();
 				return null;
 			}
 
 			// Unary Operators
-			if ( operator.equals( "!" ) )
+			if ( this.operator.equals( "!" ) )
 			{
 				ScriptValue result = new ScriptValue( leftValue.intValue() == 0 );
-				trace( "<- " + result );
-				traceUnindent();
+				KoLmafiaASH.trace( "<- " + result );
+				KoLmafiaASH.traceUnindent();
 				return result;
 			}
 
-			if ( operator.equals( "-" ) && rhs == null )
+			if ( this.operator.equals( "-" ) && rhs == null )
 			{
 				ScriptValue result = null;
-				if ( lhs.getType().equals( TYPE_INT ) )
+				if ( lhs.getType().equals( KoLmafiaASH.TYPE_INT ) )
+				{
 					result = new ScriptValue( 0 - leftValue.intValue() );
-				else if ( lhs.getType().equals( TYPE_FLOAT ) )
+				}
+				else if ( lhs.getType().equals( KoLmafiaASH.TYPE_FLOAT ) )
+				{
 					result = new ScriptValue( 0.0f - leftValue.floatValue() );
+				}
 				else
+				{
 					throw new RuntimeException( "Unary minus can only be applied to numbers" );
-				trace( "<- " + result );
-				traceUnindent();
+				}
+				KoLmafiaASH.trace( "<- " + result );
+				KoLmafiaASH.traceUnindent();
 				return result;
 			}
 
 			// Unknown operator
 			if ( rhs == null )
+			{
 				throw new RuntimeException( "Internal error: missing right operand." );
+			}
 
 			// Binary operators with optional right values
-			if ( operator.equals( "||" ) )
+			if ( this.operator.equals( "||" ) )
 			{
 				if ( leftValue.intValue() == 1 )
 				{
-					trace( "<- " + TRUE_VALUE );
-					traceUnindent();
-					return TRUE_VALUE;
+					KoLmafiaASH.trace( "<- " + KoLmafiaASH.TRUE_VALUE );
+					KoLmafiaASH.traceUnindent();
+					return KoLmafiaASH.TRUE_VALUE;
 				}
-				traceIndent();
-				trace( "Operand 2: " + rhs );
+				KoLmafiaASH.traceIndent();
+				KoLmafiaASH.trace( "Operand 2: " + rhs );
 				ScriptValue rightValue = rhs.execute();
-				captureValue( rightValue );
-				trace( "[" + executionStateString( currentState ) + "] <- " + rightValue.toQuotedString() );
-				traceUnindent();
-				if ( currentState == STATE_EXIT )
+				KoLmafiaASH.captureValue( rightValue );
+				KoLmafiaASH.trace( "[" + KoLmafiaASH.executionStateString( KoLmafiaASH.currentState ) + "] <- " + rightValue.toQuotedString() );
+				KoLmafiaASH.traceUnindent();
+				if ( KoLmafiaASH.currentState == KoLmafiaASH.STATE_EXIT )
 				{
-					traceUnindent();
+					KoLmafiaASH.traceUnindent();
 					return null;
 				}
-				trace( "<- " + rightValue );
-				traceUnindent();
+				KoLmafiaASH.trace( "<- " + rightValue );
+				KoLmafiaASH.traceUnindent();
 				return rightValue;
 			}
 
-			if ( operator.equals( "&&" ) )
+			if ( this.operator.equals( "&&" ) )
 			{
 				if ( leftValue.intValue() == 0 )
 				{
-					traceUnindent();
-					trace( "<- " + FALSE_VALUE );
-					return FALSE_VALUE;
+					KoLmafiaASH.traceUnindent();
+					KoLmafiaASH.trace( "<- " + KoLmafiaASH.FALSE_VALUE );
+					return KoLmafiaASH.FALSE_VALUE;
 				}
-				traceIndent();
-				trace( "Operand 2: " + rhs );
+				KoLmafiaASH.traceIndent();
+				KoLmafiaASH.trace( "Operand 2: " + rhs );
 				ScriptValue rightValue = rhs.execute();
-				captureValue( rightValue);
-				trace( "[" + executionStateString( currentState ) + "] <- " + rightValue.toQuotedString() );
-				traceUnindent();
-				if ( currentState == STATE_EXIT )
+				KoLmafiaASH.captureValue( rightValue );
+				KoLmafiaASH.trace( "[" + KoLmafiaASH.executionStateString( KoLmafiaASH.currentState ) + "] <- " + rightValue.toQuotedString() );
+				KoLmafiaASH.traceUnindent();
+				if ( KoLmafiaASH.currentState == KoLmafiaASH.STATE_EXIT )
 				{
-					traceUnindent();
+					KoLmafiaASH.traceUnindent();
 					return null;
 				}
-				trace( "<- " + rightValue );
-				traceUnindent();
+				KoLmafiaASH.trace( "<- " + rightValue );
+				KoLmafiaASH.traceUnindent();
 				return rightValue;
 			}
 
 			// Ensure type compatibility of operands
-			if ( !validCoercion( lhs.getType(), rhs.getType(), operator ) )
+			if ( !KoLmafiaASH.validCoercion( lhs.getType(), rhs.getType(), this.operator ) )
+			{
 				throw new RuntimeException( "Internal error: left hand side and right hand side do not correspond" );
+			}
 
 			// Special binary operator: <aggref> contains <any>
-			if ( operator.equals( "contains" ) )
+			if ( this.operator.equals( "contains" ) )
 			{
-				traceIndent();
-				trace( "Operand 2: " + rhs );
+				KoLmafiaASH.traceIndent();
+				KoLmafiaASH.trace( "Operand 2: " + rhs );
 				ScriptValue rightValue = rhs.execute();
-				captureValue( rightValue);
-				trace( "[" + executionStateString( currentState ) + "] <- " + rightValue.toQuotedString() );
-				traceUnindent();
-				if ( currentState == STATE_EXIT )
+				KoLmafiaASH.captureValue( rightValue );
+				KoLmafiaASH.trace( "[" + KoLmafiaASH.executionStateString( KoLmafiaASH.currentState ) + "] <- " + rightValue.toQuotedString() );
+				KoLmafiaASH.traceUnindent();
+				if ( KoLmafiaASH.currentState == KoLmafiaASH.STATE_EXIT )
 				{
-					traceUnindent();
+					KoLmafiaASH.traceUnindent();
 					return null;
 				}
 				ScriptValue result = new ScriptValue( leftValue.contains( rightValue ) );
-				trace( "<- " + result );
-				traceUnindent();
+				KoLmafiaASH.trace( "<- " + result );
+				KoLmafiaASH.traceUnindent();
 				return result;
 			}
 
 			// Binary operators
-			traceIndent();
-			trace( "Operand 2: " + rhs );
+			KoLmafiaASH.traceIndent();
+			KoLmafiaASH.trace( "Operand 2: " + rhs );
 			ScriptValue rightValue = rhs.execute();
-			captureValue( rightValue );
-			trace( "[" + executionStateString( currentState ) + "] <- " + rightValue.toQuotedString() );
-			traceUnindent();
-			if ( currentState == STATE_EXIT )
+			KoLmafiaASH.captureValue( rightValue );
+			KoLmafiaASH.trace( "[" + KoLmafiaASH.executionStateString( KoLmafiaASH.currentState ) + "] <- " + rightValue.toQuotedString() );
+			KoLmafiaASH.traceUnindent();
+			if ( KoLmafiaASH.currentState == KoLmafiaASH.STATE_EXIT )
 			{
-				traceUnindent();
+				KoLmafiaASH.traceUnindent();
 				return null;
 			}
 
 			// String operators
-			if ( operator.equals( "+" ) )
+			if ( this.operator.equals( "+" ) )
 			{
-				if ( lhs.getType().equals( TYPE_STRING ) || rhs.getType().equals( TYPE_STRING ) )
+				if ( lhs.getType().equals( KoLmafiaASH.TYPE_STRING ) || rhs.getType().equals( KoLmafiaASH.TYPE_STRING ) )
 				{
-					concatenateBuffer.setLength(0);
-					concatenateBuffer.append( leftValue.toStringValue().toString() );
-					concatenateBuffer.append( rightValue.toStringValue().toString() );
-					ScriptValue result = new ScriptValue( concatenateBuffer.toString() );
-					trace( "<- " + result );
-					traceUnindent();
+					KoLmafiaASH.concatenateBuffer.setLength( 0 );
+					KoLmafiaASH.concatenateBuffer.append( leftValue.toStringValue().toString() );
+					KoLmafiaASH.concatenateBuffer.append( rightValue.toStringValue().toString() );
+					ScriptValue result = new ScriptValue( KoLmafiaASH.concatenateBuffer.toString() );
+					KoLmafiaASH.trace( "<- " + result );
+					KoLmafiaASH.traceUnindent();
 					return result;
 				}
 			}
 
-			if ( operator.equals( "=" ) || operator.equals( "==" ) )
+			if ( this.operator.equals( "=" ) || this.operator.equals( "==" ) )
 			{
-				if ( lhs.getType().equals( TYPE_STRING ) ||
-					 lhs.getType().equals( TYPE_LOCATION ) ||
-					 lhs.getType().equals( TYPE_MONSTER ) )
+				if ( lhs.getType().equals( KoLmafiaASH.TYPE_STRING ) || lhs.getType().equals( KoLmafiaASH.TYPE_LOCATION ) || lhs.getType().equals(
+					KoLmafiaASH.TYPE_MONSTER ) )
 				{
-					ScriptValue result = new ScriptValue( leftValue.toString().equalsIgnoreCase( rightValue.toString() ) );
-					trace( "<- " + result );
-					traceUnindent();
+					ScriptValue result =
+						new ScriptValue( leftValue.toString().equalsIgnoreCase( rightValue.toString() ) );
+					KoLmafiaASH.trace( "<- " + result );
+					KoLmafiaASH.traceUnindent();
 					return result;
 				}
 			}
 
-			if ( operator.equals( "!=" ) )
+			if ( this.operator.equals( "!=" ) )
 			{
-				if ( lhs.getType().equals( TYPE_STRING ) ||
-					 lhs.getType().equals( TYPE_LOCATION ) ||
-					 lhs.getType().equals( TYPE_MONSTER ) )
+				if ( lhs.getType().equals( KoLmafiaASH.TYPE_STRING ) || lhs.getType().equals( KoLmafiaASH.TYPE_LOCATION ) || lhs.getType().equals(
+					KoLmafiaASH.TYPE_MONSTER ) )
 				{
-					ScriptValue result = new ScriptValue( !leftValue.toString().equalsIgnoreCase( rightValue.toString() ) );
-					trace( "<- " + result );
-					traceUnindent();
+					ScriptValue result =
+						new ScriptValue( !leftValue.toString().equalsIgnoreCase( rightValue.toString() ) );
+					KoLmafiaASH.trace( "<- " + result );
+					KoLmafiaASH.traceUnindent();
 					return result;
 				}
 			}
@@ -9268,7 +10664,7 @@ public class KoLmafiaASH extends StaticEntity
 			float lfloat = 0.0f, rfloat = 0.0f;
 			int lint = 0, rint = 0;
 
-			if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
+			if ( lhs.getType().equals( KoLmafiaASH.TYPE_FLOAT ) || rhs.getType().equals( KoLmafiaASH.TYPE_FLOAT ) )
 			{
 				isInt = false;
 				lfloat = leftValue.toFloatValue().floatValue();
@@ -9281,124 +10677,131 @@ public class KoLmafiaASH extends StaticEntity
 				rint = rightValue.intValue();
 			}
 
-			if ( operator.equals( "+" ) )
+			if ( this.operator.equals( "+" ) )
 			{
-				ScriptValue result = ( isInt ) ? new ScriptValue( lint + rint ) : new ScriptValue( lfloat + rfloat );
-				trace( "<- " + result );
-				traceUnindent();
+				ScriptValue result = isInt ? new ScriptValue( lint + rint ) : new ScriptValue( lfloat + rfloat );
+				KoLmafiaASH.trace( "<- " + result );
+				KoLmafiaASH.traceUnindent();
 				return result;
 			}
 
-			if ( operator.equals( "-" ) )
+			if ( this.operator.equals( "-" ) )
 			{
-				ScriptValue result = ( isInt ) ? new ScriptValue( lint - rint ) : new ScriptValue( lfloat - rfloat );
-				trace( "<- " + result );
-				traceUnindent();
+				ScriptValue result = isInt ? new ScriptValue( lint - rint ) : new ScriptValue( lfloat - rfloat );
+				KoLmafiaASH.trace( "<- " + result );
+				KoLmafiaASH.traceUnindent();
 				return result;
 			}
 
-			if ( operator.equals( "*" ) )
+			if ( this.operator.equals( "*" ) )
 			{
-				ScriptValue result = ( isInt ) ? new ScriptValue( lint * rint ) : new ScriptValue( lfloat * rfloat );
-				trace( "<- " + result );
-				traceUnindent();
+				ScriptValue result = isInt ? new ScriptValue( lint * rint ) : new ScriptValue( lfloat * rfloat );
+				KoLmafiaASH.trace( "<- " + result );
+				KoLmafiaASH.traceUnindent();
 				return result;
 			}
 
-			if ( operator.equals( "^" ) )
+			if ( this.operator.equals( "^" ) )
 			{
-				ScriptValue result = ( isInt ) ? new ScriptValue( (int) Math.pow( lint, rint ) ) : new ScriptValue( (float) Math.pow( lfloat, rfloat ) );
-				trace( "<- " + result );
-				traceUnindent();
+				ScriptValue result =
+					isInt ? new ScriptValue( (int) Math.pow( lint, rint ) ) : new ScriptValue( (float) Math.pow(
+						lfloat, rfloat ) );
+				KoLmafiaASH.trace( "<- " + result );
+				KoLmafiaASH.traceUnindent();
 				return result;
 			}
 
-			if ( operator.equals( "/" ) )
+			if ( this.operator.equals( "/" ) )
 			{
-				ScriptValue result = ( isInt ) ? new ScriptValue( ((float)lint) / ((float)rint) ) : new ScriptValue( lfloat / rfloat );
-				trace( "<- " + result );
-				traceUnindent();
+				ScriptValue result =
+					isInt ? new ScriptValue( (float) lint / (float) rint ) : new ScriptValue( lfloat / rfloat );
+				KoLmafiaASH.trace( "<- " + result );
+				KoLmafiaASH.traceUnindent();
 				return result;
 			}
 
-			if ( operator.equals( "%" ) )
+			if ( this.operator.equals( "%" ) )
 			{
-				ScriptValue result = ( isInt ) ? new ScriptValue( lint % rint ) : new ScriptValue( lfloat % rfloat );
-				trace( "<- " + result );
-				traceUnindent();
+				ScriptValue result = isInt ? new ScriptValue( lint % rint ) : new ScriptValue( lfloat % rfloat );
+				KoLmafiaASH.trace( "<- " + result );
+				KoLmafiaASH.traceUnindent();
 				return result;
 			}
 
-			if ( operator.equals( "<" ) )
+			if ( this.operator.equals( "<" ) )
 			{
-				ScriptValue result = ( isInt ) ? new ScriptValue( lint < rint ) : new ScriptValue( lfloat < rfloat );
-				trace( "<- " + result );
-				traceUnindent();
+				ScriptValue result = isInt ? new ScriptValue( lint < rint ) : new ScriptValue( lfloat < rfloat );
+				KoLmafiaASH.trace( "<- " + result );
+				KoLmafiaASH.traceUnindent();
 				return result;
 			}
 
-			if ( operator.equals( ">" ) )
+			if ( this.operator.equals( ">" ) )
 			{
-				ScriptValue result = ( isInt ) ? new ScriptValue( lint > rint ) : new ScriptValue( lfloat > rfloat );
-				trace( "<- " + result );
-				traceUnindent();
+				ScriptValue result = isInt ? new ScriptValue( lint > rint ) : new ScriptValue( lfloat > rfloat );
+				KoLmafiaASH.trace( "<- " + result );
+				KoLmafiaASH.traceUnindent();
 				return result;
 			}
 
-			if ( operator.equals( "<=" ) )
+			if ( this.operator.equals( "<=" ) )
 			{
-				ScriptValue result = ( isInt ) ? new ScriptValue( lint <= rint ) : new ScriptValue( lfloat <= rfloat );
-				trace( "<- " + result );
-				traceUnindent();
+				ScriptValue result = isInt ? new ScriptValue( lint <= rint ) : new ScriptValue( lfloat <= rfloat );
+				KoLmafiaASH.trace( "<- " + result );
+				KoLmafiaASH.traceUnindent();
 				return result;
 			}
 
-			if ( operator.equals( ">=" ) )
+			if ( this.operator.equals( ">=" ) )
 			{
-				ScriptValue result = ( isInt ) ? new ScriptValue( lint >= rint ) : new ScriptValue( lfloat >= rfloat );
-				trace( "<- " + result );
-				traceUnindent();
+				ScriptValue result = isInt ? new ScriptValue( lint >= rint ) : new ScriptValue( lfloat >= rfloat );
+				KoLmafiaASH.trace( "<- " + result );
+				KoLmafiaASH.traceUnindent();
 				return result;
 			}
 
-			if ( operator.equals( "=" ) || operator.equals( "==" ) )
+			if ( this.operator.equals( "=" ) || this.operator.equals( "==" ) )
 			{
-				ScriptValue result = ( isInt ) ? new ScriptValue( lint == rint ) : new ScriptValue( lfloat == rfloat );
-				trace( "<- " + result );
-				traceUnindent();
+				ScriptValue result = isInt ? new ScriptValue( lint == rint ) : new ScriptValue( lfloat == rfloat );
+				KoLmafiaASH.trace( "<- " + result );
+				KoLmafiaASH.traceUnindent();
 				return result;
 			}
 
-			if ( operator.equals( "!=" ) )
+			if ( this.operator.equals( "!=" ) )
 			{
-				ScriptValue result = ( isInt ) ? new ScriptValue( lint != rint ) : new ScriptValue( lfloat != rfloat );
-				trace( "<- " + result );
-				traceUnindent();
+				ScriptValue result = isInt ? new ScriptValue( lint != rint ) : new ScriptValue( lfloat != rfloat );
+				KoLmafiaASH.trace( "<- " + result );
+				KoLmafiaASH.traceUnindent();
 				return result;
 			}
 
 			// Unknown operator
-			throw new RuntimeException( "Internal error: illegal operator \"" + operator + "\"" );
+			throw new RuntimeException( "Internal error: illegal operator \"" + this.operator + "\"" );
 		}
 	}
 
-	private static class ScriptList extends ArrayList
+	private static class ScriptList
+		extends ArrayList
 	{
-		public boolean addElement( Object n )
+		public boolean addElement( final Object n )
 		{
-			add( n );
+			this.add( n );
 			return true;
 		}
 	}
 
-	public static class AdvancedScriptException extends RuntimeException
+	public static class AdvancedScriptException
+		extends RuntimeException
 	{
-		AdvancedScriptException( Throwable t )
-		{	this( t.getMessage() == null ? "" : (t.getMessage() + " " + getCurrentLineAndFile()) );
+		AdvancedScriptException( final Throwable t )
+		{
+			this( t.getMessage() == null ? "" : t.getMessage() + " " + KoLmafiaASH.getCurrentLineAndFile() );
 		}
 
-		AdvancedScriptException( String s )
-		{	super( s == null ? "" : (s + " " + getCurrentLineAndFile()) );
+		AdvancedScriptException( final String s )
+		{
+			super( s == null ? "" : s + " " + KoLmafiaASH.getCurrentLineAndFile() );
 		}
 	}
 }

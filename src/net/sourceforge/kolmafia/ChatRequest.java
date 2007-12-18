@@ -36,7 +36,8 @@ package net.sourceforge.kolmafia;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ChatRequest extends KoLRequest
+public class ChatRequest
+	extends KoLRequest
 {
 	private static final Pattern LASTSEEN_PATTERN = Pattern.compile( "<!--lastseen:(\\d+)-->" );
 	private static final int CHAT_DELAY = 10000;
@@ -45,25 +46,24 @@ public class ChatRequest extends KoLRequest
 	private static String lastSeen = "";
 	private static ChatContinuationThread thread = null;
 
-	private boolean shouldUpdateChat;
+	private final boolean shouldUpdateChat;
 
 	/**
 	 * Constructs a new <code>ChatRequest</code>.
 	 */
 
 	public ChatRequest()
-	{	this( "1" );
+	{
+		this( "1" );
 	}
 
 	/**
-	 * Constructs a new <code>ChatRequest</code> where the given parameter
-	 * will be passed to the PHP file to indicate where you left off.  Note
-	 * that this constructor is only available to the <code>ChatRequest</code>;
-	 * this is done because only the <code>ChatRequest</code> knows what the
-	 * appropriate value should be.
+	 * Constructs a new <code>ChatRequest</code> where the given parameter will be passed to the PHP file to indicate
+	 * where you left off. Note that this constructor is only available to the <code>ChatRequest</code>; this is done
+	 * because only the <code>ChatRequest</code> knows what the appropriate value should be.
 	 */
 
-	private ChatRequest( String lastSeen )
+	private ChatRequest( final String lastSeen )
 	{
 		super( "newchatmessages.php" );
 		this.addFormField( "lasttime", lastSeen );
@@ -73,27 +73,26 @@ public class ChatRequest extends KoLRequest
 	}
 
 	/**
-	 * Constructs a new <code>ChatRequest</code> that will send the given
-	 * string to the server.
-	 *
-	 * @param	contact	The channel or player to which this message is to be sent
-	 * @param	message	The message to be sent
+	 * Constructs a new <code>ChatRequest</code> that will send the given string to the server.
+	 * 
+	 * @param contact The channel or player to which this message is to be sent
+	 * @param message The message to be sent
 	 */
 
-	public ChatRequest( String contact, String message )
-	{	this( contact, message, true );
+	public ChatRequest( final String contact, final String message )
+	{
+		this( contact, message, true );
 	}
 
 	/**
-	 * Constructs a new <code>ChatRequest</code> that will send the given
-	 * string to the server.
-	 *
-	 * @param	contact	The channel or player to which this message is to be sent
-	 * @param	message	The message to be sent
-	 * @param	shouldUpdateChat	Whether or not the response from the server should be printed
+	 * Constructs a new <code>ChatRequest</code> that will send the given string to the server.
+	 * 
+	 * @param contact The channel or player to which this message is to be sent
+	 * @param message The message to be sent
+	 * @param shouldUpdateChat Whether or not the response from the server should be printed
 	 */
 
-	public ChatRequest( String contact, String message, boolean shouldUpdateChat )
+	public ChatRequest( final String contact, final String message, final boolean shouldUpdateChat )
 	{
 		super( "submitnewchat.php" );
 		this.addFormField( "playerid", String.valueOf( KoLCharacter.getUserId() ) );
@@ -102,38 +101,62 @@ public class ChatRequest extends KoLRequest
 		String contactId = KoLmafia.getPlayerId( contact );
 		String actualMessage = null;
 
-		if ( contact == null || (message != null && message.equals( "/exit" )) )
+		if ( contact == null || message != null && message.equals( "/exit" ) )
+		{
 			actualMessage = message;
+		}
 		else if ( message.equals( "/friend" ) || message.equals( "/ignore" ) || message.equals( "/baleet" ) )
+		{
 			actualMessage = message + " " + contactId;
+		}
 		else if ( message.startsWith( "/w " ) || message.startsWith( "/whisper" ) || message.startsWith( "/r" ) || message.startsWith( "/v" ) || message.startsWith( "/conv" ) )
+		{
 			actualMessage = message;
+		}
 		else
 		{
 			boolean foundMacro = false;
 			for ( int i = 1; i <= 20; ++i )
+			{
 				if ( message.startsWith( "/" + i ) )
+				{
 					foundMacro = true;
+				}
+			}
 
 			if ( foundMacro || contact.startsWith( "[" ) )
+			{
 				actualMessage = message;
-			else if ( contact.startsWith( "/" ) && (!message.startsWith( "/" ) || message.startsWith( "/me" ) || message.startsWith( "/em" ) || message.startsWith( "/warn" ) || message.startsWith( "/ann" )) )
+			}
+			else if ( contact.startsWith( "/" ) && ( !message.startsWith( "/" ) || message.startsWith( "/me" ) || message.startsWith( "/em" ) || message.startsWith( "/warn" ) || message.startsWith( "/ann" ) ) )
+			{
 				actualMessage = contact + " " + message;
-			else if ( (message.equals( "/who" ) || message.equals( "/w" )) && contact.startsWith( "/" ) )
-				actualMessage = "/who " + contact.substring(1);
+			}
+			else if ( ( message.equals( "/who" ) || message.equals( "/w" ) ) && contact.startsWith( "/" ) )
+			{
+				actualMessage = "/who " + contact.substring( 1 );
+			}
 			else if ( contact.startsWith( "/" ) && message.startsWith( "/" ) )
+			{
 				actualMessage = message;
+			}
 			else
+			{
 				actualMessage = "/msg " + contactId.replaceAll( " ", "_" ) + " " + message;
+			}
 		}
 
 		this.addFormField( "graf", actualMessage );
 
-		if ( (actualMessage.equals( "/c" ) || actualMessage.equals( "/channel" )) && actualMessage.indexOf( " " ) != -1 )
+		if ( ( actualMessage.equals( "/c" ) || actualMessage.equals( "/channel" ) ) && actualMessage.indexOf( " " ) != -1 )
+		{
 			KoLMessenger.stopConversation();
+		}
 
 		if ( actualMessage.equals( "/exit" ) )
+		{
 			KoLMessenger.dispose();
+		}
 
 		this.shouldUpdateChat = shouldUpdateChat;
 	}
@@ -141,46 +164,58 @@ public class ChatRequest extends KoLRequest
 	public static final String executeChatCommand( String graf )
 	{
 		if ( graf == null )
+		{
 			return null;
+		}
 
 		graf = graf.trim();
 		String lgraf = graf.toLowerCase();
 
 		if ( lgraf.startsWith( "/msg 0 " ) )
 		{
-			KoLmafiaCLI.DEFAULT_SHELL.executeLine( graf.substring(7).trim() );
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( graf.substring( 7 ).trim() );
 			return KoLmafia.getLastMessage();
 		}
 
 		if ( !lgraf.startsWith( "/do" ) && !lgraf.startsWith( "/run" ) && !lgraf.startsWith( "/cli" ) && !lgraf.startsWith( "/wiki" ) && !lgraf.startsWith( "/lookup" ) )
+		{
 			return null;
+		}
 
 		int spaceIndex = graf.indexOf( " " );
 		if ( spaceIndex == -1 )
+		{
 			return null;
+		}
 
 		String command = graf.substring( spaceIndex + 1 );
 
 		if ( lgraf.startsWith( "/wiki" ) )
+		{
 			command = "wiki " + command;
+		}
 		else if ( lgraf.startsWith( "/lookup" ) )
+		{
 			command = "lookup " + command;
+		}
 
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( command );
 		return KoLmafia.getLastMessage();
 	}
 
 	protected boolean retryOnTimeout()
-	{	return true;
+	{
+		return true;
 	}
 
 	public void run()
 	{
-		String commandResult = executeChatCommand( this.getFormField( "graf" ) );
+		String commandResult = ChatRequest.executeChatCommand( this.getFormField( "graf" ) );
 		if ( commandResult != null )
 		{
-			KoLmafia.registerPlayer( VERSION_NAME, "458968" );
-			KoLMessenger.getChatBuffer( KoLMessenger.getUpdateChannel() ).append( "<font color=green>" + commandResult + "</font><br>" );
+			KoLmafia.registerPlayer( KoLConstants.VERSION_NAME, "458968" );
+			KoLMessenger.getChatBuffer( KoLMessenger.getUpdateChannel() ).append(
+				"<font color=green>" + commandResult + "</font><br>" );
 			return;
 		}
 
@@ -190,20 +225,24 @@ public class ChatRequest extends KoLRequest
 
 	public void processResults()
 	{
-		if ( KoLMessenger.isRunning() && thread == null )
+		if ( KoLMessenger.isRunning() && ChatRequest.thread == null )
 		{
-			thread = new ChatContinuationThread();
-			thread.start();
+			ChatRequest.thread = new ChatContinuationThread();
+			ChatRequest.thread.start();
 		}
 
-		Matcher lastSeenMatcher = LASTSEEN_PATTERN.matcher( this.responseText );
+		Matcher lastSeenMatcher = ChatRequest.LASTSEEN_PATTERN.matcher( this.responseText );
 		if ( lastSeenMatcher.find() )
-			lastSeen = lastSeenMatcher.group(1);
+		{
+			ChatRequest.lastSeen = lastSeenMatcher.group( 1 );
+		}
 
 		try
 		{
 			if ( this.shouldUpdateChat && KoLMessenger.isRunning() )
+			{
 				KoLMessenger.updateChat( this.responseText );
+			}
 		}
 		catch ( Exception e )
 		{
@@ -213,42 +252,41 @@ public class ChatRequest extends KoLRequest
 
 	public static final String getRightClickMenu()
 	{
-		if ( rightClickMenu.equals( "" ) )
+		if ( ChatRequest.rightClickMenu.equals( "" ) )
 		{
 			KoLRequest request = new KoLRequest( "lchat.php" );
 			RequestThread.postRequest( request );
 
 			int actionIndex = request.responseText.indexOf( "actions = {" );
 			if ( actionIndex != -1 )
-				rightClickMenu = request.responseText.substring( actionIndex, request.responseText.indexOf( ";", actionIndex ) + 1 );
+			{
+				ChatRequest.rightClickMenu =
+					request.responseText.substring( actionIndex, request.responseText.indexOf( ";", actionIndex ) + 1 );
+			}
 		}
 
-		return rightClickMenu;
+		return ChatRequest.rightClickMenu;
 	}
 
 	/**
-	 * An internal class used so that the previous request thread
-	 * can die and a new one can begin.
+	 * An internal class used so that the previous request thread can die and a new one can begin.
 	 */
 
-	private class ChatContinuationThread extends Thread
+	private class ChatContinuationThread
+		extends Thread
 	{
 		public void run()
 		{
-			lastSeen = "";
-			ChatRequest request = new ChatRequest( lastSeen );
+			ChatRequest.lastSeen = "";
+			ChatRequest request = new ChatRequest( ChatRequest.lastSeen );
 
-			while ( delay( CHAT_DELAY ) && KoLMessenger.isRunning() )
+			while ( KoLRequest.delay( ChatRequest.CHAT_DELAY ) && KoLMessenger.isRunning() )
 			{
-				// Before running the next request, you should wait for the
-				// refresh rate indicated - this is likely the default rate
-				// used for the KoLChat.
-
 				try
 				{
 					request.run();
 					request.clearDataFields();
-					request.addFormField( "lasttime", String.valueOf( lastSeen ) );
+					request.addFormField( "lasttime", String.valueOf( ChatRequest.lastSeen ) );
 				}
 				catch ( Exception e )
 				{
@@ -256,7 +294,7 @@ public class ChatRequest extends KoLRequest
 				}
 			}
 
-			thread = null;
+			ChatRequest.thread = null;
 		}
 	}
 }

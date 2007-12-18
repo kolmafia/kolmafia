@@ -48,7 +48,8 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.ConcoctionsDatabase.Concoction;
 import net.sourceforge.kolmafia.KoLFrame.RequestButton;
 
-public class ItemManagePanel extends LabeledScrollPanel
+public class ItemManagePanel
+	extends LabeledScrollPanel
 {
 	public static final int USE_MULTIPLE = 0;
 
@@ -61,20 +62,24 @@ public class ItemManagePanel extends LabeledScrollPanel
 	public LockableListModel elementModel;
 	public ShowDescriptionList elementList;
 
-	public JButton [] buttons;
-	public JCheckBox [] filters;
-	public JRadioButton [] movers;
+	public JButton[] buttons;
+	public JCheckBox[] filters;
+	public JRadioButton[] movers;
 
-	private FilterTextField filterfield;
+	private final FilterTextField filterfield;
 
-	public ItemManagePanel( String confirmedText, String cancelledText, LockableListModel elementModel )
+	public ItemManagePanel( final String confirmedText, final String cancelledText, final LockableListModel elementModel )
 	{
-		this( confirmedText, cancelledText, elementModel, true,
-			elementModel == tally || elementModel == inventory || elementModel == closet ||
-			elementModel == ConcoctionsDatabase.getCreatables() || elementModel == ConcoctionsDatabase.getUsables() );
+		this(
+			confirmedText,
+			cancelledText,
+			elementModel,
+			true,
+			elementModel == KoLConstants.tally || elementModel == KoLConstants.inventory || elementModel == KoLConstants.closet || elementModel == ConcoctionsDatabase.getCreatables() || elementModel == ConcoctionsDatabase.getUsables() );
 	}
 
-	public ItemManagePanel( String confirmedText, String cancelledText, LockableListModel elementModel, boolean addFilterField, boolean addRefreshButton )
+	public ItemManagePanel( final String confirmedText, final String cancelledText,
+		final LockableListModel elementModel, final boolean addFilterField, final boolean addRefreshButton )
 	{
 		super( "", confirmedText, cancelledText, new ShowDescriptionList( elementModel ), false );
 
@@ -87,35 +92,44 @@ public class ItemManagePanel extends LabeledScrollPanel
 		this.filterfield = this.getWordFilter();
 
 		if ( addFilterField )
+		{
 			this.centerPanel.add( this.filterfield, BorderLayout.NORTH );
+		}
 
 		if ( addRefreshButton )
+		{
 			this.eastPanel.add( new RefreshButton(), BorderLayout.SOUTH );
+		}
 
 		this.northPanel = new JPanel( new BorderLayout() );
 		this.actualPanel.add( this.northPanel, BorderLayout.NORTH );
 	}
 
 	protected FilterTextField getWordFilter()
-	{	return new FilterItemField();
-	}
-
-	protected void listenToCheckBox( JCheckBox box )
-	{	box.addActionListener( this.filterfield );
-	}
-
-	protected void listenToRadioButton( JRadioButton button )
-	{	button.addActionListener( this.filterfield );
-	}
-
-	public ItemManagePanel( LockableListModel elementModel )
 	{
-		this( elementModel, true,
-			elementModel == tally || elementModel == inventory || elementModel == closet ||
-			elementModel == ConcoctionsDatabase.getCreatables() || elementModel == ConcoctionsDatabase.getUsables() );
+		return new FilterItemField();
 	}
 
-	public ItemManagePanel( LockableListModel elementModel, boolean addFilterField, boolean addRefreshButton )
+	protected void listenToCheckBox( final JCheckBox box )
+	{
+		box.addActionListener( this.filterfield );
+	}
+
+	protected void listenToRadioButton( final JRadioButton button )
+	{
+		button.addActionListener( this.filterfield );
+	}
+
+	public ItemManagePanel( final LockableListModel elementModel )
+	{
+		this(
+			elementModel,
+			true,
+			elementModel == KoLConstants.tally || elementModel == KoLConstants.inventory || elementModel == KoLConstants.closet || elementModel == ConcoctionsDatabase.getCreatables() || elementModel == ConcoctionsDatabase.getUsables() );
+	}
+
+	public ItemManagePanel( final LockableListModel elementModel, final boolean addFilterField,
+		final boolean addRefreshButton )
 	{
 		super( "", null, null, new ShowDescriptionList( elementModel ), false );
 
@@ -127,12 +141,15 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 		this.filterfield = this.getWordFilter();
 
-
 		if ( addFilterField )
+		{
 			this.centerPanel.add( this.filterfield, BorderLayout.NORTH );
+		}
 
 		if ( addRefreshButton )
+		{
 			this.eastPanel.add( new RefreshButton(), BorderLayout.SOUTH );
+		}
 	}
 
 	public void actionConfirmed()
@@ -143,7 +160,8 @@ public class ItemManagePanel extends LabeledScrollPanel
 	{
 	}
 
-	public void setFixedFilter( boolean food, boolean booze, boolean equip, boolean other, boolean notrade )
+	public void setFixedFilter( final boolean food, final boolean booze, final boolean equip, final boolean other,
+		final boolean notrade )
 	{
 		if ( this.filterfield instanceof FilterItemField )
 		{
@@ -162,18 +180,18 @@ public class ItemManagePanel extends LabeledScrollPanel
 	public void addFilters()
 	{
 		JPanel filterPanel = new JPanel();
-		this.filters = new JCheckBox[5];
+		this.filters = new JCheckBox[ 5 ];
 
-		this.filters[0] = new JCheckBox( "food", KoLCharacter.canEat() );
-		this.filters[1] = new JCheckBox( "booze", KoLCharacter.canDrink() );
-		this.filters[2] = new JCheckBox( "equip", true );
-		this.filters[3] = new JCheckBox( "others", true );
-		this.filters[4] = new JCheckBox( "no-trade", true );
+		this.filters[ 0 ] = new JCheckBox( "food", KoLCharacter.canEat() );
+		this.filters[ 1 ] = new JCheckBox( "booze", KoLCharacter.canDrink() );
+		this.filters[ 2 ] = new JCheckBox( "equip", true );
+		this.filters[ 3 ] = new JCheckBox( "others", true );
+		this.filters[ 4 ] = new JCheckBox( "no-trade", true );
 
 		for ( int i = 0; i < 5; ++i )
 		{
-			filterPanel.add( this.filters[i] );
-			this.listenToCheckBox( this.filters[i] );
+			filterPanel.add( this.filters[ i ] );
+			this.listenToCheckBox( this.filters[ i ] );
 		}
 
 		this.northPanel.add( filterPanel, BorderLayout.NORTH );
@@ -181,14 +199,16 @@ public class ItemManagePanel extends LabeledScrollPanel
 	}
 
 	public void filterItems()
-	{	this.filterfield.update();
+	{
+		this.filterfield.update();
 	}
 
-	public void setButtons( ActionListener [] buttonListeners )
-	{	this.setButtons( true, buttonListeners );
+	public void setButtons( final ActionListener[] buttonListeners )
+	{
+		this.setButtons( true, buttonListeners );
 	}
 
-	public void setButtons( boolean addFilters, ActionListener [] buttonListeners )
+	public void setButtons( boolean addFilters, final ActionListener[] buttonListeners )
 	{
 		// Handle buttons along the right hand side, if there are
 		// supposed to be buttons.
@@ -200,17 +220,17 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 			for ( int i = 0; i < buttonListeners.length; ++i )
 			{
-				if ( buttonListeners[i] instanceof JButton )
+				if ( buttonListeners[ i ] instanceof JButton )
 				{
-					this.buttons[i] = (JButton) buttonListeners[i];
+					this.buttons[ i ] = (JButton) buttonListeners[ i ];
 				}
 				else
 				{
-					this.buttons[i] = new JButton( buttonListeners[i].toString() );
-					this.buttons[i].addActionListener( buttonListeners[i] );
+					this.buttons[ i ] = new JButton( buttonListeners[ i ].toString() );
+					this.buttons[ i ].addActionListener( buttonListeners[ i ] );
 				}
 
-				eastGridPanel.add( this.buttons[i] );
+				eastGridPanel.add( this.buttons[ i ] );
 			}
 
 			this.eastPanel.add( eastGridPanel, BorderLayout.NORTH );
@@ -220,41 +240,49 @@ public class ItemManagePanel extends LabeledScrollPanel
 		// are added.
 
 		if ( !addFilters )
+		{
 			this.filters = null;
+		}
 		else
+		{
 			this.addFilters();
+		}
 
 		// If there are buttons, they likely need movers.  Therefore, add
 		// some movers to everything.
 
 		if ( addFilters )
-			addMovers();
+		{
+			this.addMovers();
+		}
 
 		if ( buttonListeners != null )
+		{
 			this.actualPanel.add( this.eastPanel, BorderLayout.EAST );
+		}
 	}
 
 	public void addMovers()
 	{
 		JPanel moverPanel = new JPanel();
 
-		this.movers = new JRadioButton[4];
-		this.movers[0] = new JRadioButton( "max possible" );
-		this.movers[1] = new JRadioButton( "all but one" );
-		this.movers[2] = new JRadioButton( "multiple", true );
-		this.movers[3] = new JRadioButton( "exactly one" );
+		this.movers = new JRadioButton[ 4 ];
+		this.movers[ 0 ] = new JRadioButton( "max possible" );
+		this.movers[ 1 ] = new JRadioButton( "all but one" );
+		this.movers[ 2 ] = new JRadioButton( "multiple", true );
+		this.movers[ 3 ] = new JRadioButton( "exactly one" );
 
 		ButtonGroup moverGroup = new ButtonGroup();
 		for ( int i = 0; i < 4; ++i )
 		{
-			moverGroup.add( this.movers[i] );
-			moverPanel.add( this.movers[i] );
+			moverGroup.add( this.movers[ i ] );
+			moverPanel.add( this.movers[ i ] );
 		}
 
 		this.northPanel.add( moverPanel, BorderLayout.SOUTH );
 	}
 
-	public void setEnabled( boolean isEnabled )
+	public void setEnabled( final boolean isEnabled )
 	{
 		if ( this.elementList == null || this.buttons == null )
 		{
@@ -270,179 +298,214 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 		this.elementList.setEnabled( isEnabled );
 		for ( int i = 0; i < this.buttons.length; ++i )
-			this.buttons[i].setEnabled( isEnabled );
+		{
+			this.buttons[ i ].setEnabled( isEnabled );
+		}
 	}
 
-	public Object [] getDesiredItems( String message )
+	public Object[] getDesiredItems( final String message )
 	{
-		if ( this.movers == null || this.movers[2].isSelected() )
-			return this.getDesiredItems( message, message.equals( "Queue" ) || message.equals( "Consume" ) ? USE_MULTIPLE : TAKE_MULTIPLE );
+		if ( this.movers == null || this.movers[ 2 ].isSelected() )
+		{
+			return this.getDesiredItems(
+				message,
+				message.equals( "Queue" ) || message.equals( "Consume" ) ? ItemManagePanel.USE_MULTIPLE : ItemManagePanel.TAKE_MULTIPLE );
+		}
 
-		return this.getDesiredItems( message, this.movers[0].isSelected() ? TAKE_ALL : this.movers[1].isSelected() ? TAKE_ALL_BUT_ONE : TAKE_ONE );
+		return this.getDesiredItems(
+			message,
+			this.movers[ 0 ].isSelected() ? ItemManagePanel.TAKE_ALL : this.movers[ 1 ].isSelected() ? ItemManagePanel.TAKE_ALL_BUT_ONE : ItemManagePanel.TAKE_ONE );
 	}
 
-	public Object [] getDesiredItems( String message, int quantityType )
+	public Object[] getDesiredItems( final String message, final int quantityType )
 	{
-		Object [] items = this.elementList.getSelectedValues();
+		Object[] items = this.elementList.getSelectedValues();
 		if ( items.length == 0 )
+		{
 			return null;
+		}
 
 		int neededSize = items.length;
-		boolean isTally = this.elementList.getOriginalModel() == tally;
+		boolean isTally = this.elementList.getOriginalModel() == KoLConstants.tally;
 
 		String itemName;
 		int itemCount, quantity;
 
 		for ( int i = 0; i < items.length; ++i )
 		{
-			if ( items[i] instanceof AdventureResult )
+			if ( items[ i ] instanceof AdventureResult )
 			{
-				itemName = ((AdventureResult) items[i]).getName();
-				itemCount = isTally? ((AdventureResult)items[i]).getCount( inventory ) : ((AdventureResult) items[i]).getCount();
+				itemName = ( (AdventureResult) items[ i ] ).getName();
+				itemCount =
+					isTally ? ( (AdventureResult) items[ i ] ).getCount( KoLConstants.inventory ) : ( (AdventureResult) items[ i ] ).getCount();
 			}
 			else
 			{
-				itemName = ((Concoction) items[i]).getName();
-				itemCount = ((Concoction) items[i]).getTotal();
+				itemName = ( (Concoction) items[ i ] ).getName();
+				itemCount = ( (Concoction) items[ i ] ).getTotal();
 			}
 
-			quantity = Math.min( getDesiredItemAmount( items[i], itemName, itemCount, message, quantityType ), itemCount );
+			quantity =
+				Math.min(
+					this.getDesiredItemAmount( items[ i ], itemName, itemCount, message, quantityType ), itemCount );
 			if ( quantity == Integer.MIN_VALUE )
-				return new Object[0];
+			{
+				return new Object[ 0 ];
+			}
 
 			// Otherwise, if it was not a manual entry, then reset
 			// the entry to null so that it can be re-processed.
 
 			if ( quantity <= 0 )
 			{
-				items[i] = null;
+				items[ i ] = null;
 				--neededSize;
 			}
-			else if ( items[i] instanceof AdventureResult )
+			else if ( items[ i ] instanceof AdventureResult )
 			{
-				items[i] = ((AdventureResult)items[i]).getInstance( quantity );
+				items[ i ] = ( (AdventureResult) items[ i ] ).getInstance( quantity );
 			}
 			else
 			{
-				ConcoctionsDatabase.push( (Concoction) items[i], quantity );
-				items[i] = null;
+				ConcoctionsDatabase.push( (Concoction) items[ i ], quantity );
+				items[ i ] = null;
 			}
 		}
 
 		// Otherwise, shrink the array which will be
 		// returned so that it removes any nulled values.
 
-		Object [] desiredItems = new Object[ neededSize ];
+		Object[] desiredItems = new Object[ neededSize ];
 		neededSize = 0;
 
 		for ( int i = 0; i < items.length; ++i )
-			if ( items[i] != null )
-				desiredItems[ neededSize++ ] = items[i];
+		{
+			if ( items[ i ] != null )
+			{
+				desiredItems[ neededSize++ ] = items[ i ];
+			}
+		}
 
 		return desiredItems;
 	}
 
-	protected int getDesiredItemAmount( Object item, String itemName, int itemCount, String message, int quantityType )
+	protected int getDesiredItemAmount( final Object item, final String itemName, final int itemCount,
+		final String message, final int quantityType )
 	{
 		int quantity = 0;
 		switch ( quantityType )
 		{
-			case TAKE_ALL:
-				quantity = itemCount;
-				break;
+		case TAKE_ALL:
+			quantity = itemCount;
+			break;
 
-			case TAKE_ALL_BUT_ONE:
-				quantity = itemCount - 1;
-				break;
+		case TAKE_ALL_BUT_ONE:
+			quantity = itemCount - 1;
+			break;
 
-			case TAKE_MULTIPLE:
-				quantity = KoLFrame.getQuantity( message + " " + itemName + "...", itemCount );
-				if ( itemCount > 0 && quantity == 0 )
-					return Integer.MIN_VALUE;
+		case TAKE_MULTIPLE:
+			quantity = KoLFrame.getQuantity( message + " " + itemName + "...", itemCount );
+			if ( itemCount > 0 && quantity == 0 )
+			{
+				return Integer.MIN_VALUE;
+			}
 
-				break;
+			break;
 
-			case USE_MULTIPLE:
+		case USE_MULTIPLE:
 
-				int standard = itemCount;
+			int standard = itemCount;
 
-				if ( item instanceof Concoction )
+			if ( item instanceof Concoction )
+			{
+				int previous = 0, capacity = itemCount, unit = 1;
+
+				if ( ( (Concoction) item ).getFullness() > 0 )
 				{
-					int previous = 0, capacity = itemCount, unit = 1;
+					previous = KoLCharacter.getFullness() + ConcoctionsDatabase.getQueuedFullness();
+					capacity = KoLCharacter.getFullnessLimit();
+					unit = ( (Concoction) item ).getFullness();
 
-					if ( ((Concoction)item).getFullness() > 0 )
-					{
-						previous = KoLCharacter.getFullness() + ConcoctionsDatabase.getQueuedFullness();
-						capacity = KoLCharacter.getFullnessLimit();
-						unit = ((Concoction)item).getFullness();
-
-						standard = previous >= capacity ? itemCount : Math.min( (capacity - previous) / unit, itemCount );
-					}
-					else if ( ((Concoction)item).getInebriety() > 0 )
-					{
-						previous = KoLCharacter.getInebriety() + ConcoctionsDatabase.getQueuedInebriety();
-						capacity = KoLCharacter.getInebrietyLimit();
-						unit = ((Concoction)item).getInebriety();
-
-						standard = previous > capacity ? itemCount : Math.max( 1, Math.min( (capacity - previous) / unit, itemCount ) );
-					}
+					standard = previous >= capacity ? itemCount : Math.min( ( capacity - previous ) / unit, itemCount );
 				}
-				else
+				else if ( ( (Concoction) item ).getInebriety() > 0 )
 				{
-					standard = ConsumeItemRequest.maximumUses( TradeableItemDatabase.getItemId( itemName ), false );
+					previous = KoLCharacter.getInebriety() + ConcoctionsDatabase.getQueuedInebriety();
+					capacity = KoLCharacter.getInebrietyLimit();
+					unit = ( (Concoction) item ).getInebriety();
+
+					standard =
+						previous > capacity ? itemCount : Math.max( 1, Math.min(
+							( capacity - previous ) / unit, itemCount ) );
 				}
+			}
+			else
+			{
+				standard = ConsumeItemRequest.maximumUses( TradeableItemDatabase.getItemId( itemName ), false );
+			}
 
-				quantity = standard < 2 ? standard : KoLFrame.getQuantity( message + " " + itemName + "...",
-					itemCount, Math.min( standard, itemCount ) );
+			quantity =
+				standard < 2 ? standard : KoLFrame.getQuantity( message + " " + itemName + "...", itemCount, Math.min(
+					standard, itemCount ) );
 
-				if ( itemCount > 0 && quantity == 0 )
-					return Integer.MIN_VALUE;
+			if ( itemCount > 0 && quantity == 0 )
+			{
+				return Integer.MIN_VALUE;
+			}
 
-				break;
+			break;
 
-			default:
-				quantity = 1;
-				break;
+		default:
+			quantity = 1;
+			break;
 		}
 
 		return quantity;
 	}
 
-	public abstract class TransferListener extends ThreadedListener
+	public abstract class TransferListener
+		extends ThreadedListener
 	{
 		public String description;
 		public boolean retrieveFromClosetFirst;
 
-		public TransferListener( String description, boolean retrieveFromClosetFirst )
+		public TransferListener( final String description, final boolean retrieveFromClosetFirst )
 		{
 			this.description = description;
 			this.retrieveFromClosetFirst = retrieveFromClosetFirst;
 		}
 
-		public Object [] initialSetup()
+		public Object[] initialSetup()
 		{
-			Object [] items = ItemManagePanel.this.getDesiredItems( this.description );
-			if (items == null )
+			Object[] items = ItemManagePanel.this.getDesiredItems( this.description );
+			if ( items == null )
+			{
 				return null;
+			}
 
 			if ( this.retrieveFromClosetFirst )
+			{
 				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.CLOSET_TO_INVENTORY, items ) );
+			}
 
 			return items;
 		}
 	}
 
-	public class ConsumeListener extends ThreadedListener
+	public class ConsumeListener
+		extends ThreadedListener
 	{
 		public void run()
 		{
-			Object [] items = ItemManagePanel.this.getDesiredItems( "Consume" );
+			Object[] items = ItemManagePanel.this.getDesiredItems( "Consume" );
 			if ( items.length == 0 )
+			{
 				return;
+			}
 
 			for ( int i = 0; i < items.length; ++i )
 			{
-				int usageType = ConsumeItemRequest.getConsumptionType( (AdventureResult)items[i] );
+				int usageType = ConsumeItemRequest.getConsumptionType( (AdventureResult) items[ i ] );
 
 				switch ( usageType )
 				{
@@ -456,48 +519,58 @@ public class ItemManagePanel extends LabeledScrollPanel
 				case EQUIP_SHIRT:
 				case EQUIP_WEAPON:
 				case EQUIP_OFFHAND:
-					RequestThread.postRequest( new EquipmentRequest( (AdventureResult) items[i], KoLCharacter.consumeFilterToEquipmentType( usageType ) ) );
+					RequestThread.postRequest( new EquipmentRequest(
+						(AdventureResult) items[ i ], KoLCharacter.consumeFilterToEquipmentType( usageType ) ) );
 					break;
 
 				default:
 				case MESSAGE_DISPLAY:
-					RequestThread.postRequest( new ConsumeItemRequest( (AdventureResult) items[i] ) );
+					RequestThread.postRequest( new ConsumeItemRequest( (AdventureResult) items[ i ] ) );
 					break;
 				}
 			}
 		}
 
 		public String toString()
-		{	return "use item";
+		{
+			return "use item";
 		}
 	}
 
-	public class PutInClosetListener extends TransferListener
+	public class PutInClosetListener
+		extends TransferListener
 	{
-		public PutInClosetListener( boolean retrieveFromClosetFirst )
-		{	super( retrieveFromClosetFirst ? "Bagging" : "Closeting", retrieveFromClosetFirst );
+		public PutInClosetListener( final boolean retrieveFromClosetFirst )
+		{
+			super( retrieveFromClosetFirst ? "Bagging" : "Closeting", retrieveFromClosetFirst );
 		}
 
 		public void run()
 		{
-			Object [] items = this.initialSetup();
+			Object[] items = this.initialSetup();
 			if ( items == null )
+			{
 				return;
+			}
 
 			if ( !this.retrieveFromClosetFirst )
+			{
 				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, items ) );
+			}
 		}
 
 		public String toString()
-		{	return this.retrieveFromClosetFirst ? "put in bag" : "put in closet";
+		{
+			return this.retrieveFromClosetFirst ? "put in bag" : "put in closet";
 		}
 	}
 
-	public class AutoSellListener extends TransferListener
+	public class AutoSellListener
+		extends TransferListener
 	{
-		private int sellType;
+		private final int sellType;
 
-		public AutoSellListener( boolean retrieveFromClosetFirst, int sellType )
+		public AutoSellListener( final boolean retrieveFromClosetFirst, final int sellType )
 		{
 			super( sellType == AutoSellRequest.AUTOSELL ? "Autoselling" : "Mallselling", retrieveFromClosetFirst );
 			this.sellType = sellType;
@@ -507,63 +580,79 @@ public class ItemManagePanel extends LabeledScrollPanel
 		{
 			if ( this.sellType == AutoSellRequest.AUTOMALL && !KoLCharacter.hasStore() )
 			{
-				KoLmafia.updateDisplay( ERROR_STATE, "You don't own a store in the mall.");
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't own a store in the mall." );
 				return;
 			}
 
 			if ( this.sellType == AutoSellRequest.AUTOSELL && !KoLFrame.confirm( "Are you sure you would like to sell the selected items?" ) )
+			{
 				return;
+			}
 
 			if ( this.sellType == AutoSellRequest.AUTOMALL && !KoLFrame.confirm( "Are you sure you would like to place the selected items in your store?" ) )
+			{
 				return;
+			}
 
-			Object [] items = this.initialSetup();
+			Object[] items = this.initialSetup();
 			if ( items == null )
+			{
 				return;
+			}
 
 			RequestThread.postRequest( new AutoSellRequest( items, this.sellType ) );
 		}
 
 		public String toString()
-		{	return this.sellType == AutoSellRequest.AUTOSELL ? "auto sell" : "place in mall";
+		{
+			return this.sellType == AutoSellRequest.AUTOSELL ? "auto sell" : "place in mall";
 		}
 	}
 
-	public class GiveToClanListener extends TransferListener
+	public class GiveToClanListener
+		extends TransferListener
 	{
-		public GiveToClanListener( boolean retrieveFromClosetFirst )
-		{	super( "Stashing", retrieveFromClosetFirst );
+		public GiveToClanListener( final boolean retrieveFromClosetFirst )
+		{
+			super( "Stashing", retrieveFromClosetFirst );
 		}
 
 		public void run()
 		{
-			Object [] items = this.initialSetup();
+			Object[] items = this.initialSetup();
 			if ( items == null )
+			{
 				return;
+			}
 
 			RequestThread.postRequest( new ClanStashRequest( items, ClanStashRequest.ITEMS_TO_STASH ) );
 		}
 
 		public String toString()
-		{	return "clan stash";
+		{
+			return "clan stash";
 		}
 	}
 
-	public class PutOnDisplayListener extends TransferListener
+	public class PutOnDisplayListener
+		extends TransferListener
 	{
-		public PutOnDisplayListener( boolean retrieveFromClosetFirst )
-		{	super( "Showcasing", retrieveFromClosetFirst );
+		public PutOnDisplayListener( final boolean retrieveFromClosetFirst )
+		{
+			super( "Showcasing", retrieveFromClosetFirst );
 		}
 
 		public void run()
 		{
-			Object [] items = this.initialSetup();
+			Object[] items = this.initialSetup();
 			if ( items == null )
+			{
 				return;
+			}
 
 			if ( !KoLCharacter.hasDisplayCase() )
 			{
-				KoLmafia.updateDisplay( ERROR_STATE, "You don't own a display case in the Cannon Museum.");
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't own a display case in the Cannon Museum." );
 				return;
 			}
 
@@ -571,77 +660,96 @@ public class ItemManagePanel extends LabeledScrollPanel
 		}
 
 		public String toString()
-		{	return "display case";
+		{
+			return "display case";
 		}
 	}
 
-	public class PulverizeListener extends TransferListener
+	public class PulverizeListener
+		extends TransferListener
 	{
-		public PulverizeListener( boolean retrieveFromClosetFirst )
-		{	super( "Smashing", retrieveFromClosetFirst );
+		public PulverizeListener( final boolean retrieveFromClosetFirst )
+		{
+			super( "Smashing", retrieveFromClosetFirst );
 		}
 
 		public void run()
 		{
-			Object [] items = this.initialSetup();
+			Object[] items = this.initialSetup();
 			if ( items == null || items.length == 0 )
+			{
 				return;
+			}
 
 			for ( int i = 0; i < items.length; ++i )
-				RequestThread.postRequest( new PulverizeRequest( (AdventureResult) items[i] ) );
+			{
+				RequestThread.postRequest( new PulverizeRequest( (AdventureResult) items[ i ] ) );
+			}
 		}
 
 		public String toString()
-		{	return "pulverize";
+		{
+			return "pulverize";
 		}
 	}
 
 	/**
-	 * Special instance of a JComboBox which overrides the default
-	 * key events of a JComboBox to allow you to catch key events.
+	 * Special instance of a JComboBox which overrides the default key events of a JComboBox to allow you to catch key
+	 * events.
 	 */
 
-	public class FilterItemField extends FilterTextField
+	public class FilterItemField
+		extends FilterTextField
 	{
 		public boolean food, booze, equip, restores, other, notrade;
 
 		public FilterItemField()
 		{
-			super( elementList );
+			super( ItemManagePanel.this.elementList );
 
-			this.food = true; this.booze = true; this.equip = true;
-			this.restores = true; this.other = true; this.notrade = true;
+			this.food = true;
+			this.booze = true;
+			this.equip = true;
+			this.restores = true;
+			this.other = true;
+			this.notrade = true;
 		}
 
 		public void update()
 		{
 			if ( ItemManagePanel.this.filters != null )
 			{
-				this.food = ItemManagePanel.this.filters[0].isSelected();
-				this.booze = ItemManagePanel.this.filters[1].isSelected();
-				this.equip = ItemManagePanel.this.filters[2].isSelected();
+				this.food = ItemManagePanel.this.filters[ 0 ].isSelected();
+				this.booze = ItemManagePanel.this.filters[ 1 ].isSelected();
+				this.equip = ItemManagePanel.this.filters[ 2 ].isSelected();
 
-				this.other = ItemManagePanel.this.filters[3].isSelected();
+				this.other = ItemManagePanel.this.filters[ 3 ].isSelected();
 				this.restores = this.other;
-				this.notrade = ItemManagePanel.this.filters[4].isSelected();
+				this.notrade = ItemManagePanel.this.filters[ 4 ].isSelected();
 			}
 
 			super.update();
 		}
 
-		public boolean isVisible( Object element )
+		public boolean isVisible( final Object element )
 		{
-			if ( element instanceof AdventureResult && ((AdventureResult)element).getCount() < 0 )
+			if ( element instanceof AdventureResult && ( (AdventureResult) element ).getCount() < 0 )
+			{
 				return false;
+			}
 
-			String name = getResultName( element );
+			String name = FilterTextField.getResultName( element );
 
 			int itemId = AdventureResult.itemId( name );
 			if ( itemId < 1 )
-				return filters == null && super.isVisible( element );
+			{
+				return ItemManagePanel.this.filters == null && super.isVisible( element );
+			}
 
 			if ( !FilterItemField.this.notrade && !TradeableItemDatabase.isTradeable( itemId ) )
+			{
 				return false;
+			}
 
 			boolean isVisibleWithFilter = true;
 
@@ -701,21 +809,27 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 					isVisibleWithFilter = FilterItemField.this.other;
 					if ( name.equalsIgnoreCase( "milk of magnesium" ) || name.equalsIgnoreCase( "munchies pills" ) )
+					{
 						isVisibleWithFilter |= FilterItemField.this.food;
+					}
 				}
 			}
 
 			if ( !isVisibleWithFilter )
+			{
 				return false;
+			}
 
 			return super.isVisible( element );
 		}
 	}
 
-	private class RefreshButton extends RequestButton
+	private class RefreshButton
+		extends RequestButton
 	{
 		public RefreshButton()
-		{	super( "refresh", new EquipmentRequest( EquipmentRequest.CLOSET ) );
+		{
+			super( "refresh", new EquipmentRequest( EquipmentRequest.CLOSET ) );
 		}
 
 		public void run()

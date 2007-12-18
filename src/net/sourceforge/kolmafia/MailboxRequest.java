@@ -36,20 +36,24 @@ package net.sourceforge.kolmafia;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class MailboxRequest extends KoLRequest
+public class MailboxRequest
+	extends KoLRequest
 {
-	private static final Pattern MULTIPAGE_PATTERN = Pattern.compile( "Messages: \\w*?, page \\d* \\(\\d* - (\\d*) of (\\d*)\\)</b>" );
-	private static final Pattern SINGLEPAGE_PATTERN = Pattern.compile( "Messages: \\w*?, page 1 \\((\\d*) messages\\)</b>" );
+	private static final Pattern MULTIPAGE_PATTERN =
+		Pattern.compile( "Messages: \\w*?, page \\d* \\(\\d* - (\\d*) of (\\d*)\\)</b>" );
+	private static final Pattern SINGLEPAGE_PATTERN =
+		Pattern.compile( "Messages: \\w*?, page 1 \\((\\d*) messages\\)</b>" );
 
 	private int beginIndex;
-	private String boxname;
-	private String action;
+	private final String boxname;
+	private final String action;
 
-	public MailboxRequest( String boxname, KoLMailMessage message, String action )
-	{	this( boxname, new Object[] { message }, action );
+	public MailboxRequest( final String boxname, final KoLMailMessage message, final String action )
+	{
+		this( boxname, new Object[] { message }, action );
 	}
 
-	public MailboxRequest( String boxname, Object [] messages, String action )
+	public MailboxRequest( final String boxname, final Object[] messages, final String action )
 	{
 		super( "messages.php" );
 		this.addFormField( "box", boxname );
@@ -59,20 +63,25 @@ public class MailboxRequest extends KoLRequest
 		this.action = action;
 		this.boxname = boxname;
 		for ( int i = 0; i < messages.length; ++i )
-			this.addFormField( ((KoLMailMessage) messages[i]).getMessageId(), "on" );
+		{
+			this.addFormField( ( (KoLMailMessage) messages[ i ] ).getMessageId(), "on" );
+		}
 	}
 
-	public MailboxRequest( String boxname )
-	{	this( boxname, 1 );
+	public MailboxRequest( final String boxname )
+	{
+		this( boxname, 1 );
 	}
 
-	public MailboxRequest( String boxname, int beginIndex )
-{
+	public MailboxRequest( final String boxname, final int beginIndex )
+	{
 		super( "messages.php" );
 		this.addFormField( "box", boxname );
 
 		if ( beginIndex != 1 )
+		{
 			this.addFormField( "begin", String.valueOf( beginIndex ) );
+		}
 
 		this.action = null;
 		this.boxname = boxname;
@@ -80,7 +89,8 @@ public class MailboxRequest extends KoLRequest
 	}
 
 	protected boolean retryOnTimeout()
-	{	return true;
+	{
+		return true;
 	}
 
 	public void run()
@@ -89,9 +99,13 @@ public class MailboxRequest extends KoLRequest
 		// reset the variable (to avoid concurrent requests).
 
 		if ( this.action == null )
+		{
 			KoLmafia.updateDisplay( "Retrieving mail from " + this.boxname + "..." );
+		}
 		else
+		{
 			KoLmafia.updateDisplay( "Executing " + this.action + " request for " + this.boxname + "..." );
+		}
 
 		super.run();
 	}
@@ -115,19 +129,19 @@ public class MailboxRequest extends KoLRequest
 
 		try
 		{
-			Matcher matcher = MULTIPAGE_PATTERN.matcher( this.responseText );
+			Matcher matcher = MailboxRequest.MULTIPAGE_PATTERN.matcher( this.responseText );
 
 			if ( matcher.find() )
 			{
-				lastMessageId = StaticEntity.parseInt( matcher.group(1) );
-				totalMessages = StaticEntity.parseInt( matcher.group(2) );
+				lastMessageId = StaticEntity.parseInt( matcher.group( 1 ) );
+				totalMessages = StaticEntity.parseInt( matcher.group( 2 ) );
 			}
 			else
 			{
-				matcher = SINGLEPAGE_PATTERN.matcher( this.responseText );
+				matcher = MailboxRequest.SINGLEPAGE_PATTERN.matcher( this.responseText );
 				if ( matcher.find() )
 				{
-					lastMessageId = StaticEntity.parseInt( matcher.group(1) );
+					lastMessageId = StaticEntity.parseInt( matcher.group( 1 ) );
 					totalMessages = lastMessageId;
 				}
 			}
@@ -152,11 +166,13 @@ public class MailboxRequest extends KoLRequest
 		nextMessageIndex = this.processMessages( nextMessageIndex );
 		KoLmafia.updateDisplay( "Mail retrieved from page " + this.beginIndex + " of " + this.boxname );
 
-		if ( boxname.equals( "PvP" ) && lastMessageId != totalMessages )
-			(new MailboxRequest( "PvP", beginIndex + 1 )).run();
+		if ( this.boxname.equals( "PvP" ) && lastMessageId != totalMessages )
+		{
+			( new MailboxRequest( "PvP", this.beginIndex + 1 ) ).run();
+		}
 	}
 
-	private int processMessages( int startIndex )
+	private int processMessages( final int startIndex )
 	{
 		boolean shouldContinueParsing = true;
 		int lastMessageIndex = startIndex;
@@ -189,18 +205,17 @@ public class MailboxRequest extends KoLRequest
 				// that can be rendered with the default RequestPane, and also be subject
 				// to the custom font sizes provided by LimitedSizeChatBuffer.
 
-				currentMessage = currentMessage.replaceAll( "<br />" , "<br>" ).
-					replaceAll( "</?t.*?>" , "\n" ).
-					replaceAll( "<blockquote>", "<br>" ).
-					replaceAll( "</blockquote>", "" ).
-					replaceAll( "\n", "" ).
-					replaceAll( "<center>", "<br><center>" );
+				currentMessage =
+					currentMessage.replaceAll( "<br />", "<br>" ).replaceAll( "</?t.*?>", "\n" ).replaceAll(
+						"<blockquote>", "<br>" ).replaceAll( "</blockquote>", "" ).replaceAll( "\n", "" ).replaceAll(
+						"<center>", "<br><center>" );
 
 				// At this point, the message is registered with the mail manager, which
 				// records the message and updates whether or not you should continue.
 
-				shouldContinueParsing &= (BuffBotHome.isBuffBotActive() ? BuffBotManager.addMessage( this.boxname, currentMessage ) :
-					KoLMailManager.addMessage( this.boxname, currentMessage )) != null;
+				shouldContinueParsing &=
+					( BuffBotHome.isBuffBotActive() ? BuffBotManager.addMessage( this.boxname, currentMessage ) : KoLMailManager.addMessage(
+						this.boxname, currentMessage ) ) != null;
 			}
 		}
 

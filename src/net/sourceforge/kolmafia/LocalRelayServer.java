@@ -39,7 +39,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class LocalRelayServer implements Runnable
+public class LocalRelayServer
+	implements Runnable
 {
 	private static final int INITIAL_THREAD_COUNT = 10;
 	public static final ArrayList agentThreads = new ArrayList();
@@ -70,44 +71,54 @@ public class LocalRelayServer implements Runnable
 	}
 
 	public static final void updateStatus()
-	{	updateStatus = true;
+	{
+		LocalRelayServer.updateStatus = true;
 	}
 
 	public static final void startThread()
 	{
-		if ( relayThread != null )
+		if ( LocalRelayServer.relayThread != null )
+		{
 			return;
+		}
 
-		relayThread = new Thread( INSTANCE );
-		relayThread.start();
+		LocalRelayServer.relayThread = new Thread( LocalRelayServer.INSTANCE );
+		LocalRelayServer.relayThread.start();
 	}
 
 	public static final int getPort()
-	{	return port;
+	{
+		return LocalRelayServer.port;
 	}
 
 	public static final boolean isRunning()
-	{	return listening;
+	{
+		return LocalRelayServer.listening;
 	}
 
 	public static final void stop()
-	{	listening = false;
+	{
+		LocalRelayServer.listening = false;
 	}
 
 	public void run()
 	{
-		port = 60080;
+		LocalRelayServer.port = 60080;
 		while ( !this.openServerSocket() )
 		{
-			if ( port <= 60089 )
-				++port;
+			if ( LocalRelayServer.port <= 60089 )
+			{
+				++LocalRelayServer.port;
+			}
 			else
-				System.exit(-1);
+			{
+				System.exit( -1 );
+			}
 		}
 
-		listening = true;
+		LocalRelayServer.listening = true;
 
-		while ( listening )
+		while ( LocalRelayServer.listening )
 		{
 			try
 			{
@@ -119,7 +130,7 @@ public class LocalRelayServer implements Runnable
 				// someone closed the thread; just reset
 				// the listening state and fall through.
 
-				listening = false;
+				LocalRelayServer.listening = false;
 			}
 		}
 
@@ -128,7 +139,9 @@ public class LocalRelayServer implements Runnable
 		try
 		{
 			if ( this.serverSocket != null )
+			{
 				this.serverSocket.close();
+			}
 		}
 		catch ( Exception e )
 		{
@@ -138,17 +151,19 @@ public class LocalRelayServer implements Runnable
 		}
 
 		this.serverSocket = null;
-		relayThread = null;
+		LocalRelayServer.relayThread = null;
 	}
 
 	private synchronized boolean openServerSocket()
 	{
 		try
 		{
-			this.serverSocket = new ServerSocket( port, 25, InetAddress.getByName( "127.0.0.1" ) );
+			this.serverSocket = new ServerSocket( LocalRelayServer.port, 25, InetAddress.getByName( "127.0.0.1" ) );
 
-			while ( agentThreads.size() < INITIAL_THREAD_COUNT )
+			while ( LocalRelayServer.agentThreads.size() < LocalRelayServer.INITIAL_THREAD_COUNT )
+			{
 				this.createAgent();
+			}
 
 			return true;
 		}
@@ -160,20 +175,20 @@ public class LocalRelayServer implements Runnable
 
 	private synchronized void closeAgents()
 	{
-		while ( !agentThreads.isEmpty() )
+		while ( !LocalRelayServer.agentThreads.isEmpty() )
 		{
-			LocalRelayAgent agent = (LocalRelayAgent) agentThreads.remove( 0 );
+			LocalRelayAgent agent = (LocalRelayAgent) LocalRelayServer.agentThreads.remove( 0 );
 			agent.setSocket( null );
 		}
 	}
 
-	private synchronized void dispatchAgent( Socket socket )
+	private synchronized void dispatchAgent( final Socket socket )
 	{
 		LocalRelayAgent agent = null;
 
-		for ( int i = 0; i < agentThreads.size(); ++i )
+		for ( int i = 0; i < LocalRelayServer.agentThreads.size(); ++i )
 		{
-			agent = (LocalRelayAgent) agentThreads.get(i);
+			agent = (LocalRelayAgent) LocalRelayServer.agentThreads.get( i );
 
 			if ( agent.isWaiting() )
 			{
@@ -187,32 +202,34 @@ public class LocalRelayServer implements Runnable
 
 	private synchronized LocalRelayAgent createAgent()
 	{
-		LocalRelayAgent agent = new LocalRelayAgent( agentThreads.size() );
+		LocalRelayAgent agent = new LocalRelayAgent( LocalRelayServer.agentThreads.size() );
 
-		agentThreads.add( agent );
+		LocalRelayServer.agentThreads.add( agent );
 		agent.start();
 
 		return agent;
 	}
 
-	public static final void addStatusMessage( String message )
+	public static final void addStatusMessage( final String message )
 	{
-		if ( System.currentTimeMillis() - lastStatusMessage < 4000 )
-			statusMessages.append( message );
+		if ( System.currentTimeMillis() - LocalRelayServer.lastStatusMessage < 4000 )
+		{
+			LocalRelayServer.statusMessages.append( message );
+		}
 	}
 
 	public static final String getNewStatusMessages()
 	{
-		if ( updateStatus )
+		if ( LocalRelayServer.updateStatus )
 		{
-			updateStatus = false;
-			statusMessages.append( "<!-- REFRESH -->" );
+			LocalRelayServer.updateStatus = false;
+			LocalRelayServer.statusMessages.append( "<!-- REFRESH -->" );
 		}
 
-		String newMessages = statusMessages.toString();
-		statusMessages.setLength(0);
+		String newMessages = LocalRelayServer.statusMessages.toString();
+		LocalRelayServer.statusMessages.setLength( 0 );
 
-		lastStatusMessage = System.currentTimeMillis();
+		LocalRelayServer.lastStatusMessage = System.currentTimeMillis();
 		return newMessages;
 	}
 }

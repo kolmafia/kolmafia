@@ -50,22 +50,25 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
+import javax.swing.WindowConstants;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
-public class RequestFrame extends KoLFrame
+public class RequestFrame
+	extends KoLFrame
 {
 	private static final int HISTORY_LIMIT = 4;
-	private static final Pattern IMAGE_PATTERN = Pattern.compile( "http://images\\.kingdomofloathing\\.com/[^\\s\"\'>]+" );
+	private static final Pattern IMAGE_PATTERN =
+		Pattern.compile( "http://images\\.kingdomofloathing\\.com/[^\\s\"\'>]+" );
 
 	private static final ArrayList sideBarFrames = new ArrayList();
 
 	private int locationIndex = 0;
-	private ArrayList history = new ArrayList();
-	private ArrayList shownHTML = new ArrayList();
+	private final ArrayList history = new ArrayList();
+	private final ArrayList shownHTML = new ArrayList();
 
 	private String currentLocation;
-	private LimitedSizeChatBuffer mainBuffer;
+	private final LimitedSizeChatBuffer mainBuffer;
 	private LimitedSizeChatBuffer sideBuffer;
 
 	public RequestPane sideDisplay;
@@ -73,17 +76,17 @@ public class RequestFrame extends KoLFrame
 
 	private JComboBox scriptSelect;
 	private BrowserComboBox functionSelect, gotoSelect;
-	private AutoHighlightField locationField = new AutoHighlightField();
+	private final AutoHighlightField locationField = new AutoHighlightField();
 
 	public RequestFrame()
 	{
 		this( "Mini-Browser" );
 
-		this.setDefaultCloseOperation( HIDE_ON_CLOSE );
+		this.setDefaultCloseOperation( WindowConstants.HIDE_ON_CLOSE );
 		this.displayRequest( new KoLRequest( "main.php" ) );
 	}
 
-	public RequestFrame( String title )
+	public RequestFrame( final String title )
 	{
 		super( title );
 
@@ -96,7 +99,7 @@ public class RequestFrame extends KoLFrame
 		// Game text descriptions and player searches should not add
 		// extra requests to the server by having a side panel.
 
-		constructSideBar( mainScroller );
+		this.constructSideBar( mainScroller );
 		this.getToolbar();
 	}
 
@@ -122,7 +125,7 @@ public class RequestFrame extends KoLFrame
 		return toolbarPanel;
 	}
 
-	private void constructSideBar( JScrollPane mainScroller )
+	private void constructSideBar( final JScrollPane mainScroller )
 	{
 		if ( !this.hasSideBar() )
 		{
@@ -134,7 +137,7 @@ public class RequestFrame extends KoLFrame
 			return;
 		}
 
-		sideBarFrames.add( this );
+		RequestFrame.sideBarFrames.add( this );
 
 		this.sideDisplay = new RequestPane();
 		this.sideDisplay.addHyperlinkListener( new KoLHyperlinkAdapter() );
@@ -154,8 +157,11 @@ public class RequestFrame extends KoLFrame
 		this.functionSelect = new BrowserComboBox();
 		this.functionSelect.addItem( new BrowserComboBoxItem( "- Select -", "" ) );
 
-		for ( int i = 0; i < FUNCTION_MENU.length; ++i )
-			this.functionSelect.addItem( new BrowserComboBoxItem( FUNCTION_MENU[i][0], FUNCTION_MENU[i][1] ) );
+		for ( int i = 0; i < KoLConstants.FUNCTION_MENU.length; ++i )
+		{
+			this.functionSelect.addItem( new BrowserComboBoxItem(
+				KoLConstants.FUNCTION_MENU[ i ][ 0 ], KoLConstants.FUNCTION_MENU[ i ][ 1 ] ) );
+		}
 
 		// Add the browser "goto" menu, because people
 		// are familiar with seeing this as well.  But,
@@ -163,8 +169,11 @@ public class RequestFrame extends KoLFrame
 
 		this.gotoSelect = new BrowserComboBox();
 		this.gotoSelect.addItem( new BrowserComboBoxItem( "- Select -", "" ) );
-		for ( int i = 0; i < GOTO_MENU.length; ++i )
-			this.gotoSelect.addItem( new BrowserComboBoxItem( GOTO_MENU[i][0], GOTO_MENU[i][1] ) );
+		for ( int i = 0; i < KoLConstants.GOTO_MENU.length; ++i )
+		{
+			this.gotoSelect.addItem( new BrowserComboBoxItem(
+				KoLConstants.GOTO_MENU[ i ][ 0 ], KoLConstants.GOTO_MENU[ i ][ 1 ] ) );
+		}
 
 		JPanel topMenu = new JPanel();
 		topMenu.setOpaque( true );
@@ -179,15 +188,19 @@ public class RequestFrame extends KoLFrame
 		RequestEditorKit.downloadImage( "http://images.kingdomofloathing.com/itemimages/smoon" + MoonPhaseDatabase.getRonaldPhase() + ".gif" );
 		RequestEditorKit.downloadImage( "http://images.kingdomofloathing.com/itemimages/smoon" + MoonPhaseDatabase.getGrimacePhase() + ".gif" );
 
-		topMenu.add( new JLabel( JComponentUtilities.getImage( "itemimages/smoon" + MoonPhaseDatabase.getRonaldPhase() + ".gif" ) ) );
-		topMenu.add( new JLabel( JComponentUtilities.getImage( "itemimages/smoon" + MoonPhaseDatabase.getGrimacePhase() + ".gif" ) ) );
+		topMenu.add( new JLabel(
+			JComponentUtilities.getImage( "itemimages/smoon" + MoonPhaseDatabase.getRonaldPhase() + ".gif" ) ) );
+		topMenu.add( new JLabel(
+			JComponentUtilities.getImage( "itemimages/smoon" + MoonPhaseDatabase.getGrimacePhase() + ".gif" ) ) );
 
 		topMenu.add( Box.createHorizontalStrut( 20 ) );
 
 		this.scriptSelect = new JComboBox();
-		String [] scriptList = KoLSettings.getUserProperty( "scriptList" ).split( " \\| " );
+		String[] scriptList = KoLSettings.getUserProperty( "scriptList" ).split( " \\| " );
 		for ( int i = 0; i < scriptList.length; ++i )
-			this.scriptSelect.addItem( (i+1) + ": " + scriptList[i] );
+		{
+			this.scriptSelect.addItem( i + 1 + ": " + scriptList[ i ] );
+		}
 
 		topMenu.add( this.scriptSelect );
 		topMenu.add( new ExecuteScriptButton() );
@@ -201,41 +214,50 @@ public class RequestFrame extends KoLFrame
 
 		this.framePanel.setLayout( new BorderLayout() );
 		this.framePanel.add( container, BorderLayout.CENTER );
-		refreshStatus();
+		RequestFrame.refreshStatus();
 	}
 
-	private class BrowserComboBox extends JComboBox
+	private class BrowserComboBox
+		extends JComboBox
 	{
 		public BrowserComboBox()
-		{	this.addActionListener( new BrowserComboBoxListener() );
+		{
+			this.addActionListener( new BrowserComboBoxListener() );
 		}
 	}
 
-	private class BrowserComboBoxListener implements ActionListener
+	private class BrowserComboBoxListener
+		implements ActionListener
 	{
-		public void actionPerformed( ActionEvent e )
+		public void actionPerformed( final ActionEvent e )
 		{
 			BrowserComboBox source = (BrowserComboBox) e.getSource();
 			BrowserComboBoxItem selected = (BrowserComboBoxItem) source.getSelectedItem();
 
 			if ( !selected.getLocation().equals( "" ) )
+			{
 				RequestFrame.this.refresh( new KoLRequest( selected.getLocation() ) );
+			}
 
 			source.setSelectedIndex( 0 );
 		}
 	}
 
-	private class ExecuteScriptButton extends ThreadedButton
+	private class ExecuteScriptButton
+		extends ThreadedButton
 	{
 		public ExecuteScriptButton()
-		{	super( "exec" );
+		{
+			super( "exec" );
 		}
 
 		public void run()
 		{
 			String command = (String) RequestFrame.this.scriptSelect.getSelectedItem();
 			if ( command == null )
+			{
 				return;
+			}
 
 			command = command.substring( command.indexOf( ":" ) + 1 ).trim();
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( command );
@@ -244,61 +266,69 @@ public class RequestFrame extends KoLFrame
 
 	private class BrowserComboBoxItem
 	{
-		private String name;
-		private String location;
+		private final String name;
+		private final String location;
 
-		public BrowserComboBoxItem( String name, String location )
+		public BrowserComboBoxItem( final String name, final String location )
 		{
 			this.name = name;
 			this.location = location;
 		}
 
 		public String toString()
-		{	return this.name;
+		{
+			return this.name;
 		}
 
 		public String getLocation()
-		{	return this.location;
+		{
+			return this.location;
 		}
 	}
 
 	/**
-	 * Returns whether or not this request frame has a side bar.
-	 * This is used to ensure that bookmarks correctly use a
+	 * Returns whether or not this request frame has a side bar. This is used to ensure that bookmarks correctly use a
 	 * new frame if this frame does not have one.
 	 */
 
 	public boolean hasSideBar()
-	{	return true;
+	{
+		return true;
 	}
 
 	public String getCurrentLocation()
-	{	return this.currentLocation;
+	{
+		return this.currentLocation;
 	}
 
 	/**
-	 * Utility method which refreshes the current frame with
-	 * data contained in the given request.  If the request
-	 * has not yet been run, it will be run before the data
-	 * is display in this frame.
+	 * Utility method which refreshes the current frame with data contained in the given request. If the request has not
+	 * yet been run, it will be run before the data is display in this frame.
 	 */
 
-	public void refresh( KoLRequest request )
+	public void refresh( final KoLRequest request )
 	{
-		if ( removedFrames.contains( this ) )
-			removedFrames.remove( this );
+		if ( KoLConstants.removedFrames.contains( this ) )
+		{
+			KoLConstants.removedFrames.remove( this );
+		}
 
-		if ( !existingFrames.contains( this ) )
-			existingFrames.add( this );
+		if ( !KoLConstants.existingFrames.contains( this ) )
+		{
+			KoLConstants.existingFrames.add( this );
+		}
 
 		this.displayRequest( request );
 
-		if ( !this.isVisible() && KoLSettings.getGlobalProperty( "initialDesktop" ).indexOf( getFrameName() ) == -1 )
+		if ( !this.isVisible() && KoLSettings.getGlobalProperty( "initialDesktop" ).indexOf( this.getFrameName() ) == -1 )
+		{
 			this.setVisible( true );
+		}
 	}
 
-	public String getDisplayHTML( String responseText )
-	{	return RequestEditorKit.getDisplayHTML( this.currentLocation, responseText );
+	public String getDisplayHTML( final String responseText )
+	{
+		return RequestEditorKit.getDisplayHTML( this.currentLocation, responseText );
 	}
 
 	/**
@@ -308,7 +338,9 @@ public class RequestFrame extends KoLFrame
 	public void displayRequest( KoLRequest request )
 	{
 		if ( this.mainBuffer == null || request == null )
+		{
 			return;
+		}
 
 		if ( request instanceof FightRequest )
 		{
@@ -344,10 +376,10 @@ public class RequestFrame extends KoLFrame
 			StaticEntity.externalUpdate( this.currentLocation, request.responseText );
 		}
 
-		showHTML( this.currentLocation, request.responseText );
+		this.showHTML( this.currentLocation, request.responseText );
 	}
 
-	public void showHTML( String location, String responseText )
+	public void showHTML( String location, final String responseText )
 	{
 		// Function exactly like a history in a normal browser -
 		// if you open a new frame after going back, all the ones
@@ -358,10 +390,10 @@ public class RequestFrame extends KoLFrame
 		this.history.add( location );
 		this.shownHTML.add( renderText );
 
-		if ( this.history.size() > HISTORY_LIMIT )
+		if ( this.history.size() > RequestFrame.HISTORY_LIMIT )
 		{
-			this.history.remove(0);
-			this.shownHTML.remove(0);
+			this.history.remove( 0 );
+			this.shownHTML.remove( 0 );
 		}
 
 		location = location.substring( location.lastIndexOf( "/" ) + 1 );
@@ -369,28 +401,35 @@ public class RequestFrame extends KoLFrame
 
 		this.locationIndex = this.shownHTML.size() - 1;
 
-		Matcher imageMatcher = IMAGE_PATTERN.matcher( renderText );
+		Matcher imageMatcher = RequestFrame.IMAGE_PATTERN.matcher( renderText );
 		while ( imageMatcher.find() )
+		{
 			RequestEditorKit.downloadImage( imageMatcher.group() );
+		}
 
 		this.mainBuffer.append( renderText );
 	}
 
-	private class HomeButton extends ThreadedButton
+	private class HomeButton
+		extends ThreadedButton
 	{
 		public HomeButton()
-		{	super( JComponentUtilities.getImage( "home.gif" ) );
+		{
+			super( JComponentUtilities.getImage( "home.gif" ) );
 		}
 
 		public void run()
-		{	RequestFrame.this.refresh( new KoLRequest( "main.php" ) );
+		{
+			RequestFrame.this.refresh( new KoLRequest( "main.php" ) );
 		}
 	}
 
-	private class BackButton extends ThreadedButton
+	private class BackButton
+		extends ThreadedButton
 	{
 		public BackButton()
-		{	super( JComponentUtilities.getImage( "back.gif" ) );
+		{
+			super( JComponentUtilities.getImage( "back.gif" ) );
 		}
 
 		public void run()
@@ -405,10 +444,12 @@ public class RequestFrame extends KoLFrame
 		}
 	}
 
-	private class ForwardButton extends ThreadedButton
+	private class ForwardButton
+		extends ThreadedButton
 	{
 		public ForwardButton()
-		{	super( JComponentUtilities.getImage( "forward.gif" ) );
+		{
+			super( JComponentUtilities.getImage( "forward.gif" ) );
 		}
 
 		public void run()
@@ -423,22 +464,27 @@ public class RequestFrame extends KoLFrame
 		}
 	}
 
-	private class ReloadButton extends ThreadedButton
+	private class ReloadButton
+		extends ThreadedButton
 	{
 		public ReloadButton()
-		{	super( JComponentUtilities.getImage( "reload.gif" ) );
+		{
+			super( JComponentUtilities.getImage( "reload.gif" ) );
 		}
 
 		public void run()
 		{
 			if ( RequestFrame.this.currentLocation == null )
+			{
 				return;
+			}
 
 			RequestFrame.this.refresh( new KoLRequest( RequestFrame.this.currentLocation ) );
 		}
 	}
 
-	private class GoButton extends ThreadedButton
+	private class GoButton
+		extends ThreadedButton
 	{
 		public GoButton()
 		{
@@ -449,19 +495,25 @@ public class RequestFrame extends KoLFrame
 		public void run()
 		{
 			KoLAdventure adventure = AdventureDatabase.getAdventure( RequestFrame.this.locationField.getText() );
-			KoLRequest request = RequestEditorKit.extractRequest( adventure == null ? RequestFrame.this.locationField.getText() : adventure.getRequest().getURLString() );
+			KoLRequest request =
+				RequestEditorKit.extractRequest( adventure == null ? RequestFrame.this.locationField.getText() : adventure.getRequest().getURLString() );
 			RequestFrame.this.refresh( request );
 		}
 
-		private class GoAdapter extends KeyAdapter
+		private class GoAdapter
+			extends KeyAdapter
 		{
-			public void keyReleased( KeyEvent e )
+			public void keyReleased( final KeyEvent e )
 			{
 				if ( e.isConsumed() )
+				{
 					return;
+				}
 
 				if ( e.getKeyCode() != KeyEvent.VK_ENTER )
+				{
 					return;
+				}
 
 				GoButton.this.actionPerformed( null );
 				e.consume();
@@ -470,32 +522,36 @@ public class RequestFrame extends KoLFrame
 	}
 
 	public static final boolean sidebarFrameExists()
-	{	return !sideBarFrames.isEmpty();
+	{
+		return !RequestFrame.sideBarFrames.isEmpty();
 	}
 
 	public static final void refreshStatus()
 	{
-		if ( sideBarFrames.isEmpty() )
+		if ( RequestFrame.sideBarFrames.isEmpty() )
+		{
 			return;
+		}
 
 		RequestFrame current;
 		String displayHTML = RequestEditorKit.getDisplayHTML( "charpane.php", CharpaneRequest.getLastResponse() );
 
-		for ( int i = 0; i < sideBarFrames.size(); ++i )
+		for ( int i = 0; i < RequestFrame.sideBarFrames.size(); ++i )
 		{
-			current = (RequestFrame) sideBarFrames.get(i);
+			current = (RequestFrame) RequestFrame.sideBarFrames.get( i );
 			current.sideBuffer.clearBuffer();
 			current.sideBuffer.append( displayHTML );
 		}
 	}
 
-	public boolean containsText( String search )
-	{	return mainBuffer.getBuffer().indexOf( search ) != -1;
+	public boolean containsText( final String search )
+	{
+		return this.mainBuffer.getBuffer().indexOf( search ) != -1;
 	}
 
 	public void dispose()
 	{
-		sideBarFrames.remove( this );
+		RequestFrame.sideBarFrames.remove( this );
 
 		this.history.clear();
 		this.shownHTML.clear();
@@ -503,6 +559,7 @@ public class RequestFrame extends KoLFrame
 	}
 
 	public boolean shouldAddStatusBar()
-	{	return false;
+	{
+		return false;
 	}
 }

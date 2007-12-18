@@ -36,56 +36,61 @@ package net.sourceforge.kolmafia;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class StoreManageRequest extends KoLRequest
+public class StoreManageRequest
+	extends KoLRequest
 {
 	private static final int ITEM_REMOVAL = 1;
 	private static final int PRICE_MANAGEMENT = 2;
 	private static final int VIEW_STORE_LOG = 3;
 
 	private int takenItemId;
-	private int requestType;
+	private final int requestType;
 
 	public StoreManageRequest()
-	{	this( false );
+	{
+		this( false );
 	}
 
-	public StoreManageRequest( boolean isStoreLog )
+	public StoreManageRequest( final boolean isStoreLog )
 	{
 		super( isStoreLog ? "storelog.php" : "manageprices.php" );
-		this.requestType = isStoreLog ? VIEW_STORE_LOG : PRICE_MANAGEMENT;
+		this.requestType = isStoreLog ? StoreManageRequest.VIEW_STORE_LOG : StoreManageRequest.PRICE_MANAGEMENT;
 	}
 
-	public StoreManageRequest( int itemId )
+	public StoreManageRequest( final int itemId )
 	{
 		super( "managestore.php" );
 		this.addFormField( "action", "takeall" );
 		this.addFormField( "whichitem", String.valueOf( itemId ) );
 
-		this.requestType = ITEM_REMOVAL;
+		this.requestType = StoreManageRequest.ITEM_REMOVAL;
 		this.takenItemId = itemId;
 
 		AdventureResult item = new AdventureResult( itemId, 1 );
-		if ( profitableList.contains( item ) )
-			profitableList.remove( item );
+		if ( KoLConstants.profitableList.contains( item ) )
+		{
+			KoLConstants.profitableList.remove( item );
+		}
 	}
 
-	public StoreManageRequest( int [] itemId, int [] prices, int [] limits )
+	public StoreManageRequest( final int[] itemId, final int[] prices, final int[] limits )
 	{
 		super( "manageprices.php" );
 		this.addFormField( "action", "update" );
 		this.addFormField( "pwd" );
 
-		this.requestType = PRICE_MANAGEMENT;
+		this.requestType = StoreManageRequest.PRICE_MANAGEMENT;
 		for ( int i = 0; i < itemId.length; ++i )
 		{
-			this.addFormField( "price" + itemId[i], prices[i] == 0 ? "" :
-				String.valueOf( Math.max( prices[i], Math.max( TradeableItemDatabase.getPriceById( itemId[i] ), 100 ) ) ) );
-			this.addFormField( "limit" + itemId[i], String.valueOf( limits[i] ) );
+			this.addFormField( "price" + itemId[ i ], prices[ i ] == 0 ? "" : String.valueOf( Math.max(
+				prices[ i ], Math.max( TradeableItemDatabase.getPriceById( itemId[ i ] ), 100 ) ) ) );
+			this.addFormField( "limit" + itemId[ i ], String.valueOf( limits[ i ] ) );
 		}
 	}
 
 	protected boolean retryOnTimeout()
-	{	return true;
+	{
+		return true;
 	}
 
 	public void run()
@@ -131,9 +136,14 @@ public class StoreManageRequest extends KoLRequest
 
 		super.run();
 
-		Matcher takenItemMatcher = Pattern.compile( "<option value=\"" + this.takenItemId + "\".*?>.*?\\(([\\d,]+)\\)</option>" ).matcher( this.responseText );
+		Matcher takenItemMatcher =
+			Pattern.compile( "<option value=\"" + this.takenItemId + "\".*?>.*?\\(([\\d,]+)\\)</option>" ).matcher(
+				this.responseText );
 		if ( takenItemMatcher.find() )
-			StaticEntity.getClient().processResult( takenItem.getInstance( StaticEntity.parseInt( takenItemMatcher.group(1) ) - takenItem.getCount( inventory ) ) );
+		{
+			StaticEntity.getClient().processResult(
+				takenItem.getInstance( StaticEntity.parseInt( takenItemMatcher.group( 1 ) ) - takenItem.getCount( KoLConstants.inventory ) ) );
+		}
 
 		StoreManager.update( this.responseText, false );
 		KoLmafia.updateDisplay( takenItem.getName() + " removed from your store." );

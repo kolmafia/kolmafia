@@ -38,7 +38,9 @@ import java.awt.event.FocusListener;
 
 import javax.swing.JTextField;
 
-public class AutoHighlightField extends JTextField implements FocusListener
+public class AutoHighlightField
+	extends JTextField
+	implements FocusListener
 {
 	public AutoHighlightField()
 	{
@@ -46,29 +48,32 @@ public class AutoHighlightField extends JTextField implements FocusListener
 		this.addFocusListener( this );
 	}
 
-	public AutoHighlightField( String text )
+	public AutoHighlightField( final String text )
 	{
 		super( text );
 		this.addFocusListener( this );
 	}
 
-	public void setText( String text )
+	public void setText( final String text )
 	{
 		super.setText( text );
 		this.selectAll();
 	}
 
-	public void focusGained( FocusEvent e )
-	{	this.selectAll();
+	public void focusGained( final FocusEvent e )
+	{
+		this.selectAll();
 	}
 
-	public void focusLost( FocusEvent e )
+	public void focusLost( final FocusEvent e )
 	{
 	}
 
 	public void selectAll()
 	{
 		if ( KoLSettings.getBooleanProperty( "autoHighlightOnFocus" ) )
+		{
 			super.selectAll();
+		}
 	}
 }

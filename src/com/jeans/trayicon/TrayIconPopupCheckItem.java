@@ -41,72 +41,74 @@
 package com.jeans.trayicon;
 
 // Checkbox menu item for Tray Icon
-public class TrayIconPopupCheckItem extends TrayIconPopupSimpleItem {
+public class TrayIconPopupCheckItem
+	extends TrayIconPopupSimpleItem
+{
 
 	// Checkbox selected?
 	protected boolean m_Selected;
 
-/**
- * Create new checkbox menu item
- *
- * Param item = the name of the new item
- */
-	public TrayIconPopupCheckItem(String item) {
-		super(item);
+	/**
+	 * Create new checkbox menu item Param item = the name of the new item
+	 */
+	public TrayIconPopupCheckItem( final String item )
+	{
+		super( item );
 	}
 
-/**
- * Set/Remove checkmark of item
- *
- * Param selected = checkmark/no checkmark?
- */
-	public void setCheck(boolean selected) {
-		m_Selected = selected;		
-		if (m_TrayIcon != null)
-		    m_TrayIcon.modifyPopup(m_MenuId, WindowsTrayIcon.POPUP_MODE_CHECK, m_Selected);
-	}
-	
-/**
- * Get checkmark of item
- */
-	public boolean getCheck() {
-        return m_Selected;
-	}
-
-/****************************************************************************************************************
- *                                                                                                              *
- * Next section is for inter use only -- or for hackers :O)                                                     *
- *                                                                                                              *
- ****************************************************************************************************************/
-
-/**
- * Callback when user selects menu item (find it by comparing menu id's)
- *
- * Param menuId = the id of the selected item
- */
-	public boolean onSelected(int menuId) {
-		if (menuId == m_MenuId) {
-			m_Selected = !m_Selected;
-			m_TrayIcon.modifyPopup(m_MenuId, WindowsTrayIcon.POPUP_MODE_CHECK, m_Selected);
+	/**
+	 * Set/Remove checkmark of item Param selected = checkmark/no checkmark?
+	 */
+	public void setCheck( final boolean selected )
+	{
+		this.m_Selected = selected;
+		if ( this.m_TrayIcon != null )
+		{
+			this.m_TrayIcon.modifyPopup( this.m_MenuId, WindowsTrayIcon.POPUP_MODE_CHECK, this.m_Selected );
 		}
-		return super.onSelected(menuId);
 	}
 
-/**
- * Create menu in native library - used by WindowsTrayIcon.setPopup()
- *
- * Param trayicon = the owner of this menu
- * Param id = the icon's id
- * Param level = the level (submenu depth)
- */
-	public void setTrayIcon(WindowsTrayIcon trayicon, int id, int level) {
-	    int extra = 0;	    
-	    if (m_Enabled) extra |= WindowsTrayIcon.POPUP_MODE_ENABLE;
-	    if (m_Selected) extra |= WindowsTrayIcon.POPUP_MODE_CHECK;
-	    m_MenuId = trayicon.subPopup(id, level, m_Item, WindowsTrayIcon.POPUP_TYPE_CHECKBOX, extra);
-		m_TrayIcon = trayicon;
+	/**
+	 * Get checkmark of item
+	 */
+	public boolean getCheck()
+	{
+		return this.m_Selected;
+	}
+
+	/*******************************************************************************************************************
+	 * * Next section is for inter use only -- or for hackers :O) * *
+	 ******************************************************************************************************************/
+
+	/**
+	 * Callback when user selects menu item (find it by comparing menu id's) Param menuId = the id of the selected item
+	 */
+	public boolean onSelected( final int menuId )
+	{
+		if ( menuId == this.m_MenuId )
+		{
+			this.m_Selected = !this.m_Selected;
+			this.m_TrayIcon.modifyPopup( this.m_MenuId, WindowsTrayIcon.POPUP_MODE_CHECK, this.m_Selected );
+		}
+		return super.onSelected( menuId );
+	}
+
+	/**
+	 * Create menu in native library - used by WindowsTrayIcon.setPopup() Param trayicon = the owner of this menu Param
+	 * id = the icon's id Param level = the level (submenu depth)
+	 */
+	public void setTrayIcon( final WindowsTrayIcon trayicon, final int id, final int level )
+	{
+		int extra = 0;
+		if ( this.m_Enabled )
+		{
+			extra |= WindowsTrayIcon.POPUP_MODE_ENABLE;
+		}
+		if ( this.m_Selected )
+		{
+			extra |= WindowsTrayIcon.POPUP_MODE_CHECK;
+		}
+		this.m_MenuId = WindowsTrayIcon.subPopup( id, level, this.m_Item, WindowsTrayIcon.POPUP_TYPE_CHECKBOX, extra );
+		this.m_TrayIcon = trayicon;
 	}
 }
-
-
-

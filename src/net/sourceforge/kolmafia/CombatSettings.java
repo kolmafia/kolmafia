@@ -46,9 +46,10 @@ import javax.swing.tree.TreeNode;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
-public abstract class CombatSettings implements KoLConstants
+public abstract class CombatSettings
+	implements KoLConstants
 {
-	private static String [] keys = new String[0];
+	private static String[] keys = new String[ 0 ];
 	private static File settingsFile = null;
 
 	private static final LockableListModel availableScripts = new LockableListModel();
@@ -57,30 +58,40 @@ public abstract class CombatSettings implements KoLConstants
 
 	public static final LockableListModel getAvailableScripts()
 	{
-		availableScripts.clear();
+		CombatSettings.availableScripts.clear();
 
-		String [] list = CCS_LOCATION.list();
+		String[] list = KoLConstants.CCS_LOCATION.list();
 		for ( int i = 0; i < list.length; ++i )
-			if ( list[i].endsWith( ".ccs" ) )
-				availableScripts.add( list[i].substring( 0, list[i].length() - 4 ) );
+		{
+			if ( list[ i ].endsWith( ".ccs" ) )
+			{
+				CombatSettings.availableScripts.add( list[ i ].substring( 0, list[ i ].length() - 4 ) );
+			}
+		}
 
-		if ( !availableScripts.contains( "default" ) )
-			availableScripts.add( "default" );
+		if ( !CombatSettings.availableScripts.contains( "default" ) )
+		{
+			CombatSettings.availableScripts.add( "default" );
+		}
 
-		return availableScripts;
+		return CombatSettings.availableScripts;
 	}
 
 	public static void setScript( String name )
 	{
 		if ( name == null || name.equals( "" ) )
+		{
 			name = "default";
+		}
 
 		name = StaticEntity.globalStringDelete( name.toLowerCase().trim(), " " );
-		if ( !availableScripts.contains( name ) )
-			availableScripts.add( name );
+		if ( !CombatSettings.availableScripts.contains( name ) )
+		{
+			CombatSettings.availableScripts.add( name );
+		}
 
 		KoLSettings.setUserProperty( "customCombatScript", name + ".ccs" );
-		loadSettings( name + ".ccs" );
+		CombatSettings.loadSettings( name + ".ccs" );
 	}
 
 	public static final String settingName()
@@ -90,50 +101,53 @@ public abstract class CombatSettings implements KoLConstants
 	}
 
 	public static final String settingsFileName()
-	{	return settingName() + ".ccs";
+	{
+		return CombatSettings.settingName() + ".ccs";
 	}
 
 	public static final TreeNode getRoot()
-	{	return root;
+	{
+		return CombatSettings.root;
 	}
 
 	/**
-	 * Loads the settings located in the given file into this object.
-	 * Note that all settings are overridden; if the given file does
-	 * not exist, the current global settings will also be rewritten
-	 * into the appropriate file.
-	 *
-	 * @param	source	The file that contains (or will contain) the character data
+	 * Loads the settings located in the given file into this object. Note that all settings are overridden; if the
+	 * given file does not exist, the current global settings will also be rewritten into the appropriate file.
+	 * 
+	 * @param source The file that contains (or will contain) the character data
 	 */
 
 	public static final void loadSettings()
-	{	loadSettings( settingsFileName() );
+	{
+		CombatSettings.loadSettings( CombatSettings.settingsFileName() );
 	}
 
-	private static final void loadSettings( String filename )
+	private static final void loadSettings( final String filename )
 	{
-		root.removeAllChildren();
-		reference.clear();
+		CombatSettings.root.removeAllChildren();
+		CombatSettings.reference.clear();
 
-		settingsFile = new File( CCS_LOCATION, filename );
+		CombatSettings.settingsFile = new File( KoLConstants.CCS_LOCATION, filename );
 
 		try
 		{
 			// First guarantee that a settings file exists with
 			// the appropriate Properties data.
 
-			if ( !settingsFile.exists() )
-				settingsFile.createNewFile();
-
-			readSettings();
-
-			if ( reference.size() == 0 )
+			if ( !CombatSettings.settingsFile.exists() )
 			{
-				LogStream ostream = LogStream.openStream( settingsFile, true );
+				CombatSettings.settingsFile.createNewFile();
+			}
+
+			CombatSettings.readSettings();
+
+			if ( CombatSettings.reference.size() == 0 )
+			{
+				LogStream ostream = LogStream.openStream( CombatSettings.settingsFile, true );
 				ostream.println( "[ default ]" );
 				ostream.println( "1: attack with weapon" );
 				ostream.close();
-				readSettings();
+				CombatSettings.readSettings();
 			}
 		}
 		catch ( IOException e1 )
@@ -150,8 +164,8 @@ public abstract class CombatSettings implements KoLConstants
 			// the current file is deleted.
 
 			StaticEntity.printStackTrace( e2 );
-			settingsFile.delete();
-			loadSettings( filename );
+			CombatSettings.settingsFile.delete();
+			CombatSettings.loadSettings( filename );
 		}
 	}
 
@@ -159,35 +173,39 @@ public abstract class CombatSettings implements KoLConstants
 	{
 		try
 		{
-			BufferedReader reader = KoLDatabase.getReader( settingsFile );
+			BufferedReader reader = KoLDatabase.getReader( CombatSettings.settingsFile );
 			String line;
-			CombatSettingNode currentList = root;
+			CombatSettingNode currentList = CombatSettings.root;
 
-			while ( (line = reader.readLine()) != null )
+			while ( ( line = reader.readLine() ) != null )
 			{
 				line = line.trim();
 				if ( line.startsWith( "[" ) )
 				{
-					if ( currentList != root && currentList.getChildCount() == 0 )
+					if ( currentList != CombatSettings.root && currentList.getChildCount() == 0 )
+					{
 						currentList.add( new CombatActionNode( 1, "attack with weapon" ) );
+					}
 
-					String currentKey = encounterKey( line.substring( 1, line.length() - 1 ) );
+					String currentKey = CombatSettings.encounterKey( line.substring( 1, line.length() - 1 ) );
 					currentList = new CombatSettingNode( currentKey );
 
-					reference.put( currentKey, currentList );
-					root.add( currentList );
+					CombatSettings.reference.put( currentKey, currentList );
+					CombatSettings.root.add( currentList );
 					continue;
 				}
 
 				if ( line.length() == 0 )
+				{
 					continue;
+				}
 
 				int desiredIndex = currentList.getChildCount() + 1;
 
 				// If it looks like this is a KoLmafia-created settings file,
 				// then parse it accordingly.
 
-				if ( Character.isDigit( line.charAt(0) ) )
+				if ( Character.isDigit( line.charAt( 0 ) ) )
 				{
 					int colonIndex = line.indexOf( ":" );
 					if ( colonIndex != -1 )
@@ -199,24 +217,28 @@ public abstract class CombatSettings implements KoLConstants
 
 				if ( desiredIndex >= currentList.getChildCount() )
 				{
-					String action = currentList.getChildCount() > 0 ?
-						((CombatActionNode) currentList.getLastChild()).action : "attack with weapon";
+					String action =
+						currentList.getChildCount() > 0 ? ( (CombatActionNode) currentList.getLastChild() ).action : "attack with weapon";
 
 					while ( currentList.getChildCount() < desiredIndex - 1 )
+					{
 						currentList.add( new CombatActionNode( currentList.getChildCount() + 1, action ) );
+					}
 
 					currentList.add( new CombatActionNode( desiredIndex, line ) );
 				}
 			}
 
-			if ( currentList != root && currentList.getChildCount() == 0 )
+			if ( currentList != CombatSettings.root && currentList.getChildCount() == 0 )
+			{
 				currentList.add( new CombatActionNode( 1, "delevel and plink" ) );
+			}
 
 			reader.close();
 			reader = null;
 
-			keys = new String[ reference.size() ];
-			reference.keySet().toArray( keys );
+			CombatSettings.keys = new String[ CombatSettings.reference.size() ];
+			CombatSettings.reference.keySet().toArray( CombatSettings.keys );
 		}
 		catch ( IOException e1 )
 		{
@@ -227,11 +249,12 @@ public abstract class CombatSettings implements KoLConstants
 		}
 	}
 
-	public static final String encounterKey( String line )
-	{	return encounterKey( line, true );
+	public static final String encounterKey( final String line )
+	{
+		return CombatSettings.encounterKey( line, true );
 	}
 
-	public static final String encounterKey( String line, boolean changeCase )
+	public static final String encounterKey( String line, final boolean changeCase )
 	{
 		line = line.trim();
 		String key = line.toLowerCase();
@@ -260,77 +283,81 @@ public abstract class CombatSettings implements KoLConstants
 		return changeCase ? key : line;
 	}
 
-	public static final void setDefaultAction( String actionList )
+	public static final void setDefaultAction( final String actionList )
 	{
-		CombatSettingNode currentList = (CombatSettingNode) reference.get( "default" );
+		CombatSettingNode currentList = (CombatSettingNode) CombatSettings.reference.get( "default" );
 		currentList.removeAllChildren();
 
-		String [] rounds = actionList.split( "\\s*;\\s*" );
+		String[] rounds = actionList.split( "\\s*;\\s*" );
 		for ( int i = 0; i < rounds.length; ++i )
-			currentList.add( new CombatActionNode( i + 1, rounds[i] ) );
+		{
+			currentList.add( new CombatActionNode( i + 1, rounds[ i ] ) );
+		}
 	}
 
 	public static final List getDefaultAction()
 	{
 		ArrayList nodeList = new ArrayList();
-		CombatSettingNode currentList = (CombatSettingNode) reference.get( "default" );
+		CombatSettingNode currentList = (CombatSettingNode) CombatSettings.reference.get( "default" );
 		for ( int i = 0; i < currentList.getChildCount(); ++i )
-			nodeList.add( currentList.getChildAt(i) );
+		{
+			nodeList.add( currentList.getChildAt( i ) );
+		}
 
 		return nodeList;
 	}
 
 	/**
-	 * Ensures that the given property exists, and if it does not exist,
-	 * initializes it to the given value.
+	 * Ensures that the given property exists, and if it does not exist, initializes it to the given value.
 	 */
 
-	private static final void ensureProperty( String key, String defaultValue )
+	private static final void ensureProperty( final String key, final String defaultValue )
 	{
-		if ( !reference.containsKey( key ) )
+		if ( !CombatSettings.reference.containsKey( key ) )
 		{
 			CombatSettingNode defaultList = new CombatSettingNode( key );
-			String [] elements = defaultValue.split( "\\s*;\\s*" );
+			String[] elements = defaultValue.split( "\\s*;\\s*" );
 			for ( int i = 0; i < elements.length; ++i )
-				defaultList.add( new CombatActionNode( i + 1, elements[i] ) );
+			{
+				defaultList.add( new CombatActionNode( i + 1, elements[ i ] ) );
+			}
 
-			reference.put( key, defaultList );
-			root.add( defaultList );
+			CombatSettings.reference.put( key, defaultList );
+			CombatSettings.root.add( defaultList );
 		}
 	}
 
 	/**
-	 * Stores the settings maintained in this <code>KoLSettings</code>
-	 * to the noted file.  Note that this method ALWAYS overwrites
-	 * the given file.
+	 * Stores the settings maintained in this <code>KoLSettings</code> to the noted file. Note that this method ALWAYS
+	 * overwrites the given file.
 	 */
 
 	public static final void saveSettings()
 	{
-		PrintStream writer = LogStream.openStream( settingsFile, true );
+		PrintStream writer = LogStream.openStream( CombatSettings.settingsFile, true );
 
 		CombatSettingNode combatOptions;
-		for ( int i = 0; i < keys.length; ++i )
+		for ( int i = 0; i < CombatSettings.keys.length; ++i )
 		{
-			writer.println( "[ " + keys[i] + " ]" );
+			writer.println( "[ " + CombatSettings.keys[ i ] + " ]" );
 
-			combatOptions = (CombatSettingNode) reference.get( keys[i] );
+			combatOptions = (CombatSettingNode) CombatSettings.reference.get( CombatSettings.keys[ i ] );
 			String action = null, newAction = null;
 
 			for ( int j = 0; j < combatOptions.getChildCount(); ++j )
 			{
 				if ( action == null )
 				{
-					action = ((CombatActionNode)combatOptions.getChildAt(j)).getAction();
-					writer.println( combatOptions.getChildAt(j) );
+					action = ( (CombatActionNode) combatOptions.getChildAt( j ) ).getAction();
+					writer.println( combatOptions.getChildAt( j ) );
 				}
 				else
 				{
-					newAction = ((CombatActionNode)combatOptions.getChildAt(j)).getAction();
+					newAction = ( (CombatActionNode) combatOptions.getChildAt( j ) ).getAction();
 					if ( !action.equals( newAction ) )
 					{
 						action = newAction;
-						writer.println( combatOptions.getChildAt(j) );
+						writer.println( combatOptions.getChildAt( j ) );
 					}
 				}
 			}
@@ -341,7 +368,7 @@ public abstract class CombatSettings implements KoLConstants
 		writer.close();
 	}
 
-	public static final String getSettingKey( String encounter )
+	public static final String getSettingKey( final String encounter )
 	{
 		String location = KoLSettings.getUserProperty( "lastAdventure" ).toLowerCase();
 
@@ -353,14 +380,14 @@ public abstract class CombatSettings implements KoLConstants
 
 		if ( encounter != null && !encounter.equals( "" ) )
 		{
-			for ( int i = 0; i < keys.length; ++i )
+			for ( int i = 0; i < CombatSettings.keys.length; ++i )
 			{
-				if ( encounter.indexOf( keys[i] ) != -1 )
+				if ( encounter.indexOf( CombatSettings.keys[ i ] ) != -1 )
 				{
-					if ( keys[i].length() > longestMatchLength )
+					if ( CombatSettings.keys[ i ].length() > longestMatchLength )
 					{
 						longestMatch = i;
-						longestMatchLength = keys[i].length();
+						longestMatchLength = CombatSettings.keys[ i ].length();
 					}
 				}
 			}
@@ -371,137 +398,171 @@ public abstract class CombatSettings implements KoLConstants
 
 		if ( longestMatch == -1 && location != null )
 		{
-			for ( int i = 0; i < keys.length; ++i )
+			for ( int i = 0; i < CombatSettings.keys.length; ++i )
 			{
-				if ( location.indexOf( keys[i] ) != -1 )
+				if ( location.indexOf( CombatSettings.keys[ i ] ) != -1 )
 				{
-					if ( keys[i].length() > longestMatchLength )
+					if ( CombatSettings.keys[ i ].length() > longestMatchLength )
 					{
 						longestMatch = i;
-						longestMatchLength = keys[i].length();
+						longestMatchLength = CombatSettings.keys[ i ].length();
 					}
 				}
 			}
 		}
 
 		if ( longestMatch == -1 )
+		{
 			return "default";
+		}
 
-		return keys[ longestMatch ];
+		return CombatSettings.keys[ longestMatch ];
 	}
 
-	public static final String getSetting( String encounter, int roundCount )
+	public static final String getSetting( final String encounter, final int roundCount )
 	{
 		// Otherwise, you have a tactic for this round against
 		// the given monster.  Return that tactic.
 
-		CombatSettingNode match = (CombatSettingNode) reference.get( getSettingKey( encounter ) );
+		CombatSettingNode match =
+			(CombatSettingNode) CombatSettings.reference.get( CombatSettings.getSettingKey( encounter ) );
 		if ( match.getChildCount() == 0 )
+		{
 			return "attack";
+		}
 
-		CombatActionNode setting = (CombatActionNode) match.getChildAt(
-			roundCount < match.getChildCount() ? roundCount : match.getChildCount() - 1 );
+		CombatActionNode setting =
+			(CombatActionNode) match.getChildAt( roundCount < match.getChildCount() ? roundCount : match.getChildCount() - 1 );
 
-		return getShortCombatOptionName( setting.getAction() );
+		return CombatSettings.getShortCombatOptionName( setting.getAction() );
 	}
 
-	private static class CombatSettingNode extends DefaultMutableTreeNode
+	private static class CombatSettingNode
+		extends DefaultMutableTreeNode
 	{
-		private String name;
+		private final String name;
 		private boolean willDelevel = false;
 
 		public CombatSettingNode()
-		{	this( "" );
+		{
+			this( "" );
 		}
 
-		public CombatSettingNode( String name )
+		public CombatSettingNode( final String name )
 		{
 			super( name, true );
 			this.name = name;
 		}
 
-		public void add( CombatActionNode node )
+		public void add( final CombatActionNode node )
 		{
 			if ( this.willDelevel )
+			{
 				return;
+			}
 
 			this.willDelevel |= node.getAction().equalsIgnoreCase( "delevel" );
 			super.add( node );
 		}
 
 		public String toString()
-		{	return this.name;
+		{
+			return this.name;
 		}
 	}
 
-	private static class CombatActionNode extends DefaultMutableTreeNode
+	private static class CombatActionNode
+		extends DefaultMutableTreeNode
 	{
-		private int index;
-		private String action;
+		private final int index;
+		private final String action;
 
-		public CombatActionNode( int index, String action )
+		public CombatActionNode( final int index, final String action )
 		{
 			super( action, false );
 
 			this.index = index;
-			this.action = getLongCombatOptionName( action );
+			this.action = CombatSettings.getLongCombatOptionName( action );
 		}
 
-		public boolean startsWith( String prefix )
-		{	return this.action.startsWith( prefix );
+		public boolean startsWith( final String prefix )
+		{
+			return this.action.startsWith( prefix );
 		}
 
 		public String getAction()
-		{	return this.action;
+		{
+			return this.action;
 		}
 
 		public String toString()
-		{	return this.index + ": " + this.action;
+		{
+			return this.index + ": " + this.action;
 		}
 	}
 
 	public static final String getLongCombatOptionName( String action )
 	{
 		if ( action == null )
+		{
 			return "attack with weapon";
+		}
 
 		action = action.trim();
 
 		if ( action.startsWith( "attack" ) || action.length() == 0 )
+		{
 			return "attack with weapon";
+		}
 
 		if ( action.indexOf( "steal" ) != -1 || action.indexOf( "pick" ) != -1 )
+		{
 			return "try to steal an item";
+		}
 
 		if ( action.startsWith( "jiggle" ) )
+		{
 			return "jiggle chefstaff";
+		}
 
 		if ( action.startsWith( "abort" ) || action.startsWith( "consult" ) )
+		{
 			return action;
+		}
 
 		if ( action.startsWith( "custom" ) )
-			return action.indexOf( ": " ) == -1 ? "custom: " + settingsFileName() : action;
+		{
+			return action.indexOf( ": " ) == -1 ? "custom: " + CombatSettings.settingsFileName() : action;
+		}
 
 		if ( action.startsWith( "delevel" ) )
+		{
 			return "delevel and plink";
+		}
 
 		if ( action.startsWith( "twiddle" ) )
+		{
 			return "twiddle your thumbs";
+		}
 
 		if ( action.indexOf( "run" ) != -1 && action.indexOf( "away" ) != -1 )
+		{
 			return "try to run away";
+		}
 
 		if ( action.startsWith( "item" ) )
 		{
-			String item = getLongItemAction( action.substring(4) );
+			String item = CombatSettings.getLongItemAction( action.substring( 4 ) );
 			return item.startsWith( "attack" ) ? item : "item " + item;
 		}
 
 		if ( action.startsWith( "skill" ) )
 		{
-			String potentialSkill = KoLmafiaCLI.getCombatSkillName( action.substring(5).trim() );
+			String potentialSkill = KoLmafiaCLI.getCombatSkillName( action.substring( 5 ).trim() );
 			if ( potentialSkill != null )
+			{
 				return "skill " + potentialSkill.toLowerCase();
+			}
 		}
 
 		// Well, it's either a standard skill, or it's an item,
@@ -509,34 +570,44 @@ public abstract class CombatSettings implements KoLConstants
 
 		String potentialSkill = KoLmafiaCLI.getCombatSkillName( action );
 		if ( potentialSkill != null )
+		{
 			return "skill " + potentialSkill.toLowerCase();
+		}
 
-		String item = getLongItemAction( action );
+		String item = CombatSettings.getLongItemAction( action );
 		return item.startsWith( "attack" ) ? item : "item " + item;
 	}
 
-	private static final String getLongItemAction( String action )
+	private static final String getLongItemAction( final String action )
 	{
 		int commaIndex = action.indexOf( "," );
 		if ( commaIndex != -1 )
 		{
-			String first = getLongItemAction( action.substring( 0, commaIndex ) );
+			String first = CombatSettings.getLongItemAction( action.substring( 0, commaIndex ) );
 			if ( first.startsWith( "attack" ) )
-				return getLongItemAction( action.substring( commaIndex + 1 ).trim() );
+			{
+				return CombatSettings.getLongItemAction( action.substring( commaIndex + 1 ).trim() );
+			}
 
-			String second = getLongItemAction( action.substring( commaIndex + 1 ).trim() );
+			String second = CombatSettings.getLongItemAction( action.substring( commaIndex + 1 ).trim() );
 			if ( second.startsWith( "attack" ) )
+			{
 				return first;
+			}
 
 			return first + ", " + second;
 		}
 
 		if ( action.startsWith( "item" ) )
-			return getLongItemAction( action.substring(4).trim() );
+		{
+			return CombatSettings.getLongItemAction( action.substring( 4 ).trim() );
+		}
 
 		int itemId = KoLmafiaCLI.getFirstMatchingItemId( TradeableItemDatabase.getMatchingNames( action ) );
 		if ( itemId <= 0 )
+		{
 			return "attack with weapon";
+		}
 
 		return TradeableItemDatabase.getItemName( itemId );
 	}
@@ -544,85 +615,123 @@ public abstract class CombatSettings implements KoLConstants
 	public static final String getShortCombatOptionName( String action )
 	{
 		if ( action == null )
+		{
 			return "attack";
+		}
 
 		action = action.trim();
 
 		boolean isSkillNumber = true;
 		for ( int i = 0; i < action.length(); ++i )
-			isSkillNumber &= Character.isDigit( action.charAt(i) );
+		{
+			isSkillNumber &= Character.isDigit( action.charAt( i ) );
+		}
 
 		if ( isSkillNumber )
+		{
 			return action;
+		}
 
 		if ( action.startsWith( "attack" ) || action.length() == 0 )
+		{
 			return "attack";
+		}
 
 		if ( action.startsWith( "abort" ) )
+		{
 			return "abort";
+		}
 
 		if ( action.indexOf( "steal" ) != -1 || action.indexOf( "pick" ) != -1 )
+		{
 			return "steal";
+		}
 
 		if ( action.startsWith( "jiggle" ) )
+		{
 			return "jiggle";
+		}
 
 		if ( action.startsWith( "consult" ) )
+		{
 			return action;
+		}
 
 		if ( action.startsWith( "custom" ) )
+		{
 			return "custom";
+		}
 
 		if ( action.startsWith( "delevel" ) )
+		{
 			return "delevel";
+		}
 
 		if ( action.startsWith( "twiddle" ) )
+		{
 			return "twiddle";
+		}
 
 		if ( action.indexOf( "run" ) != -1 && action.indexOf( "away" ) != -1 )
+		{
 			return "runaway";
+		}
 
 		if ( action.startsWith( "item" ) )
-			return getShortItemAction( action.substring(4).trim() );
+		{
+			return CombatSettings.getShortItemAction( action.substring( 4 ).trim() );
+		}
 
 		if ( action.startsWith( "skill" ) )
 		{
-			String name = KoLmafiaCLI.getCombatSkillName( action.substring(5).trim() );
+			String name = KoLmafiaCLI.getCombatSkillName( action.substring( 5 ).trim() );
 			return name == null ? "attack" : "skill" + ClassSkillsDatabase.getSkillId( name );
 		}
 
 		String potentialSkill = KoLmafiaCLI.getCombatSkillName( action );
 		if ( potentialSkill != null )
+		{
 			return "skill" + ClassSkillsDatabase.getSkillId( potentialSkill );
+		}
 
-		return getShortItemAction( action );
+		return CombatSettings.getShortItemAction( action );
 	}
 
-	private static final String getShortItemAction( String action )
+	private static final String getShortItemAction( final String action )
 	{
 		int commaIndex = action.indexOf( "," );
 		if ( commaIndex != -1 )
 		{
-			String first = getShortItemAction( action.substring( 0, commaIndex ) );
+			String first = CombatSettings.getShortItemAction( action.substring( 0, commaIndex ) );
 			if ( first.startsWith( "attack" ) )
-				return getShortItemAction( action.substring( commaIndex + 1 ).trim() );
+			{
+				return CombatSettings.getShortItemAction( action.substring( commaIndex + 1 ).trim() );
+			}
 
-			String second = getShortItemAction( action.substring( commaIndex + 1 ).trim() );
+			String second = CombatSettings.getShortItemAction( action.substring( commaIndex + 1 ).trim() );
 			if ( second.startsWith( "attack" ) )
+			{
 				return first;
+			}
 
 			return first + "," + second;
 		}
 
 		if ( action.startsWith( "item" ) )
-			return getShortItemAction( action.substring(4) );
+		{
+			return CombatSettings.getShortItemAction( action.substring( 4 ) );
+		}
 
 		int itemId = TradeableItemDatabase.getItemId( action );
-		if ( itemId == FightRequest.DICTIONARY1.getItemId() && !inventory.contains( FightRequest.DICTIONARY1 ) )
+		if ( itemId == FightRequest.DICTIONARY1.getItemId() && !KoLConstants.inventory.contains( FightRequest.DICTIONARY1 ) )
+		{
 			itemId = FightRequest.DICTIONARY2.getItemId();
+		}
 
-		if ( itemId == FightRequest.DICTIONARY2.getItemId() && !inventory.contains( FightRequest.DICTIONARY2 ) )
+		if ( itemId == FightRequest.DICTIONARY2.getItemId() && !KoLConstants.inventory.contains( FightRequest.DICTIONARY2 ) )
+		{
 			itemId = FightRequest.DICTIONARY1.getItemId();
+		}
 
 		return itemId <= 0 ? "attack" : String.valueOf( itemId );
 	}

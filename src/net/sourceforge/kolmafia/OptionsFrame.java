@@ -63,7 +63,8 @@ import tab.CloseTabPaneEnhancedUI;
 
 import com.informit.guides.JDnDList;
 
-public class OptionsFrame extends KoLFrame
+public class OptionsFrame
+	extends KoLFrame
 {
 	public OptionsFrame()
 	{
@@ -84,7 +85,7 @@ public class OptionsFrame extends KoLFrame
 		breakfastPanel.add( new BreakfastPanel( "In-Ronin Characters", "Hardcore" ) );
 
 		this.tabs.addTab( "Main Tabs", new StartupFramesPanel() );
-		this.tabs.addTab( "Look & Feel", new UserInterfacePanel()  );
+		this.tabs.addTab( "Look & Feel", new UserInterfacePanel() );
 		this.tabs.addTab( "Breakfast", breakfastPanel );
 
 		this.addTab( "Shortcuts", addonPanel );
@@ -95,53 +96,53 @@ public class OptionsFrame extends KoLFrame
 		this.framePanel.add( this.tabs, "" );
 
 		if ( !KoLSettings.getBooleanProperty( "customizedTabs" ) )
+		{
 			this.tabs.setSelectedIndex( 2 );
+		}
 		else if ( LocalRelayServer.isRunning() )
+		{
 			this.tabs.setSelectedIndex( 1 );
+		}
 		else
+		{
 			this.tabs.setSelectedIndex( 0 );
+		}
 	}
 
-	private class SessionLogOptionsPanel extends OptionsPanel
+	private class SessionLogOptionsPanel
+		extends OptionsPanel
 	{
-		private JCheckBox [] optionBoxes;
+		private final JCheckBox[] optionBoxes;
 
-		private final String [][] options =
-		{
-			{ "logStatusOnLogin", "Session log records your player's state on login" },
-			{ "logReverseOrder", "Log adventures left instead of adventures used" },
-			{},
-			{ "logBattleAction", "Session log records attacks for each round" },
-			{ "logFamiliarActions", "Session log records actions made by familiars" },
-			{ "logMonsterHealth", "Session log records monster health changes" },
-			{},
-			{ "logGainMessages", "Session log records HP/MP/meat changes" },
-			{ "logStatGains", "Session log records stat gains" },
-			{ "logAcquiredItems", "Session log records items acquired" },
-			{ "logStatusEffects", "Session log records status effects gained" }
-		};
+		private final String[][] options =
+			{ { "logStatusOnLogin", "Session log records your player's state on login" }, { "logReverseOrder", "Log adventures left instead of adventures used" }, {}, { "logBattleAction", "Session log records attacks for each round" }, { "logFamiliarActions", "Session log records actions made by familiars" }, { "logMonsterHealth", "Session log records monster health changes" }, {}, { "logGainMessages", "Session log records HP/MP/meat changes" }, { "logStatGains", "Session log records stat gains" }, { "logAcquiredItems", "Session log records items acquired" }, { "logStatusEffects", "Session log records status effects gained" } };
 
 		/**
-		 * Constructs a new <code>StartupOptionsPanel</code>, containing a
-		 * place for the users to select their desired server and for them
-		 * to modify any applicable proxy settings.
+		 * Constructs a new <code>StartupOptionsPanel</code>, containing a place for the users to select their
+		 * desired server and for them to modify any applicable proxy settings.
 		 */
 
 		public SessionLogOptionsPanel()
 		{
 			super( "Session Log", new Dimension( 20, 16 ), new Dimension( 370, 16 ) );
-			VerifiableElement [] elements = new VerifiableElement[ this.options.length ];
+			VerifiableElement[] elements = new VerifiableElement[ this.options.length ];
 
 			this.optionBoxes = new JCheckBox[ this.options.length ];
 			for ( int i = 0; i < this.options.length; ++i )
-				this.optionBoxes[i] = new JCheckBox();
+			{
+				this.optionBoxes[ i ] = new JCheckBox();
+			}
 
 			for ( int i = 0; i < this.options.length; ++i )
 			{
-				if ( this.options[i].length == 0 )
-					elements[i] = new VerifiableElement();
+				if ( this.options[ i ].length == 0 )
+				{
+					elements[ i ] = new VerifiableElement();
+				}
 				else
-					elements[i] = new VerifiableElement( this.options[i][1], JLabel.LEFT, this.optionBoxes[i] );
+				{
+					elements[ i ] = new VerifiableElement( this.options[ i ][ 1 ], JLabel.LEFT, this.optionBoxes[ i ] );
+				}
 			}
 
 			this.actionCancelled();
@@ -151,89 +152,87 @@ public class OptionsFrame extends KoLFrame
 		public void actionConfirmed()
 		{
 			for ( int i = 0; i < this.options.length; ++i )
-				if ( this.options[i].length != 0 )
-					KoLSettings.setUserProperty( this.options[i][0], String.valueOf( this.optionBoxes[i].isSelected() ) );
+			{
+				if ( this.options[ i ].length != 0 )
+				{
+					KoLSettings.setUserProperty(
+						this.options[ i ][ 0 ], String.valueOf( this.optionBoxes[ i ].isSelected() ) );
+				}
+			}
 		}
 
 		public void actionCancelled()
 		{
 			for ( int i = 0; i < this.options.length; ++i )
-				if ( this.options[i].length != 0 )
-					this.optionBoxes[i].setSelected( KoLSettings.getBooleanProperty( this.options[i][0] ) );
+			{
+				if ( this.options[ i ].length != 0 )
+				{
+					this.optionBoxes[ i ].setSelected( KoLSettings.getBooleanProperty( this.options[ i ][ 0 ] ) );
+				}
+			}
 		}
 	}
 
-
-	private class RelayOptionsPanel extends OptionsPanel
+	private class RelayOptionsPanel
+		extends OptionsPanel
 	{
-		private JLabel colorChanger;
-		private JCheckBox [] optionBoxes;
+		private final JLabel colorChanger;
+		private final JCheckBox[] optionBoxes;
 
-		private final String [][] options =
-		{
-			{ "relayAllowsOverrides", "Enable user-scripted relay browser overrides" },
-			{ "relayUsesCachedImages", "Cache KoL images to conserve bandwidth (dialup)" },
+		private final String[][] options =
+			{ { "relayAllowsOverrides", "Enable user-scripted relay browser overrides" }, { "relayUsesCachedImages", "Cache KoL images to conserve bandwidth (dialup)" },
 
 			{ "", "" },
 
-			{ "relayAddsWikiLinks", "Check wiki for item descriptions (fails for unknowns)" },
-			{ "lucreCoreLeaderboard", "Participate in Oxbarn's KoLDB Lucre-core leaderboard" },
-			{ "relayAddsQuickScripts", "Add quick script links to menu bar (see Links tab)" },
+			{ "relayAddsWikiLinks", "Check wiki for item descriptions (fails for unknowns)" }, { "lucreCoreLeaderboard", "Participate in Oxbarn's KoLDB Lucre-core leaderboard" }, { "relayAddsQuickScripts", "Add quick script links to menu bar (see Links tab)" },
 
 			{ "", "" },
 
-			{ "relayAddsRestoreLinks", "Add HP/MP restore links to left side pane" },
-			{ "relayAddsUpArrowLinks", "Add buff maintenance links to left side pane" },
-			{ "relayTextualizesEffects", "Textualize effect links in left side pane" },
+			{ "relayAddsRestoreLinks", "Add HP/MP restore links to left side pane" }, { "relayAddsUpArrowLinks", "Add buff maintenance links to left side pane" }, { "relayTextualizesEffects", "Textualize effect links in left side pane" },
 
 			{ "", "" },
 
-			{ "relayMaintainsEffects", "Run moods during manual adventuring" },
-			{ "relayMaintainsHealth", "Maintain health during manual adventuring" },
-			{ "relayMaintainsMana", "Maintain mana during manual adventuring" },
+			{ "relayMaintainsEffects", "Run moods during manual adventuring" }, { "relayMaintainsHealth", "Maintain health during manual adventuring" }, { "relayMaintainsMana", "Maintain mana during manual adventuring" },
 
 			{ "", "" },
 
-			{ "relayUsesIntegratedChat", "Integrate chat and relay browser gCLI interfaces" },
-			{ "relayFormatsChatText", "Reformat incoming chat HTML to conform to web standards" },
-			{ "relayAddsGraphicalCLI", "Add command-line interface to right side pane" },
-			{ "relayAddsKoLSimulator", "Add Ayvuir's Simulator of Loathing to right side pane" },
+			{ "relayUsesIntegratedChat", "Integrate chat and relay browser gCLI interfaces" }, { "relayFormatsChatText", "Reformat incoming chat HTML to conform to web standards" }, { "relayAddsGraphicalCLI", "Add command-line interface to right side pane" }, { "relayAddsKoLSimulator", "Add Ayvuir's Simulator of Loathing to right side pane" },
 
 			{ "", "" },
 
-			{ "relayAddsUseLinks", "Add decorator [use] links when receiving items" },
-			{ "relayUsesInlineLinks", "Force results to reload inline for [use] links" },
-			{ "relayHidesJunkMallItems", "Hide junk and overpriced items in PC stores" },
+			{ "relayAddsUseLinks", "Add decorator [use] links when receiving items" }, { "relayUsesInlineLinks", "Force results to reload inline for [use] links" }, { "relayHidesJunkMallItems", "Hide junk and overpriced items in PC stores" },
 
 			{ "", "" },
 
-			{ "relayAddsCustomCombat", "Add custom buttons to the top of fight pages" },
-		};
+			{ "relayAddsCustomCombat", "Add custom buttons to the top of fight pages" }, };
 
 		/**
-		 * Constructs a new <code>StartupOptionsPanel</code>, containing a
-		 * place for the users to select their desired server and for them
-		 * to modify any applicable proxy settings.
+		 * Constructs a new <code>StartupOptionsPanel</code>, containing a place for the users to select their
+		 * desired server and for them to modify any applicable proxy settings.
 		 */
 
 		public RelayOptionsPanel()
 		{
 			super( "Relay Browser", new Dimension( 16, 16 ), new Dimension( 370, 16 ) );
-			VerifiableElement [] elements = new VerifiableElement[ this.options.length + 1 ];
+			VerifiableElement[] elements = new VerifiableElement[ this.options.length + 1 ];
 
 			this.optionBoxes = new JCheckBox[ this.options.length ];
 			for ( int i = 0; i < this.options.length; ++i )
-				this.optionBoxes[i] = new JCheckBox();
+			{
+				this.optionBoxes[ i ] = new JCheckBox();
+			}
 
 			for ( int i = 0; i < this.options.length; ++i )
 			{
-				elements[i] = this.options[i][0].equals( "" ) ? new VerifiableElement() :
-					new VerifiableElement( this.options[i][1], JLabel.LEFT, this.optionBoxes[i] );
+				elements[ i ] =
+					this.options[ i ][ 0 ].equals( "" ) ? new VerifiableElement() : new VerifiableElement(
+						this.options[ i ][ 1 ], JLabel.LEFT, this.optionBoxes[ i ] );
 			}
 
 			this.colorChanger = new LabelColorChanger( "defaultBorderColor" );
-			elements[ this.options.length ] = new VerifiableElement( "Change the color for tables in the browser interface",
-				JLabel.LEFT, this.colorChanger );
+			elements[ this.options.length ] =
+				new VerifiableElement(
+					"Change the color for tables in the browser interface", JLabel.LEFT, this.colorChanger );
 
 			this.setContent( elements );
 			this.actionCancelled();
@@ -243,8 +242,11 @@ public class OptionsFrame extends KoLFrame
 		{
 			for ( int i = 0; i < this.options.length; ++i )
 			{
-				if ( !this.options[i][0].equals( "" ) )
-					KoLSettings.setUserProperty( this.options[i][0], String.valueOf( this.optionBoxes[i].isSelected() ) );
+				if ( !this.options[ i ][ 0 ].equals( "" ) )
+				{
+					KoLSettings.setUserProperty(
+						this.options[ i ][ 0 ], String.valueOf( this.optionBoxes[ i ].isSelected() ) );
+				}
 			}
 		}
 
@@ -252,63 +254,63 @@ public class OptionsFrame extends KoLFrame
 		{
 			String color = KoLSettings.getUserProperty( "defaultBorderColor" );
 			if ( color.equals( "blue" ) )
+			{
 				this.colorChanger.setBackground( Color.blue );
+			}
 			else
+			{
 				this.colorChanger.setBackground( DataUtilities.toColor( color ) );
+			}
 
 			for ( int i = 0; i < this.options.length; ++i )
-				this.optionBoxes[i].setSelected( KoLSettings.getBooleanProperty( this.options[i][0] ) );
+			{
+				this.optionBoxes[ i ].setSelected( KoLSettings.getBooleanProperty( this.options[ i ][ 0 ] ) );
+			}
 		}
 	}
 
-	private class GeneralOptionsPanel extends OptionsPanel
+	private class GeneralOptionsPanel
+		extends OptionsPanel
 	{
-		private JCheckBox [] optionBoxes;
+		private final JCheckBox[] optionBoxes;
 
-		private final String [][] options =
-		{
-			{ "showAllRequests", "Show all requests in a mini-browser window" },
-			{ "useZoneComboBox", "Use zone selection instead of adventure name filter" },
-			{ "cacheMallSearches", "Cache mall search terms in mall search interface" },
+		private final String[][] options =
+			{ { "showAllRequests", "Show all requests in a mini-browser window" }, { "useZoneComboBox", "Use zone selection instead of adventure name filter" }, { "cacheMallSearches", "Cache mall search terms in mall search interface" },
 
 			{ "", "" },
 
-			{ "removeMalignantEffects", "Auto-remove malignant status effects" },
-			{ "switchEquipmentForBuffs", "Allow equipment changing when casting buffs" },
-			{ "allowNonMoodBurning", "Cast buffs not defined in moods during buff balancing" },
+			{ "removeMalignantEffects", "Auto-remove malignant status effects" }, { "switchEquipmentForBuffs", "Allow equipment changing when casting buffs" }, { "allowNonMoodBurning", "Cast buffs not defined in moods during buff balancing" },
 
 			{ "", "" },
 
-			{ "cloverProtectActive", "Auto-disassemble hermit, marmot and barrel clovers" },
-			{ "createHackerSummons", "Auto-create 31337 scrolls if no scroll conditions are set" },
-			{ "mementoListActive", "Prevent accidental destruction of 'memento' items" },
+			{ "cloverProtectActive", "Auto-disassemble hermit, marmot and barrel clovers" }, { "createHackerSummons", "Auto-create 31337 scrolls if no scroll conditions are set" }, { "mementoListActive", "Prevent accidental destruction of 'memento' items" },
 
 			{ "", "" },
 
-			{ "allowNegativeTally", "Allow item counts in session results to go negative" },
-			{ "autoSatisfyWithNPCs", "Buy items from NPC stores whenever needed" },
-			{ "autoSatisfyWithMall", "Buy items from the mall whenever needed" },
-			{ "autoSatisfyWithStash", "Take items from the clan stash whenever needed" }
-		};
+			{ "allowNegativeTally", "Allow item counts in session results to go negative" }, { "autoSatisfyWithNPCs", "Buy items from NPC stores whenever needed" }, { "autoSatisfyWithMall", "Buy items from the mall whenever needed" }, { "autoSatisfyWithStash", "Take items from the clan stash whenever needed" } };
 
 		/**
-		 * Constructs a new <code>StartupOptionsPanel</code>, containing a
-		 * place for the users to select their desired server and for them
-		 * to modify any applicable proxy settings.
+		 * Constructs a new <code>StartupOptionsPanel</code>, containing a place for the users to select their
+		 * desired server and for them to modify any applicable proxy settings.
 		 */
 
 		public GeneralOptionsPanel()
 		{
 			super( "General Options", new Dimension( 20, 16 ), new Dimension( 370, 16 ) );
-			VerifiableElement [] elements = new VerifiableElement[ this.options.length ];
+			VerifiableElement[] elements = new VerifiableElement[ this.options.length ];
 
 			this.optionBoxes = new JCheckBox[ this.options.length ];
 			for ( int i = 0; i < this.options.length; ++i )
-				this.optionBoxes[i] = new JCheckBox();
+			{
+				this.optionBoxes[ i ] = new JCheckBox();
+			}
 
 			for ( int i = 0; i < this.options.length; ++i )
-				elements[i] = this.options[i][0].equals( "" ) ? new VerifiableElement() :
-					new VerifiableElement( this.options[i][1], JLabel.LEFT, this.optionBoxes[i] );
+			{
+				elements[ i ] =
+					this.options[ i ][ 0 ].equals( "" ) ? new VerifiableElement() : new VerifiableElement(
+						this.options[ i ][ 1 ], JLabel.LEFT, this.optionBoxes[ i ] );
+			}
 
 			this.setContent( elements );
 			this.actionCancelled();
@@ -317,8 +319,13 @@ public class OptionsFrame extends KoLFrame
 		public void actionConfirmed()
 		{
 			for ( int i = 0; i < this.options.length; ++i )
-				if ( !this.options[i][0].equals( "" ) )
-					KoLSettings.setUserProperty( this.options[i][0], String.valueOf( this.optionBoxes[i].isSelected() ) );
+			{
+				if ( !this.options[ i ][ 0 ].equals( "" ) )
+				{
+					KoLSettings.setUserProperty(
+						this.options[ i ][ 0 ], String.valueOf( this.optionBoxes[ i ].isSelected() ) );
+				}
+			}
 
 			this.actionCancelled();
 			ConcoctionsDatabase.refreshConcoctions();
@@ -327,17 +334,23 @@ public class OptionsFrame extends KoLFrame
 		public void actionCancelled()
 		{
 			for ( int i = 0; i < this.options.length; ++i )
-				if ( !this.options[i][0].equals( "" ) )
-					this.optionBoxes[i].setSelected( KoLSettings.getBooleanProperty( this.options[i][0] ) );
+			{
+				if ( !this.options[ i ][ 0 ].equals( "" ) )
+				{
+					this.optionBoxes[ i ].setSelected( KoLSettings.getBooleanProperty( this.options[ i ][ 0 ] ) );
+				}
+			}
 		}
 	}
 
-	private abstract class ShiftableOrderPanel extends LabeledScrollPanel implements ListDataListener
+	private abstract class ShiftableOrderPanel
+		extends LabeledScrollPanel
+		implements ListDataListener
 	{
 		public LockableListModel list;
 		public JList elementList;
 
-		public ShiftableOrderPanel( String title, LockableListModel list )
+		public ShiftableOrderPanel( final String title, final LockableListModel list )
 		{
 			super( title, "move up", "move down", new JList( list ) );
 
@@ -352,7 +365,9 @@ public class OptionsFrame extends KoLFrame
 		{
 			int index = this.elementList.getSelectedIndex();
 			if ( index == -1 )
+			{
 				return;
+			}
 
 			Object value = this.list.remove( index );
 			this.list.add( index - 1, value );
@@ -363,37 +378,45 @@ public class OptionsFrame extends KoLFrame
 		{
 			int index = this.elementList.getSelectedIndex();
 			if ( index == -1 )
+			{
 				return;
+			}
 
 			Object value = this.list.remove( index );
 			this.list.add( index + 1, value );
 			this.elementList.setSelectedIndex( index + 1 );
 		}
 
-		public void intervalAdded( ListDataEvent e )
-		{	this.saveSettings();
+		public void intervalAdded( final ListDataEvent e )
+		{
+			this.saveSettings();
 		}
 
-		public void intervalRemoved( ListDataEvent e )
-		{	this.saveSettings();
+		public void intervalRemoved( final ListDataEvent e )
+		{
+			this.saveSettings();
 		}
 
-		public void contentsChanged( ListDataEvent e )
-		{	this.saveSettings();
+		public void contentsChanged( final ListDataEvent e )
+		{
+			this.saveSettings();
 		}
 
 		public abstract void saveSettings();
 	}
 
-	private class ScriptButtonPanel extends ShiftableOrderPanel
+	private class ScriptButtonPanel
+		extends ShiftableOrderPanel
 	{
 		public ScriptButtonPanel()
 		{
 			super( "gCLI Toolbar Buttons", new LockableListModel() );
-			String [] scriptList = KoLSettings.getUserProperty( "scriptList" ).split( " \\| " );
+			String[] scriptList = KoLSettings.getUserProperty( "scriptList" ).split( " \\| " );
 
 			for ( int i = 0; i < scriptList.length; ++i )
-				this.list.add( scriptList[i] );
+			{
+				this.list.add( scriptList[ i ] );
+			}
 
 			JPanel extraButtons = new JPanel( new BorderLayout( 2, 2 ) );
 			extraButtons.add( new AddScriptButton(), BorderLayout.NORTH );
@@ -402,64 +425,78 @@ public class OptionsFrame extends KoLFrame
 			this.buttonPanel.add( extraButtons, BorderLayout.SOUTH );
 		}
 
-		private class AddScriptButton extends ThreadedButton
+		private class AddScriptButton
+			extends ThreadedButton
 		{
 			public AddScriptButton()
-			{	super( "script file" );
+			{
+				super( "script file" );
 			}
 
 			public void run()
 			{
-				String rootPath = SCRIPT_LOCATION.getAbsolutePath();
+				String rootPath = KoLConstants.SCRIPT_LOCATION.getAbsolutePath();
 				JFileChooser chooser = new JFileChooser( rootPath );
 				int returnVal = chooser.showOpenDialog( null );
 
 				if ( chooser.getSelectedFile() == null )
+				{
 					return;
+				}
 
 				if ( returnVal == JFileChooser.APPROVE_OPTION )
 				{
 					String scriptPath = chooser.getSelectedFile().getAbsolutePath();
 					if ( scriptPath.startsWith( rootPath ) )
+					{
 						scriptPath = scriptPath.substring( rootPath.length() + 1 );
+					}
 
 					ScriptButtonPanel.this.list.add( "call " + scriptPath );
 				}
 
-				saveSettings();
+				ScriptButtonPanel.this.saveSettings();
 			}
 		}
 
-		private class AddCommandButton extends ThreadedButton
+		private class AddCommandButton
+			extends ThreadedButton
 		{
 			public AddCommandButton()
-			{	super( "cli command" );
+			{
+				super( "cli command" );
 			}
 
 			public void run()
 			{
-				String currentValue = input( "Enter the desired CLI Command" );
+				String currentValue = KoLFrame.input( "Enter the desired CLI Command" );
 				if ( currentValue != null && currentValue.length() != 0 )
+				{
 					ScriptButtonPanel.this.list.add( currentValue );
+				}
 
-				saveSettings();
+				ScriptButtonPanel.this.saveSettings();
 			}
 		}
 
-		private class DeleteListingButton extends ThreadedButton
+		private class DeleteListingButton
+			extends ThreadedButton
 		{
 			public DeleteListingButton()
-			{	super( "delete" );
+			{
+				super( "delete" );
 			}
 
 			public void run()
 			{
 				int index = ScriptButtonPanel.this.elementList.getSelectedIndex();
 				if ( index == -1 )
+				{
 					return;
+				}
 
 				ScriptButtonPanel.this.list.remove( index );
-				saveSettings();
+				ScriptButtonPanel.this.saveSettings();
 			}
 		}
 
@@ -467,12 +504,14 @@ public class OptionsFrame extends KoLFrame
 		{
 			StringBuffer settingString = new StringBuffer();
 			if ( this.list.size() != 0 )
-				settingString.append( (String) this.list.getElementAt(0) );
+			{
+				settingString.append( (String) this.list.getElementAt( 0 ) );
+			}
 
 			for ( int i = 1; i < this.list.getSize(); ++i )
 			{
 				settingString.append( " | " );
-				settingString.append( (String) this.list.getElementAt(i) );
+				settingString.append( (String) this.list.getElementAt( i ) );
 			}
 
 			KoLSettings.setUserProperty( "scriptList", settingString.toString() );
@@ -480,85 +519,88 @@ public class OptionsFrame extends KoLFrame
 	}
 
 	/**
-	 * Panel used for handling chat-related options and preferences,
-	 * including font size, window management and maybe, eventually,
-	 * coloring options for contacts.
+	 * Panel used for handling chat-related options and preferences, including font size, window management and maybe,
+	 * eventually, coloring options for contacts.
 	 */
 
-	private class ChatOptionsPanel extends OptionsPanel
+	private class ChatOptionsPanel
+		extends OptionsPanel
 	{
-		private String [][] options =
-		{
-			{ "useTabbedChatFrame", "Use tabbed, rather than multi-window, chat" },
-			{ "useSeparateChannels", "Put different channels into separate displays" },
-			{ "chatLinksUseRelay", "Use the relay browser when clicking on chat links" },
-			{},
-			{ "greenScreenProtection", "Ignore all event messages in KoLmafia chat" },
-			{ "useChatMonitor", "Add an \"as KoL would show it\" display" },
-			{ "addChatCommandLine", "Add a simplified graphical CLI to tabbed chat" },
-			{},
-			{ "useShinyTabbedChat", "Use shiny closeable tabs when using tabbed chat" },
-			{ "useContactsFrame", "Use a popup window for /friends and /who" },
-			{ "useChatToolbar", "Add a toolbar to chat windows for special commands" },
-			{ "logChatMessages", "Log chats when using KoLmafia (requires restart)" },
-		};
+		private final String[][] options =
+			{ { "useTabbedChatFrame", "Use tabbed, rather than multi-window, chat" }, { "useSeparateChannels", "Put different channels into separate displays" }, { "chatLinksUseRelay", "Use the relay browser when clicking on chat links" }, {}, { "greenScreenProtection", "Ignore all event messages in KoLmafia chat" }, { "useChatMonitor", "Add an \"as KoL would show it\" display" }, { "addChatCommandLine", "Add a simplified graphical CLI to tabbed chat" }, {}, { "useShinyTabbedChat", "Use shiny closeable tabs when using tabbed chat" }, { "useContactsFrame", "Use a popup window for /friends and /who" }, { "useChatToolbar", "Add a toolbar to chat windows for special commands" }, { "logChatMessages", "Log chats when using KoLmafia (requires restart)" }, };
 
-		private ButtonGroup fontSizeGroup;
-		private JRadioButton [] fontSizes;
+		private final ButtonGroup fontSizeGroup;
+		private final JRadioButton[] fontSizes;
 
-		private JCheckBox [] optionBoxes;
-		private JCheckBox eSoluActiveOption, eSoluColorlessOption;
-		private JLabel innerGradient, outerGradient;
+		private final JCheckBox[] optionBoxes;
+		private final JCheckBox eSoluActiveOption, eSoluColorlessOption;
+		private final JLabel innerGradient, outerGradient;
 
 		public ChatOptionsPanel()
 		{
 			super( new Dimension( 30, 16 ), new Dimension( 370, 16 ) );
 
 			this.fontSizeGroup = new ButtonGroup();
-			this.fontSizes = new JRadioButton[3];
+			this.fontSizes = new JRadioButton[ 3 ];
 			for ( int i = 0; i < 3; ++i )
 			{
-				this.fontSizes[i] = new JRadioButton();
-				this.fontSizeGroup.add( this.fontSizes[i] );
+				this.fontSizes[ i ] = new JRadioButton();
+				this.fontSizeGroup.add( this.fontSizes[ i ] );
 			}
 
-			this.optionBoxes = new JCheckBox[ options.length ];
-			for ( int i = 0; i < options.length; ++i )
-				optionBoxes[i] = new JCheckBox();
+			this.optionBoxes = new JCheckBox[ this.options.length ];
+			for ( int i = 0; i < this.options.length; ++i )
+			{
+				this.optionBoxes[ i ] = new JCheckBox();
+			}
 
 			this.eSoluActiveOption = new JCheckBox();
 			this.eSoluColorlessOption = new JCheckBox();
 
-			VerifiableElement [] elements = new VerifiableElement[ 4 + options.length + 6 ];
+			VerifiableElement[] elements = new VerifiableElement[ 4 + this.options.length + 6 ];
 
-			elements[0] = new VerifiableElement( "Use small fonts in hypertext displays", JLabel.LEFT, this.fontSizes[0] );
-			elements[1] = new VerifiableElement( "Use medium fonts in hypertext displays", JLabel.LEFT, this.fontSizes[1] );
-			elements[2] = new VerifiableElement( "Use large fonts in hypertext displays", JLabel.LEFT, this.fontSizes[2] );
-			elements[3] = new VerifiableElement();
+			elements[ 0 ] =
+				new VerifiableElement( "Use small fonts in hypertext displays", JLabel.LEFT, this.fontSizes[ 0 ] );
+			elements[ 1 ] =
+				new VerifiableElement( "Use medium fonts in hypertext displays", JLabel.LEFT, this.fontSizes[ 1 ] );
+			elements[ 2 ] =
+				new VerifiableElement( "Use large fonts in hypertext displays", JLabel.LEFT, this.fontSizes[ 2 ] );
+			elements[ 3 ] = new VerifiableElement();
 
-			for ( int i = 0; i < options.length; ++i )
+			for ( int i = 0; i < this.options.length; ++i )
 			{
-				if ( options[i].length > 0 )
-					elements[i+4] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
+				if ( this.options[ i ].length > 0 )
+				{
+					elements[ i + 4 ] =
+						new VerifiableElement( this.options[ i ][ 1 ], JLabel.LEFT, this.optionBoxes[ i ] );
+				}
 				else
-					elements[i+4] = new VerifiableElement();
+				{
+					elements[ i + 4 ] = new VerifiableElement();
+				}
 			}
 
-			int tabCount = options.length + 4;
-			elements[tabCount++] = new VerifiableElement();
+			int tabCount = this.options.length + 4;
+			elements[ tabCount++ ] = new VerifiableElement();
 
-			elements[tabCount++] = new VerifiableElement( "Activate eSolu scriptlet for KoLmafia chat", JLabel.LEFT, this.eSoluActiveOption );
-			elements[tabCount++] = new VerifiableElement( "Switch eSolu scriptlet to colorless mode", JLabel.LEFT, this.eSoluColorlessOption );
+			elements[ tabCount++ ] =
+				new VerifiableElement(
+					"Activate eSolu scriptlet for KoLmafia chat", JLabel.LEFT, this.eSoluActiveOption );
+			elements[ tabCount++ ] =
+				new VerifiableElement(
+					"Switch eSolu scriptlet to colorless mode", JLabel.LEFT, this.eSoluColorlessOption );
 
-			elements[tabCount++] = new VerifiableElement();
+			elements[ tabCount++ ] = new VerifiableElement();
 
 			this.outerGradient = new TabColorChanger( "outerChatColor" );
-			elements[tabCount++] = new VerifiableElement( "Change the outer portion of highlighted tab gradient",
-				JLabel.LEFT, this.outerGradient );
+			elements[ tabCount++ ] =
+				new VerifiableElement(
+					"Change the outer portion of highlighted tab gradient", JLabel.LEFT, this.outerGradient );
 
 			this.innerGradient = new TabColorChanger( "innerChatColor" );
-			elements[tabCount++] = new VerifiableElement( "Change the inner portion of highlighted tab gradient",
-				JLabel.LEFT, this.innerGradient );
+			elements[ tabCount++ ] =
+				new VerifiableElement(
+					"Change the inner portion of highlighted tab gradient", JLabel.LEFT, this.innerGradient );
 
 			this.setContent( elements );
 			this.actionCancelled();
@@ -566,31 +608,47 @@ public class OptionsFrame extends KoLFrame
 
 		public void actionConfirmed()
 		{
-			for ( int i = 0; i < options.length; ++i )
-				if ( options[i].length > 0 )
-					KoLSettings.setUserProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
+			for ( int i = 0; i < this.options.length; ++i )
+			{
+				if ( this.options[ i ].length > 0 )
+				{
+					KoLSettings.setUserProperty(
+						this.options[ i ][ 0 ], String.valueOf( this.optionBoxes[ i ].isSelected() ) );
+				}
+			}
 
-			KoLSettings.setUserProperty( "eSoluScriptType", this.eSoluActiveOption.isSelected() ?
-				(this.eSoluColorlessOption.isSelected() ? "2" : "1") : "0" );
+			KoLSettings.setUserProperty(
+				"eSoluScriptType",
+				this.eSoluActiveOption.isSelected() ? ( this.eSoluColorlessOption.isSelected() ? "2" : "1" ) : "0" );
 
-			if ( this.fontSizes[0].isSelected() )
+			if ( this.fontSizes[ 0 ].isSelected() )
+			{
 				KoLSettings.setUserProperty( "chatFontSize", "small" );
-			else if ( this.fontSizes[1].isSelected() )
+			}
+			else if ( this.fontSizes[ 1 ].isSelected() )
+			{
 				KoLSettings.setUserProperty( "chatFontSize", "medium" );
-			else if ( this.fontSizes[2].isSelected() )
+			}
+			else if ( this.fontSizes[ 2 ].isSelected() )
+			{
 				KoLSettings.setUserProperty( "chatFontSize", "large" );
+			}
 
 			LimitedSizeChatBuffer.updateFontSize();
 
-			commandBuffer.fireBufferChanged();
+			KoLConstants.commandBuffer.fireBufferChanged();
 			KoLMessenger.updateFontSize();
 		}
 
 		public void actionCancelled()
 		{
-			for ( int i = 0; i < options.length; ++i )
-				if ( options[i].length > 0 )
-					optionBoxes[i].setSelected( KoLSettings.getBooleanProperty( options[i][0] ) );
+			for ( int i = 0; i < this.options.length; ++i )
+			{
+				if ( this.options[ i ].length > 0 )
+				{
+					this.optionBoxes[ i ].setSelected( KoLSettings.getBooleanProperty( this.options[ i ][ 0 ] ) );
+				}
+			}
 
 			this.eSoluActiveOption.setSelected( KoLSettings.getIntegerProperty( "eSoluScriptType" ) > 0 );
 			this.eSoluColorlessOption.setSelected( KoLSettings.getIntegerProperty( "eSoluScriptType" ) > 1 );
@@ -602,32 +660,38 @@ public class OptionsFrame extends KoLFrame
 			this.fontSizes[ fontSize.equals( "large" ) ? 2 : fontSize.equals( "medium" ) ? 1 : 0 ].setSelected( true );
 		}
 
-		private class TabColorChanger extends LabelColorChanger
+		private class TabColorChanger
+			extends LabelColorChanger
 		{
-			public TabColorChanger( String property )
-			{	super( property );
+			public TabColorChanger( final String property )
+			{
+				super( property );
 			}
 
 			public void applyChanges()
 			{
 				if ( this.property.equals( "innerChatColor" ) )
+				{
 					CloseTabPaneEnhancedUI.notifiedA = ChatOptionsPanel.this.innerGradient.getBackground();
+				}
 				else
+				{
 					CloseTabPaneEnhancedUI.notifiedB = ChatOptionsPanel.this.outerGradient.getBackground();
+				}
 			}
 		}
 	}
 
 	/**
-	 * A special panel which generates a list of bookmarks which
-	 * can subsequently be managed.
+	 * A special panel which generates a list of bookmarks which can subsequently be managed.
 	 */
 
-	private class BookmarkManagePanel extends ShiftableOrderPanel
+	private class BookmarkManagePanel
+		extends ShiftableOrderPanel
 	{
 		public BookmarkManagePanel()
 		{
-			super( "Configure Bookmarks", bookmarks );
+			super( "Configure Bookmarks", KoLConstants.bookmarks );
 
 			JPanel extraButtons = new JPanel( new BorderLayout( 2, 2 ) );
 			extraButtons.add( new AddBookmarkButton(), BorderLayout.NORTH );
@@ -637,120 +701,121 @@ public class OptionsFrame extends KoLFrame
 		}
 
 		public void saveSettings()
-		{	saveBookmarks();
+		{
+			KoLFrame.saveBookmarks();
 		}
 
-		private class AddBookmarkButton extends ThreadedButton
+		private class AddBookmarkButton
+			extends ThreadedButton
 		{
 			public AddBookmarkButton()
-			{	super( "new page" );
+			{
+				super( "new page" );
 			}
 
 			public void run()
 			{
-				String newName = input( "Add a bookmark!", "http://www.google.com/" );
+				String newName = KoLFrame.input( "Add a bookmark!", "http://www.google.com/" );
 				if ( newName == null )
+				{
 					return;
+				}
 
-				bookmarks.add( "New bookmark " + (bookmarks.size() + 1) + "|" + newName + "|" + String.valueOf( newName.indexOf( "pwd" ) != -1 ) );
+				KoLConstants.bookmarks.add( "New bookmark " + ( KoLConstants.bookmarks.size() + 1 ) + "|" + newName + "|" + String.valueOf( newName.indexOf( "pwd" ) != -1 ) );
 			}
 		}
 
-		private class RenameBookmarkButton extends ThreadedButton
+		private class RenameBookmarkButton
+			extends ThreadedButton
 		{
 			public RenameBookmarkButton()
-			{	super( "rename" );
+			{
+				super( "rename" );
 			}
 
 			public void run()
 			{
 				int index = BookmarkManagePanel.this.elementList.getSelectedIndex();
 				if ( index == -1 )
+				{
 					return;
+				}
 
-				String currentItem = (String)BookmarkManagePanel.this.elementList.getSelectedValue();
+				String currentItem = (String) BookmarkManagePanel.this.elementList.getSelectedValue();
 				if ( currentItem == null )
+				{
 					return;
+				}
 
-				String [] bookmarkData = currentItem.split( "\\|" );
+				String[] bookmarkData = currentItem.split( "\\|" );
 
-				String name = bookmarkData[0];
-				String location = bookmarkData[1];
-				String pwdhash = bookmarkData[2];
+				String name = bookmarkData[ 0 ];
+				String location = bookmarkData[ 1 ];
+				String pwdhash = bookmarkData[ 2 ];
 
-				String newName = input( "Rename your bookmark?", name );
+				String newName = KoLFrame.input( "Rename your bookmark?", name );
 
 				if ( newName == null )
+				{
 					return;
+				}
 
-				bookmarks.remove( index );
-				bookmarks.add( newName + "|" + location + "|" + pwdhash );
+				KoLConstants.bookmarks.remove( index );
+				KoLConstants.bookmarks.add( newName + "|" + location + "|" + pwdhash );
 			}
 		}
 
-		private class DeleteBookmarkButton extends ThreadedButton
+		private class DeleteBookmarkButton
+			extends ThreadedButton
 		{
 			public DeleteBookmarkButton()
-			{	super( "delete" );
+			{
+				super( "delete" );
 			}
 
 			public void run()
 			{
 				int index = BookmarkManagePanel.this.elementList.getSelectedIndex();
 				if ( index == -1 )
+				{
 					return;
+				}
 
-				bookmarks.remove( index );
+				KoLConstants.bookmarks.remove( index );
 			}
 		}
 	}
 
-	protected class StartupFramesPanel extends KoLPanel implements ListDataListener
+	protected class StartupFramesPanel
+		extends KoLPanel
+		implements ListDataListener
 	{
-		private final String [][] FRAME_OPTIONS =
-		{
-			{ "Adventure", "AdventureFrame" },
-			{ "Mini-Browser", "RequestFrame" },
-			{ "Relay Server", "LocalRelayServer" },
+		private final String[][] FRAME_OPTIONS =
+			{ { "Adventure", "AdventureFrame" }, { "Mini-Browser", "RequestFrame" }, { "Relay Server", "LocalRelayServer" },
 
-			{ "Purchases", "MallSearchFrame" },
-			{ "Graphical CLI", "CommandDisplayFrame" },
+			{ "Purchases", "MallSearchFrame" }, { "Graphical CLI", "CommandDisplayFrame" },
 
-			{ "Player Status", "CharsheetFrame" },
-			{ "Item Manager", "ItemManageFrame" },
-			{ "Gear Changer", "GearChangeFrame" },
+			{ "Player Status", "CharsheetFrame" }, { "Item Manager", "ItemManageFrame" }, { "Gear Changer", "GearChangeFrame" },
 
-			{ "Store Manager", "StoreManageFrame" },
-			{ "Museum Display", "MuseumFrame" },
+			{ "Store Manager", "StoreManageFrame" }, { "Museum Display", "MuseumFrame" },
 
-			{ "Hall of Legends", "MeatManageFrame" },
-			{ "Skill Casting", "SkillBuffFrame" },
+			{ "Hall of Legends", "MeatManageFrame" }, { "Skill Casting", "SkillBuffFrame" },
 
-			{ "Contact List", "ContactListFrame" },
-			{ "Buffbot Manager", "BuffBotFrame" },
-			{ "Purchase Buffs", "BuffRequestFrame" },
+			{ "Contact List", "ContactListFrame" }, { "Buffbot Manager", "BuffBotFrame" }, { "Purchase Buffs", "BuffRequestFrame" },
 
-			{ "Flower Hunter", "FlowerHunterFrame" },
-			{ "Mushroom Plot", "MushroomFrame" },
-			{ "Familiar Trainer", "FamiliarTrainingFrame" },
+			{ "Flower Hunter", "FlowerHunterFrame" }, { "Mushroom Plot", "MushroomFrame" }, { "Familiar Trainer", "FamiliarTrainingFrame" },
 
-			{ "IcePenguin Express", "MailboxFrame" },
-			{ "Loathing Chat", "KoLMessenger" },
-			{ "Recent Events", "EventsFrame" },
+			{ "IcePenguin Express", "MailboxFrame" }, { "Loathing Chat", "KoLMessenger" }, { "Recent Events", "EventsFrame" },
 
-			{ "Clan Management", "ClanManageFrame" },
-			{ "Farmer's Almanac", "CalendarFrame" },
-			{ "Internal Database", "ExamineItemsFrame" },
+			{ "Clan Management", "ClanManageFrame" }, { "Farmer's Almanac", "CalendarFrame" }, { "Internal Database", "ExamineItemsFrame" },
 
-			{ "Coin Toss Game", "MoneyMakingGameFrame" },
-			{ "Preferences", "OptionsFrame" }
-		};
+			{ "Coin Toss Game", "MoneyMakingGameFrame" }, { "Preferences", "OptionsFrame" } };
 
 		private boolean isRefreshing = false;
 
-		private LockableListModel completeList = new LockableListModel();
-		private LockableListModel startupList = new LockableListModel();
-		private LockableListModel desktopList = new LockableListModel();
+		private final LockableListModel completeList = new LockableListModel();
+		private final LockableListModel startupList = new LockableListModel();
+		private final LockableListModel desktopList = new LockableListModel();
 
 		public StartupFramesPanel()
 		{
@@ -758,24 +823,27 @@ public class OptionsFrame extends KoLFrame
 			this.setContent( null );
 
 			for ( int i = 0; i < this.FRAME_OPTIONS.length; ++i )
-				this.completeList.add( this.FRAME_OPTIONS[i][0] );
+			{
+				this.completeList.add( this.FRAME_OPTIONS[ i ][ 0 ] );
+			}
 
 			JPanel optionPanel = new JPanel( new GridLayout( 1, 3, 10, 10 ) );
 			optionPanel.add( new LabeledScrollPanel( "Complete List", new JDnDList( this.completeList, false ) ) );
 			optionPanel.add( new LabeledScrollPanel( "Startup as Window", new JDnDList( this.startupList ) ) );
 			optionPanel.add( new LabeledScrollPanel( "Startup in Tabs", new JDnDList( this.desktopList ) ) );
 
-			JTextArea message = new JTextArea(
-				"These are the global settings for what shows up when KoLmafia successfully logs into the Kingdom of Loathing.  You can drag and drop options in the lists below to customize what will show up.\n\n" +
+			JTextArea message =
+				new JTextArea(
+					"These are the global settings for what shows up when KoLmafia successfully logs into the Kingdom of Loathing.  You can drag and drop options in the lists below to customize what will show up.\n\n" +
 
-				"When you place the Local Relay Server into the 'startup in tabs' section, KoLmafia will start up the server but not open your browser.  When you place the Contact List into the 'startup in tabs' section, KoLmafia will force a refresh of your contact list on login.\n" );
+					"When you place the Local Relay Server into the 'startup in tabs' section, KoLmafia will start up the server but not open your browser.  When you place the Contact List into the 'startup in tabs' section, KoLmafia will force a refresh of your contact list on login.\n" );
 
 			message.setColumns( 40 );
 			message.setLineWrap( true );
 			message.setWrapStyleWord( true );
 			message.setEditable( false );
 			message.setOpaque( false );
-			message.setFont( DEFAULT_FONT );
+			message.setFont( KoLConstants.DEFAULT_FONT );
 
 			this.container.add( message, BorderLayout.NORTH );
 			this.container.add( optionPanel, BorderLayout.SOUTH );
@@ -787,16 +855,19 @@ public class OptionsFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{	this.actionCancelled();
+		{
+			this.actionCancelled();
 		}
 
 		public void actionCancelled()
 		{
 			this.isRefreshing = true;
 
-			String username = (String) saveStateNames.getSelectedItem();
+			String username = (String) KoLConstants.saveStateNames.getSelectedItem();
 			if ( username == null )
+			{
 				username = "";
+			}
 
 			this.startupList.clear();
 			this.desktopList.clear();
@@ -806,74 +877,108 @@ public class OptionsFrame extends KoLFrame
 			String frameString = KoLSettings.getUserProperty( "initialFrames" );
 			String desktopString = KoLSettings.getUserProperty( "initialDesktop" );
 
-			String [] pieces;
+			String[] pieces;
 
 			pieces = frameString.split( "," );
 			for ( int i = 0; i < pieces.length; ++i )
+			{
 				for ( int j = 0; j < this.FRAME_OPTIONS.length; ++j )
-					if ( !this.startupList.contains( this.FRAME_OPTIONS[j][0] ) && this.FRAME_OPTIONS[j][1].equals( pieces[i] ) )
-						this.startupList.add( this.FRAME_OPTIONS[j][0] );
+				{
+					if ( !this.startupList.contains( this.FRAME_OPTIONS[ j ][ 0 ] ) && this.FRAME_OPTIONS[ j ][ 1 ].equals( pieces[ i ] ) )
+					{
+						this.startupList.add( this.FRAME_OPTIONS[ j ][ 0 ] );
+					}
+				}
+			}
 
 			pieces = desktopString.split( "," );
 			for ( int i = 0; i < pieces.length; ++i )
+			{
 				for ( int j = 0; j < this.FRAME_OPTIONS.length; ++j )
-					if ( !this.desktopList.contains( this.FRAME_OPTIONS[j][0] ) && this.FRAME_OPTIONS[j][1].equals( pieces[i] ) )
-						this.desktopList.add( this.FRAME_OPTIONS[j][0] );
+				{
+					if ( !this.desktopList.contains( this.FRAME_OPTIONS[ j ][ 0 ] ) && this.FRAME_OPTIONS[ j ][ 1 ].equals( pieces[ i ] ) )
+					{
+						this.desktopList.add( this.FRAME_OPTIONS[ j ][ 0 ] );
+					}
+				}
+			}
 
 			this.isRefreshing = false;
 			this.saveLayoutSettings();
 		}
 
-		public boolean shouldAddStatusLabel( VerifiableElement [] elements )
-		{	return false;
+		public boolean shouldAddStatusLabel( final VerifiableElement[] elements )
+		{
+			return false;
 		}
 
-		public void setEnabled( boolean isEnabled )
+		public void setEnabled( final boolean isEnabled )
 		{
 		}
 
-		public void intervalAdded( ListDataEvent e )
+		public void intervalAdded( final ListDataEvent e )
 		{
 			if ( e.getSource() == this.startupList )
+			{
 				this.desktopList.removeAll( this.startupList );
+			}
 
 			if ( e.getSource() == this.desktopList )
+			{
 				this.startupList.removeAll( this.desktopList );
+			}
 
 			this.saveLayoutSettings();
 		}
 
-		public void intervalRemoved( ListDataEvent e )
-		{	this.saveLayoutSettings();
+		public void intervalRemoved( final ListDataEvent e )
+		{
+			this.saveLayoutSettings();
 		}
 
-		public void contentsChanged( ListDataEvent e )
+		public void contentsChanged( final ListDataEvent e )
 		{
 		}
 
 		public void saveLayoutSettings()
 		{
 			if ( this.isRefreshing )
+			{
 				return;
+			}
 
 			StringBuffer frameString = new StringBuffer();
 			StringBuffer desktopString = new StringBuffer();
 
 			for ( int i = 0; i < this.startupList.getSize(); ++i )
+			{
 				for ( int j = 0; j < this.FRAME_OPTIONS.length; ++j )
-					if ( this.startupList.getElementAt(i).equals( this.FRAME_OPTIONS[j][0] ) )
+				{
+					if ( this.startupList.getElementAt( i ).equals( this.FRAME_OPTIONS[ j ][ 0 ] ) )
 					{
-						if ( frameString.length() != 0 ) frameString.append( "," );
-						frameString.append( this.FRAME_OPTIONS[j][1] );
+						if ( frameString.length() != 0 )
+						{
+							frameString.append( "," );
+						}
+						frameString.append( this.FRAME_OPTIONS[ j ][ 1 ] );
 					}
+				}
+			}
 
 			for ( int i = 0; i < this.desktopList.getSize(); ++i )
+			{
 				for ( int j = 0; j < this.FRAME_OPTIONS.length; ++j )
-					if ( this.desktopList.getElementAt(i).equals( this.FRAME_OPTIONS[j][0] ) )
+				{
+					if ( this.desktopList.getElementAt( i ).equals( this.FRAME_OPTIONS[ j ][ 0 ] ) )
 					{
-						if ( desktopString.length() != 0 ) desktopString.append( "," );
-						desktopString.append( this.FRAME_OPTIONS[j][1] );
+						if ( desktopString.length() != 0 )
+						{
+							desktopString.append( "," );
+						}
+						desktopString.append( this.FRAME_OPTIONS[ j ][ 1 ] );
 					}
+				}
+			}
 
 			KoLSettings.setUserProperty( "initialFrames", frameString.toString() );
 			KoLSettings.setUserProperty( "initialDesktop", desktopString.toString() );
@@ -884,50 +989,34 @@ public class OptionsFrame extends KoLFrame
 	 * Allows the user to select to select the framing mode to use.
 	 */
 
-	protected class UserInterfacePanel extends OptionsPanel
+	protected class UserInterfacePanel
+		extends OptionsPanel
 	{
-		private JCheckBox [] optionBoxes;
+		private JCheckBox[] optionBoxes;
 
-		private String [][] options =
+		private final String[][] options =
 
 			System.getProperty( "os.name" ).startsWith( "Windows" ) ?
 
-			new String [][]
-			{
-				{ "guiUsesOneWindow", "Restrict interface to a single window" },
-				{ "useSystemTrayIcon", "Minimize main interface to system tray" },
-				{ "addCreationQueue", "Add creation queueing interface to item manager" },
-				{ "addStatusBarToFrames", "Add a status line to independent windows" },
-				{ "autoHighlightOnFocus", "Highlight text fields when selected" },
-				{},
-				{ "useDecoratedTabs", "Use shiny decorated tabs instead of OS default" },
-				{ "allowCloseableDesktopTabs", "Allow tabs on main window to be closed" },
-			}
+			new String[][] { { "guiUsesOneWindow", "Restrict interface to a single window" }, { "useSystemTrayIcon", "Minimize main interface to system tray" }, { "addCreationQueue", "Add creation queueing interface to item manager" }, { "addStatusBarToFrames", "Add a status line to independent windows" }, { "autoHighlightOnFocus", "Highlight text fields when selected" }, {}, { "useDecoratedTabs", "Use shiny decorated tabs instead of OS default" }, { "allowCloseableDesktopTabs", "Allow tabs on main window to be closed" }, }
 
 			:
 
-			new String [][]
-  			{
-  				{ "guiUsesOneWindow", "Restrict interface to a single window" },
-				{ "addCreationQueue", "Add creation queueing interface to item manager" },
-  				{ "addStatusBarToFrames", "Add a status line to independent windows" },
-				{ "autoHighlightOnFocus", "Highlight text fields when selected" },
-  				{},
-  				{ "useDecoratedTabs", "Use shiny decorated tabs instead of OS default" },
-  				{ "allowCloseableDesktopTabs", "Allow tabs on main window to be closed" },
-  			};
+			new String[][] { { "guiUsesOneWindow", "Restrict interface to a single window" }, { "addCreationQueue", "Add creation queueing interface to item manager" }, { "addStatusBarToFrames", "Add a status line to independent windows" }, { "autoHighlightOnFocus", "Highlight text fields when selected" }, {}, { "useDecoratedTabs", "Use shiny decorated tabs instead of OS default" }, { "allowCloseableDesktopTabs", "Allow tabs on main window to be closed" }, };
 
-		private JComboBox looks, toolbars, scripts;
+		private final JComboBox looks, toolbars, scripts;
 
 		public UserInterfacePanel()
 		{
 			super( "", new Dimension( 80, 20 ), new Dimension( 280, 20 ) );
 
-			UIManager.LookAndFeelInfo [] installed = UIManager.getInstalledLookAndFeels();
-			Object [] installedLooks = new Object[ installed.length ];
+			UIManager.LookAndFeelInfo[] installed = UIManager.getInstalledLookAndFeels();
+			Object[] installedLooks = new Object[ installed.length ];
 
 			for ( int i = 0; i < installedLooks.length; ++i )
-				installedLooks[i] = installed[i].getClassName();
+			{
+				installedLooks[ i ] = installed[ i ].getClassName();
+			}
 
 			this.looks = new JComboBox( installedLooks );
 
@@ -942,27 +1031,28 @@ public class OptionsFrame extends KoLFrame
 			this.scripts.addItem( "Put script bar after normal toolbar" );
 			this.scripts.addItem( "Put script bar along right of panel" );
 
-			VerifiableElement [] elements = new VerifiableElement[3];
+			VerifiableElement[] elements = new VerifiableElement[ 3 ];
 
-			elements[0] = new VerifiableElement( "Java L&F: ", this.looks );
-			elements[1] = new VerifiableElement( "Toolbar: ", this.toolbars );
-			elements[2] = new VerifiableElement( "Scripts: ", this.scripts );
+			elements[ 0 ] = new VerifiableElement( "Java L&F: ", this.looks );
+			elements[ 1 ] = new VerifiableElement( "Toolbar: ", this.toolbars );
+			elements[ 2 ] = new VerifiableElement( "Scripts: ", this.scripts );
 
 			this.actionCancelled();
 			this.setContent( elements );
 		}
 
-		public boolean shouldAddStatusLabel( VerifiableElement [] elements )
-		{	return false;
+		public boolean shouldAddStatusLabel( final VerifiableElement[] elements )
+		{
+			return false;
 		}
 
-		public void setContent( VerifiableElement [] elements )
+		public void setContent( final VerifiableElement[] elements )
 		{
 			super.setContent( elements );
 			this.add( new InterfaceCheckboxPanel(), BorderLayout.CENTER );
 		}
 
-		public void setEnabled( boolean isEnabled )
+		public void setEnabled( final boolean isEnabled )
 		{
 		}
 
@@ -970,7 +1060,9 @@ public class OptionsFrame extends KoLFrame
 		{
 			String lookAndFeel = (String) this.looks.getSelectedItem();
 			if ( lookAndFeel != null )
+			{
 				KoLSettings.setUserProperty( "swingLookAndFeel", lookAndFeel );
+			}
 
 			KoLSettings.setUserProperty( "useToolbars", String.valueOf( this.toolbars.getSelectedIndex() != 0 ) );
 			KoLSettings.setUserProperty( "scriptButtonPosition", String.valueOf( this.scripts.getSelectedIndex() ) );
@@ -984,36 +1076,48 @@ public class OptionsFrame extends KoLFrame
 			this.scripts.setSelectedIndex( KoLSettings.getIntegerProperty( "scriptButtonPosition" ) );
 		}
 
-		private class InterfaceCheckboxPanel extends OptionsPanel
+		private class InterfaceCheckboxPanel
+			extends OptionsPanel
 		{
-			private JLabel innerGradient, outerGradient;
+			private final JLabel innerGradient, outerGradient;
 
 			public InterfaceCheckboxPanel()
 			{
 				super( new Dimension( 20, 16 ), new Dimension( 370, 16 ) );
-				VerifiableElement [] elements = new VerifiableElement[ UserInterfacePanel.this.options.length + 3 ];
+				VerifiableElement[] elements = new VerifiableElement[ UserInterfacePanel.this.options.length + 3 ];
 
 				UserInterfacePanel.this.optionBoxes = new JCheckBox[ UserInterfacePanel.this.options.length ];
 				for ( int i = 0; i < UserInterfacePanel.this.options.length; ++i )
-					UserInterfacePanel.this.optionBoxes[i] = new JCheckBox();
+				{
+					UserInterfacePanel.this.optionBoxes[ i ] = new JCheckBox();
+				}
 
 				for ( int i = 0; i < UserInterfacePanel.this.options.length; ++i )
 				{
-					if ( UserInterfacePanel.this.options[i].length == 0 )
-						elements[i] = new VerifiableElement();
+					if ( UserInterfacePanel.this.options[ i ].length == 0 )
+					{
+						elements[ i ] = new VerifiableElement();
+					}
 					else
-						elements[i] = new VerifiableElement( UserInterfacePanel.this.options[i][1], JLabel.LEFT, UserInterfacePanel.this.optionBoxes[i] );
+					{
+						elements[ i ] =
+							new VerifiableElement(
+								UserInterfacePanel.this.options[ i ][ 1 ], JLabel.LEFT,
+								UserInterfacePanel.this.optionBoxes[ i ] );
+					}
 				}
 
 				elements[ UserInterfacePanel.this.options.length ] = new VerifiableElement();
 
 				this.outerGradient = new TabColorChanger( "outerTabColor" );
-				elements[ UserInterfacePanel.this.options.length + 1 ] = new VerifiableElement( "Change the outer portion of the tab gradient (shiny tabs)",
-					JLabel.LEFT, this.outerGradient );
+				elements[ UserInterfacePanel.this.options.length + 1 ] =
+					new VerifiableElement(
+						"Change the outer portion of the tab gradient (shiny tabs)", JLabel.LEFT, this.outerGradient );
 
 				this.innerGradient = new TabColorChanger( "innerTabColor" );
-				elements[ UserInterfacePanel.this.options.length + 2 ] = new VerifiableElement( "Change the inner portion of the tab gradient (shiny tabs)",
-					JLabel.LEFT, this.innerGradient );
+				elements[ UserInterfacePanel.this.options.length + 2 ] =
+					new VerifiableElement(
+						"Change the inner portion of the tab gradient (shiny tabs)", JLabel.LEFT, this.innerGradient );
 
 				this.actionCancelled();
 				this.setContent( elements );
@@ -1022,36 +1126,52 @@ public class OptionsFrame extends KoLFrame
 			public void actionConfirmed()
 			{
 				for ( int i = 0; i < UserInterfacePanel.this.options.length; ++i )
-					if ( UserInterfacePanel.this.options[i].length > 0 )
-						KoLSettings.setUserProperty( UserInterfacePanel.this.options[i][0], String.valueOf( UserInterfacePanel.this.optionBoxes[i].isSelected() ) );
+				{
+					if ( UserInterfacePanel.this.options[ i ].length > 0 )
+					{
+						KoLSettings.setUserProperty(
+							UserInterfacePanel.this.options[ i ][ 0 ],
+							String.valueOf( UserInterfacePanel.this.optionBoxes[ i ].isSelected() ) );
+					}
+				}
 			}
 
 			public void actionCancelled()
 			{
 				for ( int i = 0; i < UserInterfacePanel.this.options.length; ++i )
-					if ( UserInterfacePanel.this.options[i].length > 0 )
-						UserInterfacePanel.this.optionBoxes[i].setSelected( KoLSettings.getBooleanProperty( UserInterfacePanel.this.options[i][0] ) );
+				{
+					if ( UserInterfacePanel.this.options[ i ].length > 0 )
+					{
+						UserInterfacePanel.this.optionBoxes[ i ].setSelected( KoLSettings.getBooleanProperty( UserInterfacePanel.this.options[ i ][ 0 ] ) );
+					}
+				}
 
 				this.innerGradient.setBackground( tab.CloseTabPaneEnhancedUI.selectedA );
 				this.outerGradient.setBackground( tab.CloseTabPaneEnhancedUI.selectedB );
 			}
 
-			public void setEnabled( boolean isEnabled )
+			public void setEnabled( final boolean isEnabled )
 			{
 			}
 
-			private class TabColorChanger extends LabelColorChanger
+			private class TabColorChanger
+				extends LabelColorChanger
 			{
-				public TabColorChanger( String property )
-				{	super( property );
+				public TabColorChanger( final String property )
+				{
+					super( property );
 				}
 
 				public void applyChanges()
 				{
 					if ( this.property.equals( "innerTabColor" ) )
+					{
 						CloseTabPaneEnhancedUI.selectedA = InterfaceCheckboxPanel.this.innerGradient.getBackground();
+					}
 					else
+					{
 						CloseTabPaneEnhancedUI.selectedB = InterfaceCheckboxPanel.this.outerGradient.getBackground();
+					}
 
 					OptionsFrame.this.tabs.repaint();
 				}
@@ -1059,11 +1179,11 @@ public class OptionsFrame extends KoLFrame
 		}
 	}
 
-
-	protected class ScriptPanel extends OptionsPanel
+	protected class ScriptPanel
+		extends OptionsPanel
 	{
-		private ScriptSelectPanel loginScript;
-		private ScriptSelectPanel logoutScript;
+		private final ScriptSelectPanel loginScript;
+		private final ScriptSelectPanel logoutScript;
 
 		public ScriptPanel()
 		{
@@ -1072,10 +1192,10 @@ public class OptionsFrame extends KoLFrame
 			this.loginScript = new ScriptSelectPanel( new AutoHighlightField() );
 			this.logoutScript = new ScriptSelectPanel( new AutoHighlightField() );
 
-			VerifiableElement [] elements = new VerifiableElement[3];
-			elements[0] = new VerifiableElement( "On Login: ", this.loginScript );
-			elements[1] = new VerifiableElement( "On Logout: ", this.logoutScript );
-			elements[2] = new VerifiableElement();
+			VerifiableElement[] elements = new VerifiableElement[ 3 ];
+			elements[ 0 ] = new VerifiableElement( "On Login: ", this.loginScript );
+			elements[ 1 ] = new VerifiableElement( "On Logout: ", this.logoutScript );
+			elements[ 2 ] = new VerifiableElement();
 
 			this.setContent( elements );
 			this.actionCancelled();
@@ -1098,23 +1218,26 @@ public class OptionsFrame extends KoLFrame
 
 	}
 
-	protected class BreakfastPanel extends JPanel implements ActionListener
+	protected class BreakfastPanel
+		extends JPanel
+		implements ActionListener
 	{
-		private String breakfastType;
-		private JCheckBox [] skillOptions;
+		private final String breakfastType;
+		private final JCheckBox[] skillOptions;
 
-		private JCheckBox grabClovers;
-		private JCheckBox mushroomPlot;
-		private JCheckBox rumpusRoom;
-		private JCheckBox readManual;
-		private JCheckBox loginRecovery;
-		private JCheckBox pathedSummons;
+		private final JCheckBox grabClovers;
+		private final JCheckBox mushroomPlot;
+		private final JCheckBox rumpusRoom;
+		private final JCheckBox readManual;
+		private final JCheckBox loginRecovery;
+		private final JCheckBox pathedSummons;
 
-		public BreakfastPanel( String title, String breakfastType )
+		public BreakfastPanel( final String title, final String breakfastType )
 		{
 			super( new BorderLayout() );
 
-			this.add( JComponentUtilities.createLabel( title, JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
+			this.add(
+				JComponentUtilities.createLabel( title, JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
 
 			JPanel centerPanel = new JPanel( new GridLayout( 4, 3 ) );
 
@@ -1134,9 +1257,9 @@ public class OptionsFrame extends KoLFrame
 			this.skillOptions = new JCheckBox[ UseSkillRequest.BREAKFAST_SKILLS.length ];
 			for ( int i = 0; i < UseSkillRequest.BREAKFAST_SKILLS.length; ++i )
 			{
-				this.skillOptions[i] = new JCheckBox( UseSkillRequest.BREAKFAST_SKILLS[i].toLowerCase() );
-				this.skillOptions[i].addActionListener( this );
-				centerPanel.add( this.skillOptions[i] );
+				this.skillOptions[ i ] = new JCheckBox( UseSkillRequest.BREAKFAST_SKILLS[ i ].toLowerCase() );
+				this.skillOptions[ i ].addActionListener( this );
+				centerPanel.add( this.skillOptions[ i ] );
 			}
 
 			this.mushroomPlot = new JCheckBox( "plant mushrooms" );
@@ -1162,8 +1285,9 @@ public class OptionsFrame extends KoLFrame
 			this.actionCancelled();
 		}
 
-		public void actionPerformed( ActionEvent e )
-		{	this.actionConfirmed();
+		public void actionPerformed( final ActionEvent e )
+		{
+			this.actionConfirmed();
 		}
 
 		public void actionConfirmed()
@@ -1172,29 +1296,39 @@ public class OptionsFrame extends KoLFrame
 
 			for ( int i = 0; i < UseSkillRequest.BREAKFAST_SKILLS.length; ++i )
 			{
-				if ( this.skillOptions[i].isSelected() )
+				if ( this.skillOptions[ i ].isSelected() )
 				{
 					if ( skillString.length() != 0 )
+					{
 						skillString.append( "," );
+					}
 
-					skillString.append( UseSkillRequest.BREAKFAST_SKILLS[i] );
+					skillString.append( UseSkillRequest.BREAKFAST_SKILLS[ i ] );
 				}
 			}
 
 			KoLSettings.setUserProperty( "breakfast" + this.breakfastType, skillString.toString() );
-			KoLSettings.setUserProperty( "loginRecovery" + this.breakfastType, String.valueOf( this.loginRecovery.isSelected() ) );
-			KoLSettings.setUserProperty( "pathedSummons" + this.breakfastType, String.valueOf( this.pathedSummons.isSelected() ) );
-			KoLSettings.setUserProperty( "visitRumpus" + this.breakfastType, String.valueOf( this.rumpusRoom.isSelected() ) );
-			KoLSettings.setUserProperty( "autoPlant" + this.breakfastType, String.valueOf( this.mushroomPlot.isSelected() ) );
-			KoLSettings.setUserProperty( "grabClovers" + this.breakfastType, String.valueOf( this.grabClovers.isSelected() ) );
-			KoLSettings.setUserProperty( "readManual" + this.breakfastType, String.valueOf( this.readManual.isSelected() ) );
+			KoLSettings.setUserProperty(
+				"loginRecovery" + this.breakfastType, String.valueOf( this.loginRecovery.isSelected() ) );
+			KoLSettings.setUserProperty(
+				"pathedSummons" + this.breakfastType, String.valueOf( this.pathedSummons.isSelected() ) );
+			KoLSettings.setUserProperty(
+				"visitRumpus" + this.breakfastType, String.valueOf( this.rumpusRoom.isSelected() ) );
+			KoLSettings.setUserProperty(
+				"autoPlant" + this.breakfastType, String.valueOf( this.mushroomPlot.isSelected() ) );
+			KoLSettings.setUserProperty(
+				"grabClovers" + this.breakfastType, String.valueOf( this.grabClovers.isSelected() ) );
+			KoLSettings.setUserProperty(
+				"readManual" + this.breakfastType, String.valueOf( this.readManual.isSelected() ) );
 		}
 
 		public void actionCancelled()
 		{
 			String skillString = KoLSettings.getUserProperty( "breakfast" + this.breakfastType );
 			for ( int i = 0; i < UseSkillRequest.BREAKFAST_SKILLS.length; ++i )
-				this.skillOptions[i].setSelected( skillString.indexOf( UseSkillRequest.BREAKFAST_SKILLS[i] ) != -1 );
+			{
+				this.skillOptions[ i ].setSelected( skillString.indexOf( UseSkillRequest.BREAKFAST_SKILLS[ i ] ) != -1 );
+			}
 
 			this.loginRecovery.setSelected( KoLSettings.getBooleanProperty( "loginRecovery" + this.breakfastType ) );
 			this.pathedSummons.setSelected( KoLSettings.getBooleanProperty( "pathedSummons" + this.breakfastType ) );
@@ -1204,7 +1338,7 @@ public class OptionsFrame extends KoLFrame
 			this.readManual.setSelected( KoLSettings.getBooleanProperty( "readManual" + this.breakfastType ) );
 		}
 
-		public void setEnabled( boolean isEnabled )
+		public void setEnabled( final boolean isEnabled )
 		{
 		}
 	}

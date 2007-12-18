@@ -35,17 +35,20 @@ package net.sourceforge.kolmafia;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
-public class GalaktikRequest extends KoLRequest
+public class GalaktikRequest
+	extends KoLRequest
 {
 	public static final String HP = "curehp";
 	public static final String MP = "curemp";
 
 	private int restoreAmount;
-	public GalaktikRequest( String type )
-	{	this( type, 0 );
+
+	public GalaktikRequest( final String type )
+	{
+		this( type, 0 );
 	}
 
-	public GalaktikRequest( String type, int restoreAmount )
+	public GalaktikRequest( final String type, final int restoreAmount )
 	{
 		super( "galaktik.php" );
 
@@ -53,13 +56,23 @@ public class GalaktikRequest extends KoLRequest
 		this.addFormField( "action", type );
 
 		if ( restoreAmount > 0 )
+		{
 			this.restoreAmount = restoreAmount;
-		else if ( type.equals( HP ) )
-			this.restoreAmount = Math.max( KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP() + restoreAmount, 0 );
-		else if ( type.equals( MP ) )
-			this.restoreAmount = Math.max( KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP() + restoreAmount, 0 );
+		}
+		else if ( type.equals( GalaktikRequest.HP ) )
+		{
+			this.restoreAmount =
+				Math.max( KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP() + restoreAmount, 0 );
+		}
+		else if ( type.equals( GalaktikRequest.MP ) )
+		{
+			this.restoreAmount =
+				Math.max( KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP() + restoreAmount, 0 );
+		}
 		else
+		{
 			this.restoreAmount = 0;
+		}
 
 		this.addFormField( "quantity", String.valueOf( this.restoreAmount ) );
 	}
@@ -68,7 +81,7 @@ public class GalaktikRequest extends KoLRequest
 	{
 		if ( this.restoreAmount == 0 )
 		{
-			KoLmafia.updateDisplay( CONTINUE_STATE, "You don't need that cure." );
+			KoLmafia.updateDisplay( KoLConstants.CONTINUE_STATE, "You don't need that cure." );
 			return;
 		}
 
@@ -79,7 +92,9 @@ public class GalaktikRequest extends KoLRequest
 
 		int finalCost = KoLCharacter.getAvailableMeat() - originalAmount;
 		if ( finalCost != 0 )
-			AdventureResult.addResultToList( tally, new AdventureResult( AdventureResult.MEAT, finalCost ) );
+		{
+			AdventureResult.addResultToList( KoLConstants.tally, new AdventureResult( AdventureResult.MEAT, finalCost ) );
+		}
 
 	}
 
@@ -88,10 +103,14 @@ public class GalaktikRequest extends KoLRequest
 		LockableListModel cures = new LockableListModel();
 
 		if ( KoLCharacter.getCurrentHP() < KoLCharacter.getMaximumHP() )
+		{
 			cures.add( "Restore all HP with Curative Nostrum" );
+		}
 
 		if ( KoLCharacter.getCurrentMP() < KoLCharacter.getMaximumMP() )
+		{
 			cures.add( "Restore all MP with Fizzy Invigorating Tonic" );
+		}
 
 		return cures;
 	}
@@ -100,12 +119,14 @@ public class GalaktikRequest extends KoLRequest
 	{
 		if ( this.responseText.indexOf( "You can't afford that" ) != -1 )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You can't afford that cure." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't afford that cure." );
 			return;
 		}
 
-		if ( !containsUpdate )
+		if ( !this.containsUpdate )
+		{
 			CharpaneRequest.getInstance().run();
+		}
 
 		KoLmafia.updateDisplay( "Cure purchased." );
 	}

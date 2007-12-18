@@ -36,7 +36,8 @@ package net.sourceforge.kolmafia;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 
-public class UntinkerRequest extends KoLRequest
+public class UntinkerRequest
+	extends KoLRequest
 {
 	private static final KoLRequest AVAILABLE_CHECKER = new KoLRequest( "town_right.php?place=untinker" );
 
@@ -45,15 +46,16 @@ public class UntinkerRequest extends KoLRequest
 
 	private static final AdventureResult SCREWDRIVER = new AdventureResult( 454, -1 );
 
-	private int itemId;
+	private final int itemId;
 	private int iterationsNeeded;
 	private AdventureResult item;
 
-	public UntinkerRequest( int itemId )
-	{	this( itemId, Integer.MAX_VALUE );
+	public UntinkerRequest( final int itemId )
+	{
+		this( itemId, Integer.MAX_VALUE );
 	}
 
-	public UntinkerRequest( int itemId, int itemCount )
+	public UntinkerRequest( final int itemId, final int itemCount )
 	{
 		super( "town_right.php" );
 
@@ -66,16 +68,23 @@ public class UntinkerRequest extends KoLRequest
 		this.item = new AdventureResult( itemId, itemCount );
 
 		if ( itemCount == Integer.MAX_VALUE )
-			this.item = this.item.getInstance( this.item.getCount( inventory ) );
+		{
+			this.item = this.item.getInstance( this.item.getCount( KoLConstants.inventory ) );
+		}
 
-		if ( itemCount > 5 || this.item.getCount( inventory ) == itemCount )
+		if ( itemCount > 5 || this.item.getCount( KoLConstants.inventory ) == itemCount )
+		{
 			this.addFormField( "untinkerall", "on" );
+		}
 		else
+		{
 			this.iterationsNeeded = itemCount;
+		}
 	}
 
 	protected boolean retryOnTimeout()
-	{	return true;
+	{
+		return true;
 	}
 
 	public void run()
@@ -84,23 +93,25 @@ public class UntinkerRequest extends KoLRequest
 		// paste, and only execute the request if it is known to be
 		// creatable through combination.
 
-		if ( ConcoctionsDatabase.getMixingMethod( this.itemId ) != COMBINE )
+		if ( ConcoctionsDatabase.getMixingMethod( this.itemId ) != KoLConstants.COMBINE )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You cannot untinker that item." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You cannot untinker that item." );
 			return;
 		}
 
 		// Visiting the untinker automatically deducts a
 		// screwdriver from the inventory.
 
-		if ( inventory.contains( SCREWDRIVER ) )
+		if ( KoLConstants.inventory.contains( UntinkerRequest.SCREWDRIVER ) )
 		{
-			canUntinker = true;
-			StaticEntity.getClient().processResult( SCREWDRIVER );
+			UntinkerRequest.canUntinker = true;
+			StaticEntity.getClient().processResult( UntinkerRequest.SCREWDRIVER );
 		}
 
 		if ( !AdventureDatabase.retrieveItem( this.item ) )
+		{
 			return;
+		}
 
 		KoLmafia.updateDisplay( "Untinkering " + TradeableItemDatabase.getItemName( this.itemId ) + "..." );
 
@@ -110,46 +121,52 @@ public class UntinkerRequest extends KoLRequest
 		{
 			StaticEntity.getClient().processResult( new AdventureResult( this.itemId, 1 ) );
 
-			AVAILABLE_CHECKER.run();
+			UntinkerRequest.AVAILABLE_CHECKER.run();
 
-			if ( AVAILABLE_CHECKER.responseText.indexOf( "<select" ) == -1 )
+			if ( UntinkerRequest.AVAILABLE_CHECKER.responseText.indexOf( "<select" ) == -1 )
 			{
-				canUntinker = completeQuest();
+				UntinkerRequest.canUntinker = UntinkerRequest.completeQuest();
 
-				if ( !canUntinker )
+				if ( !UntinkerRequest.canUntinker )
+				{
 					return;
+				}
 
-				AVAILABLE_CHECKER.run();
+				UntinkerRequest.AVAILABLE_CHECKER.run();
 			}
 
 			super.run();
 		}
 
 		for ( int i = 1; i < this.iterationsNeeded; ++i )
+		{
 			super.run();
+		}
 
 		KoLmafia.updateDisplay( "Successfully untinkered " + TradeableItemDatabase.getItemName( this.itemId ) + "." );
 	}
 
 	public static final boolean canUntinker()
 	{
-		if ( lastUserId != KoLCharacter.getUserId() )
-			return canUntinker;
+		if ( UntinkerRequest.lastUserId != KoLCharacter.getUserId() )
+		{
+			return UntinkerRequest.canUntinker;
+		}
 
-		lastUserId = KoLCharacter.getUserId();
+		UntinkerRequest.lastUserId = KoLCharacter.getUserId();
 
 		// If the person does not have the accomplishment, visit
 		// the untinker to ensure that they get the quest.
 
-		AVAILABLE_CHECKER.run();
+		UntinkerRequest.AVAILABLE_CHECKER.run();
 
 		// "I can take apart anything that's put together with meat
 		// paste, but you don't have anything like that..."
 
-		canUntinker = AVAILABLE_CHECKER.responseText.indexOf( "you don't have anything like that" ) != -1 ||
-		AVAILABLE_CHECKER.responseText.indexOf( "<select name=whichitem>" ) != -1;
+		UntinkerRequest.canUntinker =
+			UntinkerRequest.AVAILABLE_CHECKER.responseText.indexOf( "you don't have anything like that" ) != -1 || UntinkerRequest.AVAILABLE_CHECKER.responseText.indexOf( "<select name=whichitem>" ) != -1;
 
-		return canUntinker;
+		return UntinkerRequest.canUntinker;
 	}
 
 	public static final boolean completeQuest()
@@ -168,65 +185,78 @@ public class UntinkerRequest extends KoLRequest
 			return true;
 		}
 
-		if ( !existingFrames.isEmpty() )
+		if ( !KoLConstants.existingFrames.isEmpty() )
 		{
 			if ( !KoLFrame.confirm( "KoLmafia thinks you haven't completed the screwdriver quest.  Would you like to have KoLmafia automatically complete it now?" ) )
+			{
 				return false;
+			}
 		}
 
 		// Okay, so they don't have one yet. Complete the
 		// untinkerer's quest automatically.
 
 		ArrayList temporary = new ArrayList();
-		temporary.addAll( conditions );
+		temporary.addAll( KoLConstants.conditions );
 
-		conditions.clear();
-		conditions.add( SCREWDRIVER.getNegation() );
+		KoLConstants.conditions.clear();
+		KoLConstants.conditions.add( UntinkerRequest.SCREWDRIVER.getNegation() );
 
 		// Make sure that paco has been visited, or else
 		// the knoll won't be available.
 
 		String action = KoLSettings.getUserProperty( "battleAction" );
 		if ( action.indexOf( "dictionary" ) != -1 )
+		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "battleAction=attack" );
+		}
 
-		StaticEntity.getClient().makeRequest( AdventureDatabase.getAdventureByURL( "adventure.php?snarfblat=18" ), KoLCharacter.getAdventuresLeft() );
+		StaticEntity.getClient().makeRequest(
+			AdventureDatabase.getAdventureByURL( "adventure.php?snarfblat=18" ), KoLCharacter.getAdventuresLeft() );
 		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "battleAction=" + action );
 
-		if ( !conditions.isEmpty() )
-			KoLmafia.updateDisplay( ABORT_STATE, "Unable to complete untinkerer's quest." );
+		if ( !KoLConstants.conditions.isEmpty() )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Unable to complete untinkerer's quest." );
+		}
 
-		conditions.clear();
-		conditions.addAll( temporary );
+		KoLConstants.conditions.clear();
+		KoLConstants.conditions.addAll( temporary );
 
 		if ( KoLmafia.refusesContinue() )
+		{
 			return false;
+		}
 
 		// You should now have a screwdriver in your inventory.
 		// Go ahead and rerun the untinker request and you will
 		// have the needed accomplishment.
 
-		AVAILABLE_CHECKER.run();
-		return AVAILABLE_CHECKER.responseText.indexOf( "Degrassi Knoll" ) == -1;
+		UntinkerRequest.AVAILABLE_CHECKER.run();
+		return UntinkerRequest.AVAILABLE_CHECKER.responseText.indexOf( "Degrassi Knoll" ) == -1;
 	}
 
-	public static final boolean registerRequest( String urlString )
+	public static final boolean registerRequest( final String urlString )
 	{
 		if ( !urlString.startsWith( "town_right.php" ) || urlString.indexOf( "action=untinker" ) == -1 )
+		{
 			return false;
+		}
 
 		Matcher itemMatcher = SendMessageRequest.ITEMID_PATTERN.matcher( urlString );
 		if ( !itemMatcher.find() )
+		{
 			return true;
+		}
 
-		int itemId = StaticEntity.parseInt( itemMatcher.group(1) );
+		int itemId = StaticEntity.parseInt( itemMatcher.group( 1 ) );
 		AdventureResult result = new AdventureResult( itemId, -1 );
 
 		RequestLogger.updateSessionLog();
 
 		if ( urlString.indexOf( "untinkerall=on" ) != -1 )
 		{
-			result = result.getInstance( 0 - result.getCount( inventory ) );
+			result = result.getInstance( 0 - result.getCount( KoLConstants.inventory ) );
 			RequestLogger.updateSessionLog( "untinker * " + result.getName() );
 		}
 		else

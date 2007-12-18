@@ -36,24 +36,29 @@ package net.sourceforge.kolmafia;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class RestaurantRequest extends CafeRequest
+public class RestaurantRequest
+	extends CafeRequest
 {
 	private static AdventureResult dailySpecial = null;
-	private static final Pattern SPECIAL_PATTERN = Pattern.compile( "<input type=radio name=whichitem value=(\\d+)>", Pattern.DOTALL );
+	private static final Pattern SPECIAL_PATTERN =
+		Pattern.compile( "<input type=radio name=whichitem value=(\\d+)>", Pattern.DOTALL );
 
 	public static final AdventureResult getDailySpecial()
 	{
-		if ( restaurantItems.isEmpty() )
-			getMenu();
+		if ( KoLConstants.restaurantItems.isEmpty() )
+		{
+			RestaurantRequest.getMenu();
+		}
 
-		return dailySpecial;
+		return RestaurantRequest.dailySpecial;
 	}
 
 	public RestaurantRequest()
-	{	super( "Chez Snoot&eacute;e", "1" );
+	{
+		super( "Chez Snoot&eacute;e", "1" );
 	}
 
-	public RestaurantRequest( String name )
+	public RestaurantRequest( final String name )
 	{
 		super( "Chez Snoot&eacute;e", "1" );
 		this.isPurchase = true;
@@ -61,7 +66,7 @@ public class RestaurantRequest extends CafeRequest
 		int itemId = 0;
 		int price = 0;
 
-		switch ( restaurantItems.indexOf( name ) )
+		switch ( KoLConstants.restaurantItems.indexOf( name ) )
 		{
 		case 0:
 			itemId = -1;
@@ -84,14 +89,14 @@ public class RestaurantRequest extends CafeRequest
 			break;
 		}
 
-		setItem( name, itemId, price );
+		this.setItem( name, itemId, price );
 	}
 
 	public void run()
 	{
 		if ( !KoLCharacter.inMysticalitySign() )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You can't find " + this.name );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't find " + this.name );
 			return;
 		}
 
@@ -106,11 +111,11 @@ public class RestaurantRequest extends CafeRequest
 			return;
 		}
 
-		Matcher specialMatcher = SPECIAL_PATTERN.matcher( this.responseText );
+		Matcher specialMatcher = RestaurantRequest.SPECIAL_PATTERN.matcher( this.responseText );
 		if ( specialMatcher.find() )
 		{
-			int itemId = StaticEntity.parseInt( specialMatcher.group(1) );
-			dailySpecial = new AdventureResult( itemId, 1 );
+			int itemId = StaticEntity.parseInt( specialMatcher.group( 1 ) );
+			RestaurantRequest.dailySpecial = new AdventureResult( itemId, 1 );
 
 		}
 	}
@@ -118,40 +123,47 @@ public class RestaurantRequest extends CafeRequest
 	public static final void getMenu()
 	{
 		if ( !KoLCharacter.inMysticalitySign() )
+		{
 			return;
+		}
 
-		restaurantItems.clear();
+		KoLConstants.restaurantItems.clear();
 
-		CafeRequest.addMenuItem( restaurantItems, "Peche a la Frog", 50 );
-		CafeRequest.addMenuItem( restaurantItems, "As Jus Gezund Heit", 75 );
-		CafeRequest.addMenuItem( restaurantItems, "Bouillabaise Coucher Avec Moi", 100 );
+		CafeRequest.addMenuItem( KoLConstants.restaurantItems, "Peche a la Frog", 50 );
+		CafeRequest.addMenuItem( KoLConstants.restaurantItems, "As Jus Gezund Heit", 75 );
+		CafeRequest.addMenuItem( KoLConstants.restaurantItems, "Bouillabaise Coucher Avec Moi", 100 );
 
 		RequestThread.postRequest( new RestaurantRequest() );
 
-		int itemId = dailySpecial.getItemId();
-		String name = dailySpecial.getName();
+		int itemId = RestaurantRequest.dailySpecial.getItemId();
+		String name = RestaurantRequest.dailySpecial.getName();
 		int price = Math.max( 1, TradeableItemDatabase.getPriceById( itemId ) ) * 3;
-		CafeRequest.addMenuItem( restaurantItems, name, price );
+		CafeRequest.addMenuItem( KoLConstants.restaurantItems, name, price );
 
 		ConcoctionsDatabase.getUsables().sort();
 		KoLmafia.updateDisplay( "Menu retrieved." );
 	}
 
 	public static final void reset()
-	{	CafeRequest.reset( restaurantItems );
+	{
+		CafeRequest.reset( KoLConstants.restaurantItems );
 	}
 
-	public static final boolean registerRequest( String urlString )
+	public static final boolean registerRequest( final String urlString )
 	{
 		Matcher matcher = CafeRequest.CAFE_PATTERN.matcher( urlString );
-		if ( !matcher.find() || !matcher.group(1).equals( "1" ) )
+		if ( !matcher.find() || !matcher.group( 1 ).equals( "1" ) )
+		{
 			return false;
+		}
 
 		matcher = CafeRequest.ITEM_PATTERN.matcher( urlString );
 		if ( !matcher.find() )
+		{
 			return true;
+		}
 
-		int itemId = StaticEntity.parseInt( matcher.group(1) );
+		int itemId = StaticEntity.parseInt( matcher.group( 1 ) );
 		String itemName;
 		int price;
 

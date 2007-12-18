@@ -35,16 +35,17 @@ package net.sourceforge.kolmafia;
 
 import java.util.regex.Matcher;
 
-public class Crimbo07CafeRequest extends CafeRequest
+public class Crimbo07CafeRequest
+	extends CafeRequest
 {
-	public Crimbo07CafeRequest( String name )
+	public Crimbo07CafeRequest( final String name )
 	{
 		super( "Crimbo Cafe", "4" );
 
 		int itemId = 0;
 		int price = 0;
 
-		switch ( cafeItems.indexOf( name ) )
+		switch ( KoLConstants.cafeItems.indexOf( name ) )
 		{
 		case 0:
 			itemId = -49;
@@ -75,44 +76,50 @@ public class Crimbo07CafeRequest extends CafeRequest
 			itemId = -54;
 			price = 100;
 			break;
-                }
+		}
 
-		setItem( name, itemId, price );
+		this.setItem( name, itemId, price );
 	}
 
-	public static final boolean onMenu( String name )
-	{	return cafeItems.contains( name );
+	public static final boolean onMenu( final String name )
+	{
+		return KoLConstants.cafeItems.contains( name );
 	}
 
 	public static final void getMenu()
 	{
 		KoLmafia.updateDisplay( "Visiting Crimbo Cafe..." );
-		cafeItems.clear();
-		CafeRequest.addMenuItem( cafeItems, "Cyder", 50 );
-		CafeRequest.addMenuItem( cafeItems, "Oil Nog", 75 );
-		CafeRequest.addMenuItem( cafeItems, "Hi-Octane Peppermint Oil", 100 );
-		CafeRequest.addMenuItem( cafeItems, "Soylent Red and Green", 50 );
-		CafeRequest.addMenuItem( cafeItems, "Disc-Shaped Nutrition Unit", 75 );
-		CafeRequest.addMenuItem( cafeItems, "Gingerborg Hive", 100 );
+		KoLConstants.cafeItems.clear();
+		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Cyder", 50 );
+		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Oil Nog", 75 );
+		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Hi-Octane Peppermint Oil", 100 );
+		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Soylent Red and Green", 50 );
+		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Disc-Shaped Nutrition Unit", 75 );
+		CafeRequest.addMenuItem( KoLConstants.cafeItems, "Gingerborg Hive", 100 );
 		ConcoctionsDatabase.getUsables().sort();
 		KoLmafia.updateDisplay( "Menu retrieved." );
 	}
 
 	public static final void reset()
-	{	CafeRequest.reset( cafeItems );
+	{
+		CafeRequest.reset( KoLConstants.cafeItems );
 	}
 
-	public static final boolean registerRequest( String urlString )
+	public static final boolean registerRequest( final String urlString )
 	{
 		Matcher matcher = CafeRequest.CAFE_PATTERN.matcher( urlString );
-		if ( !matcher.find() || !matcher.group(1).equals( "4" ) )
+		if ( !matcher.find() || !matcher.group( 1 ).equals( "4" ) )
+		{
 			return false;
+		}
 
 		matcher = CafeRequest.ITEM_PATTERN.matcher( urlString );
 		if ( !matcher.find() )
+		{
 			return true;
+		}
 
-		int itemId = StaticEntity.parseInt( matcher.group(1) );
+		int itemId = StaticEntity.parseInt( matcher.group( 1 ) );
 		String itemName;
 		int price;
 

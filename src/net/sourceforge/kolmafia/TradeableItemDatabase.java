@@ -45,14 +45,18 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class TradeableItemDatabase extends KoLDatabase
+import net.java.dev.spellcast.utilities.UtilityConstants;
+
+public class TradeableItemDatabase
+	extends KoLDatabase
 {
 	public static final AdventureResult ODE = new AdventureResult( "Ode to Booze", 1, true );
 	public static final AdventureResult GOT_MILK = new AdventureResult( "Got Milk", 1, true );
 
 	private static final Pattern WIKI_ITEMID_PATTERN = Pattern.compile( "Item number</a>:</b> (\\d+)<br />" );
 	private static final Pattern WIKI_DESCID_PATTERN = Pattern.compile( "<b>Description ID:</b> (\\d+)<br />" );
-	private static final Pattern WIKI_PLURAL_PATTERN = Pattern.compile( "\\(.*?In-game plural</a>: <i>(.*?)</i>\\)", Pattern.DOTALL );
+	private static final Pattern WIKI_PLURAL_PATTERN =
+		Pattern.compile( "\\(.*?In-game plural</a>: <i>(.*?)</i>\\)", Pattern.DOTALL );
 	private static final Pattern WIKI_AUTOSELL_PATTERN = Pattern.compile( "Selling Price: <b>(\\d+) Meat.</b>" );
 
 	private static int maxItemId = 0;
@@ -74,29 +78,29 @@ public class TradeableItemDatabase extends KoLDatabase
 	private static final Map inebrietyByName = new TreeMap();
 	private static final Map spleenHitByName = new TreeMap();
 
-	private static final Map [][][][] advsByName = new TreeMap[2][2][2][2];
+	private static final Map[][][][] advsByName = new TreeMap[ 2 ][ 2 ][ 2 ][ 2 ];
 
 	static
 	{
-		advsByName[0][0][0][0] = new TreeMap();
-		advsByName[0][0][0][1] = new TreeMap();
-		advsByName[0][0][1][0] = new TreeMap();
-		advsByName[0][0][1][1] = new TreeMap();
+		TradeableItemDatabase.advsByName[ 0 ][ 0 ][ 0 ][ 0 ] = new TreeMap();
+		TradeableItemDatabase.advsByName[ 0 ][ 0 ][ 0 ][ 1 ] = new TreeMap();
+		TradeableItemDatabase.advsByName[ 0 ][ 0 ][ 1 ][ 0 ] = new TreeMap();
+		TradeableItemDatabase.advsByName[ 0 ][ 0 ][ 1 ][ 1 ] = new TreeMap();
 
-		advsByName[0][1][0][0] = new TreeMap();
-		advsByName[0][1][0][1] = new TreeMap();
-		advsByName[0][1][1][0] = new TreeMap();
-		advsByName[0][1][1][1] = new TreeMap();
+		TradeableItemDatabase.advsByName[ 0 ][ 1 ][ 0 ][ 0 ] = new TreeMap();
+		TradeableItemDatabase.advsByName[ 0 ][ 1 ][ 0 ][ 1 ] = new TreeMap();
+		TradeableItemDatabase.advsByName[ 0 ][ 1 ][ 1 ][ 0 ] = new TreeMap();
+		TradeableItemDatabase.advsByName[ 0 ][ 1 ][ 1 ][ 1 ] = new TreeMap();
 
-		advsByName[1][0][0][0] = new TreeMap();
-		advsByName[1][0][0][1] = new TreeMap();
-		advsByName[1][0][1][0] = new TreeMap();
-		advsByName[1][0][1][1] = new TreeMap();
+		TradeableItemDatabase.advsByName[ 1 ][ 0 ][ 0 ][ 0 ] = new TreeMap();
+		TradeableItemDatabase.advsByName[ 1 ][ 0 ][ 0 ][ 1 ] = new TreeMap();
+		TradeableItemDatabase.advsByName[ 1 ][ 0 ][ 1 ][ 0 ] = new TreeMap();
+		TradeableItemDatabase.advsByName[ 1 ][ 0 ][ 1 ][ 1 ] = new TreeMap();
 
-		advsByName[1][1][0][0] = new TreeMap();
-		advsByName[1][1][0][1] = new TreeMap();
-		advsByName[1][1][1][0] = new TreeMap();
-		advsByName[1][1][1][1] = new TreeMap();
+		TradeableItemDatabase.advsByName[ 1 ][ 1 ][ 0 ][ 0 ] = new TreeMap();
+		TradeableItemDatabase.advsByName[ 1 ][ 1 ][ 0 ][ 1 ] = new TreeMap();
+		TradeableItemDatabase.advsByName[ 1 ][ 1 ][ 1 ][ 0 ] = new TreeMap();
+		TradeableItemDatabase.advsByName[ 1 ][ 1 ][ 1 ][ 1 ] = new TreeMap();
 	}
 
 	private static final Map muscleByName = new TreeMap();
@@ -115,42 +119,45 @@ public class TradeableItemDatabase extends KoLDatabase
 		// examined and float-referenced: once in the name-lookup,
 		// and again in the Id lookup.
 
-		BufferedReader reader = getVersionedReader( "tradeitems.txt", TRADEITEMS_VERSION );
+		BufferedReader reader = KoLDatabase.getVersionedReader( "tradeitems.txt", KoLConstants.TRADEITEMS_VERSION );
 
-		String [] data;
+		String[] data;
 		Integer id;
 
-		while ( (data = readData( reader )) != null )
+		while ( ( data = KoLDatabase.readData( reader ) ) != null )
 		{
 			if ( data.length == 5 )
 			{
-				int itemId = StaticEntity.parseInt( data[0] );
+				int itemId = StaticEntity.parseInt( data[ 0 ] );
 				id = new Integer( itemId );
 
-				useTypeById.set( itemId, StaticEntity.parseInt( data[2] ) );
-				priceById.set( itemId, StaticEntity.parseInt( data[4] ) );
+				TradeableItemDatabase.useTypeById.set( itemId, StaticEntity.parseInt( data[ 2 ] ) );
+				TradeableItemDatabase.priceById.set( itemId, StaticEntity.parseInt( data[ 4 ] ) );
 
-				itemIdByName.put( getCanonicalName( data[1] ), id );
-				dataNameById.put( id, data[1] );
-				nameById.put( id, getDisplayName( data[1] ) );
+				TradeableItemDatabase.itemIdByName.put( KoLDatabase.getCanonicalName( data[ 1 ] ), id );
+				TradeableItemDatabase.dataNameById.put( id, data[ 1 ] );
+				TradeableItemDatabase.nameById.put( id, KoLDatabase.getDisplayName( data[ 1 ] ) );
 
-				accessById.put( id, data[3] );
-				tradeableById.set( itemId, data[3].equals( "all" ) );
-				giftableById.set( itemId, data[3].equals( "all" ) || data[3].equals( "gift" ) );
-				displayableById.set( itemId, data[3].equals( "all" ) || data[3].equals( "gift" ) || data[3].equals( "display" ) );
+				TradeableItemDatabase.accessById.put( id, data[ 3 ] );
+				TradeableItemDatabase.tradeableById.set( itemId, data[ 3 ].equals( "all" ) );
+				TradeableItemDatabase.giftableById.set( itemId, data[ 3 ].equals( "all" ) || data[ 3 ].equals( "gift" ) );
+				TradeableItemDatabase.displayableById.set(
+					itemId, data[ 3 ].equals( "all" ) || data[ 3 ].equals( "gift" ) || data[ 3 ].equals( "display" ) );
 
-				if ( itemId > maxItemId )
-					maxItemId = itemId;
+				if ( itemId > TradeableItemDatabase.maxItemId )
+				{
+					TradeableItemDatabase.maxItemId = itemId;
+				}
 			}
 		}
 
 		// Add in dummy information for tracking worthless
 		// items so they can be added as conditions.
 
-		id = new Integer(13);
-		dataNameById.put( id, "worthless item" );
-		itemIdByName.put( "worthless item", id );
-		nameById.put( id, "worthless item" );
+		id = new Integer( 13 );
+		TradeableItemDatabase.dataNameById.put( id, "worthless item" );
+		TradeableItemDatabase.itemIdByName.put( "worthless item", id );
+		TradeableItemDatabase.nameById.put( id, "worthless item" );
 
 		try
 		{
@@ -166,29 +173,33 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		// Next, retrieve the description Ids.
 
-		reader = getVersionedReader( "itemdescs.txt", ITEMDESCS_VERSION );
+		reader = KoLDatabase.getVersionedReader( "itemdescs.txt", KoLConstants.ITEMDESCS_VERSION );
 
-		while ( (data = readData( reader )) != null )
+		while ( ( data = KoLDatabase.readData( reader ) ) != null )
 		{
 			boolean isDescriptionId = true;
-			if ( data.length >= 2 && data[1].length() > 0 )
+			if ( data.length >= 2 && data[ 1 ].length() > 0 )
 			{
 				isDescriptionId = true;
-				for ( int i = 0; i < data[1].length() && isDescriptionId; ++i )
-					if ( !Character.isDigit( data[1].charAt(i) ) )
+				for ( int i = 0; i < data[ 1 ].length() && isDescriptionId; ++i )
+				{
+					if ( !Character.isDigit( data[ 1 ].charAt( i ) ) )
+					{
 						isDescriptionId = false;
+					}
+				}
 
 				if ( isDescriptionId )
 				{
-					int itemId = StaticEntity.parseInt( data[0].trim() );
+					int itemId = StaticEntity.parseInt( data[ 0 ].trim() );
 					id = new Integer( itemId );
-					descriptionById.put( id, data[1] );
-					itemIdByDescription.put( data[1], new Integer( itemId ) );
+					TradeableItemDatabase.descriptionById.put( id, data[ 1 ] );
+					TradeableItemDatabase.itemIdByDescription.put( data[ 1 ], new Integer( itemId ) );
 
 					if ( data.length == 4 )
 					{
-						pluralById.set( itemId, data[3] );
-						itemIdByPlural.put( getCanonicalName( data[3] ), id );
+						TradeableItemDatabase.pluralById.set( itemId, data[ 3 ] );
+						TradeableItemDatabase.itemIdByPlural.put( KoLDatabase.getCanonicalName( data[ 3 ] ), id );
 					}
 				}
 			}
@@ -208,22 +219,22 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		// Next, retrieve the table of fullness
 
-		reader = getVersionedReader( "fullness.txt", FULLNESS_VERSION );
+		reader = KoLDatabase.getVersionedReader( "fullness.txt", KoLConstants.FULLNESS_VERSION );
 
-		while ( (data = readData( reader )) != null )
+		while ( ( data = KoLDatabase.readData( reader ) ) != null )
 		{
 			if ( data.length >= 3 )
 			{
-				String name = getCanonicalName( data[0] );
-				fullnessByName.put( name, Integer.valueOf( data[1] ) );
-				levelReqByName.put( name, Integer.valueOf( data[2] ) );
+				String name = KoLDatabase.getCanonicalName( data[ 0 ] );
+				TradeableItemDatabase.fullnessByName.put( name, Integer.valueOf( data[ 1 ] ) );
+				TradeableItemDatabase.levelReqByName.put( name, Integer.valueOf( data[ 2 ] ) );
 
 				if ( data.length > 3 )
 				{
-					addAdventureRange( name, StaticEntity.parseInt( data[1] ), data[3] );
-					muscleByName.put( name, extractRange( data[4] ) );
-					mysticalityByName.put( name, extractRange( data[5] ) );
-					moxieByName.put( name, extractRange( data[6] ) );
+					TradeableItemDatabase.addAdventureRange( name, StaticEntity.parseInt( data[ 1 ] ), data[ 3 ] );
+					TradeableItemDatabase.muscleByName.put( name, TradeableItemDatabase.extractRange( data[ 4 ] ) );
+					TradeableItemDatabase.mysticalityByName.put( name, TradeableItemDatabase.extractRange( data[ 5 ] ) );
+					TradeableItemDatabase.moxieByName.put( name, TradeableItemDatabase.extractRange( data[ 6 ] ) );
 				}
 			}
 		}
@@ -242,22 +253,22 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		// Next, retrieve the table of inebriety
 
-		reader = getVersionedReader( "inebriety.txt", INEBRIETY_VERSION );
+		reader = KoLDatabase.getVersionedReader( "inebriety.txt", KoLConstants.INEBRIETY_VERSION );
 
-		while ( (data = readData( reader )) != null )
+		while ( ( data = KoLDatabase.readData( reader ) ) != null )
 		{
 			if ( data.length >= 3 )
 			{
-				String name = getCanonicalName( data[0] );
-				inebrietyByName.put( name, Integer.valueOf( data[1] ) );
-				levelReqByName.put( name, Integer.valueOf( data[2] ) );
+				String name = KoLDatabase.getCanonicalName( data[ 0 ] );
+				TradeableItemDatabase.inebrietyByName.put( name, Integer.valueOf( data[ 1 ] ) );
+				TradeableItemDatabase.levelReqByName.put( name, Integer.valueOf( data[ 2 ] ) );
 
 				if ( data.length > 3 )
 				{
-					addAdventureRange( name, StaticEntity.parseInt( data[1] ), data[3] );
-					muscleByName.put( name, extractRange( data[4] ) );
-					mysticalityByName.put( name, extractRange( data[5] ) );
-					moxieByName.put( name, extractRange( data[6] ) );
+					TradeableItemDatabase.addAdventureRange( name, StaticEntity.parseInt( data[ 1 ] ), data[ 3 ] );
+					TradeableItemDatabase.muscleByName.put( name, TradeableItemDatabase.extractRange( data[ 4 ] ) );
+					TradeableItemDatabase.mysticalityByName.put( name, TradeableItemDatabase.extractRange( data[ 5 ] ) );
+					TradeableItemDatabase.moxieByName.put( name, TradeableItemDatabase.extractRange( data[ 6 ] ) );
 				}
 			}
 		}
@@ -276,14 +287,14 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		// Next, retrieve the table of spleen hits
 
-		reader = getVersionedReader( "spleenhit.txt", SPLEENHIT_VERSION );
+		reader = KoLDatabase.getVersionedReader( "spleenhit.txt", KoLConstants.SPLEENHIT_VERSION );
 
-		while ( (data = readData( reader )) != null )
+		while ( ( data = KoLDatabase.readData( reader ) ) != null )
 		{
 			if ( data.length == 2 )
 			{
-				String name = getCanonicalName( data[0] );
-				spleenHitByName.put( name, Integer.valueOf( data[1] ) );
+				String name = KoLDatabase.getCanonicalName( data[ 0 ] );
+				TradeableItemDatabase.spleenHitByName.put( name, Integer.valueOf( data[ 1 ] ) );
 			}
 		}
 
@@ -300,7 +311,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		}
 	}
 
-	private static final int getIncreasingGains( int value )
+	private static final int getIncreasingGains( final int value )
 	{
 		// Adventure gains from Ode/Milk based on information
 		// derived by Istari Asuka on the Hardcore Oxygenation forums.
@@ -332,7 +343,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		}
 	}
 
-	private static final int getDecreasingGains( int value )
+	private static final int getDecreasingGains( final int value )
 	{
 		// Adventure gains from Ode/Milk based on information
 		// derived by Istari Asuka on the Hardcore Oxygenation forums.
@@ -358,7 +369,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		}
 	}
 
-	private static final void addAdventureRange( String name, int unitCost, String range )
+	private static final void addAdventureRange( final String name, final int unitCost, String range )
 	{
 		range = range.trim();
 
@@ -372,34 +383,42 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		for ( int i = start; i <= end; ++i )
 		{
-			gainSum1 += i + getIncreasingGains(i);
-			gainSum2 += i + getDecreasingGains(i);
-			gainSum3 += i + getIncreasingGains(i + getDecreasingGains(i));
+			gainSum1 += i + TradeableItemDatabase.getIncreasingGains( i );
+			gainSum2 += i + TradeableItemDatabase.getDecreasingGains( i );
+			gainSum3 +=
+				i + TradeableItemDatabase.getIncreasingGains( i + TradeableItemDatabase.getDecreasingGains( i ) );
 		}
 
-		float count = (end - start + 1);
+		float count = end - start + 1;
 
-		addAdventureRange( name, unitCost, false, false, (start + end) / 2.0f );
-		addAdventureRange( name, unitCost, true, false, gainSum1 / count );
-		addAdventureRange( name, unitCost, false, true, gainSum2 / count );
-		addAdventureRange( name, unitCost, true, true, gainSum3 / count );
+		TradeableItemDatabase.addAdventureRange( name, unitCost, false, false, ( start + end ) / 2.0f );
+		TradeableItemDatabase.addAdventureRange( name, unitCost, true, false, gainSum1 / count );
+		TradeableItemDatabase.addAdventureRange( name, unitCost, false, true, gainSum2 / count );
+		TradeableItemDatabase.addAdventureRange( name, unitCost, true, true, gainSum3 / count );
 	}
 
-	private static final void addAdventureRange( String name, int unitCost, boolean gainEffect1, boolean gainEffect2, float result )
+	private static final void addAdventureRange( final String name, final int unitCost, final boolean gainEffect1,
+		final boolean gainEffect2, final float result )
 	{
 		// Adventure gains from zodiac signs based on information
 		// provided on the Iocaine Powder forums.
 		// http://www.iocainepowder.org/forums/viewtopic.php?t=2742
 
-		getAdventureMap( false, false, gainEffect1, gainEffect2 ).put( name, SINGLE_PRECISION_FORMAT.format( result ) );
-		getAdventureMap( false, true, gainEffect1, gainEffect2 ).put( name, SINGLE_PRECISION_FORMAT.format( result * 1.1f ) );
+		TradeableItemDatabase.getAdventureMap( false, false, gainEffect1, gainEffect2 ).put(
+			name, KoLConstants.SINGLE_PRECISION_FORMAT.format( result ) );
+		TradeableItemDatabase.getAdventureMap( false, true, gainEffect1, gainEffect2 ).put(
+			name, KoLConstants.SINGLE_PRECISION_FORMAT.format( result * 1.1f ) );
 
-		getAdventureMap( true, false, gainEffect1, gainEffect2 ).put( name, SINGLE_PRECISION_FORMAT.format( result / unitCost ) );
-		getAdventureMap( true, true, gainEffect1, gainEffect2 ).put( name, SINGLE_PRECISION_FORMAT.format( result * 1.1f / unitCost ) );
+		TradeableItemDatabase.getAdventureMap( true, false, gainEffect1, gainEffect2 ).put(
+			name, KoLConstants.SINGLE_PRECISION_FORMAT.format( result / unitCost ) );
+		TradeableItemDatabase.getAdventureMap( true, true, gainEffect1, gainEffect2 ).put(
+			name, KoLConstants.SINGLE_PRECISION_FORMAT.format( result * 1.1f / unitCost ) );
 	}
 
-	private static final Map getAdventureMap( boolean perUnit, boolean gainZodiac, boolean gainEffect1, boolean gainEffect2 )
-	{	return advsByName[ perUnit ? 1 : 0 ][ gainZodiac ? 1 : 0 ][ gainEffect1 ? 1 : 0 ][ gainEffect2 ? 1 : 0 ];
+	private static final Map getAdventureMap( final boolean perUnit, final boolean gainZodiac,
+		final boolean gainEffect1, final boolean gainEffect2 )
+	{
+		return TradeableItemDatabase.advsByName[ perUnit ? 1 : 0 ][ gainZodiac ? 1 : 0 ][ gainEffect1 ? 1 : 0 ][ gainEffect2 ? 1 : 0 ];
 	}
 
 	private static final String extractRange( String range )
@@ -410,40 +429,44 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( range.startsWith( "-" ) )
 		{
 			isNegative = true;
-			range = range.substring(1);
+			range = range.substring( 1 );
 		}
 
 		int dashIndex = range.indexOf( "-" );
 		int start = StaticEntity.parseInt( dashIndex == -1 ? range : range.substring( 0, dashIndex ) );
 
 		if ( dashIndex == -1 )
-			return SINGLE_PRECISION_FORMAT.format( isNegative ? 0 - start : start );
+		{
+			return KoLConstants.SINGLE_PRECISION_FORMAT.format( isNegative ? 0 - start : start );
+		}
 
 		int end = StaticEntity.parseInt( range.substring( dashIndex + 1 ) );
-		return SINGLE_PRECISION_FORMAT.format( (start + end) / (isNegative ? -2.0f : 2.0f) );
+		return KoLConstants.SINGLE_PRECISION_FORMAT.format( ( start + end ) / ( isNegative ? -2.0f : 2.0f ) );
 	}
 
 	/**
-	 * Takes an item name and constructs the likely Wiki equivalent
-	 * of that item name.
+	 * Takes an item name and constructs the likely Wiki equivalent of that item name.
 	 */
 
 	private static final String constructWikiName( String name )
 	{
-		name = StaticEntity.globalStringReplace( getDisplayName( name ), " ", "_" );
-		return Character.toUpperCase( name.charAt(0) ) + name.substring(1);
+		name = StaticEntity.globalStringReplace( KoLDatabase.getDisplayName( name ), " ", "_" );
+		return Character.toUpperCase( name.charAt( 0 ) ) + name.substring( 1 );
 	}
 
-	private static final String readWikiData( String name )
+	private static final String readWikiData( final String name )
 	{
 		String line = null;
 		StringBuffer wikiRecord = new StringBuffer();
 
 		try
 		{
-			BufferedReader reader = KoLDatabase.getReader( "http://kol.coldfront.net/thekolwiki/index.php/" + constructWikiName( name ) );
-			while ( (line = reader.readLine()) != null )
+			BufferedReader reader =
+				KoLDatabase.getReader( "http://kol.coldfront.net/thekolwiki/index.php/" + TradeableItemDatabase.constructWikiName( name ) );
+			while ( ( line = reader.readLine() ) != null )
+			{
 				wikiRecord.append( line );
+			}
 			reader.close();
 		}
 		catch ( Exception e )
@@ -455,203 +478,249 @@ public class TradeableItemDatabase extends KoLDatabase
 	}
 
 	/**
-	 * Utility method which searches for the plural version of
-	 * the item on the KoL wiki.
+	 * Utility method which searches for the plural version of the item on the KoL wiki.
 	 */
 
-	public static final void determineWikiData( String name )
+	public static final void determineWikiData( final String name )
 	{
-		String wikiData = readWikiData( name );
+		String wikiData = TradeableItemDatabase.readWikiData( name );
 
-		Matcher itemMatcher = WIKI_ITEMID_PATTERN.matcher( wikiData );
+		Matcher itemMatcher = TradeableItemDatabase.WIKI_ITEMID_PATTERN.matcher( wikiData );
 		if ( !itemMatcher.find() )
 		{
 			RequestLogger.printLine( name + " did not match a valid an item entry." );
 			return;
 		}
 
-		Matcher descMatcher = WIKI_DESCID_PATTERN.matcher( wikiData );
+		Matcher descMatcher = TradeableItemDatabase.WIKI_DESCID_PATTERN.matcher( wikiData );
 		if ( !descMatcher.find() )
 		{
 			RequestLogger.printLine( name + " did not match a valid an item entry." );
 			return;
 		}
 
-		RequestLogger.printLine( "item: " + name + " (#" + itemMatcher.group(1) + ")" );
-		RequestLogger.printLine( "desc: " + descMatcher.group(1) );
+		RequestLogger.printLine( "item: " + name + " (#" + itemMatcher.group( 1 ) + ")" );
+		RequestLogger.printLine( "desc: " + descMatcher.group( 1 ) );
 
-		Matcher pluralMatcher = WIKI_PLURAL_PATTERN.matcher( wikiData );
+		Matcher pluralMatcher = TradeableItemDatabase.WIKI_PLURAL_PATTERN.matcher( wikiData );
 		if ( pluralMatcher.find() )
-			RequestLogger.printLine( "plural: " + pluralMatcher.group(1) );
+		{
+			RequestLogger.printLine( "plural: " + pluralMatcher.group( 1 ) );
+		}
 
-		Matcher sellMatcher = WIKI_AUTOSELL_PATTERN.matcher( wikiData );
+		Matcher sellMatcher = TradeableItemDatabase.WIKI_AUTOSELL_PATTERN.matcher( wikiData );
 		if ( sellMatcher.find() )
-			RequestLogger.printLine( "autosell: " + sellMatcher.group(1) );
+		{
+			RequestLogger.printLine( "autosell: " + sellMatcher.group( 1 ) );
+		}
 	}
 
 	/**
-	 * Temporarily adds an item to the item database.  This
-	 * is used whenever KoLmafia encounters an unknown item
-	 * in the mall or in the player's inventory.
+	 * Temporarily adds an item to the item database. This is used whenever KoLmafia encounters an unknown item in the
+	 * mall or in the player's inventory.
 	 */
 
-	public static final void registerItem( int itemId, String itemName )
-	{	registerItem( itemId, itemName, "" );
+	public static final void registerItem( final int itemId, final String itemName )
+	{
+		TradeableItemDatabase.registerItem( itemId, itemName, "" );
 	}
 
-	public static final void registerItem( int itemId, String itemName, String descriptionId )
+	public static final void registerItem( final int itemId, final String itemName, final String descriptionId )
 	{
 		if ( itemName == null )
+		{
 			return;
+		}
 
 		RequestLogger.printLine( "Unknown item found: " + itemName + " (#" + itemId + ")" );
 
-		useTypeById.set( itemId, 0 );
-		priceById.set( itemId, -1 );
+		TradeableItemDatabase.useTypeById.set( itemId, 0 );
+		TradeableItemDatabase.priceById.set( itemId, -1 );
 
 		Integer id = new Integer( itemId );
 
-		descriptionById.put( id, descriptionId );
-		itemIdByName.put( getCanonicalName( itemName ), id );
-		dataNameById.put( id, itemName );
-		nameById.put( id, getDisplayName( itemName ) );
+		TradeableItemDatabase.descriptionById.put( id, descriptionId );
+		TradeableItemDatabase.itemIdByName.put( KoLDatabase.getCanonicalName( itemName ), id );
+		TradeableItemDatabase.dataNameById.put( id, itemName );
+		TradeableItemDatabase.nameById.put( id, KoLDatabase.getDisplayName( itemName ) );
 	}
 
 	/**
 	 * Returns the Id number for an item, given its name.
-	 * @param	itemName	The name of the item to lookup
-	 * @return	The Id number of the corresponding item
+	 * 
+	 * @param itemName The name of the item to lookup
+	 * @return The Id number of the corresponding item
 	 */
 
-	public static final int getItemId( String itemName )
-	{	return getItemId( itemName, 1 );
+	public static final int getItemId( final String itemName )
+	{
+		return TradeableItemDatabase.getItemId( itemName, 1 );
 	}
 
 	/**
 	 * Returns the Id number for an item, given its name.
-	 * @param	itemName	The name of the item to lookup
-	 * @param	count		How many there are
-	 * @return	The Id number of the corresponding item
+	 * 
+	 * @param itemName The name of the item to lookup
+	 * @param count How many there are
+	 * @return The Id number of the corresponding item
 	 */
 
-	public static final int getItemId( String itemName, int count )
+	public static final int getItemId( final String itemName, final int count )
 	{
 		if ( itemName == null || itemName.length() == 0 )
+		{
 			return -1;
+		}
 
 		// Get the canonical name of the item, and attempt
 		// to parse based on that.
 
-		String canonicalName = getCanonicalName( itemName );
-		Object itemId = itemIdByName.get( canonicalName );
+		String canonicalName = KoLDatabase.getCanonicalName( itemName );
+		Object itemId = TradeableItemDatabase.itemIdByName.get( canonicalName );
 
 		// If the name, as-is, exists in the item database,
 		// then go ahead and return the item Id.
 
 		if ( itemId != null )
-			return ((Integer)itemId).intValue();
+		{
+			return ( (Integer) itemId ).intValue();
+		}
 
 		// Work around a specific KoL bug: the "less-than-three-shaped
 		// box" is sometimes listed as a "less-than-three- shaped box"
 		if ( canonicalName.equals( "less-than-three- shaped box" ) )
+		{
 			return 1168;
+		}
 
 		// See if it's a weird pluralization with a pattern we can't
 		// guess.
 
-		itemId = itemIdByPlural.get( canonicalName );
+		itemId = TradeableItemDatabase.itemIdByPlural.get( canonicalName );
 		if ( itemId != null )
-			return ((Integer)itemId).intValue();
+		{
+			return ( (Integer) itemId ).intValue();
+		}
 
 		// It's possible that you're looking for a substring.  In
 		// that case, prefer complete versions containing the substring
 		// over truncated versions which are plurals.
 
-		List possibilities = getMatchingNames( itemIdByName, canonicalName );
+		List possibilities = KoLDatabase.getMatchingNames( TradeableItemDatabase.itemIdByName, canonicalName );
 		if ( possibilities.size() == 1 )
-			return getItemId( (String) possibilities.get(0), count );
+		{
+			return TradeableItemDatabase.getItemId( (String) possibilities.get( 0 ), count );
+		}
 
 		// Abort if it's clearly not going to be a plural,
 		// since this might kill off multi-item detection.
 
 		if ( count < 2 )
+		{
 			return -1;
+		}
 
 		// Or maybe it's a standard plural where they just add a letter
 		// to the end.
 
-		itemId = itemIdByName.get( canonicalName.substring( 0, canonicalName.length() - 1 ) );
+		itemId = TradeableItemDatabase.itemIdByName.get( canonicalName.substring( 0, canonicalName.length() - 1 ) );
 		if ( itemId != null )
-			return ((Integer)itemId).intValue();
+		{
+			return ( (Integer) itemId ).intValue();
+		}
 
 		// If it's a snowcone, then reverse the word order
 		if ( canonicalName.startsWith( "snowcones" ) )
-			return getItemId( canonicalName.split( " " )[1] + " snowcone", count );
+		{
+			return TradeableItemDatabase.getItemId( canonicalName.split( " " )[ 1 ] + " snowcone", count );
+		}
 
 		// Lo mein has this odd pluralization where there's a dash
 		// introduced into the name when no such dash exists in the
 		// singular form.
 
-		itemId = itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "-", " " ) );
+		itemId = TradeableItemDatabase.itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "-", " " ) );
 		if ( itemId != null )
-			return ((Integer)itemId).intValue();
+		{
+			return ( (Integer) itemId ).intValue();
+		}
 
 		// The word right before the dash may also be pluralized,
 		// so make sure the dashed words are recognized.
 
-		itemId = itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "es-", "-" ) );
+		itemId = TradeableItemDatabase.itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "es-", "-" ) );
 		if ( itemId != null )
-			return ((Integer)itemId).intValue();
+		{
+			return ( (Integer) itemId ).intValue();
+		}
 
-		itemId = itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "s-", "-" ) );
+		itemId = TradeableItemDatabase.itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "s-", "-" ) );
 		if ( itemId != null )
-			return ((Integer)itemId).intValue();
+		{
+			return ( (Integer) itemId ).intValue();
+		}
 
 		// If it's a plural form of "tooth", then make
 		// sure that it's handled.  Other things which
 		// also have "ee" plural forms should be clumped
 		// in as well.
 
-		itemId = itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "ee", "oo" ) );
+		itemId = TradeableItemDatabase.itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "ee", "oo" ) );
 		if ( itemId != null )
-			return ((Integer)itemId).intValue();
+		{
+			return ( (Integer) itemId ).intValue();
+		}
 
 		// Also handle the plural of vortex, which is
 		// "vortices" -- this should only appear in the
 		// meat vortex, but better safe than sorry.
 
-		itemId = itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "ices", "ex" ) );
+		itemId =
+			TradeableItemDatabase.itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "ices", "ex" ) );
 		if ( itemId != null )
-			return ((Integer)itemId).intValue();
+		{
+			return ( (Integer) itemId ).intValue();
+		}
 
 		// Handling of appendices (which is the plural
 		// of appendix, not appendex, so it is not caught
 		// by the previous test).
 
-		itemId = itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "ices", "ix" ) );
+		itemId =
+			TradeableItemDatabase.itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "ices", "ix" ) );
 		if ( itemId != null )
-			return ((Integer)itemId).intValue();
+		{
+			return ( (Integer) itemId ).intValue();
+		}
 
 		// Also add in a special handling for knives
 		// and other things ending in "ife".
 
-		itemId = itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "ives", "ife" ) );
+		itemId =
+			TradeableItemDatabase.itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "ives", "ife" ) );
 		if ( itemId != null )
-			return ((Integer)itemId).intValue();
+		{
+			return ( (Integer) itemId ).intValue();
+		}
 
 		// Also add in a special handling for elves
 		// and other things ending in "f".
 
-		itemId = itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "ves", "f" ) );
+		itemId = TradeableItemDatabase.itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "ves", "f" ) );
 		if ( itemId != null )
-			return ((Integer)itemId).intValue();
+		{
+			return ( (Integer) itemId ).intValue();
+		}
 
 		// Also add in a special handling for staves
 		// and other things ending in "aff".
 
-		itemId = itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "aves", "aff" ) );
+		itemId =
+			TradeableItemDatabase.itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "aves", "aff" ) );
 		if ( itemId != null )
-			return ((Integer)itemId).intValue();
+		{
+			return ( (Integer) itemId ).intValue();
+		}
 
 		// If it's a pluralized form of something that
 		// ends with "y", then return the appropriate
@@ -659,14 +728,20 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		if ( canonicalName.endsWith( "ies" ) )
 		{
-			itemId = itemIdByName.get( canonicalName.substring( 0, canonicalName.length() - 3 ) + "y" );
+			itemId =
+				TradeableItemDatabase.itemIdByName.get( canonicalName.substring( 0, canonicalName.length() - 3 ) + "y" );
 			if ( itemId != null )
-				return ((Integer)itemId).intValue();
+			{
+				return ( (Integer) itemId ).intValue();
+			}
 		}
 
-		itemId = itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "ies ", "y " ) );
+		itemId =
+			TradeableItemDatabase.itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "ies ", "y " ) );
 		if ( itemId != null )
-			return ((Integer)itemId).intValue();
+		{
+			return ( (Integer) itemId ).intValue();
+		}
 
 		// If it's a pluralized form of something that
 		// ends with "o", then return the appropriate
@@ -674,38 +749,50 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		if ( canonicalName.endsWith( "es" ) )
 		{
-			itemId = itemIdByName.get( canonicalName.substring( 0, canonicalName.length() - 2 ) );
+			itemId = TradeableItemDatabase.itemIdByName.get( canonicalName.substring( 0, canonicalName.length() - 2 ) );
 			if ( itemId != null )
-				return ((Integer)itemId).intValue();
+			{
+				return ( (Integer) itemId ).intValue();
+			}
 		}
 
-		itemId = itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "es ", " " ) );
+		itemId = TradeableItemDatabase.itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "es ", " " ) );
 		if ( itemId != null )
-			return ((Integer)itemId).intValue();
+		{
+			return ( (Integer) itemId ).intValue();
+		}
 
 		// If it's a pluralized form of something that
 		// ends with "an", then return the appropriate
 		// item Id for the "en" version.
 
-		itemId = itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "en ", "an " ) );
+		itemId =
+			TradeableItemDatabase.itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "en ", "an " ) );
 		if ( itemId != null )
-			return ((Integer)itemId).intValue();
+		{
+			return ( (Integer) itemId ).intValue();
+		}
 
 		// If it's a standard pluralized forms, then
 		// return the appropriate item Id.
 
-		itemId = itemIdByName.get( canonicalName.replaceFirst( "([A-Za-z])s ", "$1 " ) );
+		itemId = TradeableItemDatabase.itemIdByName.get( canonicalName.replaceFirst( "([A-Za-z])s ", "$1 " ) );
 		if ( itemId != null )
-			return ((Integer)itemId).intValue();
+		{
+			return ( (Integer) itemId ).intValue();
+		}
 
 		// If it's something that ends with 'i', then
 		// it might be a singular ending with 'us'.
 
 		if ( canonicalName.endsWith( "i" ) )
 		{
-			itemId = itemIdByName.get( canonicalName.substring( 0, canonicalName.length() - 1 ) + "us" );
+			itemId =
+				TradeableItemDatabase.itemIdByName.get( canonicalName.substring( 0, canonicalName.length() - 1 ) + "us" );
 			if ( itemId != null )
-				return ((Integer)itemId).intValue();
+			{
+				return ( (Integer) itemId ).intValue();
+			}
 		}
 
 		// Attempt to find the item name by brute force
@@ -716,212 +803,243 @@ public class TradeableItemDatabase extends KoLDatabase
 		// return lastSpaceIndex != -1 ? getItemId( canonicalName.substring( lastSpaceIndex ).trim(), count ) : -1;
 
 		// Unknown item
-                return -1;
+		return -1;
 	}
 
-	public static final boolean meetsLevelRequirement( String name )
+	public static final boolean meetsLevelRequirement( final String name )
 	{
 		if ( name == null )
+		{
 			return false;
+		}
 
-		Integer requirement = (Integer) levelReqByName.get( getCanonicalName( name ) );
+		Integer requirement = (Integer) TradeableItemDatabase.levelReqByName.get( KoLDatabase.getCanonicalName( name ) );
 		return requirement == null ? false : KoLCharacter.getLevel() >= requirement.intValue();
 	}
 
-	public static final int getFullness( String name )
+	public static final int getFullness( final String name )
 	{
 		if ( name == null )
+		{
 			return 0;
+		}
 
-		Integer fullness = (Integer) fullnessByName.get( getCanonicalName( name ) );
+		Integer fullness = (Integer) TradeableItemDatabase.fullnessByName.get( KoLDatabase.getCanonicalName( name ) );
 		return fullness == null ? 0 : fullness.intValue();
 	}
 
-	public static final int getInebriety( String name )
+	public static final int getInebriety( final String name )
 	{
 		if ( name == null )
+		{
 			return 0;
+		}
 
-		Integer inebriety = (Integer) inebrietyByName.get( getCanonicalName( name ) );
+		Integer inebriety = (Integer) TradeableItemDatabase.inebrietyByName.get( KoLDatabase.getCanonicalName( name ) );
 		return inebriety == null ? 0 : inebriety.intValue();
 	}
 
-	public static final int getSpleenHit( String name )
+	public static final int getSpleenHit( final String name )
 	{
 		if ( name == null )
+		{
 			return 0;
+		}
 
-		Integer spleenhit = (Integer) spleenHitByName.get( getCanonicalName( name ) );
+		Integer spleenhit = (Integer) TradeableItemDatabase.spleenHitByName.get( KoLDatabase.getCanonicalName( name ) );
 		return spleenhit == null ? 0 : spleenhit.intValue();
 	}
 
-	public static final String getAdventureRange( String name )
+	public static final String getAdventureRange( final String name )
 	{
 		if ( name == null )
+		{
 			return "+0.0";
+		}
 
-		int fullness = getFullness( name );
-		int inebriety = getInebriety( name );
+		int fullness = TradeableItemDatabase.getFullness( name );
+		int inebriety = TradeableItemDatabase.getInebriety( name );
 
 		String range = null;
 
 		if ( fullness > 0 )
 		{
-			range = (String) getAdventureMap(
-				KoLSettings.getBooleanProperty( "showGainsPerUnit" ),
-				KoLCharacter.getSign().indexOf( "Opossum" ) != -1,
-				activeEffects.contains( GOT_MILK ),
-				KoLSettings.getIntegerProperty( "munchiesPillsUsed" ) > 0 ).get( getCanonicalName( name ) );
+			range =
+				(String) TradeableItemDatabase.getAdventureMap(
+					KoLSettings.getBooleanProperty( "showGainsPerUnit" ),
+					KoLCharacter.getSign().indexOf( "Opossum" ) != -1,
+					KoLConstants.activeEffects.contains( TradeableItemDatabase.GOT_MILK ),
+					KoLSettings.getIntegerProperty( "munchiesPillsUsed" ) > 0 ).get(
+					KoLDatabase.getCanonicalName( name ) );
 		}
 		else if ( inebriety > 0 )
 		{
-			range = (String) getAdventureMap(
-				KoLSettings.getBooleanProperty( "showGainsPerUnit" ),
-				KoLCharacter.getSign().indexOf( "Blender" ) != -1,
-				activeEffects.contains( ODE ),
-				false ).get( getCanonicalName( name ) );
+			range =
+				(String) TradeableItemDatabase.getAdventureMap(
+					KoLSettings.getBooleanProperty( "showGainsPerUnit" ),
+					KoLCharacter.getSign().indexOf( "Blender" ) != -1,
+					KoLConstants.activeEffects.contains( TradeableItemDatabase.ODE ), false ).get(
+					KoLDatabase.getCanonicalName( name ) );
 		}
 
 		if ( range == null )
+		{
 			return "+0.0";
+		}
 
 		return range;
 	}
 
-	public static final String getMuscleRange( String name )
+	public static final String getMuscleRange( final String name )
 	{
 		if ( name == null )
+		{
 			return "+0.0";
+		}
 
-		String range = (String) muscleByName.get( getCanonicalName( name ) );
+		String range = (String) TradeableItemDatabase.muscleByName.get( KoLDatabase.getCanonicalName( name ) );
 		return range == null ? "+0.0" : range;
 	}
 
-	public static final String getMysticalityRange( String name )
+	public static final String getMysticalityRange( final String name )
 	{
 		if ( name == null )
+		{
 			return "+0.0";
+		}
 
-		String range = (String) mysticalityByName.get( getCanonicalName( name ) );
+		String range = (String) TradeableItemDatabase.mysticalityByName.get( KoLDatabase.getCanonicalName( name ) );
 		return range == null ? "+0.0" : range;
 	}
 
-	public static final String getMoxieRange( String name )
+	public static final String getMoxieRange( final String name )
 	{
 		if ( name == null )
+		{
 			return "+0.0";
+		}
 
-		String range = (String) moxieByName.get( getCanonicalName( name ) );
+		String range = (String) TradeableItemDatabase.moxieByName.get( KoLDatabase.getCanonicalName( name ) );
 		return range == null ? "+0.0" : range;
 	}
 
 	/**
 	 * Returns the price for the item with the given Id.
-	 * @return	The price associated with the item
+	 * 
+	 * @return The price associated with the item
 	 */
 
-	public static final int getPriceById( int itemId )
-	{	return priceById.get( itemId );
+	public static final int getPriceById( final int itemId )
+	{
+		return TradeableItemDatabase.priceById.get( itemId );
 	}
 
 	/**
 	 * Returns true if the item is tradeable, otherwise false
-	 * @return	true if item is tradeable
+	 * 
+	 * @return true if item is tradeable
 	 */
 
-	public static final boolean isTradeable( int itemId )
-	{	return tradeableById.get( itemId );
+	public static final boolean isTradeable( final int itemId )
+	{
+		return TradeableItemDatabase.tradeableById.get( itemId );
 	}
 
 	/**
 	 * Returns true if the item is giftable, otherwise false
-	 * @return	true if item is tradeable
+	 * 
+	 * @return true if item is tradeable
 	 */
 
-	public static final boolean isGiftable( int itemId )
-	{	return giftableById.get( itemId );
+	public static final boolean isGiftable( final int itemId )
+	{
+		return TradeableItemDatabase.giftableById.get( itemId );
 	}
 
 	/**
 	 * Returns true if the item is giftable, otherwise false
-	 * @return	true if item is tradeable
+	 * 
+	 * @return true if item is tradeable
 	 */
 
-	public static final boolean isDisplayable( int itemId )
-	{	return displayableById.get( itemId );
+	public static final boolean isDisplayable( final int itemId )
+	{
+		return TradeableItemDatabase.displayableById.get( itemId );
 	}
 
 	/**
 	 * Returns true if the item is a bounty, otherwise false
-	 * @return	true if item is a bounty
+	 * 
+	 * @return true if item is a bounty
 	 */
 
-	public static final boolean isBountyItem( int itemId )
+	public static final boolean isBountyItem( final int itemId )
 	{
-		return	(itemId >= 2099 && itemId <= 2107) ||
-			(itemId >= 2407 && itemId <= 2415) ||
-			(itemId >= 2468 && itemId <= 2473);
+		return itemId >= 2099 && itemId <= 2107 || itemId >= 2407 && itemId <= 2415 || itemId >= 2468 && itemId <= 2473;
 	}
 
 	/**
 	 * Returns the name for an item, given its Id number.
-	 * @param	itemId	The Id number of the item to lookup
-	 * @return	The name of the corresponding item
+	 * 
+	 * @param itemId The Id number of the item to lookup
+	 * @return The name of the corresponding item
 	 */
 
-	public static final String getItemName( int itemId )
-	{	return (String) nameById.get( new Integer( itemId ) );
+	public static final String getItemName( final int itemId )
+	{
+		return (String) TradeableItemDatabase.nameById.get( new Integer( itemId ) );
 	}
 
 	/**
 	 * Returns the name for an item, given its Id number.
-	 * @param	itemId	The Id number of the item to lookup
-	 * @return	The name of the corresponding item
+	 * 
+	 * @param itemId The Id number of the item to lookup
+	 * @return The name of the corresponding item
 	 */
 
-	public static final String getItemName( String descriptionId )
+	public static final String getItemName( final String descriptionId )
 	{
-		Integer itemId = (Integer) itemIdByDescription.get( descriptionId );
-		return itemId == null ? null : getItemName( itemId.intValue() );
+		Integer itemId = (Integer) TradeableItemDatabase.itemIdByDescription.get( descriptionId );
+		return itemId == null ? null : TradeableItemDatabase.getItemName( itemId.intValue() );
 	}
 
 	/**
-	 * Returns a list of all items which contain the given
-	 * substring.  This is useful for people who are doing
-	 * lookups on items.
+	 * Returns a list of all items which contain the given substring. This is useful for people who are doing lookups on
+	 * items.
 	 */
 
-	public static final List getMatchingNames( String substring )
-	{	return getMatchingNames( itemIdByName, substring );
-	}
-
-	/**
-	 * Returns whether or not an item with a given name
-	 * exists in the database; this is useful in the
-	 * event that an item is encountered which is not
-	 * tradeable (and hence, should not be displayed).
-	 *
-	 * @return	<code>true</code> if the item is in the database
-	 */
-
-	public static final boolean contains( String itemName )
-	{	return getItemId( itemName ) != -1;
-	}
-
-	/**
-	 * Returns whether or not the item with the given name
-	 * is usable (this includes edibility).
-	 *
-	 * @return	<code>true</code> if the item is usable
-	 */
-
-	public static final boolean isUsable( String itemName )
+	public static final List getMatchingNames( final String substring )
 	{
-		int itemId = getItemId( itemName );
+		return KoLDatabase.getMatchingNames( TradeableItemDatabase.itemIdByName, substring );
+	}
+
+	/**
+	 * Returns whether or not an item with a given name exists in the database; this is useful in the event that an item
+	 * is encountered which is not tradeable (and hence, should not be displayed).
+	 * 
+	 * @return <code>true</code> if the item is in the database
+	 */
+
+	public static final boolean contains( final String itemName )
+	{
+		return TradeableItemDatabase.getItemId( itemName ) != -1;
+	}
+
+	/**
+	 * Returns whether or not the item with the given name is usable (this includes edibility).
+	 * 
+	 * @return <code>true</code> if the item is usable
+	 */
+
+	public static final boolean isUsable( final String itemName )
+	{
+		int itemId = TradeableItemDatabase.getItemId( itemName );
 		if ( itemId <= 0 )
+		{
 			return false;
+		}
 
-		switch ( useTypeById.get( itemId ) )
+		switch ( TradeableItemDatabase.useTypeById.get( itemId ) )
 		{
 		case CONSUME_EAT:
 		case CONSUME_DRINK:
@@ -940,49 +1058,57 @@ public class TradeableItemDatabase extends KoLDatabase
 
 	/**
 	 * Returns the kind of consumption associated with an item
-	 *
-	 * @return	The consumption associated with the item
+	 * 
+	 * @return The consumption associated with the item
 	 */
 
-	public static final int getConsumptionType( int itemId )
-	{	return itemId <= 0 ? NO_CONSUME : useTypeById.get( itemId );
+	public static final int getConsumptionType( final int itemId )
+	{
+		return itemId <= 0 ? KoLConstants.NO_CONSUME : TradeableItemDatabase.useTypeById.get( itemId );
 	}
 
-	public static final int getConsumptionType( String itemName )
-	{	return getConsumptionType( getItemId( itemName ) );
+	public static final int getConsumptionType( final String itemName )
+	{
+		return TradeableItemDatabase.getConsumptionType( TradeableItemDatabase.getItemId( itemName ) );
 	}
 
 	/**
-	 * Returns the item description Id used by the given
-	 * item, given its item Id.
-	 *
-	 * @return	The description Id associated with the item
+	 * Returns the item description Id used by the given item, given its item Id.
+	 * 
+	 * @return The description Id associated with the item
 	 */
 
-	public static final String getDescriptionId( int itemId )
-	{	return (String)descriptionById.get( new Integer( itemId ) );
+	public static final String getDescriptionId( final int itemId )
+	{
+		return (String) TradeableItemDatabase.descriptionById.get( new Integer( itemId ) );
 	}
 
 	/**
 	 * Returns the set of item names keyed by id
-	 * @return	The set of item names keyed by id
+	 * 
+	 * @return The set of item names keyed by id
 	 */
 
 	public static final Set entrySet()
-	{	return nameById.entrySet();
+	{
+		return TradeableItemDatabase.nameById.entrySet();
 	}
 
 	/**
 	 * Returns the largest item ID
-	 * @return	The largest item ID
+	 * 
+	 * @return The largest item ID
 	 */
 
 	public static final int maxItemId()
-	{	return maxItemId;
+	{
+		return TradeableItemDatabase.maxItemId;
 	}
 
-	private static final Pattern CLOSET_ITEM_PATTERN = Pattern.compile( "<option value='(\\d+)' descid='(.*?)'>(.*?) \\(" );
-	private static final Pattern DESCRIPTION_PATTERN = Pattern.compile( "onClick='descitem\\((\\d+)\\);'></td><td valign=top><b>(.*?)</b>" );
+	private static final Pattern CLOSET_ITEM_PATTERN =
+		Pattern.compile( "<option value='(\\d+)' descid='(.*?)'>(.*?) \\(" );
+	private static final Pattern DESCRIPTION_PATTERN =
+		Pattern.compile( "onClick='descitem\\((\\d+)\\);'></td><td valign=top><b>(.*?)</b>" );
 
 	public static final void findItemDescriptions()
 	{
@@ -990,93 +1116,104 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		KoLRequest updateRequest = new EquipmentRequest( EquipmentRequest.CLOSET );
 		RequestThread.postRequest( updateRequest );
-		Matcher itemMatcher = CLOSET_ITEM_PATTERN.matcher( updateRequest.responseText );
+		Matcher itemMatcher = TradeableItemDatabase.CLOSET_ITEM_PATTERN.matcher( updateRequest.responseText );
 
 		boolean foundChanges = false;
 
 		while ( itemMatcher.find() )
 		{
-			int itemId = parseInt( itemMatcher.group(1) );
-			if ( !descriptionById.get( new Integer ( itemId ) ).equals( "" ) )
+			int itemId = StaticEntity.parseInt( itemMatcher.group( 1 ) );
+			if ( !TradeableItemDatabase.descriptionById.get( new Integer( itemId ) ).equals( "" ) )
+			{
 				continue;
+			}
 
 			foundChanges = true;
-			registerItem( itemId, itemMatcher.group(3), itemMatcher.group(2) );
+			TradeableItemDatabase.registerItem( itemId, itemMatcher.group( 3 ), itemMatcher.group( 2 ) );
 		}
 
 		RequestLogger.printLine( "Parsing for quest items..." );
 		KoLRequest itemChecker = new KoLRequest( "inventory.php?which=3" );
 
 		RequestThread.postRequest( itemChecker );
-		itemMatcher = DESCRIPTION_PATTERN.matcher( itemChecker.responseText );
+		itemMatcher = TradeableItemDatabase.DESCRIPTION_PATTERN.matcher( itemChecker.responseText );
 
 		while ( itemMatcher.find() )
 		{
-			String itemName = itemMatcher.group(2);
+			String itemName = itemMatcher.group( 2 );
 			int itemId = TradeableItemDatabase.getItemId( itemName );
 
 			if ( itemId == -1 )
+			{
 				continue;
+			}
 
-			if ( !descriptionById.get( new Integer( itemId ) ).equals( "" ) )
+			if ( !TradeableItemDatabase.descriptionById.get( new Integer( itemId ) ).equals( "" ) )
+			{
 				continue;
+			}
 
 			foundChanges = true;
-			registerItem( itemId, itemName, itemMatcher.group(1) );
+			TradeableItemDatabase.registerItem( itemId, itemName, itemMatcher.group( 1 ) );
 		}
 
 		if ( foundChanges )
-			saveDataOverride();
+		{
+			TradeableItemDatabase.saveDataOverride();
+		}
 	}
 
 	public static final void saveDataOverride()
 	{
-		File output = new File( DATA_LOCATION, "tradeitems.txt" );
+		File output = new File( UtilityConstants.DATA_LOCATION, "tradeitems.txt" );
 		LogStream writer = LogStream.openStream( output, true );
-		writer.println( TRADEITEMS_VERSION );
+		writer.println( KoLConstants.TRADEITEMS_VERSION );
 
 		int lastInteger = 1;
-		Iterator it = nameById.keySet().iterator();
+		Iterator it = TradeableItemDatabase.nameById.keySet().iterator();
 
 		while ( it.hasNext() )
 		{
 			Integer nextInteger = (Integer) it.next();
 			for ( int i = lastInteger; i < nextInteger.intValue(); ++i )
-				writer.println(i);
+			{
+				writer.println( i );
+			}
 
 			lastInteger = nextInteger.intValue() + 1;
 
-			if ( accessById.containsKey( nextInteger ) )
+			if ( TradeableItemDatabase.accessById.containsKey( nextInteger ) )
 			{
-				writer.println( nextInteger + "\t" + dataNameById.get( nextInteger ) + "\t" +
-					useTypeById.get( nextInteger.intValue() ) + "\t" +
-					accessById.get( nextInteger ) + "\t" + priceById.get( nextInteger.intValue() ) );
+				writer.println( nextInteger + "\t" + TradeableItemDatabase.dataNameById.get( nextInteger ) + "\t" + TradeableItemDatabase.useTypeById.get( nextInteger.intValue() ) + "\t" + TradeableItemDatabase.accessById.get( nextInteger ) + "\t" + TradeableItemDatabase.priceById.get( nextInteger.intValue() ) );
 			}
 			else
 			{
-				writer.println( nextInteger + "\t" + dataNameById.get( nextInteger ) +
-					"\t0\tunknown\t-1" );
+				writer.println( nextInteger + "\t" + TradeableItemDatabase.dataNameById.get( nextInteger ) + "\t0\tunknown\t-1" );
 			}
 		}
 
 		writer.close();
 
-		output = new File( DATA_LOCATION, "itemdescs.txt" );
+		output = new File( UtilityConstants.DATA_LOCATION, "itemdescs.txt" );
 		writer = LogStream.openStream( output, true );
-		writer.println( ITEMDESCS_VERSION );
+		writer.println( KoLConstants.ITEMDESCS_VERSION );
 
-		it = descriptionById.keySet().iterator();
+		it = TradeableItemDatabase.descriptionById.keySet().iterator();
 		while ( it.hasNext() )
 		{
-			Integer id = (Integer)it.next();
+			Integer id = (Integer) it.next();
 			int i = id.intValue();
 			if ( i < 0 )
+			{
 				continue;
+			}
 
-			if ( descriptionById.get( id ).equals( "" ) )
+			if ( TradeableItemDatabase.descriptionById.get( id ).equals( "" ) )
+			{
 				continue;
+			}
 
-			writer.println( i + "\t" + descriptionById.get( id ) + "\t" + nameById.get( id ) + "\t" + pluralById.get(i) );
+			writer.println( i + "\t" + TradeableItemDatabase.descriptionById.get( id ) + "\t" + TradeableItemDatabase.nameById.get( id ) + "\t" + TradeableItemDatabase.pluralById.get( i ) );
 		}
 
 		writer.close();
@@ -1088,34 +1225,40 @@ public class TradeableItemDatabase extends KoLDatabase
 	{
 		int lastAscension = KoLSettings.getIntegerProperty( "lastDustyBottleReset" );
 		if ( lastAscension == KoLCharacter.getAscensions() )
+		{
 			return;
+		}
 
 		KoLmafia.updateDisplay( "Identifying dusty bottles..." );
 
 		// Identify the six dusty bottles
 
 		for ( int i = 2271; i <= 2276; ++i )
-			identifyDustyBottle( i );
+		{
+			TradeableItemDatabase.identifyDustyBottle( i );
+		}
 
 		KoLSettings.setUserProperty( "lastDustyBottleReset", String.valueOf( KoLCharacter.getAscensions() ) );
 
 		// Set the consumption data
 
-		setDustyBottles();
+		TradeableItemDatabase.setDustyBottles();
 	}
 
 	private static final Pattern GLYPH_PATTERN = Pattern.compile( "Arcane Glyph #(\\d)" );
 
-	private static final void identifyDustyBottle( int itemId )
+	private static final void identifyDustyBottle( final int itemId )
 	{
 		String glyph = "";
 
-		String description = rawDescriptionText( itemId );
+		String description = TradeableItemDatabase.rawDescriptionText( itemId );
 		if ( description != null )
 		{
-			Matcher matcher = GLYPH_PATTERN.matcher( description );
+			Matcher matcher = TradeableItemDatabase.GLYPH_PATTERN.matcher( description );
 			if ( matcher.find() )
-				glyph = matcher.group(1);
+			{
+				glyph = matcher.group( 1 );
+			}
 		}
 
 		KoLSettings.setUserProperty( "lastDustyBottle" + itemId, glyph );
@@ -1127,80 +1270,84 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( lastAscension < KoLCharacter.getAscensions() )
 		{
 			for ( int i = 2271; i <= 2276; ++i )
+			{
 				KoLSettings.setUserProperty( "lastDustyBottle" + i, "" );
+			}
 		}
 
-		setDustyBottles();
+		TradeableItemDatabase.setDustyBottles();
 	}
 
 	private static final void setDustyBottles()
 	{
-		setDustyBottle( 2271 );
-		setDustyBottle( 2272 );
-		setDustyBottle( 2273 );
-		setDustyBottle( 2274 );
-		setDustyBottle( 2275 );
-		setDustyBottle( 2276 );
+		TradeableItemDatabase.setDustyBottle( 2271 );
+		TradeableItemDatabase.setDustyBottle( 2272 );
+		TradeableItemDatabase.setDustyBottle( 2273 );
+		TradeableItemDatabase.setDustyBottle( 2274 );
+		TradeableItemDatabase.setDustyBottle( 2275 );
+		TradeableItemDatabase.setDustyBottle( 2276 );
 	}
 
-	private static final void setDustyBottle( int itemId )
+	private static final void setDustyBottle( final int itemId )
 	{
 		int glyph = KoLSettings.getIntegerProperty( "lastDustyBottle" + itemId );
 		switch ( glyph )
 		{
 		case 0:
 			// Unidentified
-			setDustyBottle( itemId, 2, "0", "0", "0", "0" );
+			TradeableItemDatabase.setDustyBottle( itemId, 2, "0", "0", "0", "0" );
 			break;
 		case 1: // "Prince"
 			// "You drink the wine. You've had better, but you've
 			// had worse."
-			setDustyBottle( itemId, 2, "4-5", "6-8", "5-7", "5-9" );
+			TradeableItemDatabase.setDustyBottle( itemId, 2, "4-5", "6-8", "5-7", "5-9" );
 			break;
 		case 2:
 			// "You guzzle the entire bottle of wine before you
 			// realize that it has turned into vinegar. Bleeah."
-			setDustyBottle( itemId, 0, "0", "0", "0", "0" );
+			TradeableItemDatabase.setDustyBottle( itemId, 0, "0", "0", "0", "0" );
 			break;
 		case 3: // "Widget"
 			// "You drink the bottle of wine, then belch up a cloud
 			// of foul-smelling green smoke. Looks like this wine
 			// was infused with wormwood. Spoooooooky."
-			setDustyBottle( itemId, 2, "3-4", "3-6", "15-18", "3-6" );
+			TradeableItemDatabase.setDustyBottle( itemId, 2, "3-4", "3-6", "15-18", "3-6" );
 			break;
 		case 4: // "Snake"
 			// "This wine is fantastic! You gulp down the entire
 			// bottle, and feel great!"
-			setDustyBottle( itemId, 2, "5-7", "10-15", "10-15", "10-15" );
+			TradeableItemDatabase.setDustyBottle( itemId, 2, "5-7", "10-15", "10-15", "10-15" );
 			break;
 		case 5: // "Pitchfork"
 			// "You drink the wine. It tastes pretty good, but when
 			// you get to the bottom, it's full of sediment, which
 			// turns out to be powdered glass. Ow."
-			setDustyBottle( itemId, 2, "4-5", "7-10", "5-7", "8-10" );
+			TradeableItemDatabase.setDustyBottle( itemId, 2, "4-5", "7-10", "5-7", "8-10" );
 			break;
 		case 6:
 			// "You drink the wine, but it seems to have gone
 			// bad. Not in the "turned to vinegar" sense, but the
 			// "turned to crime" sense. It perpetrates some
 			// violence against you on the inside."
-			setDustyBottle( itemId, 2, "0-1", "0", "0", "0" );
+			TradeableItemDatabase.setDustyBottle( itemId, 2, "0-1", "0", "0", "0" );
 			break;
 		}
 	}
 
-	private static final void setDustyBottle( int itemId, int inebriety, String adventures, String muscle, String mysticality, String moxie )
+	private static final void setDustyBottle( final int itemId, final int inebriety, final String adventures,
+		final String muscle, final String mysticality, final String moxie )
 	{
-		String name = getCanonicalName( (String)dataNameById.get( new Integer( itemId ) ) );
+		String name =
+			KoLDatabase.getCanonicalName( (String) TradeableItemDatabase.dataNameById.get( new Integer( itemId ) ) );
 
-		inebrietyByName.put( name, new Integer( inebriety ) );
-		addAdventureRange( name, inebriety, adventures );
-		muscleByName.put( name, extractRange( muscle ) );
-		mysticalityByName.put( name, extractRange( mysticality ) );
-		moxieByName.put( name, extractRange( moxie ) );
+		TradeableItemDatabase.inebrietyByName.put( name, new Integer( inebriety ) );
+		TradeableItemDatabase.addAdventureRange( name, inebriety, adventures );
+		TradeableItemDatabase.muscleByName.put( name, TradeableItemDatabase.extractRange( muscle ) );
+		TradeableItemDatabase.mysticalityByName.put( name, TradeableItemDatabase.extractRange( mysticality ) );
+		TradeableItemDatabase.moxieByName.put( name, TradeableItemDatabase.extractRange( moxie ) );
 	}
 
-	public static final String dustyBottleType( int itemId )
+	public static final String dustyBottleType( final int itemId )
 	{
 		int glyph = KoLSettings.getIntegerProperty( "lastDustyBottle" + itemId );
 		switch ( glyph )
@@ -1237,49 +1384,54 @@ public class TradeableItemDatabase extends KoLDatabase
 	private static final Map containers = new TreeMap();
 	private static final Map famitems = new TreeMap();
 
-	public static final void checkInternalData( int itemId )
+	public static final void checkInternalData( final int itemId )
 	{
-		loadScrapeData();
+		TradeableItemDatabase.loadScrapeData();
 		RequestLogger.printLine( "Checking internal data..." );
-		LogStream report = LogStream.openStream( new File( DATA_LOCATION, "itemdata.txt" ), true );
+		LogStream report = LogStream.openStream( new File( UtilityConstants.DATA_LOCATION, "itemdata.txt" ), true );
 
-		foods.clear();
-		boozes.clear();
-		hats.clear();
-		weapons.clear();
-		offhands.clear();
-		shirts.clear();
-		pants.clear();
-		accessories.clear();
-		containers.clear();
-		famitems.clear();
+		TradeableItemDatabase.foods.clear();
+		TradeableItemDatabase.boozes.clear();
+		TradeableItemDatabase.hats.clear();
+		TradeableItemDatabase.weapons.clear();
+		TradeableItemDatabase.offhands.clear();
+		TradeableItemDatabase.shirts.clear();
+		TradeableItemDatabase.pants.clear();
+		TradeableItemDatabase.accessories.clear();
+		TradeableItemDatabase.containers.clear();
+		TradeableItemDatabase.famitems.clear();
 
 		// Check item names, desc ID, consumption type
 
 		if ( itemId == 0 )
 		{
-			Set keys = descriptionById.keySet();
+			Set keys = TradeableItemDatabase.descriptionById.keySet();
 			Iterator it = keys.iterator();
 			while ( it.hasNext() )
 			{
-				int id = ((Integer)it.next()).intValue();
+				int id = ( (Integer) it.next() ).intValue();
 				if ( id < 1 )
+				{
 					continue;
+				}
 
-				checkItem( id, report );
+				TradeableItemDatabase.checkItem( id, report );
 			}
 
 			String description;
-			LogStream livedata = LogStream.openStream( new File( DATA_LOCATION, "itemhtml.txt" ), true );
+			LogStream livedata =
+				LogStream.openStream( new File( UtilityConstants.DATA_LOCATION, "itemhtml.txt" ), true );
 
 			it = keys.iterator();
 			while ( it.hasNext() )
 			{
-				int id = ((Integer)it.next()).intValue();
+				int id = ( (Integer) it.next() ).intValue();
 				if ( id < 1 )
+				{
 					continue;
+				}
 
-				description = rawDescriptions.get( id );
+				description = TradeableItemDatabase.rawDescriptions.get( id );
 				if ( !description.equals( "" ) )
 				{
 					livedata.println( id );
@@ -1291,30 +1443,30 @@ public class TradeableItemDatabase extends KoLDatabase
 		}
 		else
 		{
-			checkItem( itemId, report );
+			TradeableItemDatabase.checkItem( itemId, report );
 		}
 
 		// Check level limits, equipment, modifiers
 
-		checkLevels( report );
-		checkEquipment( report );
-		checkModifiers( report );
+		TradeableItemDatabase.checkLevels( report );
+		TradeableItemDatabase.checkEquipment( report );
+		TradeableItemDatabase.checkModifiers( report );
 
 		report.close();
 	}
 
-	private static final void checkItem( int itemId, LogStream report )
+	private static final void checkItem( final int itemId, final LogStream report )
 	{
 		Integer id = new Integer( itemId );
 
-		String name = (String)dataNameById.get( id );
+		String name = (String) TradeableItemDatabase.dataNameById.get( id );
 		if ( name == null )
 		{
 			report.println( itemId );
 			return;
 		}
 
-		String rawText = rawDescriptionText( itemId );
+		String rawText = TradeableItemDatabase.rawDescriptionText( itemId );
 
 		if ( rawText == null )
 		{
@@ -1322,14 +1474,14 @@ public class TradeableItemDatabase extends KoLDatabase
 			return;
 		}
 
-		String text = descriptionText( rawText );
+		String text = TradeableItemDatabase.descriptionText( rawText );
 		if ( text == null )
 		{
 			report.println( "# *** " + name + " (" + itemId + ") has malformed description text." );
 			return;
 		}
 
-		String descriptionName = parseName( text );
+		String descriptionName = TradeableItemDatabase.parseName( text );
 		if ( !name.equals( descriptionName ) )
 		{
 			report.println( "# *** " + name + " (" + itemId + ") has description of " + descriptionName + "." );
@@ -1339,17 +1491,17 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		boolean correct = true;
 
-		int type = getConsumptionType( itemId );
-		String descType = parseType( text );
-		if ( !typesMatch( type, descType ) )
+		int type = TradeableItemDatabase.getConsumptionType( itemId );
+		String descType = TradeableItemDatabase.parseType( text );
+		if ( !TradeableItemDatabase.typesMatch( type, descType ) )
 		{
 			report.println( "# *** " + name + " (" + itemId + ") has consumption type of " + type + " but is described as " + descType + "." );
 			correct = false;
 
 		}
 
-		int price = priceById.get( itemId );
-		int descPrice = parsePrice( text );
+		int price = TradeableItemDatabase.priceById.get( itemId );
+		int descPrice = TradeableItemDatabase.parsePrice( text );
 		if ( price != descPrice )
 		{
 			report.println( "# *** " + name + " (" + itemId + ") has price of " + price + " but should be " + descPrice + "." );
@@ -1357,8 +1509,8 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		}
 
-		String access = (String)accessById.get( id );
-		String descAccess = parseAccess( text );
+		String access = (String) TradeableItemDatabase.accessById.get( id );
+		String descAccess = TradeableItemDatabase.parseAccess( text );
 		if ( !access.equals( descAccess ) )
 		{
 			report.println( "# *** " + name + " (" + itemId + ") has access of " + access + " but should be " + descAccess + "." );
@@ -1369,34 +1521,34 @@ public class TradeableItemDatabase extends KoLDatabase
 		switch ( type )
 		{
 		case CONSUME_EAT:
-			foods.put( name, text );
+			TradeableItemDatabase.foods.put( name, text );
 			break;
 		case CONSUME_DRINK:
-			boozes.put( name, text );
+			TradeableItemDatabase.boozes.put( name, text );
 			break;
 		case EQUIP_HAT:
-			hats.put( name, text );
+			TradeableItemDatabase.hats.put( name, text );
 			break;
 		case EQUIP_PANTS:
-			pants.put( name, text );
+			TradeableItemDatabase.pants.put( name, text );
 			break;
 		case EQUIP_SHIRT:
-			shirts.put( name, text );
+			TradeableItemDatabase.shirts.put( name, text );
 			break;
 		case EQUIP_WEAPON:
-			weapons.put( name, text );
+			TradeableItemDatabase.weapons.put( name, text );
 			break;
 		case EQUIP_OFFHAND:
-			offhands.put( name, text );
+			TradeableItemDatabase.offhands.put( name, text );
 			break;
 		case EQUIP_ACCESSORY:
-			accessories.put( name, text );
+			TradeableItemDatabase.accessories.put( name, text );
 			break;
 		case EQUIP_CONTAINER:
-			containers.put( name, text );
+			TradeableItemDatabase.containers.put( name, text );
 			break;
 		case EQUIP_FAMILIAR:
-			famitems.put( name, text );
+			TradeableItemDatabase.famitems.put( name, text );
 			break;
 		}
 
@@ -1405,34 +1557,42 @@ public class TradeableItemDatabase extends KoLDatabase
 
 	private static final KoLRequest DESC_REQUEST = new KoLRequest( "desc_item.php" );
 
-	private static final String rawDescriptionText( int itemId )
+	private static final String rawDescriptionText( final int itemId )
 	{
 		Integer id = new Integer( itemId );
-		String descId = (String)descriptionById.get( id );
+		String descId = (String) TradeableItemDatabase.descriptionById.get( id );
 		if ( descId == null || descId.equals( "" ) )
+		{
 			return null;
+		}
 
-		String previous = rawDescriptions.get( itemId );
+		String previous = TradeableItemDatabase.rawDescriptions.get( itemId );
 		if ( previous != null && !previous.equals( "" ) )
+		{
 			return previous;
+		}
 
-		DESC_REQUEST.addFormField( "whichitem", descId );
-		RequestThread.postRequest( DESC_REQUEST );
-		rawDescriptions.set( itemId, DESC_REQUEST.responseText );
+		TradeableItemDatabase.DESC_REQUEST.addFormField( "whichitem", descId );
+		RequestThread.postRequest( TradeableItemDatabase.DESC_REQUEST );
+		TradeableItemDatabase.rawDescriptions.set( itemId, TradeableItemDatabase.DESC_REQUEST.responseText );
 
-		return DESC_REQUEST.responseText;
+		return TradeableItemDatabase.DESC_REQUEST.responseText;
 	}
 
 	private static final void loadScrapeData()
 	{
-		if ( rawDescriptions.size() > 0 )
+		if ( TradeableItemDatabase.rawDescriptions.size() > 0 )
+		{
 			return;
+		}
 
 		try
 		{
-			File saveData = new File( DATA_LOCATION, "itemhtml.txt" );
+			File saveData = new File( UtilityConstants.DATA_LOCATION, "itemhtml.txt" );
 			if ( !saveData.exists() )
+			{
 				return;
+			}
 
 			RequestLogger.printLine( "Loading previous data..." );
 
@@ -1440,20 +1600,20 @@ public class TradeableItemDatabase extends KoLDatabase
 			StringBuffer currentHTML = new StringBuffer();
 			BufferedReader reader = KoLDatabase.getReader( saveData );
 
-			while ( !(currentLine = reader.readLine()).equals( "" ) )
+			while ( !( currentLine = reader.readLine() ).equals( "" ) )
 			{
-				currentHTML.setLength(0);
+				currentHTML.setLength( 0 );
 				int currentId = StaticEntity.parseInt( currentLine );
 
 				do
 				{
 					currentLine = reader.readLine();
 					currentHTML.append( currentLine );
-					currentHTML.append( LINE_BREAK );
+					currentHTML.append( KoLConstants.LINE_BREAK );
 				}
 				while ( !currentLine.equals( "</html>" ) );
 
-				rawDescriptions.set( currentId, currentHTML.toString() );
+				TradeableItemDatabase.rawDescriptions.set( currentId, currentHTML.toString() );
 				reader.readLine();
 			}
 
@@ -1468,67 +1628,83 @@ public class TradeableItemDatabase extends KoLDatabase
 
 	private static final Pattern DATA_PATTERN = Pattern.compile( "<img.*?><br>(.*?)<script", Pattern.DOTALL );
 
-	private static final String descriptionText( String rawText )
+	private static final String descriptionText( final String rawText )
 	{
-		Matcher matcher = DATA_PATTERN.matcher( rawText );
+		Matcher matcher = TradeableItemDatabase.DATA_PATTERN.matcher( rawText );
 		if ( !matcher.find() )
+		{
 			return null;
+		}
 
-		return matcher.group(1);
+		return matcher.group( 1 );
 	}
 
 	private static final Pattern NAME_PATTERN = Pattern.compile( "<b>(.*?)</b>" );
 
-	private static final String parseName( String text )
+	private static final String parseName( final String text )
 	{
-		Matcher matcher = NAME_PATTERN.matcher( text );
+		Matcher matcher = TradeableItemDatabase.NAME_PATTERN.matcher( text );
 		if ( !matcher.find() )
+		{
 			return "";
+		}
 
 		// One item is known to have an extra internal space
-		return StaticEntity.globalStringReplace( matcher.group(1), "  ", " " );
+		return StaticEntity.globalStringReplace( matcher.group( 1 ), "  ", " " );
 	}
 
 	private static final Pattern PRICE_PATTERN = Pattern.compile( "Selling Price: <b>(\\d+) Meat.</b>" );
 
-	private static final int parsePrice( String text )
+	private static final int parsePrice( final String text )
 	{
-		Matcher matcher = PRICE_PATTERN.matcher( text );
+		Matcher matcher = TradeableItemDatabase.PRICE_PATTERN.matcher( text );
 		if ( !matcher.find() )
+		{
 			return 0;
+		}
 
-		return StaticEntity.parseInt( matcher.group(1) );
+		return StaticEntity.parseInt( matcher.group( 1 ) );
 	}
 
-	private static final String parseAccess( String text )
+	private static final String parseAccess( final String text )
 	{
 		if ( text.indexOf( "Quest Item" ) != -1 )
+		{
 			return "none";
+		}
 
 		if ( text.indexOf( "Gift Item" ) != -1 )
+		{
 			return "gift";
+		}
 
 		if ( text.indexOf( "Cannot be traded" ) != -1 )
+		{
 			return "display";
+		}
 
 		return "all";
 	}
 
 	private static final Pattern TYPE_PATTERN = Pattern.compile( "Type: <b>(.*?)</b>" );
 
-	private static final String parseType( String text )
+	private static final String parseType( final String text )
 	{
-		Matcher matcher = TYPE_PATTERN.matcher( text );
+		Matcher matcher = TradeableItemDatabase.TYPE_PATTERN.matcher( text );
 		if ( !matcher.find() )
+		{
 			return "";
+		}
 
-		return matcher.group(1);
+		return matcher.group( 1 );
 	}
 
-	private static final boolean typesMatch( int type, String descType )
+	private static final boolean typesMatch( final int type, final String descType )
 	{
 		if ( descType.equals( "" ) )
+		{
 			return true;
+		}
 
 		switch ( type )
 		{
@@ -1576,71 +1752,79 @@ public class TradeableItemDatabase extends KoLDatabase
 		return false;
 	}
 
-	private static final void checkLevels( LogStream report )
+	private static final void checkLevels( final LogStream report )
 	{
 		RequestLogger.printLine( "Checking level requirements..." );
 
-		checkLevelMap( report, foods, "Food" );
-		checkLevelMap( report, boozes, "Booze" );
+		TradeableItemDatabase.checkLevelMap( report, TradeableItemDatabase.foods, "Food" );
+		TradeableItemDatabase.checkLevelMap( report, TradeableItemDatabase.boozes, "Booze" );
 	}
 
-	private static final void checkLevelMap( LogStream report, Map map, String tag )
+	private static final void checkLevelMap( final LogStream report, final Map map, final String tag )
 	{
 		if ( map.size() == 0 )
+		{
 			return;
+		}
 
 		RequestLogger.printLine( "Checking " + tag + "..." );
 
 		report.println( "" );
-		report.println( "# Level requirements in " + ( map == foods ? "fullness" : "inebriety" ) + ".txt" );
+		report.println( "# Level requirements in " + ( map == TradeableItemDatabase.foods ? "fullness" : "inebriety" ) + ".txt" );
 
-		Object [] keys = map.keySet().toArray();
+		Object[] keys = map.keySet().toArray();
 		for ( int i = 0; i < keys.length; ++i )
 		{
-			String name = (String)keys[i];
-			String text = (String)map.get( name );
-			checkLevelDatum( name, text, report );
+			String name = (String) keys[ i ];
+			String text = (String) map.get( name );
+			TradeableItemDatabase.checkLevelDatum( name, text, report );
 		}
 	}
 
-	private static final void checkLevelDatum( String name, String text, LogStream report )
+	private static final void checkLevelDatum( final String name, final String text, final LogStream report )
 	{
-		Integer requirement = (Integer)levelReqByName.get( getCanonicalName( name ) );
+		Integer requirement = (Integer) TradeableItemDatabase.levelReqByName.get( KoLDatabase.getCanonicalName( name ) );
 		int level = requirement == null ? 0 : requirement.intValue();
-		int descLevel = parseLevel( text );
+		int descLevel = TradeableItemDatabase.parseLevel( text );
 		if ( level != descLevel )
+		{
 			report.println( "# *** " + name + " requires level " + level + " but should be " + descLevel + "." );
+		}
 	}
 
 	private static final Pattern LEVEL_PATTERN = Pattern.compile( "Level required: <b>(.*?)</b>" );
 
-	private static final int parseLevel( String text )
+	private static final int parseLevel( final String text )
 	{
-		Matcher matcher = LEVEL_PATTERN.matcher( text );
+		Matcher matcher = TradeableItemDatabase.LEVEL_PATTERN.matcher( text );
 		if ( !matcher.find() )
+		{
 			return 1;
+		}
 
-		return StaticEntity.parseInt( matcher.group(1) );
+		return StaticEntity.parseInt( matcher.group( 1 ) );
 	}
 
-	private static final void checkEquipment( LogStream report )
+	private static final void checkEquipment( final LogStream report )
 	{
 
 		RequestLogger.printLine( "Checking equipment..." );
 
-		checkEquipmentMap( report, hats, "Hats" );
-		checkEquipmentMap( report, pants, "Pants" );
-		checkEquipmentMap( report, shirts, "Shirts" );
-		checkEquipmentMap( report, weapons, "Weapons" );
-		checkEquipmentMap( report, offhands, "Off-hand" );
-		checkEquipmentMap( report, accessories, "Accessories" );
-		checkEquipmentMap( report, containers, "Containers" );
+		TradeableItemDatabase.checkEquipmentMap( report, TradeableItemDatabase.hats, "Hats" );
+		TradeableItemDatabase.checkEquipmentMap( report, TradeableItemDatabase.pants, "Pants" );
+		TradeableItemDatabase.checkEquipmentMap( report, TradeableItemDatabase.shirts, "Shirts" );
+		TradeableItemDatabase.checkEquipmentMap( report, TradeableItemDatabase.weapons, "Weapons" );
+		TradeableItemDatabase.checkEquipmentMap( report, TradeableItemDatabase.offhands, "Off-hand" );
+		TradeableItemDatabase.checkEquipmentMap( report, TradeableItemDatabase.accessories, "Accessories" );
+		TradeableItemDatabase.checkEquipmentMap( report, TradeableItemDatabase.containers, "Containers" );
 	}
 
-	private static final void checkEquipmentMap( LogStream report, Map map, String tag )
+	private static final void checkEquipmentMap( final LogStream report, final Map map, final String tag )
 	{
 		if ( map.size() == 0 )
+		{
 			return;
+		}
 
 		RequestLogger.printLine( "Checking " + tag + "..." );
 
@@ -1648,12 +1832,12 @@ public class TradeableItemDatabase extends KoLDatabase
 		report.println( "# " + tag + " section of equipment.txt" );
 		report.println();
 
-		Object [] keys = map.keySet().toArray();
+		Object[] keys = map.keySet().toArray();
 		for ( int i = 0; i < keys.length; ++i )
 		{
-			String name = (String)keys[i];
-			String text = (String)map.get( name );
-			checkEquipmentDatum( name, text, report );
+			String name = (String) keys[ i ];
+			String text = (String) map.get( name );
+			TradeableItemDatabase.checkEquipmentDatum( name, text, report );
 		}
 	}
 
@@ -1661,26 +1845,34 @@ public class TradeableItemDatabase extends KoLDatabase
 	private static final Pattern REQ_PATTERN = Pattern.compile( "(\\w+) Required: <b>(\\d+)</b>" );
 	private static final Pattern WEAPON_PATTERN = Pattern.compile( "weapon [(](.*?)[)]" );
 
-	private static final void checkEquipmentDatum( String name, String text, LogStream report )
+	private static final void checkEquipmentDatum( final String name, final String text, final LogStream report )
 	{
 		Matcher matcher;
 
-		String type = parseType( text );
+		String type = TradeableItemDatabase.parseType( text );
 		boolean isWeapon = false, isShield = false, hasPower = false;
 
 		if ( type.indexOf( "weapon" ) != -1 )
+		{
 			isWeapon = true;
+		}
 		else if ( type.indexOf( "shield" ) != -1 )
+		{
 			isShield = true;
-		else if ( type.indexOf( "hat" ) != -1 || type.indexOf( "pants" ) != -1	|| type.indexOf( "shirt" ) != -1 )
+		}
+		else if ( type.indexOf( "hat" ) != -1 || type.indexOf( "pants" ) != -1 || type.indexOf( "shirt" ) != -1 )
+		{
 			hasPower = true;
+		}
 
 		int power = 0;
 		if ( isWeapon || hasPower )
 		{
-			matcher = POWER_PATTERN.matcher( text );
+			matcher = TradeableItemDatabase.POWER_PATTERN.matcher( text );
 			if ( matcher.find() )
-				power = StaticEntity.parseInt( matcher.group(1) );
+			{
+				power = StaticEntity.parseInt( matcher.group( 1 ) );
+			}
 		}
 		else if ( isShield )
 		{
@@ -1692,48 +1884,69 @@ public class TradeableItemDatabase extends KoLDatabase
 		String weaponType = "";
 		if ( isWeapon )
 		{
-			matcher = WEAPON_PATTERN.matcher( text );
+			matcher = TradeableItemDatabase.WEAPON_PATTERN.matcher( text );
 			if ( matcher.find() )
-				weaponType = matcher.group(1);
+			{
+				weaponType = matcher.group( 1 );
+			}
 		}
 
 		String req = "none";
 
-		matcher = REQ_PATTERN.matcher( text );
-		if (matcher.find() )
+		matcher = TradeableItemDatabase.REQ_PATTERN.matcher( text );
+		if ( matcher.find() )
 		{
-			String stat = matcher.group(1);
+			String stat = matcher.group( 1 );
 			if ( stat.equals( "Muscle" ) )
-				req = "Mus: " + matcher.group(2);
+			{
+				req = "Mus: " + matcher.group( 2 );
+			}
 			else if ( stat.equals( "Mysticality" ) )
-				req = "Mys: " + matcher.group(2);
+			{
+				req = "Mys: " + matcher.group( 2 );
+			}
 			else if ( stat.equals( "Moxie" ) )
-				req = "Mox: " + matcher.group(2);
+			{
+				req = "Mox: " + matcher.group( 2 );
+			}
 		}
 		else if ( isWeapon )
 		{
 			if ( type.indexOf( "ranged" ) != -1 )
+			{
 				req = "Mox: 0";
+			}
 			else if ( weaponType.indexOf( "utensil" ) != -1 || weaponType.indexOf( "saucepan" ) != -1 || weaponType.indexOf( "chefstaff" ) != -1 )
+			{
 				req = "Mys: 0";
+			}
 			else
+			{
 				req = "Mus: 0";
+			}
 		}
 
 		// Now check against what we already have
 		int oldPower = EquipmentDatabase.getPower( name );
 		if ( power != oldPower )
+		{
 			report.println( "# *** " + name + " has power " + oldPower + " but should be " + power + "." );
+		}
 
 		String oldReq = EquipmentDatabase.getReq( name );
 		if ( !req.equals( oldReq ) )
+		{
 			report.println( "# *** " + name + " has requirement " + oldReq + " but should be " + req + "." );
+		}
 
 		if ( isWeapon )
 		{
-			String oldWeaponType = String.valueOf( EquipmentDatabase.getHands( name ) ) + "-handed " + EquipmentDatabase.getType( name );
+			String oldWeaponType =
+				String.valueOf( EquipmentDatabase.getHands( name ) ) + "-handed " + EquipmentDatabase.getType( name );
 			if ( !weaponType.equals( oldWeaponType ) )
+			{
 				report.println( "# *** " + name + " has weapon type " + oldWeaponType + " but should be " + weaponType + "." );
+			}
 		}
 		else if ( isShield && power == 0 )
 		{
@@ -1741,44 +1954,57 @@ public class TradeableItemDatabase extends KoLDatabase
 		}
 
 		if ( isWeapon )
-			report.println( name + "\t" + power + "\t" + req  + "\t" + weaponType );
+		{
+			report.println( name + "\t" + power + "\t" + req + "\t" + weaponType );
+		}
 		else
+		{
 			report.println( name + "\t" + power + "\t" + req );
+		}
 	}
 
-	private static final void checkModifiers( LogStream report )
+	private static final void checkModifiers( final LogStream report )
 	{
 		RequestLogger.printLine( "Checking modifiers..." );
 		ArrayList unknown = new ArrayList();
 
-		checkModifierMap( report, hats, "Hats", unknown );
-		checkModifierMap( report, pants, "Pants", unknown );
-		checkModifierMap( report, shirts, "Shirts", unknown );
-		checkModifierMap( report, weapons, "Weapons", unknown );
-		checkModifierMap( report, offhands, "Off-hand", unknown );
-		checkModifierMap( report, accessories, "Accessories", unknown );
-		checkModifierMap( report, containers, "Containers", unknown );
-		checkModifierMap( report, famitems, "Familiar Items", unknown );
+		TradeableItemDatabase.checkModifierMap( report, TradeableItemDatabase.hats, "Hats", unknown );
+		TradeableItemDatabase.checkModifierMap( report, TradeableItemDatabase.pants, "Pants", unknown );
+		TradeableItemDatabase.checkModifierMap( report, TradeableItemDatabase.shirts, "Shirts", unknown );
+		TradeableItemDatabase.checkModifierMap( report, TradeableItemDatabase.weapons, "Weapons", unknown );
+		TradeableItemDatabase.checkModifierMap( report, TradeableItemDatabase.offhands, "Off-hand", unknown );
+		TradeableItemDatabase.checkModifierMap( report, TradeableItemDatabase.accessories, "Accessories", unknown );
+		TradeableItemDatabase.checkModifierMap( report, TradeableItemDatabase.containers, "Containers", unknown );
+		TradeableItemDatabase.checkModifierMap( report, TradeableItemDatabase.famitems, "Familiar Items", unknown );
 
 		if ( unknown.size() == 0 )
+		{
 			return;
+		}
 
 		Collections.sort( unknown );
 
 		for ( int i = 0; i < 10; ++i )
+		{
 			report.println();
+		}
 
 		report.println( "# Unknown Modifiers section of modifiers.txt" );
 		report.println();
 
 		for ( int i = 0; i < unknown.size(); ++i )
-			report.println( "# " + (String)unknown.get(i) );
+		{
+			report.println( "# " + (String) unknown.get( i ) );
+		}
 	}
 
-	private static final void checkModifierMap( LogStream report, Map map, String tag, ArrayList unknown )
+	private static final void checkModifierMap( final LogStream report, final Map map, final String tag,
+		final ArrayList unknown )
 	{
 		if ( map.size() == 0 )
+		{
 			return;
+		}
 
 		RequestLogger.printLine( "Checking " + tag + "..." );
 
@@ -1786,28 +2012,34 @@ public class TradeableItemDatabase extends KoLDatabase
 		report.println( "# " + tag + " section of modifiers.txt" );
 		report.println();
 
-		Object [] keys = map.keySet().toArray();
+		Object[] keys = map.keySet().toArray();
 		for ( int i = 0; i < keys.length; ++i )
 		{
-			String name = (String)keys[i];
-			String text = (String)map.get( name );
-			checkModifierDatum( name, text, report, unknown );
+			String name = (String) keys[ i ];
+			String text = (String) map.get( name );
+			TradeableItemDatabase.checkModifierDatum( name, text, report, unknown );
 		}
 	}
 
-	private static final void checkModifierDatum( String name, String text, LogStream report, ArrayList unknown )
+	private static final void checkModifierDatum( final String name, final String text, final LogStream report,
+		final ArrayList unknown )
 	{
-		String known = parseEnchantments( text, unknown );
+		String known = TradeableItemDatabase.parseEnchantments( text, unknown );
 
 		if ( known.equals( "" ) )
+		{
 			report.println( "# " + name );
+		}
 		else
+		{
 			report.println( name + "\t" + known );
+		}
 	}
 
-	private static final Pattern ENCHANTMENT_PATTERN = Pattern.compile( "Enchantment:.*?<font color=blue>(.*)</font>", Pattern.DOTALL );
+	private static final Pattern ENCHANTMENT_PATTERN =
+		Pattern.compile( "Enchantment:.*?<font color=blue>(.*)</font>", Pattern.DOTALL );
 
-	private static final String parseEnchantments( String text, ArrayList unknown )
+	private static final String parseEnchantments( final String text, final ArrayList unknown )
 	{
 		String known = "";
 
@@ -1818,7 +2050,9 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( dr != null )
 		{
 			if ( !known.equals( "" ) )
+			{
 				known += ", ";
+			}
 			known += dr;
 		}
 
@@ -1826,87 +2060,105 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( single != null )
 		{
 			if ( !known.equals( "" ) )
+			{
 				known += ", ";
+			}
 			known += single;
 		}
 
-		Matcher matcher = ENCHANTMENT_PATTERN.matcher( text );
+		Matcher matcher = TradeableItemDatabase.ENCHANTMENT_PATTERN.matcher( text );
 		if ( !matcher.find() )
+		{
 			return known;
+		}
 
-		StringBuffer enchantments = new StringBuffer( matcher.group(1) );
+		StringBuffer enchantments = new StringBuffer( matcher.group( 1 ) );
 
-		StaticEntity.globalStringDelete( enchantments, "<b>NOTE:</b> Items that reduce the MP cost of skills will not do so by more than 3 points, in total." );
-		StaticEntity.globalStringDelete( enchantments, "<b>NOTE:</b> If you wear multiple items that increase Critical Hit chances, only the highest multiplier applies." );
+		StaticEntity.globalStringDelete(
+			enchantments,
+			"<b>NOTE:</b> Items that reduce the MP cost of skills will not do so by more than 3 points, in total." );
+		StaticEntity.globalStringDelete(
+			enchantments,
+			"<b>NOTE:</b> If you wear multiple items that increase Critical Hit chances, only the highest multiplier applies." );
 		StaticEntity.globalStringReplace( enchantments, "<br>", "\n" );
 
-		String [] mods = enchantments.toString().split( "\n+" );
+		String[] mods = enchantments.toString().split( "\n+" );
 		for ( int i = 0; i < mods.length; ++i )
 		{
-			String enchantment = mods[i].trim();
+			String enchantment = mods[ i ].trim();
 
 			if ( enchantment.equals( "" ) )
+			{
 				continue;
+			}
 
 			String mod = Modifiers.parseModifier( enchantment );
 			if ( mod != null )
 			{
 				if ( !known.equals( "" ) )
+				{
 					known += ", ";
+				}
 				known += mod;
 				continue;
 			}
 
 			if ( !unknown.contains( enchantment ) )
+			{
 				unknown.add( enchantment );
+			}
 		}
 
 		return known;
 	}
 
-	public static final void checkPlurals( int itemId )
+	public static final void checkPlurals( final int itemId )
 	{
 		RequestLogger.printLine( "Checking plurals..." );
-		LogStream report = LogStream.openStream( new File( DATA_LOCATION, "plurals.txt" ), true );
+		LogStream report = LogStream.openStream( new File( UtilityConstants.DATA_LOCATION, "plurals.txt" ), true );
 
 		if ( itemId == 0 )
 		{
-			Iterator it = descriptionById.keySet().iterator();
+			Iterator it = TradeableItemDatabase.descriptionById.keySet().iterator();
 			while ( it.hasNext() )
 			{
-				int id = ((Integer)it.next()).intValue();
+				int id = ( (Integer) it.next() ).intValue();
 				if ( id < 0 )
+				{
 					continue;
-				checkPlural( id, report );
+				}
+				TradeableItemDatabase.checkPlural( id, report );
 			}
 		}
 		else
-			checkPlural( itemId, report );
+		{
+			TradeableItemDatabase.checkPlural( itemId, report );
+		}
 
 		report.close();
 	}
 
-	private static final void checkPlural( int itemId, LogStream report )
+	private static final void checkPlural( final int itemId, final LogStream report )
 	{
 		Integer id = new Integer( itemId );
 
-		String name = (String)dataNameById.get( id );
+		String name = (String) TradeableItemDatabase.dataNameById.get( id );
 		if ( name == null )
 		{
 			report.println( itemId );
 			return;
 		}
 
-		String descId = (String)descriptionById.get( id );
-		String plural = pluralById.get(itemId);
+		String descId = (String) TradeableItemDatabase.descriptionById.get( id );
+		String plural = TradeableItemDatabase.pluralById.get( itemId );
 
 		// Don't bother checking quest items
-		String access = (String)accessById.get( id );
+		String access = (String) TradeableItemDatabase.accessById.get( id );
 		if ( access != null && !access.equals( "none" ) )
 		{
-			String wikiData = readWikiData( name );
-			Matcher matcher = WIKI_PLURAL_PATTERN.matcher( wikiData );
-			String wikiPlural = matcher.find() ? matcher.group(1) : "";
+			String wikiData = TradeableItemDatabase.readWikiData( name );
+			Matcher matcher = TradeableItemDatabase.WIKI_PLURAL_PATTERN.matcher( wikiData );
+			String wikiPlural = matcher.find() ? matcher.group( 1 ) : "";
 			if ( plural == null || plural.equals( "" ) )
 			{
 				// No plural. Wiki plural replaces it
@@ -1921,8 +2173,12 @@ public class TradeableItemDatabase extends KoLDatabase
 		}
 
 		if ( plural.equals( "" ) )
+		{
 			report.println( itemId + "\t" + descId + "\t" + name );
+		}
 		else
+		{
 			report.println( itemId + "\t" + descId + "\t" + name + "\t" + plural );
+		}
 	}
 }

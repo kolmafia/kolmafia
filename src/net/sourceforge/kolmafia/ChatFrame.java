@@ -52,7 +52,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 
-public class ChatFrame extends KoLFrame
+public class ChatFrame
+	extends KoLFrame
 {
 	private static final KoLRequest PROFILER = new KoLRequest( "" );
 
@@ -62,25 +63,26 @@ public class ChatFrame extends KoLFrame
 	private static final SimpleDateFormat MARK_TIMESTAMP = new SimpleDateFormat( "HH:mm:ss", Locale.US );
 
 	private ChatPanel mainPanel;
-	private JComboBox nameClickSelect;
+	private final JComboBox nameClickSelect;
 
 	/**
 	 * Constructs a new <code>ChatFrame</code>.
 	 */
 
 	public ChatFrame()
-	{	this( "" );
+	{
+		this( "" );
 	}
 
 	/**
-	 * Constructs a new <code>ChatFrame</code> which is intended to be
-	 * used for instant messaging to the specified contact.
+	 * Constructs a new <code>ChatFrame</code> which is intended to be used for instant messaging to the specified
+	 * contact.
 	 */
 
-	public ChatFrame( String associatedContact )
+	public ChatFrame( final String associatedContact )
 	{
-		super( associatedContact == null || associatedContact.equals( "" ) ? "Loathing Chat" :
-			associatedContact.startsWith( "/" ) ? "Chat: " + associatedContact : "Chat PM: " + associatedContact );
+		super(
+			associatedContact == null || associatedContact.equals( "" ) ? "Loathing Chat" : associatedContact.startsWith( "/" ) ? "Chat: " + associatedContact : "Chat PM: " + associatedContact );
 
 		this.framePanel.setLayout( new BorderLayout( 5, 5 ) );
 		this.initialize( associatedContact );
@@ -105,9 +107,11 @@ public class ChatFrame extends KoLFrame
 		this.nameClickSelect.addItem( "Name click baleets the player" );
 
 		if ( toolbarPanel != null )
+		{
 			toolbarPanel.add( this.nameClickSelect );
+		}
 
-		this.nameClickSelect.setSelectedIndex(0);
+		this.nameClickSelect.setSelectedIndex( 0 );
 
 		// Set the default size so that it doesn't appear super-small
 		// when it's first constructed
@@ -117,9 +121,13 @@ public class ChatFrame extends KoLFrame
 		if ( this.mainPanel != null && associatedContact != null )
 		{
 			if ( associatedContact.startsWith( "/" ) )
+			{
 				this.setTitle( associatedContact );
+			}
 			else
+			{
 				this.setTitle( "private to " + associatedContact );
+			}
 		}
 	}
 
@@ -127,7 +135,9 @@ public class ChatFrame extends KoLFrame
 	{
 
 		if ( !KoLSettings.getBooleanProperty( "useChatToolbar" ) )
+		{
 			return null;
+		}
 
 		JToolBar toolbarPanel = super.getToolbar( true );
 
@@ -141,11 +151,13 @@ public class ChatFrame extends KoLFrame
 	}
 
 	public UnfocusedTabbedPane getTabbedPane()
-	{	return null;
+	{
+		return null;
 	}
 
 	public boolean shouldAddStatusBar()
-	{	return false;
+	{
+		return false;
 	}
 
 	public void dispose()
@@ -153,39 +165,41 @@ public class ChatFrame extends KoLFrame
 		super.dispose();
 
 		if ( this.getAssociatedContact() == null )
+		{
 			KoLMessenger.dispose();
+		}
 		else
+		{
 			KoLMessenger.removeChat( this.getAssociatedContact() );
+		}
 	}
 
 	/**
-	 * Utility method called to initialize the frame.  This
-	 * method should be overridden, should a different means
-	 * of initializing the content of the frame be needed.
+	 * Utility method called to initialize the frame. This method should be overridden, should a different means of
+	 * initializing the content of the frame be needed.
 	 */
 
-	public void initialize( String associatedContact )
+	public void initialize( final String associatedContact )
 	{
 		this.mainPanel = new ChatPanel( associatedContact );
 		this.framePanel.add( this.mainPanel, BorderLayout.CENTER );
 	}
 
 	/**
-	 * Utility method for creating a single panel containing the
-	 * chat display and the entry area.  Note that calling this
-	 * method changes the <code>RequestPane</code> returned by
-	 * calling the <code>getChatDisplay()</code> method.
+	 * Utility method for creating a single panel containing the chat display and the entry area. Note that calling this
+	 * method changes the <code>RequestPane</code> returned by calling the <code>getChatDisplay()</code> method.
 	 */
 
-	public class ChatPanel extends JPanel
+	public class ChatPanel
+		extends JPanel
 	{
 		private int lastCommandIndex = 0;
-		private ArrayList commandHistory;
-		private JTextField entryField;
-		private RequestPane chatDisplay;
-		private String associatedContact;
+		private final ArrayList commandHistory;
+		private final JTextField entryField;
+		private final RequestPane chatDisplay;
+		private final String associatedContact;
 
-		public ChatPanel( String associatedContact )
+		public ChatPanel( final String associatedContact )
 		{
 			super( new BorderLayout() );
 			this.chatDisplay = new RequestPane();
@@ -205,53 +219,67 @@ public class ChatFrame extends KoLFrame
 			entryPanel.add( this.entryField, BorderLayout.CENTER );
 			entryPanel.add( entryButton, BorderLayout.EAST );
 
-			if ( associatedContact.equals( GCLI_TAB ) )
-				this.add( commandBuffer.setChatDisplay( this.chatDisplay ), BorderLayout.CENTER );
+			if ( associatedContact.equals( ChatFrame.GCLI_TAB ) )
+			{
+				this.add( KoLConstants.commandBuffer.setChatDisplay( this.chatDisplay ), BorderLayout.CENTER );
+			}
 			else
-				this.add( KoLMessenger.getChatBuffer( associatedContact ).setChatDisplay( this.chatDisplay ), BorderLayout.CENTER );
+			{
+				this.add(
+					KoLMessenger.getChatBuffer( associatedContact ).setChatDisplay( this.chatDisplay ),
+					BorderLayout.CENTER );
+			}
 
 			this.add( entryPanel, BorderLayout.SOUTH );
 		}
 
 		public String getAssociatedContact()
-		{	return this.associatedContact;
+		{
+			return this.associatedContact;
 		}
 
 		public boolean hasFocus()
 		{
 			if ( this.entryField == null || this.chatDisplay == null )
+			{
 				return false;
+			}
 
 			return this.entryField.hasFocus() || this.chatDisplay.hasFocus();
 		}
 
 		public void requestFocus()
-		{	KoLMessenger.setUpdateChannel( this.getAssociatedContact() );
+		{
+			KoLMessenger.setUpdateChannel( this.getAssociatedContact() );
 		}
 
 		/**
-		 * An action listener responsible for sending the text
-		 * contained within the entry panel to the KoL chat
-		 * server for processing.  This listener spawns a new
-		 * request to the server which then handles everything
-		 * that's needed.
+		 * An action listener responsible for sending the text contained within the entry panel to the KoL chat server
+		 * for processing. This listener spawns a new request to the server which then handles everything that's needed.
 		 */
 
-		private class ChatEntryListener extends KeyAdapter implements ActionListener
+		private class ChatEntryListener
+			extends KeyAdapter
+			implements ActionListener
 		{
-			public void actionPerformed( ActionEvent e )
-			{	this.submitChat();
+			public void actionPerformed( final ActionEvent e )
+			{
+				this.submitChat();
 			}
 
-			public void keyReleased( KeyEvent e )
+			public void keyReleased( final KeyEvent e )
 			{
 				if ( e.isConsumed() )
+				{
 					return;
+				}
 
 				if ( e.getKeyCode() == KeyEvent.VK_UP )
 				{
 					if ( ChatPanel.this.lastCommandIndex <= 0 )
+					{
 						return;
+					}
 
 					ChatPanel.this.entryField.setText( (String) ChatPanel.this.commandHistory.get( --ChatPanel.this.lastCommandIndex ) );
 					e.consume();
@@ -259,7 +287,9 @@ public class ChatFrame extends KoLFrame
 				else if ( e.getKeyCode() == KeyEvent.VK_DOWN )
 				{
 					if ( ChatPanel.this.lastCommandIndex + 1 >= ChatPanel.this.commandHistory.size() )
+					{
 						return;
+					}
 
 					ChatPanel.this.entryField.setText( (String) ChatPanel.this.commandHistory.get( ++ChatPanel.this.lastCommandIndex ) );
 					e.consume();
@@ -276,12 +306,14 @@ public class ChatFrame extends KoLFrame
 				String message = ChatPanel.this.entryField.getText();
 				ChatPanel.this.entryField.setText( "" );
 
-				if ( ChatPanel.this.associatedContact.equals( GCLI_TAB ) )
+				if ( ChatPanel.this.associatedContact.equals( ChatFrame.GCLI_TAB ) )
 				{
 					ChatPanel.this.commandHistory.add( message );
 
 					if ( ChatPanel.this.commandHistory.size() > 10 )
-						ChatPanel.this.commandHistory.remove(0);
+					{
+						ChatPanel.this.commandHistory.remove( 0 );
+					}
 
 					ChatPanel.this.lastCommandIndex = ChatPanel.this.commandHistory.size();
 
@@ -299,8 +331,7 @@ public class ChatFrame extends KoLFrame
 
 				if ( message.equals( "/m" ) || message.startsWith( "/mark" ) )
 				{
-					buffer.append( "<br><hr><center><font size=2>" +
-						MARK_TIMESTAMP.format( new Date() ) + "</font></center><br>" );
+					buffer.append( "<br><hr><center><font size=2>" + ChatFrame.MARK_TIMESTAMP.format( new Date() ) + "</font></center><br>" );
 
 					return;
 				}
@@ -315,9 +346,6 @@ public class ChatFrame extends KoLFrame
 
 				if ( message.length() <= 256 )
 				{
-					// This is a standard-length message.  Send it
-					// without adding additional divisions.
-
 					RequestThread.postRequest( new ChatRequest( ChatPanel.this.associatedContact, message ) );
 				}
 				else if ( message.length() < 1000 || ChatPanel.this.associatedContact.equals( "/clan" ) )
@@ -331,36 +359,44 @@ public class ChatFrame extends KoLFrame
 
 					while ( nextSpaceIndex < message.length() )
 					{
-						nextSpaceIndex = prevSpaceIndex + 240 >= message.length() ? message.length() :
-							message.lastIndexOf( " ", Math.min( prevSpaceIndex + 240, message.length() ) );
+						nextSpaceIndex =
+							prevSpaceIndex + 240 >= message.length() ? message.length() : message.lastIndexOf(
+								" ", Math.min( prevSpaceIndex + 240, message.length() ) );
 
 						if ( nextSpaceIndex == -1 )
+						{
 							nextSpaceIndex = Math.min( prevSpaceIndex + 240, message.length() );
+						}
 
 						trimmedMessage = message.substring( prevSpaceIndex, nextSpaceIndex ).trim();
 
 						if ( prevSpaceIndex != 0 )
+						{
 							trimmedMessage = "... " + trimmedMessage;
+						}
 						if ( nextSpaceIndex != message.length() )
+						{
 							trimmedMessage = trimmedMessage + " ...";
+						}
 						if ( message.startsWith( "/" ) )
+						{
 							trimmedMessage = "/me " + trimmedMessage.replaceFirst( "/[^\\s]*\\s+", "" );
+						}
 
 						splitMessages.add( trimmedMessage );
 						prevSpaceIndex = nextSpaceIndex;
 					}
 
 					for ( int i = 0; i < splitMessages.size(); ++i )
-						RequestThread.postRequest( new ChatRequest( ChatPanel.this.associatedContact, (String) splitMessages.get(i) ) );
+					{
+						RequestThread.postRequest( new ChatRequest(
+							ChatPanel.this.associatedContact, (String) splitMessages.get( i ) ) );
+					}
 				}
 				else
 				{
-					// If the person tried to send a message with more than
-					// 1000 characters to a normal channel, that would flood
-					// the chat too quickly.  Automatically truncate in this
-					// case.
-
-					RequestThread.postRequest( new ChatRequest( ChatPanel.this.associatedContact, message.substring( 0, 256 ) ) );
+					RequestThread.postRequest( new ChatRequest( ChatPanel.this.associatedContact, message.substring(
+						0, 256 ) ) );
 				}
 			}
 		}
@@ -368,11 +404,13 @@ public class ChatFrame extends KoLFrame
 
 	/**
 	 * Returns the name of the contact associated with this frame.
-	 * @return	The name of the contact associated with this frame
+	 * 
+	 * @return The name of the contact associated with this frame
 	 */
 
 	public String getAssociatedContact()
-	{	return this.mainPanel == null ? null : this.mainPanel.getAssociatedContact();
+	{
+		return this.mainPanel == null ? null : this.mainPanel.getAssociatedContact();
 	}
 
 	/**
@@ -380,30 +418,32 @@ public class ChatFrame extends KoLFrame
 	 */
 
 	public boolean hasFocus()
-	{	return super.hasFocus() || (this.mainPanel != null && this.mainPanel.hasFocus());
+	{
+		return super.hasFocus() || this.mainPanel != null && this.mainPanel.hasFocus();
 	}
 
 	/**
-	 * Requests focus to be placed on this chat frame.  It should
-	 * be called whenever this window is first created.
+	 * Requests focus to be placed on this chat frame. It should be called whenever this window is first created.
 	 */
 
 	public void requestFocus()
 	{
 		super.requestFocus();
 		if ( this.mainPanel != null )
+		{
 			this.mainPanel.requestFocus();
+		}
 	}
 
 	/**
-	 * Action listener responsible for displaying private message
-	 * window when a username is clicked, or opening the page in
-	 * a browser if you're clicking something other than the username.
+	 * Action listener responsible for displaying private message window when a username is clicked, or opening the page
+	 * in a browser if you're clicking something other than the username.
 	 */
 
-	private class ChatLinkClickedListener extends KoLHyperlinkAdapter
+	private class ChatLinkClickedListener
+		extends KoLHyperlinkAdapter
 	{
-		public void handleInternalLink( String location )
+		public void handleInternalLink( final String location )
 		{
 			if ( location.startsWith( "makeoffer" ) || location.startsWith( "counteroffer" ) || location.startsWith( "bet" ) )
 			{
@@ -411,74 +451,83 @@ public class ChatFrame extends KoLFrame
 				return;
 			}
 
-			String [] locationSplit = location.split( "[=_]" );
+			String[] locationSplit = location.split( "[=_]" );
 
 			// First, determine the parameters inside of the
 			// location which will be passed to frame classes.
 
-			String playerName = KoLmafia.getPlayerName( locationSplit[1] );
-			Object [] parameters = new Object[] { playerName };
+			String playerName = KoLmafia.getPlayerName( locationSplit[ 1 ] );
+			Object[] parameters = new Object[] { playerName };
 
 			// Next, determine the option which had been
 			// selected in the link-click.
 
-			int linkOption = locationSplit.length == 2 ? 0 : StaticEntity.parseInt( locationSplit[2] );
+			int linkOption = locationSplit.length == 2 ? 0 : StaticEntity.parseInt( locationSplit[ 2 ] );
 
 			if ( linkOption == 0 )
+			{
 				linkOption = ChatFrame.this.nameClickSelect.getSelectedIndex();
+			}
 
 			String urlString = null;
 
 			switch ( linkOption )
 			{
 			case 1:
-				KoLMessenger.openInstantMessage( (String) parameters[0], true );
+				KoLMessenger.openInstantMessage( (String) parameters[ 0 ], true );
 				return;
 
 			case 2:
-				createDisplay( SendMessageFrame.class, parameters );
+				KoLFrame.createDisplay( SendMessageFrame.class, parameters );
 				return;
 
 			case 3:
-				urlString = "makeoffer.php?towho=" + parameters[0];
+				urlString = "makeoffer.php?towho=" + parameters[ 0 ];
 				break;
 
 			case 4:
-				urlString = "displaycollection.php?who=" + KoLmafia.getPlayerId( (String) parameters[0] );
+				urlString = "displaycollection.php?who=" + KoLmafia.getPlayerId( (String) parameters[ 0 ] );
 				break;
 
 			case 5:
-				urlString = "ascensionhistory.php?who=" + KoLmafia.getPlayerId( (String) parameters[0] );
+				urlString = "ascensionhistory.php?who=" + KoLmafia.getPlayerId( (String) parameters[ 0 ] );
 				break;
 
 			case 6:
-				MallSearchFrame.searchMall( new SearchMallRequest( StaticEntity.parseInt( KoLmafia.getPlayerId( (String) parameters[0] ) ) ) );
+				MallSearchFrame.searchMall( new SearchMallRequest(
+					StaticEntity.parseInt( KoLmafia.getPlayerId( (String) parameters[ 0 ] ) ) ) );
 				return;
 
 			case 7:
-				RequestThread.postRequest( new ChatRequest( "/whois", (String) parameters[0] ) );
+				RequestThread.postRequest( new ChatRequest( "/whois", (String) parameters[ 0 ] ) );
 				return;
 
 			case 8:
-				RequestThread.postRequest( new ChatRequest( "/baleet", (String) parameters[0] ) );
+				RequestThread.postRequest( new ChatRequest( "/baleet", (String) parameters[ 0 ] ) );
 				return;
 
 			default:
-				urlString = "showplayer.php?who=" + KoLmafia.getPlayerId( (String) parameters[0] );
+				urlString = "showplayer.php?who=" + KoLmafia.getPlayerId( (String) parameters[ 0 ] );
 				break;
 			}
 
 			if ( KoLSettings.getBooleanProperty( "chatLinksUseRelay" ) || !urlString.startsWith( "show" ) )
+			{
 				StaticEntity.getClient().openRelayBrowser( urlString, false );
+			}
 			else
-				ProfileFrame.showRequest( PROFILER.constructURLString( urlString ) );
+			{
+				ProfileFrame.showRequest( ChatFrame.PROFILER.constructURLString( urlString ) );
+			}
 		}
 	}
 
-	private class MessengerButton extends InvocationButton
+	private class MessengerButton
+		extends InvocationButton
 	{
-		public MessengerButton( String title, String image, String method )
-		{	super( title, image, KoLMessenger.class, method );
+		public MessengerButton( final String title, final String image, final String method )
+		{
+			super( title, image, KoLMessenger.class, method );
 		}
 
 		public void run()

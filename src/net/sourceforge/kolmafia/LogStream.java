@@ -41,26 +41,37 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.Date;
 
-public class LogStream extends PrintStream implements KoLConstants
+import net.java.dev.spellcast.utilities.UtilityConstants;
+
+public class LogStream
+	extends PrintStream
+	implements KoLConstants
 {
-	public static final LogStream openStream( String filename, boolean forceNewFile )
-	{	return openStream( new File( ROOT_LOCATION, filename ), forceNewFile );
+	public static final LogStream openStream( final String filename, final boolean forceNewFile )
+	{
+		return LogStream.openStream( new File( UtilityConstants.ROOT_LOCATION, filename ), forceNewFile );
 	}
 
-	public static final LogStream openStream( File file, boolean forceNewFile )
+	public static final LogStream openStream( final File file, final boolean forceNewFile )
 	{
 		LogStream newStream = null;
 
 		try
 		{
 			if ( file.getParentFile() != null && !file.getParentFile().exists() )
+			{
 				file.getParentFile().mkdirs();
+			}
 
 			if ( forceNewFile && file.exists() )
+			{
 				file.delete();
+			}
 
 			if ( !file.exists() )
+			{
 				file.createNewFile();
+			}
 
 			newStream = new LogStream( file );
 
@@ -77,9 +88,11 @@ public class LogStream extends PrintStream implements KoLConstants
 				versionData.append( ", Java " );
 				versionData.append( System.getProperty( "java.version" ) );
 
-				int leftIndent = (66 - versionData.length()) / 2;
+				int leftIndent = ( 66 - versionData.length() ) / 2;
 				for ( int i = 0; i < leftIndent; ++i )
+				{
 					versionData.insert( 0, ' ' );
+				}
 
 				newStream.println( versionData.toString() );
 
@@ -88,7 +101,7 @@ public class LogStream extends PrintStream implements KoLConstants
 				newStream.println( " you would like us to look at the log, please instead email logs " );
 				newStream.println( " to holatuwol@hotmail.com using the subject \"KoLmafia Debug Log\" " );
 				newStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
-				newStream.println( " Timestamp: " + (new Date()).toString() );
+				newStream.println( " Timestamp: " + ( new Date() ).toString() );
 				newStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
 				newStream.println();
 				newStream.println();
@@ -103,19 +116,22 @@ public class LogStream extends PrintStream implements KoLConstants
 	}
 
 	/**
-	 * Constructs a new <code>LogStream</code> which will append all
-	 * log data to the specified file.  Note that the file must exist
-	 * prior to calling this method.
-	 *
-	 * @param	file	The file used as a log
-	 * @throws	FileNotFoundException	The file does not exist
+	 * Constructs a new <code>LogStream</code> which will append all log data to the specified file. Note that the
+	 * file must exist prior to calling this method.
+	 * 
+	 * @param file The file used as a log
+	 * @throws FileNotFoundException The file does not exist
 	 */
 
-	private LogStream( File file ) throws IOException
-	{	this( new FileOutputStream( file, true ) );
+	private LogStream( final File file )
+		throws IOException
+	{
+		this( new FileOutputStream( file, true ) );
 	}
 
-	private LogStream( OutputStream ostream ) throws IOException
-	{	super( ostream, true, "ISO-8859-1" );
+	private LogStream( final OutputStream ostream )
+		throws IOException
+	{
+		super( ostream, true, "ISO-8859-1" );
 	}
 }

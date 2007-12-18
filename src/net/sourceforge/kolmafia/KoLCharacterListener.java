@@ -37,4 +37,3 @@ public interface KoLCharacterListener
 {
 	public void updateStatus();
 }
-

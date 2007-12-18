@@ -46,87 +46,69 @@ public class Louvre
 	private static final int LAST_CHOICE = 104;
 
 	// The various locations within the Louvre
-	private static final String LouvreLocationNames [] =
-	{
-		"Escher: Relativity",			// 92
-		"Escher: House of Stairs",		// 93
-		"Escher: Labyrinth",			// 94
-		"Escher: Ascending and Descending",	// 95
-		"Mondrian: Moxie, Manetwich, Pinot Renoir",				// 96
-		"Munch: The Scream: Muscle, Manetwich, Vangoghbitussin",			// 97
-		"Botticelli: The Birth of Venus: Mysticality, Vangoghbitussin, Pinot Renoir",	// 98
-		"Michelangelo: The Creation of Adam: Moxie, Pinot Renoir",	// 99
-		"David: The Death of Socrates: Moxie, Manetwich",		// 100
-		"Hopper: Nighthawks: Muscle, Manetwich",			// 101
-		"Seurat: Sunday Afternoon on the Island of La Grande Jatte: Muscle, Vangoghbitussin",	// 102
-		"Leonardo da Vinci: The Last Supper: Mysticality, Vangoghbitussin",	// 103
-		"Dali: The Persistence of Memory: Mysticality, Pinot Renoir",	// 104
+	private static final String LouvreLocationNames[] = { "Escher: Relativity", // 92
+	"Escher: House of Stairs", // 93
+	"Escher: Labyrinth", // 94
+	"Escher: Ascending and Descending", // 95
+	"Mondrian: Moxie, Manetwich, Pinot Renoir", // 96
+	"Munch: The Scream: Muscle, Manetwich, Vangoghbitussin", // 97
+	"Botticelli: The Birth of Venus: Mysticality, Vangoghbitussin, Pinot Renoir", // 98
+	"Michelangelo: The Creation of Adam: Moxie, Pinot Renoir", // 99
+	"David: The Death of Socrates: Moxie, Manetwich", // 100
+	"Hopper: Nighthawks: Muscle, Manetwich", // 101
+	"Seurat: Sunday Afternoon on the Island of La Grande Jatte: Muscle, Vangoghbitussin", // 102
+	"Leonardo da Vinci: The Last Supper: Mysticality, Vangoghbitussin", // 103
+	"Dali: The Persistence of Memory: Mysticality, Pinot Renoir", // 104
 	};
 
 	// 0 = 92, 93, 94, or 95
 
-	private static final int LouvreLocationExits [][] =
-	{
-		{ 96, 97, 98 },			// 92
-		{ 96, 97, 98 },			// 93
-		{ 96, 97, 98 },			// 94
-		{ 96, 97, 98 },			// 95
-		{ 0, 99, 100 },			// 96
-		{ 0, 101, 102 },		// 97
-		{ 0, 103, 104 },		// 98
-		{ 0, 3, 6 },			// 99
-		{ 0, 1, 6 },			// 100
-		{ 0, 1, 4 },			// 101
-		{ 0, 2, 4 },			// 102
-		{ 0, 2, 5 },			// 103
-		{ 0, 3, 5 },			// 104
+	private static final int LouvreLocationExits[][] = { { 96, 97, 98 }, // 92
+	{ 96, 97, 98 }, // 93
+	{ 96, 97, 98 }, // 94
+	{ 96, 97, 98 }, // 95
+	{ 0, 99, 100 }, // 96
+	{ 0, 101, 102 }, // 97
+	{ 0, 103, 104 }, // 98
+	{ 0, 3, 6 }, // 99
+	{ 0, 1, 6 }, // 100
+	{ 0, 1, 4 }, // 101
+	{ 0, 2, 4 }, // 102
+	{ 0, 2, 5 }, // 103
+	{ 0, 3, 5 }, // 104
 	};
 
-	private static final int LouvreGoalHops [][] =
-	{
-		{ 3, 3, 3, 3, 3, 3 },		// 92
-		{ 3, 3, 3, 3, 3, 3 },		// 93
-		{ 3, 3, 3, 3, 3, 3 },		// 94
-		{ 3, 3, 3, 3, 3, 3 },		// 95
-		{ 2, 4, 2, 4, 4, 2 },		// 96
-		{ 2, 2, 4, 2, 4, 4 },		// 97
-		{ 4, 2, 2, 4, 2, 4 },		// 98
-		{ 4, 4, 1, 4, 4, 1 },		// 99
-		{ 1, 4, 4, 4, 4, 1 },		// 100
-		{ 1, 4, 4, 1, 4, 4 },		// 101
-		{ 4, 1, 4, 1, 4, 4 },		// 102
-		{ 4, 1, 4, 4, 1, 4 },		// 103
-		{ 4, 4, 1, 4, 1, 4 },		// 104
+	private static final int LouvreGoalHops[][] = { { 3, 3, 3, 3, 3, 3 }, // 92
+	{ 3, 3, 3, 3, 3, 3 }, // 93
+	{ 3, 3, 3, 3, 3, 3 }, // 94
+	{ 3, 3, 3, 3, 3, 3 }, // 95
+	{ 2, 4, 2, 4, 4, 2 }, // 96
+	{ 2, 2, 4, 2, 4, 4 }, // 97
+	{ 4, 2, 2, 4, 2, 4 }, // 98
+	{ 4, 4, 1, 4, 4, 1 }, // 99
+	{ 1, 4, 4, 4, 4, 1 }, // 100
+	{ 1, 4, 4, 1, 4, 4 }, // 101
+	{ 4, 1, 4, 1, 4, 4 }, // 102
+	{ 4, 1, 4, 4, 1, 4 }, // 103
+	{ 4, 4, 1, 4, 1, 4 }, // 104
 	};
 
-	private static final int goalHops( int source, int goal )
+	private static final int goalHops( final int source, final int goal )
 	{
-		if ( source < FIRST_CHOICE || source > LAST_CHOICE || goal < 1 || goal > 6 )
+		if ( source < Louvre.FIRST_CHOICE || source > Louvre.LAST_CHOICE || goal < 1 || goal > 6 )
+		{
 			return Integer.MAX_VALUE;
+		}
 
-		return LouvreGoalHops[ source - FIRST_CHOICE][ goal - 1 ];
+		return Louvre.LouvreGoalHops[ source - Louvre.FIRST_CHOICE ][ goal - 1 ];
 	}
 
-	public static final String LouvreGoals [] =
-	{
-		"Manetwich",
-		"bottle of Vangoghbitussin",
-		"bottle of Pinot Renoir",
-		"Muscle",
-		"Mysticality",
-		"Moxie"
-	};
+	public static final String LouvreGoals[] =
+		{ "Manetwich", "bottle of Vangoghbitussin", "bottle of Pinot Renoir", "Muscle", "Mysticality", "Moxie" };
 
 	// Identifying strings from the response text
-	public static final String LouvreGoalStrings [] =
-	{
-		"Manetwich",
-		"bottle of Vangoghbitussin",
-		"bottle of Pinot Renoir",
-		"a pretty good workout.",
-		"new insight as to the nature of the universe.",
-		"Moxious!"
-	};
+	public static final String LouvreGoalStrings[] =
+		{ "Manetwich", "bottle of Vangoghbitussin", "bottle of Pinot Renoir", "a pretty good workout.", "new insight as to the nature of the universe.", "Moxious!" };
 
 	// The routing table.
 	//
@@ -139,41 +121,28 @@ public class Louvre
 	// 1 - 6	A goal
 	// X		A destination
 
-	private static final int LouvreRoutingTable [][][] =
-	{
-		{ { 96, 97 }, { 97, 98 }, { 96, 98 },	// 92
-		  { 97 }, { 98 }, { 96 } },
-		{ { 96, 97 }, { 97, 98 }, { 96, 98 },	// 93
-		  { 97 }, { 98 }, { 96 } },
-		{ { 96, 97 }, { 97, 98 }, { 96, 98 },	// 94
-		  { 97 }, { 98 }, { 96 } },
-		{ { 96, 97 }, { 97, 98 }, { 96, 98 },	// 95
-		  { 97 }, { 98 }, { 96 } },
-		{ { 100 }, { 0 }, { 99 },		// 96
-		  { 0 }, { 0 }, { 99, 100 } },
-		{ { 101 }, { 102 }, { 0 },		// 97
-		  { 101, 102 }, { 0 }, { 0 } },
-		{ { 0 }, { 103 }, { 104 },		// 98
-		  { 0 }, { 103, 104 }, { 0 } },
-		{ { 0 }, { 0 }, { 3 },			// 99
-		  { 0 }, { 0 }, { 6 } },
-		{ { 1 }, { 0 }, { 0 },			// 100
-		  { 0 }, { 0 }, { 6 } },
-		{ { 1 }, { 0 }, { 0 },			// 101
-		  { 4 }, { 0 }, { 0 } },
-		{ { 0 }, { 2 }, { 0 },			// 102
-		  { 4 }, { 0 }, { 0 } },
-		{ { 0 }, { 2 }, { 0 },			// 103
-		  { 0 }, { 5 }, { 0 } },
-		{ { 0 }, { 0 }, { 3 },			// 104
-		  { 0 }, { 5 }, { 0 } },
-	};
+	private static final int LouvreRoutingTable[][][] = { { { 96, 97 }, { 97, 98 }, { 96, 98 }, // 92
+	{ 97 }, { 98 }, { 96 } }, { { 96, 97 }, { 97, 98 }, { 96, 98 }, // 93
+	{ 97 }, { 98 }, { 96 } }, { { 96, 97 }, { 97, 98 }, { 96, 98 }, // 94
+	{ 97 }, { 98 }, { 96 } }, { { 96, 97 }, { 97, 98 }, { 96, 98 }, // 95
+	{ 97 }, { 98 }, { 96 } }, { { 100 }, { 0 }, { 99 }, // 96
+	{ 0 }, { 0 }, { 99, 100 } }, { { 101 }, { 102 }, { 0 }, // 97
+	{ 101, 102 }, { 0 }, { 0 } }, { { 0 }, { 103 }, { 104 }, // 98
+	{ 0 }, { 103, 104 }, { 0 } }, { { 0 }, { 0 }, { 3 }, // 99
+	{ 0 }, { 0 }, { 6 } }, { { 1 }, { 0 }, { 0 }, // 100
+	{ 0 }, { 0 }, { 6 } }, { { 1 }, { 0 }, { 0 }, // 101
+	{ 4 }, { 0 }, { 0 } }, { { 0 }, { 2 }, { 0 }, // 102
+	{ 4 }, { 0 }, { 0 } }, { { 0 }, { 2 }, { 0 }, // 103
+	{ 0 }, { 5 }, { 0 } }, { { 0 }, { 0 }, { 3 }, // 104
+	{ 0 }, { 5 }, { 0 } }, };
 
-	private static final int [] routingTuple( int source, int goal )
+	private static final int[] routingTuple( final int source, final int goal )
 	{
-		if ( source < FIRST_CHOICE || source > LAST_CHOICE || goal < 1 || goal > 6 )
+		if ( source < Louvre.FIRST_CHOICE || source > Louvre.LAST_CHOICE || goal < 1 || goal > 6 )
+		{
 			return null;
-		return LouvreRoutingTable[ source - FIRST_CHOICE ][ goal - 1];
+		}
+		return Louvre.LouvreRoutingTable[ source - Louvre.FIRST_CHOICE ][ goal - 1 ];
 	}
 
 	// The choice table.
@@ -185,21 +154,27 @@ public class Louvre
 	// 1 - 6	A goal
 	// X		A destination
 
-	private static final int LouvreChoiceTable [][] = new int [ LAST_CHOICE - FIRST_CHOICE + 1 ][ 3 ];
+	private static final int LouvreChoiceTable[][] = new int[ Louvre.LAST_CHOICE - Louvre.FIRST_CHOICE + 1 ][ 3 ];
 
-	private static final int [] choiceTuple( int source )
+	private static final int[] choiceTuple( final int source )
 	{
-		if ( source < FIRST_CHOICE || source > LAST_CHOICE )
+		if ( source < Louvre.FIRST_CHOICE || source > Louvre.LAST_CHOICE )
+		{
 			return null;
-		return LouvreChoiceTable[ source - FIRST_CHOICE ];
+		}
+		return Louvre.LouvreChoiceTable[ source - Louvre.FIRST_CHOICE ];
 	}
 
 	public static final void reset()
 	{
 		// Reset what we've "learned" about the Louvre choices
-		for ( int i = 0; i < LouvreChoiceTable.length; ++i )
-			for ( int j = 0; j < LouvreChoiceTable[i].length; ++j )
-				LouvreChoiceTable[i][j] = 0;
+		for ( int i = 0; i < Louvre.LouvreChoiceTable.length; ++i )
+		{
+			for ( int j = 0; j < Louvre.LouvreChoiceTable[ i ].length; ++j )
+			{
+				Louvre.LouvreChoiceTable[ i ][ j ] = 0;
+			}
+		}
 
 		int lastLouvreAscension = KoLSettings.getIntegerProperty( "lastLouvreMap" );
 		if ( lastLouvreAscension != KoLCharacter.getAscensions() )
@@ -210,25 +185,34 @@ public class Louvre
 
 		String layout = KoLSettings.getUserProperty( "louvreLayout" );
 		if ( layout.equals( "" ) )
+		{
 			return;
+		}
 
 		int currentIndex = 0;
-		String [] layoutSplit = layout.split( "," );
-		for ( int i = 0; i < LouvreChoiceTable.length; ++i )
-			for ( int j = 0; j < LouvreChoiceTable[i].length; ++j )
-				LouvreChoiceTable[i][j] = StaticEntity.parseInt( layoutSplit[currentIndex++] );
+		String[] layoutSplit = layout.split( "," );
+		for ( int i = 0; i < Louvre.LouvreChoiceTable.length; ++i )
+		{
+			for ( int j = 0; j < Louvre.LouvreChoiceTable[ i ].length; ++j )
+			{
+				Louvre.LouvreChoiceTable[ i ][ j ] = StaticEntity.parseInt( layoutSplit[ currentIndex++ ] );
+			}
+		}
 	}
 
 	public static final void saveMap()
 	{
 		StringBuffer map = new StringBuffer();
 
-		for ( int i = 0; i < LouvreChoiceTable.length; ++i )
+		for ( int i = 0; i < Louvre.LouvreChoiceTable.length; ++i )
 		{
-			for ( int j = 0; j < LouvreChoiceTable[i].length; ++j )
+			for ( int j = 0; j < Louvre.LouvreChoiceTable[ i ].length; ++j )
 			{
-				if ( i != 0 || j != 0 )	 map.append( ',' );
-				map.append( LouvreChoiceTable[i][j] );
+				if ( i != 0 || j != 0 )
+				{
+					map.append( ',' );
+				}
+				map.append( Louvre.LouvreChoiceTable[ i ][ j ] );
 			}
 		}
 
@@ -236,8 +220,9 @@ public class Louvre
 		KoLSettings.setUserProperty( "louvreLayout", map.toString() );
 	}
 
-	public static final boolean louvreChoice( int choice )
-	{	return ( choice >= FIRST_CHOICE && choice <= LAST_CHOICE );
+	public static final boolean louvreChoice( final int choice )
+	{
+		return choice >= Louvre.FIRST_CHOICE && choice <= Louvre.LAST_CHOICE;
 	}
 
 	private static final void resetDecisions()
@@ -247,11 +232,17 @@ public class Louvre
 		if ( goal == Louvre.LouvreGoals.length + 1 )
 		{
 			if ( KoLCharacter.isMuscleClass() )
+			{
 				KoLSettings.setUserProperty( "louvreGoal", "4" );
+			}
 			else if ( KoLCharacter.isMysticalityClass() )
+			{
 				KoLSettings.setUserProperty( "louvreGoal", "5" );
+			}
 			else
+			{
 				KoLSettings.setUserProperty( "louvreGoal", "6" );
+			}
 		}
 		else if ( goal == Louvre.LouvreGoals.length + 2 )
 		{
@@ -264,11 +255,17 @@ public class Louvre
 			int mox = KoLCharacter.getTotalMoxie();
 
 			if ( mus <= mys && mus <= mox )
+			{
 				KoLSettings.setUserProperty( "louvreGoal", "4" );
+			}
 			else if ( mys <= mus && mys <= mox )
+			{
 				KoLSettings.setUserProperty( "louvreGoal", "5" );
+			}
 			else
+			{
 				KoLSettings.setUserProperty( "louvreGoal", "6" );
+			}
 		}
 		else
 		{
@@ -276,9 +273,9 @@ public class Louvre
 		}
 	}
 
-	public static final String handleChoice( String choice, int stepCount )
+	public static final String handleChoice( final String choice, final int stepCount )
 	{
-		resetDecisions();
+		Louvre.resetDecisions();
 
 		// We only handle Louvre choices
 
@@ -286,51 +283,61 @@ public class Louvre
 
 		if ( override.indexOf( "," ) != -1 )
 		{
-			String [] options = override.split( "\\s*,\\s*" );
+			String[] options = override.split( "\\s*,\\s*" );
 			if ( options.length > stepCount )
 			{
 				if ( options[ stepCount ].equalsIgnoreCase( "up" ) )
+				{
 					return "1";
+				}
 				else if ( options[ stepCount ].equalsIgnoreCase( "down" ) )
+				{
 					return "2";
+				}
 				else
+				{
 					return "3";
+				}
 			}
 		}
 
 		int source = StaticEntity.parseInt( choice );
-		if ( !louvreChoice( source ) )
+		if ( !Louvre.louvreChoice( source ) )
+		{
 			return "";
+		}
 
 		// Get the routing tuple for this choice/goal
 		int goal = KoLSettings.getIntegerProperty( "louvreGoal" );
 
 		// Pick the best choice
-		return KoLCharacter.getLevel() < 14 ? pickNewExit( source, goal ) : pickOldExit( source, goal );
+		return KoLCharacter.getLevel() < 14 ? Louvre.pickNewExit( source, goal ) : Louvre.pickOldExit( source, goal );
 	}
 
 	// Node marking to prevent loops
-	private static final boolean NodeMarks [] = new boolean [ LAST_CHOICE - FIRST_CHOICE + 1 ];
+	private static final boolean NodeMarks[] = new boolean[ Louvre.LAST_CHOICE - Louvre.FIRST_CHOICE + 1 ];
 
-	private static final String pickNewExit( int source, int goal )
+	private static final String pickNewExit( final int source, final int goal )
 	{
 		// Examine destinations and take shortest known path to goal
-		int [] choices = choiceTuple( source );
+		int[] choices = Louvre.choiceTuple( source );
 		int choice = 0;
 		int hops = Integer.MAX_VALUE;
 
 		for ( int i = 0; i < choices.length; ++i )
 		{
 			// Clear marks on nodes
-			for ( int j = FIRST_CHOICE; j <= LAST_CHOICE; ++j )
-				NodeMarks[ j - FIRST_CHOICE ] = false;
+			for ( int j = Louvre.FIRST_CHOICE; j <= Louvre.LAST_CHOICE; ++j )
+			{
+				Louvre.NodeMarks[ j - Louvre.FIRST_CHOICE ] = false;
+			}
 
 			// Mark this node
-			NodeMarks[ source - FIRST_CHOICE ] = true;
+			Louvre.NodeMarks[ source - Louvre.FIRST_CHOICE ] = true;
 
 			// Determine how far destination is from goal
 			int destination = choices[ i ];
-			int dist = hopsTo( 0, source, destination, goal );
+			int dist = Louvre.hopsTo( 0, source, destination, goal );
 			if ( dist < hops )
 			{
 				choice = i;
@@ -341,61 +348,74 @@ public class Louvre
 		return String.valueOf( choice + 1 );
 	}
 
-	private static final int hopsTo( int hops, int source, int destination, int goal )
+	private static final int hopsTo( final int hops, final int source, final int destination, final int goal )
 	{
 		// If destination is the goal, we're there
 		if ( destination == goal )
+		{
 			return hops;
+		}
 
 		// If destination is another goal, can't there from here
 		if ( destination >= 1 && destination <= 6 )
+		{
 			return Integer.MAX_VALUE;
+		}
 
 		// If destination is unknown, guess based on source
 		// Add 10 so that a known route will be preferred
-		if ( !louvreChoice( destination ) )
-			return hops + goalHops( source, goal ) + 10;
+		if ( !Louvre.louvreChoice( destination ) )
+		{
+			return hops + Louvre.goalHops( source, goal ) + 10;
+		}
 
 		// Known destination. If we've been here before, punt
-		if ( NodeMarks[ destination - FIRST_CHOICE ] )
+		if ( Louvre.NodeMarks[ destination - Louvre.FIRST_CHOICE ] )
+		{
 			return Integer.MAX_VALUE;
+		}
 
 		// Known destination visited for first time
-		NodeMarks[ destination - FIRST_CHOICE ] = true;
+		Louvre.NodeMarks[ destination - Louvre.FIRST_CHOICE ] = true;
 
 		// Examine destinations and take shortest known path to goal
-		int [] choices = choiceTuple( destination );
+		int[] choices = Louvre.choiceTuple( destination );
 		int nextHops = Integer.MAX_VALUE;
 
 		for ( int i = 0; i < choices.length; ++i )
 		{
 			// Determine how far destination is from goal
-			int dist = hopsTo( hops + 1, destination, choices[ i ], goal );
+			int dist = Louvre.hopsTo( hops + 1, destination, choices[ i ], goal );
 			if ( dist < nextHops )
+			{
 				nextHops = dist;
+			}
 		}
 		return nextHops;
 	}
 
-	public static final String pickOldExit( int source, int goal )
+	public static final String pickOldExit( final int source, final int goal )
 	{
-		int [] tuple = routingTuple( source, goal );
+		int[] tuple = Louvre.routingTuple( source, goal );
 		if ( tuple == null )
+		{
 			return "";
+		}
 
 		// Examine destinations and take one that we know about
-		int [] choices = choiceTuple( source );
+		int[] choices = Louvre.choiceTuple( source );
 		for ( int i = 0; i < tuple.length; ++i )
 		{
-			int option = tuple[i];
+			int option = tuple[ i ];
 			for ( int j = 0; j < choices.length; ++j )
 			{
-				int destination = choices[j];
+				int destination = choices[ j ];
 				// If routing table destination is 0, we any of
 				// 92 - 95 will do. Otherwise, need exact match
-				if ( ( option == 0 && ( destination >= 92 && destination <= 95 ) ) ||
-					 ( option != 0 && option == destination ) )
+				if ( option == 0 && destination >= 92 && destination <= 95 || option != 0 && option == destination )
+				{
 					return String.valueOf( j + 1 );
+				}
 			}
 		}
 
@@ -403,48 +423,58 @@ public class Louvre
 		// haven't explored.
 		for ( int j = 0; j < choices.length; ++j )
 		{
-			if ( choices[j] == 0 )
+			if ( choices[ j ] == 0 )
+			{
 				return String.valueOf( j + 1 );
+			}
 		}
 
 		// Shouldn't get here
 		return "";
 	}
 
-	public static final boolean mapChoice( int lastChoice, String text )
+	public static final boolean mapChoice( final int lastChoice, final String text )
 	{
-		if ( !louvreChoice( lastChoice ) )
+		if ( !Louvre.louvreChoice( lastChoice ) )
+		{
 			return false;
+		}
 
 		int lastDecision = KoLRequest.getLastDecision() - 1;
 		// Punt if bogus decision
 		if ( lastDecision < 0 || lastDecision > 2 )
+		{
 			return true;
+		}
 
 		// Return if we've already mapped this decision
-		if ( LouvreChoiceTable[ lastChoice - FIRST_CHOICE ][ lastDecision] != 0 )
+		if ( Louvre.LouvreChoiceTable[ lastChoice - Louvre.FIRST_CHOICE ][ lastDecision ] != 0 )
+		{
 			return true;
+		}
 
-		Matcher choiceMatcher = CHOICE_PATTERN.matcher( text );
+		Matcher choiceMatcher = Louvre.CHOICE_PATTERN.matcher( text );
 		if ( choiceMatcher.find() )
 		{
-			int source = StaticEntity.parseInt( choiceMatcher.group(1) );
+			int source = StaticEntity.parseInt( choiceMatcher.group( 1 ) );
 
 			// Sanity check: we must stay within the Louvre
-			if ( !louvreChoice( source ) )
+			if ( !Louvre.louvreChoice( source ) )
+			{
 				return false;
+			}
 
 			// Update the path table
-			mapChoice( lastChoice, lastDecision, source);
+			Louvre.mapChoice( lastChoice, lastDecision, source );
 			return true;
 		}
 
 		// Perhaps we have reached a goal
-		for ( int i = 0; i < LouvreGoalStrings.length; ++i )
+		for ( int i = 0; i < Louvre.LouvreGoalStrings.length; ++i )
 		{
-			if ( text.indexOf( LouvreGoalStrings[i] ) != -1 )
+			if ( text.indexOf( Louvre.LouvreGoalStrings[ i ] ) != -1 )
 			{
-				mapChoice( lastChoice, lastDecision, i + 1 );
+				Louvre.mapChoice( lastChoice, lastDecision, i + 1 );
 				return true;
 			}
 		}
@@ -453,41 +483,49 @@ public class Louvre
 		return false;
 	}
 
-	private static final void mapChoice( int choice, int decision, int destination )
+	private static final void mapChoice( final int choice, final int decision, final int destination )
 	{
-		int choices[] = choiceTuple( choice );
+		int choices[] = Louvre.choiceTuple( choice );
 		choices[ decision ] = destination;
-		saveMap();
+		Louvre.saveMap();
 
 		// If 2 choices have been discovered, 3rd might be knowable.
 		int unknownIndex = -1;
 		for ( int i = 0; i < 3; ++i )
 		{
-			if ( choices[i] != 0)
+			if ( choices[ i ] != 0 )
+			{
 				continue;
+			}
 			if ( unknownIndex != -1 )
+			{
 				return;
+			}
 			unknownIndex = i;
 		}
 
 		// Done if all three destinations are known.
 		if ( unknownIndex == -1 )
+		{
 			return;
+		}
 
 		// Find which exit has not been mapped
-		int [] exits = LouvreLocationExits[ choice - FIRST_CHOICE ];
+		int[] exits = Louvre.LouvreLocationExits[ choice - Louvre.FIRST_CHOICE ];
 		for ( int i = 0; i < exits.length; ++i )
 		{
-			int exit = exits[i];
+			int exit = exits[ i ];
 
 			// Can't deduce exit to one of four Escher drawings
 			if ( exit == 0 )
+			{
 				continue;
+			}
 
 			boolean found = false;
 			for ( int j = 0; j < choices.length; ++j )
 			{
-				if ( exit == choices[j] )
+				if ( exit == choices[ j ] )
 				{
 					found = true;
 					break;
@@ -497,66 +535,75 @@ public class Louvre
 			if ( !found )
 			{
 				choices[ unknownIndex ] = exit;
-				saveMap();
+				Louvre.saveMap();
 				return;
 			}
 		}
 	}
 
-	public static final String [][] choiceSpoilers( int choice )
+	public static final String[][] choiceSpoilers( final int choice )
 	{
 		// We only handle Louvre choices
-		if ( !louvreChoice( choice ) )
+		if ( !Louvre.louvreChoice( choice ) )
+		{
 			return null;
+		}
 
 		// Return an array with the same structure as used by built-in
 		// choice adventures.
-		String [][] result = new String[3][];
+		String[][] result = new String[ 3 ][];
 
 		// The choice option is the first element
-		result[0] = new String[1];
-		result[0][0] = "choiceAdventure" + String.valueOf( choice );
+		result[ 0 ] = new String[ 1 ];
+		result[ 0 ][ 0 ] = "choiceAdventure" + String.valueOf( choice );
 
 		// The name of the choice is second element
-		result[1] = new String[1];
-		result[1][0] = LouvreLocationNames[ choice - FIRST_CHOICE ];
+		result[ 1 ] = new String[ 1 ];
+		result[ 1 ][ 0 ] = Louvre.LouvreLocationNames[ choice - Louvre.FIRST_CHOICE ];
 
 		// An array of choice spoilers is the third element
-		int choices[] = choiceTuple( choice );
-		result[2] = new String[3];
-		result[2][0] = choiceName( choice, choices[0] );
-		result[2][1] = choiceName( choice, choices[1] );
-		result[2][2] = choiceName( choice, choices[2] );
+		int choices[] = Louvre.choiceTuple( choice );
+		result[ 2 ] = new String[ 3 ];
+		result[ 2 ][ 0 ] = Louvre.choiceName( choice, choices[ 0 ] );
+		result[ 2 ][ 1 ] = Louvre.choiceName( choice, choices[ 1 ] );
+		result[ 2 ][ 2 ] = Louvre.choiceName( choice, choices[ 2 ] );
 
 		return result;
 	}
 
-	private static final String choiceName( int choice, int destination )
+	private static final String choiceName( final int choice, final int destination )
 	{
 		switch ( destination )
 		{
 		case 0:
 			return "";
-		case 1: case 2: case 3: case 4: case 5: case 6:
-			return LouvreGoals[ destination - 1 ];
+		case 1:
+		case 2:
+		case 3:
+		case 4:
+		case 5:
+		case 6:
+			return Louvre.LouvreGoals[ destination - 1 ];
 		default:
-			return LouvreLocationNames[ destination - FIRST_CHOICE ];
+			return Louvre.LouvreLocationNames[ destination - Louvre.FIRST_CHOICE ];
 		}
 	}
 
-	public static final boolean freeAdventure( String choice, String decision )
+	public static final boolean freeAdventure( final String choice, final String decision )
 	{
 		// "choiceAdventureX"
 		int source = StaticEntity.parseInt( choice.substring( 15 ) );
 
 		// Make sure it's a Louvre adventure
-		if ( !louvreChoice( source ) )
+		if ( !Louvre.louvreChoice( source ) )
+		{
 			return false;
+		}
 
 		// It is. If it stays within the Louvre, it's free
 		int option = StaticEntity.parseInt( decision ) - 1;
-		int destination = LouvreChoiceTable[ source - FIRST_CHOICE ][option];
-		return ( louvreChoice( destination ) );
+		int destination = Louvre.LouvreChoiceTable[ source - Louvre.FIRST_CHOICE ][ option ];
+		return Louvre.louvreChoice( destination );
 	}
 
 	// The Wiki has a Louvre Map:
@@ -592,99 +639,101 @@ public class Louvre
 	// The "random" exit - value chosen so it sorts at the end
 	static final int RANDOM = Integer.MAX_VALUE;
 
-	private static final int WikiToMafia [] =
-	{
-		92,		// 0
-		93,		// 1
-		94,		// 2
-		95,		// 3
-		97,		// 4
-		98,		// 5
-		96,		// 6
-		101,		// 7
-		102,		// 8
-		103,		// 9
-		104,		// 10
-		99,		// 11
-		100,		// 12
-		5,		// 13
-		6,		// 14
-		7,		// 15
-		1,		// 16
-		2,		// 17
-		3,		// 18
+	private static final int WikiToMafia[] = { 92, // 0
+	93, // 1
+	94, // 2
+	95, // 3
+	97, // 4
+	98, // 5
+	96, // 6
+	101, // 7
+	102, // 8
+	103, // 9
+	104, // 10
+	99, // 11
+	100, // 12
+	5, // 13
+	6, // 14
+	7, // 15
+	1, // 16
+	2, // 17
+	3, // 18
 	};
 
-	private static final int mafiaCode( int wikiCode )
+	private static final int mafiaCode( final int wikiCode )
 	{
-		if ( wikiCode == RANDOM )
+		if ( wikiCode == Louvre.RANDOM )
+		{
 			return 0;
-		return WikiToMafia[ wikiCode ];
+		}
+		return Louvre.WikiToMafia[ wikiCode ];
 	}
 
-	private static final int MafiaLocationToWiki [] =
-	{
-		0,		// 92
-		1,		// 93
-		2,		// 94
-		3,		// 95
-		6,		// 96
-		4,		// 97
-		5,		// 98
-		11,		// 99
-		12,		// 100
-		7,		// 101
-		8,		// 102
-		9,		// 103
-		10,		// 104
+	private static final int MafiaLocationToWiki[] = { 0, // 92
+	1, // 93
+	2, // 94
+	3, // 95
+	6, // 96
+	4, // 97
+	5, // 98
+	11, // 99
+	12, // 100
+	7, // 101
+	8, // 102
+	9, // 103
+	10, // 104
 	};
 
-	private static final int MafiaGoalToWiki [] =
-	{
-		16,		// 1
-		17,		// 2
-		18,		// 3
-		13,		// 4
-		14,		// 5
-		15,		// 6
+	private static final int MafiaGoalToWiki[] = { 16, // 1
+	17, // 2
+	18, // 3
+	13, // 4
+	14, // 5
+	15, // 6
 	};
 
-	private static final int wikiCode( int mafiaCode )
+	private static final int wikiCode( final int mafiaCode )
 	{
 		// Map goals through one table
 		if ( mafiaCode >= 1 && mafiaCode <= 6 )
-			return MafiaGoalToWiki[ mafiaCode - 1 ];
+		{
+			return Louvre.MafiaGoalToWiki[ mafiaCode - 1 ];
+		}
 
 		// Map destinations through another table
-		if ( mafiaCode >= FIRST_CHOICE && mafiaCode <= LAST_CHOICE )
-			return MafiaLocationToWiki[ mafiaCode - FIRST_CHOICE ];
+		if ( mafiaCode >= Louvre.FIRST_CHOICE && mafiaCode <= Louvre.LAST_CHOICE )
+		{
+			return Louvre.MafiaLocationToWiki[ mafiaCode - Louvre.FIRST_CHOICE ];
+		}
 
 		// Otherwise, just return max value
-		return RANDOM;
+		return Louvre.RANDOM;
 	}
 
-	private static int WikiLouvreLocationExits [][];
+	private static int WikiLouvreLocationExits[][];
 
 	static
 	{
-		buildWikiExits();
+		Louvre.buildWikiExits();
 	}
 
 	private static final void buildWikiExits()
 	{
 		// Get a zeroed array to start things off.
-		WikiLouvreLocationExits = new int [ LAST_CHOICE - FIRST_CHOICE + 1][ 3 ];
+		Louvre.WikiLouvreLocationExits = new int[ Louvre.LAST_CHOICE - Louvre.FIRST_CHOICE + 1 ][ 3 ];
 
 		// Examine each node in Mafia order
-		for ( int source = FIRST_CHOICE; source <= LAST_CHOICE; ++source )
+		for ( int source = Louvre.FIRST_CHOICE; source <= Louvre.LAST_CHOICE; ++source )
 		{
 			// Get the array of exit paths
-			int mafiaExits[] = LouvreLocationExits[ source - FIRST_CHOICE ];
-			int wikiExits[] = WikiLouvreLocationExits[ wikiCode( source) ];
+			int mafiaExits[] = Louvre.LouvreLocationExits[ source - Louvre.FIRST_CHOICE ];
+			int wikiExits[] = Louvre.WikiLouvreLocationExits[ Louvre.wikiCode( source ) ];
 
 			// Copy translated exit from Mafia exit table to Wiki exit table
 			for ( int i = 0; i < mafiaExits.length; ++i )
-				wikiExits[i] = wikiCode( mafiaExits[i] );
+			{
+				wikiExits[ i ] = Louvre.wikiCode( mafiaExits[ i ] );
+			}
 
 			// Sort the exits in Wiki order
 			Arrays.sort( wikiExits );
@@ -725,34 +774,36 @@ public class Louvre
 
 	public static final String gemelliCode()
 	{
-		int code[] = new int[48];
+		int code[] = new int[ 48 ];
 		int codeIndex = 0;
 
 		// Examine each node in Wiki order: 0 - 12
-		for ( int i = 0; i < LouvreChoiceTable.length; ++i )
+		for ( int i = 0; i < Louvre.LouvreChoiceTable.length; ++i )
 		{
 			// Get the choice adventure # corresponding to the Wiki code
-			int source = mafiaCode( i );
+			int source = Louvre.mafiaCode( i );
 
 			// Get the array of exit paths
-			int paths[] = LouvreChoiceTable[ source - FIRST_CHOICE ];
+			int paths[] = Louvre.LouvreChoiceTable[ source - Louvre.FIRST_CHOICE ];
 
 			// For each choice in Wiki order
-			int exits[] = WikiLouvreLocationExits[ i ];
+			int exits[] = Louvre.WikiLouvreLocationExits[ i ];
 
 			for ( int j = 0; j < exits.length; ++j )
 			{
 				// Find the exit in the paths
 				for ( int index = 0; index < paths.length; ++index )
 				{
-					int destination = wikiCode( paths[index] );
+					int destination = Louvre.wikiCode( paths[ index ] );
 
 					// Ignore unmapped paths
-					if ( destination == RANDOM )
+					if ( destination == Louvre.RANDOM )
+					{
 						continue;
+					}
 
 					// If this is the random exit...
-					if ( exits[j] == RANDOM )
+					if ( exits[ j ] == Louvre.RANDOM )
 					{
 						// ...destination must be an
 						// Escher location
@@ -764,7 +815,7 @@ public class Louvre
 						continue;
 					}
 
-					if ( exits[j] == destination )
+					if ( exits[ j ] == destination )
 					{
 						code[ codeIndex ] = index + 1;
 						break;
@@ -777,24 +828,28 @@ public class Louvre
 		// Look at choices 4-12 and determine where the "random" exit
 		// goes. 0 = unmapped, 1 = 93, 2 = 94, 3 = 95
 
-		for ( int i = 4; i < LouvreChoiceTable.length; ++i )
+		for ( int i = 4; i < Louvre.LouvreChoiceTable.length; ++i )
 		{
 			// Get the choice adventure # corresponding to the Wiki code
-			int source = mafiaCode( i );
+			int source = Louvre.mafiaCode( i );
 
 			// Get the array of exit paths
-			int paths[] = LouvreChoiceTable[ source - FIRST_CHOICE ];
+			int paths[] = Louvre.LouvreChoiceTable[ source - Louvre.FIRST_CHOICE ];
 
 			// Examine each exit and determine which one is random
 			int random = 0;
 			for ( int j = 0; j < paths.length; ++j )
 			{
-				int exit = paths[j];
-				if ( exit < FIRST_CHOICE )
+				int exit = paths[ j ];
+				if ( exit < Louvre.FIRST_CHOICE )
+				{
 					continue;
-				exit -= FIRST_CHOICE;
+				}
+				exit -= Louvre.FIRST_CHOICE;
 				if ( exit > 3 )
+				{
 					continue;
+				}
 				random = exit;
 				break;
 			}
@@ -803,17 +858,18 @@ public class Louvre
 		}
 
 		// Convert the 48 element int array into a 24 character character array
-		char data[] = new char[24];
+		char data[] = new char[ 24 ];
 		for ( int i = 0; i < code.length; i += 2 )
 		{
-			int hexDigit = code[i] * 4 + code[i+1];
-			data[i/2] = Character.forDigit( hexDigit, 16 );
+			int hexDigit = code[ i ] * 4 + code[ i + 1 ];
+			data[ i / 2 ] = Character.forDigit( hexDigit, 16 );
 		}
 
 		return String.valueOf( data );
 	}
 
 	public static final void showGemelliMap()
-	{	StaticEntity.openSystemBrowser( "http://www.feesher.com/louvre_mapper.php?mapstring=" + gemelliCode() );
+	{
+		StaticEntity.openSystemBrowser( "http://www.feesher.com/louvre_mapper.php?mapstring=" + Louvre.gemelliCode() );
 	}
 }

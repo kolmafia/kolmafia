@@ -36,28 +36,34 @@ package net.sourceforge.kolmafia;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ContactListRequest extends KoLRequest
+public class ContactListRequest
+	extends KoLRequest
 {
 	private static final Pattern LIST_PATTERN = Pattern.compile( "<b>Contact List</b>.*?</table>" );
-	private static final Pattern ENTRY_PATTERN = Pattern.compile( "<a href=\"showplayer.php\\?who=(\\d+)\".*?<b>(.*?)</b>" );
+	private static final Pattern ENTRY_PATTERN =
+		Pattern.compile( "<a href=\"showplayer.php\\?who=(\\d+)\".*?<b>(.*?)</b>" );
 
 	public ContactListRequest()
-	{	super( "account_contactlist.php" );
+	{
+		super( "account_contactlist.php" );
 	}
 
 	protected boolean retryOnTimeout()
-	{	return true;
+	{
+		return true;
 	}
 
 	public void processResults()
 	{
-		contactList.clear();
-		Matcher listMatcher = LIST_PATTERN.matcher( this.responseText );
+		KoLConstants.contactList.clear();
+		Matcher listMatcher = ContactListRequest.LIST_PATTERN.matcher( this.responseText );
 		if ( listMatcher.find() )
 		{
-			Matcher entryMatcher = ENTRY_PATTERN.matcher( listMatcher.group() );
+			Matcher entryMatcher = ContactListRequest.ENTRY_PATTERN.matcher( listMatcher.group() );
 			while ( entryMatcher.find() )
-				KoLmafia.registerContact( entryMatcher.group(2), entryMatcher.group(1) );
+			{
+				KoLmafia.registerContact( entryMatcher.group( 2 ), entryMatcher.group( 1 ) );
+			}
 		}
 	}
 }
