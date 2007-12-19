@@ -3073,7 +3073,7 @@
 3072	carbonite visor	0	display	0
 3073	set of Unobtainium straps	0	display	0
 3074	polymorphic fastening apparatus	0	display	0
-3075	
+3075	General Assembly Module	3	display	0
 3076	
 3077	
 3078	
@@ -3099,7 +3099,7 @@
 3098	killing feather	0	all	0
 3099	golden ring	0	all	100
 3100	robotronic egg	0	all	100
-3101	
+3101	rogue swarmer	0	all	100
 3102	
 3103	
 3104	

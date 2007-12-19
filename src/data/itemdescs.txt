@@ -3078,7 +3078,7 @@
 3072	795772115	carbonite visor
 3073	748591680	set of Unobtainium straps
 3074	644106227	polymorphic fastening apparatus
-3075	
+3075	268856504	General Assembly Module
 3076	
 3077	
 3078	
@@ -3104,7 +3104,7 @@
 3098	899776576	killing feather	killing feathers
 3099	748174693	golden ring	golden rings
 3100	412530596	robotronic egg	robotronic eggs
-3101	
+3101	280870255	rogue swarmer	rogue swarmers
 3102	
 3103	
 3104	
