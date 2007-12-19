@@ -444,15 +444,15 @@ public class ConcoctionsDatabase
 				{
 					request = new Crimbo07CafeRequest( name );
 				}
-				else if ( KoLCharacter.inBadMoon() )
+				else if ( KitchenRequest.onMenu( name ) )
 				{
 					request = new KitchenRequest( name );
 				}
-				else if ( c.getFullness() > 0 )
+				else if ( RestaurantRequest.onMenu( name ) )
 				{
 					request = new RestaurantRequest( name );
 				}
-				else if ( c.getInebriety() > 0 )
+				else if ( MicrobreweryRequest.onMenu( name ) )
 				{
 					request = new MicrobreweryRequest( name );
 				}

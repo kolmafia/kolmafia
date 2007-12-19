@@ -120,6 +120,11 @@ public class RestaurantRequest
 		}
 	}
 
+	public static final boolean onMenu( final String name )
+	{
+		return KoLConstants.restaurantItems.contains( name );
+	}
+
 	public static final void getMenu()
 	{
 		if ( !KoLCharacter.inMysticalitySign() )
