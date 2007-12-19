@@ -55,6 +55,11 @@ public class KitchenRequest
 		super.run();
 	}
 
+	public static final boolean onMenu( final String name )
+	{
+		return KoLConstants.kitchenItems.contains( name );
+	}
+
 	public static final void getMenu()
 	{
 		KoLmafia.updateDisplay( "Visiting Hell's Kitchen..." );

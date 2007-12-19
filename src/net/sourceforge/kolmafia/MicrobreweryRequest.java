@@ -89,7 +89,7 @@ public class MicrobreweryRequest
 			break;
 		}
 
-		this.addFormField( "whichitem", String.valueOf( itemId ) );
+		this.setItem( name, itemId, price );
 	}
 
 	public void run()
@@ -118,6 +118,11 @@ public class MicrobreweryRequest
 			MicrobreweryRequest.dailySpecial = new AdventureResult( itemId, 1 );
 
 		}
+	}
+
+	public static final boolean onMenu( final String name )
+	{
+		return KoLConstants.microbreweryItems.contains( name );
 	}
 
 	public static final void getMenu()
