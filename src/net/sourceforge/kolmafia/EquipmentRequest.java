@@ -639,6 +639,13 @@ public class EquipmentRequest
 			if ( resultMatcher.find() )
 			{
 				String result = resultMatcher.group( 1 ).replaceAll( "</?b>", "" );
+				if ( result.indexOf( "You are already wearing" ) != -1 )
+				{
+					// Not an error
+					KoLmafia.updateDisplay( result );
+					return;
+				}
+
 				if ( result.indexOf( "You put" ) == -1 && result.indexOf( "You equip" ) == -1 && result.indexOf( "Item equipped" ) == -1 )
 				{
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, result );
