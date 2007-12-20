@@ -368,6 +368,7 @@ Bigger Bugfinder Blade	Moxie: +11, Muscle: +11, Mysticality: +11
 Bjorn's Hammer	Muscle: +10, Class: "Seal Clubber"
 Brimstone Bludgeon	Muscle Percent: +50, Mysticality Percent: -20, Melee Damage: +30
 Bugfinder Blade	Moxie: +7, Muscle: +7, Mysticality: +7
+C.B.F.G.	Hot Damage: +10, Stench Damage: +10
 Cerebral Crossbow	Cold Damage: +3, Spooky Damage: +3, Sleaze Damage: +3
 Chelonian Morningstar	Muscle: +11, Never Fumble
 # Cloaca-Cola-issue combat knife
