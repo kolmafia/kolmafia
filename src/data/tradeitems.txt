@@ -3074,7 +3074,7 @@
 3073	set of Unobtainium straps	0	display	0
 3074	polymorphic fastening apparatus	0	display	0
 3075	General Assembly Module	3	display	0
-3076	
+3076	laser targeting chip	0	display	0
 3077	
 3078	
 3079	Bulky Buddy Box	5	all	0
@@ -3087,7 +3087,7 @@
 3086	mylar scout drone	0	all	29
 3087	teddy borg sewing kit	7	all	75
 3088	
-3089	
+3089	C.B.F.G.	12	display	0
 3090	
 3091	vitachoconutriment capsule	3	all	0
 3092	
@@ -3100,7 +3100,7 @@
 3099	golden ring	0	all	100
 3100	robotronic egg	0	all	100
 3101	rogue swarmer	0	all	100
-3102	
+3102	sawblade fragment	0	all	100
 3103	
 3104	
 3105	

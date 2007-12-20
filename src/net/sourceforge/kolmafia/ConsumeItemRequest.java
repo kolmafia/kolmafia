@@ -143,6 +143,7 @@ public class ConsumeItemRequest
 	private static final int ORNATE_CURSED_CHEST = 3017;
 	private static final int GILDED_CURSED_CHEST = 3018;
 	public static final int CURSED_PIECE_OF_THIRTEEN = 3034;
+	private static final int GENERAL_ASSEMBLY_MODULE = 3075;
 
 	private static final int PALM_FROND = 2605;
 	private static final int MUMMY_WRAP = 2634;
@@ -223,6 +224,19 @@ public class ConsumeItemRequest
 	private static final AdventureResult SIMPLE_CURSED_KEY = new AdventureResult( 3013, -1 );
 	private static final AdventureResult ORNATE_CURSED_KEY = new AdventureResult( 3014, -1 );
 	private static final AdventureResult GILDED_CURSED_KEY = new AdventureResult( 3015, -1 );
+
+	// Cyborg weapon parts
+	private static final AdventureResult LASER_CANON = new AdventureResult( 3069, -1 );
+	private static final AdventureResult UNOBTAINIUM_STRAPS = new AdventureResult( 3073, -1 );
+	private static final AdventureResult TARGETING_CHOP = new AdventureResult( 3076, -1 );
+
+	// Cyborg hat parts
+	private static final AdventureResult CHIN_STRAP = new AdventureResult( 3070, -1 );
+	private static final AdventureResult CARBONITE_VOSOR = new AdventureResult( 3072, -1 );
+
+	// Cyborg pants parts
+	private static final AdventureResult GLUTEAL_SHIELD = new AdventureResult( 3071, -1 );
+	private static final AdventureResult FASTENING_APPARATUS = new AdventureResult( 3074, -1 );
 
 	private final int consumptionType;
 	private AdventureResult itemUsed = null;
@@ -1689,6 +1703,34 @@ public class ConsumeItemRequest
 				ConsumeItemRequest.lastUpdate = "Insufficient adventures left.";
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, ConsumeItemRequest.lastUpdate );
 				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
+			}
+			return;
+
+		case GENERAL_ASSEMBLY_MODULE:
+
+			//  "INSUFFICIENT RESOURCES LOCATED TO DISPENSE CRIMBO
+			//  CHEER. PLEASE LOCATE A VITAL APPARATUS VENT AND
+			//  REQUISITION APPROPRIATE MATERIALS."
+
+			if ( responseText.indexOf( "INSUFFICIENT RESOURCES LOCATED" ) != -1 )
+			{
+				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
+				return;
+			}
+
+			// You breathe a heavy sigh of relief as the pseudopods
+			// emerge from your inventory, carrying the laser
+			// cannon, laser targeting chip, and the set of
+			// Unobtainium straps that you acquired earlier from
+			// the Sinister Dodecahedron.
+
+			if ( responseText.indexOf( "carrying the laser cannon" ) != -1 )
+			{
+				StaticEntity.getClient().processResult( ConsumeItemRequest.LASER_CANON );
+				StaticEntity.getClient().processResult( ConsumeItemRequest.TARGETING_CHOP );
+				StaticEntity.getClient().processResult( ConsumeItemRequest.UNOBTAINIUM_STRAPS );
+
+				return;
 			}
 			return;
 		}

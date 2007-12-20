@@ -502,7 +502,7 @@ public class EquipmentDatabase
 
 	public static final boolean retrieveOutfit( final int outfitId )
 	{
-		if ( outfitId < 0 )
+		if ( outfitId < 0 || outfitId == Integer.MAX_VALUE )
 		{
 			return true;
 		}

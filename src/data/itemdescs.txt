@@ -3079,7 +3079,7 @@
 3073	748591680	set of Unobtainium straps
 3074	644106227	polymorphic fastening apparatus
 3075	268856504	General Assembly Module
-3076	
+3076	161453198	laser targeting chip
 3077	
 3078	
 3079	164132105	Bulky Buddy Box	Bulky Buddy Boxen
@@ -3092,7 +3092,7 @@
 3086	941936499	mylar scout drone	mylar scout drones
 3087	511433261	teddy borg sewing kit	teddy borg sewing kits
 3088	
-3089	
+3089	149939402	C.B.F.G.
 3090	
 3091	746449292	vitachoconutriment capsule
 3092	
@@ -3105,7 +3105,7 @@
 3099	748174693	golden ring	golden rings
 3100	412530596	robotronic egg	robotronic eggs
 3101	280870255	rogue swarmer	rogue swarmers
-3102	
+3102	931098196	sawblade fragment	sawblade fragments
 3103	
 3104	
 3105	

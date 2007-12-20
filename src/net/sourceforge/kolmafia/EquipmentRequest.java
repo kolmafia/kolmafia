@@ -1110,16 +1110,6 @@ public class EquipmentRequest
 		return -1;
 	}
 
-	public boolean isChangeRequest()
-	{
-		if ( this.getURLString().indexOf( "action=message" ) != -1 )
-		{
-			return false;
-		}
-
-		return this.requestType == EquipmentRequest.CHANGE_OUTFIT || this.requestType == EquipmentRequest.CHANGE_ITEM || this.requestType == EquipmentRequest.REMOVE_ITEM || this.requestType == EquipmentRequest.UNEQUIP_ALL;
-	}
-
 	public static final boolean registerRequest( final String urlString )
 	{
 		if ( !urlString.startsWith( "inv_equip.php" ) )
