@@ -482,6 +482,7 @@ costume sword	Melee Damage: -10, Initiative: +30
 crazy bastard sword	Muscle: +10, Melee Damage: +15, Critical: 3
 crowbarrr	Initiative: +15
 curdflinger	Moxie: +3, Weakens Monster
+curmudgel	Monster Level: +8, Melee Damage: +10
 cursed cutlass	Muscle: +15
 demon whip	Hot Damage: +3, Sleaze Damage: +3, Stench Damage: +3
 denim axe	Muscle: +10, Melee Damage: +10
