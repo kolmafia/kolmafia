@@ -3101,9 +3101,10 @@
 3100	robotronic egg	0	all	100
 3101	rogue swarmer	0	all	100
 3102	sawblade fragment	0	all	100
-3103	
+3103	unstable laser battery	0	all	100
 3104	
 3105	
 3106	
 3107	deactivated RoboGoose	5	display	0
 3108	overclocked avian microprocessor	7	all	75
+3109	Miniborg stomper	0	all	0

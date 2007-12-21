@@ -1395,6 +1395,7 @@ public class FightRequest
 		case 2678: // spectre scepter
 		case 2848: // Gnomitronic Hyperspatial Demodulizer
 		case 2947: // The Big Book of Pirate Insults
+		case 3109: // Miniborg stomper
 			return false;
 
 		case 829: // Anti-Anti-Antidote
