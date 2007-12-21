@@ -3106,9 +3106,10 @@
 3100	412530596	robotronic egg	robotronic eggs
 3101	280870255	rogue swarmer	rogue swarmers
 3102	931098196	sawblade fragment	sawblade fragments
-3103	
+3103	372138300	unstable laser battery	
 3104	
 3105	
 3106	
 3107	674971550	deactivated RoboGoose
 3108	212941273	overclocked avian microprocessor
+3109	972162206	Miniborg stomper	Miniborg stompers
