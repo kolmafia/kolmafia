@@ -134,11 +134,23 @@ public abstract class KoLmafia
 	public static final int SEMIRARE = 3;
 
 	public static final String[][] SPECIAL_ENCOUNTERS =
-		{ { "History is Fun!", "1" }, { "It's A Sign!", "1" }, { "The Manor in Which You're Accustomed", "1" }, { "Under the Knife", "1" }, { "The Oracle Will See You Now", "1" }, { "A Grave Situation", "1" }, { "Take a Dusty Look!", "1" }, { "Drawn Onward", "1" }, { "Mr. Alarm", "1" }, { "We'll All Be Flat", "1" }, { "It's Always Swordfish", "1" },
+	{
+		{ "History is Fun!", "1" },
+		{ "It's A Sign!", "1" },
+		{ "The Manor in Which You're Accustomed", "1" },
+		{ "Under the Knife", "1" },
+		{ "The Oracle Will See You Now", "1" },
+		{ "A Grave Situation", "1" },
+		{ "Take a Dusty Look!", "1" },
+		{ "Drawn Onward", "1" },
+		{ "Mr. Alarm", "1" },
+		{ "We'll All Be Flat", "1" },
+		{ "It's Always Swordfish", "1" },
 
 		// Adventures that start the Around the World Quest
 
-		{ "I Just Wanna Fly", "1" }, { "Me Just Want Fly", "1" },
+		{ "I Just Wanna Fly", "1" },
+		{ "Me Just Want Fly", "1" },
 
 		// Adventure in the Arid, Extra-Dry desert until you find the
 		// Oasis
@@ -165,10 +177,41 @@ public abstract class KoLmafia
 
 		// Adventures that give demon names
 
-		{ "Hoom Hah", "2" }, { "Every Seashell Has a Story to Tell If You're Listening", "2" }, { "Leavesdropping", "2" }, { "These Pipes... Aren't Clean!", "2" },
+		{ "Hoom Hah", "2" },
+		{ "Every Seashell Has a Story to Tell If You're Listening", "2" },
+		{ "Leavesdropping", "2" },
+		{ "These Pipes... Aren't Clean!", "2" },
 
 		// Adventures that give semirares
-		{ "A Menacing Phantom", "3" }, { "All The Rave", "3" }, { "Blaaargh! Blaaargh!", "3" }, { "Filth, Filth, and More Filth", "3" }, { "Hands On", "3" }, { "How Does He Smell?", "3" }, { "In the Still of the Alley", "3" }, { "It's The Only Way To Be Sure", "3" }, { "Knob Goblin Elite Guard Captain", "3" }, { "Knob Goblin Embezzler", "3" }, { "Le Chauve-Souris du Parfum", "3" }, { "Like the Sunglasses, But Less Comfortable", "3" }, { "Lunchboxing", "3" }, { "Monty of County Crisco", "3" }, { "Natural Selection", "3" }, { "Not Quite as Cold as Ice", "3" }, { "Play Misty For Me", "3" }, { "Prior to Always", "3" }, { "Rokay, Raggy!", "3" }, { "Sand in the Vaseline", "3" }, { "Some Bad ASCII Art", "3" }, { "Some Bricks Do, In Fact, Hang in the Air", "3" }, { "The Bleary-Eyed Cyclops", "3" }, { "The Latest Sorcerous Developments", "3" }, { "The Pilsbury Doughjerk", "3" }, { "Two Sizes Too Small", "3" }, { "Yo Ho Ho and a Bottle of Whatever This Is", "3" }, { "You Can Top Our Desserts, But You Can't Beat Our Meats", "3" }, };
+		{ "A Menacing Phantom", "3" },
+		{ "All The Rave", "3" },
+		{ "Blaaargh! Blaaargh!", "3" },
+		{ "Filth, Filth, and More Filth", "3" },
+		{ "Hands On", "3" },
+		{ "How Does He Smell?", "3" },
+		{ "In the Still of the Alley", "3" },
+		{ "It's The Only Way To Be Sure", "3" },
+		{ "Knob Goblin Elite Guard Captain", "3" },
+		{ "Knob Goblin Embezzler", "3" },
+		{ "Le Chauve-Souris du Parfum", "3" },
+		{ "Like the Sunglasses, But Less Comfortable", "3" },
+		{ "Lunchboxing", "3" },
+		{ "Monty of County Crisco", "3" },
+		{ "Natural Selection", "3" },
+		{ "Not Quite as Cold as Ice", "3" },
+		{ "Play Misty For Me", "3" },
+		{ "Prior to Always", "3" },
+		{ "Rokay, Raggy!", "3" },
+		{ "Sand in the Vaseline", "3" },
+		{ "Some Bad ASCII Art", "3" },
+		{ "Some Bricks Do, In Fact, Hang in the Air", "3" },
+		{ "The Bleary-Eyed Cyclops", "3" },
+		{ "The Latest Sorcerous Developments", "3" },
+		{ "The Pilsbury Doughjerk", "3" },
+		{ "Two Sizes Too Small", "3" },
+		{ "Yo Ho Ho and a Bottle of Whatever This Is", "3" },
+		{ "You Can Top Our Desserts, But You Can't Beat Our Meats", "3" },
+	};
 
 	private static final boolean acquireFileLock( final String suffix )
 	{
