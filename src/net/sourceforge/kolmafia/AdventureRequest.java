@@ -56,7 +56,7 @@ public class AdventureRequest
 	/**
 	 * Constructs a new <code>AdventureRequest</code> which executes the adventure designated by the given Id by
 	 * posting to the provided form, notifying the givenof results (or errors).
-	 * 
+	 *
 	 * @param adventureName The name of the adventure location
 	 * @param formSource The form to which the data will be posted
 	 * @param adventureId The identifier for the adventure to be executed
@@ -507,7 +507,7 @@ public class AdventureRequest
 		},
 		{ "Hoom Hah",
 		  Pattern.compile( "(.*?)! \\1, cooooome to meeeee!" ),
-		  "fifty meat" 
+		  "fifty meat"
 		},
 		{ "Every Seashell Has a Story to Tell If You're Listening",
 		  Pattern.compile( "Hello\\? Is (.*?) there\\?" ),
@@ -584,10 +584,18 @@ public class AdventureRequest
 				}
 			}
 
+			String settingName = "demonName" + index;
+			String previousName = KoLSettings.getUserProperty( settingName );
+
+			if ( previousName.equals( demon ) )
+				return;
+
 			RequestLogger.printLine( "Demon name: " + demon );
 			RequestLogger.updateSessionLog( "Demon name: " + demon );
-			KoLSettings.setUserProperty( "demonName" + index, demon );
-			return;
+			KoLSettings.setUserProperty( settingName, demon );
+
+			if ( conditions.isEmpty() )
+				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, (String) demons[ index ][0] );
 		}
 	}
 

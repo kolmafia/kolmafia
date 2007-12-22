@@ -126,39 +126,38 @@ public abstract class KoLmafia
 	private static KoLAdventure currentAdventure;
 
 	// Types of special encounters
-	public static final int NONE = 0;
-	public static final int STOP = 1;
-	public static final int DEMON = 2;
-	public static final int SEMIRARE = 3;
+	public static final String NONE = "0";
+	public static final String STOP = "1";
+	public static final String SEMIRARE = "2";
 
 	public static final String[][] SPECIAL_ENCOUNTERS =
 	{
-		{ "History is Fun!", "1" },
-		{ "It's A Sign!", "1" },
-		{ "The Manor in Which You're Accustomed", "1" },
-		{ "Under the Knife", "1" },
-		{ "The Oracle Will See You Now", "1" },
-		{ "A Grave Situation", "1" },
-		{ "Take a Dusty Look!", "1" },
-		{ "Drawn Onward", "1" },
-		{ "Mr. Alarm", "1" },
-		{ "We'll All Be Flat", "1" },
-		{ "It's Always Swordfish", "1" },
+		{ "History is Fun!", STOP },
+		{ "It's A Sign!", STOP },
+		{ "The Manor in Which You're Accustomed", STOP },
+		{ "Under the Knife", STOP },
+		{ "The Oracle Will See You Now", STOP },
+		{ "A Grave Situation", STOP },
+		{ "Take a Dusty Look!", STOP },
+		{ "Drawn Onward", STOP },
+		{ "Mr. Alarm", STOP },
+		{ "We'll All Be Flat", STOP },
+		{ "It's Always Swordfish", STOP },
 
 		// Adventures that start the Around the World Quest
 
-		{ "I Just Wanna Fly", "1" },
-		{ "Me Just Want Fly", "1" },
+		{ "I Just Wanna Fly", STOP },
+		{ "Me Just Want Fly", STOP },
 
 		// Adventure in the Arid, Extra-Dry desert until you find the
 		// Oasis
 
-		{ "Let's Make a Deal!", "1" },
+		{ "Let's Make a Deal!", STOP },
 
 		// Get Ultra-hydrated and adventure in the Arid, Extra-Dry
 		// desert until you are given the task to find a stone rose.
 
-		{ "A Sietch in Time", "1" },
+		{ "A Sietch in Time", STOP },
 
 		// Adventure in Oasis until you have a stone rose and a drum
 		// machine. Buy black paint.
@@ -167,48 +166,41 @@ public abstract class KoLmafia
 		// you are tasked to find the missing pages from the
 		// worm-riding manual.
 
-		{ "Walk Without Rhythm", "1" },
+		{ "Walk Without Rhythm", STOP },
 
 		// Adventure in Oasis until you have worm-riding manual pages
 		// 3-15 Adventure in Arid, Extra-Dry Desert until you have
 		// worm-riding hooks.
 
-		// Adventures that give demon names
-
-		{ "Hoom Hah", "2" },
-		{ "Every Seashell Has a Story to Tell If You're Listening", "2" },
-		{ "Leavesdropping", "2" },
-		{ "These Pipes... Aren't Clean!", "2" },
-
 		// Adventures that give semirares
-		{ "A Menacing Phantom", "3" },
-		{ "All The Rave", "3" },
-		{ "Blaaargh! Blaaargh!", "3" },
-		{ "Filth, Filth, and More Filth", "3" },
-		{ "Hands On", "3" },
-		{ "How Does He Smell?", "3" },
-		{ "In the Still of the Alley", "3" },
-		{ "It's The Only Way To Be Sure", "3" },
-		{ "Knob Goblin Elite Guard Captain", "3" },
-		{ "Knob Goblin Embezzler", "3" },
-		{ "Le Chauve-Souris du Parfum", "3" },
-		{ "Like the Sunglasses, But Less Comfortable", "3" },
-		{ "Lunchboxing", "3" },
-		{ "Monty of County Crisco", "3" },
-		{ "Natural Selection", "3" },
-		{ "Not Quite as Cold as Ice", "3" },
-		{ "Play Misty For Me", "3" },
-		{ "Prior to Always", "3" },
-		{ "Rokay, Raggy!", "3" },
-		{ "Sand in the Vaseline", "3" },
-		{ "Some Bad ASCII Art", "3" },
-		{ "Some Bricks Do, In Fact, Hang in the Air", "3" },
-		{ "The Bleary-Eyed Cyclops", "3" },
-		{ "The Latest Sorcerous Developments", "3" },
-		{ "The Pilsbury Doughjerk", "3" },
-		{ "Two Sizes Too Small", "3" },
-		{ "Yo Ho Ho and a Bottle of Whatever This Is", "3" },
-		{ "You Can Top Our Desserts, But You Can't Beat Our Meats", "3" },
+		{ "A Menacing Phantom", SEMIRARE },
+		{ "All The Rave", SEMIRARE },
+		{ "Blaaargh! Blaaargh!", SEMIRARE },
+		{ "Filth, Filth, and More Filth", SEMIRARE },
+		{ "Hands On", SEMIRARE },
+		{ "How Does He Smell?", SEMIRARE },
+		{ "In the Still of the Alley", SEMIRARE },
+		{ "It's The Only Way To Be Sure", SEMIRARE },
+		{ "Knob Goblin Elite Guard Captain", SEMIRARE },
+		{ "Knob Goblin Embezzler", SEMIRARE },
+		{ "Le Chauve-Souris du Parfum", SEMIRARE },
+		{ "Like the Sunglasses, But Less Comfortable", SEMIRARE },
+		{ "Lunchboxing", SEMIRARE },
+		{ "Monty of County Crisco", SEMIRARE },
+		{ "Natural Selection", SEMIRARE },
+		{ "Not Quite as Cold as Ice", SEMIRARE },
+		{ "Play Misty For Me", SEMIRARE },
+		{ "Prior to Always", SEMIRARE },
+		{ "Rokay, Raggy!", SEMIRARE },
+		{ "Sand in the Vaseline", SEMIRARE },
+		{ "Some Bad ASCII Art", SEMIRARE },
+		{ "Some Bricks Do, In Fact, Hang in the Air", SEMIRARE },
+		{ "The Bleary-Eyed Cyclops", SEMIRARE },
+		{ "The Latest Sorcerous Developments", SEMIRARE },
+		{ "The Pilsbury Doughjerk", SEMIRARE },
+		{ "Two Sizes Too Small", SEMIRARE },
+		{ "Yo Ho Ho and a Bottle of Whatever This Is", SEMIRARE },
+		{ "You Can Top Our Desserts, But You Can't Beat Our Meats", SEMIRARE },
 	};
 
 	private static final boolean acquireFileLock( final String suffix )
@@ -3296,13 +3288,13 @@ public abstract class KoLmafia
 		}
 	}
 
-	public static final int encounterType( final String encounterName )
+	public static final String encounterType( final String encounterName )
 	{
 		for ( int i = 0; i < KoLmafia.SPECIAL_ENCOUNTERS.length; ++i )
 		{
 			if ( encounterName.equalsIgnoreCase( KoLmafia.SPECIAL_ENCOUNTERS[ i ][ 0 ] ) )
 			{
-				return StaticEntity.parseInt( KoLmafia.SPECIAL_ENCOUNTERS[ i ][ 1 ] );
+				return KoLmafia.SPECIAL_ENCOUNTERS[ i ][ 1 ];
 			}
 		}
 		return KoLmafia.NONE;
@@ -3310,13 +3302,13 @@ public abstract class KoLmafia
 
 	public static final boolean isAutoStop( final String encounterName )
 	{
-		int encounterType = KoLmafia.encounterType( encounterName );
-		return encounterType == KoLmafia.STOP || encounterType == KoLmafia.DEMON;
+		String encounterType = KoLmafia.encounterType( encounterName );
+		return encounterType == KoLmafia.STOP;
 	}
 
 	public void recognizeEncounter( final String encounterName )
 	{
-		int encounterType = KoLmafia.encounterType( encounterName );
+		String encounterType = KoLmafia.encounterType( encounterName );
 
 		if ( encounterType == KoLmafia.NONE )
 		{
@@ -3327,13 +3319,6 @@ public abstract class KoLmafia
 		{
 			StaticEntity.stopCounting( "Fortune Cookie" );
 			return;
-		}
-
-		if ( encounterType == KoLmafia.DEMON )
-		{
-			// For now, always stop, but we needn't bother if we've
-			// already seen this demon.
-			encounterType = KoLmafia.STOP;
 		}
 
 		if ( encounterType == KoLmafia.STOP )
