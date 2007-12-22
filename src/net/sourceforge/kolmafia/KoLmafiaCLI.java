@@ -50,8 +50,6 @@ import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.UtilityConstants;
 
-import com.velocityreviews.forums.HttpTimeoutClient;
-
 public class KoLmafiaCLI
 	extends KoLmafia
 {
@@ -1090,13 +1088,6 @@ public class KoLmafiaCLI
 			if ( KoLSettings.getUserProperty( name ).equals( value ) )
 			{
 				return;
-			}
-
-			if ( name.equals( "http.socketTimeout" ) )
-			{
-				int timeout = Math.max( 100, StaticEntity.parseInt( value ) );
-				KoLSettings.setUserProperty( name, String.valueOf( timeout ) );
-				HttpTimeoutClient.setHttpTimeout( timeout );
 			}
 
 			RequestLogger.printLine( name + " => " + value );

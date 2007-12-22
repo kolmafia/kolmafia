@@ -58,8 +58,6 @@ import javax.swing.SwingUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.foxtrot.Job;
 
-import com.velocityreviews.forums.HttpTimeoutHandler;
-
 public class KoLRequest
 	extends Job
 	implements KoLConstants
@@ -261,7 +259,7 @@ public class KoLRequest
 	/**
 	 * static final method used to manually set the server to be used as the root for all requests by all KoLmafia
 	 * clients running on the current JVM instance.
-	 * 
+	 *
 	 * @param server The hostname of the server to be used.
 	 */
 
@@ -312,7 +310,7 @@ public class KoLRequest
 
 	/**
 	 * static final method used to return the server currently used by this KoLmafia session.
-	 * 
+	 *
 	 * @return The host name for the current server
 	 */
 
@@ -324,7 +322,7 @@ public class KoLRequest
 	/**
 	 * Constructs a new KoLRequest which will notify the given client of any changes and will use the given URL for data
 	 * submission.
-	 * 
+	 *
 	 * @param formURLString The form to be used in posting data
 	 */
 
@@ -409,7 +407,7 @@ public class KoLRequest
 	 * Adds the given form field to the KoLRequest. Descendant classes should use this method if they plan on submitting
 	 * forms to Kingdom of Loathing before a call to the <code>super.run()</code> method. Ideally, these fields can be
 	 * added at construction time.
-	 * 
+	 *
 	 * @param name The name of the field to be added
 	 * @param value The value of the field to be added
 	 * @param allowDuplicates true if duplicate names are OK
@@ -464,7 +462,7 @@ public class KoLRequest
 
 	/**
 	 * Adds the given form field to the KoLRequest.
-	 * 
+	 *
 	 * @param element The field to be added
 	 */
 
@@ -484,7 +482,7 @@ public class KoLRequest
 
 	/**
 	 * Adds an already encoded form field to the KoLRequest.
-	 * 
+	 *
 	 * @param element The field to be added
 	 */
 
@@ -956,7 +954,7 @@ public class KoLRequest
 	/**
 	 * Utility method used to prepare the connection for input and output (if output is necessary). The method attempts
 	 * to open the connection, and then apply the needed settings.
-	 * 
+	 *
 	 * @return <code>true</code> if the connection was successfully prepared
 	 */
 
@@ -982,19 +980,7 @@ public class KoLRequest
 
 			if ( this.formURL == null || !this.currentHost.equals( KoLRequest.KOL_HOST ) )
 			{
-				if ( KoLSettings.getBooleanProperty( "testSocketTimeout" ) )
-				{
-					if ( this.formURLString.startsWith( "http:" ) )
-					{
-						this.formURL = new URL( null, this.formURLString, HttpTimeoutHandler.getInstance() );
-					}
-					else
-					{
-						this.formURL =
-							new URL( KoLRequest.KOL_ROOT, this.formURLString, HttpTimeoutHandler.getInstance() );
-					}
-				}
-				else if ( this.formURLString.startsWith( "http:" ) )
+				if ( this.formURLString.startsWith( "http:" ) )
 				{
 					this.formURL = new URL( this.formURLString );
 				}
@@ -1008,11 +994,6 @@ public class KoLRequest
 		}
 		catch ( Exception e )
 		{
-			if ( KoLSettings.getBooleanProperty( "printSocketTimeouts" ) )
-			{
-				RequestLogger.updateDebugLog( "Error opening connection (" + this.getURLString() + ").  Retrying..." );
-			}
-
 			if ( this.shouldUpdateDebugLog() )
 			{
 				RequestLogger.updateDebugLog( "Error opening connection (" + this.getURLString() + ").  Retrying..." );
@@ -1064,7 +1045,7 @@ public class KoLRequest
 	/**
 	 * Utility method used to post the client's data to the Kingdom of Loathing server. The method grabs all form fields
 	 * added so far and posts them using the traditional ampersand style of HTTP requests.
-	 * 
+	 *
 	 * @return <code>true</code> if all data was successfully posted
 	 */
 
@@ -1101,11 +1082,6 @@ public class KoLRequest
 		{
 			++this.timeoutCount;
 
-			if ( KoLSettings.getBooleanProperty( "printSocketTimeouts" ) )
-			{
-				RequestLogger.printLine( "Time out during data post (" + this.formURLString + ").  This could be bad..." );
-			}
-
 			if ( this.shouldUpdateDebugLog() )
 			{
 				RequestLogger.printLine( "Time out during data post (" + this.formURLString + ").  This could be bad..." );
@@ -1126,7 +1102,7 @@ public class KoLRequest
 	 * Utility method used to retrieve the server's reply. This method detects the nature of the reply via the response
 	 * code provided by the server, and also detects the unusual states of server maintenance and session timeout. All
 	 * data retrieved by this method is stored in the instance variables for this class.
-	 * 
+	 *
 	 * @return <code>true</code> if the data was successfully retrieved
 	 */
 
@@ -1157,11 +1133,6 @@ public class KoLRequest
 		{
 			++this.timeoutCount;
 			boolean shouldRetry = this.retryOnTimeout();
-
-			if ( KoLSettings.getBooleanProperty( "printSocketTimeouts" ) )
-			{
-				RequestLogger.printLine( "Time out during response (" + this.formURLString + ")." );
-			}
 
 			if ( !shouldRetry && this.processOnFailure() )
 			{
@@ -1597,7 +1568,7 @@ public class KoLRequest
 	 * Utility method used to skip the given number of tokens within the provided <code>StringTokenizer</code>. This
 	 * method is used in order to clarify what's being done, rather than calling <code>st.nextToken()</code>
 	 * repeatedly.
-	 * 
+	 *
 	 * @param st The <code>StringTokenizer</code> whose tokens are to be skipped
 	 * @param tokenCount The number of tokens to skip
 	 */
@@ -1614,7 +1585,7 @@ public class KoLRequest
 	 * Utility method used to transform the next token on the given <code>StringTokenizer</code> into an integer.
 	 * Because this is used repeatedly in parsing, its functionality is provided globally to all instances of
 	 * <code>KoLRequest</code>.
-	 * 
+	 *
 	 * @param st The <code>StringTokenizer</code> whose next token is to be retrieved
 	 * @return The integer token, if it exists, or 0, if the token was not a number
 	 */
@@ -1629,7 +1600,7 @@ public class KoLRequest
 	 * however, this differs in the single-argument version in that only a part of the next token is needed. Because
 	 * this is also used repeatedly in parsing, its functionality is provided globally to all instances of
 	 * <code>KoLRequest</code>.
-	 * 
+	 *
 	 * @param st The <code>StringTokenizer</code> whose next token is to be retrieved
 	 * @param fromStart The index at which the integer to parse begins
 	 * @return The integer token, if it exists, or 0, if the token was not a number
@@ -1646,7 +1617,7 @@ public class KoLRequest
 	 * integer. This differs from the two-argument in that part of the end of the string is expected to contain
 	 * non-numeric values as well. Because this is also repeatedly in parsing, its functionality is provided globally to
 	 * all instances of <code>KoLRequest</code>.
-	 * 
+	 *
 	 * @param st The <code>StringTokenizer</code> whose next token is to be retrieved
 	 * @param fromStart The index at which the integer to parse begins
 	 * @param fromEnd The distance from the end at which the first non-numeric character is found
@@ -1664,7 +1635,7 @@ public class KoLRequest
 	 * An alternative method to doing adventure calculation is determining how many adventures are used by the given
 	 * request, and subtract them after the request is done. This number defaults to <code>zero</code>; overriding
 	 * classes should change this value to the appropriate amount.
-	 * 
+	 *
 	 * @return The number of adventures used by this request.
 	 */
 

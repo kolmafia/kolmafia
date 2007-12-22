@@ -67,8 +67,6 @@ import net.sourceforge.kolmafia.HPRestoreItemList.HPRestoreItem;
 import net.sourceforge.kolmafia.MPRestoreItemList.MPRestoreItem;
 import net.sourceforge.kolmafia.StoreManager.SoldItem;
 
-import com.velocityreviews.forums.HttpTimeoutClient;
-
 public abstract class KoLmafia
 	implements KoLConstants
 {
@@ -423,7 +421,6 @@ public abstract class KoLmafia
 
 		KoLSettings.initializeLists();
 		Runtime.getRuntime().addShutdownHook( new ShutdownThread() );
-		HttpTimeoutClient.setHttpTimeout( Math.max( 100, KoLSettings.getIntegerProperty( "http.socketTimeout" ) ) );
 
 		// Now run the main routines for each, so that
 		// you have an interface.
@@ -982,7 +979,7 @@ public abstract class KoLmafia
 	/**
 	 * Utility. The method to parse an individual adventuring result. This method determines what the result actually
 	 * was and adds it to the tally.
-	 * 
+	 *
 	 * @param result String to parse for the result
 	 */
 
@@ -1054,7 +1051,7 @@ public abstract class KoLmafia
 	 * Utility. The method used to process a result. By default, this method will also add an adventure result to the
 	 * tally directly. This is used whenever the nature of the result is already known and no additional parsing is
 	 * needed.
-	 * 
+	 *
 	 * @param result Result to add to the running tally of adventure results
 	 */
 
@@ -1228,7 +1225,7 @@ public abstract class KoLmafia
 
 	/**
 	 * Returns the string form of the player Id associated with the given player name.
-	 * 
+	 *
 	 * @param playerId The Id of the player
 	 * @return The player's name if it has been seen, or null if it has not yet appeared in the chat (not likely, but
 	 *         possible).
@@ -1247,7 +1244,7 @@ public abstract class KoLmafia
 
 	/**
 	 * Returns the string form of the player Id associated with the given player name.
-	 * 
+	 *
 	 * @param playerName The name of the player
 	 * @return The player's Id if the player has been seen, or the player's name with spaces replaced with underscores
 	 *         and other elements encoded if the player's Id has not been seen.
@@ -1266,7 +1263,7 @@ public abstract class KoLmafia
 
 	/**
 	 * Registers the given player name and player Id with KoLmafia's player name tracker.
-	 * 
+	 *
 	 * @param playerName The name of the player
 	 * @param playerId The player Id associated with this player
 	 */
@@ -1297,7 +1294,7 @@ public abstract class KoLmafia
 
 	/**
 	 * Returns whether or not the current user has a ten-leaf clover.
-	 * 
+	 *
 	 * @return <code>true</code>
 	 */
 
@@ -1708,7 +1705,7 @@ public abstract class KoLmafia
 	/**
 	 * Utility. The method used to process the results of any adventure in the Kingdom of Loathing This method searches
 	 * for items, stat gains, and losses within the provided string.
-	 * 
+	 *
 	 * @param results The string containing the results of the adventure
 	 * @return <code>true</code> if any results existed
 	 */
@@ -2007,7 +2004,7 @@ public abstract class KoLmafia
 	/**
 	 * Makes the given request for the given number of iterations, or until continues are no longer possible, either
 	 * through user cancellation or something occuring which prevents the requests from resuming.
-	 * 
+	 *
 	 * @param request The request made by the user
 	 * @param iterations The number of times the request should be repeated
 	 */
@@ -2915,7 +2912,7 @@ public abstract class KoLmafia
 	/**
 	 * Retrieves whether or not continuation of an adventure or request is permitted by the or by current circumstances
 	 * in-game.
-	 * 
+	 *
 	 * @return <code>true</code> if requests are allowed to continue
 	 */
 
@@ -2927,7 +2924,7 @@ public abstract class KoLmafia
 	/**
 	 * Retrieves whether or not continuation of an adventure or request will be denied by the regardless of continue
 	 * state reset, until the display is enable (ie: in an abort state).
-	 * 
+	 *
 	 * @return <code>true</code> if requests are allowed to continue
 	 */
 
@@ -2938,7 +2935,7 @@ public abstract class KoLmafia
 
 	/**
 	 * Forces a continue state. This should only be called when there is no doubt that a continue should occur.
-	 * 
+	 *
 	 * @return <code>true</code> if requests are allowed to continue
 	 */
 

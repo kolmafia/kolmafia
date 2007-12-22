@@ -427,7 +427,7 @@ public class LoginFrame
 		private final JCheckBox[] optionBoxes;
 
 		private final String[][] options =
-			{ { "proxySet", "Use a proxy to connect to the Kingdom of Loathing" }, { "testSocketTimeout", "Allow socket timeouts for unstable connections" }, { "printSocketTimeouts", "Show error message when a socket timeout occurs" } };
+			{ { "proxySet", "Use a proxy to connect to the Kingdom of Loathing" } };
 
 		public ConnectionOptionsPanel()
 		{
