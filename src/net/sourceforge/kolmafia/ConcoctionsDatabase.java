@@ -955,6 +955,13 @@ public class ConcoctionsDatabase
 			}
 		}
 
+		// Since catalysts aren't purchasable, you can only
+		// create items based on them if it's already in your
+		// inventory.
+
+		ConcoctionsDatabase.PERMIT_METHOD[ KoLConstants.CATALYST ] =
+			KoLCharacter.isMysticalityClass() || KoLCharacter.getClassType().equals(  KoLCharacter.ACCORDION_THIEF );
+
 		// Cooking of reagents and noodles is possible whenever
 		// the person can cook and has the appropriate skill.
 
