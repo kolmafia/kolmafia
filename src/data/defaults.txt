@@ -53,7 +53,6 @@ global	http.proxyHost
 global	http.proxyPassword
 global	http.proxyPort
 global	http.proxyUser
-global	http.socketTimeout	8000
 global	initialDesktop	AdventureFrame,CommandDisplayFrame,GearChangeFrame
 global	initialFrames	EventsFrame
 global	innerChatColor	#ffa98c
@@ -89,7 +88,6 @@ global	pathedSummonsSoftcore	false
 global	preferredWebBrowser
 global	previousNotifyList	<>
 global	previousUpdateVersion
-global	printSocketTimeouts	true
 global	protectAgainstOverdrink	true
 global	proxySet	false
 global	readManualHardcore	true
@@ -123,7 +121,6 @@ global	scriptList	restore hp | restore mp
 global	showAllRequests	false
 global	swingLookAndFeel
 global	switchEquipmentForBuffs	true
-global	testSocketTimeout	false
 global	toolbarPosition	1
 global	useChatMonitor	false
 global	useChatToolbar	true

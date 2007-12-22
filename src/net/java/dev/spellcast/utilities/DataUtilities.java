@@ -43,8 +43,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import com.velocityreviews.forums.HttpTimeoutHandler;
-
 /**
  * Formed after the same idea as <code>SwingUtilities</code>, this contains common functions needed by many of the
  * data-related classes. Any methods which are used by multiple instances of a JComponent and have a non-class-specific
@@ -60,7 +58,7 @@ public class DataUtilities
 	 * inside of a class tree, and from the local directory from which the Java command line is called. The priority is
 	 * as listed, in reverse order. Note that rather than throwing an exception should the file not be successfully
 	 * found, this function will instead print out an error message and simply return null.
-	 * 
+	 *
 	 * @param filename the name of the file to be retrieved
 	 */
 
@@ -90,7 +88,7 @@ public class DataUtilities
 	 * inside of a class tree, and from the local directory from which the Java command line is called. The priority is
 	 * as listed, in reverse order. Note that rather than throwing an exception should the file not be successfully
 	 * found, this function will instead print out an error message and simply return null.
-	 * 
+	 *
 	 * @param directory the subdirectory of the file
 	 * @param filename the name of the file to be retrieved
 	 */
@@ -107,7 +105,7 @@ public class DataUtilities
 			if ( filename.startsWith( "http://" ) )
 			{
 				HttpURLConnection connection =
-					(HttpURLConnection) ( new URL( null, filename, HttpTimeoutHandler.getInstance() ) ).openConnection();
+					(HttpURLConnection) ( new URL( null, filename ) ).openConnection();
 				InputStream istream = connection.getInputStream();
 
 				if ( connection.getResponseCode() != 200 )
@@ -166,7 +164,7 @@ public class DataUtilities
 	 * A public function used to retrieve the input stream, given a filename. Allows referencing images within a JAR,
 	 * inside of a class tree, and from the local directory from which the Java command line is called. The priority is
 	 * as listed, in reverse order.
-	 * 
+	 *
 	 * @param directory the subtree in which the file can be found
 	 * @param filename the name of the file to be retrieved
 	 */
@@ -233,7 +231,7 @@ public class DataUtilities
 	 * In a lot of HTML documents and still others, colors are represented using the RGB values, concatenated as
 	 * hexadecimal strings. This function is used to create that hexadecimal string from a color object. Note that the
 	 * traditional pound symbol will also be part of the string.
-	 * 
+	 *
 	 * @param c The color to be translated to a hexadecimal string.
 	 * @return The hexadecimal string representation of the color
 	 */
@@ -255,7 +253,7 @@ public class DataUtilities
 	/**
 	 * In a lot of HTML documents and still others, colors are represented using the RGB values, concatenated as
 	 * hexadecimal strings. This function is used to create a color object from such a hexadecimal string.
-	 * 
+	 *
 	 * @param hexString The hexadecimal string (with # prefix) to be translated to a color
 	 * @return The color represented by this hexadecimal string
 	 */
@@ -274,7 +272,7 @@ public class DataUtilities
 	 * the purpose of this function is to convert a given long to a zero-filled hexadecimal string of given length.
 	 * Note, however, that negative values and values which cannot be represented with the given number of hexadecimal
 	 * digits will cause an exception to be thrown.
-	 * 
+	 *
 	 * @param value The value to convert to hexadecimal
 	 * @param digitCount The number of digits to use
 	 * @return The hexadecimal string representation of the given value, set to the given length
@@ -308,7 +306,7 @@ public class DataUtilities
 	 * <code>ChatBuffer</code> component to translate the plain text values returned by the
 	 * <code>getChatDisplayForm()</code> to values that can be displayed in a <code>JEditorPane</code> set to
 	 * display HTML.
-	 * 
+	 *
 	 * @param plainText The plain text to be converted to HTML
 	 * @return The HTML representation of the plain text.
 	 */

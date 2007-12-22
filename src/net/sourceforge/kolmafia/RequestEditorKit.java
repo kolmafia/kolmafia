@@ -66,8 +66,6 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 
-import com.velocityreviews.forums.HttpTimeoutHandler;
-
 public class RequestEditorKit
 	extends HTMLEditorKit
 	implements KoLConstants
@@ -480,7 +478,7 @@ public class RequestEditorKit
 
 		try
 		{
-			URLConnection connection = ( new URL( null, remote, HttpTimeoutHandler.getInstance() ) ).openConnection();
+			URLConnection connection = ( new URL( null, remote ) ).openConnection();
 			if ( remote.startsWith( "http://pics.communityofloathing.com" ) )
 			{
 				Matcher idMatcher = RequestEditorKit.FILEID_PATTERN.matcher( local.getPath() );
