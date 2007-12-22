@@ -5580,28 +5580,25 @@ public class KoLmafiaCLI
 
 		String[] split = parameters.split( " " );
 		String command = split[ 0 ];
-		int stat = KoLmafia.NONE;
 
 		if ( command.equalsIgnoreCase( "muscle" ) )
 		{
-			stat = KoLConstants.MUSCLE;
+			RequestThread.postRequest( new StyxPixieRequest( KoLConstants.MUSCLE ) );
 		}
 		else if ( command.equalsIgnoreCase( "mysticality" ) )
 		{
-			stat = KoLConstants.MYSTICALITY;
+			RequestThread.postRequest( new StyxPixieRequest( KoLConstants.MYSTICALITY ) );
 		}
 		else if ( command.equalsIgnoreCase( "moxie" ) )
 		{
-			stat = KoLConstants.MOXIE;
+			RequestThread.postRequest( new StyxPixieRequest( KoLConstants.MOXIE ) );
 		}
-
-		if ( stat == KoLmafia.NONE )
+		else
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can only buff muscle, mysticality, or moxie." );
 			return;
 		}
 
-		RequestThread.postRequest( new StyxPixieRequest( stat ) );
 	}
 
 	/**
