@@ -1,8 +1,7 @@
 1
 # Bot	Player ID	XML File URL
 
-Testudinata	537858	http://www.otori.org/buffs/testudinata.xml
-Binary	322696	http://www.otori.org/buffs/binary.xml
+Testudinata	537858	http://clanotori.org/bots/testudinata.xml
 Noblesse Oblige	594822	http://forums.kingdomofloathing.com/
 IocaineBot	792443	http://kolmods.com/aprocalypse/iocainebot/iocainebot.xml
 Niten	353078	http://www.jick-nerfed.us/NitraMo/Buffbot/Niten.xml
