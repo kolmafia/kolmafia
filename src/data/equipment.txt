@@ -564,6 +564,7 @@ titanium assault umbrella	130	Mus: 50	1-handed umbrella
 toy ray gun	175	Mox: 72	1-handed pistol
 two-handed depthsword	120	Mus: 45	2-handed sword
 vampire duck-on-a-string	100	Mus: 35	1-handed flail
+vibrating cyborg knife	150	Mus: 55	1-handed sword
 vorpal blade	90	Mus: 30	1-handed sword
 war tongs	180	Mys: 75	1-handed utensil
 white sword	40	Mus: 5	1-handed sword
