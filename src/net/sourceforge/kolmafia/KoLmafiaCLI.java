@@ -842,7 +842,7 @@ public class KoLmafiaCLI
 
 		if ( command.equals( "text" ) )
 		{
-			KoLRequest visitor = new KoLRequest( this.currentLine );
+			KoLRequest visitor = new KoLRequest( parameters );
 			if ( KoLRequest.shouldIgnore( visitor ) )
 			{
 				return;

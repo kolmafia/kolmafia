@@ -3075,7 +3075,7 @@
 3074	polymorphic fastening apparatus	0	display	0
 3075	General Assembly Module	3	display	0
 3076	laser targeting chip	0	display	0
-3077	
+3077	hi-density nylocite leg armor	0	display	0
 3078	
 3079	Bulky Buddy Box	5	all	0
 3080	teddy borg	5	all	120
@@ -3088,7 +3088,7 @@
 3087	teddy borg sewing kit	7	all	75
 3088	
 3089	C.B.F.G.	12	display	0
-3090	
+3090	biomechanical crimborg leg armor	10	display	0
 3091	vitachoconutriment capsule	3	all	0
 3092	
 3093	
@@ -3102,9 +3102,10 @@
 3101	rogue swarmer	0	all	100
 3102	sawblade fragment	0	all	100
 3103	unstable laser battery	0	all	100
-3104	
+3104	vibrating cyborg knife	12	all	155
 3105	
 3106	
 3107	deactivated RoboGoose	5	display	0
 3108	overclocked avian microprocessor	7	all	75
 3109	Miniborg stomper	0	all	0
+3110	Miniborg strangler	0	all	0

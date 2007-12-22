@@ -634,6 +634,7 @@ titanium assault umbrella	Cold Resistance: +10, Hot Resistance: +10, Sleaze Resi
 toy ray gun	Hot Damage: +5, Critical: 2
 # two-handed depthsword
 vampire duck-on-a-string	Melee Damage: +5, Item Drop: +5
+vibrating cyborg knife	Melee Damage: +20, Fumble: 3
 vorpal blade	Critical: 2
 war tongs	Hot Damage: +10, Hot Spell Damage: +10
 white sword	Muscle: +2

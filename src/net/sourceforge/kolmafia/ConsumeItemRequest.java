@@ -237,6 +237,7 @@ public class ConsumeItemRequest
 	// Cyborg pants parts
 	private static final AdventureResult GLUTEAL_SHIELD = new AdventureResult( 3071, -1 );
 	private static final AdventureResult FASTENING_APPARATUS = new AdventureResult( 3074, -1 );
+	private static final AdventureResult LEG_ARMOR = new AdventureResult( 3077, -1 );
 
 	private final int consumptionType;
 	private AdventureResult itemUsed = null;
@@ -1732,6 +1733,22 @@ public class ConsumeItemRequest
 
 				return;
 			}
+
+			// You breathe a heavy sigh of relief as the pseudopods
+			// emerge from your inventory, carrying the polymorphic
+			// fastening apparatus, hi-density nylocite leg armor,
+			// and the silicon-infused gluteal shield that you
+			// acquired earlier from the Sinister Dodecahedron.
+
+			if ( responseText.indexOf( "carrying the polymorphic fastening apparatus" ) != -1 )
+			{
+				StaticEntity.getClient().processResult( ConsumeItemRequest.FASTENING_APPARATUS );
+				StaticEntity.getClient().processResult( ConsumeItemRequest.LEG_ARMOR );
+				StaticEntity.getClient().processResult( ConsumeItemRequest.GLUTEAL_SHIELD );
+
+				return;
+			}
+
 			return;
 		}
 	}

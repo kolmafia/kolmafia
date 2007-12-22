@@ -1396,6 +1396,7 @@ public class FightRequest
 		case 2848: // Gnomitronic Hyperspatial Demodulizer
 		case 2947: // The Big Book of Pirate Insults
 		case 3109: // Miniborg stomper
+		case 3110: // Miniborg strangler
 			return false;
 
 		case 829: // Anti-Anti-Antidote

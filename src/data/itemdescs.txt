@@ -3080,7 +3080,7 @@
 3074	644106227	polymorphic fastening apparatus
 3075	268856504	General Assembly Module
 3076	161453198	laser targeting chip
-3077	
+3077	764018592	hi-density nylocite leg armor
 3078	
 3079	164132105	Bulky Buddy Box	Bulky Buddy Boxen
 3080	447370300	teddy borg	teddy borgs
@@ -3093,7 +3093,7 @@
 3087	511433261	teddy borg sewing kit	teddy borg sewing kits
 3088	
 3089	149939402	C.B.F.G.
-3090	
+3090	966481569	biomechanical crimborg leg armor
 3091	746449292	vitachoconutriment capsule
 3092	
 3093	
@@ -3107,9 +3107,10 @@
 3101	280870255	rogue swarmer	rogue swarmers
 3102	931098196	sawblade fragment	sawblade fragments
 3103	372138300	unstable laser battery	
-3104	
+3104	173338298	vibrating cyborg knife
 3105	
 3106	
 3107	674971550	deactivated RoboGoose
 3108	212941273	overclocked avian microprocessor
 3109	972162206	Miniborg stomper	Miniborg stompers
+3110	928240259	Miniborg strangler	Miniborg stranglers
