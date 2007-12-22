@@ -3043,10 +3043,10 @@
 3042	Crimbo P. R. E. S. S. I. E.	5	all	0
 3043	metallic foil bow	7	all	75
 3044	metallic foil radar dish	7	all	75
-3045	perfectly innocuous gingerbread bugbear	1	all	0
-3046	unremarkable candy cane	1	all	0
-3047	completely typical fruitcake	1	all	37
-3048	untainted eggnog	2	all	49
+3045	nanite-infested gingerbread bugbear	1	all	0
+3046	nanite-infested candy cane	1	all	0
+3047	nanite-infested fruitcake	1	all	37
+3048	nanite-infested eggnog	2	all	49
 3049	strange stone sphere	0	all	0
 3050	cursed eyepatch	8	display	0
 3051	cursed cutlass	12	display	0

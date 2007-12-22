@@ -3048,10 +3048,10 @@
 3042	622329601	Crimbo P. R. E. S. S. I. E.	
 3043	637200318	metallic foil bow
 3044	501377601	metallic foil radar dish
-3045	967669535	perfectly innocuous gingerbread bugbear
-3046	190558951	unremarkable candy cane	
-3047	203826503	completely typical fruitcake	
-3048	820385035	untainted eggnog
+3045	967669535	nanite-infested gingerbread bugbear
+3046	190558951	nanite-infested candy cane	
+3047	203826503	nanite-infested fruitcake	
+3048	820385035	nanite-infested eggnog
 3049	517851076	strange stone sphere
 3050	331604248	cursed eyepatch
 3051	321086673	cursed cutlass
