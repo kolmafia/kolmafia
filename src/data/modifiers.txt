@@ -112,6 +112,7 @@ basic meat helmet	Muscle: +1
 bat hat	Mysticality: +9, Item Drop: +5
 beer helmet	Maximum MP: +40
 big bad voodoo mask	Mysticality: +7, Spell Damage: +15
+biomechanical crimborg helmet	Hot Damage: +5, Stench Damage: +5
 black cowboy hat	Muscle: +8, Melee Damage: +8
 black helmet	Maximum HP: +30
 blue traffic cone	Moxie: +3, Hot Resistance: +20
@@ -239,6 +240,7 @@ barskin loincloth	Muscle: +1
 basic meat kilt	Moxie: +1
 basic meat pants	Moxie: +1
 basic meat skirt	Moxie: +1
+biomechanical crimborg leg armor	Hot Damage: +5, Stench Damage: +5
 black greaves	Muscle: +10, Damage Absorption: +30
 bloody clown pants	Spooky Damage: +3
 bounty-hunting pants	Item Drop: +15
@@ -540,6 +542,7 @@ huge mirror shard	Melee Damage: +5
 huge spoon	Spell Damage: +10
 ice sickle	Monster Level: +15, Cold Damage: +5, Softcore Only
 icy-hot katana	Hot Damage: +3, Cold Damage: +3
+immense cyborg hand	 Melee Damage: +5, Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3
 iron pasta spoon	Spell Damage: +10
 jack flapper	Spell Damage: +5
 kneecapping stick	Critical: 3
