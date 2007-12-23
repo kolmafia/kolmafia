@@ -1397,6 +1397,7 @@ public class FightRequest
 		case 2947: // The Big Book of Pirate Insults
 		case 3109: // Miniborg stomper
 		case 3110: // Miniborg strangler
+		case 3111: // Miniborg laser
 			return false;
 
 		case 829: // Anti-Anti-Antidote

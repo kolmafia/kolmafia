@@ -232,7 +232,8 @@ public class ConsumeItemRequest
 
 	// Cyborg hat parts
 	private static final AdventureResult CHIN_STRAP = new AdventureResult( 3070, -1 );
-	private static final AdventureResult CARBONITE_VOSOR = new AdventureResult( 3072, -1 );
+	private static final AdventureResult CARBONITE_VISOR = new AdventureResult( 3072, -1 );
+	private static final AdventureResult KEVLATEFLOCITE_HELMET = new AdventureResult( 3078, -1 );
 
 	// Cyborg pants parts
 	private static final AdventureResult GLUTEAL_SHIELD = new AdventureResult( 3071, -1 );
@@ -1745,6 +1746,21 @@ public class ConsumeItemRequest
 				StaticEntity.getClient().processResult( ConsumeItemRequest.FASTENING_APPARATUS );
 				StaticEntity.getClient().processResult( ConsumeItemRequest.LEG_ARMOR );
 				StaticEntity.getClient().processResult( ConsumeItemRequest.GLUTEAL_SHIELD );
+
+				return;
+			}
+
+			// You breathe a heavy sigh of relief as the pseudopods
+			// emerge from your inventory, carrying the carbonite
+			// visor, plexifoam chin strap, and the kevlateflocite
+			// helmet that you acquired earlier from the Sinister
+			// Dodecahedron.
+
+			if ( responseText.indexOf( "carrying the carbonite visor" ) != -1 )
+			{
+				StaticEntity.getClient().processResult( ConsumeItemRequest.CARBONITE_VISOR );
+				StaticEntity.getClient().processResult( ConsumeItemRequest.CHIN_STRAP );
+				StaticEntity.getClient().processResult( ConsumeItemRequest.KEVLATEFLOCITE_HELMET );
 
 				return;
 			}

@@ -3081,7 +3081,7 @@
 3075	268856504	General Assembly Module
 3076	161453198	laser targeting chip
 3077	764018592	hi-density nylocite leg armor
-3078	
+3078	967897878	kevlateflocite helmet
 3079	164132105	Bulky Buddy Box	Bulky Buddy Boxen
 3080	447370300	teddy borg	teddy borgs
 3081	746649355	marionette collective	marionette collectives
@@ -3091,7 +3091,7 @@
 3085	153919945	roboduck-on-a-string	roboducks-on-strings
 3086	941936499	mylar scout drone	mylar scout drones
 3087	511433261	teddy borg sewing kit	teddy borg sewing kits
-3088	
+3088	619507061	biomechanical crimborg helmet
 3089	149939402	C.B.F.G.
 3090	966481569	biomechanical crimborg leg armor
 3091	746449292	vitachoconutriment capsule
@@ -3106,11 +3106,12 @@
 3100	412530596	robotronic egg	robotronic eggs
 3101	280870255	rogue swarmer	rogue swarmers
 3102	931098196	sawblade fragment	sawblade fragments
-3103	372138300	unstable laser battery	
-3104	173338298	vibrating cyborg knife
-3105	
+3103	372138300	unstable laser battery	unstable laser batteries
+3104	173338298	vibrating cyborg knife	vibrating cyborg knifes
+3105	423981448	immense cyborg hand	immense cyborg hands
 3106	
 3107	674971550	deactivated RoboGoose
 3108	212941273	overclocked avian microprocessor
 3109	972162206	Miniborg stomper	Miniborg stompers
 3110	928240259	Miniborg strangler	Miniborg stranglers
+3111	386931733	Miniborg laser	Miniborg lasers
