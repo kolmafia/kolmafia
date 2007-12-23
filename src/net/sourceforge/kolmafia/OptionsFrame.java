@@ -791,25 +791,35 @@ public class OptionsFrame
 		implements ListDataListener
 	{
 		private final String[][] FRAME_OPTIONS =
-			{ { "Adventure", "AdventureFrame" }, { "Mini-Browser", "RequestFrame" }, { "Relay Server", "LocalRelayServer" },
-
-			{ "Purchases", "MallSearchFrame" }, { "Graphical CLI", "CommandDisplayFrame" },
-
-			{ "Player Status", "CharsheetFrame" }, { "Item Manager", "ItemManageFrame" }, { "Gear Changer", "GearChangeFrame" },
-
-			{ "Store Manager", "StoreManageFrame" }, { "Museum Display", "MuseumFrame" },
-
-			{ "Hall of Legends", "MeatManageFrame" }, { "Skill Casting", "SkillBuffFrame" },
-
-			{ "Contact List", "ContactListFrame" }, { "Buffbot Manager", "BuffBotFrame" }, { "Purchase Buffs", "BuffRequestFrame" },
-
-			{ "Flower Hunter", "FlowerHunterFrame" }, { "Mushroom Plot", "MushroomFrame" }, { "Familiar Trainer", "FamiliarTrainingFrame" },
-
-			{ "IcePenguin Express", "MailboxFrame" }, { "Loathing Chat", "KoLMessenger" }, { "Recent Events", "EventsFrame" },
-
-			{ "Clan Management", "ClanManageFrame" }, { "Farmer's Almanac", "CalendarFrame" }, { "Internal Database", "ExamineItemsFrame" },
-
-			{ "Coin Toss Game", "MoneyMakingGameFrame" }, { "Preferences", "OptionsFrame" } };
+		{
+			{ "Adventure", "AdventureFrame" },
+			{ "Mini-Browser", "RequestFrame" },
+			{ "Relay Server", "LocalRelayServer" },
+			{ "Purchases", "MallSearchFrame" },
+			{ "Graphical CLI", "CommandDisplayFrame" },
+			{ "Player Status", "CharsheetFrame" },
+			{ "Item Manager", "ItemManageFrame" },
+			{ "Gear Changer", "GearChangeFrame" },
+			{ "Store Manager", "StoreManageFrame" },
+			{ "Coin Masters", "CoinmastersFrame" },
+			{ "Museum Display", "MuseumFrame" },
+			{ "Hall of Legends", "MeatManageFrame" },
+			{ "Skill Casting", "SkillBuffFrame" },
+			{ "Contact List", "ContactListFrame" },
+			{ "Buffbot Manager", "BuffBotFrame" },
+			{ "Purchase Buffs", "BuffRequestFrame" },
+			{ "Flower Hunter", "FlowerHunterFrame" },
+			{ "Mushroom Plot", "MushroomFrame" },
+			{ "Familiar Trainer", "FamiliarTrainingFrame" },
+			{ "IcePenguin Express", "MailboxFrame" },
+			{ "Loathing Chat", "KoLMessenger" },
+			{ "Recent Events", "EventsFrame" },
+			{ "Clan Management", "ClanManageFrame" },
+			{ "Farmer's Almanac", "CalendarFrame" },
+			{ "Internal Database", "ExamineItemsFrame" },
+			{ "Coin Toss Game", "MoneyMakingGameFrame" },
+			{ "Preferences", "OptionsFrame" }
+		};
 
 		private boolean isRefreshing = false;
 

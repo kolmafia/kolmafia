@@ -1318,6 +1318,9 @@ public class BigIsland
 			KoLSettings.setUserProperty( "currentJunkyardTool", "" );
 			KoLSettings.setUserProperty( "currentJunkyardLocation", "" );
 			KoLSettings.setUserProperty( "currentNunneryMeat", "0" );
+			KoLSettings.setUserProperty( "availableDimes", "0" );
+			KoLSettings.setUserProperty( "availableQuarters", "0" );
+			KoLSettings.setUserProperty( "sideDefeated", "neither" );
 		}
 
 		// Set variables from user settings
@@ -1339,6 +1342,9 @@ public class BigIsland
 
 		// Set variables from user settings
 		BigIsland.ensureUpdatedPostwarIsland();
+
+		// Deduce which side was defeated
+		BigIsland.deduceWinner( responseText );
 
 		// Deduce things about quests
 		BigIsland.quest = BigIsland.parseQuest( location );
@@ -1365,6 +1371,15 @@ public class BigIsland
 			KoLSettings.setUserProperty( "sidequestOrchardCompleted", KoLSettings.getUserProperty( "currentHippyStore" ) );
 			KoLSettings.setUserProperty( "sidequestNunsCompleted", "none" );
 		}
+	}
+
+	private static final void deduceWinner( final String responseText )
+	{
+		boolean hippiesLost = responseText.indexOf( "snarfblat=149" ) != -1;
+		boolean fratboysLost = responseText.indexOf( "snarfblat=150" ) != -1;
+		String loser = ( !hippiesLost ) ? "fratboys" : ( !fratboysLost ) ? "hippies" : "both";
+		KoLSettings.resetUserProperty( "sideDefeated", loser );
+		return;
 	}
 
 	public static final void decoratePostwarIsland( final String url, final StringBuffer buffer )
