@@ -183,6 +183,7 @@ public class KoLMenuBar
 		travelMenu.add( new InvocationMenuItem( "Loot the Hermit", StaticEntity.getClient(), "makeHermitRequest" ) );
 		travelMenu.add( new InvocationMenuItem( "Visit the Trapper", StaticEntity.getClient(), "makeTrapperRequest" ) );
 		travelMenu.add( new InvocationMenuItem( "Visit the Hunter", StaticEntity.getClient(), "makeHunterRequest" ) );
+		travelMenu.add( new DisplayFrameMenuItem( "Visit Coin Masters", "CoinmastersFrame" ) );
 
 		// Add in automatic quest completion scripts.
 
