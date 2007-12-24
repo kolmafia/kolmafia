@@ -253,11 +253,6 @@ public class KoLmafiaASH
 
 	public static final boolean getClientHTML( final LocalRelayRequest request )
 	{
-		if ( KoLRequest.shouldIgnore( request ) )
-		{
-			return false;
-		}
-
 		String script = request.getPath();
 
 		if ( KoLmafiaASH.relayScriptMap.containsKey( script ) )
