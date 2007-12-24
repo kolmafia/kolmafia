@@ -429,13 +429,13 @@ public class LocalRelayAgent
 					// interrupted.  Fall through.
 				}
 
-				if ( !KoLSettings.getUserProperty( "battleAction" ).startsWith( "custom" ) )
-				{
-					KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "battleAction=custom" );
-				}
-
 				if ( this.desiredAction == null )
 				{
+					if ( !KoLSettings.getUserProperty( "battleAction" ).startsWith( "custom" ) )
+					{
+						KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", "battleAction=custom" );
+					}
+
 					FightRequest.INSTANCE.run();
 				}
 				else
