@@ -681,6 +681,7 @@ public class UseSkillRequest
 		else if ( this.responseText.indexOf( "You don't have enough" ) != -1 )
 		{
 			shouldStop = false;
+			CharpaneRequest.getInstance().run();
 			UseSkillRequest.lastUpdate = "Not enough mana to cast " + this.skillName + ".";
 		}
 		else if ( this.responseText.indexOf( "You can only conjure" ) != -1 || this.responseText.indexOf( "You can only scrounge up" ) != -1 || this.responseText.indexOf( "You can only summon" ) != -1 )
