@@ -90,8 +90,12 @@ public abstract class CombatSettings
 			CombatSettings.availableScripts.add( name );
 		}
 
-		KoLSettings.setUserProperty( "customCombatScript", name + ".ccs" );
-		CombatSettings.loadSettings( name + ".ccs" );
+		if ( !name.endsWith( ".css" ) )
+		{
+			name = name + ".ccs";
+		}
+
+		CombatSettings.loadSettings( name );
 	}
 
 	public static final String settingName()
@@ -113,7 +117,7 @@ public abstract class CombatSettings
 	/**
 	 * Loads the settings located in the given file into this object. Note that all settings are overridden; if the
 	 * given file does not exist, the current global settings will also be rewritten into the appropriate file.
-	 * 
+	 *
 	 * @param source The file that contains (or will contain) the character data
 	 */
 
