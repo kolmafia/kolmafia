@@ -289,35 +289,52 @@ public abstract class SendMessageRequest
 		// Make sure that the message was actually sent -
 		// the person could have input an invalid player Id
 
-		if ( !this.getSuccessMessage().equals( "" ) && this.responseText.indexOf( this.getSuccessMessage() ) == -1 )
-		{
-			SendMessageRequest.hadSendMessageFailure = true;
-			boolean shouldUpdateDisplay = SendMessageRequest.willUpdateDisplayOnFailure();
+		if ( this.getSuccessMessage().equals( "" ) || this.responseText.indexOf( this.getSuccessMessage() ) != -1 )
+			return;
 
-			for ( int i = 0; i < this.attachments.length; ++i )
+		SendMessageRequest.hadSendMessageFailure = true;
+		boolean shouldUpdateDisplay = SendMessageRequest.willUpdateDisplayOnFailure();
+		AdventureResult item;
+
+		for ( int i = 0; i < this.attachments.length; ++i )
+		{
+			item = (AdventureResult) this.attachments[ i ];
+
+			if ( shouldUpdateDisplay )
 			{
-				if ( shouldUpdateDisplay )
-				{
-					KoLmafia.updateDisplay(
-						KoLConstants.ERROR_STATE, "Transfer failed for " + this.attachments[ i ].toString() );
-				}
-				if ( this.source == KoLConstants.inventory )
-				{
-					StaticEntity.getClient().processResult( (AdventureResult) this.attachments[ i ] );
-				}
+				KoLmafia.updateDisplay(
+					KoLConstants.ERROR_STATE, "Transfer failed for " + item.toString() );
 			}
 
-			int totalMeat = StaticEntity.parseInt( this.getFormField( this.getMeatField() ) );
-			if ( totalMeat != 0 )
+			if ( this.source == KoLConstants.inventory )
 			{
-				if ( shouldUpdateDisplay )
-				{
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Transfer failed for " + totalMeat + " meat" );
-				}
-				if ( this.source == KoLConstants.inventory )
-				{
-					StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, totalMeat ) );
-				}
+				StaticEntity.getClient().processResult( item );
+			}
+			else
+			{
+				AdventureResult.addResultToList( this.source, item );
+			}
+
+			if ( this.destination == KoLConstants.inventory )
+			{
+				StaticEntity.getClient().processResult( item.getNegation() );
+			}
+			else
+			{
+				AdventureResult.addResultToList( this.destination, item.getNegation() );
+			}
+		}
+
+		int totalMeat = StaticEntity.parseInt( this.getFormField( this.getMeatField() ) );
+		if ( totalMeat != 0 )
+		{
+			if ( shouldUpdateDisplay )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Transfer failed for " + totalMeat + " meat" );
+			}
+			if ( this.source == KoLConstants.inventory )
+			{
+				StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, totalMeat ) );
 			}
 		}
 	}
@@ -424,52 +441,26 @@ public abstract class SendMessageRequest
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( itemListBuffer.toString() );
 
-		if ( source == KoLConstants.inventory )
+		if ( source != null )
 		{
 			AdventureResult item;
+
 			for ( int i = 0; i < itemList.size(); ++i )
 			{
-				item = (AdventureResult) itemList.get( i );
-				StaticEntity.getClient().processResult( item.getNegation() );
+				item = ( (AdventureResult) itemList.get( i ) ).getNegation();
 
-				if ( !command.endsWith( "sell" ) )
+				if ( source == KoLConstants.inventory )
 				{
-					continue;
+					StaticEntity.getClient().processResult( item );
 				}
-
-				if ( command.equals( "autosell" ) && !NPCStoreDatabase.contains( item.getName(), false ) && defaultQuantity == 0 )
+				else
 				{
-					if ( !KoLConstants.junkList.contains( item ) )
-					{
-						KoLConstants.junkList.add( item );
-					}
+					AdventureResult.addResultToList( source, item );
 				}
-				else if ( command.equals( "mallsell" ) )
-				{
-					if ( !KoLConstants.profitableList.contains( item ) )
-					{
-						KoLConstants.profitableList.add( item );
-					}
-				}
-
-			}
-		}
-		else if ( source != null )
-		{
-			for ( int i = 0; i < itemList.size(); ++i )
-			{
-				AdventureResult.addResultToList( source, ( (AdventureResult) itemList.get( i ) ).getNegation() );
 			}
 		}
 
-		if ( destination == KoLConstants.inventory )
-		{
-			for ( int i = 0; i < itemList.size(); ++i )
-			{
-				StaticEntity.getClient().processResult( (AdventureResult) itemList.get( i ) );
-			}
-		}
-		else if ( destination == KoLConstants.collection )
+		if ( destination == KoLConstants.collection )
 		{
 			if ( !KoLConstants.collection.isEmpty() )
 			{
@@ -488,9 +479,20 @@ public abstract class SendMessageRequest
 		}
 		else if ( destination != null )
 		{
+			AdventureResult item;
+
 			for ( int i = 0; i < itemList.size(); ++i )
 			{
-				AdventureResult.addResultToList( destination, (AdventureResult) itemList.get( i ) );
+				item = (AdventureResult) itemList.get( i );
+
+				if ( destination == KoLConstants.inventory )
+				{
+					StaticEntity.getClient().processResult( item );
+				}
+				else
+				{
+					AdventureResult.addResultToList( destination, item );
+				}
 			}
 		}
 
