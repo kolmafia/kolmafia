@@ -43,6 +43,7 @@ import java.io.InputStreamReader;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Properties;
 import java.util.TreeMap;
 
@@ -58,6 +59,7 @@ public class KoLSettings
 {
 	private boolean valuesChanged = false;
 	private static final TreeMap checkboxMap = new TreeMap();
+	private static final TreeMap propertyNames = new TreeMap();
 
 	public static final String[] COMMON_JUNK =
 	{
@@ -205,7 +207,7 @@ public class KoLSettings
 	};
 
 	public static final String[] COMMON_MEMENTOS =
-        {
+	{
 		// Crimbo 2005/2006 accessories, if they're still around,
 		// probably shouldn't be placed in the player's store.
 
@@ -536,7 +538,7 @@ public class KoLSettings
 	/**
 	 * Constructs a userSettings file for a character with the specified name. Note that in the data file created, all
 	 * spaces in the character name will be replaced with an underscore, and all other punctuation will be removed.
-	 * 
+	 *
 	 * @param characterName The name of the character this userSettings file represents
 	 */
 
@@ -548,6 +550,19 @@ public class KoLSettings
 
 		this.loadFromFile();
 		this.ensureDefaults();
+	}
+
+	public static final String getCaseSensitiveName( final String name )
+	{
+		String lowercase = name.toLowerCase();
+		String actualName = (String) KoLSettings.propertyNames.get( lowercase );
+		if ( actualName != null )
+		{
+			return actualName;
+		}
+
+		KoLSettings.propertyNames.put( lowercase, name );
+		return name;
 	}
 
 	public static final String baseUserName( final String name )
@@ -641,8 +656,9 @@ public class KoLSettings
 		return KoLSettings.GLOBAL_MAP.containsKey( name ) || name.startsWith( "saveState" ) || name.startsWith( "displayName" ) || name.startsWith( "getBreakfast" );
 	}
 
-	public String getProperty( final String name )
+	public String getProperty( String name )
 	{
+		name = KoLSettings.getCaseSensitiveName( name );
 		boolean isGlobalProperty = KoLSettings.isGlobalProperty( name );
 
 		if ( isGlobalProperty && !this.isGlobal )
@@ -659,13 +675,14 @@ public class KoLSettings
 		return value == null ? "" : RequestEditorKit.getUnicode( value );
 	}
 
-	public Object setProperty( final String name, String value )
+	public Object setProperty( String name, String value )
 	{
 		if ( value == null )
 		{
 			return "";
 		}
 
+		name = KoLSettings.getCaseSensitiveName( name );
 		boolean isGlobalProperty = KoLSettings.isGlobalProperty( name );
 
 		if ( isGlobalProperty && !this.isGlobal )
@@ -827,7 +844,7 @@ public class KoLSettings
 	/**
 	 * Loads the userSettings located in the given file into this object. Note that all userSettings are overridden; if
 	 * the given file does not exist, the current global userSettings will also be rewritten into the appropriate file.
-	 * 
+	 *
 	 * @param source The file that contains (or will contain) the character data
 	 */
 
@@ -867,6 +884,14 @@ public class KoLSettings
 
 			StaticEntity.printStackTrace( e2 );
 			this.userSettingsFile.delete();
+		}
+
+		String currentKey;
+		Iterator keyIterator = this.keySet().iterator();
+		while ( keyIterator.hasNext() )
+		{
+			currentKey = (String) keyIterator.next();
+			KoLSettings.propertyNames.put( currentKey.toLowerCase(), currentKey );
 		}
 	}
 
