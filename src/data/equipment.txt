@@ -764,6 +764,7 @@ Iron Beta of Industry	0	Mys: 85
 Item #13	0	none
 Jarlsberg's earring	0	Mys: 25
 Jekyllin hide belt	0	none
+Jolly Roger charrrm bracelet	0	Mys: 20
 Junior LAAAAME merit badge	0	none
 Lead Zeta of Chastity	0	Mys: 85
 Lockenstock&trade; sandals	0	Mys: 65
@@ -842,7 +843,7 @@ bottlecap turtle	0	Mys: 12
 cannonball charrrm bracelet	0	Mys: 80
 cement shoes	0	Mys: 35
 copper ha'penny charrrm bracelet	0	Mys: 80
-Jolly Roger charrrm bracelet	0	Mys: 20
+cyborg stompin' boot	0	Mus: 60
 chintzy accordion pin	0	none
 chintzy disco ball pendant	0	none
 chintzy noodle ring	0	none

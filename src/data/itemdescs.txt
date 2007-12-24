@@ -3109,9 +3109,10 @@
 3103	372138300	unstable laser battery	unstable laser batteries
 3104	173338298	vibrating cyborg knife	vibrating cyborg knifes
 3105	423981448	immense cyborg hand	immense cyborg hands
-3106	
+3106	497831804	cyborg stompin' boot	cyborg stompin' boots
 3107	674971550	deactivated RoboGoose
 3108	212941273	overclocked avian microprocessor
 3109	972162206	Miniborg stomper	Miniborg stompers
 3110	928240259	Miniborg strangler	Miniborg stranglers
 3111	386931733	Miniborg laser	Miniborg lasers
+3112	687954236	Miniborg beeper	Miniborg beepers
