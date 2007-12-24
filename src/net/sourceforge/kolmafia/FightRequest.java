@@ -265,9 +265,12 @@ public class FightRequest
 			KoLmafiaASH interpreter = KoLmafiaASH.getInterpreter( KoLmafiaCLI.findScriptFile( scriptName ) );
 			if ( interpreter != null )
 			{
-				interpreter.execute(
-					"main",
-					new String[] { String.valueOf( FightRequest.currentRound ), FightRequest.encounterLookup, this.responseText } );
+				interpreter.execute( "main", new String[]
+				{
+					String.valueOf( FightRequest.currentRound ),
+					FightRequest.encounterLookup,
+					this.responseText
+				} );
 				if ( KoLmafia.refusesContinue() )
 				{
 					FightRequest.action1 = "abort";
@@ -336,11 +339,9 @@ public class FightRequest
 				this.addFormField( "action", FightRequest.action1 );
 				return;
 			}
-			else
-			{
-				FightRequest.action1 = "abort";
-				return;
-			}
+
+			FightRequest.action1 = "abort";
+			return;
 		}
 
 		// Actually steal if the action says to steal
@@ -1043,24 +1044,28 @@ public class FightRequest
 		{
 			KoLCharacter.setEquipment( KoLCharacter.HAT, EquipmentRequest.UNEQUIP );
 			KoLCharacter.processResult( FightRequest.BROKEN_HELMET );
+			KoLmafia.updateDisplay( PENDING_STATE, "Your antique helmet broke." );
 		}
 
 		if ( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).equals( FightRequest.BROKEN_SPEAR ) && responseText.indexOf( "sunders your antique spear" ) != -1 )
 		{
 			KoLCharacter.setEquipment( KoLCharacter.WEAPON, EquipmentRequest.UNEQUIP );
 			KoLCharacter.processResult( FightRequest.BROKEN_SPEAR );
+			KoLmafia.updateDisplay( PENDING_STATE, "Your antique spear broke." );
 		}
 
 		if ( KoLCharacter.getEquipment( KoLCharacter.OFFHAND ).equals( FightRequest.BROKEN_SHIELD ) && responseText.indexOf( "Your antique shield, weakened" ) != -1 )
 		{
 			KoLCharacter.setEquipment( KoLCharacter.OFFHAND, EquipmentRequest.UNEQUIP );
 			KoLCharacter.processResult( FightRequest.BROKEN_SHIELD );
+			KoLmafia.updateDisplay( PENDING_STATE, "Your antique shield broke." );
 		}
 
 		if ( KoLCharacter.getEquipment( KoLCharacter.PANTS ).equals( FightRequest.BROKEN_GREAVES ) && responseText.indexOf( "Your antique greaves, weakened" ) != -1 )
 		{
 			KoLCharacter.setEquipment( KoLCharacter.PANTS, EquipmentRequest.UNEQUIP );
 			KoLCharacter.processResult( FightRequest.BROKEN_GREAVES );
+			KoLmafia.updateDisplay( PENDING_STATE, "Your antique greaves broke." );
 		}
 
 		FightRequest.updateMonsterHealth( responseText );
@@ -1079,11 +1084,25 @@ public class FightRequest
 		// Reset round information if the battle is complete.
 		// This is recognized when fight.php has no data.
 
-		if ( responseText.indexOf( "fight.php" ) == -1 )
-		{
-			FightRequest.clearInstanceData();
+		if ( responseText.indexOf( "fight.php" ) != -1 )
 			return;
+
+		// Check for bounty item not dropping from a monster
+		// that is known to drop the item.
+
+		int bountyItemId = KoLSettings.getIntegerProperty( "currentBountyItem" );
+		if ( monsterData != null && bountyItemId != 0 )
+		{
+			AdventureResult bountyItem = new AdventureResult( bountyItemId, 1 );
+			String bountyItemName = bountyItem.getName();
+
+			if ( monsterData.getItems().contains( bountyItem ) && FightRequest.INSTANCE.responseText.indexOf( bountyItemName ) == -1 )
+			{
+				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Bounty item failed to drop from expected monster." );
+			}
 		}
+
+		FightRequest.clearInstanceData();
 	}
 
 	private static final Pattern BANG_POTION_PATTERN =
