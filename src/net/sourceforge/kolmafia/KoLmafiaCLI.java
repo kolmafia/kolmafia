@@ -1081,7 +1081,12 @@ public class KoLmafiaCLI
 
 			if ( name.equals( "customCombatScript" ) )
 			{
-				CombatSettings.setScript( parameters );
+				while ( name.endsWith( ".css" ) )
+				{
+					name = name.substring( 0, name.length() - 4 );
+				}
+
+				CombatSettings.setScript( value );
 				return;
 			}
 
