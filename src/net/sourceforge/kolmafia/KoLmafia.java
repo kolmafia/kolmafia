@@ -2141,27 +2141,16 @@ public abstract class KoLmafia
 
 		int adventuresBeforeRequest;
 		int currentIteration = 0;
-		int currentIterationCount = 0;
 
 		while ( KoLmafia.permitsContinue() && ++currentIteration <= totalIterations )
 		{
-			if ( currentIterationCount > 4 )
-			{
-				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Internal error.  Please restart KoLmafia." );
-				break;
-			}
-
 			adventuresBeforeRequest = KoLCharacter.getAdventuresLeft();
 			this.executeRequestOnce( request, wasAdventuring, currentIteration, totalIterations, items, creatables );
 
 			if ( isAdventure && adventuresBeforeRequest == KoLCharacter.getAdventuresLeft() )
 			{
 				--currentIteration;
-				++currentIterationCount;
-			}
-			else
-			{
-				currentIterationCount = 0;
+				KoLRequest.delay( 5000 );
 			}
 		}
 
