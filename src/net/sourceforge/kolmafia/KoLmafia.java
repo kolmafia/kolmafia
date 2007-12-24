@@ -1062,6 +1062,58 @@ public abstract class KoLmafia
 		String resultName = result.getName();
 		boolean shouldRefresh = false;
 
+		int conditionIndex = KoLConstants.conditions.indexOf( result );
+
+		if ( conditionIndex != -1 )
+		{
+			if ( resultName.equals( AdventureResult.SUBSTATS ) )
+			{
+				// If the condition is a substat condition,
+				// then zero out the appropriate count, if
+				// applicable, and remove the substat condition
+				// if the overall count dropped to zero.
+
+				for ( int i = 0; i < 3; ++i )
+				{
+					if ( AdventureResult.CONDITION_SUBSTATS[ i ] == 0 )
+					{
+						continue;
+					}
+
+					AdventureResult.CONDITION_SUBSTATS[ i ] =
+						Math.max( 0, AdventureResult.CONDITION_SUBSTATS[ i ] - result.getCount( i ) );
+				}
+
+				if ( AdventureResult.CONDITION_SUBSTATS_RESULT.getCount() == 0 )
+				{
+					KoLConstants.conditions.remove( conditionIndex );
+				}
+				else
+				{
+					KoLConstants.conditions.fireContentsChanged(
+						KoLConstants.conditions, conditionIndex, conditionIndex );
+				}
+			}
+			else
+			{
+				// Otherwise, this was a partial satisfaction
+				// of a condition.  Decrement the count by the
+				// negation of this result.
+
+				AdventureResult condition = (AdventureResult) KoLConstants.conditions.get( conditionIndex );
+				condition = condition.getInstance( condition.getCount() - 1 );
+
+				if ( condition.getCount() <= 0 )
+				{
+					KoLConstants.conditions.remove( conditionIndex );
+				}
+				else
+				{
+					KoLConstants.conditions.set( conditionIndex, condition );
+				}
+			}
+		}
+
 		// Process the adventure result in this section; if
 		// it's a status effect, then add it to the recent
 		// effect list.  Otherwise, add it to the tally.
@@ -1115,52 +1167,6 @@ public abstract class KoLmafia
 		if ( result.isItem() && HermitRequest.isWorthlessItem( result.getItemId() ) )
 		{
 			result = HermitRequest.WORTHLESS_ITEM.getInstance( result.getCount() );
-		}
-
-		int conditionIndex = KoLConstants.conditions.indexOf( result );
-
-		if ( conditionIndex != -1 )
-		{
-			if ( resultName.equals( AdventureResult.SUBSTATS ) )
-			{
-				// If the condition is a substat condition,
-				// then zero out the appropriate count, if
-				// applicable, and remove the substat condition
-				// if the overall count dropped to zero.
-
-				for ( int i = 0; i < 3; ++i )
-				{
-					if ( AdventureResult.CONDITION_SUBSTATS[ i ] == 0 )
-					{
-						continue;
-					}
-
-					AdventureResult.CONDITION_SUBSTATS[ i ] =
-						Math.max( 0, AdventureResult.CONDITION_SUBSTATS[ i ] - result.getCount( i ) );
-				}
-
-				if ( AdventureResult.CONDITION_SUBSTATS_RESULT.getCount() == 0 )
-				{
-					KoLConstants.conditions.remove( conditionIndex );
-				}
-				else
-				{
-					KoLConstants.conditions.fireContentsChanged(
-						KoLConstants.conditions, conditionIndex, conditionIndex );
-				}
-			}
-			else
-			{
-				// Otherwise, this was a partial satisfaction
-				// of a condition.  Decrement the count by the
-				// negation of this result.
-
-				AdventureResult.addResultToList( KoLConstants.conditions, result.getNegation() );
-				if ( result.getCount( KoLConstants.conditions ) <= 0 )
-				{
-					KoLConstants.conditions.remove( result );
-				}
-			}
 		}
 
 		// Now, if it's an actual stat gain, be sure to update the
