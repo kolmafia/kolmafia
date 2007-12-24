@@ -329,7 +329,7 @@ public abstract class KoLCharacter
 	/**
 	 * Constructs a new <code>KoLCharacter</code> with the given name. All fields are initialized to their default
 	 * values (nothing), and it is the responsibility of other methods to initialize the fields with their real values.
-	 * 
+	 *
 	 * @param newUsername The name of the character this <code>KoLCharacter</code> represents
 	 */
 
@@ -495,7 +495,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to retrieve the name of this character.
-	 * 
+	 *
 	 * @return The name of this character
 	 */
 
@@ -511,7 +511,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to set the user Id associated with this character.
-	 * 
+	 *
 	 * @param userId The user Id associated with this character
 	 */
 
@@ -523,7 +523,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to retrieve the user Id associated with this character.
-	 * 
+	 *
 	 * @return The user Id associated with this character
 	 */
 
@@ -534,7 +534,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to retrieve the user Id associated with this character.
-	 * 
+	 *
 	 * @return The user Id associated with this character
 	 */
 
@@ -545,7 +545,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to get the avatar associated with this character.
-	 * 
+	 *
 	 * @param avatar The avatar for this character
 	 */
 
@@ -556,7 +556,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to get the avatar associated with this character.
-	 * 
+	 *
 	 * @return The avatar for this character
 	 */
 
@@ -568,7 +568,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to retrieve the index of the prime stat.
-	 * 
+	 *
 	 * @return The index of the prime stat
 	 */
 
@@ -579,7 +579,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to retrieve the level of this character.
-	 * 
+	 *
 	 * @return The level of this character
 	 */
 
@@ -620,7 +620,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to set the character's class.
-	 * 
+	 *
 	 * @param classname The name of the character's class
 	 */
 
@@ -633,7 +633,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to retrieve the name of the character's class.
-	 * 
+	 *
 	 * @return The name of the character's class
 	 */
 
@@ -644,7 +644,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to retrieve the type of the character's class.
-	 * 
+	 *
 	 * @return The type of the character's class
 	 */
 
@@ -661,7 +661,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to retrieve the type of the character's class.
-	 * 
+	 *
 	 * @return The type of the character's class
 	 */
 
@@ -687,7 +687,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to set the character's current health state.
-	 * 
+	 *
 	 * @param currentHP The character's current HP value
 	 * @param maximumHP The character's maximum HP value
 	 * @param baseMaxHP The base value for the character's maximum HP
@@ -702,7 +702,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to retrieve the character's current HP.
-	 * 
+	 *
 	 * @return The character's current HP
 	 */
 
@@ -713,7 +713,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to retrieve the character's maximum HP.
-	 * 
+	 *
 	 * @return The character's maximum HP
 	 */
 
@@ -724,7 +724,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to retrieve the base value for the character's maximum HP.
-	 * 
+	 *
 	 * @return The base value for the character's maximum HP
 	 */
 
@@ -735,7 +735,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to set the character's current mana limits.
-	 * 
+	 *
 	 * @param currentMP The character's current MP value
 	 * @param maximumMP The character's maximum MP value
 	 * @param baseMaxMP The base value for the character's maximum MP
@@ -750,7 +750,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to retrieve the character's current MP.
-	 * 
+	 *
 	 * @return The character's current MP
 	 */
 
@@ -761,7 +761,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to retrieve the character's maximum MP.
-	 * 
+	 *
 	 * @return The character's maximum MP
 	 */
 
@@ -772,7 +772,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to retrieve the base value for the character's maximum MP.
-	 * 
+	 *
 	 * @return The base value for the character's maximum MP
 	 */
 
@@ -793,7 +793,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to set the amount of meat in the character's closet.
-	 * 
+	 *
 	 * @param closetMeat The amount of meat in the character's closet.
 	 */
 
@@ -804,7 +804,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to retrieve the amount of meat in the character's closet.
-	 * 
+	 *
 	 * @return The amount of meat in the character's closet.
 	 */
 
@@ -816,7 +816,7 @@ public abstract class KoLCharacter
 	/**
 	 * Accessor method to set the character's current available meat for spending (IE: meat that isn't currently in the
 	 * character's closet).
-	 * 
+	 *
 	 * @param availableMeat The character's available meat for spending
 	 */
 
@@ -831,7 +831,7 @@ public abstract class KoLCharacter
 	/**
 	 * Accessor method to retrieve the character's current available meat for spending (IE: meat that isn't currently in
 	 * the character's closet).
-	 * 
+	 *
 	 * @return The character's available meat for spending
 	 */
 
@@ -845,7 +845,7 @@ public abstract class KoLCharacter
 	 * equipment and spell effects) and the total number of subpoints acquired through adventuring for that statistic.
 	 * This is preferred over the character's current base and/or distance from base as it allows for more accurate
 	 * reporting of statistic gains and losses, as statistic losses are not reported by KoL.
-	 * 
+	 *
 	 * @param adjustedMuscle The adjusted value for the character's muscle
 	 * @param totalMuscle The total number of muscle subpoints acquired thus far
 	 * @param adjustedMysticality The adjusted value for the character's mysticality
@@ -869,7 +869,7 @@ public abstract class KoLCharacter
 	/**
 	 * Utility method for calculating how many subpoints have been accumulated thus far, given the current base point
 	 * value of the statistic and how many have been accumulate since the last gain.
-	 * 
+	 *
 	 * @param baseValue The current base point value
 	 * @param sinceLastBase Number of subpoints accumulate since the last base point gain
 	 * @return The total number of subpoints acquired since creation
@@ -882,7 +882,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Utility method for calculating how many actual points are associated with the given number of subpoints.
-	 * 
+	 *
 	 * @param totalSubpoints The total number of subpoints accumulated
 	 * @return The base points associated with the subpoint value
 	 */
@@ -894,7 +894,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Returns the total number of subpoints to the current level.
-	 * 
+	 *
 	 * @return The total subpoints to the current level
 	 */
 
@@ -907,7 +907,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Returns the total number of subpoints to the next level.
-	 * 
+	 *
 	 * @return The total subpoints to the next level
 	 */
 
@@ -920,7 +920,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Returns the total number of subpoints acquired in the prime stat.
-	 * 
+	 *
 	 * @return The total subpoints in the prime stat
 	 */
 
@@ -941,7 +941,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to retrieve the character's base value for muscle.
-	 * 
+	 *
 	 * @return The character's base value for muscle
 	 */
 
@@ -952,7 +952,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to retrieve the total subpoints accumulted so far in muscle.
-	 * 
+	 *
 	 * @return The total muscle subpoints so far
 	 */
 
@@ -973,7 +973,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to retrieve the character's adjusted value for muscle.
-	 * 
+	 *
 	 * @return The character's adjusted value for muscle
 	 */
 
@@ -984,7 +984,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to retrieve the character's base value for mysticality.
-	 * 
+	 *
 	 * @return The character's base value for muscle
 	 */
 
@@ -995,7 +995,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to retrieve the total subpoints accumulted so far in mysticality.
-	 * 
+	 *
 	 * @return The total mysticality subpoints so far
 	 */
 
@@ -1016,7 +1016,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to retrieve the character's adjusted value for mysticality.
-	 * 
+	 *
 	 * @return The character's adjusted value for mysticality
 	 */
 
@@ -1027,7 +1027,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to retrieve the character's base value for moxie.
-	 * 
+	 *
 	 * @return The character's base value for moxie
 	 */
 
@@ -1038,7 +1038,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to retrieve the total subpoints accumulted so far in moxie.
-	 * 
+	 *
 	 * @return The total moxie subpoints so far
 	 */
 
@@ -1059,7 +1059,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to retrieve the character's adjusted value for moxie.
-	 * 
+	 *
 	 * @return The character's adjusted value for moxie
 	 */
 
@@ -1070,7 +1070,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to set the number of adventures the character has left to spend in this session.
-	 * 
+	 *
 	 * @param adventuresLeft The number of adventures the character has left
 	 */
 
@@ -1088,7 +1088,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to retrieve the number of adventures the character has left to spend in this session.
-	 * 
+	 *
 	 * @return The number of adventures the character has left
 	 */
 
@@ -1193,7 +1193,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to retrieve the total current meat drop percent adjustment
-	 * 
+	 *
 	 * @return Total Current Meat Drop Percent Adjustment
 	 */
 
@@ -1204,7 +1204,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to retrieve the total current item drop percent adjustment
-	 * 
+	 *
 	 * @return Total Current Item Drop Percent Adjustment
 	 */
 
@@ -1287,7 +1287,7 @@ public abstract class KoLCharacter
 	 * Accessor method to set the equipment the character is currently using. This does not take into account the power
 	 * of the item or anything of that nature; only the item's name is stored. Note that if no item is equipped, the
 	 * value should be <code>none</code>, not <code>null</code> or the empty string.
-	 * 
+	 *
 	 * @param equipment All of the available equipment, stored in an array index by the constants
 	 */
 
@@ -1320,7 +1320,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to retrieve the name of the item equipped on the character's familiar.
-	 * 
+	 *
 	 * @return The name of the item equipped on the character's familiar, <code>none</code> if no such item exists
 	 */
 
@@ -1331,7 +1331,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to retrieve the name of a piece of equipment
-	 * 
+	 *
 	 * @param type the type of equipment
 	 * @return The name of the equipment, <code>none</code> if no such item exists
 	 */
@@ -1363,7 +1363,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to retrieve # of hands character's weapon uses
-	 * 
+	 *
 	 * @return int number of hands needed
 	 */
 
@@ -1374,7 +1374,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to determine character's hit stat
-	 * 
+	 *
 	 * @return int MUSCLE, MYSTICALITY, MOXIE
 	 */
 
@@ -1390,7 +1390,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to determine character's adjusted hit stat
-	 * 
+	 *
 	 * @return int adjusted muscle, mysticality, or moxie
 	 */
 
@@ -1409,7 +1409,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to determine if character's weapon is ranged
-	 * 
+	 *
 	 * @return boolean true if weapon is ranged
 	 */
 
@@ -1420,7 +1420,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to determine if character's weapon is a chefstaff
-	 * 
+	 *
 	 * @return boolean true if weapon is a chefstaff
 	 */
 
@@ -1432,7 +1432,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to retrieve the total current damage absorption
-	 * 
+	 *
 	 * @return Total Current Damage Absorption
 	 */
 
@@ -1443,7 +1443,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to retrieve the total current damage reduction
-	 * 
+	 *
 	 * @return Total Current Damage Reduction
 	 */
 
@@ -1454,7 +1454,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to retrieve the current elemental resistance
-	 * 
+	 *
 	 * @return Total Current Resistance to specified element
 	 */
 
@@ -1479,7 +1479,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to determine if character is currently dual-wielding
-	 * 
+	 *
 	 * @return boolean true if character has two weapons equipped
 	 */
 
@@ -1709,7 +1709,7 @@ public abstract class KoLCharacter
 	/**
 	 * Accessor method to retrieve a list of the custom outfits available to this character, based on the last time the
 	 * equipment screen was requested.
-	 * 
+	 *
 	 * @return A <code>LockableListModel</code> of the available outfits
 	 */
 
@@ -1721,7 +1721,7 @@ public abstract class KoLCharacter
 	/**
 	 * Accessor method to retrieve a list of the all the outfits available to this character, based on the last time the
 	 * equipment screen was requested.
-	 * 
+	 *
 	 * @return A <code>LockableListModel</code> of the available outfits
 	 */
 
@@ -1732,7 +1732,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method which indicates whether or not the the beanstalk has been armed this session.
-	 * 
+	 *
 	 * @return <code>true</code> if the beanstalk has been armed
 	 */
 
@@ -1752,7 +1752,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method which indicates whether or not the character has store in the mall
-	 * 
+	 *
 	 * @return <code>true</code> if the character has a store
 	 */
 
@@ -1763,7 +1763,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to indicate a change in state of the mall store.
-	 * 
+	 *
 	 * @param hasStore Whether or not the character currently has a store
 	 */
 
@@ -1774,7 +1774,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method which indicates whether or not the character has display case
-	 * 
+	 *
 	 * @return <code>true</code> if the character has a display case
 	 */
 
@@ -1785,7 +1785,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to indicate a change in state of the museum display case
-	 * 
+	 *
 	 * @param hasDisplayCase Whether or not the character currently has display case
 	 */
 
@@ -1796,7 +1796,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method which indicates whether or not the character is in a clan
-	 * 
+	 *
 	 * @return <code>true</code> if the character is in a clan
 	 */
 
@@ -1807,7 +1807,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to indicate a change in state of the character's clan membership
-	 * 
+	 *
 	 * @param hasClan Whether or not the character currently is in a clan
 	 */
 
@@ -1818,7 +1818,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method which indicates whether or not the character has a toaster
-	 * 
+	 *
 	 * @return <code>true</code> if the character has a toaster
 	 */
 
@@ -1829,7 +1829,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to indicate a change in state of the toaster.
-	 * 
+	 *
 	 * @param hasToaster Whether or not the character currently has a toaster
 	 */
 
@@ -1840,7 +1840,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method which indicates whether or not the character has golden arches
-	 * 
+	 *
 	 * @return <code>true</code> if the character has golden arches
 	 */
 
@@ -1851,7 +1851,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to indicate a change in state of the golden arches.
-	 * 
+	 *
 	 * @param hasArches Whether or not the character currently has golden arches
 	 */
 
@@ -1862,7 +1862,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method which indicates whether or not the character has a bartender-in-the-box.
-	 * 
+	 *
 	 * @return <code>true</code> if the character has a bartender-in-the-box
 	 */
 
@@ -1873,7 +1873,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to indicate a change in state of the bartender-in-the-box.
-	 * 
+	 *
 	 * @param hasBartender Whether or not the character currently has a bartender
 	 */
 
@@ -1888,7 +1888,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method which indicates whether or not the character has a chef-in-the-box.
-	 * 
+	 *
 	 * @return <code>true</code> if the character has a chef-in-the-box
 	 */
 
@@ -1899,7 +1899,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to indicate a change in state of the chef-in-the-box.
-	 * 
+	 *
 	 * @param hasChef Whether or not the character currently has a chef
 	 */
 
@@ -1914,7 +1914,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method which indicates how many times the character has upgraded their telescope
-	 * 
+	 *
 	 * @return <code>int/code> power of telescope
 	 */
 
@@ -1972,7 +1972,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method which indicates whether or not the character has freed King Ralph
-	 * 
+	 *
 	 * @return <code>true</code> if the character has freed King Ralph
 	 */
 
@@ -2025,7 +2025,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method for the character's ascension count
-	 * 
+	 *
 	 * @return String
 	 */
 
@@ -2036,7 +2036,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method for the character's zodiac sign
-	 * 
+	 *
 	 * @return String
 	 */
 
@@ -2047,7 +2047,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method for the character's zodiac sign stat
-	 * 
+	 *
 	 * @return int
 	 */
 
@@ -2058,7 +2058,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to set a character's ascension count
-	 * 
+	 *
 	 * @param ascensions the new ascension count
 	 */
 
@@ -2069,7 +2069,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to set a character's zodiac sign
-	 * 
+	 *
 	 * @param ascensionSign the new sign
 	 */
 
@@ -2126,7 +2126,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method for the current mind control setting
-	 * 
+	 *
 	 * @return int
 	 */
 
@@ -2137,7 +2137,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to set the current mind control level
-	 * 
+	 *
 	 * @param level the new level
 	 */
 
@@ -2150,7 +2150,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method for the current detuned radio volume
-	 * 
+	 *
 	 * @return int
 	 */
 
@@ -2161,7 +2161,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to set the current detuned radio volume
-	 * 
+	 *
 	 * @param volume the new level
 	 */
 
@@ -2174,7 +2174,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method for the current Annoyotron level
-	 * 
+	 *
 	 * @return int
 	 */
 
@@ -2185,7 +2185,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to set the current Annoyotron level
-	 * 
+	 *
 	 * @param volume the new level
 	 */
 
@@ -2198,7 +2198,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method for the current sign-specific monster level modifier
-	 * 
+	 *
 	 * @return int
 	 */
 
@@ -2221,7 +2221,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method for the current autosell mode
-	 * 
+	 *
 	 * @return String
 	 */
 
@@ -2232,7 +2232,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to set the autosellmode
-	 * 
+	 *
 	 * @param mode the new mode
 	 */
 
@@ -2246,7 +2246,7 @@ public abstract class KoLCharacter
 	 * Allow adventuring in The Bugbear Pens - Provide access to npcstore #4: The Degrassi Knoll Bakery - Provide access
 	 * to npcstore #5: The Degrassi Knoll General Store - Train Muscle in The Gym - Smith non-advanced things using
 	 * Innabox (no hammer/adventure) - Combine anything using The Plunger (no meat paste)
-	 * 
+	 *
 	 * @return <code>true</code> if the character is in a Muscle sign
 	 */
 
@@ -2259,7 +2259,7 @@ public abstract class KoLCharacter
 	 * Accessor method which indicates whether the character is in a Mysticality sign KoLmafia could/should use this to: -
 	 * Allow adventuring in Outskirts of Camp Logging Camp - Allow adventuring in Camp Logging Camp - Provide access to
 	 * npcstore #j: Little Canadia Jewelers - Train Mysticality in The Institute for Canadian Studies
-	 * 
+	 *
 	 * @return <code>true</code> if the character is in a Mysticality sign
 	 */
 
@@ -2271,7 +2271,7 @@ public abstract class KoLCharacter
 	/**
 	 * Accessor method which indicates whether the character is in a Moxie sign KoLmafia could/should use this to: -
 	 * Allow adventuring in Thugnderdome - Provide access to TINKER recipes - Train Moxie with Gnirf
-	 * 
+	 *
 	 * @return <code>true</code> if the character is in a Moxie sign
 	 */
 
@@ -2283,7 +2283,7 @@ public abstract class KoLCharacter
 	/**
 	 * Accessor method which indicates whether the character is in Bad Moon KoLmafia could/should use this to: -
 	 * Eliminate access to Hagnks - Provide access to Hell's Kitchen - Provide access to Nervewrecker's Store
-	 * 
+	 *
 	 * @return <code>true</code> if the character is in a Moxie sign
 	 */
 
@@ -2294,7 +2294,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to set the list of available skills.
-	 * 
+	 *
 	 * @param newSkillSet The list of the names of available skills
 	 */
 
@@ -2424,7 +2424,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to look up whether or not the character can summon noodles.
-	 * 
+	 *
 	 * @return <code>true</code> if noodles can be summoned by this character
 	 */
 
@@ -2435,7 +2435,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to look up whether or not the character can summon reagent.
-	 * 
+	 *
 	 * @return <code>true</code> if reagent can be summoned by this character
 	 */
 
@@ -2446,7 +2446,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to look up whether or not the character can summon shore-based items.
-	 * 
+	 *
 	 * @return <code>true</code> if shore-based items can be summoned by this character
 	 */
 
@@ -2457,7 +2457,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to look up whether or not the character can summon snowcones
-	 * 
+	 *
 	 * @return <code>true</code> if snowcones can be summoned by this character
 	 */
 
@@ -2468,7 +2468,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to look up whether or not the character can smith weapons.
-	 * 
+	 *
 	 * @return <code>true</code> if this character can smith advanced weapons
 	 */
 
@@ -2479,7 +2479,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to look up whether or not the character can smith armor.
-	 * 
+	 *
 	 * @return <code>true</code> if this character can smith advanced armor
 	 */
 
@@ -2490,7 +2490,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to look up whether or not the character can craft expensive jewelry
-	 * 
+	 *
 	 * @return <code>true</code> if this character can smith advanced weapons
 	 */
 
@@ -2501,7 +2501,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to look up whether or not the character has Amphibian Sympathy
-	 * 
+	 *
 	 * @return <code>true</code> if this character has Amphibian Sympathy
 	 */
 
@@ -2539,7 +2539,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to get the current familiar.
-	 * 
+	 *
 	 * @return familiar The current familiar
 	 */
 
@@ -2555,7 +2555,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to get arena wins
-	 * 
+	 *
 	 * @return The number of arena wins
 	 */
 
@@ -2612,7 +2612,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to set arena wins
-	 * 
+	 *
 	 * @param wins The number of arena wins
 	 */
 
@@ -2623,7 +2623,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to find the specified familiar.
-	 * 
+	 *
 	 * @param race The race of the familiar to find
 	 * @return familiar The first familiar matching this race
 	 */
@@ -2646,7 +2646,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method to set the data for the current familiar.
-	 * 
+	 *
 	 * @param familiar The new current familiar
 	 */
 
@@ -2679,7 +2679,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Adds the given familiar to the list of available familiars.
-	 * 
+	 *
 	 * @param familiar The Id of the familiar to be added
 	 */
 
@@ -2707,7 +2707,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Remove the given familiar from the list of available familiars.
-	 * 
+	 *
 	 * @param familiar The Id of the familiar to be added
 	 */
 
@@ -2735,7 +2735,7 @@ public abstract class KoLCharacter
 
 	/**
 	 * Returns the list of familiars available to the character.
-	 * 
+	 *
 	 * @return The list of familiars available to the character
 	 */
 
@@ -2747,7 +2747,7 @@ public abstract class KoLCharacter
 	/**
 	 * Returns the string used on the character pane to detrmine how many points remain until the character's next
 	 * level.
-	 * 
+	 *
 	 * @return The string indicating the TNP advancement
 	 */
 
@@ -2760,7 +2760,7 @@ public abstract class KoLCharacter
 	/**
 	 * Adds a new <code>KoLCharacterListener</code> to the list of listeners listening to this
 	 * <code>KoLCharacter</code>.
-	 * 
+	 *
 	 * @param listener The listener to be added to the listener list
 	 */
 
@@ -2775,7 +2775,7 @@ public abstract class KoLCharacter
 	/**
 	 * Removes an existing <code>KoLCharacterListener</code> from the list of listeners listening to this
 	 * <code>KoLCharacter</code>.
-	 * 
+	 *
 	 * @param listener The listener to be removed from the listener list
 	 */
 
@@ -3081,10 +3081,10 @@ public abstract class KoLCharacter
 	{
 		int taoFactor = KoLCharacter.hasSkill( "Tao of the Terrapin" ) ? 2 : 1;
 		int brimstoneMonsterLevel = 1;
+
 		Modifiers newModifiers = new Modifiers();
 
 		// Look at sign-specific adjustments
-
 		newModifiers.add( Modifiers.MONSTER_LEVEL, KoLCharacter.getSignedMLAdjustment() );
 
 		// Look at items

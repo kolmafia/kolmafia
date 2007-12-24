@@ -57,15 +57,24 @@ function handleCombatHotkey( e, isDown )
 	// Finally, make sure this is a valid hotkey before
 	// attempting to process it as one.
 
-	if ( keyCode == 13 )
-	{
-		document.getElementById( "defaultButton" ).onclick();
-		return true;
-	}
-
 	var numericKey = getNumericKey( keyCode );
 	if ( numericKey == -1 )
 		return false;
+
+	var button = document.getElementById( "defaultButton" );
+	var viewer = document.getElementById( "hotkeyViewer" );
+
+	if ( button.value == "again" )
+	{
+		button.onclick();
+		return true;
+	}
+
+	if ( viewer.options[numericKey].innerHTML.length < 4 )
+	{
+		button.onclick();
+		return true;
+	}
 
 	document.location.href = "fight.php?hotkey=" + numericKey;
 	return true;

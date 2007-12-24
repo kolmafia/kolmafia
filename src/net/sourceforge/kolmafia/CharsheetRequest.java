@@ -319,13 +319,12 @@ public class CharsheetRequest
 		}
 
 		KoLCharacter.setAvailableSkills( newSkillSet );
-		KoLCharacter.recalculateAdjustments();
 	}
 
 	/**
 	 * Helper method used to find the statistic points. This method was created because statistic-point finding is
 	 * exactly the same for every statistic point.
-	 * 
+	 *
 	 * @param tokenizer The <code>StringTokenizer</code> containing the tokens to be parsed
 	 * @param searchString The search string indicating the beginning of the statistic
 	 * @return The 2-element array containing the parsed statistics
@@ -357,7 +356,7 @@ public class CharsheetRequest
 	 * Utility method for retrieving the base value for a statistic, given the tokenizer, and assuming that the base
 	 * might be located in the next token. If it isn't, the default value is returned instead. Note that this advances
 	 * the <code>StringTokenizer</code> one token ahead of the base value for the statistic.
-	 * 
+	 *
 	 * @param st The <code>StringTokenizer</code> possibly containing the base value
 	 * @param defaultBase The value to return, if no base value is found
 	 * @return The parsed base value, or the default value if no base value is found

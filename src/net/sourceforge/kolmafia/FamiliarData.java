@@ -145,8 +145,6 @@ public class FamiliarData
 
 		KoLCharacter.setFamiliar( firstFamiliar );
 		KoLCharacter.setEquipment( KoLCharacter.FAMILIAR, firstFamiliar.getItem() );
-
-		KoLCharacter.recalculateAdjustments();
 	}
 
 	public int getId()

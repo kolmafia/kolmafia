@@ -1085,7 +1085,6 @@ public class EquipmentRequest
 		KoLCharacter.setOutfits( outfits );
 
 		EquipmentDatabase.updateOutfits();
-		KoLCharacter.recalculateAdjustments();
 
 		// If you need to update your creatables list, do so at
 		// the end of the processing.
