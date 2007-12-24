@@ -2655,27 +2655,47 @@ public class RequestEditorKit
 				case MESSAGE_DISPLAY:
 				case INFINITE_USES:
 
-					if ( itemId == 146 )
+					switch ( itemId )
 					{
+					case ConsumeItemRequest.MACGUFFIN_DIARY:
+
+						useType = "read";
+						useLocation = "diary.php?textversion=1";
+						break;
+
+					case 75: // spooky sapling
+					case 76: // Spooky-Gro fertilizer
+
+						AdventureResult map = new AdventureResult( 74, 1 );
+						if ( KoLCharacter.hasItem( map ) )
+						{
+							useType = "map";
+							useLocation = "inv_use.php?pwd=&which=3&whichitem=";
+							itemId = 74;
+						}
+						break;
+
+					case 146: // dinghy plans
+
 						AdventureResult planks = new AdventureResult( 140, 1 );
 						if ( !KoLCharacter.hasItem( planks ) && HermitRequest.getWorthlessItemCount() > 0 )
 						{
 							useType = "planks";
 							useLocation = "hermit.php?autopermit=on&action=trade&pwd&quantity=1&whichitem=140";
 						}
+						break;
 
-					}
+					case 2095: // towel
 
-					if ( itemId == ConsumeItemRequest.MACGUFFIN_DIARY )
-					{
-						useType = "read";
-						useLocation = "diary.php?textversion=1";
-					}
-
-					if ( useType == null )
-					{
-						useType = itemId == 2095 ? "fold" : "use";
+						useType = "fold";
 						useLocation = "inv_use.php?pwd=&which=3&whichitem=";
+						break;
+
+					default:
+
+						useType = "use";
+						useLocation = "inv_use.php?pwd=&which=3&whichitem=";
+						break;
 					}
 
 					break;
