@@ -1085,6 +1085,11 @@ public class KoLmafiaCLI
 				return;
 			}
 
+			if ( name.startsWith( "combatHotkey" ) )
+			{
+				RequestEditorKit.reloadCombatHotkeyMap();
+			}
+
 			if ( KoLSettings.getUserProperty( name ).equals( value ) )
 			{
 				return;
