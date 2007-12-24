@@ -1726,7 +1726,7 @@ public class ConsumeItemRequest
 			// Unobtainium straps that you acquired earlier from
 			// the Sinister Dodecahedron.
 
-			if ( responseText.indexOf( "carrying the laser cannon" ) != -1 )
+			if ( responseText.indexOf( "laser cannon" ) != -1 )
 			{
 				StaticEntity.getClient().processResult( ConsumeItemRequest.LASER_CANON );
 				StaticEntity.getClient().processResult( ConsumeItemRequest.TARGETING_CHOP );
@@ -1741,7 +1741,7 @@ public class ConsumeItemRequest
 			// and the silicon-infused gluteal shield that you
 			// acquired earlier from the Sinister Dodecahedron.
 
-			if ( responseText.indexOf( "carrying the polymorphic fastening apparatus" ) != -1 )
+			if ( responseText.indexOf( "polymorphic fastening apparatus" ) != -1 )
 			{
 				StaticEntity.getClient().processResult( ConsumeItemRequest.FASTENING_APPARATUS );
 				StaticEntity.getClient().processResult( ConsumeItemRequest.LEG_ARMOR );
@@ -1756,7 +1756,7 @@ public class ConsumeItemRequest
 			// helmet that you acquired earlier from the Sinister
 			// Dodecahedron.
 
-			if ( responseText.indexOf( "carrying the carbonite visor" ) != -1 )
+			if ( responseText.indexOf( "carbonite visor" ) != -1 )
 			{
 				StaticEntity.getClient().processResult( ConsumeItemRequest.CARBONITE_VISOR );
 				StaticEntity.getClient().processResult( ConsumeItemRequest.CHIN_STRAP );

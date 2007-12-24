@@ -3104,9 +3104,10 @@
 3103	unstable laser battery	0	all	100
 3104	vibrating cyborg knife	12	all	155
 3105	immense cyborg hand	12	all	155
-3106	
+3106	cyborg stompin' boot	8	all	155
 3107	deactivated RoboGoose	5	display	0
 3108	overclocked avian microprocessor	7	all	75
 3109	Miniborg stomper	0	all	0
 3110	Miniborg strangler	0	all	0
 3111	Miniborg laser	0	all	0
+3112	Miniborg beeper	0	all	0
