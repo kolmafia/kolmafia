@@ -2065,6 +2065,8 @@ public class RequestEditorKit
 
 	public static final void reloadCombatHotkeyMap()
 	{
+		RequestEditorKit.combatHotkeys.clear();
+
 		for ( int i = 0; i <= 9; ++i )
 		{
 			RequestEditorKit.combatHotkeys.add( KoLSettings.getUserProperty( "combatHotkey" + i ) );
