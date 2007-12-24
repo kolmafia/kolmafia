@@ -1401,140 +1401,64 @@ public class BasementRequest
 
 			if ( KoLConstants.activeEffects.contains( BasementRequest.MUS_EQUAL ) )
 			{
-				return Math.max( KoLCharacter.getBaseMuscle(), currentStat );
+				currentStat = Math.max( KoLCharacter.getBaseMuscle(), currentStat );
 			}
 
 			if ( KoLConstants.activeEffects.contains( BasementRequest.MYS_EQUAL ) )
 			{
-				return Math.max( KoLCharacter.getBaseMysticality(), currentStat );
+				currentStat = Math.max( KoLCharacter.getBaseMysticality(), currentStat );
 			}
 
 			if ( KoLConstants.activeEffects.contains( BasementRequest.MOX_EQUAL ) )
 			{
-				return Math.max( KoLCharacter.getBaseMoxie(), currentStat );
+				currentStat = Math.max( KoLCharacter.getBaseMoxie(), currentStat );
 			}
 
 			return currentStat;
 		}
 
-		/**
-		 * According to the Wiki: Max HP = CEILING( G × CEILING( R × MAXIMUM( FLOOR((M + 3) × C) + P, FLOOR(m) ) ) )
-		 * Where: M is your buffed Muscle m is your base Muscle C is 1.5 if you are a Muscle class P is the total of
-		 * direct HP bonuses you have R is 1.25 if you have Spirit of Ravioli G is 1.05 if you have Gnomish Hardigness
-		 */
-
 		public static float boostMaxHP( final Modifiers m )
 		{
-			float buff = m.get( Modifiers.MUS );
-			float buffPercent = m.get( Modifiers.MUS_PCT );
-			float bonus = m.get( Modifiers.HP );
+			float addedMuscleFixed = m.get( Modifiers.MUS );
+			float addedMusclePercent = m.get( Modifiers.MUS_PCT );
+			float addedHealthFixed = m.get( Modifiers.HP );
 
-			if ( buff == 0.0f && buffPercent == 0.0f && bonus == 0.0f )
+			if ( addedMuscleFixed == 0.0f && addedMusclePercent == 0.0f && addedHealthFixed == 0.0f )
 			{
 				return 0.0f;
 			}
 
-			float base = DesiredEffect.getEqualizedStat( Modifiers.MUS_PCT );
-			float buffCurrent = KoLCharacter.currentNumericModifier( Modifiers.MUS );
-			float buffPercentCurrent = KoLCharacter.currentNumericModifier( Modifiers.MUS_PCT );
-			float buffed = base + buffCurrent + buff + ( buffPercentCurrent + buffPercent ) * base / 100.0f;
-			buffed = (float) Math.ceil( buffed );
-			float bonusCurrent = KoLCharacter.currentNumericModifier( Modifiers.HP );
+			float muscleBase = DesiredEffect.getEqualizedStat( Modifiers.MUS_PCT );
+			float muscleBonus = addedMuscleFixed + (float) Math.floor( addedMusclePercent * muscleBase / 100.0f );
 
-			// Base HP is Muscle + 3
-			float boost = buffed + 3;
-
-			// Muscle classes get 50% more HP
 			if ( KoLCharacter.isMuscleClass() )
 			{
-				boost *= 1.5;
-			}
-			boost = (float) Math.floor( boost );
-
-			// Add in direct HP Bonuses
-			boost += bonus + bonusCurrent;
-
-			// The following only comes into effect if buffed
-			// Muscle is less than base Muscle
-			boost = Math.max( boost, base );
-
-			if ( DesiredEffect.rigatoni )
-			{
-				boost = (float) Math.ceil( 1.25 * boost );
+				muscleBonus *= 1.5f;
 			}
 
-			if ( DesiredEffect.hardigness )
-			{
-				boost = (float) Math.ceil( 1.05 * boost );
-			}
-
-			// We have defined a "Maximum HP Percent" modifier
-			// but we don't know exactly where to apply it.
-			// Fortunately, it's not currently used
-
-			return boost - KoLCharacter.getMaximumHP();
+			return addedHealthFixed + muscleBonus;
 		}
-
-		/**
-		 * Max MP = CEILING( G × FLOOR( W × MAXIMUM( FLOOR(M × C) + P, FLOOR(m) ) ) Where: M is your buffed Myst or your
-		 * buffed Moxie with Travoltan trousers and Moxie > Myst or your buffed Moxie with a moxie magnet m is your base
-		 * Myst C is 1.5 if you are a Myst class P is the total of any direct MP Increasers you have W is 1.5 if you
-		 * have Wisdom of the Elder Tortoises G is 1.05 if you have Cosmic Ugnderstanding
-		 */
 
 		public static float boostMaxMP( final Modifiers m )
 		{
-			// This method ignores the effects of Travoltan
-			// trousers and moxie magnets
+			float addedMysticismFixed = m.get( Modifiers.MYS );
+			float addedMysticismPercent = m.get( Modifiers.MYS_PCT );
+			float addedManaFixed = m.get( Modifiers.MP );
 
-			float buff = m.get( Modifiers.MYS );
-			float buffPercent = m.get( Modifiers.MYS_PCT );
-			float bonus = m.get( Modifiers.MP );
-
-			if ( buff == 0.0f && buffPercent == 0.0f && bonus == 0.0f )
+			if ( addedMysticismFixed == 0.0f && addedMysticismPercent == 0.0f && addedManaFixed == 0.0f )
 			{
 				return 0.0f;
 			}
 
-			float base = DesiredEffect.getEqualizedStat( Modifiers.MYS_PCT );
-			float buffCurrent = KoLCharacter.currentNumericModifier( Modifiers.MYS );
-			float buffPercentCurrent = KoLCharacter.currentNumericModifier( Modifiers.MYS_PCT );
-			float buffed = base + buffCurrent + buff + ( buffPercentCurrent + buffPercent ) * base / 100.0f;
-			buffed = (float) Math.ceil( buffed );
-			float bonusCurrent = KoLCharacter.currentNumericModifier( Modifiers.MP );
+			float mysticismBase = DesiredEffect.getEqualizedStat( Modifiers.MYS_PCT );
+			float mysticismBonus = addedMysticismFixed + (float) Math.floor( addedMysticismPercent * mysticismBase / 100.0f );
 
-			// Base MP is Mysticality
-			float boost = buffed;
-
-			// Mysticality classes get 50% more MP
 			if ( KoLCharacter.isMysticalityClass() )
 			{
-				boost *= 1.5;
-			}
-			boost = (float) Math.floor( boost );
-
-			// Add in direct MP Bonuses
-			boost += bonus + bonusCurrent;
-
-			// The following only comes into effect if buffed
-			// Mysticality is less than base Mysticality
-			boost = Math.max( boost, base );
-
-			if ( DesiredEffect.wisdom )
-			{
-				boost = (float) Math.floor( 1.5 * boost );
+				mysticismBonus *= 1.5f;
 			}
 
-			if ( DesiredEffect.ugnderstanding )
-			{
-				boost = (float) Math.ceil( 1.05 * boost );
-			}
-
-			// We have defined a "Maximum MP Percent" modifier
-			// but we don't know exactly where to apply it.
-			// Fortunately, it's not currently used
-
-			return boost - KoLCharacter.getMaximumMP();
+			return addedManaFixed + mysticismBonus;
 		}
 	}
 }

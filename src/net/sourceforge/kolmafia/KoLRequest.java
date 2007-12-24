@@ -684,6 +684,7 @@ public class KoLRequest
 		{
 			CouncilFrame.handleQuestChange( location, this.responseText );
 		}
+
 		if ( this.formURLString.equals( "charpane.php" ) )
 		{
 			KoLCharacter.recalculateAdjustments();
