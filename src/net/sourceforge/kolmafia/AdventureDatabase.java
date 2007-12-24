@@ -1965,10 +1965,13 @@ public class AdventureDatabase
 			return missingCount;
 		}
 
-		boolean shouldBulkPurchase =
-			AdventureDatabase.isRestorePurchase( itemId ) || KoLmafia.isRunningBetweenBattleChecks() || MoodSettings.isExecuting();
+		if ( AdventureDatabase.isRestorePurchase( itemId ) )
+			return AdventureDatabase.BULK_PURCHASE_AMOUNT;
 
-		return shouldBulkPurchase ? AdventureDatabase.BULK_PURCHASE_AMOUNT : missingCount;
+		if ( KoLmafia.isAdventuring() )
+			return AdventureDatabase.BULK_PURCHASE_AMOUNT;
+
+		return missingCount;
 	}
 
 	private static final boolean hasAnyIngredient( final int itemId )
