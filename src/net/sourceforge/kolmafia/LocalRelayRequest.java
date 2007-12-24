@@ -74,7 +74,7 @@ public class LocalRelayRequest
 	public LocalRelayRequest( final boolean allowOverride )
 	{
 		super( "" );
-		this.allowOverride = allowOverride && KoLSettings.getBooleanProperty( "relayAllowsOverride" );
+		this.allowOverride = allowOverride && KoLSettings.getBooleanProperty( "relayAllowsOverrides" );
 	}
 
 	public KoLRequest constructURLString( final String newURLString )
@@ -1221,8 +1221,9 @@ public class LocalRelayRequest
 					if ( KoLConstants.inventory.contains( LocalRelayRequest.LUCRE ) )
 					{
 						( new MuseumRequest(
-							new Object[] { LocalRelayRequest.LUCRE.getInstance( LocalRelayRequest.LUCRE.getCount( KoLConstants.inventory ) ) },
-							true ) ).run();
+							new Object[]
+							{ LocalRelayRequest.LUCRE.getInstance( LocalRelayRequest.LUCRE.getCount( KoLConstants.inventory ) )
+							}, true ) ).run();
 						( new GreenMessageRequest( "koldbot", "Completed ascension." ) ).run();
 					}
 
