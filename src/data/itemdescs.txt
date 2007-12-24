@@ -66,8 +66,8 @@
 60	256792195	Mace of the Tortoise	Maces of the Tortoise
 61	490489381	fortune cookie	fortune cookies
 62	499720505	oriole-feather headdress	oriole-feather headdresses
-63	224701221	action figure head
-64	329267145	action figure body
+63	329267145	action figure body
+64	224701221	action figure head
 65	390564890	Mighty Bjorn action figure
 66	244181505	golden twig	golden twigs
 67	192265650	spaghetti with rock-balls	spaghettis with rock-balls
@@ -1315,9 +1315,9 @@
 1309	318220841	attention spanner	attention spanners
 1310	611209144	funky brass fez	funky brass feces
 1311	426024809	comfy blanket	comfy blankets
-1312	442211696	Baron Von Ratsworth's monocle	Baron Von Ratsworth's monocles
-1313	147167320	Baron Von Ratsworth's money clip	Baron Von Ratsworth's money clips
-1314	828584278	Baron Von Ratsworth's tophat	Baron Von Ratsworth's tophats
+1312	442211696	Baron von Ratsworth's monocle	Baron von Ratsworth's monocles
+1313	147167320	Baron von Ratsworth's money clip	Baron von Ratsworth's money clips
+1314	828584278	Baron von Ratsworth's tophat	Baron von Ratsworth's tophats
 1315	902660681	rose-colored glasses
 1316	347944209	facsimile dictionary	facsimile dictionaries
 1317	960128590	blood flower	blood flowers
@@ -2880,7 +2880,7 @@
 2874	902250233	tiny plastic Lord Spookyraven
 2875	592386410	tiny plastic Dr. Awkward
 2876	745206047	tiny plastic protector spectre
-2877	583754968	tiny plastic Baron Von Ratsworth
+2877	583754968	tiny plastic Baron von Ratsworth
 2878	603864937	tiny plastic Boss Bat
 2879	751634526	tiny plastic Knob Goblin King
 2880	397311095	tiny plastic Bonerdagon

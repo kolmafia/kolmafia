@@ -61,8 +61,8 @@
 60	Mace of the Tortoise	12	all	150
 61	fortune cookie	1	all	20
 62	oriole-feather headdress	9	all	1
-63	action figure head	0	none	0
-64	action figure body	0	none	0
+63	action figure body	0	none	0
+64	action figure head	0	none	0
 65	Mighty Bjorn action figure	0	none	0
 66	golden twig	0	all	100
 67	spaghetti with rock-balls	0	all	2
@@ -1310,9 +1310,9 @@
 1309	attention spanner	7	all	75
 1310	funky brass fez	7	all	75
 1311	comfy blanket	0	all	0
-1312	Baron Von Ratsworth's monocle	8	display	0
-1313	Baron Von Ratsworth's money clip	8	display	0
-1314	Baron Von Ratsworth's tophat	9	display	0
+1312	Baron von Ratsworth's monocle	8	display	0
+1313	Baron von Ratsworth's money clip	8	display	0
+1314	Baron von Ratsworth's tophat	9	display	0
 1315	rose-colored glasses	8	display	0
 1316	facsimile dictionary	0	display	21337
 1317	blood flower	0	all	75
@@ -2875,7 +2875,7 @@
 2874	tiny plastic Lord Spookyraven	8	all	0
 2875	tiny plastic Dr. Awkward	8	all	0
 2876	tiny plastic protector spectre	8	all	0
-2877	tiny plastic Baron Von Ratsworth	8	all	30
+2877	tiny plastic Baron von Ratsworth	8	all	30
 2878	tiny plastic Boss Bat	8	all	30
 2879	tiny plastic Knob Goblin King	8	all	30
 2880	tiny plastic Bonerdagon	8	all	30
