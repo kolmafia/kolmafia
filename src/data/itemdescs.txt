@@ -3095,9 +3095,9 @@
 3089	149939402	C.B.F.G.
 3090	966481569	biomechanical crimborg leg armor
 3091	746449292	vitachoconutriment capsule
-3092	
-3093	
-3094	
+3092	958481582	handmade hobby horse	handmade hobby horses
+3093	965687443	ball-in-a-cup	balls-in-cups
+3094	552797832	set of jacks	sets of jacks
 3095	308511017	laser-broiled pear	laser-broiled pears
 3096	627545996	polyalloy shield	polyalloy shields
 3097	861354964	oversized fish scaler	oversized fish scalers
@@ -3116,3 +3116,6 @@
 3110	928240259	Miniborg strangler	Miniborg stranglers
 3111	386931733	Miniborg laser	Miniborg lasers
 3112	687954236	Miniborg beeper	Miniborg beepers
+3113
+3114
+3115	194916307	old-fashioned Crimbo Pressie
