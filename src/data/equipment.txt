@@ -615,6 +615,7 @@ anniversary balloon	0	none
 anniversary chutney sculpture	0	none
 antique shield	230	Mus: 85
 arrow'd heart balloon	0	none
+ball-in-a-cup	0	none
 barskin buckler	27	none
 basic meat foon	0	Mys: 10
 battered hubcap	220	Mus: 65
@@ -650,6 +651,7 @@ foon of fulmination	0	Mys: 10
 giant stuffed bugbear	0	none
 gnauga hide buckler	95	Mus: 30
 green balloon	0	none
+handmade hobby horse	0	none
 heart-shaped balloon	0	none
 hippo skin buckler	95	Mus: 30
 hors d'oeuvre tray	115	Mus: 40
@@ -675,13 +677,14 @@ penguin skin buckler	95	Mus: 30
 pilgrim shield	240	none
 pirate hook	0	none
 pixel shield	55	Mus: 10
-polyalloy shield	0	Mus: 55
 # *** polyalloy shield is a shield of unknown power.
+polyalloy shield	0	Mus: 55
 rag doll	0	Mys: 40
 red balloon	0	none
 rice bowl	0	none
 sawblade shield	180	Mus: 75
 sebaceous shield	40	Mus: 2
+set of jacks	0	none
 sewer turtle	20	none
 snake shield	117	Mus: 42
 snarling wolf shield	117	Mus: 42
