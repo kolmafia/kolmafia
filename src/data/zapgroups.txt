@@ -2,6 +2,7 @@
 # Wiki zap groups, as described in the KoL Visual Wiki
 # http://kol.coldfront.net/thekolwiki/index.php/Zapping
 
+cursed eyepatch, cursed cutlass, cursed breeches
 carob brownies, chorizo brownies, herb brownies
 bean burrito, enchanted bean burrito, jumping bean burrito
 spicy bean burrito, spicy enchanted bean burrito, spicy jumping bean burrito
