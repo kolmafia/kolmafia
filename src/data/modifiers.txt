@@ -1732,6 +1732,8 @@ eXtreme Cold-Weather Gear	Cold Resistance: +30
 # +10% Food Drops from Monsters
 # +15 Moxie
 # +15% Moxie
+# +2 Moxie Stat(s) per Fight
+# +2 Muscle Stat(s) per Fight
 # +2 Mysticality Stat(s) per Fight
 # +20% Food Drops from Monsters
 # +3 PvP fight(s) per day when equipped.
