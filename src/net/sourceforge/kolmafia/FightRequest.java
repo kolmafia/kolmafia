@@ -1418,6 +1418,7 @@ public class FightRequest
 		case 3110: // Miniborg strangler
 		case 3111: // Miniborg laser
 		case 3112: // Miniborg beeper
+		case 3113: // Miniborg hiveminder
 			return false;
 
 		case 829: // Anti-Anti-Antidote
