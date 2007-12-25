@@ -231,7 +231,7 @@ Knob Goblin harem pants	Moxie: +1
 Knob Goblin pants	Muscle: +1
 Orcish cargo shorts	Muscle: +3, Mysticality: -3
 Radio Free Pants	Intrinsic Effect: "Free Bird"
-Travoltan trousers	Softcore Only
+Travoltan trousers	Moxie: +15, Initiative: +30, Ranged Damage: +10, Softcore Only
 Tropical Crimbo Shorts	Initiative: +30
 # alpha-mail pants
 antique greaves	Initiative: -10
@@ -446,7 +446,7 @@ beer-a-pult	Stench Damage: +10, Sleaze Damage: +10
 # big stick
 # bill bec-de-bardiche glaive-guisarme
 black sword	Critical: 3, Melee Damage: +7
-bottle-rocket crossbow	Meat Drop: +15, Item Drop: +10, Softcore Only
+bottle-rocket crossbow	Meat Drop: +15, Item Drop: +10, Moxie Percent: +15, Softcore Only
 bounty-hunting rifle	Item Drop: +15
 bow staff	Mysticality: +5, Melee Damage: +3
 broken sword	Spooky Resistance: +10
@@ -1290,9 +1290,6 @@ Talisman of Baio	Muscle Percent: +0, Mysticality Percent: +0, Moxie Percent: +0
 
 Tuesday's ruby	Muscle Percent: +0, Mysticality Percent: +0, Moxie Percent: +0, Meat Drop: +0, Item Drop: +0
 
-Travoltan trousers	Moxie: +15, Initiative: +30, Ranged Damage: +10, Softcore Only
-bottle-rocket crossbow	Meat Drop: +15, Item Drop: +10, Moxie Percent: +15
-
 # Intrinsic Effects section of modifiers.txt
 
 1337p4n7Z	Moxie: -3, Muscle: +6
@@ -1512,6 +1509,7 @@ Object Detection	Item Drop: +5
 Ocelot Eyes	Item Drop: +10
 On the Shoulders of Giants	Mysticality Percent: +200
 Once Bitten, Twice Shy	Moxie: +40, Familiar Weight Percent: -50
+One Very Clear Eye	Item Drop: +100
 Optimist Primal	Familiar Weight: +5
 Orange Tongue	Experience: +3
 Oriental Mysticicsm	Mysticality Percent: +5

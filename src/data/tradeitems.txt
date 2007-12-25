@@ -3090,9 +3090,9 @@
 3089	C.B.F.G.	12	display	0
 3090	biomechanical crimborg leg armor	10	display	0
 3091	vitachoconutriment capsule	3	all	0
-3092	
-3093	
-3094	
+3092	handmade hobby horse	13	all	0
+3093	ball-in-a-cup	13	all	0
+3094	set of jacks	13	all	0
 3095	laser-broiled pear	1	all	0
 3096	polyalloy shield	13	all	155
 3097	oversized fish scaler	7	all	70
@@ -3111,3 +3111,6 @@
 3110	Miniborg strangler	0	all	0
 3111	Miniborg laser	0	all	0
 3112	Miniborg beeper	0	all	0
+3113
+3114
+3115	old-fashioned Crimbo Pressie	3	display	0
