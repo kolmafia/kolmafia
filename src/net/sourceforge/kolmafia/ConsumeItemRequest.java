@@ -144,6 +144,7 @@ public class ConsumeItemRequest
 	private static final int GILDED_CURSED_CHEST = 3018;
 	public static final int CURSED_PIECE_OF_THIRTEEN = 3034;
 	private static final int GENERAL_ASSEMBLY_MODULE = 3075;
+	private static final int SET_OF_JACKS = 3094;
 
 	private static final int PALM_FROND = 2605;
 	private static final int MUMMY_WRAP = 2634;
@@ -454,6 +455,8 @@ public class ConsumeItemRequest
 		// Equipment should be handled by a different
 		// kind of request.
 
+		int itemId = this.itemUsed.getItemId();
+
 		switch ( this.consumptionType )
 		{
 		case EQUIP_HAT:
@@ -464,12 +467,14 @@ public class ConsumeItemRequest
 		case EQUIP_ACCESSORY:
 		case EQUIP_FAMILIAR:
 
-			( new EquipmentRequest( this.itemUsed ) ).run();
-			return;
+			if ( itemId != SET_OF_JACKS )
+			{
+				( new EquipmentRequest( this.itemUsed ) ).run();
+				return;
+			}
 		}
 
 		ConsumeItemRequest.lastUpdate = "";
-		int itemId = this.itemUsed.getItemId();
 
 		if ( itemId == SorceressLair.PUZZLE_PIECE.getItemId() )
 		{
