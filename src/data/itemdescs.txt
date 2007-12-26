@@ -3117,5 +3117,5 @@
 3111	386931733	Miniborg laser	Miniborg lasers
 3112	687954236	Miniborg beeper	Miniborg beepers
 3113	534973995	Miniborg hiveminder	Miniborg hiveminders
-3114
+3114	184372943	Miniborg Destroy-O-Bot	Miniborg Destroy-O-Bots
 3115	194916307	old-fashioned Crimbo Pressie
