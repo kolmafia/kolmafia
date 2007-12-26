@@ -3112,5 +3112,5 @@
 3111	Miniborg laser	0	all	0
 3112	Miniborg beeper	0	all	0
 3113	Miniborg hiveminder	0	all	0
-3114
+3114	Miniborg Destroy-O-Bot	0	all	0
 3115	old-fashioned Crimbo Pressie	3	display	0

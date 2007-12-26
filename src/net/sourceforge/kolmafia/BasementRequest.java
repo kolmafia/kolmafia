@@ -882,7 +882,7 @@ public class BasementRequest
 			return true;
 		}
 
-		if ( responseText.indexOf( "Toast the Ghost" ) != -1 )
+		if ( responseText.indexOf( "Toast that Ghost" ) != -1 )
 		{
 			// The Ghost of Fernswarthy's n great-grandfather
 			BasementRequest.basementTestString = BasementRequest.monsterLevelString() + "<br>Physically resistant";
