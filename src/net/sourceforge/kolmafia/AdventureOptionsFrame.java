@@ -304,6 +304,7 @@ public abstract class AdventureOptionsFrame
 				{
 					String script = (String) CombatComboBox.this.getSelectedItem();
 					KoLSettings.setUserProperty( "customCombatScript", script );
+					CombatSettings.setScript( script );
 					AdventureOptionsFrame.this.refreshCombatTree();
 				}
 			}
