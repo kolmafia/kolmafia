@@ -976,6 +976,11 @@ public class BasementRequest
 			return true;
 		}
 
+		if ( !BasementRequest.checkForMonster( responseText ) )
+		{
+			return false;
+		}
+ 
 		BasementRequest.basementTestCurrent = 0;
 		BasementRequest.basementTestValue = 0;
 
@@ -1432,6 +1437,16 @@ public class BasementRequest
 				muscleBonus *= 1.5f;
 			}
 
+			if ( DesiredEffect.rigatoni )
+			{
+				muscleBonus *= 1.25f;
+			}
+
+			if ( DesiredEffect.hardigness )
+			{
+				muscleBonus *= 1.05f;
+			}
+
 			return addedHealthFixed + muscleBonus;
 		}
 
@@ -1452,6 +1467,16 @@ public class BasementRequest
 			if ( KoLCharacter.isMysticalityClass() )
 			{
 				mysticismBonus *= 1.5f;
+			}
+
+			if ( DesiredEffect.wisdom )
+			{
+				mysticismBonus *= 1.5f;
+			}
+
+			if ( DesiredEffect.ugnderstanding )
+			{
+				mysticismBonus *= 1.05f;
 			}
 
 			return addedManaFixed + mysticismBonus;
