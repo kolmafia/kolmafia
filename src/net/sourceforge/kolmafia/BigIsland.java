@@ -328,6 +328,7 @@ public class BigIsland
 	{
 		// Quest-specific page decorations
 		BigIsland.decorateJunkyard( buffer );
+		BigIsland.decorateArena( buffer );
 
 		// Find the table that contains the map.
 		String fratboyMessage =
@@ -408,6 +409,49 @@ public class BigIsland
 			"<tr><td><center><table width=100%><tr>" + BigIsland.progressLineStyle + "Look for the " + BigIsland.currentJunkyardTool + " " + BigIsland.currentJunkyardLocation + ".</td>" + "</tr></table></td></tr>";
 
 		buffer.insert( tableIndex, row );
+	}
+
+	public static final void decorateArena( final StringBuffer buffer )
+	{
+		// If he's not visiting the arena, punt
+		if ( buffer.indexOf( "Mysterious Island Arena" ) == -1 )
+			return;
+
+		// If there's no concert available, punt
+		if ( buffer.indexOf( "value=\"concert\"" ) == -1 )
+			return;
+
+		String quest = KoLSettings.getUserProperty( "sidequestArenaCompleted" );
+		String [][] array = quest.equals( "hippy" ) ? ArenaRequest.HIPPY_CONCERTS : ArenaRequest.FRATBOY_CONCERTS;
+
+		String text = buffer.toString();
+		buffer.setLength( 0 );
+
+		int index1 = 0, index2;
+
+		// Add first choice spoiler
+		String choice = array[0][0] + ": " + array[0][1];
+		index2 = text.indexOf( "</form>", index1 );
+		buffer.append( text.substring( index1, index2 ) );
+		buffer.append( "<br><font size=-1>(" + choice + ")</font><br/></form>" );
+		index1 = index2 + 7;
+
+		// Add second choice spoiler
+		choice = array[1][0] + ": " + array[1][1];
+		index2 = text.indexOf( "</form>", index1 );
+		buffer.append( text.substring( index1, index2 ) );
+		buffer.append( "<br><font size=-1>(" + choice + ")</font><br/></form>" );
+		index1 = index2 + 7;
+
+		// Add third choice spoiler
+		choice = array[2][0] + ": " + array[2][1];
+		index2 = text.indexOf( "</form>", index1 );
+		buffer.append( text.substring( index1, index2 ) );
+		buffer.append( "<br><font size=-1>(" + choice + ")</font><br/></form>" );
+		index1 = index2 + 7;
+
+		// Append remainder of buffer
+		buffer.append( text.substring( index1 ) );
 	}
 
 	public static final void startFight()
@@ -1384,6 +1428,9 @@ public class BigIsland
 
 	public static final void decoratePostwarIsland( final String url, final StringBuffer buffer )
 	{
+		// Quest-specific page decorations
+		BigIsland.decorateArena( buffer );
+
 		// Now replace sidequest location images for completed quests
 		BigIsland.sidequestImage( buffer, "sidequestArenaCompleted", BigIsland.ARENA );
 		BigIsland.sidequestImage( buffer, "sidequestNunsCompleted", BigIsland.NUNS );

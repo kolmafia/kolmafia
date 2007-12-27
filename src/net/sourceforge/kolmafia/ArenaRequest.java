@@ -39,20 +39,114 @@ import java.util.regex.Pattern;
 public class ArenaRequest
 	extends KoLRequest
 {
-	private int option = 0;
+	private static final Pattern ID_PATTERN = Pattern.compile( "(bigisland|postwarisland).php.*?action=concert.*?option=(\\d+)" );
 
-	private static final Pattern ID_PATTERN = Pattern.compile( "action=concert.*?option=(\\d+)" );
+	public static final String[][] HIPPY_CONCERTS =
+	{
+		{ "Moon'd", "+5 Stat(s) Per Fight" },
+		{ "Dilated Pupils", "Item Drop +?" },
+		{ "Optimist Primal", "Familiar Weight +5" },
+	};
+
+	public static final String[][] FRATBOY_CONCERTS =
+	{
+		{ "Elvish", "All Attributes +10%" },
+		{ "Winklered", "Meat Drop +40%" },
+		{ "White-boy Angst", "Initiative +?" },
+	};
+
+	private static String quest = "";
+	private int option = 0;
+	private String error = null;
 
 	public ArenaRequest( final int option )
 	{
-		super( "postwarisland.php" );
+		super( chooseUrl() );
+		if ( this.getPath().equals( "bogus.php" ) )
+		{
+			setError();
+			return;
+		}
 
 		this.addFormField( "action", "concert" );
 		this.addFormField( "pwd" );
-		if ( option >= 1 && option <= 3 )
+		if ( option < 0 || option > 3 )
 		{
-			this.option = option;
-			this.addFormField( "option", String.valueOf( option ) );
+			this.error = "Invalid concert selected";
+			return;
+		}
+
+		this.option = option;
+		this.addFormField( "option", String.valueOf( option ) );
+	}
+
+	public ArenaRequest( final String effect )
+	{
+		super( chooseUrl() );
+		if ( this.getPath().equals( "bogus.php" ) )
+		{
+			setError();
+			return;
+		}
+
+		String [][] array = quest.equals( "hippies" ) ? HIPPY_CONCERTS : FRATBOY_CONCERTS;
+
+		for ( int i = 0; i < array.length; ++i )
+		{
+			if ( array[i][0].startsWith( effect) )
+			{
+				this.option = i + 1;
+				break;
+			}
+		}
+
+		if ( this.option == 0 )
+		{
+			this.error = "That effect not available to " + quest;
+			return;
+		}
+
+		this.addFormField( "action", "concert" );
+		this.addFormField( "pwd" );
+		this.addFormField( "option", String.valueOf( this.option ) );
+	}
+
+	private static String chooseUrl()
+	{
+		BigIsland.ensureUpdatedBigIsland();
+                quest = questCompleter();
+                if ( quest.equals( "hippies" ) || quest.equals( "fratboys" ) )
+                {
+                        String winner = KoLSettings.getUserProperty( "sideDefeated" );
+                        if ( winner.equals( "neither" ) )
+                                return "bigisland.php";
+                        if ( !winner.equals( quest ) )
+                                return "postwarisland.php";
+                }
+		return "bogus.php";
+	}
+
+	private static String questCompleter()
+	{
+		String quest = KoLSettings.getUserProperty( "sidequestArenaCompleted" );
+		if ( quest.equals( "hippy" ) )
+			return "hippies";
+		if ( quest.equals( "fratboy" ) )
+			return "fratboys";
+		return "none";
+	}
+
+	private void setError()
+	{
+		// If he has not yet finished the sidequest, say so
+		if ( quest.equals( "none" ) )
+		{
+			this.error = "Arena not open";
+		}
+		else
+		{
+			// Otherwise, he won the war for the wrong side
+			this.error = "Arena's fans defeated in war";
 		}
 	}
 
@@ -63,9 +157,9 @@ public class ArenaRequest
 
 	public void run()
 	{
-		if ( this.option == 0 )
+		if ( this.error != null )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Decide what to do at the concert." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, this.error );
 			return;
 		}
 
@@ -94,19 +188,14 @@ public class ArenaRequest
 
 	public static final boolean registerRequest( final String location )
 	{
-		if ( !location.startsWith( "postwarisland.php" ) )
-		{
-			return false;
-		}
-
 		Matcher matcher = ArenaRequest.ID_PATTERN.matcher( location );
 
 		if ( !matcher.find() )
 		{
-			return true;
+			return false;
 		}
 
-		RequestLogger.updateSessionLog( "concert " + matcher.group( 1 ) );
+		RequestLogger.updateSessionLog( "concert " + matcher.group( 2 ) );
 		return true;
 	}
 }
