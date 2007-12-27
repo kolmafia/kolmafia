@@ -68,7 +68,7 @@
 66	Dandy Lion	item0	2380	woolen cravat	0	3	2	1
 67	O.A.F.	none	2445	hardware upgrade	0	0	0	0
 68	Penguin Goodfella	stat0	2447	tasteful black bowtie	3	2	1	0
-69	Jumpsuited Hound Dog	item0	2466	blue suede shoes	1	3	3	2
+69	Jumpsuited Hound Dog	none	2466	blue suede shoes	1	3	3	2
 70	Green Pixie	combat,item0	2650	green pixie spog	3	2	0	2
 71	Ragamuffin Imp	combat	2738		3	3	3	3
 72	Exotic Parrot	none	2709	cracker	3	3	2	0

@@ -126,7 +126,196 @@ public class Modifiers
 	public static final int FAMILIAR_WEIGHT_PCT = 46;
 
 	private static final Object[][] floatModifiers =
-		{ { "Familiar Weight", Pattern.compile( "(.*) to Familiar Weight" ), Pattern.compile( "Familiar Weight: ([+-]\\d+)" ) }, { "Monster Level", Pattern.compile( "(.*) to Monster Level" ), Pattern.compile( "Monster Level: ([+-]\\d+)" ) }, { "Combat Rate", null, Pattern.compile( "Combat Rate: ([+-][\\d.]+)" ) }, { "Initiative", Pattern.compile( "Combat Initiative (.*)%" ), Pattern.compile( "Initiative: ([+-][\\d.]+)" ) }, { "Experience", Pattern.compile( "(.*) Stat.*Per Fight" ), Pattern.compile( "Experience: ([+-][\\d.]+)" ) }, { "Item Drop", Pattern.compile( "(.*)% Item Drops? from Monsters" ), Pattern.compile( "Item Drop: ([+-][\\d.]+)" ) }, { "Meat Drop", Pattern.compile( "(.*)% Meat from Monsters" ), Pattern.compile( "Meat Drop: ([+-][\\d.]+)" ) }, { "Damage Absorption", Pattern.compile( "Damage Absorption (.*)" ), Pattern.compile( "Damage Absorption: ([+-]\\d+)" ) }, { "Damage Reduction", Pattern.compile( "Damage Reduction: (\\d+)" ), Pattern.compile( "Damage Reduction: ([+-]?\\d+)" ) }, { "Cold Resistance", null, Pattern.compile( "Cold Resistance: ([+-]\\d+)" ) }, { "Hot Resistance", null, Pattern.compile( "Hot Resistance: ([+-]\\d+)" ) }, { "Sleaze Resistance", null, Pattern.compile( "Sleaze Resistance: ([+-]\\d+)" ) }, { "Spooky Resistance", null, Pattern.compile( "Spooky Resistance: ([+-]\\d+)" ) }, { "Stench Resistance", null, Pattern.compile( "Stench Resistance: ([+-]\\d+)" ) }, { "Mana Cost", Pattern.compile( "(.*) MP to use Skills" ), Pattern.compile( "Mana Cost: ([+-]\\d+)" ) }, { "Moxie", Pattern.compile( "Moxie ([+-]\\d+)$" ), Pattern.compile( "Moxie: ([+-]\\d+)" ) }, { "Moxie Percent", Pattern.compile( "Moxie ([+-]\\d+)%" ), Pattern.compile( "Moxie Percent: ([+-]\\d+)" ) }, { "Muscle", Pattern.compile( "Muscle ([+-]\\d+)$" ), Pattern.compile( "Muscle: ([+-]\\d+)" ) }, { "Muscle Percent", Pattern.compile( "Muscle ([+-]\\d+)%" ), Pattern.compile( "Muscle Percent: ([+-]\\d+)" ) }, { "Mysticality", Pattern.compile( "Mysticality ([+-]\\d+)$" ), Pattern.compile( "Mysticality: ([+-]\\d+)" ) }, { "Mysticality Percent", Pattern.compile( "Mysticality ([+-]\\d+)%" ), Pattern.compile( "Mysticality Percent: ([+-]\\d+)" ) }, { "Maximum HP", Pattern.compile( "Maximum HP ([+-]\\d+)$" ), Pattern.compile( "Maximum HP: ([+-]\\d+)" ) }, { "Maximum HP Percent", null, Pattern.compile( "Maximum HP Percent: ([+-]\\d+)" ) }, { "Maximum MP", Pattern.compile( "Maximum MP ([+-]\\d+)$" ), Pattern.compile( "Maximum MP: ([+-]\\d+)" ) }, { "Maximum MP Percent", null, Pattern.compile( "Maximum MP Percent: ([+-]\\d+)" ) }, { "Melee Damage", Pattern.compile( "Melee Damage ([+-]\\d+)" ), Pattern.compile( "Melee Damage: ([+-]\\d+)" ) }, { "Ranged Damage", Pattern.compile( "Ranged Damage ([+-]\\d+)" ), Pattern.compile( "Ranged Damage: ([+-]\\d+)" ) }, { "Spell Damage", Pattern.compile( "Spell Damage ([+-]\\d+)$" ), Pattern.compile( "Spell Damage: ([+-]\\d+)" ) }, { "Spell Damage Percent", Pattern.compile( "Spell Damage ([+-]\\d+)%" ), Pattern.compile( "Spell Damage Percent: ([+-]\\d+)" ) }, { "Cold Damage", Pattern.compile( "([+-]\\d+) <font color=blue>Cold Damage</font>" ), Pattern.compile( "Cold Damage: ([+-]\\d+)" ) }, { "Hot Damage", Pattern.compile( "([+-]\\d+) <font color=red>Hot Damage</font>" ), Pattern.compile( "Hot Damage: ([+-]\\d+)" ) }, { "Sleaze Damage", Pattern.compile( "([+-]\\d+) <font color=blueviolet>Sleaze Damage</font>" ), Pattern.compile( "Sleaze Damage: ([+-]\\d+)" ) }, { "Spooky Damage", Pattern.compile( "([+-]\\d+) <font color=gray>Spooky Damage</font>" ), Pattern.compile( "Spooky Damage: ([+-]\\d+)" ) }, { "Stench Damage", Pattern.compile( "([+-]\\d+) <font color=green>Stench Damage</font>" ), Pattern.compile( "Stench Damage: ([+-]\\d+)" ) }, { "Cold Spell Damage", Pattern.compile( "([+-]\\d+) Damage to <font color=blue>Cold Spells</font>" ), Pattern.compile( "Cold Spell Damage: ([+-]\\d+)" ) }, { "Hot Spell Damage", Pattern.compile( "([+-]\\d+) Damage to <font color=red>Hot Spells</font>" ), Pattern.compile( "Hot Spell Damage: ([+-]\\d+)" ) }, { "Sleaze Spell Damage", Pattern.compile( "([+-]\\d+) Damage to <font color=blueviolet>Sleaze Spells</font>" ), Pattern.compile( "Sleaze Spell Damage: ([+-]\\d+)" ) }, { "Spooky Spell Damage", Pattern.compile( "([+-]\\d+) Damage to <font color=gray>Spooky Spells</font>" ), Pattern.compile( "Spooky Spell Damage: ([+-]\\d+)" ) }, { "Stench Spell Damage", Pattern.compile( "([+-]\\d+) Damage to <font color=green>Stench Spells</font>" ), Pattern.compile( "Stench Spell Damage: ([+-]\\d+)" ) }, { "Critical", Pattern.compile( "(\\d+)x chance of Critical Hit" ), Pattern.compile( "Critical: (\\d+)" ) }, { "Fumble", Pattern.compile( "(\\d+)x chance of Fumble" ), Pattern.compile( "Fumble: (\\d+)" ) }, { "HP Regen Min", null, Pattern.compile( "HP Regen Min: (\\d+)" ) }, { "HP Regen Max", null, Pattern.compile( "HP Regen Max: (\\d+)" ) }, { "MP Regen Min", null, Pattern.compile( "MP Regen Min: (\\d+)" ) }, { "MP Regen Max", null, Pattern.compile( "MP Regen Max: (\\d+)" ) }, { "Adventures", Pattern.compile( "([+-]\\d+) Adventure\\(s\\) per day when equipped" ), Pattern.compile( "Adventures: ([+]\\d+)" ) }, { "Familiar Weight Percent", null, Pattern.compile( "Familiar Weight Percent: ([+-]\\d+)" ) }, };
+	{
+		{ "Familiar Weight",
+		  Pattern.compile( "(.*) to Familiar Weight" ),
+		  Pattern.compile( "Familiar Weight: ([+-]\\d+)" )
+		},
+		{ "Monster Level",
+		  Pattern.compile( "(.*) to Monster Level" ),
+		  Pattern.compile( "Monster Level: ([+-]\\d+)" )
+		},
+		{ "Combat Rate",
+		  null,
+		  Pattern.compile( "Combat Rate: ([+-][\\d.]+)" )
+		},
+		{ "Initiative",
+		  Pattern.compile( "Combat Initiative (.*)%" ),
+		  Pattern.compile( "Initiative: ([+-][\\d.]+)" )
+		},
+		{ "Experience",
+		  Pattern.compile( "(.*) Stat.*Per Fight" ),
+		  Pattern.compile( "Experience: ([+-][\\d.]+)" )
+		},
+		{ "Item Drop",
+		  Pattern.compile( "(.*)% Item Drops? from Monsters" ),
+		  Pattern.compile( "Item Drop: ([+-][\\d.]+)" )
+		},
+		{ "Meat Drop",
+		  Pattern.compile( "(.*)% Meat from Monsters" ),
+		  Pattern.compile( "Meat Drop: ([+-][\\d.]+)" )
+		},
+		{ "Damage Absorption",
+		  Pattern.compile( "Damage Absorption (.*)" ),
+		  Pattern.compile( "Damage Absorption: ([+-]\\d+)" )
+		},
+		{ "Damage Reduction",
+		  Pattern.compile( "Damage Reduction: (\\d+)" ),
+		  Pattern.compile( "Damage Reduction: ([+-]?\\d+)" )
+		},
+		{ "Cold Resistance",
+		  null,
+		  Pattern.compile( "Cold Resistance: ([+-]\\d+)" )
+		},
+		{ "Hot Resistance",
+		  null,
+		  Pattern.compile( "Hot Resistance: ([+-]\\d+)" )
+		},
+		{ "Sleaze Resistance",
+		  null,
+		  Pattern.compile( "Sleaze Resistance: ([+-]\\d+)" )
+		},
+		{ "Spooky Resistance",
+		  null,
+		  Pattern.compile( "Spooky Resistance: ([+-]\\d+)" )
+		},
+		{ "Stench Resistance",
+		  null,
+		  Pattern.compile( "Stench Resistance: ([+-]\\d+)" )
+		},
+		{ "Mana Cost",
+		  Pattern.compile( "(.*) MP to use Skills" ),
+		  Pattern.compile( "Mana Cost: ([+-]\\d+)" )
+		},
+		{ "Moxie",
+		  Pattern.compile( "Moxie ([+-]\\d+)$" ),
+		  Pattern.compile( "Moxie: ([+-]\\d+)" )
+		},
+		{ "Moxie Percent",
+		  Pattern.compile( "Moxie ([+-]\\d+)%" ),
+		  Pattern.compile( "Moxie Percent: ([+-]\\d+)" )
+		},
+		{ "Muscle",
+		  Pattern.compile( "Muscle ([+-]\\d+)$" ),
+		  Pattern.compile( "Muscle: ([+-]\\d+)" )
+		},
+		{ "Muscle Percent",
+		  Pattern.compile( "Muscle ([+-]\\d+)%" ),
+		  Pattern.compile( "Muscle Percent: ([+-]\\d+)" )
+		},
+		{ "Mysticality",
+		  Pattern.compile( "Mysticality ([+-]\\d+)$" ),
+		  Pattern.compile( "Mysticality: ([+-]\\d+)" )
+		},
+		{ "Mysticality Percent",
+		  Pattern.compile( "Mysticality ([+-]\\d+)%" ),
+		  Pattern.compile( "Mysticality Percent: ([+-]\\d+)" )
+		},
+		{ "Maximum HP",
+		  Pattern.compile( "Maximum HP ([+-]\\d+)$" ),
+		  Pattern.compile( "Maximum HP: ([+-]\\d+)" )
+		},
+		{ "Maximum HP Percent",
+		  null,
+		  Pattern.compile( "Maximum HP Percent: ([+-]\\d+)" )
+		},
+		{ "Maximum MP",
+		  Pattern.compile( "Maximum MP ([+-]\\d+)$" ),
+		  Pattern.compile( "Maximum MP: ([+-]\\d+)" )
+		},
+		{ "Maximum MP Percent",
+		  null,
+		  Pattern.compile( "Maximum MP Percent: ([+-]\\d+)" )
+		},
+		{ "Melee Damage",
+		  Pattern.compile( "Melee Damage ([+-]\\d+)" ),
+		  Pattern.compile( "Melee Damage: ([+-]\\d+)" )
+		},
+		{ "Ranged Damage",
+		  Pattern.compile( "Ranged Damage ([+-]\\d+)" ),
+		  Pattern.compile( "Ranged Damage: ([+-]\\d+)" )
+		},
+		{ "Spell Damage",
+		  Pattern.compile( "Spell Damage ([+-]\\d+)$" ),
+		  Pattern.compile( "Spell Damage: ([+-]\\d+)" )
+		},
+		{ "Spell Damage Percent",
+		  Pattern.compile( "Spell Damage ([+-]\\d+)%" ),
+		  Pattern.compile( "Spell Damage Percent: ([+-]\\d+)" )
+		},
+		{ "Cold Damage",
+		  Pattern.compile( "([+-]\\d+) <font color=blue>Cold Damage</font>" ),
+		  Pattern.compile( "Cold Damage: ([+-]\\d+)" )
+		},
+		{ "Hot Damage",
+		  Pattern.compile( "([+-]\\d+) <font color=red>Hot Damage</font>" ),
+		  Pattern.compile( "Hot Damage: ([+-]\\d+)" )
+		},
+		{ "Sleaze Damage",
+		  Pattern.compile( "([+-]\\d+) <font color=blueviolet>Sleaze Damage</font>" ),
+		  Pattern.compile( "Sleaze Damage: ([+-]\\d+)" )
+		},
+		{ "Spooky Damage",
+		  Pattern.compile( "([+-]\\d+) <font color=gray>Spooky Damage</font>" ),
+		  Pattern.compile( "Spooky Damage: ([+-]\\d+)" )
+		},
+		{ "Stench Damage",
+		  Pattern.compile( "([+-]\\d+) <font color=green>Stench Damage</font>" ),
+		  Pattern.compile( "Stench Damage: ([+-]\\d+)" )
+		},
+		{ "Cold Spell Damage",
+		  Pattern.compile( "([+-]\\d+) Damage to <font color=blue>Cold Spells</font>" ),
+		  Pattern.compile( "Cold Spell Damage: ([+-]\\d+)" )
+		},
+		{ "Hot Spell Damage",
+		  Pattern.compile( "([+-]\\d+) Damage to <font color=red>Hot Spells</font>" ),
+		  Pattern.compile( "Hot Spell Damage: ([+-]\\d+)" )
+		},
+		{ "Sleaze Spell Damage",
+		  Pattern.compile( "([+-]\\d+) Damage to <font color=blueviolet>Sleaze Spells</font>" ),
+		  Pattern.compile( "Sleaze Spell Damage: ([+-]\\d+)" )
+		},
+		{ "Spooky Spell Damage",
+		  Pattern.compile( "([+-]\\d+) Damage to <font color=gray>Spooky Spells</font>" ),
+		  Pattern.compile( "Spooky Spell Damage: ([+-]\\d+)" )
+		},
+		{ "Stench Spell Damage",
+		  Pattern.compile( "([+-]\\d+) Damage to <font color=green>Stench Spells</font>" ),
+		  Pattern.compile( "Stench Spell Damage: ([+-]\\d+)" )
+		},
+		{ "Critical",
+		  Pattern.compile( "(\\d+)x chance of Critical Hit" ),
+		  Pattern.compile( "Critical: (\\d+)" )
+		},
+		{ "Fumble",
+		  Pattern.compile( "(\\d+)x chance of Fumble" ),
+		  Pattern.compile( "Fumble: (\\d+)" )
+		},
+		{ "HP Regen Min",
+		  null,
+		  Pattern.compile( "HP Regen Min: (\\d+)" )
+		},
+		{ "HP Regen Max",
+		  null,
+		  Pattern.compile( "HP Regen Max: (\\d+)" )
+		},
+		{ "MP Regen Min",
+		  null,
+		  Pattern.compile( "MP Regen Min: (\\d+)" )
+		},
+		{ "MP Regen Max",
+		  null,
+		  Pattern.compile( "MP Regen Max: (\\d+)" )
+		},
+		{ "Adventures",
+		  Pattern.compile( "([+-]\\d+) Adventure\\(s\\) per day when equipped" ),
+		  Pattern.compile( "Adventures: ([+]\\d+)" )
+		},
+		{ "Familiar Weight Percent",
+		  null,
+		  Pattern.compile( "Familiar Weight Percent: ([+-]\\d+)" )
+		},
+	};
 
 	public static final int FLOAT_MODIFIERS = Modifiers.floatModifiers.length;
 
@@ -136,7 +325,24 @@ public class Modifiers
 	public static final int WEAKENS = 3;
 
 	private static final Object[][] booleanModifiers =
-		{ { "Softcore Only", Pattern.compile( "This item cannot be equipped while in Hardcore" ), Pattern.compile( "Softcore Only" ) }, { "Single Equip", null, Pattern.compile( "Single Equip" ) }, { "Never Fumble", Pattern.compile( "Never Fumble" ), Pattern.compile( "Never Fumble" ) }, { "Weakens Monster", Pattern.compile( "Successful hit weakens opponent" ), Pattern.compile( "Weakens Monster" ) }, };
+	{
+		{ "Softcore Only",
+		  Pattern.compile( "This item cannot be equipped while in Hardcore" ),
+		  Pattern.compile( "Softcore Only" )
+		},
+		{ "Single Equip",
+		  null,
+		  Pattern.compile( "Single Equip" )
+		},
+		{ "Never Fumble",
+		  Pattern.compile( "Never Fumble" ),
+		  Pattern.compile( "Never Fumble" )
+		},
+		{ "Weakens Monster",
+		  Pattern.compile( "Successful hit weakens opponent" ),
+		  Pattern.compile( "Weakens Monster" )
+		},
+	};
 
 	public static final int BOOLEAN_MODIFIERS = Modifiers.booleanModifiers.length;
 
@@ -145,7 +351,20 @@ public class Modifiers
 	public static final int EQUALIZE = 2;
 
 	private static final Object[][] stringModifiers =
-		{ { "Class", null, Pattern.compile( "Class: \"(.*?)\"" ) }, { "Intrinsic Effect", Pattern.compile( "Intrinsic effect: (.*)" ), Pattern.compile( "Intrinsic Effect: \"(.*?)\"" ) }, { "Equalize", null, Pattern.compile( "Equalize: \"(.*?)\"" ) }, };
+	{
+		{ "Class",
+		  null,
+		  Pattern.compile( "Class: \"(.*?)\"" )
+		},
+		{ "Intrinsic Effect",
+		  Pattern.compile( "Intrinsic effect: (.*)" ),
+		  Pattern.compile( "Intrinsic Effect: \"(.*?)\"" )
+		},
+		{ "Equalize",
+		  null,
+		  Pattern.compile( "Equalize: \"(.*?)\"" )
+		},
+	};
 
 	public static final int STRING_MODIFIERS = Modifiers.stringModifiers.length;
 
@@ -972,6 +1191,17 @@ public class Modifiers
 
 		switch ( familiarId )
 		{
+		case 69:
+			// Jumpsuited Hound Dog This is an item drop familiar
+			// but the formula is not spaded yet.
+			// It also increases combat frequency:
+			//   min (5, floor (weight / 6 ) )
+			int combat = weight / 6;
+			if ( combat > 5 )
+				combat = 5;
+			this.add( Modifiers.COMBAT_RATE, combat );
+			break;
+
 		case 72:
 			// Exotic Parrot
 
