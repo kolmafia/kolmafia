@@ -976,12 +976,6 @@ public class BasementRequest
 			return true;
 		}
 
-		if ( !BasementRequest.checkForMonster( responseText ) )
-		{
-			// Presumably, it's a reward room
-			return false;
-		}
-
 		BasementRequest.basementTestCurrent = 0;
 		BasementRequest.basementTestValue = 0;
 
@@ -1102,6 +1096,11 @@ public class BasementRequest
 			return;
 		}
 
+		if ( !hasCheck )
+		{
+			return;
+		}
+
 		buffer.insert(
 			buffer.indexOf( "</head>" ), "<script language=\"Javascript\" src=\"/basement.js\"></script></head>" );
 
@@ -1199,15 +1198,12 @@ public class BasementRequest
 		changes.append( "</table>" );
 		buffer.insert( buffer.indexOf( "</center><blockquote>" ), changes.toString() );
 
-		if ( hasCheck )
-		{
-			String checkString = BasementRequest.getRequirement();
-			buffer.insert( buffer.lastIndexOf( "</b>" ) + 4, "<br/>" );
-			buffer.insert( buffer.lastIndexOf( "<img" ), "<table><tr><td>" );
-			buffer.insert(
-				buffer.indexOf( ">", buffer.lastIndexOf( "<img" ) ) + 1,
-				"</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><font id=\"spoiler\" size=2>" + checkString + "</font></td></tr></table>" );
-		}
+		String checkString = BasementRequest.getRequirement();
+		buffer.insert( buffer.lastIndexOf( "</b>" ) + 4, "<br/>" );
+		buffer.insert( buffer.lastIndexOf( "<img" ), "<table><tr><td>" );
+		buffer.insert(
+			buffer.indexOf( ">", buffer.lastIndexOf( "<img" ) ) + 1,
+			"</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><font id=\"spoiler\" size=2>" + checkString + "</font></td></tr></table>" );
 	}
 
 	private static final void appendBasementEffect( final StringBuffer changes, final DesiredEffect effect )
