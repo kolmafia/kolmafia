@@ -21,7 +21,7 @@
 18	Hovering Sombrero	stat1	1165	tiny maracas	0	3	2	1
 19	Ghost Pickle on a Stick	combat	766	skewer-mounted razor blade	3	1	0	2
 20	Killer Bee	combat	828	brass stinger	3	1	2	0
-21	Whirling Maple Leaf	combat	888	tiny mountie hat	3	1	2	0
+21	Whirling Maple Leaf	combat	888	tiny Mountie hat	3	1	2	0
 22	Coffee Pixie	item0,meat0	897	miniature espresso maker	1	1	3	2
 23	Cheshire Bat	stat0,meat0	898	smile-sharpening stone	1	2	3	1
 24	Jill-O-Lantern	combat	894	100-Watt bulb	3	1	2	1
@@ -74,9 +74,9 @@
 72	Exotic Parrot	none	2709	cracker	3	3	2	0
 73	Wizard Action Figure	combat, stat0, item0	2836	mint-condition magic wand	2	3	2	2
 74	Gluttonous Green Ghost	combat, stat0	2845	plastic bib	2	3	3	1
-75	Casagnova Gnome	item0,meat0	2937	miniature castagnets	1	1	3	2
-76	Hunchbacked Minion	stat0,meat0	2939	miniature Jacob's ladder	1	2	3	1
-77	Crimbo P. R. E. S. S. I. E.	stat0, stat1	3042	metallic foil bow	0	0	0	0
+75	Casagnova Gnome	item0,meat0	2937	miniature castagnets	0	1	3	2
+76	Hunchbacked Minion	stat0,meat0	2939	miniature Jacob's ladder	1	3	0	2
+77	Crimbo P. R. E. S. S. I. E.	stat0, stat1	3042	metallic foil bow	3	2	0	1
 78	Bulky Buddy Box	none	3079		0	0	0	0
-79	Teddy Borg	none	3080	teddy borg sewing kit	0	0	0	0
-80	RoboGoose	none	3107	overclocked avian microprocessor	0	0	0	0
+79	Teddy Borg	none	3080	teddy borg sewing kit	3	2	0	1
+80	RoboGoose	none	3107	overclocked avian microprocessor	2	3	1	0

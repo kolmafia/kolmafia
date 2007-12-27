@@ -144,6 +144,8 @@ public class ConsumeItemRequest
 	private static final int GILDED_CURSED_CHEST = 3018;
 	public static final int CURSED_PIECE_OF_THIRTEEN = 3034;
 	private static final int GENERAL_ASSEMBLY_MODULE = 3075;
+	private static final int HOBBY_HORSE = 3092;
+	private static final int BALL_IN_CUP = 3093;
 	private static final int SET_OF_JACKS = 3094;
 
 	private static final int PALM_FROND = 2605;
@@ -467,8 +469,15 @@ public class ConsumeItemRequest
 		case EQUIP_ACCESSORY:
 		case EQUIP_FAMILIAR:
 
-			if ( itemId != SET_OF_JACKS )
+			switch ( itemId )
 			{
+			case HOBBY_HORSE:
+			case BALL_IN_CUP:
+			case SET_OF_JACKS:
+				// All three of these can be equipped but can
+				// also be "used" once a day.
+				break;
+			default:
 				( new EquipmentRequest( this.itemUsed ) ).run();
 				return;
 			}
