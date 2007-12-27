@@ -186,10 +186,6 @@ public class ShowDescriptionList
 
 				ShowDescriptionList.this.contextMenu.show( e.getComponent(), e.getX(), e.getY() );
 			}
-			else
-			{
-				ShowDescriptionList.this.lastSelectIndex = -1;
-			}
 		}
 	}
 

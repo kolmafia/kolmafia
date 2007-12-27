@@ -117,7 +117,12 @@ public class ExamineItemsFrame
 
 			public void run()
 			{
-				ItemLookupPanel.this.showDescription( (Entry) ItemLookupPanel.this.elementModel.getElementAt( ItemLookupPanel.this.elementList.lastSelectIndex ) );
+				int index = ItemLookupPanel.this.elementList.lastSelectIndex;
+				if ( index != -1 )
+				{
+					Entry entry = (Entry) ItemLookupPanel.this.elementModel.getElementAt( index );
+					ItemLookupPanel.this.showDescription( entry );
+				}
 			}
 		}
 
