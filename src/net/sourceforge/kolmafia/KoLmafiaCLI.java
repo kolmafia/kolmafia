@@ -5617,17 +5617,18 @@ public class KoLmafiaCLI
 
 	public void executeArenaRequest( final String parameters )
 	{
-		String[] split = parameters.split( " " );
-		String actionString = split[ 0 ];
-		int action = StaticEntity.parseInt( actionString );
+		ArenaRequest request = null;
 
-		if ( action < 1 || action > 3 )
+		if ( Character.isDigit( parameters.charAt( 0 ) ) )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Pick action 1, 2, or 3." );
-			return;
+			request = new ArenaRequest( StaticEntity.parseInt( parameters ) );
+		}
+		else
+		{
+			request = new ArenaRequest( parameters );
 		}
 
-		RequestThread.postRequest( new ArenaRequest( action ) );
+		RequestThread.postRequest( request );
 	}
 
 	/**

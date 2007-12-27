@@ -330,12 +330,12 @@
 329	Broken Fast	ccheese.gif	1e776d50f7d0c07ae3bf04aa1ea13e49
 330	Hoity Toity	snifter.gif	89a2e36f2f2fa3c6c4053a6a35c2a12a
 331	On the Trail	footprints.gif	91635be2834f8a07c8ff9e3b47d2e43a
-332	Moon'd	moon4.gif	3f23af7d42cd450e5a198ba091a842c1
-333	Dilated Pupils	pupils.gif	dd0d5b24b28fff02cb53607f45d0d220
-334	Optimist Primal	happy.gif	63965c29290f23349477c4199c9b10c3
-335	Elvish	ears.gif	7db86298da3afb00bd686f76ac0eaff7
-336	Winklered	winking.gif	148cc90a0b393072039a3fe128c61138
-337	White-boy Angst	angry.gif	97065b953792aa434bb4d6ef1bbc29c5
+332	Moon'd	moon4.gif	3f23af7d42cd450e5a198ba091a842c1	concert Moon'd
+333	Dilated Pupils	pupils.gif	dd0d5b24b28fff02cb53607f45d0d220	concert Dilated Pupils
+334	Optimist Primal	happy.gif	63965c29290f23349477c4199c9b10c3	concert Optimist Primal
+335	Elvish	ears.gif	7db86298da3afb00bd686f76ac0eaff7	concert Elvish
+336	Winklered	winking.gif	148cc90a0b393072039a3fe128c61138	concert Winklered
+337	White-boy Angst	angry.gif	97065b953792aa434bb4d6ef1bbc29c5	concert White-boy Angst
 338	Fustulent	stench.gif	55fd0e02c574f2ba680d8e64a5542bf8	use 1 lesser grodulated violet
 339	Tin, Man	funnelhat.gif	3ceed6b8764068dd53325bab6b7b5681	use 1 tin magnolia
 340	Can't Be a Chooser	meat.gif	76a0c3b8b2ddd3cffbbb2c1de01fd41f	use 1 begpwnia
