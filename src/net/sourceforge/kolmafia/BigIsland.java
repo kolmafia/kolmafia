@@ -47,6 +47,10 @@ public class BigIsland
 
 	private static final String progressLineStyle = "<td style=\"color: red;font-size: 80%\" align=center>";
 
+	// Meat drops from dirty thieving brigands
+	private static final int BRIGAND_MIN = 800;
+	private static final int BRIGAND_MAX = 1250;
+
 	private static String missingGremlinTool = null;
 
 	private static int fratboysDefeated = 0;
@@ -185,9 +189,15 @@ public class BigIsland
 		int current = BigIsland.currentNunneryMeat;
 		if ( current < 100000 )
 		{
-			int left = 100000 - current;
-			int delta = current - BigIsland.lastNunneryMeat;
-			int turns = (int) Math.ceil( (double) left / (double) delta );
+			double left = 100000.0 - current;
+			double mod = ( KoLCharacter.currentNumericModifier( Modifiers.MEATDROP ) + 100.0 ) / 100.0;
+			double min = BRIGAND_MIN * mod;
+			double max = BRIGAND_MAX * mod;
+			int minTurns = (int) Math.ceil( left / max );
+			int maxTurns = (int) Math.ceil( left / min );
+			String turns = String.valueOf( minTurns );
+			if ( minTurns != maxTurns )
+				turns += "-" + String.valueOf( maxTurns );
 			String message =
 				"<p><center>" + KoLConstants.COMMA_FORMAT.format( current ) + " Meat recovered, " + KoLConstants.COMMA_FORMAT.format( left ) + " left (" + turns + " turns).<br>";
 
