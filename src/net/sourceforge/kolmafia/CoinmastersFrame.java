@@ -118,7 +118,8 @@ public class CoinmastersFrame
 			       CoinmastersDatabase.dimeBuyPrices(),
 			       WAR_HIPPY_OUTFIT,
 			       "availableDimes",
-			       "dime" );
+			       "dime",
+			       "dimemaster" );
 		}
 	}
 
@@ -132,7 +133,8 @@ public class CoinmastersFrame
 			       CoinmastersDatabase.quarterBuyPrices(),
 			       WAR_FRAT_OUTFIT,
 			       "availableQuarters",
-			       "quarter" );
+			       "quarter",
+			       "quartersmaster" );
 		}
 	}
 
@@ -145,13 +147,14 @@ public class CoinmastersFrame
 		private int outfit;
 		private String property;
 		protected String token;
+		protected String master;
 
 		private SellPanel sellPanel = null;
 		private BuyPanel buyPanel = null;
 
 		private boolean hasOutfit = false;
 
-		public CoinmasterPanel( LockableListModel purchases, Map sellPrices, Map buyPrices, int outfit, String property, String token )
+		public CoinmasterPanel( LockableListModel purchases, Map sellPrices, Map buyPrices, int outfit, String property, String token, String master )
 		{
 			super( new BorderLayout() );
 
@@ -160,6 +163,7 @@ public class CoinmastersFrame
 			this.outfit = outfit;
 			this.property = property;
 			this.token = token;
+			this.master = master;
 
 			sellPanel = new SellPanel( sellPrices, token );
 			this.add( sellPanel, BorderLayout.NORTH );
@@ -186,15 +190,29 @@ public class CoinmastersFrame
 			return new EquipmentRequest( EquipmentDatabase.getOutfit( this.outfit ) );
 		}
 
-		public void wearOutfit()
+		public void visit()
 		{
 			if ( !this.hasOutfit )
 			{
 				KoLmafia.updateDisplay( ERROR_STATE, "You don't have the right outfit" );
 				return;
 			}
-			EquipmentDatabase.retrieveOutfit( this.outfit );
-			RequestThread.postRequest( outfitRequest() );
+
+			if ( !CoinmastersFrame.atWar )
+			{
+				KoLmafia.updateDisplay( ERROR_STATE, "You're not at war." );
+				return;
+			}
+
+			KoLmafia.updateDisplay( "Visiting the " + master + "..." );
+			RequestThread.openRequestSequence();
+			if ( !EquipmentDatabase.isWearingOutfit( this.outfit ) )
+			{
+				EquipmentDatabase.retrieveOutfit( this.outfit );
+				RequestThread.postRequest( outfitRequest() );
+			}
+			// RequestThread.postRequest( ...request... );
+			RequestThread.closeRequestSequence();
 		}
 
 		private void execute( KoLRequest request )
@@ -205,7 +223,7 @@ public class CoinmastersFrame
 				return;
 			}
 
-			KoLmafia.updateDisplay( "Visiting the coin master..." );
+			KoLmafia.updateDisplay( "Visiting the " + master + "..." );
 
 			boolean change = !EquipmentDatabase.isWearingOutfit( this.outfit );
 			RequestThread.openRequestSequence();
@@ -316,7 +334,7 @@ public class CoinmastersFrame
 						new BuyListener(),
 					} );
 
-				this.eastPanel.add( new OutfitButton(), BorderLayout.SOUTH );
+				this.eastPanel.add( new InvocationButton( "visit", CoinmasterPanel.this, "visit" ), BorderLayout.SOUTH );
 
 				this.elementList.setCellRenderer( getCoinmasterRenderer( prices, token ) );
 				this.elementList.setVisibleRowCount( 6 );
@@ -355,15 +373,6 @@ public class CoinmastersFrame
 				public String toString()
 				{
 					return "buy";
-				}
-			}
-
-			private class OutfitButton
-				extends InvocationButton
-			{
-				public OutfitButton()
-				{
-					super( "outfit", CoinmasterPanel.this, "wearOutfit" );
 				}
 			}
 		}
