@@ -181,6 +181,51 @@ public class CoinmastersFrame
 			this.hasOutfit = EquipmentDatabase.hasOutfit( this.outfit );
 		}
 
+		private KoLRequest outfitRequest()
+		{
+			return new EquipmentRequest( EquipmentDatabase.getOutfit( this.outfit ) );
+		}
+
+		public void wearOutfit()
+		{
+			if ( !this.hasOutfit )
+			{
+				KoLmafia.updateDisplay( ERROR_STATE, "You don't have the right outfit" );
+				return;
+			}
+			EquipmentDatabase.retrieveOutfit( this.outfit );
+			RequestThread.postRequest( outfitRequest() );
+		}
+
+		private void execute( KoLRequest request )
+		{
+			if ( !this.hasOutfit )
+			{
+				KoLmafia.updateDisplay( ERROR_STATE, "You don't have the right outfit" );
+				return;
+			}
+
+			KoLmafia.updateDisplay( "Visiting the coin master..." );
+
+			boolean change = !EquipmentDatabase.isWearingOutfit( this.outfit );
+			RequestThread.openRequestSequence();
+
+			if ( change )
+			{
+				SpecialOutfit.createImplicitCheckpoint();
+				RequestThread.postRequest( outfitRequest() );
+			}
+
+			RequestThread.postRequest( request );
+
+			if ( change )
+			{
+				SpecialOutfit.restoreImplicitCheckpoint();
+			}
+
+			RequestThread.closeRequestSequence();
+		}
+
 		private class SellPanel
 			extends ItemManagePanel
 		{
@@ -235,7 +280,7 @@ public class CoinmastersFrame
 						return;
 					}
 
-					// RequestThread.postRequest( new CoinmasterRequest( items ) );
+					// CoinmasterPanel.this.execute( new CoinmasterRequest( items ) );
 				}
 
 				public String toString()
@@ -271,6 +316,8 @@ public class CoinmastersFrame
 						new BuyListener(),
 					} );
 
+				this.eastPanel.add( new OutfitButton(), BorderLayout.SOUTH );
+
 				this.elementList.setCellRenderer( getCoinmasterRenderer( prices, token ) );
 				this.elementList.setVisibleRowCount( 6 );
 				this.elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
@@ -302,12 +349,21 @@ public class CoinmastersFrame
 						return;
 					}
 
-					// RequestThread.postRequest( new CoinmasterRequest( items ) );
+					// CoinmasterPanel.this.execute( new CoinmasterRequest( items ) );
 				}
 
 				public String toString()
 				{
 					return "buy";
+				}
+			}
+
+			private class OutfitButton
+				extends InvocationButton
+			{
+				public OutfitButton()
+				{
+					super( "outfit", CoinmasterPanel.this, "wearOutfit" );
 				}
 			}
 		}
