@@ -161,9 +161,11 @@ public class ZapRequest
 	{
 		ZapRequest.initializeList();
 
-		int selectIndex = buffer.indexOf( ">", buffer.indexOf( "<select" ) ) + 1;
-		int endSelectIndex = buffer.indexOf( "</select>" );
-
+		int selectIndex = buffer.indexOf( "<select" );
+		if ( selectIndex == -1 )
+			return;
+		selectIndex = buffer.indexOf( ">", selectIndex ) + 1;
+		int endSelectIndex = buffer.indexOf( "</select>", selectIndex );
 		Matcher optionMatcher = ZapRequest.OPTION_PATTERN.matcher( buffer.substring( selectIndex, endSelectIndex ) );
 		buffer.delete( selectIndex, endSelectIndex );
 
