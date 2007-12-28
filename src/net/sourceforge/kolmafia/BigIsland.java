@@ -1036,6 +1036,8 @@ public class BigIsland
 
 		// Set variables from user settings
 		BigIsland.ensureUpdatedBigIsland();
+		KoLSettings.resetUserProperty( "warProgress", "started" );
+		CoinmastersFrame.externalUpdate();
 
 		// Parse the map and deduce how many soldiers remain
 		BigIsland.parseBattlefield( responseText );
@@ -1365,6 +1367,7 @@ public class BigIsland
 			KoLSettings.setUserProperty( "availableDimes", "0" );
 			KoLSettings.setUserProperty( "availableQuarters", "0" );
 			KoLSettings.setUserProperty( "sideDefeated", "neither" );
+			KoLSettings.setUserProperty( "warProgress", "unstarted" );
 		}
 
 		// Set variables from user settings
@@ -1423,7 +1426,8 @@ public class BigIsland
 		boolean fratboysLost = responseText.indexOf( "snarfblat=150" ) != -1;
 		String loser = ( !hippiesLost ) ? "fratboys" : ( !fratboysLost ) ? "hippies" : "both";
 		KoLSettings.resetUserProperty( "sideDefeated", loser );
-		return;
+		KoLSettings.resetUserProperty( "warProgress", "finished" );
+		CoinmastersFrame.externalUpdate();
 	}
 
 	public static final void decoratePostwarIsland( final String url, final StringBuffer buffer )
