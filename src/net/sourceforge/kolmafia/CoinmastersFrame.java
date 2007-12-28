@@ -53,27 +53,59 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 public class CoinmastersFrame
 	extends KoLFrame
 {
+	private static final int WAR_HIPPY_OUTFIT = 32;
+	private static final int WAR_FRAT_OUTFIT = 33;
+
+	private static CoinmastersFrame INSTANCE = null;
+	private static boolean atWar = false;
+	private static int dimes = 0;
+	private static int quarters = 0;
+
+	private CoinmasterPanel dimePanel = null;
+	private CoinmasterPanel quarterPanel = null;
+
 	public CoinmastersFrame()
 	{
 		super( "Coin Masters" );
+		CoinmastersFrame.INSTANCE = this;
 
-		JPanel dimePanel = new JPanel( new BorderLayout() );
-		dimePanel.add( new DimemasterPanel() );
-		JPanel quarterPanel = new JPanel( new BorderLayout() );
-		quarterPanel.add( new QuartersmasterPanel() );
+		JPanel panel = new JPanel( new BorderLayout() );
+		dimePanel = new DimemasterPanel();
+		panel.add( dimePanel );
+		this.tabs.add( "Dimemaster", panel );
 
-		this.tabs.add( "Dimemaster", dimePanel );
-		this.tabs.add( "Quartersmaster", quarterPanel );
+		panel = new JPanel( new BorderLayout() );
+		quarterPanel = new QuartersmasterPanel();
+		panel.add( quarterPanel );
+		this.tabs.add( "Quartersmaster", panel );
 
 		this.framePanel.add( this.tabs, BorderLayout.CENTER );
-		this.setTitle();
+		CoinmastersFrame.externalUpdate();
 	}
 
-	private void setTitle()
+	public void dispose()
 	{
-		int dimes = KoLSettings.getIntegerProperty( "availableDimes" );
-		int quarters = KoLSettings.getIntegerProperty( "availableQuarters" );
-		super.setTitle( "Coin Masters (" + dimes + " dimes/" + quarters + " quarters)" );
+		CoinmastersFrame.INSTANCE = null;
+		super.dispose();
+	}
+
+	public static void externalUpdate()
+	{
+		if ( INSTANCE == null )
+			return;
+
+		BigIsland.ensureUpdatedBigIsland();
+		atWar = KoLSettings.getUserProperty( "warProgress" ).equals( "started" );
+		dimes = KoLSettings.getIntegerProperty( "availableDimes" );
+		quarters = KoLSettings.getIntegerProperty( "availableQuarters" );
+		INSTANCE.setTitle( "Coin Masters (" + dimes + " dimes/" + quarters + " quarters)" );
+		INSTANCE.update();
+	}
+
+	private void update()
+	{
+		dimePanel.update();
+		quarterPanel.update();
 	}
 
 	private class DimemasterPanel
@@ -81,7 +113,12 @@ public class CoinmastersFrame
 	{
 		public DimemasterPanel()
 		{
-			super( CoinmastersDatabase.getDimeItems(), CoinmastersDatabase.dimeSellPrices(), CoinmastersDatabase.dimeBuyPrices(), "availableDimes", "dime" );
+			super( CoinmastersDatabase.getDimeItems(),
+			       CoinmastersDatabase.dimeSellPrices(),
+			       CoinmastersDatabase.dimeBuyPrices(),
+			       WAR_HIPPY_OUTFIT,
+			       "availableDimes",
+			       "dime" );
 		}
 	}
 
@@ -90,7 +127,12 @@ public class CoinmastersFrame
 	{
 		public QuartersmasterPanel()
 		{
-			super( CoinmastersDatabase.getQuarterItems(), CoinmastersDatabase.quarterSellPrices(), CoinmastersDatabase.quarterBuyPrices(), "availableQuarters", "quarter" );
+			super( CoinmastersDatabase.getQuarterItems(),
+			       CoinmastersDatabase.quarterSellPrices(),
+			       CoinmastersDatabase.quarterBuyPrices(),
+			       WAR_FRAT_OUTFIT,
+			       "availableQuarters",
+			       "quarter" );
 		}
 	}
 
@@ -100,22 +142,29 @@ public class CoinmastersFrame
 		private LockableListModel purchases;
 		private Map sellPrices;
 		private Map buyPrices;
+		private int outfit;
 		private String property;
-		private String token;
+		protected String token;
 
-		public CoinmasterPanel( LockableListModel purchases, Map sellPrices, Map buyPrices, String property, String token )
+		private SellPanel sellPanel = null;
+		private BuyPanel buyPanel = null;
+
+		private boolean hasOutfit = false;
+
+		public CoinmasterPanel( LockableListModel purchases, Map sellPrices, Map buyPrices, int outfit, String property, String token )
 		{
 			super( new BorderLayout() );
 
 			this.sellPrices = sellPrices;
 			this.buyPrices = buyPrices;
+			this.outfit = outfit;
 			this.property = property;
 			this.token = token;
 
-			SellPanel sellPanel = new SellPanel( sellPrices, token );
-			BuyPanel buyPanel = new BuyPanel( purchases, buyPrices, token );
-
+			sellPanel = new SellPanel( sellPrices, token );
 			this.add( sellPanel, BorderLayout.NORTH );
+
+			buyPanel = new BuyPanel( purchases, buyPrices, token );
 			this.add( buyPanel, BorderLayout.CENTER );
 		}
 
@@ -125,6 +174,11 @@ public class CoinmastersFrame
 
 		public void actionCancelled()
 		{
+		}
+
+		public void update()
+		{
+			this.hasOutfit = EquipmentDatabase.hasOutfit( this.outfit );
 		}
 
 		private class SellPanel
@@ -140,6 +194,12 @@ public class CoinmastersFrame
 				this.elementList.setCellRenderer( getCoinmasterRenderer( prices, token ) );
 				this.setEnabled( true );
 				this.filterItems();
+			}
+
+			public void setEnabled( final boolean isEnabled )
+			{
+				super.setEnabled( isEnabled );
+				this.buttons[ 0 ].setEnabled( hasOutfit && atWar );
 			}
 
 			public void addFilters()
@@ -215,6 +275,12 @@ public class CoinmastersFrame
 				this.elementList.setVisibleRowCount( 6 );
 				this.elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 				this.setEnabled( true );
+			}
+
+			public void setEnabled( final boolean isEnabled )
+			{
+				super.setEnabled( isEnabled );
+				this.buttons[ 0 ].setEnabled( hasOutfit && atWar );
 			}
 
 			public void addFilters()

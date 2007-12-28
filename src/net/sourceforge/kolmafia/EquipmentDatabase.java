@@ -366,6 +366,9 @@ public class EquipmentDatabase
 
 		// Finally any standard outfits
 		KoLCharacter.getOutfits().addAll( available );
+
+		// We may have gotten the war hippy or frat outfits
+		CoinmastersFrame.externalUpdate();
 	}
 
 	/**

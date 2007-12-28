@@ -271,6 +271,7 @@ user	telescopeUpgrades	0
 user	thanksMessage	Thank you for the donation!
 user	trapperOre	chrome ore
 user	violetFogGoal	0
+user	warProgress	unstarted
 
 user	choiceAdventure2	2
 user	choiceAdventure3	3
