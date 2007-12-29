@@ -115,7 +115,19 @@ public class OptionsFrame
 		private final JCheckBox[] optionBoxes;
 
 		private final String[][] options =
-			{ { "logStatusOnLogin", "Session log records your player's state on login" }, { "logReverseOrder", "Log adventures left instead of adventures used" }, {}, { "logBattleAction", "Session log records attacks for each round" }, { "logFamiliarActions", "Session log records actions made by familiars" }, { "logMonsterHealth", "Session log records monster health changes" }, {}, { "logGainMessages", "Session log records HP/MP/meat changes" }, { "logStatGains", "Session log records stat gains" }, { "logAcquiredItems", "Session log records items acquired" }, { "logStatusEffects", "Session log records status effects gained" } };
+		{
+			{ "logStatusOnLogin", "Session log records your player's state on login" },
+			{ "logReverseOrder", "Log adventures left instead of adventures used" },
+			{},
+			{ "logBattleAction", "Session log records attacks for each round" },
+			{ "logFamiliarActions", "Session log records actions made by familiars" },
+			{ "logMonsterHealth", "Session log records monster health changes" },
+			{},
+			{ "logGainMessages", "Session log records HP/MP/meat changes" },
+			{ "logStatGains", "Session log records stat gains" },
+			{ "logAcquiredItems", "Session log records items acquired" },
+			{ "logStatusEffects", "Session log records status effects gained" }
+		};
 
 		/**
 		 * Constructs a new <code>StartupOptionsPanel</code>, containing a place for the users to select their
@@ -178,33 +190,47 @@ public class OptionsFrame
 	{
 		private final JLabel colorChanger;
 		private final JCheckBox[] optionBoxes;
-
 		private final String[][] options =
-			{ { "relayAllowsOverrides", "Enable user-scripted relay browser overrides" }, { "relayUsesCachedImages", "Cache KoL images to conserve bandwidth (dialup)" },
+		{
+			{ "relayAllowsOverrides", "Enable user-scripted relay browser overrides" },
+			{ "relayUsesCachedImages", "Cache KoL images to conserve bandwidth (dialup)" },
 
 			{ "", "" },
 
-			{ "relayAddsWikiLinks", "Check wiki for item descriptions (fails for unknowns)" }, { "lucreCoreLeaderboard", "Participate in Oxbarn's KoLDB Lucre-core leaderboard" }, { "relayAddsQuickScripts", "Add quick script links to menu bar (see Links tab)" },
+			{ "relayAddsWikiLinks", "Check wiki for item descriptions (fails for unknowns)" },
+			{ "relayViewsCustomItems", "View items registered with OneTonTomato's Kilt script" },
+			{ "lucreCoreLeaderboard", "Participate in Oxbarn's KoLDB Lucre-core leaderboard" },
+			{ "relayAddsQuickScripts", "Add quick script links to menu bar (see Links tab)" },
 
 			{ "", "" },
 
-			{ "relayAddsRestoreLinks", "Add HP/MP restore links to left side pane" }, { "relayAddsUpArrowLinks", "Add buff maintenance links to left side pane" }, { "relayTextualizesEffects", "Textualize effect links in left side pane" },
+			{ "relayAddsRestoreLinks", "Add HP/MP restore links to left side pane" },
+			{ "relayAddsUpArrowLinks", "Add buff maintenance links to left side pane" },
+			{ "relayTextualizesEffects", "Textualize effect links in left side pane" },
 
 			{ "", "" },
 
-			{ "relayMaintainsEffects", "Run moods during manual adventuring" }, { "relayMaintainsHealth", "Maintain health during manual adventuring" }, { "relayMaintainsMana", "Maintain mana during manual adventuring" },
+			{ "relayMaintainsEffects", "Run moods during manual adventuring" },
+			{ "relayMaintainsHealth", "Maintain health during manual adventuring" },
+			{ "relayMaintainsMana", "Maintain mana during manual adventuring" },
 
 			{ "", "" },
 
-			{ "relayUsesIntegratedChat", "Integrate chat and relay browser gCLI interfaces" }, { "relayFormatsChatText", "Reformat incoming chat HTML to conform to web standards" }, { "relayAddsGraphicalCLI", "Add command-line interface to right side pane" }, { "relayAddsKoLSimulator", "Add Ayvuir's Simulator of Loathing to right side pane" },
+			{ "relayUsesIntegratedChat", "Integrate chat and relay browser gCLI interfaces" },
+			{ "relayFormatsChatText", "Reformat incoming chat HTML to conform to web standards" },
+			{ "relayAddsGraphicalCLI", "Add command-line interface to right side pane" },
+			{ "relayAddsKoLSimulator", "Add Ayvuir's Simulator of Loathing to right side pane" },
 
 			{ "", "" },
 
-			{ "relayAddsUseLinks", "Add decorator [use] links when receiving items" }, { "relayUsesInlineLinks", "Force results to reload inline for [use] links" }, { "relayHidesJunkMallItems", "Hide junk and overpriced items in PC stores" },
+			{ "relayAddsUseLinks", "Add decorator [use] links when receiving items" },
+			{ "relayUsesInlineLinks", "Force results to reload inline for [use] links" },
+			{ "relayHidesJunkMallItems", "Hide junk and overpriced items in PC stores" },
 
 			{ "", "" },
 
-			{ "relayAddsCustomCombat", "Add custom buttons to the top of fight pages" }, };
+			{ "relayAddsCustomCombat", "Add custom buttons to the top of fight pages" },
+		};
 
 		/**
 		 * Constructs a new <code>StartupOptionsPanel</code>, containing a place for the users to select their
@@ -275,19 +301,30 @@ public class OptionsFrame
 		private final JCheckBox[] optionBoxes;
 
 		private final String[][] options =
-			{ { "showAllRequests", "Show all requests in a mini-browser window" }, { "useZoneComboBox", "Use zone selection instead of adventure name filter" }, { "cacheMallSearches", "Cache mall search terms in mall search interface" },
+		{
+			{ "showAllRequests", "Show all requests in a mini-browser window" },
+			{ "useZoneComboBox", "Use zone selection instead of adventure name filter" },
+			{ "cacheMallSearches", "Cache mall search terms in mall search interface" },
 
 			{ "", "" },
 
-			{ "removeMalignantEffects", "Auto-remove malignant status effects" }, { "switchEquipmentForBuffs", "Allow equipment changing when casting buffs" }, { "allowNonMoodBurning", "Cast buffs not defined in moods during buff balancing" },
+			{ "removeMalignantEffects", "Auto-remove malignant status effects" },
+			{ "switchEquipmentForBuffs", "Allow equipment changing when casting buffs" },
+			{ "allowNonMoodBurning", "Cast buffs not defined in moods during buff balancing" },
 
 			{ "", "" },
 
-			{ "cloverProtectActive", "Auto-disassemble hermit, marmot and barrel clovers" }, { "createHackerSummons", "Auto-create 31337 scrolls if no scroll conditions are set" }, { "mementoListActive", "Prevent accidental destruction of 'memento' items" },
+			{ "cloverProtectActive", "Auto-disassemble hermit, marmot and barrel clovers" },
+			{ "createHackerSummons", "Auto-create 31337 scrolls if no scroll conditions are set" },
+			{ "mementoListActive", "Prevent accidental destruction of 'memento' items" },
 
 			{ "", "" },
 
-			{ "allowNegativeTally", "Allow item counts in session results to go negative" }, { "autoSatisfyWithNPCs", "Buy items from NPC stores whenever needed" }, { "autoSatisfyWithMall", "Buy items from the mall whenever needed" }, { "autoSatisfyWithStash", "Take items from the clan stash whenever needed" } };
+			{ "allowNegativeTally", "Allow item counts in session results to go negative" },
+			{ "autoSatisfyWithNPCs", "Buy items from NPC stores whenever needed" },
+			{ "autoSatisfyWithMall", "Buy items from the mall whenever needed" },
+			{ "autoSatisfyWithStash", "Take items from the clan stash whenever needed" }
+		};
 
 		/**
 		 * Constructs a new <code>StartupOptionsPanel</code>, containing a place for the users to select their
@@ -527,7 +564,20 @@ public class OptionsFrame
 		extends OptionsPanel
 	{
 		private final String[][] options =
-			{ { "useTabbedChatFrame", "Use tabbed, rather than multi-window, chat" }, { "useSeparateChannels", "Put different channels into separate displays" }, { "chatLinksUseRelay", "Use the relay browser when clicking on chat links" }, {}, { "greenScreenProtection", "Ignore all event messages in KoLmafia chat" }, { "useChatMonitor", "Add an \"as KoL would show it\" display" }, { "addChatCommandLine", "Add a simplified graphical CLI to tabbed chat" }, {}, { "useShinyTabbedChat", "Use shiny closeable tabs when using tabbed chat" }, { "useContactsFrame", "Use a popup window for /friends and /who" }, { "useChatToolbar", "Add a toolbar to chat windows for special commands" }, { "logChatMessages", "Log chats when using KoLmafia (requires restart)" }, };
+		{
+			{ "useTabbedChatFrame", "Use tabbed, rather than multi-window, chat" },
+			{ "useSeparateChannels", "Put different channels into separate displays" },
+			{ "chatLinksUseRelay", "Use the relay browser when clicking on chat links" },
+			{},
+			{ "greenScreenProtection", "Ignore all event messages in KoLmafia chat" },
+			{ "useChatMonitor", "Add an \"as KoL would show it\" display" },
+			{ "addChatCommandLine", "Add a simplified graphical CLI to tabbed chat" },
+			{},
+			{ "useShinyTabbedChat", "Use shiny closeable tabs when using tabbed chat" },
+			{ "useContactsFrame", "Use a popup window for /friends and /who" },
+			{ "useChatToolbar", "Add a toolbar to chat windows for special commands" },
+			{ "logChatMessages", "Log chats when using KoLmafia (requires restart)" },
+		};
 
 		private final ButtonGroup fontSizeGroup;
 		private final JRadioButton[] fontSizes;
@@ -1008,12 +1058,31 @@ public class OptionsFrame
 
 			System.getProperty( "os.name" ).startsWith( "Windows" ) ?
 
-			new String[][] { { "guiUsesOneWindow", "Restrict interface to a single window" }, { "useSystemTrayIcon", "Minimize main interface to system tray" }, { "addCreationQueue", "Add creation queueing interface to item manager" }, { "addStatusBarToFrames", "Add a status line to independent windows" }, { "autoHighlightOnFocus", "Highlight text fields when selected" }, {}, { "useDecoratedTabs", "Use shiny decorated tabs instead of OS default" }, { "allowCloseableDesktopTabs", "Allow tabs on main window to be closed" }, }
+			new String [][]
+			{
+				{ "guiUsesOneWindow", "Restrict interface to a single window" },
+				{ "useSystemTrayIcon", "Minimize main interface to system tray" },
+				{ "addCreationQueue", "Add creation queueing interface to item manager" },
+				{ "addStatusBarToFrames", "Add a status line to independent windows" },
+				{ "autoHighlightOnFocus", "Highlight text fields when selected" },
+				{},
+				{ "useDecoratedTabs", "Use shiny decorated tabs instead of OS default" },
+				{ "allowCloseableDesktopTabs", "Allow tabs on main window to be closed" },
+			}
 
 			:
 
-			new String[][] { { "guiUsesOneWindow", "Restrict interface to a single window" }, { "addCreationQueue", "Add creation queueing interface to item manager" }, { "addStatusBarToFrames", "Add a status line to independent windows" }, { "autoHighlightOnFocus", "Highlight text fields when selected" }, {}, { "useDecoratedTabs", "Use shiny decorated tabs instead of OS default" }, { "allowCloseableDesktopTabs", "Allow tabs on main window to be closed" }, };
-
+			new String [][]
+			{
+				{ "guiUsesOneWindow", "Restrict interface to a single window" },
+				{ "addCreationQueue", "Add creation queueing interface to item manager" },
+				{ "addStatusBarToFrames", "Add a status line to independent windows" },
+				{ "autoHighlightOnFocus", "Highlight text fields when selected" },
+				{},
+				{ "useDecoratedTabs", "Use shiny decorated tabs instead of OS default" },
+				{ "allowCloseableDesktopTabs", "Allow tabs on main window to be closed" },
+			};
+			
 		private final JComboBox looks, toolbars, scripts;
 
 		public UserInterfacePanel()
