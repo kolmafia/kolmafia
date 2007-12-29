@@ -113,6 +113,7 @@ global	relayTextualizesEffects	false
 global	relayUsesCachedImages	false
 global	relayUsesInlineLinks	false
 global	relayUsesIntegratedChat	false
+global	relayViewsCustomItems	false
 global	removeMalignantEffects	true
 global	saveState
 global	saveStateActive
