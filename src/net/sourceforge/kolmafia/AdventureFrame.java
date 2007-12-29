@@ -36,6 +36,8 @@ package net.sourceforge.kolmafia;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
@@ -338,16 +340,7 @@ public class AdventureFrame
 			this.fallSelect.addItem( "reveal key in conservatory" );
 			this.fallSelect.addItem( "unlock second floor stairs" );
 
-			this.oceanDestSelect = new JComboBox();
-			this.oceanDestSelect.addItem( "ignore adventure" );
-			this.oceanDestSelect.addItem( "manual control" );
-			this.oceanDestSelect.addItem( "random choice" );
-			String dest = KoLSettings.getUserProperty( "oceanDestination" );
-			if ( dest.indexOf( "," ) != -1 )
-			{
-				this.oceanDestSelect.addItem( "go to " + dest );
-			}
-			this.oceanDestSelect.addItem( "choose destination..." );
+			this.oceanDestSelect = new OceanDestinationComboBox();
 
 			this.oceanActionSelect = new JComboBox();
 			this.oceanActionSelect.addItem( "continue" );
@@ -476,6 +469,158 @@ public class AdventureFrame
 
 			public void setEnabled( final boolean isEnabled )
 			{
+			}
+		}
+
+                private class OceanDestinationComboBox
+                        extends JComboBox
+		{
+			public OceanDestinationComboBox()
+			{
+				super();
+				createMenu();
+				addActionListener( new OceanDestinationListener() );
+			}
+
+			public void createMenu()
+			{
+				String dest = KoLSettings.getUserProperty( "oceanDestination" );
+				createMenu( dest );
+			}
+
+			public void createMenu( String dest )
+			{
+				removeAllItems();
+				addItem( "ignore adventure" );
+				addItem( "manual control" );
+				addItem( "random choice" );
+				if ( dest.indexOf( "," ) != -1 )
+				{
+					addItem( "go to " + dest );
+				}
+				addItem( "choose destination..." );
+				loadSettings( dest );
+			}
+
+			public void loadSettings()
+			{
+				String dest = KoLSettings.getUserProperty( "oceanDestination" );
+				loadSettings( dest );
+			}
+
+			public void loadSettings( String dest )
+			{
+				if ( dest.equals( "ignore" ) )
+				{
+					setSelectedIndex( 0 );
+				}
+				else if ( dest.equals( "random" ) )
+				{
+					setSelectedIndex( 2 );
+				}
+				else if ( dest.indexOf( "," ) != -1 )
+				{
+					setSelectedIndex( 3 );
+				}
+				else
+				{
+					// Manual
+					setSelectedIndex( 1 );
+				}
+			}
+
+			public void saveSettings( String dest )
+			{
+				if ( dest.startsWith( "ignore" ) )
+				{
+					KoLSettings.setUserProperty( "choiceAdventure189", "2" );
+					KoLSettings.setUserProperty( "oceanDestination", "ignore" );
+					return;
+				}
+
+				KoLSettings.setUserProperty( "choiceAdventure189", "1" );
+				String value = "";
+				if ( dest.startsWith( "manual" ) )
+				{
+					value = "manual";
+				}
+				else if ( dest.startsWith( "random" ) )
+				{
+					value = "random";
+				}
+				else if ( dest.startsWith( "go to " ) )
+				{
+					value = dest.substring( 6 );
+				}
+				else
+				{
+					// Shouldn't get here
+					value = "manual";
+				}
+
+				KoLSettings.setUserProperty( "oceanDestination", value );
+			}
+
+			private class OceanDestinationListener
+				implements ActionListener
+			{
+				public void actionPerformed( final ActionEvent e )
+				{
+					Object item = OceanDestinationComboBox.this.getSelectedItem();
+					if ( item == null )
+						return;
+
+					String dest = (String) item;
+
+					// See if choosing custom destination
+					if ( !dest.startsWith( "choose" ) )
+					{
+						// Save chosen setting
+						OceanDestinationComboBox.this.saveSettings( dest );
+						return;
+					}
+
+					// Prompt for a new destination
+					String coords = getCoordinates();
+					if ( coords == null )
+					{
+						loadSettings();
+						return;
+					}
+
+					// Save setting
+					KoLSettings.setUserProperty( "oceanDestination", coords );
+
+					// Rebuild combo box
+					OceanDestinationComboBox.this.createMenu( coords );
+				}
+
+				private String getCoordinates()
+				{
+					String coords = KoLFrame.input( "Longitude, Latitude" );
+					if ( coords == null )
+						return null;
+
+					int index = coords.indexOf( "," );
+					if ( index == -1 )
+					{
+						return null;
+					}
+
+					int longitude = StaticEntity.parseInt( coords.substring( 0, index ) );
+					if ( longitude < 1 || longitude > 242 )
+					{
+						return null;
+					}
+
+					int latitude = StaticEntity.parseInt( coords.substring( index + 1 ) );
+					if ( latitude < 1 || latitude > 100 )
+					{
+						return null;
+					}
+
+					return String.valueOf( longitude ) + "," + String.valueOf( latitude );
+				}
 			}
 		}
 
@@ -702,37 +847,7 @@ public class AdventureFrame
 				break;
 			}
 
-			Object item = this.oceanDestSelect.getSelectedItem();
-			String dest = item == null ? "" : (String) item;
-			if ( dest.equals( "Ignore Adventure" ) )
-			{
-				KoLSettings.setUserProperty( "choiceAdventure189", "2" );
-				KoLSettings.setUserProperty( "oceanDestination", "ignore" );
-			}
-			else
-			{
-				KoLSettings.setUserProperty( "choiceAdventure189", "1" );
-				String value = "";
-				if ( dest.startsWith( "manual" ) )
-				{
-					value = "manual";
-				}
-				else if ( dest.startsWith( "random" ) )
-				{
-					value = "random";
-				}
-				else if ( dest.startsWith( "go to " ) )
-				{
-					value = dest.substring( 6 );
-				}
-				else
-				{
-					// Shouldn't get here
-					value = "manual";
-				}
-
-				KoLSettings.setUserProperty( "oceanDestination", value );
-			}
+			// OceanDestinationComboBox handles its own settings.
 
 			switch ( this.oceanActionSelect.getSelectedIndex() )
 			{
@@ -965,26 +1080,7 @@ public class AdventureFrame
 				this.fallSelect.setSelectedIndex( 2 );
 			}
 
-			// Figure out what to do in the ocean
-
-			String dest = KoLSettings.getUserProperty( "oceanDestination" );
-			if ( dest.equals( "ignore" ) )
-			{
-				this.oceanDestSelect.setSelectedIndex( 0 );
-			}
-			else if ( dest.equals( "random" ) )
-			{
-				this.oceanDestSelect.setSelectedIndex( 2 );
-			}
-			else if ( dest.indexOf( "," ) != -1 )
-			{
-				this.oceanDestSelect.setSelectedIndex( 3 );
-			}
-			else
-			{
-				// Manual
-				this.oceanDestSelect.setSelectedIndex( 1 );
-			}
+			// OceanDestinationComboBox handles its own settings.
 
 			String action = KoLSettings.getUserProperty( "oceanAction" );
 			if ( action.equals( "continue" ) )
