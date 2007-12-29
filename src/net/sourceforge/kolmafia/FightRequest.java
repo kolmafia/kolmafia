@@ -1096,7 +1096,7 @@ public class FightRequest
 			AdventureResult bountyItem = new AdventureResult( bountyItemId, 1 );
 			String bountyItemName = bountyItem.getName();
 
-			if ( monsterData.getItems().contains( bountyItem ) && FightRequest.INSTANCE.responseText.indexOf( bountyItemName ) == -1 )
+			if ( monsterData.getItems().contains( bountyItem ) && responseText.indexOf( bountyItemName ) == -1 )
 			{
 				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Bounty item failed to drop from expected monster." );
 			}
