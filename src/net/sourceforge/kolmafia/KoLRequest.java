@@ -1199,9 +1199,10 @@ public class KoLRequest
 		}
 		catch ( Exception e )
 		{
-			// Do nothing, you're going to close the input stream
-			// and nullify it in the next section.
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
 
+			StaticEntity.printStackTrace( e );
 			return true;
 		}
 
