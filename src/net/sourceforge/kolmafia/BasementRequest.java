@@ -100,19 +100,38 @@ public class BasementRequest
 	private static final AdventureResult STENCH_FORM = new AdventureResult( "Stenchform", 1, true );
 	private static final AdventureResult SLEAZE_FORM = new AdventureResult( "Sleazeform", 1, true );
 
+	private static final AdventureResult MOXIE_MAGNET = new AdventureResult( 519, 1 );
+
 	private static final Pattern BASEMENT_PATTERN = Pattern.compile( "Level ([\\d,]+)" );
 
 	public static final AdventureResult[] ELEMENT_FORMS =
-		new AdventureResult[] { BasementRequest.HOT_FORM, BasementRequest.COLD_FORM, BasementRequest.SPOOKY_FORM, BasementRequest.STENCH_FORM, BasementRequest.SLEAZE_FORM };
+		new AdventureResult[]
+	{
+		BasementRequest.HOT_FORM,
+		BasementRequest.COLD_FORM,
+		BasementRequest.SPOOKY_FORM,
+		BasementRequest.STENCH_FORM,
+		BasementRequest.SLEAZE_FORM
+	};
 	public static final AdventureResult[] ELEMENT_PHIALS =
-		new AdventureResult[] { BasementRequest.HOT_PHIAL, BasementRequest.COLD_PHIAL, BasementRequest.SPOOKY_PHIAL, BasementRequest.STENCH_PHIAL, BasementRequest.SLEAZE_PHIAL };
+		new AdventureResult[]
+	{
+		BasementRequest.HOT_PHIAL,
+		BasementRequest.COLD_PHIAL,
+		BasementRequest.SPOOKY_PHIAL,
+		BasementRequest.STENCH_PHIAL,
+		BasementRequest.SLEAZE_PHIAL
+	};
 
-	public static final FamiliarData[] POSSIBLE_FAMILIARS = new FamiliarData[] { new FamiliarData( 18 ), // Hovering Sombrero
-	new FamiliarData( 72 ), // Exotic Parrot
-	new FamiliarData( 43 ), // Temporal Riftlet
-	new FamiliarData( 50 ), // Wild Hare
-	new FamiliarData( 53 ), // Astral Badger
-	new FamiliarData( 70 ), // Green Pixie
+	public static final FamiliarData[] POSSIBLE_FAMILIARS =
+		new FamiliarData[]
+	{
+		new FamiliarData( 18 ), // Hovering Sombrero
+		new FamiliarData( 72 ), // Exotic Parrot
+		new FamiliarData( 43 ), // Temporal Riftlet
+		new FamiliarData( 50 ), // Wild Hare
+		new FamiliarData( 53 ), // Astral Badger
+		new FamiliarData( 70 ), // Green Pixie
 	};
 
 	/**
@@ -709,8 +728,17 @@ public class BasementRequest
 			BasementRequest.basementTestValue = (int) drainRequirement;
 
 			BasementRequest.actualBoost = Modifiers.MP;
-			BasementRequest.primaryBoost = Modifiers.MYS_PCT;
-			BasementRequest.secondaryBoost = Modifiers.MYS;
+			// With Moxie Magnet, uses Moxie, not Mysticality
+			if ( KoLCharacter.hasEquipped( MOXIE_MAGNET ) )
+			{
+				BasementRequest.primaryBoost = Modifiers.MOX_PCT;
+				BasementRequest.secondaryBoost = Modifiers.MOX;
+			}
+			else
+			{
+				BasementRequest.primaryBoost = Modifiers.MYS_PCT;
+				BasementRequest.secondaryBoost = Modifiers.MYS;
+			}
 
 			BasementRequest.addDesiredEqualizer();
 
@@ -1300,6 +1328,7 @@ public class BasementRequest
 		private static boolean hardigness = false;
 		private static boolean wisdom = false;
 		private static boolean ugnderstanding = false;
+		private static boolean moxie_magnet = false;
 
 		public DesiredEffect( final String name )
 		{
@@ -1329,6 +1358,7 @@ public class BasementRequest
 			DesiredEffect.hardigness = KoLCharacter.hasSkill( "Gnomish Hardigness" );
 			DesiredEffect.wisdom = KoLCharacter.hasSkill( "Wisdom of the Elder Tortoises" );
 			DesiredEffect.ugnderstanding = KoLCharacter.hasSkill( "Cosmic Ugnderstanding" );
+			DesiredEffect.moxie_magnet = KoLCharacter.hasEquipped( MOXIE_MAGNET );
 		}
 
 		public boolean equals( final Object o )
@@ -1452,34 +1482,48 @@ public class BasementRequest
 
 		public static float boostMaxMP( final Modifiers m )
 		{
-			float addedMysticismFixed = m.get( Modifiers.MYS );
-			float addedMysticismPercent = m.get( Modifiers.MYS_PCT );
+			int statModifier;
+			int statPercentModifier;
+
+			if ( DesiredEffect.moxie_magnet )
+			{
+				statModifier = Modifiers.MOX;
+				statPercentModifier = Modifiers.MOX_PCT;
+			}
+			else
+			{
+				statModifier = Modifiers.MYS;
+				statPercentModifier = Modifiers.MYS_PCT;
+			}
+
+			float addedStatFixed = m.get( statModifier );
+			float addedStatPercent = m.get( statPercentModifier );
 			float addedManaFixed = m.get( Modifiers.MP );
 
-			if ( addedMysticismFixed == 0.0f && addedMysticismPercent == 0.0f && addedManaFixed == 0.0f )
+			if ( addedStatFixed == 0.0f && addedStatPercent == 0.0f && addedManaFixed == 0.0f )
 			{
 				return 0.0f;
 			}
 
-			float mysticismBase = DesiredEffect.getEqualizedStat( Modifiers.MYS_PCT );
-			float mysticismBonus = addedMysticismFixed + (float) Math.floor( addedMysticismPercent * mysticismBase / 100.0f );
+			float statBase = DesiredEffect.getEqualizedStat( statPercentModifier );
+			float manaBonus = addedStatFixed + (float) Math.floor( addedStatPercent * statBase / 100.0f );
 
 			if ( KoLCharacter.isMysticalityClass() )
 			{
-				mysticismBonus *= 1.5f;
+				manaBonus *= 1.5f;
 			}
 
 			if ( DesiredEffect.wisdom )
 			{
-				mysticismBonus *= 1.5f;
+				manaBonus *= 1.5f;
 			}
 
 			if ( DesiredEffect.ugnderstanding )
 			{
-				mysticismBonus *= 1.05f;
+				manaBonus *= 1.05f;
 			}
 
-			return addedManaFixed + mysticismBonus;
+			return addedManaFixed + manaBonus;
 		}
 	}
 }
