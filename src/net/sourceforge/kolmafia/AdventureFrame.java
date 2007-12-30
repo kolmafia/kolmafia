@@ -493,6 +493,9 @@ public class AdventureFrame
 				removeAllItems();
 				addItem( "ignore adventure" );
 				addItem( "manual control" );
+				addItem( "muscle" );
+				addItem( "mysticality" );
+				addItem( "moxie" );
 				addItem( "random choice" );
 				if ( dest.indexOf( "," ) != -1 )
 				{
@@ -514,13 +517,29 @@ public class AdventureFrame
 				{
 					setSelectedIndex( 0 );
 				}
-				else if ( dest.equals( "random" ) )
+				else if ( dest.equals( "manual" ) )
+				{
+					setSelectedIndex( 1 );
+				}
+				else if ( dest.equals( "muscle" ) )
 				{
 					setSelectedIndex( 2 );
 				}
-				else if ( dest.indexOf( "," ) != -1 )
+				else if ( dest.equals( "mysticality" ) )
 				{
 					setSelectedIndex( 3 );
+				}
+				else if ( dest.equals( "moxie" ) )
+				{
+					setSelectedIndex( 4 );
+				}
+				else if ( dest.equals( "random" ) )
+				{
+					setSelectedIndex( 5 );
+				}
+				else if ( dest.indexOf( "," ) != -1 )
+				{
+					setSelectedIndex( 6 );
 				}
 				else
 				{
@@ -543,6 +562,18 @@ public class AdventureFrame
 				if ( dest.startsWith( "manual" ) )
 				{
 					value = "manual";
+				}
+				else if ( dest.startsWith( "muscle" ) )
+				{
+					value = "muscle";
+				}
+				else if ( dest.startsWith( "mysticality" ) )
+				{
+					value = "mysticality";
+				}
+				else if ( dest.startsWith( "moxie" ) )
+				{
+					value = "moxie";
 				}
 				else if ( dest.startsWith( "random" ) )
 				{
