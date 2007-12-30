@@ -62,9 +62,9 @@ public class CoinmastersDatabase
 			if ( data.length == 3 )
 			{
 				String code = data[0];
-				String name = data[1];
-				int price = StaticEntity.parseInt( data[ 2 ] );
+				int price = StaticEntity.parseInt( data[ 1 ] );
 				Integer iprice = new Integer( price );
+				String name = KoLDatabase.getCanonicalName( data[2] );
 				if ( code.equals( "sd" ) )
 				{
 					// Something we sell for dimes
@@ -151,5 +151,10 @@ public class CoinmastersDatabase
 	public static final Map quarterBuyPrices()
 	{
 		return quarterBuyPriceByName;
+	}
+
+	public static final Map lighthouseItems()
+	{
+		return lighthouseItems;
 	}
 }
