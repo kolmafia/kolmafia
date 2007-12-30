@@ -1684,7 +1684,22 @@ public class KoLRequest
 		int lon = 0;
 		int lat = 0;
 
-		if ( dest.indexOf( "," ) != -1 )
+		if ( dest.equals( "muscle" ) )
+		{
+			lon = 12;
+			lat = 84;
+		}
+		else if ( dest.equals( "mysticality" ) )
+		{
+			lon = 3;
+			lat = 35;
+		}
+		else if ( dest.equals( "moxie" ) )
+		{
+			lon = 13;
+			lat = 91;
+		}
+		else if ( dest.indexOf( "," ) != -1 )
 		{
 			Matcher matcher = KoLRequest.OCEAN_PATTERN.matcher( dest );
 			if ( matcher.find() )
@@ -1755,7 +1770,7 @@ public class KoLRequest
 			// mainland dry. Perhaps a more exotic locale is in
 			// order?"
 
-			if ( request.responseText.indexOf( "mainland" ) == -1 )
+			if ( request.responseText.indexOf( "that's where the mainland is" ) == -1 )
 			{
 				return;
 			}
