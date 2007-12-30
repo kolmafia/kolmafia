@@ -230,7 +230,7 @@ public class LoginFrame
 				String holiday =
 					MoonPhaseDatabase.getHoliday(
 						KoLConstants.DAILY_FORMAT.parse( KoLConstants.DAILY_FORMAT.format( new Date() ) ), true );
-				this.setStatusMessage( holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
+				this.setStatusMessage( KoLDatabase.getDisplayName( holiday + ", " + MoonPhaseDatabase.getMoonEffect() ) );
 			}
 			catch ( Exception e )
 			{
