@@ -464,7 +464,7 @@ public class RequestEditorKit
 
 	private static final Pattern FILEID_PATTERN = Pattern.compile( "(\\d+)\\." );
 	private static final Pattern ACQUIRE_PATTERN =
-		Pattern.compile( "You acquire([^<]*?<b>.*?</b>.*?)</td>", Pattern.DOTALL );
+		Pattern.compile( "(You acquire|O hai, I made dis for you:)([^<]*?<b>.*?</b>.*?)</td>", Pattern.DOTALL );
 	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
 	private static final Pattern BOOKSHELF_PATTERN =
 		Pattern.compile( "onClick=\"location.href='(.*?)';\"", Pattern.DOTALL );
@@ -2419,7 +2419,7 @@ public class RequestEditorKit
 
 		while ( useLinkMatcher.find() )
 		{
-			String itemName = useLinkMatcher.group( 1 );
+			String itemName = useLinkMatcher.group( 2 );
 			if ( itemName.indexOf( "<br>" ) != -1 )
 			{
 				itemName = itemName.substring( 0, itemName.indexOf( "<br>" ) );
@@ -2856,7 +2856,7 @@ public class RequestEditorKit
 
 				if ( useLocation.equals( "#" ) )
 				{
-					useLinkMatcher.appendReplacement( buffer, "You acquire$1" );
+					useLinkMatcher.appendReplacement( buffer, "$1$2" );
 
 					// Append a multi-use field rather than forcing
 					// an additional page load.
@@ -2888,7 +2888,7 @@ public class RequestEditorKit
 				{
 					useLinkMatcher.appendReplacement(
 						buffer,
-						"You acquire$1 <font size=1>[<a href=\"" + useLocation.trim() + "\">" + useType + "</a>]</font>" );
+						"$1$2 <font size=1>[<a href=\"" + useLocation.trim() + "\">" + useType + "</a>]</font>" );
 				}
 				else
 				{
@@ -2896,7 +2896,7 @@ public class RequestEditorKit
 
 					useLinkMatcher.appendReplacement(
 						buffer,
-						"You acquire$1 <font size=1>[<a href=\"javascript: " + "singleUse('" + pieces[ 0 ] + "', '" + pieces[ 1 ] + "'); void(0);\">" + useType + "</a>]</font>" );
+						"$1$2 <font size=1>[<a href=\"javascript: " + "singleUse('" + pieces[ 0 ] + "', '" + pieces[ 1 ] + "'); void(0);\">" + useType + "</a>]</font>" );
 				}
 
 				buffer.append( "</td>" );

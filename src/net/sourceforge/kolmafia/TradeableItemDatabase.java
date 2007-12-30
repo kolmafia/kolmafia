@@ -1004,6 +1004,19 @@ public class TradeableItemDatabase
 	}
 
 	/**
+	 * Returns the id for an item, given its description id number.
+	 *
+	 * @param itemId The description id number of the item to lookup
+	 * @return The item id of the corresponding item
+	 */
+
+	public static final int getItemIdFromDescription( final String descriptionId )
+	{
+		Integer itemId = (Integer) TradeableItemDatabase.itemIdByDescription.get( descriptionId );
+		return itemId == null ? -1 : itemId.intValue();
+	}
+
+	/**
 	 * Returns a list of all items which contain the given substring. This is useful for people who are doing lookups on
 	 * items.
 	 */
