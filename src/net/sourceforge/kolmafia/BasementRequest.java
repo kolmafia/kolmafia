@@ -101,6 +101,7 @@ public class BasementRequest
 	private static final AdventureResult SLEAZE_FORM = new AdventureResult( "Sleazeform", 1, true );
 
 	private static final AdventureResult MOXIE_MAGNET = new AdventureResult( 519, 1 );
+	private static final AdventureResult TRAVOLTAN_TROUSERS = new AdventureResult( 1792, 1 );
 
 	private static final Pattern BASEMENT_PATTERN = Pattern.compile( "Level ([\\d,]+)" );
 
@@ -728,8 +729,7 @@ public class BasementRequest
 			BasementRequest.basementTestValue = (int) drainRequirement;
 
 			BasementRequest.actualBoost = Modifiers.MP;
-			// With Moxie Magnet, uses Moxie, not Mysticality
-			if ( KoLCharacter.hasEquipped( MOXIE_MAGNET ) )
+			if ( moxieControlsMP() )
 			{
 				BasementRequest.primaryBoost = Modifiers.MOX_PCT;
 				BasementRequest.secondaryBoost = Modifiers.MOX;
@@ -816,6 +816,19 @@ public class BasementRequest
 
 			return true;
 		}
+
+		return false;
+	}
+
+	private static final boolean moxieControlsMP()
+	{
+		// With Moxie Magnet, uses Moxie, not Mysticality
+		if ( KoLCharacter.hasEquipped( MOXIE_MAGNET ) )
+			return true;
+
+		// Ditto if Travoltan trousers and Mox > Mys
+		if ( KoLCharacter.hasEquipped( TRAVOLTAN_TROUSERS ) )
+			return KoLCharacter.getAdjustedMoxie() > KoLCharacter.getAdjustedMysticality();
 
 		return false;
 	}
@@ -1328,7 +1341,7 @@ public class BasementRequest
 		private static boolean hardigness = false;
 		private static boolean wisdom = false;
 		private static boolean ugnderstanding = false;
-		private static boolean moxie_magnet = false;
+		private static boolean moxieControlsMP = false;
 
 		public DesiredEffect( final String name )
 		{
@@ -1358,7 +1371,7 @@ public class BasementRequest
 			DesiredEffect.hardigness = KoLCharacter.hasSkill( "Gnomish Hardigness" );
 			DesiredEffect.wisdom = KoLCharacter.hasSkill( "Wisdom of the Elder Tortoises" );
 			DesiredEffect.ugnderstanding = KoLCharacter.hasSkill( "Cosmic Ugnderstanding" );
-			DesiredEffect.moxie_magnet = KoLCharacter.hasEquipped( MOXIE_MAGNET );
+			DesiredEffect.moxieControlsMP = moxieControlsMP();
 		}
 
 		public boolean equals( final Object o )
@@ -1485,7 +1498,7 @@ public class BasementRequest
 			int statModifier;
 			int statPercentModifier;
 
-			if ( DesiredEffect.moxie_magnet )
+			if ( DesiredEffect.moxieControlsMP )
 			{
 				statModifier = Modifiers.MOX;
 				statPercentModifier = Modifiers.MOX_PCT;
