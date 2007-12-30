@@ -119,7 +119,8 @@ public class CoinmastersFrame
 			       WAR_HIPPY_OUTFIT,
 			       "availableDimes",
 			       "dime",
-			       "dimemaster" );
+			       "dimemaster",
+			       "hippy");
 		}
 	}
 
@@ -134,7 +135,8 @@ public class CoinmastersFrame
 			       WAR_FRAT_OUTFIT,
 			       "availableQuarters",
 			       "quarter",
-			       "quartersmaster" );
+			       "quartersmaster",
+			       "fratboy" );
 		}
 	}
 
@@ -148,27 +150,30 @@ public class CoinmastersFrame
 		private String property;
 		protected String token;
 		protected String master;
+		protected String side;
 
 		private SellPanel sellPanel = null;
 		private BuyPanel buyPanel = null;
 
 		private boolean hasOutfit = false;
 
-		public CoinmasterPanel( LockableListModel purchases, Map sellPrices, Map buyPrices, int outfit, String property, String token, String master )
+		public CoinmasterPanel( LockableListModel purchases, Map sellPrices, Map buyPrices, int outfit, String property, String token, String master, String side )
 		{
 			super( new BorderLayout() );
 
+			this.purchases = purchases;
 			this.sellPrices = sellPrices;
 			this.buyPrices = buyPrices;
 			this.outfit = outfit;
 			this.property = property;
 			this.token = token;
 			this.master = master;
+			this.side = side;
 
-			sellPanel = new SellPanel( sellPrices, token );
+			sellPanel = new SellPanel();
 			this.add( sellPanel, BorderLayout.NORTH );
 
-			buyPanel = new BuyPanel( purchases, buyPrices, token );
+			buyPanel = new BuyPanel();
 			this.add( buyPanel, BorderLayout.CENTER );
 		}
 
@@ -178,6 +183,11 @@ public class CoinmastersFrame
 
 		public void actionCancelled()
 		{
+		}
+
+		public boolean showLighthouse()
+		{
+			return KoLSettings.getUserProperty( "sidequestLighthouseCompleted" ).equals( side );
 		}
 
 		public void update()
@@ -247,14 +257,14 @@ public class CoinmastersFrame
 		private class SellPanel
 			extends ItemManagePanel
 		{
-			public SellPanel( Map prices, String token )
+			public SellPanel()
 			{
 				super( KoLConstants.inventory );
 				this.setButtons( true, new ActionListener[] {
 						new SellListener(),
 					} );
 
-				this.elementList.setCellRenderer( getCoinmasterRenderer( prices, token ) );
+				this.elementList.setCellRenderer( getCoinmasterRenderer( sellPrices, token ) );
 				this.setEnabled( true );
 				this.filterItems();
 			}
@@ -326,7 +336,7 @@ public class CoinmastersFrame
 		private class BuyPanel
 			extends ItemManagePanel
 		{
-			public BuyPanel( LockableListModel purchases, Map prices, String token )
+			public BuyPanel()
 			{
 				super( purchases );
 
@@ -336,7 +346,7 @@ public class CoinmastersFrame
 
 				this.eastPanel.add( new InvocationButton( "visit", CoinmasterPanel.this, "visit" ), BorderLayout.SOUTH );
 
-				this.elementList.setCellRenderer( getCoinmasterRenderer( prices, token ) );
+				this.elementList.setCellRenderer( getCoinmasterRenderer( buyPrices, token, property, showLighthouse() ) );
 				this.elementList.setVisibleRowCount( 6 );
 				this.elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 				this.setEnabled( true );
@@ -383,17 +393,35 @@ public class CoinmastersFrame
 		return new CoinmasterRenderer( prices, token );
 	}
 
+	public static final DefaultListCellRenderer getCoinmasterRenderer( Map prices, String token, String property, boolean lighthouse )
+	{
+		return new CoinmasterRenderer( prices, token, property, lighthouse );
+	}
+
 	private static class CoinmasterRenderer
 		extends DefaultListCellRenderer
 	{
 		private Map prices;
 		private String token;
+		private String property;
+		private boolean lighthouse;
 
 		public CoinmasterRenderer( final Map prices, final String token )
 		{
 			this.setOpaque( true );
 			this.prices = prices;
 			this.token = token;
+			this.property = null;
+			this.lighthouse = true;
+		}
+
+		public CoinmasterRenderer( final Map prices, final String token, String property, boolean lighthouse )
+		{
+			this.setOpaque( true );
+			this.prices = prices;
+			this.token = token;
+			this.property = property;
+			this.lighthouse = lighthouse;
 		}
 
 		public boolean allowHighlight()
@@ -401,8 +429,7 @@ public class CoinmastersFrame
 			return true;
 		}
 
-		public Component getListCellRendererComponent( final JList list, final Object value, final int index,
-			final boolean isSelected, final boolean cellHasFocus )
+		public Component getListCellRendererComponent( final JList list, final Object value, final int index, final boolean isSelected, final boolean cellHasFocus )
 		{
 			Component defaultComponent =
 				super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
@@ -428,23 +455,45 @@ public class CoinmastersFrame
 			}
 
 			String name = ar.getName();
-			Integer price = (Integer)prices.get( name );
+			String canonicalName = KoLDatabase.getCanonicalName( name );
 
-			if ( price == null )
+			if ( !lighthouse && CoinmastersDatabase.lighthouseItems().get( canonicalName ) != null )
+			{
+				return null;
+			}
+
+			Integer iprice = (Integer)prices.get( canonicalName );
+
+			if ( iprice == null )
 			{
 				return defaultComponent;
 			}
 
+			int price = iprice.intValue();
+			boolean show = true;
+			if ( property != null )
+			{
+				int balance = KoLSettings.getIntegerProperty( property );
+				if ( price > balance )
+				{
+					show = false;
+				}
+			}
+
 			StringBuffer stringForm = new StringBuffer();
-			stringForm.append( ar.getName() );
+			stringForm.append( "<html>" );
+			if ( !show )
+			{
+				stringForm.append( "<font color=gray>" );
+			}
+			stringForm.append( name );
 			stringForm.append( " (" );
 			stringForm.append( price );
 			stringForm.append( " " );
 			stringForm.append( token );
-			if ( price.intValue() > 1 )
+			if ( price > 1 )
 				stringForm.append( "s" );
 			stringForm.append( ")" );
-
 			int count = ar.getCount();
 			if ( count > 0 )
 			{
@@ -452,6 +501,11 @@ public class CoinmastersFrame
 				stringForm.append( KoLConstants.COMMA_FORMAT.format( count ) );
 				stringForm.append( ")" );
 			}
+			if ( !show )
+			{
+				stringForm.append( "</font>" );
+			}
+			stringForm.append( "</html>" );
 
 			( (JLabel) defaultComponent ).setText( stringForm.toString() );
 			return defaultComponent;

@@ -1,81 +1,81 @@
 1
 # Things you can sell to get dimes
 
-sd	Elmley shades	3
-sd	PADL Phone	2
-sd	beer bong	3
-sd	beer helmet	1
-sd	bejeweled pledge pin	1
-sd	blue class ring	3
-sd	bottle opener belt buckle	1
-sd	distressed denim pants	1
-sd	energy drink IV	3
-sd	giant foam finger	1
-sd	keg shield	1
-sd	kick-ass kicks	2
-sd	perforated battle paddle	1
-sd	red class ring	1
-sd	war tongs	2
-sd	white class ring	5
+sd	3	Elmley shades
+sd	2	PADL Phone
+sd	3	beer bong
+sd	1	beer helmet
+sd	1	bejeweled pledge pin
+sd	3	blue class ring
+sd	1	bottle opener belt buckle
+sd	1	distressed denim pants
+sd	3	energy drink IV
+sd	1	giant foam finger
+sd	1	keg shield
+sd	2	kick-ass kicks
+sd	1	perforated battle paddle
+sd	1	red class ring
+sd	2	war tongs
+sd	5	white class ring
 
 # Things you can buy with dimes
 
-bd	water pipe bomb	1 dime
-bd	ferret bait	1 dime
-bd	filthy poultice	2 dimes
-bd	carbonated soy milk	3 dimes
-bd	macrame net	4 dimes
-bd	fancy seashell necklace	5 dimes
-bd	Hippy Army MPE	10 dimes
-bd	Gaia beads	15 dimes
-bd	Lockenstock&trade; sandals	15 dimes
-bd	lead pipe	20 dimes
-bd	hippy medical kit	25 dimes
-bd	wicker shield	30 dimes
-bd	didgeridooka	35 dimes
-bd	fire poi	40 dimes
-bd	giant driftwood sculpture	50 dimes
-bd	massive sitar	50 dimes
-bdl	patchouli oil bomb	2 dimes
-bdl	exploding hacky-sack	2 dimes
+bd	1	water pipe bomb
+bd	1	ferret bait
+bd	2	filthy poultice
+bd	3	carbonated soy milk
+bd	4	macrame net
+bd	5	fancy seashell necklace
+bd	10	Hippy Army MPE
+bd	15	Gaia beads
+bd	15	Lockenstock&trade; sandals
+bd	20	lead pipe
+bd	25	hippy medical kit
+bd	30	wicker shield
+bd	35	didgeridooka
+bd	40	fire poi
+bd	50	giant driftwood sculpture
+bd	50	massive sitar
+bdl	2	patchouli oil bomb
+bdl	2	exploding hacky-sack
 
 # Things you can sell to get quarters
 
-sq	Gaia beads	2
-sq	Lockenstock&trade; sandals	2
-sq	bullet-proof corduroys	1
-sq	communications windchimes	2
-sq	didgeridooka	2
-sq	fire poi	3
-sq	flowing hippy skirt	2
-sq	green clay bead	5
-sq	hippy medical kit	3
-sq	hippy protest button	1
-sq	lead pipe	1
-sq	pink clay bead	1
-sq	purple clay bead	3
-sq	reinforced beaded headband	1
-sq	round green sunglasses	3
-sq	round purple sunglasses	1
-sq	wicker shield	2
+sq	2	Gaia beads
+sq	2	Lockenstock&trade; sandals
+sq	1	bullet-proof corduroys
+sq	2	communications windchimes
+sq	2	didgeridooka
+sq	3	fire poi
+sq	2	flowing hippy skirt
+sq	5	green clay bead
+sq	3	hippy medical kit
+sq	1	hippy protest button
+sq	1	lead pipe
+sq	1	pink clay bead
+sq	3	purple clay bead
+sq	1	reinforced beaded headband
+sq	3	round green sunglasses
+sq	1	round purple sunglasses
+sq	2	wicker shield
 
 # Things you can buy with dimes
 
-bq	beer bomb	1 quarter
-bq	sake bomb	1 quarter
-bq	gauze garter	2 quarters
-bq	Monstar energy beverage	3 quarters
-bq	superamplified boom box	4 quarters
-bq	commemorative war stein	5 quarters
-bq	Frat Army FGF	10 quarters
-bq	giant foam finger	15 quarters
-bq	kick-ass kicks	15 quarters
-bq	war tongs	20 quarters
-bq	energy drink IV	25 quarters
-bq	keg shield	30 quarters
-bq	perforated battle paddle	35 quarters
-bq	beer bong	40 quarters
-bq	cast-iron legacy paddle	50 quarters
-bq	beer-a-pult	50 quarters
-bql	tequila grenade	2 quarters
-bql	molotov cocktail cocktail	2 quarters
+bq	1	beer bomb
+bq	1	sake bomb
+bq	2	gauze garter
+bq	3	Monstar energy beverage
+bq	4	superamplified boom box
+bq	5	commemorative war stein
+bq	10	Frat Army FGF
+bq	15	giant foam finger
+bq	15	kick-ass kicks
+bq	20	war tongs
+bq	25	energy drink IV
+bq	30	keg shield
+bq	35	perforated battle paddle
+bq	40	beer bong
+bq	50	cast-iron legacy paddle
+bq	50	beer-a-pult
+bql	2	tequila grenade
+bql	2	molotov cocktail cocktail
