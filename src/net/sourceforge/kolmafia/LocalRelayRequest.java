@@ -1106,7 +1106,7 @@ public class LocalRelayRequest
 				return;
 			}
 
-			if ( KoLSettings.getBooleanProperty( "relayAddsWikiLinks" ) )
+			if ( showWikiLink( item ) )
 			{
 				String location = ShowDescriptionList.getWikiLocation( TradeableItemDatabase.getItemName( item ) );
 				if ( location != null )
@@ -1257,6 +1257,24 @@ public class LocalRelayRequest
 		}
 
 		return;
+	}
+
+	private static boolean showWikiLink( final String item )
+	{
+		if ( !KoLSettings.getBooleanProperty( "relayAddsWikiLinks" ) )
+			return false;
+
+		switch ( TradeableItemDatabase.getItemIdFromDescription( item ) )
+		{
+		case 2271:	// dusty bottle of Merlot
+		case 2272:	// dusty bottle of Port
+		case 2273:	// dusty bottle of Pinot Noir
+		case 2274:	// dusty bottle of Zinfandel
+		case 2275:	// dusty bottle of Marsala
+		case 2276:	// dusty bottle of Muscat
+			return false;
+		}
+		return true;
 	}
 
 	private void downloadSimulatorFile( final String filename )
