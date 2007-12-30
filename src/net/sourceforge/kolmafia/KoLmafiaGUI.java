@@ -202,7 +202,7 @@ public class KoLmafiaGUI
 				String holiday =
 					MoonPhaseDatabase.getHoliday(
 						KoLConstants.DAILY_FORMAT.parse( KoLConstants.DAILY_FORMAT.format( new Date() ) ), true );
-				KoLmafia.updateDisplay( holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
+				KoLmafia.updateDisplay( KoLDatabase.getDisplayName( holiday + ", " + MoonPhaseDatabase.getMoonEffect() ) );
 			}
 			catch ( Exception e )
 			{
