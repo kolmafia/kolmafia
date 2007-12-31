@@ -299,6 +299,7 @@ public abstract class KoLCharacter
 	// Ascension-related variables
 
 	private static boolean isHardcore = false;
+	private static boolean inRonin = true;
 
 	private static int ascensions = 0;
 	private static String ascensionSign = "None";
@@ -397,6 +398,7 @@ public abstract class KoLCharacter
 		KoLCharacter.battleSkillNames.add( "try to run away" );
 
 		KoLCharacter.isHardcore = false;
+		KoLCharacter.inRonin = true;
 		KoLCharacter.hasStore = false;
 		KoLCharacter.hasDisplayCase = false;
 		KoLCharacter.hasClan = false;
@@ -1992,7 +1994,7 @@ public abstract class KoLCharacter
 	{
 		KoLSettings.setUserProperty( "lastKingLiberation", String.valueOf( KoLCharacter.getAscensions() ) );
 		KoLSettings.setUserProperty( "kingLiberated", "true" );
-		CharpaneRequest.setInteraction( KoLCharacter.getCurrentRun() >= 1000 );
+		CharpaneRequest.setInteraction();
 	}
 
 	/**
@@ -2021,6 +2023,24 @@ public abstract class KoLCharacter
 	public static final void setHardcore( final boolean isHardcore )
 	{
 		KoLCharacter.isHardcore = isHardcore;
+	}
+
+	/**
+	 * Returns whether or not the character is currently in roin.
+	 */
+
+	public static final boolean inRonin()
+	{
+		return KoLCharacter.inRonin;
+	}
+
+	/**
+	 * Accessor method which sets whether or not the player is currently in ronin.
+	 */
+
+	public static final void setRonin( final boolean inRonin )
+	{
+		KoLCharacter.inRonin = inRonin;
 	}
 
 	/**
