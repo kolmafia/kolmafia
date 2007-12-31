@@ -156,6 +156,12 @@ public class CharpaneRequest
 
 	private static final boolean checkInteraction( final String responseText )
 	{
+		// If he's still in Ronin, no way.
+		if ( KoLCharacter.getCurrentRun() < 1000 )
+		{
+			return false;
+		}
+
 		// If he's freed the king, that's good enough
 		if ( KoLCharacter.kingLiberated() )
 		{
@@ -172,12 +178,6 @@ public class CharpaneRequest
 		if ( KoLCharacter.inBadMoon() )
 		{
 			return false;
-		}
-
-		// If he's out of Ronin, sure
-		if ( KoLCharacter.getCurrentRun() >= 1000 )
-		{
-			return true;
 		}
 
 		// If character pane doesn't mention storage, ok.

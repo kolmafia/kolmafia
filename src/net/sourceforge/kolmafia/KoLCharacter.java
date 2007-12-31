@@ -1992,7 +1992,7 @@ public abstract class KoLCharacter
 	{
 		KoLSettings.setUserProperty( "lastKingLiberation", String.valueOf( KoLCharacter.getAscensions() ) );
 		KoLSettings.setUserProperty( "kingLiberated", "true" );
-		CharpaneRequest.setInteraction( true );
+		CharpaneRequest.setInteraction( KoLCharacter.getCurrentRun() >= 1000 );
 	}
 
 	/**
