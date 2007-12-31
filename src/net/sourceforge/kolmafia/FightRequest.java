@@ -403,20 +403,20 @@ public class FightRequest
 
 			int itemCount = ( new AdventureResult( item1, 1 ) ).getCount( KoLConstants.inventory );
 
-			if ( itemCount == 0 )
+			if ( itemCount == 0 && item2 != -1)
 			{
 				item1 = item2;
 				item2 = -1;
 
 				itemCount = ( new AdventureResult( item1, 1 ) ).getCount( KoLConstants.inventory );
+			}
 
-				if ( itemCount == 0 )
-				{
-					KoLmafia.updateDisplay(
-						KoLConstants.ABORT_STATE, "You don't have enough " + TradeableItemDatabase.getItemName( item1 ) );
-					FightRequest.action1 = "abort";
-					return;
-				}
+			if ( itemCount == 0 )
+			{
+				KoLmafia.updateDisplay(
+					KoLConstants.ABORT_STATE, "You don't have enough " + TradeableItemDatabase.getItemName( item1 ) );
+				FightRequest.action1 = "abort";
+				return;
 			}
 
 			if ( item1 == FightRequest.DICTIONARY1.getItemId() || item1 == FightRequest.DICTIONARY2.getItemId() )
