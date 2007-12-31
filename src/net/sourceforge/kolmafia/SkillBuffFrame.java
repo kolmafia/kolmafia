@@ -147,7 +147,13 @@ public class SkillBuffFrame
 
 		private void buff( boolean maxBuff )
 		{
-			String buffName = ( (UseSkillRequest) SkillBuffFrame.this.skillSelect.getSelectedItem() ).getSkillName();
+			UseSkillRequest request = (UseSkillRequest)SkillBuffFrame.this.skillSelect.getSelectedItem();
+			if ( request == null )
+			{
+				return;
+			}
+
+			String buffName = request.getSkillName();
 			if ( buffName == null )
 			{
 				return;
