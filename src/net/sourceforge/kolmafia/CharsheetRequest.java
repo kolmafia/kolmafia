@@ -241,7 +241,20 @@ public class CharsheetRequest
 			KoLCharacter.setSign( cleanContent.nextToken() );
 		}
 
-		KoLCharacter.setHardcore( responseText.indexOf( "You are in Hardcore mode" ) != -1 );
+		// You are in Hardcore mode, and may not receive items or buffs
+		// from other players.
+
+		boolean hardcore = responseText.indexOf( "You are in Hardcore mode" ) != -1;
+		KoLCharacter.setHardcore( hardcore );
+
+		// You may not receive items from other players until you have
+		// played # more Adventures.
+
+		KoLCharacter.setRonin( hardcore || responseText.indexOf( "You may not receive items from other players" ) != -1 );
+
+		// Deduce interaction from above settings
+
+		CharpaneRequest.setInteraction();
 
 		// Determine the current consumption restrictions
 		// the player possesses.

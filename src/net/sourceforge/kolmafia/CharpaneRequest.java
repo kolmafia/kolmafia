@@ -75,6 +75,11 @@ public class CharpaneRequest
 		return CharpaneRequest.canInteract;
 	}
 
+	public static final void setInteraction()
+	{
+		CharpaneRequest.setInteraction( CharpaneRequest.checkInteraction( "" ) );
+	}
+
 	public static final void setInteraction( final boolean interaction )
 	{
 		CharpaneRequest.canInteract = interaction;
@@ -156,7 +161,16 @@ public class CharpaneRequest
 
 	private static final boolean checkInteraction( final String responseText )
 	{
-		// If he's still in Ronin, no way.
+		// If the charsheet does not say he can't interact, ok
+		// (this will be true for any Casual run, for an unascended
+		// character, or for a sufficiently lengthy softcore run)
+		if ( !KoLCharacter.inRonin() )
+		{
+			return true;
+		}
+
+		// Last time we checked the char sheet, he was still in
+		// ronin. See if he still it.
 		if ( KoLCharacter.getCurrentRun() < 1000 )
 		{
 			return false;
