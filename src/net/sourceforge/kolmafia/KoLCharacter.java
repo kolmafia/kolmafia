@@ -440,7 +440,6 @@ public abstract class KoLCharacter
 		RestaurantRequest.reset();
 		MicrobreweryRequest.reset();
 		KitchenRequest.reset();
-		Crimbo07CafeRequest.reset();
 
 		KoLCharacter.resetInventory();
 

@@ -413,12 +413,6 @@ public class RequestLogger
 			return;
 		}
 
-		if ( ( request instanceof Crimbo07CafeRequest || isExternal ) && Crimbo07CafeRequest.registerRequest( urlString ) )
-		{
-			RequestLogger.wasLastRequestSimple = false;
-			return;
-		}
-
 		// The following lists all the remaining requests in
 		// alphabetical order.
 

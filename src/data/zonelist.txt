@@ -52,4 +52,5 @@ Holiday	Unsorted	Holiday Zones
 Removed	Removed	Removed Areas
 Crimbo05	Removed	Christmas 2005
 Crimbo06	Removed	Christmas 2006
+Crimbo07	Removed	Christmas 2007
 WhiteWed	Removed	White Wednesday

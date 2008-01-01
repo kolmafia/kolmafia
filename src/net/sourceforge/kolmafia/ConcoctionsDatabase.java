@@ -440,11 +440,7 @@ public class ConcoctionsDatabase
 			else if ( c.getPrice() > 0 )
 			{
 				String name = c.getName();
-				if ( Crimbo07CafeRequest.onMenu( name ) )
-				{
-					request = new Crimbo07CafeRequest( name );
-				}
-				else if ( KitchenRequest.onMenu( name ) )
+				if ( KitchenRequest.onMenu( name ) )
 				{
 					request = new KitchenRequest( name );
 				}
@@ -918,9 +914,9 @@ public class ConcoctionsDatabase
 		ConcoctionsDatabase.PERMIT_METHOD[ KoLConstants.UGH ] = false;
 		ConcoctionsDatabase.ADVENTURE_USAGE[ KoLConstants.UGH ] = 0;
 
-		// It's possible to ask Uncle Crimbo 2007 to make toys
+		// It's not possible to ask Uncle Crimbo 2007 to make toys
 
-		ConcoctionsDatabase.PERMIT_METHOD[ KoLConstants.CRIMBO ] = true;
+		ConcoctionsDatabase.PERMIT_METHOD[ KoLConstants.CRIMBO ] = false;
 		ConcoctionsDatabase.ADVENTURE_USAGE[ KoLConstants.CRIMBO ] = 0;
 
 		// Next, increment through all the box servant creation methods.
