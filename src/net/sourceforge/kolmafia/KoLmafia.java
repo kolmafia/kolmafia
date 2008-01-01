@@ -207,9 +207,35 @@ public abstract class KoLmafia
 		// 3-15 Adventure in Arid, Extra-Dry Desert until you have
 		// worm-riding hooks.
 
-		// Semi-rare adventures that do not drop semi-rare items
+		// Adventures that give semirares
+		{ "A Menacing Phantom", SEMIRARE },
+		{ "All The Rave", SEMIRARE },
+		{ "Blaaargh! Blaaargh!", SEMIRARE },
+		{ "Filth, Filth, and More Filth", SEMIRARE },
+		{ "Hands On", SEMIRARE },
+		{ "How Does He Smell?", SEMIRARE },
+		{ "In the Still of the Alley", SEMIRARE },
+		{ "It's The Only Way To Be Sure", SEMIRARE },
 		{ "Knob Goblin Elite Guard Captain", SEMIRARE },
 		{ "Knob Goblin Embezzler", SEMIRARE },
+		{ "Le Chauve-Souris du Parfum", SEMIRARE },
+		{ "Like the Sunglasses, But Less Comfortable", SEMIRARE },
+		{ "Lunchboxing", SEMIRARE },
+		{ "Monty of County Crisco", SEMIRARE },
+		{ "Natural Selection", SEMIRARE },
+		{ "Not Quite as Cold as Ice", SEMIRARE },
+		{ "Play Misty For Me", SEMIRARE },
+		{ "Prior to Always", SEMIRARE },
+		{ "Rokay, Raggy!", SEMIRARE },
+		{ "Sand in the Vaseline", SEMIRARE },
+		{ "Some Bad ASCII Art", SEMIRARE },
+		{ "Some Bricks Do, In Fact, Hang in the Air", SEMIRARE },
+		{ "The Bleary-Eyed Cyclops", SEMIRARE },
+		{ "The Latest Sorcerous Developments", SEMIRARE },
+		{ "The Pilsbury Doughjerk", SEMIRARE },
+		{ "Two Sizes Too Small", SEMIRARE },
+		{ "Yo Ho Ho and a Bottle of Whatever This Is", SEMIRARE },
+		{ "You Can Top Our Desserts, But You Can't Beat Our Meats", SEMIRARE },
 	};
 
 	private static final boolean acquireFileLock( final String suffix )
@@ -1225,7 +1251,13 @@ public abstract class KoLmafia
 				}
 			}
 			break;
+		}
+	}
 
+	public boolean isSemirare( AdventureResult result )
+	{
+		switch ( result.getItemId() )
+		{
 		case ASCII_SHIRT:
 		case RHINO_HORMONES:
 		case MAGIC_SCROLL:
@@ -1252,9 +1284,9 @@ public abstract class KoLmafia
 		case LUNCHBOX:
 		case KNOB_PASTY:
 		case KNOB_COFFEE:
-			StaticEntity.stopCounting( "Fortune Cookie" );
-			break;
+                        return true;
 		}
+                return false;
 	}
 
 	/**
