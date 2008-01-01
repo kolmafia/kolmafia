@@ -1859,7 +1859,7 @@ public class RequestEditorKit
 			{
 				if ( KoLConstants.inventory.contains( KoLAdventure.DRUM_MACHINE ) )
 				{
-					location = "inv_use.php?pwd&whichitem=" + ConsumeItemRequest.DRUM_MACHINE;
+					location = "inv_use.php?pwd&which=3&whichitem=" + ConsumeItemRequest.DRUM_MACHINE;
 				}
 				else
 				{
@@ -1868,7 +1868,7 @@ public class RequestEditorKit
 			}
 			else if ( monster.equals( "scary pirate" ) )
 			{
-				location = "inv_use.php?pwd&whichitem=" + ConsumeItemRequest.CURSED_PIECE_OF_THIRTEEN;
+				location = "inv_use.php?pwd&which=3&whichitem=" + ConsumeItemRequest.CURSED_PIECE_OF_THIRTEEN;
 			}
 			else
 			{
@@ -2639,8 +2639,9 @@ public class RequestEditorKit
 					}
 					else if ( itemCount == 1 )
 					{
+						String page = ( consumeMethod == CONSUME_MULTIPLE ) ? "3" : "1";
 						useType = "use";
-						useLocation = "inv_use.php?pwd=&which=1&whichitem=";
+						useLocation = "inv_use.php?pwd=&which=" + page + "&whichitem=";
 					}
 					else if ( KoLSettings.getBooleanProperty( "relayUsesInlineLinks" ) )
 					{
