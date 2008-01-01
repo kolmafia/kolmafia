@@ -2298,7 +2298,7 @@ public class RequestEditorKit
 
 	private static final void changeDustyBottleNames( final StringBuffer buffer )
 	{
-		FightRequest.ensureUpdatedSphereEffects();
+		TradeableItemDatabase.getDustyBottles();
 
 		int glyphs[] = new int[ 3 ];
 
@@ -2339,6 +2339,8 @@ public class RequestEditorKit
 
 		for ( int i = 0; i < 3; ++i )
 		{
+			if ( wines[i] == 0 )
+				continue;
 			String name = TradeableItemDatabase.getItemName( wines[ i ] );
 			StaticEntity.globalStringReplace( buffer, name, i + 1 + " " + name );
 		}
