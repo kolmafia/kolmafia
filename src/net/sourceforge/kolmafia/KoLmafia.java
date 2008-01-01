@@ -88,9 +88,6 @@ public abstract class KoLmafia
 
 	private static boolean hadPendingState = false;
 
-	private static final String[] OVERRIDE_DATA =
-		{ "adventures.txt", "buffbots.txt", "classskills.txt", "combats.txt", "concoctions.txt", "defaults.txt", "equipment.txt", "familiars.txt", "fullness.txt", "inebriety.txt", "itemdescs.txt", "modifiers.txt", "monsters.txt", "npcstores.txt", "outfits.txt", "packages.txt", "spleenhit.txt", "statuseffects.txt", "tradeitems.txt", "zapgroups.txt", "zonelist.txt" };
-
 	protected static String currentIterationString = "";
 	protected static boolean recoveryActive = false;
 
@@ -345,9 +342,9 @@ public abstract class KoLmafia
 		if ( version == null || !version.equals( KoLConstants.VERSION_NAME ) )
 		{
 			KoLSettings.setUserProperty( "previousUpdateVersion", KoLConstants.VERSION_NAME );
-			for ( int i = 0; i < KoLmafia.OVERRIDE_DATA.length; ++i )
+			for ( int i = 0; i < KoLConstants.OVERRIDE_DATA.length; ++i )
 			{
-				File outdated = new File( UtilityConstants.DATA_LOCATION, KoLmafia.OVERRIDE_DATA[ i ] );
+				File outdated = new File( UtilityConstants.DATA_LOCATION, KoLConstants.OVERRIDE_DATA[ i ] );
 				if ( outdated.exists() )
 				{
 					outdated.delete();

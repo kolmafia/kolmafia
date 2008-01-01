@@ -1151,6 +1151,9 @@ public class LocalRelayRequest
 			// Special handling of adventuring locations before it's
 			// registered internally with KoLmafia.
 
+			// Sometimes, people want the MCD rewards from various
+			// boss monsters.  Let's help out.
+
 			if ( path.equals( "adventure.php" ) )
 			{
 				String location = this.getFormField( "snarfblat" );
@@ -1159,8 +1162,6 @@ public class LocalRelayRequest
 					location = this.getFormField( "adv" );
 				}
 
-				// Sometimes, people want the MCD rewards from
-				// various boss monsters.  Let's help out.
 				// This one's for the Boss Bat, who has special
 				// items at 4 and 8.
 

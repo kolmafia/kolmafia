@@ -128,11 +128,12 @@ public class KoLAdventure
 		this.adventureId = adventureId;
 
 		this.zone = zone;
-		this.parentZone = (String) AdventureDatabase.PARENT_ZONES.get( zone );
 		this.adventureName = adventureName;
 
 		this.normalString = this.zone + ": " + this.adventureName;
 		this.lowercaseString = this.normalString.toLowerCase();
+
+		this.parentZone = (String) AdventureDatabase.PARENT_ZONES.get( zone );
 		this.parentZoneDescription = (String) AdventureDatabase.ZONE_DESCRIPTIONS.get( this.parentZone );
 
 		if ( formSource.equals( "sewer.php" ) )
