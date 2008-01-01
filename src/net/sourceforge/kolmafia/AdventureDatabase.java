@@ -1671,8 +1671,8 @@ public class AdventureDatabase
 
 		int missingCount = item.getCount() - availableCount;
 
-		// If you already have enough of the given item, then
-		// return from this method.
+		// If you already have enough of the given item, then return
+		// from this method.
 
 		if ( missingCount <= 0 )
 		{
@@ -1712,8 +1712,8 @@ public class AdventureDatabase
 			}
 		}
 
-		// First, handle worthless items by traveling to
-		// the sewer for as many adventures as needed.
+		// First, handle worthless items by traveling to the sewer for
+		// as many adventures as needed.
 
 		if ( itemId == HermitRequest.WORTHLESS_ITEM.getItemId() )
 		{
@@ -1737,14 +1737,11 @@ public class AdventureDatabase
 			return HermitRequest.getWorthlessItemCount() >= item.getCount();
 		}
 
-		// Try to purchase the item from the mall, if the
-		// user wishes to autosatisfy through purchases,
-		// and the item is not creatable through combines.
+		// Try to purchase the item from the mall, if the user wishes
+		// to autosatisfy through purchases, and the item is not
+		// creatable through combines.
 
-		int price = TradeableItemDatabase.getPriceById( itemId );
-
-		boolean shouldUseMall =
-			( price > 0 || item.getName().indexOf( "clover" ) != -1 ) && KoLCharacter.canInteract() && TradeableItemDatabase.isTradeable( itemId );
+		boolean shouldUseMall = shouldUseMall( item );
 
 		boolean shouldUseStash = KoLSettings.getBooleanProperty( "autoSatisfyWithStash" );
 		boolean shouldUseNPCStore =
@@ -1753,8 +1750,9 @@ public class AdventureDatabase
 		int mixingMethod = ConcoctionsDatabase.getMixingMethod( itemId );
 		ItemCreationRequest creator = ItemCreationRequest.getInstance( itemId );
 
-		if ( creator != null && creator.isReagentPotion() && KoLCharacter.canInteract() && !KoLCharacter.getClassType().equals(
-			KoLCharacter.SAUCEROR ) )
+		// Why, exactly, do we do the following?
+
+		if ( creator != null && creator.isReagentPotion() && !KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) )
 		{
 			creator = null;
 		}
@@ -1777,8 +1775,8 @@ public class AdventureDatabase
 			}
 		}
 
-		// Next, attempt to pull the items out of storage,
-		// if you are out of ronin.
+		// Next, attempt to pull the items out of storage, if you are
+		// out of ronin.
 
 		if ( KoLCharacter.canInteract() && !KoLCharacter.inBadMoon() )
 		{
@@ -1797,8 +1795,8 @@ public class AdventureDatabase
 			}
 		}
 
-		// See if the item can be retrieved from the clan stash.  If it can,
-		// go ahead and pull as many items as possible from there.
+		// See if the item can be retrieved from the clan stash.  If it
+		// can, go ahead and pull as many items as possible from there.
 
 		if ( shouldUseStash && KoLCharacter.canInteract() && KoLCharacter.hasClan() )
 		{
@@ -1823,8 +1821,8 @@ public class AdventureDatabase
 			}
 		}
 
-		// Next, attempt to create the item from existing
-		// ingredients (if possible).
+		// Next, attempt to create the item from existing ingredients
+		// (if possible).
 
 		if ( creator != null && creator.getQuantityPossible() > 0 )
 		{
@@ -1873,8 +1871,8 @@ public class AdventureDatabase
 			}
 		}
 
-		// If the item should be bought early, go ahead and purchase it now,
-		// after having checked the clan stash.
+		// If the item should be bought early, go ahead and purchase it
+		// now, after having checked the clan stash.
 
 		if ( shouldUseNPCStore || shouldUseMall && !AdventureDatabase.hasAnyIngredient( itemId ) )
 		{
@@ -1891,8 +1889,9 @@ public class AdventureDatabase
 
 		switch ( mixingMethod )
 		{
-		// Subingredients for star charts, pixels and malus ingredients can get
-		// very expensive. Therefore, skip over them in this step.
+		// Subingredients for star charts, pixels and malus ingredients
+		// can get very expensive. Therefore, skip over them in this
+		// step.
 
 		case NOCREATE:
 		case STARCHART:
@@ -1903,8 +1902,8 @@ public class AdventureDatabase
 
 			break;
 
-		// If it's creatable, and you have at least one ingredient, see if you
-		// can make it via recursion.
+		// If it's creatable, and you have at least one ingredient, see
+		// if you can make it via recursion.
 
 		default:
 
@@ -1941,6 +1940,38 @@ public class AdventureDatabase
 
 		KoLmafia.updateDisplay(
 			KoLConstants.ERROR_STATE, "You need " + missingCount + " more " + item.getName() + " to continue." );
+		return false;
+	}
+
+	private static boolean shouldUseMall( final AdventureResult item )
+	{
+		if ( !KoLCharacter.canInteract() )
+			return false;
+
+		int itemId = item.getItemId();
+
+		if ( !TradeableItemDatabase.isTradeable( itemId ) )
+			return false;
+
+		if ( !KoLSettings.getBooleanProperty( "autoSatisfyWithMall" ) )
+			return false;
+
+		int price = TradeableItemDatabase.getPriceById( itemId );
+
+		if ( price > 0 )
+			return true;
+
+		switch ( itemId )
+		{
+		case 24:	// ten-leaf clover
+		case 196:	// disassembled clover
+		case 1637:	// phial of hotness
+		case 1638:	// phial of coldness
+		case 1639:	// phial of spookiness
+		case 1640:	// phial of stench
+		case 1641:	// phial of sleaziness
+			return true;
+		}
 		return false;
 	}
 
