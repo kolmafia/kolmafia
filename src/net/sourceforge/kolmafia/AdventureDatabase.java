@@ -1195,13 +1195,22 @@ public class AdventureDatabase
 					continue;
 				}
 
-				AdventureDatabase.adventureTable[ 0 ].add( data[ 0 ] );
-
+				String zone = data[0];
 				String[] location = data[ 1 ].split( "=" );
+				String name = data[2];
+
+				if ( AdventureDatabase.PARENT_ZONES.get( zone ) == null )
+				{
+					RequestLogger.printLine( "Adventure area \"" + name + "\" has invalid zone: \"" + zone + "\"" );
+					continue;
+				}
+
+				AdventureDatabase.adventureTable[ 0 ].add( zone );
+
 				AdventureDatabase.adventureTable[ 1 ].add( location[ 0 ] + ".php" );
 				AdventureDatabase.adventureTable[ 2 ].add( location[ 1 ] );
 
-				AdventureDatabase.adventureTable[ 3 ].add( data[ 2 ] );
+				AdventureDatabase.adventureTable[ 3 ].add( name );
 			}
 		}
 
