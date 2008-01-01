@@ -91,6 +91,13 @@ public class KoLAdventure
 		new AdventureResult( 608, -1 )
 	};
 
+	public static final AdventureResult[] AZAZEL =
+	{
+		new AdventureResult( 2566, -1 ),
+		new AdventureResult( 2567, -1 ),
+		new AdventureResult( 2568, -1 ),
+	};
+
 	private static final AdventureResult MUSHROOM = new AdventureResult( 1622, 1 );
 	private static final AdventureResult ASTRAL = new AdventureResult( "Half-Astral", 0 );
 	public static final AdventureResult BEATEN_UP = new AdventureResult( "Beaten Up", 4, true );

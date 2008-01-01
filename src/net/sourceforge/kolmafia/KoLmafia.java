@@ -119,6 +119,41 @@ public abstract class KoLmafia
 	private static final AdventureResult MANUAL_2 = new AdventureResult( 2281, 1 );
 	private static final AdventureResult MANUAL_3 = new AdventureResult( 2282, 1 );
 
+	private static final int SOCK = 609;
+
+	// Steel items
+	private static final int LASAGNA = 2742;
+	private static final int MARGARITA = 2743;
+	private static final int AIR_FRESHENER = 2744;
+
+	// Semi-rares
+	private static final int ASCII_SHIRT = 2121;
+	private static final int RHINO_HORMONES = 2419;
+	private static final int MAGIC_SCROLL = 2420;
+	private static final int PIRATE_JUICE = 2421;
+	private static final int PET_SNACKS = 2422;
+	private static final int INHALER = 2423;
+	private static final int CYCLOPS_EYEDROPS = 2424;
+	private static final int SPINACH = 2425;
+	private static final int FIRE_FLOWER = 2426;
+	private static final int ICE_CUBE = 2427;
+	private static final int FAKE_BLOOD = 2428;
+	private static final int GUANEAU = 2429;
+	private static final int LARD = 2430;
+	private static final int MYTIC_SHELL = 2431;
+	private static final int LIP_BALM = 2432;
+	private static final int ANTIFREEZE = 2433;
+	private static final int BLACK_EYEDROPS = 2434;
+	private static final int DOGSGOTNONOZ = 2435;
+	private static final int FLIPBOOK = 2436;
+	private static final int NEW_CLOACA_COLA = 2437;
+	private static final int MASSAGE_OIL = 2438;
+	private static final int POLTERGEIST = 2439;
+	private static final int TASTY_TART = 2591;
+	private static final int LUNCHBOX = 2592;
+	private static final int KNOB_PASTY = 2593;
+	private static final int KNOB_COFFEE = 2594;
+
 	private static FileLock SESSION_HOLDER = null;
 	private static FileChannel SESSION_CHANNEL = null;
 	private static File SESSION_FILE = null;
@@ -172,35 +207,9 @@ public abstract class KoLmafia
 		// 3-15 Adventure in Arid, Extra-Dry Desert until you have
 		// worm-riding hooks.
 
-		// Adventures that give semirares
-		{ "A Menacing Phantom", SEMIRARE },
-		{ "All The Rave", SEMIRARE },
-		{ "Blaaargh! Blaaargh!", SEMIRARE },
-		{ "Filth, Filth, and More Filth", SEMIRARE },
-		{ "Hands On", SEMIRARE },
-		{ "How Does He Smell?", SEMIRARE },
-		{ "In the Still of the Alley", SEMIRARE },
-		{ "It's The Only Way To Be Sure", SEMIRARE },
+		// Semi-rare adventures that do not drop semi-rare items
 		{ "Knob Goblin Elite Guard Captain", SEMIRARE },
 		{ "Knob Goblin Embezzler", SEMIRARE },
-		{ "Le Chauve-Souris du Parfum", SEMIRARE },
-		{ "Like the Sunglasses, But Less Comfortable", SEMIRARE },
-		{ "Lunchboxing", SEMIRARE },
-		{ "Monty of County Crisco", SEMIRARE },
-		{ "Natural Selection", SEMIRARE },
-		{ "Not Quite as Cold as Ice", SEMIRARE },
-		{ "Play Misty For Me", SEMIRARE },
-		{ "Prior to Always", SEMIRARE },
-		{ "Rokay, Raggy!", SEMIRARE },
-		{ "Sand in the Vaseline", SEMIRARE },
-		{ "Some Bad ASCII Art", SEMIRARE },
-		{ "Some Bricks Do, In Fact, Hang in the Air", SEMIRARE },
-		{ "The Bleary-Eyed Cyclops", SEMIRARE },
-		{ "The Latest Sorcerous Developments", SEMIRARE },
-		{ "The Pilsbury Doughjerk", SEMIRARE },
-		{ "Two Sizes Too Small", SEMIRARE },
-		{ "Yo Ho Ho and a Bottle of Whatever This Is", SEMIRARE },
-		{ "You Can Top Our Desserts, But You Can't Beat Our Meats", SEMIRARE },
 	};
 
 	private static final boolean acquireFileLock( final String suffix )
@@ -1078,16 +1087,8 @@ public abstract class KoLmafia
 		}
 		else if ( result.isItem() )
 		{
-			// If you gain a sock, you lose all the immateria
-
-			if ( result.equals( KoLAdventure.SOCK ) && result.getCount() == 1 )
-			{
-				for ( int i = 0; i < KoLAdventure.IMMATERIA.length; ++i )
-				{
-					this.processResult( KoLAdventure.IMMATERIA[ i ] );
-				}
-			}
-
+			// Do special processing when you get certain items
+			this.gainItem( result );
 			AdventureResult.addResultToList( KoLConstants.tally, result );
 		}
 		else if ( resultName.equals( AdventureResult.SUBSTATS ) )
@@ -1195,6 +1196,65 @@ public abstract class KoLmafia
 		}
 
 		return shouldRefresh;
+	}
+
+	private void gainItem( AdventureResult result )
+	{
+		switch ( result.getItemId() )
+		{
+		case KoLmafia.SOCK:
+			// If you get a S.O.C.K., you lose all the Immateria
+			if ( result.getCount() == 1 )
+			{
+				for ( int i = 0; i < KoLAdventure.IMMATERIA.length; ++i )
+				{
+					this.processResult( KoLAdventure.IMMATERIA[ i ] );
+				}
+			}
+			break;
+
+		case KoLmafia.LASAGNA:
+		case KoLmafia.MARGARITA:
+		case KoLmafia.AIR_FRESHENER:
+			// When you get a steel item, you lose Azazel's items
+			if ( result.getCount() == 1 )
+			{
+				for ( int i = 0; i < KoLAdventure.AZAZEL.length; ++i )
+				{
+					this.processResult( KoLAdventure.AZAZEL[ i ] );
+				}
+			}
+			break;
+
+		case ASCII_SHIRT:
+		case RHINO_HORMONES:
+		case MAGIC_SCROLL:
+		case PIRATE_JUICE:
+		case PET_SNACKS:
+		case INHALER:
+		case CYCLOPS_EYEDROPS:
+		case SPINACH:
+		case FIRE_FLOWER:
+		case ICE_CUBE:
+		case FAKE_BLOOD:
+		case GUANEAU:
+		case LARD:
+		case MYTIC_SHELL:
+		case LIP_BALM:
+		case ANTIFREEZE:
+		case BLACK_EYEDROPS:
+		case DOGSGOTNONOZ:
+		case FLIPBOOK:
+		case NEW_CLOACA_COLA:
+		case MASSAGE_OIL:
+		case POLTERGEIST:
+		case TASTY_TART:
+		case LUNCHBOX:
+		case KNOB_PASTY:
+		case KNOB_COFFEE:
+			StaticEntity.stopCounting( "Fortune Cookie" );
+			break;
+		}
 	}
 
 	/**
