@@ -63,6 +63,10 @@
 # <s>Killer</s> Festive Weapons-Assembly Elfbot
 # Rudolphus of Crimborg
 #
+# Arc-welding Elfborg
+# Decal-applying Elfborg
+# Ribbon-cutting Elfborg
+# Weapons-assembly Elfborg
 #
 # Item and Meat Drop percentage figures from Yiab's statistical data:
 #
@@ -109,6 +113,7 @@ Animated Nightstand (Mahogany)	HP: 170 Def: 166 Atk: 158	old coin purse (25)	old
 Animated Nightstand (White)	HP: 180 Def: 171 Atk: 147	grouchy restless spirit (80)
 Anime Smiley	HP: 67 Def: 77 Atk: 77	334 scroll (30)	Tasty Fun Good rice candy (40)
 Apathetic Lizardman	HP: 14 Def: 20 Atk: 20
+Arc-welding Elfborg		iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
 Axe Handle	HP: 3 Def: 3 Atk: 1	pine tar (20)
 Bad ASCII Art	HP: 1	ASCII shirt (100)	 30669 scroll (100)	33398 scroll (100)	334 scroll (100)	334 scroll (100)
 BASIC Elemental	HP: 40 Def: 50 Atk: 50
@@ -183,6 +188,7 @@ Curmudgeonly Pirate	HP: 0	all-purpose cleaner (0)	curmudgel (0)	grumpy old man c
 Dairy Goat	HP: 50 Def: 68 Atk: 68 Meat: 40-64	glass of goat's milk (20)	goat cheese (40)	billy idol (0)
 Dairy Ooze	HP: 8 Def: 13 Atk: 13
 Danglin' Chad	HP: 0
+Decal-applying Elfborg		iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
 Decent Lumberjack	HP: 35 Def: 35 Atk: 35 Meat: 17-26	poutine (30)	disbelief suspenders (10)
 Demonic Icebox	HP: 5 Def: 5 Atk: 5	ancient frozen dinner (30)	leftovers of indeterminate origin (40)
 Demoninja	HP: 48 Def: 30 Atk: 50 E: heat Meat: 40-65	hot katana blade (30)	ninja hot pants (5)
@@ -386,6 +392,7 @@ Rattlin' Duck	HP: 200	fetid feather (0)	duct tape (0)
 Raver Giant	HP: 150 Def: 140 Atk: 140 Meat: 121-183	Angry Farmer candy (30)	giant needle (30)	Mick's IcyVapoHotness Rub (30)	discarded pacifier (0)
 Regular Old Bat	HP: 8  Def: 13 Atk: 13 Meat: 18-28	bat guano (15)	batgut (15)	bat wing (15)
 Remains of a Jilted Mistress	HP: 145 Def: 155 Atk: 173 ED: spooky
+Ribbon-cutting Elfborg		iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
 Rock Scorpion	HP: 145	handful of sand (25)	handful of sand (15)	scorpion whip (5)
 Rock-Banging Cave Elf		rock (8)	stick (7)	stick (15)
 Rolling Stone	HP: 135	palm frond (10)	handful of moss (20)	brown sugar cane (20)	mother's little helper (10)	Tuesday's ruby (5)	hot date (5)
@@ -532,6 +539,7 @@ War Pledge	HP: 180	distressed denim pants (5)	bejeweled pledge pin (5)	beer helm
 Warty Pirate	HP: 0	copper ha'penny charrrm (0)	fish-liver oil (0)	vinegar-soaked lemon slice (0)
 Warwelf	HP: 2 Def: 3 Atk: 1 Meat: 10-16
 Wealthy Pirate	HP: 0	booty chest charrrm (0)	solid gold pegleg (0)
+Weapons-assembly Elfborg		iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
 Weremoose	HP: 53 Def: 63 Atk: 63 Meat: 52-79
 Weretaco	HP: 8 Def: 16 Atk: 16 Meat: 26-41	taco shell (30)	uncooked chorizo (30)	wilted lettuce (0)
 Whiny Pirate	HP: 0	bilge wine (0)
