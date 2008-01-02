@@ -116,6 +116,13 @@ public abstract class KoLmafia
 	private static final AdventureResult MANUAL_2 = new AdventureResult( 2281, 1 );
 	private static final AdventureResult MANUAL_3 = new AdventureResult( 2282, 1 );
 
+	private static final AdventureResult [] CRIMBO_TOYS =
+	{
+		new AdventureResult( 3092, 1 ),		// handmade hobby horse
+		new AdventureResult( 3093, 1 ),		// ball-in-a-cup
+		new AdventureResult( 3094, 1 ),		// set of jacks
+	};
+
 	private static final int SOCK = 609;
 
 	// Steel items
@@ -761,6 +768,19 @@ public abstract class KoLmafia
 				}
 
 				KoLmafia.forceContinue();
+			}
+
+			if ( KoLSettings.getBooleanProperty( "useCrimboToys" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
+			{
+				for ( int i = 0; i < CRIMBO_TOYS.length; ++i )
+				{
+					AdventureResult toy = CRIMBO_TOYS[i];
+					if ( KoLCharacter.hasItem( toy ) )
+					{
+						RequestThread.postRequest( new ConsumeItemRequest( toy ) );
+						KoLmafia.forceContinue();
+					}
+				}
 			}
 
 			if ( KoLSettings.getBooleanProperty( "grabClovers" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
