@@ -110,6 +110,7 @@ global	relayMaintainsEffects	false
 global	relayMaintainsHealth	true
 global	relayMaintainsMana	false
 global	relayTextualizesEffects	false
+global	relayTrimsZapList	true
 global	relayUsesCachedImages	false
 global	relayUsesInlineLinks	false
 global	relayUsesIntegratedChat	false

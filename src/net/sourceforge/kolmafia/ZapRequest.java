@@ -103,7 +103,8 @@ public class ZapRequest
 
 		SortedListModel matchingItems = new SortedListModel();
 		matchingItems.addAll( KoLConstants.inventory );
-		matchingItems.retainAll( ZapRequest.zappableItems );
+		if ( KoLSettings.getBooleanProperty( "relayTrimsZapList" ) )
+			matchingItems.retainAll( ZapRequest.zappableItems );
 		return matchingItems;
 	}
 
@@ -159,6 +160,10 @@ public class ZapRequest
 
 	public static final void decorate( final StringBuffer buffer )
 	{
+		// Don't trim the list if user wants to see all items
+		if ( !KoLSettings.getBooleanProperty( "relayTrimsZapList" ) )
+			return;
+
 		ZapRequest.initializeList();
 
 		int selectIndex = buffer.indexOf( "<select" );
