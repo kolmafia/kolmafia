@@ -205,8 +205,11 @@ public class LocalRelayAgent
 			this.buffer.setLength( 0 );
 		}
 
-		return !this.path.startsWith( "/KoLmafia" ) || this.request.getFormField( "pwd" ) != null && this.request.getFormField(
-			"pwd" ).equals( KoLRequest.passwordHash );
+		String passwordHash = this.request.getFormField( "pwd" );
+		if ( this.path.startsWith( "/KoLmafia" ) )
+			return passwordHash != null && passwordHash.equals( KoLRequest.passwordHash );
+
+		return passwordHash == null || passwordHash.equals( KoLRequest.passwordHash );
 	}
 
 	public static void reset()
