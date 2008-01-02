@@ -144,9 +144,9 @@ public class ConsumeItemRequest
 	private static final int GILDED_CURSED_CHEST = 3018;
 	public static final int CURSED_PIECE_OF_THIRTEEN = 3034;
 	private static final int GENERAL_ASSEMBLY_MODULE = 3075;
-	private static final int HOBBY_HORSE = 3092;
-	private static final int BALL_IN_CUP = 3093;
-	private static final int SET_OF_JACKS = 3094;
+	public static final int HOBBY_HORSE = 3092;
+	public static final int BALL_IN_CUP = 3093;
+	public static final int SET_OF_JACKS = 3094;
 
 	private static final int PALM_FROND = 2605;
 	private static final int MUMMY_WRAP = 2634;
@@ -1779,6 +1779,15 @@ public class ConsumeItemRequest
 				return;
 			}
 
+			return;
+
+		case HOBBY_HORSE:
+		case BALL_IN_CUP:
+		case SET_OF_JACKS:
+
+			// Crimbo toys are not consumed when used.
+
+			StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
 			return;
 		}
 	}

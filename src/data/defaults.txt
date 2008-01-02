@@ -126,6 +126,8 @@ global	toolbarPosition	1
 global	useChatMonitor	false
 global	useChatToolbar	true
 global	useContactsFrame	true
+global	useCrimboToysHardcore	false
+global	useCrimboToysSoftcore	true
 global	useDecoratedTabs
 global	useSeparateChannels	true
 global	useShinyTabbedChat	true

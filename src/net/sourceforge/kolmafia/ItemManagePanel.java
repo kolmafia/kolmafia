@@ -505,7 +505,17 @@ public class ItemManagePanel
 
 			for ( int i = 0; i < items.length; ++i )
 			{
-				int usageType = ConsumeItemRequest.getConsumptionType( (AdventureResult) items[ i ] );
+                                AdventureResult item = (AdventureResult) items[ i ];
+				int usageType = ConsumeItemRequest.getConsumptionType( item );
+                                int itemId = item.getItemId();
+                                switch ( itemId )
+                                {
+                                case ConsumeItemRequest.HOBBY_HORSE:
+                                case ConsumeItemRequest.BALL_IN_CUP:
+                                case ConsumeItemRequest.SET_OF_JACKS:
+                                        usageType = CONSUME_USE;
+                                        break;
+                                }
 
 				switch ( usageType )
 				{
@@ -520,11 +530,10 @@ public class ItemManagePanel
 				case EQUIP_WEAPON:
 				case EQUIP_OFFHAND:
 					RequestThread.postRequest( new EquipmentRequest(
-						(AdventureResult) items[ i ], KoLCharacter.consumeFilterToEquipmentType( usageType ) ) );
+						item, KoLCharacter.consumeFilterToEquipmentType( usageType ) ) );
 					break;
 
 				default:
-				case MESSAGE_DISPLAY:
 					RequestThread.postRequest( new ConsumeItemRequest( (AdventureResult) items[ i ] ) );
 					break;
 				}

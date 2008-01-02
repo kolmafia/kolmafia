@@ -1308,6 +1308,7 @@ public class OptionsFrame
 		private final JCheckBox mushroomPlot;
 		private final JCheckBox rumpusRoom;
 		private final JCheckBox readManual;
+		private final JCheckBox useCrimboToys;
 		private final JCheckBox loginRecovery;
 		private final JCheckBox pathedSummons;
 
@@ -1318,7 +1319,7 @@ public class OptionsFrame
 			this.add(
 				JComponentUtilities.createLabel( title, JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
 
-			JPanel centerPanel = new JPanel( new GridLayout( 4, 3 ) );
+			JPanel centerPanel = new JPanel( new GridLayout( 5, 3 ) );
 
 			this.loginRecovery = new JCheckBox( "enable auto-recovery" );
 			this.loginRecovery.addActionListener( this );
@@ -1352,6 +1353,10 @@ public class OptionsFrame
 			this.readManual = new JCheckBox( "read guild manual" );
 			this.readManual.addActionListener( this );
 			centerPanel.add( this.readManual );
+
+			this.useCrimboToys = new JCheckBox( "use Crimbo toys" );
+			this.useCrimboToys.addActionListener( this );
+			centerPanel.add( this.useCrimboToys );
 
 			JPanel centerHolder = new JPanel( new BorderLayout() );
 			centerHolder.add( centerPanel, BorderLayout.NORTH );
@@ -1399,6 +1404,8 @@ public class OptionsFrame
 				"grabClovers" + this.breakfastType, String.valueOf( this.grabClovers.isSelected() ) );
 			KoLSettings.setUserProperty(
 				"readManual" + this.breakfastType, String.valueOf( this.readManual.isSelected() ) );
+			KoLSettings.setUserProperty(
+				"useCrimboToys" + this.breakfastType, String.valueOf( this.useCrimboToys.isSelected() ) );
 		}
 
 		public void actionCancelled()
@@ -1415,6 +1422,7 @@ public class OptionsFrame
 			this.mushroomPlot.setSelected( KoLSettings.getBooleanProperty( "autoPlant" + this.breakfastType ) );
 			this.grabClovers.setSelected( KoLSettings.getBooleanProperty( "grabClovers" + this.breakfastType ) );
 			this.readManual.setSelected( KoLSettings.getBooleanProperty( "readManual" + this.breakfastType ) );
+			this.useCrimboToys.setSelected( KoLSettings.getBooleanProperty( "useCrimboToys" + this.breakfastType ) );
 		}
 
 		public void setEnabled( final boolean isEnabled )
