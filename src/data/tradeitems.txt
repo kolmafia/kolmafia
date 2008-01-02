@@ -2629,7 +2629,7 @@
 2628	catskin buckler	13	all	185
 2629	tail o' nine cats	12	all	35
 2630	Hugo's Weaving Manual	15	none	0
-2631	gremlin juice	3	all	75
+2631	gremlin juice	4	all	75
 2632	mother's little helper	4	all	115
 2633	pat-a-cake pendant	8	all	25
 2634	mummy wrapping	4	all	50
@@ -2866,9 +2866,9 @@
 2865	
 2866	
 2867
-2868	pirate pamphlet	0	all	250
-2869	pirate brochure	0	all	250
-2870	pirate tract	0	all	250
+2868	pirate pamphlet	4	all	250
+2869	pirate brochure	4	all	250
+2870	pirate tract	4	all	250
 2871	burnt flower	0	all	0
 2872	tiny plastic Naughty Sorceress	8	all	0
 2873	tiny plastic Ed the Undying	8	all	0
