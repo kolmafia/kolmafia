@@ -690,6 +690,11 @@ public abstract class AdventureOptionsFrame
 			String desiredType =
 				(String) KoLFrame.input( "Which kind of buff set would you like to use?", autoFillTypes );
 
+			if ( desiredType == null )
+			{
+				return;
+			}
+
 			if ( desiredType == autoFillTypes[ 0 ] )
 			{
 				MoodSettings.minimalSet();
