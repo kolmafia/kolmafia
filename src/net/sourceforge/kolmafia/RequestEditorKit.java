@@ -464,7 +464,7 @@ public class RequestEditorKit
 
 	private static final Pattern FILEID_PATTERN = Pattern.compile( "(\\d+)\\." );
 	private static final Pattern ACQUIRE_PATTERN =
-		Pattern.compile( "(You acquire|O hai, I made dis for you:)([^<]*?<b>.*?</b>.*?)</td>", Pattern.DOTALL );
+		Pattern.compile( "(You acquire|O hai, I made dis)([^<]*?<b>.*?</b>.*?)</td>", Pattern.DOTALL );
 	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
 	private static final Pattern BOOKSHELF_PATTERN =
 		Pattern.compile( "onClick=\"location.href='(.*?)';\"", Pattern.DOTALL );
@@ -2400,7 +2400,8 @@ public class RequestEditorKit
 
 	private static final void addUseLinks( final String location, final StringBuffer buffer )
 	{
-		if ( buffer.indexOf( "You acquire" ) == -1 )
+		if ( buffer.indexOf( "You acquire" ) == -1 &&
+		     buffer.indexOf( "O hai, I made dis" ) == -1)
 		{
 			return;
 		}
