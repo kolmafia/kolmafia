@@ -1859,7 +1859,7 @@ public class RequestEditorKit
 			{
 				if ( KoLConstants.inventory.contains( KoLAdventure.DRUM_MACHINE ) )
 				{
-					location = "inv_use.php?pwd&which=3&whichitem=" + ConsumeItemRequest.DRUM_MACHINE;
+					location = "inv_use.php?pwd=" + KoLRequest.passwordHash + "&which=3&whichitem=" + ConsumeItemRequest.DRUM_MACHINE;
 				}
 				else
 				{
@@ -1868,7 +1868,7 @@ public class RequestEditorKit
 			}
 			else if ( monster.equals( "scary pirate" ) )
 			{
-				location = "inv_use.php?pwd&which=3&whichitem=" + ConsumeItemRequest.CURSED_PIECE_OF_THIRTEEN;
+				location = "inv_use.php?pwd=" + KoLRequest.passwordHash +"&which=3&whichitem=" + ConsumeItemRequest.CURSED_PIECE_OF_THIRTEEN;
 			}
 			else
 			{
@@ -2613,14 +2613,14 @@ public class RequestEditorKit
 					else
 					{
 						useType = KoLCharacter.canEat() ? "eat" : null;
-						useLocation = "inv_eat.php?pwd=&which=1&whichitem=";
+						useLocation = "inv_eat.php?pwd=" + KoLRequest.passwordHash + "&which=1&whichitem=";
 					}
 
 					break;
 
 				case CONSUME_DRINK:
 					useType = KoLCharacter.canDrink() ? "drink" : null;
-					useLocation = "inv_booze.php?pwd=&which=1&whichitem=";
+					useLocation = "inv_booze.php?pwd=" + KoLRequest.passwordHash + "&which=1&whichitem=";
 					break;
 
 				case CONSUME_MULTIPLE:
@@ -2641,7 +2641,7 @@ public class RequestEditorKit
 					{
 						String page = ( consumeMethod == CONSUME_MULTIPLE ) ? "3" : "1";
 						useType = "use";
-						useLocation = "inv_use.php?pwd=&which=" + page + "&whichitem=";
+						useLocation = "inv_use.php?pwd=" + KoLRequest.passwordHash + "&which=" + page + "&whichitem=";
 					}
 					else if ( KoLSettings.getBooleanProperty( "relayUsesInlineLinks" ) )
 					{
@@ -2675,7 +2675,7 @@ public class RequestEditorKit
 						if ( KoLCharacter.hasItem( map ) )
 						{
 							useType = "map";
-							useLocation = "inv_use.php?pwd=&which=3&whichitem=";
+							useLocation = "inv_use.php?pwd=" + KoLRequest.passwordHash + "&which=3&whichitem=";
 							itemId = 74;
 						}
 						break;
@@ -2686,20 +2686,20 @@ public class RequestEditorKit
 						if ( !KoLCharacter.hasItem( planks ) && HermitRequest.getWorthlessItemCount() > 0 )
 						{
 							useType = "planks";
-							useLocation = "hermit.php?autopermit=on&action=trade&pwd&quantity=1&whichitem=140";
+							useLocation = "hermit.php?autopermit=on&action=trade&pwd=" + KoLRequest.passwordHash +"&quantity=1&whichitem=140";
 						}
 						break;
 
 					case 2095: // towel
 
 						useType = "fold";
-						useLocation = "inv_use.php?pwd=&which=3&whichitem=";
+						useLocation = "inv_use.php?pwd=" + KoLRequest.passwordHash + "&which=3&whichitem=";
 						break;
 
 					default:
 
 						useType = "use";
-						useLocation = "inv_use.php?pwd=&which=3&whichitem=";
+						useLocation = "inv_use.php?pwd=" + KoLRequest.passwordHash + "&which=3&whichitem=";
 						break;
 					}
 
@@ -2724,7 +2724,7 @@ public class RequestEditorKit
 					else
 					{
 						useType = "equip";
-						useLocation = "inv_equip.php?pwd=&which=2&action=equip&whichitem=";
+						useLocation = "inv_equip.php?pwd=" + KoLRequest.passwordHash + "&which=2&action=equip&whichitem=";
 					}
 
 					break;
@@ -2797,7 +2797,7 @@ public class RequestEditorKit
 					{
 						useType = "sing";
 						useLocation =
-							"curse.php?action=use&pwd&whichitem=2192&targetplayer=" + KoLCharacter.getUserName();
+							"curse.php?action=use&pwd=" + KoLRequest.passwordHash + "&whichitem=2192&targetplayer=" + KoLCharacter.getUserName();
 					}
 
 					// Link which uses the plans when you acquire the planks.
@@ -2808,7 +2808,7 @@ public class RequestEditorKit
 						if ( KoLCharacter.hasItem( plans ) )
 						{
 							useType = "plans";
-							useLocation = "inv_use.php?pwd=&which=3&whichitem=";
+							useLocation = "inv_use.php?pwd=" + KoLRequest.passwordHash + "&which=3&whichitem=";
 							itemId = 146;
 						}
 					}
@@ -2826,7 +2826,7 @@ public class RequestEditorKit
 					else if ( itemId == AdventureRequest.ABRIDGED.getItemId() )
 					{
 						useType = "untinker";
-						useLocation = "town_right.php?action=untinker&pwd&whichitem=";
+						useLocation = "town_right.php?action=untinker&pwd=" + KoLRequest.passwordHash + "&whichitem=";
 					}
 
 					// Link to the chasm if you just untinkered a dictionary.
@@ -2834,7 +2834,7 @@ public class RequestEditorKit
 					else if ( itemId == FightRequest.DICTIONARY1.getItemId() || itemId == AdventureRequest.BRIDGE.getItemId() )
 					{
 						useType = "chasm";
-						useLocation = "mountains.php?pwd&orcs=1";
+						useLocation = "mountains.php?pwd=" + KoLRequest.passwordHash + "&orcs=1";
 					}
 
 					// Bounty items get a count and a link
@@ -2917,7 +2917,7 @@ public class RequestEditorKit
 			StaticEntity.singleStringReplace(
 				buffer,
 				"</center></blockquote>",
-				"<p><center><a href=\"inv_use.php?pwd&which=2&whichitem=" + specialLinkId + "\">[" + specialLinkText + " it again]</a></center></blockquote>" );
+				"<p><center><a href=\"inv_use.php?pwd=" + KoLRequest.passwordHash + "&which=2&whichitem=" + specialLinkId + "\">[" + specialLinkText + " it again]</a></center></blockquote>" );
 		}
 	}
 
@@ -2928,7 +2928,7 @@ public class RequestEditorKit
 
 		StaticEntity.singleStringReplace(
 			buffer, "It's actually a book.  Read it.",
-			"It's actually a book. <font size=1>[<a href=\"inv_use.php?pwd=&which=3&whichitem=818\">read it</a>]</font>" );
+			"It's actually a book. <font size=1>[<a href=\"inv_use.php?pwd=" + KoLRequest.passwordHash + "&which=3&whichitem=818\">read it</a>]</font>" );
 
 		// For everything else, make sure that it's an actual choice adventure
 		Matcher choiceMatcher = RequestEditorKit.CHOICE_PATTERN.matcher( buffer.toString() );
