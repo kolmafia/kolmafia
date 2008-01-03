@@ -89,6 +89,7 @@ public class KoLRequest
 
 	private static final AdventureResult MAIDEN_EFFECT = new AdventureResult( "Dreams and Lights", 1, true );
 	private static final AdventureResult BALLROOM_KEY = new AdventureResult( 1766, 1 );
+	private static final AdventureResult PAPAYA = new AdventureResult( 498, 1 );
 
 	private static final AdventureResult[] MISTRESS_ITEMS = new AdventureResult[]
 	{
@@ -1983,6 +1984,25 @@ public class KoLRequest
 				}
 			}
 
+			else if ( choice.equals( "127" ) )
+			{
+				willIgnore = true;
+
+				switch ( StaticEntity.parseInt( decision ) )
+				{
+				case 1:
+				case 2:
+				case 3:
+					break;
+				case 4:
+					decision = PAPAYA.getCount( inventory ) >= 3 ? "2" : "1";
+					break;
+				case 5:
+					decision = PAPAYA.getCount( inventory ) >= 3 ? "2" : "3";
+					break;
+				}
+			}
+
 			else if ( choice.equals( "161" ) )
 			{
 				decision = "1";
@@ -2007,7 +2027,7 @@ public class KoLRequest
 
 			request.clearDataFields();
 
-			request.addFormField( "pwd", KoLRequest.passwordHash );
+			request.addFormField( "pwd" );
 			request.addFormField( "whichchoice", choice );
 			request.addFormField( "option", decision );
 
