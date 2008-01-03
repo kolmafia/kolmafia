@@ -1225,7 +1225,7 @@ public abstract class KoLmafia
 				// negation of this result.
 
 				AdventureResult condition = (AdventureResult) KoLConstants.conditions.get( conditionIndex );
-				condition = condition.getInstance( condition.getCount() - 1 );
+				condition = condition.getInstance( condition.getCount() - result.getCount() );
 
 				if ( condition.getCount() <= 0 )
 				{
