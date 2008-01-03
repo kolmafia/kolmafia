@@ -209,6 +209,7 @@ public class AdventureFrame
 
 		private final JComboBox sewerSelect;
 		private final JComboBox castleWheelSelect;
+		private final JComboBox palindomePapayaSelect;
 		private final JComboBox spookyForestSelect;
 		private final JComboBox violetFogSelect;
 		private final JComboBox maidenSelect;
@@ -261,6 +262,13 @@ public class AdventureFrame
 			this.castleWheelSelect.addItem( "Turn clockwise" );
 			this.castleWheelSelect.addItem( "Turn counterclockwise" );
 			this.castleWheelSelect.addItem( "Ignore this adventure" );
+
+			this.palindomePapayaSelect = new JComboBox();
+			this.palindomePapayaSelect.addItem( "3 papayas" );
+			this.palindomePapayaSelect.addItem( "Trade papayas for stats" );
+			this.palindomePapayaSelect.addItem( "Fewer stats" );
+			this.palindomePapayaSelect.addItem( "Stats until out of papayas then papayas" );
+			this.palindomePapayaSelect.addItem( "Stats until out of papayas then fewer stats" );
 
 			this.spookyForestSelect = new JComboBox();
 			this.spookyForestSelect.addItem( "Loot Seal Clubber corpse" );
@@ -351,6 +359,7 @@ public class AdventureFrame
 			this.oceanActionSelect.addItem( "save and stop" );
 
 			this.addChoiceSelect( "Plains", "Castle Wheel", this.castleWheelSelect );
+			this.addChoiceSelect( "Plains", "Papaya War", this.palindomePapayaSelect );
 			this.addChoiceSelect( "Woods", "Forest Corpses", this.spookyForestSelect );
 			this.addChoiceSelect( "Item-Driven", "Violet Fog", this.violetFogSelect );
 			this.addChoiceSelect( "Manor1", "Billiard Room", this.billiardRoomSelect );
@@ -682,6 +691,7 @@ public class AdventureFrame
 			KoLSettings.setUserProperty( "violetFogGoal", String.valueOf( this.violetFogSelect.getSelectedIndex() ) );
 			KoLSettings.setUserProperty( "luckySewerAdventure", (String) this.sewerSelect.getSelectedItem() );
 			KoLSettings.setUserProperty( "choiceAdventure89", String.valueOf( this.maidenSelect.getSelectedIndex() ) );
+			KoLSettings.setUserProperty( "choiceAdventure127", String.valueOf( this.palindomePapayaSelect.getSelectedIndex() + 1 ) );
 
 			int louvreGoal = this.louvreSelect.getSelectedIndex();
 			KoLSettings.setUserProperty(
@@ -928,6 +938,7 @@ public class AdventureFrame
 			}
 
 			this.maidenSelect.setSelectedIndex( KoLSettings.getIntegerProperty( "choiceAdventure89" ) );
+			this.palindomePapayaSelect.setSelectedIndex( KoLSettings.getIntegerProperty( "choiceAdventure127" ) - 1 );
 
 			boolean foundItem = false;
 			String sewerItem = KoLSettings.getUserProperty( "luckySewerAdventure" );

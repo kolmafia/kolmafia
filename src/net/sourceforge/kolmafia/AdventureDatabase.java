@@ -586,11 +586,7 @@ public class AdventureDatabase
 		new ChoiceAdventure(
 			"Plains", "choiceAdventure126", "Palindome", new String[] { "moxie", "chance of more moxie", "sunburned" } ),
 
-		// No sir, away!  A papaya war is on!
-		new ChoiceAdventure(
-			"Plains", "choiceAdventure127", "Palindome",
-			new String[] { "3 papayas", "trade 3 papayas for stats", "stats" }, new String[] { "498", null, null } ),
-
+		// Choice 127 is No sir, away!	A papaya war is on!
 		// Choice 128 is unknown
 		// Choice 129 is Do Geese See God?
 		// Choice 130 is Rod Nevada, Vendor
@@ -598,54 +594,53 @@ public class AdventureDatabase
 
 		// Let's Make a Deal!
 		new ChoiceAdventure(
-			"Beach", "choiceAdventure132", "Desert (Pre-Oasis)", new String[] { "broken carburetor", "Unlock Oasis" },
+			"Beach", "choiceAdventure132", "Desert (Pre-Oasis)",
+			new String[] { "broken carburetor", "Unlock Oasis" },
 			new String[] { "2316", null } ),
 
 		// Choice 133 is unknown
 
 		// Wheel In the Pyramid, Keep on Turning
 		new ChoiceAdventure(
-			"Pyramid", "choiceAdventure134", "The Upper Chamber", new String[] { "Turn the wheel", "skip adventure" },
+			"Pyramid", "choiceAdventure134", "The Upper Chamber",
+			new String[] { "Turn the wheel", "skip adventure" },
 			new String[] { null, null } ),
 
 		// Wheel In the Pyramid, Keep on Turning
 		new ChoiceAdventure(
-			"Pyramid", "choiceAdventure135", "The Upper Chamber", new String[] { "Turn the wheel", "skip adventure" },
+			"Pyramid", "choiceAdventure135", "The Upper Chamber",
+			new String[] { "Turn the wheel", "skip adventure" },
 			new String[] { null, null } ),
 
 		// Peace Wants Love
 		new ChoiceAdventure(
-			"Island",
-			"choiceAdventure136",
-			"Hippy Camp",
+			"Island", "choiceAdventure136", "Hippy Camp",
 			new String[] { "filthy corduroys", "filthy knitted dread sack", "small meat boost", "complete the outfit" },
 			new String[] { "213", "214", null } ),
 
 		// An Inconvenient Truth
 		new ChoiceAdventure(
-			"Island",
-			"choiceAdventure137",
-			"Hippy Camp",
+			"Island", "choiceAdventure137", "Hippy Camp",
 			new String[] { "filthy knitted dread sack", "filthy corduroys", "small meat boost", "complete the outfit" },
 			new String[] { "214", "213", null } ),
 
 		// Purple Hazers
 		new ChoiceAdventure(
-			"Island",
-			"choiceAdventure138",
-			"Frat House",
+			"Island", "choiceAdventure138", "Frat House",
 			new String[] { "orcish cargo shorts", "Orcish baseball cap", "homoerotic frat-paddle", "complete the outfit" },
 			new String[] { "240", "239", "241" } ),
 
 		// Bait and Switch
 		new ChoiceAdventure(
 			"IsleWar", "choiceAdventure139", "War Hippies",
-			new String[] { "muscle substats", "ferret bait", "enter combat" }, new String[] { null, "2041", null } ),
+			new String[] { "muscle substats", "ferret bait", "enter combat" },
+			new String[] { null, "2041", null } ),
 
 		// The Thin Tie-Dyed Line
 		new ChoiceAdventure(
 			"IsleWar", "choiceAdventure140", "War Hippies",
-			new String[] { "water pipe bombs", "moxie substats", "enter combat" }, new String[] { "2348", null, null } ),
+			new String[] { "water pipe bombs", "moxie substats", "enter combat" },
+			new String[] { "2348", null, null } ),
 
 		// Blockin' Out the Scenery
 		new ChoiceAdventure(
@@ -662,17 +657,20 @@ public class AdventureDatabase
 		// Catching Some Zetas
 		new ChoiceAdventure(
 			"IsleWar", "choiceAdventure143", "War Fraternity",
-			new String[] { "muscle substats", "sake bombs", "enter combat" }, new String[] { null, "2067", null } ),
+			new String[] { "muscle substats", "sake bombs", "enter combat" },
+			new String[] { null, "2067", null } ),
 
 		// One Less Room Than In That Movie
 		new ChoiceAdventure(
 			"IsleWar", "choiceAdventure144", "War Fraternity",
-			new String[] { "moxie substats", "beer bombs", "enter combat" }, new String[] { null, "2350", null } ),
+			new String[] { "moxie substats", "beer bombs", "enter combat" },
+			new String[] { null, "2350", null } ),
 
 		// Fratacombs
 		new ChoiceAdventure(
 			"IsleWar", "choiceAdventure145", "War Fraternity",
-			new String[] { "muscle substats", "get some frat food", "waste a turn" }, new String[] { null, null, null } ),
+			new String[] { "muscle substats", "get some frat food", "waste a turn" },
+			new String[] { null, null, null } ),
 
 		// Fratacombs
 		new ChoiceAdventure(
@@ -701,7 +699,8 @@ public class AdventureDatabase
 
 		// Adventurer, $1.99
 		new ChoiceAdventure(
-			"Plains", "choiceAdventure151", "Fun House", new String[] { "fight the clownlord", "skip adventure" },
+			"Plains", "choiceAdventure151", "Fun House",
+			new String[] { "fight the clownlord", "skip adventure" },
 			new String[] { null, null } ),
 
 		// Choice 152 is Lurking at the Threshold
@@ -785,9 +784,7 @@ public class AdventureDatabase
 
 		// Beyond Any Measure
 		new ChoiceAdventure(
-			"Wormwood",
-			"choiceAdventure165",
-			"Pleasure Dome",
+			"Wormwood", "choiceAdventure165", "Pleasure Dome",
 			new String[] { "Rat-Faced -> Night Vision", "Bats in the Belfry -> Good with the Ladies", "mysticality substats", "skip adventure" },
 			new String[] { null, null, null, null } ),
 
@@ -805,38 +802,31 @@ public class AdventureDatabase
 
 		// Midst the Pallor of the Parlor
 		new ChoiceAdventure(
-			"Wormwood",
-			"choiceAdventure168",
-			"Moulder Mansion",
+			"Wormwood", "choiceAdventure168", "Moulder Mansion",
 			new String[] { "moxie substats", "Spirit of Alph -> Feelin' Philosophical", "Rat-Faced -> Unusual Fashion Sense" },
 			new String[] { null, null, null } ),
 
 		// A Few Chintz Curtains, Some Throw Pillows, It
 		new ChoiceAdventure(
-			"Wormwood",
-			"choiceAdventure169",
-			"Moulder Mansion",
+			"Wormwood", "choiceAdventure169", "Moulder Mansion",
 			new String[] { "Night Vision -> flask of Amontillado", "muscle substats", "Dancing Prowess -> fancy ball mask" },
 			new String[] { "2661", null, "2662" } ),
 
 		// La Vie Boheme
 		new ChoiceAdventure(
 			"Wormwood", "choiceAdventure170", "Rogue Windmill",
-			new String[] { "HP & Rat-Faced", "enter combat", "moxie substats" }, new String[] { null, null, null } ),
+			new String[] { "HP & Rat-Faced", "enter combat", "moxie substats" },
+			new String[] { null, null, null } ),
 
 		// Backstage at the Rogue Windmill
 		new ChoiceAdventure(
-			"Wormwood",
-			"choiceAdventure171",
-			"Rogue Windmill",
+			"Wormwood", "choiceAdventure171", "Rogue Windmill",
 			new String[] { "Bats in the Belfry -> No Vertigo", "muscle substats", "Spirit of Alph -> Dancing Prowess" },
 			new String[] { null, null, null } ),
 
 		// Up in the Hippo Room
 		new ChoiceAdventure(
-			"Wormwood",
-			"choiceAdventure172",
-			"Rogue Windmill",
+			"Wormwood", "choiceAdventure172", "Rogue Windmill",
 			new String[] { "Good with the Ladies -> Can-Can skirt", "Feelin' Philosophical -> not-a-pipe", "mysticality substats" },
 			new String[] { "2663", "2660", null } ),
 
@@ -844,49 +834,57 @@ public class AdventureDatabase
 
 		// The Blackberry Cobbler
 		new ChoiceAdventure(
-			"Woods",
-			"choiceAdventure177",
-			"Black Forest",
+			"Woods", "choiceAdventure177", "Black Forest",
 			new String[] { "blackberry slippers", "blackberry moccasins", "blackberry combat boots", "skip adventure" },
 			new String[] { "2705", "2706", "2707", null } ),
 
 		// Hammering the Armory
 		new ChoiceAdventure(
 			"Beanstalk", "choiceAdventure178", "Airship Shirt",
-			new String[] { "bronze breastplate", "skip adventure" }, new String[] { "2126", null } ),
+			new String[] { "bronze breastplate", "skip adventure" },
+			new String[] { "2126", null } ),
 
 		// A Pre-War Dresser Drawer, Pa!
 		new ChoiceAdventure(
 			"Plains", "choiceAdventure180", "Palindome Shirt",
-			new String[] { "Ye Olde Navy Fleece", "skip adventure" }, new String[] { "2125", null } ),
+			new String[] { "Ye Olde Navy Fleece", "skip adventure" },
+			new String[] { "2125", null } ),
 
 		// Chieftain of the Flies
 		new ChoiceAdventure(
 			"Island", "choiceAdventure181", "Post-War Frat House",
-			new String[] { "around the world", "skip adventure" }, new String[] { "1634", "1633" } ),
+			new String[] { "around the world", "skip adventure" },
+			new String[] { "1634", "1633" } ),
 
 		// Random Lack of an Encounter
 		new ChoiceAdventure(
 			"Beanstalk", "choiceAdventure182", "Fantasy Airship",
-			new String[] { "enter combat", "Penultimate Fantasy chest", "stats" }, new String[] { null, "604", null } ),
+			new String[] { "enter combat", "Penultimate Fantasy chest", "stats" },
+			new String[] { null, "604", null } ),
 
 		// That Explains All The Eyepatches
 		// Dynamically calculate options based on mainstat
-		new ChoiceAdventure( "Island", "choiceAdventure184", "Barrrney's Barrr", null ),
+		new ChoiceAdventure(
+			"Island", "choiceAdventure184", "Barrrney's Barrr",
+			null ),
 
 		// Yes, You're a Rock Starrr
 		new ChoiceAdventure(
-			"Island", "choiceAdventure185", "Barrrney's Barrr", new String[] { "base booze", "mixed drinks", "stats" },
+			"Island", "choiceAdventure185", "Barrrney's Barrr",
+			new String[] { "base booze", "mixed drinks", "stats" },
 			new String[] { null, null, null } ),
 
 		// A Test of Testarrrsterone
 		new ChoiceAdventure(
 			"Island", "choiceAdventure186", "Barrrney's Barrr",
-			new String[] { "stats", "drunkenness and stats", "moxie" }, new String[] { null, null, null } ),
+			new String[] { "stats", "drunkenness and stats", "moxie" },
+			new String[] { null, null, null } ),
 
 		// Choice 187 is Arrr You Man Enough?
 		// Choice 188 is The Infiltrationist
 		// Choice 189 is O Cap'm, My Cap'm
+
+		// Choice 190 is unknown
 
 		// Chatterboxing
 		new ChoiceAdventure(
@@ -907,7 +905,8 @@ public class AdventureDatabase
 	{
 		// Denim Axes Examined
 		new ChoiceAdventure(
-			"choiceAdventure2", "Palindome", new String[] { "denim axe", "skip adventure" },
+			"choiceAdventure2", "Palindome",
+			new String[] { "denim axe", "skip adventure" },
 			new String[] { "499", "292" } ),
 
 		// The Oracle Will See You Now
@@ -917,11 +916,13 @@ public class AdventureDatabase
 
 		// Darker Than Dark
 		new ChoiceAdventure(
-			"choiceAdventure6", "Gravy Barrow", new String[] { "fight the fairy queen", "skip adventure" } ),
+			"choiceAdventure6", "Gravy Barrow",
+			new String[] { "fight the fairy queen", "skip adventure" } ),
 
 		// How Depressing -> Self Explanatory
 		new ChoiceAdventure(
-			"choiceAdventure7", "Gravy Barrow", new String[] { "fight the fairy queen", "skip adventure" } ),
+			"choiceAdventure7", "Gravy Barrow",
+			new String[] { "fight the fairy queen", "skip adventure" } ),
 
 		// On the Verge of a Dirge -> Self Explanatory
 		new ChoiceAdventure(
@@ -1019,52 +1020,71 @@ public class AdventureDatabase
 			new String[] { "mysticality substats", "moxie substats", "Fettucini / Scarysauce" } ),
 
 		new ChoiceAdventure(
-			"choiceAdventure89", "Haunted Gallery", new String[] { "Wolf Knight", "Snake Knight", "Dreams and Lights" } ),
+			"choiceAdventure89", "Haunted Gallery",
+			new String[] { "Wolf Knight", "Snake Knight", "Dreams and Lights" } ),
 
 		// Louvre It or Leave It
 		new ChoiceAdventure(
-			"choiceAdventure91", "Haunted Gallery", new String[] { "Enter the Drawing", "skip adventure" } ),
+			"choiceAdventure91", "Haunted Gallery",
+			new String[] { "Enter the Drawing", "skip adventure" } ),
 
 		// At Least It's Not Full Of Trash
 		new ChoiceAdventure(
-			"choiceAdventure123", "Hidden Temple", new String[] { "lose HP", "Unlock Quest Puzzle", "lose HP" } ),
+			"choiceAdventure123", "Hidden Temple",
+			new String[] { "lose HP", "Unlock Quest Puzzle", "lose HP" } ),
 
 		// No Visible Means of Support
 		new ChoiceAdventure(
-			"choiceAdventure125", "Hidden Temple", new String[] { "lose HP", "lose HP", "Unlock Hidden City" } ),
+			"choiceAdventure125", "Hidden Temple",
+			new String[] { "lose HP", "lose HP", "Unlock Hidden City" } ),
+
+		// No sir, away!  A papaya war is on!
+		new ChoiceAdventure(
+			"choiceAdventure127", "Palindome",
+			new String[] { "3 papayas", "trade 3 papayas for stats", "stats" },
+			new String[] { "498", null, null } ),
 
 		// Do Geese See God?
 		new ChoiceAdventure(
-			"choiceAdventure129", "Palindome", new String[] { "photograph of God", "skip adventure" },
+			"choiceAdventure129", "Palindome",
+			new String[] { "photograph of God", "skip adventure" },
 			new String[] { "2259", null } ),
 
 		// Rod Nevada, Vendor
 		new ChoiceAdventure(
-			"choiceAdventure130", "Palindome", new String[] { "hard rock candy", "skip adventure" },
+			"choiceAdventure130", "Palindome",
+			new String[] { "hard rock candy", "skip adventure" },
 			new String[] { "2260", null } ),
 
 		// Lurking at the Threshold
 		new ChoiceAdventure(
-			"choiceAdventure152", "Fun House", new String[] { "fight the clownlord", "skip adventure" } ),
+			"choiceAdventure152", "Fun House",
+			new String[] { "fight the clownlord", "skip adventure" } ),
 
 		// Doublewide
 		new ChoiceAdventure(
-			"choiceAdventure154", "Defiled Alcove", new String[] { "fight conjoined zmombie", "skip adventure" } ),
+			"choiceAdventure154", "Defiled Alcove",
+			new String[] { "fight conjoined zmombie", "skip adventure" } ),
 
 		// Pileup
 		new ChoiceAdventure(
-			"choiceAdventure156", "Defiled Nook", new String[] { "fight giant skeelton", "skip adventure" } ),
+			"choiceAdventure156", "Defiled Nook",
+			new String[] { "fight giant skeelton", "skip adventure" } ),
 
 		// Lich in the Niche
 		new ChoiceAdventure(
-			"choiceAdventure158", "Defiled Niche", new String[] { "fight gargantulihc", "skip adventure" } ),
+			"choiceAdventure158", "Defiled Niche",
+			new String[] { "fight gargantulihc", "skip adventure" } ),
 
 		// Lunchtime
 		new ChoiceAdventure(
-			"choiceAdventure160", "Defiled Cranny", new String[] { "fight huge ghuol", "skip adventure" } ),
+			"choiceAdventure160", "Defiled Cranny",
+			new String[] { "fight huge ghuol", "skip adventure" } ),
 
 		// Between a Rock and Some Other Rocks
-		new ChoiceAdventure( "choiceAdventure162", "Goatlet", new String[] { "Open Goatlet", "skip adventure" } ),
+		new ChoiceAdventure(
+			"choiceAdventure162", "Goatlet",
+			new String[] { "Open Goatlet", "skip adventure" } ),
 
 	};
 

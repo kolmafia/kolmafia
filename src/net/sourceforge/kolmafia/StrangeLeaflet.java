@@ -838,17 +838,20 @@ public abstract class StrangeLeaflet
 		StrangeLeaflet.fireplace = true;
 	}
 
-	private static final KoLRequest LEAFLET_REQUEST = new KoLRequest( "leaflet.php?pwd" );
+	private static final KoLRequest LEAFLET_REQUEST = new KoLRequest( "leaflet.php" );
 
 	private static final String executeCommand( final String command )
 	{
-		StrangeLeaflet.LEAFLET_REQUEST.addFormField( "command", command );
-		RequestThread.postRequest( StrangeLeaflet.LEAFLET_REQUEST );
+		KoLRequest request = StrangeLeaflet.LEAFLET_REQUEST;
+		request.clearDataFields();
+		request.addFormField( "pwd" );
+		request.addFormField( "command", command );
+		RequestThread.postRequest( request );
 
 		// Figure out where we are
-		StrangeLeaflet.parseLocation( StrangeLeaflet.LEAFLET_REQUEST.responseText );
+		StrangeLeaflet.parseLocation( request.responseText );
 
 		// Let the caller look at the results, if desired
-		return StrangeLeaflet.LEAFLET_REQUEST.responseText;
+		return request.responseText;
 	}
 }
