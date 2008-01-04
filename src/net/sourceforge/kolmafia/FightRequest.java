@@ -768,8 +768,8 @@ public class FightRequest
 
 		if ( scroll == FightRequest.SCROLL_64735 )
 		{
-			part1 = FightRequest.SCROLL_668;
 			part2 = FightRequest.SCROLL_64067;
+			part1 = FightRequest.SCROLL_668;
 		}
 		else if ( scroll == FightRequest.SCROLL_64067 )
 		{
@@ -788,8 +788,8 @@ public class FightRequest
 		}
 		else if ( scroll == FightRequest.SCROLL_31337 )
 		{
-			part1 = FightRequest.SCROLL_668;
-			part2 = FightRequest.SCROLL_30669;
+			part1 = FightRequest.SCROLL_30669;
+			part2 = FightRequest.SCROLL_668;
 		}
 		else
 		{
