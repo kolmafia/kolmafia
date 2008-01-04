@@ -3119,3 +3119,11 @@
 3113	534973995	Miniborg hiveminder	Miniborg hiveminders
 3114	184372943	Miniborg Destroy-O-Bot	Miniborg Destroy-O-Bots
 3115	194916307	old-fashioned Crimbo Pressie
+3116
+3117	899226971	Libram of Divine Favors	Librams of Divine Favors
+3118	322869689	divine noisemaker
+3119	722409266	can of divine silly string
+3120	701715103	divine blowout
+3121	934978937	divine champagne popper
+3122	658639606	divine cracker divine crackers
+3123	192429115	divine champagne flute
