@@ -339,7 +339,7 @@ public class AdventureResult
 		String effect = name.substring( index + 10 );
 
 		// Make sure we have potion properties
-		ConsumeItemRequest.ensureUpdatedPotionEffects();
+		KoLCharacter.ensureUpdatedPotionEffects();
 
 		// Look up the effect name
 		for ( int i = 819; i <= 827; ++i )
@@ -365,7 +365,7 @@ public class AdventureResult
 		String effect = name.substring( index + 10 );
 
 		// Make sure we have sphere properties
-		FightRequest.ensureUpdatedSphereEffects();
+		KoLCharacter.ensureUpdatedSphereEffects();
 
 		// Look up the effect name
 		for ( int i = 2174; i <= 2177; ++i )

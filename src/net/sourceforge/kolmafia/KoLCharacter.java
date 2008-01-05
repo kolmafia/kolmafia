@@ -3220,4 +3220,43 @@ public abstract class KoLCharacter
 		boolean changed = KoLCharacter.currentModifiers.set( newModifiers );
 		return changed;
 	}
+
+        // Per-character settings that change each ascension
+
+	public static final void ensureUpdatedGuyMadeOfBees()
+	{
+		int lastAscension = KoLSettings.getIntegerProperty( "lastGuyMadeOfBeesReset" );
+		if ( lastAscension < KoLCharacter.getAscensions() )
+		{
+			KoLSettings.setUserProperty( "lastGuyMadeOfBeesReset", String.valueOf( KoLCharacter.getAscensions() ) );
+                        KoLSettings.setUserProperty( "guyMadeOfBeesCount", "0" );
+                        KoLSettings.setUserProperty( "guyMadeOfBeesDefeated", "false" );
+                }
+	}
+
+	public static final void ensureUpdatedPotionEffects()
+	{
+		int lastAscension = KoLSettings.getIntegerProperty( "lastBangPotionReset" );
+		if ( lastAscension < KoLCharacter.getAscensions() )
+		{
+			KoLSettings.setUserProperty( "lastBangPotionReset", String.valueOf( KoLCharacter.getAscensions() ) );
+			for ( int i = 819; i <= 827; ++i )
+			{
+				KoLSettings.setUserProperty( "lastBangPotion" + i, "" );
+			}
+		}
+	}
+
+	public static final void ensureUpdatedSphereEffects()
+	{
+		int lastAscension = KoLSettings.getIntegerProperty( "lastStoneSphereReset" );
+		if ( lastAscension < KoLCharacter.getAscensions() )
+		{
+			KoLSettings.setUserProperty( "lastStoneSphereReset", String.valueOf( KoLCharacter.getAscensions() ) );
+			for ( int i = 2174; i <= 2177; ++i )
+			{
+				KoLSettings.setUserProperty( "lastStoneSphere" + i, "" );
+			}
+		}
+	}
 }

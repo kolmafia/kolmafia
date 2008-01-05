@@ -4504,7 +4504,7 @@ public class KoLmafiaCLI
 			else
 			{
 				String testName, testProperty;
-				ConsumeItemRequest.ensureUpdatedPotionEffects();
+				KoLCharacter.ensureUpdatedPotionEffects();
 
 				for ( int i = 819; i <= 827 && itemId == -1; ++i )
 				{
