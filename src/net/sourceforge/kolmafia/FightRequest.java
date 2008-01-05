@@ -1155,7 +1155,7 @@ public class FightRequest
 				effectData = "teleportitis";
 			}
 
-			ConsumeItemRequest.ensureUpdatedPotionEffects();
+			KoLCharacter.ensureUpdatedPotionEffects();
 
 			if ( effectData != null )
 			{
@@ -1202,24 +1202,11 @@ public class FightRequest
 				effectData = "plants";
 			}
 
-			FightRequest.ensureUpdatedSphereEffects();
+			KoLCharacter.ensureUpdatedSphereEffects();
 
 			if ( effectData != null )
 			{
 				KoLSettings.setUserProperty( "lastStoneSphere" + sphereId, effectData );
-			}
-		}
-	}
-
-	public static final void ensureUpdatedSphereEffects()
-	{
-		int lastAscension = KoLSettings.getIntegerProperty( "lastStoneSphereReset" );
-		if ( lastAscension < KoLCharacter.getAscensions() )
-		{
-			KoLSettings.setUserProperty( "lastStoneSphereReset", String.valueOf( KoLCharacter.getAscensions() ) );
-			for ( int i = 2174; i <= 2177; ++i )
-			{
-				KoLSettings.setUserProperty( "lastStoneSphere" + i, "" );
 			}
 		}
 	}
@@ -1231,7 +1218,7 @@ public class FightRequest
 
 	public static final String stoneSphereName( final int itemId, final String name )
 	{
-		FightRequest.ensureUpdatedSphereEffects();
+		KoLCharacter.ensureUpdatedSphereEffects();
 		String effect = KoLSettings.getUserProperty( "lastStoneSphere" + itemId );
 		if ( effect.equals( "" ) )
 		{

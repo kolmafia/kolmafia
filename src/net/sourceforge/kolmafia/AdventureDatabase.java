@@ -1613,6 +1613,7 @@ public class AdventureDatabase
 			// Having a Medicine Ball
 			if ( decision == 2 )
 			{
+				KoLCharacter.ensureUpdatedGuyMadeOfBees();
 				boolean defeated = KoLSettings.getBooleanProperty( "guyMadeOfBeesDefeated" );
 				if ( defeated )
 				{

@@ -212,6 +212,7 @@ user	lastDustyBottleReset	-1
 user	lastEmptiedStorage	-1
 user	lastFilthClearance	-1
 user	lastGalleryUnlock	-1
+user	lastGuyMadeOfBeesReset	-1
 user	lastKingLiberation	-1
 user	lastLouvreMap	0
 user	lastMessageId

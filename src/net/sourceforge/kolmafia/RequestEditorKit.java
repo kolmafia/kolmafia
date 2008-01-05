@@ -2233,7 +2233,7 @@ public class RequestEditorKit
 
 	private static final void changePotionImages( final StringBuffer buffer )
 	{
-		ConsumeItemRequest.ensureUpdatedPotionEffects();
+		KoLCharacter.ensureUpdatedPotionEffects();
 
 		if ( buffer.indexOf( "exclam.gif" ) == -1 )
 		{
@@ -2274,7 +2274,7 @@ public class RequestEditorKit
 
 	private static final void changePotionNames( final StringBuffer buffer )
 	{
-		ConsumeItemRequest.ensureUpdatedPotionEffects();
+		KoLCharacter.ensureUpdatedPotionEffects();
 
 		for ( int i = 819; i <= 827; ++i )
 		{
@@ -2348,7 +2348,7 @@ public class RequestEditorKit
 
 	private static final void changeSphereImages( final StringBuffer buffer )
 	{
-		FightRequest.ensureUpdatedSphereEffects();
+		KoLCharacter.ensureUpdatedSphereEffects();
 
 		RequestEditorKit.changeSphereImage( buffer, "spheremoss.gif", 2174 );
 		RequestEditorKit.changeSphereImage( buffer, "spheresmooth.gif", 2175 );

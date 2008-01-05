@@ -850,6 +850,7 @@ public class KoLRequest
 		// Do choice-specific actions.
 		if ( KoLRequest.lastChoice == 105 && KoLRequest.lastDecision == 3 )
 		{
+			KoLCharacter.ensureUpdatedGuyMadeOfBees();
 			if ( text.indexOf( "that ship is sailed" ) != -1 || text.indexOf( "guy made of bee pollen" ) != -1 )
 			{
 				// If you have already defeated the guy

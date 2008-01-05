@@ -1650,7 +1650,7 @@ public class ConsumeItemRequest
 				effectData = "teleportitis";
 			}
 
-			ConsumeItemRequest.ensureUpdatedPotionEffects();
+			KoLCharacter.ensureUpdatedPotionEffects();
 
 			if ( effectData != null )
 			{
@@ -1792,19 +1792,6 @@ public class ConsumeItemRequest
 		}
 	}
 
-	public static final void ensureUpdatedPotionEffects()
-	{
-		int lastAscension = KoLSettings.getIntegerProperty( "lastBangPotionReset" );
-		if ( lastAscension < KoLCharacter.getAscensions() )
-		{
-			KoLSettings.setUserProperty( "lastBangPotionReset", String.valueOf( KoLCharacter.getAscensions() ) );
-			for ( int i = 819; i <= 827; ++i )
-			{
-				KoLSettings.setUserProperty( "lastBangPotion" + i, "" );
-			}
-		}
-	}
-
 	public static final String bangPotionName( final int itemId )
 	{
 		return ConsumeItemRequest.bangPotionName( itemId, TradeableItemDatabase.getItemName( itemId ) );
@@ -1812,7 +1799,7 @@ public class ConsumeItemRequest
 
 	public static final String bangPotionName( final int itemId, final String name )
 	{
-		ConsumeItemRequest.ensureUpdatedPotionEffects();
+		KoLCharacter.ensureUpdatedPotionEffects();
 		String effect = KoLSettings.getUserProperty( "lastBangPotion" + itemId );
 		if ( effect.equals( "" ) )
 		{
