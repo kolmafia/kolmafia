@@ -378,6 +378,10 @@ public abstract class KoLCharacter
 		KoLConstants.collection.clear();
 
 		KoLConstants.usableSkills.clear();
+		KoLConstants.summoningSkills.clear();
+		KoLConstants.remedySkills.clear();
+		KoLConstants.selfOnlySkills.clear();
+		KoLConstants.buffSkills.clear();
 		KoLConstants.availableSkills.clear();
 		KoLCharacter.battleSkillNames.clear();
 
@@ -2336,6 +2340,10 @@ public abstract class KoLCharacter
 
 		KoLCharacter.addDerivedSkills();
 		KoLConstants.usableSkills.sort();
+		KoLConstants.summoningSkills.sort();
+		KoLConstants.remedySkills.sort();
+		KoLConstants.selfOnlySkills.sort();
+		KoLConstants.buffSkills.sort();
 
 		KoLCharacter.battleSkillNames.setSelectedItem( KoLSettings.getUserProperty( "battleAction" ) );
 	}
@@ -2367,21 +2375,54 @@ public abstract class KoLCharacter
 
 			if ( skill.getSkillName().equals( "Flavour of Magic" ) )
 			{
-				KoLConstants.usableSkills.add( UseSkillRequest.getInstance( "Spirit of Cayenne" ) );
-				KoLConstants.usableSkills.add( UseSkillRequest.getInstance( "Spirit of Peppermint" ) );
-				KoLConstants.usableSkills.add( UseSkillRequest.getInstance( "Spirit of Garlic" ) );
-				KoLConstants.usableSkills.add( UseSkillRequest.getInstance( "Spirit of Wormwood" ) );
-				KoLConstants.usableSkills.add( UseSkillRequest.getInstance( "Spirit of Bacon Grease" ) );
+				UseSkillRequest use = UseSkillRequest.getInstance( "Spirit of Cayenne" );
+				KoLConstants.usableSkills.add( use );
+				KoLConstants.selfOnlySkills.add( use );
+				use = UseSkillRequest.getInstance( "Spirit of Peppermint" );
+				KoLConstants.usableSkills.add( use );
+				KoLConstants.selfOnlySkills.add( use );
+				use = UseSkillRequest.getInstance( "Spirit of Garlic" );
+				KoLConstants.usableSkills.add( use );
+				KoLConstants.selfOnlySkills.add( use );
+				use = UseSkillRequest.getInstance( "Spirit of Wormwood" );
+				KoLConstants.usableSkills.add( use );
+				KoLConstants.selfOnlySkills.add( use );
+				use = UseSkillRequest.getInstance( "Spirit of Bacon Grease" );
+				KoLConstants.usableSkills.add( use );
+				KoLConstants.selfOnlySkills.add( use );
 				KoLConstants.usableSkills.sort();
+				KoLConstants.selfOnlySkills.sort();
 			}
 
 			break;
 
+		case ClassSkillsDatabase.SUMMON:
+			KoLConstants.usableSkills.add( skill );
+			KoLConstants.usableSkills.sort();
+			KoLConstants.summoningSkills.add( skill );
+			KoLConstants.summoningSkills.sort();
+			break;
+
+		case ClassSkillsDatabase.REMEDY:
+			KoLConstants.usableSkills.add( skill );
+			KoLConstants.usableSkills.sort();
+			KoLConstants.remedySkills.add( skill );
+			KoLConstants.remedySkills.sort();
+			break;
+
 		case ClassSkillsDatabase.SELF_ONLY:
+			KoLConstants.usableSkills.add( skill );
+			KoLConstants.usableSkills.sort();
+			KoLConstants.selfOnlySkills.add( skill );
+			KoLConstants.selfOnlySkills.sort();
+			break;
+
 		case ClassSkillsDatabase.BUFF:
 
 			KoLConstants.usableSkills.add( skill );
 			KoLConstants.usableSkills.sort();
+			KoLConstants.buffSkills.add( skill );
+			KoLConstants.buffSkills.sort();
 			break;
 
 		case ClassSkillsDatabase.COMBAT:

@@ -412,6 +412,10 @@ public interface KoLConstants
 	public static final SortedListModel collection = new SortedListModel();
 
 	public static final LockableListModel usableSkills = new LockableListModel();
+	public static final LockableListModel summoningSkills = new LockableListModel();
+	public static final LockableListModel remedySkills = new LockableListModel();
+	public static final LockableListModel selfOnlySkills = new LockableListModel();
+	public static final LockableListModel buffSkills = new LockableListModel();
 	public static final LockableListModel availableSkills = new LockableListModel();
 	public static final LockableListModel combatSkills = new LockableListModel();
 

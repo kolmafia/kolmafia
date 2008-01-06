@@ -55,17 +55,30 @@ public class ClassSkillsDatabase
 
 	public static final int CASTABLE = -1;
 	public static final int PASSIVE = 0;
-	public static final int SELF_ONLY = 1;
-	public static final int BUFF = 2;
-	public static final int COMBAT = 3;
+	public static final int SUMMON = 1;
+	public static final int REMEDY = 2;
+	public static final int SELF_ONLY = 3;
+	public static final int BUFF = 4;
+	public static final int COMBAT = 5;
 
 	private static final String UNCATEGORIZED = "uncategorized";
 	private static final String GNOME_SKILLS = "gnome trainer";
 	private static final String BAD_MOON = "bad moon";
 	private static final String MR_SKILLS = "mr. skills";
 
-	private static final String[] CATEGORIES =
-		new String[] { ClassSkillsDatabase.UNCATEGORIZED, "seal clubber", "turtle tamer", "pastamancer", "sauceror", "disco bandit", "accordion thief", ClassSkillsDatabase.GNOME_SKILLS, ClassSkillsDatabase.MR_SKILLS, ClassSkillsDatabase.BAD_MOON };
+	private static final String[] CATEGORIES = new String[]
+	{	
+		ClassSkillsDatabase.UNCATEGORIZED,
+		"seal clubber",
+		"turtle tamer",
+		"pastamancer",
+		"sauceror",
+		"disco bandit",
+		"accordion thief",
+		ClassSkillsDatabase.GNOME_SKILLS,
+		ClassSkillsDatabase.MR_SKILLS,
+		ClassSkillsDatabase.BAD_MOON
+	};
 
 	static
 	{
@@ -362,7 +375,11 @@ public class ClassSkillsDatabase
 
 	public static final boolean isNormal( final int skillId )
 	{
-		return ClassSkillsDatabase.isType( skillId, ClassSkillsDatabase.SELF_ONLY );
+		Object skillType = ClassSkillsDatabase.skillTypeById.get( new Integer( skillId ) );
+		if ( skillType == null )
+			return false;
+		int type = ( (Integer) skillType ).intValue();
+		return type == SUMMON || type == REMEDY || type == SELF_ONLY;
 	}
 
 	/**
@@ -416,28 +433,31 @@ public class ClassSkillsDatabase
 	{
 		ArrayList list = new ArrayList();
 
-		int skillId;
 		boolean shouldAdd = false;
 		Object[] keys = ClassSkillsDatabase.skillTypeById.keySet().toArray();
 
 		for ( int i = 0; i < keys.length; ++i )
 		{
 			shouldAdd = false;
-			skillId = ( (Integer) keys[ i ] ).intValue();
+
+			Object id = keys[ i ];
+			Object value = ClassSkillsDatabase.skillTypeById.get( id );
+			if ( value == null )
+				continue;
+			int skillType = ( (Integer) value ).intValue();
+			int skillId = ( (Integer) id ).intValue();
 
 			if ( type == ClassSkillsDatabase.CASTABLE )
 			{
-				shouldAdd =
-					ClassSkillsDatabase.isType( skillId, ClassSkillsDatabase.SELF_ONLY ) || ClassSkillsDatabase.isType(
-						skillId, ClassSkillsDatabase.BUFF );
+				shouldAdd = skillType == SUMMON || skillType == REMEDY || skillType == SELF_ONLY || skillType == BUFF;
 			}
 			else if ( skillId == 3009 )
 			{
-				shouldAdd = type == ClassSkillsDatabase.SELF_ONLY || type == ClassSkillsDatabase.COMBAT;
+				shouldAdd = type == REMEDY || type == COMBAT;
 			}
 			else
 			{
-				shouldAdd = ClassSkillsDatabase.isType( skillId, type );
+				shouldAdd = skillType == type;
 			}
 
 			if ( shouldAdd )

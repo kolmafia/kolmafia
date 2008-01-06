@@ -717,6 +717,7 @@ public abstract class KoLmafia
 		KoLSettings.setUserProperty( "cocktailSummons", "0" );
 
 		// Summon Candy Heart now costs 1 MP again
+		KoLConstants.summoningSkills.sort();
 		KoLConstants.usableSkills.sort();
 	}
 

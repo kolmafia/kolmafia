@@ -35,7 +35,10 @@ package net.sourceforge.kolmafia;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JComboBox;
 import javax.swing.WindowConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -47,6 +50,7 @@ public class SkillBuffFrame
 {
 	private LockableListModel contacts;
 
+	private SkillTypeComboBox typeSelect;
 	private MutableComboBox skillSelect;
 	private AutoHighlightField amountField;
 	private MutableComboBox targetSelect;
@@ -108,16 +112,18 @@ public class SkillBuffFrame
 		{
 			super( "cast", "maxcast", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
+			SkillBuffFrame.this.typeSelect = new SkillTypeComboBox();
 			SkillBuffFrame.this.skillSelect = new MutableComboBox( KoLConstants.usableSkills, false );
 			SkillBuffFrame.this.amountField = new AutoHighlightField();
 
 			SkillBuffFrame.this.contacts = (LockableListModel) KoLConstants.contactList.clone();
 			SkillBuffFrame.this.targetSelect = new MutableComboBox( SkillBuffFrame.this.contacts, true );
 
-			VerifiableElement[] elements = new VerifiableElement[ 3 ];
-			elements[ 0 ] = new VerifiableElement( "Skill Name: ", SkillBuffFrame.this.skillSelect );
-			elements[ 1 ] = new VerifiableElement( "# of Casts: ", SkillBuffFrame.this.amountField );
-			elements[ 2 ] = new VerifiableElement( "The Victim: ", SkillBuffFrame.this.targetSelect );
+			VerifiableElement[] elements = new VerifiableElement[ 4 ];
+			elements[ 0 ] = new VerifiableElement( "Skill Type: ", SkillBuffFrame.this.typeSelect );
+			elements[ 1 ] = new VerifiableElement( "Skill Name: ", SkillBuffFrame.this.skillSelect );
+			elements[ 2 ] = new VerifiableElement( "# of Casts: ", SkillBuffFrame.this.amountField );
+			elements[ 3 ] = new VerifiableElement( "The Victim: ", SkillBuffFrame.this.targetSelect );
 
 			this.setContent( elements );
 		}
@@ -188,6 +194,53 @@ public class SkillBuffFrame
 
 			SpecialOutfit.restoreImplicitCheckpoint();
 			RequestThread.closeRequestSequence();
+		}
+	}
+
+	private class SkillTypeComboBox
+		extends JComboBox
+	{
+		public SkillTypeComboBox()
+		{
+			super();
+			addItem( "All Castable Skills" );
+			addItem( "Summoning Skills" );
+			addItem( "Remedies" );
+			addItem( "Self-Only" );
+			addItem( "Buffs" );
+			addActionListener( new SkillTypeListener() );
+		}
+
+		private class SkillTypeListener
+			implements ActionListener
+		{
+			public void actionPerformed( final ActionEvent e )
+			{
+				int index = SkillTypeComboBox.this.getSelectedIndex();
+				switch ( index )
+				{
+				case 0:
+					// All skills
+					SkillBuffFrame.this.skillSelect.setModel( KoLConstants.usableSkills );
+					break;
+				case 1:
+					// Summoning skills
+					SkillBuffFrame.this.skillSelect.setModel( KoLConstants.summoningSkills );
+					break;
+				case 2:
+					// Remedy skills
+					SkillBuffFrame.this.skillSelect.setModel( KoLConstants.remedySkills );
+					break;
+				case 3:
+					// Self-only skills
+					SkillBuffFrame.this.skillSelect.setModel( KoLConstants.selfOnlySkills );
+					break;
+				case 4:
+					// Buff skills
+					SkillBuffFrame.this.skillSelect.setModel( KoLConstants.buffSkills );
+					break;
+				}
+			}
 		}
 	}
 }

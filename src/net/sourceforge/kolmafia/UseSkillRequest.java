@@ -865,6 +865,7 @@ public class UseSkillRequest
 					"candyHeartSummons", String.valueOf( KoLSettings.getIntegerProperty( "candyHeartSummons" ) + 1 ) );
 			}
 
+			KoLConstants.summoningSkills.sort();
 			KoLConstants.usableSkills.sort();
 			break;
 
