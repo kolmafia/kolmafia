@@ -157,7 +157,7 @@ public class UseSkillRequest
 			break;
 
 		case -1002:	// Summon Hilarious Objects
-			this.addFormField( "preaction", "summonhilariousobjects" );
+			this.addFormField( "preaction", "summonhilariousitems" );
 			break;
 
 		case -1003:	// Summon Candy Hearts
