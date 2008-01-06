@@ -138,10 +138,10 @@ public class UseSkillRequest
 	{
 		switch ( ClassSkillsDatabase.getSkillId( skillName ) )
 		{
-		case -1001:	// Summon Snowcone
-		case -1002:	// Summon Hilarious Objects
-		case -1003:	// Summon Candy Hearts
-		case -1004:	// Summon Party Favors
+		case ClassSkillsDatabase.SNOWCONE:
+		case ClassSkillsDatabase.HILARIOUS:
+		case ClassSkillsDatabase.CANDY_HEART:
+		case ClassSkillsDatabase.PARTY_FAVOR:
 			return "campground.php";
 		}
 
@@ -152,19 +152,19 @@ public class UseSkillRequest
 	{
 		switch ( this.skillId )
 		{
-		case -1001:	// Summon Snowcone
+		case ClassSkillsDatabase.SNOWCONE:
 			this.addFormField( "preaction", "summonsnowcone" );
 			break;
 
-		case -1002:	// Summon Hilarious Objects
+		case ClassSkillsDatabase.HILARIOUS:
 			this.addFormField( "preaction", "summonhilariousitems" );
 			break;
 
-		case -1003:	// Summon Candy Hearts
+		case ClassSkillsDatabase.CANDY_HEART:
 			this.addFormField( "preaction", "summoncandyheart" );
 			break;
 
-		case -1004:	// Summon Party Favors
+		case ClassSkillsDatabase.PARTY_FAVOR:
 			this.addFormField( "preaction", "summonpartyfavor" );
 			break;
 
@@ -214,7 +214,7 @@ public class UseSkillRequest
 		// Libram skills need to be calculated in a slightly different
 		// manner.
 
-		if ( this.skillId == -1003 || this.skillId == -1004 )
+		if ( this.skillId == ClassSkillsDatabase.CANDY_HEART || this.skillId == ClassSkillsDatabase.PARTY_FAVOR )
 		{
 			int mpRemaining = KoLCharacter.getCurrentMP();
 			int count = KoLSettings.getIntegerProperty( "candyHeartSummons" );
@@ -274,12 +274,12 @@ public class UseSkillRequest
 		// Snowcones and grimoire items can only be summoned
 		// once per day.
 
-		case -1001:
+		case ClassSkillsDatabase.SNOWCONE:
 
 			maximumCast = Math.max( 1 - KoLSettings.getIntegerProperty( "snowconeSummons" ), 0 );
 			break;
 
-		case -1002:
+		case ClassSkillsDatabase.HILARIOUS:
 
 			maximumCast = Math.max( 1 - KoLSettings.getIntegerProperty( "grimoireSummons" ), 0 );
 			break;
@@ -333,7 +333,7 @@ public class UseSkillRequest
 
 	public String toString()
 	{
-		if ( this.lastReduction == KoLCharacter.getManaCostAdjustment() && this.skillId != 18 )
+		if ( this.lastReduction == KoLCharacter.getManaCostAdjustment() && this.skillId != ClassSkillsDatabase.CANDY_HEART && this.skillId != ClassSkillsDatabase.PARTY_FAVOR )
 		{
 			return this.lastStringForm;
 		}
@@ -420,7 +420,7 @@ public class UseSkillRequest
 		// Never bother trying to reduce mana consumption when casting
 		// ode to booze or summon candy hearts or summon party favors
 
-		if ( skillId == -1003 || skillId == -1004 || skillId == 6014 )
+		if ( skillId == ClassSkillsDatabase.CANDY_HEART || skillId == ClassSkillsDatabase.PARTY_FAVOR || skillId == 6014 )
 		{
 			return;
 		}
@@ -517,7 +517,7 @@ public class UseSkillRequest
 
 		while ( !KoLmafia.refusesContinue() && castsRemaining > 0 )
 		{
-			if ( this.skillId == 18 )
+			if ( this.skillId == ClassSkillsDatabase.CANDY_HEART || this.skillId == ClassSkillsDatabase.PARTY_FAVOR )
 			{
 				mpPerCast = ClassSkillsDatabase.getMPConsumptionById( this.skillId );
 			}
@@ -533,7 +533,7 @@ public class UseSkillRequest
 
 			currentCast = Math.min( castsRemaining, KoLCharacter.getCurrentMP() / mpPerCast );
 
-			if ( this.skillId == 18 )
+			if ( this.skillId == ClassSkillsDatabase.CANDY_HEART || this.skillId == ClassSkillsDatabase.PARTY_FAVOR )
 			{
 				currentCast = Math.min( currentCast, 1 );
 			}
@@ -905,17 +905,17 @@ public class UseSkillRequest
 
 		switch ( skillId )
 		{
-		case -1001:
+		case ClassSkillsDatabase.SNOWCONE:
 			KoLSettings.incrementIntegerProperty( "snowconeSummons", 1 );
 			break;
 
-		case -1002:
+		case ClassSkillsDatabase.HILARIOUS:
 			KoLSettings.incrementIntegerProperty( "grimoireSummons", 1 );
 			break;
 
-		case -1003:
-		case -1004:
-			if ( ClassSkillsDatabase.getMPConsumptionById( -1003 ) <= KoLCharacter.getCurrentMP() )
+		case ClassSkillsDatabase.CANDY_HEART:
+		case ClassSkillsDatabase.PARTY_FAVOR:
+			if ( ClassSkillsDatabase.getMPConsumptionById( ClassSkillsDatabase.CANDY_HEART ) <= KoLCharacter.getCurrentMP() )
 			{
 				KoLSettings.incrementIntegerProperty( "candyHeartSummons", 1 );
 			}
