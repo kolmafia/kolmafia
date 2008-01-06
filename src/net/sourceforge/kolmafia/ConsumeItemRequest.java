@@ -1441,7 +1441,7 @@ public class ConsumeItemRequest
 				return;
 			}
 
-			KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "Summon Party Favors" ) );
+			KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "Summon Party Favor" ) );
 			KoLConstants.summoningSkills.sort();
 			KoLConstants.usableSkills.sort();
 			return;
