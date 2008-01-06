@@ -66,15 +66,39 @@ public abstract class SorceressLair
 	private static final AdventureResult ACOUSTIC_GUITAR = new AdventureResult( 404, 1 );
 	private static final AdventureResult HEAVY_METAL_GUITAR = new AdventureResult( 507, 1 );
 	private static final AdventureResult UKELELE = new AdventureResult( 2209, 1 );
+	private static final AdventureResult ZIM_MERMANS_GUITAR = new AdventureResult( 2364, 1 );
 	private static final AdventureResult SITAR = new AdventureResult( 2693, 1 );
+	private static final AdventureResult [] STRINGED = new AdventureResult[]
+	{
+		SorceressLair.ACOUSTIC_GUITAR,
+		SorceressLair.HEAVY_METAL_GUITAR,
+		SorceressLair.STONE_BANJO,
+		SorceressLair.DISCO_BANJO,
+		SorceressLair.SHAGADELIC_BANJO,
+		SorceressLair.UKELELE,
+		SorceressLair.SITAR,
+		SorceressLair.ZIM_MERMANS_GUITAR
+	};
 
 	private static final AdventureResult BROKEN_SKULL = new AdventureResult( 741, 1 );
 	private static final AdventureResult BONE_RATTLE = new AdventureResult( 168, 1 );
 	private static final AdventureResult TAMBOURINE = new AdventureResult( 740, 1 );
+	private static final AdventureResult [] PERCUSSION = new AdventureResult[]
+	{
+		SorceressLair.BONE_RATTLE,
+		SorceressLair.TAMBOURINE,
+		SorceressLair.BROKEN_SKULL
+	};
 
 	private static final AdventureResult ACCORDION = new AdventureResult( 11, 1 );
 	private static final AdventureResult ROCKNROLL_LEGEND = new AdventureResult( 50, 1 );
 	private static final AdventureResult SQUEEZEBOX = new AdventureResult( 2557, 1 );
+	private static final AdventureResult [] ACCORDIONS = new AdventureResult[]
+	{
+		SorceressLair.ACCORDION,
+		SorceressLair.ROCKNROLL_LEGEND,
+		SorceressLair.SQUEEZEBOX
+	};
 
 	private static final AdventureResult CLOVER = new AdventureResult( 24, 1 );
 
@@ -688,27 +712,10 @@ public abstract class SorceressLair
 		// Next, figure out which instruments are needed for the final
 		// stage of the entryway.
 
-		AdventureResult stringed =
-			SorceressLair.pickOne( new AdventureResult[] {
-					SorceressLair.ACOUSTIC_GUITAR,
-					SorceressLair.HEAVY_METAL_GUITAR,
-					SorceressLair.SHAGADELIC_BANJO,
-					SorceressLair.DISCO_BANJO,
-					SorceressLair.STONE_BANJO,
-					SorceressLair.UKELELE,
-					SorceressLair.SITAR } );
-		requirements.add( stringed );
-
-		AdventureResult percussion =
-			SorceressLair.pickOne( new AdventureResult[] {
-					SorceressLair.BONE_RATTLE,
-					SorceressLair.TAMBOURINE,
-					SorceressLair.BROKEN_SKULL } );
+		requirements.add( SorceressLair.pickOne( STRINGED ) );
+		AdventureResult percussion = SorceressLair.pickOne( PERCUSSION );
 		requirements.add( percussion );
-		requirements.add( SorceressLair.pickOne( new AdventureResult[] {
-					SorceressLair.ACCORDION,
-					SorceressLair.ROCKNROLL_LEGEND,
-					SorceressLair.SQUEEZEBOX } ) );
+		requirements.add( SorceressLair.pickOne( ACCORDIONS ) );
 
 		// If he brought a balloon monkey, get him an easter egg
 
