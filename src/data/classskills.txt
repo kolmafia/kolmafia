@@ -14,11 +14,18 @@
 13	Gnomish Hardigness	0	0	0
 14	Cosmic Ugnderstanding	0	0	0
 15	CLEESH	5	10	0
-16	Summon Snowcone	1	5	0
-17	Summon Hilarious Objects	1	5	0
-18	Summon Candy Hearts	1	0	0
+# 16	Summon Snowcone	1	5	0
+# 17	Summon Hilarious Objects	1	5	0
+# 18	Summon Candy Hearts	1	0	0
 19	Transcendent Olfaction	5	40	0
 20	Really Expensive Jewelrycrafting	0	0	0
+
+# pseudo-skills accessed trough bookshel in campground
+
+-1001	Summon Snowcone	1	5	0
+-1002	Summon Hilarious Objects	1	5	0
+-1003	Summon Candy Hearts	1	0	0
+-1004	Summon Party Favors	1	0	0
 
 # Available only on the Bad Moon path
 

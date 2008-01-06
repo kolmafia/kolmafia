@@ -1441,9 +1441,9 @@ public class ConsumeItemRequest
 				return;
 			}
 
-			// KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "Summon Divine Favors" ) );
-			// KoLConstants.summoningSkills.sort();
-			// KoLConstants.usableSkills.sort();
+			KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "Summon Party Favors" ) );
+			KoLConstants.summoningSkills.sort();
+			KoLConstants.usableSkills.sort();
 			return;
 
 		case JEWELRY_BOOK:

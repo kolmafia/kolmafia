@@ -716,7 +716,7 @@ public abstract class KoLmafia
 		KoLSettings.setUserProperty( "reagentSummons", "0" );
 		KoLSettings.setUserProperty( "cocktailSummons", "0" );
 
-		// Summon Candy Heart now costs 1 MP again
+		// Libram summoning skills now costs 1 MP again
 		KoLConstants.summoningSkills.sort();
 		KoLConstants.usableSkills.sort();
 	}
@@ -865,24 +865,6 @@ public abstract class KoLmafia
 	public boolean getBreakfast( final String skillName, final boolean allowRestore, final int manaRemaining )
 	{
 		UseSkillRequest summon = UseSkillRequest.getInstance( skillName );
-
-		// Special handling for candy heart summoning.  This skill
-		// can be extremely expensive, so rather than summoning to
-		// your limit, designated by maximum MP, it merely swallows
-		// all your current MP.
-
-		if ( summon.getSkillId() == 18 )
-		{
-			summon.setBuffCount( 1 );
-
-			while ( ClassSkillsDatabase.getMPConsumptionById( 18 ) <= KoLCharacter.getCurrentMP() - manaRemaining )
-			{
-				RequestThread.postRequest( summon );
-			}
-
-			return true;
-		}
-
 		// For all other skills, if you don't need to cast them, then
 		// skip this step.
 
@@ -3627,7 +3609,7 @@ public abstract class KoLmafia
 
 				KoLmafia.updateDisplay(
 					KoLConstants.ERROR_STATE,
-					"Subversion service access failed for " + KoLmafia.OVERRIDE_DATA[ i ] + "." );
+					"Subversion service access failed for " + KoLmafia.OVERRIDE_DATA[ i ] + ": " + e.getMessage() + "." );
 				e.printStackTrace();
 
 				writer.close();
