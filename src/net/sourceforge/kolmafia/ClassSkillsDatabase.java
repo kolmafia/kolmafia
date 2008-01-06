@@ -65,7 +65,7 @@ public class ClassSkillsDatabase
 	public static final int SNOWCONE = 16;
 	public static final int HILARIOUS = 17;
 	public static final int CANDY_HEART = 18;
-	public static final int PARTY_FAVOR = -1004;
+	public static final int PARTY_FAVOR = -100;
 
 	private static final String UNCATEGORIZED = "uncategorized";
 	private static final String GNOME_SKILLS = "gnome trainer";

@@ -1414,7 +1414,7 @@
 1408	512653322	tree-shaped Crimbo cookie	tree-shaped Crimbo cookies
 1409	652518773	Unionize The Elves sign
 1410	699173079	sleeping snowy owl	sleeping snowy owls
-1411	349463372	tome of snowcone summoning	tomes of snowcone summoning
+1411	349463372	Tome of Snowcone Summoning	Tomes of Snowcone Summoning
 1412	478583189	purple snowcone	snowcones purple
 1413	752326401	green snowcone	snowcones green
 1414	448523646	orange snowcone	snowcones orange
@@ -2306,7 +2306,7 @@
 2300	776320439	fingerless hobo gloves
 2301	419865931	Chomsky's comic books
 2302	724817767	worm-riding hooks
-2303	336455814	libram of candy heart summoning
+2303	336455814	Libram of Candy Heart Summoning
 2304	175228086	white candy heart	white candy hearts
 2305	192902326	pink candy heart	pink candy hearts
 2306	451194816	orange candy heart	orange candy hearts

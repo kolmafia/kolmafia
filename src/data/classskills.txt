@@ -22,7 +22,7 @@
 
 # pseudo-skills accessed through mystical bookshelf in campground
 
--1004	Summon Party Favor	1	0	0
+-100	Summon Party Favor	1	0	0
 
 # Available only on the Bad Moon path
 

@@ -580,7 +580,7 @@ public abstract class StaticEntity
 		{
 			String skillName = learnedMatcher.group( 1 );
 
-			KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( skillName ) );
+			KoLCharacter.addAvailableSkill( skillName );
 			KoLCharacter.addDerivedSkills();
 			KoLConstants.usableSkills.sort();
 		}
@@ -590,7 +590,7 @@ public abstract class StaticEntity
 		{
 			String skillName = learnedMatcher.group( 1 );
 
-			KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( skillName ) );
+			KoLCharacter.addAvailableSkill( skillName );
 			KoLCharacter.addDerivedSkills();
 			KoLConstants.usableSkills.sort();
 		}
