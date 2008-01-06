@@ -62,9 +62,9 @@ public class ClassSkillsDatabase
 	public static final int COMBAT = 5;
 
 	// Mr. Skills
-	public static final int SNOWCONE = -1001;
-	public static final int HILARIOUS = -1002;
-	public static final int CANDY_HEART = -1003;
+	public static final int SNOWCONE = 16;
+	public static final int HILARIOUS = 17;
+	public static final int CANDY_HEART = 18;
 	public static final int PARTY_FAVOR = -1004;
 
 	private static final String UNCATEGORIZED = "uncategorized";
