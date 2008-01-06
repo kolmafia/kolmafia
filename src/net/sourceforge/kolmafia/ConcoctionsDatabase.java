@@ -385,7 +385,14 @@ public class ConcoctionsDatabase
 				ConcoctionsDatabase.queuedIngredients, ( (AdventureResult) ingredientChange.get( i ) ).getNegation() );
 		}
 
-		ConcoctionsDatabase.queuedAdventuresUsed += adventureChange.intValue();
+		int advs = adventureChange.intValue();
+		if ( advs != 0 )
+		{
+			ConcoctionsDatabase.queuedAdventuresUsed += advs;
+			AdventureResult.addResultToList(
+				ConcoctionsDatabase.queuedIngredients,
+				new AdventureResult( AdventureResult.ADV, advs ) );
+		}
 		ConcoctionsDatabase.queuedStillsUsed += stillChange.intValue();
 
 		ConcoctionsDatabase.queuedFullness -= c.getFullness() * quantity.intValue();
@@ -538,9 +545,13 @@ public class ConcoctionsDatabase
 		{
 			for ( int i = 0; i < ConcoctionsDatabase.queuedIngredients.size(); ++i )
 			{
-				AdventureResult.addResultToList(
-					availableIngredients,
-					( (AdventureResult) ConcoctionsDatabase.queuedIngredients.get( i ) ).getNegation() );
+				AdventureResult ingredient = (AdventureResult) ConcoctionsDatabase.queuedIngredients.get( i );
+				if ( ingredient.isItem() )
+				{
+					AdventureResult.addResultToList(
+						availableIngredients,
+						ingredient.getNegation() );
+				}
 			}
 		}
 
@@ -1400,8 +1411,13 @@ public class ConcoctionsDatabase
 				AdventureResult.addResultToList( ConcoctionsDatabase.queuedIngredients, ingredient );
 			}
 
-			ConcoctionsDatabase.queuedAdventuresUsed +=
-				ConcoctionsDatabase.ADVENTURE_USAGE[ this.mixingMethod ] * overAmount;
+			int advs = ConcoctionsDatabase.ADVENTURE_USAGE[ this.mixingMethod ] * overAmount;
+			if ( advs != 0 )
+			{
+				ConcoctionsDatabase.queuedAdventuresUsed += advs;
+				AdventureResult.addResultToList( ConcoctionsDatabase.queuedIngredients, new AdventureResult( AdventureResult.ADV, advs ) );
+			}
+
 			if ( this.mixingMethod == KoLConstants.STILL_BOOZE || this.mixingMethod == KoLConstants.STILL_MIXER )
 			{
 				ConcoctionsDatabase.queuedStillsUsed += overAmount;
