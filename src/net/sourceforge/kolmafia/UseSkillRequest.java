@@ -223,7 +223,12 @@ public class UseSkillRequest
 			{
 				++count;
 				mpRemaining -= mpCost;
-				mpCost = Math.max( ( count + 1 ) * ( count + 2 ) / 2 + KoLCharacter.getManaCostAdjustment(), 1 );
+
+				// Old formula: n * (n+1) / 2
+				// mpCost = Math.max( ( count + 1 ) * ( count + 2 ) / 2 + KoLCharacter.getManaCostAdjustment(), 1 );
+
+				// New formula: 1 + (n * (n-1) / 2)
+				mpCost = Math.max( 1 + ( count + 1 ) * count / 2 + KoLCharacter.getManaCostAdjustment(), 1 );
 			}
 
 			maxPossible = count - KoLSettings.getIntegerProperty( "candyHeartSummons" );

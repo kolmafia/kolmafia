@@ -276,7 +276,12 @@ public class ClassSkillsDatabase
 		if ( skillId == CANDY_HEART || skillId == PARTY_FAVOR )
 		{
 			int count = KoLSettings.getIntegerProperty( "candyHeartSummons" ) - ( justCast ? 1 : 0 );
-			return Math.max( ( count + 1 ) * ( count + 2 ) / 2 + KoLCharacter.getManaCostAdjustment(), 1 );
+
+			// Old formula: n * (n+1) / 2
+			// return Math.max( ( count + 1 ) * ( count + 2 ) / 2 + KoLCharacter.getManaCostAdjustment(), 1 );
+
+			// New formula: 1 + (n * (n-1) / 2)
+			return Math.max( 1 + ( count + 1 ) * count / 2 + KoLCharacter.getManaCostAdjustment(), 1 );
 		}
 
 		// Moxious Maneuver has a special mana cost.
