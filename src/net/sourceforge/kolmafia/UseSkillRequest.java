@@ -48,7 +48,13 @@ public class UseSkillRequest
 	private static final Pattern COUNT2_PATTERN = Pattern.compile( "quantity=([\\d,]+)" );
 
 	public static final String[] BREAKFAST_SKILLS =
-		{ "Advanced Cocktailcrafting", "Pastamastery", "Advanced Saucecrafting", "Summon Snowcone", "Summon Hilarious Objects", "Summon Candy Hearts" };
+	{
+		"Advanced Cocktailcrafting",
+		"Pastamastery",
+		"Advanced Saucecrafting",
+		"Summon Snowcone",
+		"Summon Hilarious Objects"
+	};
 
 	private static final int OTTER_TONGUE = 1007;
 	private static final int WALRUS_TONGUE = 1010;
@@ -68,24 +74,27 @@ public class UseSkillRequest
 	private int lastReduction = Integer.MAX_VALUE;
 	private String lastStringForm = "";
 
-	public static final AdventureResult[] TAMER_WEAPONS = new AdventureResult[] { new AdventureResult( 2558, 1 ), // Chelonian Morningstar
-	new AdventureResult( 60, 1 ), // Mace of the Tortoise
-	new AdventureResult( 4, 1 )
-	// turtle totem
-		};
+	public static final AdventureResult[] TAMER_WEAPONS = new AdventureResult[]
+	{
+		new AdventureResult( 2558, 1 ),	// Chelonian Morningstar
+		new AdventureResult( 60, 1 ),	// Mace of the Tortoise
+		new AdventureResult( 4, 1 )	// turtle totem
+	};
 
-	public static final AdventureResult[] SAUCE_WEAPONS = new AdventureResult[] { new AdventureResult( 2560, 1 ), // 17-Alarm Saucepan
-	new AdventureResult( 57, 1 ), // 5-Alarm saucepan
-	new AdventureResult( 7, 1 )
-	// saucepan
-		};
+	public static final AdventureResult[] SAUCE_WEAPONS = new AdventureResult[]
+	{
+		new AdventureResult( 2560, 1 ),	// 17-Alarm Saucepan
+		new AdventureResult( 57, 1 ),	// 5-Alarm saucepan
+		new AdventureResult( 7, 1 )	// saucepan
+	};
 
-	public static final AdventureResult[] THIEF_WEAPONS = new AdventureResult[] { new AdventureResult( 2557, 1 ), // Squeezebox of the Ages
-	new AdventureResult( 50, 1 ), // Rock 'n Roll Legend
-	new AdventureResult( 2234, 1 ), // calavera concertina
-	new AdventureResult( 11, 1 )
-	// stolen accordion
-		};
+	public static final AdventureResult[] THIEF_WEAPONS = new AdventureResult[]
+	{
+		new AdventureResult( 2557, 1 ),	// Squeezebox of the Ages
+		new AdventureResult( 50, 1 ),	// Rock 'n Roll Legend
+		new AdventureResult( 2234, 1 ),	// calavera concertina
+		new AdventureResult( 11, 1 )	// stolen accordion
+	};
 
 	public static final AdventureResult PLEXI_PENDANT = new AdventureResult( 1235, 1 );
 	public static final AdventureResult BRIM_BERET = new AdventureResult( 2813, 1 );
@@ -101,22 +110,70 @@ public class UseSkillRequest
 	public static final AdventureResult SOLID_EARRING = new AdventureResult( 2780, 1 );
 
 	// The following list must contain only accessories!
-	private static final AdventureResult[] AVOID_REMOVAL =
-		new AdventureResult[] { UseSkillRequest.PLEXI_WATCH, UseSkillRequest.BRIM_BRACELET, UseSkillRequest.SOLITAIRE, UseSkillRequest.WIRE_BRACELET, UseSkillRequest.BACON_BRACELET, UseSkillRequest.BACON_EARRING, UseSkillRequest.SOLID_EARRING, UseSkillRequest.// Removing the following might drop an AT song
-		PLEXI_PENDANT };
+	private static final AdventureResult[] AVOID_REMOVAL = new AdventureResult[]
+	{
+		UseSkillRequest.PLEXI_WATCH,
+		UseSkillRequest.BRIM_BRACELET,
+		UseSkillRequest.SOLITAIRE,
+		UseSkillRequest.WIRE_BRACELET,
+		UseSkillRequest.BACON_BRACELET,
+		UseSkillRequest.BACON_EARRING,
+		UseSkillRequest.SOLID_EARRING,
+		// Removing the following might drop an AT song
+		UseSkillRequest.PLEXI_PENDANT
+	};
 
 	private UseSkillRequest( final String skillName )
 	{
-		super( "skills.php" );
-
-		this.addFormField( "action", "Skillz." );
-		this.addFormField( "pwd" );
+		super( UseSkillRequest.chooseURL( skillName ) );
 
 		this.skillId = ClassSkillsDatabase.getSkillId( skillName );
 		this.skillName = ClassSkillsDatabase.getSkillName( this.skillId );
-
-		this.addFormField( "whichskill", String.valueOf( this.skillId ) );
 		this.target = "yourself";
+
+                this.addFormFields();
+	}
+
+	private static String chooseURL( final String skillName )
+	{
+		switch ( ClassSkillsDatabase.getSkillId( skillName ) )
+		{
+		case -1001:	// Summon Snowcone
+		case -1002:	// Summon Hilarious Objects
+		case -1003:	// Summon Candy Hearts
+		case -1004:	// Summon Party Favors
+			return "campground.php";
+		}
+
+		return "skills.php";
+	}
+
+	private void addFormFields()
+	{
+		switch ( this.skillId )
+		{
+		case -1001:	// Summon Snowcone
+			this.addFormField( "preaction", "summonsnowcone" );
+			break;
+
+		case -1002:	// Summon Hilarious Objects
+			this.addFormField( "preaction", "summonhilariousobjects" );
+			break;
+
+		case -1003:	// Summon Candy Hearts
+			this.addFormField( "preaction", "summoncandyheart" );
+			break;
+
+		case -1004:	// Summon Party Favors
+			this.addFormField( "preaction", "summonpartyfavor" );
+			break;
+
+		default:
+			this.addFormField( "action", "Skillz." );
+			this.addFormField( "pwd" );
+			this.addFormField( "whichskill", String.valueOf( this.skillId ) );
+			break;
+		}
 	}
 
 	public void setTarget( final String target )
@@ -154,10 +211,10 @@ public class UseSkillRequest
 
 		int maxPossible = Math.min( this.getMaximumCast(), KoLCharacter.getCurrentMP() / mpCost );
 
-		// Candy hearts need to be calculated in
-		// a slightly different manner.
+		// Libram skills need to be calculated in a slightly different
+		// manner.
 
-		if ( this.skillId == 18 )
+		if ( this.skillId == -1003 || this.skillId == -1004 )
 		{
 			int mpRemaining = KoLCharacter.getCurrentMP();
 			int count = KoLSettings.getIntegerProperty( "candyHeartSummons" );
@@ -217,12 +274,12 @@ public class UseSkillRequest
 		// Snowcones and grimoire items can only be summoned
 		// once per day.
 
-		case 16:
+		case -1001:
 
 			maximumCast = Math.max( 1 - KoLSettings.getIntegerProperty( "snowconeSummons" ), 0 );
 			break;
 
-		case 17:
+		case -1002:
 
 			maximumCast = Math.max( 1 - KoLSettings.getIntegerProperty( "grimoireSummons" ), 0 );
 			break;
@@ -361,9 +418,9 @@ public class UseSkillRequest
 	private static final void reduceManaConsumption( final int skillId, final boolean isBuff )
 	{
 		// Never bother trying to reduce mana consumption when casting
-		// ode to booze or summon candy hearts.
+		// ode to booze or summon candy hearts or summon party favors
 
-		if ( skillId == 18 || skillId == 6014 )
+		if ( skillId == -1003 || skillId == -1004 || skillId == 6014 )
 		{
 			return;
 		}
@@ -848,21 +905,19 @@ public class UseSkillRequest
 
 		switch ( skillId )
 		{
-		case 16:
-			KoLSettings.setUserProperty(
-				"snowconeSummons", String.valueOf( KoLSettings.getIntegerProperty( "snowconeSummons" ) + 1 ) );
+		case -1001:
+			KoLSettings.incrementIntegerProperty( "snowconeSummons", 1 );
 			break;
 
-		case 17:
-			KoLSettings.setUserProperty(
-				"grimoireSummons", String.valueOf( KoLSettings.getIntegerProperty( "grimoireSummons" ) + 1 ) );
+		case -1002:
+			KoLSettings.incrementIntegerProperty( "grimoireSummons", 1 );
 			break;
 
-		case 18:
-			if ( ClassSkillsDatabase.getMPConsumptionById( 18 ) <= KoLCharacter.getCurrentMP() )
+		case -1003:
+		case -1004:
+			if ( ClassSkillsDatabase.getMPConsumptionById( -1003 ) <= KoLCharacter.getCurrentMP() )
 			{
-				KoLSettings.setUserProperty(
-					"candyHeartSummons", String.valueOf( KoLSettings.getIntegerProperty( "candyHeartSummons" ) + 1 ) );
+				KoLSettings.incrementIntegerProperty( "candyHeartSummons", 1 );
 			}
 
 			KoLConstants.summoningSkills.sort();
@@ -870,18 +925,15 @@ public class UseSkillRequest
 			break;
 
 		case 3006:
-			KoLSettings.setUserProperty(
-				"noodleSummons", String.valueOf( KoLSettings.getIntegerProperty( "noodleSummons" ) + count ) );
+			KoLSettings.incrementIntegerProperty( "noodleSummons", count );
 			break;
 
 		case 4006:
-			KoLSettings.setUserProperty(
-				"reagentSummons", String.valueOf( KoLSettings.getIntegerProperty( "reagentSummons" ) + count ) );
+			KoLSettings.incrementIntegerProperty( "reagentSummons", count );
 			break;
 
 		case 5014:
-			KoLSettings.setUserProperty(
-				"cocktailSummons", String.valueOf( KoLSettings.getIntegerProperty( "cocktailSummons" ) + count ) );
+			KoLSettings.incrementIntegerProperty( "cocktailSummons", count );
 			break;
 		}
 

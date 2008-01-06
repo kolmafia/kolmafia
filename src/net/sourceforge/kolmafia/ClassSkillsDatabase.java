@@ -135,10 +135,11 @@ public class ClassSkillsDatabase
 
 		switch ( skillId.intValue() )
 		{
-		case 3: // Smile of Mr. A
-		case 16: // Summon Snowcone
-		case 17: // Summon Hilarious Objects
-		case 18: // Summon Candy Hearts
+		case 3:		// Smile of Mr. A
+		case -1001:	// Summon Snowcone
+		case -1002:	// Summon Hilarious Objects
+		case -1003:	// Summon Candy Hearts
+		case -1004:	// Summon Party Favors
 
 			category = ClassSkillsDatabase.MR_SKILLS;
 			break;
@@ -264,8 +265,9 @@ public class ClassSkillsDatabase
 
 	public static final int getMPConsumptionById( final int skillId, final boolean justCast )
 	{
-		// Summon Candy Hearts has a special mana cost.
-		if ( skillId == 18 )
+		// Summon Candy Hearts has a special mana cost shared with
+		// Summon Party Favors
+		if ( skillId == -1003 || skillId == -1004 )
 		{
 			int count = KoLSettings.getIntegerProperty( "candyHeartSummons" ) - ( justCast ? 1 : 0 );
 			return Math.max( ( count + 1 ) * ( count + 2 ) / 2 + KoLCharacter.getManaCostAdjustment(), 1 );

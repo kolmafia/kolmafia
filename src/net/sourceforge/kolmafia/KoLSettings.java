@@ -634,6 +634,11 @@ public class KoLSettings
 		return StaticEntity.parseFloat( KoLSettings.getUserProperty( name ) );
 	}
 
+	public static final int incrementIntegerProperty( final String name, final int increment )
+	{
+		return KoLSettings.incrementIntegerProperty( name, increment, 0, false );
+	}
+
 	public static final int incrementIntegerProperty( final String name, final int increment, final int max,
 		final boolean mod )
 	{
