@@ -114,14 +114,12 @@ public class ConsumeItemRequest
 	private static final int CLOCKWORK_BARTENDER = 1111;
 	private static final int CLOCKWORK_CHEF = 1112;
 	private static final int CLOCKWORK_MAID = 1113;
-	private static final int SNOWCONE_TOME = 1411;
 	private static final int PURPLE = 1412;
 	private static final int GREEN = 1413;
 	private static final int ORANGE = 1414;
 	private static final int RED = 1415;
 	private static final int BLUE = 1416;
 	private static final int BLACK = 1417;
-	private static final int HILARIOUS_TOME = 1498;
 	private static final int MUNCHIES_PILL = 1619;
 	private static final int ASTRAL_MUSHROOM = 1622;
 	public static final int EXPRESS_CARD = 1687;
@@ -132,7 +130,6 @@ public class ConsumeItemRequest
 	public static final int DRUM_MACHINE = 2328;
 	public static final int BLACK_PUDDING = 2338;
 	private static final int COBBS_KNOB_MAP = 2442;
-	private static final int JEWELRY_BOOK = 2502;
 	private static final int SAND_BRICK = 2582;
 	private static final int TELESCOPE = 2599;
 	private static final int ABSINTHE = 2655;
@@ -147,6 +144,12 @@ public class ConsumeItemRequest
 	public static final int HOBBY_HORSE = 3092;
 	public static final int BALL_IN_CUP = 3093;
 	public static final int SET_OF_JACKS = 3094;
+
+	private static final int SNOWCONE_BOOK = 1411;
+	private static final int HILARIOUS_BOOK = 1498;
+	private static final int CANDY_BOOK = 2303;
+	private static final int JEWELRY_BOOK = 2502;
+	private static final int DIVINE_BOOK = 3117;
 
 	private static final int PALM_FROND = 2605;
 	private static final int MUMMY_WRAP = 2634;
@@ -1382,51 +1385,79 @@ public class ConsumeItemRequest
 			KoLCharacter.setArches( true );
 			return;
 
-		case SNOWCONE_TOME:
+		case SNOWCONE_BOOK:
 
-			// "You read the incantation written on the pages of
-			// the tome. Snowflakes coalesce in your
-			// mind. Delicious snowflakes."
+			// "You already know how to summon snowcones."
 
-			if ( responseText.indexOf( "You read the incantation" ) == -1 )
+			if ( responseText.indexOf( "You already" ) != -1 )
 			{
 				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
 				return;
 			}
 
 			KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "Summon Snowcone" ) );
+			KoLConstants.summoningSkills.sort();
 			KoLConstants.usableSkills.sort();
 			return;
 
-		case HILARIOUS_TOME:
+		case HILARIOUS_BOOK:
 
-			// "You pore over the tome, and sophomoric humor pours
-			// into your brain. The mysteries of McPhee become
-			// clear to you."
+			// "You already know how to be "hilarious.""
 
-			if ( responseText.indexOf( "You pore over the tome" ) == -1 )
+			if ( responseText.indexOf( "You already" ) != -1 )
 			{
 				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
 				return;
 			}
 
 			KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "Summon Hilarious Objects" ) );
+			KoLConstants.summoningSkills.sort();
 			KoLConstants.usableSkills.sort();
+			return;
+
+		case CANDY_BOOK:
+
+			// "You already know how to summon candy hearts."
+
+			if ( responseText.indexOf( "You already" ) != -1 )
+			{
+				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
+				return;
+			}
+
+			KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "Summon Candy Hearts" ) );
+			KoLConstants.summoningSkills.sort();
+			KoLConstants.usableSkills.sort();
+			return;
+
+		case DIVINE_BOOK:
+
+			// "You've already got a Libram of Divine Favors on
+			// your bookshelf."
+
+			if ( responseText.indexOf( "You've already got" ) != -1 )
+			{
+				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
+				return;
+			}
+
+			// KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "Summon Divine Favors" ) );
+			// KoLConstants.summoningSkills.sort();
+			// KoLConstants.usableSkills.sort();
 			return;
 
 		case JEWELRY_BOOK:
 
-			// "You read the book, and learn all sorts of advanced
-			// jewelry-making techniques."
+			// "You already know how to make fancy jewelry, so this
+			// book contains nothing exciting for you."
 
-			if ( responseText.indexOf( "You read the book" ) == -1 )
+			if ( responseText.indexOf( "You already" ) != -1 )
 			{
 				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
+				return;
 			}
-			else
-			{
-				KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "Really Expensive Jewelrycrafting" ) );
-			}
+
+			KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "Really Expensive Jewelrycrafting" ) );
 
 			return;
 

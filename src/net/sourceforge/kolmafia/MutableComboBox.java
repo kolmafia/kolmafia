@@ -56,7 +56,7 @@ public class MutableComboBox
 	private String currentName;
 	private String matchString;
 	public Object currentMatch;
-	private final LockableListModel model;
+	private LockableListModel model;
 	private boolean allowAdditions;
 
 	private boolean active, strict;
@@ -64,10 +64,8 @@ public class MutableComboBox
 
 	public MutableComboBox( final LockableListModel model, final boolean allowAdditions )
 	{
-		this.model = model;
-		this.setModel( this.model );
+		this.setModel( model );
 
-		this.model.setFilter( this );
 		this.setEditable( true );
 
 		this.allowAdditions = allowAdditions;
@@ -78,6 +76,14 @@ public class MutableComboBox
 
 		this.editor.addFocusListener( listener );
 		this.editor.addKeyListener( listener );
+	}
+
+	public void setModel( final LockableListModel model )
+	{
+		this.model = model;
+		super.setModel( this.model );
+		this.model.setFilter( this );
+		this.model.setSelectedItem( null );
 	}
 
 	public void forceAddition()
