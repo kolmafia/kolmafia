@@ -145,7 +145,7 @@ public class ClassSkillsDatabase
 		case SNOWCONE:		// Summon Snowcone
 		case HILARIOUS:		// Summon Hilarious Objects
 		case CANDY_HEART:	// Summon Candy Hearts
-		case PARTY_FAVOR:	// Summon Party Favors
+		case PARTY_FAVOR:	// Summon Party Favor
 
 			category = ClassSkillsDatabase.MR_SKILLS;
 			break;
@@ -272,7 +272,7 @@ public class ClassSkillsDatabase
 	public static final int getMPConsumptionById( final int skillId, final boolean justCast )
 	{
 		// Summon Candy Hearts has a special mana cost shared with
-		// Summon Party Favors
+		// Summon Party Favor
 		if ( skillId == CANDY_HEART || skillId == PARTY_FAVOR )
 		{
 			int count = KoLSettings.getIntegerProperty( "candyHeartSummons" ) - ( justCast ? 1 : 0 );

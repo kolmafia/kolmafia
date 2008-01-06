@@ -25,7 +25,7 @@
 -1001	Summon Snowcone	1	5	0
 -1002	Summon Hilarious Objects	1	5	0
 -1003	Summon Candy Hearts	1	0	0
--1004	Summon Party Favors	1	0	0
+-1004	Summon Party Favor	1	0	0
 
 # Available only on the Bad Moon path
 
