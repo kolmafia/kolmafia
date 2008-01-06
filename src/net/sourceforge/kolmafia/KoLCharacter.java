@@ -280,6 +280,7 @@ public abstract class KoLCharacter
 	private static boolean hasArches = false;
 	private static boolean hasChef = false;
 	private static boolean hasBartender = false;
+	private static boolean hasBookshelf = false;
 	private static int telescopeUpgrades = 0;
 
 	// Familiar data for reference
@@ -411,6 +412,7 @@ public abstract class KoLCharacter
 		KoLCharacter.hasArches = false;
 		KoLCharacter.hasChef = false;
 		KoLCharacter.hasBartender = false;
+		KoLCharacter.hasBookshelf = false;
 		KoLCharacter.telescopeUpgrades = 0;
 
 		KoLCharacter.familiars.clear();
@@ -1273,17 +1275,17 @@ public abstract class KoLCharacter
 		switch ( item.getItemId() )
 		{
 		case BOTTLE_ROCKET:
-			KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "Fire red bottle-rocket" ) );
-			KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "Fire blue bottle-rocket" ) );
-			KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "Fire orange bottle-rocket" ) );
-			KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "Fire purple bottle-rocket" ) );
-			KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "Fire black bottle-rocket" ) );
+			KoLCharacter.addAvailableSkill( "Fire red bottle-rocket" );
+			KoLCharacter.addAvailableSkill( "Fire blue bottle-rocket" );
+			KoLCharacter.addAvailableSkill( "Fire orange bottle-rocket" );
+			KoLCharacter.addAvailableSkill( "Fire purple bottle-rocket" );
+			KoLCharacter.addAvailableSkill( "Fire black bottle-rocket" );
 			break;
 		case WIZARD_HAT:
-			KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "Magic Missile" ) );
+			KoLCharacter.addAvailableSkill( "Magic Missile" );
 			break;
 		case BAKULA:
-			KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "Give In To Your Vampiric Urges" ) );
+			KoLCharacter.addAvailableSkill( "Give In To Your Vampiric Urges" );
 			break;
 		}
 	}
@@ -1918,6 +1920,32 @@ public abstract class KoLCharacter
 	}
 
 	/**
+	 * Accessor method which indicates whether or not the character has a mystical bookshelf
+	 *
+	 * @return <code>true</code> if the character has a mystical bookshelf
+	 */
+
+	public static final boolean hasBookshelf()
+	{
+		return KoLCharacter.hasBookshelf;
+	}
+
+	/**
+	 * Accessor method to indicate a change in state of the mystical bookshelf
+	 *
+	 * @param hasBookshelf Whether or not the character currently has a bookshelf
+	 */
+
+	public static final void setBookshelf( final boolean hasBookshelf )
+	{
+		KoLCharacter.hasBookshelf = hasBookshelf;
+		if ( hasBookshelf && KoLCharacter.hasBookshelf != hasBookshelf)
+		{
+			RequestThread.postRequest( new CampgroundRequest( "bookshelf" ) );
+		}
+	}
+
+	/**
 	 * Accessor method which indicates how many times the character has upgraded their telescope
 	 *
 	 * @return <code>int/code> power of telescope
@@ -2325,7 +2353,7 @@ public abstract class KoLCharacter
 	{
 		if ( KoLCharacter.isMoxieClass() )
 		{
-			KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "Moxious Maneuver" ) );
+			KoLCharacter.addAvailableSkill( "Moxious Maneuver" );
 		}
 
 		// Check all available skills to see if they
@@ -2430,6 +2458,11 @@ public abstract class KoLCharacter
 			KoLCharacter.addCombatSkill( skill.getSkillName() );
 			break;
 		}
+	}
+
+	public static final void addAvailableSkill( final String name )
+	{
+		KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( name ) );
 	}
 
 	/**

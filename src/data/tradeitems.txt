@@ -1409,7 +1409,7 @@
 1408	tree-shaped Crimbo cookie	1	all	50
 1409	Unionize The Elves sign	12	display	0
 1410	sleeping snowy owl	5	all	0
-1411	tome of snowcone summoning	3	all	0
+1411	Tome of Snowcone Summoning	3	all	0
 1412	purple snowcone	3	all	30
 1413	green snowcone	3	all	30
 1414	orange snowcone	3	all	30
@@ -2301,7 +2301,7 @@
 2300	fingerless hobo gloves	0	none	0
 2301	Chomsky's comic books	0	none	0
 2302	worm-riding hooks	12	none	0
-2303	libram of candy heart summoning	3	all	0
+2303	Libram of Candy Heart Summoning	3	all	0
 2304	white candy heart	4	all	5
 2305	pink candy heart	4	all	5
 2306	orange candy heart	4	all	5

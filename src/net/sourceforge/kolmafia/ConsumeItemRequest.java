@@ -1386,64 +1386,42 @@ public class ConsumeItemRequest
 			return;
 
 		case SNOWCONE_BOOK:
-
-			// "You already know how to summon snowcones."
-
-			if ( responseText.indexOf( "You already" ) != -1 )
-			{
-				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
-				return;
-			}
-
-			KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "Summon Snowcone" ) );
-			KoLConstants.summoningSkills.sort();
-			KoLConstants.usableSkills.sort();
-			return;
-
 		case HILARIOUS_BOOK:
-
-			// "You already know how to be "hilarious.""
-
-			if ( responseText.indexOf( "You already" ) != -1 )
-			{
-				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
-				return;
-			}
-
-			KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "Summon Hilarious Objects" ) );
-			KoLConstants.summoningSkills.sort();
-			KoLConstants.usableSkills.sort();
-			return;
-
 		case CANDY_BOOK:
-
-			// "You already know how to summon candy hearts."
-
-			if ( responseText.indexOf( "You already" ) != -1 )
-			{
-				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
-				return;
-			}
-
-			KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "Summon Candy Hearts" ) );
-			KoLConstants.summoningSkills.sort();
-			KoLConstants.usableSkills.sort();
-			return;
-
 		case DIVINE_BOOK:
 
 			// "You've already got a Libram of Divine Favors on
 			// your bookshelf."
+			//
+			// old message:
+			//
+			// "You already know how to summon snowcones."
 
-			if ( responseText.indexOf( "You've already got" ) != -1 )
+			if ( responseText.indexOf( "You've already got" ) != -1 ||
+			     responseText.indexOf( "You already" ) != -1)
 			{
 				StaticEntity.getClient().processResult( ConsumeItemRequest.lastItemUsed );
 				return;
 			}
 
-			KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "Summon Party Favor" ) );
-			KoLConstants.summoningSkills.sort();
-			KoLConstants.usableSkills.sort();
+			KoLCharacter.setBookshelf( true );
+
+			switch ( ConsumeItemRequest.lastItemUsed.getItemId() )
+			{
+			case SNOWCONE_BOOK:
+				KoLCharacter.addAvailableSkill( "Summon Snowcone" );
+				break;
+			case HILARIOUS_BOOK:
+				KoLCharacter.addAvailableSkill( "Summon Hilarious Objects" );
+				break;
+			case CANDY_BOOK:
+				KoLCharacter.addAvailableSkill( "Summon Candy Hearts" );
+				break;
+			case DIVINE_BOOK:
+				KoLCharacter.addAvailableSkill( "Summon Party Favor" );
+				break;
+			}
+
 			return;
 
 		case JEWELRY_BOOK:
@@ -1457,7 +1435,7 @@ public class ConsumeItemRequest
 				return;
 			}
 
-			KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "Really Expensive Jewelrycrafting" ) );
+			KoLCharacter.addAvailableSkill( "Really Expensive Jewelrycrafting" );
 
 			return;
 
@@ -1592,7 +1570,7 @@ public class ConsumeItemRequest
 
 			if ( responseText.indexOf( "You acquire a skill" ) != -1 )
 			{
-				KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "Stomach of Steel" ) );
+				KoLCharacter.addAvailableSkill( "Stomach of Steel" );
 			}
 			return;
 
@@ -1600,7 +1578,7 @@ public class ConsumeItemRequest
 
 			if ( responseText.indexOf( "You acquire a skill" ) != -1 )
 			{
-				KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "Liver of Steel" ) );
+				KoLCharacter.addAvailableSkill( "Liver of Steel" );
 			}
 			return;
 
@@ -1608,7 +1586,7 @@ public class ConsumeItemRequest
 
 			if ( responseText.indexOf( "You acquire a skill" ) != -1 )
 			{
-				KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "Spleen of Steel" ) );
+				KoLCharacter.addAvailableSkill( "Spleen of Steel" );
 			}
 			return;
 

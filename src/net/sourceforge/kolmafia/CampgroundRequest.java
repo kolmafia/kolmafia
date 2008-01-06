@@ -93,8 +93,7 @@ public class CampgroundRequest
 			return;
 		}
 
-		// For now, just set whether or not you have a
-		// bartender and chef.
+		// Parse the results and determine campground equipment.
 	}
 
 	public void processResults()
@@ -106,6 +105,7 @@ public class CampgroundRequest
 		KoLCharacter.setToaster( this.responseText.indexOf( "action=toast" ) != -1 );
 		KoLCharacter.setArches( this.responseText.indexOf( "action=arches" ) != -1 );
 		KoLCharacter.setTelescope( this.responseText.indexOf( "action=telescope" ) != -1 );
+		KoLCharacter.setBookshelf( this.responseText.indexOf( "action=bookshelf" ) != -1 );
 
 		// Update adventure tally for resting and relaxing
 		// at the campground.
@@ -132,13 +132,65 @@ public class CampgroundRequest
 				StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 			}
 		}
-
-		// Make sure that the character received something if
-		// they were looking for toast
-
-		if ( this.action.equals( "toast" ) && this.responseText.indexOf( "acquire" ) == -1 )
+		else if ( this.action.equals( "toast" ) )
 		{
-			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "No more toast left." );
+			// Make sure that the character received something if
+			// they were looking for toast
+
+			if ( this.responseText.indexOf( "acquire" ) == -1 )
+			{
+				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "No more toast left." );
+			}
+		}
+		else if ( this.action.equals( "bookshelf" ) )
+		{
+			// Parse skills from names of books
+			parseBookTitles();
+		}
+	}
+
+	private static final String[][] BOOKS =
+	{
+		{
+			"Tome of Snowcone Summoning",
+			"Summon Snowcone"
+		},
+		{
+			// The bookshelf currently says:
+			// "McPhee's Grimoire of Hilarious Item Summoning"
+			// gives access to "Summon Hilarious Items".
+			//
+			// The item is currently named:
+			// "McPhee's Grimoire of Hilarious Object Summoning"
+			// and gives access to "Summon Hilarious Objects".
+			//
+			// One or the other will eventually change, I predict.
+			"McPhee's Grimoire",
+			"Summon Hilarious Objects"
+		},
+		{
+			"Libram of Candy Heart Summoning",
+			"Summon Candy Hearts"
+		},
+		{
+			"Libram of Divine Favors",
+			"Summon Party Favor"
+		},
+	};
+
+	private void parseBookTitles()
+	{
+		// You can't use Mr. Skills in bad moon, so don't check
+		if ( KoLCharacter.inBadMoon() )
+			return;
+
+		for ( int i = 0; i < BOOKS.length; ++i )
+		{
+			if ( this.responseText.indexOf( BOOKS[i][0] ) != -1 )
+			{
+				KoLCharacter.addAvailableSkill( BOOKS[i][1] );
+
+			}
 		}
 	}
 

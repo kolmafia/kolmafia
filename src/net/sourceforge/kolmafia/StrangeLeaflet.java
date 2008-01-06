@@ -481,7 +481,7 @@ public abstract class StrangeLeaflet
 		if ( StrangeLeaflet.parchment && !KoLCharacter.hasSkill( "CLEESH" ) )
 		{
 			StrangeLeaflet.executeCommand( "GNUSTO CLEESH" );
-			KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "CLEESH" ) );
+			KoLCharacter.addAvailableSkill( "CLEESH" );
 			StrangeLeaflet.parchment = false;
 			StrangeLeaflet.scroll = false;
 		}
