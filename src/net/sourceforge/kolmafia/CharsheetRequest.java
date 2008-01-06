@@ -310,10 +310,10 @@ public class CharsheetRequest
 
 				switch ( skillId )
 				{
-				case -1001:	// Summon Snowcone
-				case -1002:	// Summon Hilarious Objects
-				case -1003:	// Summon Candy Hearts
-				case -1004:	// Summon Party Favors
+				case ClassSkillsDatabase.SNOWCONE:
+				case ClassSkillsDatabase.HILARIOUS:
+				case ClassSkillsDatabase.CANDY_HEART:
+				case ClassSkillsDatabase.PARTY_FAVOR:
 					shouldAddSkill = !KoLCharacter.inBadMoon();
 				}
 

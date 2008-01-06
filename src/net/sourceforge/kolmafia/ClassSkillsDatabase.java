@@ -61,6 +61,12 @@ public class ClassSkillsDatabase
 	public static final int BUFF = 4;
 	public static final int COMBAT = 5;
 
+	// Mr. Skills
+	public static final int SNOWCONE = -1001;
+	public static final int HILARIOUS = -1002;
+	public static final int CANDY_HEART = -1003;
+	public static final int PARTY_FAVOR = -1004;
+
 	private static final String UNCATEGORIZED = "uncategorized";
 	private static final String GNOME_SKILLS = "gnome trainer";
 	private static final String BAD_MOON = "bad moon";
@@ -135,11 +141,11 @@ public class ClassSkillsDatabase
 
 		switch ( skillId.intValue() )
 		{
-		case 3:		// Smile of Mr. A
-		case -1001:	// Summon Snowcone
-		case -1002:	// Summon Hilarious Objects
-		case -1003:	// Summon Candy Hearts
-		case -1004:	// Summon Party Favors
+		case 3:			// Smile of Mr. A
+		case SNOWCONE:		// Summon Snowcone
+		case HILARIOUS:		// Summon Hilarious Objects
+		case CANDY_HEART:	// Summon Candy Hearts
+		case PARTY_FAVOR:	// Summon Party Favors
 
 			category = ClassSkillsDatabase.MR_SKILLS;
 			break;
@@ -267,7 +273,7 @@ public class ClassSkillsDatabase
 	{
 		// Summon Candy Hearts has a special mana cost shared with
 		// Summon Party Favors
-		if ( skillId == -1003 || skillId == -1004 )
+		if ( skillId == CANDY_HEART || skillId == PARTY_FAVOR )
 		{
 			int count = KoLSettings.getIntegerProperty( "candyHeartSummons" ) - ( justCast ? 1 : 0 );
 			return Math.max( ( count + 1 ) * ( count + 2 ) / 2 + KoLCharacter.getManaCostAdjustment(), 1 );
