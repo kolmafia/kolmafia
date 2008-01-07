@@ -211,24 +211,19 @@ public class UseSkillRequest
 
 		int maxPossible = Math.min( this.getMaximumCast(), KoLCharacter.getCurrentMP() / mpCost );
 
-		// Libram skills need to be calculated in a slightly different
-		// manner.
+		// Libram skills have increasing cost per casting
 
-		if ( this.skillId == ClassSkillsDatabase.CANDY_HEART || this.skillId == ClassSkillsDatabase.PARTY_FAVOR )
+		if ( ClassSkillsDatabase.isLibramSkill( this.skillId ) )
 		{
 			int mpRemaining = KoLCharacter.getCurrentMP();
 			int count = KoLSettings.getIntegerProperty( "candyHeartSummons" );
 
 			while ( mpCost <= mpRemaining )
 			{
-				++count;
 				mpRemaining -= mpCost;
+				++count;
 
-				// Old formula: n * (n+1) / 2
-				// mpCost = Math.max( ( count + 1 ) * ( count + 2 ) / 2 + KoLCharacter.getManaCostAdjustment(), 1 );
-
-				// New formula: 1 + (n * (n-1) / 2)
-				mpCost = Math.max( 1 + ( count + 1 ) * count / 2 + KoLCharacter.getManaCostAdjustment(), 1 );
+				mpCost = ClassSkillsDatabase.libramSkillMPConsumption( count );
 			}
 
 			maxPossible = count - KoLSettings.getIntegerProperty( "candyHeartSummons" );
@@ -338,7 +333,7 @@ public class UseSkillRequest
 
 	public String toString()
 	{
-		if ( this.lastReduction == KoLCharacter.getManaCostAdjustment() && this.skillId != ClassSkillsDatabase.CANDY_HEART && this.skillId != ClassSkillsDatabase.PARTY_FAVOR )
+		if ( this.lastReduction == KoLCharacter.getManaCostAdjustment() && !ClassSkillsDatabase.isLibramSkill( this.skillId ) )
 		{
 			return this.lastStringForm;
 		}
@@ -423,9 +418,9 @@ public class UseSkillRequest
 	private static final void reduceManaConsumption( final int skillId, final boolean isBuff )
 	{
 		// Never bother trying to reduce mana consumption when casting
-		// ode to booze or summon candy hearts or summon party favors
+		// ode to booze or a libram skill
 
-		if ( skillId == ClassSkillsDatabase.CANDY_HEART || skillId == ClassSkillsDatabase.PARTY_FAVOR || skillId == 6014 )
+		if ( skillId == 6014 || ClassSkillsDatabase.isLibramSkill( skillId ) )
 		{
 			return;
 		}
@@ -522,7 +517,7 @@ public class UseSkillRequest
 
 		while ( !KoLmafia.refusesContinue() && castsRemaining > 0 )
 		{
-			if ( this.skillId == ClassSkillsDatabase.CANDY_HEART || this.skillId == ClassSkillsDatabase.PARTY_FAVOR )
+			if ( ClassSkillsDatabase.isLibramSkill( this.skillId ) )
 			{
 				mpPerCast = ClassSkillsDatabase.getMPConsumptionById( this.skillId );
 			}
@@ -538,7 +533,7 @@ public class UseSkillRequest
 
 			currentCast = Math.min( castsRemaining, KoLCharacter.getCurrentMP() / mpPerCast );
 
-			if ( this.skillId == ClassSkillsDatabase.CANDY_HEART || this.skillId == ClassSkillsDatabase.PARTY_FAVOR )
+			if ( ClassSkillsDatabase.isLibramSkill( this.skillId ) )
 			{
 				currentCast = Math.min( currentCast, 1 );
 			}
@@ -920,7 +915,7 @@ public class UseSkillRequest
 
 		case ClassSkillsDatabase.CANDY_HEART:
 		case ClassSkillsDatabase.PARTY_FAVOR:
-			if ( ClassSkillsDatabase.getMPConsumptionById( ClassSkillsDatabase.CANDY_HEART ) <= KoLCharacter.getCurrentMP() )
+			if ( ClassSkillsDatabase.libramSkillMPConsumption() <= KoLCharacter.getCurrentMP() )
 			{
 				KoLSettings.incrementIntegerProperty( "candyHeartSummons", 1 );
 			}
