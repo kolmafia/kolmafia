@@ -106,6 +106,11 @@ public class HermitRequest
 		return true;
 	}
 
+	public static final void resetClovers()
+	{
+		checkedForClovers = false;
+	}
+
 	/**
 	 * Executes the <code>HermitRequest</code>. This will trade the item specified in the character's
 	 * <code>KoLSettings</code> for their worthless trinket; if the character has no worthless trinkets, this method
