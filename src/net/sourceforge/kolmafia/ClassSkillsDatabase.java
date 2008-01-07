@@ -271,17 +271,10 @@ public class ClassSkillsDatabase
 
 	public static final int getMPConsumptionById( final int skillId, final boolean justCast )
 	{
-		// Summon Candy Hearts has a special mana cost shared with
-		// Summon Party Favor
-		if ( skillId == CANDY_HEART || skillId == PARTY_FAVOR )
+		// Libram skills have a special cost shared by all
+		if ( isLibramSkill( skillId ) )
 		{
-			int count = KoLSettings.getIntegerProperty( "candyHeartSummons" ) - ( justCast ? 1 : 0 );
-
-			// Old formula: n * (n+1) / 2
-			// return Math.max( ( count + 1 ) * ( count + 2 ) / 2 + KoLCharacter.getManaCostAdjustment(), 1 );
-
-			// New formula: 1 + (n * (n-1) / 2)
-			return Math.max( 1 + ( count + 1 ) * count / 2 + KoLCharacter.getManaCostAdjustment(), 1 );
+			return libramSkillMPConsumption( justCast );
 		}
 
 		// Moxious Maneuver has a special mana cost.
@@ -305,6 +298,52 @@ public class ClassSkillsDatabase
 		Object mpConsumption = ClassSkillsDatabase.mpConsumptionById.get( new Integer( skillId ) );
 		return mpConsumption == null ? 0 : Math.max(
 			( (Integer) mpConsumption ).intValue() + KoLCharacter.getManaCostAdjustment(), 1 );
+	}
+
+	/**
+	 * Determines if a skill comes from a Libram
+	 *
+	 * @param skillId The Id of the skill to lookup
+	 * @return true if it comes from a Libram
+	 */
+
+	public static final boolean isLibramSkill( final int skillId )
+	{
+		return skillId == CANDY_HEART || skillId == PARTY_FAVOR;
+	}
+
+	/**
+	 * Determines the cost for next casting of a libram skill
+	 *
+	 * @param justCast true if just cast this skill
+	 * @return the MP cost to cast it
+	 */
+
+	public static final int libramSkillMPConsumption( final boolean justCast )
+	{
+		int count = KoLSettings.getIntegerProperty( "candyHeartSummons" ) - ( justCast ? 1 : 0 );
+		return libramSkillMPConsumption( count ) ;
+	}
+
+	public static final int libramSkillMPConsumption()
+	{
+		return libramSkillMPConsumption( false );
+	}
+
+	/**
+	 * Determines the cost for a specific casting of a libram skill
+	 *
+	 * @param count which casting
+	 * @return the MP cost to cast it
+	 */
+
+	public static final int libramSkillMPConsumption( final int count )
+	{
+		// Old formula: n * (n+1) / 2
+		// return Math.max( ( count + 1 ) * ( count + 2 ) / 2 + KoLCharacter.getManaCostAdjustment(), 1 );
+
+		// New formula: 1 + (n * (n-1) / 2)
+		return Math.max( 1 + ( count + 1 ) * count / 2 + KoLCharacter.getManaCostAdjustment(), 1 );
 	}
 
 	/**
