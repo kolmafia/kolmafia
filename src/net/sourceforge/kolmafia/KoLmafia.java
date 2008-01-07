@@ -924,6 +924,7 @@ public abstract class KoLmafia
 		VioletFog.reset();
 		Louvre.reset();
 		MushroomPlot.reset();
+		HermitRequest.resetClovers();
 		TradeableItemDatabase.getDustyBottles();
 
 		// Retrieve the items which are available for consumption
