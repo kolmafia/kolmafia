@@ -1188,7 +1188,8 @@ public class RequestEditorKit
 		}
 		else if ( location.startsWith( "fight.php" ) )
 		{
-			RequestEditorKit.addFightModifiers( location, buffer, addComplexFeatures );
+			RequestEditorKit.addFightButtons( location, buffer );
+			RequestEditorKit.addFightModifiers( location, buffer );
 		}
 		else if ( location.startsWith( "hermit.php" ) )
 		{
@@ -2073,14 +2074,8 @@ public class RequestEditorKit
 		}
 	}
 
-	private static final void addFightModifiers( final String location, final StringBuffer buffer,
-		final boolean addComplexFeatures )
+	private static final void addFightModifiers( final String location, final StringBuffer buffer )
 	{
-		if ( addComplexFeatures )
-		{
-			RequestEditorKit.addFightButtons( location, buffer );
-		}
-
 		// Change bang potion names in item dropdown
 		RequestEditorKit.changePotionNames( buffer );
 
