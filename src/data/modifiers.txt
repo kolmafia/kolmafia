@@ -1616,6 +1616,7 @@ Tingly Biceps	Muscle: +5
 Tingly Elbows	Moxie: +5
 Tingly Wrists	Mysticality: +5
 Tomato Power	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
+Tranquilized Mind	Damage Reduction: 12
 Truly Gritty	Muscle: +20
 Turned Into a Skeleton	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
 Twinklebritches	Damage Absorption: +30

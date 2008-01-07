@@ -47,7 +47,7 @@ public class ConsumeItemRequest
 	private static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 	private static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
 	private static final Pattern FORTUNE_PATTERN =
-		Pattern.compile( "<font size=1>Lucky numbers: (\\d+), (\\d+), (\\d+)</td>" );
+		Pattern.compile( "<font size=1>(Lucky numbers: (\\d+), (\\d+), (\\d+))</td>" );
 
 	private static final TreeMap LIMITED_USES = new TreeMap();
 
@@ -894,14 +894,19 @@ public class ConsumeItemRequest
 				return;
 			}
 
+			String message = fortuneMatcher.group( 1 );
+			RequestLogger.updateSessionLog( message );
+			RequestLogger.printLine( message );
+
 			if ( StaticEntity.isCounting( "Fortune Cookie" ) )
 			{
 				int desiredCount = 0;
-				for ( int i = 1; i <= 3; ++i )
+				for ( int i = 2; i <= 4; ++i )
 				{
-					if ( StaticEntity.isCounting( "Fortune Cookie", StaticEntity.parseInt( fortuneMatcher.group( i ) ) ) )
+					int number = StaticEntity.parseInt( fortuneMatcher.group( i ) );
+					if ( StaticEntity.isCounting( "Fortune Cookie", number ) )
 					{
-						desiredCount = StaticEntity.parseInt( fortuneMatcher.group( i ) );
+						desiredCount = number;
 					}
 				}
 
@@ -913,10 +918,10 @@ public class ConsumeItemRequest
 				}
 			}
 
-			for ( int i = 1; i <= 3; ++i )
+			for ( int i = 2; i <= 4; ++i )
 			{
-				StaticEntity.startCounting(
-					StaticEntity.parseInt( fortuneMatcher.group( i ) ), "Fortune Cookie", "fortune.gif" );
+				int number = StaticEntity.parseInt( fortuneMatcher.group( i ) );
+				StaticEntity.startCounting( number, "Fortune Cookie", "fortune.gif" );
 			}
 
 			return;
