@@ -164,7 +164,13 @@ public class FightRequest
 
 	public static final boolean wonInitiative()
 	{
-		return FightRequest.currentRound == 1 && FightRequest.lastResponseText.indexOf( "You get the jump" ) != -1;
+		if ( FightRequest.currentRound != 1 )
+			return false;
+		if ( FightRequest.lastResponseText.indexOf( "You get the jump" ) != -1 )
+			return true;
+		if ( FightRequest.lastResponseText.indexOf( "The Jump: you gets it." ) != -1 )
+			return true;
+		return false;
 	}
 
 	public void nextRound()
