@@ -42,9 +42,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.nio.channels.FileChannel;
 import java.util.TreeMap;
 
 import javax.swing.Box;
@@ -303,7 +300,6 @@ public abstract class AdventureOptionsFrame
 				public void actionPerformed( final ActionEvent e )
 				{
 					String script = (String) CombatComboBox.this.getSelectedItem();
-					KoLSettings.setUserProperty( "customCombatScript", script );
 					CombatSettings.setScript( script );
 					AdventureOptionsFrame.this.refreshCombatTree();
 				}
@@ -321,14 +317,14 @@ public abstract class AdventureOptionsFrame
 			public void run()
 			{
 				String name = KoLFrame.input( "Give your combat script a name!" );
-				if ( name == null )
+				if ( name == null || name.equals( "" ) || name.equals( "default" ) )
 				{
 					return;
 				}
 
 				CombatSettings.setScript( name );
 				CustomCombatTreePanel.this.availableScripts.setSelectedItem( CombatSettings.settingName() );
-				CombatSettings.saveSettings();
+				AdventureOptionsFrame.this.refreshCombatTree();
 			}
 		}
 
@@ -343,37 +339,15 @@ public abstract class AdventureOptionsFrame
 			public void run()
 			{
 				String name = KoLFrame.input( "Make a copy of current script called:" );
-				if ( name == null )
+				if ( name == null || name.equals( "" ) || name.equals( "default" ) )
 				{
 					return;
 				}
 
-				if ( name.equals( "default" ) )
-				{
-					return;
-				}
-
-				try
-				{
-					String sourceName = CombatSettings.settingsFileName();
-					CombatSettings.setScript( name );
-					String targetName = CombatSettings.settingsFileName();
-
-					FileChannel source =
-						( new FileInputStream( new File( KoLConstants.CCS_LOCATION, sourceName ) ) ).getChannel();
-					FileChannel target =
-						( new FileOutputStream( new File( KoLConstants.CCS_LOCATION, targetName ) ) ).getChannel();
-
-					source.transferTo( 0, source.size(), target );
-					source.close();
-					target.close();
-				}
-				catch ( Exception e )
-				{
-					StaticEntity.printStackTrace( e );
-				}
-
+				CombatSettings.copySettings( name );
 				CombatSettings.setScript( name );
+				CustomCombatTreePanel.this.availableScripts.setSelectedItem( CombatSettings.settingName() );
+				AdventureOptionsFrame.this.refreshCombatTree();
 			}
 		}
 	}

@@ -35,6 +35,9 @@ package net.sourceforge.kolmafia;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.nio.channels.FileChannel;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -85,17 +88,21 @@ public abstract class CombatSettings
 		}
 
 		name = StaticEntity.globalStringDelete( name.toLowerCase().trim(), " " );
+
+		if ( name.endsWith( ".ccs" ) )
+		{
+			name = name.substring( 0, name.length() - 4 );
+		}
+
 		if ( !CombatSettings.availableScripts.contains( name ) )
 		{
 			CombatSettings.availableScripts.add( name );
 		}
 
-		if ( !name.endsWith( ".css" ) )
-		{
-			name = name + ".ccs";
-		}
+		name = name + ".ccs";
 
 		CombatSettings.loadSettings( name );
+		KoLSettings.setUserProperty( "customCombatScript", name );
 	}
 
 	public static final String settingName()
@@ -109,9 +116,44 @@ public abstract class CombatSettings
 		return CombatSettings.settingName() + ".ccs";
 	}
 
+	public static final String settingsFileName( String name )
+	{
+		if ( name.endsWith( ".ccs" ) )
+			return name;
+		return name + ".ccs";
+	}
+
 	public static final TreeNode getRoot()
 	{
 		return CombatSettings.root;
+	}
+
+	public static final void copySettings( String name )
+	{
+		if ( name == "" )
+		{
+			return;
+		}
+
+		try
+		{
+			String sourceName = CombatSettings.settingsFileName();
+			String targetName = CombatSettings.settingsFileName( name );
+
+			FileChannel source =
+				( new FileInputStream( new File( KoLConstants.CCS_LOCATION, sourceName ) ) ).getChannel();
+			FileChannel target =
+				( new FileOutputStream( new File( KoLConstants.CCS_LOCATION, targetName ) ) ).getChannel();
+
+			source.transferTo( 0, source.size(), target );
+			source.close();
+			target.close();
+		}
+		catch ( Exception e )
+		{
+			StaticEntity.printStackTrace( e );
+		}
+
 	}
 
 	/**
