@@ -277,9 +277,11 @@ plum wine	3	fermenting powder	plum
 shot of pear schnapps	3	fermenting powder	pear
 shot of peach schnapps	3	fermenting powder	peach
 
+# bottle of gin (3)	3	fermenting powder	juniper berries
+# bottle of rum (3)	3	fermenting powder	brown sugar cane
+# bottle of tequila (3)	3	fermenting powder	cactus fruit
 # bottle of vodka (3)	3	fermenting powder	bowl of rye sprouts
 # bottle of whiskey (3)	3	fermenting powder	cob of corn
-# bottle of gin (3)	3	fermenting powder	juniper berries
 
 # Standard, tier 1 and tier 2 beverages.  Nothing special about
 # these mixtures except everyone can make them.
