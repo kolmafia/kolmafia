@@ -46,9 +46,14 @@ public class CoinmastersDatabase
 	private static final LockableListModel buyForDimes = new LockableListModel();
 	private static final Map dimeSellPriceByName = new TreeMap();
 	private static final Map dimeBuyPriceByName = new TreeMap();
+
 	private static final LockableListModel buyForQuarters = new LockableListModel();
 	private static final Map quarterSellPriceByName = new TreeMap();
 	private static final Map quarterBuyPriceByName = new TreeMap();
+
+	private static final LockableListModel buyForLucre = new LockableListModel();
+	private static final Map lucreBuyPriceByName = new TreeMap();
+
 	private static final Map lighthouseItems = new TreeMap();
 
 	static
@@ -107,6 +112,13 @@ public class CoinmastersDatabase
 					quarterBuyPriceByName.put( name, iprice );
 					lighthouseItems.put( name, "" );
 				}
+				else if ( code.equals( "bl" ) )
+				{
+					// Something we buy with lucre
+					AdventureResult item = new AdventureResult( name, 0, false );
+					buyForLucre.add( item );
+					lucreBuyPriceByName.put( name, iprice );
+				}
 			}
 		}
 
@@ -151,6 +163,16 @@ public class CoinmastersDatabase
 	public static final Map quarterBuyPrices()
 	{
 		return quarterBuyPriceByName;
+	}
+
+	public static final LockableListModel getLucreItems()
+	{
+		return buyForLucre;
+	}
+
+	public static final Map lucreBuyPrices()
+	{
+		return lucreBuyPriceByName;
 	}
 
 	public static final Map lighthouseItems()

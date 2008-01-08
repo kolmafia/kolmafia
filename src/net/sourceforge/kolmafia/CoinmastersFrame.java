@@ -53,6 +53,8 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 public class CoinmastersFrame
 	extends KoLFrame
 {
+	public static final AdventureResult LUCRE = new AdventureResult( 2098, -1 );
+
 	private static final int WAR_HIPPY_OUTFIT = 32;
 	private static final int WAR_FRAT_OUTFIT = 33;
 
@@ -60,9 +62,11 @@ public class CoinmastersFrame
 	private static boolean atWar = false;
 	private static int dimes = 0;
 	private static int quarters = 0;
+	private static int lucre = 0;
 
 	private CoinmasterPanel dimePanel = null;
 	private CoinmasterPanel quarterPanel = null;
+	private CoinmasterPanel lucrePanel = null;
 
 	public CoinmastersFrame()
 	{
@@ -78,6 +82,11 @@ public class CoinmastersFrame
 		quarterPanel = new QuartersmasterPanel();
 		panel.add( quarterPanel );
 		this.tabs.add( "Quartersmaster", panel );
+
+		panel = new JPanel( new BorderLayout() );
+		lucrePanel = new BountyHunterHunterPanel();
+		panel.add( lucrePanel );
+		this.tabs.add( "Bounty Hunter Hunter", panel );
 
 		this.framePanel.add( this.tabs, BorderLayout.CENTER );
 		CoinmastersFrame.externalUpdate();
@@ -98,7 +107,10 @@ public class CoinmastersFrame
 		atWar = KoLSettings.getUserProperty( "warProgress" ).equals( "started" );
 		dimes = KoLSettings.getIntegerProperty( "availableDimes" );
 		quarters = KoLSettings.getIntegerProperty( "availableQuarters" );
-		INSTANCE.setTitle( "Coin Masters (" + dimes + " dimes/" + quarters + " quarters)" );
+		lucre =	 LUCRE.getCount( KoLConstants.inventory );
+		KoLSettings.setUserProperty( "availableLucre", String.valueOf( lucre ) );
+
+		INSTANCE.setTitle( "Coin Masters (" + dimes + " dimes/" + quarters + " quarters/" + lucre + " lucre)" );
 		INSTANCE.update();
 	}
 
@@ -106,6 +118,7 @@ public class CoinmastersFrame
 	{
 		dimePanel.update();
 		quarterPanel.update();
+		lucrePanel.update();
 	}
 
 	private class DimemasterPanel
@@ -140,6 +153,22 @@ public class CoinmastersFrame
 		}
 	}
 
+	private class BountyHunterHunterPanel
+		extends CoinmasterPanel
+	{
+		public BountyHunterHunterPanel()
+		{
+			super( CoinmastersDatabase.getLucreItems(),
+			       null,
+			       CoinmastersDatabase.lucreBuyPrices(),
+			       0,
+			       "availableLucre",
+			       "filthy lucre",
+			       "bounty hunter hunter",
+			       null);
+		}
+	}
+
 	private class CoinmasterPanel
 		extends JPanel
 	{
@@ -170,11 +199,17 @@ public class CoinmastersFrame
 			this.master = master;
 			this.side = side;
 
-			sellPanel = new SellPanel();
-			this.add( sellPanel, BorderLayout.NORTH );
+			if ( sellPrices != null )
+			{
+				sellPanel = new SellPanel();
+				this.add( sellPanel, BorderLayout.NORTH );
+			}
 
-			buyPanel = new BuyPanel();
-			this.add( buyPanel, BorderLayout.CENTER );
+			if ( buyPrices != null )
+			{
+				buyPanel = new BuyPanel();
+				this.add( buyPanel, BorderLayout.CENTER );
+			}
 		}
 
 		public void actionConfirmed()
@@ -202,6 +237,11 @@ public class CoinmastersFrame
 
 		public void visit()
 		{
+			if ( this.outfit == 0 )
+			{
+				return;
+			}
+
 			if ( !this.hasOutfit )
 			{
 				KoLmafia.updateDisplay( ERROR_STATE, "You don't have the right outfit" );
@@ -355,7 +395,7 @@ public class CoinmastersFrame
 			public void setEnabled( final boolean isEnabled )
 			{
 				super.setEnabled( isEnabled );
-				this.buttons[ 0 ].setEnabled( hasOutfit && atWar );
+				this.buttons[ 0 ].setEnabled( outfit == 0 || hasOutfit && atWar );
 			}
 
 			public void addFilters()

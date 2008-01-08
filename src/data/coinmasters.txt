@@ -79,3 +79,14 @@ bq	50	cast-iron legacy paddle
 bq	50	beer-a-pult
 bql	2	tequila grenade
 bql	2	molotov cocktail cocktail
+
+# Things you can buy with lucre
+
+bl	1	bowl of Bounty-Os
+bl	1	Oreille Divis&eacute;e brandy
+bl	1	odor extractor
+bl	15	bounty-hunting helmet
+bl	15	bounty-hunting rifle
+bl	15	bounty-hunting pants
+bl	100	pompadour'd puppy
+bl	200	Tome of Transcendent Olfaction
