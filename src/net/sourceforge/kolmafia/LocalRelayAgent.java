@@ -166,6 +166,16 @@ public class LocalRelayAgent
 
 		while ( ( currentLine = this.reader.readLine() ) != null && !currentLine.equals( "" ) )
 		{
+			if ( currentLine.startsWith( "Referer: " ) )
+			{
+				String path = currentLine.substring( 9 );
+				if ( !path.equals( "" ) && !path.startsWith( "http://127.0.0.1" ) )
+				{
+					RequestLogger.printLine( "Request from bogus referer ignored: " + path );
+					return false;
+				}
+			}
+
 			if ( currentLine.startsWith( "If-Modified-Since" ) )
 			{
 				this.isCheckingModified = true;
