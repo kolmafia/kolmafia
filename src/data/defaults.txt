@@ -143,6 +143,7 @@ global	visitRumpusSoftcore	true
 user	autoAbortThreshold	-0.1
 user	autoRepairBoxServants	true
 user	availableDimes	0
+user	availableLucre	0
 user	availableQuarters	0
 user	battleAction	attack with weapon
 user	betweenBattleScript
