@@ -205,11 +205,19 @@ public class LocalRelayAgent
 			this.buffer.setLength( 0 );
 		}
 
-		String passwordHash = this.request.getFormField( "pwd" );
-		if ( this.path.startsWith( "/KoLmafia" ) )
-			return passwordHash != null && passwordHash.equals( KoLRequest.passwordHash );
+		// Validate supplied password hashes
+		String pwd = this.request.getFormField( "pwd" );
+		if ( pwd != null && !pwd.equals( KoLRequest.passwordHash ) )
+			// Bogus. Do not accept this url.
+			return false;
 
-		return passwordHash == null || passwordHash.equals( KoLRequest.passwordHash );
+		if ( this.path.startsWith( "/KoLmafia" ) )
+			// KoLmafia internal pages use only "pwd"
+			return pwd != null;
+
+		// Other KoL pages might also use "phash"
+		pwd = this.request.getFormField( "phash" );
+		return pwd == null || pwd.equals( KoLRequest.passwordHash );
 	}
 
 	public static void reset()
