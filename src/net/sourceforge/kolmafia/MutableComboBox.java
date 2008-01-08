@@ -80,10 +80,9 @@ public class MutableComboBox
 
 	public void setModel( final LockableListModel model )
 	{
+		super.setModel( model );
 		this.model = model;
-		super.setModel( this.model );
 		this.model.setFilter( this );
-		this.model.setSelectedItem( null );
 	}
 
 	public void forceAddition()
