@@ -277,7 +277,7 @@ plum wine	3	fermenting powder	plum
 shot of pear schnapps	3	fermenting powder	pear
 shot of peach schnapps	3	fermenting powder	peach
 
-# bottle of gin (3)	3	fermenting powder	bowl of rye sprouts
+# bottle of vodka (3)	3	fermenting powder	bowl of rye sprouts
 # bottle of whiskey (3)	3	fermenting powder	cob of corn
 # bottle of gin (3)	3	fermenting powder	juniper berries
 

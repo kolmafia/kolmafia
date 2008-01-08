@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.io.RandomAccessFile;
 import java.lang.reflect.Method;
@@ -1270,11 +1271,8 @@ public abstract class KoLmafia
 			break;
 		
 		/* These update the session results for the item swapping in the
-		 * Gnome's Going Postal quest. */
-		
-		/* Note - closeting any of the quest items will 
-		 * generate a bogus update to the results as will buying a
-		 * Demodularizer or closeting it.	*/
+		 * Gnome's Going Postal quest.
+		 */
 
 		case KoLmafia.REALLY_BIG_TINY_HOUSE:
 			if ( result.getCount() == 1 )
@@ -1351,12 +1349,11 @@ public abstract class KoLmafia
 			break;
 			
 		case KoLmafia.GNOME_DEMODULIZER:
-			if ( result.getCount() == 1 )
+			if ( result.getCount() == 1 && KoLConstants.inventory.contains( KoLAdventure.CHOMSKYS_COMICS ) )
 			{
 				this.processResult( KoLAdventure.CHOMSKYS_COMICS );
 			}
 			break;
- 
 		}
 	}
 
@@ -3688,39 +3685,8 @@ public abstract class KoLmafia
 	{
 		for ( int i = 0; i < KoLmafia.OVERRIDE_DATA.length; ++i )
 		{
-			KoLmafia.updateDisplay( "Downloading " + KoLmafia.OVERRIDE_DATA[ i ] + "..." );
-
-			BufferedReader reader =
-				KoLDatabase.getReader( "http://kolmafia.svn.sourceforge.net/viewvc/*checkout*/kolmafia/src/data/" + KoLmafia.OVERRIDE_DATA[ i ] );
-
-			File output = new File( UtilityConstants.DATA_LOCATION, KoLmafia.OVERRIDE_DATA[ i ] );
-			LogStream writer = LogStream.openStream( output, true );
-
-			try
+			if ( !downloadOverride( KoLmafia.OVERRIDE_DATA[ i ] ) )
 			{
-				String line;
-
-				while ( ( line = reader.readLine() ) != null )
-				{
-					writer.println( line );
-				}
-
-				writer.close();
-				reader.close();
-			}
-			catch ( Exception e )
-			{
-				// This should not happen.  Therefore, print
-				// a stack trace for debug purposes.
-
-				KoLmafia.updateDisplay(
-					KoLConstants.ERROR_STATE,
-					"Subversion service access failed for " + KoLmafia.OVERRIDE_DATA[ i ] + ": " + e.getMessage() + "." );
-				e.printStackTrace();
-
-				writer.close();
-				output.delete();
-
 				RequestThread.closeRequestSequence();
 				return;
 			}
@@ -3728,6 +3694,66 @@ public abstract class KoLmafia
 
 		KoLmafia.updateDisplay( "Please restart KoLmafia to complete the update." );
 		RequestThread.enableDisplayIfSequenceComplete();
+	}
+
+	private final boolean downloadOverride( String name )
+	{
+		KoLmafia.updateDisplay( "Downloading " + name + "..." );
+
+		BufferedReader reader =
+			KoLDatabase.getReader( "http://kolmafia.svn.sourceforge.net/viewvc/*checkout*/kolmafia/src/data/" + name );
+
+		File output = new File( UtilityConstants.DATA_LOCATION, "temp.txt" );
+		LogStream writer = LogStream.openStream( output, true );
+
+		String line;
+
+		while ( true )
+		{
+			try
+			{
+				line = reader.readLine();
+			}
+			catch ( IOException e )
+			{
+				StaticEntity.printStackTrace( e );
+				KoLmafia.updateDisplay(
+					KoLConstants.ERROR_STATE,
+					"IO error reading from subversion service for " + name + "." );
+				writer.close();
+				output.delete();
+				return false;
+			}
+
+			if ( line == null )
+				break;
+
+                        writer.println( line );
+		}
+
+		try
+		{
+			reader.close();
+		}
+		catch ( IOException e )
+		{
+		}
+
+		writer.close();
+
+		// File successfully downloaded.
+		// Delete existing copy, if any,
+
+		File dest = new File( UtilityConstants.DATA_LOCATION, name );
+		if ( dest.exists() )
+		{
+			dest.delete();
+		}
+
+		// Rename temp file to desired file
+		output.renameTo( dest );
+
+		return true;
 	}
 
 	public static final boolean isRunningBetweenBattleChecks()
