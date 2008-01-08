@@ -98,6 +98,21 @@ public class KoLAdventure
 		new AdventureResult( 2568, -1 ),
 	};
 
+	/* Items gained/lost in the Gnome's Going Postal quest */
+	public static final AdventureResult RED_PAPER_CLIP = new AdventureResult( 2289, -1 );
+	public static final AdventureResult REALLY_BIG_TINY_HOUSE = new AdventureResult( 2290, -1 );
+	public static final AdventureResult NONESSENTIAL_AMULET = new AdventureResult( 2291, -1 );
+	public static final AdventureResult WHITE_WINE_VINIGARETTE = new AdventureResult( 2292, -1 );
+	public static final AdventureResult CUP_OF_STRONG_TEA = new AdventureResult( 2293, -1 );
+	public static final AdventureResult CURIOUSLY_SHINY_AX = new AdventureResult( 2294, -1 );
+	public static final AdventureResult MARINATED_STAKES = new AdventureResult( 2295, -1 );
+	public static final AdventureResult KNOB_BUTTER = new AdventureResult( 2296, -1 );
+	public static final AdventureResult VIAL_OF_ECTOPLASM = new AdventureResult( 2297, -1 );
+	public static final AdventureResult BOOCK_OF_MAGIKS = new AdventureResult( 2298, -1 );
+	public static final AdventureResult EZ_PLAY_HARMONICA_BOOK = new AdventureResult( 2299, -1 );
+	public static final AdventureResult FINGERLESS_HOBO_GLOVES = new AdventureResult( 2300, -1 );
+	public static final AdventureResult CHOMSKYS_COMICS = new AdventureResult( 2301, -1 );
+
 	private static final AdventureResult MUSHROOM = new AdventureResult( 1622, 1 );
 	private static final AdventureResult ASTRAL = new AdventureResult( "Half-Astral", 0 );
 	public static final AdventureResult BEATEN_UP = new AdventureResult( "Beaten Up", 4, true );

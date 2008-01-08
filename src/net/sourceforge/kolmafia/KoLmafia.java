@@ -130,6 +130,22 @@ public abstract class KoLmafia
 	private static final int MARGARITA = 2743;
 	private static final int AIR_FRESHENER = 2744;
 
+	/* Gnome postal items */
+	private static final int RED_PAPER_CLIP = 2289;
+	private static final int REALLY_BIG_TINY_HOUSE = 2290;
+	private static final int NONESSENTIAL_AMULET = 2291;
+	private static final int WHITE_WINE_VINIGARETTE = 2292;
+	private static final int CUP_OF_STRONG_TEA = 2293;
+	private static final int CURIOUSLY_SHINY_AX = 2294;
+	private static final int MARINATED_STAKES = 2295;
+	private static final int KNOB_BUTTER = 2296;
+	private static final int VIAL_OF_ECTOPLASM = 2297;
+	private static final int BOOCK_OF_MAGIKS = 2298;
+	private static final int EZ_PLAY_HARMONICA_BOOK = 2299;
+	private static final int FINGERLESS_HOBO_GLOVES = 2300;
+	private static final int CHOMSKYS_COMICS = 2301;
+	private static final int GNOME_DEMODULIZER = 2848;
+
 	// Semi-rares
 	private static final int ASCII_SHIRT = 2121;
 	private static final int RHINO_HORMONES = 2419;
@@ -1252,6 +1268,95 @@ public abstract class KoLmafia
 				}
 			}
 			break;
+		
+		/* These update the session results for the item swapping in the
+		 * Gnome's Going Postal quest. */
+		
+		/* Note - closeting any of the quest items will 
+		 * generate a bogus update to the results as will buying a
+		 * Demodularizer or closeting it.	*/
+
+		case KoLmafia.REALLY_BIG_TINY_HOUSE:
+			if ( result.getCount() == 1 )
+			{
+				this.processResult( KoLAdventure.RED_PAPER_CLIP );
+			}
+			break;
+		case KoLmafia.NONESSENTIAL_AMULET:
+			if ( result.getCount() == 1 )
+			{
+				this.processResult( KoLAdventure.REALLY_BIG_TINY_HOUSE );
+			}
+			break;
+				
+		case KoLmafia.WHITE_WINE_VINIGARETTE:
+			if ( result.getCount() == 1 )
+			{
+				this.processResult( KoLAdventure.NONESSENTIAL_AMULET );
+			}
+			break;
+		case KoLmafia.CURIOUSLY_SHINY_AX:
+			if ( result.getCount() == 1 )
+			{
+				this.processResult( KoLAdventure.WHITE_WINE_VINIGARETTE );
+			}
+			break;
+		case KoLmafia.CUP_OF_STRONG_TEA:
+			if ( result.getCount() == 1 )
+			{
+				this.processResult( KoLAdventure.CURIOUSLY_SHINY_AX );
+			}
+			break;
+		case KoLmafia.MARINATED_STAKES:
+			if ( result.getCount() == 1 )
+			{
+				this.processResult( KoLAdventure.CUP_OF_STRONG_TEA );
+			}
+			break;
+		case KoLmafia.KNOB_BUTTER:
+			if ( result.getCount() == 1 )
+			{
+				this.processResult( KoLAdventure.MARINATED_STAKES );
+			}
+			break;
+		case KoLmafia.VIAL_OF_ECTOPLASM:
+			if ( result.getCount() == 1 )
+			{
+				this.processResult( KoLAdventure.KNOB_BUTTER );
+			}
+			break;
+		case KoLmafia.BOOCK_OF_MAGIKS:
+			if ( result.getCount() == 1 )
+			{
+				this.processResult( KoLAdventure.VIAL_OF_ECTOPLASM );
+			}
+			break;
+		case KoLmafia.EZ_PLAY_HARMONICA_BOOK:
+			if ( result.getCount() == 1 )
+			{
+				this.processResult( KoLAdventure.BOOCK_OF_MAGIKS );
+			}
+			break;
+		case KoLmafia.FINGERLESS_HOBO_GLOVES:
+			if ( result.getCount() == 1 )
+			{
+				this.processResult( KoLAdventure.EZ_PLAY_HARMONICA_BOOK );
+			}
+			break;
+		case KoLmafia.CHOMSKYS_COMICS:
+			if ( result.getCount() == 1 )
+			{
+				this.processResult( KoLAdventure.FINGERLESS_HOBO_GLOVES );
+			}
+			break;
+			
+		case KoLmafia.GNOME_DEMODULIZER:
+			if ( result.getCount() == 1 )
+			{
+				this.processResult( KoLAdventure.CHOMSKYS_COMICS );
+			}
+			break;
+ 
 		}
 	}
 
