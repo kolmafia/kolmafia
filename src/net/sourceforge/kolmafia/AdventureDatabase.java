@@ -704,7 +704,6 @@ public class AdventureDatabase
 			new String[] { null, null } ),
 
 		// Choice 152 is Lurking at the Threshold
-		// Choices 154, 156, 158, 160 are the cyrpt bosses
 
 		// Turn Your Head and Coffin
 		new ChoiceAdventure(
@@ -712,11 +711,21 @@ public class AdventureDatabase
 			new String[] { "muscle substats", "small meat boost", "half-rotten brain", "skip adventure" },
 			new String[] { null, null, "2562", null } ),
 
+		// Doublewide
+		new ChoiceAdventure(
+			"Cyrpt", "choiceAdventure154", "Defiled Alcove",
+			new String[] { "fight conjoined zmombie", "skip adventure" } ),
+
 		// Skull, Skull, Skull
 		new ChoiceAdventure(
 			"Cyrpt", "choiceAdventure155", "Defiled Nook",
 			new String[] { "moxie substats", "small meat boost", "rusty bonesaw", "skip adventure" },
 			new String[] { null, null, "2563", null } ),
+
+		// Pileup
+		new ChoiceAdventure(
+			"Cyrpt", "choiceAdventure156", "Defiled Nook",
+			new String[] { "fight giant skeelton", "skip adventure" } ),
 
 		// Urning Your Keep
 		new ChoiceAdventure(
@@ -724,11 +733,21 @@ public class AdventureDatabase
 			new String[] { "mysticality substats", "plus-sized phylactery", "small meat gain", "skip adventure" },
 			new String[] { null, "2564", null, null } ),
 
+		// Lich in the Niche
+		new ChoiceAdventure(
+			"Cyrpt", "choiceAdventure158", "Defiled Niche",
+			new String[] { "fight gargantulihc", "skip adventure" } ),
+
 		// Go Slow Past the Drawers
 		new ChoiceAdventure(
 			"Cyrpt", "choiceAdventure159", "Defiled Cranny",
 			new String[] { "small meat boost", "stats & HP & MP", "can of Ghuol-B-Gone&trade;", "skip adventure" },
 			new String[] { null, null, "2565", null } ),
+
+		// Lunchtime
+		new ChoiceAdventure(
+			"Cyrpt", "choiceAdventure160", "Defiled Cranny",
+			new String[] { "fight huge ghuol", "skip adventure" } ),
 
 		// Choice 161 is Bureaucracy of the Damned
 		// Choice 162 is Between a Rock and Some Other Rocks
@@ -1060,26 +1079,6 @@ public class AdventureDatabase
 		new ChoiceAdventure(
 			"choiceAdventure152", "Fun House",
 			new String[] { "fight the clownlord", "skip adventure" } ),
-
-		// Doublewide
-		new ChoiceAdventure(
-			"choiceAdventure154", "Defiled Alcove",
-			new String[] { "fight conjoined zmombie", "skip adventure" } ),
-
-		// Pileup
-		new ChoiceAdventure(
-			"choiceAdventure156", "Defiled Nook",
-			new String[] { "fight giant skeelton", "skip adventure" } ),
-
-		// Lich in the Niche
-		new ChoiceAdventure(
-			"choiceAdventure158", "Defiled Niche",
-			new String[] { "fight gargantulihc", "skip adventure" } ),
-
-		// Lunchtime
-		new ChoiceAdventure(
-			"choiceAdventure160", "Defiled Cranny",
-			new String[] { "fight huge ghuol", "skip adventure" } ),
 
 		// Between a Rock and Some Other Rocks
 		new ChoiceAdventure(
