@@ -167,6 +167,11 @@ public abstract class StaticEntity
 
 	public static final void startCounting( final int value, final String label, final String image )
 	{
+		startCounting( value, label, image, true );
+	}
+
+	public static final void startCounting( final int value, final String label, final String image, boolean save )
+	{
 		if ( value < 0 )
 		{
 			return;
@@ -177,7 +182,10 @@ public abstract class StaticEntity
 		if ( !StaticEntity.relayCounters.contains( counter ) )
 		{
 			StaticEntity.relayCounters.add( counter );
-			StaticEntity.saveCounters();
+			if ( save )
+			{
+				StaticEntity.saveCounters();
+			}
 		}
 	}
 
@@ -242,7 +250,6 @@ public abstract class StaticEntity
 
 	public static final void saveCounters()
 	{
-		TurnCounter current;
 		int currentTurns = KoLCharacter.getCurrentRun();
 
 		StringBuffer counters = new StringBuffer();
@@ -250,7 +257,7 @@ public abstract class StaticEntity
 
 		while ( it.hasNext() )
 		{
-			current = (TurnCounter) it.next();
+			TurnCounter current = (TurnCounter) it.next();
 
 			if ( current.value < currentTurns )
 			{
@@ -286,9 +293,10 @@ public abstract class StaticEntity
 		StringTokenizer tokens = new StringTokenizer( counters, ":" );
 		while ( tokens.hasMoreTokens() )
 		{
-			StaticEntity.startCounting(
-				StaticEntity.parseInt( tokens.nextToken() ) - KoLCharacter.getCurrentRun(), tokens.nextToken(),
-				tokens.nextToken() );
+			int turns = StaticEntity.parseInt( tokens.nextToken() ) - KoLCharacter.getCurrentRun();
+			String name = tokens.nextToken();
+			String image = tokens.nextToken();
+			StaticEntity.startCounting( turns, name, image, false );
 		}
 	}
 

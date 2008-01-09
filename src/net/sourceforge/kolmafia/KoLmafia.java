@@ -985,8 +985,9 @@ public abstract class KoLmafia
 			}
 		}
 
-		RequestThread.postRequest( CharpaneRequest.getInstance() );
+		// Charpane can set counters, so load saved counters first.
 		StaticEntity.loadCounters();
+		RequestThread.postRequest( CharpaneRequest.getInstance() );
 
 		KoLmafia.updateDisplay( "Session data refreshed." );
 
