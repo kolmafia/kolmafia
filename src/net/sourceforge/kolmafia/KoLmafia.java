@@ -125,6 +125,7 @@ public abstract class KoLmafia
 	};
 
 	private static final int SOCK = 609;
+	private static final int LUCRE = 2098;
 
 	// Steel items
 	private static final int LASAGNA = 2742;
@@ -1131,8 +1132,6 @@ public abstract class KoLmafia
 		}
 		else if ( result.isItem() )
 		{
-			// Do special processing when you get certain items
-			this.gainItem( result );
 			AdventureResult.addResultToList( KoLConstants.tally, result );
 		}
 		else if ( resultName.equals( AdventureResult.SUBSTATS ) )
@@ -1152,6 +1151,13 @@ public abstract class KoLmafia
 		}
 
 		KoLCharacter.processResult( result );
+
+		if ( result.isItem() )
+		{
+			// Do special processing when you get certain items
+			this.gainItem( result );
+		}
+
 		shouldRefresh |= result.getName().equals( AdventureResult.MEAT );
 
 		// Process the adventure result through the conditions
@@ -1246,6 +1252,10 @@ public abstract class KoLmafia
 	{
 		switch ( result.getItemId() )
 		{
+		case KoLmafia.LUCRE:
+			CoinmastersFrame.externalUpdate();
+			break;
+
 		case KoLmafia.SOCK:
 			// If you get a S.O.C.K., you lose all the Immateria
 			if ( result.getCount() == 1 )

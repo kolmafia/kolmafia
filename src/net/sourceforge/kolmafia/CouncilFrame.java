@@ -135,7 +135,6 @@ public class CouncilFrame
 		AdventureResult item = new AdventureResult( itemId, 1 );
 		StaticEntity.getClient().processResult( item.getInstance( 0 - item.getCount( KoLConstants.inventory ) ) );
 		KoLSettings.setUserProperty( "currentBountyItem", "0" );
-		CoinmastersFrame.externalUpdate();
 	}
 
 	private static final void handleSneakyPeteChange( final String responseText )
