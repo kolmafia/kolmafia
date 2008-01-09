@@ -43,6 +43,7 @@ public class UseSkillRequest
 {
 	private static final TreeMap ALL_SKILLS = new TreeMap();
 	private static final Pattern SKILLID_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
+	private static final Pattern BOOKID_PATTERN = Pattern.compile( "preaction=summon(.*)" );
 
 	private static final Pattern COUNT1_PATTERN = Pattern.compile( "bufftimes=([\\d,]+)" );
 	private static final Pattern COUNT2_PATTERN = Pattern.compile( "quantity=([\\d,]+)" );
@@ -216,7 +217,8 @@ public class UseSkillRequest
 		if ( ClassSkillsDatabase.isLibramSkill( this.skillId ) )
 		{
 			int mpRemaining = KoLCharacter.getCurrentMP();
-			int count = KoLSettings.getIntegerProperty( "candyHeartSummons" );
+			int initialCount = KoLSettings.getIntegerProperty( "candyHeartSummons" );
+			int count = initialCount;
 
 			while ( mpCost <= mpRemaining )
 			{
@@ -226,7 +228,7 @@ public class UseSkillRequest
 				mpCost = ClassSkillsDatabase.libramSkillMPConsumption( count );
 			}
 
-			maxPossible = count - KoLSettings.getIntegerProperty( "candyHeartSummons" );
+			maxPossible = count - initialCount;
 		}
 
 		if ( buffCount < 1 )
@@ -870,15 +872,25 @@ public class UseSkillRequest
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		if ( !urlString.startsWith( "skills.php" ) )
+		if ( urlString.startsWith( "skills.php" ) )
 		{
-			return false;
+			return registerSkillRequest( urlString );
 		}
 
+		if ( urlString.startsWith( "campground.php" ) )
+		{
+			return registerBookRequest( urlString );
+		}
+
+		return false;
+	}
+
+	private static final boolean registerSkillRequest( final String urlString )
+	{
 		Matcher skillMatcher = UseSkillRequest.SKILLID_PATTERN.matcher( urlString );
 		if ( !skillMatcher.find() )
 		{
-			return true;
+			return false;
 		}
 
 		int skillId = StaticEntity.parseInt( skillMatcher.group( 1 ) );
@@ -905,25 +917,6 @@ public class UseSkillRequest
 
 		switch ( skillId )
 		{
-		case ClassSkillsDatabase.SNOWCONE:
-			KoLSettings.incrementIntegerProperty( "snowconeSummons", 1 );
-			break;
-
-		case ClassSkillsDatabase.HILARIOUS:
-			KoLSettings.incrementIntegerProperty( "grimoireSummons", 1 );
-			break;
-
-		case ClassSkillsDatabase.CANDY_HEART:
-		case ClassSkillsDatabase.PARTY_FAVOR:
-			if ( ClassSkillsDatabase.libramSkillMPConsumption() <= KoLCharacter.getCurrentMP() )
-			{
-				KoLSettings.incrementIntegerProperty( "candyHeartSummons", 1 );
-			}
-
-			KoLConstants.summoningSkills.sort();
-			KoLConstants.usableSkills.sort();
-			break;
-
 		case 3006:
 			KoLSettings.incrementIntegerProperty( "noodleSummons", count );
 			break;
@@ -936,6 +929,56 @@ public class UseSkillRequest
 			KoLSettings.incrementIntegerProperty( "cocktailSummons", count );
 			break;
 		}
+
+		return true;
+	}
+
+	private static final boolean registerBookRequest( final String urlString )
+	{
+		Matcher skillMatcher = UseSkillRequest.BOOKID_PATTERN.matcher( urlString );
+		if ( !skillMatcher.find() )
+		{
+			return false;
+		}
+
+		String action = skillMatcher.group( 1 );
+		int skillId = 0;
+
+		if ( action.equals( "snowcone" ) )
+		{
+			skillId = ClassSkillsDatabase.SNOWCONE;
+			KoLSettings.incrementIntegerProperty( "snowconeSummons", 1 );
+		}
+		else if ( action.equals( "hilariousitems" ) )
+		{
+			skillId = ClassSkillsDatabase.HILARIOUS;
+			KoLSettings.incrementIntegerProperty( "grimoireSummons", 1 );
+		}
+		else if ( action.equals( "candyheart" ) )
+		{
+			skillId = ClassSkillsDatabase.CANDY_HEART;
+		}
+		else if ( action.equals( "partyfavor" ) )
+		{
+			skillId = ClassSkillsDatabase.PARTY_FAVOR;
+		}
+		else
+		{
+			return false;
+		}
+
+		if ( ClassSkillsDatabase.isLibramSkill( skillId ) &&
+		     ClassSkillsDatabase.libramSkillMPConsumption() <= KoLCharacter.getCurrentMP() )
+		{
+			KoLSettings.incrementIntegerProperty( "candyHeartSummons", 1 );
+			KoLConstants.summoningSkills.sort();
+			KoLConstants.usableSkills.sort();
+		}
+
+		String skillName = ClassSkillsDatabase.getSkillName( skillId );
+
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( "cast 1 " + skillName );
 
 		return true;
 	}
