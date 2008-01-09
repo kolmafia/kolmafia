@@ -757,6 +757,9 @@ public class FamiliarTrainingFrame
 		// Make a Familiar Tool
 		FamiliarTool tool = new FamiliarTool( opponents );
 
+		// Save your current outfit
+		SpecialOutfit.createImplicitCheckpoint();
+
 		// Let the battles begin!
 
 		KoLmafia.updateDisplay( "Starting training session..." );
@@ -767,21 +770,21 @@ public class FamiliarTrainingFrame
 			// If user canceled, bail now
 			if ( FamiliarTrainingFrame.stop || !KoLmafia.permitsContinue() )
 			{
-				FamiliarTrainingFrame.statusMessage( KoLConstants.ERROR_STATE, "Training session aborted." );
+				FamiliarTrainingFrame.statusMessage( KoLConstants.ERROR_STATE, "Training session aborted.", true );
 				return false;
 			}
 
 			// Make sure you have an adventure left
 			if ( KoLCharacter.getAdventuresLeft() < 1 )
 			{
-				FamiliarTrainingFrame.statusMessage( KoLConstants.ERROR_STATE, "Training stopped: out of adventures." );
+				FamiliarTrainingFrame.statusMessage( KoLConstants.ERROR_STATE, "Training stopped: out of adventures.", true );
 				return false;
 			}
 
 			// Make sure you have enough meat to pay for the contest
 			if ( KoLCharacter.getAvailableMeat() < 100 )
 			{
-				FamiliarTrainingFrame.statusMessage( KoLConstants.ERROR_STATE, "Training stopped: out of meat." );
+				FamiliarTrainingFrame.statusMessage( KoLConstants.ERROR_STATE, "Training stopped: out of meat.", true );
 				return false;
 			}
 
@@ -793,7 +796,7 @@ public class FamiliarTrainingFrame
 
 			if ( opponent == null )
 			{
-				FamiliarTrainingFrame.statusMessage( KoLConstants.ERROR_STATE, "Couldn't choose a suitable opponent." );
+				FamiliarTrainingFrame.statusMessage( KoLConstants.ERROR_STATE, "Couldn't choose a suitable opponent.", true );
 				return false;
 			}
 
@@ -801,7 +804,7 @@ public class FamiliarTrainingFrame
 			status.changeGear( tool.bestWeight() );
 			if ( !KoLmafia.permitsContinue() )
 			{
-				FamiliarTrainingFrame.statusMessage( KoLConstants.ERROR_STATE, "Training stopped: internal error." );
+				FamiliarTrainingFrame.statusMessage( KoLConstants.ERROR_STATE, "Training stopped: internal error.", true );
 				return false;
 			}
 
@@ -823,9 +826,12 @@ public class FamiliarTrainingFrame
 
 		if ( FamiliarTrainingFrame.losses >= 5 )
 		{
-			FamiliarTrainingFrame.statusMessage( KoLConstants.ERROR_STATE, "Too many consecutive losses." );
+			FamiliarTrainingFrame.statusMessage( KoLConstants.ERROR_STATE, "Too many consecutive losses.", true );
 			return false;
 		}
+
+		// Done training. Restore original outfit
+		SpecialOutfit.restoreImplicitCheckpoint();
 
 		if ( familiar.getId() != FamiliarTrainingFrame.CHAMELEON )
 		{
@@ -920,6 +926,9 @@ public class FamiliarTrainingFrame
 		// Make a Familiar Tool
 		FamiliarTool tool = new FamiliarTool( opponents );
 
+		// Save your current outfit
+		SpecialOutfit.createImplicitCheckpoint();
+
 		// Let the battles begin!
 		KoLmafia.updateDisplay( "Starting training session..." );
 
@@ -939,6 +948,9 @@ public class FamiliarTrainingFrame
 		{
 			skills = FamiliarTrainingFrame.learnFamiliarParameters( trial, status, tool, xp, test, suckage );
 		}
+
+		// Done training. Restore original outfit
+		SpecialOutfit.restoreImplicitCheckpoint();
 
 		return skills;
 	}
@@ -965,7 +977,7 @@ public class FamiliarTrainingFrame
 				// If user canceled, bail now
 				if ( FamiliarTrainingFrame.stop || !KoLmafia.permitsContinue() )
 				{
-					FamiliarTrainingFrame.statusMessage( KoLConstants.ERROR_STATE, "Training session aborted." );
+					FamiliarTrainingFrame.statusMessage( KoLConstants.ERROR_STATE, "Training session aborted.", true );
 					return null;
 				}
 
@@ -985,7 +997,7 @@ public class FamiliarTrainingFrame
 				if ( opponent == null )
 				{
 					FamiliarTrainingFrame.statusMessage(
-						KoLConstants.ERROR_STATE, "Couldn't choose a suitable opponent." );
+						KoLConstants.ERROR_STATE, "Couldn't choose a suitable opponent.", true );
 					return null;
 				}
 
@@ -1004,7 +1016,7 @@ public class FamiliarTrainingFrame
 				status.changeGear( tool.bestWeight() );
 				if ( !KoLmafia.permitsContinue() )
 				{
-					FamiliarTrainingFrame.statusMessage( KoLConstants.ERROR_STATE, "Training stopped: internal error." );
+					FamiliarTrainingFrame.statusMessage( KoLConstants.ERROR_STATE, "Training stopped: internal error.", true );
 					return null;
 				}
 
@@ -1191,6 +1203,16 @@ public class FamiliarTrainingFrame
 
 	private static final void statusMessage( final int state, final String message )
 	{
+		statusMessage( state, message, false );
+	}
+
+	private static final void statusMessage( final int state, final String message, boolean restoreOutfit )
+	{
+		if ( restoreOutfit )
+		{
+			SpecialOutfit.restoreImplicitCheckpoint();
+		}
+
 		if ( state == KoLConstants.ERROR_STATE || message.endsWith( "lost." ) )
 		{
 			FamiliarTrainingFrame.results.append( "<font color=red>" + message + "</font><br>" );
