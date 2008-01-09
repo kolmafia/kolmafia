@@ -629,13 +629,13 @@ public class ItemCreationRequest
 			break;
 
 		default:
-			// If we created none, set error state so iteration
-			// stops.
-			if ( createdQuantity == 0 )
-			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unexpected error: nothing created" );
-			}
 			break;
+		}
+
+		// If we created none, set error state so iteration stops.
+		if ( createdQuantity == 0 )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unexpected error: nothing created" );
 		}
 	}
 
