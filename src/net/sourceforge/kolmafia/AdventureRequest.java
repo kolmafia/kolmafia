@@ -456,30 +456,37 @@ public class AdventureRequest
 			return encounter;
 		}
 
-		if ( urlString.startsWith( "dungeon.php" ) || urlString.startsWith( "basement.php" ) )
+		if ( urlString.startsWith( "dungeon.php" ) )
 		{
 			return "";
 		}
 
-		int boldIndex = request.responseText.indexOf( "Results:</b>" ) + 1;
-		boldIndex = request.responseText.indexOf( "<b>", boldIndex ) + 3;
-
-		if ( boldIndex == 2 )
+		if ( urlString.startsWith( "basement.php" ) )
 		{
 			return "";
 		}
 
-		int endBoldIndex = request.responseText.indexOf( "</b>", boldIndex );
+		String encounter = parseEncounter( request );
 
-		if ( endBoldIndex == -1 )
-		{
-			return "";
-		}
-
-		String encounter = request.responseText.substring( boldIndex, endBoldIndex );
 		if ( encounter.equals( "" ) )
 		{
-			return "";
+			if ( !urlString.startsWith( "adventure.php?snarfblat=19" ) )
+			{
+				return "";
+			}
+
+			// The Limerick Dungeon doesn't name its "encounters";
+			// it labels the limerick as "Adventure Results:" but
+			// doesn't assign a name.
+			//
+			// We'll choose a name for the one we care about.
+
+			if ( request.responseText.indexOf( "bleary-eyed cyclops" ) == -1 )
+			{
+				return "";
+			}
+
+			encounter = "The Bleary-Eyed Cyclops";
 		}
 
 		RequestLogger.printLine( "Encounter: " + encounter );
@@ -497,6 +504,30 @@ public class AdventureRequest
 		}
 
 		return encounter;
+	}
+
+	private static final String parseEncounter( final KoLRequest request )
+	{
+		int boldIndex = request.responseText.indexOf( "Results:</b>" );
+		if ( boldIndex == -1 )
+		{
+			return "";
+		}
+
+		boldIndex = request.responseText.indexOf( "<b>", boldIndex ) + 3;
+		if ( boldIndex == 2 )
+		{
+			return "";
+		}
+
+		int endBoldIndex = request.responseText.indexOf( "</b>", boldIndex );
+
+		if ( endBoldIndex == -1 )
+		{
+			return "";
+		}
+
+		return request.responseText.substring( boldIndex, endBoldIndex );
 	}
 
 	private static final Object[][] demons =
