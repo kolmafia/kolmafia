@@ -554,6 +554,12 @@ public class RequestLogger
 			return;
 		}
 
+		if ( ( request instanceof ZapRequest || isExternal ) && ZapRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
 		// Otherwise, make sure to print the raw URL so that it's
 		// at least mentioned in the session log.
 

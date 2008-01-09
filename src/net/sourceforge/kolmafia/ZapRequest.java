@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.KoLDatabase.BooleanArray;
 public class ZapRequest
 	extends KoLRequest
 {
+	private static final Pattern ZAP_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 	private static final Pattern OPTION_PATTERN = Pattern.compile( "<option value=(\\d+) descid='.*?'>.*?</option>" );
 
 	private static final BooleanArray isZappable = new BooleanArray();
@@ -143,6 +144,7 @@ public class ZapRequest
 
 		if ( this.responseText.indexOf( "nothing happens" ) != -1 )
 		{
+			StaticEntity.getClient().processResult( this.item );
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "The " + this.item.getName() + " is not zappable." );
 			return;
 		}
@@ -154,7 +156,6 @@ public class ZapRequest
 		}
 
 		// Remove old item and notify the user of success.
-		StaticEntity.getClient().processResult( this.item.getInstance( -1 ) );
 		KoLmafia.updateDisplay( this.item.getName() + " has been transformed." );
 	}
 
@@ -186,5 +187,28 @@ public class ZapRequest
 		}
 
 		buffer.insert( selectIndex, zappableOptions.toString() );
+	}
+
+	public static final boolean registerRequest( final String urlString )
+	{
+		if ( !urlString.startsWith( "wand.php" ) )
+		{
+			return false;
+		}
+
+		Matcher itemMatcher = ZapRequest.ZAP_PATTERN.matcher( urlString );
+		if ( !itemMatcher.find() )
+		{
+			return true;
+		}
+
+		int itemId = StaticEntity.parseInt( itemMatcher.group( 1 ) );
+		AdventureResult item = new AdventureResult( itemId, -1 );
+
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( "zap " + item.getName() );
+		StaticEntity.getClient().processResult( item );
+
+		return true;
 	}
 }
