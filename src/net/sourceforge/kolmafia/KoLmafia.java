@@ -231,6 +231,7 @@ public abstract class KoLmafia
 		// Adventures that give semirares
 		{ "A Menacing Phantom", SEMIRARE },
 		{ "All The Rave", SEMIRARE },
+		{ "Bad ASCII Art", SEMIRARE },
 		{ "Blaaargh! Blaaargh!", SEMIRARE },
 		{ "Filth, Filth, and More Filth", SEMIRARE },
 		{ "Hands On", SEMIRARE },
@@ -249,7 +250,6 @@ public abstract class KoLmafia
 		{ "Prior to Always", SEMIRARE },
 		{ "Rokay, Raggy!", SEMIRARE },
 		{ "Sand in the Vaseline", SEMIRARE },
-		{ "Some Bad ASCII Art", SEMIRARE },
 		{ "Some Bricks Do, In Fact, Hang in the Air", SEMIRARE },
 		{ "The Bleary-Eyed Cyclops", SEMIRARE },
 		{ "The Latest Sorcerous Developments", SEMIRARE },
