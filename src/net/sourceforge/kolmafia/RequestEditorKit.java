@@ -1581,7 +1581,9 @@ public class RequestEditorKit
 		buffer.append( KoLConstants.LINE_BREAK );
 
 		buffer.append( "<form name=\"ascform\" action=valhalla.php method=post onSubmit=\"document.ascform.whichsign.value = document.ascform.whichsignhc.value; return true;\">" );
-		buffer.append( "<input type=hidden name=action value=\"resurrect\"><input type=hidden name=pwd value=\"\"><center><table>" );
+		buffer.append( "<input type=hidden name=action value=\"resurrect\"><input type=hidden name=pwd value=\"" );
+		buffer.append( KoLRequest.passwordHash );
+		buffer.append( "\"><center><table>" );
 		buffer.append( KoLConstants.LINE_BREAK );
 
 		buffer.append( "<tr><td align=right><b>Lifestyle:</b>&nbsp;</td><td>" );
