@@ -42,6 +42,7 @@ public class CoinmasterRequest
 {
 	private static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 	private static final Pattern ACTION_PATTERN = Pattern.compile( "action=([^&]+)" );
+	private static final Pattern CAMP_PATTERN = Pattern.compile( "whichcamp=(\\d+)" );
 	private static final Pattern BHH_BUY_PATTERN = Pattern.compile( "whichitem=(\\d+).*?howmany=(\\d+)" );
 			// bhh.php?pwd&action=buy&whichitem=xxx&howmany=yyy 
 
@@ -218,8 +219,6 @@ public class CoinmasterRequest
 			return;
 		}
 
-                System.out.println( "Visiting coinmaster at location = \"" + location + "\"" );
-
 		CoinmastersFrame.externalUpdate();
 	}
 
@@ -316,6 +315,35 @@ public class CoinmasterRequest
 
 	private static final boolean registerIslandRequest( final String urlString )
 	{
+		Matcher campMatcher = CoinmasterRequest.CAMP_PATTERN.matcher( urlString );
+		if ( !campMatcher.find() )
+		{
+			return false;
+		}
+
+		int camp = StaticEntity.parseInt( campMatcher.group(1) );
+		String master;
+		if ( camp == 1 )
+		{
+			master = HIPPY;
+		}
+		else if ( camp == 2 )
+		{
+			master = FRATBOY;
+		}
+		else
+		{
+			return false;
+		}
+
+		Matcher actionMatcher = CoinmasterRequest.ACTION_PATTERN.matcher( urlString );
+		if ( !actionMatcher.find() )
+		{
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( "visit " + master );
+			return true;
+		}
+
 		return false;
 	}
 }
