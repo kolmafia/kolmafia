@@ -1125,6 +1125,7 @@ public class RequestEditorKit
 
 		if ( location.startsWith( "adventure.php" ) )
 		{
+			RequestEditorKit.fixDucks( buffer );
 			RequestEditorKit.addFightButtons( location, buffer );
 
 			if ( AdventureRequest.useMarmotClover( location, buffer.toString() ) )
@@ -3042,6 +3043,54 @@ public class RequestEditorKit
 		}
 
 		buffer.append( text );
+	}
+
+	private static final void fixDucks( final StringBuffer buffer )
+	{
+		// KoL does not currently provide a link back to the farm after
+		// you defeat the last duck.
+
+		if ( buffer.indexOf( "ducks" ) == -1 )
+		{
+			return;
+		}
+
+		// But if they fix it and it now adds one, cool.
+
+		if ( buffer.indexOf( "island.php" ) != -1 )
+		{
+			return;
+		}
+
+		String war = KoLSettings.getUserProperty( "warProgress" );
+		String test;
+		String url;
+
+		if ( war.equals( "finished" ) )
+		{
+			// You wander around the farm for a while, but can't
+			// find any additional ducks to fight. Maybe some more
+			// will come out of hiding by tomorrow.
+			test = "any additional ducks";
+			url = "postwarisland.php";
+		}
+		else
+		{
+			// There are no more ducks here.
+			test = "There are no more ducks here.";
+			url = "bigisland.php?place=farm";
+		}
+
+		if ( buffer.indexOf( test ) == -1 )
+		{
+			return;
+		}
+
+		int index = buffer.indexOf( "</body></html>" );
+		if ( index != -1 )
+		{
+			buffer.insert( index, "<center><table width=95% cellspacing=0 cellpadding=0><tr><td style=\"color: white;\" align=center bgcolor=blue><b>Adventure Again:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td><center><p><a href=\"" + url + "\">Go back to The Mysterious Island of Mystery</a></center></td></tr></table></center></td></tr><tr><td height=4></td></tr></table></center>" );
+		}
 	}
 
 	private static class KoLSubmitView
