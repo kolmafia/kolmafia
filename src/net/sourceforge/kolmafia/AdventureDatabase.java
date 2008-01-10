@@ -1779,13 +1779,6 @@ public class AdventureDatabase
 		int mixingMethod = ConcoctionsDatabase.getMixingMethod( itemId );
 		ItemCreationRequest creator = ItemCreationRequest.getInstance( itemId );
 
-		// Why, exactly, do we do the following?
-
-		if ( creator != null && creator.isReagentPotion() && !KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) )
-		{
-			creator = null;
-		}
-
 		// First, attempt to pull the item from the closet.
 		// If this is successful, return from the method.
 
