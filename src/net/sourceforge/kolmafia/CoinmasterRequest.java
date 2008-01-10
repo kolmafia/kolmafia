@@ -44,7 +44,6 @@ public class CoinmasterRequest
 	private static final Pattern ACTION_PATTERN = Pattern.compile( "action=([^&]+)" );
 	private static final Pattern CAMP_PATTERN = Pattern.compile( "whichcamp=(\\d+)" );
 	private static final Pattern BHH_BUY_PATTERN = Pattern.compile( "whichitem=(\\d+).*?howmany=(\\d+)" );
-			// bhh.php?pwd&action=buy&whichitem=xxx&howmany=yyy 
 
 	private static final String BHH = "Bounty Hunter Hunter";
 	private static final String HIPPY = "Dimemaster";
