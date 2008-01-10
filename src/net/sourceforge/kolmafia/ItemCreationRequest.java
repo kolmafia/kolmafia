@@ -60,6 +60,7 @@ public class ItemCreationRequest
 	public String name;
 	public AdventureResult createdItem;
 	public int itemId, beforeQuantity, mixingMethod;
+	public int yield;
 
 	private int quantityNeeded, quantityPossible;
 
@@ -113,8 +114,9 @@ public class ItemCreationRequest
 
 		this.itemId = itemId;
 		this.name = TradeableItemDatabase.getItemName( itemId );
+		this.yield = ConcoctionsDatabase.getYield( itemId );
 		this.mixingMethod = mixingMethod;
-		this.createdItem = new AdventureResult( itemId, 1 );
+		this.createdItem = new AdventureResult( itemId, yield );
 	}
 
 	public void reconstructFields()
@@ -515,14 +517,8 @@ public class ItemCreationRequest
 			}
 		}
 
-		if ( this.isReagentPotion() && KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) )
-		{
-			this.addFormField( "quantity", String.valueOf( (int) Math.ceil( this.quantityNeeded / 3.0f ) ) );
-		}
-		else
-		{
-			this.addFormField( "quantity", String.valueOf( this.quantityNeeded ) );
-		}
+		int quantity = ( this.quantityNeeded + this.yield - 1 ) / this.yield;
+		this.addFormField( "quantity", String.valueOf( quantity ) );
 
 		KoLmafia.updateDisplay( "Creating " + this.name + " (" + this.quantityNeeded + ")..." );
 		super.run();
@@ -563,16 +559,13 @@ public class ItemCreationRequest
 		// quantity that has changed might not be accurate.
 		// Therefore, update with the actual value.
 
-		if ( this.quantityNeeded == createdQuantity )
+		if ( createdQuantity >= this.quantityNeeded )
 		{
 			return;
 		}
 
 		int undoAmount = this.quantityNeeded - createdQuantity;
-		if ( this.isReagentPotion() && KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) )
-		{
-			undoAmount /= 3;
-		}
+		undoAmount = ( undoAmount + this.yield - 1 ) / this.yield;
 
 		AdventureResult[] ingredients = ConcoctionsDatabase.getIngredients( this.itemId );
 
@@ -637,16 +630,6 @@ public class ItemCreationRequest
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unexpected error: nothing created" );
 		}
-	}
-
-	public boolean isReagentPotion()
-	{
-		if ( this.mixingMethod != KoLConstants.COOK_REAGENT && this.mixingMethod != KoLConstants.SUPER_REAGENT )
-		{
-			return false;
-		}
-
-		return TradeableItemDatabase.getConsumptionType( this.itemId ) == KoLConstants.CONSUME_MULTIPLE;
 	}
 
 	private boolean autoRepairBoxServant()
@@ -793,6 +776,7 @@ public class ItemCreationRequest
 		}
 
 		AdventureResult[] ingredients = ConcoctionsDatabase.getIngredients( this.itemId );
+		int yield = ConcoctionsDatabase.getYield( this.itemId );
 
 		for ( int i = 0; i < ingredients.length; ++i )
 		{
@@ -813,9 +797,9 @@ public class ItemCreationRequest
 			// to proceed with the concoction.
 
 			int quantity = this.quantityNeeded * multiplier;
-			if ( this.isReagentPotion() && KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) )
+			if ( yield > 1 )
 			{
-				quantity = (int) Math.ceil( quantity / 3.0f );
+				quantity = ( quantity + yield - 1 ) / yield;
 			}
 			foundAllIngredients &= AdventureDatabase.retrieveItem( ingredients[ i ].getInstance( quantity ) );
 		}

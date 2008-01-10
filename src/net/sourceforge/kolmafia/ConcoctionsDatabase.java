@@ -688,7 +688,7 @@ public class ConcoctionsDatabase
 		}
 
 		// Now, to update the list of creatables without removing
-		// all creatable items.  We do this by determining the
+		// all creatable items.	 We do this by determining the
 		// number of items inside of the old list.
 
 		ItemCreationRequest instance;
@@ -1115,6 +1115,12 @@ public class ConcoctionsDatabase
 		return ingredients;
 	}
 
+	public static final int getYield( final int itemId )
+	{
+		Concoction item = ConcoctionsDatabase.concoctions.get( itemId );
+		return item == null ? 1 : item.getYield();
+	}
+
 	public static final AdventureResult[] getStandardIngredients( final int itemId )
 	{
 		Concoction item = ConcoctionsDatabase.concoctions.get( itemId );
@@ -1168,6 +1174,7 @@ public class ConcoctionsDatabase
 		implements Comparable
 	{
 		private final AdventureResult concoction;
+		private final int yield;
 		private final int mixingMethod;
 		private int sortOrder;
 		private boolean wasPossible;
@@ -1187,6 +1194,7 @@ public class ConcoctionsDatabase
 		{
 			this.name = name;
 			this.concoction = null;
+			this.yield = 1;
 
 			this.mixingMethod = KoLConstants.NOCREATE;
 			this.wasPossible = true;
@@ -1222,7 +1230,13 @@ public class ConcoctionsDatabase
 
 			if ( concoction != null )
 			{
+				this.yield = Math.max( concoction.getCount(), 1 );
 				this.name = concoction.getName();
+			}
+			else
+			{
+				this.yield = 1;
+				this.name = "unknown";
 			}
 
 			this.mixingMethod = mixingMethod;
@@ -1251,6 +1265,14 @@ public class ConcoctionsDatabase
 			}
 
 			this.price = -1;
+		}
+
+		public int getYield()
+		{
+			if ( ConcoctionsDatabase.tripleReagent && ( this.mixingMethod == KoLConstants.COOK_REAGENT || this.mixingMethod == KoLConstants.SUPER_REAGENT ) )
+				return 3 * this.yield;
+
+			return this.yield;
 		}
 
 		public int compareTo( final Object o )
@@ -1428,10 +1450,24 @@ public class ConcoctionsDatabase
 				this.queued += amount;
 			}
 
+			// Recipes that yield multiple units require smaller
+			// quantities of ingredients.
+
+			int mult = this.getYield();
+			int icount = ( overAmount + ( mult - 1 ) ) / mult;
 			for ( int i = 0; i < this.ingredientArray.length; ++i )
 			{
-				ConcoctionsDatabase.concoctions.get( this.ingredientArray[ i ].getItemId() ).queue(
-					ingredientChange, overAmount, false );
+				AdventureResult ingredient = this.ingredientArray[ i ];
+				Concoction c = ConcoctionsDatabase.concoctions.get( ingredient.getItemId() );
+				c.queue( ingredientChange, icount, false );
+			}
+
+			// Recipes that yield multiple units might result in
+			// extra product which can be used for other recipes.
+
+			int excess = mult * icount - overAmount;
+			if ( excess > 0	 )
+			{
 			}
 		}
 
@@ -1536,8 +1572,9 @@ public class ConcoctionsDatabase
 
 			for ( int i = 0; i < this.ingredientArray.length; ++i )
 			{
-				ConcoctionsDatabase.concoctions.get( this.ingredientArray[ i ].getItemId() ).calculate(
-					availableIngredients );
+				AdventureResult ingredient = this.ingredientArray[ i ];
+				Concoction c = ConcoctionsDatabase.concoctions.get( ingredient.getItemId() );
+				c.calculate( availableIngredients );
 			}
 
 			this.mark( 0, 1 );
@@ -1550,40 +1587,43 @@ public class ConcoctionsDatabase
 			{
 				// If there's only one ingredient, then the
 				// quantity depends entirely on it.
+				AdventureResult ingredient = this.ingredientArray[ 0 ];
+				Concoction c = ConcoctionsDatabase.concoctions.get( ingredient.getItemId() );
 
-				this.creatable = ConcoctionsDatabase.concoctions.get( this.ingredientArray[ 0 ].getItemId() ).initial;
+				this.creatable = c.initial;
 				this.total = this.initial + this.creatable;
 			}
 			else
 			{
 				this.total = MallPurchaseRequest.MAX_QUANTITY;
+
 				for ( int i = 0; i < this.ingredientArray.length; ++i )
 				{
-					this.total =
-						Math.min( this.total, ConcoctionsDatabase.concoctions.get(
-							this.ingredientArray[ i ].getItemId() ).quantity() );
+					AdventureResult ingredient = this.ingredientArray[ i ];
+					Concoction c = ConcoctionsDatabase.concoctions.get( ingredient.getItemId() );
+					int available = c.quantity();
+					this.total = Math.min( this.total, available );
 				}
 
 				if ( ConcoctionsDatabase.ADVENTURE_USAGE[ this.mixingMethod ] != 0 )
 				{
-					this.total = Math.min( this.total, ConcoctionsDatabase.adventureLimit.quantity() );
+					Concoction c = ConcoctionsDatabase.adventureLimit;
+					int available = c.quantity();
+					this.total = Math.min( this.total, available );
 				}
 
 				if ( this.mixingMethod == KoLConstants.STILL_MIXER || this.mixingMethod == KoLConstants.STILL_BOOZE )
 				{
-					this.total = Math.min( this.total, ConcoctionsDatabase.stillsLimit.quantity() );
+					Concoction c = ConcoctionsDatabase.stillsLimit;
+					int available = c.quantity();
+					this.total = Math.min( this.total, available );
 				}
 
-				// The total available for other creations is equal
-				// to the total, less the initial.
+				// The total available for other creations is
+				// equal to the total, less the initial.
 
-				this.creatable = this.total - this.initial;
-
-				if ( ConcoctionsDatabase.tripleReagent && ( this.mixingMethod == KoLConstants.COOK_REAGENT || this.mixingMethod == KoLConstants.SUPER_REAGENT ) )
-				{
-					this.creatable *= 3;
-					this.total = this.initial + this.creatable;
-				}
+				this.creatable = ( this.total - this.initial ) * this.getYield();
+				this.total = this.initial + this.creatable;
 			}
 
 			// Now that all the calculations are complete, unmark
@@ -1627,12 +1667,13 @@ public class ConcoctionsDatabase
 			// for all other ingredients to complete the solution
 			// of the linear inequality.
 
+			int mult = this.getYield();
 			for ( int i = 0; quantity > 0 && i < this.ingredientArray.length; ++i )
 			{
-				quantity =
-					Math.min(
-						quantity,
-						ConcoctionsDatabase.concoctions.get( this.ingredientArray[ i ].getItemId() ).quantity() );
+				AdventureResult ingredient = this.ingredientArray[ i ];
+				Concoction c = ConcoctionsDatabase.concoctions.get( ingredient.getItemId() );
+				int available = c.quantity() * mult;
+				quantity = Math.min( quantity, available );
 			}
 
 			// Adventures are also considered an ingredient; if
@@ -1642,14 +1683,18 @@ public class ConcoctionsDatabase
 
 			if ( ConcoctionsDatabase.ADVENTURE_USAGE[ this.mixingMethod ] != 0 )
 			{
-				quantity = Math.min( quantity, ConcoctionsDatabase.adventureLimit.quantity() );
+				Concoction c = ConcoctionsDatabase.adventureLimit;
+				int available = c.quantity() * mult;
+				quantity = Math.min( quantity, available );
 			}
 
 			// Still uses are also considered an ingredient.
 
 			if ( this.mixingMethod == KoLConstants.STILL_MIXER || this.mixingMethod == KoLConstants.STILL_BOOZE )
 			{
-				quantity = Math.min( quantity, ConcoctionsDatabase.stillsLimit.quantity() );
+				Concoction c = ConcoctionsDatabase.stillsLimit;
+				int available = c.quantity() * mult;
+				quantity = Math.min( quantity, available );
 			}
 
 			// The true value is now calculated.  Return this
@@ -1837,7 +1882,7 @@ public class ConcoctionsDatabase
 			for ( int i = 0; i <= maxItemId; ++i )
 			{
 				this.internalList.add( new Concoction(
-					TradeableItemDatabase.getItemName( i ) == null ? null : new AdventureResult( i, 0 ),
+					TradeableItemDatabase.getItemName( i ) == null ? null : new AdventureResult( i, 1 ),
 					KoLConstants.NOCREATE ) );
 			}
 		}
