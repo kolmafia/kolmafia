@@ -254,14 +254,13 @@ public class CoinmastersFrame
 				return;
 			}
 
-			KoLmafia.updateDisplay( "Visiting the " + master + "..." );
 			RequestThread.openRequestSequence();
 			if ( !EquipmentDatabase.isWearingOutfit( this.outfit ) )
 			{
 				EquipmentDatabase.retrieveOutfit( this.outfit );
 				RequestThread.postRequest( outfitRequest() );
 			}
-			// RequestThread.postRequest( ...request... );
+			RequestThread.postRequest( new CoinmasterRequest( this.token ) );
 			RequestThread.closeRequestSequence();
 		}
 
