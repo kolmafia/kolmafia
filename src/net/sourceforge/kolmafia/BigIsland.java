@@ -94,6 +94,7 @@ public class BigIsland
 	public static final int FARM = 4;
 	public static final int LIGHTHOUSE = 5;
 	public static final int NUNS = 6;
+	public static final int CAMP = 7;
 
 	private static int quest = BigIsland.NONE;
 
@@ -1047,7 +1048,6 @@ public class BigIsland
 		// Set variables from user settings
 		BigIsland.ensureUpdatedBigIsland();
 		KoLSettings.resetUserProperty( "warProgress", "started" );
-		CoinmastersFrame.externalUpdate();
 
 		// Parse the map and deduce how many soldiers remain
 		BigIsland.parseBattlefield( responseText );
@@ -1074,6 +1074,9 @@ public class BigIsland
 			break;
 		case LIGHTHOUSE:
 			BigIsland.parseLighthouse( responseText );
+			break;
+		case CAMP:
+			CoinmasterRequest.parseIslandVisit( location, responseText );
 			break;
 		}
 	}
@@ -1108,6 +1111,11 @@ public class BigIsland
 		if ( location.indexOf( "action=pyro" ) != -1 )
 		{
 			return BigIsland.LIGHTHOUSE;
+		}
+
+		if ( location.indexOf( "whichcamp" ) != -1 )
+		{
+			return BigIsland.CAMP;
 		}
 
 		return BigIsland.NONE;

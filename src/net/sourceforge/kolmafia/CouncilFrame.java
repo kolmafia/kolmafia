@@ -93,7 +93,7 @@ public class CouncilFrame
 		}
 		else if ( location.startsWith( "bhh" ) )
 		{
-			CouncilFrame.handleBountyChange( location, responseText );
+			CoinmasterRequest.parseBountyVisit( location, responseText );
 		}
 		else if ( location.startsWith( "manor3" ) && location.indexOf( "action=summon" ) != -1 )
 		{
@@ -103,38 +103,6 @@ public class CouncilFrame
 		{
 			CouncilFrame.handleSneakyPeteChange( responseText );
 		}
-	}
-
-	private static final void handleBountyChange( final String location, final String responseText )
-	{
-		if ( location.indexOf( "takebounty" ) != -1 )
-		{
-			Matcher idMatcher = CouncilFrame.ITEMID_PATTERN.matcher( location );
-			if ( !idMatcher.find() )
-			{
-				return;
-			}
-
-			KoLSettings.setUserProperty( "currentBountyItem", idMatcher.group( 1 ) );
-			String itemName = TradeableItemDatabase.getItemName( StaticEntity.parseInt( idMatcher.group( 1 ) ) );
-			AdventureFrame.updateSelectedAdventure( AdventureDatabase.getBountyLocation( itemName ) );
-			return;
-		}
-
-		if ( location.indexOf( "action=abandonbounty" ) == -1 && responseText.indexOf( "You acquire" ) == -1 )
-		{
-			return;
-		}
-
-		int itemId = KoLSettings.getIntegerProperty( "currentBountyItem" );
-		if ( itemId == 0 )
-		{
-			return;
-		}
-
-		AdventureResult item = new AdventureResult( itemId, 1 );
-		StaticEntity.getClient().processResult( item.getInstance( 0 - item.getCount( KoLConstants.inventory ) ) );
-		KoLSettings.setUserProperty( "currentBountyItem", "0" );
 	}
 
 	private static final void handleSneakyPeteChange( final String responseText )

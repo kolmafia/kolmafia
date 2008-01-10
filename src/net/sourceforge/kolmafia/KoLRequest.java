@@ -565,6 +565,40 @@ public class KoLRequest
 		return null;
 	}
 
+	public void removeFormField( final String name )
+	{
+		if ( name == null )
+		{
+			return;
+		}
+
+		this.dataChanged = true;
+
+		String encodedName = name;
+
+		try
+		{
+			encodedName = URLEncoder.encode( encodedName, this.isChatRequest ? "ISO-8859-1" : "UTF-8" ) + "=";
+		}
+		catch ( Exception e )
+		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+
+			StaticEntity.printStackTrace( e );
+			return;
+		}
+
+		Iterator it = this.data.iterator();
+		while ( it.hasNext() )
+		{
+			if ( ( (String) it.next() ).startsWith( encodedName ) )
+			{
+				it.remove();
+			}
+		}
+	}
+
 	public String getPath()
 	{
 		return this.formURLString;
@@ -675,16 +709,10 @@ public class KoLRequest
 			return;
 		}
 
-		// When following redirects, you will get different URL
-		// strings, so make sure you update.
+		// Call central dispatch method for locations that require
+		// special handling
 
-		boolean isQuestLocation =
-			location.startsWith( "council" ) || location.startsWith( "bigisland" ) || location.startsWith( "postwarisland" ) || location.startsWith( "guild" ) || location.startsWith( "friars" ) || location.startsWith( "trapper" ) || location.startsWith( "bhh" ) || location.startsWith( "manor3" ) || location.startsWith( "adventure" ) && location.indexOf( "=84" ) != -1;
-
-		if ( isQuestLocation )
-		{
-			CouncilFrame.handleQuestChange( location, this.responseText );
-		}
+		CouncilFrame.handleQuestChange( location, this.responseText );
 
 		if ( this.formURLString.equals( "charpane.php" ) )
 		{

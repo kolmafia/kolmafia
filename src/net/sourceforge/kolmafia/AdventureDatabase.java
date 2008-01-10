@@ -1320,9 +1320,30 @@ public class AdventureDatabase
 		}
 	}
 
+	public static final KoLAdventure getBountyLocation( final int itemId )
+	{
+		return getBountyLocation( TradeableItemDatabase.getItemName( itemId ) );
+	}
+
 	public static final KoLAdventure getBountyLocation( final String item )
 	{
 		return item == null ? null : (KoLAdventure) AdventureDatabase.locationByBounty.get( KoLDatabase.getCanonicalName( item ) );
+	}
+
+	public static final AdventureResult getBounty( final int itemId )
+	{
+                String name = TradeableItemDatabase.getItemName( itemId );
+		if ( name == null )
+			return null;
+		KoLAdventure adventure = (KoLAdventure) AdventureDatabase.locationByBounty.get( KoLDatabase.getCanonicalName( name ) );
+		if ( adventure == null )
+			return null;
+		int adventureId = StaticEntity.parseInt( adventure.getAdventureId() );
+		String bounty = AdventureDatabase.bountiesById.get( adventureId );
+		if ( bounty == null )
+			return null;
+
+		return new AdventureResult( name, StaticEntity.parseInt( bounty ), false );
 	}
 
 	public static final void refreshAdventureList( final String desiredZone )
