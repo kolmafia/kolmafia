@@ -44,6 +44,8 @@ public class CoinmasterRequest
 	private static final Pattern ACTION_PATTERN = Pattern.compile( "action=([^&]+)" );
 	private static final Pattern CAMP_PATTERN = Pattern.compile( "whichcamp=(\\d+)" );
 	private static final Pattern BHH_BUY_PATTERN = Pattern.compile( "whichitem=(\\d+).*?howmany=(\\d+)" );
+	private static final Pattern CAMP_TRADE_PATTERN = Pattern.compile( "whichitem=(\\d+).*?quantity=(\\d+)" );
+	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You've got (\\d+) (dime|quarter)" );
 
 	private static final String BHH = "Bounty Hunter Hunter";
 	private static final String HIPPY = "Dimemaster";
@@ -186,12 +188,140 @@ public class CoinmasterRequest
 
 		if ( responseText.indexOf( "You don't have enough" ) != -1 )
 		{
-			// Get those lucres back.
+			CoinmasterRequest.refundPurchase( location, BHH );
+			CoinmastersFrame.externalUpdate();
+		}
+	}
 
-			Matcher matcher = CoinmasterRequest.BHH_BUY_PATTERN.matcher( location );
-			Map prices = CoinmastersDatabase.lucreBuyPrices();
-			int cost = getPurchaseCost( matcher, prices );
+	public static void parseIslandVisit( final String location, final String responseText )
+	{
+		if ( location.indexOf( "whichcamp" ) == -1 )
+		{
+			return;
+		}
 
+		String master = findCampMaster( location );
+		if ( master == null )
+		{
+			return;
+		}
+
+		Matcher actionMatcher = CoinmasterRequest.ACTION_PATTERN.matcher( location );
+		if ( !actionMatcher.find() )
+		{
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( "visit " + master );
+
+			// Parse current coin balances
+			CoinmasterRequest.parseBalance( master, responseText );
+			CoinmastersFrame.externalUpdate();
+
+			return;
+		}
+
+		if ( responseText.indexOf( "You don't have enough" ) != -1 )
+		{
+			CoinmasterRequest.refundPurchase( location, master );
+		}
+		else if ( responseText.indexOf( "You don't have that many" ) != -1 )
+		{
+			CoinmasterRequest.refundSale( location, master );
+		}
+
+		CoinmasterRequest.parseBalance( master, responseText );
+		CoinmastersFrame.externalUpdate();
+	}
+
+	public static String findCampMaster( final String urlString )
+	{
+		Matcher campMatcher = CoinmasterRequest.CAMP_PATTERN.matcher( urlString );
+		if ( !campMatcher.find() )
+		{
+			return null;
+		}
+
+		String camp = campMatcher.group(1);
+
+		if ( camp.equals( "1" ) )
+		{
+			return HIPPY;
+		}
+
+		if ( camp.equals( "2" ) )
+		{
+			return FRATBOY;
+		}
+
+		return null;
+	}
+
+	public static void parseBalance( final String master, final String responseText )
+	{
+		String balance = "0";
+		String property;
+		String test;
+
+		if ( master == HIPPY )
+		{
+			property = "availableDimes";
+			test = "You don't have any dimes";
+		}
+		else if ( master == FRATBOY )
+		{
+			property = "availableQuarters";
+			test = "You don't have any quarters";
+		}
+		else
+		{
+			return;
+		}
+
+		if ( responseText.indexOf( test ) == -1 )
+		{
+			Matcher matcher = CoinmasterRequest.TOKEN_PATTERN.matcher( responseText );
+			if ( matcher.find() )
+			{
+				balance = matcher.group(1);
+			}
+		}
+
+		KoLSettings.setUserProperty( property, balance );
+	}
+
+	private static final void refundPurchase( final String urlString, final String master )
+	{
+		Matcher matcher;
+		Map prices;
+		String property;
+
+		if ( master == BHH )
+		{
+			matcher = CoinmasterRequest.BHH_BUY_PATTERN.matcher( urlString );
+			prices = CoinmastersDatabase.lucreBuyPrices();
+			property = "availableLucre";
+		}
+		else if ( master == HIPPY )
+		{
+			matcher = CoinmasterRequest.CAMP_TRADE_PATTERN.matcher( urlString );
+			prices = CoinmastersDatabase.dimeBuyPrices();
+			property = "availableDimes";
+		}
+		else if ( master == FRATBOY )
+		{
+			matcher = CoinmasterRequest.CAMP_TRADE_PATTERN.matcher( urlString );
+			prices = CoinmastersDatabase.quarterBuyPrices();
+			property = "availableQuarters";
+		}
+		else
+		{
+			return;
+		}
+
+		int cost = getPurchaseCost( matcher, prices );
+		KoLSettings.incrementIntegerProperty( property, cost );
+
+		if ( master == BHH )
+		{
 			AdventureResult lucres = CoinmastersFrame.LUCRE.getInstance( cost );
 			StaticEntity.getClient().processResult( lucres );
 		}
@@ -211,14 +341,45 @@ public class CoinmasterRequest
 		return count * price;
 	}
 
-	public static void parseIslandVisit( final String location, final String responseText )
+	public static final void refundSale( final String urlString, final String master )
 	{
-		if ( location.indexOf( "whichcamp" ) == -1 )
+		Map prices;
+		String property;
+
+		if ( master == HIPPY )
+		{
+			prices = CoinmastersDatabase.dimeSellPrices();
+			property = "availableDimes";
+		}
+		else if ( master == FRATBOY )
+		{
+			prices = CoinmastersDatabase.quarterSellPrices();
+			property = "availableQuarters";
+		}
+		else
 		{
 			return;
 		}
 
-		CoinmastersFrame.externalUpdate();
+		Matcher matcher = CoinmasterRequest.CAMP_TRADE_PATTERN.matcher( urlString );
+		if ( !matcher.find() )
+		{
+			return;
+		}
+
+		int itemId = StaticEntity.parseInt( matcher.group(1) );
+		int count = StaticEntity.parseInt( matcher.group(2) );
+
+		// Get back the items we failed to turn in
+		AdventureResult item = new AdventureResult( itemId, count );
+		StaticEntity.getClient().processResult( item );
+
+		// Remove the tokens we failed to receive
+		String name = TradeableItemDatabase.getItemName( itemId );
+		int price = CoinmastersDatabase.getPrice( name, prices );
+		int cost = count * price;
+
+		KoLSettings.incrementIntegerProperty( property, -cost );
 	}
 
 	public static final boolean registerRequest( final String urlString )
@@ -271,24 +432,7 @@ public class CoinmasterRequest
 		}
 		else if ( action.equals( "buy" ) )
 		{
-			Matcher buyMatcher = CoinmasterRequest.BHH_BUY_PATTERN.matcher( urlString );
-			if ( !buyMatcher.find() )
-			{
-				return true;
-			}
-
-			int itemId = StaticEntity.parseInt( buyMatcher.group(1) );
-			String name = TradeableItemDatabase.getItemName( itemId );
-			int count = StaticEntity.parseInt( buyMatcher.group(2) );
-			Map prices = CoinmastersDatabase.lucreBuyPrices();
-			int price = CoinmastersDatabase.getPrice( name, prices );
-			int cost = count * price;
-
-			RequestLogger.updateSessionLog();
-			RequestLogger.updateSessionLog( "trading " + cost + " filthy lucre for " + count + " " + name );
-
-			AdventureResult lucres = CoinmastersFrame.LUCRE.getInstance( -1 * cost );
-			StaticEntity.getClient().processResult( lucres );
+			CoinmasterRequest.buyStuff( urlString, BHH );
 		}
 		else
 		{
@@ -314,23 +458,8 @@ public class CoinmasterRequest
 
 	private static final boolean registerIslandRequest( final String urlString )
 	{
-		Matcher campMatcher = CoinmasterRequest.CAMP_PATTERN.matcher( urlString );
-		if ( !campMatcher.find() )
-		{
-			return false;
-		}
-
-		int camp = StaticEntity.parseInt( campMatcher.group(1) );
-		String master;
-		if ( camp == 1 )
-		{
-			master = HIPPY;
-		}
-		else if ( camp == 2 )
-		{
-			master = FRATBOY;
-		}
-		else
+		String master = findCampMaster( urlString );
+		if ( master == null )
 		{
 			return false;
 		}
@@ -343,6 +472,126 @@ public class CoinmasterRequest
 			return true;
 		}
 
-		return false;
+		String action = actionMatcher.group(1);
+
+		if ( action.equals( "getgear" ) )
+		{
+			CoinmasterRequest.buyStuff( urlString, master );
+		}
+		else if ( action.equals( "turnin" ) )
+		{
+			CoinmasterRequest.sellStuff( urlString, master );
+		}
+		else
+		{
+			// Unknown action
+			return false;
+		}
+
+		return true;
+	}
+
+	private static final void buyStuff( final String urlString, final String master )
+	{
+		Matcher tradeMatcher;
+		Map prices;
+		String token;
+		String property;
+
+		if ( master == BHH )
+		{
+			tradeMatcher = CoinmasterRequest.BHH_BUY_PATTERN.matcher( urlString );
+			prices = CoinmastersDatabase.lucreBuyPrices();
+			token = "filthy lucre";
+			property = "availableLucre";
+		}
+		else if ( master == HIPPY )
+		{
+			tradeMatcher = CoinmasterRequest.CAMP_TRADE_PATTERN.matcher( urlString );
+			prices = CoinmastersDatabase.dimeBuyPrices();
+			token = "dime";
+			property = "availableDimes";
+		}
+		else if ( master == FRATBOY )
+		{
+			tradeMatcher = CoinmasterRequest.CAMP_TRADE_PATTERN.matcher( urlString );
+			prices = CoinmastersDatabase.quarterBuyPrices();
+			token = "quarter";
+			property = "availableQuarters";
+		}
+		else
+		{
+			return;
+		}
+
+		if ( !tradeMatcher.find() )
+		{
+			return;
+		}
+
+		int itemId = StaticEntity.parseInt( tradeMatcher.group(1) );
+		String name = TradeableItemDatabase.getItemName( itemId );
+		int count = StaticEntity.parseInt( tradeMatcher.group(2) );
+		int price = CoinmastersDatabase.getPrice( name, prices );
+		int cost = count * price;
+		String plural = ( cost > 1 ) ? "s" : "";
+
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( "trading " + cost + " " + token + plural + " for " + count + " " + name );
+
+		if ( master == BHH )
+		{
+			AdventureResult lucres = CoinmastersFrame.LUCRE.getInstance( -cost );
+			StaticEntity.getClient().processResult( lucres );
+		}
+
+		KoLSettings.incrementIntegerProperty( property, -cost );
+		CoinmastersFrame.externalUpdate();
+	}
+
+	private static final void sellStuff( final String urlString, final String master )
+	{
+		Matcher tradeMatcher = CoinmasterRequest.CAMP_TRADE_PATTERN.matcher( urlString );
+		if ( !tradeMatcher.find() )
+		{
+			return;
+		}
+
+		Map prices;
+		String token;
+		String property;
+
+		if ( master == HIPPY )
+		{
+			prices = CoinmastersDatabase.dimeSellPrices();
+			token = "dime";
+			property = "availableDimes";
+		}
+		else if ( master == FRATBOY )
+		{
+			prices = CoinmastersDatabase.quarterSellPrices();
+			token = "quarter";
+			property = "availableQuarters";
+		}
+		else
+		{
+			return;
+		}
+
+		int itemId = StaticEntity.parseInt( tradeMatcher.group(1) );
+		String name = TradeableItemDatabase.getItemName( itemId );
+		int count = StaticEntity.parseInt( tradeMatcher.group(2) );
+		int price = CoinmastersDatabase.getPrice( name, prices );
+		int cost = count * price;
+		String plural = ( cost > 1 ) ? "s" : "";
+
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( "trading " + count + " " + name + " for " + cost + " " + token + plural );
+
+		AdventureResult item = new AdventureResult( itemId, -count );
+		StaticEntity.getClient().processResult( item );
+
+		KoLSettings.incrementIntegerProperty( property, cost );
+		CoinmastersFrame.externalUpdate();
 	}
 }
