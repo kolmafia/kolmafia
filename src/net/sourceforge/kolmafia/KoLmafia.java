@@ -2365,9 +2365,9 @@ public abstract class KoLmafia
 			AdventureFrame.updateRequestMeter( 1, 1 );
 
 			int bountyItem = KoLSettings.getIntegerProperty( "currentBountyItem" );
-			if ( bountyItem != 0 && AdventureDatabase.getBountyLocation( TradeableItemDatabase.getItemName( bountyItem ) ) == request )
+			if ( bountyItem != 0 && AdventureDatabase.getBountyLocation( bountyItem ) == request )
 			{
-				RequestThread.postRequest( new KoLRequest( "bhh.php" ) );
+				RequestThread.postRequest( new CoinmasterRequest( "lucre" ) );
 			}
 		}
 
@@ -2605,13 +2605,14 @@ public abstract class KoLmafia
 	}
 
 	/**
-	 * Makes a request to the hermit, looking for the given number of items. This method should prompt the user to
-	 * determine which item to retrieve the hermit.
+	 * Makes a request to the bounty hunter hunter, looking for the given
+	 * number of items. This method should prompt the user to determine
+	 * which item to retrieve the hermit.
 	 */
 
 	public void makeHunterRequest()
 	{
-		KoLRequest hunterRequest = new KoLRequest( "bhh.php" );
+		KoLRequest hunterRequest = new CoinmasterRequest( "lucre" );
 		RequestThread.postRequest( hunterRequest );
 
 		Matcher bountyMatcher = Pattern.compile( "name=whichitem value=(\\d+)" ).matcher( hunterRequest.responseText );
@@ -2643,7 +2644,7 @@ public abstract class KoLmafia
 			}
 			else
 			{
-				AdventureFrame.updateSelectedAdventure( AdventureDatabase.getBountyLocation( TradeableItemDatabase.getItemName( bounty ) ) );
+				AdventureFrame.updateSelectedAdventure( AdventureDatabase.getBountyLocation( bounty ) );
 			}
 
 			return;
@@ -2655,9 +2656,9 @@ public abstract class KoLmafia
 			return;
 		}
 
-		int itemId =
-			TradeableItemDatabase.getItemId( selectedValue.substring( 0, selectedValue.lastIndexOf( "(" ) - 1 ) );
-		RequestThread.postRequest( new KoLRequest( "bhh.php?pwd&action=takebounty&whichitem=" + itemId ) );
+		String selection = selectedValue.substring( 0, selectedValue.lastIndexOf( "(" ) - 1 );
+		int itemId = TradeableItemDatabase.getItemId( selection );
+		RequestThread.postRequest( new CoinmasterRequest( "lucre", "takebounty", itemId ) );
 	}
 
 	/**

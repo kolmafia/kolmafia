@@ -446,6 +446,12 @@ public class RequestLogger
 			return;
 		}
 
+		if ( ( request instanceof CoinmasterRequest || isExternal ) && CoinmasterRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
 		if ( ( request instanceof ConsumeItemRequest || isExternal ) && ConsumeItemRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;

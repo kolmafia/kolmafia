@@ -135,6 +135,16 @@ public class CoinmastersDatabase
 		}
 	}
 
+	public static final int getPrice( final String name, final Map prices )
+	{
+		if ( name == null )
+		{
+			return 0;
+		}
+		Integer price = (Integer) prices.get( KoLDatabase.getCanonicalName( name ) );
+		return ( price == null ) ? 0 : price.intValue();
+	}
+
 	public static final LockableListModel getDimeItems()
 	{
 		return buyForDimes;
