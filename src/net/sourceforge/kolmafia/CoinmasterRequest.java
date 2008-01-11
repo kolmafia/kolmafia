@@ -45,7 +45,7 @@ public class CoinmasterRequest
 	private static final Pattern CAMP_PATTERN = Pattern.compile( "whichcamp=(\\d+)" );
 	private static final Pattern BHH_BUY_PATTERN = Pattern.compile( "whichitem=(\\d+).*?howmany=(\\d+)" );
 	private static final Pattern CAMP_TRADE_PATTERN = Pattern.compile( "whichitem=(\\d+).*?quantity=(\\d+)" );
-	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You've got (\\d+) (dime|quarter)" );
+	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You've.*?got (\\d+) (dime|quarter)" );
 
 	private static final String BHH = "Bounty Hunter Hunter";
 	private static final String HIPPY = "Dimemaster";
@@ -129,6 +129,11 @@ public class CoinmasterRequest
 		}
 	}
 
+	public CoinmasterRequest( final String token, final String action, final AdventureResult ar )
+	{
+		this( token, action, ar.getItemId(), ar.getCount() );
+	}
+
 	private static String chooseURL( final String token )
 	{
 		if ( token.equals( "lucre" ) )
@@ -174,12 +179,11 @@ public class CoinmasterRequest
 		Matcher actionMatcher = CoinmasterRequest.ACTION_PATTERN.matcher( location );
 		if ( !actionMatcher.find() )
 		{
-			RequestLogger.updateSessionLog();
-			RequestLogger.updateSessionLog( "visit bounty hunter hunter" );
-
 			if ( responseText.indexOf( "You acquire" ) != -1 )
 			{
 				// He turned in a bounty for a lucre
+				RequestLogger.updateSessionLog();
+				RequestLogger.updateSessionLog( "visit Bounty Hunter Hunter" );
 				CoinmasterRequest.abandonBounty();
 				CoinmastersFrame.externalUpdate();
 			}
@@ -209,9 +213,6 @@ public class CoinmasterRequest
 		Matcher actionMatcher = CoinmasterRequest.ACTION_PATTERN.matcher( location );
 		if ( !actionMatcher.find() )
 		{
-			RequestLogger.updateSessionLog();
-			RequestLogger.updateSessionLog( "visit " + master );
-
 			// Parse current coin balances
 			CoinmasterRequest.parseBalance( master, responseText );
 			CoinmastersFrame.externalUpdate();
@@ -402,8 +403,6 @@ public class CoinmasterRequest
 		Matcher actionMatcher = CoinmasterRequest.ACTION_PATTERN.matcher( urlString );
 		if ( !actionMatcher.find() )
 		{
-			RequestLogger.updateSessionLog();
-			RequestLogger.updateSessionLog( "visit bounty hunter hunter" );
 			return true;
 		}
 
@@ -420,9 +419,11 @@ public class CoinmasterRequest
 			KoLSettings.setUserProperty( "currentBountyItem", idMatcher.group( 1 ) );
 			int itemId = StaticEntity.parseInt( idMatcher.group( 1 ) );
 			AdventureFrame.updateSelectedAdventure( AdventureDatabase.getBountyLocation( itemId ) );
+			AdventureResult bounty = AdventureDatabase.getBounty( itemId );
+			String plural = TradeableItemDatabase.getPluralName( itemId );
 
 			RequestLogger.updateSessionLog();
-			RequestLogger.updateSessionLog( "accept bounty assignment to collect " + AdventureDatabase.getBounty( itemId ) );
+			RequestLogger.updateSessionLog( "accept bounty assignment to collect " + bounty.getCount() + " " + plural );
 		}
 		else if ( action.equals( "abandonbounty" ) )
 		{
@@ -467,8 +468,6 @@ public class CoinmasterRequest
 		Matcher actionMatcher = CoinmasterRequest.ACTION_PATTERN.matcher( urlString );
 		if ( !actionMatcher.find() )
 		{
-			RequestLogger.updateSessionLog();
-			RequestLogger.updateSessionLog( "visit " + master );
 			return true;
 		}
 
