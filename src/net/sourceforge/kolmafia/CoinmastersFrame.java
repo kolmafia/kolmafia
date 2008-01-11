@@ -374,8 +374,8 @@ public class CoinmastersFrame
 						return false;
 					}
 					AdventureResult ar = (AdventureResult)element;
-					Object price = CoinmasterPanel.this.sellPrices.get( ar.getName() );
-					return ( price != null ) && super.isVisible( element );
+					int price = CoinmastersDatabase.getPrice( ar.getName(), CoinmasterPanel.this.sellPrices );
+					return ( price > 0 ) && super.isVisible( element );
 				}
 			}
 		}
