@@ -337,6 +337,12 @@ public class EquipmentDatabase
 		return EquipmentDatabase.normalOutfits.get( id );
 	}
 
+	public static final SpecialOutfit getAvailableOutfit( final int id )
+	{
+		SpecialOutfit outfit = EquipmentDatabase.normalOutfits.get( id );
+		return KoLCharacter.getOutfits().contains( outfit ) ? outfit : null;
+	}
+
 	public static final void updateOutfits()
 	{
 		ArrayList available = new ArrayList();

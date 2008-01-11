@@ -55,8 +55,8 @@ public class CoinmastersFrame
 {
 	public static final AdventureResult LUCRE = new AdventureResult( 2098, -1 );
 
-	private static final int WAR_HIPPY_OUTFIT = 32;
-	private static final int WAR_FRAT_OUTFIT = 33;
+	public static final int WAR_HIPPY_OUTFIT = 32;
+	public static final int WAR_FRAT_OUTFIT = 33;
 
 	private static CoinmastersFrame INSTANCE = null;
 	private static boolean atWar = false;
