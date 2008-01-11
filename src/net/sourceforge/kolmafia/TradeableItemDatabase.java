@@ -806,6 +806,19 @@ public class TradeableItemDatabase
 		return -1;
 	}
 
+	/**
+	 * Returns the plural for an item, given its Id number
+	 *
+	 * @param itemId The Id number of the item to lookup
+	 * @return The plural name of the corresponding item
+	 */
+
+	public static final String getPluralName( final int itemId )
+	{
+		String plural = pluralById.get( itemId );
+		return plural == null ? TradeableItemDatabase.getItemName( itemId ) : plural;
+	}
+
 	public static final boolean meetsLevelRequirement( final String name )
 	{
 		if ( name == null )

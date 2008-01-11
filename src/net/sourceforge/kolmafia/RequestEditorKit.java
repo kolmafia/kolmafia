@@ -1137,7 +1137,7 @@ public class RequestEditorKit
 		}
 		else if ( location.startsWith( "ascend.php" ) )
 		{
-			RequestEditorKit.addAscensionReminders( location, buffer );
+			RequestEditorKit.addPreAscensionReminders( buffer );
 		}
 		else if ( location.startsWith( "ascensionhistory.php" ) )
 		{
@@ -1511,20 +1511,15 @@ public class RequestEditorKit
 
 	private static final void addAscensionReminders( final String location, final StringBuffer buffer )
 	{
-		if ( location.indexOf( "ascend.php" ) != -1 )
-		{
-			RequestEditorKit.addPreAscensionReminders( buffer );
-			return;
-		}
-
 		if ( buffer.indexOf( "<form" ) == -1 )
 		{
 			return;
 		}
 
-		// What we're going to do is kill the standard form and replace it with
-		// one that requires a lot less scrolling while still retaining all of
-		// the form fields.  But first, extract needed information from it.
+		// What we're going to do is kill the standard form and replace
+		// it with one that requires a lot less scrolling while still
+		// retaining all of the form fields.  But first, extract needed
+		// information from it.
 
 		ArrayList softSkills = new ArrayList();
 		ArrayList hardSkills = new ArrayList();
@@ -1559,8 +1554,8 @@ public class RequestEditorKit
 			}
 		}
 
-		// Now we begin replacing the standard Valhalla form with one that is much
-		// more compact.
+		// Now we begin replacing the standard Valhalla form with one
+		// that is much more compact.
 
 		int endIndex = buffer.indexOf( "</form>" );
 		String suffix = buffer.toString().substring( endIndex + 7 );
@@ -1569,8 +1564,9 @@ public class RequestEditorKit
 		String skillListScript =
 			"var a, b; if ( document.getElementById( 'skillsview' ).options[0].selected ) { a = 'soft'; b = 'hard'; } else { a = 'hard'; b = 'soft'; } document.getElementById( a + 'skills' ).style.display = 'inline'; document.getElementById( b + 'skills' ).style.display = 'none'; void(0);";
 
-		// Add some holiday predictions to the page to make things more useful,
-		// since people sometimes forget KoLmafia has a calendar.
+		// Add some holiday predictions to the page to make things more
+		// useful, since people sometimes forget KoLmafia has a
+		// calendar.
 
 		buffer.append( "</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td>" );
 		buffer.append( KoLConstants.LINE_BREAK );
@@ -1667,9 +1663,10 @@ public class RequestEditorKit
 		buffer.append( KoLConstants.LINE_BREAK );
 		buffer.append( KoLConstants.LINE_BREAK );
 
-		// Finished with adding all the data in a more compact form.  Now, we
-		// go ahead and add in all the missing data that players might want to
-		// look at to see which class to go for next.
+		// Finished with adding all the data in a more compact form.
+		// Now, we go ahead and add in all the missing data that
+		// players might want to look at to see which class to go for
+		// next.
 
 		buffer.append( "<center><br><br><select id=\"skillsview\" onchange=\"" + skillListScript + "\"><option>Unpermed Softcore Skills</option><option selected>Unpermed Hardcore Skills</option></select>" );
 		buffer.append( KoLConstants.LINE_BREAK );

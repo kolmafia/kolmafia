@@ -134,6 +134,8 @@ public class CoinmastersFrame
 			       "dime",
 			       "dimemaster",
 			       "hippy");
+			buyAction = "getgear";
+			sellAction = "turnin";
 		}
 	}
 
@@ -150,6 +152,8 @@ public class CoinmastersFrame
 			       "quarter",
 			       "quartersmaster",
 			       "fratboy" );
+			buyAction = "getgear";
+			sellAction = "turnin";
 		}
 	}
 
@@ -163,23 +167,26 @@ public class CoinmastersFrame
 			       CoinmastersDatabase.lucreBuyPrices(),
 			       0,
 			       "availableLucre",
-			       "filthy lucre",
+			       "lucre",
 			       "bounty hunter hunter",
 			       null);
+			buyAction = "buy";
 		}
 	}
 
 	private class CoinmasterPanel
 		extends JPanel
 	{
-		private LockableListModel purchases;
-		private Map sellPrices;
-		private Map buyPrices;
-		private int outfit;
-		private String property;
-		protected String token;
-		protected String master;
-		protected String side;
+		private final LockableListModel purchases;
+		private final Map sellPrices;
+		private final Map buyPrices;
+		private final int outfit;
+		private final String property;
+		private final String token;
+		private final String master;
+		private final String side;
+		protected String buyAction;
+		protected String sellAction;
 
 		private SellPanel sellPanel = null;
 		private BuyPanel buyPanel = null;
@@ -264,30 +271,31 @@ public class CoinmastersFrame
 			RequestThread.closeRequestSequence();
 		}
 
-		private void execute( KoLRequest request )
+		private void execute( final String action, final Object [] items )
 		{
-			if ( !this.hasOutfit )
+			if ( items.length == 0 )
+			{
+				return;
+			}
+
+			if ( this.outfit != 0 && !this.hasOutfit )
 			{
 				KoLmafia.updateDisplay( ERROR_STATE, "You don't have the right outfit" );
 				return;
 			}
 
-			KoLmafia.updateDisplay( "Visiting the " + master + "..." );
-
-			boolean change = !EquipmentDatabase.isWearingOutfit( this.outfit );
 			RequestThread.openRequestSequence();
 
-			if ( change )
+			if ( this.outfit != 0 && !EquipmentDatabase.isWearingOutfit( this.outfit ) )
 			{
-				SpecialOutfit.createImplicitCheckpoint();
 				RequestThread.postRequest( outfitRequest() );
 			}
 
-			RequestThread.postRequest( request );
-
-			if ( change )
+			for ( int i = 0; i < items.length; ++i )
 			{
-				SpecialOutfit.restoreImplicitCheckpoint();
+				AdventureResult it = (AdventureResult)items[i];
+				KoLRequest request = new CoinmasterRequest( token, action, it );
+				RequestThread.postRequest( request );
 			}
 
 			RequestThread.closeRequestSequence();
@@ -347,7 +355,7 @@ public class CoinmastersFrame
 						return;
 					}
 
-					// CoinmasterPanel.this.execute( new CoinmasterRequest( items ) );
+					execute( sellAction, items );
 				}
 
 				public String toString()
@@ -387,7 +395,6 @@ public class CoinmastersFrame
 
 				this.elementList.setCellRenderer( getCoinmasterRenderer( buyPrices, token, property, showLighthouse() ) );
 				this.elementList.setVisibleRowCount( 6 );
-				this.elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 				this.setEnabled( true );
 			}
 
@@ -405,18 +412,75 @@ public class CoinmastersFrame
 			{
 			}
 
+			public Object[] getDesiredItems()
+			{
+				Object[] items = this.elementList.getSelectedValues();
+				if ( items.length == 0 )
+				{
+					return null;
+				}
+
+				int neededSize = items.length;
+
+				for ( int i = 0; i < items.length; ++i )
+				{
+					AdventureResult item = (AdventureResult) items[ i ];
+					String itemName = item.getName();
+
+					String value = KoLFrame.input( "Buying " + itemName + "...", KoLConstants.COMMA_FORMAT.format( 1 ) );
+					if ( value == null )
+					{
+						// He hit cancel
+						return null;
+					}
+
+					int quantity = StaticEntity.parseInt( value );
+
+					if ( quantity <= 0 )
+					{
+						items[ i ] = null;
+						--neededSize;
+					}
+					else 
+					{
+						items[ i ] = item.getInstance( quantity );
+					}
+				}
+
+				// Shrink the array which will be returned so
+				// that it removes any nulled values.
+				
+				if ( neededSize == 0 )
+				{
+					return null;
+				}
+
+				Object[] desiredItems = new Object[ neededSize ];
+				neededSize = 0;
+
+				for ( int i = 0; i < items.length; ++i )
+				{
+					if ( items[ i ] != null )
+					{
+						desiredItems[ neededSize++ ] = items[ i ];
+					}
+				}
+
+				return desiredItems;
+			}
+
 			public class BuyListener
 				extends ThreadedListener
 			{
 				public void run()
 				{
-					Object[] items = BuyPanel.this.getDesiredItems( "Buying" );
+					Object[] items = BuyPanel.this.getDesiredItems();
 					if ( items == null )
 					{
 						return;
 					}
 
-					// CoinmasterPanel.this.execute( new CoinmasterRequest( items ) );
+					execute( buyAction, items );
 				}
 
 				public String toString()
