@@ -753,6 +753,8 @@ public abstract class KoLmafia
 
 	public void getBreakfast( final boolean checkSettings, final boolean checkCampground )
 	{
+		SpecialOutfit.createImplicitCheckpoint();
+
 		if ( checkCampground )
 		{
 			if ( KoLCharacter.hasToaster() )
@@ -812,17 +814,138 @@ public abstract class KoLmafia
 				KoLmafia.forceContinue();
 			}
 
-			if ( KoLSettings.getIntegerProperty( "lastFilthClearance" ) == KoLCharacter.getAscensions() )
-			{
-				KoLmafia.updateDisplay( "Collecting cut of hippy profits..." );
-				RequestThread.postRequest( new KoLRequest( "store.php?whichstore=h" ) );
-				KoLmafia.forceContinue();
-			}
+                        this.bigIslandBreakfast();
 		}
 
-		SpecialOutfit.createImplicitCheckpoint();
 		this.castBreakfastSkills( checkSettings, 0 );
 		SpecialOutfit.restoreImplicitCheckpoint();
+		KoLmafia.forceContinue();
+	}
+
+	private void bigIslandBreakfast()
+	{
+		if ( KoLSettings.getIntegerProperty( "lastFilthClearance" ) == KoLCharacter.getAscensions() )
+		{
+			KoLmafia.updateDisplay( "Collecting cut of hippy profits..." );
+			RequestThread.postRequest( new KoLRequest( "store.php?whichstore=h" ) );
+			KoLmafia.forceContinue();
+		}
+
+		if ( !KoLSettings.getUserProperty( "warProgress" ).equals( "started" ) )
+		{
+			return;
+		}
+
+		SpecialOutfit hippy = EquipmentDatabase.getAvailableOutfit( CoinmastersFrame.WAR_HIPPY_OUTFIT );
+		SpecialOutfit fratboy = EquipmentDatabase.getAvailableOutfit( CoinmastersFrame.WAR_FRAT_OUTFIT );
+
+		String lighthouse = KoLSettings.getUserProperty( "sidequestLighthouseCompleted" );
+		SpecialOutfit lighthouseOutfit = this.sidequestOutfit( lighthouse, hippy, fratboy );
+
+		String farm = KoLSettings.getUserProperty( "sidequestFarmCompleted" );
+		SpecialOutfit farmOutfit = this.sidequestOutfit( farm, hippy, fratboy );
+
+		// If we can't get to (or don't need to get to) either
+		// sidequest location, nothing more to do.
+
+		if ( lighthouseOutfit == null && farmOutfit == null )
+		{
+			return;
+		}
+
+		// Visit locations accessible in current outfit
+
+		SpecialOutfit current = EquipmentDatabase.currentOutfit();
+
+		if ( farmOutfit != null && current == farmOutfit )
+		{
+			this.visitFarmer();
+			farmOutfit = null;
+		}
+
+		if ( lighthouseOutfit != null && current == lighthouseOutfit )
+		{
+			this.visitPyro();
+			lighthouseOutfit = null;
+		}
+
+		// Visit locations accessible in one outfit
+
+		current = nextOutfit( farmOutfit, lighthouseOutfit );
+		if ( current == null )
+		{
+			return;
+		}
+
+		if ( current == farmOutfit )
+		{
+			this.visitFarmer();
+			farmOutfit = null;
+		}
+
+		if ( current == lighthouseOutfit )
+		{
+			this.visitPyro();
+			lighthouseOutfit = null;
+		}
+
+		// Visit locations accessible in other outfit
+
+		current = nextOutfit( farmOutfit, lighthouseOutfit );
+		if ( current == null )
+		{
+			return;
+		}
+
+		if ( current == farmOutfit )
+		{
+			this.visitFarmer();
+			farmOutfit = null;
+		}
+
+		if ( current == lighthouseOutfit )
+		{
+			this.visitPyro();
+			lighthouseOutfit = null;
+		}
+	}
+
+	private SpecialOutfit sidequestOutfit( String winner, final SpecialOutfit hippy, final SpecialOutfit fratboy )
+	{
+		if ( winner.equals( "hippy" ) )
+		{
+			return hippy;
+		}
+
+		if ( winner.equals( "fratboy" ) )
+		{
+			return fratboy;
+		}
+
+		return null;
+	}
+
+	private SpecialOutfit nextOutfit( final SpecialOutfit one, final SpecialOutfit two )
+	{
+		SpecialOutfit outfit = ( one != null ) ? one : two;
+		if ( outfit != null )
+		{
+			RequestThread.postRequest( new EquipmentRequest( outfit ) );
+		}
+		return outfit;
+	}
+
+	private void visitFarmer()
+	{
+		KoLmafia.updateDisplay( "Collecting produce from farmer..." );
+		RequestThread.postRequest( new KoLRequest( "bigisland.php?place=farm&action=farmer&pwd" ) );
+		KoLmafia.forceContinue();
+	}
+
+	private void visitPyro()
+	{
+		KoLmafia.updateDisplay( "Collecting bombs from pyro..." );
+		RequestThread.postRequest( new KoLRequest( "bigisland.php?place=lighthouse&action=pyro&pwd" ) );
 		KoLmafia.forceContinue();
 	}
 
