@@ -359,7 +359,7 @@ public abstract class KoLmafia
 			KoLConstants.saveStateNames.add( actualName );
 		}
 
-		// Also clear out any outdated data files.  Include the
+		// Also clear out any outdated data files. Include the
 		// adventure table, in case this is causing problems.
 
 		String version = KoLSettings.getUserProperty( "previousUpdateVersion" );
@@ -814,7 +814,7 @@ public abstract class KoLmafia
 				KoLmafia.forceContinue();
 			}
 
-                        this.bigIslandBreakfast();
+			this.bigIslandBreakfast();
 		}
 
 		this.castBreakfastSkills( checkSettings, 0 );
@@ -1164,7 +1164,7 @@ public abstract class KoLmafia
 		}
 		catch ( Exception e )
 		{
-			// This should not happen.  Therefore, print
+			// This should not happen. Therefore, print
 			// a stack trace for debug purposes.
 
 			StaticEntity.printStackTrace( e );
@@ -1242,7 +1242,7 @@ public abstract class KoLmafia
 
 		// Process the adventure result in this section; if
 		// it's a status effect, then add it to the recent
-		// effect list.  Otherwise, add it to the tally.
+		// effect list. Otherwise, add it to the tally.
 
 		if ( result.isStatusEffect() )
 		{
@@ -1352,7 +1352,7 @@ public abstract class KoLmafia
 			else
 			{
 				// Otherwise, this was a partial satisfaction
-				// of a condition.  Decrement the count by the
+				// of a condition. Decrement the count by the
 				// negation of this result.
 
 				AdventureResult condition = (AdventureResult) KoLConstants.conditions.get( conditionIndex );
@@ -1521,9 +1521,9 @@ public abstract class KoLmafia
 		case LUNCHBOX:
 		case KNOB_PASTY:
 		case KNOB_COFFEE:
-                        return true;
+			return true;
 		}
-                return false;
+		return false;
 	}
 
 	/**
@@ -1554,8 +1554,8 @@ public abstract class KoLmafia
 	 * Returns the string form of the player Id associated with the given player name.
 	 *
 	 * @param playerId The Id of the player
-	 * @return The player's name if it has been seen, or null if it has not yet appeared in the chat (not likely, but
-	 *         possible).
+	 * @return The player's name if it has been seen, or null if it has not
+	 *         yet appeared in the chat (not likely, but possible).
 	 */
 
 	public static final String getPlayerName( final String playerId )
@@ -1570,11 +1570,13 @@ public abstract class KoLmafia
 	}
 
 	/**
-	 * Returns the string form of the player Id associated with the given player name.
+	 * Returns the string form of the player Id associated with the given
+	 * player name.
 	 *
 	 * @param playerName The name of the player
-	 * @return The player's Id if the player has been seen, or the player's name with spaces replaced with underscores
-	 *         and other elements encoded if the player's Id has not been seen.
+	 * @return The player's Id if the player has been seen, or the player's
+	 *         name with spaces replaced with underscores and other elements
+	 *         encoded if the player's Id has not been seen.
 	 */
 
 	public static final String getPlayerId( final String playerName )
@@ -1640,7 +1642,7 @@ public abstract class KoLmafia
 		throws Exception
 	{
 		// First, check for beaten up, if the person has tongue as an
-		// auto-heal option.  This takes precedence over all other checks.
+		// auto-heal option. This takes precedence over all other checks.
 
 		String restoreSetting = KoLSettings.getUserProperty( settingName + "Items" ).trim().toLowerCase();
 
@@ -1690,7 +1692,7 @@ public abstract class KoLmafia
 		}
 
 		// If it gets this far, then you should attempt to recover
-		// using the selected items.  This involves a few extra
+		// using the selected items. This involves a few extra
 		// reflection methods.
 
 		String currentTechniqueName;
@@ -1737,7 +1739,7 @@ public abstract class KoLmafia
 
 		float last = -1;
 
-		// Special handling of the Hidden Temple.  Here, as
+		// Special handling of the Hidden Temple. Here, as
 		// long as your health is above zero, you're okay.
 
 		boolean isNonCombatHealthRestore =
@@ -1789,7 +1791,7 @@ public abstract class KoLmafia
 		HPRestoreItemList.setPurchaseBasedSort( false );
 		MPRestoreItemList.setPurchaseBasedSort( false );
 
-		// Next, use any available skills.  This only applies to health
+		// Next, use any available skills. This only applies to health
 		// restoration, since no MP-using skill restores MP.
 
 		if ( !possibleSkills.isEmpty() )
@@ -1948,7 +1950,7 @@ public abstract class KoLmafia
 		}
 		catch ( Exception e )
 		{
-			// This should not happen.  Therefore, print
+			// This should not happen. Therefore, print
 			// a stack trace for debug purposes.
 
 			StaticEntity.printStackTrace( e );
@@ -1963,9 +1965,9 @@ public abstract class KoLmafia
 	private final void recoverOnce( final Object technique, final String techniqueName, final int needed,
 		final boolean purchase )
 	{
-		// If the technique is an item, and the item is not readily available,
-		// then don't bother with this item -- however, if it is the only item
-		// present, then rethink it.
+		// If the technique is an item, and the item is not readily
+		// available, then don't bother with this item -- however, if
+		// it is the only item present, then rethink it.
 
 		if ( technique instanceof HPRestoreItem )
 		{
@@ -1979,7 +1981,8 @@ public abstract class KoLmafia
 	}
 
 	/**
-	 * Returns the total number of mana restores currently available to the player.
+	 * Returns the total number of mana restores currently available to the
+	 * player.
 	 */
 
 	public static final int getRestoreCount()
@@ -2021,7 +2024,7 @@ public abstract class KoLmafia
 		}
 		catch ( Exception e )
 		{
-			// This should not happen.  Therefore, print
+			// This should not happen. Therefore, print
 			// a stack trace for debug purposes.
 
 			StaticEntity.printStackTrace( e );
@@ -2266,11 +2269,13 @@ public abstract class KoLmafia
 					RequestLogger.printLine( lastToken );
 				}
 
-				// Because of the simplified parsing, there's a chance that
-				// the "gain" acquired wasn't a subpoint (in other words, it
-				// includes the word "a" or "some"), which causes a NFE or
-				// possibly a ParseException to be thrown.  catch them and
-				// do nothing (eventhough it's technically bad style).
+				// Because of the simplified parsing, there's a
+				// chance that the "gain" acquired wasn't a
+				// subpoint (in other words, it includes the
+				// word "a" or "some"), which causes a NFE or
+				// possibly a ParseException to be
+				// thrown. catch them and do nothing
+				// (eventhough it's technically bad style).
 
 				if ( lastToken.startsWith( "You gain a" ) || lastToken.startsWith( "You gain some" ) )
 				{
@@ -2329,8 +2334,9 @@ public abstract class KoLmafia
 	}
 
 	/**
-	 * Makes the given request for the given number of iterations, or until continues are no longer possible, either
-	 * through user cancellation or something occuring which prevents the requests from resuming.
+	 * Makes the given request for the given number of iterations, or until
+	 * continues are no longer possible, either through user cancellation
+	 * or something occuring which prevents the requests from resuming.
 	 *
 	 * @param request The request made by the user
 	 * @param iterations The number of times the request should be repeated
@@ -2373,9 +2379,9 @@ public abstract class KoLmafia
 			}
 
 			// Execute the request as initially intended by calling
-			// a subroutine.  In doing so, make sure your HP/MP restore
-			// settings are scaled back down to current levels, if they've
-			// been manipulated internally by
+			// a subroutine. In doing so, make sure your HP/MP
+			// restore settings are scaled back down to current
+			// levels, if they've been manipulated internally by
 
 			RequestThread.openRequestSequence();
 			this.executeRequest( request, iterations, wasAdventuring );
@@ -2390,7 +2396,7 @@ public abstract class KoLmafia
 		}
 		catch ( Exception e )
 		{
-			// This should not happen.  Therefore, print
+			// This should not happen. Therefore, print
 			// a stack trace for debug purposes.
 
 			StaticEntity.printStackTrace( e );
@@ -2417,7 +2423,7 @@ public abstract class KoLmafia
 		}
 
 		// In theory, you could do a real validation by doing a full
-		// dependency search.  While that's technically better, it's
+		// dependency search. While that's technically better, it's
 		// also not very useful.
 
 		for ( int i = 0; i < creatables.length && shouldCreate; ++i )
@@ -2471,6 +2477,15 @@ public abstract class KoLmafia
 		int adventuresBeforeRequest;
 		int currentIteration = 0;
 
+		boolean checkBounty = false;
+		AdventureResult bounty = null;
+
+		if ( isAdventure )
+		{
+			bounty = AdventureDatabase.currentBounty();
+			checkBounty = ( bounty != null && AdventureDatabase.getBountyLocation( bounty.getItemId() ) == request );
+		}
+
 		while ( KoLmafia.permitsContinue() && ++currentIteration <= totalIterations )
 		{
 			adventuresBeforeRequest = KoLCharacter.getAdventuresLeft();
@@ -2481,17 +2496,17 @@ public abstract class KoLmafia
 				--currentIteration;
 				KoLRequest.delay( 5000 );
 			}
+
+			if ( checkBounty && bounty.getCount( KoLConstants.inventory ) == bounty.getCount() )
+			{
+				RequestThread.postRequest( new CoinmasterRequest( "lucre" ) );
+				checkBounty = false;
+			}
 		}
 
 		if ( isAdventure )
 		{
 			AdventureFrame.updateRequestMeter( 1, 1 );
-
-			int bountyItem = KoLSettings.getIntegerProperty( "currentBountyItem" );
-			if ( bountyItem != 0 && AdventureDatabase.getBountyLocation( bountyItem ) == request )
-			{
-				RequestThread.postRequest( new CoinmasterRequest( "lucre" ) );
-			}
 		}
 
 		// If you've completed the requests, make sure to update
@@ -2565,8 +2580,8 @@ public abstract class KoLmafia
 		}
 
 		// Otherwise, disable the display and update the user
-		// and the current request number.  Different requests
-		// have different displays.  They are handled here.
+		// and the current request number. Different requests
+		// have different displays. They are handled here.
 
 		if ( totalIterations > 1 )
 		{
@@ -2950,7 +2965,7 @@ public abstract class KoLmafia
 				return;
 			}
 
-			// Handle fighting rats.  If this was done through
+			// Handle fighting rats. If this was done through
 			// the mini-browser, you'll have response text; else,
 			// the response text will be null.
 
@@ -3066,7 +3081,7 @@ public abstract class KoLmafia
 			return -1;
 		}
 
-		// Otherwise, you've found it!  So notify the user
+		// Otherwise, you've found it! So notify the user
 		// that the faucet has been found.
 
 		int faucetRow = (int) ( ( searchIndex.intValue() - 1 ) / 5 ) + 1;
@@ -3087,9 +3102,9 @@ public abstract class KoLmafia
 		KoLmafia.updateDisplay( "Determining items needed..." );
 		RequestThread.postRequest( gourdVisit );
 
-		// For every class, it's the same -- the message reads, "Bring back"
-		// and then the number of the item needed.  Compare how many you need
-		// with how many you have.
+		// For every class, it's the same -- the message reads, "Bring
+		// back" and then the number of the item needed. Compare how
+		// many you need with how many you have.
 
 		Matcher neededMatcher = KoLmafia.GOURD_PATTERN.matcher( gourdVisit.responseText );
 		AdventureResult item;
@@ -3135,7 +3150,7 @@ public abstract class KoLmafia
 		KoLRequest guildVisit = new KoLRequest( "town_right.php?place=gourd" );
 
 		// The wiki claims that your prime stats are somehow connected,
-		// but the exact procedure is uncertain.  Therefore, just allow
+		// but the exact procedure is uncertain. Therefore, just allow
 		// the person to attempt to unlock their store, regardless of
 		// their current stats.
 
@@ -3315,7 +3330,7 @@ public abstract class KoLmafia
 		}
 		catch ( java.io.UnsupportedEncodingException e )
 		{
-			// This should not happen.  Therefore, print
+			// This should not happen. Therefore, print
 			// a stack trace for debug purposes.
 
 			StaticEntity.printStackTrace( e );
@@ -3361,7 +3376,7 @@ public abstract class KoLmafia
 		}
 		catch ( java.io.UnsupportedEncodingException e )
 		{
-			// This should not happen.  Therefore, print
+			// This should not happen. Therefore, print
 			// a stack trace for debug purposes.
 
 			StaticEntity.printStackTrace( e );
@@ -3421,7 +3436,7 @@ public abstract class KoLmafia
 		}
 
 		// If there are any missing requirements
-		// be sure to return false.  Otherwise,
+		// be sure to return false. Otherwise,
 		// you managed to get everything.
 
 		return requirements.isEmpty();
@@ -3809,7 +3824,7 @@ public abstract class KoLmafia
 
 		Arrays.sort( targets );
 
-		// Parsing complete.  Return the list of
+		// Parsing complete. Return the list of
 		// unique targets.
 
 		return targets;
@@ -3862,7 +3877,7 @@ public abstract class KoLmafia
 			if ( line == null )
 				break;
 
-                        writer.println( line );
+			writer.println( line );
 		}
 
 		try
@@ -4097,7 +4112,7 @@ public abstract class KoLmafia
 			return;
 		}
 
-		// Find all tradeable items.  Tradeable items
+		// Find all tradeable items. Tradeable items
 		// are marked by an autosell value of nonzero.
 
 		RequestThread.openRequestSequence();
@@ -4139,7 +4154,7 @@ public abstract class KoLmafia
 		}
 
 		// Now, place all the items in the mall at the
-		// maximum possible price.  This allows KoLmafia
+		// maximum possible price. This allows KoLmafia
 		// to determine the minimum price.
 
 		if ( autosell.size() > 0 && KoLmafia.permitsContinue() )
@@ -4213,9 +4228,10 @@ public abstract class KoLmafia
 
 		Object[] items = KoLConstants.junkList.toArray();
 
-		// Before doing anything else, go through the list of items which are
-		// traditionally used and use them.  Also, if the item can be untinkered,
-		// it's usually more beneficial to untinker first.
+		// Before doing anything else, go through the list of items
+		// which are traditionally used and use them. Also, if the item
+		// can be untinkered, it's usually more beneficial to untinker
+		// first.
 
 		boolean madeUntinkerRequest = false;
 		boolean canUntinker = UntinkerRequest.canUntinker();
@@ -4474,7 +4490,7 @@ public abstract class KoLmafia
 		sessionStream.println();
 		sessionStream.println();
 		sessionStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
-		sessionStream.println( "           Beginning New Ascension           " );
+		sessionStream.println( "	   Beginning New Ascension	     " );
 		sessionStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
 		sessionStream.println();
 
@@ -4601,9 +4617,9 @@ public abstract class KoLmafia
 			}
 			catch ( Exception e )
 			{
-				// That means the file either doesn't exist or the
-				// session holder was somehow closed.  Ignore and
-				// fall through.
+				// That means the file either doesn't exist or
+				// the session holder was somehow closed.
+				// Ignore and fall through.
 			}
 		}
 	}

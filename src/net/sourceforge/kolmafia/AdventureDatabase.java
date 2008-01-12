@@ -1346,6 +1346,12 @@ public class AdventureDatabase
 		return new AdventureResult( name, StaticEntity.parseInt( bounty ), false );
 	}
 
+	public static final AdventureResult currentBounty()
+	{
+		int bountyItem = KoLSettings.getIntegerProperty( "currentBountyItem" );
+		return bountyItem == 0 ? null : AdventureDatabase.getBounty( bountyItem );
+	}
+
 	public static final void refreshAdventureList( final String desiredZone )
 	{
 		KoLAdventure location;
