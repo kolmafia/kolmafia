@@ -154,23 +154,10 @@ public class CoinmasterRequest
 		KoLmafia.updateDisplay( "Visiting the " + master + "..." );
 
 		super.run();
-	}
 
-	public void processResults()
-	{
-		CoinmasterRequest.parseVisit( this.getURLString(), this.responseText );
-		KoLmafia.updateDisplay( master + " successfully looted!" );
-	}
-
-	public static void parseVisit( final String location, final String responseText )
-	{
-		if ( location.startsWith( "bhh.php" ) )
+		if ( KoLmafia.permitsContinue() )
 		{
-			parseBountyVisit( location, responseText );
-		}
-		else if ( location.startsWith( "bigisland.php" ) )
-		{
-			parseIslandVisit( location, responseText );
+			KoLmafia.updateDisplay( master + " successfully looted!" );
 		}
 	}
 
@@ -294,24 +281,28 @@ public class CoinmasterRequest
 		Matcher matcher;
 		Map prices;
 		String property;
+		String token;
 
 		if ( master == BHH )
 		{
 			matcher = CoinmasterRequest.BHH_BUY_PATTERN.matcher( urlString );
 			prices = CoinmastersDatabase.lucreBuyPrices();
 			property = "availableLucre";
+			token = "lucre";
 		}
 		else if ( master == HIPPY )
 		{
 			matcher = CoinmasterRequest.CAMP_TRADE_PATTERN.matcher( urlString );
 			prices = CoinmastersDatabase.dimeBuyPrices();
 			property = "availableDimes";
+			token = "dimes";
 		}
 		else if ( master == FRATBOY )
 		{
 			matcher = CoinmasterRequest.CAMP_TRADE_PATTERN.matcher( urlString );
 			prices = CoinmastersDatabase.quarterBuyPrices();
 			property = "availableQuarters";
+			token = "quarters";
 		}
 		else
 		{
@@ -326,6 +317,8 @@ public class CoinmasterRequest
 			AdventureResult lucres = CoinmastersFrame.LUCRE.getInstance( cost );
 			StaticEntity.getClient().processResult( lucres );
 		}
+
+		KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have enough " + token + " to buy that." );
 	}
 
 	private static int getPurchaseCost( final Matcher matcher, final Map prices )
@@ -381,6 +374,9 @@ public class CoinmasterRequest
 		int cost = count * price;
 
 		KoLSettings.incrementIntegerProperty( property, -cost );
+
+		String plural = TradeableItemDatabase.getPluralName( itemId );
+		KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have that many " + plural );
 	}
 
 	public static final boolean registerRequest( final String urlString )
@@ -533,10 +529,11 @@ public class CoinmasterRequest
 		int count = StaticEntity.parseInt( tradeMatcher.group(2) );
 		int price = CoinmastersDatabase.getPrice( name, prices );
 		int cost = count * price;
-		String plural = ( cost > 1 ) ? "s" : "";
+		String tokenName = ( cost > 1 ) ? ( token + "s" ) : "token";
+		String itemName = ( count > 1 ) ? TradeableItemDatabase.getPluralName( itemId ) : name;
 
 		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( "trading " + cost + " " + token + plural + " for " + count + " " + name );
+		RequestLogger.updateSessionLog( "trading " + cost + " " + tokenName + " for " + count + " " + itemName );
 
 		if ( master == BHH )
 		{
@@ -582,10 +579,11 @@ public class CoinmasterRequest
 		int count = StaticEntity.parseInt( tradeMatcher.group(2) );
 		int price = CoinmastersDatabase.getPrice( name, prices );
 		int cost = count * price;
-		String plural = ( cost > 1 ) ? "s" : "";
+		String tokenName = ( cost > 1 ) ? ( token + "s" ) : "token";
+		String itemName = ( count > 1 ) ? TradeableItemDatabase.getPluralName( itemId ) : name;
 
 		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( "trading " + count + " " + name + " for " + cost + " " + token + plural );
+		RequestLogger.updateSessionLog( "trading " + count + " " + itemName + " for " + cost + " " + tokenName );
 
 		AdventureResult item = new AdventureResult( itemId, -count );
 		StaticEntity.getClient().processResult( item );

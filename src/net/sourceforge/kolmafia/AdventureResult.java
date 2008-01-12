@@ -811,7 +811,7 @@ public class AdventureResult
 				sourceList.remove( index );
 				return;
 			}
-			else if ( sumResult.getCount() < 0 && ( sourceList != KoLConstants.tally || !KoLSettings.getBooleanProperty( "allowNegativeTally" ) ) )
+			else if ( sumResult.getCount() < 0 && ( sourceList == KoLConstants.tally && !KoLSettings.getBooleanProperty( "allowNegativeTally" ) ) )
 			{
 				sourceList.remove( index );
 				return;
