@@ -3117,7 +3117,7 @@
 3116
 3117	Libram of Divine Favors	3	all	0
 3118	divine noisemaker	0	all	0
-3119	can of divine silly string	0	all	0
+3119	divine can silly string	0	all	0
 3120	divine blowout	0	all	0
 3121	divine champagne popper	0	all	0
 3122	divine cracker	0	all	0

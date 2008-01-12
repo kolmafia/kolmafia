@@ -3122,7 +3122,7 @@
 3116
 3117	899226971	Libram of Divine Favors	Librams of Divine Favors
 3118	322869689	divine noisemaker
-3119	722409266	can of divine silly string
+3119	722409266	divine can silly string	divine cans of silly string
 3120	701715103	divine blowout
 3121	934978937	divine champagne popper
 3122	658639606	divine cracker divine crackers
