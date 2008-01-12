@@ -169,8 +169,6 @@ public class CoinmasterRequest
 			if ( responseText.indexOf( "You acquire" ) != -1 )
 			{
 				// He turned in a bounty for a lucre
-				RequestLogger.updateSessionLog();
-				RequestLogger.updateSessionLog( "visit Bounty Hunter Hunter" );
 				CoinmasterRequest.abandonBounty();
 				CoinmastersFrame.externalUpdate();
 			}
