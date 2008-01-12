@@ -421,13 +421,26 @@ public class CoinmastersFrame
 				}
 
 				int neededSize = items.length;
+				int originalBalance = KoLSettings.getIntegerProperty( CoinmasterPanel.this.property );
+				int balance = originalBalance;
 
 				for ( int i = 0; i < items.length; ++i )
 				{
 					AdventureResult item = (AdventureResult) items[ i ];
 					String itemName = item.getName();
+					int price = CoinmastersDatabase.getPrice( itemName, CoinmasterPanel.this.buyPrices );
 
-					String value = KoLFrame.input( "Buying " + itemName + "...", KoLConstants.COMMA_FORMAT.format( 1 ) );
+					if ( price > originalBalance )
+					{
+						// This was grayed out.
+						items[ i ] = null;
+						--neededSize;
+						continue;
+					}
+
+					int max = balance / price;
+
+					String value = KoLFrame.input( "Buying " + itemName + "...", KoLConstants.COMMA_FORMAT.format( max ) );
 					if ( value == null )
 					{
 						// He hit cancel
@@ -435,16 +448,20 @@ public class CoinmastersFrame
 					}
 
 					int quantity = StaticEntity.parseInt( value );
+					if ( quantity > max )
+					{
+						quantity = max;
+					}
 
 					if ( quantity <= 0 )
 					{
 						items[ i ] = null;
 						--neededSize;
+						continue;
 					}
-					else 
-					{
-						items[ i ] = item.getInstance( quantity );
-					}
+
+					items[ i ] = item.getInstance( quantity );
+					balance -= quantity * price;
 				}
 
 				// Shrink the array which will be returned so
