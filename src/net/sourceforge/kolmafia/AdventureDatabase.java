@@ -1369,7 +1369,9 @@ public class AdventureDatabase
 		String url = location.getRequest().getURLString();
 
 		AdventureDatabase.adventureLookup.put( url, location );
-		AdventureDatabase.adventureLookup.put( StaticEntity.singleStringReplace( url, "snarfblat=", "adv=" ), location );
+		AdventureDatabase.adventureLookup.put( url + "&override=on", location );
+		url = StaticEntity.singleStringReplace( url, "snarfblat=", "adv=" );
+		AdventureDatabase.adventureLookup.put( url, location );
 		AdventureDatabase.adventureLookup.put( url + "&override=on", location );
 	}
 

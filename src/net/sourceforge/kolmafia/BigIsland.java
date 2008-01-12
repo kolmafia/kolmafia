@@ -323,9 +323,9 @@ public class BigIsland
 			area = BigIsland.openArea( last, current, BigIsland.FRATBOY_AREA_UNLOCK );
 		}
 
-		area = area == null ? "" : " The " + area + " is now accessible in this uniform!<br>";
+		area = area == null ? "" : "<b>The " + area + " is now accessible in this uniform!</b><br>";
 		String message =
-			"<p><center>" + delta + " " + side + " defeated; " + current + " down, " + ( 1000 - current ) + " left.<br>" + area;
+			"<p><center>" + delta + " " + side + " defeated; " + current + " down, " + ( 1000 - current ) + " left.<br>" + area + "</center>";
 
 		buffer.insert( index, message );
 	}
