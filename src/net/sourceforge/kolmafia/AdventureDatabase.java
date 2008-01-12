@@ -602,13 +602,13 @@ public class AdventureDatabase
 
 		// Wheel In the Pyramid, Keep on Turning
 		new ChoiceAdventure(
-			"Pyramid", "choiceAdventure134", "The Upper Chamber",
+			"Pyramid", "choiceAdventure134", "The Middle Chamber",
 			new String[] { "Turn the wheel", "skip adventure" },
 			new String[] { null, null } ),
 
 		// Wheel In the Pyramid, Keep on Turning
 		new ChoiceAdventure(
-			"Pyramid", "choiceAdventure135", "The Upper Chamber",
+			"Pyramid", "choiceAdventure135", "The Middle Chamber",
 			new String[] { "Turn the wheel", "skip adventure" },
 			new String[] { null, null } ),
 
