@@ -309,7 +309,7 @@ public class AutoSellRequest
 				return;
 			}
 
-			KoLmafia.updateDisplay( "Items sold." );
+			KoLmafia.updateDisplay( "Items offered up for sale." );
 			return;
 		}
 
