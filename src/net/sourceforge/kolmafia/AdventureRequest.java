@@ -39,6 +39,7 @@ import java.util.regex.Pattern;
 public class AdventureRequest
 	extends KoLRequest
 {
+	private static final Pattern AREA_PATTERN = Pattern.compile( "(adv|snarfblat)=(\\d*)", Pattern.DOTALL );
 	private static final KoLRequest ZONE_UNLOCK = new KoLRequest( "" );
 
 	private final String adventureName;
@@ -424,30 +425,20 @@ public class AdventureRequest
 	public static final String registerEncounter( final KoLRequest request )
 	{
 		String urlString = request.getURLString();
-		if ( !( request instanceof AdventureRequest ) && !AdventureRequest.containsEncounter(
-			urlString, request.responseText ) )
+		String responseText = request.responseText;
+
+		if ( !( request instanceof AdventureRequest ) && !AdventureRequest.containsEncounter( urlString, responseText ) )
 		{
 			return "";
 		}
 
 		if ( urlString.indexOf( "fight.php" ) != -1 )
 		{
-			int spanIndex = request.responseText.indexOf( "<span id='monname" ) + 1;
-			spanIndex = request.responseText.indexOf( ">", spanIndex ) + 1;
-
-			if ( spanIndex == 0 )
+			String encounter = parseMonster( responseText );
+			if ( encounter.equals( "" ) )
 			{
 				return "";
 			}
-
-			int endSpanIndex = request.responseText.indexOf( "</span>", spanIndex );
-			if ( endSpanIndex == -1 )
-			{
-				return "";
-			}
-
-			String encounter = request.responseText.substring( spanIndex, endSpanIndex );
-			encounter = CombatSettings.encounterKey( encounter, false );
 
 			RequestLogger.printLine( "Encounter: " + encounter );
 			RequestLogger.updateSessionLog( "Encounter: " + encounter );
@@ -466,68 +457,97 @@ public class AdventureRequest
 			return "";
 		}
 
-		String encounter = parseEncounter( request );
+		String encounter = parseEncounter( responseText );
 
 		if ( encounter.equals( "" ) )
 		{
-			if ( !urlString.startsWith( "adventure.php?snarfblat=19" ) )
-			{
-				return "";
-			}
+			encounter = deduceEncounter( urlString, responseText );
+		}
 
-			// The Limerick Dungeon doesn't name its "encounters";
-			// it labels the limerick as "Adventure Results:" but
-			// doesn't assign a name.
-			//
-			// We'll choose a name for the one we care about.
-
-			if ( request.responseText.indexOf( "bleary-eyed cyclops" ) == -1 )
-			{
-				return "";
-			}
-
-			encounter = "The Bleary-Eyed Cyclops";
+		if ( encounter.equals( "" ) )
+		{
+			return "";
 		}
 
 		RequestLogger.printLine( "Encounter: " + encounter );
 		RequestLogger.updateSessionLog( "Encounter: " + encounter );
 
-		AdventureRequest.registerDemonName( encounter, request.responseText );
+		AdventureRequest.registerDemonName( encounter, responseText );
 
-		if ( !urlString.startsWith( "choice.php" ) || urlString.indexOf( "option" ) == -1 )
-		{
-			StaticEntity.getClient().registerEncounter( encounter, "Noncombat" );
-		}
-		else
-		{
-			StaticEntity.getClient().recognizeEncounter( encounter );
-		}
+                StaticEntity.getClient().registerEncounter( encounter, "Noncombat" );
 
 		return encounter;
 	}
 
-	private static final String parseEncounter( final KoLRequest request )
+	private static final String parseMonster( final String responseText )
 	{
-		int boldIndex = request.responseText.indexOf( "Results:</b>" );
-		if ( boldIndex == -1 )
+		int spanIndex = responseText.indexOf( "<span id='monname" ) + 1;
+		spanIndex = responseText.indexOf( ">", spanIndex ) + 1;
+
+		if ( spanIndex == 0 )
 		{
 			return "";
 		}
 
-		boldIndex = request.responseText.indexOf( "<b>", boldIndex ) + 3;
+		int endSpanIndex = responseText.indexOf( "</span>", spanIndex );
+		if ( endSpanIndex == -1 )
+		{
+			return "";
+		}
+
+		return	CombatSettings.encounterKey( responseText.substring( spanIndex, endSpanIndex ), false );
+	}
+
+	private static final String parseEncounter( final String responseText )
+	{
+		// Skip past the Adventure Results
+		int boldIndex = responseText.indexOf( "Results:</b>" );
+		// ... whether or not they are there.
+		boldIndex = responseText.indexOf( "<b>", boldIndex ) + 3;
 		if ( boldIndex == 2 )
 		{
 			return "";
 		}
 
-		int endBoldIndex = request.responseText.indexOf( "</b>", boldIndex );
+		int endBoldIndex = responseText.indexOf( "</b>", boldIndex );
 
 		if ( endBoldIndex == -1 )
 		{
 			return "";
 		}
 
-		return request.responseText.substring( boldIndex, endBoldIndex );
+		return responseText.substring( boldIndex, endBoldIndex );
+	}
+
+	private static final String deduceEncounter( final String urlString, final String responseText )
+	{
+		if ( urlString.startsWith( "adventure.php" ) )
+		{
+			int area = parseArea( urlString );
+			switch ( area )
+			{
+			case 19:
+				// Limerick Dungeon
+				if ( responseText.indexOf( "bleary-eyed cyclops" ) != -1 )
+				{
+					return "The Bleary-Eyed Cyclops";
+				}
+				break;
+			}
+		}
+
+		return "";
+	}
+
+	private static final int parseArea( final String urlString )
+	{
+		Matcher matcher = AREA_PATTERN.matcher( urlString );
+		if ( matcher.find() )
+		{
+			return StaticEntity.parseInt( matcher.group(2) );
+		}
+
+		return -1;
 	}
 
 	private static final Object[][] demons =
@@ -671,6 +691,11 @@ public class AdventureRequest
 		else if ( formSource.startsWith( "palinshelves.php" ) )
 		{
 			return responseText.indexOf( "palinshelves.php" ) != -1;
+		}
+		else if ( formSource.startsWith( "tiles.php" ) )
+		{
+			// Only register initial encounter of Dvorak's Revenge
+			return responseText.indexOf( "I before E, except after C" ) != -1;
 		}
 
 		// It is not a known adventure.  Therefore,
