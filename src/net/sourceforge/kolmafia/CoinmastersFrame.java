@@ -234,7 +234,7 @@ public class CoinmastersFrame
 
 		public void update()
 		{
-			this.hasOutfit = EquipmentDatabase.hasOutfit( this.outfit );
+			this.hasOutfit = this.outfit == 0 || EquipmentDatabase.hasOutfit( this.outfit );
 		}
 
 		private KoLRequest outfitRequest()
