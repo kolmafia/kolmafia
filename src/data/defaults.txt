@@ -220,6 +220,7 @@ user	lastMessageId
 user	lastQuartetAscension	-1
 user	lastQuartetRequest	0
 user	lastSecondFloorUnlock	-1
+user	lastSemirareReset	-1
 user	lastStoneSphere2174
 user	lastStoneSphere2175
 user	lastStoneSphere2176
@@ -251,6 +252,7 @@ user	reagentSummons	0
 user	relayCounters
 user	requireBoxServants	false
 user	retrieveContacts	true
+user	semirareCounter	0
 user	showGainsPerUnit	false
 user	sideDefeated	neither
 user	sidequestArenaCompleted	none

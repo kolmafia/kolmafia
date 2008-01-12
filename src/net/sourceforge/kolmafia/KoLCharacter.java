@@ -1110,13 +1110,36 @@ public abstract class KoLCharacter
 	}
 
 	/**
-	 * Accessor method to retrieve the total number of turns the character has used since creation. This method is only
-	 * interesting from an averages point of view, but sometimes, it's interesting to know.
+	 * Accessor method to retrieve the total number of turns the character
+	 * has used this run.
 	 */
 
 	public static final int getCurrentRun()
 	{
 		return KoLCharacter.currentRun;
+	}
+
+	/**
+	 * Accessor method to record the turn count when a semirare was found.
+	 */
+
+	public static final void registerSemirare()
+	{
+		KoLCharacter.ensureUpdatedSemirareCounter();
+		KoLSettings.setUserProperty( "semirareCounter", String.valueOf( KoLCharacter.currentRun + 1 ) );
+		StaticEntity.stopCounting( "Fortune Cookie" );
+	}
+
+	/**
+	 * Accessor method to return how many turns have passed since the last
+	 * semirare was found.
+	 */
+
+	public static final int turnsSinceLastSemirare()
+	{
+                KoLCharacter.ensureUpdatedSemirareCounter();
+                int last = KoLSettings.getIntegerProperty( "semirareCounter" );
+                return KoLCharacter.currentRun - last;
 	}
 
 	/**
@@ -3305,6 +3328,16 @@ public abstract class KoLCharacter
 			KoLSettings.setUserProperty( "lastGuyMadeOfBeesReset", String.valueOf( KoLCharacter.getAscensions() ) );
                         KoLSettings.setUserProperty( "guyMadeOfBeesCount", "0" );
                         KoLSettings.setUserProperty( "guyMadeOfBeesDefeated", "false" );
+                }
+	}
+
+	public static final void ensureUpdatedSemirareCounter()
+	{
+		int lastAscension = KoLSettings.getIntegerProperty( "lastSemirareReset" );
+		if ( lastAscension < KoLCharacter.getAscensions() )
+		{
+			KoLSettings.setUserProperty( "lastSemirareReset", String.valueOf( KoLCharacter.getAscensions() ) );
+                        KoLSettings.setUserProperty( "semirareCounter", "0" );
                 }
 	}
 

@@ -3599,7 +3599,6 @@ public abstract class KoLmafia
 			return;
 		}
 
-		this.recognizeEncounter( adventureName );
 		RegisteredEncounter previousAdventure = (RegisteredEncounter) KoLConstants.adventureList.lastElement();
 
 		if ( previousAdventure != null && previousAdventure.name.equals( adventureName ) )
@@ -3642,7 +3641,7 @@ public abstract class KoLmafia
 
 		if ( encounterType == KoLmafia.SEMIRARE )
 		{
-			StaticEntity.stopCounting( "Fortune Cookie" );
+			KoLCharacter.registerSemirare();
 			return;
 		}
 
