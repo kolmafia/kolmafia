@@ -1829,7 +1829,7 @@ public class AdventureDatabase
 		// Next, attempt to pull the items out of storage, if you are
 		// out of ronin.
 
-		if ( KoLCharacter.canInteract() && !KoLCharacter.inBadMoon() )
+		if ( KoLCharacter.canInteract() )
 		{
 			itemCount = item.getCount( KoLConstants.storage );
 

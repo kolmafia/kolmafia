@@ -4916,9 +4916,9 @@ public class KoLmafiaCLI
 
 	private void executeHagnkRequest( final String parameters )
 	{
-		if ( KoLCharacter.inBadMoon() )
+		if ( KoLCharacter.inBadMoon() && !KoLCharacter.canInteract() )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Hagnk's Storage is not available in Bad Moon" );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Hagnk's Storage is not available in Bad Moon until you free King Ralph." );
 			return;
 		}
 

@@ -181,6 +181,7 @@ public class CampgroundRequest
 	private void parseBookTitles()
 	{
 		// You can't use Mr. Skills in bad moon, so don't check
+
 		if ( KoLCharacter.inBadMoon() )
 			return;
 

@@ -86,7 +86,7 @@ public class StyxPixieRequest
 		if ( !KoLCharacter.inBadMoon() )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't find the Styx Pixie." );
-			// return;
+			return;
 		}
 
 		if ( this.effectId == 0 )
