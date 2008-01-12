@@ -2046,9 +2046,18 @@ public abstract class KoLCharacter
 
 	public static final void liberateKing()
 	{
-		KoLSettings.setUserProperty( "lastKingLiberation", String.valueOf( KoLCharacter.getAscensions() ) );
-		KoLSettings.setUserProperty( "kingLiberated", "true" );
-		CharpaneRequest.setInteraction();
+		if ( !KoLCharacter.kingLiberated() )
+		{
+			KoLSettings.setUserProperty( "kingLiberated", "true" );
+			CharpaneRequest.setInteraction();
+
+			// Bad Moon characters can now access storage.
+			// Check it out!
+			if ( KoLCharacter.inBadMoon() )
+			{
+				RequestThread.postRequest( new ItemStorageRequest() );
+			}
+		}
 	}
 
 	/**
@@ -3084,10 +3093,7 @@ public abstract class KoLCharacter
 
 		if ( KoLCharacter.canInteract() )
 		{
-			if ( !KoLCharacter.inBadMoon() )
-			{
-				count += item.getCount( KoLConstants.storage );
-			}
+			count += item.getCount( KoLConstants.storage );
 
 			if ( KoLCharacter.hasClan() && KoLSettings.getBooleanProperty( "autoSatisfyWithStash" ) )
 			{

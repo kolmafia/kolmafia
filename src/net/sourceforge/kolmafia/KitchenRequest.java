@@ -47,12 +47,10 @@ public class KitchenRequest
 
 	public void run()
 	{
-		if ( !KoLCharacter.inBadMoon() )
+		if ( KoLCharacter.inBadMoon() )
 		{
-			return;
+			super.run();
 		}
-
-		super.run();
 	}
 
 	public static final boolean onMenu( final String name )

@@ -1099,12 +1099,15 @@ public abstract class KoLmafia
 			KoLCharacter.checkTelescope();
 		}
 
-		if ( !KoLCharacter.inBadMoon() && KoLSettings.getIntegerProperty( "lastEmptiedStorage" ) != KoLCharacter.getAscensions() )
+		if ( KoLSettings.getIntegerProperty( "lastEmptiedStorage" ) != KoLCharacter.getAscensions() )
 		{
-			RequestThread.postRequest( new ItemStorageRequest() );
-			if ( KoLConstants.storage.isEmpty() )
+			if ( KoLCharacter.canInteract() || !KoLCharacter.inBadMoon() )
 			{
-				KoLSettings.setUserProperty( "lastEmptiedStorage", String.valueOf( KoLCharacter.getAscensions() ) );
+				RequestThread.postRequest( new ItemStorageRequest() );
+				if ( KoLConstants.storage.isEmpty() )
+				{
+					KoLSettings.setUserProperty( "lastEmptiedStorage", String.valueOf( KoLCharacter.getAscensions() ) );
+				}
 			}
 		}
 

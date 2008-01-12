@@ -115,10 +115,7 @@ public class ItemManageFrame
 		this.addPanel( "General", new InventoryManagePanel( KoLConstants.inventory, false ) );
 		this.addPanel( " - Recent", new InventoryManagePanel( KoLConstants.tally, false ) );
 		this.addPanel( " - Closet", new InventoryManagePanel( KoLConstants.closet, false ) );
-		if ( !KoLCharacter.inBadMoon() )
-		{
-			this.addPanel( " - Storage", new HagnkStoragePanel( false ) );
-		}
+		this.addPanel( " - Storage", new HagnkStoragePanel( false ) );
 
 		this.addSeparator();
 
@@ -130,10 +127,7 @@ public class ItemManageFrame
 		this.addSeparator();
 
 		this.addPanel( "Equipment", new InventoryManagePanel( KoLConstants.inventory, true ) );
-		if ( !KoLCharacter.inBadMoon() )
-		{
-			this.addPanel( " - Storage", new HagnkStoragePanel( true ) );
-		}
+		this.addPanel( " - Storage", new HagnkStoragePanel( true ) );
 		this.addPanel( " - Create", new CreateItemPanel( false, false, true, false ) );
 
 		// Now a special panel which does nothing more than list
