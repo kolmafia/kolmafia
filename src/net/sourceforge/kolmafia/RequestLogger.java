@@ -397,6 +397,13 @@ public class RequestLogger
 			return;
 		}
 
+		// This might be a campground request and so must go here.
+		if ( ( request instanceof UseSkillRequest || isExternal ) && UseSkillRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
 		if ( urlString.startsWith( "leaflet" ) || urlString.startsWith( "cave" ) || urlString.startsWith( "lair" ) || urlString.startsWith( "campground" ) )
 		{
 			return;
@@ -550,12 +557,6 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof UntinkerRequest || isExternal ) && UntinkerRequest.registerRequest( urlString ) )
-		{
-			RequestLogger.wasLastRequestSimple = false;
-			return;
-		}
-
-		if ( ( request instanceof UseSkillRequest || isExternal ) && UseSkillRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;

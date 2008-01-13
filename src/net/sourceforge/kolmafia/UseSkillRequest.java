@@ -43,7 +43,7 @@ public class UseSkillRequest
 {
 	private static final TreeMap ALL_SKILLS = new TreeMap();
 	private static final Pattern SKILLID_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
-	private static final Pattern BOOKID_PATTERN = Pattern.compile( "preaction=summon(.*)" );
+	private static final Pattern BOOKID_PATTERN = Pattern.compile( "preaction=summon([^&]*)" );
 
 	private static final Pattern COUNT1_PATTERN = Pattern.compile( "bufftimes=([\\d,]+)" );
 	private static final Pattern COUNT2_PATTERN = Pattern.compile( "quantity=([\\d,]+)" );
