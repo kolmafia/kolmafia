@@ -155,11 +155,6 @@ public class KoLmafiaGUI
 		{
 			for ( int i = 0; i < frameArray.length; ++i )
 			{
-				if ( frameArray[ i ].equals( "HagnkStorageFrame" ) && KoLCharacter.isHardcore() )
-				{
-					continue;
-				}
-
 				if ( !initialFrameList.contains( frameArray[ i ] ) )
 				{
 					initialFrameList.add( frameArray[ i ] );

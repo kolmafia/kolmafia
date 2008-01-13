@@ -315,6 +315,13 @@ public class RequestLogger
 			return;
 		}
 
+		// We want to register simple visits to the Bounty Hunter Hunter
+		if ( ( request instanceof CoinmasterRequest || isExternal ) && CoinmasterRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
 		// Anything else that doesn't submit an actual form
 		// should not be registered.
 
@@ -441,12 +448,6 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof ClanStashRequest || isExternal ) && ClanStashRequest.registerRequest( urlString ) )
-		{
-			RequestLogger.wasLastRequestSimple = false;
-			return;
-		}
-
-		if ( ( request instanceof CoinmasterRequest || isExternal ) && CoinmasterRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
