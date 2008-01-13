@@ -25,7 +25,7 @@ import net.sourceforge.foxtrot.Task;
 /**
  * This implementation of EventPump calls the package protected method
  * <code>java.awt.EventDispatchThread.pumpEvents(Conditional)</code> to pump events while a Task is executed.
- * 
+ *
  * @version $Revision: 1.1 $
  */
 public class ConditionalEventPump
@@ -272,7 +272,6 @@ public class ConditionalEventPump
 	 */
 	protected AWTEvent peekEvent( final EventQueue queue )
 	{
-		sun.awt.SunToolkit.flushPendingEvents();
 		return queue.peekEvent();
 	}
 
