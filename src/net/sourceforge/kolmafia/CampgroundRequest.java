@@ -33,9 +33,13 @@
 
 package net.sourceforge.kolmafia;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class CampgroundRequest
 	extends KoLRequest
 {
+	private static final Pattern LIBRAM_PATTERN = Pattern.compile( "Summon (Candy Heart|Party Favor) *.[(]([\\d,]+) MP[)]" );
 	private static boolean relaxAllowed = false;
 
 	private final String action;
@@ -185,12 +189,28 @@ public class CampgroundRequest
 		if ( KoLCharacter.inBadMoon() )
 			return;
 
+		String libram = null;
 		for ( int i = 0; i < BOOKS.length; ++i )
 		{
-			if ( this.responseText.indexOf( BOOKS[i][0] ) != -1 )
+			String book = BOOKS[i][0];
+			if ( this.responseText.indexOf( book ) != -1 )
 			{
-				KoLCharacter.addAvailableSkill( BOOKS[i][1] );
+				String skill = BOOKS[i][1];
+				KoLCharacter.addAvailableSkill( skill );
+				if ( book.startsWith( "Libram" ) )
+				{
+					libram = skill;
+				}
+			}
+		}
 
+		if ( libram != null )
+		{
+			Matcher matcher = CampgroundRequest.LIBRAM_PATTERN.matcher( this.responseText );
+			if ( matcher.find() )
+			{
+				int cost = StaticEntity.parseInt( matcher.group(2) );
+				ClassSkillsDatabase.setLibramSkillCasts( cost );
 			}
 		}
 	}

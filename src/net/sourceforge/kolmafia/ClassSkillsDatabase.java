@@ -330,6 +330,31 @@ public class ClassSkillsDatabase
 		return libramSkillMPConsumption( false );
 	}
 
+	public static final void setLibramSkillCasts( int cost )
+	{
+		// Adjust to unmodified cost
+		cost -= KoLCharacter.getManaCostAdjustment();
+
+		// cost = 1 + (n * (n-1) / 2)
+		//
+		// n^2 - n + (2 - 2cost) = 0
+		//
+		// Use the quadratic formula
+		// 
+		//    a = 1, b = -1, c = 2-2*cost
+		// 
+		// x = ( 1 + sqrt(8*cost - 7))/2
+
+		int count =  ( 1 + (int)Math.sqrt( 8 * cost - 7 ) ) / 2;
+
+		if ( KoLSettings.getIntegerProperty( "candyHeartSummons" ) != count - 1)
+		{
+			KoLSettings.resetUserProperty( "candyHeartSummons", String.valueOf( count - 1) );
+			KoLConstants.summoningSkills.sort();
+			KoLConstants.usableSkills.sort();
+		}
+	}
+
 	/**
 	 * Determines the cost for a specific casting of a libram skill
 	 *
