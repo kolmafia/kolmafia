@@ -45,7 +45,7 @@ import java.lang.reflect.Method;
  * 66</a>) <br>
  * Thanks also to Ron B. Yeh, Eric Shapiro, Ben Engber, Paul Teitlebaum, Andrea Cantatore, Larry Barowski, Trevor
  * Bedzek, Frank Miedrich, and Ron Rabakukk
- * 
+ *
  * @author Eric Albert (<a href="mailto:ejalbert@cs.stanford.edu">ejalbert@cs.stanford.edu</a>)
  * @version 1.4b1 (Released June 20, 2001)
  */
@@ -242,7 +242,7 @@ public class BrowserLauncher
 	/**
 	 * Called by a static initializer to load any classes, fields, and methods required at runtime to locate the user's
 	 * web browser.
-	 * 
+	 *
 	 * @return <code>true</code> if all intialization succeeded <code>false</code> if any portion of the
 	 *         initialization failed
 	 */
@@ -402,7 +402,7 @@ public class BrowserLauncher
 	/**
 	 * Attempts to locate the default web browser on the local system. Caches results so it only locates the browser
 	 * once for each use of this class per JVM instance.
-	 * 
+	 *
 	 * @return The browser for the system. Note that this may not be what you would consider to be a standard web
 	 *         browser; instead, it's the application that gets called to open the default web browser. In some cases,
 	 *         this will be a non-String object that provides the means of calling the default browser.
@@ -712,12 +712,17 @@ public class BrowserLauncher
 
 	/**
 	 * Attempts to open the default web browser to the given URL.
-	 * 
+	 *
 	 * @param url The URL to open
 	 */
 
 	public static void openURL( String url )
 	{
+		if ( url.indexOf( " " ) != -1 )
+		{
+			url = url.replaceAll( " ", "+" );
+		}
+
 		if ( BrowserLauncher.openOverrideBrowser( url ) )
 		{
 			return;
