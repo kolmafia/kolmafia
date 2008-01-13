@@ -282,9 +282,7 @@ public class AdventureDatabase
 	// Lucky sewer options
 	public static final ChoiceAdventure LUCKY_SEWER =
 		new ChoiceAdventure(
-			"Town",
-			"luckySewerAdventure",
-			"Sewer Gnomes",
+			"Town", "luckySewerAdventure", "Sewer Gnomes",
 			new String[] { "seal-clubbing club", "seal tooth", "helmet turtle", "turtle totem", "pasta spoon", "ravioli hat", "saucepan", "disco mask", "disco ball", "stolen accordion", "mariachi pants" } );
 
 	public static final ChoiceAdventure[] CHOICE_ADVS =
@@ -301,7 +299,8 @@ public class AdventureDatabase
 
 		// Heart of Very, Very Dark Darkness
 		new ChoiceAdventure(
-			"Woods", "choiceAdventure5", "Gravy Barrow", new String[] { "fight the fairy queen", "skip adventure" } ),
+			"MusSign", "choiceAdventure5", "Gravy Barrow",
+			new String[] { "fight the fairy queen", "skip adventure" } ),
 
 		// Choice 6 is Darker Than Dark
 		// Choice 7 is How Depressing
@@ -315,9 +314,7 @@ public class AdventureDatabase
 
 		// A Bard Day's Night
 		new ChoiceAdventure(
-			"Knob",
-			"choiceAdventure14",
-			"Knob Goblin Harem",
+			"Knob", "choiceAdventure14", "Knob Goblin Harem",
 			new String[] { "Knob goblin harem veil", "Knob goblin harem pants", "small meat boost", "complete the outfit" },
 			new String[] { "306", "305", null } ),
 
