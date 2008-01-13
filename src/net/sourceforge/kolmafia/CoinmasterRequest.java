@@ -397,6 +397,8 @@ public class CoinmasterRequest
 		Matcher actionMatcher = CoinmasterRequest.ACTION_PATTERN.matcher( urlString );
 		if ( !actionMatcher.find() )
 		{
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( "visit Bounty Hunter Hunter" );
 			return true;
 		}
 
@@ -428,11 +430,6 @@ public class CoinmasterRequest
 		else if ( action.equals( "buy" ) )
 		{
 			CoinmasterRequest.buyStuff( urlString, BHH );
-		}
-		else
-		{
-			// Unknown action
-			return false;
 		}
 
 		return true;
@@ -474,11 +471,6 @@ public class CoinmasterRequest
 		else if ( action.equals( "turnin" ) )
 		{
 			CoinmasterRequest.sellStuff( urlString, master );
-		}
-		else
-		{
-			// Unknown action
-			return false;
 		}
 
 		return true;

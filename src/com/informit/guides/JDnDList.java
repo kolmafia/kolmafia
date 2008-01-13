@@ -64,7 +64,7 @@ public class JDnDList
 	{
 		public void keyPressed( final KeyEvent e )
 		{
-			if ( e.getKeyCode() != KeyEvent.VK_DELETE )
+			if ( e.getKeyCode() != KeyEvent.VK_BACK_SPACE && e.getKeyCode() != KeyEvent.VK_DELETE )
 			{
 				return;
 			}
