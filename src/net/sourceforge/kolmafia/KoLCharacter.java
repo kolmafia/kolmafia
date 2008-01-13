@@ -1961,8 +1961,9 @@ public abstract class KoLCharacter
 
 	public static final void setBookshelf( final boolean hasBookshelf )
 	{
+		boolean refresh = hasBookshelf && KoLCharacter.hasBookshelf != hasBookshelf;
 		KoLCharacter.hasBookshelf = hasBookshelf;
-		if ( hasBookshelf && KoLCharacter.hasBookshelf != hasBookshelf)
+		if ( refresh )
 		{
 			RequestThread.postRequest( new CampgroundRequest( "bookshelf" ) );
 		}
