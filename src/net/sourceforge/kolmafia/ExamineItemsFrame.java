@@ -44,13 +44,18 @@ import javax.swing.WindowConstants;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
+
 public class ExamineItemsFrame
 	extends KoLFrame
 {
-	private static final LockableListModel allItems = KoLDatabase.createListModel( TradeableItemDatabase.entrySet() );
-	private static final LockableListModel allEffects = KoLDatabase.createListModel( StatusEffectDatabase.entrySet() );
-	private static final LockableListModel allSkills = KoLDatabase.createListModel( ClassSkillsDatabase.entrySet() );
-	private static final LockableListModel allFamiliars = KoLDatabase.createListModel( FamiliarsDatabase.entrySet() );
+	private static final LockableListModel allItems = KoLDatabase.createListModel( ItemDatabase.entrySet() );
+	private static final LockableListModel allEffects = KoLDatabase.createListModel( EffectDatabase.entrySet() );
+	private static final LockableListModel allSkills = KoLDatabase.createListModel( SkillDatabase.entrySet() );
+	private static final LockableListModel allFamiliars = KoLDatabase.createListModel( FamiliarDatabase.entrySet() );
 
 	public ExamineItemsFrame()
 	{
@@ -170,7 +175,7 @@ public class ExamineItemsFrame
 
 		public String getId( final Entry e )
 		{
-			return TradeableItemDatabase.getDescriptionId( ( (Integer) e.getKey() ).intValue() );
+			return ItemDatabase.getDescriptionId( ( (Integer) e.getKey() ).intValue() );
 		}
 	}
 
@@ -184,7 +189,7 @@ public class ExamineItemsFrame
 
 		public String getId( final Entry e )
 		{
-			return StatusEffectDatabase.getDescriptionId( ( (Integer) e.getKey() ).intValue() );
+			return EffectDatabase.getDescriptionId( ( (Integer) e.getKey() ).intValue() );
 		}
 	}
 

@@ -40,13 +40,17 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.TableCellRenderer;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
+
 import net.sourceforge.kolmafia.CakeArenaManager.ArenaOpponent;
+
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 
 public class CakeArenaFrame
 	extends KoLFrame
@@ -63,7 +67,7 @@ public class CakeArenaFrame
 		KoLCharacter.addCharacterListener( new KoLCharacterAdapter( new FamiliarRefresher() ) );
 	}
 
-	public UnfocusedTabbedPane getTabbedPane()
+	public JTabbedPane getTabbedPane()
 	{
 		return null;
 	}
@@ -125,7 +129,7 @@ public class CakeArenaFrame
 				for ( int j = 1; j <= 4; ++j )
 				{
 					opponentData[ i ][ j ] =
-						new OpponentButton( i, j, FamiliarsDatabase.getFamiliarSkill( opponentRace, j ) );
+						new OpponentButton( i, j, FamiliarDatabase.getFamiliarSkill( opponentRace, j ) );
 				}
 			}
 
@@ -167,7 +171,7 @@ public class CakeArenaFrame
 		public void mouseReleased( final MouseEvent e )
 		{
 			int yourSkillValue =
-				FamiliarsDatabase.getFamiliarSkill( KoLCharacter.getFamiliar().getRace(), this.column ).intValue();
+				FamiliarDatabase.getFamiliarSkill( KoLCharacter.getFamiliar().getRace(), this.column ).intValue();
 			String yourSkill = yourSkillValue == 1 ? "1 star (yours)" : yourSkillValue + " stars (yours)";
 
 			int battleCount =
@@ -200,7 +204,7 @@ public class CakeArenaFrame
 			}
 
 			return currentFamiliar == null ? new JLabel( JComponentUtilities.getImage( "0star.gif" ) ) : new JLabel(
-				JComponentUtilities.getImage( FamiliarsDatabase.getFamiliarSkill( currentFamiliar.getRace(), column ).toString() + "star.gif" ) );
+				JComponentUtilities.getImage( FamiliarDatabase.getFamiliarSkill( currentFamiliar.getRace(), column ).toString() + "star.gif" ) );
 		}
 
 		private Component getStandardComponent( final Object value )

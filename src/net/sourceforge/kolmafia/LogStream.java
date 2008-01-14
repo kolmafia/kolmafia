@@ -45,7 +45,6 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 
 public class LogStream
 	extends PrintStream
-	implements KoLConstants
 {
 	public static final LogStream openStream( final String filename, final boolean forceNewFile )
 	{
@@ -118,7 +117,7 @@ public class LogStream
 	/**
 	 * Constructs a new <code>LogStream</code> which will append all log data to the specified file. Note that the
 	 * file must exist prior to calling this method.
-	 * 
+	 *
 	 * @param file The file used as a log
 	 * @throws FileNotFoundException The file does not exist
 	 */

@@ -42,6 +42,7 @@ import java.util.ArrayList;
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
@@ -130,11 +131,11 @@ public class KoLDesktop
 		}
 	}
 
-	public UnfocusedTabbedPane getTabbedPane()
+	public JTabbedPane getTabbedPane()
 	{
 		if ( KoLSettings.getBooleanProperty( "useDecoratedTabs" ) )
 		{
-			UnfocusedTabbedPane tabs = new CloseTabbedPane();
+			JTabbedPane tabs = new CloseTabbedPane();
 
 			if ( KoLSettings.getBooleanProperty( "allowCloseableDesktopTabs" ) )
 			{
@@ -145,7 +146,7 @@ public class KoLDesktop
 			return tabs;
 		}
 
-		return KoLSettings.getBooleanProperty( "allowCloseableDesktopTabs" ) ? new CloseableTabbedPane() : new UnfocusedTabbedPane();
+		return KoLSettings.getBooleanProperty( "allowCloseableDesktopTabs" ) ? new CloseableTabbedPane() : new JTabbedPane();
 	}
 
 	public void stateChanged( final ChangeEvent e )
@@ -388,7 +389,7 @@ public class KoLDesktop
 		toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
 
 		toolbarPanel.add( new DisplayFrameButton( "IcePenguin Express", "mail.gif", "MailboxFrame" ) );
-		toolbarPanel.add( new DisplayFrameButton( "KoLmafia Chat", "chat.gif", "KoLMessenger" ) );
+		toolbarPanel.add( new DisplayFrameButton( "KoLmafia Chat", "chat.gif", "ChatManager" ) );
 		toolbarPanel.add( new DisplayFrameButton( "Clan Manager", "clan.gif", "ClanManageFrame" ) );
 
 		toolbarPanel.add( Box.createHorizontalStrut( 10 ) );

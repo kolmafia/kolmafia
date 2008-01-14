@@ -41,6 +41,28 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
+import net.sourceforge.kolmafia.session.ClanManager;
+
+import net.sourceforge.kolmafia.request.CampgroundRequest;
+import net.sourceforge.kolmafia.request.CharPaneRequest;
+import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
+import net.sourceforge.kolmafia.request.ClosetRequest;
+import net.sourceforge.kolmafia.request.CreateItemRequest;
+import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.HellKitchenRequest;
+import net.sourceforge.kolmafia.request.MicroBreweryRequest;
+import net.sourceforge.kolmafia.request.TelescopeRequest;
+import net.sourceforge.kolmafia.request.UseItemRequest;
+import net.sourceforge.kolmafia.request.UseSkillRequest;
+
+import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
+
 /**
  * A container class representing the <code>KoLCharacter</code>. This class also allows for data listeners that are
  * updated whenever the character changes; ultimately, the purpose of this class is to shift away from the
@@ -305,7 +327,7 @@ public abstract class KoLCharacter
 	private static int ascensions = 0;
 	private static String ascensionSign = "None";
 	private static int ascensionSignType = KoLConstants.NONE;
-	private static int consumptionRestriction = AscensionSnapshotTable.NOPATH;
+	private static int consumptionRestriction = AscensionSnapshot.NOPATH;
 	private static int mindControlLevel = 0;
 	private static int detunedRadioVolume = 0;
 	private static int annoyotronLevel = 0;
@@ -443,9 +465,9 @@ public abstract class KoLCharacter
 		KoLConstants.activeEffects.clear();
 
 		// Don't reuse NPC food & drink from a previous login
-		RestaurantRequest.reset();
-		MicrobreweryRequest.reset();
-		KitchenRequest.reset();
+		ChezSnooteeRequest.reset();
+		MicroBreweryRequest.reset();
+		HellKitchenRequest.reset();
 
 		KoLCharacter.resetInventory();
 
@@ -1088,7 +1110,7 @@ public abstract class KoLCharacter
 			KoLCharacter.adventuresLeft = adventuresLeft;
 			if ( KoLCharacter.canEat() && !KoLCharacter.hasChef() || KoLCharacter.canDrink() && !KoLCharacter.hasBartender() )
 			{
-				ConcoctionsDatabase.refreshConcoctions();
+				ConcoctionDatabase.refreshConcoctions();
 			}
 		}
 	}
@@ -1428,9 +1450,9 @@ public abstract class KoLCharacter
 	{
 		switch ( KoLCharacter.hitStat() )
 		{
-		case MOXIE:
+		case KoLConstants.MOXIE:
 			return KoLCharacter.getAdjustedMoxie();
-		case MYSTICALITY:
+		case KoLConstants.MYSTICALITY:
 			return KoLCharacter.getAdjustedMysticality();
 		default:
 			return KoLCharacter.getAdjustedMuscle();
@@ -1532,19 +1554,19 @@ public abstract class KoLCharacter
 	{
 		switch ( consumeFilter )
 		{
-		case EQUIP_HAT:
+		case KoLConstants.EQUIP_HAT:
 			return KoLCharacter.HAT;
-		case EQUIP_WEAPON:
+		case KoLConstants.EQUIP_WEAPON:
 			return KoLCharacter.WEAPON;
-		case EQUIP_OFFHAND:
+		case KoLConstants.EQUIP_OFFHAND:
 			return KoLCharacter.OFFHAND;
-		case EQUIP_SHIRT:
+		case KoLConstants.EQUIP_SHIRT:
 			return KoLCharacter.SHIRT;
-		case EQUIP_PANTS:
+		case KoLConstants.EQUIP_PANTS:
 			return KoLCharacter.PANTS;
-		case EQUIP_ACCESSORY:
+		case KoLConstants.EQUIP_ACCESSORY:
 			return KoLCharacter.ACCESSORY1;
-		case EQUIP_FAMILIAR:
+		case KoLConstants.EQUIP_FAMILIAR:
 			return KoLCharacter.FAMILIAR;
 		default:
 			return -1;
@@ -1657,7 +1679,7 @@ public abstract class KoLCharacter
 			AdventureResult currentItem = (AdventureResult) KoLConstants.inventory.get( i );
 			String currentItemName = currentItem.getName();
 
-			int type = TradeableItemDatabase.getConsumptionType( currentItem.getItemId() );
+			int type = ItemDatabase.getConsumptionType( currentItem.getItemId() );
 
 			// If we are equipping familiar items, make sure
 			// current familiar can use this one
@@ -1912,7 +1934,7 @@ public abstract class KoLCharacter
 		if ( KoLCharacter.hasBartender != hasBartender )
 		{
 			KoLCharacter.hasBartender = hasBartender;
-			ConcoctionsDatabase.refreshConcoctions();
+			ConcoctionDatabase.refreshConcoctions();
 		}
 	}
 
@@ -1938,7 +1960,7 @@ public abstract class KoLCharacter
 		if ( KoLCharacter.hasChef != hasChef )
 		{
 			KoLCharacter.hasChef = hasChef;
-			ConcoctionsDatabase.refreshConcoctions();
+			ConcoctionDatabase.refreshConcoctions();
 		}
 	}
 
@@ -2050,13 +2072,13 @@ public abstract class KoLCharacter
 		if ( !KoLCharacter.kingLiberated() )
 		{
 			KoLSettings.setUserProperty( "kingLiberated", "true" );
-			CharpaneRequest.setInteraction();
+			CharPaneRequest.setInteraction();
 
 			// Bad Moon characters can now access storage.
 			// Check it out!
 			if ( KoLCharacter.inBadMoon() )
 			{
-				RequestThread.postRequest( new ItemStorageRequest() );
+				RequestThread.postRequest( new ClosetRequest() );
 			}
 		}
 	}
@@ -2068,7 +2090,7 @@ public abstract class KoLCharacter
 
 	public static final boolean canInteract()
 	{
-		return CharpaneRequest.canInteract();
+		return CharPaneRequest.canInteract();
 	}
 
 	/**
@@ -2200,12 +2222,12 @@ public abstract class KoLCharacter
 
 	public static final boolean canEat()
 	{
-		return KoLCharacter.consumptionRestriction == AscensionSnapshotTable.NOPATH || KoLCharacter.consumptionRestriction == AscensionSnapshotTable.TEETOTALER;
+		return KoLCharacter.consumptionRestriction == AscensionSnapshot.NOPATH || KoLCharacter.consumptionRestriction == AscensionSnapshot.TEETOTALER;
 	}
 
 	public static final boolean canDrink()
 	{
-		return KoLCharacter.consumptionRestriction == AscensionSnapshotTable.NOPATH || KoLCharacter.consumptionRestriction == AscensionSnapshotTable.BOOZETAFARIAN;
+		return KoLCharacter.consumptionRestriction == AscensionSnapshot.NOPATH || KoLCharacter.consumptionRestriction == AscensionSnapshot.BOOZETAFARIAN;
 	}
 
 	/**
@@ -2427,9 +2449,9 @@ public abstract class KoLCharacter
 
 		KoLConstants.availableSkills.add( skill );
 
-		switch ( ClassSkillsDatabase.getSkillType( skill.getSkillId() ) )
+		switch ( SkillDatabase.getSkillType( skill.getSkillId() ) )
 		{
-		case ClassSkillsDatabase.PASSIVE:
+		case SkillDatabase.PASSIVE:
 
 			// Flavour of Magic gives you access to five other
 			// castable skills
@@ -2457,28 +2479,28 @@ public abstract class KoLCharacter
 
 			break;
 
-		case ClassSkillsDatabase.SUMMON:
+		case SkillDatabase.SUMMON:
 			KoLConstants.usableSkills.add( skill );
 			KoLConstants.usableSkills.sort();
 			KoLConstants.summoningSkills.add( skill );
 			KoLConstants.summoningSkills.sort();
 			break;
 
-		case ClassSkillsDatabase.REMEDY:
+		case SkillDatabase.REMEDY:
 			KoLConstants.usableSkills.add( skill );
 			KoLConstants.usableSkills.sort();
 			KoLConstants.remedySkills.add( skill );
 			KoLConstants.remedySkills.sort();
 			break;
 
-		case ClassSkillsDatabase.SELF_ONLY:
+		case SkillDatabase.SELF_ONLY:
 			KoLConstants.usableSkills.add( skill );
 			KoLConstants.usableSkills.sort();
 			KoLConstants.selfOnlySkills.add( skill );
 			KoLConstants.selfOnlySkills.sort();
 			break;
 
-		case ClassSkillsDatabase.BUFF:
+		case SkillDatabase.BUFF:
 
 			KoLConstants.usableSkills.add( skill );
 			KoLConstants.usableSkills.sort();
@@ -2486,7 +2508,7 @@ public abstract class KoLCharacter
 			KoLConstants.buffSkills.sort();
 			break;
 
-		case ClassSkillsDatabase.COMBAT:
+		case SkillDatabase.COMBAT:
 
 			KoLCharacter.addCombatSkill( skill.getSkillName() );
 			break;
@@ -2642,7 +2664,7 @@ public abstract class KoLCharacter
 
 	public static final boolean hasSkill( final int skillId )
 	{
-		return KoLCharacter.hasSkill( ClassSkillsDatabase.getSkillName( skillId ) );
+		return KoLCharacter.hasSkill( SkillDatabase.getSkillName( skillId ) );
 	}
 
 	public static final boolean hasSkill( final String skillName )
@@ -2703,7 +2725,7 @@ public abstract class KoLCharacter
 
 		if ( KoLCharacter.stillsAvailable == -1 )
 		{
-			KoLRequest stillChecker = new KoLRequest( "guild.php?place=still" );
+			GenericRequest stillChecker = new GenericRequest( "guild.php?place=still" );
 			RequestThread.postRequest( stillChecker );
 
 			Matcher stillMatcher = KoLCharacter.STILLS_PATTERN.matcher( stillChecker.responseText );
@@ -2723,7 +2745,7 @@ public abstract class KoLCharacter
 	public static final void decrementStillsAvailable( final int decrementAmount )
 	{
 		KoLCharacter.stillsAvailable -= decrementAmount;
-		ConcoctionsDatabase.refreshConcoctions();
+		ConcoctionDatabase.refreshConcoctions();
 	}
 
 	public static final boolean canUseWok()
@@ -2941,7 +2963,7 @@ public abstract class KoLCharacter
 
 			if ( updateCalculatedLists )
 			{
-				int consumeType = TradeableItemDatabase.getConsumptionType( result.getItemId() );
+				int consumeType = ItemDatabase.getConsumptionType( result.getItemId() );
 
 				if ( consumeType == KoLConstants.EQUIP_ACCESSORY )
 				{
@@ -2967,21 +2989,21 @@ public abstract class KoLCharacter
 				}
 
 				boolean shouldRefresh = false;
-				List uses = ConcoctionsDatabase.getKnownUses( result );
+				List uses = ConcoctionDatabase.getKnownUses( result );
 
 				for ( int i = 0; i < uses.size() && !shouldRefresh; ++i )
 				{
 					shouldRefresh =
-						ConcoctionsDatabase.isPermittedMethod( ConcoctionsDatabase.getMixingMethod( ( (AdventureResult) uses.get( i ) ).getItemId() ) );
+						ConcoctionDatabase.isPermittedMethod( ConcoctionDatabase.getMixingMethod( ( (AdventureResult) uses.get( i ) ).getItemId() ) );
 				}
 
 				if ( shouldRefresh )
 				{
-					ConcoctionsDatabase.refreshConcoctions();
+					ConcoctionDatabase.refreshConcoctions();
 				}
 				else if ( consumeType == KoLConstants.CONSUME_EAT || consumeType == KoLConstants.CONSUME_DRINK )
 				{
-					ConcoctionsDatabase.refreshConcoctions();
+					ConcoctionDatabase.refreshConcoctions();
 				}
 			}
 		}
@@ -3064,7 +3086,7 @@ public abstract class KoLCharacter
 	{
 		if ( KoLConstants.inventory.contains( KoLCharacter.DEAD_MIMIC ) )
 		{
-			RequestThread.postRequest( new ConsumeItemRequest( KoLCharacter.DEAD_MIMIC ) );
+			RequestThread.postRequest( new UseItemRequest( KoLCharacter.DEAD_MIMIC ) );
 		}
 
 		for ( int i = 0; i < KoLCharacter.WANDS.length; ++i )
@@ -3102,19 +3124,19 @@ public abstract class KoLCharacter
 			}
 		}
 
-		switch ( TradeableItemDatabase.getConsumptionType( item.getItemId() ) )
+		switch ( ItemDatabase.getConsumptionType( item.getItemId() ) )
 		{
-		case EQUIP_HAT:
-		case EQUIP_PANTS:
-		case EQUIP_FAMILIAR:
-		case EQUIP_OFFHAND:
+		case KoLConstants.EQUIP_HAT:
+		case KoLConstants.EQUIP_PANTS:
+		case KoLConstants.EQUIP_FAMILIAR:
+		case KoLConstants.EQUIP_OFFHAND:
 			if ( KoLCharacter.hasEquipped( item ) )
 			{
 				++count;
 			}
 			break;
 
-		case EQUIP_WEAPON:
+		case KoLConstants.EQUIP_WEAPON:
 			if ( KoLCharacter.hasEquipped( item, KoLCharacter.WEAPON ) )
 			{
 				++count;
@@ -3125,7 +3147,7 @@ public abstract class KoLCharacter
 			}
 			break;
 
-		case EQUIP_ACCESSORY:
+		case KoLConstants.EQUIP_ACCESSORY:
 			if ( KoLCharacter.hasEquipped( item, KoLCharacter.ACCESSORY1 ) )
 			{
 				++count;
@@ -3143,7 +3165,7 @@ public abstract class KoLCharacter
 
 		if ( shouldCreate )
 		{
-			ItemCreationRequest creation = ItemCreationRequest.getInstance( item.getItemId() );
+			CreateItemRequest creation = CreateItemRequest.getInstance( item.getItemId() );
 			if ( creation != null )
 			{
 				count += creation.getQuantityPossible();
@@ -3160,29 +3182,29 @@ public abstract class KoLCharacter
 
 	public static final boolean hasEquipped( final AdventureResult item )
 	{
-		switch ( TradeableItemDatabase.getConsumptionType( item.getItemId() ) )
+		switch ( ItemDatabase.getConsumptionType( item.getItemId() ) )
 		{
-		case EQUIP_WEAPON:
+		case KoLConstants.EQUIP_WEAPON:
 			return KoLCharacter.hasEquipped( item, KoLCharacter.WEAPON ) || KoLCharacter.hasEquipped(
 				item, KoLCharacter.OFFHAND );
 
-		case EQUIP_OFFHAND:
+		case KoLConstants.EQUIP_OFFHAND:
 			return KoLCharacter.hasEquipped( item, KoLCharacter.OFFHAND );
 
-		case EQUIP_HAT:
+		case KoLConstants.EQUIP_HAT:
 			return KoLCharacter.hasEquipped( item, KoLCharacter.HAT );
 
-		case EQUIP_SHIRT:
+		case KoLConstants.EQUIP_SHIRT:
 			return KoLCharacter.hasEquipped( item, KoLCharacter.SHIRT );
 
-		case EQUIP_PANTS:
+		case KoLConstants.EQUIP_PANTS:
 			return KoLCharacter.hasEquipped( item, KoLCharacter.PANTS );
 
-		case EQUIP_ACCESSORY:
+		case KoLConstants.EQUIP_ACCESSORY:
 			return KoLCharacter.hasEquipped( item, KoLCharacter.ACCESSORY1 ) || KoLCharacter.hasEquipped(
 				item, KoLCharacter.ACCESSORY2 ) || KoLCharacter.hasEquipped( item, KoLCharacter.ACCESSORY3 );
 
-		case EQUIP_FAMILIAR:
+		case KoLConstants.EQUIP_FAMILIAR:
 			return KoLCharacter.hasEquipped( item, KoLCharacter.FAMILIAR );
 		}
 

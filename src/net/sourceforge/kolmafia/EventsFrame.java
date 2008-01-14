@@ -33,6 +33,10 @@
 
 package net.sourceforge.kolmafia;
 
+import javax.swing.JTabbedPane;
+
+import net.sourceforge.kolmafia.request.GenericRequest;
+
 public class EventsFrame
 	extends KoLPanelFrame
 {
@@ -42,7 +46,7 @@ public class EventsFrame
 		this.setContentPane( new EventsPanel() );
 	}
 
-	public UnfocusedTabbedPane getTabbedPane()
+	public JTabbedPane getTabbedPane()
 	{
 		return null;
 	}
@@ -65,7 +69,7 @@ public class EventsFrame
 		{
 			// Connect to main map to pick up new events
 			KoLmafia.updateDisplay( "Checking for new events..." );
-			RequestThread.postRequest( new KoLRequest( "main.php" ) );
+			RequestThread.postRequest( new GenericRequest( "main.php" ) );
 		}
 	}
 }

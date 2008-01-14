@@ -63,12 +63,31 @@ import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.ImageView;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
-import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.UtilityConstants;
+
+import net.sourceforge.kolmafia.session.CustomCombatManager;
+import net.sourceforge.kolmafia.webui.UseLinkDecorator;
+
+import net.sourceforge.kolmafia.request.AdventureRequest;
+import net.sourceforge.kolmafia.request.BasementRequest;
+import net.sourceforge.kolmafia.request.CharPaneRequest;
+import net.sourceforge.kolmafia.request.ChatRequest;
+import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.HermitRequest;
+import net.sourceforge.kolmafia.request.MoonPhaseRequest;
+import net.sourceforge.kolmafia.request.UseItemRequest;
+import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.request.ZapRequest;
+
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 public class RequestEditorKit
 	extends HTMLEditorKit
-	implements KoLConstants
 {
 	// Overkill Unicode table borrowed from HTMLParser
 	// http://htmlparser.sourceforge.net/
@@ -85,7 +104,7 @@ public class RequestEditorKit
 		// "-//W3C//ENTITIES Latin 1//EN//HTML">
 		// %HTMLlat1;
 
-		{ "&nbsp;",	"\u00a0" }, // no-break space = non-breaking space, U+00A0 ISOnum
+		{ "&nbsp;",	" " }, // no-break space = non-breaking space, U+00A0 ISOnum
 		{ "&iexcl;",	"\u00a1" }, // inverted exclamation mark, U+00A1 ISOnum
 		{ "&cent;",	"\u00a2" }, // cent sign, U+00A2 ISOnum
 		{ "&pound;",	"\u00a3" }, // pound sign, U+00A3 ISOnum
@@ -430,7 +449,7 @@ public class RequestEditorKit
 
 	/**
 	 * Returns an extension of the standard <code>HTMLFacotry</code> which intercepts some of the form handling to
-	 * ensure that <code>KoLRequest</code> objects are instantiated on form submission rather than the
+	 * ensure that <code>GenericRequest</code> objects are instantiated on form submission rather than the
 	 * <code>HttpRequest</code> objects created by the default HTML editor kit.
 	 */
 
@@ -463,8 +482,6 @@ public class RequestEditorKit
 	}
 
 	private static final Pattern FILEID_PATTERN = Pattern.compile( "(\\d+)\\." );
-	private static final Pattern ACQUIRE_PATTERN =
-		Pattern.compile( "(You acquire|O hai, I made dis)([^<]*?<b>.*?</b>.*?)</td>", Pattern.DOTALL );
 	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
 	private static final Pattern BOOKSHELF_PATTERN =
 		Pattern.compile( "onClick=\"location.href='(.*?)';\"", Pattern.DOTALL );
@@ -1108,7 +1125,7 @@ public class RequestEditorKit
 		{
 			if ( addComplexFeatures )
 			{
-				CharpaneRequest.decorate( buffer );
+				CharPaneRequest.decorate( buffer );
 			}
 
 			return;
@@ -1209,7 +1226,7 @@ public class RequestEditorKit
 		}
 		else if ( location.startsWith( "inventory.php" ) )
 		{
-			if ( ConsumeItemRequest.currentItemId() == ConsumeItemRequest.HACK_SCROLL )
+			if ( UseItemRequest.currentItemId() == UseItemRequest.HACK_SCROLL )
 			{
 				StaticEntity.globalStringReplace( buffer, "ten-leaf", "disassembled" );
 				StaticEntity.globalStringReplace( buffer, "clover.gif", "disclover.gif" );
@@ -1354,7 +1371,7 @@ public class RequestEditorKit
 
 			if ( KoLSettings.getBooleanProperty( "relayAddsUseLinks" ) )
 			{
-				RequestEditorKit.addUseLinks( location, buffer );
+				UseLinkDecorator.decorate( location, buffer );
 			}
 
 			if ( buffer.indexOf( "showplayer.php" ) != -1 && buffer.indexOf( "rcm.js" ) == -1 && buffer.indexOf( "rcm.2.js" ) == -1 )
@@ -1392,7 +1409,7 @@ public class RequestEditorKit
 
 		predictions.append( "</center></td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td>" );
 		predictions.append( "<td><div style=\"padding-top: 10px; padding-left: 10px; padding-right: 10px; padding-bottom: 10px\"><font size=-1>" );
-		MoonPhaseDatabase.addPredictionHTML( predictions, new Date(), MoonPhaseDatabase.getPhaseStep(), false );
+		HolidayDatabase.addPredictionHTML( predictions, new Date(), HolidayDatabase.getPhaseStep(), false );
 		predictions.append( "</font></div></td></tr><tr><td colspan=3><br>" );
 		predictions.append( KoLConstants.LINE_BREAK );
 		predictions.append( KoLConstants.LINE_BREAK );
@@ -1430,11 +1447,11 @@ public class RequestEditorKit
 		reminders.append( "<br><table>" );
 
 		reminders.append( "<tr><td><img id = 'current' src=\"http://images.kingdomofloathing.com/" );
-		reminders.append( FamiliarsDatabase.getFamiliarImageLocation( KoLCharacter.getFamiliar().getId() ) );
+		reminders.append( FamiliarDatabase.getFamiliarImageLocation( KoLCharacter.getFamiliar().getId() ) );
 		reminders.append( "\"></td><td><select id=\"familiar\" style=\"width: 250px\" onchange=\"var select = document.getElementById('familiar'); " );
 		reminders.append( "var option = select.options[select.selectedIndex]; " );
 		reminders.append( "top.charpane.document.location.href = '/KoLmafia/sideCommand?cmd=familiar+' + option.value + '&pwd=" );
-		reminders.append( KoLRequest.passwordHash );
+		reminders.append( GenericRequest.passwordHash );
 		reminders.append( "'; document.getElementById('current').src = 'http://images.kingdomofloathing.com/' + option.id; " );
 		reminders.append( "return true;\"><option value=\"none\">- No Familiar -</option>" );
 
@@ -1443,7 +1460,7 @@ public class RequestEditorKit
 		for ( int i = 1; i < familiars.length; ++i )
 		{
 			reminders.append( "<option id=\"" );
-			reminders.append( FamiliarsDatabase.getFamiliarImageLocation( ( (FamiliarData) familiars[ i ] ).getId() ) );
+			reminders.append( FamiliarDatabase.getFamiliarImageLocation( ( (FamiliarData) familiars[ i ] ).getId() ) );
 			reminders.append( "\" value=\"" );
 			reminders.append( StaticEntity.globalStringReplace( ( (FamiliarData) familiars[ i ] ).getRace(), " ", "+" ) );
 			reminders.append( "\"" );
@@ -1572,14 +1589,14 @@ public class RequestEditorKit
 		buffer.append( KoLConstants.LINE_BREAK );
 
 		buffer.append( "<td><div style=\"background-color: #ffffcc; padding-top: 10px; padding-left: 10px; padding-right: 10px; padding-bottom: 10px\"><font size=-1>" );
-		MoonPhaseDatabase.addPredictionHTML( buffer, new Date(), MoonPhaseDatabase.getPhaseStep() );
+		HolidayDatabase.addPredictionHTML( buffer, new Date(), HolidayDatabase.getPhaseStep() );
 		buffer.append( "</font></div></td></tr><tr><td colspan=3><br><br>" );
 		buffer.append( KoLConstants.LINE_BREAK );
 		buffer.append( KoLConstants.LINE_BREAK );
 
 		buffer.append( "<form name=\"ascform\" action=valhalla.php method=post onSubmit=\"document.ascform.whichsign.value = document.ascform.whichsignhc.value; return true;\">" );
 		buffer.append( "<input type=hidden name=action value=\"resurrect\"><input type=hidden name=pwd value=\"" );
-		buffer.append( KoLRequest.passwordHash );
+		buffer.append( GenericRequest.passwordHash );
 		buffer.append( "\"><center><table>" );
 		buffer.append( KoLConstants.LINE_BREAK );
 
@@ -1645,7 +1662,7 @@ public class RequestEditorKit
 			buffer.append( "<option value=" );
 			buffer.append( skillId );
 			buffer.append( ">" );
-			buffer.append( ClassSkillsDatabase.getSkillName( skillId ) );
+			buffer.append( SkillDatabase.getSkillName( skillId ) );
 
 			if ( skillId % 1000 == 0 )
 			{
@@ -1711,7 +1728,7 @@ public class RequestEditorKit
 		String skillName;
 		for ( int i = 0; i < 100; ++i )
 		{
-			skillName = ClassSkillsDatabase.getSkillName( startingPoint + i );
+			skillName = SkillDatabase.getSkillName( startingPoint + i );
 			if ( skillName == null )
 			{
 				continue;
@@ -1752,7 +1769,7 @@ public class RequestEditorKit
 		}
 
 		int skillId = StaticEntity.parseInt( action );
-		String name = ClassSkillsDatabase.getSkillName( skillId ).toLowerCase();
+		String name = SkillDatabase.getSkillName( skillId ).toLowerCase();
 
 		switch ( skillId )
 		{
@@ -1860,7 +1877,7 @@ public class RequestEditorKit
 			{
 				if ( KoLConstants.inventory.contains( KoLAdventure.DRUM_MACHINE ) )
 				{
-					location = "inv_use.php?pwd=" + KoLRequest.passwordHash + "&which=3&whichitem=" + ConsumeItemRequest.DRUM_MACHINE;
+					location = "inv_use.php?pwd=" + GenericRequest.passwordHash + "&which=3&whichitem=" + UseItemRequest.DRUM_MACHINE;
 				}
 				else
 				{
@@ -1869,7 +1886,7 @@ public class RequestEditorKit
 			}
 			else if ( monster.equals( "scary pirate" ) )
 			{
-				location = "inv_use.php?pwd=" + KoLRequest.passwordHash +"&which=3&whichitem=" + ConsumeItemRequest.CURSED_PIECE_OF_THIRTEEN;
+				location = "inv_use.php?pwd=" + GenericRequest.passwordHash +"&which=3&whichitem=" + UseItemRequest.CURSED_PIECE_OF_THIRTEEN;
 			}
 			else
 			{
@@ -1916,7 +1933,7 @@ public class RequestEditorKit
 				buffer.append( "action=skill&whichskill=" );
 				buffer.append( action );
 				isEnabled &=
-					ClassSkillsDatabase.getMPConsumptionById( StaticEntity.parseInt( action ) ) <= KoLCharacter.getCurrentMP();
+					SkillDatabase.getMPConsumptionById( StaticEntity.parseInt( action ) ) <= KoLCharacter.getCurrentMP();
 			}
 		}
 
@@ -2000,7 +2017,7 @@ public class RequestEditorKit
 					continue;
 				}
 
-				String name = ClassSkillsDatabase.getSkillName( Integer.parseInt( action ) );
+				String name = SkillDatabase.getSkillName( Integer.parseInt( action ) );
 
 				if ( !KoLCharacter.hasSkill( name ) )
 				{
@@ -2039,7 +2056,7 @@ public class RequestEditorKit
 				currentHotkeyValue = (String) RequestEditorKit.combatHotkeys.get( i );
 				if ( !currentHotkeyValue.equals( "" ) )
 				{
-					actionBuffer.append( CombatSettings.getLongCombatOptionName( currentHotkeyValue ) );
+					actionBuffer.append( CustomCombatManager.getLongCombatOptionName( currentHotkeyValue ) );
 				}
 
 				actionBuffer.append( "</option>" );
@@ -2240,7 +2257,7 @@ public class RequestEditorKit
 
 		for ( int i = 819; i <= 827; ++i )
 		{
-			String name = TradeableItemDatabase.getItemName( i );
+			String name = ItemDatabase.getItemName( i );
 			if ( buffer.indexOf( name ) != -1 )
 			{
 				String effect = KoLSettings.getUserProperty( "lastBangPotion" + i );
@@ -2273,7 +2290,7 @@ public class RequestEditorKit
 
 		for ( int i = 819; i <= 827; ++i )
 		{
-			String name = TradeableItemDatabase.getItemName( i );
+			String name = ItemDatabase.getItemName( i );
 			if ( buffer.indexOf( name ) != -1 )
 			{
 				String effect = KoLSettings.getUserProperty( "lastBangPotion" + i );
@@ -2293,7 +2310,7 @@ public class RequestEditorKit
 
 	private static final void changeDustyBottleNames( final StringBuffer buffer )
 	{
-		TradeableItemDatabase.getDustyBottles();
+		ItemDatabase.getDustyBottles();
 
 		int glyphs[] = new int[ 3 ];
 
@@ -2336,7 +2353,7 @@ public class RequestEditorKit
 		{
 			if ( wines[i] == 0 )
 				continue;
-			String name = TradeableItemDatabase.getItemName( wines[ i ] );
+			String name = ItemDatabase.getItemName( wines[ i ] );
 			StaticEntity.globalStringReplace( buffer, name, i + 1 + " " + name );
 		}
 	}
@@ -2358,7 +2375,7 @@ public class RequestEditorKit
 			return;
 		}
 
-		String name = TradeableItemDatabase.getItemName( itemId );
+		String name = ItemDatabase.getItemName( itemId );
 		if ( buffer.indexOf( name ) == -1 )
 		{
 			return;
@@ -2383,537 +2400,13 @@ public class RequestEditorKit
 	{
 		for ( int i = 2174; i <= 2177; ++i )
 		{
-			String name = TradeableItemDatabase.getItemName( i );
+			String name = ItemDatabase.getItemName( i );
 			String effect = KoLSettings.getUserProperty( "lastStoneSphere" + i );
 
 			if ( buffer.indexOf( name ) != -1 && !effect.equals( "" ) )
 			{
 				StaticEntity.globalStringReplace( buffer, name, name + " of " + effect );
 			}
-		}
-	}
-
-	private static final void addUseLinks( final String location, final StringBuffer buffer )
-	{
-		if ( buffer.indexOf( "You acquire" ) == -1 &&
-		     buffer.indexOf( "O hai, I made dis" ) == -1)
-		{
-			return;
-		}
-
-		// No use link if you get the item via pickpocketing; you're still in battle
-		if ( buffer.indexOf( "deftly slip your fingers" ) != -1 )
-		{
-			return;
-		}
-
-		String text = buffer.toString();
-		buffer.setLength( 0 );
-
-		Matcher useLinkMatcher = RequestEditorKit.ACQUIRE_PATTERN.matcher( text );
-
-		int specialLinkId = 0;
-		String specialLinkText = null;
-
-		while ( useLinkMatcher.find() )
-		{
-			String itemName = useLinkMatcher.group( 2 );
-			if ( itemName.indexOf( "<br>" ) != -1 )
-			{
-				itemName = itemName.substring( 0, itemName.indexOf( "<br>" ) );
-			}
-
-			int itemCount = itemName.indexOf( ":" ) != -1 ? 1 : 2;
-
-			if ( itemCount == 1 )
-			{
-				itemName = itemName.substring( itemName.indexOf( ":" ) + 1 ).replaceAll( "<.*?>", "" ).trim();
-			}
-			else
-			{
-				itemName = itemName.replaceAll( "<.*?>", "" );
-				itemName = itemName.substring( itemName.indexOf( " " ) + 1 ).trim();
-			}
-
-			int itemId = TradeableItemDatabase.getItemId( itemName, itemCount );
-
-			String useType = null;
-			String useLocation = null;
-
-			boolean addCreateLink =
-				location != null && location.indexOf( "combine.php" ) == -1 && location.indexOf( "cocktail.php" ) == -1 && location.indexOf( "cook.php" ) == -1 && location.indexOf( "paster" ) == -1 && location.indexOf( "smith" ) == -1;
-
-			AdventureResult creation = null;
-			ItemCreationRequest irequest = null;
-
-			int mixingMethod = KoLConstants.NOCREATE;
-			int consumeMethod = TradeableItemDatabase.getConsumptionType( itemId );
-
-			// Retrieve the known ingredient uses for the item.
-			SortedListModel creations = ConcoctionsDatabase.getKnownUses( itemId );
-
-			// If you find goat cheese, let the trapper link handle it.
-			addCreateLink &= !creations.isEmpty() && itemId != 322;
-
-			// If you find ore, let the trapper link handle it.
-			addCreateLink &= itemId != 363 || itemId != 364 || itemId != 365;
-
-			// Dictionaries and bridges should link to the chasm quest.
-			addCreateLink &=
-				itemId != FightRequest.DICTIONARY1.getItemId() && itemId != AdventureRequest.BRIDGE.getItemId();
-
-			// Enchanted beans are primarily used for the beanstalk quest.
-			addCreateLink &=
-				itemId != KoLAdventure.BEAN.getItemId() || KoLCharacter.getLevel() < 10 || KoLCharacter.hasItem( KoLAdventure.SOCK ) || KoLCharacter.hasItem( KoLAdventure.ROWBOAT );
-
-			// Skip items which are multi-use or are mp restores.
-			addCreateLink &= consumeMethod != KoLConstants.CONSUME_MULTIPLE && consumeMethod != KoLConstants.MP_RESTORE;
-
-			if ( addCreateLink )
-			{
-				addCreateLink = false;
-
-				for ( int i = 0; !addCreateLink && i < creations.size(); ++i )
-				{
-					creation = (AdventureResult) creations.get( i );
-					mixingMethod = ConcoctionsDatabase.getMixingMethod( creation.getItemId() );
-
-					// Only accept if it's a creation method that the editor kit
-					// currently understands and links.
-
-					switch ( mixingMethod )
-					{
-					case NOCREATE:
-					case PIXEL:
-					case ROLLING_PIN:
-					case TOY:
-					case CLOVER:
-					case STILL_BOOZE:
-					case STILL_MIXER:
-					case SMITH:
-					case SMITH_WEAPON:
-					case SMITH_ARMOR:
-					case CATALYST:
-						continue;
-					}
-
-					irequest = ItemCreationRequest.getInstance( creation.getItemId() );
-					addCreateLink =
-						ConcoctionsDatabase.isPermittedMethod( mixingMethod ) && irequest != null && irequest.getQuantityPossible() > 0;
-				}
-			}
-
-			// Certain items get use special links to minimize the amount
-			// of scrolling to find the item again.
-
-			if ( location.startsWith( "inventory.php" ) )
-			{
-				switch ( itemId )
-				{
-				case 1423:
-				case 1424:
-				case 1425:
-				case 1426:
-				case 1427:
-
-					specialLinkId = itemId;
-					specialLinkText = "squeeze";
-					break;
-
-				case 2079:
-				case 2080:
-				case 2081:
-				case 2083:
-				case 2095:
-
-					specialLinkId = itemId;
-					specialLinkText = "fold";
-					break;
-
-				case 2221:
-				case 2222:
-				case 2223:
-				case 2224:
-				case 2225:
-				case 2226:
-
-					// specialLinkId = itemId;
-					// specialLinkText = "melt";
-					break;
-				}
-			}
-
-			// If you can add a creation link, then add one instead.
-			// That way, the player can click and KoLmafia will save
-			// the player a click or two (well, if they trust it).
-
-			if ( addCreateLink )
-			{
-				switch ( mixingMethod )
-				{
-				case STARCHART:
-					useType =
-						StarChartRequest.CHART.getCount( KoLConstants.inventory ) + "," + StarChartRequest.STARS.getCount( KoLConstants.inventory ) + "," + StarChartRequest.LINES.getCount( KoLConstants.inventory );
-					useLocation = "starchart.php";
-					break;
-
-				case COMBINE:
-					useType = "combine";
-					useLocation = KoLCharacter.inMuscleSign() ? "knoll.php?place=paster" : "combine.php";
-					break;
-
-				case MIX:
-				case MIX_SPECIAL:
-				case MIX_SUPER:
-					useType = "mix";
-					useLocation = "cocktail.php";
-					break;
-
-				case COOK:
-				case COOK_REAGENT:
-				case SUPER_REAGENT:
-				case COOK_PASTA:
-					useType = "cook";
-					useLocation = "cook.php";
-					break;
-
-				case JEWELRY:
-				case EXPENSIVE_JEWELRY:
-					useType = "jewelry";
-					useLocation = "jewelry.php";
-					break;
-				}
-			}
-			else
-			{
-				switch ( consumeMethod )
-				{
-				case GROW_FAMILIAR:
-
-					if ( itemId == 275 )
-					{
-						useType = "council";
-						useLocation = "council.php";
-					}
-
-					break;
-
-				case CONSUME_EAT:
-
-					if ( itemId == 322 )
-					{
-						AdventureResult cheese = new AdventureResult( itemId, 1 );
-						useType = String.valueOf( cheese.getCount( KoLConstants.inventory ) );
-						useLocation = "trapper.php";
-					}
-					else
-					{
-						useType = KoLCharacter.canEat() ? "eat" : null;
-						useLocation = "inv_eat.php?pwd=" + KoLRequest.passwordHash + "&which=1&whichitem=";
-					}
-
-					break;
-
-				case CONSUME_DRINK:
-					useType = KoLCharacter.canDrink() ? "drink" : null;
-					useLocation = "inv_booze.php?pwd=" + KoLRequest.passwordHash + "&which=1&whichitem=";
-					break;
-
-				case CONSUME_MULTIPLE:
-				case HP_RESTORE:
-				case MP_RESTORE:
-				case HPMP_RESTORE:
-
-					AdventureResult result = new AdventureResult( itemId, 1 );
-					itemCount =
-						Math.min( ConsumeItemRequest.maximumUses( itemId ), result.getCount( KoLConstants.inventory ) );
-
-					if ( itemCount == 0 )
-					{
-						useType = null;
-						useLocation = null;
-					}
-					else if ( itemCount == 1 )
-					{
-						String page = ( consumeMethod == CONSUME_MULTIPLE ) ? "3" : "1";
-						useType = "use";
-						useLocation = "inv_use.php?pwd=" + KoLRequest.passwordHash + "&which=" + page + "&whichitem=";
-					}
-					else if ( KoLSettings.getBooleanProperty( "relayUsesInlineLinks" ) )
-					{
-						useType = "use";
-						useLocation = "#";
-					}
-					else
-					{
-						useType = "use";
-						useLocation = "multiuse.php?passitem=";
-					}
-
-					break;
-
-				case CONSUME_USE:
-				case MESSAGE_DISPLAY:
-				case INFINITE_USES:
-
-					switch ( itemId )
-					{
-					case ConsumeItemRequest.MACGUFFIN_DIARY:
-
-						useType = "read";
-						useLocation = "diary.php?textversion=1";
-						break;
-
-					case 75: // spooky sapling
-					case 76: // Spooky-Gro fertilizer
-
-						AdventureResult map = new AdventureResult( 74, 1 );
-						if ( KoLCharacter.hasItem( map ) )
-						{
-							useType = "map";
-							useLocation = "inv_use.php?pwd=" + KoLRequest.passwordHash + "&which=3&whichitem=";
-							itemId = 74;
-						}
-						break;
-
-					case 146: // dinghy plans
-
-						AdventureResult planks = new AdventureResult( 140, 1 );
-						if ( !KoLCharacter.hasItem( planks ) && HermitRequest.getWorthlessItemCount() > 0 )
-						{
-							useType = "planks";
-							useLocation = "hermit.php?autopermit=on&action=trade&pwd=" + KoLRequest.passwordHash +"&quantity=1&whichitem=140";
-						}
-						break;
-
-					case 2095: // towel
-
-						useType = "fold";
-						useLocation = "inv_use.php?pwd=" + KoLRequest.passwordHash + "&which=3&whichitem=";
-						break;
-
-					default:
-
-						useType = "use";
-						useLocation = "inv_use.php?pwd=" + KoLRequest.passwordHash + "&which=3&whichitem=";
-						break;
-					}
-
-					break;
-
-				case EQUIP_HAT:
-				case EQUIP_WEAPON:
-				case EQUIP_OFFHAND:
-				case EQUIP_SHIRT:
-				case EQUIP_PANTS:
-				case EQUIP_ACCESSORY:
-				case EQUIP_FAMILIAR:
-
-					useType = null;
-					int outfit = EquipmentDatabase.getOutfitWithItem( itemId );
-
-					if ( outfit != -1 && EquipmentDatabase.hasOutfit( outfit ) )
-					{
-						useType = "outfit";
-						useLocation = "inv_equip.php?action=outfit&which=2&whichoutfit=" + outfit;
-					}
-					else
-					{
-						useType = "equip";
-						useLocation = "inv_equip.php?pwd=" + KoLRequest.passwordHash + "&which=2&action=equip&whichitem=";
-					}
-
-					break;
-
-				case CONSUME_ZAP:
-					useType = "zap";
-					useLocation = "wand.php?whichwand=";
-					break;
-
-				default:
-
-					// Soft green echo eyedrop antidote gets an uneffect link
-
-					if ( itemId == UneffectRequest.REMEDY.getItemId() )
-					{
-						useType = "use";
-						useLocation = "uneffect.php";
-					}
-
-					// Special handling for star charts, lines, and stars, where
-					// KoLmafia shows you how many of each you have.
-
-					else if ( itemId == StarChartRequest.CHART.getItemId() || itemId == StarChartRequest.STARS.getItemId() || itemId == StarChartRequest.LINES.getItemId() )
-					{
-						useType =
-							StarChartRequest.CHART.getCount( KoLConstants.inventory ) + "," + StarChartRequest.STARS.getCount( KoLConstants.inventory ) + "," + StarChartRequest.LINES.getCount( KoLConstants.inventory );
-						useLocation = "starchart.php";
-					}
-
-					// Hedge maze puzzle and hedge maze key have a link to the maze
-					// for easy access.
-
-					else if ( itemId == SorceressLair.HEDGE_KEY.getItemId() || itemId == SorceressLair.PUZZLE_PIECE.getItemId() )
-					{
-						useType = "maze";
-						useLocation = "hedgepuzzle.php";
-					}
-
-					// The different kinds of ores will only have a link if they're
-					// the ones applicable to the trapper quest.
-
-					else if ( itemId == 363 || itemId == 364 || itemId == 365 )
-					{
-						AdventureResult ore =
-							new AdventureResult( KoLSettings.getUserProperty( "trapperOre" ), itemCount, false );
-
-						if ( ore.getItemId() == itemId )
-						{
-							useType = String.valueOf( ore.getCount( KoLConstants.inventory ) );
-							useLocation = "trapper.php";
-						}
-					}
-
-					// Pixels have handy links indicating how many white pixels are
-					// present in the player's inventory.
-
-					else if ( itemId == 459 || itemId == 461 || itemId == 462 || itemId == 463 )
-					{
-						AdventureResult white = new AdventureResult( 459, 1 );
-						useType =
-							String.valueOf( white.getCount( KoLConstants.inventory ) + ItemCreationRequest.getInstance(
-								459 ).getQuantityPossible() ) + " white";
-						useLocation = "mystic.php";
-					}
-
-					// Disintegrating sheet music gets a link which lets you sing it
-					// to yourself.  We'll call it "hum" for now.
-
-					else if ( itemId == 2192 )
-					{
-						useType = "sing";
-						useLocation =
-							"curse.php?action=use&pwd=" + KoLRequest.passwordHash + "&whichitem=2192&targetplayer=" + KoLCharacter.getUserName();
-					}
-
-					// Link which uses the plans when you acquire the planks.
-
-					else if ( itemId == 140 )
-					{
-						AdventureResult plans = new AdventureResult( 146, 1 );
-						if ( KoLCharacter.hasItem( plans ) )
-						{
-							useType = "plans";
-							useLocation = "inv_use.php?pwd=" + KoLRequest.passwordHash + "&which=3&whichitem=";
-							itemId = 146;
-						}
-					}
-
-					// Link to the guild upon completion of the Citadel quest.
-
-					else if ( itemId == 1656 )
-					{
-						useType = "guild";
-						useLocation = "guild.php?place=paco";
-					}
-
-					// Link to the untinkerer if you find an abridged dictionary.
-
-					else if ( itemId == AdventureRequest.ABRIDGED.getItemId() )
-					{
-						useType = "untinker";
-						useLocation = "town_right.php?action=untinker&pwd=" + KoLRequest.passwordHash + "&whichitem=";
-					}
-
-					// Link to the chasm if you just untinkered a dictionary.
-
-					else if ( itemId == FightRequest.DICTIONARY1.getItemId() || itemId == AdventureRequest.BRIDGE.getItemId() )
-					{
-						useType = "chasm";
-						useLocation = "mountains.php?pwd=" + KoLRequest.passwordHash + "&orcs=1";
-					}
-
-					// Bounty items get a count and a link
-					// to the Bounty Hunter Hunter.
-
-					else if ( itemId == KoLSettings.getIntegerProperty( "currentBountyItem" ) || TradeableItemDatabase.isBountyItem( itemId ) )
-					{
-						KoLSettings.setUserProperty( "currentBountyItem", String.valueOf( itemId ) );
-						AdventureResult item = new AdventureResult( itemId, 0 );
-						useType = String.valueOf( item.getCount( KoLConstants.inventory ) );
-						useLocation = "bhh.php";
-					}
-				}
-			}
-
-			if ( useType != null && useLocation != null )
-			{
-				if ( useLocation.endsWith( "=" ) )
-				{
-					useLocation += itemId;
-				}
-
-				if ( useLocation.equals( "#" ) )
-				{
-					useLinkMatcher.appendReplacement( buffer, "$1$2" );
-
-					// Append a multi-use field rather than forcing
-					// an additional page load.
-
-					buffer.append( "</td></tr><tr><td colspan=2 align=center><div id=\"multiuse" );
-					buffer.append( itemId );
-					buffer.append( "\">" );
-
-					buffer.append( "<form><input type=text size=3 id=\"quantity" );
-					buffer.append( itemId );
-					buffer.append( "\" value=" );
-					buffer.append( Math.min( itemCount, ConsumeItemRequest.maximumUses( itemId ) ) );
-					buffer.append( ">&nbsp;<input type=button class=button value=\"Use\" onClick=\"multiUse('" );
-
-					if ( consumeMethod == KoLConstants.MP_RESTORE )
-					{
-						buffer.append( "skills.php" );
-					}
-					else
-					{
-						buffer.append( "multiuse.php" );
-					}
-
-					buffer.append( "', " );
-					buffer.append( itemId );
-					buffer.append( "); void(0);\"></form></div>" );
-				}
-				else if ( !KoLSettings.getBooleanProperty( "relayUsesInlineLinks" ) || !useLocation.startsWith( "inv" ) )
-				{
-					useLinkMatcher.appendReplacement(
-						buffer,
-						"$1$2 <font size=1>[<a href=\"" + useLocation.trim() + "\">" + useType + "</a>]</font>" );
-				}
-				else
-				{
-					String[] pieces = useLocation.toString().split( "\\?" );
-
-					useLinkMatcher.appendReplacement(
-						buffer,
-						"$1$2 <font size=1>[<a href=\"javascript: " + "singleUse('" + pieces[ 0 ] + "', '" + pieces[ 1 ] + "'); void(0);\">" + useType + "</a>]</font>" );
-				}
-
-				buffer.append( "</td>" );
-			}
-			else
-			{
-				useLinkMatcher.appendReplacement( buffer, "$0" );
-			}
-		}
-
-		useLinkMatcher.appendTail( buffer );
-
-		if ( specialLinkText != null )
-		{
-			StaticEntity.singleStringReplace(
-				buffer,
-				"</center></blockquote>",
-				"<p><center><a href=\"inv_use.php?pwd=" + KoLRequest.passwordHash + "&which=2&whichitem=" + specialLinkId + "\">[" + specialLinkText + " it again]</a></center></blockquote>" );
 		}
 	}
 
@@ -2924,7 +2417,7 @@ public class RequestEditorKit
 
 		StaticEntity.singleStringReplace(
 			buffer, "It's actually a book.  Read it.",
-			"It's actually a book. <font size=1>[<a href=\"inv_use.php?pwd=" + KoLRequest.passwordHash + "&which=3&whichitem=818\">read it</a>]</font>" );
+			"It's actually a book. <font size=1>[<a href=\"inv_use.php?pwd=" + GenericRequest.passwordHash + "&which=3&whichitem=818\">read it</a>]</font>" );
 
 		// For everything else, make sure that it's an actual choice adventure
 		Matcher choiceMatcher = RequestEditorKit.CHOICE_PATTERN.matcher( buffer.toString() );
@@ -3210,7 +2703,7 @@ public class RequestEditorKit
 				}
 			}
 
-			KoLRequest formSubmitter = new KoLRequest( "" );
+			GenericRequest formSubmitter = new GenericRequest( "" );
 
 			if ( action.indexOf( "?" ) != -1 )
 			{
@@ -3283,23 +2776,23 @@ public class RequestEditorKit
 	}
 
 	/**
-	 * Utility method used to determine the KoLRequest that should be sent, given the appropriate location.
+	 * Utility method used to determine the GenericRequest that should be sent, given the appropriate location.
 	 */
 
-	public static final KoLRequest extractRequest( String location )
+	public static final GenericRequest extractRequest( String location )
 	{
 		if ( location.indexOf( "pics.communityofloathing.com" ) != -1 )
 		{
 			RequestEditorKit.downloadImage( location );
 			location = location.substring( location.indexOf( "/" ) );
 
-			KoLRequest extractedRequest = new KoLRequest( location );
+			GenericRequest extractedRequest = new GenericRequest( location );
 			extractedRequest.responseCode = 200;
 			extractedRequest.responseText = "<html><img src=\"" + location + "\"></html>";
 			extractedRequest.responseText = extractedRequest.responseText;
 			return extractedRequest;
 		}
 
-		return new KoLRequest( location );
+		return new GenericRequest( location );
 	}
 }

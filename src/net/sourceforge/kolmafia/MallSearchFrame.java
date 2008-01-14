@@ -43,6 +43,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
@@ -50,6 +51,11 @@ import javax.swing.event.ListSelectionListener;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.SortedListModel;
+
+import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
+
+import net.sourceforge.kolmafia.request.MallPurchaseRequest;
+import net.sourceforge.kolmafia.request.MallSearchRequest;
 
 public class MallSearchFrame
 	extends KoLPanelFrame
@@ -72,7 +78,7 @@ public class MallSearchFrame
 		this.setContentPanel( this.mallSearch );
 	}
 
-	public UnfocusedTabbedPane getTabbedPane()
+	public JTabbedPane getTabbedPane()
 	{
 		return null;
 	}
@@ -91,7 +97,7 @@ public class MallSearchFrame
 		extends KoLPanel
 	{
 		private final JComponent searchField;
-		private final AutoHighlightField countField;
+		private final AutoHighlightTextField countField;
 
 		private final JCheckBox forceSortingCheckBox;
 		private final JCheckBox limitPurchasesCheckBox;
@@ -102,9 +108,9 @@ public class MallSearchFrame
 
 			this.searchField =
 				KoLSettings.getBooleanProperty( "cacheMallSearches" ) ? (JComponent) new MutableComboBox(
-					MallSearchFrame.pastSearches, true ) : (JComponent) new AutoHighlightField();
+					MallSearchFrame.pastSearches, true ) : (JComponent) new AutoHighlightTextField();
 
-			this.countField = new AutoHighlightField();
+			this.countField = new AutoHighlightTextField();
 
 			this.forceSortingCheckBox = new JCheckBox();
 			this.limitPurchasesCheckBox = new JCheckBox();
@@ -146,9 +152,9 @@ public class MallSearchFrame
 
 			String searchText = null;
 
-			if ( this.searchField instanceof AutoHighlightField )
+			if ( this.searchField instanceof AutoHighlightTextField )
 			{
-				searchText = ( (AutoHighlightField) this.searchField ).getText();
+				searchText = ( (AutoHighlightTextField) this.searchField ).getText();
 			}
 			else
 			{
@@ -156,7 +162,7 @@ public class MallSearchFrame
 				searchText = (String) ( (MutableComboBox) this.searchField ).getSelectedItem();
 			}
 
-			MallSearchFrame.searchMall( new SearchMallRequest(
+			MallSearchFrame.searchMall( new MallSearchRequest(
 				searchText, searchCount, MallSearchFrame.this.results, false ) );
 		}
 
@@ -207,7 +213,7 @@ public class MallSearchFrame
 		}
 	}
 
-	public static final void searchMall( final SearchMallRequest request )
+	public static final void searchMall( final MallSearchRequest request )
 	{
 		if ( MallSearchFrame.INSTANCE == null )
 		{

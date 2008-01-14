@@ -50,6 +50,10 @@ import javax.swing.event.ListSelectionListener;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
+import net.sourceforge.kolmafia.session.MailManager;
+
+import net.sourceforge.kolmafia.request.MailboxRequest;
+
 public class MailboxFrame
 	extends KoLFrame
 	implements ChangeListener
@@ -175,10 +179,10 @@ public class MailboxFrame
 
 	private void refreshMailManager()
 	{
-		this.messageListInbox.setModel( KoLMailManager.getMessages( "Inbox" ) );
-		this.messageListPvp.setModel( KoLMailManager.getMessages( "PvP" ) );
-		this.messageListOutbox.setModel( KoLMailManager.getMessages( "Outbox" ) );
-		this.messageListSaved.setModel( KoLMailManager.getMessages( "Saved" ) );
+		this.messageListInbox.setModel( MailManager.getMessages( "Inbox" ) );
+		this.messageListPvp.setModel( MailManager.getMessages( "PvP" ) );
+		this.messageListOutbox.setModel( MailManager.getMessages( "Outbox" ) );
+		this.messageListSaved.setModel( MailManager.getMessages( "Saved" ) );
 	}
 
 	private class MailRefresher
@@ -229,7 +233,7 @@ public class MailboxFrame
 
 		public MailSelectList( final String mailboxName )
 		{
-			super( KoLMailManager.getMessages( mailboxName ) );
+			super( MailManager.getMessages( mailboxName ) );
 			this.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 			this.mailboxName = mailboxName;
 			this.addListSelectionListener( this );
@@ -249,7 +253,7 @@ public class MailboxFrame
 			if ( newIndex >= 0 && this.getModel().getSize() > 0 )
 			{
 				MailboxFrame.this.displayed =
-					(KoLMailMessage) KoLMailManager.getMessages( this.mailboxName ).get( newIndex );
+					(KoLMailMessage) MailManager.getMessages( this.mailboxName ).get( newIndex );
 				MailboxFrame.this.mailBuffer.append( MailboxFrame.this.displayed.getDisplayHTML() );
 			}
 		}
@@ -290,7 +294,7 @@ public class MailboxFrame
 					return;
 				}
 
-				KoLMailManager.deleteMessages( MailSelectList.this.mailboxName, messages );
+				MailManager.deleteMessages( MailSelectList.this.mailboxName, messages );
 				e.consume();
 			}
 		}
@@ -331,7 +335,7 @@ public class MailboxFrame
 				return;
 			}
 
-			KoLMailManager.saveMessages( this.messages );
+			MailManager.saveMessages( this.messages );
 		}
 	}
 
@@ -378,7 +382,7 @@ public class MailboxFrame
 				return;
 			}
 
-			KoLMailManager.deleteMessages( this.currentTabName, this.messages );
+			MailManager.deleteMessages( this.currentTabName, this.messages );
 		}
 	}
 

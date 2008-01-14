@@ -35,10 +35,24 @@ package net.sourceforge.kolmafia;
 
 import javax.swing.JCheckBox;
 
+import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.MoodManager;
+
+import net.sourceforge.kolmafia.request.CampgroundRequest;
+import net.sourceforge.kolmafia.request.ClanRumpusRequest;
+import net.sourceforge.kolmafia.request.ClanStashRequest;
+import net.sourceforge.kolmafia.request.GalaktikRequest;
+import net.sourceforge.kolmafia.request.QuestLogRequest;
+import net.sourceforge.kolmafia.request.UseItemRequest;
+
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
+
 public abstract class MPRestoreItemList
 	extends StaticEntity
 {
-	private static final AdventureResult EXPRESS_CARD = new AdventureResult( ConsumeItemRequest.EXPRESS_CARD, 1 );
+	private static final AdventureResult EXPRESS_CARD = new AdventureResult( UseItemRequest.EXPRESS_CARD, 1 );
 	private static boolean purchaseBasedSort = false;
 
 	public static final MPRestoreItem EXPRESS =
@@ -145,7 +159,7 @@ public abstract class MPRestoreItemList
 			this.purchaseCost = purchaseCost;
 			this.isCombatUsable = isCombatUsable;
 
-			if ( TradeableItemDatabase.contains( itemName ) )
+			if ( ItemDatabase.contains( itemName ) )
 			{
 				this.itemUsed = new AdventureResult( itemName, 1, false );
 			}
@@ -234,7 +248,7 @@ public abstract class MPRestoreItemList
 
 				if ( KoLConstants.inventory.contains( MPRestoreItemList.EXPRESS_CARD ) )
 				{
-					RequestThread.postRequest( new ConsumeItemRequest( MPRestoreItemList.EXPRESS_CARD ) );
+					RequestThread.postRequest( new UseItemRequest( MPRestoreItemList.EXPRESS_CARD ) );
 					return;
 				}
 
@@ -255,7 +269,7 @@ public abstract class MPRestoreItemList
 
 				RequestThread.postRequest( new ClanStashRequest(
 					new Object[] { MPRestoreItemList.EXPRESS_CARD }, ClanStashRequest.STASH_TO_ITEMS ) );
-				RequestThread.postRequest( new ConsumeItemRequest( MPRestoreItemList.EXPRESS_CARD ) );
+				RequestThread.postRequest( new UseItemRequest( MPRestoreItemList.EXPRESS_CARD ) );
 				RequestThread.postRequest( new ClanStashRequest(
 					new Object[] { MPRestoreItemList.EXPRESS_CARD }, ClanStashRequest.ITEMS_TO_STASH ) );
 				return;
@@ -299,7 +313,7 @@ public abstract class MPRestoreItemList
 
 			if ( this == MPRestoreItemList.SOFA )
 			{
-				RequestThread.postRequest( ( new ClanGymRequest( ClanGymRequest.SOFA ) ).setTurnCount( numberToUse ) );
+				RequestThread.postRequest( ( new ClanRumpusRequest( ClanRumpusRequest.SOFA ) ).setTurnCount( numberToUse ) );
 				return;
 			}
 
@@ -311,15 +325,15 @@ public abstract class MPRestoreItemList
 			if ( purchase && numberAvailable < numberToUse && NPCStoreDatabase.contains( this.itemUsed.getName() ) )
 			{
 				int numberToBuy = numberToUse;
-				int unitPrice = TradeableItemDatabase.getPriceById( this.itemUsed.getItemId() ) * 2;
+				int unitPrice = ItemDatabase.getPriceById( this.itemUsed.getItemId() ) * 2;
 
-				if ( MoodSettings.isExecuting() )
+				if ( MoodManager.isExecuting() )
 				{
 					// For purchases involving between battle checks,
 					// buy at least as many as is needed to sustain
 					// the entire check.
 
-					mpShort = Math.max( mpShort, MoodSettings.getMaintenanceCost() - KoLCharacter.getCurrentMP() );
+					mpShort = Math.max( mpShort, MoodManager.getMaintenanceCost() - KoLCharacter.getCurrentMP() );
 					numberToBuy = Math.max( (int) Math.floor( (float) mpShort / (float) this.getManaRestored() ), 1 );
 				}
 
@@ -343,7 +357,7 @@ public abstract class MPRestoreItemList
 				return;
 			}
 
-			RequestThread.postRequest( new ConsumeItemRequest( this.itemUsed.getInstance( numberToUse ) ) );
+			RequestThread.postRequest( new UseItemRequest( this.itemUsed.getInstance( numberToUse ) ) );
 		}
 
 		public String toString()

@@ -53,6 +53,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTree;
@@ -65,7 +66,15 @@ import javax.swing.tree.DefaultTreeModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
-import net.sourceforge.kolmafia.MoodSettings.MoodTrigger;
+
+import net.sourceforge.kolmafia.session.CustomCombatManager;
+import net.sourceforge.kolmafia.session.MoodManager;
+import net.sourceforge.kolmafia.session.MoodManager.MoodTrigger;
+import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
+
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 
 public abstract class AdventureOptionsFrame
 	extends KoLFrame
@@ -76,7 +85,7 @@ public abstract class AdventureOptionsFrame
 	private JComboBox actionSelect;
 
 	private TreeMap zoneMap;
-	private AutoHighlightField countField;
+	private AutoHighlightTextField countField;
 	private final LockableListModel matchingAdventures;
 
 	protected JTree combatTree;
@@ -97,7 +106,7 @@ public abstract class AdventureOptionsFrame
 	protected KoLAdventure lastAdventure = null;
 
 	protected JCheckBox autoSetCheckBox = new JCheckBox();
-	protected AutoHighlightField conditionField = new AutoHighlightField();
+	protected AutoHighlightTextField conditionField = new AutoHighlightTextField();
 
 	public AdventureOptionsFrame( final String title )
 	{
@@ -145,7 +154,7 @@ public abstract class AdventureOptionsFrame
 		return container;
 	}
 
-	public UnfocusedTabbedPane getSouthernTabs()
+	public JTabbedPane getSouthernTabs()
 	{
 		// Components of auto-restoration
 
@@ -181,7 +190,7 @@ public abstract class AdventureOptionsFrame
 		this.combatPanel.add( "tree", new CustomCombatTreePanel() );
 		this.combatPanel.add( "editor", new CustomCombatPanel() );
 
-		CombatSettings.loadSettings();
+		CustomCombatManager.loadSettings();
 		this.refreshCombatTree();
 
 		SimpleScrollPane restoreScroller = new SimpleScrollPane( restorePanel );
@@ -217,7 +226,7 @@ public abstract class AdventureOptionsFrame
 		{
 			String saveText = AdventureOptionsFrame.this.combatEditor.getText();
 
-			File location = new File( KoLConstants.CCS_LOCATION, CombatSettings.settingsFileName() );
+			File location = new File( KoLConstants.CCS_LOCATION, CustomCombatManager.settingsFileName() );
 			LogStream writer = LogStream.openStream( location, true );
 
 			writer.print( saveText );
@@ -230,7 +239,7 @@ public abstract class AdventureOptionsFrame
 			// After storing all the data on disk, go ahead
 			// and reload the data inside of the tree.
 
-			CombatSettings.loadSettings();
+			CustomCombatManager.loadSettings();
 			AdventureOptionsFrame.this.refreshCombatTree();
 			AdventureOptionsFrame.this.combatCards.show( AdventureOptionsFrame.this.combatPanel, "tree" );
 		}
@@ -271,8 +280,8 @@ public abstract class AdventureOptionsFrame
 
 		public void actionConfirmed()
 		{
-			CombatSettings.loadSettings();
-			AdventureOptionsFrame.this.refreshCombatSettings();
+			CustomCombatManager.loadSettings();
+			AdventureOptionsFrame.this.refreshCustomCombatManager();
 			AdventureOptionsFrame.this.combatCards.show( AdventureOptionsFrame.this.combatPanel, "editor" );
 		}
 
@@ -289,8 +298,8 @@ public abstract class AdventureOptionsFrame
 		{
 			public CombatComboBox()
 			{
-				super( CombatSettings.getAvailableScripts() );
-				this.setSelectedItem( CombatSettings.settingName() );
+				super( CustomCombatManager.getAvailableScripts() );
+				this.setSelectedItem( CustomCombatManager.settingName() );
 				this.addActionListener( new CombatComboBoxListener() );
 			}
 
@@ -300,7 +309,7 @@ public abstract class AdventureOptionsFrame
 				public void actionPerformed( final ActionEvent e )
 				{
 					String script = (String) CombatComboBox.this.getSelectedItem();
-					CombatSettings.setScript( script );
+					CustomCombatManager.setScript( script );
 					AdventureOptionsFrame.this.refreshCombatTree();
 				}
 			}
@@ -322,8 +331,8 @@ public abstract class AdventureOptionsFrame
 					return;
 				}
 
-				CombatSettings.setScript( name );
-				CustomCombatTreePanel.this.availableScripts.setSelectedItem( CombatSettings.settingName() );
+				CustomCombatManager.setScript( name );
+				CustomCombatTreePanel.this.availableScripts.setSelectedItem( CustomCombatManager.settingName() );
 				AdventureOptionsFrame.this.refreshCombatTree();
 			}
 		}
@@ -344,20 +353,20 @@ public abstract class AdventureOptionsFrame
 					return;
 				}
 
-				CombatSettings.copySettings( name );
-				CombatSettings.setScript( name );
-				CustomCombatTreePanel.this.availableScripts.setSelectedItem( CombatSettings.settingName() );
+				CustomCombatManager.copySettings( name );
+				CustomCombatManager.setScript( name );
+				CustomCombatTreePanel.this.availableScripts.setSelectedItem( CustomCombatManager.settingName() );
 				AdventureOptionsFrame.this.refreshCombatTree();
 			}
 		}
 	}
 
-	public void refreshCombatSettings()
+	public void refreshCustomCombatManager()
 	{
 		try
 		{
 			BufferedReader reader =
-				KoLDatabase.getReader( new File( KoLConstants.CCS_LOCATION, CombatSettings.settingsFileName() ) );
+				KoLDatabase.getReader( new File( KoLConstants.CCS_LOCATION, CustomCombatManager.settingsFileName() ) );
 
 			if ( reader == null )
 			{
@@ -395,7 +404,7 @@ public abstract class AdventureOptionsFrame
 
 	public void refreshCombatTree()
 	{
-		this.combatModel.setRoot( CombatSettings.getRoot() );
+		this.combatModel.setRoot( CustomCombatManager.getRoot() );
 		this.combatTree.setRootVisible( false );
 
 		for ( int i = 0; i < this.combatTree.getRowCount(); ++i )
@@ -590,7 +599,7 @@ public abstract class AdventureOptionsFrame
 
 			this.typeSelect = new TypeComboBox();
 
-			Object[] names = StatusEffectDatabase.values().toArray();
+			Object[] names = EffectDatabase.values().toArray();
 
 			for ( int i = 0; i < names.length; ++i )
 			{
@@ -651,10 +660,10 @@ public abstract class AdventureOptionsFrame
 				return;
 			}
 
-			MoodSettings.addTrigger(
+			MoodManager.addTrigger(
 				(String) this.typeSelect.getSelectedType(), (String) this.valueSelect.getSelectedItem(),
 				this.commandField.getText() );
-			MoodSettings.saveSettings();
+			MoodManager.saveSettings();
 		}
 
 		public void actionCancelled()
@@ -671,14 +680,14 @@ public abstract class AdventureOptionsFrame
 
 			if ( desiredType == autoFillTypes[ 0 ] )
 			{
-				MoodSettings.minimalSet();
+				MoodManager.minimalSet();
 			}
 			else
 			{
-				MoodSettings.maximalSet();
+				MoodManager.maximalSet();
 			}
 
-			MoodSettings.saveSettings();
+			MoodManager.saveSettings();
 		}
 
 		public void setEnabled( final boolean isEnabled )
@@ -699,7 +708,7 @@ public abstract class AdventureOptionsFrame
 
 			public void setSelectedItem( final Object anObject )
 			{
-				AddTriggerPanel.this.commandField.setText( MoodSettings.getDefaultAction(
+				AddTriggerPanel.this.commandField.setText( MoodManager.getDefaultAction(
 					AddTriggerPanel.this.typeSelect.getSelectedType(), (String) anObject ) );
 				super.setSelectedItem( anObject );
 			}
@@ -750,7 +759,7 @@ public abstract class AdventureOptionsFrame
 
 		public MoodTriggerListPanel()
 		{
-			super( "", new ShowDescriptionList( MoodSettings.getTriggers() ) );
+			super( "", new ShowDescriptionList( MoodManager.getTriggers() ) );
 
 			this.availableMoods = new MoodComboBox();
 
@@ -786,7 +795,7 @@ public abstract class AdventureOptionsFrame
 		{
 			public MoodComboBox()
 			{
-				super( MoodSettings.getAvailableMoods() );
+				super( MoodManager.getAvailableMoods() );
 				String mood = KoLSettings.getUserProperty( "currentMood" );
 				this.setSelectedItem( mood );
 				this.addActionListener( new MoodComboBoxListener() );
@@ -800,7 +809,7 @@ public abstract class AdventureOptionsFrame
 					String mood = (String) MoodComboBox.this.getSelectedItem();
 					if ( mood != null )
 					{
-						MoodSettings.setMood( mood );
+						MoodManager.setMood( mood );
 					}
 				}
 			}
@@ -822,8 +831,8 @@ public abstract class AdventureOptionsFrame
 					return;
 				}
 
-				MoodSettings.setMood( name );
-				MoodSettings.saveSettings();
+				MoodManager.setMood( name );
+				MoodManager.saveSettings();
 			}
 		}
 
@@ -837,8 +846,8 @@ public abstract class AdventureOptionsFrame
 
 			public void run()
 			{
-				MoodSettings.deleteCurrentMood();
-				MoodSettings.saveSettings();
+				MoodManager.deleteCurrentMood();
+				MoodManager.saveSettings();
 			}
 		}
 
@@ -863,9 +872,9 @@ public abstract class AdventureOptionsFrame
 					return;
 				}
 
-				MoodSettings.copyTriggers( moodName );
-				MoodSettings.setMood( moodName );
-				MoodSettings.saveSettings();
+				MoodManager.copyTriggers( moodName );
+				MoodManager.setMood( moodName );
+				MoodManager.saveSettings();
 			}
 		}
 	}
@@ -921,9 +930,9 @@ public abstract class AdventureOptionsFrame
 
 			if ( enableAdventures )
 			{
-				AdventureOptionsFrame.this.countField = new AutoHighlightField();
+				AdventureOptionsFrame.this.countField = new AutoHighlightTextField();
 				AdventureOptionsFrame.this.countField.setText( "0" );
-				AdventureOptionsFrame.this.countField.setHorizontalAlignment( AutoHighlightField.RIGHT );
+				AdventureOptionsFrame.this.countField.setHorizontalAlignment( AutoHighlightTextField.RIGHT );
 				JComponentUtilities.setComponentSize( AdventureOptionsFrame.this.countField, 30, 20 );
 				zonePanel.add( AdventureOptionsFrame.this.countField, BorderLayout.EAST );
 			}

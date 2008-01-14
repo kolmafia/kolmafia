@@ -49,9 +49,21 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 
+import com.sun.java.forums.TableSorter;
+
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
-import com.sun.java.forums.TableSorter;
+import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
+
+import net.sourceforge.kolmafia.request.ClanBuffRequest;
+import net.sourceforge.kolmafia.request.ClanMembersRequest;
+import net.sourceforge.kolmafia.request.ClanStashRequest;
+import net.sourceforge.kolmafia.request.ClanWarRequest;
+import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.ProfileRequest;
+
+import net.sourceforge.kolmafia.persistence.ProfileSnapshot;
 
 /**
  * An extension of <code>KoLFrame</code> which handles all the clan management functionality of Kingdom of Loathing.
@@ -154,7 +166,7 @@ public class ClanManageFrame
 	{
 		private final boolean isBuffing;
 		private final JComboBox buffField;
-		private final AutoHighlightField countField;
+		private final AutoHighlightTextField countField;
 
 		public ClanBuffPanel()
 		{
@@ -162,7 +174,7 @@ public class ClanManageFrame
 			this.isBuffing = false;
 
 			this.buffField = new JComboBox( ClanBuffRequest.getRequestList() );
-			this.countField = new AutoHighlightField();
+			this.countField = new AutoHighlightTextField();
 
 			VerifiableElement[] elements = new VerifiableElement[ 2 ];
 			elements[ 0 ] = new VerifiableElement( "Clan Buff: ", this.buffField );
@@ -200,8 +212,8 @@ public class ClanManageFrame
 		{
 			super( "Loot Another Clan", "attack", "refresh", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
-			this.nextAttack = new JLabel( ClanAttackRequest.getNextAttack() );
-			this.enemyList = new MutableComboBox( ClanAttackRequest.getEnemyClans(), false );
+			this.nextAttack = new JLabel( ClanWarRequest.getNextAttack() );
+			this.enemyList = new MutableComboBox( ClanWarRequest.getEnemyClans(), false );
 
 			VerifiableElement[] elements = new VerifiableElement[ 2 ];
 			elements[ 0 ] = new VerifiableElement( "Victim: ", this.enemyList );
@@ -211,33 +223,33 @@ public class ClanManageFrame
 
 		public void actionConfirmed()
 		{
-			RequestThread.postRequest( (ClanAttackRequest) this.enemyList.getSelectedItem() );
+			RequestThread.postRequest( (ClanWarRequest) this.enemyList.getSelectedItem() );
 		}
 
 		public void actionCancelled()
 		{
-			RequestThread.postRequest( new ClanAttackRequest() );
-			this.nextAttack.setText( ClanAttackRequest.getNextAttack() );
+			RequestThread.postRequest( new ClanWarRequest() );
+			this.nextAttack.setText( ClanWarRequest.getNextAttack() );
 		}
 	}
 
 	private class WarfarePanel
 		extends LabeledKoLPanel
 	{
-		private final AutoHighlightField goodies;
-		private final AutoHighlightField oatmeal, recliners;
-		private final AutoHighlightField grunts, flyers, archers;
+		private final AutoHighlightTextField goodies;
+		private final AutoHighlightTextField oatmeal, recliners;
+		private final AutoHighlightTextField grunts, flyers, archers;
 
 		public WarfarePanel()
 		{
 			super( "Prepare for WAR!!!", "purchase", "calculate", new Dimension( 120, 20 ), new Dimension( 200, 20 ) );
 
-			this.goodies = new AutoHighlightField();
-			this.oatmeal = new AutoHighlightField();
-			this.recliners = new AutoHighlightField();
-			this.grunts = new AutoHighlightField();
-			this.flyers = new AutoHighlightField();
-			this.archers = new AutoHighlightField();
+			this.goodies = new AutoHighlightTextField();
+			this.oatmeal = new AutoHighlightTextField();
+			this.recliners = new AutoHighlightTextField();
+			this.grunts = new AutoHighlightTextField();
+			this.flyers = new AutoHighlightTextField();
+			this.archers = new AutoHighlightTextField();
 
 			VerifiableElement[] elements = new VerifiableElement[ 6 ];
 			elements[ 0 ] = new VerifiableElement( "Goodies: ", this.goodies );
@@ -252,7 +264,7 @@ public class ClanManageFrame
 
 		public void actionConfirmed()
 		{
-			RequestThread.postRequest( new ClanMaterialsRequest(
+			RequestThread.postRequest( new ClanWarRequest(
 				KoLFrame.getValue( this.goodies ), KoLFrame.getValue( this.oatmeal ),
 				KoLFrame.getValue( this.recliners ), KoLFrame.getValue( this.grunts ),
 				KoLFrame.getValue( this.flyers ), KoLFrame.getValue( this.archers ) ) );
@@ -274,13 +286,13 @@ public class ClanManageFrame
 	private class DonationPanel
 		extends LabeledKoLPanel
 	{
-		private final AutoHighlightField amountField;
+		private final AutoHighlightTextField amountField;
 
 		public DonationPanel()
 		{
 			super( "Fund Your Clan", "donate meat", "loot clan", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
-			this.amountField = new AutoHighlightField();
+			this.amountField = new AutoHighlightTextField();
 			VerifiableElement[] elements = new VerifiableElement[ 1 ];
 			elements[ 0 ] = new VerifiableElement( "Amount: ", this.amountField );
 			this.setContent( elements );
@@ -417,16 +429,16 @@ public class ClanManageFrame
 	{
 		private final JComboBox parameterSelect;
 		private final JComboBox matchSelect;
-		private final AutoHighlightField valueField;
+		private final AutoHighlightTextField valueField;
 
 		public MemberSearchPanel()
 		{
 			super( "search clan", "apply changes", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
 			this.parameterSelect = new JComboBox();
-			for ( int i = 0; i < ClanSnapshotTable.FILTER_NAMES.length; ++i )
+			for ( int i = 0; i < ProfileSnapshot.FILTER_NAMES.length; ++i )
 			{
-				this.parameterSelect.addItem( ClanSnapshotTable.FILTER_NAMES[ i ] );
+				this.parameterSelect.addItem( ProfileSnapshot.FILTER_NAMES[ i ] );
 			}
 
 			this.matchSelect = new JComboBox();
@@ -434,7 +446,7 @@ public class ClanManageFrame
 			this.matchSelect.addItem( "Equal to..." );
 			this.matchSelect.addItem( "Greater than..." );
 
-			this.valueField = new AutoHighlightField();
+			this.valueField = new AutoHighlightTextField();
 
 			VerifiableElement[] elements = new VerifiableElement[ 3 ];
 			elements[ 0 ] = new VerifiableElement( "Parameter: ", this.parameterSelect );
@@ -495,7 +507,7 @@ public class ClanManageFrame
 			super(
 				new String[] { " ", "Name", "Clan Title", "Total Karma", "Boot" },
 				new Class[] { JButton.class, String.class, String.class, Integer.class, Boolean.class },
-				new boolean[] { false, false, true, false, true }, ClanSnapshotTable.getFilteredList() );
+				new boolean[] { false, false, true, false, true }, ProfileSnapshot.getFilteredList() );
 		}
 
 		public Vector constructVector( final Object o )
@@ -539,10 +551,10 @@ public class ClanManageFrame
 	private class SnapshotPanel
 		extends LabeledKoLPanel
 	{
-		private final AutoHighlightField mostAscensionsBoardSizeField;
-		private final AutoHighlightField mainBoardSizeField;
-		private final AutoHighlightField classBoardSizeField;
-		private final AutoHighlightField maxAgeField;
+		private final AutoHighlightTextField mostAscensionsBoardSizeField;
+		private final AutoHighlightTextField mainBoardSizeField;
+		private final AutoHighlightTextField classBoardSizeField;
+		private final AutoHighlightTextField maxAgeField;
 
 		private final JCheckBox playerMoreThanOnceOption;
 		private final JCheckBox localProfileOption;
@@ -553,10 +565,10 @@ public class ClanManageFrame
 
 			VerifiableElement[] elements = new VerifiableElement[ 7 ];
 
-			this.mostAscensionsBoardSizeField = new AutoHighlightField( "20" );
-			this.mainBoardSizeField = new AutoHighlightField( "10" );
-			this.classBoardSizeField = new AutoHighlightField( "5" );
-			this.maxAgeField = new AutoHighlightField( "0" );
+			this.mostAscensionsBoardSizeField = new AutoHighlightTextField( "20" );
+			this.mainBoardSizeField = new AutoHighlightTextField( "10" );
+			this.classBoardSizeField = new AutoHighlightTextField( "5" );
+			this.maxAgeField = new AutoHighlightTextField( "0" );
 
 			this.playerMoreThanOnceOption = new JCheckBox();
 			this.localProfileOption = new JCheckBox();

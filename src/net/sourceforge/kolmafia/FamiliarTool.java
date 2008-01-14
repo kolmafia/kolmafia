@@ -37,6 +37,8 @@ import java.util.List;
 
 import net.sourceforge.kolmafia.CakeArenaManager.ArenaOpponent;
 
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+
 public class FamiliarTool
 {
 	// Array of current opponents
@@ -56,7 +58,7 @@ public class FamiliarTool
 
 	/**
 	 * Initializes Familiar Tool with all Arena Data
-	 * 
+	 *
 	 * @param opponents Array with Ids of all opponents. The index of each opponent will be re-used as a return value
 	 */
 	public FamiliarTool( final List opponents )
@@ -72,20 +74,20 @@ public class FamiliarTool
 
 	/**
 	 * Runs all the calculation to determine the best matchup for a familiar
-	 * 
+	 *
 	 * @param ownFamiliar Id of the familiar to calculate a matchup for
 	 * @param possibleOwnWeights Array with all possibilities for familiar weight
 	 * @return The Id number of the best opponent. Further information can be collected through other functions
 	 */
 	public ArenaOpponent bestOpponent( final int ownFamiliar, final int[] possibleOwnWeights )
 	{
-		int[] ownSkills = FamiliarsDatabase.getFamiliarSkills( ownFamiliar );
+		int[] ownSkills = FamiliarDatabase.getFamiliarSkills( ownFamiliar );
 		return this.bestOpponent( ownSkills, possibleOwnWeights );
 	}
 
 	/**
 	 * Runs all the calculation to determine the best matchup for a familiar
-	 * 
+	 *
 	 * @param ownSkills our familiar's skills
 	 * @param possibleOwnWeights Array with all possibilities for familiar weight
 	 * @return The Id number of the best opponent. Further information can be collected through other functions
@@ -151,7 +153,7 @@ public class FamiliarTool
 
 	/**
 	 * Retrieves match data. Will only supply relevant data for last call to bestOpponent
-	 * 
+	 *
 	 * @return The Id number of the best match. 1 = 'Ultimate Cage Match', 2 = 'Scavenger Hunt', 3 = 'Obstacle Course',
 	 *         4 = 'Hide and Seek'
 	 */
@@ -162,7 +164,7 @@ public class FamiliarTool
 
 	/**
 	 * Retrieves weight for matchup. This weight will be a value from the possibleOwnWeights parameter in bestOpponent()
-	 * 
+	 *
 	 * @return Weight value for chosen matchup
 	 */
 	public int bestWeight()
@@ -173,7 +175,7 @@ public class FamiliarTool
 	/**
 	 * Retrieves difference from perfect weight for matchup. Will only supply relevant data for last call to
 	 * bestOpponent()
-	 * 
+	 *
 	 * @return Difference from the perfect weight. 0 = perfect, +X = X pounds too heavy, -X is X pounds too light.
 	 */
 	public int difference()
@@ -229,9 +231,9 @@ public class FamiliarTool
 		public Opponent( final ArenaOpponent opponent )
 		{
 			this.opponent = opponent;
-			this.type = FamiliarsDatabase.getFamiliarId( opponent.getRace() );
+			this.type = FamiliarDatabase.getFamiliarId( opponent.getRace() );
 			this.weight = opponent.getWeight();
-			this.arena = FamiliarsDatabase.getFamiliarSkills( this.type );
+			this.arena = FamiliarDatabase.getFamiliarSkills( this.type );
 		}
 
 		public ArenaOpponent getOpponent()

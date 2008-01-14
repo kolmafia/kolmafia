@@ -43,9 +43,12 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
+
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 
 public class CharsheetFrame
 	extends AdventureOptionsFrame
@@ -122,7 +125,7 @@ public class CharsheetFrame
 		}
 	}
 
-	public UnfocusedTabbedPane getSouthernTabs()
+	public JTabbedPane getSouthernTabs()
 	{
 		if ( CharsheetFrame.shouldAddExtraTabs )
 		{
@@ -191,7 +194,7 @@ public class CharsheetFrame
 	/**
 	 * Utility method for creating a panel displaying the character's vital statistics, including a basic stat overview
 	 * and available turns/meat.
-	 * 
+	 *
 	 * @return a <code>JPanel</code> displaying the character's statistics
 	 */
 

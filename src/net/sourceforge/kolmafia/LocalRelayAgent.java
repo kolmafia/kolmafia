@@ -39,9 +39,14 @@ import java.io.PrintStream;
 import java.net.Socket;
 import java.util.TreeMap;
 
+import net.sourceforge.kolmafia.request.CharPaneRequest;
+import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.RelayRequest;
+import net.sourceforge.kolmafia.request.SendMailRequest;
+
 public class LocalRelayAgent
 	extends Thread
-	implements KoLConstants
 {
 	private static final CustomCombatThread CUSTOM_THREAD = new CustomCombatThread();
 	private static final TreeMap lastModified = new TreeMap();
@@ -60,11 +65,11 @@ public class LocalRelayAgent
 
 	private String path;
 	private boolean isCheckingModified;
-	private final LocalRelayRequest request;
+	private final RelayRequest request;
 
 	public LocalRelayAgent( final int id )
 	{
-		this.request = new LocalRelayRequest( true );
+		this.request = new RelayRequest( true );
 	}
 
 	boolean isWaiting()
@@ -193,7 +198,7 @@ public class LocalRelayAgent
 				{
 					if ( cookieList[ i ].startsWith( "inventory" ) )
 					{
-						KoLRequest.inventoryCookie = cookieList[ i ];
+						GenericRequest.inventoryCookie = cookieList[ i ];
 					}
 				}
 			}
@@ -217,7 +222,7 @@ public class LocalRelayAgent
 
 		// Validate supplied password hashes
 		String pwd = this.request.getFormField( "pwd" );
-		if ( pwd != null && !pwd.equals( KoLRequest.passwordHash ) )
+		if ( pwd != null && !pwd.equals( GenericRequest.passwordHash ) )
 			// Bogus. Do not accept this url.
 			return false;
 
@@ -227,7 +232,7 @@ public class LocalRelayAgent
 
 		// Other KoL pages might also use "phash"
 		pwd = this.request.getFormField( "phash" );
-		return pwd == null || pwd.equals( KoLRequest.passwordHash );
+		return pwd == null || pwd.equals( GenericRequest.passwordHash );
 	}
 
 	public static void reset()
@@ -306,7 +311,7 @@ public class LocalRelayAgent
 		}
 		else if ( this.path.equals( "/choice.php?action=auto" ) )
 		{
-			KoLRequest.processChoiceAdventure( this.request );
+			GenericRequest.processChoiceAdventure( this.request );
 		}
 		else if ( this.path.startsWith( "/charpane.php" ) )
 		{
@@ -326,7 +331,7 @@ public class LocalRelayAgent
 		else if ( this.path.startsWith( "/sidepane.php" ) )
 		{
 			this.request.pseudoResponse( "HTTP/1.1 200 OK", RequestEditorKit.getFeatureRichHTML(
-				"charpane.php", CharpaneRequest.getLastResponse(), true ) );
+				"charpane.php", CharPaneRequest.getLastResponse(), true ) );
 		}
 		else
 		{
@@ -334,7 +339,7 @@ public class LocalRelayAgent
 			{
 				while ( KoLmafia.isRunningBetweenBattleChecks() )
 				{
-					KoLRequest.delay( 200 );
+					GenericRequest.delay( 200 );
 				}
 			}
 
@@ -355,7 +360,7 @@ public class LocalRelayAgent
 			{
 				if ( KoLCharacter.isHardcore() && KoLSettings.getBooleanProperty( "lucreCoreLeaderboard" ) )
 				{
-					( new Thread( new GreenMessageRequest( "koldbot", "Started ascension." ) ) ).start();
+					( new Thread( new SendMailRequest( "koldbot", "Started ascension." ) ) ).start();
 				}
 			}
 		}

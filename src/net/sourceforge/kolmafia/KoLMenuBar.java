@@ -55,9 +55,18 @@ import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LicenseDisplay;
 
+import net.sourceforge.kolmafia.session.LeafletManager;
+import net.sourceforge.kolmafia.session.LouvreManager;
+import net.sourceforge.kolmafia.session.NemesisManager;
+import net.sourceforge.kolmafia.session.SorceressLairManager;
+import net.sourceforge.kolmafia.session.VioletFogManager;
+
+import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.LoginRequest;
+import net.sourceforge.kolmafia.request.LogoutRequest;
+
 public class KoLMenuBar
 	extends JMenuBar
-	implements KoLConstants
 {
 	private WindowMenu windowMenu;
 
@@ -149,7 +158,7 @@ public class KoLMenuBar
 		this.add( peopleMenu );
 
 		peopleMenu.add( new DisplayFrameMenuItem( "Read KoLmail", "MailboxFrame" ) );
-		peopleMenu.add( new DisplayFrameMenuItem( "KoLmafia Chat", "KoLMessenger" ) );
+		peopleMenu.add( new DisplayFrameMenuItem( "KoLmafia Chat", "ChatManager" ) );
 		peopleMenu.add( new DisplayFrameMenuItem( "Recent Events", "EventsFrame" ) );
 
 		peopleMenu.add( new JSeparator() );
@@ -195,17 +204,17 @@ public class KoLMenuBar
 
 		questsMenu.add( new JSeparator() );
 
-		questsMenu.add( new InvocationMenuItem( "Nemesis Quest", Nemesis.class, "faceNemesis" ) );
-		questsMenu.add( new InvocationMenuItem( "Leaflet (No Stats)", StrangeLeaflet.class, "leafletNoMagic" ) );
-		questsMenu.add( new InvocationMenuItem( "Leaflet (With Stats)", StrangeLeaflet.class, "leafletWithMagic" ) );
+		questsMenu.add( new InvocationMenuItem( "NemesisManager Quest", NemesisManager.class, "faceNemesisManager" ) );
+		questsMenu.add( new InvocationMenuItem( "Leaflet (No Stats)", LeafletManager.class, "leafletNoMagic" ) );
+		questsMenu.add( new InvocationMenuItem( "Leaflet (With Stats)", LeafletManager.class, "leafletWithMagic" ) );
 
 		questsMenu.add( new JSeparator() );
 
-		questsMenu.add( new InvocationMenuItem( "Lucky Entryway", SorceressLair.class, "completeCloveredEntryway" ) );
-		questsMenu.add( new InvocationMenuItem( "Unlucky Entryway", SorceressLair.class, "completeCloverlessEntryway" ) );
-		questsMenu.add( new InvocationMenuItem( "Hedge Rotation", SorceressLair.class, "completeHedgeMaze" ) );
-		questsMenu.add( new InvocationMenuItem( "Tower (Complete)", SorceressLair.class, "fightAllTowerGuardians" ) );
-		questsMenu.add( new InvocationMenuItem( "Tower (To Shadow)", SorceressLair.class, "fightMostTowerGuardians" ) );
+		questsMenu.add( new InvocationMenuItem( "Lucky Entryway", SorceressLairManager.class, "completeCloveredEntryway" ) );
+		questsMenu.add( new InvocationMenuItem( "Unlucky Entryway", SorceressLairManager.class, "completeCloverlessEntryway" ) );
+		questsMenu.add( new InvocationMenuItem( "Hedge Rotation", SorceressLairManager.class, "completeHedgeMaze" ) );
+		questsMenu.add( new InvocationMenuItem( "Tower (Complete)", SorceressLairManager.class, "fightAllTowerGuardians" ) );
+		questsMenu.add( new InvocationMenuItem( "Tower (To Shadow)", SorceressLairManager.class, "fightMostTowerGuardians" ) );
 
 		// Add script and bookmark menus, which use the
 		// listener-driven static final lists.
@@ -250,8 +259,8 @@ public class KoLMenuBar
 		helperMenu.add( new DisplayPageMenuItem( "Subjunctive KoL", "http://www.subjunctive.net/kol/FrontPage.html" ) );
 		helperMenu.add( new DisplayPageMenuItem(
 			"KoL Visual Wiki", "http://kol.coldfront.net/thekolwiki/index.php/Main_Page" ) );
-		helperMenu.add( new InvocationMenuItem( "Violet Fog Mapper", VioletFog.class, "showGemelliMap" ) );
-		helperMenu.add( new InvocationMenuItem( "Louvre Mapper", Louvre.class, "showGemelliMap" ) );
+		helperMenu.add( new InvocationMenuItem( "Violet Fog Mapper", VioletFogManager.class, "showGemelliMap" ) );
+		helperMenu.add( new InvocationMenuItem( "Louvre Mapper", LouvreManager.class, "showGemelliMap" ) );
 	}
 
 	public void dispose()
@@ -364,7 +373,7 @@ public class KoLMenuBar
 				{
 					boolean appearsInTab =
 						KoLSettings.getGlobalProperty( "initialDesktop" ).indexOf(
-							frame instanceof ChatFrame ? "KoLMessenger" : frame.getFrameName() ) != -1;
+							frame instanceof ChatFrame ? "ChatManager" : frame.getFrameName() ) != -1;
 
 					if ( !appearsInTab )
 					{
@@ -827,9 +836,9 @@ public class KoLMenuBar
 	private class RequestMenuItem
 		extends ThreadedMenuItem
 	{
-		private final KoLRequest request;
+		private final GenericRequest request;
 
-		public RequestMenuItem( final String title, final KoLRequest request )
+		public RequestMenuItem( final String title, final GenericRequest request )
 		{
 			super( title );
 			this.request = request;

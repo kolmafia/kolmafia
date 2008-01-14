@@ -49,13 +49,20 @@ import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
+
+import net.sourceforge.kolmafia.session.ChatManager;
+
+import net.sourceforge.kolmafia.request.ChatRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.MallSearchRequest;
 
 public class ChatFrame
 	extends KoLFrame
 {
-	private static final KoLRequest PROFILER = new KoLRequest( "" );
+	private static final GenericRequest PROFILER = new GenericRequest( "" );
 
 	protected static final String MSGS_TAB = "/msgs";
 	protected static final String GCLI_TAB = "/gcli";
@@ -150,7 +157,7 @@ public class ChatFrame
 		return toolbarPanel;
 	}
 
-	public UnfocusedTabbedPane getTabbedPane()
+	public JTabbedPane getTabbedPane()
 	{
 		return null;
 	}
@@ -166,11 +173,11 @@ public class ChatFrame
 
 		if ( this.getAssociatedContact() == null )
 		{
-			KoLMessenger.dispose();
+			ChatManager.dispose();
 		}
 		else
 		{
-			KoLMessenger.removeChat( this.getAssociatedContact() );
+			ChatManager.removeChat( this.getAssociatedContact() );
 		}
 	}
 
@@ -226,7 +233,7 @@ public class ChatFrame
 			else
 			{
 				this.add(
-					KoLMessenger.getChatBuffer( associatedContact ).setChatDisplay( this.chatDisplay ),
+					ChatManager.getChatBuffer( associatedContact ).setChatDisplay( this.chatDisplay ),
 					BorderLayout.CENTER );
 			}
 
@@ -250,7 +257,7 @@ public class ChatFrame
 
 		public void requestFocus()
 		{
-			KoLMessenger.setUpdateChannel( this.getAssociatedContact() );
+			ChatManager.setUpdateChannel( this.getAssociatedContact() );
 		}
 
 		/**
@@ -321,7 +328,7 @@ public class ChatFrame
 					return;
 				}
 
-				LimitedSizeChatBuffer buffer = KoLMessenger.getChatBuffer( ChatPanel.this.associatedContact );
+				LimitedSizeChatBuffer buffer = ChatManager.getChatBuffer( ChatPanel.this.associatedContact );
 
 				if ( message.startsWith( "/clear" ) || message.startsWith( "/cls" ) || message.equals( "clear" ) || message.equals( "cls" ) )
 				{
@@ -342,7 +349,7 @@ public class ChatFrame
 					return;
 				}
 
-				KoLMessenger.setUpdateChannel( ChatPanel.this.associatedContact );
+				ChatManager.setUpdateChannel( ChatPanel.this.associatedContact );
 
 				if ( message.length() <= 256 )
 				{
@@ -404,7 +411,7 @@ public class ChatFrame
 
 	/**
 	 * Returns the name of the contact associated with this frame.
-	 * 
+	 *
 	 * @return The name of the contact associated with this frame
 	 */
 
@@ -474,7 +481,7 @@ public class ChatFrame
 			switch ( linkOption )
 			{
 			case 1:
-				KoLMessenger.openInstantMessage( (String) parameters[ 0 ], true );
+				ChatManager.openInstantMessage( (String) parameters[ 0 ], true );
 				return;
 
 			case 2:
@@ -494,7 +501,7 @@ public class ChatFrame
 				break;
 
 			case 6:
-				MallSearchFrame.searchMall( new SearchMallRequest(
+				MallSearchFrame.searchMall( new MallSearchRequest(
 					StaticEntity.parseInt( KoLmafia.getPlayerId( (String) parameters[ 0 ] ) ) ) );
 				return;
 
@@ -527,12 +534,12 @@ public class ChatFrame
 	{
 		public MessengerButton( final String title, final String image, final String method )
 		{
-			super( title, image, KoLMessenger.class, method );
+			super( title, image, ChatManager.class, method );
 		}
 
 		public void run()
 		{
-			KoLMessenger.setUpdateChannel( ChatFrame.this.getAssociatedContact() );
+			ChatManager.setUpdateChannel( ChatFrame.this.getAssociatedContact() );
 			super.run();
 		}
 	}

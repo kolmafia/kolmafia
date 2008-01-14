@@ -44,7 +44,6 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 
 public class LimitedSizeChatBuffer
 	extends ChatBuffer
-	implements KoLConstants
 {
 	private static final int RESIZE_SIZE = 12000;
 	private static final int MAXIMUM_SIZE = 20000;
@@ -104,7 +103,7 @@ public class LimitedSizeChatBuffer
 
 	/**
 	 * Appends the given message to the chat buffer.
-	 * 
+	 *
 	 * @param message The message to be appended to this <code>ChatBuffer</code>
 	 */
 

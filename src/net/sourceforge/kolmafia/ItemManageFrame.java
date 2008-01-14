@@ -51,19 +51,30 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
+import javax.swing.JTabbedPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
-import net.sourceforge.kolmafia.ConcoctionsDatabase.Concoction;
+
+import net.sourceforge.kolmafia.request.ClosetRequest;
+import net.sourceforge.kolmafia.request.CreateItemRequest;
+import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.SellStuffRequest;
+import net.sourceforge.kolmafia.request.UseItemRequest;
+import net.sourceforge.kolmafia.request.UseSkillRequest;
+
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.Concoction;
 
 public class ItemManageFrame
 	extends KoLFrame
 {
 	private static int pullsRemaining = 0;
-	private static UnfocusedTabbedPane fullnessTabs;
-	private static UnfocusedTabbedPane inebrietyTabs;
+	private static JTabbedPane fullnessTabs;
+	private static JTabbedPane inebrietyTabs;
 
 	private static final JLabel pullsRemainingLabel1 = new JLabel( " " );
 	private static final JLabel pullsRemainingLabel2 = new JLabel( " " );
@@ -262,7 +273,7 @@ public class ItemManageFrame
 						0, 1 - current.getCount( KoLConstants.closet ) ) ) );
 			}
 
-			RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, items ) );
+			RequestThread.postRequest( new ClosetRequest( ClosetRequest.INVENTORY_TO_CLOSET, items ) );
 
 		}
 
@@ -290,7 +301,7 @@ public class ItemManageFrame
 				items[ i ] = current.getInstance( current.getCount( KoLConstants.inventory ) );
 			}
 
-			RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, items ) );
+			RequestThread.postRequest( new ClosetRequest( ClosetRequest.INVENTORY_TO_CLOSET, items ) );
 		}
 
 		public void actionCancelled()
@@ -308,7 +319,7 @@ public class ItemManageFrame
 
 		public ConsumePanel( final boolean food, final boolean booze )
 		{
-			super( "consume", "create", ConcoctionsDatabase.getUsables(), false, false );
+			super( "consume", "create", ConcoctionDatabase.getUsables(), false, false );
 
 			this.food = food;
 			this.booze = booze;
@@ -321,7 +332,7 @@ public class ItemManageFrame
 			this.elementList.setVisibleRowCount( 3 );
 			this.elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 
-			UnfocusedTabbedPane queueTabs = ItemManageFrame.this.getTabbedPane();
+			JTabbedPane queueTabs = ItemManageFrame.this.getTabbedPane();
 
 			if ( this.food )
 			{
@@ -334,7 +345,7 @@ public class ItemManageFrame
 				queueTabs.addTab( "0 Drunk Queued", this.centerPanel );
 			}
 
-			queueTabs.addTab( "Ingredients Used", new SimpleScrollPane( ConcoctionsDatabase.getQueue(), 7 ) );
+			queueTabs.addTab( "Ingredients Used", new SimpleScrollPane( ConcoctionDatabase.getQueue(), 7 ) );
 			this.actualPanel.add( queueTabs, BorderLayout.CENTER );
 
 			this.eastPanel.add( new UndoQueueButton(), BorderLayout.SOUTH );
@@ -350,29 +361,29 @@ public class ItemManageFrame
 
 		public void actionConfirmed()
 		{
-			ConcoctionsDatabase.handleQueue( true );
+			ConcoctionDatabase.handleQueue( true );
 
 			if ( ItemManageFrame.fullnessTabs != null )
 			{
-				ItemManageFrame.fullnessTabs.setTitleAt( 0, ConcoctionsDatabase.getQueuedFullness() + " Full Queued" );
+				ItemManageFrame.fullnessTabs.setTitleAt( 0, ConcoctionDatabase.getQueuedFullness() + " Full Queued" );
 			}
 			if ( ItemManageFrame.inebrietyTabs != null )
 			{
-				ItemManageFrame.inebrietyTabs.setTitleAt( 0, ConcoctionsDatabase.getQueuedInebriety() + " Drunk Queued" );
+				ItemManageFrame.inebrietyTabs.setTitleAt( 0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued" );
 			}
 		}
 
 		public void actionCancelled()
 		{
-			ConcoctionsDatabase.handleQueue( false );
+			ConcoctionDatabase.handleQueue( false );
 
 			if ( ItemManageFrame.fullnessTabs != null )
 			{
-				ItemManageFrame.fullnessTabs.setTitleAt( 0, ConcoctionsDatabase.getQueuedFullness() + " Full Queued" );
+				ItemManageFrame.fullnessTabs.setTitleAt( 0, ConcoctionDatabase.getQueuedFullness() + " Full Queued" );
 			}
 			if ( ItemManageFrame.inebrietyTabs != null )
 			{
-				ItemManageFrame.inebrietyTabs.setTitleAt( 0, ConcoctionsDatabase.getQueuedInebriety() + " Drunk Queued" );
+				ItemManageFrame.inebrietyTabs.setTitleAt( 0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued" );
 			}
 		}
 
@@ -386,18 +397,18 @@ public class ItemManageFrame
 
 			public void run()
 			{
-				ConcoctionsDatabase.pop();
-				ConcoctionsDatabase.refreshConcoctions();
+				ConcoctionDatabase.pop();
+				ConcoctionDatabase.refreshConcoctions();
 
 				if ( ItemManageFrame.fullnessTabs != null )
 				{
 					ItemManageFrame.fullnessTabs.setTitleAt(
-						0, ConcoctionsDatabase.getQueuedFullness() + " Full Queued" );
+						0, ConcoctionDatabase.getQueuedFullness() + " Full Queued" );
 				}
 				if ( ItemManageFrame.inebrietyTabs != null )
 				{
 					ItemManageFrame.inebrietyTabs.setTitleAt(
-						0, ConcoctionsDatabase.getQueuedInebriety() + " Drunk Queued" );
+						0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued" );
 				}
 			}
 		}
@@ -414,8 +425,8 @@ public class ItemManageFrame
 					return false;
 				}
 
-				int fullness = TradeableItemDatabase.getFullness( creation.getName() );
-				int inebriety = TradeableItemDatabase.getInebriety( creation.getName() );
+				int fullness = ItemDatabase.getFullness( creation.getName() );
+				int inebriety = ItemDatabase.getInebriety( creation.getName() );
 
 				if ( fullness > 0 )
 				{
@@ -441,7 +452,7 @@ public class ItemManageFrame
 
 		public QueuePanel( final boolean food, final boolean booze )
 		{
-			super( ConcoctionsDatabase.getUsables(), true, true );
+			super( ConcoctionDatabase.getUsables(), true, true );
 
 			this.food = food;
 			this.booze = booze;
@@ -516,7 +527,7 @@ public class ItemManageFrame
 		{
 			public void run()
 			{
-				ConcoctionsDatabase.getUsables().sort();
+				ConcoctionDatabase.getUsables().sort();
 			}
 		}
 
@@ -526,17 +537,17 @@ public class ItemManageFrame
 			public void run()
 			{
 				QueuePanel.this.getDesiredItems( "Queue" );
-				ConcoctionsDatabase.refreshConcoctions();
+				ConcoctionDatabase.refreshConcoctions();
 
 				if ( ItemManageFrame.fullnessTabs != null )
 				{
 					ItemManageFrame.fullnessTabs.setTitleAt(
-						0, ConcoctionsDatabase.getQueuedFullness() + " Full Queued" );
+						0, ConcoctionDatabase.getQueuedFullness() + " Full Queued" );
 				}
 				if ( ItemManageFrame.inebrietyTabs != null )
 				{
 					ItemManageFrame.inebrietyTabs.setTitleAt(
-						0, ConcoctionsDatabase.getQueuedInebriety() + " Drunk Queued" );
+						0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued" );
 				}
 			}
 
@@ -552,18 +563,18 @@ public class ItemManageFrame
 			public void run()
 			{
 				QueuePanel.this.getDesiredItems( "Consume" );
-				ConcoctionsDatabase.refreshConcoctions();
-				ConcoctionsDatabase.handleQueue( true );
+				ConcoctionDatabase.refreshConcoctions();
+				ConcoctionDatabase.handleQueue( true );
 
 				if ( ItemManageFrame.fullnessTabs != null )
 				{
 					ItemManageFrame.fullnessTabs.setTitleAt(
-						0, ConcoctionsDatabase.getQueuedFullness() + " Full Queued" );
+						0, ConcoctionDatabase.getQueuedFullness() + " Full Queued" );
 				}
 				if ( ItemManageFrame.inebrietyTabs != null )
 				{
 					ItemManageFrame.inebrietyTabs.setTitleAt(
-						0, ConcoctionsDatabase.getQueuedInebriety() + " Drunk Queued" );
+						0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued" );
 				}
 			}
 
@@ -580,7 +591,7 @@ public class ItemManageFrame
 			{
 				if ( QueuePanel.this.food )
 				{
-					RequestThread.postRequest( new ConsumeItemRequest( ItemManageFrame.MAGNESIUM ) );
+					RequestThread.postRequest( new UseItemRequest( ItemManageFrame.MAGNESIUM ) );
 				}
 				else if ( !KoLConstants.activeEffects.contains( new AdventureResult( "Ode to Booze", 1, true ) ) )
 				{
@@ -601,8 +612,8 @@ public class ItemManageFrame
 			{
 				Concoction creation = (Concoction) element;
 
-				int fullness = TradeableItemDatabase.getFullness( creation.getName() );
-				int inebriety = TradeableItemDatabase.getInebriety( creation.getName() );
+				int fullness = ItemDatabase.getFullness( creation.getName() );
+				int inebriety = ItemDatabase.getInebriety( creation.getName() );
 
 				if ( fullness > 0 )
 				{
@@ -639,7 +650,7 @@ public class ItemManageFrame
 
 				if ( QueuePanel.this.filters[ 1 ].isSelected() )
 				{
-					String range = TradeableItemDatabase.getMuscleRange( creation.getName() );
+					String range = ItemDatabase.getMuscleRange( creation.getName() );
 					if ( range.equals( "+0.0" ) || range.startsWith( "-" ) )
 					{
 						return false;
@@ -648,7 +659,7 @@ public class ItemManageFrame
 
 				if ( QueuePanel.this.filters[ 2 ].isSelected() )
 				{
-					String range = TradeableItemDatabase.getMysticalityRange( creation.getName() );
+					String range = ItemDatabase.getMysticalityRange( creation.getName() );
 					if ( range.equals( "+0.0" ) || range.startsWith( "-" ) )
 					{
 						return false;
@@ -657,7 +668,7 @@ public class ItemManageFrame
 
 				if ( QueuePanel.this.filters[ 3 ].isSelected() )
 				{
-					String range = TradeableItemDatabase.getMoxieRange( creation.getName() );
+					String range = ItemDatabase.getMoxieRange( creation.getName() );
 					if ( range.equals( "+0.0" ) || range.startsWith( "-" ) )
 					{
 						return false;
@@ -692,7 +703,7 @@ public class ItemManageFrame
 			}
 
 			KoLSettings.setUserProperty( "showGainsPerUnit", String.valueOf( this.isSelected() ) );
-			ConcoctionsDatabase.getUsables().sort();
+			ConcoctionDatabase.getUsables().sort();
 		}
 	}
 
@@ -723,7 +734,7 @@ public class ItemManageFrame
 			}
 
 			KoLSettings.setUserProperty( this.property, String.valueOf( this.isSelected() ) );
-			ConcoctionsDatabase.refreshConcoctions();
+			ConcoctionDatabase.refreshConcoctions();
 		}
 	}
 
@@ -750,7 +761,7 @@ public class ItemManageFrame
 
 			for ( int i = 0; i < items.length; ++i )
 			{
-				RequestThread.postRequest( new ConsumeItemRequest( (AdventureResult) items[ i ] ) );
+				RequestThread.postRequest( new UseItemRequest( (AdventureResult) items[ i ] ) );
 			}
 		}
 
@@ -777,41 +788,41 @@ public class ItemManageFrame
 				AdventureResult item = (AdventureResult) element;
 				int itemId = item.getItemId();
 
-				if ( !UsableItemFilterField.this.notrade && !TradeableItemDatabase.isTradeable( itemId ) )
+				if ( !UsableItemFilterField.this.notrade && !ItemDatabase.isTradeable( itemId ) )
 				{
 					return false;
 				}
 
 				boolean filter = false;
 
-				switch ( TradeableItemDatabase.getConsumptionType( itemId ) )
+				switch ( ItemDatabase.getConsumptionType( itemId ) )
 				{
-				case CONSUME_EAT:
+				case KoLConstants.CONSUME_EAT:
 					filter = UsableItemFilterField.this.food;
 					break;
 
-				case CONSUME_DRINK:
+				case KoLConstants.CONSUME_DRINK:
 					filter = UsableItemFilterField.this.booze;
 					break;
 
-				case CONSUME_USE:
-				case MESSAGE_DISPLAY:
-				case INFINITE_USES:
-				case CONSUME_MULTIPLE:
-				case GROW_FAMILIAR:
-				case CONSUME_ZAP:
-				case MP_RESTORE:
-				case HP_RESTORE:
+				case KoLConstants.CONSUME_USE:
+				case KoLConstants.MESSAGE_DISPLAY:
+				case KoLConstants.INFINITE_USES:
+				case KoLConstants.CONSUME_MULTIPLE:
+				case KoLConstants.GROW_FAMILIAR:
+				case KoLConstants.CONSUME_ZAP:
+				case KoLConstants.MP_RESTORE:
+				case KoLConstants.HP_RESTORE:
 					filter = UsableItemFilterField.this.other;
 					break;
 
-				case EQUIP_FAMILIAR:
-				case EQUIP_ACCESSORY:
-				case EQUIP_HAT:
-				case EQUIP_PANTS:
-				case EQUIP_SHIRT:
-				case EQUIP_WEAPON:
-				case EQUIP_OFFHAND:
+				case KoLConstants.EQUIP_FAMILIAR:
+				case KoLConstants.EQUIP_ACCESSORY:
+				case KoLConstants.EQUIP_HAT:
+				case KoLConstants.EQUIP_PANTS:
+				case KoLConstants.EQUIP_SHIRT:
+				case KoLConstants.EQUIP_WEAPON:
+				case KoLConstants.EQUIP_OFFHAND:
 					filter = UsableItemFilterField.this.equip;
 					break;
 
@@ -834,7 +845,7 @@ public class ItemManageFrame
 	{
 		public CreateItemPanel( final boolean food, final boolean booze, final boolean equip, boolean other )
 		{
-			super( "create item", "create & use", ConcoctionsDatabase.getCreatables(), equip && !other );
+			super( "create item", "create & use", ConcoctionDatabase.getCreatables(), equip && !other );
 
 			if ( this.isEquipmentOnly )
 			{
@@ -853,7 +864,7 @@ public class ItemManageFrame
 				this.setFixedFilter( food, booze, equip, other, true );
 			}
 
-			ConcoctionsDatabase.getCreatables().updateFilter( false );
+			ConcoctionDatabase.getCreatables().updateFilter( false );
 		}
 
 		public void addFilters()
@@ -869,7 +880,7 @@ public class ItemManageFrame
 				return;
 			}
 
-			ItemCreationRequest selection = (ItemCreationRequest) selected;
+			CreateItemRequest selection = (CreateItemRequest) selected;
 			int quantityDesired =
 				KoLFrame.getQuantity(
 					"Creating multiple " + selection.getName() + "...", selection.getQuantityPossible() );
@@ -899,9 +910,9 @@ public class ItemManageFrame
 				return;
 			}
 
-			ItemCreationRequest selection = (ItemCreationRequest) selected;
+			CreateItemRequest selection = (CreateItemRequest) selected;
 
-			int maximum = ConsumeItemRequest.maximumUses( selection.getItemId() );
+			int maximum = UseItemRequest.maximumUses( selection.getItemId() );
 			int quantityDesired =
 				maximum < 2 ? maximum : KoLFrame.getQuantity(
 					"Creating multiple " + selection.getName() + "...", Math.min(
@@ -921,7 +932,7 @@ public class ItemManageFrame
 			RequestThread.postRequest( selection );
 			SpecialOutfit.restoreImplicitCheckpoint();
 
-			RequestThread.postRequest( new ConsumeItemRequest( new AdventureResult(
+			RequestThread.postRequest( new UseItemRequest( new AdventureResult(
 				selection.getItemId(), quantityDesired ) ) );
 			RequestThread.closeRequestSequence();
 		}
@@ -958,8 +969,8 @@ public class ItemManageFrame
 
 			this.setButtons( true, new ActionListener[] {
 
-			new ConsumeListener(), new AutoSellListener( isCloset, AutoSellRequest.AUTOSELL ), new AutoSellListener(
-				isCloset, AutoSellRequest.AUTOMALL ), new PulverizeListener( isCloset ), new PutInClosetListener(
+			new ConsumeListener(), new AutoSellListener( isCloset, SellStuffRequest.AUTOSELL ), new AutoSellListener(
+				isCloset, SellStuffRequest.AUTOMALL ), new PulverizeListener( isCloset ), new PutInClosetListener(
 				isCloset ), new PutOnDisplayListener( isCloset ), new GiveToClanListener( isCloset ),
 
 			} );
@@ -1055,40 +1066,40 @@ public class ItemManageFrame
 				}
 
 				int itemId =
-					element instanceof AdventureResult ? ( (AdventureResult) element ).getItemId() : element instanceof ItemCreationRequest ? ( (ItemCreationRequest) element ).getItemId() : -1;
+					element instanceof AdventureResult ? ( (AdventureResult) element ).getItemId() : element instanceof CreateItemRequest ? ( (CreateItemRequest) element ).getItemId() : -1;
 
 				if ( itemId == -1 )
 				{
 					return true;
 				}
 
-				switch ( TradeableItemDatabase.getConsumptionType( itemId ) )
+				switch ( ItemDatabase.getConsumptionType( itemId ) )
 				{
-				case EQUIP_WEAPON:
+				case KoLConstants.EQUIP_WEAPON:
 					isVisibleWithFilter = InventoryManagePanel.this.equipmentFilters[ 0 ].isSelected();
 					break;
 
-				case EQUIP_OFFHAND:
+				case KoLConstants.EQUIP_OFFHAND:
 					isVisibleWithFilter = InventoryManagePanel.this.equipmentFilters[ 1 ].isSelected();
 					break;
 
-				case EQUIP_HAT:
+				case KoLConstants.EQUIP_HAT:
 					isVisibleWithFilter = InventoryManagePanel.this.equipmentFilters[ 2 ].isSelected();
 					break;
 
-				case EQUIP_SHIRT:
+				case KoLConstants.EQUIP_SHIRT:
 					isVisibleWithFilter = InventoryManagePanel.this.equipmentFilters[ 3 ].isSelected();
 					break;
 
-				case EQUIP_PANTS:
+				case KoLConstants.EQUIP_PANTS:
 					isVisibleWithFilter = InventoryManagePanel.this.equipmentFilters[ 4 ].isSelected();
 					break;
 
-				case EQUIP_ACCESSORY:
+				case KoLConstants.EQUIP_ACCESSORY:
 					isVisibleWithFilter = InventoryManagePanel.this.equipmentFilters[ 5 ].isSelected();
 					break;
 
-				case EQUIP_FAMILIAR:
+				case KoLConstants.EQUIP_FAMILIAR:
 					isVisibleWithFilter = InventoryManagePanel.this.equipmentFilters[ 6 ].isSelected();
 					break;
 
@@ -1139,14 +1150,14 @@ public class ItemManageFrame
 				return super.getDesiredItemAmount( item, itemName, itemCount, message, quantityType );
 			}
 
-			int consumptionType = TradeableItemDatabase.getConsumptionType( ( (AdventureResult) item ).getItemId() );
+			int consumptionType = ItemDatabase.getConsumptionType( ( (AdventureResult) item ).getItemId() );
 			switch ( consumptionType )
 			{
-			case EQUIP_HAT:
-			case EQUIP_PANTS:
-			case EQUIP_SHIRT:
-			case EQUIP_WEAPON:
-			case EQUIP_OFFHAND:
+			case KoLConstants.EQUIP_HAT:
+			case KoLConstants.EQUIP_PANTS:
+			case KoLConstants.EQUIP_SHIRT:
+			case KoLConstants.EQUIP_WEAPON:
+			case KoLConstants.EQUIP_OFFHAND:
 				return 1;
 
 			default:
@@ -1169,11 +1180,11 @@ public class ItemManageFrame
 
 			if ( items.length == KoLConstants.storage.size() )
 			{
-				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.EMPTY_STORAGE ) );
+				RequestThread.postRequest( new ClosetRequest( ClosetRequest.EMPTY_STORAGE ) );
 			}
 			else
 			{
-				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.STORAGE_TO_INVENTORY, items ) );
+				RequestThread.postRequest( new ClosetRequest( ClosetRequest.STORAGE_TO_INVENTORY, items ) );
 			}
 
 			RequestThread.closeRequestSequence();
@@ -1204,7 +1215,7 @@ public class ItemManageFrame
 			}
 			else
 			{
-				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, items ) );
+				RequestThread.postRequest( new ClosetRequest( ClosetRequest.INVENTORY_TO_CLOSET, items ) );
 			}
 
 			RequestThread.closeRequestSequence();

@@ -39,8 +39,14 @@ import java.awt.GridLayout;
 
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
+
+import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
+
+import net.sourceforge.kolmafia.request.ClosetRequest;
+import net.sourceforge.kolmafia.request.ShrineRequest;
 
 public class MeatManageFrame
 	extends KoLFrame
@@ -51,15 +57,15 @@ public class MeatManageFrame
 
 		JPanel container = new JPanel( new GridLayout( 4, 1 ) );
 		container.add( new HeroDonationPanel() );
-		container.add( new MeatTransferPanel( ItemStorageRequest.MEAT_TO_CLOSET ) );
-		container.add( new MeatTransferPanel( ItemStorageRequest.MEAT_TO_INVENTORY ) );
-		container.add( new MeatTransferPanel( ItemStorageRequest.PULL_MEAT_FROM_STORAGE ) );
+		container.add( new MeatTransferPanel( ClosetRequest.MEAT_TO_CLOSET ) );
+		container.add( new MeatTransferPanel( ClosetRequest.MEAT_TO_INVENTORY ) );
+		container.add( new MeatTransferPanel( ClosetRequest.PULL_MEAT_FROM_STORAGE ) );
 
 		this.framePanel.setLayout( new CardLayout( 10, 10 ) );
 		this.framePanel.add( container, "" );
 	}
 
-	public UnfocusedTabbedPane getTabbedPane()
+	public JTabbedPane getTabbedPane()
 	{
 		return null;
 	}
@@ -77,7 +83,7 @@ public class MeatManageFrame
 		extends LabeledKoLPanel
 	{
 		private final JComboBox heroField;
-		private final AutoHighlightField amountField;
+		private final AutoHighlightTextField amountField;
 
 		public HeroDonationPanel()
 		{
@@ -90,7 +96,7 @@ public class MeatManageFrame
 			heroes.add( "Statue of Sneaky Pete" );
 
 			this.heroField = new JComboBox( heroes );
-			this.amountField = new AutoHighlightField();
+			this.amountField = new AutoHighlightTextField();
 
 			VerifiableElement[] elements = new VerifiableElement[ 2 ];
 			elements[ 0 ] = new VerifiableElement( "Donate To: ", this.heroField );
@@ -103,7 +109,7 @@ public class MeatManageFrame
 		{
 			if ( this.heroField.getSelectedIndex() != -1 )
 			{
-				RequestThread.postRequest( new HeroDonationRequest(
+				RequestThread.postRequest( new ShrineRequest(
 					this.heroField.getSelectedIndex() + 1, KoLFrame.getValue( this.amountField ) ) );
 			}
 		}

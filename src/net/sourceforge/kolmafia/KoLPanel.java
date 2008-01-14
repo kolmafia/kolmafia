@@ -58,9 +58,10 @@ import javax.swing.text.JTextComponent;
 import net.java.dev.spellcast.utilities.ActionVerifyPanel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
+import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
+
 public abstract class KoLPanel
 	extends ActionVerifyPanel
-	implements KoLConstants
 {
 	protected HashMap listenerMap;
 
@@ -339,10 +340,10 @@ public abstract class KoLPanel
 		extends JPanel
 		implements ActionListener, FocusListener
 	{
-		private final AutoHighlightField scriptField;
+		private final AutoHighlightTextField scriptField;
 		private final JButton scriptButton;
 
-		public ScriptSelectPanel( final AutoHighlightField scriptField )
+		public ScriptSelectPanel( final AutoHighlightTextField scriptField )
 		{
 			this.setLayout( new BorderLayout( 0, 0 ) );
 

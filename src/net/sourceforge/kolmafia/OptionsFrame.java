@@ -56,12 +56,20 @@ import javax.swing.UIManager;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
-import net.java.dev.spellcast.utilities.DataUtilities;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
-import net.java.dev.spellcast.utilities.LockableListModel;
 import tab.CloseTabPaneEnhancedUI;
 
 import com.informit.guides.JDnDList;
+
+import net.java.dev.spellcast.utilities.DataUtilities;
+import net.java.dev.spellcast.utilities.JComponentUtilities;
+import net.java.dev.spellcast.utilities.LockableListModel;
+
+import net.sourceforge.kolmafia.session.ChatManager;
+import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
+
+import net.sourceforge.kolmafia.request.UseSkillRequest;
+
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 
 public class OptionsFrame
 	extends KoLFrame
@@ -366,7 +374,7 @@ public class OptionsFrame
 			}
 
 			this.actionCancelled();
-			ConcoctionsDatabase.refreshConcoctions();
+			ConcoctionDatabase.refreshConcoctions();
 		}
 
 		public void actionCancelled()
@@ -688,7 +696,7 @@ public class OptionsFrame
 			LimitedSizeChatBuffer.updateFontSize();
 
 			KoLConstants.commandBuffer.fireBufferChanged();
-			KoLMessenger.updateFontSize();
+			ChatManager.updateFontSize();
 		}
 
 		public void actionCancelled()
@@ -863,7 +871,7 @@ public class OptionsFrame
 			{ "Mushroom Plot", "MushroomFrame" },
 			{ "Familiar Trainer", "FamiliarTrainingFrame" },
 			{ "IcePenguin Express", "MailboxFrame" },
-			{ "Loathing Chat", "KoLMessenger" },
+			{ "Loathing Chat", "ChatManager" },
 			{ "Recent Events", "EventsFrame" },
 			{ "Clan Management", "ClanManageFrame" },
 			{ "Farmer's Almanac", "CalendarFrame" },
@@ -1083,7 +1091,7 @@ public class OptionsFrame
 				{ "useDecoratedTabs", "Use shiny decorated tabs instead of OS default" },
 				{ "allowCloseableDesktopTabs", "Allow tabs on main window to be closed" },
 			};
-			
+
 		private final JComboBox looks, toolbars, scripts;
 
 		public UserInterfacePanel()
@@ -1269,8 +1277,8 @@ public class OptionsFrame
 		{
 			super( "Miscellaneous Scripts" );
 
-			this.loginScript = new ScriptSelectPanel( new AutoHighlightField() );
-			this.logoutScript = new ScriptSelectPanel( new AutoHighlightField() );
+			this.loginScript = new ScriptSelectPanel( new AutoHighlightTextField() );
+			this.logoutScript = new ScriptSelectPanel( new AutoHighlightTextField() );
 
 			VerifiableElement[] elements = new VerifiableElement[ 3 ];
 			elements[ 0 ] = new VerifiableElement( "On Login: ", this.loginScript );

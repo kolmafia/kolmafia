@@ -140,7 +140,7 @@ public class CreateFrameRunnable
 		searchString = searchString.substring( searchString.lastIndexOf( "." ) + 1 );
 
 		boolean appearsInTab =
-			searchString.endsWith( "ChatFrame" ) ? tabSetting.indexOf( "KoLMessenger" ) != -1 : tabSetting.indexOf( searchString ) != -1;
+			searchString.endsWith( "ChatFrame" ) ? tabSetting.indexOf( "ChatManager" ) != -1 : tabSetting.indexOf( searchString ) != -1;
 
 		if ( !this.loadPreviousFrame() )
 		{

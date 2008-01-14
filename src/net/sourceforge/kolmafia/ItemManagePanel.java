@@ -45,8 +45,21 @@ import javax.swing.JRadioButton;
 import javax.swing.ListSelectionModel;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
-import net.sourceforge.kolmafia.ConcoctionsDatabase.Concoction;
+
 import net.sourceforge.kolmafia.KoLFrame.RequestButton;
+
+import net.sourceforge.kolmafia.request.ClanStashRequest;
+import net.sourceforge.kolmafia.request.ClosetRequest;
+import net.sourceforge.kolmafia.request.CreateItemRequest;
+import net.sourceforge.kolmafia.request.DisplayCaseRequest;
+import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.PulverizeRequest;
+import net.sourceforge.kolmafia.request.SellStuffRequest;
+import net.sourceforge.kolmafia.request.UseItemRequest;
+
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.Concoction;
 
 public class ItemManagePanel
 	extends LabeledScrollPanel
@@ -75,7 +88,7 @@ public class ItemManagePanel
 			cancelledText,
 			elementModel,
 			true,
-			elementModel == KoLConstants.tally || elementModel == KoLConstants.inventory || elementModel == KoLConstants.closet || elementModel == ConcoctionsDatabase.getCreatables() || elementModel == ConcoctionsDatabase.getUsables() );
+			elementModel == KoLConstants.tally || elementModel == KoLConstants.inventory || elementModel == KoLConstants.closet || elementModel == ConcoctionDatabase.getCreatables() || elementModel == ConcoctionDatabase.getUsables() );
 	}
 
 	public ItemManagePanel( final String confirmedText, final String cancelledText,
@@ -125,7 +138,7 @@ public class ItemManagePanel
 		this(
 			elementModel,
 			true,
-			elementModel == KoLConstants.tally || elementModel == KoLConstants.inventory || elementModel == KoLConstants.closet || elementModel == ConcoctionsDatabase.getCreatables() || elementModel == ConcoctionsDatabase.getUsables() );
+			elementModel == KoLConstants.tally || elementModel == KoLConstants.inventory || elementModel == KoLConstants.closet || elementModel == ConcoctionDatabase.getCreatables() || elementModel == ConcoctionDatabase.getUsables() );
 	}
 
 	public ItemManagePanel( final LockableListModel elementModel, final boolean addFilterField,
@@ -367,7 +380,7 @@ public class ItemManagePanel
 			}
 			else
 			{
-				ConcoctionsDatabase.push( (Concoction) items[ i ], quantity );
+				ConcoctionDatabase.push( (Concoction) items[ i ], quantity );
 				items[ i ] = null;
 			}
 		}
@@ -422,7 +435,7 @@ public class ItemManagePanel
 
 				if ( ( (Concoction) item ).getFullness() > 0 )
 				{
-					previous = KoLCharacter.getFullness() + ConcoctionsDatabase.getQueuedFullness();
+					previous = KoLCharacter.getFullness() + ConcoctionDatabase.getQueuedFullness();
 					capacity = KoLCharacter.getFullnessLimit();
 					unit = ( (Concoction) item ).getFullness();
 
@@ -430,7 +443,7 @@ public class ItemManagePanel
 				}
 				else if ( ( (Concoction) item ).getInebriety() > 0 )
 				{
-					previous = KoLCharacter.getInebriety() + ConcoctionsDatabase.getQueuedInebriety();
+					previous = KoLCharacter.getInebriety() + ConcoctionDatabase.getQueuedInebriety();
 					capacity = KoLCharacter.getInebrietyLimit();
 					unit = ( (Concoction) item ).getInebriety();
 
@@ -441,7 +454,7 @@ public class ItemManagePanel
 			}
 			else
 			{
-				standard = ConsumeItemRequest.maximumUses( TradeableItemDatabase.getItemId( itemName ), false );
+				standard = UseItemRequest.maximumUses( ItemDatabase.getItemId( itemName ), false );
 			}
 
 			quantity =
@@ -485,7 +498,7 @@ public class ItemManagePanel
 
 			if ( this.retrieveFromClosetFirst )
 			{
-				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.CLOSET_TO_INVENTORY, items ) );
+				RequestThread.postRequest( new ClosetRequest( ClosetRequest.CLOSET_TO_INVENTORY, items ) );
 			}
 
 			return items;
@@ -505,36 +518,36 @@ public class ItemManagePanel
 
 			for ( int i = 0; i < items.length; ++i )
 			{
-                                AdventureResult item = (AdventureResult) items[ i ];
-				int usageType = ConsumeItemRequest.getConsumptionType( item );
-                                int itemId = item.getItemId();
-                                switch ( itemId )
-                                {
-                                case ConsumeItemRequest.HOBBY_HORSE:
-                                case ConsumeItemRequest.BALL_IN_CUP:
-                                case ConsumeItemRequest.SET_OF_JACKS:
-                                        usageType = CONSUME_USE;
-                                        break;
-                                }
+                AdventureResult item = (AdventureResult) items[ i ];
+				int usageType = UseItemRequest.getConsumptionType( item );
+                int itemId = item.getItemId();
+                switch ( itemId )
+                {
+                case UseItemRequest.HOBBY_HORSE:
+                case UseItemRequest.BALL_IN_CUP:
+                case UseItemRequest.SET_OF_JACKS:
+                        usageType = KoLConstants.CONSUME_USE;
+                        break;
+                }
 
 				switch ( usageType )
 				{
-				case NO_CONSUME:
+				case KoLConstants.NO_CONSUME:
 					break;
 
-				case EQUIP_FAMILIAR:
-				case EQUIP_ACCESSORY:
-				case EQUIP_HAT:
-				case EQUIP_PANTS:
-				case EQUIP_SHIRT:
-				case EQUIP_WEAPON:
-				case EQUIP_OFFHAND:
+				case KoLConstants.EQUIP_FAMILIAR:
+				case KoLConstants.EQUIP_ACCESSORY:
+				case KoLConstants.EQUIP_HAT:
+				case KoLConstants.EQUIP_PANTS:
+				case KoLConstants.EQUIP_SHIRT:
+				case KoLConstants.EQUIP_WEAPON:
+				case KoLConstants.EQUIP_OFFHAND:
 					RequestThread.postRequest( new EquipmentRequest(
 						item, KoLCharacter.consumeFilterToEquipmentType( usageType ) ) );
 					break;
 
 				default:
-					RequestThread.postRequest( new ConsumeItemRequest( (AdventureResult) items[ i ] ) );
+					RequestThread.postRequest( new UseItemRequest( (AdventureResult) items[ i ] ) );
 					break;
 				}
 			}
@@ -564,7 +577,7 @@ public class ItemManagePanel
 
 			if ( !this.retrieveFromClosetFirst )
 			{
-				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, items ) );
+				RequestThread.postRequest( new ClosetRequest( ClosetRequest.INVENTORY_TO_CLOSET, items ) );
 			}
 		}
 
@@ -581,24 +594,24 @@ public class ItemManagePanel
 
 		public AutoSellListener( final boolean retrieveFromClosetFirst, final int sellType )
 		{
-			super( sellType == AutoSellRequest.AUTOSELL ? "Autoselling" : "Mallselling", retrieveFromClosetFirst );
+			super( sellType == SellStuffRequest.AUTOSELL ? "Autoselling" : "Mallselling", retrieveFromClosetFirst );
 			this.sellType = sellType;
 		}
 
 		public void run()
 		{
-			if ( this.sellType == AutoSellRequest.AUTOMALL && !KoLCharacter.hasStore() )
+			if ( this.sellType == SellStuffRequest.AUTOMALL && !KoLCharacter.hasStore() )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't own a store in the mall." );
 				return;
 			}
 
-			if ( this.sellType == AutoSellRequest.AUTOSELL && !KoLFrame.confirm( "Are you sure you would like to sell the selected items?" ) )
+			if ( this.sellType == SellStuffRequest.AUTOSELL && !KoLFrame.confirm( "Are you sure you would like to sell the selected items?" ) )
 			{
 				return;
 			}
 
-			if ( this.sellType == AutoSellRequest.AUTOMALL && !KoLFrame.confirm( "Are you sure you would like to place the selected items in your store?" ) )
+			if ( this.sellType == SellStuffRequest.AUTOMALL && !KoLFrame.confirm( "Are you sure you would like to place the selected items in your store?" ) )
 			{
 				return;
 			}
@@ -609,12 +622,12 @@ public class ItemManagePanel
 				return;
 			}
 
-			RequestThread.postRequest( new AutoSellRequest( items, this.sellType ) );
+			RequestThread.postRequest( new SellStuffRequest( items, this.sellType ) );
 		}
 
 		public String toString()
 		{
-			return this.sellType == AutoSellRequest.AUTOSELL ? "auto sell" : "place in mall";
+			return this.sellType == SellStuffRequest.AUTOSELL ? "auto sell" : "place in mall";
 		}
 	}
 
@@ -665,7 +678,7 @@ public class ItemManagePanel
 				return;
 			}
 
-			RequestThread.postRequest( new MuseumRequest( items, true ) );
+			RequestThread.postRequest( new DisplayCaseRequest( items, true ) );
 		}
 
 		public String toString()
@@ -755,54 +768,54 @@ public class ItemManagePanel
 				return ItemManagePanel.this.filters == null && super.isVisible( element );
 			}
 
-			if ( !FilterItemField.this.notrade && !TradeableItemDatabase.isTradeable( itemId ) )
+			if ( !FilterItemField.this.notrade && !ItemDatabase.isTradeable( itemId ) )
 			{
 				return false;
 			}
 
 			boolean isVisibleWithFilter = true;
 
-			switch ( TradeableItemDatabase.getConsumptionType( itemId ) )
+			switch ( ItemDatabase.getConsumptionType( itemId ) )
 			{
-			case CONSUME_EAT:
+			case KoLConstants.CONSUME_EAT:
 				isVisibleWithFilter = FilterItemField.this.food;
 				break;
 
-			case CONSUME_DRINK:
+			case KoLConstants.CONSUME_DRINK:
 				isVisibleWithFilter = FilterItemField.this.booze;
 				break;
 
-			case EQUIP_HAT:
-			case EQUIP_SHIRT:
-			case EQUIP_WEAPON:
-			case EQUIP_OFFHAND:
-			case EQUIP_PANTS:
-			case EQUIP_ACCESSORY:
-			case EQUIP_FAMILIAR:
+			case KoLConstants.EQUIP_HAT:
+			case KoLConstants.EQUIP_SHIRT:
+			case KoLConstants.EQUIP_WEAPON:
+			case KoLConstants.EQUIP_OFFHAND:
+			case KoLConstants.EQUIP_PANTS:
+			case KoLConstants.EQUIP_ACCESSORY:
+			case KoLConstants.EQUIP_FAMILIAR:
 				isVisibleWithFilter = FilterItemField.this.equip;
 				break;
 
 			default:
 
-				if ( element instanceof ItemCreationRequest )
+				if ( element instanceof CreateItemRequest )
 				{
-					switch ( ConcoctionsDatabase.getMixingMethod( itemId ) )
+					switch ( ConcoctionDatabase.getMixingMethod( itemId ) )
 					{
-					case COOK:
-					case COOK_REAGENT:
-					case SUPER_REAGENT:
+					case KoLConstants.COOK:
+					case KoLConstants.COOK_REAGENT:
+					case KoLConstants.SUPER_REAGENT:
 						isVisibleWithFilter = FilterItemField.this.food || FilterItemField.this.other;
 						break;
 
-					case COOK_PASTA:
-					case WOK:
+					case KoLConstants.COOK_PASTA:
+					case KoLConstants.WOK:
 						isVisibleWithFilter = FilterItemField.this.food;
 						break;
 
-					case MIX:
-					case MIX_SPECIAL:
-					case STILL_BOOZE:
-					case MIX_SUPER:
+					case KoLConstants.MIX:
+					case KoLConstants.MIX_SPECIAL:
+					case KoLConstants.STILL_BOOZE:
+					case KoLConstants.MIX_SUPER:
 						isVisibleWithFilter = FilterItemField.this.booze;
 						break;
 
@@ -833,7 +846,7 @@ public class ItemManagePanel
 		}
 	}
 
-	private class RefreshButton
+	protected class RefreshButton
 		extends RequestButton
 	{
 		public RefreshButton()

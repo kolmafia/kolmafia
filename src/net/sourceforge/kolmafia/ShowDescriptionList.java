@@ -48,13 +48,25 @@ import javax.swing.SwingUtilities;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
-import net.sourceforge.kolmafia.ConcoctionsDatabase.Concoction;
-import net.sourceforge.kolmafia.MoodSettings.MoodTrigger;
-import net.sourceforge.kolmafia.StoreManager.SoldItem;
+
+import net.sourceforge.kolmafia.session.MoodManager;
+import net.sourceforge.kolmafia.session.MoodManager.MoodTrigger;
+import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
+
+import net.sourceforge.kolmafia.request.CreateItemRequest;
+import net.sourceforge.kolmafia.request.PulverizeRequest;
+import net.sourceforge.kolmafia.request.SellStuffRequest;
+import net.sourceforge.kolmafia.request.UneffectRequest;
+import net.sourceforge.kolmafia.request.UseItemRequest;
+import net.sourceforge.kolmafia.request.UseSkillRequest;
+
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.Concoction;
 
 public class ShowDescriptionList
 	extends JList
-	implements KoLConstants
 {
 	public int lastSelectIndex;
 	public JPopupMenu contextMenu;
@@ -83,7 +95,7 @@ public class ShowDescriptionList
 	{
 		this.contextMenu = new JPopupMenu();
 
-		boolean isMoodList = displayModel == MoodSettings.getTriggers();
+		boolean isMoodList = displayModel == MoodManager.getTriggers();
 		boolean isEncyclopedia = !displayModel.isEmpty() && displayModel.get( 0 ) instanceof Entry;
 
 		if ( !isMoodList )
@@ -195,20 +207,20 @@ public class ShowDescriptionList
 		{
 			if ( ( (AdventureResult) item ).isItem() )
 			{
-				StaticEntity.openRequestFrame( "desc_item.php?whichitem=" + TradeableItemDatabase.getDescriptionId( ( (AdventureResult) item ).getItemId() ) );
+				StaticEntity.openRequestFrame( "desc_item.php?whichitem=" + ItemDatabase.getDescriptionId( ( (AdventureResult) item ).getItemId() ) );
 			}
 			if ( ( (AdventureResult) item ).isStatusEffect() )
 			{
-				StaticEntity.openRequestFrame( "desc_effect.php?whicheffect=" + StatusEffectDatabase.getDescriptionId( StatusEffectDatabase.getEffectId( ( (AdventureResult) item ).getName() ) ) );
+				StaticEntity.openRequestFrame( "desc_effect.php?whicheffect=" + EffectDatabase.getDescriptionId( EffectDatabase.getEffectId( ( (AdventureResult) item ).getName() ) ) );
 			}
 		}
-		else if ( item instanceof ItemCreationRequest )
+		else if ( item instanceof CreateItemRequest )
 		{
-			StaticEntity.openRequestFrame( "desc_item.php?whichitem=" + TradeableItemDatabase.getDescriptionId( ( (ItemCreationRequest) item ).getItemId() ) );
+			StaticEntity.openRequestFrame( "desc_item.php?whichitem=" + ItemDatabase.getDescriptionId( ( (CreateItemRequest) item ).getItemId() ) );
 		}
 		else if ( item instanceof Concoction )
 		{
-			StaticEntity.openRequestFrame( "desc_item.php?whichitem=" + TradeableItemDatabase.getDescriptionId( ( (Concoction) item ).getItemId() ) );
+			StaticEntity.openRequestFrame( "desc_item.php?whichitem=" + ItemDatabase.getDescriptionId( ( (Concoction) item ).getItemId() ) );
 		}
 		else if ( item instanceof UseSkillRequest )
 		{
@@ -244,9 +256,9 @@ public class ShowDescriptionList
 		{
 			name = ( (UseSkillRequest) item ).getSkillName();
 		}
-		else if ( item instanceof ItemCreationRequest )
+		else if ( item instanceof CreateItemRequest )
 		{
-			name = ( (ItemCreationRequest) item ).getName();
+			name = ( (CreateItemRequest) item ).getName();
 		}
 		else if ( item instanceof Concoction )
 		{
@@ -270,11 +282,11 @@ public class ShowDescriptionList
 			return null;
 		}
 
-		if ( isEffect && ClassSkillsDatabase.contains( name ) )
+		if ( isEffect && SkillDatabase.contains( name ) )
 		{
 			name = name + " (effect)";
 		}
-		else if ( isSkill && StatusEffectDatabase.contains( name ) )
+		else if ( isSkill && EffectDatabase.contains( name ) )
 		{
 			name = name + " (skill)";
 		}
@@ -364,8 +376,8 @@ public class ShowDescriptionList
 		Object[] items = ShowDescriptionList.this.getSelectedValues();
 		ShowDescriptionList.this.clearSelection();
 
-		MoodSettings.removeTriggers( items );
-		MoodSettings.saveSettings();
+		MoodManager.removeTriggers( items );
+		MoodManager.saveSettings();
 	}
 
 	private class ForceExecuteMenuItem
@@ -473,10 +485,10 @@ public class ShowDescriptionList
 			{
 				name = UneffectRequest.skillToEffect( ( (UseSkillRequest) skills[ i ] ).getSkillName() );
 
-				action = MoodSettings.getDefaultAction( "lose_effect", name );
+				action = MoodManager.getDefaultAction( "lose_effect", name );
 				if ( !action.equals( "" ) )
 				{
-					MoodSettings.addTrigger( "lose_effect", name, action );
+					MoodManager.addTrigger( "lose_effect", name, action );
 				}
 			}
 		}
@@ -506,17 +518,17 @@ public class ShowDescriptionList
 			{
 				name = ( (AdventureResult) effects[ i ] ).getName();
 
-				action = MoodSettings.getDefaultAction( "lose_effect", name );
+				action = MoodManager.getDefaultAction( "lose_effect", name );
 				if ( !action.equals( "" ) )
 				{
-					MoodSettings.addTrigger( "lose_effect", name, action );
+					MoodManager.addTrigger( "lose_effect", name, action );
 					continue;
 				}
 
-				action = MoodSettings.getDefaultAction( "gain_effect", name );
+				action = MoodManager.getDefaultAction( "gain_effect", name );
 				if ( !action.equals( "" ) )
 				{
-					MoodSettings.addTrigger( "gain_effect", name, action );
+					MoodManager.addTrigger( "gain_effect", name, action );
 				}
 			}
 		}
@@ -559,19 +571,19 @@ public class ShowDescriptionList
 			{
 				data = null;
 
-				if ( items[ i ] instanceof ItemCreationRequest )
+				if ( items[ i ] instanceof CreateItemRequest )
 				{
-					data = ( (ItemCreationRequest) items[ i ] ).createdItem;
+					data = ( (CreateItemRequest) items[ i ] ).createdItem;
 				}
 				else if ( items[ i ] instanceof AdventureResult && ( (AdventureResult) items[ i ] ).isItem() )
 				{
 					data = (AdventureResult) items[ i ];
 				}
-				else if ( items[ i ] instanceof String && TradeableItemDatabase.contains( (String) items[ i ] ) )
+				else if ( items[ i ] instanceof String && ItemDatabase.contains( (String) items[ i ] ) )
 				{
 					data = new AdventureResult( (String) items[ i ], 1, false );
 				}
-				else if ( items[ i ] instanceof Entry && TradeableItemDatabase.contains( (String) ( (Entry) items[ i ] ).getValue() ) )
+				else if ( items[ i ] instanceof Entry && ItemDatabase.contains( (String) ( (Entry) items[ i ] ).getValue() ) )
 				{
 					data = new AdventureResult( (String) ( (Entry) items[ i ] ).getValue(), 1, false );
 				}
@@ -608,19 +620,19 @@ public class ShowDescriptionList
 			{
 				data = null;
 
-				if ( items[ i ] instanceof ItemCreationRequest )
+				if ( items[ i ] instanceof CreateItemRequest )
 				{
-					data = ( (ItemCreationRequest) items[ i ] ).createdItem;
+					data = ( (CreateItemRequest) items[ i ] ).createdItem;
 				}
 				else if ( items[ i ] instanceof AdventureResult && ( (AdventureResult) items[ i ] ).isItem() )
 				{
 					data = (AdventureResult) items[ i ];
 				}
-				else if ( items[ i ] instanceof String && TradeableItemDatabase.contains( (String) items[ i ] ) )
+				else if ( items[ i ] instanceof String && ItemDatabase.contains( (String) items[ i ] ) )
 				{
 					data = new AdventureResult( (String) items[ i ], 1, false );
 				}
-				else if ( items[ i ] instanceof Entry && TradeableItemDatabase.contains( (String) ( (Entry) items[ i ] ).getValue() ) )
+				else if ( items[ i ] instanceof Entry && ItemDatabase.contains( (String) ( (Entry) items[ i ] ).getValue() ) )
 				{
 					data = new AdventureResult( (String) ( (Entry) items[ i ] ).getValue(), 1, false );
 				}
@@ -661,19 +673,19 @@ public class ShowDescriptionList
 			{
 				data = null;
 
-				if ( items[ i ] instanceof ItemCreationRequest )
+				if ( items[ i ] instanceof CreateItemRequest )
 				{
-					data = ( (ItemCreationRequest) items[ i ] ).createdItem;
+					data = ( (CreateItemRequest) items[ i ] ).createdItem;
 				}
 				else if ( items[ i ] instanceof AdventureResult && ( (AdventureResult) items[ i ] ).isItem() )
 				{
 					data = (AdventureResult) items[ i ];
 				}
-				else if ( items[ i ] instanceof String && TradeableItemDatabase.contains( (String) items[ i ] ) )
+				else if ( items[ i ] instanceof String && ItemDatabase.contains( (String) items[ i ] ) )
 				{
 					data = new AdventureResult( (String) items[ i ], 1, false );
 				}
-				else if ( items[ i ] instanceof Entry && TradeableItemDatabase.contains( (String) ( (Entry) items[ i ] ).getValue() ) )
+				else if ( items[ i ] instanceof Entry && ItemDatabase.contains( (String) ( (Entry) items[ i ] ).getValue() ) )
 				{
 					data = new AdventureResult( (String) ( (Entry) items[ i ] ).getValue(), 1, false );
 				}
@@ -721,8 +733,8 @@ public class ShowDescriptionList
 				return;
 			}
 
-			RequestThread.postRequest( new AutoSellRequest(
-				ShowDescriptionList.this.getSelectedValues(), AutoSellRequest.AUTOSELL ) );
+			RequestThread.postRequest( new SellStuffRequest(
+				ShowDescriptionList.this.getSelectedValues(), SellStuffRequest.AUTOSELL ) );
 		}
 	}
 
@@ -746,7 +758,7 @@ public class ShowDescriptionList
 			RequestThread.openRequestSequence();
 			for ( int i = 0; i < items.length; ++i )
 			{
-				RequestThread.postRequest( new ConsumeItemRequest( (AdventureResult) items[ i ] ) );
+				RequestThread.postRequest( new UseItemRequest( (AdventureResult) items[ i ] ) );
 			}
 			RequestThread.closeRequestSequence();
 		}

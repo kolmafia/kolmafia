@@ -36,11 +36,28 @@ package net.sourceforge.kolmafia;
 import java.util.ArrayList;
 
 import net.sourceforge.foxtrot.Job;
+
 import net.sourceforge.kolmafia.StaticEntity.TurnCounter;
+import net.sourceforge.kolmafia.session.CustomCombatManager;
+
+import net.sourceforge.kolmafia.request.AdventureRequest;
+import net.sourceforge.kolmafia.request.BasementRequest;
+import net.sourceforge.kolmafia.request.CampgroundRequest;
+import net.sourceforge.kolmafia.request.ClanRumpusRequest;
+import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.SewerRequest;
+import net.sourceforge.kolmafia.request.UntinkerRequest;
+import net.sourceforge.kolmafia.request.UseItemRequest;
+
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 public class KoLAdventure
 	extends Job
-	implements KoLConstants, Comparable
+	implements Comparable
 {
 	public static final String[][] DEMON_TYPES =
 	{
@@ -51,7 +68,7 @@ public class KoLAdventure
 		{ "Haunted Bathroom", "Demonic Taint" }
 	};
 
-	private static final KoLRequest ZONE_UNLOCK = new KoLRequest( "" );
+	private static final GenericRequest ZONE_UNLOCK = new GenericRequest( "" );
 	private static final AdventureResult HYDRATED = new AdventureResult( "Ultrahydrated", 1, true );
 
 	private static final AdventureResult PERFUME_ITEM = new AdventureResult( 307, 1 );
@@ -60,9 +77,9 @@ public class KoLAdventure
 	public static final AdventureResult BLACK_CANDLE = new AdventureResult( 620, 3 );
 	public static final AdventureResult EVIL_SCROLL = new AdventureResult( 1960, 1 );
 
-	public static final AdventureResult DRUM_MACHINE = new AdventureResult( ConsumeItemRequest.DRUM_MACHINE, -1 );
+	public static final AdventureResult DRUM_MACHINE = new AdventureResult( UseItemRequest.DRUM_MACHINE, -1 );
 	public static final AdventureResult CURSED_PIECE_OF_THIRTEEN =
-		new AdventureResult( ConsumeItemRequest.CURSED_PIECE_OF_THIRTEEN, 1 );
+		new AdventureResult( UseItemRequest.CURSED_PIECE_OF_THIRTEEN, 1 );
 	public static final AdventureResult CASINO_PASS = new AdventureResult( 40, 1 );
 
 	public static final AdventureResult DINGHY = new AdventureResult( 141, 1 );
@@ -124,7 +141,7 @@ public class KoLAdventure
 
 	private final String normalString, lowercaseString, parentZoneDescription;
 
-	private KoLRequest request;
+	private GenericRequest request;
 	private final AreaCombatData areaSummary;
 	private final boolean isNonCombatsOnly;
 
@@ -165,7 +182,7 @@ public class KoLAdventure
 		}
 		else if ( formSource.equals( "clan_gym.php" ) )
 		{
-			this.request = new ClanGymRequest( StaticEntity.parseInt( adventureId ) );
+			this.request = new ClanRumpusRequest( StaticEntity.parseInt( adventureId ) );
 		}
 		else if ( formSource.equals( "basement.php" ) )
 		{
@@ -257,7 +274,7 @@ public class KoLAdventure
 	 * @return The request for this adventure
 	 */
 
-	public KoLRequest getRequest()
+	public GenericRequest getRequest()
 	{
 		return this.request;
 	}
@@ -294,7 +311,7 @@ public class KoLAdventure
 				this.isValidAdventure = AdventureDatabase.retrieveItem( KoLAdventure.MUSHROOM );
 				if ( this.isValidAdventure )
 				{
-					RequestThread.postRequest( new ConsumeItemRequest( KoLAdventure.MUSHROOM ) );
+					RequestThread.postRequest( new UseItemRequest( KoLAdventure.MUSHROOM ) );
 				}
 			}
 
@@ -327,7 +344,7 @@ public class KoLAdventure
 			RequestThread.postRequest( new EquipmentRequest( EquipmentDatabase.getOutfit( outfitId ) ) );
 			if ( !KoLConstants.activeEffects.contains( KoLAdventure.PERFUME_EFFECT ) )
 			{
-				RequestThread.postRequest( new ConsumeItemRequest( KoLAdventure.PERFUME_ITEM ) );
+				RequestThread.postRequest( new UseItemRequest( KoLAdventure.PERFUME_ITEM ) );
 			}
 		}
 
@@ -428,7 +445,7 @@ public class KoLAdventure
 			int astral = KoLAdventure.ASTRAL.getCount( KoLConstants.activeEffects );
 			if ( astral == 0 )
 			{
-				RequestThread.postRequest( new ConsumeItemRequest( KoLAdventure.MUSHROOM ) );
+				RequestThread.postRequest( new UseItemRequest( KoLAdventure.MUSHROOM ) );
 				if ( !KoLmafia.permitsContinue() )
 				{
 					this.isValidAdventure = false;
@@ -493,7 +510,7 @@ public class KoLAdventure
 				this.isValidAdventure = AdventureDatabase.retrieveItem( KoLAdventure.PLANKS );
 				if ( this.isValidAdventure )
 				{
-					RequestThread.postRequest( new ConsumeItemRequest( KoLAdventure.PLANKS ) );
+					RequestThread.postRequest( new UseItemRequest( KoLAdventure.PLANKS ) );
 				}
 			}
 
@@ -517,7 +534,7 @@ public class KoLAdventure
 		{
 			if ( !KoLCharacter.hasItem( KoLAdventure.ROWBOAT ) && KoLCharacter.hasItem( KoLAdventure.MAP ) )
 			{
-				RequestThread.postRequest( new ConsumeItemRequest( KoLAdventure.MAP ) );
+				RequestThread.postRequest( new UseItemRequest( KoLAdventure.MAP ) );
 			}
 
 			this.isValidAdventure = AdventureDatabase.retrieveItem( KoLAdventure.ROWBOAT );
@@ -578,7 +595,7 @@ public class KoLAdventure
 				// what's needed in grabbing the item.
 
 				RequestThread.postRequest( CouncilFrame.COUNCIL_VISIT );
-				RequestThread.postRequest( new ConsumeItemRequest( KoLAdventure.BEAN ) );
+				RequestThread.postRequest( new UseItemRequest( KoLAdventure.BEAN ) );
 			}
 
 			KoLAdventure.ZONE_UNLOCK.constructURLString( "beanstalk.php" );
@@ -670,7 +687,7 @@ public class KoLAdventure
 				sonarToUse = 1;
 			}
 
-			RequestThread.postRequest( new ConsumeItemRequest( KoLAdventure.SONAR.getInstance( Math.min(
+			RequestThread.postRequest( new UseItemRequest( KoLAdventure.SONAR.getInstance( Math.min(
 				sonarToUse, sonarCount ) ) ) );
 			RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK );
 
@@ -742,7 +759,7 @@ public class KoLAdventure
 	}
 
 	/**
-	 * Executes the appropriate <code>KoLRequest</code> for the adventure encapsulated by this
+	 * Executes the appropriate <code>GenericRequest</code> for the adventure encapsulated by this
 	 * <code>KoLAdventure</code>.
 	 */
 
@@ -879,7 +896,7 @@ public class KoLAdventure
 
 	private void updateAutoAttack()
 	{
-		String attack = CombatSettings.getShortCombatOptionName( KoLSettings.getUserProperty( "battleAction" ) );
+		String attack = CustomCombatManager.getShortCombatOptionName( KoLSettings.getUserProperty( "battleAction" ) );
 		String autoAttack = KoLSettings.getUserProperty( "defaultAutoAttack" );
 
 		// If the player is pickpocketing, they probably do not want
@@ -933,7 +950,7 @@ public class KoLAdventure
 		// If it's not a generic class skill (it's id is something
 		// non-standard), then don't update auto-attack.
 
-		int skillId = ClassSkillsDatabase.getSkillId( attack.substring( 6 ).trim() );
+		int skillId = SkillDatabase.getSkillId( attack.substring( 6 ).trim() );
 
 		if ( skillId < 1000 || skillId > 7000 )
 		{

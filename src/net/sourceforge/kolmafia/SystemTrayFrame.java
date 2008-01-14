@@ -41,15 +41,16 @@ import java.io.File;
 
 import javax.swing.ImageIcon;
 
-import net.java.dev.spellcast.utilities.JComponentUtilities;
-import net.java.dev.spellcast.utilities.UtilityConstants;
-
 import com.jeans.trayicon.TrayIconPopup;
 import com.jeans.trayicon.TrayIconPopupSimpleItem;
 import com.jeans.trayicon.WindowsTrayIcon;
 
+import net.java.dev.spellcast.utilities.JComponentUtilities;
+import net.java.dev.spellcast.utilities.UtilityConstants;
+
+import net.sourceforge.kolmafia.request.LogoutRequest;
+
 public abstract class SystemTrayFrame
-	implements KoLConstants
 {
 	private static WindowsTrayIcon icon = null;
 
@@ -82,7 +83,7 @@ public abstract class SystemTrayFrame
 			popup.addMenuItem( new ConstructFramePopupItem( "Graphical CLI", "CommandDisplayFrame" ) );
 			popup.addMenuItem( new ConstructFramePopupItem( "Preferences", "OptionsFrame" ) );
 			popup.addMenuItem( new ConstructFramePopupItem( "Relay Browser", "LocalRelayServer" ) );
-			popup.addMenuItem( new ConstructFramePopupItem( "KoLmafia Chat", "KoLMessenger" ) );
+			popup.addMenuItem( new ConstructFramePopupItem( "KoLmafia Chat", "ChatManager" ) );
 			popup.addMenuItem( new LogoutPopupItem() );
 			popup.addMenuItem( new EndSessionPopupItem() );
 

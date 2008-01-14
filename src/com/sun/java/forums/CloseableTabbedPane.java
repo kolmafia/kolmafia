@@ -23,8 +23,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.EventListenerList;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
 
-import net.sourceforge.kolmafia.UnfocusedTabbedPane;
-
 /**
  * <p>
  * A <code>JTabbedPane</code> which has a close ('X') icon on each tab.
@@ -44,7 +42,7 @@ import net.sourceforge.kolmafia.UnfocusedTabbedPane;
  */
 
 public class CloseableTabbedPane
-	extends UnfocusedTabbedPane
+	extends JTabbedPane
 	implements MouseListener, MouseMotionListener
 {
 
@@ -701,5 +699,20 @@ public class CloseableTabbedPane
 	{
 		this.setBackgroundAt( tabIndex, new Color( 255, 205, 205 ) );
 		this.setForegroundAt( tabIndex, Color.black );
+	}
+
+
+	public final boolean isFocusable()
+	{
+		return false;
+	}
+
+	public final void setFocusable( final boolean isFocusable )
+	{
+	}
+
+	public final void requestFocus()
+	{
+		this.transferFocus();
 	}
 }

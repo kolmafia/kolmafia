@@ -42,6 +42,13 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
+
 public class Modifiers
 	extends KoLDatabase
 {
@@ -464,7 +471,7 @@ public class Modifiers
 
 		for ( int i = 0; i < check.length; ++i )
 		{
-			if ( !StatusEffectDatabase.contains( (String) check[ i ] ) )
+			if ( !EffectDatabase.contains( (String) check[ i ] ) )
 			{
 				continue;
 			}
@@ -907,7 +914,7 @@ public class Modifiers
 	{
 		if ( name.equalsIgnoreCase( "Temporary Lycanthropy" ) )
 		{
-			this.set( Modifiers.MUS_PCT, MoonPhaseDatabase.getBloodEffect() );
+			this.set( Modifiers.MUS_PCT, HolidayDatabase.getBloodEffect() );
 			return true;
 		}
 
@@ -926,7 +933,7 @@ public class Modifiers
 			return true;
 		}
 
-		int itemId = TradeableItemDatabase.getItemId( name );
+		int itemId = ItemDatabase.getItemId( name );
 
 		switch ( itemId )
 		{
@@ -934,37 +941,37 @@ public class Modifiers
 		case GAT:
 		case GO_GO_BOOTS:
 		case GREAVES:
-			this.set( Modifiers.MOX_PCT, MoonPhaseDatabase.getGrimaciteEffect() );
+			this.set( Modifiers.MOX_PCT, HolidayDatabase.getGrimaciteEffect() );
 			return true;
 
 		case GAITERS:
 		case GARTER:
 		case GIRDLE:
 		case GOGGLES:
-			this.set( Modifiers.MYS_PCT, MoonPhaseDatabase.getGrimaciteEffect() );
+			this.set( Modifiers.MYS_PCT, HolidayDatabase.getGrimaciteEffect() );
 			return true;
 
 		case GASMASK:
 		case GAUNTLETS:
 		case GLAIVE:
 		case GORGET:
-			this.set( Modifiers.MUS_PCT, MoonPhaseDatabase.getGrimaciteEffect() );
+			this.set( Modifiers.MUS_PCT, HolidayDatabase.getGrimaciteEffect() );
 			return true;
 
 		case GUAYABERA:
 		case GOWN:
-			this.set( Modifiers.MONSTER_LEVEL, MoonPhaseDatabase.getGrimaciteEffect() );
+			this.set( Modifiers.MONSTER_LEVEL, HolidayDatabase.getGrimaciteEffect() );
 			return true;
 
 		case BAIO:
-			int mod = MoonPhaseDatabase.getBaioEffect();
+			int mod = HolidayDatabase.getBaioEffect();
 			this.set( Modifiers.MOX_PCT, mod );
 			this.set( Modifiers.MUS_PCT, mod );
 			this.set( Modifiers.MYS_PCT, mod );
 			return true;
 
 		case JEKYLLIN:
-			int moonlight = MoonPhaseDatabase.getMoonlight();
+			int moonlight = HolidayDatabase.getMoonlight();
 			this.set( Modifiers.MOX, 9 - moonlight );
 			this.set( Modifiers.MUS, 9 - moonlight );
 			this.set( Modifiers.MYS, 9 - moonlight );
@@ -1033,7 +1040,7 @@ public class Modifiers
 			this.set( Modifiers.MP_REGEN_MAX, 0 );
 
 			// Party hat is special on the Festival of Jarlsberg
-			if ( MoonPhaseDatabase.getHoliday().equals( "Festival of Jarlsberg" ) )
+			if ( HolidayDatabase.getHoliday().equals( "Festival of Jarlsberg" ) )
 			{
 				this.set( Modifiers.MP_REGEN_MIN, 3 );
 				this.set( Modifiers.MP_REGEN_MAX, 5 );
@@ -1077,7 +1084,7 @@ public class Modifiers
 	public void applyPassiveModifiers()
 	{
 		// You'd think this could be done at class initialization time,
-		// but no: the ClassSkillsDatabase depends on the Mana Cost
+		// but no: the SkillDatabase depends on the Mana Cost
 		// modifier being set.
 
 		if ( Modifiers.passiveSkills.isEmpty() )
@@ -1086,12 +1093,12 @@ public class Modifiers
 			for ( int i = 0; i < keys.length; ++i )
 			{
 				String skill = (String) keys[ i ];
-				if ( !ClassSkillsDatabase.contains( skill ) )
+				if ( !SkillDatabase.contains( skill ) )
 				{
 					continue;
 				}
 
-				if ( ClassSkillsDatabase.getSkillType( ClassSkillsDatabase.getSkillId( skill ) ) == ClassSkillsDatabase.PASSIVE )
+				if ( SkillDatabase.getSkillType( SkillDatabase.getSkillId( skill ) ) == SkillDatabase.PASSIVE )
 				{
 					Modifiers.passiveSkills.add( skill );
 				}
@@ -1136,13 +1143,13 @@ public class Modifiers
 
 		weight = Math.max( 1, weight );
 
-		if ( FamiliarsDatabase.isVolleyType( familiarId ) )
+		if ( FamiliarDatabase.isVolleyType( familiarId ) )
 		{
 			this.add( Modifiers.EXPERIENCE, Math.sqrt( weight ) );
 		}
 
-		boolean item = FamiliarsDatabase.isItemDropType( familiarId );
-		boolean meat = FamiliarsDatabase.isMeatDropType( familiarId );
+		boolean item = FamiliarDatabase.isItemDropType( familiarId );
+		boolean meat = FamiliarDatabase.isMeatDropType( familiarId );
 
 		if ( item || meat )
 		{

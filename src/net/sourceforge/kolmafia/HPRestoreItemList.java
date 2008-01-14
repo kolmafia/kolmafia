@@ -35,6 +35,18 @@ package net.sourceforge.kolmafia;
 
 import javax.swing.JCheckBox;
 
+import net.sourceforge.kolmafia.request.CampgroundRequest;
+import net.sourceforge.kolmafia.request.ClanRumpusRequest;
+import net.sourceforge.kolmafia.request.GalaktikRequest;
+import net.sourceforge.kolmafia.request.QuestLogRequest;
+import net.sourceforge.kolmafia.request.UseItemRequest;
+import net.sourceforge.kolmafia.request.UseSkillRequest;
+
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
+
 public abstract class HPRestoreItemList
 	extends StaticEntity
 {
@@ -142,15 +154,15 @@ public abstract class HPRestoreItemList
 			this.healthPerUse = healthPerUse;
 			this.purchaseCost = purchaseCost;
 
-			if ( TradeableItemDatabase.contains( restoreName ) )
+			if ( ItemDatabase.contains( restoreName ) )
 			{
 				this.itemUsed = new AdventureResult( restoreName, 1, false );
 				this.skillId = -1;
 			}
-			else if ( ClassSkillsDatabase.contains( restoreName ) )
+			else if ( SkillDatabase.contains( restoreName ) )
 			{
 				this.itemUsed = null;
-				this.skillId = ClassSkillsDatabase.getSkillId( restoreName );
+				this.skillId = SkillDatabase.getSkillId( restoreName );
 			}
 			else
 			{
@@ -217,9 +229,9 @@ public abstract class HPRestoreItemList
 			if ( this.itemUsed == null && this.skillId > 0 )
 			{
 				leftRatio =
-					(float) ( Math.ceil( leftRatio ) * ClassSkillsDatabase.getMPConsumptionById( this.skillId ) );
+					(float) ( Math.ceil( leftRatio ) * SkillDatabase.getMPConsumptionById( this.skillId ) );
 				rightRatio =
-					(float) ( Math.ceil( rightRatio ) * ClassSkillsDatabase.getMPConsumptionById( hpi.skillId ) );
+					(float) ( Math.ceil( rightRatio ) * SkillDatabase.getMPConsumptionById( hpi.skillId ) );
 			}
 			else if ( HPRestoreItemList.purchaseBasedSort )
 			{
@@ -272,18 +284,18 @@ public abstract class HPRestoreItemList
 
 			if ( this == HPRestoreItemList.SOFA )
 			{
-				RequestThread.postRequest( ( new ClanGymRequest( ClanGymRequest.SOFA ) ).setTurnCount( numberToUse ) );
+				RequestThread.postRequest( ( new ClanRumpusRequest( ClanRumpusRequest.SOFA ) ).setTurnCount( numberToUse ) );
 				return;
 			}
 
-			else if ( ClassSkillsDatabase.contains( this.restoreName ) )
+			else if ( SkillDatabase.contains( this.restoreName ) )
 			{
 				if ( !KoLCharacter.hasSkill( this.restoreName ) )
 				{
 					numberToUse = 0;
 				}
 			}
-			else if ( TradeableItemDatabase.contains( this.restoreName ) )
+			else if ( ItemDatabase.contains( this.restoreName ) )
 			{
 				// In certain instances, you are able to buy more of
 				// the given item from NPC stores, or from the mall.
@@ -293,7 +305,7 @@ public abstract class HPRestoreItemList
 				if ( purchase && numberAvailable < numberToUse )
 				{
 					int numberToBuy = numberAvailable;
-					int unitPrice = TradeableItemDatabase.getPriceById( this.itemUsed.getItemId() ) * 2;
+					int unitPrice = ItemDatabase.getPriceById( this.itemUsed.getItemId() ) * 2;
 
 					if ( this == HPRestoreItemList.HERBS && NPCStoreDatabase.contains( this.itemUsed.getName() ) )
 					{
@@ -323,13 +335,13 @@ public abstract class HPRestoreItemList
 				return;
 			}
 
-			if ( ClassSkillsDatabase.contains( this.restoreName ) )
+			if ( SkillDatabase.contains( this.restoreName ) )
 			{
 				RequestThread.postRequest( UseSkillRequest.getInstance( this.restoreName, "", numberToUse ) );
 			}
 			else
 			{
-				RequestThread.postRequest( new ConsumeItemRequest( this.itemUsed.getInstance( numberToUse ) ) );
+				RequestThread.postRequest( new UseItemRequest( this.itemUsed.getInstance( numberToUse ) ) );
 			}
 		}
 

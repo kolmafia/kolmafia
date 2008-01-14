@@ -78,6 +78,7 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JSplitPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
@@ -93,22 +94,36 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
+import tab.CloseTabbedPane;
 import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
-import tab.CloseTabbedPane;
+
+import net.sourceforge.kolmafia.session.ChatManager;
+import net.sourceforge.kolmafia.session.MoodManager;
+import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
+
+import net.sourceforge.kolmafia.request.CharPaneRequest;
+import net.sourceforge.kolmafia.request.CharSheetRequest;
+import net.sourceforge.kolmafia.request.ClosetRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.LogoutRequest;
+import net.sourceforge.kolmafia.request.UneffectRequest;
+import net.sourceforge.kolmafia.request.UseItemRequest;
+
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 public abstract class KoLFrame
 	extends JFrame
-	implements KoLConstants
 {
 	private static KoLFrame activeWindow = null;
 
 	protected HashMap listenerMap;
 	private KoLMenuBar menuBar;
 
-	public UnfocusedTabbedPane tabs;
+	public JTabbedPane tabs;
 	public String lastTitle;
 	public String frameName;
 	public JPanel framePanel;
@@ -172,7 +187,7 @@ public abstract class KoLFrame
 
 		if ( this instanceof ChatFrame )
 		{
-			shouldAddFrame = !KoLMessenger.usingTabbedChat() || this instanceof TabbedChatFrame;
+			shouldAddFrame = !ChatManager.usingTabbedChat() || this instanceof TabbedChatFrame;
 		}
 
 		if ( shouldAddFrame )
@@ -259,9 +274,9 @@ public abstract class KoLFrame
 			"initialDesktop" ).indexOf( this.frameName ) == -1;
 	}
 
-	public UnfocusedTabbedPane getTabbedPane()
+	public JTabbedPane getTabbedPane()
 	{
-		return KoLSettings.getBooleanProperty( "useDecoratedTabs" ) ? new CloseTabbedPane() : new UnfocusedTabbedPane();
+		return KoLSettings.getBooleanProperty( "useDecoratedTabs" ) ? new CloseTabbedPane() : new JTabbedPane();
 	}
 
 	public void addHotKeys()
@@ -642,7 +657,7 @@ public abstract class KoLFrame
 
 			JPanel refreshPanel = new JPanel();
 			refreshPanel.setOpaque( false );
-			refreshPanel.add( new RequestButton( "Refresh Status", "refresh.gif", new CharsheetRequest() ) );
+			refreshPanel.add( new RequestButton( "Refresh Status", "refresh.gif", new CharSheetRequest() ) );
 
 			this.compactPane = new JPanel( new BorderLayout() );
 			this.compactPane.add( compactCard, BorderLayout.NORTH );
@@ -741,7 +756,7 @@ public abstract class KoLFrame
 			}
 			else
 			{
-				ImageIcon familiarIcon = FamiliarsDatabase.getFamiliarImage( id );
+				ImageIcon familiarIcon = FamiliarDatabase.getFamiliarImage( id );
 				this.familiarLabel.setIcon( familiarIcon );
 				this.familiarLabel.setText( familiar.getModifiedWeight() + ( familiar.getModifiedWeight() == 1 ? " lb." : " lbs." ) );
 				this.familiarLabel.setVerticalTextPosition( JLabel.BOTTOM );
@@ -769,8 +784,8 @@ public abstract class KoLFrame
 
 		switch ( displayState )
 		{
-		case ABORT_STATE:
-		case ERROR_STATE:
+		case KoLConstants.ABORT_STATE:
+		case KoLConstants.ERROR_STATE:
 
 			if ( this.refresher != null )
 			{
@@ -780,7 +795,7 @@ public abstract class KoLFrame
 			this.setEnabled( true );
 			break;
 
-		case ENABLE_STATE:
+		case KoLConstants.ENABLE_STATE:
 
 			if ( this.refresher != null )
 			{
@@ -804,7 +819,7 @@ public abstract class KoLFrame
 
 	/**
 	 * Overrides the default isEnabled() method, because the setEnabled() method does not call the superclass's version.
-	 * 
+	 *
 	 * @return <code>true</code>
 	 */
 
@@ -956,15 +971,15 @@ public abstract class KoLFrame
 	public static class RequestButton
 		extends ThreadedButton
 	{
-		public KoLRequest request;
+		public GenericRequest request;
 
-		public RequestButton( final String title, final KoLRequest request )
+		public RequestButton( final String title, final GenericRequest request )
 		{
 			super( title );
 			this.request = request;
 		}
 
-		public RequestButton( final String title, final String icon, final KoLRequest request )
+		public RequestButton( final String title, final String icon, final GenericRequest request )
 		{
 			super( JComponentUtilities.getImage( icon ) );
 			this.setToolTipText( title );
@@ -974,7 +989,7 @@ public abstract class KoLFrame
 		public void run()
 		{
 			RequestThread.postRequest( this.request );
-			RequestThread.postRequest( CharpaneRequest.getInstance() );
+			RequestThread.postRequest( CharPaneRequest.getInstance() );
 		}
 	}
 
@@ -1246,7 +1261,7 @@ public abstract class KoLFrame
 		{
 			if ( location.equals( "lchat.php" ) )
 			{
-				KoLMessenger.initialize();
+				ChatManager.initialize();
 			}
 			else if ( location.startsWith( "makeoffer.php" ) || location.startsWith( "counteroffer.php" ) )
 			{
@@ -1553,7 +1568,7 @@ public abstract class KoLFrame
 		/**
 		 * Called whenever contents have been added to the original list; a function required by every
 		 * <code>ListDataListener</code>.
-		 * 
+		 *
 		 * @param e the <code>ListDataEvent</code> that triggered this function call
 		 */
 
@@ -1572,7 +1587,7 @@ public abstract class KoLFrame
 		/**
 		 * Called whenever contents have been removed from the original list; a function required by every
 		 * <code>ListDataListener</code>.
-		 * 
+		 *
 		 * @param e the <code>ListDataEvent</code> that triggered this function call
 		 */
 
@@ -1591,7 +1606,7 @@ public abstract class KoLFrame
 		/**
 		 * Called whenever contents in the original list have changed; a function required by every
 		 * <code>ListDataListener</code>.
-		 * 
+		 *
 		 * @param e the <code>ListDataEvent</code> that triggered this function call
 		 */
 
@@ -1891,17 +1906,17 @@ public abstract class KoLFrame
 			{
 				name = ( (AdventureResult) effects[ i ] ).getName();
 
-				action = MoodSettings.getDefaultAction( "lose_effect", name );
+				action = MoodManager.getDefaultAction( "lose_effect", name );
 				if ( !action.equals( "" ) )
 				{
-					MoodSettings.addTrigger( "lose_effect", name, action );
+					MoodManager.addTrigger( "lose_effect", name, action );
 					continue;
 				}
 
-				action = MoodSettings.getDefaultAction( "gain_effect", name );
+				action = MoodManager.getDefaultAction( "gain_effect", name );
 				if ( !action.equals( "" ) )
 				{
-					MoodSettings.addTrigger( "gain_effect", name, action );
+					MoodManager.addTrigger( "gain_effect", name, action );
 				}
 			}
 		}
@@ -1916,16 +1931,16 @@ public abstract class KoLFrame
 		extends LabeledKoLPanel
 	{
 		private final int transferType;
-		private final AutoHighlightField amountField;
+		private final AutoHighlightTextField amountField;
 		private final JLabel closetField;
 
 		public MeatTransferPanel( final int transferType )
 		{
 			super(
-				transferType == ItemStorageRequest.MEAT_TO_CLOSET ? "Put Meat in Your Closet" : transferType == ItemStorageRequest.MEAT_TO_INVENTORY ? "Take Meat from Your Closet" : transferType == ItemStorageRequest.PULL_MEAT_FROM_STORAGE ? "Pull Meat from Hagnk's" : "Unknown Transfer Type",
+				transferType == ClosetRequest.MEAT_TO_CLOSET ? "Put Meat in Your Closet" : transferType == ClosetRequest.MEAT_TO_INVENTORY ? "Take Meat from Your Closet" : transferType == ClosetRequest.PULL_MEAT_FROM_STORAGE ? "Pull Meat from Hagnk's" : "Unknown Transfer Type",
 				"transfer", "bedidall", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
-			this.amountField = new AutoHighlightField();
+			this.amountField = new AutoHighlightTextField();
 			this.closetField = new JLabel( " " );
 
 			VerifiableElement[] elements = new VerifiableElement[ 2 ];
@@ -1944,15 +1959,15 @@ public abstract class KoLFrame
 		{
 			switch ( this.transferType )
 			{
-			case ItemStorageRequest.MEAT_TO_CLOSET:
+			case ClosetRequest.MEAT_TO_CLOSET:
 				this.closetField.setText( KoLConstants.COMMA_FORMAT.format( KoLCharacter.getAvailableMeat() ) + " meat" );
 				break;
 
-			case ItemStorageRequest.MEAT_TO_INVENTORY:
+			case ClosetRequest.MEAT_TO_INVENTORY:
 				this.closetField.setText( KoLConstants.COMMA_FORMAT.format( KoLCharacter.getClosetMeat() ) + " meat" );
 				break;
 
-			case ItemStorageRequest.PULL_MEAT_FROM_STORAGE:
+			case ClosetRequest.PULL_MEAT_FROM_STORAGE:
 				this.closetField.setText( KoLConstants.COMMA_FORMAT.format( KoLCharacter.getStorageMeat() ) + " meat" );
 				break;
 
@@ -1967,7 +1982,7 @@ public abstract class KoLFrame
 			int amountToTransfer = KoLFrame.getValue( this.amountField );
 
 			RequestThread.openRequestSequence();
-			RequestThread.postRequest( new ItemStorageRequest( this.transferType, amountToTransfer ) );
+			RequestThread.postRequest( new ClosetRequest( this.transferType, amountToTransfer ) );
 			RequestThread.closeRequestSequence();
 		}
 
@@ -2084,7 +2099,7 @@ public abstract class KoLFrame
 
 			for ( int i = 0; i < items.length; ++i )
 			{
-				RequestThread.postRequest( new ConsumeItemRequest( (AdventureResult) items[ i ] ) );
+				RequestThread.postRequest( new UseItemRequest( (AdventureResult) items[ i ] ) );
 			}
 		}
 
@@ -2111,11 +2126,11 @@ public abstract class KoLFrame
 				AdventureResult item = (AdventureResult) element;
 				int itemId = item.getItemId();
 
-				switch ( TradeableItemDatabase.getConsumptionType( itemId ) )
+				switch ( ItemDatabase.getConsumptionType( itemId ) )
 				{
-				case MP_RESTORE:
-				case HP_RESTORE:
-				case HPMP_RESTORE:
+				case KoLConstants.MP_RESTORE:
+				case KoLConstants.HP_RESTORE:
+				case KoLConstants.HPMP_RESTORE:
 					return super.isVisible( element );
 
 				default:

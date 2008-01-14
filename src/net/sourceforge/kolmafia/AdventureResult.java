@@ -43,7 +43,15 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.JLabel;
 import javax.swing.JList;
 
-import net.sourceforge.kolmafia.ConcoctionsDatabase.Concoction;
+import net.sourceforge.kolmafia.request.CreateItemRequest;
+import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.request.UseItemRequest;
+
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.Concoction;
 
 public class AdventureResult
 	implements Comparable, KoLConstants
@@ -117,7 +125,7 @@ public class AdventureResult
 
 	/**
 	 * Constructs a new <code>AdventureResult</code> with the given name. The amount of gain will default to zero.
-	 * 
+	 *
 	 * @param name The name of the result
 	 */
 
@@ -127,7 +135,7 @@ public class AdventureResult
 		this.count = new int[ 1 ];
 
 		this.priority =
-			name.equals( AdventureResult.ADV ) ? AdventureResult.ADV_PRIORITY : name.equals( AdventureResult.MEAT ) ? AdventureResult.MEAT_PRIORITY : name.equals( AdventureResult.HP ) || name.equals( AdventureResult.MP ) || name.equals( AdventureResult.DRUNK ) ? AdventureResult.NO_PRIORITY : name.equals( AdventureResult.SUBSTATS ) ? AdventureResult.SUBSTAT_PRIORITY : name.equals( AdventureResult.FULLSTATS ) ? AdventureResult.FULLSTAT_PRIORITY : StatusEffectDatabase.contains( name ) ? AdventureResult.EFFECT_PRIORITY : AdventureResult.ITEM_PRIORITY;
+			name.equals( AdventureResult.ADV ) ? AdventureResult.ADV_PRIORITY : name.equals( AdventureResult.MEAT ) ? AdventureResult.MEAT_PRIORITY : name.equals( AdventureResult.HP ) || name.equals( AdventureResult.MP ) || name.equals( AdventureResult.DRUNK ) ? AdventureResult.NO_PRIORITY : name.equals( AdventureResult.SUBSTATS ) ? AdventureResult.SUBSTAT_PRIORITY : name.equals( AdventureResult.FULLSTATS ) ? AdventureResult.FULLSTAT_PRIORITY : EffectDatabase.contains( name ) ? AdventureResult.EFFECT_PRIORITY : AdventureResult.ITEM_PRIORITY;
 
 		if ( this.priority == AdventureResult.EFFECT_PRIORITY )
 		{
@@ -162,14 +170,14 @@ public class AdventureResult
 	/**
 	 * Constructs a new <code>AdventureResult</code> with the given item Id. which increased/decreased by the given
 	 * value. This constructor should be used for item-related results.
-	 * 
+	 *
 	 * @param itemId The itemId of the result
 	 * @param count How many of the noted result were gained
 	 */
 
 	public AdventureResult( final int itemId, final int count )
 	{
-		this.name = TradeableItemDatabase.getItemName( itemId );
+		this.name = ItemDatabase.getItemName( itemId );
 		this.count = new int[] { count };
 		this.normalizeItemName();
 	}
@@ -177,7 +185,7 @@ public class AdventureResult
 	/**
 	 * Constructs a new <code>AdventureResult</code> with the given name which increased/decreased by the given value.
 	 * This constructor should be used for most results.
-	 * 
+	 *
 	 * @param name The name of the result
 	 * @param count How many of the noted result were gained
 	 */
@@ -199,7 +207,7 @@ public class AdventureResult
 		{
 			this.priority = AdventureResult.NO_PRIORITY;
 		}
-		else if ( StatusEffectDatabase.contains( name ) )
+		else if ( EffectDatabase.contains( name ) )
 		{
 			this.normalizeEffectName();
 		}
@@ -219,7 +227,7 @@ public class AdventureResult
 		this.count = count;
 
 		this.priority =
-			name.equals( AdventureResult.ADV ) ? AdventureResult.ADV_PRIORITY : name.equals( AdventureResult.MEAT ) ? AdventureResult.MEAT_PRIORITY : name.equals( AdventureResult.HP ) || name.equals( AdventureResult.MP ) || name.equals( AdventureResult.DRUNK ) ? AdventureResult.NO_PRIORITY : name.equals( AdventureResult.SUBSTATS ) ? AdventureResult.SUBSTAT_PRIORITY : name.equals( AdventureResult.FULLSTATS ) ? AdventureResult.FULLSTAT_PRIORITY : StatusEffectDatabase.contains( name ) ? AdventureResult.EFFECT_PRIORITY : AdventureResult.ITEM_PRIORITY;
+			name.equals( AdventureResult.ADV ) ? AdventureResult.ADV_PRIORITY : name.equals( AdventureResult.MEAT ) ? AdventureResult.MEAT_PRIORITY : name.equals( AdventureResult.HP ) || name.equals( AdventureResult.MP ) || name.equals( AdventureResult.DRUNK ) ? AdventureResult.NO_PRIORITY : name.equals( AdventureResult.SUBSTATS ) ? AdventureResult.SUBSTAT_PRIORITY : name.equals( AdventureResult.FULLSTATS ) ? AdventureResult.FULLSTAT_PRIORITY : EffectDatabase.contains( name ) ? AdventureResult.EFFECT_PRIORITY : AdventureResult.ITEM_PRIORITY;
 
 		if ( this.priority == AdventureResult.EFFECT_PRIORITY )
 		{
@@ -234,7 +242,7 @@ public class AdventureResult
 	/**
 	 * Constructs a new <code>AdventureResult</code> with the given name and given gains. Note that this should only
 	 * be used if you know whether or not this is an item or a status effect.
-	 * 
+	 *
 	 * @param name The name of the result
 	 * @param count How many of the noted result were gained
 	 * @param isStatusEffect <code>true</code> if this is a status effect, <code>false</code> if this is an item
@@ -259,10 +267,10 @@ public class AdventureResult
 	{
 		this.priority = AdventureResult.EFFECT_PRIORITY;
 
-		int effectId = StatusEffectDatabase.getEffectId( this.name );
+		int effectId = EffectDatabase.getEffectId( this.name );
 		if ( effectId > 0 )
 		{
-			this.name = StatusEffectDatabase.getEffectName( effectId );
+			this.name = EffectDatabase.getEffectName( effectId );
 		}
 	}
 
@@ -274,11 +282,11 @@ public class AdventureResult
 			return;
 		}
 
-		this.itemId = TradeableItemDatabase.getItemId( this.name, this.count[ 0 ] );
+		this.itemId = ItemDatabase.getItemId( this.name, this.count[ 0 ] );
 
 		if ( this.itemId > 0 )
 		{
-			this.name = TradeableItemDatabase.getItemName( this.itemId );
+			this.name = ItemDatabase.getItemName( this.itemId );
 		}
 		else if ( StaticEntity.getClient() != null )
 		{
@@ -302,7 +310,7 @@ public class AdventureResult
 			return id;
 		}
 
-		return TradeableItemDatabase.getItemId( name, 1 );
+		return ItemDatabase.getItemId( name, 1 );
 	}
 
 	public static final AdventureResult bangPotion( final String name )
@@ -381,7 +389,7 @@ public class AdventureResult
 
 	/**
 	 * Accessor method to determine if this result is a status effect.
-	 * 
+	 *
 	 * @return <code>true</code> if this result represents a status effect
 	 */
 
@@ -392,7 +400,7 @@ public class AdventureResult
 
 	/**
 	 * Accessor method to determine if this result is a muscle gain.
-	 * 
+	 *
 	 * @return <code>true</code> if this result represents muscle subpoint gain
 	 */
 
@@ -403,7 +411,7 @@ public class AdventureResult
 
 	/**
 	 * Accessor method to determine if this result is a mysticality gain.
-	 * 
+	 *
 	 * @return <code>true</code> if this result represents mysticality subpoint gain
 	 */
 
@@ -414,7 +422,7 @@ public class AdventureResult
 
 	/**
 	 * Accessor method to determine if this result is a muscle gain.
-	 * 
+	 *
 	 * @return <code>true</code> if this result represents muscle subpoint gain
 	 */
 
@@ -426,7 +434,7 @@ public class AdventureResult
 	/**
 	 * Accessor method to determine if this result is an item, as opposed to meat, drunkenness, adventure or substat
 	 * gains.
-	 * 
+	 *
 	 * @return <code>true</code> if this result represents an item
 	 */
 
@@ -437,7 +445,7 @@ public class AdventureResult
 
 	/**
 	 * Accessor method to retrieve the name associated with the result.
-	 * 
+	 *
 	 * @return The name of the result
 	 */
 
@@ -445,17 +453,17 @@ public class AdventureResult
 	{
 		switch ( this.itemId )
 		{
-		case ConsumeItemRequest.MILKY_POTION:
-		case ConsumeItemRequest.SWIRLY_POTION:
-		case ConsumeItemRequest.BUBBLY_POTION:
-		case ConsumeItemRequest.SMOKY_POTION:
-		case ConsumeItemRequest.CLOUDY_POTION:
-		case ConsumeItemRequest.EFFERVESCENT_POTION:
-		case ConsumeItemRequest.FIZZY_POTION:
-		case ConsumeItemRequest.DARK_POTION:
-		case ConsumeItemRequest.MURKY_POTION:
+		case UseItemRequest.MILKY_POTION:
+		case UseItemRequest.SWIRLY_POTION:
+		case UseItemRequest.BUBBLY_POTION:
+		case UseItemRequest.SMOKY_POTION:
+		case UseItemRequest.CLOUDY_POTION:
+		case UseItemRequest.EFFERVESCENT_POTION:
+		case UseItemRequest.FIZZY_POTION:
+		case UseItemRequest.DARK_POTION:
+		case UseItemRequest.MURKY_POTION:
 
-			return ConsumeItemRequest.bangPotionName( this.itemId, this.name );
+			return UseItemRequest.bangPotionName( this.itemId, this.name );
 
 		case FightRequest.MOSSY_STONE_SPHERE:
 		case FightRequest.SMOOTH_STONE_SPHERE:
@@ -471,7 +479,7 @@ public class AdventureResult
 
 	/**
 	 * Accessor method to retrieve the item Id associated with the result, if this is an item and the item Id is known.
-	 * 
+	 *
 	 * @return The item Id associated with this item
 	 */
 
@@ -484,7 +492,7 @@ public class AdventureResult
 	 * Accessor method to retrieve the total value associated with the result. In the event of substat points, this
 	 * returns the total subpoints within the <code>AdventureResult</code>; in the event of an item or meat gains,
 	 * this will return the total number of meat/items in this result.
-	 * 
+	 *
 	 * @return The amount associated with this result
 	 */
 
@@ -501,7 +509,7 @@ public class AdventureResult
 	/**
 	 * Accessor method to retrieve the total value associated with the result stored at the given index of the count
 	 * array.
-	 * 
+	 *
 	 * @return The total value at the given index of the count array
 	 */
 
@@ -513,7 +521,7 @@ public class AdventureResult
 	/**
 	 * A static final method which parses the given string for any content which might be applicable to an
 	 * <code>AdventureResult</code>, and returns the resulting <code>AdventureResult</code>.
-	 * 
+	 *
 	 * @param s The string suspected of being an <code>AdventureResult</code>
 	 * @return An <code>AdventureResult</code> with the appropriate data
 	 * @throws NumberFormatException The string was not a recognized <code>AdventureResult</code>
@@ -580,7 +588,7 @@ public class AdventureResult
 	/**
 	 * Converts the <code>AdventureResult</code> to a <code>String</code>. This is especially useful in debug, or
 	 * if the <code>AdventureResult</code> is to be displayed in a <code>ListModel</code>.
-	 * 
+	 *
 	 * @return The string version of this <code>AdventureResult</code>
 	 */
 
@@ -689,7 +697,7 @@ public class AdventureResult
 	/**
 	 * Compares the <code>AdventureResult</code> with the given object for name equality. Note that this will still
 	 * return <code>true</code> if the values do not match; this merely matches on names.
-	 * 
+	 *
 	 * @param o The <code>Object</code> to be compared with this <code>AdventureResult</code>
 	 * @return <code>true</code> if the <code>Object</code> is an <code>AdventureResult</code> and has the same
 	 *         name as this one
@@ -751,7 +759,7 @@ public class AdventureResult
 
 	/**
 	 * Utility method used for adding a given <code>AdventureResult</code> to a tally of <code>AdventureResult</code>s.
-	 * 
+	 *
 	 * @param tally The tally accumulating <code>AdventureResult</code>s
 	 * @param result The result to add to the tally
 	 */
@@ -901,7 +909,7 @@ public class AdventureResult
 		public Component getRenderer( final Component defaultComponent, final Concoction item )
 		{
 			StringBuffer stringForm = new StringBuffer();
-			boolean meetsRequirement = TradeableItemDatabase.meetsLevelRequirement( item.getName() );
+			boolean meetsRequirement = ItemDatabase.meetsLevelRequirement( item.getName() );
 
 			stringForm.append( "<html>" );
 
@@ -919,8 +927,8 @@ public class AdventureResult
 			stringForm.append( ")" );
 			stringForm.append( "</b><br>&nbsp;" );
 
-			int fullness = TradeableItemDatabase.getFullness( item.getName() );
-			int inebriety = TradeableItemDatabase.getInebriety( item.getName() );
+			int fullness = ItemDatabase.getFullness( item.getName() );
+			int inebriety = ItemDatabase.getInebriety( item.getName() );
 
 			if ( inebriety > 0 )
 			{
@@ -933,7 +941,7 @@ public class AdventureResult
 				stringForm.append( " full" );
 			}
 
-			this.appendRange( stringForm, TradeableItemDatabase.getAdventureRange( item.getName() ), "adv" );
+			this.appendRange( stringForm, ItemDatabase.getAdventureRange( item.getName() ), "adv" );
 
 			if ( KoLSettings.getBooleanProperty( "showGainsPerUnit" ) )
 			{
@@ -947,9 +955,9 @@ public class AdventureResult
 				}
 			}
 
-			this.appendRange( stringForm, TradeableItemDatabase.getMuscleRange( item.getName() ), "mus" );
-			this.appendRange( stringForm, TradeableItemDatabase.getMysticalityRange( item.getName() ), "mys" );
-			this.appendRange( stringForm, TradeableItemDatabase.getMoxieRange( item.getName() ), "mox" );
+			this.appendRange( stringForm, ItemDatabase.getMuscleRange( item.getName() ), "mus" );
+			this.appendRange( stringForm, ItemDatabase.getMysticalityRange( item.getName() ), "mys" );
+			this.appendRange( stringForm, ItemDatabase.getMoxieRange( item.getName() ), "mox" );
 
 			if ( !meetsRequirement )
 			{
@@ -1009,9 +1017,9 @@ public class AdventureResult
 				return this.getRenderer( defaultComponent, (AdventureResult) value );
 			}
 
-			if ( value instanceof ItemCreationRequest )
+			if ( value instanceof CreateItemRequest )
 			{
-				return this.getRenderer( defaultComponent, (ItemCreationRequest) value );
+				return this.getRenderer( defaultComponent, (CreateItemRequest) value );
 			}
 
 			if ( value instanceof Concoction )
@@ -1045,7 +1053,7 @@ public class AdventureResult
 			}
 			else
 			{
-				int value = TradeableItemDatabase.getPriceById( ar.getItemId() );
+				int value = ItemDatabase.getPriceById( ar.getItemId() );
 
 				if ( value == 0 )
 				{
@@ -1078,7 +1086,7 @@ public class AdventureResult
 			return defaultComponent;
 		}
 
-		public Component getRenderer( final Component defaultComponent, final ItemCreationRequest icr )
+		public Component getRenderer( final Component defaultComponent, final CreateItemRequest icr )
 		{
 			StringBuffer stringForm = new StringBuffer();
 			stringForm.append( icr.getName() );
@@ -1096,7 +1104,7 @@ public class AdventureResult
 			}
 			else
 			{
-				int value = TradeableItemDatabase.getPriceById( icr.getItemId() );
+				int value = ItemDatabase.getPriceById( icr.getItemId() );
 
 				if ( value == 0 )
 				{
@@ -1171,7 +1179,7 @@ public class AdventureResult
 			};
 
 			AdventureResult ar = (AdventureResult) value;
-			int equipmentType = TradeableItemDatabase.getConsumptionType( ar.getName() );
+			int equipmentType = ItemDatabase.getConsumptionType( ar.getName() );
 
 			int power = EquipmentDatabase.getPower( ar.getName() );
 			String stringForm = null;

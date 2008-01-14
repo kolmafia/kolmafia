@@ -44,8 +44,12 @@ import javax.swing.SwingConstants;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
+import net.sourceforge.kolmafia.request.EquipmentRequest;
+
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+
 public class FamiliarData
-	implements KoLConstants, Comparable
+	implements Comparable
 {
 	public static final FamiliarData NO_FAMILIAR = new FamiliarData( -1 );
 
@@ -67,7 +71,7 @@ public class FamiliarData
 	{
 		this.id = id;
 		this.name = name;
-		this.race = id == -1 ? "(none)" : FamiliarsDatabase.getFamiliarName( id );
+		this.race = id == -1 ? "(none)" : FamiliarDatabase.getFamiliarName( id );
 
 		this.weight = weight;
 		this.item = item;
@@ -78,8 +82,8 @@ public class FamiliarData
 		this.id = StaticEntity.parseInt( dataMatcher.group( 2 ) );
 		this.race = dataMatcher.group( 4 );
 
-		FamiliarsDatabase.registerFamiliar( this.id, this.race );
-		FamiliarsDatabase.setFamiliarImageLocation( this.id, dataMatcher.group( 1 ) );
+		FamiliarDatabase.registerFamiliar( this.id, this.race );
+		FamiliarDatabase.setFamiliarImageLocation( this.id, dataMatcher.group( 1 ) );
 
 		int kills = StaticEntity.parseInt( dataMatcher.group( 5 ) );
 		this.weight = Math.max( Math.min( 20, (int) Math.sqrt( kills ) ), 1 );
@@ -117,7 +121,7 @@ public class FamiliarData
 				"pet rock &quot;Groucho&quot; disguise", 1, false ) :
 
 			// Default familiar equipment
-			new AdventureResult( FamiliarsDatabase.getFamiliarItem( this.id ), 1, false );
+			new AdventureResult( FamiliarDatabase.getFamiliarItem( this.id ), 1, false );
 	}
 
 	public static final void registerFamiliarData( final String searchText )
@@ -262,7 +266,7 @@ public class FamiliarData
 			return false;
 		}
 
-		int skills[] = FamiliarsDatabase.getFamiliarSkills( this.id );
+		int skills[] = FamiliarDatabase.getFamiliarSkills( this.id );
 
 		// If any skill is greater than 0, we can train in that event
 		for ( int i = 0; i < skills.length; ++i )
@@ -344,13 +348,13 @@ public class FamiliarData
 			return this.id == 77;
 
 		default:
-			return item.getName().equals( FamiliarsDatabase.getFamiliarItem( this.id ) );
+			return item.getName().equals( FamiliarDatabase.getFamiliarItem( this.id ) );
 		}
 	}
 
 	public boolean isCombatFamiliar()
 	{
-		if ( FamiliarsDatabase.isCombatType( this.id ) )
+		if ( FamiliarDatabase.isCombatType( this.id ) )
 		{
 			return true;
 		}
@@ -389,7 +393,7 @@ public class FamiliarData
 			}
 
 			FamiliarData familiar = (FamiliarData) value;
-			defaultComponent.setIcon( FamiliarsDatabase.getFamiliarImage( familiar.id ) );
+			defaultComponent.setIcon( FamiliarDatabase.getFamiliarImage( familiar.id ) );
 			defaultComponent.setText( familiar.getName() + ", the " + familiar.getWeight() + " lb. " + familiar.getRace() );
 
 			defaultComponent.setVerticalTextPosition( SwingConstants.CENTER );

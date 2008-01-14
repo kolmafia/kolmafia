@@ -52,6 +52,13 @@ import javax.swing.SwingConstants;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
+import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
+
+import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.LoginRequest;
+
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+
 public class LoginFrame
 	extends KoLFrame
 {
@@ -61,10 +68,10 @@ public class LoginFrame
 	private JComboBox servers;
 	private JComponent usernameField;
 
-	private AutoHighlightField proxyHost;
-	private AutoHighlightField proxyPort;
-	private AutoHighlightField proxyLogin;
-	private AutoHighlightField proxyPassword;
+	private AutoHighlightTextField proxyHost;
+	private AutoHighlightTextField proxyPort;
+	private AutoHighlightTextField proxyLogin;
+	private AutoHighlightTextField proxyPassword;
 
 	public LoginFrame()
 	{
@@ -169,7 +176,7 @@ public class LoginFrame
 
 			boolean useTextField = KoLConstants.saveStateNames.isEmpty();
 			LoginFrame.this.usernameField =
-				useTextField ? (JComponent) new AutoHighlightField() : (JComponent) new LoginNameComboBox();
+				useTextField ? (JComponent) new AutoHighlightTextField() : (JComponent) new LoginNameComboBox();
 			this.passwordField = new JPasswordField();
 
 			this.savePasswordCheckBox = new JCheckBox();
@@ -228,9 +235,9 @@ public class LoginFrame
 			try
 			{
 				String holiday =
-					MoonPhaseDatabase.getHoliday(
+					HolidayDatabase.getHoliday(
 						KoLConstants.DAILY_FORMAT.parse( KoLConstants.DAILY_FORMAT.format( new Date() ) ), true );
-				this.setStatusMessage( KoLDatabase.getDisplayName( holiday + ", " + MoonPhaseDatabase.getMoonEffect() ) );
+				this.setStatusMessage( KoLDatabase.getDisplayName( holiday + ", " + HolidayDatabase.getMoonEffect() ) );
 			}
 			catch ( Exception e )
 			{
@@ -266,9 +273,9 @@ public class LoginFrame
 
 			LoginFrame.this.username = null;
 
-			if ( LoginFrame.this.usernameField instanceof AutoHighlightField )
+			if ( LoginFrame.this.usernameField instanceof AutoHighlightTextField )
 			{
-				LoginFrame.this.username = ( (AutoHighlightField) LoginFrame.this.usernameField ).getText();
+				LoginFrame.this.username = ( (AutoHighlightTextField) LoginFrame.this.usernameField ).getText();
 			}
 			else if ( ( (LoginNameComboBox) LoginFrame.this.usernameField ).getSelectedItem() != null )
 			{
@@ -437,7 +444,7 @@ public class LoginFrame
 			LoginFrame.this.servers.addItem( "Attempt to use dev.kingdomofloathing.com" );
 			LoginFrame.this.servers.addItem( "Attempt to use www.kingdomofloathing.com" );
 
-			for ( int i = 2; i <= KoLRequest.SERVER_COUNT; ++i )
+			for ( int i = 2; i <= GenericRequest.SERVER_COUNT; ++i )
 			{
 				LoginFrame.this.servers.addItem( "Attempt to use www" + i + ".kingdomofloathing.com" );
 			}
@@ -490,7 +497,7 @@ public class LoginFrame
 			}
 
 			LoginRequest.setIgnoreLoadBalancer( this.loadBalancer.isSelected() );
-			KoLRequest.setDelayActive( this.loadDistributer.isSelected() );
+			GenericRequest.setDelayActive( this.loadDistributer.isSelected() );
 		}
 
 		public void actionCancelled()
@@ -505,7 +512,7 @@ public class LoginFrame
 			this.loadDistributer.setSelected( true );
 
 			LoginRequest.setIgnoreLoadBalancer( false );
-			KoLRequest.setDelayActive( true );
+			GenericRequest.setDelayActive( true );
 		}
 
 		public void setEnabled( final boolean isEnabled )
@@ -537,10 +544,10 @@ public class LoginFrame
 		{
 			super( "Proxy Settings", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
-			LoginFrame.this.proxyHost = new AutoHighlightField();
-			LoginFrame.this.proxyPort = new AutoHighlightField();
-			LoginFrame.this.proxyLogin = new AutoHighlightField();
-			LoginFrame.this.proxyPassword = new AutoHighlightField();
+			LoginFrame.this.proxyHost = new AutoHighlightTextField();
+			LoginFrame.this.proxyPort = new AutoHighlightTextField();
+			LoginFrame.this.proxyLogin = new AutoHighlightTextField();
+			LoginFrame.this.proxyPassword = new AutoHighlightTextField();
 
 			VerifiableElement[] elements = new VerifiableElement[ 4 ];
 			elements[ 0 ] = new VerifiableElement( "Host: ", LoginFrame.this.proxyHost );

@@ -51,11 +51,16 @@ import javax.swing.JCheckBox;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.UtilityConstants;
-import net.sourceforge.kolmafia.AdventureDatabase.ChoiceAdventure;
+
+import net.sourceforge.kolmafia.session.CustomCombatManager;
+import net.sourceforge.kolmafia.session.MoodManager;
+
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase.ChoiceAdventure;
 
 public class KoLSettings
 	extends Properties
-	implements KoLConstants
 {
 	private boolean valuesChanged = false;
 	private static final TreeMap checkboxMap = new TreeMap();
@@ -492,7 +497,7 @@ public class KoLSettings
 						model.clear();
 					}
 				}
-				else if ( model != null && TradeableItemDatabase.contains( line ) )
+				else if ( model != null && ItemDatabase.contains( line ) )
 				{
 					item = new AdventureResult( line, 1, false );
 
@@ -529,8 +534,8 @@ public class KoLSettings
 
 		KoLSettings.userSettings = new KoLSettings( username );
 
-		CombatSettings.loadSettings();
-		MoodSettings.restoreDefaults();
+		CustomCombatManager.loadSettings();
+		MoodManager.restoreDefaults();
 	}
 
 	private boolean isGlobal;

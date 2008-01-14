@@ -36,9 +36,42 @@ package net.sourceforge.kolmafia;
 import java.io.PrintStream;
 import java.util.Date;
 
+import net.sourceforge.kolmafia.request.CafeRequest;
+import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
+import net.sourceforge.kolmafia.request.ClanRumpusRequest;
+import net.sourceforge.kolmafia.request.ClanStashRequest;
+import net.sourceforge.kolmafia.request.ClosetRequest;
+import net.sourceforge.kolmafia.request.CoinMasterRequest;
+import net.sourceforge.kolmafia.request.CreateItemRequest;
+import net.sourceforge.kolmafia.request.Crimbo07Request;
+import net.sourceforge.kolmafia.request.DisplayCaseRequest;
+import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.FamiliarRequest;
+import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.request.FriarRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.IslandArenaRequest;
+import net.sourceforge.kolmafia.request.MallPurchaseRequest;
+import net.sourceforge.kolmafia.request.MicroBreweryRequest;
+import net.sourceforge.kolmafia.request.MindControlRequest;
+import net.sourceforge.kolmafia.request.PulverizeRequest;
+import net.sourceforge.kolmafia.request.PvpRequest;
+import net.sourceforge.kolmafia.request.RelayRequest;
+import net.sourceforge.kolmafia.request.SellStuffRequest;
+import net.sourceforge.kolmafia.request.SendGiftRequest;
+import net.sourceforge.kolmafia.request.SendMailRequest;
+import net.sourceforge.kolmafia.request.StyxPixieRequest;
+import net.sourceforge.kolmafia.request.TelescopeRequest;
+import net.sourceforge.kolmafia.request.UneffectRequest;
+import net.sourceforge.kolmafia.request.UntinkerRequest;
+import net.sourceforge.kolmafia.request.UseItemRequest;
+import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.request.ZapRequest;
+
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+
 public class RequestLogger
 	extends NullStream
-	implements KoLConstants
 {
 	public static final RequestLogger INSTANCE = new RequestLogger();
 
@@ -279,7 +312,7 @@ public class RequestLogger
 		RequestLogger.debugStream.println( o.toString() );
 	}
 
-	public static final void registerRequest( final KoLRequest request, final String urlString )
+	public static final void registerRequest( final GenericRequest request, final String urlString )
 	{
 		try
 		{
@@ -296,9 +329,9 @@ public class RequestLogger
 		}
 	}
 
-	private static final void doRegister( final KoLRequest request, final String urlString )
+	private static final void doRegister( final GenericRequest request, final String urlString )
 	{
-		boolean isExternal = request.getClass() == KoLRequest.class || request instanceof LocalRelayRequest;
+		boolean isExternal = request.getClass() == GenericRequest.class || request instanceof RelayRequest;
 
 		// There are some adventures which do not post any
 		// form fields, so handle them first.
@@ -316,7 +349,7 @@ public class RequestLogger
 		}
 
 		// We want to register simple visits to the Bounty Hunter Hunter
-		if ( ( request instanceof CoinmasterRequest || isExternal ) && CoinmasterRequest.registerRequest( urlString ) )
+		if ( ( request instanceof CoinMasterRequest || isExternal ) && CoinMasterRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
@@ -415,13 +448,13 @@ public class RequestLogger
 		}
 
 		// Check individual cafes
-		if ( ( request instanceof MicrobreweryRequest || isExternal ) && MicrobreweryRequest.registerRequest( urlString ) )
+		if ( ( request instanceof MicroBreweryRequest || isExternal ) && MicroBreweryRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
 		}
 
-		if ( ( request instanceof RestaurantRequest || isExternal ) && RestaurantRequest.registerRequest( urlString ) )
+		if ( ( request instanceof ChezSnooteeRequest || isExternal ) && ChezSnooteeRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
@@ -430,13 +463,13 @@ public class RequestLogger
 		// The following lists all the remaining requests in
 		// alphabetical order.
 
-		if ( ( request instanceof ArenaRequest || isExternal ) && ArenaRequest.registerRequest( urlString ) )
+		if ( ( request instanceof IslandArenaRequest || isExternal ) && IslandArenaRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
 		}
 
-		if ( ( request instanceof AutoSellRequest || isExternal ) && AutoSellRequest.registerRequest( urlString ) )
+		if ( ( request instanceof SellStuffRequest || isExternal ) && SellStuffRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
@@ -448,7 +481,7 @@ public class RequestLogger
 			return;
 		}
 
-		if ( ( request instanceof ClanGymRequest || isExternal ) && ClanGymRequest.registerRequest( urlString ) )
+		if ( ( request instanceof ClanRumpusRequest || isExternal ) && ClanRumpusRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
@@ -460,7 +493,7 @@ public class RequestLogger
 			return;
 		}
 
-		if ( ( request instanceof ConsumeItemRequest || isExternal ) && ConsumeItemRequest.registerRequest( urlString ) )
+		if ( ( request instanceof UseItemRequest || isExternal ) && UseItemRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
@@ -478,7 +511,7 @@ public class RequestLogger
 			return;
 		}
 
-		if ( ( request instanceof FlowerHunterRequest || isExternal ) && FlowerHunterRequest.registerRequest( urlString ) )
+		if ( ( request instanceof PvpRequest || isExternal ) && PvpRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
@@ -490,25 +523,25 @@ public class RequestLogger
 			return;
 		}
 
-		if ( ( request instanceof GiftMessageRequest || isExternal ) && GiftMessageRequest.registerRequest( urlString ) )
+		if ( ( request instanceof SendGiftRequest || isExternal ) && SendGiftRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
 		}
 
-		if ( ( request instanceof GreenMessageRequest || isExternal ) && GreenMessageRequest.registerRequest( urlString ) )
+		if ( ( request instanceof SendMailRequest || isExternal ) && SendMailRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
 		}
 
-		if ( ItemCreationRequest.registerRequest( isExternal, urlString ) )
+		if ( CreateItemRequest.registerRequest( isExternal, urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
 		}
 
-		if ( ( request instanceof ItemStorageRequest || isExternal ) && ItemStorageRequest.registerRequest( urlString ) )
+		if ( ( request instanceof ClosetRequest || isExternal ) && ClosetRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
@@ -526,7 +559,7 @@ public class RequestLogger
 			return;
 		}
 
-		if ( ( request instanceof MuseumRequest || isExternal ) && MuseumRequest.registerRequest( urlString ) )
+		if ( ( request instanceof DisplayCaseRequest || isExternal ) && DisplayCaseRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
@@ -544,7 +577,7 @@ public class RequestLogger
 			return;
 		}
 
-		if ( ( request instanceof UncleCrimboRequest || isExternal ) && UncleCrimboRequest.registerRequest( urlString ) )
+		if ( ( request instanceof Crimbo07Request || isExternal ) && Crimbo07Request.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;

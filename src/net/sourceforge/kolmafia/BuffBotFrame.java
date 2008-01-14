@@ -49,6 +49,13 @@ import javax.swing.SwingConstants;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
+import net.sourceforge.kolmafia.session.BuffBotManager;
+import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
+
+import net.sourceforge.kolmafia.request.UseSkillRequest;
+
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
+
 public class BuffBotFrame
 	extends KoLFrame
 {
@@ -136,7 +143,7 @@ public class BuffBotFrame
 		extends KoLPanel
 	{
 		private final JComboBox skillSelect;
-		private final AutoHighlightField priceField, countField;
+		private final AutoHighlightTextField priceField, countField;
 
 		public BuffOptionsPanel()
 		{
@@ -147,7 +154,7 @@ public class BuffBotFrame
 			LockableListModel buffSet = new LockableListModel();
 			for ( int i = 0; ( skill = (UseSkillRequest) skillSet.get( i ) ) != null; ++i )
 			{
-				if ( ClassSkillsDatabase.isBuff( ClassSkillsDatabase.getSkillId( skill.getSkillName() ) ) )
+				if ( SkillDatabase.isBuff( SkillDatabase.getSkillId( skill.getSkillName() ) ) )
 				{
 					buffSet.add( skill );
 				}
@@ -155,8 +162,8 @@ public class BuffBotFrame
 
 			this.skillSelect = new JComboBox( buffSet );
 
-			this.priceField = new AutoHighlightField();
-			this.countField = new AutoHighlightField();
+			this.priceField = new AutoHighlightTextField();
+			this.countField = new AutoHighlightTextField();
 
 			VerifiableElement[] elements = new VerifiableElement[ 3 ];
 			elements[ 0 ] = new VerifiableElement( "Buff to cast: ", this.skillSelect );

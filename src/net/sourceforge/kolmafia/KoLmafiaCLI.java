@@ -50,11 +50,69 @@ import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.UtilityConstants;
 
+import net.sourceforge.kolmafia.KoLConstants.ByteArrayStream;
+import net.sourceforge.kolmafia.session.BuffBotManager;
+import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.CustomCombatManager;
+import net.sourceforge.kolmafia.session.LeafletManager;
+import net.sourceforge.kolmafia.session.MoodManager;
+import net.sourceforge.kolmafia.session.MushroomManager;
+import net.sourceforge.kolmafia.session.NemesisManager;
+import net.sourceforge.kolmafia.session.SorceressLairManager;
+import net.sourceforge.kolmafia.session.StoreManager;
+
+import net.sourceforge.kolmafia.request.BasementRequest;
+import net.sourceforge.kolmafia.request.CampgroundRequest;
+import net.sourceforge.kolmafia.request.CharPaneRequest;
+import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
+import net.sourceforge.kolmafia.request.ClanRumpusRequest;
+import net.sourceforge.kolmafia.request.ClanStashRequest;
+import net.sourceforge.kolmafia.request.ClosetRequest;
+import net.sourceforge.kolmafia.request.CreateItemRequest;
+import net.sourceforge.kolmafia.request.DisplayCaseRequest;
+import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.FamiliarRequest;
+import net.sourceforge.kolmafia.request.FriarRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.HellKitchenRequest;
+import net.sourceforge.kolmafia.request.HermitRequest;
+import net.sourceforge.kolmafia.request.IslandArenaRequest;
+import net.sourceforge.kolmafia.request.LoginRequest;
+import net.sourceforge.kolmafia.request.LogoutRequest;
+import net.sourceforge.kolmafia.request.MicroBreweryRequest;
+import net.sourceforge.kolmafia.request.MindControlRequest;
+import net.sourceforge.kolmafia.request.ProfileRequest;
+import net.sourceforge.kolmafia.request.PulverizeRequest;
+import net.sourceforge.kolmafia.request.PvpRequest;
+import net.sourceforge.kolmafia.request.SellStuffRequest;
+import net.sourceforge.kolmafia.request.SendGiftRequest;
+import net.sourceforge.kolmafia.request.SendMailRequest;
+import net.sourceforge.kolmafia.request.SewerRequest;
+import net.sourceforge.kolmafia.request.ShrineRequest;
+import net.sourceforge.kolmafia.request.StyxPixieRequest;
+import net.sourceforge.kolmafia.request.TelescopeRequest;
+import net.sourceforge.kolmafia.request.TransferItemRequest;
+import net.sourceforge.kolmafia.request.UneffectRequest;
+import net.sourceforge.kolmafia.request.UntinkerRequest;
+import net.sourceforge.kolmafia.request.UseItemRequest;
+import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.request.ZapRequest;
+
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.BuffBotDatabase;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
+
 public class KoLmafiaCLI
 	extends KoLmafia
 {
 	public static final KoLmafiaCLI DEFAULT_SHELL = new KoLmafiaCLI( System.in );
-	private static final KoLRequest AUTO_ATTACKER = new KoLRequest( "account.php?action=autoattack" );
+	private static final GenericRequest AUTO_ATTACKER = new GenericRequest( "account.php?action=autoattack" );
 
 	private static final Pattern HTMLTAG_PATTERN = Pattern.compile( "<.*?>", Pattern.DOTALL );
 	private static final Pattern ASHNAME_PATTERN = Pattern.compile( "\\.ash", Pattern.CASE_INSENSITIVE );
@@ -208,9 +266,9 @@ public class KoLmafiaCLI
 		try
 		{
 			String holiday =
-				MoonPhaseDatabase.getHoliday(
+				HolidayDatabase.getHoliday(
 					KoLConstants.DAILY_FORMAT.parse( KoLConstants.DAILY_FORMAT.format( new Date() ) ), true );
-			KoLmafia.updateDisplay( holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
+			KoLmafia.updateDisplay( holiday + ", " + HolidayDatabase.getMoonEffect() );
 		}
 		catch ( Exception e )
 		{
@@ -519,12 +577,12 @@ public class KoLmafiaCLI
 				KoLConstants.WIN_GAME_TEXT[ KoLConstants.RNG.nextInt( KoLConstants.WIN_GAME_TEXT.length ) ];
 
 			KoLmafia.updateDisplay( "Executing top-secret 'win game' script..." );
-			KoLRequest.delay( 3000 );
+			GenericRequest.delay( 3000 );
 
 			for ( int i = 0; i < messages.length - 1; ++i )
 			{
 				KoLmafia.updateDisplay( messages[ i ] );
-				KoLRequest.delay( 3000 );
+				GenericRequest.delay( 3000 );
 			}
 
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, messages[ messages.length - 1 ] );
@@ -536,8 +594,8 @@ public class KoLmafiaCLI
 
 		if ( line.equalsIgnoreCase( "save as mood" ) )
 		{
-			MoodSettings.minimalSet();
-			MoodSettings.saveSettings();
+			MoodManager.minimalSet();
+			MoodManager.saveSettings();
 			return;
 		}
 
@@ -546,7 +604,7 @@ public class KoLmafiaCLI
 			this.recoverHP();
 
 			SpecialOutfit.createImplicitCheckpoint();
-			MoodSettings.burnExtraMana( true );
+			MoodManager.burnExtraMana( true );
 			SpecialOutfit.restoreImplicitCheckpoint();
 
 			return;
@@ -651,7 +709,7 @@ public class KoLmafiaCLI
 		{
 			if ( parameters.equalsIgnoreCase( "timestamp" ) )
 			{
-				parameters = MoonPhaseDatabase.getCalendarDayAsString( new Date() );
+				parameters = HolidayDatabase.getCalendarDayAsString( new Date() );
 			}
 
 			parameters = StaticEntity.globalStringDelete( StaticEntity.globalStringDelete( parameters, "\n" ), "\r" );
@@ -773,7 +831,7 @@ public class KoLmafiaCLI
 
 			if ( command.equals( "chat" ) )
 			{
-				KoLmafiaGUI.constructFrame( "KoLMessenger" );
+				KoLmafiaGUI.constructFrame( "ChatManager" );
 				return;
 			}
 
@@ -822,12 +880,12 @@ public class KoLmafiaCLI
 
 		// Maybe the person is trying to load a raw URL
 		// to test something without creating a brand new
-		// KoLRequest object to handle it yet?
+		// GenericRequest object to handle it yet?
 
 		if ( command.startsWith( "http:" ) || command.indexOf( ".php" ) != -1 )
 		{
-			KoLRequest visitor = new KoLRequest( this.currentLine );
-			if ( KoLRequest.shouldIgnore( visitor ) )
+			GenericRequest visitor = new GenericRequest( this.currentLine );
+			if ( GenericRequest.shouldIgnore( visitor ) )
 			{
 				return;
 			}
@@ -842,8 +900,8 @@ public class KoLmafiaCLI
 
 		if ( command.equals( "text" ) )
 		{
-			KoLRequest visitor = new KoLRequest( parameters );
-			if ( KoLRequest.shouldIgnore( visitor ) )
+			GenericRequest visitor = new GenericRequest( parameters );
+			if ( GenericRequest.shouldIgnore( visitor ) )
 			{
 				return;
 			}
@@ -909,8 +967,8 @@ public class KoLmafiaCLI
 
 		if ( command.equals( "newdata" ) )
 		{
-			TradeableItemDatabase.findItemDescriptions();
-			StatusEffectDatabase.findStatusEffects();
+			ItemDatabase.findItemDescriptions();
+			EffectDatabase.findStatusEffects();
 			RequestLogger.printLine( "Data tables updated." );
 			return;
 		}
@@ -918,7 +976,7 @@ public class KoLmafiaCLI
 		if ( command.equals( "checkdata" ) )
 		{
 			int itemId = StaticEntity.parseInt( parameters );
-			TradeableItemDatabase.checkInternalData( itemId );
+			ItemDatabase.checkInternalData( itemId );
 			RequestLogger.printLine( "Internal data checked." );
 			return;
 		}
@@ -926,7 +984,7 @@ public class KoLmafiaCLI
 		if ( command.equals( "checkplurals" ) )
 		{
 			int itemId = StaticEntity.parseInt( parameters );
-			TradeableItemDatabase.checkPlurals( itemId );
+			ItemDatabase.checkPlurals( itemId );
 			RequestLogger.printLine( "Plurals checked." );
 			return;
 		}
@@ -988,7 +1046,7 @@ public class KoLmafiaCLI
 		{
 			if ( parameters.equalsIgnoreCase( "timestamp" ) )
 			{
-				parameters = MoonPhaseDatabase.getCalendarDayAsString( new Date() );
+				parameters = HolidayDatabase.getCalendarDayAsString( new Date() );
 			}
 
 			parameters = StaticEntity.globalStringDelete( StaticEntity.globalStringDelete( parameters, "\n" ), "\r" );
@@ -1032,12 +1090,12 @@ public class KoLmafiaCLI
 			{
 				if ( value.indexOf( ";" ) != -1 || value.startsWith( "consult" ) )
 				{
-					CombatSettings.setDefaultAction( value );
+					CustomCombatManager.setDefaultAction( value );
 					value = "custom combat script";
 				}
 				else
 				{
-					value = CombatSettings.getLongCombatOptionName( value );
+					value = CustomCombatManager.getLongCombatOptionName( value );
 				}
 
 				// Special handling of the battle action property,
@@ -1063,13 +1121,13 @@ public class KoLmafiaCLI
 				{
 					String skillName =
 						KoLmafiaCLI.getSkillName(
-							value, ClassSkillsDatabase.getSkillsByType( ClassSkillsDatabase.COMBAT ) );
+							value, SkillDatabase.getSkillsByType( SkillDatabase.COMBAT ) );
 					if ( skillName == null )
 					{
 						return;
 					}
 
-					value = String.valueOf( ClassSkillsDatabase.getSkillId( skillName ) );
+					value = String.valueOf( SkillDatabase.getSkillId( skillName ) );
 				}
 
 				if ( !KoLSettings.getUserProperty( "defaultAutoAttack" ).equals( value ) )
@@ -1086,7 +1144,7 @@ public class KoLmafiaCLI
 					name = name.substring( 0, name.length() - 4 );
 				}
 
-				CombatSettings.setScript( value );
+				CustomCombatManager.setScript( value );
 				return;
 			}
 
@@ -1266,7 +1324,7 @@ public class KoLmafiaCLI
 
 		if ( command.equals( "wiki" ) )
 		{
-			List names = StatusEffectDatabase.getMatchingNames( parameters );
+			List names = EffectDatabase.getMatchingNames( parameters );
 			if ( names.size() == 1 )
 			{
 				AdventureResult result = new AdventureResult( (String) names.get( 0 ), 1, true );
@@ -1307,9 +1365,9 @@ public class KoLmafiaCLI
 				return;
 			}
 
-			KoLRequest visitor =
-				new KoLRequest(
-					"desc_item.php?whichitem=" + TradeableItemDatabase.getDescriptionId( result.getItemId() ) );
+			GenericRequest visitor =
+				new GenericRequest(
+					"desc_item.php?whichitem=" + ItemDatabase.getDescriptionId( result.getItemId() ) );
 
 			RequestThread.postRequest( visitor );
 
@@ -1355,7 +1413,7 @@ public class KoLmafiaCLI
 			}
 			else if ( parameters.equals( "status" ) || parameters.equals( "effects" ) )
 			{
-				RequestThread.postRequest( CharpaneRequest.getInstance() );
+				RequestThread.postRequest( CharPaneRequest.getInstance() );
 			}
 			else if ( parameters.equals( "gear" ) || parameters.startsWith( "equip" ) || parameters.equals( "outfit" ) )
 			{
@@ -1367,7 +1425,7 @@ public class KoLmafiaCLI
 			}
 			else if ( parameters.equals( "storage" ) )
 			{
-				RequestThread.postRequest( new ItemStorageRequest() );
+				RequestThread.postRequest( new ClosetRequest() );
 			}
 			else if ( parameters.equals( "familiar" ) || parameters.equals( "terrarium" ) )
 			{
@@ -1385,11 +1443,11 @@ public class KoLmafiaCLI
 		{
 			if ( KoLCharacter.hasItem( SewerRequest.CLOVER.getInstance( 1 ) ) || KoLCharacter.canInteract() )
 			{
-				SorceressLair.completeCloveredEntryway();
+				SorceressLairManager.completeCloveredEntryway();
 			}
 			else
 			{
-				SorceressLair.completeCloverlessEntryway();
+				SorceressLairManager.completeCloverlessEntryway();
 			}
 
 			return;
@@ -1401,7 +1459,7 @@ public class KoLmafiaCLI
 
 		if ( command.equals( "maze" ) || command.startsWith( "hedge" ) )
 		{
-			SorceressLair.completeHedgeMaze();
+			SorceressLairManager.completeHedgeMaze();
 			return;
 		}
 
@@ -1411,27 +1469,27 @@ public class KoLmafiaCLI
 
 		if ( command.equals( "tower" ) || command.equals( "guardians" ) || command.equals( "chamber" ) )
 		{
-			SorceressLair.fightAllTowerGuardians();
+			SorceressLairManager.fightAllTowerGuardians();
 			return;
 		}
 
 		// Next is the command to rob the strange leaflet.
-		// This method invokes the "robStrangeLeaflet" method
+		// This method invokes the "robLeafletManager" method
 		// on the script requestor.
 
 		if ( command.equals( "leaflet" ) )
 		{
-			StrangeLeaflet.robStrangeLeaflet( !parameters.equals( "nomagic" ) );
+			LeafletManager.robLeafletManager( !parameters.equals( "nomagic" ) );
 			return;
 		}
 
 		// Next is the command to face your nemesis.  This
-		// method invokes the "faceNemesis" method on the
+		// method invokes the "faceNemesisManager" method on the
 		// script requestor.
 
 		if ( command.equals( "nemesis" ) )
 		{
-			Nemesis.faceNemesis();
+			NemesisManager.faceNemesisManager();
 			return;
 		}
 
@@ -1510,11 +1568,11 @@ public class KoLmafiaCLI
 				return;
 			}
 
-			int effectId = StatusEffectDatabase.getEffectId( parameters );
+			int effectId = EffectDatabase.getEffectId( parameters );
 			if ( effectId != -1 )
 			{
-				String effect = StatusEffectDatabase.getEffectName( effectId );
-				String action = MoodSettings.getDefaultAction( "lose_effect", effect );
+				String effect = EffectDatabase.getEffectName( effectId );
+				String action = MoodManager.getDefaultAction( "lose_effect", effect );
 				if ( action.equals( "" ) )
 				{
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "No booster known: " + effect );
@@ -1525,7 +1583,7 @@ public class KoLmafiaCLI
 				return;
 			}
 
-			List names = StatusEffectDatabase.getMatchingNames( parameters );
+			List names = EffectDatabase.getMatchingNames( parameters );
 			if ( names.isEmpty() )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unknown effect: " + parameters );
@@ -1592,7 +1650,7 @@ public class KoLmafiaCLI
 		{
 			for ( int i = 819; i <= 827; ++i )
 			{
-				String potion = TradeableItemDatabase.getItemName( i );
+				String potion = ItemDatabase.getItemName( i );
 				potion = potion.substring( 0, potion.length() - 7 );
 				RequestLogger.printLine( potion + ": " + KoLSettings.getUserProperty( "lastBangPotion" + i ) );
 			}
@@ -1604,8 +1662,8 @@ public class KoLmafiaCLI
 		{
 			for ( int i = 2271; i <= 2276; ++i )
 			{
-				String bottle = TradeableItemDatabase.getItemName( i );
-				String type = TradeableItemDatabase.dustyBottleType( i );
+				String bottle = ItemDatabase.getItemName( i );
+				String type = ItemDatabase.dustyBottleType( i );
 				RequestLogger.printLine( bottle + ": " + type );
 			}
 
@@ -1667,7 +1725,7 @@ public class KoLmafiaCLI
 				}
 			}
 
-			KoLRequest demonSummon = new KoLRequest( "manor3.php" );
+			GenericRequest demonSummon = new GenericRequest( "manor3.php" );
 			demonSummon.addFormField( "action", "summon" );
 			demonSummon.addFormField( "demonname", demon );
 
@@ -1685,7 +1743,7 @@ public class KoLmafiaCLI
 		if ( command.equals( "eat" ) || command.equals( "drink" ) || command.equals( "use" ) || command.equals( "chew" ) || command.equals( "hobo" ) )
 		{
 			SpecialOutfit.createImplicitCheckpoint();
-			this.executeConsumeItemRequest( parameters );
+			this.executeUseItemRequest( parameters );
 			SpecialOutfit.restoreImplicitCheckpoint();
 			return;
 		}
@@ -1768,7 +1826,7 @@ public class KoLmafiaCLI
 
 		if ( command.equals( "sell" ) || command.equals( "autosell" ) )
 		{
-			this.executeAutoSellRequest( parameters );
+			this.executeSellStuffRequest( parameters );
 			return;
 		}
 
@@ -2108,9 +2166,9 @@ public class KoLmafiaCLI
 			}
 
 			KoLmafia.updateDisplay( "Determining current rank..." );
-			RequestThread.postRequest( new FlowerHunterRequest() );
+			RequestThread.postRequest( new PvpRequest() );
 
-			KoLmafiaCLI.executeFlowerHuntRequest( targets, new FlowerHunterRequest(
+			KoLmafiaCLI.executeFlowerHuntRequest( targets, new PvpRequest(
 				parameters, stance, KoLCharacter.canInteract() ? "dignity" : "flowers", "", "" ) );
 
 			RequestThread.closeRequestSequence();
@@ -2186,35 +2244,35 @@ public class KoLmafiaCLI
 		{
 			if ( parameters.equals( "clear" ) )
 			{
-				MoodSettings.removeTriggers( MoodSettings.getTriggers().toArray() );
-				MoodSettings.saveSettings();
+				MoodManager.removeTriggers( MoodManager.getTriggers().toArray() );
+				MoodManager.saveSettings();
 			}
 			else if ( parameters.equals( "autofill" ) )
 			{
-				MoodSettings.maximalSet();
-				MoodSettings.saveSettings();
+				MoodManager.maximalSet();
+				MoodManager.saveSettings();
 			}
 
 			String[] split = parameters.split( "\\s*,\\s*" );
 			if ( split.length == 3 )
 			{
-				MoodSettings.addTrigger( split[ 0 ], split[ 1 ], split.length == 2 ? MoodSettings.getDefaultAction(
+				MoodManager.addTrigger( split[ 0 ], split[ 1 ], split.length == 2 ? MoodManager.getDefaultAction(
 					split[ 0 ], split[ 1 ] ) : split[ 2 ] );
-				MoodSettings.saveSettings();
+				MoodManager.saveSettings();
 			}
 			else if ( split.length == 2 )
 			{
-				MoodSettings.addTrigger( split[ 0 ], split[ 1 ], MoodSettings.getDefaultAction( split[ 0 ], split[ 1 ] ) );
-				MoodSettings.saveSettings();
+				MoodManager.addTrigger( split[ 0 ], split[ 1 ], MoodManager.getDefaultAction( split[ 0 ], split[ 1 ] ) );
+				MoodManager.saveSettings();
 			}
 			else if ( split.length == 1 )
 			{
-				MoodSettings.addTrigger( "lose_effect", split[ 0 ], MoodSettings.getDefaultAction(
+				MoodManager.addTrigger( "lose_effect", split[ 0 ], MoodManager.getDefaultAction(
 					"lose_effect", split[ 0 ] ) );
-				MoodSettings.saveSettings();
+				MoodManager.saveSettings();
 			}
 
-			KoLmafia.printList( MoodSettings.getTriggers() );
+			KoLmafia.printList( MoodManager.getTriggers() );
 			return;
 		}
 
@@ -2224,14 +2282,14 @@ public class KoLmafiaCLI
 
 			if ( parameters.equals( "clear" ) )
 			{
-				MoodSettings.removeTriggers( MoodSettings.getTriggers().toArray() );
-				MoodSettings.saveSettings();
+				MoodManager.removeTriggers( MoodManager.getTriggers().toArray() );
+				MoodManager.saveSettings();
 			}
 			else if ( parameters.equals( "autofill" ) )
 			{
-				MoodSettings.maximalSet();
-				MoodSettings.saveSettings();
-				KoLmafia.printList( MoodSettings.getTriggers() );
+				MoodManager.maximalSet();
+				MoodManager.saveSettings();
+				KoLmafia.printList( MoodManager.getTriggers() );
 			}
 			else if ( parameters.equals( "execute" ) )
 			{
@@ -2241,7 +2299,7 @@ public class KoLmafiaCLI
 				}
 
 				SpecialOutfit.createImplicitCheckpoint();
-				MoodSettings.execute( 0 );
+				MoodManager.execute( 0 );
 				SpecialOutfit.restoreImplicitCheckpoint();
 				RequestLogger.printLine( "Mood swing complete." );
 			}
@@ -2260,7 +2318,7 @@ public class KoLmafiaCLI
 				}
 
 				SpecialOutfit.createImplicitCheckpoint();
-				MoodSettings.execute( multiplicity );
+				MoodManager.execute( multiplicity );
 				SpecialOutfit.restoreImplicitCheckpoint();
 				RequestLogger.printLine( "Mood swing complete." );
 			}
@@ -2275,13 +2333,13 @@ public class KoLmafiaCLI
 				}
 
 				String previousMood = KoLSettings.getUserProperty( "currentMood" );
-				MoodSettings.setMood( parameters );
+				MoodManager.setMood( parameters );
 
 				this.executeCommand( "mood", "repeat " + multiplicity );
 
 				if ( multiplicity > 0 )
 				{
-					MoodSettings.setMood( previousMood );
+					MoodManager.setMood( previousMood );
 				}
 			}
 
@@ -2290,19 +2348,19 @@ public class KoLmafiaCLI
 
 		if ( command.equals( "restaurant" ) )
 		{
-			this.makeRestaurantRequest( parameters );
+			this.makeChezSnooteeRequest( parameters );
 			return;
 		}
 
 		if ( command.indexOf( "brewery" ) != -1 )
 		{
-			this.makeMicrobreweryRequest( parameters );
+			this.makeMicroBreweryRequest( parameters );
 			return;
 		}
 
 		if ( command.indexOf( "kitchen" ) != -1 )
 		{
-			this.makeKitchenRequest( parameters );
+			this.makeHellKitchenRequest( parameters );
 			return;
 		}
 
@@ -2317,7 +2375,7 @@ public class KoLmafiaCLI
 
 		if ( command.equals( "sofa" ) || command.equals( "sleep" ) )
 		{
-			RequestThread.postRequest( ( new ClanGymRequest( ClanGymRequest.SOFA ) ).setTurnCount( StaticEntity.parseInt( parameters ) ) );
+			RequestThread.postRequest( ( new ClanRumpusRequest( ClanRumpusRequest.SOFA ) ).setTurnCount( StaticEntity.parseInt( parameters ) ) );
 			return;
 		}
 
@@ -2450,7 +2508,7 @@ public class KoLmafiaCLI
 
 	private void summarizeFlowerHunterData()
 	{
-		FlowerHunterRequest.processDefenseContests();
+		PvpRequest.processDefenseContests();
 
 		if ( !KoLConstants.ATTACKS_LOCATION.exists() )
 		{
@@ -2519,11 +2577,11 @@ public class KoLmafiaCLI
 			// First, try to figure out whose data is being registered in
 			// this giant spreadsheet.
 
-			Matcher versusMatcher = FlowerHunterRequest.VERSUS_PATTERN.matcher( line );
+			Matcher versusMatcher = PvpRequest.VERSUS_PATTERN.matcher( line );
 			if ( !versusMatcher.find() )
 			{
 				line = KoLDatabase.readLine( attackLog );
-				versusMatcher = FlowerHunterRequest.VERSUS_PATTERN.matcher( line );
+				versusMatcher = PvpRequest.VERSUS_PATTERN.matcher( line );
 
 				if ( !versusMatcher.find() )
 				{
@@ -2535,7 +2593,7 @@ public class KoLmafiaCLI
 				versusMatcher.group( 2 ).equals( "you" ) ? versusMatcher.group( 1 ) : versusMatcher.group( 2 );
 
 			line = KoLDatabase.readLine( attackLog );
-			Matcher minisMatcher = FlowerHunterRequest.MINIS_PATTERN.matcher( line );
+			Matcher minisMatcher = PvpRequest.MINIS_PATTERN.matcher( line );
 
 			if ( !minisMatcher.find() )
 			{
@@ -2626,7 +2684,7 @@ public class KoLmafiaCLI
 		RequestThread.openRequestSequence();
 
 		KoLmafia.updateDisplay( "Determining current rank..." );
-		RequestThread.postRequest( new FlowerHunterRequest() );
+		RequestThread.postRequest( new PvpRequest() );
 
 		int fightsLeft = 0;
 		int stance = 0;
@@ -2647,7 +2705,7 @@ public class KoLmafiaCLI
 		int lastSearch = 0, desiredRank;
 
 		ProfileRequest[] results = null;
-		FlowerHunterRequest request = new FlowerHunterRequest( "", stance, "flowers", "", "" );
+		PvpRequest request = new PvpRequest( "", stance, "flowers", "", "" );
 
 		while ( !KoLmafia.refusesContinue() && fightsLeft != KoLCharacter.getAttacksLeft() && KoLCharacter.getAttacksLeft() > 0 )
 		{
@@ -2657,12 +2715,12 @@ public class KoLmafiaCLI
 			if ( lastSearch != desiredRank )
 			{
 				KoLmafia.updateDisplay( "Determining targets at rank " + desiredRank + "..." );
-				FlowerHunterRequest search = new FlowerHunterRequest( "", String.valueOf( desiredRank ) );
+				PvpRequest search = new PvpRequest( "", String.valueOf( desiredRank ) );
 				RequestThread.postRequest( search );
 
 				lastSearch = desiredRank;
-				results = new ProfileRequest[ FlowerHunterRequest.getSearchResults().size() ];
-				FlowerHunterRequest.getSearchResults().toArray( results );
+				results = new ProfileRequest[ PvpRequest.getSearchResults().size() ];
+				PvpRequest.getSearchResults().toArray( results );
 			}
 
 			KoLmafiaCLI.executeFlowerHuntRequest( results, request );
@@ -2681,7 +2739,7 @@ public class KoLmafiaCLI
 		RequestThread.closeRequestSequence();
 	}
 
-	public static final void executeFlowerHuntRequest( final ProfileRequest[] targets, final FlowerHunterRequest request )
+	public static final void executeFlowerHuntRequest( final ProfileRequest[] targets, final PvpRequest request )
 	{
 		for ( int i = 0; i < targets.length && KoLmafia.permitsContinue() && KoLCharacter.getAttacksLeft() > 0; ++i )
 		{
@@ -2797,21 +2855,21 @@ public class KoLmafiaCLI
 	{
 		if ( !usingStorage )
 		{
-			SendMessageRequest.setUpdateDisplayOnFailure( false );
-			RequestThread.postRequest( new GreenMessageRequest( recipient, message, attachments, isInternal ) );
-			SendMessageRequest.setUpdateDisplayOnFailure( true );
+			TransferItemRequest.setUpdateDisplayOnFailure( false );
+			RequestThread.postRequest( new SendMailRequest( recipient, message, attachments, isInternal ) );
+			TransferItemRequest.setUpdateDisplayOnFailure( true );
 
-			if ( !SendMessageRequest.hadSendMessageFailure() )
+			if ( !TransferItemRequest.hadSendMessageFailure() )
 			{
 				KoLmafia.updateDisplay( "Message sent to " + recipient );
 				return;
 			}
 		}
 
-		List availablePackages = GiftMessageRequest.getPackages();
+		List availablePackages = SendGiftRequest.getPackages();
 		int desiredPackageIndex = Math.min( Math.min( availablePackages.size() - 1, attachments.length ), 5 );
 
-		if ( MoonPhaseDatabase.getHoliday( new Date() ).startsWith( "Valentine's" ) )
+		if ( HolidayDatabase.getHoliday( new Date() ).startsWith( "Valentine's" ) )
 		{
 			desiredPackageIndex = 0;
 		}
@@ -2824,7 +2882,7 @@ public class KoLmafiaCLI
 			KoLmafia.forceContinue();
 		}
 
-		RequestThread.postRequest( new GiftMessageRequest(
+		RequestThread.postRequest( new SendGiftRequest(
 			recipient, message, desiredPackageIndex, attachments, usingStorage ) );
 
 		if ( KoLmafia.permitsContinue() )
@@ -3084,7 +3142,7 @@ public class KoLmafiaCLI
 		Matcher dayMatcher = KoLmafiaCLI.STATDAY_PATTERN.matcher( parameters );
 		if ( dayMatcher.find() )
 		{
-			String statDayToday = MoonPhaseDatabase.getMoonEffect().toLowerCase();
+			String statDayToday = HolidayDatabase.getMoonEffect().toLowerCase();
 			String statDayTest = dayMatcher.group( 2 ).substring( 0, 3 ).toLowerCase();
 
 			return statDayToday.indexOf( statDayTest ) != -1 && statDayToday.indexOf( "bonus" ) != -1 && statDayToday.indexOf( "not " + dayMatcher.group( 1 ) ) == -1;
@@ -3319,7 +3377,7 @@ public class KoLmafiaCLI
 
 	private static final AdventureResult effectParameter( final String parameter )
 	{
-		List potentialEffects = StatusEffectDatabase.getMatchingNames( parameter );
+		List potentialEffects = EffectDatabase.getMatchingNames( parameter );
 		if ( potentialEffects.isEmpty() )
 		{
 			return null;
@@ -3330,7 +3388,7 @@ public class KoLmafiaCLI
 
 	private static final AdventureResult itemParameter( final String parameter )
 	{
-		List potentialItems = TradeableItemDatabase.getMatchingNames( parameter );
+		List potentialItems = ItemDatabase.getMatchingNames( parameter );
 		if ( potentialItems.isEmpty() )
 		{
 			return null;
@@ -3731,7 +3789,7 @@ public class KoLmafiaCLI
 
 	public static final String getCombatSkillName( final String substring )
 	{
-		return KoLmafiaCLI.getSkillName( substring, ClassSkillsDatabase.getSkillsByType( ClassSkillsDatabase.COMBAT ) );
+		return KoLmafiaCLI.getSkillName( substring, SkillDatabase.getSkillsByType( SkillDatabase.COMBAT ) );
 	}
 
 	/**
@@ -3748,15 +3806,15 @@ public class KoLmafiaCLI
 
 		if ( parameterList[ 0 ].startsWith( "boris" ) || parameterList[ 0 ].startsWith( "mus" ) )
 		{
-			heroId = HeroDonationRequest.BORIS;
+			heroId = ShrineRequest.BORIS;
 		}
 		else if ( parameterList[ 0 ].startsWith( "jarl" ) || parameterList[ 0 ].startsWith( "mys" ) )
 		{
-			heroId = HeroDonationRequest.JARLSBERG;
+			heroId = ShrineRequest.JARLSBERG;
 		}
 		else if ( parameterList[ 0 ].startsWith( "pete" ) || parameterList[ 0 ].startsWith( "mox" ) )
 		{
-			heroId = HeroDonationRequest.PETE;
+			heroId = ShrineRequest.PETE;
 		}
 		else
 		{
@@ -3766,7 +3824,7 @@ public class KoLmafiaCLI
 
 		amount = StaticEntity.parseInt( parameterList[ 1 ] );
 		KoLmafia.updateDisplay( "Donating " + amount + " to the shrine..." );
-		RequestThread.postRequest( new HeroDonationRequest( heroId, amount ) );
+		RequestThread.postRequest( new ShrineRequest( heroId, amount ) );
 	}
 
 	/**
@@ -3823,7 +3881,7 @@ public class KoLmafiaCLI
 			}
 
 			// It's not equipped. Choose a slot for it
-			slot = EquipmentRequest.chooseEquipmentSlot( TradeableItemDatabase.getConsumptionType( match.getItemId() ) );
+			slot = EquipmentRequest.chooseEquipmentSlot( ItemDatabase.getConsumptionType( match.getItemId() ) );
 
 			// If it can't be equipped, give up
 			if ( slot == -1 )
@@ -3960,30 +4018,30 @@ public class KoLmafiaCLI
 				StaticEntity.printStackTrace( e );
 			}
 
-			desiredStream.println( CalendarFrame.LONG_FORMAT.format( today ) + " - " + MoonPhaseDatabase.getCalendarDayAsString( today ) );
+			desiredStream.println( CalendarFrame.LONG_FORMAT.format( today ) + " - " + HolidayDatabase.getCalendarDayAsString( today ) );
 			desiredStream.println();
 
-			desiredStream.println( "Ronald: " + MoonPhaseDatabase.getRonaldPhaseAsString() );
-			desiredStream.println( "Grimace: " + MoonPhaseDatabase.getGrimacePhaseAsString() );
+			desiredStream.println( "Ronald: " + HolidayDatabase.getRonaldPhaseAsString() );
+			desiredStream.println( "Grimace: " + HolidayDatabase.getGrimacePhaseAsString() );
 			desiredStream.println();
 
-			String[] holidayPredictions = MoonPhaseDatabase.getHolidayPredictions( today );
+			String[] holidayPredictions = HolidayDatabase.getHolidayPredictions( today );
 			for ( int i = 0; i < holidayPredictions.length; ++i )
 			{
 				desiredStream.println( holidayPredictions[ i ] );
 			}
 
 			desiredStream.println();
-			desiredStream.println( MoonPhaseDatabase.getHoliday( today ) );
-			desiredStream.println( MoonPhaseDatabase.getMoonEffect() );
+			desiredStream.println( HolidayDatabase.getHoliday( today ) );
+			desiredStream.println( HolidayDatabase.getMoonEffect() );
 			desiredStream.println();
 		}
 		else if ( desiredData.equals( "session" ) )
 		{
 			desiredStream.println( "Player: " + KoLCharacter.getUserName() );
-			desiredStream.println( "Session Id: " + KoLRequest.serverCookie );
-			desiredStream.println( "Password Hash: " + KoLRequest.passwordHash );
-			desiredStream.println( "Current Server: " + KoLRequest.KOL_HOST );
+			desiredStream.println( "Session Id: " + GenericRequest.serverCookie );
+			desiredStream.println( "Password Hash: " + GenericRequest.passwordHash );
+			desiredStream.println( "Current Server: " + GenericRequest.KOL_HOST );
 			desiredStream.println();
 		}
 		else if ( desiredData.equals( "status" ) )
@@ -4090,7 +4148,7 @@ public class KoLmafiaCLI
 					mainList = new ArrayList();
 					mainList.addAll( KoLConstants.availableSkills );
 
-					List intersect = ClassSkillsDatabase.getSkillsByType( ClassSkillsDatabase.CASTABLE );
+					List intersect = SkillDatabase.getSkillsByType( SkillDatabase.CASTABLE );
 					mainList.retainAll( intersect );
 					filter = "";
 				}
@@ -4100,7 +4158,7 @@ public class KoLmafiaCLI
 					mainList = new ArrayList();
 					mainList.addAll( KoLConstants.availableSkills );
 
-					List intersect = ClassSkillsDatabase.getSkillsByType( ClassSkillsDatabase.PASSIVE );
+					List intersect = SkillDatabase.getSkillsByType( SkillDatabase.PASSIVE );
 					mainList.retainAll( intersect );
 					filter = "";
 				}
@@ -4110,7 +4168,7 @@ public class KoLmafiaCLI
 					mainList = new ArrayList();
 					mainList.addAll( KoLConstants.availableSkills );
 
-					List intersect = ClassSkillsDatabase.getSkillsByType( ClassSkillsDatabase.SELF_ONLY );
+					List intersect = SkillDatabase.getSkillsByType( SkillDatabase.SELF_ONLY );
 					mainList.retainAll( intersect );
 					filter = "";
 				}
@@ -4120,7 +4178,7 @@ public class KoLmafiaCLI
 					mainList = new ArrayList();
 					mainList.addAll( KoLConstants.availableSkills );
 
-					List intersect = ClassSkillsDatabase.getSkillsByType( ClassSkillsDatabase.BUFF );
+					List intersect = SkillDatabase.getSkillsByType( SkillDatabase.BUFF );
 					mainList.retainAll( intersect );
 					filter = "";
 				}
@@ -4130,7 +4188,7 @@ public class KoLmafiaCLI
 					mainList = new ArrayList();
 					mainList.addAll( KoLConstants.availableSkills );
 
-					List intersect = ClassSkillsDatabase.getSkillsByType( ClassSkillsDatabase.COMBAT );
+					List intersect = SkillDatabase.getSkillsByType( SkillDatabase.COMBAT );
 					mainList.retainAll( intersect );
 					filter = "";
 				}
@@ -4191,7 +4249,7 @@ public class KoLmafiaCLI
 		// First, allow for the person to type without specifying
 		// the amount, if the amount is 1.
 
-		List matchingNames = StatusEffectDatabase.getMatchingNames( parameters );
+		List matchingNames = EffectDatabase.getMatchingNames( parameters );
 
 		if ( matchingNames.size() != 0 )
 		{
@@ -4203,7 +4261,7 @@ public class KoLmafiaCLI
 			String durationString = parameters.split( " " )[ 0 ];
 			String effectNameString = parameters.substring( durationString.length() ).trim();
 
-			matchingNames = StatusEffectDatabase.getMatchingNames( effectNameString );
+			matchingNames = EffectDatabase.getMatchingNames( effectNameString );
 
 			if ( matchingNames.size() == 0 )
 			{
@@ -4246,7 +4304,7 @@ public class KoLmafiaCLI
 
 		if ( nameList.size() == 1 )
 		{
-			return TradeableItemDatabase.getItemId( (String) nameList.get( 0 ) );
+			return ItemDatabase.getItemId( (String) nameList.get( 0 ) );
 		}
 
 		String itemName;
@@ -4262,13 +4320,13 @@ public class KoLmafiaCLI
 		for ( int i = 0; i < nameList.size(); ++i )
 		{
 			itemName = (String) nameList.get( i );
-			itemId = TradeableItemDatabase.getItemId( itemName );
-			useType = TradeableItemDatabase.getConsumptionType( itemId );
+			itemId = ItemDatabase.getItemId( itemName );
+			useType = ItemDatabase.getConsumptionType( itemId );
 
 			switch ( useType )
 			{
-			case CONSUME_EAT:
-			case CONSUME_DRINK:
+			case KoLConstants.CONSUME_EAT:
+			case KoLConstants.CONSUME_DRINK:
 
 				if ( KoLmafiaCLI.isUsageMatch )
 				{
@@ -4278,16 +4336,16 @@ public class KoLmafiaCLI
 
 				break;
 
-			case CONSUME_USE:
-			case MESSAGE_DISPLAY:
-			case INFINITE_USES:
-			case CONSUME_MULTIPLE:
+			case KoLConstants.CONSUME_USE:
+			case KoLConstants.MESSAGE_DISPLAY:
+			case KoLConstants.INFINITE_USES:
+			case KoLConstants.CONSUME_MULTIPLE:
 
 				break;
 
-			case HP_RESTORE:
-			case MP_RESTORE:
-			case HPMP_RESTORE:
+			case KoLConstants.HP_RESTORE:
+			case KoLConstants.MP_RESTORE:
+			case KoLConstants.HPMP_RESTORE:
 
 				restoreList.add( itemName );
 				break;
@@ -4311,8 +4369,8 @@ public class KoLmafiaCLI
 		for ( int i = 0; i < nameList.size(); ++i )
 		{
 			itemName = (String) nameList.get( i );
-			itemId = TradeableItemDatabase.getItemId( itemName );
-			useType = TradeableItemDatabase.getConsumptionType( itemId );
+			itemId = ItemDatabase.getItemId( itemName );
+			useType = ItemDatabase.getConsumptionType( itemId );
 
 			// If this is a food match, and the item you're looking at is
 			// not a food item, then skip it.
@@ -4335,7 +4393,7 @@ public class KoLmafiaCLI
 			// If this is a creatable match, and the item you're looking at is
 			// not a creatable item, then skip it.
 
-			if ( ( KoLmafiaCLI.isCreationMatch || KoLmafiaCLI.isUntinkerMatch ) && ConcoctionsDatabase.getMixingMethod( itemId ) == KoLConstants.NOCREATE )
+			if ( ( KoLmafiaCLI.isCreationMatch || KoLmafiaCLI.isUntinkerMatch ) && ConcoctionDatabase.getMixingMethod( itemId ) == KoLConstants.NOCREATE )
 			{
 				if ( itemId != KoLConstants.MEAT_PASTE && itemId != KoLConstants.MEAT_STACK && itemId != KoLConstants.DENSE_STACK )
 				{
@@ -4350,7 +4408,7 @@ public class KoLmafiaCLI
 
 		if ( nameList.size() == 1 )
 		{
-			return TradeableItemDatabase.getItemId( (String) nameList.get( 0 ) );
+			return ItemDatabase.getItemId( (String) nameList.get( 0 ) );
 		}
 
 		// Always prefer items which start with the search string
@@ -4373,7 +4431,7 @@ public class KoLmafiaCLI
 
 			if ( matchCount == 1 )
 			{
-				return TradeableItemDatabase.getItemId( bestMatch );
+				return ItemDatabase.getItemId( bestMatch );
 			}
 		}
 
@@ -4385,8 +4443,8 @@ public class KoLmafiaCLI
 			for ( int i = 0; i < nameList.size(); ++i )
 			{
 				itemName = (String) nameList.get( i );
-				itemId = TradeableItemDatabase.getItemId( itemName );
-				useType = TradeableItemDatabase.getConsumptionType( itemId );
+				itemId = ItemDatabase.getItemId( itemName );
+				useType = ItemDatabase.getConsumptionType( itemId );
 
 				if ( useType == KoLConstants.MESSAGE_DISPLAY )
 				{
@@ -4396,7 +4454,7 @@ public class KoLmafiaCLI
 
 			if ( nameList.size() == 1 )
 			{
-				return TradeableItemDatabase.getItemId( (String) nameList.get( 0 ) );
+				return ItemDatabase.getItemId( (String) nameList.get( 0 ) );
 			}
 		}
 
@@ -4413,7 +4471,7 @@ public class KoLmafiaCLI
 			itemName = (String) nameList.get( i );
 			if ( !itemName.startsWith( "pix" ) && itemName.endsWith( "candy heart" ) )
 			{
-				return TradeableItemDatabase.getItemId( itemName );
+				return ItemDatabase.getItemId( itemName );
 			}
 		}
 
@@ -4422,7 +4480,7 @@ public class KoLmafiaCLI
 			itemName = (String) nameList.get( i );
 			if ( !itemName.startsWith( "abo" ) && !itemName.startsWith( "yel" ) && itemName.endsWith( "snowcone" ) )
 			{
-				return TradeableItemDatabase.getItemId( itemName );
+				return ItemDatabase.getItemId( itemName );
 			}
 		}
 
@@ -4431,7 +4489,7 @@ public class KoLmafiaCLI
 			itemName = (String) nameList.get( i );
 			if ( itemName.endsWith( "cupcake" ) )
 			{
-				return TradeableItemDatabase.getItemId( itemName );
+				return ItemDatabase.getItemId( itemName );
 			}
 		}
 
@@ -4440,7 +4498,7 @@ public class KoLmafiaCLI
 
 	private static final List getMatchingItemNames( final String itemName )
 	{
-		return TradeableItemDatabase.getMatchingNames( itemName );
+		return ItemDatabase.getMatchingNames( itemName );
 	}
 
 	/**
@@ -4511,7 +4569,7 @@ public class KoLmafiaCLI
 					testProperty = KoLSettings.getUserProperty( "lastBangPotion" + i );
 					if ( !testProperty.equals( "" ) )
 					{
-						testName = TradeableItemDatabase.getItemName( i ) + " of " + testProperty;
+						testName = ItemDatabase.getItemName( i ) + " of " + testProperty;
 						if ( testName.equalsIgnoreCase( parameters ) )
 						{
 							itemId = i;
@@ -4554,7 +4612,7 @@ public class KoLmafiaCLI
 
 		if ( KoLmafiaCLI.isCreationMatch )
 		{
-			ItemCreationRequest instance = ItemCreationRequest.getInstance( firstMatch.getItemId() );
+			CreateItemRequest instance = CreateItemRequest.getInstance( firstMatch.getItemId() );
 			matchCount = instance == null ? 0 : instance.getQuantityPossible();
 		}
 		else
@@ -4742,7 +4800,7 @@ public class KoLmafiaCLI
 				return;
 			}
 
-			MushroomPlot.plantMushroom( square, spore );
+			MushroomManager.plantMushroom( square, spore );
 		}
 		else if ( command.equals( "pick" ) )
 		{
@@ -4755,14 +4813,14 @@ public class KoLmafiaCLI
 			String squareString = split[ 1 ];
 
 			int square = StaticEntity.parseInt( squareString );
-			MushroomPlot.pickMushroom( square, true );
+			MushroomManager.pickMushroom( square, true );
 		}
 		else if ( command.equals( "harvest" ) )
 		{
-			MushroomPlot.harvestMushrooms();
+			MushroomManager.harvestMushrooms();
 		}
 
-		String plot = MushroomPlot.getMushroomPlot( false );
+		String plot = MushroomManager.getMushroomManager( false );
 
 		if ( KoLmafia.permitsContinue() )
 		{
@@ -4773,7 +4831,7 @@ public class KoLmafiaCLI
 			plotDetails.append( KoLConstants.LINE_BREAK );
 			plotDetails.append( "Forecast:" );
 			plotDetails.append( KoLConstants.LINE_BREAK );
-			plotDetails.append( MushroomPlot.getForecastedPlot( false ) );
+			plotDetails.append( MushroomManager.getForecastedPlot( false ) );
 			plotDetails.append( KoLConstants.LINE_BREAK );
 			RequestLogger.printLine( plotDetails.toString() );
 		}
@@ -4832,11 +4890,11 @@ public class KoLmafiaCLI
 
 		// Every telescope shows you the gates.
 		String gates = KoLSettings.getUserProperty( "telescope1" );
-		String[] desc = SorceressLair.findGateByDescription( gates );
+		String[] desc = SorceressLairManager.findGateByDescription( gates );
 		if ( desc != null )
 		{
-			String name = SorceressLair.gateName( desc );
-			String effect = SorceressLair.gateEffect( desc );
+			String name = SorceressLairManager.gateName( desc );
+			String effect = SorceressLairManager.gateEffect( desc );
 			String remedy = desc[ 3 ];
 			RequestLogger.printLine( "Outer gate: " + name + " (" + effect + "/" + remedy + ")" );
 		}
@@ -4849,11 +4907,11 @@ public class KoLmafiaCLI
 		for ( int i = 1; i < upgrades; ++i )
 		{
 			String prop = KoLSettings.getUserProperty( "telescope" + ( i + 1 ) );
-			desc = SorceressLair.findGuardianByDescription( prop );
+			desc = SorceressLairManager.findGuardianByDescription( prop );
 			if ( desc != null )
 			{
-				String name = SorceressLair.guardianName( desc );
-				String item = SorceressLair.guardianItem( desc );
+				String name = SorceressLairManager.guardianName( desc );
+				String item = SorceressLairManager.guardianItem( desc );
 				RequestLogger.printLine( "Tower Guardian #" + i + ": " + name + " (" + item + ")" );
 			}
 			else
@@ -4910,7 +4968,7 @@ public class KoLmafiaCLI
 	}
 
 	/**
-	 * A special module used specifically for properly instantiating ItemStorageRequests which pulls things from
+	 * A special module used specifically for properly instantiating ClosetRequests which pulls things from
 	 * Hagnk's.
 	 */
 
@@ -4937,8 +4995,8 @@ public class KoLmafiaCLI
 		{
 			if ( ( (AdventureResult) items[ i ] ).getName().equals( AdventureResult.MEAT ) )
 			{
-				RequestThread.postRequest( new ItemStorageRequest(
-					( (AdventureResult) items[ i ] ).getCount(), ItemStorageRequest.PULL_MEAT_FROM_STORAGE ) );
+				RequestThread.postRequest( new ClosetRequest(
+					( (AdventureResult) items[ i ] ).getCount(), ClosetRequest.PULL_MEAT_FROM_STORAGE ) );
 
 				items[ i ] = null;
 				++meatAttachmentCount;
@@ -4969,7 +5027,7 @@ public class KoLmafiaCLI
 			}
 		}
 
-		RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.STORAGE_TO_INVENTORY, items ) );
+		RequestThread.postRequest( new ClosetRequest( ClosetRequest.STORAGE_TO_INVENTORY, items ) );
 	}
 
 	/**
@@ -5009,8 +5067,8 @@ public class KoLmafiaCLI
 		{
 			if ( ( (AdventureResult) itemList[ i ] ).getName().equals( AdventureResult.MEAT ) )
 			{
-				RequestThread.postRequest( new ItemStorageRequest(
-					parameters.startsWith( "take" ) ? ItemStorageRequest.MEAT_TO_INVENTORY : ItemStorageRequest.MEAT_TO_CLOSET,
+				RequestThread.postRequest( new ClosetRequest(
+					parameters.startsWith( "take" ) ? ClosetRequest.MEAT_TO_INVENTORY : ClosetRequest.MEAT_TO_CLOSET,
 					( (AdventureResult) itemList[ i ] ).getCount() ) );
 
 				itemList[ i ] = null;
@@ -5023,13 +5081,13 @@ public class KoLmafiaCLI
 			return;
 		}
 
-		RequestThread.postRequest( new ItemStorageRequest(
-			parameters.startsWith( "take" ) ? ItemStorageRequest.CLOSET_TO_INVENTORY : ItemStorageRequest.INVENTORY_TO_CLOSET,
+		RequestThread.postRequest( new ClosetRequest(
+			parameters.startsWith( "take" ) ? ClosetRequest.CLOSET_TO_INVENTORY : ClosetRequest.INVENTORY_TO_CLOSET,
 			itemList ) );
 	}
 
 	/**
-	 * A special module used specifically for properly instantiating AutoSellRequests which send things to the mall.
+	 * A special module used specifically for properly instantiating SellStuffRequests which send things to the mall.
 	 */
 
 	private void executeMallSellRequest( final String parameters )
@@ -5110,14 +5168,14 @@ public class KoLmafiaCLI
 			}
 		}
 
-		RequestThread.postRequest( new AutoSellRequest( items, prices, limits, AutoSellRequest.AUTOMALL ) );
+		RequestThread.postRequest( new SellStuffRequest( items, prices, limits, SellStuffRequest.AUTOMALL ) );
 	}
 
 	/**
-	 * A special module used specifically for properly instantiating AutoSellRequests for just autoselling items.
+	 * A special module used specifically for properly instantiating SellStuffRequests for just autoselling items.
 	 */
 
-	private void executeAutoSellRequest( final String parameters )
+	private void executeSellStuffRequest( final String parameters )
 	{
 		Object[] items = this.getMatchingItemList( parameters );
 		if ( items.length == 0 )
@@ -5125,7 +5183,7 @@ public class KoLmafiaCLI
 			return;
 		}
 
-		RequestThread.postRequest( new AutoSellRequest( items, AutoSellRequest.AUTOSELL ) );
+		RequestThread.postRequest( new SellStuffRequest( items, SellStuffRequest.AUTOSELL ) );
 	}
 
 	/**
@@ -5162,7 +5220,7 @@ public class KoLmafiaCLI
 	{
 		if ( parameters.equals( "" ) )
 		{
-			KoLmafia.printList( ConcoctionsDatabase.getCreatables() );
+			KoLmafia.printList( ConcoctionDatabase.getCreatables() );
 			return;
 		}
 
@@ -5171,7 +5229,7 @@ public class KoLmafiaCLI
 		KoLmafiaCLI.isCreationMatch = false;
 
 		AdventureResult currentMatch;
-		ItemCreationRequest irequest;
+		CreateItemRequest irequest;
 
 		for ( int i = 0; i < itemList.length; ++i )
 		{
@@ -5181,23 +5239,23 @@ public class KoLmafiaCLI
 				continue;
 			}
 
-			irequest = ItemCreationRequest.getInstance( currentMatch.getItemId() );
+			irequest = CreateItemRequest.getInstance( currentMatch.getItemId() );
 
 			if ( irequest == null )
 			{
-				switch ( ConcoctionsDatabase.getMixingMethod( currentMatch.getItemId() ) )
+				switch ( ConcoctionDatabase.getMixingMethod( currentMatch.getItemId() ) )
 				{
-				case COOK:
-				case COOK_REAGENT:
-				case SUPER_REAGENT:
-				case COOK_PASTA:
+				case KoLConstants.COOK:
+				case KoLConstants.COOK_REAGENT:
+				case KoLConstants.SUPER_REAGENT:
+				case KoLConstants.COOK_PASTA:
 
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You cannot cook without a chef-in-the-box." );
 					return;
 
-				case MIX:
-				case MIX_SPECIAL:
-				case MIX_SUPER:
+				case KoLConstants.MIX:
+				case KoLConstants.MIX_SPECIAL:
+				case KoLConstants.MIX_SUPER:
 
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You cannot mix without a bartender-in-the-box." );
 					return;
@@ -5215,18 +5273,18 @@ public class KoLmafiaCLI
 	}
 
 	/**
-	 * A special module used specifically for properly instantiating ConsumeItemRequests.
+	 * A special module used specifically for properly instantiating UseItemRequests.
 	 */
 
-	private void executeConsumeItemRequest( final String parameters )
+	private void executeUseItemRequest( final String parameters )
 	{
 		if ( this.currentLine.startsWith( "eat" ) )
 		{
-			if ( this.makeKitchenRequest( parameters ) )
+			if ( this.makeHellKitchenRequest( parameters ) )
 			{
 				return;
 			}
-			if ( this.makeRestaurantRequest( parameters ) )
+			if ( this.makeChezSnooteeRequest( parameters ) )
 			{
 				return;
 			}
@@ -5234,11 +5292,11 @@ public class KoLmafiaCLI
 
 		if ( this.currentLine.startsWith( "drink" ) )
 		{
-			if ( this.makeKitchenRequest( parameters ) )
+			if ( this.makeHellKitchenRequest( parameters ) )
 			{
 				return;
 			}
-			if ( this.makeMicrobreweryRequest( parameters ) )
+			if ( this.makeMicroBreweryRequest( parameters ) )
 			{
 				return;
 			}
@@ -5265,7 +5323,7 @@ public class KoLmafiaCLI
 
 			if ( this.currentLine.startsWith( "eat" ) )
 			{
-				if ( TradeableItemDatabase.getConsumptionType( currentMatch.getItemId() ) != KoLConstants.CONSUME_EAT )
+				if ( ItemDatabase.getConsumptionType( currentMatch.getItemId() ) != KoLConstants.CONSUME_EAT )
 				{
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, currentMatch.getName() + " cannot be consumed." );
 					return;
@@ -5274,7 +5332,7 @@ public class KoLmafiaCLI
 
 			if ( this.currentLine.startsWith( "drink" ) || this.currentLine.startsWith( "hobo" ) )
 			{
-				if ( TradeableItemDatabase.getConsumptionType( currentMatch.getItemId() ) != KoLConstants.CONSUME_DRINK )
+				if ( ItemDatabase.getConsumptionType( currentMatch.getItemId() ) != KoLConstants.CONSUME_DRINK )
 				{
 					KoLmafia.updateDisplay(
 						KoLConstants.ERROR_STATE, currentMatch.getName() + " is not an alcoholic beverage." );
@@ -5284,20 +5342,20 @@ public class KoLmafiaCLI
 
 			if ( this.currentLine.startsWith( "use" ) )
 			{
-				switch ( TradeableItemDatabase.getConsumptionType( currentMatch.getItemId() ) )
+				switch ( ItemDatabase.getConsumptionType( currentMatch.getItemId() ) )
 				{
-				case CONSUME_EAT:
+				case KoLConstants.CONSUME_EAT:
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, currentMatch.getName() + " must be eaten." );
 					return;
-				case CONSUME_DRINK:
+				case KoLConstants.CONSUME_DRINK:
 					KoLmafia.updateDisplay(
 						KoLConstants.ERROR_STATE, currentMatch.getName() + " is an alcoholic beverage." );
 					return;
 				}
 			}
 
-			ConsumeItemRequest request =
-				!this.currentLine.startsWith( "hobo" ) ? new ConsumeItemRequest( currentMatch ) : new ConsumeItemRequest(
+			UseItemRequest request =
+				!this.currentLine.startsWith( "hobo" ) ? new UseItemRequest( currentMatch ) : new UseItemRequest(
 					KoLConstants.CONSUME_HOBO, currentMatch );
 
 			RequestThread.postRequest( request );
@@ -5312,7 +5370,7 @@ public class KoLmafiaCLI
 	{
 		if ( KoLConstants.collection.isEmpty() )
 		{
-			RequestThread.postRequest( new MuseumRequest() );
+			RequestThread.postRequest( new DisplayCaseRequest() );
 		}
 
 		if ( parameters.length() == 0 )
@@ -5340,7 +5398,7 @@ public class KoLmafiaCLI
 			return;
 		}
 
-		RequestThread.postRequest( new MuseumRequest( items, !parameters.startsWith( "take" ) ) );
+		RequestThread.postRequest( new DisplayCaseRequest( items, !parameters.startsWith( "take" ) ) );
 	}
 
 	/**
@@ -5467,7 +5525,7 @@ public class KoLmafiaCLI
 
 	public void executeUneffectRequest( final String parameters )
 	{
-		List matchingEffects = StatusEffectDatabase.getMatchingNames( parameters );
+		List matchingEffects = EffectDatabase.getMatchingNames( parameters );
 		if ( matchingEffects.isEmpty() )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unknown effect: " + parameters );
@@ -5617,15 +5675,15 @@ public class KoLmafiaCLI
 
 	public void executeArenaRequest( final String parameters )
 	{
-		ArenaRequest request = null;
+		IslandArenaRequest request = null;
 
 		if ( Character.isDigit( parameters.charAt( 0 ) ) )
 		{
-			request = new ArenaRequest( StaticEntity.parseInt( parameters ) );
+			request = new IslandArenaRequest( StaticEntity.parseInt( parameters ) );
 		}
 		else
 		{
-			request = new ArenaRequest( parameters );
+			request = new IslandArenaRequest( parameters );
 		}
 
 		RequestThread.postRequest( request );
@@ -5749,7 +5807,7 @@ public class KoLmafiaCLI
 	 * an error.
 	 */
 
-	public boolean makeKitchenRequest( final String parameters )
+	public boolean makeHellKitchenRequest( final String parameters )
 	{
 		if ( !KoLCharacter.inBadMoon() )
 		{
@@ -5758,7 +5816,7 @@ public class KoLmafiaCLI
 
 		if ( KoLConstants.kitchenItems.isEmpty() )
 		{
-			KitchenRequest.getMenu();
+			HellKitchenRequest.getMenu();
 		}
 
 		if ( parameters.equals( "" ) )
@@ -5791,7 +5849,7 @@ public class KoLmafiaCLI
 			{
 				if ( name.equals( "Imp Ale" ) )
 				{
-					int inebriety = TradeableItemDatabase.getInebriety( name );
+					int inebriety = ItemDatabase.getInebriety( name );
 					if ( inebriety > 0 )
 					{
 						count = ( KoLCharacter.getInebrietyLimit() - KoLCharacter.getInebriety() ) / inebriety;
@@ -5799,7 +5857,7 @@ public class KoLmafiaCLI
 				}
 				else
 				{
-					int fullness = TradeableItemDatabase.getFullness( name );
+					int fullness = ItemDatabase.getFullness( name );
 					if ( fullness > 0 )
 					{
 						count = ( KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness() ) / fullness;
@@ -5809,7 +5867,7 @@ public class KoLmafiaCLI
 
 			for ( int j = 0; j < count; ++j )
 			{
-				RequestThread.postRequest( new KitchenRequest( name ) );
+				RequestThread.postRequest( new HellKitchenRequest( name ) );
 			}
 
 			return true;
@@ -5823,7 +5881,7 @@ public class KoLmafiaCLI
 	 * an error.
 	 */
 
-	public boolean makeRestaurantRequest( final String parameters )
+	public boolean makeChezSnooteeRequest( final String parameters )
 	{
 		if ( !KoLCharacter.inMysticalitySign() )
 		{
@@ -5832,12 +5890,12 @@ public class KoLmafiaCLI
 
 		if ( KoLConstants.restaurantItems.isEmpty() )
 		{
-			RestaurantRequest.getMenu();
+			ChezSnooteeRequest.getMenu();
 		}
 
 		if ( parameters.equals( "" ) )
 		{
-			RequestLogger.printLine( "Today's Special: " + RestaurantRequest.getDailySpecial() );
+			RequestLogger.printLine( "Today's Special: " + ChezSnooteeRequest.getDailySpecial() );
 			return false;
 		}
 
@@ -5847,7 +5905,7 @@ public class KoLmafiaCLI
 
 		if ( nameString.equalsIgnoreCase( "daily special" ) )
 		{
-			nameString = RestaurantRequest.getDailySpecial().getName().toLowerCase();
+			nameString = ChezSnooteeRequest.getDailySpecial().getName().toLowerCase();
 		}
 
 		for ( int i = 0; i < KoLConstants.restaurantItems.size(); ++i )
@@ -5869,7 +5927,7 @@ public class KoLmafiaCLI
 
 			if ( count == 0 )
 			{
-				int fullness = TradeableItemDatabase.getFullness( name );
+				int fullness = ItemDatabase.getFullness( name );
 				if ( fullness > 0 )
 				{
 					count = ( KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness() ) / fullness;
@@ -5878,7 +5936,7 @@ public class KoLmafiaCLI
 
 			for ( int j = 0; j < count; ++j )
 			{
-				RequestThread.postRequest( new RestaurantRequest( name ) );
+				RequestThread.postRequest( new ChezSnooteeRequest( name ) );
 			}
 
 			return true;
@@ -5892,7 +5950,7 @@ public class KoLmafiaCLI
 	 * report an error.
 	 */
 
-	public boolean makeMicrobreweryRequest( final String parameters )
+	public boolean makeMicroBreweryRequest( final String parameters )
 	{
 		if ( !KoLCharacter.inMoxieSign() )
 		{
@@ -5901,12 +5959,12 @@ public class KoLmafiaCLI
 
 		if ( KoLConstants.microbreweryItems.isEmpty() )
 		{
-			MicrobreweryRequest.getMenu();
+			MicroBreweryRequest.getMenu();
 		}
 
 		if ( parameters.equals( "" ) )
 		{
-			RequestLogger.printLine( "Today's Special: " + MicrobreweryRequest.getDailySpecial() );
+			RequestLogger.printLine( "Today's Special: " + MicroBreweryRequest.getDailySpecial() );
 			return false;
 		}
 
@@ -5916,7 +5974,7 @@ public class KoLmafiaCLI
 
 		if ( nameString.equalsIgnoreCase( "daily special" ) )
 		{
-			nameString = MicrobreweryRequest.getDailySpecial().getName().toLowerCase();
+			nameString = MicroBreweryRequest.getDailySpecial().getName().toLowerCase();
 		}
 
 		for ( int i = 0; i < KoLConstants.microbreweryItems.size(); ++i )
@@ -5938,7 +5996,7 @@ public class KoLmafiaCLI
 
 			if ( count == 0 )
 			{
-				int inebriety = TradeableItemDatabase.getInebriety( name );
+				int inebriety = ItemDatabase.getInebriety( name );
 				if ( inebriety > 0 )
 				{
 					count = ( KoLCharacter.getInebrietyLimit() - KoLCharacter.getInebriety() ) / inebriety;
@@ -5947,7 +6005,7 @@ public class KoLmafiaCLI
 
 			for ( int j = 0; j < count; ++j )
 			{
-				RequestThread.postRequest( new MicrobreweryRequest( name ) );
+				RequestThread.postRequest( new MicroBreweryRequest( name ) );
 			}
 
 			return true;

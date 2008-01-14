@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 import java.awt.BorderLayout;
 import java.awt.event.MouseEvent;
 
+import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -46,6 +47,8 @@ import tab.CloseTabbedPane;
 
 import com.sun.java.forums.CloseableTabbedPane;
 import com.sun.java.forums.CloseableTabbedPaneListener;
+
+import net.sourceforge.kolmafia.session.ChatManager;
 
 public class TabbedChatFrame
 	extends ChatFrame
@@ -59,14 +62,14 @@ public class TabbedChatFrame
 	{
 		this.commandLineDisplay = new ChatPanel( ChatFrame.GCLI_TAB );
 		TabbedChatFrame.addGCLI = KoLSettings.getBooleanProperty( "addChatCommandLine" );
-		KoLMessenger.setTabbedFrame( this );
+		ChatManager.setTabbedFrame( this );
 
 		this.setTitle( "Loathing Chat" );
 	}
 
-	public UnfocusedTabbedPane getTabbedPane()
+	public JTabbedPane getTabbedPane()
 	{
-		return KoLSettings.getBooleanProperty( "useShinyTabbedChat" ) ? (UnfocusedTabbedPane) new CloseTabbedPane() : (UnfocusedTabbedPane) new CloseableTabbedPane();
+		return KoLSettings.getBooleanProperty( "useShinyTabbedChat" ) ? (JTabbedPane) new CloseTabbedPane() : (JTabbedPane) new CloseableTabbedPane();
 	}
 
 	/**
@@ -97,7 +100,7 @@ public class TabbedChatFrame
 		int selectedIndex = this.tabs.getSelectedIndex();
 		if ( selectedIndex != -1 && selectedIndex != this.tabs.getTabCount() - 1 )
 		{
-			KoLMessenger.setUpdateChannel( this.tabs.getTitleAt( selectedIndex ).trim() );
+			ChatManager.setUpdateChannel( this.tabs.getTitleAt( selectedIndex ).trim() );
 		}
 	}
 
@@ -115,7 +118,7 @@ public class TabbedChatFrame
 			return false;
 		}
 
-		KoLMessenger.removeChat( toRemove );
+		ChatManager.removeChat( toRemove );
 		return true;
 	}
 
@@ -182,7 +185,7 @@ public class TabbedChatFrame
 	public void dispose()
 	{
 		super.dispose();
-		KoLMessenger.dispose();
+		ChatManager.dispose();
 
 		if ( this.tabs != null )
 		{
