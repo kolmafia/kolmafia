@@ -351,8 +351,8 @@ public class ChoiceOptionsPanel
 		}
 	}
 
-            private class OceanDestinationComboBox
-                    extends JComboBox
+	private class OceanDestinationComboBox
+		extends JComboBox
 	{
 		public OceanDestinationComboBox()
 		{
