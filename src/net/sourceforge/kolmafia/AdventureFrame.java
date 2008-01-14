@@ -157,7 +157,9 @@ public class AdventureFrame
 	{
 		super.getSouthernTabs();
 		this.tabs.insertTab( "Overview", null, this.getAdventureSummary(), null, 0 );
-		this.tabs.insertTab( "Choice Advs", null, new SimpleScrollPane( new ChoiceOptionsPanel() ), null, 1 );
+		ChoiceOptionsPanel choicePanel = new ChoiceOptionsPanel();
+		this.tabs.insertTab( "Choice Advs", null, new SimpleScrollPane( choicePanel ), null, 1 );
+		AdventureFrame.this.locationSelect.addListSelectionListener( choicePanel.getUpdateListener() );
 		return this.tabs;
 	}
 
