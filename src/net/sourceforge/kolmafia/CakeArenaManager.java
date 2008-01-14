@@ -38,6 +38,8 @@ import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
+import net.sourceforge.kolmafia.request.CakeArenaRequest;
+
 public class CakeArenaManager
 	extends StaticEntity
 {

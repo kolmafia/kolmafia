@@ -51,12 +51,19 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 
+import com.sun.java.forums.TableSorter;
+
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
-import net.sourceforge.kolmafia.StoreManager.SoldItem;
 
-import com.sun.java.forums.TableSorter;
+import net.sourceforge.kolmafia.session.StoreManager;
+import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
+
+import net.sourceforge.kolmafia.request.ManageStoreRequest;
+import net.sourceforge.kolmafia.request.SellStuffRequest;
+
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 public class StoreManageFrame
 	extends KoLPanelFrame
@@ -155,7 +162,7 @@ public class StoreManageFrame
 			for ( int i = 0; i < rowCount; ++i )
 			{
 				itemId[ i ] =
-					TradeableItemDatabase.getItemId( (String) StoreManageFrame.this.manageTable.getValueAt( i, 0 ) );
+					ItemDatabase.getItemId( (String) StoreManageFrame.this.manageTable.getValueAt( i, 0 ) );
 				prices[ i ] = ( (Integer) StoreManageFrame.this.manageTable.getValueAt( i, 1 ) ).intValue();
 
 				int oldLimit = 0;
@@ -174,7 +181,7 @@ public class StoreManageFrame
 						1, oldLimit ) : 0;
 			}
 
-			RequestThread.postRequest( new StoreManageRequest( itemId, prices, limits ) );
+			RequestThread.postRequest( new ManageStoreRequest( itemId, prices, limits ) );
 		}
 
 		public void actionCancelled()
@@ -337,7 +344,7 @@ public class StoreManageFrame
 			StoreManageFrame.this.addTable.setValueAt( new Integer( 0 ), 0, 1 );
 			StoreManageFrame.this.addTable.setValueAt( new Integer( 0 ), 0, 3 );
 
-			RequestThread.postRequest( new AutoSellRequest( soldItem, price, limit ) );
+			RequestThread.postRequest( new SellStuffRequest( soldItem, price, limit ) );
 		}
 	}
 
@@ -390,13 +397,13 @@ public class StoreManageFrame
 		public RemoveItemButton( final String itemName )
 		{
 			super( JComponentUtilities.getImage( "icon_error_sml.gif" ) );
-			this.itemId = TradeableItemDatabase.getItemId( itemName );
+			this.itemId = ItemDatabase.getItemId( itemName );
 			this.setToolTipText( "remove item from store" );
 		}
 
 		public void mouseReleased( final MouseEvent e )
 		{
-			RequestThread.postRequest( new StoreManageRequest( this.itemId ) );
+			RequestThread.postRequest( new ManageStoreRequest( this.itemId ) );
 		}
 	}
 
@@ -422,15 +429,15 @@ public class StoreManageFrame
 			}
 
 			RequestThread.openRequestSequence();
-			RequestThread.postRequest( new AutoSellRequest( items, AutoSellRequest.AUTOMALL ) );
-			RequestThread.postRequest( new StoreManageRequest( false ) );
+			RequestThread.postRequest( new SellStuffRequest( items, SellStuffRequest.AUTOMALL ) );
+			RequestThread.postRequest( new ManageStoreRequest( false ) );
 			RequestThread.closeRequestSequence();
 		}
 
 		public void actionCancelled()
 		{
 			Object[] items = this.getDesiredItems( "Autosell" );
-			RequestThread.postRequest( new AutoSellRequest( items, AutoSellRequest.AUTOSELL ) );
+			RequestThread.postRequest( new SellStuffRequest( items, SellStuffRequest.AUTOSELL ) );
 		}
 	}
 
@@ -467,10 +474,10 @@ public class StoreManageFrame
 
 			for ( int i = 0; i < items.length; ++i )
 			{
-				RequestThread.postRequest( new StoreManageRequest( ( (SoldItem) items[ i ] ).getItemId() ) );
+				RequestThread.postRequest( new ManageStoreRequest( ( (SoldItem) items[ i ] ).getItemId() ) );
 			}
 
-			RequestThread.postRequest( new StoreManageRequest() );
+			RequestThread.postRequest( new ManageStoreRequest() );
 
 			if ( autoSellAfter )
 			{
@@ -482,7 +489,7 @@ public class StoreManageFrame
 							( (SoldItem) items[ i ] ).getItemId(), ( (SoldItem) items[ i ] ).getQuantity() );
 				}
 
-				RequestThread.postRequest( new AutoSellRequest( itemsToSell, AutoSellRequest.AUTOSELL ) );
+				RequestThread.postRequest( new SellStuffRequest( itemsToSell, SellStuffRequest.AUTOSELL ) );
 			}
 		}
 	}
@@ -529,7 +536,7 @@ public class StoreManageFrame
 		public void actionConfirmed()
 		{
 			StoreManager.getStoreLog().clear();
-			RequestThread.postRequest( new StoreManageRequest( true ) );
+			RequestThread.postRequest( new ManageStoreRequest( true ) );
 		}
 
 		public void actionCancelled()
@@ -549,7 +556,7 @@ public class StoreManageFrame
 			}
 
 			int itemId = ( (AdventureResult) element ).getItemId();
-			return itemId < 1 || TradeableItemDatabase.isTradeable( itemId );
+			return itemId < 1 || ItemDatabase.isTradeable( itemId );
 		}
 	}
 }

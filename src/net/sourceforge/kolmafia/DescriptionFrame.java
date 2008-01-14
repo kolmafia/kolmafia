@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia;
 
+import net.sourceforge.kolmafia.request.GenericRequest;
+
 public class DescriptionFrame
 	extends RequestFrame
 {
@@ -60,7 +62,7 @@ public class DescriptionFrame
 		DescriptionFrame.showRequest( RequestEditorKit.extractRequest( location ) );
 	}
 
-	public static final void showRequest( final KoLRequest request )
+	public static final void showRequest( final GenericRequest request )
 	{
 		if ( DescriptionFrame.INSTANCE == null )
 		{

@@ -112,11 +112,25 @@
 	</target>
 
 
+	<!-- ========================================== -->
+	<!--  generate a zipped TAR of the source code  -->
+	<!-- ========================================== -->
+
+	<target name="tar" depends="init">
+
+		<tar destfile="${tarfile}" basedir="${root}" compression="gzip">
+			<exclude name="build/**"/>
+			<exclude name="dist/**"/>
+		</tar>
+
+	</target>
+
+
 	<!-- =========================== -->
 	<!--  generate the standard JAR  -->
 	<!-- =========================== -->
 
-	<target name="createjar" depends="init,compile">
+	<target name="jar" depends="init,compile">
 
 		<jar destfile="${jarfile}" basedir="${build}" update="true" index="yes">
 			<manifest>
@@ -131,7 +145,7 @@
 	<!--  generate the standard EXE  -->
 	<!-- =========================== -->
 
-	<target name="jsmooth" depends="init,update,createjar">
+	<target name="jsmooth" depends="init,update,jar">
 
 		<exec executable="jsmoothcmd" failifexecutionfails="false" os="Windows XP">
 			<arg value="${lib}/build.jsmooth"/>
@@ -149,7 +163,7 @@
 		<replace file="${src}/net/sourceforge/kolmafia/KoLConstants.java"
 			token="REVISION = null" value='REVISION = "${revision}"'/>
 
-		<antcall target="createjar"/>
+		<antcall target="jar"/>
 
 		<replace file="${src}/net/sourceforge/kolmafia/KoLConstants.java"
 			token='REVISION = "${revision}"' value="REVISION = null"/>
@@ -186,13 +200,9 @@
 
 	<target name="dist" depends="clean,init,update">
 
-		<antcall target="createjar"/>
+		<antcall target="tar"/>
+		<antcall target="jar"/>
 		<antcall target="jsmooth"/>
-
-		<tar destfile="${tarfile}" basedir="${root}" compression="gzip">
-			<exclude name="build/**"/>
-			<exclude name="dist/**"/>
-		</tar>
 
 	</target>
 
@@ -201,7 +211,7 @@
 	<!--  runs program with all needed libraries in the path  -->
 	<!-- ==================================================== -->
 
-	<target name="exec" depends="createjar">
+	<target name="exec" depends="jar">
 		<java fork="true" jar="${jarfile}" dir="${dist}" />
 	</target>
 

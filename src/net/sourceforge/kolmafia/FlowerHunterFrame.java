@@ -54,6 +54,13 @@ import javax.swing.table.TableCellRenderer;
 
 import com.sun.java.forums.TableSorter;
 
+import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
+
+import net.sourceforge.kolmafia.request.ProfileRequest;
+import net.sourceforge.kolmafia.request.PvpRequest;
+
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+
 public class FlowerHunterFrame
 	extends KoLFrame
 	implements ListSelectionListener
@@ -63,7 +70,7 @@ public class FlowerHunterFrame
 	private final JPanel resultCardPanel;
 	private final AttackPanel attackPanel;
 
-	private AutoHighlightField rankEntry;
+	private AutoHighlightTextField rankEntry;
 
 	private final Vector rankLabels = new Vector();
 	private final JTable[] resultsTable = new JTable[ 2 ];
@@ -185,16 +192,16 @@ public class FlowerHunterFrame
 	private class SearchPanel
 		extends KoLPanel
 	{
-		private final AutoHighlightField levelEntry;
-		private final AutoHighlightField limitEntry;
+		private final AutoHighlightTextField levelEntry;
+		private final AutoHighlightTextField limitEntry;
 
 		public SearchPanel()
 		{
 			super( "search", "flowers" );
 
-			this.levelEntry = new AutoHighlightField();
-			FlowerHunterFrame.this.rankEntry = new AutoHighlightField();
-			this.limitEntry = new AutoHighlightField();
+			this.levelEntry = new AutoHighlightTextField();
+			FlowerHunterFrame.this.rankEntry = new AutoHighlightTextField();
+			this.limitEntry = new AutoHighlightTextField();
 
 			VerifiableElement[] elements = new VerifiableElement[ 3 ];
 			elements[ 0 ] = new VerifiableElement( "Player Level: ", this.levelEntry );
@@ -219,12 +226,12 @@ public class FlowerHunterFrame
 				FlowerHunterFrame.this.resultsModel[ index ].fireTableRowsDeleted( 0, 0 );
 			}
 
-			FlowerHunterRequest search =
-				new FlowerHunterRequest( this.levelEntry.getText(), FlowerHunterFrame.this.rankEntry.getText() );
+			PvpRequest search =
+				new PvpRequest( this.levelEntry.getText(), FlowerHunterFrame.this.rankEntry.getText() );
 			RequestThread.postRequest( search );
 
-			FlowerHunterFrame.this.results = new ProfileRequest[ FlowerHunterRequest.getSearchResults().size() ];
-			FlowerHunterRequest.getSearchResults().toArray( FlowerHunterFrame.this.results );
+			FlowerHunterFrame.this.results = new ProfileRequest[ PvpRequest.getSearchResults().size() ];
+			PvpRequest.getSearchResults().toArray( FlowerHunterFrame.this.results );
 
 			for ( int i = 0; i < resultLimit && i < FlowerHunterFrame.this.results.length && KoLmafia.permitsContinue(); ++i )
 			{
@@ -251,13 +258,13 @@ public class FlowerHunterFrame
 	private class ClanPanel
 		extends KoLPanel
 	{
-		private final AutoHighlightField clanId;
+		private final AutoHighlightTextField clanId;
 
 		public ClanPanel()
 		{
 			super( "profile", true );
 
-			this.clanId = new AutoHighlightField();
+			this.clanId = new AutoHighlightTextField();
 
 			VerifiableElement[] elements = new VerifiableElement[ 1 ];
 			elements[ 0 ] = new VerifiableElement( "Clan Id: ", this.clanId );
@@ -279,11 +286,11 @@ public class FlowerHunterFrame
 				FlowerHunterFrame.this.resultsModel[ 1 ].fireTableRowsDeleted( 0, 0 );
 			}
 
-			FlowerHunterRequest search = new FlowerHunterRequest( this.clanId.getText() );
+			PvpRequest search = new PvpRequest( this.clanId.getText() );
 			RequestThread.postRequest( search );
 
-			FlowerHunterFrame.this.results = new ProfileRequest[ FlowerHunterRequest.getSearchResults().size() ];
-			FlowerHunterRequest.getSearchResults().toArray( FlowerHunterFrame.this.results );
+			FlowerHunterFrame.this.results = new ProfileRequest[ PvpRequest.getSearchResults().size() ];
+			PvpRequest.getSearchResults().toArray( FlowerHunterFrame.this.results );
 
 			for ( int i = 0; i < FlowerHunterFrame.this.results.length; ++i )
 			{
@@ -310,8 +317,8 @@ public class FlowerHunterFrame
 	private class AttackPanel
 		extends KoLPanel
 	{
-		private final AutoHighlightField winMessage;
-		private final AutoHighlightField lossMessage;
+		private final AutoHighlightTextField winMessage;
+		private final AutoHighlightTextField lossMessage;
 
 		private final JComboBox stanceSelect;
 		private final JComboBox victorySelect;
@@ -320,8 +327,8 @@ public class FlowerHunterFrame
 		{
 			super( "attack", "profile" );
 
-			this.winMessage = new AutoHighlightField( KoLSettings.getUserProperty( "defaultFlowerWinMessage" ) );
-			this.lossMessage = new AutoHighlightField( KoLSettings.getUserProperty( "defaultFlowerLossMessage" ) );
+			this.winMessage = new AutoHighlightTextField( KoLSettings.getUserProperty( "defaultFlowerWinMessage" ) );
+			this.lossMessage = new AutoHighlightTextField( KoLSettings.getUserProperty( "defaultFlowerLossMessage" ) );
 
 			this.stanceSelect = new JComboBox();
 			this.stanceSelect.addItem( "Bully your opponent" );
@@ -389,11 +396,11 @@ public class FlowerHunterFrame
 
 			RequestThread.openRequestSequence();
 
-			FlowerHunterRequest request = new FlowerHunterRequest();
+			PvpRequest request = new PvpRequest();
 			RequestThread.postRequest( request );
 
 			request =
-				new FlowerHunterRequest(
+				new PvpRequest(
 					"", this.stanceSelect.getSelectedIndex() + 1, mission, this.winMessage.getText(),
 					this.lossMessage.getText() );
 

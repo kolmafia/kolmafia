@@ -36,10 +36,17 @@ package net.sourceforge.kolmafia;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.request.AdventureRequest;
+import net.sourceforge.kolmafia.request.CoinMasterRequest;
+import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
+
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+
 public class CouncilFrame
 	extends RequestFrame
 {
-	public static final KoLRequest COUNCIL_VISIT = new KoLRequest( "council.php" );
+	public static final GenericRequest COUNCIL_VISIT = new GenericRequest( "council.php" );
 	public static final AdventureResult YETI_FUR = new AdventureResult( 388, 1 );
 
 	private static final Pattern QTY_PATTERN = Pattern.compile( "qty=(\\d+)" );
@@ -93,7 +100,7 @@ public class CouncilFrame
 		}
 		else if ( location.startsWith( "bhh" ) )
 		{
-			CoinmasterRequest.parseBountyVisit( location, responseText );
+			CoinMasterRequest.parseBountyVisit( location, responseText );
 		}
 		else if ( location.startsWith( "manor3" ) && location.indexOf( "action=summon" ) != -1 )
 		{

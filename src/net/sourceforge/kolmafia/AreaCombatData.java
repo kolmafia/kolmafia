@@ -36,10 +36,10 @@ package net.sourceforge.kolmafia;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sourceforge.kolmafia.MonsterDatabase.Monster;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase.Monster;
 
 public class AreaCombatData
-	implements KoLConstants
 {
 	private static float lastDropModifier = 0.0f;
 	private static float lastDropMultiplier = 0.0f;

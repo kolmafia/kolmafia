@@ -44,7 +44,6 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Locale;
 import java.util.Random;
 import java.util.TreeMap;
@@ -314,11 +313,11 @@ public interface KoLConstants
 	public static final int PIXEL = 10;
 	public static final int ROLLING_PIN = 11;
 
-	public static final int TINKER = 12;
+	public static final int GNOME_TINKER = 12;
 	public static final int SMITH_WEAPON = 13;
 	public static final int SMITH_ARMOR = 14;
 
-	public static final int TOY = 15;
+	public static final int CRIMBO05 = 15;
 	public static final int CLOVER = 16;
 
 	public static final int STILL_BOOZE = 17;
@@ -330,14 +329,14 @@ public interface KoLConstants
 	public static final int WOK = 22;
 	public static final int MALUS = 23;
 
-	public static final int UGH = 24;
+	public static final int CRIMBO06 = 24;
 
 	public static final int EXPENSIVE_JEWELRY = 25;
 	public static final int STAFF = 26;
 	public static final int MULTI_USE = 27;
 	public static final int SINGLE_USE = 28;
 
-	public static final int CRIMBO = 29;
+	public static final int CRIMBO07 = 29;
 
 	// Colors which are used to handle the various KoLmafia states.
 	// Used when changing the display.
@@ -442,20 +441,6 @@ public interface KoLConstants
 	// Include just the event history buffer and the command line buffer.
 
 	public static final LockableListModel eventHistory = new LockableListModel();
-
-	public static class CaseInsensitiveComparator
-		implements Comparator
-	{
-		public int compare( final Object o1, final Object o2 )
-		{
-			return ( (String) o1 ).compareToIgnoreCase( (String) o2 );
-		}
-
-		public boolean equals( final Object o )
-		{
-			return o instanceof CaseInsensitiveComparator;
-		}
-	}
 
 	/**
 	 * A special kind of ByteArrayOutputStream which provides access to the buffer it uses. This allows you to

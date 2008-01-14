@@ -42,12 +42,17 @@ import javax.swing.JList;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
-import net.sourceforge.kolmafia.ConcoctionsDatabase.Concoction;
+
 import net.sourceforge.kolmafia.KoLDatabase.LowerCaseEntry;
-import net.sourceforge.kolmafia.StoreManager.SoldItem;
+import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
+import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
+
+import net.sourceforge.kolmafia.request.CreateItemRequest;
+
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.Concoction;
 
 public class FilterTextField
-	extends AutoHighlightField
+	extends AutoHighlightTextField
 	implements ActionListener, ListElementFilter
 {
 	protected JList list;
@@ -141,9 +146,9 @@ public class FilterTextField
 		{
 			return ( (AdventureResult) element ).getName();
 		}
-		if ( element instanceof ItemCreationRequest )
+		if ( element instanceof CreateItemRequest )
 		{
-			return ( (ItemCreationRequest) element ).getName();
+			return ( (CreateItemRequest) element ).getName();
 		}
 		if ( element instanceof Concoction )
 		{

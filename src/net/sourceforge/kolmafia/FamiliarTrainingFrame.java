@@ -52,15 +52,28 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
+
 import net.sourceforge.kolmafia.CakeArenaManager.ArenaOpponent;
+
+import net.sourceforge.kolmafia.request.CakeArenaRequest;
+import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.FamiliarRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.UseItemRequest;
+import net.sourceforge.kolmafia.request.UseSkillRequest;
+
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 
 public class FamiliarTrainingFrame
 	extends KoLFrame
 {
-	private static final KoLRequest FAMEQUIP_CHANGER = new KoLRequest( "familiar.php?pwd&action=equip" );
+	private static final GenericRequest FAMEQUIP_CHANGER = new GenericRequest( "familiar.php?pwd&action=equip" );
 
 	private static final Pattern PRIZE_PATTERN =
 		Pattern.compile( "You've earned a prize from the Arena Goodies Sack!.*You acquire an item: <b>(.*?)</b>" );
@@ -189,9 +202,9 @@ public class FamiliarTrainingFrame
 
 		switch ( displayState )
 		{
-		case ABORT_STATE:
-		case ERROR_STATE:
-		case ENABLE_STATE:
+		case KoLConstants.ABORT_STATE:
+		case KoLConstants.ERROR_STATE:
+		case KoLConstants.ENABLE_STATE:
 
 			this.training.setEnabled( true );
 			break;
@@ -356,7 +369,7 @@ public class FamiliarTrainingFrame
 				{
 					super(
 						"<html><center>" + opponent.getName() + "<br>" + "(" + opponent.getWeight() + " lbs)</center></html>",
-						FamiliarsDatabase.getFamiliarImage( opponent.getRace() ), JLabel.CENTER );
+						FamiliarDatabase.getFamiliarImage( opponent.getRace() ), JLabel.CENTER );
 
 					this.setVerticalTextPosition( JLabel.BOTTOM );
 					this.setHorizontalTextPosition( JLabel.CENTER );
@@ -578,7 +591,7 @@ public class FamiliarTrainingFrame
 					if ( skills != null )
 					{
 						int[] original =
-							FamiliarsDatabase.getFamiliarSkills( FamiliarTrainingPanel.this.familiar.getId() );
+							FamiliarDatabase.getFamiliarSkills( FamiliarTrainingPanel.this.familiar.getId() );
 						boolean changed = false;
 
 						for ( int i = 0; i < original.length; ++i )
@@ -592,7 +605,7 @@ public class FamiliarTrainingFrame
 
 						if ( changed && KoLFrame.confirm( "Save arena parameters for the " + FamiliarTrainingPanel.this.familiar.getRace() + "?" ) )
 						{
-							FamiliarsDatabase.setFamiliarSkills( FamiliarTrainingPanel.this.familiar.getRace(), skills );
+							FamiliarDatabase.setFamiliarSkills( FamiliarTrainingPanel.this.familiar.getRace(), skills );
 						}
 
 						KoLmafia.updateDisplay(
@@ -618,7 +631,7 @@ public class FamiliarTrainingFrame
 
 					for ( int i = 0; i < familiars.length; ++i )
 					{
-						String itemName = FamiliarsDatabase.getFamiliarItem( familiars[ i ].getId() );
+						String itemName = FamiliarDatabase.getFamiliarItem( familiars[ i ].getId() );
 
 						if ( itemName != null && !familiars[ i ].getItem().equals( itemName ) )
 						{
@@ -689,7 +702,7 @@ public class FamiliarTrainingFrame
 		}
 	}
 
-	public UnfocusedTabbedPane getTabbedPane()
+	public JTabbedPane getTabbedPane()
 	{
 		return null;
 	}
@@ -702,7 +715,7 @@ public class FamiliarTrainingFrame
 
 	/**
 	 * Utility method to level the current familiar by fighting the current arena opponents.
-	 * 
+	 *
 	 * @param goal Weight goal for the familiar
 	 * @param type BASE, BUFF, or TURNS
 	 * @param buffs true if should cast buffs during training
@@ -864,7 +877,7 @@ public class FamiliarTrainingFrame
 
 	/**
 	 * Utility method to derive the arena parameters of the current familiar
-	 * 
+	 *
 	 * @param trials How many trials per event
 	 */
 
@@ -1035,7 +1048,7 @@ public class FamiliarTrainingFrame
 		}
 
 		// Original skill rankings
-		int[] original = FamiliarsDatabase.getFamiliarSkills( KoLCharacter.getFamiliar().getId() );
+		int[] original = FamiliarDatabase.getFamiliarSkills( KoLCharacter.getFamiliar().getId() );
 
 		// Derived skill rankings
 		int skills[] = new int[ 4 ];
@@ -1089,7 +1102,7 @@ public class FamiliarTrainingFrame
 
 	/**
 	 * Utility method to buff the current familiar to the specified weight or higher.
-	 * 
+	 *
 	 * @param weight Weight goal for the familiar
 	 */
 
@@ -1154,7 +1167,7 @@ public class FamiliarTrainingFrame
 
 		if ( FamiliarTrainingFrame.greenHeartAvailable && FamiliarTrainingFrame.greenHeartActive == 0 )
 		{
-			RequestThread.postRequest( new ConsumeItemRequest( FamiliarTrainingFrame.GREEN_CANDY ) );
+			RequestThread.postRequest( new UseItemRequest( FamiliarTrainingFrame.GREEN_CANDY ) );
 			if ( familiar.getModifiedWeight() >= weight )
 			{
 				return true;
@@ -1163,7 +1176,7 @@ public class FamiliarTrainingFrame
 
 		if ( FamiliarTrainingFrame.bestialAvailable && FamiliarTrainingFrame.bestialActive == 0 )
 		{
-			RequestThread.postRequest( new ConsumeItemRequest( FamiliarTrainingFrame.HALF_ORCHID ) );
+			RequestThread.postRequest( new UseItemRequest( FamiliarTrainingFrame.HALF_ORCHID ) );
 			if ( familiar.getModifiedWeight() >= weight )
 			{
 				return true;
@@ -1172,7 +1185,7 @@ public class FamiliarTrainingFrame
 
 		if ( FamiliarTrainingFrame.greenConeAvailable && FamiliarTrainingFrame.greenTongueActive == 0 )
 		{
-			RequestThread.postRequest( new ConsumeItemRequest( FamiliarTrainingFrame.GREEN_SNOWCONE ) );
+			RequestThread.postRequest( new UseItemRequest( FamiliarTrainingFrame.GREEN_SNOWCONE ) );
 			if ( familiar.getModifiedWeight() >= weight )
 			{
 				return true;
@@ -1181,7 +1194,7 @@ public class FamiliarTrainingFrame
 
 		if ( !FamiliarTrainingFrame.greenConeAvailable && FamiliarTrainingFrame.greenTongueActive == 0 && FamiliarTrainingFrame.blackConeAvailable && FamiliarTrainingFrame.blackTongueActive == 0 )
 		{
-			RequestThread.postRequest( new ConsumeItemRequest( FamiliarTrainingFrame.BLACK_SNOWCONE ) );
+			RequestThread.postRequest( new UseItemRequest( FamiliarTrainingFrame.BLACK_SNOWCONE ) );
 			if ( familiar.getModifiedWeight() >= weight )
 			{
 				return true;
@@ -1190,7 +1203,7 @@ public class FamiliarTrainingFrame
 
 		if ( FamiliarTrainingFrame.heavyPettingAvailable && FamiliarTrainingFrame.heavyPettingActive == 0 )
 		{
-			RequestThread.postRequest( new ConsumeItemRequest( FamiliarTrainingFrame.BUFFING_SPRAY ) );
+			RequestThread.postRequest( new UseItemRequest( FamiliarTrainingFrame.BUFFING_SPRAY ) );
 			if ( familiar.getModifiedWeight() >= weight )
 			{
 				return true;
@@ -1356,7 +1369,7 @@ public class FamiliarTrainingFrame
 		FamiliarTrainingFrame.printMatch( status, opponent, tool, match );
 
 		// Run the match
-		KoLRequest request = new CakeArenaRequest( opponent.getId(), match );
+		GenericRequest request = new CakeArenaRequest( opponent.getId(), match );
 		RequestThread.postRequest( request );
 
 		// Pass the response text to the FamiliarStatus to
@@ -1470,7 +1483,7 @@ public class FamiliarTrainingFrame
 			this.familiar = KoLCharacter.getFamiliar();
 
 			// Get details about the special item it can wear
-			String name = FamiliarsDatabase.getFamiliarItem( this.familiar.getId() );
+			String name = FamiliarDatabase.getFamiliarItem( this.familiar.getId() );
 			this.familiarItem = new AdventureResult( name, 1, false );
 			this.familiarItemWeight = FamiliarData.itemWeightModifier( this.familiarItem.getItemId() );
 

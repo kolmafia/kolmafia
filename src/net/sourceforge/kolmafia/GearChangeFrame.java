@@ -45,9 +45,16 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JTabbedPane;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
+
+import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.FamiliarRequest;
+
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 public class GearChangeFrame
 	extends KoLFrame
@@ -100,7 +107,7 @@ public class GearChangeFrame
 		this.ensureValidSelections();
 	}
 
-	public UnfocusedTabbedPane getTabbedPane()
+	public JTabbedPane getTabbedPane()
 	{
 		return null;
 	}
@@ -428,7 +435,7 @@ public class GearChangeFrame
 			}
 
 			// Only add weapons
-			int type = TradeableItemDatabase.getConsumptionType( currentItem.getItemId() );
+			int type = ItemDatabase.getConsumptionType( currentItem.getItemId() );
 
 			if ( type != KoLConstants.EQUIP_WEAPON )
 			{
@@ -517,9 +524,9 @@ public class GearChangeFrame
 
 	private boolean validOffhandItem( final AdventureResult currentItem, boolean weapons, final int equipStat )
 	{
-		switch ( TradeableItemDatabase.getConsumptionType( currentItem.getItemId() ) )
+		switch ( ItemDatabase.getConsumptionType( currentItem.getItemId() ) )
 		{
-		case EQUIP_WEAPON:
+		case KoLConstants.EQUIP_WEAPON:
 			if ( !weapons )
 			{
 				return false;
@@ -533,7 +540,7 @@ public class GearChangeFrame
 				return false;
 			}
 			// Fall through
-		case EQUIP_OFFHAND:
+		case KoLConstants.EQUIP_OFFHAND:
 			// Make sure we meet requirements
 			if ( EquipmentDatabase.canEquip( currentItem.getName() ) )
 			{

@@ -48,9 +48,11 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 import ca.bcit.geekkit.CalendarTableModel;
 import ca.bcit.geekkit.JCalendar;
+import net.java.dev.spellcast.utilities.JComponentUtilities;
+
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 
 public class CalendarFrame
 	extends KoLFrame
@@ -192,12 +194,12 @@ public class CalendarFrame
 		// formatter (which strips time information) and
 		// reparse the date.
 
-		CalendarFrame.calendarDay = MoonPhaseDatabase.getCalendarDay( time );
+		CalendarFrame.calendarDay = HolidayDatabase.getCalendarDay( time );
 		int phaseStep = ( CalendarFrame.calendarDay % 16 + 16 ) % 16;
 
 		CalendarFrame.ronaldPhase = phaseStep % 8;
 		CalendarFrame.grimacePhase = phaseStep / 2;
-		CalendarFrame.hamburglarPosition = MoonPhaseDatabase.getHamburglarPosition( time );
+		CalendarFrame.hamburglarPosition = HolidayDatabase.getHamburglarPosition( time );
 	}
 
 	/**
@@ -244,11 +246,11 @@ public class CalendarFrame
 
 		displayHTML.append( "<a href=\"" + artistURL + "\">" + artistName + "</a></b></td></tr>" );
 		displayHTML.append( "<tr><td><img src=\"http://images.kingdomofloathing.com/otherimages/" + artDirectory + "/" );
-		displayHTML.append( CalendarFrame.CALENDARS[ MoonPhaseDatabase.getCalendarMonth( CalendarFrame.selectedDate.getTime() ) ] );
+		displayHTML.append( CalendarFrame.CALENDARS[ HolidayDatabase.getCalendarMonth( CalendarFrame.selectedDate.getTime() ) ] );
 		displayHTML.append( ".gif\"></td></tr><tr><td align=center>" );
 		displayHTML.append( CalendarFrame.LONG_FORMAT.format( CalendarFrame.selectedDate.getTime() ) );
 		displayHTML.append( "</td></tr><tr><td align=center><font size=+1><b>" );
-		displayHTML.append( MoonPhaseDatabase.getCalendarDayAsString( CalendarFrame.selectedDate.getTime() ) );
+		displayHTML.append( HolidayDatabase.getCalendarDayAsString( CalendarFrame.selectedDate.getTime() ) );
 		displayHTML.append( "</b></font></td></tr></table></center>" );
 
 		displayHTML.append( "</td><td valign=top>" );
@@ -258,7 +260,7 @@ public class CalendarFrame
 		// row, just in case.
 
 		displayHTML.append( "<tr><td colspan=2 align=center><b>" );
-		displayHTML.append( MoonPhaseDatabase.getHoliday( CalendarFrame.selectedDate.getTime() ) );
+		displayHTML.append( HolidayDatabase.getHoliday( CalendarFrame.selectedDate.getTime() ) );
 		displayHTML.append( "</b></td></tr><tr><td colspan=2></td></tr>" );
 
 		// Next display today's moon phases, including
@@ -267,7 +269,7 @@ public class CalendarFrame
 
 		displayHTML.append( "<tr><td colspan=2 align=\"center\">" );
 		int hamburglarLight =
-			MoonPhaseDatabase.getHamburglarLight(
+			HolidayDatabase.getHamburglarLight(
 				CalendarFrame.ronaldPhase, CalendarFrame.grimacePhase, CalendarFrame.hamburglarPosition );
 
 		if ( CalendarFrame.hamburglarPosition == 7 )
@@ -323,24 +325,24 @@ public class CalendarFrame
 		displayHTML.append( "</td></tr><tr><td colspan=2></td></tr>" );
 
 		displayHTML.append( "<tr><td align=right><b>Ronald</b>:&nbsp;</td><td>" );
-		displayHTML.append( MoonPhaseDatabase.getPhaseName( CalendarFrame.ronaldPhase ) );
+		displayHTML.append( HolidayDatabase.getPhaseName( CalendarFrame.ronaldPhase ) );
 		displayHTML.append( "</td></tr>" );
 		displayHTML.append( "<tr><td align=right><b>Grimace</b>:&nbsp;</td><td>" );
-		displayHTML.append( MoonPhaseDatabase.getPhaseName( CalendarFrame.grimacePhase ) );
+		displayHTML.append( HolidayDatabase.getPhaseName( CalendarFrame.grimacePhase ) );
 		displayHTML.append( "</td></tr>" );
 		displayHTML.append( "<tr><td align=right><b>Stats</b>:&nbsp;</td><td>" );
-		displayHTML.append( MoonPhaseDatabase.getMoonEffect( CalendarFrame.ronaldPhase, CalendarFrame.grimacePhase ) );
+		displayHTML.append( HolidayDatabase.getMoonEffect( CalendarFrame.ronaldPhase, CalendarFrame.grimacePhase ) );
 		displayHTML.append( "</td></tr><td align=right><b>Grue</b>:&nbsp;</td><td>" );
-		displayHTML.append( MoonPhaseDatabase.getGrueEffect(
+		displayHTML.append( HolidayDatabase.getGrueEffect(
 			CalendarFrame.ronaldPhase, CalendarFrame.grimacePhase, CalendarFrame.hamburglarPosition ) ? "bloodlusty" : "pacifistic" );
 		displayHTML.append( "</td></tr><td align=right><b>Blood</b>:&nbsp;</td><td>" );
-		CalendarFrame.appendModifierPercentage( displayHTML, MoonPhaseDatabase.getBloodEffect(
+		CalendarFrame.appendModifierPercentage( displayHTML, HolidayDatabase.getBloodEffect(
 			CalendarFrame.ronaldPhase, CalendarFrame.grimacePhase, CalendarFrame.hamburglarPosition ) );
 		displayHTML.append( "</td></tr><td align=right><b>Baio</b>:&nbsp;</td><td>" );
-		CalendarFrame.appendModifierPercentage( displayHTML, MoonPhaseDatabase.getBaioEffect(
+		CalendarFrame.appendModifierPercentage( displayHTML, HolidayDatabase.getBaioEffect(
 			CalendarFrame.ronaldPhase, CalendarFrame.grimacePhase, CalendarFrame.hamburglarPosition ) );
 		displayHTML.append( "</td></tr><td align=right><b>Jekyllin</b>:&nbsp;</td><td>" );
-		displayHTML.append( MoonPhaseDatabase.getJekyllinEffect(
+		displayHTML.append( HolidayDatabase.getJekyllinEffect(
 			CalendarFrame.ronaldPhase, CalendarFrame.grimacePhase, CalendarFrame.hamburglarPosition ) );
 		displayHTML.append( "</td></tr></table></center>" );
 
@@ -366,7 +368,7 @@ public class CalendarFrame
 	private static final void updatePredictionsPage()
 	{
 		StringBuffer displayHTML = new StringBuffer();
-		int phaseStep = MoonPhaseDatabase.getPhaseStep( CalendarFrame.ronaldPhase, CalendarFrame.grimacePhase );
+		int phaseStep = HolidayDatabase.getPhaseStep( CalendarFrame.ronaldPhase, CalendarFrame.grimacePhase );
 
 		// First display today's date along with the
 		// appropriate calendar picture.  Include the
@@ -375,10 +377,10 @@ public class CalendarFrame
 		displayHTML.append( "<b><u>" );
 		displayHTML.append( CalendarFrame.LONG_FORMAT.format( CalendarFrame.selectedDate.getTime() ) );
 		displayHTML.append( "</u></b><br><i>" );
-		displayHTML.append( MoonPhaseDatabase.getCalendarDayAsString( CalendarFrame.selectedDate.getTime() ) );
+		displayHTML.append( HolidayDatabase.getCalendarDayAsString( CalendarFrame.selectedDate.getTime() ) );
 		displayHTML.append( "</i><br>&nbsp;<br>" );
 
-		MoonPhaseDatabase.addPredictionHTML( displayHTML, CalendarFrame.selectedDate.getTime(), phaseStep );
+		HolidayDatabase.addPredictionHTML( displayHTML, CalendarFrame.selectedDate.getTime(), phaseStep );
 
 		CalendarFrame.predictBuffer.clearBuffer();
 		CalendarFrame.predictBuffer.append( displayHTML.toString() );
@@ -489,27 +491,27 @@ public class CalendarFrame
 				// Otherwise, if the date selected is equal
 				// to a special day, then highlight it.
 
-				if ( MoonPhaseDatabase.isRealLifeHoliday( selectedTime ) )
+				if ( HolidayDatabase.isRealLifeHoliday( selectedTime ) )
 				{
 					return this.holidayRenderer;
 				}
 
-				if ( MoonPhaseDatabase.isHoliday( selectedTime ) )
+				if ( HolidayDatabase.isHoliday( selectedTime ) )
 				{
 					return this.holidayRenderer;
 				}
 
-				if ( MoonPhaseDatabase.isMuscleDay( selectedTime ) )
+				if ( HolidayDatabase.isMuscleDay( selectedTime ) )
 				{
 					return this.muscleRenderer;
 				}
 
-				if ( MoonPhaseDatabase.isMysticalityDay( selectedTime ) )
+				if ( HolidayDatabase.isMysticalityDay( selectedTime ) )
 				{
 					return this.mysticalityRenderer;
 				}
 
-				if ( MoonPhaseDatabase.isMoxieDay( selectedTime ) )
+				if ( HolidayDatabase.isMoxieDay( selectedTime ) )
 				{
 					return this.moxieRenderer;
 				}

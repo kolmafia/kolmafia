@@ -46,7 +46,6 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class LabeledScrollPanel
 	extends ActionPanel
-	implements KoLConstants
 {
 	public JPanel actualPanel;
 	public JPanel centerPanel;

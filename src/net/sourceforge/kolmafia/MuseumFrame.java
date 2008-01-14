@@ -47,6 +47,10 @@ import net.java.dev.spellcast.utilities.PanelList;
 import net.java.dev.spellcast.utilities.PanelListCell;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
+import net.sourceforge.kolmafia.session.DisplayCaseManager;
+
+import net.sourceforge.kolmafia.request.DisplayCaseRequest;
+
 public class MuseumFrame
 	extends KoLFrame
 {
@@ -107,7 +111,7 @@ public class MuseumFrame
 				return;
 			}
 
-			RequestThread.postRequest( new MuseumRequest( items.toArray(), true ) );
+			RequestThread.postRequest( new DisplayCaseRequest( items.toArray(), true ) );
 		}
 
 		public void actionCancelled()
@@ -179,9 +183,9 @@ public class MuseumFrame
 			private void move( final boolean moveAll )
 			{
 				RequestThread.openRequestSequence();
-				RequestThread.postRequest( new MuseumRequest( AddRemovePanel.this.getSelectedValues(
+				RequestThread.postRequest( new DisplayCaseRequest( AddRemovePanel.this.getSelectedValues(
 					this.elementList.getSelectedValues(), moveAll ), true ) );
-				RequestThread.postRequest( new MuseumRequest() );
+				RequestThread.postRequest( new DisplayCaseRequest() );
 				RequestThread.closeRequestSequence();
 			}
 
@@ -210,9 +214,9 @@ public class MuseumFrame
 			private void move( final boolean moveAll )
 			{
 				RequestThread.openRequestSequence();
-				RequestThread.postRequest( new MuseumRequest( AddRemovePanel.this.getSelectedValues(
+				RequestThread.postRequest( new DisplayCaseRequest( AddRemovePanel.this.getSelectedValues(
 					this.elementList.getSelectedValues(), moveAll ), false ) );
-				RequestThread.postRequest( new MuseumRequest() );
+				RequestThread.postRequest( new DisplayCaseRequest() );
 				RequestThread.closeRequestSequence();
 			}
 
@@ -233,7 +237,7 @@ public class MuseumFrame
 	{
 		public MuseumShelfList()
 		{
-			super( 1, 480, 200, MuseumManager.getShelves(), true );
+			super( 1, 480, 200, DisplayCaseManager.getShelves(), true );
 		}
 
 		public PanelListCell constructPanelListCell( final Object value, final int index )
@@ -257,7 +261,7 @@ public class MuseumFrame
 
 		public MuseumShelfPanel( final int index, final SortedListModel value )
 		{
-			super( MuseumManager.getHeader( index ), "move", "remove", new ShowDescriptionList( value ), false );
+			super( DisplayCaseManager.getHeader( index ), "move", "remove", new ShowDescriptionList( value ), false );
 
 			this.index = index;
 			this.elementList = (ShowDescriptionList) this.scrollComponent;
@@ -265,7 +269,7 @@ public class MuseumFrame
 
 		public void actionConfirmed()
 		{
-			Object[] headerArray = MuseumManager.getHeaders().toArray();
+			Object[] headerArray = DisplayCaseManager.getHeaders().toArray();
 
 			String selectedValue = (String) KoLFrame.input( "Moving to this shelf...", headerArray );
 
@@ -278,7 +282,7 @@ public class MuseumFrame
 			{
 				if ( selectedValue.equals( headerArray[ i ] ) )
 				{
-					MuseumManager.move( this.elementList.getSelectedValues(), this.index, i );
+					DisplayCaseManager.move( this.elementList.getSelectedValues(), this.index, i );
 				}
 			}
 		}
@@ -286,8 +290,8 @@ public class MuseumFrame
 		public void actionCancelled()
 		{
 			RequestThread.openRequestSequence();
-			RequestThread.postRequest( new MuseumRequest( this.elementList.getSelectedValues(), false ) );
-			RequestThread.postRequest( new MuseumRequest() );
+			RequestThread.postRequest( new DisplayCaseRequest( this.elementList.getSelectedValues(), false ) );
+			RequestThread.postRequest( new DisplayCaseRequest() );
 			RequestThread.closeRequestSequence();
 		}
 
@@ -301,7 +305,7 @@ public class MuseumFrame
 	{
 		public OrderingPanel()
 		{
-			super( (LockableListModel) MuseumManager.getHeaders().clone() );
+			super( (LockableListModel) DisplayCaseManager.getHeaders().clone() );
 
 			this.setButtons(
 				false,
@@ -359,7 +363,7 @@ public class MuseumFrame
 			{
 				String[] headerArray = new String[ OrderingPanel.this.elementModel.size() ];
 				OrderingPanel.this.elementModel.toArray( headerArray );
-				MuseumManager.reorder( headerArray );
+				DisplayCaseManager.reorder( headerArray );
 			}
 
 			public String toString()

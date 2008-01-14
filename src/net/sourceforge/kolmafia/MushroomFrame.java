@@ -53,6 +53,10 @@ import javax.swing.SwingConstants;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
+import net.sourceforge.kolmafia.session.MushroomManager;
+
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+
 public class MushroomFrame
 	extends KoLFrame
 {
@@ -127,7 +131,7 @@ public class MushroomFrame
 			// at a later date.
 
 			JPanel buttonPanel = new JPanel();
-			buttonPanel.add( new InvocationButton( "Harvest All", MushroomPlot.class, "harvestMushrooms" ) );
+			buttonPanel.add( new InvocationButton( "Harvest All", MushroomManager.class, "harvestMushrooms" ) );
 			buttonPanel.add( new InvocationButton( "Do Layout", this, "executeLayout" ) );
 			buttonPanel.add( new InvocationButton( "Script Layout", this, "scriptLayout" ) );
 			completePanel.add( buttonPanel, BorderLayout.SOUTH );
@@ -148,10 +152,10 @@ public class MushroomFrame
 			{
 				if ( !this.currentData[ i ].equals( this.layoutData[ i ] ) )
 				{
-					MushroomPlot.pickMushroom( i + 1, false );
+					MushroomManager.pickMushroom( i + 1, false );
 					if ( !this.layoutData[ i ].endsWith( "/dirt1.gif" ) && !this.layoutData[ i ].endsWith( "/mushsprout.gif" ) )
 					{
-						MushroomPlot.plantMushroom( i + 1, MushroomPlot.getMushroomType( this.layoutData[ i ] ) );
+						MushroomManager.plantMushroom( i + 1, MushroomManager.getMushroomType( this.layoutData[ i ] ) );
 					}
 				}
 			}
@@ -178,17 +182,17 @@ public class MushroomFrame
 
 				for ( int i = 0; i < 16; ++i )
 				{
-					int mushroomType = MushroomPlot.getMushroomType( this.layoutData[ i ] );
+					int mushroomType = MushroomManager.getMushroomType( this.layoutData[ i ] );
 					switch ( mushroomType )
 					{
-					case MushroomPlot.SPOOKY:
-					case MushroomPlot.KNOB:
-					case MushroomPlot.KNOLL:
+					case MushroomManager.SPOOKY:
+					case MushroomManager.KNOB:
+					case MushroomManager.KNOLL:
 						ostream.println( "field pick " + ( i + 1 ) );
-						ostream.println( "field plant " + ( i + 1 ) + " " + TradeableItemDatabase.getItemName( mushroomType ) );
+						ostream.println( "field plant " + ( i + 1 ) + " " + ItemDatabase.getItemName( mushroomType ) );
 						break;
 
-					case MushroomPlot.EMPTY:
+					case MushroomManager.EMPTY:
 						ostream.println( "field pick " + ( i + 1 ) );
 						break;
 					}
@@ -216,7 +220,7 @@ public class MushroomFrame
 		}
 
 		/*
-		 * Method invoked by MushroomPlot when the field has changed
+		 * Method invoked by MushroomManager when the field has changed
 		 */
 
 		public void plotChanged()
@@ -231,14 +235,14 @@ public class MushroomFrame
 			{
 				// Get the layout state of the field and update
 
-				ImmediatePlotPanel.this.currentData = MushroomPlot.getMushroomPlot( true ).split( ";" );
+				ImmediatePlotPanel.this.currentData = MushroomManager.getMushroomManager( true ).split( ";" );
 
 				// Only update the layout data if you're
 				// not currently doing any layouts.
 
 				if ( !ImmediatePlotPanel.this.doingLayout )
 				{
-					ImmediatePlotPanel.this.layoutData = MushroomPlot.getMushroomPlot( true ).split( ";" );
+					ImmediatePlotPanel.this.layoutData = MushroomManager.getMushroomManager( true ).split( ";" );
 				}
 
 				// With everything that you need updated,
@@ -268,7 +272,7 @@ public class MushroomFrame
 				}
 			}
 
-			String[] forecastData = MushroomPlot.getForecastedPlot( true, layoutArray ).split( ";" );
+			String[] forecastData = MushroomManager.getForecastedPlot( true, layoutArray ).split( ";" );
 
 			// What you do is you update each mushroom button based on
 			// what is contained in each of the data fields.
@@ -521,7 +525,7 @@ public class MushroomFrame
 			}
 			else
 			{
-				plantingLength = MushroomPlot.loadLayout( this.currentLayout, this.originalData, this.planningData );
+				plantingLength = MushroomManager.loadLayout( this.currentLayout, this.originalData, this.planningData );
 				indexToHighlight = KoLSettings.getIntegerProperty( "plantingDay" );
 			}
 
@@ -640,7 +644,7 @@ public class MushroomFrame
 				this.planningData[ this.currentForecast - 1 ][ i ] = "__";
 			}
 
-			MushroomPlot.saveLayout( location, this.originalData, this.planningData );
+			MushroomManager.saveLayout( location, this.originalData, this.planningData );
 			for ( int i = 0; i < 16; ++i )
 			{
 				this.planningData[ this.currentForecast - 1 ][ i ] = planned[ i ];
@@ -660,7 +664,7 @@ public class MushroomFrame
 					}
 				}
 
-				String[] forecastData = MushroomPlot.getForecastedPlot( true, holdingData ).split( ";" );
+				String[] forecastData = MushroomManager.getForecastedPlot( true, holdingData ).split( ";" );
 				for ( int j = 0; j < 16; ++j )
 				{
 					this.planningData[ i ][ j ] = forecastData[ j ];
@@ -741,14 +745,14 @@ public class MushroomFrame
 				}
 				else
 				{
-					this.setIcon( JComponentUtilities.getImage( MushroomPlot.getMushroomImage( currentMushroom ) ) );
+					this.setIcon( JComponentUtilities.getImage( MushroomManager.getMushroomImage( currentMushroom ) ) );
 				}
 
-				for ( int i = 0; i < MushroomPlot.MUSHROOMS.length; ++i )
+				for ( int i = 0; i < MushroomManager.MUSHROOMS.length; ++i )
 				{
-					if ( currentMushroom.equals( MushroomPlot.MUSHROOMS[ i ][ 2 ] ) || currentMushroom.equals( MushroomPlot.MUSHROOMS[ i ][ 3 ] ) )
+					if ( currentMushroom.equals( MushroomManager.MUSHROOMS[ i ][ 2 ] ) || currentMushroom.equals( MushroomManager.MUSHROOMS[ i ][ 3 ] ) )
 					{
-						this.setToolTipText( (String) MushroomPlot.MUSHROOMS[ i ][ 5 ] );
+						this.setToolTipText( (String) MushroomManager.MUSHROOMS[ i ][ 5 ] );
 					}
 				}
 			}

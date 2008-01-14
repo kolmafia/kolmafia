@@ -46,10 +46,12 @@ import javax.swing.JTextArea;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 
+import com.sun.java.forums.SpringUtilities;
+
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
-import com.sun.java.forums.SpringUtilities;
+import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 
 public class SendMessageFrame
 	extends KoLFrame
@@ -61,7 +63,7 @@ public class SendMessageFrame
 	private final MutableComboBox recipientEntry;
 
 	private final LockableListModel attachments;
-	private final AutoHighlightField attachedMeat;
+	private final AutoHighlightTextField attachedMeat;
 	private final JTextArea messageEntry;
 
 	public SendMessageFrame( final String recipient )
@@ -90,7 +92,7 @@ public class SendMessageFrame
 		// How much you want to attach, in raw terms.
 
 		this.attachments = new LockableListModel();
-		this.attachedMeat = new AutoHighlightField( "0" );
+		this.attachedMeat = new AutoHighlightTextField( "0" );
 
 		// Now, layout the center part of the panel.
 

@@ -45,7 +45,6 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class SimpleScrollPane
 	extends JScrollPane
-	implements KoLConstants
 {
 	public SimpleScrollPane( final LockableListModel model )
 	{

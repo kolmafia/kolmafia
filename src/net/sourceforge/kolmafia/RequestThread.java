@@ -38,8 +38,9 @@ import javax.swing.SwingUtilities;
 import net.sourceforge.foxtrot.Job;
 import net.sourceforge.foxtrot.Worker;
 
+import net.sourceforge.kolmafia.request.GenericRequest;
+
 public abstract class RequestThread
-	implements KoLConstants
 {
 	private static int sequenceCount = 0;
 	private static final OneSecondDelay ONE_SECOND_DELAY = new OneSecondDelay();
@@ -48,7 +49,7 @@ public abstract class RequestThread
 	 * Posts a single request one time without forcing concurrency. The display will be enabled if there is no sequence.
 	 */
 
-	public static final void postRequest( final KoLRequest request )
+	public static final void postRequest( final GenericRequest request )
 	{
 		if ( request == null )
 		{
@@ -104,7 +105,7 @@ public abstract class RequestThread
 	 * sequence.
 	 */
 
-	public static final void executeRequest( final KoLRequest request )
+	public static final void executeRequest( final GenericRequest request )
 	{
 		if ( request == null )
 		{
@@ -270,7 +271,7 @@ public abstract class RequestThread
 				return;
 			}
 
-			KoLRequest.delay( 1000 );
+			GenericRequest.delay( 1000 );
 		}
 	}
 }

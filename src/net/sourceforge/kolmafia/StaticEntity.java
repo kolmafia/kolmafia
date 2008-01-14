@@ -44,13 +44,23 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import edu.stanford.ejalbert.BrowserLauncher;
 import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
-import edu.stanford.ejalbert.BrowserLauncher;
+
+import net.sourceforge.kolmafia.request.AccountRequest;
+import net.sourceforge.kolmafia.request.CharSheetRequest;
+import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.HermitRequest;
+import net.sourceforge.kolmafia.request.PvpRequest;
+import net.sourceforge.kolmafia.request.QuestLogRequest;
+import net.sourceforge.kolmafia.request.SellStuffRequest;
+import net.sourceforge.kolmafia.request.UseItemRequest;
+import net.sourceforge.kolmafia.request.UseSkillRequest;
 
 public abstract class StaticEntity
-	implements KoLConstants
 {
 	private static final Pattern NONDIGIT_PATTERN = Pattern.compile( "[^\\-0-9]" );
 	private static final Pattern NONFLOAT_PATTERN = Pattern.compile( "[^\\-\\.0-9]" );
@@ -472,7 +482,7 @@ public abstract class StaticEntity
 
 	public static final void openRequestFrame( final String location )
 	{
-		KoLRequest request = RequestEditorKit.extractRequest( location );
+		GenericRequest request = RequestEditorKit.extractRequest( location );
 
 		if ( location.startsWith( "search" ) || location.startsWith( "desc" ) || location.startsWith( "static" ) || location.startsWith( "show" ) )
 		{
@@ -547,7 +557,7 @@ public abstract class StaticEntity
 
 		if ( location.indexOf( "charsheet.php" ) != -1 )
 		{
-			CharsheetRequest.parseStatus( responseText );
+			CharSheetRequest.parseStatus( responseText );
 		}
 
 		if ( location.startsWith( "sellstuff_ugly.php" ) )
@@ -557,7 +567,7 @@ public abstract class StaticEntity
 			// "You sell your 2 disturbing fanfics to an organ
 			// grinder's monkey for 264 Meat."
 
-			Matcher matcher = AutoSellRequest.AUTOSELL_PATTERN.matcher( responseText );
+			Matcher matcher = SellStuffRequest.AUTOSELL_PATTERN.matcher( responseText );
 			if ( matcher.find() )
 			{
 				StaticEntity.client.processResult( new AdventureResult(
@@ -569,11 +579,11 @@ public abstract class StaticEntity
 
 		if ( location.indexOf( "inventory.php" ) != -1 && location.indexOf( "action=message" ) != -1 )
 		{
-			ConsumeItemRequest.parseConsumption( responseText, false );
+			UseItemRequest.parseConsumption( responseText, false );
 		}
 		if ( ( location.indexOf( "multiuse.php" ) != -1 || location.indexOf( "skills.php" ) != -1 ) && location.indexOf( "useitem" ) != -1 )
 		{
-			ConsumeItemRequest.parseConsumption( responseText, false );
+			UseItemRequest.parseConsumption( responseText, false );
 		}
 		if ( location.indexOf( "hermit.php" ) != -1 )
 		{
@@ -622,7 +632,7 @@ public abstract class StaticEntity
 
 		if ( location.startsWith( "pvp.php" ) && location.indexOf( "who=" ) != -1 )
 		{
-			FlowerHunterRequest.processOffenseContests( responseText );
+			PvpRequest.processOffenseContests( responseText );
 		}
 
 		// If this is the hippy store, check to see if any of the
@@ -788,7 +798,7 @@ public abstract class StaticEntity
 		t.printStackTrace( ostream );
 	}
 
-	public static final void printRequestData( final KoLRequest request )
+	public static final void printRequestData( final GenericRequest request )
 	{
 		if ( request == null )
 		{

@@ -61,8 +61,43 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.UtilityConstants;
-import net.sourceforge.kolmafia.MonsterDatabase.Monster;
-import net.sourceforge.kolmafia.StoreManager.SoldItem;
+
+import net.sourceforge.kolmafia.KoLConstants.ByteArrayStream;
+import net.sourceforge.kolmafia.session.ChatManager;
+import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.MushroomManager;
+import net.sourceforge.kolmafia.session.SorceressLairManager;
+import net.sourceforge.kolmafia.session.StoreManager;
+import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
+
+import net.sourceforge.kolmafia.request.CharPaneRequest;
+import net.sourceforge.kolmafia.request.ChatRequest;
+import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
+import net.sourceforge.kolmafia.request.ClanStashRequest;
+import net.sourceforge.kolmafia.request.CreateItemRequest;
+import net.sourceforge.kolmafia.request.DisplayCaseRequest;
+import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.ManageStoreRequest;
+import net.sourceforge.kolmafia.request.MicroBreweryRequest;
+import net.sourceforge.kolmafia.request.RelayRequest;
+import net.sourceforge.kolmafia.request.SendMailRequest;
+import net.sourceforge.kolmafia.request.UneffectRequest;
+import net.sourceforge.kolmafia.request.UseItemRequest;
+import net.sourceforge.kolmafia.request.UseSkillRequest;
+
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase.Monster;
 
 public class KoLmafiaASH
 	extends StaticEntity
@@ -182,7 +217,7 @@ public class KoLmafiaASH
 
 	private static final TreeMap relayScriptMap = new TreeMap();
 	private static final StringBuffer serverReplyBuffer = new StringBuffer();
-	private static final LocalRelayRequest relayRequest = new LocalRelayRequest( false );
+	private static final RelayRequest relayRequest = new RelayRequest( false );
 
 	private static KoLmafiaASH relayScript = null;
 	private static KoLmafiaASH currentAnalysis = null;
@@ -214,8 +249,8 @@ public class KoLmafiaASH
 	private static final TreeMap TIMESTAMPS = new TreeMap();
 	private static final TreeMap INTERPRETERS = new TreeMap();
 
-	private static final KoLRequest VISITOR = new KoLRequest( "" );
-	private static final LocalRelayRequest RELAYER = new LocalRelayRequest( false );
+	private static final GenericRequest VISITOR = new GenericRequest( "" );
+	private static final RelayRequest RELAYER = new RelayRequest( false );
 	public static final KoLmafiaASH NAMESPACE_INTERPRETER = new KoLmafiaASH();
 
 	public KoLmafiaASH()
@@ -251,7 +286,7 @@ public class KoLmafiaASH
 		}
 	}
 
-	public static final boolean getClientHTML( final LocalRelayRequest request )
+	public static final boolean getClientHTML( final RelayRequest request )
 	{
 		String script = request.getPath();
 
@@ -276,7 +311,7 @@ public class KoLmafiaASH
 		return toExecute.exists() && KoLmafiaASH.getClientHTML( request, toExecute );
 	}
 
-	private static final boolean getClientHTML( final LocalRelayRequest request, final File toExecute )
+	private static final boolean getClientHTML( final RelayRequest request, final File toExecute )
 	{
 		synchronized ( KoLmafiaASH.serverReplyBuffer )
 		{
@@ -423,7 +458,7 @@ public class KoLmafiaASH
 				}
 
 				itemId = item.getItemId();
-				name = TradeableItemDatabase.getItemName( itemId );
+				name = ItemDatabase.getItemName( itemId );
 				return new ScriptValue( KoLmafiaASH.ITEM_TYPE, itemId, name );
 			}
 		}
@@ -432,7 +467,7 @@ public class KoLmafiaASH
 		// and store it inside of the contentInt.
 
 		itemId = StaticEntity.parseInt( name );
-		name = TradeableItemDatabase.getItemName( itemId );
+		name = ItemDatabase.getItemName( itemId );
 		return new ScriptValue( KoLmafiaASH.ITEM_TYPE, itemId, name );
 	}
 
@@ -530,7 +565,7 @@ public class KoLmafiaASH
 			return KoLmafiaASH.SKILL_INIT;
 		}
 
-		List skills = ClassSkillsDatabase.getMatchingNames( name );
+		List skills = SkillDatabase.getMatchingNames( name );
 
 		if ( skills.isEmpty() )
 		{
@@ -542,8 +577,8 @@ public class KoLmafiaASH
 			throw new AdvancedScriptException( "Skill " + name + " not found in database" );
 		}
 
-		int num = ClassSkillsDatabase.getSkillId( (String) skills.get( 0 ) );
-		name = ClassSkillsDatabase.getSkillName( num );
+		int num = SkillDatabase.getSkillId( (String) skills.get( 0 ) );
+		name = SkillDatabase.getSkillName( num );
 		return new ScriptValue( KoLmafiaASH.SKILL_TYPE, num, name );
 	}
 
@@ -565,8 +600,8 @@ public class KoLmafiaASH
 			throw new AdvancedScriptException( "Effect " + name + " not found in database" );
 		}
 
-		int num = StatusEffectDatabase.getEffectId( effect.getName() );
-		name = StatusEffectDatabase.getEffectName( num );
+		int num = EffectDatabase.getEffectId( effect.getName() );
+		name = EffectDatabase.getEffectName( num );
 		return new ScriptValue( KoLmafiaASH.EFFECT_TYPE, num, name );
 	}
 
@@ -577,7 +612,7 @@ public class KoLmafiaASH
 			return KoLmafiaASH.FAMILIAR_INIT;
 		}
 
-		int num = FamiliarsDatabase.getFamiliarId( name );
+		int num = FamiliarDatabase.getFamiliarId( name );
 		if ( num == -1 )
 		{
 			if ( KoLmafiaASH.isExecuting )
@@ -588,7 +623,7 @@ public class KoLmafiaASH
 			throw new AdvancedScriptException( "Familiar " + name + " not found in database" );
 		}
 
-		name = FamiliarsDatabase.getFamiliarName( num );
+		name = FamiliarDatabase.getFamiliarName( num );
 		return new ScriptValue( KoLmafiaASH.FAMILIAR_TYPE, num, name );
 	}
 
@@ -669,7 +704,7 @@ public class KoLmafiaASH
 
 	private static final ScriptValue makeItemValue( final int num )
 	{
-		String name = TradeableItemDatabase.getItemName( num );
+		String name = ItemDatabase.getItemName( num );
 
 		if ( name == null )
 		{
@@ -681,7 +716,7 @@ public class KoLmafiaASH
 
 	private static final ScriptValue makeItemValue( final String name )
 	{
-		int num = TradeableItemDatabase.getItemId( name );
+		int num = ItemDatabase.getItemId( name );
 
 		if ( num == -1 )
 		{
@@ -698,7 +733,7 @@ public class KoLmafiaASH
 
 	private static final ScriptValue makeSkillValue( final int num )
 	{
-		String name = ClassSkillsDatabase.getSkillName( num );
+		String name = SkillDatabase.getSkillName( num );
 		if ( name == null )
 		{
 			return KoLmafiaASH.SKILL_INIT;
@@ -709,7 +744,7 @@ public class KoLmafiaASH
 
 	private static final ScriptValue makeEffectValue( final int num )
 	{
-		String name = StatusEffectDatabase.getEffectName( num );
+		String name = EffectDatabase.getEffectName( num );
 		if ( name == null )
 		{
 			return KoLmafiaASH.EFFECT_INIT;
@@ -719,7 +754,7 @@ public class KoLmafiaASH
 
 	private static final ScriptValue makeFamiliarValue( final int num )
 	{
-		String name = FamiliarsDatabase.getFamiliarName( num );
+		String name = FamiliarDatabase.getFamiliarName( num );
 		if ( name == null )
 		{
 			return KoLmafiaASH.FAMILIAR_INIT;
@@ -891,7 +926,7 @@ public class KoLmafiaASH
 		{
 			KoLSettings.setUserProperty( "previousNotifyList", notifyList + currentScript );
 
-			GreenMessageRequest notifier = new GreenMessageRequest( this.notifyRecipient, this );
+			SendMailRequest notifier = new SendMailRequest( this.notifyRecipient, this );
 			RequestThread.postRequest( notifier );
 		}
 
@@ -3720,8 +3755,8 @@ public class KoLmafiaASH
 				AdventureDatabase.getAdventure( KoLSettings.getUserProperty( "lastAdventure" ) ) ) ).getAdventureName();
 
 		case TYPE_SKILL:
-			return (String) ( (UseSkillRequest) KoLFrame.input( message, ClassSkillsDatabase.getSkillsByType(
-				ClassSkillsDatabase.CASTABLE ).toArray() ) ).getSkillName();
+			return (String) ( (UseSkillRequest) KoLFrame.input( message, SkillDatabase.getSkillsByType(
+				SkillDatabase.CASTABLE ).toArray() ) ).getSkillName();
 
 		case TYPE_FAMILIAR:
 			return ( (FamiliarData) KoLFrame.input(
@@ -5655,7 +5690,7 @@ public class KoLmafiaASH
 			ScriptValue returnValue = new ScriptValue( KoLmafiaASH.BUFFER_TYPE, "", buffer );
 
 			KoLmafiaASH.VISITOR.constructURLString( location );
-			if ( KoLRequest.shouldIgnore( KoLmafiaASH.VISITOR ) )
+			if ( GenericRequest.shouldIgnore( KoLmafiaASH.VISITOR ) )
 			{
 				return returnValue;
 			}
@@ -5764,21 +5799,21 @@ public class KoLmafiaASH
 
 		public ScriptValue to_slot( final ScriptVariable item )
 		{
-			switch ( TradeableItemDatabase.getConsumptionType( item.intValue() ) )
+			switch ( ItemDatabase.getConsumptionType( item.intValue() ) )
 			{
-			case EQUIP_HAT:
+			case KoLConstants.EQUIP_HAT:
 				return KoLmafiaASH.parseSlotValue( "hat" );
-			case EQUIP_WEAPON:
+			case KoLConstants.EQUIP_WEAPON:
 				return KoLmafiaASH.parseSlotValue( "weapon" );
-			case EQUIP_OFFHAND:
+			case KoLConstants.EQUIP_OFFHAND:
 				return KoLmafiaASH.parseSlotValue( "off-hand" );
-			case EQUIP_SHIRT:
+			case KoLConstants.EQUIP_SHIRT:
 				return KoLmafiaASH.parseSlotValue( "shirt" );
-			case EQUIP_PANTS:
+			case KoLConstants.EQUIP_PANTS:
 				return KoLmafiaASH.parseSlotValue( "pants" );
-			case EQUIP_FAMILIAR:
+			case KoLConstants.EQUIP_FAMILIAR:
 				return KoLmafiaASH.parseSlotValue( "familiar" );
-			case EQUIP_ACCESSORY:
+			case KoLConstants.EQUIP_ACCESSORY:
 				return KoLmafiaASH.parseSlotValue( "acc1" );
 			default:
 				return KoLmafiaASH.parseSlotValue( "none" );
@@ -5801,12 +5836,12 @@ public class KoLmafiaASH
 
 		public ScriptValue moon_phase()
 		{
-			return new ScriptValue( MoonPhaseDatabase.getPhaseStep() );
+			return new ScriptValue( HolidayDatabase.getPhaseStep() );
 		}
 
 		public ScriptValue moon_light()
 		{
-			return new ScriptValue( MoonPhaseDatabase.getMoonlight() );
+			return new ScriptValue( HolidayDatabase.getMoonlight() );
 		}
 
 		public ScriptValue stat_bonus_today()
@@ -5934,7 +5969,7 @@ public class KoLmafiaASH
 			}
 
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "use " + count.intValue() + " " + item.toStringValue() );
-			return ConsumeItemRequest.lastUpdate.equals( "" ) ? this.continueValue() : KoLmafiaASH.FALSE_VALUE;
+			return UseItemRequest.lastUpdate.equals( "" ) ? this.continueValue() : KoLmafiaASH.FALSE_VALUE;
 		}
 
 		public ScriptValue eat( final ScriptVariable count, final ScriptVariable item )
@@ -5945,7 +5980,7 @@ public class KoLmafiaASH
 			}
 
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "eat " + count.intValue() + " " + item.toStringValue() );
-			return ConsumeItemRequest.lastUpdate.equals( "" ) ? this.continueValue() : KoLmafiaASH.FALSE_VALUE;
+			return UseItemRequest.lastUpdate.equals( "" ) ? this.continueValue() : KoLmafiaASH.FALSE_VALUE;
 		}
 
 		public ScriptValue drink( final ScriptVariable count, final ScriptVariable item )
@@ -5956,7 +5991,7 @@ public class KoLmafiaASH
 			}
 
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "drink " + count.intValue() + " " + item.toStringValue() );
-			return ConsumeItemRequest.lastUpdate.equals( "" ) ? this.continueValue() : KoLmafiaASH.FALSE_VALUE;
+			return UseItemRequest.lastUpdate.equals( "" ) ? this.continueValue() : KoLmafiaASH.FALSE_VALUE;
 		}
 
 		public ScriptValue put_closet( final ScriptVariable count, final ScriptVariable item )
@@ -6080,13 +6115,13 @@ public class KoLmafiaASH
 
 		public ScriptValue is_npc_item( final ScriptVariable item )
 		{
-			return NPCStoreDatabase.contains( TradeableItemDatabase.getItemName( item.intValue() ), false ) ? KoLmafiaASH.TRUE_VALUE : KoLmafiaASH.FALSE_VALUE;
+			return NPCStoreDatabase.contains( ItemDatabase.getItemName( item.intValue() ), false ) ? KoLmafiaASH.TRUE_VALUE : KoLmafiaASH.FALSE_VALUE;
 		}
 
 		public ScriptValue daily_special()
 		{
 			AdventureResult special =
-				KoLCharacter.inMoxieSign() ? MicrobreweryRequest.getDailySpecial() : KoLCharacter.inMysticalitySign() ? RestaurantRequest.getDailySpecial() : null;
+				KoLCharacter.inMoxieSign() ? MicroBreweryRequest.getDailySpecial() : KoLCharacter.inMysticalitySign() ? ChezSnooteeRequest.getDailySpecial() : null;
 
 			return special == null ? KoLmafiaASH.ITEM_INIT : KoLmafiaASH.parseItemValue( special.getName() );
 		}
@@ -6133,13 +6168,13 @@ public class KoLmafiaASH
 
 		public ScriptValue creatable_amount( final ScriptVariable arg )
 		{
-			ItemCreationRequest item = ItemCreationRequest.getInstance( arg.intValue() );
+			CreateItemRequest item = CreateItemRequest.getInstance( arg.intValue() );
 			return new ScriptValue( item == null ? 0 : item.getQuantityPossible() );
 		}
 
 		public ScriptValue get_ingredients( final ScriptVariable item )
 		{
-			AdventureResult[] data = ConcoctionsDatabase.getIngredients( item.intValue() );
+			AdventureResult[] data = ConcoctionDatabase.getIngredients( item.intValue() );
 			ScriptMap value = new ScriptMap( KoLmafiaASH.RESULT_TYPE );
 
 			for ( int i = 0; i < data.length; ++i )
@@ -6162,7 +6197,7 @@ public class KoLmafiaASH
 		{
 			if ( KoLConstants.collection.isEmpty() )
 			{
-				RequestThread.postRequest( new MuseumRequest() );
+				RequestThread.postRequest( new DisplayCaseRequest() );
 			}
 
 			AdventureResult item = new AdventureResult( arg.intValue(), 0 );
@@ -6174,7 +6209,7 @@ public class KoLmafiaASH
 			LockableListModel list = StoreManager.getSoldItemList();
 			if ( list.isEmpty() )
 			{
-				RequestThread.postRequest( new StoreManageRequest() );
+				RequestThread.postRequest( new ManageStoreRequest() );
 			}
 
 			SoldItem item = new SoldItem( arg.intValue(), 0, 0, 0, 0 );
@@ -6213,7 +6248,7 @@ public class KoLmafiaASH
 
 		public ScriptValue have_mushroom_plot()
 		{
-			return new ScriptValue( MushroomPlot.ownsPlot() );
+			return new ScriptValue( MushroomManager.ownsPlot() );
 		}
 
 		// The following functions pertain to providing updated
@@ -6221,7 +6256,7 @@ public class KoLmafiaASH
 
 		public ScriptValue refresh_status()
 		{
-			RequestThread.postRequest( CharpaneRequest.getInstance() );
+			RequestThread.postRequest( CharPaneRequest.getInstance() );
 			return this.continueValue();
 		}
 
@@ -6252,7 +6287,7 @@ public class KoLmafiaASH
 
 		public ScriptValue my_hash()
 		{
-			return new ScriptValue( KoLRequest.passwordHash );
+			return new ScriptValue( GenericRequest.passwordHash );
 		}
 
 		public ScriptValue in_muscle_sign()
@@ -6431,17 +6466,17 @@ public class KoLmafiaASH
 
 		public ScriptValue mp_cost( final ScriptVariable skill )
 		{
-			return new ScriptValue( ClassSkillsDatabase.getMPConsumptionById( skill.intValue() ) );
+			return new ScriptValue( SkillDatabase.getMPConsumptionById( skill.intValue() ) );
 		}
 
 		public ScriptValue turns_per_cast( final ScriptVariable skill )
 		{
-			return new ScriptValue( ClassSkillsDatabase.getEffectDuration( skill.intValue() ) );
+			return new ScriptValue( SkillDatabase.getEffectDuration( skill.intValue() ) );
 		}
 
 		public ScriptValue have_effect( final ScriptVariable arg )
 		{
-			List potentialEffects = StatusEffectDatabase.getMatchingNames( arg.toStringValue().toString() );
+			List potentialEffects = EffectDatabase.getMatchingNames( arg.toStringValue().toString() );
 			AdventureResult effect =
 				potentialEffects.isEmpty() ? null : new AdventureResult( (String) potentialEffects.get( 0 ), 0, true );
 			return new ScriptValue( effect == null ? 0 : effect.getCount( KoLConstants.activeEffects ) );
@@ -6457,7 +6492,7 @@ public class KoLmafiaASH
 			// Just in case someone assumed that use_skill would also work
 			// in combat, go ahead and allow it here.
 
-			if ( ClassSkillsDatabase.isCombat( skill.intValue() ) )
+			if ( SkillDatabase.isCombat( skill.intValue() ) )
 			{
 				for ( int i = 0; i < count.intValue() && FightRequest.INSTANCE.getAdventuresUsed() == 0; ++i )
 				{
@@ -6476,7 +6511,7 @@ public class KoLmafiaASH
 			// Just in case someone assumed that use_skill would also work
 			// in combat, go ahead and allow it here.
 
-			if ( ClassSkillsDatabase.isCombat( skill.intValue() ) )
+			if ( SkillDatabase.isCombat( skill.intValue() ) )
 			{
 				return this.visit_url( "fight.php?action=skill&whichskill=" + skill.intValue() );
 			}
@@ -6496,7 +6531,7 @@ public class KoLmafiaASH
 			// Just in case someone assumed that use_skill would also work
 			// in combat, go ahead and allow it here.
 
-			if ( ClassSkillsDatabase.isCombat( skill.intValue() ) )
+			if ( SkillDatabase.isCombat( skill.intValue() ) )
 			{
 				for ( int i = 0; i < count.intValue() && FightRequest.INSTANCE.getAdventuresUsed() == 0; ++i )
 				{
@@ -6553,7 +6588,7 @@ public class KoLmafiaASH
 
 		public ScriptValue can_equip( final ScriptVariable item )
 		{
-			return new ScriptValue( EquipmentDatabase.canEquip( TradeableItemDatabase.getItemName( item.intValue() ) ) );
+			return new ScriptValue( EquipmentDatabase.canEquip( ItemDatabase.getItemName( item.intValue() ) ) );
 		}
 
 		public ScriptValue equip( final ScriptVariable item )
@@ -6643,7 +6678,7 @@ public class KoLmafiaASH
 
 		public ScriptValue familiar_equipment( final ScriptVariable familiar )
 		{
-			return KoLmafiaASH.parseItemValue( FamiliarsDatabase.getFamiliarItem( familiar.intValue() ) );
+			return KoLmafiaASH.parseItemValue( FamiliarDatabase.getFamiliarItem( familiar.intValue() ) );
 		}
 
 		public ScriptValue familiar_weight( final ScriptVariable familiar )
@@ -7008,7 +7043,7 @@ public class KoLmafiaASH
 
 		public ScriptValue chat_reply( final ScriptVariable string )
 		{
-			String recipient = KoLMessenger.lastBlueMessage();
+			String recipient = ChatManager.lastBlueMessage();
 			if ( !recipient.equals( "" ) )
 			{
 				RequestThread.postRequest( new ChatRequest( recipient, string.toStringValue().toString(), false ) );
@@ -7033,7 +7068,7 @@ public class KoLmafiaASH
 
 		public ScriptValue guardians()
 		{
-			int itemId = SorceressLair.fightTowerGuardians( true );
+			int itemId = SorceressLairManager.fightTowerGuardians( true );
 			return KoLmafiaASH.makeItemValue( itemId );
 		}
 

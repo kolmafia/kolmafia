@@ -45,6 +45,11 @@ import javax.swing.event.ListSelectionListener;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
+import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
+
+import net.sourceforge.kolmafia.request.UneffectRequest;
+import net.sourceforge.kolmafia.request.UseSkillRequest;
+
 public class SkillBuffFrame
 	extends KoLFrame
 {
@@ -52,7 +57,7 @@ public class SkillBuffFrame
 
 	private SkillTypeComboBox typeSelect;
 	private MutableComboBox skillSelect;
-	private AutoHighlightField amountField;
+	private AutoHighlightTextField amountField;
 	private MutableComboBox targetSelect;
 	private final ShowDescriptionList effectList;
 
@@ -114,7 +119,7 @@ public class SkillBuffFrame
 
 			SkillBuffFrame.this.typeSelect = new SkillTypeComboBox();
 			SkillBuffFrame.this.skillSelect = new MutableComboBox( KoLConstants.usableSkills, false );
-			SkillBuffFrame.this.amountField = new AutoHighlightField();
+			SkillBuffFrame.this.amountField = new AutoHighlightTextField();
 
 			SkillBuffFrame.this.contacts = (LockableListModel) KoLConstants.contactList.clone();
 			SkillBuffFrame.this.targetSelect = new MutableComboBox( SkillBuffFrame.this.contacts, true );

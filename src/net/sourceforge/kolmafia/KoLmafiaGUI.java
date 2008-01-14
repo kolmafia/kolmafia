@@ -41,6 +41,30 @@ import javax.swing.SwingUtilities;
 import net.sourceforge.foxtrot.ConcurrentWorker;
 import net.sourceforge.foxtrot.Job;
 
+import net.sourceforge.kolmafia.session.BuffBotManager;
+import net.sourceforge.kolmafia.session.ChatManager;
+import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.DisplayCaseManager;
+import net.sourceforge.kolmafia.session.MailManager;
+import net.sourceforge.kolmafia.session.MushroomManager;
+import net.sourceforge.kolmafia.session.StoreManager;
+
+import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
+import net.sourceforge.kolmafia.request.ClanStashRequest;
+import net.sourceforge.kolmafia.request.ClanWarRequest;
+import net.sourceforge.kolmafia.request.ContactListRequest;
+import net.sourceforge.kolmafia.request.DisplayCaseRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.HellKitchenRequest;
+import net.sourceforge.kolmafia.request.LoginRequest;
+import net.sourceforge.kolmafia.request.MailboxRequest;
+import net.sourceforge.kolmafia.request.ManageStoreRequest;
+import net.sourceforge.kolmafia.request.MicroBreweryRequest;
+import net.sourceforge.kolmafia.request.PvpRequest;
+
+import net.sourceforge.kolmafia.persistence.BuffBotDatabase;
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+
 public class KoLmafiaGUI
 	extends KoLmafia
 {
@@ -108,7 +132,7 @@ public class KoLmafiaGUI
 	{
 		super.initialize( username );
 
-		if ( KoLRequest.passwordHash != null )
+		if ( GenericRequest.passwordHash != null )
 		{
 			if ( KoLSettings.getBooleanProperty( "retrieveContacts" ) )
 			{
@@ -186,7 +210,7 @@ public class KoLmafiaGUI
 
 		LoginFrame.disposeInstance();
 
-		if ( KoLMailManager.hasNewMessages() )
+		if ( MailManager.hasNewMessages() )
 		{
 			KoLmafia.updateDisplay( "You have new mail." );
 		}
@@ -195,9 +219,9 @@ public class KoLmafiaGUI
 			try
 			{
 				String holiday =
-					MoonPhaseDatabase.getHoliday(
+					HolidayDatabase.getHoliday(
 						KoLConstants.DAILY_FORMAT.parse( KoLConstants.DAILY_FORMAT.format( new Date() ) ), true );
-				KoLmafia.updateDisplay( KoLDatabase.getDisplayName( holiday + ", " + MoonPhaseDatabase.getMoonEffect() ) );
+				KoLmafia.updateDisplay( KoLDatabase.getDisplayName( holiday + ", " + HolidayDatabase.getMoonEffect() ) );
 			}
 			catch ( Exception e )
 			{
@@ -216,11 +240,11 @@ public class KoLmafiaGUI
 			return;
 		}
 
-		if ( frameName.equals( "KoLMessenger" ) )
+		if ( frameName.equals( "ChatManager" ) )
 		{
 			KoLmafia.updateDisplay( "Initializing chat interface..." );
 
-			KoLMessenger.initialize();
+			ChatManager.initialize();
 			RequestThread.enableDisplayIfSequenceComplete();
 
 			return;
@@ -318,7 +342,7 @@ public class KoLmafiaGUI
 			{
 				if ( KoLSettings.getBooleanProperty( "clanAttacksEnabled" ) )
 				{
-					RequestThread.postRequest( new ClanAttackRequest() );
+					RequestThread.postRequest( new ClanWarRequest() );
 				}
 
 				if ( KoLSettings.getBooleanProperty( "autoSatisfyWithStash" ) && ClanManager.getStash().isEmpty() )
@@ -351,7 +375,7 @@ public class KoLmafiaGUI
 			else if ( this.frameClass == FlowerHunterFrame.class )
 			{
 				KoLmafia.updateDisplay( "Determining number of attacks remaining..." );
-				RequestThread.postRequest( new FlowerHunterRequest() );
+				RequestThread.postRequest( new PvpRequest() );
 
 				if ( KoLmafia.refusesContinue() )
 				{
@@ -367,7 +391,7 @@ public class KoLmafiaGUI
 				{
 					if ( KoLConstants.kitchenItems.isEmpty() )
 					{
-						KitchenRequest.getMenu();
+						HellKitchenRequest.getMenu();
 					}
 				}
 
@@ -379,7 +403,7 @@ public class KoLmafiaGUI
 				{
 					if ( KoLConstants.restaurantItems.isEmpty() )
 					{
-						RestaurantRequest.getMenu();
+						ChezSnooteeRequest.getMenu();
 					}
 				}
 
@@ -389,12 +413,12 @@ public class KoLmafiaGUI
 
 				if ( KoLCharacter.canDrink() && KoLCharacter.inMoxieSign() && KoLConstants.microbreweryItems.isEmpty() )
 				{
-					KoLRequest beachCheck = new KoLRequest( "main.php" );
+					GenericRequest beachCheck = new GenericRequest( "main.php" );
 					RequestThread.postRequest( beachCheck );
 
 					if ( beachCheck.responseText.indexOf( "beach.php" ) != -1 )
 					{
-						MicrobreweryRequest.getMenu();
+						MicroBreweryRequest.getMenu();
 					}
 				}
 
@@ -428,16 +452,16 @@ public class KoLmafiaGUI
 					return;
 				}
 
-				if ( MuseumManager.getHeaders().isEmpty() )
+				if ( DisplayCaseManager.getHeaders().isEmpty() )
 				{
-					RequestThread.postRequest( new MuseumRequest() );
+					RequestThread.postRequest( new DisplayCaseRequest() );
 				}
 			}
 			else if ( this.frameClass == MushroomFrame.class )
 			{
-				for ( int i = 0; i < MushroomPlot.MUSHROOMS.length; ++i )
+				for ( int i = 0; i < MushroomManager.MUSHROOMS.length; ++i )
 				{
-					RequestEditorKit.downloadImage( "http://images.kingdomofloathing.com/itemimages/" + MushroomPlot.MUSHROOMS[ i ][ 1 ] );
+					RequestEditorKit.downloadImage( "http://images.kingdomofloathing.com/itemimages/" + MushroomManager.MUSHROOMS[ i ][ 1 ] );
 				}
 			}
 			else if ( this.frameClass == StoreManageFrame.class )
@@ -452,7 +476,7 @@ public class KoLmafiaGUI
 				RequestThread.openRequestSequence();
 
 				StoreManager.clearCache();
-				RequestThread.postRequest( new StoreManageRequest( false ) );
+				RequestThread.postRequest( new ManageStoreRequest( false ) );
 
 				RequestThread.closeRequestSequence();
 			}
@@ -463,7 +487,7 @@ public class KoLmafiaGUI
 
 	public void showHTML( final String location, final String text )
 	{
-		KoLRequest request = new KoLRequest( location );
+		GenericRequest request = new GenericRequest( location );
 		request.responseText = text;
 		DescriptionFrame.showRequest( request );
 	}

@@ -23,18 +23,16 @@ import javax.swing.border.Border;
 import javax.swing.event.EventListenerList;
 import javax.swing.plaf.TabbedPaneUI;
 
-import net.sourceforge.kolmafia.UnfocusedTabbedPane;
-
 /**
  * A JTabbedPane with some added UI functionalities. A close and max/detach icons are added to every tab, typically to
  * let the user close or detach the tab by clicking on these icons.
- * 
+ *
  * @version 1.1 06/07/04
  * @author David Bismut, davidou@mageos.com
  */
 
 public class CloseTabbedPane
-	extends UnfocusedTabbedPane
+	extends JTabbedPane
 {
 
 	private int overTabIndex = -1;
@@ -80,7 +78,7 @@ public class CloseTabbedPane
 
 	/**
 	 * Sets whether the tabbedPane should have a close icon or not.
-	 * 
+	 *
 	 * @param b whether the tabbedPane should have a close icon or not
 	 */
 	public void setCloseIconStyle( final int style )
@@ -91,7 +89,7 @@ public class CloseTabbedPane
 	/**
 	 * Detaches the <code>index</code> tab in a seperate frame. When the frame is closed, the tab is automatically
 	 * reinserted into the tabbedPane.
-	 * 
+	 *
 	 * @param index index of the tabbedPane to be detached
 	 */
 	public void detachTab( final int index )
@@ -180,7 +178,7 @@ public class CloseTabbedPane
 
 	/**
 	 * Adds a <code>CloseListener</code> to the tabbedPane.
-	 * 
+	 *
 	 * @param l the <code>CloseListener</code> to add
 	 * @see #fireCloseTabEvent
 	 * @see #removeCloseListener
@@ -192,7 +190,7 @@ public class CloseTabbedPane
 
 	/**
 	 * Adds a <code>MaxListener</code> to the tabbedPane.
-	 * 
+	 *
 	 * @param l the <code>MaxListener</code> to add
 	 * @see #fireMaxTabEvent
 	 * @see #removeMaxListener
@@ -204,7 +202,7 @@ public class CloseTabbedPane
 
 	/**
 	 * Adds a <code>DoubleClickListener</code> to the tabbedPane.
-	 * 
+	 *
 	 * @param l the <code>DoubleClickListener</code> to add
 	 * @see #fireDoubleClickTabEvent
 	 * @see #removeDoubleClickListener
@@ -216,7 +214,7 @@ public class CloseTabbedPane
 
 	/**
 	 * Adds a <code>PopupOutsideListener</code> to the tabbedPane.
-	 * 
+	 *
 	 * @param l the <code>PopupOutsideListener</code> to add
 	 * @see #firePopupOutsideTabEvent
 	 * @see #removePopupOutsideListener
@@ -228,7 +226,7 @@ public class CloseTabbedPane
 
 	/**
 	 * Removes a <code>CloseListener</code> from this tabbedPane.
-	 * 
+	 *
 	 * @param l the <code>CloseListener</code> to remove
 	 * @see #fireCloseTabEvent
 	 * @see #addCloseListener
@@ -240,7 +238,7 @@ public class CloseTabbedPane
 
 	/**
 	 * Removes a <code>MaxListener</code> from this tabbedPane.
-	 * 
+	 *
 	 * @param l the <code>MaxListener</code> to remove
 	 * @see #fireMaxTabEvent
 	 * @see #addMaxListener
@@ -252,7 +250,7 @@ public class CloseTabbedPane
 
 	/**
 	 * Removes a <code>DoubleClickListener</code> from this tabbedPane.
-	 * 
+	 *
 	 * @param l the <code>DoubleClickListener</code> to remove
 	 * @see #fireDoubleClickTabEvent
 	 * @see #addDoubleClickListener
@@ -264,7 +262,7 @@ public class CloseTabbedPane
 
 	/**
 	 * Removes a <code>PopupOutsideListener</code> from this tabbedPane.
-	 * 
+	 *
 	 * @param l the <code>PopupOutsideListener</code> to remove
 	 * @see #firePopupOutsideTabEvent
 	 * @see #addPopupOutsideListener
@@ -279,7 +277,7 @@ public class CloseTabbedPane
 	 * method also updates the <code>overTabIndex</code> of the tabbedPane with a value coming from the UI. This
 	 * method method is called each time a <code>MouseEvent</code> is received from the UI when the user clicks on the
 	 * close icon of the tab which index is <code>overTabIndex</code>.
-	 * 
+	 *
 	 * @param e the <code>MouseEvent</code> to be sent
 	 * @param overTabIndex the index of a tab, usually the tab over which the mouse is
 	 * @see #addCloseListener
@@ -301,7 +299,7 @@ public class CloseTabbedPane
 	 * method also updates the <code>overTabIndex</code> of the tabbedPane with a value coming from the UI. This
 	 * method method is called each time a <code>MouseEvent</code> is received from the UI when the user clicks on the
 	 * max icon of the tab which index is <code>overTabIndex</code>.
-	 * 
+	 *
 	 * @param e the <code>MouseEvent</code> to be sent
 	 * @param overTabIndex the index of a tab, usually the tab over which the mouse is
 	 * @see #addMaxListener
@@ -323,7 +321,7 @@ public class CloseTabbedPane
 	 * The method also updates the <code>overTabIndex</code> of the tabbedPane with a value coming from the UI. This
 	 * method method is called each time a <code>MouseEvent</code> is received from the UI when the user double-clicks
 	 * on the tab which index is <code>overTabIndex</code>.
-	 * 
+	 *
 	 * @param e the <code>MouseEvent</code> to be sent
 	 * @param overTabIndex the index of a tab, usually the tab over which the mouse is
 	 * @see #addDoubleClickListener
@@ -345,7 +343,7 @@ public class CloseTabbedPane
 	 * The method also sets the <code>overTabIndex</code> to -1. This method method is called each time a
 	 * <code>MouseEvent</code> is received from the UI when the user right-clicks on the inactive part of a
 	 * tabbedPane.
-	 * 
+	 *
 	 * @param e the <code>MouseEvent</code> to be sent
 	 * @see #addPopupOutsideListener
 	 * @see EventListenerList
@@ -367,5 +365,19 @@ public class CloseTabbedPane
 		{
 			this.repaint();
 		}
+	}
+
+	public final boolean isFocusable()
+	{
+		return false;
+	}
+
+	public final void setFocusable( final boolean isFocusable )
+	{
+	}
+
+	public final void requestFocus()
+	{
+		this.transferFocus();
 	}
 }

@@ -41,12 +41,15 @@ import java.awt.event.MouseEvent;
 import javax.swing.JDialog;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JToolBar;
 import javax.swing.WindowConstants;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.SortedListModel;
+
+import net.sourceforge.kolmafia.session.ChatManager;
 
 public class ContactListFrame
 	extends KoLFrame
@@ -80,7 +83,7 @@ public class ContactListFrame
 		this.pack();
 	}
 
-	public UnfocusedTabbedPane getTabbedPane()
+	public JTabbedPane getTabbedPane()
 	{
 		return null;
 	}
@@ -187,7 +190,7 @@ public class ContactListFrame
 
 				if ( index >= 0 && index < ContactListFrame.this.contacts.size() )
 				{
-					KoLMessenger.openInstantMessage( (String) ContactListFrame.this.contacts.get( index ), true );
+					ChatManager.openInstantMessage( (String) ContactListFrame.this.contacts.get( index ), true );
 				}
 			}
 		}

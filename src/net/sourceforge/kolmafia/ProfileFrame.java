@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia;
 
+import net.sourceforge.kolmafia.request.GenericRequest;
+
 public class ProfileFrame
 	extends RequestFrame
 {
@@ -50,7 +52,7 @@ public class ProfileFrame
 		super.dispose();
 	}
 
-	public static final void showRequest( final KoLRequest request )
+	public static final void showRequest( final GenericRequest request )
 	{
 		if ( ProfileFrame.INSTANCE == null )
 		{

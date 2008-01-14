@@ -37,8 +37,15 @@ import java.io.PrintStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.request.CoinMasterRequest;
+import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.request.IslandArenaRequest;
+
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+
 public class BigIsland
-	implements KoLConstants
 {
 	private static AreaCombatData fratboyBattlefield =
 		AdventureDatabase.getAreaCombatData( "Battlefield (Frat Uniform)" );
@@ -433,7 +440,7 @@ public class BigIsland
 			return;
 
 		String quest = KoLSettings.getUserProperty( "sidequestArenaCompleted" );
-		String [][] array = quest.equals( "hippy" ) ? ArenaRequest.HIPPY_CONCERTS : ArenaRequest.FRATBOY_CONCERTS;
+		String [][] array = quest.equals( "hippy" ) ? IslandArenaRequest.HIPPY_CONCERTS : IslandArenaRequest.FRATBOY_CONCERTS;
 
 		String text = buffer.toString();
 		buffer.setLength( 0 );
@@ -1076,7 +1083,7 @@ public class BigIsland
 			BigIsland.parseLighthouse( responseText );
 			break;
 		case CAMP:
-			CoinmasterRequest.parseIslandVisit( location, responseText );
+			CoinMasterRequest.parseIslandVisit( location, responseText );
 			break;
 		}
 	}

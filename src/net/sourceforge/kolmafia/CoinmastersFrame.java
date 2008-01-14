@@ -35,20 +35,22 @@ package net.sourceforge.kolmafia;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Dimension;
-
 import java.awt.event.ActionListener;
-
 import java.util.Map;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.ListSelectionModel;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
-import net.java.dev.spellcast.utilities.SortedListModel;
+
+import net.sourceforge.kolmafia.request.CoinMasterRequest;
+import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
+
+import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 
 public class CoinmastersFrame
 	extends KoLFrame
@@ -237,7 +239,7 @@ public class CoinmastersFrame
 			this.hasOutfit = this.outfit == 0 || EquipmentDatabase.hasOutfit( this.outfit );
 		}
 
-		private KoLRequest outfitRequest()
+		private GenericRequest outfitRequest()
 		{
 			return new EquipmentRequest( EquipmentDatabase.getOutfit( this.outfit ) );
 		}
@@ -251,13 +253,13 @@ public class CoinmastersFrame
 
 			if ( !this.hasOutfit )
 			{
-				KoLmafia.updateDisplay( ERROR_STATE, "You don't have the right outfit" );
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have the right outfit" );
 				return;
 			}
 
 			if ( !CoinmastersFrame.atWar )
 			{
-				KoLmafia.updateDisplay( ERROR_STATE, "You're not at war." );
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You're not at war." );
 				return;
 			}
 
@@ -267,7 +269,7 @@ public class CoinmastersFrame
 				EquipmentDatabase.retrieveOutfit( this.outfit );
 				RequestThread.postRequest( outfitRequest() );
 			}
-			RequestThread.postRequest( new CoinmasterRequest( this.token ) );
+			RequestThread.postRequest( new CoinMasterRequest( this.token ) );
 			RequestThread.closeRequestSequence();
 		}
 
@@ -280,7 +282,7 @@ public class CoinmastersFrame
 
 			if ( this.outfit != 0 && !this.hasOutfit )
 			{
-				KoLmafia.updateDisplay( ERROR_STATE, "You don't have the right outfit" );
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have the right outfit" );
 				return;
 			}
 
@@ -294,7 +296,7 @@ public class CoinmastersFrame
 			for ( int i = 0; i < items.length; ++i )
 			{
 				AdventureResult it = (AdventureResult)items[i];
-				KoLRequest request = new CoinmasterRequest( token, action, it );
+				GenericRequest request = new CoinMasterRequest( token, action, it );
 				RequestThread.postRequest( request );
 			}
 
@@ -466,7 +468,7 @@ public class CoinmastersFrame
 
 				// Shrink the array which will be returned so
 				// that it removes any nulled values.
-				
+
 				if ( neededSize == 0 )
 				{
 					return null;

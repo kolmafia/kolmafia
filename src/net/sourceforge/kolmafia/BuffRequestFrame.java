@@ -47,18 +47,26 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.SortedListModel;
-import net.sourceforge.kolmafia.BuffBotManager.Offering;
+
+import net.sourceforge.kolmafia.session.BuffBotManager.Offering;
+
+import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.SendMailRequest;
+
+import net.sourceforge.kolmafia.persistence.BuffBotDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 public class BuffRequestFrame
 	extends KoLFrame
 {
-	public static final KoLRequest ONLINE_VALIDATOR = new KoLRequest( "submitnewchat.php" );
+	public static final GenericRequest ONLINE_VALIDATOR = new GenericRequest( "submitnewchat.php" );
 
 	private static final String NO_REQUEST_TEXT =
 		"\nTo whom it may concern:\n\n" + "At the frequent request of individuals wanting to see the name 'BOT_NAME' listed in KoLmafia's buff purchase interface, " + "BOT_NAME has been added to our internal buffbot database.\n\n" + "However, at the request of the individuals responsible for maintaining BOT_NAME, " + "BOT_NAME's formal price list and buff offerings are not available directly through KoLmafia.\n\n" + "You are welcome to use this interface to check whether or not BOT_NAME is currently logged in to KoL.  " + "However, we hope this message helps you understand why additional support was not added.\n\n\n" + "Respectfully yours,\nThe KoLmafia development team";
@@ -118,7 +126,7 @@ public class BuffRequestFrame
 		this.resetCard();
 	}
 
-	public UnfocusedTabbedPane getTabbedPane()
+	public JTabbedPane getTabbedPane()
 	{
 		return null;
 	}
@@ -212,7 +220,7 @@ public class BuffRequestFrame
 			for ( int i = 0; i < requests.size(); ++i )
 			{
 				KoLmafia.updateDisplay( "Submitting buff request " + ( i + 1 ) + " of " + requests.size() + " to " + BuffRequestFrame.this.botName + "..." );
-				RequestThread.postRequest( (GreenMessageRequest) requests.get( i ) );
+				RequestThread.postRequest( (SendMailRequest) requests.get( i ) );
 			}
 
 			KoLmafia.updateDisplay( "Buff requests complete." );
@@ -372,7 +380,7 @@ public class BuffRequestFrame
 
 			this.lastBuffId = buffId;
 			this.categoryPanels[ categoryId ].add( new JLabel(
-				"<html><h3>" + ClassSkillsDatabase.getSkillName( buffId ) + "</h3></html>" ) );
+				"<html><h3>" + SkillDatabase.getSkillName( buffId ) + "</h3></html>" ) );
 			this.categoryPanels[ categoryId ].add( Box.createVerticalStrut( 5 ) );
 		}
 	}

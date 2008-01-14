@@ -54,6 +54,15 @@ import javax.swing.WindowConstants;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
+import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
+
+import net.sourceforge.kolmafia.request.CharPaneRequest;
+import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
+
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+
 public class RequestFrame
 	extends KoLFrame
 {
@@ -76,14 +85,14 @@ public class RequestFrame
 
 	private JComboBox scriptSelect;
 	private BrowserComboBox functionSelect, gotoSelect;
-	private final AutoHighlightField locationField = new AutoHighlightField();
+	private final AutoHighlightTextField locationField = new AutoHighlightTextField();
 
 	public RequestFrame()
 	{
 		this( "Mini-Browser" );
 
 		this.setDefaultCloseOperation( WindowConstants.HIDE_ON_CLOSE );
-		this.displayRequest( new KoLRequest( "main.php" ) );
+		this.displayRequest( new GenericRequest( "main.php" ) );
 	}
 
 	public RequestFrame( final String title )
@@ -185,13 +194,13 @@ public class RequestFrame
 		topMenu.add( this.gotoSelect );
 		topMenu.add( Box.createHorizontalStrut( 20 ) );
 
-		RequestEditorKit.downloadImage( "http://images.kingdomofloathing.com/itemimages/smoon" + MoonPhaseDatabase.getRonaldPhase() + ".gif" );
-		RequestEditorKit.downloadImage( "http://images.kingdomofloathing.com/itemimages/smoon" + MoonPhaseDatabase.getGrimacePhase() + ".gif" );
+		RequestEditorKit.downloadImage( "http://images.kingdomofloathing.com/itemimages/smoon" + HolidayDatabase.getRonaldPhase() + ".gif" );
+		RequestEditorKit.downloadImage( "http://images.kingdomofloathing.com/itemimages/smoon" + HolidayDatabase.getGrimacePhase() + ".gif" );
 
 		topMenu.add( new JLabel(
-			JComponentUtilities.getImage( "itemimages/smoon" + MoonPhaseDatabase.getRonaldPhase() + ".gif" ) ) );
+			JComponentUtilities.getImage( "itemimages/smoon" + HolidayDatabase.getRonaldPhase() + ".gif" ) ) );
 		topMenu.add( new JLabel(
-			JComponentUtilities.getImage( "itemimages/smoon" + MoonPhaseDatabase.getGrimacePhase() + ".gif" ) ) );
+			JComponentUtilities.getImage( "itemimages/smoon" + HolidayDatabase.getGrimacePhase() + ".gif" ) ) );
 
 		topMenu.add( Box.createHorizontalStrut( 20 ) );
 
@@ -236,7 +245,7 @@ public class RequestFrame
 
 			if ( !selected.getLocation().equals( "" ) )
 			{
-				RequestFrame.this.refresh( new KoLRequest( selected.getLocation() ) );
+				RequestFrame.this.refresh( new GenericRequest( selected.getLocation() ) );
 			}
 
 			source.setSelectedIndex( 0 );
@@ -306,7 +315,7 @@ public class RequestFrame
 	 * yet been run, it will be run before the data is display in this frame.
 	 */
 
-	public void refresh( final KoLRequest request )
+	public void refresh( final GenericRequest request )
 	{
 		if ( KoLConstants.removedFrames.contains( this ) )
 		{
@@ -335,7 +344,7 @@ public class RequestFrame
 	 * Utility method which displays the given request.
 	 */
 
-	public void displayRequest( KoLRequest request )
+	public void displayRequest( GenericRequest request )
 	{
 		if ( this.mainBuffer == null || request == null )
 		{
@@ -344,7 +353,7 @@ public class RequestFrame
 
 		if ( request instanceof FightRequest )
 		{
-			request = new KoLRequest( request.getURLString() );
+			request = new GenericRequest( request.getURLString() );
 			request.responseText = FightRequest.lastResponseText;
 		}
 
@@ -420,7 +429,7 @@ public class RequestFrame
 
 		public void run()
 		{
-			RequestFrame.this.refresh( new KoLRequest( "main.php" ) );
+			RequestFrame.this.refresh( new GenericRequest( "main.php" ) );
 		}
 	}
 
@@ -479,7 +488,7 @@ public class RequestFrame
 				return;
 			}
 
-			RequestFrame.this.refresh( new KoLRequest( RequestFrame.this.currentLocation ) );
+			RequestFrame.this.refresh( new GenericRequest( RequestFrame.this.currentLocation ) );
 		}
 	}
 
@@ -495,7 +504,7 @@ public class RequestFrame
 		public void run()
 		{
 			KoLAdventure adventure = AdventureDatabase.getAdventure( RequestFrame.this.locationField.getText() );
-			KoLRequest request =
+			GenericRequest request =
 				RequestEditorKit.extractRequest( adventure == null ? RequestFrame.this.locationField.getText() : adventure.getRequest().getURLString() );
 			RequestFrame.this.refresh( request );
 		}
@@ -534,7 +543,7 @@ public class RequestFrame
 		}
 
 		RequestFrame current;
-		String displayHTML = RequestEditorKit.getDisplayHTML( "charpane.php", CharpaneRequest.getLastResponse() );
+		String displayHTML = RequestEditorKit.getDisplayHTML( "charpane.php", CharPaneRequest.getLastResponse() );
 
 		for ( int i = 0; i < RequestFrame.sideBarFrames.size(); ++i )
 		{

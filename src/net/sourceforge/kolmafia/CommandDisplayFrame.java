@@ -45,10 +45,15 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.LayoutFocusTraversalPolicy;
 import javax.swing.WindowConstants;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
+
+import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
+
+import net.sourceforge.kolmafia.request.GenericRequest;
 
 public class CommandDisplayFrame
 	extends KoLFrame
@@ -63,7 +68,7 @@ public class CommandDisplayFrame
 	private static final ArrayList commandHistory = new ArrayList();
 	private static int lastCommandIndex = 0;
 
-	private AutoHighlightField entryField;
+	private AutoHighlightTextField entryField;
 
 	public CommandDisplayFrame()
 	{
@@ -71,7 +76,7 @@ public class CommandDisplayFrame
 		this.setDefaultCloseOperation( WindowConstants.HIDE_ON_CLOSE );
 		this.framePanel.add( new CommandDisplayPanel(), BorderLayout.CENTER );
 
-		// Workaround for Swing bug in UnfocusedTabbedPane
+		// Workaround for Swing bug in JTabbedPane
 		// http://www.javalobby.org/java/forums/t43667.html
 
 		this.getContentPane().setFocusCycleRoot( true );
@@ -87,7 +92,7 @@ public class CommandDisplayFrame
 		}
 	}
 
-	public UnfocusedTabbedPane getTabbedPane()
+	public JTabbedPane getTabbedPane()
 	{
 		return null;
 	}
@@ -125,7 +130,7 @@ public class CommandDisplayFrame
 			JComponentUtilities.setComponentSize( scrollPane, 400, 300 );
 
 			JPanel entryPanel = new JPanel( new BorderLayout() );
-			CommandDisplayFrame.this.entryField = new AutoHighlightField();
+			CommandDisplayFrame.this.entryField = new AutoHighlightTextField();
 			CommandDisplayFrame.this.entryField.addKeyListener( new CommandEntryListener() );
 
 			this.entryButton = new JButton( "exec" );
@@ -252,7 +257,7 @@ public class CommandDisplayFrame
 			{
 				while ( CommandDisplayFrame.commandQueue.isEmpty() )
 				{
-					KoLRequest.delay( 500 );
+					GenericRequest.delay( 500 );
 				}
 
 				this.handleQueue();
