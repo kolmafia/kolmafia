@@ -240,7 +240,7 @@ public interface KoLConstants
 	public static final int NPCSTORES_VERSION = 1;
 	public static final int OUTFITS_VERSION = 1;
 	public static final int PACKAGES_VERSION = 1;
-	public static final int SPLEENHIT_VERSION = 1;
+	public static final int SPLEENHIT_VERSION = 2;
 	public static final int STATUSEFFECTS_VERSION = 1;
 	public static final int TRADEITEMS_VERSION = 1;
 	public static final int ZAPGROUPS_VERSION = 1;
