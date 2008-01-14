@@ -70,6 +70,7 @@ import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.MoodManager;
 import net.sourceforge.kolmafia.session.MoodManager.MoodTrigger;
+import net.sourceforge.kolmafia.swingui.widget.AutoHighlightSpinner;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -85,7 +86,7 @@ public abstract class AdventureOptionsFrame
 	private JComboBox actionSelect;
 
 	private TreeMap zoneMap;
-	private AutoHighlightTextField countField;
+	private AutoHighlightSpinner countField;
 	private final LockableListModel matchingAdventures;
 
 	protected JTree combatTree;
@@ -930,10 +931,9 @@ public abstract class AdventureOptionsFrame
 
 			if ( enableAdventures )
 			{
-				AdventureOptionsFrame.this.countField = new AutoHighlightTextField();
-				AdventureOptionsFrame.this.countField.setText( "0" );
+				AdventureOptionsFrame.this.countField = new AutoHighlightSpinner();
 				AdventureOptionsFrame.this.countField.setHorizontalAlignment( AutoHighlightTextField.RIGHT );
-				JComponentUtilities.setComponentSize( AdventureOptionsFrame.this.countField, 30, 20 );
+				JComponentUtilities.setComponentSize( AdventureOptionsFrame.this.countField, 56, 24 );
 				zonePanel.add( AdventureOptionsFrame.this.countField, BorderLayout.EAST );
 			}
 
@@ -1176,7 +1176,7 @@ public abstract class AdventureOptionsFrame
 			int requestCount =
 				Math.min(
 					KoLFrame.getValue( AdventureOptionsFrame.this.countField, 1 ), KoLCharacter.getAdventuresLeft() );
-			AdventureOptionsFrame.this.countField.setText( String.valueOf( requestCount ) );
+			AdventureOptionsFrame.this.countField.setValue( requestCount );
 
 			boolean resetCount = requestCount == KoLCharacter.getAdventuresLeft();
 
@@ -1184,7 +1184,7 @@ public abstract class AdventureOptionsFrame
 
 			if ( resetCount )
 			{
-				AdventureOptionsFrame.this.countField.setText( String.valueOf( KoLCharacter.getAdventuresLeft() ) );
+				AdventureOptionsFrame.this.countField.setValue( KoLCharacter.getAdventuresLeft() );
 			}
 
 			this.isProcessing = false;
@@ -1254,7 +1254,7 @@ public abstract class AdventureOptionsFrame
 
 			if ( KoLFrame.getValue( AdventureOptionsFrame.this.countField ) == 0 )
 			{
-				AdventureOptionsFrame.this.countField.setText( String.valueOf( KoLCharacter.getAdventuresLeft() ) );
+				AdventureOptionsFrame.this.countField.setValue( KoLCharacter.getAdventuresLeft() );
 			}
 
 			return true;
