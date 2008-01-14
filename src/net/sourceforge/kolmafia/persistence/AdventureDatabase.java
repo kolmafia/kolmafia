@@ -1368,7 +1368,8 @@ public class AdventureDatabase
 		if ( bounty == null )
 			return null;
 
-		return new AdventureResult( name, StaticEntity.parseInt( bounty ), false );
+		int count = StaticEntity.parseInt( bounty.substring( 0, bounty.indexOf( " " ) ) );
+		return new AdventureResult( name, count, false );
 	}
 
 	public static final AdventureResult currentBounty()
