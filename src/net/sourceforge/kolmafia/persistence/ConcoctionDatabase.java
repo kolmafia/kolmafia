@@ -1291,10 +1291,22 @@ public class ConcoctionDatabase
 
 		public int getYield()
 		{
-			if ( ConcoctionDatabase.tripleReagent && ( this.mixingMethod == KoLConstants.COOK_REAGENT || this.mixingMethod == KoLConstants.SUPER_REAGENT ) )
+			if ( ConcoctionDatabase.tripleReagent && this.isReagentPotion() )
+			{
 				return 3 * this.yield;
+			}
 
 			return this.yield;
+		}
+
+		public boolean isReagentPotion()	 
+		{	 
+			if ( this.mixingMethod != KoLConstants.COOK_REAGENT && this.mixingMethod != KoLConstants.SUPER_REAGENT )	 
+			{	 
+				return false;	 
+			}	 
+	 
+			return ItemDatabase.getConsumptionType( this.getItemId() ) == KoLConstants.CONSUME_MULTIPLE;	 
 		}
 
 		public int compareTo( final Object o )
