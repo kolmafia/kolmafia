@@ -319,7 +319,7 @@ public class CreateItemRequest
 			return new PixelRequest( itemId );
 
 		case KoLConstants.GNOME_TINKER:
-			return new GnomeGnomeTinkerRequest( itemId );
+			return new GnomeTinkerRequest( itemId );
 
 		case KoLConstants.CRIMBO05:
 			return new Crimbo05Request( itemId );
