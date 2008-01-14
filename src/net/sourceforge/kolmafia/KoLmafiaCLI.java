@@ -4127,6 +4127,7 @@ public class KoLmafiaCLI
 		}
 		else if ( desiredData.equals( "counters" ) )
 		{
+			desiredStream.println( "Last semirare found on turn " + KoLSettings.getUserProperty( "semirareCounter" ) );
 			desiredStream.println( "Unexpired counters: " );
 			desiredStream.println();
 
