@@ -1,66 +1,67 @@
-1
+2
 # Spleen hit values taken from the KoL Wiki
 # http://kol.coldfront.net/thekolwiki/index.php/Spleen
 
-ancient protein powder	1
-antique bottle of cough syrup	1
-astronaut ice-cream	1
-bit-o-cactus	1
-black paisley oyster egg	1
-black polka-dot oyster egg	1
-black striped oyster egg	1
-blue paisley oyster egg	1
-blue polka-dot oyster egg	1
-blue striped oyster egg	1
-bottle of ultravitamins	1
-can-can-in-a-can	1
-cold wad	1
-concentrated magicalness pill	1
-enchanted barbell	1
-extra-strength strongness elixir	1
-giant moxie weed	1
-handful of moss	1
-hot wad	1
-jug-o-magicalness	1
-lavender paisley oyster egg	1
-lavender polka-dot oyster egg	1
-lavender striped oyster egg	1
-magicalness-in-a-can	1
-Mariner's Friend cough drops	1
-mauve paisley oyster egg	1
-mauve polka-dot oyster egg	1
-mauve striped oyster egg	1
-Medicinal Herb's medicinal herbs	1
-moxie weed	1
-off-white paisley oyster egg	1
-off-white polka-dot oyster egg	1
-off-white striped oyster egg	1
-patent antipsychotics	1
-puce paisley oyster egg	1
-puce polka-dot oyster egg	1
-puce striped oyster egg	1
-red paisley oyster egg	1
-red polka-dot oyster egg	1
-red striped oyster egg	1
-sleaze wad	1
-spooky wad	1
-stench wad	1
-strongness elixir	1
-suntan lotion of moxiousness	1
-tube of hair oil	1
-twinkly wad	1
-yellow paisley oyster egg	1
-yellow polka-dot oyster egg	1
-yellow striped oyster egg	1
+# Item	Spleenhit	Level Req	Adv	Musc	Myst	Moxie
+ancient protein powder	1	1	0	12-14	0	0
+antique bottle of cough syrup	1	6	0	0	18-20	0
+astronaut ice-cream	1	7	8-10	0	0	0
+bit-o-cactus	1	1	0	0	10-12	0
+black paisley oyster egg	1	1	0	0	11-15	0
+black polka-dot oyster egg	1	1	0	0	0	11-15
+black striped oyster egg	1	1	0	11-15	0	0
+blue paisley oyster egg	1	1	0	0	11-15	0
+blue polka-dot oyster egg	1	1	0	0	0	11-15
+blue striped oyster egg	1	1	0	11-15	0	0
+bottle of ultravitamins	1	6	0	18-20	0	0
+can-can-in-a-can	1	1	0	0	0	10-12
+cold wad	1	6	1	24-30	16-20	8-10
+concentrated magicalness pill	1	2	0	0	5-7	0
+enchanted barbell	1	2	0	5-7	0	0
+extra-strength strongness elixir	1	3	0	8-10	0	0
+giant moxie weed	1	2	0	0	0	5-7
+handful of moss	1	1	0	0	0	12-14
+hot wad	1	6	1	24-30	8-10	16-20
+jug-o-magicalness	1	3	0	0	8-10	0
+lavender paisley oyster egg	1	1	0	0	11-15	11-15
+lavender polka-dot oyster egg	1	1	0	0	0	22-30
+lavender striped oyster egg	1	1	0	11-15	0	11-15
+magicalness-in-a-can	1	1	0	0	1-3	0
+Mariner's Friend cough drops	1	1	0	10-12	0	0
+mauve paisley oyster egg	1	1	0	0	22-30	0
+mauve polka-dot oyster egg	1	1	0	0	11-15	11-15
+mauve striped oyster egg	1	1	0	11-15	11-15	0
+Medicinal Herb's medicinal herbs	1	3	0	0	0	0
+moxie weed	1	1	0	0	0	1-3
+off-white paisley oyster egg	1	1	0	0	11-15	0
+off-white polka-dot oyster egg	1	1	0	0	0	11-15
+off-white striped oyster egg	1	1	0	11-15	0	0
+patent antipsychotics	1	1	0	0	10-12	0
+puce paisley oyster egg	1	1	0	11-15	11-15	0
+puce polka-dot oyster egg	1	1	0	11-15	0	11-15
+puce striped oyster egg	1	1	0	22-30	0	0
+red paisley oyster egg	1	1	0	0	11-15	0
+red polka-dot oyster egg	1	1	0	0	0	11-15
+red striped oyster egg	1	1	0	11-15	0	0
+sleaze wad	1	6	1	12-15	12-15	24-30
+spooky wad	1	6	1	8-10	24-30	16-20
+stench wad	1	6	1	16-20	24-30	8-10
+strongness elixir	1	1	0	1-3	0	0
+suntan lotion of moxiousness	1	3	0	0	0	8-10
+tube of hair oil	1	6	0	0	0	18-20
+twinkly wad	1	6	1	8-10	8-10	8-10
+yellow paisley oyster egg	1	1	0	0	11-15	0
+yellow polka-dot oyster egg	1	1	0	0	0	11-15
+yellow striped oyster egg	1	1	0	11-15	0	0
 
-can of Red Minotaur	3
-guy made of bee pollen	3
+can of Red Minotaur	3	1	0	0	0	0
+guy made of bee pollen	3	8	6-10	18-60	18-60	18-60
 
-not-a-pipe	4
+not-a-pipe	4	4	4-12	20-30	20-30	20-30
 
-Breathetastic&trade; Premium Canned Air	5
-enchanted leopard-print barbell	5
-Hatorade	5
-steel-scented air freshener	5
+Breathetastic&trade; Premium Canned Air	5	9	20-25	60-70	60-70	60-70
+enchanted leopard-print barbell	5	12	15-25	58-100	55-100	52-100
+Hatorade	5	1	0	0	0	0
+steel-scented air freshener	5	5	0	0	0	0
 
-ultimate wad	15
+ultimate wad	15	6	0	0	0	0

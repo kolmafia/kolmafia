@@ -238,20 +238,7 @@ public class ItemDatabase
 
 		while ( ( data = KoLDatabase.readData( reader ) ) != null )
 		{
-			if ( data.length >= 3 )
-			{
-				String name = KoLDatabase.getCanonicalName( data[ 0 ] );
-				ItemDatabase.fullnessByName.put( name, Integer.valueOf( data[ 1 ] ) );
-				ItemDatabase.levelReqByName.put( name, Integer.valueOf( data[ 2 ] ) );
-
-				if ( data.length > 3 )
-				{
-					ItemDatabase.addAdventureRange( name, StaticEntity.parseInt( data[ 1 ] ), data[ 3 ] );
-					ItemDatabase.muscleByName.put( name, ItemDatabase.extractRange( data[ 4 ] ) );
-					ItemDatabase.mysticalityByName.put( name, ItemDatabase.extractRange( data[ 5 ] ) );
-					ItemDatabase.moxieByName.put( name, ItemDatabase.extractRange( data[ 6 ] ) );
-				}
-			}
+			ItemDatabase.saveItemValues( data, ItemDatabase.fullnessByName );
 		}
 
 		try
@@ -272,20 +259,7 @@ public class ItemDatabase
 
 		while ( ( data = KoLDatabase.readData( reader ) ) != null )
 		{
-			if ( data.length >= 3 )
-			{
-				String name = KoLDatabase.getCanonicalName( data[ 0 ] );
-				ItemDatabase.inebrietyByName.put( name, Integer.valueOf( data[ 1 ] ) );
-				ItemDatabase.levelReqByName.put( name, Integer.valueOf( data[ 2 ] ) );
-
-				if ( data.length > 3 )
-				{
-					ItemDatabase.addAdventureRange( name, StaticEntity.parseInt( data[ 1 ] ), data[ 3 ] );
-					ItemDatabase.muscleByName.put( name, ItemDatabase.extractRange( data[ 4 ] ) );
-					ItemDatabase.mysticalityByName.put( name, ItemDatabase.extractRange( data[ 5 ] ) );
-					ItemDatabase.moxieByName.put( name, ItemDatabase.extractRange( data[ 6 ] ) );
-				}
-			}
+			ItemDatabase.saveItemValues( data, ItemDatabase.inebrietyByName );
 		}
 
 		try
@@ -306,11 +280,7 @@ public class ItemDatabase
 
 		while ( ( data = KoLDatabase.readData( reader ) ) != null )
 		{
-			if ( data.length == 2 )
-			{
-				String name = KoLDatabase.getCanonicalName( data[ 0 ] );
-				ItemDatabase.spleenHitByName.put( name, Integer.valueOf( data[ 1 ] ) );
-			}
+			ItemDatabase.saveItemValues( data, ItemDatabase.spleenHitByName );
 		}
 
 		try
@@ -324,6 +294,24 @@ public class ItemDatabase
 
 			StaticEntity.printStackTrace( e );
 		}
+	}
+
+        private static final void saveItemValues( String[] data, Map map )
+	{
+		if ( data.length < 2 )
+			return;
+
+		String name = KoLDatabase.getCanonicalName( data[ 0 ] );
+		map.put( name, Integer.valueOf( data[ 1 ] ) );
+
+		if ( data.length < 7 )
+			return;
+
+		ItemDatabase.levelReqByName.put( name, Integer.valueOf( data[ 2 ] ) );
+		ItemDatabase.addAdventureRange( name, StaticEntity.parseInt( data[ 1 ] ), data[ 3 ] );
+		ItemDatabase.muscleByName.put( name, ItemDatabase.extractRange( data[ 4 ] ) );
+		ItemDatabase.mysticalityByName.put( name, ItemDatabase.extractRange( data[ 5 ] ) );
+		ItemDatabase.moxieByName.put( name, ItemDatabase.extractRange( data[ 6 ] ) );
 	}
 
 	private static final int getIncreasingGains( final int value )
