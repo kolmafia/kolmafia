@@ -1114,6 +1114,11 @@ public abstract class KoLFrame
 		return KoLFrame.getValue( field, 0 );
 	}
 
+	public static final int getValue( final JSpinner field )
+	{
+		return KoLFrame.getValue( field, 0 );
+	}
+
 	/**
 	 * Utility method which retrieves an integer value from the given field. In the event that the field does not
 	 * contain an integer value, the default value provided will be returned instead.
