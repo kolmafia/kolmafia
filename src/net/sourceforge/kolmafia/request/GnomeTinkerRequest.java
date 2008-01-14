@@ -38,12 +38,12 @@ import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 
-public class GnomeGnomeTinkerRequest
+public class GnomeTinkerRequest
 	extends CreateItemRequest
 {
 	private final AdventureResult[] ingredients;
 
-	public GnomeGnomeTinkerRequest( final int itemId )
+	public GnomeTinkerRequest( final int itemId )
 	{
 		super( "gnomes.php", itemId );
 
