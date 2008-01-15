@@ -2421,7 +2421,7 @@
 2420	teeny-tiny magic scroll	3	all	0
 2421	bottle of pirate juice	3	all	0
 2422	irradiated pet snacks	3	all	0
-2423	Mick's IcyVapoHotness Inhaler	3	all	0
+2423	Mick's IcyVapoHotness Inhaler	4	all	0
 2424	cyclops eyedrops	3	all	0
 2425	can of spinach	3	all	0
 2426	fire flower	3	all	0
@@ -3122,3 +3122,5 @@
 3121	divine champagne popper	0	all	0
 3122	divine cracker	0	all	0
 3123	divine champagne flute	0	all	0
+3124	fruitfilm	4	all	35
+3125	piece of after eight	4	all	35
