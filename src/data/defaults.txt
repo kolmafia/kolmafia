@@ -253,6 +253,7 @@ user	relayCounters
 user	requireBoxServants	false
 user	retrieveContacts	true
 user	semirareCounter	0
+user	semirareLocation	
 user	showGainsPerUnit	false
 user	sideDefeated	neither
 user	sidequestArenaCompleted	none

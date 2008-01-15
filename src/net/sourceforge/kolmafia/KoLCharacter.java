@@ -1149,6 +1149,9 @@ public abstract class KoLCharacter
 	{
 		KoLCharacter.ensureUpdatedSemirareCounter();
 		KoLSettings.setUserProperty( "semirareCounter", String.valueOf( KoLCharacter.currentRun + 1 ) );
+		KoLAdventure location = KoLAdventure.lastVisitedLocation();
+		String loc = ( location == null ) ? "" : location.getAdventureName();
+		KoLSettings.setUserProperty( "semirareLocation", loc );
 		StaticEntity.stopCounting( "Fortune Cookie" );
 	}
 

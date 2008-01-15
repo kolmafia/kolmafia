@@ -4127,11 +4127,23 @@ public class KoLmafiaCLI
 		}
 		else if ( desiredData.equals( "counters" ) )
 		{
-			desiredStream.println( "Last semirare found on turn " + KoLSettings.getUserProperty( "semirareCounter" ) );
-			desiredStream.println( "Unexpired counters: " );
-			desiredStream.println();
+			int turns = KoLSettings.getIntegerProperty( "semirareCounter" );
+			int current = KoLCharacter.getCurrentRun();
+			String location = KoLSettings.getUserProperty( "semirareLocation" );
+			String loc = location.equals( "" ) ? "" : ( " in " + location );
+			desiredStream.println( "Last semirare found " + ( current - turns ) + " turns ago (on turn " + turns + ")" + loc );
 
-			desiredStream.println( StaticEntity.getUnexpiredCounters() );
+			String counters = StaticEntity.getUnexpiredCounters();
+			desiredStream.println();
+			if ( counters.equals( "" ) )
+			{
+				desiredStream.println( "No active counters." );
+			}
+			else
+			{
+				desiredStream.println( "Unexpired counters:" );
+				desiredStream.println( counters );
+			}
 			desiredStream.println();
 		}
 		else
