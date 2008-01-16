@@ -350,7 +350,7 @@ public class KoLMenuBar
 				if ( this.frameReference == null )
 				{
 					KoLFrame[] frames = StaticEntity.getExistingFrames();
-					String interfaceSetting = KoLSettings.getGlobalProperty( "initialDesktop" );
+					String interfaceSetting = KoLSettings.getUserProperty( "initialDesktop" );
 
 					for ( int i = 0; i < frames.length; ++i )
 					{
@@ -372,8 +372,7 @@ public class KoLMenuBar
 				if ( frame != null )
 				{
 					boolean appearsInTab =
-						KoLSettings.getGlobalProperty( "initialDesktop" ).indexOf(
-							frame instanceof ChatFrame ? "ChatManager" : frame.getFrameName() ) != -1;
+						KoLFrame.appearsInTab( frame instanceof ChatFrame ? "ChatManager" : frame.getFrameName() );
 
 					if ( !appearsInTab )
 					{

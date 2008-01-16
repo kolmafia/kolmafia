@@ -93,8 +93,7 @@ public class StoreManageFrame
 
 	public static final void updateEarnings( final long potentialEarnings )
 	{
-		if ( StoreManageFrame.INSTANCE == null || KoLSettings.getGlobalProperty( "initialDesktop" ).indexOf(
-			"StoreManageFrame" ) != -1 )
+		if ( StoreManageFrame.INSTANCE == null || KoLFrame.appearsInTab( "StoreManageFrame" ) )
 		{
 			return;
 		}

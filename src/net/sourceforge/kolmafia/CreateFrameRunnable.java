@@ -135,12 +135,11 @@ public class CreateFrameRunnable
 		// If there is no creation creation, then return
 		// from the method because there's nothing to do.
 
-		String tabSetting = KoLSettings.getUserProperty( "initialDesktop" );
 		String searchString = this.creationType.toString();
 		searchString = searchString.substring( searchString.lastIndexOf( "." ) + 1 );
 
-		boolean appearsInTab =
-			searchString.endsWith( "ChatFrame" ) ? tabSetting.indexOf( "ChatManager" ) != -1 : tabSetting.indexOf( searchString ) != -1;
+		boolean appearsInTab = KoLFrame.appearsInTab( 
+			searchString.endsWith( "ChatFrame" ) ? "ChatManager" : searchString );
 
 		if ( !this.loadPreviousFrame() )
 		{
