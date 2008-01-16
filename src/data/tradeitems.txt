@@ -2982,7 +2982,7 @@
 2981	booty chest charrrm bracelet	8	all	140
 2982	cannonball charrrm	3	all	110
 2983	cannonball charrrm bracelet	8	all	140
-2984	copper ha'penny charrrrm	3	all	110
+2984	copper ha'penny charrrm	3	all	110
 2985	copper ha'penny charrrm bracelet	8	all	140
 2986	silver tongue charrrm	3	all	110
 2987	silver tongue charrrm bracelet	8	all	140
