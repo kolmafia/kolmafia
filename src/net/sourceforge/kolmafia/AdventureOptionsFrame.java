@@ -57,6 +57,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTree;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
@@ -86,7 +88,7 @@ public abstract class AdventureOptionsFrame
 	private JComboBox actionSelect;
 
 	private TreeMap zoneMap;
-	private AutoHighlightSpinner countField;
+	private AdventureCountSpinner countField;
 	private final LockableListModel matchingAdventures;
 
 	protected JTree combatTree;
@@ -931,7 +933,7 @@ public abstract class AdventureOptionsFrame
 
 			if ( enableAdventures )
 			{
-				AdventureOptionsFrame.this.countField = new AutoHighlightSpinner();
+				AdventureOptionsFrame.this.countField = new AdventureCountSpinner();
 				AdventureOptionsFrame.this.countField.setHorizontalAlignment( AutoHighlightTextField.RIGHT );
 				JComponentUtilities.setComponentSize( AdventureOptionsFrame.this.countField, 56, 24 );
 				zonePanel.add( AdventureOptionsFrame.this.countField, BorderLayout.EAST );
@@ -1425,6 +1427,27 @@ public abstract class AdventureOptionsFrame
 			this.savedText = text;
 			this.safetyText.clearBuffer();
 			this.safetyText.append( text );
+		}
+	}
+
+	private class AdventureCountSpinner
+		extends AutoHighlightSpinner
+		implements ChangeListener
+	{
+		public AdventureCountSpinner()
+		{
+			super();
+			this.addChangeListener( this );
+		}
+
+		public void stateChanged( ChangeEvent e )
+		{
+			int maximum = KoLCharacter.getAdventuresLeft();
+			int desired = KoLFrame.getValue( this, maximum );
+			if ( desired == maximum + 1 )
+				this.setValue( new Integer( 1 ) );
+			else if ( desired <= 0 || desired > maximum )
+				this.setValue( new Integer( maximum ) );
 		}
 	}
 }
