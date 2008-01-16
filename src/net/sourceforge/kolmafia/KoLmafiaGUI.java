@@ -358,7 +358,7 @@ public class KoLmafiaGUI
 					RequestThread.postRequest( new ContactListRequest() );
 				}
 
-				if ( KoLSettings.getGlobalProperty( "initialDesktop" ).indexOf( "ContactListFrame" ) != -1 )
+				if ( KoLFrame.appearsInTab( "ContactListFrame" ) )
 				{
 					return;
 				}

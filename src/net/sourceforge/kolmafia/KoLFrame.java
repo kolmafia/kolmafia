@@ -268,10 +268,20 @@ public abstract class KoLFrame
 		this.listenerMap = null;
 	}
 
+	public boolean appearsInTab()
+	{
+		return KoLFrame.appearsInTab( this.frameName );
+	}
+
+	public static boolean appearsInTab( String frameName )
+	{
+		String tabSetting = KoLSettings.getUserProperty( "initialDesktop" );
+		return tabSetting.indexOf( frameName ) != -1;
+	}
+
 	public boolean shouldAddStatusBar()
 	{
-		return KoLSettings.getBooleanProperty( "addStatusBarToFrames" ) && KoLSettings.getGlobalProperty(
-			"initialDesktop" ).indexOf( this.frameName ) == -1;
+		return KoLSettings.getBooleanProperty( "addStatusBarToFrames" ) && !this.appearsInTab();
 	}
 
 	public JTabbedPane getTabbedPane()

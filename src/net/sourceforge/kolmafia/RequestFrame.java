@@ -329,7 +329,7 @@ public class RequestFrame
 
 		this.displayRequest( request );
 
-		if ( !this.isVisible() && KoLSettings.getGlobalProperty( "initialDesktop" ).indexOf( this.getFrameName() ) == -1 )
+		if ( !this.isVisible() && !this.appearsInTab() )
 		{
 			this.setVisible( true );
 		}
