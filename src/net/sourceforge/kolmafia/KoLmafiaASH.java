@@ -831,47 +831,45 @@ public class KoLmafiaASH
 	public boolean validate( final InputStream istream )
 	{
 		KoLmafiaASH previousAnalysis = KoLmafiaASH.currentAnalysis;
-		KoLmafiaASH.currentAnalysis = this;
 
 		try
 		{
-			this.commandStream = new LineNumberReader( new InputStreamReader( istream ) );
+			try
+			{
+				this.commandStream = new LineNumberReader( new InputStreamReader( istream ) );
+			}
+			catch ( Exception e )
+			{
+				return false;
+			}
+
+			KoLmafiaASH.currentAnalysis = this;
+			this.currentLine = this.getNextLine();
+			this.lineNumber = this.commandStream.getLineNumber();
+			this.nextLine = this.getNextLine();
+			this.global = this.parseScope( null, null, new ScriptVariableList(), this.getExistingFunctionScope(), false );
+			this.printScope( this.global, 0 );
+
+			if ( this.currentLine != null )
+			{
+				throw new AdvancedScriptException( "Script parsing error" );
+			}
 		}
-		catch ( Exception e )
+		finally
 		{
+			KoLmafiaASH.currentAnalysis = previousAnalysis;
 			this.commandStream = null;
-			KoLmafiaASH.currentAnalysis = previousAnalysis;
-			return false;
+
+			try
+			{
+				istream.close();
+			}
+			catch ( IOException e )
+			{
+				return false;
+			}
 		}
 
-		this.currentLine = this.getNextLine();
-		this.lineNumber = this.commandStream.getLineNumber();
-		this.nextLine = this.getNextLine();
-
-		this.global = this.parseScope( null, null, new ScriptVariableList(), this.getExistingFunctionScope(), false );
-		this.printScope( this.global, 0 );
-
-		try
-		{
-			this.commandStream.close();
-		}
-		catch ( Exception e )
-		{
-			this.commandStream = null;
-			KoLmafiaASH.currentAnalysis = previousAnalysis;
-			return false;
-		}
-
-		this.commandStream = null;
-
-		if ( this.currentLine != null )
-		{
-			AdvancedScriptException error = new AdvancedScriptException( "Script parsing error" );
-			KoLmafiaASH.currentAnalysis = previousAnalysis;
-			throw error;
-		}
-
-		KoLmafiaASH.currentAnalysis = previousAnalysis;
 		return true;
 	}
 
