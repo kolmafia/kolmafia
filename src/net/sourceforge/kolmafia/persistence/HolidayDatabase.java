@@ -823,8 +823,7 @@ public class HolidayDatabase
 
 		public String toString()
 		{
-			String delta = this.offset == 0 ? "today" : this.offset == 1 ? "tomorrow" : String.valueOf( this.offset );
-			return this.name + ": " + delta;
+			return this.name + ": " + getDayCountAsString( offset );
 		}
 	}
 
