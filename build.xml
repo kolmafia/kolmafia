@@ -88,6 +88,26 @@
 	</target>
 
 
+	<!-- ================================ -->
+	<!--  clean up KoLmafia object files  -->
+	<!-- ================================ -->
+
+	<target name="start">
+
+		<delete dir="${build}/net/sourceforge/kolmafia" failonerror="false"/>
+		<delete dir="${docs}" failonerror="false"/>
+
+		<delete failonerror="false">
+			<fileset dir="${dist}">
+				<include name="${ant.project.name}*"/>
+			</fileset>
+		</delete>
+
+		<antcall target="init"/>
+
+	</target>
+
+
 	<!-- ====================== -->
 	<!--  generate class files  -->
 	<!-- ====================== -->
@@ -158,7 +178,7 @@
 	<!--  generate the alpha testing JAR  -->
 	<!-- ================================ -->
 
-	<target name="debug" depends="clean,init,version">
+	<target name="debug" depends="start,version">
 
 		<replace file="${src}/net/sourceforge/kolmafia/KoLConstants.java"
 			token="REVISION = null" value='REVISION = "${revision}"'/>
@@ -175,7 +195,7 @@
 	<!--  generate a daily build JAR  -->
 	<!-- ============================ -->
 
-	<target name="daily" depends="clean,init,update,version">
+	<target name="daily" depends="start,update,version">
 
 		<replace file="${src}/net/sourceforge/kolmafia/KoLConstants.java"
 			token="REVISION = null" value='REVISION = "${revision}"'/>
