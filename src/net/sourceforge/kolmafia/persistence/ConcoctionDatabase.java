@@ -1306,7 +1306,8 @@ public class ConcoctionDatabase
 				return false;	 
 			}	 
 	 
-			return ItemDatabase.getConsumptionType( this.getItemId() ) == KoLConstants.CONSUME_MULTIPLE;	 
+			int type = ItemDatabase.getConsumptionType( this.getItemId() );
+			return type == KoLConstants.CONSUME_USE || type == KoLConstants.CONSUME_MULTIPLE;
 		}
 
 		public int compareTo( final Object o )
