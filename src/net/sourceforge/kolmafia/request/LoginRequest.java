@@ -109,6 +109,9 @@ public class LoginRequest
 			GenericRequest.setLoginServer( "dev.kingdomofloathing.com" );
 		}
 
+		GenericRequest.serverCookie = null;
+		GenericRequest.passwordHash = "";
+
 		this.clearDataFields();
 
 		if ( LoginRequest.ignoreLoadBalancer )

@@ -722,8 +722,10 @@ public abstract class KoLmafia
 		// If the password hash is non-null, then that means you
 		// might be mid-transition.
 
-		if ( GenericRequest.passwordHash != null && GenericRequest.passwordHash.equals( "" ) )
+		if ( GenericRequest.passwordHash.equals( "" ) )
 		{
+			PasswordHashRequest request = new PasswordHashRequest( "lchat.php" );
+			RequestThread.postRequest(  request );
 			return;
 		}
 

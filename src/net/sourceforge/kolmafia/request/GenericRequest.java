@@ -138,7 +138,7 @@ public class GenericRequest
 	public static String inventoryCookie = null;
 	public static String serverCookie = null;
 
-	public static String passwordHash = null;
+	public static String passwordHash = "";
 	public static boolean isRatQuest = false;
 	public static boolean handlingChoices = false;
 
@@ -1437,12 +1437,6 @@ public class GenericRequest
 			return true;
 		}
 
-		if ( this.redirectLocation.startsWith( "valhalla.php" ) )
-		{
-			GenericRequest.passwordHash = "";
-			return true;
-		}
-
 		if ( this.shouldUpdateDebugLog() )
 		{
 			RequestLogger.updateDebugLog( "Redirected: " + this.redirectLocation );
@@ -1847,7 +1841,7 @@ public class GenericRequest
 
 	public static final void processChoiceAdventure( final GenericRequest request )
 	{
-		if ( GenericRequest.passwordHash == null )
+		if ( GenericRequest.passwordHash.equals( "" ) )
 		{
 			return;
 		}

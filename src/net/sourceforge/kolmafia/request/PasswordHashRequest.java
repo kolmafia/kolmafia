@@ -36,10 +36,11 @@ package net.sourceforge.kolmafia.request;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public abstract class PasswordHashRequest
+public class PasswordHashRequest
 	extends GenericRequest
 {
-	private static final Pattern HASH_PATTERN = Pattern.compile( "name=[\"\']?pwd[\"\']? value=[\"\'](.*?)[\"\']" );
+	private static final Pattern HASH_PATTERN_1 = Pattern.compile( "name=[\"\']?pwd[\"\']? value=[\"\'](.*?)[\"\']" );
+	private static final Pattern HASH_PATTERN_2 = Pattern.compile( "pwd=[^&]+" );
 
 	public PasswordHashRequest( final String location )
 	{
@@ -48,10 +49,23 @@ public abstract class PasswordHashRequest
 
 	public void processResults()
 	{
-		Matcher pwdmatch = PasswordHashRequest.HASH_PATTERN.matcher( this.responseText );
+		if ( !GenericRequest.passwordHash.equals( "" ) )
+		{
+			return;
+		}
+
+		Matcher pwdmatch = PasswordHashRequest.HASH_PATTERN_1.matcher( this.responseText );
 		if ( pwdmatch.find() && pwdmatch.group( 1 ).length() > 0 )
 		{
 			GenericRequest.passwordHash = pwdmatch.group( 1 );
+			return;
+		}
+
+		pwdmatch = PasswordHashRequest.HASH_PATTERN_2.matcher( this.responseText );
+		if ( pwdmatch.find() && pwdmatch.group( 1 ).length() > 0 )
+		{
+			GenericRequest.passwordHash = pwdmatch.group( 1 );
+			return;
 		}
 	}
 }
