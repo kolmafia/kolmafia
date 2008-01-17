@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.persistence;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -718,7 +719,7 @@ public class HolidayDatabase
 
 	public static final String[] getHolidayPredictions( final Date time )
 	{
-		List predictionsList = new ArrayList();
+		List holidayList = new ArrayList();
 		int currentCalendarDay = HolidayDatabase.getCalendarDay( time );
 
 		int[] calendarDayAsArray;
@@ -751,7 +752,7 @@ public class HolidayDatabase
 					holidayTester.add( Calendar.DATE, 1 );
 				}
 
-				predictionsList.add( HolidayDatabase.HOLIDAYS[ calendarDayAsArray[ 0 ] ][ calendarDayAsArray[ 1 ] ] + ": " + HolidayDatabase.getDayCountAsString( currentEstimate ) );
+				holidayList.add( new HolidayEntry( currentEstimate, HolidayDatabase.HOLIDAYS[ calendarDayAsArray[ 0 ] ][ calendarDayAsArray[ 1 ] ] ) );
 			}
 		}
 
@@ -763,13 +764,68 @@ public class HolidayDatabase
 			String holiday = HolidayDatabase.getRealLifeOnlyHoliday( KoLConstants.DAILY_FORMAT.format( time ) );
 			if ( holiday != null )
 			{
-				predictionsList.add( holiday + ": today" );
+				holidayList.add( new HolidayEntry( 0, holiday ) );
 			}
 		}
 
-		String[] predictionsArray = new String[ predictionsList.size() ];
-		predictionsList.toArray( predictionsArray );
+		Collections.sort( holidayList );
+		HolidayEntry[] holidayArray = new HolidayEntry[ holidayList.size() ];
+		holidayList.toArray( holidayArray );
+		String[] predictionsArray = new String[ holidayList.size() ];
+		for ( int i = 0; i < holidayArray.length; ++i )
+		{
+			predictionsArray[i] = holidayArray[i].toString();
+		}
+
 		return predictionsArray;
+	}
+
+	private static class HolidayEntry
+		implements Comparable
+	{
+		private final int offset;
+		private final String name;
+
+		public HolidayEntry( final int offset, final String name )
+		{
+			this.offset = offset;
+			this.name = name;
+		}
+
+		public int compareTo( final Object o )
+		{
+			if ( o == null || !( o instanceof HolidayEntry ) )
+			{
+				return -1;
+			}
+
+			HolidayEntry other = (HolidayEntry) o;
+
+			if ( this.offset != other.offset )
+			{
+				return this.offset - other.offset;
+			}
+
+			return this.name.compareTo( other.name );
+		}
+
+		public boolean equals( final Object o )
+		{
+			if ( o == null || !( o instanceof HolidayEntry ) )
+			{
+				return false;
+			}
+
+			HolidayEntry other = (HolidayEntry) o;
+
+			return ( this.offset == other.offset ) && this.name.equals( other.name );
+		}
+
+		public String toString()
+		{
+			String delta = this.offset == 0 ? "today" : this.offset == 1 ? "tomorrow" : String.valueOf( this.offset );
+			return this.name + ": " + delta;
+		}
 	}
 
 	public static final String getHoliday()
