@@ -40,8 +40,8 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.webui.CharacterEntityReference;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
@@ -226,7 +226,7 @@ public class MallSearchRequest
 			// it can be properly rendered.  In the process,
 			// also handle character entities mangled by KoL.
 
-			String shopName = RequestEditorKit.getUnicode( shopMatcher.group( 1 ).replaceAll( "[ ]+;", ";" ) );
+			String shopName = CharacterEntityReference.unescape( shopMatcher.group( 1 ).replaceAll( "[ ]+;", ";" ) );
 
 			int lastFindIndex = 0;
 			Matcher priceMatcher = MallSearchRequest.STOREPRICE_PATTERN.matcher( this.responseText );

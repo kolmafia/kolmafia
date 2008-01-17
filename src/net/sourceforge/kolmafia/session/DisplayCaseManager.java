@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.webui.CharacterEntityReference;
 
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -272,7 +273,7 @@ public class DisplayCaseManager
 					DisplayCaseManager.headers.add( "(Deleted Shelf)" );
 				}
 
-				DisplayCaseManager.headers.add( RequestEditorKit.getUnicode( shelfMatcher.group( 2 ) ) );
+				DisplayCaseManager.headers.add( CharacterEntityReference.unescape( shelfMatcher.group( 2 ) ) );
 			}
 		}
 

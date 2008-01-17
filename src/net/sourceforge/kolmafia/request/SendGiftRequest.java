@@ -43,8 +43,8 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.webui.CharacterEntityReference;
 
 /**
  * An extension of a <code>GenericRequest</code> which specifically handles donating to the Hall of the Legends of the
@@ -109,7 +109,7 @@ public class SendGiftRequest
 		super( "town_sendgift.php", attachments );
 
 		this.recipient = recipient;
-		this.message = RequestEditorKit.getUnicode( message );
+		this.message = CharacterEntityReference.unescape( message );
 		this.desiredCapacity = desiredCapacity;
 
 		this.wrappingType = (GiftWrapper) SendGiftRequest.PACKAGES.get( desiredCapacity );

@@ -42,6 +42,8 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.ChatBuffer;
 import net.java.dev.spellcast.utilities.DataUtilities;
 
+import net.sourceforge.kolmafia.webui.CharacterEntityReference;
+
 public class LimitedSizeChatBuffer
 	extends ChatBuffer
 {
@@ -113,7 +115,7 @@ public class LimitedSizeChatBuffer
 		// by downloading them here.  Also convert everything
 		// into unicode, rather than character entities.
 
-		message = RequestEditorKit.getStripped( RequestEditorKit.getEntities( message ) );
+		message = CharacterEntityReference.unescape( message );
 		String highlightMessage = message;
 
 		if ( this != LimitedSizeChatBuffer.highlightBuffer )
