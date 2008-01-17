@@ -73,7 +73,7 @@ public abstract class UseLinkDecorator
 				itemName = itemName.substring( itemName.indexOf( " " ) + 1 ).trim();
 			}
 
-			int itemId = ItemDatabase.getItemId( itemName, itemCount );
+			int itemId = ItemDatabase.getItemId( itemName, itemCount, false );
 
 			String useType = null;
 			String useLocation = null;

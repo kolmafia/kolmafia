@@ -570,6 +570,20 @@ public class ItemDatabase
 
 	public static final int getItemId( final String itemName, final int count )
 	{
+		return getItemId( itemName, count, true );
+	}
+
+	/**
+	 * Returns the Id number for an item, given its name.
+	 *
+	 * @param itemName The name of the item to lookup
+	 * @param count How many there are
+	 * @param substringMatch Whether or not we match against substrings
+	 * @return The Id number of the corresponding item
+	 */
+
+	public static final int getItemId( final String itemName, final int count, final boolean substringMatch )
+	{
 		if ( itemName == null || itemName.length() == 0 )
 		{
 			return -1;
@@ -603,6 +617,11 @@ public class ItemDatabase
 		if ( itemId != null )
 		{
 			return ( (Integer) itemId ).intValue();
+		}
+
+		if ( !substringMatch )
+		{
+			return -1;
 		}
 
 		// It's possible that you're looking for a substring.  In
