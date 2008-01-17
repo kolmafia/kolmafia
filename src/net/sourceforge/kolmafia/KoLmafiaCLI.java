@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.session.MushroomManager;
 import net.sourceforge.kolmafia.session.NemesisManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.StoreManager;
+import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
 
 import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
@@ -1150,7 +1151,7 @@ public class KoLmafiaCLI
 
 			if ( name.startsWith( "combatHotkey" ) )
 			{
-				RequestEditorKit.reloadCombatHotkeyMap();
+				StationaryButtonDecorator.reloadCombatHotkeyMap();
 			}
 
 			if ( KoLSettings.getUserProperty( name ).equals( value ) )
