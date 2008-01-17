@@ -54,6 +54,7 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 
 import net.sourceforge.kolmafia.session.CustomCombatManager;
 import net.sourceforge.kolmafia.session.MoodManager;
+import net.sourceforge.kolmafia.webui.CharacterEntityReference;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -682,7 +683,7 @@ public class KoLSettings
 		}
 
 		String value = super.getProperty( name );
-		return value == null ? "" : RequestEditorKit.getUnicode( value );
+		return value == null ? "" : CharacterEntityReference.unescape( value );
 	}
 
 	public Object setProperty( String name, String value )
@@ -708,7 +709,7 @@ public class KoLSettings
 		// set property and return the old value.
 
 		String oldValue = this.getProperty( name );
-		value = RequestEditorKit.getEntities( value );
+		value = CharacterEntityReference.escape( value );
 
 		if ( oldValue != null && oldValue.equals( value ) )
 		{

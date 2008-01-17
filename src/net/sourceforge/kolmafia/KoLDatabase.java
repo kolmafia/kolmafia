@@ -48,6 +48,8 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 
+import net.sourceforge.kolmafia.webui.CharacterEntityReference;
+
 public class KoLDatabase
 	extends StaticEntity
 {
@@ -150,33 +152,33 @@ public class KoLDatabase
 
 	/**
 	 * Returns the canonicalized name, where all symbols are replaced with their HTML representations.
-	 * 
+	 *
 	 * @param name The name to be canonicalized
 	 * @return The canonicalized name
 	 */
 
 	public static final String getCanonicalName( final String name )
 	{
-		return name == null ? null : StaticEntity.globalStringReplace( RequestEditorKit.getEntities(
-			RequestEditorKit.getUnicode( name ) ).toLowerCase(), "  ", " " );
+		return name == null ? null : StaticEntity.globalStringReplace( CharacterEntityReference.escape(
+			CharacterEntityReference.unescape( name ) ).toLowerCase(), "  ", " " );
 	}
 
 	/**
 	 * Returns the display name name, where all HTML representations are replaced with their appropriate display
 	 * symbols.
-	 * 
+	 *
 	 * @param name The name to be transformed to display form
 	 * @return The display form of the given name
 	 */
 
 	public static final String getDisplayName( final String name )
 	{
-		return name == null ? null : RequestEditorKit.getUnicode( name );
+		return name == null ? null : CharacterEntityReference.unescape( name );
 	}
 
 	/**
 	 * Returns a list of all elements which contain the given substring in their name.
-	 * 
+	 *
 	 * @param nameMap The map in which to search for the string
 	 * @param substring The substring for which to search
 	 */
@@ -256,7 +258,7 @@ public class KoLDatabase
 
 	/**
 	 * Returns a list of all elements which contain the given abbreviation in their name.
-	 * 
+	 *
 	 * @param nameMap The map in which to search for the string
 	 * @param substring The substring for which to search
 	 */

@@ -61,10 +61,10 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.LimitedSizeChatBuffer;
-import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.TabbedChatFrame;
+import net.sourceforge.kolmafia.webui.CharacterEntityReference;
 
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.ChatRequest;
@@ -882,7 +882,7 @@ public abstract class ChatManager
 				data.append( "\n" );
 			}
 
-			String toSend = RequestEditorKit.getUnicode( data.toString().trim() );
+			String toSend = CharacterEntityReference.unescape( data.toString().trim() );
 			RequestThread.postRequest( new SendMailRequest( channel, toSend ) );
 			return true;
 		}

@@ -76,6 +76,7 @@ import net.sourceforge.kolmafia.session.MushroomManager;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.VioletFogManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
+import net.sourceforge.kolmafia.webui.CharacterEntityReference;
 
 import net.sourceforge.kolmafia.request.AccountRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
@@ -632,7 +633,7 @@ public abstract class KoLmafia
 
 		if ( message.indexOf( KoLConstants.LINE_BREAK ) == -1 )
 		{
-			KoLmafia.updateDisplayState( state, RequestEditorKit.getStripped( message ) );
+			KoLmafia.updateDisplayState( state, CharacterEntityReference.unescape( message ) );
 		}
 	}
 

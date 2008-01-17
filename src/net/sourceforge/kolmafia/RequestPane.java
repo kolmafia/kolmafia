@@ -39,6 +39,8 @@ import java.util.regex.Pattern;
 
 import javax.swing.JEditorPane;
 
+import net.sourceforge.kolmafia.webui.CharacterEntityReference;
+
 public class RequestPane
 	extends JEditorPane
 {
@@ -105,7 +107,7 @@ public class RequestPane
 
 		selectedText = RequestPane.LINE_BREAK.matcher( selectedText ).replaceAll( "\n" ).trim();
 		selectedText = KoLConstants.ANYTAG_PATTERN.matcher( selectedText ).replaceAll( "" );
-		selectedText = RequestEditorKit.getUnicode( selectedText );
+		selectedText = CharacterEntityReference.unescape( selectedText );
 
 		return selectedText;
 	}

@@ -38,6 +38,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.RequestEditorKit;
+import net.sourceforge.kolmafia.webui.CharacterEntityReference;
 
 public class SendMailRequest
 	extends TransferItemRequest
@@ -79,7 +80,7 @@ public class SendMailRequest
 		super( "sendmessage.php", attachment );
 
 		this.recipient = recipient;
-		this.message = RequestEditorKit.getUnicode( message );
+		this.message = CharacterEntityReference.unescape( message );
 
 		this.addFormField( "action", "send" );
 		this.addFormField( "towho", KoLmafia.getPlayerId( this.recipient ) );
@@ -94,7 +95,7 @@ public class SendMailRequest
 		super( "sendmessage.php", attachments );
 
 		this.recipient = recipient;
-		this.message = RequestEditorKit.getUnicode( message );
+		this.message = CharacterEntityReference.unescape( message );
 
 		this.addFormField( "action", "send" );
 		this.addFormField( "towho", KoLmafia.getPlayerId( this.recipient ) );
