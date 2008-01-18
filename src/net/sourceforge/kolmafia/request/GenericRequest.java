@@ -901,14 +901,43 @@ public class GenericRequest
 			return;
 		}
 
-		// Do choice-specific actions.
-		if ( GenericRequest.lastChoice == 105 && GenericRequest.lastDecision == 3 )
+		// Handle the Guy Made of Bees
+		if ( this.checkGuyMadeOfBees() )
 		{
-			KoLCharacter.ensureUpdatedGuyMadeOfBees();
-			if ( text.indexOf( "that ship is sailed" ) != -1 || text.indexOf( "guy made of bee pollen" ) != -1 )
+			return;
+		}
+	}
+
+	private boolean checkGuyMadeOfBees()
+	{
+		if ( GenericRequest.lastChoice != 105 )
+		{
+			return false;
+		}
+
+		if ( GenericRequest.lastDecision != 3 )
+		{
+			return true;
+		}
+
+		KoLCharacter.ensureUpdatedGuyMadeOfBees();
+		String text = this.responseText;
+
+		String urlString = this.formURLString;
+		if ( urlString.startsWith( "fight.php" ) )
+		{
+			if ( text.indexOf( "guy made of bee pollen" ) != -1 )
 			{
-				// If you have already defeated the guy
-				// made of bees, you can't do it again.
+				// Record that we beat the guy made of bees.
+				KoLSettings.setUserProperty( "guyMadeOfBeesDefeated", "true" );
+			}
+		}
+		else if ( urlString.startsWith( "choice.php" ) )
+		{
+			if ( text.indexOf( "that ship is sailed" ) != -1 )
+			{
+				// For some reason, we didn't notice when we
+				// beat the guy made of bees. Record it now.
 				KoLSettings.setUserProperty( "guyMadeOfBeesDefeated", "true" );
 			}
 			else if ( text.indexOf( "Nothing happens." ) != -1 )
@@ -917,7 +946,10 @@ public class GenericRequest
 				// called the guy made of bees.
 				KoLSettings.incrementIntegerProperty( "guyMadeOfBeesCount", 1, 5, true );
 			}
+
 		}
+
+		return true;
 	}
 
 	public static final int getLastChoice()
