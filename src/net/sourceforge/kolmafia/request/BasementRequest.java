@@ -33,7 +33,6 @@
 
 package net.sourceforge.kolmafia.request;
 
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -53,6 +52,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.MoodManager;
+import net.sourceforge.kolmafia.webui.BasementDecorator.StatBooster;
 
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 
@@ -68,7 +68,7 @@ public class BasementRequest
 	private static String basementTestString = "";
 	private static String gauntletString = "";
 
-	private static int actualBoost = 0;
+	private static int actualStatNeeded = 0;
 	private static int primaryBoost = 0;
 	private static int secondaryBoost = 0;
 
@@ -89,9 +89,9 @@ public class BasementRequest
 	private static String lastResponseText = "";
 	private static String basementErrorMessage = null;
 
-	private static final AdventureResult MUS_EQUAL = new AdventureResult( "Stabilizing Oiliness", 1, true );
-	private static final AdventureResult MYS_EQUAL = new AdventureResult( "Expert Oiliness", 1, true );
-	private static final AdventureResult MOX_EQUAL = new AdventureResult( "Slippery Oiliness", 1, true );
+	public static final AdventureResult MUS_EQUAL = new AdventureResult( "Stabilizing Oiliness", 1, true );
+	public static final AdventureResult MYS_EQUAL = new AdventureResult( "Expert Oiliness", 1, true );
+	public static final AdventureResult MOX_EQUAL = new AdventureResult( "Slippery Oiliness", 1, true );
 
 	private static final AdventureResult ASTRAL_SHELL = new AdventureResult( "Astral Shell", 1, true );
 	private static final AdventureResult ELEMENTAL_SPHERE = new AdventureResult( "Elemental Saucesphere", 1, true );
@@ -114,9 +114,6 @@ public class BasementRequest
 	private static final AdventureResult SPOOKY_FORM = new AdventureResult( "Spookyform", 1, true );
 	private static final AdventureResult STENCH_FORM = new AdventureResult( "Stenchform", 1, true );
 	private static final AdventureResult SLEAZE_FORM = new AdventureResult( "Sleazeform", 1, true );
-
-	private static final AdventureResult MOXIE_MAGNET = new AdventureResult( 519, 1 );
-	private static final AdventureResult TRAVOLTAN_TROUSERS = new AdventureResult( 1792, 1 );
 
 	private static final Pattern BASEMENT_PATTERN = Pattern.compile( "Level ([\\d,]+)" );
 
@@ -424,7 +421,7 @@ public class BasementRequest
 			return false;
 		}
 
-		BasementRequest.actualBoost = Modifiers.HP;
+		BasementRequest.actualStatNeeded = Modifiers.HP;
 		BasementRequest.primaryBoost = Modifiers.MUS_PCT;
 		BasementRequest.secondaryBoost = Modifiers.MUS;
 
@@ -643,7 +640,7 @@ public class BasementRequest
 			BasementRequest.basementTestCurrent = KoLCharacter.getAdjustedMuscle();
 			BasementRequest.basementTestValue = (int) statRequirement;
 
-			BasementRequest.actualBoost = Modifiers.MUS;
+			BasementRequest.actualStatNeeded = Modifiers.MUS;
 			BasementRequest.primaryBoost = Modifiers.MUS_PCT;
 			BasementRequest.secondaryBoost = Modifiers.MUS;
 
@@ -672,7 +669,7 @@ public class BasementRequest
 			BasementRequest.basementTestCurrent = KoLCharacter.getAdjustedMysticality();
 			BasementRequest.basementTestValue = (int) statRequirement;
 
-			BasementRequest.actualBoost = Modifiers.MYS;
+			BasementRequest.actualStatNeeded = Modifiers.MYS;
 			BasementRequest.primaryBoost = Modifiers.MYS_PCT;
 			BasementRequest.secondaryBoost = Modifiers.MYS;
 
@@ -701,7 +698,7 @@ public class BasementRequest
 			BasementRequest.basementTestCurrent = KoLCharacter.getAdjustedMoxie();
 			BasementRequest.basementTestValue = (int) statRequirement;
 
-			BasementRequest.actualBoost = Modifiers.MOX;
+			BasementRequest.actualStatNeeded = Modifiers.MOX;
 			BasementRequest.primaryBoost = Modifiers.MOX_PCT;
 			BasementRequest.secondaryBoost = Modifiers.MOX;
 
@@ -743,8 +740,8 @@ public class BasementRequest
 			BasementRequest.basementTestCurrent = KoLCharacter.getMaximumMP();
 			BasementRequest.basementTestValue = (int) drainRequirement;
 
-			BasementRequest.actualBoost = Modifiers.MP;
-			if ( moxieControlsMP() )
+			BasementRequest.actualStatNeeded = Modifiers.MP;
+			if ( StatBooster.moxieControlsMP() )
 			{
 				BasementRequest.primaryBoost = Modifiers.MOX_PCT;
 				BasementRequest.secondaryBoost = Modifiers.MOX;
@@ -791,7 +788,7 @@ public class BasementRequest
 			BasementRequest.basementTestString = "Maximum HP";
 			BasementRequest.basementTestCurrent = KoLCharacter.getMaximumHP();
 
-			BasementRequest.actualBoost = Modifiers.HP;
+			BasementRequest.actualStatNeeded = Modifiers.HP;
 			BasementRequest.primaryBoost = Modifiers.MUS_PCT;
 			BasementRequest.secondaryBoost = Modifiers.MUS;
 
@@ -831,19 +828,6 @@ public class BasementRequest
 
 			return true;
 		}
-
-		return false;
-	}
-
-	private static final boolean moxieControlsMP()
-	{
-		// With Moxie Magnet, uses Moxie, not Mysticality
-		if ( KoLCharacter.hasEquipped( MOXIE_MAGNET ) )
-			return true;
-
-		// Ditto if Travoltan trousers and Mox > Mys
-		if ( KoLCharacter.hasEquipped( TRAVOLTAN_TROUSERS ) )
-			return KoLCharacter.getAdjustedMoxie() > KoLCharacter.getAdjustedMysticality();
 
 		return false;
 	}
@@ -1005,7 +989,7 @@ public class BasementRequest
 		BasementRequest.checkBasement( true, BasementRequest.lastResponseText );
 	}
 
-	private static final boolean checkBasement( final boolean autoSwitch, final String responseText )
+	public static final boolean checkBasement( final boolean autoSwitch, final String responseText )
 	{
 		BasementRequest.lastResponseText = responseText;
 
@@ -1040,7 +1024,7 @@ public class BasementRequest
 		BasementRequest.basementTestCurrent = 0;
 		BasementRequest.basementTestValue = 0;
 
-		BasementRequest.actualBoost = Modifiers.HP;
+		BasementRequest.actualStatNeeded = Modifiers.HP;
 		BasementRequest.primaryBoost = Modifiers.MUS_PCT;
 		BasementRequest.secondaryBoost = Modifiers.MUS;
 
@@ -1054,10 +1038,10 @@ public class BasementRequest
 		return true;
 	}
 
-	private static final void getDesiredEffects( final ArrayList sourceList, final ArrayList targetList )
+	private static final void getStatBoosters( final ArrayList sourceList, final ArrayList targetList )
 	{
 		// Cache skills to avoid lots of string lookups
-		DesiredEffect.checkSkills();
+		StatBooster.checkSkills();
 
 		Iterator it = sourceList.iterator();
 
@@ -1069,7 +1053,7 @@ public class BasementRequest
 				continue;
 			}
 
-			DesiredEffect addition = new DesiredEffect( effect.getName() );
+			StatBooster addition = new StatBooster( effect.getName() );
 
 			if ( !targetList.contains( addition ) )
 			{
@@ -1111,447 +1095,52 @@ public class BasementRequest
 		return true;
 	}
 
-	private static final ArrayList getDesiredEffects()
+	public static final ArrayList getStatBoosters()
 	{
 		ArrayList targetList = new ArrayList();
 
-		BasementRequest.getDesiredEffects( BasementRequest.desirableEffects, targetList );
+		BasementRequest.getStatBoosters( BasementRequest.desirableEffects, targetList );
 
-		BasementRequest.getDesiredEffects( Modifiers.getPotentialChanges( BasementRequest.primaryBoost ), targetList );
-		BasementRequest.getDesiredEffects( Modifiers.getPotentialChanges( BasementRequest.secondaryBoost ), targetList );
+		BasementRequest.getStatBoosters( Modifiers.getPotentialChanges( BasementRequest.primaryBoost ), targetList );
+		BasementRequest.getStatBoosters( Modifiers.getPotentialChanges( BasementRequest.secondaryBoost ), targetList );
 
-		if ( BasementRequest.actualBoost == Modifiers.HP )
+		if ( BasementRequest.actualStatNeeded == Modifiers.HP )
 		{
-			BasementRequest.getDesiredEffects( Modifiers.getPotentialChanges( Modifiers.HP_PCT ), targetList );
-			BasementRequest.getDesiredEffects( Modifiers.getPotentialChanges( Modifiers.HP ), targetList );
+			BasementRequest.getStatBoosters( Modifiers.getPotentialChanges( Modifiers.HP_PCT ), targetList );
+			BasementRequest.getStatBoosters( Modifiers.getPotentialChanges( Modifiers.HP ), targetList );
 		}
-		else if ( BasementRequest.actualBoost == Modifiers.MP )
+		else if ( BasementRequest.actualStatNeeded == Modifiers.MP )
 		{
-			BasementRequest.getDesiredEffects( Modifiers.getPotentialChanges( Modifiers.MP_PCT ), targetList );
-			BasementRequest.getDesiredEffects( Modifiers.getPotentialChanges( Modifiers.MP ), targetList );
+			BasementRequest.getStatBoosters( Modifiers.getPotentialChanges( Modifiers.MP_PCT ), targetList );
+			BasementRequest.getStatBoosters( Modifiers.getPotentialChanges( Modifiers.MP ), targetList );
 		}
 
 		Collections.sort( targetList );
 		return targetList;
 	}
 
-	public static final void decorate( final StringBuffer buffer )
+	public static int getBasementTestCurrent()
 	{
-		boolean hasCheck = BasementRequest.checkBasement( false, buffer.toString() );
-
-		if ( buffer.indexOf( "Got Silk?" ) != -1 )
-		{
-			BasementRequest.addBasementChoiceSpoilers( buffer, "Moxie", "Muscle" );
-			return;
-		}
-
-		if ( buffer.indexOf( "Save the Dolls" ) != -1 )
-		{
-			BasementRequest.addBasementChoiceSpoilers( buffer, "Mysticality", "Moxie" );
-			return;
-		}
-
-		if ( buffer.indexOf( "Take the Red Pill" ) != -1 )
-		{
-			BasementRequest.addBasementChoiceSpoilers( buffer, "Muscle", "Mysticality" );
-			return;
-		}
-
-		if ( !hasCheck )
-		{
-			return;
-		}
-
-		buffer.insert(
-			buffer.indexOf( "</head>" ), "<script language=\"Javascript\" src=\"/basement.js\"></script></head>" );
-
-		StringBuffer changes = new StringBuffer();
-		changes.append( "<table>" );
-		changes.append( "<tr><td><select id=\"gear\" style=\"width: 400px\"><option value=\"none\">- change your equipment -</option>" );
-
-		// Add outfits
-
-		SpecialOutfit outfit;
-		for ( int i = 0; i < KoLCharacter.getCustomOutfits().size(); ++i )
-		{
-			outfit = (SpecialOutfit) KoLCharacter.getCustomOutfits().get( i );
-
-			changes.append( "<option value=\"outfit+" );
-
-			try
-			{
-				changes.append( URLEncoder.encode( outfit.getName(), "UTF-8" ) );
-			}
-			catch ( Exception e )
-			{
-				changes.append( StaticEntity.globalStringReplace( outfit.getName(), " ", "+" ) );
-			}
-
-			changes.append( "\">outfit " );
-			changes.append( outfit.getName().substring( 8 ) );
-			changes.append( "</option>" );
-		}
-
-		for ( int i = 0; i < BasementRequest.POSSIBLE_FAMILIARS.length; ++i )
-		{
-			if ( !KoLCharacter.getFamiliarList().contains( BasementRequest.POSSIBLE_FAMILIARS[ i ] ) )
-			{
-				continue;
-			}
-
-			changes.append( "<option value=\"familiar+" );
-			changes.append( StaticEntity.globalStringReplace(
-				BasementRequest.POSSIBLE_FAMILIARS[ i ].getRace(), " ", "+" ) );
-			changes.append( "\">familiar " );
-			changes.append( BasementRequest.POSSIBLE_FAMILIARS[ i ].getRace() );
-			changes.append( "</option>" );
-		}
-
-		changes.append( "</select></td><td>&nbsp;</td><td valign=top align=left><input type=\"button\" value=\"exec\" onClick=\"changeBasementGear();\"></td></tr>" );
-
-		// Add effects
-
-		ArrayList listedEffects = BasementRequest.getDesiredEffects();
-
-		if ( !listedEffects.isEmpty() )
-		{
-			String computeFunction =
-				"computeNetBoost(" + (int) BasementRequest.basementTestCurrent + "," + (int) BasementRequest.basementTestValue + ");";
-
-			String modifierName = Modifiers.getModifierName( BasementRequest.actualBoost );
-			modifierName = StaticEntity.globalStringDelete( modifierName, "Maximum " ).toLowerCase();
-
-			changes.append( "<tr><td><select onchange=\"" );
-			changes.append( computeFunction );
-			changes.append( "\" id=\"potion\" style=\"width: 400px\" multiple size=5>" );
-
-			if ( KoLCharacter.getCurrentHP() < KoLCharacter.getMaximumHP() )
-			{
-				changes.append( "<option value=0>use 1 scroll of drastic healing (hp restore)</option>" );
-			}
-
-			if ( KoLCharacter.getCurrentMP() < KoLCharacter.getMaximumMP() )
-			{
-				changes.append( "<option value=0" );
-
-				if ( KoLCharacter.getFullness() == KoLCharacter.getFullnessLimit() )
-				{
-					changes.append( " disabled" );
-				}
-
-				changes.append( ">eat 1 Jumbo Dr. Lucifer (mp restore)</option>" );
-			}
-
-			for ( int i = 0; i < listedEffects.size(); ++i )
-			{
-				BasementRequest.appendBasementEffect( changes, (DesiredEffect) listedEffects.get( i ) );
-			}
-
-			changes.append( "</select></td><td>&nbsp;</td><td valign=top align=left>" );
-			changes.append( "<input type=\"button\" value=\"exec\" onClick=\"changeBasementEffects();\">" );
-			changes.append( "<br/><br/><font size=-1><nobr id=\"changevalue\">" );
-			changes.append( (int) BasementRequest.basementTestCurrent );
-			changes.append( "</nobr><br/><nobr id=\"changetarget\">" );
-			changes.append( (int) BasementRequest.basementTestValue );
-			changes.append( "</nobr></td></tr>" );
-		}
-
-		changes.append( "</table>" );
-		buffer.insert( buffer.indexOf( "</center><blockquote>" ), changes.toString() );
-
-		String checkString = BasementRequest.getRequirement();
-		buffer.insert( buffer.lastIndexOf( "</b>" ) + 4, "<br/>" );
-		buffer.insert( buffer.lastIndexOf( "<img" ), "<table><tr><td>" );
-		buffer.insert(
-			buffer.indexOf( ">", buffer.lastIndexOf( "<img" ) ) + 1,
-			"</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><font id=\"spoiler\" size=2>" + checkString + "</font></td></tr></table>" );
+		return (int) BasementRequest.basementTestCurrent;
 	}
 
-	private static final void appendBasementEffect( final StringBuffer changes, final DesiredEffect effect )
+	public static int getBasementTestValue()
 	{
-		changes.append( "<option value=" );
-		changes.append( effect.effectiveBoost );
-
-		if ( effect.action.startsWith( "chew" ) && KoLCharacter.getSpleenUse() == KoLCharacter.getSpleenLimit() )
-		{
-			changes.append( " disabled" );
-		}
-
-		changes.append( ">" );
-
-		if ( !effect.itemAvailable )
-		{
-			changes.append( "acquire and " );
-		}
-
-		changes.append( effect.action );
-		changes.append( " (" );
-
-		if ( effect.computedBoost == 0.0f )
-		{
-			if ( effect.name.equals( BasementRequest.MUS_EQUAL.getName() ) || effect.name.equals( BasementRequest.MYS_EQUAL.getName() ) || effect.name.equals( BasementRequest.MOX_EQUAL.getName() ) )
-			{
-				changes.append( "stat equalizer" );
-			}
-			else
-			{
-				boolean isImmunity = false;
-				for ( int j = 0; j < BasementRequest.ELEMENT_FORMS.length; ++j )
-				{
-					isImmunity |= effect.name.equals( BasementRequest.ELEMENT_FORMS[ j ].getName() );
-				}
-
-				if ( isImmunity )
-				{
-					changes.append( "element immunity" );
-				}
-				else
-				{
-					changes.append( "element resist" );
-				}
-			}
-		}
-		else
-		{
-			changes.append( "+" );
-			changes.append( KoLConstants.COMMA_FORMAT.format( effect.effectiveBoost ) );
-		}
-
-		changes.append( ")</option>" );
+		return (int) BasementRequest.basementTestValue;
 	}
 
-	private static final void addBasementChoiceSpoilers( final StringBuffer buffer, final String choice1,
-		final String choice2 )
+	public static int getActualStatNeeded()
 	{
-		String text = buffer.toString();
-		buffer.setLength( 0 );
-
-		int index1 = 0, index2;
-
-		// Add first choice spoiler
-		index2 = text.indexOf( "</form>", index1 );
-		buffer.append( text.substring( index1, index2 ) );
-		buffer.append( "<br><font size=-1>(" + choice1 + ")</font><br/></form>" );
-		index1 = index2 + 7;
-
-		// Add second choice spoiler
-		index2 = text.indexOf( "</form>", index1 );
-		buffer.append( text.substring( index1, index2 ) );
-		buffer.append( "<br><font size=-1>(" + choice2 + ")</font><br/></form>" );
-		index1 = index2 + 7;
-
-		// Append remainder of buffer
-		buffer.append( text.substring( index1 ) );
+		return BasementRequest.actualStatNeeded;
 	}
 
-	private static class DesiredEffect
-		implements Comparable
+	public static int getPrimaryBoost()
 	{
-		private final String name, action;
-		private final int computedBoost;
-		private final int effectiveBoost;
-		private boolean itemAvailable;
+		return BasementRequest.primaryBoost;
+	}
 
-		private static boolean rigatoni = false;
-		private static boolean hardigness = false;
-		private static boolean wisdom = false;
-		private static boolean ugnderstanding = false;
-		private static boolean moxieControlsMP = false;
-
-		public DesiredEffect( final String name )
-		{
-			this.name = name;
-
-			this.computedBoost = (int) Math.ceil( this.computeBoost() );
-			this.effectiveBoost = this.computedBoost > 0.0f ? this.computedBoost : 0 - this.computedBoost;
-
-			this.action =
-				this.computedBoost < 0 ? "uneffect " + name : MoodManager.getDefaultAction( "lose_effect", name );
-
-			this.itemAvailable = true;
-
-			if ( this.action.startsWith( "use" ) )
-			{
-				AdventureResult item = KoLmafiaCLI.getFirstMatchingItem( this.action.substring( 4 ).trim(), false );
-				if ( item == null || !KoLCharacter.hasItem( item ) )
-				{
-					this.itemAvailable = false;
-				}
-			}
-		}
-
-		public static void checkSkills()
-		{
-			DesiredEffect.rigatoni = KoLCharacter.hasSkill( "Spirit of Rigatoni" );
-			DesiredEffect.hardigness = KoLCharacter.hasSkill( "Gnomish Hardigness" );
-			DesiredEffect.wisdom = KoLCharacter.hasSkill( "Wisdom of the Elder Tortoises" );
-			DesiredEffect.ugnderstanding = KoLCharacter.hasSkill( "Cosmic Ugnderstanding" );
-			DesiredEffect.moxieControlsMP = moxieControlsMP();
-		}
-
-		public boolean equals( final Object o )
-		{
-			return o instanceof DesiredEffect && this.name.equals( ( (DesiredEffect) o ).name );
-		}
-
-		public int compareTo( final Object o )
-		{
-			if ( this.effectiveBoost == 0.0f )
-			{
-				return ( (DesiredEffect) o ).effectiveBoost != 0.0f ? -1 : this.name.compareToIgnoreCase( ( (DesiredEffect) o ).name );
-			}
-
-			if ( ( (DesiredEffect) o ).effectiveBoost == 0.0f )
-			{
-				return 1;
-			}
-
-			if ( this.effectiveBoost != ( (DesiredEffect) o ).effectiveBoost )
-			{
-				return this.effectiveBoost > ( (DesiredEffect) o ).effectiveBoost ? -1 : 1;
-			}
-
-			return this.name.compareToIgnoreCase( ( (DesiredEffect) o ).name );
-		}
-
-		public float computeBoost()
-		{
-			Modifiers m = Modifiers.getModifiers( this.name );
-			if ( m == null )
-			{
-				return 0.0f;
-			}
-
-			if ( BasementRequest.actualBoost == Modifiers.HP )
-			{
-				return DesiredEffect.boostMaxHP( m );
-			}
-
-			if ( BasementRequest.actualBoost == Modifiers.MP )
-			{
-				return DesiredEffect.boostMaxMP( m );
-			}
-
-			float base = DesiredEffect.getEqualizedStat( BasementRequest.primaryBoost );
-			float boost =
-				m.get( BasementRequest.secondaryBoost ) + m.get( BasementRequest.primaryBoost ) * base / 100.0f;
-
-			return boost;
-		}
-
-		public static float getEqualizedStat( final int mod )
-		{
-			float currentStat = 0.0f;
-
-			switch ( mod )
-			{
-			case Modifiers.MUS_PCT:
-				currentStat = KoLCharacter.getBaseMuscle();
-				break;
-			case Modifiers.MYS_PCT:
-				currentStat = KoLCharacter.getBaseMysticality();
-				break;
-			case Modifiers.MOX_PCT:
-				currentStat = KoLCharacter.getBaseMoxie();
-				break;
-			default:
-				return 0.0f;
-			}
-
-			if ( KoLConstants.activeEffects.contains( BasementRequest.MUS_EQUAL ) )
-			{
-				currentStat = Math.max( KoLCharacter.getBaseMuscle(), currentStat );
-			}
-
-			if ( KoLConstants.activeEffects.contains( BasementRequest.MYS_EQUAL ) )
-			{
-				currentStat = Math.max( KoLCharacter.getBaseMysticality(), currentStat );
-			}
-
-			if ( KoLConstants.activeEffects.contains( BasementRequest.MOX_EQUAL ) )
-			{
-				currentStat = Math.max( KoLCharacter.getBaseMoxie(), currentStat );
-			}
-
-			return currentStat;
-		}
-
-		public static float boostMaxHP( final Modifiers m )
-		{
-			float addedMuscleFixed = m.get( Modifiers.MUS );
-			float addedMusclePercent = m.get( Modifiers.MUS_PCT );
-			float addedHealthFixed = m.get( Modifiers.HP );
-
-			if ( addedMuscleFixed == 0.0f && addedMusclePercent == 0.0f && addedHealthFixed == 0.0f )
-			{
-				return 0.0f;
-			}
-
-			float muscleBase = DesiredEffect.getEqualizedStat( Modifiers.MUS_PCT );
-			float muscleBonus = addedMuscleFixed + (float) Math.floor( addedMusclePercent * muscleBase / 100.0f );
-
-			if ( KoLCharacter.isMuscleClass() )
-			{
-				muscleBonus *= 1.5f;
-			}
-
-			if ( DesiredEffect.rigatoni )
-			{
-				muscleBonus *= 1.25f;
-			}
-
-			if ( DesiredEffect.hardigness )
-			{
-				muscleBonus *= 1.05f;
-			}
-
-			return addedHealthFixed + muscleBonus;
-		}
-
-		public static float boostMaxMP( final Modifiers m )
-		{
-			int statModifier;
-			int statPercentModifier;
-
-			if ( DesiredEffect.moxieControlsMP )
-			{
-				statModifier = Modifiers.MOX;
-				statPercentModifier = Modifiers.MOX_PCT;
-			}
-			else
-			{
-				statModifier = Modifiers.MYS;
-				statPercentModifier = Modifiers.MYS_PCT;
-			}
-
-			float addedStatFixed = m.get( statModifier );
-			float addedStatPercent = m.get( statPercentModifier );
-			float addedManaFixed = m.get( Modifiers.MP );
-
-			if ( addedStatFixed == 0.0f && addedStatPercent == 0.0f && addedManaFixed == 0.0f )
-			{
-				return 0.0f;
-			}
-
-			float statBase = DesiredEffect.getEqualizedStat( statPercentModifier );
-			float manaBonus = addedStatFixed + (float) Math.floor( addedStatPercent * statBase / 100.0f );
-
-			if ( KoLCharacter.isMysticalityClass() )
-			{
-				manaBonus *= 1.5f;
-			}
-
-			if ( DesiredEffect.wisdom )
-			{
-				manaBonus *= 1.5f;
-			}
-
-			if ( DesiredEffect.ugnderstanding )
-			{
-				manaBonus *= 1.05f;
-			}
-
-			return addedManaFixed + manaBonus;
-		}
+	public static int getSecondaryBoost()
+	{
+		return BasementRequest.secondaryBoost;
 	}
 }

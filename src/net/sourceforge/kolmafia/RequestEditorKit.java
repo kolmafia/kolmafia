@@ -44,8 +44,6 @@ import java.net.URLConnection;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -64,6 +62,7 @@ import javax.swing.text.html.ImageView;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 
+import net.sourceforge.kolmafia.webui.BasementDecorator;
 import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
 import net.sourceforge.kolmafia.webui.UseLinkDecorator;
 import net.sourceforge.kolmafia.webui.ValhallaDecorator;
@@ -599,8 +598,7 @@ public class RequestEditorKit
 		}
 		else if ( location.startsWith( "basement.php" ) )
 		{
-			RequestEditorKit.addBasementButtons( buffer );
-			BasementRequest.decorate( buffer );
+			BasementDecorator.decorate( buffer );
 		}
 		else if ( location.startsWith( "bigisland.php" ) )
 		{
@@ -906,55 +904,6 @@ public class RequestEditorKit
 		buffer.insert( combatIndex + 7, monsterData.toString() );
 	}
 
-	private static final void addBasementButton( final String urlString, final StringBuffer response,
-		final StringBuffer buffer, final String action, final boolean isEnabled )
-	{
-		buffer.append( "<input type=\"button\" onClick=\"" );
-
-		if ( urlString.startsWith( "rebuff" ) )
-		{
-			buffer.append( "runBasementScript(); void(0);" );
-		}
-		else
-		{
-			buffer.append( "document.location.href='basement.php" );
-
-			if ( urlString.equals( "action" ) )
-			{
-				buffer.append( "?action=" );
-				buffer.append( BasementRequest.getBasementAction( response.toString() ) );
-			}
-
-			buffer.append( "'; void(0);" );
-		}
-
-		buffer.append( "\" value=\"" );
-		buffer.append( action );
-		buffer.append( "\"" + ( isEnabled ? "" : " disabled" ) + ">&nbsp;" );
-	}
-
-	private static final void addBasementButtons( final StringBuffer buffer )
-	{
-		if ( !KoLSettings.getBooleanProperty( "relayAddsCustomCombat" ) )
-		{
-			return;
-		}
-
-		int insertionPoint = buffer.indexOf( "<tr" );
-		if ( insertionPoint != -1 )
-		{
-			StringBuffer actionBuffer = new StringBuffer();
-			actionBuffer.append( "<tr><td align=left>" );
-
-			RequestEditorKit.addBasementButton( "action", buffer, actionBuffer, "auto", true );
-			RequestEditorKit.addBasementButton( "rebuff", buffer, actionBuffer, "rebuff", false );
-			RequestEditorKit.addBasementButton( "", buffer, actionBuffer, "refresh", true );
-
-			actionBuffer.append( "</td></tr><tr><td><font size=1>&nbsp;</font></td></tr>" );
-			buffer.insert( insertionPoint, actionBuffer.toString() );
-		}
-	}
-
 	private static final void addMultiuseModifiers( final StringBuffer buffer )
 	{
 		// Change bang potion names in item dropdown
@@ -1131,7 +1080,7 @@ public class RequestEditorKit
 				StaticEntity.singleStringReplace( buffer, find, find + " selected" );
 			}
 		}
-		     
+
 	}
 
 	private static final void changeSphereNames( final StringBuffer buffer )
