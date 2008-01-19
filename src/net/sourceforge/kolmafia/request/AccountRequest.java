@@ -46,7 +46,7 @@ public class AccountRequest
 	extends PasswordHashRequest
 {
 	private static final Pattern AUTOSELL_PATTERN =
-		Pattern.compile( "action=sellstuff\">Switch to (\\S*?) Autosale Mode</a>" );
+		Pattern.compile( "Turn On (\\S*?) Autosale Mode" );
 	private static final Pattern AUTOATTACK_PATTERN =
 		Pattern.compile( "<select class=small name=whichattack>.*?</select>", Pattern.DOTALL );
 
