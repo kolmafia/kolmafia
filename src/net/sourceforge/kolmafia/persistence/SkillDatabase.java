@@ -71,10 +71,10 @@ public class SkillDatabase
 	public static final int COMBAT = 5;
 
 	// Mr. Skills
-	public static final int SNOWCONE = 16;
-	public static final int HILARIOUS = 17;
-	public static final int CANDY_HEART = 18;
-	public static final int PARTY_FAVOR = -100;
+	public static final int SNOWCONE = 8000;
+	public static final int CANDY_HEART = 8100;
+	public static final int PARTY_FAVOR = 8101;
+	public static final int HILARIOUS = 8200;
 
 	private static final String UNCATEGORIZED = "uncategorized";
 	private static final String GNOME_SKILLS = "gnome trainer";

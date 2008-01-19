@@ -14,15 +14,16 @@
 13	Gnomish Hardigness	0	0	0
 14	Cosmic Ugnderstanding	0	0	0
 15	CLEESH	5	10	0
-16	Summon Snowcone	1	5	0
-17	Summon Hilarious Objects	1	5	0
-18	Summon Candy Hearts	1	0	0
+
+# The following Mr. Skills have the listed skill ID on the Character
+# Sheet, but need a different skill ID on the Use Skills page
+
+# 16	Summon Snowcone	1	5	0
+# 17	Summon Hilarious Objects	1	5	0
+# 18	Summon Candy Hearts	1	0	0
+
 19	Transcendent Olfaction	5	40	0
 20	Really Expensive Jewelrycrafting	0	0	0
-
-# pseudo-skills accessed through mystical bookshelf in campground
-
--100	Summon Party Favor	1	0	0
 
 # Available only on the Bad Moon path
 
@@ -51,6 +52,13 @@
 7013	Fire purple bottle-rocket	5	5	0
 7014	Fire black bottle-rocket	5	5	0
 7015	Creepy Grin	5	30	0
+
+# Skills granted by books on your Mystical Bookshelf
+
+8000	Summon Snowcone	1	5	0
+8100	Summon Candy Hearts	1	0	0
+8101	Summon Party Favor	1	0	0
+8200	Summon Hilarious Objects	1	5	0
 
 # Skills available to Clubbers
 
