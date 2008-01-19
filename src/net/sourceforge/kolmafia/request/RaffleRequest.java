@@ -1,0 +1,149 @@
+/**
+ * Copyright (c) 2005-2007, KoLmafia development team
+ * http://kolmafia.sourceforge.net/
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *  [1] Redistributions of source code must retain the above copyright
+ *      notice, this list of conditions and the following disclaimer.
+ *  [2] Redistributions in binary form must reproduce the above copyright
+ *      notice, this list of conditions and the following disclaimer in
+ *      the documentation and/or other materials provided with the
+ *      distribution.
+ *  [3] Neither the name "KoLmafia" nor the names of its contributors may
+ *      be used to endorse or promote products derived from this software
+ *      without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package net.sourceforge.kolmafia.request;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.StaticEntity;
+
+public class RaffleRequest
+	extends GenericRequest
+{
+	private static final Pattern BUY_PATTERN = Pattern.compile( "where=(\\d+).*quantity=(\\d+)" );
+
+	public static final int INVENTORY = 0;
+	public static final int STORAGE = 1;
+
+	private final int count;
+	private final int source;
+
+	public RaffleRequest( final int count, int source )
+	{
+		super( "raffle.php" );
+
+		this.count = count;
+		this.source = source;
+
+		this.addFormField( "action", "buy" );
+		this.addFormField( "pwd" );
+		this.addFormField( "where", String.valueOf( source ) );
+		this.addFormField( "quantity", String.valueOf( count ) );
+	}
+
+	public RaffleRequest( final int count )
+	{
+		this( count, RaffleRequest.chooseMeatSource() );
+	}
+
+	private static int chooseMeatSource()
+	{
+		if ( KoLCharacter.isHardcore() || KoLCharacter.inRonin() )
+		{
+			return RaffleRequest.STORAGE;
+		}
+
+		return RaffleRequest.INVENTORY;
+	}
+
+	public void run()
+	{
+		if ( this.source != RaffleRequest.INVENTORY && this.source != RaffleRequest.STORAGE )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Decide where to take meat from." );
+			return;
+		}
+
+		KoLmafia.updateDisplay( "Visiting the Raffle House..." );
+		super.run();
+	}
+
+	public void processResults()
+	{
+		// You cannot afford that many tickets.
+		if ( this.responseText.indexOf( "You cannot afford" ) != -1 )
+		{
+			String where = ( this.source == RaffleRequest.INVENTORY ) ? "inventory" : "storage";
+			KoLmafia.updateDisplay(
+				KoLConstants.ERROR_STATE, "You don't have enough meat in " + where );
+			return;
+		}
+	}
+
+	public static final boolean registerRequest( final String location )
+	{
+		if ( !location.startsWith( "raffle.php" ) )
+		{
+			return false;
+		}
+
+		Matcher matcher = RaffleRequest.BUY_PATTERN.matcher( location );
+
+		if ( !matcher.find() )
+		{
+			return true;
+		}
+
+		int where = StaticEntity.parseInt( matcher.group(1) );
+		String loc = where == RaffleRequest.INVENTORY ? "inventory" : where == RaffleRequest.STORAGE ? "storage" : "nowhere";
+		int quantity = StaticEntity.parseInt( matcher.group(2) );
+
+		RequestLogger.updateSessionLog( "raffle " + quantity + " " + loc );
+
+		int cost = 1000 * quantity;
+		switch ( where )
+		{
+		case RaffleRequest.INVENTORY:
+			if ( cost <= KoLCharacter.getAvailableMeat() )
+			{
+				StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, -cost ) );
+			}
+			break;
+
+		case RaffleRequest.STORAGE:
+			if ( cost <= KoLCharacter.getStorageMeat() )
+			{
+				KoLCharacter.setStorageMeat( KoLCharacter.getStorageMeat() - cost );
+			}
+			break;
+		}
+
+		return true;
+	}
+}
