@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.CustomCombatManager;
+import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 
 public class AdventureRequest
@@ -467,6 +468,17 @@ public class AdventureRequest
 		if ( urlString.startsWith( "basement.php" ) )
 		{
 			return "";
+		}
+
+		if ( urlString.startsWith( "choice.php" ) )
+		{
+			if ( LouvreManager.louvreChoice( responseText ) )
+			{
+				String name = LouvreManager.encounterName( responseText );
+				RequestLogger.printLine( "Encounter: " + name );
+				RequestLogger.updateSessionLog( "Encounter: " + name );
+				return "";
+			}
 		}
 
 		String encounter = parseEncounter( responseText );
