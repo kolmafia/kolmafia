@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HellKitchenRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
@@ -415,12 +416,7 @@ public abstract class KoLCharacter
 		KoLCharacter.battleSkillNames.add( "custom combat script" );
 		KoLCharacter.battleSkillNames.add( "delevel and plink" );
 
-		KoLCharacter.battleSkillNames.add( "item dictionary" );
-		KoLCharacter.battleSkillNames.add( "item toy mercenary" );
-
-		KoLCharacter.battleSkillNames.add( "item seal tooth" );
-		KoLCharacter.battleSkillNames.add( "item turtle totem" );
-		KoLCharacter.battleSkillNames.add( "item spices" );
+		FightRequest.addItemActionsWithNoCost();
 
 		KoLCharacter.battleSkillNames.add( "try to run away" );
 
