@@ -120,11 +120,17 @@ public class FightRequest
 	private static final AdventureResult TURTLE = new AdventureResult( 4, 1 );
 	private static final AdventureResult SPICES = new AdventureResult( 8, 1 );
 	private static final AdventureResult MERCENARY = new AdventureResult( 2139, 1 );
+	private static final AdventureResult STOMPER = new AdventureResult( 3109, 1 );
+	private static final AdventureResult LASER = new AdventureResult( 3111, 1 );
+	private static final AdventureResult DESTROYER = new AdventureResult( 3114, 1 );
 
 	private static final String TOOTH_ACTION = "item" + FightRequest.TOOTH.getItemId();
 	private static final String TURTLE_ACTION = "item" + FightRequest.TURTLE.getItemId();
 	private static final String SPICES_ACTION = "item" + FightRequest.SPICES.getItemId();
 	private static final String MERCENARY_ACTION = "item" + FightRequest.MERCENARY.getItemId();
+	private static final String STOMPER_ACTION = "item" + FightRequest.STOMPER.getItemId();
+	private static final String LASER_ACTION = "item" + FightRequest.LASER.getItemId();
+	private static final String DESTROYER_ACTION = "item" + FightRequest.DESTROYER.getItemId();
 
 	private static final AdventureResult BROKEN_GREAVES = new AdventureResult( 1929, -1 );
 	private static final AdventureResult BROKEN_HELMET = new AdventureResult( 1930, -1 );
@@ -496,6 +502,21 @@ public class FightRequest
 				{
 					FightRequest.action2 = FightRequest.MERCENARY_ACTION;
 					this.addFormField( "whichitem2", String.valueOf( FightRequest.MERCENARY.getItemId() ) );
+				}
+				else if ( KoLConstants.inventory.contains( FightRequest.DESTROYER ) )
+				{
+					FightRequest.action2 = FightRequest.DESTROYER_ACTION;
+					this.addFormField( "whichitem2", String.valueOf( FightRequest.DESTROYER.getItemId() ) );
+				}
+				else if ( KoLConstants.inventory.contains( FightRequest.LASER ) )
+				{
+					FightRequest.action2 = FightRequest.LASER_ACTION;
+					this.addFormField( "whichitem2", String.valueOf( FightRequest.LASER.getItemId() ) );
+				}
+				else if ( KoLConstants.inventory.contains( FightRequest.STOMPER ) )
+				{
+					FightRequest.action2 = FightRequest.STOMPER_ACTION;
+					this.addFormField( "whichitem2", String.valueOf( FightRequest.STOMPER.getItemId() ) );
 				}
 				else if ( KoLConstants.inventory.contains( FightRequest.TOOTH ) )
 				{
@@ -1431,7 +1452,25 @@ public class FightRequest
 		return SkillDatabase.getMPConsumptionById( StaticEntity.parseInt( FightRequest.action1 ) );
 	}
 
-	private static final boolean hasActionCost( final int itemId )
+	public static void addItemActionsWithNoCost()
+	{
+		KoLCharacter.battleSkillNames.add( "item seal tooth" );
+		KoLCharacter.battleSkillNames.add( "item turtle totem" );
+		KoLCharacter.battleSkillNames.add( "item spices" );
+
+		KoLCharacter.battleSkillNames.add( "item dictionary" );
+		KoLCharacter.battleSkillNames.add( "item jam band flyers" );
+		KoLCharacter.battleSkillNames.add( "item rock band flyers" );
+
+		KoLCharacter.battleSkillNames.add( "item toy soldier" );
+		KoLCharacter.battleSkillNames.add( "item toy mercenary" );
+
+		KoLCharacter.battleSkillNames.add( "item Miniborg stomper" );
+		KoLCharacter.battleSkillNames.add( "item Miniborg laser" );
+		KoLCharacter.battleSkillNames.add( "item Miniborg Destroy-O-Bot" );
+	}
+
+	private static final boolean isItemConsumed( final int itemId )
 	{
 		switch ( itemId )
 		{
@@ -1440,6 +1479,8 @@ public class FightRequest
 		case 8: // spices
 		case 536: // dictionary
 		case 1316: // facsimile dictionary
+		case 1397: // toy soldier
+		case 2139: // toy mercenary
 		case 2174: // mossy stone sphere
 		case 2175: // smooth stone sphere
 		case 2176: // cracked stone sphere
@@ -1503,7 +1544,7 @@ public class FightRequest
 
 			int id1 = StaticEntity.parseInt( FightRequest.action1 );
 
-			if ( FightRequest.hasActionCost( id1 ) )
+			if ( FightRequest.isItemConsumed( id1 ) )
 			{
 				if ( id1 == FightRequest.SOLDIER.getItemId() )
 				{
@@ -1527,11 +1568,11 @@ public class FightRequest
 					// Item is not consumed whether or not
 					// you can pay the cost.
 				}
-				else
-				{
-					// Anything else uses up the item.
-					StaticEntity.getClient().processResult( new AdventureResult( id1, -1 ) );
-				}
+			}
+			else
+			{
+				// Anything else uses up the item.
+				StaticEntity.getClient().processResult( new AdventureResult( id1, -1 ) );
 			}
 
 			if ( FightRequest.action2 == null || FightRequest.action2.equals( "" ) )
@@ -1541,35 +1582,22 @@ public class FightRequest
 
 			int id2 = StaticEntity.parseInt( FightRequest.action2 );
 
-			if ( FightRequest.hasActionCost( id2 ) )
+			if ( FightRequest.isItemConsumed( id2 ) )
 			{
-				if ( id2 == FightRequest.SOLDIER.getItemId() )
+				// Anything that uses up the item.
+				StaticEntity.getClient().processResult( new AdventureResult( id2, -1 ) );
+			}
+			else  if ( id2 == FightRequest.SOLDIER.getItemId() )
+			{
+				// A toy soldier consumes tequila.
+
+				if ( KoLConstants.inventory.contains( FightRequest.TEQUILA ) )
 				{
-					// A toy soldier consumes tequila.
-
-					if ( KoLConstants.inventory.contains( FightRequest.TEQUILA ) )
-					{
-						StaticEntity.getClient().processResult( FightRequest.TEQUILA );
-					}
-
-					// Item is not consumed whether or not
-					// you can pay the cost.
+					StaticEntity.getClient().processResult( FightRequest.TEQUILA );
 				}
-				else if ( id2 == FightRequest.MERCENARY.getItemId() )
-				{
-					// A toy mercenary consumes 5-10 meat.
 
-					// A sidepane refresh at the end of the
-					// battle will re-synch everything.
-
-					// Item is not consumed whether or not
-					// you can pay the cost.
-				}
-				else
-				{
-					// Anything else uses up the item.
-					StaticEntity.getClient().processResult( new AdventureResult( id2, -1 ) );
-				}
+				// Item is not consumed whether or not
+				// you can pay the cost.
 			}
 
 			return;
