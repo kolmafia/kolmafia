@@ -69,6 +69,23 @@ public class LouvreManager
 		"Dali: The Persistence of Memory: Mysticality, Pinot Renoir",	// 104
 	};
 
+	private static final String LouvreShortLocationNames [] =
+	{
+		"Escher: Relativity",			// 92
+		"Escher: House of Stairs",		// 93
+		"Escher: Labyrinth",			// 94
+		"Escher: Ascending and Descending",	// 95
+		"Mondrian",				// 96
+		"Munch: The Scream",			// 97
+		"Botticelli: The Birth of Venus",	// 98
+		"Michelangelo: The Creation of Adam",	// 99
+		"David: The Death of Socrates",		// 100
+		"Hopper: Nighthawks",			// 101
+		"Seurat: Sunday Afternoon on the Island of La Grande Jatte",	// 102
+		"Leonardo da Vinci: The Last Supper",	// 103
+		"Dali: The Persistence of Memory",	// 104
+	};
+
 	// 0 = 92, 93, 94, or 95
 
 	private static final int LouvreLocationExits [][] =
@@ -259,6 +276,16 @@ public class LouvreManager
 
 		KoLSettings.setUserProperty( "lastLouvreMap", String.valueOf( KoLCharacter.getAscensions() ) );
 		KoLSettings.setUserProperty( "louvreLayout", map.toString() );
+	}
+
+	public static final boolean louvreChoice( String text)
+	{
+		Matcher matcher = LouvreManager.CHOICE_PATTERN.matcher( text );
+		if ( !matcher.find() )
+		{
+			return false;
+		}
+		return louvreChoice( StaticEntity.parseInt( matcher.group(1) ) );
 	}
 
 	public static final boolean louvreChoice( final int choice )
@@ -610,6 +637,27 @@ public class LouvreManager
 		result[ 2 ][ 2 ] = LouvreManager.choiceName( choice, choices[ 2 ] );
 
 		return result;
+	}
+
+	public static final String encounterName( String text )
+	{
+		Matcher matcher = LouvreManager.CHOICE_PATTERN.matcher( text );
+		if ( !matcher.find() )
+		{
+			return "";
+		}
+		return encounterName( StaticEntity.parseInt( matcher.group(1) ) );
+	}
+
+	public static final String encounterName( int choice )
+	{
+		if ( !louvreChoice( choice ) )
+		{
+			return "";
+		}
+
+		String name = LouvreManager.LouvreShortLocationNames[ choice - LouvreManager.FIRST_CHOICE ];
+		return "Louvre It or Leave It (" + name + ")";
 	}
 
 	private static final String choiceName( final int choice, final int destination )
