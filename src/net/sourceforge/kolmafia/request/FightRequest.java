@@ -1225,7 +1225,7 @@ public class FightRequest
 			}
 			else if ( effectText.equals( "bright green light" ) )
 			{
-				effectData = "plants";
+				effectData = "nature";
 			}
 
 			KoLCharacter.ensureUpdatedSphereEffects();
@@ -1252,6 +1252,29 @@ public class FightRequest
 		}
 
 		return name + " of " + effect;
+	}
+
+	public static final String stoneSphereEffectToId( final String effect )
+	{
+		KoLCharacter.ensureUpdatedSphereEffects();
+
+		for ( int i = 2174; i <= 2177; ++i )
+		{
+			String itemId = String.valueOf( i );
+			String value = KoLSettings.getUserProperty( "lastStoneSphere" + itemId );
+
+			if ( value.equals( "plants" ) )
+			{
+				value = "nature";
+			}
+
+			if ( effect.equals( value ) )
+			{
+				return itemId;
+			}
+		}
+
+		return null;
 	}
 
 	private static final void updateMonsterHealth( final String responseText )

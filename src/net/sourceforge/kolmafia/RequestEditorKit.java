@@ -125,6 +125,7 @@ public class RequestEditorKit
 	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
 	private static final Pattern BOOKSHELF_PATTERN =
 		Pattern.compile( "onClick=\"location.href='(.*?)';\"", Pattern.DOTALL );
+	private static final Pattern ALTAR_PATTERN = Pattern.compile( "'An altar with a carving of a god of ([^']*)'" );
 
 	public static final void downloadFile( final String remote, final File local )
 	{
@@ -1117,10 +1118,25 @@ public class RequestEditorKit
 	{
 		// Change stone sphere names in item dropdown
 		RequestEditorKit.changeSphereNames( buffer );
+
+		// If we are at an altar, select the correct stone sphere
+		Matcher matcher = RequestEditorKit.ALTAR_PATTERN.matcher( buffer.toString() );
+		if ( matcher.find() )
+		{
+			String domain = matcher.group(1);
+			String itemId = FightRequest.stoneSphereEffectToId( domain );
+			if ( itemId != null )
+			{
+				String find = "<option value='" + itemId + "'";
+				StaticEntity.singleStringReplace( buffer, find, find + " selected" );
+			}
+		}
+		     
 	}
 
 	private static final void changeSphereNames( final StringBuffer buffer )
 	{
+		KoLCharacter.ensureUpdatedSphereEffects();
 		for ( int i = 2174; i <= 2177; ++i )
 		{
 			String name = ItemDatabase.getItemName( i );
