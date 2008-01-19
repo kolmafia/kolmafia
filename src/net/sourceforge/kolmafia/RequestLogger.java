@@ -56,6 +56,7 @@ import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.MindControlRequest;
 import net.sourceforge.kolmafia.request.PulverizeRequest;
 import net.sourceforge.kolmafia.request.PvpRequest;
+import net.sourceforge.kolmafia.request.RaffleRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.SellStuffRequest;
 import net.sourceforge.kolmafia.request.SendGiftRequest;
@@ -566,6 +567,12 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof PulverizeRequest || isExternal ) && PulverizeRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof RaffleRequest || isExternal ) && RaffleRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;

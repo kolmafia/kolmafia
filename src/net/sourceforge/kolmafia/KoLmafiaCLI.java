@@ -85,6 +85,7 @@ import net.sourceforge.kolmafia.request.MindControlRequest;
 import net.sourceforge.kolmafia.request.ProfileRequest;
 import net.sourceforge.kolmafia.request.PulverizeRequest;
 import net.sourceforge.kolmafia.request.PvpRequest;
+import net.sourceforge.kolmafia.request.RaffleRequest;
 import net.sourceforge.kolmafia.request.SellStuffRequest;
 import net.sourceforge.kolmafia.request.SendGiftRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
@@ -2191,6 +2192,12 @@ public class KoLmafiaCLI
 		if ( command.equals( "hermit" ) )
 		{
 			this.executeHermitRequest( parameters );
+			return;
+		}
+
+		if ( command.equals( "raffle" ) )
+		{
+			this.executeRaffleRequest( parameters );
 			return;
 		}
 
@@ -5681,6 +5688,40 @@ public class KoLmafiaCLI
 			return;
 		}
 
+	}
+
+	/**
+	 * Attempts to visit the Raffle House
+	 */
+
+	public void executeRaffleRequest( final String parameters )
+	{
+		String[] split = parameters.split( " " );
+		int count = StaticEntity.parseInt( split[ 0 ] );
+
+		if ( split.length == 1 )
+		{
+			RequestThread.postRequest( new RaffleRequest( count ) );
+			return;
+		}
+
+		int source;
+
+		if ( split[1].equals( "inventory" ) )
+		{
+			source = RaffleRequest.INVENTORY;
+		}
+		else if ( split[1].equals( "storage" ) )
+		{
+			source = RaffleRequest.STORAGE;
+		}
+		else
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can only get meat from inventory or storage." );
+			return;
+		}
+
+		RequestThread.postRequest( new RaffleRequest( count, source ) );
 	}
 
 	/**
