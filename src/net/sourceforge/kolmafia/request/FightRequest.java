@@ -1545,34 +1545,14 @@ public class FightRequest
 				return;
 			}
 
-			int id1 = StaticEntity.parseInt( FightRequest.action1 );
-
-			if ( !FightRequest.isItemConsumed( id1 ) )
-			{
-				FightRequest.payItemCost( id1 );
-			}
-			else
-			{
-				// Anything else uses up the item.
-				StaticEntity.getClient().processResult( new AdventureResult( id1, -1 ) );
-			}
+			FightRequest.payItemCost( StaticEntity.parseInt( FightRequest.action1 ) );
 
 			if ( FightRequest.action2 == null || FightRequest.action2.equals( "" ) )
 			{
 				return;
 			}
 
-			int id2 = StaticEntity.parseInt( FightRequest.action2 );
-
-			if ( !FightRequest.isItemConsumed( id2 ) )
-			{
-				FightRequest.payItemCost( id2 );
-			}
-			else
-			{
-				// Anything else uses up the item.
-				StaticEntity.getClient().processResult( new AdventureResult( id2, -1 ) );
-			}
+			FightRequest.payItemCost( StaticEntity.parseInt( FightRequest.action2 ) );
 
 			return;
 		}
@@ -1623,6 +1603,12 @@ public class FightRequest
 
 	public static final void payItemCost( final int itemId )
 	{
+		if ( FightRequest.isItemConsumed( itemId ) )
+		{
+			StaticEntity.getClient().processResult( new AdventureResult( itemId, -1 ) );
+			return;
+		}
+
 		switch ( itemId )
 		{
 		case FightRequest.TOY_SOLDIER:

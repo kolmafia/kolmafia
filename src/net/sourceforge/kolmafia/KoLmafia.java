@@ -178,7 +178,13 @@ public abstract class KoLmafia
 	private static final int MARGARITA = 2743;
 	private static final int AIR_FRESHENER = 2744;
 
-	/* Gnome postal items */
+	// Molybdenum items
+	private static final int HAMMER = 2498;
+	private static final int SCREWDRIVER = 2499;
+	private static final int PLIERS = 2500;
+	private static final int WRENCH = 2501;
+
+	// Gnome postal items
 	private static final int RED_PAPER_CLIP = 2289;
 	private static final int REALLY_BIG_TINY_HOUSE = 2290;
 	private static final int NONESSENTIAL_AMULET = 2291;
@@ -1455,9 +1461,19 @@ public abstract class KoLmafia
 			}
 			break;
 
-		/* These update the session results for the item swapping in the
-		 * Gnome's Going Postal quest.
-		 */
+		case KoLmafia.HAMMER:
+		case KoLmafia.SCREWDRIVER:
+		case KoLmafia.PLIERS:
+		case KoLmafia.WRENCH:
+			// When you get a molybdenum item, tell quest handler
+			if ( result.getCount() == 1 )
+			{
+				BigIsland.resetGremlinTool();
+			}
+			break;
+
+		 // These update the session results for the item swapping in
+		 // the Gnome's Going Postal quest.
 
 		case KoLmafia.REALLY_BIG_TINY_HOUSE:
 			if ( result.getCount() == 1 )

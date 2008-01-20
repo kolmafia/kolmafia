@@ -258,6 +258,13 @@ public class BigIsland
 		}
 	}
 
+	public static final void resetGremlinTool()
+	{
+		BigIsland.missingGremlinTool = null;
+		BigIsland.currentJunkyardTool = "";
+		KoLSettings.setUserProperty( "currentJunkyardTool", "" );
+	}
+
 	private static final int[] AREA_UNLOCK =
 	{
 		64,
@@ -328,6 +335,11 @@ public class BigIsland
 			delta = current - last;
 			side = delta == 1 ? "hippy" : "hippies";
 			area = BigIsland.openArea( last, current, BigIsland.FRATBOY_AREA_UNLOCK );
+		}
+
+		if ( delta == 0 )
+		{
+			return;
 		}
 
 		area = area == null ? "" : "<b>The " + area + " is now accessible in this uniform!</b><br>";
@@ -411,7 +423,7 @@ public class BigIsland
 
 	public static final void decorateJunkyard( final StringBuffer buffer )
 	{
-		if ( BigIsland.currentJunkyardTool.equals( "" ) )
+		if ( BigIsland.currentJunkyardLocation.equals( "" ) )
 		{
 			return;
 		}
@@ -423,8 +435,18 @@ public class BigIsland
 			return;
 		}
 
-		String row =
-			"<tr><td><center><table width=100%><tr>" + BigIsland.progressLineStyle + "Look for the " + BigIsland.currentJunkyardTool + " " + BigIsland.currentJunkyardLocation + ".</td>" + "</tr></table></td></tr>";
+		String message;
+
+		if ( BigIsland.currentJunkyardTool.equals( "" ) )
+		{
+			message = "Visit Yossarian for your next assignment";
+		}
+		else
+		{
+			message = "Look for the " + BigIsland.currentJunkyardTool + " " + BigIsland.currentJunkyardLocation;
+		}
+
+		String row = "<tr><td><center><table width=100%><tr>" + BigIsland.progressLineStyle + message + ".</td>" + "</tr></table></td></tr>";
 
 		buffer.insert( tableIndex, row );
 	}
@@ -943,6 +965,12 @@ public class BigIsland
 			return;
 		}
 
+		// Initialize settings if necessary
+		BigIsland.ensureUpdatedBigIsland();
+
+		BigIsland.lastFratboysDefeated = BigIsland.fratboysDefeated;
+		BigIsland.lastHippiesDefeated = BigIsland.hippiesDefeated;
+
 		// Just in case
 		PrintStream sessionStream = RequestLogger.getSessionStream();
 
@@ -971,9 +999,6 @@ public class BigIsland
 			return;
 		}
 
-		// Initialize settings if necessary
-		BigIsland.ensureUpdatedBigIsland();
-
 		// Figure out how many enemies were defeated
 		String[][] table = BigIsland.fratboy ? BigIsland.FRAT_MESSAGES : BigIsland.HIPPY_MESSAGES;
 
@@ -991,9 +1016,6 @@ public class BigIsland
 			}
 			test *= 2;
 		}
-
-		BigIsland.lastFratboysDefeated = BigIsland.fratboysDefeated;
-		BigIsland.lastHippiesDefeated = BigIsland.hippiesDefeated;
 
 		if ( BigIsland.fratboy )
 		{
@@ -1277,10 +1299,11 @@ public class BigIsland
 		else if ( responseText.indexOf( "I made this while you were off getting my tools" ) != -1 )
 		{
 			tool = "";
+			location = "";
 			done = true;
 		}
 
-		if ( tool != BigIsland.currentJunkyardTool )
+		if ( location != BigIsland.currentJunkyardLocation )
 		{
 			BigIsland.currentJunkyardTool = tool;
 			KoLSettings.setUserProperty( "currentJunkyardTool", tool );
