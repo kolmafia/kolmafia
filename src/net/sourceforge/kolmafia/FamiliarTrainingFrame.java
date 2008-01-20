@@ -108,11 +108,12 @@ public class FamiliarTrainingFrame
 	// Familiar buffing skills and effects
 	public static final AdventureResult EMPATHY = new AdventureResult( "Empathy", 0, true );
 	private static final AdventureResult LEASH = new AdventureResult( "Leash of Linguini", 0, true );
-	private static final AdventureResult GREEN_TONGUE = new AdventureResult( "Green Tongue", 0, true );
-	private static final AdventureResult BLACK_TONGUE = new AdventureResult( "Black Tongue", 0, true );
-	private static final AdventureResult HEAVY_PETTING = new AdventureResult( "Heavy Petting", 0, true );
-	private static final AdventureResult GREEN_HEART = new AdventureResult( "Heart of Green", 0, true );
 	private static final AdventureResult BESTIAL_SYMPATHY = new AdventureResult( "Bestial Sympathy", 0, true );
+	private static final AdventureResult BLACK_TONGUE = new AdventureResult( "Black Tongue", 0, true );
+	private static final AdventureResult GREEN_GLOW = new AdventureResult( "Healthy Green Glow", 0, true );
+	private static final AdventureResult GREEN_HEART = new AdventureResult( "Heart of Green", 0, true );
+	private static final AdventureResult GREEN_TONGUE = new AdventureResult( "Green Tongue", 0, true );
+	private static final AdventureResult HEAVY_PETTING = new AdventureResult( "Heavy Petting", 0, true );
 
 	// Familiar buffing items
 	private static final AdventureResult BUFFING_SPRAY = new AdventureResult( 1512, 1 );
@@ -167,20 +168,21 @@ public class FamiliarTrainingFrame
 	private static boolean empathyAvailable;
 
 	// Available effects which affect weight
-	private static boolean heavyPettingAvailable;
+	private static boolean bestialAvailable;
 	private static boolean blackConeAvailable;
 	private static boolean greenConeAvailable;
 	private static boolean greenHeartAvailable;
-	private static boolean bestialAvailable;
+	private static boolean heavyPettingAvailable;
 
 	// Active effects which affect weight
 	private static int leashActive;
 	private static int empathyActive;
-	private static int greenTongueActive;
-	private static int blackTongueActive;
-	private static int heavyPettingActive;
-	private static int greenHeartActive;
 	private static int bestialActive;
+	private static int blackTongueActive;
+	private static int greenGlowActive;
+	private static int greenHeartActive;
+	private static int greenTongueActive;
+	private static int heavyPettingActive;
 
 	public FamiliarTrainingFrame()
 	{
@@ -1519,30 +1521,32 @@ public class FamiliarTrainingFrame
 			FamiliarTrainingFrame.empathyAvailable = KoLCharacter.hasSkill( "Empathy of the Newt" );
 			FamiliarTrainingFrame.leashAvailable = KoLCharacter.hasSkill( "Leash of Linguini" );
 
-			FamiliarTrainingFrame.heavyPettingAvailable =
-				KoLCharacter.canInteract() || KoLCharacter.hasItem( FamiliarTrainingFrame.BUFFING_SPRAY ) || NPCStoreDatabase.contains( "Knob Goblin pet-buffing spray" );
-			FamiliarTrainingFrame.greenConeAvailable =
-				KoLCharacter.canInteract() || KoLCharacter.hasItem( FamiliarTrainingFrame.GREEN_SNOWCONE );
-			FamiliarTrainingFrame.blackConeAvailable =
-				KoLCharacter.canInteract() || KoLCharacter.hasItem( FamiliarTrainingFrame.BLACK_SNOWCONE );
-			FamiliarTrainingFrame.greenHeartAvailable =
-				KoLCharacter.canInteract() || KoLCharacter.hasItem( FamiliarTrainingFrame.GREEN_CANDY );
 			FamiliarTrainingFrame.bestialAvailable =
 				KoLCharacter.canInteract() || KoLCharacter.hasItem( FamiliarTrainingFrame.HALF_ORCHID );
+			FamiliarTrainingFrame.blackConeAvailable =
+				KoLCharacter.canInteract() || KoLCharacter.hasItem( FamiliarTrainingFrame.BLACK_SNOWCONE );
+			FamiliarTrainingFrame.greenConeAvailable =
+				KoLCharacter.canInteract() || KoLCharacter.hasItem( FamiliarTrainingFrame.GREEN_SNOWCONE );
+			FamiliarTrainingFrame.greenHeartAvailable =
+				KoLCharacter.canInteract() || KoLCharacter.hasItem( FamiliarTrainingFrame.GREEN_CANDY );
+			FamiliarTrainingFrame.heavyPettingAvailable =
+				KoLCharacter.canInteract() || KoLCharacter.hasItem( FamiliarTrainingFrame.BUFFING_SPRAY ) || NPCStoreDatabase.contains( "Knob Goblin pet-buffing spray" );
 
 			// Look at effects to decide which ones are active;
 			FamiliarTrainingFrame.empathyActive = FamiliarTrainingFrame.EMPATHY.getCount( KoLConstants.activeEffects );
 			FamiliarTrainingFrame.leashActive = FamiliarTrainingFrame.LEASH.getCount( KoLConstants.activeEffects );
-			FamiliarTrainingFrame.greenTongueActive =
-				FamiliarTrainingFrame.GREEN_TONGUE.getCount( KoLConstants.activeEffects );
+			FamiliarTrainingFrame.bestialActive = 
+				FamiliarTrainingFrame.BESTIAL_SYMPATHY.getCount( KoLConstants.activeEffects );
 			FamiliarTrainingFrame.blackTongueActive =
 				FamiliarTrainingFrame.BLACK_TONGUE.getCount( KoLConstants.activeEffects );
-			FamiliarTrainingFrame.heavyPettingActive =
-				FamiliarTrainingFrame.HEAVY_PETTING.getCount( KoLConstants.activeEffects );
+			FamiliarTrainingFrame.greenGlowActive =
+				FamiliarTrainingFrame.GREEN_GLOW.getCount( KoLConstants.activeEffects );
 			FamiliarTrainingFrame.greenHeartActive =
 				FamiliarTrainingFrame.GREEN_HEART.getCount( KoLConstants.activeEffects );
-			FamiliarTrainingFrame.bestialActive =
-				FamiliarTrainingFrame.BESTIAL_SYMPATHY.getCount( KoLConstants.activeEffects );
+			FamiliarTrainingFrame.greenTongueActive =
+				FamiliarTrainingFrame.GREEN_TONGUE.getCount( KoLConstants.activeEffects );
+			FamiliarTrainingFrame.heavyPettingActive =
+				FamiliarTrainingFrame.HEAVY_PETTING.getCount( KoLConstants.activeEffects );
 		}
 
 		private void checkCurrentEquipment()
@@ -1815,9 +1819,14 @@ public class FamiliarTrainingFrame
 				weight += 5;
 			}
 
-			if ( FamiliarTrainingFrame.heavyPettingActive > 0 )
+			if ( FamiliarTrainingFrame.bestialActive > 0 )
 			{
-				weight += 5;
+				weight += 3;
+			}
+
+			if ( FamiliarTrainingFrame.greenGlowActive > 0 )
+			{
+				weight += 10;
 			}
 
 			if ( FamiliarTrainingFrame.greenHeartActive > 0 )
@@ -1825,9 +1834,9 @@ public class FamiliarTrainingFrame
 				weight += 3;
 			}
 
-			if ( FamiliarTrainingFrame.bestialActive > 0 )
+			if ( FamiliarTrainingFrame.heavyPettingActive > 0 )
 			{
-				weight += 3;
+				weight += 5;
 			}
 
 			this.getItemWeights( weight );
@@ -2245,21 +2254,25 @@ public class FamiliarTrainingFrame
 			{
 				weight += 5;
 			}
-			if ( FamiliarTrainingFrame.heavyPettingActive > 0 )
+			if ( FamiliarTrainingFrame.bestialActive > 0 )
 			{
-				weight += 5;
+				weight += 3;
 			}
-			if ( FamiliarTrainingFrame.greenTongueActive > 0 || FamiliarTrainingFrame.blackTongueActive > 0 )
+			if ( FamiliarTrainingFrame.greenGlowActive > 0 )
 			{
-				weight += 5;
+				weight += 10;
 			}
 			if ( FamiliarTrainingFrame.greenHeartActive > 0 )
 			{
 				weight += 3;
 			}
-			if ( FamiliarTrainingFrame.bestialActive > 0 )
+			if ( FamiliarTrainingFrame.greenTongueActive > 0 || FamiliarTrainingFrame.blackTongueActive > 0 )
 			{
-				weight += 3;
+				weight += 5;
+			}
+			if ( FamiliarTrainingFrame.heavyPettingActive > 0 )
+			{
+				weight += 5;
 			}
 
 			if ( item == FamiliarTrainingFrame.DOPPELGANGER )
@@ -2381,25 +2394,29 @@ public class FamiliarTrainingFrame
 			{
 				FamiliarTrainingFrame.empathyActive-- ;
 			}
-			if ( FamiliarTrainingFrame.greenTongueActive > 0 )
+			if ( FamiliarTrainingFrame.bestialActive > 0 )
 			{
-				FamiliarTrainingFrame.greenTongueActive-- ;
+				FamiliarTrainingFrame.bestialActive-- ;
 			}
 			if ( FamiliarTrainingFrame.blackTongueActive > 0 )
 			{
 				FamiliarTrainingFrame.blackTongueActive-- ;
 			}
-			if ( FamiliarTrainingFrame.heavyPettingActive > 0 )
+			if ( FamiliarTrainingFrame.greenGlowActive > 0 )
 			{
-				FamiliarTrainingFrame.heavyPettingActive-- ;
+				FamiliarTrainingFrame.greenHeartActive-- ;
 			}
 			if ( FamiliarTrainingFrame.greenHeartActive > 0 )
 			{
 				FamiliarTrainingFrame.greenHeartActive-- ;
 			}
-			if ( FamiliarTrainingFrame.bestialActive > 0 )
+			if ( FamiliarTrainingFrame.greenTongueActive > 0 )
 			{
-				FamiliarTrainingFrame.bestialActive-- ;
+				FamiliarTrainingFrame.greenTongueActive-- ;
+			}
+			if ( FamiliarTrainingFrame.heavyPettingActive > 0 )
+			{
+				FamiliarTrainingFrame.heavyPettingActive-- ;
 			}
 		}
 
@@ -2439,21 +2456,25 @@ public class FamiliarTrainingFrame
 				{
 					weight += 5;
 				}
-				if ( FamiliarTrainingFrame.heavyPettingAvailable || FamiliarTrainingFrame.heavyPettingActive > 0 )
+				if ( FamiliarTrainingFrame.bestialAvailable || FamiliarTrainingFrame.bestialActive > 0 )
 				{
-					weight += 5;
+					weight += 3;
 				}
 				if ( FamiliarTrainingFrame.greenConeAvailable || FamiliarTrainingFrame.greenTongueActive > 0 || FamiliarTrainingFrame.blackConeAvailable || FamiliarTrainingFrame.blackTongueActive > 0 )
 				{
 					weight += 5;
 				}
+				if ( FamiliarTrainingFrame.greenGlowActive > 0 )
+				{
+					weight += 10;
+				}
 				if ( FamiliarTrainingFrame.greenHeartAvailable || FamiliarTrainingFrame.greenHeartActive > 0 )
 				{
 					weight += 3;
 				}
-				if ( FamiliarTrainingFrame.bestialAvailable || FamiliarTrainingFrame.bestialActive > 0 )
+				if ( FamiliarTrainingFrame.heavyPettingAvailable || FamiliarTrainingFrame.heavyPettingActive > 0 )
 				{
-					weight += 3;
+					weight += 5;
 				}
 			}
 			else
@@ -2466,21 +2487,25 @@ public class FamiliarTrainingFrame
 				{
 					weight += 5;
 				}
-				if ( FamiliarTrainingFrame.heavyPettingActive > 0 )
+				if ( FamiliarTrainingFrame.bestialActive > 0 )
 				{
-					weight += 5;
+					weight += 3;
 				}
-				if ( FamiliarTrainingFrame.greenTongueActive > 0 || FamiliarTrainingFrame.blackTongueActive > 0 )
+				if ( FamiliarTrainingFrame.greenGlowActive > 0 )
 				{
-					weight += 5;
+					weight += 10;
 				}
 				if ( FamiliarTrainingFrame.greenHeartActive > 0 )
 				{
 					weight += 3;
 				}
-				if ( FamiliarTrainingFrame.bestialActive > 0 )
+				if ( FamiliarTrainingFrame.greenTongueActive > 0 || FamiliarTrainingFrame.blackTongueActive > 0 )
 				{
-					weight += 3;
+					weight += 5;
+				}
+				if ( FamiliarTrainingFrame.heavyPettingActive > 0 )
+				{
+					weight += 5;
 				}
 			}
 
@@ -2554,28 +2579,40 @@ public class FamiliarTrainingFrame
 			{
 				text.append( " Leash (+5 for " + FamiliarTrainingFrame.leashActive + " turns)" );
 			}
-			if ( FamiliarTrainingFrame.greenTongueActive > 0 )
+			if ( FamiliarTrainingFrame.bestialActive > 0 )
 			{
-				text.append( " Green Tongue (+5 for " + FamiliarTrainingFrame.greenTongueActive + " turns)" );
+				text.append( " Bestial Sympathy (+3 for " + FamiliarTrainingFrame.bestialActive + " turns)" );
 			}
 			if ( FamiliarTrainingFrame.blackTongueActive > 0 )
 			{
 				text.append( " Black Tongue (+5 for " + FamiliarTrainingFrame.blackTongueActive + " turns)" );
 			}
-			if ( FamiliarTrainingFrame.heavyPettingActive > 0 )
+			if ( FamiliarTrainingFrame.greenGlowActive > 0 )
 			{
-				text.append( " Heavy Petting (+5 for " + FamiliarTrainingFrame.heavyPettingActive + " turns)" );
+				text.append( " Healthy Green Glow (+10 for " + FamiliarTrainingFrame.greenGlowActive + " turns)" );
 			}
 			if ( FamiliarTrainingFrame.greenHeartActive > 0 )
 			{
 				text.append( " Heart of Green (+3 for " + FamiliarTrainingFrame.greenHeartActive + " turns)" );
 			}
-			if ( FamiliarTrainingFrame.bestialActive > 0 )
+			if ( FamiliarTrainingFrame.greenTongueActive > 0 )
 			{
-				text.append( " Bestial Sympathy (+3 for " + FamiliarTrainingFrame.bestialActive + " turns)" );
+				text.append( " Green Tongue (+5 for " + FamiliarTrainingFrame.greenTongueActive + " turns)" );
+			}
+			if ( FamiliarTrainingFrame.heavyPettingActive > 0 )
+			{
+				text.append( " Heavy Petting (+5 for " + FamiliarTrainingFrame.heavyPettingActive + " turns)" );
 			}
 
-			if ( !FamiliarTrainingFrame.sympathyAvailable && FamiliarTrainingFrame.empathyActive == 0 && FamiliarTrainingFrame.leashActive == 0 && FamiliarTrainingFrame.greenTongueActive == 0 && FamiliarTrainingFrame.blackTongueActive == 0 && FamiliarTrainingFrame.heavyPettingActive == 0 && FamiliarTrainingFrame.greenHeartActive == 0 && FamiliarTrainingFrame.bestialActive == 0 )
+			if ( !FamiliarTrainingFrame.sympathyAvailable &&
+			     FamiliarTrainingFrame.empathyActive == 0 &&
+			     FamiliarTrainingFrame.leashActive == 0 &&
+			     FamiliarTrainingFrame.bestialActive == 0 &&
+			     FamiliarTrainingFrame.blackTongueActive == 0 &&
+			     FamiliarTrainingFrame.greenGlowActive == 0 &&
+			     FamiliarTrainingFrame.greenHeartActive == 0 &&
+			     FamiliarTrainingFrame.greenTongueActive == 0 &&
+			     FamiliarTrainingFrame.heavyPettingActive == 0 )
 			{
 				text.append( " None" );
 			}
