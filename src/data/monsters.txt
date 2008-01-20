@@ -150,7 +150,7 @@ Bullet Bill	HP: 15 Def: 25 Atk: 25	black pixel (70)	black pixel (70)	black pixel
 Burly Sidekick	HP: 100 Def: 100 Atk: 100 Meat: 79-168	cocoa eggshell fragment (30)	mohawk wig (10)	tiny house (30)
 Business Hippy	HP: 25 Def: 38 Atk: 38	filthy corduroys (0)	filthy knitted dread sack (0)	herbs (0)	reodorant (0)	massive bag of catnip (0)
 Buzzy Beetle	HP: 15 Def: 20 Atk: 20	black pixel (50)	white pixel (50)	red pixel (65)
-C.A.R.N.I.V.O.R.E. Operative	HP: 330
+C.A.R.N.I.V.O.R.E.  Operative	HP: 330
 Cactuary	HP: 139	bit-o-cactus (27)	giant cactus quill (5)	cactus fruit (20)	handful of sand (20)
 Carnivorous Dill Plant	HP: 180 Def: 200 Atk: 200	dill (30)	dill (30)
 Carnivorous Moxie Weed	HP: 56 Def: 66 Atk: 66	moxie weed (30)	giant moxie weed (15)	giant moxie weed (15)
