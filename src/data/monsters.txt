@@ -101,7 +101,7 @@ A Revolting Bugbear	HP: 10 Def: 13 Atk: 13
 A Revolving Bugbear	HP: 11 Def: 15 Atk: 15
 A.M.C. Gremlin	HP: 175	gremlin juice (0)
 Acid Blob	HP: 40 Def: 38 Atk: 38
-Albino Bat	HP: 8  Def: 14 Atk: 10 Meat: 16-26	batgut (10)	bat guano (10)	pink bat eye (0)
+Albino Bat	HP: 8 Def: 14 Atk: 10 Meat: 16-26	batgut (10)	bat guano (10)	pink bat eye (0)
 Alphabet Giant	HP: 150 Def: 145 Atk: 145 Meat: 122-183	heavy D (40)	original G (40)
 An Angry Bugbear	HP: 12 Def: 15 Atk: 15
 An Annoying Spooky Gravy Fairy	HP: 20 Def: 20 Atk: 20 E: spooky	annoying pitchfork (100)
@@ -141,7 +141,7 @@ Bob Racecar	HP: 115 Def: 124 Atk: 118 Meat: 42-66	ketchup hound (10)	leather cha
 Bookbat	HP: 54 Def: 49 Atk: 49	tattered scrap of paper (30)
 Booze Giant	HP: 66 Def: 76 Atk: 76	bottle of gin (15)	bottle of rum (15)	bottle of tequila (15)	bottle of vodka (15)	bottle of whiskey (15)	boxed wine (15)
 Bow-making Mummy		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
-Brainsweeper	HP: 9  Def: 18 Atk: 18 Meat: 29-47	disembodied brain (30)
+Brainsweeper	HP: 9 Def: 18 Atk: 18 Meat: 29-47	disembodied brain (30)
 Bread Golem	HP: 8 Def: 16 Atk: 24 Meat: 26-41	wad of dough (30)
 Briefcase Bat	HP: 11 Def: 17 Atk: 17 Meat: 25-37	bat guano (10)	briefcase (40)	sonar-in-a-biscuit (20)
 Brutus, the Toga-Clad Lout	HP: 280
@@ -236,12 +236,12 @@ Frozen Duck	HP: 180	frozen feather (0)	duct tape (0)
 Fruit Golem	HP: 46 Def: 56 Atk: 56	cherry (15)	orange (15)	lime (15)
 Furry Giant	HP: 150 Def: 135 Atk: 135 EA: sleaze Meat: 120-182	furry fur (35)	disturbing fanfic (30)	wolf mask (10)
 G Imp	HP: 46 Def: 46 Atk: 46 E: heat Meat: 24-39	hot wing (30)	Imp Ale (30)	leather mask (5)
-Gargantulihc	HP: 134  Def: 73 Atk: 77 E: spooky
+Gargantulihc	HP: 134 Def: 73 Atk: 77 E: spooky
 Gaudy Pirate	HP: 120	costume sword (0)	enormous hoop earring (0)	gold lam&eacute; pants (0)	snakehead charrrm (30)
 Gaunt Ghuol	HP: 50 Def: 56 Atk: 54 E: spooky	ghuol ears (20)	ghuol egg (20)
 Generic Duck	HP: 188
 Ghastly Organist	HP: 120 Def: 110 Atk: 100	opera mask (20)
-Ghost Miner	HP: 31  Def: 30 Atk: 30 E: spooky	bubblewrap ore (10)	bubblewrap ore (10)	cardboard ore (10)	cardboard ore (10)	styrofoam ore (10)	styrofoam ore (10)
+Ghost Miner	HP: 31 Def: 30 Atk: 30 E: spooky	bubblewrap ore (10)	bubblewrap ore (10)	cardboard ore (10)	cardboard ore (10)	styrofoam ore (10)	styrofoam ore (10)
 Ghostly Pickle Factory Worker	HP: 180 Def: 200 Atk: 200	ghost cucumber (30)	ghost cucumber (30)
 Ghuol	HP: 10 Def: 19 Atk: 19 E: spooky Meat: 28-40	ghuol egg (25)	ghuol ears (25)
 Giant Giant Giant Centipede	HP: 142	centipede eggs (20)	handful of sand (25)	handful of sand (15)
@@ -316,7 +316,7 @@ L Imp	HP: 44 Def: 44 Atk: 44 E: heat Meat: 24-39	Imp Ale (30)	cast (30)	flaming 
 Lamz0r N00b	HP: 69 Def: 79 Atk: 79 Meat: 24-38	33398 scroll (30)	draggin' ball hat (10)
 Large Kobold	HP: 30 Def: 35 Atk: 43	ring of aggravate monster (15)	small box (40)	worthless piece of yellow glass (0)
 Larval Filthworm	HP: 215	filthworm hatchling scent gland (10)
-Lemon-In-The-Box	HP: 12  Def: 17 Atk: 17	box (20)	lemon (50)
+Lemon-In-The-Box	HP: 12 Def: 17 Atk: 17	box (20)	lemon (50)
 Lesser Fruit Golem	HP: 9 Def: 17 Atk: 23	grapefruit (15)	grapes (15)	lemon (15)	orange (15)	strawberry (15)
 Lihc	HP: 11 Def: 20 Atk: 30 ED: spooky EA: spooky EA: sleaze Meat: 29-43	lihc eye (30)
 Lobsterfrogman	HP: 212
@@ -366,7 +366,7 @@ Panty Raider Frat Boy	HP: 250
 Paper Towelgeist	HP: 6 Def: 4 Atk: 4	cardboard katana (5)
 Pencil Golem	HP: 11 Def: 15 Atk: 15
 Perpendicular Bat	HP: 12 Def: 18 Atk: 18 Meat: 26-40	batgut (15)	bat wing (15)	sonar-in-a-biscuit (20)
-Pine Bat	HP: 8  Def: 12 Atk: 16 EA: stench Meat: 18-27	bat wing (15)	Pine-Fresh air freshener (15)	batgut (15)
+Pine Bat	HP: 8 Def: 12 Atk: 16 EA: stench Meat: 18-27	bat wing (15)	Pine-Fresh air freshener (15)	batgut (15)
 Plaque of Locusts	HP: 140	bronzed locust (20)	honey-dipped locust (20)	handful of sand (20)
 Pooltergeist	HP: 25 Def: 20 Atk: 20	1-ball (3)	2-ball (3)	3-ball (3)	4-ball (3)	5-ball (3)	6-ball (3)	7-ball (3)	8-ball (15)
 Portly Abomination	HP: 63 Def: 73 Atk: 73 Meat: 61-91
@@ -390,7 +390,7 @@ Rampaging Adding Machine	HP: 70
 Ratbat	HP: 22 Def: 25 Atk: 25 Meat: 18-28	rat appendix (15)	ratgut (15)
 Rattlin' Duck	HP: 200	fetid feather (0)	duct tape (0)
 Raver Giant	HP: 150 Def: 140 Atk: 140 Meat: 121-183	Angry Farmer candy (30)	giant needle (30)	Mick's IcyVapoHotness Rub (30)	discarded pacifier (0)
-Regular Old Bat	HP: 8  Def: 13 Atk: 13 Meat: 18-28	bat guano (15)	batgut (15)	bat wing (15)
+Regular Old Bat	HP: 8 Def: 13 Atk: 13 Meat: 18-28	bat guano (15)	batgut (15)	bat wing (15)
 Remains of a Jilted Mistress	HP: 145 Def: 155 Atk: 173 ED: spooky
 Ribbon-cutting Elfborg		iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
 Rock Scorpion	HP: 145	handful of sand (25)	handful of sand (15)	scorpion whip (5)
@@ -407,7 +407,7 @@ Scary Clown	HP: 15 Def: 19 Atk: 19 E: spooky Meat: 20-32	big red clown nose (10)
 Scorched Duck	HP: 185	flaming feather (0)	duct tape (0)
 Senile Lihc	HP: 50 Def: 57 Atk: 57 E: spooky	lihc eye (20)	lihc face (10)
 Shady Pirate	HP: 57 Def: 67 Atk: 67 Meat: 24-36	acoustic guitarrr (10)	barrrnacle (10)	safarrri hat (10)
-Shaky Clown	HP: 16  Def: 19 Atk: 19 E: sleaze Meat: 16-26	bloody clown pants (15)	big red clown nose (15)	bottle of gin (10)	bottle of rum (10)	bottle of tequila (10)	bottle of whiskey (10)	bottle of vodka (10)	boxed wine (10)	empty greasepaint tube (0)
+Shaky Clown	HP: 16 Def: 19 Atk: 19 E: sleaze Meat: 16-26	bloody clown pants (15)	big red clown nose (15)	bottle of gin (10)	bottle of rum (10)	bottle of tequila (10)	bottle of whiskey (10)	bottle of vodka (10)	boxed wine (10)	empty greasepaint tube (0)
 Shifty Pirate	HP: 59 Def: 69 Atk: 69 Meat: 36-58	arrrgyle socks (10)	sunken chest (30)
 Sinew-Stretching Cave Elf		stringy sinew (20)	stringy sinew (20)	stringy sinew (20)
 Sk8 Gnome	HP: 65 Def: 75 Atk: 75 Meat: 56-90	gr8ps (40)	sk8board (5)	t8r tots (40)
@@ -489,7 +489,7 @@ Tomb Rat	HP: 175	tomb ratchet (3)	leathery rat skin (30)	unidentified jerky (10)
 Tomb Servant	HP: 185	canopic jar (30)	ancient protein powder (15)	mummy wrapping (20)	unidentified jerky (10)
 Tonic Water Elemental	HP: 14 Def: 18 Atk: 18
 Toothy Pirate	HP: 75	bottle of rum (0)
-Toothy Sklelton	HP: 50 Def: 58 Atk: 58  E: spooky	loose teeth (20)	loose teeth (20)	skeleton bone (20)
+Toothy Sklelton	HP: 50 Def: 58 Atk: 58 E: spooky	loose teeth (20)	loose teeth (20)	skeleton bone (20)
 Topiary Golem	HP: 150 Def: 180 Atk: 180	hedge maze puzzle (65)
 Toy-making creature from the Gray Lagoon		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
 Triffid	HP: 6 Def: 5 Atk: 1	moxie weed (30)	spooky stick (30)	triffid bark (0)
