@@ -70,6 +70,9 @@ public class FightRequest
 	private static final AdventureResult SOLDIER = new AdventureResult( 1397, 1 );
 	private static final AdventureResult TEQUILA = new AdventureResult( 1004, -1 );
 
+	public static final int TOY_SOLDIER = 1397;
+	public static final int TOY_MERCENARY = 2139;
+
 	public static final int MOSSY_STONE_SPHERE = 2174;
 	public static final int SMOOTH_STONE_SPHERE = 2175;
 	public static final int CRACKED_STONE_SPHERE = 2176;
@@ -99,7 +102,7 @@ public class FightRequest
 		Pattern.compile( "<font color=[\"]?\\w+[\"]?><b>\\+?([\\d,]+)</b></font> (?:damage|points|HP worth)" );
 
 	// NOTE: All of the non-empty patterns that can match in the first group
-	// imply that the entire expression should be ignored.  If you add one
+	// imply that the entire expression should be ignored.	If you add one
 	// and this is not the case, then correct the use of this Pattern below.
 
 	private static final Pattern PHYSICAL_PATTERN =
@@ -1544,30 +1547,9 @@ public class FightRequest
 
 			int id1 = StaticEntity.parseInt( FightRequest.action1 );
 
-			if ( FightRequest.isItemConsumed( id1 ) )
+			if ( !FightRequest.isItemConsumed( id1 ) )
 			{
-				if ( id1 == FightRequest.SOLDIER.getItemId() )
-				{
-					// A toy soldier consumes tequila.
-
-					if ( KoLConstants.inventory.contains( FightRequest.TEQUILA ) )
-					{
-						StaticEntity.getClient().processResult( FightRequest.TEQUILA );
-					}
-
-					// Item is not consumed whether or not
-					// you can pay the cost.
-				}
-				else if ( id1 == FightRequest.MERCENARY.getItemId() )
-				{
-					// A toy mercenary consumes 5-10 meat
-
-					// A sidepane refresh at the end of the
-					// battle will re-synch everything.
-
-					// Item is not consumed whether or not
-					// you can pay the cost.
-				}
+				FightRequest.payItemCost( id1 );
 			}
 			else
 			{
@@ -1582,22 +1564,14 @@ public class FightRequest
 
 			int id2 = StaticEntity.parseInt( FightRequest.action2 );
 
-			if ( FightRequest.isItemConsumed( id2 ) )
+			if ( !FightRequest.isItemConsumed( id2 ) )
 			{
-				// Anything that uses up the item.
-				StaticEntity.getClient().processResult( new AdventureResult( id2, -1 ) );
+				FightRequest.payItemCost( id2 );
 			}
-			else  if ( id2 == FightRequest.SOLDIER.getItemId() )
+			else
 			{
-				// A toy soldier consumes tequila.
-
-				if ( KoLConstants.inventory.contains( FightRequest.TEQUILA ) )
-				{
-					StaticEntity.getClient().processResult( FightRequest.TEQUILA );
-				}
-
-				// Item is not consumed whether or not
-				// you can pay the cost.
+				// Anything else uses up the item.
+				StaticEntity.getClient().processResult( new AdventureResult( id2, -1 ) );
 			}
 
 			return;
@@ -1644,6 +1618,28 @@ public class FightRequest
 		if ( mpCost > 0 )
 		{
 			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MP, 0 - mpCost ) );
+		}
+	}
+
+	public static final void payItemCost( final int itemId )
+	{
+		switch ( itemId )
+		{
+		case FightRequest.TOY_SOLDIER:
+			// A toy soldier consumes tequila.
+
+			if ( KoLConstants.inventory.contains( FightRequest.TEQUILA ) )
+			{
+				StaticEntity.getClient().processResult( FightRequest.TEQUILA );
+			}
+			break;
+
+		case FightRequest.TOY_MERCENARY:
+			// A toy mercenary consumes 5-10 meat
+
+			// A sidepane refresh at the end of the battle will
+			// re-synch everything.
+			break;
 		}
 	}
 

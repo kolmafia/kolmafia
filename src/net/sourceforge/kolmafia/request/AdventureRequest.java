@@ -535,7 +535,7 @@ public class AdventureRequest
 			return "";
 		}
 
-		return	CustomCombatManager.encounterKey( responseText.substring( spanIndex, endSpanIndex ), false );
+		return CustomCombatManager.encounterKey( responseText.substring( spanIndex, endSpanIndex ), false );
 	}
 
 	private static final String parseEncounter( final String responseText )
