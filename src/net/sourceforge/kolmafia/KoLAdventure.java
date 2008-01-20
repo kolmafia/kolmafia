@@ -896,7 +896,6 @@ public class KoLAdventure
 
 	private void updateAutoAttack()
 	{
-		String attack = CustomCombatManager.getShortCombatOptionName( KoLSettings.getUserProperty( "battleAction" ) );
 		String autoAttack = KoLSettings.getUserProperty( "defaultAutoAttack" );
 
 		// If the player is pickpocketing, they probably do not want
@@ -935,6 +934,8 @@ public class KoLAdventure
 			return;
 		}
 
+		String attack = KoLSettings.getUserProperty( "battleAction" );
+
 		if ( attack.startsWith( "custom" ) || attack.startsWith( "delevel" ) || attack.startsWith( "item" ) )
 		{
 			KoLAdventure.resetAutoAttack();
@@ -947,7 +948,7 @@ public class KoLAdventure
 			return;
 		}
 
-		// If it's not a generic class skill (it's id is something
+		// If it's not a generic class skill (its id is something
 		// non-standard), then don't update auto-attack.
 
 		int skillId = SkillDatabase.getSkillId( attack.substring( 6 ).trim() );
