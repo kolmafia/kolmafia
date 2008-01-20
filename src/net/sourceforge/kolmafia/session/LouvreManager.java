@@ -278,16 +278,6 @@ public class LouvreManager
 		KoLSettings.setUserProperty( "louvreLayout", map.toString() );
 	}
 
-	public static final boolean louvreChoice( String text)
-	{
-		Matcher matcher = LouvreManager.CHOICE_PATTERN.matcher( text );
-		if ( !matcher.find() )
-		{
-			return false;
-		}
-		return louvreChoice( StaticEntity.parseInt( matcher.group(1) ) );
-	}
-
 	public static final boolean louvreChoice( final int choice )
 	{
 		return choice >= LouvreManager.FIRST_CHOICE && choice <= LouvreManager.LAST_CHOICE;
@@ -639,17 +629,7 @@ public class LouvreManager
 		return result;
 	}
 
-	public static final String encounterName( String text )
-	{
-		Matcher matcher = LouvreManager.CHOICE_PATTERN.matcher( text );
-		if ( !matcher.find() )
-		{
-			return "";
-		}
-		return encounterName( StaticEntity.parseInt( matcher.group(1) ) );
-	}
-
-	public static final String encounterName( int choice )
+	public static final String encounterName( final int choice )
 	{
 		if ( !louvreChoice( choice ) )
 		{

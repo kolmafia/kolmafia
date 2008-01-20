@@ -53,6 +53,7 @@ public class AdventureRequest
 	extends GenericRequest
 {
 	private static final Pattern AREA_PATTERN = Pattern.compile( "(adv|snarfblat)=(\\d*)", Pattern.DOTALL );
+	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
 	private static final GenericRequest ZONE_UNLOCK = new GenericRequest( "" );
 
 	private final String adventureName;
@@ -470,15 +471,9 @@ public class AdventureRequest
 			return "";
 		}
 
-		if ( urlString.startsWith( "choice.php" ) )
+		if ( urlString.startsWith( "choice.php" ) && consumeChoice( responseText ) )
 		{
-			if ( LouvreManager.louvreChoice( responseText ) )
-			{
-				String name = LouvreManager.encounterName( responseText );
-				RequestLogger.printLine( "Encounter: " + name );
-				RequestLogger.updateSessionLog( "Encounter: " + name );
-				return "";
-			}
+			return "";
 		}
 
 		String encounter = parseEncounter( responseText );
@@ -501,6 +496,27 @@ public class AdventureRequest
                 StaticEntity.getClient().registerEncounter( encounter, "Noncombat" );
 
 		return encounter;
+	}
+
+	private static final boolean consumeChoice( final String responseText )
+	{
+		Matcher matcher = AdventureRequest.CHOICE_PATTERN.matcher( responseText );
+		if ( !matcher.find() )
+		{
+			return false;
+		}
+
+		int choice = StaticEntity.parseInt( matcher.group(1) );
+
+		if ( LouvreManager.louvreChoice( choice ) )
+		{
+			String name = LouvreManager.encounterName( choice );
+			RequestLogger.printLine( "Encounter: " + name );
+			RequestLogger.updateSessionLog( "Encounter: " + name );
+			return true;
+		}
+
+		return false;
 	}
 
 	private static final String parseMonster( final String responseText )
