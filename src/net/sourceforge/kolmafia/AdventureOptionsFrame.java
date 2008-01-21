@@ -312,8 +312,11 @@ public abstract class AdventureOptionsFrame
 				public void actionPerformed( final ActionEvent e )
 				{
 					String script = (String) CombatComboBox.this.getSelectedItem();
-					CustomCombatManager.setScript( script );
-					AdventureOptionsFrame.this.refreshCombatTree();
+					if ( script != null )
+					{
+						CustomCombatManager.setScript( script );
+						AdventureOptionsFrame.this.refreshCombatTree();
+					}
 				}
 			}
 		}
