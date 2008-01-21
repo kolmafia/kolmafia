@@ -311,6 +311,7 @@ public class StationaryButtonDecorator
 		case 3004: // Entangling Noodles
 		case 3009: // Lasagna Bandages
 		case 3019: // Fearful Fettucini
+		case 19: // Transcendent Olfaction
 			name = name.substring( name.lastIndexOf( " " ) + 1 );
 			break;
 
