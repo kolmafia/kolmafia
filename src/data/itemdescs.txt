@@ -2595,7 +2595,7 @@
 2589	138166057	hot date	hot dates, giggity giggity
 2590	644818554	distilled fortified wine	bottles of distilled fortified wine
 2591	367112324	tasty tart	tasty tarts
-2592	970979827	Knob Goblin lunchbox	Knob Goblin lunchboxes
+2592	970979827	Knob Goblin lunchbox	Knob Goblin lunchboxen
 2593	554994778	Knob pasty	Knob pasties
 2594	867148185	thermos full of Knob coffee	thermoses full of Knob coffee
 2595	842588397	Ben-Gal&trade; Balm	tins of Ben-Gal&trade; Balm
