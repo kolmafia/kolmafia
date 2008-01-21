@@ -178,6 +178,7 @@ public class AdventureResult
 	public AdventureResult( final int itemId, final int count )
 	{
 		this.name = ItemDatabase.getItemName( itemId );
+		this.itemId = itemId;
 		this.count = new int[] { count };
 		this.normalizeItemName();
 	}
@@ -267,6 +268,12 @@ public class AdventureResult
 	{
 		this.priority = AdventureResult.EFFECT_PRIORITY;
 
+		if ( this.name == null )
+		{
+			this.name = "(unknown effect)";
+			return;
+		}
+
 		int effectId = EffectDatabase.getEffectId( this.name );
 		if ( effectId > 0 )
 		{
@@ -277,6 +284,13 @@ public class AdventureResult
 	public void normalizeItemName()
 	{
 		this.priority = AdventureResult.ITEM_PRIORITY;
+
+		if ( this.name == null )
+		{
+			this.name = "(unknown item " + String.valueOf( this.itemId ) + ")";
+			return;
+		}
+
 		if ( this.name.equals( "(none)" ) || this.name.equals( "-select an item-" ) )
 		{
 			return;
