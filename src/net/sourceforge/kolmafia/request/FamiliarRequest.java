@@ -50,29 +50,47 @@ public class FamiliarRequest
 {
 	private static final Pattern UNEQUIP_PATTERN = Pattern.compile( "famid=(\\d+)" );
 	private static final Pattern EQUIP_PATTERN = Pattern.compile( "newfam=(\\d+)" );
+	private static final Pattern ITEM_PATTERN = Pattern.compile( "whichfam=(\\d+).*whichitem=(\\d+)" );
+
 	private final FamiliarData changeTo;
+	private final AdventureResult item;
 
 	public FamiliarRequest()
 	{
 		super( "familiar.php" );
 		this.changeTo = null;
+		this.item = null;
 	}
 
 	public FamiliarRequest( final FamiliarData changeTo )
 	{
 		super( "familiar.php" );
 
-		if ( changeTo == FamiliarData.NO_FAMILIAR )
+		this.changeTo = changeTo == null ? FamiliarData.NO_FAMILIAR : changeTo;
+		this.item = null;
+
+		if ( this.changeTo == FamiliarData.NO_FAMILIAR )
 		{
 			this.addFormField( "action", "putback" );
 		}
 		else
 		{
 			this.addFormField( "action", "newfam" );
-			this.addFormField( "newfam", String.valueOf( changeTo.getId() ) );
+			this.addFormField( "newfam", String.valueOf( this.changeTo.getId() ) );
 		}
+	}
 
-		this.changeTo = changeTo;
+	public FamiliarRequest( final FamiliarData familiar, final AdventureResult item )
+	{
+		super( "familiar.php" );
+
+		this.changeTo = familiar;
+		this.item = item;
+
+		this.addFormField( "pwd" );
+		this.addFormField( "action", "equip" );
+		this.addFormField( "whichfam", String.valueOf( familiar.getId() ) );
+		this.addFormField( "whichitem", String.valueOf( item.getItemId() ) );
 	}
 
 	public String getFamiliarChange()
@@ -87,54 +105,62 @@ public class FamiliarRequest
 
 	public void run()
 	{
-		FamiliarData familiar = KoLCharacter.getFamiliar();
-		AdventureResult item = familiar != null ? familiar.getItem() : EquipmentRequest.UNEQUIP;
+		if ( this.item != null )
+		{
+			KoLmafia.updateDisplay( "Equipping " + this.changeTo.getName() + " the " + this.changeTo.getRace() + " with " + this.item.getName() + "..." );
+			super.run();
+			return;
+		}
 
 		if ( this.changeTo == null )
 		{
 			KoLmafia.updateDisplay( "Retrieving familiar data..." );
+			super.run();
+			return;
 		}
-		else
+
+		FamiliarData familiar = KoLCharacter.getFamiliar();
+
+		if ( familiar.getId() == this.changeTo.getId() )
 		{
-			if ( familiar.getId() == this.changeTo.getId() )
-			{
-				return;
-			}
+			return;
+		}
 
-			if ( familiar != FamiliarData.NO_FAMILIAR )
-			{
-				KoLmafia.updateDisplay( "Putting " + familiar.getName() + " the " + familiar.getRace() + " back into terrarium..." );
-			}
+		if ( familiar != FamiliarData.NO_FAMILIAR )
+		{
+			KoLmafia.updateDisplay( "Putting " + familiar.getName() + " the " + familiar.getRace() + " back into terrarium..." );
+		}
 
-			if ( this.changeTo != FamiliarData.NO_FAMILIAR )
-			{
-				KoLmafia.updateDisplay( "Taking " + this.changeTo.getName() + " the " + this.changeTo.getRace() + " out of terrarium..." );
-			}
+		if ( this.changeTo != FamiliarData.NO_FAMILIAR )
+		{
+			KoLmafia.updateDisplay( "Taking " + this.changeTo.getName() + " the " + this.changeTo.getRace() + " out of terrarium..." );
 		}
 
 		super.run();
 
-		// If you're not equipping a familiar, or your old familiar wasn't
-		// wearing something, or your new familiar can't equip the old item,
-		// then do nothing further.
+		// If you're not equipping a familiar, or your old familiar
+		// wasn't wearing something, or your new familiar can't equip
+		// the old item, then do nothing further.
 
-		if ( familiar == null || familiar == FamiliarData.NO_FAMILIAR )
+		if ( familiar == FamiliarData.NO_FAMILIAR )
 		{
 			return;
 		}
 
-		if ( this.changeTo == null || this.changeTo == FamiliarData.NO_FAMILIAR || this.changeTo.getId() == 59 )
+		if ( this.changeTo == FamiliarData.NO_FAMILIAR || this.changeTo.getId() == 59 )
 		{
 			return;
 		}
+
+		AdventureResult item = familiar.getItem();
 
 		if ( item == EquipmentRequest.UNEQUIP || !this.changeTo.getItem().equals( EquipmentRequest.UNEQUIP ) || !this.changeTo.canEquip( item ) )
 		{
 			return;
 		}
 
-		// In all other cases, a switch is probably in order.  Go ahead and make
-		// the item switch.
+		// In all other cases, a switch is probably in order.  Go ahead
+		// and make the item switch.
 
 		KoLmafia.updateDisplay( familiar.getItem().getName() + " is better than " + this.changeTo.getItem().getName() + ".  Switching items..." );
 		( new EquipmentRequest( item, KoLCharacter.FAMILIAR ) ).run();
@@ -143,7 +169,12 @@ public class FamiliarRequest
 	public void processResults()
 	{
 		FamiliarData.registerFamiliarData( this.responseText );
-		if ( this.changeTo == null )
+
+		if ( this.item != null )
+		{
+			KoLmafia.updateDisplay( "Familiar equipped." );
+		}
+		else if ( this.changeTo == null )
 		{
 			KoLmafia.updateDisplay( "Familiar data retrieved." );
 		}
@@ -168,6 +199,21 @@ public class FamiliarRequest
 			return true;
 		}
 
+		if ( urlString.indexOf( "action=equip" ) != -1 )
+		{
+			Matcher familiarMatcher = FamiliarRequest.ITEM_PATTERN.matcher( urlString );
+			if ( !familiarMatcher.find() )
+			{
+				return true;
+			}
+
+                        int familiarId = StaticEntity.parseInt( familiarMatcher.group(1) );
+                        int itemId = StaticEntity.parseInt( familiarMatcher.group(2) );
+                        FamiliarRequest.equipFamiliar( familiarId, itemId );
+
+			return true;
+		}
+
 		if ( urlString.indexOf( "action=unequip" ) != -1 )
 		{
 			Matcher familiarMatcher = FamiliarRequest.UNEQUIP_PATTERN.matcher( urlString );
@@ -176,24 +222,8 @@ public class FamiliarRequest
 				return true;
 			}
 
-			FamiliarData[] familiars = new FamiliarData[ KoLCharacter.getFamiliarList().size() ];
-			KoLCharacter.getFamiliarList().toArray( familiars );
-
-			int id = StaticEntity.parseInt( familiarMatcher.group( 1 ) );
-			for ( int i = 0; i < familiars.length; ++i )
-			{
-				if ( familiars[ i ].getId() == id )
-				{
-					AdventureResult item = familiars[ i ].getItem();
-					if ( item != null )
-					{
-						familiars[ i ].setItem( EquipmentRequest.UNEQUIP );
-						AdventureResult.addResultToList( KoLConstants.inventory, item );
-					}
-
-					return true;
-				}
-			}
+                        int familiarId = StaticEntity.parseInt( familiarMatcher.group(1) );
+                        FamiliarRequest.unequipFamiliar( familiarId );
 
 			return true;
 		}
@@ -224,5 +254,63 @@ public class FamiliarRequest
 		}
 
 		return false;
+	}
+
+	private static final void equipFamiliar( final int familiarId, final int itemId )
+	{
+		FamiliarData[] familiars = new FamiliarData[ KoLCharacter.getFamiliarList().size() ];
+		KoLCharacter.getFamiliarList().toArray( familiars );
+
+		for ( int i = 0; i < familiars.length; ++i )
+		{
+			if ( familiars[ i ].getId() == familiarId )
+			{
+				FamiliarData familiar = familiars[ i ];
+				AdventureResult item = familiar.getItem();
+				if ( item != EquipmentRequest.UNEQUIP )
+				{
+					familiar.setItem( EquipmentRequest.UNEQUIP );
+					AdventureResult.addResultToList( KoLConstants.inventory, item );
+					AdventureResult.addResultToList( KoLConstants.tally, item );
+				}
+
+				item = new AdventureResult( itemId, 1 );
+				familiar.setItem( item );
+				item = item.getInstance( -1 );
+				AdventureResult.addResultToList( KoLConstants.inventory, item );
+				AdventureResult.addResultToList( KoLConstants.tally, item );
+
+				RequestLogger.updateSessionLog();
+				RequestLogger.updateSessionLog( "Equip " + familiar.getRace() + " with " + item.getName() );
+
+				return;
+			}
+		}
+	}
+
+	private static final void unequipFamiliar( final int familiarId )
+	{
+		FamiliarData[] familiars = new FamiliarData[ KoLCharacter.getFamiliarList().size() ];
+		KoLCharacter.getFamiliarList().toArray( familiars );
+
+		for ( int i = 0; i < familiars.length; ++i )
+		{
+			if ( familiars[ i ].getId() == familiarId )
+			{
+				FamiliarData familiar = familiars[ i ];
+				AdventureResult item = familiar.getItem();
+				if ( item != EquipmentRequest.UNEQUIP )
+				{
+					familiar.setItem( EquipmentRequest.UNEQUIP );
+					AdventureResult.addResultToList( KoLConstants.inventory, item );
+					AdventureResult.addResultToList( KoLConstants.tally, item );
+				}
+
+				RequestLogger.updateSessionLog();
+				RequestLogger.updateSessionLog( "Unequip " + familiar.getRace() );
+
+				return;
+			}
+		}
 	}
 }

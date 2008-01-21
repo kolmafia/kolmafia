@@ -60,6 +60,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.CakeArenaManager.ArenaOpponent;
 
 import net.sourceforge.kolmafia.request.CakeArenaRequest;
+import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -73,8 +74,6 @@ import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 public class FamiliarTrainingFrame
 	extends KoLFrame
 {
-	private static final GenericRequest FAMEQUIP_CHANGER = new GenericRequest( "familiar.php?pwd&action=equip" );
-
 	private static final Pattern PRIZE_PATTERN =
 		Pattern.compile( "You've earned a prize from the Arena Goodies Sack!.*You acquire an item: <b>(.*?)</b>" );
 	private static final Pattern STEAL_PATTERN =
@@ -624,6 +623,7 @@ public class FamiliarTrainingFrame
 			{
 				public void run()
 				{
+					KoLmafia.updateDisplay( "Equipping familiars..." );
 					FamiliarData current = KoLCharacter.getFamiliar();
 
 					FamiliarData[] familiars = new FamiliarData[ KoLCharacter.getFamiliarList().size() ];
@@ -633,24 +633,50 @@ public class FamiliarTrainingFrame
 
 					for ( int i = 0; i < familiars.length; ++i )
 					{
-						String itemName = FamiliarDatabase.getFamiliarItem( familiars[ i ].getId() );
-
-						if ( itemName != null && !familiars[ i ].getItem().equals( itemName ) )
-						{
-							AdventureResult item = new AdventureResult( itemName, 1, false );
-							if ( KoLCharacter.hasItem( item ) )
-							{
-								FamiliarTrainingFrame.FAMEQUIP_CHANGER.addFormField(
-									"whichfam", String.valueOf( familiars[ i ].getId() ) );
-								FamiliarTrainingFrame.FAMEQUIP_CHANGER.addFormField(
-									"whichitem", String.valueOf( item.getItemId() ) );
-								RequestThread.postRequest( FamiliarTrainingFrame.FAMEQUIP_CHANGER );
-							}
-						}
+						this.equipFamiliar( familiars[ i ] );
 					}
 
 					RequestThread.postRequest( new FamiliarRequest( current ) );
 					RequestThread.closeRequestSequence();
+				}
+
+				private boolean equipFamiliar( FamiliarData familiar )
+				{
+					String itemName = FamiliarDatabase.getFamiliarItem( familiar.getId() );
+
+					if ( itemName == null || itemName.equals( "" ) )
+					{
+						return false;
+					}
+
+					if ( familiar.getItem().equals( itemName ) )
+					{
+						return false;
+					}
+
+					AdventureResult item = new AdventureResult( itemName, 1, false );
+					if ( item.getCount( KoLConstants.inventory ) > 0 )
+					{
+						// Use one from inventory
+					}
+					else if ( item.getCount( KoLConstants.closet ) > 0 )
+					{
+						// Use one from the closet
+						RequestThread.postRequest( new ClosetRequest( ClosetRequest.CLOSET_TO_INVENTORY, new AdventureResult[] { item } ) );
+					}
+					else if ( item.getCount( KoLConstants.storage ) > 0 )
+					{
+						// Use one from storage
+						RequestThread.postRequest( new ClosetRequest( ClosetRequest.STORAGE_TO_INVENTORY, new AdventureResult[] { item } ) );
+					}
+					else
+					{
+						return false;
+					}
+
+					RequestThread.postRequest( new FamiliarRequest( familiar, item ) );
+
+					return true;
 				}
 			}
 

@@ -170,6 +170,7 @@ public class UseItemRequest
 	private static final int SNOWCONE_BOOK = 1411;
 	private static final int HILARIOUS_BOOK = 1498;
 	private static final int CANDY_BOOK = 2303;
+	private static final int OLFACTION_BOOK = 2463;
 	private static final int JEWELRY_BOOK = 2502;
 	private static final int DIVINE_BOOK = 3117;
 
@@ -1463,6 +1464,18 @@ public class UseItemRequest
 			}
 
 			KoLCharacter.addAvailableSkill( "Really Expensive Jewelrycrafting" );
+
+			return;
+
+		case OLFACTION_BOOK:
+
+			if ( responseText.indexOf( "You already" ) != -1 )
+			{
+				StaticEntity.getClient().processResult( UseItemRequest.lastItemUsed );
+				return;
+			}
+
+			KoLCharacter.addAvailableSkill( "Transcendent Olfaction" );
 
 			return;
 
