@@ -79,7 +79,8 @@ public abstract class CustomCombatManager
 		{
 			if ( list[ i ].endsWith( ".ccs" ) )
 			{
-				CustomCombatManager.availableScripts.add( list[ i ].substring( 0, list[ i ].length() - 4 ) );
+				String name = list[ i ].substring( 0, list[ i ].length() - 4 );
+				CustomCombatManager.availableScripts.add( name );
 			}
 		}
 
