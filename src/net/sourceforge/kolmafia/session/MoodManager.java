@@ -64,11 +64,17 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 public abstract class MoodManager
 {
 	private static final AdventureResult[] AUTO_CLEAR =
-		{ new AdventureResult( "Beaten Up", 1, true ), new AdventureResult( "Tetanus", 1, true ), new AdventureResult(
-			"Amnesia", 1, true ), new AdventureResult( "Cunctatitis", 1, true ), new AdventureResult(
-			"Hardly Poisoned at All", 1, true ), new AdventureResult( "Majorly Poisoned", 1, true ), new AdventureResult(
-			"A Little Bit Poisoned", 1, true ), new AdventureResult( "Somewhat Poisoned", 1, true ), new AdventureResult(
-			"Really Quite Poisoned", 1, true ), };
+	{
+		new AdventureResult( "Beaten Up", 1, true ),
+		new AdventureResult( "Tetanus", 1, true ),
+		new AdventureResult( "Amnesia", 1, true ),
+		new AdventureResult( "Cunctatitis", 1, true ),
+		new AdventureResult( "Hardly Poisoned at All", 1, true ),
+		new AdventureResult( "Majorly Poisoned", 1, true ),
+		new AdventureResult( "A Little Bit Poisoned", 1, true ),
+		new AdventureResult( "Somewhat Poisoned", 1, true ),
+		new AdventureResult( "Really Quite Poisoned", 1, true ),
+	};
 
 	private static final TreeMap reference = new TreeMap();
 	private static final SortedListModel displayList = new SortedListModel();
@@ -991,7 +997,17 @@ public abstract class MoodManager
 		}
 
 		boolean powerNapClearable =
-			name.equals( "Confused" ) || name.equals( "Cunctatitis" ) || name.equals( "Embarrassed" ) || name.equals( "Easily Embarrassed" ) || name.equals( "Prestidigysfunction" ) || name.equals( "Sleepy" ) || name.equals( "Socialismydia" ) || name.equals( "Sunburned" ) || name.equals( "Tenuous Grip on Reality" ) || name.equals( "Tetanus" ) || name.equals( "Wussiness" );
+			name.equals( "Confused" ) ||
+			name.equals( "Cunctatitis" ) ||
+			name.equals( "Embarrassed" ) ||
+			name.equals( "Easily Embarrassed" ) ||
+			name.equals( "Prestidigysfunction" ) ||
+			name.equals( "Sleepy" ) ||
+			name.equals( "Socialismydia" ) ||
+			name.equals( "Sunburned" ) ||
+			name.equals( "Tenuous Grip on Reality" ) ||
+			name.equals( "Tetanus" ) ||
+			name.equals( "Wussiness" );
 
 		if ( powerNapClearable && KoLCharacter.hasSkill( "Disco Power Nap" ) )
 		{
@@ -999,7 +1015,10 @@ public abstract class MoodManager
 		}
 
 		boolean discoNapClearable =
-			name.equals( "Wussiness" ) || name.equals( "Sleepy" ) || name.equals( "Embarrassed" ) || name.equals( "Confused" );
+			name.equals( "Confused" ) ||
+			name.equals( "Embarrassed" ) ||
+			name.equals( "Sleepy" ) ||
+			name.equals( "Wussiness" );
 
 		if ( discoNapClearable && KoLCharacter.hasSkill( "Disco Nap" ) )
 		{
@@ -1012,7 +1031,10 @@ public abstract class MoodManager
 		}
 
 		boolean tinyHouseClearable =
-			name.equals( "Beaten Up" ) || name.equals( "Confused" ) || name.equals( "Sunburned" ) || name.equals( "Wussiness" );
+			name.equals( "Beaten Up" ) ||
+			name.equals( "Confused" ) ||
+			name.equals( "Sunburned" ) ||
+			name.equals( "Wussiness" );
 
 		if ( tinyHouseClearable && ( KoLCharacter.canInteract() || KoLCharacter.hasItem( UneffectRequest.TINY_HOUSE ) ) )
 		{

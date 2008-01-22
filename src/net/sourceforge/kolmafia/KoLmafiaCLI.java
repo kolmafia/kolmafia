@@ -5113,7 +5113,7 @@ public class KoLmafiaCLI
 
 	private void executeMallSellRequest( final String parameters )
 	{
-		String[] itemNames = parameters.split( "\\s*,\\s+" );
+		String[] itemNames = parameters.split( "\\s*,\\s*" );
 
 		AdventureResult[] items = new AdventureResult[ itemNames.length ];
 		int[] prices = new int[ itemNames.length ];
