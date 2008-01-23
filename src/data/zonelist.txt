@@ -3,8 +3,9 @@ Town	Town	Seaside Town
 Casino	Town	Seaside Casino
 Dungeon	Town	Seaside Dungeon
 
-Manor1	Manor1	Spookyraven (Low Level)
-Manor2	Manor2	Spookyraven (High Level)
+Manor0	Manor0	Spookyraven (Cellar)
+Manor1	Manor1	Spookyraven (First Floor)
+Manor2	Manor2	Spookyraven (Second Floor)
 
 Plains	Plains	Nearby Plains
 Rift	Plains	Temporal Rift
