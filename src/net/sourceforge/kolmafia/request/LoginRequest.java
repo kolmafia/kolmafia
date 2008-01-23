@@ -66,7 +66,7 @@ public class LoginRequest
 		super( "login.php" );
 
 		this.username = username == null ? "" : StaticEntity.globalStringReplace( username, "/q", "" );
-		Preferences.setString( this.username.toLowerCase() + ".displayName", this.username );
+		Preferences.setString( this.username, "displayName", this.username );
 
 		this.password = password;
 		if ( StaticEntity.getClient() instanceof KoLmafiaCLI )

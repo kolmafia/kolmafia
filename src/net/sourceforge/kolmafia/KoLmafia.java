@@ -403,7 +403,7 @@ public abstract class KoLmafia
 				continue;
 			}
 
-			actualName = Preferences.getString( pastUsers[ i ].toLowerCase() + ".displayName" );
+			actualName = Preferences.getString( pastUsers[ i ], "displayName" );
 			if ( actualName.equals( "" ) )
 			{
 				actualName = StaticEntity.globalStringReplace( pastUsers[ i ], "_", " " );
@@ -745,7 +745,7 @@ public abstract class KoLmafia
 
 		KoLmafia.registerPlayer( username, String.valueOf( KoLCharacter.getUserId() ) );
 
-		if ( Preferences.getString( username.toLowerCase() + ".getBreakfast" ).equals( "true" ) )
+		if ( Preferences.getString( username, "getBreakfast" ).equals( "true" ) )
 		{
 			this.getBreakfast( true, Preferences.getInteger( "lastBreakfast" ) != today );
 			Preferences.setString( "lastBreakfast", String.valueOf( today ) );
@@ -3389,8 +3389,7 @@ public abstract class KoLmafia
 				}
 			}
 
-			Preferences.setString(
-				username.toLowerCase() + ".saveState", ( new BigInteger( encodedString.toString(), 36 ) ).toString( 10 ) );
+			Preferences.setString( username, "saveState", ( new BigInteger( encodedString.toString(), 36 ) ).toString( 10 ) );
 			if ( !KoLConstants.saveStateNames.contains( username ) )
 			{
 				KoLConstants.saveStateNames.add( username );
@@ -3413,7 +3412,7 @@ public abstract class KoLmafia
 		}
 
 		KoLConstants.saveStateNames.remove( loginname );
-		Preferences.setString( loginname.toLowerCase() + ".saveState", "" );
+		Preferences.setString( loginname, "saveState", "" );
 	}
 
 	/**
@@ -3425,7 +3424,7 @@ public abstract class KoLmafia
 	{
 		try
 		{
-			String password = Preferences.getString( loginname + ".saveState" );
+			String password = Preferences.getString( loginname, "saveState" );
 			if ( password == null || password.length() == 0 || password.indexOf( "/" ) != -1 )
 			{
 				return null;
